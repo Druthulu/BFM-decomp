@@ -272,10 +272,10 @@ Pin all four (sotn precedent: blindly updating submodules breaks tooling). Note:
 Linux x86-64 prebuilts from decompals/old-gcc, **release 0.17**:
 
 ```bash
-mkdir -p ~/bfm-decomp/bin && cd ~/bfm-decomp/bin
+mkdir -p ~/bfm-decomp/tools/bin && cd ~/bfm-decomp/tools/bin
 wget https://github.com/decompals/old-gcc/releases/download/0.17/gcc-2.7.2-psx.tar.gz
 wget https://github.com/decompals/old-gcc/releases/download/0.17/gcc-2.7.2-cdk.tar.gz
-sha256sum gcc-2.7.2-*.tar.gz   # record hashes in a committed bin/*.sha256 on first download,
+sha256sum gcc-2.7.2-*.tar.gz   # record hashes in a committed tools/bin/*.sha256 on first download,
                                # then verify with `sha256sum --check` on every fresh setup (sotn pattern)
 tar xzf gcc-2.7.2-psx.tar.gz ; tar xzf gcc-2.7.2-cdk.tar.gz
 ```
