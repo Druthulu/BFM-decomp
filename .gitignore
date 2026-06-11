@@ -1,0 +1,31 @@
+# ============================================================
+# ROM-content firewall — see PROJECT_CONTEXT.md rule H1
+# Nothing derived from the game disc is ever committed.
+# ============================================================
+
+# Game dump — bring your own disc
+/Brave Fencer Musashi (USA)/
+/disks/
+
+# ROM-derived, regenerated from the dump
+/asm/
+/assets/
+/build/
+/expected/
+*.CD.dir/
+/extracted/
+
+# Ghidra project (contains the imported binary)
+/ghidra/
+
+# Toolchain & caches
+/.venv/
+__pycache__/
+/bin/
+*.tar.gz
+# Native PsyQ toolchain binaries (Sony-proprietary — never commit)
+/tools/psyq*/
+
+# Editor / OS noise
+.vscode/
+Thumbs.db

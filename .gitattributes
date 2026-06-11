@@ -1,2 +1,18 @@
-# Auto detect text files and perform LF normalization
-* text=auto
+# Repo-enforced LF — required because this repo is cloned on both
+# Windows (Ghidra/Claude Code) and WSL2 ext4 (build toolchain).
+# See PROJECT_CONTEXT.md rule H2 and docs/SETUP.md.
+* text=auto eol=lf
+
+# Binary — never normalize
+*.bin -text
+*.BIN -text
+*.exe -text
+*.EXE -text
+*.CD -text
+*.STR -text
+*.DA -text
+*.png -text
+*.gpr -text
+*.gdt -text
+*.zip -text
+*.tar.gz -text

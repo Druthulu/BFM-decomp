@@ -1,0 +1,61 @@
+LIST.CD
+-------
+contiene las cabeceras de todos los archivos CD
+
+
+archivos CD
+-----------
+cabecera:
+- 4 bytes, número de archivos que contiene
+- 4 bytes, cero
+por cada archivo:
+- 4 bytes, LBA del fichero (multiplicar por el tamaño del sector)
+- 4 bytes, longitud
+
+la cabecera y los archivos se alinean al sector, rellenando con ceros
+
+la mayoría de los archivos son PAC, con más ficheros dentro
+los que no son PAC son archivos SQV (MIDI)
+
+
+archivos PAC
+------------
+cabecera:
+- 4 bytes, signatura "PAC\0"
+- 1 byte, tipo de fichero (0-8)
+- 1 bytes, 1 si es el último fichero, 0 en otro caso
+- 2 bytes, cero
+- 4 bytes, ???
+- 4 bytes, longitud del fichero
+
+la cabecera y los ficheros se alinean al sector, rellenando con ceros
+
+
+archivos SQV
+------------
+cabecera:
+- 4 bytes, signatura ".sqv"
+- 4 bytes, cero si sólo contiene un fichero MThd
+           offset relativo a un fichero MThd (sumar 4 al valor)
+           (sólo puede haber 3 offsets como máximo)
+
+la cabecera se alinea a 16 bytes, rellenando con ceros
+los ficheros se alinean a 4 bytes, rellenando con ceros
+
+despues de los MThd hay un fichero VAB en 0x7000
+
+
+ficheros extraídos de los archivos PAC
+--------------------------------------
+tipo 0: lleva gráficos
+tipo 1: lleva gráficos
+tipo 2: cabecera de fichero VAB
+tipo 3: datos de fichero VAB
+tipo 4: datos comprimidos
+tipo 5: ---
+tipo 6: ???
+tipo 7: ???
+tipo 8: lleva gráficos
+
+
+Copyright (C) CUE 2012-2013
