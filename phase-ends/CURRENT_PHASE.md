@@ -29,14 +29,14 @@ To formalize in `PhaseEnd_Phase1.md` under "Rules Added" (P10): the H1 relaxatio
 
 ## Task checklist (approved plan)
 
-### A. Finalize repo, then hand off to WSL (this Windows session)
+### A. Finalize repo, then hand off to WSL (this Windows session) — COMPLETE
 - [x] Extractor `tools/bfm_extract` built + adversarially verified (done early)
 - [x] Constitution surgical correction (PROJECT_CONTEXT.md env sections → all-in-WSL + H1 note)
 - [x] `.gitignore` H1 relaxation (un-ignore asm/ assets/ extracted/ *.CD.dir; keep dump + build churn ignored)
-- [~] `docs/SETUP.md` → Linux-first (in progress)
-- [~] Extractor hardening + `--verify-disc` (in progress)
-- [ ] Root research-file cleanup → `docs/history/` (+ SUPERSEDED banner on starting-point doc)
-- [ ] Commit per task + push (clean handoff)
+- [x] `docs/SETUP.md` → Linux-first (verified pass; all facts preserved; redump disc-provenance added)
+- [x] Extractor hardening + `--verify-disc` (PASS: Track-1 SHA1 == redump b44f0f0a…)
+- [x] Root research-file cleanup → `docs/history/` (+ SUPERSEDED banner on starting-point doc)
+- [x] Commit per task + push (clean handoff) — commits cdf52d6, 0d4f544, 6d5d492, dcf57a1 (+ this log)
 
 ### B. Migrate to WSL (collaborative — user relaunches Claude Code in WSL)
 - [ ] Clone `origin` → `~/bfm-decomp` (ext4); make the dump available in `disks/`
@@ -50,7 +50,7 @@ To formalize in `PhaseEnd_Phase1.md` under "Rules Added" (P10): the H1 relaxatio
 - [ ] **MILESTONE:** MCP decompile of `0x80018730` ≈ LZSS decompressor; PsyQ version recorded → user confirm → `PhaseEnd_Phase1.md`
 
 ## Next task
-Finish A (SETUP.md + extractor hardening via workflow, then root cleanup), commit + push, then guide the WSL migration (B).
+**Section B — migrate to WSL.** Section A is complete and pushed. Clone `origin` into `~/bfm-decomp` on ext4, make the dump available in `disks/`, relaunch Claude Code inside WSL, then install the RE stack (Ghidra 12.1 + extensions via WSLg) per docs/SETUP.md §2. Resume from this log.
 
 ## Blockers / needs-user
 - Confirm the GitHub repo `Druthulu/BFM-decomp` is set to **Private**.
