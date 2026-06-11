@@ -14,8 +14,9 @@ These post-generation decisions override the original (Fable-5) `PROJECT_CONTEXT
 2. **H1 relaxed while private.** ROM-derived content (asm/, assets/, extracted/, decompressed .CD) MAY be committed; accidental inclusion is not a violation. Compliance = pre-public history scrub + a rom→decoder regeneration tool. The raw multi-GB dump stays ignored (GitHub >100 MB limit; reproducible). Decision: commit freely + push to the private remote + scrub before public.
 3. **All tools live under `tools/`** (incl. `tools/bin` for downloaded compilers, `tools/psyq*` for native PsyQ binaries).
 4. **Plan mode every phase** (harness plan mode) before executing — Drew's standing preference.
+5. **No `Co-Authored-By` trailer on commits** (overrides the harness default) — Drew's instruction 2026-06-11.
 
-To formalize in `PhaseEnd_Phase1.md` under "Rules Added" (P10): the H1 relaxation, the all-in-WSL H2 restatement, tools-in-`tools/`, plan-mode-per-phase.
+To formalize in `PhaseEnd_Phase1.md` under "Rules Added" (P10): the H1 relaxation, the all-in-WSL H2 restatement, tools-in-`tools/`, plan-mode-per-phase, no-commit-co-author.
 
 ---
 
@@ -36,7 +37,7 @@ To formalize in `PhaseEnd_Phase1.md` under "Rules Added" (P10): the H1 relaxatio
 - [x] `docs/SETUP.md` → Linux-first (verified pass; all facts preserved; redump disc-provenance added)
 - [x] Extractor hardening + `--verify-disc` (PASS: Track-1 SHA1 == redump b44f0f0a…)
 - [x] Root research-file cleanup → `docs/history/` (+ SUPERSEDED banner on starting-point doc)
-- [x] Commit per task + push (clean handoff) — commits cdf52d6, 0d4f544, 6d5d492, dcf57a1 (+ this log)
+- [x] Commit per task (clean handoff) — section-A commits on `main`, not yet pushed (push from WSL where auth works)
 
 ### B. Migrate to WSL (collaborative — user relaunches Claude Code in WSL)
 - [ ] Clone `origin` → `~/bfm-decomp` (ext4); make the dump available in `disks/`
