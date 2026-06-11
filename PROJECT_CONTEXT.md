@@ -2,7 +2,9 @@
 
 > **Version:** 1.0.0
 > **Generated:** 2026-06-10
-> **Generation:** Gen1 | **Tech Stack:** PS1 matching decomp — Ghidra + MCP (native Windows 11) for reverse engineering; splat + GCC 2.7.2-era cc1 + maspsx + mipsel binutils (WSL2 Ubuntu 24.04) for the matching build.
+> **Generation:** Gen1 | **Tech Stack:** PS1 matching decomp — everything runs inside WSL2 Ubuntu (Linux-first): Ghidra + MCP (WSLg) for reverse engineering; splat + GCC 2.7.2-era cc1 + maspsx + mipsel binutils for the matching build.
+>
+> *Env note (corrected 2026-06-10, post-generation): the project is **all-in-WSL** — a single repo clone on ext4, Claude Code + Ghidra + build toolchain all inside WSL2. The original "Windows-hybrid / two-clone" wording in a few spots below has been surgically corrected; `docs/SETUP.md` is the authoritative environment reference.*
 >
 > **This file is permanent and static. It is never edited after generation.** All living state — build history, deviations, new rules, current version — lives in `phase-ends/`. Volatile reference facts (tool versions, URLs, commands, format specs, address ledger) live in `docs/`.
 
@@ -53,8 +55,8 @@ These rules are non-negotiable. They prevent the failure modes that kill AI-driv
 
 ### Group H — Repo hygiene
 
-- **H1 — No ROM-derived content in git, ever.** The game dump, `disks/`, `asm/`, `assets/`, `build/`, `expected/`, extracted `.CD` contents, and the Ghidra project are gitignored and never committed. Hashes, symbol names, addresses, and configs are fine (sotn precedent). Before every commit, review `git status`; if a ROM-derived file appears staged, stop (P5c).
-- **H2 — Two-clone discipline.** Builds, splat, asm-differ, and all toolchain runs happen only in the WSL clone on ext4 (`~/bfm-decomp`). Never build on `/mnt/z`; never run the build from the Windows tree. The two clones sync exclusively through the git remote. Cross-boundary commands go through `wsl.exe` per `docs/SETUP.md` (single-quoted command, check `$LASTEXITCODE`).
+- **H1 — ROM-content discipline.** *(Relaxed 2026-06-10 while the repo is private: ROM-derived content MAY be committed; accidental inclusion is not a violation. Compliance is handled by a pre-public history scrub + a rom→decoder regeneration tool. The raw multi-GB disc dump stays ignored regardless — GitHub rejects >100 MB files and it is trivially reproducible.)* Original rule, in force again before going public: the game dump, `asm/`, `assets/`, extracted `.CD` contents, build output, and the Ghidra project are ROM-derived; symbol names, addresses, hashes, and configs are always safe to commit (sotn precedent). Review `git status` before every commit; never commit the raw dump.
+- **H2 — Build on ext4.** Builds, splat, asm-differ, and all toolchain runs happen in the single repo clone on ext4 (`~/bfm-decomp`) inside WSL2. Never build on `/mnt/*` (the 9P bridge is slow and breaks file-watching). One clone, one remote — no cross-OS sync.
 - **H3 — Generated files are regenerated, never edited.** Anything produced by splat or the build is fixed by changing configs/symbols and re-running extraction. After any `config/` change, `make clean` before re-extract.
 - **H4 — Commit before in-place tools.** Tools that rewrite source in place (e.g. a decompile script that replaces `INCLUDE_ASM` lines) run only on a clean tree, so a bad scaffold is a one-command revert.
 - **H5 — Preserve comments; document disabled logic.** Never silently drop comments on a rewrite. Disabled logic gets a structured comment: `// DISABLED: [name] — [phase] / Original intent / Why disabled (evidence) / Re-enable if [condition]`.
@@ -72,8 +74,8 @@ These rules are non-negotiable. They prevent the failure modes that kill AI-driv
 
 - **Project:** Brave Fencer Musashi matching decomp — SLUS-00726 (USA, 1998, Square). The **first public decomp of this game** (verified greenfield, June 2026).
 - **Goal:** byte-for-byte identical `SLUS_007.26` (then overlays) from C source. SHA1 = truth.
-- **RE stack (Windows-native):** Ghidra 12.1 (pinned) + GhidrAssistMCP + ghidra_psx_ldr + PCSX-Redux. Claude Code drives Ghidra via MCP (`.mcp.json`).
-- **Build stack (WSL2 Ubuntu 24.04):** splat64 + GCC 2.7.2/SN32-era cc1 + maspsx + mipsel-linux-gnu binutils. Two clones; build only on ext4.
+- **RE stack (WSL2, WSLg):** Ghidra 12.1 (pinned) + GhidrAssistMCP + ghidra_psx_ldr + PCSX-Redux. Claude Code drives Ghidra via MCP (`.mcp.json`, local `127.0.0.1:8080`).
+- **Build stack (same WSL2 Ubuntu):** splat64 + GCC 2.7.2/SN32-era cc1 + maspsx + mipsel-linux-gnu binutils. Single clone on ext4 — everything Linux-native.
 - **Compiler era:** PsyQ 4.0 libs + 4.2 updates (12 genuine library stamps verified in the EXE: 9× 4.0, one 4.0.1x, one 4.2, one 4.2.1x) ⇒ GCC 2.7.2 family — **not** sotn's 2.6.3. Exact triple pinned in Phase 6.
 - **Game layout:** small ~404 KiB (413,696-byte) EXE at `0x80010000`; nearly all game code in LZSS-compressed PAC entries inside `MAIN.CD` / `SC01–SC07.CD`, streamed into high RAM.
 - **Current state:** newest `phase-ends/PhaseEnd_*.md` (none yet = Phase 1 not started).
@@ -165,7 +167,7 @@ Brave Fencer Musashi is a 3D action-RPG built on Square's late-90s PS1 stack. Th
 ### Project Assumptions
 
 - Solo developer; Claude Code performs ~99.9% of the work autonomously via Ghidra MCP, within the phase-gate system.
-- Host: Windows 11 Pro (25H2). WSL2 Ubuntu 24.04 hosts the build toolchain (installed in Phase 4).
+- Host: WSL2 Ubuntu 24.04 on a Windows 11 Pro (25H2) machine — all work (Claude Code, Ghidra via WSLg, build toolchain) runs inside WSL on a single ext4 clone. Build toolchain installed in Phase 4.
 - A legally owned redump-layout 4-track BIN/CUE of the USA disc is present locally (gitignored).
 - Budget awareness: sustained agentic RE is expensive (the psxrecomp precedent regularly exhausted monthly plan limits). Phases are sized so a stalled budget never strands an unverifiable half-task.
 - Repo is private until quality is presentable; everything is structured public-ready from day one.
@@ -180,7 +182,7 @@ Brave Fencer Musashi is a 3D action-RPG built on Square's late-90s PS1 stack. Th
 | `.gdt` type archives are GUI-only | No MCP tool attaches a PsyQ data-type archive | One-time manual GUI step in Phase 1, then an immediate MCP type-resolution test |
 | Wrong compiler era | Copying sotn's GCC 2.6.3 setup would produce systematic near-miss diffs everywhere | PsyQ 4.0/4.2 stamps verified in EXE; Phase 6 pins the exact triple by fingerprint before bulk matching |
 | maspsx silent default | Without `--aspsx-version`, maspsx approximates ASPSX 2.3x — wrong for PsyQ 4.x | G8: flag is always explicit |
-| WSL cross-boundary traps | 9P is 5–20× slower; inotify/file-watchers dead across the boundary (WSL #4739/#4581); Claude Code ghost-file bug on drvfs (#28015); CRLF/filemode noise on shared trees | H2 two-clone discipline; repo-enforced LF via `.gitattributes`; mirrored networking per `docs/SETUP.md` |
+| Working on the Windows filesystem from WSL | 9P bridge is 5–20× slower and breaks inotify/file-watching (WSL #4739/#4581) | All-in-WSL: the clone lives on ext4, never `/mnt/*`; the dump is read once, not built against (H2) |
 | LZSS recompression not byte-stable | Re-compressed payloads differ from originals, so compressed bytes are opaque to build verification | Verify at the decompressed layer; treat repack as a Gen3 problem; extractor implements game semantics (pos==0 terminator) with length cross-check |
 | AI fake-success mode | The documented failure pattern of agentic RE (psxrecomp v1–v3 post-mortem): stubs, HLE shortcuts, redefined success | P9 milestone honesty + G3 byte-match definition + incorruptible oracles (SHA1 check, asm-differ) |
 | Binutils regression | GNU as ≥2.38 has known issues for PS1 matching builds (2.35 known-good elsewhere) | Phase 4 `make check-env` verifies the assembler before anything depends on it |
@@ -205,8 +207,8 @@ Every artifact must be reproducible from the dump + source + configs. Every clai
 | Compiler era | GCC 2.7.2/SN32 candidates (PsyQ 4.0/4.2) | sotn's GCC 2.6.3-psx | 12 genuine PsyQ `Ps` library stamps verified in the EXE (9× 4.0, one 4.0.1x, one 4.2, one 4.2.1x; one additional pattern hit is a code false positive); 2.6.3 is the wrong generation |
 | MCP server | GhidrAssistMCP (38 tools, SSE, no bridge) on Ghidra 12.1 + JDK 21 | LaurieWired GhidraMCP (unmaintained, ≤11.3.2); bethington ghidra-mcp & pyghidra-mcp (named fallbacks) | GhidrAssistMCP is what the psxrecomp precedent actually ran; struct/type tools present; fallbacks documented in `docs/SETUP.md` |
 | PSX loader | ghidra_psx_ldr (PsyQ signatures, auto GTEMAC) | Manual memory-map setup | Signature matching + SDK detection for free; `CreateGteMacSegment` script unnecessary on fresh imports |
-| Environment | Two clones: Windows (RE) + WSL2 ext4 (build), git-remote sync | One shared working tree | 9P performance, dead file-watchers, ghost-file bug, CRLF/filemode noise |
-| Build pipeline | Modern cpp → vintage cc1 → maspsx → modern GNU as → ld(splat script) → objcopy | Native PsyQ EXEs under emulation as primary | sotn-proven pipeline; native PsyQ 4.0/4.1 binaries retained as Windows-side arbitration option for fingerprint disputes |
+| Environment | All-in-WSL: single ext4 clone, Claude Code + Ghidra (WSLg) + build all in WSL2 | Windows-hybrid / two-clone (original design); shared tree on `/mnt` | One clone = no sync dance; ext4 = fast builds + working file-watch; matches the sotn/PS1-decomp ecosystem |
+| Build pipeline | Modern cpp → vintage cc1 → maspsx → modern GNU as → ld(splat script) → objcopy | Native PsyQ EXEs under emulation as primary | sotn-proven pipeline; native PsyQ 4.0/4.1 binaries retained (run under WSL via wine/wibo) as an arbitration option for fingerprint disputes |
 | Extraction | Own extractor, game-semantics LZSS, `{index}.{type}` naming, sha1 manifest | CUE's brave.exe as-is | CUE tool has a type-naming collision and tool-semantics termination; ours must round-trip-verify against it |
 | Docs architecture | Three layers: static constitution (this file) / append-only `phase-ends/` / evolvable `docs/` | Everything in one living CLAUDE.md | Architect methodology + volatile facts must stay updatable without touching the constitution |
 | State tracking | `phase-ends/` in-repo + `CURRENT_PHASE.md` in-phase log | Claude Projects attachments; psxrecomp-style ad-hoc HANDOFF files | One canonical, committable, crash-recoverable location |
@@ -261,7 +263,7 @@ Two interlocking loops drive all work after the foundation phases:
 | NON_MATCHING guard | Non-matching C can never silently enter the default build | G4 |
 | `CURRENT_PHASE.md` | Crash/compaction recovery point with per-task state | Updated after every task |
 | Autonomy stop conditions | Bounds what autonomous sessions may decide alone | P5 |
-| Two-clone isolation | Build artifacts and ROM data never touch the Windows tree | H2 |
+| ext4-only builds | Build/toolchain runs never touch the slow `/mnt` 9P bridge | H2 |
 | MCP ping precondition | No RE on a dead oracle | G2 |
 
 ---
@@ -271,7 +273,7 @@ Two interlocking loops drive all work after the foundation phases:
 ### Repository structure (target)
 
 ```
-Z:\Storage\git\BFM-decomp          (Windows clone — RE & docs)
+~/bfm-decomp                       (single clone, ext4, inside WSL2 — the whole project)
 ├── PROJECT_CONTEXT.md             this file (static)
 ├── CLAUDE.md                      auto-loaded pointer
 ├── phase-ends/                    living record (PhaseEnds + CURRENT_PHASE.md)
@@ -279,17 +281,18 @@ Z:\Storage\git\BFM-decomp          (Windows clone — RE & docs)
 ├── tools/
 │   ├── brave-CUE/                 CUE's reference extractor (committed)
 │   ├── bfm_extract/               our extractor (committed)
+│   ├── bin/  psyq*/               downloaded compilers / native PsyQ (gitignored)
 │   └── [submodules]               asm-differ · m2c · maspsx · decomp-permuter (pinned)
 ├── config/                        splat yamls · symbols.us*.txt · check.us.sha (committed)
 ├── src/  include/                 matched C + headers (committed)
 ├── Makefile                       (committed)
-├── asm/ assets/ build/ expected/ disks/ ghidra/    (gitignored, regenerated)
-└── Brave Fencer Musashi (USA)/    the dump (gitignored)
-
-~/bfm-decomp                       (WSL2 ext4 clone — the ONLY place builds run)
+├── ghidra/                        Ghidra project (gitignored)
+├── disks/                         the BFM BIN/CUE dump (gitignored — copied in once)
+├── extracted/  asm/  assets/      ROM-derived; committable while private (H1 relaxed)
+└── build/  expected/              regenerated build output (gitignored)
 ```
 
-Sync between clones: git remote only. Boundary crossings (one-shot file copies, `wsl.exe` command invocations, MCP networking): `docs/SETUP.md`.
+One clone, one remote (`origin`). All tools run Linux-native on ext4; the dump is read once. Tool versions, install steps, and the Ghidra/WSLg setup: `docs/SETUP.md`.
 
 ### Memory map — knowns and unknowns
 
@@ -339,14 +342,15 @@ The disc inventory (27 root files with LBA/size — immutable facts of the artif
 
 > Commands, versions, and URLs for every task: `docs/SETUP.md`. Checklists below are task-level by design (the constitution names *what*; the evolvable layer names *how*).
 
-### Phase 1 — Repo governance + Windows RE stack + first import
-**Goal:** a hygienic repo and a live Ghidra/MCP loop on the real EXE.
+### Phase 1 — Repo governance + WSL RE stack + first import
+**Goal:** a hygienic repo and a live Ghidra/MCP loop on the real EXE, all inside WSL.
 
 - [ ] Repo governance files in place (.gitignore firewall, .gitattributes LF policy, .mcp.json, phase-ends/, docs/ seeds) and baseline committed
 - [ ] Handling of pre-existing root research files decided with the user and recorded (superseded starting-point doc, architect template, link notes, research output — banner/move/ignore; the superseded doc contains corrected-and-wrong claims and must not sit where a session could absorb them before the load order)
 - [ ] Private GitHub remote created and pushed
-- [ ] Windows RE stack installed per docs/SETUP.md §2: JDK 21, Ghidra 12.1 (pinned), ghidra_psx_ldr, GhidrAssistMCP
-- [ ] Minimal `tools/bfm_extract/exe.py`: pull `SLUS_007.26` out of Track 1 (MODE2/2352), verify size/header
+- [ ] Single repo clone established on ext4 (`~/bfm-decomp`); Claude Code relaunched inside WSL2
+- [ ] RE stack installed in WSL per docs/SETUP.md §2: JDK 21, Ghidra 12.1 (pinned, GUI via WSLg), ghidra_psx_ldr, GhidrAssistMCP
+- [ ] `tools/bfm_extract`: pull `SLUS_007.26` out of Track 1 (MODE2/2352), verify size/header + Track-1 SHA1 vs redump
 - [ ] EXE imported via PSX loader; auto-analysis + PsyQ signatures applied; detected PsyQ version recorded; `.gdt` attached (manual GUI step) and MCP type-resolution tested
 - [ ] MCP round-trip verified from Claude Code
 - [ ] **Milestone:** in a Claude Code session, an MCP decompile of `0x80018730` returns code recognizably matching the documented LZSS decompressor, and the detected PsyQ version is recorded in the phase log
@@ -375,16 +379,14 @@ The disc inventory (27 root files with LBA/size — immutable facts of the artif
 - [ ] (Bonus anchor) L3 debug-menu write traced
 - [ ] **Milestone:** docs/memory-map.md contains a loader/overlay table where the resident blob and ≥1 location overlay have load addresses proven byte-identical against a live PCSX-Redux RAM dump
 
-### Phase 4 — WSL2 build environment + two-clone activation
-**Goal:** the Linux half exists and is reachable from Claude Code.
+### Phase 4 — Matching-build toolchain (WSL)
+**Goal:** the matching-build toolchain exists and a smoke target is green. (WSL2 + the ext4 clone already exist from Phase 1.)
 
-- [ ] WSL2 + Ubuntu 24.04 installed; networking configured per docs/SETUP.md §4 (mirrored mode, fallback documented)
-- [ ] Repo cloned to `~/bfm-decomp` (ext4); dump copied into WSL `disks/`
 - [ ] apt toolchain + Python 3.12 venv + splat64 installed; submodules (asm-differ, m2c, maspsx, decomp-permuter) added and pinned
-- [ ] Vintage compiler artifacts fetched and sha-verified (GCC 2.7.2 candidates); optional native PsyQ binaries staged for arbitration
+- [ ] Vintage compiler artifacts fetched and sha-verified into `tools/bin` (GCC 2.7.2 candidates); optional native PsyQ binaries staged under `tools/` for arbitration
 - [ ] `make check-env` smoke target: toolchain executes, binutils version verified, dump hash matches
 - [ ] As-built versions recorded in docs/SETUP.md
-- [ ] **Milestone:** from Windows-side Claude Code, the `wsl.exe`-invoked `make check-env` exits 0
+- [ ] **Milestone:** `make check-env` exits 0 (cc1 runs, splat imports, binutils verified, dump hash matches)
 
 ### Phase 5 — splat config + build skeleton (all-asm byte-match)
 **Goal:** the repo rebuilds a byte-identical `SLUS_007.26` from disassembly alone.

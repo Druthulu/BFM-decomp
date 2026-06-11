@@ -2,81 +2,94 @@
 
 > **This file is the EVOLVABLE reference layer.** Unlike `PROJECT_CONTEXT.md` (permanent, never edited), this document holds volatile facts — pinned versions, URLs, commands, ports — and **may be updated freely** as tools move. Note each change in the active phase log (`CURRENT_PHASE.md`). Items marked **TBD** / **UNVERIFIED** / **JP-only — re-derive for US** are honest gaps: confirm before relying on them, then update this file.
 
-Last full revision: 2026-06-10 (initial authoring, pre-Phase-1 — nothing below is installed yet except the repo itself).
+Last full revision: 2026-06-10 (initial authoring, pre-Phase-1 — nothing below is installed yet except the repo itself; same-day conversion to the all-in-WSL / Linux-first architecture — everything now runs inside a single WSL2 Ubuntu 24.04 clone, no Windows/WSL split).
 
 ## Version pin summary
 
+All components run inside WSL2 Ubuntu 24.04 (single ext4 clone). The "Side" column below is retained for historical continuity but every entry is now **WSL2 (Linux)**.
+
 | Component | Pinned version | Side | Phase |
 |---|---|---|---|
-| JDK | 21 (Temurin) | Windows | 1 |
-| Ghidra | **12.1 PUBLIC exactly** (`ghidra_12.1_PUBLIC_20260513.zip`) — NOT 12.1.2 | Windows | 1 |
-| GhidrAssistMCP | v2.8.0 (`ghidra_12.1_PUBLIC_20260530_GhidrAssistMCP.zip`) | Windows | 1 |
-| ghidra_psx_ldr | release 2026.06.04 (`ghidra_12.1_PUBLIC_20260604_ghidra_psx_ldr.zip`) | Windows | 1 |
-| PCSX-Redux | dev-win-x64 nightly (no version pin; record build on install) | Windows | 3 |
-| WSL2 distro | Ubuntu-24.04 (Python 3.12 ships with it) | WSL2 | 4 |
-| splat | pip `splat64[mips]` `>=0.41.0,<1.0.0`; freeze exact version once Phase 5 is green | WSL2 | 4 |
-| Vintage compiler | decompals/old-gcc **release 0.17**: `gcc-2.7.2-psx` + `gcc-2.7.2-cdk` | WSL2 | 4 |
-| maspsx | git submodule, `mkst/maspsx` (decomp.me pins commit `874855c53f65f8fa57447e1da6bde6236dbef9d5` — reasonable default pin) | WSL2 | 4 |
-| asm-differ / m2c / decomp-permuter | git submodules (URLs in §4.6) | WSL2 | 4 |
-| binutils (mipsel) | apt `binutils-mipsel-linux-gnu` — **>=2.38 regression check required**, 2.35 known-good per open-ribbon | WSL2 | 4 |
+| JDK | 21 (Temurin) | WSL2 (Linux) | 1 |
+| Ghidra | **12.1 PUBLIC exactly** (`ghidra_12.1_PUBLIC_20260513.zip`) — NOT 12.1.2 | WSL2 (Linux) | 1 |
+| GhidrAssistMCP | v2.8.0 (`ghidra_12.1_PUBLIC_20260530_GhidrAssistMCP.zip`) | WSL2 (Linux) | 1 |
+| ghidra_psx_ldr | release 2026.06.04 (`ghidra_12.1_PUBLIC_20260604_ghidra_psx_ldr.zip`) | WSL2 (Linux) | 1 |
+| PCSX-Redux | Linux build (AppImage/flatpak; no version pin; record build on install) | WSL2 (Linux) | 3 |
+| WSL2 distro | Ubuntu-24.04 (Python 3.12 ships with it) | WSL2 (Linux) | 4 |
+| splat | pip `splat64[mips]` `>=0.41.0,<1.0.0`; freeze exact version once Phase 5 is green | WSL2 (Linux) | 4 |
+| Vintage compiler | decompals/old-gcc **release 0.17**: `gcc-2.7.2-psx` + `gcc-2.7.2-cdk` | WSL2 (Linux) | 4 |
+| maspsx | git submodule, `mkst/maspsx` (decomp.me pins commit `874855c53f65f8fa57447e1da6bde6236dbef9d5` — reasonable default pin) | WSL2 (Linux) | 4 |
+| asm-differ / m2c / decomp-permuter | git submodules (URLs in §4.6) | WSL2 (Linux) | 4 |
+| binutils (mipsel) | apt `binutils-mipsel-linux-gnu` — **>=2.38 regression check required**, 2.35 known-good per open-ribbon | WSL2 (Linux) | 4 |
 
 ---
 
-## §1 The hybrid environment (two machines in one box)
+## §1 The all-in-WSL environment (single ext4 clone)
 
 ```
-┌─ Windows 11 Pro 25H2 (native) ────────────────────┐   ┌─ WSL2 Ubuntu 24.04 (ext4) ─────────────────────┐
-│                                                   │   │                                                │
-│  Ghidra 12.1 PUBLIC  (JDK 21 Temurin)             │   │  ~/bfm-decomp          ← SECOND clone          │
-│   ├─ ghidra_psx_ldr 2026.06.04 (PSX loader,       │   │   ├─ .venv/            splat64[mips] etc.      │
-│   │   PsyQ signatures, .gdt type archives)        │   │   ├─ tools/maspsx, tools/asm-differ,           │
-│   └─ GhidrAssistMCP v2.8.0 ── SSE 127.0.0.1:8080 ─┼─┐ │   │  tools/m2c, tools/decomp-permuter (subm.)  │
-│                                                   │ │ │   ├─ bin/gcc-2.7.2-psx, bin/gcc-2.7.2-cdk      │
-│  PCSX-Redux (runtime oracle: debugger, Lua,       │ │ │   │  (old-gcc 0.17, Linux x86-64 binaries)     │
-│   web API RAM dumps, GDB server :3333)            │ │ │   ├─ disks/             BIN/CUE dump,          │
-│                                                   │ │ │   │                     copied in ONCE         │
-│  Claude Code ← .mcp.json ─────────────────────────┼─┘ │   └─ asm/ build/ expected/  (generated,        │
-│   │                                               │   │                             never committed)   │
-│   └─ runs builds remotely via wsl.exe ────────────┼──►│  apt: binutils/gcc-mipsel-linux-gnu, make,     │
-│                                                   │   │       ninja, python3.12, ...                   │
-│  Z:\Storage\git\BFM-decomp     ← FIRST clone      │   │                                                │
-│   (Ghidra project .gpr/.rep, docs, configs,       │   │                                                │
-│    notes, Claude Code cwd — NEVER builds here)    │   │                                                │
-└───────────────────────┬───────────────────────────┘   └───────────────────────┬────────────────────────┘
-                        │                                                       │
-                        └────────────── git remote (the ONLY sync path) ────────┘
+┌─ WSL2 Ubuntu 24.04 (ext4) — everything lives here ──────────────────────────┐
+│                                                                             │
+│  ~/bfm-decomp          ← THE clone (one git working tree, one remote)        │
+│   ├─ Ghidra 12.1 PUBLIC  (JDK 21 Temurin, GUI via WSLg)                      │
+│   │   ├─ ghidra_psx_ldr 2026.06.04 (PSX loader, PsyQ signatures,            │
+│   │   │   .gdt type archives)                                               │
+│   │   └─ GhidrAssistMCP v2.8.0 ── SSE 127.0.0.1:8080 (local to WSL)         │
+│   │                                                                         │
+│   ├─ Ghidra project .gpr/.rep (under ~/bfm-decomp or ~/.ghidra)             │
+│   ├─ PCSX-Redux (Linux build: runtime oracle — debugger, Lua,              │
+│   │   web API RAM dumps, GDB server :3333)                                  │
+│   ├─ Claude Code ← .mcp.json → 127.0.0.1:8080/sse (same box, no boundary)   │
+│   │                                                                         │
+│   ├─ .venv/            splat64[mips] etc.                                    │
+│   ├─ tools/maspsx, tools/asm-differ, tools/m2c, tools/decomp-permuter (subm.)│
+│   ├─ tools/bin/gcc-2.7.2-psx, tools/bin/gcc-2.7.2-cdk                       │
+│   │   (old-gcc 0.17, Linux x86-64 binaries)                                 │
+│   ├─ disks/             BIN/CUE dump, copied in ONCE (gitignored)           │
+│   └─ asm/ build/ expected/  (generated, never committed)                     │
+│                                                                             │
+│  apt: binutils/gcc-mipsel-linux-gnu, make, ninja, python3.12, JDK 21, ...   │
+└───────────────────────────────────┬─────────────────────────────────────────┘
+                                    │
+                                    └── git remote (push/pull off-box only) ──►
 ```
 
-Two full clones of this repository exist, one per OS, synchronized **only by pushing/pulling through the git remote** — never by editing one working tree from both sides. Rationale:
+One repository clone on ext4 at `~/bfm-decomp` holds everything — RE stack, build toolchain, runtime oracle, docs, and Claude Code's working directory. There is **no Windows/WSL split**: no second clone, no cross-OS working-tree edits, no `/mnt` build path. The git remote is used only to push/pull off the machine (backup, collaboration), never to synchronize two local trees. Rationale for keeping the clone on ext4 (not on a `/mnt/*` drvfs mount):
 
-- **9P filesystem penalty.** Cross-OS file access (`/mnt/z` from Linux, `\\wsl.localhost\...` from Windows) goes through the Plan 9 protocol and is the slowest path WSL2 offers — Microsoft's own numbers put ext4 at 2–20× faster, and community benchmarks measured builds up to 375% faster after moving off `/mnt`. Every `make`, `git status`, and splat extract pays the tax if the build tree sits on NTFS.
-- **inotify is dead across the boundary.** Linux file-watchers get no events for Windows-side changes on `/mnt/*` (microsoft/WSL [#4739](https://github.com/microsoft/WSL/issues/4739), [#5424](https://github.com/microsoft/WSL/issues/5424)), and Windows watchers get no events on `\\wsl.localhost\` paths ([#4581](https://github.com/microsoft/WSL/issues/4581)). asm-differ watch mode silently never fires unless source *and* build outputs live on ext4 and are modified from inside Linux.
-- **Claude Code ghost-file bug.** anthropics/claude-code [#28015](https://github.com/anthropics/claude-code/issues/28015): Write/Edit on WSL2 drvfs mounts can hit a statx/9P cache-poisoning kernel bug producing "ghost files" (ENOENT for files that exist). Claude Code must never edit across the 9P boundary.
+- **9P filesystem penalty.** File access on `/mnt/*` drvfs mounts goes through the Plan 9 protocol and is the slowest path WSL2 offers — Microsoft's own numbers put ext4 at 2–20× faster, and community benchmarks measured builds up to 375% faster after moving off `/mnt`. Every `make`, `git status`, and splat extract pays the tax if the build tree sits on a mounted Windows drive. Keeping the clone on ext4 sidesteps this entirely.
+- **inotify works on ext4.** Linux file-watchers get no events for changes on `/mnt/*` drvfs mounts (microsoft/WSL [#4739](https://github.com/microsoft/WSL/issues/4739), [#5424](https://github.com/microsoft/WSL/issues/5424)). asm-differ watch mode fires reliably only when source *and* build outputs live on ext4 — which, all-in-WSL, they always do.
+- **No ghost-file hazard.** anthropics/claude-code [#28015](https://github.com/anthropics/claude-code/issues/28015): Write/Edit on WSL2 drvfs mounts can hit a statx/9P cache-poisoning kernel bug producing "ghost files" (ENOENT for files that exist). Editing only on ext4 avoids the bug; Claude Code runs inside WSL and never touches a drvfs path.
 
-One-shot file copies across the boundary (e.g. the disc dump into WSL `disks/`) are fine — it is sustained/random IO and watchers that break, not correctness. Ghidra project files (`.gpr`/`.rep`) stay on local NTFS: Ghidra's docs recommend local-drive storage, and its `~lock` files are unreliable over network redirectors like `\\wsl.localhost`.
+One-shot file copies onto ext4 (e.g. the disc dump into `disks/`) from any source are fine — it is sustained/random IO and watchers on drvfs that break, not correctness. Ghidra project files (`.gpr`/`.rep`) live on ext4 alongside the clone (or under `~/.ghidra`), consistent with Ghidra's local-drive-storage recommendation; their `~lock` files behave correctly on a native Linux filesystem.
 
-Git hygiene for the two-OS split: the committed `.gitattributes` (`* text=auto eol=lf` + binary exclusions) is the CRLF firewall. On the Windows side set `git config core.autocrlf false` (or `input`); in the WSL clone `core.filemode true` is fine (ext4).
+Git hygiene: the committed `.gitattributes` (`* text=auto eol=lf` + binary exclusions) keeps line endings consistent. On the Linux clone `core.filemode true` is fine (ext4) and `core.autocrlf` is `false` by default (LF-native), so no line-ending dance is needed.
 
 ---
 
-## §2 Windows RE stack install (Phase 1)
+## §2 RE stack install (Phase 1, all in WSL)
 
 Order matters: JDK → Ghidra → both extensions → import → MCP wiring.
 
 ### §2.1 JDK 21 (Temurin)
 
-```powershell
-winget install EclipseAdoptium.Temurin.21.JDK
+```bash
+sudo apt-get update && sudo apt-get install -y openjdk-21-jdk
 ```
 
-Required by Ghidra 12.x. Verify: `java -version` reports 21.x.
+Required by Ghidra 12.x. (The Temurin apt repo — `https://packages.adoptium.net` — is an equivalent alternative if you prefer Temurin specifically.) Verify: `java -version` reports 21.x, and ensure it is the JDK on `PATH` for the shell that launches Ghidra (`ghidraRun` needs JDK 21 visible).
 
 ### §2.2 Ghidra 12.1 PUBLIC — pin EXACTLY
 
 Download **`ghidra_12.1_PUBLIC_20260513.zip`** from
-`https://github.com/NationalSecurityAgency/ghidra/releases/tag/Ghidra_12.1_build` — plain zip, no installer; extract and run `ghidraRun.bat`.
+`https://github.com/NationalSecurityAgency/ghidra/releases/tag/Ghidra_12.1_build` — plain zip, no installer; the same cross-platform Java distribution on every OS. Unzip and launch the GUI under WSLg:
 
-> ⚠️ **Extension version-lock warning.** Ghidra extensions are point-version-locked via `extension.properties`. Both extension zips below are built against `12.1_PUBLIC`; installing them on 12.1.2 (current latest, 2026-06-05) may trip the version check (red "incompatible" flag — same failure mode as LaurieWired issue #83 on 11.4.1). Whether the 12.1 zips happen to load on 12.1.2 is **UNVERIFIED** — pin **12.1**, and only move to a point release when both extensions ship matching assets or you rebuild them from source (`gradle installExtension` with `GHIDRA_INSTALL_DIR` set).
+```bash
+cd ~ && unzip ghidra_12.1_PUBLIC_20260513.zip
+~/ghidra_12.1_PUBLIC/ghidraRun      # WSLg supplies the X11/Wayland display
+```
+
+`./ghidraRun` needs JDK 21 on `PATH` (§2.1); the Ghidra GUI renders through WSLg with no extra X-server setup.
+
+> ⚠️ **Extension version-lock warning.** Ghidra extensions are point-version-locked via `extension.properties`. Both extension zips below are built against `12.1_PUBLIC`; installing them on 12.1.2 (current latest, 2026-06-05) may trip the version check (red "incompatible" flag — same failure mode as LaurieWired issue #83 on 11.4.1). Whether the 12.1 zips happen to load on 12.1.2 is **UNVERIFIED** — pin **12.1**, and only move to a point release when both extensions ship matching assets or you rebuild them from source (`gradle installExtension` with `GHIDRA_INSTALL_DIR` set). The extension assets are platform-independent Java (`ghidra_12.1_PUBLIC_..._GhidrAssistMCP.zip` / `..._ghidra_psx_ldr.zip` — the "12.1" is the Ghidra version, not the OS), so the same asset filenames install on Linux Ghidra 12.1.
 
 ### §2.3 GhidrAssistMCP v2.8.0
 
@@ -140,10 +153,10 @@ Operational cautions:
 
 For unattended batch passes, GhidrAssistMCP runs headless (supported since v2.3.0):
 
-```bat
-<ghidra>\support\analyzeHeadless.bat <projects-dir> McpHeadless ^
-  -import <binary> ^
-  -scriptPath "<extension-dir>/ghidra_scripts" ^
+```bash
+<ghidra>/support/analyzeHeadless <projects-dir> McpHeadless \
+  -import <binary> \
+  -scriptPath "<extension-dir>/ghidra_scripts" \
   -preScript GAMCPStartServerScript.java "host=127.0.0.1" "port=8080" "wait=true"
 ```
 
@@ -152,11 +165,11 @@ For unattended batch passes, GhidrAssistMCP runs headless (supported since v2.3.
 
 ---
 
-## §3 PCSX-Redux (Windows) — the runtime oracle
+## §3 PCSX-Redux (Linux) — the runtime oracle
 
 **Role:** Ghidra is the static oracle; PCSX-Redux is the **runtime oracle**. It proves overlay load addresses by live RAM comparison, validates decompressed blobs byte-for-byte against what the game actually loads, and drives the debug-menu/loader RE.
 
-- **Install:** native Windows x64 nightly from `https://distrib.app/pub/org/pcsx-redux/project/dev-win-x64` (no stable pin exists — record the build date in the phase log when installed). Docs: `https://pcsx-redux.consoledev.net`. Ships OpenBIOS (boots without a retail BIOS dump).
+- **Install:** Linux build (AppImage or flatpak) from `https://distrib.app/pub/org/pcsx-redux/project` (no stable pin exists — record the build date in the phase log when installed). The GUI runs under WSLg. Docs: `https://pcsx-redux.consoledev.net`. Ships OpenBIOS (boots without a retail BIOS dump).
 - **RAM dumps (primary use):** enable the built-in web server, then
   **`GET http://localhost:<redux-port>/api/v1/cpu/ram/raw`** returns the full 2 MB RAM image — diff slices of it against our extractor's output to prove byte-identity. (`<redux-port>` = whatever port Redux's web server is configured to after moving it off 8080 — substitute the real value here at Phase 3 install; ledger #4.)
   > ⚠️ **Port collision (derived, plan around it):** PCSX-Redux's web server documents `localhost:8080` — the same port as GhidrAssistMCP. Keep GhidrAssistMCP on 8080 (matches the committed `.mcp.json`) and move the Redux web server to another port (e.g. 8081) when enabling it; the exact Redux config field is **TBD — confirm in its settings UI on install and update this line + the dump URL**.
@@ -166,72 +179,45 @@ For unattended batch passes, GhidrAssistMCP runs headless (supported since v2.3.
 
 ---
 
-## §4 WSL2 build environment (Phase 4)
+## §4 Build environment (Phase 4)
 
-WSL is **not installed yet** (verified 2026-06-10). Everything below is the install recipe.
+Everything below installs inside the same WSL2 Ubuntu 24.04 that already hosts Ghidra and Claude Code (§1). Where Phase 1 (§2) already set up the distro and JDK, this phase adds the build toolchain on top.
 
-### §4.1 Install WSL2 + Ubuntu 24.04
+### §4.1 WSL2 + Ubuntu 24.04 (already present from Phase 1)
 
-Elevated PowerShell:
+The all-in-WSL architecture means WSL2 Ubuntu 24.04 is the single host for the whole project, so it exists before Phase 4 begins (it is the same environment §2 installed Ghidra into). Confirm it is the expected distro and version:
 
-```powershell
-wsl --install -d Ubuntu-24.04
+```bash
+cat /etc/os-release   # Ubuntu 24.04
+uname -a              # Linux kernel (WSL2)
+whoami                # the Linux username; ~ resolves to /home/<user>
 ```
 
-Reboot if prompted. Then verify the exact distro name before hardcoding it anywhere:
+All project paths are plain Linux paths under `~/bfm-decomp` — there is no Windows distro name or `wsl.exe --cd` target to track.
 
-```powershell
-wsl -l -v        # must show 'Ubuntu-24.04' (capital U, hyphenated), VERSION 2
+### §4.2 Networking: MCP is local
+
+Under the all-in-WSL architecture there is **no cross-OS networking**. Ghidra/GhidrAssistMCP, PCSX-Redux, and Claude Code all run inside the same WSL2 instance, so the MCP endpoint is plain loopback: **MCP is local to WSL at `http://127.0.0.1:8080`; no mirrored-mode `.wslconfig`, firewall rule, or host-IP discovery is needed.** Smoke-test with Ghidra running: `curl http://127.0.0.1:8080/` from any shell in the same WSL instance.
+
+### §4.3 The clone on ext4
+
+```bash
+cd ~ && git clone <remote-url> bfm-decomp
 ```
 
-Also confirm the default Linux username (`wsl.exe -d Ubuntu-24.04 -- whoami`) — the `--cd /home/<user>/...` commands in §6 depend on it. **TBD: fill in the actual username here after install.**
+The single clone lives at `~/bfm-decomp` (ext4). Builds, splat, asm-differ, Ghidra, and Claude Code all run here. In this clone: `git config core.filemode true`. **TBD:** the canonical remote URL (GitHub private repo planned; not created as of this writing).
 
-### §4.2 Networking: `.wslconfig` mirrored mode + 8-second rule
+### §4.4 Copy the disc dump into the clone
 
-Create `%UserProfile%\.wslconfig`:
-
-```ini
-[wsl2]
-networkingMode=mirrored
-```
-
-Host is Windows 11 Pro 25H2 (build 26200) — mirrored mode is supported (needs 22H2+). Benefit: WSL-side scripts can reach Windows services (GhidrAssistMCP, Redux web API) at plain `http://127.0.0.1:<port>` — same URL both sides. (IPv6 `::1` is not supported.)
-
-> **8-second rule:** `.wslconfig`/`wsl.conf` changes take effect only after a full VM stop: `wsl --shutdown`, then wait **~8 seconds** before relaunching. Forgetting this makes networking experiments look broken.
-
-Smoke-test after install (with Ghidra running on Windows): `curl http://127.0.0.1:8080/` from inside WSL. Mirrored mode can misbehave with some VPN/virtualization stacks — if it does, fall back to NAT:
-
-**NAT fallback recipe** (default mode; localhost only forwards Windows→WSL, never WSL→Windows):
-1. Inside WSL, get the host IP via the **`ip route` method** — do **NOT** scrape `/etc/resolv.conf` (on Win11 22H2+ dnsTunneling pins it to 10.255.255.254, which is not the host):
-   ```bash
-   ip route show | grep -i default | awk '{ print $3}'
-   ```
-2. Allow inbound through the Windows firewall (which otherwise blocks the WSL subnet):
-   ```powershell
-   New-NetFirewallRule -DisplayName 'GhidraMCP from WSL' -Direction Inbound -Protocol TCP `
-     -LocalPort 8080 -InterfaceAlias 'vEthernet (WSL (Hyper-V firewall))' -Action Allow
-   ```
-3. Note: under NAT the server must be reachable on the vEthernet interface, not just loopback. GhidrAssistMCP's control panel has a Host field — whether `Host=localhost` binds loopback-only (blocking NAT-mode access from WSL) is **UNVERIFIED**; mirrored mode sidesteps the question entirely. (This only matters if a WSL-side script ever queries Ghidra directly — Claude Code's MCP path is Windows-local and never crosses the boundary.)
-
-### §4.3 Second clone on ext4
-
-```powershell
-wsl.exe -d Ubuntu-24.04 --cd ~ -- bash -lc 'git clone <remote-url> bfm-decomp'
-```
-
-The build clone lives at `~/bfm-decomp` (ext4). Builds, splat, asm-differ run **only** here. In this clone: `git config core.filemode true`. **TBD:** the canonical remote URL (GitHub private repo planned; not created as of this writing).
-
-### §4.4 Copy the disc dump into WSL
-
-One-shot copy over 9P is fine:
+One-shot copy onto ext4 is fine (and required once):
 
 ```bash
 mkdir -p ~/bfm-decomp/disks
-cp '/mnt/z/Storage/git/BFM-decomp/Brave Fencer Musashi (USA)/'*.bin \
-   '/mnt/z/Storage/git/BFM-decomp/Brave Fencer Musashi (USA)/'*.cue ~/bfm-decomp/disks/
+cp '<dump-source>/Brave Fencer Musashi (USA)/'*.bin \
+   '<dump-source>/Brave Fencer Musashi (USA)/'*.cue ~/bfm-decomp/disks/
 ```
 
-`disks/` is gitignored — no ROM-derived bytes ever reach the remote (rule H1).
+`<dump-source>` is wherever the disc dump currently lives (e.g. a one-time download into `~/Downloads`, or a one-shot copy from external media). `disks/` is gitignored — no ROM-derived bytes ever reach the remote (rule H1).
 
 ### §4.5 apt packages
 
@@ -285,20 +271,20 @@ tar xzf gcc-2.7.2-psx.tar.gz ; tar xzf gcc-2.7.2-cdk.tar.gz
 - **TBD:** the sha256 values themselves — not captured in research; record at first download.
 - These are x86-64 Linux ELF binaries — they are *why* the build side must be Linux/WSL2 at all.
 
-### §4.8 Optional: native PsyQ 4.0/4.1 binaries for arbitration (Windows side)
+### §4.8 Optional: PsyQ 4.0/4.1 binaries for arbitration (via Wine)
 
-For byte-exact arbitration when maspsx output is in doubt, the **real** PsyQ Win32 tools run natively on Windows:
+For byte-exact arbitration when maspsx output is in doubt, the **real** PsyQ Win32 tools can be driven from WSL under Wine (`sudo apt-get install -y wine`):
 
 - `https://github.com/mkst/esa/releases/download/psyq-binaries/psyq4.0.tar.gz`
 - `https://github.com/mkst/esa/releases/download/psyq-binaries/psyq4.1.tar.gz`
   (contain `CC1PSX.EXE`, `ASPSX.EXE`, `CCPSX.EXE`, `PSYLINK.EXE`, `PSYLIB.EXE`; 1–2.3 MB each)
 - Their `.OBJ` output converts to ELF with **psyq-obj-parser** (part of pcsx-redux; prebuilt Linux binary: `https://github.com/decompme/compilers/releases/download/compilers/psyq-obj-parser.tar.gz`).
 
-Keep these under `tools/` on the Windows side (not committed); they are a tie-breaker, not the daily pipeline.
+Keep these under `tools/` on ext4 (not committed); they are a tie-breaker, not the daily pipeline. (decomp.me runs these same Win32 tools under Wine for its psyq presets — the precedent that this works headless.)
 
 ### §4.9 `make check-env` (Phase 4 exit milestone)
 
-Phase 4's observable milestone: a `check-env` make target that asserts every §4 component (venv + splat import, cc1 binaries executable, maspsx present, mipsel-as/ld/objcopy on PATH, python >= 3.12) and exits 0 when invoked **from Windows Claude Code** via `wsl.exe` (see §6.1).
+Phase 4's observable milestone: a `check-env` make target that asserts every §4 component (venv + splat import, cc1 binaries executable, maspsx present, mipsel-as/ld/objcopy on PATH, python >= 3.12) and exits 0 when invoked directly in the WSL clone (see §6.1).
 
 ---
 
@@ -336,7 +322,7 @@ Read `gp_value` from the SLUS_007.26 EXE header and check for `$gp`-relative loa
 1. **`gcc-2.7.2-psx` cc1 + `--aspsx-version=2.56`**, flags `-O2 -G0 -mips1 -mcpu=3000 -mgas -msoft-float -fgnu-linker` (FF7 style; swap to -G8 if §5.3 says so).
 2. Same cc1 + `--aspsx-version=2.67` (PsyQ 4.1 assembler era).
 3. **`gcc-2.7.2-cdk`** (cygnus-2.7.2-970404, the exact CC1PSX 4.0/4.1 base) × 2.56, then × 2.67.
-4. Real PsyQ 4.0/4.1 `CC1PSX.EXE` + `ASPSX.EXE` (native Windows, §4.8) + psyq-obj-parser — byte-exact arbitration when maspsx emulation is in question.
+4. Real PsyQ 4.0/4.1 `CC1PSX.EXE` + `ASPSX.EXE` (under Wine, §4.8) + psyq-obj-parser — byte-exact arbitration when maspsx emulation is in question.
 5. Only if diffs show GCC 2.8-style codegen: `gcc-2.8.0-psx` + 2.77 (unlikely — the JP master predates PsyQ 4.3-era adoption).
 
 **Library-code preset** (for PsyQ SDK functions linked into the EXE): `--aspsx-version=2.56 --expand-div`, `-O3 -G0` — the Xenogears precedent, consistent with our 4.0 lib stamps.
@@ -351,17 +337,18 @@ Reference repos for build-config patterns: `https://github.com/ladysilverberg/xe
 
 ## §6 Daily command crib
 
-### §6.1 Invoking WSL builds from Windows (Claude Code's pattern)
+### §6.1 Running builds (native, in the WSL clone)
 
-```powershell
-wsl.exe -d Ubuntu-24.04 --cd /home/<user>/bfm-decomp -- bash -lc 'make -j$(nproc) build'
-if ($LASTEXITCODE -ne 0) { <# build failed — or wsl.exe launcher error; check stderr text #> }
+Claude Code runs inside WSL, so builds are plain native commands — no `wsl.exe` wrapper, no cross-shell quoting:
+
+```bash
+cd ~/bfm-decomp
+make -j$(nproc) build          # exit status is the build result; nonzero = failed
 ```
 
-- **Single-quote rule:** the Linux command must be in **single quotes** — in double quotes PowerShell expands `$(nproc)`/`$vars` itself before wsl.exe sees them.
-- `$LASTEXITCODE` carries the Linux exit status (verified behavior for Ubuntu distros). Caveat: wsl.exe's own launcher errors (bad distro name, WSL not running) are also nonzero — distinguish by stderr text.
-- **UTF-16 note:** wsl.exe emits UTF-16LE output (garbles when captured/piped). Set `$env:WSL_UTF8=1` before capturing build logs.
-- `--cd` with a leading `/` is an absolute **Linux** path; always pass it explicitly so builds never accidentally run under `/mnt`.
+- The shell exit code (`$?`) carries the build result directly — no launcher layer to distinguish from a real failure.
+- Output is native UTF-8; logs capture/pipe cleanly with no encoding workaround.
+- The clone always lives on ext4 under `~/bfm-decomp`, so builds never accidentally touch a `/mnt` drvfs path.
 
 ### §6.2 Canonical compile pipeline (one object)
 
@@ -409,16 +396,16 @@ Modern cpp preprocesses → **vintage cc1** compiles to asm → **maspsx** emula
 
 Order is load-bearing — MCP tools fail (sometimes silently) without an open program.
 
-1. **Start Ghidra** (Windows): `ghidraRun.bat`.
+1. **Start Ghidra** (in WSL, under WSLg): `~/ghidra_12.1_PUBLIC/ghidraRun`.
 2. **Open the BFM project → open `SLUS_007.26` in CodeBrowser.** Confirm the GhidrAssistMCP control panel (Window → GhidrAssistMCP) shows the server up on `localhost:8080`.
-3. **Start/resume Claude Code** in `Z:\Storage\git\BFM-decomp`. Run `/mcp` — the `ghidra` server must be connected with ~38 tools. Then make one cheap verification call (e.g. `get_binary_info`) before any heavier work. No MCP round-trip = no RE work this session (rule G2).
+3. **Start/resume Claude Code** in `~/bfm-decomp`. Run `/mcp` — the `ghidra` server must be connected with ~38 tools. Then make one cheap verification call (e.g. `get_binary_info`) before any heavier work. No MCP round-trip = no RE work this session (rule G2).
 4. **Build preflight** (when the session involves building, Phase 4+):
-   ```powershell
-   wsl -l -v                                                            # distro present, VERSION 2
-   wsl.exe -d Ubuntu-24.04 --cd /home/<user>/bfm-decomp -- bash -lc 'git status --short && make check-env'
+   ```bash
+   cd ~/bfm-decomp
+   git status --short && make check-env
    ```
-   Plus `git status` on the Windows clone — both trees clean or intentionally dirty before starting.
-5. If PCSX-Redux work is planned: launch it, confirm the web server port (§3) and that a RAM dump fetch returns 2 MB.
+   One tree to check — clean or intentionally dirty before starting.
+5. If PCSX-Redux work is planned: launch it (under WSLg), confirm the web server port (§3) and that a RAM dump fetch returns 2 MB.
 
 Shutdown note: Ghidra writes the program DB on save — save (or deliberately discard) before closing, and never kill Ghidra mid-MCP-write.
 
@@ -442,6 +429,21 @@ Budget notes (Max 20x plan): long autonomous RE sessions are token-hungry; prefe
 
 ---
 
+## Disc provenance (redump — canonical integrity reference)
+
+The `SLUS_007.26` executable's own hash is not published anywhere (redump hashes disc *tracks*, not inner files), so dump authenticity is proven at the track level. `tools/bfm_extract/extract_exe.py --verify-disc` checks the Track-1 BIN against these:
+
+| Track 1 (data) | Value |
+|---|---|
+| SHA1 | `b44f0f0a19936f23b26188b658e13201a6a9c211` |
+| CRC32 | `c238191b` |
+| MD5 | `838e9ecf8b4e4810f3f82228b40e77d8` |
+| EXE build date | 1998-08-25 |
+
+A Track-1 match proves the dump is the canonical redump dump, which transitively validates the extracted EXE (our own SHA1 `143dbb89f34491258bbc27810d0a12ec8b43a8dd`, 413,696 bytes — stable, independently reproduced from raw sectors). Audio tracks 2–4 SHA1s are in the research archive if ever needed.
+
+---
+
 ## Known-unverified ledger (recheck and update in place)
 
 | # | Item | Status |
@@ -450,13 +452,13 @@ Budget notes (Max 20x plan): long autonomous RE sessions are token-hungry; prefe
 | 2 | MCP `types`/`struct` resolution of attached-archive (.gdt) types | **UNVERIFIED** — early test, §2.5 step 5 |
 | 3 | GhidrAssistMCP struct-tool ergonomics under matching-decomp load | **UNPROVEN** — psxrecomp never exercised heavy struct creation |
 | 4 | PCSX-Redux web-server port config field (8080 collision) | **TBD** on install (§3) |
-| 5 | WSL distro name `Ubuntu-24.04` + default username on this machine | **TBD** post-install (§4.1) |
+| 5 | WSL distro is Ubuntu 24.04 (the single all-in-WSL host) | confirm via `/etc/os-release` (§4.1); username no longer load-bearing (no `wsl.exe --cd` targets) |
 | 6 | binutils ≥2.38 regression on Ubuntu 24.04's shipped binutils | **VERIFY** (§4.5; 2.35 known-good per open-ribbon) |
 | 7 | sha256 hashes of old-gcc 0.17 tarballs | **TBD** record at first download (§4.7) |
 | 8 | `gp_value` in SLUS_007.26 header → -G0 vs -G8 | **TBD** (§5.3) |
 | 9 | ASPSX tier for game code: 2.56 vs 2.67 | **OPEN** — Phase 6 empirical (§5.2 tell) |
-| 10 | Mirrored networking stability with this machine's VPN/virtualization stack | **TBD** smoke test (§4.2) |
-| 11 | Canonical git remote URL for two-clone sync | **TBD** (§4.3) |
+| 10 | Cross-OS networking | **N/A under all-in-WSL** — MCP is local loopback (§4.2); no mirrored mode, firewall rule, or host-IP discovery |
+| 11 | Canonical git remote URL (off-box push/pull backup) | **TBD** (§4.3) |
 | 12 | Per-libnum stamp detail (raw-track scan reported 16 hits vs 12 genuine in extracted EXE — extracted-EXE scan is ground truth, see §5.1) | re-confirm via DetectPsyQ at import (§2.5 step 3) |
 | 13 | Overlay load addresses (resident 0x800CDF58 / location 0x80128508, EXE ptr table ~0x62620) | **JP-only — re-derive for US** (owned by docs/memory-map.md) |
 | 14 | Greenfield claim: decomp.me scratch search is script-blocked (Cloudflare) | **TBD** — one-time manual browser check for BFM scratches |
