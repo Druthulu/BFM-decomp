@@ -1,3 +1,15 @@
+> # ⛔ SUPERSEDED — HISTORICAL ONLY — DO NOT FOLLOW
+> This was the original project brief. It is kept for provenance. **Several of its
+> claims were investigated and corrected**; do not act on it. The authoritative
+> documents are `PROJECT_CONTEXT.md` (rules/roadmap) and `docs/SETUP.md` (environment).
+>
+> Corrected claims (do **not** follow the versions below):
+> - Compiler is **GCC 2.7.2 / PsyQ 4.0+4.2 era**, NOT "GCC 2.6.3 (same as SOTN)".
+> - MCP server is **GhidrAssistMCP** on Ghidra 12.1, NOT LaurieWired GhidraMCP.
+> - Only **PAC type-4 entries** are LZSS-compressed, NOT "all .CD files".
+> - Strategy is **decomp-first** (recomp deferred to a future generation), NOT recomp-first.
+> - Environment is **all-in-WSL** (Linux-first), NOT a Windows-hybrid setup.
+
 # Brave Fencer Musashi — Decompilation / Recompilation Project
 > CLAUDE.md — Context file for Claude Code sessions
 
