@@ -48,25 +48,39 @@ To formalize in `PhaseEnd_Phase1.md` under "Rules Added" (P10): the H1 relaxatio
 - [x] User `musashi` created (uid 1000): passwordless sudo via `/etc/sudoers.d/90-musashi` (visudo-validated), set as default login user via `/etc/wsl.conf` `[user] default=musashi`
 - [x] Git identity set global: `user.name=Drew T`, `user.email=50529377+Druthulu@users.noreply.github.com`, `init.defaultBranch=main`; `gh` 2.45.0 + `unzip` 6.0 installed
 - [x] Claude Code 2.1.177 installed (native installer → `~/.local/bin/claude`; `~/.local/bin` appended to `~/.bashrc` PATH; `claude --version` resolves in a fresh interactive shell)
-- [ ] **USER — interactive: run `claude` in a WSL terminal → sign into Anthropic** (OAuth code/paste flow). Git needs no WSL auth — push/pull is GitHub Desktop on Windows (see correction #6).
+- [x] **USER — sign into Anthropic in WSL** — DONE: this session IS Claude Code running signed-in inside the WSL clone. Git needs no WSL auth — push/pull is GitHub Desktop on Windows (correction #6).
 
 **B1. Establish the clone + sync:**
 - [x] Seeded `~/bfm-decomp` (ext4, `/dev/sdd`) from the **local Windows repo** (`git clone /mnt/z/Storage/git/BFM-decomp ~/bfm-decomp`; HEAD up to date with this log). `origin` re-pointed to `https://github.com/Druthulu/BFM-decomp.git`; `core.filemode=false` set. **First push is via GitHub Desktop on Windows** (Add Local Repository → `\\wsl.localhost\Ubuntu-24.04\home\musashi\bfm-decomp` → Push), NOT `git push` from WSL.
-- [ ] Make the dump available in `disks/` (one-shot copy onto ext4 — the dump is not in the repo)
-- [ ] Relaunch Claude Code inside WSL (in `~/bfm-decomp`); this Windows session ends
-- [ ] Install RE stack in WSL (JDK 21, Ghidra 12.1, ghidra_psx_ldr, GhidrAssistMCP); start MCP server
+- [ ] Make the dump available in `disks/` (one-shot copy onto ext4) — **NOT needed for the milestone**: the EXE is already extracted + committed + sha1-verified (`143dbb89…`). Only needed to re-run `--verify-disc` (Track-1 vs redump) inside WSL.
+- [x] Relaunch Claude Code inside WSL — DONE (this session runs in `~/bfm-decomp` on ext4 `/dev/sdd`)
+- [x] Install RE stack in WSL — **DONE 2026-06-13** (this session): JDK 21.0.11; Ghidra 12.1 PUBLIC at `~/ghidra_12.1_PUBLIC` (zip integrity-verified, 6693 files); both extensions extracted into `~/ghidra_12.1_PUBLIC/Ghidra/Extensions/` at `version=12.1` (GhidrAssistMCP v2.8.0, ghidra_psx_ldr 2026.06.04); headless GhidrAssistMCP server starts on 127.0.0.1:8080 with **41 tools**.
 
 ### C. First import + milestone (in WSL)
-- [ ] Run extractor → `extracted/SLUS_007.26`; `--verify-disc` PASS (Track-1 == redump)
-- [ ] Import into Ghidra (WSLg): PSX loader, auto-analyze + PsyQ signatures, record PsyQ version, attach `psyq400.gdt`, MCP type-resolution test
-- [ ] MCP round-trip: `/mcp` ~38 tools; `get_binary_info`; decompile `0x80018730`
-- [ ] **MILESTONE:** MCP decompile of `0x80018730` ≈ LZSS decompressor; PsyQ version recorded → user confirm → `PhaseEnd_Phase1.md`
+- [x] EXE present at `extracted/SLUS_007.26` (sha1 `143dbb89f34491258bbc27810d0a12ec8b43a8dd`, 413,696 bytes, "PS-X EXE" magic). `--verify-disc` re-run in WSL is **pending the dump copy** (it PASSED on Windows: Track-1 == redump `b44f0f0a…`).
+- [x] Imported into Ghidra (**headless** `analyzeHeadless`, not WSLg GUI): PSX loader auto-selected (`PSX:LE:32:default`), auto-analysis + PsyQ Signatures ran (177 s), **PsyQ Version = 4.0.0 recorded** (DetectPsyQ), 1726 functions, program saved to `ghidra/bfm.{gpr,rep}`. **PENDING (GUI-only):** `.gdt` attach (`psyq400.gdt`) + MCP type-resolution test (ledger #2) — no headless/MCP path opens a `.gdt` archive.
+- [x] MCP round-trip **verified via raw JSON-RPC over the live server** (curl): `tools/list` = 41 tools; `get_binary_info` → SLUS_007.26 / 1726 funcs; `get_code(0x80018730, decompiler)` → LZSS code. **PENDING:** the *literal* in-Claude-Code-session round-trip needs a `/mcp` reconnect (server came up after this session started, so `mcp__ghidra__*` aren't live in-session yet).
+- [~] **MILESTONE — substance proven, gate pending user.** `0x80018730` decompiles to the documented LZSS streaming decompressor (scratchpad ring @ `0x1F800000`, 0x3ff window mask, resumable state machine via `DAT_800c7d24`, `pos==0` terminator), confirmed via BOTH Ghidra headless decompiler AND the MCP `get_code` tool; PsyQ 4.0.0 recorded. Awaiting: user confirmation (P8 gate), and a decision on the `/mcp` reconnect + GUI `.gdt` step (see Next task).
 
 ## Next task
-**Section B — migrate to WSL (bootstrap + clone done; sign-in + relaunch next).** The WSL2 environment is up and `~/bfm-decomp` is cloned on ext4 with `origin`→GitHub (B0/B1). Remaining: the user signs into Anthropic by running `claude` in a WSL terminal (git needs no WSL auth — GitHub Desktop on Windows pushes, correction #6); push the current commits once via GitHub Desktop; copy the dump into `disks/`; relaunch Claude Code inside `~/bfm-decomp`; then install the RE stack per docs/SETUP.md §2. Resume from this log inside the WSL clone.
+**Close Phase 1 (milestone gate).** The RE stack is installed, the EXE is imported+analyzed (PsyQ 4.0.0, 1726 funcs), and the LZSS decompile at `0x80018730` is proven via both the headless decompiler and the live MCP `get_code` tool. Two touches remain before the gate, and they hinge on a user choice (the headless MCP server currently holds the `bfm.rep` project lock, so the GUI can't open it until that server is stopped):
+
+- **(literal milestone) `/mcp` reconnect** — run `/mcp` in this session so the `ghidra` server connects (it's listening now); then a real `mcp__ghidra__*` decompile of `0x80018730` closes the milestone wording exactly. *(Keep the headless server running for this.)*
+- **(checklist item, GUI-only) `.gdt` attach + MCP type-resolution test (ledger #2)** — needs the Ghidra GUI under WSLg: stop the headless server, launch `ghidraRun`, open `bfm`, attach `psyq400.gdt`, confirm the GhidrAssistMCP panel on 8080, then `/mcp` reconnect and run the type-resolution test. This GUI session also becomes the documented steady-state (SETUP.md §7).
+
+Recommendation queued for the user (see chat): do the one GUI session — it delivers the literal in-session MCP round-trip AND the `.gdt`/type test in one go, fully clearing the Phase 1 checklist. Alternatively, defer `.gdt` (record a deviation) and close on the headless-proven milestone now.
 
 ## Blockers / needs-user
-- **Anthropic sign-in (only the user can do this):** run `claude` in a WSL terminal → sign in (OAuth code/paste flow). Git needs no WSL auth.
-- **GitHub Desktop (Windows):** Add Local Repository → `\\wsl.localhost\Ubuntu-24.04\home\musashi\bfm-decomp` → Push to sync. If it warns "unsafe / dubious ownership," accept its one-click fix (Git-for-Windows `safe.directory`).
-- Confirm the GitHub repo `Druthulu/BFM-decomp` is set to **Private** before any push.
-- RE-stack install + EXE import (Section C) require driving Ghidra's WSLg GUI; do them from the in-WSL Claude session.
+- **Milestone gate (P8):** user confirms the milestone (LZSS decompile + PsyQ version) before `PhaseEnd_Phase1.md` is written.
+- **`/mcp` reconnect** (trivial, in this session) for the literal Claude-Code MCP round-trip — server is live on 127.0.0.1:8080.
+- **`.gdt` attach + type-resolution test** — GUI-only; requires stopping the headless MCP server (it locks `bfm.rep`) and driving `ghidraRun` under WSLg.
+- **GitHub Desktop (Windows):** Add Local Repository → `\\wsl.localhost\Ubuntu-24.04\home\musashi\bfm-decomp` → Push. If it warns "unsafe / dubious ownership," accept its one-click fix.
+- Confirm the GitHub repo `Druthulu/BFM-decomp` is **Private** before any push.
+- (optional) Copy the disc dump into `disks/` to re-run `--verify-disc` in WSL — not required for the milestone.
+
+## WSL session log — 2026-06-13 (RE stack live + headless import + milestone substance)
+- **Installs:** JDK 21.0.11 (apt). Ghidra 12.1 PUBLIC (`ghidra_12.1_PUBLIC_20260513.zip`, 567 MB, central-dir verified) → `~/ghidra_12.1_PUBLIC`. Extensions extracted into `Ghidra/Extensions/`: GhidrAssistMCP v2.8.0 (`…20260530…`), ghidra_psx_ldr 2026.06.04 (`…20260604…`), both `version=12.1` (no version-lock issue — exact 12.1 pin held).
+- **Import:** `analyzeHeadless ~/bfm-decomp/ghidra bfm -import extracted/SLUS_007.26` (auto-detect loader). Loader = **PSX Executables Loader**, lang `PSX:LE:32:default`, ImageBase `80000000`, Min/Max addr `1f800000`/`801fffff`, **1726 functions**, analysis 177 s, **PsyQ Version = 4.0.0** (resolves ledger #12 / confirms §2.5 step 3). Saved to `ghidra/bfm.{gpr,rep}` (gitignored).
+- **MCP:** headless server (`-process SLUS_007.26 -preScript GAMCPStartServerScript.java host=127.0.0.1 port=8080 wait=true`) → "started on port 8080 … with **41 tools**". JSON-RPC over `/mcp` verified: `initialize`/`tools/list`/`get_binary_info` ok; `get_code(0x80018730, decompiler)` returns the LZSS decompressor. **Note:** `get_code` (and likely other heavy tools) run **async** — return a `task_id`; poll `get_task_status`. Wire format is SSE (`event: message` / `data: {json}`).
+- **SETUP.md corrections recorded** (see commit): headless `-loader "PSX Executables Loader"` is rejected (`InvalidInputException`) — use loader auto-detect; tool count is 41 (not ~38); async task pattern for `get_code`; extensions install by extracting into `<install>/Ghidra/Extensions/`.
+- **Helper scripts added:** `tools/ghidra_scripts/DumpProgramInfo.java`, `DecompileAt.java`.

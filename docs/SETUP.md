@@ -121,7 +121,7 @@ cd ~ && unzip ghidra_12.1_PUBLIC_20260513.zip
 
 1. Extract `SLUS_007.26` from the disc image (LBA 24, 0x65000 bytes, track 1 is MODE2/2352) and import into Ghidra. The loader auto-selects **"PSX Executables Loader"**, language `PSX:LE:32:default`, and builds the full PS1 memory map: RAM around the image at 0x80000000, scratchpad 0x1F800000, all IO/DMA/timer/CD/GPU/SPU register blocks, **and a synthetic GTEMAC segment at 0x20000000 automatically** — do NOT run the `CreateGteMacSegment` script (that is only for migrating legacy non-PSX projects).
 2. Run auto-analysis with the **"PsyQ Signatures"** analyzer enabled (auto-enabled for PSX-language programs). Analyzer options: "Only first match", "Minimal signature entropy" (default 3.0 — can skip tiny low-entropy library stubs), "PsyQ Version if not found" (manual override).
-3. Read the detected PsyQ version: **Edit → Options for Program → Program Information → "PsyQ Version"**. Expected: **4.0** (our own EXE scan found 12 genuine `Ps` stamps: 9× 4.0, one 4.0.1x on libnum 16, one 4.2 on libnum 0, one 4.2.1x on libnum 12 — i.e. PsyQ 4.0 libs + 4.2 library updates; see §5.1). If detection errors with `'psyq/xx' cannot be found`, append `.0` to the version field. Record the detected value in the phase log.
+3. Read the detected PsyQ version: **Edit → Options for Program → Program Information → "PsyQ Version"**. Expected: **4.0** (our own EXE scan found 12 genuine `Ps` stamps: 9× 4.0, one 4.0.1x on libnum 16, one 4.2 on libnum 0, one 4.2.1x on libnum 12 — i.e. PsyQ 4.0 libs + 4.2 library updates; see §5.1). If detection errors with `'psyq/xx' cannot be found`, append `.0` to the version field. Record the detected value in the phase log. **CONFIRMED 2026-06-13 (Phase 1):** DetectPsyQ at headless import recorded `PsyQ Version = 4.0.0` on the extracted US EXE (resolves ledger #12). Import also reported: loader `PSX Executables Loader`, language `PSX:LE:32:default`, ImageBase `80000000`, address range `1f800000–801fffff`, 1726 functions, ~177 s analysis.
    *(Note: a raw track-1 scan during research reported slightly different per-libnum details — raw 2352-byte-sector scans produce false positives; the extracted-EXE scan is the ground truth, and DetectPsyQ at import is the final word.)*
 4. **One-time manual `.gdt` attach (GUI only — no MCP tool opens archives):** in the CodeBrowser Data Type Manager, attach the bundled PsyQ type archive for the detected version — `psyq400.gdt` (`psyq420.gdt` also exists). This gives PsyQ struct/typedef types for retyping work.
 5. **Early MCP type-resolution test (run before any bulk typing):** via MCP, run the `types` tool with `action=set` applying a PsyQ type (e.g. apply a known PsyQ struct at some address) and confirm it resolves. **UNVERIFIED** whether the `types`/`struct` tools can reference types living in the attached archive or only types already copied into the program's own data type manager — this 5-minute test decides the typing workflow. Record the answer here when known.
@@ -143,7 +143,7 @@ The committed repo-root `.mcp.json` (already present):
 
 Single `ghidra` entry only — do NOT copy psxrecomp's duplicated `ghidra` + `ghidra_psx` pair (same URL twice = every tool duplicated in context).
 
-Verify in Claude Code with `/mcp`: **~38 `mcp__ghidra__*` tools** should appear. These are the **v2.8.0 names** — e.g. `get_binary_info`, `get_code` (format: disassembly|decompiler), `disassemble_at`, `analyze_function`, `xrefs`, `get_functions` (paginated), `struct` (actions: create/modify/merge/set_field/name_gap/auto_create/rename_field/field_xrefs), `types` (list/get_info/set/delete), `variables` (list/rename/set_type/set_prototype), `rename_symbol`, `batch_rename`, `create_data_var`, `create_function`, `search_bytes`, `patch_bytes`, `assemble_code`, `export_program`. **NOT the pre-2.4.0 names** (`get_function_info`, `list_data`) that appear in psxrecomp's PLAN.md and older write-ups — those were renamed in v2.4.0 (upstream commit `aa3ffc7d`, 2026-03-14).
+Verify in Claude Code with `/mcp`: **~38–41 `mcp__ghidra__*` tools** should appear. *(CONFIRMED 2026-06-13: GhidrAssistMCP v2.8.0 reports **41 tools** headless. Operational notes from Phase 1: tool responses come back as SSE frames (`event: message` / `data: {json}`) on the streamable `/mcp` endpoint; heavy tools like `get_code` run **asynchronously** — the `tools/call` returns a `task_id` and you must poll `get_task_status` for the result. `get_code` takes `{function: "0x80018730", format: "decompiler|disassembly|pcode"}`.)* These are the **v2.8.0 names** — e.g. `get_binary_info`, `get_code` (format: disassembly|decompiler), `disassemble_at`, `analyze_function`, `xrefs`, `get_functions` (paginated), `struct` (actions: create/modify/merge/set_field/name_gap/auto_create/rename_field/field_xrefs), `types` (list/get_info/set/delete), `variables` (list/rename/set_type/set_prototype), `rename_symbol`, `batch_rename`, `create_data_var`, `create_function`, `search_bytes`, `patch_bytes`, `assemble_code`, `export_program`. **NOT the pre-2.4.0 names** (`get_function_info`, `list_data`) that appear in psxrecomp's PLAN.md and older write-ups — those were renamed in v2.4.0 (upstream commit `aa3ffc7d`, 2026-03-14).
 
 Operational cautions:
 - Tools operate on the program currently open in CodeBrowser and fail (sometimes silently) if none is open.
@@ -161,7 +161,10 @@ For unattended batch passes, GhidrAssistMCP runs headless (supported since v2.3.
 ```
 
 - **`wait=true` is mandatory** — without it the analyzeHeadless process exits right after the prescript instead of serving MCP clients.
-- On subsequent runs use **`-process SLUS_007.26`** (not `-import`) to reuse the existing project.
+- On subsequent runs use **`-process SLUS_007.26`** (not `-import`) to reuse the existing project. Pair with **`-noanalysis`** so it doesn't re-run analysis on every server start.
+- **CONFIRMED 2026-06-13:** this headless flow works end-to-end (server "started on port 8080 … with 41 tools"; `get_binary_info` and `get_code` operate on the `-process` program). **The headless server holds the project `.rep` lock while serving** — stop it (cancel the analyzeHeadless process) before opening the same project in the GUI.
+- **Extension install (headless-compatible):** extract each extension zip into `<GHIDRA_INSTALL_DIR>/Ghidra/Extensions/` (e.g. `unzip ext.zip -d ~/ghidra_12.1_PUBLIC/Ghidra/Extensions/`). Both GUI and `analyzeHeadless` then load the extracted module dirs (no GUI "Install Extensions" step needed). Verified for GhidrAssistMCP + ghidra_psx_ldr on Ghidra 12.1.
+- **Loader selection in headless:** `-loader "PSX Executables Loader"` is **rejected** (`InvalidInputException: Invalid loader name specified`) even though that is the loader's display name. **Omit `-loader` and let auto-detection pick** — for a real `PS-X EXE` it correctly selects "PSX Executables Loader" over Raw Binary (log line: `Using Loader: PSX Executables Loader`).
 
 ---
 
@@ -448,7 +451,7 @@ A Track-1 match proves the dump is the canonical redump dump, which transitively
 
 | # | Item | Status |
 |---|---|---|
-| 1 | GhidrAssistMCP/psx_ldr 12.1 zips on Ghidra 12.1.2 | **UNVERIFIED** — pin 12.1 (§2.2) |
+| 1 | GhidrAssistMCP/psx_ldr 12.1 zips on Ghidra 12.1.2 | **MOOT for us** — pinned Ghidra **12.1** exactly; both extensions load fine at `version=12.1` (confirmed 2026-06-13). The 12.1.2 question stays untested by design. |
 | 2 | MCP `types`/`struct` resolution of attached-archive (.gdt) types | **UNVERIFIED** — early test, §2.5 step 5 |
 | 3 | GhidrAssistMCP struct-tool ergonomics under matching-decomp load | **UNPROVEN** — psxrecomp never exercised heavy struct creation |
 | 4 | PCSX-Redux web-server port config field (8080 collision) | **TBD** on install (§3) |
@@ -459,6 +462,6 @@ A Track-1 match proves the dump is the canonical redump dump, which transitively
 | 9 | ASPSX tier for game code: 2.56 vs 2.67 | **OPEN** — Phase 6 empirical (§5.2 tell) |
 | 10 | Cross-OS networking | **N/A under all-in-WSL** — MCP is local loopback (§4.2); no mirrored mode, firewall rule, or host-IP discovery |
 | 11 | Canonical git remote URL (off-box push/pull backup) | **TBD** (§4.3) |
-| 12 | Per-libnum stamp detail (raw-track scan reported 16 hits vs 12 genuine in extracted EXE — extracted-EXE scan is ground truth, see §5.1) | re-confirm via DetectPsyQ at import (§2.5 step 3) |
+| 12 | Per-libnum stamp detail (raw-track scan reported 16 hits vs 12 genuine in extracted EXE — extracted-EXE scan is ground truth, see §5.1) | **RESOLVED 2026-06-13** — DetectPsyQ at headless import recorded `PsyQ Version = 4.0.0` (§2.5 step 3) |
 | 13 | Overlay load addresses (resident 0x800CDF58 / location 0x80128508, EXE ptr table ~0x62620) | **JP-only — re-derive for US** (owned by docs/memory-map.md) |
 | 14 | Greenfield claim: decomp.me scratch search is script-blocked (Cloudflare) | **TBD** — one-time manual browser check for BFM scratches |
