@@ -40,8 +40,19 @@ To formalize in `PhaseEnd_Phase1.md` under "Rules Added" (P10): the H1 relaxatio
 - [x] Commit per task (clean handoff) — section-A commits on `main`, not yet pushed (push from WSL where auth works)
 
 ### B. Migrate to WSL (collaborative — user relaunches Claude Code in WSL)
-- [ ] Clone `origin` → `~/bfm-decomp` (ext4); make the dump available in `disks/`
-- [ ] Relaunch Claude Code inside WSL; this Windows session ends
+
+**B0. WSL environment bootstrap — DONE 2026-06-13 (from the Windows session, after the user enabled BIOS virtualization):**
+- [x] WSL2 confirmed healthy (v2.7.8.0, kernel 6.18, WSLg present, default v2) — but **no distro was installed**; that was the gap the BIOS change exposed
+- [x] `Ubuntu-24.04` installed (24.04.4 LTS "Noble") as the default WSL2 distro (`--no-launch`, no interactive first-run)
+- [x] User `musashi` created (uid 1000): passwordless sudo via `/etc/sudoers.d/90-musashi` (visudo-validated), set as default login user via `/etc/wsl.conf` `[user] default=musashi`
+- [x] Git identity set global: `user.name=Drew T`, `user.email=50529377+Druthulu@users.noreply.github.com`, `init.defaultBranch=main`; `gh` 2.45.0 + `unzip` 6.0 installed
+- [x] Claude Code 2.1.177 installed (native installer → `~/.local/bin/claude`; `~/.local/bin` appended to `~/.bashrc` PATH; `claude --version` resolves in a fresh interactive shell)
+- [ ] **USER — interactive, in a WSL terminal (cannot be scripted):** run `claude` → sign into Anthropic; run `gh auth login` → sign into GitHub (device/paste flow, no GUI browser needed; also wires up git's credential helper for push/pull)
+
+**B1. Establish the clone + sync (after sign-ins):**
+- [ ] Seed `~/bfm-decomp` (ext4) from the **local Windows repo**, not origin: `git clone /mnt/z/Storage/git/BFM-decomp ~/bfm-decomp` (origin push-state is ambiguous; the local repo holds all section-A commits up to commit:0009). Then `git -C ~/bfm-decomp remote set-url origin https://github.com/Druthulu/BFM-decomp.git` and `git push -u origin main` from WSL.
+- [ ] Make the dump available in `disks/` (one-shot copy onto ext4)
+- [ ] Relaunch Claude Code inside WSL (in `~/bfm-decomp`); this Windows session ends
 - [ ] Install RE stack in WSL (JDK 21, Ghidra 12.1, ghidra_psx_ldr, GhidrAssistMCP); start MCP server
 
 ### C. First import + milestone (in WSL)
@@ -51,8 +62,9 @@ To formalize in `PhaseEnd_Phase1.md` under "Rules Added" (P10): the H1 relaxatio
 - [ ] **MILESTONE:** MCP decompile of `0x80018730` ≈ LZSS decompressor; PsyQ version recorded → user confirm → `PhaseEnd_Phase1.md`
 
 ## Next task
-**Section B — migrate to WSL.** Section A is complete and pushed. Clone `origin` into `~/bfm-decomp` on ext4, make the dump available in `disks/`, relaunch Claude Code inside WSL, then install the RE stack (Ghidra 12.1 + extensions via WSLg) per docs/SETUP.md §2. Resume from this log.
+**Section B — migrate to WSL (bootstrap done; sign-ins + clone next).** The WSL2 environment is up (Ubuntu-24.04, user `musashi`, Claude Code 2.1.177, `gh`, git identity — see B0). Remaining: the user signs into Anthropic (`claude`) and GitHub (`gh auth login`) in a WSL terminal; then seed `~/bfm-decomp` on ext4 from `/mnt/z/Storage/git/BFM-decomp` (B1), re-point origin to GitHub and push, copy the dump into `disks/`, relaunch Claude Code inside WSL, and install the RE stack per docs/SETUP.md §2. Resume from this log inside the WSL clone.
 
 ## Blockers / needs-user
-- Confirm the GitHub repo `Druthulu/BFM-decomp` is set to **Private**.
-- B requires the user to relaunch Claude Code inside WSL and drive Ghidra's WSLg GUI for install/import.
+- **Interactive sign-ins (only the user can do these, in a WSL terminal):** `claude` (Anthropic OAuth) and `gh auth login` (GitHub). Both use code/paste flows — no GUI browser required.
+- Confirm the GitHub repo `Druthulu/BFM-decomp` is set to **Private** before any push.
+- RE-stack install + EXE import (Section C) require driving Ghidra's WSLg GUI; do them from the in-WSL Claude session.
