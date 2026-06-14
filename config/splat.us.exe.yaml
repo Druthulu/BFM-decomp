@@ -66,6 +66,6 @@ segments:
     # no-op at every real boundary here.
     align: 4
     subsegments:
-      - [0x800, asm, 800]       # text — all-asm (the phase title); INCLUDE_ASM/.c scaffold = Phase 6
+      - [0x800, c, 800]         # text — Phase 6: c-scaffold (src/800.c INCLUDE_ASM stubs); matched fns replace stubs
       - [0x531DC, data, 531DC]  # data — psxexeinfo boundary; round-trips byte-identical
   - [0x65000]

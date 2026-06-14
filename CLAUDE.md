@@ -10,6 +10,7 @@ Before doing any work, read these files in this order:
 2. Read every `phase-ends/PhaseEnd_*.md` in numeric order (the build history).
 3. Read `phase-ends/CURRENT_PHASE.md` if it exists (the in-phase state).
 4. Then follow the **Session Start Protocol** in `PROJECT_CONTEXT.md` — state phase, completed tasks, the single next task, and acknowledge the rules before working.
+5. **For matching phases (Phase 6+):** before any function matching, also read `docs/matching-cookbook.md` (reusable compiler idioms asm↔C + techniques) and `docs/SETUP.md` §5.4 (the pinned triple). The matching knowledge base is a **compounding flywheel** — consult it before each match, and after each match (especially a hard-won near-miss) feed the generalizable lesson back into BOTH the cookbook AND the tooling (`tools/permuter/` PERM_ recipes/weights, the m2c `--context`) so future similar functions one-shot.
 
 After reading, state the following and nothing else:
 - Current phase number and name

@@ -1,0 +1,43 @@
+# requirements-python.txt — Python venv deps for the BFM-decomp toolchain.
+# The .venv itself is gitignored; THIS file is the durable, committed record so the
+# environment is reproducible and hard-won findings are never re-debugged.
+#
+# Recreate the venv:
+#   python3 -m venv .venv && .venv/bin/pip install -r requirements-python.txt
+#
+# Phase 4 deferred this freeze to "after Phase-5 green"; created at Phase-6 close (2026-06-14).
+# Exact versions from `pip freeze` on the working machine.
+#
+# IMPORTANT pins / notes:
+#   - pycparser is held <3.0 (==2.23): pycparser 3.0 removed the `plyparser` module that the
+#     pinned decomp-permuter imports. Upgrading WILL break the permuter (cost real debugging;
+#     see docs/matching-cookbook.md §3). Keep it <3.0.
+#   - splat64 0.41.0 pulls spimdisasm/rabbitizer/PyYAML/etc.; asm-differ needs
+#     watchdog/Levenshtein/cxxfilt/colorama; decomp-permuter needs pycparser/toml/PyNaCl.
+
+# --- build / splat (Phase 4) ---
+splat64==0.41.0
+spimdisasm==1.41.0
+rabbitizer==1.16.2
+crunch64==0.6.2
+PyYAML==6.0.3
+pylibyaml==0.1.0
+intervaltree==3.1.0
+sortedcontainers==2.4.0
+tqdm==4.67.1
+n64img==0.3.3
+pygfxd==1.0.5
+pypng==0.20220715.0
+
+# --- asm-differ runtime (Phase 6) ---
+watchdog==6.0.0
+Levenshtein==0.27.3
+RapidFuzz==3.14.5
+cxxfilt==0.3.0
+colorama==0.4.6
+
+# --- decomp-permuter (Phase 6) ---
+pycparser==2.23
+toml==0.10.2
+PyNaCl==1.6.2
+cffi==2.0.0

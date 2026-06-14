@@ -131,6 +131,7 @@ CPP         := $(MIPS_PREFIX)cpp
 OUT_DIR     := build/us
 OUT         := $(OUT_DIR)/SLUS_007.26
 ELF         := $(OUT_DIR)/SLUS_007.26.elf
+MAPFILE     := $(OUT_DIR)/SLUS_007.26.map
 LD_SCRIPT   := $(OUT_DIR)/SLUS_007.26.ld
 CHECK_SHA   := config/check.us.sha
 UNDEF_SYMS  := undefined_syms_auto.txt
@@ -143,12 +144,21 @@ ASFLAGS       := -Iinclude -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
 # maspsx ASPSX version — ALWAYS explicit (G8). Inert for the all-asm build; the
 # real pin is Phase 6. (Only used on the future cpp->cc1->maspsx `c` path.)
 ASPSX_VERSION := 2.56
+# Extra maspsx flags. --expand-div is PINNED (Phase-6 fingerprint): the original
+# emits the full aspsx div sequence (divu + bnez + break 0x7 zero-check); without it
+# maspsx leaves a bare divu and div/rem functions never match. Only affects div/rem,
+# so the all-INCLUDE_ASM build and div-free functions are unchanged.
+MASPSX_FLAGS  := --expand-div
 
-# Every splat-emitted .s -> build/<path>.o, matching the object names the generated
-# linker script references (asm/800.s -> build/asm/800.o). ASM_SRCS is globbed at
-# parse time, so run the canonical `make extract && make build`.
-ASM_SRCS := $(shell find asm -name '*.s' 2>/dev/null)
-OBJS     := $(ASM_SRCS:%.s=build/%.o)
+# Object set must match the splat linker script's references. After the Phase-6 asm->c
+# flip the text subseg is src/800.c -> build/src/800.o; the per-function
+# asm/nonmatchings/<seg>/*.s are TEXTUALLY .include'd by the .c (via INCLUDE_ASM) at
+# assembly time, so they are NOT separate objects and must be excluded from the glob.
+# header.s and the data subseg stay asm. Globbed at parse time -> run the canonical
+# `make extract && make build`.
+ASM_SRCS := $(shell find asm -name '*.s' -not -path 'asm/nonmatchings/*' 2>/dev/null)
+C_SRCS   := $(shell find src -name '*.c' 2>/dev/null)
+OBJS     := $(ASM_SRCS:%.s=build/%.o) $(C_SRCS:%.c=build/%.o)
 
 # extract: splat split -> asm/, the linker script, include/ macros, undefined_*_auto.txt.
 extract:
@@ -166,17 +176,24 @@ build/asm/%.o: asm/%.s
 	@echo "  AS      $@"
 	@$(AS) $(ASFLAGS) -o $@ $<
 
-# Phase 6 will add the C path here, e.g.:
-#   build/src/%.o: src/%.c
-#       $(CPP) <§6.2 cpp flags> $< | $(CC1_PSX) <§6.2 cc1 flags> \
-#         | $(VENV_PY) $(MASPSX) --aspsx-version=$(ASPSX_VERSION) | $(AS) $(ASFLAGS) -o $@
+# C path (Phase 6): modern cpp -> vintage cc1 -> maspsx -> modern as. Each src/*.c is
+# splat-generated INCLUDE_ASM stubs (file-scope __asm__ .include of the per-function
+# asm/nonmatchings/<seg>/<fn>.s); as we match, stubs are replaced by real C. The flags
+# below are the docs/SETUP.md §5.4 FIRST-CANDIDATE set — provisional until the Phase-6
+# fingerprint ladder PINS the triple (then this block + ASPSX_VERSION are updated, G8).
+CPPFLAGS := -lang-c -Iinclude -undef -Wall -fno-builtin -Dmips -D__GNUC__=2 -D__OPTIMIZE__ -Dpsx -D_PSYQ -D_MIPSEL -D_LANGUAGE_C
+CC1FLAGS := -quiet -O2 -G0 -mips1 -mcpu=3000 -mgas -msoft-float -fgnu-linker
+build/src/%.o: src/%.c
+	@mkdir -p $(dir $@)
+	@echo "  CC      $@"
+	@set -o pipefail; $(CPP) $(CPPFLAGS) $< | $(CC1_PSX) $(CC1FLAGS) | $(VENV_PY) $(MASPSX) --aspsx-version=$(ASPSX_VERSION) $(MASPSX_FLAGS) | $(AS) $(ASFLAGS) -o $@
 
 # link (the .ld pulls in the .o by path) + objcopy to the raw PS-X EXE image.
 $(OUT): $(OBJS) $(LD_SCRIPT)
 	@set -e
 	mkdir -p $(dir $@)
 	echo "  LD      $(ELF)"
-	$(LD) -T $(LD_SCRIPT) -T $(UNDEF_SYMS) -T $(UNDEF_FUNCS) --no-check-sections -o $(ELF)
+	$(LD) -T $(LD_SCRIPT) -T $(UNDEF_SYMS) -T $(UNDEF_FUNCS) --no-check-sections -Map $(MAPFILE) -o $(ELF)
 	echo "  OBJCOPY $@"
 	$(OBJCOPY) -O binary $(ELF) $@
 

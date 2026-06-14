@@ -1,0 +1,5 @@
+#!/bin/bash
+# Shim: decomp-permuter's MIPS arch hardcodes `mips-linux-gnu-objdump`, but BFM uses the
+# little-endian `mipsel-linux-gnu-objdump` (endianness is read from the ELF, so this is
+# correct). Put this dir on PATH when running the permuter. Avoids editing the pinned submodule.
+exec mipsel-linux-gnu-objdump "$@"

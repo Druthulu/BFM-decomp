@@ -340,6 +340,16 @@ Read `gp_value` from the SLUS_007.26 EXE header and check for `$gp`-relative loa
 
 ### §5.4 Candidate ladder (try in this order)
 
+> **✅ PINNED (Phase 6, 2026-06-14) — rung 1 is the answer (G8).** Triple:
+> `tools/bin/gcc-2.7.2-psx/cc1 -O2 -G0 -mips1 -mcpu=3000 -mgas -msoft-float -fgnu-linker`
+> → `maspsx --aspsx-version=2.56 **--expand-div**` → `mipsel-as -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0`.
+> Pinned in the `Makefile` (`CC1FLAGS` / `ASPSX_VERSION` / `MASPSX_FLAGS`). Evidence: byte-exact on `func_80018F20`
+> (the `sltiu` range-check probe) + instruction-identical across 2 more idiom classes (division via `--expand-div`;
+> memset). **`--expand-div` is required** for any div/rem (without it maspsx emits a bare `divu` with no zero-check
+> and div functions never match). **psx≈cdk and 2.56≈2.67 are byte-equivalent** on functions lacking the
+> discriminating idioms, so rungs 2–5 went unused (kept below for per-module-mixing escalation, §5.5). Reusable
+> codegen findings: `docs/matching-cookbook.md`.
+
 1. **`gcc-2.7.2-psx` cc1 + `--aspsx-version=2.56`**, flags `-O2 -G0 -mips1 -mcpu=3000 -mgas -msoft-float -fgnu-linker` (FF7 style; swap to -G8 if §5.3 says so).
 2. Same cc1 + `--aspsx-version=2.67` (PsyQ 4.1 assembler era).
 3. **`gcc-2.7.2-cdk`** (cygnus-2.7.2-970404, the exact CC1PSX 4.0/4.1 base) × 2.56, then × 2.67.
@@ -412,6 +422,42 @@ Modern cpp preprocesses → **vintage cc1** compiles to asm → **maspsx** emula
 - Starting flags: `-O2 -G0` (adjust per §5).
 - **Do NOT use the SOTN preset** (`Castlevania: Symphony of the Night` / `gcc 2.6.3-psx` / `psyq_263_221`) — wrong era, guaranteed near-miss diffs.
 - decomp.me's API is Cloudflare-challenged (403 to scripts) — scratch searches/uploads needing the API must be done manually in a browser.
+
+### §6.6 Matching a function (INCLUDE_ASM → C; the NON_MATCHING guard) — As-built Phase 6
+
+Phase 6 flipped the text segment to splat's `c` type: `src/800.c` is one
+`INCLUDE_ASM("asm/nonmatchings/800", <fn>);` stub per function (file-scope `__asm__`, pulls
+the per-function `asm/nonmatchings/800/<fn>.s` in at assembly time). The build is **byte-identical
+at 100% INCLUDE_ASM**; matching replaces stubs with C one function at a time. Harness as-built:
+`include/common.h` (committed prelude), `diff_settings.py` (asm-differ, arch `mipsel`, object mode
+vs `expected/`), `tools/decompile.py` (m2c wrapper), `-Map build/us/SLUS_007.26.map` for symbol lookup.
+
+📓 **Consult `docs/matching-cookbook.md` before/while matching** — the evolvable catalog of reusable
+compiler idioms (asm↔C) and "what makes gcc emit X" techniques. These recur across nearly every
+function; shaping the C toward them up front saves asm-differ rounds. **Add to it as you learn.**
+
+**The loop (per function):**
+1. Scaffold: `tools/decompile.py <fn>` (m2c) — or Ghidra `get_code` via MCP for complex ones.
+2. In `src/800.c`, replace the `INCLUDE_ASM(... <fn>);` line with the C function body.
+3. Iterate: `.venv/bin/python tools/asm-differ/diff.py -mo <fn>` until **score 0** (`-m` rebuilds;
+   `-w` watch, `-3` three-way). decomp-permuter for stubborn near-misses.
+4. `make check` must stay SHA1-green (the whole-binary gate); commit-accumulate (R8).
+5. If the symbol name changes, rename in Ghidra + `config/symbols.us.txt` and re-extract (R15/G6/R9).
+
+**Matched** → the C replaces INCLUDE_ASM directly (byte-identical, no guard).
+
+**Correct-but-not-yet-matched C** → keep it OUT of the default build behind the guard (G4):
+```c
+#ifdef NON_MATCHING
+    /* correct-but-unmatched C */
+#else
+INCLUDE_ASM("asm/nonmatchings/800", <fn>);
+#endif
+```
+The default build (no `-DNON_MATCHING`) links the asm, so `make check` never goes red on
+non-matching C (G4). `M2CTX`/`PERMUTER` builds are already handled in `include/include_asm.h`.
+`expected/` is the asm-differ baseline (a green-build snapshot = original bytes) — re-`make expected`
+**only after a green build** (§6.4), never mid-match.
 
 ---
 
