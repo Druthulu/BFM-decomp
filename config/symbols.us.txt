@@ -323,6 +323,7 @@ COR_05_OBJ_1AC                   = 0x80047B94; // func
 COR_05_OBJ_1D8                   = 0x80047BC0; // func
 catan                            = 0x80047BD8; // func
 COR_06_OBJ_A4                    = 0x80047C7C; // func
+func_80047CAC                    = 0x80047CAC; // data, 8B inter-fn const blob (spimdisasm auto-detect unstable here, declared for reproducible byte-identity per R15)
 InvSquareRoot                    = 0x80047DCC; // func
 VectorNormal                     = 0x80047E6C; // func
 VectorNormalSS                   = 0x80047E98; // func

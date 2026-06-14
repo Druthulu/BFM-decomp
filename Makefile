@@ -32,7 +32,7 @@ CC1_SMOKE_FLAGS := -quiet -O2 -G0 -mips1 -mcpu=3000 -mgas -msoft-float -fgnu-lin
 BINUTILS_WARN_MAJOR := 2
 BINUTILS_WARN_MINOR := 38
 
-.PHONY: help check-env extract build check expected clean
+.PHONY: help check-env extract build check expected clean report sig-refresh
 
 # -----------------------------------------------------------------------------
 help:
@@ -43,6 +43,26 @@ help:
 	echo "  make check       [Phase 5] standalone SHA1 verification"
 	echo "  make expected    [Phase 5] snapshot build/us -> expected/ (asm-differ baseline)"
 	echo "  make clean       [Phase 5] remove build output"
+	echo "  make report      [Phase 7] regenerate docs/ progress+difficulty+duplicate digests"
+	echo "  make sig-refresh [Phase 7] regenerate .run/sig.*.jsonl from Ghidra (MCP must be stopped)"
+
+# -----------------------------------------------------------------------------
+# Phase 7 reports: deterministic, committable docs/ digests. progress/difficulty/dup_report
+# are Ghidra-free; sig-refresh regenerates dup_report's input from the saved Ghidra DB.
+GHIDRA       := $(or $(GHIDRA_INSTALL_DIR),$(HOME)/ghidra_12.1_PUBLIC)
+GHIDRA_PROJ  := $(HOME)/bfm-decomp/ghidra
+
+report:
+	$(VENV_PY) tools/progress.py --audit
+	$(VENV_PY) tools/difficulty.py
+	$(VENV_PY) tools/dup_report.py
+
+sig-refresh:
+	@if ss -tln 2>/dev/null | grep -qE ':8080([^0-9]|$$)'; then
+		echo "sig-refresh: ERROR — Ghidra MCP serving on :8080; run tools/ghidra_mcp_stop.sh first."; exit 2
+	fi
+	"$(GHIDRA)/support/analyzeHeadless" "$(GHIDRA_PROJ)" bfm -process SLUS_007.26 -noanalysis -readOnly \
+	  -scriptPath tools/ghidra_scripts -postScript DumpFunctionSignatures.java
 
 # -----------------------------------------------------------------------------
 # check-env: assert every Phase-4 toolchain component. Runs ALL checks (does not
