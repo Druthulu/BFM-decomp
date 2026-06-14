@@ -16,11 +16,11 @@ All components run inside WSL2 Ubuntu 24.04 (single ext4 clone). The "Side" colu
 | ghidra_psx_ldr | release 2026.06.04 (`ghidra_12.1_PUBLIC_20260604_ghidra_psx_ldr.zip`) | WSL2 (Linux) | 1 |
 | PCSX-Redux | Linux build (AppImage/flatpak; no version pin; record build on install) | WSL2 (Linux) | 3 |
 | WSL2 distro | Ubuntu-24.04 (Python 3.12 ships with it) | WSL2 (Linux) | 4 |
-| splat | pip `splat64[mips]` `>=0.41.0,<1.0.0`; freeze exact version once Phase 5 is green | WSL2 (Linux) | 4 |
+| splat | pip `splat64[mips]` `>=0.41.0,<1.0.0` — **as-built 0.41.0** (Phase 4); freeze exact once Phase 5 green | WSL2 (Linux) | 4 |
 | Vintage compiler | decompals/old-gcc **release 0.17**: `gcc-2.7.2-psx` + `gcc-2.7.2-cdk` | WSL2 (Linux) | 4 |
 | maspsx | git submodule, `mkst/maspsx` (decomp.me pins commit `874855c53f65f8fa57447e1da6bde6236dbef9d5` — reasonable default pin) | WSL2 (Linux) | 4 |
 | asm-differ / m2c / decomp-permuter | git submodules (URLs in §4.6) | WSL2 (Linux) | 4 |
-| binutils (mipsel) | apt `binutils-mipsel-linux-gnu` — **>=2.38 regression check required**, 2.35 known-good per open-ribbon | WSL2 (Linux) | 4 |
+| binutils (mipsel) | apt `binutils-mipsel-linux-gnu` — **as-built 2.42** (Phase 4; ≥2.38 → check-env WARN, verdict deferred to Phase 5), 2.35 known-good | WSL2 (Linux) | 4 |
 
 ---
 
@@ -236,6 +236,8 @@ sudo apt-get update && sudo apt-get install -y \
 ```
 
 > ⚠️ **binutils regression check (mandatory before trusting builds):** open-ribbon documents that `binutils-mipsel-linux-gnu >= 2.38` generated broken binaries; **2.35 is the known-good reference**. Ubuntu 24.04 ships newer binutils — **VERIFY on 24.04**: after Phase 5's first full build, if the SHA1 check mysteriously fails with correct-looking asm, suspect the assembler first (`mipsel-linux-gnu-as --version`), and pin/downgrade or build binutils 2.35 if confirmed. Record the verdict here.
+>
+> **As-built (Phase 4, 2026-06-14, ledger #6):** apt installed **binutils-mipsel-linux-gnu 2.42** (as/ld/objcopy all 2.42; mipsel-gcc 12.4.0). 2.42 ≥ 2.38, so `make check-env` emits a **[WARN]** (not FAIL) and the regression verdict is **deferred to Phase 5's first full build** exactly as above — no preemptive downgrade.
 
 ### §4.6 Python venv + splat + submodules
 
@@ -258,9 +260,11 @@ Submodules (add under `tools/`):
 
 Pin all four (sotn precedent: blindly updating submodules breaks tooling). Note: sotn's asm-differ `--overlay` flag is **sotn-fork-specific**, not upstream — for BFM overlay diffing use upstream's `-o` object mode or port their fork later.
 
+**As-built (Phase 4, 2026-06-14):** `.venv` created (Python 3.12.3); installed **splat64 0.41.0** (`splat64[mips]`) — deps spimdisasm 1.41.0, rabbitizer 1.16.2, PyYAML 6.0.3, colorama 0.4.6, intervaltree 3.1.0, tqdm 4.67.1; `import splat` OK. Submodule pins as adopted: maspsx `874855c5`, decomp-permuter `b44b0622` (both per the table); **asm-differ `2ad4a4a4`** and **m2c `4266cc28`** (each HEAD-at-adoption). Their pip deps are **not** installed yet (Phase 6, when first invoked); `tools/requirements-python.txt` is frozen only after Phase 5 is green.
+
 ### §4.7 Vintage compilers (old-gcc 0.17)
 
-Linux x86-64 prebuilts from decompals/old-gcc, **release 0.17**:
+Linux prebuilts from decompals/old-gcc, **release 0.17** (32-bit i386 static — see the correction below):
 
 ```bash
 mkdir -p ~/bfm-decomp/tools/bin && cd ~/bfm-decomp/tools/bin
@@ -268,13 +272,17 @@ wget https://github.com/decompals/old-gcc/releases/download/0.17/gcc-2.7.2-psx.t
 wget https://github.com/decompals/old-gcc/releases/download/0.17/gcc-2.7.2-cdk.tar.gz
 sha256sum gcc-2.7.2-*.tar.gz   # record hashes in a committed tools/bin/*.sha256 on first download,
                                # then verify with `sha256sum --check` on every fresh setup (sotn pattern)
-tar xzf gcc-2.7.2-psx.tar.gz ; tar xzf gcc-2.7.2-cdk.tar.gz
+# The 0.17 tarballs are FLAT (no top-level dir) and SHARE filenames (cc1, cpp, gcc, ...)
+# -> extract each into its OWN subdir, or the second clobbers the first (Phase-4 finding):
+mkdir -p gcc-2.7.2-psx gcc-2.7.2-cdk
+tar xzf gcc-2.7.2-psx.tar.gz -C gcc-2.7.2-psx
+tar xzf gcc-2.7.2-cdk.tar.gz -C gcc-2.7.2-cdk
 ```
 
 - `gcc-2.7.2-psx` = community GCC 2.7.2 PSX build (primary candidate).
 - `gcc-2.7.2-cdk` = **cygnus-2.7.2-970404**, the exact base of PsyQ 4.0/4.1's CC1PSX (added in old-gcc 0.14).
-- **TBD:** the sha256 values themselves — not captured in research; record at first download.
-- These are x86-64 Linux ELF binaries — they are *why* the build side must be Linux/WSL2 at all.
+- **sha256 (RECORDED Phase 4, old-gcc 0.17, ledger #7):** `gcc-2.7.2-psx.tar.gz` = `500a459b3485e885a8d302cac23c2a4632f3900e03a09153f6190699fd723571`; `gcc-2.7.2-cdk.tar.gz` = `42bb0df96db11a9b5d2e23d78bdc962791f40046280d3d360da93fe5eef6f0bb`. Committed to `tools/bin/CHECKSUMS.sha256` (gitignore exception `!/tools/bin/*.sha256`); re-verify with `sha256sum --check tools/bin/CHECKSUMS.sha256`.
+- **CORRECTION (Phase 4):** these are **32-bit i386 statically-linked** ELF binaries (NOT x86-64 as previously written) — they run on x86-64 WSL2 via the kernel's IA-32 emulation (verified: `cc1` smoke-compiles to MIPS asm and self-identifies as `GNU C 2.7.2 [AL 1.1, MM 40] Sony Playstation`). Still Linux-only — *why* the build side must be Linux/WSL2. As-built layout: `tools/bin/gcc-2.7.2-psx/cc1` + `tools/bin/gcc-2.7.2-cdk/cc1` (matches the §6.2 path).
 
 ### §4.8 Optional: PsyQ 4.0/4.1 binaries for arbitration (via Wine)
 
@@ -287,9 +295,13 @@ For byte-exact arbitration when maspsx output is in doubt, the **real** PsyQ Win
 
 Keep these under `tools/` on ext4 (not committed); they are a tie-breaker, not the daily pipeline. (decomp.me runs these same Win32 tools under Wine for its psyq presets — the precedent that this works headless.)
 
+> **DEFERRED to Phase 6 (Drew decision, Phase 4):** not staged in Phase 4 — fetched only if/when maspsx output is disputed during fingerprinting. Wine is not installed. The §4.8 "optional native PsyQ binaries" checkbox is consciously skipped for Phase 4.
+
 ### §4.9 `make check-env` (Phase 4 exit milestone)
 
 Phase 4's observable milestone: a `check-env` make target that asserts every §4 component (venv + splat import, cc1 binaries executable, maspsx present, mipsel-as/ld/objcopy on PATH, python >= 3.12) and exits 0 when invoked directly in the WSL clone (see §6.1).
+
+**As-built (Phase 4, 2026-06-14):** the root `Makefile` implements `check-env` (`.ONESHELL` bash; default goal `help`). Beyond the components above it also asserts **sha1(committed `extracted/retail/SLUS_007.26`) == `EXPECTED_EXE_SHA1`** (imported from `tools/bfm_extract/extract_exe.py` — fresh-clone-safe; the disc-walk `--verify-disc` needs the gitignored `disks/` and is intentionally NOT in check-env) and WARNs on binutils ≥ 2.38. **`make check-env` exits 0** (milestone met). `extract/build/check/expected/clean` exist as loud-failing Phase-5 stubs (names fixed per §6.3).
 
 ---
 
@@ -457,9 +469,9 @@ A Track-1 match proves the dump is the canonical redump dump, which transitively
 | 2 | MCP `types`/`struct` resolution of attached-archive (.gdt) types | **RESOLVED 2026-06-13** — import (`resolve()`) the .gdt types into the program headlessly (`tools/ghidra_scripts/ImportPsyqGdt.java`); MCP `types` then resolves them fully (§2.5 step 5) |
 | 3 | GhidrAssistMCP struct-tool ergonomics under matching-decomp load | **UNPROVEN** — psxrecomp never exercised heavy struct creation |
 | 4 | PCSX-Redux web-server port config field (8080 collision) | **RESOLVED 2026-06-13** — `pcsx.json` → `emulator.Debug.WebServer=true` + `emulator.Debug.WebServerPort=8081`; dump at `GET http://127.0.0.1:8081/api/v1/cpu/ram/raw` (verified 2 MB; EXE-in-RAM byte-match) |
-| 5 | WSL distro is Ubuntu 24.04 (the single all-in-WSL host) | confirm via `/etc/os-release` (§4.1); username no longer load-bearing (no `wsl.exe --cd` targets) |
-| 6 | binutils ≥2.38 regression on Ubuntu 24.04's shipped binutils | **VERIFY** (§4.5; 2.35 known-good per open-ribbon) |
-| 7 | sha256 hashes of old-gcc 0.17 tarballs | **TBD** record at first download (§4.7) |
+| 5 | WSL distro is Ubuntu 24.04 (the single all-in-WSL host) | **CONFIRMED 2026-06-14 (Phase 4)** — `/etc/os-release` = Ubuntu 24.04.4 LTS (VERSION_ID 24.04) |
+| 6 | binutils ≥2.38 regression on Ubuntu 24.04's shipped binutils | **AS-BUILT 2.42 recorded (Phase 4)**; `make check-env` WARNs (not FAIL); empirical verdict still deferred to Phase 5's first full build (§4.5) |
+| 7 | sha256 hashes of old-gcc 0.17 tarballs | **RECORDED 2026-06-14 (Phase 4)** — psx `500a459b…`, cdk `42bb0df9…` in `tools/bin/CHECKSUMS.sha256` (§4.7) |
 | 8 | `gp_value` in SLUS_007.26 header → -G0 vs -G8 | **TBD** (§5.3) |
 | 9 | ASPSX tier for game code: 2.56 vs 2.67 | **OPEN** — Phase 6 empirical (§5.2 tell) |
 | 10 | Cross-OS networking | **N/A under all-in-WSL** — MCP is local loopback (§4.2); no mirrored mode, firewall rule, or host-IP discovery |

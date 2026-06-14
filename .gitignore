@@ -31,7 +31,11 @@
 # Toolchain downloads & caches (not source)
 /.venv/
 __pycache__/
-/tools/bin/
+# Compiler binaries are ignored (regenerable downloads); the committed *.sha256
+# checksum record is re-included so a fresh clone can verify its download (sotn
+# pattern). Contents-exclude form (not /tools/bin/) so the !re-include can apply.
+/tools/bin/*
+!/tools/bin/*.sha256
 /tools/psyq*/
 /tools/pcsx-redux/
 *.tar.gz
