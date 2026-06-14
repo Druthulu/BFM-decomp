@@ -15,6 +15,12 @@
 /Brave Fencer Musashi (USA)/
 /disks/
 
+# RAM-dump corpus (dumps/*.bin) is COMMITTED while private (H1 relaxed; static, not regenerable;
+# off-machine backup). Joins the pre-public ROM-content scrub. INDEX.md documents each.
+
+# Project-local runtime scratch (MCP server log + stop sentinel) — replaces /tmp use
+/.run/
+
 # Regenerated build output (deterministic churn)
 /build/
 /expected/
@@ -27,6 +33,7 @@
 __pycache__/
 /tools/bin/
 /tools/psyq*/
+/tools/pcsx-redux/
 *.tar.gz
 
 # Cross-validation scratch: compiled brave oracle + its ROM-derived .dir output

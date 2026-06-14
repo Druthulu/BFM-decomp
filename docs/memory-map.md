@@ -6,6 +6,153 @@
 > authoritative record for that symbol** (name, type, xrefs); this file then serves as the
 > provenance record and the staging area for addresses not yet imported.
 
+## Phase 3 T1 — Imported into Ghidra (authoritative as of 2026-06-13)
+
+Per the rule above, Ghidra is now **authoritative** for these symbols' names/types/xrefs; the rows
+in the tables below remain the provenance record. Import policy applied (G5): `verified`→named
+symbols; `reported`→labels + a `confidence=reported` Ghidra comment; JP-only / overlay-state-
+dependent→**not** imported as static symbols. Seeded, saved, and **R9-verified** in the `bfm`
+project.
+
+**Verified (named symbols — §2.1, §2.2, §3.1):**
+- LZSS: `LzssDecodeSector` 0x80018730 (+plate), `LzssStateTable` 0x80072A30 (+plate),
+  `lzss_state` 0x800C7D24, `lzss_curMask` 0x800747A0, `lzss_curToken` 0x800747A4,
+  `lzss_outPtr` 0x800747AC, `lzss_ringIndex` 0x800747B0, `lzss_partialCode` 0x800747B4,
+  `lzss_ringBuffer` 0x1F800000.
+- CD-path: `CdPathTable` 0x80062C24 (+plate w/ full 23-entry structure), `cdpath_MAIN_CD`
+  0x80062C54, `cdpath_MUSA_ID` 0x80063014, `cdpath_DEBUG_BIN` 0x80063044 (+ghost-anchor note).
+
+**Reported (labels + `confidence=reported` comment; verify before relying — §3.3, §3.6):**
+`gameMode` 0x800B99DE, `currentLocationId` 0x800B9A08, `padState_raw` 0x80078DC2,
+`zoneLoadedBlock` 0x80075400.
+
+**Deferred (not yet imported):** the player/stat block (§3.4) and game-flags block (§3.5) — all
+`reported`, low Phase-3 relevance; candidates for a single Ghidra struct in a later phase (verify
+live first). JP-only (§4.1) and overlay-state-dependent (§4.2) addresses are **not** imported.
+
+## Phase 3 T2 — File-loader / CD-read chain (imported into Ghidra 2026-06-13)
+
+Static trace of the file-loader from the two T1 anchors (`CdPathTable` 0x80062C24,
+`cdpath_DEBUG_BIN` 0x80063044). Ghidra is authoritative for these names/types; confidence
+`verified` (static — read directly from the local EXE's disassembly). **The game does not call
+PsyQ `CdRead()`** — it rolls its own polled async reader via `CdControl`.
+
+**Call chain:** boot 0x800101FC → `LoaderInitFileTable` 0x8001971C → { `LoaderResetReadState`
+0x80019990; `CdSearchFile` ×(DEBUG.BIN + 21 `CdPathTable` entries); `CdReadRequest` reads LIST.CD
+(0xE40 B) → `listCdBuffer`; builds `cdFileLocTable` over the 8 .CD files }. Game file-load API
+(5 sites 0x80010CA4/0F1C/1100/1178/12F0) → `CdReadRequest` 0x80019A24 → { `CdQueueBusy`
+0x80034B98 gate; `CdReadStateMachine` 0x80019AF8 }. State machine issues `CdControl`(0x0E SetMode
+0xA0 → 0x15 SeekL + `CdPosToInt` → 0x06 ReadN + `CdReadyCallback` `CdReadSectorReadyCB`
+0x8001A338 → 0x09 Pause + `CdSync`/`CdFlush`); sectors drained by `CdGetSector` in the callback.
+
+**Functions named:** `LoaderInitFileTable` 0x8001971C (+plate), `LoaderResetReadState` 0x80019990,
+`CdReadRequest` 0x80019A24 (+plate), `CdReadStateMachine` 0x80019AF8 (+plate), `CdQueueBusy`
+0x80034B98, `CdReadSectorReadyCB` 0x8001A338 (function created).
+
+**Data named:** read control block `cdReq_*` 0x800AE6F0–0x800AE7B0 (`cdReq_state` 6F0,
+`cdReq_curSector` 708, `cdReq_sink` 728, `cdReq_dest` 72C, `cdReq_savedReadyCB` 734,
+`cdReq_cdResult` 738, `cdReq_drainPhase` 74C, `cdReq_retry` 750, `cdReq_timeout` 754,
+`cdReq_cdlFile` 7A4, `cdReq_size` 7A8, `cdReq_posInt` 7AC, `cdReq_result` 7B0); `cdFileLocTable`
+0x800AE830 (per-sub-file CdlLOC+size, built from LIST.CD); `listCdBuffer` 0x80180000 (LIST.CD
+staging, 0xE40 B); `debugBinPresent` 0x800747D0 (DEBUG.BIN CdSearchFile result);
+`cdReq_sectorHdrBuf` 0x80078E40 (CdGetSector header scratch).
+
+**Resolves:** Q#4 (CdRead chain) ✅; Q#3 (LIST.CD RAM cache = `listCdBuffer` raw + `cdFileLocTable`
+parsed) located, pending live proof; Q#9 (DEBUG.BIN path is referenced, result in `debugBinPresent`)
+✅ static. Feeds T3 (`cdFileLocTable` lookup) and T4 (per-sector sink `FUN_8002fd14` + the 0x80035
+streaming cluster reached via `CdQueueBusy`).
+
+## Phase 3 T3 — LIST.CD RAM cache + sub-file lookup (imported into Ghidra 2026-06-13)
+
+Confidence `verified` (static). The in-RAM file system is two structures + a two-level lookup:
+
+- **`listCdBuffer`** 0x80180000 — raw LIST.CD (0xE40 B), read once by `LoaderInitFileTable`.
+- **`cdFileLocTable`** 0x800AE830 — parsed flat array, 8-byte entries `{CdlLOC pos; u32 size}`, one
+  per sub-file. `LoaderInitFileTable` builds it by walking `listCdBuffer` over the 8 .CD files
+  (MAIN, SC01–SC07), `CdIntToPos(cdFileBaseSector + subfileSectorOffset)` per entry. **Count
+  cross-check (✓):** total entries = **447** = the exact sum of the Phase-2 per-.CD sub-file counts
+  (MAIN 49 + SC01 86 + SC02 43 + SC03 140 + SC04 31 + SC05 30 + SC06 39 + SC07 29 = 447).
+- **`resourceIdMap`** 0x80063138 — resource-ID → file map, stride 6 = {u16 field0 = cdFileLocTable
+  index (0xFFFF = special/non-CD); u16 field1 = loadParam; u16 field2 = procParam}.
+- **Lookup:** `ResourceGetCdLoc(id)` 0x8001B788 = `cdFileLocTable[ resourceIdMap[id].field0 ].pos`.
+  **Driver:** `ResourceLoadStateMachine` 0x8001B3C4 (load-once cache via `resLoad_lastId` /
+  `resLoad_loadedFileIdx`; streams via `FUN_800363cc(field1, &cdFileLocTable[idx], 0x10)`; special
+  path `FUN_80036d58(field1)`; post-process `FUN_8002d4c8(field2, 0)`).
+
+**Functions named:** `ResourceLoadStateMachine` 0x8001B3C4 (+plate), `ResourceGetCdLoc` 0x8001B788
+(+plate). **Data named:** `resourceIdMap` 0x80063138 (+plate), `resLoad_curId` 0x800C6D34,
+`resLoad_lastId` 0x800A654C, `resLoad_state` 0x800AE7EC, `resLoad_result` 0x800C6D10,
+`resLoad_loadedFileIdx` 0x800747F8. **Resolves Q#3** (static — count cross-check ✓; byte-level
+LIST.CD parse vs F4 deferred to the T6 live pass). Leads to T4: the 0x80036 streaming cluster
+(`FUN_800363cc` = `StreamLoadStateMachine`, the System-B loader — see T4; NB it does **not** itself
+call the LZSS decoder).
+
+## Phase 3 T4 — LZSS staging buffer (US) + streaming call sites (imported into Ghidra 2026-06-13)
+
+Confidence `verified` (static).
+
+- **`lzss_sectorStagingBuf`** 0x80079A70 — US LZSS input staging buffer (0x800 B = 1 sector).
+  **Byte-verified** from US code (`lui 0x8008; addiu -0x6590` @ 0x8001A8FC). Upgrades the JP-only
+  §3.2 datapoint (JP 0x80078BD0 + 0xEA0); the +0xEA0 delta is now confirmed **for this buffer**.
+- **Streaming model:** `LzssDecodeSector` (0x80018730) has exactly **one caller** —
+  `CdReadSectorReadyCB` (0x8001A338) @ 0x8001A90C — so overlays are **decompressed inline, one CD
+  sector at a time, in the read-ready callback** (no decode-after-load buffer). Raw (uncompressed)
+  files take a parallel path in the same callback: `CdGetSector` → `FUN_8002fc64` (memcpy 0x800 B)
+  → `cdReq_sink` (0x800AE728), decrementing `cdReq_wordsRemaining` (0x800AE748).
+- **Second loader (System B):** `StreamLoadStateMachine` (`FUN_800363cc`) — a separate 0x12-state CD
+  reader (`streamLoad_state` 0x8006AF00, own callback `LAB_800377d8`) driven by
+  `ResourceLoadStateMachine`. It does NOT call `LzssDecodeSector`; its decode/transfer path and role
+  (overlay vs real-time stream) → **T5**.
+
+**Named:** `lzss_sectorStagingBuf` 0x80079A70 (+plate), `cdReq_wordsRemaining` 0x800AE748,
+`StreamLoadStateMachine` 0x800363CC (+plate), `streamLoad_state` 0x8006AF00, `streamLoad_cbActive`
+0x80076110, `streamLoad_savedReadyCB` 0x8006AEF0; +plate on `CdReadSectorReadyCB`. **Resolves Q#6.**
+**Two CD-load subsystems** are now identified — A: `CdReadRequest`/`CdReadStateMachine` (inline LZSS);
+B: `ResourceLoadStateMachine`/`StreamLoadStateMachine` — T5 pins which loads the resident blob +
+overlays and at what US addresses.
+
+## Phase 3 T5 — US load addresses (static derivation; HEURISTIC pending T6b)
+
+The dest **addresses** are EXE-constant load destinations (static-verified — the literal `a1` args to
+`CdReadRequest`); their **roles** + runtime layout are `heuristic` until the T6b RAM-dump proof.
+Source: **`loadDestPtrTable` 0x80072C70** (5-entry destination table read by the boot loaders).
+
+| US addr | Role (heuristic) | JP analogue | Cross-check |
+|---|---|---|---|
+| **0x800CEDF8** | resident blob base | 0x800CDF58 | = JP **+0xEA0** (main-block delta) ✓; literal dest of all 5 boot loads |
+| **0x80128158** | location script overlay base | 0x80128508 | 0x8012xxxx; spans AP-world US patch sites 0x8013–0x8018xxxx + boss-HP 0x8018EE00..0x801F8714 ✓ |
+| 0x800CAE08 / 0x800CCB1C / 0x800C7F08 | resident-region blobs (boot) | — | 0x800Cxxxx resident band |
+
+**Boot-load mechanics:** 5 `CdReadRequest` sites (in `gameMode`-dispatched handlers via
+`FUN_80010B40` / `PTR_LAB_800629F4`) stream fixed `cdFileLocTable` sub-files ([1],[3],[8],[10],[11]) to
+`loadDestPtrTable[0]` = 0x800CEDF8. Entries [1]+ are runtime-indexed (no static xref); the overlay
+(entry[1]) dest 0x80128158 is selected per-location. **Note:** low boss-HP (0x8012052E..0x801212CA)
+sits *below* 0x80128158 ⇒ a separate per-location data/entity block — resolve at T6b/T7.
+
+**Resolves Q#1** (static): US resident 0x800CEDF8 + overlay 0x80128158 derived; staging buffer
+0x80079A70 already verified (T4). **Not** planted as static Ghidra symbols per G5 rule 4 (overlay region
+is state-dependent) — recorded here, to be promoted to `verified` + imported in T6b/T7.
+
+## Phase 3 T6b — MILESTONE ✅: US load addresses proven against live RAM (2026-06-13)
+
+Proven against a **live PCSX-Redux RAM dump** (Windows-native emulator; WSL fetched the full 2 MB via
+`http://172.17.208.1:8081/api/v1/cpu/ram/raw`; EXE verified resident, RAM[0x10000:]==extracted EXE).
+Game state: standing still in the **tutorial forest zone** (`tut_forest`), freshly loaded. (The game
+opens with an Allucaneet *FMV*, but actual gameplay begins in `tut_forest` — a never-revisited tutorial
+area with scripted ability-assimilation events.)
+
+| Blob | Extracted source | US load addr | Proof (RAM slice vs extracted) |
+|---|---|---|---|
+| **Resident blob** | `MAIN.CD/FILE_010/1.1` (type-1, 365,404 B) | **0x800CEDF8** `verified` | 18,788 B contiguous exact prefix, **sha1 `dbc55765…` EQUAL**; 92.98% total identical; divergences = runtime data writes |
+| **Location overlay** | `SC01.CD/FILE_077/0.4.dec` (type-4 LZSS, 731,607 B) | **0x80128158** `verified` | 389,400 B contiguous exact prefix, **sha1 `8e40afab…` EQUAL**; 98.59% total identical; first divergence @+0x5F118 is a zero field the loader fills with live ptr 0x80180910 |
+
+**Both T5-derived addresses CONFIRMED.** The **+0xEA0** resident-block delta (JP 0x800CDF58→US 0x800CEDF8)
+is now byte-proven. **Overlays are position-locked** (loaded verbatim to a fixed vaddr — resolves Open Q#8):
+the large contiguous exact-sha1 prefixes at the exact vaddrs prove no relocation; divergence is purely
+runtime data init (P9). **Overlay-map datapoint:** `tut_forest` (tutorial forest, first playable zone) ⇒ `SC01.CD` FILE_077
+"0.4" → 0x80128158. The method also re-validates the extractor — the live game's decompressed overlay ==
+our LZSS decoder output for 389,400 contiguous bytes.
+
 ## Purpose and rules
 
 1. **Every address carries a Region and a Source.** No exceptions.
@@ -31,7 +178,7 @@
 | `JP` | SLPS-01490 *Brave Fencer Musashiden* (1998-07-16); re-release SLPS-02769 unexamined |
 | `JPDEMO` | Japanese demo build (known only from TCRF's per-version debug GameShark code) |
 | `PROTO` | US prototypes: Aug-31-1998 demo proto, Sep-8-1998 near-final master (Hidden Palace) |
-| `DEMO` | SLUS-90029 US demo disc (listed by psxdatacenter; unexamined) |
+| `DEMO` | **Corrected 2026-06-13 (Drew):** SLUS-90029 = the **FF8** playable demo bundled in the BFM case — **not** BFM content. **No known *playable* US BFM demo exists.** Closest: SLUS-90028 "Squaresoft on PlayStation Vol.1" carries BFM **preview FMV only** (its playable demo is Xenogears). The Aug-31-1998 proto is the actual playable pre-release BFM build. |
 
 ### Region deltas (JP ↔ US) — heuristic only
 
@@ -120,6 +267,7 @@ said "≈0x80063045"; the exact string starts, including the backslash, are belo
 | Address | Symbol/Name (proposed) | Region | Source/Provenance | Confidence | Notes |
 |---|---|---|---|---|---|
 | 0x800638FA | `BodyStatLevelTable` | US | AP-world `client.py` (`0x0638FA + 16*level`) | reported | 16-byte records indexed by level; inside EXE static data — verify in Ghidra |
+| 0x80072DF0 | `saveHeaderTemplate` | US | **VERIFIED live (T6b 2026-06-14; RAM==EXE)** | **verified** | PS1 memcard save-header template: `Hero` default name (SJIS full-width) @+0; memcard **filename** `BASLUS-00726MUSASHI` @+0xC; **title** `ＢＲＡＶＥ　ＦＥＮＣＥＲ　ＭＵＳＡＳＨＩ` (SJIS) @+0x20; save/load **handler code ptrs** 0x8002B154 / 0x8002B1AC / 0x8002BEA4 @+0x54. Anchors Q#5 |
 | ~EXE+0x62620 | overlay/script pointer table | **JP** | jywjyw `note.md` (JP EXE file offset) | reported (**JP-only — re-derive for US**) | EXE-side pointer table tied to the resident script blob (§4). US analogue **TBD** — Phase 3 |
 
 ---
@@ -146,8 +294,8 @@ image (late data/sbss).
 
 | Address | Symbol/Name (proposed) | Region | Source/Provenance | Confidence | Notes |
 |---|---|---|---|---|---|
-| 0x80078BD0–0x800793D0 | `lzss_sectorStagingBuf` (0x800 bytes) | **JP** | jywjyw `note.md` (SLPS-01490) | reported (**JP-only — re-derive for US**) | Sector-at-a-time staging buffer feeding the LZSS decoder. US equivalent **TBD**; +0xEA0 would give 0x80079A70 but that delta is for the *data* block — **heuristic only**. Find via the US decoder's buffer-pointer xrefs instead |
-| **TBD** | `listCd_ramCache` | US | inferred from jywjyw `note.md` (LIST.CD "loaded into RAM at game start") | **TBD** | Where the 0x1000-byte LIST.CD TOC concatenation lives in US RAM — Phase 3 target |
+| 0x80079A70–0x8007A270 | `lzss_sectorStagingBuf` (0x800 bytes) | **US** | **T4: byte-verified from US code** (`lui 0x8008; addiu -0x6590` @ 0x8001A8FC) | **verified** | Sector-at-a-time LZSS input staging buffer; filled by `CdGetSector`, consumed by `LzssDecodeSector` inline (see Phase 3 T4 block). JP analogue 0x80078BD0 (+0xEA0 delta — confirmed for this buffer) |
+| 0x80180000 / 0x800AE830 | `listCdBuffer` (raw, 0xE40) / `cdFileLocTable` (parsed) | US | **T2/T3: located in US code** | **verified** | LIST.CD raw staging + the parsed `{CdlLOC;size}`×447 table; replaces the old `listCd_ramCache` TBD (see Phase 3 T2/T3 blocks) |
 
 ### 3.3 Pad / input state
 
@@ -167,11 +315,13 @@ struct clearly lives here — good candidate for a single Ghidra struct.
 |---|---|---|---|---|---|
 | 0x80078E7C | `gameClock` (2 words) | US | libretro cht | reported | In-game clock |
 | 0x80078E80 | `storyProgress` (u32) | US | autosplitter (octoshock conversion cross-verified) | reported | Progress/story counter |
-| 0x80078E8E | `money` | US | gamehacking 88529 ("money(?)"), cht ("cash") | reported | |
-| 0x80078EA6 | `tiredness` | US | libretro cht | reported | |
-| 0x80078EB2 | `hp_?` (u16) | US | gamehacking/cht say HP cur; **AP-world says 0x078EB4 is current HP** | reported (**conflict**) | cur/max assignment between 0xEB2/0xEB4 is contradicted across sources — verify live before naming |
-| 0x80078EB4 | `hp_current` (u16) | US | AP-world `client.py` (actively maintained, live-tested) | reported | See conflict note above |
-| 0x80078EB6 / 0x80078EB8 | `bp_current` / `bp_max` | US | gamehacking 88529 / cht | reported | |
+| **0x80078E8C** | `gold` (u16, stored as **gold ÷ 10**) | US | **VERIFIED live (T6b, 4-state triangulation 2026-06-14)** | **verified** | Holds 145/155/165 for displayed gold 1450/1550/1650 (game stores gold/10 — gold is always ×10, which defeated naive value searches). Mirror copy at 0x8011F804. **Supersedes the reported 0x80078E8E** ("money", which reads 0 — refuted) |
+| 0x80078EA4 | `tiredness_raw` (u16) | US | **VERIFIED live (T7): 12984→55620→0 (accumulates w/ activity, resets to 0 on sleep)** | **verified** | Raw tiredness accumulator; displayed % is derived (likely overflow-counted). **Supersedes 0x80078EA6** ("tiredness" — refuted: moved 119→160 on sleep, not →0) |
+| 0x80078EAC | `dayCounter` (u8) | US | **VERIFIED live (T7): 1→2 on the Day1→Day2 sleep rollover** | **verified** | In-game day number (day N = day-of-week N early game; dow not yet separable; 0x80078EAF refuted as dow) |
+| 0x80078EB1 | `hour` (u8) | US | **VERIFIED live (T7): 13→14→15→18→19→3 across 6 dumps** | **verified** | In-game hour 0-23; time advances in 15-min jumps (~7.5 IRL s each). Minute field not cleanly located; old 0x8007CE82 "clock" refuted (coincidence) |
+| 0x80078EB2 | `hp_max` (u16) | US | **VERIFIED live (T6b change-detection 2026-06-13)** | **verified** | =150 across two states (HP max); pairs {max,cur} with 0xEB4 |
+| 0x80078EB4 | `hp_current` (u16) | US | **VERIFIED live** (146→136 tracked Drew's HP) | **verified** | **Resolves Q#12**: AP-world right — 0xEB4 = current HP, 0xEB2 = max |
+| 0x80078EB6 / 0x80078EB8 | `bp_max` / `bp_current` (u16) | US | **VERIFIED live** (0xEB8 137→91 tracked Drew's BP) | **verified** | **Ledger corrected — labels were SWAPPED**: 0xEB6=max(150), 0xEB8=current |
 | 0x80078EE4 / 0x80078EE8 | `bodyLevel` / `bodyExp` | US | gamehacking / cht | reported | |
 | 0x80078EEC / 0x80078EF0 | `mindLevel` / `mindExp` | US | gamehacking / cht | reported | |
 | 0x80078EF4 / 0x80078EF8 | `fusionLevel` / `fusionExp` | US | gamehacking / cht | reported | Fusion sword (JP らいこうまる) |
@@ -231,8 +381,8 @@ explicitly warns: US addresses *will* differ (e.g. US font offset 0x4CBC vs JP 0
 |---|---|---|---|---|---|
 | 0x80010000–0x80073FFF | JP EXE image | JP | jywjyw `note.md` | reported | JP file offset = vaddr − 0x8000F800; JP image slightly smaller than US (US ends 0x80074800) |
 | 0x800B9480 | SQV/audio region | JP | jywjyw `note.md` | reported (**JP-only**) | |
-| 0x800CDF58–0x80128504 | `residentScriptBlob` — MAIN.CD FILE_010 PAC entry "1.1" (type 1, uncompressed) | JP | jywjyw `note.md` | reported (**JP-only — re-derive for US**) | Memory-resident script blob loaded at game start; pointer table in EXE near JP file offset ~0x62620 |
-| 0x80128508+ | `locationScriptOverlay` — current location's type-4 "0.4" blob (LZSS-decompressed, ~800 KB) | JP | jywjyw `note.md` | reported (**JP-only — re-derive for US**) | **Contains MIPS code**: text/font pointers materialized by `lui/addiu` pairs inside the blob (JP examples 0x8013928C/0x8013920C/0x801391EC; Vehek's US example at 0x8017E4DC). Third (town-dialog) script chains from inside the second |
+| 0x800CDF58–0x80128504 | `residentScriptBlob` — MAIN.CD FILE_010 PAC entry "1.1" (type 1, uncompressed) | JP | jywjyw `note.md` | reported (**JP-only**); **US (T5): 0x800CEDF8** (heuristic) | Memory-resident script blob loaded at game start; pointer table in EXE near JP file offset ~0x62620. **US base 0x800CEDF8 = JP +0xEA0 — `loadDestPtrTable[0]`; pending T6b proof** |
+| 0x80128508+ | `locationScriptOverlay` — current location's type-4 "0.4" blob (LZSS-decompressed, ~800 KB) | JP | jywjyw `note.md` | reported (**JP-only**); **US (T5): 0x80128158** (heuristic) | **Contains MIPS code**: text/font pointers materialized by `lui/addiu` pairs inside the blob (JP examples 0x8013928C/0x8013920C/0x801391EC; Vehek's US example at 0x8017E4DC). Third (town-dialog) script chains from inside the second. **US base 0x80128158 = `loadDestPtrTable[1]`; pending T6b proof** |
 | 0x801FF800–0x801FFFFF | script runtime scratch | JP | jywjyw `note.md` | reported (**JP-only**) | Top of RAM, below initial SP 0x801FFFF0 |
 
 ### 4.2 US overlay-resident addresses (state-dependent — only valid with the right overlay loaded)
@@ -255,12 +405,46 @@ Boss HP living at 0x8012xxxx–0x801Exxxx is the key observation that overlays l
 | 0x8015A7E4 | town-ID check patch site (`andi $v0,$s0,0x4000`) | US | AP-world (JP noted 0x8015AB20 — see delta inconsistency in header) | reported | |
 | 0x8018E096 | entrance-index patch site | US | AP-world (JP delta +0xE8) | reported | |
 | 0x8018EE00 | bossHp_RelicKeeper | US | autosplitter | reported | |
-| 0x801E4398 | bossHp_SteamKnight | US | autosplitter | reported | |
+| 0x801E4398 | bossHp_SteamKnight | US | autosplitter; **VERIFIED live (T6b 2026-06-14): 27→0 as boss defeated** | **verified** (state-dependent) | Valid only while the Allucaneet Castle overlay (`SC02/FILE_005`) is loaded; live-anchors the §4.2 boss-HP region |
 | 0x801EFD28 | bossHp_FrostDragon | US | autosplitter | reported | |
 | 0x801F8714 | bossHp_DarkLuminaFinale | US | autosplitter | reported | |
 
 (Also documented by AP-world but not a RAM address: hair-color palette edited directly in
 VRAM at GPURAM offset 0x86AC4.)
+
+### 4.3 Overlay map — live-verified (Phase 3 T6b/T7, PCSX-Redux RAM dumps 2026-06-14)
+
+Every overlay below was identified by byte-matching the live RAM at the overlay slot **0x80128158**
+against our extracted `*/0.4.dec` (LZSS-decompressed) files; the resident blob stayed at **0x800CEDF8**
+(`MAIN.CD/FILE_010/1.1`) throughout. Confidence `verified` (live RAM == extracted blob, large exact
+prefix). Format: location/state → `SC??.CD / FILE_nnn`.
+
+| Location / state | Overlay (`*/0.4`) | Notes |
+|---|---|---|
+| **Resident blob** (always) | `MAIN.CD/FILE_010/1.1` @0x800CEDF8 | type-1 uncompressed; the milestone resident blob |
+| tut_forest (tutorial forest — game start, never revisited) | `SC01/FILE_077` | the **milestone** overlay (daytime) |
+| Spiral Tower exterior (pre- & post-erection) | `SC01/FILE_080` | tower erection is an in-overlay state, not a reload |
+| Spiral Tower lower interior | `SC01/FILE_084` | |
+| Spiral Tower upper (top + head-chase down) | `SC02/FILE_000 ≡ 003` | **duplicate pair** (byte-identical) |
+| Allucaneet Castle Ch1 — Steam Knight 3-stage fight (hall→courtyard→dummy town) | `SC02/FILE_005` | whole multi-room set-piece = ONE overlay |
+| Allucaneet Castle Ch2 — Room/bedroom | `SC01/FILE_005 ≡ 006` | **duplicate pair**; king/butler event + Sleep/Toys menu |
+| Allucaneet Castle Ch2 — Library | `SC01/FILE_008` | scene incl. frozen book-reading sub-mode |
+| Allucaneet Castle Ch2 — hub (blue nav menu) | `SC01/FILE_004` | menu-warp hub: Visit/Library/Room/SubMenu/Village |
+| Allucaneet Castle Ch2 — Visit / main hall (Geezer) | `SC01/FILE_009` | |
+| Village approach / gondola | `SC03/FILE_002` | |
+| Village (central hub, **incl. Inn interior**) | `SC03/FILE_001` | one big free-roam overlay incl. building interiors |
+
+**Loader model (proven live):**
+- **Position-locked:** overlays load verbatim to a fixed vaddr (0x80128158), no relocation (Q#8).
+- **One overlay per location** — even the big village hub doesn't stream sub-overlays.
+- **Granularity follows navigation:** free-roam locations (village) pack exterior + interiors into ONE
+  overlay; menu-hub locations (castle) split rooms into separate overlays warped via the blue menu.
+- **Keyed by (location × chapter/state):** same place, different chapter → different overlay
+  (Allucaneet Ch1=`SC02/005` vs Ch2 cluster=`SC01/004-009`).
+- **Duplicate overlays** exist (`SC02/000≡003`, `SC01/005≡006`) → Gen2 dedup economics.
+- **Only the SAVE menu flushes** the location overlay; all other menus (SubMenu, library, dialogue) keep it.
+- **`.CD` chaptering:** SC01 = intro + Ch2-castle cluster; SC02 = Ch1-castle / Spiral-upper; SC03 = village
+  region. FILE indices cluster by area/sequence within a `.CD`.
 
 ---
 
@@ -284,19 +468,24 @@ selection submenu works in retail** — everything else in the menu is non-funct
 expect a working sound test). The room-select makes this an excellent runtime probe for the
 overlay loader (pick room → watch `.CD` loads and the 0x8012xxxx region repopulate).
 
-**RE anchors derived from it:**
-- Find the writer(s) of 7 → 0x800B99DE and the L3 bit test of 0x80078DC2 to locate the
-  debug-menu dispatch code.
-- `\DEBUG.BIN;1` @ 0x80063044 (§2.2): the file is absent from the retail ISO, so the loader
-  path that references it is surviving debug code — xref it.
+**RE anchors — RESOLVED (T8):**
+- **Debug menu = `gameMode` handler[7].** Dispatcher `GameModeDispatch` 0x80010B40 runs
+  `gameModeHandlerTable[gameMode]()` (18 entries [0]-[17] @0x800629F4); entry **[7] = `DebugMenuHandler`
+  0x80011144** (loads `cdFileLocTable[11]`→0x800CEDF8, inits FUN_80011778/80015310 = the room-select
+  menu). The TCRF cheat externally forces `gameMode`=7; **`padState` 0x80078DC2 is the cheat's L3
+  *condition*, not a game read** (no code xrefs). Proto scene-select likely shares this dispatch.
+- **`\DEBUG.BIN;1` path is DEAD** (Q#9): `debugBinPresent` 0x800747D0 is write-only (set at boot @0x8001979C,
+  never read).
+- **Save/load handlers** (Q#5): `SaveLoadRoutine` 0x8002B154 (+0x8002B1AC / 0x8002BEA4), referenced by
+  `saveHeaderTemplate` 0x80072DF0; dispatch branches on (selector & 7) — entry point to the save-data format.
 
 **Prototype / demo notes (potential label sources):**
 
 | Build | Facts | Source |
 |---|---|---|
-| Aug-31-1998 proto ("Musashi Demo") | Pressing Start on the title screen opens a **SCENE/AREA SELECTION menu** instead of the main menu — likely the same code behind the retail L3 menu. Fewer voice lines. `archive.org/details/BraveFencerMusashiAug311998prototype` (img CRC32 1369DE07, 60.7 MB) | Hidden Palace "Project Deluge" (Apr 2021) |
-| Sep-8-1998 master ("Musashi Master") | Near-final US localization master ("Dual Shock Vibration" vs final "Vibration", one dialog line changed). Useful to validate diff tooling. `archive.org/details/BraveFencerMusashiSep81998prototype` (img CRC32 5C24728E, 416 MB) | Hidden Palace |
-| SLUS-90029 | US demo disc listed by psxdatacenter; unexamined | psxdatacenter |
+| Aug-31-1998 proto ("Musashi Demo") | Pressing Start on the title screen opens a **SCENE/AREA SELECTION menu** instead of the main menu — likely the same code behind the retail L3 menu. Fewer voice lines. **STAGED locally 2026-06-13 (`disks/`, CloneCD .img), CRC32 1369DE07 ✓ verified.** | Hidden Palace "Project Deluge" (Apr 2021) |
+| Sep-8-1998 master ("Musashi Master") | Near-final US localization master ("Dual Shock Vibration" vs final "Vibration", one dialog line changed). Useful to validate diff tooling. **STAGED locally 2026-06-13 (`disks/`, CloneCD .img), CRC32 5C24728E ✓ verified.** | Hidden Palace |
+| SLUS-90029 (and "Squaresoft on PlayStation Vol.2") | **Not BFM** — an **FF8** playable demo disc bundled in the BFM retail case (corrected 2026-06-13, Drew). The FF8-demo collector disc is staged in `disks/` but carries no BFM code. **No playable US BFM demo is known**; SLUS-90028 "Squaresoft on PlayStation Vol.1" (bundled with Parasite Eve) has BFM **preview FMV only** (its playable demo is Xenogears). | Drew; WebSearch (game-rave, emuparadise) |
 
 **No debug symbols** are noted by Hidden Palace for either prototype — symbol potential is
 **UNVERIFIED** (hunt for `.SYM` files, debug strings, or less-optimized code when diffing).
@@ -308,18 +497,18 @@ Whether the proto's scene-select shares tables with the retail L3 menu is an ope
 
 | # | Question | Why it matters | Suggested attack |
 |---|---|---|---|
-| 1 | US equivalents of JP overlay addresses: resident "1.1" blob (JP 0x800CDF58), location "0.4" base (JP 0x80128508), staging buffer (JP 0x80078BD0) | Required before any overlay can be imported into Ghidra at the right vaddr | Trace US LZSS decoder output pointer (0x800747AC) live in PCSX-Redux; cross-check that AP-world US patch sites 0x8013xxxx–0x8018xxxx fall inside the located blob |
+| 1 | **VERIFIED (T6b)** — resident `0x800CEDF8` (= JP +0xEA0), overlay `0x80128158` both byte-proven vs live RAM (sha1-equal prefixes); staging buffer `0x80079A70` (T4) | Required before any overlay can be imported into Ghidra at the right vaddr | Done; import at these vaddrs in T7 |
 | 2 | US analogue of the JP EXE pointer table (~JP EXE offset 0x62620) | Maps which sub-file loads where — the overlay map | Search US EXE for the same pointer pattern; xref from the resident-blob loader |
-| 3 | LIST.CD RAM cache location (US) | The game reads sub-file TOCs from this in-RAM copy; key to the loader | Xref the `\LIST.CD;1` string @ 0x80062C24; breakpoint the CdRead of LBA 227 |
-| 4 | CdRead call chain: which routine reads LIST.CD / dispatches `.CD` sub-file loads | Core of the file-loader RE (Phase 3 milestone) | Xrefs from `CdPathTable` strings + PsyQ `CdRead`/`CdlSetloc` signature hits (psx_ldr PsyQ signatures) |
-| 5 | Save / memory-card format + checksum | No public documentation exists anywhere | Xrefs from PsyQ memcard/`write` API functions |
-| 6 | Who calls `LzssDecodeSector` (0x80018730) and how the staging buffer is filled | Connects CD streaming to decompression | Xrefs in Ghidra; watchpoint on staging buffer once US address known |
+| 3 | **RESOLVED (T3, static)** — LIST.CD raw → `listCdBuffer` 0x80180000 (0xE40 B); parsed → `cdFileLocTable` 0x800AE830 ({CdlLOC;size}×447, count cross-checks Phase-2 exactly); ID indirection via `resourceIdMap` 0x80063138; lookup `ResourceGetCdLoc` 0x8001B788 | The game reads sub-file TOCs from this in-RAM copy; key to the loader | Byte-level LIST.CD parse (F4) deferred to T6 live pass |
+| 4 | ~~CdRead call chain~~ **RESOLVED (T2)** — `CdReadRequest` 0x80019A24 → `CdReadStateMachine` 0x80019AF8 (hand-rolled `CdControl` SeekL/ReadN, **not** PsyQ `CdRead`); LIST.CD read by `LoaderInitFileTable` 0x8001971C | Core of the file-loader RE (Phase 3 milestone) | See the "Phase 3 T2" block above |
+| 5 | **ANCHORED (T6b)** — save-header template `saveHeaderTemplate` 0x80072DF0 (filename `BASLUS-00726MUSASHI`, SJIS title `BRAVE FENCER MUSASHI`); save/load handlers ~0x8002B154/1AC/BEA4. Full data-block format + checksum still TBD | No public documentation exists anywhere | Trace the 0x8002Bxxx handlers in Ghidra (T7/T8) + PsyQ memcard/`write` xrefs |
+| 6 | **RESOLVED (T4)** — single caller `CdReadSectorReadyCB` 0x8001A338 @ 0x8001A90C; staging buffer `lzss_sectorStagingBuf` 0x80079A70 filled by `CdGetSector`; **inline per-sector decode** in the read-ready callback | Connects CD streaming to decompression | — |
 | 7 | PAC types 6/7 semantics; meaning of PAC header u32 at +0x08 | Unknown to every prior source (CUE: "???"; jywjyw: "??") | Ghidra analysis of the PAC-header parser in the loader |
-| 8 | Are overlay blobs position-locked (no relocation)? | Determines splat segment strategy | `lui/addiu` hardcoding strongly suggests yes — confirm by loading same location twice / comparing JP layout |
-| 9 | Is the `\DEBUG.BIN;1` loader path reachable in retail? | Possible dormant debug functionality | Xref the string; static reachability analysis |
+| 8 | **CONFIRMED position-locked (T6b)** — overlay loaded verbatim to fixed vaddr 0x80128158 (389,400 B contiguous exact match at the exact address; no relocation) | Determines splat segment strategy — simple fixed-address segments | Done |
+| 9 | **RESOLVED (T8): the `\DEBUG.BIN;1` path is DEAD in retail.** `LoaderInitFileTable` 0x8001971C `CdSearchFile`s it at boot and stores the result to `debugBinPresent` 0x800747D0, but that flag is **write-only — zero readers** (only xref is the boot WRITE @0x8001979C). So nothing acts on it; the debug-loader path is dormant/dead | Possible dormant debug functionality | Done |
 | 10 | Does the Aug-31 proto's title-screen scene-select share code/tables with the retail L3 menu? | Free labels for retail RE | Binary diff proto vs retail around the menu dispatch found via Q-anchor in §5 |
 | 11 | $gp usage: header `gp0` = 0 (verified) — is the build −G0? | Pins a compiler flag for matching (Phase 6) | Check for `$gp`-relative loads in Ghidra |
-| 12 | HP current vs max: 0x80078EB2 / 0x80078EB4 source conflict | Correct struct field names | One live check in PCSX-Redux (take damage, watch both) |
+| 12 | **RESOLVED (T6b, change-detection)** — 0x80078EB2 = hp_max, 0x80078EB4 = hp_current (HP 146→136 tracked live); same {max,cur} pattern for BP at 0xEB6/0xEB8 | Correct struct field names | Done |
 | 13 | Nature of `buildIdBytes` @ 0x8000BA94 (kernel-area RAM) | Used by AP-world for region detect; odd location | Inspect live; check if BIOS/kernel structure or game-written |
 | 14 | Where are `LOGOA/LOGOB.STR` and `.DA` paths referenced (absent from `CdPathTable`)? | Completeness of the file-access map | String scan for other path tables; CdSearchFile xrefs |
 
