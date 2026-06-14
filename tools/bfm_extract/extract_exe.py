@@ -40,7 +40,7 @@ DEFAULT_BIN = (
     Path("Brave Fencer Musashi (USA)")
     / "Brave Fencer Musashi (USA) (Track 1).bin"
 )
-DEFAULT_OUT = Path("extracted") / "SLUS_007.26"
+DEFAULT_OUT = Path("extracted") / "retail" / "SLUS_007.26"
 
 EXE_NAME = "SLUS_007.26"
 EXPECTED_SIZE = 0x65000  # 413,696 bytes, header included

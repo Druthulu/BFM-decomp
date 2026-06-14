@@ -43,7 +43,7 @@ REPO = Path(__file__).resolve().parents[2]
 BRAVE_DIR = REPO / "tools" / "brave-CUE"
 BUILD_DIR = BRAVE_DIR / "_build"
 SHIM = BRAVE_DIR / "posix_shim.h"
-DEFAULT_EXTRACTED = REPO / "extracted"
+DEFAULT_EXTRACTED = REPO / "extracted" / "retail"
 
 
 def find_cc() -> str | None:

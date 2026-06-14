@@ -11,7 +11,7 @@ Run from the repo root (use ``python3`` on Linux/WSL)::
 
     python3 tools/bfm_extract/extract.py
     python3 tools/bfm_extract/extract.py --list
-    python3 tools/bfm_extract/extract.py --bin path/to/track1.bin --out extracted
+    python3 tools/bfm_extract/extract.py --bin path/to/track1.bin --out extracted/retail
 
 Output under ``extracted/`` is ROM-derived bulk; it is gitignored except the
 committed EXE and the manifest. Re-running reproduces it byte-for-byte.
@@ -71,7 +71,7 @@ except ImportError:  # pragma: no cover - exercised only as a loose script
 
 # Disc staged on ext4 in Phase 2 (docs/SETUP.md §4.4).
 DEFAULT_BIN = Path("disks") / "Brave Fencer Musashi (USA) (Track 1).bin"
-DEFAULT_OUT = Path("extracted")
+DEFAULT_OUT = Path("extracted") / "retail"  # per-ROM subfolder (protos live in extracted/proto/)
 
 # Each AUDIO track .bin carries a 150-sector (2s) INDEX 00->01 pregap before the
 # audio data, per the .cue. The .DA files map to the audio (INDEX 01 onward).

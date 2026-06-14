@@ -153,6 +153,28 @@ runtime data init (P9). **Overlay-map datapoint:** `tut_forest` (tutorial forest
 "0.4" → 0x80128158. The method also re-validates the extractor — the live game's decompressed overlay ==
 our LZSS decoder output for 389,400 contiguous bytes.
 
+## Phase 3.5 — Prototype correspondence (2026-06-14)
+
+Two CRC-verified US prototypes imported into the `bfm` Ghidra project and diffed against retail.
+Full report + go/no-go: **`docs/proto-correspondence.md`**. Verdict: **NO-GO** as a Gen1 label/symbol
+accelerator (neither proto carries symbols retail lacks; both have FEWER names than retail); **retain**
+Sep-8 as a Phase-6 compiler-determinism corroborant and both as Gen2 overlay/engine assets.
+
+| Build | Main EXE (region) | Load addr | SHA1 | Funcs | vs retail |
+|---|---|---|---|---|---|
+| Sep-8 "Master" | `SLUS_007.26` (PROTO) | 0x80010000 | `43006a31…` | 1726 | **99.6% byte-identical**; only 3 substantial funcs differ |
+| Aug-31 "Demo" | `MUSASHI/USA_DEMO.EXE` (DEMO) | **0x80018000** | `6150b0f8…` | 1737 | 66% norm-identical; 862 1:1 pairs; **SC02 region** |
+
+- All three builds detected **PsyQ 4.0.0** (independent corroboration for the Phase-6 fingerprint).
+- **Sep-8 pre-release diff** (the ONLY 3 substantial code changes vs retail — a Phase-6 cross-check):
+  `DebugMenuHandler` 0x80011144, `CdReadSectorReadyCB` 0x8001a338 (424 ins), `SaveLoadRoutine` 0x8002b154.
+- **DEMO dispatch anchors** (confidence `verified` vs the demo binary; **DEMO region — NOT valid for US
+  retail**): `GameModeDispatch` 0x80018b48, `gameModeHandlerTable` 0x8006ae8c (**18 entries**, same order +
+  same idx[10]==idx[15] duplicate as retail's 0x800629f4), `gameMode` 0x800c1eb6, debug-menu slot[7]
+  handler 0x800194cc (code diverged from retail `DebugMenuHandler`). NB demo `gameMode` 0x800c1eb6 ≠ retail
+  0x800b99de and is NOT the JP −0xEA0 delta — the demo has its own layout.
+- Proto EXEs gitignored under `extracted/proto/`; programs live in the `bfm` Ghidra project (gitignored).
+
 ## Purpose and rules
 
 1. **Every address carries a Region and a Source.** No exceptions.
@@ -487,9 +509,12 @@ overlay loader (pick room → watch `.CD` loads and the 0x8012xxxx region repopu
 | Sep-8-1998 master ("Musashi Master") | Near-final US localization master ("Dual Shock Vibration" vs final "Vibration", one dialog line changed). Useful to validate diff tooling. **STAGED locally 2026-06-13 (`disks/`, CloneCD .img), CRC32 5C24728E ✓ verified.** | Hidden Palace |
 | SLUS-90029 (and "Squaresoft on PlayStation Vol.2") | **Not BFM** — an **FF8** playable demo disc bundled in the BFM retail case (corrected 2026-06-13, Drew). The FF8-demo collector disc is staged in `disks/` but carries no BFM code. **No playable US BFM demo is known**; SLUS-90028 "Squaresoft on PlayStation Vol.1" (bundled with Parasite Eve) has BFM **preview FMV only** (its playable demo is Xenogears). | Drew; WebSearch (game-rave, emuparadise) |
 
-**No debug symbols** are noted by Hidden Palace for either prototype — symbol potential is
-**UNVERIFIED** (hunt for `.SYM` files, debug strings, or less-optimized code when diffing).
-Whether the proto's scene-select shares tables with the retail L3 menu is an open question.
+**No debug symbols** in either prototype — **VERIFIED (Phase 3.5):** both main EXEs are stripped
+identically to retail (no `.SYM`, no source paths, no symbol tables; only `\DEBUG.BIN;1` + the stock
+`SetGraphDebug` format string, as in retail). The disc-wide `_dbg_RE1L@55` / `C:\TIMPACK\` strings are
+in retail too (shipped data, not a debug build). The proto's scene-select shares the retail debug-menu
+**architecture** (identical 18-mode dispatch table) but **not** its handler code or any labels — see
+`docs/proto-correspondence.md` (Q#10 resolved).
 
 ---
 
@@ -506,7 +531,7 @@ Whether the proto's scene-select shares tables with the retail L3 menu is an ope
 | 7 | PAC types 6/7 semantics; meaning of PAC header u32 at +0x08 | Unknown to every prior source (CUE: "???"; jywjyw: "??") | Ghidra analysis of the PAC-header parser in the loader |
 | 8 | **CONFIRMED position-locked (T6b)** — overlay loaded verbatim to fixed vaddr 0x80128158 (389,400 B contiguous exact match at the exact address; no relocation) | Determines splat segment strategy — simple fixed-address segments | Done |
 | 9 | **RESOLVED (T8): the `\DEBUG.BIN;1` path is DEAD in retail.** `LoaderInitFileTable` 0x8001971C `CdSearchFile`s it at boot and stores the result to `debugBinPresent` 0x800747D0, but that flag is **write-only — zero readers** (only xref is the boot WRITE @0x8001979C). So nothing acts on it; the debug-loader path is dormant/dead | Possible dormant debug functionality | Done |
-| 10 | Does the Aug-31 proto's title-screen scene-select share code/tables with the retail L3 menu? | Free labels for retail RE | Binary diff proto vs retail around the menu dispatch found via Q-anchor in §5 |
+| 10 | **RESOLVED (Phase 3.5):** the demo's scene-select is the SAME architectural feature as the retail L3 debug menu — identical 18-entry `gameModeHandlerTable` (same order + same idx[10]==idx[15] duplicate), game mode #7 — BUT the slot-7 handler CODE diverged and the demo is **unnamed** ⇒ **no free labels**. Shared architecture, not shared labels. | Free labels for retail RE | Done — see `docs/proto-correspondence.md` |
 | 11 | $gp usage: header `gp0` = 0 (verified) — is the build −G0? | Pins a compiler flag for matching (Phase 6) | Check for `$gp`-relative loads in Ghidra |
 | 12 | **RESOLVED (T6b, change-detection)** — 0x80078EB2 = hp_max, 0x80078EB4 = hp_current (HP 146→136 tracked live); same {max,cur} pattern for BP at 0xEB6/0xEB8 | Correct struct field names | Done |
 | 13 | Nature of `buildIdBytes` @ 0x8000BA94 (kernel-area RAM) | Used by AP-world for region detect; odd location | Inspect live; check if BIOS/kernel structure or game-written |

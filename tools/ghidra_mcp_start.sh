@@ -2,7 +2,10 @@
 # tools/ghidra_mcp_start.sh
 # Idempotent, fully-detached start of the headless GhidrAssistMCP server for BFM,
 # using BfmMcpServer.java (server + clean save-on-shutdown — see that file).
-# Serves SLUS_007.26 (the "bfm" Ghidra project) over MCP on 127.0.0.1:8080.
+# Serves a program from the "bfm" Ghidra project over MCP on 127.0.0.1:8080.
+# Program defaults to SLUS_007.26 (retail); pass an alternate as $1 to serve a
+# prototype, e.g.  tools/ghidra_mcp_start.sh sep8_SLUS_007.26
+# (only ONE program is served per session; stop with ghidra_mcp_stop.sh to switch).
 #
 # Designed to run from a SessionStart hook:
 #   * no-op if the server is already serving on :8080 (safe to run every session),
@@ -20,7 +23,7 @@ set -uo pipefail
 GHIDRA="${GHIDRA_INSTALL_DIR:-$HOME/ghidra_12.1_PUBLIC}"
 PROJ_DIR="$HOME/bfm-decomp/ghidra"
 PROJ="bfm"
-PROG="SLUS_007.26"
+PROG="${1:-SLUS_007.26}"   # program to serve; default retail, pass a proto name to override
 PORT="8080"
 RUNDIR="$HOME/bfm-decomp/.run"; mkdir -p "$RUNDIR"   # project-local runtime scratch (never /tmp)
 LOG="$RUNDIR/ghidra-mcp.log"
