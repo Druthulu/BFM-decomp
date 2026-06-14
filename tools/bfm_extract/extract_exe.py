@@ -44,6 +44,10 @@ DEFAULT_OUT = Path("extracted") / "SLUS_007.26"
 
 EXE_NAME = "SLUS_007.26"
 EXPECTED_SIZE = 0x65000  # 413,696 bytes, header included
+# SHA1 of the extracted SLUS_007.26 (stable, independently reproduced from raw
+# sectors in Phase 1). Not publicly documented; used as the full-disc round-trip
+# anchor by extract.py.
+EXPECTED_EXE_SHA1 = "143dbb89f34491258bbc27810d0a12ec8b43a8dd"
 
 PS_EXE_MAGIC = b"PS-X EXE"
 

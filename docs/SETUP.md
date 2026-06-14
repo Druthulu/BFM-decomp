@@ -222,6 +222,8 @@ cp '<dump-source>/Brave Fencer Musashi (USA)/'*.bin \
 
 `<dump-source>` is wherever the disc dump currently lives (e.g. a one-time download into `~/Downloads`, or a one-shot copy from external media). `disks/` is gitignored — no ROM-derived bytes ever reach the remote (rule H1).
 
+**Status (Phase 2, 2026-06-13):** the disc was staged early — extraction needs it before Phase 4. Track 1 alone (it holds all 27 root files) was copied once from the `/mnt/z` dump to ext4 at `disks/Brave Fencer Musashi (USA) (Track 1).bin` (364,846,944 bytes). WSL `extract_exe.py --bin "disks/…(Track 1).bin" --verify-disc` **PASSED** — SHA1 `b44f0f0a19936f23b26188b658e13201a6a9c211`, CRC32 `c238191b`, both == redump — which **closes the Phase-1 deferral** (verify-disc had previously only run on Windows; PhaseEnd_Phase1 Deviations).
+
 ### §4.5 apt packages
 
 Adapted from sotn-decomp's `tools/requirements-debian.txt` (dropped Saturn/PSP-only items `binutils-sh-elf`, `xfonts-utils`; Rust/Go deferred until a duplicate-detector or asset tool needs them):

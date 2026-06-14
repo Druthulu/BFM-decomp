@@ -29,9 +29,22 @@ __pycache__/
 /tools/psyq*/
 *.tar.gz
 
+# Cross-validation scratch: compiled brave oracle + its ROM-derived .dir output
+/tools/brave-CUE/_build/
+
 # Editor / OS noise
 .vscode/
 Thumbs.db
 
-# NOTE (H1 relaxed, private phase): asm/  assets/  extracted/  *.CD.dir/
-# are intentionally NOT ignored — ROM-derived content is committable now.
+# Asset extraction (Phase 2): commit the tooling + manifest, NOT the bulk
+# payloads (deterministically regenerable from the dump; ~hundreds of MB incl.
+# FMV). Ignore everything under extracted/ EXCEPT the committed EXE and the
+# manifest (hashes are always safe to commit — sotn precedent). This satisfies
+# the Phase-2 milestone's "zero ROM-derived files staged".
+/extracted/*
+!/extracted/SLUS_007.26
+!/extracted/manifest.jsonl
+!/extracted/manifest.sha1
+
+# NOTE (H1 relaxed, private phase): asm/  assets/  are intentionally NOT ignored
+# — other ROM-derived content stays committable while the repo is private.

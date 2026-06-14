@@ -170,9 +170,13 @@ A `.CD` file begins with a table of contents at offset 0:
 |---|---|---|---|
 | LIST.CD | Concatenated TOCs of the other 8 `.CD`s (§2.3) — **not itself a normal container** | n/a | jywjyw (JP) + partial local check |
 | MAIN.CD | Global/resident archive: loader-resident script blob (`FILE_010` PAC entry index 1, type 1), fonts, shared assets | **49** (0x31, verified-local US; same count in JP) | local + jywjyw |
-| SC01.CD | Chapter 1 scenario archive (per-location PAC chains: scripts/overlays, graphics, VAB audio, SQV music) | 86 (0x56) — **JP value, UNVERIFIED for US** | jywjyw |
-| SC02.CD | Chapter 2 scenario archive | 45 — reported for US by Auryn (forum 15730), **UNVERIFIED locally** | thread 15730 |
-| SC03–SC07.CD | Chapter 3–7 scenario archives | **TBD** | — |
+| SC01.CD | Chapter 1 scenario archive (per-location PAC chains: scripts/overlays, graphics, VAB audio, SQV music) | **86** (0x56, **verified-local US 2026-06-13**; == JP) | local + jywjyw |
+| SC02.CD | Chapter 2 scenario archive | **43** (**verified-local US 2026-06-13** — corrects the "45" Auryn hearsay) | local |
+| SC03.CD | Chapter 3 scenario archive | **140** (verified-local US 2026-06-13) | local |
+| SC04.CD | Chapter 4 scenario archive | **31** (verified-local US 2026-06-13) | local |
+| SC05.CD | Chapter 5 scenario archive | **30** (verified-local US 2026-06-13) | local |
+| SC06.CD | Chapter 6 scenario archive | **39** (verified-local US 2026-06-13) | local |
+| SC07.CD | Chapter 7 scenario archive | **29** (verified-local US 2026-06-13) | local |
 
 Sub-files inside a `.CD` are either PAC chains (§3) — identified by the `PAC\0` magic — or
 non-PAC files, which per `brave.txt` are SQV (MIDI) archives (§5). Anything without either
@@ -223,7 +227,7 @@ payload, repeated until an entry's last-flag is set.
 | +0x04 | u8 | **Type** (0–8), selects payload interpretation (§3.2) | verified |
 | +0x05 | u8 | **Last-entry flag**: 1 = last entry in chain, 0 = more follow | verified |
 | +0x06 | u16 | Zero | verified |
-| +0x08 | u32 LE | **Unknown** — **TBD**. Possibly a decompressed-size hint, checksum, or load parameter. `???` in brave.txt; jywjyw's repacker preserves it verbatim (via `headers.bin`) without interpreting it. Check against the game's loader (memory-map open question #7) | **TBD** |
+| +0x08 | u32 LE | **Unknown** — partly characterized (Phase 2, 2026-06-13). Across all 1189 US PAC entries it is **non-zero only for type 0 (301/301 graphics) and type 6 (29/29)**; it is **0 for every type-4 entry**, so it is **NOT a decompressed-size hint** (the original F2 guess is refuted). Likely a type-specific parameter (type-0 graphics dimensions/format; type-6 unknown). jywjyw preserves it verbatim. Decode meaning via the loader (memory-map #7) | type-0/6 param (F2) |
 | +0x0C | u32 LE | **Length including this 0x800 header** — payload = `len − 0x800`, payload starts at entry+0x800 | verified |
 | +0x10 … +0x7FF | — | Not interpreted by any known tool. jywjyw preserves the *entire* 0x800 header verbatim, implying it may contain meaningful non-zero bytes | **UNVERIFIED** |
 
@@ -246,6 +250,12 @@ Sources: `brave.txt` (CUE) + jywjyw `note.md`.
 Only type 4 is compressed; everything else is stored raw. ("All .CD files are
 LZSS-compressed" — an early planning claim — is **wrong**; compression is a per-PAC-entry
 type flag, with no magic and no size heuristic.)
+
+**Observed US type distribution (Phase 2, all 1189 PAC entries, 2026-06-13):**
+type 0 = 301, type 1 = 166, type 2 = 201, type 3 = 201, type 4 = 138, type 6 = 29,
+type 7 = **139**, type 8 = 14; **type 5 = 0 (absent, consistent with "unused")**. Note types
+2 and 3 are equal counts (201 each) — VAB header/body pairs. **Type 7 is common (139
+entries), not rare**, and type 6 (29) — both remain uninterpreted (F1), extracted raw.
 
 ### 3.3 Chaining (brave.c::UnPAC, verbatim semantics)
 
@@ -333,10 +343,17 @@ for i in 0 ..= len:             // len+1 iterations  =>  2..65 output bytes
 **Project rule:** our extractor must implement **game semantics — stop on `pos == 0`** —
 with a **length sanity cross-check**: after hitting the terminator, verify input consumption
 is consistent with the PAC length field (`len − 0x800`, allowing trailing padding), and warn
-on any stream that exhausts its input without a terminator or overruns it. Divergence
-between the two conditions on real game data has not been observed but has also not been
-exhaustively tested — treat any warning as a format discovery, not noise (**UNVERIFIED**
-whether all retail streams satisfy both conditions simultaneously).
+on any stream that exhausts its input without a terminator or overruns it.
+
+**Verified Phase 2 (2026-06-13, F6 RESOLVED):** all **138** US type-4 streams decode cleanly
+under game semantics — every one hits a `pos == 0` terminator with the length cross-check
+satisfied (zero warnings across the whole disc). Cross-checked byte-for-byte against
+`brave.c`: our output is a **strict prefix** of brave's for all 138, and brave appends
+**exactly 2 bytes** to each — it decodes the terminating `00 00` as a match (code 0 ⇒
+pos 0, len 1 ⇒ emits `ring[1023], ring[0]` = `00 00`) instead of stopping. So game and tool
+semantics **coincide on the real payload**; the only divergence is brave's 2-byte over-decode
+of the terminator/padding. Our game-semantics output is the correct one. No retail stream was
+found where the two diverge *within* the payload.
 
 Additional tool caveat: `brave.c`'s `ring[]` is a global that is never re-zeroed between
 files (only `r` resets), so CUE's tool is not a strict oracle for streams that reference
@@ -417,10 +434,14 @@ is stock PsyQ SEQ/VAB or Square-custom is an open research question (memory-map 
    the original), `hack/ListCdWriter.java` (LIST.CD regeneration), `dump/Uncompresser.java`
    + `dump/CdSplitter.java` (decoder/splitter with the `{index}.{type}` naming). Its
    `doc/note.md` is the best third-party memory/format document (JP-based).
-5. **Cross-validation target:** the pipeline's raw sub-file and decompressed type-4 outputs
-   must be byte-identical to `tools/brave-CUE/brave.exe` outputs *where CUE's tool is
-   correct* (i.e. modulo the naming collision and modulo any stream where the termination
-   semantics diverge — log and inspect those).
+5. **Cross-validation — DONE (Phase 2, `tools/bfm_extract/crosscheck.py`).** brave is built
+   from source on WSL via `tools/brave-CUE/posix_shim.h` (the GPL upstream `brave.c`/
+   `common.inc` stay byte-for-byte unmodified; `brave.exe` is a Windows PE, unused on Linux).
+   The harness maps brave's type-only names back to our `{index}.{type}` by re-walking each
+   chain (skipping "shadowed" same-type entries brave overwrites), then byte-compares.
+   Result on `--sample all`: **1484 raw payloads identical, 138/138 type-4** byte-identical up
+   to our `pos==0` terminator (brave's 2-byte over-decode logged as the expected F6
+   divergence; see §4.4).
 6. **Licensing:** `brave.c` is GPLv3 (study/port is fine; note license if vendoring);
    `Compresser.java` carries LGPL 2.1.
 
@@ -429,17 +450,28 @@ is stock PsyQ SEQ/VAB or Square-custom is an open research question (memory-map 
 | Format | Status |
 |---|---|
 | `.STR` (12 files) | Standard PS1 STR movie streams (Mode 2 Form 2 interleaved video/XA). No game-specific container suspected (**UNVERIFIED** — assumed standard). Not part of the extraction/matching pipeline |
-| `.DA` (3 files) | CD-DA track handles (§1.4) — no track-1 payload; nothing to extract |
+| `.DA` (3 files) | CD-DA track handles (§1.4). **Phase 2 (user scope change 2026-06-13):** now extracted as raw 2352-byte/sector audio from tracks 2-4 — ST01_13A.DA=Track 2 (10,325,280 B), ST01_13B.DA=Track 3 (6,976,032 B), DUMMY_DA.DA=Track 4 (32,815,104 B). Their 2048-based ISO sizes differ from the raw audio by design. Out of scope for *matching* (audio), but extracted for completeness |
 
 ## 8. Open questions specific to formats
 
 | # | Question | Attack |
 |---|---|---|
-| F1 | PAC types 6/7 semantics (CUE "???", jywjyw "??") | Ghidra: PAC-header parser in the loader |
-| F2 | PAC header +0x08 u32 meaning (decompressed-size hint? checksum?) | Compare field values against measured decompressed sizes of type-4 entries; then loader RE |
-| F3 | PAC header bytes +0x10..+0x7FF — meaningful content? | Hex-survey across all extracted headers (jywjyw preserves them for a reason) |
-| F4 | LIST.CD full layout on the US disc (only the MAIN.CD-TOC prefix is locally verified) | Regenerate trimmed TOCs from US archives and diff (§2.3) |
-| F5 | US sub-file counts for SC01, SC03–SC07 (SC01=86 is JP; SC02=45 is unverified US hearsay) | Read each US TOC during Phase-2 extraction — trivial |
-| F6 | Do any retail type-4 streams violate the length/terminator cross-check? | Extractor warning log over the full disc |
-| F7 | Are `.sqv` details (3-offset cap, +4 bias, VAB at 0x7000) correct for US files? | Inspect extracted SQV sub-files |
+| F1 | PAC types 6/7 semantics (CUE "???", jywjyw "??") | **Phase 2:** both present in US (type 6 = 29, type 7 = **139** entries), extracted raw; semantics still TBD → Ghidra PAC-header parser in the loader |
+| F2 | PAC header +0x08 u32 meaning | **Phase 2: size-hint hypothesis REFUTED** — +0x08 == 0 for all 138 type-4; non-zero only for type 0 (301/301) and type 6 (29/29). Remaining: decode the type-0/6 meaning via the loader |
+| F3 | PAC header bytes +0x10..+0x7FF — meaningful content? | Hex-survey across all extracted headers (jywjyw preserves them) — **not yet done** |
+| F4 | LIST.CD full layout on the US disc (only the MAIN.CD-TOC prefix is locally verified) | **Deferred** — extractor excludes LIST.CD (§2.3); regenerating the 8 trimmed TOCs and diffing is a cheap follow-up |
+| F5 | ~~US sub-file counts for SC01–SC07~~ — **RESOLVED (Phase 2)** | MAIN=49, SC01=86, **SC02=43** (not the hearsay 45), SC03=140, SC04=31, SC05=30, SC06=39, SC07=29 — read from each US TOC (§2.2) |
+| F6 | ~~Do any retail type-4 streams violate the length/terminator cross-check?~~ — **RESOLVED (Phase 2): NO** | All 138 decode clean (0 warnings) and are byte-identical to brave up to our `pos==0` terminator (§4.4) |
+| F7 | Are `.sqv` details (3-offset cap, +4 bias, VAB at 0x7000) correct for US files? | **Phase 2:** 98 SQV sub-files detected by `.sqv` magic and extracted raw; header details still UNVERIFIED (Gen3 parse) |
 | F8 | Where are LOGOA/LOGOB.STR and the .DA files referenced, if not in `CdPathTable`? | memory-map open question #14 |
+
+> **Phase 2 extraction summary (2026-06-13).** One command (`tools/bfm_extract/extract.py`)
+> extracts the full disc: 24 Track-1 files verbatim + 3 `.DA` files as raw CD-DA audio from
+> tracks 2-4 (each `(Track N).bin` = 150-sector INDEX 00→01 pregap + audio). The 8 `.CD`
+> archives split into **447 sub-files → 1189 PAC entries** (`{index}.{type}` naming, no
+> collisions) → **138 type-4 LZSS payloads** decoded under game semantics. A deterministic
+> JSON-Lines manifest (`manifest.jsonl` + `manifest.sha1`, 1801 artifacts) is the
+> reproducibility contract; `--verify` re-checks it. Cross-validated byte-for-byte against
+> CUE's `brave` (built from source via `tools/brave-CUE/posix_shim.h`): **1484 raw payloads
+> identical, 138/138 type-4 F6-equivalent** (ours = the game-correct prefix). EXE round-trips
+> to SHA1 `143dbb89…`.
