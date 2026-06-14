@@ -122,9 +122,94 @@ check-env:
 	echo "check-env: OK — Phase-4 toolchain ready."
 
 # -----------------------------------------------------------------------------
-# Phase-5 targets: names fixed now (docs/SETUP.md §6.3), implemented in Phase 5.
-# Loud-failing no-op stubs — never a silent exit 0 (would falsely read as success).
-extract build check expected clean:
-	@echo "make: target '$@' is a Phase-5 target — not implemented yet."
-	echo "      (Its name is fixed now per docs/SETUP.md §6.3; Phase 5 implements it.)"
-	exit 1
+# Phase-5 build: splat split -> assemble -> link -> objcopy -> SHA1 check.
+# The code is 100% assembly (the "all-asm byte-match" milestone). The cpp->cc1->
+# maspsx->as path is documented below but dormant until Phase 6 adds `c` segments.
+SPLAT       := $(VENV_PY) -m splat
+SPLAT_YAML  := config/splat.us.exe.yaml
+CPP         := $(MIPS_PREFIX)cpp
+OUT_DIR     := build/us
+OUT         := $(OUT_DIR)/SLUS_007.26
+ELF         := $(OUT_DIR)/SLUS_007.26.elf
+LD_SCRIPT   := $(OUT_DIR)/SLUS_007.26.ld
+CHECK_SHA   := config/check.us.sha
+UNDEF_SYMS  := undefined_syms_auto.txt
+UNDEF_FUNCS := undefined_funcs_auto.txt
+
+# Assembler flags (docs/SETUP.md §6.2). -G0 is confirmed by the disassembly
+# (ledger #8: zero $gp-relative addressing). -no-pad-sections keeps section ends
+# un-padded so the link reproduces the original layout.
+ASFLAGS       := -Iinclude -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0
+# maspsx ASPSX version — ALWAYS explicit (G8). Inert for the all-asm build; the
+# real pin is Phase 6. (Only used on the future cpp->cc1->maspsx `c` path.)
+ASPSX_VERSION := 2.56
+
+# Every splat-emitted .s -> build/<path>.o, matching the object names the generated
+# linker script references (asm/800.s -> build/asm/800.o). ASM_SRCS is globbed at
+# parse time, so run the canonical `make extract && make build`.
+ASM_SRCS := $(shell find asm -name '*.s' 2>/dev/null)
+OBJS     := $(ASM_SRCS:%.s=build/%.o)
+
+# extract: splat split -> asm/, the linker script, include/ macros, undefined_*_auto.txt.
+extract:
+	@mkdir -p $(OUT_DIR)
+	$(SPLAT) split $(SPLAT_YAML)
+
+# The linker script is an `extract` output, not produced by `build` — guard with a
+# friendly message instead of make's raw "No rule to make target".
+$(LD_SCRIPT):
+	@echo "make: $(LD_SCRIPT) missing — run 'make extract' first."; exit 1
+
+# Assemble one splat .s (all-asm path).
+build/asm/%.o: asm/%.s
+	@mkdir -p $(dir $@)
+	@echo "  AS      $@"
+	@$(AS) $(ASFLAGS) -o $@ $<
+
+# Phase 6 will add the C path here, e.g.:
+#   build/src/%.o: src/%.c
+#       $(CPP) <§6.2 cpp flags> $< | $(CC1_PSX) <§6.2 cc1 flags> \
+#         | $(VENV_PY) $(MASPSX) --aspsx-version=$(ASPSX_VERSION) | $(AS) $(ASFLAGS) -o $@
+
+# link (the .ld pulls in the .o by path) + objcopy to the raw PS-X EXE image.
+$(OUT): $(OBJS) $(LD_SCRIPT)
+	@set -e
+	mkdir -p $(dir $@)
+	echo "  LD      $(ELF)"
+	$(LD) -T $(LD_SCRIPT) -T $(UNDEF_SYMS) -T $(UNDEF_FUNCS) --no-check-sections -o $(ELF)
+	echo "  OBJCOPY $@"
+	$(OBJCOPY) -O binary $(ELF) $@
+
+# build = produce $(OUT) and verify its SHA1 (check pulls in $(OUT)).
+build: check
+
+# check: SHA1 of the build vs the committed original hash. The definition of "build OK".
+check: $(OUT)
+	@got=$$(sha1sum $(OUT) | cut -d' ' -f1)
+	want=$$(cut -d' ' -f1 $(CHECK_SHA) 2>/dev/null)
+	if [ -z "$$want" ]; then echo "[FAIL] $(CHECK_SHA) missing or empty"; exit 1; fi
+	if [ "$$got" = "$$want" ]; then
+		echo "[ OK ] $(OUT)"
+		echo "       sha1 $$got == $(CHECK_SHA)  (BYTE-IDENTICAL)"
+	else
+		echo "[FAIL] $(OUT)"
+		echo "       got  $$got"
+		echo "       want $$want"
+		exit 1
+	fi
+
+# expected: snapshot a SHA1-verified build into expected/build/ as the asm-differ
+# baseline for Phase 6 (asm-differ diffs build/<obj> vs expected/build/<obj>).
+expected: build
+	@set -e
+	rm -rf expected/build
+	mkdir -p expected/build
+	cp -r build/. expected/build/
+	echo "expected: baseline -> expected/build/ (from the verified, byte-identical build)"
+
+# clean: remove ALL regenerable outputs (build/ + the splat tree) so a config change
+# is followed by a stale-free `make clean && make extract && make build` (H3).
+clean:
+	@rm -rf build expected asm undefined_syms_auto.txt undefined_funcs_auto.txt
+	@rm -f include/include_asm.h include/macro.inc include/labels.inc include/gte_macros.inc
+	@echo "clean: removed build/, expected/, and the regenerated splat tree (asm/, include macros, undefined_*_auto.txt)."

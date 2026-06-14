@@ -25,6 +25,17 @@
 /build/
 /expected/
 
+# Regenerated splat outputs — recreated by `make extract` from the committed
+# config/splat.us.exe.yaml + config/symbols.us.txt + the EXE. The durable RE record
+# is the symbol file, not these (build scaffolding, not committed work).
+/asm/
+/include/include_asm.h
+/include/macro.inc
+/include/labels.inc
+/include/gte_macros.inc
+/undefined_syms_auto.txt
+/undefined_funcs_auto.txt
+
 # Ghidra project (large binary, regenerable)
 /ghidra/
 
@@ -62,5 +73,9 @@ Thumbs.db
 !/extracted/retail/manifest.jsonl
 !/extracted/retail/manifest.sha1
 
-# NOTE (H1 relaxed, private phase): asm/  assets/  are intentionally NOT ignored
-# — other ROM-derived content stays committable while the repo is private.
+# NOTE (H1 relaxed, private phase): assets/ and other ROM-derived content stay
+# committable while the repo is private. asm/ + the splat-generated include macros +
+# undefined_*_auto.txt are IGNORED above: `make extract` regenerates them deterministically
+# from the committed yaml + symbols, so they are build scaffolding, not durable RE work.
+# (Phase 5 refined the earlier "commit asm/" stance once the regeneration flow existed;
+# the durable record is config/symbols.us.txt.)

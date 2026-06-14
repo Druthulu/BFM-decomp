@@ -1,0 +1,71 @@
+# splat config — Brave Fencer Musashi main EXE (SLUS-00726, USA)
+# Phase 5: rebuild SLUS_007.26 byte-for-byte from disassembly (all-asm skeleton).
+#
+# Derived from splat 0.41.0's own `python -m splat create_config <PS-X EXE>`
+# (splat/scripts/create_config.py::create_psx_config), adapted to this repo's
+# paths and the Phase-3 symbol export. PSX-specific values that the generator
+# pins (do NOT "tidy" them without evidence): compiler PSYQ, subalign 2,
+# section_order rodata/text/data/bss, find_file_boundaries False, gp_value from
+# the EXE header's Initial-GP field.
+#
+# Boundaries (file offsets) come from splat's psxexeinfo estimate:
+#   text  @ file 0x800   (vram 0x80010000)
+#   data  @ file 0x531DC (vram 0x800629DC)   <- iterate if the link/bytes disagree
+#   end   @ file 0x65000 (= 413,696 B)
+name: SLUS_007.26
+sha1: 143dbb89f34491258bbc27810d0a12ec8b43a8dd
+options:
+  basename: SLUS_007.26
+  target_path: extracted/retail/SLUS_007.26
+  elf_path: build/us/SLUS_007.26.elf
+  # base_path is resolved relative to THIS yaml's dir (config/), so `..` = repo root
+  base_path: ..
+  platform: psx
+  compiler: PSYQ
+
+  asm_path: asm
+  src_path: src
+  build_path: build
+  ld_script_path: build/us/SLUS_007.26.ld
+  ld_dependencies: True
+
+  find_file_boundaries: False
+  gp_value: 0x80074750
+
+  o_as_suffix: True
+  use_legacy_include_asm: False
+
+  section_order: [".rodata", ".text", ".data", ".bss"]
+
+  symbol_addrs_path:
+    - config/symbols.us.txt
+
+  subalign: 2
+
+  string_encoding: ASCII
+  data_string_encoding: ASCII
+  rodata_string_guesser_level: 2
+  data_string_guesser_level: 2
+
+  # Enable if maspsx reorders INCLUDE_ASM output once the code segment is `c`
+  # (https://github.com/mkst/maspsx#include_asm-reordering-workaround-hack):
+  # include_asm_macro_style: maspsx_hack
+
+segments:
+  - name: header
+    type: header
+    start: 0x0
+
+  - name: main
+    type: code
+    start: 0x800
+    vram: 0x80010000
+    # align 4 (not the code-segment default 16): the text→data boundary at vram
+    # 0x800629DC is word-aligned but not 16-aligned, so ALIGN(.,16) would inject
+    # 4 padding bytes the original lacks. MIPS is word-aligned, so ALIGN(.,4) is a
+    # no-op at every real boundary here.
+    align: 4
+    subsegments:
+      - [0x800, asm, 800]       # text — all-asm (the phase title); INCLUDE_ASM/.c scaffold = Phase 6
+      - [0x531DC, data, 531DC]  # data — psxexeinfo boundary; round-trips byte-identical
+  - [0x65000]

@@ -238,6 +238,8 @@ sudo apt-get update && sudo apt-get install -y \
 > ⚠️ **binutils regression check (mandatory before trusting builds):** open-ribbon documents that `binutils-mipsel-linux-gnu >= 2.38` generated broken binaries; **2.35 is the known-good reference**. Ubuntu 24.04 ships newer binutils — **VERIFY on 24.04**: after Phase 5's first full build, if the SHA1 check mysteriously fails with correct-looking asm, suspect the assembler first (`mipsel-linux-gnu-as --version`), and pin/downgrade or build binutils 2.35 if confirmed. Record the verdict here.
 >
 > **As-built (Phase 4, 2026-06-14, ledger #6):** apt installed **binutils-mipsel-linux-gnu 2.42** (as/ld/objcopy all 2.42; mipsel-gcc 12.4.0). 2.42 ≥ 2.38, so `make check-env` emits a **[WARN]** (not FAIL) and the regression verdict is **deferred to Phase 5's first full build** exactly as above — no preemptive downgrade.
+>
+> **✅ VERDICT (Phase 5, 2026-06-14): binutils 2.42 is byte-clean — no regression with our flags.** The all-asm `make build` reproduces `SLUS_007.26` **SHA1-identical** (`143dbb89…`) using `mipsel-as` 2.42 with `-march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0`. The open-ribbon "≥2.38 broken" warning does **not** bite here; **no downgrade to 2.35 needed.** (Revisit only if Phase-6 C-compiled objects ever diff where the asm is right.)
 
 ### §4.6 Python venv + splat + submodules
 
@@ -334,6 +336,8 @@ Caveat: `Ps` stamps date the **linked libraries**, not the compiler that built g
 
 Read `gp_value` from the SLUS_007.26 EXE header and check for `$gp`-relative loads in Ghidra **before** fixing the flag (**TBD — not yet read**). Precedent: FF7 used `-G 0`; Xenogears used `-G8` for game code. maspsx forces `-G0` to GNU `as` by default — non-zero `$gp` needs `-G8` passed to maspsx and a look at `--dont-force-G0`.
 
+**✅ RESOLVED (Phase 5, 2026-06-14): -G0.** The header `gp_value` is 0, and the splat disassembly has **zero `($gp)` base-register accesses and zero `%gp_rel` relocations** (the 4 `$gp` mentions are crt0 register setup) — no small-data/$gp-relative addressing, i.e. the FF7-style `-G0`. The linker's `_gp=0x80074750` (splat's computed Initial-GP) is therefore inert, and the all-asm build is byte-identical. Carry `-G0` into Phase-6 cc1 fingerprinting (swap only if asm-differ ever shows otherwise).
+
 ### §5.4 Candidate ladder (try in this order)
 
 1. **`gcc-2.7.2-psx` cc1 + `--aspsx-version=2.56`**, flags `-O2 -G0 -mips1 -mcpu=3000 -mgas -msoft-float -fgnu-linker` (FF7 style; swap to -G8 if §5.3 says so).
@@ -389,6 +393,8 @@ Modern cpp preprocesses → **vintage cc1** compiles to asm → **maspsx** emula
 | `make expected` | snapshot `build/us` → `expected/build/us` (asm-differ baseline) |
 | `make check-env` | toolchain preflight, exit 0 = environment sane (§4.9) |
 | `make clean` | mandatory after ANY `config/` change, before re-extract |
+
+**As-built (Phase 5, 2026-06-14):** all five implemented in the root Makefile. The code is **100% assembly** (the phase's "all-asm byte-match"; the cpp→cc1→maspsx→as `c` path is wired-but-dormant until Phase 6). `make extract && make build && make check` → `build/us/SLUS_007.26` **SHA1-identical** to the original. Config `config/splat.us.exe.yaml` (platform psx, compiler PSYQ, subalign 2, gp_value 0x80074750, main segment `align: 4` so the text→data boundary isn't 16-byte-padded); committed checksum `config/check.us.sha`. Build chain = `as -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0` → `ld -T <splat .ld> -T undefined_syms_auto.txt -T undefined_funcs_auto.txt --no-check-sections` → `objcopy -O binary`.
 
 ### §6.4 asm-differ + baseline discipline
 
@@ -470,9 +476,9 @@ A Track-1 match proves the dump is the canonical redump dump, which transitively
 | 3 | GhidrAssistMCP struct-tool ergonomics under matching-decomp load | **UNPROVEN** — psxrecomp never exercised heavy struct creation |
 | 4 | PCSX-Redux web-server port config field (8080 collision) | **RESOLVED 2026-06-13** — `pcsx.json` → `emulator.Debug.WebServer=true` + `emulator.Debug.WebServerPort=8081`; dump at `GET http://127.0.0.1:8081/api/v1/cpu/ram/raw` (verified 2 MB; EXE-in-RAM byte-match) |
 | 5 | WSL distro is Ubuntu 24.04 (the single all-in-WSL host) | **CONFIRMED 2026-06-14 (Phase 4)** — `/etc/os-release` = Ubuntu 24.04.4 LTS (VERSION_ID 24.04) |
-| 6 | binutils ≥2.38 regression on Ubuntu 24.04's shipped binutils | **AS-BUILT 2.42 recorded (Phase 4)**; `make check-env` WARNs (not FAIL); empirical verdict still deferred to Phase 5's first full build (§4.5) |
+| 6 | binutils ≥2.38 regression on Ubuntu 24.04's shipped binutils | **RESOLVED (Phase 5): 2.42 is byte-clean** — `make build` is SHA1-identical with our flags; no downgrade (§4.5) |
 | 7 | sha256 hashes of old-gcc 0.17 tarballs | **RECORDED 2026-06-14 (Phase 4)** — psx `500a459b…`, cdk `42bb0df9…` in `tools/bin/CHECKSUMS.sha256` (§4.7) |
-| 8 | `gp_value` in SLUS_007.26 header → -G0 vs -G8 | **TBD** (§5.3) |
+| 8 | `gp_value` in SLUS_007.26 header → -G0 vs -G8 | **RESOLVED (Phase 5): -G0** — zero $gp-relative addressing in the disasm (§5.3) |
 | 9 | ASPSX tier for game code: 2.56 vs 2.67 | **OPEN** — Phase 6 empirical (§5.2 tell) |
 | 10 | Cross-OS networking | **N/A under all-in-WSL** — MCP is local loopback (§4.2); no mirrored mode, firewall rule, or host-IP discovery |
 | 11 | Canonical git remote URL (off-box push/pull backup) | **TBD** (§4.3) |

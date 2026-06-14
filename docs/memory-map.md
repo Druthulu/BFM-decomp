@@ -237,13 +237,21 @@ raw-sector offset 24).
 |---|---|---|---|
 | magic | `PS-X EXE` | verified | |
 | `pc0` (entry) | 0x80010000 | verified | |
-| `gp0` | **0x00000000** | verified | Header carries no $gp ⇒ −G0 likely; confirm via $gp usage in Ghidra (Phase 6 compiler fingerprint) |
+| `gp0` | **0x00000000** | verified | Header carries no $gp ⇒ **−G0 CONFIRMED (Phase 5)**: the splat disasm has zero `($gp)` base accesses / `%gp_rel` relocs |
 | `t_addr` | 0x80010000 | verified | |
 | `t_size` | 0x64800 | verified | EXE image spans 0x80010000–0x80074800 |
 | `sp` | 0x801FFFF0 | verified | Matches SYSTEM.CNF `STACK = 801ffff0` |
 
 The EXE is tiny (~400 KB) relative to the game: the bulk of engine/script code lives in the
 `.CD` overlays (see §4).
+
+**Text→data split (Phase 5, splat).** `config/splat.us.exe.yaml` splits file `[0x800,0x531DC)` → vram
+`[0x80010000,0x800629DC)` as code (`asm`) and `[0x531DC,0x65000)` → `[0x800629DC,0x80074800)` as data (the
+splat `psxexeinfo` estimate; **vram = fileoff + 0x8000F800**). The true code↔data transition is a mixed
+region — last func `USERFUNC_OBJ_84` @0x8006290C, then small data (`D_800629xx`), then `gameModeHandlerTable`
+@0x800629F4 (the game-mode handler **pointer table**). splat's in-`asm` data detection labels it bar one
+address, `D_800629D4` (referenced by the boot code), added by hand to `config/symbols.us.txt`. **Byte-identity
+is robust to the exact boundary** (the disasm round-trips); a clean rodata/data segmentation is a Gen2 refinement.
 
 ---
 
