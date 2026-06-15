@@ -45,12 +45,24 @@ entry above + the 5 LOAD-BEARING comments in `src/800.c` + cookbook §10.
   Method: §3a web-research ground-truthed all levers against the pinned gcc-2.7.2 source; a floor-free `.text`
   metric (objcopy `--only-section=.text` + `cmp`, bypasses the rodata/jtbl floor) measured the close; the
   permuter could NOT (score floor + random divergence).
-- ▶ **NEXT — Task #9: full libgs integration** (+~63–69 SDK funcs; placement + byte-verification DONE in session
-  E, see "libgs placement" + "libgs BYTE-VERIFIED" below). **Required before PhaseEnd per Drew's locked decision.**
-  Remaining = mechanical: resegment splat 800b into the 6 libgs blocks + 5 gap stubs (~13 subsegs), `split_src`,
-  wire `psyq_integrate` for the 6 block stubs (the libcd pattern, §9.3) → byte-identical. Simpler first win =
-  block 6 alone (16 objs incl. PRESET3/OBJT3) → ~35 funcs. **GS_001 excluded** (scattered `.bss` commons, §9.1 hard
-  case). Then Task 6 close-out, Task 7 PhaseEnd.
+- ✅ **libgs BLOCK 6 integrated byte-identical** (session F, Drew: "block 6 alone first, then the integration").
+  **16 contiguous libgs objects → 26 SDK functions banked** (vram 0x80053AF8–0x80057928), `make clean/extract/
+  build/check` → `143dbb89… BYTE-IDENTICAL`, reproducible; fresh-clone stub fallback verified; zero spurious
+  warnings. Mechanism (the libcd §9.3 pattern): resegment 800b → [800b pre][libgs6][800b2 post]; regenerate the
+  3 split src files; `psyq_integrate libgs6`. **Three new fixes (all in this commit):**
+  - **splat instability the resegment exposed:** shrinking 800b shifted spimdisasm's auto-detected boundaries.
+    Declared `GsMulCoord2/3` (real MATRIX.o funcs, verified via the PsyQ object — R15, Ghidra-mirror pending);
+    and carved the §8 data descriptor table `[0x53198,data,53198]` (boot.c's `D_80062998` was being shadowed by
+    a mis-detected `func_80062998`). ld_interleave FRONT_DATA → `53198.data.o`.
+  - **psyq_integrate multi-library support:** NOLOAD section names namespaced per-library (`.nl_<tag>_*`) so the
+    2nd integration's NOLOAD placement isn't skipped (was discarding OBJT3 .rdata/.bss); trial-link now includes
+    already-emitted sibling `*_externals.ld` (kills the "31 UNRESOLVED" false alarm — they're libcd's externals);
+    NOLOAD lines globally re-sorted by vram across libraries (kills "dot moved backwards").
+  - **reproducibility:** `tools/make_libgs_block6.sh` regenerates the curated 16-object dir (disambiguated:
+    GS_131/137 not RVWUNIT/RVWLUNIT, PRESET3/OBJT3 not PRESET2/OBJT2).
+- ▶ **NEXT — full libgs integration** (the other 5 blocks: ~37 more SDK funcs; **GS_001 excluded**, scattered
+  `.bss` commons §9.1). Drew pre-approved ("then the integration"). Same pattern, now de-risked (the splat-
+  instability + multi-lib fixes are in). Then Task 6 close-out, Task 7 PhaseEnd (PhaseEnd gated on libgs per Drew).
 NOTE: Gen1 exit needs ≥3 SESSIONS of green `make check` — **satisfied** (A, B, C, D, E, +F); Tasks 6/7 pending.
 
 ### Island ownership map (session E — the decisive finding)
@@ -83,7 +95,7 @@ Patched `tools/psyq_identify.py` to skip data-only objects (no .text, e.g. GLOBA
 - 2026-06-15 (session C): `make check` → `143dbb89… BYTE-IDENTICAL` ✓ (full `clean && extract && build`, restored after the Task-2′ experiments). **≥3-session bar MET.** This session: fully diagnosed + built the **rodata-island mechanism** (works); root-caused the +24; **proved the PsyQ-library-linking GO** (see below). No new matches (architectural session). Build green at start and after restore.
 - 2026-06-14 (session D): `make clean && make extract && make build && make check` → `143dbb89… BYTE-IDENTICAL` ✓ — **libcd LINKED INTO THE BUILD** (Drew-approved push-through). The first real PsyQ library is now sourced from real SDK objects in the byte-identical build: **58 libcd SDK functions** linked (not stubs), replacing the libcd-region asm stubs. Idempotent; Makefile-automated; conditional (fresh clone w/o `tools/psyq/` builds via stubs). New committed tooling: `tools/psyq_link.py` (per-object byte-link engine — recovers externals from resolved relocs, weakens psyq-obj-parser's mislabelled `.bss` commons), `psyq_link_lib.py` (whole-lib verify, 18/18 libcd), `psyq_link_region.py` (region link via **NOLOAD** = no data carving), `psyq_integrate.py` (build wiring: splat resegment + .ld swap + external resolution), `split_src_region.py` (H5-safe src split). Cookbook §9.1/9.2/9.3 + R16. **No data carving** (NOLOAD data placement; flat data subseg unchanged). Build green throughout.
 - 2026-06-15 (session E): `make clean && make extract && make build && make check` → `143dbb89… BYTE-IDENTICAL` ✓ — start-of-session baseline + after the **LZSS surgical rodata carve** (jtbl_80072A38 migrated + sandwiched) + LZSS C **NON_MATCHING-guarded** (default build = stub). **≥3-session bar already MET (A/B/C/D); E is margin.** Findings: lean LZSS path proven (no libgs needed for it); LZSS C structurally matches (111/122) but blocked on a gcc cross-jump-merge hard-tail (see LZSS block above); libgs placement+disambiguation done (bonus, task #9, deferred per Drew until before PhaseEnd).
-- 2026-06-15 (session F): `make clean && make extract && make build && make check` → `143dbb89… BYTE-IDENTICAL` ✓ — **LZSS MATCHED byte-for-byte** (asm-differ score 0; C compiled in, NON_MATCHING guard dropped). Closed the session-E ~4 regalloc/scheduling residuals via §3a web-research (ground-truthed against pinned gcc-2.7.2 `reorg.c`/`jump.c`/`local-alloc.c`) + a floor-free `.text` object metric: decoupled high-byte var + OR operand order (residual A); `result`-in-predecessor + explicit-`$2`-local-with-early-pin (residual B); no-`default` sltiu-reuse (residual B3); §5a barrier retained. **43 real matches; Gen1-exit LZSS gate SATISFIED.** Cookbook §10 added. Only `src/800.c` changed (label/logic; zero generated/ROM bulk staged). **Tasks #9 (libgs) → 6 → 7 remain** (PhaseEnd gated on libgs per Drew).
+- 2026-06-15 (session F): `make clean && make extract && make build && make check` → `143dbb89… BYTE-IDENTICAL` ✓ — TWO milestones. **(1) LZSS MATCHED byte-for-byte** (asm-differ score 0; C compiled in, NON_MATCHING guard dropped). Closed the session-E ~4 regalloc/scheduling residuals via §3a web-research (ground-truthed against pinned gcc-2.7.2 `reorg.c`/`jump.c`/`local-alloc.c`) + a floor-free `.text` object metric: decoupled high-byte var + OR operand order (residual A); `result`-in-predecessor + explicit-`$2`-local-with-early-pin (residual B); no-`default` sltiu-reuse (residual B3); §5a barrier retained. **43 real matches; Gen1-exit LZSS gate SATISFIED.** Cookbook §10. **(2) libgs BLOCK 6 integrated** (16 objects / 26 SDK funcs byte-identical; the libcd §9.3 pattern). Fixed a resegment-triggered spimdisasm boundary instability (declared GsMulCoord2/3; carved the §8 data table `[0x53198,data]`) + made psyq_integrate multi-library-safe (per-lib NOLOAD namespacing + global sort; sibling externals in the trial); `tools/make_libgs_block6.sh` for reproducibility; cookbook §9.4. Build byte-identical with OR without the SDK objects; fresh-clone stub fallback verified. Changed: `src/800.c`, `config/{splat.us.exe.yaml,symbols.us.txt}`, `Makefile`, `tools/{psyq_integrate.py,ld_interleave.py,make_libgs_block6.sh}`, `docs/matching-cookbook.md` (zero generated/ROM bulk staged). **Tasks: full libgs → 6 → 7 remain** (PhaseEnd gated on libgs per Drew).
 
 ---
 

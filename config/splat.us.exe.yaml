@@ -80,7 +80,13 @@ segments:
       - [0x33888, c, libcd1]    # libcd block 1 -> src/libcd1.c (vram 0x80043088-0x80046980, 11 objs)
       - [0x37180, c, gap]       # non-libcd gap -> src/gap.c    (vram 0x80046980-0x800469CC, stub)
       - [0x371CC, c, libcd2]    # libcd block 2 -> src/libcd2.c (vram 0x800469CC-0x8004787C, 7 objs)
-      - [0x3807C, c, 800b]      # -O2 game code -> src/800b.c   (vram 0x8004787C-0x800629DC)
+      # PsyQ libgs block 6 (Phase 7 Task #9): 16 contiguous libgs objects (GS_110/119/120/121/122/
+      # 123/127/131/133/134/135/137, PRESET, PRESET3, OBJT, OBJT3) linked in place of stubs — same
+      # mechanism as libcd (psyq_integrate swaps build/src/libgs6.o -> the real objects + NOLOAD data).
+      # The other 5 libgs blocks + the GS_001 gap stay stubs (remaining libgs integration is future).
+      - [0x3807C, c, 800b]      # -O2 game code (pre-libgs6)  -> src/800b.c  (vram 0x8004787C-0x80053AF8)
+      - [0x442F8, c, libgs6]    # libgs block 6 (16 objs)     -> src/libgs6.c (vram 0x80053AF8-0x80057928)
+      - [0x48128, c, 800b2]     # -O2 game code (post-libgs6) -> src/800b2.c (vram 0x80057928-0x800629DC)
       # Phase 7 (Task 2' / LZSS) — SURGICAL rodata carve for the LZSS switch only.
       # The rodata island (0x80072A38-0x80074750) interleaves game jtbls, game data
       # (loadDestPtrTable @0x80072C70 etc.) and library jtbls (PRESET/OBJT/PRNT @0x800737CC+),
@@ -90,7 +96,12 @@ segments:
       # code subseg covering exactly 0x63238-0x6324C migrates jtbl_80072A38 into
       # asm/nonmatchings/800/LzssDecodeSector.s; everything else stays raw in the tail data.
       # tools/ld_interleave.py then places .data(front) -> .rodata(LZSS jtbl) -> .data(tail).
-      - [0x531DC, data, 531DC]  # front data (vram 0x800629DC-0x80072A38)
+      # front data starts at 0x53198 (vram 0x80062998), NOT 0x531DC: the 68-B data descriptor
+      # table at 0x80062998-0x800629DC (boot.c's __do_global_dtors references D_80062998/D_800629D4)
+      # is data-in-text (cookbook §8). The big-800b era auto-labelled it; the libgs6 resegment made
+      # splat mis-detect it as func_80062998 (shadowing D_80062998). Carving it as the head of the
+      # front-data subseg forces the data labels deterministically. (ld_interleave FRONT_DATA matches.)
+      - [0x53198, data, 53198]  # data table + front data (vram 0x80062998-0x80072A38)
       - [0x63238, .rodata, 800] # LZSS jtbl_80072A38 ONLY (vram 0x80072A38-0x80072A4C) -> migrates into LzssDecodeSector
       - [0x6324C, data, 6324C]  # tail data: rest of island (raw) + globals (vram 0x80072A4C-0x80074800)
   - [0x65000]

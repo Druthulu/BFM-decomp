@@ -18,7 +18,7 @@ object block. Non-library gaps between blocks keep their own stub subsegment unt
 
 Usage: psyq_integrate.py <elf_dir> <ld_path> <objdir> <syms_ld> <stub1>[,<stub2>,...]
 """
-import os, re, subprocess, sys, tempfile
+import glob, os, re, subprocess, sys, tempfile
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from psyq_link import recover_sym_addrs, AS, sh, VRAM_BASE, DATA_SECTIONS
 from psyq_link_region import classify, placement
@@ -41,13 +41,17 @@ def contiguous_blocks(order):
 
 
 def trial_undefined(ld_path, extra_syms=None):
-    """Full-build link with the rewritten .ld; return the set of undefined symbol names."""
+    """Full-build link with the rewritten .ld; return the set of undefined symbol names.
+    extra_syms is a list of already-emitted sibling *_externals.ld (from prior library integrations);
+    including them stops THIS library's trial from re-flagging symbols another library already resolved
+    (e.g. integrating libgs6 after libcd: libcd's objects reference DMACallback etc., defined only in
+    libcd_externals.ld — without it the libgs6 trial reports them as spurious 'UNRESOLVED')."""
     td = tempfile.mkdtemp(dir=".run")
     elf = os.path.join(td, "trial.elf")
     cmd = [f"{AS}ld", "-T", ld_path, "-T", "undefined_syms_auto.txt",
            "-T", "undefined_funcs_auto.txt", "--no-check-sections", "-o", elf]
-    if extra_syms:
-        cmd += ["-T", extra_syms]
+    for es in (extra_syms or []):
+        cmd += ["-T", es]
     p = subprocess.run(cmd, capture_output=True)
     err = p.stderr.decode()
     # a weakened .bss common referenced by another object whose .bss we discarded shows up not as
@@ -97,13 +101,26 @@ def integrate(elf_dir, ld_path, objdir, syms_path, stubs):
         other = re.compile(r"^[ \t]*build/src/" + re.escape(stub)
                            + r"\.o\(\.(?:rodata|data|bss|sdata|sbss)\);[ \t]*\n", re.M)
         ld = other.sub("", ld)
-    # NOLOAD data sections, sorted by vram (keeps ld's location counter monotonic), before /DISCARD/
+    # NOLOAD data sections, sorted by vram (keeps ld's location counter monotonic), before /DISCARD/.
+    # Section names are namespaced by the objdir basename (e.g. .nl_libgs6_*) so MULTIPLE integrations
+    # (libcd then libgs6) each add their own NOLOAD sections idempotently — a global `.nl_0` guard would
+    # let the 2nd library's NOLOAD placement be skipped, discarding its .rdata/.bss (the OBJT3 break).
+    tag = os.path.basename(objdir)
     nol_items = sorted((b, name, S) for name, (_, _) in order
                        for S, b in bases_by[name].items())
-    nol = [f'    .nl_{i} 0x{b:08X} (NOLOAD) : {{ "{objdir}/{name}"(.{S[1:]}) }}'
+    nol = [f'    .nl_{tag}_{i} 0x{b:08X} (NOLOAD) : {{ "{objdir}/{name}"(.{S[1:]}) }}'
            for i, (b, name, S) in enumerate(nol_items)]
-    if ".nl_0 " not in ld:
+    if f".nl_{tag}_0 " not in ld:
         ld = re.sub(r"^([ \t]*/DISCARD/ :)", "\n".join(nol) + r"\n\n\1", ld, count=1, flags=re.M)
+    # Globally re-sort ALL .nl_* NOLOAD lines by vram across libraries. Successive integrations (libcd
+    # then libgs6) otherwise leave two separately-sorted groups whose vram ranges interleave, so ld's
+    # location counter moves backwards (a harmless warning — NOLOAD emits no bytes). Pure reordering.
+    nlre = re.compile(r"^[ \t]*\.nl_\w+ (0x[0-9A-Fa-f]+) \(NOLOAD\) : \{[^}]*\}$", re.M)
+    items = sorted((int(m.group(1), 16), m.group(0).strip()) for m in nlre.finditer(ld))
+    if len(items) > 1:
+        ld = re.sub(r"\n{3,}", "\n\n", nlre.sub("", ld))
+        block = "\n".join("    " + t for _, t in items)
+        ld = re.sub(r"^([ \t]*/DISCARD/ :)", block + "\n\n" + r"\1", ld, count=1, flags=re.M)
     open(ld_path, "w").write(ld)
 
     # 3. resolve every symbol the rewritten build ACTUALLY leaves undefined (a full link, so symbols
@@ -124,7 +141,9 @@ def integrate(elf_dir, ld_path, objdir, syms_path, stubs):
     weaken_all = {w for ws in weaken_by.values() for w in ws}
     externals = {s: recovered[s] for s in weaken_all if s in recovered}
     missing = []
-    for s in sorted(set(trial_undefined(ld_path)) - set(externals)):
+    siblings = [f for f in glob.glob(os.path.join(os.path.dirname(syms_path) or ".", "*_externals.ld"))
+                if os.path.abspath(f) != os.path.abspath(syms_path)]
+    for s in sorted(set(trial_undefined(ld_path, siblings)) - set(externals)):
         m = re.fullmatch(r"func_([0-9A-Fa-f]{8})", s)
         if m:
             externals[s] = int(m.group(1), 16)

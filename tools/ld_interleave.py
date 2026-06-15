@@ -26,7 +26,7 @@ import re, sys
 
 LD = sys.argv[1] if len(sys.argv) > 1 else "build/us/SLUS_007.26.ld"
 # object basenames whose (.data) belongs to the front / tail region
-FRONT_DATA = ("531DC.data.o",)
+FRONT_DATA = ("53198.data.o",)
 TAIL_DATA  = ("6324C.data.o",)
 
 src = open(LD).read()

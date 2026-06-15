@@ -383,6 +383,34 @@ Wiring a library region into `make build` byte-identical (libcd: 58 SDK funcs, f
   whole thing on `[ -d <elf_dir> ]` — a fresh clone without `tools/psyq/` builds via stubs. Idempotent
   (`build/psyq/<lib>` in the `.ld` ⇒ re-derive syms only).
 
+### §9.4 Integrating a SECOND library (libgs block 6 after libcd) — multi-library gotchas
+Wiring a 2nd `psyq_integrate` call into the same build (libcd, then a libgs block) surfaced bugs the
+single-library path never hit. All fixed in `tools/psyq_integrate.py`; reuse for libspu/libsnd/…:
+- **Namespace the NOLOAD section names per library** (`.nl_<objdir-basename>_<i>`, e.g. `.nl_libgs6_0`).
+  The idempotency guard was a global `if ".nl_0" not in ld` — so the 2nd integration saw `.nl_0` (from
+  libcd) and SKIPPED adding its own NOLOAD lines, discarding that library's `.data/.rdata/.bss`
+  (symptom: `'.bss'/'.rdata' referenced … defined in discarded section` for the 2nd lib's objects, §9.1 tell).
+- **Globally re-sort ALL `.nl_*` NOLOAD lines by vram across libraries** at the end of each integrate.
+  Two separately-sorted groups whose vram ranges interleave make ld's location counter jump back
+  (`warning: dot moved backwards`) — harmless (NOLOAD emits no bytes) but noisy. Pure reordering.
+- **Pass already-emitted sibling `*_externals.ld` to the trial link.** The 2nd library's trial link sees
+  the FIRST library's real objects (already in the `.ld`) referencing symbols defined only in the first
+  library's externals (e.g. libcd objects call `DMACallback`/`DeliverEvent`); without the sibling syms the
+  trial reports them as spurious `!! UNRESOLVED`. Glob `build/psyq/*_externals.ld` minus the current one.
+- **A resegment can shift spimdisasm's auto-detected function/data boundaries** in the UNCHANGED regions
+  around the new subseg (shrinking 800b re-merged `func_80052FCC/053050` and re-typed the `D_80062998`
+  data table as a `func_`). Two deterministic fixes, both from the real artifacts (G1): declare the
+  affected REAL functions in `symbols.us.txt` (verify via the PsyQ object's symbol table — these were
+  `GsMulCoord2/3` in MATRIX.o), and carve any trailing data-in-text table as its own `data` subseg (§8;
+  here extend the front-data subseg back to the table start, update `ld_interleave` FRONT_DATA basename).
+  Always regenerate the split `src/*.c` from the fresh extract so stubs match the generated `.s`.
+- **Block selection is by EXE-placement + disambiguation, not the full library.** A library's objects span
+  several non-contiguous blocks (libgs: 6 blocks + gaps incl. the GS_001 scattered-`.bss` gap, §9.1).
+  `psyq_identify <full-lib-dir> <lo> <hi>` over ONE block's range reports the right objects PLUS byte-
+  identical-`.text` aliases (GS_131≡RVWUNIT, PRESET2≡PRESET3, OBJT2≡OBJT3); keep the one that also
+  matches `.data/.rdata` (`psyq_link_region --verify` confirms per-object). Hardcode the disambiguated
+  object list in a committed regen script (`tools/make_libgs_block6.sh`) — SDK-derived dir, gitignored.
+
 ---
 
 ## §10 Closing the regalloc/scheduling hard tail by hand (LZSS, Phase 7 session F — the full close)
