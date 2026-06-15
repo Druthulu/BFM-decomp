@@ -66,6 +66,13 @@ segments:
     # no-op at every real boundary here.
     align: 4
     subsegments:
-      - [0x800, c, 800]         # text — Phase 6: c-scaffold (src/800.c INCLUDE_ASM stubs); matched fns replace stubs
+      # Per-module optimization mixing (SETUP §5.5): the boot/main/game-mode-dispatch
+      # module (vram 0x80010000-0x800123F0) was compiled at -O0; the rest of the text at
+      # -O2. Split into two c-subsegments so the Makefile applies per-file flags
+      # (build/src/boot.o is overridden to -O0). The split is byte-identical at 100%
+      # INCLUDE_ASM (Phase-7 regression gate) — opt level only affects matched C, not stubs.
+      # Boundary = func_800123F0 (vram 0x800123F0 -> file vram-0x8000F800 = 0x2BF0).
+      - [0x800, c, boot]        # -O0 boot module -> src/boot.c (vram 0x80010000-0x800123F0)
+      - [0x2BF0, c, 800]        # -O2 remainder   -> src/800.c  (vram 0x800123F0-0x800629DC); name "800" kept (legacy) so the 38 matched fns + their asm/nonmatchings/800 paths don't migrate; NB start is now 0x2BF0, not 0x800
       - [0x531DC, data, 531DC]  # data — psxexeinfo boundary; round-trips byte-identical
   - [0x65000]

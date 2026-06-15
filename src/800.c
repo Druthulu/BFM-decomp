@@ -1,114 +1,5 @@
 #include "common.h"
-
-INCLUDE_ASM("asm/nonmatchings/800", start);
-
-INCLUDE_ASM("asm/nonmatchings/800", func_800100A0);
-
-INCLUDE_ASM("asm/nonmatchings/800", __do_global_dtors);
-
-INCLUDE_ASM("asm/nonmatchings/800", main);
-
-INCLUDE_ASM("asm/nonmatchings/800", func_8001096C);
-
-INCLUDE_ASM("asm/nonmatchings/800", func_8001099C);
-
-INCLUDE_ASM("asm/nonmatchings/800", func_80010A08);
-
-INCLUDE_ASM("asm/nonmatchings/800", func_80010A98);
-
-INCLUDE_ASM("asm/nonmatchings/800", func_80010AE0);
-
-INCLUDE_ASM("asm/nonmatchings/800", func_80010B10);
-
-INCLUDE_ASM("asm/nonmatchings/800", GameModeDispatch);
-
-INCLUDE_ASM("asm/nonmatchings/800", func_80010BB4);
-
-INCLUDE_ASM("asm/nonmatchings/800", func_80010C7C);
-
-INCLUDE_ASM("asm/nonmatchings/800", func_80010CEC);
-
-INCLUDE_ASM("asm/nonmatchings/800", func_80010D60);
-
-INCLUDE_ASM("asm/nonmatchings/800", func_80010DA0);
-
-INCLUDE_ASM("asm/nonmatchings/800", func_80010DE0);
-
-INCLUDE_ASM("asm/nonmatchings/800", func_80010E14);
-
-INCLUDE_ASM("asm/nonmatchings/800", func_80010E48);
-
-INCLUDE_ASM("asm/nonmatchings/800", func_80010E7C);
-
-INCLUDE_ASM("asm/nonmatchings/800", func_80010ED4);
-
-INCLUDE_ASM("asm/nonmatchings/800", func_80010F80);
-
-INCLUDE_ASM("asm/nonmatchings/800", func_800110CC);
-
-INCLUDE_ASM("asm/nonmatchings/800", DebugMenuHandler);
-
-INCLUDE_ASM("asm/nonmatchings/800", func_800111BC);
-
-INCLUDE_ASM("asm/nonmatchings/800", func_80011220);
-
-INCLUDE_ASM("asm/nonmatchings/800", func_8001125C);
-
-INCLUDE_ASM("asm/nonmatchings/800", func_800112A8);
-
-INCLUDE_ASM("asm/nonmatchings/800", func_800112C8);
-
-INCLUDE_ASM("asm/nonmatchings/800", func_80011320);
-
-INCLUDE_ASM("asm/nonmatchings/800", func_80011350);
-
-INCLUDE_ASM("asm/nonmatchings/800", func_80011380);
-
-INCLUDE_ASM("asm/nonmatchings/800", func_80011680);
-
-INCLUDE_ASM("asm/nonmatchings/800", func_800116E0);
-
-INCLUDE_ASM("asm/nonmatchings/800", func_80011778);
-
-INCLUDE_ASM("asm/nonmatchings/800", func_80011818);
-
-INCLUDE_ASM("asm/nonmatchings/800", func_800118AC);
-
-INCLUDE_ASM("asm/nonmatchings/800", func_80011928);
-
-INCLUDE_ASM("asm/nonmatchings/800", func_80011998);
-
-INCLUDE_ASM("asm/nonmatchings/800", func_800119F0);
-
-INCLUDE_ASM("asm/nonmatchings/800", func_80011A3C);
-
-INCLUDE_ASM("asm/nonmatchings/800", func_80011ADC);
-
-INCLUDE_ASM("asm/nonmatchings/800", func_80011B7C);
-
-INCLUDE_ASM("asm/nonmatchings/800", func_80011C10);
-
-INCLUDE_ASM("asm/nonmatchings/800", func_80011C8C);
-
-INCLUDE_ASM("asm/nonmatchings/800", func_80011CFC);
-
-INCLUDE_ASM("asm/nonmatchings/800", func_80011D54);
-
-INCLUDE_ASM("asm/nonmatchings/800", func_80011DA0);
-
-INCLUDE_ASM("asm/nonmatchings/800", func_80011DCC);
-
-INCLUDE_ASM("asm/nonmatchings/800", func_80011DF4);
-
-INCLUDE_ASM("asm/nonmatchings/800", func_80011E24);
-
-INCLUDE_ASM("asm/nonmatchings/800", func_80011E84);
-
-INCLUDE_ASM("asm/nonmatchings/800", func_80011EB4);
-
-INCLUDE_ASM("asm/nonmatchings/800", func_800120DC);
-
-INCLUDE_ASM("asm/nonmatchings/800", func_8001212C);
+#include "psyq/libcd.h"
 
 INCLUDE_ASM("asm/nonmatchings/800", func_800123F0);
 
@@ -631,7 +522,113 @@ void func_800193A8(s32 arg0) {
 
 INCLUDE_ASM("asm/nonmatchings/800", func_800193B8);
 
+#ifdef NON_MATCHING
+extern void LoaderResetReadState(void);
+extern int VSync(int mode);
+extern CdlFILE D_80063058;
+extern char cdpath_DEBUG_BIN[];
+extern u8 D_80062C38;     /* path table entry[0].file (CdlFILE), entries stride 0x30; names at -0x14 */
+extern u8 D_80062C68;     /* path entry[1].file.pos (CdlLOC), the 8 .CD files, stride 0x30 */
+extern s32 debugBinPresent;
+extern s32 D_800747D4;
+extern s32 D_80063074;
+extern s32 D_800747D8;
+extern u8 cdFileLocTable[]; /* out: {CdlLOC pos; u32 size} per sub-file, 8B stride */
+extern u8 D_800AE834;       /* cdFileLocTable + 4 (the size field) */
+extern s32 listCdBuffer;    /* LIST.CD content: 8B records {value; size} */
+extern u8 D_80180004;       /* listCdBuffer + 4 (the size field) */
+/* file-loader directory resolver (boot @0x800101fc): probe \DEBUG.BIN;1, resolve the 21
+ * CdPathTable entries via CdSearchFile, read LIST.CD (0xE40 B) into listCdBuffer, then build
+ * cdFileLocTable (CdlLOC+size per sub-file) over the 8 .CD files. Phase 3 T2.
+ * NON_MATCHING: logically faithful, structurally close (138 vs 133 ins) but not byte-exact.
+ * Residual is register allocation / loop-invariant hoisting — the target keeps &D_80063058,
+ * &D_80062C38, &D_80062C68 in callee-saved regs and derives the name arg as (base - 0x14)
+ * rather than a separate symbol; a multi-iteration / decomp-permuter target for a later pass. */
+void LoaderInitFileTable(void) {
+    CdlFILE *res;
+    int tries;
+    int pathOff;
+    int pathN;
+    int base;
+    int n;
+    int fileIdx;
+    int bufIdx;
+    int j;
+    int outer;
+    int locOff;
+    int dstOff;
+    int srcOff;
+    int *pCount;
+    int *pOff;
+    CdlLOC *p;
+
+    LoaderResetReadState();
+    tries = 0;
+    do {
+        res = CdSearchFile(&D_80063058, cdpath_DEBUG_BIN);
+        tries++;
+        if (res != (CdlFILE *)-1) {
+            break;
+        }
+    } while (tries < 0x10);
+    pathN = 0;
+    pathOff = 0;
+    debugBinPresent = (res != (CdlFILE *)0);
+    D_800747D4 = 1;
+    D_80063074 = 0;
+    D_800747D8 = 0;
+    do {
+        do {
+            res = CdSearchFile((CdlFILE *)(&D_80062C38 + pathOff), (char *)(&D_80062C38 - 0x14 + pathOff));
+        } while ((u32)((int)res + 1) < 2);
+        pathN++;
+        pathOff += 0x30;
+    } while (pathN < 0x15);
+    do {
+        fileIdx = 0;
+        n = CdReadRequest(&D_80062C38, &listCdBuffer, 0xE40, 0);
+        if (n != 0) {
+            break;
+        }
+        VSync(0);
+    } while (1);
+    bufIdx = 0;
+    outer = 0;
+    locOff = 0;
+    pCount = &listCdBuffer;
+    do {
+        base = CdPosToInt((CdlLOC *)(&D_80062C68 + locOff));
+        n = *pCount;
+        pCount += 2;
+        bufIdx++;
+        j = 0;
+        if (n > 0) {
+            dstOff = fileIdx * 8;
+            p = (CdlLOC *)(cdFileLocTable + dstOff);
+            srcOff = bufIdx * 8;
+            pOff = &listCdBuffer + bufIdx * 2;
+            do {
+                if (*pOff != 0) {
+                    CdIntToPos(*pOff + base, p);
+                    *(s32 *)(&D_800AE834 + dstOff) = *(s32 *)(&D_80180004 + srcOff);
+                }
+                pOff += 2;
+                srcOff += 8;
+                pCount += 2;
+                bufIdx++;
+                p += 2;
+                dstOff += 8;
+                j++;
+                fileIdx++;
+            } while (j < n);
+        }
+        outer++;
+        locOff += 0x30;
+    } while (outer < 8);
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/800", LoaderInitFileTable);
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80019930);
 
@@ -668,7 +665,44 @@ void LoaderResetReadState(void) {
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80019A10);
 
-INCLUDE_ASM("asm/nonmatchings/800", CdReadRequest);
+extern s32 CdQueueBusy(void);
+extern void CdReadStateMachine(int);
+extern s32 cdReq_curSector;
+extern void *cdReq_dest;
+extern s32 cdReq_size;
+extern void *cdReq_cdlFile;
+extern s32 cdReq_result;
+extern s32 D_800AE720;
+extern s32 D_800AE724;
+/* Read-request dispatcher (Phase 3 T2). Refuse while CdQueueBusy(); dedup on the request's
+ * start sector (*cdlFile) vs the in-flight cdReq_curSector; stash dest/size/cdlFile/mode into
+ * the control block, set the "first read" flag D_800AE720 = (mode == 0), drive the state
+ * machine, return cdReq_result. */
+s32 CdReadRequest(int *cdlFile, void *dest, s32 size, s32 mode) {
+    s32 sector;
+    if (CdQueueBusy() != 0) {
+        return 0;
+    }
+    if (cdReq_curSector == 0) {
+        sector = *cdlFile;
+    } else {
+        sector = *cdlFile;
+        if (sector != cdReq_curSector) {
+            return 0;
+        }
+    }
+    cdReq_dest = dest;
+    cdReq_size = size;
+    cdReq_cdlFile = cdlFile;
+    D_800AE724 = mode;
+    D_800AE720 = 0;
+    cdReq_curSector = sector;
+    if (mode == 0) {
+        D_800AE720 = 1;
+    }
+    CdReadStateMachine(0);
+    return cdReq_result;
+}
 
 INCLUDE_ASM("asm/nonmatchings/800", CdReadStateMachine);
 
@@ -739,7 +773,107 @@ void func_8001B384(void) {
 
 INCLUDE_ASM("asm/nonmatchings/800", func_8001B394);
 
+#ifdef NON_MATCHING
+extern int func_8001A114(void);
+extern void func_8001B710(void);
+extern void func_8002D4C8(int arg0, int arg1);
+extern void func_80036D58(int arg0);
+extern int StreamLoadStateMachine(int arg0, void *loc, int n);
+extern s32 CdQueueBusy(void);          /* defined later in this file */
+extern s32 ResourceGetCdLoc(s16 arg0); /* defined later in this file */
+extern s32 resLoad_state;
+extern s32 resLoad_curId;
+extern s32 resLoad_lastId;
+extern s32 resLoad_loadedFileIdx;
+extern s32 resLoad_result;
+extern s32 cdReq_curSector;
+extern u8 resourceIdMap[]; /* 6B entries {s16 fileIdx; s16 D_8006313A; s16 D_8006313C} */
+extern u8 D_8006313A;
+extern u8 D_8006313C;
+extern u8 cdFileLocTable[];
+extern s32 D_800AE6F4;
+extern s32 D_800AE70C;
+/* loads a resource by resLoad_curId via resourceIdMap; load-once cache
+ * (resLoad_lastId/resLoad_loadedFileIdx). field0<0 -> non-CD path func_80036D58; else
+ * ResourceGetCdLoc -> StreamLoadStateMachine -> func_8002D4C8 post-process. Polled on
+ * resLoad_state; done flag resLoad_result. Phase 3 T3.
+ * NON_MATCHING: logically faithful (Ghidra-derived), body close but not byte-exact. Residuals:
+ * (1) block placement — the target lays state blocks 0->1->2->3 in order under a top beq-chain
+ * dispatch (order 1,0,2,3); this nested-if emits the state-2/3 block inline. (2) frame 0x38 vs
+ * 0x28 (~16B reserved locals the original keeps). (3) func_8002D4C8 arg is field2 & 0xFFFF.
+ * A switch() risks a rodata jump table (target has none). A later structural / permuter pass. */
+void ResourceLoadStateMachine(void) {
+    int result;
+
+    result = 0;
+    if (resLoad_state != 1) {
+        if (resLoad_state != 0) {
+            if (resLoad_state == 2) {
+                D_800AE6F4 = 0;
+                D_800AE70C = 0;
+                resLoad_state = 3;
+            } else if (resLoad_state != 3) {
+                goto done;
+            }
+            if (func_8001A114() != 0) {
+                resLoad_state = 0;
+            }
+            goto done;
+        }
+        if (resLoad_curId == resLoad_lastId) {
+            resLoad_result = 1;
+            return;
+        }
+        if (*(s16 *)(resourceIdMap + resLoad_curId * 6) == resLoad_loadedFileIdx &&
+            *(s16 *)(&D_8006313C + resLoad_curId * 6) != 0) {
+            func_8002D4C8(*(s16 *)(&D_8006313C + resLoad_curId * 6), 0);
+            resLoad_lastId = resLoad_curId;
+            resLoad_result = 1;
+            return;
+        }
+        if (CdQueueBusy() != 0) {
+            goto done;
+        }
+        if (*(s16 *)(resourceIdMap + resLoad_curId * 6) < 0) {
+            func_80036D58(*(s16 *)(&D_8006313A + resLoad_curId * 6));
+            resLoad_result = 1;
+            return;
+        }
+        if (ResourceGetCdLoc((s16)resLoad_curId) == 0) {
+            resLoad_result = 1;
+            return;
+        }
+        if (cdReq_curSector != 0 &&
+            *(s32 *)(cdFileLocTable + *(s16 *)(resourceIdMap + resLoad_curId * 6) * 8) != cdReq_curSector) {
+            goto done;
+        }
+        cdReq_curSector = *(s32 *)(cdFileLocTable + *(s16 *)(resourceIdMap + resLoad_curId * 6) * 8);
+        resLoad_state++;
+    }
+    result = StreamLoadStateMachine(*(s16 *)(&D_8006313A + resLoad_curId * 6),
+                                    cdFileLocTable + *(s16 *)(resourceIdMap + resLoad_curId * 6) * 8, 0x10);
+    if (result == 2) {
+        resLoad_state++;
+        result = 0;
+    }
+done:
+    if (result != 0) {
+        resLoad_loadedFileIdx = *(s16 *)(resourceIdMap + resLoad_curId * 6);
+        if (*(s16 *)(&D_8006313C + resLoad_curId * 6) > 0) {
+            func_8002D4C8(*(s16 *)(&D_8006313C + resLoad_curId * 6), 0);
+            resLoad_lastId = resLoad_curId;
+            if (resLoad_curId == 0x3D) {
+                func_8001B710();
+            }
+        }
+        resLoad_state = 0;
+        cdReq_curSector = 0;
+    }
+    resLoad_result = result;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/800", ResourceLoadStateMachine);
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/800", func_8001B710);
 
@@ -1652,7 +1786,33 @@ INCLUDE_ASM("asm/nonmatchings/800", func_80034B0C);
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80034B3C);
 
-INCLUDE_ASM("asm/nonmatchings/800", CdQueueBusy);
+extern s32 D_8006AEF8;
+extern s32 D_8006AEFC;
+extern u8 D_80076214;
+extern u8 D_8007620C;
+/* CD read-queue status: head==tail (D_8006AEF8/FC equal) => idle; flags D_80076214 (a
+ * pending/error byte) and D_8007620C (bit7/bit5) classify the busy/result state.
+ * Returns 0=idle done, 8=had pending, 2/4/1=busy variants. */
+s32 CdQueueBusy(void) {
+    if (D_8006AEF8 != D_8006AEFC) {
+        if (D_80076214 == 0) {
+            if (D_8007620C & 0x80) {
+                return 2;
+            }
+            if (D_8007620C & 0x20) {
+                return 4;
+            }
+            return 1;
+        }
+    } else {
+        D_8007620C = 0;
+        if (D_80076214 == 0) {
+            return 0;
+        }
+    }
+    D_80076214 = 0;
+    return 8;
+}
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80034C24);
 
@@ -2350,7 +2510,7 @@ INCLUDE_ASM("asm/nonmatchings/800", func_800422E8);
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80042374);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8004239C);
+INCLUDE_ASM("asm/nonmatchings/800", VSync);
 
 INCLUDE_ASM("asm/nonmatchings/800", VSYNC_OBJ_84);
 
@@ -2490,9 +2650,9 @@ INCLUDE_ASM("asm/nonmatchings/800", func_800439D4);
 
 INCLUDE_ASM("asm/nonmatchings/800", func_800439F8);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80043A18);
+INCLUDE_ASM("asm/nonmatchings/800", CdIntToPos);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80043B1C);
+INCLUDE_ASM("asm/nonmatchings/800", CdPosToInt);
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80043B9C);
 
@@ -2558,7 +2718,7 @@ INCLUDE_ASM("asm/nonmatchings/800", callback);
 
 INCLUDE_ASM("asm/nonmatchings/800", BIOS_OBJ_1728);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80045374);
+INCLUDE_ASM("asm/nonmatchings/800", CdSearchFile);
 
 INCLUDE_ASM("asm/nonmatchings/800", ISO9660_OBJ_F8);
 

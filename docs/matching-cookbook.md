@@ -73,6 +73,21 @@ Open example: `func_80015A74` residual (counter init vs hoisted magic constant).
 `lb` (sign-extend). Pick the load width/sign that matches the asm, then layer `& 0xff` (I2) /
 casts as needed.
 
+### T4 — Branch polarity: invert the source condition to flip gcc's chosen branch
+Two source forms can be logically identical but emit **opposite** branches:
+`if (x & m) return A; return B;` vs `if ((x & m) == 0) return B; return A;`. gcc -O2 picks one
+polarity (beqz vs bnez); it may be the opposite of the target. Symptom in asm-differ: the right
+structure but a lone **beqz↔bnez flip with the two return constants swapped** between the branch
+and its `j`/delay slot. Fix: rewrite the condition with the other polarity. Also: which arm of an
+`if/else` becomes the fall-through follows source order — put the target's fall-through block in the
+`if`, the branched-to block in the `else` (e.g. `if (a != b){…} else {…}` if the `==` block sits
+last). Example: `CdQueueBusy` (1405 → 210 via if/else order, 210 → 0 via the 0x20 polarity flip).
+Likewise multi-exit functions: write the **success/main return LAST** (it becomes the fall-through
+into the shared epilogue) and error cases as **early `return`s** (they branch in). Reversing this —
+`if (ok) { … return good; } return 0;` — makes `return 0` the fall-through and duplicates the
+`j epilogue`/`move v0,zero` tail. Example: `CdReadRequest` (305 → 0 by flipping to `if (busy) return 0;
+… return cdReq_result;`).
+
 ---
 
 ## §3 When a diff is pure scheduling → decomp-permuter (harness built, Phase 6)
@@ -118,3 +133,77 @@ as decomp-permuter candidates rather than hand-grinding.
 - **Hoisted-invariant vs IV-init ordering** — a loop-invariant load scheduled before/after the
   counter init; not reachable by C-source changes (permuter stuck at base). Needs `PERM_*` or
   insight. Example: `func_80015A74` (uint→BCD). See §3.
+
+---
+
+## §6 Per-module optimization mixing — the -O0 boot module (Phase 7)
+**Finding (2026-06-14):** the EXE mixes optimization levels per original translation unit (the
+§5.5 Xenogears-style mixing, now concrete). The **boot/main/game-mode-dispatch module** — a clean
+contiguous block at **vram 0x80010000–0x800123F0** (~50 funcs: `start`, `main`, `GameModeDispatch`,
+`DebugMenuHandler`, the game-mode handlers) — was compiled at **-O0**. Everything from 0x800123F0
+onward (every match so far + the file-loader cluster) is **-O2**. **Always opt-fingerprint a new
+function before writing C** — the pinned `-O2` is NOT global.
+
+### Detecting the opt level (do this first)
+gcc 2.7.2 **-O0 keeps a frame pointer**: `addu $fp,$sp,$zero` (`21F0A003`) in the prologue +
+`addu $sp,$fp,$zero` in the epilogue; **-O2 omits it**. Grep the target `.s`:
+`grep -l 21F0A003 asm/nonmatchings/<seg>/<fn>.s` → hit = **-O0**, miss = -O2. Module scan: classify
+every `.s` by that signature, sort by address; the contiguous -O0 run is the module (the boot block
+is the one early -O0 run). Other -O0 tells: redundant `move`/`addu rd,rs,$zero` copies; a `nop` after
+every load (no load-delay scheduling); single-use values parked in callee-saved `s0..`; large
+constant member offsets left **unfolded** (`la $reg,sym` + `lhu off($reg)`), where -O2 folds
+`sym+off` into one load.
+
+### -O0 idiom — far struct member via a `register` base pointer
+Target: `lui s0,%hi(BASE); addiu s0,s0,%lo(BASE); lui at,1; addu at,s0,at; lhu v0,-0x5c52(at)` =
+load a u16 at `BASE + 0xA3AE`. The `lui 1 / addu / -0x5c52` is just `as` expanding a register-relative
+load whose offset (0xA3AE) exceeds 0x7FFF (%hi=1, %lo=-0x5C52). C — a **`register`-qualified pointer**
+to the base, then offset-deref:
+```c
+extern u8 BASE[];
+register u8 *p = BASE;
+... *(u16 *)(p + 0xA3AE) ...   /* base stays in a callee-saved reg; offset left unfolded */
+```
+`register` is **load-bearing**: drop it and -O0 spills the pointer (extra sw/lw, bigger frame); and
+-O1/-O2 fold it all back to `lhu sym+off` (no base reg, no frame pointer). Plain `BASE[idx]` or
+`((struct*)BASE)->m` also **fold** at -O0 → wrong. Example: `GameModeDispatch` (0x80010B40) =
+`gameModeHandlerTable[*(u16*)(p+0xA3AE)]()` — byte-exact (asm-differ 0).
+
+### -O0 idiom — a reserved (unstored) local sets the frame size
+A named local the original declares but our toolchain wouldn't store (e.g. a call result the
+original checks directly) still **reserves its 8-byte stack slot** at -O0, enlarging the frame.
+If a near-match differs **only** by frame size + a uniform save-offset shift (every instruction
+identical), add the missing local as a **declaration-only** `int x;` + `(void)x;` — no store, no
+load, no `-Wall` noise, no code, just the slot. (Assigning the result to the local instead emits a
+`sw`/`lw` pair the target lacks.) Example: `DebugMenuHandler` (0x80011144) — `if (CdReadRequest(...)
+!= 0)` with a reserved `int iVar1;` → frame 0x20 (score 42 → 0).
+
+### Build mechanism — per-file opt override (splat resegmentation)
+One original .c = one opt level; you can't mix within a compile unit, and gcc 2.7.2 has no
+per-function optimize pragma. **Split the module into its own splat c-subsegment** and give that
+object its flags:
+- `config/splat.us.exe.yaml`: split the text subseg at the module boundary (a function start; file
+  off = vram − 0x8000F800). Boot module = `[0x800, c, boot] → src/boot.c`; the rest stays
+  `[0x2BF0, c, 800] → src/800.c` (name kept to avoid migrating matched C).
+- `Makefile`: target-specific override — `build/src/boot.o: CC1FLAGS := …-O0…` (the pattern recipe
+  reads `$(CC1FLAGS)`, so this overrides just that object).
+- **Regression gate:** the split must rebuild **byte-identical at 100% INCLUDE_ASM** before any -O0 C
+  is added (opt level only affects matched C, not stubs). Verified for the boot split.
+Reuse this hook for any future module whose flags differ (another opt level, bare `divu`, etc.).
+
+---
+
+## §7 PsyQ SDK types & symbols (the library-call prerequisite)
+A function that calls PsyQ library routines needs both the SDK **types** and the library **symbols**:
+- **Types:** pull the EXACT layout from Ghidra's imported `.gdt` (`mcp__ghidra__types get <Name>`,
+  category e.g. `/LIBCD.H`) — never guess offsets (G1). Declare in `include/psyq/<lib>.h` (it
+  `#include "common.h"` for u8/u32, guard-safe). Verify sizes with a compile-time assert:
+  `typedef char a[sizeof(T)==N ? 1 : -1];`.
+- **Symbols:** PsyQ fns are already named in the Ghidra DB but absent from our exported
+  `config/symbols.us.txt`, so the build shows them as `func_<addr>`. Add `Name = 0xADDR; // func`
+  to `symbols.us.txt` (R15) AND rename the matching `INCLUDE_ASM("…", func_<addr>)` stub(s) in
+  `src/` to the canonical name (splat won't rewrite a committed `.c`). Re-extract →
+  **byte-identical** (label-only change). No matched C may already reference the old name.
+- Done Phase 7: `include/psyq/libcd.h` (CdlLOC 4B, CdlFILE 24B + CdSearchFile/CdPosToInt/CdIntToPos
+  protos) + the 4 libcd/libetc symbols — unlocks the file-loader cluster. Same pattern for
+  libgpu/libgte/libspu as they come up.

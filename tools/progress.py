@@ -13,11 +13,17 @@ Usage:
 import re, sys, hashlib, pathlib
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-SRC  = ROOT / "src" / "800.c"
-ASM  = ROOT / "asm" / "nonmatchings" / "800"
+SRCS = sorted((ROOT / "src").glob("*.c"))     # every c-segment (src/boot.c, src/800.c, ...)
+ASM_ROOT = ROOT / "asm" / "nonmatchings"      # per-segment subdirs (boot/, 800/, ...)
 OUT  = ROOT / "docs" / "progress.md"
 BUILD = ROOT / "build" / "us" / "SLUS_007.26"
 CHECK = ROOT / "config" / "check.us.sha"
+
+def find_s(name):
+    """Locate <name>.s in any asm/nonmatchings/<seg>/ subdir (segments: boot, 800, ...)."""
+    for p in sorted(ASM_ROOT.glob(f"*/{name}.s")):
+        return p
+    return None
 
 INSTR = re.compile(r'^\s*/\*\s*[0-9A-Fa-f]+\s+[0-9A-Fa-f]+\s+[0-9A-Fa-f]+\s*\*/\s+[a-z]')
 
@@ -27,16 +33,16 @@ def strip_comments(s):
 
 def is_data_blob(name):
     """A .s with a code label (glabel/jlabel) is a function; data-only (dlabel, no code) is a blob."""
-    p = ASM / f"{name}.s"
-    if not p.exists():
+    p = find_s(name)
+    if p is None:
         return False
     txt = p.read_text()
     return ('glabel' not in txt and 'jlabel' not in txt and 'dlabel' in txt)
 
 def asm_is_trivial(name):
     """True iff the function's asm is exactly {jr, nop} (the empty-no-op shape splat emits void{} for)."""
-    p = ASM / f"{name}.s"
-    if not p.exists():
+    p = find_s(name)
+    if p is None:
         return None
     mnem = []
     for ln in p.read_text().splitlines():
@@ -48,37 +54,49 @@ def asm_is_trivial(name):
 SIG = re.compile(r'^\s*[A-Za-z_][\w \t\*]*\b([A-Za-z_]\w*)\s*\(')
 
 def classify():
-    lines = SRC.read_text().split('\n')
-    n = len(lines); i = 0
     real, empty, nonmatching, stubs, blobs = [], [], [], [], []
-    while i < n:
-        s = lines[i].strip()
-        if s.startswith('#ifdef NON_MATCHING'):
-            blk = []
-            while i < n and not lines[i].strip().startswith('#endif'):
-                blk.append(lines[i]); i += 1
-            i += 1
-            m = re.search(r'INCLUDE_ASM\("[^"]+",\s*(\w+)\)', '\n'.join(blk))
-            if m: nonmatching.append(m.group(1))
-            continue
-        m = re.match(r'INCLUDE_ASM\("[^"]+",\s*(\w+)\)', s)
-        if m:
-            (blobs if is_data_blob(m.group(1)) else stubs).append(m.group(1)); i += 1; continue
-        if s.startswith('INCLUDE_RODATA'):
-            i += 1; continue
-        fm = SIG.match(lines[i])
-        if fm and '(' in lines[i]:
-            start = i; depth = 0; opened = False
-            while i < n:
-                c = strip_comments(lines[i]); depth += c.count('{') - c.count('}')
-                if '{' in c: opened = True
+    for src in SRCS:
+        lines = src.read_text().split('\n')
+        n = len(lines); i = 0
+        while i < n:
+            s = lines[i].strip()
+            if s.startswith('#ifdef NON_MATCHING'):
+                blk = []
+                while i < n and not lines[i].strip().startswith('#endif'):
+                    blk.append(lines[i]); i += 1
                 i += 1
-                if opened and depth <= 0: break
-            body = '\n'.join(lines[start:i])
-            a, b = body.index('{'), body.rindex('}')
-            (real if strip_comments(body[a+1:b]).strip() else empty).append(fm.group(1))
-            continue
-        i += 1
+                m = re.search(r'INCLUDE_ASM\("[^"]+",\s*(\w+)\)', '\n'.join(blk))
+                if m: nonmatching.append(m.group(1))
+                continue
+            m = re.match(r'INCLUDE_ASM\("[^"]+",\s*(\w+)\)', s)
+            if m:
+                (blobs if is_data_blob(m.group(1)) else stubs).append(m.group(1)); i += 1; continue
+            if s.startswith('INCLUDE_RODATA'):
+                i += 1; continue
+            fm = SIG.match(lines[i])
+            if fm and '(' in lines[i]:
+                # Definition ({ ... }) vs forward declaration (ends ;)? Scan to the first { or ;.
+                # extern/prototype lines (e.g. `extern s32 CdQueueBusy(void);`) are NOT functions.
+                j = i; kind = None
+                while j < n:
+                    c = strip_comments(lines[j])
+                    br = c.find('{'); sm = c.find(';')
+                    if br != -1 and (sm == -1 or br < sm): kind = 'def'; break
+                    if sm != -1: kind = 'decl'; break
+                    j += 1
+                if kind != 'def':
+                    i = j + 1; continue            # skip the declaration
+                start = i; depth = 0; opened = False
+                while i < n:
+                    c = strip_comments(lines[i]); depth += c.count('{') - c.count('}')
+                    if '{' in c: opened = True
+                    i += 1
+                    if opened and depth <= 0: break
+                body = '\n'.join(lines[start:i])
+                a, b = body.index('{'), body.rindex('}')
+                (real if strip_comments(body[a+1:b]).strip() else empty).append(fm.group(1))
+                continue
+            i += 1
     return real, empty, nonmatching, stubs, blobs
 
 def main():

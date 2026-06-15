@@ -208,6 +208,14 @@ build/src/%.o: src/%.c
 	@echo "  CC      $@"
 	@set -o pipefail; $(CPP) $(CPPFLAGS) $< | $(CC1_PSX) $(CC1FLAGS) | $(VENV_PY) $(MASPSX) --aspsx-version=$(ASPSX_VERSION) $(MASPSX_FLAGS) | $(AS) $(ASFLAGS) -o $@
 
+# Per-module optimization override (SETUP §5.5 — per-module compiler mixing). The boot/
+# main/game-mode-dispatch module (src/boot.c, vram 0x80010000-0x800123F0) was compiled at
+# -O0, NOT the -O2 game-code default: frame-pointer setup + unfolded large-offset loads
+# are the evidence (GameModeDispatch byte-matches only at -O0). gcc 2.7.2 has no
+# per-function optimize pragma, so opt level is per-file. Target-specific CC1FLAGS (the
+# pattern recipe reads $(CC1FLAGS), so this overrides it for just build/src/boot.o):
+build/src/boot.o: CC1FLAGS := -quiet -O0 -G0 -mips1 -mcpu=3000 -mgas -msoft-float -fgnu-linker
+
 # link (the .ld pulls in the .o by path) + objcopy to the raw PS-X EXE image.
 $(OUT): $(OBJS) $(LD_SCRIPT)
 	@set -e

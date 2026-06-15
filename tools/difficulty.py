@@ -11,10 +11,16 @@ Usage: tools/difficulty.py [TOP]   (TOP = how many easy rows in the md digest, d
 import re, sys, pathlib
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-SRC  = ROOT / "src" / "800.c"
-ASM  = ROOT / "asm" / "nonmatchings" / "800"
+SRCS = sorted((ROOT / "src").glob("*.c"))     # every c-segment (src/boot.c, src/800.c, ...)
+ASM_ROOT = ROOT / "asm" / "nonmatchings"      # per-segment subdirs (boot/, 800/, ...)
 MD   = ROOT / "docs" / "difficulty.md"
 CSV  = ROOT / ".run" / "difficulty.csv"
+
+def find_s(name):
+    """Locate <name>.s in any asm/nonmatchings/<seg>/ subdir."""
+    for p in sorted(ASM_ROOT.glob(f"*/{name}.s")):
+        return p
+    return None
 
 INSTR = re.compile(r'^\s*/\*\s*[0-9A-Fa-f]+\s+([0-9A-Fa-f]+)\s+[0-9A-Fa-f]+\s*\*/\s+([a-z][a-z0-9.]*)')
 BRANCH = re.compile(r'^b(eq|ne|gez|gtz|lez|ltz|nez|eqz|c1t|c1f|gezal|ltzal)?z?$')
@@ -24,22 +30,24 @@ def is_data_blob(txt):
 
 def unmatched_stubs():
     """INCLUDE_ASM names that are real functions (exclude data-blobs) and not inside NON_MATCHING."""
-    lines = SRC.read_text().split('\n'); n = len(lines); i = 0; out = []
-    while i < n:
-        s = lines[i].strip()
-        if s.startswith('#ifdef NON_MATCHING'):
-            while i < n and not lines[i].strip().startswith('#endif'):
-                i += 1
-            i += 1; continue
-        m = re.match(r'INCLUDE_ASM\("[^"]+",\s*(\w+)\)', s)
-        if m:
-            out.append(m.group(1))
-        i += 1
+    out = []
+    for src in SRCS:
+        lines = src.read_text().split('\n'); n = len(lines); i = 0
+        while i < n:
+            s = lines[i].strip()
+            if s.startswith('#ifdef NON_MATCHING'):
+                while i < n and not lines[i].strip().startswith('#endif'):
+                    i += 1
+                i += 1; continue
+            m = re.match(r'INCLUDE_ASM\("[^"]+",\s*(\w+)\)', s)
+            if m:
+                out.append(m.group(1))
+            i += 1
     return out
 
 def analyze(name):
-    p = ASM / f"{name}.s"
-    if not p.exists(): return None
+    p = find_s(name)
+    if p is None: return None
     txt = p.read_text()
     if is_data_blob(txt): return None                     # not a function
     nins = branches = ncalls = 0; last_vaddr = None; jtbl = False
