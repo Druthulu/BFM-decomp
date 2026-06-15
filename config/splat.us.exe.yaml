@@ -81,5 +81,16 @@ segments:
       - [0x37180, c, gap]       # non-libcd gap -> src/gap.c    (vram 0x80046980-0x800469CC, stub)
       - [0x371CC, c, libcd2]    # libcd block 2 -> src/libcd2.c (vram 0x800469CC-0x8004787C, 7 objs)
       - [0x3807C, c, 800b]      # -O2 game code -> src/800b.c   (vram 0x8004787C-0x800629DC)
-      - [0x531DC, data, 531DC]  # data — psxexeinfo boundary; round-trips byte-identical
+      # Phase 7 (Task 2' / LZSS) — SURGICAL rodata carve for the LZSS switch only.
+      # The rodata island (0x80072A38-0x80074750) interleaves game jtbls, game data
+      # (loadDestPtrTable @0x80072C70 etc.) and library jtbls (PRESET/OBJT/PRNT @0x800737CC+),
+      # so a full-island migration is messy and hits the +24 .align-3 library artifact.
+      # But LZSS's jtbl_80072A38 is the FIRST jtbl (right after LzssStateTable/D_80072A34,
+      # right before jtbl_80072A4C), so carve ONLY it: a dotted .rodata sibling of the "800"
+      # code subseg covering exactly 0x63238-0x6324C migrates jtbl_80072A38 into
+      # asm/nonmatchings/800/LzssDecodeSector.s; everything else stays raw in the tail data.
+      # tools/ld_interleave.py then places .data(front) -> .rodata(LZSS jtbl) -> .data(tail).
+      - [0x531DC, data, 531DC]  # front data (vram 0x800629DC-0x80072A38)
+      - [0x63238, .rodata, 800] # LZSS jtbl_80072A38 ONLY (vram 0x80072A38-0x80072A4C) -> migrates into LzssDecodeSector
+      - [0x6324C, data, 6324C]  # tail data: rest of island (raw) + globals (vram 0x80072A4C-0x80074800)
   - [0x65000]

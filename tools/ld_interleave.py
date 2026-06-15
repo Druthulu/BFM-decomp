@@ -4,12 +4,14 @@
 
 splat emits one output section (`.main`) section-major in `section_order`
 (.rodata, .text, .data, .bss), which floats ALL rodata to one place. But this
-EXE's real layout is:
+EXE's real layout puts .data on BOTH sides of the compiler rodata. For the
+SURGICAL LZSS carve (Phase 7), only jtbl_80072A38 is migrated to .rodata; the
+rest of the island stays raw inside the tail data object:
 
     .text            0x80010000 .. 0x800629DC
-    .data  (front)   0x800629DC .. 0x80072A38   (globals, hand-written ptr tables)
-    .rodata (island) 0x80072A38 .. 0x80074750   (gcc jtbl_* switch tables + consts)
-    .data  (tail)    0x80074750 .. 0x80074800   (gp base; zero small-data)
+    .data  (front)   0x800629DC .. 0x80072A38   531DC.data.o (globals, ptr tables)
+    .rodata          0x80072A38 .. 0x80072A4C   800.o (ONLY the migrated LZSS jtbl_80072A38)
+    .data  (tail)    0x80072A4C .. 0x80074800   6324C.data.o (rest of island raw + tail globals)
 
 i.e. .data appears on BOTH sides of .rodata, which a single section_order can't
 express. This script rewrites the `.main {...}` body to the interleaved order:
@@ -25,7 +27,7 @@ import re, sys
 LD = sys.argv[1] if len(sys.argv) > 1 else "build/us/SLUS_007.26.ld"
 # object basenames whose (.data) belongs to the front / tail region
 FRONT_DATA = ("531DC.data.o",)
-TAIL_DATA  = ("64F50.data.o",)
+TAIL_DATA  = ("6324C.data.o",)
 
 src = open(LD).read()
 

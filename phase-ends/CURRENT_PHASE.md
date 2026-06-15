@@ -12,6 +12,7 @@ rodata-island foundation + LZSS match are DEFERRED to a focused sub-project afte
 - **≥25 = real substantive matches** (the 42 splat-auto empties do NOT count). 14 real now → need ≥11 more.
 - **Loader cluster = match-tractable / draft-hard** (NON_MATCHING-draft the hard state machines).
 - **REORDER (2026-06-14):** rodata foundation hit a structural wall (see below); do reports + harvest + non-switch loader FIRST, then a focused LZSS/rodata sub-project. LZSS is still required for Gen1 exit.
+- **⚠️ PHASEEND AFTER LIBGS (Drew 2026-06-14):** do NOT write PhaseEnd_Phase7 / delete this CURRENT_PHASE.md until **libgs is done**. This file holds the libgs placement + working notes (see the session-E "libgs placement" block) and must stay intact so libgs work can resume. Sequence: LZSS → libgs → Task 6 close-out → (only then) Task 7 PhaseEnd. Task graph enforces it (#8 blocked by #9).
 
 ## Verified baseline (grounded; R14 corrections)
 - Build byte-identical (`143dbb89f34491258bbc27810d0a12ec8b43a8dd`), reproducible. **Only change from committed Phase-6 = one R15 symbol line** (`func_80047CAC = 0x80047CAC; // data`) — fixes a LATENT NON-REPRODUCIBILITY: spimdisasm 1.41.0 auto-detection of that 8-byte inter-fn blob is unstable across clean extracts; declaring it makes `make clean && make extract && make build` deterministic. (Note for PhaseEnd.)
@@ -34,21 +35,65 @@ rodata-island foundation + LZSS match are DEFERRED to a focused sub-project afte
 - [ ] **Task 7 — PhaseEnd_Phase7** (Gen1 synthesis, milestone gate). **Max · Tier 1.**
 
 ## Current task
-**Task 2′ — libcd-into-build DONE (session D); next = libgs + LZSS.** Per Drew's approved-plan ordering
-(libcd-first to prove the build-integration mechanism on the simplest library, then libgs+island+LZSS):
-- ✅ **libcd wired into the byte-identical build** (session D) — 58 SDK funcs from real objects; full
-  build-integration mechanism proven + tooled (psyq_integrate.py, NOLOAD = no carving, splat resegment,
-  H5-safe src split). Sub-tasks 2′.1 (ground)/2′.2 (18/18 verify)/2′.3 (build wiring) complete.
-- ▶ **NEXT: libgs** (the actual +24 culprit — PRESET/PRESET2/OBJT2/PRNT jtbls) via the same psyq_integrate
-  path → fixes the +24 + banks ~69 libgs funcs; then **LZSS** (jtbl_80072A38) via the rodata-island
-  migration+ld_interleave path; then Task 6 (Gen1 close) + Task 7 (PhaseEnd).
-NOTE: Gen1 exit needs ≥3 SESSIONS of green `make check` — **satisfied** (A, B, C, +D); Tasks 6/7 still pending.
+**LEAN LZSS FIRST (session E decision, Drew-approved) — libgs is NOT a prerequisite for LZSS.**
+Re-sequenced from the session-D "libgs→LZSS" ordering after the island ownership map (below) showed the
++24 is entirely a **800b library-object** artifact while **LZSS lives in the 800 segment**.
+- ✅ **libcd wired into the byte-identical build** (session D) — 58 SDK funcs; full mechanism proven + tooled.
+- ▶ **NEXT (session E): match LZSS** via **800-segment-only** rodata migration + ld_interleave (Task #6).
+  The Gen1-exit gate. Library jtbls in 800b stay raw data (byte-identical). Then Task 6 close-out, Task 7 PhaseEnd.
+  - ✅ **SURGICAL MIGRATION WORKS (session E):** splat config carves ONLY jtbl_80072A38 (`[0x63238,.rodata,800]`
+    bounded by `[0x6324C,data,6324C]`); ld_interleave wired into `make extract` (TAIL_DATA=6324C.data.o).
+    Regression gate PASS — `make clean/extract/build/check` BYTE-IDENTICAL at 100% INCLUDE_ASM (LZSS still a
+    stub; jtbl migrated into LzssDecodeSector.s + placed at 0x80072A38; libcd integration intact). Much cleaner
+    than session-C's full-island migration (which hit +24).
+  - ◑ **LZSS C — CROSS-JUMP BARRIER BREAKTHROUGH (session E); NON_MATCHING-guarded, build GREEN.** LzssDecodeSector
+    written in src/800.c as a switch-coroutine (states 0-4; ring base = literal `(u8*)0x1F800000`→`lui t6,0x1f80`;
+    `newState` carried to a shared save; case-0 shares the terminator return-0 tail; `token & mask`; `(nb<<8)|(code&0xFF)`).
+    The hard blocker was gcc 2.7.2 -O2 **cross-jump-MERGING** the two byte-identical state-save tails (target keeps
+    them separate, 122 ins; gcc merged → 111). **A web-research agent ground-truthed the fix against gcc-2.7.2.3
+    jump.c:** `find_cross_jump` bails on ANY volatile-asm node (ASM_INPUT → `lose=1`); a **zero-byte
+    `__asm__ __volatile__("" ::: "memory")`** in the state-2 reload save makes the two tails non-identical →
+    BOTH survive → **122 instructions (correct count, verified).** No `-fno-crossjumping` exists before gcc 3.3.
+    Cookbook **§5a** added (the reusable idiom). **Residual = ~3 regalloc/scheduling swaps only** (high-byte `or`
+    result v1 vs v0; state-2 store value v0 vs v1; `li v0,1` return value placed late vs distributed per-save) —
+    the last-mile that the permuter normally finishes, but it can't parse the asm (pycparser) and its object score
+    floats on a cosmetic `.rodata`-vs-`jtbl_80072A38` floor (links identically; verify via linked `make check`).
+    The C is preserved under `#ifdef NON_MATCHING` (full note in src/800.c); default build = stub → BYTE-IDENTICAL.
+    **NEXT:** close the ~3 regalloc swaps (fresh hand-pass with the clean jtbl-normalized diff metric, or a
+    properly-floored permuter) → drop the guard. The STRUCTURAL hard part is DONE.
+- **BONUS (if budget):** full libgs integration (+~69 funcs; placement DONE below) — Task #9, drops to Gen2 if budget runs out.
+NOTE: Gen1 exit needs ≥3 SESSIONS of green `make check` — **satisfied** (A, B, C, D, +E); Tasks 6/7 pending.
+
+### Island ownership map (session E — the decisive finding)
+Rodata island 0x80072A38–0x80074750, 102 jtbls total (~52 in-island). By owner segment:
+- **0x80072A38–0x800734F4 (~35 jtbls): 800-segment GAME code** (targets 0x80018xxx–0x80039xxx; incl.
+  `jtbl_80072A38`=LZSS first entry, and S_SCA/SR_SV which resolve to `asm/nonmatchings/800/`). **MIGRATE these.**
+- **0x800737CC–0x800746B0 (~17 jtbls): 800b + LIBRARY** — BIOS(libcd, already integrated), GS_123/PRESET/
+  PRESET2/OBJT/OBJT2(libgs), PRNT(libc2), LIBMCRD. **STAY RAW** (untouched flat data → byte-identical).
+- **+24 root cause = 6 library jtbls, ALL in 800b** (PRESET_OBJ_744/8FC, PRESET2_OBJ_4D8/A88, OBJT2_OBJ_614, PRNT_OBJ_24C).
+  LZSS+game jtbls are in 800; the only libgs object in 800 (GS_013, 0x8003D40C) has **no jtbl** → 800-only migration has no library TU → no +24.
+
+### libgs placement (session E — preserved for the BONUS task #9)
+36/201 located; byte-test disambiguation: **PRESET3** (not PRESET2) @0x80055D40, **OBJT3** (not OBJT2) @0x80057094
+(losers have a spurious .data + .text mismatch); GS_131≡RVWUNIT, GS_137≡RVWLUNIT are .text-identical aliases (keep GS_*).
+GS_106 @0x80053308 fills a gap (narrow-window). GS_013 @0x8003D40C = far outlier in 800 (6 ins). 4 ambiguous
+(GS_101/102/124/125) don't fit gaps → not linked. Main block 0x80051804–0x80057928 (800b), ~4 sub-blocks; gaps 96/48/304 B.
+Patched `tools/psyq_identify.py` to skip data-only objects (no .text, e.g. GLOBAL.o). PRESET3/OBJT3 .rdata land in-island (0x80073c98/0x80073ee8).
+- **libgs BYTE-VERIFIED (session E):** curated `.run/obj40/libgs_used/` (31 objects). `psyq_link_region … --emit .run/libgs_region`
+  → **31/32 byte-identical**, 0 conflicts, 69 externals; `.run/libgs_region.{ld,syms}` emitted. Confirms BFM links real
+  PsyQ libgs 4.0 objects byte-for-byte. **GS_001 EXCLUDED** (known-issue: psyq-obj-parser packs scattered PSD* commons
+  into `.bss` referenced via `.bss`+offset; 35 words differ at the global-zeroing run — needs per-symbol .bss resolution,
+  cookbook §9.1 hard case). Block structure: **6 contiguous blocks + 5 gaps** (80/48/1536[GS_001]/48/304 B, all non-libgs
+  → stay stubs). REMAINING (mechanical): resegment splat 800b into the 6 blocks + 5 gap stubs (~13 subsegs) + split_src +
+  wire `psyq_integrate` (6 block stubs) → byte-identical → banks ~63 SDK funcs. Simpler first win = block 6 alone (16 objs
+  incl. PRESET3/OBJT3) as [pre][libgs6][post] → ~35 funcs. Deferred at session-E end (long session); clean continuation.
 
 ## Per-session `make check` green log (≥3 sessions needed for the milestone)
 - 2026-06-14 (session A): `make check` → `143dbb89… BYTE-IDENTICAL` ✓ — baseline restored + reproducibility fix, reports built, **38 real matches** (22 accessor leaves + ResourceGetCdLoc + LoaderResetReadState), build byte-identical throughout. [need ≥2 more sessions]
 - 2026-06-14 (session B): `make check` → `143dbb89… BYTE-IDENTICAL` ✓ — **per-file -O0 split mechanism** (src/boot.c + Makefile per-file flags); **4 real matches** (GameModeDispatch, DebugMenuHandler, CdQueueBusy, CdReadRequest) → **42 real**; **PsyQ libcd.h infra** (CdlLOC/CdlFILE + 4 named symbols, unlocks the loader cluster); **LoaderInitFileTable + ResourceLoadStateMachine NON_MATCHING-drafted** (→ 4 NM) — **Task 5 non-jtbl loaders COMPLETE** (6 matched + 2 drafted); report tooling fixed (multi-file); cookbook §6/§7/T4. Build byte-identical throughout. [need ≥1 more session]
 - 2026-06-15 (session C): `make check` → `143dbb89… BYTE-IDENTICAL` ✓ (full `clean && extract && build`, restored after the Task-2′ experiments). **≥3-session bar MET.** This session: fully diagnosed + built the **rodata-island mechanism** (works); root-caused the +24; **proved the PsyQ-library-linking GO** (see below). No new matches (architectural session). Build green at start and after restore.
 - 2026-06-14 (session D): `make clean && make extract && make build && make check` → `143dbb89… BYTE-IDENTICAL` ✓ — **libcd LINKED INTO THE BUILD** (Drew-approved push-through). The first real PsyQ library is now sourced from real SDK objects in the byte-identical build: **58 libcd SDK functions** linked (not stubs), replacing the libcd-region asm stubs. Idempotent; Makefile-automated; conditional (fresh clone w/o `tools/psyq/` builds via stubs). New committed tooling: `tools/psyq_link.py` (per-object byte-link engine — recovers externals from resolved relocs, weakens psyq-obj-parser's mislabelled `.bss` commons), `psyq_link_lib.py` (whole-lib verify, 18/18 libcd), `psyq_link_region.py` (region link via **NOLOAD** = no data carving), `psyq_integrate.py` (build wiring: splat resegment + .ld swap + external resolution), `split_src_region.py` (H5-safe src split). Cookbook §9.1/9.2/9.3 + R16. **No data carving** (NOLOAD data placement; flat data subseg unchanged). Build green throughout.
+- 2026-06-15 (session E): `make clean && make extract && make build && make check` → `143dbb89… BYTE-IDENTICAL` ✓ — start-of-session baseline + after the **LZSS surgical rodata carve** (jtbl_80072A38 migrated + sandwiched) + LZSS C **NON_MATCHING-guarded** (default build = stub). **≥3-session bar already MET (A/B/C/D); E is margin.** Findings: lean LZSS path proven (no libgs needed for it); LZSS C structurally matches (111/122) but blocked on a gcc cross-jump-merge hard-tail (see LZSS block above); libgs placement+disambiguation done (bonus, task #9, deferred per Drew until before PhaseEnd).
 
 ---
 
@@ -128,7 +173,13 @@ migration+ld_interleave path above.
 - LZSS via the proven migration+ld_interleave path (independent of the lib pivot).
 
 ## Notes
-- Commits accumulate UNCOMMITTED; one phase-end commit by the developer (R8/R6).
+- **Rule candidate (PhaseEnd, Drew-flagged session E):** web-research the compiler internals (real compiler
+  source e.g. `pmret/gcc-papermario`) + decomp community for **compiler-quirk residuals** (cross-jump,
+  scheduling, regalloc) — a proven escalation tier above the permuter, below decomp.me. Found the LZSS
+  cross-jump barrier. Captured in cookbook §3a/§5a + memory `web-research-compiler-quirks`.
+- **Session-E checkpoint commit:** Drew directed a checkpoint commit (deviates from R8's strict
+  one-commit-at-phase-end; consistent with the session A–D checkpoint commits in the git log). Commit local in
+  WSL (no push, no Co-Authored-By per R5); Drew pushes via GitHub Desktop (R6).
 - `.run/merge_matches.py` = regenerate-800.c + re-apply-matches helper. **H5 caveat:** regen-fresh drops
   file-level/stub comments; for the permanent 800.c, surgically insert the 70 INCLUDE_RODATA lines instead.
 - `tools/ld_interleave.py` (committed) = the `.data→.rodata→.data` linker-script interleaver.

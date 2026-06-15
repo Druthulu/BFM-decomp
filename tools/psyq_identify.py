@@ -24,9 +24,16 @@ text = b[TLO - VRAM_BASE: THI - VRAM_BASE]
 twords = [struct.unpack_from("<I", text, i)[0] for i in range(0, len(text), 4)]
 
 def obj_text_pattern(o):
-    """Return (words, mask) for the object's .text; mask[i]=0 on relocated/jump words."""
-    d = subprocess.check_output(["mipsel-linux-gnu-objdump", "-dr", "-j", ".text", o],
-                                text=True, stderr=subprocess.DEVNULL)
+    """Return (words, mask) for the object's .text; mask[i]=0 on relocated/jump words.
+
+    A data-only object (no `.text` section — e.g. libgs GLOBAL.o, which defines only
+    globals) makes `objdump -j .text` exit non-zero; treat that as an empty .text so the
+    caller's `no-.text` path handles it instead of crashing."""
+    p = subprocess.run(["mipsel-linux-gnu-objdump", "-dr", "-j", ".text", o],
+                       capture_output=True, text=True)
+    if p.returncode != 0:
+        return [], []
+    d = p.stdout
     words, mask = [], []
     pending_reloc = False
     for line in d.splitlines():

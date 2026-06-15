@@ -432,7 +432,138 @@ INCLUDE_ASM("asm/nonmatchings/800", func_800184F0);
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80018714);
 
+/* LZSS streaming sector decompressor (resumable coroutine state machine).
+ * Decodes up to 0x800 input bytes per call out of an LZSS stream into a 0x400-byte
+ * scratchpad ring (lzss_ringBuffer @ 0x1F800000) and to lzss_outPtr. lzss_state is the
+ * resume point (0=idle/done, 1=fresh, 2=token loop, 3=have code low byte, 4=advance bit).
+ * Returns 1 if the input sector was consumed mid-stream (resume next call), 0 at the
+ * stream terminator (back-ref offset 0) or when idle. */
+#ifdef NON_MATCHING
+/* CROSS-JUMP BARRIER BREAKTHROUGH (Phase 7): the lone `__asm__ __volatile__("" ::: "memory")` in the
+ * state-2 reload save (below) is a load-bearing, ZERO-BYTE cross-jump barrier. gcc 2.7.2 -O2's jump.c
+ * cross-jumping (find_cross_jump) would otherwise MERGE the two byte-identical state-save tails (the
+ * state-3/4 `save:` block + the state-2 reload save) into one — making the function 111 instructions
+ * instead of the original 122. A volatile-asm node (ASM_INPUT) makes find_cross_jump bail (lose=1), so
+ * both saves survive; the empty asm emits no machine code. (No -fno-crossjumping in gcc 2.7.2 — it
+ * arrived in gcc 3.3.) This defeats the STRUCTURAL blocker; the function is now 122 instructions (the
+ * correct count, verified vs the original).
+ *   NON_MATCHING residual = ~3 register-allocation / scheduling diffs only: the high-byte `or` result
+ *   lands in v1 vs target v0; the state-2 store value in v0 vs v1; and `li v0,1` (return value) is placed
+ *   late in a merged epilogue vs distributed per-save in the target. These are the last-mile regalloc
+ *   that decomp-permuter normally finishes — but it can't parse the asm barrier (pycparser) and its
+ *   object-mode score has a `.rodata`-vs-`jtbl_80072A38` floor (cosmetic; links identically). Re-enable
+ *   (drop the guard) when the regalloc closes. The surgical rodata carve placing jtbl_80072A38 at
+ *   0x80072A38 via the .data->.rodata->.data sandwich IS byte-identical and stays live in the stub build. */
+extern u8 lzss_curMask;        /* 0x800747A0 */
+extern u8 lzss_curToken;       /* 0x800747A4 */
+extern u8 *lzss_outPtr;        /* 0x800747AC */
+extern u32 lzss_ringIndex;     /* 0x800747B0 */
+extern u16 lzss_partialCode;   /* 0x800747B4 */
+extern u32 lzss_state;         /* 0x800C7D24 */
+
+s32 LzssDecodeSector(u8 *src) {
+    s32 count = 0x800;
+    u32 ringIdx = lzss_ringIndex;
+    u8 mask = lzss_curMask;
+    u8 token = lzss_curToken;
+    u8 *out = lzss_outPtr;
+    u16 code = lzss_partialCode;
+    u8 *ring = (u8 *)0x1F800000;   /* scratchpad ring; original uses the literal (lui 0x1f80), not the symbol */
+    u32 readIdx;
+    s32 len;
+    u8 b;
+    u8 nb;
+    u8 cb;
+    s32 newState;
+
+    if (lzss_state >= 5) {
+        goto ret0;
+    }
+    switch (lzss_state) {
+    case 0:
+        goto term_ret;
+    case 1:
+        ringIdx = 1;
+        mask = 1;
+        token = *src++;
+        count--;
+    case 2:
+        for (;;) {
+            if (token & mask) {
+                b = *src++;
+                ring[ringIdx] = b;
+                ringIdx = (ringIdx + 1) & 0x3FF;
+                count--;
+                *out++ = b;
+            } else {
+                nb = *src++;
+                count--;
+                code = (code & 0xFF00) | nb;
+                if (count != 0) {
+                    goto have_low;
+                }
+                newState = 3;
+                goto save;
+    have_low:
+    case 3:
+                nb = *src++;
+                count--;
+                code = (nb << 8) | (code & 0xFF);
+                readIdx = code & 0x3FF;
+                if (readIdx == 0) {
+                    lzss_state = 0;
+                term_ret:
+                    return 0;
+                }
+                len = (code >> 10) + 2;
+                while (len != 0) {
+                    cb = ring[readIdx];
+                    readIdx = (readIdx + 1) & 0x3FF;
+                    ring[ringIdx] = cb;
+                    ringIdx = (ringIdx + 1) & 0x3FF;
+                    *out++ = cb;
+                    len--;
+                }
+            }
+            if (count != 0) {
+                goto next_bit;
+            }
+            newState = 4;
+        save:
+            lzss_state = newState;
+            lzss_ringIndex = ringIdx;
+            lzss_curMask = mask;
+            lzss_curToken = token;
+            lzss_outPtr = out;
+            lzss_partialCode = code;
+            return 1;
+    next_bit:
+    case 4:
+            if (mask == 0x80) {
+                mask = 1;
+                token = *src++;
+                count--;
+                if (count == 0) {
+                    lzss_state = 2;
+                    lzss_ringIndex = ringIdx;
+                    lzss_curMask = mask;
+                    lzss_curToken = token;
+                    lzss_outPtr = out;
+                    lzss_partialCode = code;
+                    __asm__ __volatile__("" ::: "memory");  /* zero-byte cross-jump barrier — see header */
+                    return 1;
+                }
+            } else {
+                mask <<= 1;
+            }
+        }
+    }
+ret0:
+    return 0;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/800", LzssDecodeSector);
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80018918);
 
