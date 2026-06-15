@@ -16,7 +16,14 @@ for the library's text region(s), this:
 Stub<->block mapping is by vram order: the i-th stub (in vram order) gets the i-th contiguous
 object block. Non-library gaps between blocks keep their own stub subsegment untouched.
 
-Usage: psyq_integrate.py <elf_dir> <ld_path> <objdir> <syms_ld> <stub1>[,<stub2>,...]
+The optional [text_lo text_hi] window narrows the psyq_identify placement scan to the library's
+text region. This is REQUIRED when an object's `.text` pattern is too short to anchor uniquely over
+the whole EXE but is unique within the library region (e.g. libgs GS_106, an 8-instruction object
+whose pattern recurs in game code — ambiguous in the default 0x80010000..0x800629DC window, unique
+in 0x80051804..0x80057928). Without it that object drops out of the placement map and its block
+splits, breaking the block<->stub count.
+
+Usage: psyq_integrate.py <elf_dir> <ld_path> <objdir> <syms_ld> <stub1>[,<stub2>,...] [text_lo text_hi]
 """
 import glob, os, re, subprocess, sys, tempfile
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -60,9 +67,9 @@ def trial_undefined(ld_path, extra_syms=None):
             | set(re.findall(r"[`']([^`']+)' referenced in section .*? defined in discarded section", err)))
 
 
-def integrate(elf_dir, ld_path, objdir, syms_path, stubs):
+def integrate(elf_dir, ld_path, objdir, syms_path, stubs, lo=None, hi=None):
     exe = open(EXE, "rb").read()
-    order = sorted(placement(elf_dir, None, None).items(), key=lambda kv: kv[1][0])
+    order = sorted(placement(elf_dir, lo, hi).items(), key=lambda kv: kv[1][0])
     recovered, weaken_by, bases_by = {}, {}, {}
     for name, (vram, _) in order:
         bases, weaken, sym_addr = classify(os.path.join(elf_dir, name), vram, exe)
@@ -163,9 +170,10 @@ def integrate(elf_dir, ld_path, objdir, syms_path, stubs):
 
 
 def main():
-    if len(sys.argv) != 6:
+    if len(sys.argv) not in (6, 8):
         sys.exit(__doc__)
-    integrate(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5].split(","))
+    lo, hi = (sys.argv[6], sys.argv[7]) if len(sys.argv) == 8 else (None, None)
+    integrate(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5].split(","), lo, hi)
 
 
 if __name__ == "__main__":

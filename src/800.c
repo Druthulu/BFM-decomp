@@ -851,13 +851,453 @@ s32 CdReadRequest(int *cdlFile, void *dest, s32 size, s32 mode) {
     return cdReq_result;
 }
 
+#ifdef NON_MATCHING
+/* libcd low-level command API (the loader uses raw CdControl, NOT the PsyQ CdRead() wrapper;
+ * not in psyq/libcd.h yet). */
+extern int   CdControl(u8 com, u8 *param, u8 *result);
+extern int   CdSync(int mode, u8 *result);
+extern void  CdFlush(void);
+extern void *CdReadyCallback(void *func);
+extern void  CdReadSectorReadyCB(char);        /* the CdlReadN data-ready callback @0x8001A338 */
+extern void  start(void);                       /* EXE entry — used as the idle "sink" sentinel */
+extern int   func_8002FD14(int buf, int len);   /* per-sector consumer (drains the queued list) */
+extern void  func_8001A0FC(void);
+extern int   func_8001A114(void);
+
+/* cdReq_* async-read control block (Phase 3 T2); the D_800AE* are its unnamed members. */
+extern int     cdReq_state;
+extern int     cdReq_retry;
+extern int     cdReq_result;        /* return-by-global: 0 = still busy, 1 = done */
+extern u8      cdReq_cdResult;      /* CdControl status byte (bit 0x10 = error) */
+extern void   *cdReq_cdlFile;       /* seek target (a CdlLOC*) */
+extern int     cdReq_posInt;
+extern int     cdReq_timeout;
+extern int     cdReq_size;          /* bytes to read */
+extern void   *cdReq_dest;          /* read destination */
+extern s32     cdReq_sink;          /* sector sink address (dest while reading, &start idle) */
+extern int     cdReq_wordsRemaining;
+extern int     cdReq_drainPhase;    /* 0 = reading, 1 = drained, 2 = finished */
+extern void   *cdReq_savedReadyCB;  /* prior CdReadyCallback, restored on stop */
+extern int     cdReq_curSector;
+extern u8      D_800AE740;          /* CdlSetmode mode-byte buffer (0xA0) */
+extern int     D_800AE6E8;          /* CdSync result scratch */
+extern int     D_800AE6F8;
+extern s32     D_800AE70C;          /* last/idle CdlLOC (held as a word) */
+extern int     D_800AE71C;          /* count of queued sectors to drain (state 7) */
+extern int     D_800AE724;          /* base of the queued {ptr,len} sector list */
+extern int     D_800AE6FC;
+extern int     D_800AE700;
+extern u8      D_800AE798;
+extern u8      D_800AE799;
+
+/* Hand-rolled polled async CD reader: one state step per call, switch(cdReq_state). Sequence
+ *   SetMode(0xA0) -> SeekL(+CdPosToInt) -> ReadN(+CdReadSectorReadyCB sector drain) -> Pause/Flush.
+ * Progress is returned via cdReq_result (0 busy / 1 done). The game does NOT use PsyQ CdRead()/
+ * CdReadSync(). pauseAfterSeek != 0 stops after the seek (state 8) instead of reading.
+ * Provenance: static trace, Phase 3 T2 (verified).
+ * NON_MATCHING: logically faithful to the Ghidra decompile; not byte-exact — a large switch state
+ * machine whose register allocation + jump-table placement are a later byte-match pass. */
+void CdReadStateMachine(int pauseAfterSeek) {
+    int n;
+    int i;
+    int off;
+
+    switch (cdReq_state) {
+    case 0:
+        cdReq_retry = 0;
+        D_800AE71C = 0;
+        D_800AE70C = 0;
+        D_800AE740 = 0xA0;
+        CdControl(0x0E, &D_800AE740, &cdReq_cdResult);             /* CdlSetmode */
+        if ((cdReq_cdResult & 0x10) == 0) {
+            cdReq_state++;
+            goto state1;
+        }
+        break;
+    case 1:
+    state1:
+        D_800AE6E8 = CdSync(1, &cdReq_cdResult);
+        if (D_800AE6E8 == 0) { cdReq_result = 0; return; }
+        if (D_800AE6E8 == 5) { cdReq_state = 0; cdReq_result = 0; return; }
+        if (D_800AE6E8 != 2) { cdReq_result = 0; return; }
+        cdReq_retry = 0;
+        cdReq_state++;
+        D_800AE6E8 = 2;
+    state2:
+        if (cdReq_retry + 1 < 3) {
+            cdReq_retry++;
+            cdReq_result = 0;
+            return;
+        }
+        cdReq_state++;
+        cdReq_retry = 0;
+        cdReq_result = 0;
+        return;
+    case 2:
+        goto state2;
+    case 3:
+        CdControl(0x15, (u8 *)cdReq_cdlFile, &cdReq_cdResult);    /* CdlSeekL */
+        if ((cdReq_cdResult & 0x10) == 0) {
+            cdReq_timeout = 0;
+            cdReq_posInt = CdPosToInt((CdlLOC *)cdReq_cdlFile);
+            cdReq_state++;
+            goto state4;
+        }
+        break;
+    case 4:
+    state4:
+        D_800AE6E8 = CdSync(1, &cdReq_cdResult);
+        if (D_800AE6E8 == 5) {
+            cdReq_retry++;
+        flushRetry:
+            CdFlush();
+            cdReq_state = 3;
+            cdReq_result = 0;
+            return;
+        }
+        if (D_800AE6E8 == 0) { cdReq_result = 0; return; }
+        if (D_800AE6E8 != 2) {
+            cdReq_result = 0;
+            cdReq_timeout++;
+            if (cdReq_timeout < 0xB5) { cdReq_result = 0; return; }
+            goto flushRetry;
+        }
+        if (pauseAfterSeek == 0) {
+            cdReq_state++;
+            goto state5;
+        }
+        CdControl(0x09, (u8 *)0, &cdReq_cdResult);                /* CdlPause */
+        if ((cdReq_cdResult & 0x10) == 0) {
+            cdReq_state = 8;
+            D_800AE70C = *(s32 *)cdReq_cdlFile;
+            cdReq_result = 0;
+            return;
+        }
+        break;
+    case 5:
+    state5:
+        cdReq_drainPhase = 0;
+        if (cdReq_size < 1) {
+            D_800AE6F8 = 0;
+        } else {
+            int bytes = cdReq_size + 3;
+            D_800AE6F8 = 3;
+            if (bytes < 0) bytes = cdReq_size + 6;                /* round-up word count, neg-safe */
+            cdReq_wordsRemaining = bytes >> 2;
+            D_800AE798 = 1;
+            cdReq_sink = (s32)cdReq_dest;
+        }
+        cdReq_savedReadyCB = CdReadyCallback(CdReadSectorReadyCB);
+        CdControl(0x06, (u8 *)0, &cdReq_cdResult);                /* CdlReadN */
+        if ((cdReq_cdResult & 0x10) == 0) {
+            cdReq_retry = 0;
+            cdReq_state++;
+            goto state6;
+        }
+        break;
+    case 6:
+    state6:
+        if (cdReq_drainPhase != 1) {
+            if (cdReq_drainPhase == 2) {
+                CdReadyCallback(cdReq_savedReadyCB);
+                cdReq_state = 0;
+                cdReq_result = 0;
+                return;
+            }
+            cdReq_retry++;
+            if (cdReq_retry > 299) {
+                CdReadyCallback(cdReq_savedReadyCB);
+                cdReq_state = 0;
+                CdFlush();
+                cdReq_result = 0;
+                return;
+            }
+            cdReq_result = 0;
+            return;
+        }
+        CdReadyCallback(cdReq_savedReadyCB);
+        CdControl(0x09, (u8 *)0, &cdReq_cdResult);                /* CdlPause */
+        if ((cdReq_cdResult & 0x10) == 0) {
+            cdReq_state += (D_800AE71C == 0) ? 2 : 1;             /* -> 8 (no drain) or 7 (drain) */
+            cdReq_result = 0;
+            return;
+        }
+        break;
+    case 7:
+        n = 0;
+        if (D_800AE71C > 0) {
+            off = 0;
+            do {
+                do {
+                    i = func_8002FD14(*(int *)(D_800AE724 + off),
+                                      *(int *)(D_800AE724 + off + 4));
+                } while (i == 0);
+                n++;
+                off = n * 8;
+            } while (n < D_800AE71C);
+        }
+        cdReq_state++;
+        cdReq_result = 0;
+        return;
+    case 8:
+        D_800AE6E8 = CdSync(1, &cdReq_cdResult);
+        if (D_800AE6E8 == 2) {
+            cdReq_sink = (s32)start;
+            cdReq_state = 0;
+            D_800AE6F8 = 0;
+            D_800AE6FC = 0;
+            D_800AE700 = 0;
+            cdReq_curSector = 0;
+            D_800AE70C = 0;
+            cdReq_wordsRemaining = 1;
+            cdReq_drainPhase = 0;
+            D_800AE798 = 0;
+            D_800AE799 = 0;
+            cdReq_result = 1;
+            return;
+        }
+        if (D_800AE6E8 != 5) { cdReq_result = 0; return; }
+        CdFlush();
+        CdControl(0x09, (u8 *)0, &cdReq_cdResult);                /* CdlPause */
+        if ((cdReq_cdResult & 0x10) == 0) { cdReq_result = 0; return; }
+        break;
+    case 9:
+        func_8001A0FC();
+        cdReq_state++;
+        /* fall through to state 10 */
+    case 10:
+        D_800AE6E8 = func_8001A114();
+        if (D_800AE6E8 != 0) {
+            cdReq_state = 0;
+            cdReq_result = 0;
+            return;
+        }
+        cdReq_result = 0;
+        return;
+    default:
+        goto setDefault;
+    }
+    cdReq_state = 9;
+setDefault:
+    cdReq_result = 0;
+    return;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/800", CdReadStateMachine);
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/800", func_8001A0FC);
 
 INCLUDE_ASM("asm/nonmatchings/800", func_8001A114);
 
+#ifdef NON_MATCHING
+typedef struct { short x, y, w, h; } RECT;          /* libgpu RECT (VRAM rectangle) */
+extern int   CdGetSector(void *madr, int nsector);
+extern void  LoadImage(RECT *rect, u32 *data);      /* libgpu VRAM upload */
+extern int   func_8002FC64(int nbytes, u32 *src);   /* stage/copy a payload run */
+extern int   func_8002FB08(int entry);              /* kick off a queued list entry */
+extern void  func_8002FDC8(void);                   /* finalize the queued transfer */
+extern void  func_80018714(void);                   /* reset LZSS sector state */
+
+/* shared cdReq_ control block (see CdReadStateMachine) + this callback's members */
+extern int   cdReq_posInt;
+extern int   cdReq_size;
+extern int   cdReq_wordsRemaining;
+extern int   cdReq_drainPhase;
+extern void *cdReq_dest;
+extern s32   cdReq_sink;
+extern u32   lzss_sectorStagingBuf[];  /* 0x80079A70 — PAC header lands here ([0] = 'PAC' magic) */
+extern u8    cdReq_sectorHdrBuf[];     /* sub-header scratch (3 words -> CdPosToInt) */
+extern u8    D_80079A74;               /* PAC type */
+extern u8    D_80079A75;               /* PAC flags -> D_800AE798 */
+extern int   D_80079A78;               /* PAC sub-count (textures) */
+extern int   D_80079A7C;               /* PAC payload size (bytes) */
+extern int   D_800AE6F8;               /* load phase (PAC-type dispatcher state) */
+extern u8    D_800AE798;               /* saved PAC flags (nonzero = more sectors follow) */
+extern int   D_800AE704;               /* texture sector index (0..3, round-robin) */
+extern short D_800AE710, D_800AE712;   /* VRAM dst x,y of the current tile (a RECT @0xAE710) */
+extern short D_800AE714, D_800AE716;   /* tile w,h (0x20 x 0x20) */
+extern u8    D_800AE758[];             /* 64-byte present bitmask (which tiles are sent) */
+extern u8    D_800AE79A, D_800AE79B;   /* bit / byte cursor into the bitmask */
+extern RECT *D_800AE718;               /* current texture-rect pointer (PAC type 6) */
+extern int   D_800AE71C;               /* queued-entry count */
+extern int   D_800AE720;               /* "transfer already in progress" guard */
+extern int   D_800AE724;               /* base of the queued {ptr,len} list */
+extern void *D_80072C80;               /* a fixed destination pointer (PAC type 7) */
+extern u32   D_8007A280[];             /* texture RECT array (read from CD) */
+extern u32   D_8007A310[];             /* texture pixel data (read from CD) */
+
+/* CdReadyCallback for CdReadStateMachine (registered in its state 5). Per CD data-ready interrupt,
+ * drain one sector and dispatch on the load phase D_800AE6F8: parse the PAC header, then per PAC
+ * type either upload tiles to VRAM (LoadImage), copy raw sectors to cdReq_sink, or decompress via
+ * LzssDecodeSector (this is its ONLY caller). reason: 1 = data-ready, 5 = end/error.
+ * Provenance: static trace, Phase 3 T2/T4 (verified).
+ * NON_MATCHING: faithful translation of the Ghidra decompile — logically faithful, not byte-verified
+ * (large interrupt callback; register allocation + jump-table placement are a later byte-match pass). */
+void CdReadSectorReadyCB(char reason) {
+    void *dst;
+    int pos;
+    int i, n;
+
+    if (reason != 1) goto endReason;
+    CdGetSector(cdReq_sectorHdrBuf, 3);
+    pos = CdPosToInt((CdlLOC *)cdReq_sectorHdrBuf);
+    if (pos != cdReq_posInt) {                  /* sector out of order -> abort the drain */
+        if (D_800AE6F8 == 4) func_8002FDC8();
+        cdReq_drainPhase = 2;
+        return;
+    }
+    cdReq_posInt = pos + 1;
+    switch (D_800AE6F8) {
+    case 0:                                      /* expect a PAC header */
+        CdGetSector(lzss_sectorStagingBuf, 4);
+        if (lzss_sectorStagingBuf[0] != 0x434150) goto abortDrain;   /* "PAC" magic? */
+        D_800AE798 = D_80079A75;
+        switch (D_80079A74) {                    /* PAC type */
+        case 0:
+        case 5:                                  /* tiled texture: scan the present-bitmask */
+            D_800AE704 = 0;
+            CdGetSector(D_800AE758, 0x10);
+            D_800AE716 = 0x20; D_800AE714 = 0x20;
+            D_800AE712 = 0; D_800AE710 = 0;
+            D_800AE79A = 1; D_800AE79B = 0;
+            while (D_800AE79B < 0x40) {
+                if ((D_800AE79A & D_800AE758[D_800AE79B]) != 0) goto tilePhase;
+                if (D_800AE79A == 0x80) { D_800AE79A = 1; D_800AE79B++; }
+                else                     D_800AE79A <<= 1;
+                D_800AE710 += 0x20;
+                if (D_800AE710 > 0x3FF) { D_800AE710 = 0; D_800AE712 += 0x20; }
+            }
+            D_800AE6F8 = (D_800AE798 == 0) ? 0 : 2;
+        tilePhase:
+            D_800AE6F8++;
+            break;
+        case 1:
+            dst = cdReq_dest;
+            goto setSink;
+        case 2:
+            if (D_800AE720 != 0) goto phaseDone;
+            dst = *(void **)(D_800AE71C * 8 + D_800AE724 + 4);
+            goto setSink;
+        case 3:
+            if (D_800AE720 != 0) goto phaseDone;
+            do { i = func_8002FB08(*(int *)(D_800AE71C * 8 + D_800AE724)); } while (i == 0);
+            D_800AE6F8 = 4;
+            cdReq_wordsRemaining = D_80079A7C - 0x800;
+            break;
+        case 4:
+            D_800AE6F8 = 5;
+            cdReq_wordsRemaining = (D_80079A7C - 0x7FD) >> 2;
+            cdReq_sink = (s32)cdReq_dest;
+            func_80018714();
+            break;
+        case 6:                                  /* multiple TIMs: LoadImage each */
+            CdGetSector(D_8007A280, 0x1FC);
+            n = D_80079A78;
+            {
+                u32 *p = D_8007A310;
+                i = 0;
+                D_800AE718 = (RECT *)D_8007A280;
+                if (n > 0) {
+                    do {
+                        LoadImage(D_800AE718, p);
+                        i++;
+                        p += D_800AE718->w / 2;
+                        D_800AE718++;
+                    } while (i < n);
+                }
+            }
+            goto sectorDone;
+        case 7:
+            dst = D_80072C80;
+            if (cdReq_size < 0) goto phaseDone;
+        setSink:
+            D_800AE6F8 = 3;
+            cdReq_wordsRemaining = (D_80079A7C - 0x7FD) >> 2;
+            cdReq_sink = dst;
+            break;
+        case 8:
+            D_800AE6F8 = 6;
+            cdReq_wordsRemaining = (D_80079A7C - 0x7FD) >> 2;
+            break;
+        }
+        break;
+    case 1:                                      /* stream tile pixels to VRAM */
+        i = D_800AE704 * 0x200;
+        CdGetSector(&lzss_sectorStagingBuf[i], 0x200);
+        LoadImage((RECT *)&D_800AE710, &lzss_sectorStagingBuf[i]);
+        D_800AE704 = (D_800AE704 + 1) & 3;
+        do {
+            if (D_800AE79A == 0x80) { D_800AE79A = 1; D_800AE79B++; }
+            else                     D_800AE79A <<= 1;
+            if (D_800AE79B > 0x3F) goto sectorDone;
+            D_800AE710 += 0x20;
+            if (D_800AE710 > 0x3FF) { D_800AE710 = 0; D_800AE712 += 0x20; }
+        } while ((D_800AE79A & D_800AE758[D_800AE79B]) == 0);
+        break;
+    case 3:                                      /* raw copy to cdReq_sink */
+        if (cdReq_wordsRemaining < 0x201) {
+            CdGetSector((void *)cdReq_sink, cdReq_wordsRemaining);
+        sectorDone:
+            D_800AE6F8 = (D_800AE798 == 0) ? 0 : 2;
+        } else {
+            CdGetSector((void *)cdReq_sink, 0x200);
+            cdReq_wordsRemaining -= 0x200;
+            cdReq_sink += 0x800;
+        }
+        break;
+    case 4:                                      /* staged copy via func_8002FC64 */
+        if (cdReq_wordsRemaining < 0x801) {
+            n = cdReq_wordsRemaining + 3;
+            if (n < 0) n = cdReq_wordsRemaining + 6;
+            CdGetSector(lzss_sectorStagingBuf, n >> 2);
+            if (func_8002FC64(cdReq_wordsRemaining, lzss_sectorStagingBuf) == 0) {
+            stageFail:
+                func_8002FDC8();
+                D_800AE6F8 = 7;
+            } else {
+                D_800AE71C++;
+                if (D_800AE798 != 0) goto phaseDone;
+                D_800AE6F8 = 0;
+            }
+        } else {
+            CdGetSector(lzss_sectorStagingBuf, 0x200);
+            i = func_8002FC64(0x800, lzss_sectorStagingBuf);
+            cdReq_sink += 0x800;
+            cdReq_wordsRemaining -= 0x800;
+            if (i == 0) goto stageFail;
+        }
+        break;
+    case 5:                                      /* LZSS decompress one sector */
+        CdGetSector(lzss_sectorStagingBuf, 0x200);
+        if (LzssDecodeSector(lzss_sectorStagingBuf) == 0) goto sectorDone;
+        break;
+    case 6:                                      /* countdown the remaining words */
+        cdReq_wordsRemaining -= 0x200;
+        if (cdReq_wordsRemaining < 1) {
+            if (D_800AE798 != 0) goto phaseDone;
+            D_800AE6F8 = 0;
+        }
+        break;
+    }
+    if (D_800AE6F8 == 2) {
+    phaseDone:                                   /* (reached by the switch above or by goto) */
+        D_800AE6F8 = 2;
+        cdReq_drainPhase = 1;
+    } else if (D_800AE6F8 == 7) {
+        cdReq_drainPhase = 2;
+    }
+endReason:
+    if (reason == 5) {
+        if (D_800AE6F8 == 4) func_8002FDC8();
+    abortDrain:
+        cdReq_drainPhase = 2;
+    }
+    return;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/800", CdReadSectorReadyCB);
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/800", func_8001A9D8);
 
@@ -1678,6 +2118,25 @@ INCLUDE_ASM("asm/nonmatchings/800", func_8002B08C);
 
 INCLUDE_ASM("asm/nonmatchings/800", func_8002B0B4);
 
+/* DEFERRED: SaveLoadRoutine (0x8002B154) — Phase 7 (session G), per Drew, to Q#5.
+ * Original intent: the save / PS1 memory-card handler. Referenced by saveHeaderTemplate
+ *   (0x80072DF0) via THREE entry-point pointers: 0x8002B154 / 0x8002B1AC / 0x8002BEA4.
+ *   Dispatch branches on (selector & 7) (case 0 -> +1 counter; 1 -> 7; 2 -> 0x1E; 3 -> 0x23).
+ * Why deferred (NOT a clean state machine like the 3 CD loaders drafted this session):
+ *   - splat emits ONE 1139-instruction stub spanning 0x8002B154-0x8002C31C with a SINGLE `jr $ra`
+ *     => it is effectively one large MULTI-ENTRY function (the 3 saveHeaderTemplate entries share a
+ *     return; the caller passes args in $s0/$s3) — awkward to express in C at all.
+ *   - Ghidra mis-analyses it: get_code(0x8002B154) returns only a tiny fragment using unaff_s0/
+ *     unaff_s3 (caller-set regs), so there is no faithful whole-function decompile to translate.
+ *   - It is the save-data/memcard format, explicitly Phase-3 Q#5 "format still TBD" — a different
+ *     subsystem from the file/overlay loader cluster (which IS drafted: CdReadStateMachine,
+ *     CdReadSectorReadyCB, StreamLoadStateMachine here + the matched CdReadRequest/CdQueueBusy/…).
+ *   - External helpers it calls (uncharacterised): func_800603BC (x20), func_80060614, func_8006023C,
+ *     func_80060D9C, func_80060AE0, func_8005FFB4, func_8005FD58, func_80061114/524, func_80016714(bzero).
+ * Re-enable / revisit when Q#5 (save/memcard format) is studied: FIRST fix the Ghidra function
+ *   boundary (make 0x8002B154 span the whole 1139 ins, or model the 3 entry points), re-decompile,
+ *   characterise the func_80060xxx memcard helpers, THEN draft. A wrong faithful-looking draft here
+ *   would be worse than this honest stub (P9/G3). The default build is byte-identical via this stub. */
 INCLUDE_ASM("asm/nonmatchings/800", SaveLoadRoutine);
 
 INCLUDE_ASM("asm/nonmatchings/800", func_8002C320);
@@ -1989,7 +2448,236 @@ INCLUDE_ASM("asm/nonmatchings/800", func_8003621C);
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80036260);
 
+#ifdef NON_MATCHING
+extern int   CdControl(u8 com, u8 *param, u8 *result);
+extern int   CdSync(int mode, u8 *result);
+extern u32   CdMode(void);
+extern void  CdFlush(void);
+extern void *CdReadyCallback(void *func);
+extern void  func_800377D8(void);   /* this loader's CdlReadN ready-callback */
+extern void  func_80036260(void);   /* sub-handler passed to func_80037CD8 */
+extern void  func_8002EC10(void);
+extern void  func_80037334(void);
+extern void  func_80037358(int posInt);
+extern void  func_80037144(int idx);
+extern int   func_80037CD8(void *arg);
+extern int   func_8003750C(void);
+extern int   func_800374CC(int *out);
+extern int   func_8003775C(void);
+extern void  func_80037D74(void);
+extern void *func_80037368(int *out);
+
+extern int   streamLoad_state;          /* 0x8006AF00 */
+extern void *streamLoad_savedReadyCB;
+extern u8    streamLoad_cbActive;
+extern int   D_800A4F28;            /* tick / timeout counter */
+extern int   D_800A4F2C;            /* CdMode-derived retry budget */
+extern int   D_800A4F30;            /* remaining sub-stream repeat count (from param_3) */
+extern int   D_800A4F34;            /* last sector position (stall detection) */
+extern int   D_800A4F38;            /* end/abort flag */
+extern int   D_800A6544;
+extern u16   D_800A4E8E;            /* 16-bit status flags */
+extern u8    D_8006AEF4;            /* 8-bit status flags */
+extern u8    D_80068B60[];          /* per-resource descriptor table (0x10 stride) */
+
+/* Second CD loader, DISTINCT from CdReadStateMachine: an 18-state machine (streamLoad_state) with
+ * its OWN ready-callback (func_800377D8). Runs SetMode(0xA0)/SeekL/ReadN with retry + CdMode
+ * handling, looping param_3 (D_800A4F30) times over sub-streams. Returns 0 = busy, 1 = done,
+ * 2 = error/abort. Driven by ResourceLoadStateMachine. Provenance: static trace, Phase 3 T4 (fn id
+ * verified; full semantics partial).
+ * NON_MATCHING: faithful translation of the Ghidra decompile — logically faithful, not byte-verified. */
+int StreamLoadStateMachine(int param_1, void *param_2, int param_3) {  /* param_2 is a CdlLOC* */
+    short sVar1;
+    int iVar4;
+    u32 uVar2;
+    char *pcVar3;
+    u8 local_28[8];
+    u8 local_20[8];
+    int local_18;
+    int local_14;
+
+    sVar1 = *(short *)(D_80068B60 + (param_1 - 0x100) * 0x10);
+    D_800A4F28++;
+    switch (streamLoad_state) {
+    case 0:
+        D_800A4F38 = 0;
+        D_800A6544 = 0;
+        D_800A4F30 = param_3;
+        func_8002EC10();
+        streamLoad_state++;
+        D_800A4E8E &= 0xFFDF;
+        return 0;
+    case 1:
+        func_80037334();
+        iVar4 = CdPosToInt((CdlLOC *)param_2);
+        func_80037358(iVar4);
+        func_80037144(sVar1);
+        streamLoad_state++;
+        /* fall through */
+    case 2:
+        local_14 = CdSync(1, local_20);
+        if (local_14 != 5 && local_14 != 2) return 0;
+        uVar2 = CdMode();
+        D_800A4F2C = ((uVar2 & 0x80) == 0) ? 3 : 0;
+        streamLoad_state++;
+        /* fall through */
+    case 3:
+        local_28[0] = 0xA0;
+        iVar4 = CdControl(0x0E, local_28, local_20);     /* CdlSetmode */
+        if (iVar4 == 0) {
+            if ((local_20[0] & 0x10) != 0) { func_80037334(); streamLoad_state = 0; return 2; }
+            return 0;
+        }
+        D_800A4F28 = 0;
+        streamLoad_state++;
+        /* fall through */
+    case 4:
+        iVar4 = CdSync(1, local_20);
+        if (iVar4 != 5) {
+            if (iVar4 == 2) {
+                streamLoad_state++;
+                local_14 = 2;
+            modeWait:
+                if (D_800A4F2C != 0) { D_800A4F2C--; return 0; }
+                streamLoad_state++;
+                goto issueSeek;
+            }
+            if (D_800A4F28 < 0x3D) return 0;
+        }
+        streamLoad_state = 3;
+        return 0;
+    case 5:
+        goto modeWait;
+    case 6:
+    issueSeek:
+        iVar4 = func_80037CD8((void *)func_80036260);
+        if (iVar4 == 0) return 0;
+        streamLoad_state = 7;
+        /* fall through */
+    case 7:
+        iVar4 = func_8003750C();
+        if (iVar4 == 0) return 0;
+        streamLoad_state++;
+        /* fall through */
+    case 8:
+        local_14 = CdSync(1, local_20);
+        if (local_14 != 5 && local_14 != 2) return 0;
+        streamLoad_state++;
+        /* fall through */
+    case 9:
+        D_800A4F28 = 0;
+        iVar4 = CdControl(0x15, (u8 *)param_2, local_20);      /* CdlSeekL */
+        if (iVar4 == 0) return 0;
+        streamLoad_state++;
+        /* fall through */
+    case 10:
+        local_14 = CdSync(1, local_20);
+        if (local_14 == 5) {
+            iVar4 = CdControl(0x01, (u8 *)0, local_20);        /* CdlNop */
+            if (iVar4 == 0) { streamLoad_state = 9; return 0; }
+            if ((local_20[0] & 0x10) != 0) {
+                func_80037334();
+                D_8006AEF4 &= 0xFD;
+                streamLoad_state = 0;
+                return 2;
+            }
+            streamLoad_state = 9;
+            return 0;
+        }
+        if (local_14 != 2) {
+            if (D_800A4F28 < 0x12D) return 0;
+            CdFlush();
+            streamLoad_state = 9;
+            return 2;
+        }
+        streamLoad_state++;
+        local_14 = 2;
+        /* fall through */
+    case 0xB:
+        D_800A4F28 = 0;
+        iVar4 = CdControl(0x06, (u8 *)param_2, local_20);      /* CdlReadN */
+        if (iVar4 != 0) {
+            if (streamLoad_cbActive == 0)
+                streamLoad_savedReadyCB = CdReadyCallback((void *)func_800377D8);
+            else
+                CdReadyCallback((void *)func_800377D8);
+            streamLoad_state++;
+            streamLoad_cbActive = 1;
+            return 0;
+        }
+        if ((local_20[0] & 0x10) == 0) return 0;
+        D_8006AEF4 &= 0xFD;
+        func_80037334();
+        streamLoad_state = 0;
+        return 2;
+    case 0xC:
+        iVar4 = func_800374CC(&local_18);
+        if (iVar4 == 0) {
+            if (local_18 != D_800A4F34) { D_800A4F34 = local_18; D_800A4F28 = 0; }
+            if (D_800A4F28 > 300) {
+                if (streamLoad_cbActive != 0) {
+                    CdReadyCallback(streamLoad_savedReadyCB);
+                    streamLoad_savedReadyCB = 0;
+                    streamLoad_cbActive = 0;
+                }
+                streamLoad_state++;
+            }
+            return 0;
+        }
+        if (streamLoad_cbActive != 0) {
+            CdReadyCallback(streamLoad_savedReadyCB);
+            streamLoad_savedReadyCB = 0;
+            streamLoad_cbActive = 0;
+        }
+        streamLoad_state++;
+        /* fall through */
+    case 0xD:
+        iVar4 = func_8003775C();
+        if (iVar4 == 0) return 0;
+        func_80037D74();
+        streamLoad_state++;
+        return 0;
+    case 0xE:
+        pcVar3 = (char *)func_80037368(&local_14);
+        if (local_14 != 1) { streamLoad_state = 0x11; return 0; }
+        if (*pcVar3 != 1) {
+            if (*pcVar3 == 2) { streamLoad_state = 0x11; D_800A4F38 = 1; return 0; }
+            if (D_800A4F30 != 0) {
+                if (D_800A4F30 - 1 == 0) { streamLoad_state = 0x11; D_800A4F30 = 0; return 0; }
+                streamLoad_state = 1;
+                D_800A4F30--;
+                return 0;
+            }
+            streamLoad_state = 1;
+            return 0;
+        }
+        streamLoad_state++;
+        break;                                                 /* -> CdlPause (post-switch) */
+    case 0xF:
+        break;                                                 /* -> CdlPause (post-switch) */
+    case 0x10:
+        iVar4 = CdSync(1, local_20);
+        if (iVar4 != 5 && iVar4 != 2) return 0;
+        if (D_800A4F38 == 0) { streamLoad_state = 0; return 1; }
+        streamLoad_state = 0;
+        D_800A4F38 = 0;
+        return 2;
+    case 0x11:
+        iVar4 = CdControl(0x09, (u8 *)0, local_20);            /* CdlPause */
+        if (iVar4 != 0) { streamLoad_state = 0x10; return 0; }
+        return 0;
+    default:
+        return 0;
+    }
+    /* shared tail for states 0xE (advance) and 0xF: pause, then wait for it */
+    iVar4 = CdControl(0x09, (u8 *)0, local_20);                /* CdlPause */
+    if (iVar4 != 0) { streamLoad_state++; return 0; }
+    if ((local_20[0] & 0x10) != 0) { streamLoad_state = 0; return 1; }
+    return 0;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/800", StreamLoadStateMachine);
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80036AF8);
 

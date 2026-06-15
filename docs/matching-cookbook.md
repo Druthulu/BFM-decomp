@@ -409,7 +409,33 @@ single-library path never hit. All fixed in `tools/psyq_integrate.py`; reuse for
   `psyq_identify <full-lib-dir> <lo> <hi>` over ONE block's range reports the right objects PLUS byte-
   identical-`.text` aliases (GS_131≡RVWUNIT, PRESET2≡PRESET3, OBJT2≡OBJT3); keep the one that also
   matches `.data/.rdata` (`psyq_link_region --verify` confirms per-object). Hardcode the disambiguated
-  object list in a committed regen script (`tools/make_libgs_block6.sh`) — SDK-derived dir, gitignored.
+  object list in a committed regen script (`tools/make_libgs.sh`) — SDK-derived dir, gitignored.
+
+### §9.5 Integrating a WHOLE multi-block library in one call (full libgs — Phase 7 session G)
+Block 6 alone (§9.4) proved the pattern; the full library is then ONE `psyq_integrate` call over all of
+its used objects — no separate integration per block. integrate auto-splits the elf dir's vram-ordered
+objects into contiguous runs (`contiguous_blocks`) and maps the i-th run to the i-th stub: pass one
+block stub per contiguous run, and a plain asm stub per non-library gap (gaps keep their own subseg).
+- **Derive the block/gap structure empirically (G1), don't trust the notes.** `psyq_identify <used-dir>`
+  prints each object's vram; a new block starts wherever the next object's vram ≠ the previous object's
+  end (`vram + nins*4`). libgs = 6 blocks, gaps 80/48/1536/48/304 B (the 1536 is the excluded GS_001).
+  Resegment the splat code subseg into `[game-pre][block1][gap1]…[blockN][gapN]…` (vram→file =
+  −0x8000F800); block subsegs become the `libgsN` integrate stubs, gap subsegs stay `gsgapN` asm stubs
+  (incl. the GS_001 gap). One `split_src_region.py trim` drops the old single-subseg's stubs from the
+  pre-file — but verify FIRST that **no matched C lives in [lo,hi)** (trim drops that range
+  unconditionally; here all matched fns were ≤0x8002Axxx, far below the 0x80051804 libgs base).
+- **Short objects need the placement WINDOW (new `psyq_integrate <stubs> <lo> <hi>` arg).** An object
+  whose `.text` is too short to anchor uniquely over the whole EXE — libgs **GS_106** (8 ins; its pattern
+  recurs in game code) — is `ambiguous` in the default 0x80010000..0x800629DC scan, so it drops from the
+  placement map, its block splits, and the block↔stub count breaks. Pass the library's text window
+  (wired in the Makefile integrate call: `… libgs1,…,libgs6 0x80051804 0x80057928`); the object anchors
+  uniquely there. `tools/make_libgs.sh --verify` (psyq_link_region over the same window) is the preflight.
+- **Result + checks:** 31 libgs objects / 6 blocks linked byte-identical in one integrate (≈49 named SDK
+  functions — count OBJECTS, not stubs: splat over-segments library code into ~5× more INCLUDE_ASM stubs
+  than real functions). The finer resegmentation (10 new subsegs) was **split-deterministic** across two
+  clean extracts (no new §9.4 boundary re-detection — the GsMulCoord2/3 declarations + the 53198 data
+  carve from §9.4 already cover it) and **byte-identical WITH or WITHOUT** the SDK objects (stub
+  fallback, fresh-clone-safe). The unified call cleanly supersedes the §9.4 block-6-only integration.
 
 ---
 

@@ -80,13 +80,26 @@ segments:
       - [0x33888, c, libcd1]    # libcd block 1 -> src/libcd1.c (vram 0x80043088-0x80046980, 11 objs)
       - [0x37180, c, gap]       # non-libcd gap -> src/gap.c    (vram 0x80046980-0x800469CC, stub)
       - [0x371CC, c, libcd2]    # libcd block 2 -> src/libcd2.c (vram 0x800469CC-0x8004787C, 7 objs)
-      # PsyQ libgs block 6 (Phase 7 Task #9): 16 contiguous libgs objects (GS_110/119/120/121/122/
-      # 123/127/131/133/134/135/137, PRESET, PRESET3, OBJT, OBJT3) linked in place of stubs — same
-      # mechanism as libcd (psyq_integrate swaps build/src/libgs6.o -> the real objects + NOLOAD data).
-      # The other 5 libgs blocks + the GS_001 gap stay stubs (remaining libgs integration is future).
-      - [0x3807C, c, 800b]      # -O2 game code (pre-libgs6)  -> src/800b.c  (vram 0x8004787C-0x80053AF8)
+      # PsyQ libgs (Phase 7 Task #9, FULL integration): 31 libgs objects in 6 contiguous blocks
+      # across vram 0x80051804-0x80057928, separated by 5 non-libgs gaps. psyq_integrate swaps each
+      # block stub's build/src/libgsN.o(.text) for the real objects + NOLOAD data (same mechanism as
+      # libcd). The 5 gaps stay asm stubs (gsgapN): 80 / 48 / 1536[GS_001] / 48 / 304 B. GS_001 is
+      # EXCLUDED (scattered-.bss hard case, cookbook §9.1) and stays a stub (gsgap3). GS_106 (block 4)
+      # is an 8-ins object that only anchors uniquely within the libgs window, so make extract passes
+      # 0x80051804 0x80057928 to psyq_integrate. Object lists + disambiguation: tools/make_libgs.sh.
+      - [0x3807C, c, 800b]      # -O2 game code (pre-libgs)   -> src/800b.c   (vram 0x8004787C-0x80051804)
+      - [0x42004, c, libgs1]    # libgs block 1: 2D_COM0      -> src/libgs1.c (vram 0x80051804-0x80051D78, 1 obj)
+      - [0x42578, c, gsgap1]    # gap 80 B (non-libgs stub)   -> src/gsgap1.c (vram 0x80051D78-0x80051DC8)
+      - [0x425C8, c, libgs2]    # libgs block 2: 2D_LIN0/COM1/SP0 -> src/libgs2.c (vram 0x80051DC8-0x80052430, 3 objs)
+      - [0x42C30, c, gsgap2]    # gap 48 B (non-libgs stub)   -> src/gsgap2.c (vram 0x80052430-0x80052460)
+      - [0x42C60, c, libgs3]    # libgs block 3: 2D_SP1       -> src/libgs3.c (vram 0x80052460-0x800525DC, 1 obj)
+      - [0x42DDC, c, gsgap3]    # gap 1536 B: GS_001 excluded -> src/gsgap3.c (vram 0x800525DC-0x80052BDC)
+      - [0x433DC, c, libgs4]    # libgs block 4: GS_002/003/MATRIX/103/104/105/106/107 -> src/libgs4.c (vram 0x80052BDC-0x800538BC, 8 objs)
+      - [0x440BC, c, gsgap4]    # gap 48 B (non-libgs stub)   -> src/gsgap4.c (vram 0x800538BC-0x800538EC)
+      - [0x440EC, c, libgs5]    # libgs block 5: GS_108/109   -> src/libgs5.c (vram 0x800538EC-0x800539C8, 2 objs)
+      - [0x441C8, c, gsgap5]    # gap 304 B (non-libgs stub)  -> src/gsgap5.c (vram 0x800539C8-0x80053AF8)
       - [0x442F8, c, libgs6]    # libgs block 6 (16 objs)     -> src/libgs6.c (vram 0x80053AF8-0x80057928)
-      - [0x48128, c, 800b2]     # -O2 game code (post-libgs6) -> src/800b2.c (vram 0x80057928-0x800629DC)
+      - [0x48128, c, 800b2]     # -O2 game code (post-libgs)  -> src/800b2.c (vram 0x80057928-0x800629DC)
       # Phase 7 (Task 2' / LZSS) — SURGICAL rodata carve for the LZSS switch only.
       # The rodata island (0x80072A38-0x80074750) interleaves game jtbls, game data
       # (loadDestPtrTable @0x80072C70 etc.) and library jtbls (PRESET/OBJT/PRNT @0x800737CC+),
