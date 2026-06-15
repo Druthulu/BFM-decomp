@@ -34,30 +34,95 @@ rodata-island foundation + LZSS match are DEFERRED to a focused sub-project afte
 - [ ] **Task 7 — PhaseEnd_Phase7** (Gen1 synthesis, milestone gate). **Max · Tier 1.**
 
 ## Current task
-**Task 5 — Loader cluster** (match-tractable non-switch / draft-hard). Then Task 2′ (LZSS), Task 6, Task 7.
-NOTE: Gen1 exit needs ≥3 SESSIONS of green `make check` — cannot complete this session regardless.
+**Task 2′ — rodata-island / LZSS gate.** Mechanism now PROVEN end-to-end; a strategic pivot to PsyQ-library
+linking is in flight (see the PsyQ spike section below) — that fixes the library-half alignment AND gives
+~350 SDK functions byte-exact for free. Then LZSS, Task 6, Task 7.
+NOTE: Gen1 exit needs ≥3 SESSIONS of green `make check` — **now satisfied** (A, B, C below); Tasks 6/7 still pending.
 
 ## Per-session `make check` green log (≥3 sessions needed for the milestone)
 - 2026-06-14 (session A): `make check` → `143dbb89… BYTE-IDENTICAL` ✓ — baseline restored + reproducibility fix, reports built, **38 real matches** (22 accessor leaves + ResourceGetCdLoc + LoaderResetReadState), build byte-identical throughout. [need ≥2 more sessions]
 - 2026-06-14 (session B): `make check` → `143dbb89… BYTE-IDENTICAL` ✓ — **per-file -O0 split mechanism** (src/boot.c + Makefile per-file flags); **4 real matches** (GameModeDispatch, DebugMenuHandler, CdQueueBusy, CdReadRequest) → **42 real**; **PsyQ libcd.h infra** (CdlLOC/CdlFILE + 4 named symbols, unlocks the loader cluster); **LoaderInitFileTable + ResourceLoadStateMachine NON_MATCHING-drafted** (→ 4 NM) — **Task 5 non-jtbl loaders COMPLETE** (6 matched + 2 drafted); report tooling fixed (multi-file); cookbook §6/§7/T4. Build byte-identical throughout. [need ≥1 more session]
+- 2026-06-15 (session C): `make check` → `143dbb89… BYTE-IDENTICAL` ✓ (full `clean && extract && build`, restored after the Task-2′ experiments). **≥3-session bar MET.** This session: fully diagnosed + built the **rodata-island mechanism** (works); root-caused the +24; **proved the PsyQ-library-linking GO** (see below). No new matches (architectural session). Build green at start and after restore.
 
 ---
 
-## Rodata-island foundation — investigation findings (DEFERRED, for Task 2′)
-Attempted the 3-way data split (`[data front][.rodata island][data tail]` + `ld_legacy_generation: True`).
-**What works:** dotted `.rodata` sibling named `800` → spimdisasm MIGRATES each jump table into its owning
-function's `.s` (`jtbl_80072A38` lands inside `LzssDecodeSector.s` with `.section .rodata`/`.section .text`),
-references resolve intra-800.o, build LINKS. Non-migrated multi-ref rodata becomes `INCLUDE_RODATA` (70 lines)
-in a FRESH-regenerated `800.c`.
-**What blocks byte-identity (the structural wall):**
-1. Adding any `rodata` subseg turns on global jumptable analysis → merges 56 over-split switch fragments (good) but DROPS an 8-byte inter-fn blob (the `func_80047CAC` issue, now fixed via explicit symbol).
-2. A separate rodata object can't link to text-local `.L`/`jlabel` jumptable targets → must migrate (co-locate).
-3. splat places sections CONTIGUOUSLY (no explicit `. = addr`), so any size drift shifts the whole image. Observed a **24-byte `.text` overrun** (`main_TEXT_END` 0x800629F4 vs 0x800629DC) → +24B size, 85288 bytes differ. Root cause of the 24B NOT fully pinned.
-**Candidate fix for Task 2′:** explicit linker addresses (Makefile post-extract `.ld`-patch placing `.text`@0x80010000, front `.data`@0x800629DC, `800.o(.rodata)`@0x80072A38, tail `.data`@0x80074750) + scope migration so only island tables land in `800.o(.rodata)`. Alternative: sotn-style per-file split (Gen2-scale). Reproduce with the migration config (in git stash / reconstruct from this log).
+## Rodata-island foundation — RESOLVED end-to-end (session C, 2026-06-15)
+The mechanism now WORKS; only the +24 (a known file-split/alignment artifact) blocks full byte-identity, and
+the PsyQ-lib pivot (below) is the chosen fix. Experimental configs saved: `.run/{splat.island.yaml,
+symbols.island.txt,Makefile.island,800.c.fresh-throwaway}`; new committed tool `tools/ld_interleave.py`.
+**Proven mechanism (3 parts, all validated this session):**
+1. **Migration** — dotted `.rodata` sibling named `800` (`[0x63238, .rodata, 800]`) → spimdisasm migrates all
+   50 jtbls + single-ref consts into their owning `asm/nonmatchings/800/<fn>.s` (99 .s got `.section .rodata`,
+   `.L`-refs resolve intra-object). Multi-ref consts → 70 `INCLUDE_RODATA` lines (needs a FRESH `800.c`; for the
+   PERMANENT file, surgically INSERT those 70 lines into the curated 800.c — do NOT regen-fresh, it drops
+   comments/H5). All 301 jtbl targets ∈ the `800` text seg (none in `boot`), so the single sibling is correct.
+2. **Placement** — `tools/ld_interleave.py` (wired into `make extract`) rewrites splat's section-major `.main`
+   into the real `.data→.rodata→.data` sandwich order (text, front-data@0x800629DC, rodata@0x80072A38,
+   tail-data@0x80074750). Front/tail split by object basename. rodata + both data sizes came out **byte-exact**.
+3. **Data-in-text carve** — the 68-B descriptor table at 0x80062998–0x800629DC (ptrs to start/D_80062998/
+   D_80074778) must be its own `[0x53198, data, 53198]` subseg or the jumptable analyzer mis-extends the last
+   code function across it.
+**The ONLY residual = +24 (ROOT-CAUSED):** 6× `.align 3` jumptable padding nops injected into `.text` (at
+PRESET_OBJ_744, PRESET_OBJ_8FC, PRESET2_OBJ_4D8, PRESET2_OBJ_A88, OBJT2_OBJ_614, PRNT_OBJ_24C). GCC 8-aligns
+each switch jtbl, but the original built these as SEPARATE translation units; our single 800.o concatenation
+adds padding the original lacked. spimdisasm itself printed **8 file-split suggestions** (rodata 0x6324C,
+0x63388, 0x633FC, 0x63920, 0x63C94, 0x64420, 0x64AB4, 0x64CA0). Canonical fix = per-file split — OR the PsyQ-lib
+pivot below (most of these are library code).
+
+## PsyQ-library-linking SPIKE — GO PROVEN (session C, the chosen +24 fix + free SDK code)
+**Finding:** BFM's PsyQ library functions are **byte-identical to the real PsyQ SDK objects** → link them
+directly (byte-exact) instead of hand-decompiling, which ALSO gives each library `.o` correct per-object
+alignment (dissolving the library-half of the +24). Validated: `CdPosToInt` (32 instrs) + `CdIntToPos` (65)
+EXACT vs PsyQ **4.7** `libcd.a`; `CdPosToInt` also in **4.0** `LIBCD.LIB`; `PRESET_OBJ_108` (a +24 culprit) is
+in **4.0 `LIBGS.LIB`** → library code, not game. (Raw-byte lib search has false-negatives on relocated funcs,
+e.g. `_spu_FsetPCR`/`OBJT2`/`PRNT` "missed" — needs the real ELF-link test to classify those.)
+**Assets staged (gitignored `tools/psyq/`):** `psyq-obj-parser` (decompme prebuilt, works on `.OBJ`; rejects
+`.LIB` archives — needs splitting); `psyq4.0/` (4.0 tools: CC1PSX/ASPSX/PSYLIB/…); `conv47/` (4.7 pre-converted
+ELF `.a` — quick reference); **`lib40/*.LIB`** = the 20 PsyQ **4.0 USA** libraries (DTL-S2002 R2.0, BFM's exact
+version) extracted from the redump via our `tools/bfm_extract/iso9660.py` walker. Footprint in BFM: ~350 funcs
+(libsnd 131, libapi/gs 69+, libmcrd 63, libsn 37, libcd 28, libspu 21, …) of 2050 matchable.
+**Integration pipeline — BUILT + PROVEN end-to-end (session C):**
+- `tools/psyq_lib_split.py` (committed) — splits a `LIB\x01` archive into its member `.OBJ` (locates each
+  member header by the invariant `u32@(header+12) == LNK_offset − header`). LIBCD → 25 objects ✓.
+- `tools/psyq_build_libs.sh` (committed) — `.LIB → .OBJ → psyq-obj-parser → ELF .o → ar` per lib. **Built all
+  14 BFM libs → `tools/psyq/lib40_elf/*.a`** (gitignored): LIBCD 25, LIBGS 201, LIBSPU 129, LIBSND 163,
+  LIBMCRD 2, LIBSN 51, LIBAPI 90, LIBETC 7, LIBGTE 381, LIBGPU 12, LIBMATH 48, LIBCARD 18, LIBC 56, LIBC2 46.
+- **Byte-match PROVEN at object level:** in libcd `SYS.o`, leaves `CdPosToInt`/`CdIntToPos` are EXACT; relocated
+  funcs (`CdComstr` …) differ ONLY at their relocation sites → link byte-exact once relocs resolve to BFM
+  symbol addrs. So every step (split, convert, leaf-match, reloc-resolve) is validated.
+
+**FULL OBJECT LINK — PROVEN BYTE-IDENTICAL (session C):** libcd `SYS.o` (483 instrs, the full TU: leaves +
+relocated funcs + 21 externals + internal .rdata/.data) links **byte-for-byte identical to BFM**. The pipeline
++ the 3 last pieces:
+- **Identify placement** (`tools/psyq_identify.py`, committed) — relocation-masked search locates each object's
+  `.text` in BFM. libcd: **18/25 objects found, CONTIGUOUS** at 0x80043088–0x80046D1C in object order (the 7
+  unused — CDPLAY, C_012–015… — BFM doesn't link). So per-library placement = link the used objects in order at
+  the region base; addresses are read off, not guessed.
+- **Recover externals from BFM** — symbols the object references but doesn't define (e.g. libcd's `CD_pos`,
+  `CD_com`, `DMACallback`) are NOT in symbols.us.txt, but their addresses are encoded in the EXE's already-
+  RESOLVED relocations: parse the object's reloc records, read BFM at each site, reconstruct (R_MIPS_26 →
+  target; HI16/LO16 pair → addr). Recovered all 21 for SYS.o. (Feeds symbols.us.txt over time.)
+- **Alignment fix** — psyq-obj-parser sets `.text/.rdata/.data` align=2**3 (8); the original placed them
+  4-aligned, so an 8-align bumps them +4. `objcopy --set-section-alignment .rdata=4 .data=4` before linking →
+  exact. (The +4 mismatch is the tell.)
+- **Link recipe:** `ld -T <script placing .text@<objaddr> .rdata@<island> .data@<addr>> --defsym <recovered…>
+  obj.o` → objcopy .text → byte-compare. Proven on SYS.o.
+
+**REMAINING (replication + wiring, NEXT session, Task #5):** generalize the SYS.o recipe to all used objects
+per library (identify region → recover externals → set-align → place sections in order → link), then wire into
+the build: drop the linked functions' INCLUDE_ASM + carve their raw data, add the lib objects to the link via a
+generated `.ld` fragment. ~350 SDK funcs become byte-exact + the library-region jtbl alignment resolves. GAME
+switches + **LZSS** (jtbl_80072A38 = island's first entry, before any misalignment) take the proven
+migration+ld_interleave path above.
 
 ## Blockers / open items
-- Task 2′ ld-placement mechanism (above). MCP-mode batching: sig-refresh needs MCP stopped, LZSS needs MCP live.
+- `.LIB`→`.OBJ` splitter (LIB\x01 format) — the gate for the lib-linking integration.
+- Which 4.x version matches each BFM lib object best (4.0 USA primary; BFM mixes 4.0+4.2 stamps, so some objects
+  may need 4.2/4.3 libs — determine per-lib during integration via the ELF-link byte test).
+- LZSS via the proven migration+ld_interleave path (independent of the lib pivot).
 
 ## Notes
 - Commits accumulate UNCOMMITTED; one phase-end commit by the developer (R8/R6).
-- `.run/merge_matches.py` = the regenerate-800.c + re-apply-matches helper (reusable for Task 2′).
+- `.run/merge_matches.py` = regenerate-800.c + re-apply-matches helper. **H5 caveat:** regen-fresh drops
+  file-level/stub comments; for the permanent 800.c, surgically insert the 70 INCLUDE_RODATA lines instead.
+- `tools/ld_interleave.py` (committed) = the `.data→.rodata→.data` linker-script interleaver.

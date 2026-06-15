@@ -207,3 +207,56 @@ A function that calls PsyQ library routines needs both the SDK **types** and the
 - Done Phase 7: `include/psyq/libcd.h` (CdlLOC 4B, CdlFILE 24B + CdSearchFile/CdPosToInt/CdIntToPos
   protos) + the 4 libcd/libetc symbols — unlocks the file-loader cluster. Same pattern for
   libgpu/libgte/libspu as they come up.
+
+---
+
+## §8 rodata island (compiler jump tables) — the `.data→.rodata→.data` sandwich (Phase 7)
+GCC emits each `switch` jump table into `.rodata`; in this EXE all compiler rodata is ONE island at
+0x80072A38–0x80074750, sitting BETWEEN the front `.data` (globals @0x800629DC) and the tail `.data`
+(@0x80074750). No single splat `section_order` expresses data→rodata→data. Proven mechanism (session C):
+- **Migrate, don't standalone.** A jtbl `.word`s reference function-internal `.L`/`jlabel` targets, so a
+  separate rodata object can't link — the table MUST co-locate in its function's object. Use a **dotted
+  `.rodata` subseg whose NAME matches the code subseg** (`[<off>, .rodata, 800]`): `extract=False`, spimdisasm
+  migrates each single-ref jtbl/const into `asm/nonmatchings/<seg>/<fn>.s` as `.section .rodata`. The
+  INCLUDE_ASM stub already `.include`s that `.s`, so it flows into the object for free. Multi-ref rodata can't
+  migrate → splat emits `INCLUDE_RODATA(...)` lines (in a FRESH `.c`). **H5:** don't regen-fresh the curated
+  `.c` (drops comments) — surgically INSERT just the INCLUDE_RODATA lines.
+- **Place explicitly.** splat is section-major (floats all `.rodata` to the front). `tools/ld_interleave.py`
+  (wired into `make extract`) rewrites the `.main {}` body to text → front-`.data` → `.rodata` → tail-`.data` →
+  bss, splitting front/tail by object basename. Sizes then land byte-exact.
+- **Carve data-in-text.** A trailing non-code table inside the text range (here 0x80062998–0x800629DC) must be
+  its own `data` subseg, or jumptable analysis mis-extends the last function across it (the +24 `main_TEXT_END`
+  overrun's first cause).
+- **The `.align 3` file-split trap:** GCC 8-aligns jtbls; concatenating many functions into one object injects
+  padding nops the original (separate TUs) lacked → image grows. spimdisasm PRINTS file-split suggestions at
+  the misaligned jtbls. Fix = per-file split at those boundaries (sotn-style) — OR link the real library
+  object (§9) when the owning function is SDK code.
+
+## §9 Link real PsyQ library objects byte-exact (Phase 7 — GO proven)
+~350 of BFM's functions are unmodified PsyQ 4.0 SDK code. They are **byte-identical to the real PsyQ library
+objects**, so link them directly instead of hand-decompiling — and each library `.o` brings its own correct
+alignment (dissolving the library-half of §8's `.align 3` problem). Validated: `CdPosToInt`/`CdIntToPos` EXACT
+vs PsyQ libcd; `PRESET_OBJ_*` ∈ `LIBGS.LIB`. Workflow (the decomp-standard psyq-obj-parser path):
+- **Tools** (gitignored `tools/psyq/`): `psyq-obj-parser` (decompme prebuilt — `.OBJ`→ELF; rejects `.LIB`),
+  `lib40/*.LIB` = PsyQ **4.0 USA** libraries (DTL-S2002 R2.0 = BFM's version; extracted from the redump ISO via
+  `tools/bfm_extract/iso9660.py`). Identify a function's library by searching the `.LIB` for a NON-relocated
+  instruction run from its EXE bytes (relocated runs false-negative — use leaves or interior runs).
+- **Integration:** split `.LIB` (LIB\x01 archive) → `.OBJ` → `psyq-obj-parser` → `ar` per lib → link the `.o`
+  for each library function and drop its INCLUDE_ASM. BFM mixes 4.0+4.2 library stamps, so a few objects may
+  need 4.2/4.3 libs — determine per-object by the byte test.
+- **Proven full-object link recipe (SYS.o byte-identical to BFM, Phase 7):**
+  1. **Placement** — `tools/psyq_identify.py <elf_dir>`: relocation-masked search finds each object's `.text`
+     vram in the EXE. Per library the used objects are CONTIGUOUS in object order → place the first at the
+     region base, link the rest in order.
+  2. **Recover externals** — symbols the object references but doesn't define are usually absent from
+     `symbols.us.txt`; read them straight out of the EXE's RESOLVED relocations: for each reloc, `R_MIPS_26` →
+     `target = ((word&0x3FFFFFF)<<2)|(pc&0xF0000000)`; an `HI16`+`LO16` pair → `(hi<<16)+signext(lo)`. Feed as
+     `ld --defsym NAME=0xADDR`.
+  3. **Alignment** — psyq-obj-parser emits `.text/.rdata/.data` at align 2**3; the original is 4-aligned, so an
+     8-align bumps the section +4 (the tell: every `LO16` to that section is off by +4). Fix:
+     `objcopy --set-section-alignment '.rdata=4' --set-section-alignment '.data=4' obj.o obj_a.o` before linking.
+  4. **Link + verify** — `ld -T <SECTIONS: . = <text vram>; .text:{*(.text)} . = <island>; .rdata:{*(.rodata)
+     *(.rdata)} . = <data vram>; .data:{*(.data)}> --defsym … obj_a.o` → `objcopy -O binary --only-section
+     .text` → byte-compare to the EXE. `.rdata`/`.data` vrams are found by searching the EXE for the section
+     bytes (`objcopy --only-section`). Tools: `tools/psyq_lib_split.py`, `tools/psyq_build_libs.sh`,
+     `tools/psyq_identify.py`.
