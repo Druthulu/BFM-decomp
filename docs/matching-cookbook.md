@@ -183,6 +183,8 @@ regalloc, put a placeholder call (`CJBARRIER();` + an `extern void CJBARRIER(voi
 per-function `compile.sh` `sed` it to the real asm before compiling. Note the asm-differ object-mode score then
 floats on a cosmetic `.rodata`-vs-`jtbl_<addr>` symbol floor (the migrated jump table links identically), so
 verify candidates with the **linked** `make check`, not the permuter score.
+**The full close of this exact function** — the ~4 regalloc/scheduling slots this barrier leaves behind, and the
+floor-free `.text` metric that finally measured them — is **§10** (LZSS matched byte-for-byte, Phase 7 session F).
 
 ---
 
@@ -380,3 +382,78 @@ Wiring a library region into `make build` byte-identical (libcd: 58 SDK funcs, f
 - **Byte-identical with OR without the SDK objects** (the stubs reproduce the same bytes), so gate the
   whole thing on `[ -d <elf_dir> ]` — a fresh clone without `tools/psyq/` builds via stubs. Idempotent
   (`build/psyq/<lib>` in the `.ld` ⇒ re-derive syms only).
+
+---
+
+## §10 Closing the regalloc/scheduling hard tail by hand (LZSS, Phase 7 session F — the full close)
+`LzssDecodeSector` (0x80018730) was the last-mile case the §5a barrier set up but did not finish: with the
+cross-jump barrier the instruction COUNT was correct (122) but ~4 register-allocation / scheduling slots were
+wrong. The decomp-permuter could NOT measure progress (its object score floats on the `.rodata`-vs-`jtbl`
+floor — §5a caveat), and its random search diverged. **Hand-solving with the §3a research tier won** — every
+fix below was ground-truthed against the pinned **gcc-2.7.2** source (`reorg.c`, `jump.c`, `local-alloc.c`).
+These idioms are general; reach for them whenever a function is instruction-count-correct but off by a few
+regalloc/schedule slots and the permuter can't score it.
+
+### The clean object-level metric (use this, not the permuter score, for jtbl/rodata functions)
+The permuter/asm-differ **object** score is polluted by the migrated-jtbl symbol name (`.rodata` vs
+`jtbl_<addr>`), so it can't see real `.text` progress. Two floor-free checks (no link needed):
+- **Normalized instruction diff** — `objdump -dr --no-show-raw-insn -j .text`, strip the `R_MIPS_*` lines,
+  the `<sym>` operands and the branch-target hex, then `diff` candidate vs `target.o`. Shows ONLY real
+  register/opcode/order differences. (`.run/permuter/LzssDecodeSector/try.sh` is the reference impl.)
+- **Raw `.text` byte compare** — `objcopy -O binary --only-section=.text cand.o c.text` and `… target.o
+  t.text`, then `cmp -l`. In a relocatable object the `%hi/%lo` immediates of an unresolved symbol are BOTH
+  0 (the reloc fills them at link), so a migrated jtbl reference is byte-identical here and does NOT show —
+  the only diffs that remain are genuine (e.g. a wrong *local* branch offset). This is the fast, authoritative
+  iterate-on-`.text` oracle; finish with the linked `make check` (G3) for the whole-binary truth.
+
+### Residual A — commutative `|`/`&`/`+` result lands in the wrong source-operand register
+`local-alloc.c combine_regs` (≈line 1855) ties a commutative op's result to the **first RTL operand that
+dies** at the insn (RTL operand order = source order; gcc 2.7.2 has NO `swap_commutative_operands`, so the
+source order survives). Target `or $v0,$v0,$v1` ⇒ result tied to the `code&0xFF` operand ($v0).
+- **Fix A1 — operand order:** write the operand whose register you want the result in FIRST:
+  `code = (code & 0xFF) | (nh << 8);` (not `(nh<<8)|(code&0xFF)`).
+- **Fix A1-companion — DECOUPLE shared inputs (load-bearing):** if a variable feeds *two* expressions
+  (`nb` fed both the low- and high-byte ORs), reshaping one OR re-allocates that variable in BOTH paths
+  (it jumped `$v1`→`$a0`). Give the second use its **own variable** (`nh`) so the operand-order change is
+  local. This was the unlock — A1 alone "didn't work" only because of the coupling.
+
+### Residual B — a `return <const>` materialised late / merged instead of distributed per-site
+`reorg.c fill_simple_delay_slots` backward-scan (≈line 2907) pulls the common `li $v0,K` out of the
+predecessors into the shared epilogue's branch-delay slot, and `redundant_insn` then collapses the other
+copies — so one `li $v0,1` ends up in the `j <epilogue>` slot instead of one per return site. Three levers,
+applied where each fits:
+- **B-distribute (shared tail reached by ≥2 predecessors):** carry the value in a **plain local set in each
+  PREDECESSOR block** (`result = 1; newState = N; goto save;` … `save: …stores…; return result;`). Because
+  the value is live-in from two defs, gcc emits a distinct `li $v0,1` per predecessor and leaves the tail's
+  delay slot `nop`. (A barrier is NOT needed for this half; the predecessor structure is.)
+- **B-schedule-early (single-path block whose `li $v0,K`'s only use is the shared `jr ra`):** the sched
+  list-scheduler gives an independent `li $v0,K` priority 0 (its use is in another block) and the tie-break
+  drops it to just before `jr ra`; the target schedules it first. Force it with an **explicit `$v0` register
+  local pinned by a read-only input-asm BEFORE the stores**:
+  ```c
+  register s32 r __asm__("$2");
+  r = 1;
+  __asm__ __volatile__("" : : "r"(r));   /* materialise li $v0,1 here, ahead of the stores */
+  …stores…
+  __asm__ __volatile__("" ::: "memory"); /* the §5a cross-jump barrier, still required */
+  return r;
+  ```
+  A plain `result` local does NOT work here (gcc rematerialises the constant at the return); the `+r`/`"=r":"0"`
+  read-write pins put it in `$v1`; only the explicit-`$2` local + early read-only input pin lands `li $v0,1`
+  first, in `$v0`. (Scope `r` to the one block so `$v0` stays free as scratch elsewhere.)
+- **B3-reuse-the-compare (a `return 0` whose 0 already sits in a reg):** a `switch(x){case…}` range check is
+  `sltiu $v0,x,N; beqz $v0,<dft>`; on the out-of-range path `$v0==0` already equals the wanted `return 0`.
+  Give gcc nothing else to do: **NO `default:` and NO statement after the switch** → the `beqz` threads
+  straight to `jr ra`, reusing the `sltiu` result (target `beqz $v0,.epilogue`). An explicit
+  `if(x>=N)return 0;`, a `default: return 0;`, or a trailing `return 0;` each forces a separate
+  `move $v0,$zero` (+1 insn / wrong branch target). Falling off the end of the non-void function is
+  deliberate here and matches the original (gcc warns under `-Wall`; harmless). Cross-refs cookbook §3 (T4
+  branch-polarity / fall-through) — same family.
+
+### Method note (reinforces §3a + R16)
+The permuter is the wrong tool when (a) its score can't see the residual (rodata/jtbl floor) or (b) the
+residual is a specific compiler-internal placement rather than a randomizable C perturbation. For those,
+**web-research the exact pinned compiler source** (§3a) to name the pass and its bail/tie condition, then
+express the lever in C. Here a research agent reading `reorg.c`/`jump.c`/`local-alloc.c` produced all four
+levers directly; hand-iteration with the clean `.text` metric closed it in a few compiles. Pin every such
+construct with a `LOAD-BEARING` comment naming the pass — a future reader WILL try to "simplify" them.

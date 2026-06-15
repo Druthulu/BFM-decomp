@@ -30,39 +30,28 @@ rodata-island foundation + LZSS match are DEFERRED to a focused sub-project afte
     - **jtbl → Task 2′ (rodata-gated):** CdReadStateMachine (385), CdReadSectorReadyCB (424, sole LZSS caller), SaveLoadRoutine (1139), StreamLoadStateMachine (459).
     - **non-jtbl COMPLETE (6 matched + 2 drafted):** **LoaderInitFileTable** (133) + **ResourceLoadStateMachine** (211) → **NON_MATCHING-drafted** (logically faithful, libcd.h-typed; per-function residual notes in src/800.c — LoaderInit: regalloc/loop-invariant hoisting + name=base-0x14; ResourceLoad: block placement (state 0→1→2→3 layout vs nested-if) + reserved-local frame 0x38 vs 0x28 + func_8002D4C8 arg & 0xFFFF). **NON_MATCHING count now 4.** Byte-match both in a later structural/permuter pass.
 - **Report tooling fixed for the multi-file split:** `tools/{progress,difficulty}.py` now glob all `src/*.c` + search all `asm/nonmatchings/*` subdirs, and `progress.py` skips `extern …(…);` forward-declarations (they were swallowing the next fn + double-counting). Deterministic; 42 real / 1964 stubs consistent across both. (Note for PhaseEnd.)
-- [ ] **Task 2′ — Focused LZSS + rodata-island sub-project** (DEFERRED hard task; Gen1-exit LZSS gate). **Max.** See investigation findings below.
+- [x] **Task 2′ — Focused LZSS + rodata-island sub-project** ✓ DONE (session F, 2026-06-15). **LzssDecodeSector MATCHED byte-for-byte** (asm-differ score 0; `make clean && make extract && make build && make check` → `143dbb89… BYTE-IDENTICAL`). The Gen1-exit LZSS gate is satisfied. **43 real matches** (42 + LZSS). The NON_MATCHING guard is DROPPED — the C is the default build. Close required 5 load-bearing constructs (all documented in src/800.c + cookbook §10): (A) decoupled `nh` high-byte var + `(code&0xFF)|(nh<<8)` operand order [local-alloc combine_regs]; (B) `result` set in save predecessors [reorg fill_simple_delay_slots]; (B/state-2) explicit `register $2` local + early read-only input-asm pin [sched list-order]; (B3) NO switch `default`/trailing return → state≥5 reuses the `sltiu` result; (§5a) the zero-byte cross-jump barrier. The surgical rodata carve + ld_interleave place gcc's generated jtbl at 0x80072A38 (links byte-identical). Cookbook §10 added (the reusable regalloc/schedule-tail idioms + the floor-free `.text` metric); §5a cross-linked.
 - [ ] **Task 6 — Gen1-exit close-out** (README, checklist, ≥3-session zero-regression evidence). **xHigh.**
 - [ ] **Task 7 — PhaseEnd_Phase7** (Gen1 synthesis, milestone gate). **Max · Tier 1.**
 
 ## Current task
-**LEAN LZSS FIRST (session E decision, Drew-approved) — libgs is NOT a prerequisite for LZSS.**
-Re-sequenced from the session-D "libgs→LZSS" ordering after the island ownership map (below) showed the
-+24 is entirely a **800b library-object** artifact while **LZSS lives in the 800 segment**.
-- ✅ **libcd wired into the byte-identical build** (session D) — 58 SDK funcs; full mechanism proven + tooled.
-- ▶ **NEXT (session E): match LZSS** via **800-segment-only** rodata migration + ld_interleave (Task #6).
-  The Gen1-exit gate. Library jtbls in 800b stay raw data (byte-identical). Then Task 6 close-out, Task 7 PhaseEnd.
-  - ✅ **SURGICAL MIGRATION WORKS (session E):** splat config carves ONLY jtbl_80072A38 (`[0x63238,.rodata,800]`
-    bounded by `[0x6324C,data,6324C]`); ld_interleave wired into `make extract` (TAIL_DATA=6324C.data.o).
-    Regression gate PASS — `make clean/extract/build/check` BYTE-IDENTICAL at 100% INCLUDE_ASM (LZSS still a
-    stub; jtbl migrated into LzssDecodeSector.s + placed at 0x80072A38; libcd integration intact). Much cleaner
-    than session-C's full-island migration (which hit +24).
-  - ◑ **LZSS C — CROSS-JUMP BARRIER BREAKTHROUGH (session E); NON_MATCHING-guarded, build GREEN.** LzssDecodeSector
-    written in src/800.c as a switch-coroutine (states 0-4; ring base = literal `(u8*)0x1F800000`→`lui t6,0x1f80`;
-    `newState` carried to a shared save; case-0 shares the terminator return-0 tail; `token & mask`; `(nb<<8)|(code&0xFF)`).
-    The hard blocker was gcc 2.7.2 -O2 **cross-jump-MERGING** the two byte-identical state-save tails (target keeps
-    them separate, 122 ins; gcc merged → 111). **A web-research agent ground-truthed the fix against gcc-2.7.2.3
-    jump.c:** `find_cross_jump` bails on ANY volatile-asm node (ASM_INPUT → `lose=1`); a **zero-byte
-    `__asm__ __volatile__("" ::: "memory")`** in the state-2 reload save makes the two tails non-identical →
-    BOTH survive → **122 instructions (correct count, verified).** No `-fno-crossjumping` exists before gcc 3.3.
-    Cookbook **§5a** added (the reusable idiom). **Residual = ~3 regalloc/scheduling swaps only** (high-byte `or`
-    result v1 vs v0; state-2 store value v0 vs v1; `li v0,1` return value placed late vs distributed per-save) —
-    the last-mile that the permuter normally finishes, but it can't parse the asm (pycparser) and its object score
-    floats on a cosmetic `.rodata`-vs-`jtbl_80072A38` floor (links identically; verify via linked `make check`).
-    The C is preserved under `#ifdef NON_MATCHING` (full note in src/800.c); default build = stub → BYTE-IDENTICAL.
-    **NEXT:** close the ~3 regalloc swaps (fresh hand-pass with the clean jtbl-normalized diff metric, or a
-    properly-floored permuter) → drop the guard. The STRUCTURAL hard part is DONE.
-- **BONUS (if budget):** full libgs integration (+~69 funcs; placement DONE below) — Task #9, drops to Gen2 if budget runs out.
-NOTE: Gen1 exit needs ≥3 SESSIONS of green `make check` — **satisfied** (A, B, C, D, +E); Tasks 6/7 pending.
+**LZSS DONE (session F, 2026-06-15) — the Gen1-exit LZSS gate is SATISFIED.** `LzssDecodeSector` matches
+byte-for-byte (asm-differ score 0; full clean build `143dbb89… BYTE-IDENTICAL`); the `#ifdef NON_MATCHING`
+guard is dropped — the C is the default build. 43 real matches. Full close detail in the Task 2′ checklist
+entry above + the 5 LOAD-BEARING comments in `src/800.c` + cookbook §10.
+- ✅ **libcd wired into the byte-identical build** (session D) — 58 SDK funcs.
+- ✅ **LZSS matched** (session F) — surgical rodata carve + ld_interleave place gcc's generated switch jtbl at
+  0x80072A38 (links byte-identical); the §5a cross-jump barrier + 4 regalloc/schedule idioms (§10) closed it.
+  Method: §3a web-research ground-truthed all levers against the pinned gcc-2.7.2 source; a floor-free `.text`
+  metric (objcopy `--only-section=.text` + `cmp`, bypasses the rodata/jtbl floor) measured the close; the
+  permuter could NOT (score floor + random divergence).
+- ▶ **NEXT — Task #9: full libgs integration** (+~63–69 SDK funcs; placement + byte-verification DONE in session
+  E, see "libgs placement" + "libgs BYTE-VERIFIED" below). **Required before PhaseEnd per Drew's locked decision.**
+  Remaining = mechanical: resegment splat 800b into the 6 libgs blocks + 5 gap stubs (~13 subsegs), `split_src`,
+  wire `psyq_integrate` for the 6 block stubs (the libcd pattern, §9.3) → byte-identical. Simpler first win =
+  block 6 alone (16 objs incl. PRESET3/OBJT3) → ~35 funcs. **GS_001 excluded** (scattered `.bss` commons, §9.1 hard
+  case). Then Task 6 close-out, Task 7 PhaseEnd.
+NOTE: Gen1 exit needs ≥3 SESSIONS of green `make check` — **satisfied** (A, B, C, D, E, +F); Tasks 6/7 pending.
 
 ### Island ownership map (session E — the decisive finding)
 Rodata island 0x80072A38–0x80074750, 102 jtbls total (~52 in-island). By owner segment:
@@ -94,6 +83,7 @@ Patched `tools/psyq_identify.py` to skip data-only objects (no .text, e.g. GLOBA
 - 2026-06-15 (session C): `make check` → `143dbb89… BYTE-IDENTICAL` ✓ (full `clean && extract && build`, restored after the Task-2′ experiments). **≥3-session bar MET.** This session: fully diagnosed + built the **rodata-island mechanism** (works); root-caused the +24; **proved the PsyQ-library-linking GO** (see below). No new matches (architectural session). Build green at start and after restore.
 - 2026-06-14 (session D): `make clean && make extract && make build && make check` → `143dbb89… BYTE-IDENTICAL` ✓ — **libcd LINKED INTO THE BUILD** (Drew-approved push-through). The first real PsyQ library is now sourced from real SDK objects in the byte-identical build: **58 libcd SDK functions** linked (not stubs), replacing the libcd-region asm stubs. Idempotent; Makefile-automated; conditional (fresh clone w/o `tools/psyq/` builds via stubs). New committed tooling: `tools/psyq_link.py` (per-object byte-link engine — recovers externals from resolved relocs, weakens psyq-obj-parser's mislabelled `.bss` commons), `psyq_link_lib.py` (whole-lib verify, 18/18 libcd), `psyq_link_region.py` (region link via **NOLOAD** = no data carving), `psyq_integrate.py` (build wiring: splat resegment + .ld swap + external resolution), `split_src_region.py` (H5-safe src split). Cookbook §9.1/9.2/9.3 + R16. **No data carving** (NOLOAD data placement; flat data subseg unchanged). Build green throughout.
 - 2026-06-15 (session E): `make clean && make extract && make build && make check` → `143dbb89… BYTE-IDENTICAL` ✓ — start-of-session baseline + after the **LZSS surgical rodata carve** (jtbl_80072A38 migrated + sandwiched) + LZSS C **NON_MATCHING-guarded** (default build = stub). **≥3-session bar already MET (A/B/C/D); E is margin.** Findings: lean LZSS path proven (no libgs needed for it); LZSS C structurally matches (111/122) but blocked on a gcc cross-jump-merge hard-tail (see LZSS block above); libgs placement+disambiguation done (bonus, task #9, deferred per Drew until before PhaseEnd).
+- 2026-06-15 (session F): `make clean && make extract && make build && make check` → `143dbb89… BYTE-IDENTICAL` ✓ — **LZSS MATCHED byte-for-byte** (asm-differ score 0; C compiled in, NON_MATCHING guard dropped). Closed the session-E ~4 regalloc/scheduling residuals via §3a web-research (ground-truthed against pinned gcc-2.7.2 `reorg.c`/`jump.c`/`local-alloc.c`) + a floor-free `.text` object metric: decoupled high-byte var + OR operand order (residual A); `result`-in-predecessor + explicit-`$2`-local-with-early-pin (residual B); no-`default` sltiu-reuse (residual B3); §5a barrier retained. **43 real matches; Gen1-exit LZSS gate SATISFIED.** Cookbook §10 added. Only `src/800.c` changed (label/logic; zero generated/ROM bulk staged). **Tasks #9 (libgs) → 6 → 7 remain** (PhaseEnd gated on libgs per Drew).
 
 ---
 

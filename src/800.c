@@ -438,22 +438,11 @@ INCLUDE_ASM("asm/nonmatchings/800", func_80018714);
  * resume point (0=idle/done, 1=fresh, 2=token loop, 3=have code low byte, 4=advance bit).
  * Returns 1 if the input sector was consumed mid-stream (resume next call), 0 at the
  * stream terminator (back-ref offset 0) or when idle. */
-#ifdef NON_MATCHING
-/* CROSS-JUMP BARRIER BREAKTHROUGH (Phase 7): the lone `__asm__ __volatile__("" ::: "memory")` in the
- * state-2 reload save (below) is a load-bearing, ZERO-BYTE cross-jump barrier. gcc 2.7.2 -O2's jump.c
- * cross-jumping (find_cross_jump) would otherwise MERGE the two byte-identical state-save tails (the
- * state-3/4 `save:` block + the state-2 reload save) into one — making the function 111 instructions
- * instead of the original 122. A volatile-asm node (ASM_INPUT) makes find_cross_jump bail (lose=1), so
- * both saves survive; the empty asm emits no machine code. (No -fno-crossjumping in gcc 2.7.2 — it
- * arrived in gcc 3.3.) This defeats the STRUCTURAL blocker; the function is now 122 instructions (the
- * correct count, verified vs the original).
- *   NON_MATCHING residual = ~3 register-allocation / scheduling diffs only: the high-byte `or` result
- *   lands in v1 vs target v0; the state-2 store value in v0 vs v1; and `li v0,1` (return value) is placed
- *   late in a merged epilogue vs distributed per-save in the target. These are the last-mile regalloc
- *   that decomp-permuter normally finishes — but it can't parse the asm barrier (pycparser) and its
- *   object-mode score has a `.rodata`-vs-`jtbl_80072A38` floor (cosmetic; links identically). Re-enable
- *   (drop the guard) when the regalloc closes. The surgical rodata carve placing jtbl_80072A38 at
- *   0x80072A38 via the .data->.rodata->.data sandwich IS byte-identical and stays live in the stub build. */
+/* MATCHED — asm-differ score 0, full-binary SHA1 green (Phase 7, session F, 2026-06-15).
+ * Five constructs below are LOAD-BEARING for the byte-for-byte match against gcc 2.7.2 -O2; a
+ * future reader who "cleans them up" WILL break the match. Each is annotated inline and the
+ * compiler-internal root cause is in docs/matching-cookbook.md §10 (+ §5a). All five were
+ * ground-truthed against the pinned gcc-2.7.2 source (reorg.c, jump.c, local-alloc.c). */
 extern u8 lzss_curMask;        /* 0x800747A0 */
 extern u8 lzss_curToken;       /* 0x800747A4 */
 extern u8 *lzss_outPtr;        /* 0x800747AC */
@@ -472,13 +461,21 @@ s32 LzssDecodeSector(u8 *src) {
     u32 readIdx;
     s32 len;
     u8 b;
-    u8 nb;
+    u8 nb;   /* low-byte (state-3) source byte */
     u8 cb;
+    u8 nh;   /* LOAD-BEARING #1 (residual A): a SEPARATE high-byte source var, NOT a reuse of `nb`.
+              * `nb` is shared between the low- and high-byte paths; reusing it couples their
+              * register allocation, so any high-byte reshaping shoves `nb` out of $v1. A distinct
+              * `nh` decouples them. Cookbook §10/A. */
     s32 newState;
+    s32 result; /* return-1 value carried in $v0 from each save predecessor (state-3/state-4) */
 
-    if (lzss_state >= 5) {
-        goto ret0;
-    }
+    /* LOAD-BEARING #2 (residual B3): NO `default:` case and NO statement after the switch. The
+     * switch's own range check (`sltiu $v0,state,5; beqz $v0,<epilogue>`) is the ONLY state>=5
+     * guard; the `beqz` REUSES the sltiu result ($v0==0 when state>=5) as the return-0 value by
+     * threading straight to `jr ra`. An explicit `if(state>=5)return 0;`, a `default:`, or a
+     * trailing `return 0;` each makes gcc emit a separate `move $v0,$zero` (+1 insn / wrong branch
+     * target). Falling off the end here is deliberate (and matches the original). Cookbook §10/B3. */
     switch (lzss_state) {
     case 0:
         goto term_ret;
@@ -502,13 +499,22 @@ s32 LzssDecodeSector(u8 *src) {
                 if (count != 0) {
                     goto have_low;
                 }
+                /* LOAD-BEARING #3 (residual B): `result` is set in the state-3 PREDECESSOR (here,
+                 * before `goto save`), not inside the shared `save:` tail. This makes gcc emit a
+                 * distinct `li $v0,1` per return site instead of cross-jumping/sinking one copy into
+                 * the tail's branch delay slot (reorg.c fill_simple_delay_slots). Cookbook §10/B. */
+                result = 1;
                 newState = 3;
                 goto save;
     have_low:
     case 3:
-                nb = *src++;
+                nh = *src++;
                 count--;
-                code = (nb << 8) | (code & 0xFF);
+                /* LOAD-BEARING #1 (residual A), cont.: operand order `(code & 0xFF) | (nh << 8)`,
+                 * NOT `(nh<<8)|(code&0xFF)`. gcc local-alloc.c combine_regs ties a commutative OR's
+                 * result to the FIRST RTL operand that dies; writing `code & 0xFF` first ties the
+                 * result to $v0 (the target reg) → `or $v0,$v0,$v1`. Cookbook §10/A. */
+                code = (code & 0xFF) | (nh << 8);
                 readIdx = code & 0x3FF;
                 if (readIdx == 0) {
                     lzss_state = 0;
@@ -528,6 +534,7 @@ s32 LzssDecodeSector(u8 *src) {
             if (count != 0) {
                 goto next_bit;
             }
+            result = 1;     /* state-4 save predecessor — see LOAD-BEARING #3 */
             newState = 4;
         save:
             lzss_state = newState;
@@ -536,7 +543,7 @@ s32 LzssDecodeSector(u8 *src) {
             lzss_curToken = token;
             lzss_outPtr = out;
             lzss_partialCode = code;
-            return 1;
+            return result;
     next_bit:
     case 4:
             if (mask == 0x80) {
@@ -544,26 +551,35 @@ s32 LzssDecodeSector(u8 *src) {
                 token = *src++;
                 count--;
                 if (count == 0) {
-                    lzss_state = 2;
+                    /* state-2 reload save. The original keeps this as a SEPARATE copy of the 6
+                     * stores (not shared with `save:`). Two more load-bearing constructs: */
+                    register s32 r __asm__("$2");
+                    /* LOAD-BEARING #4 (residual B, state-2): an explicit $v0 local pinned early by a
+                     * read-only input-asm. This forces `li $v0,1` to materialise BEFORE the stores
+                     * (the target schedules the return value first; gcc otherwise, since `li $v0,1`'s
+                     * only use is the shared epilogue, defers it to just before `jr ra`). Cookbook §10/B. */
+                    r = 1;
+                    __asm__ __volatile__("" : : "r"(r));
+                    newState = 2;
+                    lzss_state = newState;
                     lzss_ringIndex = ringIdx;
                     lzss_curMask = mask;
                     lzss_curToken = token;
                     lzss_outPtr = out;
                     lzss_partialCode = code;
-                    __asm__ __volatile__("" ::: "memory");  /* zero-byte cross-jump barrier — see header */
-                    return 1;
+                    /* LOAD-BEARING #5 (the cross-jump barrier): a zero-byte volatile asm. gcc 2.7.2
+                     * -O2 jump.c find_cross_jump would otherwise MERGE this save with the identical
+                     * `save:` tail (→111 insns); an ASM_INPUT node makes it bail (lose=1) so both
+                     * survive (→122, the correct count). No -fno-crossjumping before gcc 3.3. Cookbook §5a. */
+                    __asm__ __volatile__("" ::: "memory");
+                    return r;
                 }
             } else {
                 mask <<= 1;
             }
         }
     }
-ret0:
-    return 0;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/800", LzssDecodeSector);
-#endif
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80018918);
 
