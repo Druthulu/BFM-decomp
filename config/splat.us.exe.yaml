@@ -73,6 +73,13 @@ segments:
       # INCLUDE_ASM (Phase-7 regression gate) — opt level only affects matched C, not stubs.
       # Boundary = func_800123F0 (vram 0x800123F0 -> file vram-0x8000F800 = 0x2BF0).
       - [0x800, c, boot]        # -O0 boot module -> src/boot.c (vram 0x80010000-0x800123F0)
-      - [0x2BF0, c, 800]        # -O2 remainder   -> src/800.c  (vram 0x800123F0-0x800629DC); name "800" kept (legacy) so the 38 matched fns + their asm/nonmatchings/800 paths don't migrate; NB start is now 0x2BF0, not 0x800
+      - [0x2BF0, c, 800]        # -O2 game code   -> src/800.c  (vram 0x800123F0-0x80043088); name "800" kept (legacy) so the matched fns + their asm/nonmatchings/800 paths don't migrate
+      # PsyQ libcd region (Phase 7 Task 2'): the real libcd objects are linked here in place of
+      # stubs (the .ld swaps build/src/libcd{1,2}.o -> build/psyq/libcd/*.o + NOLOAD data). The
+      # 18 objects form two contiguous blocks split by a 76-B non-libcd gap (stays a stub).
+      - [0x33888, c, libcd1]    # libcd block 1 -> src/libcd1.c (vram 0x80043088-0x80046980, 11 objs)
+      - [0x37180, c, gap]       # non-libcd gap -> src/gap.c    (vram 0x80046980-0x800469CC, stub)
+      - [0x371CC, c, libcd2]    # libcd block 2 -> src/libcd2.c (vram 0x800469CC-0x8004787C, 7 objs)
+      - [0x3807C, c, 800b]      # -O2 game code -> src/800b.c   (vram 0x8004787C-0x800629DC)
       - [0x531DC, data, 531DC]  # data — psxexeinfo boundary; round-trips byte-identical
   - [0x65000]

@@ -157,6 +157,15 @@ CHECK_SHA   := config/check.us.sha
 UNDEF_SYMS  := undefined_syms_auto.txt
 UNDEF_FUNCS := undefined_funcs_auto.txt
 
+# Phase 7 (Task 2'): link the real PsyQ libcd SDK objects in place of the libcd-region asm stubs.
+# tools/psyq_integrate.py rewrites the splat .ld (swap stub objects -> build/psyq/libcd/*.o + NOLOAD
+# data placement, no carving) and emits the externals defsym fragment. Conditional on the SDK ELF
+# objects being present (gitignored, SDK-derived, via tools/psyq_build_libs.sh LIBCD); a fresh clone
+# without them builds byte-identically via the stubs.
+LIBCD_ELF    := .run/obj40/libcd
+LIBCD_OBJDIR := build/psyq/libcd
+LIBCD_SYMS   := build/psyq/libcd_externals.ld
+
 # Assembler flags (docs/SETUP.md §6.2). -G0 is confirmed by the disassembly
 # (ledger #8: zero $gp-relative addressing). -no-pad-sections keeps section ends
 # un-padded so the link reproduces the original layout.
@@ -220,8 +229,16 @@ build/src/boot.o: CC1FLAGS := -quiet -O0 -G0 -mips1 -mcpu=3000 -mgas -msoft-floa
 $(OUT): $(OBJS) $(LD_SCRIPT)
 	@set -e
 	mkdir -p $(dir $@)
+	# Wire in the real libcd objects (after the build objects exist — the externals discovery
+	# trial-links the whole image). Idempotent: re-running re-derives the externals only.
+	if [ -d "$(LIBCD_ELF)" ]; then
+		$(PYTHON) tools/psyq_integrate.py $(LIBCD_ELF) $(LD_SCRIPT) $(LIBCD_OBJDIR) $(LIBCD_SYMS) libcd1,libcd2
+	else
+		echo "  (no $(LIBCD_ELF) — libcd region stays asm stubs; run tools/psyq_build_libs.sh LIBCD)"
+	fi
+	SYMS=""; [ -f "$(LIBCD_SYMS)" ] && SYMS="-T $(LIBCD_SYMS)"
 	echo "  LD      $(ELF)"
-	$(LD) -T $(LD_SCRIPT) -T $(UNDEF_SYMS) -T $(UNDEF_FUNCS) --no-check-sections -Map $(MAPFILE) -o $(ELF)
+	$(LD) -T $(LD_SCRIPT) -T $(UNDEF_SYMS) -T $(UNDEF_FUNCS) $$SYMS --no-check-sections -Map $(MAPFILE) -o $(ELF)
 	echo "  OBJCOPY $@"
 	$(OBJCOPY) -O binary $(ELF) $@
 

@@ -260,3 +260,73 @@ vs PsyQ libcd; `PRESET_OBJ_*` ∈ `LIBGS.LIB`. Workflow (the decomp-standard psy
      .text` → byte-compare to the EXE. `.rdata`/`.data` vrams are found by searching the EXE for the section
      bytes (`objcopy --only-section`). Tools: `tools/psyq_lib_split.py`, `tools/psyq_build_libs.sh`,
      `tools/psyq_identify.py`.
+
+### §9.1 Generalised per-object linker — `tools/psyq_link.py` (+ `psyq_link_lib.py`), 18/18 libcd byte-exact
+Session-D generalised the SYS.o recipe into a tool that links **every** used object of a library byte-identical.
+Two gotchas the one-object recipe didn't surface, both now handled:
+- **psyq-obj-parser MISLABELS common-style globals.** Uninitialised globals (PSYLINK `.comm`) get packed into each
+  object's `.bss` with *sequential* `st_value`s, but the original linker SCATTERED them (e.g. libcd CDROM's
+  `StRingAddr`→`0x800c7c94` and `StRingSize`→`0x800c7f00` are 0x26c apart, the ELF claims 8). **Trust no
+  `st_value`** for placement.
+- **Robust model = recover-everything + selective override.** Place `.text` at its vram and the *real* initialised
+  sections at their bases (byte-search; or, for `.bss`/reloc-bearing `.data`, the address the section symbol itself
+  resolves to in the EXE). Resolve every symbol the `.text` references by the address read out of the EXE's already-
+  linked relocations (`R_MIPS_26` jump field; `HI16`+`LO16` immediates; object addend subtracted, but PsyQ addends
+  are 0). A symbol that is a *genuine* member of a placed section (recovered == base+st_value) is left to `ld`; a
+  *mislabelled* one is **`--weaken-symbol`'d then `--defsym`'d** to its recovered address (a strong defsym beats the
+  weak section def — `--strip-symbol` is refused on reloc-referenced symbols, weaken isn't). `.text` byte-compare is
+  the check (G3).
+- **Tells:** `ld: 'X' referenced … defined in discarded section` = you discarded a section whose section-symbol the
+  `.text` needs → place it instead. A 1–4 word residual in `lui/lw/sw` immediates (`3c0480xx`) = a mislabelled
+  `.bss` common → weaken+defsym it.
+- **Externals split intra/extra-library.** Per-object "externals" (UND) include symbols defined in *sibling* objects
+  (resolve internally in a whole-library link) vs truly external ones (other libs' funcs like `VSync`/`memcpy`, and
+  module data globals like `St*`) — the latter feed `--defsym`/`symbols.us.txt` (R15). libcd: 82 union = 48 intra +
+  34 extra. `tools/psyq_link_lib.py <elf_dir>` links all located objects, flags address conflicts, writes
+  `.run/psyq_link.<lib>.json`. Same tooling will serve libgs/libspu/… (the +24 culprits).
+
+### §9.2 Wire a library region into the build with NOLOAD — no data carving (`tools/psyq_link_region.py`)
+To replace the asm stubs of a library's functions with the real objects in the byte-identical build WITHOUT
+carving the flat `data` subsegment:
+- **Place `.text` LOADED at each object's exact vram; place `.data`/`.rdata`/`.bss` as NOLOAD at their vrams.** A
+  NOLOAD section contributes its symbol addresses but **zero bytes** to `objcopy -O binary`, so the build's existing
+  flat data subsegment still emits those bytes (no double-emit, no carve) while the hundreds of section-relative
+  `.text` refs resolve via the NOLOAD placement. Set `.data`/`.rdata`/`.bss` align=4 first or a 4-but-not-8-aligned
+  vram bumps +4 (same tell as §9). Needs `ld --no-check-sections` (NOLOAD overlaps the loaded flat blob's VMA).
+- **Weaken every `.bss`/`.sbss`-defined named symbol**, then `--defsym` it to its recovered address: the common-style
+  globals are scattered (genuine `CD_*` and mislabelled `St*` alike, and a `.bss` symbol of object A may be referenced
+  by object B), so a uniform strong-defsym-beats-weak-def resolves them all. Truly-undefined externals (other libs'
+  funcs) surface from a probe link's `undefined reference` lines → defsym from the recovered map.
+- **Place each object at its EXACT vram, not by concatenation** — a library's objects are *mostly* contiguous but a
+  non-library function can sit between them (libcd: a 76-B gap of non-libcd code between C_003 and C_004), so naive
+  `*(.text)` concatenation drifts past the gap. The gap stays an asm stub in the build (split the splat code subseg
+  into [pre][lib block 1][gap stub][lib block 2][post]). `tools/psyq_link_region.py <elf_dir> --emit <p>` verifies the
+  region byte-identical per-object and emits `<p>.ld` (text + NOLOAD lines) + `<p>.syms`. libcd: 18 objects byte-exact,
+  36 externals.
+
+### §9.3 Make it the build: resegment + swap + resolve (`tools/psyq_integrate.py`, libcd DONE)
+Wiring a library region into `make build` byte-identical (libcd: 58 SDK funcs, full pipeline green):
+- **Resegment the splat text subseg into [pre][block1][gap][block2…][post]** at the library blocks
+  (one `c` subseg per block + per non-library gap; vram→file = −0x8000F800). `make extract` regenerates
+  the gap/post stubs; **`tools/split_src_region.py trim`** rewrites the curated pre-file (keeps items
+  <lo, preserving real C and `#ifdef NON_MATCHING` blocks by brace/`#endif` matching) — splat will NOT
+  overwrite an existing `.c`, so a stale one mis-places everything. splat-auto-empties (`void f(void){}`)
+  ≥hi regenerate identically — no move needed.
+- **`psyq_integrate.py` (run in the `$(OUT)` recipe, after objects compile — the externals discovery
+  trial-links the whole image):** (1) prep objects (align=4 + weaken every `.bss` symbol) → `build/psyq/<lib>/`;
+  (2) rewrite the splat `.ld` — replace each `build/src/<stub>.o(.text);` with the block's real
+  `<obj>.o(.text);` (concatenation places them at their vrams since the pre-file ends exactly at the block
+  start) AND **delete the stub object's other `(.rodata/.data/.bss)` lines** (else its stub symbols
+  multiply-define the real ones); add per-object **NOLOAD** data sections sorted by vram (unsorted →
+  "dot moved backwards"); (3) resolve externals via a **full trial link** (symbols still defined elsewhere
+  never appear, so no double-def — no blanket exclude needed).
+- **External resolution, in order:** `func_<addr>` (external code/data calls a libcd fn by its splat
+  address-name; the real object exports a PsyQ name) → that address; a `symbols.us.txt` name (jump-table /
+  dispatch pointer in the flat `.data`, e.g. `BIOS_OBJ_3B8`) → its `symbols.us.txt` address; a recovered
+  data/extern global (`St*`/`CD_*`) → recovered. **Always also defsym EVERY weakened `.bss` common** — the
+  ones whose object's `.bss` is NOLOAD-placed resolve to that weak placement and never show as undefined
+  (the 8-word `StMode` miss). Capture BOTH `undefined reference` AND `defined in discarded section` from the
+  trial link.
+- **Byte-identical with OR without the SDK objects** (the stubs reproduce the same bytes), so gate the
+  whole thing on `[ -d <elf_dir> ]` — a fresh clone without `tools/psyq/` builds via stubs. Idempotent
+  (`build/psyq/<lib>` in the `.ld` ⇒ re-derive syms only).

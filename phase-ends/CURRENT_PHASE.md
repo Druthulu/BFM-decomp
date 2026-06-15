@@ -34,15 +34,21 @@ rodata-island foundation + LZSS match are DEFERRED to a focused sub-project afte
 - [ ] **Task 7 — PhaseEnd_Phase7** (Gen1 synthesis, milestone gate). **Max · Tier 1.**
 
 ## Current task
-**Task 2′ — rodata-island / LZSS gate.** Mechanism now PROVEN end-to-end; a strategic pivot to PsyQ-library
-linking is in flight (see the PsyQ spike section below) — that fixes the library-half alignment AND gives
-~350 SDK functions byte-exact for free. Then LZSS, Task 6, Task 7.
-NOTE: Gen1 exit needs ≥3 SESSIONS of green `make check` — **now satisfied** (A, B, C below); Tasks 6/7 still pending.
+**Task 2′ — libcd-into-build DONE (session D); next = libgs + LZSS.** Per Drew's approved-plan ordering
+(libcd-first to prove the build-integration mechanism on the simplest library, then libgs+island+LZSS):
+- ✅ **libcd wired into the byte-identical build** (session D) — 58 SDK funcs from real objects; full
+  build-integration mechanism proven + tooled (psyq_integrate.py, NOLOAD = no carving, splat resegment,
+  H5-safe src split). Sub-tasks 2′.1 (ground)/2′.2 (18/18 verify)/2′.3 (build wiring) complete.
+- ▶ **NEXT: libgs** (the actual +24 culprit — PRESET/PRESET2/OBJT2/PRNT jtbls) via the same psyq_integrate
+  path → fixes the +24 + banks ~69 libgs funcs; then **LZSS** (jtbl_80072A38) via the rodata-island
+  migration+ld_interleave path; then Task 6 (Gen1 close) + Task 7 (PhaseEnd).
+NOTE: Gen1 exit needs ≥3 SESSIONS of green `make check` — **satisfied** (A, B, C, +D); Tasks 6/7 still pending.
 
 ## Per-session `make check` green log (≥3 sessions needed for the milestone)
 - 2026-06-14 (session A): `make check` → `143dbb89… BYTE-IDENTICAL` ✓ — baseline restored + reproducibility fix, reports built, **38 real matches** (22 accessor leaves + ResourceGetCdLoc + LoaderResetReadState), build byte-identical throughout. [need ≥2 more sessions]
 - 2026-06-14 (session B): `make check` → `143dbb89… BYTE-IDENTICAL` ✓ — **per-file -O0 split mechanism** (src/boot.c + Makefile per-file flags); **4 real matches** (GameModeDispatch, DebugMenuHandler, CdQueueBusy, CdReadRequest) → **42 real**; **PsyQ libcd.h infra** (CdlLOC/CdlFILE + 4 named symbols, unlocks the loader cluster); **LoaderInitFileTable + ResourceLoadStateMachine NON_MATCHING-drafted** (→ 4 NM) — **Task 5 non-jtbl loaders COMPLETE** (6 matched + 2 drafted); report tooling fixed (multi-file); cookbook §6/§7/T4. Build byte-identical throughout. [need ≥1 more session]
 - 2026-06-15 (session C): `make check` → `143dbb89… BYTE-IDENTICAL` ✓ (full `clean && extract && build`, restored after the Task-2′ experiments). **≥3-session bar MET.** This session: fully diagnosed + built the **rodata-island mechanism** (works); root-caused the +24; **proved the PsyQ-library-linking GO** (see below). No new matches (architectural session). Build green at start and after restore.
+- 2026-06-14 (session D): `make clean && make extract && make build && make check` → `143dbb89… BYTE-IDENTICAL` ✓ — **libcd LINKED INTO THE BUILD** (Drew-approved push-through). The first real PsyQ library is now sourced from real SDK objects in the byte-identical build: **58 libcd SDK functions** linked (not stubs), replacing the libcd-region asm stubs. Idempotent; Makefile-automated; conditional (fresh clone w/o `tools/psyq/` builds via stubs). New committed tooling: `tools/psyq_link.py` (per-object byte-link engine — recovers externals from resolved relocs, weakens psyq-obj-parser's mislabelled `.bss` commons), `psyq_link_lib.py` (whole-lib verify, 18/18 libcd), `psyq_link_region.py` (region link via **NOLOAD** = no data carving), `psyq_integrate.py` (build wiring: splat resegment + .ld swap + external resolution), `split_src_region.py` (H5-safe src split). Cookbook §9.1/9.2/9.3 + R16. **No data carving** (NOLOAD data placement; flat data subseg unchanged). Build green throughout.
 
 ---
 
