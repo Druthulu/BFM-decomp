@@ -3,6 +3,7 @@
 > **This file is the EVOLVABLE reference layer.** Unlike `PROJECT_CONTEXT.md` (permanent, never edited), this document holds volatile facts — pinned versions, URLs, commands, ports — and **may be updated freely** as tools move. Note each change in the active phase log (`CURRENT_PHASE.md`). Items marked **TBD** / **UNVERIFIED** / **JP-only — re-derive for US** are honest gaps: confirm before relying on them, then update this file.
 
 Last full revision: 2026-06-10 (initial authoring, pre-Phase-1 — nothing below is installed yet except the repo itself; same-day conversion to the all-in-WSL / Linux-first architecture — everything now runs inside a single WSL2 Ubuntu 24.04 clone, no Windows/WSL split).
+**Refresh 2026-06-15:** added a tooling/MCP-lifecycle/session-hooks/backup-posture pass after the doc had drifted past the as-built reality — new §1a (`.run/` scratch), §2.8 (MCP lifecycle, persistence model & session hooks), a `## Tooling inventory` table, and a `## Backup & private-repo posture` section. Rule **R21** (added this session) now requires keeping THIS file current whenever tooling / MCP / hooks / env change.
 
 ## Version pin summary
 
@@ -62,6 +63,10 @@ One repository clone on ext4 at `~/bfm-decomp` holds everything — RE stack, bu
 One-shot file copies onto ext4 (e.g. the disc dump into `disks/`) from any source are fine — it is sustained/random IO and watchers on drvfs that break, not correctness. Ghidra project files (`.gpr`/`.rep`) live on ext4 alongside the clone (or under `~/.ghidra`), consistent with Ghidra's local-drive-storage recommendation; their `~lock` files behave correctly on a native Linux filesystem.
 
 Git hygiene: the committed `.gitattributes` (`* text=auto eol=lf` + binary exclusions) keeps line endings consistent. On the Linux clone `core.filemode true` is fine (ext4) and `core.autocrlf` is `false` by default (LF-native), so no line-ending dance is needed.
+
+### §1a Runtime scratch (`.run/`, rule R12)
+
+Gitignored project-local scratch directory at `~/bfm-decomp/.run/` — the standing replacement for `/tmp` (rule R12: never write to `/tmp`; all runtime data is project-local). Holds purely regenerable transients: the headless MCP server log (`ghidra-mcp.log`), the clean-shutdown sentinel (`mcp-stop.req`, see §2.8), signature dumps (`sig.*.jsonl`, produced by `make sig-refresh`), decomp-permuter scratch (`.run/permuter/`), build/extract logs, and assorted `tmp*` working files. Everything here is regenerated on demand and **never committed** — the directory exists only so no working data ever lands in `/tmp` or pollutes the tree.
 
 ---
 
@@ -165,6 +170,25 @@ For unattended batch passes, GhidrAssistMCP runs headless (supported since v2.3.
 - **CONFIRMED 2026-06-13:** this headless flow works end-to-end (server "started on port 8080 … with 41 tools"; `get_binary_info` and `get_code` operate on the `-process` program). **The headless server holds the project `.rep` lock while serving** — stop it (cancel the analyzeHeadless process) before opening the same project in the GUI.
 - **Extension install (headless-compatible):** extract each extension zip into `<GHIDRA_INSTALL_DIR>/Ghidra/Extensions/` (e.g. `unzip ext.zip -d ~/ghidra_12.1_PUBLIC/Ghidra/Extensions/`). Both GUI and `analyzeHeadless` then load the extracted module dirs (no GUI "Install Extensions" step needed). Verified for GhidrAssistMCP + ghidra_psx_ldr on Ghidra 12.1.
 - **Loader selection in headless:** `-loader "PSX Executables Loader"` is **rejected** (`InvalidInputException: Invalid loader name specified`) even though that is the loader's display name. **Omit `-loader` and let auto-detection pick** — for a real `PS-X EXE` it correctly selects "PSX Executables Loader" over Raw Binary (log line: `Using Loader: PSX Executables Loader`).
+
+### §2.8 MCP server lifecycle, persistence model & session hooks
+
+We drive RE through our own headless MCP server, `tools/ghidra_scripts/BfmMcpServer.java`, run under `analyzeHeadless` (the §2.7 flow). **Persistence model — read this before doing RE:** the server holds an **OPEN TRANSACTION** the entire time it serves, so there is **NO mid-session save** — MCP writes (renames, retypes, comments, structs) live in RAM and are flushed to the program DB **only on a clean shutdown**. A hard crash (or `SIGKILL`) loses every RAM-only write since the last clean stop. Therefore: take **clean-stop checkpoints during long RE** rather than trusting a single save at the end.
+
+Lifecycle scripts (under `tools/`):
+
+- **`ghidra_mcp_start.sh`** — spawns the headless server detached, logging to `.run/ghidra-mcp.log`, serving on port **8080**.
+- **`ghidra_mcp_stop.sh`** — the **only persistence event**: it requests a clean save+close by dropping the `.run/mcp-stop.req` sentinel, waits for the server to report **"Save succeeded"**, then releases the project `.rep` lock. **Never `SIGKILL` the server to stop it** — that skips the save and loses the work. Clean stop is the save.
+- **`ghidra_mcp_verify.sh <addr> <name>`** — read-only persistence re-check (rule R9): after a clean stop, re-reads the named symbol at the address to confirm the write actually landed on disk.
+
+**Session hooks (committed `.claude/settings.json`, as of 2026-06-15):**
+
+- `SessionStart` → runs `ghidra_mcp_start.sh` (auto-starts the MCP server when a Claude Code session begins).
+- `SessionEnd` → runs `ghidra_mcp_stop.sh` with **`timeout: 150`** s (auto-saves Ghidra on a clean session exit).
+
+These hooks live in the **committed `settings.json`** — NOT the gitignored `settings.local.json` — specifically so they are backed up to the remote. Consequence to internalize: **closing Claude Code does NOT save unless the `SessionEnd` hook fires**, and it fires only on *clean* exits — a hard crash of the CC process still loses RAM-only writes. This is exactly why mid-RE clean-stop checkpoints matter.
+
+**Committing Ghidra RE work:** clean-stop (which saves) **FIRST**, then commit `ghidra/`. The `.rep` lock never blocks git (the lock is gitignored, and ext4 reads open files fine), but do **not** commit `ghidra/` mid-RE — that snapshots a stale on-disk DB that predates the in-RAM writes.
 
 ---
 
@@ -436,6 +460,10 @@ vs `expected/`), `tools/decompile.py` (m2c wrapper), `-Map build/us/SLUS_007.26.
 compiler idioms (asm↔C) and "what makes gcc emit X" techniques. These recur across nearly every
 function; shaping the C toward them up front saves asm-differ rounds. **Add to it as you learn.**
 
+Cross-refs (HOW-TO lives in the cookbook / PhaseEnds, not duplicated here): per-module **-O0**
+overrides — cookbook §6; the **rodata island** — cookbook §8; PsyQ **library linking** — cookbook
+§9.1–§9.5; **symbol curation** (rename in Ghidra + `config/symbols.us.txt`, re-extract) — rule R15.
+
 **The loop (per function):**
 1. Scaffold: `tools/decompile.py <fn>` (m2c) — or Ghidra `get_code` via MCP for complex ones.
 2. In `src/800.c`, replace the `INCLUDE_ASM(... <fn>);` line with the C function body.
@@ -495,6 +523,83 @@ Principle: the oracles (SHA1 check, asm-differ, RAM-dump byte-compares) make *co
 | 7 — Matching at scale | Pattern grind against hard oracle | Standard; smaller tiers acceptable for bulk iteration (cost = wasted iterations, never wrong matches) |
 
 Budget notes (Max 20x plan): long autonomous RE sessions are token-hungry; prefer single-agent flow with oracle checks for in-phase grind, reserving multi-agent fan-outs for verification moments. *Window note (2026-06-10): Fable 5 access expires ~2026-06-22 — priority order for that window: Phases 1→2 fast, then maximum depth on Phase 3, then Phase 6 fingerprint analysis if time remains; defer Phase 4 past the window.*
+
+---
+
+## Tooling inventory
+
+Every script under `tools/` (plus the two report make-targets), grouped by purpose — one line each. Deep HOW-TO is **not** here: see `docs/matching-cookbook.md` (§6 per-module -O0, §8 rodata island, §9.1–§9.5 library linking) and the relevant PhaseEnd.
+
+| Group | Member | One-line purpose |
+|---|---|---|
+| **MCP lifecycle** | `tools/ghidra_mcp_start.sh` | Spawn the headless MCP server detached → `.run/ghidra-mcp.log`, port 8080 (§2.8). |
+| | `tools/ghidra_mcp_stop.sh` | Clean save+close via the `.run/mcp-stop.req` sentinel — the only persistence event; never SIGKILL (§2.8). |
+| | `tools/ghidra_mcp_verify.sh` | Read-only persistence re-check `<addr> <name>` after a clean stop (R9). |
+| | `tools/ghidra_scripts/BfmMcpServer.java` | The headless MCP server itself (holds an open transaction while serving). |
+| **Ghidra headless scripts** (`tools/ghidra_scripts/`) | `ImportPsyqGdt.java` | Resolve `psyq*.gdt` types into the program DTM headlessly (§2.5 step 5). |
+| | `ExportSymbols.java` | Dump curated symbols (feeds `config/symbols.us.txt`, R15). |
+| | `DumpProgramInfo.java` | Dump program metadata (loader, language, ImageBase, function count). |
+| | `DumpFunctionSignatures.java` | Dump function signatures (feeds `make sig-refresh`). |
+| | `ImportOverlay.java` | Import an overlay segment into the project. |
+| | `VerifyOverlay.java` | Verify an imported overlay against expected bytes. |
+| | `GetSymbolAt.java` | Read the symbol at a given address (scripted lookup). |
+| | `DecompileAt.java` | Decompile the function at a given address (scripted scaffold). |
+| | `tools/ghidra_import.sh` | Headless `analyzeHeadless` import/analysis driver. |
+| **Disc/.CD extraction** (`tools/bfm_extract/`) | `extract.py` | Walk the disc / extract root files (`make extract`). |
+| | `extract_exe.py` | Extract & verify `SLUS_007.26` (`--verify-disc`, owns `EXPECTED_EXE_SHA1`). |
+| | `extract_proto_exe.py` | Extract the prototype/demo EXE for cross-checking. |
+| | `cd_archive.py` | Parse the `.CD` container format. |
+| | `pac.py` | Parse the PAC archive format. |
+| | `lzss.py` | LZSS (de)compression for packed blobs. |
+| | `manifest.py` | Build/verify the extraction SHA1 manifest. |
+| | `crosscheck.py` | Cross-check extracted bytes against the runtime RAM dump. |
+| **Matching harness** | `tools/decompile.py` | m2c wrapper — C scaffold for a function (§6.6). |
+| | `tools/match_protos.py` | Match prototype-EXE functions against retail. |
+| | `tools/permuter/` | decomp-permuter harness (PERM_ recipes/weights) for stubborn near-misses. |
+| | `diff_settings.py` *(repo root)* | asm-differ config (arch `mipsel`, object mode vs `expected/`). |
+| **PsyQ library linking** (cookbook §8/§9) | `tools/psyq_lib_split.py` | Split a PsyQ `.LIB` into per-object members. |
+| | `tools/psyq_build_libs.sh` | Build the PsyQ libs from split members. |
+| | `tools/psyq_identify.py` | Identify which SDK objects a region's functions belong to. |
+| | `tools/psyq_link.py` | Link identified PsyQ objects into the build. |
+| | `tools/psyq_link_lib.py` | Per-library link driver. |
+| | `tools/psyq_link_region.py` | Link a specific address region from PsyQ libs. |
+| | `tools/psyq_integrate.py` | Integrate linked PsyQ results back into the source tree. |
+| | `tools/make_libgs.sh` | Build/link the `libgs` block (cookbook §9). |
+| | `tools/ld_interleave.py` | Interleave linker inputs to match original section ordering. |
+| | `tools/split_src_region.py` | Split a `src/` region file at object boundaries. |
+| **Reports** | `tools/progress.py` | Decomp progress report (`make report`). |
+| | `tools/difficulty.py` | Per-function difficulty scoring. |
+| | `tools/dup_report.py` | Duplicate-function report. |
+| | `make report` / `make sig-refresh` | Convenience targets wrapping the report / signature-dump scripts. |
+
+---
+
+## Backup & private-repo posture (rules R20/R21)
+
+This project lives in a **private** remote (rule H1, relaxed: ROM-derived material may be committed while the repo is private). Per-session checkpoint backups (R20) push all irreplaceable work; the lists below record what is and is not pushed as of 2026-06-15.
+
+**Backed up to the private remote (2026-06-15):**
+
+- The **Ghidra project** (`ghidra/`) — with `*.lock` / `tmp*.ps` transients excluded (regenerable / ext4-local lock files).
+- **PsyQ SDK working artifacts** (`tools/psyq/`) **MINUS** the two >100 MB raw source archives — the `psyq40usa.zip` and the DTL-S2002 disc `.bin`/`.cue` (re-sourceable, over GitHub's file-size limit).
+- **Old-gcc cc1 compiler tarballs** (`tools/bin/*.tar.gz`) — the extracted binaries are regenerable from these, so only the tarballs are kept.
+- **Ghidra extension installers** — `tools/ghidra-ext/GhidrAssistMCP_2.8.0.zip` + `ghidra_psx_ldr_2026.06.04.zip` (hard to re-source at exact pinned versions).
+
+**Deliberately NOT backed up** (regenerable, or >100 MB and re-sourceable):
+
+- The disc dump (`disks/`).
+- The `extracted/` bulk — regenerate via `make extract`.
+- `build/`, `expected/`, `asm/` — all generated.
+- `.venv/` — recreate from `tools/requirements-python.txt`.
+- The two >100 MB raw PsyQ archives (the `psyq40usa.zip` + DTL-S2002 disc).
+- The unused PCSX-Redux Linux AppImage — the real runtime oracle is the Windows-native build.
+
+**Rules:**
+
+- **R20** — back up all irreplaceable RE/decomp work plus gathered hard-to-re-source tooling at per-session checkpoints. This **loosens R8** (which mandated a single commit at phase end): checkpoint commits are now expected within a phase.
+- **R21** — keep **THIS file** (`docs/SETUP.md`) current whenever tooling, the MCP setup, the session hooks, or the environment changes.
+
+Sony **PsyQ libs and cc1 stay PRIVATE** — they are excluded from the future curated public mirror (the two-repo public-release plan; see `docs/gen2-roadmap.md`). The four submodules (asm-differ / m2c / maspsx / decomp-permuter) stay **gitlinks** on GitHub (the deliberate no-bloat choice over vendoring); residual risk = upstream deletion of a pinned commit.
 
 ---
 
