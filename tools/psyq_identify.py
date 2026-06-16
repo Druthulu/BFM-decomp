@@ -8,16 +8,29 @@ NON-relocated word matches. That position is the object's link address in the EX
 (or "absent" if the EXE doesn't link it). This is the placement map the library
 linker step consumes.
 
-Usage:  psyq_identify.py <elf_dir> [text_lo_vram text_hi_vram]
-        (defaults to the BFM .text window 0x80010000..0x800629DC)
+Usage:  psyq_identify.py <elf_dir> [text_lo_vram text_hi_vram] [--vram-base HEX] [--exe PATH]
+        (window defaults to the BFM .text 0x80010000..0x800629DC; --vram-base/--exe default to
+        the EXE's values, becoming required in Phase-9 T8 once every caller passes them)
 """
-import struct, subprocess, re, sys, glob, os
+import struct, subprocess, re, sys, glob, os, argparse
 
+# TRANSITIONAL DEFAULTS (Phase 9): the EXE path + fileoff->vram delta, kept ONLY as the
+# --exe/--vram-base defaults so callers that don't yet pass them stay green; REMOVED in T8.
 EXE = "extracted/retail/SLUS_007.26"
 VRAM_BASE = 0x8000F800
-ELF_DIR = sys.argv[1] if len(sys.argv) > 1 else ".run/obj40/libcd"
-TLO = int(sys.argv[2], 0) if len(sys.argv) > 2 else 0x80010000
-THI = int(sys.argv[3], 0) if len(sys.argv) > 3 else 0x800629DC
+
+_ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+_ap.add_argument("elf_dir", nargs="?", default=".run/obj40/libcd")
+_ap.add_argument("window", nargs="*", help="optional scan-narrowing window: text_lo_vram text_hi_vram")
+_ap.add_argument("--vram-base", default=hex(VRAM_BASE),
+                 help="fileoff->vram delta of the target binary (default the EXE's 0x8000F800; required T8)")
+_ap.add_argument("--exe", default=EXE, help="target binary path (default: the retail EXE)")
+_a = _ap.parse_args()
+ELF_DIR = _a.elf_dir
+EXE = _a.exe
+VRAM_BASE = int(_a.vram_base, 0)
+TLO = int(_a.window[0], 0) if len(_a.window) > 0 else 0x80010000
+THI = int(_a.window[1], 0) if len(_a.window) > 1 else 0x800629DC
 
 b = open(EXE, "rb").read()
 text = b[TLO - VRAM_BASE: THI - VRAM_BASE]
