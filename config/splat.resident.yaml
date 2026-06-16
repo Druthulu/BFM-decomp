@@ -1,0 +1,78 @@
+# splat config — Brave Fencer Musashi resident engine blob (MAIN.CD/FILE_010/1.1)
+# Phase 10: rebuild the always-resident engine blob byte-for-byte from disassembly
+# (100% INCLUDE_ASM), as the project's SECOND build binary (alias `resident`).
+#
+# Mirrors config/splat.us.exe.yaml's PSX options (compiler PSYQ, subalign 2,
+# section_order rodata/text/data/bss, find_file_boundaries False) but for a FLAT
+# decompressed blob:
+#   - NO header segment  (not a PS-X EXE; first word is data 0x00000036, code at +0x04)
+#   - NO gp_value        (-G0 like the EXE — verify zero ($gp) refs in the disasm, T2)
+#   - single code segment @ vram 0x800CEDF8 (load address RAM-proven, Phase 3 T6b)
+#   - output nested under asm/resident + src/resident + build/resident (per-binary, so
+#     the Makefile OBJS glob keeps it disjoint from main's asm/ + src/)
+#   - per-binary undefined_*_auto paths (under build/resident/) so main's stay verbatim
+#   - stacked symbols: config/symbols.us.txt (the 27 shared engine globals the blob
+#     references) + config/symbols.resident.txt (blob-local, R13/R15-tagged)
+#
+# Boundaries: 365,404 B (0x5935C) -> end vram 0x80128154 (4 B under the location-overlay
+# slot 0x80128158). The text/data split is ITERATED against `make check BINARY=resident`
+# in Phase-10 T2 (the Phase-5 precedent); this scaffold starts as one code subsegment.
+name: resident
+sha1: 8e17e02ff8954d07c979449198f7e1645046b353
+options:
+  basename: resident
+  target_path: extracted/retail/MAIN.CD.dir/FILE_010.dir/1.1
+  elf_path: build/resident/resident.elf
+  # base_path is resolved relative to THIS yaml's dir (config/), so `..` = repo root
+  base_path: ..
+  platform: psx
+  compiler: PSYQ
+
+  asm_path: asm/resident
+  src_path: src/resident
+  build_path: build/resident
+  ld_script_path: build/resident/resident.ld
+  ld_dependencies: True
+
+  # Per-binary undefined-symbol outputs (Phase 10): main keeps the repo-root files
+  # (verbatim, byte-exact no-op); resident writes under build/resident/ so `make clean`'s
+  # `rm -rf build` covers them and the two binaries never share a stale file.
+  undefined_syms_auto_path: build/resident/undefined_syms_auto.txt
+  undefined_funcs_auto_path: build/resident/undefined_funcs_auto.txt
+
+  find_file_boundaries: False
+  # NO gp_value: the blob is -G0 (same PsyQ 4.0 SDK/era as the EXE, ledger #8). Omitting
+  # it means splat emits no _gp. Verified in T2 by zero ($gp)/%gp_rel in the disasm.
+
+  o_as_suffix: True
+  use_legacy_include_asm: False
+
+  section_order: [".rodata", ".text", ".data", ".bss"]
+
+  symbol_addrs_path:
+    - config/symbols.us.txt
+    - config/symbols.resident.txt
+
+  subalign: 2
+
+  string_encoding: ASCII
+  data_string_encoding: ASCII
+  rodata_string_guesser_level: 2
+  data_string_guesser_level: 2
+
+  # Enable if maspsx reorders INCLUDE_ASM output in c-mode (commented for the EXE — unused there):
+  # include_asm_macro_style: maspsx_hack
+
+segments:
+  - name: resident
+    type: code
+    start: 0x0
+    vram: 0x800CEDF8
+    # align 4 (not the code default 16): MIPS is word-aligned; mirrors the EXE's
+    # boundary-safe choice. Subsegment boundaries are refined in T2 vs the byte check.
+    align: 4
+    subsegments:
+      # T1 scaffold: the whole blob as one `c` (INCLUDE_ASM) subsegment. T2 carves the
+      # code/data boundary (and the leading data word 0x00000036) against the SHA1.
+      - [0x0, c, resident]
+  - [0x5935C]   # EOF (365,404 B) -> end vram 0x80128154

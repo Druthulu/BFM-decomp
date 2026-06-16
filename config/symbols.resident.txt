@@ -1,0 +1,8 @@
+// config/symbols.resident.txt — blob-LOCAL symbols for the resident engine blob
+// (MAIN.CD/FILE_010/1.1, vram 0x800CEDF8-0x80128154), the project's SECOND binary.
+// PROVENANCE (R13/R15): these names come from the resident blob's OWN Ghidra program
+//   (Phase 10 T4) — provenance-tagged, blob-region ONLY, build-valid identifiers. They
+//   are stacked UNDER config/symbols.us.txt at build time (which supplies the 27 shared
+//   engine globals the blob references). NEVER merge these into config/symbols.us.txt.
+// Seeded empty in T1; populated in T4 (PsyQ signatures + auto-analysis export).
+// count=0

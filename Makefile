@@ -30,7 +30,7 @@ MASPSX      := tools/maspsx/maspsx.py
 # .run/sig.<bin>.jsonl) is documented now but first INSTANTIATED by Phase 10's second
 # binary. Select with `make build BINARY=<alias>`; defaults to the EXE.
 # -----------------------------------------------------------------------------
-BINARIES := main
+BINARIES := main resident
 BINARY   ?= main
 $(if $(filter $(BINARY),$(BINARIES)),,$(error BINARY='$(BINARY)' not in BINARIES='$(BINARIES)'))
 
@@ -52,6 +52,36 @@ main_SIG        := .run/sig.SLUS_007.26.jsonl
 main_VRAM_BASE  := 0x8000F800
 main_TEXT_LO    := 0x80010000
 main_TEXT_HI    := 0x800629DC
+# Source roots + undefined-sym outputs: main lives at the repo root (verbatim).
+main_ASM_DIR     := asm
+main_SRC_DIR     := src
+main_UNDEF_SYMS  := undefined_syms_auto.txt
+main_UNDEF_FUNCS := undefined_funcs_auto.txt
+
+# --- resident (engine blob MAIN.CD/FILE_010/1.1, vram 0x800CEDF8 — Phase 10) ----
+# The always-resident engine blob: extracted type-1 (uncompressed) payload, load
+# address RAM-proven in Phase 3 (T6b). Flat image (no PS-X EXE header); fileoff 0 ->
+# vram 0x800CEDF8 so VRAM_BASE = 0x800CEDF8 (NOT main's 0x8000F800). 365,404 B (0x5935C)
+# -> end vram 0x80128154. Its splat output NESTS under asm/resident + src/resident +
+# build/resident, kept disjoint from main's asm/ + src/ by the per-binary OBJS glob below.
+resident_EXE        := extracted/retail/MAIN.CD.dir/FILE_010.dir/1.1
+resident_NAME       := resident
+resident_OUT_DIR    := build/resident
+resident_OUT        := $(resident_OUT_DIR)/$(resident_NAME)
+resident_ELF        := $(resident_OUT).elf
+resident_MAPFILE    := $(resident_OUT).map
+resident_LD_SCRIPT  := $(resident_OUT).ld
+resident_SPLAT_YAML := config/splat.resident.yaml
+resident_CHECK_SHA  := config/check.resident.sha
+resident_SYMBOLS    := config/symbols.resident.txt
+resident_SIG        := .run/sig.resident.jsonl
+resident_VRAM_BASE  := 0x800CEDF8
+resident_TEXT_LO    := 0x800CEDF8
+resident_TEXT_HI    := 0x80128154
+resident_ASM_DIR     := asm/resident
+resident_SRC_DIR     := src/resident
+resident_UNDEF_SYMS  := build/resident/undefined_syms_auto.txt
+resident_UNDEF_FUNCS := build/resident/undefined_funcs_auto.txt
 
 # --- selected-binary aliases (resolve $(BINARY) -> the active instance) -------
 EXE        := $($(BINARY)_EXE)
@@ -67,6 +97,10 @@ SYMBOLS    := $($(BINARY)_SYMBOLS)
 VRAM_BASE  := $($(BINARY)_VRAM_BASE)
 TEXT_LO    := $($(BINARY)_TEXT_LO)
 TEXT_HI    := $($(BINARY)_TEXT_HI)
+ASM_DIR     := $($(BINARY)_ASM_DIR)
+SRC_DIR     := $($(BINARY)_SRC_DIR)
+UNDEF_SYMS  := $($(BINARY)_UNDEF_SYMS)
+UNDEF_FUNCS := $($(BINARY)_UNDEF_FUNCS)
 
 # cc1 smoke flags — the §5.4 first-candidate set; the real triple is pinned only
 # after Phase-6 fingerprinting. Used here purely to prove cc1 executes.
@@ -192,10 +226,10 @@ check-env:
 # maspsx->as path is documented below but dormant until Phase 6 adds `c` segments.
 SPLAT       := $(VENV_PY) -m splat
 CPP         := $(MIPS_PREFIX)cpp
-UNDEF_SYMS  := undefined_syms_auto.txt
-UNDEF_FUNCS := undefined_funcs_auto.txt
-# (SPLAT_YAML / OUT_DIR / OUT / ELF / MAPFILE / LD_SCRIPT / CHECK_SHA are now
-#  per-binary aliases in the "Binaries" data block near the top of this file — Phase 9.)
+# (SPLAT_YAML / OUT_DIR / OUT / ELF / MAPFILE / LD_SCRIPT / CHECK_SHA are per-binary
+#  aliases in the "Binaries" data block near the top of this file — Phase 9. UNDEF_SYMS /
+#  UNDEF_FUNCS / ASM_DIR / SRC_DIR joined them per-binary in Phase 10: a second binary
+#  writes its undefined_*_auto under build/<bin>/ and nests its sources under <bin>/.)
 
 # Phase 7 (Task 2'): link the real PsyQ libcd SDK objects in place of the libcd-region asm stubs.
 # tools/psyq_integrate.py rewrites the splat .ld (swap stub objects -> build/psyq/libcd/*.o + NOLOAD
@@ -286,8 +320,17 @@ MASPSX_FLAGS  := --expand-div
 # assembly time, so they are NOT separate objects and must be excluded from the glob.
 # header.s and the data subseg stay asm. Globbed at parse time -> run the canonical
 # `make extract && make build`.
-ASM_SRCS := $(shell find asm -name '*.s' -not -path 'asm/nonmatchings/*' 2>/dev/null)
-C_SRCS   := $(shell find src -name '*.c' 2>/dev/null)
+# Per-binary object scoping (Phase 10): main's sources live at the repo-level asm/ + src/;
+# a second binary (resident) nests at asm/<bin>/ + src/<bin>/. The active binary's roots are
+# $(ASM_DIR)/$(SRC_DIR). main's roots CONTAIN the nested siblings, so they must be pruned from
+# main's glob (else resident's .s/.c contaminate main's OBJS and the link). The prune list is
+# DERIVED FROM $(BINARIES) — the $(filter $(ASM_DIR)/%,...) guard prunes only a sibling whose
+# root is genuinely nested under the active root, so it self-balances as binaries are added.
+OTHER_BINS := $(filter-out $(BINARY),$(BINARIES))
+ASM_PRUNE  := $(foreach b,$(OTHER_BINS),$(if $(filter $(ASM_DIR)/%,$($(b)_ASM_DIR)),-not -path '$($(b)_ASM_DIR)/*'))
+SRC_PRUNE  := $(foreach b,$(OTHER_BINS),$(if $(filter $(SRC_DIR)/%,$($(b)_SRC_DIR)),-not -path '$($(b)_SRC_DIR)/*'))
+ASM_SRCS := $(shell find $(ASM_DIR) -name '*.s' -not -path '$(ASM_DIR)/nonmatchings/*' $(ASM_PRUNE) 2>/dev/null)
+C_SRCS   := $(shell find $(SRC_DIR) -name '*.c' $(SRC_PRUNE) 2>/dev/null)
 OBJS     := $(ASM_SRCS:%.s=build/%.o) $(C_SRCS:%.c=build/%.o)
 
 # extract: splat split -> asm/, the linker script, include/ macros, undefined_*_auto.txt.
