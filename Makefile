@@ -46,6 +46,7 @@ main_SPLAT_YAML := config/splat.us.exe.yaml
 main_CHECK_SHA  := config/check.us.sha
 main_SYMBOLS    := config/symbols.us.txt
 main_SIG        := .run/sig.SLUS_007.26.jsonl
+main_GHIDRA_PROG := SLUS_007.26
 # The fileoff->vram relation: text loads at file 0x800 / vram 0x80010000, so
 # base = 0x80010000 - 0x800 = 0x8000F800. NOT a universal PS1 constant — overlays
 # differ. Threaded into the tools as a REQUIRED param starting T5; defined here now.
@@ -75,6 +76,7 @@ resident_SPLAT_YAML := config/splat.resident.yaml
 resident_CHECK_SHA  := config/check.resident.sha
 resident_SYMBOLS    := config/symbols.resident.txt
 resident_SIG        := .run/sig.resident.jsonl
+resident_GHIDRA_PROG := resident
 resident_VRAM_BASE  := 0x800CEDF8
 resident_TEXT_LO    := 0x800CEDF8
 resident_TEXT_HI    := 0x80128154
@@ -101,6 +103,7 @@ ASM_DIR     := $($(BINARY)_ASM_DIR)
 SRC_DIR     := $($(BINARY)_SRC_DIR)
 UNDEF_SYMS  := $($(BINARY)_UNDEF_SYMS)
 UNDEF_FUNCS := $($(BINARY)_UNDEF_FUNCS)
+GHIDRA_PROG := $($(BINARY)_GHIDRA_PROG)
 
 # cc1 smoke flags — the §5.4 first-candidate set; the real triple is pinned only
 # after Phase-6 fingerprinting. Used here purely to prove cc1 executes.
@@ -140,7 +143,7 @@ sig-refresh:
 	@if ss -tln 2>/dev/null | grep -qE ':8080([^0-9]|$$)'; then
 		echo "sig-refresh: ERROR — Ghidra MCP serving on :8080; run tools/ghidra_mcp_stop.sh first."; exit 2
 	fi
-	"$(GHIDRA)/support/analyzeHeadless" "$(GHIDRA_PROJ)" bfm -process SLUS_007.26 -noanalysis -readOnly \
+	"$(GHIDRA)/support/analyzeHeadless" "$(GHIDRA_PROJ)" bfm -process $(GHIDRA_PROG) -noanalysis -readOnly \
 	  -scriptPath tools/ghidra_scripts -postScript DumpFunctionSignatures.java
 
 # -----------------------------------------------------------------------------

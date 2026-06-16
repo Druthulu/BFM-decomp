@@ -31,10 +31,10 @@ jump-table funcs    : 5    (deferred — need the rodata-island workflow, Task 2
 | 9 | func_800D1054 | 9 | 0 | 0 | - | Y |
 | 9 | func_800D1078 | 9 | 0 | 0 | - | Y |
 | 9 | func_800D10C8 | 9 | 0 | 0 | - | Y |
+| 10 | DsMix | 8 | 0 | 1 | - | - |
 | 10 | func_800CEFB0 | 8 | 0 | 1 | - | - |
 | 10 | func_800CF398 | 8 | 0 | 1 | - | - |
 | 10 | func_800D0FE0 | 8 | 0 | 1 | - | - |
-| 10 | func_800D1BD8 | 8 | 0 | 1 | - | - |
 | 10 | func_800D25FC | 10 | 0 | 0 | - | Y |
 | 10 | func_800D30A8 | 8 | 0 | 1 | - | - |
 | 10 | func_800D3328 | 8 | 0 | 1 | - | - |

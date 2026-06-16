@@ -32,15 +32,26 @@ at 100% INCLUDE_ASM, with `main` still **`143dbb89f34491258bbc27810d0a12ec8b43a8
 - [x] **T3 — Close per-binary tooling gaps** (xHigh) ✅ DONE
   - `diff_settings.py` + `tools/progress.py` + `tools/difficulty.py` + `tools/dup_report.py` get a `resident` entry; `expected` made per-binary-safe (no sibling clobber).
   - Exit: `make report BINARY=resident` shows 100% INCLUDE_ASM; `make expected BINARY=resident` no-clobber; main report unchanged.
-- [ ] **T4 — Ghidra 2nd program + seed `config/symbols.resident.txt`** (xHigh; G2 MCP precondition) ← **CURRENT**
-  - **+ also parameterize `make sig-refresh` by BINARY** (currently hardcoded `-process SLUS_007.26`;
-    resident needs `-process resident` → `.run/sig.resident.jsonl`, which unblocks dup_report's real output).
+- [x] **T4 — Ghidra 2nd program + seed `config/symbols.resident.txt`** (xHigh) ✅ DONE
+  - **+ parameterized `make sig-refresh` by BINARY** (per-binary GHIDRA_PROG; resident → `.run/sig.resident.jsonl`).
   - Import blob as 2nd program @0x800CEDF8 (MCP stopped for the lock); auto-analysis + PsyQ sigs + DetectPsyQ; light seeding; export blob-only symbols (R13/R15, never merged into symbols.us.txt).
   - Exit: rebuild still `8e17e02f…` (symbols don't change bytes); R9 persistence; R23 stop-MCP-before-commit.
 - [ ] **Phase close** — P7 checkbox sweep; gate-2 milestone confirm (Drew); PhaseEnd_Phase10.md (Tier-1 Max); archive CURRENT_PHASE.md→logs/Phase10.md (R19); R18 recap; P8 hard stop.
 
 ## Commit cadence
 Per-task checkpoint commits, each byte-gated (R20 + Phase 8/9 precedent). Claude commits locally; **Drew pushes** (R6). T4 commit includes Ghidra DB → **stop MCP first** (R23).
+
+## Key finding (T4, 2026-06-15) — resident is PsyQ **4.7.0**, not 4.0.0
+DetectPsyQ on the imported resident program reports **PsyQ Version = 470** (the EXE is 4.0.0); the import
+associated a `psyq470` source archive alongside `psyq400`; the one PsyQ-signature hit in-range is `DsMix`
+(libsnd → the resident holds the sound driver). **Drew (2026-06-15): the archive.org PsyQ link has the 4.7
+libs.** Provenance (G5): detected, to be CONFIRMED in Phase 11/12 by linking real 4.7 libs and byte-matching.
+**Implication:** the resident's PsyQ library linking (Phase 11/12) uses **4.7**, not the EXE's 4.0 — so the
+4.7 `.LIB`s are a needed asset (R20: stage the hard-to-source tooling). Does NOT affect the Phase-10
+byte-match (100% INCLUDE_ASM, no resident code compiled yet).
+**DECISION (Drew 2026-06-15): DEFER the 4.7 `.LIB`s to Phase 11 START (archive.org link); CARRY this
+finding into PhaseEnd_Phase10 "Notes for Future Phases" so Phase 11 fetches+sha-verifies them then. Phase 10
+needs nothing from PsyQ 4.7.** → also record provenance in docs/memory-map.md.
 
 ## Blockers
 (none)
@@ -73,3 +84,15 @@ Per-task checkpoint commits, each byte-gated (R20 + Phase 8/9 precedent). Claude
   `expected` made per-binary-safe (merge-copy, no `rm -rf expected/build` sibling clobber — verified
   both baselines coexist). Reports: resident = 0 REAL / 143 stubs / 100% INCLUDE_ASM; main UNCHANGED
   (52 REAL / 959 LINKED / 50.24%). Carried into T4: parameterize `make sig-refresh` by BINARY.
+- 2026-06-15: **T4 DONE.** New reusable tooling: `tools/ghidra_import_raw.sh` (BinaryLoader + base +
+  PSX:LE:32 — the Gen2 raw-blob importer, reusable for Phase-13 overlays) and
+  `tools/ghidra_scripts/DefineFunctions.java` (seed splat's validated boundaries — raw-binary
+  auto-analysis finds only the reachable subset). Imported the resident as the bfm project's **4th
+  program** `resident` @0x800CEDF8; auto-analysis (PsyQ sigs) → **PsyQ 4.7.0 detected** + `DsMix`
+  (libsnd) named. Defined splat's 143 boundaries (created=120/existed=23/failed=0); **R9-verified
+  143 funcs persisted** via read-only sig-refresh. Seeded `config/symbols.resident.txt` with `DsMix`
+  (R13 candidate); re-extract applied it; **resident + main both clean-rebuild byte-identical** (R22).
+  Makefile: per-binary `GHIDRA_PROG` → `make sig-refresh BINARY=resident`. dup_report now real
+  (6 byte-identical groups intra-resident — Phase-11 dedup fodder). Ghidra DB committed (R23, MCP
+  stopped): new `resident` program (00000003.*) + main's incidental db.15→db.16 no-op renumber.
+  **4.7 libs DEFERRED to Phase 11 (Drew) — carry to PhaseEnd Notes.**

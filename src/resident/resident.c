@@ -180,7 +180,7 @@ INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D1B10);
 
 INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D1B80);
 
-INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D1BD8);
+INCLUDE_ASM("asm/resident/nonmatchings/resident", DsMix);
 
 INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D1BF8);
 

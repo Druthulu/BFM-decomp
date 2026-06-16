@@ -4,5 +4,14 @@
 //   (Phase 10 T4) — provenance-tagged, blob-region ONLY, build-valid identifiers. They
 //   are stacked UNDER config/symbols.us.txt at build time (which supplies the 27 shared
 //   engine globals the blob references). NEVER merge these into config/symbols.us.txt.
-// Seeded empty in T1; populated in T4 (PsyQ signatures + auto-analysis export).
-// count=0
+// Seeded in T4 from the resident Ghidra program (raw-binary import @0x800CEDF8 + splat's 143
+// boundaries defined via DefineFunctions.java). The resident is engine code (PsyQ 4.7 — see
+// PhaseEnd Notes), so PsyQ-signature names are sparse; the bulk are auto func_* (splat). Engine
+// functions get named in Phase 12.
+// count=1
+//
+// [PROTO-of-self / PsyQ-sig CANDIDATE, R13 — UNVERIFIED]: matched by ghidra_psx_ldr's PsyQ
+// signature analyzer against the 4.0 DB; the resident detects as 4.7, so confirm when the real
+// 4.7 libsnd links byte-identical in Phase 11. Plausible (resident holds the sound driver; addr is
+// a splat function boundary). Name is version-stable even if the bytes differ slightly across 4.0/4.7.
+DsMix                            = 0x800D1BD8; // func
