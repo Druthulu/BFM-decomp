@@ -14,12 +14,10 @@ Usage:  psyq_link_lib.py <elf_dir> [text_lo text_hi]      e.g. .run/obj40/libcd
 """
 import json, os, re, subprocess, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from psyq_link import link_object, VRAM_BASE  # noqa: E402  (VRAM_BASE = transitional default, removed T8)
-
-EXE = "extracted/retail/SLUS_007.26"
+from psyq_link import link_object  # noqa: E402
 
 
-def placement(elf_dir, lo, hi, vram_base=VRAM_BASE, exe=EXE):
+def placement(elf_dir, lo, hi, vram_base, exe):
     cmd = ["python3", "tools/psyq_identify.py", elf_dir]
     if lo and hi:
         cmd += [lo, hi]
@@ -38,9 +36,9 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("elf_dir")
     ap.add_argument("window", nargs="*", help="optional scan-narrowing window: text_lo text_hi")
-    ap.add_argument("--vram-base", default=hex(VRAM_BASE),
-                    help="fileoff->vram delta of the target binary (default the EXE's; required T8)")
-    ap.add_argument("--exe", default=EXE, help="target binary path (default: the retail EXE)")
+    ap.add_argument("--vram-base", required=True,
+                    help="fileoff->vram delta of the target binary (e.g. the EXE's 0x8000F800)")
+    ap.add_argument("--exe", required=True, help="target binary path")
     args = ap.parse_args()
     elf_dir = args.elf_dir
     lo = args.window[0] if len(args.window) > 0 else None

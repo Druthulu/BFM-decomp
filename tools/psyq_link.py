@@ -30,14 +30,8 @@ Importable: link_object(obj, text_vram, *, vram_base, exe_path|exe_bytes) -> dic
 """
 import struct, subprocess, sys, os, re, tempfile
 
-# TRANSITIONAL DEFAULTS (Phase 9): EXE + VRAM_BASE are the EXE's values, kept ONLY as
-# argparse/param defaults so the link pipeline stays byte-identical while each tool is
-# parameterized one commit at a time. REMOVED in T8 (the no-EXE-default end state) — by
-# then every caller passes --exe/--vram-base explicitly. VRAM_BASE = the fileoff->vram
-# delta (EXE text loads file 0x800 -> vram 0x80010000, so 0x80010000-0x800=0x8000F800);
-# NOT a universal PS1 constant (overlays differ). AS is genuinely universal (the prefix).
-EXE = "extracted/retail/SLUS_007.26"
-VRAM_BASE = 0x8000F800
+# Phase 9: vram_base (the fileoff->vram delta) and the target binary are REQUIRED parameters —
+# no EXE default an overlay could silently inherit. AS is the cross-toolchain prefix (universal).
 AS = "mipsel-linux-gnu-"
 
 
@@ -137,7 +131,7 @@ def symbol_table(obj):
     return syms
 
 
-def recover_sym_addrs(obj, text_vram, exe, vram_base=VRAM_BASE):
+def recover_sym_addrs(obj, text_vram, exe, vram_base):
     """Resolved EXE address of every symbol referenced by a .text relocation.
 
     Works for section symbols (name == '.data' etc.) and named data/bss/extern
@@ -170,7 +164,7 @@ def recover_sym_addrs(obj, text_vram, exe, vram_base=VRAM_BASE):
     return addr
 
 
-def unique_byte_vram(obj, sec, exe, vram_base=VRAM_BASE):
+def unique_byte_vram(obj, sec, exe, vram_base):
     raw = only_section(obj, sec)
     if not raw:
         return None
@@ -186,7 +180,7 @@ def unique_byte_vram(obj, sec, exe, vram_base=VRAM_BASE):
     return hits[0] if hits else None
 
 
-def link_object(obj, text_vram, name=None, exe_bytes=None, vram_base=VRAM_BASE, exe_path=EXE):
+def link_object(obj, text_vram, name=None, exe_bytes=None, *, vram_base, exe_path=None):
     """Place .text at its EXE vram, --defsym every external it references, byte-verify.
 
     The robust model (validated against the psyq-obj-parser .bss-mislabelling: it packs
@@ -288,10 +282,9 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("obj")
     ap.add_argument("text_vram")
-    ap.add_argument("--vram-base", default=hex(VRAM_BASE),
-                    help="fileoff->vram delta of the target binary (default the EXE's 0x8000F800; "
-                         "becomes required once every caller passes it — Phase-9 T8)")
-    ap.add_argument("--exe", default=EXE, help="target binary path (default: the retail EXE)")
+    ap.add_argument("--vram-base", required=True,
+                    help="fileoff->vram delta of the target binary (e.g. the EXE's 0x8000F800)")
+    ap.add_argument("--exe", required=True, help="target binary path")
     ap.add_argument("--name")
     ap.add_argument("--quiet", action="store_true")
     a = ap.parse_args()

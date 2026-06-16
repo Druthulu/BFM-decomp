@@ -14,17 +14,14 @@ Usage:  psyq_identify.py <elf_dir> [text_lo_vram text_hi_vram] [--vram-base HEX]
 """
 import struct, subprocess, re, sys, glob, os, argparse
 
-# TRANSITIONAL DEFAULTS (Phase 9): the EXE path + fileoff->vram delta, kept ONLY as the
-# --exe/--vram-base defaults so callers that don't yet pass them stay green; REMOVED in T8.
-EXE = "extracted/retail/SLUS_007.26"
-VRAM_BASE = 0x8000F800
-
+# Phase 9: --vram-base (fileoff->vram delta) and --exe are REQUIRED (no EXE default an overlay
+# could silently inherit). The optional [lo hi] window only narrows the placement scan.
 _ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
 _ap.add_argument("elf_dir", nargs="?", default=".run/obj40/libcd")
 _ap.add_argument("window", nargs="*", help="optional scan-narrowing window: text_lo_vram text_hi_vram")
-_ap.add_argument("--vram-base", default=hex(VRAM_BASE),
-                 help="fileoff->vram delta of the target binary (default the EXE's 0x8000F800; required T8)")
-_ap.add_argument("--exe", default=EXE, help="target binary path (default: the retail EXE)")
+_ap.add_argument("--vram-base", required=True,
+                 help="fileoff->vram delta of the target binary (e.g. the EXE's 0x8000F800)")
+_ap.add_argument("--exe", required=True, help="target binary path")
 _a = _ap.parse_args()
 ELF_DIR = _a.elf_dir
 EXE = _a.exe

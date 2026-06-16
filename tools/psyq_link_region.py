@@ -19,12 +19,10 @@ Usage: psyq_link_region.py <elf_dir> [text_lo text_hi] [--emit <prefix>]
 import json, os, re, subprocess, sys, tempfile
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from psyq_link import (section_table, symbol_table, recover_sym_addrs, unique_byte_vram,
-                       VRAM_BASE, DATA_SECTIONS, AS, sh)
-
-EXE = "extracted/retail/SLUS_007.26"
+                       DATA_SECTIONS, AS, sh)
 
 
-def placement(elf_dir, lo, hi, vram_base=VRAM_BASE, exe=EXE):
+def placement(elf_dir, lo, hi, vram_base, exe):
     cmd = (["python3", "tools/psyq_identify.py", elf_dir] + ([lo, hi] if lo else [])
            + ["--vram-base", hex(vram_base), "--exe", exe])
     placed = {}
@@ -35,7 +33,7 @@ def placement(elf_dir, lo, hi, vram_base=VRAM_BASE, exe=EXE):
     return placed
 
 
-def classify(obj, text_vram, exe, vram_base=VRAM_BASE):
+def classify(obj, text_vram, exe, vram_base):
     """Per-object: NOLOAD section bases, and the .bss/.sbss symbols to weaken.
 
     Every named symbol psyq-obj-parser put in .bss/.sbss is a common-style global the original
@@ -77,7 +75,7 @@ def defined_text_syms(obj):
     return names
 
 
-def build_region(elf_dir, lo=None, hi=None, emit=None, vram_base=VRAM_BASE, exe_path=EXE):
+def build_region(elf_dir, lo=None, hi=None, emit=None, *, vram_base, exe_path):
     exe = open(exe_path, "rb").read()
     placed = placement(elf_dir, lo, hi, vram_base, exe_path)
     order = sorted(placed.items(), key=lambda kv: kv[1][0])     # by vram
@@ -184,9 +182,9 @@ def main():
     ap.add_argument("elf_dir")
     ap.add_argument("window", nargs="*", help="optional scan-narrowing window: text_lo text_hi")
     ap.add_argument("--emit", help="output prefix for <prefix>.ld + <prefix>.syms")
-    ap.add_argument("--vram-base", default=hex(VRAM_BASE),
-                    help="fileoff->vram delta of the target binary (default the EXE's; required T8)")
-    ap.add_argument("--exe", default=EXE, help="target binary path (default: the retail EXE)")
+    ap.add_argument("--vram-base", required=True,
+                    help="fileoff->vram delta of the target binary (e.g. the EXE's 0x8000F800)")
+    ap.add_argument("--exe", required=True, help="target binary path")
     a = ap.parse_args()
     lo = a.window[0] if len(a.window) > 0 else None
     hi = a.window[1] if len(a.window) > 1 else None

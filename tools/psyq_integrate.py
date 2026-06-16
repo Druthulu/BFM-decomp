@@ -28,10 +28,8 @@ Usage: psyq_integrate.py [--vram-base HEX] [--exe PATH] [--symbols FILE]
 """
 import glob, os, re, subprocess, sys, tempfile
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from psyq_link import recover_sym_addrs, AS, sh, VRAM_BASE, DATA_SECTIONS
+from psyq_link import recover_sym_addrs, AS, sh, DATA_SECTIONS
 from psyq_link_region import classify, placement
-
-EXE = "extracted/retail/SLUS_007.26"
 
 
 def contiguous_blocks(order):
@@ -69,7 +67,7 @@ def trial_undefined(ld_path, extra_syms=None):
 
 
 def integrate(elf_dir, ld_path, objdir, syms_path, stubs, lo=None, hi=None,
-              vram_base=VRAM_BASE, exe_path=EXE, symbols_path="config/symbols.us.txt"):
+              *, vram_base, exe_path, symbols_path):
     exe = open(exe_path, "rb").read()
     order = sorted(placement(elf_dir, lo, hi, vram_base, exe_path).items(), key=lambda kv: kv[1][0])
     recovered, weaken_by, bases_by = {}, {}, {}
@@ -180,11 +178,11 @@ def main():
     ap.add_argument("syms_ld")
     ap.add_argument("stubs")
     ap.add_argument("window", nargs="*", help="optional scan-narrowing window: text_lo text_hi")
-    ap.add_argument("--vram-base", default=hex(VRAM_BASE),
-                    help="fileoff->vram delta of the target binary (default the EXE's; required T8)")
-    ap.add_argument("--exe", default=EXE, help="target binary path (default: the retail EXE)")
-    ap.add_argument("--symbols", default="config/symbols.us.txt",
-                    help="symbol-address file for stub-name->address resolution (default the EXE's)")
+    ap.add_argument("--vram-base", required=True,
+                    help="fileoff->vram delta of the target binary (e.g. the EXE's 0x8000F800)")
+    ap.add_argument("--exe", required=True, help="target binary path")
+    ap.add_argument("--symbols", required=True,
+                    help="symbol-address file for stub-name->address resolution")
     a = ap.parse_args()
     lo = a.window[0] if len(a.window) > 0 else None
     hi = a.window[1] if len(a.window) > 1 else None
