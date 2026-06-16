@@ -635,6 +635,7 @@ Every script under `tools/` (plus the two report make-targets), grouped by purpo
 | | `tools/match_protos.py` | Match prototype-EXE functions against retail. |
 | | `tools/permuter/` | decomp-permuter harness (PERM_ recipes/weights) for stubborn near-misses. |
 | | `diff_settings.py` *(repo root)* | asm-differ config (arch `mipsel`, object mode vs `expected/`). |
+| | `tools/new_overlay.sh` | One-command location-overlay onboarding: instantiate `config/splat.<ov>.yaml` from the template (+ non-4-aligned `bin` carve), register the binary in `config/overlays.mk` + the 4 report/diff dicts, `make extract && build` byte-check. Idempotent (Phase 13, cookbook §13). |
 | **PsyQ library linking** (cookbook §8/§9) | `tools/psyq_lib_split.py` | Split a PsyQ `.LIB` into per-object members. |
 | | `tools/psyq_build_libs.sh` | Build the PsyQ libs from split members. |
 | | `tools/psyq_identify.py` | Identify which SDK objects a region's functions belong to. |

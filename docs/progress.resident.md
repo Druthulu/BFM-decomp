@@ -16,5 +16,3 @@ REAL matches: DsMix func_800CEDFC func_800CEE40 func_800CEE84 func_800CEF04 func
 NON_MATCHING: 
 
 build SHA1: 8e17e02ff8954d07c979449198f7e1645046b353  (byte-identical)
-
-empties audit: 2/2 genuine jr;nop  (all clean)

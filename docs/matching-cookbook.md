@@ -699,3 +699,73 @@ block-reorder / regalloc that no C-source shape steers (the agents document each
 - Callee **return type forces the cast at the call site**: `jal f; andi v0,0xffff` means `f` is declared returning
   a type WIDER than u16 (so the `(u16)` cast emits the `andi`); declaring `f` as `u16` lets gcc trust it and drop
   the andi.
+
+## §13 Add a location overlay — the canonical runbook (Phase 13; the Phase-15 fleet recipe)
+
+All ~134 location overlays are flat LZSS-decompressed `0.4.dec` payloads that stream into the SAME slot
+**vram `0x80128158`** (position-locked, Phase 3) and chain into the resident engine. Each is its own build
+binary `ov_<SCxx>_<nnn>`. The whole pipeline is one command + the §12 harvest; this is the reusable recipe.
+
+### One-command onboarding — `tools/new_overlay.sh <SCxx> <FILE_nnn>`
+Computes sha1 / size / `code_end` (from `sig_image.py --bootstrap`, the last function's end), instantiates
+`config/splat.<ov>.yaml` from `config/splat.us.overlay.template.yaml`, writes `config/check.<ov>.sha` + an empty
+`config/symbols.<ov>.txt`, appends the `<ov>_*` block to the **generated** `config/overlays.mk` (the Makefile
+`-include`s it, so the hand-maintained Makefile body is NEVER edited) + the alias to `OVERLAY_BINARIES`,
+sentinel-inserts the entry into the 4 report/diff dicts (`diff_settings.py`, `tools/{progress,difficulty,
+dup_report}.py` — grep-guarded + `ast.parse` syntax-checked), then `make extract && make build` to byte-verify
+at 100% INCLUDE_ASM. Idempotent (re-run = clean no-op). Proven on SC01/005, /006, SC03/001.
+
+### The flat-blob overlay config (what the template encodes)
+- No header, no `gp_value` (-G0), single `code` segment @ `vram 0x80128158`; `build_path: build`; per-binary
+  nested `asm/<ov>` + `src/<ov>` + `build/<ov>`; `asset_path: assets/<ov>`; stacked symbols
+  `[symbols.us.txt, symbols.resident.txt, symbols.<ov>.txt]` (overlays call the resident engine).
+- **Overlays open with code at file 0x0** (a prologue), UNLIKE the resident's leading data word — first subseg
+  `[0x0, c, <ov>]`, no leading-rodata trick. Subsegs: `[0x0, c]` + `[<code_end>, data, tail]`; `code_end` = the
+  last sig_image function's end (file offset). Byte-match is robust to the exact split (splat round-trips bytes).
+
+### THE NON-4-ALIGNED-OVERLAY GOTCHA (≈75% of the fleet; fixed in the template + Makefile, automatic)
+A `0.4.dec` whose size isn't a multiple of 4 (SC01/077 = 0xB29D7, mod 4 = 3) loses its final 1–3 bytes three ways:
+1. **spimdisasm drops the trailing partial word** (won't emit < 4 leftover bytes; a `data` carve of those emits
+   *nothing*). → Carve them as a **`bin`** subseg `[<word_floor>, bin, trailing]` (raw `.incbin`). `new_overlay.sh`
+   injects this when `size % 4 != 0`.
+2. **splat's `bin` asset needs a build rule** — `.ld` references `build/assets/<ov>/trailing.o`. The Makefile
+   `build/assets/%.o: assets/%.bin` rule assembles a one-line `.incbin` stub **+ `objcopy --set-section-alignment
+   .data=1`** (else `as` defaults `.data` to 16-align → ld pads the image, adds a stray byte).
+3. **splat's `.ld` does `. = ALIGN(., 4)` at the segment end** → up to 3 zero pad bytes. The Makefile objcopy
+   step **TRIMs** it: shrink-only, capped at 3 bytes, gated on `size(build) > size($(EXE)) && delta ≤ 3` — can
+   never hide a shortfall or touch the 4-aligned EXE/resident (which never hit any of this).
+
+### The A→B→C per-overlay workflow
+- **A. Onboard + all-asm byte-match** (`new_overlay.sh`) → `make check BINARY=<ov>` byte-identical. *The milestone
+  bar* (splat round-trips bytes regardless of carve quality).
+- **B. Seed boundaries + Ghidra import** (to draft harder fns): splat carves ~all functions itself (SC01/077:
+  2504 cleanly), so seeding `symbols.<ov>.txt` only fixes conservative carves (§8/§11) + attaches names — the
+  byte-match doesn't depend on it. Ghidra: `ghidra_import_raw.sh <0.4.dec> 0x80128158 <ov>` (MCP stopped, R23) +
+  `DefineFunctions.java` over splat's func list (auto-analysis finds only the `jal`-reachable subset — overlays
+  dispatch via fn-pointer tables; SC01/077: 1237 → 2661). The overlay Ghidra DB is **script-reproducible** →
+  DB-commit optional (skip to avoid ~14 MB bloat unless doing manual RE). Restarting MCP to serve `<ov>` drops
+  the client SSE → pause + ask Drew to run `/mcp` (memory `mcp-reconnect-after-restart`).
+- **C. Dedup-credit FIRST, then the §12 harvest.** Credit the high-leverage shared engine functions (top
+  `docs/duplicates.cross.md` groups — byte-identical at fixed vrams in all 134 overlays) so they leave the
+  queue; then `difficulty.py --binary <ov>` ranks the unique remainder for the §12 parallel-draft + byte-gate.
+  **Use Ultracode** (T7 evidence: xHigh agents = Max-agent yield on blind drafting — no reason to spend Max
+  depth; see `docs/effort-map.md`). SC01/077: 704 matched (yield 92%→79%→54% as difficulty rose; the hard tail
+  → permuter/§3a or honest stubs).
+
+### Dedup-credit (§11) for overlays — two shapes
+- **Per-function share (general/fleet shape):** a matched body lives once as a macro in `src/shared/<h>.h`,
+  instantiated **in place** (preserve address order — overlays link functions in source order!) at each member
+  site, registered in `config/dedup.us.yaml` (members in >1 binary), byte-gated by `dedup_integrate --check` (the
+  recorded `h_exact` must equal each member's `sig_image` hash, keyed by addr-int — sig_image names lowercase,
+  splat uppercase, validator case-moot). The nested overlay `.c` resolves quoted includes relative to ITS dir →
+  use `#include "../shared/<h>.h"`. Proven: SC01/005 ≡ 006 share 3 accessors from `src/shared/ov_setters.h`
+  (`SETTER`/`RETCONST`), both byte-identical from one source. `progress.py` credits shared members as REAL.
+- **Whole-overlay collapse (special case for byte-identical pairs):** for two overlays with the SAME `0.4.dec`
+  sha1, `src/ov_B/ov_B.c` can `#include "../ov_A/ov_A.c"` — B inherits ALL of A's matches from one source.
+  Maximal but doesn't generalize to partial sharing, so the per-function share is the fleet default.
+
+### Fleet build — `make build-all` / `make check-all`
+Recursive `$(MAKE) BINARY=<b>` over `$(BINARIES)` (NOT `foreach` — the OBJS glob is parse-time per `$(BINARY)`),
+one PASS/FAIL + per-binary `.run/check.<b>.log`. Serial across binaries (shared `build/asm|src/**` outputs make
+binary-level `-j` racy). Day-to-day incremental; milestone fleet proof = a CLEAN run (R22): `make clean && for b
+in $(BINARIES); do make extract BINARY=$$b; done && make check-all`.
