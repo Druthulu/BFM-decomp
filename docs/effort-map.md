@@ -33,6 +33,16 @@ They are **not combinable via `/effort`** (it holds one value). And **global Ult
 2. **Drop to `xHigh` only for speed** on purely mechanical Tier-3 stretches (installs, parser boilerplate, report scripts) when slow turns get annoying. Correctness is unaffected.
 3. **Do NOT globally enable `Ultracode`.** It would run the deep, crown-jewel tasks at only xHigh depth. Instead, parallelism is surgical: Claude invokes Workflow/subagent fan-out for breadth-shaped tasks (you opt in). You *may* flip Ultracode on for an explicitly breadth-only stretch — accepting xHigh per-agent depth there.
 
+### Proactively prompt for Ultracode on breadth-heavy stretches (proven, Phase 12)
+
+**Standing instruction (Drew, 2026-06-16):** during a **Max** session, the moment a **breadth-shaped, parallelizable** sub-task appears, **PROMPT Drew to enable `/effort ultracode`** — do not silently grind it serially at Max, and do not settle for a single one-off Workflow when a sustained fan-out would compound. Breadth-shaped = *the same analysis across many independent items*: bulk function matching / a whole-binary harvest, an EXE- or fleet-wide audit / survey / dedup, drafting C for dozens of functions, etc. (The litmus, encoded so I apply it: "would 10+ agents each doing one item beat me doing them in sequence?" — if yes, prompt.)
+
+**Why (the evidence):** Phase 12 ran the resident harvest under Ultracode and took it **1.4% → 71.7% byte-identical in one session** via 5 parallel-draft + byte-gate workflow passes (cookbook §12). Max-serial would have been an order of magnitude slower. Ultracode-on makes Workflow fan-out the *default* for every substantive task, which is what sustained the gains across passes — that compounding is the point, and it only happens if Ultracode is actually enabled, not improvised per task.
+
+**The prompt to use:** *"🟦 This stretch is breadth-shaped (~N independent items) — Ultracode (xHigh + multi-agent fan-out) would parallelize it; it took the resident 1.4%→72% in one Phase-12 session. Enable `/effort ultracode`? (I'll flip back to Max for the deep single-thread parts.)"*
+
+**Caveat — keep the deep work at Max.** Ultracode caps per-agent depth at xHigh, so it is *wrong* for the deep single-thread tasks (Phase-Start planning, the compiler fingerprint, US-address derivation, non-obvious debugging, PhaseEnd synthesis). The prompt is for the *breadth stretch only*; flip back to **Max** for those. And the judgment "is this actually breadth-shaped, or is it mine-to-author with full context?" is itself a Max call — writing a doc from this session's context is NOT breadth (subagents would have less context); fanning out a 134-overlay harvest IS.
+
 ---
 
 ## The decision rule — Max vs xHigh vs Ultracode

@@ -634,3 +634,68 @@ members as REAL via the registry (the macro form isn't a parseable function def)
 Verify the toolchain per binary before linking its library code: the EXE is PsyQ 4.0, the **resident is 4.7**
 (`tools/psyq/conv47/`, sha-recorded in `tools/psyq/CHECKSUMS.sha256`). Never assume one binary's SDK applies to
 another — the 4.0 libs won't byte-match the resident's 4.7 objects.
+
+## §12 Ultracode harvest — parallel-draft + byte-gate at scale (Phase 12, resident: 1.4%→71.7% in one session)
+
+When a binary has **many independent small/medium functions** to hand-match (the resident: ~143 game-code fns,
+the overlays later), fan the *drafting* out to a swarm of agents and let an **incorruptible byte-gate** filter —
+a wrong match is structurally impossible to accept (G3/P9), so blind/semi-blind drafting is safe to mass-produce.
+This drove REAL 1→102/145 (71.7% byte-identical) on the resident in one Ultracode session (5 passes). Reusable
+verbatim for the Phase-13 overlays.
+
+**The loop (each pass = a Workflow + a deterministic gate; loop-until-dry):**
+1. **Draft (parallel, Workflow).** N agents (round-robin a size-sorted fn list into ~13–16 batches), each reads
+   `asm/<bin>/nonmatchings/.../<fn>.s` + this cookbook + the already-matched fns (the style/extern conventions)
+   and writes ONE self-contained `.c` per fn to `.run/drafts/<fn>.c` (externs + body) + a `.conf` (high/med/low).
+   **No builds, no Ghidra** inside the draft pass (the asm IS the target; Ghidra contention flakes under fan-out).
+   Distinct files per fn → no write races (no worktree isolation needed).
+2. **Byte-gate (deterministic, `tools/harvest_verify.py`).** Substitutes each draft for its `INCLUDE_ASM` stub,
+   `make build BINARY=<bin>`, keeps it ONLY if the image stays byte-identical, else reverts to the stub.
+   Chunk-with-bisection (apply K, build; if the SHA holds keep all, else isolate one-at-a-time). The build is the
+   sole arbiter — agent over-claims cost nothing. (`src/<bin>/*.c` is git-committed → always `git checkout`-able.)
+3. **Loop (redraft passes).** Re-run the Workflow on the residual stubs, each agent seeded by its **prior failed
+   draft(s)** + a **debugging checklist** (the high-yield miss-modes — see below). Gate again. Resident yield per
+   pass: +62, +8, +9, +2.
+4. **Iterate pass (the strongest — `tools/match_one.py`).** Gives each agent a *real per-function asm-differ loop*:
+   compile ONE fn's C standalone (the pinned triple), mask relocations (jal/HI16/LO16, exactly `psyq_identify`'s
+   mask), compare to the target bytes in its `.s` → `MATCH` or a per-instruction `idx | MINE | TARGET` diff. Fully
+   isolated (own `.run/match/<fn>/` temp dir) → parallel-safe. Agents `write C → run match_one → read diff → fix`
+   until MATCH. This cracks scheduling/regalloc near-misses blind drafting can't (resident +13 on the hard tail).
+
+**Workflow resilience:** wrap the per-batch `agent()` in **retry waves** — a transient server 500/"rate limited"
+returns null; re-run only the null batches up to 3× (`pending`/`okResults` pattern). One un-retried pass lost
+10/14 agents to a server throttle; the retry-wave pass recovered all 13.
+
+**Two TU-level gotchas (both bit, both have a fix):**
+- **Inline scalar-typedef redefinition.** Agents told "self-contained" sometimes inline `typedef unsigned char
+  u8;` — in a `.c` that already `#include`s `common.h`, gcc-2.7.2 (C89) errors on the dup → a *compile* fail, NOT
+  a byte miss. `harvest_verify.py`/`match_one.py` STRIP `^\s*typedef\b.*\b(u8|u16|…|f64)\s*;` lines (common.h
+  provides them). (Recovers false-failures: re-gate after the strip.)
+- **`match_one` MATCH but whole-build FAIL = extern-type conflict.** `match_one` compiles standalone (one fn's
+  externs); the real build is ONE TU (`resident.c`) where all fns coexist. A caller that declares a shared symbol
+  to suit ITS call site (e.g. `extern s32 func_800D1714(void);` to drop an `andi v0,0xffff`) conflicts with that
+  symbol's decl/def elsewhere (`u16`) → `conflicting types for …` → gate fails. Resident pass-4: 34 standalone
+  MATCH → 13 whole-build (21 conflict casualties on ~25 shared symbols). **Fix: unify the extern types in the
+  `.c`** — usually widen the *definition's* return type where byte-identical (`u16 f(){return u16g;}` ↔ `s32
+  f(){…}` are the same `lhu;jr`), so all callers agree. NOT separate `.c` per fn: splat places the binary as ONE
+  address-ordered object, so a second TU's `.o` isn't interleaved at the right vram.
+
+**Honest tail (P9).** What survives the iterate pass is real compiler-internal residual — cross-jump tail-merge /
+block-reorder / regalloc that no C-source shape steers (the agents document each in the draft header). Those go to
+**decomp-permuter** (`tools/permuter/`) + the §3a/§5a/§10 research tier, or stay honest stubs — never forced.
+
+**Idioms the swarm surfaced (fold the asm patterns into §1/§2/§10):**
+- A "void-looking" dispatcher that ends in `jalr` with NO trailing `move v0,zero` but HAS `move v0,zero` in its
+  early-return delay slots is actually **`s32`-returning with `return 0;` early-exits** and `return fp(...)` at the
+  tail (the jalr's `v0` is the return) — declaring it `void` mis-schedules the constant.
+- **Local = global** for a small fixed table: a `lw 0/4/8(base); sw …` prologue copying a 3-word global into a
+  stack array is a **struct copy** (`Foo local = D_global;`), not element-wise assignment (forced when a runtime
+  index makes gcc materialise the whole table on the stack).
+- `*10` (and small-const multiplies) decompose as `(x<<1)+(x<<3)`, not `((x<<2)+x)<<1`; if a div/mul-by-const diffs
+  by one shift/add arrangement, hand-write the explicit `x*2 + x*8` form.
+- **Masked compare `andi` survives only if the value's range is unprovable.** `(a0 & 0xff) == k` keeps its `andi
+  v1,a0,0xff` only when gcc can't prove `a0`'s range; a clean `u8` load lets gcc-2.7.2 prove `a0∈[0,255]` and DROP
+  the andi (shifting the whole tail). An `(s8)`/`(u8)` cast on a wider load is the lever to restore-or-drop it.
+- Callee **return type forces the cast at the call site**: `jal f; andi v0,0xffff` means `f` is declared returning
+  a type WIDER than u16 (so the `(u16)` cast emits the `andi`); declaring `f` as `u16` lets gcc trust it and drop
+  the andi.
