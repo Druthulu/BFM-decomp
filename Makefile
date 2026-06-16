@@ -138,6 +138,12 @@ report:
 	$(VENV_PY) tools/progress.py --binary $(BINARY) --audit
 	$(VENV_PY) tools/difficulty.py --binary $(BINARY)
 	$(VENV_PY) tools/dup_report.py --binary $(BINARY)
+# Cross-binary dedup report (Phase 11): binary-spanning, run ONCE (not per-binary), so it
+# only fires for the default binary — avoids `make report BINARY=resident` rewriting the
+# identical file. --cross ignores --binary and scans every sig in BINARIES.
+ifeq ($(BINARY),main)
+	$(VENV_PY) tools/dup_report.py --cross
+endif
 
 sig-refresh:
 	@if ss -tln 2>/dev/null | grep -qE ':8080([^0-9]|$$)'; then
