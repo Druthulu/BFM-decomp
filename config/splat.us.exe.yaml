@@ -73,7 +73,11 @@ segments:
       # INCLUDE_ASM (Phase-7 regression gate) — opt level only affects matched C, not stubs.
       # Boundary = func_800123F0 (vram 0x800123F0 -> file vram-0x8000F800 = 0x2BF0).
       - [0x800, c, boot]        # -O0 boot module -> src/boot.c (vram 0x80010000-0x800123F0)
-      - [0x2BF0, c, 800]        # -O2 game code   -> src/800.c  (vram 0x800123F0-0x80043088); name "800" kept (legacy) so the matched fns + their asm/nonmatchings/800 paths don't migrate
+      - [0x2BF0, c, 800]        # -O2 game code   -> src/800.c  (vram 0x800123F0-0x8004239C); name "800" kept (legacy) so the matched fns + their asm/nonmatchings/800 paths don't migrate
+      # PsyQ libetc region (Phase 8): 5 objects (VSYNC/INTR/INTR_VB/INTR_DMA/VMODE) form ONE
+      # contiguous block at the tail of the old 800 subseg, ending exactly at libcd1 (0x80043088).
+      # psyq_integrate swaps src/libetc.o(.text) -> build/psyq/libetc/*.o + NOLOAD data (libcd model).
+      - [0x32B9C, c, libetc]    # libetc block -> src/libetc.c (vram 0x8004239C-0x80043088, 5 objs)
       # PsyQ libcd region (Phase 7 Task 2'): the real libcd objects are linked here in place of
       # stubs (the .ld swaps build/src/libcd{1,2}.o -> build/psyq/libcd/*.o + NOLOAD data). The
       # 18 objects form two contiguous blocks split by a 76-B non-libcd gap (stays a stub).

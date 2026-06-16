@@ -175,6 +175,13 @@ LIBGS_ELF    := .run/obj40/libgs_used
 LIBGS_OBJDIR := build/psyq/libgs
 LIBGS_SYMS   := build/psyq/libgs_externals.ld
 
+# libetc (Phase 8): 5 objects (VSYNC/INTR/INTR_VB/INTR_DMA/VMODE) in ONE contiguous block at the tail
+# of the old 800 subseg (ends at libcd1). Single stub "libetc"; no placement window needed (all 5
+# anchor uniquely over the full text window). Same conditional/idempotent model as libcd/libgs.
+LIBETC_ELF    := .run/obj40/libetc
+LIBETC_OBJDIR := build/psyq/libetc
+LIBETC_SYMS   := build/psyq/libetc_externals.ld
+
 # Assembler flags (docs/SETUP.md §6.2). -G0 is confirmed by the disassembly
 # (ledger #8: zero $gp-relative addressing). -no-pad-sections keeps section ends
 # un-padded so the link reproduces the original layout.
@@ -255,7 +262,12 @@ $(OUT): $(OBJS) $(LD_SCRIPT)
 	else
 		echo "  (no $(LIBGS_ELF) — libgs region stays asm stubs; run tools/make_libgs.sh)"
 	fi
-	SYMS=""; [ -f "$(LIBCD_SYMS)" ] && SYMS="-T $(LIBCD_SYMS)"; [ -f "$(LIBGS_SYMS)" ] && SYMS="$$SYMS -T $(LIBGS_SYMS)"
+	if [ -d "$(LIBETC_ELF)" ]; then
+		$(PYTHON) tools/psyq_integrate.py $(LIBETC_ELF) $(LD_SCRIPT) $(LIBETC_OBJDIR) $(LIBETC_SYMS) libetc
+	else
+		echo "  (no $(LIBETC_ELF) — libetc region stays asm stubs; run tools/psyq_build_libs.sh LIBETC)"
+	fi
+	SYMS=""; [ -f "$(LIBCD_SYMS)" ] && SYMS="-T $(LIBCD_SYMS)"; [ -f "$(LIBGS_SYMS)" ] && SYMS="$$SYMS -T $(LIBGS_SYMS)"; [ -f "$(LIBETC_SYMS)" ] && SYMS="$$SYMS -T $(LIBETC_SYMS)"
 	echo "  LD      $(ELF)"
 	$(LD) -T $(LD_SCRIPT) -T $(UNDEF_SYMS) -T $(UNDEF_FUNCS) $$SYMS --no-check-sections -Map $(MAPFILE) -o $(ELF)
 	echo "  OBJCOPY $@"
