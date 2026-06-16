@@ -154,7 +154,35 @@ void func_800CF510(void) {
 
 INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800CF584);
 
-INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800CF5D4);
+/* func_800CF5D4
+ * BUG IN PRIOR DRAFT: func_800D0488() was called with NO argument. The asm keeps
+ * the masked value (D_80078EC0 & 0x7F) in $a0 across the `beqz a0` test and the
+ * `jal func_800D0488` (nop delay slot leaves a0 untouched), so it IS the argument.
+ * func_800D0488 is `s32 func_800D0488(s32)` (it does `addiu a0,a0,-1` — see the
+ * already-matched callers func_800CEF04 / func_800CEF34).
+ *
+ * asm trace:
+ *   lw v0, D_80127084 ; beqz v0 -> exit            => if (D_80127084 != 0) {
+ *   lbu v0, D_80078EC0 ; andi a0, v0, 0x7F
+ *   beqz a0 -> .L800CF610 (the call)               =>   if (m == 0 ||
+ *   jal func_800D0488 ; beqz v0 -> exit            =>       func_800D0488(m) != 0)
+ *   .L800CF610: jal func_80011CFC                  =>     func_80011CFC();   }
+ */
+extern s32 D_80127084;
+extern u8 D_80078EC0;
+extern s32 func_800D0488(s32 arg0);
+extern void func_80011CFC(void);
+
+void func_800CF5D4(void) {
+    s32 m;
+
+    if (D_80127084 != 0) {
+        m = D_80078EC0 & 0x7F;
+        if (m == 0 || func_800D0488(m) != 0) {
+            func_80011CFC();
+        }
+    }
+}
 
 INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800CF628);
 
@@ -300,7 +328,41 @@ void func_800CFDA4(void) {
     func_800191BC(D_800D34AC[currentLocationId & 0xFFFF0FFF] & 0xFFF);
 }
 
-INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800CFDE8);
+/* func_800CFDE8
+ * The index expression `D_800D34AC[arg0 & 0xFFFF0FFF] & 0xFFF` is the proven idiom
+ * already byte-matched in func_800CFD68 / func_800CFDA4 (D_800D34AC is `s32[]`).
+ * The `& 0xFFF` result is compared `>= 0` (asm keeps a redundant `bltz` — gcc-2.7.2
+ * -O2 does not prove the masked value non-negative), then an 8-byte record of
+ * cdFileLocTable is checked and its address passed.
+ *
+ * BUG IN PRIOR DRAFT: func_8001ABBC's 3rd parameter was typed `CdFileLoc *`; the
+ * proven convention (func_800CF47C, func_800CF3B8) declares it `u8 *`. Match that and
+ * pass the record address as a u8*. Everything else (struct stride 8 -> sll 3, word0
+ * != 0 check, arg vector 2,0,&rec,0,0 with the 5th on the stack) was already correct.
+ *
+ * asm trace:
+ *   and a0, a0, 0xFFFF0FFF ; sll a0,2 ; lw v0, D_800D34AC[a0]
+ *   andi v0, 0xFFF ; bltz v0 -> exit                 => if (idx >= 0 &&
+ *   sll v1, v0, 3 ; lw v0, cdFileLocTable[idx].word0
+ *   beqz v0 -> exit                                  =>     rec->word0 != 0) {
+ *   a0=2 ; sw zero,0x10(sp) ; a1=0 ; a2=&rec ; a3=0
+ *   jal func_8001ABBC                                =>   func_8001ABBC(2,0,&rec,0,0); }
+ */
+typedef struct {
+    s32 word0;
+    s32 word4;
+} CdFileLoc;
+
+extern s32 D_800D34AC[];
+extern CdFileLoc cdFileLocTable[];
+extern s32 func_8001ABBC(s32 arg0, s32 arg1, u8 *arg2, s32 arg3, s32 arg4);
+
+void func_800CFDE8(s32 arg0) {
+    s32 idx = D_800D34AC[arg0 & 0xFFFF0FFF] & 0xFFF;
+    if (idx >= 0 && cdFileLocTable[idx].word0 != 0) {
+        func_8001ABBC(2, 0, (u8 *)&cdFileLocTable[idx], 0, 0);
+    }
+}
 
 INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800CFE60);
 
@@ -380,9 +442,41 @@ void func_800D0C48(u16 arg0) {
     resLoad_lastId = 0;
 }
 
-INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D0C74);
+// func_800D0C74: mirror of the matched func_800D0C48 idiom.
+//   andi a1, a0, 0xFFFF      -> caller arg0 is u16, zero-extended into a1
+//   jal func_8002D4C8 (delay: addiu a0,zero,1)  -> func_8002D4C8(1, arg0)
+//   jal func_8001B34C (delay: nop)              -> no args
+//   return (void). The frame (sw ra) exists because of the calls.
+// FIX vs prior draft: declare func_8002D4C8 as (s32,s32) and make the CALLER's
+// arg0 the u16 (the andi comes from truncating arg0 at the u16 param of THIS fn),
+// exactly like the already-matched func_800D0C48.
+extern void func_8002D4C8(s32 arg0, s32 arg1);
+extern void func_8001B34C(void);
 
-INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D0CA0);
+void func_800D0C74(u16 arg0) {
+    func_8002D4C8(1, arg0);
+    func_8001B34C();
+}
+
+// ANALYSIS: sibling of the matched func_800D0C48 (resident.c:378). The prior draft
+// FAILED because it called func_8002D4C8(1) with ONE arg, but the asm shows
+//   andi a1, a0, 0xFFFF      ; a1 = (u16)arg0  -> the 2nd argument
+//   jal  func_8002D4C8       ; a0 = 1 (delay slot)
+// i.e. func_8002D4C8(1, arg0). func_8002D4C8 is declared as (s32,s32) in resident.c.
+// Passing the u16 param produces the andi a1,a0,0xFFFF zero-extension automatically.
+// Then resLoad_lastId=0; D_801151F8=3; D_80127500=3 (3 materialized once in v0).
+
+extern void func_8002D4C8(s32 arg0, s32 arg1);
+extern s32 resLoad_lastId;
+extern s32 D_801151F8;
+extern s32 D_80127500;
+
+void func_800D0CA0(u16 arg0) {
+    func_8002D4C8(1, arg0);
+    resLoad_lastId = 0;
+    D_801151F8 = 3;
+    D_80127500 = 3;
+}
 
 INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D0CE0);
 
@@ -675,7 +769,27 @@ INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D2CA8);
 
 INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D2D10);
 
-INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D2DAC);
+/* func_800D2DAC(arg0):
+ *   func_8016EDEC(func_800D3238, 0x1000000);   ; a0=&func_800D3238, a1=0x1000000
+ *   func_800167B8(0);                          ; a0=0 (delay slot)
+ *   arg0[0x15]++;                              ; lbu/addiu/sb at +0x15 (u8)
+ *   return 0;                                  ; addu v0,zero,zero
+ *
+ * Mirrors the already-matched func_800D2F48 (call; func_800167B8(0); arg0[0x15]++;
+ * return 0). The first arg to func_8016EDEC is a FUNCTION ADDRESS (func_800D3238),
+ * so it materialises as lui/addiu %hi/%lo — declare the param as a generic pointer
+ * so passing the function name decays to &func_800D3238 with no cast.
+ */
+extern void func_800D3238(void *arg0);
+extern void func_8016EDEC(void *arg0, s32 arg1);
+extern void func_800167B8(s32 arg0);
+
+s32 func_800D2DAC(u8 *arg0) {
+    func_8016EDEC(func_800D3238, 0x1000000);
+    func_800167B8(0);
+    arg0[0x15]++;
+    return 0;
+}
 
 INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D2DFC);
 
@@ -683,7 +797,18 @@ INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D2E20);
 
 INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D2E6C);
 
-INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D2EE8);
+// ANALYSIS: identical asm shape to the ALREADY-MATCHED func_800D319C in
+// src/resident/resident.c:
+//     jal func_800167F0 (a0=4); andi v0,v0,0xffff; sltu v0,zero,v0; return.
+// The proven matched form declares func_800167F0 as returning u16 (so the
+// andi 0xffff is the natural zero-extend of the return) and writes `!= 0`
+// (sltu zero,v0 = "0 < v0" = v0 != 0). The prior draft declared it s32 and
+// added an explicit (u16) cast; copy the proven u16-return form instead.
+extern u16 func_800167F0(s32 arg0);
+
+s32 func_800D2EE8(void) {
+    return func_800167F0(4) != 0;
+}
 
 extern void (*D_800D39C4[])(void);
 
@@ -709,7 +834,31 @@ void func_800D2FB0(u8 *arg0) {
     D_800D39F0[arg0[0x15]]();
 }
 
-INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D2FEC);
+// ANALYSIS: jal func_800D33E0() (void — the delay-slot `addu s0,a0,zero` SAVES the
+// incoming a0 across the call, it is NOT an argument to the call; ref source declares
+// func_800D33E0(void)). a0 = struct/byte-base pointer kept in s0.
+// Then: read u8 field 0x15; store s32 0xA at 0x28; field_0x15 = v+1; return 0.
+// Mirrors the matched func_800D3104 shape (read field, store const, write field back, ret 0),
+// only differing by the leading call + a sw(0x28)=0xA instead of sb(0x19)=0xA.
+//
+// PRIOR-DRAFT BUG: it passed arg0 to func_800D33E0 (`func_800D33E0(arg0)`), but the asm
+// shows a0 merely COPIED to the callee-saved s0 in the jal delay slot — the call takes no
+// args. Declaring it (void) and keeping arg0 live in a local emits the exact `addu s0,a0,$0`.
+extern void func_800D33E0(void);
+
+typedef struct {
+    u8 pad00[0x15];
+    u8 field_0x15;   /* 0x15 */
+    u8 pad16[0x12];
+    s32 field_0x28;  /* 0x28 */
+} Struct800D2FEC;
+
+s32 func_800D2FEC(Struct800D2FEC *a0) {
+    func_800D33E0();
+    a0->field_0x28 = 0xA;
+    a0->field_0x15 = a0->field_0x15 + 1;
+    return 0;
+}
 
 INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D302C);
 
@@ -819,7 +968,16 @@ void func_800D3398(void) {
     func_8016F0E4();
 }
 
-INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D33B8);
+/* func_800D33B8 — exact mirror of the already-MATCHED func_800D33E0
+ * (src/resident/resident.c:827), differing only in the global it passes
+ * (&D_800D3AAC here vs &D_800D3AB0 there). func_8016EE40 takes (u8*, s32).
+ * asm: lui/addiu a0=&D_800D3AAC ; jal func_8016EE40 ; lui a1=0x1000000 (delay). */
+extern u8 D_800D3AAC;
+extern void func_8016EE40(u8 *arg0, s32 arg1);
+
+void func_800D33B8(void) {
+    func_8016EE40(&D_800D3AAC, 0x1000000);
+}
 
 extern u8 D_800D3AB0;
 extern void func_8016EE40(u8 *arg0, s32 arg1);
