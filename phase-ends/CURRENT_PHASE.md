@@ -1,0 +1,55 @@
+# CURRENT_PHASE — Phase 12: Key engine systems (script VM, save/Q#5, sound SQV)
+**Generation:** Gen2 (5th phase, arc 8→9→10→11→**12**→{13}→14) · **Effort:** Max (Tier-1 phase) · **Status:** APPROVED 2026-06-16, in progress
+**Plan gate (P3):** approved by Drew 2026-06-16. This is the per-task crash-recovery log (P4); archived to `phase-ends/logs/Phase12.md` at close (R19).
+
+## Owner decisions locked (2026-06-16)
+1. **Milestone = "Substantial + honest deferral."** Amend gen2-roadmap EXIT criterion #2 / Phase-12 milestone: "script-VM core matched" → **"script/event system *resolved* (core matched if a tractable interpreter exists, else its architecture documented)."** Honest documented/partial outcomes count for the VM + the entangled save remainder (P9). (gen2-roadmap.md is the evolvable docs layer — amendment in scope, done in T10.)
+2. **Runtime = planned guided trace sessions.** T8 (VM) + T9 (Save) include scheduled PCSX-Redux trace sessions: Drew drives gameplay; Claude captures RAM via the web API `172.17.208.1:8081` (R11) + correlates against Ghidra.
+
+## Verified starting state (byte-checked during planning — R14)
+- `main` = EXE `143dbb89…` (PsyQ 4.0): 54 REAL / 959 LINKED / 7 NON_MATCHING / 50.3%.
+- `resident` = `MAIN.CD/FILE_010/1.1` @ vram 0x800CEDF8 `8e17e02f…` (PsyQ **4.7**): **0 REAL / 0 LINKED / 143 stubs / 1.4%**. Code = ~17.5 KB only (143 funcs, code region 0x800CEDFC..0x800D3408); rest data tail. Harvest queue: 14 trivial + 50 non-jtbl leaves + 5 indirect-jump funcs.
+- Resident **game-code triple UNKNOWN** (4.7 ⇒ maybe newer ASPSX/cc1 than the EXE's gcc-2.7.2/aspsx-2.56) — biggest fork (T2).
+- 4.7 SDK at `tools/psyq/conv47/…/lib/` (55 `.o` + 23 `.a` + headers) — build to ELF, then `psyq_identify` for the real footprint.
+- Save: `SaveLoadRoutine` @ 0x8002B154 in **EXE** (1139-ins multi-entry, Gen1-deferred). VM: **unlocated** (`VM_*` are libsnd, not a game VM; overlays may be compiled MIPS). SQV: resident `DsMix` @ 0x800D1BD8 (UNVERIFIED) + custom glue.
+- Resident in **0 cross-binary dedup groups** (overlays call, don't embed) — match value = named symbol, not fleet credit. 6 h_exact / 9 h_norm intra-resident self-dup groups to collapse.
+- EXE leftover `VM_*`/`EVENT_OBJ` stubs = Phase-8 scattered-`.bss` residue → **out of scope**.
+
+## Task checklist (one at a time, byte-gated) — REVISED post-T1 (no resident library footprint; Drew-approved 2026-06-16)
+> T1 found NIL library footprint → the resident is all game code. Library-integration tasks **REMOVED**. Harvest = **full substantial** (Drew). The old VM "investigation" reframes as compiled-MIPS state/mode dispatch, matched within the harvest + documented.
+
+**Block A — Resident enablement**
+- [x] **T1** — 4.7 lib footprint survey → **NIL** (resident is all game code; verified both oracles). Old T3/T4/T5 library-integration REMOVED.
+- [ ] **T2** — Resident compiler-fingerprint probe + first matches (triple determination vs the EXE's gcc-2.7.2/aspsx-2.56; STOP-cond if it differs materially) `[Max]` ← **CURRENT**
+
+**Block B — Resident engine harvest (the phase body; full substantial)**
+- [ ] **T3** — Harvest the resident engine in difficulty/cluster **batches** (each byte-gated `make check BINARY=resident` + committed; bank don't strand): trivial accessors → leaves → mid-size orchestration/state-dispatch → larger/branch-heavy + the 5 indirect-jump funcs. Collapse the 6 h_exact / 9 h_norm intra-resident dup groups (dedup.us.yaml + src/shared/). Includes the sound cluster (DsMix region) + the mode/state-dispatch "script/event" functions. Names → symbols.resident.txt + Ghidra (R15/G6). `[xHigh; Max for harder clusters]`
+
+**Block C — Documentation + EXE save system**
+- [ ] **T4** — Document the SQV (sound) format + the script/event-dispatch architecture determination (compiled-MIPS dispatch, NOT a bytecode VM — P9) in docs/formats.md + memory-map.md. (Matching happens in T3; this is the written deliverable.) `[Max]`
+- [ ] **T5** — Save/Q#5 (EXE `main`) RE + format doc + tractable matches (guided PCSX-Redux trace, Drew-operated). Gate: `make check BINARY=main` = `143dbb89`; honest NON_MATCHING for the entangled remainder (G4). `[Max]`
+
+**Block D — Close-out**
+- [ ] **T6** — Cookbook (R16) + finalize symbols.resident.txt mirrored to Ghidra + ghidra_mcp_stop/verify (R20/R23) + regenerate reports (both binaries) + amend gen2-roadmap criterion #2 + PhaseEnd_Phase12 (Tier-1). `[Max]`
+
+## Current task pointer
+**T2 — Resident compiler-fingerprint probe.** `make extract BINARY=resident` to get asm/resident; pick 2–3 idiom-rich game-code leaves (confirmed game code, per T1); scaffold (decompile.py) → compile via the resident c-rule → asm-differ vs the resident. Confirm the EXE triple (gcc-2.7.2 -O2 -G0 / maspsx --aspsx-version=2.56 --expand-div) yields score 0, OR run a mini candidate ladder. **STOP-COND (P5d):** if the triple differs materially and the ladder looks phase-consuming, consult Drew. Gate: ≥1 idiom-rich leaf score 0; `make check BINARY=resident` = `8e17e02f`.
+
+## Per-task progress log
+*(append one entry per task as completed: what was done, the byte-gate result, the commit)*
+- **T1 — 4.7 lib footprint survey (DONE; finding overturns the Block-A premise).** Built the 4.7 ELF lib set (the conv47 objects are already ELF mipsel R3000 → skipped psyq-obj-parser; `ar x` each `.a` → `.run/obj47/<lib>/`). Ran `psyq_identify --vram-base 0x800CEDF8 --exe …/FILE_010/1.1` over the resident for libsnd/libspu/libgte/libgpu/libcd/libetc/libapi/libc2/libmath/libmcrd/libds.
+  - **Result: NIL library footprint.** Whole-file scan (code + data tail): 4.7 libsnd **1/226** (a 4-ins coincidence `ut_rev_2.o`), libspu **0/134**, libgte **0/509**, libgpu **0/61**; libcd/libmath/libds each 1 hit, all ≤8 ins (two alias the same 8-ins DsMix addr). 4.0 cross-check: libsnd 2/163 (`VM_DON.o` 5 ins / `VM_DOFF.o` 4 ins), libspu 0/129, libgte 0/381. All hits are the §9.5 short-object coincidental class.
+  - **Tool sanity (confirms the negative is real):** 4.0 libsnd vs the EXE snd region = **35/163** placed (the tool works + is version-sensitive); 4.7 libsnd vs EXE = 7 (short coincidences only). So the resident genuinely embeds **no stock PsyQ library objects of either version**.
+  - **Architectural conclusion:** the PsyQ SDK lives in the **EXE** (959 LINKED); the **resident is entirely custom engine code** that calls the EXE's resident SDK + engine fns via fixed addresses (no RAM-wasting SDK duplication in an always-loaded blob). R24's "resident is 4.7 → link its 4.7 libs" is **moot** — the DetectPsyQ 4.7 signal was one coincidental DsMix-region pattern, not a linked footprint. `DsMix` @0x800D1BD8 is custom sound code, not a stock libsnd object (R13 tag effectively refuted).
+  - Resident still `8e17e02f` (nothing integrated). Footprint report to be committed with the revision (below).
+  - **Ghidra verification (Drew-requested, G1 — CONFIRMS the pivot):** switched the headless MCP to the `resident` program (296 funcs); decompiled a sample. `FUN_800cf854` = game-global accessor (`return DAT_800ae6bf != 0`); `DsMix` = `{FUN_800d1bf8(); return 1;}` (custom wrapper ignoring its arg — NOT stock libsnd; R13 tag refuted); `FUN_800cee84` = engine init calling EXE REAL matches (func_80029254/func_8002AEF8) + GameModeDispatch-region fns; `FUN_800d2318` = entity-heading math calling the EXE's libgte `RATAN` @0x8004CFEC. Call-target scan: 61 distinct EXE-range `jal` vs 37 internal — the resident calls the EXE's SDK/engine. **Resident = game code, no linkable library. Verified by both oracles.**
+- **T2–T6 (revised):** pending. Plan revised + Drew-approved (full substantial harvest); see the revised checklist above.
+
+## Blockers / decisions
+- **RESOLVED (P5d — plan task removal, Drew-approved 2026-06-16).** T1's nil-footprint finding (verified by psyq_identify + Ghidra) vacated the library-integration tasks. Drew confirmed **full substantial harvest**. Revised plan locked above (T1 done; T2 fingerprint → T3 harvest → T4 docs → T5 EXE save → T6 close). Milestone measure shifts from "LINKED 0→N" to **REAL 0→N** (hand-matched engine C). The roadmap's Phase-12 milestone/criterion #2 amendment (T6) will also note the "link the 4.7 libs" opener was mooted by the bytes.
+- _(no open blockers)_
+
+## Stop-conditions (P5)
+- T2 triple differs materially → consult Drew before a phase-consuming candidate ladder.
+- Any system too entangled → honest NON_MATCHING/documented determination (P9), never forced/fake.
+- R23: stop Ghidra MCP before any RE-checkpoint/phase-end commit; `db.*.gbf` rename churn = noise.

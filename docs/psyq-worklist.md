@@ -75,6 +75,22 @@ references resolve to >1 base in the EXE. Curate the library's `_used` dir to dr
 
 ---
 
-## The RESIDENT's PsyQ code is **4.7**, not the EXE's 4.0 (Phase 12, R24)
+## The RESIDENT has **no linkable PsyQ footprint** — it is custom engine code (Phase 12 T1, byte-verified)
 
-The map above is the **EXE** (PsyQ 4.0). The resident engine blob detects as **PsyQ 4.7.0** (DetectPsyQ + the `DsMix`/libsnd hit). Phase 12 links the resident's embedded PsyQ code (libsnd / libgte / libspu) from the **4.7** objects at `tools/psyq/conv47/` (sha-recorded in `tools/psyq/CHECKSUMS.sha256`), reusing the same `psyq_identify → psyq_link_region → psyq_integrate` pipeline pointed at the resident (Phase-9 `--vram-base`/`--exe` make it binary-agnostic). The 4.0 `.LIB`s will **not** byte-match the 4.7 objects — verify the version per binary before linking (R24).
+> **Pre-Phase-12 assumption (now corrected):** because the resident detects as **PsyQ 4.7.0** (DetectPsyQ + a `DsMix`/libsnd signature hit), it was expected to link embedded 4.7 libsnd/libgte/libspu (the Phase-11 close-out + R24 "link the resident's 4.7 libs" opener). **The bytes refuted this.**
+
+**Phase 12 T1 survey** ran `psyq_identify` over the 4.7 objects (`tools/psyq/conv47/…/lib/`, already ELF — `ar x` into `.run/obj47/<lib>/`, no psyq-obj-parser needed) **and** the 4.0 objects, against the resident (`MAIN.CD/FILE_010/1.1`, `--vram-base 0x800CEDF8`), over the code window **and** the whole file. Result — **NIL footprint:**
+
+| Lib (4.7) | placed | | Lib (4.0) | placed |
+|---|---|---|---|---|
+| libsnd | **1/226** (`ut_rev_2.o`, 4 ins) | | libsnd | **2/163** (`VM_DON.o` 5 ins, `VM_DOFF.o` 4 ins) |
+| libspu | 0/134 | | libspu | 0/129 |
+| libgte | 0/509 | | libgte | 0/381 |
+| libgpu | 0/61 | | | |
+| libcd/libmath/libds | 1 each (≤8 ins, two alias the same DsMix addr) | | | |
+
+All hits are the **§9.5 short-object coincidental class** (≤8 ins, masked patterns match by luck). **Tool sanity (the negative is real):** 4.0 libsnd vs the **EXE** snd region = **35/163** placed — the tool works and is version-sensitive; the resident genuinely embeds **no stock PsyQ object of either version**.
+
+**Ghidra corroboration (G1, sampled):** `DsMix` decompiles to `{ FUN_800d1bf8(); return 1; }` — a custom 2-line wrapper that **ignores its `vol` arg** (NOT the stock libsnd `DsMix`; the R13 tag in `symbols.resident.txt` is refuted). Other sampled functions are game logic (global accessors, engine init calling EXE REAL matches, entity-heading math calling the EXE's libgte `RATAN`). The resident's code makes **61 distinct EXE-range `jal` calls** (vs 37 internal) — it **calls** the EXE's resident SDK rather than embedding it.
+
+**Conclusion / architecture:** the PsyQ SDK lives in the **EXE** (959 LINKED); the **resident is ~143 functions of custom engine code** that calls the EXE's SDK + engine via fixed addresses (no RAM-wasting SDK duplication in an always-loaded blob). The DetectPsyQ "4.7.0" was a single coincidental DsMix-region signature, not a linked footprint. **Phase 12 matches the resident engine by hand (REAL), not by linking (LINKED stays 0).** R24's per-binary-provenance principle holds, but for the resident the practical consequence is "nothing to link." *(Regenerate: `for L in libsnd libspu libgte libgpu; do d=.run/obj47/$L; mkdir -p $d; (cd $d && ar x ../../tools/psyq/conv47/psyq-4_7-converted/lib/$L.a); python3 tools/psyq_identify.py $d 0x800CEDFC 0x800D3408 --vram-base 0x800CEDF8 --exe extracted/retail/MAIN.CD.dir/FILE_010.dir/1.1; done`)*
