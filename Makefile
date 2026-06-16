@@ -21,7 +21,52 @@ OBJCOPY     := $(MIPS_PREFIX)objcopy
 CC1_PSX     := tools/bin/gcc-2.7.2-psx/cc1
 CC1_CDK     := tools/bin/gcc-2.7.2-cdk/cc1
 MASPSX      := tools/maspsx/maspsx.py
-EXE         := extracted/retail/SLUS_007.26
+# =============================================================================
+# Binaries — data-driven (Phase 9). Each binary is an alias key in BINARIES with a
+# namespaced <alias>_* variable set. `main` is the retail EXE SLUS_007.26 (the FIRST
+# instance); its artifact paths are PRESERVED VERBATIM (build/us/, *.us.* config) so
+# its rebuild stays a byte-exact no-op. The clean <bin> path convention (config/
+# splat.<bin>.yaml, build/<bin>/, config/check.<bin>.sha, config/symbols.<bin>.txt,
+# .run/sig.<bin>.jsonl) is documented now but first INSTANTIATED by Phase 10's second
+# binary. Select with `make build BINARY=<alias>`; defaults to the EXE.
+# -----------------------------------------------------------------------------
+BINARIES := main
+BINARY   ?= main
+$(if $(filter $(BINARY),$(BINARIES)),,$(error BINARY='$(BINARY)' not in BINARIES='$(BINARIES)'))
+
+# --- main (retail EXE SLUS_007.26) — values preserved from Phases 4-8 ---------
+main_EXE        := extracted/retail/SLUS_007.26
+main_NAME       := SLUS_007.26
+main_OUT_DIR    := build/us
+main_OUT        := $(main_OUT_DIR)/$(main_NAME)
+main_ELF        := $(main_OUT).elf
+main_MAPFILE    := $(main_OUT).map
+main_LD_SCRIPT  := $(main_OUT).ld
+main_SPLAT_YAML := config/splat.us.exe.yaml
+main_CHECK_SHA  := config/check.us.sha
+main_SYMBOLS    := config/symbols.us.txt
+main_SIG        := .run/sig.SLUS_007.26.jsonl
+# The fileoff->vram relation: text loads at file 0x800 / vram 0x80010000, so
+# base = 0x80010000 - 0x800 = 0x8000F800. NOT a universal PS1 constant — overlays
+# differ. Threaded into the tools as a REQUIRED param starting T5; defined here now.
+main_VRAM_BASE  := 0x8000F800
+main_TEXT_LO    := 0x80010000
+main_TEXT_HI    := 0x800629DC
+
+# --- selected-binary aliases (resolve $(BINARY) -> the active instance) -------
+EXE        := $($(BINARY)_EXE)
+NAME       := $($(BINARY)_NAME)
+OUT_DIR    := $($(BINARY)_OUT_DIR)
+OUT        := $($(BINARY)_OUT)
+ELF        := $($(BINARY)_ELF)
+MAPFILE    := $($(BINARY)_MAPFILE)
+LD_SCRIPT  := $($(BINARY)_LD_SCRIPT)
+SPLAT_YAML := $($(BINARY)_SPLAT_YAML)
+CHECK_SHA  := $($(BINARY)_CHECK_SHA)
+SYMBOLS    := $($(BINARY)_SYMBOLS)
+VRAM_BASE  := $($(BINARY)_VRAM_BASE)
+TEXT_LO    := $($(BINARY)_TEXT_LO)
+TEXT_HI    := $($(BINARY)_TEXT_HI)
 
 # cc1 smoke flags — the §5.4 first-candidate set; the real triple is pinned only
 # after Phase-6 fingerprinting. Used here purely to prove cc1 executes.
@@ -146,16 +191,11 @@ check-env:
 # The code is 100% assembly (the "all-asm byte-match" milestone). The cpp->cc1->
 # maspsx->as path is documented below but dormant until Phase 6 adds `c` segments.
 SPLAT       := $(VENV_PY) -m splat
-SPLAT_YAML  := config/splat.us.exe.yaml
 CPP         := $(MIPS_PREFIX)cpp
-OUT_DIR     := build/us
-OUT         := $(OUT_DIR)/SLUS_007.26
-ELF         := $(OUT_DIR)/SLUS_007.26.elf
-MAPFILE     := $(OUT_DIR)/SLUS_007.26.map
-LD_SCRIPT   := $(OUT_DIR)/SLUS_007.26.ld
-CHECK_SHA   := config/check.us.sha
 UNDEF_SYMS  := undefined_syms_auto.txt
 UNDEF_FUNCS := undefined_funcs_auto.txt
+# (SPLAT_YAML / OUT_DIR / OUT / ELF / MAPFILE / LD_SCRIPT / CHECK_SHA are now
+#  per-binary aliases in the "Binaries" data block near the top of this file — Phase 9.)
 
 # Phase 7 (Task 2'): link the real PsyQ libcd SDK objects in place of the libcd-region asm stubs.
 # tools/psyq_integrate.py rewrites the splat .ld (swap stub objects -> build/psyq/libcd/*.o + NOLOAD
@@ -295,6 +335,11 @@ build/src/boot.o: CC1FLAGS := -quiet -O0 -G0 -mips1 -mcpu=3000 -mgas -msoft-floa
 $(OUT): $(OBJS) $(LD_SCRIPT)
 	@set -e
 	mkdir -p $(dir $@)
+# PsyQ SDK library integrations are EXE-only (libgs/libgte/sound/apicard are
+# SLUS_007.26's layout). A second binary (BINARY != main) skips this block and links
+# its own stubs. NB: ifeq/endif are make directives (column 0, no tab), resolved at
+# parse time; with .ONESHELL the included recipe lines still run as one shell.
+ifeq ($(BINARY),main)
 	# Wire in the real libcd objects (after the build objects exist — the externals discovery
 	# trial-links the whole image). Idempotent: re-running re-derives the externals only.
 	if [ -d "$(LIBCD_ELF)" ]; then
@@ -342,6 +387,7 @@ $(OUT): $(OBJS) $(LD_SCRIPT)
 	else
 		echo "  (no $(APICARD_ELF) — apicard region stays asm stubs; run tools/psyq_build_libs.sh LIBAPI LIBCARD + tools/make_apicard_used.py)"
 	fi
+endif
 	SYMS=""; [ -f "$(LIBCD_SYMS)" ] && SYMS="-T $(LIBCD_SYMS)"; [ -f "$(LIBGS_SYMS)" ] && SYMS="$$SYMS -T $(LIBGS_SYMS)"; [ -f "$(LIBETC_SYMS)" ] && SYMS="$$SYMS -T $(LIBETC_SYMS)"; [ -f "$(LIBGPU_SYMS)" ] && SYMS="$$SYMS -T $(LIBGPU_SYMS)"; [ -f "$(LIBMCRD_SYMS)" ] && SYMS="$$SYMS -T $(LIBMCRD_SYMS)"; [ -f "$(LIBC2_SYMS)" ] && SYMS="$$SYMS -T $(LIBC2_SYMS)"; [ -f "$(LIBGTE_SYMS)" ] && SYMS="$$SYMS -T $(LIBGTE_SYMS)"; [ -f "$(SND_SYMS)" ] && SYMS="$$SYMS -T $(SND_SYMS)"; [ -f "$(APICARD_SYMS)" ] && SYMS="$$SYMS -T $(APICARD_SYMS)"
 	echo "  LD      $(ELF)"
 	$(LD) -T $(LD_SCRIPT) -T $(UNDEF_SYMS) -T $(UNDEF_FUNCS) $$SYMS --no-check-sections -Map $(MAPFILE) -o $(ELF)
