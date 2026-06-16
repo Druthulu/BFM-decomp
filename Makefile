@@ -196,6 +196,12 @@ LIBMCRD_ELF    := .run/obj40/libmcrd
 LIBMCRD_OBJDIR := build/psyq/libmcrd
 LIBMCRD_SYMS   := build/psyq/libmcrd_externals.ld
 
+# libc2 (Phase 8): C stdlib, 17 objects, 2 blocks (16-obj main run libc2_1 + STRCAT.o libc2_2). Clean
+# (PRNT.o's printf-format jtbl resolves via NOLOAD .rodata).
+LIBC2_ELF    := .run/obj40/libc2
+LIBC2_OBJDIR := build/psyq/libc2
+LIBC2_SYMS   := build/psyq/libc2_externals.ld
+
 # Assembler flags (docs/SETUP.md §6.2). -G0 is confirmed by the disassembly
 # (ledger #8: zero $gp-relative addressing). -no-pad-sections keeps section ends
 # un-padded so the link reproduces the original layout.
@@ -291,7 +297,12 @@ $(OUT): $(OBJS) $(LD_SCRIPT)
 	else
 		echo "  (no $(LIBMCRD_ELF) — libmcrd region stays asm stubs; run tools/psyq_build_libs.sh LIBMCRD)"
 	fi
-	SYMS=""; [ -f "$(LIBCD_SYMS)" ] && SYMS="-T $(LIBCD_SYMS)"; [ -f "$(LIBGS_SYMS)" ] && SYMS="$$SYMS -T $(LIBGS_SYMS)"; [ -f "$(LIBETC_SYMS)" ] && SYMS="$$SYMS -T $(LIBETC_SYMS)"; [ -f "$(LIBGPU_SYMS)" ] && SYMS="$$SYMS -T $(LIBGPU_SYMS)"; [ -f "$(LIBMCRD_SYMS)" ] && SYMS="$$SYMS -T $(LIBMCRD_SYMS)"
+	if [ -d "$(LIBC2_ELF)" ]; then
+		$(PYTHON) tools/psyq_integrate.py $(LIBC2_ELF) $(LD_SCRIPT) $(LIBC2_OBJDIR) $(LIBC2_SYMS) libc2_1,libc2_2
+	else
+		echo "  (no $(LIBC2_ELF) — libc2 region stays asm stubs; run tools/psyq_build_libs.sh LIBC2)"
+	fi
+	SYMS=""; [ -f "$(LIBCD_SYMS)" ] && SYMS="-T $(LIBCD_SYMS)"; [ -f "$(LIBGS_SYMS)" ] && SYMS="$$SYMS -T $(LIBGS_SYMS)"; [ -f "$(LIBETC_SYMS)" ] && SYMS="$$SYMS -T $(LIBETC_SYMS)"; [ -f "$(LIBGPU_SYMS)" ] && SYMS="$$SYMS -T $(LIBGPU_SYMS)"; [ -f "$(LIBMCRD_SYMS)" ] && SYMS="$$SYMS -T $(LIBMCRD_SYMS)"; [ -f "$(LIBC2_SYMS)" ] && SYMS="$$SYMS -T $(LIBC2_SYMS)"
 	echo "  LD      $(ELF)"
 	$(LD) -T $(LD_SCRIPT) -T $(UNDEF_SYMS) -T $(UNDEF_FUNCS) $$SYMS --no-check-sections -Map $(MAPFILE) -o $(ELF)
 	echo "  OBJCOPY $@"

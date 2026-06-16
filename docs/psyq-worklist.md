@@ -52,6 +52,8 @@ libgs (0x80051804–0x80057928)  DONE; gaps gsgap1/2/4/5 are actually libgte (MT
 
 **Cross-cutting:** windowed placement is mandatory for the short-object / interleaved libraries (the libgs GS_106 precedent); cross-library address collisions (C112 libapi/libcard; UT_RON/S_IH; S_R/S_W) mean total distinct objects < the 199 summed placements — byte-verify decides ownership. Any object that won't link byte-identical after §9.1/§9.4 stays a documented honest stub (does not block exit, P9).
 
+**⚠️ Boundary gotcha (found at libc2/T6):** the game-code subseg boundary AFTER a library block must be the last object's **`.text` SECTION size** (8-aligned), NOT its instruction count × 4. `psyq_identify` reports the instruction count, which omits the object's trailing 8-byte alignment padding (e.g. libc2 SETJMP.o: 30 ins = 0x78, but `.text` = 0x80 → block ends 8 bytes later). A too-low boundary overlaps the object's padded tail and the relink inserts +N padding, shifting the whole downstream image (pervasive 1-byte reloc diffs + grown file). Verify the boundary = `last_obj.vram + readelf .text size` for any library whose last object isn't followed object-to-object. Also: when a library block sits at a subseg's START (no `< lo` prefix to keep), `rm` the old `.c` so splat regenerates it under the new boundaries (split_src_region.trim would leave it header-only).
+
 ## Excluded / deferred objects (§9.1 scattered-`.bss`) — honest stubs, byte-identical via asm
 The standard mechanism places each object's `.bss` as ONE NOLOAD section at a single base. An object whose
 `.bss` commons the **original linker scattered** to non-contiguous addresses (referenced as `.bss`+offset by a

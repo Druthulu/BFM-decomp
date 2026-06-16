@@ -1,9 +1,5 @@
 #include "common.h"
 
-INCLUDE_ASM("asm/nonmatchings/800c2", func_80061E90);
-
-INCLUDE_ASM("asm/nonmatchings/800c2", STRCAT_OBJ_8C);
-
 INCLUDE_ASM("asm/nonmatchings/800c2", func_80061F38);
 
 INCLUDE_ASM("asm/nonmatchings/800c2", func_80061F48);
