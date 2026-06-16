@@ -181,6 +181,8 @@ Lifecycle scripts (under `tools/`):
 - **`ghidra_mcp_stop.sh`** — the **only persistence event**: it requests a clean save+close by dropping the `.run/mcp-stop.req` sentinel, waits for the server to report **"Save succeeded"**, then releases the project `.rep` lock. **Never `SIGKILL` the server to stop it** — that skips the save and loses the work. Clean stop is the save.
 - **`ghidra_mcp_verify.sh <addr> <name>`** — read-only persistence re-check (rule R9): after a clean stop, re-reads the named symbol at the address to confirm the write actually landed on disk.
 
+**Client reconnect after a server restart (operational, Phase 13).** Restarting the server (`stop` then `start` — e.g. for a headless raw-blob import per R23, or to serve a different program) **drops the Claude Code MCP client's SSE connection**: every `mcp__ghidra__*` call then **times out** until the client reconnects, and Claude **cannot** run `/mcp` itself. So the rhythm after any server restart / program switch is: **pause and ask Drew to run `/mcp`**, then make one cheap `get_binary_info` call (G2) before continuing. Do not try the calls, hit timeouts, and work around them. (Memory: `mcp-reconnect-after-restart`.)
+
 **Session hooks (committed `.claude/settings.json`, as of 2026-06-15):**
 
 - `SessionStart` → runs `ghidra_mcp_start.sh` (auto-starts the MCP server when a Claude Code session begins).

@@ -20,6 +20,12 @@ BINARIES = {
                      md="docs/difficulty.resident.md", csv=".run/difficulty.resident.csv"),
     "ov_SC01_077": dict(src="src/ov_SC01_077", asm="asm/ov_SC01_077/nonmatchings",
                         md="docs/difficulty.ov_SC01_077.md", csv=".run/difficulty.ov_SC01_077.csv"),
+    "ov_SC01_005": dict(src="src/ov_SC01_005", asm="asm/ov_SC01_005/nonmatchings",
+                        md="docs/difficulty.ov_SC01_005.md", csv=".run/difficulty.ov_SC01_005.csv"),
+    "ov_SC01_006": dict(src="src/ov_SC01_006", asm="asm/ov_SC01_006/nonmatchings",
+                        md="docs/difficulty.ov_SC01_006.md", csv=".run/difficulty.ov_SC01_006.csv"),
+    "ov_SC03_001": dict(src="src/ov_SC03_001", asm="asm/ov_SC03_001/nonmatchings",
+                        md="docs/difficulty.ov_SC03_001.md", csv=".run/difficulty.ov_SC03_001.csv"),
     # <<< overlays: tools/new_overlay.sh inserts ov_* entries above this line (Phase 13) >>>
 }
 SRCS = ASM_ROOT = MD = CSV = None    # set by main() from --binary

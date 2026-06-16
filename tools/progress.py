@@ -25,6 +25,12 @@ BINARIES = {
                      src="src/resident", asm="asm/resident/nonmatchings", out="docs/progress.resident.md"),
     "ov_SC01_077": dict(build="build/ov_SC01_077/ov_SC01_077", check="config/check.ov_SC01_077.sha",
                         src="src/ov_SC01_077", asm="asm/ov_SC01_077/nonmatchings", out="docs/progress.ov_SC01_077.md"),
+    "ov_SC01_005": dict(build="build/ov_SC01_005/ov_SC01_005", check="config/check.ov_SC01_005.sha",
+                        src="src/ov_SC01_005", asm="asm/ov_SC01_005/nonmatchings", out="docs/progress.ov_SC01_005.md"),
+    "ov_SC01_006": dict(build="build/ov_SC01_006/ov_SC01_006", check="config/check.ov_SC01_006.sha",
+                        src="src/ov_SC01_006", asm="asm/ov_SC01_006/nonmatchings", out="docs/progress.ov_SC01_006.md"),
+    "ov_SC03_001": dict(build="build/ov_SC03_001/ov_SC03_001", check="config/check.ov_SC03_001.sha",
+                        src="src/ov_SC03_001", asm="asm/ov_SC03_001/nonmatchings", out="docs/progress.ov_SC03_001.md"),
     # <<< overlays: tools/new_overlay.sh inserts ov_* entries above this line (Phase 13) >>>
 }
 BINARY = next((sys.argv[i + 1] for i, x in enumerate(sys.argv)

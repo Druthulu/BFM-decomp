@@ -7,13 +7,13 @@
 # (Phase 13 T1a for the first overlay). It is NOT a valid splat config until instantiated.
 #
 # Placeholders:
-#   @ALIAS@    binary alias, ov_<SCxx>_<nnn>      e.g. ov_SC01_077
-#   @DEC_PATH@ extracted 0.4.dec payload path     e.g. extracted/retail/SC01.CD.dir/FILE_077.dir/0.4.dec
-#   @SHA1@     sha1 of the 0.4.dec (the build-identity target; also -> config/check.<alias>.sha)
-#   @VRAM@     load vram (the shared overlay slot) e.g. 0x80128158  (constant across overlays today;
+#   ov_SC01_005    binary alias, ov_<SCxx>_<nnn>      e.g. ov_SC01_077
+#   extracted/retail/SC01.CD.dir/FILE_005.dir/0.4.dec extracted 0.4.dec payload path     e.g. extracted/retail/SC01.CD.dir/FILE_077.dir/0.4.dec
+#   56760dbec7757f12d18d7e40242a0b05280ff444     sha1 of the 0.4.dec (the build-identity target; also -> config/check.<alias>.sha)
+#   0x80128158     load vram (the shared overlay slot) e.g. 0x80128158  (constant across overlays today;
 #              parameterized so a future non-0x80128158 overlay needs no template edit)
-#   @CODE_END@ file offset where code ends -> data tail begins (iterated vs the byte check, T1b)
-#   @EOF@      file size in bytes (the EOF marker; = the 0.4.dec length)
+#   0x5A20C file offset where code ends -> data tail begins (iterated vs the byte check, T1b)
+#   0xA5F09      file size in bytes (the EOF marker; = the 0.4.dec length)
 #
 # Modeled on config/splat.resident.yaml (the Phase-10 flat-blob recipe), with overlays'
 # differences: (1) code at file offset 0x0 (overlays open with a function prologue, NOT a
@@ -23,36 +23,36 @@
 # (3) vram is the overlay slot. Everything else matches the resident options verbatim.
 #
 # Byte-match is robust to the exact text/data split (splat round-trips the bytes — the
-# resident precedent); iterate @CODE_END@ against `make check BINARY=@ALIAS@` (Phase-5/10
+# resident precedent); iterate 0x5A20C against `make check BINARY=ov_SC01_005` (Phase-5/10
 # precedent). LZSS is NOT in the verify path — we match the DECOMPRESSED 0.4.dec (repack is Gen3).
-name: @ALIAS@
-sha1: @SHA1@
+name: ov_SC01_005
+sha1: 56760dbec7757f12d18d7e40242a0b05280ff444
 options:
-  basename: @ALIAS@
-  target_path: @DEC_PATH@
-  elf_path: build/@ALIAS@/@ALIAS@.elf
+  basename: ov_SC01_005
+  target_path: extracted/retail/SC01.CD.dir/FILE_005.dir/0.4.dec
+  elf_path: build/ov_SC01_005/ov_SC01_005.elf
   # base_path is resolved relative to THIS yaml's dir (config/), so `..` = repo root
   base_path: ..
   platform: psx
   compiler: PSYQ
 
-  asm_path: asm/@ALIAS@
-  src_path: src/@ALIAS@
+  asm_path: asm/ov_SC01_005
+  src_path: src/ov_SC01_005
   # asset_path scoped per-alias so a `bin` subseg (the trailing-partial-word carve, below) lands at
-  # assets/@ALIAS@/*.bin and never collides with another overlay's same-named asset. The Makefile's
+  # assets/ov_SC01_005/*.bin and never collides with another overlay's same-named asset. The Makefile's
   # build/assets/%.o rule incbin's it into a linkable object.
-  asset_path: assets/@ALIAS@
+  asset_path: assets/ov_SC01_005
   # build_path = build (NOT build/<alias>): splat writes the .ld's object paths under
   # $(build_path), and the Makefile's pattern rules build them at build/asm/** + build/src/**.
   # Only the elf/ld/output live in build/<alias>/.
   build_path: build
-  ld_script_path: build/@ALIAS@/@ALIAS@.ld
+  ld_script_path: build/ov_SC01_005/ov_SC01_005.ld
   ld_dependencies: True
 
   # Per-binary undefined-symbol outputs (under build/<alias>/), so `make clean`'s `rm -rf build`
   # covers them and binaries never share a stale file.
-  undefined_syms_auto_path: build/@ALIAS@/undefined_syms_auto.txt
-  undefined_funcs_auto_path: build/@ALIAS@/undefined_funcs_auto.txt
+  undefined_syms_auto_path: build/ov_SC01_005/undefined_syms_auto.txt
+  undefined_funcs_auto_path: build/ov_SC01_005/undefined_funcs_auto.txt
 
   find_file_boundaries: False
   # NO gp_value: overlays are -G0 (verify zero ($gp)/%gp_rel in the disasm). Omitting it -> no _gp.
@@ -68,7 +68,7 @@ options:
   symbol_addrs_path:
     - config/symbols.us.txt
     - config/symbols.resident.txt
-    - config/symbols.@ALIAS@.txt
+    - config/symbols.ov_SC01_005.txt
 
   subalign: 2
 
@@ -81,22 +81,22 @@ options:
   # include_asm_macro_style: maspsx_hack
 
 segments:
-  - name: @ALIAS@
+  - name: ov_SC01_005
     type: code
     start: 0x0
-    vram: @VRAM@
+    vram: 0x80128158
     # align 4 (not the code default 16): MIPS is word-aligned; mirrors the EXE/resident choice.
     align: 4
     subsegments:
       # OPTIONAL leading pre-code data/rodata island (rare): if an overlay begins with a data
       # word BEFORE its first function (the resident's case), uncomment a `head` subseg here and
       # shift the code start. Mark it `rodata` (section_order places .rodata first) so it lands at
-      # @VRAM@ ahead of the code, a 1-word analogue of main's rodata-island (no ld_interleave).
+      # 0x80128158 ahead of the code, a 1-word analogue of main's rodata-island (no ld_interleave).
       # - [0x0, rodata, head]
-      - [0x0, c, @ALIAS@]        # code: starts at file 0x0 (overlays open with a prologue)
-      - [@CODE_END@, data, tail] # data tail: pointer tables + packed data (split iterated)
-@TRAILING@
-  - [@EOF@]   # EOF marker = the 0.4.dec byte length
+      - [0x0, c, ov_SC01_005]        # code: starts at file 0x0 (overlays open with a prologue)
+      - [0x5A20C, data, tail] # data tail: pointer tables + packed data (split iterated)
+      - [0xA5F08, bin, trailing]    # final 1 bytes (EOF not 4-aligned; spimdisasm drops a partial word)
+  - [0xA5F09]   # EOF marker = the 0.4.dec byte length
 # @TRAILING@ (above) is replaced by tools/new_overlay.sh: for a non-4-aligned overlay it becomes
 #   `      - [0x<word_floor>, bin, trailing]`  (the final 1-3 bytes spimdisasm's data path drops);
 # for a 4-aligned overlay the marker line is removed. The Makefile build/assets/%.o rule + the
