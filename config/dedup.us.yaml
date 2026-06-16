@@ -1,0 +1,49 @@
+# config/dedup.us.yaml — cross-binary code-share registry (Phase 11, G7 "match once, share").
+# =============================================================================
+# Each group binds ONE shared C body to >=2 duplicate function instances that compile
+# byte-identically across binaries. The share is SOURCE-LEVEL (not an object swap): the
+# body lives once in `source` (a macro in src/shared/<fn>.h) and is instantiated at each
+# member's site in that binary's game-code .c, so the same bytes land at each member vram.
+#
+# Why source-level (the byte-reality, Phase 11): game-code functions are INTERIOR to one
+# compiled object per binary (build/src/800.o, build/resident/resident.o). The linker can't
+# excise interior bytes, so the psyq_integrate object-swap (which works only for separate
+# library SUBSEGMENT stubs) does not apply. The .ld interpose stays the LIBRARY mechanism.
+#
+# The byte-gate is the existing per-binary `make check BINARY=<bin>` (the image is identical
+# or it is not). tools/dedup_integrate.py is the BYTE-HONESTY VALIDATOR: it fail-closes if a
+# member's current signature hash no longer equals the recorded `hash` (a drifted share), so a
+# wrong/stale collapse is caught before it can mislead. h_exact = guaranteed byte-match;
+# h_norm = candidate, accepted only if every claiming binary still builds byte-identical.
+#
+# Schema (per group):
+#   id      stable handle (mirrors a docs/duplicates.cross.md gid + a descriptive suffix)
+#   tier    h_exact | h_norm   (validation column + risk class)
+#   hash    the tier hash ALL members must share in .run/sig.<binary>.jsonl (fail-closed key)
+#   source  the shared C body (a macro header), #included + instantiated at each member site
+#   func    the C macro/symbol the shared source defines
+#   members list of { binary, vram, name } — one per duplicate instance (>=2), across binaries
+#
+# Example (the Phase-11 intra-binary proof group; T3 fills it in for real):
+#   - id: I0_func_80037004
+#     tier: h_exact
+#     hash: <h_exact from .run/sig.SLUS_007.26.jsonl>
+#     source: src/shared/clearTbl40.h
+#     func: ClearTbl40
+#     members:
+#       - { binary: main, vram: 0x80037004, name: func_80037004 }
+#       - { binary: main, vram: 0x80037334, name: func_80037334 }
+#
+# Forward-compatible: a cross-binary group just lists members in >1 binary, e.g. a future
+# resident<->overlay engine helper:
+#   - id: X0_engineHelper
+#     tier: h_exact
+#     hash: <shared h_exact>
+#     source: src/shared/engineHelper.h
+#     func: EngineHelper
+#     members:
+#       - { binary: resident,   vram: 0x800dXXXX, name: FUN_800dXXXX }
+#       - { binary: ovSC01_077, vram: 0x8012XXXX, name: FUN_8012XXXX }
+# =============================================================================
+version: 1
+groups: []

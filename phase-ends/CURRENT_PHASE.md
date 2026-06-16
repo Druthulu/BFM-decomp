@@ -17,14 +17,15 @@
   Fallback: `def_cbready` ≡ `def_cbread` (10 ins, 1 call) or `SYS_OBJ_538` (3-way).
 
 ## Task checklist
-- [ ] **T1** [xHigh] — `dup_report.py --cross` → `docs/duplicates.cross.md` (multi-sig ingest, binary tag, cross/intra
-      split, `(count−1)×nins×4` rank, per-member rows); wire `make report` (gated BINARY=main). Verify per-binary
-      reports byte-stable. ← **CURRENT TASK**
-- [ ] **T2** [Max] — `config/dedup.us.yaml` schema + `tools/dedup_integrate.py` (fork psyq_integrate; byte-gate; stub
-      fallback; `--check`/`--apply`); Makefile `SRC_SHARED_DIR` exclusion + member-driven gated call. Verify build
-      `143dbb89` with dedup absent (no-op) + present-but-empty.
-- [ ] **T3** [xHigh→Max] — intra-binary collapse PROOF (`func_80037004`→`src/shared/clearTbl40.c`, fill both addrs).
-      Verify clean rebuild `143dbb89` WITH dedup AND WITHOUT (stub fallback); negative gate tests.
+- [x] **T1** [xHigh] — `dup_report.py --cross` → `docs/duplicates.cross.md` (multi-sig ingest, binary tag, cross/intra
+      split, `(count−1)×nins×4` rank, per-member rows); wired `make report` (gated BINARY=main). Per-binary reports
+      byte-stable. **DONE** (commit `commit:0060`). EXE↔resident cross groups = 0 (confirms the byte-finding).
+- [x] **T2** [Max] — `config/dedup.us.yaml` schema + `tools/dedup_integrate.py` (byte-honesty VALIDATOR, fail-closed on
+      hash drift) + `make report` dedup-check gate. **DONE.** Verified: --check passes on empty registry; clean rebuild
+      main → `143dbb89` (no-op proven, R22). *Refinement below.*
+- [ ] **T3** [xHigh→Max] — intra-binary collapse PROOF (`func_80037004`→shared body, fill both addrs via
+      `src/shared/` macro). Verify clean rebuild `143dbb89` WITH the shared-C match AND WITHOUT (INCLUDE_ASM stub
+      fallback); dedup-check validates the registered group. ← **CURRENT TASK**
 - [ ] **T4** [Max] — `tools/sig_image.py`: `h_exact` + boundary detection. Verify ≥99% h_exact vs `.run/sig.resident.jsonl`,
       zero UNEXPLAINED.
 - [ ] **T5** [Max] — `sig_image.py`: `h_norm` normToken replica + resident acceptance gate (≥98% non-GTE; GTE/noncontig
@@ -39,9 +40,25 @@ Cross-binary report spans ≥2 binaries; one shared C body fills ≥2 addresses 
 `8e17e02f` byte-identical with-and-without dedup (clean rebuild R22); plumbing accepts an overlay member w/o Makefile
 change; 0 NON_MATCHING in default build.
 
+## Deviations / refinements (for the PhaseEnd)
+- **D1 — Game-code dedup is SOURCE-LEVEL, not a `psyq_integrate` object-swap.** The approved plan said
+  "fork `psyq_integrate.py` (.ld interpose) for the cross case." The byte-reality: `psyq_integrate`'s swap only
+  works for separate library *subsegment* stub objects; game-code functions are interior to one object per binary
+  (`build/src/800.o`, `build/resident/resident.o`), and the linker can't excise interior bytes. So a shared body is
+  authored once (a macro in `src/shared/<fn>.h`) and instantiated at each member site in each binary's `.c` (same
+  bytes at each vram). The **byte-gate is the existing per-binary `make check`**; `dedup_integrate.py` is the
+  byte-honesty **validator** (fail-closed on hash drift), not an interpose engine. The `.ld` interpose stays the
+  library mechanism (Phase 8, untouched). Milestone + owner decisions unchanged; tool is simpler + byte-correct.
+  Consequence: no `SRC_SHARED_DIR` OBJS exclusion needed (shared bodies are `.h`, skipped by the `*.c` glob); no
+  build-recipe change (dedup-check lives in `make report`).
+
 ## Blockers
 (none)
 
 ## Progress log
 - 2026-06-16: Phase planned at Max via 3 Explore + 2 Plan agents; owner approved. Key finding (EXE↔resident share
-  nothing) reshaped the milestone to "report + machinery; defer collapse." Starting T1.
+  nothing) reshaped the milestone to "report + machinery; defer collapse."
+- 2026-06-16: **T1 done** (`commit:0060`) — `dup_report --cross` → `duplicates.cross.md`; per-binary reports byte-stable;
+  EXE↔resident cross groups = 0.
+- 2026-06-16: **T2 done** — `dedup.us.yaml` registry + `dedup_integrate.py` validator + `make report` gate; clean
+  rebuild main `143dbb89` (no-op, R22). Recorded deviation D1 (source-level share). Next: T3 proof.
