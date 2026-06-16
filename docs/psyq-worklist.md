@@ -21,7 +21,7 @@
 | 6 | **libapi** | 33 / 90 | 800b2 (scattered `0x8005CE18`–`0x800626B8`) | ~0.5k | Mostly **4-ins BIOS syscall stubs** (A##/C##/L##); interleaved with libcard/libc2/libmcrd. 1 ambiguous (SEND), C112 alias. **Windowed + alias disambiguation.** |
 | 7 | **libspu** | 38 / 129 | 800 sound (`0x8003A444`–`0x800422E8`) | ~12k | SPU.o(741)/S_SRMP(318)/SR_SV(399)/S_SCA(229)…; **interleaved with libsnd**; aliases (S_R≡S_W @`0x8003C438`; S_GRMDT/FB/T @`0x8003D424`; S_IH @`0x8003D94C`≡libsnd UT_RON). 1 ambiguous (S_I). Windowed. |
 | 8 | **libsnd** | 32 / 163 | 800 (`0x8003D454`–`0x80042374` + SSGM `0x8001BD80` isolated) | ~12k | SSSTART(206)/MIDIREAD(445)/VS_VH(283)/UT_KEYV(259)…; **interleaved with libspu**; SSINIT_C≡SSINIT_H @`0x8003D518`; UT_RON @`0x8003D94C`. 6 ambiguous (PLAY/SSNOFF/SSQUIT/UT_ROFF/VM_DOFF/VM_VIB). Windowed + isolated SSGM block. |
-| 9 | **libgte** | 58 / 381 | 800b (`0x8004787C`–`0x5082C`) + **libgs gaps** | ~48k | Largest. MTX/GEO/COR/PRS/F/G/T series; **multiple blocks** (game code interleaved in 800b, e.g. between FGO_00 and PRS_F3). **Fills gsgap1=MTX_05, gsgap2≈MTX_07, gsgap4=MTX_11, gsgap5=REG03+REG11.** Multi-region, do last. |
+| 9 | **libgte** | 58 / 381 | 800b (`0x8004787C`–`0x5082C`) + **libgs gaps** | ~48k | ✅ **DONE (T11): 53 objs / 22 blocks linked** in 800b (subsegs via `gen_lib_subsegs.py`; integrate window 0x4787C..0x51804). **5 libgs-gap objects DEFERRED** (MTX_05/07/11/REG03/REG11 → gsgap1/2/4/5 stay stubs; gsgap2≠MTX_07 exactly so needs sub-split). |
 
 **SKIP — zero footprint (recorded, not linked by the EXE):** `libmath` 0/48, `libc` 0/56, `libsn` 0/51 (2 tiny ambiguous). BFM links **libc2**, not libc; no libmath/libsn. (Also unbuilt/no-footprint: libcomb, libds, libgun, libsio, libtap, libpress — never converted, no symbols.)
 
@@ -65,5 +65,6 @@ references resolve to >1 base in the EXE. Curate the library's `_used` dir to dr
 |---|---|---|---|
 | `GS_001.o` | libgs | scattered `.bss` (Phase 7) | excluded (gsgap3 stub) |
 | `SYS.o` (3109 ins) | libgpu | `.bss`+0x150 → `0x800c551c` but base recovered `0x80078830`; commons scattered 0x80078xxx/0x800c5xxx | **excluded (T4); stub in 800c** |
+| `MTX_05/07/11`,`REG03`,`REG11` | libgte | sit in libgs gaps gsgap1/2/4/5; gsgap2(48B)≠MTX_07(36B) so the gap stub needs a sub-split | **deferred (T11)**; small GTE fns; link byte-identical, just need the gsgap region resegmented (low priority) |
 
 *If scattered-`.bss` proves prevalent across libgte/libspu/libsnd, escalate to a Max general fix (split each object's `.bss` into per-common NOLOAD sections at their EXE-resolved addresses); otherwise excluding the few affected objects is the GS_001-precedent decision.*

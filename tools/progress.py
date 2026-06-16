@@ -30,10 +30,17 @@ def linked_subsegs():
     the project, not the machine)."""
     if not MAKEFILE.exists():
         return set()
+    txt = MAKEFILE.read_text()
+    # stub lists may be passed inline (`libcd1,libcd2`) or via a make var (`$(LIBGTE_STUBS)` for the
+    # long multi-block ones) — collect `NAME := <comma,list>` defs so either form resolves.
+    mvars = dict(re.findall(r'^(\w+)\s*:=\s*([A-Za-z0-9_,]+)\s*$', txt, re.M))
     segs = set()
-    for m in re.finditer(r'psyq_integrate\.py\s+\S+\s+\S+\s+\S+\s+\S+\s+([A-Za-z0-9_,]+)',
-                         MAKEFILE.read_text()):
-        segs.update(m.group(1).split(','))
+    for m in re.finditer(r'psyq_integrate\.py\s+\S+\s+\S+\s+\S+\s+\S+\s+(\S+)', txt):
+        arg = m.group(1)
+        vm = re.fullmatch(r'\$\((\w+)\)', arg)
+        if vm:
+            arg = mvars.get(vm.group(1), '')
+        segs.update(s for s in arg.split(',') if re.fullmatch(r'[A-Za-z0-9_]+', s))
     return segs
 
 LINKED_SEGS = linked_subsegs()
