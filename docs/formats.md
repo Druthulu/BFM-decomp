@@ -417,6 +417,30 @@ but the deep MThd→SEQ + VAB-load *playback semantics* are not exhaustively tra
 work, and not needed for the byte-match). Verdict: **semi-custom** = Square wrappers/glue over stock PsyQ
 libsnd sequencing.
 
+## 6. Save / memory-card format (Q#5 — Phase 12, partial)
+
+`SaveLoadRoutine` @ `0x8002B154` (EXE) is a multi-entry save/load handler blob driving the **linked
+PsyQ libmcrd** primitives (`0x8005Fxxx`–`0x80061xxx`, e.g. `0x800603BC` heavily, `0x8006023C`,
+`0x80060AE0`, `0x80061114`). Its config/dispatch data is `saveHeaderTemplate` @ `0x80072DF0`:
+
+| Off | Bytes | Meaning |
+|---|---|---|
+| +0x00 | `82 67 82 85 82 92 82 8F` + pad | 4-char SJIS label (`Ｈｅｒｏ`?) |
+| +0x0C | `"BASLUS-00726MUSASHI"` | **memcard filename** (PS1 `BA` + region-product + name) |
+| +0x20 | SJIS `ＢＲＡＶＥ ＦＥＮＣＥＲ ＭＵＳＡＳＨＩ` | **save title** (BIOS memcard-manager display) |
+| +0x44 | `2A 00 00 00` | count/flag (0x2A = 42) |
+| +0x54 | `0x8002B154, 0x8002B1AC, 0x8002BEA4, …` (a run of `0x8002Bxxx` pointers) | **handler dispatch table** — addresses INTERIOR to the SaveLoadRoutine blob; the save/load/validate sub-operations |
+
+So the Gen1 "multi-entry blob" note **is** this dispatch table: the header holds a vector of sub-handler
+addresses (the 3 known entries + more), each performing one memcard step via libmcrd.
+
+**VERIFIED (static, Phase 12):** the header layout above; SaveLoadRoutine calls the linked libmcrd objects.
+**TBD (needs Ghidra-on-EXE + a Drew-operated PCSX-Redux save trace + PsyQ-memcard research, R17):** the
+**save-DATA block** serialization — almost certainly the Phase-3 player/progress state (`0x80078Exx`:
+gold/HP/BP/day/hour/flags) + a **checksum**; capture the live memcard buffer from a real save to pin the
+field order + the checksum algorithm — and matching the tractable handler entries. `dumps/ram_savescreen.bin`
+(save screen, overlay flushed) holds the live `saveHeaderTemplate` for cross-check.
+
 ---
 
 ## 6. Extractor implementation notes (Phase 2 pipeline)
