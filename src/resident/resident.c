@@ -71,7 +71,32 @@ void func_800CEF34(void) {
     func_80011A3C();
 }
 
-INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800CEF5C);
+// func_800CEF5C  -- MATCH (21 ins)
+// Body is the straightforward 3-call / 4-store sequence. The ONLY subtlety is the
+// stack frame: target is -0x20 with ra@0x18 (gcc: vars=8, args=16, regs=1), i.e. it
+// reserves 8 bytes of LOCALS that no instruction ever touches (all three jal delay
+// slots are nop, no addiu a0,sp,X). A normal dead local is eliminated by -O2; only a
+// `volatile` local survives unused. A `volatile int loc[2]` reserves exactly those
+// 8 bytes and emits no access -> the frame and the all-nop delay slots match exactly.
+// (Likely the original had a small on-stack scratch buffer; the bytes pin it to 8.)
+extern void func_8001B324(void);
+extern void func_8001C0C8(void);
+extern void func_80011A3C(void);
+extern u8  D_800B9A12;
+extern s8  D_800B9A10;
+extern u8  D_800B9A17;
+extern s16 D_800B9A0E;
+
+void func_800CEF5C(void) {
+    volatile int loc[2];
+    func_8001B324();
+    D_800B9A12 = 1;
+    D_800B9A10 = 0;
+    D_800B9A17 = 0;
+    func_8001C0C8();
+    D_800B9A0E = 0;
+    func_80011A3C();
+}
 
 extern void func_80011A3C(void);
 
@@ -81,7 +106,64 @@ void func_800CEFB0(void) {
 
 INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800CEFD0);
 
-INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800CF104);
+// func_800CF104 — resident engine main loop (vsync/dispatch).
+//   D_80114E98 = 0; D_80114E9C = 0;            (two s32 globals zeroed, source order)
+//   func_8001B85C();
+// loop:                                         (.L800CF130 — loop TOP, after the inits)
+//   if (D_80114E98 == 0) D_800D3488[D_800B99F6]();   (fn-ptr table; D_800B99F6 u16/lhu, sll2)
+//   if (D_80114E9C == 0) D_80114E9C = func_8001B86C(1);   (result stored full word, s32)
+//   if (D_80114E98 != 0 && D_80114E9C != 0) { func_80011B7C(7); return; }   (beqz;beqz = AND)
+//   func_800596F4(0);
+//   VSync(*(s32 *)(p + 0xA3E8));               (p = &D_800AF630; 0xA3E8 -> lui1/addu/-0x5C18)
+//   func_80059CF4(D_800A651C[*(u16*)(p+0xA3D2) * 5] + 4);  (u16 field; i*5 word index)
+//   func_8001AF34();
+//   goto loop;
+//
+// MATCH KEY (the hard part): the loop MUST be written with an explicit `goto loop;`, NOT
+// `while(1)` / `for(;;)` / `do-while`. gcc-2.7.2's loop.c only runs loop-invariant code
+// motion on natural loops it recognizes from the structured forms; with those, it HOISTS
+// the loop-invariant global addresses %hi(D_80114E98)/%hi(D_80114E9C) into callee-saved
+// registers (s1/s2, frame -0x20, +6 ins) — which the target does NOT do. The goto form is
+// not recognized as a hoistable loop, so each global access stays a fresh `lui %hi; lw %lo`
+// (re-materialized, frame -0x18, only s0 used) — matching the target exactly.
+// `register u8 *p = D_800AF630` is still required so the two far fields (0xA3E8, 0xA3D2)
+// assemble to the register-relative `lui at,1; addu at,s0,at; lw/lhu -off(at)` split.
+extern s32 D_80114E98;
+extern s32 D_80114E9C;
+extern u16 D_800B99F6;
+extern void (*D_800D3488[])(void);
+extern u8  D_800AF630[];
+extern s32 D_800A651C[];
+extern void func_8001B85C(void);
+extern s32  func_8001B86C(s32);
+extern void func_80011B7C(s32);
+extern void func_800596F4(s32);
+extern void VSync(s32);
+extern s32  func_80059CF4(s32);
+extern void func_8001AF34(void);
+
+void func_800CF104(void) {
+    register u8 *p = D_800AF630;
+    D_80114E98 = 0;
+    D_80114E9C = 0;
+    func_8001B85C();
+loop:
+    if (D_80114E98 == 0) {
+        D_800D3488[D_800B99F6]();
+    }
+    if (D_80114E9C == 0) {
+        D_80114E9C = func_8001B86C(1);
+    }
+    if (D_80114E98 != 0 && D_80114E9C != 0) {
+        func_80011B7C(7);
+        return;
+    }
+    func_800596F4(0);
+    VSync(*(s32 *)(p + 0xA3E8));
+    func_80059CF4(D_800A651C[*(u16 *)(p + 0xA3D2) * 5] + 4);
+    func_8001AF34();
+    goto loop;
+}
 
 INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800CF238);
 
@@ -104,7 +186,52 @@ void func_800CF398(void) {
     func_80011A3C();
 }
 
-INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800CF3B8);
+/* func_800CF3B8 — MATCH (49 ins). A poll loop: zero two flags, then spin calling a
+ * dispatch handler + VSync until D_80114E98 is set, then tear down.
+ *
+ * KEY TECHNIQUES (same family as func_800CF238 — "single-base-register loop"):
+ *  1. The far member D_800B9A18 (= &D_800AF630 + 0xA3E8) is read via the ONE held
+ *     callee-saved reg s0: `register u8 *p = D_800AF630;` then `*(s32*)(p + 0xA3E8)`
+ *     (offset >0x7FFF -> as expands `lui at,1; addu at,s0,at; lw a0,-0x5C18(at)`).
+ *  2. The handler table base &D_800D3488 must RELOAD inside the loop (folded
+ *     `lui %hi; addu; lw %lo`), NOT hoist into a second callee reg. Force that by
+ *     writing the call as a byte-pointer + SHIFTED index:
+ *        (*(void(**)(void))((char*)D_800D3488 + (D_800B99F6 << 2)))()
+ *     The `<< 2` (shift, not array[]) makes gcc fold the symbol and keep only s0
+ *     held (frame -0x18). Plain `D_800D3488[idx]()` hoists &D_800D3488 into s1 -> -0x20.
+ *  3. LOOP MUST BE goto-based, NOT `for(;;){...break;}`. With for/break gcc schedules
+ *     `la s0,D_800AF630` into the load-delay slot AFTER func_8001B85C (a 2-insn macro
+ *     that doesn't fit -> +2 instructions). The explicit `goto L3E4` form keeps s0
+ *     live-in to the first block, so gcc materializes `la s0` in the PROLOGUE
+ *     (lui s0 / addiu s0 between `sw s0` and `sw ra`), exactly like the target.
+ */
+extern s32 D_80114E98;
+extern s32 D_80114E9C;
+extern u16 D_800B99F6;
+extern u8 D_800AF630[];
+extern void (*D_800D3488[])(void);
+extern void func_8001B85C(void);
+extern void func_8001AF34(void);
+extern void func_80015310(void);
+extern void func_80011B7C(s32 arg0);
+extern void VSync(s32 arg0);
+
+void func_800CF3B8(void) {
+    register u8 *p = D_800AF630;
+    D_80114E98 = 0;
+    D_80114E9C = 0;
+    func_8001B85C();
+L3E4:
+    if (D_80114E98 != 0) goto L458;
+    (*(void (**)(void))((char *)D_800D3488 + (D_800B99F6 << 2)))();
+    if (D_80114E98 != 0) goto L458;
+    VSync(*(s32 *)(p + 0xA3E8));
+    func_8001AF34();
+    goto L3E4;
+L458:
+    func_80015310();
+    func_80011B7C(7);
+}
 
 extern s32 D_80114E78;
 extern u8 D_800AF218;
@@ -152,7 +279,36 @@ void func_800CF510(void) {
     }
 }
 
-INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800CF584);
+/* func_800CF584: twin of the ALREADY-MATCHED func_800CF5D4 (resident.c:~178), same
+ * shape `if (g != 0) { m = <byte>; if (m == 0 || f(m) != 0) func_80011CFC(); }`.
+ *
+ *   lw   v0, D_80127084 ; beqz v0 -> exit          => if (D_80127084 != 0) {
+ *   lbu  a0, D_80078EC1 ;                              m = D_80078EC1;   (value -> a0)
+ *   beqz a0 -> .L800CF5BC (the call)               => if (m == 0 ||
+ *   jal  func_800D02D0  ; (nop delay slot keeps a0)    func_800D02D0(m) != 0)
+ *   beqz v0 -> exit                                       func_80011CFC();
+ *   .L800CF5BC: jal func_80011CFC
+ *
+ * KEY FIX vs prior draft: func_800D02D0 TAKES the byte as its argument (its body does
+ * `addiu a0,a0,-1` then a jump-table on it — see func_800D02D0.s). The byte therefore
+ * lives in $a0 (not $v0), exactly like func_800CF5D4's func_800D0488(m). It returns s32
+ * (the plain `beqz v0` needs a wider-than-bool return). D_80078EC1 is u8 (lbu, no mask).
+ */
+extern s32 D_80127084;
+extern u8 D_80078EC1;
+extern s32 func_800D02D0(s32 arg0);
+extern void func_80011CFC(void);
+
+void func_800CF584(void) {
+    s32 m;
+
+    if (D_80127084 != 0) {
+        m = D_80078EC1;
+        if (m == 0 || func_800D02D0(m) != 0) {
+            func_80011CFC();
+        }
+    }
+}
 
 /* func_800CF5D4
  * BUG IN PRIOR DRAFT: func_800D0488() was called with NO argument. The asm keeps
@@ -365,7 +521,46 @@ s32 func_800CFBF8(void) {
     return 0x1010;
 }
 
-INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800CFC5C);
+/* func_800CFC5C — MATCH (67 ins)
+ * Maps four sparse groups of location IDs to 1..4, else 0. The match form is a run of
+ * SEPARATE `if (arg0 == K) return N;` statements — NOT `||` (gcc-2.7.2 -O2 range-merges
+ * adjacent constants  a0==K||a0==K+1  ->  (a0-K)<2u  via addiu/sltiu) and NOT `switch`
+ * (gcc builds a slti binary-search decision tree). Each standalone `if` emits an
+ * independent  addiu v0,zero,K ; beq a0,v0  with the constant in the prior branch's delay
+ * slot. The trailing 0x209D folds to  xori v0,a0,0x209D ; sltiu v0,v0,1 ; sll v0,v0,2
+ * because the group value 4 == (1<<2) and the default path returns 0. Returns s32.
+ */
+s32 func_800CFC5C(s32 arg0) {
+    if (arg0 == 0x2013) return 1;
+    if (arg0 == 0x2015) return 1;
+    if (arg0 == 0x2016) return 1;
+    if (arg0 == 0x2017) return 1;
+    if (arg0 == 0x2018) return 1;
+    if (arg0 == 0x2019) return 1;
+    if (arg0 == 0x201A) return 1;
+    if (arg0 == 0x2055) return 2;
+    if (arg0 == 0x2056) return 2;
+    if (arg0 == 0x2057) return 2;
+    if (arg0 == 0x2058) return 2;
+    if (arg0 == 0x2059) return 2;
+    if (arg0 == 0x205A) return 2;
+    if (arg0 == 0x205B) return 2;
+    if (arg0 == 0x207A) return 3;
+    if (arg0 == 0x207B) return 3;
+    if (arg0 == 0x207C) return 3;
+    if (arg0 == 0x207D) return 3;
+    if (arg0 == 0x207E) return 3;
+    if (arg0 == 0x207F) return 3;
+    if (arg0 == 0x2080) return 3;
+    if (arg0 == 0x2097) return 4;
+    if (arg0 == 0x2098) return 4;
+    if (arg0 == 0x2099) return 4;
+    if (arg0 == 0x209A) return 4;
+    if (arg0 == 0x209B) return 4;
+    if (arg0 == 0x209C) return 4;
+    if (arg0 == 0x209D) return 4;
+    return 0;
+}
 
 extern s32 D_800D34AC[];
 extern void func_800191D4(s32 arg0);
@@ -434,7 +629,41 @@ INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D02D0);
 
 INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D0488);
 
-INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D0588);
+// ANALYSIS: no prior draft existed. Trace:
+//   a0 = currentLocationId (s16, lh -> signed); r = func_800D05E8(a0)
+//   beqz v0 -> .L800D05C4 ; (delay) a0 = 1     => fall-through is r != 0
+//     r != 0:  sw zero,0x10(sp)(5th arg); a1=r; a2=0; a3=0; a0=1
+//              result = func_8001ABBC(1, r, 0, 0, 0)
+//     r == 0:  result = 1
+//   beqz v0 -> .L800D05D8  (result==0 skips the store)
+//     D_8012704C = 0
+//
+// Branch polarity (cookbook T4): the r!=0 arm is the FALL-THROUGH, so write
+//   if (r != 0) { result = call; } else { result = 1; }
+// The `a0 = 1` (func_8001ABBC's 1st arg) is hoisted into the beqz delay slot by
+// gcc -- emitting it as a plain constant arg is correct.
+// func_8001ABBC signature copied from the already-matched func_800CF47C / func_800CFDE8
+// in resident.c: s32 func_8001ABBC(s32, s32, u8 *, s32, s32). r passed as arg1 (s32).
+// currentLocationId is s16 (resident.c). func_800D05E8 result reused both as the
+// `beqz` test and as arg1 -> declare it s32-returning, arg s32.
+extern s16 currentLocationId;
+extern s32 func_800D05E8(s32 arg0);
+extern s32 func_8001ABBC(s32 arg0, s32 arg1, u8 *arg2, s32 arg3, s32 arg4);
+extern s32 D_8012704C;
+
+void func_800D0588(void) {
+    s32 r = func_800D05E8(currentLocationId);
+    s32 result;
+
+    if (r != 0) {
+        result = func_8001ABBC(1, r, 0, 0, 0);
+    } else {
+        result = 1;
+    }
+    if (result != 0) {
+        D_8012704C = 0;
+    }
+}
 
 INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D05E8);
 
@@ -654,9 +883,70 @@ void func_800D1744(s32 arg0) {
     D_800AE6AC = arg0;
 }
 
-INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D1754);
+/* func_800D1754 — MATCH (25 ins)
+ * Key: the address &D_800AE6A8 is held in a callee-saved reg (s0) ACROSS the first
+ * func_800D17B8 call, because it is used for both the load (temp = *p) and the store
+ * (*p = 0) after the call. Writing the access through an explicit `s32 *p = &D_800AE6A8`
+ * forces gcc-2.7.2 -O2 to compute the symbol address once (lui+addiu into s0) and reuse
+ * it; the plain-global form re-materialised lui each time (no s0, frame 2 ins short).
+ * D_800AE6A8/D_800AE6B0 are s32 (setters func_800D1734/func_800D1724). The 2nd call reuses
+ * a0=temp (== D_800AE6B0 just stored). func_800D17B8 returns s32 (no andi after the jals).
+ */
+extern s32 D_800AE6B0;
+extern s32 D_800AE6A8;
+extern s32 func_800D17B8(s32 arg0);
 
-INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D17B8);
+void func_800D1754(void) {
+    s32 *p = &D_800AE6A8;
+    s32 temp;
+
+    if (func_800D17B8(D_800AE6B0) == 0) {
+        temp = *p;
+        if (temp != 0) {
+            *p = 0;
+            D_800AE6B0 = temp;
+            func_800D17B8(temp);
+        }
+    }
+}
+
+// ANALYSIS (asm 0xA4):
+//   s1 = arg0
+//   s0 = arg0 & 0x80FFFFFF
+//   beqz s0, .L800D1840   -- the ZERO case branches to the tail (return 0); the
+//                            non-zero case falls through into the work body.
+//   So the success body must be the fall-through (the if body), with the v0=0 tail
+//   reached only by the beqz. Writing  if (s0 != 0) { work; return 1; } return 0;
+//   makes the work block the fall-through and gcc emits  beqz s0,.L1840 .
+//   func_800D185C(s0)
+//   if (arg0 & 0x1000000) { D_800AE6B4 = &D_80159698; D_800AE6BC = 0; }
+//   else { v0 = *(s32*)(s0+4); D_800AE6BC=0; D_80114EA8=0; D_800AE6B4 = v0; }
+//   func_80011A3C(); return 1;
+extern void func_800D185C(s32 arg0);
+extern void func_80011A3C(void);
+extern void *D_800AE6B4;
+extern u8 D_800AE6BC;
+extern s32 D_80114EA8;
+extern u8 D_80159698;
+
+s32 func_800D17B8(s32 arg0) {
+    s32 v = arg0 & 0x80FFFFFF;
+    if (v != 0) {
+        func_800D185C(v);
+        if (arg0 & 0x1000000) {
+            D_800AE6B4 = &D_80159698;
+            D_800AE6BC = 0;
+        } else {
+            void *t = *(void **)(v + 4);
+            D_800AE6BC = 0;
+            D_80114EA8 = 0;
+            D_800AE6B4 = t;
+        }
+        func_80011A3C();
+        return 1;
+    }
+    return 0;
+}
 
 INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D185C);
 
@@ -785,7 +1075,103 @@ s32 DsMix(void) {
     return 1;
 }
 
-INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D1BF8);
+// ANALYSIS (re-derived instruction-by-instruction):
+//
+// PROLOGUE (the key fix vs the prior draft = ORDER):
+//   v1 = D_800AE6B0 & 0x80FFFFFF                 lw + and  (struct ptr)
+//   fp = *(void(**)(void))(v1 + 0x1C)            lw 0x1C(v1)   -- LOAD the fn ptr FIRST
+//   p  = &D_800AE6A8                             la (set up early, used at the tail)
+//   D_800B9A0E = 0                               sh  -- store AFTER the fn-ptr load,
+//                                                       before the call (stores can't
+//                                                       hoist past the jalr)
+//   fp()                                         jalr v0
+//   The prior draft wrote `D_800B9A0E = 0;` BEFORE the call expression, which let gcc
+//   emit the store ahead of the fn-ptr load -> wrong order. Computing the target into a
+//   local first pins the load ahead of the store, matching the asm.
+//
+//   func_800D1D24()
+//   if (func_80011DF4() != 0) {                  beqz v0,.L1C64 (else-chain branches in)
+//       func_80011DCC();
+//       func_80011818(0x11);                     -> j .L1CF0 (tail)
+//   } else {
+//       // a0val computed by a cascade, then func_80011B7C(a0val)
+//       if (func_8002AF08() != 0)         a0val = 0xD;     bnez v0 (a0=0xD in delay)
+//       else if (func_800CFBE8() != 0)  { func_800CFBBC(); a0val = 0x13; }
+//       else if (func_80029264() != 0)  { func_80029254(); a0val = 0x12; }
+//       else switch (func_800D1DB0()) {           beq v1,1 / slti v1,2 / bnez v1
+//           case 0:  a0val = 6;  break;
+//           case 1:  a0val = 5;  break;
+//           default: a0val = 0x10; break;
+//       }
+//       func_80011B7C(a0val);
+//   }
+//   // TAIL .L1CF0:
+//   if (*(s32*)(p + 8) & 0x1000000) p[0x17] = 1; else p[0x17] = 0;
+//
+// Widths/types (COPIED from already-matched resident.c):
+//   D_800AE6B0 = s32 (func_800D1724 stores arg0)  -> lw + and 0x80FFFFFF -> struct base.
+//   D_800AE6A8 = s32 (func_800D1734 stores arg0)  -> &D_800AE6A8 is a struct/array base
+//                here, fields at +8 (lw=s32) and +0x17 (sb=u8); take its address as u8*.
+//   D_800B9A0E = s16 (func_800D1764/.. stores 1/2).
+extern s32 D_800AE6B0;
+extern s32 D_800AE6A8;
+extern s16 D_800B9A0E;
+
+extern void func_800D1D24(void);
+extern s32  func_80011DF4(void);
+extern void func_80011DCC(void);
+extern void func_80011818(s32);
+extern s32  func_8002AF08(void);
+extern s32  func_800CFBE8(void);
+extern void func_800CFBBC(void);
+extern s32  func_80029264(void);
+extern void func_80029254(void);
+extern s32  func_800D1DB0(void);
+extern void func_80011B7C(s32);
+
+void func_800D1BF8(void) {
+    u8 *p = (u8 *)&D_800AE6A8;
+    void (*fp)(void);
+    s32 a0val;
+
+    fp = *(void (**)(void))((D_800AE6B0 & 0x80FFFFFF) + 0x1C);
+    D_800B9A0E = 0;
+    fp();
+    func_800D1D24();
+
+    if (func_80011DF4() != 0) {
+        func_80011DCC();
+        func_80011818(0x11);
+    } else {
+        if (func_8002AF08() != 0) {
+            a0val = 0xD;
+        } else if (func_800CFBE8() != 0) {
+            func_800CFBBC();
+            a0val = 0x13;
+        } else if (func_80029264() != 0) {
+            func_80029254();
+            a0val = 0x12;
+        } else {
+            s32 n = func_800D1DB0();
+            if (n != 1) {
+                if (n < 2 && n == 0) {
+                    a0val = 6;
+                } else {
+                    a0val = 0x10;
+                }
+            } else {
+                a0val = 5;
+            }
+        }
+        func_80011B7C(a0val);
+    }
+
+    if (*(s32 *)(p + 8) & 0x1000000) {
+        p[0x17] = 1;
+    } else {
+        p[0x17] = 0;
+    }
+}
 
 /* func_800D1D24:
  *   v0 = D_80078E50 (u16)
@@ -873,7 +1259,81 @@ void func_800D1F90(void) {
 
 INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D1FC8);
 
-INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D20C0);
+/* ANALYSIS (asm 0x104):
+ * arg0 (s0) = position struct {u16 x@0, y@2, z@4}.
+ * arg1 (s1) = SVECTOR* {s16 vx@0, vy@2, vz@4}.
+ * arg2 (s2) = shift amount (used as arg2 & 0xFFFF).
+ * D_801151D4 is a POINTER global (lw a1,D_801151D4 then lw 0x5C/0x60/0x64(a1)).
+ *
+ *   dx = D_801151D4->t5C - (u16)arg0->x     (lw - lhu, in s32; sh to local[0])
+ *   dy = D_801151D4->t60 - (u16)arg0->y     (sh local[1])
+ *   dz = D_801151D4->t64 - (u16)arg0->z     (sh local[2])
+ *   all three deltas are live across test1's branch (dy in a3, dz in a0) -> they
+ *   are all computed BEFORE the first test, so "compute all deltas, store, then test".
+ *
+ *   range test on each: (u32)((d + 0x3FFF) & 0xFFFF) < 0x7FFF  (addiu;andi;sltiu).
+ *   test1 beqz->override, test2 beqz->override, test3 bnez->keep (3rd inverted) ==
+ *   if (t1 && t2 && t3) keep; else override.  Override re-stores local in the asm
+ *   order z=0, x=0, y=-0xFFF.
+ *
+ *   VectorNormalSS(&local, arg1);
+ *   shift = arg2 & 0xFFFF;                    (andi a0,s2,0xFFFF -- once, reused x3)
+ *   arg0->x += (s16)arg1->vx >> shift;        (lh ; srav ; lhu+add+sh)
+ *   arg0->y += (s16)arg1->vy >> shift;
+ *   arg0->z += (s16)arg1->vz >> shift;
+ */
+
+typedef struct { s16 vx, vy, vz, pad; } SVECTOR;
+
+typedef struct {
+    u16 x;   /* 0x0 */
+    u16 y;   /* 0x2 */
+    u16 z;   /* 0x4 */
+} Pos800D20C0;
+
+typedef struct {
+    u8  pad[0x5C];
+    s32 t5C;  /* 0x5C */
+    s32 t60;  /* 0x60 */
+    s32 t64;  /* 0x64 */
+} Tgt800D20C0;
+
+extern Tgt800D20C0 *D_801151D4;
+extern long VectorNormalSS(SVECTOR *a, SVECTOR *b);
+
+void func_800D20C0(Pos800D20C0 *arg0, SVECTOR *arg1, s16 arg2) {
+    SVECTOR local;
+    Tgt800D20C0 *p = D_801151D4;
+    s32 dx, dy, dz;
+    s32 shift;
+
+    { s32 tx = p->t5C; dx = tx - arg0->x; }
+    local.vx = dx;
+    { s32 ty = p->t60; dy = ty - arg0->y; }
+    local.vy = dy;
+    { s32 tz = p->t64; dz = tz - arg0->z; }
+    local.vz = dz;
+
+    if (((u32)((dx + 0x3FFF) & 0xFFFF) < 0x7FFF) &&
+        ((u32)((dy + 0x3FFF) & 0xFFFF) < 0x7FFF) &&
+        ((u32)((dz + 0x3FFF) & 0xFFFF) < 0x7FFF)) {
+        /* keep computed deltas */
+    } else {
+        local.vz = 0;
+        local.vx = 0;
+        local.vy = -0xFFF;
+    }
+
+    /* MATCH lever (permuter): arg2 declared `s16` (not s32) + per-delta ptr-field
+     * temps `{s32 t = p->tNN; d = t - arg0->f;}` reproduce the target's ptr-first
+     * load order AND the dy->a3 / dz->a0 register allocation.  Both levers needed. */
+    VectorNormalSS(&local, arg1);
+
+    shift = arg2 & 0xFFFF;
+    arg0->x += arg1->vx >> shift;
+    arg0->y += arg1->vy >> shift;
+    arg0->z += arg1->vz >> shift;
+}
 
 INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D21C4);
 
@@ -944,7 +1404,18 @@ void func_800D2318(s32 *p) {
     *(s16 *)((u8 *)p + 0x1A) = 0;
 }
 
-INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D23D0);
+extern s32 func_80047D3C(s32 arg0);
+extern s32 ratan2(s32 y, s32 x);
+
+void func_800D23D0(s16 *p) {
+    s32 fx = p[0];
+    s32 fz = p[2];
+    s32 fy = p[1];
+
+    p[0] = -ratan2(fy, func_80047D3C(fx * fx + fz * fz));
+    p[1] = ratan2(fx, fz);
+    p[2] = 0;
+}
 
 void func_800D2460(void) {
 }
@@ -982,7 +1453,44 @@ INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D27DC);
 
 INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D29F8);
 
-INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D2CA8);
+/* func_800D2CA8(a0, a1): pack a0 into BCD nibbles (LSD first into the low bits),
+ * then shift the whole packed result left by a1.
+ *
+ * asm register model (the discriminating point — keep TWO copies of the value):
+ *   t0 = 0          (result)
+ *   a2 = a0         (cur — the value compared and used as the modulo minuend)
+ *   if (a2 < 10) goto END                ; slti a2,10 ; bnez -> skip loop
+ *   a3 = 0          (shift)
+ *   LOOP:
+ *     a0 = a0 / 10                        ; signed div: mult magic 0x66666667,
+ *                                         ;   mfhi; sra v1,2; sra v0(a0),31; subu
+ *     t0 |= (a2 - a0*10) << a3            ; a2 - (a0<<1 + a0<<3) = a2 % 10 (OLD a2)
+ *     a2 = a0                             ; cur = quotient
+ *     a3 += 4
+ *     if (a2 >= 10) goto LOOP             ; slti a2,10 ; beqz -> LOOP
+ *   END:
+ *   t0 |= a2 << a3
+ *   return t0 << a1                       ; sllv (variable shift)
+ *
+ * The prior single-variable `n%10; n/=10` draft conflated a0 and a2 into one
+ * register and mis-allocated. Here `cur`(a2) stays the compare/modulo base while
+ * `a0` is the divided value; the modulo is derived as `cur - a0*10` (matches the
+ * subu order), and `result |= ...` puts result first (or t0,t0,v0; cookbook A1).
+ */
+s32 func_800D2CA8(s32 a0, s32 a1) {
+    s32 result = 0;
+    s32 cur = a0;
+    s32 shift = 0;
+
+    while (cur >= 10) {
+        a0 = a0 / 10;
+        result |= (cur - (a0 * 2 + a0 * 8)) << shift;
+        cur = a0;
+        shift += 4;
+    }
+    result |= cur << shift;
+    return result << a1;
+}
 
 INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D2D10);
 
@@ -1030,7 +1538,42 @@ s32 func_800D2DFC(void) {
 
 INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D2E20);
 
-INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D2E6C);
+/* func_800D2E6C(arg0) — byte-identical to the MATCHED func_800D3120 (resident.c:1179).
+ * Countdown trigger on a u8 field at +0x19 of arg0 (kept in s0).
+ *   v1 = arg0->field_0x19          ; lbu (u8)
+ *   v0 = v1 + 0xFF                  ; addiu v0,v1,0xFF  (IMMEDIATE 0x00FF, +255)
+ *   bnez v1, .L800D2ED0            ; if (v1 != 0) skip
+ *     sb v0,0x19(s0)               ; (delay) store wrapped value UNCONDITIONALLY
+ *   ; v1 == 0 -> work; arg0->field_0x15++; return 0
+ *
+ * The decrement is written `v + 0xFF` (not `v--`) so the QImode constant is the positive
+ * +0xFF gcc emits, and the branch tests the OLD value v.
+ */
+extern void func_8002D4C8(s32 arg0, s32 arg1);
+extern void func_8001BFD0(void);
+extern void func_800D0C48(u16 arg0);
+extern void func_800167B8(s32 arg0);
+
+typedef struct {
+    u8 pad00[0x15];    /* 0x00..0x14 */
+    u8 field_0x15;     /* 0x15 */
+    u8 pad16[0x3];     /* 0x16..0x18 */
+    u8 field_0x19;     /* 0x19 */
+} Struct800D2E6C;
+
+s32 func_800D2E6C(Struct800D2E6C *arg0) {
+    u8 v = arg0->field_0x19;
+    arg0->field_0x19 = v + 0xFF;
+    if (v == 0) {
+        func_8002D4C8(0x1C, 0);
+        func_8001BFD0();
+        func_8002D4C8(0x1D, 0);
+        func_800D0C48(1);
+        func_800167B8(4);
+        arg0->field_0x15++;
+    }
+    return 0;
+}
 
 // ANALYSIS: identical asm shape to the ALREADY-MATCHED func_800D319C in
 // src/resident/resident.c:
