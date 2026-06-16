@@ -309,7 +309,44 @@ INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800CFBCC);
 
 INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800CFBE8);
 
-INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800CFBF8);
+/* func_800CFBF8 — dispatch on func_800CFC5C(currentLocationId).
+ *
+ * The asm is a LINEAR compare chain (beq 1; bne 2; bne 3; beq 4), NOT a jr
+ * through a jump table — so this is an if/else-if chain, not a `switch`
+ * (a `switch` over the dense set {1,2,3,4} makes gcc-2.7.2 emit a jtbl;
+ * the prior `switch` draft failed for exactly this reason).
+ *
+ * result==1 -> 0x1010   (asm: beq a0,1 -> the shared 0x1010 block)
+ * result==2 -> 0x1052
+ * result==3 -> 0x1077
+ * result==4 -> 0x1094
+ * default   -> 0x1010   (gcc cross-jumps this into the case-1 block: both reach
+ *                        L800CFC48 / v0=0x1010, one by branch, one by fall-through)
+ *
+ * currentLocationId is s16 (matched in resident.c); the `lh` sign-extends it
+ * into the s32 argument.  func_800CFC5C returns s32 (compared against 1..4).
+ * All returns are plain positive constants -> s32 return type.
+ */
+extern s16 currentLocationId;
+extern s32 func_800CFC5C(s32);
+
+s32 func_800CFBF8(void) {
+    s32 r = func_800CFC5C(currentLocationId);
+
+    if (r == 1) {
+        return 0x1010;
+    }
+    if (r == 2) {
+        return 0x1052;
+    }
+    if (r == 3) {
+        return 0x1077;
+    }
+    if (r == 4) {
+        return 0x1094;
+    }
+    return 0x1010;
+}
 
 INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800CFC5C);
 
@@ -550,7 +587,25 @@ s32 func_800D109C(void) {
     return (s16)func_800D10C8(func_800291B4() & 0xff);
 }
 
-INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D10C8);
+// ANALYSIS: direct twin of the ALREADY-MATCHED func_800D1078 (resident.c:539):
+//     extern s16 D_8010EDEC;  return *(s16*)((u8*)&D_8010EDEC + arg0*0xC);
+// The only differences here:
+//   (1) base is D_8010EDEE (the +2 field of the same 0xC-byte record table; D_8010EDEC
+//       and D_8010EDEE are adjacent .short at the table head — verified in tail.data.s),
+//   (2) the parameter is s32 (not u8): the function opens with `andi a0,a0,0xFF`, so the
+//       mask is EXPLICIT in source (a u8 param would need no andi), and
+//   (3) the prototype is `extern s32 func_800D10C8(s32)` (resident.c:547) -> s32 return.
+//
+// Index arithmetic: (arg0 & 0xFF) * 0xC -> gcc emits sll1 + addu (=*3) + sll2 (=*12).
+// The load is `lh` (s16, sign-extended); with no trailing sll16/sra16 the sign-extended
+// value is returned directly as s32. PRIOR DRAFT used a struct-array + s16 return; this
+// uses the proven byte-pointer idiom + the declared s32 return instead.
+
+extern s16 D_8010EDEE;
+
+s32 func_800D10C8(s32 arg0) {
+    return *(s16 *)((u8 *)&D_8010EDEE + (arg0 & 0xFF) * 0xC);
+}
 
 INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D10EC);
 
@@ -588,7 +643,37 @@ INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D17B8);
 
 INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D185C);
 
-INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D18DC);
+// ANALYSIS: idx = D_800AE6BC (u8, lbu — hoisted to the very top, before the frame).
+// Copy the 3-word function-pointer array D_801141BC into a LOCAL stack array (sp+0x10),
+// fully unrolled (lw v1/a0/a1 from 0/4/8, sw to 0x10/0x14/0x18 — a 12-byte struct copy),
+// then call local[idx](&D_800AE6A8):  sll idx,2; addu sp,idx; lw 0x10(...); jalr.
+// Frame -0x28 (ra@0x20, the 0xC-byte local array @0x10).
+//
+// PRIOR DRAFT was structurally close (same idea). Refinements for the byte form:
+//  - The runtime index idx forces gcc to materialise the WHOLE table on the stack and
+//    index the LOCAL (it can't prove idx), giving the copy+index seen in the asm. Modeling
+//    D_801141BC as a 3-element fn-ptr array and copying it into an identical local array,
+//    then indexing the local, is the faithful source.
+//  - idx is read FIRST (the lbu floats to the top with no deps).
+//  - The call passes &D_800AE6A8 (lui/addiu of the symbol address) as the single arg.
+//
+// The fn pointers take one pointer arg (the call site passes &D_800AE6A8). Use a struct
+// wrapper so the whole-array assignment `local = D_801141BC` is a clean aggregate copy
+// (3 words) and `local.fn[idx](...)` is the indexed call.
+
+typedef struct {
+    void (*fn[3])(void *);
+} FnTbl3;
+
+extern u8 D_800AE6BC;
+extern FnTbl3 D_801141BC;
+extern s32 D_800AE6A8;
+
+void func_800D18DC(void) {
+    u8 idx = D_800AE6BC;
+    FnTbl3 local = D_801141BC;
+    local.fn[idx](&D_800AE6A8);
+}
 
 INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D1938);
 
@@ -603,7 +688,40 @@ s32 func_800D19DC(void) {
 
 INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D19F0);
 
-INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D1B10);
+// ANALYSIS (re-derived):
+//   s0 = arg0 (struct ptr, callee-saved: live across 4 calls)
+//   func_80029124(0x119, 0)
+//   func_8002D4C8(4, 0x448)
+//   func_8002D4C8(4, 0x449)
+//   func_8002D4C8(4, 0x8ED)
+//   D_800B9A10 = 0                    sb  (u8)  -- STORE 1
+//   v0 = arg0->[0x14]                 lbu (u8)  -- LOAD (hoisted between store 1 & 2)
+//   arg0->[0x15] = 0                  sb  (u8)  -- STORE 2
+//   arg0->[0x14] = v0 + 1             sb  (u8)  -- STORE 3
+//   return 0
+//
+// STORE ORDER (cookbook T2): the asm keeps stores in source order
+//   D_800B9A10(0x14? no -> global), [0x15], [0x14].  The lbu of [0x14] is HOISTED early
+//   (gcc loads the increment input ahead of the [0x15] store) but the THREE stores stay
+//   in source order: global, +0x15, +0x14.  So write them in that exact order.
+//
+// Widths: D_800B9A10 sb => declared `s8` in resident.c (func_800D1BAC) -> COPY it ;
+//   fields +0x14/+0x15 sb/lbu => u8.
+// Return type s32 (plain addu v0,zero,zero).
+extern void func_80029124(s32 arg0, s32 arg1);
+extern void func_8002D4C8(s32 arg0, s32 arg1);
+extern s8 D_800B9A10;
+
+s32 func_800D1B10(u8 *arg0) {
+    func_80029124(0x119, 0);
+    func_8002D4C8(4, 0x448);
+    func_8002D4C8(4, 0x449);
+    func_8002D4C8(4, 0x8ED);
+    D_800B9A10 = 0;
+    arg0[0x15] = 0;
+    arg0[0x14] = arg0[0x14] + 1;
+    return 0;
+}
 
 INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D1B80);
 
@@ -676,7 +794,29 @@ void func_800D1F58(void) {
     D_80128150 = D_80078E8C;
 }
 
-INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D1F90);
+/* func_800D1F90 — the inverse of the matched func_800D1F58 (resident.c:673).
+ *
+ *   D_80078EB4 (u16) = (u16)D_8011DB14 (s32)   -> lw v0; sh v0
+ *   D_80078EB8 (u16) = (u16)D_8011DB1C (s32)   -> lw v1; sh v1
+ *   D_80078E8C (s32) =       D_80128150 (s32)  -> lw a0; sw a0
+ *
+ * The three source loads are independent, so gcc's r3000 scheduler hoists all
+ * three lw's ahead of the three stores (matches the asm: lw,lw,lw,sh,sh,sw).
+ * Types COPIED verbatim from the matched func_800D1F58 so the load widths agree:
+ * D_80078EB4/B8 are u16, the rest s32.  sh truncates the s32 source naturally.
+ */
+extern u16 D_80078EB4;
+extern u16 D_80078EB8;
+extern s32 D_80078E8C;
+extern s32 D_8011DB14;
+extern s32 D_8011DB1C;
+extern s32 D_80128150;
+
+void func_800D1F90(void) {
+    D_80078EB4 = D_8011DB14;
+    D_80078EB8 = D_8011DB1C;
+    D_80078E8C = D_80128150;
+}
 
 INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D1FC8);
 
@@ -684,7 +824,31 @@ INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D20C0);
 
 INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D21C4);
 
-INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D222C);
+// func_800D222C — allocate via func_801465C0(arg0); on success initialise via
+// func_8001CB6C(p, arg1, 0, 0), store arg2 byte at p[0x27], return p; on NULL return 0.
+//
+// FIX vs prior draft: BRANCH POLARITY (cookbook §2 T4). The asm is
+//     bnez s0,.L800D2260   ; branch TO the call/init path
+//     j .L800D2278 ; addu v0,zero,zero   ; the FALL-THROUGH is `return 0`
+// so the success path is the branched-to block and `return 0` falls through. The
+// matching source therefore writes `if (p != 0) { ...; return p; } return 0;`
+// (the prior `if (p == 0) return 0;` produced the inverse beqz).
+//
+// Arg note: a0 for func_8001CB6C is the alloc result (asm `addu a0,s0,zero` in the
+// bnez delay slot) — i.e. p is its first argument.
+
+extern u8 *func_801465C0(s32);
+extern void func_8001CB6C(u8 *, s32, s32, s32);
+
+u8 *func_800D222C(s32 arg0, s32 arg1, s32 arg2) {
+    u8 *p = func_801465C0(arg0);
+    if (p != 0) {
+        func_8001CB6C(p, arg1, 0, 0);
+        p[0x27] = arg2;
+        return p;
+    }
+    return 0;
+}
 
 INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D2294);
 
@@ -791,7 +955,25 @@ s32 func_800D2DAC(u8 *arg0) {
     return 0;
 }
 
-INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D2DFC);
+// func_800D2DFC: byte-identical twin of the ALREADY-MATCHED func_800D319C /
+// func_800D2EE8 in src/resident/resident.c, differing ONLY in the argument
+// (a0 = 0 here vs a0 = 4 there):
+//     jal func_800167F0          ; delay slot: addu a0,zero,zero  -> a0 = 0
+//     andi v0,v0,0xffff          ; zero-extend the u16 return
+//     sltu v0,zero,v0            ; v0 = (0 < v0) = (v0 != 0)
+//     return                     ; plain s32 return
+//
+// FIX vs BOTH prior failed drafts: they declared func_800167F0 as a WIDER type
+// (s32/int) and wrote an explicit (u16) cast to "force" the andi. That is wrong
+// for THIS binary — the proven matched twins (func_800D319C / func_800D2EE8) declare
+// func_800167F0 returning **u16** with NO cast and `!= 0`; gcc still emits the
+// andi 0xffff as the natural zero-extend of the u16 return before the sltu. Copy
+// that exact form; only the arg changes from 4 to 0.
+extern u16 func_800167F0(s32 arg0);
+
+s32 func_800D2DFC(void) {
+    return func_800167F0(0) != 0;
+}
 
 INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D2E20);
 
@@ -826,7 +1008,21 @@ s32 func_800D2F48(u8 *arg0) {
     return 0;
 }
 
-INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D2F8C);
+// ANALYSIS: byte-identical asm SHAPE to the ALREADY-MATCHED twins func_800D319C and
+// func_800D2EE8 in src/resident/resident.c:
+//     jal func_800167F0 (a0=0); andi v0,v0,0xffff; sltu v0,zero,v0; jr ra
+// The ONLY difference vs the twins is a0 = 0 here (they pass 4).
+//
+// PRIOR-DRAFT BUG: it declared func_800167F0 as `s32` and wrote `(u16)func_800167F0(0) != 0`.
+// The proven matched form declares the callee as RETURNING u16 — then the `andi v0,0xffff`
+// is the NATURAL zero-extend of the u16 return value (no explicit (u16) cast), and
+// `!= 0` lowers to `sltu v0,zero,v0` (0 < v0). With an s32 return + explicit cast, gcc
+// schedules the andi differently / can drop it. Copy the twins verbatim.
+extern u16 func_800167F0(s32 arg0);
+
+s32 func_800D2F8C(void) {
+    return func_800167F0(0) != 0;
+}
 
 extern void (*D_800D39F0[])(void);
 
@@ -896,7 +1092,50 @@ s32 func_800D3104(Struct800D3104 *a0) {
     return 0;
 }
 
-INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D3120);
+// func_800D3120 (byte-identical to the also-unmatched func_800D2E6C):
+// countdown trigger on a u8 field at +0x19 of arg0 (kept in s0).
+//   v1 = arg0->field_0x19          ; lbu (u8)
+//   v0 = v1 + 0xFF                  ; addiu v0,v1,0xFF  <-- IMMEDIATE 0x00FF, +255
+//   bnez v1, .L800D3184            ; if (v1 != 0) skip the work
+//     sb v0,0x19(s0)               ; (delay slot) store the wrapped value UNCONDITIONALLY
+//   ; v1 == 0 -> do the work:
+//     func_8002D4C8(0x1C, 0); func_8001BFD0(); func_8002D4C8(0x1D, 0);
+//     func_800D0C48(1); func_800167B8(4);
+//     arg0->field_0x15++           ; lbu/addiu 1/sb  (u8)
+//  .L800D3184: return 0
+//
+// FIX vs BOTH prior drafts: they wrote `p->field_0x19-- == 0`. A u8 post-decrement
+// promotes to int, so `-1` is emitted as `addiu v0,v1,0xFFFF` (immediate 0xFFFF) —
+// but the asm shows `addiu v0,v1,0xFF` (immediate 0x00FF = +255). gcc renders the
+// constant as a positive +0xFF, which only happens when the source ADDS 0xFF, not
+// subtracts 1. So write `v + 0xFF` (the byte-wrapping decrement) explicitly and test
+// the OLD value `v` for the branch. Stored via sb so the byte result == v-1 mod 256.
+// func_800D0C48 is u16-arg per resident.c:440; the others match resident.c sigs.
+extern void func_8002D4C8(s32 arg0, s32 arg1);
+extern void func_8001BFD0(void);
+extern void func_800D0C48(u16 arg0);
+extern void func_800167B8(s32 arg0);
+
+typedef struct {
+    u8 pad00[0x15];    /* 0x00..0x14 */
+    u8 field_0x15;     /* 0x15 */
+    u8 pad16[0x3];     /* 0x16..0x18 */
+    u8 field_0x19;     /* 0x19 */
+} Struct800D3120;
+
+s32 func_800D3120(Struct800D3120 *arg0) {
+    u8 v = arg0->field_0x19;
+    arg0->field_0x19 = v + 0xFF;
+    if (v == 0) {
+        func_8002D4C8(0x1C, 0);
+        func_8001BFD0();
+        func_8002D4C8(0x1D, 0);
+        func_800D0C48(1);
+        func_800167B8(4);
+        arg0->field_0x15++;
+    }
+    return 0;
+}
 
 extern u16 func_800167F0(s32 arg0);
 
