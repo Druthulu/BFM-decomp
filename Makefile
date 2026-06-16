@@ -343,47 +343,47 @@ ifeq ($(BINARY),main)
 	# Wire in the real libcd objects (after the build objects exist — the externals discovery
 	# trial-links the whole image). Idempotent: re-running re-derives the externals only.
 	if [ -d "$(LIBCD_ELF)" ]; then
-		$(PYTHON) tools/psyq_integrate.py $(LIBCD_ELF) $(LD_SCRIPT) $(LIBCD_OBJDIR) $(LIBCD_SYMS) libcd1,libcd2
+		$(PYTHON) tools/psyq_integrate.py --vram-base $(main_VRAM_BASE) --exe $(main_EXE) --symbols $(main_SYMBOLS) $(LIBCD_ELF) $(LD_SCRIPT) $(LIBCD_OBJDIR) $(LIBCD_SYMS) libcd1,libcd2
 	else
 		echo "  (no $(LIBCD_ELF) — libcd region stays asm stubs; run tools/psyq_build_libs.sh LIBCD)"
 	fi
 	if [ -d "$(LIBGS_ELF)" ]; then
-		$(PYTHON) tools/psyq_integrate.py $(LIBGS_ELF) $(LD_SCRIPT) $(LIBGS_OBJDIR) $(LIBGS_SYMS) libgs1,libgs2,libgs3,libgs4,libgs5,libgs6 0x80051804 0x80057928
+		$(PYTHON) tools/psyq_integrate.py --vram-base $(main_VRAM_BASE) --exe $(main_EXE) --symbols $(main_SYMBOLS) $(LIBGS_ELF) $(LD_SCRIPT) $(LIBGS_OBJDIR) $(LIBGS_SYMS) libgs1,libgs2,libgs3,libgs4,libgs5,libgs6 0x80051804 0x80057928
 	else
 		echo "  (no $(LIBGS_ELF) — libgs region stays asm stubs; run tools/make_libgs.sh)"
 	fi
 	if [ -d "$(LIBETC_ELF)" ]; then
-		$(PYTHON) tools/psyq_integrate.py $(LIBETC_ELF) $(LD_SCRIPT) $(LIBETC_OBJDIR) $(LIBETC_SYMS) libetc
+		$(PYTHON) tools/psyq_integrate.py --vram-base $(main_VRAM_BASE) --exe $(main_EXE) --symbols $(main_SYMBOLS) $(LIBETC_ELF) $(LD_SCRIPT) $(LIBETC_OBJDIR) $(LIBETC_SYMS) libetc
 	else
 		echo "  (no $(LIBETC_ELF) — libetc region stays asm stubs; run tools/psyq_build_libs.sh LIBETC)"
 	fi
 	if [ -d "$(LIBGPU_ELF)" ]; then
-		$(PYTHON) tools/psyq_integrate.py $(LIBGPU_ELF) $(LD_SCRIPT) $(LIBGPU_OBJDIR) $(LIBGPU_SYMS) libgpu
+		$(PYTHON) tools/psyq_integrate.py --vram-base $(main_VRAM_BASE) --exe $(main_EXE) --symbols $(main_SYMBOLS) $(LIBGPU_ELF) $(LD_SCRIPT) $(LIBGPU_OBJDIR) $(LIBGPU_SYMS) libgpu
 	else
 		echo "  (no $(LIBGPU_ELF) — libgpu region stays asm stubs; run tools/psyq_build_libs.sh LIBGPU + curate libgpu_used)"
 	fi
 	if [ -d "$(LIBMCRD_ELF)" ]; then
-		$(PYTHON) tools/psyq_integrate.py $(LIBMCRD_ELF) $(LD_SCRIPT) $(LIBMCRD_OBJDIR) $(LIBMCRD_SYMS) libmcrd1,libmcrd2
+		$(PYTHON) tools/psyq_integrate.py --vram-base $(main_VRAM_BASE) --exe $(main_EXE) --symbols $(main_SYMBOLS) $(LIBMCRD_ELF) $(LD_SCRIPT) $(LIBMCRD_OBJDIR) $(LIBMCRD_SYMS) libmcrd1,libmcrd2
 	else
 		echo "  (no $(LIBMCRD_ELF) — libmcrd region stays asm stubs; run tools/psyq_build_libs.sh LIBMCRD)"
 	fi
 	if [ -d "$(LIBC2_ELF)" ]; then
-		$(PYTHON) tools/psyq_integrate.py $(LIBC2_ELF) $(LD_SCRIPT) $(LIBC2_OBJDIR) $(LIBC2_SYMS) libc2_1,libc2_2
+		$(PYTHON) tools/psyq_integrate.py --vram-base $(main_VRAM_BASE) --exe $(main_EXE) --symbols $(main_SYMBOLS) $(LIBC2_ELF) $(LD_SCRIPT) $(LIBC2_OBJDIR) $(LIBC2_SYMS) libc2_1,libc2_2
 	else
 		echo "  (no $(LIBC2_ELF) — libc2 region stays asm stubs; run tools/psyq_build_libs.sh LIBC2)"
 	fi
 	if [ -d "$(LIBGTE_ELF)" ]; then
-		$(PYTHON) tools/psyq_integrate.py $(LIBGTE_ELF) $(LD_SCRIPT) $(LIBGTE_OBJDIR) $(LIBGTE_SYMS) $(LIBGTE_STUBS) 0x8004787C 0x80051804
+		$(PYTHON) tools/psyq_integrate.py --vram-base $(main_VRAM_BASE) --exe $(main_EXE) --symbols $(main_SYMBOLS) $(LIBGTE_ELF) $(LD_SCRIPT) $(LIBGTE_OBJDIR) $(LIBGTE_SYMS) $(LIBGTE_STUBS) 0x8004787C 0x80051804
 	else
 		echo "  (no $(LIBGTE_ELF) — libgte region stays asm stubs; run tools/psyq_build_libs.sh LIBGTE)"
 	fi
 	if [ -d "$(SND_ELF)" ]; then
-		$(PYTHON) tools/psyq_integrate.py $(SND_ELF) $(LD_SCRIPT) $(SND_OBJDIR) $(SND_SYMS) $(SND_STUBS) 0x8003A444 0x8004239C
+		$(PYTHON) tools/psyq_integrate.py --vram-base $(main_VRAM_BASE) --exe $(main_EXE) --symbols $(main_SYMBOLS) $(SND_ELF) $(LD_SCRIPT) $(SND_OBJDIR) $(SND_SYMS) $(SND_STUBS) 0x8003A444 0x8004239C
 	else
 		echo "  (no $(SND_ELF) — sound region stays asm stubs; run tools/psyq_build_libs.sh LIBSPU LIBSND + tools/make_snd_used.py)"
 	fi
 	if [ -d "$(APICARD_ELF)" ]; then
-		$(PYTHON) tools/psyq_integrate.py $(APICARD_ELF) $(LD_SCRIPT) $(APICARD_OBJDIR) $(APICARD_SYMS) $(APICARD_STUBS) 0x80061F38 0x80062888
+		$(PYTHON) tools/psyq_integrate.py --vram-base $(main_VRAM_BASE) --exe $(main_EXE) --symbols $(main_SYMBOLS) $(APICARD_ELF) $(LD_SCRIPT) $(APICARD_OBJDIR) $(APICARD_SYMS) $(APICARD_STUBS) 0x80061F38 0x80062888
 	else
 		echo "  (no $(APICARD_ELF) — apicard region stays asm stubs; run tools/psyq_build_libs.sh LIBAPI LIBCARD + tools/make_apicard_used.py)"
 	fi

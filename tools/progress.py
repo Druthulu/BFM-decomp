@@ -9,15 +9,29 @@ Usage:
   tools/progress.py            # print summary + write docs/progress.md
   tools/progress.py --audit    # also verify every empty no-op's asm is exactly {jr,nop}
   tools/progress.py --check     # also hash build/us/SLUS_007.26 vs config/check.us.sha
+  tools/progress.py --binary <alias>   # report a non-default binary (default: main = the EXE)
 """
 import re, sys, hashlib, pathlib
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-SRCS = sorted((ROOT / "src").glob("*.c"))     # every c-segment (src/boot.c, src/800.c, ...)
-ASM_ROOT = ROOT / "asm" / "nonmatchings"      # per-segment subdirs (boot/, 800/, ...)
-OUT  = ROOT / "docs" / "progress.md"
-BUILD = ROOT / "build" / "us" / "SLUS_007.26"
-CHECK = ROOT / "config" / "check.us.sha"
+
+# Per-binary report config (Phase 9). `main` = the retail EXE; its paths are the originals
+# (no-op default). A second binary (Phase 10) adds an entry — its build/check + src/asm tree;
+# the overlay src/asm subtree LAYOUT is a Phase-10 decision, not invented here.
+BINARIES = {
+    "main": dict(build="build/us/SLUS_007.26", check="config/check.us.sha",
+                 src="src", asm="asm/nonmatchings", out="docs/progress.md"),
+}
+BINARY = next((sys.argv[i + 1] for i, x in enumerate(sys.argv)
+               if x == "--binary" and i + 1 < len(sys.argv)), "main")
+if BINARY not in BINARIES:
+    sys.exit(f"progress.py: unknown --binary '{BINARY}' (known: {', '.join(BINARIES)})")
+_cfg = BINARIES[BINARY]
+SRCS = sorted((ROOT / _cfg["src"]).glob("*.c"))   # every c-segment (src/boot.c, src/800.c, ...)
+ASM_ROOT = ROOT / _cfg["asm"]                      # per-segment subdirs (boot/, 800/, ...)
+OUT  = ROOT / _cfg["out"]
+BUILD = ROOT / _cfg["build"]
+CHECK = ROOT / _cfg["check"]
 MAKEFILE = ROOT / "Makefile"
 
 def linked_subsegs():
@@ -35,7 +49,9 @@ def linked_subsegs():
     # long multi-block ones) — collect `NAME := <comma,list>` defs so either form resolves.
     mvars = dict(re.findall(r'^(\w+)\s*:=\s*([A-Za-z0-9_,]+)\s*$', txt, re.M))
     segs = set()
-    for m in re.finditer(r'psyq_integrate\.py\s+\S+\s+\S+\s+\S+\s+\S+\s+(\S+)', txt):
+    # leading --flag value pairs (Phase 9: --vram-base/--exe/--symbols) precede the 4 positionals
+    # (elf_dir ld_path objdir syms_ld); the 5th positional is the stub list captured below.
+    for m in re.finditer(r'psyq_integrate\.py(?:\s+--\S+\s+\S+)*\s+\S+\s+\S+\s+\S+\s+\S+\s+(\S+)', txt):
         arg = m.group(1)
         vm = re.fullmatch(r'\$\((\w+)\)', arg)
         if vm:

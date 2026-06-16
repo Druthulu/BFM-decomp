@@ -23,7 +23,8 @@ whose pattern recurs in game code — ambiguous in the default 0x80010000..0x800
 in 0x80051804..0x80057928). Without it that object drops out of the placement map and its block
 splits, breaking the block<->stub count.
 
-Usage: psyq_integrate.py <elf_dir> <ld_path> <objdir> <syms_ld> <stub1>[,<stub2>,...] [text_lo text_hi]
+Usage: psyq_integrate.py [--vram-base HEX] [--exe PATH] [--symbols FILE]
+                         <elf_dir> <ld_path> <objdir> <syms_ld> <stub1>[,<stub2>,...] [text_lo text_hi]
 """
 import glob, os, re, subprocess, sys, tempfile
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -67,12 +68,13 @@ def trial_undefined(ld_path, extra_syms=None):
             | set(re.findall(r"[`']([^`']+)' referenced in section .*? defined in discarded section", err)))
 
 
-def integrate(elf_dir, ld_path, objdir, syms_path, stubs, lo=None, hi=None):
-    exe = open(EXE, "rb").read()
-    order = sorted(placement(elf_dir, lo, hi).items(), key=lambda kv: kv[1][0])
+def integrate(elf_dir, ld_path, objdir, syms_path, stubs, lo=None, hi=None,
+              vram_base=VRAM_BASE, exe_path=EXE, symbols_path="config/symbols.us.txt"):
+    exe = open(exe_path, "rb").read()
+    order = sorted(placement(elf_dir, lo, hi, vram_base, exe_path).items(), key=lambda kv: kv[1][0])
     recovered, weaken_by, bases_by = {}, {}, {}
     for name, (vram, _) in order:
-        bases, weaken, sym_addr = classify(os.path.join(elf_dir, name), vram, exe)
+        bases, weaken, sym_addr = classify(os.path.join(elf_dir, name), vram, exe, vram_base)
         bases_by[name], weaken_by[name] = bases, weaken
         for s, a in sym_addr.items():
             if not s.startswith("."):
@@ -138,7 +140,7 @@ def integrate(elf_dir, ld_path, objdir, syms_path, stubs, lo=None, hi=None):
     #    back to its address: func_<addr> -> the address; a named symbol -> symbols.us.txt; a
     #    recovered data/extern global (St*, CD_*) -> its recovered address.
     symu = {}
-    for ln in open("config/symbols.us.txt"):
+    for ln in open(symbols_path):
         m = re.match(r"(\w+)\s*=\s*0x([0-9A-Fa-f]+)", ln)
         if m:
             symu[m.group(1)] = int(m.group(2), 16)
@@ -170,10 +172,24 @@ def integrate(elf_dir, ld_path, objdir, syms_path, stubs, lo=None, hi=None):
 
 
 def main():
-    if len(sys.argv) not in (6, 8):
-        sys.exit(__doc__)
-    lo, hi = (sys.argv[6], sys.argv[7]) if len(sys.argv) == 8 else (None, None)
-    integrate(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5].split(","), lo, hi)
+    import argparse
+    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("elf_dir")
+    ap.add_argument("ld_path")
+    ap.add_argument("objdir")
+    ap.add_argument("syms_ld")
+    ap.add_argument("stubs")
+    ap.add_argument("window", nargs="*", help="optional scan-narrowing window: text_lo text_hi")
+    ap.add_argument("--vram-base", default=hex(VRAM_BASE),
+                    help="fileoff->vram delta of the target binary (default the EXE's; required T8)")
+    ap.add_argument("--exe", default=EXE, help="target binary path (default: the retail EXE)")
+    ap.add_argument("--symbols", default="config/symbols.us.txt",
+                    help="symbol-address file for stub-name->address resolution (default the EXE's)")
+    a = ap.parse_args()
+    lo = a.window[0] if len(a.window) > 0 else None
+    hi = a.window[1] if len(a.window) > 1 else None
+    integrate(a.elf_dir, a.ld_path, a.objdir, a.syms_ld, a.stubs.split(","), lo, hi,
+              vram_base=int(a.vram_base, 0), exe_path=a.exe, symbols_path=a.symbols)
 
 
 if __name__ == "__main__":
