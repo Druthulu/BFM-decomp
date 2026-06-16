@@ -28,6 +28,15 @@ a = ap.parse_args()
 
 STUB = 'INCLUDE_ASM("' + a.asm_subdir + '", {fn});'        # {fn} filled per function
 
+# Some drafts inline `typedef unsigned char u8;` etc. ("self-contained") -> when placed in a
+# .c that already #includes common.h, gcc-2.7.2 (C89) errors on the redefinition. Strip those
+# lines so common.h provides the types (a compile error is NOT a byte mismatch).
+_TD = re.compile(r'^[ \t]*typedef\b.*\b(u8|u16|u32|u64|s8|s16|s32|s64|f32|f64)[ \t]*;[ \t]*\n', re.M)
+
+
+def strip_typedefs(c):
+    return _TD.sub('', c)
+
 
 def sha1(path):
     return hashlib.sha1(open(path, 'rb').read()).hexdigest() if os.path.exists(path) else None
@@ -56,7 +65,7 @@ for cf in sorted(glob.glob(a.drafts + '/*.c')):
         w = open(cp).read().strip().lower().split()
         if w and w[0] in ('high', 'medium', 'low'):
             conf = w[0]
-    drafts[fn] = {'c': open(cf).read(), 'conf': conf}
+    drafts[fn] = {'c': strip_typedefs(open(cf).read()), 'conf': conf}
 
 order = {'high': 0, 'medium': 1, 'low': 2}
 items = sorted(drafts, key=lambda fn: (order[drafts[fn]['conf']], len(drafts[fn]['c'])))

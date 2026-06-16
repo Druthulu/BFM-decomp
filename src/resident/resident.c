@@ -305,7 +305,24 @@ void func_800CFBBC(void) {
     D_80114E70 = 0;
 }
 
-INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800CFBCC);
+/* func_800CFBCC — trivial two-halfword setter.
+ *   addiu v0,zero,0x1 ; sh v0,D_80114E70 ; sh a0,D_80114E74 ; jr ra
+ *
+ * D_80114E70 is the SAME global already matched as `u16` in src/resident/resident.c
+ * (func_800CFBBC sets D_80114E70 = 0). Both stores are `sh` (halfword) so the global /
+ * arg signedness does NOT change the emitted store — width is fixed at 16. Kept u16 to
+ * mirror the proven type. Stores are in source order (E70 first, E74 second), with the
+ * `1` materialised once into v0.
+ *
+ * Self-contained per drafts3 rules: NO #include; typedef inlined.
+ */
+extern u16 D_80114E70;
+extern u16 D_80114E74;
+
+void func_800CFBCC(u16 arg0) {
+    D_80114E70 = 1;
+    D_80114E74 = arg0;
+}
 
 INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800CFBE8);
 
@@ -675,7 +692,43 @@ void func_800D18DC(void) {
     local.fn[idx](&D_800AE6A8);
 }
 
-INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D1938);
+/* ANALYSIS (asm 0x4C):
+ *   s0 = arg0 (saved in func_800D1F58's delay slot)
+ *   func_800D1F58();                    // void, no args set -> a0 still holds arg0 (incidental)
+ *   func_801285D4();                    // void, nop in delay slot
+ *   v0 = (u8)field 0x14  (lbu)
+ *   a0 = arg0
+ *   field 0x15 = 0       (sb)
+ *   v0 = v0 + 1
+ *   field 0x14 = (u8)v0  (sb, in jal delay slot)
+ *   func_800D1984(arg0);
+ *   return 0;            // addu v0,zero,zero -> plain s32 0
+ *
+ * field0x14 read with lbu (u8), the +1 result stored back with sb (so the store
+ * truncates to 8 bits naturally). field0x15 is a u8 store of 0. The store order
+ * in asm is: sb 0x15 (=0), then sb 0x14 (=field+1) -- but the 0x14 store sits in
+ * the func_800D1984 delay slot. Writing field0x15=0 first then field0x14++ keeps
+ * gcc's natural schedule (the 0x14 store hoists into the call delay slot).
+ */
+
+typedef struct {
+    u8 pad[0x14];
+    u8 f14;   /* 0x14 */
+    u8 f15;   /* 0x15 */
+} S800D1938;
+
+extern void func_800D1F58(void);
+extern void func_801285D4(void);
+extern void func_800D1984(S800D1938 *arg0);
+
+s32 func_800D1938(S800D1938 *arg0) {
+    func_800D1F58();
+    func_801285D4();
+    arg0->f15 = 0;
+    arg0->f14 = arg0->f14 + 1;
+    func_800D1984(arg0);
+    return 0;
+}
 
 INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D1984);
 
