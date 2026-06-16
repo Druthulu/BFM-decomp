@@ -22,13 +22,18 @@ from collections import defaultdict
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from psyq_link import link_object  # noqa: E402
 
+# EXE-curation tool: --exe/--vram-base default to the retail EXE's values (threaded explicitly into
+# psyq_identify + link_object, which require them post-T8). RLO/RHI/EXCLUDE_ADDR are the EXE's sound
+# region + the 4 unreconcilable addresses (EXE-specific; an overlay would supply its own).
 EXE = "extracted/retail/SLUS_007.26"
+VRAM_BASE = 0x8000F800
 RLO, RHI = 0x8003A444, 0x8004239C
 EXCLUDE_ADDR = {0x8003C438, 0x8003D424, 0x8003D94C, 0x8003FA64}   # see module docstring
 
 
-def place(lib):
-    out = subprocess.check_output(["python3", "tools/psyq_identify.py", f".run/obj40/{lib}"], text=True)
+def place(lib, exe, vram_base):
+    out = subprocess.check_output(["python3", "tools/psyq_identify.py", f".run/obj40/{lib}",
+                                   "--vram-base", hex(vram_base), "--exe", exe], text=True)
     d = {}
     for ln in out.splitlines():
         m = re.match(r"\s+0x([0-9A-Fa-f]+)\s+(\S+\.o)\s+\((\d+) ins\)", ln)
@@ -38,10 +43,16 @@ def place(lib):
 
 
 def main():
-    exe = open(EXE, "rb").read()
+    import argparse
+    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--exe", default=EXE)
+    ap.add_argument("--vram-base", default=hex(VRAM_BASE))
+    args = ap.parse_args()
+    exe_path, vram_base = args.exe, int(args.vram_base, 0)
+    exe = open(exe_path, "rb").read()
     byaddr = defaultdict(list)
     for lib in ("libspu", "libsnd"):
-        for nm, a in place(lib).items():
+        for nm, a in place(lib, exe_path, vram_base).items():
             byaddr[a].append((lib, nm))
 
     dst = ".run/obj40/snd_used"
@@ -53,7 +64,8 @@ def main():
             continue
         cands = byaddr[a]
         pick = next(((lib, nm) for lib, nm in cands
-                     if link_object(f".run/obj40/{lib}/{nm}", a, name=nm, exe_bytes=exe)["ok"]),
+                     if link_object(f".run/obj40/{lib}/{nm}", a, name=nm, exe_bytes=exe,
+                                    vram_base=vram_base)["ok"]),
                     cands[0])
         lib, nm = pick
         shutil.copy(f".run/obj40/{lib}/{nm}", f"{dst}/{nm}")

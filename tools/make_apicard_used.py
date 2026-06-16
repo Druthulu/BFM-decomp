@@ -11,22 +11,32 @@ from collections import defaultdict
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from psyq_link import link_object  # noqa: E402
 
+# EXE-curation tool: --exe/--vram-base default to the retail EXE's (threaded into psyq_identify +
+# link_object, which require them post-T8). RLO/RHI are the EXE's 800c2 region (EXE-specific).
 EXE = "extracted/retail/SLUS_007.26"
+VRAM_BASE = 0x8000F800
 RLO, RHI = 0x80061F38, 0x80062888
 
 
-def place(lib):
-    out = subprocess.check_output(["python3", "tools/psyq_identify.py", f".run/obj40/{lib}"], text=True)
+def place(lib, exe, vram_base):
+    out = subprocess.check_output(["python3", "tools/psyq_identify.py", f".run/obj40/{lib}",
+                                   "--vram-base", hex(vram_base), "--exe", exe], text=True)
     return {m.group(2): int(m.group(1), 16)
             for ln in out.splitlines()
             if (m := re.match(r"\s+0x([0-9A-Fa-f]+)\s+(\S+\.o)\s+\((\d+) ins\)", ln))}
 
 
 def main():
-    exe = open(EXE, "rb").read()
+    import argparse
+    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--exe", default=EXE)
+    ap.add_argument("--vram-base", default=hex(VRAM_BASE))
+    args = ap.parse_args()
+    exe_path, vram_base = args.exe, int(args.vram_base, 0)
+    exe = open(exe_path, "rb").read()
     byaddr = defaultdict(list)
     for lib in ("libapi", "libcard"):
-        for nm, a in place(lib).items():
+        for nm, a in place(lib, exe_path, vram_base).items():
             byaddr[a].append((lib, nm))
     dst = ".run/obj40/apicard_used"
     shutil.rmtree(dst, ignore_errors=True)
@@ -36,7 +46,8 @@ def main():
         if not (RLO <= a < RHI):
             continue
         lib, nm = next(((l, m) for l, m in byaddr[a]
-                        if link_object(f".run/obj40/{l}/{m}", a, name=m, exe_bytes=exe)["ok"]),
+                        if link_object(f".run/obj40/{l}/{m}", a, name=m, exe_bytes=exe,
+                                       vram_base=vram_base)["ok"]),
                        byaddr[a][0])
         shutil.copy(f".run/obj40/{lib}/{nm}", f"{dst}/{nm}")
         n += 1

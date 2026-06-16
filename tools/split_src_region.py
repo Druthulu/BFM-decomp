@@ -145,10 +145,14 @@ def inject(dstpath, movepath):
 
 
 def main():
-    if len(sys.argv) >= 5 and sys.argv[1] == "trim":
-        trim(sys.argv[2], int(sys.argv[3], 0), int(sys.argv[4], 0), sys.argv[5])
-    elif len(sys.argv) == 4 and sys.argv[1] == "inject":
-        inject(sys.argv[2], sys.argv[3])
+    global SYMS_PATH
+    args = sys.argv[1:]
+    if "--symbols" in args:                       # Phase 9: per-binary symbol file (default = the EXE's)
+        k = args.index("--symbols"); SYMS_PATH = args[k + 1]; del args[k:k + 2]
+    if len(args) >= 5 and args[0] == "trim":
+        trim(args[1], int(args[2], 0), int(args[3], 0), args[4])
+    elif len(args) == 3 and args[0] == "inject":
+        inject(args[1], args[2])
     else:
         sys.exit(__doc__)
 

@@ -28,13 +28,12 @@ import os, re, subprocess, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from psyq_link import section_table  # noqa: E402
 
-VRAM_BASE = 0x8000F800
 
-
-def placements(elf_dir, win):
+def placements(elf_dir, win, vram_base, exe):
     cmd = ["python3", "tools/psyq_identify.py", elf_dir]
     if win:
         cmd += [f"0x{win[0]:X}", f"0x{win[1]:X}"]
+    cmd += ["--vram-base", hex(vram_base), "--exe", exe]
     objs = []
     for ln in subprocess.check_output(cmd, text=True).splitlines():
         m = re.match(r"\s+0x([0-9A-Fa-f]+)\s+(\S+\.o)\s+\((\d+) ins\)", ln)
@@ -56,13 +55,23 @@ def contiguous_blocks(objs):
 
 
 def main():
-    if len(sys.argv) not in (6, 8):
-        sys.exit(__doc__)
-    elf_dir, libbase, gamebase = sys.argv[1], sys.argv[2], sys.argv[3]
-    rlo, rhi = int(sys.argv[4], 0), int(sys.argv[5], 0)
-    win = (int(sys.argv[6], 0), int(sys.argv[7], 0)) if len(sys.argv) == 8 else None
+    import argparse
+    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("elf_dir")
+    ap.add_argument("libbase")
+    ap.add_argument("gamebase")
+    ap.add_argument("region_lo")
+    ap.add_argument("region_hi")
+    ap.add_argument("window", nargs="*", help="optional placement window: win_lo win_hi")
+    ap.add_argument("--vram-base", default="0x8000F800", help="fileoff->vram delta (EXE default)")
+    ap.add_argument("--exe", default="extracted/retail/SLUS_007.26", help="target binary (EXE default)")
+    a = ap.parse_args()
+    elf_dir, libbase, gamebase = a.elf_dir, a.libbase, a.gamebase
+    rlo, rhi = int(a.region_lo, 0), int(a.region_hi, 0)
+    win = (int(a.window[0], 0), int(a.window[1], 0)) if len(a.window) >= 2 else None
+    vram_base = int(a.vram_base, 0)
 
-    objs = placements(elf_dir, win)
+    objs = placements(elf_dir, win, vram_base, a.exe)
     inreg = [o for o in objs if rlo <= o[0] < rhi]
     skipped = [o for o in objs if not (rlo <= o[0] < rhi)]
     if not inreg:
@@ -88,18 +97,18 @@ def main():
     for lo, hi, b in ranges:
         if lo > pos:
             nm = gname()
-            out.append(f"      - [0x{pos - VRAM_BASE:X}, c, {nm}]"
-                       f"  # game code (vram 0x{VRAM_BASE + (pos - VRAM_BASE):08X}-0x{lo:08X})")
+            out.append(f"      - [0x{pos - vram_base:X}, c, {nm}]"
+                       f"  # game code (vram 0x{vram_base + (pos - vram_base):08X}-0x{lo:08X})")
         li += 1
         sub = f"{libbase}{li}"
         stubs.append(sub)
         names = f"{b[0][1]}..{b[-1][1]}" if len(b) > 1 else b[0][1]
-        out.append(f"      - [0x{lo - VRAM_BASE:X}, c, {sub}]"
+        out.append(f"      - [0x{lo - vram_base:X}, c, {sub}]"
                    f"  # {libbase} block {li}: {len(b)} obj ({names}) vram 0x{lo:08X}-0x{hi:08X}")
         pos = hi
     if pos < rhi:
         nm = gname()
-        out.append(f"      - [0x{pos - VRAM_BASE:X}, c, {nm}]"
+        out.append(f"      - [0x{pos - vram_base:X}, c, {nm}]"
                    f"  # game code (vram 0x{pos:08X}-0x{rhi:08X})")
 
     print("\n".join(out))
