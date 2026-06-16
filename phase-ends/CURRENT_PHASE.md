@@ -32,7 +32,16 @@
 - [ ] **T(N+4)** — Phase 8 close: verify checkboxes (P7) → demo milestone → Drew confirms (gate 2) → PhaseEnd_Phase8.md + archive worklog (R19) + commit + Ghidra push (R20) + plain-English recap (R18) + hard stop (P8). *(Tier-1 Max)*
 
 ## Current task pointer
-**T14 — cookbook flywheel** (update §9 with Phase-8 lessons: gen_lib_subsegs + section-size boundary gotcha, combined-region for interleaved libs, scattered-`.bss` cross-object exclusion, the incremental-`.ld` clean-rebuild gotcha). Then **T15 — present the Phase 8 milestone to Drew (gate 2)**; PhaseEnd only after Drew confirms.
+**T15 — AWAITING DREW'S MILESTONE CONFIRMATION (gate 2).** All work tasks done. PhaseEnd (Tier-1) written only after Drew confirms the milestone.
+
+## ✅ MILESTONE ACHIEVED (verified 2026-06-15)
+1. `make clean && extract && build && check` → SHA1 `143dbb89…` byte-identical **with all 8 newly-linked PsyQ libraries** AND **without any SDK objects** (fresh-clone all-stubs fallback) — both green.
+2. `make report` deterministic: **REAL 52** (was 43; +9 game-code harvest) · **LINKED 959** (was 340 libcd+libgs only; +619 from 8 libs) · NON_MATCHING 7 · empties 42 · stubs 1036. **byte-identical/matchable 20.31% → 50.24%.**
+3. **0 NON_MATCHING in the default build** (the 7 are `#ifdef`-guarded) — G4 preserved.
+4. Every footprint library linked OR documented honest deferral (`docs/psyq-worklist.md`).
+5. `git status` clean (zero ROM/generated bulk staged).
+- **8 PsyQ libraries linked byte-identical:** libetc, libgpu(EXT+PRIM), libmcrd, libc2, libgte(53/58), libspu+libsnd(60/64 combined), libapi+libcard(800c2). New tooling: `gen_lib_subsegs.py`, `make_snd_used.py`, `make_apicard_used.py`; progress.py LINKED category.
+- **Documented deferrals (low-value, honest stubs):** libgpu SYS.o + sound S_R/S_GRMDT/VM_F + GS_001 (scattered-`.bss`); libgte 5 libgs-gap objs; SSGM; libapi 800c3 remnant (~22). Build byte-identical regardless.
 
 **T13 game-code harvest DONE:** 9 trivial game-code accessors matched (func_8002AEF8/AF08/AF60, func_8002D4B8/D7FC/D834, func_8002F648, func_80037358/37CC8 — getters/setters of D_* globals, byte-verified). REAL 43→52. (Gotcha found: matching changes need `make clean` rebuild — the incremental psyq_integrate `.ld` rewrite can go stale.) sig-refresh deferred (needs Ghidra stopped; difficulty.md regenerates next session).
 
