@@ -55,18 +55,42 @@ def read_seeds(path):
     return seeds
 
 
-def bootstrap_seeds(data, vram_base, lo, hi):
-    """Discover entries with no Ghidra: every in-range jal target + the region start (jal-closure,
-    the match_protos anchor model). Misses functions reached ONLY via jump tables — a documented
-    coverage gap, acceptable for the dedup scan (h_exact still collapses what IS reached)."""
-    seeds = {lo}
-    for off in range(lo - vram_base, hi - vram_base, 4):
-        word = struct.unpack_from("<I", data, off)[0]
-        ins = make_insn(word, vram_base + off)
-        if ins.isFunctionCall():
-            t = ins.getInstrIndexAsVram()
-            if lo <= t < hi:
-                seeds.add(t)
+def detect_code_end(data, vram_base, lo, hi, run=3):
+    """Find the code->data boundary as the first run of `run` consecutive INVALID instructions.
+    Overlay code decodes ~100% valid (verified: the SC01/077 code prefix is 100% valid, the data
+    tail drops to 43-95%), so the first sustained invalid run is the transition. A single invalid
+    word (a rare decode quirk) does not trip it; `run` consecutive does. Returns a vram <= hi."""
+    bad = 0
+    o = lo - vram_base
+    end_off = hi - vram_base
+    while o + 4 <= end_off:
+        if make_insn(struct.unpack_from("<I", data, o)[0], vram_base + o).isValid():
+            bad = 0
+        else:
+            bad += 1
+            if bad >= run:
+                return vram_base + o - (run - 1) * 4   # back up to the start of the invalid run
+        o += 4
+    return hi
+
+
+def bootstrap_seeds(data, vram_base, entry, hi):
+    """Discover entries with no Ghidra by LINEAR PARTITION of the contiguous code: walk from `entry`,
+    each function is [pos, func_end(pos)], the next starts right after. Stop at the first block with
+    NO return (func_end hits the hard bound) — that is the code->data transition (data has no regular
+    `jr $ra` epilogue). Overlays dispatch most code via function-pointer tables (not `jal`), so a
+    call-graph BFS finds almost nothing; linear partition recovers the whole contiguous-code prefix.
+    Coverage gap (documented): functions AFTER an embedded data island / jump table, or tail-call
+    functions ending in `j` (no `jr`), are not reached until splat boundaries land (Phase 13). For the
+    dedup scan this is conservative — every function found is real; byte-identical overlays match fully."""
+    seeds = set()
+    pos = entry
+    while pos < hi:
+        end = func_end(data, vram_base, pos, hi)
+        if end >= hi:           # no return found in [pos, hi): left the code region -> stop
+            break
+        seeds.add(pos)
+        pos = end
     return seeds
 
 
@@ -204,6 +228,10 @@ def main():
     lo = int(a.text_lo, 0) if a.text_lo else vram_base
     hi = min(int(a.text_hi, 0), img_end) if a.text_hi else img_end
     if a.bootstrap and not seeds_map:
+        # auto-bound the code region (overlays have no splat config yet): stop at the code->data
+        # transition so the data tail isn't mis-partitioned as functions.
+        if not a.text_hi:
+            hi = detect_code_end(data, vram_base, lo, hi)
         seeds_map = {s: "" for s in bootstrap_seeds(data, vram_base, lo, hi)}
 
     rows = sign_image(data, vram_base, seeds_map, lo, hi)

@@ -114,7 +114,7 @@ CC1_SMOKE_FLAGS := -quiet -O2 -G0 -mips1 -mcpu=3000 -mgas -msoft-float -fgnu-lin
 BINUTILS_WARN_MAJOR := 2
 BINUTILS_WARN_MINOR := 38
 
-.PHONY: help check-env extract build check expected clean report sig-refresh
+.PHONY: help check-env extract build check expected clean report sig-refresh sig-overlays
 
 # -----------------------------------------------------------------------------
 help:
@@ -154,6 +154,20 @@ sig-refresh:
 	fi
 	"$(GHIDRA)/support/analyzeHeadless" "$(GHIDRA_PROJ)" bfm -process $(GHIDRA_PROG) -noanalysis -readOnly \
 	  -scriptPath tools/ghidra_scripts -postScript DumpFunctionSignatures.java
+
+# sig-overlays (Phase 11): Ghidra-FREE — sign every location-overlay payload (the 134 SCxx 0.4.dec)
+# at the shared overlay vram with tools/sig_image.py, so `make report` (--cross) can find cross-overlay
+# duplicates. Each -> .run/sig.ov_<SCxx>_<nnn>.jsonl (gitignored; regenerable). Re-run when overlays
+# change; not part of `make report` (it scans whatever ov_* sigs exist, like sig-refresh).
+OVERLAY_VRAM := 0x80128158
+sig-overlays:
+	@n=0
+	for f in $$(find extracted/retail -path '*SC*.CD.dir/FILE_*.dir/0.4.dec' | sort); do
+		nm=$$(echo "$$f" | sed -E 's|.*/(SC[0-9]+)\.CD\.dir/FILE_([0-9]+)\.dir.*|ov_\1_\2|')
+		$(VENV_PY) tools/sig_image.py --image "$$f" --vram-base $(OVERLAY_VRAM) --bootstrap --name "$$nm" >/dev/null
+		n=$$((n+1))
+	done
+	echo "sig-overlays: signed $$n overlays -> .run/sig.ov_*.jsonl"
 
 # -----------------------------------------------------------------------------
 # check-env: assert every Phase-4 toolchain component. Runs ALL checks (does not

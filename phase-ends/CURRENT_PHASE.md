@@ -36,8 +36,10 @@
       scope-guard (deviation D2).** Validated on the resident: h_exact groups 6/6 == Ghidra; h_norm reproduces 7/9
       Ghidra structural groups, the 2 disagreements benign (differ only in masked address/jump fields — Ghidra's own
       ref-analysis is inconsistent there); byte-gate is the final acceptance for any h_norm candidate.
-- [ ] **T6** [xHigh] — sign 134 overlays @ `0x80128158` (deterministic loop, no fan-out); add to dup_report BINARIES;
-      regenerate `docs/duplicates.cross.md` with real cross-binary groups.
+- [x] **T6** [xHigh] — **DONE.** `make sig-overlays` signs all 134 overlays @ `0x80128158` (BFS→linear-partition +
+      `detect_code_end` validity bound; 27s). `dup_report --cross` ingests `.run/sig.ov_*.jsonl` (capped top-200 +
+      totals). `docs/duplicates.cross.md`: **h_exact 9366 cross-binary groups / 28.5 MB collapsible**, h_norm 8957 /
+      38.3 MB — top group = a 770-ins function byte-identical in **all 134** overlays. The Phase-12/13 work queue.
 - [ ] **T7** [xHigh; PhaseEnd=Max] — 4.7 sha-record + docs note; cookbook §11; SETUP/psyq-worklist/README refresh;
       regenerate reports; PhaseEnd.
 
@@ -87,3 +89,8 @@ change; 0 NON_MATCHING in default build.
   resident: h_exact 6/6 groups == Ghidra; h_norm 7/9 Ghidra structural groups, disagreements benign (masked-field
   only). Took the pre-approved scope-guard → self-consistent (deviation D2), not Ghidra-byte-exact. Next: T6 (sign
   the 134 overlays + populate the cross-report — the milestone's report half).
+- 2026-06-16: **T6 done** — MILESTONE report half PROVEN. Overlay discovery = linear partition + validity-based
+  code-end (BFS dead-ended: overlays dispatch via function-pointer tables, not jal). 134 overlays signed (27s).
+  Cross-report spans 136 binaries: **9366 h_exact cross-binary groups (28.5 MB collapsible)**, 8957 h_norm
+  (38.3 MB); top = 770-ins fn byte-identical in all 134 overlays. dedup-check green; per-binary digests stable.
+  Next: T7 (4.7 sha-record + cookbook §11 + PhaseEnd).
