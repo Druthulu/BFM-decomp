@@ -441,6 +441,18 @@ gold/HP/BP/day/hour/flags) + a **checksum**; capture the live memcard buffer fro
 field order + the checksum algorithm — and matching the tractable handler entries. `dumps/ram_savescreen.bin`
 (save screen, overlay flushed) holds the live `saveHeaderTemplate` for cross-check.
 
+**Runtime-confirmed (Phase 12 trace — live save to card slot 1):** the memcard path is
+`bu00:BASLUS-00726MUSASHI` (PsyQ device path `bu00:` = card unit 0 / slot 1, via libmcrd); the
+title-frame + a directory list of 32-byte records stage in low RAM (~`0x80004E00`). The
+**save-DATA serialization** (which game-state region is written + the checksum) was NOT isolated
+from a live before/after RAM diff — the running game churns the diff (491 changed runs; the one
+big region @`0x8007CD28` is an unrelated UI list of `"XXX,"`-tagged records, not save data), and
+BFM appears to serialize from the live game-state rather than a findable staging copy. The clean
+route to the byte-exact block is the **`.mcd` memcard file** (or a paused-state capture).
+**Deferred** as Gen3-repack territory — **not needed for the `SaveLoadRoutine` byte-match** (that
+is code-level: matched from the disassembly like any other function, when attempted; the 1139-ins
+multi-entry blob remains the documented hard-defer per the Gen1 precedent, P9).
+
 ---
 
 ## 6. Extractor implementation notes (Phase 2 pipeline)
