@@ -1,0 +1,66 @@
+#!/usr/bin/env python3
+"""Build the curated .run/obj40/snd_used dir = the combined libspu+libsnd sound region (Phase 8).
+
+libspu and libsnd are tightly interleaved in 0x8003A444..0x8004239C (the tail of the 800 subseg), so
+they are linked as ONE combined region rather than two passes. This:
+  - places both libraries' objects (psyq_identify) and merges them by vram,
+  - for an aliased address (>1 object, same masked .text) picks the object whose linked .text
+    byte-matches the EXE (psyq_link.link_object) — the real one,
+  - EXCLUDES 4 ADDRESSES that don't reconcile in the combined region (ALL candidates there stay
+    byte-identical stubs — excluding by address, not name, since the alias twin fails identically):
+      0x3C438 (S_R/S_W), 0x3D424 (S_GRMDT/FB/T) — scattered-.bss commons referenced at a minority
+        address the region's single defsym can't satisfy (cookbook §9.1, cross-object form),
+      0x3D94C (S_IH/UT_RON)                      — false placement: 0x3D94C is INSIDE libsnd SSSTART.o,
+      0x3FA64 (VM_F.o, 237 ins)                  — scattered-.bss commons (the one real value loss).
+  - copies the survivors into .run/obj40/snd_used.
+
+The build is byte-identical with OR without snd_used (stub fallback), so a fresh clone need not run
+this unless it wants the SDK objects linked. Regenerate: tools/psyq_build_libs.sh LIBSPU LIBSND first.
+"""
+import os, re, shutil, subprocess, sys
+from collections import defaultdict
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from psyq_link import link_object  # noqa: E402
+
+EXE = "extracted/retail/SLUS_007.26"
+RLO, RHI = 0x8003A444, 0x8004239C
+EXCLUDE_ADDR = {0x8003C438, 0x8003D424, 0x8003D94C, 0x8003FA64}   # see module docstring
+
+
+def place(lib):
+    out = subprocess.check_output(["python3", "tools/psyq_identify.py", f".run/obj40/{lib}"], text=True)
+    d = {}
+    for ln in out.splitlines():
+        m = re.match(r"\s+0x([0-9A-Fa-f]+)\s+(\S+\.o)\s+\((\d+) ins\)", ln)
+        if m:
+            d[m.group(2)] = int(m.group(1), 16)
+    return d
+
+
+def main():
+    exe = open(EXE, "rb").read()
+    byaddr = defaultdict(list)
+    for lib in ("libspu", "libsnd"):
+        for nm, a in place(lib).items():
+            byaddr[a].append((lib, nm))
+
+    dst = ".run/obj40/snd_used"
+    shutil.rmtree(dst, ignore_errors=True)
+    os.makedirs(dst)
+    n = 0
+    for a in sorted(byaddr):
+        if not (RLO <= a < RHI) or a in EXCLUDE_ADDR:
+            continue
+        cands = byaddr[a]
+        pick = next(((lib, nm) for lib, nm in cands
+                     if link_object(f".run/obj40/{lib}/{nm}", a, name=nm, exe_bytes=exe)["ok"]),
+                    cands[0])
+        lib, nm = pick
+        shutil.copy(f".run/obj40/{lib}/{nm}", f"{dst}/{nm}")
+        n += 1
+    print(f"snd_used: {n} objects (libspu+libsnd combined; {len(EXCLUDE_ADDR)} addresses excluded: "
+          f"{[hex(x) for x in sorted(EXCLUDE_ADDR)]})")
+
+
+if __name__ == "__main__":
+    main()

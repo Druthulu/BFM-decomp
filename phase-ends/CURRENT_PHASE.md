@@ -23,7 +23,8 @@
   - [x] **libmcrd** (2 objs / +104 fns) — clean (27 `.bss` commons all recovered); 2 non-adjacent blocks (libmcrd1/libmcrd2) splitting 800c; dual byte-gate PASS; LINKED 424→528.
   - [x] **libc2** (17 objs / +62 fns) — C stdlib, 2 blocks (16-obj main libc2_1 + STRCAT libc2_2; PRNT jtbl OK). Hit + fixed the **boundary gotcha**: SETJMP.o `.text`=0x80 (8-align pad) not 0x78 → 800c3 boundary was 8 low → +8 global shift; fixed to 0x5CE18. Lesson recorded in worklist. dual byte-gate PASS; LINKED 528→590.
   - [x] **libgte** (53/58 objs / +120 fns; 22 blocks) — reordered value-first. Built `tools/gen_lib_subsegs.py` (generates multi-block subseg lines w/ section-size boundaries) + integrate window. progress.py now resolves `$(VAR)` stub lists. 5 libgs-gap objects DEFERRED. dual byte-gate PASS; LINKED 590→710, byte-identical **37.93%**.
-  - [ ] libspu · libsnd · libcard · libapi  *(order: value-first; libcard+libapi dense/last)*
+  - [x] **libspu+libsnd COMBINED sound region** (60/70 objs / +225 fns; 9 blocks) — the two libs interleave so linked as ONE region. New `tools/make_snd_used.py` (alias dedup by byte-match + exclude-by-address). 4 addresses excluded (scattered-`.bss`/false-pos: S_R/S_GRMDT/S_IH/VM_F), SSGM deferred. All matched C preserved (trim kept 732 < 0x3A444). dual byte-gate PASS; LINKED 710→935, byte-identical **48.66%**.
+  - [ ] libcard + libapi  *(dense tiny syscall stubs in 800c2, low value; combined approach; last)*
 - [ ] **T(N+1)** — Deferred-library hard-case documentation (honest stub deferrals, structured comments, worklist notes). *(xHigh)*
 - [ ] **T(N+2)** — Game-code harvest (read cookbook+§5.4 first; sig-refresh → difficulty.md regen → cheap non-jtbl game leaves; bank, don't exhaust). *(xHigh; optional breadth)* **→ report #4**
 - [ ] **T(N+3)** — Headers (`include/psyq/*.h`) + cookbook §9 flywheel (R16) + SETUP/memory-map refresh (R21). *(xHigh)*

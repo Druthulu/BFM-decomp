@@ -73,7 +73,29 @@ segments:
       # INCLUDE_ASM (Phase-7 regression gate) — opt level only affects matched C, not stubs.
       # Boundary = func_800123F0 (vram 0x800123F0 -> file vram-0x8000F800 = 0x2BF0).
       - [0x800, c, boot]        # -O0 boot module -> src/boot.c (vram 0x80010000-0x800123F0)
-      - [0x2BF0, c, 800]        # -O2 game code   -> src/800.c  (vram 0x800123F0-0x8004239C); name "800" kept (legacy) so the matched fns + their asm/nonmatchings/800 paths don't migrate
+      - [0x2BF0, c, 800]        # -O2 game code   -> src/800.c  (vram 0x800123F0-0x8003A444); name "800" kept (legacy) so the matched fns + their asm/nonmatchings/800 paths don't migrate
+      # PsyQ libspu+libsnd COMBINED sound region (Phase 8): the two SDK sound libs are interleaved here,
+      # so they link as one 60-object region (curated by tools/make_snd_used.py; 4 addresses excluded as
+      # scattered-.bss/false-positive stubs: S_R/S_W 0x3C438, S_GRMDT* 0x3D424, S_IH/UT_RON 0x3D94C,
+      # VM_F 0x3FA64). Subsegs via gen_lib_subsegs.py; integrate window 0x3A444..0x4239C. snd1..snd9 link;
+      # sgap* = game code + the 4 excluded stubs. (libsnd SSGM.o @0x1BD80 stays a stub in 800.)
+      - [0x2AC44, c, snd1]  # snd block 1: 15 obj (S_INI.o..S_SK.o) vram 0x8003A444-0x8003C438
+      - [0x2CC38, c, sgap]  # game code (vram 0x8003C438-0x8003C498)
+      - [0x2CC98, c, snd2]  # snd block 2: 8 obj (S_STSA.o..S_SRMD.o) vram 0x8003C498-0x8003D424
+      - [0x2DC24, c, sgap_2]  # game code + excluded S_GRMDT stub (vram 0x8003D424-0x8003D434)
+      - [0x2DC34, c, snd3]  # snd block 3: 4 obj (S_GRMD.o..SSINIT.o) vram 0x8003D434-0x8003D630
+      - [0x2DE30, c, sgap_3]  # game code (vram 0x8003D630-0x8003D650)
+      - [0x2DE50, c, snd4]  # snd block 4: 3 obj (SSSATTR.o..SSCALL.o) vram 0x8003D650-0x8003DC90
+      - [0x2E490, c, sgap_4]  # game code (vram 0x8003DC90-0x8003E248)
+      - [0x2EA48, c, snd5]  # snd block 5: 1 obj (PAUSE.o) vram 0x8003E248-0x8003E2E4
+      - [0x2EAE4, c, sgap_5]  # game code (vram 0x8003E2E4-0x8003E310)
+      - [0x2EB10, c, snd6]  # snd block 6: 12 obj (MIDIREAD.o..VM_ALOC2.o) vram 0x8003E310-0x8003FA54
+      - [0x30254, c, sgap_6]  # game code + excluded VM_F stub (vram 0x8003FA54-0x8003FE18)
+      - [0x30618, c, snd7]  # snd block 7: 5 obj (S_SNV.o..VM_N2P.o) vram 0x8003FE18-0x800403A4
+      - [0x30BA4, c, sgap_7]  # game code (vram 0x800403A4-0x80040868)
+      - [0x31068, c, snd8]  # snd block 8: 1 obj (VM_NOWOF.o) vram 0x80040868-0x80040938
+      - [0x31138, c, sgap_8]  # game code (vram 0x80040938-0x800414E4)
+      - [0x31CE4, c, snd9]  # snd block 9: 11 obj (VM_VSU.o..VS_VTC.o) vram 0x800414E4-0x8004239C
       # PsyQ libetc region (Phase 8): 5 objects (VSYNC/INTR/INTR_VB/INTR_DMA/VMODE) form ONE
       # contiguous block at the tail of the old 800 subseg, ending exactly at libcd1 (0x80043088).
       # psyq_integrate swaps src/libetc.o(.text) -> build/psyq/libetc/*.o + NOLOAD data (libcd model).

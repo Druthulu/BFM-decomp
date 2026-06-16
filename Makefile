@@ -211,6 +211,14 @@ LIBGTE_OBJDIR := build/psyq/libgte
 LIBGTE_SYMS   := build/psyq/libgte_externals.ld
 LIBGTE_STUBS  := libgte1,libgte2,libgte3,libgte4,libgte5,libgte6,libgte7,libgte8,libgte9,libgte10,libgte11,libgte12,libgte13,libgte14,libgte15,libgte16,libgte17,libgte18,libgte19,libgte20,libgte21,libgte22
 
+# Combined libspu+libsnd sound region (Phase 8): the two SDK sound libs interleave in 0x3A444..0x4239C
+# so they link as one 60-object region (snd1..snd9). Curated dir .run/obj40/snd_used built by
+# tools/make_snd_used.py (4 addresses excluded as scattered-.bss/false-positive stubs). Window arg below.
+SND_ELF    := .run/obj40/snd_used
+SND_OBJDIR := build/psyq/snd
+SND_SYMS   := build/psyq/snd_externals.ld
+SND_STUBS  := snd1,snd2,snd3,snd4,snd5,snd6,snd7,snd8,snd9
+
 # Assembler flags (docs/SETUP.md §6.2). -G0 is confirmed by the disassembly
 # (ledger #8: zero $gp-relative addressing). -no-pad-sections keeps section ends
 # un-padded so the link reproduces the original layout.
@@ -316,7 +324,12 @@ $(OUT): $(OBJS) $(LD_SCRIPT)
 	else
 		echo "  (no $(LIBGTE_ELF) — libgte region stays asm stubs; run tools/psyq_build_libs.sh LIBGTE)"
 	fi
-	SYMS=""; [ -f "$(LIBCD_SYMS)" ] && SYMS="-T $(LIBCD_SYMS)"; [ -f "$(LIBGS_SYMS)" ] && SYMS="$$SYMS -T $(LIBGS_SYMS)"; [ -f "$(LIBETC_SYMS)" ] && SYMS="$$SYMS -T $(LIBETC_SYMS)"; [ -f "$(LIBGPU_SYMS)" ] && SYMS="$$SYMS -T $(LIBGPU_SYMS)"; [ -f "$(LIBMCRD_SYMS)" ] && SYMS="$$SYMS -T $(LIBMCRD_SYMS)"; [ -f "$(LIBC2_SYMS)" ] && SYMS="$$SYMS -T $(LIBC2_SYMS)"; [ -f "$(LIBGTE_SYMS)" ] && SYMS="$$SYMS -T $(LIBGTE_SYMS)"
+	if [ -d "$(SND_ELF)" ]; then
+		$(PYTHON) tools/psyq_integrate.py $(SND_ELF) $(LD_SCRIPT) $(SND_OBJDIR) $(SND_SYMS) $(SND_STUBS) 0x8003A444 0x8004239C
+	else
+		echo "  (no $(SND_ELF) — sound region stays asm stubs; run tools/psyq_build_libs.sh LIBSPU LIBSND + tools/make_snd_used.py)"
+	fi
+	SYMS=""; [ -f "$(LIBCD_SYMS)" ] && SYMS="-T $(LIBCD_SYMS)"; [ -f "$(LIBGS_SYMS)" ] && SYMS="$$SYMS -T $(LIBGS_SYMS)"; [ -f "$(LIBETC_SYMS)" ] && SYMS="$$SYMS -T $(LIBETC_SYMS)"; [ -f "$(LIBGPU_SYMS)" ] && SYMS="$$SYMS -T $(LIBGPU_SYMS)"; [ -f "$(LIBMCRD_SYMS)" ] && SYMS="$$SYMS -T $(LIBMCRD_SYMS)"; [ -f "$(LIBC2_SYMS)" ] && SYMS="$$SYMS -T $(LIBC2_SYMS)"; [ -f "$(LIBGTE_SYMS)" ] && SYMS="$$SYMS -T $(LIBGTE_SYMS)"; [ -f "$(SND_SYMS)" ] && SYMS="$$SYMS -T $(SND_SYMS)"
 	echo "  LD      $(ELF)"
 	$(LD) -T $(LD_SCRIPT) -T $(UNDEF_SYMS) -T $(UNDEF_FUNCS) $$SYMS --no-check-sections -Map $(MAPFILE) -o $(ELF)
 	echo "  OBJCOPY $@"
