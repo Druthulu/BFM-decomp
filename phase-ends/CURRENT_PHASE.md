@@ -23,7 +23,8 @@ All load @ vram 0x80128158. SC01/077 starts with CODE at offset 0x0 (no leading 
 
 ## Tasks
 - [x] **T0** — Overlay splat template (`config/splat.us.overlay.template.yaml`) + Makefile `-include config/overlays.mk` indirection. ✅ GATE: clean rebuild main `143dbb89…` + resident `8e17e02f…` BYTE-IDENTICAL (indirection proven a no-op; `overlays.mk` absent → silent `-include` → `BINARIES` unchanged).
-- [ ] **T1** — SC01/077 end-to-end. T1a scaffold · T1b all-asm byte-match (`d19c9580…`, milestone) · T1c seed boundaries + Ghidra import · T1d dedup-credit · T1e unique-remainder harvest (Ultracode §12 — prompt R26).
+- [~] **T1** — SC01/077 end-to-end. ✅ T1a scaffold (overlays.mk + splat.ov_SC01_077.yaml + check.sha + symbols + 4 Python dicts w/ sentinel) · ✅ T1b all-asm byte-match `d19c9580…` BYTE-IDENTICAL (milestone; main+resident unregressed) · ☐ T1c seed boundaries + Ghidra import · ☐ T1d dedup-credit · ☐ T1e unique-remainder harvest (Ultracode §12 — prompt R26).
+  - **Reusable finding (→ cookbook §13 + PhaseEnd):** non-word-aligned overlays (≈75% of fleet) need 3 template/Makefile additions: (1) a `[<word_floor>, bin, trailing]` carve for the final 1-3 bytes spimdisasm's data path drops; (2) a `build/assets/%.o` incbin rule (+ `--set-section-alignment .data=1`) wiring splat `bin` assets (scoped `asset_path: assets/<alias>`); (3) an objcopy end-align **trim** (shrink-only, ≤3 B) removing the splat `.ld`'s `. = ALIGN(., 4)` segment-end pad. EXE/resident are 4-aligned so untouched.
 - [ ] **T2** — Dup-pair collapse SC01/005≡006 (both `56760dbe…` from one shared source).
 - [ ] **T3** — Free-roam SC03/001 (`f8fd92f5…`); recipe scales to a large overlay.
 - [ ] **T4** — `tools/new_overlay.sh` one-command onboarding (gen `overlays.mk`; sentinel-insert 4 dicts; idempotent). GATE: onboard a fresh overlay in one command.

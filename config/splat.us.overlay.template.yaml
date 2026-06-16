@@ -38,6 +38,10 @@ options:
 
   asm_path: asm/@ALIAS@
   src_path: src/@ALIAS@
+  # asset_path scoped per-alias so a `bin` subseg (the trailing-partial-word carve, below) lands at
+  # assets/@ALIAS@/*.bin and never collides with another overlay's same-named asset. The Makefile's
+  # build/assets/%.o rule incbin's it into a linkable object.
+  asset_path: assets/@ALIAS@
   # build_path = build (NOT build/<alias>): splat writes the .ld's object paths under
   # $(build_path), and the Makefile's pattern rules build them at build/asm/** + build/src/**.
   # Only the elf/ld/output live in build/<alias>/.

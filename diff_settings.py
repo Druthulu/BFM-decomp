@@ -20,6 +20,10 @@ BINARIES = {
     "resident": dict(baseimg="expected/build/resident/resident.elf",
                      myimg="build/resident/resident.elf",
                      mapfile="build/resident/resident.map"),
+    "ov_SC01_077": dict(baseimg="expected/build/ov_SC01_077/ov_SC01_077.elf",
+                        myimg="build/ov_SC01_077/ov_SC01_077.elf",
+                        mapfile="build/ov_SC01_077/ov_SC01_077.map"),
+    # <<< overlays: tools/new_overlay.sh inserts ov_* entries above this line (Phase 13) >>>
 }
 
 

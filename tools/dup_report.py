@@ -26,6 +26,8 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 BINARIES = {
     "main": dict(sig=".run/sig.SLUS_007.26.jsonl", md="docs/duplicates.md"),
     "resident": dict(sig=".run/sig.resident.jsonl", md="docs/duplicates.resident.md"),
+    "ov_SC01_077": dict(sig=".run/sig.ov_SC01_077.jsonl", md="docs/duplicates.ov_SC01_077.md"),
+    # <<< overlays: tools/new_overlay.sh inserts ov_* entries above this line (Phase 13) >>>
 }
 CROSS_MD = "docs/duplicates.cross.md"
 

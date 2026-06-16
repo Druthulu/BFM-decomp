@@ -23,6 +23,9 @@ BINARIES = {
                  src="src", asm="asm/nonmatchings", out="docs/progress.md"),
     "resident": dict(build="build/resident/resident", check="config/check.resident.sha",
                      src="src/resident", asm="asm/resident/nonmatchings", out="docs/progress.resident.md"),
+    "ov_SC01_077": dict(build="build/ov_SC01_077/ov_SC01_077", check="config/check.ov_SC01_077.sha",
+                        src="src/ov_SC01_077", asm="asm/ov_SC01_077/nonmatchings", out="docs/progress.ov_SC01_077.md"),
+    # <<< overlays: tools/new_overlay.sh inserts ov_* entries above this line (Phase 13) >>>
 }
 BINARY = next((sys.argv[i + 1] for i, x in enumerate(sys.argv)
                if x == "--binary" and i + 1 < len(sys.argv)), "main")

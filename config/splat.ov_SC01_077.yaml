@@ -1,0 +1,59 @@
+# splat config — Brave Fencer Musashi location overlay ov_SC01_077 (SC01.CD/FILE_077/0.4.dec)
+# Phase 13 T1: the milestone overlay (load byte-proven, Phase 3 T6b). Instantiated from
+# config/splat.us.overlay.template.yaml. Flat decompressed blob @ vram 0x80128158 (the shared
+# overlay slot); code at file 0x0; data tail from 0x5E978 (end of the last sig_image function,
+# vram 0x80186AD0) to EOF 0xB29D7 (731,607 B -> end vram 0x801DAB2F). The text/data split is
+# iterated vs `make check BINARY=ov_SC01_077` (Phase-5/10 precedent). Matches the DECOMPRESSED
+# 0.4.dec (sha1 d19c9580…); LZSS repack is Gen3 (not in the verify path).
+name: ov_SC01_077
+sha1: d19c9580a02dc63ba1f0e7e0c770f3b10de35635
+options:
+  basename: ov_SC01_077
+  target_path: extracted/retail/SC01.CD.dir/FILE_077.dir/0.4.dec
+  elf_path: build/ov_SC01_077/ov_SC01_077.elf
+  base_path: ..
+  platform: psx
+  compiler: PSYQ
+
+  asm_path: asm/ov_SC01_077
+  src_path: src/ov_SC01_077
+  asset_path: assets/ov_SC01_077      # `bin` subsegs (the trailing carve) -> assets/ov_SC01_077/*.bin
+  build_path: build
+  ld_script_path: build/ov_SC01_077/ov_SC01_077.ld
+  ld_dependencies: True
+
+  undefined_syms_auto_path: build/ov_SC01_077/undefined_syms_auto.txt
+  undefined_funcs_auto_path: build/ov_SC01_077/undefined_funcs_auto.txt
+
+  find_file_boundaries: False
+
+  o_as_suffix: True
+  use_legacy_include_asm: False
+
+  section_order: [".rodata", ".text", ".data", ".bss"]
+
+  symbol_addrs_path:
+    - config/symbols.us.txt
+    - config/symbols.resident.txt
+    - config/symbols.ov_SC01_077.txt
+
+  subalign: 2
+
+  string_encoding: ASCII
+  data_string_encoding: ASCII
+  rodata_string_guesser_level: 2
+  data_string_guesser_level: 2
+
+segments:
+  - name: ov_SC01_077
+    type: code
+    start: 0x0
+    vram: 0x80128158
+    align: 4
+    subsegments:
+      - [0x0, c, ov_SC01_077]       # code: vram 0x80128158..0x80186AD0 (file 0x0..0x5E978)
+      - [0x5E978, data, tail]       # data tail (word-aligned bulk): file 0x5E978..0xB29D4
+      - [0xB29D4, bin, trailing]    # final 3 bytes (EOF 0xB29D7 not word-aligned; spimdisasm drops
+                                    # a trailing partial word and a <4-byte `data` carve emits nothing,
+                                    # so use `bin` = raw .incbin, byte-exact). Word-aligned overlays omit this.
+  - [0xB29D7]   # EOF (731,607 B) -> end vram 0x801DAB2F

@@ -29,6 +29,7 @@
 # config/splat.us.exe.yaml + config/symbols.us.txt + the EXE. The durable RE record
 # is the symbol file, not these (build scaffolding, not committed work).
 /asm/
+/assets/
 /include/include_asm.h
 /include/macro.inc
 /include/labels.inc

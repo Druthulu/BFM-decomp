@@ -366,6 +366,14 @@ ASM_SRCS := $(shell find $(ASM_DIR) -name '*.s' -not -path '$(ASM_DIR)/nonmatchi
 C_SRCS   := $(shell find $(SRC_DIR) -name '*.c' $(SRC_PRUNE) 2>/dev/null)
 OBJS     := $(ASM_SRCS:%.s=build/%.o) $(C_SRCS:%.c=build/%.o)
 
+# splat `bin` subsegs (raw byte regions — e.g. an overlay's trailing non-word-aligned bytes that
+# spimdisasm's data path drops, since it won't emit a <4-byte partial word). splat extracts them to
+# assets/<alias>/*.bin and references build/assets/<alias>/*.o in the .ld; wrap each raw .bin into a
+# linkable object (bytes verbatim in .data). Per-binary: asset_path is scoped to assets/<alias> so
+# overlays' same-named `trailing.bin` never collide; main/resident have no assets -> empty.
+ASSET_BINS := $(shell find assets/$(BINARY) -name '*.bin' 2>/dev/null)
+ASSET_OBJS := $(ASSET_BINS:assets/%.bin=build/assets/%.o)
+
 # extract: splat split -> asm/, the linker script, include/ macros, undefined_*_auto.txt.
 extract:
 	@mkdir -p $(OUT_DIR)
@@ -391,6 +399,17 @@ build/asm/%.o: asm/%.s
 	@echo "  AS      $@"
 	@$(AS) $(ASFLAGS) -o $@ $<
 
+# Wrap a splat `bin` asset (raw bytes) into a linkable object: assemble a one-line stub that
+# .incbin's the raw file into .data (format-safe — same mipsel-as as everything else, no objcopy
+# -I binary arch guessing). The .ld pulls it by path. The --set-section-alignment forces .data to
+# 1-byte align (as defaults it to 16) so ld places the 1-3 trailing bytes at the exact word-floor
+# offset and does NOT pad the image up to a 16/8-byte boundary (that added a stray byte otherwise).
+build/assets/%.o: assets/%.bin
+	@mkdir -p $(dir $@)
+	@echo "  INCBIN  $@"
+	@printf '.section .data\n.incbin "%s"\n' "$<" | $(AS) $(ASFLAGS) -o $@
+	@$(OBJCOPY) --set-section-alignment .data=1 $@
+
 # C path (Phase 6): modern cpp -> vintage cc1 -> maspsx -> modern as. Each src/*.c is
 # splat-generated INCLUDE_ASM stubs (file-scope __asm__ .include of the per-function
 # asm/nonmatchings/<seg>/<fn>.s); as we match, stubs are replaced by real C. The flags
@@ -412,7 +431,7 @@ build/src/%.o: src/%.c
 build/src/boot.o: CC1FLAGS := -quiet -O0 -G0 -mips1 -mcpu=3000 -mgas -msoft-float -fgnu-linker
 
 # link (the .ld pulls in the .o by path) + objcopy to the raw PS-X EXE image.
-$(OUT): $(OBJS) $(LD_SCRIPT)
+$(OUT): $(OBJS) $(ASSET_OBJS) $(LD_SCRIPT)
 	@set -e
 	mkdir -p $(dir $@)
 # PsyQ SDK library integrations are EXE-only (libgs/libgte/sound/apicard are
@@ -473,6 +492,13 @@ endif
 	$(LD) -T $(LD_SCRIPT) -T $(UNDEF_SYMS) -T $(UNDEF_FUNCS) $$SYMS --no-check-sections -Map $(MAPFILE) -o $(ELF)
 	echo "  OBJCOPY $@"
 	$(OBJCOPY) -O binary $(ELF) $@
+	# Trim the linker's end-of-segment 4-align pad: splat's .ld does `. = ALIGN(., 4)` after the
+	# data section, over-emitting up to 3 zero bytes when the payload size isn't 4-aligned (most
+	# overlays; the EXE + resident are 4-aligned so this never fires for them). Shrink-ONLY and
+	# capped at 3 bytes -> it can never hide a real shortfall (build < target fails the SHA) nor
+	# extend the image. The target's true byte length is the matched payload $(EXE).
+	tsz=$$(stat -c%s "$(EXE)"); osz=$$(stat -c%s "$@"); d=$$((osz - tsz))
+	if [ "$$d" -gt 0 ] && [ "$$d" -le 3 ]; then truncate -s "$$tsz" "$@"; echo "  TRIM    $@ (-$$d B linker end-align pad)"; fi
 
 # build = produce $(OUT) and verify its SHA1 (check pulls in $(OUT)).
 build: check
@@ -509,6 +535,6 @@ expected: build
 # clean: remove ALL regenerable outputs (build/ + the splat tree) so a config change
 # is followed by a stale-free `make clean && make extract && make build` (H3).
 clean:
-	@rm -rf build expected asm undefined_syms_auto.txt undefined_funcs_auto.txt
+	@rm -rf build expected asm assets undefined_syms_auto.txt undefined_funcs_auto.txt
 	@rm -f include/include_asm.h include/macro.inc include/labels.inc include/gte_macros.inc
-	@echo "clean: removed build/, expected/, and the regenerated splat tree (asm/, include macros, undefined_*_auto.txt)."
+	@echo "clean: removed build/, expected/, and the regenerated splat tree (asm/, assets/, include macros, undefined_*_auto.txt)."

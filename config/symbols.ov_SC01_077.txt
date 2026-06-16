@@ -1,0 +1,6 @@
+// config/symbols.ov_SC01_077.txt — overlay SC01/FILE_077 local symbols (Phase 13)
+// R13/R15: overlay-REGION ONLY (vram 0x80128158..0x801DAB2F); NEVER merged into
+// config/symbols.us.txt. Seeded in T1c from sig_image (.run/sig.ov_SC01_077.jsonl) +
+// docs/duplicates.cross.md to fix conservative splat carves (jump-table-in-rodata, §8/§11)
+// and attach stable names. The all-asm byte-match (T1b) does not depend on this file.
+// count=0
