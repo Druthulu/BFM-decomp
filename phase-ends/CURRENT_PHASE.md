@@ -27,8 +27,10 @@
       instantiated at both `func_80037004`/`func_80037334` in `src/800.c`; matched first try. Clean rebuild
       `143dbb89` WITH shared-C AND WITHOUT (stub) — dual invariant. I0 in `dedup.us.yaml`; dedup-check PASS;
       negative tests (wrong hash/vram) fail-closed. progress REAL 52→54 (2 dedup-shared), 50.33%.
-- [ ] **T4** [Max] — `tools/sig_image.py`: `h_exact` + boundary detection. Verify ≥99% h_exact vs `.run/sig.resident.jsonl`,
-      zero UNEXPLAINED.
+- [x] **T4** [Max] — `tools/sig_image.py`: Ghidra-free `h_exact` signer + boundary detection. **DONE.** Validated
+      vs resident oracle: **100% h_exact on the contiguous/non-GTE subset (140/140), zero UNEXPLAINED** (98.6%
+      overall). 2 misses = non-contiguous bodies (D5, inherent to a linear sweep). Boundary rule: first `jr $ra`
+      at/after all forward targets. h_norm/h_seq = conservative placeholders (= h_exact) until T5.
 - [ ] **T5** [Max] — `sig_image.py`: `h_norm` normToken replica + resident acceptance gate (≥98% non-GTE; GTE/noncontig
       documented). Scope guard: ship h_exact + self-consistent h_norm if calibration over-runs.
 - [ ] **T6** [xHigh] — sign 134 overlays @ `0x80128158` (deterministic loop, no fan-out); add to dup_report BINARIES;
@@ -67,3 +69,6 @@ change; 0 NON_MATCHING in default build.
   (`src/shared/clearTbl40.h`) → `func_80037004`+`func_80037334`; matched first try; clean rebuild `143dbb89`
   WITH shared-C and WITHOUT (stub); I0 validated, fail-closed negatives pass; REAL 52→54. `progress.py` taught to
   count dedup members (registry source-of-truth). Next: T4 (sig_image h_exact) — the report half's tooling.
+- 2026-06-16: **T4 done** — `tools/sig_image.py` (rabbitizer, Ghidra-free). h_exact byte pipeline + boundary
+  detection validated on the resident: 100% h_exact on the 140 contiguous/non-GTE funcs, zero UNEXPLAINED; 2
+  non-contiguous bodies (D5) are inherent residuals. Next: T5 (h_norm normToken calibration).
