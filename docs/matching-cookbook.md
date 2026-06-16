@@ -437,6 +437,40 @@ block stub per contiguous run, and a plain asm stub per non-library gap (gaps ke
   carve from §9.4 already cover it) and **byte-identical WITH or WITHOUT** the SDK objects (stub
   fallback, fresh-clone-safe). The unified call cleanly supersedes the §9.4 block-6-only integration.
 
+### §9.6 Scaling library linking to the whole EXE (Phase 8 — 8 libs linked, 20%→50% byte-identical)
+Phase 8 linked the remaining footprint libraries (libetc/libgpu/libmcrd/libc2/libgte/libspu/libsnd/libapi/
+libcard). New patterns + tools that make a fragmented, multi-library EXE tractable:
+- **Survey first (`psyq_identify` over every built `.run/obj40/*`).** Produces the byte-confirmed footprint
+  map (`docs/psyq-worklist.md`): which libs place, how many blocks, regions, aliases. 3 libs (libmath/libc/
+  libsn) place 0 objects — BFM links libc2 not libc. Replaces guesswork (R14).
+- **`tools/gen_lib_subsegs.py` automates the multi-block resegment.** A library scatters across a game-code
+  region in many contiguous blocks (libgte = 22, libsnd/libspu combined = 9). The tool places the objects,
+  groups blocks, and emits the splat subseg lines (`libN` blocks + game-code gap frags) + the integrate stub
+  list. **Boundary gotcha (was a real bug):** a block's end = the last object's **`.text` SECTION size**
+  (`readelf`, 8-aligned), NOT `psyq_identify`'s instruction count × 4 — the count omits trailing align pad
+  (libc2 SETJMP.o: 30 ins = 0x78, but `.text` = 0x80). A too-low boundary overlaps the object's padded tail
+  and the relink inserts +N padding, shifting the WHOLE downstream image (pervasive 1-byte reloc diffs + a
+  grown file). The tool bakes the section-size rule in.
+- **Pass the stub list via a make var** (`LIBGTE_STUBS := libgte1,…`) for the long ones; `progress.py`'s
+  `linked_subsegs()` resolves `$(VAR)` from the Makefile's `:=` defs so LINKED still counts them.
+- **Interleaved libraries → ONE combined region.** libspu+libsnd interleave object-by-object in 0x3A444..
+  0x4239C, so two independent passes tangle (each lib's objects span the other's gaps). Instead build a
+  combined curated dir (`tools/make_snd_used.py`): merge both libs' objects by vram, and for an aliased
+  address (>1 object, same masked `.text`) pick the one whose linked `.text` **byte-matches** the EXE
+  (`psyq_link.link_object`). libapi+libcard share the same trick (`make_apicard_used.py`, C112 dedup).
+- **Scattered-`.bss` exclusion = the GS_001 class, now also cross-object.** An object whose `.bss` commons
+  the original linker scattered (referenced as `.bss`+offset via one section symbol, but resolving to >1 base
+  in the EXE) can't be reproduced by a single NOLOAD base → EXCLUDE it (stays a byte-identical stub). Detect:
+  `psyq_link_region` shows N words differ in that object and `conflicts>0`. Exclude **by address** (the alias
+  twin fails identically). Cases: libgpu SYS.o, sound S_R/S_GRMDT/VM_F; plus a false placement (S_IH @0x3D94C
+  is inside libsnd SSSTART.o). Excluding a few objects banks the other 60.
+- **CLEAN-REBUILD gotcha (verification).** `psyq_integrate` rewrites the `.ld` in place; after a *src* change
+  an **incremental** `make build` can re-run integrate on an already-rewritten `.ld` and transiently
+  mis-resolve a sibling library's externals (a harvest falsely diffed in libmcrd). The canonical verify is
+  always `make clean && make extract && make build` — never trust an incremental build for a byte check.
+- **Honest metric:** linked objects stay INCLUDE_ASM stubs in their `.c` (the fresh-clone fallback), so
+  `progress.py` counts them in a distinct **LINKED** bucket (not REAL, not stub). REAL = hand-written C only.
+
 ---
 
 ## §10 Closing the regalloc/scheduling hard tail by hand (LZSS, Phase 7 session F — the full close)

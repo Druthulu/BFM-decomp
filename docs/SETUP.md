@@ -565,6 +565,9 @@ Every script under `tools/` (plus the two report make-targets), grouped by purpo
 | | `tools/psyq_link_region.py` | Link a specific address region from PsyQ libs. |
 | | `tools/psyq_integrate.py` | Integrate linked PsyQ results back into the source tree. |
 | | `tools/make_libgs.sh` | Build/link the `libgs` block (cookbook §9). |
+| | `tools/gen_lib_subsegs.py` | **(Phase 8)** Generate splat subseg lines + integrate stub list for a multi-block library (section-size-correct boundaries; cookbook §9.6). |
+| | `tools/make_snd_used.py` | **(Phase 8)** Build the combined libspu+libsnd curated dir (alias dedup by byte-match, scattered-`.bss` exclusions; §9.6). |
+| | `tools/make_apicard_used.py` | **(Phase 8)** Build the combined libapi+libcard curated dir (§9.6). |
 | | `tools/ld_interleave.py` | Interleave linker inputs to match original section ordering. |
 | | `tools/split_src_region.py` | Split a `src/` region file at object boundaries. |
 | **Reports** | `tools/progress.py` | Decomp progress report (`make report`). |
