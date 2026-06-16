@@ -30,7 +30,14 @@ MASPSX      := tools/maspsx/maspsx.py
 # .run/sig.<bin>.jsonl) is documented now but first INSTANTIATED by Phase 10's second
 # binary. Select with `make build BINARY=<alias>`; defaults to the EXE.
 # -----------------------------------------------------------------------------
-BINARIES := main resident
+# Overlay binaries (Phase 13): each location overlay is registered as an alias in the
+# GENERATED config/overlays.mk (it defines OVERLAY_BINARIES + the per-<ov> var blocks),
+# kept out of this hand-maintained file so tools/new_overlay.sh never edits the Makefile
+# body. The `-include` is silent when absent (fresh clone / no overlays onboarded yet) ->
+# OVERLAY_BINARIES expands empty -> BINARIES stays `main resident` and every byte-locked
+# build is unchanged. Must precede the `:=` BINARIES line (simply-expanded -> read now).
+-include config/overlays.mk
+BINARIES := main resident $(OVERLAY_BINARIES)
 BINARY   ?= main
 $(if $(filter $(BINARY),$(BINARIES)),,$(error BINARY='$(BINARY)' not in BINARIES='$(BINARIES)'))
 
