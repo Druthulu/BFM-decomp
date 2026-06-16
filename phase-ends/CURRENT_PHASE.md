@@ -32,7 +32,9 @@
 - [ ] **T(N+4)** — Phase 8 close: verify checkboxes (P7) → demo milestone → Drew confirms (gate 2) → PhaseEnd_Phase8.md + archive worklog (R19) + commit + Ghidra push (R20) + plain-English recap (R18) + hard stop (P8). *(Tier-1 Max)*
 
 ## Current task pointer
-**T13 — game-code harvest** (library ceiling reached at 49.81% byte-identical). `make sig-refresh` → regen difficulty.md → harvest a modest bank of genuine game-code non-jtbl leaves (read cookbook+§5.4 first). Then T14 (cookbook flywheel) → T15 (Phase 8 close gate). T12 deferrals already documented in worklist.
+**T14 — cookbook flywheel** (update §9 with Phase-8 lessons: gen_lib_subsegs + section-size boundary gotcha, combined-region for interleaved libs, scattered-`.bss` cross-object exclusion, the incremental-`.ld` clean-rebuild gotcha). Then **T15 — present the Phase 8 milestone to Drew (gate 2)**; PhaseEnd only after Drew confirms.
+
+**T13 game-code harvest DONE:** 9 trivial game-code accessors matched (func_8002AEF8/AF08/AF60, func_8002D4B8/D7FC/D834, func_8002F648, func_80037358/37CC8 — getters/setters of D_* globals, byte-verified). REAL 43→52. (Gotcha found: matching changes need `make clean` rebuild — the incremental psyq_integrate `.ld` rewrite can go stale.) sig-refresh deferred (needs Ghidra stopped; difficulty.md regenerates next session).
 
 ## Progress log
 - **2026-06-15 (session A, planning):** Read PROJECT_CONTEXT + all PhaseEnds + effort-map + gen2-roadmap. Byte-grounded the Phase-8 scope (R14): harvest is ~90% library objects; progress.py counts linked libs as stubs; machinery ready (20 `.LIB`s, 14 `.a`, 14 built `.run/obj40/*` dirs). Two owner decisions taken (LINKED category; full ceiling). Plan approved (gate 1). **T0 done** — this file written.
