@@ -23,13 +23,19 @@ wiring (2'.3) links them together so those resolve internally and only true exte
 DMACallback, hardware) need --defsym.
 
 Usage:
-    psyq_link.py <obj.o> <text_vram> [--name NAME] [--quiet]
+    psyq_link.py <obj.o> <text_vram> [--vram-base HEX] [--exe PATH] [--name NAME] [--quiet]
     -> prints PASS/FAIL + recovered externals; exit 0 on byte-identical .text.
 
-Importable: link_object(obj, text_vram) -> dict(result).
+Importable: link_object(obj, text_vram, *, vram_base, exe_path|exe_bytes) -> dict(result).
 """
 import struct, subprocess, sys, os, re, tempfile
 
+# TRANSITIONAL DEFAULTS (Phase 9): EXE + VRAM_BASE are the EXE's values, kept ONLY as
+# argparse/param defaults so the link pipeline stays byte-identical while each tool is
+# parameterized one commit at a time. REMOVED in T8 (the no-EXE-default end state) — by
+# then every caller passes --exe/--vram-base explicitly. VRAM_BASE = the fileoff->vram
+# delta (EXE text loads file 0x800 -> vram 0x80010000, so 0x80010000-0x800=0x8000F800);
+# NOT a universal PS1 constant (overlays differ). AS is genuinely universal (the prefix).
 EXE = "extracted/retail/SLUS_007.26"
 VRAM_BASE = 0x8000F800
 AS = "mipsel-linux-gnu-"
@@ -131,7 +137,7 @@ def symbol_table(obj):
     return syms
 
 
-def recover_sym_addrs(obj, text_vram, exe):
+def recover_sym_addrs(obj, text_vram, exe, vram_base=VRAM_BASE):
     """Resolved EXE address of every symbol referenced by a .text relocation.
 
     Works for section symbols (name == '.data' etc.) and named data/bss/extern
@@ -144,7 +150,7 @@ def recover_sym_addrs(obj, text_vram, exe):
         if typ == "R_MIPS_26":
             if sym not in addr:
                 site = text_vram + off
-                exew = u32(exe, site - VRAM_BASE)
+                exew = u32(exe, site - vram_base)
                 objw = u32(text, off)
                 A = (objw & 0x03FFFFFF) << 2
                 addr[sym] = ((((exew & 0x03FFFFFF) << 2) | (site & 0xF0000000)) - A) & 0xFFFFFFFF
@@ -155,8 +161,8 @@ def recover_sym_addrs(obj, text_vram, exe):
             if his:
                 hi_off = his[-1]
                 if sym not in addr:
-                    ehi = u32(exe, text_vram + hi_off - VRAM_BASE) & 0xFFFF
-                    elo = u32(exe, text_vram + off - VRAM_BASE) & 0xFFFF
+                    ehi = u32(exe, text_vram + hi_off - vram_base) & 0xFFFF
+                    elo = u32(exe, text_vram + off - vram_base) & 0xFFFF
                     ohi = u32(text, hi_off) & 0xFFFF
                     olo = u32(text, off) & 0xFFFF
                     addr[sym] = (((ehi << 16) + s16(elo)) - ((ohi << 16) + s16(olo))) & 0xFFFFFFFF
@@ -164,7 +170,7 @@ def recover_sym_addrs(obj, text_vram, exe):
     return addr
 
 
-def unique_byte_vram(obj, sec, exe):
+def unique_byte_vram(obj, sec, exe, vram_base=VRAM_BASE):
     raw = only_section(obj, sec)
     if not raw:
         return None
@@ -173,14 +179,14 @@ def unique_byte_vram(obj, sec, exe):
         j = exe.find(raw, start)
         if j < 0:
             break
-        hits.append(j + VRAM_BASE)
+        hits.append(j + vram_base)
         start = j + 1
         if len(hits) > 1:
             return None  # ambiguous
     return hits[0] if hits else None
 
 
-def link_object(obj, text_vram, name=None, exe_bytes=None):
+def link_object(obj, text_vram, name=None, exe_bytes=None, vram_base=VRAM_BASE, exe_path=EXE):
     """Place .text at its EXE vram, --defsym every external it references, byte-verify.
 
     The robust model (validated against the psyq-obj-parser .bss-mislabelling: it packs
@@ -195,13 +201,13 @@ def link_object(obj, text_vram, name=None, exe_bytes=None):
     whole-library build wiring (2'.3) — but they do not gate the .text verification.
     """
     name = name or os.path.basename(obj)
-    exe = exe_bytes if exe_bytes is not None else open(EXE, "rb").read()
+    exe = exe_bytes if exe_bytes is not None else open(exe_path, "rb").read()
     secs = section_table(obj)
     tsize = secs.get(".text", (0, 0))[0]
     res = {"name": name, "text_vram": text_vram, "tsize": tsize}
 
     symtab = symbol_table(obj)
-    sym_addr = recover_sym_addrs(obj, text_vram, exe)
+    sym_addr = recover_sym_addrs(obj, text_vram, exe, vram_base)
 
     def sym_section(s):
         if s in secs:        # section symbol (.data/.rdata/.bss/…)
@@ -213,7 +219,7 @@ def link_object(obj, text_vram, name=None, exe_bytes=None):
     for S in DATA_SECTIONS:
         if S not in secs or secs[S][0] == 0:
             continue
-        b = unique_byte_vram(obj, S, exe) if S not in (".bss", ".sbss") else None
+        b = unique_byte_vram(obj, S, exe, vram_base) if S not in (".bss", ".sbss") else None
         if b is None:
             b = sym_addr.get(S)          # set iff the object referenced the section symbol
         bases[S] = b
@@ -268,7 +274,7 @@ def link_object(obj, text_vram, name=None, exe_bytes=None):
         got = sh(f"{AS}objcopy", "-O", "binary", "--only-section", ".text",
                  os.path.join(td, "out.elf"), "/dev/stdout").stdout
 
-    want = exe[text_vram - VRAM_BASE: text_vram - VRAM_BASE + tsize]
+    want = exe[text_vram - vram_base: text_vram - vram_base + tsize]
     res["ok"] = (got == want)
     if not res["ok"]:
         diffs = [i for i in range(0, min(len(got), len(want)), 4) if got[i:i+4] != want[i:i+4]]
@@ -278,14 +284,20 @@ def link_object(obj, text_vram, name=None, exe_bytes=None):
 
 
 def main():
-    if len(sys.argv) < 3:
-        sys.exit(__doc__)
-    obj, text_vram = sys.argv[1], int(sys.argv[2], 0)
-    name = None
-    quiet = "--quiet" in sys.argv
-    if "--name" in sys.argv:
-        name = sys.argv[sys.argv.index("--name") + 1]
-    r = link_object(obj, text_vram, name)
+    import argparse
+    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("obj")
+    ap.add_argument("text_vram")
+    ap.add_argument("--vram-base", default=hex(VRAM_BASE),
+                    help="fileoff->vram delta of the target binary (default the EXE's 0x8000F800; "
+                         "becomes required once every caller passes it — Phase-9 T8)")
+    ap.add_argument("--exe", default=EXE, help="target binary path (default: the retail EXE)")
+    ap.add_argument("--name")
+    ap.add_argument("--quiet", action="store_true")
+    a = ap.parse_args()
+    text_vram = int(a.text_vram, 0)
+    r = link_object(a.obj, text_vram, a.name, vram_base=int(a.vram_base, 0), exe_path=a.exe)
+    quiet = a.quiet
     tag = "PASS" if r["ok"] else "FAIL"
     print(f"[{tag}] {r['name']:14s} .text@0x{text_vram:08X} ({r['tsize']} B) "
           f".rdata@{r['rdata_vram'] if not isinstance(r['rdata_vram'],int) else hex(r['rdata_vram'])} "
