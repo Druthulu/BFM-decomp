@@ -59,3 +59,33 @@ groups:
     members:
       - { binary: main, vram: 0x80037004, name: func_80037004 }
       - { binary: main, vram: 0x80037334, name: func_80037334 }
+
+  # D1/D2/D3 — Phase-13 CROSS-OVERLAY proof: the byte-identical duplicate pair SC01/005 ≡ SC01/006
+  # (one 0.4.dec, sha1 56760dbe) shares three trivial accessors from ONE source (src/shared/ov_setters.h),
+  # instantiated in place in both overlays' .c. Both `make check BINARY=ov_SC01_005` and `=ov_SC01_006`
+  # stay 56760dbe with the shared C (and with the INCLUDE_ASM stubs) — one match, two binaries. The
+  # generic SETTER/RETCONST macros are reusable fleet-wide (Phase 15 appends members as overlays onboard).
+  - id: D1_ov_dup_8012AD64
+    tier: h_exact
+    hash: 89004be30998a495e3d94dbec7513e3d37f47d8d
+    source: src/shared/ov_setters.h
+    func: SETTER
+    members:
+      - { binary: ov_SC01_005, vram: 0x8012AD64, name: func_8012AD64 }
+      - { binary: ov_SC01_006, vram: 0x8012AD64, name: func_8012AD64 }
+  - id: D2_ov_dup_8012BF4C
+    tier: h_exact
+    hash: b039ed440779107270b60a3b2ca44b3b097b9c87
+    source: src/shared/ov_setters.h
+    func: SETTER
+    members:
+      - { binary: ov_SC01_005, vram: 0x8012BF4C, name: func_8012BF4C }
+      - { binary: ov_SC01_006, vram: 0x8012BF4C, name: func_8012BF4C }
+  - id: D3_ov_dup_8012E27C
+    tier: h_exact
+    hash: 98ab17e54d84a098b4240053ee845921141318c1
+    source: src/shared/ov_setters.h
+    func: RETCONST
+    members:
+      - { binary: ov_SC01_005, vram: 0x8012E27C, name: func_8012E27C }
+      - { binary: ov_SC01_006, vram: 0x8012E27C, name: func_8012E27C }

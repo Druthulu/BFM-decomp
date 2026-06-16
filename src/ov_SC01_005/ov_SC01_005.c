@@ -1,4 +1,5 @@
 #include "common.h"
+#include "../shared/ov_setters.h"   /* dedup share across the SC01/005 ≡ 006 pair (cookbook §11) */
 
 INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_80128158);
 
@@ -188,7 +189,7 @@ INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_8012AD44);
 
 INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_8012AD50);
 
-INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_8012AD64);
+SETTER(func_8012AD64, 0x34, s16)   /* dedup: shared with ov_SC01_006 (src/shared/ov_setters.h) */
 
 INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_8012AD6C);
 
@@ -264,7 +265,7 @@ INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_8012BEE8);
 
 INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_8012BF10);
 
-INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_8012BF4C);
+SETTER(func_8012BF4C, 0x1C, s32)   /* dedup: shared with ov_SC01_006 (src/shared/ov_setters.h) */
 
 INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_8012BF54);
 
@@ -381,7 +382,7 @@ INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_8012E014);
 
 INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_8012E138);
 
-INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_8012E27C);
+RETCONST(func_8012E27C, 1)   /* dedup: shared with ov_SC01_006 (src/shared/ov_setters.h) */
 
 void func_8012E284(void) {
 }
