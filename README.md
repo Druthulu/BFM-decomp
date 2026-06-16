@@ -15,11 +15,11 @@ This repository contains **no game assets, no disassembly output, and no ROM-der
 **Gen1 (foundation) complete — the matching pipeline is proven end-to-end.** `make extract && make build && make check` rebuilds `SLUS_007.26` **byte-for-byte identical** (SHA1 `143dbb89…`) from C + assembly, reproducibly across many sessions.
 
 - **Compiler pinned by evidence:** `gcc-2.7.2-psx -O2 -G0 -mips1 -mcpu=3000` + `maspsx --aspsx-version=2.56 --expand-div`.
-- **43 functions hand-matched** to byte-identical machine code — including the LZSS streaming decompressor — with a decomp-permuter + matching-cookbook "flywheel" to accelerate the next.
-- **~50 PsyQ SDK objects (libcd + libgs) linked byte-identical** straight from the real PsyQ 4.0 libraries instead of re-decompiling them.
+- **52 functions hand-matched** to byte-identical machine code — including the LZSS streaming decompressor — with a decomp-permuter + matching-cookbook "flywheel" to accelerate the next.
+- **959 PsyQ SDK functions linked byte-identical** (libcd, libgs, libgte, libspu/libsnd, libgpu, libc2, libmcrd, libapi/libcard, libetc) straight from the real PsyQ 4.0 libraries instead of re-decompiling them — bringing byte-identical-from-source coverage of the EXE to **~50%**.
 - **File-loader / overlay system reverse-engineered**, with the resident engine blob + location overlays' load addresses **proven byte-identical against a live PCSX-Redux RAM dump**.
 
-Most of the EXE is still `INCLUDE_ASM` stubs (correct bytes, not yet C), and the bulk of the game lives in compressed overlays inside the `.CD` archives — **Gen2** (overlays & engine at scale) is next. Current phase and detailed progress live in `phase-ends/` (newest `PhaseEnd_*.md` = current state); methodology, rules, and the full roadmap are in `PROJECT_CONTEXT.md`; environment setup in `docs/SETUP.md`.
+About half the EXE is still `INCLUDE_ASM` stubs (correct bytes, not yet C), and the bulk of the game lives in compressed overlays inside the `.CD` archives — **Gen2** (overlays & engine at scale) is underway: the build toolchain is now **binary-agnostic** (one parameterized pipeline builds any binary, proven a byte-exact no-op on the EXE), ready to stand up the overlays. Current phase and detailed progress live in `phase-ends/` (newest `PhaseEnd_*.md` = current state); methodology, rules, and the full roadmap are in `PROJECT_CONTEXT.md`; environment setup in `docs/SETUP.md`.
 
 This project is developed primarily by Claude Code driving Ghidra through an MCP server; see `CLAUDE.md`.
 

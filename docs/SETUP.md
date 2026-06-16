@@ -489,6 +489,37 @@ non-matching C (G4). `M2CTX`/`PERMUTER` builds are already handled in `include/i
 
 ---
 
+### §6.7 Binary-agnostic toolchain (Phase 9) — `make build BINARY=<alias>`
+
+The toolchain builds any binary, not just the EXE. The Makefile holds a data-driven `BINARIES`
+list of **alias keys**; each alias has a namespaced `<alias>_*` variable set, and
+`make build [BINARY=<alias>]` selects one (default `main`). `main` = the retail EXE `SLUS_007.26`;
+**its artifact paths are preserved verbatim** (`build/us/`, `config/splat.us.exe.yaml`,
+`config/check.us.sha`, `config/symbols.us.txt`, `.run/sig.SLUS_007.26.jsonl`) so its rebuild is a
+byte-exact no-op. `make report`/`asm-differ` are binary-selectable too (see below).
+
+**Adding a second binary (Phase 10+):** append the alias to `BINARIES` and define its `<alias>_*`
+block. New binaries use the clean convention — `config/splat.<bin>.yaml`, `build/<bin>/`,
+`config/check.<bin>.sha`, `config/symbols.<bin>.txt`, `.run/sig.<bin>.jsonl` — plus per-binary
+`<bin>_VRAM_BASE` (the fileoff→vram delta; overlays are **not** `0x8000F800`-based) and
+`<bin>_TEXT_LO/HI`. The EXE-only steps (the 9 PsyQ `psyq_integrate` calls, `ld_interleave`) are
+gated under `ifeq ($(BINARY),main)`; a second binary supplies its own.
+
+**Required parameters — no EXE default an overlay could inherit** (the phase's #1-risk mitigation;
+a miss fails loud, never a silent wrong-address-later):
+- `psyq_link.py` / `psyq_identify.py` / `psyq_link_lib.py` / `psyq_link_region.py`: `--vram-base <hex> --exe <path>`
+- `psyq_integrate.py`: `--vram-base --exe --symbols <file>` (flags go BEFORE the positionals)
+- `gen_lib_subsegs.py` / `make_snd_used.py` / `make_apicard_used.py`: `--vram-base --exe` (EXE-curation tools — these CLI flags *default* to the EXE's values for convenience, but thread explicit values down to the now-required pipeline)
+- `ld_interleave.py`: `--front <obj> --tail <obj>` (the EXE's LZSS-sandwich `.data` objects)
+- `split_src_region.py`: `--symbols <file>`
+- report scripts (`progress.py` / `difficulty.py` / `dup_report.py`): `--binary <alias>` (default `main`)
+- asm-differ: select via the **`BFM_BINARY`** env var (default `main`); `diff_settings.py` maps alias → `{baseimg, myimg, mapfile}`
+
+**Proof it's a no-op:** the EXE rebuilds SHA1 `143dbb89…` through the parameterized path **with AND
+without** the SDK objects, `make report` reproduces the counts, and a deliberately wrong
+`--vram-base` (e.g. `make build main_VRAM_BASE=0x8000F804`) diverges to a non-`143dbb89` hash
+(the negative control — proves the param is load-bearing, not accepted-and-ignored).
+
 ## §7 Session-start ritual
 
 Order is load-bearing — MCP tools fail (sometimes silently) without an open program.

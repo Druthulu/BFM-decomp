@@ -473,6 +473,39 @@ libcard). New patterns + tools that make a fragmented, multi-library EXE tractab
 
 ---
 
+### §9.7 Binary-agnostic toolchain refactor (Phase 9) — the reusable pattern for Gen2
+
+Gen2 builds many binaries (resident blob, location overlays) with these same tools. The refactor
+that got there, and the technique to land it safely without ever breaking the byte-locked EXE:
+
+- **Required params, no defaults.** Every binary-specific value — `--vram-base` (the fileoff→vram
+  delta), `--exe`, `--symbols` — is a REQUIRED argparse/function parameter. No module-level
+  `EXE`/`VRAM_BASE` default an overlay could silently inherit; a miss fails loud (argparse error /
+  NameError). The roadmap's #1 risk was a hidden EXE default surfacing as a wrong overlay address
+  only at Phase 10 — required params make that impossible by construction.
+- **`--vram-base` is a single scalar** (EXE `0x8000F800` = `0x80010000 − 0x800`), sufficient for any
+  flat-loaded PS1 image. The text-scan window `[lo hi]` is a SEPARATE, orthogonal param
+  (scan-narrowing only, for short/ambiguous objects) — never conflate the two.
+- **Transitional-default technique (keeps every per-tool commit green despite in-process coupling).**
+  `psyq_integrate`/`psyq_link_region` import `recover_sym_addrs`/`VRAM_BASE` from `psyq_link`
+  IN-PROCESS, so deleting the global in one tool's commit breaks the build mid-sequence. Instead:
+  each tool first gains the param DEFAULTING to the kept EXE global (build stays byte-identical as
+  callers are updated one commit at a time); a FINAL commit removes the globals + all defaults →
+  required, once every caller passes explicitly. Refactor **leaf-first** (`psyq_link` →
+  `psyq_identify` → `psyq_link_region` → `psyq_integrate`) so a missed call site fails loud, not
+  silently on a stale global that happens to hold the EXE value.
+- **Negative control proves threading.** A pure no-op (`143dbb89…` unchanged) can pass for the wrong
+  reason (param accepted-but-ignored). Always ALSO pass a deliberately wrong `--vram-base` and
+  confirm the build/link DIVERGES (`cae22f7e…` ≠ target) — that proves the value is load-bearing.
+  Per-tool: `psyq_link.py … --vram-base 0x8000F900` must FAIL where `0x8000F800` PASSes.
+- **Makefile shape.** `BINARIES := main` (alias keys) + `main_*` vars + `$(BINARY)`-resolved aliases
+  (`OUT`/`LD_SCRIPT`/`VRAM_BASE`/…). EXE artifact paths preserved verbatim (no rename churn against
+  the oracle). EXE-only SDK-integration + `ld_interleave` blocks gated under `ifeq ($(BINARY),main)`.
+  **Lockstep gotcha:** `progress.py` parses the Makefile's `psyq_integrate` calls for the LINKED
+  subseg list, so when you add leading `--flag value` pairs to those calls, its stub-list regex must
+  consume them (`psyq_integrate\.py(?:\s+--\S+\s+\S+)*\s+\S+\s+\S+\s+\S+\s+\S+\s+(\S+)`) — land the
+  regex change in the SAME commit, gated on `make report` reproducing the LINKED count.
+
 ## §10 Closing the regalloc/scheduling hard tail by hand (LZSS, Phase 7 session F — the full close)
 `LzssDecodeSector` (0x80018730) was the last-mile case the §5a barrier set up but did not finish: with the
 cross-jump barrier the instruction COUNT was correct (122) but ~4 register-allocation / scheduling slots were

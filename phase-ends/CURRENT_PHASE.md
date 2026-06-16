@@ -32,7 +32,14 @@
 - [x] **T7** — `ld_interleave.py` [C3]: argparse `--front`/`--tail`/`ld` (EXE defaults, transitional); `extract` recipe gates the call under `ifeq ($(BINARY),main)` + passes `--front 53198.data.o --tail 6324C.data.o`. DONE: positive (extract path) ⇒ `143dbb89` (tail_data=1 from the flag); negative `--tail BOGUS.data.o` ⇒ "tail data object not found" exit=1 (threaded); restore ⇒ `143dbb89`.
 - [x] **T8** — DONE (two commits). **T8a** [C1/C2/E1/D]: make_snd_used/make_apicard_used/gen_lib_subsegs (`--vram-base`/`--exe`) + split_src_region (`--symbols`) de-defaulted, thread to pipeline; curated dirs regenerate BYTE-IDENTICAL; gen_lib_subsegs libgte=22 blocks. **T8b** [no-EXE-default end state]: removed transitional EXE/VRAM_BASE globals + all `=VRAM_BASE`/`=EXE` param defaults across psyq_link/identify/link_region/link_lib/integrate → `--vram-base`/`--exe`/`--symbols` REQUIRED. PROOF: `psyq_link.py <obj> <vram>` (no flags) ⇒ argparse "required: --vram-base, --exe" (loud); with-SDK + without-SDK builds ⇒ `143dbb89`; wrong base ⇒ `cae22f7e`; curation regen identical.
 - [x] **T9** — `diff_settings.py`: `BFM_BINARY` env-var selector + BINARIES table (asm-differ owns apply() signature; env var is the seam). main = current EXE images. DONE: apply() unit test (main→EXE paths; bogus BFM_BINARY→loud error); `make expected` baseline set; asm-differ `-o func_80018F20 --format json` ⇒ current_score=0 (MATCH).
-- [ ] **T10** — Docs (SETUP/cookbook/psyq-worklist/README; R16/R21) + `make expected` refresh + final both-ways milestone proof + negative control demonstrated/reverted. ← **CURRENT**
+- [x] **T10** — Docs: SETUP §6.7 (binary-agnostic toolchain + future-binary convention, R21), cookbook §9.7 (the reusable refactor pattern, R16), psyq-worklist recipe (flags), README status (52 REAL / 959 LINKED / 50.24% / Gen2-underway). `make expected` refreshed. **FINAL MILESTONE PROOF (all green):** (1) with-SDK ⇒ `143dbb89`; (2) report 52/959/7/50.24%; (3) without-SDK fallback ⇒ `143dbb89`; (4) negative `main_VRAM_BASE=0x8000F804` ⇒ `cae22f7e`≠target; (5) restore+expected ⇒ `143dbb89`.
+
+## 🎯 MILESTONE ACHIEVED (awaiting Drew gate-2 confirm)
+The binary-agnostic toolchain rebuilds `SLUS_007.26` byte-for-byte (`143dbb89…`) through the fully
+parameterized path **with AND without** the SDK objects; `make report` reproduces the Phase-8 counts
+exactly; every binary-specific value is a REQUIRED param (no EXE default) — proven load-bearing by the
+negative control. A pure behavior-preserving no-op; the toolchain is ready for Phase 10's resident blob.
+**Next:** Drew confirms gate 2 → PhaseEnd_Phase9 (Tier-1) → v1.9.0.
 
 ## Transitional-default technique (T2–T8) — keeps every commit green despite in-process coupling
 `psyq_integrate`/`psyq_link_region` import `VRAM_BASE` + `recover_sym_addrs`/`classify`/`placement` from
