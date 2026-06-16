@@ -98,9 +98,9 @@ GHIDRA       := $(or $(GHIDRA_INSTALL_DIR),$(HOME)/ghidra_12.1_PUBLIC)
 GHIDRA_PROJ  := $(HOME)/bfm-decomp/ghidra
 
 report:
-	$(VENV_PY) tools/progress.py --audit
-	$(VENV_PY) tools/difficulty.py
-	$(VENV_PY) tools/dup_report.py
+	$(VENV_PY) tools/progress.py --binary $(BINARY) --audit
+	$(VENV_PY) tools/difficulty.py --binary $(BINARY)
+	$(VENV_PY) tools/dup_report.py --binary $(BINARY)
 
 sig-refresh:
 	@if ss -tln 2>/dev/null | grep -qE ':8080([^0-9]|$$)'; then

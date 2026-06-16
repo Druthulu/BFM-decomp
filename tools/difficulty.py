@@ -6,15 +6,18 @@ flow, jump-table presence, and call count, then ranks easiest-first. Jump-table 
 score high (they need the deferred rodata-island workflow, Task 2'). Writes the actionable
 easy queue to docs/difficulty.md and the full CSV to .run/difficulty.csv.
 
-Usage: tools/difficulty.py [TOP]   (TOP = how many easy rows in the md digest, default 120)
+Usage: tools/difficulty.py [TOP] [--binary <alias>]   (TOP default 120; binary default main)
 """
 import re, sys, pathlib
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-SRCS = sorted((ROOT / "src").glob("*.c"))     # every c-segment (src/boot.c, src/800.c, ...)
-ASM_ROOT = ROOT / "asm" / "nonmatchings"      # per-segment subdirs (boot/, 800/, ...)
-MD   = ROOT / "docs" / "difficulty.md"
-CSV  = ROOT / ".run" / "difficulty.csv"
+
+# Per-binary config (Phase 9). main = the retail EXE (current paths = no-op default).
+# The overlay src/asm subtree LAYOUT is a Phase-10 decision (main = the originals).
+BINARIES = {
+    "main": dict(src="src", asm="asm/nonmatchings", md="docs/difficulty.md", csv=".run/difficulty.csv"),
+}
+SRCS = ASM_ROOT = MD = CSV = None    # set by main() from --binary
 
 def find_s(name):
     """Locate <name>.s in any asm/nonmatchings/<seg>/ subdir."""
@@ -65,7 +68,18 @@ def analyze(name):
                 jtbl=jtbl, leaf=(ncalls == 0), score=score)
 
 def main():
-    top = int(sys.argv[1]) if len(sys.argv) > 1 else 120
+    import argparse
+    global SRCS, ASM_ROOT, MD, CSV
+    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("top", nargs="?", type=int, default=120)
+    ap.add_argument("--binary", default="main", choices=list(BINARIES))
+    a = ap.parse_args()
+    cfg = BINARIES[a.binary]
+    SRCS = sorted((ROOT / cfg["src"]).glob("*.c"))
+    ASM_ROOT = ROOT / cfg["asm"]
+    MD = ROOT / cfg["md"]
+    CSV = ROOT / cfg["csv"]
+    top = a.top
     rows = [r for r in (analyze(n) for n in unmatched_stubs()) if r]
     rows.sort(key=lambda r: (r['score'], r['name']))
 
