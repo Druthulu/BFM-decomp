@@ -23,9 +23,10 @@
 - [x] **T2** [Max] — `config/dedup.us.yaml` schema + `tools/dedup_integrate.py` (byte-honesty VALIDATOR, fail-closed on
       hash drift) + `make report` dedup-check gate. **DONE.** Verified: --check passes on empty registry; clean rebuild
       main → `143dbb89` (no-op proven, R22). *Refinement below.*
-- [ ] **T3** [xHigh→Max] — intra-binary collapse PROOF (`func_80037004`→shared body, fill both addrs via
-      `src/shared/` macro). Verify clean rebuild `143dbb89` WITH the shared-C match AND WITHOUT (INCLUDE_ASM stub
-      fallback); dedup-check validates the registered group. ← **CURRENT TASK**
+- [x] **T3** [xHigh] — intra-binary collapse PROOF. **DONE.** `src/shared/clearTbl40.h` macro `CLEAR_TBL40`
+      instantiated at both `func_80037004`/`func_80037334` in `src/800.c`; matched first try. Clean rebuild
+      `143dbb89` WITH shared-C AND WITHOUT (stub) — dual invariant. I0 in `dedup.us.yaml`; dedup-check PASS;
+      negative tests (wrong hash/vram) fail-closed. progress REAL 52→54 (2 dedup-shared), 50.33%.
 - [ ] **T4** [Max] — `tools/sig_image.py`: `h_exact` + boundary detection. Verify ≥99% h_exact vs `.run/sig.resident.jsonl`,
       zero UNEXPLAINED.
 - [ ] **T5** [Max] — `sig_image.py`: `h_norm` normToken replica + resident acceptance gate (≥98% non-GTE; GTE/noncontig
@@ -62,3 +63,7 @@ change; 0 NON_MATCHING in default build.
   EXE↔resident cross groups = 0.
 - 2026-06-16: **T2 done** — `dedup.us.yaml` registry + `dedup_integrate.py` validator + `make report` gate; clean
   rebuild main `143dbb89` (no-op, R22). Recorded deviation D1 (source-level share). Next: T3 proof.
+- 2026-06-16: **T3 done** — machinery half of the milestone PROVEN. Shared body `CLEAR_TBL40`
+  (`src/shared/clearTbl40.h`) → `func_80037004`+`func_80037334`; matched first try; clean rebuild `143dbb89`
+  WITH shared-C and WITHOUT (stub); I0 validated, fail-closed negatives pass; REAL 52→54. `progress.py` taught to
+  count dedup members (registry source-of-truth). Next: T4 (sig_image h_exact) — the report half's tooling.

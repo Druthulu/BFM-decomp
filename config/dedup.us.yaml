@@ -46,4 +46,16 @@
 #       - { binary: ovSC01_077, vram: 0x8012XXXX, name: FUN_8012XXXX }
 # =============================================================================
 version: 1
-groups: []
+groups:
+  # I0 — Phase-11 intra-binary proof: the byte-identical pair func_80037004 / func_80037334
+  # (9-ins byte-clear loop) matched ONCE in src/shared/clearTbl40.h, instantiated at both sites
+  # in src/800.c. Clean rebuild of `main` stays 143dbb89 with the shared C and with INCLUDE_ASM
+  # stubs (both byte-identical). Proves the source-level share machinery + the byte-honesty gate.
+  - id: I0_clearTbl40
+    tier: h_exact
+    hash: a0744d60bfa18d153690d4932282d5e9c703ccdd
+    source: src/shared/clearTbl40.h
+    func: CLEAR_TBL40
+    members:
+      - { binary: main, vram: 0x80037004, name: func_80037004 }
+      - { binary: main, vram: 0x80037334, name: func_80037334 }

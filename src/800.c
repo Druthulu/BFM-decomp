@@ -1,5 +1,6 @@
 #include "common.h"
 #include "psyq/libcd.h"
+#include "shared/clearTbl40.h"  /* dedup group I0: func_80037004 / func_80037334 share one body */
 
 INCLUDE_ASM("asm/nonmatchings/800", func_800123F0);
 
@@ -2715,13 +2716,13 @@ INCLUDE_ASM("asm/nonmatchings/800", func_80036F98);
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80036FB0);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80037004);
+CLEAR_TBL40(func_80037004)  /* dedup I0: shared body (src/shared/clearTbl40.h) */
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80037028);
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80037144);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80037334);
+CLEAR_TBL40(func_80037334)  /* dedup I0: shared body (src/shared/clearTbl40.h) */
 
 extern s32 D_8007623C;
 void func_80037358(int posInt) {

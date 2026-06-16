@@ -84,16 +84,17 @@ def check(groups, binary_filter=None):
                 vram = _addr(m["vram"])
             except (KeyError, ValueError):
                 print(f"[FAIL] {gid}: bad/absent vram for {name} in {b}"); failures += 1; ok = False; continue
+            vhex = f"0x{vram:08x}"
             idx = sig_for(b)
             if idx is None:
-                print(f"[WARN] {gid}: {b} has no sig yet — cannot validate {name} @ {m.get('vram')}")
+                print(f"[WARN] {gid}: {b} has no sig yet — cannot validate {name} @ {vhex}")
                 warnings += 1; ok = False; continue
             row = idx.get(vram)
             if row is None:
-                print(f"[FAIL] {gid}: {b}:{m.get('vram')} ({name}) not found in {b} signature"); failures += 1; ok = False; continue
+                print(f"[FAIL] {gid}: {b}:{vhex} ({name}) not found in {b} signature"); failures += 1; ok = False; continue
             got = row.get(tier)
             if got != want:
-                print(f"[FAIL] {gid}: {b}:{m.get('vram')} ({name}) {tier}={got} != recorded {want} — SHARE DRIFTED")
+                print(f"[FAIL] {gid}: {b}:{vhex} ({name}) {tier}={got} != recorded {want} — SHARE DRIFTED")
                 failures += 1; ok = False
         if ok:
             validated += 1
