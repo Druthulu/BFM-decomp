@@ -43,6 +43,8 @@
 # 12.1 -> the committed .rep restores directly.) Joins the pre-public ROM-content scrub list.
 /ghidra/*.lock
 /ghidra/**/*.lock
+/ghidra/*.lock~
+/ghidra/**/*.lock~
 /ghidra/**/tmp*.ps
 
 # Toolchain downloads & caches (not source)
