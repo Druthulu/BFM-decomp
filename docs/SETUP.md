@@ -543,6 +543,26 @@ The reusable **flat-blob recipe** (every Gen2 overlay follows it):
 - Per-binary `<bin>_GHIDRA_PROG` → `make sig-refresh BINARY=<bin>`; `diff_settings.py` + the three
   report scripts gain a `<bin>` entry; `make expected` is per-binary-safe (merge-copy, no sibling clobber).
 
+### §6.8 Cross-binary dedup & code-sharing (Phase 11) — "one match unlocks many"
+Full how-to in `docs/matching-cookbook.md` §11. Command crib:
+- **`make sig-overlays`** — Ghidra-FREE sign all 134 location overlays (`SCxx 0.4.dec`) at the shared overlay
+  vram `0x80128158` via `tools/sig_image.py` → `.run/sig.ov_<SCxx>_<nnn>.jsonl` (gitignored; ~27 s). Re-run when
+  overlays change. (`make sig-refresh` still does the Ghidra-imported EXE/resident sigs.)
+- **`make report`** (gated `BINARY=main`) runs **`tools/dup_report.py --cross`** → `docs/duplicates.cross.md`:
+  cross-binary duplicate groups across main + resident + all overlay sigs, ranked by collapsible bytes (the
+  Phase-12/13 work queue), + **`tools/dedup_integrate.py --check`** (the byte-honesty gate — fail-closed if a
+  registered share's sig hash drifts).
+- **Share a matched fn across binaries**: author the body ONCE as a macro in `src/shared/<fn>.h`, instantiate at
+  each site in each binary's `.c`, register the group in **`config/dedup.us.yaml`** (`{id, tier, hash, source,
+  func, members:[{binary, vram, name}]}`). Byte-gate = per-binary `make check`. `h_exact` = risk-free; `h_norm`
+  = candidate (accept only if every claiming binary stays byte-identical). NOT an object swap — game-code fns are
+  interior to one object per binary (cookbook §11 / deviation D1).
+- `tools/sig_image.py`: `h_exact` byte-matches the Ghidra dumper (validated 100% on the resident contiguous set);
+  `h_norm` is self-consistent within the overlay fleet (not Ghidra-byte-exact — D2); overlay boundaries via linear
+  partition + `detect_code_end` (BFS fails — overlays dispatch via function-pointer tables, not `jal`).
+- **PsyQ provenance (R24)**: the resident is PsyQ **4.7** (`tools/psyq/conv47/`, sha-recorded in
+  `tools/psyq/CHECKSUMS.sha256`) — Phase 12 links its embedded SDK code from 4.7, not the EXE's 4.0 libs.
+
 ## §7 Session-start ritual
 
 Order is load-bearing — MCP tools fail (sometimes silently) without an open program.
@@ -626,10 +646,13 @@ Every script under `tools/` (plus the two report make-targets), grouped by purpo
 | | `tools/make_apicard_used.py` | **(Phase 8)** Build the combined libapi+libcard curated dir (§9.6). |
 | | `tools/ld_interleave.py` | Interleave linker inputs to match original section ordering. |
 | | `tools/split_src_region.py` | Split a `src/` region file at object boundaries. |
-| **Reports** | `tools/progress.py` | Decomp progress report (`make report`). |
+| **Reports** | `tools/progress.py` | Decomp progress report (`make report`); counts dedup-shared fns as REAL via the registry (Phase 11). |
 | | `tools/difficulty.py` | Per-function difficulty scoring. |
-| | `tools/dup_report.py` | Duplicate-function report. |
-| | `make report` / `make sig-refresh` | Convenience targets wrapping the report / signature-dump scripts. |
+| | `tools/dup_report.py` | Duplicate-function report; `--cross` (Phase 11) buckets all binaries → `docs/duplicates.cross.md`. |
+| **Cross-binary dedup** (Phase 11, cookbook §11) | `tools/sig_image.py` | **Ghidra-FREE** per-function signer for a flat image (overlay/resident); `h_exact` byte-matches the Ghidra dumper, self-consistent `h_norm`; linear-partition + `detect_code_end` boundaries. |
+| | `tools/dedup_integrate.py` | Byte-honesty validator for `config/dedup.us.yaml` code-shares (`--check`; fail-closed on sig-hash drift). |
+| | `config/dedup.us.yaml` / `src/shared/*.h` | The code-share registry + the shared bodies (one macro → N sites, byte-gated). |
+| | `make report` / `make sig-refresh` / `make sig-overlays` | Convenience targets: reports (+`--cross`) / Ghidra signature-dump / Ghidra-free sign all 134 overlays. |
 
 ---
 

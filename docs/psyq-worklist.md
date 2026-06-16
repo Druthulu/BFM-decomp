@@ -72,3 +72,9 @@ references resolve to >1 base in the EXE. Curate the library's `_used` dir to dr
 | libapi 800c3 cluster (~22 objs) | libapi | C57..L10/L02/L03 @0x5CE18.. in the 800c3 region (separate from the 800c2 apicard region) | **deferred**; ~22 4-ins BIOS syscall stubs; lowest value; another region resegmentation |
 
 *If scattered-`.bss` proves prevalent across libgte/libspu/libsnd, escalate to a Max general fix (split each object's `.bss` into per-common NOLOAD sections at their EXE-resolved addresses); otherwise excluding the few affected objects is the GS_001-precedent decision.*
+
+---
+
+## The RESIDENT's PsyQ code is **4.7**, not the EXE's 4.0 (Phase 12, R24)
+
+The map above is the **EXE** (PsyQ 4.0). The resident engine blob detects as **PsyQ 4.7.0** (DetectPsyQ + the `DsMix`/libsnd hit). Phase 12 links the resident's embedded PsyQ code (libsnd / libgte / libspu) from the **4.7** objects at `tools/psyq/conv47/` (sha-recorded in `tools/psyq/CHECKSUMS.sha256`), reusing the same `psyq_identify → psyq_link_region → psyq_integrate` pipeline pointed at the resident (Phase-9 `--vram-base`/`--exe` make it binary-agnostic). The 4.0 `.LIB`s will **not** byte-match the 4.7 objects — verify the version per binary before linking (R24).

@@ -578,3 +578,59 @@ residual is a specific compiler-internal placement rather than a randomizable C 
 express the lever in C. Here a research agent reading `reorg.c`/`jump.c`/`local-alloc.c` produced all four
 levers directly; hand-iteration with the clean `.text` metric closed it in a few compiles. Pin every such
 construct with a `LOAD-BEARING` comment naming the pass — a future reader WILL try to "simplify" them.
+
+## §11 Cross-binary dedup & code-sharing (Phase 11 — "one match unlocks many")
+
+BFM is overlay-heavy: 134 location overlays all load to the SAME vram `0x80128158` and run on the same engine,
+so they share enormous amounts of code (a 770-instruction engine fn is byte-identical in **all 134**). Match a
+shared fn ONCE, credit every binary it lives in. The pipeline (all Ghidra-free except the EXE/resident sigs):
+
+**1. Sign every binary → `.run/sig.<bin>.jsonl`.** `make sig-refresh` (Ghidra, EXE/resident) + `make
+sig-overlays` (the 134 `0.4.dec` via `tools/sig_image.py`, no Ghidra). Each fn gets `h_exact` (SHA1 of raw
+instruction bytes), `h_norm` (structural), `h_seq`, `nins`, `calls`.
+
+**2. Group across binaries → `docs/duplicates.cross.md`.** `tools/dup_report.py --cross` (run by `make report`,
+gated `BINARY=main`) buckets ALL sigs by `h_exact` then `h_norm`, splits cross-binary (members in >1 binary —
+the **Phase-12/13 work queue**) vs intra-binary, ranks by collapsible bytes `(count−1)×nins×4`, top-200 capped.
+
+**3. Register a share → `config/dedup.us.yaml`.** `group → {id, tier, hash, source, func, members:[{binary,
+vram, name}]}`. `tools/dedup_integrate.py --check` is the **byte-honesty gate** (fail-closed if a member's live
+sig hash drifts from the recorded `hash`); wired into `make report` so a stale share fails the report (P9).
+
+### The mechanism: game-code dedup is SOURCE-LEVEL, not an object swap (R-D1, the key lesson)
+`psyq_integrate`'s stub-object swap works only for separate library **subsegments**. Game-code functions are
+**interior to one compiled object per binary** (`build/src/800.o`, `build/resident/resident.o`, each overlay's
+one object) — the linker can't excise interior bytes. So you share at the SOURCE level: author the matched body
+ONCE as a macro in `src/shared/<fn>.h` and instantiate it at each member site in each binary's `.c`:
+
+```c
+// src/shared/clearTbl40.h
+#define CLEAR_TBL40(name) void name(void) { s32 i; for (i=0x40; i>=0; i-=0x10) (&D_80076251)[i]=0; }
+// src/800.c:   CLEAR_TBL40(func_80037004)   ...   CLEAR_TBL40(func_80037334)
+```
+Same bytes land at each vram. The **byte-gate is the existing per-binary `make check`** — the image is identical
+or it is not. `h_exact` shares are risk-free; `h_norm` shares are CANDIDATES, accepted only if every claiming
+binary stays byte-identical (a wrong `h_norm` group wastes a build, never poisons an image). A shared `.h` is
+skipped by the `find src -name '*.c'` OBJS glob automatically (no exclusion needed). `progress.py` counts dedup
+members as REAL via the registry (the macro form isn't a parseable function def).
+
+### `sig_image.py` (Ghidra-free signer) — notes for reuse on overlays
+- **`h_exact` is the workhorse**: SHA1 of raw bytes → format-independent → byte-matches the Ghidra dumper with
+  no normalization. Validated 100% on the resident's contiguous/non-GTE functions. Use it as the cross-tool tier.
+- **`h_norm` is self-consistent, NOT Ghidra-byte-exact** (R-D2): masks j/jal targets, lui highs, hi/lo-paired
+  address-los (a consistent lui→reg tracker); keeps registers / true constants / PC-relative branch offsets.
+  Uniform within the overlay fleet (catches different-offset structural dups); does not cross-compare with the
+  Ghidra-signed EXE/resident `h_norm` (low value — overlays *call*, don't embed, the resident). Full normToken
+  byte-match is a deferred refinement.
+- **Boundary detection**: (a) seeded (pass `--seeds <sig.jsonl>` when boundaries are known, e.g. the resident);
+  (b) `--bootstrap` for overlays = **linear partition** (split contiguous code at the first `jr $ra`(+delay)
+  that lies at/after all forward branch targets — handles early-return + double-epilogue) bounded by
+  `detect_code_end` (first run of ≥3 invalid instrs = the code→data transition; overlay code decodes ~100%
+  valid). Call-graph BFS FAILS on overlays (they dispatch via function-pointer tables, not `jal`). Residual:
+  jump-table-only fns + non-contiguous Ghidra bodies (D5) are missed — conservative, fixed when splat configs
+  land (Phase 13).
+
+### Per-binary toolchain provenance (R24)
+Verify the toolchain per binary before linking its library code: the EXE is PsyQ 4.0, the **resident is 4.7**
+(`tools/psyq/conv47/`, sha-recorded in `tools/psyq/CHECKSUMS.sha256`). Never assume one binary's SDK applies to
+another — the 4.0 libs won't byte-match the resident's 4.7 objects.
