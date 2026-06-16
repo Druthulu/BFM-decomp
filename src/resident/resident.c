@@ -69,13 +69,22 @@ INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800CF764);
 
 INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800CF7A4);
 
-INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800CF804);
+void func_800CF804(void) {
+    D_80127084 = 1;
+}
 
-INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800CF818);
+void func_800CF818(void) {
+    D_80114E78 = 1;
+}
 
-INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800CF82C);
+extern s16 D_800B9A0E;
+void func_800CF82C(void) {
+    D_800B9A0E = 1;
+}
 
-INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800CF840);
+void func_800CF840(void) {
+    D_800B9A0E = 2;
+}
 
 extern u8 D_800AE6BF;
 s32 func_800CF854(void) {
@@ -180,9 +189,15 @@ INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D128C);
 
 INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D1658);
 
-INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D1714);
+extern u16 D_80078E50;
+u16 func_800D1714(void) {
+    return D_80078E50;
+}
 
-INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D1724);
+extern s32 D_800AE6B0;
+void func_800D1724(s32 arg0) {
+    D_800AE6B0 = arg0;
+}
 
 INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D1734);
 
