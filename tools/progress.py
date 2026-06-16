@@ -21,6 +21,8 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 BINARIES = {
     "main": dict(build="build/us/SLUS_007.26", check="config/check.us.sha",
                  src="src", asm="asm/nonmatchings", out="docs/progress.md"),
+    "resident": dict(build="build/resident/resident", check="config/check.resident.sha",
+                     src="src/resident", asm="asm/resident/nonmatchings", out="docs/progress.resident.md"),
 }
 BINARY = next((sys.argv[i + 1] for i, x in enumerate(sys.argv)
                if x == "--binary" and i + 1 < len(sys.argv)), "main")
@@ -41,7 +43,14 @@ def linked_subsegs():
     its stubs are auto-counted LINKED (no separate manifest to drift). Stubs in these subsegs build
     byte-identically from the real SDK objects when present, and from the committed asm fallback
     otherwise (fresh clone) — so they are LINKED regardless of local .run/obj40 state (a property of
-    the project, not the machine)."""
+    the project, not the machine).
+
+    Scoped to the active binary: every psyq_integrate call lives inside the Makefile's
+    `ifeq ($(BINARY),main)` block (PsyQ library linking is the EXE's layout — Phase 8), so only
+    `main` has LINKED subsegs. A second binary (e.g. resident) has none. When a future binary gains
+    its own gated integration, parse that gate here instead of the main-only shortcut."""
+    if BINARY != "main":
+        return set()
     if not MAKEFILE.exists():
         return set()
     txt = MAKEFILE.read_text()

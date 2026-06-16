@@ -16,6 +16,7 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 # a second binary (Phase 10) adds its sig/md entry.
 BINARIES = {
     "main": dict(sig=".run/sig.SLUS_007.26.jsonl", md="docs/duplicates.md"),
+    "resident": dict(sig=".run/sig.resident.jsonl", md="docs/duplicates.resident.md"),
 }
 
 def main():
@@ -28,6 +29,15 @@ def main():
     cfg = BINARIES[a.binary]
     SIG = ROOT / cfg["sig"]
     MD = ROOT / cfg["md"]
+    if not SIG.exists():
+        # The signature file is a Ghidra export (`make sig-refresh`), not present until the
+        # binary's program has been analyzed + dumped. Degrade gracefully (don't crash the
+        # whole `make report`) so a freshly-added binary reports before its Ghidra pass.
+        MD.write_text(f"# Duplicate function groups ({a.binary})\n\n"
+                      f"_No signature file yet ({cfg['sig']}). Run `make sig-refresh "
+                      f"BINARY={a.binary}` after the binary's Ghidra program is analyzed._\n")
+        print(f"dup_report: {cfg['sig']} absent — wrote placeholder {cfg['md']} (run sig-refresh first)")
+        return
     raw = SIG.read_bytes()
     sig_sha = hashlib.sha1(raw).hexdigest()
     rows = [json.loads(l) for l in raw.decode().splitlines() if l.strip()]

@@ -29,10 +29,12 @@ at 100% INCLUDE_ASM, with `main` still **`143dbb89f34491258bbc27810d0a12ec8b43a8
 - [x] **T2 — Iterate split to byte-identical (THE milestone)** (xHigh) ✅ DONE — **MILESTONE REACHED**
   - Converge subseg boundaries vs SHA1; handle leading data word; confirm -G0 (grep `($gp)`); ld_interleave only if a rodata island appears.
   - Exit: clean-rebuild → `8e17e02f…`, last byte @0x80128154; main re-verified `143dbb89…`. **→ progress report to Drew.**
-- [ ] **T3 — Close per-binary tooling gaps** (xHigh) ← **CURRENT**
+- [x] **T3 — Close per-binary tooling gaps** (xHigh) ✅ DONE
   - `diff_settings.py` + `tools/progress.py` + `tools/difficulty.py` + `tools/dup_report.py` get a `resident` entry; `expected` made per-binary-safe (no sibling clobber).
   - Exit: `make report BINARY=resident` shows 100% INCLUDE_ASM; `make expected BINARY=resident` no-clobber; main report unchanged.
-- [ ] **T4 — Ghidra 2nd program + seed `config/symbols.resident.txt`** (xHigh; G2 MCP precondition)
+- [ ] **T4 — Ghidra 2nd program + seed `config/symbols.resident.txt`** (xHigh; G2 MCP precondition) ← **CURRENT**
+  - **+ also parameterize `make sig-refresh` by BINARY** (currently hardcoded `-process SLUS_007.26`;
+    resident needs `-process resident` → `.run/sig.resident.jsonl`, which unblocks dup_report's real output).
   - Import blob as 2nd program @0x800CEDF8 (MCP stopped for the lock); auto-analysis + PsyQ sigs + DetectPsyQ; light seeding; export blob-only symbols (R13/R15, never merged into symbols.us.txt).
   - Exit: rebuild still `8e17e02f…` (symbols don't change bytes); R9 persistence; R23 stop-MCP-before-commit.
 - [ ] **Phase close** — P7 checkbox sweep; gate-2 milestone confirm (Drew); PhaseEnd_Phase10.md (Tier-1 Max); archive CURRENT_PHASE.md→logs/Phase10.md (R19); R18 recap; P8 hard stop.
@@ -64,3 +66,10 @@ Per-task checkpoint commits, each byte-gated (R20 + Phase 8/9 precedent). Claude
   **`make build BINARY=resident` → `8e17e02f…` BYTE-IDENTICAL** (365,404 B, end vram 0x80128154);
   -G0 confirmed (0 gp refs); R22 clean-rebuild green; main still `143dbb89…`. src/resident/resident.c
   (143 stubs) now committed (boundaries final). asm/resident/** regenerated (gitignored, like main).
+- 2026-06-15: **T3 DONE.** `resident` entries added to diff_settings.py + progress/difficulty/dup_report.
+  Two real bugs fixed: (1) dup_report crashed on the absent `.run/sig.resident.jsonl` → now writes a
+  placeholder + exits 0 (sig is a T4 Ghidra export); (2) progress.py listed MAIN's LINKED libs for
+  resident → scoped `linked_subsegs()` to BINARY==main (library linking is the EXE's layout, Phase 8).
+  `expected` made per-binary-safe (merge-copy, no `rm -rf expected/build` sibling clobber — verified
+  both baselines coexist). Reports: resident = 0 REAL / 143 stubs / 100% INCLUDE_ASM; main UNCHANGED
+  (52 REAL / 959 LINKED / 50.24%). Carried into T4: parameterize `make sig-refresh` by BINARY.

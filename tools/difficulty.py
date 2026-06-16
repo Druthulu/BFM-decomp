@@ -16,6 +16,8 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 # The overlay src/asm subtree LAYOUT is a Phase-10 decision (main = the originals).
 BINARIES = {
     "main": dict(src="src", asm="asm/nonmatchings", md="docs/difficulty.md", csv=".run/difficulty.csv"),
+    "resident": dict(src="src/resident", asm="asm/resident/nonmatchings",
+                     md="docs/difficulty.resident.md", csv=".run/difficulty.resident.csv"),
 }
 SRCS = ASM_ROOT = MD = CSV = None    # set by main() from --binary
 

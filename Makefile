@@ -463,10 +463,15 @@ check: $(OUT)
 # baseline for Phase 6 (asm-differ diffs build/<obj> vs expected/build/<obj>).
 expected: build
 	@set -e
-	rm -rf expected/build
 	mkdir -p expected/build
+	# Per-binary-safe (Phase 10): refresh ONLY the active binary's image dir, then merge-copy
+	# build/ into the shared expected/ mirror. cp MERGES (never deletes), so `make expected
+	# BINARY=X` preserves binary Y's baseline even when Y isn't currently in build/ (the old
+	# `rm -rf expected/build` wiped every sibling). asm-differ reads expected/$(OUT) (image mode)
+	# + expected/build/<obj> (object mode); both resolve under the merged mirror.
+	rm -rf expected/$(OUT_DIR)
 	cp -r build/. expected/build/
-	echo "expected: baseline -> expected/build/ (from the verified, byte-identical build)"
+	echo "expected: baseline refreshed for binary=$(BINARY) -> expected/build/ (siblings preserved)"
 
 # clean: remove ALL regenerable outputs (build/ + the splat tree) so a config change
 # is followed by a stale-free `make clean && make extract && make build` (H3).

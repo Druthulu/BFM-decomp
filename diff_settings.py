@@ -17,6 +17,9 @@ BINARIES = {
     "main": dict(baseimg="expected/build/us/SLUS_007.26.elf",
                  myimg="build/us/SLUS_007.26.elf",
                  mapfile="build/us/SLUS_007.26.map"),
+    "resident": dict(baseimg="expected/build/resident/resident.elf",
+                     myimg="build/resident/resident.elf",
+                     mapfile="build/resident/resident.map"),
 }
 
 
