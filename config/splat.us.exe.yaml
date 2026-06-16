@@ -103,7 +103,13 @@ segments:
       - [0x440EC, c, libgs5]    # libgs block 5: GS_108/109   -> src/libgs5.c (vram 0x800538EC-0x800539C8, 2 objs)
       - [0x441C8, c, gsgap5]    # gap 304 B (non-libgs stub)  -> src/gsgap5.c (vram 0x800539C8-0x80053AF8)
       - [0x442F8, c, libgs6]    # libgs block 6 (16 objs)     -> src/libgs6.c (vram 0x80053AF8-0x80057928)
-      - [0x48128, c, 800b2]     # -O2 game code (post-libgs)  -> src/800b2.c (vram 0x80057928-0x800629DC)
+      - [0x48128, c, 800b2]     # -O2 game code (post-libgs, pre-libgpu) -> src/800b2.c (vram 0x80057928-0x80058890)
+      # PsyQ libgpu (Phase 8): EXT/PRIM linked; SYS.o EXCLUDED — scattered-.bss commons (cookbook §9.1,
+      # the GS_001 class: SYS references .bss by section+offset but the original linker scattered the
+      # commons across 0x80078xxx/0x800c5xxx, so no single NOLOAD base reproduces it). SYS stays a stub
+      # in 800c. Curated dir .run/obj40/libgpu_used = {EXT,PRIM}.
+      - [0x49090, c, libgpu]    # libgpu block -> src/libgpu.c (vram 0x80058890-0x80059234, EXT+PRIM)
+      - [0x49A34, c, 800c]      # -O2 game code (incl. excluded libgpu SYS stub) -> src/800c.c (vram 0x80059234-0x80062998)
       # Phase 7 (Task 2' / LZSS) — SURGICAL rodata carve for the LZSS switch only.
       # The rodata island (0x80072A38-0x80074750) interleaves game jtbls, game data
       # (loadDestPtrTable @0x80072C70 etc.) and library jtbls (PRESET/OBJT/PRNT @0x800737CC+),

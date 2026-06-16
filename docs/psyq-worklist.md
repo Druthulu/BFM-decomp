@@ -13,7 +13,7 @@
 
 | Order | Library | Placed / total | Region(s) | ~banked B | Difficulty notes |
 |---|---|---|---|---|---|
-| 1 | **libgpu** | 3 / 12 | 800b2 (`0x80058890`) | ~14.9k | EXT→PRIM→SYS **contiguous single block**; SYS.o=3109 ins. Cleanest. |
+| 1 | **libgpu** | 3 / 12 | 800b2 (`0x80058890`) | ~14.9k | ✅ **DONE (T4): EXT+PRIM linked** (curated `libgpu_used`). **SYS.o EXCLUDED** — scattered-`.bss` (§9.1, GS_001 class; stays a stub in 800c). |
 | 2 | **libetc** | 5 / 7 | 800 tail (`0x8004239C`) | ~3.3k | VSYNC/INTR/INTR_VB/INTR_DMA/VMODE **contiguous**, ends exactly at libcd1 (`0x80043088`). Clean. |
 | 3 | **libmcrd** | 2 / 2 | 800b2 (`0x8005FC68`,`0x80062888`) | ~9.0k | LIBMCRD.o (2186 ins, huge, holds the 55 `LIBMCRD_OBJ_*`) + USERFUNC.o — **2 blocks**. `_card_*` h_norm dups collapse inside LIBMCRD. |
 | 4 | **libc2** | 17 / 46 | 800b2 (`0x8005C2C8`–`0x5CD98` + STRCAT `0x80061E90`) | ~3.1k | C stdlib (BZERO/MEMCPY/STRCMP/PRINTF/PRNT…); contiguous run + 1 outlier. **PRNT.o (418 ins) has an internal jtbl** — verify NOLOAD `.rodata` placement (the `PRNT_OBJ_24C` rodata note). |
@@ -51,3 +51,17 @@ libgs (0x80051804–0x80057928)  DONE; gaps gsgap1/2/4/5 are actually libgte (MT
 6. **Dual byte-gate:** `make clean && extract && build && check` → `143dbb89…` WITH `.run/obj40/<lib>` present AND with it absent (stub fallback). `make report` LINKED up. Commit (R20).
 
 **Cross-cutting:** windowed placement is mandatory for the short-object / interleaved libraries (the libgs GS_106 precedent); cross-library address collisions (C112 libapi/libcard; UT_RON/S_IH; S_R/S_W) mean total distinct objects < the 199 summed placements — byte-verify decides ownership. Any object that won't link byte-identical after §9.1/§9.4 stays a documented honest stub (does not block exit, P9).
+
+## Excluded / deferred objects (§9.1 scattered-`.bss`) — honest stubs, byte-identical via asm
+The standard mechanism places each object's `.bss` as ONE NOLOAD section at a single base. An object whose
+`.bss` commons the **original linker scattered** to non-contiguous addresses (referenced as `.bss`+offset by a
+single section symbol) cannot be reproduced by one base → excluded, kept as an INCLUDE_ASM stub (still
+byte-identical). Diagnose: `psyq_link_region.py <dir>` shows N words differ in the object, and its `.bss`
+references resolve to >1 base in the EXE. Curate the library's `_used` dir to drop these.
+
+| Object | Library | Evidence | Status |
+|---|---|---|---|
+| `GS_001.o` | libgs | scattered `.bss` (Phase 7) | excluded (gsgap3 stub) |
+| `SYS.o` (3109 ins) | libgpu | `.bss`+0x150 → `0x800c551c` but base recovered `0x80078830`; commons scattered 0x80078xxx/0x800c5xxx | **excluded (T4); stub in 800c** |
+
+*If scattered-`.bss` proves prevalent across libgte/libspu/libsnd, escalate to a Max general fix (split each object's `.bss` into per-common NOLOAD sections at their EXE-resolved addresses); otherwise excluding the few affected objects is the GS_001-precedent decision.*

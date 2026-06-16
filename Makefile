@@ -182,6 +182,13 @@ LIBETC_ELF    := .run/obj40/libetc
 LIBETC_OBJDIR := build/psyq/libetc
 LIBETC_SYMS   := build/psyq/libetc_externals.ld
 
+# libgpu (Phase 8): EXT+PRIM only — SYS.o EXCLUDED (scattered-.bss, cookbook §9.1, GS_001 class; stays a
+# stub in 800c). Curated dir libgpu_used = {EXT,PRIM}; regenerate: tools/psyq_build_libs.sh LIBGPU then
+# `mkdir -p .run/obj40/libgpu_used && cp .run/obj40/libgpu/{EXT,PRIM}.o .run/obj40/libgpu_used/`.
+LIBGPU_ELF    := .run/obj40/libgpu_used
+LIBGPU_OBJDIR := build/psyq/libgpu
+LIBGPU_SYMS   := build/psyq/libgpu_externals.ld
+
 # Assembler flags (docs/SETUP.md §6.2). -G0 is confirmed by the disassembly
 # (ledger #8: zero $gp-relative addressing). -no-pad-sections keeps section ends
 # un-padded so the link reproduces the original layout.
@@ -267,7 +274,12 @@ $(OUT): $(OBJS) $(LD_SCRIPT)
 	else
 		echo "  (no $(LIBETC_ELF) — libetc region stays asm stubs; run tools/psyq_build_libs.sh LIBETC)"
 	fi
-	SYMS=""; [ -f "$(LIBCD_SYMS)" ] && SYMS="-T $(LIBCD_SYMS)"; [ -f "$(LIBGS_SYMS)" ] && SYMS="$$SYMS -T $(LIBGS_SYMS)"; [ -f "$(LIBETC_SYMS)" ] && SYMS="$$SYMS -T $(LIBETC_SYMS)"
+	if [ -d "$(LIBGPU_ELF)" ]; then
+		$(PYTHON) tools/psyq_integrate.py $(LIBGPU_ELF) $(LD_SCRIPT) $(LIBGPU_OBJDIR) $(LIBGPU_SYMS) libgpu
+	else
+		echo "  (no $(LIBGPU_ELF) — libgpu region stays asm stubs; run tools/psyq_build_libs.sh LIBGPU + curate libgpu_used)"
+	fi
+	SYMS=""; [ -f "$(LIBCD_SYMS)" ] && SYMS="-T $(LIBCD_SYMS)"; [ -f "$(LIBGS_SYMS)" ] && SYMS="$$SYMS -T $(LIBGS_SYMS)"; [ -f "$(LIBETC_SYMS)" ] && SYMS="$$SYMS -T $(LIBETC_SYMS)"; [ -f "$(LIBGPU_SYMS)" ] && SYMS="$$SYMS -T $(LIBGPU_SYMS)"
 	echo "  LD      $(ELF)"
 	$(LD) -T $(LD_SCRIPT) -T $(UNDEF_SYMS) -T $(UNDEF_FUNCS) $$SYMS --no-check-sections -Map $(MAPFILE) -o $(ELF)
 	echo "  OBJCOPY $@"
