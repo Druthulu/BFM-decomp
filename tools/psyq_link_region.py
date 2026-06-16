@@ -24,8 +24,9 @@ from psyq_link import (section_table, symbol_table, recover_sym_addrs, unique_by
 EXE = "extracted/retail/SLUS_007.26"
 
 
-def placement(elf_dir, lo, hi):
-    cmd = ["python3", "tools/psyq_identify.py", elf_dir] + ([lo, hi] if lo else [])
+def placement(elf_dir, lo, hi, vram_base=VRAM_BASE, exe=EXE):
+    cmd = (["python3", "tools/psyq_identify.py", elf_dir] + ([lo, hi] if lo else [])
+           + ["--vram-base", hex(vram_base), "--exe", exe])
     placed = {}
     for ln in subprocess.check_output(cmd, text=True).splitlines():
         m = re.match(r"\s+0x([0-9A-Fa-f]+)\s+(\S+\.o)\s+\((\d+) ins\)", ln)
@@ -34,7 +35,7 @@ def placement(elf_dir, lo, hi):
     return placed
 
 
-def classify(obj, text_vram, exe):
+def classify(obj, text_vram, exe, vram_base=VRAM_BASE):
     """Per-object: NOLOAD section bases, and the .bss/.sbss symbols to weaken.
 
     Every named symbol psyq-obj-parser put in .bss/.sbss is a common-style global the original
@@ -45,12 +46,12 @@ def classify(obj, text_vram, exe):
     """
     secs = section_table(obj)
     symtab = symbol_table(obj)
-    sym_addr = recover_sym_addrs(obj, text_vram, exe)
+    sym_addr = recover_sym_addrs(obj, text_vram, exe, vram_base)
 
     bases = {}
     for S in DATA_SECTIONS:
         if S in secs and secs[S][0] > 0:
-            b = unique_byte_vram(obj, S, exe) if S not in (".bss", ".sbss") else None
+            b = unique_byte_vram(obj, S, exe, vram_base) if S not in (".bss", ".sbss") else None
             if b is None:
                 b = sym_addr.get(S)              # the object referenced the section symbol
             if b is not None:
@@ -76,9 +77,9 @@ def defined_text_syms(obj):
     return names
 
 
-def build_region(elf_dir, lo=None, hi=None, emit=None):
-    exe = open(EXE, "rb").read()
-    placed = placement(elf_dir, lo, hi)
+def build_region(elf_dir, lo=None, hi=None, emit=None, vram_base=VRAM_BASE, exe_path=EXE):
+    exe = open(exe_path, "rb").read()
+    placed = placement(elf_dir, lo, hi, vram_base, exe_path)
     order = sorted(placed.items(), key=lambda kv: kv[1][0])     # by vram
     region_lo = order[0][1][0]
     region_hi = order[-1][1][0] + order[-1][1][1] * 4
@@ -87,7 +88,7 @@ def build_region(elf_dir, lo=None, hi=None, emit=None):
     conflicts = []
     for name, (vram, _) in order:
         obj = os.path.join(elf_dir, name)
-        bases, weaken, sym_addr = classify(obj, vram, exe)
+        bases, weaken, sym_addr = classify(obj, vram, exe, vram_base)
         bases_by[name] = bases
         weaken_by[name] = weaken
         for s, a in sym_addr.items():
@@ -149,7 +150,7 @@ def build_region(elf_dir, lo=None, hi=None, emit=None):
         badobjs = []
         for i, (name, vram, _) in enumerate(prepared):
             got = sh(f"{AS}objcopy", "-O", "binary", "--only-section", f".t{i}", elf, "/dev/stdout").stdout
-            want = exe[vram - VRAM_BASE: vram - VRAM_BASE + len(got)]
+            want = exe[vram - vram_base: vram - vram_base + len(got)]
             d = sum(1 for j in range(0, min(len(got), len(want)), 4) if got[j:j+4] != want[j:j+4])
             ndiff += d
             if d:
@@ -178,14 +179,18 @@ def build_region(elf_dir, lo=None, hi=None, emit=None):
 
 
 def main():
-    a = [x for x in sys.argv[1:] if not x.startswith("--")]
-    emit = None
-    if "--emit" in sys.argv:
-        emit = sys.argv[sys.argv.index("--emit") + 1]
-    elf_dir = a[0]
-    lo = a[1] if len(a) > 1 else None
-    hi = a[2] if len(a) > 2 else None
-    ok = build_region(elf_dir, lo, hi, emit)
+    import argparse
+    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("elf_dir")
+    ap.add_argument("window", nargs="*", help="optional scan-narrowing window: text_lo text_hi")
+    ap.add_argument("--emit", help="output prefix for <prefix>.ld + <prefix>.syms")
+    ap.add_argument("--vram-base", default=hex(VRAM_BASE),
+                    help="fileoff->vram delta of the target binary (default the EXE's; required T8)")
+    ap.add_argument("--exe", default=EXE, help="target binary path (default: the retail EXE)")
+    a = ap.parse_args()
+    lo = a.window[0] if len(a.window) > 0 else None
+    hi = a.window[1] if len(a.window) > 1 else None
+    ok = build_region(a.elf_dir, lo, hi, a.emit, vram_base=int(a.vram_base, 0), exe_path=a.exe)
     sys.exit(0 if ok else 1)
 
 

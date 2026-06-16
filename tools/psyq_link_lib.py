@@ -14,15 +14,16 @@ Usage:  psyq_link_lib.py <elf_dir> [text_lo text_hi]      e.g. .run/obj40/libcd
 """
 import json, os, re, subprocess, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from psyq_link import link_object  # noqa: E402
+from psyq_link import link_object, VRAM_BASE  # noqa: E402  (VRAM_BASE = transitional default, removed T8)
 
 EXE = "extracted/retail/SLUS_007.26"
 
 
-def placement(elf_dir, lo, hi):
+def placement(elf_dir, lo, hi, vram_base=VRAM_BASE, exe=EXE):
     cmd = ["python3", "tools/psyq_identify.py", elf_dir]
     if lo and hi:
         cmd += [lo, hi]
+    cmd += ["--vram-base", hex(vram_base), "--exe", exe]
     out = subprocess.check_output(cmd, text=True)
     placed = {}
     for ln in out.splitlines():
@@ -33,24 +34,31 @@ def placement(elf_dir, lo, hi):
 
 
 def main():
-    if len(sys.argv) < 2:
-        sys.exit(__doc__)
-    elf_dir = sys.argv[1]
-    lo = sys.argv[2] if len(sys.argv) > 2 else None
-    hi = sys.argv[3] if len(sys.argv) > 3 else None
+    import argparse
+    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("elf_dir")
+    ap.add_argument("window", nargs="*", help="optional scan-narrowing window: text_lo text_hi")
+    ap.add_argument("--vram-base", default=hex(VRAM_BASE),
+                    help="fileoff->vram delta of the target binary (default the EXE's; required T8)")
+    ap.add_argument("--exe", default=EXE, help="target binary path (default: the retail EXE)")
+    args = ap.parse_args()
+    elf_dir = args.elf_dir
+    lo = args.window[0] if len(args.window) > 0 else None
+    hi = args.window[1] if len(args.window) > 1 else None
+    vram_base = int(args.vram_base, 0)
     lib = os.path.basename(elf_dir.rstrip("/"))
 
-    placed, idout = placement(elf_dir, lo, hi)
+    placed, idout = placement(elf_dir, lo, hi, vram_base, args.exe)
     print(idout.strip())
     print(f"\n=== linking {len(placed)} located {lib} objects ===")
 
-    exe = open(EXE, "rb").read()
+    exe = open(args.exe, "rb").read()
     results, all_ext = [], {}
     conflicts = []
     npass = 0
     for name, vram in sorted(placed.items(), key=lambda kv: kv[1]):
         obj = os.path.join(elf_dir, name)
-        r = link_object(obj, vram, name=name, exe_bytes=exe)
+        r = link_object(obj, vram, name=name, exe_bytes=exe, vram_base=vram_base)
         results.append(r)
         tag = "PASS" if r["ok"] else "FAIL"
         if r["ok"]:
