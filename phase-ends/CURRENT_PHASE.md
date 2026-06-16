@@ -24,14 +24,15 @@
   - [x] **libc2** (17 objs / +62 fns) — C stdlib, 2 blocks (16-obj main libc2_1 + STRCAT libc2_2; PRNT jtbl OK). Hit + fixed the **boundary gotcha**: SETJMP.o `.text`=0x80 (8-align pad) not 0x78 → 800c3 boundary was 8 low → +8 global shift; fixed to 0x5CE18. Lesson recorded in worklist. dual byte-gate PASS; LINKED 528→590.
   - [x] **libgte** (53/58 objs / +120 fns; 22 blocks) — reordered value-first. Built `tools/gen_lib_subsegs.py` (generates multi-block subseg lines w/ section-size boundaries) + integrate window. progress.py now resolves `$(VAR)` stub lists. 5 libgs-gap objects DEFERRED. dual byte-gate PASS; LINKED 590→710, byte-identical **37.93%**.
   - [x] **libspu+libsnd COMBINED sound region** (60/70 objs / +225 fns; 9 blocks) — the two libs interleave so linked as ONE region. New `tools/make_snd_used.py` (alias dedup by byte-match + exclude-by-address). 4 addresses excluded (scattered-`.bss`/false-pos: S_R/S_GRMDT/S_IH/VM_F), SSGM deferred. All matched C preserved (trim kept 732 < 0x3A444). dual byte-gate PASS; LINKED 710→935, byte-identical **48.66%**.
-  - [ ] libcard + libapi  *(dense tiny syscall stubs in 800c2, low value; combined approach; last)*
+  - [x] **libapi+libcard COMBINED 800c2 region** (22 objs / +24 fns; 4 blocks; `tools/make_apicard_used.py`, 0 exclusions) — dual byte-gate PASS; LINKED 935→959, byte-identical **49.81%**. libapi's 800c3 remnant (~22 objs) DEFERRED.
+  - **LIBRARY CEILING REACHED** — 8 libs linked (959 LINKED fns); remaining are documented low-value deferrals (worklist).
 - [ ] **T(N+1)** — Deferred-library hard-case documentation (honest stub deferrals, structured comments, worklist notes). *(xHigh)*
 - [ ] **T(N+2)** — Game-code harvest (read cookbook+§5.4 first; sig-refresh → difficulty.md regen → cheap non-jtbl game leaves; bank, don't exhaust). *(xHigh; optional breadth)* **→ report #4**
 - [ ] **T(N+3)** — Headers (`include/psyq/*.h`) + cookbook §9 flywheel (R16) + SETUP/memory-map refresh (R21). *(xHigh)*
 - [ ] **T(N+4)** — Phase 8 close: verify checkboxes (P7) → demo milestone → Drew confirms (gate 2) → PhaseEnd_Phase8.md + archive worklog (R19) + commit + Ghidra push (R20) + plain-English recap (R18) + hard stop (P8). *(Tier-1 Max)*
 
 ## Current task pointer
-**libspu** (38 objs, 10 blocks, 0x8003A444–0x800422E8 in the 800 subseg; interleaved with libsnd; aliases S_R/S_W, S_GRM*, S_IH). Use `gen_lib_subsegs.py` + window + curated `_used` for aliases.
+**T13 — game-code harvest** (library ceiling reached at 49.81% byte-identical). `make sig-refresh` → regen difficulty.md → harvest a modest bank of genuine game-code non-jtbl leaves (read cookbook+§5.4 first). Then T14 (cookbook flywheel) → T15 (Phase 8 close gate). T12 deferrals already documented in worklist.
 
 ## Progress log
 - **2026-06-15 (session A, planning):** Read PROJECT_CONTEXT + all PhaseEnds + effort-map + gen2-roadmap. Byte-grounded the Phase-8 scope (R14): harvest is ~90% library objects; progress.py counts linked libs as stubs; machinery ready (20 `.LIB`s, 14 `.a`, 14 built `.run/obj40/*` dirs). Two owner decisions taken (LINKED category; full ceiling). Plan approved (gate 1). **T0 done** — this file written.

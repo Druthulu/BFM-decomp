@@ -219,6 +219,14 @@ SND_OBJDIR := build/psyq/snd
 SND_SYMS   := build/psyq/snd_externals.ld
 SND_STUBS  := snd1,snd2,snd3,snd4,snd5,snd6,snd7,snd8,snd9
 
+# Combined libapi+libcard 800c2 region (Phase 8): 22 objects in 4 blocks (apicard1..4). Curated dir
+# .run/obj40/apicard_used (tools/make_apicard_used.py). Window 0x61F38..0x62888. (libapi's ~22 objects
+# in the 800c3 region are DEFERRED — lowest value.)
+APICARD_ELF    := .run/obj40/apicard_used
+APICARD_OBJDIR := build/psyq/apicard
+APICARD_SYMS   := build/psyq/apicard_externals.ld
+APICARD_STUBS  := apicard1,apicard2,apicard3,apicard4
+
 # Assembler flags (docs/SETUP.md §6.2). -G0 is confirmed by the disassembly
 # (ledger #8: zero $gp-relative addressing). -no-pad-sections keeps section ends
 # un-padded so the link reproduces the original layout.
@@ -329,7 +337,12 @@ $(OUT): $(OBJS) $(LD_SCRIPT)
 	else
 		echo "  (no $(SND_ELF) — sound region stays asm stubs; run tools/psyq_build_libs.sh LIBSPU LIBSND + tools/make_snd_used.py)"
 	fi
-	SYMS=""; [ -f "$(LIBCD_SYMS)" ] && SYMS="-T $(LIBCD_SYMS)"; [ -f "$(LIBGS_SYMS)" ] && SYMS="$$SYMS -T $(LIBGS_SYMS)"; [ -f "$(LIBETC_SYMS)" ] && SYMS="$$SYMS -T $(LIBETC_SYMS)"; [ -f "$(LIBGPU_SYMS)" ] && SYMS="$$SYMS -T $(LIBGPU_SYMS)"; [ -f "$(LIBMCRD_SYMS)" ] && SYMS="$$SYMS -T $(LIBMCRD_SYMS)"; [ -f "$(LIBC2_SYMS)" ] && SYMS="$$SYMS -T $(LIBC2_SYMS)"; [ -f "$(LIBGTE_SYMS)" ] && SYMS="$$SYMS -T $(LIBGTE_SYMS)"; [ -f "$(SND_SYMS)" ] && SYMS="$$SYMS -T $(SND_SYMS)"
+	if [ -d "$(APICARD_ELF)" ]; then
+		$(PYTHON) tools/psyq_integrate.py $(APICARD_ELF) $(LD_SCRIPT) $(APICARD_OBJDIR) $(APICARD_SYMS) $(APICARD_STUBS) 0x80061F38 0x80062888
+	else
+		echo "  (no $(APICARD_ELF) — apicard region stays asm stubs; run tools/psyq_build_libs.sh LIBAPI LIBCARD + tools/make_apicard_used.py)"
+	fi
+	SYMS=""; [ -f "$(LIBCD_SYMS)" ] && SYMS="-T $(LIBCD_SYMS)"; [ -f "$(LIBGS_SYMS)" ] && SYMS="$$SYMS -T $(LIBGS_SYMS)"; [ -f "$(LIBETC_SYMS)" ] && SYMS="$$SYMS -T $(LIBETC_SYMS)"; [ -f "$(LIBGPU_SYMS)" ] && SYMS="$$SYMS -T $(LIBGPU_SYMS)"; [ -f "$(LIBMCRD_SYMS)" ] && SYMS="$$SYMS -T $(LIBMCRD_SYMS)"; [ -f "$(LIBC2_SYMS)" ] && SYMS="$$SYMS -T $(LIBC2_SYMS)"; [ -f "$(LIBGTE_SYMS)" ] && SYMS="$$SYMS -T $(LIBGTE_SYMS)"; [ -f "$(SND_SYMS)" ] && SYMS="$$SYMS -T $(SND_SYMS)"; [ -f "$(APICARD_SYMS)" ] && SYMS="$$SYMS -T $(APICARD_SYMS)"
 	echo "  LD      $(ELF)"
 	$(LD) -T $(LD_SCRIPT) -T $(UNDEF_SYMS) -T $(UNDEF_FUNCS) $$SYMS --no-check-sections -Map $(MAPFILE) -o $(ELF)
 	echo "  OBJCOPY $@"

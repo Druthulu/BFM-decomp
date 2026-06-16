@@ -175,7 +175,16 @@ segments:
       # libcard code (800c2). psyq_integrate libmcrd1,libmcrd2. (The GAME save logic / Q#5 is Phase 12.)
       - [0x50468, c, libmcrd1]  # libmcrd block 1: LIBMCRD.o -> src/libmcrd1.c (vram 0x8005FC68-0x80061E90)
       - [0x52690, c, libc2_2]   # libc2 block 2: STRCAT.o -> src/libc2_2.c (vram 0x80061E90-0x80061F38)
-      - [0x52738, c, 800c2]     # -O2 game code (mid) -> src/800c2.c (vram 0x80061F38-0x80062888)
+      # PsyQ libapi+libcard COMBINED 800c2 region (Phase 8): BIOS syscall trampolines + card I/O,
+      # 22 objects in 4 blocks (curated by tools/make_apicard_used.py; C112.o shared, no exclusions).
+      # integrate window 0x61F38..0x62888. (libapi's ~22 objects in the 800c3 region are DEFERRED.)
+      - [0x52738, c, apicard1]  # apicard block 1: 7 obj (C112.o..A69.o) vram 0x80061F38-0x80061FA8
+      - [0x527A8, c, 800c2]  # game code (vram 0x80061FA8-0x80062248)
+      - [0x52A48, c, apicard2]  # apicard block 2: 7 obj (A66.o..INIT.o) vram 0x80062248-0x80062388
+      - [0x52B88, c, 800c2_2]  # game code (vram 0x80062388-0x80062688)
+      - [0x52E88, c, apicard3]  # apicard block 3: 4 obj (A18.o..A21.o) vram 0x80062688-0x800626C8
+      - [0x52EC8, c, 800c2_3]  # game code (vram 0x800626C8-0x800627D8)
+      - [0x52FD8, c, apicard4]  # apicard block 4: 4 obj (A74.o..END.o) vram 0x800627D8-0x80062888
       - [0x53088, c, libmcrd2]  # libmcrd block 2: USERFUNC.o -> src/libmcrd2.c (vram 0x80062888-0x80062998)
       # Phase 7 (Task 2' / LZSS) — SURGICAL rodata carve for the LZSS switch only.
       # The rodata island (0x80072A38-0x80074750) interleaves game jtbls, game data
