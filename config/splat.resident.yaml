@@ -30,7 +30,10 @@ options:
 
   asm_path: asm/resident
   src_path: src/resident
-  build_path: build/resident
+  # build_path = build (NOT build/resident): splat writes the .ld's object paths under
+  # $(build_path), and the Makefile's pattern rules build them at build/asm/** + build/src/**
+  # (same as main, whose build_path is also `build`). Only the elf/ld/output live in build/resident/.
+  build_path: build
   ld_script_path: build/resident/resident.ld
   ld_dependencies: True
 
@@ -72,7 +75,14 @@ segments:
     # boundary-safe choice. Subsegment boundaries are refined in T2 vs the byte check.
     align: 4
     subsegments:
-      # T1 scaffold: the whole blob as one `c` (INCLUDE_ASM) subsegment. T2 carves the
-      # code/data boundary (and the leading data word 0x00000036) against the SHA1.
-      - [0x0, c, resident]
+      # Layout (empirically mapped vs the bytes, T2): a 1-word data header, then a clean
+      # code region (145 funcs, last jr $ra @file 0x4608+delay 0x460c -> ends 0x4610; zero
+      # embedded jump tables / trap-ops), then the data tail (pointer tables + packed data
+      # + a 78.5 KB zero run to EOF).
+      # The leading word sits BEFORE the code, but section_order puts .data after .text.
+      # Mark it .rodata (which section_order places FIRST) so it lands at 0x800CEDF8 ahead
+      # of the code — a 1-word analogue of main's rodata-island, with no ld_interleave needed.
+      - [0x0, rodata, hdr]      # the leading data word 0x00000036 (vram 0x800CEDF8)
+      - [0x4, c, resident]      # code: vram 0x800CEDFC..0x800D3408 (0x4..0x4610)
+      - [0x4610, data, tail]    # data tail: vram 0x800D3408..0x80128154 (0x4610..EOF)
   - [0x5935C]   # EOF (365,404 B) -> end vram 0x80128154

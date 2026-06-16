@@ -26,10 +26,10 @@ at 100% INCLUDE_ASM, with `main` still **`143dbb89f34491258bbc27810d0a12ec8b43a8
   - `config/splat.resident.yaml` (flat, no header, no gp_value, single code seg c-mode, stacked symbols, per-binary asm/src/build/undefined paths, find_file_boundaries False).
   - `config/check.resident.sha` (seed `8e17e02f…  resident`); `config/symbols.resident.txt` (provenance banner, count=0).
   - Exit: (a) main `make clean&&extract&&build&&check`→`143dbb89…` (refactor is a no-op); (b) `make extract BINARY=resident` completes; (c) interleave check: `make build BINARY=main` after a resident extract still green.
-- [ ] **T2 — Iterate split to byte-identical (THE milestone)** (xHigh→Max if it fights) ← **CURRENT**
+- [x] **T2 — Iterate split to byte-identical (THE milestone)** (xHigh) ✅ DONE — **MILESTONE REACHED**
   - Converge subseg boundaries vs SHA1; handle leading data word; confirm -G0 (grep `($gp)`); ld_interleave only if a rodata island appears.
   - Exit: clean-rebuild → `8e17e02f…`, last byte @0x80128154; main re-verified `143dbb89…`. **→ progress report to Drew.**
-- [ ] **T3 — Close per-binary tooling gaps** (xHigh)
+- [ ] **T3 — Close per-binary tooling gaps** (xHigh) ← **CURRENT**
   - `diff_settings.py` + `tools/progress.py` + `tools/difficulty.py` + `tools/dup_report.py` get a `resident` entry; `expected` made per-binary-safe (no sibling clobber).
   - Exit: `make report BINARY=resident` shows 100% INCLUDE_ASM; `make expected BINARY=resident` no-clobber; main report unchanged.
 - [ ] **T4 — Ghidra 2nd program + seed `config/symbols.resident.txt`** (xHigh; G2 MCP precondition)
@@ -54,3 +54,13 @@ Per-task checkpoint commits, each byte-gated (R20 + Phase 8/9 precedent). Claude
   stubs, src/resident/resident.c + .ld @vram 0x800CEDF8; (c) main OBJS still 81 (excludes resident)
   + main rebuild `143dbb89…` with resident on disk (prune isolates). `src/resident/*.c` left untracked
   WIP (reshaped by T2 boundary carving — commit at T2). Committed config+Makefile checkpoint.
+- 2026-06-15: **T2 DONE — MILESTONE REACHED.** Mapped the blob structure vs the bytes:
+  word0 = data header (0x36); clean code 0x4..0x4610 (145 funcs, 0 embedded jtbls/trap-ops);
+  data tail 0x4610..EOF (pointer tables + 78.5 KB zero run). Split = `[0x0, rodata, hdr]` +
+  `[0x4, c, resident]` + `[0x4610, data, tail]`. Two fixes found: (1) leading word before code
+  fights section_order → emit it as **rodata** (no-dot; section_order places .rodata first) — a
+  1-word analogue of main's island, NO ld_interleave; (2) `build_path: build` (not build/resident)
+  so the .ld's object paths match the Makefile's `build/asm/**`+`build/src/**` rules.
+  **`make build BINARY=resident` → `8e17e02f…` BYTE-IDENTICAL** (365,404 B, end vram 0x80128154);
+  -G0 confirmed (0 gp refs); R22 clean-rebuild green; main still `143dbb89…`. src/resident/resident.c
+  (143 stubs) now committed (boundaries final). asm/resident/** regenerated (gitignored, like main).
