@@ -54,6 +54,19 @@ Effort management is a **per-task, continuously-re-evaluated** discipline, not a
 
 Failure modes that motivated this (both 2026-06-16): (a) launched a harvest Workflow on Drew's verbal "Enable Ultracode" *before* he toggled it; (b) finished the 5 Ultracode harvest passes and continued straight into the deep T2–T6 work without prompting the switch back to Max — Drew had to ask. Memory: `effort-prompt-ultracode-on-breadth`.
 
+### Evidence — Max vs Ultracode Workflow yield is the SAME for breadth harvests (controlled, Phase 13 T7, 2026-06-16)
+
+A controlled experiment (Drew's, prompted by "did the Max workflow do more than the Ultracode one?"): **80 fixed unmatched SC01/077 functions** (nins 8–15), the **identical** blind-draft Workflow + byte-gate, run once with **Ultracode** (xHigh agents, arm A) and once with **Max** agents (arm B) from the same committed baseline — the ONLY variable is the session effort the agents inherit.
+
+| arm | session effort → agent depth | byte-matched (of 80) |
+|---|---|---|
+| A | Ultracode → **xHigh** | **13** |
+| B | Max → **Max** | **14** |
+
+Overlap: **A∩B = 12**, xHigh-only = 1, Max-only = 2 (union 15). **13 vs 14 is noise** (a 1-function delta, ~80% of the union shared) — per-agent effort depth does **not** meaningfully change blind-draft harvest yield. The pre-experiment observation that "pass 1 at Max matched 92% vs later Ultracode passes' 54%" was **confounded by function difficulty** (pass 1 = the easiest functions), not effort.
+
+**Decision this settles:** for **breadth harvests, prefer Ultracode** — it delivers the same per-agent yield as Max AND the multi-agent orchestration, so there is no yield cost to using it. Keep **Max** for deep single-thread synthesis (planning, fingerprinting, PhaseEnd) where reasoning depth is the bottleneck, not parallel coverage. *(Caveat: one trial per arm — directional, not definitive; rules out a LARGE effect, not a small one. Re-test with multiple trials if a future task hinges on a subtle difference.)*
+
 ---
 
 ## The decision rule — Max vs xHigh vs Ultracode
