@@ -407,8 +407,15 @@ boundary.
 | Member alignment | 4 bytes, zero-padded |
 | VAB | A VAB file at **fixed offset 0x7000**, after the MThd data |
 
-Pairs with PAC types 2/3 (VAB header/body) for the game's sound banks; whether the driver
-is stock PsyQ SEQ/VAB or Square-custom is an open research question (memory-map context).
+Pairs with PAC types 2/3 (VAB header/body) for the game's sound banks. **Driver — semi-custom
+(Phase 12, partial):** the resident engine holds a **thin Square-custom sound layer over PsyQ
+libsnd**. `DsMix` (0x800D1BD8) is a custom 2-line wrapper (`{ FUN_800d1bf8(); return 1; }` — ignores
+its arg; NOT the stock libsnd `DsMix` — ghidra_psx_ldr's PsyQ-4.7 signature hit there was coincidental,
+Phase-12 T1). The resident's sound cluster wraps/calls the (EXE-resident) PsyQ libsnd SEQ/VAB
+primitives; the SQV→libsnd bridge is the custom glue (its **bytes** were matched in the Phase-12 harvest,
+but the deep MThd→SEQ + VAB-load *playback semantics* are not exhaustively traced — deferred to Gen3 repack
+work, and not needed for the byte-match). Verdict: **semi-custom** = Square wrappers/glue over stock PsyQ
+libsnd sequencing.
 
 ---
 

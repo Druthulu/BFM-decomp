@@ -245,6 +245,15 @@ raw-sector offset 24).
 The EXE is tiny (~400 KB) relative to the game: the bulk of engine/script code lives in the
 `.CD` overlays (see §4).
 
+### Script / event system — RESOLVED: compiled-MIPS dispatch, NO bytecode VM (Phase 12, byte-backed)
+
+The Gen2-roadmap "Script VM instruction set" open question is **resolved by matching the resident engine** (123/146 fns, 85.6% byte-identical from C source, Phase 12): **BFM has no bytecode/script VM.** "Scripting" is **compiled MIPS code structured as state machines dispatched through function-pointer tables indexed by game-state variables** — the same idiom at every level:
+- **EXE top level:** `GameModeDispatch` (0x80010B40) → `gameModeHandlerTable[gameMode]()` (18 entries @0x800629F4; `gameMode` @0x800B99DE).
+- **Resident engine (matched, the proof):** the same idiom at finer grain — `func_800CEDFC` = `if (D_800B99F0 < 0x14) D_800D3430[D_800B99F0]()`; also `D_800D3480[D_800B99F6]()` (`func_800CEE40`), the `D_800D3488[…]` cluster (`func_800CF4D4` etc.), `D_800D3490[D_800B99FC]()`, and the `func_800D2F0C/2FB0/30C8/31C0/31FC` cluster dispatching `D_800D39xx[entity->state]()`. The dispatch index is always a game-state var (game mode, `currentLocationId` 0x800B9A08, per-entity sub-state at struct +0x14/+0x15).
+- **Location overlays (0x80128158):** contain **compiled MIPS** (text/font pointers materialized inline by `lui/addiu`), not bytecode — they *call* the resident engine's fns at fixed addresses.
+
+So "matching the script VM" means matching these compiled dispatchers + handlers (done in the harvest), NOT writing a bytecode interpreter. The `VM_*` symbols are PsyQ **libsnd** (refuted as a game VM, Phase-12 T1). Basis for the gen2-roadmap **EXIT criterion #2 amendment** (T6): *"script/event system resolved (compiled-MIPS state/mode dispatch, no bytecode VM)."*
+
 **Text→data split (Phase 5, splat).** `config/splat.us.exe.yaml` splits file `[0x800,0x531DC)` → vram
 `[0x80010000,0x800629DC)` as code (`asm`) and `[0x531DC,0x65000)` → `[0x800629DC,0x80074800)` as data (the
 splat `psxexeinfo` estimate; **vram = fileoff + 0x8000F800**). The true code↔data transition is a mixed
