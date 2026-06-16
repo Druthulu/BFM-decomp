@@ -133,6 +133,7 @@ feat(phase-10): resident engine blob — 2nd binary byte-identical from source (
 | Rule | Reason |
 |---|---|
 | **R24 — Per-binary compiler/SDK provenance.** Record each binary's detected toolchain (PsyQ/SDK version, and the compiler triple once pinned) as provenance, tagged per binary; **never assume one binary's toolchain applies to another.** Verify before linking that binary's library code or pinning its triple. Extends G8 (expect per-module compiler variation) and G5 (provenance) to the Gen2 multi-binary reality. | The resident detects as **PsyQ 4.7.0** while the EXE is **4.0.0** (DetectPsyQ + the `DsMix`/libsnd hit + the auto-associated `psyq470` archive). Assuming 4.0 would mis-link the resident's PsyQ library code (sound/GTE) in Phase 11. The byte-match is unaffected (100% INCLUDE_ASM), but the matching/linking phase must use the right version. |
+| **R25 — Store the plain-English recap IN the PhaseEnd file (extends R18).** Every PhaseEnd includes a `## Plain-English Recap` section: a few sentences, high-level, no jargon — what the phase did and WHY. R18 put the recap only in the closing chat *message*, which is **ephemeral** (lost at session end); the PhaseEnd is the durable state a fresh session actually reads (CLAUDE.md load order), so the recap must live there too. Applies from Phase 10 forward (past PhaseEnds are not back-filled). | Drew (2026-06-15): the R18 chat recap wasn't persisted anywhere — a future session reconstructing state from the PhaseEnds got the jargon-heavy Changelog but never the plain-language orientation R18 exists to provide. Storing it in the file closes that gap. Memory `session-summary-plain-english` updated. |
 
 *(Not elevated to a rule — captured in SETUP §6.7: the reusable **flat-blob `<bin>` recipe** — per-binary nested `asm/<bin>`+`src/<bin>` with a `$(BINARIES)`-derived OBJS prune, `build_path: build`, flat config with no header/gp_value, and the **leading-data-word-as-rodata** trick that avoids `ld_interleave`. R22 clean-rebuild discipline was exercised throughout. The resident Ghidra program is reproducible from committed tooling, so its DB commit is a convenience baseline, not the irreplaceable artifact — Phase 11/12's manual RE on top of it will be.)*
 
@@ -167,6 +168,18 @@ SDK provenance). No tools installed.
 - **DB-bloat note (still open from Phase 9):** the resident program adds ~13 MB/commit to `ghidra/`. Since
   it's script-reproducible, extending `ExportSymbols.java` to text-export types+comments (so the DB is
   regenerable + public-clean) remains the right Gen2 cleanup — revisit before the public flip.
+
+## Plain-English Recap
+The game's permanent "engine" — the always-loaded chunk of code that holds the script system and the sound
+driver — now rebuilds **perfectly, byte-for-byte, from our own source files**. That makes it the *second*
+piece of the game we can reconstruct exactly, after the main program. Getting there meant teaching our one
+build pipeline to handle two different programs at once without them interfering — and the main program still
+rebuilds identically, so nothing we already had was broken. We also gave this engine chunk its own map inside
+our analysis tool, and built two reusable importer tools that will handle the dozens of location "overlays"
+later in the project. The one surprise: this engine chunk was built with a **newer Sony toolkit (4.7)** than
+the main program (4.0) — which tells us exactly which code libraries to gather *before* we start naming and
+matching its functions next phase. We didn't need those libraries to finish this phase; the rebuild was
+proven without them.
 
 ## 🛑 Stop Here
 PhaseEnd written; `CURRENT_PHASE.md` archived → `phase-ends/logs/Phase10.md` (R19). The Phase-10 work is
