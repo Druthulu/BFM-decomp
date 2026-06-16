@@ -520,6 +520,29 @@ without** the SDK objects, `make report` reproduces the counts, and a deliberate
 `--vram-base` (e.g. `make build main_VRAM_BASE=0x8000F804`) diverges to a non-`143dbb89` hash
 (the negative control — proves the param is load-bearing, not accepted-and-ignored).
 
+**First instantiation — `resident` (Phase 10):** the always-resident engine blob
+(`extracted/retail/MAIN.CD.dir/FILE_010.dir/1.1`, 365,404 B, vram `0x800CEDF8`, type-1 uncompressed)
+is the project's second binary — `make build BINARY=resident` → `8e17e02f…` at 100% INCLUDE_ASM.
+The reusable **flat-blob recipe** (every Gen2 overlay follows it):
+- **Per-binary source roots + OBJS prune** — main lives at the repo-level `asm/`+`src/`; a second
+  binary nests at `asm/<bin>/`+`src/<bin>/` (`<bin>_ASM_DIR`/`<bin>_SRC_DIR`). The `OBJS` glob is
+  scoped to the active root with a `$(BINARIES)`-derived prune (`-not -path 'asm/<sibling>/*'`,
+  guarded by `$(if $(filter $(ASM_DIR)/%,…))`) so main's root doesn't sweep in nested siblings.
+- **`build_path: build`** in the `<bin>` yaml (NOT `build/<bin>`) — splat writes the `.ld`'s object
+  paths under `$(build_path)`, and the Makefile pattern rules build them at `build/asm/**`+`build/src/**`;
+  only `elf_path`/`ld_script_path`/output live under `build/<bin>/`. Per-binary `undefined_*_auto_path`
+  under `build/<bin>/` (splat options) + `<bin>_UNDEF_SYMS/FUNCS` aliases keep main's at the root verbatim.
+- **Flat-image splat config** — NO `header` segment (overlays carry no PS-X EXE header), NO `gp_value`
+  (-G0; verify zero `($gp)` in the disasm), single `code` segment at `vram: <base>`, stacked
+  `symbol_addrs_path: [config/symbols.us.txt, config/symbols.<bin>.txt]` (the shared EXE globals the
+  blob references + blob-local names). Iterate text/data boundaries against `make check` (Phase-5 method).
+- **A leading data word *before* the code** (e.g. the resident's 1-word header `0x00000036` at the very
+  base, code at +0x04) fights `section_order: [.rodata,.text,.data,.bss]` (which puts `.data` after
+  `.text`). Emit it as **`rodata`** (no-dot type → asm rodata, placed FIRST) — a 1-word analogue of
+  main's rodata-island, **no `ld_interleave` needed**.
+- Per-binary `<bin>_GHIDRA_PROG` → `make sig-refresh BINARY=<bin>`; `diff_settings.py` + the three
+  report scripts gain a `<bin>` entry; `make expected` is per-binary-safe (merge-copy, no sibling clobber).
+
 ## §7 Session-start ritual
 
 Order is load-bearing — MCP tools fail (sometimes silently) without an open program.
@@ -575,7 +598,9 @@ Every script under `tools/` (plus the two report make-targets), grouped by purpo
 | | `VerifyOverlay.java` | Verify an imported overlay against expected bytes. |
 | | `GetSymbolAt.java` | Read the symbol at a given address (scripted lookup). |
 | | `DecompileAt.java` | Decompile the function at a given address (scripted scaffold). |
-| | `tools/ghidra_import.sh` | Headless `analyzeHeadless` import/analysis driver. |
+| | `DefineFunctions.java` | Disassemble + create functions at splat's validated entry points (`.run/<prog>_funcs.txt`) — completes a raw-blob program's function set (Phase 10). |
+| | `tools/ghidra_import.sh` | Headless `analyzeHeadless` import/analysis driver (PS-X EXE; auto-detect PSX loader). |
+| | `tools/ghidra_import_raw.sh` | Headless import of a RAW flat blob — `BinaryLoader` + `--loader-baseAddr <vram>` + `PSX:LE:32:default` (resident blob / Gen2 overlays; no PS-X EXE header). |
 | **Disc/.CD extraction** (`tools/bfm_extract/`) | `extract.py` | Walk the disc / extract root files (`make extract`). |
 | | `extract_exe.py` | Extract & verify `SLUS_007.26` (`--verify-disc`, owns `EXPECTED_EXE_SHA1`). |
 | | `extract_proto_exe.py` | Extract the prototype/demo EXE for cross-checking. |

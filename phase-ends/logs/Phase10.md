@@ -96,3 +96,7 @@ needs nothing from PsyQ 4.7.** → also record provenance in docs/memory-map.md.
   (6 byte-identical groups intra-resident — Phase-11 dedup fodder). Ghidra DB committed (R23, MCP
   stopped): new `resident` program (00000003.*) + main's incidental db.15→db.16 no-op renumber.
   **4.7 libs DEFERRED to Phase 11 (Drew) — carry to PhaseEnd Notes.**
+- 2026-06-15: **T5 / phase close.** P7 checkbox sweep complete (all 4 tasks + roadmap items met).
+  Final clean-rebuild proof presented; **Drew confirmed gate 2.** SETUP §6.7 extended with the
+  flat-blob recipe + 2 new tools (R21). PhaseEnd_Phase10.md written (Tier-1 Max). Rule R24 proposed
+  (per-binary SDK provenance). This worklog archived → logs/Phase10.md (R19). v1.9.0 → v1.10.0.
