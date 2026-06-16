@@ -20,14 +20,15 @@
 - [~] **T3…N** — Per-library integrate, ascending difficulty (resegment splat → trim src → Makefile gated psyq_integrate + `-T` syms → dual byte-gate → report → commit). *(xHigh; Max-escalate if a lib fights)* **→ report #2 after first lib lands; #3 when last placed lib done**
   - [x] **libetc** (5 objs, 35 fns) — clean single block at 800-tail; 5/5 byte-verified; dual byte-gate PASS; LINKED 340→375. **(progress report #2)**
   - [x] **libgpu** (EXT+PRIM, 2 objs / +49 fns; curated `libgpu_used`) — dual byte-gate PASS; LINKED 375→424. **SYS.o EXCLUDED** = scattered-`.bss` §9.1 (GS_001 class), documented in worklist, stays a stub in 800c. Split 800b2→[800b2][libgpu][800c]. First hard case handled.
-  - [ ] libmcrd · libc2 · libcard · libapi · libspu · libsnd · libgte
+  - [x] **libmcrd** (2 objs / +104 fns) — clean (27 `.bss` commons all recovered); 2 non-adjacent blocks (libmcrd1/libmcrd2) splitting 800c; dual byte-gate PASS; LINKED 424→528.
+  - [ ] libc2 · libcard · libapi · libspu · libsnd · libgte
 - [ ] **T(N+1)** — Deferred-library hard-case documentation (honest stub deferrals, structured comments, worklist notes). *(xHigh)*
 - [ ] **T(N+2)** — Game-code harvest (read cookbook+§5.4 first; sig-refresh → difficulty.md regen → cheap non-jtbl game leaves; bank, don't exhaust). *(xHigh; optional breadth)* **→ report #4**
 - [ ] **T(N+3)** — Headers (`include/psyq/*.h`) + cookbook §9 flywheel (R16) + SETUP/memory-map refresh (R21). *(xHigh)*
 - [ ] **T(N+4)** — Phase 8 close: verify checkboxes (P7) → demo milestone → Drew confirms (gate 2) → PhaseEnd_Phase8.md + archive worklog (R19) + commit + Ghidra push (R20) + plain-English recap (R18) + hard stop (P8). *(Tier-1 Max)*
 
 ## Current task pointer
-**T5 — Integrate libmcrd** (2 objs: LIBMCRD.o 2186 ins / 55 LIBMCRD_OBJ_* + USERFUNC.o; 2 blocks in 800b2/800c). libgpu validated the curated-`_used` + exclusion path.
+**T6 — Integrate libc2** (17 objs: BZERO/MEMCPY/STRCMP/PRINTF/PRNT… 0x8005C2C8 run + STRCAT outlier; 800c. PRNT.o has internal jtbl — verify NOLOAD .rodata).
 
 ## Progress log
 - **2026-06-15 (session A, planning):** Read PROJECT_CONTEXT + all PhaseEnds + effort-map + gen2-roadmap. Byte-grounded the Phase-8 scope (R14): harvest is ~90% library objects; progress.py counts linked libs as stubs; machinery ready (20 `.LIB`s, 14 `.a`, 14 built `.run/obj40/*` dirs). Two owner decisions taken (LINKED category; full ceiling). Plan approved (gate 1). **T0 done** — this file written.

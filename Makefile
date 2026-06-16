@@ -189,6 +189,13 @@ LIBGPU_ELF    := .run/obj40/libgpu_used
 LIBGPU_OBJDIR := build/psyq/libgpu
 LIBGPU_SYMS   := build/psyq/libgpu_externals.ld
 
+# libmcrd (Phase 8): 2 objects (LIBMCRD.o = the 55 LIBMCRD_OBJ_* + _card_* memcard I/O; USERFUNC.o), 2
+# non-adjacent blocks. Clean (.bss commons all recovered). NB: these are the libmcrd SDK objects; the
+# GAME's SaveLoadRoutine/Q#5 save logic is a separate Phase-12 item.
+LIBMCRD_ELF    := .run/obj40/libmcrd
+LIBMCRD_OBJDIR := build/psyq/libmcrd
+LIBMCRD_SYMS   := build/psyq/libmcrd_externals.ld
+
 # Assembler flags (docs/SETUP.md §6.2). -G0 is confirmed by the disassembly
 # (ledger #8: zero $gp-relative addressing). -no-pad-sections keeps section ends
 # un-padded so the link reproduces the original layout.
@@ -279,7 +286,12 @@ $(OUT): $(OBJS) $(LD_SCRIPT)
 	else
 		echo "  (no $(LIBGPU_ELF) — libgpu region stays asm stubs; run tools/psyq_build_libs.sh LIBGPU + curate libgpu_used)"
 	fi
-	SYMS=""; [ -f "$(LIBCD_SYMS)" ] && SYMS="-T $(LIBCD_SYMS)"; [ -f "$(LIBGS_SYMS)" ] && SYMS="$$SYMS -T $(LIBGS_SYMS)"; [ -f "$(LIBETC_SYMS)" ] && SYMS="$$SYMS -T $(LIBETC_SYMS)"; [ -f "$(LIBGPU_SYMS)" ] && SYMS="$$SYMS -T $(LIBGPU_SYMS)"
+	if [ -d "$(LIBMCRD_ELF)" ]; then
+		$(PYTHON) tools/psyq_integrate.py $(LIBMCRD_ELF) $(LD_SCRIPT) $(LIBMCRD_OBJDIR) $(LIBMCRD_SYMS) libmcrd1,libmcrd2
+	else
+		echo "  (no $(LIBMCRD_ELF) — libmcrd region stays asm stubs; run tools/psyq_build_libs.sh LIBMCRD)"
+	fi
+	SYMS=""; [ -f "$(LIBCD_SYMS)" ] && SYMS="-T $(LIBCD_SYMS)"; [ -f "$(LIBGS_SYMS)" ] && SYMS="$$SYMS -T $(LIBGS_SYMS)"; [ -f "$(LIBETC_SYMS)" ] && SYMS="$$SYMS -T $(LIBETC_SYMS)"; [ -f "$(LIBGPU_SYMS)" ] && SYMS="$$SYMS -T $(LIBGPU_SYMS)"; [ -f "$(LIBMCRD_SYMS)" ] && SYMS="$$SYMS -T $(LIBMCRD_SYMS)"
 	echo "  LD      $(ELF)"
 	$(LD) -T $(LD_SCRIPT) -T $(UNDEF_SYMS) -T $(UNDEF_FUNCS) $$SYMS --no-check-sections -Map $(MAPFILE) -o $(ELF)
 	echo "  OBJCOPY $@"
