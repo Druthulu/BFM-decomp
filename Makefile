@@ -121,7 +121,7 @@ CC1_SMOKE_FLAGS := -quiet -O2 -G0 -mips1 -mcpu=3000 -mgas -msoft-float -fgnu-lin
 BINUTILS_WARN_MAJOR := 2
 BINUTILS_WARN_MINOR := 38
 
-.PHONY: help check-env extract build check expected clean report sig-refresh sig-overlays
+.PHONY: help check-env extract build check expected clean report sig-refresh sig-overlays build-all check-all
 
 # -----------------------------------------------------------------------------
 help:
@@ -502,6 +502,27 @@ endif
 
 # build = produce $(OUT) and verify its SHA1 (check pulls in $(OUT)).
 build: check
+
+# build-all / check-all (Phase 13): build + SHA1-check EVERY binary in $(BINARIES) (main, resident,
+# overlays) in one pass -> a single fleet PASS/FAIL. Recursion ($(MAKE) BINARY=$$b) RE-PARSES the
+# Makefile per binary so each gets its correctly-pruned OBJS (a `foreach` can't — the OBJS glob is
+# parse-time, keyed on $(BINARY)). Serial across binaries (the shared build/asm/** + build/src/**
+# pattern outputs make binary-level -j racy; -j WITHIN each binary is fine). Day-to-day this is
+# incremental + fast; for the milestone fleet proof do a CLEAN run first (R22 — clean rebuild):
+#   make clean && for b in $(BINARIES); do make extract BINARY=$$b; done && make check-all
+check-all:
+	@fail=0; pass=0
+	mkdir -p .run
+	for b in $(BINARIES); do
+		if $(MAKE) --no-print-directory check BINARY=$$b >.run/check.$$b.log 2>&1; then
+			echo "[ OK ] $$b"; pass=$$((pass+1))
+		else
+			echo "[FAIL] $$b  (see .run/check.$$b.log)"; tail -3 .run/check.$$b.log; fail=$$((fail+1))
+		fi
+	done
+	echo "check-all: $$pass passed, $$fail failed of $(words $(BINARIES))"
+	[ "$$fail" -eq 0 ]
+build-all: check-all
 
 # check: SHA1 of the build vs the committed original hash. The definition of "build OK".
 check: $(OUT)
