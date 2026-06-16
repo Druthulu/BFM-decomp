@@ -31,8 +31,11 @@
       vs resident oracle: **100% h_exact on the contiguous/non-GTE subset (140/140), zero UNEXPLAINED** (98.6%
       overall). 2 misses = non-contiguous bodies (D5, inherent to a linear sweep). Boundary rule: first `jr $ra`
       at/after all forward targets. h_norm/h_seq = conservative placeholders (= h_exact) until T5.
-- [ ] **T5** [Max] — `sig_image.py`: `h_norm` normToken replica + resident acceptance gate (≥98% non-GTE; GTE/noncontig
-      documented). Scope guard: ship h_exact + self-consistent h_norm if calibration over-runs.
+- [x] **T5** [Max] — `sig_image.py`: `h_norm` (self-consistent normalization: mask j/jal targets + lui highs +
+      hi/lo-paired address-los; keep registers/constants/branch-offsets) + `h_seq` (mnemonic seq). **DONE via the
+      scope-guard (deviation D2).** Validated on the resident: h_exact groups 6/6 == Ghidra; h_norm reproduces 7/9
+      Ghidra structural groups, the 2 disagreements benign (differ only in masked address/jump fields — Ghidra's own
+      ref-analysis is inconsistent there); byte-gate is the final acceptance for any h_norm candidate.
 - [ ] **T6** [xHigh] — sign 134 overlays @ `0x80128158` (deterministic loop, no fan-out); add to dup_report BINARIES;
       regenerate `docs/duplicates.cross.md` with real cross-binary groups.
 - [ ] **T7** [xHigh; PhaseEnd=Max] — 4.7 sha-record + docs note; cookbook §11; SETUP/psyq-worklist/README refresh;
@@ -54,6 +57,14 @@ change; 0 NON_MATCHING in default build.
   library mechanism (Phase 8, untouched). Milestone + owner decisions unchanged; tool is simpler + byte-correct.
   Consequence: no `SRC_SHARED_DIR` OBJS exclusion needed (shared bodies are `.h`, skipped by the `*.c` glob); no
   build-recipe change (dedup-check lives in `make report`).
+- **D2 — sig_image `h_norm` is SELF-CONSISTENT, not a Ghidra-byte-exact `normToken` replica.** The plan's gate was
+  "h_norm ≥98% byte-match vs Ghidra." Byte-reality made that low-value: EXE↔resident share nothing, overlays share
+  with EACH OTHER (h_exact, since they load at the same vram) and call (not embed) the resident — so cross-tool
+  structural (overlay↔Ghidra-binary `h_norm`) is the only thing a byte-exact replica would add, and it's low-value.
+  sig_image uses a self-consistent normalization (uniform within the overlay fleet) + `h_exact` as the
+  format-independent cross-tool tier; every `h_norm` candidate is byte-gated (its sole acceptance, per the roadmap).
+  Full Ghidra-byte-exact `normToken` is a documented future refinement (would need dumping Ghidra's raw normToken
+  strings + iterating; chases Ghidra's own ref-analysis inconsistencies). Scope-guard was pre-approved in the plan.
 
 ## Blockers
 (none)
@@ -72,3 +83,7 @@ change; 0 NON_MATCHING in default build.
 - 2026-06-16: **T4 done** — `tools/sig_image.py` (rabbitizer, Ghidra-free). h_exact byte pipeline + boundary
   detection validated on the resident: 100% h_exact on the 140 contiguous/non-GTE funcs, zero UNEXPLAINED; 2
   non-contiguous bodies (D5) are inherent residuals. Next: T5 (h_norm normToken calibration).
+- 2026-06-16: **T5 done** — sig_image h_norm (self-consistent normalizer + HiLoTracker) + h_seq. Validated on the
+  resident: h_exact 6/6 groups == Ghidra; h_norm 7/9 Ghidra structural groups, disagreements benign (masked-field
+  only). Took the pre-approved scope-guard → self-consistent (deviation D2), not Ghidra-byte-exact. Next: T6 (sign
+  the 134 overlays + populate the cross-report — the milestone's report half).

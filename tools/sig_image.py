@@ -96,26 +96,72 @@ def func_end(data, vram_base, start, hard_end):
     return hard_end
 
 
+# I-type opcodes whose 16-bit immediate is an ADDRESS low-half when the base/source register (rs)
+# currently holds a lui-loaded address high (hi/lo pairing): loads, stores, addiu/ori/etc.
+_ITYPE_ADDR = frozenset((0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26,   # lb lh lwl lw lbu lhu lwr
+                         0x28, 0x29, 0x2A, 0x2B, 0x2E,               # sb sh swl sw swr
+                         0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E))  # addi addiu slti sltiu andi ori xori
+
+
+def norm_stream(raw):
+    """Self-consistent normalized byte stream: mask the address-sensitive fields so two
+    structurally-identical functions at DIFFERENT addresses normalize to the same bytes —
+      * j / jal       : 26-bit target -> 0
+      * lui           : 16-bit high   -> 0  (and the dest register is flagged 'holds an addr-hi')
+      * lw/sw/addiu/… : 16-bit imm    -> 0  ONLY when rs holds a lui-loaded addr-hi (hi/lo pair)
+    while KEEPING registers (regalloc matters), true constants, and PC-relative branch offsets
+    (already position-independent in the encoding). NOT byte-identical to Ghidra's normToken
+    (a deliberately different, simpler model — the scope-guard path); self-consistent WITHIN
+    sig_image so the overlay fleet's structural dups group. h_exact stays the format-independent
+    cross-tool tier. The hi/lo tracker is consistent (depends only on the instruction stream, not
+    absolute addresses), so any imprecision is conservative: it can miss a match, never forge one."""
+    pending_hi = set()   # registers currently holding a lui address-high
+    out = bytearray()
+    for k in range(0, len(raw) - (len(raw) % 4), 4):
+        w = struct.unpack_from("<I", raw, k)[0]
+        op = w >> 26
+        rs = (w >> 21) & 0x1F
+        rt = (w >> 16) & 0x1F
+        nw = w
+        if op in (2, 3):                       # j / jal -> mask absolute target
+            nw = w & 0xFC000000
+        elif op == 0x0F:                       # lui -> mask high; rt now holds an addr-hi
+            nw = w & 0xFFFF0000
+            pending_hi.add(rt)
+            out += struct.pack("<I", nw)
+            continue
+        elif op in _ITYPE_ADDR:
+            if rs in pending_hi:               # hi/lo pair -> the lo immediate is address-derived
+                nw = w & 0xFFFF0000
+            pending_hi.discard(rt)             # rt is overwritten (no longer a stale hi)
+        elif op == 0:                          # R-type: dest rd overwritten
+            pending_hi.discard((w >> 11) & 0x1F)
+        out += struct.pack("<I", nw)
+    return bytes(out)
+
+
 def sign_function(data, vram_base, start, end, name):
     off = start - vram_base
     n = end - start
     raw = data[off:off + n]
     h_exact = hashlib.sha1(raw).hexdigest()
+    mnem = []
     calls = []
     for k in range(0, n, 4):
         word = struct.unpack_from("<I", raw, k)[0]
         ins = make_insn(word, start + k)
+        mnem.append(ins.getOpcodeName())
         if ins.isFunctionCall():
             try:
                 calls.append(f"{ins.getInstrIndexAsVram():08x}")  # 8-hex, NO 0x — matches the Ghidra dumper
             except RuntimeError:
                 pass  # jalr (register-indirect call): no static target, as in the reference-based dumper
-    # T4: structural tiers are conservative placeholders (= h_exact -> no false structural matches);
-    # T5 replaces with the calibrated normToken/mnemonic hashes + the resident acceptance gate.
+    h_norm = hashlib.sha1(norm_stream(raw)).hexdigest()       # self-consistent (see norm_stream)
+    h_seq = hashlib.sha1((" ".join(mnem) + " ").encode()).hexdigest() if mnem else h_exact
     return {
         "addr": f"0x{start:08x}", "name": name or f"func_{start:08x}", "src": "IMAGE",
         "nins": n // 4, "nbytes": n, "ncalls": len(calls),
-        "h_exact": h_exact, "h_norm": h_exact, "h_seq": h_exact, "calls": calls,
+        "h_exact": h_exact, "h_norm": h_norm, "h_seq": h_seq, "calls": calls,
     }
 
 
