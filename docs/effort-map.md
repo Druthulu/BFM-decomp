@@ -43,6 +43,17 @@ They are **not combinable via `/effort`** (it holds one value). And **global Ult
 
 **Caveat — keep the deep work at Max.** Ultracode caps per-agent depth at xHigh, so it is *wrong* for the deep single-thread tasks (Phase-Start planning, the compiler fingerprint, US-address derivation, non-obvious debugging, PhaseEnd synthesis). The prompt is for the *breadth stretch only*; flip back to **Max** for those. And the judgment "is this actually breadth-shaped, or is it mine-to-author with full context?" is itself a Max call — writing a doc from this session's context is NOT breadth (subagents would have less context); fanning out a 134-overlay harvest IS.
 
+### Effort is mapped per-task AND re-evaluated continuously — pause+prompt at EVERY transition (Drew, 2026-06-16)
+
+Effort management is a **per-task, continuously-re-evaluated** discipline, not a set-once choice. Claude cannot toggle effort itself, so it must **surface every transition** and wait for Drew to toggle:
+
+1. **Plan-time mapping.** Every task in a phase plan is annotated with its recommended effort (R7) — the baseline map.
+2. **Mid-task re-evaluation.** The right effort can be *revealed during* the work — a task planned at Max may surface a breadth-shaped parallel sub-task (bulk matching, a fleet survey). When it does: **pause → prompt `/effort ultracode` → wait for the toggle (a system-reminder confirms) → then run the Workflow.** Never launch multi-agent fan-out on a verbal "yes" before the toggle lands.
+3. **Sub-task-done switch-back.** The moment the breadth stretch completes and work returns to deep single-thread (synthesis, design, the PhaseEnd): **pause → prompt to switch back to `/effort max`** (Ultracode caps depth at xHigh, wrong for synthesis).
+4. **Task-completion hand-off.** At a task boundary, if Ultracode was used on the task just finished and the **next** task doesn't need it, **stop and prompt to switch before starting the next task** — do not roll into the next task at the wrong effort.
+
+Failure modes that motivated this (both 2026-06-16): (a) launched a harvest Workflow on Drew's verbal "Enable Ultracode" *before* he toggled it; (b) finished the 5 Ultracode harvest passes and continued straight into the deep T2–T6 work without prompting the switch back to Max — Drew had to ask. Memory: `effort-prompt-ultracode-on-breadth`.
+
 ---
 
 ## The decision rule — Max vs xHigh vs Ultracode
