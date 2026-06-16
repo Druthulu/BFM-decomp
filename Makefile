@@ -294,11 +294,15 @@ OBJS     := $(ASM_SRCS:%.s=build/%.o) $(C_SRCS:%.c=build/%.o)
 extract:
 	@mkdir -p $(OUT_DIR)
 	$(SPLAT) split $(SPLAT_YAML)
+ifeq ($(BINARY),main)
 	# Phase 7 (LZSS): reorder splat's section-major .main into the real
 	# .data(front) -> .rodata -> .data(tail) sandwich, so the migrated LZSS
 	# jtbl_80072A38 (800.o .rodata) lands at 0x80072A38 between 531DC.data and
 	# 6324C.data. Idempotent; keyed off splat's exact output (re-run = no-op).
-	$(PYTHON) tools/ld_interleave.py $(LD_SCRIPT)
+	# EXE-only (overlays have no rodata island) — gated to BINARY=main; --front/--tail
+	# name the sandwich .data objects (cookbook §8).
+	$(PYTHON) tools/ld_interleave.py --front 53198.data.o --tail 6324C.data.o $(LD_SCRIPT)
+endif
 
 # The linker script is an `extract` output, not produced by `build` — guard with a
 # friendly message instead of make's raw "No rule to make target".

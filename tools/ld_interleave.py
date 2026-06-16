@@ -22,12 +22,22 @@ TAIL_DATA). All other (empty) .data objects go in the front group.
 Idempotent: keyed off splat's exact section-major output; re-running on an
 already-patched script is a no-op (the markers won't match). Run post-extract.
 """
-import re, sys
+import re, sys, argparse
 
-LD = sys.argv[1] if len(sys.argv) > 1 else "build/us/SLUS_007.26.ld"
-# object basenames whose (.data) belongs to the front / tail region
-FRONT_DATA = ("53198.data.o",)
-TAIL_DATA  = ("6324C.data.o",)
+_ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+_ap.add_argument("ld", nargs="?", default="build/us/SLUS_007.26.ld",
+                 help="splat-generated linker script to rewrite in place")
+_ap.add_argument("--front", action="append",
+                 help="object basename whose .data belongs to the FRONT region (repeatable)")
+_ap.add_argument("--tail", action="append",
+                 help="object basename whose .data belongs to the TAIL region (repeatable)")
+_a = _ap.parse_args()
+LD = _a.ld
+# object basenames whose (.data) belongs to the front / tail region. Defaults are the EXE's
+# LZSS-sandwich objects (TRANSITIONAL — the Makefile passes --front/--tail explicitly, and the
+# whole step is gated to BINARY=main since overlays have no rodata island). See cookbook §8.
+FRONT_DATA = tuple(_a.front) if _a.front else ("53198.data.o",)
+TAIL_DATA  = tuple(_a.tail) if _a.tail else ("6324C.data.o",)
 
 src = open(LD).read()
 
