@@ -216,10 +216,14 @@ def compiles_standalone(body_lines):
     LOCAL struct types (named in the SOURCE overlay's .c but not common.h) compiles in the source yet
     FAILS in every other overlay — it cannot be mechanically lifted. Pre-filtering on this avoids an
     all-or-nothing byte-gate revert and lets us report the non-liftable count honestly (P9)."""
-    src = '#include "common.h"\n' + "\n".join(body_lines) + "\n"
+    # include the shared engine types so struct-USING bodies (that reference header types like
+    # `struct Vec`) resolve; a body using an overlay-local typedef not in the header still fails -> skip.
+    src = ('#include "common.h"\n#include "engine_types.h"\n'
+           + "\n".join(body_lines) + "\n")
     d = ROOT / ".run/dpcc"; d.mkdir(parents=True, exist_ok=True)
     f = d / "t.c"; f.write_text(src)
-    cpp = subprocess.run(["mipsel-linux-gnu-cpp", "-lang-c", f"-I{ROOT}/include", "-undef",
+    cpp = subprocess.run(["mipsel-linux-gnu-cpp", "-lang-c", f"-I{ROOT}/include",
+                          f"-I{ROOT}/src/shared", "-undef",
                           "-fno-builtin", "-Dmips", "-D__GNUC__=2", "-D__OPTIMIZE__", "-Dpsx",
                           "-D_PSYQ", "-D_MIPSEL", "-D_LANGUAGE_C", str(f)], capture_output=True, text=True)
     if cpp.returncode != 0:
@@ -306,13 +310,14 @@ def main():
             n_lowreach += 1; continue
         if any("//" in l or l.rstrip().endswith("\\") for l in body):
             n_local += 1; continue            # not macro-safe (// comment / line-continuation)
-        # A body that touches a struct/union type (DEFINES it, or USES it via a param/extern/cast)
-        # can't be lifted as a standalone macro: agents named these inline with colliding generic names
-        # (`struct S`, `struct vec`, ...), so two macros' types redefine/conflict when both instantiate
-        # in one overlay (Phase-15 T6 ov_SC01_000: `struct S` redefinition + incompatible-pointer abort).
-        # Shared engine types belong in a shared types header (follow-up); for now skip any struct/union
-        # body -> it stays banked in the source overlay only (still REAL there).
-        if re.search(r'\b(struct|union)\b', "\n".join(body)):
+        # A body that inline-DEFINES a named struct/union or a typedef can't be lifted as a macro
+        # (two macros defining the same type redefine it when both instantiate in one overlay). But
+        # USING a type that lives in the shared src/shared/engine_types.h header (§14c struct follow-up)
+        # is fine — the header is included via engine_core.h in every overlay. Anonymous local structs
+        # (`struct {...} v;`, no name, no typedef) are unique per instantiation -> also fine. So skip
+        # ONLY inline named-struct defs + typedefs; compiles_standalone (which includes engine_types.h)
+        # then rejects any body using an overlay-local type NOT yet promoted to the header.
+        if re.search(r'(\b(struct|union)\s+\w+\s*\{)|(\btypedef\b)', "\n".join(body)):
             n_local += 1; continue
         if not compiles_standalone(body):     # uses overlay-local types -> can't lift mechanically
             n_local += 1; continue
