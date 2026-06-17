@@ -649,9 +649,9 @@ Every script under `tools/` (plus the two report make-targets), grouped by purpo
 | | `tools/make_apicard_used.py` | **(Phase 8)** Build the combined libapi+libcard curated dir (§9.6). |
 | | `tools/ld_interleave.py` | Interleave linker inputs to match original section ordering. |
 | | `tools/split_src_region.py` | Split a `src/` region file at object boundaries. |
-| **Reports** | `tools/progress.py` | Decomp progress report (`make report`); counts dedup-shared fns as REAL via the registry (Phase 11). |
+| **Reports** | `tools/progress.py` | Per-binary decomp progress (`make report`); counts dedup-shared fns as REAL via the registry (Phase 11). **`--fleet`** (Phase 15) aggregates all 136 binaries → `docs/progress.fleet.md` (deterministic, source-derived). |
 | | `tools/difficulty.py` | Per-function difficulty scoring. |
-| | `tools/dup_report.py` | Duplicate-function report; `--cross` (Phase 11) buckets all binaries → `docs/duplicates.cross.md`. |
+| | `tools/dup_report.py` | Duplicate-function report; `--cross` (Phase 11) buckets all binaries → `docs/duplicates.cross.md`. **Phase 15:** ingests each overlay once (named ∪ `sig.ov_*` glob, deduped by alias) — else onboarded overlays double-count and inflate collapsible bytes ~2×. |
 | **Cross-binary dedup** (Phase 11, cookbook §11) | `tools/sig_image.py` | **Ghidra-FREE** per-function signer for a flat image (overlay/resident); `h_exact` byte-matches the Ghidra dumper, self-consistent `h_norm`; linear-partition + `detect_code_end` boundaries. |
 | | `tools/dedup_integrate.py` | Byte-honesty validator for `config/dedup.us.yaml` code-shares (`--check`; fail-closed on sig-hash drift). |
 | | `tools/dedup_propagate.py` | **(Phase 15, cookbook §14)** Match-once → propagate-many: lift a matched body, author a `DEFINE_func_<ADDR>()` macro in `src/shared/engine_core.h`, instantiate it at every onboarded overlay sharing that `h_exact`, byte-gate each (fail-closed), register in `dedup.us.yaml`. `--addr`/`--auto-from`/`--check-only`. |

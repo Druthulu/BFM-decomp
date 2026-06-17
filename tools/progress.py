@@ -293,17 +293,24 @@ BINARIES = {
                         src="src/ov_SC07_009", asm="asm/ov_SC07_009/nonmatchings", out="docs/progress.ov_SC07_009.md"),
     # <<< overlays: tools/new_overlay.sh inserts ov_* entries above this line (Phase 13) >>>
 }
-BINARY = next((sys.argv[i + 1] for i, x in enumerate(sys.argv)
-               if x == "--binary" and i + 1 < len(sys.argv)), "main")
-if BINARY not in BINARIES:
-    sys.exit(f"progress.py: unknown --binary '{BINARY}' (known: {', '.join(BINARIES)})")
-_cfg = BINARIES[BINARY]
-SRCS = sorted((ROOT / _cfg["src"]).glob("*.c"))   # every c-segment (src/boot.c, src/800.c, ...)
-ASM_ROOT = ROOT / _cfg["asm"]                      # per-segment subdirs (boot/, 800/, ...)
-OUT  = ROOT / _cfg["out"]
-BUILD = ROOT / _cfg["build"]
-CHECK = ROOT / _cfg["check"]
 MAKEFILE = ROOT / "Makefile"
+# Per-binary state (BINARY/_cfg/SRCS/ASM_ROOT/OUT/BUILD/CHECK/LINKED_SEGS) is set by
+# set_binary() so report() can run over MANY binaries in one process (--fleet, Phase 15).
+BINARY = _cfg = SRCS = ASM_ROOT = OUT = BUILD = CHECK = LINKED_SEGS = None
+
+def set_binary(binary):
+    """Point the module globals at <binary>'s src/asm/build/check tree + recompute LINKED_SEGS."""
+    global BINARY, _cfg, SRCS, ASM_ROOT, OUT, BUILD, CHECK, LINKED_SEGS
+    if binary not in BINARIES:
+        sys.exit(f"progress.py: unknown --binary '{binary}' (known: {', '.join(BINARIES)})")
+    BINARY = binary
+    _cfg = BINARIES[binary]
+    SRCS = sorted((ROOT / _cfg["src"]).glob("*.c"))   # every c-segment (src/boot.c, src/800.c, ...)
+    ASM_ROOT = ROOT / _cfg["asm"]                      # per-segment subdirs (boot/, 800/, ...)
+    OUT, BUILD, CHECK = ROOT / _cfg["out"], ROOT / _cfg["build"], ROOT / _cfg["check"]
+    LINKED_SEGS = linked_subsegs()
+    global _S_INDEX  # one directory walk per binary (not a glob per function — 340k globs over the fleet)
+    _S_INDEX = {p.stem: p for p in ASM_ROOT.glob("*/*.s")} if ASM_ROOT.exists() else {}
 
 def linked_subsegs():
     """Library subsegments swapped to real PsyQ objects at build time = the 5th positional arg
@@ -337,8 +344,6 @@ def linked_subsegs():
         segs.update(s for s in arg.split(',') if re.fullmatch(r'[A-Za-z0-9_]+', s))
     return segs
 
-LINKED_SEGS = linked_subsegs()
-
 def dedup_members(binary):
     """Function names matched-once-and-shared via config/dedup.us.yaml for this binary. They are
     hand-matched byte-identical C, but instantiated from a shared body (a macro in src/shared/),
@@ -355,11 +360,11 @@ def dedup_members(binary):
     except Exception:
         return set()
 
+_S_INDEX = {}  # name -> .s path, rebuilt per binary in set_binary() (avoids a glob per function)
+
 def find_s(name):
     """Locate <name>.s in any asm/nonmatchings/<seg>/ subdir (segments: boot, 800, ...)."""
-    for p in sorted(ASM_ROOT.glob(f"*/{name}.s")):
-        return p
-    return None
+    return _S_INDEX.get(name)
 
 INSTR = re.compile(r'^\s*/\*\s*[0-9A-Fa-f]+\s+[0-9A-Fa-f]+\s+[0-9A-Fa-f]+\s*\*/\s+[a-z]')
 
@@ -442,9 +447,10 @@ def classify():
             i += 1
     return real, empty, nonmatching, stubs, blobs, linked
 
-def main():
-    audit = '--audit' in sys.argv
-    check = '--check' in sys.argv
+def report(binary, audit=False, write=True):
+    """Classify one binary; write docs/progress.<binary>.md (if write) + print; return a stats dict
+    (for --fleet aggregation). Single-binary output is byte-for-byte the legacy format."""
+    set_binary(binary)
     real, empty, nonmatching, stubs, blobs, linked = classify()
     # Code-shared functions (dedup.us.yaml) are REAL byte-identical matches whose macro-instantiated
     # form classify() doesn't parse — fold them in (dedup-safe) so the count stays honest (P9).
@@ -485,10 +491,65 @@ def main():
         out.append(f"empties audit: {len(empty)-len(bad)}/{len(empty)} genuine jr;nop"
                    + (f"  !! SUSPICIOUS: {bad}" if bad else "  (all clean)"))
 
-    text = "\n".join(out) + "\n"
-    print(text, end="")
-    OUT.write_text(text)
+    if write:
+        text = "\n".join(out) + "\n"
+        print(text, end="")
+        OUT.write_text(text)
+    return dict(binary=binary, real=len(real), shared=len(shared), linked=len(linked),
+                nonmatching=len(nonmatching), empty=len(empty), stubs=len(stubs), blobs=len(blobs),
+                matchable=matchable, byteident=byteident)
 
+
+def fleet():
+    """Aggregate every binary into docs/progress.fleet.md — DETERMINISTIC (source-derived from the
+    committed src/*.c + config/dedup.us.yaml). The live byte-identity gate is `make check-all`;
+    collapsible-byte leverage lives in docs/duplicates.cross.md. Rows: main, resident, overlays sorted."""
+    order = [b for b in ("main", "resident") if b in BINARIES] + \
+            sorted(b for b in BINARIES if b not in ("main", "resident"))
+    rows = [report(b, write=False) for b in order]
+    tot = lambda k: sum(r[k] for r in rows)
+    REAL, SHARED, LINKED, EMPTY, NM, STUBS, MATCH, BYTE = (tot('real'), tot('shared'), tot('linked'),
+        tot('empty'), tot('nonmatching'), tot('stubs'), tot('matchable'), tot('byteident'))
+    # dedup registry totals (deterministic from the committed yaml)
+    ngroups = nmembers = 0
+    dp = ROOT / "config/dedup.us.yaml"
+    if dp.exists():
+        try:
+            import yaml
+            gs = (yaml.safe_load(dp.read_text()) or {}).get("groups") or []
+            ngroups = len(gs); nmembers = sum(len(g.get("members") or []) for g in gs)
+        except Exception:
+            pass
+
+    out = ["# BFM FLEET matching progress  (generated by tools/progress.py --fleet — authoritative)",
+           f"# {len(rows)} binaries: main + resident + {len(rows)-2} location overlays. DETERMINISTIC,",
+           "# source-derived (committed src/*.c + config/dedup.us.yaml). Live byte gate: `make check-all`;",
+           "# cross-binary collapsible-byte leverage: docs/duplicates.cross.md.", "",
+           f"FLEET REAL substantive   : {REAL:6d}   (of which dedup-shared {SHARED} via {ngroups} groups / {nmembers} instances)",
+           f"FLEET LINKED PsyQ objs   : {LINKED:6d}",
+           f"FLEET byte-identical     : {BYTE:6d} / {MATCH} = {100*BYTE/MATCH:.2f}%   (REAL+LINKED+empties)",
+           f"FLEET NON_MATCHING       : {NM:6d}   (0 in any default build — G4)",
+           f"FLEET INCLUDE_ASM stubs  : {STUBS:6d}",
+           f"FLEET matchable          : {MATCH:6d}", "",
+           "| binary | REAL | shared | LINKED | byte-ident | matchable | byte-ident % |",
+           "|---|---:|---:|---:|---:|---:|---:|"]
+    for r in rows:
+        pct = (100 * r['byteident'] / r['matchable']) if r['matchable'] else 0.0
+        out.append(f"| {r['binary']} | {r['real']} | {r['shared']} | {r['linked']} | "
+                   f"{r['byteident']} | {r['matchable']} | {pct:.1f}% |")
+    text = "\n".join(out) + "\n"
+    print("\n".join(out[:11]))
+    (ROOT / "docs/progress.fleet.md").write_text(text)
+
+
+def main():
+    if '--fleet' in sys.argv:
+        fleet(); return
+    audit = '--audit' in sys.argv
+    check = '--check' in sys.argv
+    binary = next((sys.argv[i + 1] for i, x in enumerate(sys.argv)
+                   if x == "--binary" and i + 1 < len(sys.argv)), "main")
+    report(binary, audit=audit, write=True)
     if check:
         import subprocess
         sys.exit(subprocess.run(["make", "-C", str(ROOT), "check"]).returncode)

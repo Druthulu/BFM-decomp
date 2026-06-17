@@ -150,6 +150,8 @@ report:
 # identical file. --cross ignores --binary and scans every sig in BINARIES.
 ifeq ($(BINARY),main)
 	$(VENV_PY) tools/dup_report.py --cross
+	# Fleet roll-up (Phase 15): deterministic per-binary table + fleet totals -> docs/progress.fleet.md.
+	$(VENV_PY) tools/progress.py --fleet
 	# Byte-honesty gate (Phase 11): fail-closed if any registered code-share drifted from its
 	# recorded signature hash. Last in the recipe, so a stale share fails `make report` (P9).
 	$(VENV_PY) tools/dedup_integrate.py --check
