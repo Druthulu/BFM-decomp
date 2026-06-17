@@ -835,3 +835,24 @@ the bulk work (each cost a real failure first):
   rebuilt. Re-running tops up as more overlays onboard.
 - **`progress.py --fleet` parse cache.** `dedup_members` parsed the (now-large) registry once per binary (136×) —
   cache it once (`_DEDUP_CACHE`): fleet report 6m+ → ~7s.
+
+### §14b Harvesting the UNMATCHED shared core — the match_one wall (Phase 15)
+
+After the bulk (already-matched) propagation, the remaining shared functions are the **hard residual** the
+original per-overlay harvest already failed on. A 25-agent Ultracode pass (§12) drafted + `match_one`-verified
+300 of the smallest unmatched-shared functions (8–16 ins); the whole-binary byte-gate (`harvest_verify` in
+`ov_SC01_077`) verified **only 49 (16%)** despite 292 agent-claimed "high". The gap is structural, not agent error:
+- **`match_one` masks relocations (jal 26-bit, HI16/LO16), so it CANNOT verify call/data targets.** A draft that
+  calls the wrong function — or the right function with the wrong extern signature — still prints `MATCH`. It is a
+  true gate only for **leaf** functions (no calls, no global refs). The 49 that passed were essentially the leaves.
+- **The real misses are the extern-type-conflict wall** (§12's gotcha, now the dominant failure): a wrapper
+  `func_A` calls `func_B`; the draft declares `extern void func_B(s32)`, but `func_B` is already defined IN THE SAME
+  TU (an `engine_core.h` macro from the bulk, or an inline def) with a different signature → `conflicting types` →
+  compile fail → the byte-gate reverts it. `match_one` (standalone, no other defs) never sees the conflict.
+- **Implications for future passes (the open-ended tail):** (1) **leaf-first** — filter targets to functions whose
+  `.s` has no `jal`/`%hi`/`%lo` for a high-yield pass; (2) **callee-signature-aware drafting** — when a draft calls
+  `func_X` that's already C-defined (grep `engine_core.h` / the overlay `.c`), it must reuse `func_X`'s EXACT
+  signature; a STUB callee (still `INCLUDE_ASM`) takes any consistent extern (asm provides the symbol, no conflict);
+  (3) a real per-function gate would need to **link** (resolve relocations), i.e. the whole-binary `harvest_verify`,
+  not the masked `match_one`; (4) the call-heavy residual is genuine decomp-permuter / hand-iteration work — the
+  open-ended Phase 15 continuation, not a milestone gate.
