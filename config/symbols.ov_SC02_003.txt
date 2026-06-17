@@ -1,0 +1,3 @@
+// config/symbols.ov_SC02_003.txt — overlay SC02/FILE_003 local symbols (Phase 13+)
+// R13/R15: overlay-REGION ONLY (vram 0x80128158..0x801E8867); NEVER merged into config/symbols.us.txt.
+// count=0

@@ -14,9 +14,9 @@ Overlays are position-locked at vram 0x80128158 and share an enormous engine cor
 - Top cross groups: ex0=770 ins @0x80144b9c ×134; ex1=476 @0x80141ca4; ex3=41 ins ×1104 — mostly unmatched even in 077.
 
 ## Tasks (harness IDs in brackets; one at a time, P4)
-- [ ] **T0 [#1] — IN PROGRESS** — record Phase-14 deferral in `docs/gen2-roadmap.md`.
-- [ ] T1 [#2] — onboard diverse wave-1 (~12 overlays); `check-all` green.
-- [ ] T2 [#3] — build `tools/dedup_propagate.py` + `src/shared/engine_core.h`; prove on the wave (Tier 1 / Max).
+- [x] **T0 [#1] — DONE** (commit commit:0101) — Phase-14 deferral recorded in `docs/gen2-roadmap.md`.
+- [x] **T1 [#2] — DONE** — onboarded diverse wave-1 (12 overlays, all 7 SC areas + 2 dup pairs); `check-all` **18/18 byte-identical**, 0 anomalies.
+- [ ] **T2 [#3] — IN PROGRESS** — build `tools/dedup_propagate.py` + `src/shared/engine_core.h`; prove on the wave (Tier 1 / Max).
 - [ ] T3 [#4] — onboard remaining ~118 overlays (full fleet); 136/136 `check-all` from clean (R22).
 - [ ] T4 [#5] — `progress.py --fleet` → `docs/progress.fleet.md`; wire into `make report`. **(P6 rules check after T4.)**
 - [ ] T5 [#6] — Ultracode shared-core harvest Tier-1 (small/high-count) + propagate fleet-wide. **(R27 toggle prompt.)**
@@ -35,3 +35,5 @@ Overlays are position-locked at vram 0x80128158 and share an enormous engine cor
 
 ## Log
 - 2026-06-16 — Session start: read load order (PROJECT_CONTEXT + all 14 PhaseEnds, no prior CURRENT_PHASE). Drew: skip Phase 14, do Phase 15, Max effort, plan mode. Verified ground truth (overlay count, dup pairs, cross-report, per-overlay counts) directly, correcting several sub-agent overclaims (R14). Plan approved (gate 1). Task list created (R28). Starting T0.
+- 2026-06-16 — **T0 done** (commit:0101): Phase-14 deferral propagated through gen2-roadmap (additive, H5).
+- 2026-06-16 — **T1 done**: onboarded wave-1 = ov_{SC01_000, SC01_001, SC02_000, SC02_003, SC03_002, SC03_006, SC04_000, SC04_018, SC04_019, SC05_000, SC06_000, SC07_000} (all byte-identical at 100% INCLUDE_ASM in ~50s; dup pairs SC02_000≡003=5ece4bca, SC04_018≡019=fe9b413f). Fleet `make check-all` = **18/18 passed**. Position-lock risk retired across all 7 areas — no anomalies. Next: T2 (dedup_propagate.py).

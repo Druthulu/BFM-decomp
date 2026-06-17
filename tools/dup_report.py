@@ -30,6 +30,18 @@ BINARIES = {
     "ov_SC01_005": dict(sig=".run/sig.ov_SC01_005.jsonl", md="docs/duplicates.ov_SC01_005.md"),
     "ov_SC01_006": dict(sig=".run/sig.ov_SC01_006.jsonl", md="docs/duplicates.ov_SC01_006.md"),
     "ov_SC03_001": dict(sig=".run/sig.ov_SC03_001.jsonl", md="docs/duplicates.ov_SC03_001.md"),
+    "ov_SC01_000": dict(sig=".run/sig.ov_SC01_000.jsonl", md="docs/duplicates.ov_SC01_000.md"),
+    "ov_SC01_001": dict(sig=".run/sig.ov_SC01_001.jsonl", md="docs/duplicates.ov_SC01_001.md"),
+    "ov_SC02_000": dict(sig=".run/sig.ov_SC02_000.jsonl", md="docs/duplicates.ov_SC02_000.md"),
+    "ov_SC02_003": dict(sig=".run/sig.ov_SC02_003.jsonl", md="docs/duplicates.ov_SC02_003.md"),
+    "ov_SC03_002": dict(sig=".run/sig.ov_SC03_002.jsonl", md="docs/duplicates.ov_SC03_002.md"),
+    "ov_SC03_006": dict(sig=".run/sig.ov_SC03_006.jsonl", md="docs/duplicates.ov_SC03_006.md"),
+    "ov_SC04_000": dict(sig=".run/sig.ov_SC04_000.jsonl", md="docs/duplicates.ov_SC04_000.md"),
+    "ov_SC04_018": dict(sig=".run/sig.ov_SC04_018.jsonl", md="docs/duplicates.ov_SC04_018.md"),
+    "ov_SC04_019": dict(sig=".run/sig.ov_SC04_019.jsonl", md="docs/duplicates.ov_SC04_019.md"),
+    "ov_SC05_000": dict(sig=".run/sig.ov_SC05_000.jsonl", md="docs/duplicates.ov_SC05_000.md"),
+    "ov_SC06_000": dict(sig=".run/sig.ov_SC06_000.jsonl", md="docs/duplicates.ov_SC06_000.md"),
+    "ov_SC07_000": dict(sig=".run/sig.ov_SC07_000.jsonl", md="docs/duplicates.ov_SC07_000.md"),
     # <<< overlays: tools/new_overlay.sh inserts ov_* entries above this line (Phase 13) >>>
 }
 CROSS_MD = "docs/duplicates.cross.md"
