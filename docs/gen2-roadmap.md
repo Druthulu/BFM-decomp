@@ -2,8 +2,9 @@
 
 > **Status:** APPROVED 2026-06-15 (owner-approved plan; Drew). Uncommitted pending Drew's commit/push (R6/R8).
 > **Rev 2026-06-15:** Phase 14 changed to the **two-repo model** (private master + curated public mirror, replacing the in-place history scrub); a **Backup & disaster-recovery** policy section added; **R8 commit cadence loosened** for Gen2 (per-session/finer commits+push).
+> **Rev 2026-06-16:** **Phase 14 (public flip) DEFERRED to Gen3+** (Drew). Gen2 EXIT (declared at Phase 14) is therefore **parked**; **Phase 15 (overlay long-tail) is the active phase**, proceeding open-ended. See the Phase-14 detail + EXIT-criteria amendments below.
 > **Numbering:** Gen2 continues the global phase count — **Phases 8–15** (Gen1 was 1–7).
-> **Gen2 EXIT** is declared at **Phase 14 (public flip)**; **Phase 15 (overlay long-tail) is open-ended and does NOT gate exit.**
+> **Gen2 EXIT** is declared at **Phase 14 (public flip)** — **but Phase 14 is now DEFERRED to Gen3+ (Drew, 2026-06-16), so formal Gen2 EXIT is parked**; **Phase 15 (overlay long-tail) is open-ended, does NOT gate exit, and is the active phase.**
 > **This file is the Gen2 equivalent of PROJECT_CONTEXT's "Build Roadmap — Gen1"** and lives in the evolvable `docs/` layer. It does **not** replace per-phase planning — **every phase still gets its own Phase Start plan + approval gate (P3) and its own `CURRENT_PHASE.md`.** PROJECT_CONTEXT itself is permanent/static (P1) and is never edited.
 
 ---
@@ -57,7 +58,7 @@ Almost all of BFM's game code lives **outside** the 404 KiB EXE — in a residen
 | **11** | Cross-binary dedup pipeline | **Max** (design) | `docs/duplicates.cross.md` groups funcs across binaries; one shared C body → **both** EXE and resident blob byte-identical from a single source |
 | **12** | Key engine systems — script VM, save/Q#5, sound (SQV) | **Max** | defined resident-blob systems matched at score 0 (script-VM core + `SaveLoadRoutine`/save path + SQV cluster); save format documented; both binaries green |
 | **13** | Representative location overlays — end-to-end + fleet runbook | **Max** (template) | a location overlay (`SC01/077`) byte-identical from source; a duplicate pair collapsed to one source (both green); `make build-all`/`check-all` + one-command onboarding |
-| **14** | **Public flip via a curated public repo (LATE CAPSTONE) — Gen2 EXIT** | **Max** | fresh **public repo** (private master untouched): only allowlisted paths, zero ROM bytes; `rom→decoder` + `make build && check` reproduces the EXE from a user's dump; no-ROM CI green; dashboard live |
+| **14** | **Public flip via a curated public repo (LATE CAPSTONE) — Gen2 EXIT** — **⟶ DEFERRED to Gen3+ (Drew 2026-06-16)** | **Max** | fresh **public repo** (private master untouched): only allowlisted paths, zero ROM bytes; `rom→decoder` + `make build && check` reproduces the EXE from a user's dump; no-ROM CI green; dashboard live |
 | **15** | Overlay long-tail (ONGOING — **not a gate**) | xHigh + breadth | per-overlay `make check` byte-identical; fleet matched-% rises monotonically, zero regressions |
 
 ---
@@ -145,6 +146,7 @@ Almost all of BFM's game code lives **outside** the 404 KiB EXE — in a residen
 - **Effort tier:** **Tier-1 (Max)** for the overlay template + first overlay (the pattern inherited by ~134 overlays); **Tier-2 (xHigh)** for subsequent ones; **breadth (Workflow)** for per-overlay harvest.
 
 ### Phase 14 — Public flip via a curated public repo (LATE CAPSTONE — Gen2 EXIT)
+> **⟶ DEFERRED to Gen3+ (Drew, 2026-06-16).** The public flip is parked until later; Gen2 proceeds *without* declaring formal EXIT this arc. The entire two-repo design below stands unchanged for whenever it resumes (likely a Gen3 capstone). Phase 15 (overlay long-tail) is the active phase meanwhile.
 - **Goal:** Publish the project as a **separate, freshly-created public repo** — AGPL-3.0 LICENSE, the `rom→decoder` regeneration tool, no-ROM CI, frogress/decomp.dev — while **this private repo remains the untouched master/backup**. (Replaces the earlier in-place history-scrub approach — owner decision 2026-06-15: the two-repo model is safer and cleaner.)
 - **Why here:** Owner constraint #2 (late capstone), after substantial matching. The two-repo model avoids any destructive history rewrite of the master: the public repo is built by **copying an allowlisted subset into a fresh repo with new history**, so there is nothing to scrub and no force-push, and the master's full ROM-relaxed working history + backup value is preserved. It also cleanly separates "my private storage/backup" from "what I share." It touches governance/infra, not matching, so it can't regress any byte-identical result.
 - **What goes public (allowlist) vs stays private:**
@@ -162,11 +164,12 @@ Almost all of BFM's game code lives **outside** the 404 KiB EXE — in a residen
 - **Effort tier:** **Tier-1 (Max)** — irreversible, outward-facing, security-sensitive (publishing); **Tier-3** for the LICENSE file + dashboard wiring once the allowlist + rom→decoder are proven.
 
 ### Phase 15 — Overlay long-tail (ONGOING — explicitly NOT a Gen2 gate)
+> **⟶ ACTIVE PHASE (started 2026-06-16).** With Phase 14 deferred to Gen3+, this is the current work. Scope this round (Drew-approved, gate 1): build the match-once→propagate-many machine (`tools/dedup_propagate.py`), onboard all 134 overlays, Ultracode-harvest + propagate the shared engine core fleet-wide, fleet roll-up (`docs/progress.fleet.md`). Ghidra-free by default; escalate per-overlay → per-SC-area only when the Ghidra-free loop stalls. The 200–770-ins giants + per-overlay unique tails stay ongoing. Plan: `~/.claude/plans/defer-phase14-till-gen3-cheeky-yeti.md`; log: `phase-ends/CURRENT_PHASE.md`.
 - **Goal:** Match the remaining ~130 location overlays by repeated application of the Phase-13 runbook + Phase-11 dedup economics — open-ended, never an exit gate.
-- **Why here / open-ended:** Owner constraint #3. By now the per-overlay recipe is proven and dedup makes each new overlay cheap (match-once-share-many). Runs against the public repo with the dashboard live, so external contributors can participate. Captures and tracks the tail without holding Gen2 (or Gen3) hostage to exhaustive completion.
+- **Why here / open-ended:** Owner constraint #3. By now the per-overlay recipe is proven and dedup makes each new overlay cheap (match-once-share-many). *(2026-06-16: runs against the **private** repo for now — Phase 14 public flip deferred to Gen3+; fleet progress is tracked via `docs/progress.fleet.md` instead of a live public dashboard until the flip.)* Captures and tracks the tail without holding Gen2 (or Gen3) hostage to exhaustive completion.
 - **Key tasks:** generate the full overlay worklist (all 134 `0.4.dec` payloads, ranked by collapsible-bytes from `docs/duplicates.cross.md` + RAM-dump coverage); per overlay: instantiate config, dedup-credit against the live corpus, harvest the unique remainder, confirm byte-identical at the decompressed layer; continuously feed the dashboard; capture new overlay shapes back into the runbook.
 - **Milestone (recurring, not a gate):** each overlay closes when `make check BINARY=<ovNN>` is byte-identical against its `0.4.dec` SHA1; the cumulative overlay matched-% rises monotonically with zero checksum regressions. **No single completion bar gates the phase.**
-- **Dependencies:** Phases 11, 13, 14. Does **not** block Gen2 exit (declared at Phase 14).
+- **Dependencies:** Phases 11, 13. *(Phase 14 dropped from the chain — deferred to Gen3+, Drew 2026-06-16; Phase 15 proceeds against the private repo, no public-repo/dashboard prerequisite.)* Does **not** block Gen2 exit.
 - **Primary risk + mitigation:** Long-tail fatigue / budget exhaustion mid-overlay; or a rare overlay shape breaks the template. → Each overlay is independently byte-checkable and committed on completion (P4) — a stall strands nothing; open-ended-by-design means no all-or-nothing gate; rare shapes become documented special cases.
 - **Effort tier:** **Tier-2 (xHigh)** per overlay + **breadth (Ultracode/Workflow fan-out)** for parallel harvest; **Tier-1 (Max)** only when a genuinely new shape appears.
 
@@ -199,7 +202,7 @@ Phase 12 Engine systems        Phase 13 Representative overlays
             Phase 15  Overlay long-tail — OPEN-ENDED, NOT A GATE  [xHigh + breadth]
 ```
 
-- **Critical path:** 8 → 9 → 10 → 11 → {12, 13} → 14.
+- **Critical path:** 8 → 9 → 10 → 11 → {12, 13} → ~~14~~ *(14 deferred to Gen3+, Drew 2026-06-16)*. With 14 parked, the active path is **8 → 9 → 10 → 11 → {12, 13} → 15** (overlay long-tail, ongoing).
 - **Permitted overlap:** Phases 12 and 13 can run concurrently once 11 is done — an overlay can reach *all-asm byte-match* (needs symbols/addresses, not matched C) before every engine system is matched; 12's engine matches then incrementally credit 13's overlays via dedup.
 - **The invariant:** each new pipeline meets a *known-good* binary before a *greenfield* one — Phase 9 on the byte-locked EXE, Phase 11 on the byte-verified EXE↔resident pair, Phase 13 on the byte-proven `SC01/077`. No unproven-tool-meets-unproven-target crossing exists on the critical path.
 
@@ -208,11 +211,13 @@ Phase 12 Engine systems        Phase 13 Representative overlays
 ## Gen2 EXIT criteria (the "substantial, not exhaustive" decision)
 
 Gen2 exits — and Gen3 may be considered — when **all** are machine-verified:
+
+> **⟶ PARKED (Drew, 2026-06-16):** Phase 14 is deferred to Gen3+, so criterion 5 (public + dashboard) is **not pursued now** and formal Gen2 EXIT is **not declared this arc**. Criteria 1–4 + 6 are already met (Phases 8–13); the project continues in the open-ended Phase 15 (overlay long-tail) until Drew revisits the public flip.
 1. **EXE at its matching ceiling** (constraint #1): all linkable PsyQ libraries linked byte-identical; the easy difficulty-queue tail harvested; EXE byte-identical with and without SDK objects. *(Phase 8)*
 2. **Resident engine blob matched substantively** — the **script/event system resolved** (Phase 12: *no bytecode VM*; it is compiled-MIPS state/mode dispatch via fn-pointer tables — a byte-backed written determination, not a matched interpreter), the **save/Q#5 path documented** (`saveHeaderTemplate` + handler table + libmcrd path; deep save-data serialization + the `SaveLoadRoutine` code-match honestly deferred as Gen3/Gen1-precedent, P9), and the **sound/SQV cluster** matched + documented — all byte-checked, none NON_MATCHING in the default build; `make check BINARY=<resident>` green. **Met Phase 12 at REAL 123/146 = 85.6% byte-identical** ("substantial, not exhaustive"; the ~21 remaining stubs are documented permuter/§3a residuals). *(Phases 10, 12 — milestone amended at the Phase-12 close, Drew-approved)*
 3. **Cross-binary dedup live and proven:** `make report` emits cross-binary groups, and ≥1 shared body is byte-identical across ≥2 binaries from a single source. *(Phase 11)*
 4. **A representative set of location overlays matched end-to-end** (≥3 spanning the archetypes: a single overlay, a collapsed duplicate pair, a large free-roam overlay), each `make check` byte-identical against its `0.4.dec`. *(Phase 13)*
-5. **Public with a dashboard (via the curated public repo; private master untouched):** AGPL-3.0 present; the public repo's tree + history scan clean of ROM bytes and contain only allowlisted paths; rom→decoder reproduces the byte-identical EXE on a fresh clone from a user's dump; no-ROM CI green; frogress/decomp.dev live. *(Phase 14)*
+5. **(DEFERRED to Gen3+ — Phase 14 parked, Drew 2026-06-16) Public with a dashboard (via the curated public repo; private master untouched):** AGPL-3.0 present; the public repo's tree + history scan clean of ROM bytes and contain only allowlisted paths; rom→decoder reproduces the byte-identical EXE on a fresh clone from a user's dump; no-ROM CI green; frogress/decomp.dev live. *(Phase 14)*
 6. **Fleet build self-sustaining:** `make build-all`/`check-all` green; onboarding a new overlay is one command. *(Phase 13)*
 
 **Explicitly NOT required for exit:** completing the ~134-overlay long-tail (Phase 15 is open-ended), matching every engine function, or any Gen3 work (shiftability, repack, native recomp, randomizer tooling).
