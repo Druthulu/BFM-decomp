@@ -812,3 +812,26 @@ whole shared set; `--check-only` for a dry-run plan):
 - **Scale note (deferred until it bites):** `dedup.us.yaml` members are listed verbose (`{binary,vram,name}`).
   For the full 134-overlay × hundreds-of-functions bulk, switch to a `vram + binaries:[...]` shorthand (expanded by
   `dedup_integrate`/`progress.py`) before it becomes a 5-figure-line file.
+
+### §14a The fleet bulk run (Phase 15 — `--auto-from`, 947 REAL → 74,527; 3.82% → 22.14% in one pass)
+
+A measured **577 of `ov_SC01_077`'s matches are h_exact across all 134 overlays**; `dedup_propagate --auto-from
+ov_SC01_077` propagated **553** of them fleet-wide (each overlay byte-gated) in ~2 min. The 5 things that made
+the bulk work (each cost a real failure first):
+- **Only self-contained bodies are mechanically liftable.** A 077 match whose body names an overlay-LOCAL struct
+  type (`SrcB964 *a0` — a harvest-invented type defined in 077.c, not common.h) compiles in 077 but FAILS in
+  every other overlay (`parse error before '*'`, `a0 undeclared`). The first bulk attempt died on one and
+  reverted all 134 (fail-closed, correct but wasteful). Fix: a **compile pre-filter** — `compiles_standalone(body)`
+  builds the body with `common.h` only (cpp→cc1); skip if it fails. 9/562 were local-typed → skipped honestly (P9).
+  These need their types shared too (a future enhancement); they are NOT a byte regression, just deferred.
+- **The registry shorthand is mandatory at this scale.** 553 groups × ~134 members verbose ≈ 77k lines; the
+  `vram + binaries:[...]` shorthand keeps `dedup.us.yaml` at ~4k. `group_members()` (in `dedup_integrate`) is the
+  single expander used by `dedup_integrate --check` and `progress.py`.
+- **Per-overlay apply, not per-(function,overlay).** Group targets by overlay → one read/write per file; stub
+  lines replace 1:1 (no shift); the source overlay's inline defs splice by range in REVERSE line order. (Naive
+  per-pair editing is 77k file-ops and minutes slower.)
+- **Skip already-registered + gate-only-changed.** `--auto-from` excludes addrs already in the registry (additive,
+  resumable, never collides with an existing SETTER/engine_core share); only overlays that actually changed are
+  rebuilt. Re-running tops up as more overlays onboard.
+- **`progress.py --fleet` parse cache.** `dedup_members` parsed the (now-large) registry once per binary (136×) —
+  cache it once (`_DEDUP_CACHE`): fleet report 6m+ → ~7s.

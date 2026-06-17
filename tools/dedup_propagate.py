@@ -61,6 +61,23 @@ def load_sig(ov):
     return out
 
 
+def registered_addrs():
+    """Vaddrs already in config/dedup.us.yaml (shared via ANY mechanism — engine_core, ov_setters,
+    clearTbl40). --auto-from skips these so the bulk is purely additive and never collides with an
+    existing share (e.g. a SETTER-matched function) — which would trip the structural check."""
+    p = ROOT / "config/dedup.us.yaml"
+    if not p.exists():
+        return set()
+    try:
+        import yaml
+        sys.path.insert(0, str(ROOT / "tools"))
+        from dedup_integrate import group_members
+        data = yaml.safe_load(p.read_text()) or {}
+        return {v for g in (data.get("groups") or []) for (_b, v, _n) in group_members(g)}
+    except Exception:
+        return set()
+
+
 def sym(addr):
     return f"func_{addr:08X}"  # splat convention: uppercase 8-hex
 
@@ -166,16 +183,17 @@ def append_groups(groups):
     for g in groups:
         if re.search(rf"^\s*-\s*id:\s*{re.escape(g['id'])}\s*$", text, re.M):
             continue  # already present
-        mem = "\n".join(
-            f"      - {{ binary: {m['binary']}, vram: 0x{m['vram']:08X}, name: {m['name']} }}"
-            for m in g["members"])
+        # position-locked share -> compact shorthand (vram + binaries list), ~20x smaller than verbose
+        # members for fleet-wide groups; group_members() in dedup_integrate expands it.
+        bins = ", ".join(m["binary"] for m in g["members"])
         blocks.append(
             f"  - id: {g['id']}\n"
             f"    tier: {g['tier']}\n"
             f"    hash: {g['hash']}\n"
             f"    source: {g['source']}\n"
             f"    func: DEFINE_{sym(g['addr'])}\n"
-            f"    members:\n{mem}")
+            f"    vram: 0x{g['addr']:08X}\n"
+            f"    binaries: [{bins}]")
     if not blocks:
         return 0
     if not text.endswith("\n"):
@@ -189,6 +207,27 @@ def byte_gate(ov):
     r = subprocess.run(["make", "build", f"BINARY={ov}"], cwd=ROOT,
                        capture_output=True, text=True)
     return r.returncode == 0, r.stdout + r.stderr
+
+
+CC1 = ROOT / "tools/bin/gcc-2.7.2-psx/cc1"
+
+def compiles_standalone(body_lines):
+    """True iff the lifted body compiles with ONLY common.h (cpp -> cc1). A body that uses overlay-
+    LOCAL struct types (named in the SOURCE overlay's .c but not common.h) compiles in the source yet
+    FAILS in every other overlay — it cannot be mechanically lifted. Pre-filtering on this avoids an
+    all-or-nothing byte-gate revert and lets us report the non-liftable count honestly (P9)."""
+    src = '#include "common.h"\n' + "\n".join(body_lines) + "\n"
+    d = ROOT / ".run/dpcc"; d.mkdir(parents=True, exist_ok=True)
+    f = d / "t.c"; f.write_text(src)
+    cpp = subprocess.run(["mipsel-linux-gnu-cpp", "-lang-c", f"-I{ROOT}/include", "-undef",
+                          "-fno-builtin", "-Dmips", "-D__GNUC__=2", "-D__OPTIMIZE__", "-Dpsx",
+                          "-D_PSYQ", "-D_MIPSEL", "-D_LANGUAGE_C", str(f)], capture_output=True, text=True)
+    if cpp.returncode != 0:
+        return False
+    cc1 = subprocess.run([str(CC1), "-quiet", "-O2", "-G0", "-mips1", "-mcpu=3000", "-mgas",
+                          "-msoft-float", "-fgnu-linker", "-o", "/dev/null"],
+                         input=cpp.stdout, capture_output=True, text=True)
+    return cc1.returncode == 0
 
 
 # ---------------------------------------------------------------- main
@@ -217,7 +256,10 @@ def main():
         src = a.auto_from
         ssig = load_sig(src)
         ctext = c_path(src).read_text()
+        reg = registered_addrs()   # skip functions already shared (additive + resumable)
         for addr in sorted(ssig):
+            if addr in reg:
+                continue
             site = find_site(ctext, src, addr)
             if not site or site[0] != "def":   # only functions matched (inline def) in the source
                 continue
@@ -244,22 +286,33 @@ def main():
     else:
         sys.exit("give --addr or --auto-from")
 
-    # ---- build the per-target plan (members + body + hash)
+    # ---- build the per-target plan (members + body + hash). Cache the source sig/.c (one src in
+    # auto-from). Filter out bodies that aren't self-contained (overlay-local types -> not liftable).
     plan = []
+    sig_cache, txt_cache = {}, {}
+    n_nondef = n_local = n_lowreach = 0
     for addr, src in targets:
-        ssig = load_sig(src)
+        ssig = sig_cache.setdefault(src, load_sig(src))
         if addr not in ssig:
-            print(f"[skip] 0x{addr:08X}: not signed in {src}"); continue
+            continue
         h = ssig[addr].get(a.tier)
-        site = find_site(c_path(src).read_text(), src, addr)
+        ctext = txt_cache.setdefault(src, c_path(src).read_text())
+        site = find_site(ctext, src, addr)
         if not site or site[0] != "def":
-            print(f"[skip] 0x{addr:08X}: not an inline def in source {src}"); continue
+            n_nondef += 1; continue
         body = site[3]
         members = [ov for ov in pool if sigs[ov].get(addr, {}).get(a.tier) == h]
         if len(members) < 2:
-            print(f"[skip] 0x{addr:08X}: reach {len(members)} < 2"); continue
+            n_lowreach += 1; continue
+        if any("//" in l or l.rstrip().endswith("\\") for l in body):
+            n_local += 1; continue            # not macro-safe (// comment / line-continuation)
+        if not compiles_standalone(body):     # uses overlay-local types -> can't lift mechanically
+            n_local += 1; continue
         plan.append(dict(addr=addr, src=src, hash=h, body=body, members=members))
 
+    if n_local or n_nondef or n_lowreach:
+        print(f"[skip] {n_local} not self-contained (local types), {n_nondef} not inline-def, "
+              f"{n_lowreach} reach<{a.min_reach}")
     if not plan:
         sys.exit("[error] nothing to propagate")
 
@@ -293,23 +346,6 @@ def main():
             htext = htext.replace("\n#endif\n", "\n" + macro + "\n#endif\n")
     edit(header_path, htext)
 
-    # edit each member overlay
-    for p in plan:
-        for ov in p["members"]:
-            cp = c_path(ov)
-            t = cp.read_text()  # accumulated on-disk text (edit() preserves the original for restore)
-            t = ensure_include(t, a.header)
-            site = find_site(t, ov, p["addr"])
-            if not site:
-                print(f"[warn] {ov}: 0x{p['addr']:08X} site not found — skipping in this overlay")
-                continue
-            if site[0] == "macro":
-                edit(cp, t)  # already instantiated (idempotent)
-                continue
-            t = replace_site(t, ov, p["addr"], *site[:3])
-            edit(cp, t)
-
-    # ---- byte-gate every touched overlay
     def restore():
         for path, orig in touched.items():
             if orig is None:
@@ -317,34 +353,73 @@ def main():
             else:
                 path.write_text(orig)
 
-    # structural check the byte-gate CANNOT catch: a leftover INCLUDE_ASM stub is itself
-    # byte-identical, so `make check` would pass even if a function wasn't actually converted.
+    # ---- edit each member overlay ONCE (group targets by overlay -> one read/write per file, not per
+    # (function,overlay) — essential at fleet scale). Stub lines replace 1:1 (no line shift); the source
+    # overlay's inline defs splice by range in REVERSE line order (so earlier indices stay valid).
+    by_ov = {}
     for p in plan:
         for ov in p["members"]:
-            t = c_path(ov).read_text()
+            by_ov.setdefault(ov, []).append(p)
+    MACRO_RE = re.compile(r'^\s*DEFINE_func_([0-9A-Fa-f]+)\(\)')
+    changed = []
+    for ov in sorted(by_ov):
+        cp = c_path(ov)
+        lines = ensure_include(cp.read_text(), a.header).splitlines(keepends=True)
+        sp = re.compile(rf'^\s*INCLUDE_ASM\("asm/{re.escape(ov)}/nonmatchings/{re.escape(ov)}",\s*func_([0-9A-Fa-f]+)\);\s*$')
+        stub_idx, macro_set = {}, set()
+        for i, l in enumerate(lines):
+            ms = sp.match(l)
+            if ms: stub_idx[int(ms.group(1), 16)] = i; continue
+            mm = MACRO_RE.match(l)
+            if mm: macro_set.add(int(mm.group(1), 16))
+        joined = "".join(lines)
+        line_repls, def_ranges, ovc = {}, [], False
+        for p in by_ov[ov]:
+            ad = p["addr"]
+            if ad in macro_set:
+                continue                       # already instantiated here (idempotent)
+            repl = f"DEFINE_{sym(ad)}()  /* dedup: shared engine-core @0x{ad:08X} (src/shared) */\n"
+            if ad in stub_idx:
+                line_repls[stub_idx[ad]] = repl; ovc = True
+            else:
+                site = find_site(joined, ov, ad)   # source overlay's inline def (or absent -> skip)
+                if site and site[0] == "def":
+                    def_ranges.append((site[1], site[2], repl)); ovc = True
+        for idx, repl in line_repls.items():
+            lines[idx] = repl
+        for start, end, repl in sorted(def_ranges, key=lambda x: -x[0]):
+            lines[start:end + 1] = [repl]
+        edit(cp, "".join(lines))
+        if ovc:
+            changed.append(ov)
+
+    # structural check the byte-gate CANNOT catch (a leftover stub is itself byte-identical): every
+    # claimed member must now instantiate the macro and have no stub. One read per changed overlay.
+    for ov in changed:
+        t = c_path(ov).read_text()
+        for p in by_ov[ov]:
             if f"DEFINE_{sym(p['addr'])}()" not in t:
-                restore(); sys.exit(f"[FAIL] {ov}: 0x{p['addr']:08X} not instantiated after edit — REVERTED")
+                restore(); sys.exit(f"[FAIL] {ov}: 0x{p['addr']:08X} not instantiated — REVERTED")
             if stub_line(ov, p["addr"]) in t:
                 restore(); sys.exit(f"[FAIL] {ov}: 0x{p['addr']:08X} stub still present — REVERTED")
 
-    gate_ovs = sorted({ov for p in plan for ov in p["members"]})
+    # byte-gate only the overlays that actually changed (an already-macro member didn't change).
     if not a.no_gate:
-        for ov in gate_ovs:
+        for ov in changed:
             ok, log = byte_gate(ov)
             if not ok:
                 tail = "\n".join(log.splitlines()[-12:])
-                print(f"[FAIL] {ov} not byte-identical after propagation — REVERTING ALL.\n{tail}")
-                restore()
-                sys.exit(1)
-            print(f"[ OK ] {ov} byte-identical")
+                print(f"[FAIL] {ov} not byte-identical — REVERTING ALL.\n{tail}")
+                restore(); sys.exit(1)
+        print(f"[ OK ] {len(changed)} overlays byte-identical after propagation")
 
-    # ---- register groups
+    # ---- register groups (compact shorthand: position-locked -> vram + binaries list)
     groups = [dict(id=f"E_{sym(p['addr'])}", tier=a.tier, hash=p["hash"],
                    source=a.header, addr=p["addr"],
                    members=[dict(binary=ov, vram=p["addr"], name=sym(p["addr"])) for ov in p["members"]])
               for p in plan]
     n = append_groups(groups)
-    print(f"== propagated {len(plan)} function(s) across {len(gate_ovs)} overlays; "
+    print(f"== propagated {len(plan)} function(s); {len(changed)} overlays rebuilt byte-identical; "
           f"registered {n} new group(s) in config/dedup.us.yaml ==")
 
 

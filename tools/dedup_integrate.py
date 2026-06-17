@@ -35,6 +35,21 @@ def _addr(v):
     return v if isinstance(v, int) else int(str(v), 16)
 
 
+def group_members(g):
+    """Yield (binary, vram_int, name) for a group in EITHER form (Phase 15):
+       verbose   -> members: [{binary, vram, name}, ...]
+       shorthand -> vram: 0xADDR + binaries: [a, b, ...]  (position-locked: same vram/name everywhere;
+                    ~20x smaller for fleet-wide shares where every member sits at the identical vaddr)."""
+    if g.get("members"):
+        for m in g["members"]:
+            a = _addr(m["vram"])
+            yield m.get("binary"), a, m.get("name", f"func_{a:08X}")
+    elif g.get("binaries") is not None and g.get("vram") is not None:
+        a = _addr(g["vram"]); nm = f"func_{a:08X}"
+        for b in g["binaries"]:
+            yield b, a, nm
+
+
 def _load_sig_index(rel):
     """addr(int) -> sig row for .run/sig.<bin>.jsonl, or None if the file is absent."""
     p = ROOT / rel
@@ -64,8 +79,8 @@ def check(groups, binary_filter=None):
     failures = warnings = validated = 0
     for g in groups:
         gid = g.get("id", "?")
-        members = g.get("members") or []
-        if binary_filter and not any(m.get("binary") == binary_filter for m in members):
+        members = list(group_members(g))
+        if binary_filter and not any(b == binary_filter for b, _, _ in members):
             continue
         if g.get("tier") not in TIERS:
             print(f"[FAIL] {gid}: tier must be one of {TIERS} (got {g.get('tier')!r})"); failures += 1; continue
@@ -78,12 +93,7 @@ def check(groups, binary_filter=None):
         if not want:
             print(f"[FAIL] {gid}: no recorded hash"); failures += 1; continue
         ok = True
-        for m in members:
-            b, name = m.get("binary"), m.get("name", "?")
-            try:
-                vram = _addr(m["vram"])
-            except (KeyError, ValueError):
-                print(f"[FAIL] {gid}: bad/absent vram for {name} in {b}"); failures += 1; ok = False; continue
+        for (b, vram, name) in members:
             vhex = f"0x{vram:08x}"
             idx = sig_for(b)
             if idx is None:
@@ -98,8 +108,9 @@ def check(groups, binary_filter=None):
                 failures += 1; ok = False
         if ok:
             validated += 1
-            bins = ",".join(sorted({m["binary"] for m in members}))
-            print(f"[ OK ] {gid}: {len(members)} members [{bins}] share {tier} {want[:12]}… (source {src})")
+            uniq = sorted({b for b, _, _ in members})
+            disp = ",".join(uniq) if len(uniq) <= 6 else f"{len(uniq)} binaries"
+            print(f"[ OK ] {gid}: {len(members)} members [{disp}] share {tier} {want[:12]}… (source {src})")
     print(f"dedup-check: {validated} validated, {warnings} unvalidated (sig absent), {failures} failed")
     return failures
 

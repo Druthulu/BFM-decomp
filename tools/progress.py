@@ -344,6 +344,8 @@ def linked_subsegs():
         segs.update(s for s in arg.split(',') if re.fullmatch(r'[A-Za-z0-9_]+', s))
     return segs
 
+_DEDUP_CACHE = None  # binary -> set(shared fn names); parsed once (the registry is large at fleet scale)
+
 def dedup_members(binary):
     """Function names matched-once-and-shared via config/dedup.us.yaml for this binary. They are
     hand-matched byte-identical C, but instantiated from a shared body (a macro in src/shared/),
@@ -352,13 +354,20 @@ def dedup_members(binary):
     p = ROOT / "config/dedup.us.yaml"
     if not p.exists():
         return set()
-    try:
-        import yaml
-        data = yaml.safe_load(p.read_text()) or {}
-        return {m["name"] for g in (data.get("groups") or [])
-                for m in (g.get("members") or []) if m.get("binary") == binary}
-    except Exception:
-        return set()
+    global _DEDUP_CACHE
+    if _DEDUP_CACHE is None:                    # parse the registry ONCE, not per --fleet binary (136x)
+        _DEDUP_CACHE = {}
+        try:
+            import yaml
+            sys.path.insert(0, str(ROOT / "tools"))
+            from dedup_integrate import group_members   # one parser for both verbose + shorthand forms
+            data = yaml.safe_load(p.read_text()) or {}
+            for g in (data.get("groups") or []):
+                for (b, _v, name) in group_members(g):
+                    _DEDUP_CACHE.setdefault(b, set()).add(name)
+        except Exception:
+            _DEDUP_CACHE = {}
+    return _DEDUP_CACHE.get(binary, set())
 
 _S_INDEX = {}  # name -> .s path, rebuilt per binary in set_binary() (avoids a glob per function)
 
@@ -516,8 +525,9 @@ def fleet():
     if dp.exists():
         try:
             import yaml
+            from dedup_integrate import group_members   # expands verbose + shorthand alike
             gs = (yaml.safe_load(dp.read_text()) or {}).get("groups") or []
-            ngroups = len(gs); nmembers = sum(len(g.get("members") or []) for g in gs)
+            ngroups = len(gs); nmembers = sum(1 for g in gs for _ in group_members(g))
         except Exception:
             pass
 
