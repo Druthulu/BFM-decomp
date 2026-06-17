@@ -366,6 +366,13 @@ ASM_SRCS := $(shell find $(ASM_DIR) -name '*.s' -not -path '$(ASM_DIR)/nonmatchi
 C_SRCS   := $(shell find $(SRC_DIR) -name '*.c' $(SRC_PRUNE) 2>/dev/null)
 OBJS     := $(ASM_SRCS:%.s=build/%.o) $(C_SRCS:%.c=build/%.o)
 
+# Header-dependency tracking (Phase 15): now that shared headers (src/shared/*.h, common.h)
+# are build inputs, the cpp stage emits a .d per C object (-MMD, below) so editing a #included
+# header triggers a recompile — incremental `make check` stays trustworthy (R22). .d files live
+# under build/ (gitignored); -include ignores them on the first build. No effect on output bytes.
+C_DEPS   := $(C_SRCS:%.c=build/%.d)
+-include $(C_DEPS)
+
 # splat `bin` subsegs (raw byte regions — e.g. an overlay's trailing non-word-aligned bytes that
 # spimdisasm's data path drops, since it won't emit a <4-byte partial word). splat extracts them to
 # assets/<alias>/*.bin and references build/assets/<alias>/*.o in the .ld; wrap each raw .bin into a
@@ -420,7 +427,7 @@ CC1FLAGS := -quiet -O2 -G0 -mips1 -mcpu=3000 -mgas -msoft-float -fgnu-linker
 build/src/%.o: src/%.c
 	@mkdir -p $(dir $@)
 	@echo "  CC      $@"
-	@set -o pipefail; $(CPP) $(CPPFLAGS) $< | $(CC1_PSX) $(CC1FLAGS) | $(VENV_PY) $(MASPSX) --aspsx-version=$(ASPSX_VERSION) $(MASPSX_FLAGS) | $(AS) $(ASFLAGS) -o $@
+	@set -o pipefail; $(CPP) $(CPPFLAGS) -MMD -MP -MT $@ -MF $(@:.o=.d) $< | $(CC1_PSX) $(CC1FLAGS) | $(VENV_PY) $(MASPSX) --aspsx-version=$(ASPSX_VERSION) $(MASPSX_FLAGS) | $(AS) $(ASFLAGS) -o $@
 
 # Per-module optimization override (SETUP §5.5 — per-module compiler mixing). The boot/
 # main/game-mode-dispatch module (src/boot.c, vram 0x80010000-0x800123F0) was compiled at

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "../shared/engine_core.h"
 
 extern void func_80128288(void);
 
@@ -163,13 +164,7 @@ INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80128D60);
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80128DB4);
 
-void func_80128EA8(s32 a0, s32 a1, s32 a2) {
-    *(s32 *)(a1 + 0x0) = a2;                       /* sw a2, 0x0(a1) */
-    *(s16 *)(a1 + 0x4) = 0;                         /* sh zero, 0x4(a1) */
-    *(s16 *)(a1 + 0x6) = (*(s32 *)(a2 + 0x4)) & 0x3F; /* lw; andi 0x3F; sh 0x6(a1) */
-    *(s16 *)(a0 + 0x28) = *(u16 *)(a2 + 0x0);      /* lhu 0x0(a2); sh 0x28(a0) */
-    *(s16 *)(a0 + 0x2A) = *(u16 *)(a2 + 0x2);      /* lhu 0x2(a2); sh 0x2A(a0) */
-}
+DEFINE_func_80128EA8()  /* dedup: shared engine-core @0x80128EA8 (src/shared) */
 
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80128ED8);
@@ -324,12 +319,7 @@ INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8012A464);
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8012A4BC);
 
-extern void func_8012A598(void *a0);
-
-void func_8012A568(void (*a0)(void)) {
-    func_8012A598(a0);
-    a0();
-}
+DEFINE_func_8012A568()  /* dedup: shared engine-core @0x8012A568 (src/shared) */
 
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8012A598);
@@ -1012,12 +1002,7 @@ INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80132DC4);
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80132E6C);
 
-void func_80132EC4(void *a0, s16 a1) {
-    while (*(s32 *)a0 != 0) {
-        *(s16 *)((s32)a0 + 4) = a1;
-        a0 = (void *)((s32)a0 + 8);
-    }
-}
+DEFINE_func_80132EC4()  /* dedup: shared engine-core @0x80132EC4 (src/shared) */
 
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80132EF4);
@@ -1214,13 +1199,7 @@ INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80138B88);
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80138BE0);
 
-void func_80138C30(void *a0) {
-    if (*(s16 *)((s32)a0 + 4) == 4) {
-        *(s16 *)((s32)a0 + 4) = 2;
-    } else {
-        *(u32 *)((s32)a0 + 8) |= 0x800;
-    }
-}
+DEFINE_func_80138C30()  /* dedup: shared engine-core @0x80138C30 (src/shared) */
 
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80138C60);

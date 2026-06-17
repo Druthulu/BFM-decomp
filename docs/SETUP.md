@@ -654,6 +654,7 @@ Every script under `tools/` (plus the two report make-targets), grouped by purpo
 | | `tools/dup_report.py` | Duplicate-function report; `--cross` (Phase 11) buckets all binaries → `docs/duplicates.cross.md`. |
 | **Cross-binary dedup** (Phase 11, cookbook §11) | `tools/sig_image.py` | **Ghidra-FREE** per-function signer for a flat image (overlay/resident); `h_exact` byte-matches the Ghidra dumper, self-consistent `h_norm`; linear-partition + `detect_code_end` boundaries. |
 | | `tools/dedup_integrate.py` | Byte-honesty validator for `config/dedup.us.yaml` code-shares (`--check`; fail-closed on sig-hash drift). |
+| | `tools/dedup_propagate.py` | **(Phase 15, cookbook §14)** Match-once → propagate-many: lift a matched body, author a `DEFINE_func_<ADDR>()` macro in `src/shared/engine_core.h`, instantiate it at every onboarded overlay sharing that `h_exact`, byte-gate each (fail-closed), register in `dedup.us.yaml`. `--addr`/`--auto-from`/`--check-only`. |
 | | `config/dedup.us.yaml` / `src/shared/*.h` | The code-share registry + the shared bodies (one macro → N sites, byte-gated). |
 | | `make report` / `make sig-refresh` / `make sig-overlays` | Convenience targets: reports (+`--cross`) / Ghidra signature-dump / Ghidra-free sign all 134 overlays. |
 

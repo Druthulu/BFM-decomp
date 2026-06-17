@@ -89,3 +89,91 @@ groups:
     members:
       - { binary: ov_SC01_005, vram: 0x8012E27C, name: func_8012E27C }
       - { binary: ov_SC01_006, vram: 0x8012E27C, name: func_8012E27C }
+  - id: E_func_80128EA8
+    tier: h_exact
+    hash: 2905b55f46d5c22ad234e800654eafc93b791693
+    source: src/shared/engine_core.h
+    func: DEFINE_func_80128EA8
+    members:
+      - { binary: ov_SC01_077, vram: 0x80128EA8, name: func_80128EA8 }
+      - { binary: ov_SC01_005, vram: 0x80128EA8, name: func_80128EA8 }
+      - { binary: ov_SC01_006, vram: 0x80128EA8, name: func_80128EA8 }
+      - { binary: ov_SC03_001, vram: 0x80128EA8, name: func_80128EA8 }
+      - { binary: ov_SC01_000, vram: 0x80128EA8, name: func_80128EA8 }
+      - { binary: ov_SC01_001, vram: 0x80128EA8, name: func_80128EA8 }
+      - { binary: ov_SC02_000, vram: 0x80128EA8, name: func_80128EA8 }
+      - { binary: ov_SC02_003, vram: 0x80128EA8, name: func_80128EA8 }
+      - { binary: ov_SC03_002, vram: 0x80128EA8, name: func_80128EA8 }
+      - { binary: ov_SC03_006, vram: 0x80128EA8, name: func_80128EA8 }
+      - { binary: ov_SC04_000, vram: 0x80128EA8, name: func_80128EA8 }
+      - { binary: ov_SC04_018, vram: 0x80128EA8, name: func_80128EA8 }
+      - { binary: ov_SC04_019, vram: 0x80128EA8, name: func_80128EA8 }
+      - { binary: ov_SC05_000, vram: 0x80128EA8, name: func_80128EA8 }
+      - { binary: ov_SC06_000, vram: 0x80128EA8, name: func_80128EA8 }
+      - { binary: ov_SC07_000, vram: 0x80128EA8, name: func_80128EA8 }
+  - id: E_func_8012A568
+    tier: h_exact
+    hash: bdb48359cd3a9c1e714bbc0347d88dc35e705ffe
+    source: src/shared/engine_core.h
+    func: DEFINE_func_8012A568
+    members:
+      - { binary: ov_SC01_077, vram: 0x8012A568, name: func_8012A568 }
+      - { binary: ov_SC01_005, vram: 0x8012A568, name: func_8012A568 }
+      - { binary: ov_SC01_006, vram: 0x8012A568, name: func_8012A568 }
+      - { binary: ov_SC03_001, vram: 0x8012A568, name: func_8012A568 }
+      - { binary: ov_SC01_000, vram: 0x8012A568, name: func_8012A568 }
+      - { binary: ov_SC01_001, vram: 0x8012A568, name: func_8012A568 }
+      - { binary: ov_SC02_000, vram: 0x8012A568, name: func_8012A568 }
+      - { binary: ov_SC02_003, vram: 0x8012A568, name: func_8012A568 }
+      - { binary: ov_SC03_002, vram: 0x8012A568, name: func_8012A568 }
+      - { binary: ov_SC03_006, vram: 0x8012A568, name: func_8012A568 }
+      - { binary: ov_SC04_000, vram: 0x8012A568, name: func_8012A568 }
+      - { binary: ov_SC04_018, vram: 0x8012A568, name: func_8012A568 }
+      - { binary: ov_SC04_019, vram: 0x8012A568, name: func_8012A568 }
+      - { binary: ov_SC05_000, vram: 0x8012A568, name: func_8012A568 }
+      - { binary: ov_SC06_000, vram: 0x8012A568, name: func_8012A568 }
+      - { binary: ov_SC07_000, vram: 0x8012A568, name: func_8012A568 }
+  - id: E_func_80132EC4
+    tier: h_exact
+    hash: 5d8b76ebf9470cc559a263f93949edfc95c9821e
+    source: src/shared/engine_core.h
+    func: DEFINE_func_80132EC4
+    members:
+      - { binary: ov_SC01_077, vram: 0x80132EC4, name: func_80132EC4 }
+      - { binary: ov_SC01_005, vram: 0x80132EC4, name: func_80132EC4 }
+      - { binary: ov_SC01_006, vram: 0x80132EC4, name: func_80132EC4 }
+      - { binary: ov_SC03_001, vram: 0x80132EC4, name: func_80132EC4 }
+      - { binary: ov_SC01_000, vram: 0x80132EC4, name: func_80132EC4 }
+      - { binary: ov_SC01_001, vram: 0x80132EC4, name: func_80132EC4 }
+      - { binary: ov_SC02_000, vram: 0x80132EC4, name: func_80132EC4 }
+      - { binary: ov_SC02_003, vram: 0x80132EC4, name: func_80132EC4 }
+      - { binary: ov_SC03_002, vram: 0x80132EC4, name: func_80132EC4 }
+      - { binary: ov_SC03_006, vram: 0x80132EC4, name: func_80132EC4 }
+      - { binary: ov_SC04_000, vram: 0x80132EC4, name: func_80132EC4 }
+      - { binary: ov_SC04_018, vram: 0x80132EC4, name: func_80132EC4 }
+      - { binary: ov_SC04_019, vram: 0x80132EC4, name: func_80132EC4 }
+      - { binary: ov_SC05_000, vram: 0x80132EC4, name: func_80132EC4 }
+      - { binary: ov_SC06_000, vram: 0x80132EC4, name: func_80132EC4 }
+      - { binary: ov_SC07_000, vram: 0x80132EC4, name: func_80132EC4 }
+  - id: E_func_80138C30
+    tier: h_exact
+    hash: 9bda7673e95d98766414bc8cc2133f95663ee3a0
+    source: src/shared/engine_core.h
+    func: DEFINE_func_80138C30
+    members:
+      - { binary: ov_SC01_077, vram: 0x80138C30, name: func_80138C30 }
+      - { binary: ov_SC01_005, vram: 0x80138C30, name: func_80138C30 }
+      - { binary: ov_SC01_006, vram: 0x80138C30, name: func_80138C30 }
+      - { binary: ov_SC03_001, vram: 0x80138C30, name: func_80138C30 }
+      - { binary: ov_SC01_000, vram: 0x80138C30, name: func_80138C30 }
+      - { binary: ov_SC01_001, vram: 0x80138C30, name: func_80138C30 }
+      - { binary: ov_SC02_000, vram: 0x80138C30, name: func_80138C30 }
+      - { binary: ov_SC02_003, vram: 0x80138C30, name: func_80138C30 }
+      - { binary: ov_SC03_002, vram: 0x80138C30, name: func_80138C30 }
+      - { binary: ov_SC03_006, vram: 0x80138C30, name: func_80138C30 }
+      - { binary: ov_SC04_000, vram: 0x80138C30, name: func_80138C30 }
+      - { binary: ov_SC04_018, vram: 0x80138C30, name: func_80138C30 }
+      - { binary: ov_SC04_019, vram: 0x80138C30, name: func_80138C30 }
+      - { binary: ov_SC05_000, vram: 0x80138C30, name: func_80138C30 }
+      - { binary: ov_SC06_000, vram: 0x80138C30, name: func_80138C30 }
+      - { binary: ov_SC07_000, vram: 0x80138C30, name: func_80138C30 }

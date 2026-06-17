@@ -769,3 +769,46 @@ Recursive `$(MAKE) BINARY=<b>` over `$(BINARIES)` (NOT `foreach` — the OBJS gl
 one PASS/FAIL + per-binary `.run/check.<b>.log`. Serial across binaries (shared `build/asm|src/**` outputs make
 binary-level `-j` racy). Day-to-day incremental; milestone fleet proof = a CLEAN run (R22): `make clean && for b
 in $(BINARIES); do make extract BINARY=$$b; done && make check-all`.
+
+## §14 Propagate a matched function across the fleet — `tools/dedup_propagate.py` (Phase 15)
+
+**The economics that drives Phase 15.** Overlays are position-locked at `0x80128158`, so a shared engine
+function has the SAME vaddr (hence the SAME `func_<ADDR>` symbol) and a BYTE-IDENTICAL body in every overlay
+that contains it. Measured on the fleet: **577 of `ov_SC01_077`'s 785 matched functions are `h_exact`-identical
+across ALL 134 overlays** (~2.19 MB collapsible) — already matched, just needing propagation. So the rule is
+**match once → propagate, do NOT re-harvest each overlay.** (`tools/dedup_propagate.py --auto-from ov_SC01_077`
+enumerates exactly this set: matched-as-an-inline-def in the source AND `h_exact`-shared across ≥`--min-reach`.)
+
+**The tool.** `tools/dedup_propagate.py --addr 0x..[,..] --source-overlay <ov>` (or `--auto-from <ov>` for the
+whole shared set; `--check-only` for a dry-run plan):
+1. extract the matched body (preceding `extern`s + the def, brace-matched) from the source overlay's `.c`;
+2. author it ONCE as a tool-generated `#define DEFINE_func_<ADDR>() \`-continued macro in `src/shared/engine_core.h`
+   (idempotent; **refuses `//` line comments** — they break line-splicing; block `/* */` is fine);
+3. at every onboarded overlay whose sig shows that `h_exact` (lead with `h_exact` — guaranteed byte-identity),
+   replace that function's `INCLUDE_ASM` stub (or, in the source overlay, its inline def) **in place** with
+   `DEFINE_func_<ADDR>()` — address order preserved; `#include "../shared/engine_core.h"` added once after
+   `common.h`;
+4. **byte-gate** each touched overlay (`make build BINARY=<ov>` == its `check.sha`); on ANY miss, restore EVERY
+   file from an in-memory snapshot and abort (fail-closed; nothing wrong lands);
+5. register the group in `config/dedup.us.yaml`, validated by `dedup_integrate --check`.
+
+**Key gotchas (each cost a real bug or false pass during the Phase-15 proof):**
+- **Key by addr-int, never the string.** `sig_image` writes lowercase hex (`0x80144b9c`); splat's symbol is
+  uppercase (`func_80144B9C`). Compare `int(addr,16)`; render the symbol as `func_%08X`.
+- **Accumulate edits from the on-disk text, not a snapshot cache.** When a batch propagates several functions into
+  the same overlay, re-read the file before each edit (the snapshot dict holds the ORIGINAL for restore, not the
+  running state) — else each function's edit clobbers the previous and only the last lands.
+- **The byte-gate can't catch under-application.** A leftover `INCLUDE_ASM` stub is itself byte-identical (it just
+  uses the asm), so `make check` passes even if a function wasn't actually converted. Add a STRUCTURAL self-check:
+  after editing, assert each member's `.c` contains `DEFINE_func_<ADDR>()` and NO leftover stub line.
+- **Header-dependency tracking is mandatory once shared headers are build inputs (R22).** The Makefile C rule
+  originally made `build/src/%.o` depend only on the `.c`, so editing `engine_core.h`/`common.h` did NOT trigger a
+  recompile → an incremental `make check` after a header-only edit was STALE (a wrong shared body falsely passed).
+  Fixed: the `cpp` stage now emits a `.d` (`-MMD -MP -MT $@ -MF $(@:.o=.d)`) and the Makefile `-include`s
+  `$(C_SRCS:%.c=build/%.d)`. Side-effect only — output bytes unchanged. With it, the negative test (corrupt a
+  macro body → `make check` rebuilds via the `.d` → SHA mismatch → fail) behaves correctly.
+- **Idempotent + resumable.** A propagated source function becomes a `DEFINE_…` macro (no longer an inline def), so
+  `--auto-from` re-runs skip the done ones; `--addr` re-runs no-op (source is now a macro, plan is empty).
+- **Scale note (deferred until it bites):** `dedup.us.yaml` members are listed verbose (`{binary,vram,name}`).
+  For the full 134-overlay × hundreds-of-functions bulk, switch to a `vram + binaries:[...]` shorthand (expanded by
+  `dedup_integrate`/`progress.py`) before it becomes a 5-figure-line file.
