@@ -856,3 +856,59 @@ original per-overlay harvest already failed on. A 25-agent Ultracode pass (§12)
   (3) a real per-function gate would need to **link** (resolve relocations), i.e. the whole-binary `harvest_verify`,
   not the masked `match_one`; (4) the call-heavy residual is genuine decomp-permuter / hand-iteration work — the
   open-ended Phase 15 continuation, not a milestone gate.
+
+### §14c Callee-signature-aware harvest — breaking the extern-type-conflict wall (Phase 15, T6)
+
+§14b named the wall; this is how it falls. The call-heavy shared residual fails the whole-binary
+byte-gate (NOT `match_one`, which compiles standalone and masks `jal`) because a draft declares a
+callee or data symbol with a type that **conflicts** with that symbol's canonical declaration
+elsewhere in the single overlay TU (an `engine_core.h` DEFINE macro, another banked function's
+inline extern). The fix is to stop letting agents guess: pre-resolve every callee's EXACT signature
+deterministically and hand it to the agent to reuse verbatim.
+
+**`tools/gen_harvest_targets.py`** builds the callee-sig-aware target manifest (`.run/t6_*.json`).
+For each still-`INCLUDE_ASM` shared function it records `{name, addr, nins, reach, callees:[{sym,
+status, signature}]}`, resolving each callee three ways (priority order):
+1. **defined** — a body exists: `engine_core.h` `DEFINE_func_X` macro body, or an inline def in the
+   overlay `.c`. The signature is authoritative; the draft MUST reuse it verbatim.
+2. **declared** — no body, but the symbol is already `extern`-declared somewhere (another macro/draft).
+   That extern is authoritative too (a stub callee with an established signature — reuse it).
+3. **stub / extern** — undeclared (a bare overlay stub, or a resident/EXE symbol). The agent infers a
+   minimal consistent extern from the `.s` arg-setup; resident/EXE callees are conflict-free (not
+   defined in this TU).
+
+Result on the small band (nins 8-30, 616 fns): **855/1019 callees resolved to exact sigs**, and the
+whole-binary gate yield jumped **16% → 60-67%**. The agents draft callee-sig-aware C (reuse exact sigs
+for defined/declared callees; infer for stubs), self-check with `match_one`, and the whole-binary
+`harvest_verify` is the sole arbiter (`match_one` cannot see TU-level conflicts).
+
+**The four conflict flavors (all real this phase):**
+- (a) **defined-callee return/param mismatch** — draft guessed `s32`/wrong params; canonical body says
+  otherwise. (`func_8012A100` is `void f(s8)`, not `(s32)`.) → reuse the resolved sig.
+- (b) **declared-stub-callee** — a still-`INCLUDE_ASM` callee already extern-declared `int func_X(int,
+  int,int)` by other macros; a draft declaring it `void` conflicts. (`func_80150BA4`→`func_80151184`.)
+  → harvest the extern declarations too, reuse them.
+- (c) **DATA-symbol type conflict** — the dominant residual after (a)/(b): `D_XXXX` globals declared
+  with different types by different drafts (`u8 D[]` array vs `s32 D` scalar) → `conflicting types`.
+  The manifest resolves FUNCTION sigs but not yet DATA-symbol types; this is the next yield-limiter.
+  Structural fix for a future pass: a single canonical decls header (all data symbols as `extern u8
+  D_X[];` byte-arrays, used via explicit casts) that the overlay `.c` includes and drafts never
+  redeclare → zero possible conflict.
+- (d) **narrow-return-widening** — a callee defined returning a NARROW type (`s8/s16/u8/u16`, body
+  `return <load>`) forces a `sll/sra` (or `andi`) sign/zero-extension at EVERY call site; if the target
+  asm lacks it, the original declared that function `int`/`s32`. Widen the DEFINITION's return type to
+  `s32`/`u32` — byte-identical because the body's `lb/lbu/lh/lhu` already extends to 32 bits — and all
+  call sites match. (`func_8017AE08`→`func_80174764`.)
+
+**Operational gotcha (cost real work):** NEVER `git checkout src/<overlay>.c` during an active harvest.
+It silently reverts banked matches while the propagation artifacts (`engine_core.h` macros, other
+overlays' `DEFINE_func_X()` instantiations, `dedup.us.yaml` groups) survive — an inconsistent (though
+byte-recoverable: the next gate re-verifies) state. Use a `.run/_bak.c` copy for diagnostic
+substitute/build/revert, never `git checkout`.
+
+**Resilient incremental loop (proven under server-side API rate limiting):** the draft Workflow is the
+only rate-limited part. Gate whatever drafts have landed (`harvest_verify`), `dedup_propagate
+--auto-from` (deterministic, immune to throttling), `make report`, repeat as more land. Quarantine
+gate-failures to `.run/drafts-<x>-fail/` after each round so re-gates stay fast. Partial harvests bank
+cleanly; the residual resumes next pass (loop-until-dry). T6 banked 123 fns / +4.6% fleet this way with
+the Workflow only ~40% through its batches.
