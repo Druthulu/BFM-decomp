@@ -10331,4 +10331,2234 @@
         func_80146D30(a0); \
     }
 
+#define DEFINE_func_8012B370() \
+    extern void RotMatrixYXZ(void *m, void *p); \
+    void func_8012B370(int a0) { \
+        int q; \
+        int p; \
+        q = *(int *)(a0 + 0x20); \
+        if (q != 0) { \
+            RotMatrixYXZ((void *)(q + 0x10), (void *)(q + 0x34)); \
+            p = *(int *)(a0 + 0x20); \
+            *(s16 *)(p + 0x8) = *(u16 *)(a0 + 0x6) + *(u16 *)(a0 + 0x50); \
+            *(s32 *)(p + 0x48) = *(s16 *)(p + 0x8); \
+            *(s16 *)(p + 0xA) = *(u16 *)(a0 + 0xA) + *(u16 *)(a0 + 0x52); \
+            *(s32 *)(p + 0x4C) = *(s16 *)(p + 0xA); \
+            { \
+                u16 e = *(u16 *)(a0 + 0xE); \
+                u16 t2c = *(u16 *)(p + 0x2C) | 0x1; \
+                s16 sum = e + *(u16 *)(a0 + 0x54); \
+                *(s16 *)(p + 0xC) = sum; \
+                *(u16 *)(p + 0x2C) = t2c; \
+                *(s32 *)(p + 0x50) = sum; \
+            } \
+        } \
+    }
+
+#define DEFINE_func_8012B414() \
+    extern void func_8004978C(s16 *a0, void *a1); \
+    void func_8012B414(int a0) { \
+        int q; \
+        int p; \
+        q = *(int *)(a0 + 0x20); \
+        if (q != 0) { \
+            func_8004978C((s16 *)(q + 0x10), (void *)(q + 0x34)); \
+            p = *(int *)(a0 + 0x20); \
+            *(s16 *)(p + 0x8) = *(u16 *)(a0 + 0x6) + *(u16 *)(a0 + 0x50); \
+            *(s32 *)(p + 0x48) = *(s16 *)(p + 0x8); \
+            *(s16 *)(p + 0xA) = *(u16 *)(a0 + 0xA) + *(u16 *)(a0 + 0x52); \
+            *(s32 *)(p + 0x4C) = *(s16 *)(p + 0xA); \
+            { \
+                u16 e = *(u16 *)(a0 + 0xE); \
+                u16 t2c = *(u16 *)(p + 0x2C) | 0x1; \
+                s16 sum = e + *(u16 *)(a0 + 0x54); \
+                *(s16 *)(p + 0xC) = sum; \
+                *(u16 *)(p + 0x2C) = t2c; \
+                *(s32 *)(p + 0x50) = sum; \
+            } \
+        } \
+    }
+
+#define DEFINE_func_801469C8() \
+    extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6); \
+    extern s32 D_8011D030; \
+    s32 func_801469C8(int a0, void *a1, int a2, int a3, u16 arg5, int arg6, int arg7, int arg8) { \
+        int count; \
+        int p; \
+        int end; \
+        count = 0; \
+        p = (int)&D_8011D030; \
+        end = p + 0xA50; \
+        if ((u32)p < (u32)end) { \
+            int key = a0 & 0xFFFF; \
+            do { \
+                if (*(u16 *)(p + 0x0) == key) { \
+                    count++; \
+                } \
+                p += 0x58; \
+            } while ((u32)p < (u32)end); \
+        } \
+        if ((u32)count < (u32)arg8) { \
+            return func_80146A6C(a0 & 0xFFFF, a1, (s16)a2, (s16)a3, (s16)arg5, arg6, arg7); \
+        } \
+        return 0; \
+    }
+
+#define DEFINE_func_80152AC8() \
+    extern void func_8014BC44(s32 a0, s32 a1); \
+    extern void func_80154A74(s32 a0, s32 a1); \
+    extern void func_801553C0(s32 a0); \
+    extern void func_801470AC(s32 *a0); \
+    extern void func_801472B4(void *a0); \
+    extern void func_801477E8(s32 *a0, s32 a1); \
+    extern void func_80153C18(); \
+    void func_80152AC8(s32 a0) { \
+        s32 s0 = a0; \
+        func_8014BC44(s0, *(s16 *)(s0 + 0xF2)); \
+        *(s8 *)(s0 + 0xA8) = 0x20; \
+        func_80154A74(s0, 0x11); \
+        func_801553C0(s0); \
+        func_801470AC((s32 *)s0); \
+        func_801472B4((void *)s0); \
+        *(s16 *)(s0 + 0x3E) = 0; \
+        *(s16 *)(s0 + 0x40) = 0; \
+        *(s16 *)(s0 + 0x42) = 0; \
+        *(s8 *)(s0 + 0xDD) = 0; \
+        *(s16 *)(s0 + 0x3C) = *(u16 *)(s0 + 0x3C) & 0xFFFE; \
+        *(s16 *)(*(s32 *)(s0 + 0x20) + 0x10) = 0; \
+        *(s16 *)(s0 + 0x60) = 0x1000; \
+        *(s16 *)(s0 + 0x62) = 0x1000; \
+        *(s16 *)(s0 + 0x64) = 0x1000; \
+        func_801477E8((s32 *)s0, 0); \
+        func_80153C18(s0); \
+    }
+
+#define DEFINE_func_80152FBC() \
+    extern void func_8014BC44(s32 a0, s32 a1); \
+    extern void func_80154A74(s32 a0, s32 a1); \
+    extern void func_801553C0(s32 a0); \
+    extern void func_801470AC(s32 *a0); \
+    extern void func_801472B4(void *a0); \
+    extern void func_801477E8(s32 *a0, s32 a1); \
+    extern void func_80153C18(); \
+    void func_80152FBC(s32 a0) { \
+        s32 s0 = a0; \
+        func_8014BC44(s0, *(s16 *)(s0 + 0xF2)); \
+        *(s8 *)(s0 + 0xA8) = 0x20; \
+        func_80154A74(s0, 0x11); \
+        func_801553C0(s0); \
+        func_801470AC((s32 *)s0); \
+        func_801472B4((void *)s0); \
+        *(s16 *)(s0 + 0x3E) = 0; \
+        *(s16 *)(s0 + 0x40) = 0; \
+        *(s16 *)(s0 + 0x42) = 0; \
+        *(s8 *)(s0 + 0xDD) = 0; \
+        *(s16 *)(s0 + 0x3C) = *(u16 *)(s0 + 0x3C) & 0xFFFE; \
+        *(s16 *)(*(s32 *)(s0 + 0x20) + 0x10) = 0; \
+        *(s16 *)(s0 + 0x60) = 0x1000; \
+        *(s16 *)(s0 + 0x62) = 0x1000; \
+        *(s16 *)(s0 + 0x64) = 0x1000; \
+        func_801477E8((s32 *)s0, 0); \
+        func_80153C18(s0); \
+    }
+
+#define DEFINE_func_8015327C() \
+    extern void func_8014BC44(s32 a0, s32 a1); \
+    extern void func_80154A74(s32 a0, s32 a1); \
+    extern void func_801553C0(s32 a0); \
+    extern void func_801470AC(s32 *a0); \
+    extern void func_801472B4(void *a0); \
+    extern void func_801477E8(s32 *a0, s32 a1); \
+    extern void func_80153C18(); \
+    void func_8015327C(s32 a0) { \
+        s32 s0 = a0; \
+        func_8014BC44(s0, *(s16 *)(s0 + 0xF2)); \
+        *(s8 *)(s0 + 0xA8) = 0x20; \
+        func_80154A74(s0, 0x11); \
+        func_801553C0(s0); \
+        func_801470AC((s32 *)s0); \
+        func_801472B4((void *)s0); \
+        *(s16 *)(s0 + 0x3E) = 0; \
+        *(s16 *)(s0 + 0x40) = 0; \
+        *(s16 *)(s0 + 0x42) = 0; \
+        *(s8 *)(s0 + 0xDD) = 0; \
+        *(s16 *)(s0 + 0x3C) = *(u16 *)(s0 + 0x3C) & 0xFFFE; \
+        *(s16 *)(*(s32 *)(s0 + 0x20) + 0x10) = 0; \
+        *(s16 *)(s0 + 0x60) = 0x1000; \
+        *(s16 *)(s0 + 0x62) = 0x1000; \
+        *(s16 *)(s0 + 0x64) = 0x1000; \
+        func_801477E8((s32 *)s0, 0); \
+        func_80153C18(s0); \
+    }
+
+#define DEFINE_func_80153550() \
+    extern void func_8014BC44(s32 a0, s32 a1); \
+    extern void func_80154A74(s32 a0, s32 a1); \
+    extern void func_801553C0(s32 a0); \
+    extern void func_801470AC(s32 *a0); \
+    extern void func_801472B4(void *a0); \
+    extern void func_801477E8(s32 *a0, s32 a1); \
+    extern void func_80153C18(); \
+    void func_80153550(s32 a0) { \
+        s32 s0 = a0; \
+        func_8014BC44(s0, *(s16 *)(s0 + 0xF2)); \
+        *(s8 *)(s0 + 0xA8) = 0x20; \
+        func_80154A74(s0, 0x11); \
+        func_801553C0(s0); \
+        func_801470AC((s32 *)s0); \
+        func_801472B4((void *)s0); \
+        *(s16 *)(s0 + 0x3E) = 0; \
+        *(s16 *)(s0 + 0x40) = 0; \
+        *(s16 *)(s0 + 0x42) = 0; \
+        *(s8 *)(s0 + 0xDD) = 0; \
+        *(s16 *)(s0 + 0x3C) = *(u16 *)(s0 + 0x3C) & 0xFFFE; \
+        *(s16 *)(*(s32 *)(s0 + 0x20) + 0x10) = 0; \
+        *(s16 *)(s0 + 0x60) = 0x1000; \
+        *(s16 *)(s0 + 0x62) = 0x1000; \
+        *(s16 *)(s0 + 0x64) = 0x1000; \
+        func_801477E8((s32 *)s0, 0); \
+        func_80153C18(s0); \
+    }
+
+#define DEFINE_func_8015640C() \
+    extern s32 func_801564B0(s32 a0); \
+    extern s32 func_80029178(s32 a0); \
+    s32 func_8015640C(s32 a0, s32 a1) { \
+        if ((func_801564B0(a0) & 0xFFFF) != 0) { \
+            if ((func_80029178(0x1C) & 0xFF) != 0) { \
+                return (((175 * (a1 & 0xFFFF)) / 100) & 0xFFFF) | 0x8000; \
+            } else { \
+                return (((150 * (a1 & 0xFFFF)) / 100) & 0xFFFF) | 0x8000; \
+            } \
+        } \
+        return a1 & 0xFFFF; \
+    }
+
+#define DEFINE_func_8015B7B4() \
+    extern s32 func_80149B54(s32 *a0); \
+    extern void func_80156648(s32 *a0); \
+    extern void func_80154274(s32 *a0, s32 a1); \
+    extern void func_80154A74(s32 a0, s32 a1); \
+    extern s32 func_80146994(s32 a0, s32 a1, s32 a2, s32 a3); \
+    extern void func_80147324(s32 a0); \
+    extern void func_80147300(u16 arg0); \
+    extern u8 D_800D4F8C[]; \
+    s32 func_8015B7B4(s32 a0) { \
+        s32 s0 = a0; \
+        if (func_80149B54((s32 *)s0) != 0) { \
+            func_80156648((s32 *)s0); \
+            *(s8 *)(s0 + 0x1AA) = 0xC; \
+            *(s32 *)(s0 + 0x44) = *(s32 *)(s0 + 0x44) | 0x2; \
+            *(s32 *)(s0 + 0x23C) = *(s32 *)(s0 + 0xB4); \
+            *(s8 *)(s0 + 0x244) = *(u8 *)(s0 + 0xBC); \
+            func_80154274((s32 *)s0, (s32)D_800D4F8C); \
+            func_80154A74(s0, 0x22); \
+            *(s8 *)(s0 + 0xDA) = 0; \
+            func_80146994(5, s0, 5, 0); \
+            func_80147324(0x455); \
+            func_80147300(0x5F3); \
+            return 1; \
+        } \
+        return 0; \
+    }
+
+#define DEFINE_func_8015E40C() \
+    extern void func_80148534(s32 a0, s32 a1); \
+    extern void func_80149374(s32 a0, s32 a1); \
+    void func_8015E40C(s32 a0) { \
+        s32 s1 = a0; \
+        s32 s0; \
+        s16 sp10[4]; \
+        u16 sp18[4]; \
+        s0 = *(s32 *)(s1 + 0x18C); \
+        if (s0 == 0) { \
+            return; \
+        } \
+        if (*(u16 *)(s0 + 0x0) == 0) { \
+            return; \
+        } \
+        func_80148534((s32)sp10, (s32)sp18); \
+        *(s16 *)(s0 + 0x6) = sp18[0] + *(u16 *)(*(s32 *)(s0 + 0x78) + 0xC); \
+        *(s16 *)(s0 + 0xA) = sp18[1] + *(u16 *)(*(s32 *)(s0 + 0x78) + 0xE); \
+        *(s16 *)(s0 + 0xE) = sp18[2] + *(u16 *)(*(s32 *)(s0 + 0x78) + 0x10); \
+        func_80149374(s1, s0 + 0x4); \
+    }
+
+#define DEFINE_func_8015FDCC() \
+    extern s32 func_801399F0(s32 a0); \
+    extern void func_80147324(s32 a0); \
+    extern void func_80139914(s32 a0); \
+    extern s32 func_80028DE0(void); \
+    extern u8 func_80165700(s32 a0, s32 a1); \
+    extern void func_801466F0(s32 a0, s32 a1, s32 a2, s32 a3, s32 sp5, s32 sp6, s32 sp7, s32 sp8); \
+    extern void func_80146CA0(void *a0); \
+    void func_8015FDCC(s32 a0) { \
+        s32 s0 = a0; \
+        if (func_801399F0(*(s32 *)(s0 + 0x198)) != 0) { \
+            func_80147324(0x19); \
+            func_80139914(*(s32 *)(s0 + 0x198)); \
+            *(s32 *)(s0 + 0x198) = 0; \
+            if (func_80028DE0() == 0) { \
+                if ((func_80165700(s0, *(u8 *)(s0 + 0x1A0)) & 0xFF) != 0) { \
+                    func_801466F0(0x24, s0, 0, 0, 0, 0, 0, 0); \
+                    func_80147324(0x989); \
+                } \
+            } \
+            func_80146CA0((void *)s0); \
+        } \
+    }
+
+#define DEFINE_func_8017C66C() \
+    extern void ReadRotMatrix(void *a0); \
+    extern void PushMatrix(void); \
+    extern void func_8004974C(void *a0, void *a1); \
+    extern void ApplyMatrixSV(void *a0, void *a1, void *a2); \
+    extern void PopMatrix(void); \
+    void func_8017C66C(u16 *a0, void *a1) { \
+        s32 mat[8]; \
+        s32 buf[8]; \
+        s16 sv[4]; \
+        ReadRotMatrix((void *)mat); \
+        PushMatrix(); \
+        sv[0] = (s16)(a0[0] - *(s32 *)((u8 *)mat + 0x14)); \
+        sv[1] = (s16)(a0[1] - *(s32 *)((u8 *)mat + 0x18)); \
+        sv[2] = (s16)(a0[2] - *(s32 *)((u8 *)mat + 0x1C)); \
+        func_8004974C((void *)mat, (void *)buf); \
+        ApplyMatrixSV((void *)buf, (void *)sv, a1); \
+        PopMatrix(); \
+    }
+
+#define DEFINE_func_801307B0() \
+    extern s32 func_801312D0(s32 a0, void *a1); \
+    extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6); \
+    extern void func_8002D4C8(s32 a0, s32 a1); \
+    void func_801307B0(s32 a0) { \
+        s16 local[3]; \
+        *(s8 *)(a0 + 0xC1) = 0x10; \
+        *(s16 *)(a0 + 0x5C) = 0; \
+        func_801312D0(a0, &local[0]); \
+        func_80146A6C(0x10, (void *)a0, \
+                      (s16)(*(u16 *)(a0 + 0x6) + (u16)local[0]), \
+                      (s16)(*(u16 *)(a0 + 0xA) + (u16)local[1]), \
+                      (s16)(*(u16 *)(a0 + 0xE) + (u16)local[2]), \
+                      0, 0); \
+        *(s32 *)(a0 + 0x1C) = 0x1E; \
+        *(s32 *)(a0 + 0x18) = 0; \
+        *(s32 *)(a0 + 0x10) = 0; \
+        func_8002D4C8(0x531, 0); \
+    }
+
+#define DEFINE_func_80132DC4() \
+    extern s32 VectorNormalSS(void *a0, void *a1); \
+    void func_80132DC4(s32 a0, s32 a1, s32 a2) { \
+        s16 in[3]; \
+        s16 out[4]; \
+        in[0] = (u16)*(u16 *)(a1 + 0x0) - *(u16 *)(a0 + 0x6); \
+        in[1] = (u16)*(u16 *)(a1 + 0x2) - *(u16 *)(a0 + 0xA); \
+        in[2] = (u16)*(u16 *)(a1 + 0x4) - *(u16 *)(a0 + 0xE); \
+        VectorNormalSS(&in[0], &out[0]); \
+        *(s32 *)(a0 + 0x10) = out[0] * a2; \
+        *(s32 *)(a0 + 0x14) = out[1] * a2; \
+        *(s32 *)(a0 + 0x18) = out[2] * a2; \
+    }
+
+#define DEFINE_func_80139220() \
+    extern void func_80139DC8(void); \
+    extern void func_801392C8(void *a0); \
+    s32 func_80139220(s32 a0) { \
+        s32 v1; \
+        *(s16 *)(a0 + 0x14) = 0; \
+        *(s16 *)(a0 + 0x12) = (*(u16 *)(a0 + 0x12) + 1) % (*(s16 *)(a0 + 0x2E) + 1); \
+        func_80139DC8(); \
+        v1 = *(u16 *)(a0 + 0x12) - *(u16 *)(a0 + 0x16); \
+        if (v1 != -1) { \
+            if (v1 < *(s16 *)(a0 + 0x2E)) { \
+                return 0; \
+            } \
+        } \
+        func_801392C8((void *)a0); \
+        return 1; \
+    }
+
+#define DEFINE_func_8017869C() \
+    extern void func_80178744(s32 a0, s32 a1); \
+    void func_8017869C(s32 a0) { \
+        s32 v1; \
+        s32 a1; \
+        if (*(s16 *)(a0 + 0xAA) == 0) { \
+            return; \
+        } \
+        *(s16 *)(a0 + 0xAA) = *(s16 *)(a0 + 0xAA) - 1; \
+        v1 = *(s16 *)(a0 + 0xAA); \
+        if (v1 == 0) { \
+            a1 = 0x1000; \
+            if (*(u16 *)(a0 + 0x5E) == 0x1E) { \
+                *(s16 *)(a0 + 0x5E) = 0; \
+            } \
+        } else if (v1 >= 0xF1) { \
+            a1 = 0x1000 - (0x100 - v1) * 0x90; \
+        } else { \
+            if (v1 < 0x10) { \
+                a1 = 0x1000 - v1 * 0x90; \
+            } else { \
+                a1 = 0x700; \
+            } \
+        } \
+        func_80178744(a0, a1); \
+    }
+
+#define DEFINE_func_80146608() \
+    extern void func_801466F0(s32 a0, s32 a1, s32 a2, s32 a3, s32 sp5, s32 sp6, s32 sp7, s32 sp8); \
+    extern s32 D_8011F9D0; \
+    s32 func_80146608(s32 a0, s32 a1, s32 a2, s32 a3, s16 arg9, s32 arg10, s32 arg11, s32 arg12, s32 arg13) { \
+        u8 *p; \
+        u8 *end; \
+        s32 cnt; \
+        cnt = 0; \
+        p = (u8 *)&D_8011F9D0; \
+        end = p + 0x820; \
+        while (p < end) { \
+            if (*(u16 *)p == (a0 & 0xFFFF)) { \
+                cnt++; \
+            } \
+            p += 0x68; \
+        } \
+        if ((u32)cnt >= (u32)arg12) { \
+            return 0; \
+        } \
+        func_801466F0(a0 & 0xFFFF, a1, (s16)a2, (s16)a3, arg9, arg10, arg11, arg13); \
+    }
+
+#define DEFINE_func_80137840() \
+    extern void func_80139634(void *); \
+    extern void func_80139DC8(void); \
+    void func_80137840(s32 a0) { \
+        s32 s0 = a0; \
+        *(u8 *)(s0 + 0xC) = 1; \
+        *(u8 *)(s0 + 0x23) = 1; \
+        *(s16 *)(s0 + 0x1A) = 1; \
+        *(s16 *)(s0 + 0x2A) = 0x1000; \
+        *(s16 *)(s0 + 0x28) = 0x1000; \
+        *(s16 *)(s0 + 0x2C) = 0x24; \
+        *(s16 *)(s0 + 0x2E) = 3; \
+        *(s16 *)(s0 + 0x4) = 0; \
+        *(s16 *)(s0 + 0x6) = 0; \
+        *(s16 *)(s0 + 0x1C) = 0; \
+        *(s16 *)(s0 + 0x10) = 0; \
+        *(s16 *)(s0 + 0x14) = 0; \
+        *(s16 *)(s0 + 0x12) = 0; \
+        *(s16 *)(s0 + 0x16) = 0; \
+        *(s16 *)(s0 + 0x30) = 0; \
+        *(s16 *)(s0 + 0x32) = 0; \
+        *(s16 *)(s0 + 0x34) = 0; \
+        *(s16 *)(s0 + 0x36) = 0; \
+        *(u8 *)(s0 + 0x22) = 0; \
+        *(u8 *)(s0 + 0x20) = 0; \
+        *(s32 *)(s0 + 0x40) = 0; \
+        *(s8 *)(s0 + 0x1F) = -1; \
+        *(s16 *)(s0 + 0x44) = 0; \
+        *(s16 *)(s0 + 0x46) = 0; \
+        *(s16 *)(s0 + 0x48) = 0; \
+        *(s16 *)(s0 + 0x4A) = 0; \
+        func_80139634((void *)s0); \
+        *(u8 *)(s0 + 0xD) = 0; \
+        func_80139DC8(); \
+    }
+
+#define DEFINE_func_80139F0C() \
+    extern s16 func_80138DB8(s32 a0, u8 a1, s32 a2); \
+    extern void func_8002D4C8(s32 a0, s32 a1); \
+    extern void func_80139B18(s32 a0); \
+    extern s32 D_80127524; \
+    void func_80139F0C(s32 a0) { \
+        s32 s0 = a0; \
+        s32 a2; \
+        if (D_80127524 != s0 && (*(s32 *)(s0 + 8) & 0x2000) == 0) { \
+            *(s16 *)(s0 + 4) = 4; \
+            return; \
+        } \
+        if (*(s32 *)(s0 + 8) & 0x4000) { \
+            a2 = 0x70; \
+        } else { \
+            a2 = 0x60; \
+        } \
+        if (func_80138DB8(s0, 0, a2) != 0) { \
+            s32 v1; \
+            *(s16 *)(s0 + 4) = 2; \
+            v1 = *(s32 *)(s0 + 8); \
+            if ((v1 & 0x20000) == 0) { \
+                *(s32 *)(s0 + 8) = v1 & ~0x20; \
+            } \
+            func_8002D4C8(0x88D, 0); \
+        } \
+        func_80139B18(s0); \
+    }
+
+#define DEFINE_func_80159070() \
+    extern s32 func_801399F0(s32 a0); \
+    extern void func_80139914(s32 a0); \
+    extern s32 func_8013767C(s32 a0); \
+    extern void func_80146CA0(void *a0); \
+    extern u8 D_80110C94[]; \
+    extern u8 D_80110CD4[]; \
+    void func_80159070(void *a0) { \
+        s32 obj; \
+        s32 r; \
+        s32 v; \
+        u8 *tbl; \
+        obj = *(s32 *)((u8 *)a0 + 0x20); \
+        *(u16 *)(obj + 0x12) = (*(u16 *)(obj + 0x12) + 0x16) & 0xFFF; \
+        r = func_801399F0(*(s32 *)((u8 *)a0 + 0x198)); \
+        *(s16 *)((u8 *)a0 + 0x244) = r; \
+        if ((s16)r != 0) { \
+            func_80139914(*(s32 *)((u8 *)a0 + 0x198)); \
+            v = *(s16 *)((u8 *)a0 + 0x244); \
+            *(s32 *)((u8 *)a0 + 0x198) = 0; \
+            switch (v) { \
+            default: \
+            case 1: \
+                tbl = D_80110C94; \
+                break; \
+            case 2: \
+                tbl = D_80110CD4; \
+                break; \
+            } \
+            *(s32 *)((u8 *)a0 + 0x198) = func_8013767C((s32)tbl); \
+            func_80146CA0(a0); \
+        } \
+    }
+
+#define DEFINE_func_801638A0() \
+    extern void func_80015978(s32 a0, s32 *a1); \
+    extern s32 func_80135004(s32 a0, void *a1, s32 a2); \
+    extern void func_80015954(s32 a0, s32 a1); \
+    extern s16 D_801152AA; \
+    extern void *memcpy(void *dst, void *src, s32 n); \
+    s32 func_801638A0(u8 *a0, s32 a1) { \
+        u8 buf[8]; \
+        s16 d; \
+        s32 p; \
+        __builtin_memcpy(buf, a0 + 0x44, 8); \
+        p = (s32)(a0 + 4); \
+        func_80015978(p, (s32 *)a1); \
+        if (func_80135004(1, buf, a1) != 0) { \
+            func_80015954(a1, p); \
+            d = D_801152AA; \
+            if (d >= -0x578) { \
+                return 0x8000; \
+            } \
+            if (d >= -0xBCB) { \
+                return 0x4000; \
+            } \
+            return 0x2000; \
+        } \
+        return 0; \
+    }
+
+#define DEFINE_func_80139FE8() \
+    extern s32 func_8001B22C(void *a0); \
+    extern void func_8001931C(void); \
+    extern void func_80139788(void); \
+    extern void func_80139A8C(s32 a0); \
+    extern void func_80139B18(s32 a0); \
+    void func_80139FE8(void *a0) { \
+        s32 v1; \
+        s32 a0v; \
+        v1 = func_8001B22C(a0); \
+        if (v1 == 2 || v1 == 4) { \
+            *(s16 *)((u8 *)a0 + 4) = 2; \
+        } else if (v1 == 0) { \
+            a0v = *(s32 *)((u8 *)a0 + 8); \
+            if (a0v & 1) { \
+                func_8001931C(); \
+            } else { \
+                *(s32 *)((u8 *)a0 + 8) = (a0v & 0xFFFEFFFF) | 0x20020; \
+                func_80139788(); \
+            } \
+            *(s16 *)((u8 *)a0 + 4) = 2; \
+        } else { \
+            func_80139A8C((s32)a0); \
+            if (*(s32 *)((u8 *)a0 + 8) & 0x20) { \
+                *(s16 *)((u8 *)a0 + 4) = 2; \
+            } \
+        } \
+        func_80139B18((s32)a0); \
+    }
+
+#define DEFINE_func_8015E288() \
+    extern u8 D_800D5098[]; \
+    extern u8 D_800D5060[]; \
+    extern s32 func_80161208(void); \
+    extern s32 func_8014A850(s32 a0); \
+    extern void func_80154274(s32 *a0, s32 a1); \
+    extern void func_8015E40C(s32 a0); \
+    extern void func_8015E588(void); \
+    extern void func_8015E4B0(s32 a0); \
+    extern s32 func_80146994(s32 a0, s32 a1, s32 a2, s32 a3); \
+    extern void func_80146CA0(void *a0); \
+    extern void func_80146C98(s32 *a0, s16 a1); \
+    void func_8015E288(s32 a0) { \
+        if (func_80161208() != 0) { \
+            return; \
+        } \
+        if (func_8014A850(a0) != 0) { \
+            func_80154274((s32 *)a0, (s32)D_800D5098); \
+            func_8015E40C(a0); \
+            ((void (*)(s32))func_8015E588)(a0); \
+            func_8015E4B0(a0); \
+            func_80146994(5, a0, 0xB, 0); \
+            func_80146CA0((void *)a0); \
+            return; \
+        } \
+        if (*(u16 *)(a0 + 0xB8) & 0x8000) { \
+            func_80154274((s32 *)a0, (s32)D_800D5060); \
+            func_80146C98((s32 *)a0, 3); \
+        } \
+    }
+
+#define DEFINE_func_80169E44() \
+    extern s32 func_80128ED8(void *a0, void *a1); \
+    extern void func_80146C3C(void); \
+    extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6); \
+    void func_80169E44(s32 a0) { \
+        s32 r; \
+        s32 p; \
+        if (func_80128ED8((void *)*(s32 *)(a0 + 0x20), (void *)(a0 + 0x24)) != 0) { \
+            ((void (*)(s32))func_80146C3C)(a0); \
+            return; \
+        } \
+        r = *(s32 *)(a0 + 0x1C); \
+        *(s32 *)(a0 + 0x1C) = r + 1; \
+        if (r < 3) { \
+            p = func_80146A6C(9, (void *)a0, *(s16 *)(a0 + 0x6), \
+                              *(s16 *)(a0 + 0xA), \
+                              *(s16 *)(a0 + 0xE), \
+                              *(s32 *)(a0 + 0x1C) & 1, 0); \
+            if (p != 0) { \
+                *(s16 *)(p + 0x12) = *(u16 *)(a0 + 0x12); \
+                *(s16 *)(p + 0x16) = *(u16 *)(a0 + 0x16); \
+                *(s16 *)(p + 0x1A) = *(u16 *)(a0 + 0x1A); \
+            } \
+        } \
+    }
+
+#define DEFINE_func_80149290() \
+    extern void func_80149350(s32 arg0); \
+    void func_80149290(s32 a0) { \
+        volatile s32 a; \
+        volatile s32 b; \
+        volatile s32 c; \
+        a = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x48); \
+        b = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x4C); \
+        c = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x4C); \
+        *(s32 *)(*(s32 *)(a0 + 0x20) + 0x48) = *(s16 *)(a0 + 6); \
+        *(s32 *)(*(s32 *)(a0 + 0x20) + 0x4C) = *(s16 *)(a0 + 0xA); \
+        *(s32 *)(*(s32 *)(a0 + 0x20) + 0x50) = *(s16 *)(a0 + 0xE); \
+        func_80149350(a0); \
+        *(s32 *)(*(s32 *)(a0 + 0x20) + 0x48) = a; \
+        *(s32 *)(*(s32 *)(a0 + 0x20) + 0x4C) = b; \
+        *(s32 *)(*(s32 *)(a0 + 0x20) + 0x50) = c; \
+    }
+
+#define DEFINE_func_80157EA4() \
+    extern void func_801599A4(void *a0); \
+    extern void func_80159B3C(void *a0); \
+    extern s32 func_80157F64(s32 *a0); \
+    extern int func_80155FF8(int arg, int a1); \
+    extern s32 func_80156600(void *a0); \
+    extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6); \
+    void func_80157EA4(void *a0) { \
+        s32 *v1; \
+        *(s32 *)((u8 *)a0 + 0x44) = *(s32 *)((u8 *)a0 + 0x44) | 2; \
+        if (*(u16 *)((u8 *)a0 + 0xB8) == 0x8000) { \
+            func_801599A4(a0); \
+            func_80159B3C(a0); \
+            return; \
+        } \
+        if (func_80157F64((s32 *)a0) != 0) { \
+            return; \
+        } \
+        func_80155FF8((int)a0, *(u8 *)((u8 *)a0 + 0x1AA)); \
+        v1 = (s32 *)func_80156600(a0); \
+        if (v1 == 0) { \
+            return; \
+        } \
+        if (*(s16 *)((u8 *)a0 + 0x244) != 0) { \
+            return; \
+        } \
+        *(s16 *)((u8 *)a0 + 0x244) = 1; \
+        func_80146A6C(0x54, a0, *(s16 *)v1, *(s16 *)((u8 *)v1 + 2), *(s16 *)((u8 *)v1 + 4), 0, 0); \
+    }
+
+#define DEFINE_func_80154ED8() \
+    extern s16 D_80078E96; \
+    extern u8 D_800D8D10[]; \
+    extern s16 D_80078E9E; \
+    extern u16 D_80078EA6; \
+    extern void func_801550FC(s32 a0); \
+    void func_80154ED8(s32 a0, s32 a1) { \
+        *(s32 *)(a0 + 0xC8) = a1; \
+        if (D_80078E96 & 0x8000) { \
+            *(s32 *)(a0 + 0xC8) = a1 | 0x1000000; \
+            func_801550FC((s32)D_800D8D10); \
+            return; \
+        } \
+        if (D_80078E9E >= 0x10) { \
+            if (*(s16 *)&D_80078EA6 >= 0x10) { \
+                goto and_path; \
+            } \
+        } \
+        if ((*(s32 *)(a0 + 0x44) & 0xC0) != 0) { \
+            goto and_path; \
+        } \
+        *(s32 *)(a0 + 0xC8) = a1 | 0x1000000; \
+        func_801550FC(0x40000002); \
+        return; \
+    and_path: \
+        *(s32 *)(a0 + 0xC8) = *(s32 *)(a0 + 0xC8) & 0xC0FFFFFF; \
+        func_801550FC(a1); \
+    }
+
+#define DEFINE_func_80158D60() \
+    extern u16 func_801487F4(s32 *a0); \
+    extern s32 func_80159434(s32 a0, s32 a1); \
+    extern void func_80147324(s32 a0); \
+    extern void func_80146CA0(void *a0); \
+    void func_80158D60(s32 a0) { \
+        s32 count; \
+        s32 i; \
+        s32 arg; \
+        arg = 0x4C000; \
+        count = 1; \
+        if (func_801487F4((s32 *)a0) & 0xF0) { \
+            count = 4; \
+        } \
+        for (i = count; i > 0; i--) { \
+            func_80159434(a0, arg); \
+            if (*(s16 *)(*(s32 *)(a0 + 0x20) + 0x10) < 0xC00) { \
+                func_80147324(0x454); \
+                *(s16 *)(*(s32 *)(a0 + 0x20) + 0x10) = 0xC00; \
+                *(s32 *)(a0 + 0x238) = 0xFFEA0000; \
+                func_80146CA0((void *)a0); \
+                i = 0; \
+            } \
+        } \
+    }
+
+#define DEFINE_func_80139B18() \
+    extern s16 D_8012752C; \
+    extern s32 func_80014E80(s32 a0, s32 a1); \
+    extern void func_8001931C(void); \
+    void func_80139B18(s32 a0) { \
+        s32 m; \
+        s32 p; \
+        if (*(s32 *)(a0 + 8) & 0x6000) { \
+            return; \
+        } \
+        if ((s16)func_80014E80(0, 0x10) == 0) { \
+            return; \
+        } \
+        m = *(s32 *)(a0 + 8); \
+        if (m & 0x10000) { \
+            *(s32 *)(a0 + 8) = m & 0xFFFEFFFF; \
+            func_8001931C(); \
+            D_8012752C = 0; \
+        } \
+        if (*(s32 *)(a0 + 8) & 0x2000) { \
+            *(s16 *)(a0 + 4) = 0xD; \
+            return; \
+        } \
+        *(s16 *)(a0 + 4) = 0xC; \
+        p = *(s32 *)(a0 + 0x40); \
+        *(s32 *)(a0 + 8) = *(s32 *)(a0 + 8) & 0xFFFFEFFF; \
+        if (p == 0) { \
+            return; \
+        } \
+        if (*(u16 *)(a0 + 0x18) == 0) { \
+            return; \
+        } \
+        *(s16 *)p = 3; \
+    }
+
+#define DEFINE_func_80164864() \
+    extern void func_80164ACC(); \
+    extern void func_80146CA0(void *a0); \
+    void func_80164864(void *a0) { \
+        s32 s = (s32)a0; \
+        s32 p = *(s32 *)(s + 0x20); \
+        s32 sum; \
+        s32 v; \
+        s32 w; \
+        s32 limit; \
+        sum = *(u16 *)(s + 0x60) + *(u16 *)(s + 0x62); \
+        *(u16 *)(s + 0x60) = sum; \
+        *(u16 *)(p + 0x1A) = *(u16 *)(p + 0x1A) + sum; \
+        if (*(s32 *)(s + 0x50) == 0) { \
+            limit = 0x4000; \
+            v = *(u16 *)(p + 0x1C) + 0x100; \
+            w = *(u16 *)(p + 0x12) + 0x71; \
+            *(u16 *)(p + 0x1C) = v; \
+            *(u16 *)(p + 0x18) = v; \
+            *(u16 *)(p + 0x12) = w; \
+            func_80164ACC(); \
+        } else { \
+            limit = 0x2000; \
+            v = *(u16 *)(p + 0x1C) + 0x200; \
+            w = *(u16 *)(p + 0x12) - 0x71; \
+            *(u16 *)(p + 0x1C) = v; \
+            *(u16 *)(p + 0x18) = v; \
+            *(u16 *)(p + 0x12) = w; \
+        } \
+        if (limit < *(s16 *)(p + 0x1A)) { \
+            func_80146CA0(a0); \
+        } \
+    }
+
+#define DEFINE_func_80162FF4() \
+    extern void func_80162F60(s32 arg0, s32 arg1); \
+    extern void func_80162F80(s32 arg0, s32 arg1); \
+    extern void func_80162FA0(s32 arg0, s32 arg1); \
+    extern void func_80013F3C(s32 a0); \
+    extern void func_800126C4(s32 a0, s32 a1); \
+    extern void func_80012558(s32 a0, s32 a1); \
+    extern void func_800123F0(s32 a0, s32 a1); \
+    extern void func_800484EC(s32 a0, s32 a1, s32 a2); \
+    extern void func_80146D30(s32 a0); \
+    extern s32 D_80127090; \
+    extern s32 D_80127094; \
+    extern s32 D_80127098; \
+    void func_80162FF4(s32 a0, s32 a1, s32 a2, s32 a3) { \
+        s32 sp[16]; \
+        s32 s2 = a0; \
+        s32 s0 = a2; \
+        s32 s3 = a3; \
+        s32 s1 = *(s32 *)(s2 + 0x20); \
+        s32 *q; \
+        func_80162F60(a0, a1); \
+        func_80162F80(s2, s0); \
+        func_80162FA0(s2, s3); \
+        q = &sp[8]; \
+        func_80013F3C((s32)q); \
+        func_800126C4((s32)q, *(s16 *)(s1 + 0x10)); \
+        func_80012558((s32)q, *(s16 *)(s1 + 0x12)); \
+        func_800123F0((s32)q, *(s16 *)(s1 + 0x14)); \
+        func_800484EC((s32)q, s2 + 0x24, (s32)&sp[4]); \
+        D_80127090 = sp[4]; \
+        D_80127094 = sp[5]; \
+        D_80127098 = sp[6]; \
+        func_80146D30(s2); \
+    }
+
+#define DEFINE_func_801630C4() \
+    extern void func_80162F60(s32 arg0, s32 arg1); \
+    extern void func_80162F80(s32 arg0, s32 arg1); \
+    extern void func_80162FA0(s32 arg0, s32 arg1); \
+    extern void func_80013F3C(s32 a0); \
+    extern void func_800126C4(s32 a0, s32 a1); \
+    extern void func_80012558(s32 a0, s32 a1); \
+    extern void func_800123F0(s32 a0, s32 a1); \
+    extern void func_800484EC(s32 a0, s32 a1, s32 a2); \
+    extern void func_80146D30(s32 a0); \
+    extern s32 D_80127090; \
+    extern s32 D_80127094; \
+    extern s32 D_80127098; \
+    void func_801630C4(s32 a0, s32 a1, s32 a2, s32 a3) { \
+        s32 sp[16]; \
+        s32 s2 = a0; \
+        s32 s0 = a2; \
+        s32 s3 = a3; \
+        s32 s1 = *(s32 *)(s2 + 0x20); \
+        s32 *q; \
+        func_80162F60(a0, a1); \
+        func_80162F80(s2, s0); \
+        func_80162FA0(s2, s3); \
+        q = &sp[8]; \
+        func_80013F3C((s32)q); \
+        func_80012558((s32)q, *(s16 *)(s1 + 0x12)); \
+        func_800126C4((s32)q, *(s16 *)(s1 + 0x10)); \
+        func_800123F0((s32)q, *(s16 *)(s1 + 0x14)); \
+        func_800484EC((s32)q, s2 + 0x24, (s32)&sp[4]); \
+        D_80127090 = sp[4]; \
+        D_80127094 = sp[5]; \
+        D_80127098 = sp[6]; \
+        func_80146D30(s2); \
+    }
+
+#define DEFINE_func_8016D778() \
+    extern void func_80146C3C(void); \
+    extern void func_800D20C0(void *a0, void *a1, s32 a2); \
+    extern s32 D_80126B9C; \
+    void func_8016D778(s32 a0) { \
+        s32 s0 = a0; \
+        s32 p; \
+        s16 sp[6]; \
+        if (*(s16 *)(s0 + 0x28) == *(s16 *)(*(s32 *)(s0 + 0x30) + 0x36)) { \
+            if ((D_80126B9C & 0x20) != 0) { \
+                goto main; \
+            } \
+        } \
+        ((void (*)(s32))func_80146C3C)(s0); \
+        return; \
+    main: \
+        p = *(s32 *)(s0 + 0x20); \
+        *(u16 *)(p + 0x18) = *(u16 *)(p + 0x18) ^ 0x400; \
+        *(u16 *)(p + 0x1A) = *(u16 *)(p + 0x1A) ^ 0x200; \
+        sp[0] = *(u16 *)(s0 + 0x12); \
+        sp[1] = *(u16 *)(s0 + 0x16); \
+        sp[2] = *(u16 *)(s0 + 0x1A); \
+        func_800D20C0(&sp[0], &sp[4], 6); \
+        *(u16 *)(s0 + 6) = sp[0]; \
+        *(u16 *)(s0 + 0xA) = sp[1]; \
+        *(u16 *)(s0 + 0xE) = sp[2]; \
+    }
+
+#define DEFINE_func_80164ACC() \
+    extern u8 D_801202A0[]; \
+    extern u8 D_80126720[]; \
+    extern s32 func_8014C308(s32 a0, s32 a1, s32 a2, s32 a3); \
+    extern s32 func_8014C278(s32 a0, s32 a1, s32 a2); \
+    extern void func_80015978(s32 a0, s32 *a1); \
+    extern s32 func_8014C3A4(void *a0, s32 a1, s32 a2, s32 a3); \
+    void func_80164ACC(s32 a0) { \
+        u8 *p; \
+        s16 buf[4]; \
+        p = D_801202A0; \
+        if (p < p + 0x6480) { \
+            do { \
+                if (func_8014C308(a0, (s32)p, 0xB, 2) != 0) { \
+                    if (func_8014C278(a0, (s32)p, 0x50) != 0) { \
+                        func_80015978((s32)(p + 4), (s32 *)buf); \
+                        buf[3] = 0; \
+                        func_8014C3A4((void *)a0, (s32)p, 0xB, (s32)buf); \
+                        *(s16 *)(p + 0x60) = (s16)(*(s16 *)(p + 0x60)) / 2; \
+                    } \
+                } \
+                p += 0x10C; \
+            } while (p < D_80126720); \
+        } \
+    }
+
+#define DEFINE_func_8012FB54() \
+    extern void func_801319E0(s32 a0); \
+    extern s32 func_80143B6C(s32 a0, s32 a1); \
+    extern void func_8002D4C8(s32 a0, s32 a1); \
+    extern void func_80131CA8(int a0, int a1); \
+    void func_8012FB54(s32 a0) { \
+        s32 s0 = a0; \
+        s32 v1; \
+        s32 p; \
+        if ((*(s32 *)(s0 + 0xB4) & 0x10000) != 0) { \
+            *(s32 *)(s0 + 0x4) = *(s32 *)(s0 + 0x4) + *(s32 *)(s0 + 0x10); \
+            *(s32 *)(s0 + 0x8) = *(s32 *)(s0 + 0x8) + *(s32 *)(s0 + 0x14); \
+            *(s32 *)(s0 + 0xC) = *(s32 *)(s0 + 0xC) + *(s32 *)(s0 + 0x18); \
+            v1 = *(s32 *)(s0 + 0x1C) - 1; \
+            *(s32 *)(s0 + 0x1C) = v1; \
+            if (v1 == 0) { \
+                func_801319E0(s0); \
+            } else { \
+                p = func_80143B6C(s0, 1); \
+                if (p != 0) { \
+                    *(s16 *)(p + 0xA) = *(u16 *)(p + 0xA) + *(u16 *)(s0 + 0xAC); \
+                } \
+                if (*(s32 *)(s0 + 0x1C) == 0x13) { \
+                    func_8002D4C8(0x8F2, 0); \
+                } \
+            } \
+        } \
+        func_80131CA8(s0, 0x36); \
+    }
+
+#define DEFINE_func_80156A88() \
+    extern void func_80147324(s32 a0); \
+    extern s32 func_8014CA88(s32 *a0, s32 a1); \
+    extern s32 func_8014CA14(s32 a0, s32 a1); \
+    extern s32 D_801150E0[]; \
+    extern s32 D_801151E0[]; \
+    void func_80156A88(s32 a0, s32 a1) { \
+        s32 v1 = *(s32 *)(a1 + 0xC); \
+        s32 s3 = v1 & 0xF0FFFFFF; \
+        s32 s5, s4; \
+        s32 *s0; \
+        s32 *s1; \
+        u32 s2; \
+        if (v1 == 0x80000000) { \
+            return; \
+        } \
+        s2 = 0; \
+        s5 = v1 & 0x1000000; \
+        s4 = v1 & 0x2000000; \
+        s0 = D_801150E0; \
+        s1 = D_801151E0; \
+        do { \
+            if (*s1 & 1) { \
+                if (s5 != 0) { \
+                    func_80147324(s3 & 0xFFFF); \
+                } else if (s4 != 0) { \
+                    func_8014CA88((s32 *)*s0, s3); \
+                } else { \
+                    func_8014CA14(*s0, s3); \
+                } \
+            } \
+            s0++; \
+            s2++; \
+            s1++; \
+        } while (s2 < 3); \
+    }
+
+#define DEFINE_func_80176FF4() \
+    extern u32 func_801783D0(s32 a0, s32 a1); \
+    extern void func_801778A8(s32 a0, s32 a1, s32 a2, s32 a3); \
+    extern u16 D_8011F82C; \
+    extern u16 D_8011F82A; \
+    void func_80176FF4(s32 a0) { \
+        s32 v0; \
+        a0 += 0x50; \
+        func_801778A8(a0, (s16)func_801783D0(D_8011F82C, 4), 3, 0xFF); \
+        a0 += 0x3C; \
+        func_801778A8(a0, (s16)func_801783D0(D_8011F82A, 4), 3, 0xFF); \
+        a0 += 0x3C; \
+        *(s16 *)(a0 + 0xC) = (u32)(D_8011F82C * 10355) >> 15; \
+        a0 += 0x14; \
+        v0 = ((s32)(D_8011F82A * 10355) << 1) >> 16; \
+        *(s16 *)(a0 + 0xC) = v0; \
+        *(s16 *)(a0 + 0x20) = v0 + 2; \
+    }
+
+#define DEFINE_func_80177340() \
+    extern u32 func_801783D0(s32 a0, s32 a1); \
+    extern void func_801778A8(s32 a0, s32 a1, s32 a2, s32 a3); \
+    extern u16 D_8011F830; \
+    extern u16 D_8011F82E; \
+    void func_80177340(s32 a0) { \
+        s32 v0; \
+        a0 += 0x50; \
+        func_801778A8(a0, (s16)func_801783D0(D_8011F830, 4), 3, 0xFF); \
+        a0 += 0x3C; \
+        func_801778A8(a0, (s16)func_801783D0(D_8011F82E, 4), 3, 0xFF); \
+        a0 += 0x3C; \
+        *(s16 *)(a0 + 0xC) = (u32)(D_8011F830 * 10355) >> 15; \
+        a0 += 0x14; \
+        v0 = ((s32)(D_8011F82E * 10355) << 1) >> 16; \
+        *(s16 *)(a0 + 0xC) = v0; \
+        *(s16 *)(a0 + 0x20) = v0 + 2; \
+    }
+
+#define DEFINE_func_80147628() \
+    extern void func_80013F3C(s32 a0); \
+    extern void func_80012558(s32 a0, s32 a1); \
+    extern void func_800126C4(s32 a0, s32 a1); \
+    extern void func_800123F0(s32 a0, s32 a1); \
+    void func_80147628(s32 a0) { \
+        s32 s2 = *(s32 *)(a0 + 0x20); \
+        s32 s1 = s2 + 0x34; \
+        func_80013F3C(s1); \
+        func_80012558(s1, *(s16 *)(a0 + 0x102)); \
+        func_800126C4(s1, *(s16 *)(a0 + 0x100)); \
+        func_800123F0(s1, *(s16 *)(a0 + 0x104)); \
+        if (*(u16 *)(a0 + 0x136) & 2) { \
+            func_80012558(s1, *(s16 *)(a0 + 0x132)); \
+        } else { \
+            func_80012558(s1, *(s16 *)(s2 + 0x12)); \
+        } \
+        if (*(u16 *)(a0 + 0x136) & 1) { \
+            func_800126C4(s2 + 0x34, *(s16 *)(a0 + 0x130)); \
+        } else { \
+            func_800126C4(s2 + 0x34, *(s16 *)(s2 + 0x10)); \
+        } \
+        if (*(u16 *)(a0 + 0x136) & 4) { \
+            func_800123F0(s2 + 0x34, *(s16 *)(a0 + 0x134)); \
+        } else { \
+            func_800123F0(s2 + 0x34, *(s16 *)(s2 + 0x14)); \
+        } \
+    }
+
+#define DEFINE_func_80158344() \
+    extern s32 func_80161208(void); \
+    extern s32 func_801585AC(s32 *a0); \
+    extern void func_80156648(s32 *a0); \
+    extern void func_80154274(s32 *a0, s32 a1); \
+    extern void func_80147324(s32 a0); \
+    extern s32 func_80146994(s32 a0, s32 a1, s32 a2, s32 a3); \
+    extern void func_80146E90(s32 *a0, s32 a1); \
+    extern void func_80146CA0(void *a0); \
+    extern void func_801599A4(void *a0); \
+    extern void func_80159B3C(void *a0); \
+    extern int func_80155FF8(int arg, int a1); \
+    extern u8 D_800D52E8[]; \
+    void func_80158344(s32 *a0) { \
+        volatile s32 spill[4]; \
+        *(s32 *)((s32)a0 + 0x44) |= 2; \
+        if (func_80161208() == 0) { \
+            if (func_801585AC(a0) != 0) { \
+                func_80156648(a0); \
+                *(s8 *)((s32)a0 + 0x1AA) = 0x11; \
+                func_80154274(a0, (s32)D_800D52E8); \
+                *(s32 *)((s32)a0 + 0x234) = 0; \
+                func_80147324(0x455); \
+                func_80146994(4, (s32)a0, 9, 0); \
+                func_80146994(5, (s32)a0, 0xD, 0); \
+                func_80146E90(a0, 0x12C); \
+                func_80146CA0(a0); \
+            } \
+            if (*(u16 *)((s32)a0 + 0xB8) & 0x8000) { \
+                func_801599A4(a0); \
+                func_80159B3C(a0); \
+            } else { \
+                func_80155FF8((int)a0, *(u8 *)((s32)a0 + 0x1AA)); \
+            } \
+        } \
+    }
+
+#define DEFINE_func_8012CEB0() \
+    extern s32 func_80133784(s32 a0, void *a1, s32 a2); \
+    s32 func_8012CEB0(s32 a0, s32 a1, s32 a2) { \
+        s32 sp10[2]; \
+        s32 r; \
+        s32 v; \
+        s32 t; \
+        if ((a2 & 1) != 0) { \
+            s32 u; \
+            r = func_80133784((s16)a2, (void *)a0, a1); \
+            u = *(u8 *)(a1 + 6); \
+            r |= u; \
+            if (u == 2 || u == 0x1B) { \
+                r |= 0x1000; \
+            } \
+            return r; \
+        } else { \
+            r = func_80133784(0, (void *)a0, a1); \
+            if (r == 0) { \
+                return 0; \
+            } \
+            v = func_80133784(2, (void *)a1, (s32)sp10); \
+            if ((v & 0x6000) == 0) { \
+                return 0; \
+            } \
+            v &= 0xFFFF7FFF; \
+            v |= (r & 0x8000); \
+            t = *(u8 *)(a1 + 6); \
+            *(s16 *)(a1 + 2) = *(u16 *)((s32)sp10 + 2); \
+            v |= t; \
+            if (t == 2 || t == 0x1B) { \
+                v |= 0x1000; \
+            } \
+            return v; \
+        } \
+    }
+
+#define DEFINE_func_801580B4() \
+    extern u8 D_800D524C[]; \
+    extern void func_801477E8(s32 *a0, s32 a1); \
+    extern void func_80148038(s32 a0, s32 a1); \
+    extern void func_80147460(s32 a0); \
+    extern void func_80147AD4(s32 arg0, s32 arg1, s32 arg2, s32 arg3); \
+    extern void func_801473EC(s32 *a0); \
+    extern void func_80161418(void *a0); \
+    extern void func_80156648(s32 *a0); \
+    extern void func_80154274(s32 *a0, s32 a1); \
+    extern void func_80147324(s32 a0); \
+    extern void func_80146CA0(void *a0); \
+    extern int func_80155FF8(int arg, int a1); \
+    void func_801580B4(s32 a0) { \
+        s32 reserved[4]; \
+        (void)reserved; \
+        *(s32 *)(a0 + 0x44) |= 2; \
+        if ((*(u16 *)(a0 + 0xB8) & 0x4000) != 0) { \
+            func_801477E8((s32 *)a0, 0xFFF40000); \
+            *(s32 *)(a0 + 0x234) += 1; \
+        } \
+        if (*(s32 *)(a0 + 0x234) != 0) { \
+            func_80148038(a0, 0x10000); \
+            func_80147460(a0); \
+        } \
+        func_80147AD4(a0, 0, 0, 0); \
+        func_801473EC((s32 *)a0); \
+        { \
+            register s32 ret __asm__("$2"); \
+            func_80161418((void *)a0); \
+            __asm__ __volatile__("" : "=r"(ret)); \
+            if (ret != 0) { \
+                return; \
+            } \
+        } \
+        if (*(u16 *)(a0 + 0xB8) == 0x8000) { \
+            func_80156648((s32 *)a0); \
+            *(s8 *)(a0 + 0x1AA) = 0xF; \
+            func_80154274((s32 *)a0, (s32)D_800D524C); \
+            func_80147324(0x455); \
+            func_80146CA0((void *)a0); \
+        } else { \
+            func_80155FF8(a0, *(u8 *)(a0 + 0x1AA)); \
+        } \
+    }
+
+#define DEFINE_func_80157BC8() \
+    extern void func_80147AD4(s32 arg0, s32 arg1, s32 arg2, s32 arg3); \
+    extern void func_801473EC(s32 *a0); \
+    extern void func_80148038(s32 a0, s32 a1); \
+    extern void func_80147460(s32 a0); \
+    extern void func_8014ED28(s32 a0); \
+    extern void func_80146D90(s32 a0); \
+    extern void func_8016158C(void *a0); \
+    extern void func_80161D20(s32 a0, s32 a1); \
+    extern void func_8014C010(s32 a0, s32 a1); \
+    extern void func_8016706C(s32 a0); \
+    extern void func_801599A4(void *a0); \
+    extern void func_80159B3C(void *a0); \
+    extern void func_8015BE04(s32 *a0); \
+    extern s32 func_801725A4(u8 *a0); \
+    void func_80157BC8(s32 a0) { \
+        s32 s1; \
+        func_80147AD4(a0, 0, 0, 0x10000); \
+        func_801473EC((s32 *)a0); \
+        func_80148038(a0, 0x1A000); \
+        func_80147460(a0); \
+        { \
+            register s32 ret __asm__("$2"); \
+            func_8014ED28(a0); \
+            __asm__ __volatile__("" : "=r"(ret)); \
+            if (ret != 0) { \
+                func_80146D90(a0); \
+            } \
+        } \
+        { \
+            register s32 r __asm__("$2"); \
+            func_8016158C((void *)a0); \
+            __asm__ __volatile__("" : "=r"(r)); \
+            s1 = r; \
+        } \
+        if ((s1 & 5) != 0) { \
+            func_80161D20(a0, *(u16 *)(a0 + 0x16E)); \
+            func_8014C010(a0, 1); \
+            func_8016706C(4); \
+            func_8016706C(5); \
+            func_801599A4((void *)a0); \
+            func_80159B3C((void *)a0); \
+        } \
+        if (s1 != 0) { \
+            return; \
+        } \
+        if (*(s32 *)(a0 + 0x34) > 0) { \
+            func_801599A4((void *)a0); \
+            func_80146D90(a0); \
+            func_8015BE04((s32 *)a0); \
+        } else { \
+            func_801725A4((u8 *)a0); \
+        } \
+    }
+
+#define DEFINE_func_80163950() \
+    extern u8 D_801202A0[]; \
+    extern u8 D_80126720[]; \
+    extern void func_80015978(s32 a0, s32 *a1); \
+    extern s32 func_80135A4C(s32 a0, s32 a1, s32 *a2, s32 a3); \
+    extern void func_80015954(s32 a0, s32 a1); \
+    s32 func_80163950(s32 a0) { \
+        s32 sp10[2]; \
+        s32 sp18[2]; \
+        u8 *p; \
+        func_80015978(a0 + 4, sp10); \
+        func_80015978(a0 + 4, sp18); \
+        *(s16 *)((s32)sp10 + 0x2) = *(u16 *)((s32)sp10 + 0x2) - 0x20; \
+        *(s16 *)((s32)sp18 + 0x2) = *(u16 *)((s32)sp18 + 0x2) + 0x8; \
+        for (p = D_801202A0; p < D_801202A0 + 0x6480; p += 0x10C) { \
+            if (*(u16 *)p == 0) continue; \
+            if ((*(u16 *)(p + 0x5C) & 0x400) == 0) continue; \
+            if (*(s32 *)(p + 0x58) == 0) continue; \
+            if (func_80135A4C(*(s32 *)(p + 0x20), *(s32 *)(p + 0x58), sp10, (s32)sp18) != 0) { \
+                func_80015954((s32)sp18, a0 + 4); \
+                return 1; \
+            } \
+        } \
+        return 0; \
+    }
+
+#define DEFINE_func_80149954() \
+    extern void func_80015978(s32 a0, s32 *a1); \
+    extern s32 func_8012E5CC(s32 a0, s32 a1, s32 a2); \
+    extern void func_8002D4C8(s32 a0, s32 a1); \
+    extern void func_80147364(u16 a0, s32 a1); \
+    extern s32 func_800CCF28(s32 a0); \
+    extern void func_80146750(void *a0); \
+    extern u8 D_80126B5C; \
+    extern void *D_8012707C; \
+    extern s16 currentLocationId; \
+    s32 func_80149954(s32 s0) { \
+        s32 sp10[2]; \
+        s16 buf[10]; \
+        if (*(s32 *)(s0 + 0x44) & 0x404) { \
+            return 0; \
+        } \
+        if ((*(u16 *)(s0 + 0xAA) & 0x90) == 0) { \
+            if (currentLocationId == 0x308D) { \
+                func_80015978((s32)&D_80126B5C, sp10); \
+                func_8012E5CC((s32)sp10, 0x4, 0x8E0); \
+                return 0; \
+            } \
+            func_8002D4C8(0x4, 0x8E0); \
+            return 0; \
+        } \
+        if (*(u16 *)(s0 + 0xAC) & 0x90) { \
+            if ((s32)D_8012707C == 0x8E0) { \
+                D_8012707C = 0; \
+            } else { \
+                func_80147364(0x8E0, 0); \
+            } \
+        } \
+        func_800CCF28(s0); \
+        *(s16 *)((s32)buf + 0x0) = 0x12; \
+        *(s32 *)((s32)buf + 0x8) = s0; \
+        *(s16 *)((s32)buf + 0x2) = 0; \
+        *(s16 *)((s32)buf + 0x4) = -0x1E; \
+        *(s16 *)((s32)buf + 0x6) = 0; \
+        *(s32 *)((s32)buf + 0xC) = 0; \
+        *(s32 *)((s32)buf + 0x10) = 0; \
+        func_80146750(buf); \
+        return 1; \
+    }
+
+#define DEFINE_func_801564B0() \
+    extern s32 rand(void); \
+    extern s32 func_8002A1B4(void); \
+    extern s32 func_8002A400(void); \
+    extern s32 func_8002A670(void); \
+    extern s32 func_8002A8E0(void); \
+    extern u8 D_80078E78[]; \
+    s32 func_801564B0(s32 a0) { \
+        s32 s0 = (s32)D_80078E78; \
+        s32 v1; \
+        if (*(s32 *)(a0 + 0x44) & 0x200) { \
+            if (rand() & 0x1) { \
+                return 0x8000; \
+            } \
+        } \
+        if (func_8002A1B4() || func_8002A400() || func_8002A670() || func_8002A8E0()) { \
+            if ((rand() & 0x3) == 0) { \
+                return 0x8000; \
+            } \
+        } \
+        if ((rand() & 0x3) != 0) { \
+            return 0; \
+        } \
+        v1 = rand() % 160 & 0xFFFF; \
+        if ((u32)v1 < 0x51) { \
+            return 0; \
+        } \
+        if (v1 >= *(s16 *)(s0 + 0x2E)) { \
+            /* LOAD-BEARING: empty volatile asm blocks gcc's noce store-flag \
+               if-conversion (it would fold "cond ? 0x8000 : 0" to (slt)<<15); \
+               the original kept the slt+branch form. */ \
+            __asm__ __volatile__(""); \
+            return 0; \
+        } \
+        return 0x8000; \
+    }
+
+#define DEFINE_func_8016D4DC() \
+    extern s32 D_80126B58; \
+    extern void func_8016C83C(s32 a0); \
+    extern s32 VectorNormalSS(void *a0, void *a1); \
+    extern void func_8016CF04(s32 a0, s32 a1); \
+    extern void func_8016C74C(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4); \
+    extern void func_800D22E4(s32 a0); \
+    void func_8016D4DC(s32 a0) { \
+        s16 d[20]; \
+        s32 a1 = *(s32 *)(a0 + 0x34); \
+        s32 dist; \
+        s32 idx; \
+        if (*(u16 *)a1 != 1) { \
+            *(s16 *)(a0 + 2) = 3; \
+            *(s32 *)(a0 + 0x34) = (s32)&D_80126B58; \
+            *(s32 *)(a0 + 0x1C) = 0x40; \
+            func_8016C83C(a0); \
+            return; \
+        } \
+        d[0] = *(u16 *)(a1 + 6) - *(u16 *)(a0 + 6); \
+        d[1] = *(u16 *)(a1 + 0xA) - *(u16 *)(a0 + 0xA); \
+        d[2] = *(u16 *)(a1 + 0xE) - *(u16 *)(a0 + 0xE); \
+        dist = VectorNormalSS(d, d); \
+        if (dist < 0x510) { \
+            func_8016CF04(a0, 2); \
+            *(s16 *)(a0 + 2) = 4; \
+            return; \
+        } \
+        if (dist < 0x1900) { \
+            idx = 6; \
+        } else if (dist < 0x6400) { \
+            idx = 5; \
+        } else { \
+            idx = 4; \
+        } \
+        func_8016C74C(a0, (s32)d, idx, 9, 0x400); \
+        func_800D22E4(a0); \
+        func_8016CF04(a0, 1); \
+    }
+
+#define DEFINE_func_80165E90() \
+    extern void func_801484B0(s32 a0, s32 a1); \
+    extern s32 func_80165FA4(s32 a0, s32 a1, s32 a2); \
+    extern s32 func_80167DBC(s32 a0, s32 a1, s32 a2); \
+    extern void func_80148534(s32 a0, s32 a1); \
+    extern s32 func_80167AE0(s32 a0, s32 a1, s32 a2); \
+    extern s32 D_80126B9C; \
+    extern s32 D_80126B58; \
+    extern s32 *D_80126B78; \
+    void func_80165E90(void) { \
+        s32 s1 = (s32)&D_80126B58; \
+        s32 buf1[2]; \
+        s32 buf2[2]; \
+        s32 v1; \
+        if ((D_80126B9C & 0x10000400) == 0x10000000) { \
+            v1 = (s32)D_80126B78; \
+            if (*(s32 *)(v1 + 0x4) >= 0) { \
+                if (*(s32 *)(v1 + 0x20) != 0) { \
+                    func_801484B0((s32)buf1, (s32)buf2); \
+                    func_80165FA4(s1, (s32)buf1, (s32)buf2); \
+                    func_80167DBC(s1, (s32)buf1, (s32)buf2); \
+                } \
+            } \
+        } \
+        if ((*(s32 *)(s1 + 0x44) & 0x20020400) == 0x20000000) { \
+            v1 = *(s32 *)(s1 + 0x20); \
+            if (*(s32 *)(v1 + 0x4) >= 0) { \
+                if (*(s32 *)(v1 + 0x20) != 0) { \
+                    func_80148534((s32)buf1, (s32)buf2); \
+                    func_80165FA4(s1, (s32)buf1, (s32)buf2); \
+                    func_80167AE0(s1, (s32)buf1, (s32)buf2); \
+                } \
+            } \
+        } \
+    }
+
+#define DEFINE_func_8014B190() \
+    extern s32 func_8016F1C4(void); \
+    extern u8 D_80078E78[]; \
+    extern s16 D_80078E96; \
+    extern s16 D_80078EB8; \
+    extern u16 D_80078EA6; \
+    extern u8 D_80078EC1; \
+    void func_8014B190(s32 s0) { \
+        s16 *s1 = (s16 *)D_80078E78; \
+        s32 v0; \
+        *(s16 *)(s0 + 0x68) = 0x1000; \
+        *(s16 *)(s0 + 0x6A) = 0x1000; \
+        *(s16 *)(s0 + 0x6C) = 0x1000; \
+        v0 = *(s32 *)(s0 + 0x44) & -0x201; \
+        v0 = v0 & -0x401; \
+        *(s32 *)(s0 + 0x44) = v0; \
+        v0 = func_8016F1C4(); \
+        if (v0) { \
+            return; \
+        } \
+        if (*(u16 *)(s0 + 0x0) == 0x1E) { \
+            return; \
+        } \
+        if (*(u16 *)(s0 + 0x0) == 0x1A) { \
+            return; \
+        } \
+        if ((D_80078E96 & 0x8000) || \
+            ((u16)D_80078EB8 < 0xB) || \
+            ((s16)D_80078EA6 < 0x10) || \
+            (D_80078EC1 == 0x1)) { \
+            *(s32 *)(s0 + 0x44) |= 0x200; \
+        } \
+        if (*(s16 *)((s32)s1 + 0x22) & 0x8000) { \
+            *(s16 *)(s0 + 0x68) = 0x555; \
+            *(s16 *)(s0 + 0x6A) = 0x555; \
+            *(s16 *)(s0 + 0x6C) = 0x555; \
+            *(s32 *)(s0 + 0x44) |= 0x400; \
+        } \
+    }
+
+#define DEFINE_func_8014B5D8() \
+    extern s32 func_8016F1C4(void); \
+    extern s32 func_80029178(s32 a0); \
+    extern void func_8014BC80(s32 a0, s32 a1); \
+    extern u8 D_80078E78[]; \
+    void func_8014B5D8(s32 s1) { \
+        s32 *s0 = (s32 *)D_80078E78; \
+        s32 v0; \
+        s32 a0; \
+        v0 = func_8016F1C4(); \
+        if (v0) { \
+            return; \
+        } \
+        if (*(u16 *)(s1 + 0x0) == 0x1E) { \
+            return; \
+        } \
+        if (*(u16 *)(s1 + 0x0) == 0x1A) { \
+            return; \
+        } \
+        if (*(s32 *)(s1 + 0x44) & 0x10) { \
+            return; \
+        } \
+        if (*(s32 *)(s1 + 0x44) & 0x80) { \
+            if ((func_80029178(0x1B) & 0xFF) != 0) { \
+                a0 = 0x2D8; \
+            } else { \
+                a0 = 0x5B0; \
+            } \
+        } else { \
+            a0 = 0x16C; \
+        } \
+        if (*(u8 *)((s32)s0 + 0x49) == 0x12) { \
+            a0 = a0 << 1; \
+        } \
+        v0 = *(s32 *)((s32)s0 + 0x24) - a0; \
+        *(s32 *)((s32)s0 + 0x24) = v0; \
+        if (v0 < 0) { \
+            *(s32 *)((s32)s0 + 0x24) = 0; \
+            if (*(s32 *)(s1 + 0x44) & 0x80) { \
+                *(s32 *)((s32)s0 + 0x28) = *(s32 *)((s32)s0 + 0x28) + 0xAAA8; \
+            } else { \
+                *(s32 *)((s32)s0 + 0x28) = *(s32 *)((s32)s0 + 0x28) + 0x1555; \
+            } \
+            if (*(s16 *)((s32)s0 + 0x2A) < 0x3C) { \
+                return; \
+            } \
+            *(s32 *)((s32)s0 + 0x28) = 0; \
+            func_8014BC80(s1, 0x4); \
+        } else { \
+            *(s32 *)((s32)s0 + 0x28) = 0; \
+            *(s8 *)((s32)s0 + 0x43) = 0; \
+        } \
+    }
+
+#define DEFINE_func_80137BD8() \
+    extern void func_801392FC(s32 a0, s32 a1, u8 *a2); \
+    extern void func_801397B0(s32 a0); \
+    extern void func_80137DD4(s32 a0, u8 *a1, u8 *a2); \
+    extern void func_80139680(s32 a0, u8 *a1); \
+    extern short D_800B9A02; \
+    extern u8 D_800A6518[]; \
+    extern s32 D_80127524; \
+    extern u16 D_800B99D8; \
+    void func_80137BD8(s32 a0) { \
+        u8 buf[8]; \
+        if ((*(s32 *)(a0 + 8) & 0x1000) != 0) { \
+            func_801392FC(a0, *(u8 *)(a0 + 0x1E), \
+                          &D_800A6518[(u16)D_800B9A02 * 20]); \
+            if (*(u8 *)(a0 + 0x20) != 0) { \
+                func_801397B0(a0); \
+            } \
+        } \
+        if (D_80127524 == a0) { \
+            if (*(s16 *)(a0 + 4) == 7) { \
+                buf[0] = 0x39; \
+                buf[1] = 0xFF; \
+                buf[2] = 0x71; \
+                func_80137DD4(a0, buf, &D_800A6518[(u16)D_800B9A02 * 20]); \
+            } else if (*(s16 *)(a0 + 4) == 3) { \
+                if ((D_800B99D8 & 4) != 0) { \
+                    func_80139680(a0, &D_800A6518[(u16)D_800B9A02 * 20]); \
+                } \
+            } \
+        } \
+    }
+
+#define DEFINE_func_8013AA24() \
+    extern void func_8013AD38(void *a0, s32 a1, void *a2, void *a3); \
+    extern void func_8013B204(s32 a0, s32 a1); \
+    extern void func_8013AF20(s32 a0, s32 a1, void *a2, void *a3); \
+    extern short D_800B9A02; \
+    extern s32 D_800A651C; \
+    void func_8013AA24(s32 a0, s32 a1) { \
+        s32 s2 = a0; \
+        s32 s0 = a1; \
+        u8 buf[0xE0];          /* spans 0x10 .. 0xF0 */ \
+        s16 m00 = *(u16 *)(s0 + 8); \
+        s16 m11; \
+        *(s16 *)(buf + 0x02) = 0;                       /* 0x12 */ \
+        *(s16 *)(buf + 0x04) = 0;                       /* 0x14 */ \
+        *(s16 *)(buf + 0x06) = 0;                       /* 0x16 */ \
+        *(s16 *)(buf + 0x00) = m00;                     /* 0x10 */ \
+        m11 = *(u16 *)(s0 + 0xA); \
+        *(s16 *)(buf + 0x0A) = 0;                       /* 0x1A */ \
+        *(s16 *)(buf + 0x0C) = 0;                       /* 0x1C */ \
+        *(s16 *)(buf + 0x0E) = 0;                       /* 0x1E */ \
+        *(s16 *)(buf + 0x10) = 0x1000;                  /* 0x20 */ \
+        *(s16 *)(buf + 0x08) = m11;                     /* 0x18 */ \
+        *(s32 *)(buf + 0x14) = *(s16 *)(s2 + 0x24);    /* 0x24 */ \
+        *(s32 *)(buf + 0x18) = *(s16 *)(s2 + 0x26);    /* 0x28 */ \
+        *(s32 *)(buf + 0x1C) = 0;                       /* 0x2C */ \
+        { \
+            register s32 *p __asm__("$2") = (s32 *)(buf + 0x00); \
+            __asm__ __volatile__( \
+                "lw $12, 0(%0)\n" \
+                "lw $13, 4(%0)\n" \
+                "ctc2 $12, $0\n" \
+                "ctc2 $13, $1\n" \
+                "lw $12, 8(%0)\n" \
+                "lw $13, 12(%0)\n" \
+                "lw $14, 16(%0)\n" \
+                "ctc2 $12, $2\n" \
+                "ctc2 $13, $3\n" \
+                "ctc2 $14, $4\n" \
+                "lw $12, 20(%0)\n" \
+                "lw $13, 24(%0)\n" \
+                "ctc2 $12, $5\n" \
+                "lw $14, 28(%0)\n" \
+                "ctc2 $13, $6\n" \
+                "ctc2 $14, $7\n" \
+                : : "r"(p) : "$12", "$13", "$14", "memory"); \
+        } \
+        func_8013AD38((void *)(s0 + 8), *(s16 *)(s0 + 0xC), buf + 0x20, buf + 0xA0); \
+        func_8013B204(s2, s0); \
+        func_8013AF20(*(s32 *)((u8 *)&D_800A651C + (u16)D_800B9A02 * 20) + \
+                          *(u16 *)(s2 + 0x1A) * 4, \
+                      s2 + 0x24, buf + 0x20, buf + 0xA0); \
+    }
+
+#define DEFINE_func_8014AA28() \
+    extern s32 D_80126B58; \
+    extern u8 D_80078EC1; \
+    extern void func_801599A4(void *a0); \
+    extern void func_80159B3C(void *a0); \
+    extern s32 func_80165A20(s32 a0); \
+    extern void func_8014AB7C(); \
+    extern void func_8014AC10(); \
+    void func_8014AA28(void) { \
+        s32 base = (s32)&D_80126B58; \
+        u16 v1 = *(u16 *)base; \
+        s32 s0 = D_80078EC1; \
+        if ((u32)(v1 - 0x19) >= 2 && (u32)(v1 - 0x1D) >= 2) { \
+            func_801599A4((void *)base); \
+            func_80159B3C((void *)base); \
+            if (s0 == 0xC || s0 == 0x18 || s0 == 0xA) { \
+                func_80165A20(base); \
+            } \
+        } \
+        *(s16 *)(base + 0x1C8) = 0; \
+        *(s16 *)(base + 0x1CA) = 0; \
+        *(s16 *)(base + 0x1CC) = 0; \
+        *(s16 *)(base + 0x1CE) = 0; \
+        *(s16 *)(base + 0x1D0) = 0; \
+        *(s32 *)(base + 0x1D4) = 0; \
+        *(s32 *)(base + 0x1D8) = 0; \
+        func_8014AB7C(5); \
+        func_8014AB7C(6); \
+        func_8014AB7C(7); \
+        func_8014AB7C(8); \
+        func_8014AB7C(9); \
+        func_8014AC10(0x26); \
+        func_8014AC10(0x27); \
+        func_8014AC10(0x39); \
+        func_8014AC10(0x3A); \
+        func_8014AB7C(0x10); \
+        func_8014AB7C(0x11); \
+        func_8014AB7C(0x12); \
+        func_8014AB7C(0x13); \
+        func_8014AB7C(0x14); \
+        func_8014AC10(0x3B); \
+        func_8014AC10(0x3C); \
+        *(u8 *)(base + 0x223) = 0x10; \
+    }
+
+#define DEFINE_func_8015E714() \
+    extern s32 func_80133784(s32 a0, void *a1, s32 a2); \
+    extern void func_80015978(s32 a0, s32 *a1); \
+    extern void func_8014C4AC(s32 a0, s32 a1, s32 a2, s16 *a3, s32 a4); \
+    extern void func_801553C0(s32 a0); \
+    extern void func_80155440(s32 *a0); \
+    extern void func_80154A74(s32 a0, s32 a1); \
+    void func_8015E714(s32 *a0) { \
+        s16 sp18[4]; \
+        s16 sp20[4]; \
+        s32 s0; \
+        if (*(s32 *)((s32)a0 + 0x234) == 0) { \
+            s0 = *(s32 *)((s32)a0 + 0x18C); \
+            if (s0 != 0) { \
+                sp18[0] = *(u16 *)((s32)a0 + 0x6); \
+                sp18[1] = *(u16 *)((s32)a0 + 0xA) - 0x14; \
+                sp18[2] = *(u16 *)((s32)a0 + 0xE); \
+                sp20[0] = *(u16 *)(s0 + 0x6); \
+                sp20[1] = *(u16 *)(s0 + 0xA); \
+                sp20[2] = *(u16 *)(s0 + 0xE); \
+                if (func_80133784(0, sp18, (s32)sp20) != 0) { \
+                    *(s16 *)(s0 + 0x6) = sp20[0]; \
+                    *(s16 *)(s0 + 0xA) = sp20[1]; \
+                    *(s16 *)(s0 + 0xE) = sp20[2]; \
+                } \
+                func_80015978(s0 + 0x4, (s32 *)sp18); \
+                sp18[3] = 0; \
+                func_8014C4AC(s0, 0x1C, 0, sp18, *(s16 *)(*(s32 *)((s32)a0 + 0x20) + 0x12)); \
+                *(s32 *)((s32)a0 + 0x18C) = 0; \
+            } \
+        } \
+        func_801553C0((s32)a0); \
+        func_80155440(a0); \
+        *(s32 *)((s32)a0 + 0x44) = *(s32 *)((s32)a0 + 0x44) & -3; \
+        func_80154A74((s32)a0, 0x11); \
+        *(s32 *)((s32)a0 + 0x44) = *(s32 *)((s32)a0 + 0x44) & -3; \
+    }
+
+#define DEFINE_func_8016D848() \
+    extern void func_80146C3C(void); \
+    extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6); \
+    extern void func_800D20C0(); \
+    void func_8016D848(s32 *a0) { \
+        s16 sp20[4]; \
+        s16 sp28[4]; \
+        s32 s2; \
+        s32 cnt; \
+        s16 i; \
+        s32 p; \
+        cnt = *(s32 *)((s32)a0 + 0x1C) - 1; \
+        *(s32 *)((s32)a0 + 0x1C) = cnt; \
+        if (cnt == 0) { \
+            func_80146C3C(); \
+            return; \
+        } \
+        if (cnt < 4) { \
+            s2 = -0xC00; \
+        } else { \
+            s2 = 0x800; \
+            i = 0; \
+            do { \
+                func_80146A6C(0x33, a0, 0, 0, 0, 0x8000, 0); \
+                i = i + 1; \
+            } while (i < 5); \
+        } \
+        p = *(s32 *)((s32)a0 + 0x20); \
+        if ((s2 << 16) == 0) { \
+            *(s16 *)(p + 0x18) = *(u16 *)(p + 0x18) ^ 0x400; \
+            *(s16 *)(p + 0x1A) = *(u16 *)(p + 0x1A) ^ 0x200; \
+        } else { \
+            *(s16 *)(p + 0x18) = *(u16 *)(p + 0x18) + s2; \
+            *(s16 *)(p + 0x1A) = *(u16 *)(p + 0x1A) + s2; \
+        } \
+        sp20[0] = *(u16 *)((s32)a0 + 0x12); \
+        sp20[1] = *(u16 *)((s32)a0 + 0x16); \
+        sp20[2] = *(u16 *)((s32)a0 + 0x1A); \
+        func_800D20C0((s32)sp20, (s32)sp28, 0x6); \
+        *(s16 *)((s32)a0 + 0x6) = sp20[0]; \
+        *(s16 *)((s32)a0 + 0xA) = sp20[1]; \
+        *(s16 *)((s32)a0 + 0xE) = sp20[2]; \
+    }
+
+#define DEFINE_func_8013895C() \
+    extern s32 D_80127524; \
+    extern s16 func_80138DB8(s32 a0, u8 a1, s32 a2); \
+    extern void func_80138B88(s32 a0); \
+    extern void func_8002D4C8(s32 a0, s32 a1); \
+    void func_8013895C(s32 a0) { \
+        if ((s32)D_80127524 == a0 || (*(s32 *)(a0 + 8) & 0x2000)) { \
+            if ((s16)func_80138DB8(a0, 0, 0x40)) { \
+                *(s8 *)(a0 + 0x1F) = *(u8 *)(a0 + 0x1F) + 1; \
+                func_80138B88(a0); \
+                func_8002D4C8(0x630, 0); \
+            } else if ((s16)func_80138DB8(a0, 0, 0x1000)) { \
+                *(s8 *)(a0 + 0x1F) = *(u8 *)(a0 + 0x1F) - 1; \
+                if ((s8)*(s8 *)(a0 + 0x1F) < 0) { \
+                    *(s8 *)(a0 + 0x1F) = *(u8 *)(a0 + 0x21) - 1; \
+                } \
+                func_8002D4C8(0x62F, 0); \
+            } else if ((s16)func_80138DB8(a0, 0, 0x4000)) { \
+                u8 cur = *(u8 *)(a0 + 0x1F); \
+                u8 lim = *(u8 *)(a0 + 0x21); \
+                *(s8 *)(a0 + 0x1F) = cur + 1; \
+                if (!((s32)(s8)(*(s8 *)(a0 + 0x1F)) < (s32)lim)) { \
+                    *(s8 *)(a0 + 0x1F) = 0; \
+                } \
+                func_8002D4C8(0x62F, 0); \
+            } else if (*(s32 *)(a0 + 8) & 0x2) { \
+                if ((s16)func_80138DB8(a0, 0, 0x30)) { \
+                    *(s8 *)(a0 + 0x1F) = *(u8 *)(a0 + 0x21) - 1; \
+                    func_8002D4C8(0x62F, 0); \
+                } \
+            } \
+        } \
+    }
+
+#define DEFINE_func_80154F9C() \
+    extern u8 D_80078E78[]; \
+    extern s16 D_80078E96; \
+    extern s16 D_80078E9E; \
+    extern u16 D_80078EA6; \
+    extern u8 D_800D8D10[]; \
+    extern s32 func_8016F1AC(void); \
+    extern void func_801550FC(s32 a0); \
+    void func_80154F9C(s32 a0) { \
+        u8 *base = D_80078E78; \
+        if (*(s32 *)(a0 + 0xC8) & 0x1000000) { \
+            if ((D_80078E96 & 0x8000) || D_80078E9E < 0x10 || (s16)D_80078EA6 < 0x10) { \
+                if (func_8016F1AC() == 0) { \
+                    return; \
+                } \
+            } \
+            *(s32 *)(a0 + 0xC8) = *(s32 *)(a0 + 0xC8) & 0xC0FFFFFF; \
+            func_801550FC(*(s32 *)(a0 + 0xC8)); \
+        } else { \
+            if ((D_80078E96 & 0x8000) && func_8016F1AC() == 0) { \
+                *(s32 *)(a0 + 0xC8) = *(s32 *)(a0 + 0xC8) | 0x1000000; \
+                func_801550FC((s32)D_800D8D10); \
+                return; \
+            } \
+            if (!(*(s16 *)(base + 0x26) < 0x10) && !(*(s16 *)(base + 0x2E) < 0x10)) { \
+                return; \
+            } \
+            if (*(s32 *)(a0 + 0x44) & 0xC0) { \
+                return; \
+            } \
+            if (func_8016F1AC() != 0) { \
+                return; \
+            } \
+            *(s32 *)(a0 + 0xC8) = *(s32 *)(a0 + 0xC8) | 0x1000000; \
+            func_801550FC(0x40000002); \
+        } \
+    }
+
+#define DEFINE_func_80171384() \
+    extern void *D_8011F738; \
+    extern void func_80171928(void *a0); \
+    extern s32 func_80012F74(s32 a0, s32 a1, s32 a2, s32 a3); \
+    void func_80171384(void *a0) { \
+        u8 *p = D_8011F738; \
+        s32 last; \
+        s32 sum; \
+        p[0xC] = func_80012F74(p[0xC], 0, 0xA, 1); \
+        p[0xD] = func_80012F74(p[0xD], 0, 0xA, 1); \
+        p[0xE] = func_80012F74(p[0xE], 0, 0xA, 1); \
+        p[0x1C] = func_80012F74(p[0x1C], 0, 0xA, 1); \
+        p[0x1D] = func_80012F74(p[0x1D], 0, 0xA, 1); \
+        p[0x1E] = func_80012F74(p[0x1E], 0, 0xA, 1); \
+        p[0x2C] = func_80012F74(p[0x2C], 0, 0xA, 1); \
+        p[0x2D] = func_80012F74(p[0x2D], 0, 0xA, 1); \
+        last = func_80012F74(p[0x2E], 0, 0xA, 1); \
+        p[0x2E] = last; \
+        sum = p[0xC] + p[0xD] + p[0xE] + p[0x1C] + p[0x1D] + p[0x1E] + p[0x2C] + p[0x2D] + (last & 0xff); \
+        if (sum == 0) { \
+            func_80171928(a0); \
+        } \
+    }
+
+#define DEFINE_func_8016986C() \
+    extern void func_800D20C0(void *a0, void *a1, s32 a2); \
+    extern void func_800D23D0(void *a0); \
+    extern void RotMatrixYXZ(void *a0, void *a1); \
+    extern void func_80048EAC(void *a0, void *a1); \
+    extern s32 rand(void); \
+    extern void ApplyMatrixSV(void *a0, void *a1, void *a2); \
+    void func_8016986C(s32 a0) { \
+        s32 s1 = a0; \
+        s16 v10[4];   /* sp+0x10 SVECTOR */ \
+        s16 v18[4];   /* sp+0x18 SVECTOR */ \
+        s16 v20[16];  /* sp+0x20 MATRIX */ \
+        s16 v40[16];  /* sp+0x40 MATRIX */ \
+        s32 v1; \
+        s32 t; \
+        v10[0] = *(u16 *)(s1 + 0x6); \
+        v10[1] = *(u16 *)(s1 + 0xA); \
+        v10[2] = *(u16 *)(s1 + 0xE); \
+        func_800D20C0(v10, v18, 1); \
+        func_800D23D0(v18); \
+        RotMatrixYXZ(v18, (void *)(s1 + 0x38)); \
+        v10[0] = *(u16 *)(s1 + 0x12); \
+        v10[1] = *(u16 *)(s1 + 0x16); \
+        v10[2] = *(u16 *)(s1 + 0x1A); \
+        RotMatrixYXZ(v10, v40); \
+        v1 = rand(); \
+        v10[0] = (v1 & 0x1FC) + 0x180; \
+        if (*(s32 *)(s1 + 0x2C) & 0x2) { \
+            v10[1] = (((u32)(v1 & 0x7F00)) >> 6) + 0x200; \
+        } else { \
+            v10[1] = (((u32)(v1 & 0x7F00)) >> 6) + 0xC00; \
+        } \
+        v10[2] = 0; \
+        RotMatrixYXZ(v10, v20); \
+        func_80048EAC(v40, v20); \
+        if ((*(s32 *)(s1 + 0x2C) & 0x1) == 0) { \
+            *(s32 *)(s1 + 0x2C) = 0xE00; \
+        } else { \
+            *(s32 *)(s1 + 0x2C) = 0xA00; \
+        } \
+        v10[0] = 0; \
+        v10[1] = 0; \
+        v10[2] = 0xA; \
+        ApplyMatrixSV(v20, v10, v10); \
+        *(u16 *)(s1 + 0x12) = v10[0]; \
+        *(u16 *)(s1 + 0x16) = v10[1]; \
+        { \
+            s32 tmp = *(u16 *)(s1 + 0x2); \
+            s32 z = (u16)v10[2]; \
+            *(s32 *)(s1 + 0x1C) = 0; \
+            *(u16 *)(s1 + 0x2) = tmp + 1; \
+            *(u16 *)(s1 + 0x1A) = z; \
+        } \
+    }
+
+#define DEFINE_func_8016AFB0() \
+    extern void func_8016B234(void); \
+    extern void func_800D22E4(s32 a0); \
+    void func_8016AFB0(s32 a0) { \
+        s32 s0 = a0; \
+        s32 s1 = *(s32 *)(s0 + 0x20); \
+        s32 v1; \
+        s32 v0; \
+        if ((u32)*(s32 *)(s0 + 0x2C) < 6) { \
+            func_8016B234(); \
+        } \
+        v1 = *(s32 *)(s0 + 0x2C); \
+        if (v1 == 5) goto L9C; \
+        if ((u32)v1 < 6) { \
+            if (v1 == 1) goto L9C; \
+            goto LB8; \
+        } \
+        if (v1 == 6) goto L38; \
+        if (v1 != 7) goto LB8; \
+        if (*(s32 *)(s0 + 0x1C) & 0x1) { \
+            v1 = 0xAE; \
+        } else { \
+            v1 = 0xB4; \
+        } \
+        *(s8 *)(s1 + 0x27) = v1; \
+    L38: \
+        v0 = *(u8 *)(s1 + 0x26) - 0x8; \
+        *(s8 *)(s1 + 0x26) = v0; \
+        *(s8 *)(s1 + 0x25) = v0; \
+        *(s8 *)(s1 + 0x24) = v0; \
+        v0 = *(s32 *)(s0 + 0x1C) - 1; \
+        *(s32 *)(s0 + 0x1C) = v0; \
+        if (v0 != 0) goto LFC; \
+        *(s8 *)(s1 + 0x26) = 0x70; \
+        *(s8 *)(s1 + 0x25) = 0x70; \
+        *(s8 *)(s1 + 0x24) = 0x70; \
+        *(s32 *)(s1 + 0x4) = *(s32 *)(s1 + 0x4) | 0x50000000; \
+        *(s32 *)(s0 + 0x1C) = 0x7; \
+        *(u16 *)(s0 + 0x2) = *(u16 *)(s0 + 0x2) + 1; \
+        goto LFC; \
+    L9C: \
+        func_800D22E4(s0); \
+        *(s32 *)(s0 + 0x14) = *(s32 *)(s0 + 0x14) + 0x18000; \
+    LB8: \
+        v0 = *(u16 *)(s0 + 0x24) - 0x8; \
+        v1 = *(s32 *)(s0 + 0x1C) - 1; \
+        *(u16 *)(s0 + 0x24) = v0; \
+        *(s32 *)(s0 + 0x1C) = v1; \
+        if (v1 != 0) goto LFC; \
+        *(u16 *)(s0 + 0x24) = 0x70; \
+        *(s32 *)(s0 + 0x1C) = 0x7; \
+        *(u16 *)(s0 + 0x26) = *(u16 *)(s0 + 0x26) + 1; \
+        *(u16 *)(s0 + 0x2) = *(u16 *)(s0 + 0x2) + 1; \
+    LFC: \
+        return; \
+    }
+
+#define DEFINE_func_80166438() \
+    extern u8 D_800D387C[]; \
+    extern u8 D_800D3888[]; \
+    extern s32 func_800D21C4(s32 a0, void *a1, s32 a2); \
+    extern void func_800D1FC8(s32 a0, s32 a1); \
+    extern void func_80128EA8(s32 a0, s32 a1, s32 a2); \
+    extern void func_801665B4(); \
+    extern void func_80146C3C(); \
+    void func_80166438(u8 *a0) { \
+        u8 *s0; \
+        s32 v0; \
+        s32 v1; \
+        v0 = 0x9B; \
+        if ((*(s32 *)(a0 + 0x30) & 0x10000000) == 0) { \
+            v0 = 0x9C; \
+        } \
+        s0 = (u8 *)func_800D21C4((s32)a0, D_800D387C, v0); \
+        if (s0 == 0) goto tail; \
+        *(s32 *)(a0 + 0x20) = (s32)s0; \
+        { \
+            register s32 r asm("$2"); \
+            r = *(s32 *)(a0 + 0x30) & 0x7FFF; \
+            *(u16 *)(s0 + 0x1A) = r; \
+            *(u16 *)(s0 + 0x18) = r; \
+        } \
+        if (*(s32 *)(a0 + 0x30) & 0x8000) { \
+            func_800D1FC8((s32)a0, 6); \
+        } \
+        v1 = *(s32 *)(a0 + 0x30); \
+        if (v1 < 0) { \
+            *(s32 *)(s0 + 4) = *(s32 *)(s0 + 4) | 0x50000000; \
+        } else { \
+            if (v1 & 0x8000000) { \
+                *(s32 *)(s0 + 4) = 0x60000000; \
+            } \
+        } \
+        if ((*(s32 *)(a0 + 0x30) & 0x40000000) == 0) { \
+            *(s32 *)(s0 + 4) = *(s32 *)(s0 + 4) | 0x40; \
+        } else { \
+            *(s32 *)(s0 + 4) = *(s32 *)(s0 + 4) & -0x41; \
+        } \
+        if (*(s32 *)(a0 + 0x30) & 0x20000000) { \
+            u32 h; \
+            *(s8 *)(s0 + 0x24) = ((u32)*(s32 *)(a0 + 0x2C) >> 20) & 0xF0; \
+            h = *(u16 *)(a0 + 0x2E); \
+            *(s8 *)(s0 + 0x25) = h & 0xF0; \
+            *(s8 *)(s0 + 0x26) = ((u32)*(s32 *)(a0 + 0x2C) >> 12) & 0xF0; \
+        } \
+        func_80128EA8((s32)s0, (s32)(a0 + 0x24), (s32)D_800D3888); \
+        { \
+            register s32 r asm("$2"); \
+            r = *(u16 *)(a0 + 2) + 1; \
+            *(u16 *)(a0 + 0x16) = *(s32 *)(a0 + 0x2C); \
+            *(u16 *)(a0 + 2) = r; \
+        } \
+        func_801665B4((s32)a0); \
+        return; \
+    tail: \
+        func_80146C3C((s32)a0); \
+    }
+
+#define DEFINE_func_8013240C() \
+    extern void func_801325B8(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4); \
+    void func_8013240C(s32 a0) { \
+        s32 *node; \
+        s32 ent; \
+        s32 v; \
+        s16 h6; \
+        ent = *(s32 *)(a0 + 0x0) + (*(s16 *)(a0 + 0x4) << 3); \
+        node = (s32 *)*(s32 *)(ent + 0); \
+        *(s32 *)(a0 + 0xC) = *(s32 *)(a0 + 0xC) & 0xFFFF3FFF; \
+        if ((s32)node == -1) { \
+            *(s32 *)(a0 + 0xC) = *(s32 *)(a0 + 0xC) | 0x4000; \
+            return; \
+        } \
+        if (*(s16 *)(ent + 0x6) < 0) { \
+            v = 0x1000 - ((*(s16 *)(a0 + 0x6) << 12) / *(s16 *)(ent + 0x4)); \
+        } else { \
+            v = (*(s16 *)(a0 + 0x6) << 12) / *(s16 *)(ent + 0x4); \
+        } \
+        func_801325B8(*(s32 *)(a0 + 0x8), node[0], node[1], node[2], v); \
+        h6 = *(s16 *)(ent + 0x6); \
+        if (h6 < 0) { \
+            *(s16 *)(a0 + 0x6) = *(u16 *)(a0 + 0x6) - h6; \
+        } else { \
+            *(s16 *)(a0 + 0x6) = *(u16 *)(a0 + 0x6) + h6; \
+        } \
+        if (*(s16 *)(a0 + 0x6) < *(s16 *)(ent + 0x4)) { \
+            return; \
+        } \
+        *(s16 *)(a0 + 0x6) = 0; \
+        *(s16 *)(a0 + 0x4) = *(u16 *)(a0 + 0x4) + 1; \
+        { \
+            s32 *p = (s32 *)((*(s16 *)(a0 + 0x4) << 3) + *(s32 *)(a0 + 0x0)); \
+            s32 w = p[0]; \
+            s32 c; \
+            if (w != -1) { \
+                if (w != 0) { \
+                    return; \
+                } \
+                *(s16 *)(a0 + 0x4) = 0; \
+                c = *(s32 *)(a0 + 0xC) | 0x8000; \
+            } else { \
+                c = *(s32 *)(a0 + 0xC) | 0x4000; \
+            } \
+            *(s32 *)(a0 + 0xC) = c; \
+        } \
+    }
+
+#define DEFINE_func_80148648() \
+    extern u8 D_800B9A64; \
+    extern s32 func_80014DC0(); \
+    extern s32 func_80014D68(); \
+    extern s32 func_80014D94(); \
+    extern s32 func_80014CF8(); \
+    extern void func_800120DC(); \
+    extern s32 func_800CF8B4(); \
+    void func_80148648(s32 a0, s32 a1) { \
+        s32 v; \
+        if (D_800B9A64 == 0) { \
+            s32 b = a1 & 0xFF; \
+            *(u8 *)(a0 + 0xA9) = func_80014DC0(b); \
+            *(s16 *)(a0 + 0xAA) = func_80014D68(b); \
+            *(s16 *)(a0 + 0xAC) = func_80014D94(b); \
+            { \
+                s32 r4 = func_80014CF8(b, 4); \
+                s32 r5 = func_80014CF8(b, 5); \
+                *(s16 *)(a0 + 0xAE) = (r4 & 0xFF) | ((r5 & 0xFF) << 8); \
+            } \
+        } else { \
+            *(u8 *)(a0 + 0xA9) = 0x41; \
+            func_800120DC(a0 + 0xAA, a0 + 0xAC); \
+        } \
+        if (*(u8 *)(a0 + 0x1C5) != 0) { \
+            *(s16 *)(a0 + 0xAA) = 0; \
+            *(s16 *)(a0 + 0xAC) = 0; \
+            *(u16 *)(a0 + 0xAE) = 0x8080; \
+        } \
+        if (func_800CF8B4() == 0) { \
+            u16 mode = *(u16 *)(a0 + 0x0); \
+            if (mode != 0x1E && mode != 0x1A) { \
+                *(s16 *)(a0 + 0xAA) = 0; \
+                *(s16 *)(a0 + 0xAC) = 0; \
+                *(u16 *)(a0 + 0xAE) = 0x8080; \
+            } \
+        } \
+        { \
+            s32 act = *(u8 *)(a0 + 0xA9); \
+            if (act == 0x53 || (act >= 0x54 && act == 0x73)) { \
+                if ((*(u16 *)(a0 + 0xAA) & 0xF000) != 0) { \
+                    *(u8 *)(a0 + 0xA9) = 0x41; \
+                } \
+            } \
+        } \
+        if (*(s32 *)(a0 + 0x1B0) != 0) { \
+            s32 vAA = *(u16 *)(a0 + 0xAA); \
+            s32 vAE = *(u16 *)(a0 + 0xAE); \
+            s32 vAC = *(u16 *)(a0 + 0xAC); \
+            s32 t; \
+            t = ((vAA & 0x2000) << 2) | ((vAA & 0x8000) >> 2); \
+            t = t | (vAA & 0x5FFF); \
+            *(s16 *)(a0 + 0xAA) = t; \
+            t = ((vAC & 0x2000) << 2) | ((vAC & 0x8000) >> 2); \
+            t = t | (vAC & 0x5FFF); \
+            *(s16 *)(a0 + 0xAC) = t; \
+            if ((vAE & 0xFF) != 0x80) { \
+                vAE = (~(vAE & 0xFF) & 0xFF) | (vAE & 0xFF00); \
+            } \
+            *(s16 *)(a0 + 0xAE) = vAE; \
+        } \
+    }
+
+#define DEFINE_func_80159120() \
+    extern void func_80029504(void); \
+    extern s32 func_801399F0(s32); \
+    extern void func_80139914(s32 a0); \
+    extern s32 func_80029A94(s32); \
+    extern void func_80175454(void); \
+    extern void func_801458E0(void); \
+    extern void func_800298BC(void *); \
+    extern void func_801458E8(void); \
+    extern s32 func_8013767C(s32 a0); \
+    extern void func_8002992C(s32); \
+    extern void func_80145A2C(void); \
+    extern void func_80146C98(s32 *a0, s16 a1); \
+    extern void func_800CF804(void); \
+    extern void func_800CF818(void); \
+    extern u8 D_80078E50; \
+    extern s32 D_80078E8C; \
+    extern u8 D_80110D0C[]; \
+    extern u8 D_80110C3C[]; \
+    void func_80159120(s32 a0) { \
+        s32 r; \
+        s32 v1; \
+        s32 base; \
+        func_80029504(); \
+        base = *(s32 *)(a0 + 0x20); \
+        *(u16 *)(base + 0x12) = (*(u16 *)(base + 0x12) + 0x16) & 0xFFF; \
+        r = func_801399F0(*(s32 *)(a0 + 0x198)); \
+        if (r == 0) { \
+            return; \
+        } \
+        func_80139914(*(s32 *)(a0 + 0x198)); \
+        *(s32 *)(a0 + 0x198) = 0; \
+        if (r != 1) { \
+            if (r == 2) { \
+                goto L290; \
+            } \
+        } \
+        v1 = *(s16 *)(a0 + 0x244); \
+        if (v1 != 1) { \
+            if (v1 == 2) { \
+                goto L224; \
+            } \
+        } \
+        if (func_80029A94(1) != 0) { \
+            s32 t; \
+            func_80175454(); \
+            func_801458E0(); \
+            t = D_80078E8C; \
+            func_800298BC(&D_80078E50); \
+            func_801458E8(); \
+            D_80078E8C = t / 2; \
+            goto L270; \
+        } \
+        *(s32 *)(a0 + 0x198) = func_8013767C((s32)D_80110D0C); \
+        func_80146C98((s32 *)a0, 0xB); \
+        return; \
+    L224: \
+        if (func_80029A94(0) != 0) { \
+            func_80175454(); \
+            func_8002992C(0); \
+            func_80145A2C(); \
+            goto L270; \
+        } \
+        *(s32 *)(a0 + 0x198) = func_8013767C((s32)D_80110D0C); \
+        func_80146C98((s32 *)a0, 0xB); \
+        return; \
+    L270: \
+        func_80146C98((s32 *)a0, 0xC); \
+        func_800CF804(); \
+        func_800CF818(); \
+        return; \
+    L290: \
+        *(s32 *)(a0 + 0x198) = func_8013767C((s32)D_80110C3C); \
+        func_80146C98((s32 *)a0, 0x9); \
+    }
+
+#define DEFINE_func_8013AB54() \
+    extern void func_8013AD38(void *a0, s32 a1, void *a2, void *a3); \
+    extern void func_8013B274(s32 a0, s32 a1, void *a2); \
+    extern void func_8013AF20(s32 a0, s32 a1, void *a2, void *a3); \
+    extern s32 D_800A5E60; \
+    s32 func_8013AB54(s32 a0, s32 a1, s32 a2, s32 a3) { \
+        u8 buf[0xE4];          /* spans 0x10 .. 0xF4 */ \
+        s32 neg; \
+        s32 a, b; \
+        s32 t4, t6; \
+        t4 = *(s16 *)(a2 + 4) * 12; \
+        *(s16 *)(buf + 0xE0) = t4 + 0x10;   /* sp+0xF0 */ \
+        neg = a3 & 0x8000; \
+        t6 = *(s16 *)(a2 + 6) * 12 + (*(s16 *)(a2 + 6) - 1) * 2; \
+        *(s16 *)(buf + 0xE2) = t6 + 8; \
+        if (neg == 0) { \
+            *(s16 *)(buf + 0xE0) = t4 + 0x38; \
+            *(s16 *)(buf + 0xE2) = t6 + 0x10; \
+        } \
+        a = ((s32)*(s16 *)(buf + 0xE0) << 12) / 154; \
+        b = ((s32)*(s16 *)(buf + 0xE2) << 12) / 42; \
+        *(s16 *)(buf + 0xE0) = a; \
+        *(s16 *)(buf + 0xE2) = b; \
+        if (neg != 0) { \
+            *(s16 *)(buf + 0xE0) = -a; \
+        } \
+        *(s16 *)(buf + 0xC8) = b;          /* 0xD8 */ \
+        *(s16 *)(buf + 0xC2) = 0;          /* 0xD2 */ \
+        *(s16 *)(buf + 0xC4) = 0;          /* 0xD4 */ \
+        *(s16 *)(buf + 0xC6) = 0;          /* 0xD6 */ \
+        *(s16 *)(buf + 0xCA) = 0;          /* 0xDA */ \
+        *(s16 *)(buf + 0xCC) = 0;          /* 0xDC */ \
+        *(s16 *)(buf + 0xCE) = 0;          /* 0xDE */ \
+        *(s16 *)(buf + 0xD0) = 0x1000;     /* 0xE0 */ \
+        *(s16 *)(buf + 0xC0) = *(u16 *)(buf + 0xE0);   /* 0xD0 */ \
+        *(s32 *)(buf + 0xD4) = *(s16 *)(a2 + 0);       /* 0xE4 */ \
+        *(s32 *)(buf + 0xD8) = *(s16 *)(a2 + 2);       /* 0xE8 */ \
+        *(s32 *)(buf + 0xDC) = 0;                       /* 0xEC */ \
+        __asm__ __volatile__("" ::: "memory"); \
+        { \
+            register s32 *p __asm__("$2") = (s32 *)(buf + 0xC0); \
+            __asm__ __volatile__( \
+                "lw $12, 0(%0)\n" \
+                "lw $13, 4(%0)\n" \
+                "ctc2 $12, $0\n" \
+                "ctc2 $13, $1\n" \
+                "lw $12, 8(%0)\n" \
+                "lw $13, 12(%0)\n" \
+                "lw $14, 16(%0)\n" \
+                "ctc2 $12, $2\n" \
+                "ctc2 $13, $3\n" \
+                "ctc2 $14, $4\n" \
+                "lw $12, 20(%0)\n" \
+                "lw $13, 24(%0)\n" \
+                "ctc2 $12, $5\n" \
+                "lw $14, 28(%0)\n" \
+                "ctc2 $13, $6\n" \
+                "ctc2 $14, $7\n" \
+                : : "r"(p) : "$12", "$13", "$14", "memory"); \
+        } \
+        func_8013AD38(buf + 0xE0, 0, buf + 0x00, buf + 0x80); \
+        D_800A5E60 = a0; \
+        if (a3 != 0) { \
+            func_8013B274(a1, 0x80, buf + 0xE0); \
+        } \
+        func_8013AF20(a1, a2, buf + 0x00, buf + 0x80); \
+        return D_800A5E60; \
+    }
+
 #endif
