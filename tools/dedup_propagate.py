@@ -306,6 +306,14 @@ def main():
             n_lowreach += 1; continue
         if any("//" in l or l.rstrip().endswith("\\") for l in body):
             n_local += 1; continue            # not macro-safe (// comment / line-continuation)
+        # A body that touches a struct/union type (DEFINES it, or USES it via a param/extern/cast)
+        # can't be lifted as a standalone macro: agents named these inline with colliding generic names
+        # (`struct S`, `struct vec`, ...), so two macros' types redefine/conflict when both instantiate
+        # in one overlay (Phase-15 T6 ov_SC01_000: `struct S` redefinition + incompatible-pointer abort).
+        # Shared engine types belong in a shared types header (follow-up); for now skip any struct/union
+        # body -> it stays banked in the source overlay only (still REAL there).
+        if re.search(r'\b(struct|union)\b', "\n".join(body)):
+            n_local += 1; continue
         if not compiles_standalone(body):     # uses overlay-local types -> can't lift mechanically
             n_local += 1; continue
         plan.append(dict(addr=addr, src=src, hash=h, body=body, members=members))

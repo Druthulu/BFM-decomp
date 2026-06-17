@@ -666,6 +666,23 @@ verbatim for the Phase-13 overlays.
 returns null; re-run only the null batches up to 3× (`pending`/`okResults` pattern). One un-retried pass lost
 10/14 agents to a server throttle; the retry-wave pass recovered all 13.
 
+**MANDATORY GAP-FILL after every multi-agent run you expect to be complete (the retry-wave is NOT enough).**
+Retry waves only re-run agents that returned `null`. But an `"API Error: Connection closed mid-response. The
+response above may be incomplete."` failure returns a **truncated-but-non-null** result — the workflow reports
+`dead_batches: 0` and a clean exit, yet that batch's agent silently wrote only SOME of its assigned drafts (or
+none). The summary count looks fine; work is missing. So the gate alone would silently skip those functions
+(a leftover stub is itself byte-identical — the byte-gate can't see an *un-attempted* target). **Always
+reconcile the produced artifacts against the expected work-list before gating** (this generalizes to any
+fan-out, not just harvests — diff produced-vs-expected whenever "expected complete"):
+1. **Missing:** every manifest target with no draft file on disk.
+2. **Truncated/malformed:** every present draft that is brace-imbalanced, has no function def, or doesn't close
+   — a partial write. (These would fail the gate harmlessly, but re-drafting recovers them.)
+3. **Re-draft the union** with a focused gap-fill agent (same prompt, the gap names), THEN gate the full set.
+This is the byte-honest closure of "exhaustive" (P9/R14): the disk, not the workflow's success summary, is
+ground truth. Phase-15 T6 v2: workflow reported 585 drafted / 0 dead after the retry-wave re-ran 2
+connection-closed batches, but a produced-vs-manifest diff still found **6** un-drafted targets (individual
+skips inside completed batches) — re-drafted before gating, none lost.
+
 **Two TU-level gotchas (both bit, both have a fix):**
 - **Inline scalar-typedef redefinition.** Agents told "self-contained" sometimes inline `typedef unsigned char
   u8;` — in a `.c` that already `#include`s `common.h`, gcc-2.7.2 (C89) errors on the dup → a *compile* fail, NOT

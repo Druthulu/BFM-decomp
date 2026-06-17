@@ -77,6 +77,26 @@ def collect_define_sigs(header_path):
 
 EXTERN_DECL_RE = re.compile(
     r'extern\s+([A-Za-z_][^;]*?\bfunc_[0-9A-Fa-f]+\s*\([^;]*\))\s*;')
+# extern declaration of a DATA symbol already written in the banked code
+DATA_DECL_RE = re.compile(
+    r'extern\s+([A-Za-z_][\w\s\*]*?\bD_[0-9A-Fa-f]+\s*(?:\[\s*\])?)\s*;')
+# a D_XXXX reference inside a target's .s (via %hi/%lo)
+ASM_DATA_REF_RE = re.compile(r'\b(D_[0-9A-Fa-f]+)\b')
+
+
+def collect_data_decls(paths):
+    """addr-keyed canonical `extern <type> D_XXXX...;` from banked code (first-seen wins;
+    the banked set is build-consistent so all agree). Returns {D_name: 'extern <type> D_..;'}."""
+    out = {}
+    for p in paths:
+        if not os.path.exists(p):
+            continue
+        for m in DATA_DECL_RE.finditer(open(p).read()):
+            decl = re.sub(r'\s+', ' ', m.group(1)).strip()
+            nm = re.search(r'D_[0-9A-Fa-f]+', decl)
+            if nm:
+                out.setdefault(nm.group(0), f'extern {decl};')
+    return out
 
 
 def collect_extern_sigs(paths):
@@ -125,6 +145,9 @@ def main():
     ap.add_argument('--require-calls', action='store_true',
                     help='only functions with >=1 jal callee (the call-heavy shared core, T6)')
     ap.add_argument('--limit', type=int, default=0)
+    ap.add_argument('--asm-dir', default=None,
+                    help='dir of per-fn .s (default asm/<source>/nonmatchings/<source>); '
+                         'scanned for D_XXXX data refs to resolve their canonical decls')
     ap.add_argument('--out', default='.run/t6_targets.json')
     args = ap.parse_args()
 
@@ -144,6 +167,11 @@ def main():
     # extern declarations already written anywhere (for stub callees with no body)
     extern_sigs = collect_extern_sigs([
         os.path.join(REPO, 'src/shared/engine_core.h'), c_path])
+    # canonical DATA-symbol declarations already written (the §14c(c) conflict source)
+    data_decls = collect_data_decls([
+        os.path.join(REPO, 'src/shared/engine_core.h'), c_path])
+    asm_dir = args.asm_dir or os.path.join(
+        REPO, f'asm/{args.source}/nonmatchings/{args.source}')
 
     # global reach map: h_exact -> count of overlay binaries holding it
     reach = {}
@@ -188,10 +216,24 @@ def main():
                 callees.append({'sym': sym,
                                 'status': 'stub' if instub else 'extern',
                                 'signature': None})
+        # scan the target's .s for D_XXXX data refs; resolve canonical decls (avoids §14c(c))
+        data = []
+        sp = os.path.join(asm_dir, f'func_{addr:08X}.s')
+        if os.path.exists(sp):
+            seen = set()
+            for dm in ASM_DATA_REF_RE.finditer(open(sp).read()):
+                d = dm.group(0)
+                if d in seen:
+                    continue
+                seen.add(d)
+                if d in data_decls:
+                    data.append({'sym': d, 'decl': data_decls[d]})
+                else:
+                    data.append({'sym': d, 'decl': None})  # new; agent infers from .s
         targets.append({
             'addr': rec['addr'], 'name': f'func_{addr:08X}', 'nins': nins,
             'ncalls': len(calls), 'reach': rch,
-            'leverage': rch * nins, 'callees': callees,
+            'leverage': rch * nins, 'callees': callees, 'data': data,
         })
 
     targets.sort(key=lambda t: (t['leverage'], t['reach'], t['nins']), reverse=True)
@@ -212,6 +254,10 @@ def main():
     print(f'targets: {n}  (leaf {leaves} / call-heavy {callh})', file=sys.stderr)
     print(f'callees: {cc("defined")} defined-sig + {cc("declared")} extern-declared (reuse EXACT) / '
           f'{cc("stub")} undeclared-stub / {cc("extern")} extern (resident/EXE, conflict-free)',
+          file=sys.stderr)
+    dres = sum(1 for t in targets for d in t.get('data', []) if d['decl'])
+    dnew = sum(1 for t in targets for d in t.get('data', []) if not d['decl'])
+    print(f'data refs: {dres} resolved-to-canonical-decl / {dnew} new (agent infers from .s)',
           file=sys.stderr)
     if targets:
         print(f'leverage range: {targets[0]["leverage"]} (reach {targets[0]["reach"]} x '
