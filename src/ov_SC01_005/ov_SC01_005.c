@@ -1110,7 +1110,7 @@ DEFINE_func_80143188()  /* dedup: shared engine-core @0x80143188 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_801431E8);
 
-INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_801432FC);
+DEFINE_func_801432FC()  /* dedup: shared engine-core @0x801432FC (src/shared) */
 
 DEFINE_func_80143390()  /* dedup: shared engine-core @0x80143390 (src/shared) */
 
@@ -1394,7 +1394,7 @@ DEFINE_func_80147A84()  /* dedup: shared engine-core @0x80147A84 (src/shared) */
 
 DEFINE_func_80147AAC()  /* dedup: shared engine-core @0x80147AAC (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_80147AD4);
+DEFINE_func_80147AD4()  /* dedup: shared engine-core @0x80147AD4 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_80147B18);
 
@@ -1624,7 +1624,7 @@ DEFINE_func_80149CB4()  /* dedup: shared engine-core @0x80149CB4 (src/shared) */
 
 DEFINE_func_80149CD4()  /* dedup: shared engine-core @0x80149CD4 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_80149D10);
+DEFINE_func_80149D10()  /* dedup: shared engine-core @0x80149D10 (src/shared) */
 
 DEFINE_func_80149D9C()  /* dedup: shared engine-core @0x80149D9C (src/shared) */
 
@@ -1640,7 +1640,7 @@ INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_80149FB0);
 
 INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_8014A048);
 
-INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_8014A1B0);
+DEFINE_func_8014A1B0()  /* dedup: shared engine-core @0x8014A1B0 (src/shared) */
 
 DEFINE_func_8014A218()  /* dedup: shared engine-core @0x8014A218 (src/shared) */
 
@@ -1952,7 +1952,7 @@ INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_8014E284);
 
 INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_8014E434);
 
-INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_8014E48C);
+DEFINE_func_8014E48C()  /* dedup: shared engine-core @0x8014E48C (src/shared) */
 
 DEFINE_func_8014E514()  /* dedup: shared engine-core @0x8014E514 (src/shared) */
 
@@ -2620,7 +2620,7 @@ DEFINE_func_80159A18()  /* dedup: shared engine-core @0x80159A18 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_80159A20);
 
-INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_80159B08);
+DEFINE_func_80159B08()  /* dedup: shared engine-core @0x80159B08 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_80159B3C);
 
@@ -2634,7 +2634,7 @@ INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_80159C84);
 
 DEFINE_func_8015A1C8()  /* dedup: shared engine-core @0x8015A1C8 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_8015A1FC);
+DEFINE_func_8015A1FC()  /* dedup: shared engine-core @0x8015A1FC (src/shared) */
 
 DEFINE_func_8015A230()  /* dedup: shared engine-core @0x8015A230 (src/shared) */
 
@@ -2694,7 +2694,7 @@ DEFINE_func_8015BEE4()  /* dedup: shared engine-core @0x8015BEE4 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_8015BF04);
 
-INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_8015BF48);
+DEFINE_func_8015BF48()  /* dedup: shared engine-core @0x8015BF48 (src/shared) */
 
 DEFINE_func_8015BF7C()  /* dedup: shared engine-core @0x8015BF7C (src/shared) */
 
@@ -2714,7 +2714,7 @@ INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_8015C32C);
 
 DEFINE_func_8015C6A4()  /* dedup: shared engine-core @0x8015C6A4 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_8015C6AC);
+DEFINE_func_8015C6AC()  /* dedup: shared engine-core @0x8015C6AC (src/shared) */
 
 DEFINE_func_8015C6E0()  /* dedup: shared engine-core @0x8015C6E0 (src/shared) */
 
@@ -2780,7 +2780,7 @@ INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_8015D380);
 
 INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_8015D414);
 
-INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_8015D480);
+DEFINE_func_8015D480()  /* dedup: shared engine-core @0x8015D480 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_8015D4B4);
 
@@ -2798,7 +2798,7 @@ INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_8015D738);
 
 DEFINE_func_8015DA5C()  /* dedup: shared engine-core @0x8015DA5C (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_8015DA90);
+DEFINE_func_8015DA90()  /* dedup: shared engine-core @0x8015DA90 (src/shared) */
 
 DEFINE_func_8015DAC4()  /* dedup: shared engine-core @0x8015DAC4 (src/shared) */
 
@@ -2816,7 +2816,7 @@ INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_8015DCB8);
 
 INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_8015DD74);
 
-INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_8015DDF0);
+DEFINE_func_8015DDF0()  /* dedup: shared engine-core @0x8015DDF0 (src/shared) */
 
 DEFINE_func_8015DE24()  /* dedup: shared engine-core @0x8015DE24 (src/shared) */
 
@@ -2834,7 +2834,7 @@ INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_8015E018);
 
 INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_8015E0D4);
 
-INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_8015E150);
+DEFINE_func_8015E150()  /* dedup: shared engine-core @0x8015E150 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_8015E184);
 
@@ -2860,7 +2860,7 @@ INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_8015E698);
 
 DEFINE_func_8015E714()  /* dedup: shared engine-core @0x8015E714 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_8015E84C);
+DEFINE_func_8015E84C()  /* dedup: shared engine-core @0x8015E84C (src/shared) */
 
 DEFINE_func_8015E880()  /* dedup: shared engine-core @0x8015E880 (src/shared) */
 
@@ -2870,7 +2870,7 @@ INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_8015E8E8);
 
 DEFINE_func_8015E924()  /* dedup: shared engine-core @0x8015E924 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_8015E95C);
+DEFINE_func_8015E95C()  /* dedup: shared engine-core @0x8015E95C (src/shared) */
 
 DEFINE_func_8015E9B8()  /* dedup: shared engine-core @0x8015E9B8 (src/shared) */
 
@@ -2878,7 +2878,7 @@ INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_8015EA3C);
 
 DEFINE_func_8015ED6C()  /* dedup: shared engine-core @0x8015ED6C (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_8015EDA0);
+DEFINE_func_8015EDA0()  /* dedup: shared engine-core @0x8015EDA0 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_8015EDD4);
 
@@ -2892,7 +2892,7 @@ INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_8015EEE0);
 
 DEFINE_func_8015EF9C()  /* dedup: shared engine-core @0x8015EF9C (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_8015EFA4);
+DEFINE_func_8015EFA4()  /* dedup: shared engine-core @0x8015EFA4 (src/shared) */
 
 DEFINE_func_8015EFD8()  /* dedup: shared engine-core @0x8015EFD8 (src/shared) */
 
@@ -3816,7 +3816,7 @@ INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_8016F6B0);
 
 INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_8016F6E0);
 
-INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_8016F71C);
+DEFINE_func_8016F71C()  /* dedup: shared engine-core @0x8016F71C (src/shared) */
 
 DEFINE_func_8016F764()  /* dedup: shared engine-core @0x8016F764 (src/shared) */
 
@@ -3846,7 +3846,7 @@ DEFINE_func_8016FA44()  /* dedup: shared engine-core @0x8016FA44 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_8016FA84);
 
-INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_8016FAC0);
+DEFINE_func_8016FAC0()  /* dedup: shared engine-core @0x8016FAC0 (src/shared) */
 
 DEFINE_func_8016FB10()  /* dedup: shared engine-core @0x8016FB10 (src/shared) */
 
@@ -3932,7 +3932,7 @@ INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_801705C0);
 
 INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_801705F8);
 
-INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_80170634);
+DEFINE_func_80170634()  /* dedup: shared engine-core @0x80170634 (src/shared) */
 
 DEFINE_func_80170670()  /* dedup: shared engine-core @0x80170670 (src/shared) */
 
@@ -3944,7 +3944,7 @@ DEFINE_func_80170718()  /* dedup: shared engine-core @0x80170718 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_80170748);
 
-INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_80170784);
+DEFINE_func_80170784()  /* dedup: shared engine-core @0x80170784 (src/shared) */
 
 DEFINE_func_801707D4()  /* dedup: shared engine-core @0x801707D4 (src/shared) */
 
@@ -3954,17 +3954,17 @@ DEFINE_func_8017084C()  /* dedup: shared engine-core @0x8017084C (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_801708B0);
 
-INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_80170928);
+DEFINE_func_80170928()  /* dedup: shared engine-core @0x80170928 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_80170970);
+DEFINE_func_80170970()  /* dedup: shared engine-core @0x80170970 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_801709B8);
+DEFINE_func_801709B8()  /* dedup: shared engine-core @0x801709B8 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_80170A00);
+DEFINE_func_80170A00()  /* dedup: shared engine-core @0x80170A00 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_80170A48);
+DEFINE_func_80170A48()  /* dedup: shared engine-core @0x80170A48 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_80170A90);
+DEFINE_func_80170A90()  /* dedup: shared engine-core @0x80170A90 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_80170AD8);
 
@@ -4000,13 +4000,13 @@ INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_80170EAC);
 
 INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_80170EFC);
 
-INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_80170F38);
+DEFINE_func_80170F38()  /* dedup: shared engine-core @0x80170F38 (src/shared) */
 
 DEFINE_func_80170F74()  /* dedup: shared engine-core @0x80170F74 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_80170FB0);
 
-INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_80170FEC);
+DEFINE_func_80170FEC()  /* dedup: shared engine-core @0x80170FEC (src/shared) */
 
 DEFINE_func_80171028()  /* dedup: shared engine-core @0x80171028 (src/shared) */
 
@@ -4126,7 +4126,7 @@ INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_8017248C);
 
 DEFINE_func_801724EC()  /* dedup: shared engine-core @0x801724EC (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_8017250C);
+DEFINE_func_8017250C()  /* dedup: shared engine-core @0x8017250C (src/shared) */
 
 DEFINE_func_80172560()  /* dedup: shared engine-core @0x80172560 (src/shared) */
 
@@ -4176,7 +4176,7 @@ INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_801726D0);
 
 DEFINE_func_80172710()  /* dedup: shared engine-core @0x80172710 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_80172738);
+DEFINE_func_80172738()  /* dedup: shared engine-core @0x80172738 (src/shared) */
 
 DEFINE_func_80172760()  /* dedup: shared engine-core @0x80172760 (src/shared) */
 
@@ -4200,7 +4200,7 @@ INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_80172958);
 
 DEFINE_func_801729A8()  /* dedup: shared engine-core @0x801729A8 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_801729B0);
+DEFINE_func_801729B0()  /* dedup: shared engine-core @0x801729B0 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_801729F0);
 
@@ -4266,7 +4266,7 @@ INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_801730FC);
 
 DEFINE_func_8017316C()  /* dedup: shared engine-core @0x8017316C (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_80173174);
+DEFINE_func_80173174()  /* dedup: shared engine-core @0x80173174 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_8017319C);
 
@@ -4310,7 +4310,7 @@ DEFINE_func_80173648()  /* dedup: shared engine-core @0x80173648 (src/shared) */
 
 DEFINE_func_801736A8()  /* dedup: shared engine-core @0x801736A8 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_801736B0);
+DEFINE_func_801736B0()  /* dedup: shared engine-core @0x801736B0 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_801736FC);
 
@@ -4370,7 +4370,7 @@ DEFINE_func_801741EC()  /* dedup: shared engine-core @0x801741EC (src/shared) */
 
 DEFINE_func_80174274()  /* dedup: shared engine-core @0x80174274 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_8017427C);
+DEFINE_func_8017427C()  /* dedup: shared engine-core @0x8017427C (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_801742A4);
 
@@ -4380,7 +4380,7 @@ INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_80174318);
 
 DEFINE_func_80174354()  /* dedup: shared engine-core @0x80174354 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_8017435C);
+DEFINE_func_8017435C()  /* dedup: shared engine-core @0x8017435C (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_80174384);
 
@@ -4390,7 +4390,7 @@ INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_801743F0);
 
 DEFINE_func_80174430()  /* dedup: shared engine-core @0x80174430 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_80174438);
+DEFINE_func_80174438()  /* dedup: shared engine-core @0x80174438 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_80174474);
 
@@ -4432,7 +4432,7 @@ DEFINE_func_80174764()  /* dedup: shared engine-core @0x80174764 (src/shared) */
 
 DEFINE_func_80174774()  /* dedup: shared engine-core @0x80174774 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_80174784);
+DEFINE_func_80174784()  /* dedup: shared engine-core @0x80174784 (src/shared) */
 
 DEFINE_func_801747AC()  /* dedup: shared engine-core @0x801747AC (src/shared) */
 
@@ -4442,7 +4442,7 @@ DEFINE_func_80174808()  /* dedup: shared engine-core @0x80174808 (src/shared) */
 
 DEFINE_func_8017481C()  /* dedup: shared engine-core @0x8017481C (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_80174824);
+DEFINE_func_80174824()  /* dedup: shared engine-core @0x80174824 (src/shared) */
 
 DEFINE_func_8017484C()  /* dedup: shared engine-core @0x8017484C (src/shared) */
 
@@ -4452,7 +4452,7 @@ DEFINE_func_801748C4()  /* dedup: shared engine-core @0x801748C4 (src/shared) */
 
 DEFINE_func_801748E4()  /* dedup: shared engine-core @0x801748E4 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_801748EC);
+DEFINE_func_801748EC()  /* dedup: shared engine-core @0x801748EC (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_8017496C);
 
@@ -4472,11 +4472,11 @@ DEFINE_func_80174C80()  /* dedup: shared engine-core @0x80174C80 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_80174CB0);
 
-INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_80174E9C);
+DEFINE_func_80174E9C()  /* dedup: shared engine-core @0x80174E9C (src/shared) */
 
 DEFINE_func_80174ED4()  /* dedup: shared engine-core @0x80174ED4 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_80174EF0);
+DEFINE_func_80174EF0()  /* dedup: shared engine-core @0x80174EF0 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005", func_80174F28);
 
