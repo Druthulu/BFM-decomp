@@ -666,6 +666,16 @@ verbatim for the Phase-13 overlays.
 returns null; re-run only the null batches up to 3× (`pending`/`okResults` pattern). One un-retried pass lost
 10/14 agents to a server throttle; the retry-wave pass recovered all 13.
 
+**Under a SUSTAINED server-side throttle, throttle the FAN-OUT, not just retry it — process in SEQUENTIAL
+WAVES of ≤10 agents.** A big concurrent burst (40+ batches submitted at once) hammers the shared
+`Server is temporarily limiting requests (not your usage limit)` rate limit, and even retry waves keep
+failing because every wave re-bursts. Phase-15 T6 v3: a 48-batch burst harvest crawled at ~1 draft / 45 s
+and finished with **33 dead batches**; re-run as `for (g of chunks(batches, 10)) await parallel(waveOf10)`
+(with intra-wave retry), the SAME 375 targets drafted at **~42 drafts / 60 s, 0 dead batches**. Keeping
+≤10 requests in flight stays under the per-window limit; sequential waves space the load so each window
+resets between them. Pair with **leaf-first / easy-first ordering** so the early waves bank the high-yield
+functions even if later waves get throttled. This is the rate-limit-gentle default for large harvests.
+
 **MANDATORY GAP-FILL after every multi-agent run you expect to be complete (the retry-wave is NOT enough).**
 Retry waves only re-run agents that returned `null`. But an `"API Error: Connection closed mid-response. The
 response above may be incomplete."` failure returns a **truncated-but-non-null** result — the workflow reports
