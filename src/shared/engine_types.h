@@ -48,6 +48,7 @@ struct S_8014A3E0;
 struct B8014;
 struct copy00;
 struct Vec4s;
+struct Src80172E20;
 
 struct vec {
     s32 unk0;
@@ -319,5 +320,14 @@ struct B8014 { char b[8]; };
 struct copy00 { s32 w[41]; };
 
 struct Vec4s { s16 a, b, c, d; };
+
+struct Src80172E20 {
+    u8 pad0[6];
+    u16 _6;
+    u8 pad8[0xA - 8];
+    u16 _A;
+    u8 padC[0xE - 0xC];
+    u16 _E;
+};
 
 #endif /* BFM_ENGINE_TYPES_H */
