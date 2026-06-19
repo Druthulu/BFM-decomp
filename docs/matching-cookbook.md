@@ -939,3 +939,47 @@ only rate-limited part. Gate whatever drafts have landed (`harvest_verify`), `de
 gate-failures to `.run/drafts-<x>-fail/` after each round so re-gates stay fast. Partial harvests bank
 cleanly; the residual resumes next pass (loop-until-dry). T6 banked 123 fns / +4.6% fleet this way with
 the Workflow only ~40% through its batches.
+
+### §14d Deterministic recovery beats agent waves on the hard tail (Phase 15, the final-session finding)
+
+Once the EASY shared core is banked, the residual is permuter-class and **agent harvesting is poor ROI**: a
+50-agent Ultracode wave on 300 hard-tail stubs verified only **27 (~9%) for ~4.1M tokens (+0.36% fleet)**, while
+a **deterministic recovery pass added +2.67% for ~0 agent tokens** the same session. **Reach for these BEFORE
+mass-drafting the hard tail** (this is a cost rule, codified in `docs/effort-map.md`):
+
+- **`tools/sig_unify.py` — unify the draft's OWN definition signature, not just callee externs.** The dominant
+  hard-tail gate failure is a TU-level **signature conflict** on a draft whose body is already byte-correct
+  (it passes `match_one`). A probe is the tell: substitute each gate-failing standalone-MATCH draft alone, build,
+  and classify the error — **30/30 sampled were `conflicting types`, 0 false-positives (built-but-SHA-diff)** →
+  they are byte-correct C blocked only by declaration unification. `canon_draft_decls` rewrites *callee* externs
+  but never the **function's own def signature** (defined `void`/`s16` here, extern-declared `s32` by banked
+  callers) — `sig_unify` adds that (canonical return + param types, draft's param names kept; arity-mismatch →
+  return-only fallback). The byte-gate stays the arbiter. **191 conflict-blocked → 32 recovered** deterministically.
+- **The silent-under-propagation class (`find_site` brace bug).** A GREEN byte-gate proves *what landed is
+  correct*; it does NOT prove *everything that should have propagated did*. `dedup_propagate`'s inline-def
+  detector required the opening brace **on the same line** as the signature, so every **next-line-brace** def
+  (which `sig_unify`/permuter emit) was silently skipped from propagation — a whole session's matches capped
+  invisibly. **Always sanity-check the OUTCOME metric** (`make report` fleet %, or `--auto-from --check-only`
+  plan size), not just the gate. Fix: `find_site` accepts brace on the same OR the next non-blank line. (One fix
+  unlocked a 61-function backlog.) Generalizes: any "match→register" detector must accept all draft formats.
+- **`build_engine_types.py` must be ADDITIVE.** A 2nd `--strip` run regenerating the shared types header from the
+  source's *current* inline defs DROPS the already-migrated types (they were stripped last run) → build breaks.
+  Merge with the existing header; the header is the cumulative record.
+- **Probe-before-investing.** Size every recovery lever on a ~20–30 sample (build-classify the failures) before
+  building the full pass — it told us sig_unify was worth it (30/30 conflicts) AND that the *next* tier was a
+  dead-end (below) before we spent on it.
+
+### §14e Two hard-tail dead-ends (Phase 15 — documented so they aren't re-attempted)
+
+- **`()` no-prototype externs DON'T resolve arity/param conflicts here.** The textbook PS1-decomp escape (declare
+  inter-function externs param-less) FAILS under gcc-2.7.2: *"An argument type that has a default promotion can't
+  match an empty parameter name list declaration"* — C forbids `()` matching a prototype with a default-promotion
+  param (`s8/s16/u8/u16/float`), which these engine fns have. The remaining ~159 arity conflicts (def needs N
+  params, callers declare M) have **no clean deterministic fix**.
+- **m2c/Ghidra output is a scaffold, NOT byte-matching C — the struct is the wall.** On the remaining shared band,
+  **20/20 sampled m2c outputs are struct-heavy** (`arg0->unkXXX` inferred field accesses) and **won't compile**
+  without the engine struct defined, plus `?`-typed values. A decompiler gives structure + offsets for free; it
+  does not give the struct definition or the byte-match. **The path forward (Phase 16):** infer the one engine
+  **actor struct** layout from the union of m2c field-accesses (offsets + widths) → feed as m2c `--context` →
+  compilable C → `sig_unify` → **decomp-permuter** brute-force (compute-bound, low-token — the "set-it-and-go"
+  pipeline). Validate on a 10-fn medium sample before scaling.

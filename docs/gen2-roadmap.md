@@ -60,6 +60,8 @@ Almost all of BFM's game code lives **outside** the 404 KiB EXE — in a residen
 | **13** | Representative location overlays — end-to-end + fleet runbook | **Max** (template) | a location overlay (`SC01/077`) byte-identical from source; a duplicate pair collapsed to one source (both green); `make build-all`/`check-all` + one-command onboarding |
 | **14** | **Public flip via a curated public repo (LATE CAPSTONE) — Gen2 EXIT** — **⟶ DEFERRED to Gen3+ (Drew 2026-06-16)** | **Max** | fresh **public repo** (private master untouched): only allowlisted paths, zero ROM bytes; `rom→decoder` + `make build && check` reproduces the EXE from a user's dump; no-ROM CI green; dashboard live |
 | **15** | Overlay long-tail (ONGOING — **not a gate**) | xHigh + breadth | per-overlay `make check` byte-identical; fleet matched-% rises monotonically, zero regressions |
+| | **⟶ CLOSED at a natural wall (2026-06-18, v1.14.0, PhaseEnd_Phase15).** All 134 overlays onboarded → **136 binaries byte-identical from a clean tree**; fleet byte-identical-from-source **3.82% → 54.48%** (cross-binary dedup-propagation = the engine; `sig_unify` deterministic recovery = the final-session star, +2.67% / ~0 tokens vs a 50-agent wave's +0.36%). Remaining shared core is uniformly **struct-heavy** (one engine actor struct) → handed to **Phase 16** with a full Continuation Backlog. | | |
+| **16** | **Crack the struct-heavy shared core** (struct → m2c-context → permuter pipeline + multi-day autonomous compute) — Gen2 | **Max** (research/design) | the actor struct defined; m2c-context produces compilable C; permuter brute-forces the byte-match; the remaining shared core + 28 giants ground down on the 32-thread box. Validate on a 10-fn medium sample first. |
 
 ---
 
