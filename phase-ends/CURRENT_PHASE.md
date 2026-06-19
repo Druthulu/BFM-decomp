@@ -110,3 +110,12 @@ types — 67% reach incl. the giants) → T6 (validate the 146 permuter candidat
   unblocks compilation but the byte-lever is T5's struct → build T4 generator + T5 struct **together**.
   Checkpoint: no committable artifact yet (probes in `.run/` scratch; tree clean, 077 d19c9580). **T5 needs
   Drew's PCSX-Redux emulator field-typing pass — scheduling pending.**
+- 2026-06-19: **T4 + T5 DONE — byte-neutral (negative result, like Phase 16).** Recovered the actor struct
+  cold via PCSX-Redux (base `0x80078E00`, ~154 fields, 32 pointers; HP/BP/gold/day/hour/position all
+  live-verified, anchored to Phase-3) → `docs/actor-struct.md` + `tools/ram_probe.py`. m2c **adopts** the
+  struct (`arg0->f_X`) but it's **byte-neutral**: structural-miss sample 0 better / 10 same / 2 worse (proven
+  with the full pointer set). The misses are 50–98% mismatched = m2c decompiler limits, not missing types. T4
+  fn-ptr context unblocks compilation but the functions stay structural. **Rich context is a comprehension /
+  decomp.me win, NOT a byte lever** (deep-research caveat confirmed; struct-core-pivot.md updated). Emulator
+  pass PAUSED (Drew). **NEXT: T6 — validate the permuter on the 146 PERMUTER_CLASS near-misses (the last
+  untested byte lever), then T7 go/no-go.**

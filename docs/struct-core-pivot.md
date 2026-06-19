@@ -11,6 +11,16 @@
 > fn-pointer-table types), reaching ~67%** — i.e. Direction A/B's *value is as m2c `--context`, not Ghidra-C*,
 > exactly as the deep-research revised. The named "DATA-symbol header" lever (§14c-c) addresses **0** functions
 > and is dropped. `sig_unify` alone (no permuter) re-derives ~5%, matching this doc's ~3% finding.
+>
+> **Phase 17 / T4-T5 update (2026-06-19):** the rich-context thesis was **tested and is byte-neutral**.
+> The actor struct was fully recovered (base `0x80078E00`, ~154 fields, 32 pointers; live-verified via
+> PCSX-Redux, anchored to Phase-3 — see `docs/actor-struct.md`), m2c **adopts** it (`arg0->f_X`), but on a
+> structural-miss sample it scored **0 better / 10 same / 2 worse** vs m2c-alone (identical bytes; the misses
+> are 50–98% mismatched = m2c decompiler limits, not missing types). The fn-ptr-table context (T4) *unblocks
+> compilation* for the 85 fnptr-call functions but they remain structural misses underneath. **Conclusion:
+> Direction A/B (struct/type recovery) is a comprehension/decomp.me win, NOT a byte-match lever** — Phase 16's
+> wall re-confirmed from the type angle. The last untested byte lever is the permuter on the genuine 146
+> near-misses (T6).
 
 ## Objective (unchanged)
 Match the ~964 remaining **shared** engine functions in `ov_SC01_077` (struct-heavy; each propagates
