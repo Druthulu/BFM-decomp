@@ -22,6 +22,8 @@ Usage:
   python3 tools/auto_driver.py [--batch 40] [--permute-secs 0] [--max-nins 150] [--once]
 """
 import argparse, json, os, re, subprocess, sys, time, glob, shutil, signal
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import p16_permute  # reuse the validated permuter setup/run (M2C_FIELD->cast expander, scratch, run)
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OV = "ov_SC01_077"
@@ -142,6 +144,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--batch", type=int, default=40, help="functions per gate batch")
     ap.add_argument("--permute-secs", type=int, default=0, help="permuter budget per near-miss (0=skip)")
+    ap.add_argument("--permute-j", type=int, default=8, help="permuter -j (RAM-bound on the 15GiB box)")
     ap.add_argument("--max-nins", type=int, default=150, help="exclude giants (>this)")
     ap.add_argument("--once", action="store_true", help="one pass then exit (for trials)")
     a = ap.parse_args()
@@ -179,11 +182,18 @@ def main():
                     continue
                 cpath = os.path.join(REPO, DRAFTS, fn + ".c")
                 open(cpath, "w").write(draft)
-                # prefilter; permuter optional (time-boxed) on near-misses
+                # prefilter; permuter (time-boxed) on near-misses — the key yield lever
                 kind, score = match_one_score(fn, cpath)
                 if kind == "fail":
                     os.remove(cpath); continue  # won't compile standalone -> drop (gate would revert anyway)
-                # (permuter integration: see permute(); kept off by default for the first trials)
+                if kind == "near" and a.permute_secs > 0:
+                    write_heartbeat("permuting", pass_n, fn, banked, None, last_commit)
+                    pd = p16_permute.setup(fn, draft)
+                    if pd:
+                        win = p16_permute.run_permuter(pd, a.permute_secs, a.permute_j)
+                        if win:
+                            # draft = the function body only (common.h provides types/macros in the TU)
+                            open(cpath, "w").write(p16_permute.strip_externs_and_includes(open(win).read()))
                 cand += 1
             if cand == 0:
                 continue
