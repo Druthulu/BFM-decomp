@@ -59,9 +59,13 @@ regressions, not a fixed-% gate.)
 - [ ] **T5 — Avenue 4: struct inference + emulator field-typing** [Max + Drew emu]. Infer actor struct from
   m2c field-access union; Drew-driven PCSX-Redux field-typing (R10); feed via T4 context. Scoped to the
   structural-miss + fn-ptr buckets + comprehension.
-- [ ] **T6 — Avenue 5: permuter tuning + attended trials + known-answer ladder** [mixed; R26 prompt if breadth].
-  After each of T2–T5, bounded attended pipeline pass on a fixed sample (`p16_known_answer`/`p16_improve`);
-  tune permuter (`-j` on 32 threads); track ceiling; set the "eureka" threshold with Drew from trial data.
+- [x] **T6 — Avenue 5: permuter validation** [mixed]. **DONE 2026-06-19 — 0 whole-binary yield.** The
+  permuter CLOSES isolated near-misses (3-4/8 in ≤75s; converted winners match_one MATCH 17/53/54 ins) but
+  **0/4 survive the whole-binary gate.** Root-caused (R17): the isolated compile context ≠ the whole-binary
+  TU (callee inlining in the one-big-file 077.c), so match_one's "isolated == whole-binary" assumption is
+  FALSE for these — the permuter optimizes the wrong target and matches don't transfer. This is the mechanism
+  behind Phase 16's "42% mirage." Making the permuter whole-binary-faithful = recompile the 7k-line TU per
+  candidate = prohibitive for a search. **The last byte lever yields ~0.**
 - [ ] **T7 — Go/no-go on the unattended run + phase close** [Max]. Present measured ceiling + projected run
   yield → decide; if GO deploy `auto_driver`+supervisor supervised-first; fold findings; PhaseEnd (R18/R25/R19).
 
@@ -119,3 +123,7 @@ types — 67% reach incl. the giants) → T6 (validate the 146 permuter candidat
   decomp.me win, NOT a byte lever** (deep-research caveat confirmed; struct-core-pivot.md updated). Emulator
   pass PAUSED (Drew). **NEXT: T6 — validate the permuter on the 146 PERMUTER_CLASS near-misses (the last
   untested byte lever), then T7 go/no-go.**
+- 2026-06-19: **T6 DONE — permuter yields 0 whole-binary matches.** Closes isolated near-misses but the
+  winners don't transfer (isolated≠whole-binary TU; callee inlining). All 5 avenues now tested: T2=0,
+  T3=+0.52% (banked), T4/T5 byte-neutral, T6=0. **The harness ceiling did NOT rise to eureka.** NEXT: **T7 —
+  go/no-go (recommend NO-GO on the big unattended run) + PhaseEnd. Tier-1/Max — prompt Drew for /effort Max.**
