@@ -52,7 +52,8 @@ CC1FLAGS = "-quiet -O2 -G0 -mips1 -mcpu=3000 -mgas -msoft-float -fgnu-linker".sp
 AVENUE = {
     "DATA_CONFLICT":     "T2 (DATA-symbol byte-array header)",
     "SIG_FIXABLE_KR":    "T3 (K&R / sig_unify loose-signature) — gate-proven",
-    "LOOSE_TYPING_WALL": "— loose-typing wall (§14e): matched caller passes a contradictory type",
+    "LOOSE_TYPING_WALL": "— loose-typing wall (§14e): a hard int/ptr conflict (rare; warnings are byte-neutral)",
+    "VOID_VALUE_MISUSE": "T4/T5 — m2c used a void-returning fn's result (structural/type miss)",
     "ARITY_WALL":        "— documented C-language wall (§14e): param-count / default-promotion",
     "OTHER_CONFLICT":    "T3/T4 (residual decl conflict)",
     "M2C_DECOMP_FAIL":   "T4 (provide jump tables / jtbl context to m2c, §8) | hard",
@@ -191,23 +192,33 @@ def tu_compile_error(fn):
         if p.returncode:
             return "CPP:" + p.stderr.decode()[-1200:]
         p = subprocess.run([CC1] + CC1FLAGS, input=p.stdout, capture_output=True, cwd=REPO)
-        return p.stderr.decode()[-1600:] if p.returncode else ""
+        if not p.returncode:
+            return ""
+        # The baseline TU already emits harmless WARNINGS (e.g. pre-existing "makes integer from
+        # pointer" on shared loose callees) and still builds byte-identical. The real blocker is the
+        # non-warning ERROR that flips rc!=0 — keep only those (else every failure is misattributed
+        # to the baseline's loose-typing warnings). Verified: baseline cc1 rc=0 with those warnings.
+        errlines = [l for l in p.stderr.decode().splitlines() if re.search(r":\d+:", l) and "warning:" not in l]
+        return "\n".join(errlines)[-1600:]
     finally:
         os.remove(tmp)
 
 
 def sub_class_conflict(err):
+    # err is now ERROR-only (warnings filtered out); empty => the draft built clean = a real T3 win.
     if err == "":
         return "SIG_FIXABLE_KR"
+    if "void value not ignored" in err:        # m2c used a void-returning fn's result -> structural/type miss
+        return "VOID_VALUE_MISUSE"
     if re.search(r"default promotion|empty parameter", err):
         return "ARITY_WALL"
-    if "makes integer from pointer" in err or "makes pointer from integer" in err:
-        return "LOOSE_TYPING_WALL"            # Phase-16 core wall: a matched caller passes a contradictory type
     m = re.search(r"conflicting types for `([A-Za-z_]\w*)'", err)
     if m:
         return "DATA_CONFLICT" if m.group(1).startswith("D_") else "ARITY_WALL"
     if "too few arguments" in err or "too many arguments" in err:
         return "ARITY_WALL"
+    if "makes integer from pointer" in err or "makes pointer from integer" in err:
+        return "LOOSE_TYPING_WALL"            # only if it ever becomes a hard error (rc!=0); ~0 in practice
     return "OTHER_CONFLICT"
 
 

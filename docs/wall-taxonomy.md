@@ -20,7 +20,46 @@
 Baseline at census: fleet 136/136 byte-identical from clean; 54.48% byte-identical-from-source;
 `ov_SC01_077` = 957 unmatched shared stubs (each propagates ×134 overlays via `dedup_propagate`).
 
-## The census (957 stubs, ranked by count)
+## ⚠ Correction + T3 update (2026-06-19) — the "loose-typing wall" was a classifier artifact
+
+During T3, verifying the wall bucket against the bytes (R14) found a flaw in the original step-3 classifier:
+the full-TU `cc1` stderr includes **pre-existing harmless warnings** — the baseline `ov_SC01_077.c` already
+emits 3 `"passing arg of func_80171AB0 makes integer from pointer"` warnings and **compiles `rc=0`,
+byte-identical** (those warnings are byte-neutral: a pointer and an `s32` share a register on MIPS). The
+classifier matched that warning text before the real, `rc`-flipping **error**, so it mislabeled 99 functions
+`LOOSE_TYPING_WALL` when their actual blocker was something else (e.g. `void value not ignored` — m2c using a
+void function's return). **Fix:** `tu_compile_error` now keeps only non-warning error lines. Corrected result:
+
+**There is no loose-typing wall (99 → 0).** It re-bucketed into **`ARITY_WALL` (74)** — genuine param-count
+conflicts (`conflicting types for func_X` / too-few/many-args), the §14e documented dead-end — plus
+`VOID_VALUE_MISUSE` (17, structural → T4/T5) and a few others. Corrected post-T3 census (916 residual stubs,
+after T3 banked 42):
+
+| bucket | count | primary avenue |
+|--------|------:|----------------|
+| `STRUCTURAL_MISS` | 368 | T4/T5 |
+| `PERMUTER_CLASS` | 146 | T6 candidate |
+| `MCOMPILE_fnptr-call` | 85 | T4 (fn-ptr-table types) |
+| `ARITY_WALL` | **74** | **the real wall** — §14e param-count/arity dead-end |
+| `M2C_DECOMP_FAIL` | 59 (58 jtbl) | T4 (jump-table context) |
+| `MCOMPILE_stack-var` / `arg-arity` / `undeclared` / `void-value` / `bad-deref` / `incomplete-arg` | 143 | T4/T5 |
+| `NONFAITHFUL_DEFER` | 16 | defer |
+| `SIG_FIXABLE_KR` (remaining) | 4 | T3 |
+| `DATA_CONFLICT` | 1 | T2 (still ≈0 → skip) |
+
+**Per-lever (corrected): T4+T5 ≈ 656 (72%), T6 = 146 (16%), ARITY_WALL = 74 (8%), defer = 16, T2 ≈ 0.**
+The sequencing recommendation is **unchanged and strengthened** — the real wall is *arity* (74, smaller than
+the spurious 99) and even more of the residual is structural (T4/T5). The "cast the loose callee func_80171AB0"
+lever I briefly chased was built on the misattributed warnings → **void** (the warnings don't block or change bytes).
+
+**T3 result (the K&R / sig_unify avenue, gate-proven):** banked **42** `SIG_FIXABLE_KR` matches in `ov_SC01_077`
+(of 48 predicted; 6 honestly reverted by the gate) + propagated **13** ×134 fleet-wide → **fleet 54.48% → 55.00%
+(+0.52%)**, REAL +1,778, 136/136 byte-identical, dedup-check 1408/0. The avenue is then **exhausted**: the
+remaining conflict-class is `ARITY_WALL` (dead-end) or structural (T4/T5), not signature-fixable.
+
+---
+
+## The census (957 stubs, ranked by count) — original T1 snapshot (LOOSE_TYPING_WALL row superseded above)
 
 | count | %  | Σnins | bucket | primary avenue |
 |------:|---:|------:|--------|----------------|

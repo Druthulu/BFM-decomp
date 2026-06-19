@@ -38,8 +38,13 @@ regressions, not a fixed-% gate.)
   48 gate-proven free wins; loose-typing WALL = 99 (10%); **T2 DATA-symbol header = 0 functions → recommend SKIP.**
 - [ ] **T2 — Avenue 1: DATA-symbol byte-array canonical header** [xHigh]. Split `gen_engine_decls.py`; data →
   universal `extern u8 D_X[];`; overlay `.c` includes it; drafts strip own data decls. Probe (~20-30) → scale.
-- [ ] **T3 — Avenue 2: K&R loose-signature modeling** [Max]. K&R `()` decls for the non-promotion fixable
-  bucket; quantify the default-promotion wall. Probe → scale.
+- [x] **T3 — Avenue 2: K&R loose-signature modeling** [Max]. **DONE 2026-06-19.** Banked **42** gate-proven
+  `SIG_FIXABLE_KR` matches (of 48; 6 honestly reverted by the byte-gate) + propagated **13** ×134 fleet-wide →
+  **fleet 54.48% → 55.00% (+0.52%)**, REAL +1,778, **136/136 byte-identical** (R22), dedup-check 1408/0.
+  Probed the wall: raw drafts 0/99, sig_unify fails — and verifying against the bytes (R14) found a **T1
+  classifier bug** (the "LOOSE_TYPING_WALL" was byte-neutral pre-existing warnings, not a wall). Corrected:
+  real wall = **ARITY_WALL 74** (§14e dead-end); no K&R lever there. Avenue exhausted; rest is structural →
+  T4/T5. (Did a one-time full-fleet `make extract`; fixed `wall_taxonomy.py` + amended `docs/wall-taxonomy.md`.)
 - [ ] **T4 — Avenue 3: m2ctx-style rich context generator** [xHigh]. Build the missing context generator
   (structs + byte-array data + types + fn-ptr-table types) → wire into `decompile.py`/harvest.
 - [ ] **T5 — Avenue 4: struct inference + emulator field-typing** [Max + Drew emu]. Infer actor struct from
@@ -69,11 +74,10 @@ regressions, not a fixed-% gate.)
 ## Blockers
 - (none — unblocked once bgIsolation:none was set)
 
-## Recommended resequence after T1 (pending Drew's nod — P5d, skipping a planned task)
-T1's census says: **T3 (48 gate-proven free wins) → T4+T5 built together (rich context: struct + jump-table +
-fn-ptr-table types — 67% reach incl. the giants) → T6 (validate the 146 permuter candidates, then close)**.
-**Drop T2** (DATA-symbol byte-array header) — it addresses 0 functions. Awaiting Drew's confirmation before
-proceeding (the plan allowed reordering T2–T5 per T1; *skipping* T2 is the one piece needing the P5d gate).
+## Resequence after T1 — APPROVED by Drew 2026-06-19 (P5d gate passed)
+**T3 (48 gate-proven free wins) → T4+T5 built together (rich context: struct + jump-table + fn-ptr-table
+types — 67% reach incl. the giants) → T6 (validate the 146 permuter candidates, then close).** **T2 DROPPED**
+(DATA-symbol byte-array header — addresses 0 functions). Task list updated: T2 deleted, T3 in_progress.
 
 ## Progress log
 - 2026-06-19: Deep-research complete (3 agents, web+codebase, X2); findings revised Phase-16 premise (durable
@@ -85,3 +89,9 @@ proceeding (the plan allowed reordering T2–T5 per T1; *skipping* T2 is the one
   4/4 gate-passing). Findings: T4+T5 context lever = 67%, T6 = 146 permuter candidates, T3 = 48 free wins,
   wall = 99, **T2 = 0 (skip)**. Baseline still 136/136 byte-identical (T1 was read-only; restored the .c
   after the gate validation). Recommended resequence recorded above; paused for Drew's nod before T2/T4.
+- 2026-06-19: **Resequence APPROVED** (Drew): T3 → T4+T5 → T6, drop T2. Task list updated (T2 deleted).
+- 2026-06-19: **T3 DONE** (Max). Banked 42 + propagated 13 ×134 → fleet **55.00% (+0.52%)**, 136/136 R22 green.
+  One-time full-fleet `make extract` (needed for per-overlay propagation gate + check-all). Verifying the wall
+  against the bytes (R14) exposed + fixed a T1 classifier bug (LOOSE_TYPING_WALL was byte-neutral warnings →
+  real wall is ARITY_WALL 74); `wall_taxonomy.py` fixed, `docs/wall-taxonomy.md` amended. Avenue exhausted.
+  **NEXT: T4 (m2ctx rich-context generator) [xHigh] — prompt Drew for the /effort toggle (R27).**

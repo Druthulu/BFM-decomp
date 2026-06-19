@@ -16725,4 +16725,163 @@
         } \
     }
 
+#define DEFINE_func_8014706C() \
+    void func_8014706C(void *arg0) { \
+        M2C_FIELD(arg0, s8 *, 0x4D) = 2; \
+    }
+
+#define DEFINE_func_8014708C() \
+    void func_8014708C(void *arg0) { \
+        M2C_FIELD(arg0, s8 *, 0x221) = 1; \
+    }
+
+#define DEFINE_func_801470B4() \
+    void func_801470B4(s32 arg0) \
+    { \
+        M2C_FIELD(arg0, s8 *, 0x222) = 1; \
+    }
+
+#define DEFINE_func_8012AD50() \
+    s32 func_8012AD50(void * arg0) \
+    { \
+        M2C_FIELD(arg0, s16 *, 0x34) = 0; \
+        M2C_FIELD(arg0, u16 *, 2) = (u16) (M2C_FIELD(arg0, u16 *, 2) + 1); \
+    }
+
+#define DEFINE_func_80151184() \
+    s32 func_80151184(s32 arg0, s32 arg1, s32 arg2) \
+    { \
+      u16 *new_var; \
+      int new_var2; \
+      *((s16 *) (((s8 *) arg0) + 0x3E)) = arg1; \
+      *((s16 *) (((s8 *) arg0) + 0x40)) = arg2; \
+      new_var = (u16 *) (((s8 *) arg0) + 0x42); \
+      new_var2 = (u16) (*((u16 *) (((s8 *) (*((void **) (((s8 *) arg0) + 0x20)))) + 0x12))); \
+      *((u16 *) (((s8 *) arg0) + 0x3C)) = (u16) ((*((u16 *) (((s8 *) arg0) + 0x3C))) | 1); \
+      *new_var = new_var2; \
+    }
+
+#define DEFINE_func_80139914() \
+    extern void func_8013A8B0(s32 *a0); \
+    void func_80139914(s32 arg0) \
+    { \
+        s32 temp_a0; \
+        M2C_FIELD(arg0, s16 *, 4) = 0; \
+        M2C_FIELD(arg0, s32 *, 0) = 0; \
+        if (M2C_FIELD(arg0, u16 *, 0x18) != 0) { \
+            temp_a0 = M2C_FIELD(arg0, s32 *, 0x40); \
+            if (temp_a0 != 0) { \
+                func_8013A8B0(temp_a0); \
+            } \
+        } \
+    }
+
+#define DEFINE_func_80147324() \
+    extern void func_80147364(u16, s32); \
+    extern void *D_8012707C; \
+    void func_80147324(s32 arg0) { \
+        s32 temp_a0; \
+        temp_a0 = arg0 & 0xFFFF; \
+        if (temp_a0 == D_8012707C) { \
+            D_8012707C = 0; \
+            return; \
+        } \
+        func_80147364(temp_a0, 0); \
+    }
+
+#define DEFINE_func_80165A78() \
+    extern void func_80165AC8(void); \
+    void func_80165A78(s32 arg0) \
+    { \
+        void *temp_a0; \
+        func_80165AC8(); \
+        temp_a0 = M2C_FIELD(arg0, void **, 0x20); \
+        M2C_FIELD(arg0, s8 *, 0x197) = 0; \
+        M2C_FIELD(arg0, s32 *, 0x44) = (s32) (M2C_FIELD(arg0, s32 *, 0x44) & ~8); \
+        M2C_FIELD(temp_a0, u16 *, 0x2C) = (u16) (M2C_FIELD(temp_a0, u16 *, 0x2C) & 0xFFDF); \
+    }
+
+#define DEFINE_func_801554B8() \
+    extern s32 func_801659DC(u8 *a0); \
+    s32 func_801554B8(void *arg0) { \
+        s32 var_v0; \
+        u8 temp_a0; \
+        temp_a0 = M2C_FIELD(arg0, u8 *, 0x1A0); \
+        var_v0 = 0; \
+        if (temp_a0 != M2C_FIELD(arg0, u8 *, 0x196)) { \
+            if (func_800D02D0(temp_a0) != 0) { \
+                M2C_FIELD(arg0, u8 *, 0x196) = (u8) M2C_FIELD(arg0, u8 *, 0x1A0); \
+                func_801659DC(arg0); \
+                return 0; \
+            } \
+            var_v0 = 1; \
+            /* Duplicate return node #4. Try simplifying control flow for better match */ \
+            return var_v0; \
+        } \
+        return var_v0; \
+    }
+
+#define DEFINE_func_801530E4() \
+    extern void func_80019064(void *a0); \
+    extern void func_80146CA0(void *a0); \
+    extern s32 func_801472C8(struct S *a0); \
+    extern void func_801474EC(s32 *a0); \
+    extern void func_80149020(s32 *a0); \
+    extern void func_8014CBF8(void *a0); \
+    extern void func_80155440(s32 *a0); \
+    extern u8 D_80062C04[]; \
+    void func_801530E4(s32 arg0) \
+    { \
+        func_80019064(&D_80062C04); \
+        func_80149020(arg0); \
+        func_801472C8(arg0); \
+        M2C_FIELD(arg0, s8 *, 0xDE) = 0x40; \
+        func_8014CBF8(arg0); \
+        func_801474EC(arg0); \
+        func_80155440(arg0); \
+        func_80146CA0(arg0); \
+    }
+
+#define DEFINE_func_8016B448() \
+    extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6); \
+    extern s32 func_8014C050(s32 a0, s32 a1); \
+    extern void func_8016B984(void *a0); \
+    extern s32 D_80126B58; \
+    s32 func_8016B448(s32 arg0, s32 arg1) \
+    { \
+        s32 temp_v0; \
+        temp_v0 = func_8014C050(&D_80126B58, 0x1E); \
+        if (temp_v0 != 0) { \
+            func_8016B984(temp_v0); \
+        } \
+        func_80146A6C(0x1E, arg0, M2C_FIELD(arg0, s16 *, 0x7C), M2C_FIELD(arg0, s16 *, 0x7E), (s32) M2C_FIELD(arg0, s16 *, 0x80), arg1, 0); \
+    }
+
+#define DEFINE_func_801485B8() \
+    void func_801485B8(s32 arg0, s32 arg1, s32 arg2) \
+    { \
+        M2C_FIELD(arg1, s16 *, 0) = (s16) (s8) M2C_FIELD(arg0, u8 *, 0); \
+        M2C_FIELD(arg1, s16 *, 2) = (s16) (s8) M2C_FIELD(arg0, u8 *, 1); \
+        M2C_FIELD(arg1, s16 *, 4) = (s16) (s8) M2C_FIELD(arg0, u8 *, 2); \
+        M2C_FIELD(arg2, s16 *, 0) = (s16) (s8) M2C_FIELD(arg0, u8 *, 3); \
+        M2C_FIELD(arg2, s16 *, 2) = (s16) (s8) M2C_FIELD(arg0, u8 *, 4); \
+        M2C_FIELD(arg2, s16 *, 4) = (s16) (s8) M2C_FIELD(arg0, u8 *, 5); \
+    }
+
+#define DEFINE_func_8014E790() \
+    s32 func_8014E790(s32 arg0, s16 * arg1, s16 * arg2) \
+    { \
+        s32 temp_a1; \
+        void *temp_s0; \
+        temp_s0 = M2C_FIELD(arg0, void **, 0x180); \
+        if ((M2C_FIELD(temp_s0, u16 *, 0) == 0) || !(M2C_FIELD(temp_s0, u16 *, 0x5C) & 0x20) || (temp_a1 = M2C_FIELD(temp_s0, s32 *, 0x58), (temp_a1 == 0)) || (func_80135888(M2C_FIELD(temp_s0, s32 *, 0x20), temp_a1, arg1, arg2) == 0)) { \
+            M2C_FIELD(arg0, void **, 0x180) = NULL; \
+            return 0; \
+        } \
+        M2C_FIELD(arg0, u16 *, 6) = (u16) M2C_FIELD(temp_s0, u16 *, 6); \
+        M2C_FIELD(arg0, u16 *, 0xA) = (u16) M2C_FIELD(temp_s0, u16 *, 0xA); \
+        M2C_FIELD(arg0, u16 *, 0xE) = (u16) M2C_FIELD(temp_s0, u16 *, 0xE); \
+        return 1; \
+    }
+
 #endif
