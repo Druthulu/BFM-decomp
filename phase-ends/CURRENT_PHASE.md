@@ -29,7 +29,13 @@
 - [ ] **S8** Harvest/propagate sweep + fleet roll-up (xHigh + 1 surgical survey)
 - [ ] **S9** Close / PhaseEnd (Max) — honest milestone, plain-English recap (R25)
 
-**Current task pointer → S0.**
+**Current task pointer → S2/S1 (pipeline proven; building permuter integration + driver).**
+
+### Live results (2026-06-18 night)
+- **Pipeline infra PROVEN end-to-end:** m2c `--valid-syntax` + common.h macros → compiles → harvest_verify byte-gate. `match_one` confirms byte-faithful drafts.
+- **Known-answer ladder (Drew's method), `tools/p16_known_answer.py`:** on 12 already-matched fns (known-reachable answers), **m2c-DIRECT re-derivation = 8/12 = 67%** (macro-only, NO permuter, NO struct types). Remainder: 2 near-misses @15 mismatch (permuter), 1 @73 (struct/hand), 1 CC1-fail (typing). Byte-restore safe (overlay back to d19c9580). → strong viability signal; struct types (S1) + permuter lift from here.
+- **Unmatched smallest-80 macro-only-no-permuter:** 2/80 byte-gated — expected low (unmatched = the hard residual; no permuter yet). The gap vs 67% confirms the unmatched tail is self-selected hard; GATE-B (permuter+struct on unmatched mediums) measures the real NEW yield.
+- **Permuter:** runs (2048 iters/120s @-j8); did NOT close an *unmatched* near-miss (func_8012CB64, score 145 flat — out-of-search-space, §3 class). Next: prove it closes a KNOWN-answer near-miss.
 
 ## New tools/files
 `tools/struct_infer.py`, `tools/m2c_ctx.py`, `src/shared/engine_struct.h` (#ifdef M2C skeleton / #else real layout), `tools/auto_driver.py`, `tools/auto_supervisor.sh`, opt `src/shared/engine_decls.h`. Reused: sig_unify, match_one, harvest_verify, dedup_propagate (patch compiles_standalone += struct header), decompile.py --context, permuter/compile.sh, progress.py --fleet, build_engine_types.py (additive). m2c context MUST be flat directive-free C (rejects #include/#ifndef).
@@ -49,6 +55,11 @@ Must be verified + ready to launch unattended by Sun afternoon. Cadence (I own t
 **Known-answer oracle test (Drew's method):** take an ALREADY-matched struct-heavy function (engine_core.h DEFINE or an inline def in ov_SC01_077.c), revert it to an INCLUDE_ASM stub, run the FULL pipeline (m2c+ctx → sig_unify → permuter → harvest_verify byte-gate), confirm it independently re-derives the byte-match we already know is correct. Zero-ambiguity end-to-end validation; also a yield baseline. Use known-answer fns for early tests; unmatched mediums for the real GATE-B.
 
 **Execution-order adaptation (S0 finding):** build the m2c+macros+permuter+byte-gate **pipeline (S2) FIRST** (testable tonight), then add `struct_infer` (S1) as the regalloc/structural enhancer + measure its lift. Same tasks + gates; order adapted to get a known-answer test running fastest. (Within-phase autonomy, P3.)
+
+## Drew refinements (2026-06-18 #2) — graduated validation + never-stop run + safe-exit
+- **Graduated known-answer ladder (validation method).** Prove the pipeline on EXISTING decomp across a difficulty ramp: several softball tiny/easy (prove infra) → increasing difficulty → 10+ medium → up to the struct-heavy difficulty we'll actually run. Use already-matched functions (known answers): revert to stub → re-extract its `.s` → run the full pipeline → confirm it re-derives the byte-match we already know. Purpose: tune the methodology to be **stable + competent** before the 5-day run. (Pick struct-heavy matched fns from engine_core.h macros for representativeness; the byte-gate on unmatched mediums is the complementary capability proof = GATE-B.)
+- **The 5-day run NEVER STOPS** — loops the FULL worklist to completion (match → propagate → commit → re-derive remaining → escalate permuter effort on the residual), running until ALL gettable work is done or Drew stops it. Not a one-batch run.
+- **Safe-exit mechanism (REQUIRED).** Driver checks `.run/auto/STOP` at every function boundary; if present → finish current fn's gate+propagate+commit → final heartbeat "stopped safely" → exit 0; supervisor sees STOP + clean exit → does NOT relaunch. **Trigger:** Drew returns + messages me "exit the run" → I run `tools/auto_stop.sh` (`touch .run/auto/STOP`); or Drew runs the one-liner himself (works with no Claude session). Plus `tools/auto_status.sh` (heartbeat: current fn / banked count / fleet % / last commit) for remote check-in.
 
 ## Blockers
 - (resolved) Away window = Sun afternoon; S1–S6 must complete by then.
