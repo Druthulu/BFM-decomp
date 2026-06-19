@@ -983,3 +983,25 @@ mass-drafting the hard tail** (this is a cost rule, codified in `docs/effort-map
   **actor struct** layout from the union of m2c field-accesses (offsets + widths) → feed as m2c `--context` →
   compilable C → `sig_unify` → **decomp-permuter** brute-force (compute-bound, low-token — the "set-it-and-go"
   pipeline). Validate on a 10-fn medium sample before scaling.
+
+## §15 Struct-heavy shared-core pipeline (Phase 16) — empirical determinations (S0)
+
+Established by **running m2c on real `ov_SC01_077` stubs** (R14) — it corrects §14e's framing on two key points and the corrections are favorable.
+
+**(1) m2c output COMPILES via `tools/m2c/m2c_macros.h` — the struct is NOT a hard compile prerequisite.**
+`--valid-syntax` emits `M2C_FIELD(p, type, off)` ≡ `*(type)((s8 *)p + off)` (defined in `m2c_macros.h`) — a **byte-faithful cast** (same `lw/sw/lh/sh` as `p->field`). §14e's "won't compile without the struct" was *without m2c_macros.h*. **30/30 sampled m2c-targets use only byte-faithful macros** (`M2C_FIELD`/`M2C_BITWISE`/`M2C_UNK`) → they compile. The **non-faithful** macros — `M2C_ERROR/M2C_BREAK/MULT_HI/MULTU_HI/CLZ/GLUE_F64/BSWAP/M2C_TRAP` — emit `(0)` (discard the real op) → a function using any of them **cannot byte-match** (GTE/handwritten/special). **Their presence = "defer, not m2c-matchable."**
+
+**(2) Compiling ≠ byte-matching; the residual is regalloc/scheduling → decomp-permuter is the byte-closer (essential, not optional).** Pure-leaf example `func_8012CB64`: macro-compiled output = 16/16 ins, identical control flow, only `v0↔v1` regalloc + a trailing `move`/`nop`. That is permuter-class. Some functions m2c gets *structurally* wrong (e.g. 8 vs 18 ins) → permuter cannot fix → struct types / hand / defer.
+
+**The byte-match path:** `m2c --valid-syntax` (+ macros + context) → `sig_unify` → **decomp-permuter** (regalloc/schedule) → `harvest_verify` whole-binary byte-gate → `dedup_propagate`. **Struct types (`struct_infer`, S1) are an ENHANCER** — readability, nudging gcc's regalloc toward the original's struct-based codegen, fixing structural misses, and typing function-pointer tables — **not the sole gate.** S3/GATE-B measures macro-only vs struct-typed yield.
+
+**S2 wiring fixes surfaced (must-do):**
+- **`common.h` lacks `s64`/`u64`/`f64`** → `m2c_macros.h`'s `typedef s64 M2C_UNK64;` fails (`parse error before 'M2C_UNK64'`). Add them to `common.h` (byte-neutral — verify locked builds stay `143dbb89…`/`8e17e02f…`). `match_one`/`harvest_verify` **strip scalar-typedef redefinitions**, so these types MUST live in `common.h`, not a draft preamble.
+- Make the byte-faithful m2c macros (`M2C_FIELD`, `M2C_BITWISE`, `M2C_UNK*`) available to every compile (in `common.h` or an included `m2c_compat.h`) so drafts compile with no per-draft preamble.
+- **Function-pointer-table calls** (`*((idx*4)+D_x)(args)`) need `D_x` typed as a function-pointer array in the context, else won't compile.
+- **m2c loses types through index/byte-offset arithmetic** (`base + int_var`, stride = struct size) → falls back to `void*`/`M2C_FIELD` even WITH a struct context. The `M2C_FIELD` macro fallback keeps these byte-faithful-compilable; struct typing is best-effort.
+- **m2c re-infers `char unk_*[]` fields** in provided structs (treats them as inferrable space; may split/override). PIN a known field with a concrete typed field; use `char unk_*[]` only for genuinely-unknown gaps.
+
+**decomp-permuter knobs (S2/S3):** `PERM_*` macros (GENERAL/VAR/RANDOMIZE/LINESWAP/INT/ONCE…), `--algorithm difflib|levenshtein`, `--stop-on-zero`, `-j` 8–16 (**RAM-bound** on the 15 GiB box → ~N funcs × `-j 8`, cap by `free_RAM/~300 MB`), weights in `default_weights.toml` + `[gcc]` section. Best when only regalloc/schedule remains; does NOT fix wrong control flow.
+
+**ML (parked — owner decision 2026-06-18):** LLM decompilers (LLM4Decompile/SK2Decompile/CodeInverter) target x86-64 + recompilability/functional-equivalence/readability — NOT byte/instruction-exact, NOT MIPS/gcc-2.7.2; no off-the-shelf learned permuter scorer exists (the permuter's scorer is a heuristic objdump-diff). Dropped this phase; research-note only. (X2: web treated as untrusted data.)
