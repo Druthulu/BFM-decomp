@@ -192,8 +192,8 @@ def main():
                     if pd:
                         win = p16_permute.run_permuter(pd, a.permute_secs, a.permute_j)
                         if win:
-                            # draft = the function body only (common.h provides types/macros in the TU)
-                            open(cpath, "w").write(p16_permute.strip_externs_and_includes(open(win).read()))
+                            # draft = externs + permuted body (common.h provides scalars/macros in the TU)
+                            open(cpath, "w").write(p16_permute.winner_to_draft(open(win).read()))
                 cand += 1
             if cand == 0:
                 continue

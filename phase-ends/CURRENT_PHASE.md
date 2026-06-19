@@ -60,6 +60,19 @@ K1 type-graph won't compile (GATE-A <8/10) → STOP, fall back to hand-typing to
 ## Safety invariants
 Byte-gate (`make build` SHA1) is the only truth (G3/P9). R22 clean-rebuild for byte-checks. **NEVER `git checkout src/<overlay>.c` during a harvest** (§14c — silently reverts banked matches). Commits on `phase-16-autodrive` branch, explicit pathspec `git add` (never `-A`), local only — owner pushes (R6). State/logs under `.run/auto/` (R12). 0 NON_MATCHING in default builds (G4).
 
+## ⏸️ PIVOT (Fri 2026-06-19, Drew) — m2c+permuter will NOT crack the struct-heavy core
+**Decision:** PAUSE the brute-force approach (yields ~3%, bounded by the loose-typing wall, not a fixable
+bug). Full findings + new research directions in **`docs/struct-core-pivot.md`**. The harness bug-fixes are
+real and kept (output-0 glob, base.c externs, sig_unify no-extern prototypes, winner_to_draft). New plan =
+**emulator-recover the actor struct/types → Ghidra global type propagation → Ghidra-C → permuter+gate**
+(attacks the root cause: lost types), grounded by deep-research on how PS1 decomps handle loose-typed engine
+code. Optionally run the modest brute-force during the away window for the free few % (consolation, not the crack).
+
+## CRITICAL FINDING (Fri 2026-06-19) — the extern-context bug (byte-gate caught a false 42%)
+- Overnight permuter "closed" 17/40 near-misses (42%) — BUT **0/17 whole-binary-gated.** Root cause: the permuter's `base.c` STRIPPED callee externs → compiled with implicit-`int` callees → matched the target in the WRONG signature context. The real whole-binary build declares those callees (engine_core.h) with true signatures → same body, different bytes → no match. **The overnight 42% was illusory.** (G3 working as designed: the byte-gate is the only truth; the permuter score-0 is object-level + context-dependent.)
+- **FIX:** `p16_permute.make_base_c` now KEEPS the canonical externs (so the permuter matches in the same signature context as the whole-binary build); `winner_to_draft` strips only the TYPEDEFS block. Driver updated to match. **Re-validating now** (re-permute 6 prior winners with the fix → gate). The TRUE permuter yield is being re-measured.
+- Lesson for the run: the permuter step is only valid if base.c's signature context == the whole-binary context. The whole-binary gate (harvest_verify) remains the sole arbiter; never trust the permuter score alone.
+
 ## Timeline (Drew, 2026-06-18 Thu 10:26pm MDT — departs Sun 2026-06-21 afternoon)
 Must be verified + ready to launch unattended by Sun afternoon. Cadence (I own the launch/test/analyze/iterate loop):
 - **Thu night / Fri:** build pipeline (S2) + struct inference (S1); **first small known-answer test**.

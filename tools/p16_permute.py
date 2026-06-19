@@ -67,23 +67,35 @@ def expand_m2c_field(c):
         c = c[:i] + repl + c[j:]
 
 
-def strip_externs_and_includes(c):
-    """drop #include / #define lines and m2c's leading extern/typedef decls — keep the function def."""
+def drop_preproc_and_scalar_typedefs(c):
+    """drop #include/#define and scalar/M2C typedef lines (TYPEDEFS/common.h provide them) —
+    but KEEP `extern` callee/data decls so the function compiles in its REAL signature context."""
     lines = []
     for ln in c.splitlines():
         s = ln.strip()
         if s.startswith("#"):
             continue
-        if re.match(r"^(extern|typedef)\b", s):
+        if re.match(r"^typedef\b", s):
             continue
         lines.append(ln)
     return "\n".join(lines)
 
 
 def make_base_c(draft_c):
+    """permuter base.c = scalar typedefs + the draft's canonical externs + the M2C_FIELD-expanded body.
+    Keeping the externs is essential: without them callees fall back to implicit-int and the permuter
+    matches in a DIFFERENT context than the whole-binary build (-> winners don't byte-gate)."""
     body = expand_m2c_field(draft_c)
-    body = strip_externs_and_includes(body)
+    body = drop_preproc_and_scalar_typedefs(body)
     return TYPEDEFS + body + "\n"
+
+
+def winner_to_draft(winner_c):
+    """permuter winner (typedefs + externs + body) -> gate-ready draft (externs + body). common.h
+    provides scalars/macros in the whole-binary TU. The permuter REFORMATS the typedefs (one per
+    line), so strip by line filter (drop #/typedef lines, keep externs + the function def), NOT a
+    string-replace of the TYPEDEFS block (that silently fails -> C89 typedef-redefinition error)."""
+    return drop_preproc_and_scalar_typedefs(winner_c)
 
 
 def setup(fn, draft_c):
@@ -116,7 +128,8 @@ def run_permuter(pd, secs, j):
         pass
     # kill stragglers
     subprocess.run(["pkill", "-f", "decomp-permuter/permuter.py"], capture_output=True)
-    win = glob.glob(f"{pd}/output-*/source.c")
+    # ONLY output-0-* is a true byte-match; output-<N>-* are intermediate bests (score N != 0)
+    win = glob.glob(f"{pd}/output-0-*/source.c")
     return win[0] if win else None
 
 

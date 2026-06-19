@@ -2612,7 +2612,18 @@ DEFINE_func_8015115C()  /* dedup: shared engine-core @0x8015115C (src/shared) */
 
 DEFINE_func_80151164()  /* dedup: shared engine-core @0x80151164 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80151184);
+
+s32 func_80151184(s32 arg0, s32 arg1, s32 arg2)
+{
+  u16 *new_var;
+  int new_var2;
+  *((s16 *) (((s8 *) arg0) + 0x3E)) = arg1;
+  *((s16 *) (((s8 *) arg0) + 0x40)) = arg2;
+  new_var = (u16 *) (((s8 *) arg0) + 0x42);
+  new_var2 = (u16) (*((u16 *) (((s8 *) (*((void **) (((s8 *) arg0) + 0x20)))) + 0x12)));
+  *((u16 *) (((s8 *) arg0) + 0x3C)) = (u16) ((*((u16 *) (((s8 *) arg0) + 0x3C))) | 1);
+  *new_var = new_var2;
+}
 
 DEFINE_func_801511A8()  /* dedup: shared engine-core @0x801511A8 (src/shared) */
 

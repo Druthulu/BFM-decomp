@@ -36,6 +36,11 @@ _spec.loader.exec_module(_ght)
 DATA_DECL_RE = re.compile(
     r'extern\s+([A-Za-z_][\w\s\*]*?\bD_[0-9A-Fa-f]+\s*(?:\[\s*\])?)\s*;')
 DRAFT_EXTERN_LINE_RE = re.compile(r'^[ \t]*extern\b[^;]*;[ \t]*$', re.M)
+# m2c emits callee prototypes WITHOUT `extern`: `<type> func_X(<params>);  /* extern */`.
+# Canonicalize these too, else they keep m2c's GUESSED signature and `conflicting types` in the
+# whole-binary build (the body is usually byte-correct; only the decl conflicts). Phase-16 fix.
+PROTO_DECL_RE = re.compile(
+    r'^[ \t]*[A-Za-z_][\w \t\*]*\bfunc_[0-9A-Fa-f]+\s*\([^;{]*\)\s*;[ \t]*(?:/\*[^\n]*\*/)?[ \t]*$', re.M)
 
 
 def sym_of(decl):
@@ -178,6 +183,19 @@ def main():
             return line
 
         txt = DRAFT_EXTERN_LINE_RE.sub(repl, txt)
+
+        def repl_proto(m):
+            nonlocal ext_changed
+            line = m.group(0)
+            s = sym_of(line)
+            if s and s != fn and s in canon:
+                new = canon[s]
+                if re.sub(r'\s+', ' ', new).strip() != re.sub(r'\s+', ' ', line).strip():
+                    ext_changed = True
+                return re.match(r'^[ \t]*', line).group(0) + new
+            return line
+
+        txt = PROTO_DECL_RE.sub(repl_proto, txt)
         txt, def_changed = rewrite_def(txt, fn, canon)
         open(os.path.join(REPO, args.outdir, os.path.basename(p)), 'w').write(txt)
         n += 1
