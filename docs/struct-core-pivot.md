@@ -4,6 +4,13 @@
 > struct-heavy shared core. It yields a few percent, bounded by a fundamental wall (loose typing),
 > not by a fixable bug. **Decision (Drew): pause this approach, document, and plan a new idea.**
 > This file is the durable record + the seed of the next plan. The harness bug-fixes are real and kept.
+>
+> **Phase 17 / T1 update (2026-06-19):** the wall is now *quantified* by a full census of all 957 residual
+> shared stubs — see **`docs/wall-taxonomy.md`**. Headlines: the loose-typing wall is **~99 functions (10%)**
+> (not the whole tail); the **biggest addressable lever is rich m2c context (struct + jump-table +
+> fn-pointer-table types), reaching ~67%** — i.e. Direction A/B's *value is as m2c `--context`, not Ghidra-C*,
+> exactly as the deep-research revised. The named "DATA-symbol header" lever (§14c-c) addresses **0** functions
+> and is dropped. `sig_unify` alone (no permuter) re-derives ~5%, matching this doc's ~3% finding.
 
 ## Objective (unchanged)
 Match the ~964 remaining **shared** engine functions in `ov_SC01_077` (struct-heavy; each propagates
