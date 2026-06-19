@@ -40,6 +40,14 @@ struct S8_80172780;
 struct S8_80172894;
 struct S801730FC;
 struct S80126B38;
+struct BigCopy;
+struct S8013A0A4;
+struct S8013A164;
+struct S_80149744;
+struct S_8014A3E0;
+struct B8014;
+struct copy00;
+struct Vec4s;
 
 struct vec {
     s32 unk0;
@@ -261,5 +269,55 @@ struct S801730FC {
 };
 
 struct S80126B38 { s32 a; s32 b; } __attribute__((packed));
+
+struct BigCopy { s32 words[41]; };
+
+struct S8013A0A4 {
+    u8 pad0[4];
+    s16 field_4;
+    u8 pad6[2];
+    s32 field_8;
+    u8 pad12[10];
+    u16 field_16;
+    u8 pad18[6];
+    u8 field_1E;
+    u8 pad1F[15];
+    s16 field_2E;
+};
+
+struct S8013A164 {
+    char pad0[0x4];
+    s16 field_04;      /* 0x04 */
+    char pad06[0x2];
+    s32 field_08;      /* 0x08 */
+    char pad0C[0xC];
+    u16 field_18;      /* 0x18 */
+    char pad1A[0x26];
+    s16 *field_40;     /* 0x40 */
+};
+
+struct S_80149744 {
+    char pad44[0x44];
+    s32 w44;       /* 0x44 */
+    char pad48[0xAC - 0x48];
+    u16 h_AC;      /* 0xAC */
+};
+
+struct S_8014A3E0 {
+    char pad0[0x12];
+    s16 h12;      /* 0x12 */
+    char pad14[0x6];
+    s16 h1A;      /* 0x1A */
+    char pad1C[0x6C];
+    u16 h88;      /* 0x88 */
+    u16 h8A;      /* 0x8A */
+    u16 h8C;      /* 0x8C */
+};
+
+struct B8014 { char b[8]; };
+
+struct copy00 { s32 w[41]; };
+
+struct Vec4s { s16 a, b, c, d; };
 
 #endif /* BFM_ENGINE_TYPES_H */

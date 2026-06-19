@@ -60,6 +60,7 @@ def main():
     args = ap.parse_args()
 
     c_path = os.path.join(REPO, f'src/{args.source}/{args.source}.c')
+    out_path = os.path.join(REPO, args.out)
     text = open(c_path).read()
     defs = find_defs(text)
     if not defs:
@@ -74,6 +75,21 @@ def main():
             continue
         seen.add(key)
         ordered.append((kind, name, body))
+
+    # ADDITIVE merge: keep the types already in the existing header so a re-run after a prior
+    # --strip does NOT drop earlier migrations. The header is the cumulative record; the source
+    # only ever holds the NEW inline defs (the older ones were stripped in a previous pass).
+    # Existing header types keep their (compile-valid) order; new source types append after.
+    if os.path.exists(out_path):
+        htext = open(out_path).read()
+        existing = [(k, n, htext[s:e]) for k, n, s, e in find_defs(htext)]
+        merged, mseen = [], set()
+        for kind, name, body in existing + ordered:
+            if (kind, name) in mseen:
+                continue
+            mseen.add((kind, name))
+            merged.append((kind, name, body))
+        ordered = merged
 
     guard = 'BFM_ENGINE_TYPES_H'
     out = [f'#ifndef {guard}', f'#define {guard}',
@@ -91,7 +107,6 @@ def main():
         out.append(body if body.rstrip().endswith(';') else body + ';')
         out.append('')
     out.append(f'#endif /* {guard} */')
-    out_path = os.path.join(REPO, args.out)
     os.makedirs(os.path.dirname(out_path), exist_ok=True)
     open(out_path, 'w').write('\n'.join(out) + '\n')
     print(f'wrote {args.out}: {len(ordered)} named types (forward decls + defs, source order)')

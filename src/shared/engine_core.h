@@ -15610,4 +15610,158 @@
         func_80145C54(); \
     }
 
+#define DEFINE_func_80149744() \
+    extern u8 D_80078EBF; \
+    s32 func_80149744(struct S_80149744 *a0) { \
+        if ((a0->w44 & 0x4) == 0 && D_80078EBF >= 0x80) { \
+            if (a0->h_AC & 0x80) { \
+                return 1; \
+            } \
+        } \
+        return 0; \
+    }
+
+#define DEFINE_func_8014A3E0() \
+    extern s16 D_801152B0; \
+    extern s16 D_801152B4; \
+    s32 func_8014A3E0(struct S_8014A3E0 *a0) { \
+        s32 sp[4]; \
+        sp[0] = a0->h12 * D_801152B0; \
+        sp[2] = a0->h1A * D_801152B4; \
+        if (sp[0] >= 0 && sp[2] >= 0) { \
+            return 1; \
+        } \
+        *(s16 *)((char *)a0 + 0x6) = a0->h88; \
+        *(s16 *)((char *)a0 + 0xA) = a0->h8A; \
+        *(s16 *)((char *)a0 + 0xE) = a0->h8C; \
+        return 0; \
+    }
+
+#define DEFINE_func_80163328() \
+    extern s32 D_80115100; \
+    extern u16 D_80126B18[]; \
+    extern s32 D_80115200; \
+    void func_80163328(void) { \
+        u32 i; \
+        s32 *table; \
+        u16 *src; \
+        s32 *flags; \
+        i = 0; \
+        table = &D_80115100; \
+        src = D_80126B18; \
+        flags = &D_80115200; \
+        do { \
+            if (*flags & 1) { \
+                u8 *dst = (u8 *)*table; \
+                *(struct Vec4s *)(dst + 0x7C) = *(struct Vec4s *)src; \
+                *(s16 *)((u8 *)*table + 0x82) = 0; \
+            } \
+            table += 1; \
+            src += 4; \
+            i += 1; \
+            flags += 1; \
+        } while (i < 3); \
+    }
+
+#define DEFINE_func_8013A164() \
+    extern s16 D_8012752C; \
+    void func_8013A164(struct S8013A164 *a0) { \
+        s32 flags; \
+        if (a0->field_40 == 0 || a0->field_18 == 0 || *a0->field_40 == 2) { \
+            flags = a0->field_08 | 0x1000; \
+            a0->field_08 = flags; \
+            if (flags & 0x10000) { \
+                if (D_8012752C != 0) { \
+                    if (flags & 0x40000) { \
+                        a0->field_04 = 2; \
+                    } else { \
+                        a0->field_04 = 0x10; \
+                    } \
+                } else { \
+                    a0->field_04 = 2; \
+                } \
+            } else { \
+                a0->field_04 = 2; \
+            } \
+        } \
+    }
+
+#define DEFINE_func_8014BDE8() \
+    extern s32 func_8016F1AC(void); \
+    extern s32 func_8017267C(s32 *a0); \
+    extern void func_80015978(s32 a0, s32 *a1); \
+    extern s32 func_80013294(void *a0, void *a1); \
+    extern void func_80029ED4(s32 a0); \
+    void func_8014BDE8(s32 a0) { \
+        s32 s0 = a0; \
+        struct B8014 sp10; \
+        s16 sp18[4]; \
+        if (func_8016F1AC() != 0) { \
+            return; \
+        } \
+        if (func_8017267C((s32 *)s0) != 0) { \
+            return; \
+        } \
+        sp10 = *(struct B8014 *)(s0 + 0x98); \
+        func_80015978(s0 + 4, (s32 *)sp18); \
+        sp18[1] = 0; \
+        *(s16 *)((s32)&sp10 + 0x2) = 0; \
+        func_80029ED4((func_80013294(&sp10, sp18) << 16) >> 16); \
+    }
+
+#define DEFINE_func_8012A4BC() \
+    extern s32 D_801151D4; \
+    extern struct BigCopy D_80126DB8; \
+    extern struct BigCopy D_80114EE8; \
+    extern u8 D_80127504; \
+    void func_8012A4BC(void) { \
+        D_80126DB8 = *(struct BigCopy *)D_801151D4; \
+        *(struct BigCopy *)D_801151D4 = D_80114EE8; \
+        D_80127504 = 0x30; \
+    }
+
+#define DEFINE_func_80150EC4() \
+    extern u8 D_800AE6C0; \
+    extern s16 D_800AE6C8; \
+    extern s16 D_800AE6CA; \
+    extern u8 D_80126948[]; \
+    extern s16 D_800AE6CC; \
+    extern s32 D_800AE6C4; \
+    extern s16 D_800AE6CE; \
+    extern u8 D_800AE6BE; \
+    extern s32 D_800AE6B0; \
+    extern u8 D_801201F8[]; \
+    void func_80150EC4(s32 a0, s32 a1) { \
+        D_800AE6C0 = 1; \
+        D_800AE6C8 = *(u16 *)(a0 + 0x6); \
+        D_800AE6CA = *(u16 *)(a0 + 0xA); \
+        D_800AE6CC = *(u16 *)(a0 + 0xE); \
+        D_800AE6CE = *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12); \
+        D_800AE6B0 = *(s32 *)(((a1 << 2) + D_800AE6C4) + 4); \
+        D_800AE6BE = a1 + 1; \
+        *(struct copy00 *)D_801201F8 = *(struct copy00 *)D_80126948; \
+    }
+
+#define DEFINE_func_8013A0A4() \
+    extern void func_80139A8C(s32 a0); \
+    extern void func_80139B18(s32 a0); \
+    void func_8013A0A4(struct S8013A0A4 *a0) { \
+        if (a0->field_1E != 0) { \
+            a0->field_1E = a0->field_1E + 5; \
+        } else { \
+            a0->field_1E = 4; \
+        } \
+        if (a0->field_1E >= 0xC) { \
+            a0->field_16 = (a0->field_16 + 1) % (a0->field_2E + 1); \
+            a0->field_1E = 0; \
+            if (a0->field_8 & 0x100) { \
+                a0->field_4 = 6; \
+            } else { \
+                a0->field_4 = 2; \
+            } \
+        } \
+        func_80139A8C((s32)a0); \
+        func_80139B18((s32)a0); \
+    }
+
 #endif
