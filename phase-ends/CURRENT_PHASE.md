@@ -1,10 +1,74 @@
 # CURRENT PHASE — Phase 17: Raise the harness ceiling to "eureka level", then gate the compute run
 
 **Generation:** Gen2 (9th phase) · **Arc:** 8→9→10→11→12→13→15→16→**17** (14 deferred to Gen3+)
-**Plan approved (gate 1):** 2026-06-19 (Drew) · **Effort:** Max (this session) · **Status:** PLAN APPROVED — execution NOT yet started (Drew will run T1+ in a fresh normal session)
+**Plan approved (gate 1):** 2026-06-19 (Drew) · **Status:** T1–T6 DONE & committed (`commit:0129`→`commit:0133`).
+The "raise the ceiling" thesis FAILED across all 5 avenues → **PIVOT to guided hand-matching** (see START
+HERE). T7 (go/no-go + PhaseEnd) is reframed: NO-GO on brute force, GO on hand-matching pending the demo.
 
 > Approved plan: `~/.claude/plans/plan-mode-enabled-deep-reserach-reactive-toucan.md` (the durable copy of
 > the deep-research findings + the task design). This file is the per-task crash-recovery log (P3/R28).
+
+## 🚩 START HERE (fresh session, 2026-06-19) — PIVOT to guided hand-matching, then a demo
+
+**What happened:** Phase 17 tested all 5 planned avenues (T1–T6 below, done & committed). **The harness
+ceiling did NOT rise to "eureka":** T2 = 0 functions, T3 = +0.52% (banked, real), T4/T5 = byte-neutral,
+T6 permuter = 0 whole-binary. Drew + Claude then chatted strategy (outside the original task plan); the
+decisions + everything the next session needs are captured here.
+
+**DECISIONS (Drew, 2026-06-19):**
+- **NO-GO** on the 5-day unattended brute-force run with the current strategy (it would bank ~0 *real* matches).
+- **GO** on **guided hand-matching**: Claude hand-writes byte-exact C for the hard functions, **gated against
+  the whole binary**. It's the only *proven* path on hard functions (it's how all 187k existing matches landed),
+  the actor struct now accelerates it, and each giant propagates **×134** across the fleet.
+- **After** the demo + the Phase-17 PhaseEnd: **plan-mode a NEW phase** for a **whole-binary-gated permuter
+  driven by Ghidra-C** (the untried, correct-target automated approach — fixes T6's exact flaw).
+
+**THE DEMO — do this first (this session):** prove the loop on ONE medium (~50–100 ins) struct-using function,
+then escalate to a **giant** for the ×134 payoff. Protocol:
+1. Pick a `STRUCTURAL_MISS` fn that accesses `arg0` (the actor struct) from `.run/wall_taxonomy.json`.
+   Medium loop-proof candidates: **func_801298F4 (53 ins), func_8012A328 (60)**. Giants (×134, max leverage):
+   **func_80144B9C (770, bad-deref/struct), func_8017C974 (947, jtbl), func_80178D40 (890, jtbl), func_80141CA4 (476)**.
+2. Get the richest decompile: `tools/decompile.py <fn> --context .run/actor_ctx2.c` (m2c + the actor struct)
+   AND Ghidra `get_code(<addr>)` (needs `/mcp`; richer for complex control flow).
+3. **Hand-write CORRECT C:** fix m2c's structural errors; use the actor struct fields (`docs/actor-struct.md`);
+   resolve callee signatures from `src/shared/engine_core.h` / `tools/gen_harvest_targets.py` (the §14c canonical set).
+4. **Iterate against the WHOLE-BINARY GATE, never match_one alone:** substitute into
+   `src/ov_SC01_077/ov_SC01_077.c` → `make build BINARY=ov_SC01_077` → SHA must equal
+   `d19c9580a02dc63ba1f0e7e0c770f3b10de35635`. Use asm-differ (`diff_settings.py`, env `BFM_BINARY=ov_SC01_077`)
+   for the per-instruction diff to converge. (`tools/harvest_verify.py` does substitute+build+gate+revert.)
+5. When byte-identical: `tools/dedup_propagate.py --auto-from ov_SC01_077` (×134) → `make report` +
+   `make check-all` (R22, 136/136) → commit. **If it lands, the go/no-go becomes "GO on guided hand-matching."**
+
+**THE CRUX (why the demo must gate whole-binary):** match_one AND the permuter optimize an *isolated*,
+relocation-MASKED target — they mask `jal`/`%hi`/`%lo`, so they CANNOT verify call/data targets. An isolated
+"MATCH" does NOT imply a whole-binary match (T6 proved it: isolated MATCH but 0/4 whole-binary). **The
+whole-binary build is the only truth (G3/P9).** Get the externs/callees sig-consistent with the 077 TU or the gate fails.
+
+**THE ACTOR STRUCT (the hand-matching asset):** base **`0x80078E00`**, ~154 fields / 0x24C bytes. Confirmed
+(live, R10): HP `+0xB4` (u16), BP/stamina `+0xB8`, gold `+0x8C`, day `+0xAC`, hour `+0xB1`, position
+`+0x108/+0x10C` (s16), dispatch-state `+0x14/+0x15`. Pointers: `+0x54/58/5C/68/6C/70` + ~26 code-inferred.
+Files: `docs/actor-struct.md`, `.run/actor_fields.json`, `.run/actor_struct.h`, `.run/actor_ctx2.c` (m2c context).
+**Byte-neutral for m2c (proven) but ESSENTIAL for HAND-writing correct C** (it's the comprehension that lets a
+human/Claude fix m2c's structural errors).
+
+**TOOLING MAP:** `harvest_verify.py` = THE whole-binary byte-gate (the arbiter — NOT match_one). `decompile.py
+--context` = m2c scaffold. `dedup_propagate.py --auto-from ov_SC01_077` = ×134 propagation. Ghidra MCP
+`get_code` = richer decompile. asm-differ via `diff_settings.py` + `BFM_BINARY`. **Note:** the whole fleet must
+be extracted before propagation/`check-all` (`for b in $(BINARIES); do make extract BINARY=$b; done` — done
+this session; a fresh `make clean` requires re-running it, ~5 min).
+
+**DEFERRED / decided — do NOT re-litigate:**
+- **CUDA/ML brute-force:** CUDA can't run gcc-2.7.2; the bottleneck is the gcc compile + the whole-binary gate,
+  NOT search speed, so raw GPU permutation doesn't apply. The real ML angle = a *learned gcc-2.7.2 codegen
+  predictor/ranker* (Drew has CUDA + LightGBM skills) — a high-risk, months-long research wildcard, a *bounded
+  future experiment*, NOT the plan. No off-the-shelf byte-exact MIPS/gcc-2.7.2 decompiler exists (Phase-16 research).
+- **Actor-struct emulator field-NAMING pass:** PAUSED (comprehension/decomp.me value only — byte-neutral).
+  PCSX-Redux reachable at `172.17.208.1:8081` (host saved in `.run/ram/HOST.txt`); `tools/ram_probe.py` is the
+  workhorse. Bincho-field mechanics noted in chat (a clean discrete event for later field-naming).
+
+**EFFORT:** **Max** for hand-matching (Tier-1, deepest single-function reasoning) — re-set it (session-only;
+the saved default is now xHigh). **MCP:** the SessionStart hook restarts the Ghidra server → run `/mcp` when
+prompted, then one cheap `get_binary_info` (G2) before any `get_code` (R29).
 
 ## Why this phase (one paragraph)
 Phase 16 proved the m2c→permuter brute-force tops out at ~3% on the ~964 struct-heavy **shared** engine
