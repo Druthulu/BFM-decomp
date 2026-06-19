@@ -106,14 +106,28 @@ def find_site(text, ov, addr):
     for i, l in enumerate(lines):
         if l.strip() == f"DEFINE_{s}()" or l.strip().startswith(f"DEFINE_{s}()"):
             return ("macro", i, i, None)
-    # inline definition: "<type> func_XXXX(...) {" at column 0, brace on the same line
-    defre = re.compile(rf"^[A-Za-z_][\w \*]*\b{s}\s*\([^;]*\)\s*\{{")
+    # inline definition: "<type> func_XXXX(...)" at column 0, brace on the SAME or the NEXT line
+    # (harvest/permuter/sig_unify drafts vary the brace placement; a same-line-only match silently
+    # dropped any next-line-brace def from propagation -> lost matches).
+    defre = re.compile(rf"^[A-Za-z_][\w \*]*\b{s}\s*\([^;{{]*\)\s*(\{{)?\s*$")
     for i, l in enumerate(lines):
-        if defre.match(l):
+        m = defre.match(l)
+        if not m:
+            continue
+        # locate the opening brace: same line, or the next non-blank line (else it's a prototype)
+        bstart = i
+        if not m.group(1):
+            j = i + 1
+            while j < len(lines) and lines[j].strip() == "":
+                j += 1
+            if j >= len(lines) or not lines[j].lstrip().startswith("{"):
+                continue
+            bstart = j
+        if True:
             # brace-match forward to the closing '}'
             depth = 0
             end = None
-            for j in range(i, len(lines)):
+            for j in range(bstart, len(lines)):
                 depth += lines[j].count("{") - lines[j].count("}")
                 if depth <= 0:
                     end = j
