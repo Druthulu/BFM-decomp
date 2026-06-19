@@ -47,6 +47,7 @@ def main():
     ap.add_argument("--pick", type=int, default=8, help="auto-pick a difficulty ladder of N matched fns")
     ap.add_argument("--funcs", help="comma list of func_<addr> to test instead of auto-pick")
     ap.add_argument("--seed", type=int, default=11)
+    ap.add_argument("--gate", action="store_true", help="run sig_unify + WHOLE-BINARY byte-gate (true capability), not just match_one")
     a = ap.parse_args()
     os.chdir(REPO)
 
@@ -123,6 +124,18 @@ def main():
         print(f"\n  m2c-DIRECT re-derivation: {direct}/{len(stubbed)} (the rest are permuter candidates)")
         json.dump([{"fn": f, "status": s, "score": sc} for f, s, sc in results],
                   open(".run/p16_ka_results.json", "w"), indent=1)
+        if a.gate:
+            # TRUE capability: sig_unify the drafts, then whole-binary byte-gate (the SOLE arbiter)
+            print("\n=== WHOLE-BINARY GATE (sig_unify + harvest_verify) ===")
+            uni = ".run/p16_ka_uni"
+            sh([".venv/bin/python", "tools/sig_unify.py", "--overlay", OV, "--in", ".run/p16_ka", "--out", uni])
+            gdir = uni if os.path.isdir(uni) else ".run/p16_ka"
+            r = sh([".venv/bin/python", "tools/harvest_verify.py", "--binary", OV, "--src", SRC,
+                    "--asm-subdir", ASM, "--out", f"build/{OV}/{OV}",
+                    "--good-sha", "d19c9580a02dc63ba1f0e7e0c770f3b10de35635", "--drafts", gdir, "--chunk", "4"])
+            for line in r.stdout.splitlines():
+                if "verified" in line and "failed" in line:
+                    print("  " + line.strip())
     finally:
         # ALWAYS restore the matched .c (never leave a regression)
         open(SRC, "w").write(open(BAK).read())

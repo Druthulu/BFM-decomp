@@ -37,5 +37,8 @@ typedef s32 M2C_UNK32;
 typedef s64 M2C_UNK64;
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 #define M2C_BITWISE(type, expr) ((type)(expr))
+#ifndef NULL
+#define NULL ((void *)0)   /* m2c emits NULL for null pointers; byte-neutral (== 0) */
+#endif
 
 #endif /* COMMON_H */
