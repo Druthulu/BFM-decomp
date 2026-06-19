@@ -45,8 +45,17 @@ regressions, not a fixed-% gate.)
   classifier bug** (the "LOOSE_TYPING_WALL" was byte-neutral pre-existing warnings, not a wall). Corrected:
   real wall = **ARITY_WALL 74** (§14e dead-end); no K&R lever there. Avenue exhausted; rest is structural →
   T4/T5. (Did a one-time full-fleet `make extract`; fixed `wall_taxonomy.py` + amended `docs/wall-taxonomy.md`.)
-- [ ] **T4 — Avenue 3: m2ctx-style rich context generator** [xHigh]. Build the missing context generator
-  (structs + byte-array data + types + fn-ptr-table types) → wire into `decompile.py`/harvest.
+- [~] **T4 — Avenue 3: m2ctx-style rich context generator** [xHigh]. **IN PROGRESS — mechanism proven,
+  build pending.** Probe established: m2c `--context` declaring a fn-ptr table as an array makes m2c emit the
+  correct `D_x[idx](arg)` call (vs the broken `*(&D_x+...)()`) — fixes the §15-S2 fnptr-call class. Decls reach
+  drafts via the existing chain (`overlay.c → engine_core.h → engine_types.h`); redeclaration with the same
+  type is byte-neutral. Matched code already carries **163 ground-truth fn-ptr-table types**; residual drafts
+  use **186 tables** (175 drafts). **KEY LIMIT:** the fn-ptr fix *unblocks compilation* but does NOT byte-match
+  the big functions (e.g. func_8015EA3C 197 vs 204 ins) — the real byte-lever is the **actor struct (T5)**.
+  So T4's context generator is built **together with T5's struct** (the plan's intent). Next: write
+  `gen_m2c_context.py` (fn-ptr-tables + canonical sigs[context-only, not a compile header — Phase-16] + data +
+  structs), wire `--context` into the harvest, then T5 adds the inferred+emulator-typed struct. Scratch:
+  `.run/t4_known_fnptr.txt`, `.run/t4_used_tables.txt`.
 - [ ] **T5 — Avenue 4: struct inference + emulator field-typing** [Max + Drew emu]. Infer actor struct from
   m2c field-access union; Drew-driven PCSX-Redux field-typing (R10); feed via T4 context. Scoped to the
   structural-miss + fn-ptr buckets + comprehension.
@@ -95,3 +104,9 @@ types — 67% reach incl. the giants) → T6 (validate the 146 permuter candidat
   against the bytes (R14) exposed + fixed a T1 classifier bug (LOOSE_TYPING_WALL was byte-neutral warnings →
   real wall is ARITY_WALL 74); `wall_taxonomy.py` fixed, `docs/wall-taxonomy.md` amended. Avenue exhausted.
   **NEXT: T4 (m2ctx rich-context generator) [xHigh] — prompt Drew for the /effort toggle (R27).**
+- 2026-06-19: **Effort → xHigh** (Drew, saved default). **T4 investigation** (xHigh): proved the m2c-context
+  fn-ptr-table mechanism (m2c emits correct `D_x[idx](arg)` calls with the type in context); mapped the
+  byte-safe shared-header integration; collected 163 ground-truth + 186 used tables. Found the fn-ptr fix
+  unblocks compilation but the byte-lever is T5's struct → build T4 generator + T5 struct **together**.
+  Checkpoint: no committable artifact yet (probes in `.run/` scratch; tree clean, 077 d19c9580). **T5 needs
+  Drew's PCSX-Redux emulator field-typing pass — scheduling pending.**
