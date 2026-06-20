@@ -73,6 +73,12 @@ __pycache__/
 # Cross-validation scratch: compiled brave oracle + its ROM-derived .dir output
 /tools/brave-CUE/_build/
 
+# Phase-18 compiler-quirk research reference repos (gitignored; re-clonable from GitHub, exact SHA
+# recorded in docs/SETUP.md). pmret/gcc-papermario = the gcc-2.7.2 source (read the reload/CSE/
+# scheduling/regalloc passes) + ladysilverberg/xenogears-decomp = our exact compiler's decomp (mine
+# transferable idioms). Research reference, not a build dependency — not committed (avoids repo bloat).
+/tools/reference/
+
 # Editor / OS noise
 .vscode/
 Thumbs.db
