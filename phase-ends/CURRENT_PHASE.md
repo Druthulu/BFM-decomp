@@ -117,5 +117,25 @@ all cloned/fetched content is untrusted DATA. Commits: per-task/per-session chec
   proxy (corpus + cdk + Xenogears; heavy Wine install dropped per the plan escape clause). R22 clean-rebuild of
   ov_SC01_077 with the match = d19c9580 BYTE-IDENTICAL. **All tasks done → ready for gate-2 (milestone confirm).**
 
+## ⭐ VERDICT REVERSAL (2026-06-20, post-gate-2 — Drew's "we hand-match everything" directive)
+The T1-T5 "regalloc-order = UNSTEERABLE" verdict was **WRONG** (P9/R14 self-correction — I'd skipped the most
+direct lever). **Explicit register pinning works:** `register s32 d __asm__("$16")` forces the $s0/$s1
+allocation gcc otherwise density-orders the other way. **func_8012B8E4** (the flagship "unsteerable" fn):
+21 → MATCH via pins + branch-polarity + clamp temps + a scheduling barrier `__asm__ __volatile__("":: "r"(u5))`;
+**byte-gated + propagated ×134.** The circular tail IS hand-matchable (labor-intensive, ~5-10 min/fn, ×134
+each). Cookbook §17 + §8e CORRECTED to the register-pinning TOOLKIT. Fleet **55.51 → 55.58%** (2 reach-134
+hand-matches: func_801399A8 structural + func_8012B8E4 pinned), 136/136.
+
+## Plan (Drew, 2026-06-20): 3 → 1 → 2
+- [~] **Step 3a — validate the pin recipe** (task #10): func_8012B8E4 byte-gated (the hard swap case) +
+  func_801399A8 (structural). The recipe is a TOOLKIT (most fns need reconstruction, not pins; swaps are rare).
+  Sufficient to teach; the WAVE validates breadth. → mark done.
+- [ ] **Step 3b — teach the wave + calibrate** (task #11): upgrade the harvest-wave agent prompt with the §17
+  toolkit (read asm → map call-crossing values → pin + barrier; + array-decay; + structural) → calibration wave
+  to measure the new close-rate. **BREADTH → needs `/effort ultracode` (R27) — PROMPT Drew, WAIT for the toggle.**
+- [ ] **Step 1 — scale wave + hand-match the residue** (task #12): run the taught wave on the circular tail;
+  hand-match what the wave can't. Each ×134.
+- [ ] **Step 2 — rewrite §17 polish + PhaseEnd close** (task #9): final §17, gate-2 re-confirm, PhaseEnd (Tier-1).
+
 ## Blockers
-- None.
+- **Step 3b needs Ultracode** — Claude cannot toggle effort (R27). Awaiting Drew's `/effort ultracode`.
