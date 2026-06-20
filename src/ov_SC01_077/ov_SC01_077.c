@@ -316,7 +316,28 @@ DEFINE_func_8012A304()  /* dedup: shared engine-core @0x8012A304 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8012A328);
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8012A418);
+
+struct Q16 { s32 a, b, c, d; };
+
+extern s32 D_801151D4;
+extern struct BigCopy D_80114EE8;
+
+void func_8012A418(void) {
+    struct Q16 *src;
+    struct Q16 *dst;
+    struct Q16 *end;
+
+    src = (struct Q16 *)D_801151D4;
+    dst = &D_80114EE8;
+    end = src + 10;
+    do {
+        *dst = *src;
+        src++;
+        dst++;
+    } while (src != end);
+    *(s32 *)dst = *(s32 *)src;
+}
+
 
 typedef struct { s32 w[8]; } Vec8;
 
@@ -777,7 +798,10 @@ INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8012F568);
 DEFINE_func_8012F5F4()  /* dedup: shared engine-core @0x8012F5F4 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8012F68C);
+
+struct S80131E00;
+DEFINE_func_8012F68C()  /* dedup: shared engine-core @0x8012F68C (src/shared) */
+
 
 extern void func_80131B14(void);
 extern void func_80131CA8(int a0, int a1);
@@ -6788,7 +6812,7 @@ INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8017AE2C);
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8017B0E4);
 
-M2C_UNK func_8012A418();                            /* extern */
+void func_8012A418(void);                           /* extern (Phase-18 reconciled) */
 extern u16 D_80126B5E;
 extern u16 D_80126B62;
 extern u16 D_80126B66;

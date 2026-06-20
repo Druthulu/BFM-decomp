@@ -451,7 +451,7 @@ INCLUDE_ASM("asm/ov_SC03_012/nonmatchings/ov_SC03_012", func_8012F568);
 
 DEFINE_func_8012F5F4()  /* dedup: shared engine-core @0x8012F5F4 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC03_012/nonmatchings/ov_SC03_012", func_8012F68C);
+DEFINE_func_8012F68C()  /* dedup: shared engine-core @0x8012F68C (src/shared) */
 
 DEFINE_func_8012F75C()  /* dedup: shared engine-core @0x8012F75C (src/shared) */
 
