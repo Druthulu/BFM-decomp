@@ -234,7 +234,15 @@ u8 *func_801290DC(s32 a0, u8 *a1) {
     return v1;
 }
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8012913C);
+
+/* Callees — canonical-consistent sigs.
+ * func_8001D074: canonical `void func_8001D074(s32, s32)`; widened return to s32
+ *   (byte-neutral, §3a-1) because this fn uses the result.
+ * func_801291C0: canonical `u8 *func_801291C0(void)` (engine_core.h DEFINE_func_801291C0).
+ * func_8001CC3C: arity-4 from m2c/asm read-before-write $a0-$a3; void->s32 byte-neutral.
+ */
+DEFINE_func_8012913C()  /* dedup: shared engine-core @0x8012913C (src/shared) */
+
 
 DEFINE_func_801291C0()  /* dedup: shared engine-core @0x801291C0 (src/shared) */
 
@@ -576,7 +584,9 @@ INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8012C890);
 
 DEFINE_func_8012CAE4()  /* dedup: shared engine-core @0x8012CAE4 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8012CB64);
+
+DEFINE_func_8012CB64()  /* dedup: shared engine-core @0x8012CB64 (src/shared) */
+
 
 extern void func_8012CC88(s32 a, s32 b, s32 c);
 extern u8 D_800D3918[];
@@ -848,7 +858,18 @@ INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_801312D0);
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80131340);
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_801319E0);
+
+/* Canonical sigs (consistent with src/ov_SC01_077/ov_SC01_077.c + engine_core.h):
+ *  - func_80131CA8: canonical 'extern void func_80131CA8(int, int)' (overlay .c L742,
+ *    engine_core.h). Its $v0 return IS used here (asm: jal ...; bnez $v0), so cast at the
+ *    call site to read it -- the codebase's own idiom (engine_core.h L17026:
+ *    ((s32 (*)(int, int))func_80131CA8)(arg0, 0x2C)). Byte-neutral, no sig conflict.
+ *  - func_8012C218: canonical 'void func_8012C218(void *a0)' (DEFINE_func_8012C218).
+ *  - func_8002A04C: main-EXE callee (src/800.c), undeclared in this TU -> declare locally,
+ *    arity 1 (asm: jal func_8002A04C; delay-slot a0=s0). No conflict.
+ */
+DEFINE_func_801319E0()  /* dedup: shared engine-core @0x801319E0 (src/shared) */
+
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80131A34);
 
@@ -1689,7 +1710,9 @@ void func_80143B30(void *a0)
     D_80188440[*(u16 *)((s32)a0 + 0x2)](a0);
 }
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80143B6C);
+
+DEFINE_func_80143B6C()  /* dedup: shared engine-core @0x80143B6C (src/shared) */
+
 
 DEFINE_func_80143BDC()  /* dedup: shared engine-core @0x80143BDC (src/shared) */
 
@@ -1871,11 +1894,16 @@ INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80146750);
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8014680C);
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_801468C8);
+
+/* canonical-sig: engine_core.h declares `extern s32 D_8011F750;` */
+DEFINE_func_801468C8()  /* dedup: shared engine-core @0x801468C8 (src/shared) */
+
 
 DEFINE_func_80146924()  /* dedup: shared engine-core @0x80146924 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80146994);
+
+DEFINE_func_80146994()  /* dedup: shared engine-core @0x80146994 (src/shared) */
+
 
 DEFINE_func_801469C8()  /* dedup: shared engine-core @0x801469C8 (src/shared) */
 
@@ -2222,9 +2250,17 @@ INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80149450);
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_801494CC);
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80149544);
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80149584);
+DEFINE_func_80149544()  /* dedup: shared engine-core @0x80149544 (src/shared) */
+
+
+
+/* arg-forwarding wrapper: stack buffer passed to two callees.
+ * §17 array-decay — buf declared as a local array and passed bare so gcc
+ * rematerializes addiu $sp,0x10 per use instead of hoisting into a
+ * callee-saved reg (frame 0x20, only $s0 saved — matches target). */
+DEFINE_func_80149584()  /* dedup: shared engine-core @0x80149584 (src/shared) */
+
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_801495C4);
 
@@ -2261,7 +2297,9 @@ DEFINE_func_80149AD4()  /* dedup: shared engine-core @0x80149AD4 (src/shared) */
 
 DEFINE_func_80149B14()  /* dedup: shared engine-core @0x80149B14 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80149B54);
+
+DEFINE_func_80149B54()  /* dedup: shared engine-core @0x80149B54 (src/shared) */
+
 
 DEFINE_func_80149BAC()  /* dedup: shared engine-core @0x80149BAC (src/shared) */
 

@@ -17267,4 +17267,130 @@
         return q; \
     }
 
+#define DEFINE_func_8012CB64() \
+    s32 func_8012CB64(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) { \
+        register s32 v0 __asm__("$2"); \
+        register s32 v1 __asm__("$3"); \
+        v0 = 0; \
+        v1 = *(s16*)arg0; \
+        if (((arg1 <= v1) && (v1 < arg2)) && (arg3 <= *(s16*)(arg0 + 4))) { \
+            v0 = *(s16*)(arg0 + 4) < arg4; \
+        } \
+        return v0; \
+    }
+
+#define DEFINE_func_801319E0() \
+    extern void func_80131CA8(int a0, int a1); \
+    extern void func_8002A04C(s32 a0); \
+    extern void func_8012C218(void *a0); \
+    void func_801319E0(s32 arg0) { \
+        /* arg0 stays in $s0 (callee-saved) across all three calls -- live across each jal, \
+         * so clean C allocates it there naturally (no register pin needed). */ \
+        if (((s32 (*)(int, int))func_80131CA8)(arg0, 0x11) == 0) { \
+            if (*(s32 *)(arg0 + 0x78) != 0) { \
+                func_8002A04C(arg0); \
+            } \
+            func_8012C218((void *)arg0); \
+        } \
+    }
+
+#define DEFINE_func_80143B6C() \
+    extern s32 func_8012C658(s32 arg0, s32 arg1, s32 arg2); \
+    s32 func_80143B6C(s32 arg0, s32 arg1) { \
+        s32 iVar1; \
+        iVar1 = func_8012C658(0x1C, arg1, arg0); \
+        if (((iVar1 != 0) && (*(s32*)(arg0 + 0x20) != 0)) && (arg1 == 0)) { \
+            *(s16*)(iVar1 + 0xFC) = *(u16*)(*(s32*)(arg0 + 0x20) + 0x12); \
+        } \
+        return iVar1; \
+    }
+
+#define DEFINE_func_80149B54() \
+    extern u8 func_8014BEF8(void); \
+    s32 func_80149B54(s32 * arg0) \
+    { \
+        s32 var_v0; \
+        u32 temp; \
+        if ((*(u32*)((u8*)arg0 + 0x44) & 0x400) != 0) { var_v0 = 0; goto end; } \
+        if (((s32(*)(s32*))func_8014BEF8)(arg0) == 0) { var_v0 = 0; goto end; } \
+        temp = *(u16*)((u8*)arg0 + 0xAC) & 0x10; \
+        var_v0 = temp != 0; \
+    end: \
+        return var_v0; \
+    }
+
+#define DEFINE_func_801468C8() \
+    extern s32 D_8011F750; \
+    extern s32 D_8011F754; \
+    u8 *func_801468C8(s32 arg0, u8 arg1) { \
+        register u8 *var_a2 __asm__("$6");   /* $a2 — returned base ptr  */ \
+        register u8 *var_v1 __asm__("$3");   /* $v1 — scan/store ptr     */ \
+        s32 var_t0; \
+        s32 var_a3; \
+        var_t0 = 0; \
+        var_a2 = (u8 *)(s32)&D_8011F750; \
+        var_v1 = var_a2; \
+        var_a3 = 0; \
+        do { \
+            if (*var_v1 != 0) { \
+                var_a2 += 0x2C; \
+                var_v1 += 0x2C; \
+                var_t0 += 1; \
+                var_a3 += 0x2C; \
+            } else { \
+                *(s32 *)((s32)&D_8011F754 + var_a3) = arg0; \
+                *var_v1 = arg1; \
+                return var_a2; \
+            } \
+        } while (var_t0 < 2); \
+        return (u8 *)0; \
+    }
+
+#define DEFINE_func_80146994() \
+    extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6); \
+    s32 func_80146994(s32 arg0, s32 arg1, s32 arg2, s32 arg3) \
+    { \
+        func_80146A6C(arg0 & 0xFFFF, (void *)arg1, 0, 0, 0, arg2, arg3); \
+    }
+
+#define DEFINE_func_80149544() \
+    extern void func_8012F14C(s32); \
+    extern void func_8012EF70(s32 a0, s32 a1); \
+    void func_80149544(s32 arg0, s32 arg1, s32 arg2) { \
+        s32 sp10[2]; \
+        ((void(*)(s32,s32,s32))func_8012F14C)(*(s32 *)(arg0 + 0x20) + 0x34, arg1, (s32)sp10); \
+        func_8012EF70((s32)sp10, arg2); \
+    }
+
+#define DEFINE_func_8012913C() \
+    extern void func_8001D074(s32 a, s32 b); \
+    extern u8 *func_801291C0(void); \
+    extern s32 func_8001CC3C(s32 a0, s32 a1, s32 a2, s32 a3); \
+    u8 * func_8012913C(s32 arg0) \
+    { \
+        s32 iVar1; \
+        u8 *puVar2; \
+        iVar1 = ((s32(*)(s32,s32))func_8001D074)(0x7E, 0x100); \
+        if (iVar1 == 0) { \
+            return (u8 *)0; \
+        } \
+        puVar2 = func_801291C0(); \
+        if (puVar2 == (u8 *)0) { \
+            return (u8 *)0; \
+        } \
+        *(s16 *)puVar2 = arg0; \
+        *(s32 *)(puVar2 + 0x20) = iVar1; \
+        func_8001CC3C(iVar1, 0, 0, 0); \
+        return puVar2; \
+    }
+
+#define DEFINE_func_80149584() \
+    extern void func_8012F14C(s32); \
+    extern void func_8012EFB8(s32 a0); \
+    void func_80149584(s32 arg0, s32 arg1, s32 arg2) { \
+        s8 buf[8]; \
+        ((void(*)(s32,s32,s32))func_8012F14C)(*(s32 *)(arg0 + 0x20) + 0x34, arg1, (s32)buf); \
+        ((void(*)(s32,s32))func_8012EFB8)((s32)buf, arg2); \
+    }
+
 #endif
