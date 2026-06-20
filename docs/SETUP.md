@@ -621,6 +621,7 @@ Every script under `tools/` (plus the two report make-targets), grouped by purpo
 | | `GetSymbolAt.java` | Read the symbol at a given address (scripted lookup). |
 | | `DecompileAt.java` | Decompile the function at a given address (scripted scaffold). |
 | | `DefineFunctions.java` | Disassemble + create functions at splat's validated entry points (`.run/<prog>_funcs.txt`) — completes a raw-blob program's function set (Phase 10). |
+| | `DecompileFunctions.java` | **Batch**-decompile a list of addresses (arg0 = addr-per-line file, arg1 = out-dir) → `<name>.c` each. Headless harvest Ghidra-C pre-pass (Phase 17); no live MCP / `/mcp` needed. Run: stop MCP, `analyzeHeadless ghidra bfm -process <prog> -noanalysis -postScript DecompileFunctions.java <addrfile> <outdir>`. |
 | | `tools/ghidra_import.sh` | Headless `analyzeHeadless` import/analysis driver (PS-X EXE; auto-detect PSX loader). |
 | | `tools/ghidra_import_raw.sh` | Headless import of a RAW flat blob — `BinaryLoader` + `--loader-baseAddr <vram>` + `PSX:LE:32:default` (resident blob / Gen2 overlays; no PS-X EXE header). |
 | **Disc/.CD extraction** (`tools/bfm_extract/`) | `extract.py` | Walk the disc / extract root files (`make extract`). |

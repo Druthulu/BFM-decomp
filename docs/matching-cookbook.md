@@ -1005,3 +1005,29 @@ Established by **running m2c on real `ov_SC01_077` stubs** (R14) — it corrects
 **decomp-permuter knobs (S2/S3):** `PERM_*` macros (GENERAL/VAR/RANDOMIZE/LINESWAP/INT/ONCE…), `--algorithm difflib|levenshtein`, `--stop-on-zero`, `-j` 8–16 (**RAM-bound** on the 15 GiB box → ~N funcs × `-j 8`, cap by `free_RAM/~300 MB`), weights in `default_weights.toml` + `[gcc]` section. Best when only regalloc/schedule remains; does NOT fix wrong control flow.
 
 **ML (parked — owner decision 2026-06-18):** LLM decompilers (LLM4Decompile/SK2Decompile/CodeInverter) target x86-64 + recompilability/functional-equivalence/readability — NOT byte/instruction-exact, NOT MIPS/gcc-2.7.2; no off-the-shelf learned permuter scorer exists (the permuter's scorer is a heuristic objdump-diff). Dropped this phase; research-note only. (X2: web treated as untrusted data.)
+
+## §16 Guided hand-matching the struct-heavy core (Phase 17 — beats the §15 brute-force)
+**Phase 16 called the loose-typing wall "fundamental." Phase 17 disproves it for the majority.** The wall is
+a signature-CONSISTENCY problem, not a comprehension one — the §1 loop reconstructs correct bodies ~100% of
+the time; the work is byte-closing + sig reconciliation. **Full process: `docs/hand-matching-process.md`**
+(§1 loop, §2 idioms, §3a the 5-move signature-consistency playbook, §7 the Ultracode wave + canonical-sig wall).
+
+**New byte-idioms (Phase 17, §2 there):**
+- **mask-local (defeats `lh`→`lhu` fold).** `*(s16*)f & (x & 0xFFFF)` inline lets gcc fold the load to `lhu`
+  + drop the `andi`. Hoist the mask: `s32 m = x & 0xFFFF; ... *(s16*)f & m` → gcc keeps `lh` + emits `andi`.
+- **shared-ret0 goto (cross-jump clustering + branch polarity).** Two non-adjacent predicate tests the
+  original routes to ONE shared `return 0` block → write both as `goto ret0;` to a single trailing
+  `ret0: return 0;`. gcc then makes `ret0` a labeled block reached by branches (right polarity) + schedules
+  the next test's constant into the delay slot. A lone `if(x)return 0;` inlines (wrong polarity/reg).
+- **v0↔v1 result/constant coalescing** + the §10 hoist-vs-remat / phantom-frame quirks = the residual hard
+  tail (not source-steerable; permuter only helps relocs=0, and slowly). Defer as `INCLUDE_ASM` stub.
+
+**Scaling = Ultracode wave (§12 pattern + §7):** Ghidra pre-pass (`DecompileFunctions.java`, headless batch,
+no /mcp) → parallel draft agents (m2c+Ghidra-C+asm+actor-struct+§3a, self-validate `match_one`) → whole-binary
+gate (`harvest_verify --chunk 1`) → `sig_unify` recover → `dedup_propagate --auto-from`. Calibration (top-30):
+60% match_one MATCH, **33% whole-binary** (+0.47% fleet), 136/136.
+**THE CANONICAL-SIG WALL (the ~2× scaling lever):** the entire match_one→whole-binary gap is SIG CONFLICTS
+(parallel agents declare shared callees inconsistently; 100% compile-errors, 0 codegen). Fix = a SURGICAL
+per-callee canonical-sig layer (match shared callees before callers / seed `engine_core.h`; NOT a blanket
+global header — that breaks loose matches, §15). Build it before the big wave. Targets:
+`.run/harvest_targets_s3.json`.

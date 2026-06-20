@@ -279,3 +279,56 @@ quirk-prone STRUCTURAL_MISS/PERMUTER_CLASS** — NOT the easy fnptr/void classes
    (0.3%); build it only if sig-conflicts prove a major agent bottleneck.
 3. **Document** idioms as they emerge (R16); **giant `func_80144B9C` deferred** (reassess after the wave yield).
 4. **T7 go/no-go close + PhaseEnd** once the wave yield is measured.
+
+---
+
+## 7. THE ULTRACODE HARVEST WAVE + THE CANONICAL-SIG WALL (session 3, 2026-06-19 — PROVEN)
+
+The guided-hand-matching loop (§1) **scales via an Ultracode Workflow** (R26). First calibration wave run &
+measured; this section is the operational record + the singular bottleneck it exposed.
+
+### 7a. The wave pipeline (reusable)
+1. **Ghidra pre-pass (headless batch, NO /mcp):** stop MCP (`tools/ghidra_mcp_stop.sh`), then
+   `analyzeHeadless ghidra bfm -process ov_SC01_077 -noanalysis -postScript DecompileFunctions.java
+   <addr-list> <out-dir>` → whole-program Ghidra-C to `.run/ghidra_c/func_<ADDR>.c` (rename `FUN_<lower>.c`
+   → `func_<UPPER>.c`). Ghidra-C resolves locals-vs-globals-vs-callee better than m2c — agents read the cache
+   (no live-MCP contention). `ov_SC01_077` is Ghidra program `00000004` (Phase-13 import).
+2. **Draft (Ultracode `parallel`):** `.run/harvest_wave_s3.js` — one agent per target; each reads
+   asm+Ghidra-C+m2c+actor-struct+§1/§2/§3a, hand-writes C, iterates `match_one`, writes
+   `.run/drafts-s3/<fn>.c` ONLY on MATCH (stop-rule on gcc-quirks → report DIFF, no draft). **GOTCHA: the
+   Workflow `args` channel does NOT transit arrays — EMBED the targets as a literal in the script + a `LIMIT`
+   const.** Agents also drop scratch (`_try`/`_v2`) in the dir → filter to canonical `func_<ADDR>.c` before gating.
+3. **Whole-binary gate:** `harvest_verify.py --drafts <dir> --chunk 1`. **Use `--chunk 1`** — the default
+   batched chunk+bisect can drop a GOOD draft because it cross-conflicts with ANOTHER draft in the same chunk
+   (shared-callee sig clash), not because it's wrong.
+4. **Recover:** `sig_unify.py --in <failed-drafts> --out <fixed>` then re-gate (recovered 2/9 in calibration).
+5. **Propagate:** `dedup_propagate.py --auto-from ov_SC01_077` (×reach; also catches up any inline-but-
+   unpropagated prior matches). `make check-all` (R22) + `make report`.
+
+### 7b. Calibration result (top-30 by reach, ~1.89M tokens)
+- **18/30 match_one MATCH (60%)** — agents reconstruct correct bodies well.
+- **10/30 whole-binary verified (33%)** → banked ×134 (incl. the ×268 `func_8015773C`) → **fleet
+  55.04%→55.51% (+0.47%)**, 136/136. (8 direct + 2 via sig_unify; 1 verified-but-local-type stays inline ×1.)
+- **12/30 match_one DIFF** = the genuine gcc-quirk tail (§2/§10: hoist-vs-remat, phantom frame, v0/v1
+  coalescing, walking-pointer). Agents diagnosed each precisely; correctly wrote no draft.
+
+### 7c. THE CANONICAL-SIG WALL (the singular scaling bottleneck — the ~2× lever)
+**The whole 60%→33% gap was SIG CONFLICTS — 100% compile-errors, ZERO codegen byte-mismatches.** Parallel
+agents each declare a shared callee (`func_80131CA8`, `func_80131E00`, `func_801472C8`, `func_8001D074`, …)
+with a different signature; in the one-big-TU `ov_SC01_077.c` those clash (`conflicting types for func_X`).
+`func_80131CA8` alone broke 3 drafts (it is BOTH a residual being matched AND a callee in others — circular).
+
+**This is the loose-typing wall in its true form, and it is BEATABLE deterministically** (unlike Phase-16's
+verdict). The fix = a **canonical-sig layer**, applied SURGICALLY per-callee (a blanket global decls header
+breaks loose matches — Phase 16; but per-callee byte-gated canonicalization works — sig_unify proof):
+1. Identify the high-frequency shared callees among the targets.
+2. Establish ONE canonical sig each: match the shared-callee residuals **first** (callees-before-callers, so
+   the def fixes the sig fleet-wide), or derive from asm/usage and seed `engine_core.h`.
+3. Enforce in the wave: agents grep `engine_core.h` for the canonical (already in the prompt) + a strengthened
+   `sig_unify` post-pass that unifies the def-sig AND every caller's extern to the SAME canonical.
+Expected to lift whole-binary 33% → ~60% (toward the match_one ceiling) — **the dominant scaling lever**.
+
+### 7d. Scaling economics (measured)
+Calibration: 30 fns / 1.89M tokens / 33% whole-binary / +0.47%. Naive scale to 300 ≈ ~4% fleet, token-heavy.
+With the canonical-sig layer (33%→~60%) ≈ ~6-7% fleet at ~2× token efficiency. **Build the layer before the
+big wave.** Targets: `.run/harvest_targets_s3.json` (300, relocs≤5, reach-sorted; the top-30 are done).

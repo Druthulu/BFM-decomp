@@ -8,7 +8,42 @@ HERE). T7 (go/no-go + PhaseEnd) is reframed: NO-GO on brute force, GO on hand-ma
 > Approved plan: `~/.claude/plans/plan-mode-enabled-deep-reserach-reactive-toucan.md` (the durable copy of
 > the deep-research findings + the task design). This file is the per-task crash-recovery log (P3/R28).
 
-## 🚩 START HERE (fresh session, 2026-06-19) — PIVOT to guided hand-matching, then a demo
+## 🚩 START HERE (fresh session 4, after session 3) — BUILD THE CANONICAL-SIG LAYER, then scale the wave
+**Guided hand-matching is GO and proven at scale.** Demo (session 2) = 4/5; session 3 = the calibration
+Ultracode wave (+0.47% → fleet **55.51%**, 136/136 byte-identical, committed `commit:0136`/`commit:0137`/`commit:0138`).
+**The bottleneck is now identified and singular** — read `docs/hand-matching-process.md` §7 first.
+
+**THE FINDING:** in the calibration wave the agents hit **60% match_one MATCH but only 33% whole-binary**, and
+the entire gap is **SIG CONFLICTS** (parallel agents declare shared callees like `func_80131CA8` with
+different sigs → they conflict when built in the one big TU; 100% of failures were compile-errors, ZERO
+codegen). `sig_unify` auto-recovered 2/9. **The canonical-sig layer is the essential ~2× yield enabler.**
+
+**NEXT TASK (Max, ultracode OFF — deep design):** build the **canonical-sig layer** before scaling:
+1. Identify the high-frequency shared callees among the targets (the ones that conflict — `func_80131CA8`,
+   `func_80131E00`, `func_801472C8`, `func_8001D074`, …).
+2. Establish ONE canonical sig per shared callee — match the shared-callee residuals **first** (callees
+   before callers, so their def fixes the sig), or derive the sig from the asm/usage and seed `engine_core.h`.
+   (Surgical/byte-gated per-callee — NOT a blanket global decls header; Phase-16 proved a global header breaks
+   loose matches, but the demo + sig_unify prove per-callee canonicalization works.)
+3. Enforce it in the wave (agents reference engine_core.h + a strengthened `sig_unify` post-pass).
+Then **scale the wave** to the remaining ~270 targets (`.run/harvest_targets_s3.json`, sorted by reach), in
+Ultracode batches (R26/R27 — prompt Drew for `/effort ultracode`), gate (`harvest_verify`), propagate
+(`dedup_propagate --auto-from ov_SC01_077`), `make check-all` (R22), `make report`. Then **T7 close + PhaseEnd**.
+
+**REUSABLE HARNESS (all in place):** `tools/ghidra_scripts/DecompileFunctions.java` (headless batch Ghidra-C —
+NO /mcp needed; re-run: stop MCP, `analyzeHeadless ghidra bfm -process ov_SC01_077 -noanalysis -postScript
+DecompileFunctions.java <addrfile> <outdir>`); `.run/ghidra_c/func_<ADDR>.c` (300 cached); `.run/harvest_wave_s3.js`
+(Workflow — **targets EMBEDDED, edit LIMIT**; the `args` channel does NOT transit arrays); `.run/harvest_targets_s3.json`
+(300 tractable, relocs≤5, reach-sorted); `tools/harvest_verify.py` (whole-binary gate — use `--chunk 1` to avoid
+cross-draft conflicts masking good drafts); `tools/sig_unify.py`; `tools/dedup_propagate.py`. Idioms + the full
+calibration writeup: `docs/hand-matching-process.md` §2/§4/§6/§7; `docs/matching-cookbook.md` §16.
+
+**Giant `func_80144B9C` DEFERRED** (call-heavy = hardest class; reassess after the canonical-sig-layer'd wave).
+**A-only (Drew):** quirk tail stays `INCLUDE_ASM` stub — NO NON_MATCHING correct-C track until public.
+
+---
+
+## 🚩 (SUPERSEDED — session 3 demo protocol) START HERE — PIVOT to guided hand-matching, then a demo
 
 **What happened:** Phase 17 tested all 5 planned avenues (T1–T6 below, done & committed). **The harness
 ceiling did NOT rise to "eureka":** T2 = 0 functions, T3 = +0.52% (banked, real), T4/T5 = byte-neutral,
