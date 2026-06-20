@@ -439,6 +439,11 @@ build/src/%.o: src/%.c
 # pattern recipe reads $(CC1FLAGS), so this overrides it for just build/src/boot.o):
 build/src/boot.o: CC1FLAGS := -quiet -O0 -G0 -mips1 -mcpu=3000 -mgas -msoft-float -fgnu-linker
 
+# Phase-19 T1: same per-file -O0 mechanism for the ov_SC01_077 -O0 cluster (16 contiguous fns
+# vram 0x8013B568..0x8013C98C, prologue sig 21F0A003). Split into its own .c by the splat config
+# (config/splat.ov_SC01_077.yaml) so this override reaches just that .o.
+build/src/ov_SC01_077/ov_SC01_077_o0.o: CC1FLAGS := -quiet -O0 -G0 -mips1 -mcpu=3000 -mgas -msoft-float -fgnu-linker
+
 # link (the .ld pulls in the .o by path) + objcopy to the raw PS-X EXE image.
 $(OUT): $(OBJS) $(ASSET_OBJS) $(LD_SCRIPT)
 	@set -e

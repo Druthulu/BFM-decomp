@@ -51,7 +51,15 @@ segments:
     vram: 0x80128158
     align: 4
     subsegments:
-      - [0x0, c, ov_SC01_077]       # code: vram 0x80128158..0x80186AD0 (file 0x0..0x5E978)
+      # Phase-19 T1: per-file -O0 split (src/boot.c precedent). The 16 contiguous functions
+      # vram 0x8013B568..0x8013C98C were compiled -O0 (prologue sig 21F0A003); gcc-2.7.2 has no
+      # per-function optimize pragma, so they need their own -O0 .o (the Makefile forces
+      # CC1FLAGS=-O0 on ov_SC01_077_o0.o). A single object's .text can't be split around a middle
+      # object, so before/after are DISTINCT objects: before -> ov_SC01_077_a (smaller, asm paths
+      # rewritten), after KEEPS the ov_SC01_077 name (the bulk matched C + asm paths unchanged).
+      - [0x0, c, ov_SC01_077_a]        # -O2 before: vram 0x80128158..0x8013B568 (file 0x0..0x13410)
+      - [0x13410, c, ov_SC01_077_o0]   # -O0 cluster: 16 fns vram 0x8013B568..0x8013C98C (file 0x13410..0x14834)
+      - [0x14834, c, ov_SC01_077]      # -O2 after:  vram 0x8013C98C..0x80186AD0 (file 0x14834..0x5E978)
       - [0x5E978, data, tail]       # data tail (word-aligned bulk): file 0x5E978..0xB29D4
       - [0xB29D4, bin, trailing]    # final 3 bytes (EOF 0xB29D7 not word-aligned; spimdisasm drops
                                     # a trailing partial word and a <4-byte `data` carve emits nothing,
