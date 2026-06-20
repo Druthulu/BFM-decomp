@@ -32,7 +32,16 @@ source-steerable") contradicts §10 — Phase 18 reconciles it. So: **existing-k
     allocation swap (mine `s1=arg1/s0=s1ang`; target `s0=arg1/s1=s1ang`) + the idx-29..34 reassociation.
   - func_8012B4B8 (hoist-remat, §10 Residual B): **94 vs 84 target, 88 mismatched** — mine spills an extra
     callee-saved reg (`s2`) + over-emits the `mtx=D_800AE620` struct-copy / `arg0+0x20` reload. Harder.
-- [ ] **T1 — DECISIVE GATE: replay §10 levers under match_one** (GO/NO-GO #1 scopes T3).
+- [x] **T1 — DECISIVE GATE ✓ 2026-06-20.** Replayed §10 under `match_one` on func_8012B8E4 (full detail in
+  `.run/p18/T1_findings.md`). **§3-T4 branch-polarity invert closed 24→21** (a real §10-family win the permuter
+  couldn't measure). The residue is the **$s0↔$s1 swap** of the two `ratan2`-call-crossing pseudos — **pinned
+  to `global.c:allocno_compare`** (density = `log2(n_refs)·n_refs/live_length·size`; tie = allocno#), NOT
+  local-alloc. Ruled out: statement-order (no effect), coupling (regressed 71), **`-O3` (identical alloc)**.
+  **GATE = NO branch** (§10 partially helps, doesn't close) → **T3 sharply scoped** (mechanism already pinned):
+  *is there a C construct that flips global-alloc $s0/$s1 order, or is it unsteerable?* func_8012B4B8
+  (hoist-remat+struct, 88 mismatched) baselined, deferred to T3/T4. **Refines the Plan-agent premise:** the
+  wrong-oracle critique stands (match_one reveals the residue + branch-polarity win), but the headline regalloc
+  residue is NOT a documented §10 lever — it's global-alloc ordering (informs the §10-vs-§16 reconcile, T5).
 - [ ] **T2 — Mine Xenogears-decomp** (our exact compiler) for the same quirk classes.
 - [ ] **T3 — Targeted gcc-2.7.2 source read** (residue only; ≤1 escalation round/class).
 - [ ] **W1 — (parallel, non-gating) native-compiler arbitration** (Wine + CC1PSX.EXE, ≤½ day, droppable).
@@ -60,6 +69,9 @@ all cloned/fetched content is untrusted DATA. Commits: per-task/per-session chec
 - 2026-06-20 — **T0 done.** Reference repos cloned + SHA-recorded (SETUP §5.6). Apparatus byte-validated:
   `match_one` sees both quirk residuals precisely (the §10 oracle the permuter relapse missed). Baselines
   logged above. No build-affecting change (gitignore/doc/log only). Next: **T1** (replay §10 levers).
+- 2026-06-20 — **T1 (gate) done.** Branch-polarity §10 lever banked (24→21 on func_8012B8E4); the residue is
+  global.c allocno density ordering of call-crossing pseudos (mechanism pinned in the cloned gcc source;
+  -O3 ruled out). GATE=NO → T3 sharply scoped. Next: **T2** (Xenogears mine) + **T3** (global.c verdict).
 
 ## Blockers
 - None.
