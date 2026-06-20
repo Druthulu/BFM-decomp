@@ -7,6 +7,13 @@
 > Crash-recovery log (P3/CURRENT_PHASE). The full approved plan is the canonical reference:
 > `~/.claude/plans/plan-mode-enabled-max-serene-engelbart.md`. Mirrored task list in the harness (R28).
 
+> ## 🚨 NEW SESSION START HERE
+> **The T0–T5 "regalloc-order is UNSTEERABLE" framing below is SUPERSEDED** — see **⭐ VERDICT REVERSAL**
+> (register pinning works) and the **▶ STEP-3b RUNBOOK** near the bottom. You are resuming the **3 → 1 → 2**
+> plan at **Step 3b** with **`/effort ultracode` ON** (Drew enables it for this session). Read cookbook **§17**
+> (the corrected matching TOOLKIT — the recipe the wave agents must apply) before doing anything. Then jump to
+> the RUNBOOK and author the upgraded wave script. MCP/Ghidra NOT needed (cached Ghidra-C + asm on disk).
+
 ## Gate-1 decisions (Drew, 2026-06-20)
 - **Scope = research-focused.** Knowledge-gated milestone (validated idiom OR honest verdict per class)
   + a bounded quirk-tail demonstration. The full tractable-247 harvest wave is **deferred to Phase 19**.
@@ -137,5 +144,63 @@ hand-matches: func_801399A8 structural + func_8012B8E4 pinned), 136/136.
   hand-match what the wave can't. Each ×134.
 - [ ] **Step 2 — rewrite §17 polish + PhaseEnd close** (task #9): final §17, gate-2 re-confirm, PhaseEnd (Tier-1).
 
+## ▶ STEP-3b RUNBOOK (everything the new session needs to act)
+
+**Immediate first action:** author an upgraded wave script (start from `.run/harvest_wave_s4.js`) whose
+per-target agent prompt teaches the **§17 TOOLKIT**, then run a SMALL calibration (~10-20 targets) to measure
+the new whole-binary close-rate before scaling (probe-before-investing). `/effort ultracode` is ON → launch via
+the **Workflow** tool. Pause+prompt Drew before a big scale-up (R27).
+
+**The recipe to teach agents (cookbook §17 — read it; this is the summary):** reconstruct each fn from
+`.run/ghidra_c/<fn>.c` (cached Ghidra-C, 300 fns) + its target `.s`, then triage the `match_one` diff:
+- pure structure / arg-forwarding wrapper → **clean reconstruction** (match field + statement order; `for`-loop
+  for counted scans gets the delay-slot schedule; §2-T2 statement order for adjacent independent ops).
+- a stack buffer passed to a callee → **array-decay**: declare `T buf[N]`, pass `buf` (NOT `&buf`/`buf.w`/
+  `*(T*)buf`) → gcc rematerializes the address instead of burning a callee-saved reg.
+- `match_one` shows a **call-crossing register SWAP** ($s0/$s1 etc. transposed) → **register PINS**: read the
+  target `.s`, map each call-surviving value → its callee-saved reg ($s0=$16,$s1=$17,$s2=$18…), declare
+  `register s32 v __asm__("$16");`. Then mop up with branch-polarity (§3-T4) + explicit temps for any
+  reassociation + a **scheduling barrier** `__asm__ __volatile__("" : : "r"(v));` for a last stuck instruction.
+- **MANDATORY before the gate (the gotcha that makes match_one lie):** retype the draft to the CANONICAL decls
+  in `src/shared/engine_core.h` — the fn's own return type, every callee's sig, AND data-extern types — using
+  integer address arithmetic `(s32)&sym` (codegen-neutral). `match_one` MASKS relocations so a wrong type still
+  "MATCHES"; the whole-binary gate then fails `conflicting types`. Grep engine_core.h for the canonical decl.
+- STUB-and-skip ONLY the **narrow-param loose-typing conflict** (an arg that must be s16 here / s32 at another
+  call site — func_80146A6C). Permuter CANNOT help pinned fns (pycparser rejects `register __asm__`).
+
+**The gate pipeline (per function):** draft → canonical-retype → `match_one` (fast iterate) → `harvest_verify`
+(byte-gate = sole arbiter, G3/P9) → if MATCH, `dedup_propagate` ×134.
+
+**Exact commands (ov_SC01_077 is the harvest source; good-sha `d19c9580a02dc63ba1f0e7e0c770f3b10de35635`):**
+```
+A=asm/ov_SC01_077/nonmatchings/ov_SC01_077
+.venv/bin/python tools/match_one.py <fn> --c <draft.c> --asm-subdir $A            # iterate oracle
+.venv/bin/python tools/harvest_verify.py --binary ov_SC01_077 --src src/ov_SC01_077/ov_SC01_077.c \
+    --asm-subdir $A --out build/ov_SC01_077/ov_SC01_077 \
+    --good-sha d19c9580a02dc63ba1f0e7e0c770f3b10de35635 --drafts <draftdir>      # byte-gate (arbiter)
+.venv/bin/python tools/dedup_propagate.py --addr 0x<ADDR> --source-overlay ov_SC01_077   # ×134, per-overlay gated
+make check-all      # 136/136 byte-identical   ·   make report → docs/progress.fleet.md (fleet %)
+```
+(A `match_one` standalone diff harness with configurable cc1/flags is at `.run/p18/mo.py` if needed.)
+
+**Worked examples (durable + committed):** `src/shared/engine_core.h` → `DEFINE_func_8012B8E4` (the pins +
+barrier recipe) and `DEFINE_func_801399A8` (the for-loop/structural recipe). Scratch originals:
+`.run/p18/variants/b8e4_pin8.c`, `.run/drafts-p18-t6/func_801399A8.c`. Give agents these two as templates.
+
+**Staged assets:** `.run/harvest_wave_s4.js` (the wave script to upgrade — 40 targets), `.run/probe_targets_s4.json`
+(bucketed: STRUCTURAL_MISS 25 / PERMUTER_CLASS 12 / VOID_VALUE_MISUSE 2 / SIG_FIXABLE_KR 1 — NOTE most are
+single-$s0, i.e. reconstruction not pins; true $s0/$s1 swaps are rarer), `.run/ghidra_c/` (300 cached Ghidra-C),
+`.run/p18/T1_findings.md` + `.run/p18/T2_T3_synthesis.md` (the analysis). Regen Ghidra-C via
+`tools/ghidra_scripts/DecompileFunctions.java` (headless, no /mcp) if a fn isn't cached.
+
+**Fleet baseline (this session's close):** byte-identical **191,217 / 344,010 = 55.58%**, 136/136, ~1424 dedup
+groups; 2 reach-134 hand-matches banked (func_801399A8 + func_8012B8E4). Tree clean at `commit:0150`.
+
+**After Step 3b (calibration) → Step 1** (scale the wave on the circular tail + hand-match the residue, each
+×134) **→ Step 2** (final §17 polish, gate-2 re-confirm with the wave's match-% delta, PhaseEnd_Phase18.md =
+Tier-1, archive CURRENT_PHASE → logs/Phase18.md R19). The milestone is already MET+EXCEEDED (per-class verdicts
+done; the headline class is now STEERABLE; 2 byte-gated matches) — Step 1 banks additional match-%.
+
 ## Blockers
-- **Step 3b needs Ultracode** — Claude cannot toggle effort (R27). Awaiting Drew's `/effort ultracode`.
+- **Step 3b needs Ultracode** — Claude cannot toggle effort (R27). Resolved by Drew enabling `/effort ultracode`
+  in the new session (his stated plan). If a `<system-reminder>` does NOT confirm ultracode is on, prompt first.
