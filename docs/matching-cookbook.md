@@ -1020,9 +1020,9 @@ the time; the work is byte-closing + sig reconciliation. **Full process: `docs/h
   `ret0: return 0;`. gcc then makes `ret0` a labeled block reached by branches (right polarity) + schedules
   the next test's constant into the delay slot. A lone `if(x)return 0;` inlines (wrong polarity/reg).
 - **v0↔v1 result/constant coalescing** + the §10 hoist-vs-remat / phantom-frame quirks = the residual hard
-  tail (not source-steerable — **§17 confirms this for the call-crossing register-ORDER class via the gcc
-  source + Xenogears, and adds the array-decay-remat lever that DOES crack part of the hoist-vs-remat class**;
-  permuter only helps relocs=0, and slowly). Defer as `INCLUDE_ASM` stub.
+  tail — **NOT a dead-end: §17 (CORRECTED) shows the call-crossing register-ORDER class is matchable with
+  `register __asm__` PINS + a scheduling barrier (byte-proven, func_8012B8E4), and array-decay cracks the
+  hoist-vs-remat class.** Hand-tier, but matchable. (Permuter can't help — it rejects `register __asm__`.)
 
 **Scaling = Ultracode wave (§12 pattern + §7):** Ghidra pre-pass (`DecompileFunctions.java`, headless batch,
 no /mcp) → parallel draft agents (m2c+Ghidra-C+asm+actor-struct+§3a, self-validate `match_one`) → whole-binary
@@ -1044,30 +1044,36 @@ highest-reach circular targets are ALL §10-hoist / regalloc / layout-bound (0 c
 The layer makes a wave *sig-clean*; it does NOT unlock the quirk tail. **→ The match-% lever is understanding
 gcc-2.7.2 (R17 compiler-source research, Phase 18), not more brute waves.** Wave deferred; infra staged
 (`.run/harvest_wave_s4.js`, 40 tractable reach-134 targets). See `docs/hand-matching-process.md` §8.
-**§17 resolves the "not source-steerable" question with the gcc source + Xenogears: confirmed for the
-call-crossing register-ORDER class, refined for the rest.**
+**§17 (CORRECTED) answers it: the call-crossing register-ORDER class IS matchable — with `register __asm__`
+pins + a scheduling barrier (byte-proven). The "brute waves won't help" point stands; HAND levers (pins) do.**
 
-## §17 The compiler-quirk wall — steerable vs not (Phase 18; gcc-2.7.2 source + Xenogears confirmed)
+## §17 The compiler-quirk wall — the matching TOOLKIT (Phase 18; gcc-2.7.2 source + byte-gated)
 Phase 18 read the real gcc-2.7.2 source (`tools/reference/gcc-papermario`, SETUP §5.6) + mined Xenogears (our
-EXACT compiler — `gcc-2.7.2-psx`+`-cdk`) to resolve §16's open item. **Verdict: the call-crossing
-register-ALLOCATION-ORDER class is NOT source-steerable; several adjacent classes ARE. Name the residual class
-precisely before deciding — that reconciles §10 ("steerable") with §16 ("not steerable"): both are right about
-DIFFERENT residuals.** Triage every quirk residual with `match_one` (the floor-free oracle — NEVER the permuter
-score on jtbl/rodata fns, §10) before investing.
+EXACT compiler). **Verdict (CORRECTED — an earlier draft of this section wrongly called the register-order
+class "unsteerable"; it is NOT): every quirk class met so far is matchable from C — the register-order tail
+needs `register __asm__` PINS, which I'd skipped. The wall was a missing lever, not an impossibility.** Triage
+each residual with `match_one` (the floor-free oracle — NEVER the permuter score on jtbl/rodata fns, §10), then
+pick the tool. R14 caveat: don't conclude "unsteerable" until you've tried the PINS.
 
-### The UNSTEERABLE class — call-crossing $s0/$s1 allocation ORDER (global.c, source-confirmed)
-Two pseudos live across a call → both are **global** allocnos (NOT local-alloc) competing for callee-saved
-$s0/$s1. `global.c:allocno_compare` sorts by **density** `floor_log2(n_refs)*n_refs/live_length*size` (tie =
-allocno number); first-sorted gets the first free reg ($s0). A short-lived value (loaded just before the call,
-consumed just after) = HIGH density → wins $s0; a whole-function-lived value (an arg captured pre-call, used at
-a late op) = LOW density → $s1 — even when the original is the reverse, and the long-lived value's span is
-structurally fixed so its density can't be raised from C. Confirmed unsteerable: statement order (no effect),
-variable coupling (regressed), -O3 (identical alloc), `cdk` cc1 (worse), the Xenogears flag deltas
-(`-funsigned-char`/`-fpcc-struct-return`/`-fpeephole`/`-ffunction-cse`/`-fcaller-saves` — none flip it),
-`-fno-schedule-insns` (worse). **Independent corroboration (R14):** Xenogears, same toolchain, has NO C lever
-for this class (no `register`, no `__asm__("$16")` pins, no permuter) and ships such functions as INCLUDE_ASM
-(1174). **Policy: stub it (G4); don't burn time.** Exemplar func_8012B8E4 (75=75, 24→21 via branch-polarity;
-the residue is the swap).
+### Register-allocation ORDER (call-crossing $s0/$s1 swap) → FORCE it with register pins (byte-proven)
+*Mechanism (why the swap happens):* two pseudos live across a call → both are **global** allocnos (NOT
+local-alloc) competing for callee-saved $s0/$s1; `global.c:allocno_compare` sorts by density
+`floor_log2(n_refs)*n_refs/live_length` so the short-lived value wins $s0 and the whole-function value gets $s1
+— often the reverse of the original. Clean-C reshapes / flags / cc1-swaps do NOT flip it (all tested).
+**The lever (DON'T skip this): pin each call-crossing value to the register the TARGET uses** —
+```c
+register s32 d     __asm__("$16");   /* $s0 */   register s32 s1ang __asm__("$17");   /* $s1 */
+```
+gcc honors the pin and forces the allocation. Read the target `.s`, map each call-surviving value → its
+callee-saved reg ($s0=$16, $s1=$17, $s2=$18 …), pin it. Then the residue is usually small: fix it with the
+**branch-polarity invert** (§3-T4), **explicit temps** for any reassociation (`t = u6+0x1000; iVar4 = u5-t;`),
+and a **scheduling barrier** for a last stuck instruction (`__asm__ __volatile__("" : : "r"(u5));` emits zero
+code, anchors `u5` ahead of the next op). **WORKED EXAMPLE — func_8012B8E4** (the flagship "unsteerable" fn):
+21 → MATCH via pins + branch-polarity (24→21) + clamp temps (7→3) + the u5 barrier (3→MATCH); byte-gated +
+propagated ×134. NOTE the permuter can't help here — pycparser rejects `register __asm__`/`__asm__` (§5a), so
+this residue is a HAND lever, not a permuter job. Labor: ~5-10 min/fn, but each circular fn is reach-134 → ×134.
+*(Xenogears ships this class as INCLUDE_ASM only because they hadn't found the pin lever — not because it's
+impossible. We did.)*
 
 ### The STEERABLE idioms (byte-confirmed this phase)
 - **array-decay forces rematerialization (NEW).** A stack buffer passed to a callee as `&struct` / `mtx.w` /
@@ -1101,9 +1107,11 @@ type satisfies both. No clean fix (the documented narrow-param dead-end). **Stub
 narrow-param fns like func_80146A6C and inseparable from the regalloc tail.)*
 
 ### Strategic conclusion — the match-% lever post-research
-The high-reach **circular regalloc-order tail is unsteerable** (confirmed + corroborated) and some structurals
-hit the loose-typing wall — both → INCLUDE_ASM (the Xenogears policy). The lever is the **STRUCTURAL_MISS fns
-that AREN'T walled** (closeable via the steerable idioms above + mandatory sig_unify — proven on func_801399A8,
-reach-134, fleet +134), i.e. the **tractable-247 wave (Phase 19)**, NOT cracking the circular tail. Each such
-match is worth ×(overlay count). Don't spend on the unsteerable classes beyond a `match_one` triage: residue =
-call-crossing $s0/$s1 swap OR narrow-param type conflict → stub it and move on.
+The high-reach **circular regalloc-order tail IS matchable** — by register pins + barriers (above), labor-
+intensive but ×134 per match. So the lever is BOTH: (a) the **non-walled STRUCTURAL_MISS fns** (clean
+reconstruction + the structural idioms + mandatory sig_unify — proven on func_801399A8), the cheap bulk; and
+(b) the **circular tail hand-matched with pins** (proven on func_8012B8E4), the high-value-per-fn work. Triage
+each with `match_one`: pure structure → reconstruct; stack-buffer-to-callee → array-decay; call-crossing
+register swap → PINS; last-instruction schedule → barrier. The ONLY genuine dead-end left is the **narrow-param
+loose-typing conflict** (func_80146A6C: an arg that must be s16 here and s32 at another call site — no single C
+type) → stub THAT and move on; everything else is matchable with enough hand effort.
