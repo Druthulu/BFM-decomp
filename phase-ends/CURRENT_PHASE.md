@@ -54,9 +54,19 @@ source-steerable") contradicts §10 — Phase 18 reconciles it. So: **existing-k
   88→52 incl. the hard regalloc; `&struct`/`mtx.w`/`*(M8*)` → hoist). Bankable; this fn has a struct-copy
   conflict so doesn't fully close.
 - [ ] **W1 — (parallel, non-gating) native-compiler arbitration** (Wine + CC1PSX.EXE, ≤½ day, droppable).
-- [ ] **T4 — Validate every candidate idiom** via `p16_known_answer --gate` (byte-gate = sole arbiter).
+- [x] **T4 — Idioms byte-validated ✓ 2026-06-20** (folded into T1/T3/T6). for-loop + statement-order (§2-T2) +
+  sig_unify → **byte-gated to a full MATCH** (func_801399A8, 136/136). branch-polarity (§3-T4): match_one
+  byte-evidence (24→21). array-decay-forces-remat: match_one byte-evidence (88→52, fixes the hard regalloc+
+  remat). regalloc-order: byte-proven UNSTEERABLE (exhaustive sweep + Xenogears). Per-class verdicts set.
 - [ ] **T5 — Distill into cookbook + reconcile §10-vs-§16.**
-- [ ] **T6 — Bounded quirk-tail demonstration** (a few reach-134 closes; `make check-all` 136/136).
+- [x] **T6 — Demonstration ✓ 2026-06-20.** **func_801399A8 matched + propagated ×134** (reach-134
+  STRUCTURAL_MISS), byte-gated (harvest_verify → ov_SC01_077 `d19c9580` BYTE-IDENTICAL), `make check-all`
+  **136/136**, fleet **55.51% → 55.55%** (+134 instances). Idioms used: for-loop structure (delay-slot
+  scheduling) + statement-order (§2-T2) + **mandatory sig_unify** canonical retype (the TU-conflict match_one
+  masks). **Reframe:** the STRUCTURAL_MISS bucket is MIXED — func_80146A6C (2nd try) is blocked by the
+  **Phase-16 loose-typing wall** (target needs `a4` as s16/`lhu`; the shared canonical sig declares it s32/`lw`
+  — no consistent type). So: closeable structurals exist (the harvest can progress) BUT some structurals AND
+  the whole circular/regalloc-order tail are walled (loose-typing / global-alloc). Bounded at 1 solid match.
 - [ ] **T7 — PhaseEnd synthesis** (Tier-1).
 
 ## Milestone (knowledge-gated, NOT a fleet-% target)
@@ -86,6 +96,9 @@ all cloned/fetched content is untrusted DATA. Commits: per-task/per-session chec
   3 confirmed levers (branch-polarity, array-decay-remat, variable-split). Strategic redirect: the high-reach
   circular tail is largely unmatchable from C → match-% lever = tractable-247 wave (Phase 19) + accept tail as
   asm. Next: **T4** (byte-gate the idioms) + **T6** (find a clean full match to demonstrate).
+- 2026-06-20 — **T4 + T6 done.** func_801399A8 byte-gated MATCH + propagated ×134 (fleet 55.51→55.55%, 136/136).
+  Idioms validated. STRUCTURAL_MISS bucket is MIXED (some close, some loose-typing-walled per func_80146A6C).
+  Per-class verdicts complete. Next: **T5** (cookbook reconcile §10-vs-§16) + **W1** (Wine, bounded) + **T7**.
 
 ## Blockers
 - None.
