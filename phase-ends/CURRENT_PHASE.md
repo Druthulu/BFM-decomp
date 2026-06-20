@@ -123,6 +123,11 @@ all cloned/fetched content is untrusted DATA. Commits: per-task/per-session chec
 - 2026-06-20 — **T5 + W1 done.** Cookbook §17 + §16 reconcile + §8e written. W1 build-divergence ruled out by
   proxy (corpus + cdk + Xenogears; heavy Wine install dropped per the plan escape clause). R22 clean-rebuild of
   ov_SC01_077 with the match = d19c9580 BYTE-IDENTICAL. **All tasks done → ready for gate-2 (milestone confirm).**
+- 2026-06-20 — **Step 3b done (calibration).** `/effort ultracode` ON. Upgraded §17-toolkit wave → 16 fresh
+  tractable reach-134 targets → **9 verified whole-binary = 56% close-rate** (vs 33% Phase-17), each ×134 → fleet
+  **55.94%** (+0.36%), 136/136, dedup 1432/0. Pins+array-decay+reconstruct all landed. Match_one→gate gap = the
+  §3a call-site casts agents skip (+ sig_unify narrowing); recovered 3 by casts. Committed `commit:0152`. **PAUSED for
+  Drew before Step-1 scale-up (R27).** Next: **Step 1** (taught wave + casts/re-validate on the tractable tail).
 
 ## ⭐ VERDICT REVERSAL (2026-06-20, post-gate-2 — Drew's "we hand-match everything" directive)
 The T1-T5 "regalloc-order = UNSTEERABLE" verdict was **WRONG** (P9/R14 self-correction — I'd skipped the most
@@ -134,15 +139,29 @@ each). Cookbook §17 + §8e CORRECTED to the register-pinning TOOLKIT. Fleet **5
 hand-matches: func_801399A8 structural + func_8012B8E4 pinned), 136/136.
 
 ## Plan (Drew, 2026-06-20): 3 → 1 → 2
-- [~] **Step 3a — validate the pin recipe** (task #10): func_8012B8E4 byte-gated (the hard swap case) +
+- [x] **Step 3a — validate the pin recipe** (task #10): func_8012B8E4 byte-gated (the hard swap case) +
   func_801399A8 (structural). The recipe is a TOOLKIT (most fns need reconstruction, not pins; swaps are rare).
-  Sufficient to teach; the WAVE validates breadth. → mark done.
-- [ ] **Step 3b — teach the wave + calibrate** (task #11): upgrade the harvest-wave agent prompt with the §17
-  toolkit (read asm → map call-crossing values → pin + barrier; + array-decay; + structural) → calibration wave
-  to measure the new close-rate. **BREADTH → needs `/effort ultracode` (R27) — PROMPT Drew, WAIT for the toggle.**
-- [ ] **Step 1 — scale wave + hand-match the residue** (task #12): run the taught wave on the circular tail;
-  hand-match what the wave can't. Each ×134.
-- [ ] **Step 2 — rewrite §17 polish + PhaseEnd close** (task #9): final §17, gate-2 re-confirm, PhaseEnd (Tier-1).
+  Sufficient to teach; the WAVE validates breadth.
+- [x] **Step 3b — teach the wave + calibrate ✓ 2026-06-20.** Upgraded wave (`.run/harvest_wave_3b.js`) teaches the
+  §17 TOOLKIT (triage match_one diff → reconstruct / array-decay / register-pins+barrier; mandatory canonical-sig).
+  **Calibration: 16 fresh tractable reach-134 targets → 9 verified whole-binary = 56% close-rate** (vs Phase-17's
+  33%). Moves used: 2 pins (func_8012CB64, func_801468C8), 2 array-decay (func_80149544/584), 5 reconstruct.
+  Propagated ×134 → fleet **55.58% → 55.94%** (+0.36%), 136/136 byte-identical, dedup 1432 validated / 0 failed.
+  Committed `commit:0152`. **KEY FINDING (R16 → feeds Step 1):** the match_one→gate gap (12 match_one MATCH → 6 gate,
+  recovered to 9) is dominated by the **§3a call-site CASTS the agents skip** (arity-cast when a callee is called
+  with more args than its canonical extern; fn-ptr cast when a void-canonical callee's $v0 is used) + **sig_unify
+  narrowing the extern to canonical** turning a K&R no-proto into a hard conflict. Fix recovered 3 by codegen-neutral
+  call-site casts. **Step-1 prompt MUST add: apply call-site arity/void casts (NOT redeclaration), and RE-RUN
+  match_one AFTER the canonical retype** (sig_unify can both expose conflicts and, rarely, change codegen —
+  func_80137614 regressed 26→25 when forced void/s32). Residual classes seen: narrow-param loose-typing wall
+  (func_801466F0, func_80137614 def-sig — stub), §10 cross-jump/layout (func_80131CF4, func_8012F5F4 1-off),
+  stale `M2C_UNK func_X()` sibling-decl conflict (func_8012A418 — fixable by reconciling the sibling's forward decl),
+  base-draft-not-final (func_80131CA8 — re-draft). 1 transient API-Overloaded error (func_8012C2D0 — retriable).
+- [ ] **Step 1 — scale wave + hand-match the residue** (task #12): run the taught wave (Step-1-upgraded prompt:
+  + call-site casts + re-validate) on the remaining tractable reach-134 tail; hand-match the residue with pins.
+  Each ×134. **PAUSE+PROMPT Drew before the big scale-up (R27).**
+- [ ] **Step 2 — rewrite §17 polish + PhaseEnd close** (task #9): final §17 (incl. the call-site-cast/re-validate
+  lesson + the measured 56% close-rate), gate-2 re-confirm, PhaseEnd (Tier-1).
 
 ## ▶ STEP-3b RUNBOOK (everything the new session needs to act)
 
