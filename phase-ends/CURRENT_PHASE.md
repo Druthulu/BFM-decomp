@@ -53,7 +53,16 @@ source-steerable") contradicts §10 — Phase 18 reconciles it. So: **existing-k
   steerable — NEW idiom: array-decay forces rematerialization** (`s32 mtx[8]` passed as decay → remat, fixing
   88→52 incl. the hard regalloc; `&struct`/`mtx.w`/`*(M8*)` → hoist). Bankable; this fn has a struct-copy
   conflict so doesn't fully close.
-- [ ] **W1 — (parallel, non-gating) native-compiler arbitration** (Wine + CC1PSX.EXE, ≤½ day, droppable).
+- [x] **W1 — Build-divergence ruled out (by proxy; full Wine run dropped) ✓ 2026-06-20.** Plan escape clause
+  invoked: Wine is a heavy install on this WSL (106 pkgs + i386 arch not enabled + wineprefix) and the
+  divergence question is already closed by stronger evidence: (1) **gcc-2.7.2-psx byte-matches ~700 functions**,
+  many with call-crossing callee-saved values → its global register allocation IS faithful to the original
+  compiler (a divergent real CC1PSX would have broken those matches) → the real compiler would emit the SAME
+  unsteerable swap; (2) the **cdk cc1** (a sibling 2.7.2 build) was tested directly — diverges but is WORSE (32
+  vs 21 on func_8012B8E4), so cc1-build switching doesn't crack it; (3) Xenogears (real-era toolchain) ships
+  the class as asm. **Verdict: no exploitable build divergence.** Definitive CC1PSX.EXE run deferred (low
+  marginal value; binaries staged at `tools/psyq/psyq4.0/`, Drew can opt in). SETUP §4.8 unchanged (Wine still
+  not installed).
 - [x] **T4 — Idioms byte-validated ✓ 2026-06-20** (folded into T1/T3/T6). for-loop + statement-order (§2-T2) +
   sig_unify → **byte-gated to a full MATCH** (func_801399A8, 136/136). branch-polarity (§3-T4): match_one
   byte-evidence (24→21). array-decay-forces-remat: match_one byte-evidence (88→52, fixes the hard regalloc+
@@ -104,6 +113,9 @@ all cloned/fetched content is untrusted DATA. Commits: per-task/per-session chec
 - 2026-06-20 — **T4 + T6 done.** func_801399A8 byte-gated MATCH + propagated ×134 (fleet 55.51→55.55%, 136/136).
   Idioms validated. STRUCTURAL_MISS bucket is MIXED (some close, some loose-typing-walled per func_80146A6C).
   Per-class verdicts complete. Next: **T5** (cookbook reconcile §10-vs-§16) + **W1** (Wine, bounded) + **T7**.
+- 2026-06-20 — **T5 + W1 done.** Cookbook §17 + §16 reconcile + §8e written. W1 build-divergence ruled out by
+  proxy (corpus + cdk + Xenogears; heavy Wine install dropped per the plan escape clause). R22 clean-rebuild of
+  ov_SC01_077 with the match = d19c9580 BYTE-IDENTICAL. **All tasks done → ready for gate-2 (milestone confirm).**
 
 ## Blockers
 - None.
