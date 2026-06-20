@@ -126,8 +126,12 @@ all cloned/fetched content is untrusted DATA. Commits: per-task/per-session chec
 - 2026-06-20 — **Step 3b done (calibration).** `/effort ultracode` ON. Upgraded §17-toolkit wave → 16 fresh
   tractable reach-134 targets → **9 verified whole-binary = 56% close-rate** (vs 33% Phase-17), each ×134 → fleet
   **55.94%** (+0.36%), 136/136, dedup 1432/0. Pins+array-decay+reconstruct all landed. Match_one→gate gap = the
-  §3a call-site casts agents skip (+ sig_unify narrowing); recovered 3 by casts. Committed `commit:0152`. **PAUSED for
-  Drew before Step-1 scale-up (R27).** Next: **Step 1** (taught wave + casts/re-validate on the tractable tail).
+  §3a call-site casts agents skip (+ sig_unify narrowing); recovered 3 by casts. Committed `commit:0152`.
+- 2026-06-20 — **Step 1 done (bounded wave + recovery).** Drew chose bounded ~40 (full-247→Phase 19). Wave with
+  embedded canonical callee sigs + call-site-cast/re-validate → **match_one 28/31 (90%)**, 22 verified whole-binary,
+  fleet **56.64%** (+0.70%), 136/136, dedup 1450/0. Recovery: func_8012F68C parse-fix + func_8012A418 sibling-decl
+  reconcile. Committed `commit:0154`+`commit:0155`. 6 fns + the -O0 class deferred to Phase 19. **Session arc: 55.58% →
+  56.64% (+1.06%, ~31 reach-134 matches).** Next: **Step 2** (cookbook §17 polish + gate-2 + PhaseEnd) — needs Max.
 
 ## ⭐ VERDICT REVERSAL (2026-06-20, post-gate-2 — Drew's "we hand-match everything" directive)
 The T1-T5 "regalloc-order = UNSTEERABLE" verdict was **WRONG** (P9/R14 self-correction — I'd skipped the most
@@ -157,11 +161,19 @@ hand-matches: func_801399A8 structural + func_8012B8E4 pinned), 136/136.
   (func_801466F0, func_80137614 def-sig — stub), §10 cross-jump/layout (func_80131CF4, func_8012F5F4 1-off),
   stale `M2C_UNK func_X()` sibling-decl conflict (func_8012A418 — fixable by reconciling the sibling's forward decl),
   base-draft-not-final (func_80131CA8 — re-draft). 1 transient API-Overloaded error (func_8012C2D0 — retriable).
-- [ ] **Step 1 — scale wave + hand-match the residue** (task #12): run the taught wave (Step-1-upgraded prompt:
-  + call-site casts + re-validate) on the remaining tractable reach-134 tail; hand-match the residue with pins.
-  Each ×134. **PAUSE+PROMPT Drew before the big scale-up (R27).**
-- [ ] **Step 2 — rewrite §17 polish + PhaseEnd close** (task #9): final §17 (incl. the call-site-cast/re-validate
-  lesson + the measured 56% close-rate), gate-2 re-confirm, PhaseEnd (Tier-1).
+- [x] **Step 1 — bounded wave + recovery ✓ 2026-06-20** (Drew chose bounded ~40, full-247 → Phase 19).
+  Step-1 wave (`.run/harvest_wave_p18s1.js`, 31 tractable reach-134 targets, +embedded canonical callee sigs
+  +call-site-cast/re-validate): **match_one 28/31 (90%)**, whole-binary **22 verified** (18 propagated ×134 +
+  4 local REAL: func_80168664/AD0C/BA10 membership<134, func_8012A418 local-type body). Moves: 7 pins, 5 barrier,
+  1 array-decay, 2 call-site-cast, the rest reconstruct. **Fleet 55.94% → 56.64%** (+0.70%), 136/136, dedup 1450/0.
+  Committed `commit:0154` (20) + `commit:0155` (recovery +2). **Deferred to Phase 19** (documented): 3 TU-integration cases
+  (func_80147514/8017209C/80168F40 — standalone-MATCH, implicit-int caller plumbing); 3 codegen DIFFs
+  (func_80131CA8/80150528/8014E5B4); the **per-file -O0 class** (func_8013C360 + ~17 siblings — agent's C is
+  byte-exact at -O0; needs an -O0 split file like src/boot.c → ~18 fns ×134, HIGH ROI); 2 genuine residuals
+  (func_8014F2E0 §10 store-vs-load sched; func_8012C2D0 NEW gcc loop-guard operand-order class).
+- [ ] **Step 2 — §17 polish + PhaseEnd close** (task #9): cookbook §17 polish (call-site-cast/re-validate +
+  sibling-decl/implicit-int recovery + the -O0 + loop-guard residual classes + measured close-rates), gate-2
+  re-confirm, PhaseEnd (Tier-1). **Effort: switch back to Max (deep synthesis, not breadth — R27).**
 
 ## ▶ STEP-3b RUNBOOK (everything the new session needs to act)
 

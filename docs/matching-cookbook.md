@@ -1115,3 +1115,50 @@ each with `match_one`: pure structure → reconstruct; stack-buffer-to-callee �
 register swap → PINS; last-instruction schedule → barrier. The ONLY genuine dead-end left is the **narrow-param
 loose-typing conflict** (func_80146A6C: an arg that must be s16 here and s32 at another call site — no single C
 type) → stub THAT and move on; everything else is matchable with enough hand effort.
+
+### §17a The TOOLKIT at WAVE scale (Phase-18 Step-3b/Step-1 — measured) + the pipeline-integration gotchas
+The §17 toolkit was taught to a parallel Ultracode harvest wave (agent prompt = the triage above + the two
+worked-example templates). Measured on ov_SC01_077 tractable reach-134 residuals:
+- **Step-3b calibration (16 targets, prompt v1):** `match_one` 12/16, **whole-binary 9/16 = 56%** close-rate
+  (vs the Phase-17 prompt's 33%). The pins/array-decay moves landed real matches the old "stub the quirk" prompt
+  would have lost.
+- **Step-1 (31 targets, prompt v2 = +embedded canonical callee sigs +call-site-cast/re-validate):** `match_one`
+  **28/31 = 90%**, whole-binary **22 verified**. The big lift was **embedding each callee's canonical signature
+  per target** (from `gen_harvest_targets.py`) so agents declare callees right instead of guessing.
+
+**THE match_one→gate GAP is mostly DECLARATION plumbing, not codegen** (so it's cheap to recover):
+1. **Call-site casts, NOT redeclaration (the #1 recurring miss).** `match_one` masks jal/%hi/%lo, so a draft
+   that declares a callee with the WRONG arity/return still "MATCHES" — then `sig_unify` rewrites that extern to
+   the SHARED canonical sig (fewer args / `void`), and the whole-binary gate fails (`too many arguments` /
+   `void value not ignored`). FIX = keep the canonical extern, cast at the **call site** (codegen-neutral):
+   `((void(*)(s32,s32,s32))func_X)(a,b,c)` for an over-arity call; `x = ((s32(*)(s32,s32))func_X)(a,b)` when a
+   `void`-canonical callee's `$v0` is used; `(u16)`/`(s16)` at the use site per the asm `lhu`/`lh`. **Then RE-RUN
+   `match_one` on the canonical-typed draft** — applying canonical sigs can change codegen, so gate the draft
+   that still MATCHes WITH the canonical decls. (sig_unify can also, rarely, regress a match by forcing a
+   canonical that's wrong for the byte-match — e.g. `void`/`s32` over a needed `s32`/`u32` def-sig; that's the
+   narrow-param wall on the def itself → stub.)
+2. **Stale sibling forward-decl (`M2C_UNK func_X();`).** A function you're matching is sometimes forward-declared
+   by an already-matched SIBLING in the same overlay `.c` (m2c scaffolding: `M2C_UNK func_X(); /* extern */`),
+   which conflicts with your real def. FIX = reconcile that one line to the real sig (`void func_X(void);`).
+   (Proven: func_8012A418.) A standalone `match_one` MATCH that fails the whole-binary gate with
+   `conflicting types for func_X / previous declaration` is this class — grep the overlay `.c` for `func_X`.
+3. **Implicit-int caller plumbing (deferred class).** If an EARLIER-positioned caller in the same `.c` calls
+   `func_X` with no visible decl, gcc-2.7.2 (K&R) creates an implicit `int func_X()` that conflicts with the
+   later real def — but there is NO sibling decl to grep. Adding a forward extern at the file top can itself
+   collide; the clean resolution is that `dedup_propagate` puts the def in `engine_core.h` (included first) →
+   the implicit-int never forms. (3 such fns deferred to Phase 19 — propagate-first, gate-after.)
+
+**Two NEW residual classes found at scale (beyond the §17 quirks):**
+- **Per-file `-O0` class.** ~18 functions in ov_SC01_077 were built `-O0` (prologue sig `21F0A003` =
+  `addu $fp,$sp,$zero`, args spilled to frame, load-delay nops, redundant `addu rd,rs,$zero`). The correct C is
+  byte-exact **at -O0** but the overlay TU compiles `-O2`, and gcc-2.7.2 has **no per-function optimize pragma**
+  (opt is per-file, Makefile). So these need their **own `-O0` split file** (the `src/boot.c` precedent,
+  per-file `CC1FLAGS := -O0`). HIGH ROI: ~18 fns × reach-134. Members incl. func_8013C360,
+  func_8013B568/B598/B6A0/B7AC/B7F4/B83C/BC7C/BCDC/BD34/BD74, func_8013C08C/C0F8/C360/C414/C938/C964,
+  func_80144B9C, func_801457A4. (→ Phase 19 build-infra task.)
+- **gcc-2.7.2 loop-guard operand-ORDER** (func_8012C2D0, 1-off). The duplicated loop entry-guard emits the
+  loop-INVARIANT operand first (`beq end,p`) where the target has the biv first (`beq p,end`); `loop.c`
+  `get_condition` canonicalization, NOT pin/polarity/barrier/source-steerable. Distinct from the register-ORDER
+  class (which pins DO fix) and from narrow-param. A genuine residual — stub.
+- (also: func_8014F2E0 4-off = §10 store-vs-load schedule placement, base-preservation-vs-load-order mutually
+  exclusive — a real §10 residual.)
