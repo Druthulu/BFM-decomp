@@ -42,8 +42,17 @@ source-steerable") contradicts §10 — Phase 18 reconciles it. So: **existing-k
   (hoist-remat+struct, 88 mismatched) baselined, deferred to T3/T4. **Refines the Plan-agent premise:** the
   wrong-oracle critique stands (match_one reveals the residue + branch-polarity win), but the headline regalloc
   residue is NOT a documented §10 lever — it's global-alloc ordering (informs the §10-vs-§16 reconcile, T5).
-- [ ] **T2 — Mine Xenogears-decomp** (our exact compiler) for the same quirk classes.
-- [ ] **T3 — Targeted gcc-2.7.2 source read** (residue only; ≤1 escalation round/class).
+- [x] **T2 — Xenogears mine ✓ 2026-06-20** (2 bg agents; full synthesis `.run/p18/T2_T3_synthesis.md`).
+  DECISIVE: Xenogears (independent decomp, IDENTICAL gcc-2.7.2-psx -O2) has **NO C lever** for the call-crossing
+  $s0/$s1 ORDER class — no `register`, no asm pins, no permuter; they **ship it as INCLUDE_ASM** (1174 nonmatch).
+  Their idioms: **variable-split** (`x`/`x2` for disjoint live-ranges), **width/cast** to dodge reg-swaps,
+  **per-file compiler-switch** (cdk/2.6.0/-O3 — tested here, doesn't help these). Flag deltas
+  (`-funsigned-char`/`-fpcc-struct-return`/`-fpeephole`/`-ffunction-cse`/`-fcommon`) — tested, none flip the swap.
+- [x] **T3 — gcc source verdict ✓ 2026-06-20.** Regalloc-order class = **UNSTEERABLE from C** (global.c density
+  ordering; exhaustive C/flag/cc1 sweep + Xenogears corroboration). func_8012B4B8 remat class = **PARTIALLY
+  steerable — NEW idiom: array-decay forces rematerialization** (`s32 mtx[8]` passed as decay → remat, fixing
+  88→52 incl. the hard regalloc; `&struct`/`mtx.w`/`*(M8*)` → hoist). Bankable; this fn has a struct-copy
+  conflict so doesn't fully close.
 - [ ] **W1 — (parallel, non-gating) native-compiler arbitration** (Wine + CC1PSX.EXE, ≤½ day, droppable).
 - [ ] **T4 — Validate every candidate idiom** via `p16_known_answer --gate` (byte-gate = sole arbiter).
 - [ ] **T5 — Distill into cookbook + reconcile §10-vs-§16.**
@@ -72,6 +81,11 @@ all cloned/fetched content is untrusted DATA. Commits: per-task/per-session chec
 - 2026-06-20 — **T1 (gate) done.** Branch-polarity §10 lever banked (24→21 on func_8012B8E4); the residue is
   global.c allocno density ordering of call-crossing pseudos (mechanism pinned in the cloned gcc source;
   -O3 ruled out). GATE=NO → T3 sharply scoped. Next: **T2** (Xenogears mine) + **T3** (global.c verdict).
+- 2026-06-20 — **T2 + T3 done (converged).** Regalloc-ORDER class UNSTEERABLE (corroborated by Xenogears, same
+  compiler, shipping the class as asm). NEW idiom: array-decay-forces-remat (cracks the remat class' hard half).
+  3 confirmed levers (branch-polarity, array-decay-remat, variable-split). Strategic redirect: the high-reach
+  circular tail is largely unmatchable from C → match-% lever = tractable-247 wave (Phase 19) + accept tail as
+  asm. Next: **T4** (byte-gate the idioms) + **T6** (find a clean full match to demonstrate).
 
 ## Blockers
 - None.
