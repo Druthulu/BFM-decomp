@@ -343,7 +343,7 @@ DEFINE_func_8012D38C()  /* dedup: shared engine-core @0x8012D38C (src/shared) */
 
 DEFINE_func_8012D3AC()  /* dedup: shared engine-core @0x8012D3AC (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC03_115/nonmatchings/ov_SC03_115", func_8012D3B4);
+DEFINE_func_8012D3B4()  /* dedup: shared engine-core @0x8012D3B4 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC03_115/nonmatchings/ov_SC03_115", func_8012D4B4);
 

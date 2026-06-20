@@ -191,3 +191,17 @@ types — 67% reach incl. the giants) → T6 (validate the 146 permuter candidat
   winners don't transfer (isolated≠whole-binary TU; callee inlining). All 5 avenues now tested: T2=0,
   T3=+0.52% (banked), T4/T5 byte-neutral, T6=0. **The harness ceiling did NOT rise to eureka.** NEXT: **T7 —
   go/no-go (recommend NO-GO on the big unattended run) + PhaseEnd. Tier-1/Max — prompt Drew for /effort Max.**
+- 2026-06-19 (session 2, Max): **DEMO DONE → GO on guided hand-matching.** Pivoted from brute-force to the
+  Ghidra-driven hand-match loop (Drew steered to Ghidra whole-binary for local/global). Sampled **5 residuals,
+  4 CLOSED (80%)**: **func_8012D3B4** (PERMUTER_CLASS, CLOSED + propagated **×134**); **func_8012832C**
+  (STRUCTURAL_MISS switch, CLOSED); **func_8015F89C** (fnptr-call §15-S2, CLOSED); **func_80147B5C**
+  (pure struct, CLOSED first-try); **func_8012A328** (STRUCTURAL_MISS globals+call) = 60/60 structure +
+  correct registers but **1-instr gcc placement quirk** (§10 hard tail; permuter floor-polluted — the only
+  miss). 🔑 **KEY FINDING: the Phase-16 "loose-typing wall" is NOT fundamental —
+  it's a signature-CONSISTENCY problem that dissolves via byte-neutral canonical-widening (void→s32 for
+  $v0-returning fns) + the (u16)/(s16) cast idiom.** 4 widenings this session, fleet re-verified **136/136
+  byte-identical** (R22); fleet **55.00%→55.04%**; dedup-check 1409/0. **Full process + idioms + current state +
+  automation notes captured durably in `docs/hand-matching-process.md`** (so a fresh session loses nothing).
+  Drew's plan (in order): **sample 1-2 more (struct-using + fnptr-call) → prove the giant func_80144B9C →
+  build the canonical-widening pass + harvest → document fully + automate.** Tasks 5/6/7 created. **NEXT:
+  sample 2 more, then the giant.** Effort: Max (hand-matching, Tier-1).

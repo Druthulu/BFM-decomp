@@ -6045,7 +6045,7 @@
 
 #define DEFINE_func_8017C908() \
     extern void ReadGeomOffset(s32 *a0, s32 *a1); \
-    extern void RotTransPers(s32 a0, s32 a1, s32 *a2, s32 *a3); \
+    extern s32 RotTransPers(s32 a0, s32 a1, s32 *a2, s32 *a3); \
     extern void func_8004921C(s32 a0, s32 a1); \
     void func_8017C908(s32 a0, s32 a1) { \
         s32 ofx; \
@@ -12418,7 +12418,7 @@
     }
 
 #define DEFINE_func_80159120() \
-    extern void func_80029504(void); \
+    extern s32 func_80029504(void); \
     extern s32 func_801399F0(s32); \
     extern void func_80139914(s32 a0); \
     extern s32 func_80029A94(s32); \
@@ -16882,6 +16882,32 @@
         M2C_FIELD(arg0, u16 *, 0xA) = (u16) M2C_FIELD(temp_s0, u16 *, 0xA); \
         M2C_FIELD(arg0, u16 *, 0xE) = (u16) M2C_FIELD(temp_s0, u16 *, 0xE); \
         return 1; \
+    }
+
+#define DEFINE_func_8012D3B4() \
+    extern s32 AddPrim(s32, void *); \
+    extern s32 RotTransPers(s32, s32, s32 *, s32 *); \
+    extern void SetLineF2(void *); \
+    extern void *func_80010A08(s32); \
+    extern void func_8004914C(void *); \
+    extern void func_800491AC(void *); \
+    extern s32 D_800A651C; \
+    extern u8 D_800AF648; \
+    extern s16 D_800B9A02; \
+    void func_8012D3B4(s32 arg0, s32 arg1, s32 arg2) { \
+        s32 sp10; \
+        s32 sp14; \
+        s32 temp_v0_2; \
+        void *temp_v0; \
+        temp_v0 = func_80010A08(0x10); \
+        (*(s32 *)((s8*)(temp_v0)+(4))) = arg2; \
+        SetLineF2(temp_v0); \
+        func_8004914C(&D_800AF648); \
+        func_800491AC(&D_800AF648); \
+        temp_v0_2 = RotTransPers(arg0, temp_v0 + 8, &sp10, &sp14); \
+        if ((temp_v0_2 > 0) && (sp14 >= 0) && (RotTransPers(arg1, temp_v0 + 0xC, &sp10, &sp14) > 0) && (sp14 >= 0)) { \
+            AddPrim(*(s32 *)((s8 *)&D_800A651C + ((u16)D_800B9A02 * 0x14)) + (temp_v0_2 * 4), temp_v0); \
+        } \
     }
 
 #endif
