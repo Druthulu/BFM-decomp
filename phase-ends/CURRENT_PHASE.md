@@ -26,7 +26,15 @@
 ## Progress log
 *(append one line per task as completed)*
 - 2026-06-20 — Phase started; plan approved (gate 1); task list built (R28); CURRENT_PHASE.md created. Beginning T1.
-- 2026-06-20 — T1: built + proved the 3-object -O0 split infra; matched 6/16 -O0 fns (ov_SC01_077 d19c9580). Two consults with Drew on T1 scope: (1) full -O0 rollout chosen, then (2) on discovering the remaining fns are research-grade (the %lo quirk), Drew chose "bank 6 + infra, defer rest to Phase 20." Fleet unchanged (the 6 are ov_SC01_077-local until rollout). Verified main/resident/ov_SC01_077/+2 byte-identical. Committed checkpoint. → T2.
+- 2026-06-20 — T1: built + proved the 3-object -O0 split infra; matched 6/16 -O0 fns (ov_SC01_077 d19c9580). Two consults with Drew on T1 scope: (1) full -O0 rollout chosen, then (2) on discovering the remaining fns are research-grade (the %lo quirk), Drew chose "bank 6 + infra, defer rest to Phase 20." Fleet unchanged (the 6 are ov_SC01_077-local until rollout). Verified main/resident/ov_SC01_077/+2 byte-identical. Committed (commit:0158 + cookbook §18 commit:0159). → T2.
+- 2026-06-20 — T2 scoping finding (R14): examined Phase-18's actual near-misses (.run/drafts-p18s1-recover*/) — the recoveries were mostly **def-signature canonicalization** (ret→void, params→void*/int), which **`sig_unify` already does**, + a data-type reconcile (`struct Q16`→`BigCopy`) + a whitespace fix. The §17a "call-site casts = #1 miss" did NOT show up in these. So T2 is lighter than planned: confirm sig_unify is wired draft→`sig_unify`→gate, add the implicit-int **propagate-first** helper (3 fns: func_80147514/80168F40/8017209C → def into engine_core.h, gate after) + a small data-type-reconcile, and treat call-site-casts as a thin add only if T3's real near-misses need it. **SESSION CHECKPOINT here (Drew) — resume fresh.**
+
+## ▶ RESUME HERE (fresh session)
+1. Re-read load order + this file. Rebuild the harness task list (R28). `/effort max`.
+2. **T2 (light):** wire/confirm the draft→`sig_unify`→`harvest_verify` recovery pipeline; build the implicit-int propagate-first helper + data-type-reconcile; validate on the `.run/drafts-p18s1-recover*` near-misses; commit. (cast_call_sites.py only if T3 near-misses actually need it.)
+3. **T3 (the main lever, +3-5%):** regen Ghidra-C for fresh tractable reach-134 fns (`DecompileFunctions.java`, headless — MCP stopped, R23/R29); `gen_harvest_targets.py` manifest; then **PROMPT Drew for `/effort ultracode` (R26/R27) and WAIT** before launching the wave. Run 2-3 batches of 50 (recover→gate→`dedup_propagate` ×134→checkpoint→improve between batches).
+4. Then T4 (conditional) / PhaseEnd.
+- State at checkpoint: 2 commits landed (commit:0158, commit:0159); tree clean; fleet 56.64% (T1's 6 are ov_SC01_077-local, not yet fleet-counted — they bank fleet-% only after the Phase-20 ×134 rollout).
 
 ## Blockers
 *(none)*
