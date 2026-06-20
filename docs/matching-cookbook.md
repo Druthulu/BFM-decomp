@@ -1142,11 +1142,35 @@ worked-example templates). Measured on ov_SC01_077 tractable reach-134 residuals
    which conflicts with your real def. FIX = reconcile that one line to the real sig (`void func_X(void);`).
    (Proven: func_8012A418.) A standalone `match_one` MATCH that fails the whole-binary gate with
    `conflicting types for func_X / previous declaration` is this class — grep the overlay `.c` for `func_X`.
-3. **Implicit-int caller plumbing (deferred class).** If an EARLIER-positioned caller in the same `.c` calls
-   `func_X` with no visible decl, gcc-2.7.2 (K&R) creates an implicit `int func_X()` that conflicts with the
-   later real def — but there is NO sibling decl to grep. Adding a forward extern at the file top can itself
-   collide; the clean resolution is that `dedup_propagate` puts the def in `engine_core.h` (included first) →
-   the implicit-int never forms. (3 such fns deferred to Phase 19 — propagate-first, gate-after.)
+3. **~~Implicit-int caller plumbing~~ → CORRECTED (Phase 19 / T2, R14): two distinct real classes, NOT
+   implicit-int, and propagate-first does NOT fix them.** The 3 "deferred" fns (func_80147514, func_80168F40,
+   func_8017209C) were reproduced through the gate to find the ACTUAL blocker (R14 — verify the framing against
+   the bytes). Neither is implicit-int; `dedup_propagate` (def → `engine_core.h`) would NOT have resolved
+   either (the def still lands at its address-order site, after any file-scope caller extern). The two classes:
+   - **(3a) Resident-callee LINK-miss** (func_8017209C). The draft calls a resident EXE/engine function by
+     `func_<ADDR>`, but that address carries a **curated name** in `config/symbols.us.txt` (e.g.
+     `0x8004CFEC = ratan2`). The linker resolves the curated name, not `func_<ADDR>` → the draft *compiles* but
+     fails to **link** (`undefined reference to func_8004CFEC`) → the gate (correctly) reverts. **FIX =
+     `tools/canon_resident_calls.py`** rewrites every `func_<ADDR>` whose address has a curated `// func` name to
+     that name (extern + call), a pure draft-text transform (body bytes unchanged) → **run it FIRST in the
+     recovery pipeline.** Proven: func_8017209C byte-identical after `func_8004CFEC`→`ratan2`.
+   - **(3b) Shared-caller ARITY conflict** (func_80147514 = `s32`, func_80168F40 = `void *`). An already-banked
+     **shared caller macro** in `engine_core.h` (e.g. `DEFINE_func_80147478`, instantiated at a *lower* address)
+     declares the callee **file-scope** as `extern void func_X(void);` (void = no args) then calls `func_X();` —
+     but func_X's real def takes an argument → `conflicting types for func_X / previous declaration` (NOT
+     implicit-int; it's an explicit `(void)` proto). **FIX = change that caller macro's extern to no-prototype
+     `extern void func_X();`** (K&R): byte-neutral for the caller (the empty call is identical), and a no-proto
+     decl is **compatible** with a def whose params are **default-promotion-safe** (`int`/`s32`/`long`/pointer —
+     NOT `char`/`short`/`float`; the narrow-param wall §3 of the toolkit still applies there). The macro lives in
+     the shared header, so **fleet-re-gate** (`make check-all`). Proven: func_80147514 + func_80168F40, all
+     136/136 byte-identical, byte-neutral on every overlay (only ov_SC01_077 carries the def; the other 133 keep
+     the stub, where a declaration-only change emits no code).
+
+   **The recovery pipeline is therefore: `draft → canon_resident_calls → sig_unify → harvest_verify --chunk 1`**
+   (canon_resident_calls first so link-miss names are fixed before any signature unification; sig_unify still
+   mandatory for def/callee-sig canonicalization). The 3b no-proto move is a separate, one-time edit per
+   caller/callee pair (it touches the shared header) — apply it when the gate reports `conflicting types … (void)`
+   from a shared-caller macro and the def's params are promotion-safe.
 
 **Two NEW residual classes found at scale (beyond the §17 quirks):**
 - **Per-file `-O0` class.** ~18 functions in ov_SC01_077 were built `-O0` (prologue sig `21F0A003` =

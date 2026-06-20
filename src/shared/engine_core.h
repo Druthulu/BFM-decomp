@@ -6023,7 +6023,7 @@
     }
 
 #define DEFINE_func_80147478() \
-    extern void func_80147514(void); \
+    extern void func_80147514(); \
     extern void func_80147628(s32 a0); \
     void func_80147478(s32 a0) { \
         if ((*(s32 *)(a0 + 0x44) & 0x40000000) == 0) { \
@@ -15525,7 +15525,7 @@
     }
 
 #define DEFINE_func_80168EC4() \
-    extern void func_80168F40(void); \
+    extern void func_80168F40(); \
     extern void func_800D22E4(s32 a0); \
     extern void func_80146C3C(void); \
     void func_80168EC4(s32 a0) { \
