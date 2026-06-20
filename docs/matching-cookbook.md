@@ -1026,8 +1026,19 @@ the time; the work is byte-closing + sig reconciliation. **Full process: `docs/h
 no /mcp) → parallel draft agents (m2c+Ghidra-C+asm+actor-struct+§3a, self-validate `match_one`) → whole-binary
 gate (`harvest_verify --chunk 1`) → `sig_unify` recover → `dedup_propagate --auto-from`. Calibration (top-30):
 60% match_one MATCH, **33% whole-binary** (+0.47% fleet), 136/136.
-**THE CANONICAL-SIG WALL (the ~2× scaling lever):** the entire match_one→whole-binary gap is SIG CONFLICTS
-(parallel agents declare shared callees inconsistently; 100% compile-errors, 0 codegen). Fix = a SURGICAL
-per-callee canonical-sig layer (match shared callees before callers / seed `engine_core.h`; NOT a blanket
-global header — that breaks loose matches, §15). Build it before the big wave. Targets:
-`.run/harvest_targets_s3.json`.
+**THE CANONICAL-SIG LAYER (built Phase-17 session-4; NOT the ~2× lever it first looked like).** The
+match_one→whole-binary gap on the calibration's *top-30* was SIG CONFLICTS (parallel agents declare shared
+callees inconsistently → `conflicting types` in the one-big-TU; 100% compile-errors, 0 codegen). Fix = a
+SURGICAL per-callee canonical-sig layer: `tools/census_conflict_callees.py` (the conflict predicate:
+undeclared-stub callee with `decl_sources = n_callers + is_target >= 2`) + `tools/derive_canonical_sigs.py`
+(byte-neutral `s32 func_X(s32...)`, arity from Ghidra-C + asm read-before-write `$a0-$a3`) → a 20-extern
+block at the TOP of `ov_SC01_077.c` (LOCAL, not engine_core.h — reach-1 names differ across overlays).
+`gen_harvest_targets` + `sig_unify` auto-read it; **the gate pipeline is now draft → `sig_unify` (MANDATORY)
+→ `harvest_verify --chunk 1`** (the accumulating baseline now carries the file-top block, so a raw draft's
+guessed extern would clash without sig_unify). **SIZING CORRECTION (R14):** for the *remaining 270*, the
+conflict wall is only **20 callees / 24 targets / 7% of wave reach** — the "~2×" was the top-30's in-flight
+conflicts, since resolved by banking. **The real wall is the gcc-quirk tail, not sig conflicts** — the 4
+highest-reach circular targets are ALL §10-hoist / regalloc / layout-bound (0 closed by hand or permuter).
+The layer makes a wave *sig-clean*; it does NOT unlock the quirk tail. **→ The match-% lever is understanding
+gcc-2.7.2 (R17 compiler-source research, Phase 18), not more brute waves.** Wave deferred; infra staged
+(`.run/harvest_wave_s4.js`, 40 tractable reach-134 targets). See `docs/hand-matching-process.md` §8.

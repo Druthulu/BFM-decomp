@@ -1,6 +1,36 @@
 #include "common.h"
 #include "../shared/engine_core.h"
 
+/* ==== Phase-17 canonical-sig layer (tools/derive_canonical_sigs.py) ===================
+ * ONE byte-neutral canonical signature per undeclared-stub conflict callee, so the parallel
+ * hand-matching wave declares each shared callee consistently and the one-big-TU build stops
+ * failing on `conflicting types` (hand-matching-process.md §7c). Form: s32 return (void->s32
+ * byte-neutral, §3a-1) + s32 params (matched bodies cast int->ptr), arity from Ghidra-C + asm
+ * read-before-write $a0-$a3 (agree on all 14 cached; 6 stubs call-site-validated). LOCAL to
+ * this TU on purpose (reach-1 names like func_801809BC differ across overlays, so NOT in the
+ * shared engine_core.h). Whole-binary harvest_verify byte-gate remains the sole arbiter (G3/P9). */
+extern s32 func_8016EC0C(s32 a0, s32 a1);                /* match-first, arity 2 */
+extern s32 func_8012B4B8(s32 a0);                        /* match-first, arity 1 */
+extern s32 func_801670E4(s32 a0, s32 a1, s32 a2, s32 a3); /* derive-decl, arity 4 */
+extern s32 func_80169A4C(s32 a0, s32 a1);                /* match-first, arity 2 */
+extern s32 func_8016A8FC(s32 a0);                        /* match-first, arity 1 */
+extern s32 func_8012B8E4(s32 a0, s32 a1);                /* match-first, arity 2 */
+extern s32 func_8015E1B8(s32 a0);                        /* match-first, arity 1 */
+extern s32 func_8015EE08(s32 a0);                        /* match-first, arity 1 */
+extern s32 func_8015F7D4(s32 a0);                        /* match-first, arity 1 */
+extern s32 func_80160B34(s32 a0);                        /* match-first, arity 1 */
+extern s32 func_80165140(s32 a0);                        /* match-first, arity 1 */
+extern s32 func_80161CD0(s32 a0, s32 a1);                /* match-first, arity 2 */
+extern s32 func_80175268(s32 a0);                        /* match-first, arity 1 */
+extern s32 func_8017EC7C(s32 a0);                        /* match-first, arity 1 */
+extern s32 func_801809BC(s32 a0, s32 a1);                /* match-first, arity 2 */
+extern s32 func_8012DE2C(s32 a0);                        /* derive-decl, arity 1 */
+extern s32 func_8012DDA4(void);                          /* derive-decl, arity 0 */
+extern s32 func_801759D8(void);                          /* derive-decl, arity 0 */
+extern s32 func_80175820(void);                          /* derive-decl, arity 0 */
+extern s32 func_801758FC(void);                          /* derive-decl, arity 0 */
+/* ==== end canonical-sig layer ==================================================== */
+
 DEFINE_func_80128158()  /* dedup: shared engine-core @0x80128158 (src/shared) */
 
 DEFINE_func_80128178()  /* dedup: shared engine-core @0x80128178 (src/shared) */

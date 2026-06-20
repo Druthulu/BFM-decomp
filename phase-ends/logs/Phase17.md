@@ -260,3 +260,42 @@ types — 67% reach incl. the giants) → T6 (validate the 146 permuter candidat
     ~2× yield/token). 12/30 = genuine gcc-quirk tail. **NEXT (scaling, Max):** build the canonical-sig layer
     (establish/enforce shared-callee canonical sigs; match shared callees before callers), then scale the wave
     to the remaining ~270 targets (`.run/harvest_targets_s3.json`). Then T7 close.
+- 2026-06-19 (session 4, Max): **CANONICAL-SIG LAYER BUILT + a key sizing correction (R14/P9).**
+  - **Tools (new, committed):** `tools/census_conflict_callees.py` (the accurate conflict predicate:
+    undeclared-stub callee with `decl_sources = n_callers + is_target >= 2`) + `tools/derive_canonical_sigs.py`
+    (byte-neutral canonical = `s32` return + `s32`/arity params; arity from Ghidra-C cache AND asm
+    read-before-write `$a0-$a3`, agreeing on all 14 cached, 6 stubs call-site-validated).
+  - **THE LAYER:** 20 conflict callees (14 are themselves wave targets / 4 at reach-134; 6 non-target stubs)
+    declared once as a file-top `extern s32 ...` block in `src/ov_SC01_077/ov_SC01_077.c` (LOCAL, NOT
+    engine_core.h — reach-1 names like func_801809BC differ across overlays; it's matched in ov_SC03_096).
+    `gen_harvest_targets` + `sig_unify` both already read ov_SC01_077.c → the layer auto-wires (no tool change).
+    Census after: **conflict callees 20→0, blocked targets 24→0**. Byte-neutral: ov_SC01_077 clean-rebuilds
+    `d19c9580` (R22). sig_unify test: rewrites a wrong `extern void func_801758FC(s32)` → canonical
+    `extern s32 func_801758FC(void)`. ✓
+  - **SIZING CORRECTION (R14):** the §7c "~2× scaling lever" was measured on the top-30's IN-FLIGHT conflicts;
+    since those callees got banked the wall shrank. For the remaining 270 it is **only 20 callees / 24 targets /
+    7% of wave reach** — a modest unblock, NOT the dominant lever. The wave's real ceiling is the gcc-quirk tail
+    (§2/§10), unchanged by the layer.
+  - **PIPELINE CHANGE (required):** harvest_verify uses an ACCUMULATING baseline from ov_SC01_077.c (now with
+    the file-top block) → a raw draft's own guessed extern would clash with the block even at `--chunk 1`. So
+    the wave gate is now **draft → sig_unify (MANDATORY, normalizes to the file-top canonical) → harvest_verify
+    --chunk 1 → propagate** (sig_unify was previously a recovery-only pass).
+  - **NEXT (Drew decision pending — R27 Ultracode prompt + the resized expected value):** scale the wave (task 5,
+    needs `/effort ultracode`) vs. a focused Max session matching the 4 reach-134 circular targets + tractable
+    high-reach subset by hand. Layer done (task 2); sig_unify wired (task 3). Tasks 4/5/6/7 open.
+- 2026-06-19 (session 4 cont., Max): **TASK 4 — hand-matched the 4 reach-134 circular targets (Drew chose A);
+  ALL 4 are gcc-quirk/regalloc/layout-bound → 0 banked. Layer validated independently; the finding is the
+  high-reach core IS the quirk tail (confirms §4).** Drafts in `.run/drafts-s4/` (scratch, none gated).
+  - `func_8012B4B8` (matrix transform): **§10 stack-addr rematerialize-vs-hoist** — gcc caches `&mtx` in a
+    callee-saved reg (3 saved); the original re-materializes `addiu $a1,$sp,0x10` per call (2 saved). Not
+    source-steerable (2 variations tried).
+  - `func_8012B8E4` (angle-diff + `--expand-div`): **structurally PERFECT (75=75)**, down to a `$s0/$s1`
+    regalloc swap + a reassociation = 24-mismatch near-miss. **Permuter probe (external callee `ratan2` →
+    T6 inlined-callee concern does NOT apply): base 530, NO improvement in 90s** → not in the permuter's
+    randomization space (§3). Scratch `.run/permuter/func_8012B8E4/` (reusable: header+macro.inc → target.o).
+  - `func_8016A8FC` / `func_80169A4C`: **local-struct-builders** (stack-layout/scheduling-bound). Assessed hard.
+  - **CONCLUSION:** the layer makes the high-reach circular targets *declarable* but they are the **gcc-quirk
+    tail, not the sig-conflict wall** — the layer doesn't unlock them. Its value: a **sig-conflict-clean wave**
+    banking the TRACTABLE (mostly lower-reach) subset. **Wave yield is quirk-tail-limited (~2-4% fleet), NOT
+    ~2×.** This IS the task-7 go/no-go input. **Decision pending (Drew): run the layer-clean wave (task 5,
+    /effort ultracode) vs. close Phase 17 + defer the wave to a dedicated/unattended run (Phase-16 auto_driver).**

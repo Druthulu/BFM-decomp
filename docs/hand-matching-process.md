@@ -332,3 +332,57 @@ Expected to lift whole-binary 33% → ~60% (toward the match_one ceiling) — **
 Calibration: 30 fns / 1.89M tokens / 33% whole-binary / +0.47%. Naive scale to 300 ≈ ~4% fleet, token-heavy.
 With the canonical-sig layer (33%→~60%) ≈ ~6-7% fleet at ~2× token efficiency. **Build the layer before the
 big wave.** Targets: `.run/harvest_targets_s3.json` (300, relocs≤5, reach-sorted; the top-30 are done).
+*(Superseded by §8 — the layer was built and the "~2×" did not hold; the wall is the compiler, not sigs.)*
+
+---
+
+## 8. THE CANONICAL-SIG LAYER — BUILT, and the decisive finding (Phase-17 session 4, 2026-06-19/20)
+
+**The layer is BUILT and validated; the "~2× scaling lever" framing was WRONG; the real wall is the
+gcc-quirk tail, so the next lever is understanding gcc-2.7.2 (R17 research, Phase 18), NOT more brute waves.**
+
+### 8a. What was built (committed, byte-neutral, reusable)
+- `tools/census_conflict_callees.py` — the accurate conflict predicate: an undeclared-`stub` callee with
+  `decl_sources = n_callers + is_target >= 2` is a sig-conflict risk (a `declared`/`defined`/`extern` callee
+  is conflict-free; gen_harvest_targets feeds the one sig). Writes `.run/conflict_callees.json`.
+- `tools/derive_canonical_sigs.py` — one byte-neutral canonical sig per conflict callee: **`s32` return**
+  (void→s32 byte-neutral §3a-1; required where `$v0` is used) + **`s32` params** (matched bodies cast int→ptr,
+  the demo idiom), **arity** from the Ghidra-C cache AND asm read-before-write `$a0–$a3` (agreed on all 14
+  cached; the 6 non-cached stubs call-site-validated). Writes `.run/canonical_sigs.json`.
+- The **20-extern block at the TOP of `src/ov_SC01_077/ov_SC01_077.c`** ("Phase-17 canonical-sig layer").
+  **LOCAL on purpose** — engine_core.h is shared by all 134 overlays and a reach-1 name (e.g. func_801809BC,
+  matched differently in ov_SC03_096) would collide. `gen_harvest_targets` + `sig_unify` both already read
+  the overlay `.c`, so the layer auto-wires with **no tool change**.
+- **Pipeline change (mandatory):** harvest_verify accumulates the baseline from the (now block-carrying)
+  `.c`, so a raw draft's guessed extern clashes with the block even at `--chunk 1`. The wave gate is now
+  **draft → `sig_unify` (MANDATORY, normalizes drafts to the file-top canonical) → `harvest_verify --chunk 1`
+  → propagate.** Census after the layer: **conflict callees 20→0, blocked targets 24→0**, fleet 136/136 (R22).
+
+### 8b. THE FINDING (R14/P9 — this redirects the whole strategy)
+- **The conflict wall is small:** for the remaining 270, only **20 callees / 24 targets / 7% of wave reach**.
+  The "~2×" was the *top-30's in-flight* conflicts, since dissolved by banking those callees.
+- **The high-reach core IS the gcc-quirk tail.** Hand-tried the 4 reach-134 *circular* conflict callees
+  (the §7c "match callees first" move) — **ALL quirk-bound, 0 banked:** func_8012B4B8 = §10 stack-addr
+  rematerialize-vs-hoist (gcc caches `&mtx`); func_8012B8E4 = `$s0/$s1` regalloc swap, **structurally perfect
+  75=75** but the permuter probe stalled at base score (external callee `ratan2`, so T6 doesn't even apply —
+  it's just not in the permuter's search space); func_8016A8FC / func_80169A4C = local-struct-builders
+  (stack-layout-bound). Drafts in `.run/drafts-s4/`; permuter scratch `.run/permuter/func_8012B8E4/`.
+- **Types are byte-neutral for matching (re-confirmed):** matching reads the access *width* off the asm
+  instruction (`lh`=s16, `lbu`=u8, `lw`=s32), not off any struct def — so emulator-recovered struct types
+  help *comprehension*, not the byte-close. The wall is the compiler's regalloc/scheduling, which types and
+  shared-context do not touch.
+
+### 8c. The leverage analysis (answering "do the fewest largest that unlock the most?")
+- The fleet % is **function-count-weighted** (`190,949 / 344,010` functions): **every reach-134 match is
+  +0.039% regardless of size.** Giants bank more *bytes* but the same %. So "fewest largest" gives no % edge.
+- "Unblock many" = the canonical-sig layer (declaration removes sig-friction; it does NOT make callers
+  *matchable* — matching is independent per function). The highest-fan-in callees (func_8012A828 49 callers,
+  func_80146CA0 46, …) are already `defined`/`declared`/`extern`. Declaring the top-5 *undeclared* keystones
+  touches only 28 of 900 stubs. So there is no "magic 5 unlocks hundreds."
+- **The real lever is reach (size-independent), which we already reach-sort, + the idiom flywheel.** Of the
+  400 remaining reach-134 stubs, **247 are the tractable shape** (≤80 ins, ≤4 calls); 80 call-heavy (§10
+  tail), 28 giants. Projected tractable-247 wave ≈ **+3-4% fleet** at the calibration close-rate.
+
+### 8d. The deferred wave (staged, ready to resume after the compiler research)
+`.run/harvest_wave_s4.js` = the layer-aware probe (40 tractable reach-134, sig_unify-before-gate). Resume
+after Phase 18 lands new gcc-quirk idioms (which raise the close-rate above 33% and so the wave's yield).
