@@ -1162,3 +1162,38 @@ worked-example templates). Measured on ov_SC01_077 tractable reach-134 residuals
   class (which pins DO fix) and from narrow-param. A genuine residual — stub.
 - (also: func_8014F2E0 4-off = §10 store-vs-load schedule placement, base-preservation-vs-load-order mutually
   exclusive — a real §10 residual.)
+
+## §18 Per-file `-O0` split inside an overlay/blob (Phase 19 T1)
+A cluster of functions compiled `-O0` inside an otherwise-`-O2` binary needs its own `-O0`-compiled `.c` (the
+`src/boot.c` precedent — gcc-2.7.2 has no per-function optimize pragma, opt is per-file via a target-specific
+`build/src/<path>.o: CC1FLAGS := -O0 …`). Detect `-O0` by the prologue `21F0A003` (`addu $fp,$sp,$zero`) + param
+spill/reload + load-delay nops.
+
+**The mid-blob constraint (the non-obvious part).** `src/boot.c` worked because boot is a PREFIX. When the `-O0`
+cluster is in the MIDDLE of the address space, you CANNOT keep before+after in one `.c`: a single object's `.text`
+is atomic, so the `.ld` references `main.o(.text)` twice but GNU ld consumes it on first match → the after-region
+stays concatenated with before and lands at the wrong address (byte divergence appears EARLY, at the first
+`jal`/`%hi` to a moved callee, not at the cluster). **Fix = THREE distinct objects** (before / `_o0` / after), each
+its own `.c`/subseg so each `.text` is independent and the `.ld` orders them by address. Minimize migration by
+keeping the bulky side as the original name (asm paths unchanged) and moving the smaller side to a new subseg
+(rewrite its INCLUDE_ASM paths with `sed nonmatchings/<old>" → nonmatchings/<new>"`). Keep the file-top header
+(includes + canonical-sig externs) in BOTH halves. R22 clean-rebuild is a 100%-INCLUDE_ASM no-op gate before
+adding bodies. NOTE: `tools/split_src_region.py`'s naive item-parser GLOMS a file-top extern block onto a
+high-address function name → mis-addresses the split; do the cut by explicit line/offset instead.
+
+**`-O0` gating ≠ `match_one`.** `match_one` compiles `-O2`, so it's WRONG for `-O0` functions — gate them only via
+the whole-binary build (which honors the Makefile `-O0` override). `harvest_verify` works IF it builds via `make`;
+direct `substitute → make build → SHA` + per-fn bisection is the reliable loop.
+
+**`-O0` matched-idiom notes.** Hoist data externs to the file top, ONE canonical type per symbol (parallel drafts
+disagree: `u8` vs `s32` on the same `D_*` → `conflicting types`). Scalar global store (`D_x = k`) and
+pointer-loops match cleanly. **Open residual (the wall for ~10 of the cluster): indexed global access `arr[i]=x`.**
+Our cc1 `-O0` MATERIALIZES the address (`lui;addiu(%lo);addu idx;sw 0(reg)`) where the original FOLDS `%lo`
+(`lui(%hi);addu idx;sw %lo(sym)(reg)`, 1 ins shorter) — gcc address-splitting our cc1 reproduces differently at
+`-O0`; neither `sym[idx]` nor `(T*)&sym+off` folds. Not a C-form fix found → gcc-source research (R17/§17). Stub
+until cracked.
+
+**`-O0` reach-134 propagation is NOT free.** `-O0` functions can't go through `engine_core.h` (it's included by
+each overlay's `-O2` main `.c` → would compile `-O2` → not match). To bank the ×134, each overlay needs its OWN
+`-O0` split. Uniform across the fleet (all overlays share vram base `0x80128158`, so the cluster offsets are
+identical) → scriptable, but it's per-overlay infra + 134 gates, not the "free ×134" a dedup report implies.
