@@ -58,7 +58,12 @@ source-steerable") contradicts §10 — Phase 18 reconciles it. So: **existing-k
   sig_unify → **byte-gated to a full MATCH** (func_801399A8, 136/136). branch-polarity (§3-T4): match_one
   byte-evidence (24→21). array-decay-forces-remat: match_one byte-evidence (88→52, fixes the hard regalloc+
   remat). regalloc-order: byte-proven UNSTEERABLE (exhaustive sweep + Xenogears). Per-class verdicts set.
-- [ ] **T5 — Distill into cookbook + reconcile §10-vs-§16.**
+- [x] **T5 — Cookbook distilled + reconciled ✓ 2026-06-20.** New **§17** (steerable-vs-not: the UNSTEERABLE
+  call-crossing register-ORDER class with the global.c mechanism + Xenogears corroboration; the STEERABLE
+  idioms array-decay-remat / for-loop-delay-slot / statement-order; the sig_unify-MANDATORY gotcha; the
+  loose-typing narrow-param wall). **§16 reconciled** (the "not source-steerable" line now points to §17's
+  confirmation; the §10-vs-§16 tension resolved by naming the residual class). hand-matching §8e (Phase-18
+  outcome re-scopes the Phase-19 wave: triage-and-stub the unsteerable, spend on the non-walled structurals).
 - [x] **T6 — Demonstration ✓ 2026-06-20.** **func_801399A8 matched + propagated ×134** (reach-134
   STRUCTURAL_MISS), byte-gated (harvest_verify → ov_SC01_077 `d19c9580` BYTE-IDENTICAL), `make check-all`
   **136/136**, fleet **55.51% → 55.55%** (+134 instances). Idioms used: for-loop structure (delay-slot

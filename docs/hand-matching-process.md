@@ -386,3 +386,18 @@ gcc-quirk tail, so the next lever is understanding gcc-2.7.2 (R17 research, Phas
 ### 8d. The deferred wave (staged, ready to resume after the compiler research)
 `.run/harvest_wave_s4.js` = the layer-aware probe (40 tractable reach-134, sig_unify-before-gate). Resume
 after Phase 18 lands new gcc-quirk idioms (which raise the close-rate above 33% and so the wave's yield).
+
+### 8e. Phase-18 OUTCOME (compiler-quirk research — the verdict that re-scopes the wave)
+The "understand gcc-2.7.2 to crack the tail" research LANDED (cookbook §17, gcc source `tools/reference/
+gcc-papermario` + Xenogears mine). **Decisive finding: the highest-reach circular tail is the call-crossing
+register-ALLOCATION-ORDER class, and it is NOT source-steerable** — `global.c:allocno_compare` density ordering,
+confirmed unsteerable by an exhaustive C/flag/cc1 sweep AND independently corroborated (Xenogears, same
+compiler, ships the class as INCLUDE_ASM). New *partial* idioms found (array-decay-remat, for-loop/statement-
+order delay-slot scheduling) + one full byte-gated demonstration (func_801399A8, reach-134, fleet 55.51→55.55%).
+**Re-scope:** the wave's yield will NOT rise by cracking the circular tail (it can't be cracked from C); the
+yield comes from the **non-walled STRUCTURAL_MISS fns** (closeable via §17 idioms + mandatory sig_unify). Some
+structurals are ALSO walled by the loose-typing/narrow-param dead-end (func_80146A6C). So Phase-19's wave should
+**triage with `match_one` and stub-and-skip** any residue that is a call-crossing $s0/$s1 swap or a narrow-param
+type conflict, and spend only on the genuinely-tractable remainder. Expect a close-rate in the calibration
+range (~33% whole-binary), not higher — the research raised UNDERSTANDING (so we don't waste effort on the
+unsteerable), not the per-function close-rate of the hard tail.

@@ -1020,7 +1020,9 @@ the time; the work is byte-closing + sig reconciliation. **Full process: `docs/h
   `ret0: return 0;`. gcc then makes `ret0` a labeled block reached by branches (right polarity) + schedules
   the next test's constant into the delay slot. A lone `if(x)return 0;` inlines (wrong polarity/reg).
 - **v0↔v1 result/constant coalescing** + the §10 hoist-vs-remat / phantom-frame quirks = the residual hard
-  tail (not source-steerable; permuter only helps relocs=0, and slowly). Defer as `INCLUDE_ASM` stub.
+  tail (not source-steerable — **§17 confirms this for the call-crossing register-ORDER class via the gcc
+  source + Xenogears, and adds the array-decay-remat lever that DOES crack part of the hoist-vs-remat class**;
+  permuter only helps relocs=0, and slowly). Defer as `INCLUDE_ASM` stub.
 
 **Scaling = Ultracode wave (§12 pattern + §7):** Ghidra pre-pass (`DecompileFunctions.java`, headless batch,
 no /mcp) → parallel draft agents (m2c+Ghidra-C+asm+actor-struct+§3a, self-validate `match_one`) → whole-binary
@@ -1042,3 +1044,66 @@ highest-reach circular targets are ALL §10-hoist / regalloc / layout-bound (0 c
 The layer makes a wave *sig-clean*; it does NOT unlock the quirk tail. **→ The match-% lever is understanding
 gcc-2.7.2 (R17 compiler-source research, Phase 18), not more brute waves.** Wave deferred; infra staged
 (`.run/harvest_wave_s4.js`, 40 tractable reach-134 targets). See `docs/hand-matching-process.md` §8.
+**§17 resolves the "not source-steerable" question with the gcc source + Xenogears: confirmed for the
+call-crossing register-ORDER class, refined for the rest.**
+
+## §17 The compiler-quirk wall — steerable vs not (Phase 18; gcc-2.7.2 source + Xenogears confirmed)
+Phase 18 read the real gcc-2.7.2 source (`tools/reference/gcc-papermario`, SETUP §5.6) + mined Xenogears (our
+EXACT compiler — `gcc-2.7.2-psx`+`-cdk`) to resolve §16's open item. **Verdict: the call-crossing
+register-ALLOCATION-ORDER class is NOT source-steerable; several adjacent classes ARE. Name the residual class
+precisely before deciding — that reconciles §10 ("steerable") with §16 ("not steerable"): both are right about
+DIFFERENT residuals.** Triage every quirk residual with `match_one` (the floor-free oracle — NEVER the permuter
+score on jtbl/rodata fns, §10) before investing.
+
+### The UNSTEERABLE class — call-crossing $s0/$s1 allocation ORDER (global.c, source-confirmed)
+Two pseudos live across a call → both are **global** allocnos (NOT local-alloc) competing for callee-saved
+$s0/$s1. `global.c:allocno_compare` sorts by **density** `floor_log2(n_refs)*n_refs/live_length*size` (tie =
+allocno number); first-sorted gets the first free reg ($s0). A short-lived value (loaded just before the call,
+consumed just after) = HIGH density → wins $s0; a whole-function-lived value (an arg captured pre-call, used at
+a late op) = LOW density → $s1 — even when the original is the reverse, and the long-lived value's span is
+structurally fixed so its density can't be raised from C. Confirmed unsteerable: statement order (no effect),
+variable coupling (regressed), -O3 (identical alloc), `cdk` cc1 (worse), the Xenogears flag deltas
+(`-funsigned-char`/`-fpcc-struct-return`/`-fpeephole`/`-ffunction-cse`/`-fcaller-saves` — none flip it),
+`-fno-schedule-insns` (worse). **Independent corroboration (R14):** Xenogears, same toolchain, has NO C lever
+for this class (no `register`, no `__asm__("$16")` pins, no permuter) and ships such functions as INCLUDE_ASM
+(1174). **Policy: stub it (G4); don't burn time.** Exemplar func_8012B8E4 (75=75, 24→21 via branch-polarity;
+the residue is the swap).
+
+### The STEERABLE idioms (byte-confirmed this phase)
+- **array-decay forces rematerialization (NEW).** A stack buffer passed to a callee as `&struct` / `mtx.w` /
+  `*(T*)arr` (any address-taken form) is HOISTED into a callee-saved reg (needs an extra callee-saved → bigger
+  frame, more spills). Declare it a local **array** `T buf[N]` and pass it as `buf` (array-decay, never
+  address-taken) → gcc **rematerializes** `addiu $reg,$sp,off` per call instead (matches the original, frees
+  the reg). func_8012B4B8: 88→52 (the hard regalloc+remat half fixed). CAVEAT: an array can't take a struct
+  block-copy (`arr = STRUCT` needs a struct; element-copy constant-folds each global addr to its own `lui`,
+  +ins), so a fn that ALSO needs a load-base-once struct-copy has an unavoidable tension.
+- **for-loop vs do-while controls delay-slot scheduling.** A counted scan as a `for` (init/cond/update) lets
+  gcc schedule the branch-taken return value into the loop test's delay slot; a `do-while` with increments in
+  the body fills that slot with an increment instead (+1 ins, wrong schedule). func_801399A8: do-while 7
+  mismatch → for-loop 2 → MATCH.
+- **statement order in the for-update = instruction order (§2-T2 extended).** Independent updates in
+  `for(...; ...; A, B)` emit in source order; swap to match. (func_801399A8 final 2.)
+- (existing, reconfirmed) **§3-T4 branch-polarity invert** (func_8012B8E4 24→21), **§16 mask-local**,
+  **§16 shared-ret0 goto**.
+
+### The pipeline gotcha — match_one ≠ the gate; `sig_unify` is MANDATORY
+`match_one` masks relocations → it MATCHES even when the draft's own def-signature or a data-extern TYPE
+conflicts with the canonical decl in `engine_core.h` (`u8 *func(void)` vs canonical `s32 func(void)`;
+`extern u8 D_x` vs `extern s32 D_x`). The whole-binary gate then fails `conflicting types`. ALWAYS retype the
+draft to the canonical set (return + data-extern types; use integer address arithmetic `(s32)&sym`,
+codegen-neutral): **draft → `sig_unify`/canonical-retype → `harvest_verify`.**
+
+### The LOOSE-TYPING wall is real for narrow params (Phase 16, reconfirmed)
+Some STRUCTURAL_MISS fns are blocked by it: func_80146A6C needs an incoming arg as `lhu` (s16), but the shared
+canonical sig declares it `s32` (→ `lw`); the byte-match needs s16, another call site needs s32, no single C
+type satisfies both. No clean fix (the documented narrow-param dead-end). **Stub it.** *(Reconciles §16's
+"Phase 17 disproves the loose-typing wall": disproven for pure-structure fns like func_801399A8; REAL for
+narrow-param fns like func_80146A6C and inseparable from the regalloc tail.)*
+
+### Strategic conclusion — the match-% lever post-research
+The high-reach **circular regalloc-order tail is unsteerable** (confirmed + corroborated) and some structurals
+hit the loose-typing wall — both → INCLUDE_ASM (the Xenogears policy). The lever is the **STRUCTURAL_MISS fns
+that AREN'T walled** (closeable via the steerable idioms above + mandatory sig_unify — proven on func_801399A8,
+reach-134, fleet +134), i.e. the **tractable-247 wave (Phase 19)**, NOT cracking the circular tail. Each such
+match is worth ×(overlay count). Don't spend on the unsteerable classes beyond a `match_one` triage: residue =
+call-crossing $s0/$s1 swap OR narrow-param type conflict → stub it and move on.
