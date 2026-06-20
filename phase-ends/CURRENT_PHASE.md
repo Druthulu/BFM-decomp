@@ -205,3 +205,23 @@ types — 67% reach incl. the giants) → T6 (validate the 146 permuter candidat
   Drew's plan (in order): **sample 1-2 more (struct-using + fnptr-call) → prove the giant func_80144B9C →
   build the canonical-widening pass + harvest → document fully + automate.** Tasks 5/6/7 created. **NEXT:
   sample 2 more, then the giant.** Effort: Max (hand-matching, Tier-1).
+- 2026-06-19 (session 3, normal Max→Ultracode): **TASK 1 (sample 2 more) DONE + DECISION + CALIBRATION WAVE DONE.**
+  - **Task 1:** banked **func_8015F9A4** (fnptr, ×1, CLEAN) `commit:0136`; 3 struct near-misses had 100%-correct
+    bodies but gcc-quirk tails (§10 remat, phantom -O2 frame, v0/v1 coalescing — even the permuter couldn't
+    close relocs=0 func_8014C308 in 12min). New idioms → hand-matching-process.md §2 (mask-local; shared-ret0
+    goto). **Selection lesson:** low-m2c-mismatch struct = the quirk tail; clean closes = fnptr/relocs-low/
+    m2c-mis-structured. **Sizing (§6):** tractable easy classes are LOW-reach; ×134 yield is in quirk-heavy
+    STRUCTURAL_MISS(7.6%)/PERMUTER_CLASS(3.6%). Permuter route refuted (T6 callee-inlining).
+  - **DECISIONS (Drew):** (1) "decompile to correct C, defer byte-perfect?" → **A-only**: byte-match tractable
+    classes; quirk tail stays INCLUDE_ASM stub (NO NON_MATCHING correct-C track until public). (2) **harvest
+    tractable first; giant func_80144B9C DEFERRED** (call-heavy = hardest). (3) **Ghidra pre-pass YES.**
+  - **Ghidra pre-pass:** `tools/ghidra_scripts/DecompileFunctions.java` (headless batch — NO /mcp needed) →
+    300 Ghidra-C cached to `.run/ghidra_c/func_<ADDR>.c` (high quality, better than m2c on local/global).
+  - **CALIBRATION WAVE (Ultracode, `.run/harvest_wave_s3.js`, top-30 by reach):** 18/30 match_one MATCH (60%);
+    **10/30 whole-binary verified (33%)** after sig_unify recovered 2 → propagated ×134 (+2 demo catch-ups);
+    **fleet 55.04%→55.51% (+0.47%), 136/136 (R22)**, `commit:0137`. **KEY FINDING: the match_one→whole-binary gap
+    (60%→33%) is 100% SIG CONFLICTS** (shared callees like func_80131CA8 declared inconsistently across
+    parallel agents), NOT codegen → **the canonical-sig layer is the ESSENTIAL enabler** (would lift 33%→~60%,
+    ~2× yield/token). 12/30 = genuine gcc-quirk tail. **NEXT (scaling, Max):** build the canonical-sig layer
+    (establish/enforce shared-callee canonical sigs; match shared callees before callers), then scale the wave
+    to the remaining ~270 targets (`.run/harvest_targets_s3.json`). Then T7 close.
