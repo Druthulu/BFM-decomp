@@ -113,6 +113,27 @@ To diagnose a whole-binary FAIL: substitute the draft into a `.c` copy, `make bu
   not cleanly source-steerable, and the **permuter can't score it** (object score floor-polluted by
   the masked global/call symbols, cookbook §10). 1 instruction, genuinely hard. (`func_8012A328` —
   best draft `.run/demo/func_8012A328.c`, the `p+q` form 61 vs 60.)
+- **`lh`-vs-`lhu` fold defeat — the mask-local idiom (NEW, func_8014C308).** When the asm loads a signed
+  field (`lh`) and ANDs it with a runtime mask `(x & 0xFFFF)`, writing `*(s16 *)f & (x & 0xFFFF)` **inline**
+  lets gcc prove the result fits 16 bits → it folds the load to `lhu` and drops the separate `andi`. FIX:
+  hoist the mask to a local — `s32 m = x & 0xFFFF; ... *(s16 *)f & m ...`. gcc can no longer prove `m ≤
+  0xFFFF` at the AND, so it keeps `lh` + emits `andi m` then `and`. (Turned `lhu`+`and a3` into the target's
+  `lh`+`andi v1`+`and`.)
+- **Shared-return cross-jump clustering + branch-polarity control (NEW, func_8014C308).** When the original
+  routes two (non-adjacent) predicate tests to ONE shared `return 0` block — so each test's branch-delay slot
+  is free to hold the *next* test's constant and the tests branch with a particular polarity (`beq`/`bnez`
+  *to* the shared block) — write BOTH as `goto ret0;` to a single trailing `ret0: return 0;`. gcc then makes
+  `ret0` a labeled block reached by branches (correct polarity) and schedules the following test's constant
+  into the delay slot — reproducing the original's clustering AND its register assignment (constants in the
+  non-result reg). A lone `if (x) return 0;` instead **inlines** the return (`beqz`-skip, inverted polarity,
+  constant lands in the result reg) → cascade. This fixed func_8014C308's idx 0–21 in one move; what remained
+  was a pure v0↔v1 coalescing choice (permuter territory).
+- **v0↔v1 result/constant coalescing (the residual after the above).** When a `result` default (`var = 1`)
+  competes with a sequential `beq`-chain's constants for the return reg, gcc may put the constants in `v0` and
+  the result in `v1` (extra `move v0,v1`), vs the target's result-in-`v0`/constants-in-`v1`. Not reliably
+  source-steerable (tried: var-at-top → worse/`t0`; early-return → polarity issues). For a **relocs=0**
+  function this is a CLEAN permuter target (no masked-symbol floor) — unlike the §10 call-heavy tail.
+  (func_8014C308, ×134.)
 
 ---
 
@@ -176,6 +197,27 @@ func_8012832C + func_8015F89C + func_80147B5C all closed this way.)
 - **Scratch:** all drafts under `.run/demo/`. Permuter setup at `.run/permuter/func_8012A328/` (base
   score 1680, floor-polluted — abandoned).
 
+### Session 3 (2026-06-19, normal Max session) — "sample 2 more to firm the rate"
+Sampled 1 fnptr + several struct residuals via the §1 loop. **Headline: the loop reconstructs CORRECT
+bodies every time (4/4 this session), but the byte-CLOSE on the struct tail is gcc-codegen-quirk-bound, and
+candidate sub-class matters more than expected.**
+- **BANKED (clean whole-binary close):** `func_8015F9A4` (fnptr-call, reach ×1, inline in `ov_SC01_077.c`)
+  — a near-clone of the demo's `func_8015F89C` (same `D_801891B8[arg0->f0](arg0)` table + `func_80161208`
+  arity-cast). **fnptr-call class confirmed reliably closeable (2/2 with the demo).**
+- **STRUCTURALLY PERFECT, blocked by regalloc — `func_8014C308`** (struct predicate, **relocs=0, reach ×134**):
+  body matches; down to a pure v0↔v1 constant/result coalescing swap. Hand-fixes got it from 15→~3 mismatches
+  (mask-local idiom + shared-ret0 goto, §2); the residual is a clean **permuter** target (no masked-symbol
+  floor). Permuter converging (455→210→140). Drafts: `.run/demo/func_8014C308.c` (+ `_v2`/`_v3` experiments);
+  permuter `.run/permuter/func_8014C308/`.
+- **NEAR-MISS, ×134, §10 tail — `func_80130AF0`** (struct dispatch, reach ×134): body 100% correct, blocked
+  by the §10 per-block `a0` rematerialization / `jal`-delay-slot quirk (call-heavy → permuter floor-polluted).
+  Draft `.run/demo/func_80130AF0.c`.
+- **NEAR-MISS, ×1 — `func_8016B4F8`** (struct init, reach ×1): body 100% correct, phantom +0x8 -O2 frame
+  (cookbook §5 phantom-frame; -O2 variant, not the -O0 reserved-local fix). Draft `.run/demo/func_8016B4F8.c`.
+- **SELECTION LESSON:** sorting `STRUCTURAL_MISS` by *ascending* m2c-mismatch biases toward the gcc-quirk
+  tail (m2c already nailed the structure → only a codegen quirk remains). Clean closes come from **fnptr-call**,
+  **relocs=0 / few-call**, and **m2c-mis-structured-but-fixable** functions. Low-mismatch call-heavy = hard tail.
+
 ---
 
 ## 5. TOWARD PROGRAMMATIC AUTOMATION (the end goal)
@@ -197,10 +239,43 @@ diff-driven fix-suggestions → a mostly-automatic loop, with the gcc-quirk tail
 
 ---
 
-## 6. PLAN FORWARD (Drew's sequence, 2026-06-19)
+## 6. PLAN FORWARD — REVISED 2026-06-19 (session 3) after sizing + the permuter refutation
 
-1. **Sample 1-2 more** (a struct-using STRUCTURAL_MISS + a fnptr-call) to firm the 2/3 rate.
-2. **Prove the giant** `func_80144B9C` (770 ins, ×134, the Phase-15 prime target) end-to-end.
-3. **Build the canonical-widening pass + harvest wave** (task 6) — operationalize §5.1.
-4. **Document fully** (this file, expanded) + automate where possible (§5).
-5. Then T7 go/no-go close + PhaseEnd.
+**Original sequence** (sample → giant → harvest) is superseded. After firming the rate (§4 session 3),
+Drew chose **"harvest tractable classes first; giant DEFERRED"** (option A). Then the sizing below changed
+the calculus again.
+
+### Harvest opportunity sizing (2026-06-19, reach-weighted; fleet denom = 344,010 instances, 55.04% done)
+Per residual bucket (still-stub fns in ov_SC01_077), count / sum-of-reach / %fleet-if-all-matched:
+
+| Class | count | reach | %fleet | tractability |
+|---|---|---|---|---|
+| `MCOMPILE_fnptr-call` | 83 | 355 | 0.1% | reliably HAND-closeable, but **low reach** (overlay-specific tables) |
+| `VOID_VALUE_MISUSE` (widening) | 17 | 1081 | 0.3% | deterministic (canonical-widening) |
+| `SIG_FIXABLE_KR` | 4 | 536 | 0.2% | deterministic (sig_unify, mostly done T3) |
+| `STRUCTURAL_MISS` | 366 | 26,304 | **7.6%** | HIGH yield, but quirk-heavy; only the m2c-mis-structured-fixable + relocs≤2 subset is tractable |
+| `PERMUTER_CLASS` | 145 | 12,263 | **3.6%** | 1-4 mismatch near-misses |
+| (call-heavy `relocs 6+` across the above) | 275 | 18,113 | 5.3% | the §10 tail — DEFER as stubs |
+
+**The reach (×134 leverage) is concentrated in the core shared engine functions, which are exactly the
+quirk-prone STRUCTURAL_MISS/PERMUTER_CLASS** — NOT the easy fnptr/void classes (those are low-reach).
+
+### The permuter route is largely REFUTED (T6 + session-3 `func_8014C308`)
+- **relocs≥1:** T6 proved isolated-permuter wins do NOT transfer to the whole binary (callee inlining in the
+  one-big-file TU differs) → ~0 whole-binary yield. The relocs 1-2 band (2.15%) is subject to this.
+- **relocs==0** (only 11 fns / 0.39%): permuter-faithful BUT slow — `func_8014C308` (relocs=0, structurally
+  perfect, 1 v0↔v1 swap) did NOT close in ~12 min across two runs (best score 140). Needs PERM_ hints.
+- ⇒ The permuter is NOT the bulk lever. The yield lever is **guided HAND-matching** (the §1 loop + the §2/§3a
+  idioms), which is **breadth** (many independent high-reach fns) → an **Ultracode wave** (R26).
+
+### Revised plan
+1. **Ultracode guided-hand-matching wave** over the high-reach **tractable** subset: m2c-mis-structured-fixable
+   STRUCTURAL_MISS + fnptr-call + sig/widening-fixable. Agents apply the §1 loop + §2/§3a idioms (mask-local,
+   shared-ret0 goto, cast/widening, fnptr-table typing), iterate with `match_one`, gate **whole-binary**
+   (`harvest_verify.py`, the sole arbiter), propagate ×reach (`dedup_propagate.py`). The gcc-quirk tail FAILS
+   the gate (correctly, G3) → stays an `INCLUDE_ASM` stub (NO NON_MATCHING correct-C track — Drew, A-only,
+   until public). Measure the real fleet-% delta. Expected ~2-4% (bounded by the quirk tail).
+2. **canonical-widening** folded into the agent playbook (§3a move 1) — a standalone tool is low direct yield
+   (0.3%); build it only if sig-conflicts prove a major agent bottleneck.
+3. **Document** idioms as they emerge (R16); **giant `func_80144B9C` deferred** (reassess after the wave yield).
+4. **T7 go/no-go close + PhaseEnd** once the wave yield is measured.
