@@ -30,7 +30,11 @@ INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_o0", func_8013B598);
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_o0", func_8013B6A0);
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_o0", func_8013B7AC);
+#include "common.h"
+typedef struct { s32 f0; u8 pad[0x18]; } E_3B7AC;   /* sizeof 0x1C stride */
+extern E_3B7AC D_801DAA08[];
+void func_8013B7AC(int a0) { D_801DAA08[a0].f0 = 0; }
+
 
 void func_8013B7F4(s32 a0, s32 a1) {
     func_8013B83C(a0, a1, D_801DAB24);

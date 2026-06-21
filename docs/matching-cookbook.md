@@ -1214,11 +1214,24 @@ direct `substitute → make build → SHA` + per-fn bisection is the reliable lo
 
 **`-O0` matched-idiom notes.** Hoist data externs to the file top, ONE canonical type per symbol (parallel drafts
 disagree: `u8` vs `s32` on the same `D_*` → `conflicting types`). Scalar global store (`D_x = k`) and
-pointer-loops match cleanly. **Open residual (the wall for ~10 of the cluster): indexed global access `arr[i]=x`.**
-Our cc1 `-O0` MATERIALIZES the address (`lui;addiu(%lo);addu idx;sw 0(reg)`) where the original FOLDS `%lo`
-(`lui(%hi);addu idx;sw %lo(sym)(reg)`, 1 ins shorter) — gcc address-splitting our cc1 reproduces differently at
-`-O0`; neither `sym[idx]` nor `(T*)&sym+off` folds. Not a C-form fix found → gcc-source research (R17/§17). Stub
-until cracked.
+pointer-loops match cleanly.
+
+**`%lo`-folding indexed global — CRACKED (Phase 20, the array-of-STRUCT idiom).** The residual: for indexed
+global access the original FOLDS `%lo` into the store (`lui %hi(sym); addu $at,idx; sw val,%lo(sym)($at)`),
+1 ins shorter than our cc1's MATERIALIZE (`lui; addiu %lo; addu idx; sw 0($at)`). **The lever: declare the
+global as `extern Struct base[]` where `sizeof(Struct)` == the array stride, and write `base[index].field`.**
+This keeps `sym` a symbol_ref through gcc's array-index addressing → it folds `%lo(sym+field_off)` into the
+store, byte-matching. The forms that FAIL (and why §18 first called it irreducible): `*(T*)(&sym + index*stride)`
+and `*(T*)((char*)&sym + off)` — `&sym` forces the symbol's full address to be MATERIALIZED as a value (lui+
+addiu) before the index add, so `%lo` can't fold. Worked example (byte-gated, func_8013B7AC):
+`*(s32*)(&D_801DAA08 + a0*0x1C)=0` (materializes, FAILS) → `typedef struct{s32 f0; u8 pad[0x18];} E; extern E
+D_801DAA08[]; D_801DAA08[a0].f0 = 0;` (folds, MATCHES). Pick the struct so the accessed field's address == the
+target symbol (put the field at offset 0 and base the array at the field's symbol, OR base at the real array
+symbol and use the real field offset — same bytes either way; the `%hi`/`%lo` immediates encode the address).
+The constant-multiply for the stride (e.g. ×0x1C → `sll 3; subu; sll 2`) is gcc's `synth_mult`, emitted even at
+`-O0`. Gate via the WHOLE-BINARY -O0 build (`match_one` is -O2, wrong for -O0). NB: the `-O0` cluster is
+overlay-LOCAL (per the correction below) so this banks ×1 per overlay — but the idiom is reusable for ANY
+`-O0` (or `-O2`) indexed-global access, fleet-wide.
 
 **`-O0` reach-134 propagation is NOT free.** `-O0` functions can't go through `engine_core.h` (it's included by
 each overlay's `-O2` main `.c` → would compile `-O2` → not match). To bank the ×134, each overlay needs its OWN
@@ -1391,4 +1404,7 @@ gate-fail by build-error class (callee `conflicting types` / DEF `conflicting ty
 DATA / clean-build BYTE-MISMATCH) before assuming a single cause — the §20 first pass saw one callee example and
 generalized it; the bytes said otherwise.
 
-*(T3a `%lo`-folding `-O0` (§18 open residual) is still open — to be added here when cracked.)*
+**T3a `%lo`-folding `-O0` — CRACKED (Phase 20).** Not irreducible after all: the array-of-STRUCT idiom folds
+`%lo` (declare `extern Struct base[]`, sizeof == stride, access `base[i].field`; NOT `*(T*)(&sym+i*stride)`,
+which materializes). Full write-up + worked example in **§18** ("`%lo`-folding indexed global — CRACKED").
+Banks ×1 (the cluster is overlay-local) but the idiom is reusable fleet-wide for any indexed-global access.
