@@ -26,8 +26,17 @@
 
 **Optional / conditional (decide live, else → Phase 21):** `-O0` ×134 rollout (only if T3a cracks `%lo`); the 28 giants (deferred to a focused Phase-21 deep session).
 
-## Current task pointer
-→ **T6 (harvest wave, pulled forward per Drew's HYBRID)**. T3b cited (R14 reframe banked). Pivoted to bank the cheap certain %: an Ultracode wave on the **48 cached reach-134 ≤90-ins targets** (`.run/t6_wave_args.json`) with the §17 toolkit, each ×134, canon-first gate + fix_arity_callers recovery, byte-gated. T3a/T3c (remaining cracks) + T4 distill = the bounded spike AFTER the harvest. **Awaiting `/effort ultracode` toggle (R27).** T1, T2 done+committed; T3b cited.
+## Current task pointer — MULTI-SESSION CONTINUE (Drew, 2026-06-21: not closing; resume in a fresh session)
+**Done + committed:** T1 (cap, +0.35%), T2 (router), T3b (cited — R14 reframe), T6 batch-1 (8 banked, +0.28%). **T3c verdict IN** (cite-irreducible, byte-confirmed via the wave — `sched.c` tie-break; just needs the T4 write-up). Fleet **58.00%→58.63%**, 136/136 byte-identical, 0 NON_MATCHING. Tree clean (HEAD `commit:0169`).
+
+**Remaining, prioritized for the fresh session (the plan is approved — resume autonomously, P3/§Session-Start step 4):**
+1. **[THE CAP — highest ROI] Build the §17a auto-call-site-cast recovery tool.** The precisely-diagnosed gate cap (see T6 finding above): the wave's 33 match_one-MATCH drafts fail in-TU on loose-typed callee conflicts; the fix is per-site fn-ptr casts `((ret(*)(args))func_X)(…)` (drop the draft's conflicting extern, cast the call to the draft's intended sig, gate). Recovers T6 batch-1's 33 reach-134 (~+1%) AND lifts every future wave from ~20%→~80%+ gate-pass. Drafts preserved: `.run/drafts-t6-cn/` (agent originals, post canon_resident_calls); failures list `.run/t6_fails.txt`; gate good-sha `d19c9580…`.
+2. **T4 — distill the gcc codegen map** into `docs/matching-cookbook.md`: T3b (strength-reduction reframe), T3c + §10 hoist-vs-remat + IV-combine (`combine_givs`) + the loop-guard — all cite-irreducible with byte-evidence; the **-O1 class** (`func_80161A90`, build-infra); the **match_one→gate in-TU loose-typing cap** + the stale-`.o` diagnostic lesson.
+3. **T3a — %lo-folding -O0** (`func_8013C360` cluster; entangled with the -O0 split infra).
+4. **T5 — Ghidra-C regen** (R23/R29: stop MCP → DecompileFunctions.java → `/mcp`) for fresh reach-134 targets → more T6 wave batches (now with the cast-recovery → full yield). Cache is 300; ov_SC01_077 has 668 stubs.
+5. **[build-infra] -O1/-O0 split files** to bank the -O1 (`func_80161A90`) + the 6 matched -O0 fns ×134 (per-overlay -O0 splits, uniform offsets, scriptable).
+
+**Reusable wave recipe (proven this session):** `gen_harvest_targets --min-reach 134 --max-nins 90` → filter to cached Ghidra-C → Workflow (one agent/target, §17 toolkit, **pass args as a JSON array NOT a string** — the gotcha that bit us) → `canon_resident_calls` → **the new cast-recovery** → `harvest_verify --chunk 1` (chunk>1 mis-attributes compile-erroring drafts) → `dedup_propagate --auto-from`.
 
 **Carry from T1 → recovery tooling (Phase-20 backlog item 2 / T2 router):** the **7 callee/data-plumbing capped fns** (reach-134, matched-but-local): `0x80142B2C 0x801535F4 0x80155E30 0x80157580 0x801576A8 0x80168F40 0x80170B48`. They fail `compiles_standalone` on undeclared callees/data, not types. A `dedup_propagate` macro-extern-injection (or canonical-callee-sig embed, the `gen_harvest_targets` approach) would free them ×134 (~+0.3%). NOT type-lift; do not reopen T1 for them.
 
