@@ -49,6 +49,11 @@ struct B8014;
 struct copy00;
 struct Vec4s;
 struct Src80172E20;
+struct V4s80147514;
+struct Quad;
+struct A;
+struct B;
+struct Bv;
 
 struct vec {
     s32 unk0;
@@ -329,5 +334,25 @@ struct Src80172E20 {
     u8 padC[0xE - 0xC];
     u16 _E;
 };
+
+struct V4s80147514 { s16 a, b, c, d; };
+
+struct Quad { s32 a, b, c, d; };
+
+struct A {
+    u16 unk00; u16 unk02; u16 unk04;   /* 0x10 0x12 0x14 */
+    u16 unk06;                         /* 0x16 (gap) */
+    u16 unk08; u16 unk0A; u16 unk0C;   /* 0x18 0x1A 0x1C */
+    u16 unk0E;                         /* 0x1E (gap) */
+    u8  unk10; u8 unk11; u8 unk12;     /* 0x20 0x21 0x22 */
+    u8  unk13;                         /* 0x23 (gap) */
+    u8  unk14; u8 unk15; u8 unk16;     /* 0x24 0x25 0x26 */
+    u8  unk17;                         /* 0x27 (gap) */
+    s32 unk18;                         /* 0x28 */
+};
+
+struct B  { s32 w[8]; s32 tail[2]; };
+
+struct Bv { s32 w[8]; };
 
 #endif /* BFM_ENGINE_TYPES_H */
