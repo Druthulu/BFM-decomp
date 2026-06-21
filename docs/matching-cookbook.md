@@ -1372,9 +1372,15 @@ declaration-driven (0 pure codegen-quirk survives `match_one`):
    cast the caller) breaks them, and it can't be edited per-overlay (it's in the shared header). The only path
    for these is RE-DRAFTING the body under the caller-canonical sig (a future wave with the canonical pinned),
    and the arity-mismatch subset (0-arg callers vs N-arg def) has NO compatible C sig at all → hard stub.
-3. **DATA-conflict (small tail)** — a `D_xxxx` declared with conflicting types. The data analog of the cast
-   (`*(T*)&D_x` access against the canonical decl) is the natural `cast_call_sites` extension — built it when a
-   wave's residual is data-conflict-heavy (1 case here, low immediate yield).
+3. **DATA-conflict — byte-proven MOOT on this tail (R14, do not build the data-cast for it).** A data-analog
+   cast (`*(T*)&D_x` against the canonical decl) sounded like the natural `cast_call_sites` extension, but the
+   bytes say there's nothing to cast: **0 drafts declare an `extern struct/union`** data conflict, and the lone
+   apparent "DATA-conflict" (func_8016A8FC / `D_800AE620`) was a **typedef-REDEFINITION** — the draft re-defines
+   `typedef struct{s32 w[8];} Blk20;` inline while `Blk20` is already in `engine_types.h` (both sides use
+   `extern Blk20 D_800AE620` — SAME type, no data conflict). Stripping the redundant inline typedef compiles but
+   STILL byte-mismatches (the underlying blocker is the def-sig loose-typing wall, class 2). So the data-cast
+   would be code for 0 real cases; skip it. (A general "strip inline named-type defs already in engine_types.h"
+   pass is a 1-line harvest_verify-style cleanup if a future wave needs it — but it recovered 0 here.)
 
 **Net:** the cast tool is the real, reusable cap-lever for the *callee-conflict* fraction of every wave (it
 recovers what §17a-1 casting can, byte-gated) — but it does NOT lift gate-pass to ~80% here, because THIS tail
