@@ -22,8 +22,13 @@ import argparse, json, re, sys, glob, os
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 INCLUDE_ASM_RE = re.compile(r'INCLUDE_ASM\([^)]*,\s*(func_[0-9A-Fa-f]+)\s*\)')
-# an inline function definition line: "<type...> func_XXXX(<params>) {"  (start of line, ends with {)
-INLINE_DEF_RE = re.compile(r'^\s*([A-Za-z_].*?\bfunc_[0-9A-Fa-f]+\s*\([^;{]*\))\s*\{', re.M)
+# an inline function definition line: "<type...> func_XXXX(<params>) {" at COLUMN 0 with a
+# type-only prefix (word chars / spaces / `*` only — NO parens or operators). The old
+# `^\s*([A-Za-z_].*?\b...` matched an INDENTED call expression like
+# `    if (func_X(...) == 0x2000 && ...) {` as a "definition" → a garbled callee "signature"
+# that agents paste verbatim as an extern → PARSE error at the gate (Phase-19 T3 batch-1 bug).
+# Column-0 + `[\w \t\*]` before func_X excludes both the indentation and the `if (` paren.
+INLINE_DEF_RE = re.compile(r'^([A-Za-z_][\w \t\*]*?\bfunc_[0-9A-Fa-f]+\s*\([^;{]*\))\s*\{', re.M)
 DEFINE_HDR_RE = re.compile(r'^#define\s+DEFINE_(func_[0-9A-Fa-f]+)\(\)\s*\\?\s*$', re.M)
 # inside a DEFINE macro body, the signature line (may be preceded by `extern ...;` lines)
 SIG_IN_BODY_RE = re.compile(r'([A-Za-z_][^\\]*?\b(func_[0-9A-Fa-f]+)\s*\([^;{]*\))\s*\{')
