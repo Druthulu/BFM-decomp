@@ -39,6 +39,9 @@
 
 **Carry from T1 → recovery tooling (Phase-20 backlog item 2 / T2 router):** the **7 callee/data-plumbing capped fns** (reach-134, matched-but-local): `0x80142B2C 0x801535F4 0x80155E30 0x80157580 0x801576A8 0x80168F40 0x80170B48`. They fail `compiles_standalone` on undeclared callees/data, not types. A `dedup_propagate` macro-extern-injection (or canonical-callee-sig embed, the `gen_harvest_targets` approach) would free them ×134 (~+0.3%). NOT type-lift; do not reopen T1 for them.
 
+## Candidate rules (propose at the Phase-20 PhaseEnd)
+- **R30 — Capture context-dependent knowledge artifacts before a fresh session.** Cookbook entries, byte-verified findings, codegen-map distillations, and doc corrections whose quality depends on the current session's full live context MUST be written DURING that session, before any fresh-session handoff (the fresh session inherits only compressed summaries and loses the detail/nuance/byte-evidence). Defer only mechanical/continuable work (build the next tool, run the next wave). Extends R16 (flywheel — adds the timing constraint); memory `capture-knowledge-before-fresh-session`. (Drew, 2026-06-21 — prompted by nearly deferring T4's §20 distillation.)
+
 ## Blockers
 None.
 
