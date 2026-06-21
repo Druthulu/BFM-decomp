@@ -1408,3 +1408,31 @@ generalized it; the bytes said otherwise.
 `%lo` (declare `extern Struct base[]`, sizeof == stride, access `base[i].field`; NOT `*(T*)(&sym+i*stride)`,
 which materializes). Full write-up + worked example in **§18** ("`%lo`-folding indexed global — CRACKED").
 Banks ×1 (the cluster is overlay-local) but the idiom is reusable fleet-wide for any indexed-global access.
+
+### §21 — wave-distilled idioms (Phase 21)
+Byte-gated wins from the class-grouped waves. Each is a generalizable C *shape* (not a one-off), tied to its
+byte-matched evidence fn. (Pins/array-decay/statement-order/shared-ret0/for-vs-do-while are §17–§18 — not re-listed.)
+- **mem→mem unaligned N-byte copy → `memcpy(dst, src, N)`:** when the target copies a contiguous *byte* region
+  with `lwl/lwr` + `swl/swr` pairs (unaligned 8-byte block, no field math), write `memcpy((void*)dst,(void*)src,8)`
+  with `extern void *memcpy(void*,const void*,u32);` — gcc-2.7.2 inlines the small fixed-size copy to exactly that
+  lwl/lwr/swl/swr sequence (element-wise `*(T*)dst=*(T*)src` instead picks `lw/sw` for the aligned case or splits
+  wrong for unaligned). *fixes inlined-unaligned-block-copy codegen; evidence func_80153800 (sibling func_80146FC4 same shape).*
+- **aligned 16-byte field-block copy → one struct assignment:** a contiguous aligned 4-word copy between two memory
+  locations is `typedef struct{u32 a,b,c,d;} Blk16; *(Blk16*)(dst)=*(Blk16*)(src);` → gcc emits its a0–a3 4-register
+  block load/store (1 ins shorter than four separate `lw/sw`, and fixes the v1/v0 load order + the load-delay nop).
+  Four element-wise word copies constant-fold each base to its own `lui` (+ins, wrong order). *fixes word-by-word vs
+  block-move + load-delay; evidence func_80163A94 (0x34..0x50 = two Blk16 assigns).*
+- **partially-read out-param region → ONE stack struct, not separate scalars:** when a callee fills several fields of
+  a stack buffer via `&buf`/`&buf.field` but the caller reads only SOME of them, declaring the slots as separate
+  locals lets gcc DCE the unread ones and overlap/shrink the frame (wrong frame size). Make the whole region ONE
+  `struct buf;` and pass `(s32)&buf`/`(s32)&buf.field` — the struct keeps every slot live at its true frame offset.
+  *fixes DCE-driven frame-size/overlap divergence; evidence func_801749C8.*
+- **(refinement of §16 mask-local — the inverse direction) raw `lhu` + `(s16)` at each use:** to force the target's
+  `lhu;sll;sra` instead of a folded `lh`, load the global as a RAW `u16` (`iVar=(u16)D_x;`) and apply `(s16)` at
+  every USE site — this defeats gcc's `lhu`+sext→`lh` combine fold (the opposite goal to §16's mask-hoist, which
+  keeps `lh`+`andi`). *evidence func_801749C8.*
+- **(refinement of the §5a/§17 zero-byte barrier) in-place re-tie variant:** `__asm__ __volatile__("":"=r"(x):"0"(x))`
+  (output tied to input via constraint `"0"`) forces x to be re-materialized into a register *at that point*, pinning
+  where a following store schedules — distinct from the input-only anchor `__asm__ __volatile__("":: "r"(x))` (which
+  only anchors x *ahead* of the next op). Use when interleaved stores need a value freshly re-tied mid-sequence.
+  *evidence func_80165CA0 (`SHB(x)` macro, combined with `$v0`/`$v1` pins).*
