@@ -2429,7 +2429,7 @@ DEFINE_func_80155FF8()  /* dedup: shared engine-core @0x80155FF8 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC04_004/nonmatchings/ov_SC04_004", func_80156044);
 
-INCLUDE_ASM("asm/ov_SC04_004/nonmatchings/ov_SC04_004", func_8015616C);
+DEFINE_func_8015616C()  /* dedup: shared engine-core @0x8015616C (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC04_004/nonmatchings/ov_SC04_004", func_80156370);
 
