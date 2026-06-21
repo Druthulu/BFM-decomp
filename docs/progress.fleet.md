@@ -3,11 +3,11 @@
 # source-derived (committed src/*.c + config/dedup.us.yaml). Live byte gate: `make check-all`;
 # cross-binary collapsible-byte leverage: docs/duplicates.cross.md.
 
-FLEET REAL substantive   : 200702   (of which dedup-shared 200206 via 1506 groups / 200250 instances)
+FLEET REAL substantive   : 200703   (of which dedup-shared 200206 via 1506 groups / 200250 instances)
 FLEET LINKED PsyQ objs   :    959
-FLEET byte-identical     : 202349 / 344010 = 58.82%   (REAL+LINKED+empties)
+FLEET byte-identical     : 202350 / 344010 = 58.82%   (REAL+LINKED+empties)
 FLEET NON_MATCHING       :      7   (0 in any default build — G4)
-FLEET INCLUDE_ASM stubs  : 141654
+FLEET INCLUDE_ASM stubs  : 141653
 FLEET matchable          : 344010
 
 | binary | REAL | shared | LINKED | byte-ident | matchable | byte-ident % |
@@ -22,7 +22,7 @@ FLEET matchable          : 344010
 | ov_SC01_008 | 1490 | 1490 | 0 | 1492 | 2428 | 61.4% |
 | ov_SC01_009 | 1490 | 1490 | 0 | 1491 | 2510 | 59.4% |
 | ov_SC01_074 | 1490 | 1490 | 0 | 1492 | 2427 | 61.5% |
-| ov_SC01_077 | 1779 | 1458 | 0 | 1781 | 2586 | 68.9% |
+| ov_SC01_077 | 1780 | 1458 | 0 | 1782 | 2586 | 68.9% |
 | ov_SC01_080 | 1494 | 1494 | 0 | 1494 | 2515 | 59.4% |
 | ov_SC01_084 | 1494 | 1494 | 0 | 1499 | 2581 | 58.1% |
 | ov_SC02_000 | 1498 | 1498 | 0 | 1505 | 2684 | 56.1% |
