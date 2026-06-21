@@ -3023,25 +3023,7 @@ DEFINE_func_80161278()  /* dedup: shared engine-core @0x80161278 (src/shared) */
 
 #include "common.h"
 
-extern void func_8014E934(s32 a0);
-extern void func_8014CC28(s32 a0);
-extern void func_8014F3E8(s32 a0);
-
-s32 func_801612B8(void * a0, s32 a1)
-{
-    register s32 p __asm__("$17");
-    register s32 v0 __asm__("$16");
-    s32 v1;
-
-    p = a0;
-    if ((a1 & 1) == 0) {
-        func_8014E934(p);
-    }
-    v0 = ((s32 (*)(s32))func_8014CC28)(p);
-    __asm__ __volatile__("" : : "r"(v0));
-    v1 = ((s32 (*)(s32))func_8014F3E8)(p);
-    return v0 | v1;
-}
+DEFINE_func_801612B8()  /* dedup: shared engine-core @0x801612B8 (src/shared) */
 
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8016130C);
@@ -4468,7 +4450,8 @@ void func_80171064(void *a0) {
 
 DEFINE_func_801710A0()  /* dedup: shared engine-core @0x801710A0 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_801710DC);
+DEFINE_func_801710DC()  /* dedup: shared engine-core @0x801710DC (src/shared) */
+
 
 extern void (*D_8018A074[])(void *);
 

@@ -19199,4 +19199,34 @@
         } \
     }
 
+#define DEFINE_func_801710DC() \
+    extern void func_8002D4C8(s32 a0, s32 a1); \
+    extern void func_80171928(void *a0); \
+    extern void *D_8011F738; \
+    extern u16 D_8011F73A; \
+    void func_801710DC(u8 * arg0) \
+    { \
+        ((M2C_UNK (*)(u16, u16))func_8002D4C8)(D_8011F738, D_8011F73A); \
+        ((M2C_UNK (*)(s32))func_80171928)(arg0); \
+    }
+
+#define DEFINE_func_801612B8() \
+    extern void func_8014E934(s32 a0); \
+    extern void func_8014CC28(s32 a0); \
+    extern void func_8014F3E8(s32 a0); \
+    s32 func_801612B8(void * a0, s32 a1) \
+    { \
+        register s32 p __asm__("$17"); \
+        register s32 v0 __asm__("$16"); \
+        s32 v1; \
+        p = a0; \
+        if ((a1 & 1) == 0) { \
+            func_8014E934(p); \
+        } \
+        v0 = ((s32 (*)(s32))func_8014CC28)(p); \
+        __asm__ __volatile__("" : : "r"(v0)); \
+        v1 = ((s32 (*)(s32))func_8014F3E8)(p); \
+        return v0 | v1; \
+    }
+
 #endif

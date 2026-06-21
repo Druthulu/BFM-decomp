@@ -22,7 +22,7 @@
 ## Task checklist
 - [x] **T1 — Target-pool manifest + giants byte-verification** (no MCP; Max) → `.run/fuel_manifest.json`; h_exact-verify the 28 giants are genuinely ×134 (R14). **DONE.**
 - [x] **T2 — Fuel prefetch → complete Ghidra-C cache** (MCP-stop headless; Max) → `.run/ghidra_c/` cache-complete over the manifest. **DONE.**
-- [ ] **T3 — Backlog ledger + shared deterministic bank/log stage** (Max) → `tools/gate_stage.py` + `tools/backlog.py` + `docs/backlog.md`; verify on the 7 capped fns (~+0.3%).
+- [x] **T3 — Backlog ledger + shared deterministic bank/log stage** (Max) → `tools/gate_stage.py` + `tools/backlog.py` + `docs/backlog.md`; validated on a real 30-draft sample (banked+propagated+logged). **DONE.**
 - [ ] **T4 — Worker Workflow** (Max; agents xHigh) → new Workflow, sample-validate ~8–10 fresh targets. **← P6 rules re-read after this.**
 - [ ] **T5 — Grinder daemon repoint** (xHigh) → `auto_driver.py` permutes worker near-misses + full gate pipeline + backlog logging.
 - [ ] **T6 — ROI orchestrator loop + hybrid keep-alive + full-loop sample-validate** (a few hours; Max).
@@ -53,3 +53,12 @@
 - Scope (P9): 349 reach-1 ×1-leverage fns intentionally NOT prefetched (not in the ROI pool rotation: tractable reach-134 → giants → -O0 → capped). A later prefetch can add them if ever needed.
 - MCP left STOPPED (the run is cache-based; the grinder supervisor stops it anyway). `ghidra/ db.*.gbf` churn is the MCP-stop's no-op SLUS save — R23 restart-noise, NOT staged.
 - Checkpoint commit: `DecompileFunctions.java` + `build_fuel_manifest.py` + this log (cache + manifest are gitignored/regenerable).
+
+### T3 — backlog ledger + shared deterministic gate stage (DONE, 2026-06-21)
+- **`tools/backlog.py`** — the near-miss ledger (`.run/backlog.jsonl` append + `docs/backlog.md` ranked render). Ranks by reach → closeness → size; **drop-now-matched** filter (a banked fn leaves the backlog, P9). Tested: append/render/show + drop-matched all correct.
+- **`tools/gate_stage.py`** — the shared deterministic spine (worker + grinder call it): drafts → `canon_resident_calls → cast_call_sites → sig_unify → harvest_verify --chunk 1 → dedup_propagate --auto-from` → log non-matches to backlog → compact JSON summary. Byte-gate is the sole arbiter (G3/P9).
+- **Validated end-to-end** on a real 30-draft m2c sample of reach-134 main WAVE stubs → `{drafts:30, banked:1, propagated:2, near:20, failed:8}`. **func_801710DC banked + propagated ×134** (dedup 1506→1508, every ov_*.c touched); **29 near-misses logged + ranked** (top: func_80174684 close=0 "MATCH but plumbing", func_8014F3E8 close=1; captured the §20 unsteerable regalloc class func_80149374/801493D0). All paths exercised: bank→propagate→log→render→summary.
+- **R22: `make check-all` → 136/136 byte-identical**; `make report` → fleet **58.82% → 58.90%** (+0.08%, the func_801710DC ×134 increment), `dedup-check 1508 validated / 0 failed` (G3/P9). A real, byte-gated increment — kept.
+- **Capped-fns reframe (R14):** the 7 capped are matched-**inline** (propagation-blocked on undeclared callees/data), NOT draftable stubs — so they don't flow through the gate stage's draft path; the plan's "warm-up on the 7 capped" premise was slightly off. The stronger honest validation is the real 30-draft sample above. The capped propagation-recovery is **deferred to the worker** (T4 re-drafts them through gate_stage's recovery pipeline; the manifest's `capped_recovery` documents them). Not claiming the unbanked ~+0.3% (P9).
+- Best-draft `.c` files saved to `.run/backlog_drafts/` (local, gitignored — Drew accesses them on this machine; `docs/backlog.md` is the committed index).
+- Checkpoint commit: the 2 tools + `docs/backlog.md` + the func_801710DC match & ×134 propagation (src/ov_*, engine_core.h, dedup.us.yaml, progress digests) + this log.
