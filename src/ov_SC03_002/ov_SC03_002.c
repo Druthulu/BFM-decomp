@@ -2461,7 +2461,7 @@ INCLUDE_ASM("asm/ov_SC03_002/nonmatchings/ov_SC03_002", func_80156B74);
 
 INCLUDE_ASM("asm/ov_SC03_002/nonmatchings/ov_SC03_002", func_80156ECC);
 
-INCLUDE_ASM("asm/ov_SC03_002/nonmatchings/ov_SC03_002", func_80156FA8);
+DEFINE_func_80156FA8()  /* dedup: shared engine-core @0x80156FA8 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC03_002/nonmatchings/ov_SC03_002", func_80157158);
 
@@ -4555,7 +4555,7 @@ INCLUDE_ASM("asm/ov_SC03_002/nonmatchings/ov_SC03_002", func_801770E0);
 
 DEFINE_func_80177340()  /* dedup: shared engine-core @0x80177340 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC03_002/nonmatchings/ov_SC03_002", func_8017742C);
+DEFINE_func_8017742C()  /* dedup: shared engine-core @0x8017742C (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC03_002/nonmatchings/ov_SC03_002", func_801775E0);
 
