@@ -18861,4 +18861,160 @@
         func_800129CC((s32)buf, arg0 + 0x100); \
     }
 
+#define DEFINE_func_80148C9C() \
+    s32 func_80148C9C(s32 a0, s32 a1) { \
+        Obj *p = *(Obj **)((s32)a0 + 0x20); \
+        p->field_0x12 = (a1 + 0x400) & 0xFFF; \
+        return 1; \
+    }
+
+#define DEFINE_func_801593E4() \
+    void func_801593E4(A801593E4 *a0) { \
+        S801593E4 *v1 = a0->p20; \
+        v1->field12 = (v1->field12 + 0x16) & 0xFFF; \
+    }
+
+#define DEFINE_func_8016B964() \
+    void func_8016B964(SrcB964 *a0, DstB964 *a1) { \
+        a1->h8 = a0->h6; \
+        a1->hA = a0->hA; \
+        a1->hC = 3; \
+    }
+
+#define DEFINE_func_8014C118() \
+    extern u8 D_801202A0[]; \
+    s32 func_8014C118(void * a0, s32 a1, s32 a2) \
+    { \
+        Entry8014C118 *p; \
+        s32 i; \
+        i = 0; \
+        a2 = (s16)a2; \
+        p = (Entry8014C118 *)D_801202A0; \
+        do { \
+            if (p->unk0 == a1) { \
+                if (p->unk70 == a2) { \
+                    return (s32)p; \
+                } \
+            } \
+            i++; \
+            p++; \
+        } while ((u32)i < 0x60); \
+        return 0; \
+    }
+
+#define DEFINE_func_80153978() \
+    extern s32 func_80133784(s32 a0, void *src, s32 dst); \
+    extern s32 func_801539F8(s32 a0, void *a1); \
+    s32 func_80153978(s32 a0, u16 *src) { \
+        Buf80153978 buf; \
+        buf.unk0 = src[0]; \
+        buf.unk2 = src[1] + 0x1F; \
+        buf.unk4 = src[2]; \
+        if (func_80133784(0, src, (s32)&buf) == 0x2000 && \
+            buf.unk6 == 0 && \
+            func_801539F8(a0, &buf) == 0) { \
+            return 0; \
+        } \
+        return 1; \
+    }
+
+#define DEFINE_func_8013E4B4() \
+    extern void func_8012C750(void *a0); \
+    extern u8 *D_801274C8; \
+    extern void *D_801274CC; \
+    void func_8013E4B4(void) { \
+        u8 *s0; \
+        Ent *p; \
+        s32 i; \
+        s0 = D_801274C8; \
+        if (s0 != 0) { \
+            if (*(u16 *)(s0 + 6) != 0) { \
+                do { \
+                    func_8012C750(s0); \
+                    s0 += 0x14; \
+                } while (*(u16 *)(s0 + 6) != 0); \
+            } \
+        } \
+        s0 = (u8 *)D_801274CC; \
+        if (s0 != 0) { \
+            p = (Ent *)(s0 + 6); \
+            for (i = 0; p[i].guard != 0; i++) { \
+                p[i].field &= 0x7FFF; \
+            } \
+        } \
+    }
+
+#define DEFINE_func_8014A238() \
+    extern s32 func_8014C278(s32 a0, s32 a1, s32 a2); \
+    extern s32 func_8014C2B0(void *a0, void *a1, s32 a2); \
+    extern u8 D_801202A0[]; \
+    s32 func_8014A238(s32 arg0) { \
+        u32 i; \
+        Entry8014A238 *p; \
+        for (i = 0; i < 0x60; i++) { \
+            p = &((Entry8014A238 *)D_801202A0)[i]; \
+            if ((p->f_0 != 0) && (p->f_AA != 0) && \
+                (func_8014C278(arg0, (s32)p, 0x30) != 0) && \
+                (func_8014C2B0((void *)arg0, (void *)p, 0x200) != 0)) { \
+                return (s32)p; \
+            } \
+        } \
+        return 0; \
+    }
+
+#define DEFINE_func_8017AD0C() \
+    extern void MoveImage(void *a0, s32 a1, s32 a2); \
+    s32 func_8017AD0C(s32 arg0) \
+    { \
+        Rect rect; \
+        s32 var_v0; \
+        s32 var_v1; \
+        arg0 = arg0 - 1; \
+        rect.x = ((arg0 & 3) * 0x10) + 0x280; \
+        var_v0 = arg0; \
+        if (arg0 < 0) { \
+            var_v0 = arg0 + 3; \
+        } \
+        rect.y = (var_v0 >> 2) + 0x1F8; \
+        rect.w = 0x10; \
+        rect.h = 1; \
+        MoveImage(&rect, 0x160, 0x1C9); \
+        if (arg0 == 0x18) { \
+            rect.x = 0x2C0; \
+            rect.y = 0x1D0; \
+        } else { \
+            rect.x = ((arg0 & 7) * 8) + 0x280; \
+            var_v1 = arg0; \
+            if (arg0 < 0) { \
+                var_v1 = arg0 + 7; \
+            } \
+            rect.y = (var_v1 >> 3) * 0x28 + 0x180; \
+        } \
+        rect.w = 0x20; \
+        rect.h = 0x28; \
+        __asm__ __volatile__("" ::: "memory"); \
+        MoveImage(&rect, 0x1C8, 0x190); \
+    }
+
+#define DEFINE_func_80168664() \
+    extern Blk20 D_800AE620; \
+    extern s32  RotMatrixX(s32 a0, void *a1); \
+    extern void func_80048EAC(void *a0, void *a1); \
+    extern s32 func_801670E4(s32 a0, s32 a1, s32 a2, s32 a3); \
+    void func_80168664(void *arg0) { \
+        s32 iVar3; \
+        void *blk; \
+        iVar3 = *(s32 *)((u8 *)arg0 + 0x34); \
+        *(s32 *)((u8 *)arg0 + 0x1c) = 0x20; \
+        *(s16 *)((u8 *)arg0 + 0x10) = 0x80; \
+        *(s16 *)((u8 *)arg0 + 0x12) = 0; \
+        *(s32 *)((u8 *)arg0 + 0x30) = 0x1800; \
+        *(Blk20 *)((u8 *)arg0 + 0x38) = D_800AE620; \
+        blk = (u8 *)arg0 + 0x38; \
+        RotMatrixX(0x400, blk); \
+        func_80048EAC((void *)(*(s32 *)((u8 *)iVar3 + 0x20) + 0x34), blk); \
+        func_801670E4((s32)arg0, -6, -0x44, -0x18); \
+        *(s16 *)((u8 *)arg0 + 2) = *(s16 *)((u8 *)arg0 + 2) + 1; \
+    }
+
 #endif

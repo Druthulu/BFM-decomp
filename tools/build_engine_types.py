@@ -1,19 +1,25 @@
 #!/usr/bin/env python3
-"""Extract inline-defined NAMED struct/union types from an overlay .c into a shared header.
+"""Extract inline-defined NAMED struct/union types AND typedefs from an overlay .c into a shared header.
 
-Phase 15 / T6 struct follow-up (cookbook §14c). The harvest agents defined engine struct types
-INLINE in each function's draft. Those bodies then can't be propagated as engine_core.h macros (two
-macros defining the same-named type redefine it; a type used in a shared callee's extern conflicts).
-Scoped finding: the 34 named struct/union types in ov_SC01_077.c have ZERO same-name-different-layout
-collisions, so each can live ONCE in a shared header that every overlay includes (via engine_core.h),
-letting the struct-using shared functions propagate fleet-wide.
+Phase 15 / T6 struct follow-up (cookbook §14c); Phase 20 typedef extension (the propagation cap).
+The harvest agents defined engine types INLINE in each function's draft. Those bodies then can't be
+propagated as engine_core.h macros (two macros defining the same-named type redefine it; a type used in
+a shared callee's extern conflicts) — and a function whose body REFERENCES an overlay-local typedef
+(`Ent`, `Obj`, …) fails dedup_propagate's compiles_standalone gate in every other overlay, so it stays
+LOCAL (no ×134). Scoped finding: the named struct/union types AND the anonymous-struct typedefs in
+ov_SC01_077.c have ZERO same-name-different-layout collisions, so each can live ONCE in a shared header
+every overlay includes (via engine_core.h), letting the struct/typedef-using shared functions propagate.
 
-This tool collects every NAMED `struct X {...}` / `union X {...}` definition (brace-matched, in
-document order — already compile-valid since the source compiles), and writes a guarded header with
-forward declarations for all of them followed by the full definitions in source order. Anonymous
-`struct {` defs are left in place (no name -> no cross-macro collision). With --strip, it also removes
-those definitions from the source .c (they come from the header instead) — byte-neutral (type defs
-emit no code); verify with `make check`.
+This tool collects:
+  - every NAMED `struct X {...}` / `union X {...}` definition (brace-matched, document order), and
+  - every `typedef ...;` definition — `typedef struct {...} Name;` (anonymous-struct typedef, the
+    Phase-20 propagation-cap blocker), `typedef <ret> (*Name)(...);` (fn-ptr), and simple aliases —
+and writes a guarded header: forward declarations for the named structs, then the named-struct full
+definitions in source order, then the typedefs in source order (a typedef may reference an earlier named
+struct or an earlier typedef, e.g. A801593E4 holds an S801593E4*; anonymous-struct typedefs CANNOT be
+forward-declared, so this ordering is load-bearing — source order is compile-valid since the source
+compiles). With --strip, it also removes those definitions from the source .c (they come from the header
+instead) — byte-neutral (type defs emit no code); verify with `make check`.
 
 Usage:
   tools/build_engine_types.py --source ov_SC01_077 --out src/shared/engine_types.h [--strip]
@@ -22,6 +28,7 @@ import argparse, os, re, sys
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 NAMED_DEF_RE = re.compile(r'\b(struct|union)\s+([A-Za-z_]\w*)\s*\{')
+TYPEDEF_RE = re.compile(r'\btypedef\b')
 
 
 def find_defs(text):
@@ -52,6 +59,43 @@ def find_defs(text):
     return out
 
 
+def typedef_name(body):
+    """The defined name of a `typedef ...;` declarator. Handles `typedef struct {...} Name;`,
+    `typedef <ret> (*Name)(args);` (fn-ptr), and simple `typedef <type> Name[opt];` aliases."""
+    s = body.strip().rstrip(';').rstrip()
+    m = re.search(r'\(\s*\*\s*([A-Za-z_]\w*)\s*\)', s)   # fn-ptr declarator: (*Name)
+    if m:
+        return m.group(1)
+    s = re.sub(r'\[[^\]]*\]\s*$', '', s).rstrip()         # drop a trailing array suffix
+    m = re.search(r'([A-Za-z_]\w*)\s*$', s)               # the declared name is the last identifier
+    return m.group(1) if m else None
+
+
+def find_typedefs(text):
+    """Return [(name, body, start, end)] for each `typedef ...;` definition. Brace-aware: the
+    terminating ';' is the one at brace-depth 0, so `typedef struct {...} Name;` is captured whole."""
+    out = []
+    for m in TYPEDEF_RE.finditer(text):
+        i, depth, end = m.end(), 0, None
+        while i < len(text):
+            c = text[i]
+            if c == '{':
+                depth += 1
+            elif c == '}':
+                depth -= 1
+            elif c == ';' and depth == 0:
+                end = i + 1
+                break
+            i += 1
+        if end is None:
+            continue
+        body = text[m.start():end]
+        name = typedef_name(body)
+        if name:
+            out.append((name, body, m.start(), end))
+    return out
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--source', default='ov_SC01_077')
@@ -63,10 +107,19 @@ def main():
     out_path = os.path.join(REPO, args.out)
     text = open(c_path).read()
     defs = find_defs(text)
-    if not defs:
-        sys.exit('no named struct/union defs found')
+    tdefs = find_typedefs(text)
+    if not defs and not tdefs:
+        sys.exit('no named struct/union/typedef defs found')
 
-    # dedup by name (keep first; scoped check already proved 0 layout collisions)
+    # safety: a `typedef struct Tag {...} Alias;` would be matched by BOTH finders (overlapping spans),
+    # and stripping both corrupts the source. Our source has only ANONYMOUS-struct typedefs (no tag),
+    # so assert no overlap rather than silently corrupt; a future tagged-struct typedef errors loudly.
+    for _, _, ds, de in defs:
+        for _, _, ts, te in tdefs:
+            if ds < te and ts < de:
+                sys.exit('[overlap] a tagged-struct typedef matched both finders — handle manually')
+
+    # dedup named structs by (kind, name); keep first (scoped check already proved 0 layout collisions)
     seen, ordered = set(), []
     for kind, name, s, e in defs:
         key = (kind, name)
@@ -75,6 +128,18 @@ def main():
             continue
         seen.add(key)
         ordered.append((kind, name, body))
+
+    # dedup typedefs by name; a same-name-DIFFERENT-body pair is a real collision (the source would
+    # not compile with two conflicting ones, so this only fires on a malformed source or the merge).
+    tseen, tordered = {}, []
+    for name, body, s, e in tdefs:
+        norm = re.sub(r'\s+', ' ', body.strip())
+        if name in tseen:
+            if tseen[name] != norm:
+                sys.exit(f'[collision] typedef {name} has two different definitions in the source')
+            continue
+        tseen[name] = norm
+        tordered.append((name, body))
 
     # ADDITIVE merge: keep the types already in the existing header so a re-run after a prior
     # --strip does NOT drop earlier migrations. The header is the cumulative record; the source
@@ -90,37 +155,58 @@ def main():
             mseen.add((kind, name))
             merged.append((kind, name, body))
         ordered = merged
+        # the same additive + collision-checked merge for typedefs (header-first, then new source)
+        existing_td = [(n, b) for n, b, s, e in find_typedefs(htext)]
+        merged_td, mtseen = [], {}
+        for name, body in existing_td + tordered:
+            norm = re.sub(r'\s+', ' ', body.strip())
+            if name in mtseen:
+                if mtseen[name] != norm:
+                    sys.exit(f'[collision] typedef {name} differs between header and source')
+                continue
+            mtseen[name] = norm
+            merged_td.append((name, body))
+        tordered = merged_td
 
     guard = 'BFM_ENGINE_TYPES_H'
     out = [f'#ifndef {guard}', f'#define {guard}',
-           '/* src/shared/engine_types.h — shared engine struct/union types (Phase 15 §14c).',
-           ' * Generated by tools/build_engine_types.py from the matched bodies in the source overlay.',
-           ' * Defined ONCE here (0 same-name-different-layout collisions) so struct-using shared',
-           ' * functions propagate fleet-wide via engine_core.h. Included by common.h consumers. */',
+           '/* src/shared/engine_types.h — shared engine struct/union types + typedefs (Phase 15 §14c,',
+           ' * Phase 20 typedef lift). Generated by tools/build_engine_types.py from the matched bodies',
+           ' * in the source overlay. Defined ONCE here (0 same-name-different-layout collisions) so the',
+           ' * struct/typedef-using shared functions propagate fleet-wide via engine_core.h. Included by',
+           ' * common.h consumers. */',
            '#include "common.h"', '']
     # forward decls first (lets pointer-only references resolve regardless of order)
     for kind, name, _ in ordered:
         out.append(f'{kind} {name};')
     out.append('')
-    # full definitions in source order (source order is compile-valid for by-value nesting)
+    # full named-struct definitions in source order (source order is compile-valid for by-value nesting)
     for kind, name, body in ordered:
+        out.append(body if body.rstrip().endswith(';') else body + ';')
+        out.append('')
+    # typedefs last, in source order (a typedef may reference an earlier named struct or an earlier
+    # typedef; anonymous-struct typedefs can't be forward-declared, so the ordering is load-bearing)
+    for name, body in tordered:
         out.append(body if body.rstrip().endswith(';') else body + ';')
         out.append('')
     out.append(f'#endif /* {guard} */')
     os.makedirs(os.path.dirname(out_path), exist_ok=True)
     open(out_path, 'w').write('\n'.join(out) + '\n')
-    print(f'wrote {args.out}: {len(ordered)} named types (forward decls + defs, source order)')
+    print(f'wrote {args.out}: {len(ordered)} named types + {len(tordered)} typedefs '
+          '(forward decls + defs, source order)')
 
     if args.strip:
-        # remove the def spans from the source, last-first to keep offsets valid
-        spans = sorted([(s, e) for _, _, s, e in defs], key=lambda t: t[0], reverse=True)
+        # remove the def spans (named structs + typedefs) from the source, last-first to keep offsets
+        # valid. The overlap guard above guarantees these spans are disjoint.
+        spans = sorted([(s, e) for _, _, s, e in defs] + [(s, e) for _, _, s, e in tdefs],
+                       key=lambda t: t[0], reverse=True)
         new = text
         for s, e in spans:
             new = new[:s] + new[e:]
         # collapse the blank-line runs the removals leave
         new = re.sub(r'\n[ \t]*\n[ \t]*\n+', '\n\n', new)
         open(c_path, 'w').write(new)
-        print(f'stripped {len(spans)} struct/union defs from {args.source}.c (verify byte-identical)')
+        print(f'stripped {len(spans)} struct/union/typedef defs from {args.source}.c (verify byte-identical)')
 
 
 if __name__ == '__main__':
