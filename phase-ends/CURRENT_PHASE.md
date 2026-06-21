@@ -10,8 +10,8 @@
 
 - [x] **T1 — Close the propagation cap (typedef/local-type lift)** · DONE (xHigh)
       Extended `tools/build_engine_types.py` with `find_typedefs()` + collision/overlap guards; lifted **14 typedefs** to `engine_types.h` (byte-neutral, `ov_SC01_077` stays `d19c9580`); `dedup_propagate --auto-from` propagated **9 reach-134 fns ×134**. **check-all 136/136**, fleet **58.00%→58.35%** (+0.35%), dedup **1485→1494**, 0 NON_MATCHING. **FINDING (R14):** cap was 16; only **9 were type-blocked** (all freed) — the other **7 are callee/data-extern plumbing** (`func_80142C84`, `D_800AE620`…), the §19 declaration-plumbing class, NOT the type-lift → recovery-tooling lever (see Notes).
-- [ ] **T2 — Exemplar-miner / residual router** · xHigh
-      New `tools/exemplar_miner.py` (consumes `wall_taxonomy.json` + `dup_report --cross` reach) → `docs/exemplar_curriculum.md`: routed worklist (waves / pins-permuter / class-crack / stub) + the fresh reach-134 wave-target list.
+- [x] **T2 — Exemplar-miner / residual router** · DONE (xHigh)
+      `tools/exemplar_miner.py` → `docs/exemplar_curriculum.md` + `.run/exemplar_routing.json` (reach computed from sigs like dedup_propagate). **835 residual stubs routed:** WAVE 472 (218 reach-134, T6 fuel) · STRUCT 159 · **PINS 114 (45 reach-134)** · STUB 90 (74 ARITY_WALL + 16 NONFAITHFUL). **Key T3 input:** 17 reach-134 fns at m2c-mismatch=1 = the cleanest regalloc/schedule isolates (likely §17-pins wins + the genuine class residuals). Named exemplars confirmed reach-134. *Caveat: census is the Jun-19 snapshot (pre-Phase-19 waves, ~7% stale); T5/T6 regen gives the authoritative fresh WAVE list.*
 - [ ] **T3 — gcc class-crack research block** · **Max each** (R17) — the phase hinge
   - [ ] T3a — `%lo`-folding at `-O0` (most promising; ~10 fns; address-mode/`local-alloc.c`)
   - [ ] T3b — loop-guard operand-order (`func_8012C2D0`; `loop.c get_condition`)
@@ -27,7 +27,7 @@
 **Optional / conditional (decide live, else → Phase 21):** `-O0` ×134 rollout (only if T3a cracks `%lo`); the 28 giants (deferred to a focused Phase-21 deep session).
 
 ## Current task pointer
-→ **T2** (exemplar-miner / residual router). T1 complete + committed.
+→ **T3** (gcc class-crack block). Refined opener: attack the **17 reach-134 m2c-mismatch=1 PINS** fns with the existing §17 toolkit (pins/array-decay) — bank ×134 wins + discover what resists; THEN Max gcc-source research on the residuals + the 3 named exemplars (crack-or-cite). T1, T2 complete + committed.
 
 **Carry from T1 → recovery tooling (Phase-20 backlog item 2 / T2 router):** the **7 callee/data-plumbing capped fns** (reach-134, matched-but-local): `0x80142B2C 0x801535F4 0x80155E30 0x80157580 0x801576A8 0x80168F40 0x80170B48`. They fail `compiles_standalone` on undeclared callees/data, not types. A `dedup_propagate` macro-extern-injection (or canonical-callee-sig embed, the `gen_harvest_targets` approach) would free them ×134 (~+0.3%). NOT type-lift; do not reopen T1 for them.
 
