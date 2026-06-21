@@ -1180,10 +1180,13 @@ worked-example templates). Measured on ov_SC01_077 tractable reach-134 residuals
   per-file `CC1FLAGS := -O0`). HIGH ROI: ~18 fns × reach-134. Members incl. func_8013C360,
   func_8013B568/B598/B6A0/B7AC/B7F4/B83C/BC7C/BCDC/BD34/BD74, func_8013C08C/C0F8/C360/C414/C938/C964,
   func_80144B9C, func_801457A4. (→ Phase 19 build-infra task.)
-- **gcc-2.7.2 loop-guard operand-ORDER** (func_8012C2D0, 1-off). The duplicated loop entry-guard emits the
-  loop-INVARIANT operand first (`beq end,p`) where the target has the biv first (`beq p,end`); `loop.c`
-  `get_condition` canonicalization, NOT pin/polarity/barrier/source-steerable. Distinct from the register-ORDER
-  class (which pins DO fix) and from narrow-param. A genuine residual — stub.
+- **gcc-2.7.2 loop-guard** (func_8012C2D0). **[Phase-20 R14 CORRECTION — see §20]** the real residual is gcc
+  STRENGTH-REDUCTION / IV-final-value ADDRESSING, NOT operand-order: the loop end is formed as `&D_80120194`
+  (the array base) `+ 0x658C` — the base materialized SEPARATELY then offset (an induction-variable final value),
+  while the start is its own symbol `D_801202A0`. The right C is base-relative end + `lhu`/`u16` (gets
+  structurally close), but gcc -O2 CONSTANT-FOLDS `base + N` into one address (`lui %hi; addiu %lo`), so no clean
+  C form (pointer-var, struct-array index) reproduces the separate base materialization. Still a genuine residual
+  — stub; the (uncracked) lever direction is forcing the unfolded IV-final-value, not operand order.
 - (also: func_8014F2E0 4-off = §10 store-vs-load schedule placement, base-preservation-vs-load-order mutually
   exclusive — a real §10 residual.)
 
@@ -1256,3 +1259,74 @@ same-name-different-layout collisions historically) but NOT typedefs → ~16 ban
 **Lever (Phase 20): extend the type-lift to typedefs/local types** → recovers those ×134 for ~0 agent tokens AND
 raises every future batch's realized yield. The harvest's bottleneck has moved from "can we match it" to "can we
 share it."
+
+## §20 The wave-at-scale GATE CAP + residual-class verdicts (Phase 20)
+
+Phase 20 closed the §19 propagation cap (T1 below) then ran the §17/§19 wave + recovery over the reach-134
+≤90-ins tail — and hit a HARDER gate cap than Phase 19's. All byte-verified.
+
+### THE CAP: at this tail the match_one→gate gap is the LOOSE-TYPING CALL-GRAPH wall (not cheap plumbing)
+Batch numbers: 41/48 `match_one` MATCH (85%), but only **8/41 survived the whole-binary gate (~80% gap** — vs
+Phase 19's ~30%). The gap is NOT the §17a/§19 cheap declaration-plumbing (link-miss/arity recovered **~0** here).
+Byte-verified cause: a callee (e.g. `func_80153C74`) is declared with **CONFLICTING types at different overlay
+sites**, so the draft's extern hits in-TU `conflicting types` — a COMPILE error, not a byte miss. `match_one`
+OVER-PREDICTS because it compiles STANDALONE with the draft's own externs **and** masks jal/%hi/%lo — it never
+sees the overlay's conflicting decls. **Every recovery lever fails at this tail** (all 0): `sig_unify` /
+`canon_draft_decls` impose a single "canonical" that's wrong for some sites (loose-typing); `fix_arity_callers`
+(not arity); **no-proto externs** (incompatible with the overlay's NARROW existing decls — `void f()` can't
+co-exist with `void f(s16)`); strip-externs (implicit-int ≠ target). **The ONLY fix is the §17a-1 per-site
+function-pointer cast** `((ret(*)(args))func_X)(…)` — it takes the callee's ADDRESS and calls with the draft's
+intended sig, so there's no global decl and no conflict. Agents don't apply it reliably → **AUTOMATE it: a
+recovery pass that, per draft, DROPS the conflicting callee extern + CASTS the call to the draft's sig, then
+gates.** That is the Phase-21 cap lever (recovers a batch's lost ~33 reach-134 AND lifts every wave's gate-pass
+from ~20% toward ~80%+). The bottleneck has moved again: matching ✓ (85%) → sharing ✓ (§19 type-lift) → now
+**in-TU declaration reconciliation under loose typing.**
+
+### Diagnostic lesson: a failed in-TU build leaves a STALE `.o`
+When you substitute a draft and the in-TU build FAILS to compile, `build/src/<…>.o` retains the PREVIOUS
+(target/stub) bytes → `objdump` of that `.o` shows a FALSE "byte-match." **Always trust the whole-binary SHA
+gate, not a per-function `objdump`** (cost a real detour: func_80153C44's stale `.o` looked identical while the
+true failure was a `conflicting types` compile error).
+
+### NEW / CONFIRMED residual classes (this session)
+- **§10 store-vs-load scheduling (func_8014F2E0, func_80150528) — CONFIRMED unsteerable.** Wave agents tried
+  for-init / barrier / precompute / volatile; `sched.c` tie-break: the IV-init lands before the loop guard not in
+  the preheader, and the `D_x=0` store schedules BETWEEN two arg-loads instead of after both — mutually exclusive
+  with base-preservation. Stub.
+- **§10 hoist-vs-remat regalloc tie-break (func_80149374, func_801493D0) — CONFIRMED.** gcc caches a `sp+off`
+  buffer address in a freed callee-saved reg + moves (cheaper by its count) where the target REMATERIALIZES
+  `addiu $a,$sp,off` per call. Array-decay / pins / barriers / permuter all fail. Stub.
+- **IV-combine divergence (func_80177AD4) — NEW.** Our cc1's `combine_givs` won't fold a halfword RMW
+  (`lhu;sh -2(p)`) into the byte biv (`sb 0(p)`) the way the target does (one IV at `p+0x20`); it spawns a
+  dedicated 2nd IV → wrong base constant (`p+0x1e`). Probe-confirmed (a non-RMW `*p`/`*(p-2)` pair combines fine;
+  the RMW spawns the 2nd IV). Genuine codegen divergence, not source-typeable. Stub.
+- **Hoisted-invariant PROLOGUE ORDER (func_80177F84).** 3 prologue insns in the wrong order — gcc emits the
+  pinned-`$a2` pointer init before the two hoisted loop-invariant constants; the target emits the constants
+  first. No prologue permutation is < 3-off; the permuter can't run (the `register __asm__` pins are rejected by
+  pycparser). §3/§5-class — stub.
+- **The -O1 class (func_80161A90) — NEW build-infra (extends §18).** A function built `-O1` (frame 0x18, `lhu`
+  reload, unfolded base, load-delay nops) inside an otherwise-`-O2` overlay. `match_one` (hardcoded `-O2`) CANNOT
+  match it. Like the §18 `-O0` class but `-O1` → needs its own `-O1` split file (target-specific
+  `CC1FLAGS := -O1`). Detect: prologue/scheduling between `-O0` (`21F0A003`) and `-O2`.
+
+### Operational gotchas (cost real time)
+- **Workflow `args`:** pass the target list as a JSON ARRAY, not a JSON string — a stringified array reaches the
+  script as one string and `args.map` throws (`names.map is not a function`). Defensive:
+  `const names = Array.isArray(args) ? args : JSON.parse(args)`.
+- **`harvest_verify --chunk 1` for wave batches.** With `--chunk >1`, ONE draft that fails to COMPILE (a
+  loose-typing conflict) fails the whole chunk's build and the bisection mis-attributes the innocent neighbors as
+  failures. Gate wave drafts one at a time when the failure mode is compile-conflicts.
+
+### What WORKED — the Phase-20 reusable wins
+- **T1 — the typedef type-lift** (`tools/build_engine_types.py` extended). Added `find_typedefs()` (brace-aware:
+  anon-struct `typedef struct{…}N;`, fn-ptr `typedef r(*N)();`, alias) + same-name-different-layout collision +
+  tagged-struct-typedef overlap guards; emits typedefs in source order AFTER the named structs (deps like
+  `A→S` preserved). **Closed the §19 type-blocked propagation cap** — 9 reach-134 fns ×134 for ~0 agent tokens,
+  byte-neutral (`--strip` removes the defs; type decls emit no code).
+- **T2 — the residual router** (`tools/exemplar_miner.py`). Consumes `wall_taxonomy.json` + per-overlay reach
+  (dedup_propagate's computation) → routes every residual to a lever (WAVE / STRUCT / PINS / STUB) →
+  `docs/exemplar_curriculum.md` + the reach-134 wave-target list + `.run/exemplar_routing.json`. The "scan all
+  residuals, pick the teachers / size the pools" router. Caveat: its `mismatch` is the M2C-DRAFT mismatch, NOT
+  the hand-match floor (a loop-guard buckets STRUCTURAL_MISS at mismatch-16 yet hand-floors to 1).
+
+*(T3a `%lo`-folding `-O0` (§18 open residual) is still open — to be added here when cracked.)*

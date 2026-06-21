@@ -17,8 +17,8 @@
   - [~] T3b — loop-guard (`func_8012C2D0`, worked in ov_SC03_014). **R14: exemplar MISLABELED** — it's gcc **strength-reduction/addressing** (end = base `D_80120194` + 0x658C as an induction-var final-value), NOT operand-order. 2 drafts: base-relative-end + `lhu`/`u16` now correct; residual = gcc materializes the base separately before +0x658C (resists the constant-fold my C produces). Likely crackable via indexed-struct-array, but a deep per-fn induction-var grind. Prior "irreducible" was an incomplete framing. PAUSED for the ROI checkpoint below.
   - [ ] T3c — store-vs-load scheduling tie-break (`func_8014F2E0`; `sched.c`)
       Each: read the gcc-papermario pass → try the C lever → `match_one` → crack (byte-gate + propagate + cookbook idiom) OR cite-irreducible (cookbook verdict).
-- [ ] **T4 — Distill the gcc-2.7.2 codegen map** · **Max** (R16)
-      Consolidate §17/§18 + T3 into a complete codegen reference (idiom OR cited-irreducible per class) in `docs/matching-cookbook.md` + `docs/hand-matching-process.md`.
+- [x] **T4 — Distill the gcc-2.7.2 codegen map** · DONE (Max, R16)
+      Wrote **cookbook §20** (the wave-at-scale gate cap = loose-typing call-graph wall; store-vs-load + §10 hoist-vs-remat + IV-combine + hoisted-invariant-order CONFIRMED-irreducible with byte-evidence; the **-O1 class**; the stale-`.o` + args-as-array + `--chunk 1` gotchas; the T1/T2 wins) + an **R14 correction** to the §17a loop-guard entry (strength-reduction, not operand-order). `%lo` (T3a) left as a placeholder to append when cracked.
 - [ ] **T5 — Ghidra-C regen for fresh wave targets** · xHigh + **R23/R29**
       Stop MCP → `DecompileFunctions.java` over fresh tractable reach-134 stubs → restart → **pause + prompt `/mcp`** → `get_binary_info` (G2).
 - [~] **T6 — Enriched waves (batch 1 done)** · Ultracode
@@ -27,14 +27,13 @@
 **Optional / conditional (decide live, else → Phase 21):** `-O0` ×134 rollout (only if T3a cracks `%lo`); the 28 giants (deferred to a focused Phase-21 deep session).
 
 ## Current task pointer — MULTI-SESSION CONTINUE (Drew, 2026-06-21: not closing; resume in a fresh session)
-**Done + committed:** T1 (cap, +0.35%), T2 (router), T3b (cited — R14 reframe), T6 batch-1 (8 banked, +0.28%). **T3c verdict IN** (cite-irreducible, byte-confirmed via the wave — `sched.c` tie-break; just needs the T4 write-up). Fleet **58.00%→58.63%**, 136/136 byte-identical, 0 NON_MATCHING. Tree clean (HEAD `commit:0169`).
+**Done + committed:** T1 (cap, +0.35%), T2 (router), T3b (cited — R14 reframe), **T3c (cited — written up in §20)**, **T4 (codegen map §20 + §17a correction)**, T6 batch-1 (8 banked, +0.28%). Fleet **58.00%→58.63%**, 136/136 byte-identical, 0 NON_MATCHING.
 
 **Remaining, prioritized for the fresh session (the plan is approved — resume autonomously, P3/§Session-Start step 4):**
-1. **[THE CAP — highest ROI] Build the §17a auto-call-site-cast recovery tool.** The precisely-diagnosed gate cap (see T6 finding above): the wave's 33 match_one-MATCH drafts fail in-TU on loose-typed callee conflicts; the fix is per-site fn-ptr casts `((ret(*)(args))func_X)(…)` (drop the draft's conflicting extern, cast the call to the draft's intended sig, gate). Recovers T6 batch-1's 33 reach-134 (~+1%) AND lifts every future wave from ~20%→~80%+ gate-pass. Drafts preserved: `.run/drafts-t6-cn/` (agent originals, post canon_resident_calls); failures list `.run/t6_fails.txt`; gate good-sha `d19c9580…`.
-2. **T4 — distill the gcc codegen map** into `docs/matching-cookbook.md`: T3b (strength-reduction reframe), T3c + §10 hoist-vs-remat + IV-combine (`combine_givs`) + the loop-guard — all cite-irreducible with byte-evidence; the **-O1 class** (`func_80161A90`, build-infra); the **match_one→gate in-TU loose-typing cap** + the stale-`.o` diagnostic lesson.
-3. **T3a — %lo-folding -O0** (`func_8013C360` cluster; entangled with the -O0 split infra).
-4. **T5 — Ghidra-C regen** (R23/R29: stop MCP → DecompileFunctions.java → `/mcp`) for fresh reach-134 targets → more T6 wave batches (now with the cast-recovery → full yield). Cache is 300; ov_SC01_077 has 668 stubs.
-5. **[build-infra] -O1/-O0 split files** to bank the -O1 (`func_80161A90`) + the 6 matched -O0 fns ×134 (per-overlay -O0 splits, uniform offsets, scriptable).
+1. **[THE CAP — highest ROI] Build the §17a auto-call-site-cast recovery tool** (cookbook §20). The diagnosed gate cap: the wave's 33 match_one-MATCH drafts fail in-TU on loose-typed callee conflicts; the fix is per-site fn-ptr casts `((ret(*)(args))func_X)(…)` (drop the draft's conflicting extern, cast the call to the draft's intended sig, gate). Recovers T6 batch-1's 33 reach-134 (~+1%) AND lifts every future wave from ~20%→~80%+ gate-pass. Drafts preserved: `.run/drafts-t6-cn/` (agent originals, post canon_resident_calls); failures `.run/t6_fails.txt`; gate good-sha `d19c9580…`.
+2. **T3a — %lo-folding -O0** (`func_8013C360` cluster; cookbook §18 open residual; entangled with the -O0 split infra). Append the verdict/crack to cookbook §20's placeholder.
+3. **T5 — Ghidra-C regen** (R23/R29: stop MCP → DecompileFunctions.java → `/mcp`) for fresh reach-134 targets → more T6 wave batches (now with the cast-recovery → full yield). Cache is 300; ov_SC01_077 has 668 stubs.
+4. **[build-infra] -O1/-O0 split files** to bank the -O1 (`func_80161A90`) + the 6 matched -O0 fns ×134 (per-overlay -O0 splits, uniform offsets, scriptable).
 
 **Reusable wave recipe (proven this session):** `gen_harvest_targets --min-reach 134 --max-nins 90` → filter to cached Ghidra-C → Workflow (one agent/target, §17 toolkit, **pass args as a JSON array NOT a string** — the gotcha that bit us) → `canon_resident_calls` → **the new cast-recovery** → `harvest_verify --chunk 1` (chunk>1 mis-attributes compile-erroring drafts) → `dedup_propagate --auto-from`.
 
