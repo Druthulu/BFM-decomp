@@ -19447,4 +19447,200 @@
         return (u32 *)(a3 + 0x14); \
     }
 
+#define DEFINE_func_80153800() \
+    extern void (*D_8011DB28)(s32 a0); \
+    extern u8 D_80126DB0[]; \
+    extern u16 D_80126DB6; \
+    extern void func_80015954(s32 a0, s32 a1); \
+    extern void func_80015978(s32 a0, s32 *a1); \
+    extern void func_800139C8(s32 a0, void *a1, void *a2); \
+    extern s32 func_80153978(s32 a0, u16 *src); \
+    extern void *memcpy(void *dst, const void *src, u32 n); \
+    s32 func_80153800(s32 a0) { \
+        s32 s1 = a0; \
+        s32 s0; \
+        s32 s2; \
+        u8 bVar1; \
+        s16 buf1[4]; \
+        s16 buf2[4]; \
+        if (D_8011DB28 != 0) { \
+            ((void (*)(s32, s32))func_80015978)(s1 + 4, s1 + 0x88); \
+            memcpy((void *)(s1 + 0x90), (void *)(s1 + 0x88), 8); \
+    ret0: \
+            return 0; \
+        } \
+        bVar1 = *(u8 *)(s1 + 0xDE); \
+        if (bVar1 >= 0x21) { \
+            s32 base = (s32)D_80126DB0; \
+            func_80015954(base, s1 + 4); \
+            memcpy((void *)(s1 + 0x88), (void *)base, 8); \
+            memcpy((void *)(s1 + 0x90), (void *)(s1 + 0x88), 8); \
+            *(s16 *)(*(s32 *)(s1 + 0x20) + 0x12) = D_80126DB6; \
+            return 0; \
+        } \
+        { \
+            register s32 m __asm__("$3") = bVar1 * 4; \
+            s2 = m; \
+            buf2[1] = *(u16 *)(s1 + 0xA2) - m; \
+        } \
+        for (s0 = 0; s0 < 0x80; s0++) { \
+            s32 ang = s0 * 0x200000; \
+            buf1[0] = 0; \
+            buf1[1] = 0; \
+            buf1[2] = s2; \
+            func_800139C8(ang >> 0x10, buf1, buf1); \
+            buf2[0] = *(u16 *)(s1 + 0xA0) + buf1[0]; \
+            buf2[2] = *(u16 *)(s1 + 0xA4) + buf1[2]; \
+            if (((s32 (*)(s32, void *))func_80153978)(s1, buf2) == 0) { \
+                goto ret0; \
+            } \
+        } \
+        *(u8 *)(s1 + 0xDE) = *(u8 *)(s1 + 0xDE) + 1; \
+        return 1; \
+    }
+
+#define DEFINE_func_80168070() \
+    extern void func_80149350(s32 arg0); \
+    extern void func_800D20C0(void *a0, void *a1, s32 a2); \
+    extern void func_80017E68(void *a0, void *a1); \
+    extern void func_800D23D0(void *a0); \
+    extern void ApplyMatrixSV(void *a0, void *a1, void *a2); \
+    extern void ApplyTransposeMatrixLV(void *a0, void *a1, void *a2); \
+    extern void RotMatrixYXZ(void *a0, void *a1); \
+    extern s32 ratan2(s32 a0, s32 a1); \
+    extern s32 D_801269A4; \
+    extern s32 D_801269A8; \
+    extern s32 D_801269AC; \
+    void func_80168070(s32 param_1, s16 *param_2, s16 *param_3, void *param_4) { \
+        s16 mid[3]; \
+        s16 dir[3]; \
+        s32 pos[3]; \
+        mid[0] = (param_2[0] + param_3[0]) >> 1; \
+        mid[1] = (param_2[1] + param_3[1]) >> 1; \
+        mid[2] = (param_2[2] + param_3[2]) >> 1; \
+        ((void (*)(s32, void *, void *))func_80149350)(param_1, mid, mid); \
+        func_800D20C0(mid, dir, 8); \
+        func_80017E68(mid, param_4); \
+        dir[0] = (u16)param_3[0] - (u16)param_2[0]; \
+        dir[1] = (u16)param_3[1] - (u16)param_2[1]; \
+        dir[2] = (u16)param_3[2] - (u16)param_2[2]; \
+        ApplyMatrixSV((void *)(*(s32 *)(param_1 + 0x20) + 0x34), dir, dir); \
+        func_800D23D0(dir); \
+        RotMatrixYXZ(dir, param_4); \
+        pos[0] = D_801269A4 - mid[0]; \
+        pos[1] = D_801269A8 - mid[1]; \
+        pos[2] = D_801269AC - mid[2]; \
+        ApplyTransposeMatrixLV(param_4, pos, pos); \
+        dir[2] = -ratan2(pos[0], pos[1]); \
+        RotMatrixYXZ(dir, param_4); \
+    }
+
+#define DEFINE_func_8014B7A4() \
+    extern s32 func_8016F1C4(void); \
+    extern s32 func_80029178(s32 arg); \
+    extern void func_8014B944(s32 a0, s32 a1, s32 a2); \
+    extern u8 D_800AF630[]; \
+    extern u8 D_80078E78[]; \
+    extern s16 currentLocationId; \
+    extern s32 D_80078EA4; \
+    void func_8014B7A4(s16 *param_1) { \
+        s32 s0 = (s32)param_1; \
+        register u8 *s2 __asm__("$18") = D_800AF630; \
+        register s32 s1 __asm__("$17") = (s32)D_80078E78; \
+        s32 v0; \
+        s32 v1; \
+        if (func_8016F1C4() != 0) { \
+            return; \
+        } \
+        if (*(u16 *)s0 == 0x1E) { \
+            return; \
+        } \
+        if (*(u16 *)s0 == 0x1A) { \
+            return; \
+        } \
+        if (*(s32 *)(s0 + 0x44) & 0x10) { \
+            return; \
+        } \
+        if (*(s32 *)(s0 + 0x44) & 0x80) { \
+            if ((func_80029178(0x1B) & 0xFF) != 0) { \
+                func_8014B944(s0, 0x2D80, 0); \
+            } else { \
+                func_8014B944(s0, 0x16C0, 0); \
+            } \
+        } else { \
+            v1 = currentLocationId; \
+            if (v1 == 0x3024) goto check_end; \
+            if (v1 == 0x3042) goto check_end; \
+            if (v1 == 0x3067) goto check_end; \
+            if (v1 == 0x3075) goto check_end; \
+            if ((func_80029178(0x21) & 0xFF) != 0) { \
+                D_80078EA4 = D_80078EA4 - 0xF2; \
+            } else { \
+                D_80078EA4 = D_80078EA4 - 0x16C; \
+            } \
+        } \
+    check_end: \
+        if (*(s32 *)(s1 + 0x2C) < 0) { \
+            *(s32 *)(s1 + 0x2C) = 0; \
+            if (*(s32 *)(s0 + 0x44) & 0x80) { \
+                v1 = 0xAAA8; \
+                v0 = *(s32 *)(s1 + 0x30) + v1; \
+            } else { \
+                v0 = *(s32 *)(s1 + 0x30) + 0x1555; \
+            } \
+            *(s32 *)(s1 + 0x30) = v0; \
+            if (*(s16 *)(s1 + 0x32) >= 0x3C) { \
+                *(s32 *)(s1 + 0x30) = 0; \
+                if (*(s16 *)(s2 + 0xA3D8) != 0x3051) { \
+                    *(s32 *)(s0 + 0x44) = *(s32 *)(s0 + 0x44) | 0x100; \
+                } \
+            } \
+        } \
+        return; \
+    }
+
+#define DEFINE_func_8014A850() \
+    extern void func_80015978(s32 a0, s32 *a1); \
+    extern s32 func_80029AF4(void); \
+    extern void func_8014C4AC(s32 a0, s32 a1, s32 a2, s16 *a3, s32 a4); \
+    extern u8 D_801202A0[]; \
+    s32 func_8014A850(s32 param_1) { \
+        s32 i; \
+        s32 cnt; \
+        s16 buf[3];   /* 0x18, 0x1A, 0x1C */ \
+        s16 out[4];   /* 0x20 .. 0x27 (s2) */ \
+        s32 x; \
+        s32 uVar2; \
+        s16 *po; \
+        cnt = 0; \
+        po = out;   /* anchors &out ($s2) materialization between cnt=0 and i=0 (scheduler LUID) */ \
+        i = 0; \
+        do { \
+            s32 e = (s32)&D_801202A0 + i; \
+            if (*(u16 *)(e + 0) != 0 && *(s32 *)(e + 0x58) != 0 && \
+                (*(u16 *)(e + 0x5C) & 0x8000) != 0 && *(u8 *)(e + 0xC1) == 7) { \
+                x = *(u16 *)(param_1 + 6) - *(u16 *)(e + 6); \
+                buf[0] = x; \
+                buf[1] = *(u16 *)(param_1 + 0xA) - (*(u16 *)(e + 0xA) + 0x40); \
+                buf[2] = *(u16 *)(param_1 + 0xE) - *(u16 *)(e + 0xE); \
+                if ((((s16)x < 0) ? -(s16)x : (s16)x) < 0x40) { \
+                    if (((buf[2] < 0) ? -buf[2] : buf[2]) < 0x40) { \
+                        if (((buf[1] < 0) ? -buf[1] : buf[1]) < 0x40) { \
+                            *(s32 *)(param_1 + 0x18C) = e; \
+                            func_80015978(param_1 + 4, (s32 *)po); \
+                            out[3] = 0; \
+                            uVar2 = func_80029AF4(); \
+                            func_8014C4AC(e, 0x1B, uVar2, po, \
+                                          (s32)*(s16 *)(*(s32 *)(param_1 + 0x20) + 0x12)); \
+                            return 1; \
+                        } \
+                    } \
+                } \
+            } \
+            cnt += 1; \
+            i += 0x10C; \
+        } while ((u32)cnt < 0x60); \
+        return 0; \
+    }
+
 #endif
