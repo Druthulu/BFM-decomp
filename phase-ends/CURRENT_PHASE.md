@@ -14,20 +14,20 @@
       `tools/exemplar_miner.py` → `docs/exemplar_curriculum.md` + `.run/exemplar_routing.json` (reach computed from sigs like dedup_propagate). **835 residual stubs routed:** WAVE 472 (218 reach-134, T6 fuel) · STRUCT 159 · **PINS 114 (45 reach-134)** · STUB 90 (74 ARITY_WALL + 16 NONFAITHFUL). **Key T3 input:** 17 reach-134 fns at m2c-mismatch=1 = the cleanest regalloc/schedule isolates (likely §17-pins wins + the genuine class residuals). Named exemplars confirmed reach-134. *Caveat: census is the Jun-19 snapshot (pre-Phase-19 waves, ~7% stale); T5/T6 regen gives the authoritative fresh WAVE list.*
 - [ ] **T3 — gcc class-crack research block** · **Max each** (R17) — the phase hinge
   - [ ] T3a — `%lo`-folding at `-O0` (most promising; ~10 fns; address-mode/`local-alloc.c`)
-  - [ ] T3b — loop-guard operand-order (`func_8012C2D0`; `loop.c get_condition`)
+  - [~] T3b — loop-guard (`func_8012C2D0`, worked in ov_SC03_014). **R14: exemplar MISLABELED** — it's gcc **strength-reduction/addressing** (end = base `D_80120194` + 0x658C as an induction-var final-value), NOT operand-order. 2 drafts: base-relative-end + `lhu`/`u16` now correct; residual = gcc materializes the base separately before +0x658C (resists the constant-fold my C produces). Likely crackable via indexed-struct-array, but a deep per-fn induction-var grind. Prior "irreducible" was an incomplete framing. PAUSED for the ROI checkpoint below.
   - [ ] T3c — store-vs-load scheduling tie-break (`func_8014F2E0`; `sched.c`)
       Each: read the gcc-papermario pass → try the C lever → `match_one` → crack (byte-gate + propagate + cookbook idiom) OR cite-irreducible (cookbook verdict).
 - [ ] **T4 — Distill the gcc-2.7.2 codegen map** · **Max** (R16)
       Consolidate §17/§18 + T3 into a complete codegen reference (idiom OR cited-irreducible per class) in `docs/matching-cookbook.md` + `docs/hand-matching-process.md`.
 - [ ] **T5 — Ghidra-C regen for fresh wave targets** · xHigh + **R23/R29**
       Stop MCP → `DecompileFunctions.java` over fresh tractable reach-134 stubs → restart → **pause + prompt `/mcp`** → `get_binary_info` (G2).
-- [ ] **T6 — Enriched waves** · **Ultracode** (R26/R27 — prompt to toggle)
-      Wave batches (size 50, bank a lesson each) over fresh reach-134 targets: §17 + T3 classes + canon-first 2-stage gate + `fix_arity_callers` + uncapped propagation. Each match ×134. Verify per batch.
+- [~] **T6 — Enriched waves (batch 1 done)** · Ultracode
+      Wave on 48 cached reach-134 ≤90-ins targets → **41/48 match_one MATCH (85%)**. Whole-binary gate: **8/41 banked** (7 ×134 + 1 local), fleet **58.35%→58.63%** (+0.28%), dedup 1494→1501, check-all 136/136. **KEY FINDING (R14/P9): the match_one→gate gap is ~80% this batch — EXTERN-CODEGEN-COUPLING** (a callee's *declared* sig changes the call codegen, so match_one with the draft's externs ≠ the gate with the overlay's decls). The 33 lost are byte-correct vs the WRONG externs → recoverable by a **callee-extern-canonicalize pass (NOT def-sig — sig_unify regresses)** = Drew's backlog item 2, the real cap. **The 7 DIFFs gave gold gcc diagnoses (do T3c/T4 for free):** T3c store-vs-load `func_8014F2E0`/`func_80150528` CONFIRMED unsteerable (sched.c); §10 hoist-vs-remat `func_80149374`/`func_801493D0`; IV-combine `func_80177AD4`; hoisted-invariant order `func_80177F84`; `func_80161A90` = **-O1** (build-infra, needs an -O1 split like -O0).
 
 **Optional / conditional (decide live, else → Phase 21):** `-O0` ×134 rollout (only if T3a cracks `%lo`); the 28 giants (deferred to a focused Phase-21 deep session).
 
 ## Current task pointer
-→ **T3** (gcc class-crack block). Refined opener: attack the **17 reach-134 m2c-mismatch=1 PINS** fns with the existing §17 toolkit (pins/array-decay) — bank ×134 wins + discover what resists; THEN Max gcc-source research on the residuals + the 3 named exemplars (crack-or-cite). T1, T2 complete + committed.
+→ **T6 (harvest wave, pulled forward per Drew's HYBRID)**. T3b cited (R14 reframe banked). Pivoted to bank the cheap certain %: an Ultracode wave on the **48 cached reach-134 ≤90-ins targets** (`.run/t6_wave_args.json`) with the §17 toolkit, each ×134, canon-first gate + fix_arity_callers recovery, byte-gated. T3a/T3c (remaining cracks) + T4 distill = the bounded spike AFTER the harvest. **Awaiting `/effort ultracode` toggle (R27).** T1, T2 done+committed; T3b cited.
 
 **Carry from T1 → recovery tooling (Phase-20 backlog item 2 / T2 router):** the **7 callee/data-plumbing capped fns** (reach-134, matched-but-local): `0x80142B2C 0x801535F4 0x80155E30 0x80157580 0x801576A8 0x80168F40 0x80170B48`. They fail `compiles_standalone` on undeclared callees/data, not types. A `dedup_propagate` macro-extern-injection (or canonical-callee-sig embed, the `gen_harvest_targets` approach) would free them ×134 (~+0.3%). NOT type-lift; do not reopen T1 for them.
 
