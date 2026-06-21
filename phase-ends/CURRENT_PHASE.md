@@ -68,8 +68,30 @@ R6); `auto_stop.sh` halts at the next safe boundary. Worst case of any crash = "
 file + `docs/automation-runbook.md` are the durable state. Sandbox note: detached daemons build fine;
 interactive build gates need `dangerouslyDisableSandbox`.
 
+## POST-REBOOT RESUME (2026-06-21) — the learning flywheel + ready for the fresh-session run
+
+After the reboot (BIOS startup-on-power-loss configured; Drew has remote access):
+- **R1 — gated the 15 pre-reboot drafts:** banked **4** (func_80156FA8/801678F0/80156848/8017742C; 2 propagated
+  ×134); backlog 30→41. R22 check-all **136/136**. (The standalone gate was killed pre-commit twice — a harness
+  quirk on detached `nohup gate_stage` runs; recovered by committing the working tree. Does NOT affect the
+  orchestrator, which calls gate_stage **in-process**.)
+- **R2/R3 — the learning flywheel (Drew-approved):**
+  - Residual gcc-quirk class now **travels with the draft**: the drafter stamps `// @class` / `// @stuck`;
+    `gate_stage` logs the worker's class (not the coarse manifest class) → enables class buckets.
+  - **Class-grouped waves:** `wave_targets.py --class <C>` / `--list-classes` (REGALLOC/SCHEDULE/REMAT/STRUCT/
+    IV/LOOPGUARD/LOOSE/PLUMBING). `orchestrator prep` auto-fires a class-focused re-attempt wave when a class
+    accrues ≥6 near-misses (drafters get the prior stuck-point), else a fresh pool harvest.
+  - **Distill** (`tools/workflows/distill.js`): post-wave agent extracts NEW byte-verified gcc idioms → cookbook
+    §21 (R16, conservative); drafters read the **live** cookbook so idioms feed forward (the Phase-18 loop, automated).
+- **R4 — grinder relaunched** (token-free); fleet **59.05%** (phase: 58.82→59.05, +0.23%, 5 fns ×134); 136/136;
+  tree clean. **Ready for Drew's fresh session to run the worker `/loop`** (this session is at low context).
+
+**Fresh-session launch (Drew):** start a Claude Code session here → run **`/loop`** with the cycle in
+`docs/automation-runbook.md` (prep → worker_wave Workflow → finish gate → distill). The grinder is already
+running alongside. Monitor: `bash tools/auto_status.sh`. Stop: `bash tools/auto_stop.sh`.
+
 ## Blockers
-(none — the token-free grinder runs autonomously; the worker is remote-driven by Drew, who can monitor/stop.)
+(none — the token-free grinder runs autonomously; the worker flywheel is ready for the fresh-session `/loop`.)
 
 ## Per-task log
 
