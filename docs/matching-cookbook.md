@@ -1329,4 +1329,44 @@ true failure was a `conflicting types` compile error).
   residuals, pick the teachers / size the pools" router. Caveat: its `mismatch` is the M2C-DRAFT mismatch, NOT
   the hand-match floor (a loop-guard buckets STRUCTURAL_MISS at mismatch-16 yet hand-floors to 1).
 
+### Phase-20 RESOLUTION — `tools/cast_call_sites.py` BUILT + the cap re-diagnosed (R14, byte-proven)
+The §17a-1 per-site cast is now AUTOMATED. **`tools/cast_call_sites.py`** (pure `--in/--out` transform, sibling
+of sig_unify/canon_resident_calls): per draft, for every callee whose **canonical TU sig differs from the
+draft's intended sig** (exactly the conflict set), it (1) rewrites the callee's decl line → the canonical
+declaration (kills the in-TU `conflicting types`, keeps the symbol in scope) and (2) casts every call site to
+the draft's INTENDED sig `((ret(*)(args))func_X)(args)` (decl lines never cast). The cast is codegen-neutral —
+**confirmed**: gcc-2.7.2 folds `(cast)func_symbol` back to a direct `jal func_X` with the draft's calling
+convention. Pipeline: `canon_resident_calls → cast_call_sites → sig_unify (def-sig) → harvest_verify --chunk 1`.
+
+**RESULT on T6 batch-1's 33 gate-fails:** the callee-cast recovered **6 byte-identical** (func_80153C44/
+8015CF58/801711FC/80161BE0/801683D8/8015F948); 5 propagated ×134 + 1 local; fleet **58.63%→58.82%**, 136/136.
+
+**THE §20 "~33" PROJECTION WAS WRONG (R14 — the earlier diagnosis was incomplete).** Byte-classifying all 33
+gate-fails: the batch is NOT dominated by the callee-conflict class. It splits into THREE directions, ALL
+declaration-driven (0 pure codegen-quirk survives `match_one`):
+1. **Callee-conflict (~6)** — the draft CALLS a shared callee declared inconsistently → `cast_call_sites` ✓.
+2. **DEF-conflict (dominant, ~18) — the GENUINE loose-typing wall, byte-proven unrecoverable by text transform.**
+   A banked caller (an `engine_core.h` DEFINE macro, invoked in this overlay) declares the draft's OWN function
+   with a sig the matchable def can't satisfy (e.g. func_80161208: callers `s32 f(void)` 0-arg vs def
+   `void f(void*)` 1-arg; func_80146A6C: callers `s32 f(s32,void*,…)` vs def `void f(short,int,…)`). Both ways
+   fail: keep the draft's def-sig → `conflicting types`; canonicalize the def-sig (sig_unify) → 11/26 compile
+   clean but BYTE-MISMATCH (the body genuinely needs the draft's sig). **The symmetric "caller-side cast" fix is
+   BLOCKED**: `INCLUDE_ASM` emits only an `__asm__(".include …")` block — it declares NO C symbol — so a shared
+   macro's internal `extern func_X` is the ONLY declaration of func_X in the 133 STUB overlays; dropping it (to
+   cast the caller) breaks them, and it can't be edited per-overlay (it's in the shared header). The only path
+   for these is RE-DRAFTING the body under the caller-canonical sig (a future wave with the canonical pinned),
+   and the arity-mismatch subset (0-arg callers vs N-arg def) has NO compatible C sig at all → hard stub.
+3. **DATA-conflict (small tail)** — a `D_xxxx` declared with conflicting types. The data analog of the cast
+   (`*(T*)&D_x` access against the canonical decl) is the natural `cast_call_sites` extension — built it when a
+   wave's residual is data-conflict-heavy (1 case here, low immediate yield).
+
+**Net:** the cast tool is the real, reusable cap-lever for the *callee-conflict* fraction of every wave (it
+recovers what §17a-1 casting can, byte-gated) — but it does NOT lift gate-pass to ~80% here, because THIS tail
+is dominated by the def-side loose-typing wall, not callee-conflicts. The honest bottleneck for the reach-134
+residual: a matched body whose required signature is incompatible with the established caller-canonical, with no
+caller-side escape (INCLUDE_ASM declares nothing). Diagnostic discipline that found this: classify EVERY
+gate-fail by build-error class (callee `conflicting types` / DEF `conflicting types` for the draft's own fn /
+DATA / clean-build BYTE-MISMATCH) before assuming a single cause — the §20 first pass saw one callee example and
+generalized it; the bytes said otherwise.
+
 *(T3a `%lo`-folding `-O0` (§18 open residual) is still open — to be added here when cracked.)*

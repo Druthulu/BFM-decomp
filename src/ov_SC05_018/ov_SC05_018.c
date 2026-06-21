@@ -2297,7 +2297,7 @@ DEFINE_func_80153C18()  /* dedup: shared engine-core @0x80153C18 (src/shared) */
 
 DEFINE_func_80153C30()  /* dedup: shared engine-core @0x80153C30 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC05_018/nonmatchings/ov_SC05_018", func_80153C44);
+DEFINE_func_80153C44()  /* dedup: shared engine-core @0x80153C44 (src/shared) */
 
 DEFINE_func_80153C74()  /* dedup: shared engine-core @0x80153C74 (src/shared) */
 
@@ -2761,7 +2761,7 @@ INCLUDE_ASM("asm/ov_SC05_018/nonmatchings/ov_SC05_018", func_8015CD20);
 
 DEFINE_func_8015CF24()  /* dedup: shared engine-core @0x8015CF24 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC05_018/nonmatchings/ov_SC05_018", func_8015CF58);
+DEFINE_func_8015CF58()  /* dedup: shared engine-core @0x8015CF58 (src/shared) */
 
 DEFINE_func_8015CF8C()  /* dedup: shared engine-core @0x8015CF8C (src/shared) */
 
@@ -3107,7 +3107,7 @@ DEFINE_func_80161B18()  /* dedup: shared engine-core @0x80161B18 (src/shared) */
 
 DEFINE_func_80161B84()  /* dedup: shared engine-core @0x80161B84 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC05_018/nonmatchings/ov_SC05_018", func_80161BE0);
+DEFINE_func_80161BE0()  /* dedup: shared engine-core @0x80161BE0 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC05_018/nonmatchings/ov_SC05_018", func_80161C24);
 
@@ -3461,7 +3461,7 @@ DEFINE_func_8016829C()  /* dedup: shared engine-core @0x8016829C (src/shared) */
 
 DEFINE_func_80168328()  /* dedup: shared engine-core @0x80168328 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC05_018/nonmatchings/ov_SC05_018", func_801683D8);
+DEFINE_func_801683D8()  /* dedup: shared engine-core @0x801683D8 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC05_018/nonmatchings/ov_SC05_018", func_80168430);
 
@@ -4023,7 +4023,7 @@ DEFINE_func_8017118C()  /* dedup: shared engine-core @0x8017118C (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC05_018/nonmatchings/ov_SC05_018", func_801711C0);
 
-INCLUDE_ASM("asm/ov_SC05_018/nonmatchings/ov_SC05_018", func_801711FC);
+DEFINE_func_801711FC()  /* dedup: shared engine-core @0x801711FC (src/shared) */
 
 DEFINE_func_80171238()  /* dedup: shared engine-core @0x80171238 (src/shared) */
 
