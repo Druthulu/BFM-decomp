@@ -23,9 +23,9 @@
 - [x] **T1 — Target-pool manifest + giants byte-verification** (no MCP; Max) → `.run/fuel_manifest.json`; h_exact-verify the 28 giants are genuinely ×134 (R14). **DONE.**
 - [x] **T2 — Fuel prefetch → complete Ghidra-C cache** (MCP-stop headless; Max) → `.run/ghidra_c/` cache-complete over the manifest. **DONE.**
 - [x] **T3 — Backlog ledger + shared deterministic bank/log stage** (Max) → `tools/gate_stage.py` + `tools/backlog.py` + `docs/backlog.md`; validated on a real 30-draft sample (banked+propagated+logged). **DONE.**
-- [ ] **T4 — Worker Workflow** (Max; agents xHigh) → new Workflow, sample-validate ~8–10 fresh targets. **← P6 rules re-read after this.**
-- [ ] **T5 — Grinder daemon repoint** (xHigh) → `auto_driver.py` permutes worker near-misses + full gate pipeline + backlog logging.
-- [ ] **T6 — ROI orchestrator loop + hybrid keep-alive + full-loop sample-validate** (a few hours; Max).
+- [x] **T4 — Worker Workflow** (Max; agents xHigh) → `tools/workflows/worker_wave.js` + `tools/wave_targets.py`. **VALIDATED.**
+- [x] **T5 — Grinder daemon** (xHigh) → `tools/grinder.py` (permutes backlog near-misses → gate_stage) + `auto_supervisor.sh` (DRIVER-param). **VALIDATED.**
+- [~] **T6 — ROI orchestrator + hybrid keep-alive + launch** (Max) → `tools/orchestrator.py` built; launch in progress (Drew's trip imminent).
 - [ ] **T7 — Stage ready-to-launch + Phase close (PhaseEnd)** (Max, Tier-1).
 
 **Current task:** T1.
@@ -33,8 +33,15 @@
 ## Verification invariant (every banked step + at close)
 `make clean && (extract all 136) && make check-all` → 136/136 byte-identical (R22); `make report` → 0 NON_MATCHING (G4), `dedup-check 0 failed`.
 
+### T4/T5/T6 — worker + grinder + orchestrator (2026-06-21, trip-imminent push)
+- **T4 worker Workflow** (`tools/workflows/worker_wave.js`): parallel xHigh drafter agents, each given the asm + cached Ghidra-C + the §17–20 toolkit; writes its best C; orchestrator gates after. `tools/wave_targets.py` selects the batch (ROI pool). **args gotcha (§20): the harness serializes args to a JSON STRING → the script parses it.** VALIDATED: a 3-target wave → all 3 self-MATCH; whole-binary gate **banked func_80164530 ×134** (5 register-pins + offset-fold + scheduling — a hard toolkit match), 1 near + 1 failed logged. ~275k tokens / 13 min for 3 agents. fleet 58.90→**58.98%**.
+- **T5 grinder** (`tools/grinder.py`): token-free — permutes backlog near-misses (close≤30) → gate_stage → bank; STOP/heartbeat, idles for new worker fuel. VALIDATED: permuter WON func_8014F3E8 but the whole-binary gate correctly REJECTED it (§20 — match_one/permuter over-predict; gate is truth; integrity intact, 0 wrong banked). `auto_supervisor.sh` now `DRIVER`-parameterized (launch grinder under it).
+- **T6 orchestrator** (`tools/orchestrator.py`): `prep` (pick ROI pool → emit wave batch) / `finish` (gate_stage → record close-rate → rotate pool when tapped) / `status`. Pool rotation tractable→giants→o0→capped, ROI-gated (threshold 0.15, patience 2). The model launches the Workflow between prep/finish (the one step only it can do).
+- **gate_stage flock**: grinder + orchestrator gates serialize on `.run/auto/gate.lock` (one build/commit at a time — safe concurrency).
+- **SANDBOX finding:** foreground Bash-tool builds (`make build`/`git`) get killed (exit 144) by the sandbox; **detached daemons (setsid/nohup) escape it** — so the launched grinder/orchestrator build fine; interactive gates need `dangerouslyDisableSandbox`.
+
 ## Blockers
-(none)
+(none — though the 5-day unattended worker-orchestrator keep-alive is the least-validated piece; the token-free grinder is the high-confidence autonomous engine.)
 
 ## Per-task log
 

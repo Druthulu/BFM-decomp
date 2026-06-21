@@ -22,7 +22,7 @@ Usage:
       [--src ...] [--asm-subdir ...] [--good-sha ...] [--no-propagate] [--commit]
 Prints a JSON summary; importable as run_gate(...)->dict.
 """
-import argparse, glob, json, os, re, shutil, subprocess, sys, time
+import argparse, fcntl, glob, json, os, re, shutil, subprocess, sys, time
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import backlog
 
@@ -85,6 +85,18 @@ def match_one_closeness(fn, cpath, asm):
 
 def run_gate(drafts, binary=OV, src=DEF_SRC, asm=DEF_ASM, out=DEF_OUT, good_sha=DEF_SHA,
              propagate=True, source_tag="worker", commit=False):
+    # Serialize: the grinder and the orchestrator both call this, and it mutates the shared
+    # build tree + git. One gate at a time (blocking flock) — never two builds/commits racing.
+    os.makedirs(os.path.join(REPO, ".run/auto"), exist_ok=True)
+    _lock = open(os.path.join(REPO, ".run/auto/gate.lock"), "w")
+    fcntl.flock(_lock, fcntl.LOCK_EX)
+    try:
+        return _run_gate_locked(drafts, binary, src, asm, out, good_sha, propagate, source_tag, commit)
+    finally:
+        fcntl.flock(_lock, fcntl.LOCK_UN); _lock.close()
+
+
+def _run_gate_locked(drafts, binary, src, asm, out, good_sha, propagate, source_tag, commit):
     draft_fns = sorted(os.path.basename(p)[:-2] for p in
                        glob.glob(os.path.join(REPO, drafts, "*.c")))
     if not draft_fns:
