@@ -1225,6 +1225,22 @@ each overlay's `-O2` main `.c` → would compile `-O2` → not match). To bank t
 `-O0` split. Uniform across the fleet (all overlays share vram base `0x80128158`, so the cluster offsets are
 identical) → scriptable, but it's per-overlay infra + 134 gates, not the "free ×134" a dedup report implies.
 
+**Phase-20 R14 CORRECTION — the `-O0` cluster is NOT reach-134 byte-identical; the rollout is INVALID.**
+Byte-proven: of the 134 overlays that span the cluster (vram 0x8013B568, file 0x13410), **only 1 — ov_SC01_077
+itself — has cluster bytes identical to the matched C** (even func_8013B568's first 0x20 B match in just 1).
+The cluster functions reference **per-overlay data addresses** (func_8013B568 stores to `D_80187270`/`%lo 0x7270`
+in ov_SC01_077 but to `0x80182B04`/`%lo 0x2b04` in ov_SC01_005 — same instruction shape, different overlay-local
+global), so each overlay's bytes differ → they are **overlay-LOCAL code, not shared engine code**. The
+Phase-18/19 "6/16 matched (reach-134)" label conflated *function-present-at-this-vram* with *byte-identical*
+(the precise R14 failure mode: trust the bytes, not the reach label). So the matched C banks ONLY ov_SC01_077
+(×1); a fleet rollout via shared C is impossible. Banking these elsewhere = per-overlay RE-matching with each
+overlay's own data addresses (extract `%lo` per overlay → template the C) — ~6 tiny fns × per-overlay, the
+**×1 per-overlay-unique bucket** (low priority), ~0.2–0.3% for the whole-cluster, NOT the "+0.6% free ×134" the
+backlog projected. The §18 split machinery (3-object before/_o0/after split + a `build/src/%_o0.o: CC1FLAGS:=-O0`
+pattern rule + a `PROVIDE`-based `.ld` for the out-of-range data syms) was built and byte-validated to *compile/
+link* a second overlay, then the gate exposed the per-overlay-data wall and it was reverted (the finding, not
+the infra, is the deliverable). Net: skip the -O0 rollout; it's low-ROI per-overlay-unique work, not a shared win.
+
 ## §19 Scaling the toolkit waves — the recovery PIPELINE + the propagation CAP (Phase 19 T3)
 
 Two §17/§17a waves over the tractable reach-134 tail, measured. **match_one close-rate is high and rising**
