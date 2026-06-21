@@ -7,12 +7,12 @@
 | # | addr | reach | class | nins | status | closeness | where it stuck | best draft |
 |--:|------|------:|-------|-----:|--------|----------:|----------------|------------|
 | 1 | func_80174684 | 134 | WAVE | 8 | near | 0 | match_one MATCH but gate rejected (declaration/TU plumbing) | `.run/backlog_drafts/func_80174684.c` |
-| 2 | func_8014F3E8 | 134 | WAVE | 32 | near | 1 | WAVE: 1 mismatch | `.run/backlog_drafts/func_8014F3E8.c` |
-| 3 | func_8016130C | 134 | WAVE | 26 | near | 9 | WAVE: 9 mismatch | `.run/backlog_drafts/func_8016130C.c` |
-| 4 | func_8016BF50 | 134 | WAVE | 22 | near | 14 | WAVE: 14 mismatch | `.run/backlog_drafts/func_8016BF50.c` |
-| 5 | func_80149374 | 134 | WAVE | 23 | near | 15 | WAVE: 15 mismatch | `.run/backlog_drafts/func_80149374.c` |
-| 6 | func_801493D0 | 134 | WAVE | 23 | near | 15 | WAVE: 15 mismatch | `.run/backlog_drafts/func_801493D0.c` |
-| 7 | func_8016EDEC | 134 | WAVE | 21 | near | 16 | WAVE: 16 mismatch | `.run/backlog_drafts/func_8016EDEC.c` |
+| 2 | func_8016EDEC | 134 | WAVE | 21 | near | 0 | match_one MATCH but gate rejected (declaration/TU plumbing) | `.run/backlog_drafts/func_8016EDEC.c` |
+| 3 | func_8014F3E8 | 134 | WAVE | 32 | near | 1 | WAVE: 1 mismatch | `.run/backlog_drafts/func_8014F3E8.c` |
+| 4 | func_8016130C | 134 | WAVE | 26 | near | 9 | WAVE: 9 mismatch | `.run/backlog_drafts/func_8016130C.c` |
+| 5 | func_8016BF50 | 134 | WAVE | 22 | near | 14 | WAVE: 14 mismatch | `.run/backlog_drafts/func_8016BF50.c` |
+| 6 | func_80149374 | 134 | WAVE | 23 | near | 15 | WAVE: 15 mismatch | `.run/backlog_drafts/func_80149374.c` |
+| 7 | func_801493D0 | 134 | WAVE | 23 | near | 15 | WAVE: 15 mismatch | `.run/backlog_drafts/func_801493D0.c` |
 | 8 | func_8016EE40 | 134 | WAVE | 21 | near | 16 | WAVE: 16 mismatch | `.run/backlog_drafts/func_8016EE40.c` |
 | 9 | func_80146A6C | 134 | WAVE | 18 | near | 17 | WAVE: 17 mismatch | `.run/backlog_drafts/func_80146A6C.c` |
 | 10 | func_8016E778 | 134 | WAVE | 20 | near | 17 | WAVE: 17 mismatch | `.run/backlog_drafts/func_8016E778.c` |
