@@ -40,8 +40,36 @@
 - **gate_stage flock**: grinder + orchestrator gates serialize on `.run/auto/gate.lock` (one build/commit at a time — safe concurrency).
 - **SANDBOX finding:** foreground Bash-tool builds (`make build`/`git`) get killed (exit 144) by the sandbox; **detached daemons (setsid/nohup) escape it** — so the launched grinder/orchestrator build fine; interactive gates need `dangerouslyDisableSandbox`.
 
+## TRIP HAND-OFF (2026-06-21) — what's running, what's staged
+
+**Status:** the automation manager is BUILT + VALIDATED end-to-end; fleet **58.82% → 58.98%** (3 real
+matches banked during validation: func_801710DC, func_80164530, + the T3 sample; all ×134, 136/136
+byte-identical). Drew is travelling **with remote access** to this dev box.
+
+**RUNNING NOW (autonomous, token-free):**
+- The **grinder** (`tools/grinder.py` under `tools/auto_supervisor.sh`, launched detached) — permutes the
+  backlog's closest near-misses → byte-gate → banks → ×134; idles for worker fuel; supervisor relaunches
+  on crash. Monitor: `tools/auto_status.sh`. Stop: `tools/auto_stop.sh`.
+
+**STAGED (Drew drives remotely — the high-yield token engine):**
+- The **worker** waves: `tools/orchestrator.py prep` → launch the `tools/workflows/worker_wave.js`
+  Workflow → `tools/orchestrator.py finish --commit`. Run it via **`/loop`** (the runbook has the exact
+  cycle prompt). ~24 xHigh agents/wave, ~275k tokens/wave; ROI-gated pool rotation. **The full runbook
+  is `docs/automation-runbook.md`.**
+- An in-flight 16-target worker wave (`.run/drafts-wave2`) was launched at hand-off; gate it with
+  `tools/orchestrator.py finish --drafts .run/drafts-wave2 --commit` (or it's the first thing the /loop
+  picks up).
+
+**Why safe to leave running:** the whole-binary byte-gate (G3/P9) is the sole arbiter — a wrong draft is
+reverted, NEVER banked; `make check-all` stays 136/136; every bank is a checkpoint commit (push is manual,
+R6); `auto_stop.sh` halts at the next safe boundary. Worst case of any crash = "it paused," never "it broke."
+
+**Phase close:** T7 (formal PhaseEnd) awaits Drew's gate-2 milestone confirmation on return. Until then this
+file + `docs/automation-runbook.md` are the durable state. Sandbox note: detached daemons build fine;
+interactive build gates need `dangerouslyDisableSandbox`.
+
 ## Blockers
-(none — though the 5-day unattended worker-orchestrator keep-alive is the least-validated piece; the token-free grinder is the high-confidence autonomous engine.)
+(none — the token-free grinder runs autonomously; the worker is remote-driven by Drew, who can monitor/stop.)
 
 ## Per-task log
 
