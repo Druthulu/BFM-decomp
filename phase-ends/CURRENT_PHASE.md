@@ -21,7 +21,7 @@
 
 ## Task checklist
 - [x] **T1 — Target-pool manifest + giants byte-verification** (no MCP; Max) → `.run/fuel_manifest.json`; h_exact-verify the 28 giants are genuinely ×134 (R14). **DONE.**
-- [ ] **T2 — Fuel prefetch → complete Ghidra-C cache** (MCP-stop headless; Max) → `.run/ghidra_c/` cache-complete over the manifest.
+- [x] **T2 — Fuel prefetch → complete Ghidra-C cache** (MCP-stop headless; Max) → `.run/ghidra_c/` cache-complete over the manifest. **DONE.**
 - [ ] **T3 — Backlog ledger + shared deterministic bank/log stage** (Max) → `tools/gate_stage.py` + `tools/backlog.py` + `docs/backlog.md`; verify on the 7 capped fns (~+0.3%).
 - [ ] **T4 — Worker Workflow** (Max; agents xHigh) → new Workflow, sample-validate ~8–10 fresh targets. **← P6 rules re-read after this.**
 - [ ] **T5 — Grinder daemon repoint** (xHigh) → `auto_driver.py` permutes worker near-misses + full gate pipeline + backlog logging.
@@ -45,3 +45,11 @@
 - **R14 -O0 nuance (byte-finding):** 8/9 -O0 stubs are overlay-local (reach-1, matches Phase-20), but **func_8013C08C is reach-134** — a genuine exception to the blanket "overlay-local" assumption (propagatable ×134 if matched).
 - **T2 workload:** 253 reach-134 stubs uncached (of 310); tractable reach-134 (WAVE/PINS/STRUCT ≤150 ins) = 223, 171 uncached; giants 25/28 uncached. Ghidra-C cache currently 300.
 - No MCP, no build mutation. Checkpoint commit: tool + this log.
+
+### T2 — fuel prefetch → Ghidra-C cache complete (DONE, 2026-06-21)
+- Stopped MCP (R23, clean Save). Headless `analyzeHeadless ... -process ov_SC01_077 -readOnly -postScript DecompileFunctions.java <addrs> .run/ghidra_c` over the **263 uncached ROI-pool fns** → **263 ok / 0 fail / 0 no-func**. Cache 300 → **563**.
+- **Naming bug found + fixed:** Ghidra emits `FUN_<lowerhex>` (raw-import default); consumers + the 300 existing files use `func_<UPPERHEX>`. Renamed the 263, and **fixed `DecompileFunctions.java` to key output by entry address (`func_<UPPER>`)** so re-prefetch is reproducible. Added `build_fuel_manifest.py --emit-prefetch` (reproducible addr-list for the T7 runbook).
+- **T2 verification (cache-complete):** ROI-pool fuel = **325 fns, ALL cached, 0 uncached** (28/28 giants, 310/310 reach-134, 7/7 capped). The unattended run will never need live MCP.
+- Scope (P9): 349 reach-1 ×1-leverage fns intentionally NOT prefetched (not in the ROI pool rotation: tractable reach-134 → giants → -O0 → capped). A later prefetch can add them if ever needed.
+- MCP left STOPPED (the run is cache-based; the grinder supervisor stops it anyway). `ghidra/ db.*.gbf` churn is the MCP-stop's no-op SLUS save — R23 restart-noise, NOT staged.
+- Checkpoint commit: `DecompileFunctions.java` + `build_fuel_manifest.py` + this log (cache + manifest are gitignored/regenerable).

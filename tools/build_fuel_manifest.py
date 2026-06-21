@@ -102,6 +102,10 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--source", default="ov_SC01_077")
     ap.add_argument("--out", default=".run/fuel_manifest.json")
+    ap.add_argument("--emit-prefetch", metavar="PATH", default=None,
+                    help="also write the UNCACHED ROI-pool addrs (hex, no 0x) here for "
+                         "DecompileFunctions.java (reproducible T2 fuel prefetch). ROI pool = "
+                         "reach>=2 OR class in {O0,O1} OR a capped-recovery fn.")
     a = ap.parse_args()
     src = a.source
 
@@ -194,6 +198,16 @@ def main():
         "targets": targets}
     outp = os.path.join(REPO, a.out)
     json.dump(manifest, open(outp, "w"), indent=1)
+
+    if a.emit_prefetch:
+        cap_uncached = [c for c in CAPPED if c not in cached]
+        pool = {t["name"] for t in targets
+                if not t["cached"] and ((t["reach"] or 1) >= 2 or t["class"] in ("O0", "O1"))}
+        pool |= set(cap_uncached)
+        lines = sorted(n[len("func_"):] for n in pool)  # hex, no 0x, for DecompileFunctions.java
+        with open(os.path.join(REPO, a.emit_prefetch), "w") as f:
+            f.write("\n".join(lines) + ("\n" if lines else ""))
+        print(f"  prefetch addr-list -> {a.emit_prefetch} ({len(lines)} uncached ROI-pool fns)")
 
     print(f"fuel manifest -> {a.out}")
     print(f"  overlays signed: {n_overlays} | live stubs: {len(targets)} | "

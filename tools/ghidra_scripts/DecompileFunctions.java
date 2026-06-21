@@ -45,7 +45,12 @@ public class DecompileFunctions extends GhidraScript {
                 out = "// DECOMPILE FAILED: " + (res != null ? res.getErrorMessage() : "null result");
                 fail++;
             }
-            Files.write(Paths.get(outDir, f.getName() + ".c"), out.getBytes());
+            // Key the cache file by the function's ENTRY ADDRESS as func_<UPPERHEX>.c — the
+            // convention every consumer uses (derive_canonical_sigs.py, gen_wave.py, the
+            // fuel manifest). Ghidra's default raw-import name is FUN_<lowerhex>, so naming by
+            // f.getName() would miss the cache; keying by address is reproducible + correct.
+            String fname = "func_" + Long.toHexString(f.getEntryPoint().getOffset()).toUpperCase() + ".c";
+            Files.write(Paths.get(outDir, fname), out.getBytes());
         }
         di.dispose();
         println("DecompileFunctions: " + ok + " ok, " + fail + " decompile-fail, " + nofunc
