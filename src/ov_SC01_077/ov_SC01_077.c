@@ -3234,7 +3234,10 @@ DEFINE_func_80164410()  /* dedup: shared engine-core @0x80164410 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80164418);
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80164530);
+#include "common.h"
+
+DEFINE_func_80164530()  /* dedup: shared engine-core @0x80164530 (src/shared) */
+
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80164744);
 
