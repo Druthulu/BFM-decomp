@@ -12,6 +12,8 @@ This repository contains **no game assets, no disassembly output, and no ROM-der
 
 ## Project status
 
+> **Latest (Phase 19, 2026-06-20):** the project builds **136 binaries byte-identical from a clean tree** (the EXE + the resident engine + all **134 location overlays**); **`make check-all` → 136/136**. Fleet byte-identical-from-source is **58.0%** (function-instance-weighted; see the PhaseEnds for the byte-weighted ~30% figure and what it includes). Shared engine functions are matched once in `ov_SC01_077` and propagated **×134** via `tools/dedup_propagate.py`. *(The narrative below is Phase-11/12-era; a full refresh is part of the public-flip prep.)*
+
 **Gen1 (foundation) complete — the matching pipeline is proven end-to-end.** `make extract && make build && make check` rebuilds `SLUS_007.26` **byte-for-byte identical** (SHA1 `143dbb89…`) from C + assembly, reproducibly across many sessions.
 
 - **Compiler pinned by evidence:** `gcc-2.7.2-psx -O2 -G0 -mips1 -mcpu=3000` + `maspsx --aspsx-version=2.56 --expand-div`.

@@ -1221,3 +1221,38 @@ until cracked.
 each overlay's `-O2` main `.c` → would compile `-O2` → not match). To bank the ×134, each overlay needs its OWN
 `-O0` split. Uniform across the fleet (all overlays share vram base `0x80128158`, so the cluster offsets are
 identical) → scriptable, but it's per-overlay infra + 134 gates, not the "free ×134" a dedup report implies.
+
+## §19 Scaling the toolkit waves — the recovery PIPELINE + the propagation CAP (Phase 19 T3)
+
+Two §17/§17a waves over the tractable reach-134 tail, measured. **match_one close-rate is high and rising**
+(batch-1 44/50 = 88%, batch-2 35/38 = **92%** after the fixes below); the work is in the **match_one→whole-binary
+gap** (declaration plumbing) and then in **propagation** (not matching).
+
+**The gate PIPELINE order matters — canon-only FIRST, sig_unify FALLBACK.** `tools/sig_unify.py` can REGRESS a
+draft the agent already wrote canonically (it re-canonicalizes the def/callee sigs and occasionally forces a sig
+that perturbs codegen, or mangles a line into a parse error). So gate in two stages (`.run/t3_gate2.sh`):
+(1) `canon_resident_calls` → whole-binary gate ALL drafts; (2) `sig_unify` ONLY the stage-1 failures → gate again.
+Measured: unconditional sig_unify lost ~5/batch vs canon-first.
+
+**The dominant gate failure at scale = the shared-caller ARITY class → `tools/fix_arity_callers.py` (automated
+§17a-3b).** Once garbled hints and sig_unify-regressions are removed, ~100% of the residual gate failures are:
+a banked SHARED caller in `engine_core.h` declares the callee `extern <ret> func_X(void);` (or a *different*
+arity), conflicting with the real def that takes args. FIX = rewrite the caller decl to no-prototype
+`extern <ret> func_X();` — byte-neutral, compatible with promotion-safe params (int/s32/u32/long/ptr; NOT
+char/short/float — narrow-param wall). `fix_arity_callers.py --apply --from-file <fails> --drafts <dir>` does it
+(skips narrow-param defs), then re-gate; `--revert` to undo. Batch-2: recovered 8/18 this way; the rest were
+genuine loose-typing conflicts (caller sig ≠ def sig with call-site casts already in play — Phase-16 wall).
+
+**Garbled callee hints → fixed at the source.** `gen_harvest_targets.py` `INLINE_DEF_RE` was matching an
+indented `if (func_X(...) == ...) {` call-expression as a "definition" → a garbled callee "signature" agents
+paste verbatim as an extern → PARSE error at the gate. Fix: column-0 + type-only prefix (`^[A-Za-z_][\w \t*]*?`).
+0 garbled of 749 after; batch-2 close-rate 88%→92%.
+
+**THE CAP: propagation, not matching.** `dedup_propagate` only lifts a body whose types resolve from
+`common.h` + `engine_types.h` (its `compiles_standalone` filter) — so a matched function whose body uses a
+**typedef'd / anonymous / sibling local type** stays ov_SC01_077-LOCAL (no ×134, no fleet %). Batch-1 propagated
+25/30, batch-2 only 10/25 (struct-heavier). `tools/build_engine_types.py --strip` lifts NAMED structs (0
+same-name-different-layout collisions historically) but NOT typedefs → ~16 banked matches still can't propagate.
+**Lever (Phase 20): extend the type-lift to typedefs/local types** → recovers those ×134 for ~0 agent tokens AND
+raises every future batch's realized yield. The harvest's bottleneck has moved from "can we match it" to "can we
+share it."
