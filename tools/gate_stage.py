@@ -120,23 +120,31 @@ def _run_gate_locked(drafts, binary, src, asm, out, good_sha, propagate, source_
         sh([PY, "tools/dedup_propagate.py", "--auto-from", binary, "--min-reach", "2"], timeout=3600)
         propagated = max(0, _dedup_group_count() - before)
 
-    # 6 log every non-match to the backlog (closeness + class + best draft for the human)
+    # 6 log every non-match to the backlog (closeness + RESIDUAL class + best draft for the human).
+    # The drafter stamps `// @class: <gcc-quirk class>` and `// @stuck: <note>` into the draft (so the
+    # residual class travels WITH the file) — use those for the learning flywheel; else fall back to the
+    # manifest class. This is what makes class-grouped waves (wave_targets.py --class) possible.
     near = failed = 0
     for fn in [f for f in draft_fns if f not in verified]:
         cpath = os.path.join(REPO, d, fn + ".c")
-        kind, close = match_one_closeness(fn, cpath, asm) if os.path.exists(cpath) else ("fail", None)
+        body = open(cpath).read() if os.path.exists(cpath) else ""
+        kind, close = match_one_closeness(fn, cpath, asm) if body else ("fail", None)
         meta = _manifest_class(fn)
+        cm = re.search(r"//\s*@class:\s*(.+)", body)
+        sm = re.search(r"//\s*@stuck:\s*(.+)", body)
+        rclass = cm.group(1).strip() if cm else None       # the worker's self-reported residual class
+        note = sm.group(1).strip() if sm else None
         if kind == "match":   # match_one says MATCH but the whole-binary gate rejected -> plumbing/TU conflict
-            status, where = "near", "match_one MATCH but gate rejected (declaration/TU plumbing)"
+            status, where = "near", note or "match_one MATCH but gate rejected (declaration/TU plumbing)"
         elif kind == "near":
-            status, where = "near", f"{meta.get('lever') or meta.get('class') or 'residual'}: {close} mismatch"
+            status, where = "near", note or f"{meta.get('lever') or meta.get('class') or 'residual'}: {close} mismatch"
             near += 1
         else:
-            status, where = "failed", "won't compile standalone (loose-typing / missing decl)"
+            status, where = "failed", note or "won't compile standalone (loose-typing / missing decl)"
             failed += 1
-        draft_path = backlog.save_draft(fn, open(cpath).read()) if os.path.exists(cpath) else None
+        draft_path = backlog.save_draft(fn, body) if body else None
         backlog.append_record({"addr": meta.get("addr"), "name": fn, "reach": meta.get("reach"),
-                               "klass": meta.get("class"), "nins": meta.get("nins"), "status": status,
+                               "klass": rclass or meta.get("class"), "nins": meta.get("nins"), "status": status,
                                "closeness": close, "where_stuck": where, "best_draft": draft_path,
                                "source": source_tag})
     backlog.render()

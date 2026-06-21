@@ -11,10 +11,35 @@ o0 | capped | any-reach134.
 Usage: tools/wave_targets.py --pool tractable --n 24 [--region main|a|any] [--out -]
 """
 import argparse, glob, json, os, re, sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import backlog
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 STUB_RE = re.compile(r"INCLUDE_ASM\([^,]+,\s*(\w+)\)")
 ASM_SUBDIR = "asm/ov_SC01_077/nonmatchings/ov_SC01_077"
+
+# Canonical gcc-quirk residual classes (the cookbook §17–20 taxonomy). A wave studies ONE of these
+# at a time (the Phase-18 learning model): bank what the class's idiom reaches, distill the quirk,
+# feed it forward. Keyword-matched from the worker's self-reported klass + its where_stuck note.
+CLASS_KEYWORDS = [
+    ("REGALLOC", ("regalloc", "register", "$s", " pin", "reg-order", "reg order", "swap")),
+    ("SCHEDULE", ("schedule", "sched", "store-vs-load", "store vs load", "delay slot", "reorder", "operand-order", "operand order")),
+    ("REMAT", ("hoist", "remat", "rematerial", "array-decay", "array decay")),
+    ("STRUCT", ("struct", "field", " type", "layout", "%lo", "array-of-struct", "array of struct", "union")),
+    ("IV", ("iv-combine", "iv combine", "induction", "biv", "halfword rmw")),
+    ("LOOPGUARD", ("loop-guard", "loop guard", "get_condition", "strength-reduc")),
+    ("LOOSE", ("loose-typing", "loose typing", "arity", "conflicting types", "narrow-param")),
+    ("PLUMBING", ("plumbing", "declaration", "extern", "call-site cast", "callee", "no-proto", "sibling decl")),
+]
+
+
+def canon_class(rec):
+    """Normalize a backlog record (klass + where_stuck) to a canonical residual class."""
+    blob = ((rec.get("klass") or "") + " " + (rec.get("where_stuck") or "")).lower()
+    for name, kws in CLASS_KEYWORDS:
+        if any(k in blob for k in kws):
+            return name
+    return "OTHER"
 
 
 def live_stubs():
@@ -39,16 +64,54 @@ def backlog_walls():
     return walls
 
 
+def emit(batch, out):
+    s = json.dumps(batch, indent=0)
+    if out == "-":
+        sys.stdout.write(s + "\n")
+    else:
+        open(os.path.join(REPO, out), "w").write(s)
+        print(f"{len(batch)} targets -> {out}", file=sys.stderr)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--pool", default="tractable",
                     choices=["tractable", "giants", "o0", "capped", "any-reach134"])
+    ap.add_argument("--class", dest="rclass", default=None,
+                    help="CLASS-GROUPED wave: select backlog near-misses of this residual class "
+                         "(REGALLOC/SCHEDULE/REMAT/STRUCT/IV/LOOPGUARD/LOOSE/PLUMBING/OTHER) to re-attempt")
+    ap.add_argument("--list-classes", action="store_true",
+                    help="print the backlog residual-class histogram (ranked by leverage) and exit")
     ap.add_argument("--n", type=int, default=24)
     ap.add_argument("--region", default="main", choices=["main", "a", "any"])
     ap.add_argument("--max-nins", type=int, default=150)
     ap.add_argument("--include-walls", action="store_true", help="don't skip backlog failed/stub")
     ap.add_argument("--out", default="-")
     a = ap.parse_args()
+
+    # --- CLASS-GROUPED modes (Phase-21 flywheel): operate on the backlog's classified near-misses ---
+    if a.list_classes:
+        import collections
+        recs = [r for r in backlog.load_best() if r.get("status") == "near"]
+        cnt = collections.Counter(canon_class(r) for r in recs)
+        lev = collections.Counter()
+        for r in recs:
+            lev[canon_class(r)] += (r.get("reach") or 1)
+        for cls, _ in lev.most_common():
+            print(f"{cls:10} n={cnt[cls]:3}  reach-weight={lev[cls]}")
+        return
+    if a.rclass:
+        rc = a.rclass.upper()
+        recs = [r for r in backlog.load_best()
+                if r.get("status") == "near" and canon_class(r) == rc and r.get("name")]
+        recs.sort(key=lambda r: (-(r.get("reach") or 1), r.get("closeness") if isinstance(r.get("closeness"), int) else 999))
+        batch = [{"name": r["name"], "addr": r.get("addr") or ("0x" + r["name"][5:].lower()),
+                  "nins": r.get("nins"), "class": rc, "asm": f"{ASM_SUBDIR}/{r['name']}.s",
+                  "ghidra_c": f".run/ghidra_c/{r['name']}.c", "prior_stuck": r.get("where_stuck"),
+                  "prior_closeness": r.get("closeness")}
+                 for r in recs[:a.n]]
+        emit(batch, a.out)
+        return
 
     m = json.load(open(os.path.join(REPO, ".run/fuel_manifest.json")))
     stubs = live_stubs()
@@ -81,12 +144,7 @@ def main():
     batch = [{"name": t["name"], "addr": t["addr"], "nins": t["nins"], "class": t["class"],
               "asm": f"{ASM_SUBDIR}/{t['name']}.s", "ghidra_c": f".run/ghidra_c/{t['name']}.c"}
              for t in pool]
-    out = json.dumps(batch, indent=0)
-    if a.out == "-":
-        sys.stdout.write(out + "\n")
-    else:
-        open(os.path.join(REPO, a.out), "w").write(out)
-        print(f"{len(batch)} targets -> {a.out} (pool={a.pool} region={a.region})", file=sys.stderr)
+    emit(batch, a.out)
 
 
 if __name__ == "__main__":

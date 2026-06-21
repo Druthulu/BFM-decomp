@@ -27,10 +27,13 @@ const DRAFT_SCHEMA = {
 const ASM_SUBDIR = 'asm/ov_SC01_077/nonmatchings/ov_SC01_077'
 
 function drafterPrompt(t, draftDir) {
+  const prior = t.prior_stuck
+    ? `\nPRIOR ATTEMPT got stuck here (closeness ${t.prior_closeness}): "${t.prior_stuck}". This is a CLASS-FOCUSED re-attempt — concentrate on that residual; the cookbook may now have a newly-distilled idiom for it.\n`
+    : ''
   return `Match ONE MIPS function for the Brave Fencer Musashi PS1 matching decompilation (overlay ov_SC01_077).
 GOAL: write C that the pinned compiler (gcc-2.7.2-psx -O2 -G0 -mips1 -mcpu=3000 -mgas -msoft-float -fgnu-linker + maspsx --aspsx-version=2.56 --expand-div) compiles to BYTE-IDENTICAL machine code.
 
-TARGET: ${t.name} @ ${t.addr} — ${t.nins} instructions, class hint "${t.class}".
+TARGET: ${t.name} @ ${t.addr} — ${t.nins} instructions, class hint "${t.class}".${prior}
 - Target asm (the ground truth): ${t.asm}
   (each line "/* off vaddr w0 w1 */ mnemonic ..." shows the exact encoded instructions.)
 - Ghidra-C reference (types/locals/callee names — NOT byte-accurate, a scaffold): ${t.ghidra_c}
@@ -49,8 +52,12 @@ THE TOOLKIT (docs/matching-cookbook.md §17–§20 — read those sections for d
   cast_call_sites + sig_unify fix most extern/arity mismatches. Focus on the BODY codegen.
 
 PROCESS (you have Bash + Read):
+0. Read the LIVE cookbook docs/matching-cookbook.md §17–20 FIRST — it accrues newly-distilled idioms between waves; a quirk you'd otherwise grind on may already be solved there.
 1. Read the target asm and the Ghidra-C.
 2. Write your best C (the function definition + any externs it needs) to: ${draftDir}/${t.name}.c
+   START the file with TWO comment lines so the residual class travels with the draft (the gate reads them for the learning flywheel + backlog):
+     // @class: <one of: regalloc-order | schedule | remat | struct | iv-combine | loop-guard | loose-typing | plumbing | other>
+     // @stuck: <one concrete line on the residual that remains, or "none — MATCH">
 3. Self-check (fast relocation-masked proxy for the byte-gate):
    .venv/bin/python tools/match_one.py ${t.name} --c ${draftDir}/${t.name}.c --asm-subdir ${ASM_SUBDIR}
    - "MATCH (N ins)"  => byte-identical (relocation-masked). You nailed it. Stop.

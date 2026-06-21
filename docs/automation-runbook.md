@@ -37,14 +37,24 @@ The worker drafts matching C with LLM agents (the §17–20 toolkit: register pi
 (only a session can invoke the Workflow tool), so it runs as a self-paced **`/loop`**:
 
 1. In a Claude Code session in this repo, run **`/loop`** with this cycle as the prompt:
-   > Run one orchestrator cycle: `tools/orchestrator.py prep --n 24` → read `.run/auto/wave_batch.json`
-   > → launch the `tools/workflows/worker_wave.js` Workflow with `args={draftDir:".run/drafts-wave",
-   > targets:<the batch>}` → after it completes, `tools/orchestrator.py finish --drafts
-   > .run/drafts-wave --commit` → report the JSON summary. Stop if `.run/auto/STOP` exists.
-2. `/loop` self-paces (one wave per tick, ~15–20 min/wave, ~275k tokens/wave of ~24 agents).
-   The grinder runs alongside, draining the near-misses each wave produces (CPU vs token budget).
-3. Cost note: ~24 xHigh agents/wave. The ROI gate rotates pools (tractable → giants → o0 → capped)
-   when a pool's bank-rate drops, so it doesn't grind a wall. Stop anytime with `auto_stop.sh`.
+   > Run one Phase-21 orchestrator cycle, then stop if `.run/auto/STOP` exists:
+   > (a) `.venv/bin/python tools/orchestrator.py prep --n 24` — auto-picks a **class-focused** wave (re-attempt
+   > the backlog's biggest gcc-quirk class) or a **fresh pool** wave; it prints `{mode, sel, n, batch}`.
+   > (b) Read `.run/auto/wave_batch.json` and launch the **`tools/workflows/worker_wave.js`** Workflow with
+   > `args={draftDir:".run/drafts-wave", targets:<the batch array>}`. Wait for it.
+   > (c) `.venv/bin/python tools/orchestrator.py finish --drafts .run/drafts-wave --commit` — gates, banks,
+   > propagates ×134, logs near-misses; prints `{banked, propagated, near, verified, ...}`.
+   > (d) If `verified` is non-empty, launch the **`tools/workflows/distill.js`** Workflow with
+   > `args={draftsDir:".run/drafts-wave", verified:<the verified array>}` — it extracts any NEW byte-verified
+   > gcc idiom into the cookbook so the next wave inherits it (the learning flywheel).
+   > (e) Report the one-line result.
+2. **The learning flywheel:** fresh waves classify their near-misses by gcc-quirk (the drafter stamps
+   `// @class`/`// @stuck`); once a class accrues ≥6 near-misses, `prep` fires a **class-focused re-attempt
+   wave** for it (drafters get the prior stuck-point + the live cookbook); `distill` turns each wave's banked
+   techniques into new cookbook idioms. This is the Phase-18 close-rate-rising loop, automated.
+3. `/loop` self-paces (~15–20 min/wave, ~275k tokens/wave of ~24 agents). The grinder runs alongside,
+   draining near-misses. Cost-bounded by the ROI gate + `auto_stop.sh`. Inspect classes anytime:
+   `.venv/bin/python tools/wave_targets.py --list-classes`.
 
 **Remote management (Drew has laptop + can remote into the dev box):** you don't need a bulletproof
 keep-alive — if the worker `/loop` session dies, just remote in and re-run `/loop` (the grinder daemon

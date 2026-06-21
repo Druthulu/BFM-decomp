@@ -20,7 +20,7 @@ Usage:
   orchestrator.py finish --drafts .run/drafts-wave [--commit]
   orchestrator.py status
 """
-import argparse, json, os, subprocess, sys, time
+import argparse, json, os, re, subprocess, sys, time
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import gate_stage
 
@@ -46,20 +46,42 @@ def sh(cmd, timeout=None):
     return subprocess.run(cmd, capture_output=True, text=True, cwd=REPO, timeout=timeout)
 
 
+def _top_class(min_n):
+    """The backlog residual class with the most near-misses (>= min_n), for a class-focused wave."""
+    out = sh([PY, "tools/wave_targets.py", "--list-classes"], timeout=60).stdout
+    best, bestn = None, 0
+    for line in out.splitlines():
+        m = re.match(r"(\w+)\s+n=\s*(\d+)", line.strip())
+        if m and m.group(1) != "OTHER":
+            n = int(m.group(2))
+            if n > bestn:
+                best, bestn = m.group(1), n
+    return (best, bestn) if bestn >= min_n else (None, bestn)
+
+
 def cmd_prep(a):
     s = load_state()
-    pool = s["pool"]
-    # refresh the manifest so 'cached'/stub status is current (cheap)
-    sh([PY, "tools/build_fuel_manifest.py"], timeout=120)
-    region = a.region
-    r = sh([PY, "tools/wave_targets.py", "--pool", pool, "--n", str(a.n),
-            "--region", region, "--out", BATCH], timeout=120)
+    sh(["rm", "-rf", ".run/drafts-wave"])                   # fresh draft dir per wave
+    os.makedirs(os.path.join(REPO, ".run/drafts-wave"), exist_ok=True)
+    sh([PY, "tools/build_fuel_manifest.py"], timeout=120)   # refresh cached/stub status (cheap)
+    # FLYWHEEL: prefer a CLASS-FOCUSED re-attempt wave when the backlog has a worthwhile, distill-able
+    # class (the Phase-18 learning model); else harvest a FRESH pool (which classifies new near-misses).
+    mode, sel = "pool", s["pool"]
+    if a.mode in ("auto", "class"):
+        cls, cn = _top_class(a.class_threshold)
+        if cls:
+            mode, sel = "class", cls
+    if mode == "class":
+        sh([PY, "tools/wave_targets.py", "--class", sel, "--n", str(a.n), "--out", BATCH], timeout=120)
+    else:
+        sh([PY, "tools/wave_targets.py", "--pool", sel, "--n", str(a.n),
+            "--region", a.region, "--out", BATCH], timeout=120)
     n = 0
     try:
         n = len(json.load(open(os.path.join(REPO, BATCH))))
     except Exception:
         pass
-    print(json.dumps({"pool": pool, "n": n, "batch": BATCH, "wave": s["waves"] + 1}))
+    print(json.dumps({"mode": mode, "sel": sel, "n": n, "batch": BATCH, "wave": s["waves"] + 1}))
 
 
 def cmd_finish(a):
@@ -98,6 +120,10 @@ def main():
     ap = argparse.ArgumentParser()
     sub = ap.add_subparsers(dest="cmd", required=True)
     p = sub.add_parser("prep"); p.add_argument("--n", type=int, default=24); p.add_argument("--region", default="main")
+    p.add_argument("--mode", default="auto", choices=["auto", "class", "pool"],
+                   help="auto=class-focused wave when the backlog has a distill-able class, else pool harvest")
+    p.add_argument("--class-threshold", dest="class_threshold", type=int, default=6,
+                   help="min near-misses in a class before a class-focused wave fires")
     f = sub.add_parser("finish"); f.add_argument("--drafts", default=".run/drafts-wave")
     f.add_argument("--commit", action="store_true"); f.add_argument("--threshold", type=float, default=0.15)
     f.add_argument("--patience", type=int, default=2)
