@@ -269,7 +269,13 @@ INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80141100);
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_801412A8);
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_801415C0);
+// @class: regalloc-order
+// @stuck: none — MATCH (51 ins, match_one relocation-masked)
+
+#include "common.h"
+
+DEFINE_func_801415C0()  /* dedup: shared engine-core @0x801415C0 (src/shared) */
+
 
 DEFINE_func_8014168C()  /* dedup: shared engine-core @0x8014168C (src/shared) */
 
@@ -523,11 +529,20 @@ void func_80144458(void *arg0) {
     }
 }
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80144558);
+// @class: plumbing
+// @stuck: none — MATCH (53 ins). Natural regalloc (iVar1->$s0, param_1->$s1) matched without pins; only plumbing note: func_8012C194 canonical is void(void) but asm uses $v0, so gate may need call-site cast / s32 decl reconciliation.
+#include "common.h"
+
+DEFINE_func_80144558()  /* dedup: shared engine-core @0x80144558 (src/shared) */
+
 
 DEFINE_func_8014462C()  /* dedup: shared engine-core @0x8014462C (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_801446A4);
+// @class: regalloc-order
+// @stuck: none — MATCH (match_one 54/54, relocation-masked)
+
+DEFINE_func_801446A4()  /* dedup: shared engine-core @0x801446A4 (src/shared) */
+
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8014477C);
 
@@ -573,7 +588,11 @@ INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80145934);
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80145A2C);
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80145B24);
+// @class: regalloc-order
+// @stuck: none — MATCH (53 ins). Key: pin register u8 *p __asm__("$17") = &D_800AF630 (forces $s1 live across all calls + the -0x20 frame with $s1 saved), store *(s16*)(p+0xA3DA)=0x3000 at the end. Offset 0xA3DA = 0x800B9A0A - 0x800AF630.
+
+DEFINE_func_80145B24()  /* dedup: shared engine-core @0x80145B24 (src/shared) */
+
 
 DEFINE_func_80145BF8()  /* dedup: shared engine-core @0x80145BF8 (src/shared) */
 
@@ -4976,7 +4995,12 @@ DEFINE_func_80171520()  /* dedup: shared engine-core @0x80171520 (src/shared) */
 
 DEFINE_func_8017162C()  /* dedup: shared engine-core @0x8017162C (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_801716AC);
+// @class: schedule
+// @stuck: none — MATCH
+#include "common.h"
+
+DEFINE_func_801716AC()  /* dedup: shared engine-core @0x801716AC (src/shared) */
+
 
 DEFINE_func_801717A0()  /* dedup: shared engine-core @0x801717A0 (src/shared) */
 
@@ -5420,7 +5444,16 @@ DEFINE_func_80173C64()  /* dedup: shared engine-core @0x80173C64 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80173CB4);
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80173E1C);
+// @class: schedule
+// @stuck: none — MATCH (55 ins). Levers: pin param_1->$s0 ($16) + a register ptr &D_80127508->$s1 ($17)
+//   kept across the first block (reused for the !=0 test and the +4 arg); func_801399F0(*(s0+0x198))
+//   reuses the outer-test $a0 load as its arg; and DUPLICATE func_80154274()+func_80171A1C() into BOTH
+//   if/else arms (don't factor to a shared tail) -- gcc cross-jump-merges the two jals+epilogue but keeps
+//   each arm's arg-setup, because the *(s0+0x198)=0 store lands in the !=0 arm's `j` delay slot and breaks
+//   the suffix identity right before the merge point.
+
+DEFINE_func_80173E1C()  /* dedup: shared engine-core @0x80173E1C (src/shared) */
+
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80173EF8);
 
