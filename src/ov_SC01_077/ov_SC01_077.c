@@ -4394,9 +4394,11 @@ DEFINE_func_8016ED8C()  /* dedup: shared engine-core @0x8016ED8C (src/shared) */
 
 DEFINE_func_8016EDBC()  /* dedup: shared engine-core @0x8016EDBC (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8016EDEC);
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8016EE40);
+DEFINE_func_8016EDEC()  /* dedup: shared engine-core @0x8016EDEC (src/shared) */
+
+
+DEFINE_func_8016EE40()  /* dedup: shared engine-core @0x8016EE40 (src/shared) */
 
 DEFINE_func_8016EE94()  /* dedup: shared engine-core @0x8016EE94 (src/shared) */
 
