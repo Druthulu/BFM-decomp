@@ -427,7 +427,10 @@ DEFINE_func_80143994()  /* dedup: shared engine-core @0x80143994 (src/shared) */
 
 DEFINE_func_801439C0()  /* dedup: shared engine-core @0x801439C0 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_801439FC);
+// @class: schedule
+// @stuck: none — MATCH (key: (s0+4)&=0x7FFFFFFF stmt placed AFTER the 3 sp[]->struct stores; §2-T2/§21 stmt-order)
+DEFINE_func_801439FC()  /* dedup: shared engine-core @0x801439FC (src/shared) */
+
 
 extern void (*D_80188440[])(void *);
 
@@ -2147,7 +2150,11 @@ INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_801555F4);
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80155800);
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80155A44);
+// @class: plumbing
+// @stuck: callee-conflict (func_8014BEF8/func_80149CB4 declared void in engine_core.h) — cast at call site
+
+DEFINE_func_80155A44()  /* dedup: shared engine-core @0x80155A44 (src/shared) */
+
 
 DEFINE_func_80155B20()  /* dedup: shared engine-core @0x80155B20 (src/shared) */
 
@@ -2498,7 +2505,13 @@ DEFINE_func_80158CD8()  /* dedup: shared engine-core @0x80158CD8 (src/shared) */
 
 DEFINE_func_80158D60()  /* dedup: shared engine-core @0x80158D60 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80158E24);
+// @class: plumbing
+// @stuck: none — modeled on byte-matched sibling DEFINE_func_80158C40 (identical skeleton)
+
+#include "common.h"
+
+DEFINE_func_80158E24()  /* dedup: shared engine-core @0x80158E24 (src/shared) */
+
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80158F00);
 
@@ -4163,7 +4176,12 @@ s32 func_8016A8FC(s32 a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8016AA50);
+// @class: regalloc-order
+// @stuck: none — MATCH
+#include "common.h"
+
+DEFINE_func_8016AA50()  /* dedup: shared engine-core @0x8016AA50 (src/shared) */
+
 
 extern void (*D_80189C88[])(void);
 
