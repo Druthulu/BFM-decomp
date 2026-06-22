@@ -315,7 +315,12 @@ INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80141C0C);
 
 DEFINE_func_80141C50()  /* dedup: shared engine-core @0x80141C50 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80141CA4);
+// @class: regalloc-order
+// @stuck: none — MATCH (476 ins). Levers: $v1-pinned cmp temp; default-first early-return form; §5a cross-jump barrier on 0x3ca twin
+
+
+DEFINE_func_80141CA4()  /* dedup: shared engine-core @0x80141CA4 (src/shared) */
+
 
 DEFINE_func_80142414()  /* dedup: shared engine-core @0x80142414 (src/shared) */
 
@@ -5567,7 +5572,12 @@ INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80173CB4);
 DEFINE_func_80173E1C()  /* dedup: shared engine-core @0x80173E1C (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80173EF8);
+// @class: other
+// @stuck: switch dispatch tree — verifying gcc -O2 emits 0x79-first balanced tree
+
+
+DEFINE_func_80173EF8()  /* dedup: shared engine-core @0x80173EF8 (src/shared) */
+
 
 extern s32 func_80174188(s32 a0);
 extern void func_801741A8(s32 a0);
