@@ -1436,3 +1436,11 @@ byte-matched evidence fn. (Pins/array-decay/statement-order/shared-ret0/for-vs-d
   where a following store schedules — distinct from the input-only anchor `__asm__ __volatile__("":: "r"(x))` (which
   only anchors x *ahead* of the next op). Use when interleaved stores need a value freshly re-tied mid-sequence.
   *evidence func_80165CA0 (`SHB(x)` macro, combined with `$v0`/`$v1` pins).*
+- **disjoint-bits `x + CONST` emits `ori`, not `addiu` → break it with a re-tie barrier:** when x's low bits are
+  provably zero where CONST has bits (e.g. `x = (v & 0x7F00) >> 5;` then `x + 0xC00` — masked-then-shifted value
+  can't overlap 0xC00), gcc-2.7.2 proves the add is disjoint and folds it to `ori x,x,CONST`; but the target used
+  `addiu`. Insert the §21 re-tie barrier `__asm__ __volatile__("":"=r"(x):"0"(x));` BETWEEN the mask/shift and the
+  `+ CONST` — re-materializing x there erases the known-zero-bits range, so gcc can no longer prove disjointness and
+  emits `addiu x,x,CONST`. (Same barrier syntax as the bullet above, but the effect here is ARITHMETIC OPCODE
+  SELECTION, not store scheduling.) *fixes the `add`→`ori` disjoint-bit fold; evidence func_80169058 (the `+0xC00`
+  no-bit-overlap add).*
