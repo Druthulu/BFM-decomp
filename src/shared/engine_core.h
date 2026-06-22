@@ -19902,4 +19902,300 @@
         return 0; \
     }
 
+#define DEFINE_func_801519C8() \
+    extern u8 D_80062BF4[]; \
+    extern M2C_UNK D_800D5880; \
+    extern s32 D_800D58AC; \
+    extern void func_80019064(void *a0); \
+    extern void func_8014ACE8(void *a0, s32 a1, s32 a2); \
+    extern int func_80151204(int arg, int a1); \
+    extern s32 func_80012A60(s32 a0, s32 a1); \
+    extern void func_80154274(s32 *a0, s32 a1); \
+    extern void func_80154A74(s32 a0, s32 a1); \
+    extern void func_80149020(s32 *a0); \
+    extern void func_80147324(s32 arg0); \
+    extern void func_80146CA0(void *a0); \
+    void func_801519C8(s32 arg0) { \
+        s16 r; \
+        u8 v1; \
+        u8 de; \
+        s32 v0w; \
+        func_80019064(&D_80062BF4); \
+        v1 = *(u8 *)(arg0 + 0xDD); \
+        if (v1 != 1 && v1 == 0x11) { \
+            s16 v0 = *(s16 *)(arg0 + 0xF2); \
+            if (v0 != 0) { \
+                func_8014ACE8((void *)arg0, 5, (s32)v0 & 0x7FFF); \
+            } \
+        } else { \
+            func_80151204(arg0, *(s16 *)(arg0 + 0xF2)); \
+        } \
+        v0w = *(s32 *)(arg0 + 0x20); \
+        r = (s16)func_80012A60(*(s16 *)(v0w + 0x12), *(s16 *)(arg0 + 0xF4)); \
+        if (r >= 0x401) { \
+            func_80154274((s32 *)arg0, (s32)&D_800D5880); \
+        } else { \
+            func_80154274((s32 *)arg0, (s32)&D_800D58AC); \
+        } \
+        func_80154A74(arg0, 0x16); \
+        func_80149020((s32 *)arg0); \
+        func_80147324(0x451); \
+        de = *(u8 *)(arg0 + 0xDE); \
+        if (de == 2 || de == 3 || (de & 0xFF) == 0xB) { \
+            func_80146CA0((void *)arg0); \
+        } \
+        func_80146CA0((void *)arg0); \
+    }
+
+#define DEFINE_func_801536DC() \
+    extern void (*D_8011DB28)(s32 a0); \
+    extern s32 func_80012C6C(s32 a0, s32 a1, s32 a2); \
+    extern void func_80015978(s32 a0, s32 *a1); \
+    extern s32 func_80013294(void *a0, void *a1); \
+    extern void func_80015954(s32 a0, s32 a1); \
+    s32 func_801536DC(s32 param_1) { \
+        s32 s0 = param_1; \
+        s32 s1; \
+        s32 s2; \
+        s32 sp10[2]; \
+        register s32 r __asm__("$2"); \
+        s32 q; \
+        if (D_8011DB28 != 0) { \
+            D_8011DB28(s0 + 0xA0); \
+        } \
+        *(s16 *)(s0 + 6) = func_80012C6C((s32)*(s16 *)(s0 + 6), (s32)*(s16 *)(s0 + 0xA0), 8); \
+        *(s16 *)(s0 + 0xA) = func_80012C6C((s32)*(s16 *)(s0 + 0xA), (s32)*(s16 *)(s0 + 0xA2), 8); \
+        { \
+        register s32 t __asm__("$2") = func_80012C6C((s32)*(s16 *)(s0 + 0xE), (s32)*(s16 *)(s0 + 0xA4), 8); \
+        register s32 chk __asm__("$3") = (s32)D_8011DB28; \
+        *(s16 *)(s0 + 0xE) = t; \
+        if (chk != 0) { \
+            s2 = s0 + 4; \
+            func_80015978(s2, sp10); \
+            s1 = s0 + 0xA0; \
+            q = func_80013294(sp10, (void *)s1); \
+            if (q < 0x40 || *(u8 *)(s0 + 0xDE) == 0) { \
+                func_80015954(s1, s2); \
+                return 0; \
+            } \
+            *(u8 *)(s0 + 0xDE) = *(u8 *)(s0 + 0xDE) - 1; \
+        } \
+        } \
+        r = 1; \
+        if (*(s16 *)(s0 + 6) == *(s16 *)(s0 + 0xA0) && \
+            *(s16 *)(s0 + 0xA) == *(s16 *)(s0 + 0xA2)) { \
+            r = *(s16 *)(s0 + 0xE) != *(s16 *)(s0 + 0xA4); \
+        } \
+        return r; \
+    }
+
+#define DEFINE_func_80160410() \
+    extern void func_80019064(void *a0); \
+    extern void func_80149020(s32 *a0); \
+    extern void func_80013E94(void *a0, void *a1); \
+    extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6); \
+    extern void func_80147324(s32 arg0); \
+    extern void func_8001382C(s32 a0, void *a1, void *a2); \
+    extern void func_80146DB8(s32 *a0, s32 *a1); \
+    extern void func_80146E90(s32 *a0, s32 a1); \
+    extern void func_801553A8(s32 *a0); \
+    extern s32 func_80149184(s32 a0); \
+    extern void func_80146CA0(void *a0); \
+    extern u8 D_80062BD0; \
+    extern s16 D_801152A0; \
+    void func_80160410(s32 * a0) \
+    { \
+        register s32 angle __asm__("$17"); \
+        s32 m1[3]; \
+        s32 out[12]; \
+        u32 buf[2]; \
+        func_80019064((void *)&D_80062BD0); \
+        func_80149020(a0); \
+        { \
+            s32 t = (s32)(*(u16 *)(*(s32 *)((s32)a0 + 0x20) + 0x12)); \
+            angle = (s32)(*(u16 *)((s32)a0 + 0x42)) - t; \
+        } \
+        func_80013E94((void *)((s32)a0 + 0xE8), buf); \
+        { \
+            s32 a2v = (s32)*(s16 *)((s32)a0 + 0xE0); \
+            u32 v6 = buf[0] | 0x80000000; \
+            s32 a3v = (s32)*(s16 *)((s32)a0 + 0xE2); \
+            s32 a5v = (s32)*(s16 *)((s32)a0 + 0xE4); \
+            buf[0] = v6; \
+            func_80146A6C(6, a0, a2v, a3v, a5v, v6, 0); \
+        } \
+        func_80147324(0x43D); \
+        angle = (s32)(angle << 16) >> 16; \
+        m1[0] = 0; \
+        m1[1] = 0; \
+        m1[2] = 0xFFFA0000; \
+        func_8001382C(angle, m1, out); \
+        func_80146DB8(a0, out); \
+        m1[0] = 0; \
+        m1[1] = 0; \
+        m1[2] = 0x8000; \
+        func_8001382C(angle, m1, (void *)((s32)a0 + 0x234)); \
+        func_80146E90(a0, 8); \
+        func_801553A8(a0); \
+        D_801152A0 = func_80149184((s32)a0); \
+        func_80146CA0(a0); \
+    }
+
+#define DEFINE_func_80168D94() \
+    extern void RotMatrixYXZ(void *a0, void *a1); \
+    extern void func_80048EAC(void *a0, void *a1); \
+    extern void ApplyMatrixSV(void *a0, void *a1, void *a2); \
+    extern int rand(void); \
+    void func_80168D94(int a0) { \
+        int s1 = a0; \
+        short v10[4];   /* sp+0x10 SVECTOR */ \
+        short v18[16];  /* sp+0x18 MATRIX */ \
+        short v38[16];  /* sp+0x38 MATRIX */ \
+        register int v1 __asm__("$3"); \
+        register int v0 __asm__("$2"); \
+        v10[0] = *(unsigned short *)(s1 + 0x12); \
+        v10[1] = *(unsigned short *)(s1 + 0x16); \
+        v10[2] = *(unsigned short *)(s1 + 0x1A); \
+        RotMatrixYXZ(v10, v38); \
+        if (*(int *)(s1 + 0x2C) == 0) { \
+            v0 = rand(); \
+            v1 = (v0 & 0x7F) << 3; \
+            v0 = (int)((unsigned int)(v0 & 0x7F00) >> 5); \
+            __asm__("" : "=r"(v0) : "0"(v0)); \
+            v0 += 0xC00; \
+        } else { \
+            v0 = rand(); \
+            v1 = ((v0 & 0x7F) << 3) + 0xE00; \
+            v0 = (int)((unsigned int)(v0 & 0x7F00) >> 5) + 0xE00; \
+        } \
+        v10[0] = v1; \
+        v10[1] = v0; \
+        __asm__ __volatile__("" ::: "memory"); \
+        v10[2] = 0; \
+        RotMatrixYXZ(v10, v18); \
+        func_80048EAC(v38, v18); \
+        v10[0] = 0; \
+        v10[1] = 0; \
+        v10[2] = 0x24; \
+        ApplyMatrixSV(v18, v10, v10); \
+        { \
+            register s32 a __asm__("$4") = *(unsigned short *)(s1 + 0x6); \
+            register s32 b __asm__("$5") = *(unsigned short *)(s1 + 0xA); \
+            register s32 c __asm__("$3") = *(unsigned short *)(s1 + 0xE); \
+            *(unsigned short *)(s1 + 0x12) = v10[0]; \
+            *(unsigned short *)(s1 + 0x16) = v10[1]; \
+            { \
+                s32 z = (unsigned short)v10[2]; \
+                s32 t = *(unsigned short *)(s1 + 0x2); \
+                *(unsigned short *)(s1 + 0x10) = a; \
+                *(unsigned short *)(s1 + 0x14) = b; \
+                *(unsigned short *)(s1 + 0x18) = c; \
+                *(int *)(s1 + 0x1C) = 0; \
+                *(unsigned short *)(s1 + 0x2) = t + 1; \
+                *(unsigned short *)(s1 + 0x1A) = z; \
+            } \
+        } \
+    }
+
+#define DEFINE_func_80178298() \
+    u32 *func_80178298(u32 *param_1, u8 *param_2, short param_3, short param_4) { \
+        u8 bVar1; \
+        short sVar2; \
+        if (*param_2 < 0x80) { \
+            do { \
+                sVar2 = *(short *)param_2; \
+                switch (sVar2) { \
+                case 0x1850: \
+                case 0x1858: \
+                    *(short *)((u8 *)param_1 + 8) = param_3 + 4; \
+                    *(short *)((u8 *)param_1 + 0xA) = param_4 + -7; \
+                    break; \
+                case 0x3870: \
+                    param_3 = param_3 + 8; \
+                    param_2 = param_2 + 2; \
+                    continue; \
+                case 0x3871: \
+                    param_3 = param_3 + 4; \
+                    param_2 = param_2 + 2; \
+                    continue; \
+                case 0x3872: \
+                    param_3 = param_3 + 2; \
+                    param_2 = param_2 + 2; \
+                    continue; \
+                default: \
+                    *(short *)((u8 *)param_1 + 8) = param_3; \
+                    *(short *)((u8 *)param_1 + 0xA) = param_4; \
+                    if (*(short *)param_2 >= 0x861) { \
+                        param_3 = param_3 + 8; \
+                    } else { \
+                        param_3 = param_3 + 7; \
+                    } \
+                    break; \
+                } \
+                *param_1 = (u32)(param_1 + -5) & 0xffffff | 0x4000000; \
+                *(u32 *)((u8 *)param_1 + 4) = 0x64808080; \
+                ((u8 *)param_1)[0xC] = *param_2; \
+                param_2 = param_2 + 1; \
+                bVar1 = *param_2; \
+                param_2 = param_2 + 1; \
+                *(short *)((u8 *)param_1 + 0xE) = 0x4056; \
+                ((u8 *)param_1)[0xD] = bVar1; \
+                *(short *)((u8 *)param_1 + 0x10) = 8; \
+                *(short *)((u8 *)param_1 + 0x12) = 8; \
+                param_1 = param_1 + 5; \
+            } while (*param_2 < 0x80); \
+        } \
+        return param_1; \
+    }
+
+#define DEFINE_func_8016A08C() \
+    extern u8 D_80078EBF; \
+    extern void func_80148534(s32 a0, s32 a1); \
+    extern void func_8016A290(s32 a, void *b, void *c); \
+    extern void func_80147324(s32 arg0); \
+    extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6); \
+    extern void func_80147364(u16, s32); \
+    extern void func_80146C3C(void); \
+    void func_8016A08C(s32 param_1) { \
+        register s32 s0 __asm__("$16"); \
+        register void *s1 __asm__("$17"); \
+        u8 buf20[8]; \
+        u8 buf18[8]; \
+        s32 iVar4; \
+        s16 sVar2; \
+        s0 = param_1; \
+        if (D_80078EBF != 0) { \
+            s1 = buf18; \
+            ((void (*)(void *, void *))func_80148534)(buf20, s1); \
+            *(s32 *)(s0 + 0x30) = (s32)(u32)D_80078EBF - 0x18; \
+            if ((s32)((u32)D_80078EBF - 0x18) >= 0) { \
+                func_8016A290(s0, buf20, s1); \
+                iVar4 = *(s32 *)(s0 + 0x1C) + 1; \
+                *(s32 *)(s0 + 0x1C) = iVar4; \
+                if (iVar4 == 4) { \
+                    func_80147324(0x44C); \
+                } \
+                if (D_80078EBF < 0x80) { \
+                    sVar2 = 0; \
+                    do { \
+                        sVar2 = sVar2 + 1; \
+                    } while (sVar2 < 2); \
+                    ((void (*)(s32, s32, s32, s32, s32, s32, s32))func_80146A6C)(0x17, s0, (s32)*(s16 *)(s0 + 6), (s32)*(s16 *)(s0 + 0xA), \
+                                  (s32)*(s16 *)(s0 + 0xE), 0, 0); \
+                } else { \
+                    if (*(s16 *)(s0 + 0x2A) == 0) { \
+                        *(s16 *)(s0 + 0x2A) = 1; \
+                        *(s32 *)(s0 + 0x1C) = 0x100; \
+                    } \
+                    if ((*(u32 *)(s0 + 0x1C) & 0x1F) == 0) { \
+                        func_80147324(0x44D); \
+                    } \
+                } \
+            } \
+        } else { \
+            ((void (*)(s32, s32))func_80147364)(4, 0x44C); \
+            ((void (*)(s32))func_80146C3C)(s0); \
+        } \
+    }
+
 #endif

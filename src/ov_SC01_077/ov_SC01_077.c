@@ -1030,7 +1030,90 @@ DEFINE_func_80149FA8()  /* dedup: shared engine-core @0x80149FA8 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80149FB0);
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8014A048);
+// @class: struct
+// @stuck: none — MATCH (90 ins). Keys: (1) single Loc struct pins the 0x10..0x25 stack
+//   region (frame 0x40) for the func_8012F14C/func_80135260 out-params; (2) loop is a
+//   while(1) with the 6 checks &&-chained in the loop CONDITION + the "found" block AFTER
+//   the loop (fall-through) so the success path is a forward j .L8014A190 — matches the
+//   target CFG (Ghidra-C while-form); (3) the base &D_801202A0 must be RECOMPUTED inside
+//   the loop, not hoisted: `s0 = (s32)D_801202A0 + s2;` + the in-place re-tie barrier
+//   `__asm__ __volatile__("":"=r"(s0):"0"(s0));` (cookbook §21) forces the lui/addiu/addu
+//   per iteration instead of caching the symbol addr in $s4 (kills 1 ins + $s4); (4) u32
+//   counter -> sltiu; (5) bef8-fail uses `goto ret0;` to a ret0 label placed AFTER the
+//   success block -> gives the bef8 v0=0 its own .L8014A18C block (delay slot = a1 setup);
+//   (6) setup-store SOURCE order a30,a2e,a2c,a1e,a20,a1c makes the scheduler hold a2c(0xE)
+//   in $v1 (loaded early, stored last at 0x14) while a2e(0xA) stores immediately at 0x12.
+
+extern u8 func_8014BEF8(void);
+extern void func_8012F14C(s32);
+extern s32 func_80135260(s32, s32, s32, s32);
+extern void func_8014A1B0(s32 a0, s32 a1);
+extern u8 D_801202A0[];
+
+typedef struct {
+    /* 0x00 */ s16 a30;
+    /* 0x02 */ s16 a2e;
+    /* 0x04 */ s16 a2c;
+    /* 0x06 */ s16 pad06;
+    /* 0x08 */ s32 buf[2];
+    /* 0x10 */ s16 a20;
+    /* 0x12 */ s16 a1e;
+    /* 0x14 */ s16 a1c;
+} Loc;
+
+s32 func_8014A048(s32 param_1) {
+    Loc L;
+    s32 s0;
+    s32 s2;
+    u32 s3;
+
+    if ((*(u32 *)(param_1 + 0x44) & 0x400) != 0) {
+        return 0;
+    }
+    if ((*(u16 *)(param_1 + 0xAC) & 0x80) == 0) {
+        if ((*(u16 *)(param_1 + 0xAC) & 0x10) == 0) {
+            return 0;
+        }
+        if (((s32 (*)(s32))func_8014BEF8)(param_1) == 0) {
+            goto ret0;
+        }
+    }
+
+    L.a30 = *(s16 *)(param_1 + 6);
+    L.a2e = *(s16 *)(param_1 + 0xA);
+    L.a2c = *(s16 *)(param_1 + 0xE);
+    L.a1e = -0x10;
+    L.a20 = 0;
+    L.a1c = -0x20;
+    ((void (*)(s32, s32, s32))func_8012F14C)(*(s32 *)(param_1 + 0x20) + 0x34, (s32)&L.a20, (s32)L.buf);
+
+    s3 = 0;
+    s2 = 0;
+    while (1) {
+        s0 = (s32)D_801202A0 + s2;
+        __asm__ __volatile__("" : "=r"(s0) : "0"(s0));
+        if ((*(u16 *)s0 != 0) &&
+            (*(s32 *)(s0 + 0x58) != 0) &&
+            (*(s16 *)(s0 + 0xAA) == 0) &&
+            (*(s32 *)(param_1 + 0x184) != s0) &&
+            ((*(u16 *)(s0 + 0x5C) & 0x200) != 0) &&
+            (((s32 (*)(s32, s32, s32, s32))func_80135260)(*(s32 *)(s0 + 0x20), *(s32 *)(s0 + 0x58), (s32)&L.a30, (s32)L.buf) != 0)) {
+            break;
+        }
+        s3++;
+        s2 += 0x10C;
+        if (s3 >= 0x60) {
+            return 0;
+        }
+    }
+
+    *(s32 *)(param_1 + 0x178) = s0;
+    func_8014A1B0(param_1, s0);
+    return 1;
+ret0:
+    return 0;
+}
+
 
 DEFINE_func_8014A1B0()  /* dedup: shared engine-core @0x8014A1B0 (src/shared) */
 
@@ -1607,7 +1690,12 @@ INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80151944);
 
 DEFINE_func_80151980()  /* dedup: shared engine-core @0x80151980 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_801519C8);
+// @class: plumbing
+// @stuck: none — MATCH (71 ins, relocation-masked)
+#include "common.h"
+
+DEFINE_func_801519C8()  /* dedup: shared engine-core @0x801519C8 (src/shared) */
+
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80151AE4);
 
@@ -1897,7 +1985,10 @@ s32 func_801535F4(void *arg0) {
 
 DEFINE_func_8015369C()  /* dedup: shared engine-core @0x8015369C (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_801536DC);
+// @class: regalloc-order
+// @stuck: none — MATCH
+DEFINE_func_801536DC()  /* dedup: shared engine-core @0x801536DC (src/shared) */
+
 
 // @class: schedule
 // @stuck: none — MATCH (94 ins). Keys: shared-ret0 goto into nonzero block (§16);
@@ -3008,7 +3099,11 @@ INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8016039C);
 
 DEFINE_func_801603D8()  /* dedup: shared engine-core @0x801603D8 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80160410);
+// @class: regalloc-order
+// @stuck: none — MATCH
+
+DEFINE_func_80160410()  /* dedup: shared engine-core @0x80160410 (src/shared) */
+
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80160534);
 
@@ -3823,7 +3918,10 @@ s32 func_80168D58(s16 *a0) {
     return D_80189B28[(u16)a0[1]]();
 }
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80168D94);
+// @class: regalloc-order
+// @stuck: none — MATCH (pins $2/$3/$4/$5 + 0xC00 opaque-asm barrier + mem barrier for store-before-addr schedule)
+DEFINE_func_80168D94()  /* dedup: shared engine-core @0x80168D94 (src/shared) */
+
 
 DEFINE_func_80168EC4()  /* dedup: shared engine-core @0x80168EC4 (src/shared) */
 
@@ -3940,7 +4038,11 @@ void func_8016A020(void *a0) {
 
 DEFINE_func_8016A05C()  /* dedup: shared engine-core @0x8016A05C (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8016A08C);
+// @class: regalloc-order
+// @stuck: none — MATCH
+
+DEFINE_func_8016A08C()  /* dedup: shared engine-core @0x8016A08C (src/shared) */
+
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8016A1CC);
 
@@ -5607,7 +5709,28 @@ INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80177F84);
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80178004);
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80178298);
+// @class: iv-combine
+// @stuck: none — MATCH (78 ins, relocation-masked)
+//
+// KEY LEVERS (byte-gated):
+//  1. SINGLE moving pointer (param_1), write record fields as offsets off param_1
+//     (NOT a second `puVar3` var — the two-pointer form leaves an unused param_1+0x12
+//     init and gcc reanchors the giv anyway).
+//  2. GIV ANCHOR = the LAST giv-store in PROGRAM ORDER (gcc loop.c: record_giv PREPENDS
+//     to bl->giv, combine_givs makes giv_array[0]=the-last-recorded the base). The target
+//     anchors its store giv at param_1+0x12 (all displacements <=0), so the +0x12 store
+//     (`*(short*)(param_1+0x12)=8`) MUST be the LAST store before the pointer bump.
+//     Moving it last: 15-mismatch -> 3.
+//  3. switch case-BODY layout order follows source order: emit 0x1850/0x1858 (the break
+//     cases) FIRST, then the 0x3870/0x3871/0x3872 continue cases, then default.
+//  4. byte fields read via post-increment: `c=*p2++; ...; d=*p2++;` (target advances
+//     param_2 by +1 twice, not +2 once, in the store path).
+//  5. <0x861 branch-polarity: write `if (x>=0x861) +=8; else +=7;` so the +=8 (else of
+//     the source intent) falls through first and gcc emits `bnez` to the +=7 body (§3-T4).
+
+
+DEFINE_func_80178298()  /* dedup: shared engine-core @0x80178298 (src/shared) */
+
 
 DEFINE_func_801783D0()  /* dedup: shared engine-core @0x801783D0 (src/shared) */
 
