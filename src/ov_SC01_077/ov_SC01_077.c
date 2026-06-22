@@ -578,7 +578,13 @@ DEFINE_func_80146074()  /* dedup: shared engine-core @0x80146074 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8014607C);
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80146128);
+// @class: regalloc-order
+// @stuck: none — MATCH (142 ins). Keys: pin $s0=&D_80126B58/$s1=D_80126B78; memcpy on u8[] symbols (unaligned lwl/lwr/swl/swr); if-branch uses D_80126B9C symbol, else-branch uses base+0x44; load p=D_80126B78 BEFORE setting base
+
+#include "common.h"
+
+DEFINE_func_80146128()  /* dedup: shared engine-core @0x80146128 (src/shared) */
+
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80146360);
 
@@ -3206,7 +3212,13 @@ INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80162870);
 
 DEFINE_func_801628F4()  /* dedup: shared engine-core @0x801628F4 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80162968);
+// @class: regalloc-order
+// @stuck: none — MATCH (pin p/iVar4/iVar3/iVar5 to $s2/$s1/$s0/$s3; div result in a fresh non-pinned local, NOT reused $s0)
+
+#include "common.h"
+
+DEFINE_func_80162968()  /* dedup: shared engine-core @0x80162968 (src/shared) */
+
 
 DEFINE_func_80162AC0()  /* dedup: shared engine-core @0x80162AC0 (src/shared) */
 
@@ -3853,7 +3865,15 @@ s32 func_8016901C(void *a0) {
     return D_80189B30[*(u16 *)((s32)a0 + 2)]();
 }
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80169058);
+// @class: schedule
+// @stuck: none — MATCH (88 ins). $v0/$v1 pins fix the rand-block regalloc; one asm barrier
+//         forces addiu (not ori) on the +0xC00 no-bit-overlap add; explicit end-block temps
+//         (c=*(s1+2), z=(u16)v10[2]) fix load-order/lhu; a 2nd zero-code asm barrier on v1,v0
+//         anchors the v10[0]/v10[1] stores BEFORE the RotMatrixYXZ arg-address setup.
+
+
+DEFINE_func_80169058()  /* dedup: shared engine-core @0x80169058 (src/shared) */
+
 
 DEFINE_func_801691B8()  /* dedup: shared engine-core @0x801691B8 (src/shared) */
 
@@ -3869,7 +3889,12 @@ INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80169408);
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8016951C);
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80169584);
+// @class: schedule
+// @stuck: none — MATCH (s0 pin for param_1+0x38 across calls + memory barrier after the two post-merge sb stores to keep them before the $a0 materialization)
+
+
+DEFINE_func_80169584()  /* dedup: shared engine-core @0x80169584 (src/shared) */
+
 
 DEFINE_func_801696D8()  /* dedup: shared engine-core @0x801696D8 (src/shared) */
 
@@ -3931,7 +3956,74 @@ INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8016A73C);
 
 DEFINE_func_8016A890()  /* dedup: shared engine-core @0x8016A890 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8016A8FC);
+// @class: struct
+// @stuck: none — expect MATCH (single-call leaf, stack-struct prim build + averaging writeback)
+
+extern s32 func_80016A5C();
+extern Blk20 D_800AE620;
+
+typedef struct {
+    short v0;   /* 0x00 */
+    short v1;   /* 0x02 */
+    short v2;   /* 0x04 */
+    short pad6; /* 0x06 */
+    short w0;   /* 0x08 */
+    short w1;   /* 0x0A */
+    short w2;   /* 0x0C */
+    short padE; /* 0x0E */
+    unsigned char b10; /* 0x10 */
+    unsigned char b11; /* 0x11 */
+    unsigned char b12; /* 0x12 */
+    unsigned char b13; /* 0x13 */
+    unsigned char b14; /* 0x14 */
+    unsigned char b15; /* 0x15 */
+    unsigned char b16; /* 0x16 */
+    unsigned char b17; /* 0x17 */
+    int   w18; /* 0x18 */
+} Prim;
+
+s32 func_8016A8FC(s32 a0)
+{
+    Prim p;
+    int ptr;
+
+    ptr = *(int *)(a0 + 0x34);
+
+    p.v0 = (short)*(int *)(a0 + 0x4C);
+    p.v1 = (short)*(int *)(a0 + 0x50);
+    p.v2 = (short)*(int *)(a0 + 0x54);
+
+    p.w0 = *(unsigned short *)(ptr + 6);
+    p.w1 = *(unsigned short *)(ptr + 0xA);
+    p.w2 = *(unsigned short *)(ptr + 0xE);
+
+    p.v0 = (short)(((int)*(short *)(a0 + 6) + *(int *)(a0 + 0x4C)) >> 1);
+    p.v1 = (short)(((int)*(short *)(a0 + 0xA) + *(int *)(a0 + 0x50)) >> 1);
+    p.v2 = (short)(((int)*(short *)(a0 + 0xE) + *(int *)(a0 + 0x54)) >> 1);
+
+    *(short *)(a0 + 6) = (short)*(int *)(a0 + 0x4C);
+    p.w0 = (short)(((int)*(short *)(a0 + 6) + (int)*(short *)(ptr + 6)) >> 1);
+    *(int *)(a0 + 0x4C) = p.w0;
+
+    *(short *)(a0 + 0xA) = (short)*(int *)(a0 + 0x50);
+    p.w1 = (short)(((int)*(short *)(a0 + 0xA) + (int)*(short *)(ptr + 0xA)) >> 1);
+    *(int *)(a0 + 0x50) = p.w1;
+
+    *(short *)(a0 + 0xE) = (short)*(int *)(a0 + 0x54);
+    p.w2 = (short)(((int)*(short *)(a0 + 0xE) + (int)*(short *)(ptr + 0xE)) >> 1);
+    *(int *)(a0 + 0x54) = p.w2;
+
+    p.b11 = 0x10;
+    p.b15 = 0x80;
+    p.b16 = 0x20;
+    p.b14 = 0x20;
+    p.b12 = 0;
+    p.b10 = 0;
+    p.w18 = 0x50000000;
+
+    ((s32 (*)(void *, void *))func_80016A5C)(&p, &D_800AE620);
+}
+
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8016AA50);
 
