@@ -5187,7 +5187,12 @@ DEFINE_func_80171B44()  /* dedup: shared engine-core @0x80171B44 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80171B4C);
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80171C64);
+// @class: regalloc-order
+// @stuck: none — MATCH (param pins $s1/$s0 reversed; s32 param_2 keeps the & 0xFF as a separate andi, I2)
+
+
+DEFINE_func_80171C64()  /* dedup: shared engine-core @0x80171C64 (src/shared) */
+
 
 DEFINE_func_80171CC4()  /* dedup: shared engine-core @0x80171CC4 (src/shared) */
 

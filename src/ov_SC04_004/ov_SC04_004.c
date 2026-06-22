@@ -4091,7 +4091,7 @@ DEFINE_func_80171B44()  /* dedup: shared engine-core @0x80171B44 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC04_004/nonmatchings/ov_SC04_004", func_80171B4C);
 
-INCLUDE_ASM("asm/ov_SC04_004/nonmatchings/ov_SC04_004", func_80171C64);
+DEFINE_func_80171C64()  /* dedup: shared engine-core @0x80171C64 (src/shared) */
 
 DEFINE_func_80171CC4()  /* dedup: shared engine-core @0x80171CC4 (src/shared) */
 

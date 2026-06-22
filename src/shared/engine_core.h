@@ -21799,4 +21799,22 @@
         return D_80113C7C; \
     }
 
+#define DEFINE_func_80171C64() \
+    extern void func_80171EC8(s32 a0); \
+    extern void func_80146D90(s32 a0); \
+    s32 func_80171C64(s32 param_1, s32 param_2) \
+    { \
+        register s32 s __asm__("$17") = param_1; \
+        register s32 d __asm__("$16") = param_2; \
+        u8 v; \
+        ((void (*)(void))func_80171EC8)(); \
+        v = *(u8 *)(s + 0x20C); \
+        *(u8 *)(s + 0x20C) = v + 1; \
+        if ((v & 0xFF) == (d & 0xFF)) { \
+            func_80146D90(s); \
+            return 1; \
+        } \
+        return 0; \
+    }
+
 #endif
