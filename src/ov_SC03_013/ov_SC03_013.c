@@ -1773,7 +1773,7 @@ DEFINE_func_8014BCEC()  /* dedup: shared engine-core @0x8014BCEC (src/shared) */
 
 DEFINE_func_8014BD24()  /* dedup: shared engine-core @0x8014BD24 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC03_013/nonmatchings/ov_SC03_013", func_8014BD60);
+DEFINE_func_8014BD60()  /* dedup: shared engine-core @0x8014BD60 (src/shared) */
 
 DEFINE_func_8014BD98()  /* dedup: shared engine-core @0x8014BD98 (src/shared) */
 
