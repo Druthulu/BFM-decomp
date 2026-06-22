@@ -1463,6 +1463,29 @@ byte-matched evidence fn. (Pins/array-decay/statement-order/shared-ret0/for-vs-d
   stays live in its reg across the increments); equivalently declare the local `s16`. A plain `if (flag != 0)` on an
   `int` emits `bnez $reg` with no `sll` and the diff won't close. *fixes the missing `sll _,16` before a truthiness
   branch; evidence func_8013F244 (`(iVar2 << 0x10) != 0`, the two `sll $v0,$v1,16` merge sites).*
+- **force a global RE-LOAD across a store WITHOUT pinning the frame/prologue → NON-volatile `__asm__("":::"memory")`
+  (NOT volatile):** when the target reads a global N times with intervening pointer-stores (each section gets its own
+  `lhu sym`/reload), gcc-2.7.2 -O2 instead CSEs the *derived* index (e.g. `idx*4` survives in a reg across the store,
+  so no reload). A memory clobber forces the reload — but the **volatile** form (`__asm__ __volatile__("":::"memory")`)
+  is a hard scheduling fence: it (a) pins the prologue stack-adjust (`addiu sp,-N`) to the top of the function
+  (cc1 emits `subu sp` before the asm because the clobber may touch the stack), so a target whose frame alloc is
+  *scheduled mid-function* (into a load-delay slot) can't match, and (b) co-schedules large-constant builds
+  (`li reg,HI; ori reg,LO`) as an adjacent unit. Dropping `__volatile__` keeps the memory clobber (→ the reload still
+  fires) but makes it a *soft* dependency the scheduler reorders around: the `subu sp` then floats down into the
+  load-delay slot, AND cc1 splits the constant build around an independent address materialization (`li t0; la a2;
+  ori t0` instead of `li t0; ori t0; la a2`). So: **use the non-volatile memory clobber when you need the reload but
+  the target has a scheduler-mobile frame and/or a split constant build; use the volatile form only when you also
+  want the hard fence.** (The §5a cross-jump barrier still needs volatile — that's a correctness fence, different goal.)
+  *fixes simultaneous {global-reload, mid-function phantom-frame placement, split %hi/%lo-constant prologue order};
+  evidence func_801758FC (3 sections each reload `lhu D_800B9A02`; phantom 0x10 frame alloc lands in the F7D0
+  pointer-load's delay slot; closed 4-/3-mismatch tensions → MATCH 55 ins).*
+- **induce a phantom (unused, no-spill) stack frame the target has but your codegen omits → an address-taken local
+  array `s32 frame_pad[N]; (void)&frame_pad;`:** when the target reserves `addiu sp,-0x10`/`+0x10` with NO register
+  saves and NO spills (a leaf whose original had a stack local the optimizer later kept in regs), gcc's
+  `compute_frame_size` rounds `get_frame_size()` up to the next 8 → declare a local whose address is taken (so it's
+  not DCE'd and reserves `var_size`) but never stored through. `(void)&frame_pad;` escapes the address with zero
+  emitted code at -O2. Size N×4 picks the frame: 1–2 words → 8, 3–4 → 0x10. (This is the INDUCE direction; §5's
+  phantom-frame note is the REMOVE direction where gcc *adds* a frame the target lacks.) *evidence func_801758FC (0x10).*
 
 ### §22 — DEF-side loose-typing recovery + grinder blacklist (Phase 21)
 
