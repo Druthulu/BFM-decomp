@@ -21353,4 +21353,32 @@
       ((void (*)(u8 *, s32)) func_80015954)(buf2, param_3); \
     }
 
+#define DEFINE_func_80175414() \
+    extern u8 D_8011F7A8; \
+    extern u8 D_8011F7A9; \
+    extern u8 D_8011F7AD; \
+    extern u8 D_8011F7AE; \
+    void func_80175414(s32 _arg0) \
+    { \
+        unsigned char *p = &D_8011F7A8; \
+        if (*p == 1) { \
+            *p = 0; \
+            D_8011F7AD = 10; \
+            D_8011F7A9 = 0; \
+            D_8011F7AE = 0x37; \
+        } \
+        return; \
+    }
+
+#define DEFINE_func_80171928() \
+    extern void func_80171A1C(u8 *a0); \
+    void func_80171928(void * a0) \
+    { \
+        unsigned char idx     = *(unsigned char *)((char *)a0 + 0x214); \
+        unsigned int *base    = *(unsigned int **)((char *)a0 + 0x1FC); \
+        unsigned int  cur     = *(unsigned int *)((char *)a0 + 0x1F8); \
+        *(unsigned int *)((char *)a0 + 0x1F8) = base[idx] | (cur & 0x7F000000); \
+        ((void (*)(void *))func_80171A1C)(a0); \
+    }
+
 #endif
