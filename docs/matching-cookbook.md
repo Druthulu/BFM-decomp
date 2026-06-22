@@ -1455,6 +1455,14 @@ byte-matched evidence fn. (Pins/array-decay/statement-order/shared-ret0/for-vs-d
   RMW and you stub; here combine DOES fold and you steer the anchor by store order.) *fixes wrong IV base-constant /
   all-positive-vs-all-negative displacement set; evidence func_80178298 (anchor at p+0x12, all stores `<=0` off it; the
   +0x12 store moved last took it 15-mismatch→3).*
+- **register-resident `short` truthiness test → `sll rX,16` + branch (NOT a bare `bnez`):** when a flag/counter
+  the target keeps in a register (never spilled) is tested for `!= 0` via `sll $v0,$reg,16; beqz/bnez $v0` instead of
+  branching on the value directly, the original local was a `short`/`s16` — gcc-2.7.2 lowers a `short` rvalue's
+  truthiness by left-shifting 16 (dropping the upper half) then branching. Reproduce it on an `int` local by writing
+  the test explicitly as `if ((flag << 0x10) != 0)` (the shift is computed without storing back, so the counter
+  stays live in its reg across the increments); equivalently declare the local `s16`. A plain `if (flag != 0)` on an
+  `int` emits `bnez $reg` with no `sll` and the diff won't close. *fixes the missing `sll _,16` before a truthiness
+  branch; evidence func_8013F244 (`(iVar2 << 0x10) != 0`, the two `sll $v0,$v1,16` merge sites).*
 
 ### §22 — DEF-side loose-typing recovery + grinder blacklist (Phase 21)
 
