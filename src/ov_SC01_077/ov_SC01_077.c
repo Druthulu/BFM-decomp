@@ -238,7 +238,12 @@ INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8013F138);
 
 DEFINE_func_8013F1BC()  /* dedup: shared engine-core @0x8013F1BC (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8013F244);
+// @class: other
+// @stuck: none — MATCH (cached &D_8011511A pointer for the $a1 accesses; test (iVar2<<16) without storing back so $v1 stays live)
+
+
+DEFINE_func_8013F244()  /* dedup: shared engine-core @0x8013F244 (src/shared) */
+
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8013F350);
 
@@ -1783,7 +1788,11 @@ DEFINE_func_801523AC()  /* dedup: shared engine-core @0x801523AC (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_801523F4);
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80152500);
+// @class: schedule
+// @stuck: none — MATCH (61 ins). Keys: lhu+0x8000 (unsigned short, not lh+-0x8000), and explicit goto chain in target memory order so both case bodies sink out-of-line (case1 ends in j tail).
+
+DEFINE_func_80152500()  /* dedup: shared engine-core @0x80152500 (src/shared) */
+
 
 DEFINE_func_801525F4()  /* dedup: shared engine-core @0x801525F4 (src/shared) */
 
@@ -2146,7 +2155,13 @@ DEFINE_func_80155B9C()  /* dedup: shared engine-core @0x80155B9C (src/shared) */
 
 DEFINE_func_80155C0C()  /* dedup: shared engine-core @0x80155C0C (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80155C64);
+// @class: regalloc-order
+// @stuck: none — MATCH (67 ins). a0 is the call-crossing value -> $s0 naturally;
+//   flags from func_8014FA04 held across the 0x4000/0x2000 masks; the shared
+//   func_8014C010(a0,1) tail is reached by separate returns (gcc merges to the j/jal tail).
+
+DEFINE_func_80155C64()  /* dedup: shared engine-core @0x80155C64 (src/shared) */
+
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80155D70);
 
@@ -3986,7 +4001,11 @@ void func_801693CC(void *a0) {
     D_80189B38[*(u16 *)((s32)a0 + 0x2)]();
 }
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80169408);
+// @class: regalloc-order
+// @stuck: none — MATCH (proxy); s2/s1/s0 pins + array-decay reproduce the call-crossing regalloc
+
+DEFINE_func_80169408()  /* dedup: shared engine-core @0x80169408 (src/shared) */
+
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8016951C);
 

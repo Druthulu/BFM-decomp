@@ -20283,4 +20283,181 @@
         (void)sp10; \
     }
 
+#define DEFINE_func_80152500() \
+    extern void func_80149020(s32 *a0); \
+    extern void func_801525F4(int); \
+    extern void func_80159B3C(void *a0); \
+    extern void func_80147A84(s32 arg0); \
+    extern void func_801473EC(s32 *a0); \
+    extern void func_80148038(s32 a0, s32 a1); \
+    extern void func_80147460(s32 a0); \
+    extern s32 func_801535F4(void *arg0); \
+    extern void func_8015BF48(s32 *a0); \
+    extern void func_8014C010(s32 a0, s32 a1); \
+    extern void func_80165718(s32 a0); \
+    void func_80152500(int param_1) \
+    { \
+        int iVar1; \
+        ((int (*)(int))func_80149020)(param_1); \
+        if (*(int *)(param_1 + 0x1c) == 0) { \
+            if (*(unsigned short *)(param_1 + 0xb8) == 0x8000) { \
+                func_801525F4(param_1); \
+                ((void (*)(int))func_80159B3C)(param_1); \
+                goto LAB_801525d8; \
+            } \
+        } else { \
+            *(int *)(param_1 + 0x1c) = *(int *)(param_1 + 0x1c) + -1; \
+        } \
+        func_80147A84(param_1); \
+        ((void (*)(int))func_801473EC)(param_1); \
+        func_80148038(param_1, 0x8000); \
+        func_80147460(param_1); \
+        iVar1 = ((int (*)(int))func_801535F4)(param_1); \
+        if (iVar1 == 1) goto LAB_801525a4; \
+        if (iVar1 < 2) return; \
+        if (iVar1 == 2) goto LAB_801525bc; \
+        return; \
+    LAB_801525a4: \
+        func_801525F4(param_1); \
+        ((void (*)(int))func_80159B3C)(param_1); \
+        goto LAB_801525d0; \
+    LAB_801525bc: \
+        func_801525F4(param_1); \
+        ((void (*)(int))func_8015BF48)(param_1); \
+    LAB_801525d0: \
+        func_8014C010(param_1, 1); \
+    LAB_801525d8: \
+        func_80165718(param_1); \
+        return; \
+    }
+
+#define DEFINE_func_8013F244() \
+    extern u16 D_8011511A; \
+    extern u16 D_8011511E; \
+    extern void func_80141C0C(s32); \
+    void func_8013F244(void) \
+    { \
+        u16 *p = &D_8011511A; \
+        u16 uVar1; \
+        s32 iVar2; \
+        iVar2 = 0; \
+        if (*p < 3) { \
+            if ((D_8011511E & 0x2000) != 0) { \
+                uVar1 = *p + 1; \
+                iVar2 = 1; \
+                *p = *p + 1; \
+                if (2 < uVar1) { \
+                    *p = 0; \
+                } \
+            } \
+            if ((D_8011511E & 0x8000) != 0) { \
+                D_8011511A = D_8011511A - 1; \
+                if (2 < D_8011511A) { \
+                    D_8011511A = 2; \
+                } \
+                iVar2 = iVar2 + 1; \
+            } \
+            if ((D_8011511E & 0x5000) != 0) { \
+                D_8011511A = 3; \
+                iVar2 = iVar2 + 1; \
+            } \
+        } else { \
+            iVar2 = 0; \
+            if ((D_8011511E & 0x5000) == 0) \
+                goto done; \
+            *p = 0; \
+            iVar2 = 1; \
+        } \
+    done: \
+        if ((iVar2 << 0x10) != 0) { \
+            func_80141C0C(2); \
+        } \
+        return; \
+    }
+
+#define DEFINE_func_80155C64() \
+    extern void func_80148038(s32 a0, s32 a1); \
+    extern void func_80147460(s32 a0); \
+    extern void func_8014ED28(s32 a0); \
+    extern void func_80146D90(s32 a0); \
+    extern void func_8014CC28(s32 a0); \
+    extern void func_801599A4(void *a0); \
+    extern void func_80159B3C(void *a0); \
+    extern void func_8014FA04(s32 a0); \
+    extern void func_8014C010(s32 a0, s32 a1); \
+    extern void func_8015BF48(s32 *a0); \
+    extern void func_80154274(s32 *a0, s32 a1); \
+    extern void func_80146CA0(void *a0); \
+    extern int func_80155FF8(int arg, int a1); \
+    extern s32 D_800D4DF4; \
+    void func_80155C64(s32 a0) { \
+        s32 flags; \
+        *(s32 *)(a0 + 0x44) |= 2; \
+        func_80148038(a0, 0x30000); \
+        func_80147460(a0); \
+        if (((s32 (*)(s32))func_8014ED28)(a0) != 0) { \
+            func_80146D90(a0); \
+        } \
+        if ((*(s32 *)(a0 + 0x34) > 0) && (((s32 (*)(s32))func_8014CC28)(a0) != 0)) { \
+            func_801599A4((void *)a0); \
+            func_80159B3C((void *)a0); \
+            func_8014C010(a0, 1); \
+            return; \
+        } \
+        flags = ((s32 (*)(s32))func_8014FA04)(a0); \
+        if (flags & 0x4000) { \
+            func_801599A4((void *)a0); \
+            func_8014C010(a0, 1); \
+            ((void (*)(void *))func_8015BF48)((void *)a0); \
+            return; \
+        } \
+        if (flags & 0x2000) { \
+            func_80154274((s32 *)a0, (s32)&D_800D4DF4); \
+            func_80146CA0((void *)a0); \
+            func_8014C010(a0, 1); \
+            return; \
+        } \
+        ((void (*)(s32, s32))func_80155FF8)(a0, *(u8 *)(a0 + 0x1AA)); \
+    }
+
+#define DEFINE_func_80169408() \
+    extern s32 rand(void); \
+    extern void RotMatrixYXZ(void *a0, void *a1); \
+    extern void func_80048EAC(void *a0, void *a1); \
+    extern void ApplyMatrixSV(void *a0, void *a1, void *a2); \
+    extern void func_800D20C0(void *a0, void *a1, s32 a2); \
+    extern void func_800D23D0(void *a0); \
+    extern void func_80169584(s32 param_1); \
+    void func_80169408(s32 a0) { \
+        register s32 s2 __asm__("$18") = a0; \
+        register s32 s1 __asm__("$17"); \
+        s16 v10[4];   /* sp+0x10 SVECTOR */ \
+        s16 out[4];   /* sp+0x18 SVECTOR */ \
+        s16 m[32];    /* sp+0x20 MATRIX (+ trailing reserve to 0x60 — matches target frame) */ \
+        if (*(s32 *)(s2 + 0x2C) == 0) { \
+            s32 r = rand(); \
+            s1 = s2 + 0x38; \
+            v10[0] = (r & 0x7F) << 5; \
+            v10[1] = ((u32)(r & 0x7F00)) >> 3; \
+            v10[2] = 0; \
+            RotMatrixYXZ(v10, m); \
+            func_80048EAC((void *)s1, m); \
+            v10[0] = 0; \
+            v10[1] = 0; \
+            v10[2] = 2; \
+            ApplyMatrixSV(m, v10, v10); \
+            *(u16 *)(s2 + 0x12) = v10[0]; \
+            *(u16 *)(s2 + 0x16) = v10[1]; \
+            *(u16 *)(s2 + 0x1A) = v10[2]; \
+            v10[0] = *(u16 *)(s2 + 0x6); \
+            v10[1] = *(u16 *)(s2 + 0xA); \
+            v10[2] = *(u16 *)(s2 + 0xE); \
+            func_800D20C0(v10, out, 1); \
+            func_800D23D0(out); \
+            RotMatrixYXZ(out, (void *)s1); \
+        } \
+        func_80169584(s2); \
+        *(u16 *)(s2 + 0x2) = *(u16 *)(s2 + 0x2) + 1; \
+    }
+
 #endif
