@@ -1444,3 +1444,14 @@ byte-matched evidence fn. (Pins/array-decay/statement-order/shared-ret0/for-vs-d
   emits `addiu x,x,CONST`. (Same barrier syntax as the bullet above, but the effect here is ARITHMETIC OPCODE
   SELECTION, not store scheduling.) *fixes the `add`→`ori` disjoint-bit fold; evidence func_80169058 (the `+0xC00`
   no-bit-overlap add).*
+- **steer WHICH giv becomes the loop IV anchor → make that store LAST in source order:** when a loop writes several
+  fields off one moving record pointer (`*(T*)(p+k)=…` for several k, then `p += stride`), gcc-2.7.2 combines those
+  givs into ONE induction reg, and `loop.c:record_giv` PREPENDS each new giv to `bl->giv` so `combine_givs` picks the
+  LAST-recorded (= last in PROGRAM ORDER) store as `giv_array[0]`, the anchor base. The target picks a particular
+  offset as anchor (visible in the `.s` as the IV reg = `addiu $iv,$base,K` and every field store reaching off it with
+  displacements of one sign, e.g. all `<=0`). To match, write the field whose offset is that anchor (K) as the LAST
+  store before the pointer bump; the others (earlier in source) then reach it with the matching-sign displacements.
+  (This is the RECOVERABLE counterpart to §20's IV-combine *failure* class — there combine refuses to fold a halfword
+  RMW and you stub; here combine DOES fold and you steer the anchor by store order.) *fixes wrong IV base-constant /
+  all-positive-vs-all-negative displacement set; evidence func_80178298 (anchor at p+0x12, all stores `<=0` off it; the
+  +0x12 store moved last took it 15-mismatch→3).*
