@@ -20460,4 +20460,138 @@
         *(u16 *)(s2 + 0x2) = *(u16 *)(s2 + 0x2) + 1; \
     }
 
+#define DEFINE_func_8016432C() \
+    extern void func_80164418(void); \
+    extern s32 func_80146E98(s32 a0); \
+    extern void func_801553C0(s32 a0); \
+    extern void func_80147364(u16, s32); \
+    extern void func_80147324(s32 arg0); \
+    extern void func_80162CCC(void); \
+    void func_8016432C(s32 a0) { \
+        s32 s1 = a0; \
+        s32 s0 = *(s32 *)(s1 + 0x4C); \
+        func_80164418(); \
+        if (func_80146E98(s1) != 0) { \
+            u32 v44; \
+            *(u16 *)(s0 + 0x18A) = 0; \
+            if (*(s32 *)(s0 + 0x184) != 0 && \
+                ((v44 = *(u32 *)(s0 + 0x44)) & 0x400) == 0 && \
+                (*(u32 *)(s0 + 0x1F8) & 0x80FFFFFF) == 0) { \
+                *(u32 *)(s0 + 0x44) = v44 | 0x10; \
+                if (*(s16 *)(s0 + 0x188) < 0x80) { \
+                    *(u32 *)(s0 + 0x184) = *(u32 *)(s0 + 0x184) | 0x80000000; \
+                } \
+            } else { \
+                *(s32 *)(s0 + 0x184) = 0; \
+            } \
+            *(u16 *)(s0 + 0x188) = 0; \
+            __asm__ __volatile__("" : : "r"(s0)); \
+            *(u32 *)(s0 + 0x44) = *(u32 *)(s0 + 0x44) & 0xFFFFFFFB; \
+            func_801553C0(s0); \
+            func_80147364(4, 0x449); \
+            func_80147324(0x44B); \
+            ((void (*)(s32))func_80162CCC)(s1); \
+        } \
+    }
+
+#define DEFINE_func_8017849C() \
+    extern void func_801787D4(void); \
+    extern void func_8012A908(void); \
+    extern void func_8017869C(s32 a0); \
+    extern void func_80130D0C(s32 a0); \
+    extern void func_8013E370(void); \
+    extern u8 D_801202A0[]; \
+    extern u16 D_801270C0; \
+    extern s32 D_8011DB08; \
+    void func_8017849C(void) { \
+        register u8 *p __asm__("$17");   /* $s1 base */ \
+        register u8 *q __asm__("$16");   /* $s0 = base + 0x54 */ \
+        register s32 i __asm__("$18");   /* $s2 counter */ \
+        p = (u8 *)D_801202A0; \
+        func_801787D4(); \
+        i = 0; \
+        func_8012A908(); \
+        q = p + 0x54; \
+        do { \
+            if (*(u16 *)p != 0 && \
+                (*(s16 *)&D_801270C0 == 1 || (*(u16 *)(q + 0x1E) & 0x1000) != 0)) { \
+                register s32 tbl __asm__("$3"); register s32 c6c __asm__("$2"); \
+                func_8017869C((s32)p); \
+                *(s32 *)(q - 0x1C) = *(s32 *)(q - 0x50); \
+                c6c = *(u8 *)(q + 0x6C); \
+                *(s32 *)(q - 0x18) = *(s32 *)(q - 0x4C); \
+                tbl = D_8011DB08; \
+                *(s32 *)(q - 0x14) = *(s32 *)(q - 0x48); \
+                if (c6c != 0 && *(u8 *)(q + 0x6D) != 0) { \
+                    func_80130D0C((s32)p); \
+                } else { \
+                    (*(void (**)(s32))(tbl + *(u16 *)p * 4))((s32)p); \
+                } \
+                if (*(s32 *)(q - 0x34) != 0) { \
+                    *(s16 *)(*(s32 *)(q - 0x34) + 8) = \
+                        *(u16 *)(q - 0x4E) + *(u16 *)(q - 0x4); \
+                    *(s16 *)(*(s32 *)(q - 0x34) + 10) = \
+                        *(u16 *)(q - 0x4A) + *(u16 *)(q - 0x2); \
+                    *(s16 *)(*(s32 *)(q - 0x34) + 0xC) = \
+                        *(u16 *)(q - 0x46) + *(u16 *)q; \
+                } \
+            } \
+            i++; \
+            q += 0x10C; \
+            p += 0x10C; \
+        } while (i < 0x60); \
+        if (*(s16 *)&D_801270C0 == 1) { \
+            func_8013E370(); \
+        } \
+    }
+
+#define DEFINE_func_80168BDC() \
+    extern void func_800D2318(void); \
+    extern void RotMatrixYXZ(void *a0, void *a1); \
+    extern void ApplyMatrixSV(void *a0, void *a1, void *a2); \
+    extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6); \
+    void func_80168BDC(s32 param_1, s32 param_2, s32 param_3, s32 param_4) \
+    { \
+        short mtx[16]; \
+        short vec[4]; \
+        int r; \
+        register int i __asm__("$17");     /* loop counter, survives the call -> $s1 */ \
+        register int tmp __asm__("$2");    /* increment temp -> $v0 (the split-IV) */ \
+        func_800D2318(); \
+        vec[0] = *(short *)(param_1 + 0x12); \
+        vec[1] = *(short *)(param_1 + 0x16); \
+        vec[2] = 0; \
+        RotMatrixYXZ(vec, mtx); \
+        vec[0] = 0; \
+        if (*(int *)(param_1 + 0x2c) < 0) { \
+            vec[2] = -8; \
+            vec[1] = -4; \
+        } else { \
+            vec[2] = 2; \
+            vec[1] = -2; \
+        } \
+        ApplyMatrixSV(mtx, vec, vec); \
+        *(short *)(param_1 + 6) = *(short *)(param_1 + 6) + vec[0]; \
+        *(short *)(param_1 + 0xa) = *(short *)(param_1 + 0xa) + vec[1]; \
+        *(short *)(param_1 + 0xe) = *(short *)(param_1 + 0xe) + vec[2]; \
+        i = 0; \
+        if ((short)param_4 > 0) { \
+            do { \
+                r = func_80146A6C((unsigned short)param_2, (void *)param_1, \
+                                  (short)*(short *)(param_1 + 6), \
+                                  (short)*(short *)(param_1 + 0xa), \
+                                  (short)*(short *)(param_1 + 0xe), \
+                                  (short)param_3, 0); \
+                if (r != 0) { \
+                    *(short *)(r + 0x12) = *(short *)(param_1 + 0x12); \
+                    *(short *)(r + 0x16) = *(short *)(param_1 + 0x16); \
+                    *(short *)(r + 0x1a) = *(short *)(param_1 + 0x1a); \
+                } \
+                tmp = i + 1; \
+                i = tmp; \
+                __asm__ __volatile__("" : "=r"(i) : "0"(i)); \
+            } while ((short)tmp < (short)param_4); \
+        } \
+    }
+
 #endif

@@ -3477,7 +3477,11 @@ DEFINE_func_80164270()  /* dedup: shared engine-core @0x80164270 (src/shared) */
 
 DEFINE_func_801642AC()  /* dedup: shared engine-core @0x801642AC (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8016432C);
+// @class: schedule
+// @stuck: none — MATCH (match_one 57/57). Levers: decl-order regalloc (s1=a0, s0=*(s1+0x4c) like sibling func_801642AC) + branch-polarity invert on the A||B||C guard (THEN-block placed last, 17->4) + cached v44=*(s0+0x44) reused for &0x400 test and |0x10 + volatile barrier on s0 to anchor sh 0x188 before $a0 materialization (4->0).
+
+DEFINE_func_8016432C()  /* dedup: shared engine-core @0x8016432C (src/shared) */
+
 
 DEFINE_func_80164410()  /* dedup: shared engine-core @0x80164410 (src/shared) */
 
@@ -3928,7 +3932,17 @@ DEFINE_func_80168AE4()  /* dedup: shared engine-core @0x80168AE4 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80168B70);
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80168BDC);
+// @class: schedule
+// @stuck: none — MATCH (95 ins, relocation-masked)
+//   No prologue pins needed: gcc naturally allocates param_1->$s0/param_2->$s4/param_3->$s3/
+//   param_4->$s2 and emits the arg-copies in parameter order. The loop-bottom is the only quirk:
+//   the target splits the counter increment into a temp ($v0 = i+1) reused in BOTH the beqz delay
+//   slot and the r!=0 path end, with i ($s1) committed once at the merge AND the loop test reading
+//   the TEMP ($v0), not $s1. Reproduced by pinning the increment temp to $v0 ($2) + a zero-code
+//   __asm__ barrier ('""' : "=r"(i) : "0"(i)) on i=tmp that blocks gcc CSE-ing i==tmp so the
+//   (short)tmp test reads $v0 (sll $v0,$v0) instead of $s1 (sll $v0,$s1). Without the barrier: 1-off.
+DEFINE_func_80168BDC()  /* dedup: shared engine-core @0x80168BDC (src/shared) */
+
 
 extern s32 (*D_80189B28[])();
 
@@ -5767,7 +5781,24 @@ void func_80178438(u16 *arg0) {
     func_800153CC(3, *arg0, 0xA8, 0x88, 0x40, 0);
 }
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8017849C);
+// @class: struct
+// @stuck: none — MATCH (91 ins). Keys: (1) two-pointer do-while over D_801202A0
+//   (base ptr p=$s1, derived q=p+0x54=$s0, counter i=$s2) all PINNED via register
+//   __asm__ to get the 3-saved-reg frame (0x20) + exact alloc order; (2) the &&-chain
+//   if(byte6C!=0 && byte6D!=0) func_80130D0C else fptr -> func_80130D0C is the
+//   fall-through THEN block, fptr the jumped-to ELSE (matches the two-beqz target CFG);
+//   (3) the indirect-call table base D_8011DB08 PINNED to $v1 ($3) so it reuses store2's
+//   freed reg AND HOISTS before the byte6C branch (else block then carries load-delay
+//   nops, matching target); (4) byte6C read into a temp PINNED to $v0 ($2), read EARLY
+//   (between store1 and store2) so it (a) reuses store1's freed $v0 and (b) lets store3
+//   (sw -0x14) become the byte6C-beqz DELAY-SLOT fill instead of a standalone+nop. The
+//   reg pins for tbl/c6c are the lever that beat the gcc reorg tie-break (delay-slot
+//   packing) — without them the only residual was store3 standalone (+1 nop, 92 ins).
+
+#include "common.h"
+
+DEFINE_func_8017849C()  /* dedup: shared engine-core @0x8017849C (src/shared) */
+
 
 DEFINE_func_80178608()  /* dedup: shared engine-core @0x80178608 (src/shared) */
 
