@@ -64,6 +64,16 @@ def backlog_walls():
     return walls
 
 
+def plumbing_blocked():
+    """near-misses with closeness==0 = match_one MATCH but the whole-binary gate REJECTED (DEF-side /
+    TU loose-typing plumbing). Re-drafting just reproduces the same byte-correct body the gate rejects
+    again -> it can NEVER bank via a worker wave (Phase-21 finding). Skip in POOL selection so agents
+    draft FRESH targets instead; these stay in the backlog as recovery-tooling / hand-finish fuel
+    (an improved sig_unify / recovery gate can still bank them out-of-band, as the arity-extend fix did)."""
+    return {r["name"] for r in backlog.load_best()
+            if r.get("status") == "near" and r.get("closeness") == 0 and r.get("name")}
+
+
 def emit(batch, out):
     s = json.dumps(batch, indent=0)
     if out == "-":
@@ -115,7 +125,7 @@ def main():
 
     m = json.load(open(os.path.join(REPO, ".run/fuel_manifest.json")))
     stubs = live_stubs()
-    walls = set() if a.include_walls else backlog_walls()
+    walls = set() if a.include_walls else (backlog_walls() | plumbing_blocked())
 
     def ok(t):
         if t["name"] not in stubs or not t["cached"]:

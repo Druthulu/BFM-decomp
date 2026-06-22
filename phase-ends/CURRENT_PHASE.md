@@ -138,8 +138,26 @@ cycle; after idle it did `tried.clear()` and looped forever (§20 trap). Fixed B
 136/136 byte-identical (per-bank gate G3/P9; full check-all deferred to a checkpoint), 0 NON_MATCHING, 3 new
 cookbook idioms, grinder + sig_unify both upgraded. Diagnostics in `.run/{diag_plumbing,repro_gate,test_defsig}.py`.
 
+## SUSTAINED LOOP (2026-06-21→22, Drew: "keep waves going, don't stop till I check in ~8h")
+Continuous worker loop running, driven by Workflow-completion (NOT a timer): per wave →
+`orchestrator.py finish --commit` (gate+bank+propagate ×134) → `distill.js` if verified → `orchestrator.py prep
+--mode pool --n 24` → launch `worker_wave.js` with the batch pasted **verbatim** from the compact dump (Workflow
+scripts have no fs access; transcribe carefully). Gate/finish run **backgrounded + dangerouslyDisableSandbox**
+(foreground `make build`/`git` get sandbox-killed exit 144). Grinder runs alongside (token-free, blacklist-aware).
+- **POOL-mode override (policy):** auto-mode keeps firing class-focused REGALLOC waves, but that class has
+  saturated with permuter-class/DEF-side-plumbing residuals agents can't crack from C → low yield. Use
+  `prep --mode pool` to harvest FRESH reach-134 targets (higher yield); leave regalloc residuals to the grinder
+  (permuter) + backlog (hand-finishing). The DEF-side `close=0` set (func_80174CB0/80169228/80167714 …) won't bank
+  via re-drafting — they're hand-finish fuel.
+- **Running tally (this session, fleet 59.05% start):** waves 1-6 launched; banked via worker gates + the sig_unify
+  recovery. Fleet **59.87%** after wave 5 (wave 6 in flight). 4 new cookbook idioms distilled
+  (`commit:0194 commit:0196 commit:0198 commit:0203`). Commits `commit:0193…commit:0202` + option-C `commit:0200`.
+- **To resume after compaction:** read this section + `docs/automation-runbook.md`; the next step is always
+  gate the in-flight wave (`.run/auto/finish_wave<N>.log` / orchestrator finish) → distill → prep --mode pool →
+  launch. Stop only when Drew says so (`bash tools/auto_stop.sh` halts the grinder).
+
 ## Blockers
-(none — grinder running blacklist-aware with the enhanced sig_unify in its gate; worker waves paused pending Drew.)
+(none — grinder running blacklist-aware + enhanced sig_unify; worker loop sustained per Drew until check-in.)
 
 ## Per-task log
 
