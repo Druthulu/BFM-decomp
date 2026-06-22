@@ -130,7 +130,14 @@ def rewrite_def(txt, fn, canon):
         dnames = [param_name(x) for x in split_top_commas(dparams_raw)]
     if len(cptypes) == len(dnames) and all(dnames):
         newparams = ', '.join(f'{t} {n}' for t, n in zip(cptypes, dnames)) if dnames else 'void'
-    else:                                  # arity mismatch -> only fix the return type
+    elif len(cptypes) > len(dnames):
+        # arity mismatch, canonical declares MORE params than the draft body uses: ADOPT the
+        # canonical param types+count (the DEF-side loose-typing wall — Phase 20/21). Keep the
+        # draft's names where they exist (body still resolves); synth names for the extras — unused,
+        # they sit in $a0..$a3, free at -O2. The whole-binary byte-gate reverts anything not byte-exact.
+        names = [(dnames[i] if i < len(dnames) and dnames[i] else f'_arg{i}') for i in range(len(cptypes))]
+        newparams = ', '.join(f'{t} {n}' for t, n in zip(cptypes, names))
+    else:                                  # canonical has FEWER params than the draft -> return type only
         newparams = dparams_raw if dparams_raw else 'void'
     new_hdr = f'{m.group("lead")}{cret} {fn}({newparams})\n{{'
     if re.sub(r'\s+', ' ', new_hdr).strip() == re.sub(r'\s+', ' ', m.group(0)).strip():

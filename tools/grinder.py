@@ -25,10 +25,22 @@ AUTODIR = ".run/auto"
 STOP = f"{AUTODIR}/STOP"
 HB = f"{AUTODIR}/grinder_heartbeat.json"
 DRAFTS = f"{AUTODIR}/grinder_drafts"
+BLACKLIST = f"{AUTODIR}/grinder_blacklist.json"   # fns the permuter wins but the byte-gate rejects = plumbing-bound; never re-permute
 
 
 def stop_requested():
     return os.path.exists(os.path.join(REPO, STOP))
+
+
+def load_blacklist():
+    try:
+        return set(json.load(open(os.path.join(REPO, BLACKLIST))))
+    except Exception:
+        return set()
+
+
+def save_blacklist(bl):
+    json.dump(sorted(bl), open(os.path.join(REPO, BLACKLIST), "w"), indent=1)
 
 
 def log(m):
@@ -42,12 +54,14 @@ def heartbeat(state, current=None, banked=0, fp=None):
               open(os.path.join(REPO, HB), "w"), indent=1)
 
 
-def candidates(max_nins, max_close, tried, attempts):
+def candidates(max_nins, max_close, tried, attempts, blacklist):
     """closest still-open near-misses with a saved best draft (permuter-amenable), least-tried first."""
     out = []
     for r in backlog.load_best():
         nm = r.get("name")
         if r.get("status") != "near" or not r.get("best_draft") or not nm:
+            continue
+        if nm in blacklist:                      # permuter-won-but-gate-rejected (plumbing) — never re-permute
             continue
         if tried.get(nm, 0) >= attempts:
             continue
@@ -79,11 +93,13 @@ def main():
     if stop_requested():
         log("STOP present at startup; remove it to run."); return
     tried, banked, fp = {}, 0, None
-    log(f"start (permute={a.permute_secs}s -j{a.j} batch={a.batch} max_close={a.max_closeness})")
+    blacklist = load_blacklist()
+    log(f"start (permute={a.permute_secs}s -j{a.j} batch={a.batch} max_close={a.max_closeness}; "
+        f"blacklist={len(blacklist)} plumbing-bound fns skipped)")
     while True:
         if stop_requested():
             log("STOP — clean exit."); heartbeat("stopped", None, banked, fp); return
-        cand = candidates(a.max_nins, a.max_closeness, tried, a.attempts)[:a.batch]
+        cand = candidates(a.max_nins, a.max_closeness, tried, a.attempts, blacklist)[:a.batch]
         if not cand:
             if a.once:
                 log("no candidates (once) — exit."); heartbeat("dry", None, banked, fp); return
@@ -100,7 +116,7 @@ def main():
         if os.path.exists(os.path.join(REPO, DRAFTS)):
             shutil.rmtree(os.path.join(REPO, DRAFTS))
         os.makedirs(os.path.join(REPO, DRAFTS), exist_ok=True)
-        won = 0
+        won_fns = []
         for r in cand:
             if stop_requested():
                 break
@@ -115,13 +131,20 @@ def main():
                 if win:
                     open(os.path.join(REPO, DRAFTS, fn + ".c"), "w").write(
                         p16_permute.winner_to_draft(open(win).read()))
-                    won += 1; log(f"permuter WON {fn} (close was {r.get('closeness')})")
+                    won_fns.append(fn); log(f"permuter WON {fn} (close was {r.get('closeness')})")
             except Exception as e:
                 log(f"{fn}: {e}")
-        if won:
+        if won_fns:
             heartbeat("gating", None, banked, fp)
             s = gate_stage.run_gate(DRAFTS, source_tag="grinder", commit=True)
             banked += s.get("banked", 0); fp = s.get("fleet_pct", fp)
+            # A permuter win the whole-binary gate STILL rejects is plumbing-bound (not regalloc/sched) —
+            # re-permuting can never bank it. Blacklist it so the grinder stops churning it (the §20 trap).
+            verified = set(s.get("verified", []))
+            rejected = [f for f in won_fns if f not in verified]
+            if rejected:
+                blacklist.update(rejected); save_blacklist(blacklist)
+                log(f"blacklisted {len(rejected)} permuter-won/gate-rejected (plumbing): {', '.join(rejected)}")
             log(f"gate: banked {s.get('banked')} (+{s.get('propagated')} prop); total {banked}; fleet {fp}%")
             heartbeat("running", None, banked, fp)
         if a.once:

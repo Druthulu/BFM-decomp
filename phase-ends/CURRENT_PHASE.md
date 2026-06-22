@@ -90,8 +90,56 @@ After the reboot (BIOS startup-on-power-loss configured; Drew has remote access)
 `docs/automation-runbook.md` (prep → worker_wave Workflow → finish gate → distill). The grinder is already
 running alongside. Monitor: `bash tools/auto_status.sh`. Stop: `bash tools/auto_stop.sh`.
 
+## FRESH-SESSION RUN LIVE (2026-06-21 ~14:40 — Drew away ~8h, remote access)
+
+Drew launched the unattended grind ("run the worker /loop cycle, then start the grinder; I'll check back in ~8h").
+Both engines are RUNNING:
+- **Worker** — wave 1 launched as Workflow `wx91bmadi` (run `wf_b173a013-d6a`): 24 xHigh drafters over the
+  **tractable** reach-134 pool (nins 93–142). The loop is driven by **Workflow-completion notifications** (not a
+  polling timer): on each wave's completion the orchestrator runs `finish --commit` (gate→bank→propagate ×134→
+  backlog), `distill` if anything verified, then `prep`+launches the next wave. Race-free (one wave at a time;
+  `prep` rm-rf's `.run/drafts-wave`). ROI-gated pool rotation via `orch_state.json`.
+- **Grinder** — relaunched detached (was dead post-reboot, heartbeat 24 min stale): supervisor pid 2573950 +
+  `grinder.py` pid 2574026, `--permute-secs 120 -j 14`, token-free, draining the backlog near-misses.
+- Fleet at launch: **59.05%**, 136/136 byte-identical, 0 NON_MATCHING. Gate (G3/P9) is the sole arbiter — a wrong
+  draft is reverted, never banked; worst case of any crash is "it paused."
+- Monitor: `bash tools/auto_status.sh`. Stop both: `bash tools/auto_stop.sh` (then `rm .run/auto/STOP` to resume).
+- **Sandbox note (R/§ build-infra):** my foreground `make build`/`git` calls get sandbox-killed (exit 144) →
+  `orchestrator.py finish` and any commit run with `dangerouslyDisableSandbox`; detached daemons (grinder) escape it.
+
+**Run progress (worker waves):**
+| Cycle | Wave drafted | Byte-banked | Fleet | Commit |
+|---|---|---|---|---|
+| 1 | 24 (19 self-MATCH) | 7 (4 ×134) | 59.05→59.21% | `commit:0193`; distill `commit:0194` (cookbook §21 added) |
+| 2 | 24 (18 self-MATCH) | 5 (4 ×134) | 59.21→59.37% | `commit:0195` |
+| 3 | 24 (17 self-MATCH) | 7 (6 ×134) | 59.37→59.60% | `commit:0197`; distill `commit:0198` |
+| recovery | 7 close=0 re-gated | 2 (×134) | 59.60→**59.68%** | `commit:0199` (sig_unify DEF-side fix) |
+- **Distill flywheel:** 3 NEW byte-verified cookbook idioms added across the 3 waves (`commit:0194` Blk16/memcpy
+  unaligned-copy; `commit:0196` disjoint-bits add→ori re-tie barrier; `commit:0198` giv-anchor store-order).
+- **Wave-2 "6.5h" was NOT throttling** — it was idle on a CC **permission prompt** (Drew approved on check-in);
+  waves 1 & 3 ran in ~25–32 min. (R14: corrected my earlier rate-limit read.)
+
+## OPTION C — grinder fix + DEF-side recovery (Drew-approved, 2026-06-21 ~22:50)
+The grinder had banked **0 in ~8h**: stuck re-permuting 2 plumbing-bound near-misses (`func_8014F3E8`,
+`func_8014FE60`) — permuter "wins" them (base already masked-0) but the whole-binary gate correctly rejects every
+cycle; after idle it did `tried.clear()` and looped forever (§20 trap). Fixed BOTH halves of option C:
+- **(a) `tools/grinder.py` blacklist:** record every permuter-won/gate-rejected fn → `.run/auto/grinder_blacklist.json`,
+  skip permanently, survives restarts. Frees its CPU for genuine regalloc/schedule near-misses. Grinder restarted with it.
+- **(b) `tools/sig_unify.py` DEF-side fix:** diagnosed the wide self-MATCH→bank gap as the **DEF-side loose-typing
+  wall** (draft's byte-correct def has FEWER params than engine_core.h's canonical cross-overlay decl →
+  `conflicting types`). `rewrite_def` previously only rewrote params on arity MATCH (return-type-only fallback
+  otherwise). Patched it to **adopt the canonical param list on arity mismatch** (draft names + synth `_argN` for
+  the unused extras; they sit in `$a0–$a3`, free at -O2). Validated: banked `func_8016EDEC` + `func_8016EE40`
+  through the real gate (`commit:0199`). **Compounds: it's in the gate pipeline, so every future wave + the grinder
+  now auto-recover DEF-side near-misses.** (Remaining close=0: a data-conflict + narrow-param arity gcc's
+  promotion rule blocks + multi-way loose typing — genuinely harder, diminishing returns.)
+
+**Session totals (2026-06-21):** 3 worker waves + recovery → **21 fns banked**, fleet **59.05% → 59.68%** (+0.63%),
+136/136 byte-identical (per-bank gate G3/P9; full check-all deferred to a checkpoint), 0 NON_MATCHING, 3 new
+cookbook idioms, grinder + sig_unify both upgraded. Diagnostics in `.run/{diag_plumbing,repro_gate,test_defsig}.py`.
+
 ## Blockers
-(none — the token-free grinder runs autonomously; the worker flywheel is ready for the fresh-session `/loop`.)
+(none — grinder running blacklist-aware with the enhanced sig_unify in its gate; worker waves paused pending Drew.)
 
 ## Per-task log
 

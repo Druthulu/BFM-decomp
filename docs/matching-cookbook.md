@@ -1455,3 +1455,30 @@ byte-matched evidence fn. (Pins/array-decay/statement-order/shared-ret0/for-vs-d
   RMW and you stub; here combine DOES fold and you steer the anchor by store order.) *fixes wrong IV base-constant /
   all-positive-vs-all-negative displacement set; evidence func_80178298 (anchor at p+0x12, all stores `<=0` off it; the
   +0x12 store moved last took it 15-mismatch→3).*
+
+### §22 — DEF-side loose-typing recovery + grinder blacklist (Phase 21)
+
+The wide **self-MATCH → whole-binary-gate gap** (a draft that `match_one`-MATCHes but the gate rejects) is dominated
+by the **DEF-side loose-typing wall**, NOT cheap data plumbing (Phase-20 was right that data-cast is mostly moot —
+the lone data exception is a `D_x` whose draft `extern` type disagrees with engine_core.h, fixed by rewriting the
+draft extern to canonical and assigning through it). The DEF-side wall: the draft's **byte-correct definition** has
+FEWER params than the canonical cross-overlay decl in `engine_core.h` (e.g. def `void f(void)` vs decl
+`void f(s32,s32,s32)` because callers across overlays pass args the body ignores) → `conflicting types for f` in the
+full TU → gate reject. **Diagnose before building (R14): reproduce the whole-binary error** (substitute the draft,
+`make build`, grep `error:`/`conflicting types`) — `harvest_verify` discards it. The warnings at fixed line numbers
+(incompatible pointer / built-in `memcpy`) are pre-existing and harmless; the real error is the `conflicting types`.
+
+- **Recovery = adopt the canonical param list on arity mismatch** (`sig_unify.rewrite_def`, Phase-21 fix). Previously
+  it rewrote params only when arity MATCHED (return-type-only fallback otherwise — leaving the conflict). Now: when the
+  canonical decl has MORE params, take the canonical param TYPES + COUNT, keep the draft's names where they exist, and
+  synth `_argN` for the unused extras. Unused params sit in `$a0–$a3` → **free at -O2** → byte-identical, conflict
+  gone. Since `sig_unify` is in the `gate_stage` pipeline, this auto-recovers DEF-side near-misses on **every** wave +
+  the grinder (compounding, like the Phase-20 type-lift). *evidence: func_8016EDEC, func_8016EE40 banked via this.*
+  Still-hard residual (diminishing returns): narrow params (s8/s16/u8/u16/float) where gcc's default-promotion rule
+  blocks the no-proto/wider escape (§15/§18), and multi-way loose typing (the same fn called with contradictory
+  arities → no single ANSI prototype).
+- **Grinder blacklist** (`tools/grinder.py`): a permuter "win" the whole-binary gate STILL rejects is plumbing-bound
+  (the masked-0 doesn't survive the real link) — re-permuting can NEVER bank it. Record won-but-gate-rejected fns to a
+  persistent `.run/auto/grinder_blacklist.json` and skip them forever (the daemon's `tried.clear()`-after-idle would
+  otherwise churn the lowest-`close` plumbing fns endlessly — it banked 0 in ~8h doing exactly that). Frees the
+  permuter for genuine regalloc/schedule near-misses (the only class it can actually close).
