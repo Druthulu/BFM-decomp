@@ -55,6 +55,9 @@ PROCESS (you have Bash + Read):
 0. Read the LIVE cookbook docs/matching-cookbook.md §17–20 FIRST — it accrues newly-distilled idioms between waves; a quirk you'd otherwise grind on may already be solved there.
 1. Read the target asm and the Ghidra-C.
 2. Write your best C (the function definition + any externs it needs) to: ${draftDir}/${t.name}.c
+   (Write ONLY this one draft file. Do NOT edit docs/matching-cookbook.md, src/, config/, or any other tracked
+   file — the orchestrator's distill step owns all cookbook updates; a drafter appending to the cookbook injects
+   UNVERIFIED near-miss idioms that pollute every future wave. Your deliverable is the draft .c and the return value.)
    START the file with TWO comment lines so the residual class travels with the draft (the gate reads them for the learning flywheel + backlog):
      // @class: <one of: regalloc-order | schedule | remat | struct | iv-combine | loop-guard | loose-typing | plumbing | other>
      // @stuck: <one concrete line on the residual that remains, or "none — MATCH">
