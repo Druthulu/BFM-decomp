@@ -65,13 +65,22 @@ def backlog_walls():
 
 
 def plumbing_blocked():
-    """near-misses with closeness==0 = match_one MATCH but the whole-binary gate REJECTED (DEF-side /
-    TU loose-typing plumbing). Re-drafting just reproduces the same byte-correct body the gate rejects
-    again -> it can NEVER bank via a worker wave (Phase-21 finding). Skip in POOL selection so agents
-    draft FRESH targets instead; these stay in the backlog as recovery-tooling / hand-finish fuel
-    (an improved sig_unify / recovery gate can still bank them out-of-band, as the arity-extend fix did)."""
-    return {r["name"] for r in backlog.load_best()
-            if r.get("status") == "near" and r.get("closeness") == 0 and r.get("name")}
+    """SELF-MATCH-but-gate-REJECTED near-misses (DEF-side / TU loose-typing plumbing). Re-drafting just
+    reproduces the same byte-correct body the gate rejects again -> NEVER banks via a worker wave
+    (Phase-21 finding). Skip in POOL selection so agents draft FRESH targets; these stay in the backlog
+    as recovery-tooling / hand-finish fuel (an improved sig_unify / recovery gate banks them out-of-band).
+
+    Signal: closeness==0 (post-recovery match_one MATCH) OR a drafter self-MATCH verdict in where_stuck
+    ('none — MATCH …'). The latter is needed because sig_unify can REGRESS a self-MATCH draft to close>0
+    post-transform (Phase-19), so it dodges the ==0 filter though the body is byte-correct & gate-blocked."""
+    blocked = set()
+    for r in backlog.load_best():
+        if r.get("status") != "near" or not r.get("name"):
+            continue
+        ws = (r.get("where_stuck") or "").strip().lower()
+        if r.get("closeness") == 0 or ws.startswith("none —") or ws.startswith("none -") or "— match" in ws or "match_one match" in ws:
+            blocked.add(r["name"])
+    return blocked
 
 
 def emit(batch, out):
