@@ -1270,7 +1270,12 @@ DEFINE_func_8014B768()  /* dedup: shared engine-core @0x8014B768 (src/shared) */
 DEFINE_func_8014B7A4()  /* dedup: shared engine-core @0x8014B7A4 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8014B944);
+// @class: schedule
+// @stuck: none — MATCH (sep EA6 u16 sym re-folds w/ (s16) cast=lh; mem barrier orders EA4 store before EA6 load)
+
+
+DEFINE_func_8014B944()  /* dedup: shared engine-core @0x8014B944 (src/shared) */
+
 
 DEFINE_func_8014BB0C()  /* dedup: shared engine-core @0x8014BB0C (src/shared) */
 
@@ -1742,7 +1747,11 @@ void func_80151D24(void *a0)
 
 DEFINE_func_80151D60()  /* dedup: shared engine-core @0x80151D60 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80151DB0);
+// @class: schedule
+// @stuck: none — MATCH (50/50). Branch-polarity invert (if>=0x401 -> fall-through 0xC00 case) fixed bnez/li-swap; zero-code __asm__ barrier before func_80149020 anchored the two stores ahead of the call's a0=s0 delay-slot fill.
+
+DEFINE_func_80151DB0()  /* dedup: shared engine-core @0x80151DB0 (src/shared) */
+
 
 DEFINE_func_80151E78()  /* dedup: shared engine-core @0x80151E78 (src/shared) */
 
@@ -2189,7 +2198,12 @@ DEFINE_func_80155C0C()  /* dedup: shared engine-core @0x80155C0C (src/shared) */
 DEFINE_func_80155C64()  /* dedup: shared engine-core @0x80155C64 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80155D70);
+// @class: struct
+// @stuck: none — MATCH (64-byte local sets 0x60 frame; branch-polarity invert on &0x80)
+
+
+DEFINE_func_80155D70()  /* dedup: shared engine-core @0x80155D70 (src/shared) */
+
 
 extern void func_801599A4(void *a0);
 extern void func_80159B3C(void *a0);
