@@ -1017,7 +1017,7 @@ DEFINE_func_801415C0()  /* dedup: shared engine-core @0x801415C0 (src/shared) */
 
 DEFINE_func_8014168C()  /* dedup: shared engine-core @0x8014168C (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC03_101/nonmatchings/ov_SC03_101", func_801416D4);
+DEFINE_func_801416D4()  /* dedup: shared engine-core @0x801416D4 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC03_101/nonmatchings/ov_SC03_101", func_80141788);
 
@@ -1399,7 +1399,7 @@ DEFINE_func_80147B18()  /* dedup: shared engine-core @0x80147B18 (src/shared) */
 
 DEFINE_func_80147B5C()  /* dedup: shared engine-core @0x80147B5C (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC03_101/nonmatchings/ov_SC03_101", func_80147C30);
+DEFINE_func_80147C30()  /* dedup: shared engine-core @0x80147C30 (src/shared) */
 
 DEFINE_func_80147CC8()  /* dedup: shared engine-core @0x80147CC8 (src/shared) */
 
@@ -2003,7 +2003,7 @@ DEFINE_func_8014FC18()  /* dedup: shared engine-core @0x8014FC18 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC03_101/nonmatchings/ov_SC03_101", func_8014FCFC);
 
-INCLUDE_ASM("asm/ov_SC03_101/nonmatchings/ov_SC03_101", func_8014FD54);
+DEFINE_func_8014FD54()  /* dedup: shared engine-core @0x8014FD54 (src/shared) */
 
 DEFINE_func_8014FDF4()  /* dedup: shared engine-core @0x8014FDF4 (src/shared) */
 
@@ -2665,7 +2665,7 @@ INCLUDE_ASM("asm/ov_SC03_101/nonmatchings/ov_SC03_101", func_8015ADB0);
 
 INCLUDE_ASM("asm/ov_SC03_101/nonmatchings/ov_SC03_101", func_8015AE2C);
 
-INCLUDE_ASM("asm/ov_SC03_101/nonmatchings/ov_SC03_101", func_8015B6F4);
+DEFINE_func_8015B6F4()  /* dedup: shared engine-core @0x8015B6F4 (src/shared) */
 
 DEFINE_func_8015B7B4()  /* dedup: shared engine-core @0x8015B7B4 (src/shared) */
 
@@ -4577,7 +4577,7 @@ INCLUDE_ASM("asm/ov_SC03_101/nonmatchings/ov_SC03_101", func_80177DA8);
 
 INCLUDE_ASM("asm/ov_SC03_101/nonmatchings/ov_SC03_101", func_80177EA4);
 
-INCLUDE_ASM("asm/ov_SC03_101/nonmatchings/ov_SC03_101", func_80177F84);
+DEFINE_func_80177F84()  /* dedup: shared engine-core @0x80177F84 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC03_101/nonmatchings/ov_SC03_101", func_80178004);
 

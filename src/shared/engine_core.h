@@ -21155,4 +21155,164 @@
         } \
     }
 
+#define DEFINE_func_80177F84() \
+    void func_80177F84(s32 param_1, s32 param_2) { \
+        u16 uVar4; \
+        s16 iVar3; \
+        register u8 *pcVar2 __asm__("$6"); \
+        u32 uVar1; \
+        register s32 c5 __asm__("$10"); \
+        register s32 cmask __asm__("$9"); \
+        uVar4 = 0x100; \
+        iVar3 = 0; \
+        c5 = 5; \
+        cmask = -257; \
+        pcVar2 = (u8 *)(param_1 + 0xc); \
+        do { \
+            register u32 src __asm__("$2"); \
+            register u32 byteval __asm__("$3"); \
+            register u32 testval __asm__("$4"); \
+            src = (param_2 >> 0x10) & 0xf; \
+            __asm__ __volatile__("" : : "r"(src)); \
+            byteval = src; \
+            __asm__ __volatile__("" : "=r"(byteval) : "0"(byteval)); \
+            testval = src; \
+            __asm__ __volatile__("" : : "r"(byteval), "r"(testval)); \
+            param_2 = param_2 << 4; \
+            if ((iVar3 == c5) || (testval != 0)) { \
+                uVar4 = 0; \
+            } \
+            pcVar2 += 0x14; \
+            iVar3 += 1; \
+            { \
+                register s32 r __asm__("$4"); \
+                r = *(u16 *)(pcVar2 - 2); \
+                pcVar2[0] = (u8)(byteval * 8 + 8); \
+                *(u16 *)(pcVar2 - 2) = uVar4 | (r & cmask); \
+            } \
+        } while (iVar3 < 5); \
+    }
+
+#define DEFINE_func_80147C30() \
+    extern void func_80147CC8(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4); \
+    extern s32 D_80127090; \
+    extern s32 D_80127094; \
+    extern s32 D_80127098; \
+    void func_80147C30(s32 a0, s32 a1, s32 a2, s32 a3) { \
+        s32 out[3]; \
+        s32 *p0 = &D_80127090; \
+        s32 *p1 = &D_80127094; \
+        s32 *p2 = &D_80127098; \
+        func_80147CC8(a0, a1, a2, a3, (s32)out); \
+        D_80127090 = out[0]; \
+        D_80127094 = out[1]; \
+        D_80127098 = out[2]; \
+        *(s32 *)(a0 + 0x10) = *p0; \
+        *(s32 *)(a0 + 0x14) = *p1; \
+        *(s32 *)(a0 + 0x18) = *p2; \
+        D_80127090 = 0; \
+        D_80127094 = 0; \
+        D_80127098 = 0; \
+    }
+
+#define DEFINE_func_8014FD54() \
+    extern void func_80149290(s32 a0); \
+    extern s32 func_80133784(s32 a0, void *a1, s32 a2); \
+    int func_8014FD54(int param_1) \
+    { \
+        short buf1[3]; \
+        short buf2[4]; \
+        int ret; \
+        register int result __asm__("$2"); \
+        buf1[0] = 0; \
+        buf1[1] = 0; \
+        buf1[2] = 7; \
+        ((void (*)(int, void *, void *))func_80149290)(param_1, buf1, buf1); \
+        buf2[0] = 0; \
+        buf2[1] = 0; \
+        buf2[2] = (short)0xffe8; \
+        ((void (*)(int, void *, void *))func_80149290)(param_1, buf2, buf2); \
+        ret = func_80133784(1, buf1, (int)buf2); \
+        if (ret != 0) { \
+            result = 0; \
+            if ((ret & 0x8000) != 0) { \
+                result = *(unsigned char *)((char *)buf2 + 6) == 0x15; \
+            } \
+        } else { \
+            result = 0; \
+        } \
+        return result; \
+    }
+
+#define DEFINE_func_801416D4() \
+    extern s16 D_8011514C; \
+    extern u8 D_8011514D; \
+    extern u8 D_8011515C; \
+    extern s32 func_800D11F0(s32 a0); \
+    extern s32 func_800D1658(s32 a0); \
+    extern void func_80141C0C(s32); \
+    s32 func_801416D4(s16 param_1) { \
+        s32 cVar2; \
+        register s32 iVar1 __asm__("$3"); \
+        register s32 two __asm__("$6"); \
+        two = 2; \
+        iVar1 = 0; \
+        cVar2 = *(u8 *)&D_8011514C + D_8011514D * D_8011515C; \
+        if (param_1 == 1) goto c1; \
+        if (param_1 < 2) { \
+            if (param_1 == 0) goto c0; \
+            goto ret; \
+        } \
+        if (param_1 == two) goto c2; \
+        goto ret; \
+    c0: \
+        iVar1 = func_800D11F0(cVar2 & 0xFF); \
+        goto ret; \
+    c1: \
+        iVar1 = func_800D1658(cVar2 & 0xFF); \
+        goto ret; \
+    c2: \
+        func_80141C0C(6); \
+        iVar1 = 1; \
+    ret: \
+        return (iVar1 << 0x10) >> 0x10; \
+    }
+
+#define DEFINE_func_8015B6F4() \
+    extern s32 func_80149AA8(s32 *a0); \
+    extern void func_80156648(s32 *a0); \
+    extern void func_80154150(s32 a0, s32 a1); \
+    extern void func_80154A74(s32 a0, s32 a1); \
+    extern s32 func_80146994(s32 a0, s32 a1, s32 a2, s32 a3); \
+    extern void func_80147324(s32 arg0); \
+    extern void func_80147300(u16 arg0); \
+    extern s32 D_800D4A9C; \
+    int func_8015B6F4(int param_1) \
+    { \
+        register int b4 __asm__("$3"); \
+        register unsigned int f44 __asm__("$2"); \
+        register unsigned int bc __asm__("$4"); \
+        if (((int (*)(void))func_80149AA8)() == 0) return 0; \
+        ((void (*)(int))func_80156648)(param_1); \
+        b4 = *(int *)(param_1 + 0xb4); \
+        *(unsigned char *)(param_1 + 0x1aa) = 6; \
+        __asm__ __volatile__("" ::: "memory"); \
+        f44 = *(unsigned int *)(param_1 + 0x44); \
+        bc = *(unsigned char *)(param_1 + 0xbc); \
+        *(int *)(param_1 + 0x23c) = b4; \
+        *(unsigned int *)(param_1 + 0x44) = f44 | 2; \
+        *(unsigned char *)(param_1 + 0x244) = bc; \
+        if (*(int *)(param_1 + 0xb4) == (int)&D_800D4A9C) { \
+            func_80154150(param_1, 0xb); \
+        } else { \
+            func_80154150(param_1, 0xc); \
+        } \
+        func_80154A74(param_1, 0x22); \
+        *(unsigned char *)(param_1 + 0xda) = 0; \
+        ((void (*)(int, int, int, int))func_80146994)(4, param_1, 5, 0); \
+        func_80147324(0x400); \
+        ((void (*)(int))func_80147300)(0x5f3); \
+        return 1; \
+    }
+
 #endif

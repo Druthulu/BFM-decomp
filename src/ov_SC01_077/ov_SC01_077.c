@@ -279,7 +279,11 @@ DEFINE_func_801415C0()  /* dedup: shared engine-core @0x801415C0 (src/shared) */
 
 DEFINE_func_8014168C()  /* dedup: shared engine-core @0x8014168C (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_801416D4);
+// @class: regalloc-order
+// @stuck: none — MATCH (45 ins, relocation-masked)
+
+DEFINE_func_801416D4()  /* dedup: shared engine-core @0x801416D4 (src/shared) */
+
 
 extern unsigned short D_80115112;
 extern void (*D_80187F10[])(void);
@@ -808,7 +812,14 @@ DEFINE_func_80147B18()  /* dedup: shared engine-core @0x80147B18 (src/shared) */
 
 DEFINE_func_80147B5C()  /* dedup: shared engine-core @0x80147B5C (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80147C30);
+// @class: loose-typing
+// @stuck: none -- MATCH (38 ins). Three separate pointers (s32 *p0=&D_80127090; p1=&D_80127094; p2=&D_80127098)
+//         force gcc to RELOAD each named global through its pointer for the param-store readback (the sibling
+//         func_80146D30 's32 *p=&D_80127090' idiom, extended to all three), reproducing the target's fresh
+//         lui+lw per access + the hoisted D_80127090 reload. Reading the globals directly CSEs (no reload).
+
+DEFINE_func_80147C30()  /* dedup: shared engine-core @0x80147C30 (src/shared) */
+
 
 DEFINE_func_80147CC8()  /* dedup: shared engine-core @0x80147CC8 (src/shared) */
 
@@ -997,7 +1008,53 @@ DEFINE_func_80149584()  /* dedup: shared engine-core @0x80149584 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_801495C4);
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8014964C);
+// @class: regalloc-order
+// @stuck: none — MATCH (34 ins). param_2 pinned to $s0; the two stack out-bufs (in@0x10,
+//   mid@0x20,out@0x18) would be HOISTED into $s1 across call1 (frame 0x38, +s1 save) — break
+//   that with a per-use CSE-break barrier (`__asm__("":"=r"(p):"0"(p))`) on &in, mid(call1),
+//   mid(call2) so each rematerializes `addiu reg,$sp,off` (frame 0x30, only $s0 saved). The
+//   two independent arg setups (`lw $a0,0x20($a0)` vs `addiu $a2,$sp,0x20`) tie in sched2 —
+//   force target order with VOLATILE barriers in textual order pin(&in)->mtx-load->mid.
+
+typedef struct {
+    /* 0x00 */ s16 f0;
+    /* 0x02 */ s16 f2;
+    /* 0x04 */ s16 f4;
+    /* 0x06 */ s16 pad6;
+} Vec3;
+
+extern void func_8012F14C(s32);
+extern void func_8012EFB8(s32 a0);
+
+void func_8014964C(s32 param_1, s32 param_2) {
+    Vec3 in;
+    Vec3 out;
+    s32 mid[2];
+    register s32 p2 __asm__("$16");
+    Vec3 *pin;
+    s32 *m1;
+    s32 *m2;
+    s32 mtx;
+
+    p2 = param_2;
+    in.f0 = *(s16 *)(p2 + 2);
+    in.f2 = *(s16 *)(p2 + 6);
+    in.f4 = *(s16 *)(p2 + 0xA);
+    pin = &in;
+    __asm__ __volatile__("" : "=r"(pin) : "0"(pin));
+    mtx = *(s32 *)(param_1 + 0x20);
+    __asm__ __volatile__("" : "=r"(mtx) : "0"(mtx));
+    m1 = mid;
+    __asm__ __volatile__("" : "=r"(m1) : "0"(m1));
+    ((void (*)(s32, Vec3 *, s32 *))func_8012F14C)(mtx + 0x34, pin, m1);
+    m2 = mid;
+    __asm__ __volatile__("" : "=r"(m2) : "0"(m2));
+    ((void (*)(s32 *, Vec3 *))func_8012EFB8)(m2, &out);
+    *(s16 *)(p2 + 2) = out.f0;
+    *(s16 *)(p2 + 6) = out.f2;
+    *(s16 *)(p2 + 0xA) = out.f4;
+}
+
 
 DEFINE_func_801496D4()  /* dedup: shared engine-core @0x801496D4 (src/shared) */
 
@@ -1579,7 +1636,11 @@ DEFINE_func_8014FC18()  /* dedup: shared engine-core @0x8014FC18 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8014FCFC);
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8014FD54);
+// @class: regalloc-order
+// @stuck: none — MATCH; pinned result to $v0 so ret lands in $v1 (target's alloc); func_80149290 3-arg via call-site cast
+
+DEFINE_func_8014FD54()  /* dedup: shared engine-core @0x8014FD54 (src/shared) */
+
 
 DEFINE_func_8014FDF4()  /* dedup: shared engine-core @0x8014FDF4 (src/shared) */
 
@@ -2711,7 +2772,11 @@ INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8015ADB0);
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8015AE2C);
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8015B6F4);
+// @class: regalloc-order
+// @stuck: none — MATCH (48 ins)
+
+DEFINE_func_8015B6F4()  /* dedup: shared engine-core @0x8015B6F4 (src/shared) */
+
 
 DEFINE_func_8015B7B4()  /* dedup: shared engine-core @0x8015B7B4 (src/shared) */
 
@@ -5831,7 +5896,12 @@ INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80177DA8);
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80177EA4);
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80177F84);
+// @class: schedule
+// @stuck: none — MATCH (pin hoisted consts 5/$t2 + 0xfeff/$t1 BEFORE the $a2 ptr init fixes prologue order; ==5 uses register c5, but <5 loop-back uses literal 5 -> slti)
+#include "common.h"
+
+DEFINE_func_80177F84()  /* dedup: shared engine-core @0x80177F84 (src/shared) */
+
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80178004);
 
