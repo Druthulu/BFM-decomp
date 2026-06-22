@@ -21042,4 +21042,117 @@
         } \
     }
 
+#define DEFINE_func_8014A59C() \
+    extern u8 D_80078EBF; \
+    extern s32 func_80029178(s32 arg); \
+    void func_8014A59C(s32 a0) { \
+        s32 r; \
+        s32 add; \
+        if (*(u32 *)(a0 + 0x44) & 1) { \
+            if ((*(u16 *)(a0 + 0xAA) & 8) != 0) { \
+                r = func_80029178(0x20); \
+                add = 3; \
+                if ((r & 0xFF) != 0) { \
+                    add = 6; \
+                } \
+                D_80078EBF = D_80078EBF + add; \
+                if (0x80 < D_80078EBF) { \
+                    __asm__ __volatile__(""); \
+                    D_80078EBF = 0x80; \
+                } \
+            } \
+        } else { \
+            D_80078EBF = 0; \
+        } \
+    }
+
+#define DEFINE_func_80157AC8() \
+    extern void func_80147AD4(s32 a0, s32 a1, s32 a2, s32 a3); \
+    extern void func_801473EC(s32 *a0); \
+    extern s32 func_80161208(); \
+    extern void func_8016706C(s32 a0); \
+    extern void func_80154274(s32 *a0, s32 a1); \
+    extern void func_80146CA0(void *a0); \
+    extern int func_80155FF8(int arg, int a1); \
+    extern s32 func_801725A4(u8 *a0); \
+    extern u8 D_800D51AC[]; \
+    void func_80157AC8(s32 param_1) \
+    { \
+        *(u32 *)(param_1 + 0x44) = *(u32 *)(param_1 + 0x44) | 2; \
+        ((s32 (*)(s32, s32, s32, s32))func_80147AD4)(param_1, 0, 0, 0x10000); \
+        ((void (*)(s32))func_801473EC)(param_1); \
+        if (((s32 (*)(s32))func_80161208)(param_1) == 0) { \
+            if (*(s32 *)(param_1 + 0x2c) > 0) { \
+                func_8016706C(4); \
+                func_8016706C(5); \
+                ((void (*)(s32, s32))func_80154274)(param_1, (s32)D_800D51AC); \
+                ((void (*)(s32))func_80146CA0)(param_1); \
+            } else { \
+                ((void (*)(s32, s32))func_80155FF8)(param_1, *(u8 *)(param_1 + 0x1aa)); \
+                ((void (*)(s32))func_801725A4)(param_1); \
+            } \
+        } \
+    }
+
+#define DEFINE_func_80151AE4() \
+    extern void func_80149020(s32 *a0); \
+    extern void func_80151C54(s32 a0); \
+    extern void func_80159B3C(void *a0); \
+    extern void func_801542DC(s32 *a0, s32 a1); \
+    extern void func_8014E934(s32 a0); \
+    extern void func_8014F3E8(s32 a0); \
+    extern void func_8014CC28(s32 a0); \
+    extern void func_8015BDD0(s32 *a0); \
+    extern void func_80165718(s32 a0); \
+    extern u8 D_800D46E4[]; \
+    extern M2C_UNK D_800D5880; \
+    void func_80151AE4(s32 arg0) \
+    { \
+        func_80149020(arg0); \
+        if (*(u16 *)((s32)arg0 + 0xB8) == 0x8000) { \
+            func_80151C54(arg0); \
+            func_80159B3C(arg0); \
+            if (*(s32 *)((s32)arg0 + 0xB4) == (s32)&D_800D5880) { \
+                ((void (*)(s32, s32, s32))func_801542DC)(arg0, (s32)D_800D46E4, 0xE); \
+            } \
+        } else { \
+            func_8014E934(arg0); \
+            if (((s32 (*)(s32))func_8014F3E8)(arg0) != 0) { \
+                return; \
+            } \
+            if (((s32 (*)(s32))func_8014CC28)(arg0) != 0) { \
+                return; \
+            } \
+            func_80151C54(arg0); \
+            func_8015BDD0(arg0); \
+        } \
+        func_80165718(arg0); \
+    }
+
+#define DEFINE_func_80155EA4() \
+    extern void func_80147AD4(s32 a0, s32 a1, s32 a2, s32 a3); \
+    extern void func_801473EC(s32 *a0); \
+    extern void func_8014C010(s32 a0, s32 a1); \
+    extern int func_80155FF8(int arg, int a1); \
+    extern void func_801599A4(void *a0); \
+    extern void func_80159B3C(void *a0); \
+    extern s32 func_80161208(); \
+    extern u16 D_800B99DA; \
+    void func_80155EA4(void *arg0) { \
+        volatile s32 spill[4];  /* forces the 0x28 frame the target reserves */ \
+        *(s32 *)((u8 *)arg0 + 0x44) |= 2; \
+        func_80147AD4((s32)arg0, 0, 0, 0x8000); \
+        func_801473EC((s32 *)arg0); \
+        if ((D_800B99DA & 3) == 0) { \
+            func_8014C010((s32)arg0, 2); \
+        } \
+        func_80155FF8((int)arg0, *(u8 *)((u8 *)arg0 + 0x1AA)); \
+        if ((*(s32 *)((u8 *)arg0 + 0x2C) >= 0) || (*(u8 *)((u8 *)arg0 + 0x1C0) != 0)) { \
+            func_801599A4(arg0); \
+            func_80159B3C(arg0); \
+        } else { \
+            ((void (*)(void *))func_80161208)(arg0); \
+        } \
+    }
+
 #endif

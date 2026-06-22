@@ -1165,7 +1165,13 @@ DEFINE_func_8014A4FC()  /* dedup: shared engine-core @0x8014A4FC (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8014A51C);
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8014A59C);
+// @class: schedule
+// @stuck: none — MATCH (39 ins). Body-primary if/else (D=0 tail), call-result-first (add in $v1),
+//         and a scheduling barrier in the clamp block to keep the bnez delay slot a nop.
+#include "common.h"
+
+DEFINE_func_8014A59C()  /* dedup: shared engine-core @0x8014A59C (src/shared) */
+
 
 DEFINE_func_8014A638()  /* dedup: shared engine-core @0x8014A638 (src/shared) */
 
@@ -1732,7 +1738,13 @@ DEFINE_func_80151980()  /* dedup: shared engine-core @0x80151980 (src/shared) */
 DEFINE_func_801519C8()  /* dedup: shared engine-core @0x801519C8 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80151AE4);
+// @class: plumbing
+// @stuck: none — MATCH expected; func_801542DC called 3-arg vs 2-arg canonical needs call-site cast
+
+#include "common.h"
+
+DEFINE_func_80151AE4()  /* dedup: shared engine-core @0x80151AE4 (src/shared) */
+
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80151B98);
 
@@ -2226,7 +2238,12 @@ void func_80155E30(void *a0) {
     func_80155FF8((int)a0, *(u8 *)((u8 *)a0 + 0x1AA));
 }
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80155EA4);
+// @class: schedule
+// @stuck: none — MATCH (reserved-local volatile spill[4] forces 0x28 frame; branch-polarity invert per cookbook T4: pair-block as if-body fall-through, func_80161208 in else)
+#include "common.h"
+
+DEFINE_func_80155EA4()  /* dedup: shared engine-core @0x80155EA4 (src/shared) */
+
 
 DEFINE_func_80155F58()  /* dedup: shared engine-core @0x80155F58 (src/shared) */
 
@@ -2420,7 +2437,13 @@ INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8015795C);
 
 DEFINE_func_80157A8C()  /* dedup: shared engine-core @0x80157A8C (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80157AC8);
+// @class: regalloc-order
+// @stuck: none — MATCH (43 ins). Fixed via §3-T4 branch-polarity: target fall-through is the (val>0) func_8016706C block, so put it in the `if` and the (val<=0) block in the `else` → blez to else, blocks in target order.
+
+#include "common.h"
+
+DEFINE_func_80157AC8()  /* dedup: shared engine-core @0x80157AC8 (src/shared) */
+
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80157B74);
 
