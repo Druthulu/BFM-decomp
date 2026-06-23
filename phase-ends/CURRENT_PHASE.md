@@ -14,17 +14,20 @@
 > Everything below this section (the prior ×134 QUEUED-RUN block, TRIP HAND-OFF, POST-REBOOT, etc.) is a
 > HISTORICAL session-layer kept for the trail. **THIS section is the current state + the fresh-session plan.**
 
-**★ SESSION UPDATE 2026-06-23 (waves 17–22, reach-1 harvest LIVE — Drew's `/loop`):** Fleet **61.19%** ·
-banked_total **165** (session **+108** reach-1 ×1 banks over 6 waves; close-rate 0.63→0.91→0.67 as the size-band
-climbed 14→31 ins) · 136/136 byte-identical · 0 NON_MATCHING throughout (per-wave byte-gate, G3/P9). **4 new
+**★ SESSION UPDATE 2026-06-23 (waves 17–25, reach-1 harvest LIVE — Drew's `/loop`):** Fleet **61.21%** ·
+banked_total **215** (session **+158** reach-1 ×1 banks over 9 waves; close-rate ~0.63→0.91→~0.70 as the size-band
+climbed 14→54 ins) · 136/136 byte-identical · 0 NON_MATCHING throughout (per-wave byte-gate, G3/P9). **7 new
 cookbook idioms distilled** (`commit:0225` u16-store→`ori` · `commit:0227` $sp-switch trampoline + 3 maspsx rules ·
-`commit:0230` byte-predecrement `+0xFF` not `-1` · `commit:0232` combined store-and-capture call-result). **Pool-exclusion
-bug FIXED** (`commit:0228`): `wave_targets.plumbing_blocked()` now scans ALL raw backlog records (was `load_best()`,
-which masked `none — MATCH` self-match-gate-reject records) → 83 churners correctly skipped from waves (hand-finish
-fuel). **STOP left in place per Drew** (AskUserQuestion: kill switch = interrupt / `auto_stop.sh`, NOT the file).
-Orch_state: `pool=reach1`, `waves=22`. The fresh-session cycle below is unchanged. Honest ROI note: reach-1 is ×1,
-so fleet barely moves per wave — the value is `ov_SC01_077` completeness + the distilled idioms (reach-134-applicable
-→ a future wall re-attempt could bank ×134).
+`commit:0230` byte-predecrement `+0xFF` not `-1` · `commit:0232` combined store-and-capture call-result · `commit:0235`
+barrier-free memory-operand reload via source order · `commit:0237` EXPLOIT cross-jumping (dual-arm call) · `commit:0240`
+unaligned-source packed-union load). **TWO pool-exclusion bugs FIXED:** (`commit:0228`) `plumbing_blocked()` scans ALL
+raw backlog records (was `load_best()`, masking `none — MATCH` self-match-gate-reject records); (`commit:0239`) NEW
+`reserved_walls()` skips near-misses re-drafted ≥2× without banking (permuter-class schedule/regalloc/iv walls that
+smallest-first kept re-serving at the wave front) → ~149 churners total now skipped (hand-finish / grinder / targeted
+`--class` fuel). **STOP left in place per Drew** (AskUserQuestion: kill switch = interrupt / `auto_stop.sh`, NOT the
+file). Orch_state: `pool=reach1`, `waves=25`. The fresh-session cycle below is unchanged. Honest ROI note: reach-1 is
+×1, so fleet barely moves per wave (+0.05% over 9 waves) — the value is `ov_SC01_077` completeness + the 7 distilled
+idioms (reach-134-applicable → a future wall re-attempt could bank ×134; recommended pivot flagged to Drew).
 
 **Fleet ≈ 61.16% byte-identical** *(↑ 61.19% — see SESSION UPDATE above)* · 136/136 binaries byte-identical · 0 NON_MATCHING.
 **Nothing running** — grinder STOPPED (Drew; `.run/auto/STOP` present), no worker wave in flight. Paused at a
