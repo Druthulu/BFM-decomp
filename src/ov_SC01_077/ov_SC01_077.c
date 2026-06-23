@@ -8468,7 +8468,8 @@ void func_80170E34(void *a0) {
 
 DEFINE_func_80170E70()  /* dedup: shared engine-core @0x80170E70 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80170EAC);
+
+DEFINE_func_80170EAC()  /* dedup: shared engine-core @0x80170EAC (src/shared) */
 
 extern void (*D_8018A05C[])(void *);
 
