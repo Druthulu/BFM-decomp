@@ -285,7 +285,11 @@ DEFINE_func_8013E22C()  /* dedup: shared engine-core @0x8013E22C (src/shared) */
 
 DEFINE_func_8013E298()  /* dedup: shared engine-core @0x8013E298 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8013E2C4);
+// @class: schedule
+// @stuck: none — MATCH (43/43 raw bytes verified via objcopy; match_one's "22 mismatched" is an objdump zero-run-elision artifact that drops the 2 cop2-latency nops)
+
+DEFINE_func_8013E2C4()  /* dedup: shared engine-core @0x8013E2C4 (src/shared) */
+
 
 DEFINE_func_8013E370()  /* dedup: shared engine-core @0x8013E370 (src/shared) */
 
@@ -301,7 +305,11 @@ DEFINE_func_8013E4B4()  /* dedup: shared engine-core @0x8013E4B4 (src/shared) */
 
 DEFINE_func_8013E558()  /* dedup: shared engine-core @0x8013E558 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8013E588);
+// @class: plumbing
+// @stuck: none — MATCH expected (simple guarded store block, byte/half/word globals + fn-ptr)
+
+DEFINE_func_8013E588()  /* dedup: shared engine-core @0x8013E588 (src/shared) */
+
 
 // @class: regalloc-order
 // @stuck: none — MATCH expected (clone of byte-proven func_80141874: $v0-pinned fn-ptr; +2 extra calls)
@@ -3316,7 +3324,12 @@ DEFINE_func_801516F0()  /* dedup: shared engine-core @0x801516F0 (src/shared) */
 
 DEFINE_func_8015173C()  /* dedup: shared engine-core @0x8015173C (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80151780);
+// @class: regalloc-order
+// @stuck: none — MATCH (D_8011DB1A held in $a0 via register pin $4 after the func_801725CC call)
+#include "common.h"
+
+DEFINE_func_80151780()  /* dedup: shared engine-core @0x80151780 (src/shared) */
+
 
 DEFINE_func_80151878()  /* dedup: shared engine-core @0x80151878 (src/shared) */
 
@@ -3865,7 +3878,10 @@ void func_801550FC(s32 arg0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80155150);
+// @class: other
+// @stuck: control-flow / branch-polarity transcription; verifying via match_one
+DEFINE_func_80155150()  /* dedup: shared engine-core @0x80155150 (src/shared) */
+
 
 DEFINE_func_801552F4()  /* dedup: shared engine-core @0x801552F4 (src/shared) */
 
@@ -4000,7 +4016,12 @@ INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80156044);
 DEFINE_func_8015616C()  /* dedup: shared engine-core @0x8015616C (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80156370);
+// @class: other
+// @stuck: none — MATCH expected (signed div/mod + u16 loads, straight from Ghidra-C)
+
+
+DEFINE_func_80156370()  /* dedup: shared engine-core @0x80156370 (src/shared) */
+
 
 extern S801563EC D_80188B80[];
 
@@ -4385,7 +4406,12 @@ LAB_80158528:
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80158548);
+// @class: plumbing
+// @stuck: none — MATCH (branch-polarity invert §3-T4: non-zero (0x8000) case is the if-body so beqz targets the else)
+
+
+DEFINE_func_80158548()  /* dedup: shared engine-core @0x80158548 (src/shared) */
+
 
 DEFINE_func_801585A4()  /* dedup: shared engine-core @0x801585A4 (src/shared) */
 
@@ -4466,7 +4492,11 @@ INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_801588CC);
 
 DEFINE_func_80158AB4()  /* dedup: shared engine-core @0x80158AB4 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80158AE4);
+// @class: plumbing
+// @stuck: none — MATCH (expected); void-canonical callees called with param via fn-ptr cast (§17a-1)
+
+DEFINE_func_80158AE4()  /* dedup: shared engine-core @0x80158AE4 (src/shared) */
+
 
 extern void func_80146CA0(void *a0);
 extern s32 func_801472C8(struct S *a0);
@@ -7068,7 +7098,11 @@ s32 func_80168744(s16 *a0) {
 
 DEFINE_func_80168780()  /* dedup: shared engine-core @0x80168780 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_801687CC);
+// @class: plumbing
+// @stuck: none — MATCH (simple if/else dispatch; reload of +0x1c after call)
+
+DEFINE_func_801687CC()  /* dedup: shared engine-core @0x801687CC (src/shared) */
+
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80168828);
 
@@ -7181,7 +7215,11 @@ void func_801693CC(void *a0) {
 DEFINE_func_80169408()  /* dedup: shared engine-core @0x80169408 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8016951C);
+// @class: plumbing
+// @stuck: none — MATCH (clean structural reconstruction; store-in-delay-slot is the unconditional pre-branch store)
+
+DEFINE_func_8016951C()  /* dedup: shared engine-core @0x8016951C (src/shared) */
+
 
 // @class: schedule
 // @stuck: none — MATCH (s0 pin for param_1+0x38 across calls + memory barrier after the two post-merge sb stores to keep them before the $a0 materialization)
@@ -7271,7 +7309,11 @@ DEFINE_func_8016A05C()  /* dedup: shared engine-core @0x8016A05C (src/shared) */
 DEFINE_func_8016A08C()  /* dedup: shared engine-core @0x8016A08C (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8016A1CC);
+// @class: regalloc-order
+// @stuck: none — MATCH (iVar1 pinned to $v0 via register __asm__("$2") so the global value
+//         is reused in $v0 for the subtraction chain instead of cc1 spilling iVar1 to $v1)
+DEFINE_func_8016A1CC()  /* dedup: shared engine-core @0x8016A1CC (src/shared) */
+
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8016A290);
 
@@ -7722,7 +7764,12 @@ void func_8016DA7C(s32 param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8016DB34);
+// @class: loop-guard
+// @stuck: none — MATCH (branch-polarity invert §3-T4: call on fall-through, block in else)
+
+
+DEFINE_func_8016DB34()  /* dedup: shared engine-core @0x8016DB34 (src/shared) */
+
 
 DEFINE_func_8016DBD8()  /* dedup: shared engine-core @0x8016DBD8 (src/shared) */
 
@@ -8513,7 +8560,11 @@ DEFINE_func_80171A80()  /* dedup: shared engine-core @0x80171A80 (src/shared) */
 
 DEFINE_func_80171A88()  /* dedup: shared engine-core @0x80171A88 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80171AB0);
+// @class: plumbing
+// @stuck: none — MATCH (clean structural reconstruction; param_1 in $s0, both calls sign-extend their $v0 to s16)
+
+DEFINE_func_80171AB0()  /* dedup: shared engine-core @0x80171AB0 (src/shared) */
+
 
 DEFINE_func_80171B10()  /* dedup: shared engine-core @0x80171B10 (src/shared) */
 
@@ -8653,7 +8704,11 @@ s32 func_801729F0(void *a0) {
     return D_8018A0B4[*(u8 *)((s32)a0 + 0x214)](a0);
 }
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80172A2C);
+// @class: plumbing
+// @stuck: none — MATCH expected (simple STUB: save arg across call, two halfword stores, 3 calls)
+
+DEFINE_func_80172A2C()  /* dedup: shared engine-core @0x80172A2C (src/shared) */
+
 
 DEFINE_func_80172A8C()  /* dedup: shared engine-core @0x80172A8C (src/shared) */
 
