@@ -9,7 +9,58 @@
 
 ---
 
-## ★ CURRENT STATE & FRESH-SESSION RESUME — READ THIS FIRST (2026-06-22 07:40)
+## ★★ REACH-1 HARVEST HANDOFF — READ THIS FIRST (2026-06-22, authoritative current state)
+
+> Everything below this section (the prior ×134 QUEUED-RUN block, TRIP HAND-OFF, POST-REBOOT, etc.) is a
+> HISTORICAL session-layer kept for the trail. **THIS section is the current state + the fresh-session plan.**
+
+**Fleet ≈ 61.16% byte-identical** · 136/136 binaries byte-identical · 0 NON_MATCHING.
+**Nothing running** — grinder STOPPED (Drew; `.run/auto/STOP` present), no worker wave in flight. Paused at a
+clean, committed checkpoint (HEAD = the reach-1 handoff commit). Committed locally; **not pushed** (R6 — Drew pushes).
+
+**What this session did (×134 tail harvest → pivot):**
+- Worker waves **13–16** on the cached reach-134 fuel: banked **+6** (incl. the 476-ins `func_80141CA4` ×134)
+  + 1 grinder bank; **fleet 60.93% → 61.16%**. Yield diminished 3→2→0→1: the reach-134 ≤150-ins cached fuel is
+  now **confirmed walls** (§20 IV-combine / LICM-hoist / schedule + DEF-side loose-typing; o0 pool empty; the
+  capped-7 = the Phase-16 loose-typing wall). Re-firing them is the poor-ROI anti-pattern (Drew agreed).
+- **Guard committed (`commit:0219`):** worker drafters now write ONLY their draft `.c` — a wave-13 drafter had
+  appended UNVERIFIED near-miss idioms to the cookbook directly (distill owns the cookbook). See "Open for Drew".
+- **PIVOT (Drew's call, gate-2 AskUserQuestion):** stop the reach-134 wall-waves + grinder; harvest the
+  **reach-1 (overlay-unique) fuel** instead — abundant, small, far less loose-typed → much higher crack rate.
+
+**★ THE REACH-1 FUEL IS BUILT + WIRED (this session's deliverable — ready for the fresh session):**
+- **420 reach-1, region-main, draftable fns in `ov_SC01_077`, ALL cached** (298 prefetched this session via
+  headless `DecompileFunctions.java` → `.run/ghidra_c`: 298 ok / 0 fail / 0 no-func). Small: median 47 ins,
+  185 ≤40, 251 ≤60, 330 ≤100.
+- **`tools/wave_targets.py --pool reach1`** serves them **SMALLEST-FIRST** (new pool, committed). The
+  orchestrator's `POOLS` + `.run/auto/orch_state.json` are set to `reach1`, so **`prep --mode pool` serves it
+  out of the box**. Verified: prep → clean 24-target batch of 14–15-ins fns; asm + ghidra_c paths resolve.
+- **Leverage = ×1** — overlay-unique, so they bank in `ov_SC01_077` only (dedup_propagate skips reach<2, no
+  ×134). But `ov_SC01_077` is the largest overlay → 420 small fns ≈ a real fleet chunk (plausibly **+1–3%**).
+
+**THE PLAN — smallest-first idiom-MINING harvest (Drew's design, agreed):** run the same loop on the `reach1`
+pool, **distilling after EVERY wave** (this is idiom-mining, not just banking): the tiny fns one-shot for free
+%, the small-medium (~30–80 ins) band surfaces fresh gcc idioms → distill → the cookbook grows → bigger reach-1
+fns one-shot, AND a new idiom occasionally cracks a reach-134 **wall** (×134 bonus, e.g. the Phase-18 pin idiom).
+
+**FRESH-SESSION CYCLE (Drew starts + controls pacing — full runbook: `docs/automation-runbook.md` §reach-1):**
+1. `.venv/bin/python tools/orchestrator.py prep --mode pool --n 24` → reach1 smallest-first batch → `.run/auto/wave_batch.json`.
+2. Read the batch; launch `tools/workflows/worker_wave.js` with `args={draftDir:".run/drafts-wave", targets:<batch array PASTED VERBATIM>}`.
+3. On completion: `.venv/bin/python tools/orchestrator.py finish --drafts .run/drafts-wave --commit` — **BACKGROUNDED + `dangerouslyDisableSandbox`** (foreground make build/git get sandbox-killed exit 144). Prints `{banked, near, verified, fleet_pct, …}`.
+4. **Distill EVERY wave that has `verified` banks:** `tools/workflows/distill.js` `args={draftsDir:".run/drafts-wave", verified:<array>}` (the idiom-mining step).
+5. Loop (~17 waves for all 420). close-rate should stay HIGH (small fns) → the orchestrator won't rotate off `reach1`; if it ever does (close-rate <0.15 ×2 → rotates to tractable walls), re-route: set `pool":"reach1"` in `.run/auto/orch_state.json`.
+6. **Optional token-free grinder** (parallel, permutes reach-1 near-misses): `rm -f .run/auto/STOP && DRIVER=tools/grinder.py setsid nohup bash tools/auto_supervisor.sh --permute-secs 120 -j 14 >/dev/null 2>&1 &` (dangerouslyDisableSandbox). **STOP all:** `bash tools/auto_stop.sh`. Live %: `make report`.
+
+**More fuel if 420 runs dry:** region `a` (65) + `o0` (8) reach-1 (excluded from the pool — different build paths
+/ -O0 handling; add later); the deferred reach-134 walls + capped-7 (hand-finish backlog).
+
+**Open for Drew:** the uncommitted 2 §21 cookbook bullets are **CANDIDATE / unverified** (from near-miss
+`func_801775E0`) — marked as such this session; keep/refine/drop. ("Don't start the waves" was this session's
+instruction; the fresh session launches them.)
+
+---
+
+## (SUPERSEDED by the REACH-1 HANDOFF above — historical trail) prior ×134 state (2026-06-22 07:40)
 
 > The dated sections lower down (TRIP HAND-OFF, POST-REBOOT RESUME, FRESH-SESSION RUN LIVE, SUSTAINED LOOP,
 > OPTION C) are HISTORICAL session-layers, kept for the trail. **This section is the authoritative current state.**

@@ -1487,6 +1487,33 @@ byte-matched evidence fn. (Pins/array-decay/statement-order/shared-ret0/for-vs-d
   emitted code at -O2. Size N×4 picks the frame: 1–2 words → 8, 3–4 → 0x10. (This is the INDUCE direction; §5's
   phantom-frame note is the REMOVE direction where gcc *adds* a frame the target lacks.) *evidence func_801758FC (0x10).*
 
+> **⚠ CANDIDATE (unverified) — the next two bullets are from `func_801775E0`, a NEAR-MISS (closeness 2, NOT
+> byte-banked)**, appended directly by a wave-13 drafter (that drafter→cookbook path is now blocked, `commit:0219`).
+> They are plausible gcc-2.7.2 observations but were NOT confirmed by a byte-match. A drafter MAY try them — the
+> byte-gate (G3/P9) is the sole arbiter, so a wrong idiom can never bank — but VERIFY before trusting. Drew to
+> keep / refine / drop.
+
+- **`lbu` value with SIGNED compares (`bltz` + `slti`, NOT `sltu`) → write each range bound as a SEPARATE `if (…) goto`
+  statement, never a chained `||`:** when the target loads a `u8` global with `lbu` (zero-extend → known 0..255) yet
+  the comparisons are signed (`bltz $v1`; `slti $v0,$v1,K`) — including a provably-dead `bltz` on a 0..255 value —
+  gcc-2.7.2 has emitted the conditions as INDEPENDENT signed `slt` branches. A chained `if (v<0 || v>0xf6 || v<0xf3)`
+  CANONICALIZES: gcc proves `v<0` impossible (drops the `bltz`) and folds `v>0xf6 || v<0xf3` into the unsigned range
+  trick `sltu $2,$v1,247` / `addiu -0xf3; sltiu 4` (wrong: `sltu`, no `bltz`, fewer ins). Splitting into
+  `if (v==0) goto a; if (v<0) goto b; if (v>=0xf7) goto b; if (v<0xf3) goto c;` keeps each as its own signed `slt`+branch
+  (the `v<0` becomes a real `bltz`, the bounds become `slti`), reproducing the target exactly. The launder/barrier
+  tricks do NOT help (gcc re-derives the u8 range across an `__asm__` move); only the per-condition `if-goto` split does.
+  *fixes the unsigned-range-collapse → signed-separate-compare divergence; evidence func_801775E0 (`bltz;slti 0xF7;slti 0xF3`).*
+- **shared join-block placement (call/store block reached by ≥2 paths) is steered by which exit the LAST range test
+  BRANCHES to vs FALLS THROUGH:** gcc-2.7.2's jump pass lays the join block (e.g. a `jal` reached by both an early
+  `beq` and the range-chain fall-through) right after whichever predecessor it processes to fall through. Writing the
+  chain's terminal as `if (v>=K) goto join;` (branch TO the join) puts the join AFTER the sibling block (matches a target
+  whose join sits between the early-eq block and the tail); writing `if (v<K) goto other; goto join;` (branch AWAY, fall
+  to join) FLIPS the entire layout (the early-eq test inverts `beqz↔bnez` too). The two are COUPLED — you cannot
+  independently pick the terminal branch polarity AND the join placement; pick the form whose join placement matches and
+  accept the terminal-branch polarity it implies (a residual the permuter can't touch under `register __asm__` pins).
+  *evidence func_801775E0 (the `if(v>=0xf3)goto call` form gives correct [chain][eq-block][call][else] layout but leaves
+  the terminal as `beqz→call` where the target has `bnez→.L674`; the negative form flips to a 50-mismatch layout).*
+
 ### §22 — DEF-side loose-typing recovery + grinder blacklist (Phase 21)
 
 The wide **self-MATCH → whole-binary-gate gap** (a draft that `match_one`-MATCHes but the gate rejects) is dominated

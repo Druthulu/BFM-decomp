@@ -28,7 +28,7 @@ REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PY = ".venv/bin/python"
 STATE = os.path.join(REPO, ".run/auto/orch_state.json")
 BATCH = ".run/auto/wave_batch.json"
-POOLS = ["tractable", "giants", "o0", "capped"]   # ROI rotation order
+POOLS = ["reach1", "tractable", "giants", "o0", "capped"]   # ROI rotation order (reach1 = Phase-21 overlay-unique harvest)
 
 
 def load_state():

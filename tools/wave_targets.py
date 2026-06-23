@@ -6,7 +6,8 @@ Emits a JSON array of {name, addr, nins, class, asm, ghidra_c} for tools/workflo
 ranked by leverage (reach*nins), skipping known walls already logged 'failed'/'stub' in the backlog.
 
 Pools (ROI rotation): tractable (reach-134 WAVE/PINS/STRUCT <=150 ins, main region) | giants |
-o0 | capped | any-reach134.
+o0 | capped | any-reach134 | reach1 (overlay-unique reach-1 fns, region main, sorted SMALLEST-FIRST
+— the Phase-21 idiom-mining harvest: easy wins + distill the gcc quirk each reveals, feed forward).
 
 Usage: tools/wave_targets.py --pool tractable --n 24 [--region main|a|any] [--out -]
 """
@@ -95,7 +96,7 @@ def emit(batch, out):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--pool", default="tractable",
-                    choices=["tractable", "giants", "o0", "capped", "any-reach134"])
+                    choices=["tractable", "giants", "o0", "capped", "any-reach134", "reach1"])
     ap.add_argument("--class", dest="rclass", default=None,
                     help="CLASS-GROUPED wave: select backlog near-misses of this residual class "
                          "(REGALLOC/SCHEDULE/REMAT/STRUCT/IV/LOOPGUARD/LOOSE/PLUMBING/OTHER) to re-attempt")
@@ -151,13 +152,18 @@ def main():
             return t["class"] == "O0"
         if a.pool == "any-reach134":
             return t["reach_134"]
+        if a.pool == "reach1":   # overlay-unique fuel (Phase 21 idiom-mining), smallest-first sorted below
+            return (not t["reach_134"]) and t["class"] in ("WAVE", "PINS", "STRUCT", "STUB") and (t["nins"] or 999) <= a.max_nins
         return False
 
     pool = [t for t in m["targets"] if ok(t)]
     if a.pool == "capped":  # the matched-but-local recovery set (not stubs)
         pool = [{"name": n, "addr": "0x" + n[5:].lower(), "nins": None, "class": "CAPPED",
                  "reach": 134, "leverage": 0} for n in m.get("capped_recovery", [])]
-    pool.sort(key=lambda t: t.get("leverage") or 0, reverse=True)
+    if a.pool == "reach1":
+        pool.sort(key=lambda t: t.get("nins") or 0)            # SMALLEST-FIRST (idiom-mining order, Drew)
+    else:
+        pool.sort(key=lambda t: t.get("leverage") or 0, reverse=True)
     pool = pool[:a.n]
 
     batch = [{"name": t["name"], "addr": t["addr"], "nins": t["nins"], "class": t["class"],

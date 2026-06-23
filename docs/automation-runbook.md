@@ -4,12 +4,36 @@ The automation manager: a **token-free grinder** (CPU permuter) + a **token-heav
 agent waves), both banking through the **incorruptible whole-binary byte-gate** (G3/P9 — a wrong
 match can NEVER bank) and logging every near-miss to a **ranked backlog** for hand-finishing.
 
-## What is running right now
+## What is running right now (2026-06-22 — reach-1 pivot)
 
-- **Grinder** (`tools/grinder.py` under `tools/auto_supervisor.sh`) — **LAUNCHED**, token-free.
-  Permutes the backlog's closest near-misses → byte-gate → banks the real matches → propagates ×134.
-  Idles when the backlog is drained (waiting for worker-produced near-misses). Survives crashes
-  (supervisor relaunches). Heartbeat: `.run/auto/grinder_heartbeat.json`.
+**Nothing running.** The reach-134 ×134 wave fuel hit its wall (waves 1–16 → fleet ≈61.16%, then confirmed
+walls), and the grinder is STOPPED (`.run/auto/STOP` present). The project pivoted to the **reach-1 harvest**
+(below) — fuel built + staged, NOT started; Drew drives it from a fresh session. Full state:
+`phase-ends/CURRENT_PHASE.md` ★★ REACH-1 HANDOFF.
+
+## ★ Reach-1 harvest — smallest-first idiom-mining (the Phase-21 active direction)
+
+**Fuel (BUILT):** 420 reach-1 (overlay-unique) region-main draftable fns in `ov_SC01_077`, ALL Ghidra-C cached,
+small (median 47 ins; 251 ≤60 ins). `tools/wave_targets.py --pool reach1` serves them **smallest-first**; the
+orchestrator `POOLS` + `.run/auto/orch_state.json` are set to `reach1`, so **`prep --mode pool` serves it**.
+Leverage is **×1** (overlay-unique → banks in `ov_SC01_077` only; `dedup_propagate` skips reach<2, no ×134) —
+but `ov_SC01_077` is the largest overlay, so 420 small fns is a real fleet lever (plausibly +1–3%).
+
+**The cycle (Drew controls pacing — `/loop` self-paced or hand-cycle):**
+1. `.venv/bin/python tools/orchestrator.py prep --mode pool --n 24` → reach1 smallest-first batch → `.run/auto/wave_batch.json`.
+2. Read the batch; launch `tools/workflows/worker_wave.js` with `args={draftDir:".run/drafts-wave", targets:<batch array PASTED VERBATIM>}`.
+3. `.venv/bin/python tools/orchestrator.py finish --drafts .run/drafts-wave --commit` — **BACKGROUNDED + `dangerouslyDisableSandbox`** (foreground make build/git get sandbox-killed exit 144). Prints `{banked, near, verified, fleet_pct, …}`.
+4. **Distill EVERY wave that has `verified` banks** — `tools/workflows/distill.js` `args={draftsDir:".run/drafts-wave", verified:<array>}`. This is an idiom-MINING pass (more aggressive than the conservative ×134 run): each new gcc quirk → cookbook → feeds forward to bigger reach-1 fns AND occasionally cracks a reach-134 **wall** (×134 bonus, like the Phase-18 pin idiom).
+5. Loop (~17 waves for all 420). close-rate should stay HIGH (small fns) → no pool rotation; if it drops <0.15 ×2 and rotates off `reach1`, re-route by setting `"pool":"reach1"` in `.run/auto/orch_state.json`.
+6. **Optional token-free grinder** (parallel — permutes reach-1 near-misses): `rm -f .run/auto/STOP && DRIVER=tools/grinder.py setsid nohup bash tools/auto_supervisor.sh --permute-secs 120 -j 14 >/dev/null 2>&1 &` (dangerouslyDisableSandbox).
+
+The Monitor / STOP / grinder / safety sections below apply unchanged. (The original ×134 "Launch the WORKER
+waves" cycle below is the same mechanics with a different pool — reach1 supersedes it for the active run.)
+
+### Grinder (token-free, currently STOPPED)
+
+`tools/grinder.py` under `tools/auto_supervisor.sh` — permutes the backlog's closest near-misses → byte-gate →
+banks → ×134. Idles when drained; supervisor relaunches on crash. Heartbeat: `.run/auto/grinder_heartbeat.json`.
 
 ## Monitor (read-only, from anywhere)
 
