@@ -1486,6 +1486,15 @@ byte-matched evidence fn. (Pins/array-decay/statement-order/shared-ret0/for-vs-d
   not DCE'd and reserves `var_size`) but never stored through. `(void)&frame_pad;` escapes the address with zero
   emitted code at -O2. Size N×4 picks the frame: 1–2 words → 8, 3–4 → 0x10. (This is the INDUCE direction; §5's
   phantom-frame note is the REMOVE direction where gcc *adds* a frame the target lacks.) *evidence func_801758FC (0x10).*
+- **store a high-bit (≥0x8000) 16-bit constant to a halfword → `unsigned short*`/`u16*`, NOT `short*`/`s16*`:** the
+  STORE is `sh` either way, but the *constant materialization* differs by signedness of the pointee. A `u16` store
+  zero-extends → `ori reg,$zero,K` (opcode `0x34`, e.g. `3403c040` = `ori v1,$zero,0xc040`); an `s16` store
+  sign-extends → `addiu reg,$zero,K` (opcode `0x24`, e.g. `2403c040` = `addiu v1,$zero,-16320`, value 0xFFFFC040).
+  objdump pretty-prints BOTH as `li v1,0xc040`/`li v1,-16320`, so read the opcode (`34xx`=ori vs `24xx`=addiu), not
+  the mnemonic. Only matters when bit 15 of the constant is set (0x8000–0xFFFF: 0xc040, 0xaa10, …); for K<0x8000
+  both forms emit the same `ori`. Pick `u16*` to get `ori`, `s16*` to get the sign-extending `addiu`. *fixes the
+  `addiu`(sign-ext)↔`ori`(zero-ext) constant-build before a halfword store; evidence func_8017E924 + func_8017E974
+  (0xc040), func_80182E30 (0xaa10).*
 
 > **⚠ CANDIDATE (unverified) — the next two bullets are from `func_801775E0`, a NEAR-MISS (closeness 2, NOT
 > byte-banked)**, appended directly by a wave-13 drafter (that drafter→cookbook path is now blocked, `commit:0219`).
