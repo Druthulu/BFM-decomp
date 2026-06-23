@@ -75,7 +75,19 @@ def plumbing_blocked():
     ('none — MATCH …'). The latter is needed because sig_unify can REGRESS a self-MATCH draft to close>0
     post-transform (Phase-19), so it dodges the ==0 filter though the body is byte-correct & gate-blocked."""
     blocked = set()
-    for r in backlog.load_best():
+    p = os.path.join(REPO, ".run/backlog.jsonl")
+    if not os.path.exists(p):
+        return blocked
+    # Scan ALL raw records, not backlog.load_best(): load_best returns one record/fn and can
+    # return an early closeness>0 near-miss that MASKS a later 'none — MATCH' self-match-gate-reject
+    # record (both can share a closeness, e.g. a sig_unify-regressed self-match logged at close 14).
+    # A fn that EVER self-matched-but-gate-rejected is plumbing-blocked: re-drafting reproduces the
+    # same gate-rejected body -> skip it from waves (it's recovery-tooling / hand-finish fuel).
+    for line in open(p):
+        line = line.strip()
+        if not line:
+            continue
+        r = json.loads(line)
         if r.get("status") != "near" or not r.get("name"):
             continue
         ws = (r.get("where_stuck") or "").strip().lower()
