@@ -1576,6 +1576,19 @@ byte-matched evidence fn. (Pins/array-decay/statement-order/shared-ret0/for-vs-d
   not `lh`, when the target zero-extends. *fixes two-separate-`%lo`-folds vs one-materialized-base-reg on a scalar
   global RMW; evidence func_80186938 (`s32 *p=&D_801270C8; *p+=1; if(*p>=4)…` → `lui;addiu %lo;lw 0($v1);…;sw 0($v1)`,
   byte-gated).*
+- **force a RELOAD between two CONSECUTIVE stores to the SAME global (store a const, then read it back to OR/RMW) →
+  qualify the global `volatile`, NOT an `__asm__` barrier:** when the target does `sh K,%lo(sym); lhu %lo(sym); ori …;
+  sh %lo(sym)` — i.e. it stores a known constant to a global and then *re-reads it from memory* before the next
+  store — gcc-2.7.2 -O2 normally store-to-load-FORWARDS the just-stored constant and CONSTANT-FOLDS the two writes
+  into ONE (`D_x = K | 0x4000;` → a single `sh` with `li K|0x4000`), so the reload `lhu` and the second `sh`
+  vanish. Declaring the global `volatile` (`extern volatile u16 D_x;`) forbids the forward/fold: each `D_x = …` is
+  emitted verbatim and the read between them becomes the `lhu` reload, reproducing both stores. This is the
+  TYPE-QUALIFIER reload lever — distinct from the §21 `__asm__` memory-clobber (derived-index CSE across pointer
+  stores) and the statement-order reload (two identical loads across an *unrelated* field store): here the value is
+  a constant gcc KNOWS, so only `volatile` defeats the store-forwarding; statement order and clobbers do not. Use it
+  whenever the target re-reads a global it just stored a literal into. *fixes a folded-away `lhu` reload + merged
+  double `sh` to one global; evidence func_801806D8 (`volatile u16 D_80126B96; D_x=2; D_x=D_x|0x4000;` →
+  `sh 2; lhu; ori 0x4000; sh`, byte-gated 56 ins).*
 
 > **⚠ CANDIDATE (unverified) — the next two bullets are from `func_801775E0`, a NEAR-MISS (closeness 2, NOT
 > byte-banked)**, appended directly by a wave-13 drafter (that drafter→cookbook path is now blocked, `commit:0219`).
