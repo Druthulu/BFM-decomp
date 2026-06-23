@@ -1640,7 +1640,38 @@ INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8014CD80);
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8014CF04);
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8014D04C);
+// @class: other
+// @stuck: none — MATCH (22 ins; handwritten scratchpad-stack-switch via *(0x1F8003FC); modeled on byte-proven sibling func_8014CCB4; omit explicit jal-delay nop — maspsx auto-inserts it)
+#include "common.h"
+
+extern void func_8014D0A4(s32 a0);
+
+void func_8014D04C(void)
+{
+    __asm__ __volatile__(
+        ".set noreorder\n"
+        "addiu $sp, $sp, -24\n"
+        "lui   $v1, 0x1f80\n"
+        "ori   $v1, $v1, 0x03fc\n"
+        "sw    $ra, 16($sp)\n"
+        "addu  $t0, $v1, $zero\n"
+        "lw    $t1, 0($t0)\n"
+        "nop\n"
+        "sw    $sp, 0($t1)\n"
+        "addiu $t1, $t1, -4\n"
+        "addu  $sp, $t1, $zero\n"
+        "jal   func_8014D0A4\n"
+        "lui   $at, %%hi(D_801D9618)\n"
+        "sw    $v0, %%lo(D_801D9618)($at)\n"
+        "addiu $sp, $sp, 4\n"
+        "lw    $sp, 0($sp)\n"
+        "lui   $v0, %%hi(D_801D9618)\n"
+        "lw    $v0, %%lo(D_801D9618)($v0)\n"
+        "lw    $ra, 16($sp)\n"
+        "addiu $sp, $sp, 24\n"
+        : : : "memory");
+}
+
 
 DEFINE_func_8014D0A4()  /* dedup: shared engine-core @0x8014D0A4 (src/shared) */
 
@@ -1656,7 +1687,38 @@ INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8014D4C0);
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8014D610);
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8014D738);
+// @class: other
+// @stuck: none — MATCH (handwritten scratchpad-stack-switch sequencer manipulating $sp; modeled on byte-proven func_8014CCB4. KEY: maspsx auto-fills the jal delay slot with a nop, so DO NOT write an explicit nop after `jal func_8014D790` — put `lui $at,%hi(D_801D9618)` directly after the jal and maspsx's auto-nop becomes the delay slot, yielding jal/nop/lui exactly as target)
+#include "common.h"
+
+extern void func_8014D790(s32 a0);
+
+void func_8014D738(void)
+{
+    __asm__ __volatile__(
+        ".set noreorder\n"
+        "addiu $sp, $sp, -24\n"
+        "lui   $v1, 0x1f80\n"
+        "ori   $v1, $v1, 0x03fc\n"
+        "sw    $ra, 16($sp)\n"
+        "addu  $t0, $v1, $zero\n"
+        "lw    $t1, 0($t0)\n"
+        "nop\n"
+        "sw    $sp, 0($t1)\n"
+        "addiu $t1, $t1, -4\n"
+        "addu  $sp, $t1, $zero\n"
+        "jal   func_8014D790\n"
+        "lui   $at, %%hi(D_801D9618)\n"
+        "sw    $v0, %%lo(D_801D9618)($at)\n"
+        "addiu $sp, $sp, 4\n"
+        "lw    $sp, 0($sp)\n"
+        "lui   $v0, %%hi(D_801D9618)\n"
+        "lw    $v0, %%lo(D_801D9618)($v0)\n"
+        "lw    $ra, 16($sp)\n"
+        "addiu $sp, $sp, 24\n"
+        : : : "memory");
+}
+
 
 DEFINE_func_8014D790()  /* dedup: shared engine-core @0x8014D790 (src/shared) */
 
@@ -1668,7 +1730,38 @@ DEFINE_func_8014DCE0()  /* dedup: shared engine-core @0x8014DCE0 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8014DD8C);
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8014DF3C);
+// @class: other
+// @stuck: none — MATCH (fully-handwritten scratchpad-stack-switch sequencer; byte-proven sibling DEFINE precedent func_8014CCB4, same idiom, only the jal target differs)
+#include "common.h"
+
+extern void func_8014DF94(s32 arg0);
+
+void func_8014DF3C(void)
+{
+    __asm__ __volatile__(
+        ".set noreorder\n"
+        "addiu $sp, $sp, -24\n"
+        "lui   $v1, 0x1f80\n"
+        "ori   $v1, $v1, 0x03fc\n"
+        "sw    $ra, 16($sp)\n"
+        "addu  $t0, $v1, $zero\n"
+        "lw    $t1, 0($t0)\n"
+        "nop\n"
+        "sw    $sp, 0($t1)\n"
+        "addiu $t1, $t1, -4\n"
+        "addu  $sp, $t1, $zero\n"
+        "jal   func_8014DF94\n"
+        "lui   $at, %%hi(D_801D9618)\n"
+        "sw    $v0, %%lo(D_801D9618)($at)\n"
+        "addiu $sp, $sp, 4\n"
+        "lw    $sp, 0($sp)\n"
+        "lui   $v0, %%hi(D_801D9618)\n"
+        "lw    $v0, %%lo(D_801D9618)($v0)\n"
+        "lw    $ra, 16($sp)\n"
+        "addiu $sp, $sp, 24\n"
+        : : : "memory");
+}
+
 
 #include "common.h"
 
@@ -1678,7 +1771,38 @@ INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8014E048);
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8014E284);
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8014E434);
+// @class: other
+// @stuck: none — MATCH (hand-written scratchpad-stack-switch trampoline; inline-asm precedent func_8014CCB4, byte-proven)
+#include "common.h"
+
+extern void func_8014E48C(s32 a0);
+
+void func_8014E434(void)
+{
+    __asm__ __volatile__(
+        ".set noreorder\n"
+        "addiu $sp, $sp, -24\n"
+        "lui   $v1, 0x1f80\n"
+        "ori   $v1, $v1, 0x03fc\n"
+        "sw    $ra, 16($sp)\n"
+        "addu  $t0, $v1, $zero\n"
+        "lw    $t1, 0($t0)\n"
+        "nop\n"
+        "sw    $sp, 0($t1)\n"
+        "addiu $t1, $t1, -4\n"
+        "addu  $sp, $t1, $zero\n"
+        "jal   func_8014E48C\n"
+        "lui   $at, %%hi(D_801D9618)\n"
+        "sw    $v0, %%lo(D_801D9618)($at)\n"
+        "addiu $sp, $sp, 4\n"
+        "lw    $sp, 0($sp)\n"
+        "lui   $v0, %%hi(D_801D9618)\n"
+        "lw    $v0, %%lo(D_801D9618)($v0)\n"
+        "lw    $ra, 16($sp)\n"
+        "addiu $sp, $sp, 24\n"
+        : : : "memory");
+}
+
 
 DEFINE_func_8014E48C()  /* dedup: shared engine-core @0x8014E48C (src/shared) */
 
@@ -1686,7 +1810,38 @@ DEFINE_func_8014E514()  /* dedup: shared engine-core @0x8014E514 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8014E5B4);
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8014E6A0);
+// @class: other
+// @stuck: none — MATCH (handwritten scratchpad-stack-switch; exact sibling of byte-proven func_8014CCB4, only the jal callee differs)
+#include "common.h"
+
+extern void func_8014E6F8(struct SubE6F8 *a0);
+
+void func_8014E6A0(void)
+{
+    __asm__ __volatile__(
+        ".set noreorder\n"
+        "addiu $sp, $sp, -24\n"
+        "lui   $v1, 0x1f80\n"
+        "ori   $v1, $v1, 0x03fc\n"
+        "sw    $ra, 16($sp)\n"
+        "addu  $t0, $v1, $zero\n"
+        "lw    $t1, 0($t0)\n"
+        "nop\n"
+        "sw    $sp, 0($t1)\n"
+        "addiu $t1, $t1, -4\n"
+        "addu  $sp, $t1, $zero\n"
+        "jal   func_8014E6F8\n"
+        "lui   $at, %%hi(D_801D9618)\n"
+        "sw    $v0, %%lo(D_801D9618)($at)\n"
+        "addiu $sp, $sp, 4\n"
+        "lw    $sp, 0($sp)\n"
+        "lui   $v0, %%hi(D_801D9618)\n"
+        "lw    $v0, %%lo(D_801D9618)($v0)\n"
+        "lw    $ra, 16($sp)\n"
+        "addiu $sp, $sp, 24\n"
+        : : : "memory");
+}
+
 
 DEFINE_func_8014E6F8()  /* dedup: shared engine-core @0x8014E6F8 (src/shared) */
 
@@ -1696,19 +1851,115 @@ DEFINE_func_8014E790()  /* dedup: shared engine-core @0x8014E790 (src/shared) */
 
 DEFINE_func_8014E83C()  /* dedup: shared engine-core @0x8014E83C (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8014E934);
+// @class: other
+// @stuck: none — MATCH. Inline-asm scratchpad-stack-switch sequencer (manipulates $sp), modeled on func_8014CCB4 twin. KEY FIXES vs the existing precedent: (1) NO explicit nop after `jal` (maspsx auto-inserts exactly one delay-slot nop; an explicit one doubles it); (2) NO trailing `.set reorder` (it adds an extra trailing nop). Only the jal target differs (func_8014E98C vs func_8014CD0C).
+#include "common.h"
+
+void func_8014E934(s32 _arg0)
+{
+    __asm__ __volatile__(
+        ".set noreorder\n"
+        "addiu $sp, $sp, -24\n"
+        "lui   $v1, 0x1f80\n"
+        "ori   $v1, $v1, 0x03fc\n"
+        "sw    $ra, 16($sp)\n"
+        "addu  $t0, $v1, $zero\n"
+        "lw    $t1, 0($t0)\n"
+        "nop\n"
+        "sw    $sp, 0($t1)\n"
+        "addiu $t1, $t1, -4\n"
+        "addu  $sp, $t1, $zero\n"
+        "jal   func_8014E98C\n"
+        "lui   $at, %%hi(D_801D9618)\n"
+        "sw    $v0, %%lo(D_801D9618)($at)\n"
+        "addiu $sp, $sp, 4\n"
+        "lw    $sp, 0($sp)\n"
+        "lui   $v0, %%hi(D_801D9618)\n"
+        "lw    $v0, %%lo(D_801D9618)($v0)\n"
+        "lw    $ra, 16($sp)\n"
+        "addiu $sp, $sp, 24\n"
+        : : : "memory");
+}
+
 
 DEFINE_func_8014E98C()  /* dedup: shared engine-core @0x8014E98C (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8014EA4C);
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8014ED28);
+// @class: other
+// @stuck: none — MATCH (handwritten full inline-asm scratchpad-stack-switch wrapper; no trailing .set reorder — that adds a stray epilogue nop)
+/*
+ * HANDWRITTEN scratchpad-stack-switch wrapper: temporarily repoints $sp into the
+ * D-cache scratchpad stack held at *(0x1F8003FC), calls func_8014ED80, stashes the
+ * return value through D_801D9618, restores $sp and returns it.
+ * Manipulating $sp is not expressible in C; full inline asm (manages its own frame).
+ */
+extern s32 func_8014ED80(struct SubED80 *a0);
+extern int D_801D9618;
+
+void func_8014ED28(s32 _arg0)
+{
+    __asm__ __volatile__(
+        ".set noreorder\n"
+        "addiu $sp, $sp, -24\n"
+        "lui   $v1, 0x1f80\n"
+        "ori   $v1, $v1, 0x03fc\n"
+        "sw    $ra, 16($sp)\n"
+        "addu  $t0, $v1, $zero\n"
+        "lw    $t1, 0($t0)\n"
+        "nop\n"
+        "sw    $sp, 0($t1)\n"
+        "addiu $t1, $t1, -4\n"
+        "addu  $sp, $t1, $zero\n"
+        "jal   func_8014ED80\n"
+        "lui   $at, %%hi(D_801D9618)\n"
+        "sw    $v0, %%lo(D_801D9618)($at)\n"
+        "addiu $sp, $sp, 4\n"
+        "lw    $sp, 0($sp)\n"
+        "lui   $v0, %%hi(D_801D9618)\n"
+        "lw    $v0, %%lo(D_801D9618)($v0)\n"
+        "lw    $ra, 16($sp)\n"
+        "addiu $sp, $sp, 24\n"
+        : : : "memory");
+}
+
 
 DEFINE_func_8014ED80()  /* dedup: shared engine-core @0x8014ED80 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8014EE14);
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8014F1F4);
+// @class: other
+// @stuck: none — MATCH (fully-handwritten scratchpad-stack-switch sequencer; manipulates $sp; modeled byte-for-byte on the proven sibling func_8014CCB4 in ov_SC01_077.c)
+#include "common.h"
+
+extern s32 func_8014F24C(struct SubF24C *a0);
+
+void func_8014F1F4(void)
+{
+    __asm__ __volatile__(
+        ".set noreorder\n"
+        "addiu $sp, $sp, -24\n"
+        "lui   $v1, 0x1f80\n"
+        "ori   $v1, $v1, 0x03fc\n"
+        "sw    $ra, 16($sp)\n"
+        "addu  $t0, $v1, $zero\n"
+        "lw    $t1, 0($t0)\n"
+        "nop\n"
+        "sw    $sp, 0($t1)\n"
+        "addiu $t1, $t1, -4\n"
+        "addu  $sp, $t1, $zero\n"
+        "jal   func_8014F24C\n"
+        "lui   $at, %%hi(D_801D9618)\n"
+        "sw    $v0, %%lo(D_801D9618)($at)\n"
+        "addiu $sp, $sp, 4\n"
+        "lw    $sp, 0($sp)\n"
+        "lui   $v0, %%hi(D_801D9618)\n"
+        "lw    $v0, %%lo(D_801D9618)($v0)\n"
+        "lw    $ra, 16($sp)\n"
+        "addiu $sp, $sp, 24\n"
+        : : : "memory");
+}
+
 
 DEFINE_func_8014F24C()  /* dedup: shared engine-core @0x8014F24C (src/shared) */
 
@@ -1716,11 +1967,81 @@ INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8014F2E0);
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8014F3E8);
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8014F468);
+// @class: other
+// @stuck: none — MATCH (handwritten scratchpad-stack-switch sequencer; byte-proven DEFINE_func_8014CCB4 precedent. Do NOT write an explicit nop in the jal delay slot: maspsx 2.56 reorders the following lui %hi into the slot and re-emits the nop, so an explicit one is a redundant +1 ins.)
+#include "common.h"
+
+extern s32 func_8014F4C0(void);
+
+s32 func_8014F468(void)
+{
+    __asm__ __volatile__(
+        ".set noreorder\n"
+        "addiu $sp, $sp, -24\n"
+        "lui   $v1, 0x1f80\n"
+        "ori   $v1, $v1, 0x03fc\n"
+        "sw    $ra, 16($sp)\n"
+        "addu  $t0, $v1, $zero\n"
+        "lw    $t1, 0($t0)\n"
+        "nop\n"
+        "sw    $sp, 0($t1)\n"
+        "addiu $t1, $t1, -4\n"
+        "addu  $sp, $t1, $zero\n"
+        "jal   func_8014F4C0\n"
+        "lui   $at, %%hi(D_801D961C)\n"
+        "sw    $v0, %%lo(D_801D961C)($at)\n"
+        "addiu $sp, $sp, 4\n"
+        "lw    $sp, 0($sp)\n"
+        "lui   $v0, %%hi(D_801D961C)\n"
+        "lw    $v0, %%lo(D_801D961C)($v0)\n"
+        "lw    $ra, 16($sp)\n"
+        "addiu $sp, $sp, 24\n"
+        : : : "memory");
+}
+
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8014F4C0);
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8014F6F4);
+// @class: plumbing
+// @stuck: none — MATCH (22 ins, relocation-masked). Handwritten scratchpad-stack-switch
+//         wrapper, full inline asm like DEFINE_func_80155FF8. NOTE: do NOT write an explicit
+//         "nop" after "jal func_8014F74C" — maspsx --aspsx-version=2.56 auto-fills the jal
+//         delay slot with a nop; an explicit one yields a double-nop (+1 ins). %hi/%lo must be
+//         escaped as %%hi/%%lo inside __asm__ (bare % is read as an operand placeholder).
+
+/* HANDWRITTEN scratchpad-stack-switch wrapper (same idiom as func_80155FF8 /
+ * func_80128564): temporarily repoints $sp into the D-cache scratchpad stack held
+ * at *(0x1F8003FC), calls func_8014F74C, stores its $v0 result to D_801D961C, then
+ * restores $sp and returns the stored value. Manipulating $sp is not expressible in
+ * C; full inline asm (manages its own frame). */
+
+extern int func_8014F74C(void);
+
+int func_8014F6F4(void) {
+    __asm__ __volatile__(
+        ".set noreorder\n"
+        "addiu $sp, $sp, -24\n"
+        "lui   $v1, 0x1f80\n"
+        "ori   $v1, $v1, 0x03fc\n"
+        "sw    $ra, 16($sp)\n"
+        "addu  $t0, $v1, $zero\n"
+        "lw    $t1, 0($t0)\n"
+        "nop\n"
+        "sw    $sp, 0($t1)\n"
+        "addiu $t1, $t1, -4\n"
+        "addu  $sp, $t1, $zero\n"
+        "jal   func_8014F74C\n"
+        "lui   $at, %%hi(D_801D961C)\n"
+        "sw    $v0, %%lo(D_801D961C)($at)\n"
+        "addiu $sp, $sp, 4\n"
+        "lw    $sp, 0($sp)\n"
+        "lui   $v0, %%hi(D_801D961C)\n"
+        "lw    $v0, %%lo(D_801D961C)($v0)\n"
+        "lw    $ra, 16($sp)\n"
+        "addiu $sp, $sp, 24\n"
+        : : : "memory");
+}
+
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8014F74C);
 
@@ -1732,7 +2053,38 @@ INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8014FBC0);
 
 DEFINE_func_8014FC18()  /* dedup: shared engine-core @0x8014FC18 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8014FCFC);
+// @class: other
+// @stuck: none — MATCH; handwritten scratchpad-stack-switch sequencer (manipulates $sp), modeled on byte-proven func_8014CCB4 precedent (identical body, callee swapped to func_8014FD54)
+#include "common.h"
+
+extern int func_8014FD54(int param_1);
+
+void func_8014FCFC(void)
+{
+    __asm__ __volatile__(
+        ".set noreorder\n"
+        "addiu $sp, $sp, -24\n"
+        "lui   $v1, 0x1f80\n"
+        "ori   $v1, $v1, 0x03fc\n"
+        "sw    $ra, 16($sp)\n"
+        "addu  $t0, $v1, $zero\n"
+        "lw    $t1, 0($t0)\n"
+        "nop\n"
+        "sw    $sp, 0($t1)\n"
+        "addiu $t1, $t1, -4\n"
+        "addu  $sp, $t1, $zero\n"
+        "jal   func_8014FD54\n"
+        "lui   $at, %%hi(D_801D9618)\n"
+        "sw    $v0, %%lo(D_801D9618)($at)\n"
+        "addiu $sp, $sp, 4\n"
+        "lw    $sp, 0($sp)\n"
+        "lui   $v0, %%hi(D_801D9618)\n"
+        "lw    $v0, %%lo(D_801D9618)($v0)\n"
+        "lw    $ra, 16($sp)\n"
+        "addiu $sp, $sp, 24\n"
+        : : : "memory");
+}
+
 
 // @class: regalloc-order
 // @stuck: none — MATCH; pinned result to $v0 so ret lands in $v1 (target's alloc); func_80149290 3-arg via call-site cast
@@ -1754,7 +2106,38 @@ INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_801502EC);
 
 DEFINE_func_80150460()  /* dedup: shared engine-core @0x80150460 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80150480);
+// @class: other
+// @stuck: none — MATCH (fully-handwritten scratchpad-stack-switch sequencer; manipulates $sp directly around a call — no normal C produces this; modeled verbatim on the byte-proven func_8014CCB4 inline-asm precedent in this same overlay)
+#include "common.h"
+
+extern void func_801504D8(u16 *a0);
+
+s32 func_80150480(s32 _arg0)
+{
+    __asm__ __volatile__(
+        ".set noreorder\n"
+        "addiu $sp, $sp, -24\n"
+        "lui   $v1, 0x1f80\n"
+        "ori   $v1, $v1, 0x03fc\n"
+        "sw    $ra, 16($sp)\n"
+        "addu  $t0, $v1, $zero\n"
+        "lw    $t1, 0($t0)\n"
+        "nop\n"
+        "sw    $sp, 0($t1)\n"
+        "addiu $t1, $t1, -4\n"
+        "addu  $sp, $t1, $zero\n"
+        "jal   func_801504D8\n"
+        "lui   $at, %%hi(D_801D9618)\n"
+        "sw    $v0, %%lo(D_801D9618)($at)\n"
+        "addiu $sp, $sp, 4\n"
+        "lw    $sp, 0($sp)\n"
+        "lui   $v0, %%hi(D_801D9618)\n"
+        "lw    $v0, %%lo(D_801D9618)($v0)\n"
+        "lw    $ra, 16($sp)\n"
+        "addiu $sp, $sp, 24\n"
+        : : : "memory");
+}
+
 
 DEFINE_func_801504D8()  /* dedup: shared engine-core @0x801504D8 (src/shared) */
 
@@ -3404,7 +3787,22 @@ INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8015FBE0);
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8015FCC8);
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8015FD74);
+// @class: plumbing
+// @stuck: none — MATCH expected; simple 3-call sequence with global table index
+
+extern unsigned int D_80189514[];
+
+extern void func_80147324(s32 arg0);
+extern s32 func_8013767C(s32 a0);
+extern void func_80146CA0(void *a0);
+
+void func_8015FD74(int param_1)
+{
+    ((int (*)(int))func_80147324)(0x18);
+    *(int *)(param_1 + 0x198) = func_8013767C(D_80189514[*(unsigned char *)(param_1 + 0x1a0)]);
+    ((int (*)(int))func_80146CA0)(param_1);
+}
+
 
 DEFINE_func_8015FDCC()  /* dedup: shared engine-core @0x8015FDCC (src/shared) */
 
@@ -3812,7 +4210,22 @@ INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80163408);
 
 DEFINE_func_8016345C()  /* dedup: shared engine-core @0x8016345C (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_801634D8);
+// @class: struct
+// @stuck: none — MATCH (unaligned 8-byte memcpy from global into stack buffer, then forward to callee)
+
+extern char D_801D8BB0[8];
+
+extern void *memcpy(void *dst, const void *src, unsigned int n);
+extern void func_80163534(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
+
+void func_801634D8(s32 param_1, u16 param_2, u16 param_3, s32 param_4, u16 param_5)
+{
+    char buf[8];
+
+    memcpy(buf, D_801D8BB0, 8);
+    ((void (*)(s32, u16, u16, s32, u16, s32))func_80163534)(param_1, param_2, param_3, param_4, param_5, (s32)buf);
+}
+
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80163534);
 
@@ -4637,7 +5050,24 @@ DEFINE_func_8016B964()  /* dedup: shared engine-core @0x8016B964 (src/shared) */
 
 DEFINE_func_8016B984()  /* dedup: shared engine-core @0x8016B984 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8016B9F8);
+// @class: regalloc-order
+// @stuck: none — MATCH (result is func_8012EFB8's return saved in $s0 across the func_80015954 call; the save-move fills the 2nd call's delay slot. func_80015954's return is discarded.)
+
+
+extern s32 D_801D9A88;
+extern void func_8012EFB8(s32 a0);
+extern void func_80015954(s32 a0, s32 a1);
+
+s32 func_8016B9F8(s32 param_1)
+{
+    s32 buf[2];
+    u32 v;
+
+    v = ((u32 (*)(s32 *, s32 *))func_8012EFB8)(&D_801D9A88, buf);
+    ((void (*)(s32 *, s32 *))func_80015954)(buf, (s32 *)(param_1 + 4));
+    return (v & 0xffffefff) != 0;
+}
+
 
 DEFINE_func_8016BA48()  /* dedup: shared engine-core @0x8016BA48 (src/shared) */
 
@@ -6135,7 +6565,22 @@ INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80175184);
 
 DEFINE_func_801751D8()  /* dedup: shared engine-core @0x801751D8 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80175218);
+// @class: struct
+// @stuck: none — MATCH (fn-ptr table indexed by D_80078EC0-1; param preserved in $s0 across 1st call)
+
+
+extern u8 D_80078EC0;
+extern void (*D_8018A1AC[])(s32);
+extern void func_80146CA0(void *a0);
+
+s32 func_80175218(void * param_1)
+{
+    s32 i = D_80078EC0 - 1;
+
+    D_8018A1AC[i](param_1);
+    ((void (*)(s32))func_80146CA0)(param_1);
+}
+
 
 // @class: struct
 // @stuck: none — MATCH
@@ -7746,7 +8191,23 @@ void func_80184554(s32 a0) {
     *(s32 *)(a0 + 0x1C) = 0x14;
 }
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80184594);
+// @class: schedule
+// @stuck: none — MATCH; read chained load into a temp post-call so gcc schedules lw early ($s0 holds call-crossing param naturally, no pins needed)
+
+extern void func_8012A828(s32 a0, void *a1);
+extern void D_80196F3C;
+
+void func_80184594(s32 param) {
+    u16 v;
+    *(s16 *)(param + 2) = 3;
+    ((void (*)(s32, s32))func_8012A828)(param, (s32)&D_80196F3C);
+    v = *(u16 *)(*(s32 *)(param + 0x78) + 2);
+    *(s16 *)(param + 0x5e) = 0;
+    *(s16 *)(param + 0xdc) = 0;
+    *(s32 *)(param + 0x1c) = 0x2d;
+    *(s16 *)(param + 0x5c) = v;
+}
+
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_801845EC);
 
@@ -7809,7 +8270,26 @@ void func_80184AEC(s32 arg0) {
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80184B24);
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80184BB4);
+// @class: plumbing
+// @stuck: none — MATCH expected (single call-crossing local pins to $s0 naturally; lhu via unsigned short)
+
+extern s32 func_8012B8E4(s32 arg0, s32 arg1);
+extern s32 func_8012BEE8(s32 a0);
+extern void func_801846F8(s32 a0);
+
+void func_80184BB4(int param_1)
+{
+    int v;
+    unsigned short *p;
+
+    v = func_8012B8E4(param_1, 4);
+    p = (unsigned short *)(*(int *)(param_1 + 0x20) + 0x12);
+    *p = (unsigned short)(*p + v);
+    if (func_8012BEE8(param_1) != 0) {
+        func_801846F8(param_1);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80184C0C);
 
