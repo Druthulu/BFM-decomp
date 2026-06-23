@@ -650,7 +650,10 @@ ad50:
 
 DEFINE_func_801426D4()  /* dedup: shared engine-core @0x801426D4 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80142740);
+// @class: plumbing
+// @stuck: none — MATCH expected (param saved in $s0 across call, guarded tail call)
+DEFINE_func_80142740()  /* dedup: shared engine-core @0x80142740 (src/shared) */
+
 
 extern void func_8012C218(void *a0);
 
@@ -3154,7 +3157,11 @@ INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_801506A4);
 
 DEFINE_func_80150820()  /* dedup: shared engine-core @0x80150820 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8015086C);
+// @class: plumbing
+// @stuck: none — MATCH expected; param reused across calls naturally lands in $s0
+
+DEFINE_func_8015086C()  /* dedup: shared engine-core @0x8015086C (src/shared) */
+
 
 DEFINE_func_801508B4()  /* dedup: shared engine-core @0x801508B4 (src/shared) */
 
@@ -4302,7 +4309,11 @@ DEFINE_func_80157A8C()  /* dedup: shared engine-core @0x80157A8C (src/shared) */
 DEFINE_func_80157AC8()  /* dedup: shared engine-core @0x80157AC8 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80157B74);
+// @class: plumbing
+// @stuck: none — MATCH (simple if/else STUB; lhu 0xB8 vs 0x8000)
+
+DEFINE_func_80157B74()  /* dedup: shared engine-core @0x80157B74 (src/shared) */
+
 
 DEFINE_func_80157BC8()  /* dedup: shared engine-core @0x80157BC8 (src/shared) */
 
@@ -6818,7 +6829,11 @@ DEFINE_func_80165A18()  /* dedup: shared engine-core @0x80165A18 (src/shared) */
 
 DEFINE_func_80165A20()  /* dedup: shared engine-core @0x80165A20 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80165A50);
+// @class: plumbing
+// @stuck: none — MATCH
+
+DEFINE_func_80165A50()  /* dedup: shared engine-core @0x80165A50 (src/shared) */
+
 
 DEFINE_func_80165A78()  /* dedup: shared engine-core @0x80165A78 (src/shared) */
 
@@ -7744,7 +7759,10 @@ DEFINE_func_8016D4DC()  /* dedup: shared engine-core @0x8016D4DC (src/shared) */
 
 DEFINE_func_8016D5EC()  /* dedup: shared engine-core @0x8016D5EC (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8016D64C);
+// @class: other
+// @stuck: none — MATCH (expected): short-return truthiness via sll16+bnez, param saved in $s0 across call
+DEFINE_func_8016D64C()  /* dedup: shared engine-core @0x8016D64C (src/shared) */
+
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8016D688);
 
@@ -8061,7 +8079,11 @@ DEFINE_func_8016F470()  /* dedup: shared engine-core @0x8016F470 (src/shared) */
 
 DEFINE_func_8016F494()  /* dedup: shared engine-core @0x8016F494 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8016F4C4);
+// @class: plumbing
+// @stuck: none — MATCH expected (param crosses first call into $s0, passed to 2nd callee)
+
+DEFINE_func_8016F4C4()  /* dedup: shared engine-core @0x8016F4C4 (src/shared) */
+
 
 DEFINE_func_8016F4F4()  /* dedup: shared engine-core @0x8016F4F4 (src/shared) */
 
@@ -8432,7 +8454,11 @@ void func_80170D68(void *a0) {
 
 DEFINE_func_80170DA4()  /* dedup: shared engine-core @0x80170DA4 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80170DE0);
+// @class: plumbing
+// @stuck: none — expecting MATCH (u8 mask via andi 0xFF, if/else picks data extern)
+
+DEFINE_func_80170DE0()  /* dedup: shared engine-core @0x80170DE0 (src/shared) */
+
 
 extern void (*D_8018A054[])(void *);
 
@@ -8643,7 +8669,11 @@ DEFINE_func_80172310()  /* dedup: shared engine-core @0x80172310 (src/shared) */
 
 DEFINE_func_80172358()  /* dedup: shared engine-core @0x80172358 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_801723C4);
+// @class: plumbing
+// @stuck: none — MATCH (simple stub: 3 calls, 1 store; s0/s1 hold the two call-crossing params)
+
+DEFINE_func_801723C4()  /* dedup: shared engine-core @0x801723C4 (src/shared) */
+
 
 DEFINE_func_80172414()  /* dedup: shared engine-core @0x80172414 (src/shared) */
 
@@ -8697,7 +8727,12 @@ DEFINE_func_801726B8()  /* dedup: shared engine-core @0x801726B8 (src/shared) */
 
 DEFINE_func_801726C4()  /* dedup: shared engine-core @0x801726C4 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_801726D0);
+// @class: plumbing
+// @stuck: none — MATCH expected (stub: 3 global stores + tail call)
+
+
+DEFINE_func_801726D0()  /* dedup: shared engine-core @0x801726D0 (src/shared) */
+
 
 DEFINE_func_80172710()  /* dedup: shared engine-core @0x80172710 (src/shared) */
 
@@ -8824,7 +8859,11 @@ s32 func_80173078(void *a0) {
     return D_8018A0E8[*(u8 *)((s32)a0 + 0x214)](a0);
 }
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_801730B4);
+// @class: plumbing
+// @stuck: none — MATCH expected (STUB: 4 sequential calls, param saved in $s0)
+
+DEFINE_func_801730B4()  /* dedup: shared engine-core @0x801730B4 (src/shared) */
+
 
 DEFINE_func_801730FC()  /* dedup: shared engine-core @0x801730FC (src/shared) */
 
@@ -9020,7 +9059,11 @@ void func_80174158(s32 a0) {
 
 DEFINE_func_80174188()  /* dedup: shared engine-core @0x80174188 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_801741A8);
+// @class: plumbing
+// @stuck: none — MATCH (3 jal stubs + two 0xA00000 global stores reusing one lui)
+
+DEFINE_func_801741A8()  /* dedup: shared engine-core @0x801741A8 (src/shared) */
+
 
 DEFINE_func_801741EC()  /* dedup: shared engine-core @0x801741EC (src/shared) */
 
@@ -9100,7 +9143,11 @@ DEFINE_func_80174674()  /* dedup: shared engine-core @0x80174674 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80174684);
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_801746A4);
+// @class: plumbing
+// @stuck: none — MATCH (straight stub: two calls, fn-ptr args + 0x1000000 immediate)
+
+DEFINE_func_801746A4()  /* dedup: shared engine-core @0x801746A4 (src/shared) */
+
 
 DEFINE_func_801746DC()  /* dedup: shared engine-core @0x801746DC (src/shared) */
 
@@ -10815,7 +10862,18 @@ void func_8017E9C0(void *arg0) {
     }
 }
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8017EA2C);
+// @class: plumbing
+// @stuck: none — MATCH (expected): param saved to $s0 across first call, passed to second
+
+extern void func_8016F0E4(void);
+extern void func_80165770(void);
+
+void func_8017EA2C(int param_1)
+{
+    ((void (*)(int))func_8016F0E4)(param_1);
+    ((void (*)(int))func_80165770)(param_1);
+}
+
 
 extern s32 (*D_8018A7B0[])();
 

@@ -22136,4 +22136,155 @@
         return; \
     }
 
+#define DEFINE_func_80165A50() \
+    extern u8 D_80078EC1; \
+    extern u8 D_80078EC2; \
+    extern u8 D_80078EC3; \
+    extern s8 D_80078EC4; \
+    s32 func_80165A50(s32 _arg0) \
+    { \
+        D_80078EC1 = 0; \
+        D_80078EC2 = 0; \
+        D_80078EC3 = 0; \
+        D_80078EC4 = 0; \
+    }
+
+#define DEFINE_func_8016F4C4() \
+    extern void func_8016F0E4(void); \
+    extern void func_80165770(void); \
+    s32 func_8016F4C4(s32 param_1) \
+    { \
+        func_8016F0E4(); \
+        ((void (*)(s32))func_80165770)(param_1); \
+    }
+
+#define DEFINE_func_80142740() \
+    extern s32 func_8012BEE8(s32 a0); \
+    extern s32 func_8012AD50(void *a0); \
+    void func_80142740(int param_1) \
+    { \
+        if (((int (*)(void))func_8012BEE8)() != 0) { \
+            ((void (*)(int))func_8012AD50)(param_1); \
+        } \
+    }
+
+#define DEFINE_func_801746A4() \
+    extern void func_80172710(void); \
+    extern s32 func_80172760(s32 a0); \
+    extern void func_8016EDEC(s32 a0, s32 a1, s32 a2); \
+    extern void func_80174684(void *); \
+    void func_801746A4(void) \
+    { \
+        ((void (*)(void *, int))func_8016EDEC)(func_80172710, 0x1000000); \
+        func_80174684(func_80172760); \
+    }
+
+#define DEFINE_func_8016D64C() \
+    extern short func_8016CBC0(void); \
+    extern void func_80146C3C(void); \
+    void func_8016D64C(int param_1) \
+    { \
+        if (func_8016CBC0() == 0) { \
+            ((void (*)(int))func_80146C3C)(param_1); \
+        } \
+        return; \
+    }
+
+#define DEFINE_func_801726D0() \
+    extern s32 func_80172760(s32 a0); \
+    extern s32 func_80174650(s32); \
+    extern void (*D_80127088)(void); \
+    extern s32 D_801270BC; \
+    extern s16 D_80126B0C; \
+    void func_801726D0(void * _arg0) \
+    { \
+        D_80127088 = func_80172760; \
+        D_801270BC = 0; \
+        D_80126B0C = 0; \
+        ((void (*)(void))func_80174650)(); \
+    }
+
+#define DEFINE_func_801741A8() \
+    extern void func_8014BDC8(void); \
+    extern void func_8014BB0C(void); \
+    extern void func_8014B2A8(void); \
+    extern s32 D_80078ED8; \
+    extern s32 D_80078EA4; \
+    void func_801741A8(s32 _arg0) \
+    { \
+        func_8014BDC8(); \
+        func_8014BB0C(); \
+        func_8014B2A8(); \
+        D_80078ED8 = 0xA00000; \
+        D_80078EA4 = 0xA00000; \
+    }
+
+#define DEFINE_func_8015086C() \
+    extern s32 func_80146994(s32 a0, s32 a1, s32 a2, s32 a3); \
+    extern void func_8014B2F8(void); \
+    extern void func_80147324(s32 arg0); \
+    void func_8015086C(int param_1) \
+    { \
+        ((void (*)(int, int, int, int))func_80146994)(0x48, param_1, 0, 0); \
+        ((void (*)(int))func_8014B2F8)(param_1); \
+        func_80147324(0xA1B); \
+        return; \
+    }
+
+#define DEFINE_func_801730B4() \
+    extern void func_8014706C(void *arg0); \
+    extern void func_801542A4(void); \
+    extern void func_80171A1C(u8 *a0); \
+    extern void func_801730FC(struct S801730FC *a0); \
+    extern s32 D_80127508; \
+    void func_801730B4(s32 a0) { \
+        func_8014706C((void *)a0); \
+        ((void (*)(s32, s32))func_801542A4)(a0, D_80127508); \
+        ((void (*)(void *))func_80171A1C)((void *)a0); \
+        ((void (*)(void *))func_801730FC)((void *)a0); \
+    }
+
+#define DEFINE_func_801723C4() \
+    extern void func_801599A4(void *a0); \
+    extern void func_80147078(s32 *a0, s16 a1); \
+    extern void func_8014A1B0(s32 a0, s32 a1); \
+    void func_801723C4(s32 param_1, s32 param_2) \
+    { \
+        ((void (*)(void))func_801599A4)(); \
+        ((void (*)(int, int))func_80147078)(param_1, 0xd); \
+        *(int *)(param_1 + 0x178) = param_2; \
+        func_8014A1B0(param_1, param_2); \
+    }
+
+#define DEFINE_func_80157B74() \
+    extern void func_801599A4(void *a0); \
+    extern void func_80159B3C(void *a0); \
+    extern s32 func_80161208(); \
+    void func_80157B74(int param_1) \
+    { \
+        if (*(unsigned short *)(param_1 + 0xB8) == 0x8000) { \
+            ((void (*)(void))func_801599A4)(); \
+            ((void (*)(int))func_80159B3C)(param_1); \
+        } else { \
+            ((void (*)(int))func_80161208)(param_1); \
+        } \
+    }
+
+#define DEFINE_func_80170DE0() \
+    extern void *D_8011F738; \
+    extern s32 D_8011F73C; \
+    extern s32 D_8011F740; \
+    extern s32 func_80029178(s32 arg); \
+    extern void func_801718AC(void *a0); \
+    void func_80170DE0(u8 * _arg0) \
+    { \
+        s32 arg; \
+        if (((u8 (*)(s32))func_80029178)(D_8011F738)) { \
+            arg = D_8011F740; \
+        } else { \
+            arg = D_8011F73C; \
+        } \
+        ((void (*)(s32))func_801718AC)(arg); \
+    }
+
 #endif
