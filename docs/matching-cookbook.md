@@ -1510,6 +1510,15 @@ byte-matched evidence fn. (Pins/array-decay/statement-order/shared-ret0/for-vs-d
   byte-misses in a hand-asm `$sp`-switch wrapper; evidence func_8014D04C, func_8014D738, func_8014DF3C, func_8014E434,
   func_8014E6A0, func_8014E934, func_8014ED28, func_8014F1F4, func_8014F468, func_8014F6F4, func_8014FCFC, func_80150480
   (12 banked this wave, family of func_8014CCB4).*
+- **byte/`u8` in-place pre-decrement that tests the OLD value → write the subtract as `+ 0xFF`, NOT `- 1`:** for a
+  `u8` field decremented in place where the original tests the pre-decrement value (`c = p[i]; p[i] = c-1; if (c==0)…`,
+  emitting `lbu;addiu $v0,$v1,0xFF;bnez $v1;sb $v0`), gcc-2.7.2 does NOT canonicalize `c + 0xFF` and `c - 1` to the
+  same immediate even though they are equal mod 256 and the `sb` truncates either way — it materializes whatever
+  signed-representable literal you wrote. Empirically (this toolchain): `c + 0xFF` → `addiu …,0xFF` (`2462…00FF`,
+  matches), `c - 1` (and `p[i]-1`) → `addiu …,-1` (`2462…FFFF`, MISSES); the distinction holds even on a plain `int`.
+  So when the target's decrement immediate is `0xFF` (or any positive wrap-literal) rather than `-1`, write the
+  wrapping form `p[i] = c + 0xFF;` explicitly. *fixes the `addiu …,-1`↔`addiu …,0xFF` immediate-literal mismatch on a
+  byte predecrement; evidence func_8016EBA8 (`param_1[2] = c + 0xFF` with pre-decrement `if (c==0)`).*
 
 > **⚠ CANDIDATE (unverified) — the next two bullets are from `func_801775E0`, a NEAR-MISS (closeness 2, NOT
 > byte-banked)**, appended directly by a wave-13 drafter (that drafter→cookbook path is now blocked, `commit:0219`).
