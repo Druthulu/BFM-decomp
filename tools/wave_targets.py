@@ -96,6 +96,31 @@ def plumbing_blocked():
     return blocked
 
 
+def reserved_walls(min_attempts=2):
+    """Near-misses re-drafted >= min_attempts times WITHOUT banking are walls: two independent
+    toolkit-aware drafters (the initial wave + a smallest-first re-serve with the richer cookbook)
+    both failed to byte-match. Crackable near-misses crack on attempt 2 (observed: func_801651B8 /
+    func_801549F8 / func_80153D7C); the survivors are permuter-class schedule/regalloc/iv walls
+    (func_80140E6C: close=4 on BOTH wave 24 & 25). Smallest-first keeps re-serving them at the front
+    of every wave (fixed small nins) -> a slow leak that compounds as the band climbs. Skip them from
+    blind waves; they stay in the backlog for the grinder (permuter) or a TARGETED `--class` re-attempt
+    (which feeds the drafter the prior stuck-point — a far better shot than another blind draft).
+    A banked fn isn't a live stub, so it's already excluded by the stubs gate (it never reaches here)."""
+    import collections
+    p = os.path.join(REPO, ".run/backlog.jsonl")
+    if not os.path.exists(p):
+        return set()
+    c = collections.Counter()
+    for line in open(p):
+        line = line.strip()
+        if not line:
+            continue
+        r = json.loads(line)
+        if r.get("status") == "near" and r.get("name"):
+            c[r["name"]] += 1
+    return {n for n, k in c.items() if k >= min_attempts}
+
+
 def emit(batch, out):
     s = json.dumps(batch, indent=0)
     if out == "-":
@@ -147,7 +172,7 @@ def main():
 
     m = json.load(open(os.path.join(REPO, ".run/fuel_manifest.json")))
     stubs = live_stubs()
-    walls = set() if a.include_walls else (backlog_walls() | plumbing_blocked())
+    walls = set() if a.include_walls else (backlog_walls() | plumbing_blocked() | reserved_walls())
 
     def ok(t):
         if t["name"] not in stubs or not t["cached"]:
