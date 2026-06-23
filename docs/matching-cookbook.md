@@ -1530,6 +1530,16 @@ byte-matched evidence fn. (Pins/array-decay/statement-order/shared-ret0/for-vs-d
   `sw $v0`/delay-slot schedule. (General: any "store an allocator/constructor result to a struct field, null-check it,
   then use it" pattern.) *fixes the call-result store/test landing in the wrong register + lost delay-slot store;
   evidence func_80142DC4 (`*(int*)(param_1+0x20)=v0=func_8012C1B8(); if(v0==0)… else …v0…`).*
+- **force a memory-operand RELOAD (two identical `lw`s) with NO barrier → place the intervening store between the two
+  reads in SOURCE ORDER:** when the target reads the same field twice (`lw $v0,K(base)` … then `lw $v0,K(base)` again) with
+  a store to a *different* field in between — i.e. gcc-2.7.2 -O2 did NOT keep `*(p+K)` cached across that store — reproduce
+  the reload purely by statement order: write the dependent store as a statement that *uses* `*(p+K)` and place it BEFORE
+  the second use, so an unrelated write (`*(p+J)=…`) sits between the two reads and defeats the load-CSE. No `__asm__`
+  clobber and no pin needed (this is the barrier-free counterpart of the §21 memory-clobber reload bullet, which is for a
+  *derived-index* CSE; here the CSE'd thing is the *memory load* itself). Hoisting the field into one local (`int t =
+  *(p+K); …; use t;`) instead keeps it in a reg → a single `lw`, misses. *fixes a missing 2nd `lw <field>` reload across an
+  unrelated field store; evidence func_80168430 (`*(p+0x30)=D[*(p+0x2C)];` placed before `iVar1=(*(p+0x2C)<<17)>>16;` → the
+  `sw 0x30` between the two `lw 0x2C` forces the reload, 33/33 ins).*
 
 > **⚠ CANDIDATE (unverified) — the next two bullets are from `func_801775E0`, a NEAR-MISS (closeness 2, NOT
 > byte-banked)**, appended directly by a wave-13 drafter (that drafter→cookbook path is now blocked, `commit:0219`).
