@@ -1589,6 +1589,21 @@ byte-matched evidence fn. (Pins/array-decay/statement-order/shared-ret0/for-vs-d
   whenever the target re-reads a global it just stored a literal into. *fixes a folded-away `lhu` reload + merged
   double `sh` to one global; evidence func_801806D8 (`volatile u16 D_80126B96; D_x=2; D_x=D_x|0x4000;` →
   `sh 2; lhu; ori 0x4000; sh`, byte-gated 56 ins).*
+- **force ONE specific field/pointer load to RELOAD (target re-emits `lw K(base)` where gcc -O2 CSEs it across
+  intervening calls/non-field stores) → cast THAT access `*(volatile T*)`, NOT a global `__asm__` fence:** when the
+  target reads a struct field through a pointer twice (`lw 0x64($s0)` … other code (calls, stores to *unrelated*
+  addresses) … `lw 0x64($s0)` again) but gcc -O2 keeps the first load cached in a register (a single `lw`, the
+  field reused via regalloc — so neither statement-order nor a constant store-forward defeats it), wrap **each
+  reload site** in a volatile pointer cast: `iVar = *(volatile int *)(param_1 + 0x32);` (and reuse it for the
+  follow-on field reads off `iVar`). The `volatile` makes that ONE access a non-CSE-able memory reference, so gcc
+  re-emits `lw 0x64($s0)` there, while leaving all other scheduling untouched. This is the SURGICAL reload lever —
+  distinct from the §21 non-volatile `__asm__("":::"memory")` clobber (a function-wide fence, for a *derived-index*
+  CSE), the statement-order reload (needs an *unrelated field store* to fall between the two reads), and the §22
+  `volatile`-qualified GLOBAL (defeats *constant store-forwarding* of a known literal): here the CSE'd thing is a
+  *runtime field load* reused via register, the intervening ops are calls/foreign stores (not a usable field-store),
+  and you must NOT add a global barrier (it perturbs the rest of the schedule). *fixes a folded-away 2nd/3rd `lw <field>`
+  reload of a pointer-reached struct field across intervening calls; evidence func_801424E4 (`*(volatile int*)(param_1+0x32)`
+  ×2 → `lw 0x64($s0)` re-emitted at each use, byte-gated 58 ins).*
 
 > **⚠ CANDIDATE (unverified) — the next two bullets are from `func_801775E0`, a NEAR-MISS (closeness 2, NOT
 > byte-banked)**, appended directly by a wave-13 drafter (that drafter→cookbook path is now blocked, `commit:0219`).
