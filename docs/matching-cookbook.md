@@ -1604,6 +1604,15 @@ byte-matched evidence fn. (Pins/array-decay/statement-order/shared-ret0/for-vs-d
   and you must NOT add a global barrier (it perturbs the rest of the schedule). *fixes a folded-away 2nd/3rd `lw <field>`
   reload of a pointer-reached struct field across intervening calls; evidence func_801424E4 (`*(volatile int*)(param_1+0x32)`
   ×2 → `lw 0x64($s0)` re-emitted at each use, byte-gated 58 ins).*
+- **fill a load-delay slot in a tail-store sequence → read the field into an explicit TEMP one statement EARLY
+  (refinement of §2-T2):** when a tail reads several fields from an out-param/struct and then writes several
+  *constant* stores, and the target schedules ONE of those field loads early so its load-delay slot is filled by a
+  following `li` (the value held in a reg and stored LAST), pull that load up with a named temp: `c = out.c; *(int*)(p+0x1c)=0x5a; *(short*)(p+0x34)=1; *(short*)(p+0xe)=c;` → gcc emits the `lhu` for `out.c` ahead of the
+  `li 0x5a` (delay-slot filled) and the `sh c` last from the held register. Leaving it inline as the last store
+  (`*(short*)(p+0xe)=out.c;`) instead lets gcc defer a *different* field's store and the schedule diverges. The temp
+  only relocates the load in source order; §2-T2 names the mechanism but punts the load-delay case to the permuter —
+  this is the concrete C lever for it. *fixes a deferred-field-store / unfilled load-delay schedule in a const-store
+  tail; evidence func_801856F8 (`c = out.c;` hoisted before the `0x5a`/`1` stores, byte-gated 71 ins).*
 
 > **⚠ CANDIDATE (unverified) — the next two bullets are from `func_801775E0`, a NEAR-MISS (closeness 2, NOT
 > byte-banked)**, appended directly by a wave-13 drafter (that drafter→cookbook path is now blocked, `commit:0219`).
