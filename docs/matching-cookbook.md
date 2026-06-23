@@ -1519,6 +1519,17 @@ byte-matched evidence fn. (Pins/array-decay/statement-order/shared-ret0/for-vs-d
   So when the target's decrement immediate is `0xFF` (or any positive wrap-literal) rather than `-1`, write the
   wrapping form `p[i] = c + 0xFF;` explicitly. *fixes the `addiu …,-1`↔`addiu …,0xFF` immediate-literal mismatch on a
   byte predecrement; evidence func_8016EBA8 (`param_1[2] = c + 0xFF` with pre-decrement `if (c==0)`).*
+- **store a call result AND test/reuse it in one expression → combined assignment `*(T*)(p+k) = local = f();` (NOT a
+  store of a re-read local):** when the target does `jal f; sw $v0,k(base)` (the store in the call's delay slot, or
+  immediately after) then BRANCHES on `$v0` (`beqz/bnez $v0`) and/or copies it to a callee-saved reg
+  (`addu $sX,$v0,$zero`) for use in the success arm, write the store, the test, and the reuse off ONE local that is
+  assigned the call result in the SAME statement as the store: `*(int*)(p+0x20) = v0 = f(); if (v0==0){…} else {…use v0…}`.
+  gcc-2.7.2 then keeps the result in `$v0` so the `sw $v0` (delay slot) and the `beqz $v0` both read it directly, and
+  emits the `addu $sX,$v0` copy ONLY because the success arm reuses `v0` across later calls. The naive two-statement
+  form (`v0 = f(); *(int*)(p+0x20) = v0;`) instead emits the copy-to-`$sX` BEFORE the store and loses the bare
+  `sw $v0`/delay-slot schedule. (General: any "store an allocator/constructor result to a struct field, null-check it,
+  then use it" pattern.) *fixes the call-result store/test landing in the wrong register + lost delay-slot store;
+  evidence func_80142DC4 (`*(int*)(param_1+0x20)=v0=func_8012C1B8(); if(v0==0)… else …v0…`).*
 
 > **⚠ CANDIDATE (unverified) — the next two bullets are from `func_801775E0`, a NEAR-MISS (closeness 2, NOT
 > byte-banked)**, appended directly by a wave-13 drafter (that drafter→cookbook path is now blocked, `commit:0219`).
