@@ -1495,6 +1495,21 @@ byte-matched evidence fn. (Pins/array-decay/statement-order/shared-ret0/for-vs-d
   both forms emit the same `ori`. Pick `u16*` to get `ori`, `s16*` to get the sign-extending `addiu`. *fixes the
   `addiu`(sign-ext)↔`ori`(zero-ext) constant-build before a halfword store; evidence func_8017E924 + func_8017E974
   (0xc040), func_80182E30 (0xaa10).*
+- **`$sp`-manipulating scratchpad-stack-switch trampoline → a FULL `__asm__ __volatile__` body (clobber `"memory"`),
+  copied from the byte-proven sibling with ONLY the `jal` target + the `D_801D961x` symbol swapped — plus three
+  maspsx rules that are byte-load-bearing.** This 22-ins idiom (repoint `$sp` into the D-cache scratchpad stack at
+  `*(0x1F8003FC)`, call one engine fn, stash `$v0` through `D_801D961x`, restore `$sp`) is NOT expressible in C
+  (it rewrites `$sp` around a call), so write the whole body as inline asm with `.set noreorder`. It is a 15-member
+  reach-134 duplicate family (canonical `func_8014CCB4`), so each match is high-value. The three rules the wave proved
+  (each a +1-ins byte-miss if violated): (1) **do NOT write an explicit `nop` after `jal`** — maspsx
+  `--aspsx-version=2.56` auto-fills the delay slot; put `lui $at,%%hi(D_801D961x)` directly after the `jal` and its
+  auto-nop becomes the slot (→ `jal`/`nop`/`lui` exactly); (2) **no trailing `.set reorder`** — it emits a stray
+  epilogue nop; (3) **escape `%hi`/`%lo` as `%%hi`/`%%lo`** inside the `__asm__` string (a bare `%` is read as an
+  operand placeholder → assembler error). (General beyond this trampoline: rules 1–3 apply to ANY hand-written inline-
+  asm body carrying a `jal` + `%hi`/`%lo` relocations.) *fixes double-delay-nop / stray-epilogue-nop / `%`-placeholder
+  byte-misses in a hand-asm `$sp`-switch wrapper; evidence func_8014D04C, func_8014D738, func_8014DF3C, func_8014E434,
+  func_8014E6A0, func_8014E934, func_8014ED28, func_8014F1F4, func_8014F468, func_8014F6F4, func_8014FCFC, func_80150480
+  (12 banked this wave, family of func_8014CCB4).*
 
 > **⚠ CANDIDATE (unverified) — the next two bullets are from `func_801775E0`, a NEAR-MISS (closeness 2, NOT
 > byte-banked)**, appended directly by a wave-13 drafter (that drafter→cookbook path is now blocked, `commit:0219`).
