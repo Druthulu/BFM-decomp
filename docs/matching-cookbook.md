@@ -1613,6 +1613,19 @@ byte-matched evidence fn. (Pins/array-decay/statement-order/shared-ret0/for-vs-d
   only relocates the load in source order; §2-T2 names the mechanism but punts the load-delay case to the permuter —
   this is the concrete C lever for it. *fixes a deferred-field-store / unfilled load-delay schedule in a const-store
   tail; evidence func_801856F8 (`c = out.c;` hoisted before the `0x5a`/`1` stores, byte-gated 71 ins).*
+- **handwritten GTE `sqr` body: WRITE the two cop2-latency `nop`s and VERIFY ON RAW BYTES — the assembler keeps
+  them; objdump (and `match_one`) only HIDE them (false "stripped" diff):** for a handwritten GTE squared-distance
+  fn (`lwc2 $9/$10/$11`, two latency `nop`s, `sqr 0`, `swc2 $25/$26/$27`), write the whole GTE op as an
+  `__asm__ __volatile__` body with the `"nop\n" "nop\n"` literally between the last `lwc2` and `sqr` (`: : "r"(&in[0])
+  : "$9","$10","$11","memory"`, store block pinning `$2`). `mipsel-as` does **NOT** strip those cop2 nops — they are
+  in the object. The trap that made a prior session wrongly mark this whole family "not C-source reachable": **objdump
+  ELIDES runs of zero words** (prints `\t...` for the two `00000000` nops), and `match_one` diffs via objdump → it
+  reports a spurious mismatch (e.g. "22 mismatched") for bytes that are actually identical. **VERIFY GTE/cop2 fns on
+  RAW bytes** (`objcopy -O binary --only-section=.text` then compare words), never on the objdump listing. (Independently
+  byte-confirmed here: `+0x054`/`+0x058` = `00000000`/`00000000` precede `4AA00428`/`sqr 0` in the built `.o`.) This
+  unblocks the entire handwritten GTE-`sqr` family (siblings func_8013E064/_8013E0FC/_8013E194/_8013E22C/_8013E298/
+  _8013E370/_8013E410). *fixes the false "cop2 nops stripped" residual (an objdump zero-run-elision artifact, not a
+  codegen miss); evidence func_8013E2C4 (43/43 raw bytes, banked + propagated ×13).*
 
 > **⚠ CANDIDATE (unverified) — the next two bullets are from `func_801775E0`, a NEAR-MISS (closeness 2, NOT
 > byte-banked)**, appended directly by a wave-13 drafter (that drafter→cookbook path is now blocked, `commit:0219`).
