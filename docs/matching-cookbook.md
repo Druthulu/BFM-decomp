@@ -1540,6 +1540,20 @@ byte-matched evidence fn. (Pins/array-decay/statement-order/shared-ret0/for-vs-d
   *(p+K); …; use t;`) instead keeps it in a reg → a single `lw`, misses. *fixes a missing 2nd `lw <field>` reload across an
   unrelated field store; evidence func_80168430 (`*(p+0x30)=D[*(p+0x2C)];` placed before `iVar1=(*(p+0x2C)<<17)>>16;` → the
   `sw 0x30` between the two `lw 0x2C` forces the reload, 33/33 ins).*
+- **EXPLOIT cross-jumping (the inverse of the §5a barrier) — duplicate the SAME call into BOTH if/else arms to merge
+  the `jal` while keeping per-arm operand setup:** when an `if/else` ends by calling ONE function with the same
+  argument-register layout but DIFFERENT constant/value args per arm, and the target emits ONE shared `jal` site
+  reached by a `j` from one arm + fall-through from the other (each arm doing its own `addu $a0,$base` + `addiu $a1,K`
+  beforehand, with a `nop` join delay slot), write the call LITERALLY IN BOTH ARMS: `if(c){ g(p,5); h(p,0x1C); }
+  else { g(p,4); h(p,0x11); }`. gcc-2.7.2's cross-jump pass (§5a) finds the two `jal h` insns RTL-identical → merges
+  them into one shared site, but the per-arm arg setup differs → stays duplicated → exactly the
+  `[arm1:setup; j join][arm2:setup; fall][join: jal; nop]` layout. The naive single-call form (compute K in the `if`,
+  then `h(p,K)` once after the join) instead schedules the arg setup differently and loses the dual-setup/`j`/`nop`
+  shape. (This is the deliberate-MERGE direction; §5a's `__asm__ __volatile__("")` barrier is the deliberate-KEEP-SEPARATE
+  direction — same pass, opposite goal. Combine with the §3-T4 branch-polarity invert to pick which arm is the `beqz`
+  fall-through.) *fixes a duplicated-vs-shared `jal` + missing per-arm arg setup / join `nop`; evidence func_80159BE4
+  (`func_80154A74(arg0,0x1C)` in the if-arm + `func_80154A74(arg0,0x11)` in the else-arm → one merged `jal` at the join,
+  40 ins).*
 
 > **⚠ CANDIDATE (unverified) — the next two bullets are from `func_801775E0`, a NEAR-MISS (closeness 2, NOT
 > byte-banked)**, appended directly by a wave-13 drafter (that drafter→cookbook path is now blocked, `commit:0219`).
