@@ -159,8 +159,11 @@ def main():
         return
     if a.rclass:
         rc = a.rclass.upper()
+        stubs = live_stubs()   # still-unbanked only (a banked fn left the INCLUDE_ASM stub set)
         recs = [r for r in backlog.load_best()
-                if r.get("status") == "near" and canon_class(r) == rc and r.get("name")]
+                if r.get("status") == "near" and canon_class(r) == rc and r.get("name")
+                and r["name"] in stubs                                          # skip already-banked (stale near records)
+                and isinstance(r.get("closeness"), int) and r["closeness"] > 0]  # genuine near-miss; close==0 = plumbing-blocked (re-draft can't bank)
         recs.sort(key=lambda r: (-(r.get("reach") or 1), r.get("closeness") if isinstance(r.get("closeness"), int) else 999))
         batch = [{"name": r["name"], "addr": r.get("addr") or ("0x" + r["name"][5:].lower()),
                   "nins": r.get("nins"), "class": rc, "asm": f"{ASM_SUBDIR}/{r['name']}.s",
