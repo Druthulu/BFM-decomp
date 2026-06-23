@@ -14,20 +14,23 @@
 > Everything below this section (the prior ×134 QUEUED-RUN block, TRIP HAND-OFF, POST-REBOOT, etc.) is a
 > HISTORICAL session-layer kept for the trail. **THIS section is the current state + the fresh-session plan.**
 
-**★ SESSION UPDATE 2026-06-23 (waves 17–25, reach-1 harvest LIVE — Drew's `/loop`):** Fleet **61.21%** ·
-banked_total **215** (session **+158** reach-1 ×1 banks over 9 waves; close-rate ~0.63→0.91→~0.70 as the size-band
-climbed 14→54 ins) · 136/136 byte-identical · 0 NON_MATCHING throughout (per-wave byte-gate, G3/P9). **7 new
-cookbook idioms distilled** (`commit:0225` u16-store→`ori` · `commit:0227` $sp-switch trampoline + 3 maspsx rules ·
-`commit:0230` byte-predecrement `+0xFF` not `-1` · `commit:0232` combined store-and-capture call-result · `commit:0235`
-barrier-free memory-operand reload via source order · `commit:0237` EXPLOIT cross-jumping (dual-arm call) · `commit:0240`
-unaligned-source packed-union load). **TWO pool-exclusion bugs FIXED:** (`commit:0228`) `plumbing_blocked()` scans ALL
-raw backlog records (was `load_best()`, masking `none — MATCH` self-match-gate-reject records); (`commit:0239`) NEW
-`reserved_walls()` skips near-misses re-drafted ≥2× without banking (permuter-class schedule/regalloc/iv walls that
-smallest-first kept re-serving at the wave front) → ~149 churners total now skipped (hand-finish / grinder / targeted
-`--class` fuel). **STOP left in place per Drew** (AskUserQuestion: kill switch = interrupt / `auto_stop.sh`, NOT the
-file). Orch_state: `pool=reach1`, `waves=25`. The fresh-session cycle below is unchanged. Honest ROI note: reach-1 is
-×1, so fleet barely moves per wave (+0.05% over 9 waves) — the value is `ov_SC01_077` completeness + the 7 distilled
-idioms (reach-134-applicable → a future wall re-attempt could bank ×134; recommended pivot flagged to Drew).
+**★ SESSION UPDATE 2026-06-23 (waves 17–30 — Drew's `/loop`; PIVOTED to reach-134 at wave 30):** Fleet **61.73%** ·
+banked_total **274** · 136/136 byte-identical · 0 NON_MATCHING throughout (per-wave byte-gate, G3/P9).
+**ARC:** waves 17–29 = reach-1 (×1) smallest-first harvest, banked ~183 over 13 waves but fleet only +0.06%
+(61.16→61.22) because reach-1 is ×1; the band climbed 14→75 ins and close-rate fell 0.9→0.33 (permuter-class
+scheduler/regalloc walls). **Wave 30 = the PIVOT (Drew's call): worker → `any-reach134` pool (reach-134, ×134).
+13 banks × propagated ×134 → fleet 61.22→61.73% (+0.51% in ONE wave, ~8.5× the entire reach-1 run).** `tractable`
+& `giants` pools are byte-exhausted (Phase 19/20); `any-reach134` (STUB-class reach-134 fns the WAVE/PINS/STRUCT
+`tractable` pool never covered) is the live ×134 fuel. **GRINDER RUNNING** (token-free decomp-permuter on backlog
+close≤30 near-misses; `.run/auto/STOP` CLEARED per Drew's explicit authorization "run the grinder / permission to do
+whatever"; kill switch is now `bash tools/auto_stop.sh` / interrupt). **12 new cookbook idioms** distilled
+(`commit:0225 commit:0227 commit:0230 commit:0232 commit:0235 commit:0237 commit:0240 commit:0243 commit:0245 commit:0247 commit:0249 commit:0253`); the last CRACKS
+a false dead-end — the GTE-`sqr` cop2-nop family was wrongly recorded "unproducible" (objdump elides zero-word runs →
+false match_one miss; verify on RAW bytes via `objcopy`). **TWO pool-exclusion bugs FIXED** (`commit:0228`
+`plumbing_blocked` scans ALL raw backlog records; `commit:0239` NEW `reserved_walls` skips ≥2×-redrafted near-miss walls)
+→ ~149+ churners skipped. **CURRENT:** orch_state `pool=any-reach134 waves=30`; worker continues reach-134 (fresh
+`any-reach134` thinning → then `--mode auto`/`--class` to re-attempt reach-134 backlog walls with the 12 new idioms,
+each ×134); grinder grinds alongside. NEXT cookbook fuel: the ~7-fn GTE-sqr family (idiom `commit:0253`).
 
 **Fleet ≈ 61.16% byte-identical** *(↑ 61.19% — see SESSION UPDATE above)* · 136/136 binaries byte-identical · 0 NON_MATCHING.
 **Nothing running** — grinder STOPPED (Drew; `.run/auto/STOP` present), no worker wave in flight. Paused at a
