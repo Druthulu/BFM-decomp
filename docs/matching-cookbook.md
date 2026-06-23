@@ -1564,6 +1564,18 @@ byte-matched evidence fn. (Pins/array-decay/statement-order/shared-ret0/for-vs-d
   fall-through.) *fixes a duplicated-vs-shared `jal` + missing per-arm arg setup / join `nop`; evidence func_80159BE4
   (`func_80154A74(arg0,0x1C)` in the if-arm + `func_80154A74(arg0,0x11)` in the else-arm → one merged `jal` at the join,
   40 ins).*
+- **read-modify-write of a SCALAR global where the target materializes the address ONCE and reuses it for both the
+  `lw` and the `sw` → access it through a pointer VARIABLE (`T *p = &D_x; *p += 1; if (*p >= K)`), NOT the bare global
+  (`D_x += 1`):** when the target does `lui $r,%hi(sym); addiu $r,$r,%lo(sym); lw $v,0($r); … sw $v,0($r)` (one
+  address reg, `0($r)` displacement on BOTH accesses), gcc-2.7.2 -O2 reaches that by CSE-ing the `&D_x` address
+  expression across the read and the write. Writing the bare global RMW (`D_x += 1`) instead lets gcc fold `%lo` into
+  each access INDEPENDENTLY → two separate `lui … ; lw/sw %lo(sym)($at)` materializations (the §18 single-store fold,
+  applied twice; wrong reg/ins for an RMW). A pointer var to the global forces the shared base reg. (This is the
+  GLOBAL-RMW counterpart of §18's indexed-global fold and §17's stack-buffer remat — distinct trigger: a scalar global
+  read AND written in the same region.) NB unrelated to the same fn: read a `+0x34` halfword field with `lhu` (`u16`),
+  not `lh`, when the target zero-extends. *fixes two-separate-`%lo`-folds vs one-materialized-base-reg on a scalar
+  global RMW; evidence func_80186938 (`s32 *p=&D_801270C8; *p+=1; if(*p>=4)…` → `lui;addiu %lo;lw 0($v1);…;sw 0($v1)`,
+  byte-gated).*
 
 > **⚠ CANDIDATE (unverified) — the next two bullets are from `func_801775E0`, a NEAR-MISS (closeness 2, NOT
 > byte-banked)**, appended directly by a wave-13 drafter (that drafter→cookbook path is now blocked, `commit:0219`).
