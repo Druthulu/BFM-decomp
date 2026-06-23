@@ -791,7 +791,8 @@ void func_80142B2C(void *arg0) {
     func_8012AD50(arg0);
 }
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80142BB4);
+
+DEFINE_func_80142BB4()  /* dedup: shared engine-core @0x80142BB4 (src/shared) */
 
 DEFINE_func_80142C7C()  /* dedup: shared engine-core @0x80142C7C (src/shared) */
 
