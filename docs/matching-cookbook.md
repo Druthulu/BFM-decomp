@@ -1417,6 +1417,16 @@ byte-matched evidence fn. (Pins/array-decay/statement-order/shared-ret0/for-vs-d
   with `extern void *memcpy(void*,const void*,u32);` — gcc-2.7.2 inlines the small fixed-size copy to exactly that
   lwl/lwr/swl/swr sequence (element-wise `*(T*)dst=*(T*)src` instead picks `lw/sw` for the aligned case or splits
   wrong for unaligned). *fixes inlined-unaligned-block-copy codegen; evidence func_80153800 (sibling func_80146FC4 same shape).*
+- **unaligned-SOURCE word load (then byte-read it) → `__attribute__((packed,aligned(1)))` struct in a union, plain
+  assignment:** when the source is at an UNALIGNED address (e.g. an odd global) so the target reads it `lwl/lwr` into
+  an aligned stack slot (`swl/swr`) and then reads individual bytes off `$sp` (`lbu 0/1/2($sp)`), the memcpy form above
+  copies it but gives no typed handle to the bytes; declaring the source a *plain* `int`/`struct` MISSES (gcc assumes
+  alignment → `lw`). Mark the source type `aligned(1)` and wrap it with a byte view in a union, then ASSIGN it to a
+  stack union and index the bytes: `struct W{int w;}__attribute__((packed,aligned(1))); union U{struct W w; u8 b[4];};
+  extern struct W G; union U t; t.w = G; … t.b[0] … t.b[1] …`. The `packed,aligned(1)` makes gcc emit `lwl/lwr` for the
+  bare struct assignment (the unaligned read), the `swl/swr` lands it on the aligned stack union, and `t.b[i]` becomes
+  the `$sp`-direct `lbu`. *fixes a `lw`-vs-`lwl/lwr` unaligned-source load where you also need per-byte access; evidence
+  func_80142A80 (`D_801BD644` read `lwl 3 / lwr 0`, byte-read `lbu 0/1/2($sp)`).*
 - **aligned 16-byte field-block copy → one struct assignment:** a contiguous aligned 4-word copy between two memory
   locations is `typedef struct{u32 a,b,c,d;} Blk16; *(Blk16*)(dst)=*(Blk16*)(src);` → gcc emits its a0–a3 4-register
   block load/store (1 ins shorter than four separate `lw/sw`, and fixes the v1/v0 load order + the load-delay nop).
