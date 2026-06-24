@@ -9,6 +9,38 @@
 
 ---
 
+## ★★★ SESSION 2026-06-23 FINAL HANDOFF — READ THIS FIRST (supersedes the REACH-1 HANDOFF + every dated layer below)
+
+> Authoritative current state at a clean committed checkpoint. Everything below this section is HISTORICAL trail.
+
+**Fleet 62.27%** byte-identical (**214,224 / 344,010**) · **+1.11% this session** (started 61.16%) · 136/136 binaries
+byte-identical · 0 NON_MATCHING. **Nothing running** — grinder STOPPED (`.run/auto/STOP` present; `rm` it to relaunch).
+Clean checkpoint; committed locally, **not pushed** (R6 — Drew pushes). orch_state: `pool=any-reach134 waves=32 banked_total=287` (worker) + 5 grinder banks.
+
+**THE SESSION ARC (Drew's `/loop`, steered via 5 AskUserQuestions):**
+1. **Waves 17–29 — reach-1 (×1) smallest-first harvest:** ~183 banks but fleet only **+0.06%** — reach-1 fns are overlay-unique → ×1, and the fleet metric counts functions across all 136 binaries. Band climbed 14→75 ins, close-rate fell 0.9→0.33. **LESSON: reach-1 is poor fleet-ROI; its value was ov_SC01_077 completeness + idiom-mining.**
+2. **Waves 30–31 — THE REACH-134 PIVOT (Drew's call), ×134:** banked 26 reach-134 STUB fns, each propagated ×134 → fleet **61.22% → 62.19% (+0.97% in 2 waves)** — ~16× the *entire* reach-1 run, per wave. Fuel = the `any-reach134` pool (STUB-class reach-134 fns the WAVE/PINS/STRUCT `tractable` pool never covered); now **EXHAUSTED**.
+3. **Giants scout (Drew's call) — BODY-TRACTABLE but PLUMBING-BLOCKED (the key finding):** 10 giants (159–207 ins, ×134) → **5/10 self-MATCH at the body level** (relocation-masked) but **0 banked** — all failed the whole-binary gate on **callee-declaration plumbing** (giants call many fns; the recovery pipeline couldn't reconcile all their callee sigs → won't compile standalone). The 5 body-correct giants — `func_8013339C` `func_8012EC04`(GTE) `func_8012D098` `func_80129CF8` `func_80153E00` — are ×134, byte-correct bodies, blocked ONLY on callee decls. Best drafts saved in `.run/backlog_drafts/`.
+4. **Grinder (token-free permuter, alongside):** banked **5** reach-1/permuter walls (+~0.05%); stopped for this checkpoint.
+
+**★ THE EUREKA LEVER FOR THE FRESH SESSION — RECOVERY-TOOLING (highest leverage, ~0 agent tokens):**
+The giants prove the BODIES are crackable; the wall is purely **callee-declaration plumbing** (§16/§20 loose-typing). Extend the recovery pipeline (`tools/canon_resident_calls.py → cast_call_sites.py → sig_unify.py`) to declare the giants' callees correctly → **bank the 5 body-correct giants ×134** (potentially **+1–2% fleet**) PLUS the ~5 plumbing-blocked reach-134 STRUCT self-MATCHes — all for ~0 drafting tokens. **Do this BEFORE more scout waves** (scouting finds more self-MATCHes but they won't bank until the callee plumbing is cracked).
+  - **Start here:** take `func_80153E00`'s draft in `.run/backlog_drafts/`, run it through `tools/gate_stage.py` manually, read the standalone-compile error (a callee sig conflict), extend the recovery for that class, re-gate. Repeat for the other 4. Each bank is a giant ×134.
+
+**SECONDARY:** (a) more giant-scout waves to grow the body-correct ×134 backlog (only valuable once recovery banks them — the 28 giants are in `.run/fuel_manifest.json` class=GIANT; 5 body-banked, rest fresh/near); (b) the grinder (relaunch, token-free) for permuter-walls; (c) the reach-1 big-fn tail remains (×1, low-ROI — skip).
+
+**12 NEW COOKBOOK IDIOMS this session** (the durable knowledge): `commit:0225 commit:0227 commit:0230 commit:0232 commit:0235 commit:0237 commit:0240 commit:0243 commit:0245 commit:0247 commit:0249 commit:0253`. The last CRACKED the GTE-sqr "unproducible" false dead-end — **verify GTE/cop2-nop fns on RAW bytes (`objcopy -O binary --only-section=.text`), NOT objdump/match_one** (they elide zero-word runs → false mismatch). `func_8012EC04` confirms a 2nd GTE fn matches this way.
+
+**3 POOL-TOOLING FIXES this session:** `commit:0228` (plumbing_blocked scans ALL raw backlog records) · `commit:0239` (NEW reserved_walls skips ≥2×-redrafted near-miss walls) · `commit:0257` (--class filters to still-unbanked genuine near-misses) → ~149+ churners correctly skipped from worker waves.
+
+**RESUME COMMANDS (fresh session):**
+- **Grinder** (token-free, relaunch): `rm -f .run/auto/STOP && DRIVER=tools/grinder.py setsid nohup bash tools/auto_supervisor.sh --permute-secs 120 -j 14 >/dev/null 2>&1 &` (dangerouslyDisableSandbox). Stop: `bash tools/auto_stop.sh`. Monitor: `bash tools/auto_status.sh`.
+- **Worker finish** (after a worker_wave Workflow): `.venv/bin/python tools/orchestrator.py finish --drafts .run/drafts-wave --commit` — **BACKGROUNDED + dangerouslyDisableSandbox** (foreground make/git get sandbox-killed exit 144). It gates → banks → propagates ×134 (`dedup_propagate --auto-from`) → logs near-misses.
+- **Manual giant batch** (worker_wave args.targets): pick fresh GIANT-class fns from `.run/fuel_manifest.json`, build `{name,addr,nins,class:"GIANT",asm,ghidra_c}` per target (addr=`0x`+name[5:].lower(); asm=`asm/ov_SC01_077/nonmatchings/ov_SC01_077/<name>.s`; ghidra_c=`.run/ghidra_c/<name>.c`).
+- **Live fleet:** `grep byte-identical docs/progress.fleet.md` or `make report`. **Verify invariant:** `make check-all` → 136/136 (R22); per-bank whole-binary byte-gate (G3/P9) is the sole arbiter.
+
+---
+
 ## ★★ REACH-1 HARVEST HANDOFF — READ THIS FIRST (2026-06-22, authoritative current state)
 
 > Everything below this section (the prior ×134 QUEUED-RUN block, TRIP HAND-OFF, POST-REBOOT, etc.) is a
