@@ -1680,3 +1680,46 @@ full TU → gate reject. **Diagnose before building (R14): reproduce the whole-b
   persistent `.run/auto/grinder_blacklist.json` and skip them forever (the daemon's `tried.clear()`-after-idle would
   otherwise churn the lowest-`close` plumbing fns endlessly — it banked 0 in ~8h doing exactly that). Frees the
   permuter for genuine regalloc/schedule near-misses (the only class it can actually close).
+
+### §23 — The GIANTS are NEAR-MISSES, not "plumbing-blocked"; the scalar-data-signedness CAST (Phase 21, byte-proven)
+
+**R14 correction of the giants handoff.** A prior session scouted 10 reach-134 giants (159–207 ins), saw 5
+`match_one`-MATCH but 0 bank, and concluded they were blocked on "callee-declaration plumbing." **The bytes say
+otherwise.** Diagnosing `func_80153E00` (195 ins, ×134): substituting the draft into the overlay **compiles AND
+links CLEAN** — no `conflicting types`, no `undefined reference` (the `make` RC≠0 is just `make check`'s SHA
+failure; the "incompatible pointer / makes integer from pointer" warnings are PRE-EXISTING in other functions).
+It was a **1-instruction near-miss** (1/195). `match_one` over-predicted (it compiles STANDALONE with the draft's
+own externs AND masks jal/%hi/%lo) → it never sees the real residual. **The giants are individually-diagnosable
+near-misses, not a plumbing wall** — diagnose each, fix the 1–N off instructions, bank ×134.
+
+**THE DIAGNOSTIC (the right tool — not `match_one`, not `objdump` of a stale `.o`):** a **linked-ELF
+per-function diff** — build STUB form → `objdump -d` the fn (= target bytes); splice the draft + build →
+`objdump -d` the fn (= candidate); diff with the absolute address column normalized (`s/80[0-9a-f]{6}/ADDR/`) so
+only opcode/register/operand changes show. Reusable: `.run/diag_funcdiff.py <fn> <draftdir>` (strips
+self-contained typedefs exactly as `harvest_verify` does; restores the source via `git checkout`). This shows
+*exactly* whether the residual is a relocation/symbol issue, a codegen-quirk, or a type bug — in seconds. (Run
+ONLY when no `ov_SC01_077` build is in flight — concurrent `make build BINARY=ov_SC01_077` clobbers `build/`.)
+
+**THE FIX for `func_80153E00` — the scalar-data-signedness CAST (extends §22, corrects §20's "data-cast moot").**
+The 1 diff: target `lhu D_8011DB0C` (unsigned halfword) vs candidate `lh` (signed). The global `D_8011DB0C` is
+declared **`extern s16`** canonically (in `engine_core.h` + a banked `DEFINE_*` macro that writes it), but
+`func_80153E00` needs a **`u16` read** (`lhu`). Two non-fixes: declaring the draft `extern u16 D_8011DB0C;` →
+**`sig_unify` reverts it to the canonical `s16`** (canonical wins, by design) → `lh` again; §22's "assign through
+the canonical decl" → also `lh` (the canonical type IS s16). **The fix is the DATA analog of `cast_call_sites`'s
+per-site cast: keep the canonical `extern s16` decl, cast the READ site —**
+```c
+db0c = *(u16 *)&D_8011DB0C;   /* canonical decl stays `extern s16`; gcc folds &sym+deref → a single lhu */
+```
+gcc-2.7.2 folds `*(u16*)&sym` to one `lhu sym` (no extra address insn), identical to declaring it u16 — but with
+NO decl conflict, so it survives the gate pipeline (`sig_unify` leaves the canonical decl alone). Writes
+(`D_x = 0` → `sh`) are signedness-agnostic, so only READ sites need casting. **This refutes §20's "data-cast is
+MOOT"** — that finding only checked `extern struct/union` conflicts; **scalar signedness/width conflicts
+(`s16`↔`u16`, and by extension `s8`↔`u8` `lb`/`lbu`, `s16`↔`s32` `lh`/`lw`) ARE real and recoverable** by this
+read-site cast. The same class is hinted across the other giants (e.g. `func_80129CF8`'s note: "`D_80126DB8`
+fields s32-store/(s16)-read, lh vs lw"). *evidence: func_80153E00 — 1/195 → 0/195, banked ×134, fleet 62.27→62.31%.*
+
+**TOOLING LEVER (probe-before-build, R14):** if this scalar-data-conflict class recurs across the remaining
+giants, build `cast_data_sites.py` (the data sibling of `cast_call_sites.py`): for each `D_x` read whose required
+load width/signedness differs from the canonical decl, rewrite the read site → `*(T*)&D_x` (leave the decl
+canonical; never cast a write). Folds into `gate_stage` → auto-recovers the class on every wave for ~0 tokens.
+Gather evidence on ≥1–2 more giants first (func_80153E00 is N=1).

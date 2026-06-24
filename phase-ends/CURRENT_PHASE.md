@@ -9,7 +9,43 @@
 
 ---
 
-## ★★★ SESSION 2026-06-23 FINAL HANDOFF — READ THIS FIRST (supersedes the REACH-1 HANDOFF + every dated layer below)
+## ★★★ SESSION 2026-06-23 (cont.) — GIANTS-AS-NEAR-MISSES (READ THIS FIRST; supersedes every section below)
+
+> Authoritative current state. The giants finding below CORRECTS the FINAL HANDOFF's "plumbing-blocked" framing (R14).
+
+**Fleet 62.31%** byte-identical (**214,358 / 344,010**, +134 vs the checkpoint) · 136/136 binaries byte-identical · 0 NON_MATCHING.
+banked_total 288 · waves 34 · grinder STOPPED (`.run/auto/STOP` present). Committed locally (`commit:0260`), **not pushed** (R6).
+This session (Drew's `/loop`, one giants cycle): **banked `func_80153E00` ×134** (the 195-ins giant), fleet 62.27→62.31%.
+
+**★ THE CORRECTED GIANTS FINDING (R14, byte-proven — supersedes the FINAL HANDOFF "callee-declaration plumbing" claim):**
+The 5 "body-correct but plumbing-blocked" giants are **NOT** plumbing-blocked. `func_80153E00` **compiles AND links
+CLEAN** in the whole binary (no `conflicting types`, no `undefined reference`) and was a **1-instruction near-miss**
+(1/195). `match_one` over-predicted — it compiles STANDALONE with the draft's own externs AND masks jal/%hi/%lo, so it
+never sees the real residual. **The giants are individually-diagnosable near-misses; diagnose + fix the 1–N off
+instructions + bank ×134.** Full write-up: **cookbook §23**.
+- **THE DIAGNOSTIC (use this on every giant):** `.venv/bin/python .run/diag_funcdiff.py <fn> <draftdir>` — a linked-ELF
+  per-function `objdump` diff (target = stub build, candidate = spliced build), address-column normalized so only real
+  opcode/reg/operand diffs show. Tells you in seconds whether the residual is relocation/codegen/type. **Run only when
+  NO `ov_SC01_077` build is in flight** (concurrent `make build BINARY=ov_SC01_077` clobbers `build/`).
+- **`func_80153E00`'s blocker = scalar-data-signedness conflict (the data analog of cast_call_sites):** target `lhu`,
+  candidate `lh` on `D_8011DB0C` (declared `extern s16` canonically but the fn needs a `u16` read). Declaring `u16` →
+  `sig_unify` reverts to canonical `s16`. **Fix: keep canonical `extern s16`, cast the READ: `*(u16*)&D_8011DB0C`** →
+  gcc folds to one `lhu`, no decl conflict, survives the gate. Refutes §20's "data-cast moot" (which only checked
+  struct/union, not scalar signedness). Writes (`sh`) are signedness-agnostic — only reads need casting.
+
+**★ NEXT (fresh cycle) — diagnose the OTHER 4 giants the same way (drafts in `.run/drafts-wave-cn/`):**
+`func_8013339C` (schedule), `func_8012EC04` (GTE — verify on RAW bytes via objcopy, NOT objdump/match_one, idiom
+`commit:0253`), `func_8012D098` (struct), `func_80129CF8` (struct; its note already flags `D_80126DB8` lh-vs-lw — likely the
+SAME scalar-data-cast class). For each: `cp .run/drafts-wave-cn/<fn>.c .run/dg/` → `diag_funcdiff` → fix the diffs →
+`cp` to `.run/drafts-wave/` → `orchestrator.py finish --drafts .run/drafts-wave --commit` (BACKGROUNDED +
+dangerouslyDisableSandbox). **Struct-class giants** (D_*-struct local typedefs) also need the type-lift
+(`build_engine_types.py --strip`) to propagate ×134 (Phase-20 §20 T1) — else they bank ×1 local.
+**TOOLING LEVER (probe-first):** if the scalar-data-signedness conflict recurs on ≥1–2 more giants, build
+`cast_data_sites.py` (data sibling of `cast_call_sites.py`) into `gate_stage` → auto-recovers the class for ~0 tokens.
+
+---
+
+## ★★★ SESSION 2026-06-23 FINAL HANDOFF — (SUPERSEDED by the GIANTS-AS-NEAR-MISSES section above; historical trail)
 
 > Authoritative current state at a clean committed checkpoint. Everything below this section is HISTORICAL trail.
 
