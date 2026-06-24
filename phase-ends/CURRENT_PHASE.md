@@ -9,9 +9,46 @@
 
 ---
 
-## ★★★ SESSION 2026-06-23 (cont.) — GIANTS-AS-NEAR-MISSES (READ THIS FIRST; supersedes every section below)
+## ★★★ SESSION 2026-06-24 (cont. 2) — GIANTS ARE STALE+INCOMPLETE DRAFTS, not cheap near-misses (READ FIRST)
 
-> Authoritative current state. The giants finding below CORRECTS the FINAL HANDOFF's "plumbing-blocked" framing (R14).
+> Authoritative. CORRECTS the "(cont.) GIANTS-AS-NEAR-MISSES" section below: only func_80153E00 was a clean
+> near-miss; the rest are stale-draft RE-DRAFT work. A diag self-correction (R14) — the byte-gate was right.
+
+**Fleet 62.31%** (214,358/344,010) · 136/136 byte-identical · 0 NON_MATCHING · banked_total 288 · waves 34.
+**No new banks this turn** (func_80153E00 ×134 was the prior turn). HEAD `commit:0261`+ (docs). Grinder STOPPED.
+
+**★ THE GIANT VERDICT (byte-proven, P9/R14):** the 14 MAIN-file giants' prior-wave drafts are **STALE +
+INCOMPLETE** vs the grown `engine_core.h` — `conflicting types` (draft `u8 D_80126B58` vs canonical `s32`;
+`u8 D_80126948` vs `u8[]`), **undeclared** data symbols (`D_800A5E8C`, `D_800B9A08` → link `undefined reference`),
+incomplete types. The whole-binary gate (`harvest_verify`) banks **0 of 10**. They are **NOT cheap near-misses** —
+they need **RE-DRAFTING fresh** (worker wave, current canonical context + §17–§23 toolkit incl. the data-cast),
+not a recovery transform. func_80153E00 banked only because its draft was complete + 1-instruction clean.
+- **⚠ A DIAG MIRAGE bit me (cookbook §23, §20 stale-`.o`):** a per-function `objdump` diff that builds WITHOUT
+  removing `build/src/<ov>.o`+`.elf` first reports **FALSE byte-matches** when a draft fails to compile (make
+  leaves stub artifacts). It faked "10 giant MATCHes." Fixed `.run/diag_funcdiff.py` to `os.remove` artifacts
+  first. **The whole-binary SHA gate is the SOLE arbiter (G3/P9)** — it removes the output, so it was right.
+- **sig_unify bug found (not fixed — reverted):** `DRAFT_EXTERN_LINE_RE` anchors `;$` so it SKIPS externs with a
+  trailing `/* */` comment → can't canonicalize them. A regex fix works but (a) is unproven to bank (the giants
+  have deeper undeclared-symbol issues) and (b) broader canonicalization regresses value-read divergent-type
+  drafts — the right lever is a **data-CAST** (keep canonical decl, cast the read; §23), not canonicalization.
+- **11 `_a.c` giants** (func_8013339C/8012D098/80129CF8/8012EC04 + 7 more): live in `ov_SC01_077_a.c` (Phase-19
+  3-object split), but `dedup_propagate`/the gate are hardwired to `src/{ov}/{ov}.c` → can't source from `_a.c`.
+  Banking/propagating them needs split-aware tooling. (`func_8012EC04` is GTE — also needs raw-byte verify, §18.)
+
+**★ NEXT — a FORK for Drew (the cheap-giant-recovery premise is refuted):**
+(a) **Re-draft the giants fresh** — a worker Workflow over the 28 GIANT-class fns (`.run/fuel_manifest.json`,
+    class=GIANT) with current canonical callee/data sigs embedded + the §17–§23 toolkit, then gate+propagate ×134.
+    High byte-weight payoff (func_80144B9C=770 ins ×134) but token-heavy + each needs its own near-miss grind.
+(b) **Pivot to a more tractable pool** (fresh reach-134 ≤90-ins via a Ghidra-C regen, or relaunch the grinder).
+(c) **Build split-aware + data-cast tooling** first (unlock the 11 `_a.c` giants + auto-recover the data class).
+Recommendation: (b) for steady % now, with (a) as a focused deep session for the byte-weight. Drew chooses.
+
+---
+
+## ★★★ SESSION 2026-06-23 (cont.) — GIANTS-AS-NEAR-MISSES (partially SUPERSEDED by cont. 2 above)
+
+> The func_80153E00 crack below is correct; the "giants are near-misses, diagnose+bank" GENERALIZATION is
+> corrected by cont. 2 (most giant drafts are stale+incomplete → re-draft, not recover).
 
 **Fleet 62.31%** byte-identical (**214,358 / 344,010**, +134 vs the checkpoint) · 136/136 binaries byte-identical · 0 NON_MATCHING.
 banked_total 288 · waves 34 · grinder STOPPED (`.run/auto/STOP` present). Committed locally (`commit:0260`), **not pushed** (R6).

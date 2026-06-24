@@ -1681,24 +1681,34 @@ full TU → gate reject. **Diagnose before building (R14): reproduce the whole-b
   otherwise churn the lowest-`close` plumbing fns endlessly — it banked 0 in ~8h doing exactly that). Frees the
   permuter for genuine regalloc/schedule near-misses (the only class it can actually close).
 
-### §23 — The GIANTS are NEAR-MISSES, not "plumbing-blocked"; the scalar-data-signedness CAST (Phase 21, byte-proven)
+### §23 — Giant `func_80153E00` cracked (scalar-data CAST); BUT most giant drafts are STALE+INCOMPLETE, and a diag MUST remove artifacts (Phase 21 — byte-proven + a self-correction)
 
-**R14 correction of the giants handoff.** A prior session scouted 10 reach-134 giants (159–207 ins), saw 5
-`match_one`-MATCH but 0 bank, and concluded they were blocked on "callee-declaration plumbing." **The bytes say
-otherwise.** Diagnosing `func_80153E00` (195 ins, ×134): substituting the draft into the overlay **compiles AND
-links CLEAN** — no `conflicting types`, no `undefined reference` (the `make` RC≠0 is just `make check`'s SHA
-failure; the "incompatible pointer / makes integer from pointer" warnings are PRE-EXISTING in other functions).
-It was a **1-instruction near-miss** (1/195). `match_one` over-predicted (it compiles STANDALONE with the draft's
-own externs AND masks jal/%hi/%lo) → it never sees the real residual. **The giants are individually-diagnosable
-near-misses, not a plumbing wall** — diagnose each, fix the 1–N off instructions, bank ×134.
+**`func_80153E00` (195 ins, ×134) cracked — a clean 1-instruction near-miss.** Substituting its draft compiles
+AND links CLEAN and was 1/195 off. `match_one` over-predicted (compiles STANDALONE with the draft's own externs
+AND masks jal/%hi/%lo) → it never saw the residual. Banked ×134 (fleet 62.27→62.31%).
 
-**THE DIAGNOSTIC (the right tool — not `match_one`, not `objdump` of a stale `.o`):** a **linked-ELF
-per-function diff** — build STUB form → `objdump -d` the fn (= target bytes); splice the draft + build →
-`objdump -d` the fn (= candidate); diff with the absolute address column normalized (`s/80[0-9a-f]{6}/ADDR/`) so
-only opcode/register/operand changes show. Reusable: `.run/diag_funcdiff.py <fn> <draftdir>` (strips
-self-contained typedefs exactly as `harvest_verify` does; restores the source via `git checkout`). This shows
-*exactly* whether the residual is a relocation/symbol issue, a codegen-quirk, or a type bug — in seconds. (Run
-ONLY when no `ov_SC01_077` build is in flight — concurrent `make build BINARY=ov_SC01_077` clobbers `build/`.)
+**⚠ DO NOT GENERALIZE "giants are near-misses" (a same-session R14 self-correction).** After func_80153E00, I
+diagnosed the other 14 MAIN-file giant drafts and a buggy diag reported **10 byte-MATCHes** — a **STALE-ARTIFACT
+MIRAGE**. The real byte-gate (`harvest_verify`, which `os.remove`s the output first) banked **0 of 10**: every
+draft FAILS TO COMPILE. They are prior-wave drafts gone **stale + incomplete** vs the grown `engine_core.h` —
+`conflicting types for D_x` (the draft declares `u8 D_80126B58` vs canonical `s32`, `u8 D_80126948` vs `u8[]`),
+**undeclared** data symbols the draft never externs (`D_800A5E8C`, `D_800B9A08` → link `undefined reference`),
+and incomplete types. **These are NOT bankable near-misses** — they need RE-DRAFTING fresh against the current
+canonical (a worker wave), not a cheap fix. func_80153E00 banked only because its draft was complete + clean.
+
+**⚠ THE STALE-`.o` TRAP BIT THE DIAGNOSTIC ITSELF (§20, the hard way).** A per-function `objdump` diff that
+builds WITHOUT removing `build/src/<ov>.o` + `<ov>.elf` first shows a **FALSE byte-match** when the spliced draft
+**fails to compile**: `make` leaves the prior (stub) artifacts, so objdump disassembles the TARGET and reports
+"0 diffs." This faked 10 giant MATCHes. **A diag MUST `os.remove` the `.o`/`.elf`/binary before each build** (then
+a compile failure → empty disasm → honest "BUILD-FAIL", not a false match). `.run/diag_funcdiff.py` was fixed to
+do this. **The whole-binary SHA gate (`harvest_verify`) is the SOLE arbiter (G3/P9)** — it removes the output, so
+it was right while the diag lied. When a diag and the gate disagree, the gate wins; suspect a stale artifact.
+
+**THE DIAGNOSTIC (right tool, artifact-safe):** `.run/diag_funcdiff.py <fn> <draftdir>` — build STUB →
+`objdump -d` the fn (target); splice draft + build → `objdump -d` (candidate); diff, address column normalized
+(`s/80[0-9a-f]{6}/ADDR/`). NOW removes artifacts before each build (else false match). Shows relocation vs
+codegen vs type residual in seconds — but a 0-diff here is only trustworthy because of the artifact-removal +
+a confirming `harvest_verify`. Run ONLY when no `ov_SC01_077` build is in flight (concurrent builds clobber `build/`).
 
 **THE FIX for `func_80153E00` — the scalar-data-signedness CAST (extends §22, corrects §20's "data-cast moot").**
 The 1 diff: target `lhu D_8011DB0C` (unsigned halfword) vs candidate `lh` (signed). The global `D_8011DB0C` is
