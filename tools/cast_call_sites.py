@@ -90,12 +90,14 @@ def cast_type(dret, dptypes):
     return f'{dret} (*)({inner})'
 
 
-def canonical_map(overlay):
+def canonical_map(overlay, src_file=None):
     """addr-int -> canonical sig string '<ret> func_X(<params>)' for every func the TU declares
     or defines (definitions/inline win over plain externs — the authoritative in-TU signature).
-    Mirrors sig_unify's precedence exactly."""
+    Mirrors sig_unify's precedence exactly. src_file overrides the .c (use the SPLIT file _a.c/_o0.c
+    for a draft that lands there — its TU sees that file's local decls, NOT the main .c's, so a
+    cross-file loose-typed callee (e.g. RotTransSV declared differently in main vs _a) resolves right)."""
     ec = os.path.join(REPO, 'src/shared/engine_core.h')
-    c_path = os.path.join(REPO, f'src/{overlay}/{overlay}.c')
+    c_path = src_file or os.path.join(REPO, f'src/{overlay}/{overlay}.c')
     sigs = dict(_ght.collect_extern_sigs([ec, c_path]))
     sigs.update(_ght.collect_define_sigs(ec))
     sigs.update(_ght.collect_inline_sigs(c_path))
@@ -167,11 +169,14 @@ def transform(text, self_fn, canon):
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument('--overlay', default='ov_SC01_077')
+    ap.add_argument('--src-file', dest='src_file', default=None,
+                    help='overlay .c whose local decls the draft must match (default main; use the '
+                         '_a.c/_o0.c split file for drafts that land there)')
     ap.add_argument('--in', dest='indir', required=True)
     ap.add_argument('--out', dest='outdir', required=True)
     a = ap.parse_args()
 
-    canon, _c_path = canonical_map(a.overlay)
+    canon, _c_path = canonical_map(a.overlay, a.src_file and os.path.join(REPO, a.src_file))
     os.makedirs(os.path.join(REPO, a.outdir), exist_ok=True)
     drafts = touched = total_callees = 0
     for p in sorted(glob.glob(os.path.join(REPO, a.indir, '*.c'))):

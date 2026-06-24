@@ -86,6 +86,24 @@ def c_path(ov):
     return ROOT / f"src/{ov}/{ov}.c"
 
 
+def overlay_files(ov):
+    """[(path, asm_subdir)] for ov's source file(s): the main .c plus any Phase-19 split files
+    (ov_SC01_077_a.c / _o0.c). Single-file overlays return just the main .c — default behaviour
+    preserved. Lets a fn matched in a split file propagate ×reach (its stub/def lives in _a/_o0)."""
+    out = [(c_path(ov), ov)]
+    for suf in ("_a", "_o0"):
+        p = ROOT / f"src/{ov}/{ov}{suf}.c"
+        if p.exists():
+            out.append((p, f"{ov}{suf}"))
+    return out
+
+
+def source_text(ov):
+    """Concatenation of all of ov's split files — for SOURCE-side def finding + body extraction
+    only (find_site uses the body lines, so cross-file concat is safe; never used to EDIT)."""
+    return "\n".join(p.read_text() for p, _ in overlay_files(ov))
+
+
 def stub_line(ov, addr):
     return f'INCLUDE_ASM("asm/{ov}/nonmatchings/{ov}", {sym(addr)});'
 
@@ -273,7 +291,7 @@ def main():
     if a.auto_from:
         src = a.auto_from
         ssig = load_sig(src)
-        ctext = c_path(src).read_text()
+        ctext = source_text(src)   # scan main + split files for matched defs
         reg = registered_addrs()   # skip functions already shared (additive + resumable)
         for addr in sorted(ssig):
             if addr in reg:
@@ -294,7 +312,7 @@ def main():
             src = a.source_overlay
             if not src:  # auto: an onboarded overlay where it is an inline def
                 for ov in pool:
-                    site = find_site(c_path(ov).read_text(), ov, addr)
+                    site = find_site(source_text(ov), ov, addr)
                     if site and site[0] == "def":
                         src = ov
                         break
@@ -314,7 +332,7 @@ def main():
         if addr not in ssig:
             continue
         h = ssig[addr].get(a.tier)
-        ctext = txt_cache.setdefault(src, c_path(src).read_text())
+        ctext = txt_cache.setdefault(src, source_text(src))
         site = find_site(ctext, src, addr)
         if not site or site[0] != "def":
             n_nondef += 1; continue
@@ -390,44 +408,49 @@ def main():
     MACRO_RE = re.compile(r'^\s*DEFINE_func_([0-9A-Fa-f]+)\(\)')
     changed = []
     for ov in sorted(by_ov):
-        cp = c_path(ov)
-        lines = ensure_include(cp.read_text(), a.header).splitlines(keepends=True)
-        sp = re.compile(rf'^\s*INCLUDE_ASM\("asm/{re.escape(ov)}/nonmatchings/{re.escape(ov)}",\s*func_([0-9A-Fa-f]+)\);\s*$')
-        stub_idx, macro_set = {}, set()
-        for i, l in enumerate(lines):
-            ms = sp.match(l)
-            if ms: stub_idx[int(ms.group(1), 16)] = i; continue
-            mm = MACRO_RE.match(l)
-            if mm: macro_set.add(int(mm.group(1), 16))
-        joined = "".join(lines)
-        line_repls, def_ranges, ovc = {}, [], False
-        for p in by_ov[ov]:
-            ad = p["addr"]
-            if ad in macro_set:
-                continue                       # already instantiated here (idempotent)
-            repl = f"DEFINE_{sym(ad)}()  /* dedup: shared engine-core @0x{ad:08X} (src/shared) */\n"
-            if ad in stub_idx:
-                line_repls[stub_idx[ad]] = repl; ovc = True
-            else:
-                site = find_site(joined, ov, ad)   # source overlay's inline def (or absent -> skip)
-                if site and site[0] == "def":
-                    def_ranges.append((site[1], site[2], repl)); ovc = True
-        for idx, repl in line_repls.items():
-            lines[idx] = repl
-        for start, end, repl in sorted(def_ranges, key=lambda x: -x[0]):
-            lines[start:end + 1] = [repl]
-        edit(cp, "".join(lines))
+        remaining = {p["addr"]: p for p in by_ov[ov]}   # targets not yet placed in a file
+        ovc = False
+        for cp, asm_sub in overlay_files(ov):           # main + Phase-19 split files (_a/_o0)
+            if not remaining:
+                break
+            lines = ensure_include(cp.read_text(), a.header).splitlines(keepends=True)
+            sp = re.compile(rf'^\s*INCLUDE_ASM\("asm/{re.escape(ov)}/nonmatchings/{re.escape(asm_sub)}",\s*func_([0-9A-Fa-f]+)\);\s*$')
+            stub_idx, macro_set = {}, set()
+            for i, l in enumerate(lines):
+                ms = sp.match(l)
+                if ms: stub_idx[int(ms.group(1), 16)] = i; continue
+                mm = MACRO_RE.match(l)
+                if mm: macro_set.add(int(mm.group(1), 16))
+            joined = "".join(lines)
+            line_repls, def_ranges = {}, []
+            for ad in list(remaining):
+                if ad in macro_set:
+                    del remaining[ad]; continue            # already instantiated in this file (idempotent)
+                repl = f"DEFINE_{sym(ad)}()  /* dedup: shared engine-core @0x{ad:08X} (src/shared) */\n"
+                if ad in stub_idx:
+                    line_repls[stub_idx[ad]] = repl; del remaining[ad]; ovc = True
+                else:
+                    site = find_site(joined, ov, ad)   # inline def in THIS file? (else try the next split file)
+                    if site and site[0] == "def":
+                        def_ranges.append((site[1], site[2], repl)); del remaining[ad]; ovc = True
+            if line_repls or def_ranges:
+                for idx, repl in line_repls.items():
+                    lines[idx] = repl
+                for start, end, repl in sorted(def_ranges, key=lambda x: -x[0]):
+                    lines[start:end + 1] = [repl]
+                edit(cp, "".join(lines))
         if ovc:
             changed.append(ov)
 
     # structural check the byte-gate CANNOT catch (a leftover stub is itself byte-identical): every
     # claimed member must now instantiate the macro and have no stub. One read per changed overlay.
+    incasm = lambda ad: re.compile(rf'INCLUDE_ASM\("[^"]+",\s*{sym(ad)}\)')
     for ov in changed:
-        t = c_path(ov).read_text()
+        t = source_text(ov)   # all split files (post-edit, from disk)
         for p in by_ov[ov]:
             if f"DEFINE_{sym(p['addr'])}()" not in t:
                 restore(); sys.exit(f"[FAIL] {ov}: 0x{p['addr']:08X} not instantiated — REVERTED")
-            if stub_line(ov, p["addr"]) in t:
+            if incasm(p["addr"]).search(t):
                 restore(); sys.exit(f"[FAIL] {ov}: 0x{p['addr']:08X} stub still present — REVERTED")
 
     # byte-gate only the overlays that actually changed (an already-macro member didn't change).

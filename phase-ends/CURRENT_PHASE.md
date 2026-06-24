@@ -9,7 +9,41 @@
 
 ---
 
-## ★★★ SESSION 2026-06-24 (cont. 2) — GIANTS ARE STALE+INCOMPLETE DRAFTS, not cheap near-misses (READ FIRST)
+## ★★★ SESSION 2026-06-24 (cont. 3) — the `_a.c` split-file vein: enabler tooling built, but loose-typing-gated (READ FIRST)
+
+> Authoritative. Pursued the fresh-fuel recommendation; found the fresh fuel is in `ov_SC01_077_a.c` (a tooling
+> gap), built the split-aware enabler, and characterized the vein honestly (it hits the same loose-typing wall).
+
+**Fleet 62.31%** (unchanged — **no net banks this turn**; func_8012C098 matched ×1 in `_a.c` then reverted by a
+diag's `git checkout`, negligible + a propagation-wall). 136/136 byte-identical. HEAD = the commit below.
+
+**★ THE FINDING (where the fresh fuel is):** the main-`.c` reach-134 fuel is byte-exhausted (1 fresh fn); the
+**66+ fresh cached reach-134 fns live in `ov_SC01_077_a.c`** (the Phase-19 `-O0` 3-way split), never waved because
+the harvest pipeline defaults to `src/{ov}/{ov}.c`. Full write-up: **cookbook §24**.
+
+**★ ENABLER TOOLING BUILT (committed, validated as far as possible, fail-closed/safe):**
+- **`dedup_propagate.py` split-aware** — `overlay_files()` handles main + `_a`/`_o0`; source-find scans all,
+  member-loop edits the right split file, structural-check spans all. Single-file overlays unchanged. Validated:
+  source-find (`--check-only` → 134 members) + fail-path revert. (×134 success-path of an `_a` fn pending the wave.)
+- **`cast_call_sites.py --src-file`** — canonicalize callee decls against the file the draft LANDS in (cross-file
+  loose typing: e.g. `RotTransSV` declared differently in main vs `_a.c`). Default = main (unchanged).
+
+**★ THE WALL (honest — `_a` is NOT the clean +2-3% I projected):** the `_a` bodies are matchable (func_8012C098
+cast-banked ×1), but matching/propagation hits the SAME §16/§20 loose-typing wall: cross-overlay def-conflict
+(func_8012C098 → caller declares it `(void)` but body uses a param → ×1 wall, can't propagate), within-`_a`
+multi-sig callees (func_8012F274 → `RotTransSV` declared inconsistently in `_a.c`). The ×134 yield is uncertain.
+
+**★ NEXT — decision for Drew (the _a vein's ROI is now uncertain):**
+- **To pursue it:** finish the `_a`-aware recovery (`sig_unify --src-file`/split-awareness — it still DROPS `_a`
+  fns; or run `canon → cast --src-file → gate`, skipping sig_unify) + `wave_targets` `_a` support, then run ONE
+  small `_a` worker wave to MEASURE the real ×134 yield before scaling (probe-before-invest). The byte-gate
+  guarantees correctness; even a partial-×134 yield is real gain (it's the only fresh fuel).
+- **Or pivot:** the `_a` wall is the same loose-typing one; if the measured yield is mostly ×1, it's low-ROI.
+Recommendation: a small measurement wave (complete the minimal `_a` tooling, one wave, read the yield), then decide.
+
+---
+
+## ★★★ SESSION 2026-06-24 (cont. 2) — GIANTS ARE STALE+INCOMPLETE DRAFTS, not cheap near-misses
 
 > Authoritative. CORRECTS the "(cont.) GIANTS-AS-NEAR-MISSES" section below: only func_80153E00 was a clean
 > near-miss; the rest are stale-draft RE-DRAFT work. A diag self-correction (R14) — the byte-gate was right.

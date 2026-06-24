@@ -1733,3 +1733,43 @@ giants, build `cast_data_sites.py` (the data sibling of `cast_call_sites.py`): f
 load width/signedness differs from the canonical decl, rewrite the read site → `*(T*)&D_x` (leave the decl
 canonical; never cast a write). Folds into `gate_stage` → auto-recovers the class on every wave for ~0 tokens.
 Gather evidence on ≥1–2 more giants first (func_80153E00 is N=1).
+
+### §24 — The `ov_SC01_077_a.c` split-file vein: split-aware propagation, but loose-typing-gated (Phase 21)
+
+**The opportunity (real):** the Phase-19 `-O0` work split ov_SC01_077 into 3 TUs (`ov_SC01_077.c` + `_a.c` +
+`_o0.c`). The harvest pipeline defaults to `src/{ov}/{ov}.c`, so the **66+ fresh, cached, reach-134 fns in
+`ov_SC01_077_a.c` were never waved** — a tooling gap, not a difficulty wall. The main-`.c` reach-134 fuel is
+byte-exhausted (1 fresh fn); `_a.c` is where the fresh fuel is. (`tools/build_fuel_manifest.py` + cross-ref the
+3 split files' stub sets to enumerate it; `.run/diag_a.py` is the artifact-safe per-fn diff for `_a.c`.)
+
+**What's BUILT (validated):**
+- **`dedup_propagate.py` is split-aware** — `overlay_files(ov)` returns `[(main.c, ov), (_a.c, ov_a), (_o0.c,
+  ov_o0)]`; source def-finding scans all (`source_text`), the member loop edits whichever split file holds each
+  target's stub/def (per-file asm-subdir regex), the structural check spans all files. Single-file overlays are
+  unchanged (default path). Validated: source-find locates `_a.c` defs (`--check-only` → 134 members); fail-path
+  reverts correctly. (Success-path ×134 of an `_a` fn still pending a clean propagatable+matchable `_a` fn — the wave.)
+- **`cast_call_sites.py --src-file <file>`** — canonicalize callee decls against the file the draft LANDS in, not
+  main `.c`. **Why it's needed:** a callee can be declared *differently in main vs `_a.c`* (cross-file loose
+  typing, e.g. `RotTransSV`), so canonicalizing against main injects a decl that conflicts with `_a.c`'s. Pass
+  `--src-file src/ov_SC01_077/ov_SC01_077_a.c` for `_a` drafts. (Default = main, unchanged.)
+
+**The WALL (honest — the `_a` vein is NOT a clean win):** propagation/matching of `_a` fns hits the SAME §16/§20
+loose-typing wall as everywhere, in fresh form:
+- **Cross-overlay def-conflict → ×1, not ×134.** `func_8012C098` matched in `_a.c` (cast-recovered: a callee
+  `func_8012C218(void*)` called 0-arg via `((void(*)(void))…)()`), but a *banked caller in another overlay*
+  (engine_core.h DEFINE) declares it `extern void func_8012C098(void)` while the body USES `param_1` → the
+  propagated macro's def conflicts there → `dedup_propagate` (all-or-nothing) reverts. Irreducible (no single C
+  sig fits a param-using body + a 0-arg caller decl). Banks ×1 only.
+- **Within-`_a` loose-typed callee.** `func_8012F274` (decls=0, *would* propagate freely) won't even match:
+  `RotTransSV` is declared inconsistently *within `_a.c`* → any single extern conflicts; needs the per-site cast,
+  which `cast_call_sites` only applies when the canonical differs from the draft's intent (here it picked one and
+  it still clashed with another site). A genuine multi-sig callee.
+- **`sig_unify` still drops `_a` fns** (its `cur_stubs`/decls read main `.c` only) → for `_a` waves either give it
+  the same `--src-file`/split-awareness or run `canon → cast --src-file → gate` (skip sig_unify; the cast class
+  banks, the def-side class is a wall anyway). NOT yet done.
+
+**Net / next:** the enabler tooling is built + safe (fail-closed); the `_a` vein is matchable but its ×134 yield
+is loose-typing-limited (unknown fraction are ×1 walls). The proper measurement is a **worker wave** over the
+`_a` pool (parallel agents match bodies; the byte-gate + split-aware propagate sort ×134 vs ×1) — needs
+`wave_targets` `_a` support + `sig_unify` `_a`-awareness (or skip it). Decide whether the uncertain yield
+justifies the wave vs pivoting (the wall is the same as the main vein's).
