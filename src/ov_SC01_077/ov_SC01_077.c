@@ -3840,7 +3840,12 @@ void func_80153D7C(s32 param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80153E00);
+// @class: regalloc-order
+// @stuck: none — MATCH (195 ins). Levers: pins s0/s1/s2/s3 + (u16) masks force redundant andi + handler blocks placed last via forward-goto (switch + DB0C dispatch) + the mask-temp `t` pinned to $2/$v0 to break gcc's andi-into-$s1 coalescing (andi v0,s1 / srl s1,v0). D_8011DB0C typed u16 (lhu) but loaded into s32 db0c for slti compares. void-decl callees (153C18/15410C/14B310) called with a0=s0 via call-site cast.
+
+
+DEFINE_func_80153E00()  /* dedup: shared engine-core @0x80153E00 (src/shared) */
+
 
 DEFINE_func_8015410C()  /* dedup: shared engine-core @0x8015410C (src/shared) */
 
