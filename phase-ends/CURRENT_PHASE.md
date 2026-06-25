@@ -9,7 +9,48 @@
 
 ---
 
-## ★★★ SESSION 2026-06-24 (cont. 4) — the `_a` vein IS a ×134 lever (10/11); cont.3 §24 pessimism CORRECTED (READ FIRST)
+## ★★★ SESSION 2026-06-24 (cont. 5) — Phase 21 is now a NEVERENDING idiom-learning loop (READ FIRST)
+
+> **Drew's directive (2026-06-24): Phase 21 does NOT end until he says it does — assume neverending.**
+> The model: harvest the EASY reach-134 fuel until ~80% consumed (a WALL), then **LEARN the next
+> gcc-quirk IDIOM** that unlocks the highest-leverage residual, hand off to a **FRESH session** (clean
+> context) with a `/loop` prompt to crack + harvest it, and **repeat forever → toward 100% decomp**.
+> Each session ≈ one idiom. The vote is always: *target new gcc quirks, learn idioms, 100% the game.*
+
+**Fleet ~62.98%** (wave-4 in flight) · 136/136 byte-identical · 0 NON_MATCHING · grinder running (token-free).
+The `_a` reach-134 EASY fuel is ~exhausted (waves 1–4 this session: 62.31 → 62.98%, +0.67%) — **we are AT
+the first idiom wall.**
+
+**★ THE META-LOOP TOOL (new, committed): `tools/idiom_loop.py`**
+- `--fuel-status` — rough wall indicator (counts ALL fresh cached incl. reach-1; the *precise* reach-134
+  wall = `wave_targets --region a/main` returns a small / re-attempt-heavy batch, as now: 24→24→20→13).
+- `--assess` — clusters the backlog near-misses by gcc-quirk class, ranks by reach-134 leverage, names
+  (a) the next IDIOM to learn + (b) the cheap deterministic recovery lever.
+- `--gen-fuel <class> [--out f]` — writes the research+harvest fuel manifest (closest-first) for a session.
+
+**★ FIRST ASSESSMENT (`--assess`, byte-backed from the 316-record backlog):**
+- **NEXT IDIOM TO LEARN → `schedule`** (49 reach-134 fns, median 13 ins off): the gcc-2.7.2
+  **instruction-scheduler (sched.c) load/store tie-break** — drafters consistently stub it "unsteerable"
+  after pins+barriers. Fuel: `.run/auto/idiom_fuel_schedule.json` (68 fns). Crack it on a **low-but-NONZERO**
+  closeness exemplar (e.g. func_80128ED8 / func_80131A34, close=3 — a single misplaced copy/load-order),
+  research sched.c (R17, `tools/reference/gcc-papermario`), distill to the cookbook, then re-wave ×134.
+- **DETERMINISTIC RECOVERY LEVER → 64 close=0 reach-134 fns** (byte-correct, declaration-blocked = the `_a`
+  sig_unify-skip casualties + main plumbing). A def-side recovery (make `sig_unify` `--src-file`-aware so it
+  doesn't drop `_a` drafts, OR cast the def) banks them ×134 for ~0 agent tokens. **DO THIS FIRST each cycle.**
+
+**★ THE NEVERENDING CYCLE (every fresh session = the `/loop`):**
+1. `idiom_loop.py --assess` → confirm the target idiom + the close=0 recovery count.
+2. **Cheap harvest first:** run/extend the def-side recovery over the close=0 backlog → gate (drop-straggler-safe) → ×134.
+3. **Learn the idiom:** research the gcc pass (R17) + crack 1 low-closeness exemplar (hand/agent) → distill to the cookbook (R16).
+4. **Harvest the idiom:** `worker_wave` over the fuel manifest (seed agents with the new idiom) → `gate_stage --src-file --commit` → ×134.
+5. At ~80% of this class's fuel → `--assess` next idiom → `--gen-fuel` → **request a fresh session + hand Drew a new `/loop` prompt.** Forever.
+
+**★ THE `/loop` PROMPT for the NEXT (fresh) session** (Drew pastes it to start):
+> `/loop` Phase-21 idiom cycle. Read CURRENT_PHASE cont.5 + the cookbook. (1) `idiom_loop.py --assess`. (2) FIRST harvest the close=0 deterministic-recovery lever: make `sig_unify --src-file`-aware (don't drop `_a` drafts) or cast the def, re-gate the close=0 backlog → bank ×134. (3) LEARN the `schedule` gcc-2.7.2 idiom: research sched.c (R17), crack a close≈3 exemplar (func_80128ED8/func_80131A34) by hand, distill to the cookbook. (4) `worker_wave` the schedule fuel (`.run/auto/idiom_fuel_schedule.json`) seeded with the idiom → gate ×134. (5) At ~80% fuel → `--assess` the next idiom → `--gen-fuel` → request a fresh session + give Drew a new `/loop` prompt. Phase 21 is NEVERENDING; grinder runs token-free alongside (`tools/auto_status.sh`).
+
+---
+
+## ★★★ SESSION 2026-06-24 (cont. 4) — the `_a` vein IS a ×134 lever (10/11); cont.3 §24 pessimism CORRECTED (superseded by cont. 5)
 
 > Authoritative. The first real `_a` measurement wave ran (Drew greenlit + `/effort Max`). CORRECTS cont.3/§24:
 > the `_a` vein is NOT ×1 loose-typing-walled — **10/11 banked fns propagate ×134 byte-identical**. The "×1"
