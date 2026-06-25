@@ -54,6 +54,17 @@ def _xform(tool, ov, indir, suffix, extra=None):
     return out if _isdir(out) else indir
 
 
+def _gate1(binary, src, asm, out, good_sha, d):
+    """Whole-binary byte-gate (G3/P9, sole arbiter) on draft-dir d; return the verified func list.
+    harvest_verify reads the CURRENT src as its baseline (so verified fns ACCUMULATE across calls —
+    a stage-1 winner is no longer a stub for stage 2), substitutes + KEEPS byte-matches, reverts the
+    rest. --chunk 1 so one compile-fail can't sink a chunk (§20). harvest_verified.txt is per-call."""
+    sh([PY, "tools/harvest_verify.py", "--binary", binary, "--src", src, "--asm-subdir", asm,
+        "--out", out, "--good-sha", good_sha, "--drafts", d, "--chunk", "1"], timeout=7200)
+    vp = os.path.join(REPO, ".run/harvest_verified.txt")
+    return [w for w in (open(vp).read().split() if os.path.exists(vp) else []) if w.startswith("func_")]
+
+
 def _manifest_class(name):
     global _MANIFEST
     if _MANIFEST is None:
@@ -105,18 +116,29 @@ def _run_gate_locked(drafts, binary, src, asm, out, good_sha, propagate, source_
     if not draft_fns:
         return {"drafts": 0, "banked": 0, "propagated": 0, "near": 0, "failed": 0, "verified": []}
 
-    # 1-3 deterministic recovery transforms (each a no-op-safe draft rewrite)
-    d = _xform("canon_resident_calls.py", binary, drafts, "-cn")
-    d = _xform("cast_call_sites.py", binary, d, "-cast",
-               extra=(["--src-file", src_file] if src_file else None))
-    if not src_file:                          # sig_unify reads main .c stubs/decls -> it would DROP
-        d = _xform("sig_unify.py", binary, d, "-uni")   # split-file (_a/_o0) drafts; skip for those
+    # Recovery is CANON-FIRST, sig_unify FALLBACK (§19/§25): sig_unify can REGRESS an already-byte-
+    # correct draft (e.g. a hand-pinned crack — it rewrites the def-sig to a banked caller's wrong
+    # canonical). So gate canon+cast FIRST (stage 1: already-correct drafts bank), then sig_unify
+    # ONLY the stage-1 failures (stage 2: def-side near-misses recover) without regressing stage-1
+    # winners. --src-file makes cast/sig_unify read the SPLIT .c (_a/_o0) so those drafts aren't
+    # dropped. Each transform is a no-op-safe draft rewrite; the byte-gate is the sole arbiter (G3/P9).
+    cast_extra = (["--src-file", src_file] if src_file else None)
+    d1 = _xform("canon_resident_calls.py", binary, drafts, "-cn")
+    d1 = _xform("cast_call_sites.py", binary, d1, "-cast", extra=cast_extra)
+    verified = _gate1(binary, src, asm, out, good_sha, d1)
 
-    # 4 the byte-gate (sole arbiter); --chunk 1 so one compile-fail can't sink a chunk (§20)
-    sh([PY, "tools/harvest_verify.py", "--binary", binary, "--src", src, "--asm-subdir", asm,
-        "--out", out, "--good-sha", good_sha, "--drafts", d, "--chunk", "1"], timeout=7200)
-    vp = os.path.join(REPO, ".run/harvest_verified.txt")
-    verified = [w for w in (open(vp).read().split() if os.path.exists(vp) else []) if w.startswith("func_")]
+    d = d1
+    fails1 = [f for f in draft_fns if f not in verified]
+    if fails1:                                       # stage 2: sig_unify the stage-1 failures, re-gate
+        s2in = drafts + "-s2in"
+        abs_s2in = os.path.join(REPO, s2in)
+        shutil.rmtree(abs_s2in, ignore_errors=True); os.makedirs(abs_s2in)
+        for f in fails1:
+            p = os.path.join(REPO, d1, f + ".c")
+            if os.path.exists(p):
+                shutil.copy(p, os.path.join(abs_s2in, f + ".c"))
+        d = _xform("sig_unify.py", binary, s2in, "-uni", extra=cast_extra)
+        verified += _gate1(binary, src, asm, out, good_sha, d)
 
     # 5 propagate the banked matches fleet-wide
     propagated = 0

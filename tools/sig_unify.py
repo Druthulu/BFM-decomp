@@ -148,11 +148,17 @@ def rewrite_def(txt, fn, canon):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--overlay', default='ov_SC01_077')
+    ap.add_argument('--src-file', dest='src_file', default=None,
+                    help='overlay SPLIT .c the drafts target (e.g. ov_SC01_077_a.c / _o0.c); default = '
+                         'the main .c. Reads cur_stubs + inline/extern canonical sigs from THIS file so '
+                         'split-file drafts are NOT dropped (they are stubs in the split, not the main .c) '
+                         'and get the def-side arity-adopt recovery. engine_core.h is always included.')
     ap.add_argument('--in', dest='indir', required=True)
     ap.add_argument('--out', dest='outdir', required=True)
     args = ap.parse_args()
 
-    c_path = os.path.join(REPO, f'src/{args.overlay}/{args.overlay}.c')
+    c_path = os.path.join(REPO, args.src_file) if args.src_file else \
+        os.path.join(REPO, f'src/{args.overlay}/{args.overlay}.c')
     ec = os.path.join(REPO, 'src/shared/engine_core.h')
 
     fdef = _ght.collect_define_sigs(ec)

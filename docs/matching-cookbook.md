@@ -1773,3 +1773,70 @@ is loose-typing-limited (unknown fraction are ×1 walls). The proper measurement
 `_a` pool (parallel agents match bodies; the byte-gate + split-aware propagate sort ×134 vs ×1) — needs
 `wave_targets` `_a` support + `sig_unify` `_a`-awareness (or skip it). Decide whether the uncertain yield
 justifies the wave vs pivoting (the wall is the same as the main vein's).
+
+**UPDATE (cont.6): `sig_unify --src-file` is now BUILT** (closes the open item above). `sig_unify.py --src-file
+src/ov_SC01_077/ov_SC01_077_a.c` reads `cur_stubs` + inline/extern canonical sigs from the split file (not the
+main `.c`), so `_a`/`_o0` drafts are no longer dropped and DO get the def-side arity-adopt recovery. Validated:
+21 `_a` drafts unified WITH the flag vs 0 without; the `_a` close=0 recovery wave then banked func_8012F568 ×134
+(commit:0277). `gate_stage` passes `--src-file` to BOTH `cast_call_sites` and `sig_unify` now. See §25 for the
+canon-first two-stage gate that makes this safe (sig_unify must be a FALLBACK, not unconditional).
+
+## §25 — The "schedule" class is mostly COALESCING (pin-crackable), not scheduling; + the gate two-stage + h_exact over-counts ×134 (Phase 21, cont.6)
+
+`idiom_loop.py --assess` named **`schedule`** (50 "reach-134", median 15 ins off) as the next idiom. Cracking its
+lowest-closeness reach-134 exemplar **func_80128ED8** (close=3) surfaced three durable lessons.
+
+### The crack: the residual was gcc-2.7.2 COPY-COALESCING, not the instruction scheduler
+`match_one` diff (3-off): MINE `move $a3,$v1 / sll $v0,$a3,3 / addu $v0,$v0,$t0` vs TARGET `sll $v0,$v1,3 /
+addu $v0,$v0,$t0 / addu $a3,$v1,$zero`. The "schedule" label was misleading: gcc COALESCED the index-preserve
+copy (`idc = idx`) into the multiply operand (`sll` on the copy `$a3`) instead of multiplying `$v1` directly,
+and routed `idc+1` back through the copy's reg. Two **§17 register pins** fixed it (byte-gated, `match_one`
+MATCH 53/53):
+1. **Pin the preserve-copy to its TARGET register** (`register s32 idc __asm__("$7")` = `$a3`): gcc can no longer
+   fold it into the multiply operand → the multiply uses the original `$v1` directly and the copy emits
+   SEPARATELY after it. (3-off → 2-off.)
+2. **Route the copy's dependent arithmetic through a dead, target-scratch-pinned temp** (reuse an already-dead
+   `register __asm__("$2")`=`$v0` pseudo: `cnt = idc + 1; store cnt;`) → the result lands in `$v0` (the target's
+   scratch), not back in the copy's reg. (2-off → MATCH.)
+**Triage rule:** on a small "schedule" residual, read the `match_one` diff FIRST. A *copy emitted before its
+source's other use, with that use reading the copy's register* = COALESCING → pins (cookbook §17), crackable.
+Don't assume the scheduler.
+
+### The genuine scheduler — `rank_for_schedule` (sched.c), for when it IS scheduling
+gcc-2.7.2's ready-list tie-break order (sched.c, byte-read R17): **(1) PRIORITY** = dependency-chain height to
+end-of-bb (longest chain first); **(2) CLASS vs `last_scheduled_insn`** — prefer class 3 (independent / latency-1)
+over class 1 (data-dependent on the last insn) — i.e. gcc fills an address-gen→load gap with an INDEPENDENT insn
+(this EXPLAINS the "copy fills the slot before the `lw`" schedules the targets show); **(3) LUID** = original
+SOURCE ORDER (the stable final tie-break). LEVER for the genuine equal-priority case: reorder the SOURCE
+statements (the LUID tie-break — same family as §10's operand/statement-order idioms). When priorities differ or
+coalescing intervenes, source-reorder alone won't flip it → use the pins above.
+
+### The genuine schedule WALLS (do NOT re-grind — stub)
+- **§10 cross-jump / delay-slot merge** (func_8014FD54, close=2): two `return 0` paths — the target keeps them
+  SEPARATE (one fills the inner `beqz` delay slot with `move $v0,0`, one is a standalone zero block); our cc1
+  cross-jump-MERGES them → the inner `beqz` gets a NOP delay slot. The §5a `:::"memory"` barrier breaks the merge
+  but overshoots +1 (41 vs 40). No C-source form reaches the merged-with-delay-slot-fill schedule. (§10 Residual-B.)
+- **store-vs-load placement** (func_8014F2E0/func_80150528, §20-confirmed): the store schedules between two
+  arg-loads, mutually exclusive with base-preservation. Stub.
+
+### h_exact OVER-COUNTS ×134 — verify shareability before crediting a class's "reach-134" (R14)
+func_80128ED8's crack is byte-identical in ov_SC01_077 but **does NOT propagate ×134** — `dedup_propagate --addr
+0x80128ED8` (alone, no stragglers) still `[drop]`s it at ov_SC01_000: a cross-overlay byte-gate reject. So it
+banks **×1**, despite `sig_image` h_exact reporting `members=134`. **Why:** h_exact is RELOCATION-MASKED (the
+`%hi/%lo` of unresolved syms are 0 in the object), so it matches across overlays that the shared-C macro then
+can't reproduce byte-identically (overlay-local data/decl differences — the §24/§20 wall). **Consequence for the
+idiom-loop model:** `--assess`'s per-class "reach-134" count (from the backlog's `reach` field = h_exact) is
+OPTIMISTIC; a cracked fn's real leverage can be ×1. **Before committing a token-heavy wave to a class, probe
+×134-shareability on the cracked exemplar** (`dedup_propagate --addr <fn>`), not just the h_exact count. The
+"schedule" class is therefore NOT a confirmed ×134 vein — its closest reach-134 exemplars are one ×1-coalescing
+crack + one §10 wall.
+
+### The gate two-stage — sig_unify is a FALLBACK, not unconditional (`gate_stage.py`, §19 folded in)
+`gate_stage` ran canon→cast→sig_unify in ONE pass. sig_unify REGRESSED the func_80128ED8 crack: it rewrote the
+byte-correct def `s32 f(s32,s32*)` → a banked caller's canonical `void* f(void*,void*)` → gate reject (the raw
+draft banked fine via `harvest_verify`). Fix (the §19 "canon-first" design, now IN `gate_stage`): **stage 1** =
+canon+cast → byte-gate (already-correct drafts, incl. hand-pinned cracks, bank here); **stage 2** = sig_unify
+ONLY the stage-1 failures → re-gate (def-side near-misses recover) — never regressing a stage-1 winner.
+`harvest_verify` reads the CURRENT src as baseline, so verified fns ACCUMULATE across the two gate calls (a
+stage-1 winner is no longer a stub for stage 2). This is mandatory now that hand-pinned self-contained cracks
+flow through the same gate as recovery drafts.

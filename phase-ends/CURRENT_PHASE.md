@@ -9,7 +9,58 @@
 
 ---
 
-## ★★★ SESSION 2026-06-24 (cont. 5) — Phase 21 is now a NEVERENDING idiom-learning loop (READ FIRST)
+## ★★★ SESSION 2026-06-25 (cont. 6) — schedule idiom = COALESCING (pin-crackable), 2 durable gate fixes, h_exact over-counts ×134 (READ FIRST)
+
+> Drew's `/loop` (the cont.5 prompt) + `/effort Max`. Ran the cont.5 cycle: assess → cheap recovery → learn the
+> `schedule` idiom. The grinder ran token-free alongside (still permuting the hard tail, banked 0 — expected).
+> All byte-gated (G3/P9); 0 NON_MATCHING throughout.
+
+**Fleet 63.17%** (217,316 / 344,010, +0.04% this session) · 136/136 byte-identical (R22 re-verified at close) · HEAD = the cont.6 commit below. Local, not pushed (R6).
+
+**★ TWO DURABLE TOOLING FIXES (the real value this session — they compound on every future wave):**
+1. **`sig_unify.py --src-file`** (closes the §24 open item). It read `cur_stubs`/decls from the MAIN `.c` only →
+   silently DROPPED every `_a`/`_o0` split-file draft (0 unified vs 21 with the flag) → split-file near-misses
+   never got the def-side arity-adopt recovery. Now `--src-file src/ov_SC01_077/ov_SC01_077_a.c` reads the split
+   file. `gate_stage` passes it to BOTH `cast_call_sites` and `sig_unify` in `--src-file` mode. → banked
+   func_8012F568 ×134 from the `_a` close=0 backlog (commit:0277).
+2. **`gate_stage.py` is now CANON-FIRST two-stage (§19 design folded into the shared gate).** It ran
+   canon→cast→sig_unify in ONE pass; sig_unify REGRESSED the func_80128ED8 crack (rewrote its byte-correct def
+   `s32 f(s32,s32*)` → a banked caller's `void* f(void*,void*)` → gate reject). Fix: **stage 1** canon+cast →
+   gate (already-correct/hand-pinned cracks bank here); **stage 2** sig_unify ONLY the stage-1 failures → re-gate
+   (def-side recovery, no regression). `harvest_verify` accumulates verified across the two calls (reads current
+   src as baseline). Cookbook §25.
+
+**★ THE `schedule` IDIOM — CRACKED, but it's COALESCING not scheduling (cookbook §25):** func_80128ED8 (close=3,
+the assess's lowest-closeness reach-134 schedule exemplar) → `match_one` MATCH 53/53 via two §17 pins: pin the
+index-preserve copy to its target reg ($a3) so gcc can't fold it into the multiply operand (multiply uses $v1
+directly), and route `idc+1` through a dead $v0-pinned temp. The "schedule" label was misleading — the residual
+was gcc-2.7.2 **copy-coalescing**. Also distilled the genuine `rank_for_schedule` tie-break (priority → class-vs-last
+→ LUID source-order) and the genuine WALLS (func_8014FD54 §10 cross-jump/delay-slot; func_8014F2E0 store-vs-load).
+
+**★ THE STRATEGIC FINDING (R14/P9 — reshapes the cont.5 model): `h_exact` OVER-COUNTS ×134.** func_80128ED8 is
+byte-identical in ov_SC01_077 but **does NOT propagate ×134** — `dedup_propagate --addr 0x80128ED8` alone still
+`[drop]`s it at ov_SC01_000 (cross-overlay byte-gate reject). So it banks **×1**, despite h_exact `members=134`
+(h_exact is relocation-masked → over-counts). **Consequence:** `idiom_loop --assess`'s per-class "reach-134"
+count is OPTIMISTIC; the `schedule` class is NOT a confirmed ×134 vein (its 2 closest reach-134 exemplars = 1 ×1
+coalescing crack + 1 §10 wall). **Before a token-heavy wave, probe ×134-shareability on the cracked exemplar**
+(`dedup_propagate --addr <fn>`), don't trust the h_exact count.
+
+**★ SESSION BANKS:** func_8012F568 ×134 (commit:0277, `_a` recovery) + func_80128ED8 ×1 (commit:0278, schedule crack).
+The MAIN-region close=0 recovery banked 0/40 (the §20 def-side wall, as expected — sig_unify already tried on them).
+
+**★ NEXT — the schedule WAVE (cont.5 step 4) is NOT yet justified (ROI-gated, §20 "don't wave a wall"):** the
+exemplar came out ×1 and the class's reach-134 count is h_exact-inflated. Options for the next session, in order:
+1. **Probe-first:** run `dedup_propagate --addr` on 5-10 more cracked schedule fns to MEASURE the real ×134 fraction
+   before any wave (cheap, ~0 tokens). If a meaningful fraction is ×134 → wave with the §25 coalescing-pin idiom.
+2. **Re-assess for a higher-ROI idiom:** `idiom_loop --assess` after this session's banks; consider that the
+   median-0 classes (regalloc-order 44 r134, plumbing 34 r134) are RECOVERY-dominated — the now-fixed
+   `sig_unify --src-file` + canon-first gate may unlock some via a re-gate of their close=0 backlog (cheap).
+3. The fresh fuel is genuinely thinning; the honest read is that the cached reach-134 tail is mostly walls +
+   ×1-overlay-local. The high-byte-weight lever remains the **giants** (§ Phase-21 backlog) — token-heavy, deep.
+
+---
+
+## ★★★ SESSION 2026-06-24 (cont. 5) — Phase 21 is now a NEVERENDING idiom-learning loop (was READ FIRST; cont.6 supersedes the model caveat)
 
 > **Drew's directive (2026-06-24): Phase 21 does NOT end until he says it does — assume neverending.**
 > The model: harvest the EASY reach-134 fuel until ~80% consumed (a WALL), then **LEARN the next
