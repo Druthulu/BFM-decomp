@@ -120,10 +120,24 @@ def _run_gate_locked(drafts, binary, src, asm, out, good_sha, propagate, source_
 
     # 5 propagate the banked matches fleet-wide
     propagated = 0
+    prop_error = None
     if verified and propagate:
         before = _dedup_group_count()
-        sh([PY, "tools/dedup_propagate.py", "--auto-from", binary, "--min-reach", "2"], timeout=3600)
+        pr = sh([PY, "tools/dedup_propagate.py", "--auto-from", binary, "--min-reach", "2"], timeout=3600)
         propagated = max(0, _dedup_group_count() - before)
+        # Surface a REAL failure: dedup_propagate exits non-zero on a byte-gate revert (a false-reach
+        # straggler poisoned the all-or-nothing batch) — distinct from the benign "nothing to propagate"
+        # empty-plan no-op. A swallowed revert previously hid a real ×134 gain (cont.4); never again.
+        out = (pr.stdout or "") + (pr.stderr or "")
+        if pr.returncode != 0 and "nothing to propagate" not in out:
+            errlog = os.path.join(REPO, ".run/auto/last_propagate_error.log")
+            try:
+                open(errlog, "w").write(out)
+            except OSError:
+                pass
+            prop_error = [l for l in out.strip().splitlines() if l.strip()][-3:] or [f"exit {pr.returncode}"]
+            print(f"[gate] WARNING: dedup_propagate exited {pr.returncode} ({propagated} groups added); "
+                  f"see {errlog}", file=sys.stderr)
 
     # 6 log every non-match to the backlog (closeness + RESIDUAL class + best draft for the human).
     # The drafter stamps `// @class: <gcc-quirk class>` and `// @stuck: <note>` into the draft (so the
@@ -171,7 +185,8 @@ def _run_gate_locked(drafts, binary, src, asm, out, good_sha, propagate, source_
         commit_sha = sh(["git", "rev-parse", "--short", "HEAD"]).stdout.strip()
 
     return {"drafts": len(draft_fns), "banked": len(verified), "propagated": propagated,
-            "near": near, "failed": failed, "fleet_pct": fp, "verified": verified, "commit": commit_sha}
+            "near": near, "failed": failed, "fleet_pct": fp, "verified": verified,
+            "prop_error": prop_error, "commit": commit_sha}
 
 
 def main():

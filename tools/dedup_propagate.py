@@ -293,8 +293,22 @@ def main():
         ssig = load_sig(src)
         ctext = source_text(src)   # scan main + split files for matched defs
         reg = registered_addrs()   # skip functions already shared (additive + resumable)
+        # -O0 split-file functions are OVERLAY-LOCAL (§18/§20, cont.4): -O0 codegen embeds per-overlay
+        # %lo data addresses, so their bytes diverge per overlay even though the relocation-MASKED
+        # h_exact falsely reports reach-134. Cross-overlay-propagating one fails the byte-gate and,
+        # under the all-or-nothing batch revert, poisons every CLEAN match in the batch (cont.4:
+        # func_8013C360 reverted 10 good ×134 matches). Never auto-propagate them — detect by def-site
+        # in the -O0 split file (*_o0.c). (--addr still forces them, for an explicit override.)
+        o0_skip = set()
+        for _p, _tag in overlay_files(src):
+            if _p.name.endswith("_o0.c"):
+                _o0txt = _p.read_text()
+                for _ad in ssig:
+                    _s = find_site(_o0txt, src, _ad)
+                    if _s and _s[0] == "def":
+                        o0_skip.add(_ad)
         for addr in sorted(ssig):
-            if addr in reg:
+            if addr in reg or addr in o0_skip:
                 continue
             site = find_site(ctext, src, addr)
             if not site or site[0] != "def":   # only functions matched (inline def) in the source
