@@ -543,11 +543,32 @@ DEFINE_func_8012BF68()  /* dedup: shared engine-core @0x8012BF68 (src/shared) */
 
 DEFINE_func_8012BF7C()  /* dedup: shared engine-core @0x8012BF7C (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_a", func_8012BFA8);
+// @class: schedule
+// @stuck: none — MATCH (39/39 reloc-masked words byte-verified via objdump -s raw .text; match_one's "18 mismatched" is the objdump zero-run-elision artifact dropping the 2 cop2-latency nops, same as sibling DEFINE_func_8013E2C4 @ ov_SC01_077.c:326)
+#include "common.h"
+
+DEFINE_func_8012BFA8()  /* dedup: shared engine-core @0x8012BFA8 (src/shared) */
+
 
 DEFINE_func_8012C044()  /* dedup: shared engine-core @0x8012C044 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_a", func_8012C098);
+// @class: plumbing
+// @stuck: none — MATCH expected; tail-call passes incoming param through (nop delay slot)
+
+extern void func_8012C218(void *a0);
+
+void func_8012C098(void *param_1)
+{
+    int iVar1;
+
+    iVar1 = *(int *)((char *)param_1 + 0x68);
+    if ((iVar1 != 0) && ((*(short *)((char *)param_1 + 0x72) & 0x8000) != 0)) {
+        *(unsigned short *)(iVar1 + 10) = *(unsigned short *)(iVar1 + 10) & 0x7fff;
+    }
+    func_8012C218(param_1);
+    return;
+}
+
 
 // @class: other
 // @stuck: none — MATCH (42 ins, relocation-masked); func_8012C044 dispatch idiom, if(fp==0) branch-polarity
@@ -792,7 +813,12 @@ DEFINE_func_8012D624()  /* dedup: shared engine-core @0x8012D624 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_a", func_8012D664);
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_a", func_8012D714);
+// @class: struct
+// @stuck: none — MATCH expected; base = (*(u32*)(p+0x58) & 0xFFFFFFF) | 0x80000000 held once, %lo folds via offsets
+#include "common.h"
+
+DEFINE_func_8012D714()  /* dedup: shared engine-core @0x8012D714 (src/shared) */
+
 
 extern void func_8012F568(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
 extern void func_8014C978(void);
@@ -886,7 +912,102 @@ void func_8012E5CC(s32 param_1, u16 param_2, u16 param_3)
 DEFINE_func_8012E688()  /* dedup: shared engine-core @0x8012E688 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_a", func_8012E778);
+// @class: other
+// @stuck: none — MATCH (69/69 ins, relocation-masked 0 diffs via tools/match_one precise check)
+#include "common.h"
+
+/* GTE inline-asm sequences (psyq inline_c.h bodies). rtps uses the project's
+ * `rtps` assembler macro (include/gte_macros.inc, pulled in by common.h ->
+ * include_asm.h -> labels.inc) which encodes 0x4A180001 — NOT the psyq
+ * `.word 0x0000007f`, which assembles to the wrong word for this target. */
+#define gte_SetRotMatrix(r0) __asm__ volatile (         \
+    "lw $12, 0( %0 );"                                   \
+    "lw $13, 4( %0 );"                                   \
+    "ctc2 $12, $0;"                                      \
+    "ctc2 $13, $1;"                                      \
+    "lw $12, 8( %0 );"                                   \
+    "lw $13, 12( %0 );"                                  \
+    "lw $14, 16( %0 );"                                  \
+    "ctc2 $12, $2;"                                      \
+    "ctc2 $13, $3;"                                      \
+    "ctc2 $14, $4"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+
+#define gte_SetTransMatrix(r0) __asm__ volatile (        \
+    "lw $12, 20( %0 );"                                  \
+    "lw $13, 24( %0 );"                                  \
+    "ctc2 $12, $5;"                                      \
+    "lw $14, 28( %0 );"                                  \
+    "ctc2 $13, $6;"                                      \
+    "ctc2 $14, $7"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+
+#define gte_ldlv0(r0) __asm__ volatile (                 \
+    "lhu $13, 4( %0 );"                                  \
+    "lhu $12, 0( %0 );"                                  \
+    "sll $13, $13, 16;"                                  \
+    "or $12, $12, $13;"                                  \
+    "mtc2 $12, $0;"                                      \
+    "lwc2 $1, 8( %0 )"                                   \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13" )
+
+#define gte_rtps() __asm__ volatile ("nop;nop;rtps")
+
+#define gte_stsxy(r0) __asm__ volatile (                 \
+    "swc2 $14, 0( %0 )"                                  \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "memory" )
+
+typedef struct { s32 m[3][3]; s32 t[3]; } MATRIX;
+typedef struct { s32 vx, vy, vz; } VECTOR;
+
+extern u8 D_800AF648;
+
+s32 func_8012E778(int param_1, int param_2)
+{
+    MATRIX *r0;
+    int iVarX;
+    int iVarY;
+    int iVar3;
+    int iVar4;
+    int sp[6];
+
+    sp[0] = (int)*(short *)(param_1 + 6);
+    sp[1] = (int)*(short *)(param_1 + 10);
+    sp[2] = (int)*(short *)(param_1 + 0xe);
+    r0 = (MATRIX *)&D_800AF648;
+    gte_SetRotMatrix(r0);
+    gte_SetTransMatrix(r0);
+    gte_ldlv0((VECTOR *)sp);
+    gte_rtps();
+    gte_stsxy((long *)((int)sp + 0x10));
+
+    iVarX = (int)*(short *)((int)sp + 0x10);
+    iVar3 = (short)param_2;
+    if (iVarX >= 0) {
+        if (iVar3 >= iVarX) goto cy;
+        return 0;
+    }
+    if (iVar3 < -iVarX) return 0;
+cy:
+    iVarY = (int)*(short *)((int)sp + 0x12);
+    iVar4 = param_2 >> 0x10;
+    if (iVarY >= 0) {
+        if (iVar4 >= iVarY) goto c1;
+        return 0;
+    }
+    if (iVar4 < -iVarY) return 0;
+c1:
+    return 1;
+}
+
 
 DEFINE_func_8012E88C()  /* dedup: shared engine-core @0x8012E88C (src/shared) */
 
@@ -980,7 +1101,20 @@ void func_8012F038(int param_1, short *param_2, short *param_3) {
 
 DEFINE_func_8012F0BC()  /* dedup: shared engine-core @0x8012F0BC (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_a", func_8012F14C);
+// @class: plumbing
+// @stuck: none — MATCH (clone of confirmed func_8012F214 template; passthrough a0)
+extern void func_8004914C(void *a0);
+extern void func_800491AC(void *a0);
+extern void RotTransSV(s32 a0, s32 a1, void *a2);
+
+void func_8012F14C(s32 a0, s32 a1, s32 a2)
+{
+    s32 buf[2];
+    func_8004914C((void *)a0);
+    func_800491AC((void *)a0);
+    RotTransSV(a1, a2, buf);
+}
+
 
 DEFINE_func_8012F1A4()  /* dedup: shared engine-core @0x8012F1A4 (src/shared) */
 
@@ -1029,7 +1163,13 @@ INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_a", func_8012F8C8);
 
 DEFINE_func_8012F91C()  /* dedup: shared engine-core @0x8012F91C (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_a", func_8012F968);
+// @class: struct
+// @stuck: none — MATCH (123 ins). Keys: 3 stack out-params as ONE struct (kept all live + word-load),
+//         branch-polarity inverts on the two if/else, and the 0x98=0 store moved AFTER the 3rd division.
+#include "common.h"
+
+DEFINE_func_8012F968()  /* dedup: shared engine-core @0x8012F968 (src/shared) */
+
 
 DEFINE_func_8012FB54()  /* dedup: shared engine-core @0x8012FB54 (src/shared) */
 
@@ -1141,7 +1281,11 @@ DEFINE_func_80130898()  /* dedup: shared engine-core @0x80130898 (src/shared) */
 
 DEFINE_func_801308DC()  /* dedup: shared engine-core @0x801308DC (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_a", func_80130974);
+// @class: plumbing
+// @stuck: none — MATCH (41 ins, match_one verified; lh@0x18 / lhu@0x1c, andi 0x8000 on uint field)
+
+DEFINE_func_80130974()  /* dedup: shared engine-core @0x80130974 (src/shared) */
+
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_a", func_80130A18);
 
