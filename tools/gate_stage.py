@@ -84,19 +84,22 @@ def match_one_closeness(fn, cpath, asm):
 
 
 def run_gate(drafts, binary=OV, src=DEF_SRC, asm=DEF_ASM, out=DEF_OUT, good_sha=DEF_SHA,
-             propagate=True, source_tag="worker", commit=False):
+             propagate=True, source_tag="worker", commit=False, src_file=None):
     # Serialize: the grinder and the orchestrator both call this, and it mutates the shared
     # build tree + git. One gate at a time (blocking flock) — never two builds/commits racing.
+    # src_file: the overlay SPLIT .c the drafts target (ov_SC01_077_a.c / _o0.c). When set, cast
+    # canonicalizes against THAT file's decls and sig_unify is SKIPPED (it reads main .c only and
+    # would DROP split-file drafts). dedup_propagate is already split-aware. Default None = main .c.
     os.makedirs(os.path.join(REPO, ".run/auto"), exist_ok=True)
     _lock = open(os.path.join(REPO, ".run/auto/gate.lock"), "w")
     fcntl.flock(_lock, fcntl.LOCK_EX)
     try:
-        return _run_gate_locked(drafts, binary, src, asm, out, good_sha, propagate, source_tag, commit)
+        return _run_gate_locked(drafts, binary, src, asm, out, good_sha, propagate, source_tag, commit, src_file)
     finally:
         fcntl.flock(_lock, fcntl.LOCK_UN); _lock.close()
 
 
-def _run_gate_locked(drafts, binary, src, asm, out, good_sha, propagate, source_tag, commit):
+def _run_gate_locked(drafts, binary, src, asm, out, good_sha, propagate, source_tag, commit, src_file=None):
     draft_fns = sorted(os.path.basename(p)[:-2] for p in
                        glob.glob(os.path.join(REPO, drafts, "*.c")))
     if not draft_fns:
@@ -104,8 +107,10 @@ def _run_gate_locked(drafts, binary, src, asm, out, good_sha, propagate, source_
 
     # 1-3 deterministic recovery transforms (each a no-op-safe draft rewrite)
     d = _xform("canon_resident_calls.py", binary, drafts, "-cn")
-    d = _xform("cast_call_sites.py", binary, d, "-cast")
-    d = _xform("sig_unify.py", binary, d, "-uni")
+    d = _xform("cast_call_sites.py", binary, d, "-cast",
+               extra=(["--src-file", src_file] if src_file else None))
+    if not src_file:                          # sig_unify reads main .c stubs/decls -> it would DROP
+        d = _xform("sig_unify.py", binary, d, "-uni")   # split-file (_a/_o0) drafts; skip for those
 
     # 4 the byte-gate (sole arbiter); --chunk 1 so one compile-fail can't sink a chunk (§20)
     sh([PY, "tools/harvest_verify.py", "--binary", binary, "--src", src, "--asm-subdir", asm,
@@ -178,6 +183,9 @@ def main():
     ap.add_argument("--out", default=None)
     ap.add_argument("--good-sha", default=None)
     ap.add_argument("--source-tag", default="worker")
+    ap.add_argument("--src-file", default=None,
+                    help="overlay SPLIT .c the drafts target (ov_SC01_077_a.c/_o0.c): cast canonicalizes "
+                         "against it + sig_unify is skipped. Use with --src/--asm-subdir pointing at the split.")
     ap.add_argument("--no-propagate", action="store_true")
     ap.add_argument("--commit", action="store_true")
     a = ap.parse_args()
@@ -187,7 +195,8 @@ def main():
                        asm=a.asm_subdir or f"asm/{b}/nonmatchings/{b}",
                        out=a.out or f"build/{b}/{b}",
                        good_sha=a.good_sha or DEF_SHA,
-                       propagate=not a.no_propagate, source_tag=a.source_tag, commit=a.commit)
+                       propagate=not a.no_propagate, source_tag=a.source_tag, commit=a.commit,
+                       src_file=a.src_file)
     print(json.dumps(summary))
 
 

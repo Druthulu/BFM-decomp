@@ -18,6 +18,13 @@ import backlog
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 STUB_RE = re.compile(r"INCLUDE_ASM\([^,]+,\s*(\w+)\)")
 ASM_SUBDIR = "asm/ov_SC01_077/nonmatchings/ov_SC01_077"
+# region (fuel_manifest) -> asm subdir. An _a/_o0 fn's .s lives under its Phase-19 SPLIT subdir, not
+# the main one — the batch must point drafters at the right .s, else they draft against the wrong asm.
+REGION_SUB = {"main": "ov_SC01_077", "a": "ov_SC01_077_a", "o0": "ov_SC01_077_o0"}
+
+
+def asm_for(region, name):
+    return f"asm/ov_SC01_077/nonmatchings/{REGION_SUB.get(region, 'ov_SC01_077')}/{name}.s"
 
 # Canonical gcc-quirk residual classes (the cookbook §17–20 taxonomy). A wave studies ONE of these
 # at a time (the Phase-18 learning model): bank what the class's idiom reaches, distill the quirk,
@@ -159,6 +166,8 @@ def main():
         return
     if a.rclass:
         rc = a.rclass.upper()
+        mreg = {t["name"]: t.get("region", "main")   # region -> correct split-file asm subdir
+                for t in json.load(open(os.path.join(REPO, ".run/fuel_manifest.json")))["targets"]}
         stubs = live_stubs()   # still-unbanked only (a banked fn left the INCLUDE_ASM stub set)
         recs = [r for r in backlog.load_best()
                 if r.get("status") == "near" and canon_class(r) == rc and r.get("name")
@@ -166,7 +175,7 @@ def main():
                 and isinstance(r.get("closeness"), int) and r["closeness"] > 0]  # genuine near-miss; close==0 = plumbing-blocked (re-draft can't bank)
         recs.sort(key=lambda r: (-(r.get("reach") or 1), r.get("closeness") if isinstance(r.get("closeness"), int) else 999))
         batch = [{"name": r["name"], "addr": r.get("addr") or ("0x" + r["name"][5:].lower()),
-                  "nins": r.get("nins"), "class": rc, "asm": f"{ASM_SUBDIR}/{r['name']}.s",
+                  "nins": r.get("nins"), "class": rc, "asm": asm_for(mreg.get(r["name"], "main"), r["name"]),
                   "ghidra_c": f".run/ghidra_c/{r['name']}.c", "prior_stuck": r.get("where_stuck"),
                   "prior_closeness": r.get("closeness")}
                  for r in recs[:a.n]]
@@ -207,7 +216,7 @@ def main():
     pool = pool[:a.n]
 
     batch = [{"name": t["name"], "addr": t["addr"], "nins": t["nins"], "class": t["class"],
-              "asm": f"{ASM_SUBDIR}/{t['name']}.s", "ghidra_c": f".run/ghidra_c/{t['name']}.c"}
+              "asm": asm_for(t.get("region", "main"), t["name"]), "ghidra_c": f".run/ghidra_c/{t['name']}.c"}
              for t in pool]
     emit(batch, a.out)
 

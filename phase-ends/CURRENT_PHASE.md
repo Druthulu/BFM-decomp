@@ -40,13 +40,31 @@ cast-banked ×1), but matching/propagation hits the SAME §16/§20 loose-typing 
 (func_8012C098 → caller declares it `(void)` but body uses a param → ×1 wall, can't propagate), within-`_a`
 multi-sig callees (func_8012F274 → `RotTransSV` declared inconsistently in `_a.c`). The ×134 yield is uncertain.
 
-**★ NEXT — decision for Drew (the _a vein's ROI is now uncertain):**
-- **To pursue it:** finish the `_a`-aware recovery (`sig_unify --src-file`/split-awareness — it still DROPS `_a`
-  fns; or run `canon → cast --src-file → gate`, skipping sig_unify) + `wave_targets` `_a` support, then run ONE
-  small `_a` worker wave to MEASURE the real ×134 yield before scaling (probe-before-invest). The byte-gate
-  guarantees correctness; even a partial-×134 yield is real gain (it's the only fresh fuel).
-- **Or pivot:** the `_a` wall is the same loose-typing one; if the measured yield is mostly ×1, it's low-ROI.
-Recommendation: a small measurement wave (complete the minimal `_a` tooling, one wave, read the yield), then decide.
+**★ THE `_a` WAVE IS NOW TURNKEY (built + wired this session — run from a FRESH session; Drew greenlit waving `_a`):**
+All four pieces committed: `wave_targets.py` region-aware (`--region a` serves the 68 fresh `_a` reach-134 fns
+with the correct `..._a` asm paths) · `cast_call_sites.py --src-file` (canonicalize vs the `_a.c` decls) ·
+`gate_stage.py --src-file` (cast `--src-file` + SKIP sig_unify, which drops `_a` fns; harvest_verify `--src` `_a.c`) ·
+`dedup_propagate.py` split-aware (propagates an `_a`-matched fn ×reach).
+
+**THE `_a` WAVE CYCLE (fresh session; grinder runs alongside, free):**
+1. `.venv/bin/python tools/wave_targets.py --pool tractable --region a --n 24 --out .run/auto/wave_batch.json`
+   (small `_a` WAVE/PINS/STRUCT ≤150-ins; or `--pool any-reach134 --region a` for all 68 incl. giants).
+2. Read `.run/auto/wave_batch.json`; launch `tools/workflows/worker_wave.js` (Workflow tool),
+   `args={draftDir:".run/drafts-wave", targets:<batch array PASTED VERBATIM>}` (args = JSON ARRAY, §20 gotcha).
+3. On completion GATE in `_a` mode — **BACKGROUNDED + dangerouslyDisableSandbox** (NOT `orchestrator.py finish`, which is main-only):
+   ```
+   .venv/bin/python tools/gate_stage.py --binary ov_SC01_077 \
+     --src src/ov_SC01_077/ov_SC01_077_a.c --asm-subdir asm/ov_SC01_077/nonmatchings/ov_SC01_077_a \
+     --src-file src/ov_SC01_077/ov_SC01_077_a.c \
+     --out build/ov_SC01_077/ov_SC01_077 --good-sha d19c9580a02dc63ba1f0e7e0c770f3b10de35635 \
+     --drafts .run/drafts-wave --commit
+   ```
+   Prints `{banked, propagated, near, failed, fleet_pct}`. `propagated` ≈ #fns that went ×134; banked-not-propagated = ×1 walls (§24).
+4. `make report` for fleet%; distill new idioms (`tools/workflows/distill.js`); loop step 1. STOP all: `bash tools/auto_stop.sh`.
+
+**MEASURE FIRST (probe-before-scale):** run ONE wave, read the ×134-vs-×1 yield. High ×134 → scale the rest
+(~60 `_a` fns, real fleet%); mostly ×1 → the loose-typing wall (§24) dominates → pivot. The byte-gate guarantees
+correctness either way (a wrong/conflicting draft reverts, never banks). Cookbook §24 has the full context.
 
 ---
 
