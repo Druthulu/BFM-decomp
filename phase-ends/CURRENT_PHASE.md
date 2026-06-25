@@ -75,6 +75,24 @@ permuter-class (two R14 self-corrections; cookbook §26):**
   the §27 recipe seeded → I gate (`gate_stage`, flock-safe; `--src-file` for the `_a` giants) + propagate ×134.
   Pending Drew's confirm to launch the multi-agent Workflow (the Phase-21 T4 mechanism).
 
+**★ UPDATE (cont.7d): the 6-giant wave (1.16M tokens) BANKED 0 — giants do NOT auto-bank (the honest result):**
+- Drew greenlit the wave; 6 xHigh agents drafted func_801770E0/80144090/80178004/8014F74C/8014EA4C/801412A8 with
+  the §27 recipe. They got the SHAPE (recipe works) but the whole-binary byte-gate (G3/P9, sole arbiter) rejected
+  **all 6**: func_8014F74C close=0 match_one MATCH but **its RAW draft fails the byte-gate too** (verified — no
+  callee/data conflict → match_one OVER-predicted, §25 masked residual); the rest are pure regalloc/scheduling
+  residuals the agents themselves call "not C-steerable → permuter fuel" (close 6/25/53/91/164).
+- **Confirms cont.2 / Phase-20 / Phase-16 (~3% wall): giants are HAND-FINISH / permuter fuel, NOT auto-bankable.**
+  cookbook §27 updated with the wave result. **Do NOT scale more giant auto-waves for %** (1.16M tokens → 0 banks).
+- **A gate bug surfaced (R16, noted not fixed):** `gate_stage`'s canon/cast/sig_unify transforms REGRESSED the
+  close near-misses (func_8014EA4C 6→128) and logged the regressed closeness → **poisoned the backlog** (hid the
+  bankable-via-permuter drafts from the grinder). Re-logged the 6 with the agents' TRUE closeness + raw drafts
+  (`source=giant-raw`); **func_8014EA4C (6) + func_80144090 (25) are now grinder-eligible** (token-free permuter
+  may finish them). Fix candidate: gate should log the BEST of (raw, post-transform) closeness for near-misses.
+- **THE INFLECTION (P9, byte-proven across cont.7/7b/7c/7d): the automated reach-134 harvest is COMPLETE at
+  63.17%.** Every automated lever — cheap close=0 recovery (0 fresh), permuter grinder (banks ~0 on the hard
+  tail), giant auto-wave (0/6) — is exhausted. Forward %-progress = HAND-FINISHING (deep per-fn, Drew or me) or
+  CLOSING Phase 21 (bank the 58.82%→63.17% arc + the ranked near-miss backlog). **→ surfaced to Drew.**
+
 **★ NEXT — cont.6 option-3 is now CONFIRMED: the cached reach-134 cheap fuel is dry; the genuine levers are
 token-heavy (fresh-session work, Drew's ROI greenlight per R26/R27/§20):**
 1. **The GIANTS** (8 reach-134 >150 ins — the high-BYTE-WEIGHT lever, the one that moves the decomp.dev-comparable

@@ -1930,3 +1930,15 @@ calls/constants/GPU-packet all byte-correct, residual = pure regalloc):
    (`.run/backlog_drafts/`) is exactly this — structurally done, 1–2 callee regs from byte-perfect.
 **Net:** giants reach STRUCTURALLY-MATCHED fast (steps 1-3); the last mile is regalloc-coalescing (step 5) — so
 giants are ISOLATED-AGENT + permuter work (per `breadth-isolated-agents-not-serial`), not main-loop serial grind.
+
+**WAVE RESULT (cont.7d — the honest yield, R14/P9): a 6-giant worker_wave banked 0.** The agents reached the
+SHAPE (the §27 recipe works — bodies/calls/constants/control-flow right) but the whole-binary byte-gate rejected
+all 6: 1 was close=0 match_one-MATCH yet gate-REJECTED (func_8014F74C — no callee/data conflict, so match_one
+OVER-predicted: the masked standalone match hid a real residual, §25), 1 wouldn't compile whole-binary
+(func_80144090, agent-claimed "154/154" but a decl the gate couldn't reconcile), and 4 were genuinely far
+(close 53–164 — the agents' "structural match" self-claims were match_one-optimistic). **This confirms cont.2 /
+Phase-20 / Phase-16 (~3% wall): giants do NOT auto-bank** — even with the §27 recipe + isolated agents, the
+whole-binary gate (masked-residual + plumbing + large regalloc) blocks them. **Giants are HAND-FINISH / backlog
+fuel** (the wave's deliverable is 6 RANKED near-miss drafts for human sessions, NOT banks). Do not scale giant
+auto-waves expecting %; the automated reach-134 harvest is COMPLETE at this fleet level (every automated lever —
+cheap recovery, permuter, giant auto-wave — banks ~0). Forward % = hand-finishing (Drew) or closing the phase.
