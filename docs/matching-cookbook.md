@@ -1942,3 +1942,14 @@ whole-binary gate (masked-residual + plumbing + large regalloc) blocks them. **G
 fuel** (the wave's deliverable is 6 RANKED near-miss drafts for human sessions, NOT banks). Do not scale giant
 auto-waves expecting %; the automated reach-134 harvest is COMPLETE at this fleet level (every automated lever —
 cheap recovery, permuter, giant auto-wave — banks ~0). Forward % = hand-finishing (Drew) or closing the phase.
+
+**Frame-pressure-locked residuals are PERMUTER-ONLY (cont.7d, byte-proven on func_8014EA4C, close=6).** When a
+giant's matched body needs a frame-forcing HACK to hit the right stack size — e.g. a DEAD `u8 buf[16]; memcpy(buf+16,
+src, 8)` (an out-of-bounds copy whose only job is to force frame 0x60) — its remaining schedule/regalloc residuals
+become PRESSURE-LOCKED: any C edit that would steer them (materialize a temp to reorder a store/load; a ternary or
+`s32` retype of an abs; a register pin) shifts register pressure → gcc DROPS the dead buffer → frame shrinks
+(0x60→0x58) → whole-function offset cascade (close 6 → 23–123). Two hand attempts both cascaded exactly as the
+drafter predicted. **The fix is NOT C-steering — it's the decomp-permuter** (the grinder): it randomizes
+regalloc/scheduling via semantics-preserving C perturbations the byte-gate scores, exploring the frame-PRESERVING
+space the hand-edits can't. Re-log such giants with their true closeness + raw draft (`source=giant-raw`) so the
+grinder (close≤30) picks them up; do NOT hand-grind them.
