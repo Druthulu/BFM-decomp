@@ -30,6 +30,10 @@ function drafterPrompt(t, draftDir) {
   const prior = t.prior_stuck
     ? `\nPRIOR ATTEMPT got stuck here (closeness ${t.prior_closeness}): "${t.prior_stuck}". This is a CLASS-FOCUSED re-attempt — concentrate on that residual; the cookbook may now have a newly-distilled idiom for it.\n`
     : ''
+  // Region-aware: split-file (_a/_o0) targets carry their own asm subdir in t.asm
+  // (asm/ov_SC01_077/nonmatchings/ov_SC01_077_a/<fn>.s). Derive the dir so the match_one
+  // self-check finds the right .s; fall back to the main subdir if t.asm is absent.
+  const asmSubdir = (t.asm && t.asm.indexOf('/') >= 0) ? t.asm.replace(/\/[^/]+$/, '') : ASM_SUBDIR
   return `Match ONE MIPS function for the Brave Fencer Musashi PS1 matching decompilation (overlay ov_SC01_077).
 GOAL: write C that the pinned compiler (gcc-2.7.2-psx -O2 -G0 -mips1 -mcpu=3000 -mgas -msoft-float -fgnu-linker + maspsx --aspsx-version=2.56 --expand-div) compiles to BYTE-IDENTICAL machine code.
 
@@ -62,7 +66,7 @@ PROCESS (you have Bash + Read):
      // @class: <one of: regalloc-order | schedule | remat | struct | iv-combine | loop-guard | loose-typing | plumbing | other>
      // @stuck: <one concrete line on the residual that remains, or "none — MATCH">
 3. Self-check (fast relocation-masked proxy for the byte-gate):
-   .venv/bin/python tools/match_one.py ${t.name} --c ${draftDir}/${t.name}.c --asm-subdir ${ASM_SUBDIR}
+   .venv/bin/python tools/match_one.py ${t.name} --c ${draftDir}/${t.name}.c --asm-subdir ${asmSubdir}
    - "MATCH (N ins)"  => byte-identical (relocation-masked). You nailed it. Stop.
    - "N mismatched"   => N instructions differ. Apply the toolkit, iterate to reduce N.
 4. Iterate a few times; KEEP THE BEST draft in the file (always leave a file, even if imperfect —

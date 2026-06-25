@@ -9,7 +9,36 @@
 
 ---
 
-## ★★★ SESSION 2026-06-24 (cont. 3) — the `_a.c` split-file vein: enabler tooling built, but loose-typing-gated (READ FIRST)
+## ★★★ SESSION 2026-06-24 (cont. 4) — the `_a` vein IS a ×134 lever (10/11); cont.3 §24 pessimism CORRECTED (READ FIRST)
+
+> Authoritative. The first real `_a` measurement wave ran (Drew greenlit + `/effort Max`). CORRECTS cont.3/§24:
+> the `_a` vein is NOT ×1 loose-typing-walled — **10/11 banked fns propagate ×134 byte-identical**. The "×1"
+> reading was TWO tooling bugs, now diagnosed (R14, byte-proven). The byte-gate (G3/P9) held throughout.
+
+**Fleet 62.70%** (215,699 / 344,010, **+0.39% this turn**) · 136/136 byte-identical · 0 NON_MATCHING.
+HEAD = the commit below. Grinder still running (token-free, banked 0 — the permuter-resistant hard tail; don't stop). Local, not pushed (R6).
+
+**★ THE RESULT — `_a` is a ×134 lever (probe-proven):**
+- Wave: 24 xHigh agents over `wave_targets.py --pool tractable --region a` (61–129 ins) → **16/24 self-MATCH, 11 byte-banked** in `ov_SC01_077_a.c` (commit `commit:0266`). All 11 are reach-134 (members=134).
+- The gate reported **`propagated: 0`** — a TOOLING artifact, NOT the §24 wall. Two stacked bugs:
+  1. **`dedup_propagate` batch propagation is ALL-OR-NOTHING** (lines 456–464): one cross-overlay-incompatible fn reverts the whole batch.
+  2. The poison was **`func_8013C360`** — the pre-existing **-O0 overlay-local** straggler (§18/§20: masked h_exact falsely reports reach-134, but its real bytes reference per-overlay data → fails the cross-overlay byte-gate). Swept into `--auto-from`, it reverted all 10 clean matches.
+  3. **`gate_stage`'s `sh()` swallows dedup_propagate's non-zero exit** (no return-code check) → reported 0 with no error surfaced.
+- **Per-function probe (each vs ov_SC01_000, gate.lock held): 10/11 PASS, 1 FAIL** (the FAIL = func_8013C360 ONLY).
+- **Realized the gain:** propagated the 10 clean fns ×134 (`dedup_propagate --addr <10> --source-overlay ov_SC01_077 --min-reach 2`, straggler excluded) → `[ OK ] 134 overlays byte-identical`, 10 new dedup groups → **commit `commit:0267`, fleet 62.31→62.70%**.
+
+**★ THE 10 PROPAGATED ×134:** `0x80128DB4 0x801300F4 0x80136D08 0x80130AF0 0x8012944C 0x8012D4B4 0x80137030 0x80132288 0x8012DBD0 0x8013339C`. **×1 (local-types-skip → needs the §20 type-lift):** func_8012EA90 (banked in `_a.c` only). **Excluded straggler:** func_8013C360 (-O0 overlay-local — keep OUT of cross-overlay propagation).
+
+**★ ENABLER FIX (committed this session):** `worker_wave.js` now derives each agent's `match_one` self-check `--asm-subdir` from `t.asm` (was hardcoded to the MAIN subdir → every `_a` agent self-check crashed on a missing `.s` → blind drafting). THIS produced the high close rate (16/24); without it the `_a` wave drafts blind.
+
+**★ NEXT — two robustness fixes so future `_a` waves AUTO-realize ×134 (then SCALE ~60 more `_a` fns = multi-% runway):**
+1. **`dedup_propagate`: drop-the-straggler, not all-or-nothing.** On a batch byte-gate fail, identify + drop the culprit fn(s) (the byte-gate is truth — a false-reach fn should be skipped, not poison the batch), proceed with the clean subset. Plus permanently exclude the -O0 overlay-local cluster from `--auto-from`.
+2. **`gate_stage`: surface dedup_propagate failures** (check return code / log output) so "propagated: 0" can never silently hide a real gain again.
+Then loop `_a` waves (each auto-realizing ×134). **Pending Drew's direction** (he asked to report the yield before scaling).
+
+---
+
+## ★★★ SESSION 2026-06-24 (cont. 3) — the `_a.c` split-file vein: enabler tooling built (SUPERSEDED by cont. 4 — the vein IS ×134)
 
 > Authoritative. Pursued the fresh-fuel recommendation; found the fresh fuel is in `ov_SC01_077_a.c` (a tooling
 > gap), built the split-aware enabler, and characterized the vein honestly (it hits the same loose-typing wall).
