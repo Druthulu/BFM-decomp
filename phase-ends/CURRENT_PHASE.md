@@ -42,6 +42,23 @@ h_exact-inflated "39 reach-134." §20 "don't wave a wall" → the schedule wave 
 **★ SESSION BANKS:** none (the cheap fuel was byte-proven dry). The durable output is the **exhaustion proof + the
 two assess-honesty fixes + cookbook §26** — they stop every future session re-burning the close=0 lever.
 
+**★ UPDATE (cont.7b — 2nd auto-wake, same session): the resolved-reach probe is REFUTED + the close-1 tail is
+permuter-class (two R14 self-corrections; cookbook §26):**
+- **The cont.7 "resolved-reach probe" recommendation is WITHDRAWN.** `sig_image`'s `h_exact` is already
+  `SHA1(raw image bytes)` — UNMASKED (sig_image.py:170-171) — so `reach` IS the accurate shipped-byte reach; a
+  resolved-byte probe just reproduces it. The real gap is `reach` (shipped identical) ≥ realizable-×134 (shared-C
+  reproduces all N), measurable ONLY by `dedup_propagate`'s byte-gate on an ALREADY-MATCHED fn. **No cheap static
+  probe exists. Don't build it.** (Caught by scoping before building — saved the wasted tool.)
+- **Attempted a source crack on func_801775E0** (regalloc, backlog close=1, Drew's "try pins before concluding a
+  wall"): the saved draft compiles **31-off from source** (prologue save-SCHEDULING + branch-sense + block-order —
+  the §20 wall); its close=1 was **permuter-achieved**, not source-close. So the close-1..4 codegen tail is
+  **permuter-class** (the grinder's token-free territory), not cheap pin targets. **RULE (§26): `match_one` a
+  backlog draft for its SOURCE closeness before assuming a pin crack.**
+- **The honest inflection (P9):** the cached reach-134 **automated harvest is COMPLETE** — every cheap/token-free
+  lever is exhausted or walled (close=0 def-walls; close-1..4 permuter-class; the grinder banks ~0 on the hard
+  tail). Forward %-progress now needs a **token-heavy** investment: the **8 giants** (deep per-fn, byte-weight) or
+  per-fn pin-cracking — both warrant Drew's ROI greenlight (R26/R27, §20). **→ surfaced to Drew as a fork below.**
+
 **★ NEXT — cont.6 option-3 is now CONFIRMED: the cached reach-134 cheap fuel is dry; the genuine levers are
 token-heavy (fresh-session work, Drew's ROI greenlight per R26/R27/§20):**
 1. **The GIANTS** (8 reach-134 >150 ins — the high-BYTE-WEIGHT lever, the one that moves the decomp.dev-comparable

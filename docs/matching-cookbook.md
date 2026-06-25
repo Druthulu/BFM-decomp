@@ -1882,7 +1882,21 @@ func_8012F568 ×134 / func_80128ED8 ×1 — at median 15 ins off = expensive per
 it on the inflated count, §20 "don't wave a wall"). **The remaining levers are all token-heavy fresh-session
 work:** (a) the GIANTS (8 reach-134 >150 ins — the byte-weight lever, ~3% auto-yield so mostly hand-finish/backlog
 fuel, Phase-16); (b) per-fn pin-cracking the genuine codegen near-misses (schedule-coalescing §25 / regalloc-order).
-**Open durable tool (the highest-value next build):** a RESOLVED-reach probe — compare each reach-134 fn's
-per-overlay *linked* `.text` bytes (from `expected/`, relocations resolved) instead of masked `h_exact` — would
-give every `--assess` the REAL ×134 leverage and end the over-count at its source (today `reach` IS the h_exact
-over-count; there is no resolved measure).
+**REFUTED — the "resolved-reach probe" (cont.7b, R14 self-correction):** I proposed comparing per-overlay
+*linked* `.text` to get a real ×134 count. **It doesn't work, because `sig_image`'s `h_exact` is ALREADY
+`SHA1(raw image bytes)` — UNMASKED** (sig_image.py:170-171; `h_norm` is the masked tier). So `reach` is the
+ACCURATE shipped-byte reach; a resolved-byte probe would just reproduce it. The §25 "h_exact over-counts" wording
+conflated two different hashes — the IMAGE `h_exact` (accurate) vs the match_one/draft OBJECT masking. **The real
+gap is `reach` (shipped bytes identical) ≥ realizable-×134 (shared-C macro reproduces all N):** func_80128ED8's
+shipped bytes ARE identical ×134, but its matched C can't propagate (a callee/decl/loose-typing wall in the
+shared-C representation, §16/§20/§24). **That gap is measurable ONLY by `dedup_propagate`'s byte-gate on an
+ALREADY-MATCHED fn** — there is no cheap static probe. Don't build the resolved-reach tool.
+
+**The close-N tail can be PERMUTER-achieved, not source-close (cont.7b, R14):** the backlog `closeness` is the
+BEST achieved (often by the grinder's randomized regalloc/scheduling permutation), NOT the saved draft's
+source-compile distance. func_801775E0 logs `close=1` but its saved `best_draft` compiles **31-off from source**
+(prologue save-SCHEDULING, branch-sense, block-order all differ — the §20 regalloc/schedule wall); the close=1 was
+a permutation the source doesn't capture. **RULE: before assuming a cheap source crack on a close-1..4 backlog fn,
+`match_one` its saved draft to get the SOURCE closeness** — if it's far-off, it's a permuter-class wall (grinder
+territory), not a pin target. The genuinely pin-crackable ones are source-close + a single coalescing/CSE residual
+(§25 func_80128ED8); the regalloc/save-schedule/cross-jump ones are the confirmed walls (§20/§25).
