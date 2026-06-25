@@ -30,6 +30,20 @@ function drafterPrompt(t, draftDir) {
   const prior = t.prior_stuck
     ? `\nPRIOR ATTEMPT got stuck here (closeness ${t.prior_closeness}): "${t.prior_stuck}". This is a CLASS-FOCUSED re-attempt — concentrate on that residual; the cookbook may now have a newly-distilled idiom for it.\n`
     : ''
+  const giant = t.class === 'GIANT'
+    ? `\nGIANT (>150 ins) — READ COOKBOOK §27 (the giant recipe) TOO. Key moves, in order:
+  (1) The cached Ghidra-C body structure is usually CORRECT (straight-line + many calls) — start from it.
+  (2) ARG-ARITY is the #1 giant blocker: declare each callee to match the ACTUAL call site — count the $a0-$a3
+      (+ stack) registers SET before each \`jal\`, NOT a canonical guess. e.g. a helper called with 3 args (a3
+      untouched in the asm) -> declare it 3-arg. (The gate reconciles the shared-header canonical later.)
+  (3) SIBLING TEMPLATES: grep src/shared/engine_core.h for an already-matched DEFINE_func_* in the same family
+      (GPU-packet builder, coord transform) and MIRROR its proven C — e.g. coord strength-reduce
+      \`((s32)(D * 10355) << 1) >> 16\`, GPU linked-list pointer \`((u32)addr & 0xFFFFFF) | 0x3000000\`.
+  (4) §17-pin the regalloc-SHIFT (whole-hog param->wrong-$s reg), BUT do NOT pin a var whose register the target
+      REUSES for a later spill (pinning reserves it -> gcc grabs an EXTRA callee reg). The last-mile residual is
+      usually regalloc-COALESCING (one extra callee reg for an accumulator spill) -> get STRUCTURALLY-matched and
+      leave the best draft; the gate + permuter grinder finish that mile.\n`
+    : ''
   // Region-aware: split-file (_a/_o0) targets carry their own asm subdir in t.asm
   // (asm/ov_SC01_077/nonmatchings/ov_SC01_077_a/<fn>.s). Derive the dir so the match_one
   // self-check finds the right .s; fall back to the main subdir if t.asm is absent.
@@ -37,7 +51,7 @@ function drafterPrompt(t, draftDir) {
   return `Match ONE MIPS function for the Brave Fencer Musashi PS1 matching decompilation (overlay ov_SC01_077).
 GOAL: write C that the pinned compiler (gcc-2.7.2-psx -O2 -G0 -mips1 -mcpu=3000 -mgas -msoft-float -fgnu-linker + maspsx --aspsx-version=2.56 --expand-div) compiles to BYTE-IDENTICAL machine code.
 
-TARGET: ${t.name} @ ${t.addr} — ${t.nins} instructions, class hint "${t.class}".${prior}
+TARGET: ${t.name} @ ${t.addr} — ${t.nins} instructions, class hint "${t.class}".${prior}${giant}
 - Target asm (the ground truth): ${t.asm}
   (each line "/* off vaddr w0 w1 */ mnemonic ..." shows the exact encoded instructions.)
 - Ghidra-C reference (types/locals/callee names — NOT byte-accurate, a scaffold): ${t.ghidra_c}
@@ -56,7 +70,7 @@ THE TOOLKIT (docs/matching-cookbook.md §17–§20 — read those sections for d
   cast_call_sites + sig_unify fix most extern/arity mismatches. Focus on the BODY codegen.
 
 PROCESS (you have Bash + Read):
-0. Read the LIVE cookbook docs/matching-cookbook.md §17–20 FIRST — it accrues newly-distilled idioms between waves; a quirk you'd otherwise grind on may already be solved there.
+0. Read the LIVE cookbook docs/matching-cookbook.md §17–20 FIRST (and §27 if this is a GIANT) — it accrues newly-distilled idioms between waves; a quirk you'd otherwise grind on may already be solved there.
 1. Read the target asm and the Ghidra-C.
 2. Write your best C (the function definition + any externs it needs) to: ${draftDir}/${t.name}.c
    (Write ONLY this one draft file. Do NOT edit docs/matching-cookbook.md, src/, config/, or any other tracked
