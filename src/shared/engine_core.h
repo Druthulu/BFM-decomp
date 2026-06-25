@@ -23006,4 +23006,110 @@
         } \
     }
 
+#define DEFINE_func_8012C2D0() \
+    extern u8 D_80120194[]; \
+    extern u8 D_801202A0[]; \
+    s32 func_8012C2D0(void) \
+    { \
+        s32 p; \
+        s32 it; \
+        it = (s32)D_80120194; \
+        __asm__ __volatile__("" : "=r"(it) : "0"(it)); \
+        p = it + 0x658C; \
+        goto test; \
+    copy: \
+        return it; \
+    test: \
+        it = (s32)D_801202A0; \
+        __asm__ __volatile__("" : "=r"(it) : "0"(it)); \
+        if (it == p) goto zero; \
+    body: \
+        if (*(u16 *)it == 0) goto copy; \
+        it += 0x10C; \
+        if (it != p) goto body; \
+    zero: \
+        return 0; \
+    }
+
+#define DEFINE_func_8012B0B4() \
+    extern int func_80047948(int a0); \
+    extern int func_8004787C(int a0); \
+    void func_8012B0B4(unsigned int *param_1, int param_2, int param_3) \
+    { \
+        int iVar1, iVar2; \
+        register int prod __asm__("$7");          /* mflo dest = $a3 (both products) */ \
+        register unsigned int *p __asm__("$2");    /* store addr copied into $v0 */ \
+        register int sh1 __asm__("$2");            /* shares $v0 with p (non-overlapping) */ \
+        register int sh2 __asm__("$3");            /* 2nd-product shift -> $v1 */ \
+        unsigned int uVar3, result; \
+        uVar3 = (param_2 - 0x400U) & 0xfff; \
+        iVar1 = func_80047948(uVar3); \
+        result &= 0xFFFF0000; \
+        prod = iVar1 * param_3; \
+        sh1 = prod >> 0xc; \
+        result |= sh1 & 0xFFFF; \
+        iVar2 = func_8004787C(uVar3); \
+        prod = iVar2 * -param_3; \
+        result &= 0xFFFF; \
+        /* Force the param_1->$v0 copy AND let the scheduler hoist it into the \
+           mult->mflo delay slot (a plain `p = param_1` gets coalesced away). */ \
+        __asm__ ("addu %0,%1,$zero" : "=r"(p) : "r"(param_1)); \
+        sh2 = prod >> 0xc; \
+        result |= sh2 << 0x10; \
+        *p = result; \
+    }
+
+#define DEFINE_func_8012E28C() \
+    extern s32 AddPrim(s32, void *); \
+    extern void *func_80010A08(s32); \
+    extern s32 func_80058B40(s32, s32, s32, s32); \
+    extern s32 func_8005A600(s32, s32, s32, s32, s32); \
+    extern s32 D_800A651C; \
+    extern s16 D_800B9A02; \
+    void func_8012E28C(s32 arg0, s32 arg1) { \
+        void *temp_v0; \
+        s32 temp_v1; \
+        s32 base; \
+        if (arg0 > 0) { \
+            base = *(s32 *)((s8 *)&D_800A651C + ((u16)D_800B9A02 * 0x14)) + (arg0 * 4); \
+            temp_v0 = func_80010A08(0xC); \
+            temp_v1 = func_80058B40(0, arg1, 0, 0); \
+            func_8005A600((s32)temp_v0, 0, 0, (u16)temp_v1, 0); \
+            AddPrim(base, temp_v0); \
+        } \
+    }
+
+#define DEFINE_func_8012E688() \
+    extern u8 D_800AF648; \
+    extern void func_8004914C(void *a0); \
+    extern void func_800491AC(void *a0); \
+    extern s32 RotTransPers(s32 a0, s32 a1, s32 *a2, s32 *a3); \
+    extern void func_8002D4C8(s32 a0, s32 a1); \
+    void func_8012E688(s32 param_1, u16 param_2, u16 param_3) \
+    { \
+        struct { short v[3]; short pad; short xy[2]; int sp1c; int flag; } f; \
+        register void *p __asm__("$4"); \
+        register u16 a __asm__("$16") = param_2; \
+        register u16 b __asm__("$17") = param_3; \
+        if (*(s32 *)(param_1 + 0x20) != 0) { \
+            f.v[0] = (short)*(s32 *)(*(s32 *)(param_1 + 0x20) + 0x48); \
+            f.v[1] = (short)*(s32 *)(*(s32 *)(param_1 + 0x20) + 0x4C); \
+            f.v[2] = (short)*(s32 *)(*(s32 *)(param_1 + 0x20) + 0x50); \
+            p = &D_800AF648; \
+            func_8004914C(p); \
+            func_800491AC(&D_800AF648); \
+            RotTransPers((s32)f.v, (s32)f.xy, &f.sp1c, &f.flag); \
+            if (f.flag < 0) { \
+                return; \
+            } \
+            if ((u16)(f.xy[0] + 199) >= 399) { \
+                return; \
+            } \
+            if ((u16)(f.xy[1] + 0xA9) >= 0x153) { \
+                return; \
+            } \
+        } \
+        func_8002D4C8(a, b); \
+    }
+
 #endif

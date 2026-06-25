@@ -435,7 +435,11 @@ DEFINE_func_8012AF0C()  /* dedup: shared engine-core @0x8012AF0C (src/shared) */
 
 DEFINE_func_8012B030()  /* dedup: shared engine-core @0x8012B030 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_a", func_8012B0B4);
+// @class: schedule
+// @stuck: none — MATCH (38 ins, relocation-masked)
+
+DEFINE_func_8012B0B4()  /* dedup: shared engine-core @0x8012B0B4 (src/shared) */
+
 
 DEFINE_func_8012B14C()  /* dedup: shared engine-core @0x8012B14C (src/shared) */
 
@@ -545,7 +549,37 @@ DEFINE_func_8012C044()  /* dedup: shared engine-core @0x8012C044 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_a", func_8012C098);
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_a", func_8012C0EC);
+// @class: other
+// @stuck: none — MATCH (42 ins, relocation-masked); func_8012C044 dispatch idiom, if(fp==0) branch-polarity
+extern s32 D_801274D4;
+extern s16 D_80126CAC;
+extern s32 D_801274E0;
+extern s32 func_80013478(s32 a0, s32 a1);
+extern void func_8012C218(void *a0);
+
+s32 func_8012C0EC(s32 a0) {
+    s32 (*fp)(s32) = (s32 (*)(s32))D_801274D4;
+    s32 cond;
+    s32 *p;
+
+    if (fp == 0) {
+        cond = (func_80013478(a0 + 4, (s32)&D_80126CAC) < D_801274E0) ^ 1;
+    } else {
+        cond = fp(a0);
+    }
+    if (cond == 0) {
+        return 0;
+    }
+    p = *(s32 **)(a0 + 0x68);
+    if (p != 0) {
+        if ((*(s16 *)(a0 + 0x72) & 0x8000) != 0) {
+            *(u16 *)((s32)p + 0xA) = *(u16 *)((s32)p + 0xA) & 0x7FFF;
+        }
+    }
+    func_8012C218((void *)a0);
+    return 1;
+}
+
 
 DEFINE_func_8012C194()  /* dedup: shared engine-core @0x8012C194 (src/shared) */
 
@@ -557,7 +591,12 @@ DEFINE_func_8012C218()  /* dedup: shared engine-core @0x8012C218 (src/shared) */
 
 DEFINE_func_8012C284()  /* dedup: shared engine-core @0x8012C284 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_a", func_8012C2D0);
+// @class: schedule
+// @stuck: none — MATCH expected (lifted byte-proven loop idiom from sibling func_8012C750 @0x8012C750)
+#include "common.h"
+
+DEFINE_func_8012C2D0()  /* dedup: shared engine-core @0x8012C2D0 (src/shared) */
+
 
 DEFINE_func_8012C31C()  /* dedup: shared engine-core @0x8012C31C (src/shared) */
 
@@ -798,7 +837,11 @@ s32 func_8012E27C(void) {
 
 DEFINE_func_8012E284()  /* dedup: shared engine-core @0x8012E284 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_a", func_8012E28C);
+// @class: struct
+// @stuck: none — MATCH (modeled on DEFINE_func_8012D3B4 sibling idiom: (s8*)&D_800A651C + (u16)D_800B9A02*0x14)
+
+DEFINE_func_8012E28C()  /* dedup: shared engine-core @0x8012E28C (src/shared) */
+
 
 DEFINE_func_8012E32C()  /* dedup: shared engine-core @0x8012E32C (src/shared) */
 
@@ -836,7 +879,12 @@ void func_8012E5CC(s32 param_1, u16 param_2, u16 param_3)
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_a", func_8012E688);
+// @class: regalloc-order
+// @stuck: none — MATCH (60/60). Pins: $4 defeats &D_800AF648 CSE; $16/$17 force param_2/param_3 saved-reg order vs the guard-branch reversal
+#include "common.h"
+
+DEFINE_func_8012E688()  /* dedup: shared engine-core @0x8012E688 (src/shared) */
+
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_a", func_8012E778);
 
@@ -911,7 +959,24 @@ DEFINE_func_8012EF70()  /* dedup: shared engine-core @0x8012EF70 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_a", func_8012EFB8);
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_a", func_8012F038);
+// @class: other
+// @stuck: none — MATCH (33 ins, match_one verified)
+
+extern void ApplyTransposeMatrixLV(void *a0, void *a1, void *a2);
+
+void func_8012F038(int param_1, short *param_2, short *param_3) {
+    int in[3];
+    int out[3];
+
+    in[0] = (int)param_2[0] - *(int *)(param_1 + 0x14);
+    in[1] = (int)param_2[1] - *(int *)(param_1 + 0x18);
+    in[2] = (int)param_2[2] - *(int *)(param_1 + 0x1c);
+    ApplyTransposeMatrixLV((void *)param_1, in, out);
+    param_3[0] = out[0];
+    param_3[1] = out[1];
+    param_3[2] = out[2];
+}
+
 
 DEFINE_func_8012F0BC()  /* dedup: shared engine-core @0x8012F0BC (src/shared) */
 
