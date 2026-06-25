@@ -1900,3 +1900,33 @@ a permutation the source doesn't capture. **RULE: before assuming a cheap source
 `match_one` its saved draft to get the SOURCE closeness** — if it's far-off, it's a permuter-class wall (grinder
 territory), not a pin target. The genuinely pin-crackable ones are source-close + a single coalescing/CSE residual
 (§25 func_80128ED8); the regalloc/save-schedule/cross-jump ones are the confirmed walls (§20/§25).
+
+## §27 — Giant matching recipe (Phase 21 cont.7b — validated on func_80176D94, 152 ins)
+
+Giants (reach-134 >150 ins) are the byte-weight lever. Validated approach (func_80176D94 → structurally matched,
+calls/constants/GPU-packet all byte-correct, residual = pure regalloc):
+1. **Start from the cached Ghidra-C** (`.run/ghidra_c/<fn>.c`) — giants are often CLEAN (straight-line + many
+   calls, no deep control flow), so the body structure comes nearly free. (cont.2's "stale+incomplete drafts"
+   were the OLD m2c drafts vs the grown header; the fresh Ghidra-C + canonical context is the fix.)
+2. **Arg-arity is the #1 giant blocker (the manifest's `MCOMPILE_arg-arity` bucket).** Giants call many helpers;
+   m2c/Ghidra miscount args. Declare each callee to match the ACTUAL call site — count the `$a0–$a3` (+ stack)
+   set before each `jal`, NOT the canonical sig. e.g. `func_80177784` canonical is 4-arg but called **3-arg**
+   here (`$a3` untouched) → declare `func_80177784(void*, s32, s32)`. (The shared-header canonical conflict is the
+   gate's job — `cast_call_sites`; it may bank ×1 if irreducible, §24.)
+3. **Sibling templates.** Giants cluster in families (GPU-packet builders, coord transforms). Find an
+   already-matched sibling `DEFINE_func_*` in `engine_core.h` with the same idiom and mirror its PROVEN C form —
+   e.g. the GPU-coord strength-reduce `((s32)(D * 10355) << 1) >> 16` (sibling func_80176FF4) and the GPU
+   linked-list pointer `((u32)addr & 0xFFFFFF) | 0x3000000`.
+4. **§17 register pins for the regalloc-SHIFT.** Giants use 5–7 callee regs; gcc's mapping often shifts whole-hog
+   (param→$s0 where target uses $s2, etc.). Pin the long-lived vars to their target regs
+   (`register T v __asm__("$NN")`). **CAVEAT (cont.7b, byte-proven): do NOT pin a var whose register the target
+   REUSES for a later spill** — pinning reserves the reg for that var's whole scope → blocks the reuse → gcc grabs
+   a FRESH callee reg (+1 reg, +2 prologue ins). (func_80176D94: pinning uVar5→$s0 blocked the accumulator from
+   reusing dead $s0.)
+5. **The giant residual class — accumulator-spill coalescing.** A value chained through `$v0→$a0` across calls,
+   then needing to survive a LATER call, must spill to a callee reg. The target reuses a now-DEAD callee reg; gcc
+   from natural C grabs a FRESH one (+1 reg). Hard to force from C (it's gcc's coalescing graph) → **permuter
+   fuel** (the grinder randomizes allocation and may find the reuse). func_80176D94's saved draft
+   (`.run/backlog_drafts/`) is exactly this — structurally done, 1–2 callee regs from byte-perfect.
+**Net:** giants reach STRUCTURALLY-MATCHED fast (steps 1-3); the last mile is regalloc-coalescing (step 5) — so
+giants are ISOLATED-AGENT + permuter work (per `breadth-isolated-agents-not-serial`), not main-loop serial grind.

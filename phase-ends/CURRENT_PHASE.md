@@ -59,6 +59,22 @@ permuter-class (two R14 self-corrections; cookbook §26):**
   tail). Forward %-progress now needs a **token-heavy** investment: the **8 giants** (deep per-fn, byte-weight) or
   per-fn pin-cracking — both warrant Drew's ROI greenlight (R26/R27, §20). **→ surfaced to Drew as a fork below.**
 
+**★ UPDATE (cont.7c): Drew chose GIANT SESSION. Validated the giant approach end-to-end + distilled the recipe
+(cookbook §27):**
+- The giant pool is **~18 still-stubbed tractable giants** (152–284 ins) + 2 monsters (func_80132784=400,
+  func_80144B9C=770) — bigger than the assess's "8" (that was only the backlog-recorded ones).
+- **Hand-matched func_80176D94 (152 ins) to STRUCTURALLY-MATCHED:** all calls/constants/GPU-packet-build
+  byte-correct via the §27 recipe (cached Ghidra-C + **call-matching callee decls** for the arg-arity blocker —
+  func_80177784 is called 3-arg though canonical 4-arg — + **§17 register pins** for the regalloc-shift + the
+  **sibling func_80176FF4** coord-strength-reduce/GPU-pointer idioms). **Residual = pure regalloc-coalescing** (2
+  extra callee regs: $s5 temp + $s6 accumulator-spill vs target's caller-saved/$s0-reuse) → saved to
+  `.run/backlog_drafts/func_80176D94.c` as grinder/wave fuel (§27 step 5: permuter territory).
+- **VALIDATION (the de-risk):** giants reach structurally-matched FAST (recipe steps 1-3); the last mile is
+  regalloc-coalescing → ISOLATED-AGENT + permuter work, NOT main-loop serial grind (`breadth-isolated-agents-not-serial`).
+- **NEXT: the worker_wave over the giants** (the efficient finish) — isolated xHigh agents each draft a giant with
+  the §27 recipe seeded → I gate (`gate_stage`, flock-safe; `--src-file` for the `_a` giants) + propagate ×134.
+  Pending Drew's confirm to launch the multi-agent Workflow (the Phase-21 T4 mechanism).
+
 **★ NEXT — cont.6 option-3 is now CONFIRMED: the cached reach-134 cheap fuel is dry; the genuine levers are
 token-heavy (fresh-session work, Drew's ROI greenlight per R26/R27/§20):**
 1. **The GIANTS** (8 reach-134 >150 ins — the high-BYTE-WEIGHT lever, the one that moves the decomp.dev-comparable
