@@ -17,6 +17,13 @@
 **Fleet 62.31%** (unchanged — **no net banks this turn**; func_8012C098 matched ×1 in `_a.c` then reverted by a
 diag's `git checkout`, negligible + a propagation-wall). 136/136 byte-identical. HEAD = the commit below.
 
+**RUNNING NOW (2026-06-24):** token-free **grinder relaunched** (`DRIVER=tools/grinder.py auto_supervisor.sh
+--permute-secs 120 -j 14`, detached) on the close≤30 backlog; byte-gated (G3/P9), auto-commits ×134,
+self-supervising. Monitor `bash tools/auto_status.sh`; stop `bash tools/auto_stop.sh`. A `/loop` check-in reports
+progress (kill switch = `.run/auto/STOP`). CAVEAT: the close≤30 backlog is the permuter-resistant hard tail
+(§20/§24) — it banked **0 in ~1h** on a prior run; expect low/slow yield. The real % lever is the **`_a`
+measurement wave** (below), pending Drew's token greenlight — the grinder is the free background filler meanwhile.
+
 **★ THE FINDING (where the fresh fuel is):** the main-`.c` reach-134 fuel is byte-exhausted (1 fresh fn); the
 **66+ fresh cached reach-134 fns live in `ov_SC01_077_a.c`** (the Phase-19 `-O0` 3-way split), never waved because
 the harvest pipeline defaults to `src/{ov}/{ov}.c`. Full write-up: **cookbook §24**.
