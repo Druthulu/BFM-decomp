@@ -22908,4 +22908,102 @@
         param_1[8] = (short)(((int)param_1[8] << 0xc) / (int)sVar6); \
     }
 
+#define DEFINE_func_80130514() \
+    extern void func_8012CBF4(s32 a0); \
+    extern void func_801319E0(int); \
+    extern int func_80131D68(int, int); \
+    extern int func_8012BEE8(int); \
+    extern void func_80131CA8(int, int); \
+    void func_80130514(int param_1) \
+    { \
+        unsigned int uVar1; \
+        if ((*(unsigned int *)(param_1 + 0xb4) & 0x40) != 0) { \
+            uVar1 = ((int (*)(void))func_8012CBF4)(); \
+            if (0xf < *(short *)(param_1 + 10)) { \
+                func_801319E0(param_1); \
+                return; \
+            } \
+            if (func_80131D68(param_1, uVar1) == 1) { \
+                return; \
+            } \
+            if (func_8012BEE8(param_1) != 0) { \
+                if ((uVar1 & 0x2000) != 0) { \
+                    *(unsigned char *)(param_1 + 0xc1) = 0; \
+                    *(unsigned short *)(param_1 + 0x5e) = 0; \
+                    func_80131CA8(param_1, 0xe); \
+                } \
+            } \
+        } \
+        /* Scheduling barrier: blocks gcc-2.7.2 reorg from hoisting the join-block \
+           `move $a0,$s0` into the first branch's delay slot (target keeps a nop there). */ \
+        __asm__ __volatile__(""); \
+        func_80131CA8(param_1, 0x13); \
+    }
+
+#define DEFINE_func_8013A2BC() \
+    extern s32 D_80127524; \
+    extern s32 D_80127528; \
+    extern void func_80138C30(void *a0); \
+    void func_8013A2BC(s32 a0) { \
+        s32 s0 = a0; \
+        s32 *v1; \
+        s32 *p; \
+        s32 v0; \
+        v1 = *(s32 **)(s0 + 0x40); \
+        if (v1 == 0 || *(u16 *)(s0 + 0x18) == 0 || *(s16 *)v1 == 4) { \
+            p = &D_80127524; \
+            if (*p == s0) { \
+                v0 = D_80127528; \
+                D_80127528 = 0; \
+                *p = v0; \
+                if (v0 != 0) { \
+                    *(s16 *)(D_80127524 + 0x1A) = 1; \
+                    __asm__ __volatile__("" : : : "memory"); \
+                    ((void (*)(s32))func_80138C30)(*p); \
+                } \
+            } \
+            if ((*(s32 *)(s0 + 8) & 0x8000) == 0) { \
+                *(s16 *)(s0 + 4) = 0xD; \
+            } else { \
+                *(s16 *)(s0 + 4) = 0xE; \
+            } \
+        } \
+    }
+
+#define DEFINE_func_80130438() \
+    extern void func_80131B14(void); \
+    extern void func_80143CD4(s32 a0); \
+    extern void func_8002D4C8(s32 a0, s32 a1); \
+    extern void func_800CB0E8(s32 a0); \
+    extern s32 func_80131A34(s32 a0, s32 a1); \
+    extern void func_80131CA8(int a0, int a1); \
+    extern void func_80131E00(struct S80131E00 *a0, s32 a1); \
+    extern s32 *D_80126B78; \
+    void func_80130438(s32 a0) { \
+        s32 flag; \
+        flag = 0; \
+        *(u8 *)(a0 + 0xC1) = 6; \
+        if ((*(u32 *)(a0 + 0xB4) & 0x40) != 0) { \
+            flag = 1; \
+            func_80131B14(); \
+            *(s32 *)(a0 + 0x1C) = 0x78; \
+            func_80143CD4(a0); \
+            func_8002D4C8(0x47B, 0); \
+            func_8002D4C8(0x478, 0); \
+            func_800CB0E8(a0); \
+            if (func_80131A34(a0, 0x14) == 0) { \
+                *(s16 *)(a0 + 0x98) = 0; \
+            } \
+        } \
+        if (((s32 (*)(s32, s32))func_80131CA8)(a0, 0x12) != 0) { \
+            flag = 1; \
+        } \
+        if (flag == 0) { \
+            *(s16 *)(a0 + 0x5E) = 2; \
+            *(s16 *)(a0 + 0x60) = 1; \
+            *(s16 *)(a0 + 0x62) = *(u16 *)((s32)D_80126B78 + 0x12); \
+            ((void (*)(s32, s32))func_80131E00)(a0, 1); \
+        } \
+    }
+
 #endif
