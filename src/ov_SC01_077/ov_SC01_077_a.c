@@ -205,42 +205,7 @@ DEFINE_func_80128D60()  /* dedup: shared engine-core @0x80128D60 (src/shared) */
 
 // @class: struct
 // @stuck: none — MATCH
-extern void func_80018450(s32 a0, s32 a1);
-extern void func_800183E0(s32 a0);
-
-s32 func_80128DB4(s32 a0, s32 *a1) {
-    s32 base = a1[0];
-    s16 cnt = *(s16 *)((u8 *)a1 + 6);
-    if (cnt == 0) {
-        return 1;
-    }
-    cnt = cnt - 1;
-    *(s16 *)((u8 *)a1 + 6) = cnt;
-    if (cnt > 0) {
-        return 0;
-    }
-    {
-        s16 idx = *(s16 *)((u8 *)a1 + 4);
-        u32 flags = *(u32 *)(base + idx * 8 + 4);
-        if ((flags & 0xC0) == 0xC0) {
-            *(s16 *)((u8 *)a1 + 6) = 0;
-            return 1;
-        }
-        if ((flags & 0x80) != 0) {
-            *(s16 *)((u8 *)a1 + 4) = 0;
-        } else {
-            *(s16 *)((u8 *)a1 + 4) = idx + 1;
-        }
-        *(s16 *)((u8 *)a1 + 6) =
-            *(u32 *)(base + *(s16 *)((u8 *)a1 + 4) * 8 + 4) & 0x3F;
-        if (a0 != 0) {
-            func_80018450(a0, *(s32 *)(base + *(s16 *)((u8 *)a1 + 4) * 8));
-        } else {
-            func_800183E0(*(s32 *)(base + *(s16 *)((u8 *)a1 + 4) * 8));
-        }
-        return 0;
-    }
-}
+DEFINE_func_80128DB4()  /* dedup: shared engine-core @0x80128DB4 (src/shared) */
 
 
 DEFINE_func_80128EA8()  /* dedup: shared engine-core @0x80128EA8 (src/shared) */
@@ -315,59 +280,7 @@ DEFINE_func_8012943C()  /* dedup: shared engine-core @0x8012943C (src/shared) */
 // @class: schedule
 // @stuck: none — MATCH (72 ins)
 
-extern s32 D_8005128C;
-extern s16 D_80114EE0;
-extern u8 D_800B9A78;
-
-extern void func_801298F4(void *arg0);
-extern void func_801299C8(s32 a, s32 b, s32 c);
-
-void func_8012944C(void) {
-    register s32 base __asm__("$16");   /* $s0 = &D_800B9A78 */
-    register short *p __asm__("$17");    /* $s1 = base + 0x1E */
-    register s32 i __asm__("$18");        /* $s2 = counter */
-    register s32 sh __asm__("$19");       /* $s3 = 0x30000 + i*0x10000 */
-    s32 *g = (s32 *)&D_8005128C;
-    int v;
-    s32 arg;
-
-    if (*g == 0x34420200) {
-        *g = 0;
-    }
-    D_80114EE0 = 1;
-    base = (s32)&D_800B9A78;
-    i = 0;
-    sh = 0x30000;
-    p = (short *)(base + 0x1E);
-    do {
-        v = (u16)p[0xb];
-        if (v == 0x7ffe) goto F0;
-        if (v < 0x7fff) {
-            if (v == 0x7ffd) goto DC;
-            goto L504;
-        }
-        if (v != 0x7fff) goto L504;
-        goto L530;
-    DC:
-        if (i != 0) goto L530;
-        func_801299C8(1, 1, base);
-        goto L530;
-    F0:
-        arg = (i << 0x11) >> 0x10;
-        func_801299C8(1, arg, base);
-        goto L530;
-    L504:
-        func_801298F4((void *)base);
-        arg = sh >> 0x10;
-        *p = p[0x12] + p[0xe];
-        func_801299C8(1, arg, base);
-    L530:
-        p += 0x2a;
-        sh += 0x10000;
-        i += 1;
-        base += 0x54;
-    } while (i < 2);
-}
+DEFINE_func_8012944C()  /* dedup: shared engine-core @0x8012944C (src/shared) */
 
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_a", func_8012956C);
@@ -776,37 +689,7 @@ DEFINE_func_8012D3B4()  /* dedup: shared engine-core @0x8012D3B4 (src/shared) */
 // @stuck: none — MATCH (sibling of func_8012D3B4 + func_8012DEB8 sp10/sp18 prelude)
 #include "common.h"
 
-extern void func_8012F214(s32 a0, s32 a1, s32 a2);
-extern s32 AddPrim(s32, void *);
-extern s32 RotTransPers(s32, s32, s32 *, s32 *);
-extern void SetLineF2(void *);
-extern void *func_80010A08(s32);
-extern void func_8004914C(void *);
-extern void func_800491AC(void *);
-extern s32 D_800A651C;
-extern u8 D_800AF648;
-extern s16 D_800B9A02;
-
-void func_8012D4B4(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
-    s32 sp10[2];
-    s32 sp18[2];
-    s32 sp20;
-    s32 sp24;
-    s32 temp_v0_2;
-    void *temp_v0;
-    func_8012F214(arg0, arg1, (s32)sp10);
-    func_8012F214(arg0, arg2, (s32)sp18);
-    temp_v0 = func_80010A08(0x10);
-    (*(s32 *)((s8 *)(temp_v0) + (4))) = arg3;
-    SetLineF2(temp_v0);
-    func_8004914C(&D_800AF648);
-    func_800491AC(&D_800AF648);
-    temp_v0_2 = RotTransPers((s32)sp10, temp_v0 + 8, &sp20, &sp24);
-    if ((temp_v0_2 > 0) && (sp24 >= 0) &&
-        (RotTransPers((s32)sp18, temp_v0 + 0xC, &sp20, &sp24) > 0) && (sp24 >= 0)) {
-        AddPrim(*(s32 *)((s8 *)&D_800A651C + ((u16)D_800B9A02 * 0x14)) + (temp_v0_2 * 4), temp_v0);
-    }
-}
+DEFINE_func_8012D4B4()  /* dedup: shared engine-core @0x8012D4B4 (src/shared) */
 
 
 DEFINE_func_8012D5DC()  /* dedup: shared engine-core @0x8012D5DC (src/shared) */
@@ -835,106 +718,7 @@ s32 func_8012DB84(void)
 // @stuck: none — MATCH. Pins: args $s2/$s4/$s5/$s3, loop-actor $s0, running-max/square $s1; abs load-temp pinned $v0 ($2) so abs copies $v0->$v1; re-tie barrier on iVar4 kills slt-into-bgez-delay duplication; nested ifs keep the two 0x5c bit-tests from folding to one andi 0xc000.
 #include "common.h"
 
-extern s32 func_8012DE2C(s32 a0);
-extern s32 func_8012DDA4(void);
-extern void func_80013350(s32 a0, void *a1);
-
-s32 func_8012DBD0(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
-    register s32 param_1 __asm__("$18");  /* $s2 */
-    register s32 param_2 __asm__("$20");  /* $s4 */
-    register s32 param_3 __asm__("$21");  /* $s5 */
-    register s32 param_4 __asm__("$19");  /* $s3 */
-    register s32 iVar1 __asm__("$16");    /* $s0 */
-    register s32 iVar5 __asm__("$17");    /* $s1 (running max, then its square) */
-    s32 iVar4;
-    register s32 t __asm__("$2");          /* $v0: keep the loaded halfword in $v0 so abs copies $v0->$v1 */
-    u32 uVar3;
-
-    param_1 = arg0;
-    param_2 = arg1;
-    param_3 = arg2;
-    param_4 = arg3;
-
-    iVar1 = func_8012DE2C(param_1);
-    if (iVar1 == 0) {
-        return 0;
-    }
-    if (*(u32 *)(param_1 + 0x58) == 0) {
-        iVar5 = 0x80;
-    } else {
-        uVar3 = *(u32 *)(param_1 + 0x58) & 0xfffffff;
-        t = (s32)*(s16 *)(uVar3 + 4);
-        iVar4 = (s32)*(s16 *)(uVar3 + 6);
-        iVar5 = t;
-        if (t < 0) {
-            iVar5 = -iVar5;
-        }
-        if (iVar4 < 0) {
-            iVar4 = -iVar4;
-        }
-        __asm__ __volatile__("" : "=r"(iVar4) : "0"(iVar4));
-        if (iVar5 < iVar4) {
-            iVar5 = iVar4;
-        }
-        t = (s32)*(s16 *)(uVar3 + 8);
-        iVar4 = t;
-        if (t < 0) {
-            iVar4 = -iVar4;
-        }
-        __asm__ __volatile__("" : "=r"(iVar4) : "0"(iVar4));
-        if (iVar5 < iVar4) {
-            iVar5 = iVar4;
-        }
-        t = (s32)*(s16 *)(uVar3 + 10);
-        iVar4 = t;
-        if (t < 0) {
-            iVar4 = -iVar4;
-        }
-        __asm__ __volatile__("" : "=r"(iVar4) : "0"(iVar4));
-        if (iVar5 < iVar4) {
-            iVar5 = iVar4;
-        }
-        t = (s32)*(s16 *)(uVar3 + 0xc);
-        iVar4 = t;
-        if (t < 0) {
-            iVar4 = -iVar4;
-        }
-        __asm__ __volatile__("" : "=r"(iVar4) : "0"(iVar4));
-        if (iVar5 < iVar4) {
-            iVar5 = iVar4;
-        }
-        t = (s32)*(s16 *)(uVar3 + 0xe);
-        iVar4 = t;
-        if (t < 0) {
-            iVar4 = -iVar4;
-        }
-        __asm__ __volatile__("" : "=r"(iVar4) : "0"(iVar4));
-        if (iVar5 < iVar4) {
-            iVar5 = iVar4;
-        }
-    }
-    iVar5 = iVar5 * iVar5;
-LAB_8012dcf8:
-    do {
-        u16 uVar6 = *(u16 *)(iVar1 + 0x5c);
-        if ((uVar6 & 0x8000) != 0) {
-            if ((uVar6 & 0x4000) == 0) {
-                if (*(u16 *)(iVar1 + 0x5e) != param_4) {
-                    if ((*(u16 *)(iVar1 + 0xae) & 1) == 0) {
-                        if (((s32(*)(s32, s32))func_80013350)(param_1 + 4, iVar1 + 4) < iVar5) {
-                            *(u16 *)(iVar1 + 0x60) = param_2;
-                            *(u16 *)(iVar1 + 0x62) = param_3;
-                            *(u16 *)(iVar1 + 0x5e) = param_4;
-                            *(u16 *)(iVar1 + 0x5c) = *(u16 *)(iVar1 + 0x5c) | 1;
-                        }
-                    }
-                }
-            }
-        }
-        iVar1 = func_8012DDA4();
-    } while (iVar1 != 0);
-    return 0;
-}
+DEFINE_func_8012DBD0()  /* dedup: shared engine-core @0x8012DBD0 (src/shared) */
 
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_a", func_8012DDA4);
@@ -1136,51 +920,7 @@ DEFINE_func_80130088()  /* dedup: shared engine-core @0x80130088 (src/shared) */
 // @stuck: none — MATCH (61 ins); shared-tail done=1 at the post-if/else merge point fills the shared jal's delay slot
 #include "common.h"
 
-extern s32 func_80131A34(s32, s32);
-extern s32 func_8012BCCC(s32);
-extern s32 func_80131AC8(void *a0);
-extern void func_80131CA8(int a0, int a1);
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
-
-void func_801300F4(s32 a0) {
-    s32 done = 0;
-    s32 r;
-
-    *(u8 *)(a0 + 0xC1) = 0xD;
-    if ((*(u32 *)(a0 + 0xB4) & 0x2000) != 0) {
-        *(u16 *)(a0 + 0x5C) = 0;
-        *(s32 *)(a0 + 0x1C) = 0x1E;
-        *(u16 *)(a0 + 0x98) = 0;
-        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x10) = 0;
-        r = func_80131A34(a0, 0x27);
-        if (r != 0) {
-            *(u8 *)(a0 + 0xC3) = 1;
-        } else {
-            *(u8 *)(a0 + 0xC3) = 0;
-        }
-        r = func_8012BCCC(a0);
-        if (r < 0x9000) {
-            r = ((s32 (*)(s32, s32))func_80131AC8)(a0, 0x30);
-            done = 1;
-            if (r != 0) goto skip;
-            ((s32 (*)(s32, s32))func_80131AC8)(a0, 0x31);
-        } else {
-            r = ((s32 (*)(s32, s32))func_80131AC8)(a0, 0x31);
-            done = 1;
-            if (r != 0) goto skip;
-            ((s32 (*)(s32, s32))func_80131AC8)(a0, 0x30);
-        }
-        done = 1;
-    }
-skip:
-    r = ((s32 (*)(s32, s32))func_80131CA8)(a0, 0x25);
-    if (r != 0) {
-        done = 1;
-    }
-    if (!done) {
-        ((void (*)(s32, s32))func_80131E00)(a0, 6);
-    }
-}
+DEFINE_func_801300F4()  /* dedup: shared engine-core @0x801300F4 (src/shared) */
 
 
 DEFINE_func_801301E8()  /* dedup: shared engine-core @0x801301E8 (src/shared) */
@@ -1228,41 +968,7 @@ DEFINE_func_80130AC4()  /* dedup: shared engine-core @0x80130AC4 (src/shared) */
 // @class: schedule
 // @stuck: none — MATCH (70 ins). Early-returns (not a shared `mode` var) keep $a0 live on the first path; main-block path reloads $a0 from $s0 at the tail, giving the move+nop delay-slot the target uses.
 
-extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
-extern void func_80131B14(void);
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
-extern int  func_80131A34(int a0, int a1);
-extern void func_80131CA8(int a0, int a1);
-
-void func_80130AF0(int param_1) {
-    *(unsigned char *)(param_1 + 0xc1) = 0x13;
-    if ((*(unsigned int *)(param_1 + 0xc4) & 2) != 0) {
-        func_80131CA8(param_1, 3);
-        return;
-    }
-    if ((*(unsigned int *)(param_1 + 0xb4) & 0x20000) != 0) {
-        ((void (*)(int, int, int, int, int, int, int))func_80146A6C)(3, param_1, (int)*(short *)(param_1 + 0x7c),
-                      (int)*(short *)(param_1 + 0x7e),
-                      (int)*(short *)(param_1 + 0x80), 0xc0cfff8, 0xf000b000);
-        if (((*(unsigned int *)(param_1 + 0xb4) & 1) != 0) ||
-            ((*(unsigned int *)(param_1 + 0xc4) & 2) == 0)) {
-            ((void (*)(int))func_80131B14)(param_1);
-            if (*(short *)(param_1 + 0x76) < 1) {
-                ((void (*)(int, int))func_80131E00)(param_1, 0xc);
-                return;
-            }
-            if (func_80131A34(param_1, 4) != 0) {
-                *(unsigned char *)(param_1 + 0xc2) = 0;
-            } else {
-                *(unsigned char *)(param_1 + 0xc2) = 1;
-                *(short *)(param_1 + 0x98) = 0;
-                *(int *)(param_1 + 0x1c) = 0x10;
-            }
-        }
-        func_80131CA8(param_1, 3);
-    }
-    func_80131CA8(param_1, 0x37);
-}
+DEFINE_func_80130AF0()  /* dedup: shared engine-core @0x80130AF0 (src/shared) */
 
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_a", func_80130C08);
@@ -1366,46 +1072,7 @@ INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_a", func_8013221C);
 
 // @class: regalloc-order
 // @stuck: none — MATCH (97 ins, relocation-masked)
-extern void func_8005C324(int dst, int src, int n);
-extern void func_801325B8(int a0, int a1, int a2, int a3, int a4);
-void func_80132288(int *param_1, int *param_2, int param_3) {
-    int src; int dst;
-    param_1[0] = (int)param_2;
-    *(short *)((int)param_1 + 4) = 0;
-    *(short *)((int)param_1 + 6) = 0;
-    param_1[2] = param_3;
-    {
-        register char *node __asm__("$6") = (char *)*(int *)param_2[0];
-        if (*(int *)(node + 4) == 1) src = *(int *)(node + 0xC);
-        else src = (int)(node + ((*(unsigned int *)(node + 0xC) >> 2 << 2) + 0xC));
-    }
-    {
-        char *p3 = (char *)param_3;
-        if (*(int *)(p3 + 4) == 1) dst = *(int *)(p3 + 0xC);
-        else dst = (int)(p3 + ((*(unsigned int *)(p3 + 0xC) >> 2 << 2) + 0xC));
-        func_8005C324(dst, src, *(int *)(p3 + 0x10) << 3);
-    }
-    {
-        register int *pn __asm__("$3") = (int *)param_2[0];
-        if (pn[2] != 0) {
-            {
-                register char *node __asm__("$6") = (char *)pn[0];
-                if (*(int *)(node + 4) == 1) src = *(int *)(node + 0x14);
-                else src = (int)(node + ((*(unsigned int *)(node + 0x14) >> 2 << 2) + 0xC));
-            }
-            {
-                char *p3 = (char *)param_3;
-                if (*(int *)(p3 + 4) == 1) dst = *(int *)(p3 + 0x14);
-                else dst = (int)(p3 + ((*(unsigned int *)(p3 + 0x14) >> 2 << 2) + 0xC));
-                func_8005C324(dst, src, *(int *)(p3 + 0x18) << 3);
-            }
-        }
-    }
-    if (*(short *)((int)param_2 + 6) < 0) {
-        int *node = (int *)param_2[0];
-        func_801325B8(param_3, node[0], node[1], node[2], 0x1000);
-    }
-}
+DEFINE_func_80132288()  /* dedup: shared engine-core @0x80132288 (src/shared) */
 
 
 DEFINE_func_8013240C()  /* dedup: shared engine-core @0x8013240C (src/shared) */
@@ -1446,34 +1113,7 @@ INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_a", func_80133298);
 
 // @class: schedule
 // @stuck: none — MATCH
-void func_8013339C(short *param_1, short *param_2)
-{
-    short sVar4;
-    short sVar5;
-    short sVar6;
-
-    sVar4 = 1;
-    if (*param_2 != 0) {
-        sVar4 = *param_2;
-    }
-    sVar5 = 1;
-    if (param_2[1] != 0) {
-        sVar5 = param_2[1];
-    }
-    sVar6 = 1;
-    if (param_2[2] != 0) {
-        sVar6 = param_2[2];
-    }
-    param_1[0] = (short)(((int)param_1[0] << 0xc) / (int)sVar4);
-    param_1[3] = (short)(((int)param_1[3] << 0xc) / (int)sVar4);
-    param_1[6] = (short)(((int)param_1[6] << 0xc) / (int)sVar4);
-    param_1[1] = (short)(((int)param_1[1] << 0xc) / (int)sVar5);
-    param_1[4] = (short)(((int)param_1[4] << 0xc) / (int)sVar5);
-    param_1[7] = (short)(((int)param_1[7] << 0xc) / (int)sVar5);
-    param_1[2] = (short)(((int)param_1[2] << 0xc) / (int)sVar6);
-    param_1[5] = (short)(((int)param_1[5] << 0xc) / (int)sVar6);
-    param_1[8] = (short)(((int)param_1[8] << 0xc) / (int)sVar6);
-}
+DEFINE_func_8013339C()  /* dedup: shared engine-core @0x8013339C (src/shared) */
 
 
 DEFINE_func_8013361C()  /* dedup: shared engine-core @0x8013361C (src/shared) */
@@ -1561,38 +1201,7 @@ DEFINE_func_80136D00()  /* dedup: shared engine-core @0x80136D00 (src/shared) */
 // @class: regalloc-order
 // @stuck: none — MATCH (61 ins). Modeled on byte-proven sibling func_8012D3B4. Key: precompute ((v0+v0_2)>>3)*4 into a separate statement before AddPrim so the D_800B9A02*0x14 array-index chain regallocs to $v1/$v0 (computing the index inline left lhu in $a0 / product in $v1 → 6-off).
 
-extern s32 AddPrim(s32, void *);
-extern s32 RotTransPers(s32, s32, s32 *, s32 *);
-extern void SetLineG2(void *);
-extern void *func_80010A08(s32);
-extern void func_8004914C(void *);
-extern void func_800491AC(void *);
-extern s32 D_800A651C;
-extern u8 D_800AF648;
-extern s16 D_800B9A02;
-
-void func_80136D08(s32 arg0, s32 arg1) {
-    s32 sp10;
-    s32 sp14;
-    s32 temp_v0;
-    s32 temp_v0_2;
-    void *buf;
-
-    func_8004914C(&D_800AF648);
-    func_800491AC(&D_800AF648);
-    buf = func_80010A08(0x14);
-    SetLineG2(buf);
-    *((u8 *)buf + 0xE) = 0xFF;
-    *((u8 *)buf + 0x4) = 0xFF;
-    *((u8 *)buf + 0xD) = 0x80;
-    *((u8 *)buf + 0x5) = 0x80;
-    *((u8 *)buf + 0xC) = 0x80;
-    *((u8 *)buf + 0x6) = 0x80;
-    temp_v0 = RotTransPers(arg0, (s32)buf + 8, &sp10, &sp14);
-    temp_v0_2 = RotTransPers(arg1, (s32)buf + 0x10, &sp10, &sp14);
-    temp_v0 = ((temp_v0 + temp_v0_2) >> 3) * 4;
-    AddPrim(*(s32 *)((s8 *)&D_800A651C + ((u16)D_800B9A02 * 0x14)) + temp_v0, buf);
-}
+DEFINE_func_80136D08()  /* dedup: shared engine-core @0x80136D08 (src/shared) */
 
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_a", func_80136DFC);
@@ -1605,62 +1214,7 @@ INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_a", func_80136F3C);
 
 // @class: schedule
 // @stuck: none — MATCH
-extern short D_800B9A02;
-extern u8 D_800A6518[];
-extern void GsSortLine(void *a0, void *a1, s32 a2);
-
-void func_80137030(s16 a0, s16 a1) {
-    struct {
-        u32 tag;
-        s16 x0;
-        s16 y0;
-        s16 x1;
-        s16 y1;
-        u8 r;
-        u8 g;
-        u8 b;
-    } line;
-    s16 cx;
-    s16 cy;
-    s16 tx;
-    s16 ty;
-
-    tx = a0 - 3;
-    ty = a1 - 3;
-    cx = a0;
-    cy = a1;
-    line.tag = 0;
-    line.r = 0;
-    line.g = 0xFF;
-    line.b = 0;
-    line.x0 = tx;
-    line.y0 = ty;
-    line.x1 = cx;
-    line.y1 = cy;
-    GsSortLine(&line, &D_800A6518[(u16)D_800B9A02 * 20], 0);
-
-    tx = a0 + 3;
-    line.tag = 0;
-    line.r = 0;
-    line.g = 0xFF;
-    line.b = 0;
-    line.x0 = tx;
-    line.y0 = ty;
-    line.x1 = cx;
-    line.y1 = cy;
-    GsSortLine(&line, &D_800A6518[(u16)D_800B9A02 * 20], 0);
-
-    ty = a1 + 3;
-    line.tag = 0;
-    line.r = 0;
-    line.g = 0xFF;
-    line.b = 0;
-    line.x0 = cx;
-    line.y0 = ty;
-    line.x1 = cx;
-    line.y1 = cy;
-    GsSortLine(&line, &D_800A6518[(u16)D_800B9A02 * 20], 0);
-}
+DEFINE_func_80137030()  /* dedup: shared engine-core @0x80137030 (src/shared) */
 
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_a", func_80137178);
