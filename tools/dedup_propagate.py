@@ -383,99 +383,132 @@ def main():
         print("(--check-only: no files touched)")
         return
 
-    # ---- apply (in-memory snapshot of every file we touch, for fail-closed restore)
+    # ---- apply machinery (extracted so the drop-straggler retry can re-apply a sub-plan).
     header_path = ROOT / a.header
-    touched = {}  # path -> original text (None if newly created)
+    DEFAULT_H = ("/* src/shared/engine_core.h — Phase 15 shared engine-core bodies (cross-overlay dedup, §14).\n"
+                 " * Each DEFINE_func_XXXX() expands to the WHOLE matched body once; instantiated in place at the\n"
+                 " * func_XXXX site in every overlay that shares it (address order preserved). Registry +\n"
+                 " * byte-honesty: config/dedup.us.yaml + tools/dedup_integrate.py. Tool-generated; do not hand-edit. */\n"
+                 "#ifndef SHARED_ENGINE_CORE_H\n#define SHARED_ENGINE_CORE_H\n#include \"common.h\"\n\n#endif\n")
+    MACRO_RE = re.compile(r'^\s*DEFINE_func_([0-9A-Fa-f]+)\(\)')
 
-    def edit(path, newtext):
-        if path not in touched:
-            touched[path] = path.read_text() if path.exists() else None
-        path.write_text(newtext)
+    def apply_plan(subplan, restrict=None):
+        """Author each fn's macro into engine_core.h + instantiate it at its site in every member
+        overlay (optionally restricted to a set — the per-fn straggler trial uses one overlay). Edit
+        each member overlay ONCE (group by overlay; stub lines replace 1:1, inline defs splice in
+        REVERSE order). Returns (touched, changed); caller byte-gates `changed` then restore(touched)."""
+        touched = {}
+        def _edit(path, newtext):
+            if path not in touched:
+                touched[path] = path.read_text() if path.exists() else None
+            path.write_text(newtext)
+        htext = header_path.read_text() if header_path.exists() else DEFAULT_H
+        for p in subplan:
+            if f"DEFINE_{sym(p['addr'])}()" not in htext:
+                htext = htext.replace("\n#endif\n", "\n" + make_macro(p["addr"], p["body"]) + "\n#endif\n")
+        _edit(header_path, htext)
+        by_ov = {}
+        for p in subplan:
+            for ov in p["members"]:
+                if restrict and ov not in restrict:
+                    continue
+                by_ov.setdefault(ov, []).append(p)
+        changed = []
+        for ov in sorted(by_ov):
+            remaining = {p["addr"]: p for p in by_ov[ov]}   # targets not yet placed in a file
+            ovc = False
+            for cp, asm_sub in overlay_files(ov):           # main + Phase-19 split files (_a/_o0)
+                if not remaining:
+                    break
+                lines = ensure_include(cp.read_text(), a.header).splitlines(keepends=True)
+                sp = re.compile(rf'^\s*INCLUDE_ASM\("asm/{re.escape(ov)}/nonmatchings/{re.escape(asm_sub)}",\s*func_([0-9A-Fa-f]+)\);\s*$')
+                stub_idx, macro_set = {}, set()
+                for i, l in enumerate(lines):
+                    ms = sp.match(l)
+                    if ms: stub_idx[int(ms.group(1), 16)] = i; continue
+                    mm = MACRO_RE.match(l)
+                    if mm: macro_set.add(int(mm.group(1), 16))
+                joined = "".join(lines)
+                line_repls, def_ranges = {}, []
+                for ad in list(remaining):
+                    if ad in macro_set:
+                        del remaining[ad]; continue            # already instantiated in this file (idempotent)
+                    repl = f"DEFINE_{sym(ad)}()  /* dedup: shared engine-core @0x{ad:08X} (src/shared) */\n"
+                    if ad in stub_idx:
+                        line_repls[stub_idx[ad]] = repl; del remaining[ad]; ovc = True
+                    else:
+                        site = find_site(joined, ov, ad)   # inline def in THIS file? (else try the next split file)
+                        if site and site[0] == "def":
+                            def_ranges.append((site[1], site[2], repl)); del remaining[ad]; ovc = True
+                if line_repls or def_ranges:
+                    for idx, repl in line_repls.items():
+                        lines[idx] = repl
+                    for start, end, repl in sorted(def_ranges, key=lambda x: -x[0]):
+                        lines[start:end + 1] = [repl]
+                    _edit(cp, "".join(lines))
+            if ovc:
+                changed.append(ov)
+        return touched, changed
 
-    # author macros
-    htext = header_path.read_text() if header_path.exists() else \
-        ("/* src/shared/engine_core.h — Phase 15 shared engine-core bodies (cross-overlay dedup, §14).\n"
-         " * Each DEFINE_func_XXXX() expands to the WHOLE matched body once; instantiated in place at the\n"
-         " * func_XXXX site in every overlay that shares it (address order preserved). Registry +\n"
-         " * byte-honesty: config/dedup.us.yaml + tools/dedup_integrate.py. Tool-generated; do not hand-edit. */\n"
-         "#ifndef SHARED_ENGINE_CORE_H\n#define SHARED_ENGINE_CORE_H\n#include \"common.h\"\n\n#endif\n")
-    for p in plan:
-        if f"DEFINE_{sym(p['addr'])}()" not in htext:
-            macro = make_macro(p["addr"], p["body"])
-            htext = htext.replace("\n#endif\n", "\n" + macro + "\n#endif\n")
-    edit(header_path, htext)
-
-    def restore():
+    def restore(touched):
         for path, orig in touched.items():
             if orig is None:
                 path.unlink(missing_ok=True)
             else:
                 path.write_text(orig)
 
-    # ---- edit each member overlay ONCE (group targets by overlay -> one read/write per file, not per
-    # (function,overlay) — essential at fleet scale). Stub lines replace 1:1 (no line shift); the source
-    # overlay's inline defs splice by range in REVERSE line order (so earlier indices stay valid).
-    by_ov = {}
-    for p in plan:
-        for ov in p["members"]:
-            by_ov.setdefault(ov, []).append(p)
-    MACRO_RE = re.compile(r'^\s*DEFINE_func_([0-9A-Fa-f]+)\(\)')
-    changed = []
-    for ov in sorted(by_ov):
-        remaining = {p["addr"]: p for p in by_ov[ov]}   # targets not yet placed in a file
-        ovc = False
-        for cp, asm_sub in overlay_files(ov):           # main + Phase-19 split files (_a/_o0)
-            if not remaining:
-                break
-            lines = ensure_include(cp.read_text(), a.header).splitlines(keepends=True)
-            sp = re.compile(rf'^\s*INCLUDE_ASM\("asm/{re.escape(ov)}/nonmatchings/{re.escape(asm_sub)}",\s*func_([0-9A-Fa-f]+)\);\s*$')
-            stub_idx, macro_set = {}, set()
-            for i, l in enumerate(lines):
-                ms = sp.match(l)
-                if ms: stub_idx[int(ms.group(1), 16)] = i; continue
-                mm = MACRO_RE.match(l)
-                if mm: macro_set.add(int(mm.group(1), 16))
-            joined = "".join(lines)
-            line_repls, def_ranges = {}, []
-            for ad in list(remaining):
-                if ad in macro_set:
-                    del remaining[ad]; continue            # already instantiated in this file (idempotent)
-                repl = f"DEFINE_{sym(ad)}()  /* dedup: shared engine-core @0x{ad:08X} (src/shared) */\n"
-                if ad in stub_idx:
-                    line_repls[stub_idx[ad]] = repl; del remaining[ad]; ovc = True
-                else:
-                    site = find_site(joined, ov, ad)   # inline def in THIS file? (else try the next split file)
-                    if site and site[0] == "def":
-                        def_ranges.append((site[1], site[2], repl)); del remaining[ad]; ovc = True
-            if line_repls or def_ranges:
-                for idx, repl in line_repls.items():
-                    lines[idx] = repl
-                for start, end, repl in sorted(def_ranges, key=lambda x: -x[0]):
-                    lines[start:end + 1] = [repl]
-                edit(cp, "".join(lines))
-        if ovc:
-            changed.append(ov)
-
-    # structural check the byte-gate CANNOT catch (a leftover stub is itself byte-identical): every
-    # claimed member must now instantiate the macro and have no stub. One read per changed overlay.
-    incasm = lambda ad: re.compile(rf'INCLUDE_ASM\("[^"]+",\s*{sym(ad)}\)')
-    for ov in changed:
-        t = source_text(ov)   # all split files (post-edit, from disk)
-        for p in by_ov[ov]:
-            if f"DEFINE_{sym(p['addr'])}()" not in t:
-                restore(); sys.exit(f"[FAIL] {ov}: 0x{p['addr']:08X} not instantiated — REVERTED")
-            if incasm(p["addr"]).search(t):
-                restore(); sys.exit(f"[FAIL] {ov}: 0x{p['addr']:08X} stub still present — REVERTED")
-
-    # byte-gate only the overlays that actually changed (an already-macro member didn't change).
-    if not a.no_gate:
+    def struct_check(subplan, changed, touched):
+        # the byte-gate CANNOT catch a leftover stub (it is itself byte-identical): every claimed
+        # member must now instantiate the macro and have no stub. One read per changed overlay.
+        incasm = lambda ad: re.compile(rf'INCLUDE_ASM\("[^"]+",\s*{sym(ad)}\)')
         for ov in changed:
-            ok, log = byte_gate(ov)
-            if not ok:
-                tail = "\n".join(log.splitlines()[-12:])
-                print(f"[FAIL] {ov} not byte-identical — REVERTING ALL.\n{tail}")
-                restore(); sys.exit(1)
-        print(f"[ OK ] {len(changed)} overlays byte-identical after propagation")
+            t = source_text(ov)   # all split files (post-edit, from disk)
+            for p in (pp for pp in subplan if ov in pp["members"]):
+                if f"DEFINE_{sym(p['addr'])}()" not in t:
+                    restore(touched); sys.exit(f"[FAIL] {ov}: 0x{p['addr']:08X} not instantiated — REVERTED")
+                if incasm(p["addr"]).search(t):
+                    restore(touched); sys.exit(f"[FAIL] {ov}: 0x{p['addr']:08X} stub still present — REVERTED")
+
+    # ---- apply with DROP-STRAGGLER retry. A fn whose shared C body, in some OTHER overlay's TU,
+    # byte-mismatches (-O0 per-overlay %lo data) or compile-errors (cross-overlay loose-typed callee
+    # decls — cont.4 wave-2) would, under an all-or-nothing batch revert, poison every CLEAN match.
+    # So on a byte-gate failure: isolate the culprit(s) for the failing overlay (per-fn trial), drop
+    # them (they stay matched ×1 in the source), and retry the batch with the survivors. The byte-gate
+    # stays the sole arbiter (G3/P9) — a dropped fn is never banked anywhere it isn't byte-identical.
+    while plan:
+        touched, changed = apply_plan(plan)
+        struct_check(plan, changed, touched)
+        if a.no_gate:
+            break
+        fail_ov = None
+        for ov in changed:
+            if not byte_gate(ov)[0]:
+                fail_ov = ov; break
+        if fail_ov is None:
+            print(f"[ OK ] {len(changed)} overlays byte-identical after propagation")
+            break
+        restore(touched)
+        survivors, dropped = [], []
+        for p in plan:
+            if fail_ov not in p["members"]:
+                survivors.append(p); continue
+            t2, c2 = apply_plan([p], restrict={fail_ov})
+            pok = byte_gate(fail_ov)[0] if fail_ov in c2 else True
+            restore(t2)
+            (survivors if pok else dropped).append(p)
+        if dropped:
+            print(f"[drop] {fail_ov}: {len(dropped)} cross-overlay straggler(s) "
+                  f"(loose-typing/overlay-local, kept ×1): " + ", ".join(f"0x{p['addr']:08X}" for p in dropped))
+        else:
+            # fail_ov fails with the full batch but no single fn is a culprit -> a multi-fn interaction;
+            # conservatively drop every fn targeting fail_ov (rare; kept ×1) so the rest can proceed.
+            tofail = [p for p in plan if fail_ov in p["members"]]
+            print(f"[drop] {fail_ov}: byte-gate fails with no single-fn culprit (interaction) — "
+                  f"dropping its {len(tofail)} fn(s), kept ×1")
+            survivors = [p for p in plan if fail_ov not in p["members"]]
+        plan = survivors
+    if not plan:
+        sys.exit("[error] all candidates dropped — no cleanly-shareable function")
 
     # ---- register groups (compact shorthand: position-locked -> vram + binaries list)
     groups = [dict(id=f"E_{sym(p['addr'])}", tier=a.tier, hash=p["hash"],

@@ -31,10 +31,16 @@ HEAD = the commit below. Grinder still running (token-free, banked 0 — the per
 
 **★ ENABLER FIX (committed this session):** `worker_wave.js` now derives each agent's `match_one` self-check `--asm-subdir` from `t.asm` (was hardcoded to the MAIN subdir → every `_a` agent self-check crashed on a missing `.s` → blind drafting). THIS produced the high close rate (16/24); without it the `_a` wave drafts blind.
 
-**★ NEXT — two robustness fixes so future `_a` waves AUTO-realize ×134 (then SCALE ~60 more `_a` fns = multi-% runway):**
-1. **`dedup_propagate`: drop-the-straggler, not all-or-nothing.** On a batch byte-gate fail, identify + drop the culprit fn(s) (the byte-gate is truth — a false-reach fn should be skipped, not poison the batch), proceed with the clean subset. Plus permanently exclude the -O0 overlay-local cluster from `--auto-from`.
-2. **`gate_stage`: surface dedup_propagate failures** (check return code / log output) so "propagated: 0" can never silently hide a real gain again.
-Then loop `_a` waves (each auto-realizing ×134). **Pending Drew's direction** (he asked to report the yield before scaling).
+**★ FIXES DONE + VALIDATED (this session) — the `_a` pipeline is now HANDS-FREE:**
+1. **`gate_stage` surfaces propagation failures** (`commit:0269`): `prop_error` + `.run/auto/last_propagate_error.log` — no more silent swallow (it caught wave-2's failure live).
+2. **`dedup_propagate` excludes -O0 overlay-local fns from `--auto-from`** (`commit:0269`): `*_o0.c` defs (incl. func_8013C360) never cross-overlay-propagate (find_site-detected; --addr still forces).
+3. **`dedup_propagate` DROP-STRAGGLER retry** (refactor): on a byte-gate fail it isolates the culprit(s) for the failing overlay (per-fn trial), drops them (kept ×1), and retries the survivors — handles BOTH straggler classes (-O0 byte-mismatch + cross-overlay loose-typing compile-error) failing ANY overlay. Byte-gate stays sole arbiter; the plan strictly shrinks so it always terminates.
+
+**★ WAVE-2 (validated the fixes end-to-end):** 24 fresh `_a` targets → 13 self-MATCH → gate banked **6** (the `_a` path SKIPS sig_unify, so def-side near-misses don't auto-recover → lower bank rate than main). Drop-straggler `--auto-from` then auto-dropped 2 loose-typing stragglers (func_8012E5CC/func_8012C750 — compile-fail ov_SC01_000, kept ×1) + propagated **3 clean ×134** (`commit:0271`). The 11 near-misses are permuter-class schedule/regalloc walls (grinder fuel; 7 were last wave's re-attempts, still walls).
+
+**★ SESSION ARC: 62.31% → 62.82% (+0.51%):** wave-1 +10 ×134 (`commit:0267`) · wave-2 +6 ×1 (`commit:0270`) +3 ×134 (`commit:0271`). 136/136 byte-identical, 0 NON_MATCHING throughout.
+
+**★ NEXT — the `_a` scaling loop is now hands-free (~55 fresh `_a` reach-134 fns remain):** `wave_targets --pool tractable --region a` → worker_wave → `gate_stage --src-file --commit` (auto-drops stragglers + auto-propagates clean ×134). ~+0.2–0.4% fleet/wave. **Improvement idea:** a def-side recovery that doesn't drop `_a` drafts would lift the `_a` bank rate (sig_unify-skip is the current cap). **Pending Drew's direction** (continue scaling vs checkpoint/close).
 
 ---
 
