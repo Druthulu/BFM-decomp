@@ -18,7 +18,7 @@ A fresh session then: research the gcc pass (R17, tools/reference/gcc-papermario
 closeness exemplar -> distill the idiom (cookbook) -> re-wave the class with it ×134 -> at ~80% of THAT
 fuel, --assess again. Knowledge compounds toward 100% decomp.
 """
-import argparse, collections, json, os
+import argparse, collections, glob, json, os, re
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BACKLOG = os.path.join(ROOT, ".run/backlog.jsonl")
@@ -29,8 +29,24 @@ ASM_DIRS = ["asm/ov_SC01_077/nonmatchings/ov_SC01_077_a",
             "asm/ov_SC01_077/nonmatchings/ov_SC01_077_o0"]
 
 
+def _open_stubs():
+    """func names STILL INCLUDE_ASM stubs in ov_SC01_077*.c (unmatched). A name absent => banked/gone
+    (mirrors backlog._matched_now; the drop-now-matched P9 honesty)."""
+    stub_re = re.compile(r"INCLUDE_ASM\([^,]+,\s*(\w+)\)")
+    stubs = set()
+    for f in glob.glob(os.path.join(ROOT, "src/ov_SC01_077/ov_SC01_077*.c")):
+        try:
+            stubs.update(stub_re.findall(open(f).read()))
+        except OSError:
+            pass
+    return stubs
+
+
 def load_backlog():
-    """last record per fn (the freshest near-miss state); only still-unbanked near/fail."""
+    """last record per fn (the freshest near-miss state); only still-unbanked, STILL-STUBBED near/fail.
+    Drops fns banked SINCE their last ledger record (stale status 'near' but no longer a stub) — the same
+    drop-now-matched honesty backlog.render applies (P9); without it every assess count over-inflates
+    with already-matched fns (cont.7: func_8016EDEC/EE40 etc.)."""
     recs = {}
     if os.path.exists(BACKLOG):
         for line in open(BACKLOG):
@@ -43,7 +59,9 @@ def load_backlog():
                 continue
             if r.get("name"):
                 recs[r["name"]] = r
-    return [r for r in recs.values() if r.get("status") in ("near", "failed")]
+    open_stubs = _open_stubs()
+    return [r for r in recs.values()
+            if r.get("status") in ("near", "failed") and r.get("name") in open_stubs]
 
 
 def klass_of(r):
@@ -92,14 +110,23 @@ def cmd_assess(rows):
                if k not in RECOVERY and k not in ("unknown", "GIANT") and (med(d["close"]) or 0) > 0]
     codegen.sort(key=lambda kv: -kv[1]["r134"])
     # the cheap DETERMINISTIC lever = close=0 reach-134 fns (byte-correct, declaration-blocked).
-    det = sum(1 for r in rows if (r.get("reach") or 0) >= 134 and r.get("closeness") == 0)
+    # HONESTY (cont.7, byte-proven): a close=0 fn that ALREADY went through a recovery gate (source
+    # 'recover-*') and is STILL unbanked is the §16/§20 DEF-SIDE loose-typing WALL, not cheap fuel —
+    # re-running recovery on it banks 0 (cont.6 main 0/40 + cont.7 _a 0/20). match_one reports close=0
+    # (masked MATCH) but the whole-binary gate rejects the def-sig conflict. Only NEVER-recovery-gated
+    # close=0 fns are genuine ~0-token fuel; split the count so the loop stops re-burning the wall.
+    c0 = [r for r in rows if (r.get("reach") or 0) >= 134 and r.get("closeness") == 0]
+    det_walled = sum(1 for r in c0 if str(r.get("source", "")).startswith("recover"))
+    det_fresh = len(c0) - det_walled
     print()
     if codegen:
         k, d = codegen[0]
         print(f"NEXT IDIOM TO LEARN -> '{k}'  ({d['r134']} reach-134 fns, median {med(d['close'])} ins off)")
         print(f"  gen its fuel:  .venv/bin/python tools/idiom_loop.py --gen-fuel {k}")
-    print(f"DETERMINISTIC RECOVERY LEVER -> {det} close=0 reach-134 fns (byte-correct, decl-blocked) "
-          f"-> a sig_unify/cast recovery banks them ×134 for ~0 tokens (do this FIRST each cycle).")
+    print(f"DETERMINISTIC RECOVERY LEVER -> {det_fresh} FRESH close=0 reach-134 fns (never recovery-gated) "
+          f"= the only genuine ~0-token ×134 recovery fuel; gate these first.")
+    print(f"  (+{det_walled} close=0 are recovery-FAILED = the def-side loose-typing WALL (cont.6/7): do NOT "
+          f"re-run recovery — they need a per-fn type-split or hand-finish, NOT a free bank.)")
 
 
 def cmd_gen_fuel(rows, klass, out):

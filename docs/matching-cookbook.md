@@ -1840,3 +1840,49 @@ ONLY the stage-1 failures → re-gate (def-side near-misses recover) — never r
 `harvest_verify` reads the CURRENT src as baseline, so verified fns ACCUMULATE across the two gate calls (a
 stage-1 winner is no longer a stub for stage 2). This is mandatory now that hand-pinned self-contained cracks
 flow through the same gate as recovery drafts.
+
+## §26 — The cheap close=0 recovery lever is EXHAUSTED; `idiom_loop --assess` was DOUBLY inflated (Phase 21, cont.7)
+
+cont.6 left two "do this FIRST each cycle" cheap levers: the `_a` close=0 recovery (validated on one fn,
+func_8012F568 ×134) and `idiom_loop --assess`'s "51 close=0 reach-134 fns → ×134 for ~0 tokens." cont.7 ran the
+`_a` lever to completion and probed the assess. **Both were over-promises; the cheap recovery fuel is dry.**
+
+### The `_a` close=0 recovery banks 0/20 — same def-side wall as MAIN (0/40)
+Re-gated the 20 still-stubbed `_a`/`o0` close=0 reach-134 fns through the cont.6 fixed pipeline (`gate_stage
+--src-file`, canon-first two-stage; `sig_unify --src-file` fired on all 20). **banked 0.** match_one calls them all
+"MATCH" (close=0) but the whole-binary gate rejects every one — the §16/§20 **DEF-side multi-way loose-typing
+wall**: the draft's byte-correct def needs a C type that conflicts with a banked caller's canonical decl, and no
+single C sig fits both (sig_unify's arity-adopt only fixes the simple-arity case — cont.6's func_8012F568 was
+that lone case; the rest are genuine multi-type conflicts). Caller-side fix is blocked (INCLUDE_ASM declares no
+symbol, §20). **Conclusion: close=0 + already-recovery-gated = a WALL, not fuel — do NOT re-run recovery on it.**
+
+### `--assess` was inflated TWO ways (now fixed) — verify reach AND closeness before crediting a lever
+The assess named "51 close=0 reach-134 → ×134 for ~0 tokens." Two byte-proven inflations (R14/§25 family):
+1. **`reach` = masked `h_exact` distinct-overlay count → OVER-counts the real ×134** (§25: func_80128ED8's
+   `--check-only` plan says `members=134` but real propagation is ×1). The "reach-134" label is a CEILING.
+2. **`load_backlog` didn't drop banked-since-logged fns** (the ledger keeps stale status `near` for a fn matched
+   in a later session — e.g. func_8016EDEC/EE40 banked in cont.6's Option-C still counted). And the close=0
+   "lever" counted fns already recovery-gated-and-failed (the §16/§20 wall) as if fresh.
+**Fix (`tools/idiom_loop.py`, cont.7 — R16 flywheel, so the next session doesn't re-burn the lever):**
+- `load_backlog` now intersects the ledger with the live `INCLUDE_ASM` stub set (`_open_stubs()`, mirrors
+  `backlog._matched_now`) → drops every banked-since-logged fn (the same drop-now-matched P9 honesty
+  `backlog.render` applies). This alone removed the bogus "unknown 14" class + ~10/class of stale-matched inflation.
+- The DETERMINISTIC-RECOVERY line now splits **FRESH** (never recovery-gated `recover-*` source = genuine
+  ~0-token fuel) vs **WALLED** (already recovery-failed = the def-side wall, "do NOT re-run"). Post-fix:
+  **0 fresh, 46 walled.** The cheap lever is genuinely empty.
+**RULE:** before trusting an assess class/lever, the live numbers are: real reach = `dedup_propagate --addr
+--check-only` is still h_exact (a ceiling) → the only truth is the gate; real closeness = re-measured through
+the gate's canon/cast/sig_unify transforms (the stored ledger closeness is optimistic — stale records read 0
+where the live residual is 30–41). h_exact over-counts the numerator, stale-ledger under-counts the denominator.
+
+### Where this leaves the reach-134 tail (cont.6 option-3, now CONFIRMED byte-backed)
+The cached reach-134 cheap fuel is dry: close=0 recovery = 0 fresh (46 walls); the codegen classes that look
+tractable are h_exact-inflated (schedule "39 reach-134" but the cracked-exemplar ×134 fraction is ~50% on n=2 —
+func_8012F568 ×134 / func_80128ED8 ×1 — at median 15 ins off = expensive per-fn pin work, poor ROI; do NOT wave
+it on the inflated count, §20 "don't wave a wall"). **The remaining levers are all token-heavy fresh-session
+work:** (a) the GIANTS (8 reach-134 >150 ins — the byte-weight lever, ~3% auto-yield so mostly hand-finish/backlog
+fuel, Phase-16); (b) per-fn pin-cracking the genuine codegen near-misses (schedule-coalescing §25 / regalloc-order).
+**Open durable tool (the highest-value next build):** a RESOLVED-reach probe — compare each reach-134 fn's
+per-overlay *linked* `.text` bytes (from `expected/`, relocations resolved) instead of masked `h_exact` — would
+give every `--assess` the REAL ×134 leverage and end the over-count at its source (today `reach` IS the h_exact
+over-count; there is no resolved measure).

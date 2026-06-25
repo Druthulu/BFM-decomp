@@ -9,7 +9,61 @@
 
 ---
 
-## ★★★ SESSION 2026-06-25 (cont. 6) — schedule idiom = COALESCING (pin-crackable), 2 durable gate fixes, h_exact over-counts ×134 (READ FIRST)
+## ★★★ SESSION 2026-06-25 (cont. 7) — cheap recovery lever EXHAUSTED (byte-proven); `--assess` was doubly-inflated, now fixed (READ FIRST)
+
+> Drew's `/loop` (the cont.6+ prompt) + `/effort Max`. Ran the probe-first cycle: assessed → ran the cheap `_a`
+> close=0 recovery to completion → diagnosed + FIXED the assess inflation. No token-heavy wave fired (ROI-gated,
+> §20/§26). All byte-gated (G3/P9); 0 NON_MATCHING; grinder ran token-free alongside (banked 0 — the hard tail).
+
+**Fleet 63.17%** (217,316 / 344,010, **+0.00% this session** — no banks; the cheap fuel proved dry) · 136/136
+byte-identical (baseline re-confirmed green: fleet unchanged, HEAD unchanged) · 0 NON_MATCHING · HEAD = the cont.7
+commit below. Local, not pushed (R6).
+
+**★ THE FINDING (byte-proven, R14/P9 — the cycle's real value): the cheap close=0 recovery lever is EXHAUSTED.**
+- Re-gated the **20 still-stubbed `_a`/`o0` close=0 reach-134 fns** through the cont.6 fixed pipeline
+  (`gate_stage --src-file`, canon-first two-stage; `sig_unify --src-file` fired on all 20). **banked 0/20.** Same
+  §16/§20 **def-side multi-way loose-typing wall** as the MAIN region (cont.6: 0/40). cont.6's func_8012F568 was
+  the lone simple-arity win; the rest need a C type that conflicts caller-decl-vs-def with no single fitting sig.
+- So the close=0 "recovery lever" the assess kept naming "do FIRST each cycle, ×134 for ~0 tokens" is **dry.**
+
+**★ TWO DURABLE TOOLING FIXES — `idiom_loop.py --assess` was DOUBLY inflated (R16 flywheel; cookbook §26):**
+1. **`load_backlog` now drops banked-since-logged fns** (intersect the ledger with the live `INCLUDE_ASM` stub
+   set — the same drop-now-matched P9 honesty `backlog.render` applies). Removed the bogus "unknown 14" class +
+   ~10/class of stale-matched inflation (schedule 49→39 r134, regalloc 44→39, …).
+2. **The DETERMINISTIC-RECOVERY line splits FRESH vs WALLED** — never-recovery-gated close=0 (genuine ~0-token
+   fuel) vs already-recovery-FAILED close=0 (the def-side wall, "do NOT re-run"). **Post-fix: 0 FRESH, 46 WALLED.**
+   The assess no longer misleads the next session into re-burning the dry lever. (Compounds: `reach` itself is the
+   masked-`h_exact` OVER-count, §25 — a ceiling, not the real ×134.)
+
+**★ THE SCHEDULE-WAVE VERDICT (probe-first, ROI-gated — NOT fired):** the cracked-exemplar ×134 fraction is ~50%
+on n=2 (func_8012F568 ×134 / func_80128ED8 ×1), at median **15 ins off** = expensive per-fn pin work, over an
+h_exact-inflated "39 reach-134." §20 "don't wave a wall" → the schedule wave is **not justified.** No tokens spent.
+
+**★ SESSION BANKS:** none (the cheap fuel was byte-proven dry). The durable output is the **exhaustion proof + the
+two assess-honesty fixes + cookbook §26** — they stop every future session re-burning the close=0 lever.
+
+**★ NEXT — cont.6 option-3 is now CONFIRMED: the cached reach-134 cheap fuel is dry; the genuine levers are
+token-heavy (fresh-session work, Drew's ROI greenlight per R26/R27/§20):**
+1. **The GIANTS** (8 reach-134 >150 ins — the high-BYTE-WEIGHT lever, the one that moves the decomp.dev-comparable
+   ~30% number; ~3% auto-yield, so mostly worker-gets-close → hand-finish/backlog fuel). A focused deep session.
+2. **Per-fn pin-cracking** the genuine codegen near-misses (schedule-coalescing §25 / regalloc-order) — token-heavy,
+   ~50% ×134 yield, distill each idiom (R16/R30). Probe ×134-shareability on the cracked exemplar BEFORE waving.
+3. **[durable tool, highest leverage]** build the **RESOLVED-reach probe** (compare per-overlay *linked* `.text`
+   from `expected/`, not masked `h_exact`) → every `--assess` gets the REAL ×134 leverage, ending the over-count
+   at its source. Token-free; makes all future giant/wave ROI calls honest. (cookbook §26 open item.)
+
+**★ THE `/loop` PROMPT for the NEXT session** (Drew pastes it; the cheap-recovery step is now correctly a no-op):
+> `/loop` Phase-21 idiom cycle (cont.7+). Read CURRENT_PHASE cont.7 + cookbook §26 first. (1) `idiom_loop.py
+> --assess` — the close=0 recovery lever is now honest (0 FRESH / 46 WALLED → SKIP it; do NOT re-run recovery on
+> walled fns). (2) The cheap fuel is dry — pick the token-heavy lever WITH Drew's ROI greenlight: EITHER (a) a
+> focused GIANT session (8 reach-134 >150-ins in `.run/fuel_manifest.json` class=GIANT — re-draft fresh w/ current
+> canonical context + §17–§25 toolkit → gate+propagate ×134), OR (b) build the RESOLVED-reach probe first (§26
+> open item) so the next wave targets only genuinely-×134 fns. (3) PROBE ×134-shareability before any wave (§25/§26
+> — h_exact over-counts). Distill each idiom (R16/R30); honest (R14/P9). Grinder runs token-free alongside.
+
+---
+
+## ★★★ SESSION 2026-06-25 (cont. 6) — schedule idiom = COALESCING (pin-crackable), 2 durable gate fixes, h_exact over-counts ×134 (SUPERSEDED by cont. 7 above for the "NEXT" — the cheap lever is now byte-proven dry)
 
 > Drew's `/loop` (the cont.5 prompt) + `/effort Max`. Ran the cont.5 cycle: assess → cheap recovery → learn the
 > `schedule` idiom. The grinder ran token-free alongside (still permuting the hard tail, banked 0 — expected).
