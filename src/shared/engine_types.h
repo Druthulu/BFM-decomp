@@ -426,4 +426,14 @@ typedef struct {
 
 typedef struct { u8 b[8]; } Blk8;
 
+/* Phase 22: lifted from ov_SC01_077.c (was a per-function prelude block) so the
+ * struct-walled close=0 giants (func_80156B74, func_80156848, ...) propagate ×134.
+ * NOTE: the typedef name `S8` (ordinary-identifier namespace, the s16 4-field engine
+ * coord triple/quad used by D_80126AF0[]) coexists with the unrelated `struct S8`
+ * TAG above (u32 2-field, namespace-distinct, used via `struct S8` in engine_core.h).
+ * `B8` is layout-identical to Blk8 but kept under its draft name to avoid churning
+ * the already-matched func_80156848. */
+typedef struct { s16 a; s16 b; s16 c; s16 d; } S8;
+typedef struct { u8 b[8]; } B8;
+
 #endif /* BFM_ENGINE_TYPES_H */

@@ -4499,8 +4499,8 @@ extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a
 extern s32 func_801469C8(int a0, void *a1, int a2, int a3, u16 arg5, int arg6, int arg7, int arg8);
 extern void func_80156A1C(s32 a0, s32 a1);
 
-typedef struct { s16 a; s16 b; s16 c; s16 d; } S8;
-typedef struct { u8 b[8]; } B8;
+/* S8 / B8 typedefs lifted to src/shared/engine_types.h (Phase 22) so func_80156B74
+ * and other struct-walled giants using these types can propagate ×134. */
 
 extern s32 D_801151E0[];
 extern B8 D_80128120[];
@@ -4561,7 +4561,12 @@ void func_80156A1C(s32 param_1, s32 param_2)
 
 DEFINE_func_80156A88()  /* dedup: shared engine-core @0x80156A88 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80156B74);
+
+
+
+
+DEFINE_func_80156B74()  /* dedup: shared engine-core @0x80156B74 (src/shared) */
+
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80156ECC);
 
