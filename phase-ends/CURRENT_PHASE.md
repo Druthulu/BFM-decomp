@@ -47,6 +47,13 @@ boundary) → you MAY **close Phase 21 (T7 PhaseEnd)** banking the arc + open **
 the reach-1 / full-remaining landscape** (same architecture, no plan mode — the "plan" is this model). OR keep
 Phase 21 open (neverending). **Drew's call** (P8 milestone gate).
 
+**DREW'S DECISION (2026-06-25): keep Phase 21 OPEN; hand off to a FRESH session** with the `/loop` prompt above.
+No PhaseEnd. This session (cont.7→7e) was enormous; the next starts clean and runs the idiom-loop on the reach-1
+fuel. **Process lesson for the fresh session (keeps the orchestrator lean → longer hands-off runs):** delegate ALL
+heavy work (drafting, hand-matching, deep analysis) to Workflows/subagents (isolated context); the main loop holds
+only compact gate summaries. cont.7's context bloat came from doing hand-matching + deep-RE INLINE in the
+orchestrator (func_80176D94 / func_801775E0 / func_8014EA4C) instead of in a Workflow — bank that lesson.
+
 **THE `/loop` PROMPT for the next (FRESH) session** (whether Phase 21-cont or Phase 22):
 > `/loop` Idiom-learning cycle on the reach-1 tail. Read CURRENT_PHASE cont.7e + cookbook §17–§27. (1) TRIAGE wave:
 > `wave_targets.py --pool reach1 --n 24` → `worker_wave.js` (xHigh agents, each drafts + self-reports `// @class`)
