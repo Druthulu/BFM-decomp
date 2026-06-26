@@ -225,7 +225,70 @@ void func_8013D330(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8013D3D4);
+// @class: regalloc-order
+// @stuck: none — MATCH (match_one 90/90); base &D_80078E78 cached in a pointer local so gcc pins it into callee-saved $s1 and hoists the addr to the prologue (live across all 4 calls); direct array access D_80078E78[0x37] instead folds %lo per use (no $s1, frame 0x18 not 0x20)
+
+extern u8 D_80078E78[];
+
+extern void *D_801D9570;
+extern void *D_801D9574;
+extern void *D_801D9578;
+extern s32 D_801D95A0;
+extern s32 D_801D95A4;
+extern s32 D_801D95A8;
+extern s32 D_801DAA14[];
+
+extern u8 D_8018735C[];
+extern u8 D_80187404[];
+extern u8 D_801872B4[];
+extern u8 D_801873B0[];
+extern u8 D_80187430[];
+extern u8 D_80187308[];
+
+extern void func_8013D53C(void);
+extern void func_8013DD68(void);
+extern void func_8013D8FC(void);
+extern void func_8013CF68(void);
+
+void func_8013D3D4(int param_1, int param_2)
+{
+    u8 *p = D_80078E78;
+
+    D_801D95A0 = param_2;
+    D_801D95A4 = (param_2 >> 2) & 3;
+    D_801D95A8 = (param_2 >> 4) & 1;
+    if (((param_2 >> 2) & 3) == 0) {
+        D_801D9570 = D_8018735C;
+        D_801D9574 = D_80187404;
+        D_801D9578 = D_801872B4;
+    } else {
+        D_801D9570 = D_801873B0;
+        D_801D9574 = D_80187430;
+        D_801D9578 = D_80187308;
+    }
+    func_8013D53C();
+    if ((param_2 & 1) != 0) {
+        if (D_801D95A8 != 0) {
+            func_8013DD68();
+        } else {
+            func_8013D8FC();
+        }
+        func_8013CF68();
+        if ((D_801D95A0 & 2) != 0) {
+            D_801DAA14[0] = 0x140;
+            D_801DAA14[3] = 0x80;
+            if (p[0x37] == 4) {
+                D_801DAA14[0] = 0x140;
+                D_801DAA14[3] = 0;
+            }
+            if (p[0x37] == 0) {
+                D_801DAA14[0] = 0x140;
+                D_801DAA14[3] = 0x80;
+            }
+        }
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8013D53C);
 
@@ -269,7 +332,92 @@ void func_8013D8FC(void)
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8013D9B0);
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8013DBE4);
+// @class: struct
+// @stuck: none — MATCH (match_one 97/97). Two levers: (1) offset-first pointer arith
+//   `(int*)(param_1*12 + (int)D_801D9578)` makes the addu `offset+base` (dest=v0) so x/y/z
+//   load into a0/a1/a2 and each global loads LATE into v1 (base-first gave addu dest=v1 →
+//   global hoisted into a0, shifting x/y/z to a1/a2/a3). (2) the clamp must be NESTED
+//   if/else (slti dup'd inside each <,>= branch), NOT a merged `if(diff<5)` after the
+//   branch — gcc cross-jumps the identical `G=x` and `G=t` store tails into the two shared
+//   sites; the merged form emits one slti + unconditional store and diverges.
+
+extern void *D_801D9578;
+extern s16 *D_801D957C;
+extern s32 D_801D958C;
+extern s32 D_801D95AC;
+extern s32 D_801D95B0;
+extern s32 D_801D95B4;
+
+extern void func_8013DD68(void);
+
+void func_8013DBE4(int param_1)
+{
+    int *p;
+    int x, y, z;
+    int flag;
+
+    if (D_801D957C != 0) {
+        D_801D958C = 0;
+        p = (int *)(param_1 * 12 + (int)D_801D9578);
+        x = p[0];
+        y = p[1];
+        z = p[2];
+        flag = 0;
+        if (D_801D95AC != x) {
+            flag = 1;
+            if (D_801D95AC < x) {
+                if (x - D_801D95AC < 5) {
+                    D_801D95AC = x;
+                } else {
+                    D_801D95AC = D_801D95AC + 4;
+                }
+            } else {
+                if (D_801D95AC - x < 5) {
+                    D_801D95AC = x;
+                } else {
+                    D_801D95AC = D_801D95AC - 4;
+                }
+            }
+        }
+        if (D_801D95B0 != y) {
+            flag = 1;
+            if (D_801D95B0 < y) {
+                if (y - D_801D95B0 < 5) {
+                    D_801D95B0 = y;
+                } else {
+                    D_801D95B0 = D_801D95B0 + 4;
+                }
+            } else {
+                if (D_801D95B0 - y < 5) {
+                    D_801D95B0 = y;
+                } else {
+                    D_801D95B0 = D_801D95B0 - 4;
+                }
+            }
+        }
+        if (D_801D95B4 != z) {
+            flag = 1;
+            if (D_801D95B4 < z) {
+                if (z - D_801D95B4 < 5) {
+                    D_801D95B4 = z;
+                } else {
+                    D_801D95B4 = D_801D95B4 + 4;
+                }
+            } else {
+                if (D_801D95B4 - z < 5) {
+                    D_801D95B4 = z;
+                } else {
+                    D_801D95B4 = D_801D95B4 - 4;
+                }
+            }
+        }
+        if (flag != 0) {
+            func_8013DD68();
+        }
+        D_801D958C = flag;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8013DD68);
 
@@ -383,7 +531,60 @@ void func_8013E5E8(void)
 
 DEFINE_func_8013E67C()  /* dedup: shared engine-core @0x8013E67C (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8013E6AC);
+// @class: regalloc-order
+// @stuck: none — MATCH (90 ins, relocation-masked)
+
+extern u8 D_80078EC0;
+extern u16 D_8011511A;
+extern u16 D_80115124;
+extern u8 D_80115148[];
+extern u8 D_80115140[];
+extern s32 D_80187EBC;
+extern u16 D_80115110;
+extern s32 D_80115188;
+extern s16 currentLocationId;
+extern s16 D_80187E94;
+extern s16 D_80187E96;
+extern unsigned short D_80115112;
+
+extern void func_8013E83C(void);
+extern s32 func_80029504(void);
+
+void func_8013E6AC(void) {
+    short i;
+
+    func_8013E83C();
+    D_8011511A = 0;
+    D_80115124 = D_80078EC0;
+    for (i = 0; i < 8; i++) {
+        *(s16 *)((char *)&D_80115148 + (i << 1)) = 0;
+        D_80115140[i] = 0;
+    }
+    if (!((u32)func_80029504() < 5 || currentLocationId == 0x302A || currentLocationId == 0x3073)) {
+        register s32 *ep __asm__("$8");
+        register s32 *fp __asm__("$9");
+        fp = (s32 *)&D_80115110;
+        ep = (s32 *)&D_80187EBC;
+        for (i = 0; i < 5; i++) {
+            register s32 *fa __asm__("$6");
+            s32 v;
+            fa = (s32 *)(i * 4 + (s32)fp);
+            v = ep[i] * 3 >> 2;
+            fa[0x16] = v;
+            *(s32 *)((char *)&D_80115188 + (i << 2)) = v;
+        }
+        D_80187E94 = 2;
+        D_80187E96 = 1;
+        { u16 *q = &D_80115112; *q += 1; }
+    } else {
+        func_8013E83C();
+        D_8011511A = 7;
+        D_80187E96 = 0;
+        D_80187E94 = 0;
+        D_80115112 = 6;
+    }
+}
+
 
 DEFINE_func_8013E814()  /* dedup: shared engine-core @0x8013E814 (src/shared) */
 
@@ -447,7 +648,63 @@ INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8014032C);
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80140608);
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_801407F4);
+// @class: iv-combine
+// @stuck: none — MATCH (89 ins). Sequential struct fields fed from a running source
+//         pointer compile to fixed offsets when written base[0..n]; the target advances
+//         the pointer, so use post-increment `*p++` for EVERY field (gcc drops the dead
+//         final increment, yielding the "increment N-2 then offset 0/2" tail).
+
+extern u8 *D_80187B74;
+extern u8 *D_80187B78;
+extern u8 *D_80187B7C;
+extern u8 *D_80187B80;
+extern u8 *D_80187B84;
+extern u16 *D_80187B88[];
+extern u16 *D_80187B90[];
+extern u16 *D_80187BB0[];
+
+extern s32 func_80028D58(void);
+extern s32 func_80028DE0(void);
+extern s32 func_80028FBC(void);
+extern s32 func_80029000(void);
+extern s32 func_80028D9C(void);
+
+void func_801407F4(void)
+{
+    u8 *puVar1;
+    s32 iVar2;
+    u16 *puVar3;
+
+    puVar1 = D_80187B74;
+    iVar2 = func_80028D58();
+    puVar3 = D_80187B88[iVar2];
+    *(s16 *)(puVar1 + 0x16) = *puVar3++;
+    *(s16 *)(puVar1 + 0x18) = *puVar3++;
+    *(s16 *)(puVar1 + 0x1a) = *puVar3++;
+
+    puVar1 = D_80187B78;
+    iVar2 = func_80028DE0();
+    puVar3 = D_80187B88[iVar2];
+    *(s16 *)(puVar1 + 0x16) = *puVar3++;
+    *(s16 *)(puVar1 + 0x18) = *puVar3++;
+    *(s16 *)(puVar1 + 0x1a) = *puVar3++;
+
+    iVar2 = func_80028FBC();
+    *(s16 *)(D_80187B7C + 0x18) = *D_80187B90[iVar2];
+    iVar2 = func_80029000();
+    *(s16 *)(D_80187B80 + 0x18) = *D_80187B90[iVar2];
+
+    puVar1 = D_80187B84;
+    iVar2 = func_80028D9C();
+    puVar3 = D_80187BB0[iVar2];
+    *(s16 *)(puVar1 + 0x12) = *puVar3++;
+    *(s16 *)(puVar1 + 0x14) = *puVar3++;
+    *(s16 *)(puVar1 + 0x16) = *puVar3++;
+    *(s16 *)(puVar1 + 0x18) = *puVar3++;
+    *(s16 *)(puVar1 + 0x1a) = *puVar3++;
+    *(s16 *)(puVar1 + 0x1c) = *puVar3++;
+}
+
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80140958);
 
@@ -11393,7 +11650,56 @@ s32 func_8017F424(s16 *a0) {
     return D_8018A89C[(u16)a0[1]]();
 }
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8017F460);
+// @class: remat
+// @stuck: none — MATCH (match_one 87/87). Levers: (1) block-scoped `s32 *pCC=&D_801270CC;` INSIDE
+//   the ==4 branch forces gcc to CSE/HOLD the symbol address in a reg for the load+conditional store
+//   (target: lui;addiu;lw 0($v1) ... sw 0($v1)) instead of %lo-folding each access; declaring it at
+//   function top materializes it too early (before the bne) — must be block-scoped so it builds lazily.
+//   (2) (s16)D_80126B66 on the u16 canonical folds to lh. (3) extern short D_8018A8FC[]; D_8018A8FC[idx]
+//   %lo-folds the indexed s16 load.
+
+extern s32 D_801270CC;
+extern s32 D_801270D4;
+extern short D_8018A8FC[];
+extern int D_8018A8F8;
+extern u16 D_80126B66;
+
+extern void func_8017F5BC(int param_1);
+extern void func_8002D4C8(s32 a0, s32 a1);
+
+void func_8017F460(int param_1)
+{
+    int iVar1;
+
+    if (*(unsigned char *)(param_1 + 0x70) == 4) {
+        s32 *pCC = &D_801270CC;
+        if (*pCC == 0 && (*(unsigned short *)(param_1 + 0x5c) & 1) != 0) {
+            if (D_801270D4 == 0) {
+                D_801270D4 = 1;
+            }
+            *pCC = 3;
+            *(unsigned short *)(param_1 + 0x5c) = 0;
+        }
+        if (1 < D_801270CC) {
+            if ((*(unsigned short *)(param_1 + 0x5c) & 1) != 0 && D_801270D4 == 0) {
+                D_801270D4 = 1;
+            }
+            if (D_8018A8FC[(int)((unsigned int)*(unsigned short *)(param_1 + 0x70) << 0x10) >> 0x18] <= D_801270D4) {
+                func_8017F5BC(param_1);
+                func_8002D4C8(0x495, 0);
+            }
+        }
+    } else {
+        iVar1 = (int)(s16)D_80126B66 - (int)*(short *)(param_1 + 0xe);
+        if (iVar1 < 0) {
+            iVar1 = -iVar1;
+        }
+        if (iVar1 < D_8018A8F8) {
+            func_8017F5BC(param_1);
+        }
+    }
+}
+
 
 // @class: regalloc-order
 // @stuck: none — MATCH (54 ins, relocation-masked)
@@ -12495,7 +12801,77 @@ void func_801846F8(s32 a0) {
     *(s32 *)(a0 + 0x1C) = 0x14;
 }
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8018470C);
+// @class: regalloc-order
+// @stuck: none — MATCH (97 ins, relocation-masked); $s0=&spr (call-crossing) + $s1=param_1 fell out naturally (no pins needed); frame 0x40 from svec(8)+spr(20)
+
+typedef struct { u16 a, b, c, d; } SV4U;
+
+struct sprite8 {
+    short f0;   /* +0x00 */
+    short f2;   /* +0x02 */
+    short f4;   /* +0x04 */
+    short f6;   /* +0x06 */
+    short f8;   /* +0x08 */
+    short fa;   /* +0x0a */
+    short fc;   /* +0x0c */
+    short fe;   /* +0x0e */
+    int   f10;  /* +0x10 (unwritten, reserved -> 20-byte struct => frame 0x40) */
+};
+
+extern s32 func_8012D5E4(s32 a0, s32 a1, s32 a2, s32 a3);
+extern void func_8012F214(s32 a0, s32 a1, s32 a2);
+extern s32 func_8012C51C(void *a0, s32 a1);
+extern s32 func_8012BEE8(s32 a0);
+extern void func_8012A828(s32 a0, void *a1);
+extern void func_8002D4C8(s32 a0, s32 a1);
+
+extern u8 D_8018AF78;
+extern u8 D_8018AF88;
+extern volatile unsigned short D_80126B96;
+extern void D_80196F3C;
+
+void func_8018470C(s32 param_1)
+{
+    SV4U svec;            /* sp+0x10 */
+    struct sprite8 spr;   /* sp+0x18 */
+    s32 base;
+    u16 uVar1;
+
+    if (*(int *)(param_1 + 0x1c) == 9) {
+        base = (s32)&D_8018AF78;
+        if (func_8012D5E4(param_1, base, base + 8, 9) != 0
+            && (*(unsigned short *)(param_1 + 0x70) & 1) != 0) {
+            D_80126B96 = D_80126B96 | 0x800;
+        }
+        if ((*(short *)(param_1 + 0x70) & 0x8000) != 0) {
+            func_8012F214(param_1, (s32)&D_8018AF88, (s32)&svec);
+            spr.f6 = 0xda;
+            spr.fa = 0;
+            spr.fc = 0x7fff;
+            spr.f0 = svec.a;
+            spr.f2 = svec.b;
+            spr.f4 = svec.c;
+            spr.fe = *(u16 *)(*(int *)(param_1 + 0x20) + 0x12);
+            func_8012C51C(&spr, param_1);
+            spr.fe = *(u16 *)(*(int *)(param_1 + 0x20) + 0x12) + 0x100;
+            func_8012C51C(&spr, param_1);
+            spr.fe = *(u16 *)(*(int *)(param_1 + 0x20) + 0x12) - 0x100;
+            func_8012C51C(&spr, param_1);
+        }
+        func_8002D4C8(0x43e, 0);
+    }
+    if (func_8012BEE8(param_1) != 0) {
+        *(int *)(param_1 + 0x1c) = 0x3c;
+        *(short *)(param_1 + 2) = 3;
+        func_8012A828(param_1, &D_80196F3C);
+        uVar1 = *(u16 *)(*(int *)(param_1 + 0x78) + 2);
+        *(short *)(param_1 + 0x5e) = 0;
+        *(short *)(param_1 + 0xdc) = 0;
+        *(int *)(param_1 + 0x1c) = 0x2d;
+        *(short *)(param_1 + 0x5c) = uVar1;
+    }
+}
+
 
 extern s32 (*D_8018AF90[])();
 
