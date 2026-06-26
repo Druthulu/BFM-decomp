@@ -1953,3 +1953,16 @@ drafter predicted. **The fix is NOT C-steering — it's the decomp-permuter** (t
 regalloc/scheduling via semantics-preserving C perturbations the byte-gate scores, exploring the frame-PRESERVING
 space the hand-edits can't. Re-log such giants with their true closeness + raw draft (`source=giant-raw`) so the
 grinder (close≤30) picks them up; do NOT hand-grind them.
+
+**Deep frame-RE does NOT crack a scheduler-walled giant (cont.7d, byte-proven on func_8014EA4C).** Drew chose
+"deep re-RE the real frame so regalloc resolves." The RE finding: the frame is a **dead aggregate copy** — 8 bytes
+of a param unaligned-copied (`lwl/lwr`→`swl/swr`, char-aligned dest) to a stack local at sp+0x20 that's NEVER read
+(gcc-2.7.2 keeps it — no DSE for aggregates). The drafter's `u8 buf[16]; memcpy(buf+16, a2, 8)` (copy PAST the
+array) is a PRECISE reproduction of the exact gcc stack layout — `local[0x38]` or any "robust" remodel produces a
+DIFFERENT frame (0x88, copy at 0x30). So the frame is already correct at close=6; **the residuals are NOT
+frame-caused** — they're loop-body scheduler (a global store vs a call-arg load order) + regalloc (abs in $v1 vs
+in-place $v0), the irreducible §20/§25 wall. **Lesson: when a giant's residual is loop-body schedule/regalloc,
+deep frame-RE is a dead end — only the permuter explores that space.** Net for Phase 21: **5 levers
+(cheap-recovery, permuter, giant-wave, hand-finish, deep-RE) are byte-proven exhausted at fleet 63.17%** for the
+reach-134 tail; the residual is the gcc-2.7.2 scheduler/regalloc wall, addressable only by the (low-yield) permuter
+or by accepting it as the matching ceiling at this fleet level.
