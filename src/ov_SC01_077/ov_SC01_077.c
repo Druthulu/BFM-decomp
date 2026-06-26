@@ -6982,7 +6982,7 @@ extern void func_80146CA0(void *a0);
 extern s32 D_800DE5A0;
 extern s32 D_800636C8;
 
-typedef struct { u32 a, b, c, d; } Blk16;
+/* Blk16 lifted to src/shared/engine_types.h (Phase 22). */
 
 void func_80163A94(s32 param_1) {
     s32 iVar7;
@@ -7022,7 +7022,12 @@ void func_80163A94(s32 param_1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80163C2C);
+
+
+
+
+DEFINE_func_80163C2C()  /* dedup: shared engine-core @0x80163C2C (src/shared) */
+
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80163EC8);
 

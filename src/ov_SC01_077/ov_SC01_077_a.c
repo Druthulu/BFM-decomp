@@ -1075,7 +1075,7 @@ INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_a", func_8012E9C0);
 
 extern void func_80049CAC(s32 a0, s32 a1);
 
-typedef struct { u32 a, b, c, d; } Blk16;
+/* Blk16 lifted to src/shared/engine_types.h (Phase 22). */
 typedef struct { s16 h[8]; } Buf;
 
 void func_8012EA90(s32 param_1, s32 param_2, s32 *param_3)

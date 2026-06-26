@@ -436,4 +436,10 @@ typedef struct { u8 b[8]; } Blk8;
 typedef struct { s16 a; s16 b; s16 c; s16 d; } S8;
 typedef struct { u8 b[8]; } B8;
 
+/* Phase 22: 16-byte block (gcc a0-a3 4-reg block copy) + the 32-byte matrix pair,
+ * lifted from ov_SC01_077.c / ov_SC01_077_a.c prelude blocks so func_80163C2C and
+ * its siblings (func_80163A94, func_8012EA90, ...) propagate ×134. */
+typedef struct { u32 a, b, c, d; } Blk16;
+typedef struct { Blk16 lo, hi; } Buf32;
+
 #endif /* BFM_ENGINE_TYPES_H */
