@@ -1974,3 +1974,30 @@ deep frame-RE is a dead end — only the permuter explores that space.** Net for
 (cheap-recovery, permuter, giant-wave, hand-finish, deep-RE) are byte-proven exhausted at fleet 63.17%** for the
 reach-134 tail; the residual is the gcc-2.7.2 scheduler/regalloc wall, addressable only by the (low-yield) permuter
 or by accepting it as the matching ceiling at this fleet level.
+
+## §28 — Banking a "close=0 gate-rejected" giant: the canonical-extern recovery (Phase 22 T1, byte-proven on func_8015126C ×134)
+
+Phase-21 (§25/§27 cont.7d) logged a class of giants as "close=0 (match_one MATCH) but gate-REJECTED" and treated them ALL as masked-residual/permuter fuel. **That was incomplete (R14).** A close=0-gate-rejected giant is one of FOUR distinct walls — and one is deterministically bankable BY HAND:
+
+1. **PURE-EXTERN PLUMBING (bankable — the NEW lever).** The draft's self-contained **file-scope** externs conflict with engine_core.h's canonical decls (the giant calls already-matched engine fns; the draft guessed their sigs, e.g. `extern void func_8015173C(void*)` vs canonical `void func_8015173C(s32*)`). match_one's isolated compile (own externs) MATCHes; the whole-binary TU fails to compile (`conflicting types for func_X`). `sig_unify`/`cast_call_sites` do NOT canonicalize these (the gap that stranded them). **Fix = `tools/recover_giant.py`:** for each callee with a `DEFINE_func_X()` in engine_core.h, rewrite the draft's extern to that macro's exact def-sig; then move ALL externs (callee + `D_` data) **block-scope** (inside the body, after `{`). `find_site`/`compiles_standalone`/`dedup_propagate` lift the body + its *internal* externs as one unit — **file-scope externs are excluded from the lifted body → false "not self-contained" skip.** Forward-refs (higher-addr callees) MUST stay declared. Then `harvest_verify` → `dedup_propagate` ×134.
+2. **MASKED RESIDUAL (permuter fuel).** Compiles whole-binary but bytes differ — the relocation-mask hid a real codegen diff (func_8014F74C, §25). The recovery won't help → grinder.
+3. **STRUCT-WALLED (type reconciliation).** The draft uses a local named `struct S8`/`B8` (the array-of-struct %lo idiom, §18) that collides with the TU's other defs (`conflicting types for S8`) — func_80156B74/func_8014F74C/func_80163C2C. Needs the type lifted to `engine_types.h` (named once) or rewritten anonymous/raw-cast. Not near-free.
+4. **REGRESSED DRAFT.** The saved best_draft was clobbered by a later worse attempt (func_80178004: worklist close=0 but saved draft is DIFF 91). Re-derive.
+
+**Triage:** `recover_giant.py` → `match_one` (DIFF → #4) → whole-binary build. byte-identical → #1 banked · `conflicting types for func_X` → was-#1, recovery fixes · `conflicting types for <Type>` → #3 · compiles but bytes differ → #2. **Honest yield:** of the 5 close=0 giants, only func_8015126C was #1 (pure-extern); the rest are #2/#3/#4 — the canonical-extern lever is real but the close=0-giant group is NOT uniformly near-free.
+
+**The coalescing pin (extends §25 — func_8015126C's last mile).** The `(s16)p[0x79] != 1000` compare temp wanted `$a0` (coalesced with the soon-to-be-angle arg); gcc gave `$v1`. An eager named temp forces `$a0` but HOISTS the load (+95 ins). Fix — pin AND keep the load lazy inside the `&&`:
+```c
+register s32 cmp __asm__("$4");                       /* $a0 */
+if (cond1 && ((cmp = *(s16*)(p + 0x79)) != 1000)) { ... }
+```
+The in-`&&` assignment stays inside the short-circuit (not hoisted) yet lands in the pinned reg. Reusable for any coalesced-compare-temp residual.
+
+**Op gotchas (Phase 22 T1):** run `dedup_propagate` in the **BACKGROUND** (134 builds > the 2-min foreground cap; a SIGTERM/interrupt leaves a non-atomic partial state — macro+instantiations applied, registry unwritten). And `git checkout src/` does **NOT** revert `config/dedup.us.yaml`, so on a redo reset BOTH (`git checkout src/ config/dedup.us.yaml`) or `registered_addrs()` stays dirty and re-skips the function as "already shared."
+
+### §28a — decomp.wiki GCC patterns worth trying on BFM giants (decomp.wiki/compilers/GCC, raw at decompals/decompedia; PS1-applicable subset)
+- **Negative struct offsets in loops** — `for (i=…; …; i++, p++)` makes gcc *advance* the pointer + use negative member offsets instead of offset-folding. Directly targets func_801412A8's "OFFSET-FOLDS the 4× prim stores instead of ADVANCING $t6" residual.
+- **Branch-invariant code duplication** — when gcc hoists a shared tail (a call) out of two branches and swaps regs, *duplicating that tail inside both branches* fixes the regalloc. An alternative to §17 pins for the call-crossing swap class.
+- **Load coalescing** — adjacent struct fields compared together (`if (t->a || t->b)`) fold into one `lw` (+lui/ori/and mask when <4 bytes). Recognition aid for engine code.
+- **div-by-constant magic table** (0x66666667→/10, 0x55555556→/3, …) + **s16/s8 div-by-2** sign-extension forms; **gcc-2.7.2.x** `slti …,0` ⇒ `(x & (1<<31)) != 0`.
+- **N/A to PS1** (don't chase): `bnel`/likely branches (MIPS II+; R3000 has none), `.lit4` float-literal NOPs (PS2), C++ `bool` load/store (BFM is C).
