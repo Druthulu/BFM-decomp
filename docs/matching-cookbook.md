@@ -1626,6 +1626,14 @@ byte-matched evidence fn. (Pins/array-decay/statement-order/shared-ret0/for-vs-d
   unblocks the entire handwritten GTE-`sqr` family (siblings func_8013E064/_8013E0FC/_8013E194/_8013E22C/_8013E298/
   _8013E370/_8013E410). *fixes the false "cop2 nops stripped" residual (an objdump zero-run-elision artifact, not a
   codegen miss); evidence func_8013E2C4 (43/43 raw bytes, banked + propagated ×13).*
+- **store ONE value to several memory locations → write them as a CHAINED assignment `*a=*b=*c=v;`, NOT separate
+  statements:** when the target copies a (callee-saved) value into a SCRATCH reg once (`addu $v0,$sX,$zero`) and
+  then `sh/sw $v0` to several locations (often one store in a delay slot), the original wrote the stores chained —
+  the chain's intermediate rvalue becomes that single reused scratch temp. Separate statements (`*a=v; *b=v;
+  *c=v;`) instead store the source reg directly (no `move`) and miss by ≥1 ins. (Distinct from §21's
+  `field=local=f()`, which keeps a *call result* live for a test; here it's one value fanned out to N stores.)
+  *fixes a missing `move $v0,$sX`+from-scratch store run; evidence func_80143D28
+  (`*(s16*)(iVar3+0x18)=*(s16*)(iVar3+0x1a)=*(s16*)(iVar3+0x1c)=sVar4`).*
 
 > **⚠ CANDIDATE (unverified) — the next two bullets are from `func_801775E0`, a NEAR-MISS (closeness 2, NOT
 > byte-banked)**, appended directly by a wave-13 drafter (that drafter→cookbook path is now blocked, `commit:0219`).
