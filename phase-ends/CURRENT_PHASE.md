@@ -9,7 +9,56 @@
 
 ---
 
-## ★★★ SESSION 2026-06-25 (cont. 7) — cheap recovery lever EXHAUSTED (byte-proven); `--assess` was doubly-inflated, now fixed (READ FIRST)
+## ★★★ SESSION 2026-06-25 (cont. 7e) — Drew's REFINED idiom-loop model + the "analyze-all-remaining" gap (READ FIRST)
+
+> Drew (2026-06-25), articulating the neverending loop's PURPOSE: "**the goal of the waves is to LEARN IDIOMS.
+> Every time we run out of fuel, analyze ALL remaining functions, group them by decomp issue; each group teaches
+> ≥1 idiom; cookbook it; using it, run waves on ALL functions it applies to; bank; repeat forever.** I'd rather not
+> use plan mode. Is this what we already set up?"
+
+**ANSWER (byte-checked): YES — this IS the `idiom_loop` flywheel; no plan-mode build needed.** The mapping:
+| Drew's step | The built mechanism |
+|---|---|
+| out of fuel → analyze remaining, **group by decomp issue** | `idiom_loop.py --assess` clusters the backlog by gcc-quirk class (regalloc-order/schedule/struct/…) |
+| each group → **1 idiom** | `--assess` names the top close>0 codegen class → crack 1 exemplar → distill to cookbook (R16/R30) |
+| **cookbook it** | `tools/workflows/distill.js` + the cookbook (§17–§27); drafters read it live |
+| **wave ALL functions it applies to** | `--gen-fuel <class>` → `worker_wave.js` (Workflow, per-agent xHigh) seeded with the idiom |
+| **bank** | `gate_stage.py` (canon→cast→sig_unify→byte-gate→propagate ×134) — G3/P9 sole arbiter |
+| **repeat forever** | re-`--assess`; this neverending loop |
+
+**THE ONE REAL GAP (the refinement worth making): `--assess` clusters the BACKLOG (already-DRAFTED near-misses),
+not ALL remaining stubs.** A function's "decomp issue" is only known AFTER a draft attempt (the residual = the
+class). So "analyze ALL remaining" = a **TRIAGE wave**: point `worker_wave` at the UN-drafted pools → each draft
+self-reports `// @class` → they enter the backlog → `--assess` now sees the full landscape → idiom-per-group. **No
+new tool needed** — just feed the loop the un-drafted fuel. **Next fuel = the reach-1 pool** (281 small
+overlay-unique fns, `wave_targets --pool reach1`; ×1, low fleet-ROI ~+0.06%/183 per cont.5, but tractable + teaches
+fresh idioms — exactly the "learn idioms" goal even if the % is small). The reach-134 ×134 tail is byte-proven
+walled (5 levers: cheap-recovery/permuter/giant-wave/hand-finish/deep-RE all hit the gcc-2.7.2 scheduler/regalloc
+wall at 63.17%, §27).
+
+**EFFORT (already the design — no toggle dance):** Max for orchestration + idiom-cracking + synthesis; the WAVES
+self-set per-agent **xHigh** via the Workflow tool (`opts.effort`). No global Ultracode needed (R26/R27).
+
+**FRESH PHASE vs FRESH SESSION (Drew's question):** you do NOT need a fresh phase + plan mode to *build* this —
+it's built. But (a) this session is ENORMOUS (cont.7→7e, very bloated context) → a **fresh session** is strongly
+advisable for the next cycle (context hygiene = the breadth lesson + the neverending-loop model: one idiom/session,
+clean context). (b) **Optional clean milestone:** the reach-134 ×134 harvest IS byte-proven complete (a natural
+boundary) → you MAY **close Phase 21 (T7 PhaseEnd)** banking the arc + open **Phase 22 = the idiom-loop at scale on
+the reach-1 / full-remaining landscape** (same architecture, no plan mode — the "plan" is this model). OR keep
+Phase 21 open (neverending). **Drew's call** (P8 milestone gate).
+
+**THE `/loop` PROMPT for the next (FRESH) session** (whether Phase 21-cont or Phase 22):
+> `/loop` Idiom-learning cycle on the reach-1 tail. Read CURRENT_PHASE cont.7e + cookbook §17–§27. (1) TRIAGE wave:
+> `wave_targets.py --pool reach1 --n 24` → `worker_wave.js` (xHigh agents, each drafts + self-reports `// @class`)
+> → `gate_stage --commit` (banks the one-shots ×1; logs near-misses by class). (2) `idiom_loop.py --assess` over
+> the now-richer backlog → the top reach-1 decomp-issue group → crack 1 exemplar → distill the idiom (cookbook,
+> R16/R30). (3) `--gen-fuel <class>` → re-wave the group with the idiom → bank. (4) Repeat; when reach-1 thins,
+> triage the next un-drafted pool. Grinder runs token-free alongside (`tools/auto_status.sh`); byte-gate is the
+> sole arbiter (G3/P9/R14 — match_one MATCH ≠ banked). Effort: Max orchestration, waves self-set xHigh.
+
+---
+
+## ★★★ SESSION 2026-06-25 (cont. 7) — cheap recovery lever EXHAUSTED (byte-proven); `--assess` was doubly-inflated, now fixed
 
 > Drew's `/loop` (the cont.6+ prompt) + `/effort Max`. Ran the probe-first cycle: assessed → ran the cheap `_a`
 > close=0 recovery to completion → diagnosed + FIXED the assess inflation. No token-heavy wave fired (ROI-gated,
