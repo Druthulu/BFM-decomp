@@ -360,7 +360,7 @@ Caveat: `Ps` stamps date the **linked libraries**, not the compiler that built g
 
 ### §5.3 -G0 vs -G8
 
-Read `gp_value` from the SLUS_007.26 EXE header and check for `$gp`-relative loads in Ghidra **before** fixing the flag (**TBD — not yet read**). Precedent: FF7 used `-G 0`; Xenogears used `-G8` for game code. maspsx forces `-G0` to GNU `as` by default — non-zero `$gp` needs `-G8` passed to maspsx and a look at `--dont-force-G0`.
+Read `gp_value` from the SLUS_007.26 EXE header and check for `$gp`-relative loads in Ghidra **before** fixing the flag (**RESOLVED Phase 5 — see the ✅ verdict below: -G0**). Precedent: FF7 used `-G 0`; Xenogears used `-G8` for game code. maspsx forces `-G0` to GNU `as` by default — non-zero `$gp` needs `-G8` passed to maspsx and a look at `--dont-force-G0`.
 
 **✅ RESOLVED (Phase 5, 2026-06-14): -G0.** The header `gp_value` is 0, and the splat disassembly has **zero `($gp)` base-register accesses and zero `%gp_rel` relocations** (the 4 `$gp` mentions are crt0 register setup) — no small-data/$gp-relative addressing, i.e. the FF7-style `-G0`. The linker's `_gp=0x80074750` (splat's computed Initial-GP) is therefore inert, and the all-asm build is byte-identical. Carry `-G0` into Phase-6 cc1 fingerprinting (swap only if asm-differ ever shows otherwise).
 

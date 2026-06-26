@@ -9,6 +9,29 @@
 
 ---
 
+## ★★★ SESSION 2026-06-25 (cont. 8) — fresh session: reach-1 waves (+16 ×1) + distill idiom + 3-source SOTA parity research → GIANTS pivot
+
+> Fresh session ran the cont.7e reach-1 idiom loop. All byte-gated (G3/P9); grinder token-free alongside (banked 0 — hard tail).
+
+**Fleet 63.18%** (217,332/344,010, +0.01% this session — reach-1 is ×1, % negligible BY DESIGN; value = ov_SC01_077 completeness + idiom-mining) · 136/136 byte-identical · 0 NON_MATCHING.
+
+**★ ARC:** reach-1 wave-1 (69-86 ins) **+10 ×1** (`commit:0289`) · distill **+1 idiom** (chained-store-fanout `*a=*b=*c=v;` from func_80143D28, `commit:0290`) · wave-2 (76-101) **+6 ×1** (`commit:0291`). Self-MATCH→bank gap stark (21→10, 21→6 — the whole-binary gate is the honest arbiter; the rest = loose-typing/regalloc walls). **Yield 42%→25%→falling as the band climbs** (EASY reach-1 fuel consumed; remaining reach-1 is medium-large).
+
+**★ GIANTS PIVOT (Drew's gate-2 AskUserQuestion):** reach-1's cheap vein thinned → pivot waves to the reach-134 GIANTS as **backlog-fuel** (NOT for %): workers get them structurally close + log ranked near-misses for hand-finish (the Phase-21 backlog's purpose). 14 stubbed giants cached; **6 fresh tractable (167-254 ins) batched first** (func_80163C2C/801571C4/80148094/80156B74/8014EE14/8015126C); the 770-ins monster func_80144B9C deferred to a deep session. **CAVEAT (cont.7d, unfixed):** gate_stage's canon/cast/sig_unify can REGRESS giant near-miss closeness → log the WORKER's self-reported closeness (true source) + raw draft to the backlog, not the post-transform value.
+
+**★ SOTA PARITY RESEARCH (3 independent project-blind passes — 2 fresh-Opus chats + a research subagent):** unanimous — **our architecture IS the 2025-26 SOTA** (proposer + exact-verifier loop = Mizuchi/magic-decomp; permuter = the "amazing" evolutionary brute force; we're AHEAD on whole-binary SHA gate, ×134 propagation, idiom flywheel). **No GPU/neural/diffusion shortcut to byte-matching a 1997 compiler exists** (matching = discrete search vs an exact CPU oracle; GPU only smartens proposals, can't run cc1; all neural decompilers target functional-equiv, not bytes). The wall (scheduler/regalloc + loose-typing) is **field-wide**; needs a human brain — validates the giants-as-hand-finish pivot.
+
+**★ PARKED R&D (Drew: "log these") — none on the critical path:**
+1. **objdiff-cli `report --format json`** → decomp.dev-comparable **byte-weighted** progress metric (honest ~30% vs our function-weighted 63%); closes the Phase-19 gap. Adopt at/near the public flip. Headless, PS1-supported.
+2. **gcc-2.7.2 RTL / `-fsched-verbose` dumps fed to drafters** as context for the scheduler/regalloc wall — the ONLY lever aimed at the actual wall, but speculative (no off-the-shelf tool; the "instrumented PsyQ gcc" lead was a TODO on a 2.8.1 build). Bounded experiment someday (R17/X2).
+3. **Neural surrogate of cc1-psx / RL-matcher (compiler-as-reward, GRPO)** — genuinely-novel research moonshot, NOT the path: cc1 is discrete/nonlinear, C isn't gradient-descendable, still can't beat the loose-typing wall; the agentic loop already captures most of the benefit untrained. A research PROJECT (Drew has CUDA/LightGBM), not a workflow.
+
+**★ PROCESS LESSON (banked):** with the Bash tool's `run_in_background`, do NOT also `nohup … &` inside — it detaches from tracking and fires a PREMATURE completion notification (the real process keeps running, stdout block-buffered). Run the command directly under `run_in_background` (+ `dangerouslyDisableSandbox` for make/git).
+
+**★ DOC FIX (R21):** the Xenogears scout surfaced a stale `docs/SETUP.md §5.3` marker — line 363 still flagged the `-G` flag "TBD — not yet read" despite the resolution on line 365 (✅ Phase 5: -G0, header gp_value=0, zero $gp/%gp_rel in the disasm; Makefile builds -G0, byte-confirmed). Corrected the inline marker → "RESOLVED Phase 5 … -G0" so a TBD-grep no longer reads it as an open gap. (Ledger #8 line 736 was already correct.) Related soft spot left as-is: §5.4 line 379 "swap to -G8 if §5.3 says so" is a now-dead conditional (§5.3 says -G0) — technically correct, optional to tighten.
+
+---
+
 ## ★★★ SESSION 2026-06-25 (cont. 7e) — Drew's REFINED idiom-loop model + the "analyze-all-remaining" gap (READ FIRST)
 
 > Drew (2026-06-25), articulating the neverending loop's PURPOSE: "**the goal of the waves is to LEARN IDIOMS.
