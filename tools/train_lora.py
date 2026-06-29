@@ -31,6 +31,7 @@ def main():
     ap.add_argument('--out', default='models/bfm-match-7b')
     ap.add_argument('--rank', type=int, default=16)
     ap.add_argument('--epochs', type=float, default=3.0)
+    ap.add_argument('--max-steps', type=int, default=0, help='>0 overrides epochs (use for a smoke run)')
     ap.add_argument('--lr', type=float, default=2e-4)
     ap.add_argument('--maxlen', type=int, default=4096, help='token cap; longest pairs are ~giant asm')
     ap.add_argument('--no-gguf', action='store_true', help='skip the merged-GGUF export step')
@@ -63,8 +64,9 @@ def main():
         args=SFTConfig(
             dataset_text_field='text', max_seq_length=a.maxlen,
             per_device_train_batch_size=2, gradient_accumulation_steps=8,
-            warmup_ratio=0.03, num_train_epochs=a.epochs, learning_rate=a.lr,
-            logging_steps=10, optim='adamw_8bit', weight_decay=0.01,
+            warmup_ratio=0.03, num_train_epochs=a.epochs,
+            max_steps=(a.max_steps if a.max_steps > 0 else -1), learning_rate=a.lr,
+            logging_steps=1 if a.max_steps else 10, optim='adamw_8bit', weight_decay=0.01,
             lr_scheduler_type='cosine', seed=3407,
             output_dir=os.path.join(REPO, a.out, 'ckpt')))
     trainer.train()
