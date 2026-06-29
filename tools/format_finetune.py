@@ -12,9 +12,33 @@ real .s (inline %hi/%lo). Minor gap; for a pilot it should generalize. See docs/
 
   tools/format_finetune.py [--in datasets/match_pairs] [--out datasets/match_pairs]
 """
-import argparse, json, os
+import argparse, json, os, re, subprocess
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# the pinned standalone-compile pipeline (match_one.py) — used to keep only completions that COMPILE
+# (the bare src defs reference TU-header externs; undeclared globals/structs fail cc1. A non-compilable
+# completion teaches the model to emit uncompilable code, so filter them for a clean pilot corpus).
+_CPP = 'mipsel-linux-gnu-cpp'; _CC1 = 'tools/bin/gcc-2.7.2-psx/cc1'; _MASPSX = 'tools/maspsx/maspsx.py'
+_AS = 'mipsel-linux-gnu-as'; _PYV = '.venv/bin/python'
+_CPPF = '-lang-c -Iinclude -undef -Wall -fno-builtin -Dmips -D__GNUC__=2 -D__OPTIMIZE__ -Dpsx -D_PSYQ -D_MIPSEL -D_LANGUAGE_C'.split()
+_CC1F = '-quiet -O2 -G0 -mips1 -mcpu=3000 -mgas -msoft-float -fgnu-linker'.split()
+_ASF = '-Iinclude -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0'.split()
+_TD = re.compile(r'^[ \t]*typedef\b.*\b(u8|u16|u32|u64|s8|s16|s32|s64|f32|f64)[ \t]*;[ \t]*\n', re.M)
+
+
+def compiles(c):
+    src = '#include "common.h"\n' + _TD.sub('', c)
+    wd = os.path.join(REPO, '.run/_ft_cc'); os.makedirs(wd, exist_ok=True)
+    open(os.path.join(wd, 't.c'), 'w').write(src)
+    p = subprocess.run([_CPP] + _CPPF + ['.run/_ft_cc/t.c'], capture_output=True, cwd=REPO)
+    if p.returncode: return False
+    p = subprocess.run([_CC1] + _CC1F, input=p.stdout, capture_output=True, cwd=REPO)
+    if p.returncode: return False
+    p = subprocess.run([_PYV, _MASPSX, '--aspsx-version=2.56', '--expand-div'], input=p.stdout, capture_output=True, cwd=REPO)
+    if p.returncode: return False
+    p = subprocess.run([_AS] + _ASF + ['-o', '.run/_ft_cc/t.o'], input=p.stdout, capture_output=True, cwd=REPO)
+    return p.returncode == 0
 
 SYS = ("You are an expert at MATCHING decompilation for MIPS (PSX, gcc-2.7.2 -O2 -G0 -mips1 -mcpu=3000 "
        "-msoft-float + maspsx). Given a function's target assembly, output C that the pinned toolchain "
@@ -44,6 +68,7 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument('--in', dest='indir', default='datasets/match_pairs')
     ap.add_argument('--out', default='datasets/match_pairs')
+    ap.add_argument('--no-verify', action='store_true', help='skip the standalone-compile filter')
     a = ap.parse_args()
     indir, outdir = os.path.join(REPO, a.indir), os.path.join(REPO, a.out)
     os.makedirs(outdir, exist_ok=True)
@@ -53,6 +78,10 @@ def main():
         if not os.path.exists(src):
             print('missing', src); continue
         rows = [json.loads(l) for l in open(src)]
+        if not a.no_verify:
+            kept = [r for r in rows if r.get('c') and compiles(r['c'])]
+            print('%-5s : %d/%d completions compile standalone (filtered)' % (split, len(kept), len(rows)))
+            rows = kept
         conv = convert(rows)
         dst = os.path.join(outdir, split + '_ft.jsonl')
         with open(dst, 'w') as f:
