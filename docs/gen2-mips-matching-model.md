@@ -47,6 +47,32 @@ A stock local model test (in progress) tells us the floor. The fine-tune is wort
 the specialist's *gate-true* match rate clears the stock model by enough to matter — which the free
 gate eval settles directly. Don't train blind; train against a target number.
 
+### Stock-model floor — measured 2026-06-29 (the result that motivates this)
+
+**Qwen3.6-35B-A3B as a stock drafter fails on the byte-match step**, and this is precisely the gap a
+fine-tune fills. On the 20 reach1 functions via `tools/api_draft.py`:
+- **Blind harness:** 0/13 (run killed early); mostly compile-fails + near-misses.
+- **Fair harness** (inline common.h + live cookbook + corpus examples): *fixed* compilation, but the
+  model **stuck at fixed near-misses** — identical closeness across all 4 diff-feedback iterations
+  (e.g. func_8013373C = near-4 in blind, curated, AND full cookbook). It cannot act on the
+  instruction-level diff to refine.
+- **Full vs curated cookbook:** full (whole 192k-char file, ~58k-tok prompt) was **worse and 2.3×
+  slower** than the curated matching-only subset — attention dilution, gate-confirmed. More context
+  is not the lever.
+
+Diagnosis: the model gets the *structure* right (correct control flow, field semantics) but misses
+gcc-2.7.2 **precision** — element-vs-byte offset scaling, `lh`/`lhu` signedness, an extra `move`,
+frame size — and can't self-correct from the diff. That precision is exactly what `src/`-pair LoRA
+bakes into weights. **The stock floor is ~0 reliable banks; that is the number to beat.** (Contrast:
+Haiku, a frontier *small* model, reliably matched the ≤52-ins bulk — so the gap is capability, not task.)
+
+Two forward levers besides fine-tuning:
+- **Permuter-seed role:** the model's structurally-correct near-misses are good *permuter seeds* — let
+  the 32-thread permuter brute-force the regalloc/schedule precision the model can't. Plays to its
+  strength; cheap to test.
+- **Cloud cheap tier (Haiku/GLM-5.2)** stays the working low-cost drafter today (the local-free tier
+  needs the fine-tune or the seed role to be useful).
+
 ## Open questions / notes
 
 - **Corpus quality > size.** ~1,700 verified pairs is plenty for LoRA; dedup near-identical reach
