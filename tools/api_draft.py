@@ -31,42 +31,83 @@ API_KEY = os.environ.get('API_KEY', 'lm-studio')
 MODEL = os.environ.get('MODEL', 'local-model')
 TEMP = float(os.environ.get('TEMP', '0.3'))   # thinking-mode models: ~0.6; deterministic drafting: ~0.2
 
-# Condensed §17–20 toolkit (worker_wave inlines file refs; a no-tool model needs the text inline).
-TOOLKIT = """THE TOOLKIT (the high-leverage gcc-2.7.2 matching moves):
-- Register-allocation ORDER: if call-crossing locals land in the wrong saved reg, PIN them:
-  `register s32 v __asm__("$16");`  ($16=$s0,$17=$s1,$18=$s2,...). This is the highest-reach lever.
-- Array-of-struct %lo-fold: for indexed global access declare `extern Struct base[];`
-  (sizeof(Struct)==stride) and write `base[i].field` — folds %lo into the load/store. Do NOT write
-  `*(T*)(&sym + i*stride)` (materializes &sym, adds an instruction).
-- for(init;cond;upd) vs do-while schedule the back-branch into the delay slot differently — pick the
-  loop form the target's branch layout implies.
-- Independent statements emit in source order — reorder to match the target.
-- Pick exact integer widths from the loads: lhu->unsigned short, lh->short, lbu->unsigned char, lb->char.
-- Don't fret callee extern types; focus on the BODY codegen (a later gate reconciles declarations)."""
+# Fair harness: give the no-tool local model the SAME context the agents read themselves — the shared
+# type header, the live matching cookbook, and worked byte-matched examples (all inlined). COOKBOOK_FULL=0
+# inlines only the matching-relevant sections (§1,§2,§5,§10,§16,§17,§21,§25,§27) instead of the whole file.
+def _read(p):
+    fp = os.path.join(REPO, p)
+    return open(fp).read() if os.path.exists(fp) else ''
 
-SYS = ("You are an expert MIPS (PSX, gcc-2.7.2 -O2) matching-decompilation engineer. You write C that "
-       "compiles to BYTE-IDENTICAL machine code vs a target. Reply with ONLY the C (the function "
-       "definition + any externs it needs) in a single ```c code block — no prose.")
+COMMON_H = _read('include/common.h')
+_CB = _read('docs/matching-cookbook.md')
+_FULL = os.environ.get('COOKBOOK_FULL', '1') != '0'
+_KEEP = {1, 2, 5, 10, 16, 17, 21, 25, 27}   # the drafting-relevant §N (drop build/linker/fleet-ops)
+
+
+def _cookbook():
+    if _FULL:
+        return _CB
+    parts = re.split(r'(?m)^(## .*)$', _CB)
+    out = []
+    for i in range(1, len(parts), 2):
+        hdr, body = parts[i], (parts[i + 1] if i + 1 < len(parts) else '')
+        m = re.match(r'## §(\d+)\b', hdr)
+        if m and int(m.group(1)) in _KEEP:
+            out.append(hdr + body)
+    return '\n'.join(out).strip()
+
+
+COOKBOOK = _cookbook()
+
+_CORPUS = None
+
+
+def load_examples(ov, k, exclude):
+    """k smallest byte-MATCHED (asm->C) pairs from the corpus, same overlay first — worked examples."""
+    global _CORPUS
+    if _CORPUS is None:
+        p = os.path.join(REPO, 'datasets/match_pairs/pairs.jsonl')
+        _CORPUS = [json.loads(l) for l in open(p)] if os.path.exists(p) else []
+    pool = [r for r in _CORPUS if r['fn'] != exclude and r.get('c') and r.get('asm')
+            and len(r['asm'].splitlines()) <= 40]                       # small = clear idiom, cheap
+    same = sorted((r for r in pool if ov and ov in r['region']), key=lambda r: len(r['asm']))
+    other = sorted((r for r in pool if not (ov and ov in r['region'])), key=lambda r: len(r['asm']))
+    return '\n\n'.join('--- WORKED EXAMPLE (this toolchain, byte-MATCHED) ---\nTARGET ASM:\n%s\n\nMATCHING C:\n%s'
+                       % (r['asm'].strip(), r['c'].strip()) for r in (same + other)[:k])
+
+
+SYS = ("You are an expert at MATCHING decompilation for MIPS (PSX, gcc-2.7.2 -O2). Given a target's asm you "
+       "write C that the pinned toolchain compiles to BYTE-IDENTICAL machine code. You are given the project's "
+       "matching cookbook, the shared type header, and worked examples — USE them. "
+       "Reply with ONLY the C (function definition + needed externs) in one ```c block, no prose.")
 
 
 def build_user(t, asm_text, ghidra_text):
-    return f"""Match ONE MIPS function (overlay ov_SC01_077) to BYTE-IDENTICAL machine code under:
+    ov = t['asm'].split('/')[1] if t.get('asm') and '/' in t['asm'] else ''
+    examples = load_examples(ov, 2, t['name'])
+    return f"""Write C that compiles BYTE-IDENTICAL to this MIPS function, under:
 gcc-2.7.2-psx -O2 -G0 -mips1 -mcpu=3000 -msoft-float + maspsx --aspsx-version=2.56 --expand-div.
 
-TARGET: {t['name']} @ {t.get('addr')} — {t.get('nins')} instructions, class hint "{t.get('class')}".
+=== SHARED HEADER (common.h is AUTO-INCLUDED — these types/macros are PREDEFINED; do NOT redefine u8/s32/etc) ===
+{COMMON_H}
 
-Target asm (ground truth; each "/* off vaddr WORD */ mnemonic" line is one encoded instruction):
+=== MATCHING COOKBOOK (the project's live, proven gcc-2.7.2 idioms — apply them) ===
+{COOKBOOK}
+
+=== WORKED EXAMPLES (real byte-matches from this game, same toolchain) ===
+{examples}
+
+=== YOUR TARGET: {t['name']} @ {t.get('addr')} ({t.get('nins')} ins, class {t.get('class')}) ===
+TARGET ASM (ground truth; "/* off vaddr WORD */ mnemonic" = one encoded instruction):
 {asm_text}
 
-Ghidra-C reference (types/locals/callee names — NOT byte-accurate, a scaffold):
+GHIDRA-C SCAFFOLD (types/locals/callees — NOT byte-accurate):
 {ghidra_text}
 
-{TOOLKIT}
-
-Write your best C for {t['name']}. Start with two comment lines:
-// @class: <regalloc-order|schedule|struct|loose-typing|plumbing|other>
-// @stuck: <one line on the residual, or "none — MATCH">
-Then the function. Reply with ONLY one ```c block."""
+Now write byte-matching C for {t['name']}:
+- common.h types are predefined — declare only OTHER externs (callees/globals); don't fret callee arg types, the gate reconciles them.
+- First two lines: // @class: <regalloc-order|schedule|struct|loose-typing|plumbing|other>  then  // @stuck: <residual or "none — MATCH">
+- Reply with ONLY one ```c block."""
 
 
 def call_api(messages, max_tokens=4096, temperature=TEMP, timeout=600):
