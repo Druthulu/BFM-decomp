@@ -104,3 +104,9 @@ Thumbs.db
 # from the committed yaml + symbols, so they are build scaffolding, not durable RE work.
 # (Phase 5 refined the earlier "commit asm/" stance once the regeneration flow existed;
 # the durable record is config/symbols.us.txt.)
+
+# Gen2 matching-model corpus + weights (R20: large artifacts out of git)
+datasets/
+models/
+*.gguf
+*.safetensors

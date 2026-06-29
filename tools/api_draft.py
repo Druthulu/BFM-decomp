@@ -29,6 +29,7 @@ PY = '.venv/bin/python'
 API_BASE = os.environ.get('API_BASE', 'http://localhost:1234/v1').rstrip('/')
 API_KEY = os.environ.get('API_KEY', 'lm-studio')
 MODEL = os.environ.get('MODEL', 'local-model')
+TEMP = float(os.environ.get('TEMP', '0.3'))   # thinking-mode models: ~0.6; deterministic drafting: ~0.2
 
 # Condensed §17–20 toolkit (worker_wave inlines file refs; a no-tool model needs the text inline).
 TOOLKIT = """THE TOOLKIT (the high-leverage gcc-2.7.2 matching moves):
@@ -68,7 +69,7 @@ Write your best C for {t['name']}. Start with two comment lines:
 Then the function. Reply with ONLY one ```c block."""
 
 
-def call_api(messages, max_tokens=4096, temperature=0.2, timeout=600):
+def call_api(messages, max_tokens=4096, temperature=TEMP, timeout=600):
     body = json.dumps({'model': MODEL, 'messages': messages,
                        'max_tokens': max_tokens, 'temperature': temperature}).encode()
     req = urllib.request.Request(API_BASE + '/chat/completions', data=body,
