@@ -30,6 +30,7 @@ API_BASE = os.environ.get('API_BASE', 'http://localhost:1234/v1').rstrip('/')
 API_KEY = os.environ.get('API_KEY', 'lm-studio')
 MODEL = os.environ.get('MODEL', 'local-model')
 TEMP = float(os.environ.get('TEMP', '0.3'))   # thinking-mode models: ~0.6; deterministic drafting: ~0.2
+LEAN = os.environ.get('LEAN', '0') != '0'     # LEAN=1: asm-only prompt for a FINE-TUNED model (no cookbook)
 
 # Fair harness: give the no-tool local model the SAME context the agents read themselves — the shared
 # type header, the live matching cookbook, and worked byte-matched examples (all inlined). COOKBOOK_FULL=0
@@ -110,6 +111,18 @@ Now write byte-matching C for {t['name']}:
 - Reply with ONLY one ```c block."""
 
 
+# LEAN mode — the SAME prompt shape as tools/format_finetune.py (train/inference must match).
+LEAN_SYS = ("You are an expert at MATCHING decompilation for MIPS (PSX, gcc-2.7.2 -O2 -G0 -mips1 -mcpu=3000 "
+            "-msoft-float + maspsx). Given a function's target assembly, output C that the pinned toolchain "
+            "compiles to BYTE-IDENTICAL machine code. The types u8/u16/u32/s8/s16/s32/f32/s64/u64/f64 are "
+            "predefined (common.h). Output ONLY the C (the function definition + any externs it needs).")
+
+
+def build_user_lean(t, asm_text, ghidra_text):
+    return ("Target assembly (each `/* vaddr WORD */ mnemonic` line is one encoded instruction):\n"
+            + asm_text.strip() + "\n\nWrite the byte-matching C function.")
+
+
 def call_api(messages, max_tokens=4096, temperature=TEMP, timeout=600):
     body = json.dumps({'model': MODEL, 'messages': messages,
                        'max_tokens': max_tokens, 'temperature': temperature}).encode()
@@ -158,8 +171,10 @@ def draft_one(t, outdir, iters):
     ghidra_text = open(gc_path).read() if os.path.exists(gc_path) else '(no ghidra-c)'
 
     cfile = os.path.join(outdir, fn + '.c')
-    messages = [{'role': 'system', 'content': SYS},
-                {'role': 'user', 'content': build_user(t, asm_text, ghidra_text)}]
+    sys_msg = LEAN_SYS if LEAN else SYS
+    usr = (build_user_lean if LEAN else build_user)(t, asm_text, ghidra_text)
+    messages = [{'role': 'system', 'content': sys_msg},
+                {'role': 'user', 'content': usr}]
     best = (None, 10 ** 9)   # (code, closeness)
 
     for i in range(max(1, iters)):
