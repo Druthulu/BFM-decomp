@@ -24351,4 +24351,59 @@
         } while (uVar3 < 3); \
     }
 
+#define DEFINE_func_8012FDA8() \
+    void func_8012FDA8(int param_1) \
+    { \
+        extern void func_8012CBF4(s32 a0); \
+        extern void func_80131CA8(int a0, int a1); \
+        extern void func_80131E00(struct S80131E00 *a0, s32 a1); \
+        int iVar1; \
+        unsigned int uVar2; \
+        if ((*(unsigned int *)(param_1 + 0xb4) & 0x100) != 0) { \
+            iVar1 = *(int *)(param_1 + 0x1c) + 1; \
+            *(int *)(param_1 + 0x1c) = iVar1; \
+            if (0x14 < iVar1) { \
+                ((void (*)(int, int))func_80131E00)(param_1, 0xd); \
+                return; \
+            } \
+            uVar2 = ((int (*)(int))func_8012CBF4)(param_1); \
+            if ((uVar2 & 0x2000) != 0) { \
+                if ((uVar2 & 0xff) == 2) { \
+                    ((void (*)(int, int))func_80131E00)(param_1, 0x12); \
+                    return; \
+                } \
+                if ((uVar2 & 0xff) == 0x1a) { \
+                    func_801319E0(param_1); \
+                    return; \
+                } \
+                func_80131C78(param_1); \
+            } \
+        } \
+        func_80131CA8(param_1, 0x1d); \
+        return; \
+    }
+
+#define DEFINE_func_8012BA10() \
+    extern s32 ratan2(s32 a0, s32 a1); \
+    s32 func_8012BA10(s32 arg0, s32 arg1) { \
+        extern u16 D_80126B5E; \
+        extern u16 D_80126B66; \
+        register s32 d __asm__("$16");      /* $s0 -- pinned: divisor, live across the jal */ \
+        register s32 s1ang __asm__("$17");  /* $s1 -- pinned: ptr+0x12 angle, live across the jal */ \
+        s32 u5; s32 u6; s32 iVar4; s32 q; s32 t; \
+        d = arg1; \
+        s1ang = *(s16 *)(*(s32 *)(arg0 + 0x20) + 0x12); \
+        u5 = (ratan2(*(s16 *)(arg0 + 0xE) - (s16)D_80126B66, (s16)D_80126B5E - *(s16 *)(arg0 + 6)) - 0x400) & 0xFFF; \
+        __asm__ __volatile__("" : : "r"(u5));   /* scheduling barrier: anchor u5 before the (s16)d cast */ \
+        d = (s16)d; \
+        u6 = s1ang & 0xFFF; \
+        if (u6 == u5) return 0; \
+        iVar4 = u5 - u6; \
+        if (iVar4 > 0x800) { t = u6 + 0x1000; iVar4 = u5 - t; } \
+        if (iVar4 < -0x800) { t = u6 - 0x1000; iVar4 = u5 - t; } \
+        if (iVar4 >= 0) { q = iVar4 / d; if (q == 0) q = 1; } \
+        else { q = iVar4 / d; if (q == 0) q = -1; } \
+        return q; \
+    }
+
 #endif
