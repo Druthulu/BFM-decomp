@@ -9790,7 +9790,14 @@ DEFINE_func_80174604()  /* dedup: shared engine-core @0x80174604 (src/shared) */
 
 DEFINE_func_80174630()  /* dedup: shared engine-core @0x80174630 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80174650);
+extern s32 D_801270BC;
+    extern s32 D_801150F8;
+    s32 func_80174650(s32 _arg0)
+{
+        D_801270BC = D_801270BC | 1;
+        D_801150F8 = 0;
+    }
+
 
 DEFINE_func_80174674()  /* dedup: shared engine-core @0x80174674 (src/shared) */
 
