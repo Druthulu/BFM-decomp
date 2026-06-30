@@ -66,6 +66,23 @@ frame size — and can't self-correct from the diff. That precision is exactly w
 bakes into weights. **The stock floor is ~0 reliable banks; that is the number to beat.** (Contrast:
 Haiku, a frontier *small* model, reliably matched the ≤52-ins bulk — so the gap is capability, not task.)
 
+### Pilot RESULT — measured 2026-06-29 (NEGATIVE on meaningful functions)
+
+7B QLoRA (Qwen2.5-Coder-7B, 3 epochs) on 638 compile-filtered pairs, evaluated on 75 held-out banked
+fns (`tools/eval_lora.py`, gate-true):
+- **≤5-ins trivial: 39/41 MATCH (95%)** — memorized the leaf-function pattern.
+- **≥6 ins: 0/34. Meaningful (>15 ins): 0/24** — same as stock-local.
+- Near-misses are **FAR, not close**: `near N ≈ nins` (all instructions mismatch → structurally-wrong
+  output), only 1/33 non-trivial within 5 of a match. So it's NOT "one epoch away."
+
+Root cause = the corpus: the compile-filter (needed because bare `src/` defs don't compile standalone)
+**threw out the 536 harder functions** (globals/structs), starving the model of non-trivial signal;
+638 examples with 297 trivial → a 7B overfit the easy pattern. **The fix that filter requires is the
+same one the corpus needs: self-contained completions WITH externs (corpus-v2), which recovers the hard
+functions AND makes them trainable.** Until that's done, the fine-tune verdict is unproven, not refuted —
+but the far near-misses suggest data quality/coverage (and likely a bigger base) are the real levers,
+not epochs. Cheap-cloud (Haiku/GLM) remains the working tier meanwhile.
+
 Two forward levers besides fine-tuning:
 - **Permuter-seed role:** the model's structurally-correct near-misses are good *permuter seeds* — let
   the 32-thread permuter brute-force the regalloc/schedule precision the model can't. Plays to its
