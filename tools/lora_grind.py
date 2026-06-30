@@ -91,8 +91,10 @@ def nins(s_path):
                if re.match(r'\s*/\*\s*[0-9A-Fa-f]+\s+[0-9A-Fa-f]+\s+[0-9A-Fa-f]{8}\s*\*/', l))
 
 
-def open_stubs(b, max_nins, tried, min_reach=1):
-    """still-INCLUDE_ASM funcs for binary b (main + split .c) whose .s exists and is <= max_nins ins.
+def open_stubs(b, max_nins, tried, min_reach=1, min_nins=1):
+    """still-INCLUDE_ASM funcs for binary b (main + split .c) whose .s exists and is in
+    [min_nins, max_nins] ins. min_nins>1 skips the (often saturated) smallest band so a later pass can
+    target a fresh larger band without re-grinding the small failures.
     min_reach>1 keeps only fns byte-identical across >= min_reach overlays (the propagation multiplier)
     and ranks high-reach-first; min_reach=1 keeps all, smallest-first (no reach cost)."""
     stubbed = set()
@@ -104,7 +106,7 @@ def open_stubs(b, max_nins, tried, min_reach=1):
             continue
         for sd in glob.glob(os.path.join(REPO, "asm/%s/nonmatchings/*/%s.s" % (b, fn))):
             n = nins(sd)
-            if 0 < n <= max_nins:
+            if min_nins <= n <= max_nins:
                 rch = reach_of(b, fn) if min_reach > 1 else None
                 if min_reach > 1 and (rch is None or rch < min_reach):
                     break                               # below the reach threshold (or unsigned) -> skip
@@ -170,6 +172,9 @@ def near_class_hist():
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--max-nins", type=int, default=15)
+    ap.add_argument("--min-nins", type=int, default=1,
+                    help="skip stubs smaller than N ins — target a fresh larger band without re-grinding "
+                         "the (often saturated) small failures; default 1 = no floor")
     ap.add_argument("--min-reach", type=int, default=1,
                     help="only draft fns byte-identical across >= N overlays — the x reach propagation "
                          "multiplier (the fleet lever); default 1 = all open stubs, smallest-first")
@@ -203,7 +208,7 @@ def main():
                 continue
             if a.max_batches and batch_i >= a.max_batches:
                 break
-            stubs = open_stubs(b, a.max_nins, tried, a.min_reach)
+            stubs = open_stubs(b, a.max_nins, tried, a.min_reach, a.min_nins)
             if not stubs:
                 continue
             did_work = True
