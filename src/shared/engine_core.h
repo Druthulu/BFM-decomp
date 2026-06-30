@@ -24153,4 +24153,13 @@
         D_80126978 = -0x80; \
     }
 
+#define DEFINE_func_8018623C() \
+    extern s32 D_801E8010; \
+    extern void func_8002D4C8(s32 arg0, s32 arg1); \
+    void func_8018623C(u16 arg0, u16 arg1) { \
+        if (D_801E8010 == 0) { \
+            func_8002D4C8(arg0 & 0xFFFF, arg1 & 0xFFFF); \
+        } \
+    }
+
 #endif
