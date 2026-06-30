@@ -61,15 +61,19 @@ def objdump_funcs():
 
 
 def extract_defs(src_text):
-    """fn -> full C definition text (brace-matched)."""
+    """fn -> [preceding extern block] + the brace-matched C def (corpus-v2: self-contained/compilable).
+
+    The src declares each fn's globals/callees as `extern ...;` lines immediately ABOVE the def, with
+    the correct byte-verified types. v1 dropped them -> half the corpus failed standalone compile and the
+    HARD (global/struct) fns were filtered out, biasing training trivial. Capturing the contiguous extern
+    block above each def recovers them (52%->92% standalone-compile) AND teaches the right global types."""
     out = {}
     for mt in DEF_RE.finditer(src_text):
         nm = re.search(r'func_[0-9A-Fa-f]+', mt.group(1))
         if not nm:
             continue
         fn = nm.group(0)
-        i = mt.end() - 1                      # the '{'
-        depth, j = 0, mt.end() - 1
+        depth, j, end = 0, mt.end() - 1, None
         while j < len(src_text):
             c = src_text[j]
             if c == '{':
@@ -77,9 +81,22 @@ def extract_defs(src_text):
             elif c == '}':
                 depth -= 1
                 if depth == 0:
-                    out[fn] = src_text[mt.start():j + 1]
+                    end = j + 1
                     break
             j += 1
+        if end is None:
+            continue
+        func = src_text[mt.start():end]
+        # contiguous extern/comment/blank lines immediately above, back to the previous def's `}`
+        keep = []
+        for ln in reversed(src_text[:mt.start()].split('\n')):
+            s = ln.strip()
+            if s.startswith('extern ') or s == '' or s.startswith(('//', '*', '/*')) or s.endswith('*/'):
+                keep.append(ln)
+            else:
+                break
+        externs = [l for l in reversed(keep) if l.strip().startswith('extern ')]
+        out[fn] = ('\n'.join(externs) + '\n\n' + func) if externs else func
     return out
 
 
