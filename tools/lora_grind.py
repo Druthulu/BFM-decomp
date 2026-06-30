@@ -44,13 +44,57 @@ def good_sha(b):
     return open(p).read().split()[0] if os.path.exists(p) else None  # bare hash (sha1sum format)
 
 
+_SIGS = None
+
+
+def _load_sigs():
+    """Lazy {overlay -> {addr_int -> h_exact}} from the 134 .run/sig.ov_*.jsonl (make sig-overlays).
+    The SAME data dedup_propagate reaches from, so a reach>=N fn here is exactly one it will stamp
+    ×reach after the bank (and a fn the sigs miss wouldn't propagate anyway → correctly excluded)."""
+    global _SIGS
+    if _SIGS is None:
+        _SIGS = {}
+        for p in glob.glob(os.path.join(REPO, ".run/sig.ov_*.jsonl")):
+            ov = os.path.basename(p)[4:-6]            # sig.ov_SC01_000.jsonl -> ov_SC01_000
+            d = {}
+            for line in open(p):
+                line = line.strip()
+                if not line:
+                    continue
+                r = json.loads(line)
+                nm = r.get("name", "")
+                if nm.startswith("func_"):
+                    try:
+                        d[int(nm[5:], 16)] = r.get("h_exact")
+                    except ValueError:
+                        pass
+            _SIGS[ov] = d
+    return _SIGS
+
+
+def reach_of(binary, fn):
+    """#overlays byte-identical (h_exact) to `binary` at fn's addr; None if binary/fn isn't signed.
+    reach>=2 = a shared fn that propagates ×reach via dedup_propagate after it banks (the fleet lever)."""
+    sigs = _load_sigs()
+    try:
+        addr = int(fn[5:], 16)
+    except ValueError:
+        return None
+    h = sigs.get(binary, {}).get(addr)
+    if not h:
+        return None
+    return sum(1 for ov in sigs if sigs[ov].get(addr) == h)
+
+
 def nins(s_path):
     return sum(1 for l in open(s_path)
                if re.match(r'\s*/\*\s*[0-9A-Fa-f]+\s+[0-9A-Fa-f]+\s+[0-9A-Fa-f]{8}\s*\*/', l))
 
 
-def open_stubs(b, max_nins, tried):
-    """still-INCLUDE_ASM funcs for binary b (main + split .c) whose .s exists and is <= max_nins ins."""
+def open_stubs(b, max_nins, tried, min_reach=1):
+    """still-INCLUDE_ASM funcs for binary b (main + split .c) whose .s exists and is <= max_nins ins.
+    min_reach>1 keeps only fns byte-identical across >= min_reach overlays (the propagation multiplier)
+    and ranks high-reach-first; min_reach=1 keeps all, smallest-first (no reach cost)."""
     stubbed = set()
     for cf in glob.glob(os.path.join(REPO, "src/%s/%s*.c" % (b, b))):
         stubbed |= set(STUB_RE.findall(open(cf).read()))
@@ -61,10 +105,16 @@ def open_stubs(b, max_nins, tried):
         for sd in glob.glob(os.path.join(REPO, "asm/%s/nonmatchings/*/%s.s" % (b, fn))):
             n = nins(sd)
             if 0 < n <= max_nins:
-                out.append({"name": fn, "addr": "0x" + fn[5:].lower(), "nins": n,
+                rch = reach_of(b, fn) if min_reach > 1 else None
+                if min_reach > 1 and (rch is None or rch < min_reach):
+                    break                               # below the reach threshold (or unsigned) -> skip
+                out.append({"name": fn, "addr": "0x" + fn[5:].lower(), "nins": n, "reach": rch,
                             "class": "WAVE", "asm": os.path.relpath(sd, REPO), "ghidra_c": ""})
                 break
-    out.sort(key=lambda t: t["nins"])
+    if min_reach > 1:
+        out.sort(key=lambda t: (-(t.get("reach") or 0), t["nins"]))   # leverage: high-reach, then small
+    else:
+        out.sort(key=lambda t: t["nins"])
     return out
 
 
@@ -120,6 +170,9 @@ def near_class_hist():
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--max-nins", type=int, default=15)
+    ap.add_argument("--min-reach", type=int, default=1,
+                    help="only draft fns byte-identical across >= N overlays — the x reach propagation "
+                         "multiplier (the fleet lever); default 1 = all open stubs, smallest-first")
     ap.add_argument("--batch", type=int, default=12)
     ap.add_argument("--iters", type=int, default=3)
     ap.add_argument("--propagate-every", type=int, default=8, help="run a fleet propagate sweep every N batches")
@@ -150,7 +203,7 @@ def main():
                 continue
             if a.max_batches and batch_i >= a.max_batches:
                 break
-            stubs = open_stubs(b, a.max_nins, tried)
+            stubs = open_stubs(b, a.max_nins, tried, a.min_reach)
             if not stubs:
                 continue
             did_work = True

@@ -149,6 +149,27 @@ the canonical-site (077) harvest, plus **corpus-v3** for the struct compile-fail
 broad rotation. A broad ≤15-ins run remains worthwhile for per-overlay completeness, corpus growth
 (retrain fuel), and seeding the permuter grinder with the close=1 near-misses.
 
+### T9 RESULT — reach≥2 targeting built; the model alone is weakest on shared code (2026-06-30)
+
+Added `--min-reach N` to `lora_grind` (a lazy sig-based reach oracle == `dedup_propagate`'s, validated
+0-mismatch over 60 stubs + the `func_8017CE24`=2 ground truth) so the mass-run can prefer SHARED
+functions — one bank → ×reach. Bounded reach≥2 run, ov_SC01_000 batch (15 reach≥2 ≤15-ins stubs):
+**0/15 banked** — vs the reach-1-heavy spot-run's 7/15. The model is **weakest exactly on reach≥2
+(shared) code**, for two compounding reasons: (1) the corpus skipped the shared `DEFINE_func` macro
+bodies (`export_pairs` reads only `src/` defs → 96.6% of the corpus is overlay-unique), and (2) the
+shared engine functions are the harder regalloc/schedule residuals that survived the whole Phase-21
+apparatus. So **reach≥2 model-only is NOT a fleet-% lever by itself** (a real, measured negative).
+
+BUT the reach≥2 drafts are high-value FUEL: of the 15, **5 are close≤3 reach-134 near-misses** — three
+at **close=1** (`func_8012E27C/BF4C/AD64`) + two `match_one`-MATCH-but-gate-rejected — each worth ×134
+if closed. So the real fleet lever is **reach≥2 draft → permuter-grinder close (×134)** (the
+CURRENT_PHASE "synergy"), and/or **corpus-v3-with-shared-bodies** to lift the model's direct banking.
+Realizing the grinder path needs the **same per-binary fix T7 applied to `lora_grind`**: `grinder.py`
+calls `run_gate` with no `binary` (→ defaults to ov_SC01_077) AND the backlog record stores no `binary`
+field — so the permuter can't gate a *non-077* near-miss today. That two-part fix (grinder per-binary
+resolution + a backlog `binary` field) is the next concrete step to turn the reach-134 close=1 fuel into
+×134 banks. The reach oracle + `--min-reach` are reusable for that and for a corpus-v3 retrain.
+
 ## Open questions / notes
 
 - **Corpus quality > size.** ~1,700 verified pairs is plenty for LoRA; dedup near-identical reach
