@@ -196,6 +196,7 @@ def main():
     total_banked = 0
     batch_i = 0
     propagated_since = set()
+    last_fp = None
 
     while True:
         if os.path.exists(STOP):
@@ -230,15 +231,19 @@ def main():
                                     "--min-reach", "2"], cwd=REPO, capture_output=True, timeout=3600)
                 propagated_since.clear()
                 log("propagate sweep done")
-            # heartbeat + flywheel stats
-            fp = None
-            try:
-                rr = subprocess.run([".venv/bin/python", "tools/progress.py", "--fleet"],
-                                    cwd=REPO, capture_output=True, text=True, timeout=120)
-                mm = re.search(r'byte-identical\s+:\s+\d+\s*/\s*\d+\s*=\s*([\d.]+)%', rr.stdout)
-                fp = float(mm.group(1)) if mm else None
-            except Exception:
-                pass
+            # heartbeat + flywheel stats. progress.py --fleet is ~14s (a full 136-binary scan), so
+            # compute it only on propagate-sweep batches (else carry the last value) — running it every
+            # batch dominated the throughput on small batches (the SC01-dregs 1-stub batches).
+            fp = last_fp
+            if batch_i % a.propagate_every == 0:
+                try:
+                    rr = subprocess.run([".venv/bin/python", "tools/progress.py", "--fleet"],
+                                        cwd=REPO, capture_output=True, text=True, timeout=120)
+                    mm = re.search(r'byte-identical\s+:\s+\d+\s*/\s*\d+\s*=\s*([\d.]+)%', rr.stdout)
+                    fp = float(mm.group(1)) if mm else last_fp
+                except Exception:
+                    pass
+                last_fp = fp
             json.dump({"ts": int(time.time()), "binary": b, "total_banked": total_banked,
                        "fleet_pct": fp, "tried": len(tried)}, open(HB, "w"))
             json.dump({"total_banked": total_banked, "tried": len(tried), "fleet_pct": fp,
