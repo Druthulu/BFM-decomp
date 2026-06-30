@@ -118,9 +118,30 @@ LEAN_SYS = ("You are an expert at MATCHING decompilation for MIPS (PSX, gcc-2.7.
             "predefined (common.h). Output ONLY the C (the function definition + any externs it needs).")
 
 
+# Bridge: real OPEN stubs are splat .s (headers, 3-field comment, spaced operands, resolved jal); the
+# fine-tuned model trained on objdump/corpus style. NORMALIZE_ASM=1 converts .s -> that style so a
+# fine-tuned model sees its training format on real stubs (no retrain needed).
+NORMALIZE = os.environ.get('NORMALIZE_ASM', '0') != '0'
+
+
+def normalize_asm(asm):
+    out = []
+    for line in asm.splitlines():
+        m = re.match(r'\s*/\*\s*[0-9A-Fa-f]+\s+([0-9A-Fa-f]+)\s+([0-9A-Fa-f]{8})\s*\*/\s*(\S.*)', line)
+        if not m:
+            continue                                   # drop glabel/endlabel/nonmatching/blank headers
+        vaddr, leword, rest = m.group(1).upper(), m.group(2).upper(), m.group(3).strip()
+        parts = rest.split(None, 1)
+        mnem = parts[0]
+        ops = re.sub(r',\s+', ',', parts[1]) if len(parts) > 1 else ''   # "$sp, $sp" -> "$sp,$sp"
+        out.append(('/* %s %s */  %-9s %s' % (vaddr, leword, mnem, ops)).rstrip())
+    return '\n'.join(out)
+
+
 def build_user_lean(t, asm_text, ghidra_text):
+    asm = normalize_asm(asm_text) if NORMALIZE else asm_text.strip()
     return ("Target assembly (each `/* vaddr WORD */ mnemonic` line is one encoded instruction):\n"
-            + asm_text.strip() + "\n\nWrite the byte-matching C function.")
+            + asm + "\n\nWrite the byte-matching C function.")
 
 
 def call_api(messages, max_tokens=4096, temperature=TEMP, timeout=600):
@@ -168,7 +189,7 @@ def draft_one(t, outdir, iters):
     asm_subdir = os.path.dirname(t['asm'])
     gc_path = os.path.join(REPO, t.get('ghidra_c', ''))
     asm_text = open(asm_path).read() if os.path.exists(asm_path) else '(asm missing)'
-    ghidra_text = open(gc_path).read() if os.path.exists(gc_path) else '(no ghidra-c)'
+    ghidra_text = open(gc_path).read() if (t.get('ghidra_c') and os.path.isfile(gc_path)) else '(no ghidra-c)'
 
     cfile = os.path.join(outdir, fn + '.c')
     sys_msg = LEAN_SYS if LEAN else SYS
