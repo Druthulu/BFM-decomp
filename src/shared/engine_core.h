@@ -24014,4 +24014,143 @@
         return (func_800167F0(0) & 0xFFFF) != 0; \
     }
 
+#define DEFINE_func_80181DE0() \
+    void func_80181DE0(void) { \
+    }
+
+#define DEFINE_func_8018258C() \
+    void func_8018258C(void) { \
+    }
+
+#define DEFINE_func_80183010() \
+    void func_80183010(void) { \
+    }
+
+#define DEFINE_func_80183A78() \
+    void func_80183A78(s32 *a0) { \
+            *(s8 *)((s32)a0 + 0x20C) = 0; \
+        }
+
+#define DEFINE_func_80183C94() \
+    void func_80183C94(void *a0) { \
+            *(s8 *)((s32)a0 + 0x20C) = 0; \
+        }
+
+#define DEFINE_func_8018535C() \
+    void func_8018535C(void) { \
+    }
+
+#define DEFINE_func_801854C4() \
+    void func_801854C4(void) { \
+    }
+
+#define DEFINE_func_80188DF0() \
+    void func_80188DF0(void) { \
+    }
+
+#define DEFINE_func_80189950() \
+    void func_80189950(void) { \
+    }
+
+#define DEFINE_func_80184164() \
+    void func_80184164(void *a0) { \
+            *(short *)(*(int *)((char *)a0 + 0x20) + 0x12) = 0xC00; \
+        }
+
+#define DEFINE_func_8018A650() \
+    void func_8018A650(s32 *a0, s32 a1, s32 a2, s32 a3) { \
+            *(s8 *)((s32)a0 + 0x4) = a1; \
+            *(s8 *)((s32)a0 + 0x5) = a2; \
+            *(s8 *)((s32)a0 + 0x6) = a3; \
+        }
+
+#define DEFINE_func_8017FC9C() \
+    void func_8017FC9C(void *a0) { \
+            *(short *)((char *)a0 + 0x2) = 4; \
+            *(short *)((char *)a0 + 0x98) = 0; \
+            *(int *)((char *)a0 + 0x1c) = 0; \
+        }
+
+#define DEFINE_func_80184B00() \
+    void func_80184B00(void *a0) { \
+            *(s16 *)((s32)a0 + 0x2) += 1; \
+        }
+
+#define DEFINE_func_80185364() \
+    void func_80185364(void *a0) { \
+            *(s16 *)((s32)a0 + 0xA) = -0x1B26; \
+            *(s16 *)((s32)a0 + 0x6) = 0; \
+            *(s16 *)((s32)a0 + 0xE) = 0x1C59; \
+        }
+
+#define DEFINE_func_80180394() \
+    void func_80180394(void *a0) { \
+            *(short *)((char *)a0 + 0x2) = 0x7; \
+            *(short *)((char *)a0 + 0x98) = 0; \
+            *(int *)((char *)a0 + 0x1c) = 0x1e; \
+            *(short *)((char *)a0 + 0x5c) = 0; \
+        }
+
+#define DEFINE_func_801803B0() \
+    extern void func_801803D0(void); \
+    void func_801803B0(void) { \
+        func_801803D0(); \
+    }
+
+#define DEFINE_func_80181914() \
+    extern u8 D_8012694C; \
+    void func_80181914(void) { \
+        D_8012694C++; \
+    }
+
+#define DEFINE_func_8018621C() \
+    extern void func_8013BD34(void); \
+    void func_8018621C(void) { \
+        func_8013BD34(); \
+    }
+
+#define DEFINE_func_80182338() \
+    extern s32 func_800167F0(s32 arg0); \
+    s32 func_80182338(void) { \
+        return (func_800167F0(4) & 0xFFFF) != 0; \
+    }
+
+#define DEFINE_func_801823F0() \
+    extern s32 func_800167F0(s32 arg0); \
+    s32 func_801823F0(void) { \
+        return (func_800167F0(0) & 0xFFFF) != 0; \
+    }
+
+#define DEFINE_func_801824A8() \
+    extern s32 func_800167F0(s32 arg0); \
+    s32 func_801824A8(void) { \
+        return (func_800167F0(0) & 0xFFFF) != 0; \
+    }
+
+#define DEFINE_func_80184174() \
+    extern s32 D_801B5C90; \
+    void func_80184174(void *arg0) { \
+        *(u16 *)((s32)arg0 + 0xdc) = 0x5a; \
+        *(u16 *)((s32)arg0 + 0xde) = 0x3c; \
+        *(u16 *)((s32)arg0 + 0xe0) = 1; \
+        *(u16 *)((s32)arg0 + 0x2) = *(u16 *)((s32)arg0 + 0x2) + 1; \
+    }
+
+#define DEFINE_func_80188F08() \
+    extern void func_8018A3FC(s32 *a0); \
+    extern u8 D_801E8830[]; \
+    void func_80188F08(void) { \
+        func_8018A3FC(D_801E8830); \
+    }
+
+#define DEFINE_func_80181CE0() \
+    extern s32 D_8012695C; \
+    extern s16 D_80126968; \
+    extern s16 D_80126978; \
+    void func_80181CE0(void) { \
+        D_8012695C = 0x50; \
+        D_80126968 = 0x71; \
+        D_80126978 = -0x80; \
+    }
+
 #endif
