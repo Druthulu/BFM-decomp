@@ -33,7 +33,8 @@ def main():
     ap.add_argument('--epochs', type=float, default=3.0)
     ap.add_argument('--max-steps', type=int, default=0, help='>0 overrides epochs (use for a smoke run)')
     ap.add_argument('--lr', type=float, default=2e-4)
-    ap.add_argument('--maxlen', type=int, default=4096, help='token cap; longest pairs are ~giant asm')
+    ap.add_argument('--maxlen', type=int, default=4096, help='token cap; lower to 2048 to avoid 12GB VRAM spill')
+    ap.add_argument('--batch', type=int, default=2, help='per-device batch; 1 halves activation memory')
     ap.add_argument('--no-gguf', action='store_true', help='skip the merged-GGUF export step')
     a = ap.parse_args()
 
@@ -63,7 +64,7 @@ def main():
         model=model, tokenizer=tok, train_dataset=ds,
         args=SFTConfig(
             dataset_text_field='text', max_seq_length=a.maxlen,
-            per_device_train_batch_size=2, gradient_accumulation_steps=8,
+            per_device_train_batch_size=a.batch, gradient_accumulation_steps=max(1, 16 // a.batch),
             warmup_ratio=0.03, num_train_epochs=a.epochs,
             max_steps=(a.max_steps if a.max_steps > 0 else -1), learning_rate=a.lr,
             logging_steps=1 if a.max_steps else 10, optim='adamw_8bit', weight_decay=0.01,
@@ -76,7 +77,18 @@ def main():
     print('LoRA adapter ->', a.out)
     if not a.no_gguf:
         model.save_pretrained_gguf(out, tok, quantization_method='q4_k_m')
-        print('merged GGUF (q4_k_m) ->', a.out, '— load it in LM Studio, then eval LEAN')
+        # disk hygiene: GGUF conv leaves a ~15GB merged-16bit + ~15GB BF16 gguf; keep ONLY the q4
+        # (the ~30GB peak is what crashed C: last time — delete intermediates immediately after)
+        import glob as _g
+        for pat in (os.path.join(out, 'model-0000*.safetensors'),
+                    os.path.join(out, 'model.safetensors.index.json'),
+                    out + '_gguf/*BF16*.gguf', out + '_gguf/*bf16*.gguf', out + '_gguf/*F16*.gguf'):
+            for f in _g.glob(pat):
+                try:
+                    os.remove(f); print('cleaned intermediate:', f)
+                except OSError:
+                    pass
+        print('merged q4_k_m GGUF ->', a.out + '_gguf', '— intermediates cleaned')
 
 
 if __name__ == '__main__':
