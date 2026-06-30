@@ -23925,4 +23925,87 @@
         ((void (*)(s32))func_80171928)(a0); \
     }
 
+#define DEFINE_func_8017C048() \
+    void func_8017C048(void) { \
+    }
+
+#define DEFINE_func_8017C120() \
+    void func_8017C120(void) { \
+    }
+
+#define DEFINE_func_8017C238() \
+    void func_8017C238(void) { \
+    }
+
+#define DEFINE_func_8017C338() \
+    void func_8017C338(void) { \
+    }
+
+#define DEFINE_func_8017D5CC() \
+    s32 func_8017D5CC(void) { \
+            return 0x1; \
+        }
+
+#define DEFINE_func_801805A0() \
+    void func_801805A0(void) { \
+    }
+
+#define DEFINE_func_80180800() \
+    void func_80180800(void) { \
+    }
+
+#define DEFINE_func_80180A30() \
+    void func_80180A30(void) { \
+    }
+
+#define DEFINE_func_80180B04() \
+    void func_80180B04(void *a0) { \
+            *(short *)(*(int *)((char *)a0 + 0xcc) + 0xfc) = 1; \
+        }
+
+#define DEFINE_func_80180B14() \
+    void func_80180B14(void *a0) { \
+            *(short *)(*(int *)((char *)a0 + 0xcc) + 0xfc) = 0x2; \
+        }
+
+#define DEFINE_func_8017DA84() \
+    s32 func_8017DA84(s32 arg0) { \
+            if (arg0 < 5) { \
+                return 0x57; \
+            } \
+            return 0x3D; \
+        }
+
+#define DEFINE_func_801807E8() \
+    void func_801807E8(void *a0) { \
+            *(s16 *)((s32)a0 + 0x10A) = 0x60; \
+            *(s16 *)((s32)a0 + 0x106) = 0; \
+            *(s16 *)((s32)a0 + 0x108) = 0; \
+            *(s16 *)((s32)a0 + 0xFE) = 0; \
+        }
+
+#define DEFINE_func_8017D464() \
+    s32 func_8017D464(u8 *a0) { \
+            *(s32 *)(a0 + 0x28) = 0xA; \
+            *(u8 *)(a0 + 0x15) += 1; \
+            return 0; \
+        }
+
+#define DEFINE_func_8017E0EC() \
+    extern u16 D_80115112; \
+    void func_8017E0EC(void) { \
+        register s32 *p __asm__("$3"); /* pinned to $v1 */ \
+        register s32 v __asm__("$2"); /* pinned to $v0 */ \
+        p = &D_80115112; \
+        v = *(u16 *)p + 1; \
+        *(u16 *)p = v; \
+    }
+
+#define DEFINE_func_8017D7E0() \
+    extern void func_8017D808(s32 arg0, s32 arg1); \
+    extern s32 D_801274E8; \
+    void func_8017D7E0(s32 arg0) { \
+        func_8017D808(arg0, &D_801274E8); \
+    }
+
 #endif
