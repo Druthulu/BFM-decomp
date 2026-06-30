@@ -23910,4 +23910,10 @@
         } \
     }
 
+#define DEFINE_func_8017CE24() \
+    extern s32 func_800167F0(s32 arg0); \
+    s32 func_8017CE24(void) { \
+        return (func_800167F0(0) & 0xFFFF) != 0; \
+    }
+
 #endif

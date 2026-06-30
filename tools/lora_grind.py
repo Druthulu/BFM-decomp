@@ -41,7 +41,7 @@ def binaries():
 
 def good_sha(b):
     p = os.path.join(REPO, "config/check.%s.sha" % b)
-    return open(p).read().strip() if os.path.exists(p) else None
+    return open(p).read().split()[0] if os.path.exists(p) else None  # bare hash (sha1sum format)
 
 
 def nins(s_path):

@@ -113,6 +113,42 @@ Two forward levers besides fine-tuning:
 - **Cloud cheap tier (Haiku/GLM-5.2)** stays the working low-cost drafter today (the local-free tier
   needs the fine-tune or the seed role to be useful).
 
+### T7 RESULT — the broad-rotation gate debugged 2026-06-30 (0/222 was TWO harness bugs, not the model)
+
+The 500-fn calibration run (`lora_grind`) banked **0/222** across ov_SC01_000→ov_SC02_005 while the
+model banked ~18% on ov_SC01_077. Root-caused (R14 — by reading the code + the run's own backlog,
+which resolved a direct contradiction between two scout agents) to **two independent bugs in
+`lora_grind`'s use of `gate_stage.run_gate`**, NOT model quality:
+- **Bug A — good_sha format:** `lora_grind.good_sha()` returned the whole sha1sum line `"<sha>  <name>"`;
+  `harvest_verify` compares it against a bare `sha1()` → never equal → **0 banks for EVERY binary
+  including 077**. So the "077 0/12" in that run was a *bug artifact*, not an exhausted tail (a claim I
+  nearly enshrined before reading the `.sha` format — the R14 payoff).
+- **Bug B — path mis-resolution:** the gate call passed only `binary`+`good_sha`, leaving
+  `src`/`asm`/`out` at the hardcoded ov_SC01_077 defaults → non-077 drafts dropped at the 077 stub-filter
+  → 0 banks, **silently**, and the backlog near-miss classes were contaminated by the mis-resolved asm
+  (so that run's "199 compile-fail" breakdown was untrustworthy for non-077 fns).
+
+Fix (`tools/gate_stage.py`): `run_gate` now resolves `src`/`asm`/`out`/`good_sha` from `binary` when
+unset (binary-agnostic — the Phase-9 "no silent default an overlay inherits" discipline; good_sha
+normalized to the bare hash) + a **loud negative-control guard** (warns when 0 drafts are stubs in the
+binary's own sources — the silent-0 can never recur). `lora_grind.good_sha` also fixed at source.
+Byte-neutral (check-all 136/136); zero `lora_grind` logic change beyond the one-line good_sha fix.
+
+**The first trustworthy on-OPEN-stubs signal (ov_SC01_000 spot-run, 15 smallest ≤15-ins stubs):**
+- **Gate-banked 7/15 (47%) byte-identical** (check-all 136/136, auto-committed). Proxy `match_one`:
+  6 leaf-exact + 1 recovered via the TU-plumbing pipeline. Backlog (now correctly classified): 6
+  near-misses — **four at closeness=1** (prime grinder/permuter fuel) — + 2 standalone-compile-fails
+  (struct types → corpus-v3). The 0/222 was 100% the bugs; the model is a strong Tier-0 on the small
+  open-stub tail **fleet-wide**, the production number the corpus-v2 caveat (above) flagged as unmeasured.
+
+**ROI finding (the sizing input):** of the 7 banks, **6 are reach-1 (overlay-UNIQUE, ×1)** and 1 is
+reach-2. The broad rotation's small non-077 stubs are predominantly overlay-unique → **high bank-RATE,
+low fleet-% ROI** (each ×1; the fleet % barely moved, +8 fns). The fleet-% levers are therefore
+**reach≥2 targeting** (the ×134 multiplier — a `lora_grind`/`wave_targets` `--min-reach` filter, T9) and
+the canonical-site (077) harvest, plus **corpus-v3** for the struct compile-fails (T8) — NOT a blind
+broad rotation. A broad ≤15-ins run remains worthwhile for per-overlay completeness, corpus growth
+(retrain fuel), and seeding the permuter grinder with the close=1 near-misses.
+
 ## Open questions / notes
 
 - **Corpus quality > size.** ~1,700 verified pairs is plenty for LoRA; dedup near-identical reach

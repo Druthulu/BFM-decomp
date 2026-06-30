@@ -4781,11 +4781,7 @@ INCLUDE_ASM("asm/ov_SC01_000/nonmatchings/ov_SC01_000", func_8017CD9C);
 
 INCLUDE_ASM("asm/ov_SC01_000/nonmatchings/ov_SC01_000", func_8017CDD8);
 
-extern s32 func_800167F0(s32 arg0);
-
-s32 func_8017CE24(void) {
-    return (func_800167F0(0) & 0xFFFF) != 0;
-}
+DEFINE_func_8017CE24()  /* dedup: shared engine-core @0x8017CE24 (src/shared) */
 
 
 INCLUDE_ASM("asm/ov_SC01_000/nonmatchings/ov_SC01_000", func_8017CE48);

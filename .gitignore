@@ -110,3 +110,5 @@ datasets/
 models/
 *.gguf
 *.safetensors
+.venv-train/
+unsloth_compiled_cache/

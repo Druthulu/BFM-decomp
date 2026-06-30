@@ -46,6 +46,12 @@ def _isdir(p):
     return os.path.isdir(os.path.join(REPO, p))
 
 
+def _check_sha(binary):
+    """The bare locked SHA1 for a binary (config/check.<bin>.sha is sha1sum format '<sha>  <name>')."""
+    p = os.path.join(REPO, f"config/check.{binary}.sha")
+    return open(p).read().split()[0] if os.path.exists(p) else None
+
+
 def _xform(tool, ov, indir, suffix, extra=None):
     """Run a draft-dir transform; return its out dir, or the in dir if the tool no-ops/fails."""
     out = indir + suffix
@@ -94,7 +100,7 @@ def match_one_closeness(fn, cpath, asm):
     return ("near", int(m.group(1))) if m else ("fail", None)
 
 
-def run_gate(drafts, binary=OV, src=DEF_SRC, asm=DEF_ASM, out=DEF_OUT, good_sha=DEF_SHA,
+def run_gate(drafts, binary=OV, src=None, asm=None, out=None, good_sha=None,
              propagate=True, source_tag="worker", commit=False, src_file=None):
     # Serialize: the grinder and the orchestrator both call this, and it mutates the shared
     # build tree + git. One gate at a time (blocking flock) — never two builds/commits racing.
@@ -111,10 +117,30 @@ def run_gate(drafts, binary=OV, src=DEF_SRC, asm=DEF_ASM, out=DEF_OUT, good_sha=
 
 
 def _run_gate_locked(drafts, binary, src, asm, out, good_sha, propagate, source_tag, commit, src_file=None):
+    # Resolve per-binary paths when unset — binary-agnostic, no silent ov_SC01_077 default an
+    # overlay could inherit (the Phase-9 "required-no-default" discipline; the lora_grind mass-run's
+    # 0/222 Bug-B). good_sha is normalized to the BARE hash: config/check.<bin>.sha is sha1sum format
+    # "<sha>  <name>", but harvest_verify compares it against a bare sha1() — passing the whole line
+    # never matches, so banking is 0 for EVERY binary incl. ov_SC01_077 (the 0/12 Bug-A).
+    src = src or f"src/{binary}/{binary}.c"
+    asm = asm or f"asm/{binary}/nonmatchings/{binary}"
+    out = out or f"build/{binary}/{binary}"
+    good_sha = (good_sha or _check_sha(binary) or DEF_SHA).split()[0]
     draft_fns = sorted(os.path.basename(p)[:-2] for p in
                        glob.glob(os.path.join(REPO, drafts, "*.c")))
     if not draft_fns:
         return {"drafts": 0, "banked": 0, "propagated": 0, "near": 0, "failed": 0, "verified": []}
+    # Negative control (P9 / Phase-9): the drafts MUST be INCLUDE_ASM stubs SOMEWHERE in this
+    # binary's sources (main + any _a/_o0 split — a split-only batch is legitimately gated by the
+    # per-split run_gate call, so check the UNION, mirroring lora_grind.open_stubs' glob). If a
+    # non-empty draft set overlaps ZERO of them, it's a binary/src mismatch (the silent-077-default
+    # Bug-B) — warn loudly so a 0 can never again masquerade as "nothing matched".
+    bin_stubs = set()
+    for cf in glob.glob(os.path.join(REPO, f"src/{binary}/{binary}*.c")):
+        bin_stubs |= set(re.findall(r'INCLUDE_ASM\([^,]+,\s*(func_[0-9A-Fa-f]+|DsMix)\)', open(cf).read()))
+    if bin_stubs and not (set(draft_fns) & bin_stubs):
+        print(f"[gate] WARNING: 0/{len(draft_fns)} drafts are INCLUDE_ASM stubs in {binary} — "
+              f"binary/src mismatch (drafts for a different binary?); banking will be 0", file=sys.stderr)
 
     # Recovery is CANON-FIRST, sig_unify FALLBACK (§19/§25): sig_unify can REGRESS an already-byte-
     # correct draft (e.g. a hand-pinned crack — it rewrites the def-sig to a banked caller's wrong
@@ -150,14 +176,14 @@ def _run_gate_locked(drafts, binary, src, asm, out, good_sha, propagate, source_
         # Surface a REAL failure: dedup_propagate exits non-zero on a byte-gate revert (a false-reach
         # straggler poisoned the all-or-nothing batch) — distinct from the benign "nothing to propagate"
         # empty-plan no-op. A swallowed revert previously hid a real ×134 gain (cont.4); never again.
-        out = (pr.stdout or "") + (pr.stderr or "")
-        if pr.returncode != 0 and "nothing to propagate" not in out:
+        pout = (pr.stdout or "") + (pr.stderr or "")
+        if pr.returncode != 0 and "nothing to propagate" not in pout:
             errlog = os.path.join(REPO, ".run/auto/last_propagate_error.log")
             try:
-                open(errlog, "w").write(out)
+                open(errlog, "w").write(pout)
             except OSError:
                 pass
-            prop_error = [l for l in out.strip().splitlines() if l.strip()][-3:] or [f"exit {pr.returncode}"]
+            prop_error = [l for l in pout.strip().splitlines() if l.strip()][-3:] or [f"exit {pr.returncode}"]
             print(f"[gate] WARNING: dedup_propagate exited {pr.returncode} ({propagated} groups added); "
                   f"see {errlog}", file=sys.stderr)
 
@@ -203,7 +229,7 @@ def _run_gate_locked(drafts, binary, src, asm, out, good_sha, propagate, source_
         sh(["git", "add", src, "src/shared/engine_core.h", DEDUP_YAML] +
            glob.glob(os.path.join(REPO, "src/ov_*/*.c")))
         sh(["git", "commit", "-q", "-m",
-            f"feat(phase-21): {source_tag} gate — +{len(verified)} fns x{propagated} propagated (fleet {fp}%)"])
+            f"feat({os.environ.get('GATE_PHASE', 'decomp')}): {source_tag} gate — +{len(verified)} fns x{propagated} propagated (fleet {fp}%)"])
         commit_sha = sh(["git", "rev-parse", "--short", "HEAD"]).stdout.strip()
 
     return {"drafts": len(draft_fns), "banked": len(verified), "propagated": propagated,
