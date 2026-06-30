@@ -24170,4 +24170,185 @@
     void func_80183808(void) { \
     }
 
+#define DEFINE_func_80170B48() \
+    void func_80170B48(int a0) \
+    { \
+        extern void *D_8011F738; \
+        extern void func_8014706C(void *a0); \
+        extern void func_80154274(s32 *a0, s32 a1); \
+        extern s32 func_80171990(u8 *a0); \
+        func_8014706C(a0); \
+        func_80154274((s32 *)a0, (s32)D_8011F738); \
+        func_80171990((u8 *)a0); \
+        func_80170B90((u8 *)a0); \
+    }
+
+#define DEFINE_func_8015F948() \
+    void func_8015F948(s32 *param_1) { \
+        extern void func_80146C98(s32 *a0, s16 a1); \
+        extern void func_80147078(s32 *a0, s16 a1); \
+        extern void func_80154150(s32 a0, s32 a1); \
+        extern void func_80154A74(s32 a0, s32 a1); \
+        extern s32 func_80161104(void); \
+        func_80147078(param_1, 0x15); \
+        if (((s32 (*)(s32 *))func_80161104)(param_1) != 0) { \
+            func_80154150((s32)param_1, 0x22); \
+            func_80154A74((s32)param_1, 0x1A); \
+            func_80146C98(param_1, 2); \
+        } \
+    }
+
+#define DEFINE_func_80155E30() \
+    void func_80155E30(void *a0) { \
+        extern int func_80155FF8(int arg, int a1); \
+        extern void func_801599A4(void *a0); \
+        extern void func_80159B3C(void *a0); \
+        extern s32 func_80161208(void); \
+        volatile s32 spill[4]; \
+        *(s32 *)((u8 *)a0 + 0x44) = *(s32 *)((u8 *)a0 + 0x44) | 2; \
+        if (*(u16 *)((u8 *)a0 + 0xB8) == 0x8000) { \
+            func_801599A4(a0); \
+            func_80159B3C(a0); \
+            return; \
+        } \
+        if (((s32 (*)(s32 *))func_80161208)(a0) != 0) { \
+            return; \
+        } \
+        func_80155FF8((int)a0, *(u8 *)((u8 *)a0 + 0x1AA)); \
+    }
+
+#define DEFINE_func_801576A8() \
+    extern int func_80155FF8(int arg, int a1); \
+    void func_801576A8(void *arg0) { \
+        extern int func_80155FF8(int arg, int a1); \
+        extern void func_801599A4(void *a0); \
+        extern void func_80159B3C(void *a0); \
+        extern s32 func_80161208(void); \
+        volatile s32 spill[4];  /* forces the 0x28 frame the target reserves */ \
+        *(s32 *)((u8 *)arg0 + 0x44) |= 2; \
+        if (*(u16 *)((u8 *)arg0 + 0xB8) == 0x8000) { \
+            func_801599A4(arg0); \
+            func_80159B3C(arg0); \
+        } else if (((s32 (*)(void *))func_80161208)(arg0) == 0) { \
+            func_80155FF8((int)arg0, *(u8 *)((u8 *)arg0 + 0x1AA)); \
+        } \
+    }
+
+#define DEFINE_func_80168F40() \
+    void func_80168F40(void *arg0) { \
+        extern Blk20 D_800AE620; \
+        extern s32 func_80016A5C(); \
+        struct A a; \
+        struct B b; \
+        a.unk00 = *(u16 *)((u8 *)arg0 + 0x10); \
+        a.unk02 = *(u16 *)((u8 *)arg0 + 0x14); \
+        a.unk04 = *(u16 *)((u8 *)arg0 + 0x18); \
+        a.unk08 = *(u16 *)((u8 *)arg0 + 0x6); \
+        a.unk0A = *(u16 *)((u8 *)arg0 + 0xA); \
+        a.unk0C = *(u16 *)((u8 *)arg0 + 0xE); \
+        a.unk10 = 8; \
+        a.unk14 = 0xC0; \
+        a.unk12 = 0; \
+        a.unk11 = 0; \
+        a.unk16 = 0x80; \
+        a.unk15 = 0x80; \
+        *(struct Bv *)&b = *(struct Bv *)&D_800AE620; \
+        a.unk18 = 0x50000000; \
+        func_80016A5C(&a, &b); \
+    }
+
+#define DEFINE_func_80163A94() \
+    void func_80163A94(s32 param_1) { \
+        extern s32 D_800636C8; \
+        extern s32 D_800DE5A0; \
+        extern void func_8001C214(s32 a0, s32 a1); \
+        extern void func_8014659C(void); \
+        extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6); \
+        extern void func_80146CA0(void *a0); \
+        extern void func_80146DE8(s32 *a0, s32 a1, s32 a2, s32 a3); \
+        extern void func_80146E90(s32 *a0, s32 a1); \
+        extern void func_80147324(s32 a0); \
+        extern void func_80149374(int, int); \
+        s32 iVar7; \
+        s32 iVar1; \
+        s32 iVar2; \
+        s32 iVar3; \
+        iVar7 = *(s32 *)(param_1 + 0x4c); \
+        *(u32 *)(iVar7 + 0x44) = *(u32 *)(iVar7 + 0x44) | 4; \
+        iVar1 = ((s32 (*)(void))func_8014659C)(); \
+        *(s32 *)(param_1 + 0x20) = iVar1; \
+        if (iVar1 != 0) { \
+            func_8001C214(iVar1, (s32)&D_800DE5A0); \
+            *(s32 *)(iVar1 + 0x20) = (s32)&D_800636C8; \
+            *(s16 *)(iVar1 + 0x1c) = 0x1800; \
+            *(s16 *)(iVar1 + 0x1a) = 0x1800; \
+            *(s16 *)(iVar1 + 0x18) = 0x1800; \
+            *(u16 *)(iVar1 + 0x2c) = *(u16 *)(iVar1 + 0x2c) | 0x10; \
+            func_80149374(iVar7, param_1 + 4); \
+            iVar3 = *(s32 *)(param_1 + 0x20); \
+            iVar2 = *(s32 *)(iVar7 + 0x20); \
+            *(Blk16 *)(iVar3 + 0x34) = *(Blk16 *)(iVar2 + 0x34); \
+            *(Blk16 *)(iVar3 + 0x44) = *(Blk16 *)(iVar2 + 0x44); \
+            *(s16 *)(iVar1 + 0x10) = *(s16 *)(*(s32 *)(iVar7 + 0x20) + 0x10); \
+            *(s16 *)(iVar1 + 0x12) = *(s16 *)(*(s32 *)(iVar7 + 0x20) + 0x12); \
+            *(s16 *)(iVar1 + 0x14) = *(s16 *)(*(s32 *)(iVar7 + 0x20) + 0x14); \
+            *(s16 *)(param_1 + 0x60) = *(s16 *)(iVar7 + 0x100); \
+            *(s16 *)(param_1 + 0x62) = *(s16 *)(iVar7 + 0x102); \
+            *(s16 *)(param_1 + 0x64) = *(s16 *)(iVar7 + 0x104); \
+            func_80147324(0x448); \
+            func_80146E90((s32 *)param_1, 0x10); \
+            func_80146A6C(0xd, (void *)param_1, 0, 0, 0, 0, 0); \
+            func_80146DE8((s32 *)param_1, 0, 0, 0xffe00000); \
+            func_80146CA0((void *)param_1); \
+        } \
+        return; \
+    }
+
+#define DEFINE_func_80156848() \
+    extern s32 D_801151E0[]; \
+    extern B8 D_80128120[]; \
+    extern B8 D_80128138[]; \
+    extern S8 D_80126AF0[]; \
+    extern u8 D_80126730[]; \
+    void func_80156848(s32 param_1, s32 param_2) { \
+        extern s32 D_801151E0[]; \
+        extern u8 D_80126730[]; \
+        extern S8 D_80126AF0[]; \
+        extern B8 D_80128120[]; \
+        extern B8 D_80128138[]; \
+        extern void func_80013E94(void *a0, void *a1); \
+        extern s32 func_801469C8(int a0, void *a1, int a2, int a3, u16 arg5, int arg6, int arg7, int arg8); \
+        extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6); \
+        extern void func_80156A1C(s32 a0, s32 a1); \
+        u32 uVar1; \
+        s32 i; \
+        u32 uVar3; \
+        u32 local_20[2]; \
+        uVar3 = 0; \
+        i = 0; \
+        do { \
+            uVar1 = D_801151E0[uVar3]; \
+            if (uVar1 & 1) { \
+                func_80013E94(&D_80128120[i], local_20); \
+                ((s32 (*)(s32, s32, s32, s32, s32, s32, s32))func_80146A6C)(*(u8 *)(param_2 + 8), param_1, (s32)D_80126AF0[i].a, \
+                              (s32)D_80126AF0[i].b, (s32)D_80126AF0[i].c, local_20[0], \
+                              *(u8 *)(param_2 + 9)); \
+            } else if (uVar1 & 6) { \
+                func_80156A1C(param_1, uVar3); \
+                func_80013E94(&D_80128138[i], local_20); \
+                if ((D_801151E0[uVar3] & 6) == 4) { \
+                    local_20[0] = local_20[0] | 0x80000000; \
+                } \
+                ((s32 (*)(s32, s32, s32, s32, s32, s32, s32))func_80146A6C)(6, param_1, (s32)D_80126AF0[i].a, \
+                              (s32)D_80126AF0[i].b, (s32)D_80126AF0[i].c, local_20[0], 0); \
+                if (D_80126730[uVar3] == 0x24) { \
+                    ((void (*)(s32, s32, s32, s32, s32, s32, s32, s32))func_801469C8)(0x53, param_1, (s32)D_80126AF0[i].a, \
+                                  (s32)D_80126AF0[i].b, (s32)D_80126AF0[i].c, local_20[0], 0, 0x14); \
+                } \
+            } \
+            uVar3 = uVar3 + 1; \
+            i = i + 1; \
+        } while (uVar3 < 3); \
+    }
+
 #endif
