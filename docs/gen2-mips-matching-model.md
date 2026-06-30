@@ -200,6 +200,46 @@ reach-134 ×134 payoff routes through **corpus-v3** (better leaf drafts for the 
 **dedup-collapse** (for stuck-local inline matches) — NOT the permuter, which the bytes show isn't the
 closer for this fuel.
 
+### Corpus-v3 + local GPU serving + the prompt fix — 2026-06-30 (8-hour autonomous run)
+
+LM Studio was ejected (Drew freed the GPU), so serving moved in-repo: **`tools/serve_local.py`**
+serves base+LoRA via Unsloth (`.venv-train`, cu128) as an OpenAI endpoint that `api_draft`/`lora_grind`
+hit unchanged. (The prebuilt `llama-cpp-python` CUDA wheels SIGILL on this no-AVX-512 CPU; the
+Unsloth/torch path is reliable and needs no build — `serve_local.py` loads in ~6s.)
+
+**The prompt fix (cheap, no retrain).** The v2 corpus overfit an empty `void f(void){}` leaf pattern —
+it drafted trivial `return 1` / setter functions as *empty*. One clause added to the LEAN prompt
+("translate EVERY instruction, never an empty body; a `jr`+`addiu` delay slot is `return N`, a `sw/sh`
+is a store") took the small-leaf band **0/3 → 2/3** in a prompt test, and banked 3 on a fresh
+ov_SC01_001 batch end-to-end. Baked into `api_draft.LEAN_SYS` + `format_finetune.SYS` (kept in sync).
+
+**Corpus-v3 (the root fix).** `export_pairs` now also mines the **1623 `DEFINE_func` macro bodies** in
+`engine_core.h` — the shared setters/return-const/dispatchers `extract_defs` never saw (96.6% of v2 was
+overlay-unique inline defs → the source of the empty-leaf overfit). `format_finetune` inlines
+`engine_types.h` structs in the compile-filter so struct-using bodies are KEPT, not dropped. Corpus
+**1312 → 2891** (1312 inline + 1579 macros); trainable **2534 train + 291 test** (2.5× v2's 1111),
+97.8% compile.
+
+**v3 trained + eval'd.** Qwen2.5-Coder-7B QLoRA, 3 epochs, loss **1.275 → 0.085** (~2h on the 3080 Ti
+at batch 1 / maxlen 2048, VRAM-tight). Held-out gate-true eval (unseen functions): **MATCH 23/40
+(57.5%)** — strong and generalizing, well above v2's mixed-set rate and the stock-local ~0 floor. So v3
+is the better model (more+better data + the baked-in prompt) and drove the production batch.
+
+**Production harvest (v3, ~3h, broad rotation over ~25 binaries, propagate-every-3, $0 LLM cost):**
+the v3 batch banked **~352 functions** (inline, byte-gated) and the propagate sweeps lifted **+45 new
+shared groups** (1633→1678) ×reach, taking the fleet **63.67% → 63.82%** (**+502 byte-identical
+functions**), **136/136 byte-clean** throughout, across **25 auto-committed batches**. v3 repeatedly
+banked the previously-impossible **empty-leaf/setter class** (`func_8012E27C` = `return 1`,
+`func_8012AD64`/`8012BF4C` = `sw`/`sh` setters — all drafted *empty* by v2). The modest headline %
+is the expected T9 reality (small open stubs are mostly reach-1 ×1; and the shared setters hit the
+§19/20 propagation cap, so they re-bank inline per binary rather than collapse once ×134). **The
+validated result is the pipeline itself:** a free, local, fine-tuned model now harvests the
+small/setter bulk for $0, including the exact class the whole prior apparatus could not draft —
+gated identically (G3/P9), with the data flywheel (banks → corpus → retrain) and propagation
+(match-once → ×reach) intact. Next levers (unchanged, now higher-yield with v3): **shared/reach≥2
+targeting** (so the setter banks propagate ×134 instead of re-banking inline) + the **dedup-collapse**
+of the per-binary inline setters; corpus-v4 = struct-giant types; raise `--max-nins` as the band lifts.
+
 ## Open questions / notes
 
 - **Corpus quality > size.** ~1,700 verified pairs is plenty for LoRA; dedup near-identical reach
