@@ -37,7 +37,7 @@ DRAFTS = os.path.join(REPO, ".run/backlog_drafts")
 SRC_GLOB = os.path.join(REPO, "src/ov_SC01_077/ov_SC01_077*.c")
 STUB_RE = re.compile(r"INCLUDE_ASM\([^,]+,\s*(\w+)\)")
 FIELDS = ("ts", "addr", "name", "reach", "klass", "nins", "status",
-          "closeness", "where_stuck", "best_draft", "source")
+          "closeness", "where_stuck", "best_draft", "binary", "source")
 
 
 def append_record(rec):
@@ -61,19 +61,29 @@ def save_draft(name, text):
     return os.path.relpath(p, REPO)
 
 
-def _matched_now():
-    """Set of func names that are NO LONGER INCLUDE_ASM stubs (i.e. banked) — dropped from the table."""
-    stubs = set()
-    for p in glob.glob(SRC_GLOB):
-        stubs |= set(STUB_RE.findall(open(p).read()))
-    return stubs  # a name in `stubs` is still OPEN; not in `stubs` => matched/gone
+_STUB_CACHE = {}
+
+
+def _open_stubs(binary):
+    """INCLUDE_ASM stub names still OPEN in <binary>'s source (main + any _a/_o0 split). Fleet-aware:
+    a fn matched in ov_SC01_077 but propagation-stuck stays OPEN in the other overlays (the Phase-19/20
+    cap), so the grinder must judge open-ness against the record's OWN binary, not just 077."""
+    if binary not in _STUB_CACHE:
+        s = set()
+        for p in glob.glob(os.path.join(REPO, f"src/{binary}/{binary}*.c")):
+            s |= set(STUB_RE.findall(open(p).read()))
+        _STUB_CACHE[binary] = s
+    return _STUB_CACHE[binary]
 
 
 def load_best():
-    """Best (lowest closeness, latest ts) record per addr, restricted to still-open (unmatched) fns."""
+    """Best (lowest closeness, latest ts) record per addr, restricted to fns still OPEN in their OWN
+    binary (rec['binary']; legacy records default ov_SC01_077). Fleet-aware so a 077-matched-but-
+    stuck-local fn surfaces via its overlay record — the grinder must SEE it to grind it (P9 honesty:
+    a fn banked in its own binary since logged is dropped)."""
     if not os.path.exists(JSONL):
         return []
-    open_stubs = _matched_now()
+    _STUB_CACHE.clear()
     best = {}
     for line in open(JSONL):
         line = line.strip()
@@ -81,7 +91,8 @@ def load_best():
             continue
         r = json.loads(line)
         nm = r.get("name")
-        if nm and nm not in open_stubs:   # banked since logged -> drop (P9 honesty)
+        binary = r.get("binary") or "ov_SC01_077"
+        if nm and nm not in _open_stubs(binary):   # banked in ITS binary since logged -> drop (P9)
             continue
         key = r.get("addr") or nm
         cur = best.get(key)

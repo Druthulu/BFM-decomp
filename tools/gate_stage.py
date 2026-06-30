@@ -213,7 +213,7 @@ def _run_gate_locked(drafts, binary, src, asm, out, good_sha, propagate, source_
         backlog.append_record({"addr": meta.get("addr"), "name": fn, "reach": meta.get("reach"),
                                "klass": rclass or meta.get("class"), "nins": meta.get("nins"), "status": status,
                                "closeness": close, "where_stuck": where, "best_draft": draft_path,
-                               "source": source_tag})
+                               "binary": binary, "source": source_tag})   # binary: lets the grinder gate non-077 near-misses
     backlog.render()
 
     fp = None

@@ -98,13 +98,13 @@ def winner_to_draft(winner_c):
     return drop_preproc_and_scalar_typedefs(winner_c)
 
 
-def setup(fn, draft_c):
+def setup(fn, draft_c, asm_subdir=ASM):
     pd = os.path.join(REPO, ".run/permuter", fn)
     if os.path.exists(pd):
         shutil.rmtree(pd)
     os.makedirs(pd)
     open(f"{pd}/base.c", "w").write(make_base_c(draft_c))
-    s = os.path.join(REPO, ASM, fn + ".s")
+    s = os.path.join(REPO, asm_subdir, fn + ".s")
     tgt = f"{pd}/target.s"
     with open(tgt, "w") as f:
         f.write('.set noat\n.set noreorder\n.include "macro.inc"\n.section .text\n\n')

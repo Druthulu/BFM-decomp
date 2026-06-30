@@ -47,6 +47,12 @@ def log(m):
     print(f"[{time.strftime('%H:%M:%S')}] grinder: {m}", flush=True)
 
 
+def asm_subdir_for(binary, fn):
+    """the asm subdir holding binary's <fn>.s (main or _a/_o0 split); None if absent."""
+    g = glob.glob(os.path.join(REPO, f"asm/{binary}/nonmatchings/*/{fn}.s"))
+    return os.path.dirname(os.path.relpath(g[0], REPO)) if g else None
+
+
 def heartbeat(state, current=None, banked=0, fp=None):
     os.makedirs(os.path.join(REPO, AUTODIR), exist_ok=True)
     json.dump({"ts": time.strftime("%Y-%m-%d %H:%M:%S"), "state": state, "current": current,
@@ -68,7 +74,7 @@ def candidates(max_nins, max_close, tried, attempts, blacklist):
         c = r.get("closeness")
         if c is None or c > max_close:          # permuter closes small regalloc/sched gaps, not large rewrites
             continue
-        if (r.get("nins") or 999) > max_nins:
+        if r.get("nins") is not None and r["nins"] > max_nins:   # known-too-big; None (off-077 manifest) = allow
             continue
         if not os.path.exists(os.path.join(REPO, r["best_draft"])):
             continue
@@ -116,36 +122,46 @@ def main():
         if os.path.exists(os.path.join(REPO, DRAFTS)):
             shutil.rmtree(os.path.join(REPO, DRAFTS))
         os.makedirs(os.path.join(REPO, DRAFTS), exist_ok=True)
-        won_fns = []
+        won = []                                  # (fn, binary): gate grouped by binary (harvest_verify filters)
         for r in cand:
             if stop_requested():
                 break
             fn = r["name"]; tried[fn] = tried.get(fn, 0) + 1
+            binary = r.get("binary") or "ov_SC01_077"     # legacy records: the canonical site (a 077-stub fn still gates)
+            asm_sub = asm_subdir_for(binary, fn)
             heartbeat("permuting", fn, banked, fp)
             try:
+                if not asm_sub:
+                    log(f"{fn}: no .s under {binary} — skip"); continue
                 draft = open(os.path.join(REPO, r["best_draft"])).read()
-                pd = p16_permute.setup(fn, draft)
+                pd = p16_permute.setup(fn, draft, asm_sub)
                 if not pd:
                     continue
                 win = p16_permute.run_permuter(pd, a.permute_secs, a.j)
                 if win:
                     open(os.path.join(REPO, DRAFTS, fn + ".c"), "w").write(
                         p16_permute.winner_to_draft(open(win).read()))
-                    won_fns.append(fn); log(f"permuter WON {fn} (close was {r.get('closeness')})")
+                    won.append((fn, binary)); log(f"permuter WON {fn} @ {binary} (close was {r.get('closeness')})")
             except Exception as e:
                 log(f"{fn}: {e}")
-        if won_fns:
+        if won:
             heartbeat("gating", None, banked, fp)
-            s = gate_stage.run_gate(DRAFTS, source_tag="grinder", commit=True)
-            banked += s.get("banked", 0); fp = s.get("fleet_pct", fp)
+            import collections
+            by_bin = collections.defaultdict(list)
+            for fn, binary in won:
+                by_bin[binary].append(fn)
+            verified = set()
+            for binary, fns in sorted(by_bin.items()):     # one gate per source binary; propagate stamps × reach
+                s = gate_stage.run_gate(DRAFTS, binary=binary, source_tag="grinder", commit=True)
+                banked += s.get("banked", 0); fp = s.get("fleet_pct", fp)
+                verified |= set(s.get("verified", []))
+                log(f"gate {binary}: banked {s.get('banked')} (+{s.get('propagated')} prop); total {banked}; fleet {fp}%")
             # A permuter win the whole-binary gate STILL rejects is plumbing-bound (not regalloc/sched) —
-            # re-permuting can never bank it. Blacklist it so the grinder stops churning it (the §20 trap).
-            verified = set(s.get("verified", []))
-            rejected = [f for f in won_fns if f not in verified]
+            # re-permuting can never bank it. Blacklist so the grinder stops churning it (the §20 trap).
+            rejected = [f for f, _b in won if f not in verified]
             if rejected:
                 blacklist.update(rejected); save_blacklist(blacklist)
                 log(f"blacklisted {len(rejected)} permuter-won/gate-rejected (plumbing): {', '.join(rejected)}")
-            log(f"gate: banked {s.get('banked')} (+{s.get('propagated')} prop); total {banked}; fleet {fp}%")
             heartbeat("running", None, banked, fp)
         if a.once:
             log(f"once done — banked {banked}."); heartbeat("done", None, banked, fp); return

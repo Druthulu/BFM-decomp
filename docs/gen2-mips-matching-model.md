@@ -170,6 +170,36 @@ field — so the permuter can't gate a *non-077* near-miss today. That two-part 
 resolution + a backlog `binary` field) is the next concrete step to turn the reach-134 close=1 fuel into
 ×134 banks. The reach oracle + `--min-reach` are reusable for that and for a corpus-v3 retrain.
 
+### Grinder per-binary fix — built (5 layers); the reach≥2 close=1 fuel is semantic-misses + propagation-capped (2026-06-30)
+
+To grind the reach≥2 close=1 fuel via the permuter, the grinder needed the same binary-agnostic
+treatment T7 gave `lora_grind` — and it ran **five layers deep** (the whole grinder/backlog pipeline
+was ov_SC01_077-hardcoded): (1) `gate_stage` records the source `binary`; (2) `backlog.FIELDS` keeps it;
+(3) `backlog.load_best`/`_open_stubs` is **fleet-aware** (a 077-matched-but-stuck-local fn now surfaces
+via its overlay record instead of being dropped as "matched"); (4) `p16_permute.setup` takes the target
+binary's asm-subdir; (5) `grinder` resolves per-binary asm + gates **grouped by binary** + allows unknown
+`nins`. Validated end-to-end: the 3 fresh reach-134 close=1 ov_SC01_000 fns now surface, resolve to
+ov_SC01_000's asm, and gate via ov_SC01_000. Backward-compatible (legacy records → 077).
+
+**Two byte-evidenced findings redirected the fuel strategy:**
+- **The reach≥2 close=1 fuel is largely MODEL semantic-misses, not permuter fuel.** Diagnosed by the
+  byte: `func_8012E27C`'s target is literally `return 1` (2 ins), but the 7B drafted `void f(void){}`
+  (the corpus's overfit empty-leaf pattern); `func_8012BF4C`/`func_8012AD64` are trivial `sw`/`sh` setters
+  also drafted empty. The permuter (regalloc/schedule only) can't add a missing return/store — but a
+  **corrected draft** does: banked all 3 byte-identical via the fixed per-binary gate (the concrete
+  non-077-banking proof, fleet +3). So this fuel's lever is **a better draft (corpus-v3 leaf variety),
+  not the permuter.**
+- **×reach is propagation-capped for the stuck-local class.** These 3 are already inline-matched in
+  `ov_SC01_077_a.c` (matched in 077, never propagated — the §19/20 cap), so `dedup_propagate --auto-from`
+  reports "nothing to propagate" (it can't auto-collapse an already-inline-matched fn into a shared
+  macro). They banked **×1** (ov_SC01_000 only). Realizing ×reach needs the **dedup-collapse** of the
+  inline copies into one `engine_core.h` macro — the existing Phase-19/20 lever.
+
+Net: the grinder/gate pipeline is now **fully binary-agnostic** (capability unlocked + validated), but the
+reach-134 ×134 payoff routes through **corpus-v3** (better leaf drafts for the semantic-miss fuel) + the
+**dedup-collapse** (for stuck-local inline matches) — NOT the permuter, which the bytes show isn't the
+closer for this fuel.
+
 ## Open questions / notes
 
 - **Corpus quality > size.** ~1,700 verified pairs is plenty for LoRA; dedup near-identical reach
