@@ -24008,4 +24008,10 @@
         func_8017D808(arg0, &D_801274E8); \
     }
 
+#define DEFINE_func_8017CDFC() \
+    extern s32 func_800167F0(s32 arg0); \
+    s32 func_8017CDFC(void) { \
+        return (func_800167F0(0) & 0xFFFF) != 0; \
+    }
+
 #endif

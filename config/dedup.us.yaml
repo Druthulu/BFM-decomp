@@ -11671,3 +11671,10 @@ groups:
     func: DEFINE_func_8017D7E0
     vram: 0x8017D7E0
     binaries: [ov_SC01_005, ov_SC01_006]
+  - id: E_func_8017CDFC
+    tier: h_exact
+    hash: 511a8b68802b6800ebb271e89b28604ee53e3401
+    source: src/shared/engine_core.h
+    func: DEFINE_func_8017CDFC
+    vram: 0x8017CDFC
+    binaries: [ov_SC01_009, ov_SC01_074]
