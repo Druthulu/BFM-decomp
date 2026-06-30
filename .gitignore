@@ -112,3 +112,4 @@ models/
 *.safetensors
 .venv-train/
 unsloth_compiled_cache/
+.venv-serve/
