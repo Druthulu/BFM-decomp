@@ -111,11 +111,19 @@ Now write byte-matching C for {t['name']}:
 - Reply with ONLY one ```c block."""
 
 
-# LEAN mode — the SAME prompt shape as tools/format_finetune.py (train/inference must match).
+# LEAN mode — keep in sync with tools/format_finetune.py (train/inference must match). The
+# "translate EVERY instruction / never-empty" clause was added 2026-06-30 after a prompt test took
+# the small-leaf band 0/3 -> 2/3 MATCH (the v2 corpus overfit an empty `void f(void){}` leaf pattern;
+# the instruction it most often dropped was the return value / a store). MIRROR this in format_finetune
+# before retraining corpus-v3, else train/inference drift.
 LEAN_SYS = ("You are an expert at MATCHING decompilation for MIPS (PSX, gcc-2.7.2 -O2 -G0 -mips1 -mcpu=3000 "
             "-msoft-float + maspsx). Given a function's target assembly, output C that the pinned toolchain "
             "compiles to BYTE-IDENTICAL machine code. The types u8/u16/u32/s8/s16/s32/f32/s64/u64/f64 are "
-            "predefined (common.h). Output ONLY the C (the function definition + any externs it needs).")
+            "predefined (common.h). Output ONLY the C (the function definition + any externs it needs). "
+            "Translate EVERY instruction — NEVER output an empty body. A `jr $ra` with `addiu $v0,$zero,N` "
+            "in its delay slot is `return N;`; a `sw/sh/sb $aK,off($a0)` is a store "
+            "`*(T*)((u8*)arg0+off)=argK;` (T=s32/s16/s8); a `lw/lh/lb` is a load. Produce C whose compiled "
+            "output IS the shown instructions.")
 
 
 # Bridge: real OPEN stubs are splat .s (headers, 3-field comment, spaced operands, resolved jal); the

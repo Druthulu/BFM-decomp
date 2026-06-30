@@ -100,6 +100,34 @@ def extract_defs(src_text):
     return out
 
 
+def extract_macro_defs(text):
+    """corpus-v3: mine the shared `#define DEFINE_func_XXXX() <full def>` macros from engine_core.h.
+
+    These hold the byte-matched SHARED engine functions (setters, return-const, dispatchers) that
+    extract_defs() can't see — it matches only column-0 inline `func_X(){...}` defs, never the macro
+    instantiations. The model trained without them (96.6% of corpus-v2 was overlay-unique inline defs),
+    so it OVERFIT an empty `void f(void){}` leaf pattern and drafts trivial setters/returns empty.
+    Mining the ~1600 macro bodies feeds exactly the missing variety. Inline `/* asm */` annotations are
+    stripped (the model's output is clean C; train/inference style must match)."""
+    out, lines, i = {}, text.split('\n'), 0
+    while i < len(lines):
+        m = re.match(r'\s*#define DEFINE_(func_[0-9A-Fa-f]+)\(\)\s*\\\s*$', lines[i])
+        if not m:
+            i += 1
+            continue
+        fn, i, body = m.group(1), i + 1, []
+        while i < len(lines):
+            ln = lines[i].rstrip()
+            i += 1
+            cont = ln.endswith('\\')
+            body.append(ln[:-1].rstrip() if cont else ln)
+            if not cont:
+                break
+        c = re.sub(r'/\*.*?\*/', '', '\n'.join(body))                 # drop inline asm-annotation comments
+        out[fn] = '\n'.join(l.rstrip() for l in c.split('\n') if l.strip())
+    return out
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument('--out', default='datasets/match_pairs')
@@ -122,7 +150,15 @@ def main():
                 region = os.path.relpath(os.path.join(root, f), os.path.join(REPO, 'src'))[:-2]
                 for fn, body in extract_defs(open(os.path.join(root, f)).read()).items():
                     defs.setdefault(fn, (body, region))
-    print('  %d func defs in src' % len(defs), file=sys.stderr)
+    # corpus-v3: ALSO mine the shared DEFINE_func macro bodies (engine_core.h) — the setters/return-const/
+    # dispatchers the model is blind to (extract_defs sees only inline col-0 defs, not macro instantiations).
+    n_inline = len(defs)
+    ec = os.path.join(REPO, 'src/shared/engine_core.h')
+    if os.path.exists(ec):
+        for fn, body in extract_macro_defs(open(ec).read()).items():
+            defs.setdefault(fn, (body, 'shared'))
+    print('  %d func defs in src (%d inline + %d shared macros)' % (
+        len(defs), n_inline, len(defs) - n_inline), file=sys.stderr)
 
     pairs, skipped = [], {'no_asm': 0}
     for fn, (body, region) in sorted(defs.items()):

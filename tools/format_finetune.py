@@ -27,8 +27,22 @@ _ASF = '-Iinclude -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0'.split()
 _TD = re.compile(r'^[ \t]*typedef\b.*\b(u8|u16|u32|u64|s8|s16|s32|s64|f32|f64)[ \t]*;[ \t]*\n', re.M)
 
 
+_ETYPES = None
+
+
+def _engine_types():
+    """src/shared/engine_types.h content (the shared Actor-class struct/union/typedefs), cached."""
+    global _ETYPES
+    if _ETYPES is None:
+        p = os.path.join(REPO, 'src/shared/engine_types.h')
+        _ETYPES = (open(p).read() + '\n') if os.path.exists(p) else ''
+    return _ETYPES
+
+
 def compiles(c):
-    src = '#include "common.h"\n' + _TD.sub('', c)
+    # corpus-v3: inline the shared struct/typedefs so struct-using macro bodies COMPILE and are KEPT
+    # (else the filter drops every fn that touches an Actor-class field). common.h provides the scalars.
+    src = '#include "common.h"\n' + _engine_types() + _TD.sub('', c)
     wd = os.path.join(REPO, '.run/_ft_cc'); os.makedirs(wd, exist_ok=True)
     open(os.path.join(wd, 't.c'), 'w').write(src)
     p = subprocess.run([_CPP] + _CPPF + ['.run/_ft_cc/t.c'], capture_output=True, cwd=REPO)
@@ -40,10 +54,16 @@ def compiles(c):
     p = subprocess.run([_AS] + _ASF + ['-o', '.run/_ft_cc/t.o'], input=p.stdout, capture_output=True, cwd=REPO)
     return p.returncode == 0
 
+# MUST match api_draft.LEAN_SYS exactly (train/inference align). The "translate EVERY instruction /
+# never-empty" clause (added 2026-06-30) fixes the empty-leaf overfit (prompt test: small-leaf 0/3 -> 2/3).
 SYS = ("You are an expert at MATCHING decompilation for MIPS (PSX, gcc-2.7.2 -O2 -G0 -mips1 -mcpu=3000 "
        "-msoft-float + maspsx). Given a function's target assembly, output C that the pinned toolchain "
        "compiles to BYTE-IDENTICAL machine code. The types u8/u16/u32/s8/s16/s32/f32/s64/u64/f64 are "
-       "predefined (common.h). Output ONLY the C (the function definition + any externs it needs).")
+       "predefined (common.h). Output ONLY the C (the function definition + any externs it needs). "
+       "Translate EVERY instruction — NEVER output an empty body. A `jr $ra` with `addiu $v0,$zero,N` "
+       "in its delay slot is `return N;`; a `sw/sh/sb $aK,off($a0)` is a store "
+       "`*(T*)((u8*)arg0+off)=argK;` (T=s32/s16/s8); a `lw/lh/lb` is a load. Produce C whose compiled "
+       "output IS the shown instructions.")
 
 
 def user_msg(asm):
