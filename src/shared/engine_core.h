@@ -24162,4 +24162,8 @@
         } \
     }
 
+#define DEFINE_func_80180210() \
+    void func_80180210(void) { \
+    }
+
 #endif
