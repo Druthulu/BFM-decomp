@@ -23916,4 +23916,13 @@
         return (func_800167F0(0) & 0xFFFF) != 0; \
     }
 
+#define DEFINE_func_801705C0() \
+    extern void *D_8011F738; \
+    extern void func_80171928(void *a0); \
+    void func_801705C0(u8 * a0) \
+    { \
+        ((void (*)(void))D_8011F738)(); \
+        ((void (*)(s32))func_80171928)(a0); \
+    }
+
 #endif
