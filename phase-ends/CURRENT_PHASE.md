@@ -9,9 +9,9 @@ Stand up a **free, local, fine-tuned matching model** that grinds the small/medi
 
 ## Decisions (Drew)
 - **On-demand runs**, bounded — never a standing 24/7 daemon. Queue a large batch, run a single shot, measure, scale the next.
-- **Serve the model on the GPU via LM Studio** (Unsloth's bundled llama.cpp is CPU-only); the WSL agent hits it over the LAN (`http://192.168.1.113:1234/v1`, "serve on local network" + Windows host IP).
-- **Measure before investing** (the discipline that killed the v1 dead-end): every corpus/model change is **retested free on the 7B first**, and only scaled to a cloud dense model if the cheap retest pays.
-- **Corpus-v3 = struct types** (next), then a dense **Qwen2.5-Coder-14B** (the "12B") on cloud for the struct *giants* — only if v3-on-7B lifts the struct band.
+- **Serve the model on the GPU via `tools/serve_local.py`** (Unsloth/torch, OpenAI endpoint at `http://127.0.0.1:1234/v1`) — **LM Studio was ejected 2026-06-30**; the prebuilt `llama-cpp-python` CUDA wheel SIGILLs on this no-AVX-512 CPU, so the Unsloth path is the reliable one (no build, loads in ~6 s).
+- **Measure before investing** (the discipline that killed the v1 dead-end): every corpus/model change is **retested free on the 7B first**, and only scaled to a dense model if the cheap retest pays. *(Now satisfied for the 14B step: v3-on-7B paid.)*
+- **Corpus-v3 DONE** (macro bodies + struct types; v3 banks the small/setter bulk, fleet→63.82%). The **14B gate is satisfied** → **corpus-v4 (struct-giant types) + a dense Qwen2.5-Coder-14B on cloud** for the >15-ins/giant band is the warranted next investment — Drew's call vs. path A (reach≥2 with v3).
 
 ## The operating loop (when running)
 A. `lora_grind.py` (GPU) drafts open ≤N-ins stubs with the served fine-tuned model → banks via `gate_stage` → near-misses to the backlog.
@@ -27,36 +27,40 @@ D. Periodically: `export_pairs → format_finetune → train_lora → redeploy` 
 - [x] **T5 — First REAL banks on open stubs** — the v2 model drafted real open ov_SC01_077 stubs (LEAN, raw `.s` — model is format-robust, no bridge needed); whole-binary gate **banked 4** (func_80160B34, func_8015CC74, func_8016084C, func_801705C0; @commit:0320). Sample rate: 9/22 match_one proxy → **4/22 (18%) whole-binary** (the proxy→gate TU-plumbing gap).
 - [x] **T6 — The mass-run driver** — `tools/lora_grind.py`: rotates every binary (config/check.*.sha), drafts the served model, banks via gate_stage (commit), defers/periodic-propagates, writes the **classified near-miss histogram** (the flywheel "missing idioms" signal). STOP/heartbeat/stats like grinder.py.
 - [x] **T7 — Calibration run + the 0/222 puzzle — DEBUGGED + FIXED (2026-06-30).** Root cause = TWO independent harness bugs in `lora_grind`'s use of `gate_stage.run_gate` (R14, by reading the code + the run's backlog — which resolved a direct contradiction between two scout agents): **Bug A** — `good_sha()` passed the whole sha1sum line `"<sha>  <name>"` vs harvest_verify's bare `sha1()` → **0 banks for EVERY binary incl. 077** (the "0/12" was a bug artifact, NOT an exhausted tail — the prior "`.sha` files carry the filename" note was the unfollowed thread); **Bug B** — the gate call left `src/asm/out` at the hardcoded ov_SC01_077 defaults → non-077 drafts dropped at the 077 stub-filter, **silently** (and the asm mis-resolution contaminated the backlog near-miss classes). Fix (`tools/gate_stage.py`): `run_gate` is binary-agnostic (resolve src/asm/out/good_sha from `binary`; good_sha bare-hash normalized) + a **loud negative-control guard**; `lora_grind.good_sha` fixed at source; byte-neutral (check-all 136/136). **Proof:** ov_SC01_000 spot-run banked **7/15 (47%) byte-identical** (was 0; @commit:0322). **ROI finding:** 6/7 banks are reach-1 (overlay-unique ×1) → broad rotation = high bank-RATE, low fleet-% ROI; the fleet lever is reach≥2 targeting (T9) + corpus-v3 (T8). Full write-up: `docs/gen2-mips-matching-model.md` → "T7 RESULT".
-- [ ] **T8 — Corpus-v3 (struct types)** — emit the `struct {...}` definitions each fn needs (v2 did globals only; giants compile-fail on undefined structs). Build → **retest on the 7B free** (does the struct band lift on small/medium?) → only then a dense **14B cloud** train for the struct giants.
-- [ ] **T9 — Wire the operating loop** — concurrent `lora_grind` + `grinder.py` for on-demand runs; the periodic retrain cycle; raise `--max-nins` as retrains lift the band.
+- [x] **T8 — Corpus-v3 — DONE (2026-06-30).** Mined the **1623 `engine_core.h` `DEFINE_func` macro bodies** (the shared setters/return-const the model was blind to — 96.6% of v2 was overlay-unique) + `format_finetune` inlines `engine_types.h` structs → corpus **1312→2891**, trainable **2534+291** (2.5× v2). **v3 trained** (loss 1.275→0.085), held-out eval **23/40 (57.5%)**; production batch banked ~352 fns + 45 shared groups → fleet **63.67→63.82%** ($0). The empty-leaf/setter class v2 couldn't draft is now banked. Struct-GIANT types deferred → **corpus-v4** (with a 14B). Details: `docs/gen2-mips-matching-model.md`.
+- [x] **T9 — Operating loop — WIRED + RUN (2026-06-30).** Local GPU serving stood up (`tools/serve_local.py`, Unsloth — LM Studio ejected); the retrain cycle (`export_pairs → format_finetune → train_lora → serve_local`) + reach≥2 targeting (`--min-reach`) + propagate sweeps all run end-to-end. Grinder concurrent = 0 banks (permuter tail exhausted, Phase-22 reality — the LLM is the value now). **Refinements (NEXT):** `--min-reach 2` with v3 so setter banks propagate ×134; the dedup-collapse; raise `--max-nins` as v3 lifts the band.
 - [ ] **T10 — Progress honesty + PhaseEnd** — track fleet % + bank-rate; PhaseEnd_Phase23 at a clean checkpoint (Tier-1 Max).
 
 ## ▶ RESUME HERE (fresh session)
-**State:** Phase 23 in progress (NOT a phase end). Phase 22 closed (`PhaseEnd_Phase22.md`, uncommitted — Drew's gate-2 commit+push). The fine-tuned model **`bfm-match-7b-v2`** (Qwen2.5-Coder-7B QLoRA on corpus-v2) is built; **served by LM Studio** at `http://192.168.1.113:1234/v1` (model id `bfm-match-7b-v2`; GGUF at `models/bfm-match-7b_gguf/`). Corpus `datasets/match_pairs/` + training stack `.venv-train` (gitignored). **T7 FIXED** — the gate banks fleet-wide now (ov_SC01_000 7/15 byte-identical, +1 reach-2 propagated; @commit:0322 + the T7 checkpoint commit). The 0/222 was two harness bugs (good_sha format + src/asm/out 077-default), not the model.
+**State:** Phase 23 in progress (NOT a phase end). **v3 is the current model** — `bfm-match-7b-v3` (Qwen2.5-Coder-7B QLoRA on **corpus-v3**), adapter at `models/bfm-match-7b-v3` (v2 kept as fallback at `models/bfm-match-7b`). **LM Studio is EJECTED** — serve via **`tools/serve_local.py`** (Unsloth GPU, OpenAI endpoint), NOT LM Studio. The **8-hour autonomous run (2026-06-30)** built local serving + the prompt fix + corpus-v3 + v3 + a production batch → **fleet 63.82%** (+502 byte-identical, $0), 136/136 byte-clean, 27 commits this session (local — **Drew pushes**, R6). Pipeline validated end-to-end: a free local model banks the small/setter bulk, including the empty-leaf class v2 couldn't. Corpus `datasets/match_pairs/` + `.venv-train` gitignored. (Phase 22 close `PhaseEnd_Phase22.md` is committed `commit:0325`.)
 
-**NEXT TASK — corpus-v3 (better leaf drafts) + the dedup-collapse (stuck-local ×reach).** T7 (gate), T9 (reach targeting), and the grinder **per-binary fix (5-layer, validated)** are DONE. The grinder fix re-characterized the reach≥2 close=1 fuel (byte-evidenced): it's **MODEL semantic-misses, not permuter fuel** — the 7B drafts `void f(void){}` for functions that are literally `return 1` / trivial `sw`/`sh` setters (the corpus's overfit empty-leaf pattern); a **corrected draft** banks them (did: +3 byte-identical via the fixed per-binary gate, @commit:0326) — the permuter can't. AND ×reach is **propagation-capped**: the 3 are inline-matched in `ov_SC01_077_a.c` (the §19/20 stuck-local cap), so `dedup_propagate --auto-from` reports "nothing to propagate" → they banked ×1. So the two levers to the reach-134 ×134 payoff: (1) **corpus-v3** — fix the empty-leaf overfit (leaf variety: return-const + setters) so the model drafts these right + emit struct types for the compile-fails → retest free on the 7B; (2) **dedup-collapse** — collapse the inline-matched-in-077 stuck-local fns into shared `engine_core.h` macros so they propagate ×reach. The grinder is now wired for whatever genuinely-permuter-amenable (regalloc/schedule) near-misses future runs surface.
+**NEXT TASK — pick a path (both documented + set up by the run):**
+**(A) More LLM harvesting with v3 — the fleet-% lever.** Run **`lora_grind --min-reach 2` with v3**: now that v3 banks the shared setters, target the **shared (reach≥2)** ones so each bank propagates **×134** instead of re-banking inline per binary (what capped this run's % at +0.15). Pair with the **dedup-collapse** of the per-binary inline setters → shared `engine_core.h` macros, and the **data flywheel** (the ~352 new banks grow the corpus → retrain v3.1). Cheapest, immediate, $0.
+**(B) Train a 14B.** The measure-before-investing gate is now **SATISFIED** — v3-on-7B paid (banks the small/setter bulk), so a dense **Qwen2.5-Coder-14B** for the **>15-ins / struct-giant** band is the warranted next investment. `train_lora.py --base unsloth/Qwen2.5-Coder-14B-Instruct-bnb-4bit --rank 32`. Needs ~16 GB → a **cloud A100/H100** (the 3080 Ti is 12 GB; 4-bit + offload locally works but is slow). Do **corpus-v4** first (emit the struct-giant types the >40-ins fns need — the band v3 still compile-fails). The byte-gate makes a wrong 14B a throughput risk only.
 
-**Run a bounded mass-run (when Drew says go):**
+**Serve + run (when Drew says go):**
 ```
-# LM Studio serving bfm-match-7b-v2 on the network first:
-API_BASE=http://192.168.1.113:1234/v1 MODEL=bfm-local/bfm-match-7b-v2 GATE_PHASE=phase-23 \
-  .venv/bin/python -u tools/lora_grind.py --max-nins 15 --batch 15 --max-batches N
-# concurrent permuter (closes the near-misses): rm .run/auto/STOP; bash tools/auto_supervisor.sh ... (grinder.py)
-# stop anytime: touch .run/auto/STOP
+# 1) serve v3 on the GPU (replaces LM Studio):
+LD_LIBRARY_PATH=$(ls -d .venv-train/lib/python3.12/site-packages/nvidia/*/lib | tr '\n' :) \
+  .venv-train/bin/python tools/serve_local.py --adapter models/bfm-match-7b-v3 --name bfm-match-7b-v3 --port 1234 &
+# 2) bounded mass-run (reach≥2 targeting, the fleet-% lever):
+API_BASE=http://127.0.0.1:1234/v1 MODEL=bfm-match-7b-v3 GATE_PHASE=phase-23 \
+  .venv/bin/python -u tools/lora_grind.py --min-reach 2 --max-nins 15 --batch 15 --iters 2 --max-batches N
+# stop anytime: touch .run/auto/STOP ; retrain: export_pairs -> format_finetune -> train_lora --out models/bfm-match-7b-v4
 ```
 
 ## Verification invariant (every bank)
 The **whole-binary byte-gate** (`gate_stage`/`harvest_verify`, G3/P9) is the sole arbiter — a wrong/weak draft can NEVER bank (it reverts to the stub). `make check-all` 136/136 byte-identical from a clean tree (R22); `dedup-check` 0 failed; the `db.*.gbf` churn is R23 restart-noise (do NOT stage). The fine-tuned model only affects *throughput*, never correctness.
 
 ## Reuse (no rewrites)
-*New (this phase):* `api_draft.py` (provider-agnostic LEAN/full drafter + the unused `.s`→objdump NORMALIZE bridge) · `ab_match.js`/`ab_score.py` (the cost A/B) · `export_pairs.py` / `format_finetune.py` / `train_lora.py` / `eval_lora.py` (the LoRA pipeline) · `lora_grind.py` (the mass-run).
-*Existing:* `gate_stage` (now `GATE_PHASE`-tagged) / `grinder.py` + `auto_supervisor.sh` / `dedup_propagate` / `backlog` / `harvest_verify` / `match_one`; cookbook §17–§28.
+*New (this phase):* **`tools/serve_local.py`** (Unsloth GPU serving, OpenAI endpoint — **replaces LM Studio**) · `api_draft.py` (LEAN drafter + the "translate every instruction, never empty" prompt fix) · `ab_match.js`/`ab_score.py` (the cost A/B) · `export_pairs.py` (now mines the `engine_core.h` macro bodies — corpus-v3) / `format_finetune.py` (inlines `engine_types.h` structs) / `train_lora.py` / `eval_lora.py` (the LoRA pipeline) · `lora_grind.py` (the mass-run; `--min-reach`).
+*Existing (now Phase-23 binary-agnostic):* `gate_stage` (`GATE_PHASE`-tagged + resolves src/asm/out/good_sha from `binary`) / `grinder.py` (per-binary + grouped gating) + `auto_supervisor.sh` / `dedup_propagate` / `backlog` (fleet-aware `load_best`) / `harvest_verify` / `match_one`; cookbook §17–§28.
 
 ## Guardrails
 - **On-demand only** — never leave a 24/7 daemon running; bounded `--max-batches`, STOP-sentinel safe-exit.
 - **Measure before investing** — retest every corpus/model change free on the 7B before any cloud spend.
 - **Disk** — GGUF conversion writes ~30 GB intermediates onto the WSL vhdx (C:); `train_lora` now auto-cleans them; keep only the q4 GGUF. (A disk-full crash cost a session on 2026-06-29.)
-- **Serve on GPU** (LM Studio) — Unsloth's llama.cpp is CPU-only; don't eval through it.
+- **Serve on GPU via `tools/serve_local.py`** (Unsloth/torch, the in-repo replacement for the ejected LM Studio) — the prebuilt llama-cpp-python CUDA wheel SIGILLs on this no-AVX-512 CPU; don't try it.
 - Model size matches data size — no "massive" models on ~1–2k examples (overfit); dense > MoE for a limited-data LoRA.
 
 ## Blockers
