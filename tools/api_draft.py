@@ -152,7 +152,9 @@ def build_user_lean(t, asm_text, ghidra_text):
             + asm + "\n\nWrite the byte-matching C function.")
 
 
-def call_api(messages, max_tokens=4096, temperature=TEMP, timeout=600):
+def call_api(messages, max_tokens=512, temperature=TEMP, timeout=600):  # 512 caps the no-stop-token ramble
+                                                                         # (a small-fn draft is ~100-300 toks;
+                                                                         # giants pass an explicit larger cap)
     body = json.dumps({'model': MODEL, 'messages': messages,
                        'max_tokens': max_tokens, 'temperature': temperature}).encode()
     req = urllib.request.Request(API_BASE + '/chat/completions', data=body,
