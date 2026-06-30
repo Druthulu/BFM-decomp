@@ -83,6 +83,29 @@ functions AND makes them trainable.** Until that's done, the fine-tune verdict i
 but the far near-misses suggest data quality/coverage (and likely a bigger base) are the real levers,
 not epochs. Cheap-cloud (Haiku/GLM) remains the working tier meanwhile.
 
+### Corpus-v2 RESULT — measured 2026-06-29 (POSITIVE: data was the bottleneck)
+
+Fix: `export_pairs` now captures the `extern <type> D_xxx;` block the src declares immediately above
+each def (correct byte-verified types) → self-contained completions, standalone-compile 52%→92%,
+training set 638→1111 with non-trivial examples 257→813. Retrained the SAME 7B; held-out gate-true eval:
+
+| band | v1 | v2 |
+|---|---|---|
+| 6–15 ins | 0% | **85% (23/27)** |
+| 16–40 ins | 0% | 13% (3/22) |
+| >40 ins | 0% | 0% (10 compile-fail = need struct types) |
+| non-trivial (>5) | 0/34 | **26/73** |
+| meaningful (>15) | 0/24 | 3/46 |
+
+**Conclusion: corpus quality was the bottleneck, not the model or the task.** A free local 7B now
+byte-matches trivial + small-medium (≤15 ins) functions at 85–93% — a real Tier-0 for the bulk,
+rivaling Haiku on that band at $0. Limits: ≥16 ins falls off (7B capacity), giants compile-fail (the
+extern-capture covers globals but not struct *types* → corpus-v3 = also emit the struct defs each fn
+needs). Decision gate (staggered plan) = GO: scale to a cloud-trained dense 14–32B to extend the band
+upward. Caveat: this eval is held-out BANKED (objdump format); production on OPEN stubs still needs the
+.s-format alignment (spimdisasm). Tooling: format_finetune→train_lora→eval_lora; serve via LM Studio
+(GPU) — Unsloth's bundled llama.cpp is CPU-only.
+
 Two forward levers besides fine-tuning:
 - **Permuter-seed role:** the model's structurally-correct near-misses are good *permuter seeds* — let
   the 32-thread permuter brute-force the regalloc/schedule precision the model can't. Plays to its
