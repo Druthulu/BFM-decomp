@@ -24166,4 +24166,8 @@
     void func_80180210(void) { \
     }
 
+#define DEFINE_func_80183808() \
+    void func_80183808(void) { \
+    }
+
 #endif
