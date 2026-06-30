@@ -24406,4 +24406,29 @@
         return q; \
     }
 
+#define DEFINE_func_80181D2C() \
+    extern void (*D_8018EA0C[])(void); \
+    void func_80181D2C(u8 *param_1) \
+    { \
+        D_8018EA0C[param_1[0x4]](); \
+    }
+
+#define DEFINE_func_80182D00() \
+    extern void (*D_8018ED5C[])(void); \
+    void func_80182D00(void *a0) { \
+        D_8018ED5C[*(u8 *)((s32)a0 + 0x214)](); \
+    }
+
+#define DEFINE_func_801868D4() \
+    extern void (*D_8018F31C[])(void); \
+    void func_801868D4(void *a0) { \
+        D_8018F31C[*(u16 *)((s32)a0 + 0x2)](); \
+    }
+
+#define DEFINE_func_801863E8() \
+    extern void (*D_8018F2FC[])(void); \
+    void func_801863E8(void *a0) { \
+        D_8018F2FC[*(u16 *)((s32)a0 + 0x2)](); \
+    }
+
 #endif

@@ -3,30 +3,30 @@
 # source-derived (committed src/*.c + config/dedup.us.yaml). Live byte gate: `make check-all`;
 # cross-binary collapsible-byte leverage: docs/duplicates.cross.md.
 
-FLEET REAL substantive   : 219716   (of which dedup-shared 218645 via 1687 groups / 218696 instances)
+FLEET REAL substantive   : 219765   (of which dedup-shared 218653 via 1691 groups / 218704 instances)
 FLEET LINKED PsyQ objs   :    959
-FLEET byte-identical     : 221331 / 344941 = 64.16%   (REAL+LINKED+empties)
+FLEET byte-identical     : 221380 / 344941 = 64.18%   (REAL+LINKED+empties)
 FLEET NON_MATCHING       :      7   (0 in any default build — G4)
-FLEET INCLUDE_ASM stubs  : 123603
+FLEET INCLUDE_ASM stubs  : 123554
 FLEET matchable          : 344941
 
 | binary | REAL | shared | LINKED | byte-ident | matchable | byte-ident % |
 |---|---:|---:|---:|---:|---:|---:|
 | main | 54 | 2 | 959 | 1055 | 2096 | 50.3% |
 | resident | 123 | 0 | 0 | 125 | 146 | 85.6% |
-| ov_SC01_000 | 1648 | 1636 | 0 | 1648 | 2410 | 68.4% |
+| ov_SC01_000 | 1650 | 1636 | 0 | 1650 | 2410 | 68.5% |
 | ov_SC01_001 | 1646 | 1636 | 0 | 1648 | 2474 | 66.6% |
-| ov_SC01_004 | 1635 | 1627 | 0 | 1636 | 2423 | 67.5% |
+| ov_SC01_004 | 1639 | 1627 | 0 | 1640 | 2423 | 67.7% |
 | ov_SC01_005 | 1662 | 1649 | 0 | 1662 | 2511 | 66.2% |
 | ov_SC01_006 | 1661 | 1649 | 0 | 1661 | 2511 | 66.1% |
-| ov_SC01_008 | 1637 | 1627 | 0 | 1639 | 2435 | 67.3% |
-| ov_SC01_009 | 1644 | 1628 | 0 | 1645 | 2517 | 65.4% |
-| ov_SC01_074 | 1637 | 1628 | 0 | 1639 | 2434 | 67.3% |
+| ov_SC01_008 | 1640 | 1627 | 0 | 1642 | 2435 | 67.4% |
+| ov_SC01_009 | 1656 | 1628 | 0 | 1657 | 2517 | 65.8% |
+| ov_SC01_074 | 1640 | 1628 | 0 | 1642 | 2434 | 67.5% |
 | ov_SC01_077 | 2151 | 1588 | 0 | 2153 | 2586 | 83.3% |
-| ov_SC01_080 | 1646 | 1631 | 0 | 1646 | 2522 | 65.3% |
-| ov_SC01_084 | 1650 | 1631 | 0 | 1655 | 2588 | 63.9% |
-| ov_SC02_000 | 1668 | 1660 | 0 | 1668 | 2691 | 62.0% |
-| ov_SC02_003 | 1671 | 1660 | 0 | 1671 | 2691 | 62.1% |
+| ov_SC01_080 | 1653 | 1631 | 0 | 1653 | 2522 | 65.5% |
+| ov_SC01_084 | 1657 | 1631 | 0 | 1662 | 2588 | 64.2% |
+| ov_SC02_000 | 1675 | 1664 | 0 | 1675 | 2691 | 62.2% |
+| ov_SC02_003 | 1675 | 1664 | 0 | 1675 | 2691 | 62.2% |
 | ov_SC02_004 | 1644 | 1631 | 0 | 1644 | 2410 | 68.2% |
 | ov_SC02_005 | 1646 | 1627 | 0 | 1656 | 2937 | 56.4% |
 | ov_SC02_011 | 1649 | 1634 | 0 | 1660 | 2903 | 57.2% |
