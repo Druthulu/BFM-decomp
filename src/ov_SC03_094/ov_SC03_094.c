@@ -5043,7 +5043,12 @@ void func_80183B60(s32 arg0) {
     }
 
 
-INCLUDE_ASM("asm/ov_SC03_094/nonmatchings/ov_SC03_094", func_80183B80);
+void func_80183B80(s32 arg0) {
+        if (arg0 != 0) {
+            *(s32 *)((char *)arg0 + 0x4) |= 0x80000000;
+        }
+    }
+
 
 INCLUDE_ASM("asm/ov_SC03_094/nonmatchings/ov_SC03_094", func_80183BA0);
 

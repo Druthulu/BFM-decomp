@@ -5009,7 +5009,11 @@ DEFINE_func_8018248C()  /* dedup: shared engine-core @0x8018248C (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118", func_801824A0);
 
-INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118", func_80182550);
+extern void func_8012AD44(s32 *a0, s16 a1);
+    void func_80182550(void *arg0) {
+        ((void (*)(void *, int))func_8012AD44)(arg0, 0x8);
+    }
+
 
 INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118", func_80182570);
 

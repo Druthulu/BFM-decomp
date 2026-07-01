@@ -4779,7 +4779,11 @@ extern s32 D_80196A90;
     }
 
 
-INCLUDE_ASM("asm/ov_SC05_009/nonmatchings/ov_SC05_009", func_8017D000);
+extern s32 D_80196A90;
+    s32 func_8017D000(void) {
+        return D_80196A90;
+    }
+
 
 INCLUDE_ASM("asm/ov_SC05_009/nonmatchings/ov_SC05_009", func_8017D010);
 

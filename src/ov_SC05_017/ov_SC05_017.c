@@ -5559,7 +5559,10 @@ INCLUDE_ASM("asm/ov_SC05_017/nonmatchings/ov_SC05_017", func_8018B360);
 
 INCLUDE_ASM("asm/ov_SC05_017/nonmatchings/ov_SC05_017", func_8018B3A0);
 
-INCLUDE_ASM("asm/ov_SC05_017/nonmatchings/ov_SC05_017", func_8018B3E8);
+void func_8018B3E8(void *a0) {
+        M2C_FIELD(a0, s16 *, 0x2) = 2;
+    }
+
 
 INCLUDE_ASM("asm/ov_SC05_017/nonmatchings/ov_SC05_017", func_8018B3F4);
 
