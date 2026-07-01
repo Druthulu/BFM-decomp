@@ -24788,4 +24788,18 @@
         ((void (*)(void *, s32))func_8016EE40)(&D_8018DA14, 0x1000000); \
     }
 
+#define DEFINE_func_801835C4() \
+    extern void (*D_8018F804[])(void); \
+    void func_801835C4(void *a0) { \
+        D_8018F804[*(u8 *)((s32)a0 + 0x15)](); \
+    }
+
+#define DEFINE_func_8018BF08() \
+    extern void func_8014B2A8(void); \
+    extern void func_8002D4C8(s32 a0, s32 a1); \
+    void func_8018BF08(void) { \
+        func_8014B2A8(); \
+        ((s32 (*)(s32, s32))func_8002D4C8)(0x464, 0); \
+    }
+
 #endif

@@ -5047,7 +5047,13 @@ extern void func_8012B2CC(s32 a0);
 
 INCLUDE_ASM("asm/ov_SC06_016/nonmatchings/ov_SC06_016", func_80182B4C);
 
-INCLUDE_ASM("asm/ov_SC06_016/nonmatchings/ov_SC06_016", func_80182BCC);
+extern void func_8016EE40(s32 a0, s32 a1, s32 a2);
+extern s32 D_8019A464;
+
+void func_80182BCC(void) {
+    ((void (*)(void *, s32))func_8016EE40)(&D_8019A464, 0x1000000);
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_016/nonmatchings/ov_SC06_016", func_80182BF4);
 
