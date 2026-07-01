@@ -24683,4 +24683,9 @@
         ((void (*)(int))func_8002931C)(0x1A40000); \
     }
 
+#define DEFINE_func_8018B9D0() \
+    void func_8018B9D0(void *a0) { \
+            M2C_FIELD(a0, s16 *, 0x2) = 2; \
+        }
+
 #endif

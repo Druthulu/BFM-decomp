@@ -12336,3 +12336,10 @@ groups:
     func: DEFINE_func_8017D12C
     vram: 0x8017D12C
     binaries: [ov_SC06_018, ov_SC06_020]
+  - id: E_func_8018B9D0
+    tier: h_exact
+    hash: 7c97457dadacf5f9e8cb859d99a1e3e44b7f5070
+    source: src/shared/engine_core.h
+    func: DEFINE_func_8018B9D0
+    vram: 0x8018B9D0
+    binaries: [ov_SC04_018, ov_SC04_019]
