@@ -4777,8 +4777,7 @@ INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019", func_8017D5F0);
 
 INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019", func_8017D62C);
 
-void func_8017D6A8(void) {
-}
+DEFINE_func_8017D6A8()  /* dedup: shared engine-core @0x8017D6A8 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019", func_8017D6B0);
 
@@ -4972,8 +4971,7 @@ INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019", func_8018011C);
 
 INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019", func_80180134);
 
-void func_8018015C(void) {
-}
+DEFINE_func_8018015C()  /* dedup: shared engine-core @0x8018015C (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019", func_80180164);
 
@@ -5339,8 +5337,7 @@ INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019", func_80184B04);
 
 INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019", func_80184B2C);
 
-void func_80184B68(void) {
-}
+DEFINE_func_80184B68()  /* dedup: shared engine-core @0x80184B68 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019", func_80184B70);
 
@@ -5352,7 +5349,8 @@ INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019", func_80184C28);
 
 INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019", func_80184C90);
 
-INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019", func_80184CB0);
+DEFINE_func_80184CB0()  /* dedup: shared engine-core @0x80184CB0 (src/shared) */
+
 
 INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019", func_80184CB8);
 
@@ -5374,25 +5372,19 @@ INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019", func_8018516C);
 
 INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019", func_801851B4);
 
-void func_801851F0(void) {
-}
+DEFINE_func_801851F0()  /* dedup: shared engine-core @0x801851F0 (src/shared) */
 
-void func_801851F8(void) {
-}
+DEFINE_func_801851F8()  /* dedup: shared engine-core @0x801851F8 (src/shared) */
 
-void func_80185200(void) {
-}
+DEFINE_func_80185200()  /* dedup: shared engine-core @0x80185200 (src/shared) */
 
-void func_80185208(void) {
-}
+DEFINE_func_80185208()  /* dedup: shared engine-core @0x80185208 (src/shared) */
 
-void func_80185210(void) {
-}
+DEFINE_func_80185210()  /* dedup: shared engine-core @0x80185210 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019", func_80185218);
 
-void func_8018525C(void) {
-}
+DEFINE_func_8018525C()  /* dedup: shared engine-core @0x8018525C (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019", func_80185264);
 
@@ -5522,8 +5514,7 @@ INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019", func_8018A910);
 
 INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019", func_8018A94C);
 
-void func_8018A988(void) {
-}
+DEFINE_func_8018A988()  /* dedup: shared engine-core @0x8018A988 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019", func_8018A990);
 
@@ -5557,7 +5548,7 @@ INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019", func_8018AF68);
 
 INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019", func_8018AFB4);
 
-INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019", func_8018AFE8);
+DEFINE_func_8018AFE8()  /* dedup: shared engine-core @0x8018AFE8 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019", func_8018AFF0);
 
@@ -5685,8 +5676,7 @@ INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019", func_8018C5FC);
 
 INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019", func_8018C638);
 
-void func_8018C69C(void) {
-}
+DEFINE_func_8018C69C()  /* dedup: shared engine-core @0x8018C69C (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019", func_8018C6A4);
 
@@ -5722,10 +5712,8 @@ INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019", func_8018CC40);
 
 INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019", func_8018CD74);
 
-void func_8018CDDC(void) {
-}
+DEFINE_func_8018CDDC()  /* dedup: shared engine-core @0x8018CDDC (src/shared) */
 
-void func_8018CDE4(void) {
-}
+DEFINE_func_8018CDE4()  /* dedup: shared engine-core @0x8018CDE4 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019", func_8018CDEC);

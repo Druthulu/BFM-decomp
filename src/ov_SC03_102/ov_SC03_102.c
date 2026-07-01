@@ -4846,7 +4846,13 @@ void func_80182678(void *a0) {
 
 INCLUDE_ASM("asm/ov_SC03_102/nonmatchings/ov_SC03_102", func_80182690);
 
-INCLUDE_ASM("asm/ov_SC03_102/nonmatchings/ov_SC03_102", func_80182734);
+void func_80182734(void *a0) {
+        void *a1 = *(void **)((char *)a0 + 0x20);
+        short fc = *(unsigned short *)((char *)a0 + 0xfc);
+        unsigned short v12 = *(unsigned short *)((char *)a1 + 0x12) + fc;
+        *(unsigned short *)((char *)a1 + 0x12) = v12;
+    }
+
 
 INCLUDE_ASM("asm/ov_SC03_102/nonmatchings/ov_SC03_102", func_80182750);
 
