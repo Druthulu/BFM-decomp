@@ -24802,4 +24802,10 @@
         ((s32 (*)(s32, s32))func_8002D4C8)(0x464, 0); \
     }
 
+#define DEFINE_func_801848E4() \
+    extern void (*D_8018FE80[])(void); \
+    void func_801848E4(void *a0) { \
+        D_8018FE80[*(u16 *)((s32)a0 + 0x2)](); \
+    }
+
 #endif

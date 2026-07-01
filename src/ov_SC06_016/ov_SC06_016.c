@@ -5019,7 +5019,17 @@ extern void func_8002D4C8(s32 arg0, s32 arg1);
 
 INCLUDE_ASM("asm/ov_SC06_016/nonmatchings/ov_SC06_016", func_801822C4);
 
-INCLUDE_ASM("asm/ov_SC06_016/nonmatchings/ov_SC06_016", func_801822FC);
+extern void func_80147084(s32 *a0);
+extern void func_801472B4(void *a0);
+
+void func_801822FC(void) {
+    extern s32 D_80126B58;
+    register s32 p __asm__("$16");
+    p = &D_80126B58;
+    ((void (*)(void *))func_80147084)((void *)p);
+    func_801472B4((void *)p);
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_016/nonmatchings/ov_SC06_016", func_80182334);
 
