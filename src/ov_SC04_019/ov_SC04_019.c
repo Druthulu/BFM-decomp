@@ -4825,7 +4825,7 @@ extern s32 D_80127050;
 
 INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019", func_8017E038);
 
-INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019", func_8017E074);
+DEFINE_func_8017E074()  /* dedup: shared engine-core @0x8017E074 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019", func_8017E088);
 

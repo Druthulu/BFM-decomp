@@ -5001,7 +5001,13 @@ extern void func_8002D4C8(s32 arg0, s32 arg1);
     }
 
 
-INCLUDE_ASM("asm/ov_SC03_031/nonmatchings/ov_SC03_031", func_801816B4);
+extern void func_8002D4C8(s32 arg0, s32 arg1);
+    void func_801816B4(u8 *a0) {
+        if (*(u8 *)(a0 + 0x5E) == 0xC) {
+            func_8002D4C8(0x9DA, 0);
+        }
+    }
+
 
 INCLUDE_ASM("asm/ov_SC03_031/nonmatchings/ov_SC03_031", func_801816E4);
 

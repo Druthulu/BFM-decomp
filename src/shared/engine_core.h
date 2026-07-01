@@ -24693,4 +24693,9 @@
             *(u8 *)(a0 + 0x214) += 1; \
         }
 
+#define DEFINE_func_8017E074() \
+    void func_8017E074(void *a0) { \
+            *(u8 *)((s32)a0 + 0x214) += 1; \
+        }
+
 #endif

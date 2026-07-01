@@ -5232,7 +5232,11 @@ extern void func_8012AD44(s32 *a0, s16 a1);
 
 INCLUDE_ASM("asm/ov_SC03_014/nonmatchings/ov_SC03_014", func_80188D84);
 
-INCLUDE_ASM("asm/ov_SC03_014/nonmatchings/ov_SC03_014", func_80188DA4);
+extern s32 func_8013CAE8(void);
+    void func_80188DA4(void) {
+        func_8013CAE8();
+    }
+
 
 INCLUDE_ASM("asm/ov_SC03_014/nonmatchings/ov_SC03_014", func_80188DC4);
 
