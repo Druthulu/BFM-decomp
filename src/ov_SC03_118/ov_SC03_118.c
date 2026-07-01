@@ -5079,7 +5079,12 @@ DEFINE_func_80182ADC()  /* dedup: shared engine-core @0x80182ADC (src/shared) */
 
 DEFINE_func_80182AE4()  /* dedup: shared engine-core @0x80182AE4 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118", func_80182AEC);
+extern s32 func_80128ED8(void *a0, void *a1);
+    extern s32 D_801D42F8;
+    void func_80182AEC(void *arg0) {
+        ((void (*)(s32 *, s32))func_80128ED8)(*(s32 *)((s32)arg0 + 0xCC), &D_801D42F8);
+    }
+
 
 INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118", func_80182B18);
 
