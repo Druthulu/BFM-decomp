@@ -5039,7 +5039,11 @@ void func_8018178C(void *a0) {
     }
 
 
-INCLUDE_ASM("asm/ov_SC01_009/nonmatchings/ov_SC01_009", func_80181794);
+extern void func_80181724(s32 arg0, s32 arg1);
+    void func_80181794(void *arg0) {
+        func_80181724(M2C_FIELD(arg0, s16 *, 0x70), 0x2D);
+    }
+
 
 extern void func_80181724(s32 arg0, s32 arg1);
     void func_801817B8(void *arg0) {
