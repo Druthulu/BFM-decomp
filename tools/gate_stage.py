@@ -60,14 +60,19 @@ def _xform(tool, ov, indir, suffix, extra=None):
     return out if _isdir(out) else indir
 
 
-def _gate1(binary, src, asm, out, good_sha, d):
+def _gate1(binary, src, asm, out, good_sha, d, verified_out=None, failed_out=None):
     """Whole-binary byte-gate (G3/P9, sole arbiter) on draft-dir d; return the verified func list.
     harvest_verify reads the CURRENT src as its baseline (so verified fns ACCUMULATE across calls —
     a stage-1 winner is no longer a stub for stage 2), substitutes + KEEPS byte-matches, reverts the
-    rest. --chunk 1 so one compile-fail can't sink a chunk (§20). harvest_verified.txt is per-call."""
+    rest. --chunk 1 so one compile-fail can't sink a chunk (§20). verified_out/failed_out are
+    per-WORKER paths (default the shared .run/harvest_*.txt) so bulk_harvest can gate distinct
+    binaries in parallel without cross-reading each other's results."""
+    vo = verified_out or ".run/harvest_verified.txt"
+    fo = failed_out or ".run/harvest_failed.txt"
     sh([PY, "tools/harvest_verify.py", "--binary", binary, "--src", src, "--asm-subdir", asm,
-        "--out", out, "--good-sha", good_sha, "--drafts", d, "--chunk", "1"], timeout=7200)
-    vp = os.path.join(REPO, ".run/harvest_verified.txt")
+        "--out", out, "--good-sha", good_sha, "--drafts", d, "--chunk", "1",
+        "--verified-out", vo, "--failed-out", fo], timeout=7200)
+    vp = os.path.join(REPO, vo)
     return [w for w in (open(vp).read().split() if os.path.exists(vp) else []) if w.startswith("func_")]
 
 
@@ -101,22 +106,30 @@ def match_one_closeness(fn, cpath, asm):
 
 
 def run_gate(drafts, binary=OV, src=None, asm=None, out=None, good_sha=None,
-             propagate=True, source_tag="worker", commit=False, src_file=None):
+             propagate=True, source_tag="worker", commit=False, src_file=None,
+             lock_path=None, verified_out=None, failed_out=None, compute_fleet=True):
     # Serialize: the grinder and the orchestrator both call this, and it mutates the shared
     # build tree + git. One gate at a time (blocking flock) — never two builds/commits racing.
+    # lock_path: pass a PER-BINARY lock (.run/auto/gate.<bin>.lock) so bulk_harvest can gate
+    # DISTINCT binaries concurrently (their build/<bin>/** trees are isolated); default = the
+    # global lock (serial), so grinder/orchestrator/lora_grind are unaffected. verified_out/
+    # failed_out/compute_fleet likewise default to today's behavior; bulk_harvest overrides them
+    # per-worker + skips the in-gate fleet% (computed once in its serial tail).
     # src_file: the overlay SPLIT .c the drafts target (ov_SC01_077_a.c / _o0.c). When set, cast
     # canonicalizes against THAT file's decls and sig_unify is SKIPPED (it reads main .c only and
     # would DROP split-file drafts). dedup_propagate is already split-aware. Default None = main .c.
     os.makedirs(os.path.join(REPO, ".run/auto"), exist_ok=True)
-    _lock = open(os.path.join(REPO, ".run/auto/gate.lock"), "w")
+    _lock = open(os.path.join(REPO, lock_path or ".run/auto/gate.lock"), "w")
     fcntl.flock(_lock, fcntl.LOCK_EX)
     try:
-        return _run_gate_locked(drafts, binary, src, asm, out, good_sha, propagate, source_tag, commit, src_file)
+        return _run_gate_locked(drafts, binary, src, asm, out, good_sha, propagate, source_tag,
+                                commit, src_file, verified_out, failed_out, compute_fleet)
     finally:
         fcntl.flock(_lock, fcntl.LOCK_UN); _lock.close()
 
 
-def _run_gate_locked(drafts, binary, src, asm, out, good_sha, propagate, source_tag, commit, src_file=None):
+def _run_gate_locked(drafts, binary, src, asm, out, good_sha, propagate, source_tag, commit,
+                     src_file=None, verified_out=None, failed_out=None, compute_fleet=True):
     # Resolve per-binary paths when unset — binary-agnostic, no silent ov_SC01_077 default an
     # overlay could inherit (the Phase-9 "required-no-default" discipline; the lora_grind mass-run's
     # 0/222 Bug-B). good_sha is normalized to the BARE hash: config/check.<bin>.sha is sha1sum format
@@ -151,7 +164,7 @@ def _run_gate_locked(drafts, binary, src, asm, out, good_sha, propagate, source_
     cast_extra = (["--src-file", src_file] if src_file else None)
     d1 = _xform("canon_resident_calls.py", binary, drafts, "-cn")
     d1 = _xform("cast_call_sites.py", binary, d1, "-cast", extra=cast_extra)
-    verified = _gate1(binary, src, asm, out, good_sha, d1)
+    verified = _gate1(binary, src, asm, out, good_sha, d1, verified_out, failed_out)
 
     d = d1
     fails1 = [f for f in draft_fns if f not in verified]
@@ -164,7 +177,7 @@ def _run_gate_locked(drafts, binary, src, asm, out, good_sha, propagate, source_
             if os.path.exists(p):
                 shutil.copy(p, os.path.join(abs_s2in, f + ".c"))
         d = _xform("sig_unify.py", binary, s2in, "-uni", extra=cast_extra)
-        verified += _gate1(binary, src, asm, out, good_sha, d)
+        verified += _gate1(binary, src, asm, out, good_sha, d, verified_out, failed_out)
 
     # 5 propagate the banked matches fleet-wide
     propagated = 0
@@ -217,12 +230,13 @@ def _run_gate_locked(drafts, binary, src, asm, out, good_sha, propagate, source_
     backlog.render()
 
     fp = None
-    try:
-        r = sh([PY, "tools/progress.py", "--fleet"], timeout=180)
-        mm = re.search(r"byte-identical\s+:\s+\d+\s*/\s*\d+\s*=\s*([\d.]+)%", r.stdout)
-        fp = float(mm.group(1)) if mm else None
-    except Exception:
-        pass
+    if compute_fleet:
+        try:
+            r = sh([PY, "tools/progress.py", "--fleet"], timeout=180)
+            mm = re.search(r"byte-identical\s+:\s+\d+\s*/\s*\d+\s*=\s*([\d.]+)%", r.stdout)
+            fp = float(mm.group(1)) if mm else None
+        except Exception:
+            pass
 
     commit_sha = None
     if commit and verified:

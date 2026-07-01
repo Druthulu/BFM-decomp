@@ -24,6 +24,9 @@ ap.add_argument('--out', default='build/resident/resident')
 ap.add_argument('--good-sha', default='8e17e02ff8954d07c979449198f7e1645046b353')
 ap.add_argument('--drafts', default='.run/drafts')
 ap.add_argument('--chunk', type=int, default=8)
+ap.add_argument('--verified-out', default='.run/harvest_verified.txt',
+                help='per-worker result path (bulk_harvest gates distinct binaries in parallel)')
+ap.add_argument('--failed-out', default='.run/harvest_failed.txt')
 a = ap.parse_args()
 
 STUB = 'INCLUDE_ASM("' + a.asm_subdir + '", {fn});'        # {fn} filled per function
@@ -127,5 +130,5 @@ print('verified %d / failed %d ; final SHA %s  (%s)' % (
     'BYTE-IDENTICAL' if final == a.good_sha else '*** MISMATCH — investigate ***'))
 print('VERIFIED:', ' '.join(verified) or '(none)')
 print('FAILED  :', ' '.join(failed) or '(none)')
-open('.run/harvest_verified.txt', 'w').write('\n'.join(verified) + '\n')
-open('.run/harvest_failed.txt', 'w').write('\n'.join(failed) + '\n')
+open(a.verified_out, 'w').write('\n'.join(verified) + '\n')
+open(a.failed_out, 'w').write('\n'.join(failed) + '\n')
