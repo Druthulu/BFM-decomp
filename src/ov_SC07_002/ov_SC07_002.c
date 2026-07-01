@@ -4936,7 +4936,11 @@ extern s32 func_8018094C(void);
 
 INCLUDE_ASM("asm/ov_SC07_002/nonmatchings/ov_SC07_002", func_8018094C);
 
-INCLUDE_ASM("asm/ov_SC07_002/nonmatchings/ov_SC07_002", func_80180A0C);
+extern s32 func_80180A2C(void);
+    void func_80180A0C(void) {
+        func_80180A2C();
+    }
+
 
 INCLUDE_ASM("asm/ov_SC07_002/nonmatchings/ov_SC07_002", func_80180A2C);
 
