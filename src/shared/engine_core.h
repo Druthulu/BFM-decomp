@@ -24698,4 +24698,11 @@
             *(u8 *)((s32)a0 + 0x214) += 1; \
         }
 
+#define DEFINE_func_80181998() \
+    extern s32 D_801D7598; \
+    extern s32 D_801D2200; \
+    void func_80181998(void) { \
+        *(s32 *)&D_801D2200 = D_801D7598; \
+    }
+
 #endif

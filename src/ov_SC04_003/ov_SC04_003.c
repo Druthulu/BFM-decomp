@@ -4914,7 +4914,14 @@ INCLUDE_ASM("asm/ov_SC04_003/nonmatchings/ov_SC04_003", listCdBuffer);
 
 INCLUDE_ASM("asm/ov_SC04_003/nonmatchings/ov_SC04_003", func_801800D4);
 
-INCLUDE_ASM("asm/ov_SC04_003/nonmatchings/ov_SC04_003", func_80180160);
+extern void func_8002D4C8(s32 arg0, s32 arg1);
+extern void func_8002AC00(int arg0);
+
+void func_80180160(void) {
+    func_8002D4C8(0x853, 0);
+    func_8002AC00(0x13);
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_003/nonmatchings/ov_SC04_003", func_8018018C);
 

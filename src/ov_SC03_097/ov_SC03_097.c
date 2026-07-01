@@ -5177,7 +5177,12 @@ INCLUDE_ASM("asm/ov_SC03_097/nonmatchings/ov_SC03_097", func_80184DE8);
 
 INCLUDE_ASM("asm/ov_SC03_097/nonmatchings/ov_SC03_097", func_80184E4C);
 
-INCLUDE_ASM("asm/ov_SC03_097/nonmatchings/ov_SC03_097", func_80184E6C);
+void func_80184E6C(s32 arg0) {
+        if (arg0 != 0) {
+            M2C_FIELD(arg0, s32 *, 0x4) |= 0x80000000;
+        }
+    }
+
 
 INCLUDE_ASM("asm/ov_SC03_097/nonmatchings/ov_SC03_097", func_80184E8C);
 

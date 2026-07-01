@@ -4831,7 +4831,14 @@ INCLUDE_ASM("asm/ov_SC03_010/nonmatchings/ov_SC03_010", func_8017DC7C);
 
 INCLUDE_ASM("asm/ov_SC03_010/nonmatchings/ov_SC03_010", func_8017DCD8);
 
-INCLUDE_ASM("asm/ov_SC03_010/nonmatchings/ov_SC03_010", func_8017DD14);
+extern s32 func_80171990(u8 *a0);
+extern s32 func_8017DD44(s32);
+
+void func_8017DD14(s32 *a0) {
+    ((void (*)(s32 *))func_80171990)(a0);
+    func_8017DD44((s32)a0);
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_010/nonmatchings/ov_SC03_010", func_8017DD44);
 
