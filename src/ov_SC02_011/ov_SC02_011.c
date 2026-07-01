@@ -5454,7 +5454,12 @@ void func_80186D3C(void) {
 void func_80186D44(void) {
 }
 
-INCLUDE_ASM("asm/ov_SC02_011/nonmatchings/ov_SC02_011", func_80186D4C);
+extern s32 func_80128ED8(void *a0, void *a1);
+    extern s32 D_801EB518;
+    void func_80186D4C(void *arg0) {
+        ((void (*)(s32, s32))func_80128ED8)(M2C_FIELD(arg0, s32 *, 0xCC), &D_801EB518);
+    }
+
 
 INCLUDE_ASM("asm/ov_SC02_011/nonmatchings/ov_SC02_011", func_80186D78);
 

@@ -5381,7 +5381,13 @@ extern void func_8018E094(void);
     }
 
 
-INCLUDE_ASM("asm/ov_SC06_024/nonmatchings/ov_SC06_024", func_8018EEE8);
+extern void func_8018E094(void);
+    void func_8018EEE8(s32 arg0) {
+        s32 temp_v1 = *(s32 *)(arg0 + 0x20);
+        *(u16 *)(temp_v1 + 0x10) += 0x20;
+        func_8018E094();
+    }
+
 
 INCLUDE_ASM("asm/ov_SC06_024/nonmatchings/ov_SC06_024", func_8018EF1C);
 

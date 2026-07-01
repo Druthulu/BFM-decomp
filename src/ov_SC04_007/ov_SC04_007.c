@@ -5152,7 +5152,12 @@ extern s16 func_80174764(void);
 
 INCLUDE_ASM("asm/ov_SC04_007/nonmatchings/ov_SC04_007", func_80184C68);
 
-INCLUDE_ASM("asm/ov_SC04_007/nonmatchings/ov_SC04_007", func_80184CCC);
+extern void (*D_801AF404[])(void);
+
+void func_80184CCC(void *a0) {
+    D_801AF404[*(u16 *)((s32)a0 + 0x2)]();
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_007/nonmatchings/ov_SC04_007", func_80184D08);
 
