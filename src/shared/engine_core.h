@@ -24719,4 +24719,18 @@
         *(s32 *)&D_801D2200 = D_801E7018; \
     }
 
+#define DEFINE_func_8018071C() \
+    extern void func_8016EE40(s32 a0, s32 a1, s32 a2); \
+    extern M2C_UNK D_8018F4F8; \
+    void func_8018071C(void) { \
+        ((void (*)(void *, s32))func_8016EE40)(&D_8018F4F8, 0x1000000); \
+    }
+
+#define DEFINE_func_80183930() \
+    extern void func_8016EE40(s32 a0, s32 a1, s32 a2); \
+    extern M2C_UNK D_8018F830; \
+    void func_80183930(void) { \
+        ((void (*)(void *, s32))func_8016EE40)(&D_8018F830, 0x1000000); \
+    }
+
 #endif

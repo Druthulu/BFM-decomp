@@ -4922,7 +4922,11 @@ INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011", func_80180050);
 
 INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011", func_8018008C);
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011", func_80180200);
+extern s32 D_801151D4;
+    void func_80180200(void) {
+        *(s32 *)(D_801151D4 + 0x14) = 0x2EE;
+    }
+
 
 INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011", func_80180214);
 

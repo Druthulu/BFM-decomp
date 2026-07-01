@@ -5521,7 +5521,13 @@ extern void func_80187778(s32 *a0, s32 a1);
     }
 
 
-INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001", func_801858CC);
+extern void func_80187778(s32 *a0, s32 a1);
+    extern short D_80192864;
+    void func_801858CC(short *param_1) {
+        *(short *)((char *)param_1 + 2) = 0x12;
+        func_80187778((s32 *)param_1, (int)&D_80192864);
+    }
+
 
 INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001", func_801858F8);
 

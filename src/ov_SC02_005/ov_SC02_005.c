@@ -5830,7 +5830,14 @@ void func_8018DAD8(void) {
 
 INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005", func_8018DAE0);
 
-INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005", func_8018DB1C);
+extern s32 D_80196C14;
+
+void func_8018DB1C(s32 arg0) {
+    *(s32 *)(arg0 + 0x58) = &D_80196C14;
+    *(s32 *)(arg0 + 0x1C) = 0x18;
+    *(s16 *)(arg0 + 0x2) += 1;
+}
+
 
 INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005", func_8018DB40);
 
