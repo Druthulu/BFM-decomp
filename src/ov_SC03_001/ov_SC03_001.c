@@ -4978,7 +4978,15 @@ void func_8017FD90(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001", func_8017FDC4);
+extern s32 D_8019166C;
+extern s32 D_801EEAE8;
+extern void func_8017F1F0(s32 arg0, s32 arg1);
+
+void func_8017FDC4(void) {
+    D_801EEAE8 = &D_8019166C;
+    func_8017F1F0(0x474, 0x4B0);
+}
+
 
 extern s32 D_80191694;
 extern s32 D_801EEAE8;
