@@ -5348,7 +5348,11 @@ INCLUDE_ASM("asm/ov_SC03_014/nonmatchings/ov_SC03_014", func_8018A744);
 
 INCLUDE_ASM("asm/ov_SC03_014/nonmatchings/ov_SC03_014", func_8018A774);
 
-INCLUDE_ASM("asm/ov_SC03_014/nonmatchings/ov_SC03_014", func_8018A7EC);
+extern s16 D_801EADEA;
+    void func_8018A7EC(s32 arg0) {
+        M2C_FIELD(&D_801EADEA, s16 *, 0) += arg0;
+    }
+
 
 INCLUDE_ASM("asm/ov_SC03_014/nonmatchings/ov_SC03_014", func_8018A808);
 

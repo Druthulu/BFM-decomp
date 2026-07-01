@@ -4931,7 +4931,11 @@ void func_8018323C(void *a0) {
 
 INCLUDE_ASM("asm/ov_SC03_089/nonmatchings/ov_SC03_089", func_80183254);
 
-INCLUDE_ASM("asm/ov_SC03_089/nonmatchings/ov_SC03_089", func_801832F8);
+void func_801832F8(void *a0) {
+        void *a1 = *(void **)((char *)a0 + 0x20);
+        *(u16 *)((char *)a1 + 0x12) += *(u16 *)((char *)a0 + 0xfc);
+    }
+
 
 INCLUDE_ASM("asm/ov_SC03_089/nonmatchings/ov_SC03_089", func_80183314);
 

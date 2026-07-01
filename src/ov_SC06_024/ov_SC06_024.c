@@ -5291,7 +5291,11 @@ INCLUDE_ASM("asm/ov_SC06_024/nonmatchings/ov_SC06_024", func_8018DBB4);
 
 INCLUDE_ASM("asm/ov_SC06_024/nonmatchings/ov_SC06_024", func_8018DCA8);
 
-INCLUDE_ASM("asm/ov_SC06_024/nonmatchings/ov_SC06_024", func_8018DD68);
+extern void func_8012B370(int a0);
+    void func_8018DD68(void) {
+        ((void (*)(void))func_8012B370)();
+    }
+
 
 INCLUDE_ASM("asm/ov_SC06_024/nonmatchings/ov_SC06_024", func_8018DD88);
 

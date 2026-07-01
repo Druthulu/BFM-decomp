@@ -24657,4 +24657,30 @@
             *(s16 *)((s32)a0 + 0x2) += 1; \
         }
 
+#define DEFINE_func_8018248C() \
+    s32 func_8018248C(s32 arg0) { \
+            return *(u16*)(arg0 + 0x2) == 0x6; \
+        }
+
+#define DEFINE_func_8018B564() \
+    void func_8018B564(void *a0) { \
+            M2C_FIELD(a0, s16 *, 0x2) = 2; \
+        }
+
+#define DEFINE_func_8018B6E8() \
+    void func_8018B6E8(s32 *a0) { \
+            *(s16 *)((s32)a0 + 0x2) = 0x2; \
+        }
+
+#define DEFINE_func_8017DEA4() \
+    void func_8017DEA4(void) { \
+    }
+
+#define DEFINE_func_8017D12C() \
+    extern void func_8002931C(void); \
+    extern int func_8017D12C(int arg); \
+    int func_8017D12C(int arg) { \
+        ((void (*)(int))func_8002931C)(0x1A40000); \
+    }
+
 #endif
