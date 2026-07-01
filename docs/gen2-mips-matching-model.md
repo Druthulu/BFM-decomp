@@ -240,6 +240,39 @@ gated identically (G3/P9), with the data flywheel (banks → corpus → retrain)
 targeting** (so the setter banks propagate ×134 instead of re-banking inline) + the **dedup-collapse**
 of the per-binary inline setters; corpus-v4 = struct-giant types; raise `--max-nins` as the band lifts.
 
+### T10 RESULT — bulk_harvest (phase-separated + parallel-gate) built + measured — 2026-07-01
+
+The interleaved `lora_grind` was ~48s/fn (≈18s serial draft + ≈30s recovery/gate) and idled the GPU
+during every gate. **`tools/bulk_harvest.py`** phase-separates: **(A)** bulk-draft all K fresh stubs
+(GPU, serial via the existing `serve_local`), **(B)** `ProcessPoolExecutor` byte-gate over DISTINCT
+binaries (CPU — `build/<bin>/**` is isolated; `gate_stage.run_gate(propagate=False, commit=False,
+per-binary lock, per-worker scratch, compute_fleet=False)`), **(C)** dedupe-once + one commit. Round-
+robin fuel spread so the batch fans across many overlays. The whole-binary byte-gate stays the sole
+arbiter (G3/P9). Back-compat enablers (defaults unchanged, so lora_grind/grinder/orchestrator are
+byte-unaffected): `gate_stage.run_gate` gained `lock_path` / `verified_out` / `failed_out` /
+`compute_fleet`; `harvest_verify` gained `--verified-out`/`--failed-out`; `backlog` is redirected
+per-worker via its module-global path (no edit).
+
+**Measured (v3, fresh SC03 ≤15-ins, serial Unsloth serving):**
+- **Bank-rate 52/80 = 65%** (broad, 50 overlays) + 9/12 = 75% (the tiny validation band) — the REAL
+  whole-binary rate (not the `match_one` proxy, which over-counts ~2×).
+- **Gate 0.4s/fn amortized** (30s total / 80 fns, 8 workers) — vs ~30s/fn serial in lora_grind ≈ **75×**.
+- **Draft 13.5s/fn serial** — now **97% of wall-clock**; end-to-end ~14s/fn (was ~48s) ≈ 3.4×.
+- 136/136 byte-identical (R22), dedup-check 0 failed, fleet 64.19→64.20% (61 tiny reach-1 banks barely
+  move the byte-weighted %; the ≤15 campaign's value is bank COUNT + completeness — freeing the heavy
+  model for the giant/struct band — NOT a fleet-% jump; honest, P9).
+
+**Decisions this settles:**
+1. **The campaign is GO** — 65% over the ~4,087 untried unique ≤15-ins fns ⇒ ~2,650 free byte-matches
+   (a minority reach≥2 → propagate ×reach; most reach-1 ×1).
+2. **The bottleneck is now DRAFTING, not gating** — the parallel gate made the gate ~free (0.4s/fn); the
+   only remaining lever is inference speed. The full unique-≤15 campaign is ~15.3h of serial drafting.
+3. **⇒ vLLM batched serving is JUSTIFIED** (the "measure before investing" gate passes): continuous
+   batching (5–20×) turns ~15h serial drafting into ~1–3h. It drops into Phase A unchanged (same
+   `/v1/chat/completions`). Path: a separate `.venv-vllm`; try bnb-direct + runtime LoRA first, fall
+   back to merge→fp16→AWQ 4-bit (fits the 12 GB card). Quantization is a throughput risk only, never
+   correctness (byte-gate). Deferred to Drew's go.
+
 ## Open questions / notes
 
 - **Corpus quality > size.** ~1,700 verified pairs is plenty for LoRA; dedup near-identical reach
