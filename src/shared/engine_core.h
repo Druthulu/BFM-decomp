@@ -24733,4 +24733,11 @@
         ((void (*)(void *, s32))func_8016EE40)(&D_8018F830, 0x1000000); \
     }
 
+#define DEFINE_func_801892E4() \
+    extern s32 func_80128ED8(void *a0, void *a1); \
+    extern s32 D_801EAC88; \
+    void func_801892E4(void *arg0) { \
+        ((void (*)(s32 *, s32))func_80128ED8)(*(s32 *)((s32)arg0 + 0xCC), &D_801EAC88); \
+    }
+
 #endif

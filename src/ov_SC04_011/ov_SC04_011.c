@@ -5500,7 +5500,10 @@ extern s32 func_8018CF10(void);
     }
 
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011", func_8018CF18);
+void func_8018CF18(void *a0) {
+        *(s16 *)((s32)a0 + 0x2) += 1;
+    }
+
 
 INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011", func_8018CF2C);
 
