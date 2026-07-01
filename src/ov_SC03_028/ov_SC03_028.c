@@ -5337,7 +5337,13 @@ extern void func_8013CB84(void);
     }
 
 
-INCLUDE_ASM("asm/ov_SC03_028/nonmatchings/ov_SC03_028", func_8018ADA0);
+extern void func_8013C414(void *a0, void *a1);
+    extern s32 D_80191734;
+    extern s32 D_801E461C;
+    void func_8018ADA0(void) {
+        func_8013C414(&D_80191734, &D_801E461C);
+    }
+
 
 INCLUDE_ASM("asm/ov_SC03_028/nonmatchings/ov_SC03_028", func_8018ADD0);
 
