@@ -4958,7 +4958,15 @@ INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001", func_8017FBC4);
 
 INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001", func_8017FC00);
 
-INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001", func_8017FD5C);
+extern s32 D_801915FC;
+extern s32 D_801EEAE8;
+extern void func_8017F1F0(s32 arg0, s32 arg1);
+
+void func_8017FD5C(void) {
+    D_801EEAE8 = &D_801915FC;
+    func_8017F1F0(0x474, 0x4B0);
+}
+
 
 extern s32 D_80191634;
 extern s32 D_801EEAE8;
@@ -4992,7 +5000,15 @@ INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001", func_8017FFF0);
 
 INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001", listCdBuffer);
 
-INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001", func_8018003C);
+extern s32 D_80191894;
+extern s32 D_801EEAE8;
+extern void func_8017F1F0(s32 arg0, s32 arg1);
+
+void func_8018003C(void) {
+    D_801EEAE8 = &D_80191894;
+    func_8017F1F0(0x564, 0x1A4);
+}
+
 
 s32 func_80180070(void) {
         return -1;

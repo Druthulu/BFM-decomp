@@ -5015,7 +5015,14 @@ extern s32 func_8012AD50(void *a0);
 
 INCLUDE_ASM("asm/ov_SC05_008/nonmatchings/ov_SC05_008", func_80180830);
 
-INCLUDE_ASM("asm/ov_SC05_008/nonmatchings/ov_SC05_008", func_80180884);
+extern s32 func_80182334(void);
+    extern void func_8012C098(void);
+    void func_80180884(s32 param_1) {
+        if (func_80182334() == 0) {
+            ((void (*)(s32))func_8012C098)(param_1);
+        }
+    }
+
 
 INCLUDE_ASM("asm/ov_SC05_008/nonmatchings/ov_SC05_008", func_801808BC);
 
