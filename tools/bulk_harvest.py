@@ -198,39 +198,15 @@ def git_commit(banked_by_bin, propagated, fp):
     return sh(["git", "rev-parse", "--short", "HEAD"]).stdout.strip()
 
 
-def main():
-    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--count", type=int, default=80, help="unique fns to draft+gate this cycle (0 = all available)")
-    ap.add_argument("--binary-glob", default="*", help="fnmatch over binary aliases, e.g. 'ov_SC03_*'")
-    ap.add_argument("--binaries", default=None, help="explicit comma-list (intersected with --binary-glob)")
-    ap.add_argument("--max-nins", type=int, default=15)
-    ap.add_argument("--min-nins", type=int, default=1)
-    ap.add_argument("--min-reach", type=int, default=1)
-    ap.add_argument("--workers", type=int, default=8, help="parallel gate workers (each runs one make build)")
-    ap.add_argument("--iters", type=int, default=3, help="api_draft self-correct iterations per fn")
-    ap.add_argument("--measure", action="store_true", help="print the draft/gate timing + bank-rate breakdown")
-    ap.add_argument("--no-commit", action="store_true", help="gate + dedupe but do NOT git commit (dry)")
-    a = ap.parse_args()
-
-    api_base, model = os.environ.get("API_BASE"), os.environ.get("MODEL")
-    if not api_base or not model:
-        log("set API_BASE and MODEL (the served fine-tuned model)"); sys.exit(2)
-    if not endpoint_up(api_base):
-        log("serving endpoint %s is DOWN (start tools/serve_local.py) — aborting" % api_base); sys.exit(3)
-    os.makedirs(BULK, exist_ok=True)
-    if os.path.exists(STOP):
-        log("STOP sentinel present — remove .run/auto/STOP to run"); sys.exit(0)
-
-    tried = set(json.load(open(lg.TRIED))) if os.path.exists(lg.TRIED) else set()
-    bins = select_binaries(a)
-    picked = pick_targets(bins, a, tried)
+def run_cycle(a, api_base, model, tried):
+    """One phase-separated cycle: draft --count fresh stubs -> parallel-gate -> dedupe -> ONE commit.
+    Returns (picked, banked); picked==0 means the fuel is dry (the campaign loop can stop)."""
+    picked = pick_targets(select_binaries(a), a, tried)
     if not picked:
-        log("no fresh open <=%d-ins stubs in %d binaries (all tried?)" % (a.max_nins, len(bins))); return 0
+        return 0, 0
     log("targets: %d unique fns across %d binaries (glob=%s, <=%d ins)" %
         (len(picked), len(set(t["binary"] for t in picked)), a.binary_glob, a.max_nins))
-
-    # clear stale per-binary draft subdirs (keep the tried-set; RESUMABLE)
-    for d in glob.glob(os.path.join(BULK, "*")):
+    for d in glob.glob(os.path.join(BULK, "*")):                 # clear stale draft subdirs (tried-set kept; RESUMABLE)
         shutil.rmtree(d, ignore_errors=True) if os.path.isdir(d) else os.remove(d)
 
     # ---- Phase A: bulk-draft (GPU, serial) ----
@@ -244,8 +220,8 @@ def main():
     json.dump(sorted(tried), open(lg.TRIED, "w"))
 
     jobs = build_jobs(picked)
-    if not jobs or os.path.exists(STOP):
-        log("nothing staged / STOP — no gate phase"); return 0
+    if not jobs:
+        log("nothing staged"); return len(picked), 0
 
     # ---- Phase B: bulk-gate (CPU, parallel over distinct binaries) ----
     t1 = time.time()
@@ -262,7 +238,7 @@ def main():
     gate_secs = time.time() - t1
     total_banked = sum(len(v) for v in banked_by_bin.values())
 
-    # ---- Phase C: dedupe (reach>=2 only) + merge backlogs + one commit ----
+    # ---- Phase C: dedupe (reach>=2 only) + merge backlogs + ONE commit ----
     propagated = 0
     for b, fns in banked_by_bin.items():
         if any((lg.reach_of(b, fn) or 1) >= 2 for fn in fns):
@@ -276,18 +252,60 @@ def main():
         commit_sha = git_commit(banked_by_bin, propagated, fp)
 
     json.dump({"ts": int(time.time()), "drafted": staged, "gated": gated, "banked": total_banked,
-               "propagated": propagated, "fleet_pct": fp, "commit": commit_sha}, open(STATS, "w"), indent=1)
+               "propagated": propagated, "fleet_pct": fp, "commit": commit_sha, "tried": len(tried)},
+              open(STATS, "w"), indent=1)
     json.dump({"ts": int(time.time()), "banked": total_banked, "fleet_pct": fp, "tried": len(tried)},
               open(HB, "w"))
 
     rate = 100.0 * total_banked / max(1, gated)
-    log("DONE: gated %d, BANKED %d (%.0f%% bank-rate), %d propagated, fleet %s%%%s" %
+    log("cycle DONE: gated %d, BANKED %d (%.0f%% bank-rate), %d propagated, fleet %s%%%s" %
         (gated, total_banked, rate, propagated, fp, "  commit " + commit_sha if commit_sha else "  (no commit)"))
     if a.measure:
         log("MEASURE: draft %.0fs (%.1fs/fn serial GPU) | gate %.0fs (%.1fs/fn amortized, %d workers) | "
             "bank-rate %d/%d = %.1f%%" % (draft_secs, draft_secs / max(1, len(picked)), gate_secs,
                                           gate_secs / max(1, gated), a.workers, total_banked, gated, rate))
-    return total_banked
+    return len(picked), total_banked
+
+
+def main():
+    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--count", type=int, default=80, help="unique fns to draft+gate PER CYCLE (0 = all available)")
+    ap.add_argument("--cycles", type=int, default=1,
+                    help="phase-separated cycles to run (campaign mode); stops early on dry fuel or the STOP sentinel")
+    ap.add_argument("--binary-glob", default="*", help="fnmatch over binary aliases, e.g. 'ov_SC03_*'")
+    ap.add_argument("--binaries", default=None, help="explicit comma-list (intersected with --binary-glob)")
+    ap.add_argument("--max-nins", type=int, default=15)
+    ap.add_argument("--min-nins", type=int, default=1)
+    ap.add_argument("--min-reach", type=int, default=1)
+    ap.add_argument("--workers", type=int, default=8, help="parallel gate workers (each runs one make build)")
+    ap.add_argument("--iters", type=int, default=3, help="api_draft self-correct iterations per fn")
+    ap.add_argument("--measure", action="store_true", help="print the draft/gate timing + bank-rate breakdown")
+    ap.add_argument("--no-commit", action="store_true", help="gate + dedupe but do NOT git commit (dry)")
+    a = ap.parse_args()
+
+    api_base, model = os.environ.get("API_BASE"), os.environ.get("MODEL")
+    if not api_base or not model:
+        log("set API_BASE and MODEL (the served fine-tuned model)"); sys.exit(2)
+    os.makedirs(BULK, exist_ok=True)
+
+    total, done = 0, 0
+    for cyc in range(1, a.cycles + 1):
+        if os.path.exists(STOP):
+            log("STOP sentinel — stopping after %d/%d cycles (%d banked total)" % (done, a.cycles, total)); break
+        if not endpoint_up(api_base):
+            log("serving endpoint %s is DOWN (start tools/serve_local.py) — stopping (%d banked total)" %
+                (api_base, total)); break
+        if a.cycles > 1:
+            log("===== cycle %d/%d =====" % (cyc, a.cycles))
+        tried = set(json.load(open(lg.TRIED))) if os.path.exists(lg.TRIED) else set()
+        picked, banked = run_cycle(a, api_base, model, tried)
+        total += banked; done += 1
+        if picked == 0:
+            log("fuel DRY (no fresh open <=%d-ins stubs) — campaign complete; %d banked total" %
+                (a.max_nins, total)); break
+    if a.cycles > 1:
+        log("CAMPAIGN END: %d cycles run, %d banked total" % (done, total))
+    return total
 
 
 if __name__ == "__main__":
