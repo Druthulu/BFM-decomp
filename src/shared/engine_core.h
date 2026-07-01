@@ -24838,4 +24838,13 @@
         D_8018E8A0[*(u16 *)((s32)a0 + 0x2)](); \
     }
 
+#define DEFINE_func_8018AF00() \
+    extern s32 D_801E03E0; \
+    extern s32 D_801E7980; \
+    extern void func_8018A168(s32 arg0, s32 arg1); \
+    void func_8018AF00(void) { \
+        D_801E7980 = &D_801E03E0; \
+        func_8018A168(0x474, 0x4B0); \
+    }
+
 #endif

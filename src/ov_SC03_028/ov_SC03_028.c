@@ -5058,7 +5058,12 @@ INCLUDE_ASM("asm/ov_SC03_028/nonmatchings/ov_SC03_028", func_80185158);
 
 INCLUDE_ASM("asm/ov_SC03_028/nonmatchings/ov_SC03_028", func_80185344);
 
-INCLUDE_ASM("asm/ov_SC03_028/nonmatchings/ov_SC03_028", func_801854D8);
+extern void (*D_8019066C[])(void);
+
+void func_801854D8(void *a0) {
+    D_8019066C[*(u16 *)((s32)a0 + 0x2)]();
+}
+
 
 extern void (*D_801906C8[])(void);
 
@@ -5067,7 +5072,12 @@ void func_80185514(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_028/nonmatchings/ov_SC03_028", func_80185550);
+extern void (*D_80190724[])(void);
+
+void func_80185550(void *a0) {
+    D_80190724[*(u16 *)((s32)a0 + 0x2)]();
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_028/nonmatchings/ov_SC03_028", func_8018558C);
 
