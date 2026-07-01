@@ -24431,4 +24431,54 @@
         D_8018F2FC[*(u16 *)((s32)a0 + 0x2)](); \
     }
 
+#define DEFINE_func_8017BF98() \
+    void func_8017BF98(void) { \
+    }
+
+#define DEFINE_func_8017C07C() \
+    void func_8017C07C(void) { \
+    }
+
+#define DEFINE_func_8017C14C() \
+    void func_8017C14C(void) { \
+    }
+
+#define DEFINE_func_8017DD74() \
+    void func_8017DD74(void) { \
+    }
+
+#define DEFINE_func_8017DF7C() \
+    void func_8017DF7C(void) { \
+    }
+
+#define DEFINE_func_80180714() \
+    void func_80180714(void) { \
+    }
+
+#define DEFINE_func_80188470() \
+    void func_80188470(void) { \
+    }
+
+#define DEFINE_func_801892D4() \
+    void func_801892D4(void) { \
+    }
+
+#define DEFINE_func_801892DC() \
+    void func_801892DC(void) { \
+    }
+
+#define DEFINE_func_80189C74() \
+    void func_80189C74(void) { \
+    }
+
+#define DEFINE_func_80189104() \
+    void func_80189104(void *a0) { \
+            *(short *)((char *)a0 + 0x2) = 0x3; \
+        }
+
+#define DEFINE_func_801890F8() \
+    void func_801890F8(void *a0) { \
+            *(short *)((char *)a0 + 0x2) = 0x2; \
+        }
+
 #endif

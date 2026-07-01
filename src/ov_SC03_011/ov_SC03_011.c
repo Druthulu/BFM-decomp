@@ -5009,7 +5009,10 @@ void func_801804B8(void) {
 
 INCLUDE_ASM("asm/ov_SC03_011/nonmatchings/ov_SC03_011", func_801804C0);
 
-INCLUDE_ASM("asm/ov_SC03_011/nonmatchings/ov_SC03_011", func_80180598);
+s32 func_80180598(void) {
+        return 0;
+    }
+
 
 INCLUDE_ASM("asm/ov_SC03_011/nonmatchings/ov_SC03_011", func_801805A0);
 
