@@ -5024,7 +5024,19 @@ extern void func_8002D4C8(s32 arg0, s32 arg1);
     }
 
 
-INCLUDE_ASM("asm/ov_SC06_016/nonmatchings/ov_SC06_016", func_801822C4);
+extern void func_8014708C(void *a0);
+extern s32 func_801472C8(struct S *a0);
+
+void func_801822C4(void) {
+    extern s32 D_80126B58;
+    register s32 p __asm__("$16");
+    register s32 r __asm__("$17");
+
+    p = &D_80126B58;
+    func_8014708C(p);
+    r = ((s32 (*)(s32))func_801472C8)(p);
+}
+
 
 extern void func_80147084(s32 *a0);
 extern void func_801472B4(void *a0);

@@ -24820,4 +24820,10 @@
         D_8018E858[*(u16 *)((s32)a0 + 0x2)](); \
     }
 
+#define DEFINE_func_8018385C() \
+    extern void (*D_8018F824[])(void); \
+    void func_8018385C(u8 *a0) { \
+        D_8018F824[a0[0x15]](); \
+    }
+
 #endif
