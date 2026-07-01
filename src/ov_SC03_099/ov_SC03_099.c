@@ -4998,7 +4998,13 @@ INCLUDE_ASM("asm/ov_SC03_099/nonmatchings/ov_SC03_099", func_80182600);
 
 INCLUDE_ASM("asm/ov_SC03_099/nonmatchings/ov_SC03_099", func_80182684);
 
-INCLUDE_ASM("asm/ov_SC03_099/nonmatchings/ov_SC03_099", func_80182790);
+extern void func_8012CBCC(s32 a0);
+    void func_80182790(void *a0) {
+        if ((((s32 (*)(s32))func_8012CBCC)((s32)a0) & 0x2000) != 0) {
+            *(s16 *)((u8 *)a0 + 0x2) = 2;
+        }
+    }
+
 
 INCLUDE_ASM("asm/ov_SC03_099/nonmatchings/ov_SC03_099", func_801827C8);
 

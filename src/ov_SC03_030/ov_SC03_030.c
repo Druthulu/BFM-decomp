@@ -4844,7 +4844,12 @@ void func_8017E1E8(void *a0) {
     }
 
 
-INCLUDE_ASM("asm/ov_SC03_030/nonmatchings/ov_SC03_030", func_8017E204);
+extern s32 func_80012DBC(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
+    void func_8017E204(void *param_1) {
+        *(short *)((char *)param_1 + 0x132) = func_80012DBC(*(short *)((char *)param_1 + 0x132), 0,
+                                                               0xa, 1);
+    }
+
 
 INCLUDE_ASM("asm/ov_SC03_030/nonmatchings/ov_SC03_030", func_8017E240);
 
