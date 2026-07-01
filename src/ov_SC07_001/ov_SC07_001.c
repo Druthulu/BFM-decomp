@@ -4833,7 +4833,10 @@ INCLUDE_ASM("asm/ov_SC07_001/nonmatchings/ov_SC07_001", func_8017F0EC);
 
 INCLUDE_ASM("asm/ov_SC07_001/nonmatchings/ov_SC07_001", func_8017F15C);
 
-INCLUDE_ASM("asm/ov_SC07_001/nonmatchings/ov_SC07_001", func_8017F258);
+s32 func_8017F258(s32 *a0) {
+        return *(u16 *)((s32)a0 + 0x34) == 0x2;
+    }
+
 
 INCLUDE_ASM("asm/ov_SC07_001/nonmatchings/ov_SC07_001", func_8017F26C);
 

@@ -24623,4 +24623,38 @@
             return -1; \
         }
 
+#define DEFINE_func_80187E28() \
+    void func_80187E28(void *a0) { \
+            *(s16 *)((s32)a0 + 0x2) += 1; \
+        }
+
+#define DEFINE_func_80182704() \
+    void func_80182704(void *a0) { \
+            *(s32 *)((s32)a0 + 0x48) = 0x1400; \
+            *(s32 *)((s32)a0 + 0x14) = 0; \
+        }
+
+#define DEFINE_func_8017F190() \
+    extern s32 D_8018FB28; \
+    extern s32 func_8012AD50(void *a0); \
+    void func_8017F190(void) { \
+        D_8018FB28 = 0; \
+        ((void (*)(void))func_8012AD50)(); \
+    }
+
+#define DEFINE_func_8017E264() \
+    void func_8017E264(void *a0) { \
+            *(s8 *)((s32)a0 + 0xA0) = 0; \
+        }
+
+#define DEFINE_func_8018B868() \
+    void func_8018B868(void *a0) { \
+            M2C_FIELD(a0, s16 *, 0x2) = 2; \
+        }
+
+#define DEFINE_func_8017C090() \
+    void func_8017C090(void *a0) { \
+            *(s16 *)((s32)a0 + 0x2) += 1; \
+        }
+
 #endif
