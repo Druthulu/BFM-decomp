@@ -5368,7 +5368,13 @@ INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001", func_801840E4);
 
 INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001", func_80184210);
 
-INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001", func_8018424C);
+extern void func_80178CBC(s32 *a0, s32 a1);
+    extern short D_8019246C;
+    void func_8018424C(short *a0) {
+        *(short *)((char *)a0 + 0x2) = 4;
+        ((void (*)(s32, s32))func_80178CBC)((int)a0, (int)&D_8019246C);
+    }
+
 
 INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001", func_80184278);
 
@@ -5542,7 +5548,13 @@ INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001", func_80186124);
 
 INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001", func_8018617C);
 
-INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001", func_80186288);
+extern void func_80187778(s32 *a0, s32 a1);
+    extern short D_80192970;
+    void func_80186288(short *param_1) {
+        param_1[1] = 2;
+        func_80187778(param_1, &D_80192970);
+    }
+
 
 INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001", func_801862B4);
 

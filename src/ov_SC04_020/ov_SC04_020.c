@@ -4831,7 +4831,10 @@ extern s32 D_80127050;
 
 INCLUDE_ASM("asm/ov_SC04_020/nonmatchings/ov_SC04_020", func_8017E848);
 
-INCLUDE_ASM("asm/ov_SC04_020/nonmatchings/ov_SC04_020", func_8017E884);
+void func_8017E884(void *a0) {
+        *(u8 *)((s32)a0 + 0x214) += 1;
+    }
+
 
 INCLUDE_ASM("asm/ov_SC04_020/nonmatchings/ov_SC04_020", func_8017E898);
 

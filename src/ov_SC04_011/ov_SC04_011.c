@@ -5018,7 +5018,10 @@ s32 func_80183008(void) {
     }
 
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011", func_80183010);
+s32 func_80183010(s32 *a0) {
+        return *(s16 *)((s32)a0 + 0x10A);
+    }
+
 
 INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011", func_8018301C);
 

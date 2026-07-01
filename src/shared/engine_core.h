@@ -24688,4 +24688,9 @@
             M2C_FIELD(a0, s16 *, 0x2) = 2; \
         }
 
+#define DEFINE_func_8017E0FC() \
+    void func_8017E0FC(u8 *a0) { \
+            *(u8 *)(a0 + 0x214) += 1; \
+        }
+
 #endif
