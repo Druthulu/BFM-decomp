@@ -4914,7 +4914,10 @@ INCLUDE_ASM("asm/ov_SC03_111/nonmatchings/ov_SC03_111", func_8018154C);
 
 INCLUDE_ASM("asm/ov_SC03_111/nonmatchings/ov_SC03_111", func_80181574);
 
-INCLUDE_ASM("asm/ov_SC03_111/nonmatchings/ov_SC03_111", func_801817CC);
+s32 func_801817CC(void) {
+        return 0x4A;
+    }
+
 
 INCLUDE_ASM("asm/ov_SC03_111/nonmatchings/ov_SC03_111", func_801817D4);
 

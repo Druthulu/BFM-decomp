@@ -4755,7 +4755,11 @@ INCLUDE_ASM("asm/ov_SC03_116/nonmatchings/ov_SC03_116", func_8017BF14);
 
 INCLUDE_ASM("asm/ov_SC03_116/nonmatchings/ov_SC03_116", listCdBuffer);
 
-INCLUDE_ASM("asm/ov_SC03_116/nonmatchings/ov_SC03_116", func_80180980);
+extern s32 D_8012704C;
+    void func_80180980(void) {
+        D_8012704C = 0x1;
+    }
+
 
 INCLUDE_ASM("asm/ov_SC03_116/nonmatchings/ov_SC03_116", func_80180994);
 

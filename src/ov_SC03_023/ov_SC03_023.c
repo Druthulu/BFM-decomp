@@ -4877,4 +4877,8 @@ s32 func_8017EE74(void) {
     }
 
 
-INCLUDE_ASM("asm/ov_SC03_023/nonmatchings/ov_SC03_023", func_8017EE7C);
+extern void func_8013CB84(void);
+    void func_8017EE7C(void) {
+        func_8013CB84();
+    }
+
