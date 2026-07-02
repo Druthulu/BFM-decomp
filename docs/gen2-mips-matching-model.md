@@ -273,6 +273,46 @@ per-worker via its module-global path (no edit).
    back to merge→fp16→AWQ 4-bit (fits the 12 GB card). Quantization is a throughput risk only, never
    correctness (byte-gate). Deferred to Drew's go.
 
+### T10.7 RESULT — GLM5.2 (OpenRouter) A/B on the HARD band — 2026-07-01
+
+Sample: 18 hard-band fns (16–22 ins, untried, `ov_SC01_077` struct-core — the P16-walled band the
+≤15 campaign doesn't touch). Drafted with **GLM5.2** (`z-ai/glm-5.2`, $0.93/$3.00 per Mtok, a
+**reasoning** model, 1M ctx) via OpenRouter and local **v3**, same LEAN pipeline, iters=2. `api_draft`
+gained `MAXTOK` env (reasoning models burn the 512 cap on reasoning tokens → empty content — raised to
+8k/16k) + `usage.cost` capture.
+
+| | match_one (CODEGEN) | whole-binary BANK | cost |
+|---|---|---|---|
+| v3 (local) | **1/18** (6%) | ~1/18 | $0 |
+| GLM5.2 | **10/18** (56%) | **3/18** | ~$1.02 total ($0.03–0.08/fn) |
+
+**GLM is ~10× better at hard-band codegen** (bodies): 10/18 vs 1/18 match_one; fns v3 could only reach
+"near 10 → fail" GLM one-shot MATCHed. **But whole-binary banks are only 3/18** (2 direct +
+`func_801577C8` via `fix_arity_callers`). The 7 stranded match_one-matches are blocked by the
+**DEF-side loose-typing wall** (Phase 16/20): the overlay forward-declares the fn (from a banked
+caller) with a signature conflicting with the fn's true byte-correct def (`conflicting types for
+func_X`). **This caps ANY drafter** — the conflict is overlay-decl-vs-true-sig, independent of who
+writes the body. `fix_arity_callers` (relax `(void)`→`()`) recovered only 1; the other 6 have
+non-`(void)` conflicting forward-decls or narrow params. **Fable5 review §3c re-test verdict: the
+def-side wall HOLDS** — GLM's better bodies don't break it; the wall is the ceiling, not the drafter.
+The 6 hardest fns are beyond GLM too (0/6 even at MAXTOK=16000 — runaway reasoning / genuine complexity).
+
+**Strategic read (the honest one):**
+- GLM's codegen edge converts to banks only on the **def-conflict-FREE** subset (~3/18 = 17% here); at
+  $0.03/fn that's a real, immediate lever v3 can't touch, but wall-capped.
+- The **flywheel** (distill GLM bodies → retrain v3) is **also wall-capped** — v3-trained-on-GLM hits
+  the same def-conflicts; it lifts v3's hard-band *codegen* on the conflict-free subset (uncertain
+  transfer, ~2h GPU), it does not break the wall.
+- **The real unlock is the def-side wall itself, not the drafter.** "Loose-typing reconciliation is a
+  reasoning problem" (Fable5 §4.1): a reasoning model given the *conflicting decls + the body* could
+  reason out a consistent declaration strategy — a different prompt/harness than body-drafting, and the
+  highest-ceiling (most experimental) follow-up.
+
+Banked: **3 GLM hard-band fns** (func_8013373C, func_8012F8C8, func_801577C8), byte-gated, check-all
+136/136. Total OpenRouter spend **~$1.02 of $25**. Options handed to Drew: (1) GLM as a direct drafter
+on def-conflict-free hard fns; (2) corpus-v4 flywheel (wall-capped); (3) point GLM at the def-side-wall
+*reconciliation* (the reasoning-shaped unlock).
+
 ## Open questions / notes
 
 - **Corpus quality > size.** ~1,700 verified pairs is plenty for LoRA; dedup near-identical reach
