@@ -13112,7 +13112,7 @@
     }
 
 #define DEFINE_func_801504D8() \
-    extern void func_80150528(void *a0, void *a1, void *a2); \
+    extern s32 func_80150528(void *a0, void *a1, void *a2); \
     void func_801504D8(u16 *a0) { \
         struct V3 a; \
         struct V3 b; \
@@ -13420,7 +13420,7 @@
     }
 
 #define DEFINE_func_8014F24C() \
-    extern void func_8014F2E0(s32 a0, s16 *a1, s16 *a2); \
+    extern s32 func_8014F2E0(s32 a0, s16 *a1, s16 *a2); \
     s32 func_8014F24C(struct SubF24C *a0) { \
         s16 g1[3]; \
         s16 g2[3]; \
@@ -25037,6 +25037,62 @@
             } \
         } \
         return uVar8; \
+    }
+
+#define DEFINE_func_80150528() \
+    extern u8 D_801202A0[]; \
+    extern s32 func_80135A4C(s32 a0, s32 a1, s32 *a2, s32 a3); \
+    s32 func_80150528(void *arg0, void *arg1, void *arg2) \
+    { \
+        u8 *p = D_801202A0; \
+        /* Inline limit expression (NOT a cached `end` local): gcc hoists the \
+         * loop-invariant `D_801202A0 + 0x6480` into the preheader, landing it in a \
+         * callee-saved reg via a temp->saved copy (addu $s5,$v1,$zero) because it \
+         * is live across the jal. A cached `end` local instead keeps the limit in \
+         * one saved reg (52 ins, wrong regalloc). */ \
+        if (p < D_801202A0 + 0x6480) { \
+            do { \
+                if (*(u16*)p != 0) { \
+                    if ((*(u16*)(p + 0x5C) & 0x80) != 0) { \
+                        if (*(s32*)(p + 0x58) != 0) { \
+                            if (((s32 (*)(s32, s32, s32, s32))func_80135A4C)( \
+                                    *(s32*)(p + 0x20), *(s32*)(p + 0x58), \
+                                    (s32)arg1, (s32)arg2) != 0) { \
+                                *(s32*)((u8*)arg0 + 0x1A4) = (s32)p; \
+                                return 1; \
+                            } \
+                        } \
+                    } \
+                } \
+                p += 0x10C; \
+            } while (p < D_801202A0 + 0x6480); \
+        } \
+        return 0; \
+    }
+
+#define DEFINE_func_8014F2E0() \
+    extern s32 D_801150D8; \
+    extern s32 func_80135A4C(s32 a0, s32 a1, s32 *a2, s32 a3); \
+    extern u8 D_801202A0[]; \
+    s32 func_8014F2E0(s32 arg0, s16 * arg1, s16 * arg2) \
+    { \
+        s32 ret = 0; \
+        u8 *s; \
+        for (s = D_801202A0; s < D_801202A0 + 0x6480; s += 0x10C) { \
+            if (*(u16 *)s != 0 && \
+                *(s32 *)(s + 0x58) != 0 && \
+                (s16 *)s != *(s16 **)(arg0 + 0x178) && \
+                (s16 *)s != *(s16 **)(arg0 + 0x174) && \
+                (*(s32 *)(s + 0x5C) & 0x1800) != 0) { \
+                D_801150D8 = 0; \
+                if (((s32 (*)(s32, s32, s32, s32))func_80135A4C)(((struct { s32 field; } *)(s + 0x20))->field, \
+                                  ((struct { s32 field; } *)(s + 0x58))->field, \
+                                  (s32)arg1, (s32)arg2) != 0) { \
+                    ret = 1; \
+                } \
+            } \
+        } \
+        return ret; \
     }
 
 #endif
