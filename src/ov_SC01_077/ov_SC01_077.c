@@ -4643,7 +4643,13 @@ void func_80157788(int param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_801577C8);
+
+void func_801577C8(s32 arg0) {
+    D_801D9650 = 0x12C;
+    func_80147078(arg0, 7);
+    func_80157808(arg0);
+}
+
 
 // @class: struct
 // @stuck: none — MATCH expected (fnptr-table %lo-fold via extern array + global counter decrement + two saved-param calls)

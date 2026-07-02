@@ -1631,7 +1631,7 @@
     }
 
 #define DEFINE_func_80149C94() \
-    extern void func_801577C8(void); \
+    extern void func_801577C8(); \
     void func_80149C94(void) { \
         func_801577C8(); \
     }
