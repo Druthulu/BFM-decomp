@@ -313,6 +313,21 @@ Banked: **3 GLM hard-band fns** (func_8013373C, func_8012F8C8, func_801577C8), b
 on def-conflict-free hard fns; (2) corpus-v4 flywheel (wall-capped); (3) point GLM at the def-side-wall
 *reconciliation* (the reasoning-shaped unlock).
 
+**Option-3 probe result (`tools/glm_reconcile.py`, +$0.23):** aimed GLM's REASONING directly at the wall
+(body + the actual conflicting TU decls + the reconciliation toolkit → a consistent byte-identical decl
+set; reasoning captured to `.run/glm_reason/` for R16). GLM's reasoning is **expert-grade** — it reads
+store widths (`u16` params emit `sh`; widening to `s32` would emit `sw`), reasons K&R promotion, and
+**independently derives the call-site-cast idiom** (§17a-1) for un-relaxable callee *definitions*. But it
+banked only **1/7** (`func_80175184`); mechanical `--any-proto` relaxation banked **0/7**. **Verdict: the
+def-side wall is INTRINSIC** — a frontier reasoning model with the full toolkit cracks ~1/7; the residual is
+the irreducible narrow-param wall (K&R can't no-proto a `u16`/`s16` def) + byte-level addressing subtleties.
+Total GLM banks on the sample: **4/18** (2 direct + 1 fix_arity + 1 reconcile) vs v3 ~1/18. **Conclusion:**
+GLM's role is (a) a **$0.03–0.08/fn direct drafter for the def-conflict-FREE hard band** (~22%, which v3
+can't reach — a real, affordable lever on the byte-weighty functions), and (b) an **idiom TEACHER**
+(reasoning captured + distilled → cookbook §29; corpus-v4 optional but wall-capped). It is NOT a
+wall-breaker. Per Fable5 review §4.3, the real lever past this wall is community labor (the public flip),
+not a bigger model. Total T10.7 spend ~$1.25 of $25. The reconciliation idioms → cookbook §29.
+
 ## Open questions / notes
 
 - **Corpus quality > size.** ~1,700 verified pairs is plenty for LoRA; dedup near-identical reach
