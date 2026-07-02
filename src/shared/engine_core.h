@@ -24886,4 +24886,41 @@
         D_801B8A3C[*(u16 *)((s32)a0 + 0x2)](); \
     }
 
+#define DEFINE_func_8017D6B0() \
+    extern void (*D_80190D1C[])(void); \
+    void func_8017D6B0(s32 *param_1) \
+    { \
+        D_80190D1C[*(u16 *)((char *)param_1 + 0x2)](); \
+    }
+
+#define DEFINE_func_8018233C() \
+    extern void (*D_80191EE4[])(void); \
+    void func_8018233C(s32 *param_1) { \
+        D_80191EE4[*(u16 *)((char *)param_1 + 0x2)](); \
+    }
+
+#define DEFINE_func_8018A740() \
+    extern void (*D_801E04F0[])(void); \
+    void func_8018A740(void *a0) { \
+        D_801E04F0[*(u16 *)((s32)a0 + 0x2)](); \
+    }
+
+#define DEFINE_func_8018A898() \
+    extern void (*D_801E051C[])(void); \
+    void func_8018A898(void *a0) { \
+        D_801E051C[*(u16 *)((s32)a0 + 0x2)](); \
+    }
+
+#define DEFINE_func_8017F058() \
+    extern void (*D_8019155C[])(void); \
+    void func_8017F058(void *a0) { \
+        D_8019155C[*(u16 *)((s32)a0 + 0x2)](); \
+    }
+
+#define DEFINE_func_801800E0() \
+    extern void (*D_801918E4[])(void); \
+    void func_801800E0(void *a0) { \
+        D_801918E4[*(u16 *)((s32)a0 + 0x2)](); \
+    }
+
 #endif

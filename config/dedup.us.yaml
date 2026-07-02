@@ -12532,3 +12532,45 @@ groups:
     func: DEFINE_func_80186084
     vram: 0x80186084
     binaries: [ov_SC04_018, ov_SC04_019]
+  - id: E_func_8017D6B0
+    tier: h_exact
+    hash: 03c35bc376411ba5cbed170a9c38c34b51addcd8
+    source: src/shared/engine_core.h
+    func: DEFINE_func_8017D6B0
+    vram: 0x8017D6B0
+    binaries: [ov_SC04_018, ov_SC04_019]
+  - id: E_func_8018233C
+    tier: h_exact
+    hash: 1efa928fe953df0a73ed7a7a0b58450319bfad07
+    source: src/shared/engine_core.h
+    func: DEFINE_func_8018233C
+    vram: 0x8018233C
+    binaries: [ov_SC04_018, ov_SC04_019]
+  - id: E_func_8018A740
+    tier: h_exact
+    hash: 95bfc71bed5539fc907f90516d741e6f733c1eb3
+    source: src/shared/engine_core.h
+    func: DEFINE_func_8018A740
+    vram: 0x8018A740
+    binaries: [ov_SC04_018, ov_SC04_019]
+  - id: E_func_8018A898
+    tier: h_exact
+    hash: 4a8440b5513806363067527ce28fdc34ad3ae2ba
+    source: src/shared/engine_core.h
+    func: DEFINE_func_8018A898
+    vram: 0x8018A898
+    binaries: [ov_SC04_018, ov_SC04_019]
+  - id: E_func_8017F058
+    tier: h_exact
+    hash: c1e50dcd84380d0fb28d35a5d9ba87a64084ab7d
+    source: src/shared/engine_core.h
+    func: DEFINE_func_8017F058
+    vram: 0x8017F058
+    binaries: [ov_SC04_018, ov_SC04_019]
+  - id: E_func_801800E0
+    tier: h_exact
+    hash: 9337da840d6017e4a1163eb118e473da6977f678
+    source: src/shared/engine_core.h
+    func: DEFINE_func_801800E0
+    vram: 0x801800E0
+    binaries: [ov_SC04_018, ov_SC04_019]

@@ -5505,7 +5505,15 @@ INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006", func_80189C68);
 
 INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006", func_80189CD4);
 
-INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006", func_80189DE0);
+extern s32 rand(void);
+    void func_80189DE0(s32 arg0) {
+        if ((rand() & 1) != 0) {
+            *(s16*)(arg0 + 0x2) = 0xA;
+        } else {
+            *(s16*)(arg0 + 0x2) = 0x3;
+        }
+    }
+
 
 INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006", func_80189E1C);
 
