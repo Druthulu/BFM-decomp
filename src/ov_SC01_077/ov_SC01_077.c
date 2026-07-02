@@ -3294,7 +3294,54 @@ void func_8014ED28(s32 _arg0)
 
 DEFINE_func_8014ED80()  /* dedup: shared engine-core @0x8014ED80 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8014EE14);
+// @class: schedule
+// @stuck: none — MATCH (248 ins, match_one verified). The long-standing §20 "store-vs-load"
+//   near-miss, closed by TWO new byte-proven levers (both read straight out of gcc-2.7.2 source):
+//
+//   (1) PROLOGUE PAIR ORDER (sched1 "birthing" boost, sched.c adjust_priority): sched1 schedules
+//       each bb BACKWARD and boosts any insn whose dest reg is set EXACTLY ONCE in the fn
+//       (birthing_insn_p: REG_N_SETS==1) to max priority -> placed LATE in the block. The pinned
+//       param copies (s0=a0/s7=a1/s2=a2, single-set) got boosted and sank BELOW the multi-set
+//       constant inits (s6=0/s5=8/s4=8 — reassigned in switch/loops, so never boosted).
+//       FIX: one zero-byte NON-volatile re-tie asm per param — __asm__("" : "=r"(x) : "0"(x)) —
+//       placed in a LATER basic block (after the switch). It counts as a 2nd SET of the pinned reg
+//       (REG_N_SETS=2 -> boost off) while emitting nothing, and being in another bb it adds no
+//       scheduling edges inside bb0. All six inits then tie at priority 1 and the LUID (source
+//       order) tie-break puts params first = target. (volatile would work too but risks acting as
+//       a barrier; non-volatile with a USED output is kept and is codegen-free.)
+//
+//   (2) STORE-VS-LOAD (sched.c true_dependence + expr.c MEM_IN_STRUCT_P): the target loads BOTH
+//       call args (lw a0,-0x38(s3); lw a1,0(s3)) BEFORE the `D_801150D8 = 0` store; ours pinned
+//       the a1 load below the store. Root cause: gcc-2.7.2's scheduler CAN reorder a pointer load
+//       across a fixed-symbol store ONLY when the load's MEM has the /s flag (MEM_IN_STRUCT_P);
+//       expr.c sets that flag iff the address was "computed by addition" (PLUS_EXPR) or is a
+//       struct member. `piVar5[-0xe]` (offset!=0) gets /s and hoists; `*piVar5` / `piVar5[0]`
+//       (front end folds +0 away) stays a plain mem -> conservative true-dependence on the store
+//       -> stuck below it. FIX: read the arg as a struct member — ((struct { s32 w; }*)piVar5)->w —
+//       which is a COMPONENT_REF -> /s flag -> dependence gone -> the hazard-driven backward
+//       scheduler emits [lw a0][lw a1][sw $0,sym][jal] exactly like the target. The loop guards
+//       stay `*piVar5` (plain) so CSE's fixed-scalar-store invalidation still forces the separate
+//       reload the target shows.
+//
+//   Regalloc forced with §17 pins (s0/s7/s2/s6/s5/s4); the loop IV pair (psVar4/piVar5) is left
+//   unpinned so loop strength-reduction still derives piVar5 as a giv (preheader addiu s3,s1,0x58
+//   + latch bump) and naturally claims $s1/$s3 (the only free callee-saved regs).
+//
+//   WHOLE-BINARY GATE (banked:1) — the §20 DEF-side conflict was NOT intrinsic here; resolved:
+//   the banked caller macro DEFINE_func_8014ED80 (engine_core.h:13403) declared `extern VOID
+//   func_8014EE14(...)`, which in-TU precedes this s32 def -> `conflicting types` compile error
+//   (the def MUST be s32: void return DCEs uVar8 -> frame 0x60, s6 gone, no byte-match). FIX =
+//   change that macro's extern VOID->S32 (byte-NEUTRAL for func_8014ED80 fleet-wide: it discards
+//   func_8014EE14's return, so `jal` + arg setup are identical; verified via make check-all,
+//   136/136 still byte-identical). The general lever for a §20 DEF-side return-type wall: if the
+//   ONLY conflicting caller-decl is a shared macro that DISCARDS the return, widening that macro's
+//   extern to the def's return type is byte-neutral and dissolves the wall (no INCLUDE_ASM-side
+//   escape needed — the macro DOES declare the C symbol, unlike a bare INCLUDE_ASM stub).
+//   DATA: D_80126720 canonicalized to `u8 []` (array symbol), read `(s32)*(s16*)D_80126720` per
+//   the `lh` (signedness-agnostic store sites unaffected). Callee func_80135A4C extern below is the
+//   canonical (engine_core.h:11555), called through the §17a-1 fn-ptr cast idiom.
+DEFINE_func_8014EE14()  /* dedup: shared engine-core @0x8014EE14 (src/shared) */
+
 
 // @class: other
 // @stuck: none — MATCH (fully-handwritten scratchpad-stack-switch sequencer; manipulates $sp; modeled byte-for-byte on the proven sibling func_8014CCB4 in ov_SC01_077.c)
