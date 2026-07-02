@@ -24868,4 +24868,22 @@
         return 0; \
     }
 
+#define DEFINE_func_8017C5CC() \
+    extern void (*D_80190CCC[])(void); \
+    void func_8017C5CC(void *a0) { \
+        D_80190CCC[*(u16 *)((s32)a0 + 0x2)](); \
+    }
+
+#define DEFINE_func_8018AB3C() \
+    extern void (*D_801E0554[])(void); \
+    void func_8018AB3C(void *a0) { \
+        D_801E0554[*(u16 *)((s32)a0 + 0x2)](); \
+    }
+
+#define DEFINE_func_80186084() \
+    extern void (*D_801B8A3C[])(void); \
+    void func_80186084(void *a0) { \
+        D_801B8A3C[*(u16 *)((s32)a0 + 0x2)](); \
+    }
+
 #endif
