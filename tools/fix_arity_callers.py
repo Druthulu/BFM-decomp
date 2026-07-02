@@ -63,6 +63,9 @@ def main():
     ap.add_argument('--funcs', help='comma-separated func_XXXX list')
     ap.add_argument('--from-file', help='file with one func_XXXX per line')
     ap.add_argument('--drafts', help='drafts dir: skip targets whose def has a narrow param (apply only)')
+    ap.add_argument('--any-proto', action='store_true',
+                    help='relax ANY prototype (not just (void)) -> no-proto — the generalized def-side-wall '
+                         'reconciliation for non-(void) conflicting forward-decls; byte-gate filters (G3/P9)')
     a = ap.parse_args()
 
     fns = []
@@ -85,9 +88,10 @@ def main():
                 print(f'  [skip narrow-param] {fn}'); skipped += 1; continue
         # match `extern <ret> func_ADDR ( void ) ;`  (ret = word chars/spaces/*) anywhere in the header
         void_re = re.compile(rf'(extern\s+[A-Za-z_][\w \t\*]*?\bfunc_{ad}\s*\()\s*void\s*(\)\s*;)', re.I)
+        anyproto_re = re.compile(rf'(extern\s+[A-Za-z_][\w \t\*]*?\bfunc_{ad}\s*\()\s*[^;)]+?\s*(\)\s*;)', re.I)
         noproto_re = re.compile(rf'(extern\s+[A-Za-z_][\w \t\*]*?\bfunc_{ad}\s*\()\s*(\)\s*;)', re.I)
         if a.apply:
-            new, n = void_re.subn(r'\1\2', txt)
+            new, n = (anyproto_re if a.any_proto else void_re).subn(r'\1\2', txt)
         else:
             new, n = noproto_re.subn(r'\1void\2', txt)
         if n:

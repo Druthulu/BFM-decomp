@@ -34,6 +34,7 @@ LEAN = os.environ.get('LEAN', '0') != '0'     # LEAN=1: asm-only prompt for a FI
 MAXTOK = int(os.environ.get('MAXTOK', '512'))  # output cap; RAISE for reasoning models (GLM/o1-class spend
                                                # the budget on reasoning tokens -> empty content at 512)
 _COST = [0.0]                                  # accumulated OpenRouter usage.cost across calls (0 for local)
+_REASON = ['']                                 # last call's reasoning trace (GLM/o1-class) — idiom source (R16)
 
 # Fair harness: give the no-tool local model the SAME context the agents read themselves — the shared
 # type header, the live matching cookbook, and worked byte-matched examples (all inlined). COOKBOOK_FULL=0
@@ -165,8 +166,10 @@ def call_api(messages, max_tokens=None, temperature=TEMP, timeout=600):  # defau
     try:
         with urllib.request.urlopen(req, timeout=timeout) as r:
             d = json.loads(r.read())
+        msg = d['choices'][0]['message']
         _COST[0] += (d.get('usage') or {}).get('cost', 0) or 0   # OpenRouter reports per-call $ in usage.cost
-        return d['choices'][0]['message']['content']
+        _REASON[0] = msg.get('reasoning') or ''                  # reasoning models carry it separately
+        return msg['content']
     except urllib.error.URLError as e:
         print('  API error:', e, file=sys.stderr)
         return None
@@ -213,6 +216,8 @@ def draft_one(t, outdir, iters):
 
     for i in range(max(1, iters)):
         reply = call_api(messages)
+        if os.environ.get('REASON') and _REASON[0]:              # REASON=1: mine reasoning models' idioms (R16)
+            open(cfile[:-2] + '.reasoning.txt', 'a').write('=== %s iter %d ===\n%s\n' % (fn, i, _REASON[0]))
         code = extract_code(reply)
         if not code.strip():
             print('  %s: empty reply (iter %d)' % (fn, i)); break
