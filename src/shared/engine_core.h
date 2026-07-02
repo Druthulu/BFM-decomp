@@ -24847,4 +24847,25 @@
         func_8018A168(0x474, 0x4B0); \
     }
 
+#define DEFINE_func_8016B91C() \
+    extern void func_8016B964(SrcB964 *a0, DstB964 *a1); \
+    void func_8016B91C(s32 arg0) { \
+        ((void (*)(s32, s32))func_8016B964)(arg0, *(s32*)((u8*)arg0 + 0x10)); \
+        ((void (*)(s32, s32))func_8016B964)(arg0, *(s32*)((u8*)arg0 + 0x14)); \
+        ((void (*)(s32, s32))func_8016B964)(arg0, *(s32*)((u8*)arg0 + 0x18)); \
+    }
+
+#define DEFINE_func_8017248C() \
+    extern s32 func_801724EC(s32 a0); \
+    s32 func_8017248C(s32 arg0, s32 arg1) \
+    { \
+        if (((s32 (*)(void*, void*))func_801724EC)(arg0, arg1) != 0) { \
+            *(u16*)((u8*)arg0 + 6) = *(u16*)((u8*)arg1 + 0); \
+            *(u16*)((u8*)arg0 + 0xA) = *(u16*)((u8*)arg1 + 2); \
+            *(u16*)((u8*)arg0 + 0xE) = *(u16*)((u8*)arg1 + 4); \
+            return 1; \
+        } \
+        return 0; \
+    }
+
 #endif
