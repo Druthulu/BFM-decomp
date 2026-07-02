@@ -31,6 +31,9 @@ API_KEY = os.environ.get('API_KEY', 'lm-studio')
 MODEL = os.environ.get('MODEL', 'local-model')
 TEMP = float(os.environ.get('TEMP', '0.3'))   # thinking-mode models: ~0.6; deterministic drafting: ~0.2
 LEAN = os.environ.get('LEAN', '0') != '0'     # LEAN=1: asm-only prompt for a FINE-TUNED model (no cookbook)
+MAXTOK = int(os.environ.get('MAXTOK', '512'))  # output cap; RAISE for reasoning models (GLM/o1-class spend
+                                               # the budget on reasoning tokens -> empty content at 512)
+_COST = [0.0]                                  # accumulated OpenRouter usage.cost across calls (0 for local)
 
 # Fair harness: give the no-tool local model the SAME context the agents read themselves — the shared
 # type header, the live matching cookbook, and worked byte-matched examples (all inlined). COOKBOOK_FULL=0
@@ -152,17 +155,17 @@ def build_user_lean(t, asm_text, ghidra_text):
             + asm + "\n\nWrite the byte-matching C function.")
 
 
-def call_api(messages, max_tokens=512, temperature=TEMP, timeout=600):  # 512 caps the no-stop-token ramble
-                                                                         # (a small-fn draft is ~100-300 toks;
-                                                                         # giants pass an explicit larger cap)
+def call_api(messages, max_tokens=None, temperature=TEMP, timeout=600):  # default cap = MAXTOK env (512 local,
+                                                                         # raise for reasoning models via MAXTOK)
     body = json.dumps({'model': MODEL, 'messages': messages,
-                       'max_tokens': max_tokens, 'temperature': temperature}).encode()
+                       'max_tokens': max_tokens or MAXTOK, 'temperature': temperature}).encode()
     req = urllib.request.Request(API_BASE + '/chat/completions', data=body,
                                  headers={'Content-Type': 'application/json',
                                           'Authorization': 'Bearer ' + (API_KEY or 'none')})
     try:
         with urllib.request.urlopen(req, timeout=timeout) as r:
             d = json.loads(r.read())
+        _COST[0] += (d.get('usage') or {}).get('cost', 0) or 0   # OpenRouter reports per-call $ in usage.cost
         return d['choices'][0]['message']['content']
     except urllib.error.URLError as e:
         print('  API error:', e, file=sys.stderr)
@@ -256,8 +259,11 @@ def main():
     for t in targets:
         close = draft_one(t, outdir, a.iters)
         matched += (close == 0)
-    print('\napi_draft done: %d/%d match_one MATCH in %.0fs. Now: tools/ab_score.py --arms ... %s'
-          % (matched, len(targets), time.time() - t0, os.path.basename(a.out)))
+    cost = _COST[0]
+    print('\napi_draft done: %d/%d match_one MATCH in %.0fs.%s Now: tools/ab_score.py --arms ... %s'
+          % (matched, len(targets), time.time() - t0,
+             (' cost $%.4f ($%.4f/fn)' % (cost, cost / max(1, len(targets)))) if cost else '',
+             os.path.basename(a.out)))
 
 
 if __name__ == '__main__':
