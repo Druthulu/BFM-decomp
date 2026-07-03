@@ -43,6 +43,20 @@ def save_blacklist(bl):
     json.dump(sorted(bl), open(os.path.join(REPO, BLACKLIST), "w"), indent=1)
 
 
+def draft_sig(r):
+    """the input SIGNATURE the permuter's yield depends on: (best_draft mtime, closeness). A fn
+    whose signature is unchanged since we last permuted it can NEVER newly win (the permuter is
+    deterministic given base.c + target.o) — so re-permuting it just burns CPU. Used by the
+    input-changed idle gate (T5), replacing the old blind tried.clear() that re-tried every
+    floor-victim on every idle tick (the R14-identified churn — Phase 24 CURRENT_PHASE)."""
+    p = r.get("best_draft")
+    try:
+        m = round(os.path.getmtime(os.path.join(REPO, p)), 3) if p else 0.0
+    except OSError:
+        m = 0.0
+    return (m, r.get("closeness"))
+
+
 def log(m):
     print(f"[{time.strftime('%H:%M:%S')}] grinder: {m}", flush=True)
 
@@ -99,6 +113,7 @@ def main():
     if stop_requested():
         log("STOP present at startup; remove it to run."); return
     tried, banked, fp = {}, 0, None
+    last_sig = {}                                # fn -> draft_sig at last permute (input-changed gate, T5)
     blacklist = load_blacklist()
     log(f"start (permute={a.permute_secs}s -j{a.j} batch={a.batch} max_close={a.max_closeness}; "
         f"blacklist={len(blacklist)} plumbing-bound fns skipped)")
@@ -117,7 +132,23 @@ def main():
                 time.sleep(1)
             if stop_requested():
                 continue
-            tried.clear()                       # let the stochastic permuter re-try after idle
+            # INPUT-CHANGED GATING (T5, replaces the old blind `tried.clear()`): re-open ONLY the
+            # fns whose input signature changed since we last permuted them — i.e. the worker
+            # improved the draft or its closeness. The permuter is deterministic given base.c +
+            # target.o, so re-permuting an UNCHANGED floor-victim can never newly win; the old
+            # clear() re-tried every one on every idle tick, burning CPU for zero banks (the
+            # R14-identified idle-churn). With the T2 floor-free scorer, a genuinely closeable fn
+            # wins on its FIRST pass; anything still open after `attempts` is input-bound until the
+            # worker feeds it a better draft.
+            cur = {r.get("name"): draft_sig(r) for r in backlog.load_best() if r.get("name")}
+            reopened = [fn for fn in list(tried) if cur.get(fn) != last_sig.get(fn)]
+            for fn in reopened:
+                tried.pop(fn, None); last_sig.pop(fn, None)
+            if reopened:
+                log(f"input-changed: re-opened {len(reopened)} fn(s) "
+                    f"({', '.join(reopened[:6])}{'…' if len(reopened) > 6 else ''})")
+            else:
+                log("no inputs changed since last pass — staying idle (no churn)")
             continue
         if os.path.exists(os.path.join(REPO, DRAFTS)):
             shutil.rmtree(os.path.join(REPO, DRAFTS))
@@ -127,6 +158,7 @@ def main():
             if stop_requested():
                 break
             fn = r["name"]; tried[fn] = tried.get(fn, 0) + 1
+            last_sig[fn] = draft_sig(r)                    # record the input we're about to permute (T5 gate)
             binary = r.get("binary") or "ov_SC01_077"     # legacy records: the canonical site (a 077-stub fn still gates)
             asm_sub = asm_subdir_for(binary, fn)
             heartbeat("permuting", fn, banked, fp)
@@ -134,7 +166,11 @@ def main():
                 if not asm_sub:
                     log(f"{fn}: no .s under {binary} — skip"); continue
                 draft = open(os.path.join(REPO, r["best_draft"])).read()
-                pd = p16_permute.setup(fn, draft, asm_sub)
+                # §31-directed mutation (T5): the wave-diagnosed residual class biases the pass
+                # weights toward that class's levers (permuter_weights). A generic/absent class
+                # -> the plain gcc defaults (unchanged undirected search).
+                pd = p16_permute.setup(fn, draft, asm_sub,
+                                       klass=r.get("klass"), where=r.get("where_stuck") or "")
                 if not pd:
                     continue
                 win = p16_permute.run_permuter(pd, a.permute_secs, a.j)

@@ -130,6 +130,47 @@ escalation and beats brute force.
   before decomp.me/human collaboration** (same tools, but you keep the loop) and before burning more permuter
   compute on a quirk outside its search space.
 
+### §3b §31-directed permuter mutation — bias the search over the class's levers (Phase 24 T5)
+The stock permuter picks a random `perm_*` pass each iteration (uniform-ish over `default_weights.toml`).
+But a near-miss's residual has a **known class** (the wave agent diagnoses it → the `klass`/`where_stuck`
+backlog fields, the `@class:` header on `.run/wave/*.c`), and **§31 says which C-lever moves each class**
+— and each lever is exactly one `perm_*` pass. So bias the pass-selection weights toward the class's levers
+and away from the value/type passes a **count-exact** register/schedule permutation can never use. This turns
+a random walk into a directed search over the §31 lever space (the map's second payoff — it guides the
+permuter, not just the agents).
+- **Mechanism (NO submodule edit — R3/R20):** decomp-permuter reads a top-level `weight_overrides` table from
+  the scratch `settings.toml` (`src/main.py:336`), merges it over the compiler-type defaults **per-key**
+  (`helpers.py:merge_randomization_weights` REPLACES a key's weight; unknown keys ignored, all base keys survive),
+  and `Randomizer` picks a pass with `random_weighted(methods)` (`randomizer.py:2467`). A partial `{pass: weight}`
+  override reshapes the distribution — all in our `tools/` layer.
+- **The tool:** `tools/permuter_weights.py` — `classify(klass, where)` → `regalloc | schedule | cse | None`
+  (the klass TAG is the primary bucket; a **cse residual overrides** — func_80148094 is tagged `regalloc-order`
+  but its residual is a cse mult-order, so it wants the commutative-heavy profile; a generic WAVE/GIANT tag falls
+  back to the `where` text). `render_settings_toml()` emits the `[weight_overrides]` block. `p16_permute.setup(fn,
+  draft, asm_subdir, klass=…, where=…)` writes it; `grinder.py` auto-threads `klass`/`where_stuck` from the
+  backlog record. **`klass=None` → no table → the plain gcc defaults (identical to the pre-T5 undirected search:
+  a safe superset).**
+- **The three profiles → §31 levers** (keys are the exact `perm_*` names): **regalloc** (RC-1/2/3, S7, S11
+  register-permutation) up-weights `perm_reorder_decls`(40, RC-1 slot / RC-3 tie-order) · `perm_reorder_stmts`(40,
+  RC-2 range / S11 LUID) · `perm_temp_for_expr`(60, S2 boost) · `perm_split_assignment`/`perm_duplicate_assignment`
+  (set-count → RC-2 / defeat RC-7 equiv); **schedule** (S1–S5, D1–D4) leads with `perm_reorder_stmts`(60, LUID) +
+  `perm_temp_for_expr`(60, S2) + `perm_ins_block`/`perm_empty_stmt` (S4 filler); **cse** leads with
+  `perm_commutative`(40, operand order) + `perm_expand_expr`/`perm_split_assignment` (re-decompose). All three
+  push the value/type noise (`perm_add_mask`/`xor_zero`/`mult_zero`/`randomize_*_type`/…) to ~0.1.
+- **Validated:** on `func_8014E048` (S11 LUID⊗alloc, 143-ins, base masked-36) the regalloc profile found a
+  better score in <30 s (36→34→33) where the undirected search had stalled — proof the biased distribution
+  explores the class's territory. The whole-binary byte-gate (`harvest_verify`) stays the **sole arbiter** (G3/P9):
+  a permuter `output-0-*` is a strong CANDIDATE to gate, never a bank.
+- **The grinder's companion fix (T5):** the old idle path did a blind `tried.clear()` → re-permuted every
+  floor-victim on every idle tick (churn, R14). Replaced with **input-changed gating** (`grinder.py draft_sig` =
+  `(best_draft mtime, closeness)`): a fn is re-opened only when the worker actually improved its draft; the
+  permuter is deterministic given `base.c`+`target.o`, so an unchanged input can never newly win.
+- **Scope note:** the four flagship count-exact seeds (`func_8014E048` 35 · `func_80176D94` 52 · `func_80148094`
+  72 · `func_801412A8` 110) are the project's **worst-case** intrinsic walls (RC-6/S11, "the C-space around the
+  target is discontinuous" — §31 regalloc RC-6). Directed mutation is the right tool but the map's "two probes,
+  don't grind" applies. The real payoff is the **broader** reach-134 near-miss tail (T8: ~30 schedule / ~84
+  regalloc), most of which is far less extreme — there the directed profiles raise the per-batch close-rate.
+
 ---
 
 ## §4 Flag/toolchain gotchas

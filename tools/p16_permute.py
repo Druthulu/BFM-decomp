@@ -16,6 +16,7 @@ import argparse, base64, os, re, subprocess, sys, glob, shutil, time
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import masked_diff   # shared scalar-typedef-redef regex (SCALAR_TYPEDEF_RE), used by prep below
+import permuter_weights   # §31-directed mutation: residual class -> settings.toml [weight_overrides] (T5)
 OV = "ov_SC01_077"
 ASM = f"asm/{OV}/nonmatchings/{OV}"
 PY = ".venv/bin/python"
@@ -144,7 +145,20 @@ def winner_to_draft(winner_c):
     return drop_preproc_and_scalar_typedefs(winner_c)
 
 
-def setup(fn, draft_c, asm_subdir=ASM):
+def klass_for_fn(fn):
+    """(klass, where_stuck) for a fn from the backlog (the wave agent's diagnosed residual class),
+    used to §31-direct the permuter's mutation weights. ('', '') if not logged."""
+    try:
+        import backlog
+        for r in backlog.load_best():
+            if r.get("name") == fn:
+                return r.get("klass") or "", r.get("where_stuck") or ""
+    except Exception:
+        pass
+    return "", ""
+
+
+def setup(fn, draft_c, asm_subdir=ASM, klass=None, where=""):
     pd = os.path.join(REPO, ".run/permuter", fn)
     if os.path.exists(pd):
         shutil.rmtree(pd)
@@ -159,7 +173,11 @@ def setup(fn, draft_c, asm_subdir=ASM):
             "-no-pad-sections", "-O1", "-G0", tgt, "-o", f"{pd}/target.o"])
     if r.returncode:
         return None
-    open(f"{pd}/settings.toml", "w").write(f'func_name = "{fn}"\ncompiler_type = "gcc"\n')
+    # §31-directed mutation (T5): a diagnosed residual class biases the permuter's pass weights
+    # toward that class's levers (docs/gcc-2.7.2-map). klass=None/"" -> no [weight_overrides] table
+    # -> the plain gcc defaults (identical to the pre-T5 undirected search: a safe superset).
+    body, prof = permuter_weights.render_settings_toml(fn, klass=klass, where=where)
+    open(f"{pd}/settings.toml", "w").write(body)
     # -O0 for the _o0 split subseg (its target bytes are -O0; an -O2 compile can never match them)
     csh = "compile_o0.sh" if asm_subdir.rstrip("/").endswith("_o0") else "compile.sh"
     open(f"{pd}/compile.sh", "w").write(f'#!/bin/bash\nexec {REPO}/tools/permuter/{csh} "$@"\n')
@@ -193,6 +211,8 @@ def main():
     ap.add_argument("--secs", type=int, default=300)
     ap.add_argument("--j", type=int, default=8)
     ap.add_argument("--winners", default=".run/permuter-winners")
+    ap.add_argument("--klass", default=None,
+                    help="§31 residual class to direct the mutation weights (default: auto-lookup from the backlog)")
     a = ap.parse_args()
     os.chdir(REPO)
     os.makedirs(a.winners, exist_ok=True)
@@ -217,9 +237,12 @@ def main():
         cf = os.path.join(a.from_drafts, fn + ".c")
         if not os.path.exists(cf):
             print(f"  [{k}/{len(funcs)}] {fn}: no draft"); continue
-        pd = setup(fn, open(cf).read())
+        klass, where = (a.klass, "") if a.klass else klass_for_fn(fn)
+        pd = setup(fn, open(cf).read(), klass=klass, where=where)
         if not pd:
             print(f"  [{k}/{len(funcs)}] {fn}: setup failed (target.o)"); continue
+        _prof = permuter_weights.classify(klass, where)
+        print(f"  [{k}/{len(funcs)}] {fn}: class={klass or '-'} -> §31 profile={_prof or 'default'}", flush=True)
         t0 = time.time()
         win = run_permuter(pd, a.secs, a.j)
         dt = int(time.time() - t0)
