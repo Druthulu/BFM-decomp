@@ -122,12 +122,15 @@ def setup(fn, draft_c, asm_subdir=ASM):
 def run_permuter(pd, secs, j):
     env = dict(os.environ, PATH=f"{REPO}/tools/permuter/bin:" + os.environ["PATH"])
     try:
-        subprocess.run([PY, "tools/decomp-permuter/permuter.py", pd, "-j", str(j), "--stop-on-zero"],
+        # run_masked.py = permuter.py + our floor-free relocation-masked scorer (Phase 24 T2, in-layer
+        # rebind of src.main.Scorer; no submodule edit). Scores true masked-.text closeness (reaches 0)
+        # instead of the stock mnemonic-diff floor that made the random walk diverge.
+        subprocess.run([PY, "tools/permuter/run_masked.py", pd, "-j", str(j), "--stop-on-zero"],
                        cwd=REPO, env=env, capture_output=True, text=True, timeout=secs)
     except subprocess.TimeoutExpired:
         pass
     # kill stragglers
-    subprocess.run(["pkill", "-f", "decomp-permuter/permuter.py"], capture_output=True)
+    subprocess.run(["pkill", "-f", "permuter/run_masked.py"], capture_output=True)
     # ONLY output-0-* is a true byte-match; output-<N>-* are intermediate bests (score N != 0)
     win = glob.glob(f"{pd}/output-0-*/source.c")
     return win[0] if win else None

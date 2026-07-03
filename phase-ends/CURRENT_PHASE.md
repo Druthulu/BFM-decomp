@@ -8,9 +8,9 @@
 Whole-binary byte-gate (`tools/harvest_verify.py`) is the SOLE arbiter (G3/P9). Tools only reshape declarations/plumbing or PROPOSE candidates; nothing banks except a byte-identical SHA1 rebuild, verified CLEAN (R22): `make clean && (extract all 136) && make check-all` → 136/136; `tools/dedup_integrate.py --check` 0-failed; `tools/progress.py --fleet` monotonic up. No Ghidra DB change (R23 restart-noise — do NOT stage `db.*.gbf`).
 
 ## Task checklist
-- [ ] **T1 — Re-log map-wave results + backlog hygiene** *(xHigh)* ← CURRENT
-- [ ] T2 — Permuter Stage-0: floor-free masked scorer (-drz) *(Max)*
-- [ ] T3 — Permuter setup fixes: pins · typedefs · -O0 *(xHigh)*
+- [x] T1 — Re-log map-wave results + backlog hygiene *(xHigh)*
+- [x] T2 — Permuter Stage-0: floor-free masked scorer (-drz) *(Max)*
+- [ ] **T3 — Permuter setup fixes: pins · typedefs · -O0** *(xHigh)* ← CURRENT
 - [ ] T4 — Probe the flagship func_80132784 (4/400) *(Max)*
 - [ ] T5 — Permuter evolve: §31-directed mutation + grinder fixes *(Max)*
 - [ ] T5b — Fable5 §31 map-extension spike: crack an intrinsic class (S11/RC-6) *(Max; agent model:fable)* — added 2026-07-02 (Drew)
@@ -19,7 +19,7 @@ Whole-binary byte-gate (`tools/harvest_verify.py`) is the SOLE arbiter (G3/P9). 
 - [ ] T8 — Scale the §31 wave *(breadth → prompt for /effort toggle, R27)*
 - [ ] T9 — Distill + PhaseEnd *(Max, Tier-1)*
 
-**Current task:** T1. **Rules check due after T4** (P6).
+**Current task:** T3. **Rules check due after T4** (P6).
 
 **Fable5 policy (Drew, 2026-07-02):** Fable5 (`Agent(model:fable)`) is the reserved *discovery / wall-breaker* tier (reads the gcc-2.7.2 source; ~375k tok/giant), NOT the workhorse. Cheap-tier-first: permuter + Opus applying §31 → Fable5 only when they stall. Two uses this phase: (1) **on-demand escalation** on any giant the fixed permuter can't close (T4/T8 — no task); (2) **T5b** proactive spike to test whether S11/RC-6 are truly intrinsic. A Fable5-cracked lever goes into §31 (R16) so Opus applies it thereafter.
 
@@ -34,7 +34,8 @@ Whole-binary byte-gate (`tools/harvest_verify.py`) is the SOLE arbiter (G3/P9). 
 
 ## Progress log
 *(append one line per task on completion — the crash-recovery trail)*
+- **T2 ✓ (2026-07-02):** built the floor-free relocation-masked scorer, ENTIRELY in the `tools/` layer (no decomp-permuter submodule edit): `tools/masked_diff.py` (shared `objdump -drz` oracle + masking), refactored `tools/match_one.py` to use it (`-dr`→`-drz`), `tools/masked_scorer.py` (`MaskedScorer` drop-in), `tools/permuter/run_masked.py` (rebinds `src.main.Scorer`), wired `p16_permute.run_permuter`. VALIDATED: `masked_self=0`; `masked_cand≈match_one` (77~72/36~35/52=52); **STOCK floor 1750–2100 vs masked 36–77** (the wander cause, removed); live permuter base score = masked 77 (not stock 1930), descends to 74. `-drz` also fixed match_one's GTE under-count (regression-clean on count-exact seeds; func_80132784 now true 400 ins / 4-off). match_one output format unchanged → gate_stage/grinder compatible. No build-input changed. Commit: (checkpoint). T3 next handles the 2 compile FAILs surfaced (func_80132784 GTE `mvmva`/common.h; func_801412A8 custom-typedef drop).
 - **T1 ✓ (2026-07-02):** re-logged 7 map-wave seeds with BYTE-VERIFIED closeness (dropped 19 stale/unreproducible records from `.run/backlog.jsonl`, `.bak` kept; best_draft → `.run/backlog_drafts/`). Ground truth (match_one `-dr`): func_8014E048=**35** (was mis-logged `failed`), func_80176D94=**52**, func_80148094=**72** (best draft = `vG2.c`, NOT the named file), func_801412A8=**110**; T6 leaf-MATCHes func_8014F4C0/func_80155800=**0**. func_80144090 excluded (banked ×1, not a stub → T6 `OtBlk` type-lift). Fixed gate_stage sig_unify/`--src-file` doc-drift. `wave_targets --class REGALLOC` + grinder now surface all 4 count-exact permuter seeds with true closeness; func_80132784 correctly kept out of blind selection. No build-input changed → 136/136 invariant untouched. Commit: (checkpoint).
 
 ## Blockers / open findings
-- **R14 FINDING (P9, surfaced to Drew):** the Phase-23-close premise *"the flagship func_80132784 is 4 instructions from a ×134 bank"* is **NOT reproducible from any on-disk draft** — the best is **204-off with the wrong instruction count (384≠400: match_one `-dr` collapses ~16 nops on this GTE/nop-heavy seed)**; the true closeness is **unknown pending T2's `-drz` scorer**. → **Reframe T4**: func_80132784 is a genuine hard GIANT (wrong instr count ⇒ structural C work, not a register swap; residual = S7/S11 prologue-weave + hoist-vs-remat). The realistic near-permuter targets are the **count-exact** seeds (func_8014E048 35, func_80176D94 52, func_80148094 72, func_801412A8 110). S11 blocks func_801412A8 + func_80132784 → **T5b Fable5 spike** is well-motivated. Permuter-first still sound (these are exactly regalloc/schedule residuals), but the "easy flagship win" framing is retired.
+- **RESOLVED in T2 (R14 self-correction):** the T1 finding that "func_80132784 is 204-off / not 4/400" was itself the `-dr` artifact. Once `match_one` uses `-drz` (T2), func_80132784 reads its **true 400 ins and is 4/400 count-exact** — the Phase-23 "4 instructions away" premise is CONFIRMED. Backlog re-logged closeness 4 (source T2-drz). The residual is a **prologue save/init order swap (S7/S11) — a pure register/schedule swap, prime permuter/pin + T4 target.** The realistic count-exact near-permuter seeds are: **func_80132784 (4)**, func_8014E048 (35), func_80176D94 (52), func_80148094/vG2 (72), func_801412A8 (110). S11 blocks func_801412A8 + (partly) func_80132784 → T5b Fable5 spike still well-motivated. Lesson: the `-drz` fix (T2) is load-bearing for measurement honesty, not just the permuter's gradient.
