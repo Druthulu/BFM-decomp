@@ -10,8 +10,8 @@ Whole-binary byte-gate (`tools/harvest_verify.py`) is the SOLE arbiter (G3/P9). 
 ## Task checklist
 - [x] T1 — Re-log map-wave results + backlog hygiene *(xHigh)*
 - [x] T2 — Permuter Stage-0: floor-free masked scorer (-drz) *(Max)*
-- [ ] **T3 — Permuter setup fixes: pins · typedefs · -O0** *(xHigh)* ← CURRENT
-- [ ] T4 — Probe the flagship func_80132784 (4/400) *(Max)*
+- [x] T3 — Permuter setup fixes: pins · typedefs · -O0 *(xHigh)*
+- [ ] **T4 — Probe the flagship func_80132784 (4/400) + count-exact seeds** *(Max)* ← CURRENT
 - [ ] T5 — Permuter evolve: §31-directed mutation + grinder fixes *(Max)*
 - [ ] T5b — Fable5 §31 map-extension spike: crack an intrinsic class (S11/RC-6) *(Max; agent model:fable)* — added 2026-07-02 (Drew)
 - [ ] T6 — Build the integration-recovery tool *(Max)*
@@ -19,7 +19,7 @@ Whole-binary byte-gate (`tools/harvest_verify.py`) is the SOLE arbiter (G3/P9). 
 - [ ] T8 — Scale the §31 wave *(breadth → prompt for /effort toggle, R27)*
 - [ ] T9 — Distill + PhaseEnd *(Max, Tier-1)*
 
-**Current task:** T3. **Rules check due after T4** (P6).
+**Current task:** T4. **Rules check due after T4** (P6).
 
 **Fable5 policy (Drew, 2026-07-02):** Fable5 (`Agent(model:fable)`) is the reserved *discovery / wall-breaker* tier (reads the gcc-2.7.2 source; ~375k tok/giant), NOT the workhorse. Cheap-tier-first: permuter + Opus applying §31 → Fable5 only when they stall. Two uses this phase: (1) **on-demand escalation** on any giant the fixed permuter can't close (T4/T8 — no task); (2) **T5b** proactive spike to test whether S11/RC-6 are truly intrinsic. A Fable5-cracked lever goes into §31 (R16) so Opus applies it thereafter.
 
@@ -34,6 +34,7 @@ Whole-binary byte-gate (`tools/harvest_verify.py`) is the SOLE arbiter (G3/P9). 
 
 ## Progress log
 *(append one line per task on completion — the crash-recovery trail)*
+- **T3 ✓ (2026-07-02):** permuter setup fixes (all in `tools/`, no submodule edit): `p16_permute.hide_asm` — a b64-pragma carrier for register pins AND GTE `__asm__` blocks (pycparser parses the pragma; decomp-permuter's own `process_pragmas` decodes it back so cc1 sees the real asm); custom-typedef/`#define` preservation (drop only `#include`); `f32` typedef gap fixed; `compile_o0.sh` `-O0` variant auto-selected for `_o0` targets; `run_masked.py` pin-var fallback (`expr_type`→`int` on an unknown/hidden-pin id → 0 "internal permuter failures", was >0). ROOT CAUSE of the GTE fail: `compile.sh` now prepends `.include "macro.inc"` so `mvmva` assembles (the real build gets it via `include_asm.h`, which base.c omits + `-DPERMUTER` disables) — byte-neutral for non-GTE (count-exact scores unchanged). ALL 5 seeds parse+compile (base 4/110/36/52/77). 🎯 **The flagship func_80132784 (4/400) CLOSED** to a masked-0 that `match_one` independently confirms **MATCH (400 ins)** — winner preserved `.run/wave/func_80132784.win.c` for the T4 whole-binary gate → ×134 (≈ +1.6% byte-weight). No build-input changed. Commit: (checkpoint).
 - **T2 ✓ (2026-07-02):** built the floor-free relocation-masked scorer, ENTIRELY in the `tools/` layer (no decomp-permuter submodule edit): `tools/masked_diff.py` (shared `objdump -drz` oracle + masking), refactored `tools/match_one.py` to use it (`-dr`→`-drz`), `tools/masked_scorer.py` (`MaskedScorer` drop-in), `tools/permuter/run_masked.py` (rebinds `src.main.Scorer`), wired `p16_permute.run_permuter`. VALIDATED: `masked_self=0`; `masked_cand≈match_one` (77~72/36~35/52=52); **STOCK floor 1750–2100 vs masked 36–77** (the wander cause, removed); live permuter base score = masked 77 (not stock 1930), descends to 74. `-drz` also fixed match_one's GTE under-count (regression-clean on count-exact seeds; func_80132784 now true 400 ins / 4-off). match_one output format unchanged → gate_stage/grinder compatible. No build-input changed. Commit: (checkpoint). T3 next handles the 2 compile FAILs surfaced (func_80132784 GTE `mvmva`/common.h; func_801412A8 custom-typedef drop).
 - **T1 ✓ (2026-07-02):** re-logged 7 map-wave seeds with BYTE-VERIFIED closeness (dropped 19 stale/unreproducible records from `.run/backlog.jsonl`, `.bak` kept; best_draft → `.run/backlog_drafts/`). Ground truth (match_one `-dr`): func_8014E048=**35** (was mis-logged `failed`), func_80176D94=**52**, func_80148094=**72** (best draft = `vG2.c`, NOT the named file), func_801412A8=**110**; T6 leaf-MATCHes func_8014F4C0/func_80155800=**0**. func_80144090 excluded (banked ×1, not a stub → T6 `OtBlk` type-lift). Fixed gate_stage sig_unify/`--src-file` doc-drift. `wave_targets --class REGALLOC` + grinder now surface all 4 count-exact permuter seeds with true closeness; func_80132784 correctly kept out of blind selection. No build-input changed → 136/136 invariant untouched. Commit: (checkpoint).
 

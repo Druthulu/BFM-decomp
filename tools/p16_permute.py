@@ -11,14 +11,16 @@ A score-0 hit is written to .run/permuter/<fn>/output-*/source.c; we copy it to 
   python3 tools/p16_permute.py --funcs func_A,func_B --secs 300 --j 8
   python3 tools/p16_permute.py --from-drafts .run/drafts-full-uni --near-max 8 --limit 12 --secs 300
 """
-import argparse, os, re, subprocess, sys, glob, shutil, time
+import argparse, base64, os, re, subprocess, sys, glob, shutil, time
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import masked_diff   # shared scalar-typedef-redef regex (SCALAR_TYPEDEF_RE), used by prep below
 OV = "ov_SC01_077"
 ASM = f"asm/{OV}/nonmatchings/{OV}"
 PY = ".venv/bin/python"
 TYPEDEFS = ("typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;\n"
-            "typedef signed char s8; typedef short s16; typedef int s32;\n"
+            "typedef signed char s8; typedef short s16; typedef int s32; typedef float f32;\n"
             "typedef unsigned long long u64; typedef long long s64; typedef double f64;\n"
             "typedef s32 M2C_UNK; typedef s8 M2C_UNK8; typedef s16 M2C_UNK16; typedef s32 M2C_UNK32; typedef s64 M2C_UNK64;\n"
             "#define NULL ((void*)0)\n")
@@ -67,25 +69,69 @@ def expand_m2c_field(c):
         c = c[:i] + repl + c[j:]
 
 
+def _stmt_end(text, i):
+    """from index i, return the index just past the terminating ';' at brace/paren depth 0, respecting
+    () [] {} and string/char literals -- so a multi-line __asm__ block is captured as one statement."""
+    depth, j, n = 0, i, len(text)
+    while j < n:
+        c = text[j]
+        if c in '"\'':
+            q = c; j += 1
+            while j < n and text[j] != q:
+                j += 2 if text[j] == "\\" else 1
+            j += 1; continue
+        if c in "([{":
+            depth += 1
+        elif c in ")]}":
+            depth -= 1
+        elif c == ";" and depth == 0:
+            return j + 1
+        j += 1
+    return n
+
+
+def hide_asm(c):
+    """Replace each register-`__asm__` pin declaration and each `__asm__` statement with a
+    `#pragma _permuter b64literal <b64>` carrier. pycparser parses the pragma as an opaque node;
+    decomp-permuter's process_pragmas (ast_util.to_c) DECODES it back to the original text when it
+    serializes a candidate for compilation -> cc1 still sees the real pins/GTE asm (regalloc still
+    steered, mvmva/GTE ops still compile), while pycparser never chokes on `__asm__`. (No submodule
+    edit: this reuses decomp-permuter's OWN b64literal pragma carrier.)"""
+    out, i = [], 0
+    pat = re.compile(r"\b__asm__\b")
+    while True:
+        m = pat.search(c, i)
+        if not m:
+            out.append(c[i:]); break
+        a = m.start()
+        # statement start = just past the previous ; { } -- captures a `register T x __asm__(...)` pin
+        # from `register`, and a bare `__asm__(...)` statement from itself.
+        b = max(c.rfind(";", i, a), c.rfind("{", i, a), c.rfind("}", i, a))
+        start = b + 1 if b >= 0 else i
+        end = _stmt_end(c, a)
+        out.append(c[i:start])
+        chunk = c[start:end].strip()
+        out.append("\n#pragma _permuter b64literal " + base64.b64encode(chunk.encode()).decode() + "\n")
+        i = end
+    return "".join(out)
+
+
 def drop_preproc_and_scalar_typedefs(c):
-    """drop #include/#define and scalar/M2C typedef lines (TYPEDEFS/common.h provide them) —
-    but KEEP `extern` callee/data decls so the function compiles in its REAL signature context."""
-    lines = []
-    for ln in c.splitlines():
-        s = ln.strip()
-        if s.startswith("#"):
-            continue
-        if re.match(r"^typedef\b", s):
-            continue
-        lines.append(ln)
-    return "\n".join(lines)
+    """Prepare draft C for the permuter/gate: strip scalar/M2C typedef REDEFS (TYPEDEFS/common.h
+    provide them) and drop #include (the permuter's preprocess runs `cpp -nostdinc` with no -I, so an
+    include can't resolve). KEEP #define (cpp expands it), custom struct/union/fn-ptr typedefs (the
+    draft's OWN types -- dropping them left their uses undeclared), and extern callee/data decls (so
+    the fn compiles in its REAL signature context)."""
+    c = masked_diff.SCALAR_TYPEDEF_RE.sub("", c)
+    return "\n".join(ln for ln in c.splitlines() if not ln.lstrip().startswith("#include"))
 
 
 def make_base_c(draft_c):
-    """permuter base.c = scalar typedefs + the draft's canonical externs + the M2C_FIELD-expanded body.
-    Keeping the externs is essential: without them callees fall back to implicit-int and the permuter
-    matches in a DIFFERENT context than the whole-binary build (-> winners don't byte-gate)."""
+    """permuter base.c = scalar typedefs + the draft's custom typedefs/#defines/externs + the
+    M2C_FIELD-expanded, asm-hidden body. Keeping externs + custom types is essential: without them the
+    permuter matches in a DIFFERENT context than the whole-binary build (-> winners don't byte-gate)."""
     body = expand_m2c_field(draft_c)
+    body = hide_asm(body)
     body = drop_preproc_and_scalar_typedefs(body)
     return TYPEDEFS + body + "\n"
 
@@ -114,7 +160,9 @@ def setup(fn, draft_c, asm_subdir=ASM):
     if r.returncode:
         return None
     open(f"{pd}/settings.toml", "w").write(f'func_name = "{fn}"\ncompiler_type = "gcc"\n')
-    open(f"{pd}/compile.sh", "w").write(f'#!/bin/bash\nexec {REPO}/tools/permuter/compile.sh "$@"\n')
+    # -O0 for the _o0 split subseg (its target bytes are -O0; an -O2 compile can never match them)
+    csh = "compile_o0.sh" if asm_subdir.rstrip("/").endswith("_o0") else "compile.sh"
+    open(f"{pd}/compile.sh", "w").write(f'#!/bin/bash\nexec {REPO}/tools/permuter/{csh} "$@"\n')
     os.chmod(f"{pd}/compile.sh", 0o755)
     return pd
 

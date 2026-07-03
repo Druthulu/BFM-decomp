@@ -18,9 +18,23 @@ sys.path.insert(0, os.path.join(_REPO, "tools", "decomp-permuter"))   # the `src
 sys.path.insert(0, os.path.join(_REPO, "tools"))                      # masked_scorer / masked_diff
 
 import src.main as pmain                    # noqa: E402
+import src.ast_types as _at                 # noqa: E402
 from masked_scorer import MaskedScorer      # noqa: E402
 
 pmain.Scorer = MaskedScorer                 # the drop-in swap
+
+# Tolerate our hidden register-pin vars in the type-aware randomizer passes: a pin's declaration is
+# carried in a b64literal pragma (so cc1 still binds the reg), which leaves the var absent from
+# typemap.var_types -> perm_split_assignment / perm_temp_for_expr raise KeyError ("internal permuter
+# failure"). Fall back to `int` for an unknown identifier so those passes MUTATE pinned drafts (the
+# RC-2/RC-3 regalloc levers) instead of aborting. The whole-binary byte-gate remains the sole arbiter.
+_orig_expr_type = _at.expr_type
+def _pin_safe_expr_type(node, typemap):
+    try:
+        return _orig_expr_type(node, typemap)
+    except KeyError:
+        return _at.basic_type("int")
+_at.expr_type = _pin_safe_expr_type
 
 if __name__ == "__main__":
     pmain.main()

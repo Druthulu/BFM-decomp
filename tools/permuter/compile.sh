@@ -13,4 +13,8 @@ mipsel-linux-gnu-cpp -lang-c -I"$REPO/include" -undef -Wall -fno-builtin \
   | "$REPO/tools/bin/gcc-2.7.2-psx/cc1" -quiet -O2 -G0 -mips1 -mcpu=3000 -mgas \
         -msoft-float -fgnu-linker \
   | "$REPO/.venv/bin/python" "$REPO/tools/maspsx/maspsx.py" --aspsx-version=2.56 --expand-div \
+  | { printf '.include "macro.inc"\n'; cat; } \
   | mipsel-linux-gnu-as -I"$REPO/include" -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0 -o "$OUT"
+# .include "macro.inc" (found via -I"$REPO/include") pulls the GTE assembler macros (mvmva/…) so drafts
+# with GTE inline asm assemble -- the real build gets these via include_asm.h, which the permuter's base.c
+# omits (and -DPERMUTER disables). Pure macro defs -> byte-neutral for non-GTE functions. (Phase 24 T3)
