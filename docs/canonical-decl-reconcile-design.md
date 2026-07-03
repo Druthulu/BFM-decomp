@@ -4,6 +4,14 @@
 > (R30) as the spec a fresh plan-mode session builds from. This is design INPUT, not a locked design
 > — the plan-mode session picks the approach (§Design options) and gets Drew's approval before building.
 
+---
+## ✅ RESOLVED — Phase 24 T7b (2026-07-03). Built as `tools/reconcile_decls.py` (Option 1). Cookbook §33.
+- **R14 REFRAME of the premise:** the "×134 giant unlock" framing was a **misdiagnosis**. `func_80129CF8` banks ×134 **FREE** via the *existing* `dedup_propagate --recover` once its ×1 draft is reconciled (byte-verified: 134 overlays byte-identical, clean fleet 136/136, fleet→65.52%). Its symbols were already fleet-consistent; the lone `D_801151D4` `ptr` conflict is in `resident.c` (not an overlay member). So the tool is **NOT** a propagation unlock — it **automates the manual ×1 decl-reconcile** a freshly-matched giant needs (for the 6 sibling giants + the wave tail).
+- **Approach:** Option 1 (per-draft cast-injection), as recommended. Option 2 (shared `engine_decls.h`) stays deferred.
+- **Open questions answered:** (1) picker heuristic = `engine_core.h`-macro type AUTHORITATIVE, else plurality across all overlays+resident (deterministic tie-break); it reuses `gen_harvest_targets.collect_data_decls`. (2) cast templates = the §conflict-taxonomy table, encoded as a single-pass per-symbol `re.sub`. (3) no genuine "no byte-neutral reconcile" class appeared for func_80129CF8 (all 5 conflicts reconciled byte-identical); the byte-gate logs+skips any that can't (fail-closed). (4) the per-member `--recover` callee/data extension (plan T4) was **NOT needed** — T1 byte-proved zero per-member conflicts (the fleet is decl-consistent).
+- **Validated:** oracle 8/8 picks; full loose `func_80129CF8` → `reconcile_decls` → `make build BINARY=ov_SC01_077` = `d19c9580` (BYTE-IDENTICAL); idempotent on canonical input. Real end-to-end proof on an *un-reconciled sibling giant* is the remaining step (Fable5 match → reconcile → ×134).
+---
+
 ## The problem (byte-proven this session)
 A "giant" (e.g. `func_80129CF8`, 191 ins, Fable5-cracked — cookbook §32) MATCHES standalone and banks
 **×1** in `ov_SC01_077` fine, but **won't propagate ×134**: its shared callees/data are **loose-typed
