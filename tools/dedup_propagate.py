@@ -124,10 +124,13 @@ def find_site(text, ov, addr):
     for i, l in enumerate(lines):
         if l.strip() == f"DEFINE_{s}()" or l.strip().startswith(f"DEFINE_{s}()"):
             return ("macro", i, i, None)
-    # inline definition: "<type> func_XXXX(...)" at column 0, brace on the SAME or the NEXT line
-    # (harvest/permuter/sig_unify drafts vary the brace placement; a same-line-only match silently
-    # dropped any next-line-brace def from propagation -> lost matches).
-    defre = re.compile(rf"^[A-Za-z_][\w \*]*\b{s}\s*\([^;{{]*\)\s*(\{{)?\s*$")
+    # inline definition: "<type> func_XXXX(...)" at column 0 OR indented (recover_integration/harvest
+    # write the def block indented -> a column-0-only match silently dropped every indented def from
+    # propagation, T6 blocker 1), brace on the SAME or the NEXT line (drafts vary the brace placement).
+    # SAFE against indented CALL-exprs: the pattern requires a TYPE prefix ([A-Za-z_][\w \*]*, which
+    # admits neither '(' nor '=') before the name AND the whole line to BE the signature (ends ')' or
+    # '){'), so `if (func_X(...)) {`, `x = func_X(...);`, and a bare `func_X(a);` call never match.
+    defre = re.compile(rf"^\s*[A-Za-z_][\w \*]*\b{s}\s*\([^;{{]*\)\s*(\{{)?\s*$")
     for i, l in enumerate(lines):
         m = defre.match(l)
         if not m:
@@ -241,6 +244,34 @@ def byte_gate(ov):
     return r.returncode == 0, r.stdout + r.stderr
 
 
+# ---------------------------------------------------------------- straggler caller-extern reconcile (--recover)
+def reconcile_caller_extern(ov, addr):
+    """no-proto every conflicting `extern <ret> func_<ADDR>(<params>);` caller decl in ov's src files
+    (main + _a/_o0 splits), keeping the return type, dropping the params. A member overlay that
+    forward-declares the banked fn with a prototype INCOMPATIBLE with the def (`extern void
+    func_X(s32,s32,s32);` vs the def's (s32,s32,u32)) makes its TU fail `conflicting types` once the
+    macro def lands. No-proto'ing that decl is byte-NEUTRAL (the call `func_X(a,b,c)` emits identical
+    code; a K&R decl is compatible with any promotion-safe def) and lets the def compile — the same
+    lever as tools/fix_arity_callers.py --any-proto, applied surgically to the failing overlay. The
+    whole-binary byte-gate stays the sole arbiter (G3/P9). Returns (snapshot, n_edits); the snapshot
+    restores the files VERBATIM (fix_arity_callers --revert is LOSSY for non-(void) forms)."""
+    rx = re.compile(rf'(extern\s+[A-Za-z_][\w \t\*]*?\b{sym(addr)}\s*\()\s*[^;)]+?\s*(\)\s*;)', re.I)
+    snap, n = {}, 0
+    for cp, _ in overlay_files(ov):
+        txt = cp.read_text()
+        snap[cp] = txt
+        new, k = rx.subn(r"\1\2", txt)
+        if k:
+            cp.write_text(new)
+            n += k
+    return snap, n
+
+
+def restore_snapshot(snap):
+    for cp, txt in snap.items():
+        cp.write_text(txt)
+
+
 CC1 = ROOT / "tools/bin/gcc-2.7.2-psx/cc1"
 
 def compiles_standalone(body_lines):
@@ -279,6 +310,12 @@ def main():
     ap.add_argument("--binaries", help="restrict members to these onboarded overlays (comma list)")
     ap.add_argument("--check-only", action="store_true", help="dry run: print the plan, touch nothing")
     ap.add_argument("--no-gate", action="store_true")
+    ap.add_argument("--recover", action="store_true",
+                    help="on a straggler byte-gate failure, FIRST no-proto that overlay's conflicting "
+                         "caller extern for the fn and re-gate (Part B reconcile — byte-neutral, same "
+                         "lever as fix_arity_callers --any-proto); if still failing, EXCLUDE only that "
+                         "overlay from the fn's members (Part A, ×N-1) rather than dropping the fn from "
+                         "ALL overlays (the historical all-or-nothing). Recovers T6 caller-decl stragglers.")
     a = ap.parse_args()
 
     onb = onboarded_overlays()
@@ -488,18 +525,43 @@ def main():
             print(f"[ OK ] {len(changed)} overlays byte-identical after propagation")
             break
         restore(touched)
-        survivors, dropped = [], []
+        survivors, dropped, excluded, recovered = [], [], [], []
         for p in plan:
             if fail_ov not in p["members"]:
                 survivors.append(p); continue
             t2, c2 = apply_plan([p], restrict={fail_ov})
             pok = byte_gate(fail_ov)[0] if fail_ov in c2 else True
             restore(t2)
-            (survivors if pok else dropped).append(p)
+            if pok:
+                survivors.append(p); continue          # p alone is fine here -> a multi-fn interaction
+            # p is a real culprit for fail_ov. Without --recover: the historical all-or-nothing drop.
+            if not a.recover:
+                dropped.append(p); continue
+            # Part B — reconcile fail_ov's conflicting caller extern for p, then re-trial the byte-gate.
+            snap, n = reconcile_caller_extern(fail_ov, p["addr"])
+            if n:
+                t3, c3 = apply_plan([p], restrict={fail_ov})
+                pok2 = byte_gate(fail_ov)[0] if fail_ov in c3 else True
+                restore(t3)                             # -> the RECONCILED text (t3 snapshot is post-reconcile)
+                if pok2:
+                    survivors.append(p); recovered.append(p); continue   # keep the reconcile on disk
+            restore_snapshot(snap)                      # reconcile didn't buy the match -> undo it
+            # Part A — exclude ONLY fail_ov from p's members (keep p for the rest); drop iff reach<2.
+            p["members"] = [m for m in p["members"] if m != fail_ov]
+            if len(p["members"]) >= 2:
+                survivors.append(p); excluded.append(p)
+            else:
+                dropped.append(p)
+        if recovered:
+            print(f"[recover] {fail_ov}: reconciled the conflicting caller extern for "
+                  f"{len(recovered)} fn(s), kept in members: " + ", ".join(f"0x{p['addr']:08X}" for p in recovered))
+        if excluded:
+            print(f"[exclude] {fail_ov}: {len(excluded)} fn(s) byte-diverge / irreconcilable here -> "
+                  f"propagated to the rest, {fail_ov} kept ×1: " + ", ".join(f"0x{p['addr']:08X}" for p in excluded))
         if dropped:
             print(f"[drop] {fail_ov}: {len(dropped)} cross-overlay straggler(s) "
-                  f"(loose-typing/overlay-local, kept ×1): " + ", ".join(f"0x{p['addr']:08X}" for p in dropped))
-        else:
+                  f"(reach<2 after exclude / all-or-nothing): " + ", ".join(f"0x{p['addr']:08X}" for p in dropped))
+        if not (recovered or excluded or dropped):
             # fail_ov fails with the full batch but no single fn is a culprit -> a multi-fn interaction;
             # conservatively drop every fn targeting fail_ov (rare; kept ×1) so the rest can proceed.
             tofail = [p for p in plan if fail_ov in p["members"]]

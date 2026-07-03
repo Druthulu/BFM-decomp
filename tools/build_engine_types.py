@@ -31,6 +31,40 @@ NAMED_DEF_RE = re.compile(r'\b(struct|union)\s+([A-Za-z_]\w*)\s*\{')
 TYPEDEF_RE = re.compile(r'\btypedef\b')
 
 
+def blank_comments(text):
+    """Same-LENGTH copy of text with /* */ and // comments (and string/char literals) replaced by
+    spaces, newlines preserved. find_defs/find_typedefs scan THIS so a `typedef`/`struct` keyword
+    inside a comment never matches — the generated header's own comment ('...typedef lift...') was
+    scanned to the next ';' and captured `struct vec;` as a bogus `typedef vec`, self-colliding and
+    blocking every --strip. Offsets are preserved, so the caller extracts/removes spans from the
+    ORIGINAL text unchanged."""
+    out = list(text)
+    i, n = 0, len(text)
+    while i < n:
+        c = text[i]
+        if c == '/' and i + 1 < n and text[i + 1] == '*':
+            j = text.find('*/', i + 2)
+            j = n if j == -1 else j + 2
+            for k in range(i, j):
+                if out[k] != '\n':
+                    out[k] = ' '
+            i = j
+        elif c == '/' and i + 1 < n and text[i + 1] == '/':
+            j = text.find('\n', i)
+            j = n if j == -1 else j
+            for k in range(i, j):
+                out[k] = ' '
+            i = j
+        elif c in '"\'':                      # skip a string/char literal ('/*' inside it is not a comment)
+            i += 1
+            while i < n and text[i] != c:
+                i += 2 if text[i] == '\\' else 1
+            i += 1
+        else:
+            i += 1
+    return ''.join(out)
+
+
 def find_defs(text):
     """Return [(kind, name, start, end)] for each named struct/union DEFINITION, brace-matched.
     end is the index just past the closing '}' (the trailing ';' is consumed separately)."""
@@ -106,8 +140,9 @@ def main():
     c_path = os.path.join(REPO, f'src/{args.source}/{args.source}.c')
     out_path = os.path.join(REPO, args.out)
     text = open(c_path).read()
-    defs = find_defs(text)
-    tdefs = find_typedefs(text)
+    scan = blank_comments(text)                       # scan comment-blanked; extract from `text`
+    defs = find_defs(scan)
+    tdefs = [(name, text[s:e], s, e) for name, _b, s, e in find_typedefs(scan)]
     if not defs and not tdefs:
         sys.exit('no named struct/union/typedef defs found')
 
@@ -147,7 +182,8 @@ def main():
     # Existing header types keep their (compile-valid) order; new source types append after.
     if os.path.exists(out_path):
         htext = open(out_path).read()
-        existing = [(k, n, htext[s:e]) for k, n, s, e in find_defs(htext)]
+        hscan = blank_comments(htext)                 # comment-blanked scan of the existing header too
+        existing = [(k, n, htext[s:e]) for k, n, s, e in find_defs(hscan)]
         merged, mseen = [], set()
         for kind, name, body in existing + ordered:
             if (kind, name) in mseen:
@@ -156,7 +192,7 @@ def main():
             merged.append((kind, name, body))
         ordered = merged
         # the same additive + collision-checked merge for typedefs (header-first, then new source)
-        existing_td = [(n, b) for n, b, s, e in find_typedefs(htext)]
+        existing_td = [(n, htext[s:e]) for n, _b, s, e in find_typedefs(hscan)]
         merged_td, mtseen = [], {}
         for name, body in existing_td + tordered:
             norm = re.sub(r'\s+', ' ', body.strip())

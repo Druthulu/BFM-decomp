@@ -442,4 +442,9 @@ typedef struct { u8 b[8]; } B8;
 typedef struct { u32 a, b, c, d; } Blk16;
 typedef struct { Blk16 lo, hi; } Buf32;
 
+/* Phase 24 (T6): func_8014F74C's 8-byte vertex/motion structs (s16 vs u16 x,y,z,w),
+ * lifted from ov_SC01_077.c so the matched body propagates ×134 via engine_core.h. */
+typedef struct { s16 x, y, z, w; } PosT;
+typedef struct { u16 x, y, z, w; } MoveT;
+
 #endif /* BFM_ENGINE_TYPES_H */

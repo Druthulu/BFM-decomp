@@ -185,7 +185,8 @@ def _run_gate_locked(drafts, binary, src, asm, out, good_sha, propagate, source_
     prop_error = None
     if verified and propagate:
         before = _dedup_group_count()
-        pr = sh([PY, "tools/dedup_propagate.py", "--auto-from", binary, "--min-reach", "2"], timeout=3600)
+        pr = sh([PY, "tools/dedup_propagate.py", "--auto-from", binary, "--min-reach", "2",
+                 "--recover"], timeout=3600)
         propagated = max(0, _dedup_group_count() - before)
         # Surface a REAL failure: dedup_propagate exits non-zero on a byte-gate revert (a false-reach
         # straggler poisoned the all-or-nothing batch) — distinct from the benign "nothing to propagate"
