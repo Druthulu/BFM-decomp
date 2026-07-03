@@ -165,6 +165,11 @@ def _run_gate_locked(drafts, binary, src, asm, out, good_sha, propagate, source_
     cast_extra = (["--src-file", src_file] if src_file else None)
     d1 = _xform("canon_resident_calls.py", binary, drafts, "-cn")
     d1 = _xform("cast_call_sites.py", binary, d1, "-cast", extra=cast_extra)
+    # data-symbol analog of cast_call_sites: rewrite each loose D_XXXX extern -> fleet-canonical +
+    # byte-neutral access cast (§33, T7b). No-op/idempotent on drafts without a data-decl conflict, so
+    # it can't regress the wave; the byte-gate is still the sole arbiter. Chiefly unblocks GIANTS
+    # (hoisted global base arrays) but composes harmlessly for every draft.
+    d1 = _xform("reconcile_decls.py", binary, d1, "-rc", extra=cast_extra)
     verified = _gate1(binary, src, asm, out, good_sha, d1, verified_out, failed_out)
 
     d = d1
