@@ -447,4 +447,8 @@ typedef struct { Blk16 lo, hi; } Buf32;
 typedef struct { s16 x, y, z, w; } PosT;
 typedef struct { u16 x, y, z, w; } MoveT;
 
+/* Phase 24 (T7): GsRVIEW2-shaped 32-byte view record — the 8-word block copied/reserved in the
+ * region-a camera giants (func_80129CF8 …). Shared so the matched body propagates ×134. */
+typedef struct { s32 vpx, vpy, vpz, vrx, vry, vrz, rz, super; } RView;
+
 #endif /* BFM_ENGINE_TYPES_H */
