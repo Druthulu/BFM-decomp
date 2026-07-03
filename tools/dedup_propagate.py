@@ -155,12 +155,16 @@ def find_site(text, ov, addr):
                     break
             if end is None:
                 return None
-            # collect contiguous preceding extern declarations (skip blank lines)
+            # collect contiguous preceding extern declarations (skip blank lines). A trailing
+            # `/* comment */` after the ; is allowed (a banked extern block often annotates a decl,
+            # e.g. `extern u8 D_x[];   /* canonical TU type */` — a comment-blind `;\s*$` stopped the
+            # scan there and dropped every EARLIER extern, failing compiles_standalone on the now-
+            # undeclared callees/data; T6.4 fix for func_8014E048's pin/asm body).
             start = i
             k = i - 1
             while k >= 0 and lines[k].strip() == "":
                 k -= 1
-            while k >= 0 and re.match(r"^\s*extern\b.*;\s*$", lines[k]):
+            while k >= 0 and re.match(r"^\s*extern\b.*;\s*(/\*.*\*/\s*)?$", lines[k]):
                 start = k
                 k -= 1
                 while k >= 0 and lines[k].strip() == "":
