@@ -2383,7 +2383,16 @@ DEFINE_func_80149290()  /* dedup: shared engine-core @0x80149290 (src/shared) */
 
 DEFINE_func_80149350()  /* dedup: shared engine-core @0x80149350 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80149374);
+// @class: regalloc-order
+// @solved: MATCH (23 ins) via .run/gccmap/cse_expr.md §2 (hoist-vs-remat IS steerable).
+//   Old @stuck: gcc cached &sp18 in freed $s0 (addiu s0,sp,24 + move a2/a0,s0); target remats
+//   addiu $aN,$sp,0x18 per call. Fix: name the first use through a nested-block pointer local,
+//   then kill its CSE class AFTER the call with a volatile OUTPUT-ONLY asm (no "0"(q) input --
+//   that keeps q live across the call and re-caches). LOAD-BEARING: cse.c invalidate_for_call
+//   only kills HARD regs; the asm re-SET is the only C-reachable pseudo-class kill.
+//   Leaf-proven only (match_one, asm/ov_SC04_005) -- still needs whole-binary gate_stage.
+DEFINE_func_80149374()  /* dedup: shared engine-core @0x80149374 (src/shared) */
+
 
 
 DEFINE_func_801493D0()  /* dedup: shared engine-core @0x801493D0 (src/shared) */
