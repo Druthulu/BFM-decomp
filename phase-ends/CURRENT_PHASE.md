@@ -13,15 +13,14 @@ Whole-binary byte-gate (`tools/harvest_verify.py`) is the SOLE arbiter (G3/P9). 
 - [x] T3 — Permuter setup fixes: pins · typedefs · -O0 *(xHigh)*
 - [x] T4 — Probe the flagship func_80132784 (4/400) + count-exact seeds *(Max)*
 - [x] T5 — Permuter evolve: §31-directed mutation + grinder fixes *(Max)*
-- [x] T5b — Fable5 §31 map-extension spike: S11 CRACKED (func_8014E048 banked; S12/S13/RC-10 → §31) *(Max; Fable5)* — + found/fixed the Phase-21 overlay GetTPage breakage; main-side (62 refs) tracked open
+- [x] T5b — Fable5 §31 map-extension spike: S11 CRACKED (func_8014E048 banked; S12/S13/RC-10 → §31) *(Max; Fable5)* — + found the Phase-21 breakage (overlay GetTPage + main-side 62 refs → both fixed in T5c)
 - [x] T5c — Fix the Phase-21 main/library clean-rebuild breakage (62 dangling INCLUDE_ASM refs) *(Max)* — renamed to curated names; **true clean 136/136 restored**; added `tools/lint_symbol_refs.py` guard
-- [ ] **T6 — Build the integration-recovery tool** *(Max)* ← CURRENT
-- [ ] T6 — Build the integration-recovery tool *(Max)*
-- [ ] T7 — Unblock the 8 compile-blocked region-a giants *(xHigh)*
-- [ ] T8 — Scale the §31 wave *(breadth → prompt for /effort toggle, R27)*
-- [ ] T9 — Distill + PhaseEnd *(Max, Tier-1)*
+- [~] **T6 — Integration-recovery tool** *(Max)* — flagship `func_80132784` ×134 ✓ (`commit:0443`) + the tool (`recover_integration.py`, `commit:0445`) built+validated (13 fns clean-verified ×1); **×134 PROPAGATION-RECOVERY REMAINING** (3 blockers — see **🔜 CONTINUATION §A**) ← **RESUME HERE**
+- [ ] T7 — Unblock the 8 compile-blocked region-a giants *(xHigh — Drew: **PING before starting** to switch effort)* — §C
+- [ ] T8 — Scale the §31 wave *(breadth → prompt for /effort toggle, R27)* — §D
+- [ ] T9 — Distill + PhaseEnd *(Max, Tier-1)* — §E
 
-**Current task:** T5b. **Rules check ✓ after T4** (P6); next due after T8.
+**Current task:** T6 propagation-recovery (§A), then T7 (ping Drew for xHigh). **Rules check ✓ after T4** (P6); next due after T8. **Fleet at last commit `commit:0445`: 136/136 byte-identical, 64.90% count / ~31.5% byte-weighted, 1784 dedup groups, 0 NON_MATCHING.** main `143dbb89`, resident `8e17e02f`, ov_SC01_077 `d19c9580`.
 
 **Fable5 policy (Drew, 2026-07-02):** Fable5 (`Agent(model:fable)`) is the reserved *discovery / wall-breaker* tier (reads the gcc-2.7.2 source; ~375k tok/giant), NOT the workhorse. Cheap-tier-first: permuter + Opus applying §31 → Fable5 only when they stall. Two uses this phase: (1) **on-demand escalation** on any giant the fixed permuter can't close (T4/T8 — no task); (2) **T5b** proactive spike to test whether S11/RC-6 are truly intrinsic. A Fable5-cracked lever goes into §31 (R16) so Opus applies it thereafter.
 
@@ -46,12 +45,64 @@ Whole-binary byte-gate (`tools/harvest_verify.py`) is the SOLE arbiter (G3/P9). 
 - **T2 ✓ (2026-07-02):** built the floor-free relocation-masked scorer, ENTIRELY in the `tools/` layer (no decomp-permuter submodule edit): `tools/masked_diff.py` (shared `objdump -drz` oracle + masking), refactored `tools/match_one.py` to use it (`-dr`→`-drz`), `tools/masked_scorer.py` (`MaskedScorer` drop-in), `tools/permuter/run_masked.py` (rebinds `src.main.Scorer`), wired `p16_permute.run_permuter`. VALIDATED: `masked_self=0`; `masked_cand≈match_one` (77~72/36~35/52=52); **STOCK floor 1750–2100 vs masked 36–77** (the wander cause, removed); live permuter base score = masked 77 (not stock 1930), descends to 74. `-drz` also fixed match_one's GTE under-count (regression-clean on count-exact seeds; func_80132784 now true 400 ins / 4-off). match_one output format unchanged → gate_stage/grinder compatible. No build-input changed. Commit: (checkpoint). T3 next handles the 2 compile FAILs surfaced (func_80132784 GTE `mvmva`/common.h; func_801412A8 custom-typedef drop).
 - **T1 ✓ (2026-07-02):** re-logged 7 map-wave seeds with BYTE-VERIFIED closeness (dropped 19 stale/unreproducible records from `.run/backlog.jsonl`, `.bak` kept; best_draft → `.run/backlog_drafts/`). Ground truth (match_one `-dr`): func_8014E048=**35** (was mis-logged `failed`), func_80176D94=**52**, func_80148094=**72** (best draft = `vG2.c`, NOT the named file), func_801412A8=**110**; T6 leaf-MATCHes func_8014F4C0/func_80155800=**0**. func_80144090 excluded (banked ×1, not a stub → T6 `OtBlk` type-lift). Fixed gate_stage sig_unify/`--src-file` doc-drift. `wave_targets --class REGALLOC` + grinder now surface all 4 count-exact permuter seeds with true closeness; func_80132784 correctly kept out of blind selection. No build-input changed → 136/136 invariant untouched. Commit: (checkpoint).
 
-## T6 targets (banked leaf-MATCH, ×N propagation capped — declaration plumbing)
-- **`func_80132784`** — banked ×1 in ov_SC01_077_a.c; ×134 propagation blocked by `ov_SC02_005` cross-overlay straggler + an extern/type mismatch. The auto-from batch is all-or-nothing (poisoned by pre-existing capped fns `0x8012A018`/`0x80165CA0`); T6's tool must (a) drop-straggler per-function cleanly, (b) reconcile the extern/type conflict per overlay. The redundant-`Blk16`-typedef reconcile is the class-c type dedup T6 automates.
+---
+
+# 🔜 CONTINUATION FOR THE FRESH SESSION (2026-07-03 checkpoint)
+
+**State:** all work committed (`commit:0440`→`commit:0445`); tree clean (only `db.*.gbf` R23 noise). Fleet 136/136 byte-identical from a genuinely-clean tree, 64.90% count / ~31.5% byte-weighted. **RESUME AT T6 propagation-recovery (§A).** Effort stays **Opus Max**; ping Drew for xHigh before **T7**.
+
+## §A — T6 propagation-recovery (the immediate resume point)
+**Goal:** take the leaf-MATCH-but-×1 banks to ×134. The **tool** (`recover_integration.py`) already banks the "declaration/TU plumbing" class ×1; what's missing is getting those ×1 banks (and the flagship-class ×1s) propagated ×134.
+
+**Reproduce the 13 gate-recovered ×1 banks (clean-verified this session):**
+```
+.venv/bin/python tools/recover_integration.py --funcs func_8014F74C,func_801542A4,func_8015BE94,func_8015F380,func_80160F00,func_801653B8,func_80166244,func_8016E778,func_801732C4,func_8017331C,func_80173374,func_80174554,func_801745AC --no-propagate
+# -> banks all 13 ×1 in ov_SC01_077; CLEAN-verify: make clean && make extract BINARY=ov_SC01_077 && make build BINARY=ov_SC01_077 == d19c9580
+```
+(Reverted at checkpoint — they re-bank via the tool. Better to fix propagation FIRST, then bank+propagate so they land ×134 directly.)
+
+**The 3 propagation blockers (each a concrete fix; the whole-binary byte-gate is the arbiter throughout):**
+1. **`dedup_propagate.find_site` misses INDENTED inline defs** (blocked 7/13 → "not inline-def"). The banked defs are indented (`    void func_801542A4(s32 *a0, s32 a1) {` at ov_SC01_077.c:4601). `find_site` (tools/dedup_propagate.py ~line 440, `apply_plan`) + its `INLINE_DEF_RE` detect column-0 defs only. **Fix:** allow leading whitespace in the inline-def detection (same Phase-15 `find_site` brace-placement class — a green byte-gate masks under-propagation; verify via `make report` fleet %, not just the gate). Cross-check with `tools/gen_harvest_targets.py:INLINE_DEF_RE` (Phase-19 fixed a similar column-0 issue there).
+2. **Overlay-local type lift** (blocked 1/13 → "not self-contained (local types)"). One fn's body uses a type not in `engine_types.h`. **Fix:** `tools/build_engine_types.py --strip` (§28b type-lift), then re-propagate.
+3. **Straggler caller-extern reconcile** (blocked the 5 plannable + the flagship + others). A member overlay (e.g. `ov_SC01_000`) declares a CONFLICTING caller extern for the fn vs the def sig → `conflicting types` → `dedup_propagate`'s all-or-nothing drops it. **THE PROVEN FIX (flagship func_80132784 / ov_SC02_005, byte-neutral):** rewrite the straggler overlay's `extern <ret> func_X(...)` to the def's canonical sig (width-compatible: `s32↔u32`, `s16↔u16`, ptr types — the call site casts or passes wide args, so codegen is identical), then re-propagate → ×134. Example done by hand: `sed -i 's/extern void func_80132784(s32 a0, s32 a1, s32 a2);/…u32 a2);/' src/ov_SC02_005/ov_SC02_005.c`. **AUTOMATE as `dedup_propagate --recover`:** on a straggler drop, (Part B) reconcile its conflicting caller extern to the def sig → re-gate → keep in members (×N); (Part A fallback) if irreconcilable, EXCLUDE the straggler from the fn's members and propagate to the clean N-1 (×N-1, keep straggler ×1) rather than the current "single-fn plan → all-candidates-dropped → error" (dedup_propagate.py lines 478-511). **NEVER change the matched def; only the caller's extern.**
+
+**Also `func_8014E048` ×134 (T5b bank, DIFFERENT blocker, lower priority — 1 fn):** `dedup_propagate.compiles_standalone` (tools/dedup_propagate.py:246) REJECTS pin/asm bodies (`register __asm__`/asm-carrier) → the fn never enters the plan. Needs a self-containment shim (compile with the pins) or an alternate propagation path for pin/asm defs. `func_8014E048` is banked ×1 in ov_SC01_077.c (S12/S13 levers, §31 sched.md §6).
+
+**T6 done-criterion:** the 13 (+ flagship-class ×1s) propagate ×134, clean fleet 136/136, dedup-check 0-failed, fleet-% up. Then `dedup_propagate --recover` (or the recover_integration `--auto` path with propagation) can sweep the broader capped tail.
+
+## §B — Tools + knowledge built this session (for T8/T9 reuse)
+- **`tools/permuter_weights.py`** (T5): §31-directed decomp-permuter weights (`classify(klass,where)→regalloc|schedule|cse` → settings.toml `[weight_overrides]`). Auto-threaded by `p16_permute.setup`/`grinder`. No submodule edit.
+- **`tools/lint_symbol_refs.py`** (T5c): flags stale `func_/D_<ADDR>` refs after a symbols rename (comment/string-aware). **Run after ANY symbols.us.txt rename**; T9 candidate to wire into `make report`.
+- **`tools/recover_integration.py`** (T6): batch integration-recovery (`--auto`/`--funcs`/`--from-file`; 2-pass snapshot/restore). Banks the caller-decl-conflict class.
+- **`tools/fix_arity_callers.py`** — EXTENDED with `--binary` (scans the overlay's own inline callers, not just engine_core.h — the T6 gap) + `--any-proto`. NOTE: `--revert` is LOSSY for `--any-proto` (→ use snapshot/restore, as recover_integration now does).
+- **§31 map extension (T5b, byte-proven):** `docs/gcc-2.7.2-map/sched.md §6` (S12 reused-s32-temp fence, S13 head-skip escape + case-study ledger `.run/gccmap/exp/e1a..e1k.c`), `regalloc.md §F` (RC-10 preference cascade + RC-6/S11 verdict DOWNGRADE), cookbook §31 triage table updated. **S11 is now steerable** — audit pins + try S12/S13 before any "S11 intrinsic" verdict.
+- **§31-directed permuter (T5):** `tools/p16_permute.py --funcs <fn> --from-drafts .run/backlog_drafts --secs N --j 14` (auto-directed by backlog class). The 4 flagship count-exact seeds (func_8014E048 28 / func_80176D94 52 / func_80148094 72 / func_801412A8 110) are RC-6/S11 walls — permuter improves but doesn't gate; T5b cracked func_8014E048 by hand instead.
+
+## §C — T7: unblock the 8 compile-blocked region-a giants (xHigh; PING Drew first)
+The 8 (all reach-134, "won't compile standalone (loose-typing / missing decl)"): **`func_80129CF8`(191) `func_8012D098`(189) `func_8012EC04`(178) `func_8013339C`(160) `func_80138ED0`(159) `func_801392FC`(182) `func_8013A530`(204) `func_8013AF20`(185)**. Per the Phase-23 finding they are **mechanically** unblocked (ghidra-type aliases + data externs — NOT struct-walled). A cheap pass (add the missing type aliases/data externs so they compile standalone) makes them draftable → then §31 + Opus + the T6 recovery + permuter. Their Ghidra-C is in `.run/ghidra_c/` (or regen via `DecompileFunctions.java`, R23/R29 `/mcp`).
+
+## §D — T8: scale the §31 wave (breadth → prompt for /effort toggle, R27)
+With the permuter (T5), integration-recovery (T6), and the §31 map (incl. S12/S13/RC-10), run §31-powered Opus-agent waves over the near-miss backlog. Real canon class counts: `SCHEDULE≈30 / REGALLOC≈84 / REMAT≈3`, steerable near-misses scattered in `OTHER`/`None` (text-scan `where_stuck`). Each match ×134. Batch ~8, triage-first (bail confirmed-intrinsic to permuter). **The ~26 remaining capped candidates** (leaf-MATCH-but-gate-rejected beyond the 13 T6-recovered) are `recover_integration --auto` fodder — the harder multi-arity-caller loose-typing walls need per-fn diagnosis. Breadth-shaped → prompt Drew for `/effort ultracode` (R26/R27).
+
+## §E — T9: distill + PhaseEnd (Tier-1, Max)
+Distill into the cookbook: the **T6 integration-recovery** (caller-decl no-proto reconcile + the straggler-reconcile + the 2-pass snapshot) + the **incremental-masking lesson** (R22/R14 caught 2 traps this session: the Phase-21 fleet bug AND the tool's lossy-revert — clean-verify EVERY batch) + `lint_symbol_refs.py` + the **Phase-21 rename-propagation post-mortem** (§Blockers). Verify every checkbox (P7), clean fleet 136/136, write `PhaseEnd_Phase24.md`, archive this file → `phase-ends/logs/Phase24.md` (R19).
+
+## §F — discipline reminders (do NOT regress)
+- **R22/R14 — clean-verify EVERY batch before committing** (`make clean && extract-all && check-all` → 136/136). Incremental masks (proven twice this session). The `harvest_verify`/`dedup_propagate` per-binary gate is incremental — a full clean fleet check-all is the real proof.
+- **Straggler/caller reconcile is byte-neutral ONLY on the caller's extern** (width-compatible types; the call site casts/passes-wide). NEVER touch the matched def.
+- **R23:** never stage `db.*.gbf`. **T6 commits:** never stage `symbols.us.txt` (unrelated).
+- **Commit hygiene:** the tool commits keep source/tool/docs; `git checkout src/ docs/` to revert scratch banks (keeps `tools/`+`phase-ends/`).
+
+---
+
+## T6 targets (the specific ×1 banks awaiting §A propagation-recovery)
+- **`func_80132784`** (flagship, 400 ins) — **ALREADY ×134** (`commit:0443`, via the ov_SC02_005 straggler reconcile — the template for §A.3).
+- **The 13 T6 gate-recovered fns** (§A) — banked ×1, awaiting the 3-blocker fix.
+- **`func_8014E048`** (T5b, S11 crack) — ×1, pin/asm self-containment blocker (§A).
 - Carried from Phase-23 backlog: `func_8014F4C0` (fwd-decl reconcile + Vec4u lift), `func_80155800` (TU-context), `func_80144090` (OtBlk type-lift). Test cases in `.run/wave/`.
 
 ## Blockers / open findings
-- **🔴🔴 MAJOR PRE-EXISTING (Phase-21) LATENT BREAKAGE — a truly-clean rebuild has been broken since Phase-21 close (`commit:0292`), masked by incremental builds. FOUND during T5b's R22 fleet verify (2026-07-03). NEEDS DREW'S CALL (P5 stop — touches the crown-jewel main EXE + the Phase-7/8/9 PsyQ library-build machinery + the project's central byte-identical-clean-rebuild invariant).**
+- **✅ RESOLVED (T5b+T5c, 2026-07-03) — Phase-21 latent breakage: a truly-clean rebuild had been broken since Phase-21 close (`commit:0292`), masked by incremental builds. FOUND during T5b's R22 fleet verify; fully fixed, true clean 136/136 restored, `lint_symbol_refs.py` guard added.** (Kept here as the post-mortem for T9's PhaseEnd + cookbook distillation.)
   - **Symptom:** `make clean` + full re-extract + `make check-all` → main FAILS to build (`can't open asm/nonmatchings/800c3/func_8005CE18.s` … dozens); overlays failed 134× on `undefined reference to func_80058B40`. Only `main`'s failure remains after the overlay fix (135/136).
   - **Root cause:** Phase-21 xdedup (`commit:0292`, "+62 PsyQ names") renamed 62 PsyQ library functions to their proper names (InitHeap, FlushCache, GetTPage, SysEnqIntRP, SpuWrite, _SpuInit, CdMix, __main …) in `symbols.us.txt`, but did NOT propagate the rename to the committed source that references them by the OLD `func_<ADDR>` name: **(a) 1 shared macro CALL** in `engine_core.h` (`func_80058B40`, overlay-side) and **(b) 62 `INCLUDE_ASM(func_<ADDR>)` stub lines across 12 main/library `src/*.c`** (800c.c, 800c3.c×22, apicard1/2/4, boot.c, libcd1.c×8, libetc.c×6, libgpu.c×3, sgap.c, snd1.c×7, snd2.c). Splat now names/handles those addresses by the curated name (linked-not-stubbed via psyq_integrate, or emitted as `<curated>.s`), so the stale `func_<ADDR>` refs dangle. **Incremental builds reused stale pre-rename `.s`/`.o` and masked it** → every "check-all 136/136 / main 143dbb89" in Phases 21/22/23 was incrementally-stale, NEVER a genuinely-clean tree (the exact R22 failure mode).
   - **FIXED so far (overlay-side, byte-neutral, verified):** the 1 shared-macro call `func_80058B40` → `GetTPage` in engine_core.h (same addr 0x80058b40 → identical `jal`); took the fleet **135→ (134 overlays now pass)**; `ov_SC07_009` byte-identical `2a6499b6`. Static scan of engine_core.h+engine_types.h (func_ AND D_): this was the ONLY shared-header collision.
