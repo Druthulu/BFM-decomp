@@ -17566,7 +17566,7 @@
 
 #define DEFINE_func_8014DF94() \
     extern s32 func_8014E284(s32 a0, s16 *a1, s16 *a2); \
-    extern s32 func_8014E048(s32 a0, s16 *a1, s16 *a2); \
+    extern s32 func_8014E048(s32 a0, u16 *a1, u16 *a2); /* u16*: def lhu semantics (T5b reconcile; ptr param type codegen-neutral for the caller) */ \
     void func_8014DF94(s32 arg0) { \
         s16 a[3]; \
         s16 b[3]; \
@@ -17779,7 +17779,7 @@
     }
 
 #define DEFINE_func_80139680() \
-    extern s32 func_80058B40(s32 a0, s32 a1, s32 a2, s32 a3); \
+    extern s32 GetTPage(s32 a0, s32 a1, s32 a2, s32 a3); \
     extern s32 func_80052460(s32 a0, s32 a1, s32 a2); \
     void func_80139680(s32 arg0, u8 * arg1) \
     { \
@@ -17790,7 +17790,7 @@
             var_s1 += 4; \
         } \
         *(s32 *)((u8 *)buf + 0x00) = 0; \
-        *(s16 *)((u8 *)buf + 0x0C) = func_80058B40(0, 1, 0x1C0, 0x100); \
+        *(s16 *)((u8 *)buf + 0x0C) = GetTPage(0, 1, 0x1C0, 0x100); \
         *(s16 *)((u8 *)buf + 0x10) = *(u16 *)((u8 *)arg0 + 0x3C); \
         *(s16 *)((u8 *)buf + 0x12) = *(u16 *)((u8 *)arg0 + 0x3E); \
         *(u8 *)((u8 *)buf + 0x16) = 0x80; \
@@ -23062,7 +23062,7 @@
 #define DEFINE_func_8012E28C() \
     extern s32 AddPrim(s32, void *); \
     extern void *func_80010A08(s32); \
-    extern s32 func_80058B40(s32, s32, s32, s32); \
+    extern s32 GetTPage(s32, s32, s32, s32); \
     extern s32 func_8005A600(s32, s32, s32, s32, s32); \
     extern s32 D_800A651C; \
     extern s16 D_800B9A02; \
@@ -23073,7 +23073,7 @@
         if (arg0 > 0) { \
             base = *(s32 *)((s8 *)&D_800A651C + ((u16)D_800B9A02 * 0x14)) + (arg0 * 4); \
             temp_v0 = func_80010A08(0xC); \
-            temp_v1 = func_80058B40(0, arg1, 0, 0); \
+            temp_v1 = GetTPage(0, arg1, 0, 0); \
             func_8005A600((s32)temp_v0, 0, 0, (u16)temp_v1, 0); \
             AddPrim(base, temp_v0); \
         } \

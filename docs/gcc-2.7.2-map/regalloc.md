@@ -131,3 +131,39 @@ All vs `func_801571C4` target, baseline draft `.run/fable/func_801571C4.c` = 11-
 - **EXP-3** `dumps/exp3.c` (dead `$8` pin at fn top): `.greg` "Spilling reg 8" → "Spilling reg 9"; all reload accesses moved to $t1.
 - Micro tie-probe (`dumps/tie1.c/tie2.c`): unequal-density pair is order-stable under statement swap (confirms decl-order lever only bites on exact K2 ties).
 Cited proofs from earlier sessions: func_8012B8E4 (§17 pins), func_80128ED8 (§25 tie pins), func_8012B4B8 (§17 array-decay), func_801770E0 + func_8014EA4C (RC-6 walls, `.run/toolkit/`), func_801571C4 header idioms 1-2 (`.run/fable/`).
+
+---
+
+## §F Phase-24 T5b extension — preference mechanics + the S11/RC-6 verdict downgrade
+
+### RC-10 — The PREFERENCE CASCADE (why a scratch temp chases a specific arg reg) — read it, then steer around it
+- **set_preference (global.c) unwraps ONE expression level:** for `(set DEST (op X ...))` where the insn pairs
+  a HARD reg with a pseudo, the pseudo gets a preference bit — through `minus`/`ashiftrt`/any first-operand
+  expression, not just copies. So `(set (reg $a1) (ashiftrt t 16))` makes t prefer $a1 (observed: the
+  ratan2-arg extend temps, `109 preferences: 5`).
+- **expand_preferences merges through DEATHS:** when allocno A dies in an insn that SETS allocno B and they
+  don't conflict, their preference sets IOR **both ways**. Preferences therefore flow BACKWARD through
+  dying-def chains (arg-reg ← extend-temp ← variable ← the temps that died into it). A conflict between the
+  two allocnos BLOCKS the merge (the pair-1 subu's operands conflict its dest — re-born later — so that link
+  is naturally blocked; the final subu's operands don't).
+- **find_reg grant order:** pass 0 scans only `regs_used_so_far` minus `regs_someone_prefers[allocno]`
+  (prefs of LOWER-priority conflicting allocnos, pruned of each allocno's own hard-reg conflicts) — the
+  "reuse already-dirty regs" frugality is why a free incoming arg reg ($a0 after an early param-copy death)
+  gets grabbed by a high-priority scratch temp. Pass 1 opens fresh regs (plain regno scan). THEN copy-prefs
+  and plain prefs OVERRIDE the first-fit if the preferred reg merely doesn't conflict.
+- **Levers (byte-proven, func_8014E048):** (1) keep the incoming arg regs BUSY through the contested windows
+  via body-local param copies (sched.md S13) — a hard-reg conflict beats every preference; (2) rebalance a
+  K2 density race that a dead-read disturbed by reading BOTH contestants in the one asm; (3) when the target
+  shows a copy that cse would dissolve, use the asm-copy form (sched.md S13).
+
+### RC-6/S11 — VERDICT DOWNGRADED (Phase 24 T5b): "intrinsic → permuter" was map-incompleteness
+`func_8014E048` (35-off, "S11 LUID⊗alloc coupling, not source-steerable, permuter seed" — and still 28-off
+after the §31-directed permuter) is **MATCHED and whole-binary BANKED** by composing: the S12 reused-s32-temp
+fence + S13 body-local param copies + the asm-copy + an RC-4b target-scratch-pinned store temp + a two-input
+dead-read fence + s32-with-(s16)-cast-at-def vars. **Rule of thumb going forward:** an "S11/RC-6 intrinsic"
+verdict is trustworthy only after (a) auditing PINS (they kill the S2 boost and add suggestion-ties),
+(b) trying the S12 fence for any load-batching residual, (c) trying S13 for scratch-identity/wedge residuals.
+True RC-6 (every edit explodes 20+ insns) still exists — but the class is SMALLER than Phase-21..23 believed.
+The promoted-HI store-copy law also falls out: `b[0] = (short)dx` with dx a PSEUDO emits copy+sh (the HI temp
+is real); with dx PINNED (hard reg) the subreg folds and the copy vanishes — another reason pinned drafts
+diverge from the original's unpinned shape.

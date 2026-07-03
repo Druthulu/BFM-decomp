@@ -166,3 +166,54 @@ The scheduler **never moves an insn across a basic-block boundary** (gcc-2.7.2 h
 - `exp/t3.c` — g1/g3/g4: eager steal, dead-on-opposite, polarity flip (D3).
 - `exp/t4.c`/`t5.c`/`t6.c` — S2 boost mechanics + the cse-defeats-multi-set caveat; sched1-output = sched2-LUID (S9).
 - `exp/e0..e5.c` — func_801770E0 series: e3 = **53→49 byte-proven S2 lever** (use as the draft base); e4/e5 = target-transcription method (S1) reproducing the pCval/const clusters, and the S3 intrinsic wall (mult-chain pri 4 vs stores 3, `e5d.i.sched2`); e2 = the S11 cascade counterexample.
+
+---
+
+## 6. Phase-24 T5b extension — the S11 crack (func_8014E048 case study, 35→MATCH banked)
+
+### S12 — Load BATCHING vs PAIRING: the reused-s32-temp FENCE ⇒ STEERABLE (was "S11 intrinsic")
+- **Symptom:** target pairs `lhu;lhu;[gap];subu / lhu;lhu;[gap];subu`; your draft batches all 4 loads then
+  both subus — invariant under statement order AND pins (the loads are independent; the scheduler hoists them).
+- **Mechanism:** independence is a SOURCE property. **Reusing ONE variable pair across both load pairs**
+  (`w0 = p3[0]; w1 = p2[0]; dx = w0 - w1; w0 = p3[2]; w1 = p2[2]; dz = w0 - w1;`) puts an output-dep
+  (set₂ after set₁) and an anti-dep (set₂ after `subu`'s reads) on the second pair — sched1 CANNOT batch.
+  The shared pseudos then take ONE scratch each for both pairs (v1/v0), and reload/sched2's hard-reg
+  anti-webs lock the pairing through to the bytes.
+- **THE TYPE TRAP (why u16 temps do NOT work):** gcc-2.7.2 MIPS does not promote small vars — `u16 w0` stays
+  an HImode pseudo, and **every use site zero-extends through a FRESH SImode temp**; combine then folds each
+  `lhu`+`zext` into the fresh temp and the shared HI var VANISHES (deps gone, batching returns). The reused
+  temps must be **s32** (`w0 = p3[0]` zero-extends directly into the var's own SI pseudo; multi-set +
+  multi-use survives combine). Byte-proof: `exp/e1b.c` (u16, still batched) vs `exp/e1c.c` (s32, PAIRED).
+- **Pin interaction:** a `register __asm__` pin on the subu DEST is a hard reg → `qty_phys_copy_sugg`
+  pulls a load temp INTO the pinned reg (`lhu s0`) and the dest fails `birthing_insn_p` (needs
+  `SET(REG_pseudo,…)`) → no S2 boost. Unpin first; the fence does the pairing.
+
+### S13 — bb0 head-skip ESCAPE: body-local param copies steer BOTH the schedule and the scratch contest
+- **Mechanism:** assign_parms emits param copies at the function head; sched1's bb0 head-skip (S8) pins them
+  FIRST, so the incoming hard arg regs die at insn ~2-4 — leaving them FREE for find_reg's pass-0
+  "already-dirty" first-fit (a scratch temp can grab $a0). **Routing a param through a local taken
+  mid-body** (`p1 = param_1;` after the deltas; all uses via `p1`) dissolves the head copy (local-alloc ties
+  the once-used incoming pseudo to its arg reg) and materializes the REAL copy at its statement position:
+  the hard arg reg now stays live INTO the temps' windows → **hard-reg conflict** → the temps are steered
+  to v0/v1 (byte-proof: `exp/e1f.c` — w-temps flipped a0/v0 → v1/v0 = target). The copy is a boosted
+  single-set move that sched wedges into a load-use gap (S4 filler).
+- **Wedge-slot steering (which gap it fills):** backward scheduling fills the FIRST-backward stall, so
+  statement position (LUID) alone cannot move the wedge to an earlier gap. A **zero-byte volatile-asm
+  dead-read** (`__asm__ __volatile__("" :: "r"(p1))`) placed between the pairs creates a true-dep that
+  confines the copy to the earlier region → it fills the pair-1 gap and the pair-2 gap gets the gas nop
+  (byte-proof: `exp/e1j.c`). **Ref-count side effect (K2!):** the dead-read is +1 ref on its operand and can
+  flip a callee-saved density contest (e1j: param_2 lost s3 to p1). Counter-lever: read BOTH contested
+  variables in the one asm (`:: "r"(p1), "r"(param_2)`) to preserve their relative densities
+  (byte-proof: `exp/e1k.c` = the full MATCH).
+- **cse-opacity for pointer copies:** a plain `p3 = param_3;` copy gets copy-propagated by cse into nearby
+  uses (the copy floats/dissolves). When the copy must materialize AND dominate all uses (`addu a3,a2` with
+  every load via a3), emit it as an **asm-copy**: `__asm__("addu %0,%1,$zero" : "=r"(p3) : "r"(param_3))`
+  (+ a `register __asm__("$7")` pin on the dest when the target names the reg). cse cannot see through an
+  asm. Byte-proof: `exp/e1i.c`.
+
+### Case-study ledger (func_8014E048, all in `.run/gccmap/exp/`)
+e1a (unpin only): contest lands s0-s4 naturally; the `(short)var` promoted-HI store-copy appears; loads
+still batch. e1b (u16 reused temps): S12 type trap — still batched. e1c (s32 temps): **PAIRED**, 28→19.
+e1d (+s32 sVar7, extend-at-def): 16. e1f (+p1 body-local): w-temps v1/v0. e1h (+a3 pin): b-block scratch
+chain matches. e1i (+asm-copy, p1 between pairs): **4-off**. e1j (+RC-4b a0-pinned store temp + dead-read
+fence): 19 (density flip). e1k (+two-input dead-read): **MATCH (143/143), whole-binary banked**.
