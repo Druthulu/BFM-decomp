@@ -1,0 +1,309 @@
+# gcc-2.7.2 residual→C-lever map: CSE + expression emission + `/s` aliasing + stack layout
+**Pass-group:** `cse.c` (8989) + `expr.c` (12077) + `function.c` (6321), with targeted reads of
+`calls.c` / `stmt.c` / `local-alloc.c` / `sched.c` where they consume this group's decisions.
+All source cites are `tools/reference/gcc-papermario/<file>:<line>`. All byte-proofs ran through
+`tools/match_one.py` (pinned triple, relocation-masked byte equality). Proof C files:
+`.run/gccmap/proofs/`. Date: 2026-07-02, Phase 23.
+
+**Headline: the §10/§20 hoist-vs-remat class is STEERABLE (was "CONFIRMED unsteerable" since
+Phase 20). Both canonical stub exemplars now MATCH** (`func_80149374` 23 ins, `func_801493D0`
+23 ins — reach-134 fns, ready for whole-binary integration). Lever = §2 below.
+
+---
+
+## §0 The diagnostic loop: RTL dumps from the pinned cc1
+
+`cc1` accepts `-da` → per-pass dumps (`t.i.rtl` = expand, `.jump`, `.cse`, `.loop`, `.cse2`,
+`.flow`, `.combine`, `.sched`, `.lreg`, `.greg`, `.sched2`, `.dbr`). This turns "which pass did
+that?" from guesswork into a 10-second lookup:
+
+```sh
+mipsel-linux-gnu-cpp -lang-c -Iinclude -undef -Wall -fno-builtin -Dmips -D__GNUC__=2 \
+  -D__OPTIMIZE__ -Dpsx -D_PSYQ -D_MIPSEL -D_LANGUAGE_C t.c > wd/t.i
+cd wd && <repo>/tools/bin/gcc-2.7.2-psx/cc1 -quiet -O2 -G0 -mips1 -mcpu=3000 -mgas \
+  -msoft-float -fgnu-linker -da t.i -o t.s
+```
+
+Reading the dumps: pseudos start ≈ reg 70 (MIPS: 0-31 GPR, 32-63 FPR, 64-66 hi/lo/fpsw,
+67-70 virtuals). `(reg:SI 69)` in `.rtl` = **virtual-stack-vars** (frame base, = first local's
+address). In `.cse` and later, frame addresses appear as `(plus (reg 30 $fp) k)` — `$fp` is
+eliminated to `$sp` only at reload, so grep for `$fp` pre-reload, `sp` post. Triage rule:
+- residual visible in `.cse` → this file, §1-§3 below;
+- appears first in `.lreg/.greg` → regalloc (pins / §30 recipes);
+- appears first in `.sched/.sched2/.dbr` → scheduler/delay-slot group.
+
+---
+
+## §1 The CSE machine (cse.c) — what survives what
+
+CSE keeps a hash table of equivalence classes {expr, regs...} per **extended basic block** and
+replaces any src whose class holds a cheaper valid reg. Everything about "why did gcc reuse /
+not reuse that value" reduces to whether the class was still valid at the second occurrence.
+
+**Class killers (complete list for MIPS):**
+
+| Event | Effect on classes | Source |
+|---|---|---|
+| reg SET again | that reg leaves its class; `reg_tick[reg]++` stales every EXPR containing it | `cse.c:7418-7441` (cse_insn tail), `invalidate` |
+| CALL_INSN | `invalidate_for_call`: **hard call-clobbered regs only. Pseudos + their exprs SURVIVE calls** | `cse.c:1756` |
+| CALL_INSN | `invalidate_memory(everything)`: ALL `MEM` entries die (non-const calls) | `cse.c:7409-7415` |
+| memory store | selective MEM-entry kill via `note_mem_written` — see §4 aliasing table | `cse.c:7709`, `1732` |
+| CODE_LABEL | **total flush** (`new_basic_block`) — every class dies at every label | `cse.c:797, 8614` |
+| 1000 insns | **total flush** mid-block ("extreme quadratic behavior" kludge) | `cse.c:8626` |
+| volatile asm | **NOTHING** (no reg-class invalidation; a `"memory"` clobber kills only MEM entries via BLKmode→`all=1`) | `cse.c:6340-6355` |
+
+Consequences you will see in diffs:
+- **Pseudo-held subexpressions get reused ACROSS CALLS** (the phantom-$s-reg §30 class and the
+  address-caching §2 class). Hard-reg-held ones don't (killed at the call).
+- **A memory-clobber barrier `__asm__ volatile("":::"memory")` CANNOT stop reg-class reuse** —
+  that's why every Phase-20 "barrier" attempt on this class failed. It only kills cached LOADS.
+- **Recomputation after any label/join is NORMAL** (table flushed) — never chase a "missed CSE"
+  across a branch target; conversely you cannot make gcc REUSE a value into a label'd block.
+- With `-fcse-follow-jumps` (in `-O2`) the EBB follows the TAKEN path of a conditional
+  (`cse.c:8647-8667`, `invalidate_skipped_block` handles the not-taken side) — so reuse INTO
+  the fall-through-only path may differ from the taken path.
+
+---
+
+## §2 RESIDUAL: cross-call ADDRESS caching — hoist-vs-remat (§10/§20) — **STEERABLE, byte-proven**
+
+**Symptom (the §20 wording):** target rematerializes `addiu $aN,$sp,K` at each call site;
+ours computes it once into a freed callee-saved reg (`addiu $s0,$sp,K` + `move $aN,$s0` per
+use). +1 insn, one extra $s-reg touched, cascades into the schedule.
+
+**Mechanism (three cooperating decision points):**
+1. `calls.c:1632-1650` — every register-parameter value is precomputed by
+   `expand_expr(..., NULL_RTX, ...)`; for `&local` at frame offset ≠ 0 this **forces a fresh
+   pseudo** `rN = (plus vsv K)` per call site (`memory_address`/`force_reg`). Offset-0 locals
+   are the exception: `&first_local` IS `virtual-stack-vars` (already a reg) → no pseudo →
+   the arg-load `(set $aN vsv)` is later rewritten IN PLACE by `instantiate_virtual_regs`
+   (function.c) into `(set $aN (plus sp K))` — a **hard-dest** addiu per site.
+2. `cse.c` unifies the second site's pseudo with the first (`(plus $fp K)` class holds a valid
+   pseudo — calls don't kill pseudos, §1) → one pseudo now live across the call.
+3. `global.c` happily gives that call-crossing pseudo a callee-saved reg (free if one is
+   already saved) → the cached form. (`local-alloc.c:1007 update_equiv_regs` does NOT rescue:
+   it only REG_EQUIVs CONSTANT_P notes / unchanging MEMs, and only moves REG_N_REFS==2
+   pseudos — an address used at 2 call sites has 3 refs.)
+
+**Why the target remats:** the first-use pseudo's class must have NO valid reg when the second
+site is scanned. The zero-offset local gets this for free (hard-dest class dies at the call —
+that is why `&sp10` remats naturally in the same function). For any other offset you must kill
+the class reg yourself.
+
+**THE LEVER (byte-proven):** name the first use through a pointer local in a nested block, and
+**redefine it AFTER the call with a volatile OUTPUT-ONLY asm**; later sites use the bare `&buf`:
+
+```c
+/* BEFORE (cached, +1 insn):                    AFTER (remat, MATCH): */
+f2(t, &sp10, &sp18);                            {
+f3(&sp18, arg1);                                    void *q = &sp18;      /* (plus fp K) lands in q's pseudo */
+                                                    f2(t, &sp10, q);
+                                                    __asm__ __volatile__("" : "=r"(q));  /* kill: re-SET q, 0 bytes */
+                                                }
+                                                f3(&sp18, arg1);          /* class has no valid reg -> fresh addiu */
+```
+
+- `func_80149374` (ov_SC04_005 …/func_80149374.s): 24 ins/11 mism → **MATCH (23 ins)**.
+  Proof: `.run/gccmap/proofs/func_80149374_remat.c`.
+- `func_801493D0` (ov_SC03_099): same recipe on `u8 buf[8]` locals → **MATCH (23 ins)**.
+  Proof: `.run/gccmap/proofs/func_801493D0_remat.c`.
+- Verify cmd: `tools/match_one.py <fn> --c <proof.c> --asm-subdir asm/<ov>/nonmatchings/<ov>`.
+
+**Boundary conditions (each byte-probed — violating any one loses the match):**
+1. **Output-only** `"=r"(q)` — the familiar re-tie `"=r"(q):"0"(q)` KEEPS q live across the
+   call → callee-saved → 26 ins (proof `..._NEG_input_tied.c`). Output-only leaves garbage in
+   q, so q must be dead after the call — it always is in this pattern.
+2. **volatile** — a non-volatile asm whose output is dead gets deleted by flow before it can
+   matter (it still kills the CSE class — cse runs first — but keep volatile so the intent
+   survives; it emits zero bytes either way).
+3. **Placement:** q's init must not itself cross a call (declare in a nested block right at
+   its call statement; a function-top `void *q = &buf;` init crosses earlier calls → 29 ins,
+   proof `..._NEG_top_decl.c`). The kill-asm goes AFTER the call, never between the address
+   computation and the call (an asm inside the pre-call chain deepens that chain and the
+   scheduler then hoists the addiu above the other arg setups — 2-off order flip; observed
+   with statement-expr and pre-call re-tie variants).
+4. The LAST use site takes the bare `&buf` — its fresh pseudo dies at its own call, so it
+   coalesces into the arg register (`addiu $aN,$sp,K` direct).
+5. ≥3 sites: kill after every site except the last.
+
+**Class verdict:** STEERABLE. Re-test the whole "hoist"/"remat" backlog bucket (~31 verdicts,
+§20 router) with this recipe; `func_80149374`/`func_801493D0` are reach-134 and ready to bank
+(leaf-proven only — run the whole-binary `gate_stage` per §30's integration note).
+
+---
+
+## §3 RESIDUAL: cross-call VALUE CSE — the phantom extra $s-reg (§30 confirmed, mechanism now sourced)
+
+**Symptom:** a subexpression of a param/global (`param & 0xffff`, a shifted index…) appears in
+the first call's args AND again late in the function; gcc computes it once, parks it in an
+extra callee-saved reg across all the calls (+1 `sw/lw` pair, 7th $s-reg, count +1).
+
+**Mechanism:** same §1 chain as §2 but for a VALUE: pseudo classes survive calls
+(`cse.c:1756`), so the tail occurrence is replaced by the pre-call pseudo.
+
+**Lever (byte-proven, cookbook §30 #3 / toolkit `func_80176D94`):** the zero-byte
+**input-tied re-tie** `__asm__("" : "=r"(x) : "0"(x));` placed between the two occurrences.
+It re-SETS x's pseudo → `reg_tick[x]++` stales every table expr containing x → the tail
+recomputes in place (`andi $s2,$s2,0xffff` at its natural position).
+
+**Choosing the re-tie variant (this table is the load-bearing bit):**
+
+| Situation | Variant | Why |
+|---|---|---|
+| the VARIABLE's value is needed later (kill exprs built FROM it) | `"=r"(x) : "0"(x)` non-volatile | value preserved; liveness unchanged (x was live anyway) |
+| a dead-after-call ADDRESS/pointer local (kill the pseudo itself) | `__volatile__ "=r"(q)` output-only | input variant would extend q across the call (§2 probe #1) |
+
+---
+
+## §4 The FULL `/s` (MEM_IN_STRUCT_P) aliasing model — setters, consumers, levers
+
+### 4a. Setter sites (complete for this pass-group)
+
+**Loads/derefs — `expr.c` INDIRECT_REF case (expr.c:5506, grant at 5535):** `/s` iff
+```c
+TREE_OPERAND(exp,0) == PLUS_EXPR                      /* top-level pointer sum: q[k], *(q+k) with q TYPED */
+|| (SAVE_EXPR && its operand is PLUS_EXPR)            /* same sum reused inside ONE expression */
+|| AGGREGATE_TYPE_P(TREE_TYPE(exp))                   /* deref'd TYPE is struct/union/array: *(Blk16*)p */
+|| (ADDR_EXPR operand && AGGREGATE_TYPE_P(operand))   /* *&aggregate */
+```
+New vs cookbook §30/§30a (which only knew arm 1): **a bare `*(struct S*)p` struct COPY gets
+`/s` via arm 3 with no PLUS at all**, and a cast-wrapped sum `*(T*)(p+k)` — NOP_EXPR on top —
+still gets NO `/s` (§30a stands). Scalar `*p` never gets `/s`.
+
+**Member/array refs — `expr.c:5891`** (the COMPONENT_REF/ARRAY_REF/BIT_FIELD_REF bundle after
+`get_inner_reference`): **unconditional `/s`**. This is why the anon-struct member cast
+`((struct{s32 f;}*)p)->f` is the universal GRANT (§30) — front end emits COMPONENT_REF.
+
+**Store side — `expr.c:4292`** (`expand_assignment`, component/array dest): unconditional
+`/s` on the dest MEM. An INDIRECT_REF dest reuses the 5535 rule symmetrically. So store-`/s`
+is steered by the same syntax choices as loads.
+
+**Temps & locals:**
+- `function.c:949` — **reusing a temp slot RESETS `/s`=0**, then `assign_temp`
+  (`function.c:985`) sets `/s = AGGREGATE_TYPE_P(type)`.
+- `stmt.c:3646` — every memory-resident LOCAL's DECL_RTL gets `/s = AGGREGATE_TYPE_P(decl
+  type)`: **an array/struct local's home MEM is `/s`, a scalar local's spill home is not.**
+- `function.c:3876/4025/4082/4136/4386` — parameter stack homes: `/s = aggregate-ness`.
+- `expr.c:9012/9029/9097` — memcpy/memset/strcpy builtin block MEMs: `/s = AGGREGATE_TYPE_P`.
+- `expr.c:465` + emit-rtl `change_address` — derived MEMs COPY the flag.
+
+### 4b. Consumers — where `/s` changes codegen
+
+**Scheduler (sched.c:830 `true_dependence`, 862 `anti_dependence` — SYMMETRIC):** two memrefs
+conflict unless `memrefs_conflict_p` (base+offset window reasoning, sched.c:628) proves
+disjoint, **except** the escape: a `/s`+varying-address+non-QImode access does NOT conflict
+with a non-`/s`+fixed-address access. Because true AND anti dependence share the clause, the
+`/s` lever moves loads over stores AND stores over loads (§30's rule, now proven both ways).
+`QImode` (u8/s8) accesses NEVER get the escape (ANSI char aliasing) — don't try to float a
+byte access over a fixed store by struct-casting; retype to u16/u32 member if the target shows
+it floating.
+
+**CSE store-side (cse.c:7709 `note_mem_written` → 1732 `invalidate_memory`):** what a STORE
+kills in the load-cache table:
+
+| Store written | writes flags | Cached loads killed |
+|---|---|---|
+| fixed symbol `D_x = v` | var=1 | all varying-address (pointer) loads; **fixed-symbol loads survive** (own address killed exactly, `cse.c:7433`) |
+| `p->f = v`, `p[k] = v` (`/s` or PLUS addr, non-QI) | var+nonscalar | varying + `/s` loads; **fixed-symbol scalar loads SURVIVE** |
+| bare `*p = v` (no `/s`, no PLUS, non-QI) | **all=1** | **EVERYTHING** — total memory-table flush |
+| any `u8` store through a pointer (QImode) | all=1 | everything |
+| BLKmode store (struct copy dest) | all=1 | everything |
+
+Lever reading: if the target RELOADS a global after a pointer store, write the store as a bare
+`*p =`; if it KEEPS the pre-store value, write `p->f =` / `p[k] =`. This is the store-side
+twin of §30's load rule and explains "why did (only) that global reload" diffs without
+touching the scheduler.
+
+### 4c. Grant/deny cheat sheet (steering recipes, §30/§30a + this pass)
+
+- GRANT `/s`: `((struct{s32 f;}*)p)->f` (anon struct — propagation-safe), `q[k]` with typed
+  `q`, `*(Blk16*)p` aggregate copy, any real member ref.
+- DENY `/s`: bare `*p`, `*(T*)(p + k)` (cast on top of the sum), scalar local spill homes.
+- Remember both sides (load and store) and both dependence directions are steered by the
+  same syntax.
+
+---
+
+## §5 Stack frame layout (function.c) — offsets, rounding, recycling
+
+**Allocator (`function.c:681 assign_stack_local`):** MIPS has no FRAME_GROWS_DOWNWARD →
+`frame_offset` starts at 0 (= sp+0x10 at runtime: 0x10 arg-save area below) and grows UP in
+ALLOCATION ORDER. Alignment: `align=0` → mode alignment (u64 → 8); `align=-1` (all BLKmode:
+arrays, structs) → `BIGGEST_ALIGNMENT` = **8 bytes, and size CEIL-rounded to 8**. So:
+- locals appear at increasing offsets in DECLARATION (expand) order;
+- every array/struct occupies an 8-aligned, 8-rounded slot (`u8 buf[4]` eats 8 bytes);
+- a u64/double scalar also 8-aligns; u32 4-aligns — reorder declarations to steer gaps.
+
+**Locals go through the TEMP-SLOT machinery** (`stmt.c:3643` → `assign_stack_temp(mode,size,
+keep=1)`, `function.c:826`): before allocating fresh, it **reuses a free slot of the same
+mode+size, else splits the smallest larger free BLKmode slot** (leftover ≥8 becomes a new
+free slot). Compiler temps (struct-return staging, block copies `expr.c:5868/4170`,
+`assign_temp` aggregates) share this pool and are freed at statement end (`free_temp_slots`,
+levels pushed around call-arg evaluation by calls.c). **Consequence: a later local can land in
+a RECYCLED earlier-temp slot — frame offsets out of declaration order, or a frame ±8 vs the
+obvious layout.** This is the mechanical core of the "frame-fragility" class (func_8014EA4C
+residue): the fix is never padding hacks; it is reproducing the temp population — i.e. does
+the source create a struct copy / u64 intermediate / aggregate arg before that local's block
+is entered?
+
+**Diagnosis recipe:** compare the target's `$sp` offsets cluster-by-cluster; each 8-aligned
+cluster = one BLKmode object (or a recycled temp). Draft SEPARATE locals per cluster in target
+offset order rather than one giant `u8 buf[N]` — a monolithic buffer forces you to guess
+internal offsets AND changes `/s` (stmt.c:3646 gives the array home `/s`) and IV behavior
+(§30a #2 single-base rule) in one blob. (This is exactly what's wrong with the current
+`func_80132784` draft — see §7.)
+
+---
+
+## §6 Diagnostic tells (residual → class, one line each)
+
+| Tell in the byte-diff | Class | Lever |
+|---|---|---|
+| `addiu $sN,$sp,K` once + `move $aN,$sN` per call vs target per-site `addiu $aN,$sp,K` | §2 address caching | nested-block ptr local + post-call `volatile "=r"(q)` kill |
+| one extra $s-reg saved, count +1, tail uses $sN where target recomputes (`andi` etc. in place) | §3 value CSE across calls | input-tied re-tie `"=r"(x):"0"(x)` between occurrences |
+| zero-offset ptr load stuck under a fixed-symbol store; offset/member loads float | §4 `/s` true-dep | grant: anon-struct member ref; deny: bare `*p` (§30) |
+| a STORE pinned under/over a load the target orders oppositely | §4 anti-dep (same rule) | same grant/deny on either access |
+| target reloads a global after `*p=..` but not after `p->f=..` (or vice versa) | §4b CSE store-flush | choose bare-deref vs member/indexed STORE syntax |
+| all pointer-loads reload after ANY u8 store | §4b QImode=total flush | retype the store (u16/u32 member) if target disagrees |
+| frame ±8, or a local's offset out of decl order | §5 slot recycling / 8-rounding | reproduce/eliminate the compiler temp; reorder decls |
+| every array sits 8-aligned with padding gaps | §5 BLKmode rounding | expected — don't fight it, mimic with decl order |
+| value recomputed right after a branch join/label | §1 label flush | NORMAL — never a residual; don't add CSE-defeating hacks |
+| long straight-line giant: early value suddenly recomputed mid-function | §1 1000-insn flush | expected in giants; position-dependent — see §7 |
+| `lui` above a branch, `ori` duplicated in delay slot + taken path | dbr/reorg territory (delay-slot stealing), NOT cse | route to jump/sched pass-group |
+
+---
+
+## §7 Verdicts, open items, and the giant
+
+- **§2 hoist-vs-remat: STEERABLE** — 2/2 byte-proofs. Re-run the ~31 "hoist" + the remat-shaped
+  "regalloc" backlog verdicts with the §2 recipe before any permuter time.
+- **§3 phantom-reg: STEERABLE** (was already §30; mechanism now source-anchored).
+- **§4 `/s`: STEERABLE both directions** (loads AND stores; QImode is the hard exception —
+  intrinsic when the target's byte access truly floats: it can't, so if a diff demands it,
+  the draft's TYPE is wrong, not the schedule).
+- **§5 layout: STEERABLE** via decl order/typing/temp reproduction; INTRINSIC only in that you
+  cannot place two 8-BLKmode objects at 4-mod-8 offsets — that's evidence the original source
+  had different object boundaries, not a permuter case.
+- **§1 1000-insn flush: INTRINSIC-ish** — you cannot move the counter from C; if a giant's
+  residual is a reuse/recompute flip exactly once mid-function, check `num_insns` distance;
+  restructuring that shifts ±insns across the 1000 boundary is the only (fragile) lever.
+  Document any confirmed case before hand-grinding.
+- **`func_80132784` (400 ins, `asm/ov_SC01_077/nonmatchings/ov_SC01_077_a/`)** — the draft
+  (`.run/backlog_drafts/func_80132784.c`, stuck 240/400) is MULTI-CLASS, in this order:
+  (1) §5: single `u8 buf[0xC0]` vs target's separate 8-aligned locals (target arg addresses
+  `sp+0x80`, `sp+0xC0` vs draft `sp+0x78`, `sp+0x38`) — redraft with separate locals FIRST;
+  (2) §2: the five pre-GTE `addiu $sN,$sp,K` hoists (draft idx166-170) vs target's in-place
+  `addiu $s0,$sp,0x80` remat — apply the §2 kill to the GTE pointer locals instead of pinning;
+  (3) a `lui/ori` split across a branch with delay-slot duplication (idx111/116/134) — dbr
+  (fill_slots_from_thread) + possible condition-shape difference: jump/reorg pass-group;
+  (4) the inline-GTE `__asm__` blocks themselves perturb sched chains (§2 boundary #3) —
+  keep their operand lists minimal. Expect (1)+(2) to collapse most of the 240.
+
+## §8 Cookbook feed-forward (proposed entries)
+
+1. §30b: "CSE classes survive calls in PSEUDOS only" master rule + the two re-tie variants
+   table (§3) — replaces per-function rediscovery of barrier placement.
+2. §10 CLOSURE: hoist-vs-remat steerable; recipe + the four boundary conditions (§2).
+3. §30a extension: `/s` full setter list (SAVE_EXPR arm, aggregate-deref arm, store-side
+   4292, temp-slot reset) + the store-side CSE flush table (§4b).
+4. §5-layout: BLKmode 8-align/8-round + temp-slot recycling as the frame-fragility mechanism.
