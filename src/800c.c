@@ -18,7 +18,7 @@ INCLUDE_ASM("asm/nonmatchings/800c", GetGraphType);
 
 INCLUDE_ASM("asm/nonmatchings/800c", GetGraphDebug);
 
-INCLUDE_ASM("asm/nonmatchings/800c", func_800595FC);
+INCLUDE_ASM("asm/nonmatchings/800c", DrawSyncCallback);
 
 INCLUDE_ASM("asm/nonmatchings/800c", func_80059658);
 

@@ -1,54 +1,54 @@
 #include "common.h"
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005CE18);
+INCLUDE_ASM("asm/nonmatchings/800c3", InitHeap);
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005CE28);
+INCLUDE_ASM("asm/nonmatchings/800c3", FlushCache);
 
 INCLUDE_ASM("asm/nonmatchings/800c3", func_8005CE38);
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005CE50);
+INCLUDE_ASM("asm/nonmatchings/800c3", _96_remove);
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005CE68);
+INCLUDE_ASM("asm/nonmatchings/800c3", DeliverEvent);
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005CE78);
+INCLUDE_ASM("asm/nonmatchings/800c3", OpenEvent);
 
 INCLUDE_ASM("asm/nonmatchings/800c3", CloseEvent);
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005CE98);
+INCLUDE_ASM("asm/nonmatchings/800c3", WaitEvent);
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005CEA8);
+INCLUDE_ASM("asm/nonmatchings/800c3", TestEvent);
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005CEB8);
+INCLUDE_ASM("asm/nonmatchings/800c3", EnableEvent);
 
 INCLUDE_ASM("asm/nonmatchings/800c3", DisableEvent);
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005CED8);
+INCLUDE_ASM("asm/nonmatchings/800c3", ReturnFromException);
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005CEE8);
+INCLUDE_ASM("asm/nonmatchings/800c3", ResetEntryInt);
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005CEF8);
+INCLUDE_ASM("asm/nonmatchings/800c3", HookEntryInt);
 
 INCLUDE_ASM("asm/nonmatchings/800c3", func_8005CF08);
 
 INCLUDE_ASM("asm/nonmatchings/800c3", func_8005CF18);
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005CF28);
+INCLUDE_ASM("asm/nonmatchings/800c3", read);
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005CF38);
+INCLUDE_ASM("asm/nonmatchings/800c3", write);
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005CF48);
+INCLUDE_ASM("asm/nonmatchings/800c3", ChangeClearPAD);
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005CF58);
+INCLUDE_ASM("asm/nonmatchings/800c3", ChangeClearRCnt);
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005CF68);
+INCLUDE_ASM("asm/nonmatchings/800c3", SetRCnt);
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005D004);
+INCLUDE_ASM("asm/nonmatchings/800c3", GetRCnt);
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005D03C);
+INCLUDE_ASM("asm/nonmatchings/800c3", StartRCnt);
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005D06C);
+INCLUDE_ASM("asm/nonmatchings/800c3", StopRCnt);
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005D0A0);
+INCLUDE_ASM("asm/nonmatchings/800c3", ResetRCnt);
 
 INCLUDE_ASM("asm/nonmatchings/800c3", func_8005D0D8);
 
@@ -98,9 +98,9 @@ INCLUDE_ASM("asm/nonmatchings/800c3", func_8005E0AC);
 
 INCLUDE_ASM("asm/nonmatchings/800c3", func_8005E13C);
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005E168);
+INCLUDE_ASM("asm/nonmatchings/800c3", SysEnqIntRP);
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005E178);
+INCLUDE_ASM("asm/nonmatchings/800c3", SysDeqIntRP);
 
 INCLUDE_ASM("asm/nonmatchings/800c3", func_8005E188);
 

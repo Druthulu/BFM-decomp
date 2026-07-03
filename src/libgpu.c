@@ -14,9 +14,9 @@ INCLUDE_ASM("asm/nonmatchings/libgpu", func_80058A4C);
 
 INCLUDE_ASM("asm/nonmatchings/libgpu", EXT_OBJ_234);
 
-INCLUDE_ASM("asm/nonmatchings/libgpu", func_80058B04);
+INCLUDE_ASM("asm/nonmatchings/libgpu", SetDefDispEnv);
 
-INCLUDE_ASM("asm/nonmatchings/libgpu", func_80058B40);
+INCLUDE_ASM("asm/nonmatchings/libgpu", GetTPage);
 
 INCLUDE_ASM("asm/nonmatchings/libgpu", GetClut);
 
@@ -32,7 +32,7 @@ INCLUDE_ASM("asm/nonmatchings/libgpu", AddPrim);
 
 INCLUDE_ASM("asm/nonmatchings/libgpu", AddPrims);
 
-INCLUDE_ASM("asm/nonmatchings/libgpu", func_80058CE4);
+INCLUDE_ASM("asm/nonmatchings/libgpu", CatPrim);
 
 INCLUDE_ASM("asm/nonmatchings/libgpu", TermPrim);
 

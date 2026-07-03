@@ -1,8 +1,8 @@
 #include "common.h"
 
-INCLUDE_ASM("asm/nonmatchings/snd1", func_8003A444);
+INCLUDE_ASM("asm/nonmatchings/snd1", _SpuInit);
 
-INCLUDE_ASM("asm/nonmatchings/snd1", func_8003A53C);
+INCLUDE_ASM("asm/nonmatchings/snd1", SpuStart);
 
 INCLUDE_ASM("asm/nonmatchings/snd1", func_8003A5B8);
 
@@ -51,9 +51,9 @@ INCLUDE_ASM("asm/nonmatchings/snd1", _spu_FsetPCR);
 
 INCLUDE_ASM("asm/nonmatchings/snd1", SPU_OBJ_AC4);
 
-INCLUDE_ASM("asm/nonmatchings/snd1", func_8003B08C);
+INCLUDE_ASM("asm/nonmatchings/snd1", _spu_FsetDelayW);
 
-INCLUDE_ASM("asm/nonmatchings/snd1", func_8003B0B8);
+INCLUDE_ASM("asm/nonmatchings/snd1", _spu_FsetDelayR);
 
 INCLUDE_ASM("asm/nonmatchings/snd1", func_8003B0E4);
 
@@ -61,9 +61,9 @@ INCLUDE_ASM("asm/nonmatchings/snd1", func_8003B0FC);
 
 INCLUDE_ASM("asm/nonmatchings/snd1", SPU_OBJ_B74);
 
-INCLUDE_ASM("asm/nonmatchings/snd1", func_8003B14C);
+INCLUDE_ASM("asm/nonmatchings/snd1", _SpuDataCallback);
 
-INCLUDE_ASM("asm/nonmatchings/snd1", func_8003B170);
+INCLUDE_ASM("asm/nonmatchings/snd1", SpuQuit);
 
 INCLUDE_ASM("asm/nonmatchings/snd1", func_8003B1EC);
 
@@ -106,7 +106,7 @@ INCLUDE_ASM("asm/nonmatchings/snd1", S_SRMP_OBJ_444);
 
 INCLUDE_ASM("asm/nonmatchings/snd1", S_SRMP_OBJ_4C4);
 
-INCLUDE_ASM("asm/nonmatchings/snd1", func_8003B954);
+INCLUDE_ASM("asm/nonmatchings/snd1", _spu_setReverbAttr);
 
 INCLUDE_ASM("asm/nonmatchings/snd1", func_8003BE24);
 

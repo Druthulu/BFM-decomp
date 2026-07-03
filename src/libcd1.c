@@ -2,7 +2,7 @@
 
 INCLUDE_ASM("asm/nonmatchings/libcd1", StSetRing);
 
-INCLUDE_ASM("asm/nonmatchings/libcd1", func_800430B8);
+INCLUDE_ASM("asm/nonmatchings/libcd1", DecDCToutCallback);
 
 INCLUDE_ASM("asm/nonmatchings/libcd1", func_800430DC);
 
@@ -60,7 +60,7 @@ INCLUDE_ASM("asm/nonmatchings/libcd1", func_80043830);
 
 INCLUDE_ASM("asm/nonmatchings/libcd1", SYS_OBJ_538);
 
-INCLUDE_ASM("asm/nonmatchings/libcd1", func_80043974);
+INCLUDE_ASM("asm/nonmatchings/libcd1", CdMix);
 
 INCLUDE_ASM("asm/nonmatchings/libcd1", func_80043994);
 
@@ -114,13 +114,13 @@ INCLUDE_ASM("asm/nonmatchings/libcd1", BIOS_OBJ_DDC);
 
 INCLUDE_ASM("asm/nonmatchings/libcd1", BIOS_OBJ_EC8);
 
-INCLUDE_ASM("asm/nonmatchings/libcd1", func_80044A8C);
+INCLUDE_ASM("asm/nonmatchings/libcd1", CD_vol);
 
-INCLUDE_ASM("asm/nonmatchings/libcd1", func_80044B14);
+INCLUDE_ASM("asm/nonmatchings/libcd1", CD_flush);
 
-INCLUDE_ASM("asm/nonmatchings/libcd1", func_80044BF4);
+INCLUDE_ASM("asm/nonmatchings/libcd1", CD_initvol);
 
-INCLUDE_ASM("asm/nonmatchings/libcd1", func_80044CE8);
+INCLUDE_ASM("asm/nonmatchings/libcd1", CD_initintr);
 
 INCLUDE_ASM("asm/nonmatchings/libcd1", func_80044D38);
 
@@ -128,9 +128,9 @@ INCLUDE_ASM("asm/nonmatchings/libcd1", func_80044F24);
 
 INCLUDE_ASM("asm/nonmatchings/libcd1", BIOS_OBJ_14A4);
 
-INCLUDE_ASM("asm/nonmatchings/libcd1", func_80045090);
+INCLUDE_ASM("asm/nonmatchings/libcd1", CD_getsector);
 
-INCLUDE_ASM("asm/nonmatchings/libcd1", func_80045190);
+INCLUDE_ASM("asm/nonmatchings/libcd1", CD_getsector2);
 
 INCLUDE_ASM("asm/nonmatchings/libcd1", CD_set_test_parmnum);
 

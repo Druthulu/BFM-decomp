@@ -133,4 +133,4 @@ INCLUDE_ASM("asm/nonmatchings/snd2", SR_GAKS_OBJ_140);
 
 INCLUDE_ASM("asm/nonmatchings/snd2", func_8003D3B4);
 
-INCLUDE_ASM("asm/nonmatchings/snd2", func_8003D3F8);
+INCLUDE_ASM("asm/nonmatchings/snd2", SpuSetReverbModeDepth);

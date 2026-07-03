@@ -2,7 +2,7 @@
 
 INCLUDE_ASM("asm/nonmatchings/boot", start);
 
-INCLUDE_ASM("asm/nonmatchings/boot", func_800100A0);
+INCLUDE_ASM("asm/nonmatchings/boot", __main);
 
 INCLUDE_ASM("asm/nonmatchings/boot", __do_global_dtors);
 
