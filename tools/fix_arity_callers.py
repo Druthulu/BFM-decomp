@@ -66,6 +66,9 @@ def main():
     ap.add_argument('--any-proto', action='store_true',
                     help='relax ANY prototype (not just (void)) -> no-proto — the generalized def-side-wall '
                          'reconciliation for non-(void) conflicting forward-decls; byte-gate filters (G3/P9)')
+    ap.add_argument('--binary', help='ALSO scan+rewrite this overlay\'s own inline caller decls in '
+                    'src/<binary>/<binary>*.c (a conflicting extern is often in the overlay src, not just '
+                    'engine_core.h — the T6 integration-recovery gap). Default: engine_core.h only.')
     a = ap.parse_args()
 
     fns = []
@@ -76,7 +79,11 @@ def main():
     if not fns:
         sys.exit('no funcs given')
 
-    txt = open(EC).read()
+    # target files: engine_core.h always; + the overlay's own src (inline callers) when --binary given.
+    files = [EC]
+    if a.binary:
+        files += sorted(glob.glob(os.path.join(REPO, f'src/{a.binary}/{a.binary}*.c')))
+    texts = {f: open(f).read() for f in files}
     applied = skipped = reverted = notfound = 0
     for fn in fns:
         ad = addr_of(fn)
@@ -86,23 +93,26 @@ def main():
             safe = draft_is_promotion_safe(fn, a.drafts)
             if safe is False:
                 print(f'  [skip narrow-param] {fn}'); skipped += 1; continue
-        # match `extern <ret> func_ADDR ( void ) ;`  (ret = word chars/spaces/*) anywhere in the header
+        # match `extern <ret> func_ADDR ( void ) ;`  (ret = word chars/spaces/*) anywhere
         void_re = re.compile(rf'(extern\s+[A-Za-z_][\w \t\*]*?\bfunc_{ad}\s*\()\s*void\s*(\)\s*;)', re.I)
         anyproto_re = re.compile(rf'(extern\s+[A-Za-z_][\w \t\*]*?\bfunc_{ad}\s*\()\s*[^;)]+?\s*(\)\s*;)', re.I)
         noproto_re = re.compile(rf'(extern\s+[A-Za-z_][\w \t\*]*?\bfunc_{ad}\s*\()\s*(\)\s*;)', re.I)
-        if a.apply:
-            new, n = (anyproto_re if a.any_proto else void_re).subn(r'\1\2', txt)
-        else:
-            new, n = noproto_re.subn(r'\1void\2', txt)
+        n = 0
+        for f in files:
+            if a.apply:
+                texts[f], k = (anyproto_re if a.any_proto else void_re).subn(r'\1\2', texts[f])
+            else:
+                texts[f], k = noproto_re.subn(r'\1void\2', texts[f])
+            n += k
         if n:
-            txt = new
             applied += a.apply and n
             reverted += a.revert and n
             print(f'  [{"no-proto" if a.apply else "revert"}] {fn} ({n} caller decl)')
         else:
             notfound += 1
             print(f'  [no caller (void) decl found] {fn}')
-    open(EC, 'w').write(txt)
+    for f, t in texts.items():
+        open(f, 'w').write(t)
     if a.apply:
         print(f'\napplied no-proto to {applied} caller decl(s); skipped {skipped} narrow-param; '
               f'{notfound} had no (void) caller decl. Re-run the byte-gate now.')
