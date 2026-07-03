@@ -115,9 +115,10 @@ def run_gate(drafts, binary=OV, src=None, asm=None, out=None, good_sha=None,
     # global lock (serial), so grinder/orchestrator/lora_grind are unaffected. verified_out/
     # failed_out/compute_fleet likewise default to today's behavior; bulk_harvest overrides them
     # per-worker + skips the in-gate fleet% (computed once in its serial tail).
-    # src_file: the overlay SPLIT .c the drafts target (ov_SC01_077_a.c / _o0.c). When set, cast
-    # canonicalizes against THAT file's decls and sig_unify is SKIPPED (it reads main .c only and
-    # would DROP split-file drafts). dedup_propagate is already split-aware. Default None = main .c.
+    # src_file: the overlay SPLIT .c the drafts target (ov_SC01_077_a.c / _o0.c). When set, BOTH cast
+    # and sig_unify canonicalize against THAT file's decls (via --src-file; sig_unify.py:151 reads the
+    # split file's stubs so split-file drafts are NOT dropped). dedup_propagate is already split-aware.
+    # Default None = main .c.
     os.makedirs(os.path.join(REPO, ".run/auto"), exist_ok=True)
     _lock = open(os.path.join(REPO, lock_path or ".run/auto/gate.lock"), "w")
     fcntl.flock(_lock, fcntl.LOCK_EX)
@@ -261,8 +262,9 @@ def main():
     ap.add_argument("--good-sha", default=None)
     ap.add_argument("--source-tag", default="worker")
     ap.add_argument("--src-file", default=None,
-                    help="overlay SPLIT .c the drafts target (ov_SC01_077_a.c/_o0.c): cast canonicalizes "
-                         "against it + sig_unify is skipped. Use with --src/--asm-subdir pointing at the split.")
+                    help="overlay SPLIT .c the drafts target (ov_SC01_077_a.c/_o0.c): cast + sig_unify "
+                         "canonicalize against it (via --src-file, so split-file drafts aren't dropped). "
+                         "Use with --src/--asm-subdir pointing at the split.")
     ap.add_argument("--no-propagate", action="store_true")
     ap.add_argument("--commit", action="store_true")
     a = ap.parse_args()
