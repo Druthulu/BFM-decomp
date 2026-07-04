@@ -324,5 +324,17 @@ function, compare where the increment sits relative to branches.
 Experiment corpus: `.run/gccmap/exp/{expA..expH}.c` + `cc.sh` (rerunnable one-liners);
 counter-proof C for the banked exemplar: `.run/gccmap/exp/func_80150528_{twoptr,anchor20}.c`.
 
+### Movables EMISSION ORDER — the bitfield mask decoupler (Phase 24 T7, cookbook §36, byte-proven func_8013AF20) — **STEERABLE**
+`move_movables` emits hoisted const-sets in the order `scan_loop` FOUND them = loop-body insn
+order. A user-mask statement materializes its constants in C expression order — COUPLED to the
+AND/OR compute shape (reordering `&`-operands flips both). The one C form that materializes
+`0x00ffffff` BEFORE `0xff000000` while still computing `dest & 0xff000000` first is the
+**BITFIELD store** (libgpu `setaddr`/`addPrim`): `store_fixed_bit_field` masks the VALUE first
+(expmed.c:667 `must_and` → :679-681), the dest second (:694-696), `ior` dest-first (:706).
+Downstream, preheader birth order sets the K2 tie-break (later-born = shorter LL = higher
+priority), and a lui+ori const additionally SKIPS local-alloc.c:1064's LL-doubling (sched.c:4830
+`try_split` → mips.md:3208 `large_int` split → `reg_n_sets==2` fails the :1021 gate) — see
+regalloc.md RC-7. Full chain + gdb numbers: cookbook §36.
+
 ### The giv-init fence — force `emit_iv_add_mult`'s giv-init MOVE (Phase 24 T5, cookbook §34) — **STEERABLE**
 When a loop's counter-derived pointer (a general induction var) has its init COALESCED with the invariant address, gcc drops one instruction → a full count mismatch vs a target that kept the `addu dst,base,$zero`. **Fix:** `asm("":"=r"(base):"0"(base)); dst = base;` forces `emit_iv_add_mult`'s giv-init move (`loop.c:5556 if (reg != result) emit_move_insn(reg,result)`) to materialize = the target's `addu dst,base,$zero`. The general fix for the "gcc coalesced the giv init, dropping an instruction" class on any giant with a counter-derived pointer.

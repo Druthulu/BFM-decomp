@@ -9060,7 +9060,7 @@
     }
 
 #define DEFINE_func_8013A448() \
-    extern void func_8013A530(void); \
+    extern void func_8013A530(); \
     void func_8013A448(void *a0) { \
         s16 *a1 = *(s16 **)((char *)a0 + 0x4); \
         if (*(u16 *)((char *)a0 + 0x2) == 0) { \
@@ -11826,7 +11826,7 @@
     }
 
 #define DEFINE_func_80137BD8() \
-    extern void func_801392FC(s32 a0, s32 a1, u8 *a2); \
+    extern void func_801392FC(); \
     extern void func_801397B0(s32 a0); \
     extern void func_80137DD4(s32 a0, u8 *a1, u8 *a2); \
     extern void func_80139680(s32 a0, u8 *a1); \
@@ -11860,7 +11860,7 @@
 #define DEFINE_func_8013AA24() \
     extern void func_8013AD38(void *a0, s32 a1, void *a2, void *a3); \
     extern void func_8013B204(s32 a0, s32 a1); \
-    extern void func_8013AF20(s32 a0, s32 a1, void *a2, void *a3); \
+    extern void func_8013AF20(); \
     extern short D_800B9A02; \
     extern s32 D_800A651C; \
     void func_8013AA24(s32 a0, s32 a1) { \
@@ -12496,7 +12496,7 @@
 #define DEFINE_func_8013AB54() \
     extern void func_8013AD38(void *a0, s32 a1, void *a2, void *a3); \
     extern void func_8013B274(s32 a0, s32 a1, void *a2); \
-    extern void func_8013AF20(s32 a0, s32 a1, void *a2, void *a3); \
+    extern void func_8013AF20(); \
     extern s32 D_800A5E60; \
     s32 func_8013AB54(s32 a0, s32 a1, s32 a2, s32 a3) { \
         u8 buf[0xE4];          /* spans 0x10 .. 0xF4 */ \
@@ -13234,7 +13234,7 @@
     }
 
 #define DEFINE_func_8013A4C4() \
-    extern void func_8013A530(void); \
+    extern void func_8013A530(); \
     void func_8013A4C4(struct S8013A4C4 *a0) { \
         struct Inner8013A4C4 *a1 = a0->unk4; \
         a0->unkE = 0; \
@@ -17395,7 +17395,7 @@
 
 #define DEFINE_func_8013A380() \
     extern u8 D_8011DA80[]; \
-    extern void func_8013A530(void); \
+    extern void func_8013A530(); \
     extern void func_8013A448(void *a0); \
     extern void func_8013A4C4(struct S8013A4C4 *a0); \
     void func_8013A380(void) { \
@@ -25978,6 +25978,250 @@
         __asm__ __volatile__( \
             "swc2 $25, 0(%0)\n" "swc2 $26, 4(%0)\n" "swc2 $27, 8(%0)\n" \
             : : "r"(c) : "memory"); \
+    }
+
+#define DEFINE_func_801392FC() \
+    extern s32 GetTPage(s32 a0, s32 a1, s32 a2, s32 a3); \
+    extern s32 func_80052460(s32 a0, s32 a1, s32 a2); \
+    void func_801392FC(s32 arg0, s32 arg1, u8 *arg2) \
+    { \
+        s32 buf[16]; \
+        s32 i; \
+        s32 acc; \
+        s32 rem; \
+        u16 cnt; \
+        register s32 a1c __asm__("$5"); \
+        *(s32 *)((u8 *)buf + 0x00) = 0; \
+        *(s16 *)((u8 *)buf + 0x0C) = GetTPage(0, 1, \
+            *(s16 *)((u8 *)arg0 + 0x38) & 0xFFC0, \
+            *(s16 *)((u8 *)arg0 + 0x3A) & 0xFF00); \
+        *(s16 *)((u8 *)buf + 0x10) = *(u16 *)((u8 *)arg0 + 0x3C); \
+        *(s16 *)((u8 *)buf + 0x12) = *(u16 *)((u8 *)arg0 + 0x3E); \
+        *(u8 *)((u8 *)buf + 0x16) = 0x80; \
+        *(u8 *)((u8 *)buf + 0x15) = 0x80; \
+        *(u8 *)((u8 *)buf + 0x14) = 0x80; \
+        i = 0; \
+        cnt = *(volatile u16 *)((u8 *)arg0 + 0x2E); \
+        if (*(s16 *)((u8 *)arg0 + 0x2E) > 0) { \
+            s32 c12 = 0xC; \
+            s32 c12ma = 0xC - arg1; \
+            acc = 0; \
+            do { \
+                rem = (*(u16 *)((u8 *)arg0 + 0x16) + i) % ((s16)cnt + 1); \
+                *(s16 *)((u8 *)buf + 0x04) = *(u16 *)((u8 *)arg0 + 0x30); \
+                if (i != 0) { \
+                    *(s16 *)((u8 *)buf + 0x06) = (*(u16 *)((u8 *)arg0 + 0x32) + acc - arg1) + i * 2; \
+                } else { \
+                    *(s16 *)((u8 *)buf + 0x06) = *(u16 *)((u8 *)arg0 + 0x32); \
+                } \
+                if (i == 0) { \
+                    *(s16 *)((u8 *)buf + 0x0A) = c12ma; \
+                } else { \
+                    *(s16 *)((u8 *)buf + 0x0A) = c12; \
+                } \
+                *(u8 *)((u8 *)buf + 0x0E) = 0; \
+                if (i != 0) { \
+                    s32 t = rem * 12 + *(u8 *)((u8 *)arg0 + 0x3A); \
+                    *(u8 *)((u8 *)buf + 0x0F) = t; \
+                } else { \
+                    s32 t = rem * 12 + *(u8 *)((u8 *)arg0 + 0x3A) + arg1; \
+                    *(u8 *)((u8 *)buf + 0x0F) = t; \
+                } \
+                *(s16 *)((u8 *)buf + 0x08) = *(u16 *)((u8 *)arg0 + 0x34); \
+                func_80052460((s32)buf, (s32)arg2, *(u16 *)((u8 *)arg0 + 0x1A)); \
+                acc += 0xC; \
+                i++; \
+                cnt = *(volatile u16 *)((u8 *)arg0 + 0x2E); \
+            } while (i < *(s16 *)((u8 *)arg0 + 0x2E)); \
+        } \
+        if (arg1 != 0) { \
+            s16 w; \
+            rem = (*(u16 *)((u8 *)arg0 + 0x16) + i) % (*(s16 *)((u8 *)arg0 + 0x2E) + 1); \
+            *(s16 *)((u8 *)buf + 0x04) = *(u16 *)((u8 *)arg0 + 0x30); \
+            *(s16 *)((u8 *)buf + 0x06) = (*(u16 *)((u8 *)arg0 + 0x32) + i * 12) - arg1 + i * 2; \
+            *(s16 *)((u8 *)buf + 0x0A) = arg1 - 2; \
+            *(u8 *)((u8 *)buf + 0x0E) = 0; \
+            { \
+                s32 t = rem * 12 + *(u8 *)((u8 *)arg0 + 0x3A); \
+                *(u8 *)((u8 *)buf + 0x0F) = t; \
+            } \
+            w = *(s16 *)((u8 *)arg0 + 0x34); \
+            if (w >= 0xFD) { \
+                *(s16 *)((u8 *)buf + 0x08) = 0x100; \
+                func_80052460((s32)buf, (s32)arg2, *(u16 *)((u8 *)arg0 + 0x1A)); \
+                { \
+                    s32 t2; \
+                    *(s16 *)((u8 *)buf + 0x04) = *(u16 *)((u8 *)arg0 + 0x30) + *(u16 *)((u8 *)buf + 0x08); \
+                    *(s16 *)((u8 *)buf + 0x08) = 0x20; \
+                    *(u8 *)((u8 *)buf + 0x0E) = rem << 5; \
+                    t2 = (*(s16 *)((u8 *)arg0 + 0x2E) + 1) * 12 + *(u8 *)((u8 *)arg0 + 0x3A); \
+                    *(u8 *)((u8 *)buf + 0x0F) = t2; \
+                } \
+                a1c = (s32)arg2; \
+                func_80052460((s32)buf, a1c, *(u16 *)((u8 *)arg0 + 0x1A)); \
+            } else { \
+                *(s16 *)((u8 *)buf + 0x08) = w; \
+                func_80052460((s32)buf, (s32)arg2, *(u16 *)((u8 *)arg0 + 0x1A)); \
+            } \
+        } \
+    }
+
+#define DEFINE_func_8013A530() \
+    extern void *memcpy(void *, const void *, u32); \
+    extern void func_80015D4C(); \
+    extern void func_80015F04(); \
+    extern void func_8013AA24(s32 a0, s32 a1); \
+    void func_8013A530(int param_1) \
+    { \
+        int iVar11; \
+        u16 uVar2; \
+        int sVar2; \
+        register u8 bVar1 __asm__("$8"); \
+        int deadlocal[2]; \
+        iVar11 = *(int *)(param_1 + 4); \
+        uVar2 = *(u16 *)(iVar11 + 0x18); \
+        sVar2 = uVar2; \
+        bVar1 = *(u8 *)(iVar11 + 0x22); \
+        if (uVar2 != 0 && uVar2 < 7) { \
+            if (uVar2 != 1) { \
+                if (sVar2 != 0 && sVar2 < 7) { \
+                    register u32 f34 __asm__("$5"); \
+                    u32 uVar2b; \
+                    u32 uVar6; \
+                    short sVar5; \
+                    register int fc __asm__("$5"); \
+                    register int zr __asm__("$0"); \
+                    int iVar7; \
+                    f34 = *(u16 *)(iVar11 + 0x34); \
+                    uVar6 = f34 + 0x10; \
+                    uVar2b = *(u16 *)(iVar11 + 0x36) + 0x10; \
+                    if (*(u8 *)(iVar11 + 0x20) != 0) { \
+                        uVar6 = f34 + 0x38; \
+                    } \
+                    sVar5 = (short)((int)((int)*(s16 *)(iVar11 + 0x28) * (uVar6 & 0xffff)) / 0x9a); \
+                    *(s16 *)(param_1 + 8) = sVar5; \
+                    if ((bVar1 & 8) == 0) { \
+                        *(s16 *)(param_1 + 8) = -sVar5; \
+                    } \
+                    if ((bVar1 & 0x60) == 0 || (bVar1 & 0x80) != 0) { \
+                        *(s16 *)(param_1 + 8) = -*(s16 *)(param_1 + 8); \
+                    } \
+                    sVar5 = (short)((int)((int)*(s16 *)(iVar11 + 0x2a) * (uVar2b & 0xffff)) / 0x2a); \
+                    *(s16 *)(param_1 + 0xa) = sVar5; \
+                    if ((bVar1 & 0x10) != 0) { \
+                        *(s16 *)(param_1 + 0xa) = -sVar5; \
+                    } \
+                    __asm__("" :: "r"(bVar1)); \
+                    fc = *(s16 *)(param_1 + 0xc); \
+                    iVar7 = fc + zr; \
+                    if (fc < *(s16 *)(param_1 + 0xe)) { \
+                        int t = iVar7 + 0x400; \
+                        *(s16 *)(param_1 + 0xc) = (short)t; \
+                        if (((t << 16) >> 16) > (int)*(s16 *)(param_1 + 0xe)) { \
+                            *(s16 *)(param_1 + 0xc) = *(s16 *)(param_1 + 0xe); \
+                        } \
+                    } else if (*(s16 *)(param_1 + 0xe) < fc) { \
+                        int t = iVar7 - 0x400; \
+                        __asm__("" :: "r"(iVar7), "r"(t)); \
+                        *(s16 *)(param_1 + 0xc) = (short)t; \
+                        if (((t << 16) >> 16) < (int)*(s16 *)(param_1 + 0xe)) { \
+                            *(s16 *)(param_1 + 0xc) = *(s16 *)(param_1 + 0xe); \
+                        } \
+                    } \
+                    __asm__("" :: "r"(fc)); \
+                    func_8013AA24(iVar11, param_1); \
+                } \
+            } else { \
+                int iVar7, iVar8; \
+                u32 uVar6, uVar4; \
+                memcpy((void *)(param_1 + 8), (void *)(iVar11 + 0x28), 4); \
+                uVar6 = ((*(s16 *)(iVar11 + 0x34) + 0x10) * (int)*(s16 *)(param_1 + 8)) >> 0xc; \
+                uVar4 = ((*(s16 *)(iVar11 + 0x36) + 0x10) * (int)*(s16 *)(param_1 + 0xa)) >> 0xc; \
+                iVar7 = *(u16 *)(iVar11 + 0x24) - ((uVar6 & 0xffff) >> 1); \
+                iVar8 = *(u16 *)(iVar11 + 0x26) - ((uVar4 & 0xffff) >> 1); \
+                func_80015F04((int)(s16)iVar7, (int)(s16)iVar8, (int)(s16)uVar6, (int)(s16)uVar4, \
+                              0xb3, 0x99, 0x4c, *(u16 *)(iVar11 + 0x1a), 4); \
+                func_80015F04((int)(s16)(iVar7 + 1), (int)(s16)(iVar8 + 1), \
+                              (int)(s16)(uVar6 - 2), (int)(s16)(uVar4 - 2), \
+                              0xe6, 0xcc, 0x73, *(u16 *)(iVar11 + 0x1a), 4); \
+                func_80015D4C((int)(s16)iVar7, (int)(s16)iVar8, (int)(s16)uVar6, (int)(s16)uVar4, \
+                              0xff, 0xe6, 0x99, *(u16 *)(iVar11 + 0x1a), 4); \
+            } \
+        } \
+        return; \
+    }
+
+#define DEFINE_func_8013AF20() \
+    extern void *func_80010A08(s32); \
+    void func_8013AF20(u32 *param_1, u16 *param_2, u16 *param_3, u8 *param_4) \
+    { \
+        u32 *puVar3; \
+        u32 *puVar4; \
+        u32 *puVar5; \
+        s32 iVar8; \
+        s32 j; \
+        puVar3 = (u32 *)func_80010A08(0x168); \
+        puVar4 = (u32 *)func_80010A08(0x1e0); \
+        puVar5 = (u32 *)func_80010A08(0x1e0); \
+        iVar8 = 0; \
+        j = 0; \
+        do { \
+            *(u8 *)((s32)puVar4 + 3) = 3; \
+            *(u8 *)((s32)puVar4 + 7) = 0x40; \
+            *(u8 *)((s32)puVar4 + 4) = 0x3d; \
+            *(u8 *)((s32)puVar4 + 5) = 0x3d; \
+            *(u8 *)((s32)puVar4 + 6) = 0x3d; \
+            *(u16 *)((s32)puVar4 + 8) = param_3[j]; \
+            *(u16 *)((s32)puVar4 + 0xa) = param_3[j + 1]; \
+            iVar8 = iVar8 + 1; \
+            *(u16 *)((s32)puVar4 + 0xc) = param_3[j + 2]; \
+            *(u16 *)((s32)puVar4 + 0xe) = param_3[j + 3]; \
+            j += 2; \
+            /* addPrim(param_1, puVar4): setaddr(p, getaddr(ot)), setaddr(ot, p) */ \
+            ((P_TAG *)puVar4)->addr = ((P_TAG *)param_1)->addr; \
+            ((P_TAG *)param_1)->addr = (u32)puVar4; \
+            puVar4 = puVar4 + 4; \
+        } while (iVar8 < 0x1e); \
+        iVar8 = 0; \
+        j = 0; \
+        do { \
+            iVar8 = iVar8 + 1; \
+            *(u8 *)((s32)puVar5 + 3) = 3; \
+            *(u8 *)((s32)puVar5 + 7) = 0x40; \
+            *(u8 *)((s32)puVar5 + 4) = 0x92; \
+            *(u8 *)((s32)puVar5 + 5) = 0x92; \
+            *(u8 *)((s32)puVar5 + 6) = 0x92; \
+            *(u16 *)((s32)puVar5 + 8) = param_3[j] + (s8)param_4[j]; \
+            *(u16 *)((s32)puVar5 + 0xa) = param_3[j + 1] + (s8)param_4[j + 1]; \
+            *(u16 *)((s32)puVar5 + 0xc) = param_3[j + 2] + (s8)param_4[j + 2]; \
+            *(u16 *)((s32)puVar5 + 0xe) = param_3[j + 3] + (s8)param_4[j + 3]; \
+            j += 2; \
+            ((P_TAG *)puVar5)->addr = ((P_TAG *)param_1)->addr; \
+            ((P_TAG *)param_1)->addr = (u32)puVar5; \
+            puVar5 = puVar5 + 4; \
+        } while (iVar8 < 0x1e); \
+        iVar8 = 0; \
+        j = 0; \
+        do { \
+            *(u8 *)((s32)puVar3 + 3) = 5; \
+            *(u8 *)((s32)puVar3 + 7) = 0x28; \
+            *(u8 *)((s32)puVar3 + 4) = 0xff; \
+            *(u8 *)((s32)puVar3 + 5) = 0xff; \
+            *(u8 *)((s32)puVar3 + 6) = 0xff; \
+            *(u16 *)((s32)puVar3 + 8) = param_3[j]; \
+            *(u16 *)((s32)puVar3 + 0xa) = param_3[j + 1]; \
+            *(u16 *)((s32)puVar3 + 0xc) = param_2[0]; \
+            *(u16 *)((s32)puVar3 + 0xe) = param_2[1]; \
+            *(u16 *)((s32)puVar3 + 0x10) = param_3[j + 2]; \
+            *(u16 *)((s32)puVar3 + 0x12) = param_3[j + 3]; \
+            iVar8 = iVar8 + 2; \
+            *(u16 *)((s32)puVar3 + 0x14) = param_3[j + 4]; \
+            *(u16 *)((s32)puVar3 + 0x16) = param_3[j + 5]; \
+            j += 4; \
+            ((P_TAG *)puVar3)->addr = ((P_TAG *)param_1)->addr; \
+            ((P_TAG *)param_1)->addr = (u32)puVar3; \
+            puVar3 = puVar3 + 6; \
+        } while (iVar8 < 0x1e); \
     }
 
 #endif

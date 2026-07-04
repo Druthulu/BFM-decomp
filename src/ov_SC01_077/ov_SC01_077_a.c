@@ -1796,7 +1796,61 @@ DEFINE_func_80139220()  /* dedup: shared engine-core @0x80139220 (src/shared) */
 
 DEFINE_func_801392C8()  /* dedup: shared engine-core @0x801392C8 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_a", func_801392FC);
+/* func_801392FC (T7, 182 ins, reach-134, HARDEST tier — all 8 $s0-$s7)  —  MATCH (182 ins).
+ * GsSPRITE-drawing loop; LOOP form of the banked twin func_80139680 (engine_core.h DEFINE_).
+ * $s map: $s0=arg0, $s1=i, $s2=rem, $s3=arg1, $s4=acc(+=0xC), $s5=arg2(natural, NO pin), $s6=0xC,
+ * $s7=0xC-arg1.  Solved by Fable5 from the Opus close=2 seed; every lever below byte-verified.
+ *
+ * LEVER 1 (R1, the wall — count-load software-pipeline):  carry the raw count across the backedge:
+ *   u16 cnt loaded VOLATILE in the preheader and re-loaded VOLATILE at the loop tail (after the
+ *   call); divisor = (s16)cnt + 1 at the loop top.  Mechanics (gcc-2.7.2 source):
+ *   - flow.c:2087: LOG_LINKS only created when BLOCK_NUM(use)==BLOCK_NUM(def) — combine can never
+ *     fold the tail/preheader lhu (def BB) into the top-BB sll/sra sign-extend, so the "split and
+ *     schedulable" sequence the target shows is simply a cross-BB dataflow, unreachable from any
+ *     single-BB expression (that was the seed's dead end).
+ *   - reorg.c fill_slots_from_thread then steals the top-BB-leading sll into the loop-back bnez
+ *     delay slot and redirects the label to the sra (the sll appears twice: preheader fall-in +
+ *     delay slot).
+ *   - WHY VOLATILE (frame parity, not semantics): a non-volatile cnt load gets cse-commoned with
+ *     the same-address *(s16*) condition read (the LOOP_CONT label between them is deleted as
+ *     unused before cse2), and combine then does the KEEP-LOAD fold (newi2pat): combine.c:2089
+ *     sets elim_i2=0 when newi2pat!=0, so the dead ashift-temp's REG_DEAD is NOT dropped
+ *     (distribute_notes:10741), walks back, hits a CODE_LABEL and plants a (use reg) insn
+ *     (combine.c:10835-10847); the stale-ref allocno then gets an 8-byte reload stack slot
+ *     (frame 0x88/0x90 instead of 0x80).  The volatile mem is never hashed by cse (do_not_record),
+ *     the condition folds CLEAN (temps fully elided, no slot), and sched2 still hoists the lh
+ *     above the volatile lhu because sched.c:811 read_dependence requires BOTH mems volatile.
+ *     Target frame keeps exactly ONE such slot: the w keep-load fold at +0x34 (lh/addu/slti shape).
+ * LEVER 2 (prologue): NO $21 register pin (the seed needed one; with this body shape arg2 lands
+ *   in $s5 naturally).  The natural param copy is batched sw s5/addu s5,a2 ahead of a0=0/a1=1.
+ * LEVER 3 (buf+0x0F byte stores): route each `rem*12 + *(u8*)(arg0+0x3A) [+ arg1]` sum through an
+ *   s32 temp — defeats the C-frontend QI-shorten, whose canonical QImode (plus (lbu) (prod)) has
+ *   the operands swapped vs the target's SI-mode (plus (prod) (lbu)) — [addu v0,v0,v1 not
+ *   addu v1,v1,v0].  (The s16 store at buf+0x06 IS shortened: mem-first there is correct.)
+ * LEVER 4 (pre-call schedule / jal delay = i++): `acc += 0xC; i++;` AFTER the call statement.
+ *   sched2 is the 2.7.2 BACKWARD list scheduler; rank_for_schedule ties break on INSN_LUID
+ *   (original order), so statement position steers the a0/a1 arg setups early and leaves i++
+ *   adjacent for reorg's slot fill.
+ * LEVER 5 (post-loop block): statement order buf+0x04, buf+0x06, buf+0x0A, buf+0x0E, buf+0x0F —
+ *   the LOOP BODY's own order (x,y,h,0E,0F), NOT the emission order.  This keeps sched1 from
+ *   sinking the buf4 store into the s3-2 chain (which would stretch the 0x30-tmp's live range and
+ *   flip the local-alloc v0/v1 assignment cascade: qty priority = log2(refs)*refs*size/length,
+ *   local-alloc.c qty_compare).  The lone load-delay nop after lhu 0x30 is the target's own stall.
+ * LEVER 6 (>=0xFD tail): the final call is WRITTEN IN BOTH ARMS (duplicated).  Post-reload
+ *   cross-jumping (jump2 runs between sched2 and dbr) merges only the identical [jal] suffix
+ *   (arm tails diverge one insn earlier), creating .L8013959C at the else's jal; dbr then fills
+ *   the arm's j-slot with the a0 copy and the shared jal's slot stays nop (label blocks the
+ *   backward scan).  The buf+0x04 += old buf+0x08 read is INLINE (no u16 t local) — expansion
+ *   order lhu30-then-lhu(buf8) puts the loaded old-w in $a0 and lets sched pull the 0x20/0x0E
+ *   stores into the load latency, matching 145-152 exactly.
+ * LEVER 7 (the one pin): register s32 a1c __asm__("$5") used ONLY to re-arm a1 before the arm's
+ *   SECOND call (`a1c = (s32)arg2; func(..., a1c, ...)`), producing the mid-block addu a1,s5 and
+ *   suppressing call#2's own a1 copy (which is what limits the cross-jump depth to [jal] and
+ *   frees the j delay slot for a0).  Call#1 and the else call pass plain (s32)arg2 — call#1's own
+ *   a1 copy becomes its jal-delay fill.
+ */
+DEFINE_func_801392FC()  /* dedup: shared engine-core @0x801392FC (src/shared) */
+
 
 extern void func_80059888(void *a0, s32 a1, s32 a2, s32 a3);
 
@@ -1898,7 +1952,58 @@ DEFINE_func_8013A448()  /* dedup: shared engine-core @0x8013A448 (src/shared) */
 
 DEFINE_func_8013A4C4()  /* dedup: shared engine-core @0x8013A4C4 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_a", func_8013A530);
+/* func_8013A530 — region-a giant (204 ins, reach-134, HARDEST tier: ALL 8 $s0-$s7 + $fp).
+ * Camera/entity transform dispatch on mode = *(u16*)(ent+0x18) (ent = *(param_1+4), held in $fp).
+ * STATUS: match_one MATCH (204 ins), Fable5 Phase-24 T7. LOOSE/intended types.
+ *
+ * The whole function is byte-exact: the CASE1 block (all 8 $s regs live across three calls
+ * func_80015F04/F04/5D4C), the sltiu/slti dispatch, both magic divisions (/0x9a,/0x2a), the
+ * unaligned 4-byte copy, the frame, AND the clamp's double register-split (the last 10).
+ *
+ * LEVERS (all cookbook-cited):
+ *  [dispatch]  outer `uVar2<7` on the u16 -> sltiu (gcc folds u16<C to unsigned); the redundant inner
+ *      guard uses a SIGNED copy `sVar2=uVar2` -> a FRESH slti (a single signed cmp emits slt; only
+ *      CSE-reuse canonicalises signed->unsigned). Branch polarity read off the target `beq ==1`:
+ *      `if(uVar2!=1){DEFAULT}else{CASE1}` makes DEFAULT the fall-through, CASE1 the branched-to/last.
+ *  [§17a] unaligned 4-byte mem->mem copy -> memcpy((void*)dst,(void*)src,4) -> lwl/lwr/swl/swr.
+ *  [§32-5] frame is +8 over args+saves -> a dead 8-byte local (int deadlocal[2]).
+ *  [§17]  bVar1 pinned $t0 (fixes its reg + pushes the 0x99/4 consts to $t1); a zero-byte
+ *      __asm__("":: "r"(bVar1)) extends its range past the div2 `&0x10` so the andi lands in $v0
+ *      (not in-place $t0) -> div1+div2 byte-exact.
+ *  [§17]  f34 pinned $a1 (field34) so uVar6 takes $a0 (density-tie the target resolves the other way).
+ *
+ *  CLAMP (the former close=10 residual — RC-6 verdict OVERTURNED, no $v1 pin needed; cookbook §36):
+ *  [pin]   fc stays pinned $a1: canon_reg NEVER rewrites hard-reg uses (cse.c:2545 "Never replace a
+ *      hard reg") -> both compares keep reading fc even while iVar7 holds an equivalent value.
+ *  [$0-add] `register int zr __asm__("$0"); iVar7 = fc + zr;` — the copy as (plus $a1 $0), NOT
+ *      (set reg reg): cse forms no fc<->iVar7 equivalence (make_regs_eqv never runs -> no canon
+ *      poisoning either direction) and combine cannot absorb the fc load into iVar7 (no extend+plus
+ *      pattern) — a plain `int iVar7 = fc;` gets REVERSED (load->pseudo, pin<-copy, 1 insn short).
+ *      (plus $a1 $0) assembles to the byte-identical `addu $v1,$a1,$zero`; maspsx/ASPSX-2.56 hops it
+ *      over the slt into the beqz delay slot (cc1 emits [lh;lh;addu;slt;beqz]).
+ *      iVar7 as a PSEUDO (not a $v1 pin) un-poisons reload's retry pool: with $2/$3 pins,
+ *      regs_explicitly_used -> bad_spill_regs (reload1.c:3900-15) forced CASE1's 2nd-product
+ *      retry_global_alloc to $t2; unpinned it lands $v1 (".greg: Register 177 now in 3").
+ *  [flip]  then-arm inner compare spelled `((t<<16)>>16) > (int)mem` (canonically the SAME slt as
+ *      `mem < t-ext`): mirrors the else-arm's expansion-uid order so sched1's BACKWARD list
+ *      scheduler (mem-unit hazard blocks the lh next to the sh; boosted-group ties break by uid)
+ *      keeps the fe-reload lh BELOW the addiu that kills iVar7 -> the reload (local-alloc, first
+ *      pick) and iVar7 (global) are live-DISJOINT and can both hold $v1. Unflipped, sched1 hoists
+ *      the lh to the block top ("blocking insn 185 for 1 cycles") -> hard-3 conflict -> iVar7=$a0.
+ *  [dens]  two-input dummy `__asm__("" :: "r"(iVar7), "r"(t));` in the ELSE arm (anchors at t's def,
+ *      §34 toolkit): +1 ref lifts iVar7's allocno priority (global.c:594 floor_log2(refs)*refs/len:
+ *      3/10 -> 8/11) past the fe-load's 3/5, so iVar7 allocates FIRST -> $v1, fe -> $a0. Must NOT
+ *      sit in block1: its #APP markers land between the addu-copy and the slt and block maspsx's
+ *      delay-slot hop (that was v4's last diff).
+ *  [keep]  `__asm__("" :: "r"(fc));` after the clamp: fc/$a1 no longer DIES at the else-compare slt,
+ *      so the slt-result temp gets no qty_phys_sugg $a1 suggestion (local-alloc.c suggested-first
+ *      path) and falls to plain first-fit $v0, matching the target.
+ *  [nat]   the 2nd split (lh $v1 / addu $a0,$v1 / slt on $v1 / sh $a0) is NATURAL: `(int)mem`
+ *      expands as HI-load + sll/sra; the body re-load cse-folds onto the HI pseudo; combine merges
+ *      the extend into one lh and re-emits the HI pseudo as a subreg copy (the store temp).
+ */
+DEFINE_func_8013A530()  /* dedup: shared engine-core @0x8013A530 (src/shared) */
+
 
 DEFINE_func_8013A860()  /* dedup: shared engine-core @0x8013A860 (src/shared) */
 
@@ -1920,7 +2025,42 @@ DEFINE_func_8013AB54()  /* dedup: shared engine-core @0x8013AB54 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_a", func_8013AD38);
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_a", func_8013AF20);
+/* func_8013AF20 — MATCH (185 ins) — Phase 24 T7 Fable5 batch, giant 3/3.
+ *
+ * 3 GPU-primitive-builder loops (2× LINE_F2 len=3 code=0x40, 1× POLY_F4 len=5
+ * code=0x28), each ending in the PS1 libgpu addPrim(ot, prim) idiom.
+ *
+ * THE CRACK (was: Opus close=15, permuter-stuck 40k iters — "loop-invariant
+ * const-materialization order coupled to AND order"):
+ *
+ * 1) addPrim is a P_TAG BITFIELD store, not user masks. setaddr writes the
+ *    24-bit `addr` field; gcc's store_fixed_bit_field (expmed.c:556) expands
+ *    it as: value & 0x00ffffff FIRST (must_and :667, mask emitted :679-681),
+ *    THEN *dest & 0xff000000 (:694-696), THEN or(destmasked, value) (:706 —
+ *    dest chain stays op0 of the OR). So the 0x00ffffff movable is FOUND (and
+ *    preheader-emitted by move_movables) BEFORE 0xff000000, while the body
+ *    still computes the dest-AND first — the decoupling no user-mask C reorder
+ *    can express (any `&`-operand swap flips the AND/OR shape with it).
+ *
+ * 2) NO scheduling barrier. The old do{}while(0) around the 0x3d stores added
+ *    a NOTE_INSN_LOOP nest: flow.c weights refs by loop_depth (flow.c:2067/
+ *    2315/2501/2711), inflating the 0x3d const's refs 7→10 and flipping the
+ *    loop-1 $a2/$a3 contest (pri 4166 > 4000). With the bitfield form the
+ *    barrier's original purpose (puVar5→$t1) holds without it.
+ *
+ * 3) Why the mask WINS $a2 (gdb-on-cc1 verified): sched1 pre-reload-splits
+ *    every insn (sched.c:4830 try_split) → mips.md:3208 large_int define_split
+ *    turns li 0xffffff into lui+ori → reg_n_sets=2 → FAILS the single-set gate
+ *    (local-alloc.c:1021) → ESCAPES update_equiv_regs' live-length doubling
+ *    (local-alloc.c:1064). One-instruction consts (61, 0x40, 3, 0xff000000)
+ *    get doubled. Priorities (allocno_compare, global.c): mask fl2(7)*7/35 =
+ *    4000 vs 0x3d fl2(7)*7/72 = 1944 → mask allocates first → first-fit $a2.
+ *    (n_sets 61=1 mask=2 ff000000=1; LL 36/35/33 → post-equiv 72/35/66.)
+ *
+ * Cookbook §36 (this entry) + gcc-2.7.2-map/loop.md L4 / regalloc.md RC-7.
+ */
+DEFINE_func_8013AF20()  /* dedup: shared engine-core @0x8013AF20 (src/shared) */
+
 
 DEFINE_func_8013B204()  /* dedup: shared engine-core @0x8013B204 (src/shared) */
 

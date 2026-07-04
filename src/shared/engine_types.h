@@ -452,3 +452,4 @@ typedef struct { u16 x, y, z, w; } MoveT;
 typedef struct { s32 vpx, vpy, vpz, vrx, vry, vrz, rz, super; } RView;
 
 #endif /* BFM_ENGINE_TYPES_H */
+typedef struct { u32 addr : 24; u32 len : 8; u8 r0, g0, b0, code; } P_TAG; /* PsyQ libgpu OT primitive tag (§36 func_8013AF20) */
