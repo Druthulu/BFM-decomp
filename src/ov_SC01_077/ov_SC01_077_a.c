@@ -829,7 +829,33 @@ DEFINE_func_8012CEB0()  /* dedup: shared engine-core @0x8012CEB0 (src/shared) */
 DEFINE_func_8012CFA8()  /* dedup: shared engine-core @0x8012CFA8 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_a", func_8012D098);
+/* func_8012D098 — region-a camera 8-corner/frustum builder (189 ins, reach-134).
+ * STATUS: MATCH (match_one = 0, relocation-masked byte-identical). ONE-SHOT — the natural
+ * Ghidra-faithful C matched with no pins, no zero-byte asm, no permuter, no Fable5 escalation.
+ *
+ * Why the "hardest tier / all 8 $s0-$s7 live" label did NOT translate to matching difficulty:
+ *  - The two callee-saved BASES are the PARAMETERS themselves (param_1->$fp, param_2->$s7), not
+ *    hoisted global arrays. §32 idiom #1's whole crux ("a base living in a $s reg across calls can
+ *    only come from a source local, never a bare global") is a non-issue: params are already source
+ *    locals in registers. No `p = D_xxxx;` hoist, no pins.
+ *  - The body is ONE straight-line basic block (calls don't split BBs in gcc-2.7.2), so the 8 output-
+ *    buffer address-pseudos are LOCAL-ALLOC territory; param_1/param_2 span BBs -> global-alloc.
+ *  - Peak pressure = 10 callee-saved-worthy values (param_1, param_2, &scratch, bufA..bufG) over 9
+ *    regs ($fp + $s0-$s7) -> exactly one buffer must rematerialize. local-alloc density-order (all
+ *    buffers = 4 refs, equal) + first-fit naturally spills bufA (first-born, longest live range) and
+ *    lays the rest out bufB->$s6 .. bufG->$s1, with &scratch->$s0 (dies at call 8) reused for bufH.
+ *    That IS the target allocation, produced with zero steering.
+ *
+ * Loose/intended types (element type from opcode): param_1 = u16* (`*param_1` is `lhu`, unsigned;
+ * an s16* would emit `lh` = 1-op miss); param_2 = u32 pointer-base (offsets 4/6/8/a/c/e emit as
+ * literal immediates == target's `%lo(D_80000004..)` bytes; `| 0x80000000` -> `lui 0x8000` ==
+ * target's `%hi(D_80000004)`); scratch = u16[3] (`sh` stores, `lhu` sources); the 8 output buffers
+ * are 8-byte locals never dereferenced here (size only matters) declared bufA..bufH THEN scratch so
+ * the ascending in-decl-order slot layout lands bufA@sp+0x10 .. bufH@sp+0x48, scratch@sp+0x50.
+ * Callees kept loose (extern void func_...()); reconcile at bank time via cast_call_sites/§33.
+ */
+DEFINE_func_8012D098()  /* dedup: shared engine-core @0x8012D098 (src/shared) */
+
 
 DEFINE_func_8012D38C()  /* dedup: shared engine-core @0x8012D38C (src/shared) */
 
@@ -1146,7 +1172,14 @@ void func_8012EA90(s32 param_1, s32 param_2, s32 *param_3)
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_a", func_8012EC04);
+/* func_8012EC04 — region-a giant (T7).
+ * Body = sibling func_8012EA90 (proven MATCH, 3-branch select) verbatim;
+ * tail = GTE MulRotMatrix(in place)/SetTrans/ldlv0-rt-stlvnl lifted from
+ * DEFINE_func_80132784 (engine_core.h), base ptrs remapped:
+ *   rot/trans src M = *(param_1+0x20)+0x34 ;  vector matrix = param_3 (in place). */
+
+DEFINE_func_8012EC04()  /* dedup: shared engine-core @0x8012EC04 (src/shared) */
+
 
 DEFINE_func_8012EECC()  /* dedup: shared engine-core @0x8012EECC (src/shared) */
 
