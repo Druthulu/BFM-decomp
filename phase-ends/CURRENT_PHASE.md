@@ -25,6 +25,16 @@ Whole-binary byte-gate (`tools/harvest_verify.py`) is the SOLE arbiter (G3/P9). 
 
 **Fable5 policy (Drew, 2026-07-02):** Fable5 (`Agent(model:fable)`) is the reserved *discovery / wall-breaker* tier (reads the gcc-2.7.2 source; ~375k tok/giant), NOT the workhorse. Cheap-tier-first: permuter + Opus applying §31 → Fable5 only when they stall. Two uses this phase: (1) **on-demand escalation** on any giant the fixed permuter can't close (T4/T8 — no task); (2) **T5b** proactive spike to test whether S11/RC-6 are truly intrinsic. A Fable5-cracked lever goes into §31 (R16) so Opus applies it thereafter.
 
+## §G — GIANT ENDGAME QUEUE (NEXT SESSION — Drew, 2026-07-04) — start AFTER this session's 3-giant Fable5 batch lands
+> The remaining **~9 reach-134 giants (≥150 ins)** to harvest next session (12 reach-134 giants were stubbed post-T7; **this session's batch = func_801392FC/8013A530/8013AF20**, banked HERE first). **Strategy: closest-to-completion FIRST + fast-track the whale via a cheap triage** — NOT smallest→largest (closeness = the effort; size = the payoff; a 204-ins giant can be close=10 while a 152-ins one is close=52). **R14: RE-MEASURE closeness first** (`match_one` per giant — the backlog values below are Phase-23-era, likely stale). **Bank this session's Fable5 idioms into §31 BEFORE starting** (compounding). Banking recipe = cookbook **§35**; per-giant integration classes (caller-conflict / callee-proto / local-typedef) in §35.
+>
+> **The order:**
+> 0. **Verify near-free:** `func_80178004` (165, backlog close=**0**, no saved draft) — `match_one` it FIRST; may bank almost free.
+> 1. **Closeness ladder (drafted/close = fast certain wins):** `func_8014EA4C` (183, ~c6) → `func_801571C4` (198, ~c24) → `func_80176D94` (152, ~c52, drafted) → `func_801770E0` (152, ~c53) → `func_80148094` (213, ~c72, drafted) → `func_801412A8` (198, ~c110, drafted) → `func_801372B0` (207, ~c173).
+> 2. **THE WHALE — triage EARLY, in parallel:** `func_80144B9C` (**770 ins**, untouched) — a cheap Opus pass (ranking-law triage: param/buffer-based → one-shot ≈ **+1.6% byte-weight free**; global-array-hoister → close-draft + Fable5). Its byte-weight ≈ the next ~8 giants COMBINED — the single biggest lever on the honest byte-weighted % (giants ≈ 35% of remaining byte-weight, Phase 19). Do NOT bury it at the end of the closeness queue.
+>
+> **Method per giant:** cheap Opus applying §32/§34/§35 (ranking-law triage) → bank via the §35 recipe if close; if stalled at a genuine global-hoist/regalloc wall → Fable5 (sequential, idiom-banking). ~90 total ≥150-ins stubs exist in ov_SC01_077 but only these ~12 are reach-134 (×134 payoff); the ~78 lower-reach large fns are a separate, lower-value tail.
+
 ## R14 corrections carried in (do NOT re-adopt the stale Phase-23 backlog framings)
 - "split-file-blind glob" is refuted — the real defect is `compile.sh`/`match_one.py` are **-O2 only** (can't match `_o0`). → -O0 compile.sh variant (T3).
 - "churn-without-blacklist" is refuted — the real churn is **floor-victim idle re-tries** (`grinder.py:120 tried.clear()`). → scorer (T2) + input-changed gating (T5).
