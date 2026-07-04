@@ -1706,7 +1706,54 @@ DEFINE_func_80138DB8()  /* dedup: shared engine-core @0x80138DB8 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_a", func_80138DE0);
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_a", func_80138ED0);
+/* func_80138ED0 — region-a bit-unpacking / tilemap builder (159 ins, reach-134).
+ * STATUS: MATCH (match_one = 0, relocation-masked byte-identical), cracked from close=21.
+ *
+ * Levers applied (all gcc-2.7.2-source-cited; -> cookbook §31/§32):
+ *  [C1 prologue/sched]  `pb = param_3;` as the FIRST statement. sched.c:3191-3215 pins the leading
+ *      run of SET(reg, hard-reg-src) parm copies at block-0 head in sched1 ("don't delay getting
+ *      parameters"). combine folds the pinned `s3<-a2` parm copy into the statement-positioned
+ *      pb-init, so the a2 read escapes the pin, gets a late LUID, and sched2 (backward list sched,
+ *      ties broken by LUID after the class-of-last-scheduled rule) reproduces the target prologue:
+ *      addiu a1,sp,16 hoisted, saves ra/s4/s3/s0 batched by the schedule_select hazard rule
+ *      (sched.c:2686), and move s3,a2 landing in the lbu load-delay gap.
+ *  [C2 preheader order]  Per-branch `u32 pv = uVar1;` BEFORE `p = base;` replaces loop.c's
+ *      move_movables hoist of the in-loop zero-extend (loop.c:1652/1810 emits at loop_start, which
+ *      lands AFTER the p=base statement -> wrong order). Explicit statement = target order
+ *      [andi t1,s4][move a1,t2].
+ *  [C2b copy-loop body order]  `iVar2++` moved to the END of the do-body (LUID order drives the
+ *      final [lhu][addiu src][addiu t0] arrangement).
+ *  [C3 tail regalloc]  The crux. Target assignment {dcount=v1, c36+df=v0, chain=v1, ba=a1, dst=a0,
+ *      src=a2} is reached by:
+ *      - dp pinned $4: kills the &D local qty entirely (lui a0/addiu a0/addiu a0,4 all in hard a0),
+ *        and hard-blocks a0 for src.
+ *      - ba pinned $5 (+ dst pinned $4, disjoint inner scope): the two sides of the surviving
+ *        giv-init-style move `addu a0,a1,zero`. The $5 pin also raises reg_n_sets[$a1] so sched1's
+ *        birthing boost (sched.c:2507 adjust_priority, reload_completed==0 only) does not fire on
+ *        the call-arg insn a1<-sp+16 — that boost would scramble the prologue (class 1).
+ *      - `tmp` (the bit-loop sll temp, global allocno already in v1) REUSED for the mult chain:
+ *        a multi-block pseudo has reg_qty < 0, so local-alloc combine_regs (local-alloc.c:1667)
+ *        refuses to tie ba to the chain, and set_preference's operand-strip (global.c:1545,
+ *        format[0]=='e') poisoning is neutralized by conflict pruning.
+ *      - mult split `tmp = (df << 1) + df; tmp = tmp << 4;` so the addu lands directly in tmp's
+ *        pseudo: only ONE fresh local (q1 = df<<1) remains, whose density loses v0 to {c36,df}.
+ *      - THE 3-QTY SORT BUG: local-alloc.c:1441-1463/:1494-1516 sorts <=3 local qtys with an
+ *        unrolled switch that COMPARES fixed qty numbers (qty_compare(0,1),(1,2),(0,1)) but
+ *        EXCHANGES order-slots; when pri(q1)>pri(q0),pri(q2) the third compare re-fires and undoes
+ *        the first swap -> allocation in CREATION order, not density order. With >=4 qtys it uses
+ *        qsort (correct density order). The zero-instruction DECOY qty (asm-def anchored on ba +
+ *        asm-use) pushes the tail-preheader block back to 4 qtys => density order => {c36,df}
+ *        (tied via combine_regs since c36 dies at the subu) takes v0 first, dcount falls to v1,
+ *        q1 to v1, and first-fit (global.c:904 find_reg; regs_used_so_far pre-seeded with all
+ *        call-used regs, global.c:352) gives src=a2.
+ *      - The dual dummy `asm("" :: "r"(c36), "r"(dcount))` releases the li-36 and the lw together
+ *        in sched1's backward pass; the class rule (sched.c:2385 rank_for_schedule: cost-1 dep =
+ *        class 3 beats cost-2 load dep = class 1) then emits [lw v1][li v0] in target order.
+ *      All asm()s are empty templates: zero bytes, input-only or write-then-read pairs — the
+ *      byte-gate certifies the allocation they induce.
+ */
+DEFINE_func_80138ED0()  /* dedup: shared engine-core @0x80138ED0 (src/shared) */
+
 
 DEFINE_func_8013914C()  /* dedup: shared engine-core @0x8013914C (src/shared) */
 

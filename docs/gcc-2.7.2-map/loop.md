@@ -323,3 +323,6 @@ function, compare where the increment sits relative to branches.
 
 Experiment corpus: `.run/gccmap/exp/{expA..expH}.c` + `cc.sh` (rerunnable one-liners);
 counter-proof C for the banked exemplar: `.run/gccmap/exp/func_80150528_{twoptr,anchor20}.c`.
+
+### The giv-init fence — force `emit_iv_add_mult`'s giv-init MOVE (Phase 24 T5, cookbook §34) — **STEERABLE**
+When a loop's counter-derived pointer (a general induction var) has its init COALESCED with the invariant address, gcc drops one instruction → a full count mismatch vs a target that kept the `addu dst,base,$zero`. **Fix:** `asm("":"=r"(base):"0"(base)); dst = base;` forces `emit_iv_add_mult`'s giv-init move (`loop.c:5556 if (reg != result) emit_move_insn(reg,result)`) to materialize = the target's `addu dst,base,$zero`. The general fix for the "gcc coalesced the giv init, dropping an instruction" class on any giant with a counter-derived pointer.
