@@ -10,11 +10,15 @@ overlays be signed WITHOUT importing each into Ghidra — the input to the cross
 so it needs only correct boundaries + a byte slice (no normalization). All overlays load at the same
 vram (0x80128158), so a shared function at the same offset is byte-identical (h_exact) across overlays.
 
-`h_norm`/`h_seq` (structural / mnemonic tiers) require replicating Ghidra's normToken + mnemonic
-rendering exactly — that calibration + its resident acceptance gate is T5. UNTIL T5, this tool emits
-h_norm = h_seq = h_exact (a CONSERVATIVE placeholder: it produces zero false structural matches; it
-never claims two different-byte functions are structurally equal). Overlays are not signed until T6
-(after T5 calibrates), so the cross-report only ever consumes the calibrated tiers.
+`h_norm` (structural tier) is a self-contained relocation normalizer (`norm_stream`, below): it masks
+j/jal 26-bit targets, `lui` HI16, and the register-paired `lo` LO16 (tracking the hi/lo pairing from the
+instruction stream alone, no reloc table needed), while keeping registers, true immediates, and
+PC-relative branches. So for two copies of a function, `h_exact !=` but `h_norm ==` means they differ
+ONLY in relocations (per-overlay symbol addresses) — the structural-family signal. It is CONSERVATIVE:
+it can miss a match, never forge one (a proposed `--tier h_norm` share is still confirmed by the
+per-overlay whole-binary byte-gate). `h_seq` = SHA1 of the mnemonic (opcode-name) sequence. All 134
+overlays are signed via `make sig-overlays`. (Historical note: these tiers were once deferred to
+"T5/T6"; they have been live — the real `norm_stream` — since Phase 11.)
 
 Disassembly (rabbitizer — the same engine splat uses) is needed ONLY for boundary detection
 (`jr $ra` ends, `jal` call targets) and (in T5) normalization.
