@@ -27,11 +27,13 @@ idiom curriculum → sweep one exemplar per family (curriculum-ordered), each cr
 - [x] T1 — Integration-recovery pass (split-aware recover_integration fix; caller-arity cohort exhausted 0/16 — residuals backlogged)
 - [x] T2 — Exemplar target manifest (tools/family_manifest.py: 2,764 multi-member families → 127 draftable / 156 matched-free / 2481 absent)
 - [x] T3 — Swing-question PROOF: free `--tier h_norm` REFUTED (0/133); **mechanical symbol-remap lever PROVEN** (tools/family_remap.py)  ← endgame reshaped, see log
-- [ ] T4 — v4 retrain + A/B gate (cheap drafter prep; may run parallel to T2/T3)
-- [ ] T5 — Cheap-tier soften + measure wave → the complete class/closeness frontier map (Step A) + pre-advanced seeds  *(Ultracode — prompt)*
-- [ ] T6 — Step B: Fable5Max curriculum authoring from the measured map  *(Fable5Max — prompt)*
-- [ ] T7 — Sweep one exemplar per family, curriculum-ordered (validate top ~3-5 first, then scale)  *(Ultracode harvests / Fable5 discovery — prompt)*
-- [ ] Close — clean-fleet verify · PhaseEnd synthesis · plain-English recap (R25) · Phase-26 backlog
+- [~] T4 — v4 retrain + A/B gate → **DEFERRED to Phase 26** (Drew 2026-07-08: do not start T4 this phase)
+- [~] T5 — Cheap-tier soften + frontier map → **DEFERRED to Phase 26** (needed to crack the 127 draftable exemplars)
+- [~] T6 — Fable5Max curriculum authoring → **DEFERRED to Phase 26**
+- [x] T7 — MECHANICAL family sweeps (the free/cheap exemplar-per-family wins): matched-free harvest (+16,512) +
+      T7.2 type-lift decl-reconcile (+1,729) + T7.3 h_exact straggler propagation (+~200). The curriculum-ordered
+      **exemplar-cracking** sub-scope (the 127 draftable families) defers to Phase 26 with T4/T5/T6.
+- [~] Close — clean-fleet verify ✅ 136/136 · **PhaseEnd: awaiting Drew's gate-2 milestone confirmation** · recap (R25) · Phase-26 backlog ✅
 
 ## FRESH SESSION — RESUME HERE  (T7 nearly done; finish T7.3 → Close; do NOT start T4 yet, per Drew 2026-07-08)
 **Done + committed:** T0–T3 + T7-part-1 (matched-free sweep, `commit:0476`) + **T7.2 decl-reconcile** (`commit:0479`) —
@@ -171,3 +173,32 @@ None.
   `.run/sweep_deferred.preT72.txt` (the 29 addrs).
 - **Reproduce:** `build_engine_types --source ov_SC01_077 --strip` ; `build_engine_types --file
   src/ov_SC01_077/ov_SC01_077_after.c --exclude Buf --strip` ; `family_sweep --only <29 addrs> --no-preclassify`.
+
+### T7.3 — edge-case triage: 2 h_exact stragglers banked ✅ (2026-07-08, `commit:0481`) — +~200 members
+- Triaged the 8 T7-part-1 edge cases (4 diff + 4 remap-fail). **Finding:** the 4 remap-fails are matched in ov077 via
+  the `DEFINE_func_<ADDR>()` engine-core MACRO (§11 h_exact source-share), NOT an inline def — so `family_remap`'s
+  `extract_unit` (keys on a `func_<ADDR>(` DEFINITION) can't extract them. 2 of them (`func_80128EA8`, `func_80132EC4`)
+  are **h_exact-identical** fleet-wide but were **stub in 100 overlays** → banked via the EXISTING `dedup_propagate
+  --addr --tier h_exact` (118 overlays byte-identical each). **R22 clean-fleet 136/136; dedup-check 1813/0; fleet
+  71.32% → 71.36%.** (byte-% moves little: asm stubs were already byte-identical; the win is 200 fns now C, not asm.)
+- **Deferred → Phase 26:** the 2 h_norm-macro remap-fails (`8012A568`/`80138C30` — h_norm AND macro-defined, neither
+  h_exact-propagatable nor family_remap-extractable); `8013C360` (-O0 cluster); the 4 "diff" cases mostly already
+  banked (stub-in-0 now).
+
+## PHASE-25 CLOSE STATE (2026-07-08) — awaiting Drew's milestone confirmation (gate 2, P8)
+**This session (T7.1–T7.3, all committed, R6 = Drew pushes):** fleet **70.82% → 71.36%**; **+1,929 member-matches**
+(T7.2 1,729 via type-lift+remap `commit:0479`/`commit:0480`; T7.3 ~200 via h_exact propagation `commit:0481`). Every batch
+R22 clean-fleet **136/136**, dedup-check 1813/0. Tools added: `family_sweep --no-preclassify`;
+`build_engine_types --file/--exclude`. Cookbook **§40a** written (R30).
+
+**Phase-26 backlog (the whole deferred frontier — evidence logged):**
+1. **127 DRAFTABLE families / 6.7 MB** — ov077 exemplar is a STUB → CRACK first, then `family_sweep` ×134. This is
+   where **T4 (v4 retrain) + T5 (Ultracode wave) + T6 (curriculum)** come back. **Prompt `/effort ultracode` (R27).**
+2. **T7.2 residual: 16 split-TU-type families / ~2,128 members** — need per-type reconciliation (namespaced header /
+   rename the cross-TU `Buf` / verify `_a`'s MATRIX/VECTOR are PsyQ-layout-compatible). NOT mechanical.
+3. **h_exact engine-core straggler class** — MORE `DEFINE_func` macros may be stub in siblings (the `dedup_propagate
+   --auto` finder MISSES them: it only converts INLINE defs, skips already-macro'd sources). Sweep: for each ov077
+   `DEFINE_func` that's stub elsewhere, `dedup_propagate --addr`. PLUS the inline→macro HYGIENE cleanup of T7.2's
+   h_exact-identical inline banks (10 fns found this session; byte-neutral; registers dedup groups). Small extract_unit
+   fix would also let `family_remap` handle macro bodies (unblocks the 2 h_norm-macro remap-fails).
+4. **683 whole-binary-diff simple failures** (~4%: match_one-MATCH but TU-context diff, like the memcpy idiom).
