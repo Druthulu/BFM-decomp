@@ -33,15 +33,32 @@ idiom curriculum → sweep one exemplar per family (curriculum-ordered), each cr
 - [ ] T7 — Sweep one exemplar per family, curriculum-ordered (validate top ~3-5 first, then scale)  *(Ultracode harvests / Fable5 discovery — prompt)*
 - [ ] Close — clean-fleet verify · PhaseEnd synthesis · plain-English recap (R25) · Phase-26 backlog
 
-## Current task — reshape decision (report to Drew): the endgame is now MECHANICAL, not agent-drafted
-T3 refuted the free lever but PROVED the mechanical remap (`tools/family_remap.py`). This collapses family MEMBER
-work to ~0 agent tokens: crack ONE exemplar per family, then remap generates each member's C by positionally
-substituting the exemplar's per-overlay symbols (from each member's image). So the endgame decomposes:
-- **matched-free 156 / 2.3 MB** — the ov077 exemplar is ALREADY matched → remap+gate the members NOW (no drafting).
-- **draftable 127 / 6.7 MB** — crack the ov077 exemplar (T5 wave / v4), then remap+gate members.
-- The wave (T5) + v4 (T4) now crack **EXEMPLARS only** (127 + absent-family exemplars), NOT members.
-Next: build the family-sweep driver (remap → decl-reconcile → `harvest_verify` → register/propagate) + harvest the
-156 matched-free (free-ish, validates the sweep at scale), then reassess T4/T5. Pending Drew's steer on the reshape.
+## FRESH SESSION — RESUME HERE  (T7 in progress; finish T7 → Close; do NOT start T4 yet, per Drew 2026-07-08)
+**Done + committed:** T0–T3 + the **T7 matched-free MECHANICAL sweep** — fleet **66.02% → 70.82%** (+16,512
+member-matches; R22 clean-fleet **136/136**; commit `commit:0476`). Tools PROVEN + committed: `tools/family_remap.py`
+(the remap lever), `tools/family_sweep.py` (sweep driver), `tools/family_manifest.py` (T2), split-aware `recover_integration`.
+
+**The mechanical family method (the phase's engine — T3):** h_norm families are TEMPLATES, not free dedup. Per
+family: crack ONE exemplar → `family_remap` builds each member's C by positionally substituting the per-overlay
+symbols (read from each member's image) → **plain `harvest_verify`** byte-gate (NOT gate_stage's transforms — they
+perturb a correct remap). ~0 agent tokens/member. `func_` names are UPPERCASE-hex.
+
+**NEXT (finish T7, then Close):**
+1. **Re-run surveys first:** `make sig-overlays` (idempotent) → `.venv/bin/python tools/family_manifest.py` — the
+   matched set grew 16.5k, so the draftable/matched-free split updates.
+2. **Decl-reconcile the 29 `type/decl` deferred** (`.run/sweep_deferred.txt`): exemplars use LOCAL types (e.g.
+   `MatEntry`, defined in ov_SC01_077.c not engine_types.h) so the remapped draft won't compile. Fix:
+   `tools/build_engine_types.py --source ov_SC01_077 --strip` (lift local types to `src/shared/engine_types.h`,
+   byte-neutral — verify ov_SC01_077 still builds `d19c9580`), then `tools/family_sweep.py --only <the 29 addrs>`
+   → ~+3,800 banks. Clean-fleet verify (R22) + commit.
+3. **8 edge cases** (`.run/sweep_deferred.txt`: 4 diff + 4 remap-fail): `0x8013c360` = -O0 cluster; `0x80165ca0`/
+   `0x8012a018` = known Phase-24 stragglers. Brief look or defer.
+4. **683 whole-binary-diff simple failures** (~4%: match_one-MATCH but TU-context diff, like the T1 memcpy idiom):
+   defer as a small residual or batch-investigate.
+5. **The 127 DRAFTABLE families / 6.7 MB** (`docs/family-manifest.md`): their ov077 exemplar is a STUB → must be
+   CRACKED first — **this is where T4 (v4) + T5 (the Ultracode wave) come back**: crack the 127 exemplars, then
+   `family_sweep` remaps their members ×134 free. **Prompt for `/effort ultracode` before the wave (R27).**
+6. **Close:** clean-fleet verify, PhaseEnd (R25 recap). Byte-weighted % (~31%→) rises materially now (big families).
 
 ## Blockers
 None.
@@ -115,3 +132,14 @@ None.
   an already-correct remap → 0-bank; skip them for remaps).
 - **Endgame reshaped:** the 11.1 MB h_norm families are cheaply, MECHANICALLY recoverable — crack ONE exemplar per
   family → remap+gate members (~0 agent tokens/member). Members no longer need drafting; only exemplars do.
+
+### T7 (part 1) — MECHANICAL family sweep: matched-free harvest ✅ (2026-07-08, `commit:0476`)
+- Built `tools/family_sweep.py` (two-phase: stage all remaps per overlay, gate each (overlay,split) group ONCE via
+  plain `harvest_verify`; a `match_one` pre-classify defers compile-failing type-using families to avoid bisection
+  blowup). Driver validated on `func_80141100` (133/133 banked, committed `commit:0475`).
+- **BANKED 16,512 member-matches** (131 simple exemplars × ~133 siblings) + the 133 validation; **0 remap-fail**.
+  **R22 clean-fleet verify: 136/136 byte-identical** from a fully clean tree (make clean + extract-all + check-all).
+  **Fleet 66.02% → 70.82%** (+4.8% in ONE deterministic, ~0-agent-token pass). dedup-check 1813/0.
+- Deferred (`.run/sweep_deferred.txt`): 29 type/decl (type-lift recoverable), 4 diff, 4 remap-fail.
+- 683 / 17,195 simple drafts failed the whole-binary gate (match_one-MATCH but TU-context diff, ~4%; auto-reverted).
+- **Reproduce:** `family_sweep.py --limit 0` (after `make sig-overlays`). The remap is `family_remap.py`.
