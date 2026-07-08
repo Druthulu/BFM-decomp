@@ -2243,3 +2243,36 @@ After the whale, two matched-but-×1 reach-134 giants remained — `func_801770E
 **(5) LOCAL-TYPEDEF giant → UNIQUE-rename + lift to `engine_types.h`, NEVER the bare name.** `func_801372B0` declared local `SVEC`/`GLINE` typedefs (above the fn, not in the extracted body) → `compiles_standalone` (common.h + engine_types.h only) failed on the undefined types. Critically, a DIFFERENT `SVEC` (u16 fields — a different fn) lives in `_after.c`, so lifting the bare name would double-define with a conflicting layout fleet-wide. Fix: rename to `Svec_801372B0`/`Gline_801372B0` (all occurrences confirmed scoped to the fn's region first), lift the *renamed* types to `engine_types.h` (the plan-builder explicitly allows bodies USING engine_types.h types — only inline `typedef`/named-`struct{` DEFS are rejected), byte-verify the source overlay unchanged (`d19c9580`), then `--recover`. The rename is byte-neutral (pointer-passing + struct-member codegen is layout-driven, not name-driven).
 
 Result: `func_801770E0` + `func_801372B0` ×134, clean fleet 136/136, dedup 1811→1813/0, fleet 65.95→66.02% (byte-weighted gain larger — 152+207-ins giants). The giant endgame's matched set is now fully ×134; the only remaining reach-134 ×1 fns are small (3 propagatable stragglers `0x80174650`/`0x8012A018`/`0x80165CA0` + 17 local-type-blocked) = the T8 tail (Drew's focus directive: giants only, no small sweeps).
+
+## §40 — Structural families: the MECHANICAL symbol-remap (crack one exemplar → remap the rest, ~0 tokens) (Phase 25 T3/T7, 2026-07-08)
+
+**The reframe:** regroup the UNMATCHED frontier by STRUCTURE (`h_norm`) not bytes (`h_exact`). A multi-member
+h_norm family = the SAME engine fn recurring at the SAME address across overlays, byte-shattered only because each
+member references PER-OVERLAY symbols (its level's data/code addresses). `tools/family_manifest.py` regroups + ranks
+them (Phase-25: 2,764 families / 11.1 MB; levers by ov_SC01_077 membership: **draftable** / **matched-free** / **absent**).
+
+**h_norm families are TEMPLATES, not free dedup (byte-proven, R14):** `dedup_propagate --tier h_norm` on a matched
+exemplar banks **0/133** siblings — one C body can't name 134 overlays' different symbols (`D_80187xxx` in ov077 vs
+`D_8017Fxxx` in ov000). h_norm masks the reloc fields, so h_norm-identical ⟹ diffs are RELOC-ONLY, but the reloc
+TARGETS are per-overlay → not shareable by a single body.
+
+**The lever — mechanical per-overlay symbol remap (`tools/family_remap.py`):** two h_norm-identical members have
+identical instruction streams except in the masked reloc fields. So disassemble both overlay images at ADDR
+(`extracted/retail/<SC>.CD.dir/FILE_<nnn>.dir/0.4.dec`, vram 0x80128158), positionally pair the resolved reloc
+targets (jal target; lui/lo combined addr via hi-register tracking — VERIFIED 22/22 vs splat `.s`), and substitute
+the exemplar C's per-overlay symbol NAMES (`D_<ADDR>`/`func_<ADDR>`, **UPPERCASE** hex) with the sibling's. Shared
+EXE/resident symbols (0x8002xxxx) map to themselves. Result = the sibling's C, generated for ~0 agent tokens.
+
+**The fleet sweep (`tools/family_sweep.py`):** for each matched ov077 fn with unmatched same-address h_norm-siblings,
+remap → gate into each sibling. Two-phase (stage all remaps grouped by (overlay,split) → gate each group ONCE) so
+it's ~a few hundred builds, not 156×134. **GOTCHAS:** (1) gate remapped drafts with **plain `harvest_verify`**, NOT
+`gate_stage`'s canon/cast/sig_unify transforms — they perturb an already-correct remap → 0-bank. (2) `match_one`
+**pre-classify** first: type-using families (LOCAL types like `MatEntry`, defined in ov077.c not engine_types.h)
+CC1-FAIL in isolation → defer them, else harvest_verify bisection explodes (~30k extra builds); recover with
+`build_engine_types.py --source ov_SC01_077 --strip` (lift local types → engine_types.h, byte-neutral) then re-sweep.
+(3) `func_` names are UPPERCASE-hex in src + .s filenames.
+
+**Result (matched-free harvest):** **+16,512 member-matches** in ONE deterministic ~0-agent-token pass, R22 clean-fleet
+**136/136**, **fleet 66.02% → 70.82%**. The 11.1 MB structural-family frontier is CHEAPLY recoverable: crack ONE
+exemplar per family (the only real work — agent/wave), then `family_sweep` fills the ~133 members free. **Transferable**
+to ANY overlay/bank-based decomp where a fn recurs per-region with per-region symbols (→ cross-project idea).
