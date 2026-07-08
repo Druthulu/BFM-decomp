@@ -25,23 +25,23 @@ idiom curriculum → sweep one exemplar per family (curriculum-ordered), each cr
 ## Tasks
 - [x] T0 — Refresh + housekeeping
 - [x] T1 — Integration-recovery pass (split-aware recover_integration fix; caller-arity cohort exhausted 0/16 — residuals backlogged)
-- [ ] **T2 — Build the exemplar-scoped, class-routed target manifest** (one per h_norm family + reach-1 uniques + reach-134 h_exact tractable)  ← CURRENT
-- [ ] T3 — Swing-question PROOF (match one mid-size reloc-only family exemplar → `--tier h_norm --recover` → measure ×134 bank count)
+- [x] T2 — Exemplar target manifest (tools/family_manifest.py: 2,764 multi-member families → 127 draftable / 156 matched-free / 2481 absent)
+- [ ] **T3 — Swing-question PROOF** (draft-free via the 156 matched-free families → `--tier h_norm` propagation → measure)  ← CURRENT
 - [ ] T4 — v4 retrain + A/B gate (cheap drafter prep; may run parallel to T2/T3)
 - [ ] T5 — Cheap-tier soften + measure wave → the complete class/closeness frontier map (Step A) + pre-advanced seeds  *(Ultracode — prompt)*
 - [ ] T6 — Step B: Fable5Max curriculum authoring from the measured map  *(Fable5Max — prompt)*
 - [ ] T7 — Sweep one exemplar per family, curriculum-ordered (validate top ~3-5 first, then scale)  *(Ultracode harvests / Fable5 discovery — prompt)*
 - [ ] Close — clean-fleet verify · PhaseEnd synthesis · plain-English recap (R25) · Phase-26 backlog
 
-## Current task — T2: Exemplar-scoped, class-routed target manifest
-Build the ONE-exemplar-per-family target set from the T0 surveys: extend `.run/probe_hnorm.py` (or a companion)
-to emit a ranked manifest of the 2,764 multi-member h_norm families — per family: rep addr, exemplar (an
-ov_SC01_077 member if present, else any overlay+addr to draft), n_instances, n_hexcls, maxIns, reach, byteMB,
-size bucket. Plus the reach-134 h_exact tractable stubs (warm-up) + reach-1 uniques. NOTE (T0/T3): an h_norm
-family is **reloc-only by construction** (norm_stream masks only jal/HI16/LO16, keeps true immediates+regs), so
-h_norm-identical ⟹ intra-family diffs are reloc-only; whether ONE C body matches all 134 additionally needs the
-reloc targets to be consistently-named-per-overlay symbols — T3 proves that empirically via `--tier h_norm`.
-Output: `.run/family_manifest.json` + a committed digest. This scaffolds Step A (the curriculum input).
+## Current task — T3: Swing-question PROOF (decisive, draft-free)
+The 156 **matched-free** families (2.3 MB) prove the reloc-only ×N economics WITHOUT drafting: ov_SC01_077's
+member is already MATCHED, and the family has UNMATCHED h_norm-siblings in other overlays (byte-variants Phase-24
+propagated only via `--tier h_exact`). Steps: (1) pick a mid-size matched-free fn (find an already-matched
+ov_SC01_077 addr whose h_norm has unmatched siblings); (2) `tools/dedup_propagate.py --addr <it> --tier h_norm
+--recover`; (3) measure how many siblings bank via the per-overlay byte-gate. A meaningful bank ⟹ the free
+reloc-only propagation lever is proven (one C body matches h_norm-siblings when reloc targets resolve per-overlay
+— the consistent-naming condition holds), banking free % now; then sweep the 156 (T3→partial-T7). Clean-fleet
+verify (R22). If h_norm propagation banks ~0, fall back to draft-then-propagate on a `draftable` exemplar.
 
 ## Blockers
 None.
@@ -83,3 +83,17 @@ None.
   lhu/sh** (the target uses lhu/sh). T5/T7 drafters: avoid struct-assign for small mem-copies in these overlays.
 - **Decision (Drew):** conclude T1; closeness-0 residuals stay in the ranked backlog (available later); the 2
   flagship ×134 leaf-matches NOT hand-banked (per-function ROI < the family lever).
+
+### T2 — Exemplar-scoped target manifest ✅ (2026-07-08)
+- **Deliverable:** `tools/family_manifest.py` (committed, reusable) → `docs/family-manifest.md` + gitignored
+  `.run/family_manifest.json`. Regroups the unmatched frontier by h_norm; per family: the ov_SC01_077 drafting
+  exemplar (where present), **instances** (the ×N leverage — NOT h_exact-reach, ~1-3 for byte-shattered families),
+  size, byte-weight. 44,101 families; **2,764 multi-member / 11.1 MB**.
+- **The endgame's 3 levers (× ov_SC01_077 membership):**
+  - **draftable 127 / 6.7 MB** — unmatched ov077 member → draft the exemplar (primary T5/T7; most byte-weight).
+  - **matched-free 156 / 2.3 MB** — matched ov077 member + unmatched siblings → FREE `--tier h_norm` propagation
+    (draft-free; the T3 proof + a free win).
+  - **absent 2481 / 2.1 MB** — no ov077 member → small fns in other overlays, draft elsewhere (low priority).
+- **Insight:** h_norm families are reloc-only by construction, so the matched-free bucket is likely bankable NOW by
+  re-propagating already-matched ov077 fns via `--tier h_norm` (byte-gated). T3 tests decisively.
+- T3 candidates (mid-size draftable): 0x8012c890(149)/0x8016d1d8(148)/0x8013d9b0(141) — all inst=134, ~127 hexcls.
