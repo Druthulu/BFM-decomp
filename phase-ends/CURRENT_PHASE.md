@@ -33,32 +33,40 @@ idiom curriculum → sweep one exemplar per family (curriculum-ordered), each cr
 - [ ] T7 — Sweep one exemplar per family, curriculum-ordered (validate top ~3-5 first, then scale)  *(Ultracode harvests / Fable5 discovery — prompt)*
 - [ ] Close — clean-fleet verify · PhaseEnd synthesis · plain-English recap (R25) · Phase-26 backlog
 
-## FRESH SESSION — RESUME HERE  (T7 in progress; finish T7 → Close; do NOT start T4 yet, per Drew 2026-07-08)
-**Done + committed:** T0–T3 + the **T7 matched-free MECHANICAL sweep** — fleet **66.02% → 70.82%** (+16,512
-member-matches; R22 clean-fleet **136/136**; commit `commit:0476`). Tools PROVEN + committed: `tools/family_remap.py`
-(the remap lever), `tools/family_sweep.py` (sweep driver), `tools/family_manifest.py` (T2), split-aware `recover_integration`.
+## FRESH SESSION — RESUME HERE  (T7 nearly done; finish T7.3 → Close; do NOT start T4 yet, per Drew 2026-07-08)
+**Done + committed:** T0–T3 + T7-part-1 (matched-free sweep, `commit:0476`) + **T7.2 decl-reconcile** (`commit:0479`) —
+fleet **66.02% → 70.82% → 71.32%**. T7.2 banked **1,729** member-matches (base-type families 532 + `_after`-type
+families 1,197) via type-lift + mechanical remap; **R22 clean-fleet 136/136**, dedup-check 1813/0.
 
 **The mechanical family method (the phase's engine — T3):** h_norm families are TEMPLATES, not free dedup. Per
 family: crack ONE exemplar → `family_remap` builds each member's C by positionally substituting the per-overlay
 symbols (read from each member's image) → **plain `harvest_verify`** byte-gate (NOT gate_stage's transforms — they
 perturb a correct remap). ~0 agent tokens/member. `func_` names are UPPERCASE-hex.
 
-**NEXT (finish T7, then Close):**
-1. **Re-run surveys first:** `make sig-overlays` (idempotent) → `.venv/bin/python tools/family_manifest.py` — the
-   matched set grew 16.5k, so the draftable/matched-free split updates.
-2. **Decl-reconcile the 29 `type/decl` deferred** (`.run/sweep_deferred.txt`): exemplars use LOCAL types (e.g.
-   `MatEntry`, defined in ov_SC01_077.c not engine_types.h) so the remapped draft won't compile. Fix:
-   `tools/build_engine_types.py --source ov_SC01_077 --strip` (lift local types to `src/shared/engine_types.h`,
-   byte-neutral — verify ov_SC01_077 still builds `d19c9580`), then `tools/family_sweep.py --only <the 29 addrs>`
-   → ~+3,800 banks. Clean-fleet verify (R22) + commit.
-3. **8 edge cases** (`.run/sweep_deferred.txt`: 4 diff + 4 remap-fail): `0x8013c360` = -O0 cluster; `0x80165ca0`/
-   `0x8012a018` = known Phase-24 stragglers. Brief look or defer.
-4. **683 whole-binary-diff simple failures** (~4%: match_one-MATCH but TU-context diff, like the T1 memcpy idiom):
-   defer as a small residual or batch-investigate.
-5. **The 127 DRAFTABLE families / 6.7 MB** (`docs/family-manifest.md`): their ov077 exemplar is a STUB → must be
-   CRACKED first — **this is where T4 (v4) + T5 (the Ultracode wave) come back**: crack the 127 exemplars, then
-   `family_sweep` remaps their members ×134 free. **Prompt for `/effort ultracode` before the wave (R27).**
-6. **Close:** clean-fleet verify, PhaseEnd (R25 recap). Byte-weighted % (~31%→) rises materially now (big families).
+**T7.2 findings (durable — cookbook §40 refinement):** (1) `family_sweep --no-preclassify` — the match_one
+pre-classify compiles in ISOLATION (`-Iinclude` only) so it CANNOT see `src/shared/engine_types.h` (pulled by the
+real overlay TUs via `../shared/engine_core.h`); it false-negatives every type-lifted family. The flag routes
+remappable exemplars straight to the real-TU `harvest_verify` byte-gate (the sole arbiter). (2) The overlay SPLIT
+files (`_a`/`_after`/`_o0`) are SEPARATE TUs with conflicting/​shadowing local types → a blind "lift all splits" is
+UNSAFE: `Buf` has a DIFFERENT layout in `_a` vs `_after` (fleet-wide lift → `conflicting types` in the other TU),
+and `_a` defines `MATRIX`/`VECTOR` = PsyQ SDK names (fleet-wide lift SHADOWS the real types). Safe mechanical ceiling
+= base types + `_after` minus `Buf`. New tool knobs: `build_engine_types --file <split.c>` + `--exclude <names>`.
+
+**NEXT (finish T7.3, then Close):**
+1. ~~Re-run surveys~~ ✅ T7.1. ~~Decl-reconcile the 29~~ ✅ T7.2 (1,729 banked; committed `commit:0479`).
+2. **T7.3 — 8 edge cases** (`.run/sweep_deferred.preT72.txt`: 4 diff + 4 remap-fail): `0x8013c360` = -O0 cluster;
+   `0x80165ca0`/`0x8012a018` = known Phase-24 stragglers. Brief look or defer.
+3. **Close:** clean-fleet verify, PhaseEnd (R25 recap), Phase-26 backlog.
+
+**Phase-26 backlog (deferred, evidence logged):**
+- **T7.2 residual: 16 h_norm families / ~2,128 members** — 15 need `_a.c` types (PsyQ MATRIX/VECTOR shadowing) or
+  `_o0.c` E_3B7AC (-O0 cluster); 1 needs `_after`'s `Buf` (cross-TU collision). Need per-type reconciliation
+  (namespaced/per-TU header, rename the colliding `Buf`, or verify `_a`'s MATRIX/VECTOR are PsyQ-layout-compatible
+  and use the real SDK headers) — NOT mechanical.
+- **683 whole-binary-diff simple failures** (~4%: match_one-MATCH but TU-context diff, like the T1 memcpy idiom).
+- **The 127 DRAFTABLE families / 6.7 MB** (`docs/family-manifest.md`): ov077 exemplar is a STUB → must be CRACKED
+  first — this is where **T4 (v4) + T5 (the Ultracode wave)** come back: crack the 127 exemplars, then
+  `family_sweep` remaps their members ×134. **Prompt for `/effort ultracode` before the wave (R27).**
 
 ## Blockers
 None.
@@ -143,3 +151,23 @@ None.
 - Deferred (`.run/sweep_deferred.txt`): 29 type/decl (type-lift recoverable), 4 diff, 4 remap-fail.
 - 683 / 17,195 simple drafts failed the whole-binary gate (match_one-MATCH but TU-context diff, ~4%; auto-reverted).
 - **Reproduce:** `family_sweep.py --limit 0` (after `make sig-overlays`). The remap is `family_remap.py`.
+
+### T7.2 — decl-reconcile the 29 type/decl families ✅ (2026-07-08, `commit:0479`) — 1,729 banked; split-TU wall found
+- **T7.1 refresh:** `make sig-overlays` (134 re-signed) + `family_manifest.py` — levers unchanged (2,764 families;
+  127 draftable / 156 matched-free) because they key on ov077 membership, which the 16.5k sibling-banks didn't change.
+- **Base type-lift:** `build_engine_types --source ov_SC01_077 --strip` lifted 4 base-local types (`MatEntry`,
+  `P_TAG`, `OtBlk`, `packed_word`/`word_bytes`) → `engine_types.h`; byte-neutral (ov077 d19c9580). Banked **532**.
+- **The pre-classify false-negative (R14):** after the lift, all 29 STILL pre-classified as `type/decl` (0 simple).
+  Root cause: `match_one` isolation compiles with `-Iinclude` + a prepended `common.h` — it does NOT see
+  `src/shared/engine_types.h` (the real overlay TU pulls it via `../shared/engine_core.h`). PROVEN false-negative:
+  single real-TU gate `func_80142A80`→ov_SC01_000 = `9052dc0e` BYTE-IDENTICAL. FIX: `family_sweep --no-preclassify`.
+- **The split-TU wall:** the 25 remaining families need types from the overlay SPLIT files, which are SEPARATE .o TUs
+  with conflicting/​shadowing local types. Blind "lift all splits" FAILED: `typedef Buf` has a DIFFERENT layout in
+  `_a.c` vs `_after.c` (`conflicting types for Buf` when shared); `_a.c` defines `MATRIX`/`VECTOR` (PsyQ SDK names →
+  fleet-wide SHADOW). Safe ceiling = base + `_after` **minus Buf** (`build_engine_types --file … --exclude Buf`):
+  byte-neutral, banked **+1,197** (9 of 10 `_after` families/overlay; the 1 miss is the Buf-user).
+- **T7.2 TOTAL 1,729** (532 + 1,197). **R22 clean-fleet 136/136** from clean tree; dedup-check 1813/0; fleet **71.32%**.
+- **Deferred → Phase 26:** 16 families / ~2,128 members (see backlog above). Old deferred snapshot preserved at
+  `.run/sweep_deferred.preT72.txt` (the 29 addrs).
+- **Reproduce:** `build_engine_types --source ov_SC01_077 --strip` ; `build_engine_types --file
+  src/ov_SC01_077/ov_SC01_077_after.c --exclude Buf --strip` ; `family_sweep --only <29 addrs> --no-preclassify`.

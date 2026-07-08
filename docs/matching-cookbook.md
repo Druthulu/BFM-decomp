@@ -2276,3 +2276,36 @@ CC1-FAIL in isolation → defer them, else harvest_verify bisection explodes (~3
 **136/136**, **fleet 66.02% → 70.82%**. The 11.1 MB structural-family frontier is CHEAPLY recoverable: crack ONE
 exemplar per family (the only real work — agent/wave), then `family_sweep` fills the ~133 members free. **Transferable**
 to ANY overlay/bank-based decomp where a fn recurs per-region with per-region symbols (→ cross-project idea).
+
+### §40a — The DECL-RECONCILE pass (type-lift so remapped drafts compile in the sibling TU) (Phase 25 T7.2, 2026-07-08)
+
+When the matched exemplar's body references a type defined INLINE in the source overlay's `.c`, the mechanical remap
+(§40) reproduces that reference — but the type isn't in the SIBLING overlay's TU, so the sibling draft won't compile
+(the sweep's `match_one` pre-classify tags it `type/decl`). Fix = lift the type into the shared header every overlay
+includes (`src/shared/engine_types.h` via `engine_core.h`), then re-sweep. **+1,729 members** this way (fleet
+70.82→71.32%, clean-fleet 136/136). Three load-bearing gotchas:
+
+1. **The pre-classify is a FALSE-NEGATIVE for lifted types.** `family_sweep`'s `match_one` pre-classify compiles the
+   draft in ISOLATION (`mipsel-cpp -Iinclude` + a prepended `common.h`) — it does **not** see `src/shared/engine_types.h`
+   (that's pulled only by the real overlay TU, via `../shared/engine_core.h`). So a type-lifted family still
+   pre-classifies as `type/decl` even though it compiles + byte-matches in the REAL TU. Verify against the real gate,
+   not the proxy (R14): a single `harvest_verify` of the remap into one sibling = byte-identical. Use
+   **`family_sweep --no-preclassify`** to route every remappable exemplar straight to the real-TU byte-gate (still the
+   sole arbiter — a wrong draft is compile-failed/reverted with bounded bisection cost, since the lift makes most compile).
+
+2. **Overlay SPLIT files (`_a`/`_after`/`_o0`) are SEPARATE .o TUs — a blind "lift all splits" is UNSAFE.** Each split
+   has its OWN local type namespace, so two splits can define the same-named type with a DIFFERENT layout and never clash
+   (different TUs). Lifting such a type fleet-wide `conflicting types for <T>` in the other split's TU. Also, a split may
+   locally `typedef … MATRIX/VECTOR` (PsyQ SDK names) — lifting those fleet-wide SHADOWS the real SDK types. So:
+   `build_engine_types --file src/<ov>/<ov>_after.c --exclude <colliding names> --strip` lifts one split's types,
+   leaving conflicting/​shadowing names TU-local. Detect collisions FIRST (the tool's own `find_defs`/`find_typedefs`
+   across all splits + the existing header; a same-name-DIFFERENT-body pair is the landmine). ov077's only cross-split
+   collision was `Buf` (`_a`≠`_after`); `_a`'s `MATRIX`/`VECTOR` were the PsyQ shadows → both deferred. Safe mechanical
+   ceiling = base types + one non-shadowing split minus its colliders. The rest (cross-TU renames, PsyQ-layout
+   verification, -O0 clusters) is genuine per-type reconciliation, NOT mechanical → backlog.
+
+3. **Every lift must be byte-NEUTRAL.** Type defs emit no code, so `--strip` (move def → header) leaves the source
+   binary identical — but VERIFY: rebuild the WHOLE source overlay (all splits) and confirm its locked SHA
+   (ov077 `d19c9580`) before sweeping. A broken strip / mis-ordered header surfaces as a compile failure or SHA drift
+   at this cheap ~30s gate, before any expensive sweep. Then the full R22 clean-fleet 136/136 confirms no fleet-wide
+   header collision. Tools: `build_engine_types.py --file/--exclude`, `family_sweep.py --no-preclassify`.
