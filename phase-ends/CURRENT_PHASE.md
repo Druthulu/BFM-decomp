@@ -215,3 +215,14 @@ NOT closing — the curriculum + 127-draftable exemplar-cracking is the phase's 
   gate-true) → A/B. **Keep v4 in the wave only where it beats v3** (else fall back to v3). Then T5 (prompt `/effort ultracode`).
 - **If context compacts mid-train:** check `.run/train_v4.log` for `train_runtime` (done) or a Traceback (failed);
   if `models/bfm-match-7b-v4/adapter_model.safetensors` exists, training finished — proceed to eval.
+
+## RULES PROPOSED THIS PHASE (ratify at PhaseEnd — P10)
+- **R31 — Capture the WHY behind strategic pivots in `docs/decision-log.md`, while fresh.** At each major
+  direction change / dead-end / reversal, log (during the producing session): context+belief → what was
+  tried that failed → the pivot → the byte/measurement-grounded why → a hindsight "better path" note.
+  Extends R30 (which covers TECHNICAL artifacts — cookbook idioms, byte-verified findings, distillations)
+  to STRATEGIC / decision rationale — the perishable judgment the terse PhaseEnd Deviations table can't
+  hold and a fresh session reconstructing from compressed summaries would lose. Forward-only (no backfill
+  from summaries). It is the substrate for the eventual project **retrospective** + the public
+  **"how to AI-decomp a new project"** wiki (Drew, 2026-07-08). Doc created + seeded with this session's
+  two fresh pivots (the handoff-misread; the split-TU mechanical ceiling).
