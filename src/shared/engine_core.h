@@ -22739,7 +22739,7 @@
     }
 
 #define DEFINE_func_80132288() \
-    extern void func_8005C324(int dst, int src, int n); \
+    extern void func_8005C324(int dst, int src, int n) __asm__("memcpy"); /* Phase-24: 0x8005C324 is named memcpy for overlays (whale needs it); keep the non-builtin C name here (else built-in codegen), emit via asm-label */ \
     extern void func_801325B8(int a0, int a1, int a2, int a3, int a4); \
     void func_80132288(int *param_1, int *param_2, int param_3) { \
         int src; int dst; \

@@ -15,3 +15,11 @@
 // 4.7 libsnd links byte-identical in Phase 11. Plausible (resident holds the sound driver; addr is
 // a splat function boundary). Name is version-stable even if the bytes differ slightly across 4.0/4.7.
 DsMix                            = 0x800D1BD8; // func
+// Phase-24: memcpy at 0x8005C324 (libc2 MEMCPY.o; proto-sep8 + main map confirmed). Resolves the
+// whale func_80144B9C's -O0 struct-assign block-move (gcc emits `jal memcpy`), in ALL overlays.
+// Placed here (overlays + resident stack this; main does NOT) so main — where 0x8005C324 is DEFINED
+// by MEMCPY.o — is untouched (no multiple-definition). func_8005C324 aliases the SAME address: the
+// engine_core.h block-copy macro's variable-size calls keep the NON-builtin C name func_8005C324
+// (naming them `memcpy` triggers gcc-2.7.2 built-in codegen → byte mismatch) but get an
+// __asm__("memcpy") label so they emit this same 0x8005C324 call. One symbol resolves both.
+memcpy                           = 0x8005C324; // func (whale -O0 block-move + engine_core.h block-copy via __asm__ label)

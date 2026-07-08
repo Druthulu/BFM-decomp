@@ -444,6 +444,10 @@ build/src/boot.o: CC1FLAGS := -quiet -O0 -G0 -mips1 -mcpu=3000 -mgas -msoft-floa
 # (config/splat.ov_SC01_077.yaml) so this override reaches just that .o.
 build/src/ov_SC01_077/ov_SC01_077_o0.o: CC1FLAGS := -quiet -O0 -G0 -mips1 -mcpu=3000 -mgas -msoft-float -fgnu-linker
 
+# Phase-24: the whale func_80144B9C is a 2nd -O0 region (0x80144B9C..0x801457A4), carved into its
+# own object o0b by the splat config; same -O0 override (struct-assign memcpy matches only at -O0).
+build/src/ov_SC01_077/ov_SC01_077_o0b.o: CC1FLAGS := -quiet -O0 -G0 -mips1 -mcpu=3000 -mgas -msoft-float -fgnu-linker
+
 # link (the .ld pulls in the .o by path) + objcopy to the raw PS-X EXE image.
 $(OUT): $(OBJS) $(ASSET_OBJS) $(LD_SCRIPT)
 	@set -e
