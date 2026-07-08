@@ -18,7 +18,7 @@ The quantitative curve (fleet % over time) is safe in git + the PhaseEnds foreve
 "we tried X, it was a dead end because Y, so we turned to Z" — is what evaporates between sessions. So it
 is logged here as it happens.
 
-**Discipline (R31 — proposed Phase 25).** **Forward-only.** Do NOT backfill historical pivots from
+**Discipline (R31 — confirmed by Drew 2026-07-08, Phase 25).** **Forward-only.** Do NOT backfill historical pivots from
 compressed summaries — that reproduces exactly the low-quality reconstruction R30 exists to prevent (the
 PhaseEnds/cookbook already hold what was captured fresh at the time). Log each NEW strategic pivot during
 the session that produced it. Route TECHNICAL idioms to the cookbook; this file is for direction/judgment.

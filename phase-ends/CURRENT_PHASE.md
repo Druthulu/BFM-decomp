@@ -216,8 +216,8 @@ NOT closing — the curriculum + 127-draftable exemplar-cracking is the phase's 
 - **If context compacts mid-train:** check `.run/train_v4.log` for `train_runtime` (done) or a Traceback (failed);
   if `models/bfm-match-7b-v4/adapter_model.safetensors` exists, training finished — proceed to eval.
 
-## RULES PROPOSED THIS PHASE (ratify at PhaseEnd — P10)
-- **R31 — Capture the WHY behind strategic pivots in `docs/decision-log.md`, while fresh.** At each major
+## RULES ADDED THIS PHASE (transcribe to the PhaseEnd Rules table at close)
+- **R31 — CONFIRMED by Drew 2026-07-08 (binding now).** Capture the WHY behind strategic pivots in `docs/decision-log.md`, while fresh. At each major
   direction change / dead-end / reversal, log (during the producing session): context+belief → what was
   tried that failed → the pivot → the byte/measurement-grounded why → a hindsight "better path" note.
   Extends R30 (which covers TECHNICAL artifacts — cookbook idioms, byte-verified findings, distillations)
