@@ -93,7 +93,9 @@ segments:
       # shift the code start. Mark it `rodata` (section_order places .rodata first) so it lands at
       # 0x80128158 ahead of the code, a 1-word analogue of main's rodata-island (no ld_interleave).
       # - [0x0, rodata, head]
-      - [0x0, c, ov_SC06_010]        # code: starts at file 0x0 (overlays open with a prologue)
+      - [0x0, c, ov_SC06_010]  # -O2 before whale (file 0x0..0x1CA44)
+      - [0x1CA44, c, ov_SC06_010_o0b]  # -O0 whale func_80144B9C (0x1CA44..0x1D64C)
+      - [0x1D64C, c, ov_SC06_010_after]  # -O2 after whale (0x1D64C..data tail)
       - [0x5E84C, data, tail] # data tail: pointer tables + packed data (split iterated)
       - [0x8AB24, bin, trailing]    # final 3 bytes (EOF not 4-aligned; spimdisasm drops a partial word)
   - [0x8AB27]   # EOF marker = the 0.4.dec byte length

@@ -662,6 +662,7 @@ Every script under `tools/` (plus the two report make-targets), grouped by purpo
 | | `tools/make_apicard_used.py` | **(Phase 8)** Build the combined libapi+libcard curated dir (§9.6). |
 | | `tools/ld_interleave.py` | Interleave linker inputs to match original section ordering. |
 | | `tools/split_src_region.py` | Split a `src/` region file at object boundaries. |
+| | `tools/rollout_whale_o0.py` | **(Phase 24 W9)** Roll out the -O0 whale `func_80144B9C` ×134: per single-file overlay, line-split `<ov>.c` at the whale, carve the yaml code subseg into before/`_o0b`(-O0)/`_after`, write a thin `<ov>_o0b.c` that `#include`s the shared `src/shared/func_80144B9C.h`. Idempotent; the `WHALE_O0B_OBJS` Makefile wildcard -O0-compiles all `_o0b.o` (cookbook §38). |
 | **Reports** | `tools/progress.py` | Per-binary decomp progress (`make report`); counts dedup-shared fns as REAL via the registry (Phase 11). **`--fleet`** (Phase 15) aggregates all 136 binaries → `docs/progress.fleet.md` (deterministic, source-derived). |
 | | `tools/difficulty.py` | Per-function difficulty scoring. |
 | | `tools/dup_report.py` | Duplicate-function report; `--cross` (Phase 11) buckets all binaries → `docs/duplicates.cross.md`. **Phase 15:** ingests each overlay once (named ∪ `sig.ov_*` glob, deduped by alias) — else onboarded overlays double-count and inflate collapsible bytes ~2×. |

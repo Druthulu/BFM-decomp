@@ -444,9 +444,12 @@ build/src/boot.o: CC1FLAGS := -quiet -O0 -G0 -mips1 -mcpu=3000 -mgas -msoft-floa
 # (config/splat.ov_SC01_077.yaml) so this override reaches just that .o.
 build/src/ov_SC01_077/ov_SC01_077_o0.o: CC1FLAGS := -quiet -O0 -G0 -mips1 -mcpu=3000 -mgas -msoft-float -fgnu-linker
 
-# Phase-24: the whale func_80144B9C is a 2nd -O0 region (0x80144B9C..0x801457A4), carved into its
-# own object o0b by the splat config; same -O0 override (struct-assign memcpy matches only at -O0).
-build/src/ov_SC01_077/ov_SC01_077_o0b.o: CC1FLAGS := -quiet -O0 -G0 -mips1 -mcpu=3000 -mgas -msoft-float -fgnu-linker
+# Phase-24: the whale func_80144B9C is a 2nd -O0 region (0x80144B9C..0x801457A4) present in EVERY
+# overlay (reach-134), carved into its own object <ov>_o0b by each overlay's splat config; the
+# struct-assign memcpy matches only at -O0. One wildcard rule -O0-compiles all overlays' _o0b.o
+# (the ×134 rollout; tools/rollout_whale_o0.py). All share src/shared/func_80144B9C.h.
+WHALE_O0B_OBJS := $(patsubst src/%.c,build/src/%.o,$(wildcard src/ov_*/ov_*_o0b.c))
+$(WHALE_O0B_OBJS): CC1FLAGS := -quiet -O0 -G0 -mips1 -mcpu=3000 -mgas -msoft-float -fgnu-linker
 
 # link (the .ld pulls in the .o by path) + objcopy to the raw PS-X EXE image.
 $(OUT): $(OBJS) $(ASSET_OBJS) $(LD_SCRIPT)
