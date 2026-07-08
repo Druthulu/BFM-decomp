@@ -26224,4 +26224,302 @@
         } while (iVar8 < 0x1e); \
     }
 
+#define DEFINE_func_801571C4() \
+    extern s32 func_80135004(s32 a0, void *a1, s32 a2); \
+    extern s32 func_80135260(s32 a0, s32 a1, s32 a2, s32 a3); \
+    extern s32 func_8014C918(s32 a0, s32 a1); \
+    extern void func_8014C4AC(s32 a0, s32 a1, s32 a2, s16 *a3, s32 a4); \
+    extern u8 D_801202A0[]; \
+    extern u8 D_801152A8[]; \
+    extern u8 D_80126720[]; \
+    u32 func_801571C4(s32 a0, u16 a1, u16 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7, s32 a8, s32 a9, u16 a10, s32 a11, s32 a12) \
+    { \
+      s16 sp18[4]; \
+      u16 local_40; \
+      u16 local_38; \
+      u32 local_30; \
+      u32 ret; \
+      u32 counter; \
+      u32 s4val; \
+      s32 off; \
+      s32 r; \
+      ret = 0; \
+      ; \
+      local_38 = a10; \
+      r = ((s32 (*)(s32, s32, s32))func_80135004)(1, a3, a4); \
+      if (r != 0) \
+      { \
+        *((u8 *) a11) = (*((u16 *) (a4 + 6))) >> 13; \
+        *((u8 *) a12) = *((u16 *) (a4 + 6)); \
+        ret = 2; \
+        __builtin_memcpy((void *) a6, D_801152A8, 8); \
+      } \
+      counter = 0; \
+      s4val = a1; \
+      local_30 = a2 & 0x8000; \
+      off = 0; \
+      do \
+      { \
+        u8 *e = &D_801202A0[off]; \
+        s32 a1v; \
+        if (((((((*((u16 *) e)) != 0) && ((a1v = *((s32 *) (e + 0x58))) != 0)) && (((*((u32 *) (e + 0x5c))) & 0x8100) == 0x8000)) && ((*((u16 *) (e + 0x5e))) != 10)) && (((a9 & 0x80) != 0) || ((*((u16 *) (e + 0x5e))) != s4val))) && ((s4val != 0xd) || (((*((u16 *) (e + 0x5c))) & 0x2000) != 0))) \
+        { \
+          if (func_80135260(*((s32 *) (e + 0x20)), a1v, a3, a4) != 0) \
+          { \
+            if ((((*((u16 *) (e + 0x5c))) & 0x4000) != 0) || (((*((s16 *) (e + 0xae))) & local_38) != 0)) \
+            { \
+              *((u8 *) a11) = func_8014C918(a0, *((u8 *) (e + 0x75))); \
+              *((u8 *) a12) = 0; \
+              __builtin_memcpy((void *) a6, D_801152A8, 8); \
+              ret |= 4; \
+              *((s32 *) a7) = (s32) e; \
+            } \
+            else \
+            { \
+              __builtin_memcpy(sp18, (void *) a4, 8); \
+              if (local_30 != 0) \
+              { \
+                sp18[3] = 1; \
+              } \
+              else \
+              { \
+                sp18[3] = 0; \
+              } \
+              func_8014C4AC((s32) e, a1, a2 & 0x7fff, sp18, *((s16 *) ((*((s32 *) (a0 + 0x20))) + 0x12))); \
+              __builtin_memcpy((void *) a5, D_801152A8, 8); \
+              *((s32 *) a7) = (s32) e; \
+              __builtin_memcpy((void *) a8, D_80126720, 8); \
+              ret |= 1; \
+              if ((a9 & 0x7f) != 0) \
+              { \
+                return ret; \
+              } \
+            } \
+          } \
+        } \
+        counter += 1; \
+        off += 0x10c; \
+      } \
+      while (counter < 0x60); \
+    __asm__ volatile("" : "=r"(local_40)); \
+      return ret; \
+    }
+
+#define DEFINE_func_8014EA4C() \
+    extern u8 D_801202A0[]; \
+    extern u16 D_800B99DA; \
+    extern s32 D_801150D8; \
+    extern s16 D_801152AA; \
+    extern u8 D_80126720[]; \
+    extern s16 D_80126724; \
+    extern s32 func_80135A4C(s32 a0, s32 a1, s32 *a2, s32 a3); \
+    s32 func_8014EA4C(void * a0, void * a1, void * a2, s32 _arg3) \
+    { \
+        u8 buf[24]; \
+        s32 acc; \
+        s16 d5; \
+        s16 d4; \
+        s32 mode; \
+        u8 *p; \
+        acc = 0; \
+        __builtin_memcpy(buf + 16, a2, 8); \
+        d5 = 8; \
+        mode = (D_800B99DA & 0x60) >> 5; \
+        d4 = 8; \
+        switch (mode) { \
+        case 0: \
+        case 1: \
+            d5 = 7; \
+            break; \
+        case 2: \
+            d4 = 7; \
+            break; \
+        } \
+        for (p = D_801202A0; p < D_801202A0 + 0x6480; p += 0x10C) { \
+            s32 *q = (s32 *)(p + 0x58); \
+            if (*(u16 *)p == 0) continue; \
+            if (q[0] == 0) continue; \
+            if (p == *(u8 **)((u8 *)a0 + 0x178)) continue; \
+            if (p == *(u8 **)((u8 *)a0 + 0x174)) continue; \
+            if ((q[1] & 0x1800) == 0) continue; \
+            D_801150D8 = 0; \
+            if (func_80135A4C(q[-0xe], ((struct { s32 w; } *)q)->w, (s32 *)a1, (s32)a2) != 0) { \
+                if ((D_801150D8 & 1) != 0) { \
+                    if ((*(u16 *)(p + 0x5C) & 0x10) == 0) { \
+                        if ((*(s16 *)&D_80126720) - *(s16 *)((u8 *)a1 + 0x0) >= 0) \
+                            *(s16 *)((u8 *)a0 + 0x6) = *(u16 *)((u8 *)a2 + 0x0) - d5; \
+                        else \
+                            *(s16 *)((u8 *)a0 + 0x6) = *(u16 *)((u8 *)a2 + 0x0) + d5; \
+                        if (D_80126724 - *(s16 *)((u8 *)a1 + 0x4) >= 0) \
+                            *(s16 *)((u8 *)a0 + 0xE) = *(u16 *)((u8 *)a2 + 0x4) - d4; \
+                        else \
+                            *(s16 *)((u8 *)a0 + 0xE) = *(u16 *)((u8 *)a2 + 0x4) + d4; \
+                    } \
+                    acc |= 2; \
+                } else { \
+                    *(s16 *)((u8 *)a0 + 0x6) = *(u16 *)((u8 *)a2 + 0x0); \
+                    *(s16 *)((u8 *)a0 + 0xA) = *(u16 *)((u8 *)a2 + 0x2) + 0x10; \
+                    *(s16 *)((u8 *)a0 + 0xE) = *(u16 *)((u8 *)a2 + 0x4); \
+                    acc |= 1; \
+                    if (q[0] < 0) { \
+                        s32 t = D_801152AA; \
+                        if (t < 0) t = -t; \
+                        if (0x800 < (s16)t) { \
+                            if ((*(s16 *)&D_80126720) - *(s16 *)((u8 *)a2 + 0x0) >= 0) \
+                                *(s16 *)((u8 *)a0 + 0x6) = *(s16 *)((u8 *)a2 + 0x0) - d5; \
+                            else \
+                                *(s16 *)((u8 *)a0 + 0x6) = *(s16 *)((u8 *)a2 + 0x0) + d5; \
+                            if (D_80126724 - *(s16 *)((u8 *)a2 + 0x4) >= 0) \
+                                *(s16 *)((u8 *)a0 + 0xE) = *(s16 *)((u8 *)a2 + 0x4) - d4; \
+                            else \
+                                *(s16 *)((u8 *)a0 + 0xE) = *(s16 *)((u8 *)a2 + 0x4) + d4; \
+                        } \
+                    } \
+                } \
+            } \
+        } \
+        return acc; \
+    }
+
+#define DEFINE_func_80176D94() \
+    extern void *func_80177784(void *a0, s32 a1, s32 a2, s32 a3); \
+    extern u32 func_801783D0(s32 a0, s32 a1); \
+    extern void *func_801777BC(void *a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6); \
+    extern u16 D_8011F82C; \
+    extern u16 D_8011F82A; \
+    u32 *func_80176D94(void *param_1, u32 param_2, s16 param_3_) \
+    { \
+        register s32 c3  __asm__("$21") = 3;     /* $s5 */ \
+        register s32 cad __asm__("$20") = 0xad;  /* $s4 */ \
+        register s32 cff __asm__("$19") = 0xff;  /* $s3 */ \
+        s32 iVar6 = (s16)param_3_;               /* -> $s1 */ \
+        u32 uVar5 = iVar6 << 16;                 /* -> $s0 */ \
+        void *uVar2; \
+        void *u4, *u5;                           /* fresh single-set save vars (S2 boost) */ \
+        u32 *puVar3; \
+        s16 sVar1; \
+        u32 uVar4; \
+        u32 dl;                                  /* multi-set D-load var (2 sets, no boost) */ \
+        s32 t; \
+        uVar2 = ((void * (*)(void *, s32, s32))func_80177784)(param_1, uVar5 | (u16)param_2, 0x6b565040); \
+        uVar2 = ((void * (*)(void *, s32, s32))func_80177784)(uVar2, uVar5 | ((param_2 + 8) & 0xffff), 0x6b565808); \
+        uVar2 = ((void * (*)(void *, s32, s32))func_80177784)(uVar2, uVar5 | ((param_2 + 0x10) & 0xffff), 0x6b564060); \
+        u4 = ((void * (*)(void *, s32, s32))func_80177784)(uVar2, uVar5 | ((param_2 + 0x30) & 0xffff), 0x6b563858); \
+        sVar1 = (s16)func_801783D0(D_8011F82C, 4); \
+        u5 = func_801777BC(u4, sVar1, (s32)((param_2 + 0x18) << 16) >> 16, iVar6, c3, cad, cff); \
+        sVar1 = (s16)func_801783D0(D_8011F82A, 4); \
+        puVar3 = (u32 *)func_801777BC(u5, sVar1, (s32)((param_2 + 0x38) << 16) >> 16, iVar6, c3, cad, cff); \
+        dl = ((struct { u16 h; } *)&D_8011F82C)->h; \
+        { u32 v0m = ((u32)(puVar3 - 5) & 0xffffff) | 0x3000000; \
+          register u32 c6000 __asm__("$6") = 0x6000dcff; \
+          puVar3[1] = c6000; \
+          *puVar3 = v0m; } \
+        uVar4 = ((iVar6 + 10) << 16) | ((param_2 + 1) & 0xffff); \
+        puVar3[2] = uVar4; \
+        puVar3[3] = ((s32)(dl * 0x50e6) >> 16) | 0x20000; \
+        dl = ((struct { u16 h; } *)&D_8011F82A)->h; \
+        puVar3[5] = ((u32)puVar3 & 0xffffff) | 0x3000000; \
+        puVar3[10] = ((u32)(puVar3 + 5) & 0xffffff) | 0x3000000; \
+        puVar3[6] = 0x600000ff; \
+        puVar3[7] = uVar4; \
+        puVar3[0xb] = 0x60000000; \
+        puVar3[0xc] = ((iVar6 + 9) << 16) | (param_2 & 0xffff); \
+        t = (s32)(dl * 0x50e6) >> 16; \
+        puVar3[8] = t | 0x20000; \
+        puVar3[0xd] = (t + 2) | 0x40000; \
+        return puVar3 + 0xf; \
+    }
+
+#define DEFINE_func_80148094() \
+    extern s32 ratan2(s32 a0, s32 a1); \
+    extern s32 csqrt(s32 a0); \
+    extern void func_80013F3C(s32 a0); \
+    extern void func_80012558(s32 a0, s32 a1); \
+    extern void func_800484EC(s32 a0, s32 a1, s32 a2); \
+    extern s32 func_80012A60(s32 a0, s32 a1); \
+    void func_80148094(int param_1, short *param_2, int *param_3) { \
+        s32 s4 = *(int *)(param_1 + 0x20); \
+        s32 out[3]; \
+        s32 buf[8]; \
+        s32 bp; \
+        s32 t1; \
+        int sVar1; \
+        int fac; \
+        int r; \
+        if (*param_2 != 0 || param_2[2] != 0) { \
+            t1 = ratan2(-(int)param_2[2], -(int)*param_2) + 0x400; \
+            bp = (s32)buf; \
+            func_80013F3C(bp); \
+            func_80012558(bp, (s32)*(short *)(s4 + 0x12)); \
+            func_800484EC(bp, param_1 + 0x24, (s32)out); \
+            sVar1 = (s16)func_80012A60((s16)t1, (s16)(ratan2(out[2], out[0]) + 0x400)); \
+            out[0] = *(int *)(param_1 + 0x24); \
+            if (out[0] < 0) out[0] = -out[0]; \
+            out[2] = *(int *)(param_1 + 0x2c); \
+            if (out[2] < 0) out[2] = -out[2]; \
+            { \
+                int q = csqrt((int)*param_2 * (int)*param_2 + (int)param_2[2] * (int)param_2[2]); \
+                if (q < 0) q += 0x3f; \
+                fac = ratan2((int)param_2[1], q >> 6); \
+            } \
+            if (sVar1 < 0x200) { \
+                __asm__("" :: "r"(fac)); /* L1: +1 flow-ref on fac (already live-through here); zero bytes */ \
+                if (out[0] == out[2]) { \
+                    r = *(int *)(param_1 + 0x24) * -fac; \
+                    if (r < 0) r += 0x3ff; \
+                    out[0] = r >> 10; \
+                    out[1] = 0; \
+                    r = *(int *)(param_1 + 0x2c) * -fac; \
+                    if (r < 0) r += 0x3ff; \
+                    out[2] = r >> 10; \
+                } else if (out[0] > out[2]) { \
+                    r = *(int *)(param_1 + 0x24) * -fac; \
+                    if (r < 0) r += 0x3ff; \
+                    out[0] = r >> 10; \
+                    out[1] = 0; \
+                    out[2] = *(int *)(param_1 + 0x2c); \
+                } else { \
+                    out[0] = *(int *)(param_1 + 0x24); \
+                    out[1] = 0; \
+                    r = *(int *)(param_1 + 0x2c) * -fac; \
+                    if (r < 0) r += 0x3ff; \
+                    out[2] = r >> 10; \
+                } \
+            } else if (sVar1 >= 0x201) { /* L2: ==0x200 arm must be the LAST (fall-through) block */ \
+                if (out[0] == out[2]) { \
+                    r = *(int *)(param_1 + 0x24) * -fac; \
+                    if (r < 0) r += 0x3ff; \
+                    out[0] = *(int *)(param_1 + 0x24) + (r >> 10); \
+                    out[1] = 0; \
+                    r = *(int *)(param_1 + 0x2c) * -fac; \
+                    if (r < 0) r += 0x3ff; \
+                    out[2] = *(int *)(param_1 + 0x2c) + (r >> 10); \
+                } else if (out[0] > out[2]) { \
+                    r = *(int *)(param_1 + 0x24) * -fac; \
+                    if (r < 0) r += 0x3ff; \
+                    out[0] = *(int *)(param_1 + 0x24) + (r >> 10); \
+                    out[1] = 0; \
+                    out[2] = *(int *)(param_1 + 0x2c); \
+                } else { \
+                    out[0] = *(int *)(param_1 + 0x24); \
+                    out[1] = 0; \
+                    r = *(int *)(param_1 + 0x2c) * -fac; \
+                    if (r < 0) r += 0x3ff; \
+                    out[2] = *(int *)(param_1 + 0x2c) + (r >> 10); \
+                } \
+            } else { \
+                out[0] = *(int *)(param_1 + 0x24); /* L3: out[0] store before out[1]=0 (delay-fill) */ \
+                out[1] = 0; \
+                out[2] = *(int *)(param_1 + 0x2c); \
+            } \
+            param_3[0] = out[0]; \
+            param_3[1] = out[1]; \
+            param_3[2] = out[2]; \
+            return; \
+        } \
+        param_3[0] = *(int *)(param_1 + 0x24); \
+        param_3[1] = *(int *)(param_1 + 0x28); \
+        param_3[2] = *(int *)(param_1 + 0x2c); \
+    }
+
 #endif

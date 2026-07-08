@@ -127,11 +127,24 @@ def drop_preproc_and_scalar_typedefs(c):
     return "\n".join(ln for ln in c.splitlines() if not ln.lstrip().startswith("#include"))
 
 
+COMMENT_RE = re.compile(r"/\*.*?\*/|//[^\n]*", re.DOTALL)
+
+
+def strip_c_comments(c):
+    """Drop C block+line comments before building base.c. A draft's header comment (often long, with
+    non-ASCII em-dashes/§ and prose that trips one of the prep regexes) can lose its closing */ ->
+    `cpp -P -nostdinc` dies 'unterminated comment' and decomp-permuter no-ops SILENTLY at preprocess
+    (Phase 24 T7 §G: this had masked the permuter on every commented giant draft — 'no match (0s)').
+    Comments are pure noise for the permuter, so strip them. (Drafts have no /* */ in string literals.)"""
+    return COMMENT_RE.sub("", c)
+
+
 def make_base_c(draft_c):
     """permuter base.c = scalar typedefs + the draft's custom typedefs/#defines/externs + the
     M2C_FIELD-expanded, asm-hidden body. Keeping externs + custom types is essential: without them the
     permuter matches in a DIFFERENT context than the whole-binary build (-> winners don't byte-gate)."""
-    body = expand_m2c_field(draft_c)
+    body = strip_c_comments(draft_c)
+    body = expand_m2c_field(body)
     body = hide_asm(body)
     body = drop_preproc_and_scalar_typedefs(body)
     return TYPEDEFS + body + "\n"

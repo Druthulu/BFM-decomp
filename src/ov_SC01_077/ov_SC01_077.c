@@ -2210,7 +2210,53 @@ INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80147F78);
 
 DEFINE_func_80148038()  /* dedup: shared engine-core @0x80148038 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80148094);
+/*
+ * func_80148094 — MATCH (213 ins), Fable5 crack 2026-07-07 (from CLOSE=72 count-exact).
+ *   asm-subdir: asm/ov_SC01_077/nonmatchings/ov_SC01_077
+ *   verify: .venv/bin/python tools/match_one.py func_80148094 --c <this> \
+ *           --asm-subdir asm/ov_SC01_077/nonmatchings/ov_SC01_077 --work .run/t7b/work/func_80148094
+ *
+ * ROOT (RTL-dump + gcc-2.7.2-source verified; supersedes the close-draft's "local-alloc
+ * first-fit" story): the fac<->param2c $a0/$a1 swap was a GLOBAL-ALLOC ORDER race, an
+ * allocno_compare NEAR-TIE (global.c:588-601: pri = floor_log2(refs)*refs/live_length
+ * *10000*size; equal pri => lower allocno first):
+ *   - fac (pseudo 79, 7 refs / 33 insns)            pri 4242
+ *   - <0x201-arm p2c (pseudo 183, 3 refs / 7 insns) pri 4285  -> allocated FIRST
+ *   183 carries preferences {4,5} (set_preference via the unwrap-first-operand rule:
+ *   `(set X (plus (reg 183) ..))` with X local-allocated; prune_preferences removed hard-2)
+ *   so 183 pref-took $a0 and pushed fac (conflicting, first-fit hard{2,3,29}) to $a1.
+ *   Target world: fac wins the order -> $a0 by first-fit; 183's pref-4 then conflicts,
+ *   pref-5 hits -> `lw $a1,0x2C` (why it skips FREE $v1 — preference beats first-fit).
+ *
+ * THE THREE LEVERS (each byte-gated):
+ *   L1 fac ref-boost (the 10-byte reg tie): `__asm__("" :: "r"(fac));` placed at the TOP
+ *      of the <0x200 block, where fac is ALREADY LIVE-THROUGH -> +1 flow-time ref, zero
+ *      live-range extension, zero bytes: refs 7->8 crosses the floor_log2 step (2->3) ->
+ *      pri 4242 -> ~7058 > 4285 -> fac allocated before 183. The identical construct at
+ *      the DEF SITE (prior agent, "-> 220 ins, live-range blowup") was NEVER wrong about
+ *      the reg — the +7 was the un-merge of the 0x201 product tails (see L2); placement
+ *      inside an already-live-through block is the safe form.
+ *   L2 arm layout (`else if (sVar1 >= 0x201) {...} else {==0x200 arm}`): the ==0x200 arm
+ *      must sit PHYSICALLY LAST so it is the fall-through predecessor of the exit tail.
+ *      jump.c cross-jump extends a merge backward only while the jumping tail matches the
+ *      FALL-THROUGH tail; with the ==0x200 arm last, the common suffix [lw 0x2C][sw 0x18]
+ *      forms .L8014836C/.L80148370 exactly as target. (Layout alone, old regs = 216: the
+ *      a0/a0 product tails then merge where target's a0/a1 ones cannot. Reg fix alone,
+ *      old layout = 220. The levers are a PAIR.)
+ *   L3 store order in the three direct-out0 arms: `out[0]=*(0x24); out[1]=0;` (out[0]
+ *      FIRST) -> sched2 fills the lw's load-delay with the zero-store: [lw][sw 0][sw v0],
+ *      no nop. m2c's `out[1]=0;`-first order costs +1 nop per arm (3 total).
+ *
+ * A/B record: base 213/72 -> L1 only 220/104 -> L1+L2 216/95 -> L1+L2+L3 MATCH 213.
+ *             L2+L3 only (no asm) = 213/213 close=10: fac def-copy + 6 negus + 183's
+ *             lw/mult/addu triplet — the pure reg-tie residue.
+ * Dead ends verified: q(v0)-fac and ratan2#2-fac variable merges — both merge-candidates'
+ * live windows cross an arg-load `(set (reg 4 a0) ..)` post-sched1 (q conflicts hard-4,
+ * .greg row `117 conflicts: .. 4 ..`), so a merged pseudo can never take $a0. The /s-dep
+ * lattice lever does not apply (all mem ops register-addressed; no fixed-address globals).
+ */
+DEFINE_func_80148094()  /* dedup: shared engine-core @0x80148094 (src/shared) */
+
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_801483E8);
 
@@ -3339,7 +3385,49 @@ void func_8014E934(s32 _arg0)
 
 DEFINE_func_8014E98C()  /* dedup: shared engine-core @0x8014E98C (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8014EA4C);
+// func_8014EA4C  ov_SC01_077 — MATCH (183 ins, match_one verified; Fable5 crack of CLOSE=6).
+//
+// Prior structural fixes (kept from the close draft, .run/t7b/close/func_8014EA4C.c):
+//  FIX1: (*(s16 *)&D_80126720) read as s16 VALUE (scalar decl here; canonical banked form is
+//    `extern u8 (*(s16 *)&D_80126720)[]` + `*(s16*)(*(s16 *)&D_80126720)` per engine_core.h — reconcile at bank
+//    time). As an array-ptr operand the sign-test folds constant-true and deletes 17 ins.
+//  FIX2: memcpy dest at sp+0x20 = buf+16 (swl 0x23/swr 0x20).
+//
+// FABLE5 LEVERS (all three byte-verified this run; siblings/citations):
+//  L1 (C1, idx69-71 "sw wedged between the arg loads"): arg-2 must be read as a STRUCT
+//    MEMBER — ((struct { s32 w; } *)q)->w — not q[0]/*q. gcc-2.7.2 sched.c:817-839
+//    true_dependence lets a varying-address load cross a fixed-symbol store ONLY if the
+//    load MEM has /s (MEM_IN_STRUCT_P); expr.c:4568-4577 sets /s iff the INDIRECT_REF
+//    address "was computed by addition" (PLUS_EXPR) or is aggregate. q[-0xe] keeps its
+//    PLUS_EXPR -> /s -> hoists; q[0] folds +0 away -> plain MEM -> spurious dep on
+//    `sw $0,D_801150D8` -> stuck below it. COMPONENT_REF -> /s -> dep gone -> backward
+//    scheduler emits [lw a0][lw a1][sw][jal] = target. (Same lever as matched sibling
+//    DEFINE_func_8014EE14, engine_core.h:24926; guards stay plain *q so CSE still reloads.)
+//  L2 (C2, idx135-137 abs copy): the |D_801152AA| test must be `s32 t = D_801152AA;
+//    if (t < 0) t = -t; if (0x800 < (s16)t)`. With s16 t, `t = -t` is HImode: neg into a
+//    fresh SImode pseudo + subreg-truncate copy back -> `move $3,$2; negu $3,$3` (dbr fills
+//    the bgez slot with the copy). With s32 t the neg is SImode in-place -> `negu $2,$2`,
+//    nop slot, and the (s16) cast at the USE gives the joined sll/sra pair. (Sibling
+//    DEFINE_func_8014EE14 uses exactly this form.)
+//  L3 (frame 0x60 — the "knife-edge" dissolved): the close draft's 0x60 was buf[16]
+//    (0x10 @sp+0x10) + THREE phantom 8-byte spill slots. A phantom = a combine-orphaned
+//    sign-extend intermediate: mips.md:2340-2359 extendhisi2 at -O2 force_not_mem's every
+//    lh site into HI-load + ashift/ashiftrt pair with a fresh SImode temp; combine remerges
+//    them into one lh and, when the REG_DEAD home-search hits a CODE_LABEL, parks the note
+//    on a bare (use (reg)) insn (combine.c:10829-10841); regclass then sees only the
+//    constraint-less USE -> preferred class none (".lreg: ST_REGS or none") -> no hard reg
+//    -> reload alter_reg (reload1.c:2309, assign_stack_local at :2352) gives it a stack
+//    slot, +8 bytes each (STACK_BOUNDARY=64), emitting ZERO insns. Two phantoms here are
+//    intrinsic (the label-headed *(s16*)(a2+0)/(a2+4) arm sites); `s16 t` contributed the
+//    third. Retyping t s32 (L2) removes one phantom (-8); buf[16]->buf[24] repays the 8
+//    (dest buf+16 stays sp+0x20, identical swl/swr; the copy is no longer OOB). Frame
+//    parity is PHANTOM-SLOT COUNT parity — count `(use (reg:SI` in the .combine dump
+//    (the shipped cc1 DOES emit -dr/-dc/-dl/-dg dumps; only .sched/.greg-era claims of
+//    "stripped" were wrong for these flags).
+
+
+DEFINE_func_8014EA4C()  /* dedup: shared engine-core @0x8014EA4C (src/shared) */
+
 
 // @class: other
 // @stuck: none — MATCH (handwritten full inline-asm scratchpad-stack-switch wrapper; no trailing .set reorder — that adds a stray epilogue nop)
@@ -4718,7 +4806,7 @@ DEFINE_func_80156ECC()  /* dedup: shared engine-core @0x80156ECC (src/shared) */
 DEFINE_func_80156FA8()  /* dedup: shared engine-core @0x80156FA8 (src/shared) */
 
 
-extern void func_801571C4(s32 a0, u16 a1, u16 a2, s32 a3,
+extern u32 func_801571C4(s32 a0, u16 a1, u16 a2, s32 a3,
                            s32 a4, s32 a5, s32 a6, s32 a7,
                            s32 a8, s32 a9, u16 a10, s32 a11, s32 a12);
 
@@ -4728,7 +4816,8 @@ void func_80157158(s32 a0, u16 a1, u16 a2, s32 a3,
     func_801571C4(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12);
 }
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_801571C4);
+
+DEFINE_func_801571C4()  /* dedup: shared engine-core @0x801571C4 (src/shared) */
 
 DEFINE_func_801574DC()  /* dedup: shared engine-core @0x801574DC (src/shared) */
 
@@ -10147,11 +10236,128 @@ INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80176734);
 
 DEFINE_func_80176D00()  /* dedup: shared engine-core @0x80176D00 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80176D94);
+/* func_80176D94 (ov_SC01_077) — 152 ins. Port of the MATCHED sibling func_801770E0
+ * (src/ov_SC01_077/ov_SC01_077.c:10352, Fable5 crack): the two targets are
+ * instruction-ISOMORPHIC (diff = immediates/symbols only). All levers inherited:
+ *  - /s-load dep lattice: both D-globals read as struct-member-at-offset-0 (COMPONENT_REF
+ *    sets MEM_IN_STRUCT_P on the LOAD) → full store↔load conflict lattice (sched.c:816-864
+ *    drop clauses both fail) → tail = source statement order around the loads.
+ *  - `dl` multi-set load var (reg_n_sets==2 → no birthing boost → lhu stays at source pos).
+ *  - v0m-before-c6055 block: [1]-statement-first with the [0] value precomputed → mask
+ *    0xffffff materializes first; c6000dcff pinned $a2 (breaks the sched2 $v1 fixed point).
+ *  - head (u16)param_2 (zero_extend) vs tail param_2 & 0xffff (AND) — CSE-dodge, no
+ *    cross-call CSE, no 7th callee-save.
+ *  - u4/u5 fresh single-set call-result vars (S2 boost → jal delay slots);
+ *    c3/cad/cff = $s5/$s4/$s3 pins. param_2/uVar5/iVar6 UNPINNED (natural $s2/$s0/$s1).
+ * Constant swaps vs 770E0: 0x6e16{5010,5808,4060,3858}→0x6b56{5040,5808,4060,3858},
+ * D_8011F830→D_8011F82C, D_8011F82E→D_8011F82A, 0xb8→0xad, 0x6055ff00→0x6000dcff,
+ * 0x60ff3214→0x600000ff, (iVar6-4)→(iVar6+10), (iVar6-5)→(iVar6+9).
+ */
+
+DEFINE_func_80176D94()  /* dedup: shared engine-core @0x80176D94 (src/shared) */
+
 
 DEFINE_func_80176FF4()  /* dedup: shared engine-core @0x80176FF4 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_801770E0);
+// MATCH (152/152) — func_801770E0, Fable5 crack, Phase 24 T7 §G.
+// Was: the regalloc.md §RC-6 NAMED exemplar, CLOSE=47 floor. VERDICT DOWNGRADED: not a
+// pressure-lock — the 47 residual was a MISSING MEMORY-DEPENDENCE LATTICE (wrong dep graph),
+// and once restored every remaining edit was local+monotone: 47 -> 12 -> 10 -> 4 -> MATCH.
+//
+// LEVER 1 (47->12, THE STRUCTURAL KEY — "/s-load dep lattice"):
+//   gcc-2.7.2 expr.c marks INDIRECT_REF-of-PLUS as MEM_IN_STRUCT_P: `p[k]` (k!=0) stores are
+//   mem/s, bare `*p` is not. sched.c:829-907 true/anti_dependence DROP the conflict when one
+//   side is /s+varying(+!QI) and the other non-/s+fixed → `puVar3[k]` stores never order
+//   against a plain `lhu D_global` (fixed-address, non-/s) → both tail lhu's float free and
+//   ~40 insns of store/mul schedule collapse into priority soup (the old "RC-6" 47).
+//   FIX (zero bytes): load the global as a struct member at offset 0 —
+//   `((struct hs*)&D_8011F830)->h` — COMPONENT_REF sets /s on the LOAD; both exception
+//   clauses now fail for every store↔load pair → full conflict lattice: stores before the
+//   load statement hold it down (true deps), stores after stay below it (anti deps).
+//   The whole tail order then equals SOURCE statement order (S1) around the two loads.
+// LEVER 2 (12->10, re-validated old 49->47 lever): compute the [0]-store value into a
+//   block-local `v0m` BEFORE the [1]=0x6055ff00 statement → mask 0xffffff materializes first.
+//   (2-insn split consts have reg_n_sets==2 → never birthing-boosted → they place at the
+//   block top in LUID order; the temp reorders the LUIDs.)
+// LEVER 3 (10->4, the pin): the residual LOOKED like schedule but was ONE local-alloc
+//   first-fit: 0x6055ff00 got $v1 (its window [birth..sw1] missed the $v1 v0m-chain since
+//   sched1 had sw1 above the chain); c6055=$v1 then FORCES sw1 above the chain in sched2
+//   (hard-reg anti-web: sw1 reads $v1, chain writes $v1) — a self-consistent wrong fixed
+//   point. Block-scoped `register u32 c6055 __asm__("$6") = 0x6055ff00;` puts it in $a2
+//   (target), sched2's webs relax, and sw1/lhu/retv/move all fall into place (6 insns).
+//   RC-5 channels clean: narrow scope, $a2 already ever-live (arg reg), no spills.
+// LEVER 4 (4->0): C89 decl-initializer order = LUID order: `u32 v0m = expr;` BEFORE the
+//   pinned c6055 decl puts the mask materialization below the pinned lui/ori → the two
+//   2-insn const pairs land [mask, 0x6055ff00] at the top like the target.
+// Supporting structure (needed, from Ghidra's REAL variable reuse):
+//   - `dl` multi-set (both D-loads through one u32 var) → no birthing boost → the lhu's
+//     stay at source position (a single-set load var sinks to its consumer).
+//   - head uses `(u16)param_2` (zero_extend RTL) vs tail `param_2 & 0xffff` (AND rtl) —
+//     different cse hashes → no cross-call CSE → no 7th callee-save; replaces the old
+//     volatile-asm barrier (which is a FULL scheduling barrier per sched.c ASM_OPERANDS
+//     handling and had warped the tail).
+//   - u4/u5 fresh single-set call-result vars (S2 boost → jal delay slots), c3/cb8/cff
+//     $s5/$s4/$s3 pins for the 777BC extra args: unchanged from the close draft.
+// Negative results (do not retry): unboosting the v0m chain (multi-set va / named+retied
+//   t0c / v0m-reuse-as-mul2-t) regresses 10 -> 35..71 — the target NEEDS the inline
+//   single-set birthing boosts; a retie on a shared const breaks cse-sharing with literal
+//   uses elsewhere (+1 insn) unless ALL uses go through the var.
+// Decl-reconcile notes (unchanged): func_80177784 canonical 4-arg called 3-arg
+//   (cast_call_sites), func_801777BC INCLUDE_ASM 7-arg, D_8011F830/D_8011F82E u16.
+
+
+extern void *func_80177784(void *a0, s32 a1, s32 a2, s32 a3);
+extern u32 func_801783D0(s32 a0, s32 a1);
+extern void *func_801777BC(void *a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+extern u16 D_8011F830;
+/* /s-cast helper anonymized inline below (self-contained for ×134 propagation) */
+extern u16 D_8011F82E;
+
+u32 *func_801770E0(void *param_1, u32 param_2, s16 param_3_)
+{
+    register s32 c3  __asm__("$21") = 3;     /* $s5 */
+    register s32 cb8 __asm__("$20") = 0xb8;  /* $s4 */
+    register s32 cff __asm__("$19") = 0xff;  /* $s3 */
+    s32 iVar6 = (s16)param_3_;               /* -> $s1 */
+    u32 uVar5 = iVar6 << 16;                 /* -> $s0 */
+    void *uVar2;
+    void *u4, *u5;                           /* fresh single-set save vars (S2 boost) */
+    u32 *puVar3;
+    s16 sVar1;
+    u32 uVar4;
+    u32 dl;                                  /* multi-set D-load var (2 sets, no boost) */
+    s32 t;
+
+    uVar2 = ((void * (*)(void *, s32, s32))func_80177784)(param_1, uVar5 | (u16)param_2, 0x6e165010);
+    uVar2 = ((void * (*)(void *, s32, s32))func_80177784)(uVar2, uVar5 | ((param_2 + 8) & 0xffff), 0x6e165808);
+    uVar2 = ((void * (*)(void *, s32, s32))func_80177784)(uVar2, uVar5 | ((param_2 + 0x10) & 0xffff), 0x6e164060);
+    u4 = ((void * (*)(void *, s32, s32))func_80177784)(uVar2, uVar5 | ((param_2 + 0x30) & 0xffff), 0x6e163858);
+    sVar1 = (s16)func_801783D0(D_8011F830, 4);
+    u5 = func_801777BC(u4, sVar1, (s32)((param_2 + 0x18) << 16) >> 16, iVar6, c3, cb8, cff);
+    sVar1 = (s16)func_801783D0(D_8011F82E, 4);
+    puVar3 = (u32 *)func_801777BC(u5, sVar1, (s32)((param_2 + 0x38) << 16) >> 16, iVar6, c3, cb8, cff);
+
+    dl = ((struct { u16 h; } *)&D_8011F830)->h;
+    { u32 v0m = ((u32)(puVar3 - 5) & 0xffffff) | 0x3000000;
+      register u32 c6055 __asm__("$6") = 0x6055ff00;
+      puVar3[1] = c6055;
+      *puVar3 = v0m; }
+    uVar4 = ((iVar6 - 4) << 16) | ((param_2 + 1) & 0xffff);
+    puVar3[2] = uVar4;
+    puVar3[3] = ((s32)(dl * 0x50e6) >> 16) | 0x20000;
+    dl = ((struct { u16 h; } *)&D_8011F82E)->h;
+    puVar3[5] = ((u32)puVar3 & 0xffffff) | 0x3000000;
+    puVar3[10] = ((u32)(puVar3 + 5) & 0xffffff) | 0x3000000;
+    puVar3[6] = 0x60ff3214;
+    puVar3[7] = uVar4;
+    puVar3[0xb] = 0x60000000;
+    puVar3[0xc] = ((iVar6 - 5) << 16) | (param_2 & 0xffff);
+    t = (s32)(dl * 0x50e6) >> 16;
+    puVar3[8] = t | 0x20000;
+    puVar3[0xd] = (t + 2) | 0x40000;
+    return puVar3 + 0xf;
+}
+
 
 DEFINE_func_80177340()  /* dedup: shared engine-core @0x80177340 (src/shared) */
 

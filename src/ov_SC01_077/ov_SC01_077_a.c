@@ -1668,7 +1668,147 @@ DEFINE_func_80137030()  /* dedup: shared engine-core @0x80137030 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_a", func_80137178);
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_a", func_801372B0);
+/* func_801372B0 — MATCH (207 ins), match_one relocation-masked byte-exact (2026-07-07, Fable5)
+ * ov_SC01_077 region-a (asm/ov_SC01_077/nonmatchings/ov_SC01_077_a). Debug 3D-axis overlay:
+ * draws the +X/+Y/+Z axis lines (white) + a red cross at +X+6 + sibling markers at +Y+6/+Z+6.
+ *
+ * Prior state: CLOSE=8 (count-exact, all regs + global hoists solved; see LEVERS_HARVEST).
+ * The 8 residual = TWO independent sched1 S2 (birthing-boost) artifacts, both cracked zero-byte:
+ *
+ * LEVER A — idx 73-78 (corner-1 by/ax/bx/[a1-chain]/ay order): S2-KILL ON PINNED SINGLE-SET VARS.
+ *   birthing_insn_p (sched.c:2469) boosts ANY live single-set REG dest — including register-asm
+ *   HARD regs (reg_n_sets[] is indexed by hard regno too). The single-set pins ax($16)/by($20)
+ *   were boosted -> adjust_priority (sched.c:2507) fires the instant their anti-dep partner
+ *   (ay/bx in-place update) schedules -> glued adjacent, collapsing out.vx's use span. The
+ *   multi-set pins (bx, ay: 2 sets each) were never boosted and sat at source order. Fix: one
+ *   re-tie asm per var AFTER its call-1 use = a 2nd set -> reg_n_sets==2 -> no boost -> all four
+ *   adds revert to pure source/LUID order (rank_for_schedule sched.c:2429 ties). 8 -> 2.
+ *
+ * LEVER B — idx 31/32 (li $s3,0xFF vs li $t0,0x78 order): S2 FIRE-TICK DIAL VIA CONSUMER STORE
+ *   ORDER. A boosted const is placed directly ABOVE its LAST-backward-picked consumer; among
+ *   equal-priority independent stores the backward scheduler picks highest-LUID first. With
+ *   corner-0 written [x0, attr, r,g,b, y0], the r/g/b sb's (white's consumers) out-LUID the x0
+ *   store -> picked BEFORE it -> white's boost fires too early -> li 0xFF lands BELOW the
+ *   x0-cluster. Writing corner-0 [attr, r,g,b, x0, y0] (colors FIRST) drops the sb's LUIDs below
+ *   the x0 store's -> backward cascade picks them AFTER it -> white's boost-fire slips to the
+ *   exact tick above the x0-li (dump: fire T-157 -> T-161). sched2's own hazard cascade
+ *   re-normalizes the FINAL store layout identically for both source orders (x0@33 ... attr@41,
+ *   rgb@42-44, y0@45), so the reorder's only byte effect is the boosted li's slot. 2 -> 0.
+ *   (Found by the directed permuter at iter 291 after 12 hand variants byte-validated the
+ *   fire-tick model; corners 2/3 keep [x0, attr, r,g,b, y0] — no li $s3 in their blocks.)
+ *
+ * Kept from the CLOSE=8 draft (LEVERS_HARVEST 173->8): $s7 cross-BB base-offset split (mat+=0x18),
+ * post-jal out.vx/vy scratch pins ($a3/$v1/$v0), x1v/y1v boost-defeat re-ties, corner-1 op fence.
+ */
+typedef struct { s16 vx, vy, vz, pad; } SVEC;          /* sp+0x10 in, sp+0x18 out (8B each) */
+typedef struct { u32 attr; s16 x0, y0, x1, y1; u8 r, g, b, code; } GLINE;  /* sp+0x20 (16B) */
+
+extern void ApplyMatrixSV(void *m, SVEC *in, SVEC *out);
+extern void aGsSortLine(GLINE *p, void *ot, s32 z) __asm__("GsSortLine");
+extern void aF80137030(s32 x, s32 y) __asm__("func_80137030");
+extern void func_80137178(s32 x, s32 y);
+extern u8  D_800B9A11;
+extern u8  D_800AF630[];
+extern u16 aD800B9A02 __asm__("D_800B9A02");
+extern u8  D_800A6518[];
+
+void func_801372B0(void) {
+    SVEC in;
+    SVEC out;
+    GLINE prim;
+    register u8 *mat __asm__("$23") = D_800AF630;            /* $s7 = base; +0x18 after branch */
+    register s32 white __asm__("$19");                       /* $s3, assigned lazily in-if */
+    register s16 ax __asm__("$16");                          /* $s0 = out.vx+0x7B */
+    register s16 ay __asm__("$17");                          /* $s1 = out.vx+0x75 */
+    register s16 bx __asm__("$18");                          /* $s2 = out.vy-0x57 */
+    register s16 by __asm__("$20");                          /* $s4 = out.vy-0x5D */
+
+    in.vz = 0;
+    in.vy = 0;
+    in.vx = 0;
+    if (D_800B9A11 != 1) {
+        mat += 0x18;                                         /* addiu $s7, $s7, 0x18 (post-branch) */
+        white = 0xFF;
+        /* --- corner 0: +X axis, white line from (0x78,-0x5A) --- */
+        in.vx = 0x10;
+        ApplyMatrixSV(mat, &in, &out);
+        {
+            register s16 vx __asm__("$7") = out.vx;          /* $a3 */
+            register s16 vy __asm__("$3") = out.vy;          /* $v1 */
+            prim.attr = 0;                                   /* LEVER B: colors BEFORE x0 here — */
+            prim.r = white; prim.g = white; prim.b = white;  /* drops the sb LUIDs below the x0  */
+            prim.x0 = 0x78;                                  /* store -> white's S2 boost fires  */
+            prim.y0 = -0x5A;                                 /* late -> li $s3,0xFF lands @31    */
+            { s16 x1v = vx + 0x78; __asm__("" : "=r"(x1v) : "0"(x1v)); prim.x1 = x1v; }
+            { s16 y1v = vy - 0x5A; __asm__("" : "=r"(y1v) : "0"(y1v)); prim.y1 = y1v; }
+            aGsSortLine(&prim, &D_800A6518[(u32)aD800B9A02 * 0x14], 0);
+        }
+
+        /* --- corner 1: +X +6, red cross --- */
+        in.vx = in.vx + 6;
+        ApplyMatrixSV(mat, &in, &out);
+        prim.attr = 0;
+        prim.r = white; prim.g = 0; prim.b = 0;
+        bx = out.vy;                                         /* $s2 = out.vy (load) */
+        ay = out.vx;                                         /* $s1 = out.vx (load) */
+        by = bx - 0x5D;                                      /* $s4 = out.vy - 0x5D */
+        ax = ay + 0x7B;                                      /* $s0 = out.vx + 0x7B */
+        bx = bx - 0x57;                                      /* $s2 = out.vy - 0x57 (in place) */
+        {
+        GLINE *op = (GLINE*)&D_800A6518[(u32)aD800B9A02 * 0x14];
+        __asm__("" : "=r"(op) : "0"(op));
+        ay = ay + 0x75;                                      /* $s1 = out.vx + 0x75 (in place) */
+        prim.x0 = ay; prim.y0 = by; prim.x1 = ax; prim.y1 = bx;
+        aGsSortLine(&prim, op, 0);
+        }
+        __asm__("" : "=r"(ax) : "0"(ax));                    /* LEVER A: 2nd set kills ax's S2   */
+        __asm__("" : "=r"(by) : "0"(by));                    /* boost (same for by) -> by/ax/bx/ */
+        prim.attr = 0;                                       /* chain/ay revert to source order  */
+        prim.r = white; prim.g = 0; prim.b = 0;
+        prim.x0 = ax; prim.y0 = by; prim.x1 = ay; prim.y1 = bx;
+        aGsSortLine(&prim, &D_800A6518[(u32)aD800B9A02 * 0x14], 0);
+
+        /* --- corner 2: +Y axis, white line + sibling 030 --- */
+        in.vx = 0;
+        in.vy = 0x10;
+        ApplyMatrixSV(mat, &in, &out);
+        {
+            register s16 vx __asm__("$7") = out.vx;          /* $a3 */
+            register s16 vy __asm__("$2") = out.vy;          /* $v0 */
+            prim.x0 = 0x78;
+            prim.attr = 0;
+            prim.r = white; prim.g = white; prim.b = white;
+            prim.y0 = -0x5A;
+            { s16 x1v = vx + 0x78; __asm__("" : "=r"(x1v) : "0"(x1v)); prim.x1 = x1v; }
+            { s16 y1v = vy - 0x5A; __asm__("" : "=r"(y1v) : "0"(y1v)); prim.y1 = y1v; }
+            aGsSortLine(&prim, &D_800A6518[(u32)aD800B9A02 * 0x14], 0);
+        }
+        in.vy = in.vy + 6;
+        ApplyMatrixSV(mat, &in, &out);
+        aF80137030((s32)(s16)(out.vx + 0x78), (s32)(s16)(out.vy - 0x5A));
+
+        /* --- corner 3: +Z axis, white line + sibling 178 --- */
+        in.vy = 0;
+        in.vz = 0x10;
+        ApplyMatrixSV(mat, &in, &out);
+        {
+            register s16 vx __asm__("$7") = out.vx;          /* $a3 */
+            register s16 vy __asm__("$2") = out.vy;          /* $v0 */
+            prim.x0 = 0x78;
+            prim.attr = 0;
+            prim.r = white; prim.g = white; prim.b = white;
+            prim.y0 = -0x5A;
+            { s16 x1v = vx + 0x78; __asm__("" : "=r"(x1v) : "0"(x1v)); prim.x1 = x1v; }
+            { s16 y1v = vy - 0x5A; __asm__("" : "=r"(y1v) : "0"(y1v)); prim.y1 = y1v; }
+            aGsSortLine(&prim, &D_800A6518[(u32)aD800B9A02 * 0x14], 0);
+        }
+        in.vz = in.vz + 6;
+        ApplyMatrixSV(mat, &in, &out);
+        func_80137178((s32)(s16)(out.vx + 0x78), (s32)(s16)(out.vy - 0x5A));
+    }
+    return;
+}
+
 
 DEFINE_func_801375EC()  /* dedup: shared engine-core @0x801375EC (src/shared) */
 
