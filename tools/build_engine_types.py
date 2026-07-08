@@ -133,16 +133,28 @@ def find_typedefs(text):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--source', default='ov_SC01_077')
+    ap.add_argument('--file', default=None,
+                    help='explicit repo-relative source .c to lift from (overrides --source path; use for '
+                         'the overlay SPLIT files, e.g. src/ov_SC01_077/ov_SC01_077_after.c, whose local '
+                         'types the base-only --source lift cannot reach). Additive-merges into --out.')
     ap.add_argument('--out', default='src/shared/engine_types.h')
     ap.add_argument('--strip', action='store_true', help='also remove the defs from the source .c')
+    ap.add_argument('--exclude', default=None,
+                    help='comma-separated type NAMES to leave TU-local (neither lift nor strip). Use for a '
+                         'type whose same name has a DIFFERENT layout in a sibling split TU (e.g. Buf differs '
+                         'between _a.c and _after.c) — lifting it fleet-wide would `conflicting types` the other TU.')
     args = ap.parse_args()
 
-    c_path = os.path.join(REPO, f'src/{args.source}/{args.source}.c')
+    c_path = os.path.join(REPO, args.file) if args.file else os.path.join(REPO, f'src/{args.source}/{args.source}.c')
     out_path = os.path.join(REPO, args.out)
     text = open(c_path).read()
     scan = blank_comments(text)                       # scan comment-blanked; extract from `text`
     defs = find_defs(scan)
     tdefs = [(name, text[s:e], s, e) for name, _b, s, e in find_typedefs(scan)]
+    if args.exclude:                                   # leave these TU-local (cross-TU same-name conflicts)
+        excl = set(x.strip() for x in args.exclude.split(',') if x.strip())
+        defs = [d for d in defs if d[1] not in excl]
+        tdefs = [t for t in tdefs if t[0] not in excl]
     if not defs and not tdefs:
         sys.exit('no named struct/union/typedef defs found')
 

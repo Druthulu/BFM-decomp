@@ -59,7 +59,6 @@ void func_8013C9C4(void * arg0)
     }
 }
 
-
 extern s32 D_801D9568;
 extern s8 D_801D956C;
 extern s8 D_801D956D;
@@ -183,7 +182,6 @@ void func_8013D064(void)
     return;
 }
 
-
 extern void func_8013D9B0(void);
 extern s32 D_801D958C;
 
@@ -223,7 +221,6 @@ void func_8013D330(void) {
     }
     D_801DAAA0 = 1;
 }
-
 
 // @class: regalloc-order
 // @stuck: none — MATCH (match_one 90/90); base &D_80078E78 cached in a pointer local so gcc pins it into callee-saved $s1 and hoists the addr to the prologue (live across all 4 calls); direct array access D_80078E78[0x37] instead folds %lo per use (no $s1, frame 0x18 not 0x20)
@@ -289,12 +286,10 @@ void func_8013D3D4(int param_1, int param_2)
     }
 }
 
-
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8013D53C);
 
 // @class: schedule
 // @stuck: none — MATCH (45 ins, match_one verified)
-
 
 extern s16 *D_801D957C;
 extern void func_800599B8(s32 a0, s32 a1);
@@ -328,7 +323,6 @@ void func_8013D8FC(void)
         } while (sVar1 != cff);
     }
 }
-
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8013D9B0);
 
@@ -418,7 +412,6 @@ void func_8013DBE4(int param_1)
     }
 }
 
-
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8013DD68);
 
 extern s32 D_801D9594;
@@ -475,7 +468,6 @@ DEFINE_func_8013E298()  /* dedup: shared engine-core @0x8013E298 (src/shared) */
 
 DEFINE_func_8013E2C4()  /* dedup: shared engine-core @0x8013E2C4 (src/shared) */
 
-
 DEFINE_func_8013E370()  /* dedup: shared engine-core @0x8013E370 (src/shared) */
 
 DEFINE_func_8013E410()  /* dedup: shared engine-core @0x8013E410 (src/shared) */
@@ -485,7 +477,6 @@ DEFINE_func_8013E410()  /* dedup: shared engine-core @0x8013E410 (src/shared) */
 
 DEFINE_func_8013E448()  /* dedup: shared engine-core @0x8013E448 (src/shared) */
 
-
 DEFINE_func_8013E4B4()  /* dedup: shared engine-core @0x8013E4B4 (src/shared) */
 
 DEFINE_func_8013E558()  /* dedup: shared engine-core @0x8013E558 (src/shared) */
@@ -494,7 +485,6 @@ DEFINE_func_8013E558()  /* dedup: shared engine-core @0x8013E558 (src/shared) */
 // @stuck: none — MATCH expected (simple guarded store block, byte/half/word globals + fn-ptr)
 
 DEFINE_func_8013E588()  /* dedup: shared engine-core @0x8013E588 (src/shared) */
-
 
 // @class: regalloc-order
 // @stuck: none — MATCH expected (clone of byte-proven func_80141874: $v0-pinned fn-ptr; +2 extra calls)
@@ -527,7 +517,6 @@ void func_8013E5E8(void)
     func_80141C04();
     D_80115116 += 1;
 }
-
 
 DEFINE_func_8013E67C()  /* dedup: shared engine-core @0x8013E67C (src/shared) */
 
@@ -585,7 +574,6 @@ void func_8013E6AC(void) {
     }
 }
 
-
 DEFINE_func_8013E814()  /* dedup: shared engine-core @0x8013E814 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8013E83C);
@@ -595,7 +583,6 @@ INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8013E958);
 // @class: regalloc-order
 // @stuck: none — MATCH
 DEFINE_func_8013EA54()  /* dedup: shared engine-core @0x8013EA54 (src/shared) */
-
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8013EB7C);
 
@@ -607,7 +594,6 @@ INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8013EF88);
 
 // @class: struct
 // @stuck: none — MATCH expected (u16* base materialization for read+write, %lo-folded single-access globals)
-
 
 extern unsigned short D_80115118;
 extern unsigned short D_80115112;
@@ -628,15 +614,12 @@ void func_8013F138(void) {
     }
 }
 
-
 DEFINE_func_8013F1BC()  /* dedup: shared engine-core @0x8013F1BC (src/shared) */
 
 // @class: other
 // @stuck: none — MATCH (cached &D_8011511A pointer for the $a1 accesses; test (iVar2<<16) without storing back so $v1 stays live)
 
-
 DEFINE_func_8013F244()  /* dedup: shared engine-core @0x8013F244 (src/shared) */
-
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8013F350);
 
@@ -705,7 +688,6 @@ void func_801407F4(void)
     *(s16 *)(puVar1 + 0x1c) = *puVar3++;
 }
 
-
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80140958);
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80140D68);
@@ -757,7 +739,6 @@ int func_80141100(int param_1)
     return param_1;
 }
 
-
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_801412A8);
 
 // @class: regalloc-order
@@ -767,14 +748,12 @@ INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_801412A8);
 
 DEFINE_func_801415C0()  /* dedup: shared engine-core @0x801415C0 (src/shared) */
 
-
 DEFINE_func_8014168C()  /* dedup: shared engine-core @0x8014168C (src/shared) */
 
 // @class: regalloc-order
 // @stuck: none — MATCH (45 ins, relocation-masked)
 
 DEFINE_func_801416D4()  /* dedup: shared engine-core @0x801416D4 (src/shared) */
-
 
 extern unsigned short D_80115112;
 extern void (*D_80187F10[])(void);
@@ -815,7 +794,6 @@ void func_80141874(void) {
     D_80115116 += 1;
 }
 
-
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_801418F8);
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80141A60);
@@ -836,15 +814,12 @@ void func_80141C0C(s32 param_1)
     func_8002D4C8(*(u16 *)(&D_80187E70 + (((param_1 << 16) >> 15) + (u32)D_80115110) * 2), 0);
 }
 
-
 DEFINE_func_80141C50()  /* dedup: shared engine-core @0x80141C50 (src/shared) */
 
 // @class: regalloc-order
 // @stuck: none — MATCH (476 ins). Levers: $v1-pinned cmp temp; default-first early-return form; §5a cross-jump barrier on 0x3ca twin
 
-
 DEFINE_func_80141CA4()  /* dedup: shared engine-core @0x80141CA4 (src/shared) */
-
 
 DEFINE_func_80142414()  /* dedup: shared engine-core @0x80142414 (src/shared) */
 
@@ -898,7 +873,6 @@ void func_801424E4(short *param_1) {
     return;
 }
 
-
 extern s32 (*D_80187F50[])();
 
 s32 func_801425CC(s16 *a0) {
@@ -946,13 +920,11 @@ ad50:
     ((void (*)(s32))func_8012AD50)(param_1);
 }
 
-
 DEFINE_func_801426D4()  /* dedup: shared engine-core @0x801426D4 (src/shared) */
 
 // @class: plumbing
 // @stuck: none — MATCH expected (param saved in $s0 across call, guarded tail call)
 DEFINE_func_80142740()  /* dedup: shared engine-core @0x80142740 (src/shared) */
-
 
 extern void func_8012C218(void *a0);
 
@@ -974,7 +946,6 @@ DEFINE_func_801427E4()  /* dedup: shared engine-core @0x801427E4 (src/shared) */
 // @class: struct
 // @stuck: none — MATCH (array-of-fnptr %lo-fold + signed-halfword guard)
 
-
 extern u16 D_801270C0;
 extern void (*D_80187F64[])();
 
@@ -984,7 +955,6 @@ void func_801427EC(int param_1)
         D_80187F64[*(u16 *)(param_1 + 2)]();
     }
 }
-
 
 DEFINE_func_80142838()  /* dedup: shared engine-core @0x80142838 (src/shared) */
 
@@ -1003,7 +973,6 @@ void func_8014292C(s32 param_1)
     }
 }
 
-
 // @class: struct
 // @stuck: none — MATCH (mirrors func_801425CC func-ptr-table idiom + (s16) guard)
 extern u16 D_801270C0;
@@ -1014,8 +983,6 @@ void func_80142978(s16 *a0) {
         D_80188150[(u16)a0[1]]();
     }
 }
-
-
 
 extern u16 D_801270C0;
 extern void (*D_80188208[])(void);
@@ -1035,14 +1002,6 @@ INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80142A10);
 
 // @class: struct
 // @stuck: none — MATCH (packed-word struct -> lwl/lwr unaligned copy; union byte[] -> $sp-direct lbu; branch-polarity invert -> beqz)
-
-
-struct packed_word { int w; } __attribute__((packed, aligned(1)));
-
-union word_bytes {
-    struct packed_word pw;
-    u8 b[4];
-};
 
 extern u16 D_800B99D8;
 extern struct packed_word D_801D8920;
@@ -1070,7 +1029,6 @@ void func_80142A80(void)
     D_801D95D2 = mul * (local.b[2] >> 4);
 }
 
-
 void func_80142C84(s32 a0);
 void func_80143994(s32 a0, s32 a1);
 extern s32 func_8012AD50(void *a0);
@@ -1089,7 +1047,6 @@ void func_80142B2C(void *arg0) {
             (s32)arg0, (s32)*(s16 *)(*(s32 *)((u8 *)arg0 + 0x20) + 0x18));
     func_8012AD50(arg0);
 }
-
 
 DEFINE_func_80142BB4()  /* dedup: shared engine-core @0x80142BB4 (src/shared) */
 
@@ -1129,7 +1086,6 @@ void func_80142DC4(int param_1)
     }
 }
 
-
 // @class: regalloc-order
 // @stuck: none — MATCH
 
@@ -1158,10 +1114,8 @@ void func_80142E38(int param_1)
     }
 }
 
-
 // @class: regalloc-order
 // @stuck: none — MATCH
-
 
 extern void func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);
@@ -1192,7 +1146,6 @@ void func_80142EC0(s32 param_1) {
         ((void (*)(s32))func_80142B2C)(d);
     }
 }
-
 
 DEFINE_func_80142F68()  /* dedup: shared engine-core @0x80142F68 (src/shared) */
 
@@ -1235,14 +1188,12 @@ void func_8014305C(int param_1)
     }
 }
 
-
 DEFINE_func_801430F4()  /* dedup: shared engine-core @0x801430F4 (src/shared) */
 
 DEFINE_func_80143188()  /* dedup: shared engine-core @0x80143188 (src/shared) */
 
 // @class: regalloc-order
 // @stuck: none — MATCH (memcpy unaligned copy; $s0 survivor pinned, store-before-copy keeps $v0 for early store/branch)
-
 
 extern void *memcpy(void *, const void *, u32);
 
@@ -1289,7 +1240,6 @@ void func_801431E8(s32 param_1) {
     }
 }
 
-
 DEFINE_func_801432FC()  /* dedup: shared engine-core @0x801432FC (src/shared) */
 
 DEFINE_func_80143390()  /* dedup: shared engine-core @0x80143390 (src/shared) */
@@ -1299,7 +1249,6 @@ DEFINE_func_801433F0()  /* dedup: shared engine-core @0x801433F0 (src/shared) */
 
 // @class: plumbing
 // @stuck: none — MATCH (pending gate)
-
 
 extern u8 D_800D387C[];
 extern u32 D_80188318[];
@@ -1333,7 +1282,6 @@ void func_80143458(s32 param_1)
     *(u16 *)(param_1 + 2) = *(u16 *)(param_1 + 2) + 1;
 }
 
-
 struct vec;
 DEFINE_func_8014350C()  /* dedup: shared engine-core @0x8014350C (src/shared) */
 
@@ -1352,7 +1300,6 @@ DEFINE_func_801439C0()  /* dedup: shared engine-core @0x801439C0 (src/shared) */
 // @class: schedule
 // @stuck: none — MATCH (key: (s0+4)&=0x7FFFFFFF stmt placed AFTER the 3 sp[]->struct stores; §2-T2/§21 stmt-order)
 DEFINE_func_801439FC()  /* dedup: shared engine-core @0x801439FC (src/shared) */
-
 
 extern void (*D_80188440[])(void *);
 
@@ -1388,12 +1335,7 @@ DEFINE_func_80143CD4()  /* dedup: shared engine-core @0x80143CD4 (src/shared) */
 //   int set BEFORE the call so it naturally takes callee-saved $s3; chained assignment
 //   a=b=c=sVar4 materializes the value once (the addu $v0,$s3,$zero move) + delay-slot store.
 
-
-typedef struct {
-    u8  pad[8]; /* 0x00 */
-    u16 f8;     /* 0x08 */
-    u16 fa;     /* 0x0a */
-} MatEntry;     /* size 0x0c */
+     /* size 0x0c */
 
 extern MatEntry D_80188478[];
 extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
@@ -1435,7 +1377,6 @@ void func_80143D28(s32 param_1) {
     }
 }
 
-
 extern void (*D_8018849C[])(void *);
 
 void func_80143E68(void *a0)
@@ -1461,7 +1402,7 @@ void func_80144054(void *a0)
 // @class: regalloc-order
 // @stuck: 154/154 ins structural match (callees/consts/ctrl-flow/stack/GPU-packet all byte-correct); residual 25 = caller-saved temp-reg coalescing in the final ring-vertex block (target reuses dead $s0=iVar3 for iVar3-(iVar4>>6) subu where gcc reuses iVar4>>6's reg; iVar4 mflo -> $a3 vs target $v0) + 2-ins schedule swap of giv-increment vs iVar2*4 -> permuter grinder territory (§27 step-5)
 
-typedef struct { s32 a; s32 b[4]; } OtBlk; /* 0x14 stride */
+ /* 0x14 stride */
 
 extern void *func_80010A08(s32);
 extern void func_8004914C(void *a0);
@@ -1530,7 +1471,6 @@ void func_80144090(s32 param_1) {
     }
 }
 
-
 // @class: struct
 // @stuck: none — MATCH (relocation-masked match_one); fn-ptr dispatch table + 0x1c counter, sibling idiom (func_801427EC/func_80143B30)
 
@@ -1547,7 +1487,6 @@ void func_801442F8(int param_1)
         func_8012C218(param_1);
     }
 }
-
 
 // @class: plumbing
 // @stuck: none — MATCH expected; call-crossing param_1->$s1, iVar3->$s0 natural regalloc
@@ -1589,7 +1528,6 @@ void func_80144364(int param_1) {
     }
 }
 
-
 extern void func_80016714(void *a0, s32 a1);
 extern s32 func_8004787C(s32 a0);
 extern s32 func_80047948(s32 a0);
@@ -1628,14 +1566,12 @@ void func_80144458(void *arg0) {
 
 DEFINE_func_80144558()  /* dedup: shared engine-core @0x80144558 (src/shared) */
 
-
 DEFINE_func_8014462C()  /* dedup: shared engine-core @0x8014462C (src/shared) */
 
 // @class: regalloc-order
 // @stuck: none — MATCH (match_one 54/54, relocation-masked)
 
 DEFINE_func_801446A4()  /* dedup: shared engine-core @0x801446A4 (src/shared) */
-
 
 // @class: struct
 // @stuck: none — MATCH (65 ins, match_one). Levers: uVar2/$2 + addr/$3 pins; split (uVar2&0xFFFFFFF) into addr then (addr|0x80000000)+8 deref; %hi/%lo of 0x80000008 via plain 0x80000000+8 (match_one masks the target's D_80000008 reloc, real bytes identical); v1/3 magic-divide; gv+fv reassoc (field-0x30 in own temp) loads field first
@@ -1680,7 +1616,6 @@ void func_8014477C(void *param_1) {
     *(s32 *)((s32)param_1 + 0x1C) = 0x78;
 }
 
-
 // @class: regalloc-order
 // @stuck: none — MATCH (66 ins). Pins: $s0=func_8012C194 result, $s1=param, $v0=byte const b (forces sb-first + $v0 reuse for 0x6000/0x400/0x4000); separate var e for the 0xE load keeps it in $v1 stored last.
 #include "common.h"
@@ -1724,7 +1659,6 @@ void func_80144880(s32 param_1)
         *(s16 *)(self + 2) = *(s16 *)(self + 2) + 1;
     }
 }
-
 
 DEFINE_func_80144988()  /* dedup: shared engine-core @0x80144988 (src/shared) */
 

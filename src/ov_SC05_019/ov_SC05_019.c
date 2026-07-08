@@ -1854,7 +1854,36 @@ INCLUDE_ASM("asm/ov_SC05_019/nonmatchings/ov_SC05_019", func_801429C4);
 
 INCLUDE_ASM("asm/ov_SC05_019/nonmatchings/ov_SC05_019", func_80142A10);
 
-INCLUDE_ASM("asm/ov_SC05_019/nonmatchings/ov_SC05_019", func_80142A80);
+
+// @class: struct
+// @stuck: none — MATCH (packed-word struct -> lwl/lwr unaligned copy; union byte[] -> $sp-direct lbu; branch-polarity invert -> beqz)
+
+extern u16 D_800B99D8;
+extern struct packed_word D_8018DE88;
+extern u8 D_8018E7C8;
+extern u8 D_8018E7C9;
+extern u8 D_8018E7CA;
+
+void func_80142A80(void)
+{
+    u16 flags;
+    union word_bytes local;
+    s32 mul;
+
+    flags = D_800B99D8;
+    local.pw = D_8018DE88;
+
+    if (flags & 0x10) {
+        mul = (s8)((flags & 0xf) >> 1) + 9;
+    } else {
+        mul = 0x10 - (s8)((flags & 0xf) >> 1);
+    }
+
+    D_8018E7C8 = mul * (local.b[0] >> 4);
+    D_8018E7C9 = mul * (local.b[1] >> 4);
+    D_8018E7CA = mul * (local.b[2] >> 4);
+}
+
 
 INCLUDE_ASM("asm/ov_SC05_019/nonmatchings/ov_SC05_019", func_80142B2C);
 

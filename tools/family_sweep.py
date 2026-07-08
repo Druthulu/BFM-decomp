@@ -60,6 +60,11 @@ def main():
     ap.add_argument("--chunk", type=int, default=8)
     ap.add_argument("--commit", action="store_true")
     ap.add_argument("--only", default=None, help="comma-separated exemplar addrs to sweep (validation)")
+    ap.add_argument("--no-preclassify", action="store_true",
+                    help="skip the match_one isolation pre-classify (it can't see src/shared/engine_types.h, "
+                         "so it false-negatives type-lifted families); route every remappable exemplar straight "
+                         "to the harvest_verify byte-gate (the real TU sees the shared types). Use after a "
+                         "build_engine_types type-lift for the decl-reconcile pass.")
     a = ap.parse_args()
     os.chdir(REPO)
 
@@ -95,6 +100,8 @@ def main():
         draft, _ = FR.remap(addr, a.source, sibs[0])
         if draft is None:
             deferred.append((addr, "remap-fail")); continue
+        if a.no_preclassify:                                    # trust the real-TU byte-gate (type-lift pass)
+            simple.append((addr, nins, sibs)); continue
         open(os.path.join(REPO, ".run/_clsfy.c"), "w").write(draft + "\n")
         r = sh([PY, "tools/match_one.py", f"func_{addr:08X}", "--c", ".run/_clsfy.c",
                 "--asm-subdir", stubs[sibs[0]][addr][1]], timeout=180)

@@ -55,6 +55,12 @@ struct Quad;
 struct A;
 struct B;
 struct Bv;
+struct packed_word;
+union word_bytes;
+struct up;
+struct Actor;
+struct buf_8017F5BC;
+struct sprite8;
 
 struct vec {
     s32 unk0;
@@ -356,6 +362,44 @@ struct B  { s32 w[8]; s32 tail[2]; };
 
 struct Bv { s32 w[8]; };
 
+struct packed_word { int w; } __attribute__((packed, aligned(1)));
+
+union word_bytes {
+    struct packed_word pw;
+    u8 b[4];
+};
+
+struct up { int a; int b; } __attribute__((packed));
+
+struct Actor {
+    char pad0[0x12];
+    u16 timer;       /* 0x12 */
+};
+
+struct buf_8017F5BC {
+    short f0;   /* +0x00 */
+    short f2;   /* +0x02 */
+    short f4;   /* +0x04 */
+    short f6;   /* +0x06 */
+    short f8;   /* +0x08 */
+    short fa;   /* +0x0a */
+    short fc;   /* +0x0c */
+    short fe;   /* +0x0e */
+    int   f10;  /* +0x10 */
+};
+
+struct sprite8 {
+    short f0;   /* +0x00 */
+    short f2;   /* +0x02 */
+    short f4;   /* +0x04 */
+    short f6;   /* +0x06 */
+    short f8;   /* +0x08 */
+    short fa;   /* +0x0a */
+    short fc;   /* +0x0c */
+    short fe;   /* +0x0e */
+    int   f10;  /* +0x10 (unwritten, reserved -> 20-byte struct => frame 0x40) */
+};
+
 typedef struct {
     u16 guard;  /* +0 */
     u16 pad;    /* +2 */
@@ -426,36 +470,119 @@ typedef struct {
 
 typedef struct { u8 b[8]; } Blk8;
 
-/* Phase 22: lifted from ov_SC01_077.c (was a per-function prelude block) so the
- * struct-walled close=0 giants (func_80156B74, func_80156848, ...) propagate ×134.
- * NOTE: the typedef name `S8` (ordinary-identifier namespace, the s16 4-field engine
- * coord triple/quad used by D_80126AF0[]) coexists with the unrelated `struct S8`
- * TAG above (u32 2-field, namespace-distinct, used via `struct S8` in engine_core.h).
- * `B8` is layout-identical to Blk8 but kept under its draft name to avoid churning
- * the already-matched func_80156848. */
 typedef struct { s16 a; s16 b; s16 c; s16 d; } S8;
+
 typedef struct { u8 b[8]; } B8;
 
-/* Phase 22: 16-byte block (gcc a0-a3 4-reg block copy) + the 32-byte matrix pair,
- * lifted from ov_SC01_077.c / ov_SC01_077_a.c prelude blocks so func_80163C2C and
- * its siblings (func_80163A94, func_8012EA90, ...) propagate ×134. */
 typedef struct { u32 a, b, c, d; } Blk16;
+
 typedef struct { Blk16 lo, hi; } Buf32;
 
-/* Phase 24 (T6): func_8014F74C's 8-byte vertex/motion structs (s16 vs u16 x,y,z,w),
- * lifted from ov_SC01_077.c so the matched body propagates ×134 via engine_core.h. */
 typedef struct { s16 x, y, z, w; } PosT;
+
 typedef struct { u16 x, y, z, w; } MoveT;
 
-/* Phase 24 (T7): GsRVIEW2-shaped 32-byte view record — the 8-word block copied/reserved in the
- * region-a camera giants (func_80129CF8 …). Shared so the matched body propagates ×134. */
 typedef struct { s32 vpx, vpy, vpz, vrx, vry, vrz, rz, super; } RView;
 
-/* Phase 24 (T7 §G): func_801372B0's debug 3D-axis local structs — an 8-byte vertex (sp+0x10 in,
- * sp+0x18 out) and a 16-byte GsLine primitive (sp+0x20). Unique-renamed + lifted so the matched
- * body propagates ×134 via engine_core.h (ov_SC01_077_after.c has a DIFFERENT same-named `SVEC`). */
 typedef struct { s16 vx, vy, vz, pad; } Svec_801372B0;
+
 typedef struct { u32 attr; s16 x0, y0, x1, y1; u8 r, g, b, code; } Gline_801372B0;
 
+typedef struct { u32 addr : 24; u32 len : 8; u8 r0, g0, b0, code; } P_TAG;
+
+typedef struct {
+    u8  pad[8]; /* 0x00 */
+    u16 f8;     /* 0x08 */
+    u16 fa;     /* 0x0a */
+} MatEntry;
+
+typedef struct { s32 a; s32 b[4]; } OtBlk;
+
+typedef s32 (*ActorFn)(void *);
+
+typedef struct {
+    /* 0x00 */ s16 f0;
+    /* 0x02 */ s16 f2;
+    /* 0x04 */ s16 f4;
+    /* 0x06 */ s16 pad6;
+} Vec3;
+
+typedef struct {
+    /* 0x00 */ s16 a30;
+    /* 0x02 */ s16 a2e;
+    /* 0x04 */ s16 a2c;
+    /* 0x06 */ s16 pad06;
+    /* 0x08 */ s32 buf[2];
+    /* 0x10 */ s16 a20;
+    /* 0x12 */ s16 a1e;
+    /* 0x14 */ s16 a1c;
+} Loc;
+
+typedef struct { s32 a, b, c, d; } S16;
+
+typedef struct {
+    u16 pad0;
+    u16 idx;  /* offset 2 */
+} S80153CCC;
+
+typedef struct {
+    u8 b[8];
+} ImgRect8;
+
+typedef struct { s16 id; s16 val; } Entry;
+
+typedef void (*FuncPtr)(void);
+
+typedef struct { int f0; int f1; int f2; int f3; } DStruct;
+
+typedef struct { s32 w[8]; } Blk32;
+
+typedef struct {
+    short v0;   /* 0x00 */
+    short v1;   /* 0x02 */
+    short v2;   /* 0x04 */
+    short pad6; /* 0x06 */
+    short w0;   /* 0x08 */
+    short w1;   /* 0x0A */
+    short w2;   /* 0x0C */
+    short padE; /* 0x0E */
+    unsigned char b10; /* 0x10 */
+    unsigned char b11; /* 0x11 */
+    unsigned char b12; /* 0x12 */
+    unsigned char b13; /* 0x13 */
+    unsigned char b14; /* 0x14 */
+    unsigned char b15; /* 0x15 */
+    unsigned char b16; /* 0x16 */
+    unsigned char b17; /* 0x17 */
+    int   w18; /* 0x18 */
+} Prim;
+
+typedef struct {
+    char _pad0;       /* 0x0 */
+    unsigned char f1; /* 0x1 */
+    unsigned char f2; /* 0x2 */
+    char _pad3;       /* 0x3 */
+    short f4;         /* 0x4 */
+} Wave;
+
+typedef void (*VoidFn)(void);
+
+typedef unsigned int uint;
+
+typedef struct { s16 a, b, c, d; } SV4;
+
+typedef struct {
+    s16 m[3][3];
+    s16 pad;
+    s32 t[3];
+} MTX;
+
+typedef struct { u16 vx, vy, vz, pad; } SVEC;
+
+typedef void (*code_fn)(void);
+
+typedef struct { u16 a, b, c, d; } SV4U;
+
+typedef struct { short a, b, c; } SV3;
+
 #endif /* BFM_ENGINE_TYPES_H */
-typedef struct { u32 addr : 24; u32 len : 8; u8 r0, g0, b0, code; } P_TAG; /* PsyQ libgpu OT primitive tag (§36 func_8013AF20) */
