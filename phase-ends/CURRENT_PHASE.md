@@ -26,22 +26,22 @@ idiom curriculum → sweep one exemplar per family (curriculum-ordered), each cr
 - [x] T0 — Refresh + housekeeping
 - [x] T1 — Integration-recovery pass (split-aware recover_integration fix; caller-arity cohort exhausted 0/16 — residuals backlogged)
 - [x] T2 — Exemplar target manifest (tools/family_manifest.py: 2,764 multi-member families → 127 draftable / 156 matched-free / 2481 absent)
-- [ ] **T3 — Swing-question PROOF** (draft-free via the 156 matched-free families → `--tier h_norm` propagation → measure)  ← CURRENT
+- [x] T3 — Swing-question PROOF: free `--tier h_norm` REFUTED (0/133); **mechanical symbol-remap lever PROVEN** (tools/family_remap.py)  ← endgame reshaped, see log
 - [ ] T4 — v4 retrain + A/B gate (cheap drafter prep; may run parallel to T2/T3)
 - [ ] T5 — Cheap-tier soften + measure wave → the complete class/closeness frontier map (Step A) + pre-advanced seeds  *(Ultracode — prompt)*
 - [ ] T6 — Step B: Fable5Max curriculum authoring from the measured map  *(Fable5Max — prompt)*
 - [ ] T7 — Sweep one exemplar per family, curriculum-ordered (validate top ~3-5 first, then scale)  *(Ultracode harvests / Fable5 discovery — prompt)*
 - [ ] Close — clean-fleet verify · PhaseEnd synthesis · plain-English recap (R25) · Phase-26 backlog
 
-## Current task — T3: Swing-question PROOF (decisive, draft-free)
-The 156 **matched-free** families (2.3 MB) prove the reloc-only ×N economics WITHOUT drafting: ov_SC01_077's
-member is already MATCHED, and the family has UNMATCHED h_norm-siblings in other overlays (byte-variants Phase-24
-propagated only via `--tier h_exact`). Steps: (1) pick a mid-size matched-free fn (find an already-matched
-ov_SC01_077 addr whose h_norm has unmatched siblings); (2) `tools/dedup_propagate.py --addr <it> --tier h_norm
---recover`; (3) measure how many siblings bank via the per-overlay byte-gate. A meaningful bank ⟹ the free
-reloc-only propagation lever is proven (one C body matches h_norm-siblings when reloc targets resolve per-overlay
-— the consistent-naming condition holds), banking free % now; then sweep the 156 (T3→partial-T7). Clean-fleet
-verify (R22). If h_norm propagation banks ~0, fall back to draft-then-propagate on a `draftable` exemplar.
+## Current task — reshape decision (report to Drew): the endgame is now MECHANICAL, not agent-drafted
+T3 refuted the free lever but PROVED the mechanical remap (`tools/family_remap.py`). This collapses family MEMBER
+work to ~0 agent tokens: crack ONE exemplar per family, then remap generates each member's C by positionally
+substituting the exemplar's per-overlay symbols (from each member's image). So the endgame decomposes:
+- **matched-free 156 / 2.3 MB** — the ov077 exemplar is ALREADY matched → remap+gate the members NOW (no drafting).
+- **draftable 127 / 6.7 MB** — crack the ov077 exemplar (T5 wave / v4), then remap+gate members.
+- The wave (T5) + v4 (T4) now crack **EXEMPLARS only** (127 + absent-family exemplars), NOT members.
+Next: build the family-sweep driver (remap → decl-reconcile → `harvest_verify` → register/propagate) + harvest the
+156 matched-free (free-ish, validates the sweep at scale), then reassess T4/T5. Pending Drew's steer on the reshape.
 
 ## Blockers
 None.
@@ -97,3 +97,21 @@ None.
 - **Insight:** h_norm families are reloc-only by construction, so the matched-free bucket is likely bankable NOW by
   re-propagating already-matched ov077 fns via `--tier h_norm` (byte-gated). T3 tests decisively.
 - T3 candidates (mid-size draftable): 0x8012c890(149)/0x8016d1d8(148)/0x8013d9b0(141) — all inst=134, ~127 hexcls.
+
+### T3 — Swing-question PROOF ✅ (2026-07-08) — free lever refuted; **mechanical remap PROVEN** (the phase's pivot)
+- **Free `--tier h_norm` dedup REFUTED (R14):** propagating ov_SC01_077's matched `0x80141100` across its 133
+  h_norm-siblings banked **0/133** (all byte-diverge). h_norm families are byte-shattered *because each member
+  references per-overlay symbols* (`D_80187xxx` in ov077 vs `D_8017Fxxx` in ov000) — one C body can't name 134
+  overlays' symbols. This also kills the plan's draft-then-propagate fallback (same mechanism).
+- **Mechanical symbol-remap lever PROVEN → `tools/family_remap.py`:** two h_norm-identical members have identical
+  instruction streams except in the masked reloc fields, so disassemble both overlay images at ADDR, positionally
+  pair the resolved reloc targets, substitute the exemplar C's per-overlay symbol NAMES with the sibling's. Verified:
+  reloc decoder **22/22** vs .s; `0x80141100`→ov_SC01_000 **whole-binary BYTE-IDENTICAL + harvest_verify banked**
+  (9052dc0e); **12/12** siblings SC01-SC07 match_one; **7/9 families × 3 siblings = 21/27** match_one.
+- **The 2 failures = decl/type plumbing** (custom `MatEntry` type + conflicting shared `ApplyMatrixSV` decl — a
+  COMPILE error, NOT a byte mismatch): the remapped draft must reconcile decls with the target's ambient
+  engine_core.h/engine_types.h (strip ambient externs). A known-solved T7 refinement, not a remap failure.
+- **Gate path for remapped drafts = plain `harvest_verify`** (gate_stage's canon/cast/sig_unify transforms PERTURB
+  an already-correct remap → 0-bank; skip them for remaps).
+- **Endgame reshaped:** the 11.1 MB h_norm families are cheaply, MECHANICALLY recoverable — crack ONE exemplar per
+  family → remap+gate members (~0 agent tokens/member). Members no longer need drafting; only exemplars do.
