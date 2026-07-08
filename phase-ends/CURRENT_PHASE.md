@@ -24,8 +24,8 @@ idiom curriculum → sweep one exemplar per family (curriculum-ordered), each cr
 
 ## Tasks
 - [x] T0 — Refresh + housekeeping
-- [ ] **T1 — Integration-recovery pass** (closeness-0 backlog cohort + the 2 leaf-matches func_8014F4C0/func_80155800)  ← CURRENT
-- [ ] T2 — Build the exemplar-scoped, class-routed target manifest (one per h_norm family + reach-1 uniques + reach-134 h_exact tractable)
+- [x] T1 — Integration-recovery pass (split-aware recover_integration fix; caller-arity cohort exhausted 0/16 — residuals backlogged)
+- [ ] **T2 — Build the exemplar-scoped, class-routed target manifest** (one per h_norm family + reach-1 uniques + reach-134 h_exact tractable)  ← CURRENT
 - [ ] T3 — Swing-question PROOF (match one mid-size reloc-only family exemplar → `--tier h_norm --recover` → measure ×134 bank count)
 - [ ] T4 — v4 retrain + A/B gate (cheap drafter prep; may run parallel to T2/T3)
 - [ ] T5 — Cheap-tier soften + measure wave → the complete class/closeness frontier map (Step A) + pre-advanced seeds  *(Ultracode — prompt)*
@@ -33,13 +33,15 @@ idiom curriculum → sweep one exemplar per family (curriculum-ordered), each cr
 - [ ] T7 — Sweep one exemplar per family, curriculum-ordered (validate top ~3-5 first, then scale)  *(Ultracode harvests / Fable5 discovery — prompt)*
 - [ ] Close — clean-fleet verify · PhaseEnd synthesis · plain-English recap (R25) · Phase-26 backlog
 
-## Current task — T1: Integration-recovery pass
-Bank the closeness-0 "MATCH" backlog cohort (already leaf-matched, whole-binary gate-rejected on TU plumbing)
-via `tools/recover_integration.py --auto` / `tools/gate_stage.py`. Priority (top-leverage, already MATCH):
-`func_80155800` (145 ins, #3 by leverage — TU-context perturbation, needs Max diagnosis) + `func_8014F4C0`
-(141 ins, #4 — same-TU fwd-decl conflict `extern s32 …(void)` vs def `(u8*)` + local `Vec4u` typedef).
-Drafts in `.run/wave/` + `.run/backlog_drafts/`. Clean-fleet verify each batch (R22); `--tier h_norm` where a
-banked fn is a reloc-only family. Bank the already-matched-but-unintegrated drafts before any softening.
+## Current task — T2: Exemplar-scoped, class-routed target manifest
+Build the ONE-exemplar-per-family target set from the T0 surveys: extend `.run/probe_hnorm.py` (or a companion)
+to emit a ranked manifest of the 2,764 multi-member h_norm families — per family: rep addr, exemplar (an
+ov_SC01_077 member if present, else any overlay+addr to draft), n_instances, n_hexcls, maxIns, reach, byteMB,
+size bucket. Plus the reach-134 h_exact tractable stubs (warm-up) + reach-1 uniques. NOTE (T0/T3): an h_norm
+family is **reloc-only by construction** (norm_stream masks only jal/HI16/LO16, keeps true immediates+regs), so
+h_norm-identical ⟹ intra-family diffs are reloc-only; whether ONE C body matches all 134 additionally needs the
+reloc targets to be consistently-named-per-overlay symbols — T3 proves that empirically via `--tier h_norm`.
+Output: `.run/family_manifest.json` + a committed digest. This scaffolds Step A (the curriculum input).
 
 ## Blockers
 None.
@@ -65,3 +67,19 @@ None.
     (46% templatable); 4,681 truly-unique-shape (worst ROI → LAST).
   - Cheap first wins queued: T1 leaf-matches `func_80155800` (#3) + `func_8014F4C0` (#4) ≈ 38k gain_ins
     near-free; 2 permanent walls `func_801412A8`/`func_80178004` stay INCLUDE_ASM (G4).
+
+### T1 — Integration-recovery pass ✅ (2026-07-08) — cheap cohort exhausted; deliverable = the split-aware fix
+- **Deliverable (committed `commit:0470`):** `recover_integration` made split-aware (§39 gap). It was silently
+  skipping the **263-stub `ov_SC01_077_after`** cohort (drift-check hardcoded the main asm subdir; gate_stage
+  never got src/asm/src_file). Now `stub_map()` reads each stub's asm subdir from its INCLUDE_ASM line and
+  `reconcile_and_gate` gates per split-file group (run_gate self-filters; propagate idempotent). Reusable T5/T7.
+- **Finding (R14/P9):** the closeness-0 **caller-arity** cohort is EXHAUSTED — `--auto --limit 20` banked
+  **0/16** (Phase 24 already banked the cheap decl-plumbing ones). Residuals (incl. both flagships) are
+  **per-function TU-context matching**, not decl-plumbing.
+- **The blocker class (matching idiom → cookbook when it recurs, R16):** an 8-byte mem-copy written as a
+  **struct-assign** `*(T*)x = *(T*)y` (func_8014F4C0's `Vec4u`) is `match_one`-MATCH in isolation but lowers to a
+  **memcpy CALL** in a TU that declares `memcpy` (sibling `extern void *memcpy(...)` disables the builtin) → byte
+  mismatch (`9d043345`≠`d19c9580`). Banked sibling convention = **explicit `memcpy(x,y,8)` or field-by-field
+  lhu/sh** (the target uses lhu/sh). T5/T7 drafters: avoid struct-assign for small mem-copies in these overlays.
+- **Decision (Drew):** conclude T1; closeness-0 residuals stay in the ranked backlog (available later); the 2
+  flagship ×134 leaf-matches NOT hand-banked (per-function ROI < the family lever).
