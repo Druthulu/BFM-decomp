@@ -91,7 +91,7 @@ def overlay_files(ov):
     (ov_SC01_077_a.c / _o0.c). Single-file overlays return just the main .c — default behaviour
     preserved. Lets a fn matched in a split file propagate ×reach (its stub/def lives in _a/_o0)."""
     out = [(c_path(ov), ov)]
-    for suf in ("_a", "_o0"):
+    for suf in ("_a", "_o0", "_o0b", "_after"):   # incl. the Phase-24 whale split (_o0b/_after)
         p = ROOT / f"src/{ov}/{ov}{suf}.c"
         if p.exists():
             out.append((p, f"{ov}{suf}"))
