@@ -203,3 +203,15 @@ None.
 Every batch R22 clean-fleet **136/136**, dedup-check 1813/0. Tools added: `family_sweep --no-preclassify`;
 `build_engine_types --file/--exclude`. Cookbook **§40a** written (R30). **NEXT = T4** (see the RESUME section above);
 NOT closing — the curriculum + 127-draftable exemplar-cracking is the phase's core, still ahead.
+
+### T4 — v4 LoRA retrain + A/B gate ⏳ IN PROGRESS (2026-07-08)
+- **Corpus re-exported** (`export_pairs`, mines the now-fully-built objects): **2,891 → 3,574 pairs** (v3-era snapshot
+  saved at `datasets/match_pairs/pairs.v3era.jsonl`). Size dist: ≤5=784, 6-15=1199, **16-40=994, >40=597** — the
+  medium/large signal v3 (trained pre-giant-campaign) lacked. `format_finetune` → **3,176 train / 360 test** (99% compile).
+- **Training LAUNCHED** (`.run/train_v4.log`, pid 282216 @ 2026-07-08): `train_lora --out models/bfm-match-7b-v4
+  --maxlen 2048 --batch 1 --epochs 3 --rank 16` (v3's exact recipe; only the corpus changed → fair A/B). ~2-3h on the
+  3080 Ti. Completion-waiter = bg task; models/ + datasets/ are gitignored (R20) so nothing to commit until the A/B decision.
+- **NEXT when training ends:** `eval_lora --test datasets/match_pairs/test.jsonl` on BOTH v3 and v4 (same held-out set,
+  gate-true) → A/B. **Keep v4 in the wave only where it beats v3** (else fall back to v3). Then T5 (prompt `/effort ultracode`).
+- **If context compacts mid-train:** check `.run/train_v4.log` for `train_runtime` (done) or a Traceback (failed);
+  if `models/bfm-match-7b-v4/adapter_model.safetensors` exists, training finished — proceed to eval.
