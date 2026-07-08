@@ -83,8 +83,29 @@ def main():
     exemplars.sort(key=lambda e: -e[1] * len(e[2]))             # byte-weight order
     if a.limit:
         exemplars = exemplars[:a.limit]
-    total_sibs = sum(len(s) for _, _, s in exemplars)
-    print(f"[sweep] {len(exemplars)} matched exemplars w/ h_norm-siblings; {total_sibs} member-remaps to gate")
+    print(f"[sweep] {len(exemplars)} matched exemplars w/ h_norm-siblings; "
+          f"{sum(len(s) for _, _, s in exemplars)} member-remaps")
+
+    # ---- pre-classify: only sweep exemplars whose remap match_ones (isolation). TYPE-USING families
+    # (custom struct types like MatEntry) CC1-FAIL in isolation AND need decl-reconcile in the TU; a
+    # compile-failing draft makes harvest_verify bisect a whole chunk (1 build -> ~8), so deferring them
+    # keeps the sweep gating only clean drafts. Deferred -> .run/sweep_deferred.txt (decl-reconcile pass).
+    simple, deferred = [], []
+    for addr, nins, sibs in exemplars:
+        draft, _ = FR.remap(addr, a.source, sibs[0])
+        if draft is None:
+            deferred.append((addr, "remap-fail")); continue
+        open(os.path.join(REPO, ".run/_clsfy.c"), "w").write(draft + "\n")
+        r = sh([PY, "tools/match_one.py", f"func_{addr:08X}", "--c", ".run/_clsfy.c",
+                "--asm-subdir", stubs[sibs[0]][addr][1]], timeout=180)
+        first = (r.stdout.strip().splitlines() or ["?"])[0]
+        (simple if first.startswith("MATCH") else deferred).append(
+            (addr, nins, sibs) if first.startswith("MATCH") else (addr, "type/decl" if "FAIL" in first else "diff"))
+    open(os.path.join(REPO, ".run/sweep_deferred.txt"), "w").write(
+        "\n".join(f"0x{a:08x} {r}" for a, r in deferred) + "\n")
+    print(f"[sweep] pre-classify: {len(simple)} simple (sweep now) / {len(deferred)} deferred "
+          f"(decl-reconcile/investigate -> .run/sweep_deferred.txt)")
+    exemplars = simple
 
     # ---- phase 1: remap every (exemplar -> sibling), stage grouped by (overlay, split src, asm subdir)
     shutil.rmtree(os.path.join(REPO, SWEEP), ignore_errors=True)
