@@ -32,12 +32,17 @@ def sh(cmd, **kw):
     return subprocess.run(cmd, capture_output=True, text=True, cwd=REPO, **kw)
 
 
-def stub_funcs(binary):
-    """the set of func_<ADDR> still INCLUDE_ASM-stubbed in this binary's src (main + _a/_o0 splits)."""
-    s = set()
-    for cf in glob.glob(os.path.join(REPO, f"src/{binary}/{binary}*.c")):
-        s |= set(re.findall(r'INCLUDE_ASM\([^,]+,\s*(func_[0-9A-Fa-f]+)\)', open(cf).read()))
-    return s
+def stub_map(binary):
+    """{func_<ADDR>: (src_rel, asm_subdir)} for every INCLUDE_ASM stub across this binary's split .c
+    files (main + _a/_o0/_o0b/_after). The asm subdir is read from the stub LINE, so a fn in a split
+    (the post-whale _after region — 263 of ov_SC01_077's stubs) is drift-checked + gated against its
+    OWN .s/.c. Fixes the §39 split gap that made --auto silently skip every split-file candidate."""
+    m = {}
+    for cf in sorted(glob.glob(os.path.join(REPO, f"src/{binary}/{binary}*.c"))):
+        rel = os.path.relpath(cf, REPO)
+        for asm_sub, fn in re.findall(r'INCLUDE_ASM\("([^"]+)",\s*(func_[0-9A-Fa-f]+)\)', open(cf).read()):
+            m[fn] = (rel, asm_sub)
+    return m
 
 
 def auto_candidates(binary, limit):
@@ -46,17 +51,16 @@ def auto_candidates(binary, limit):
     for r in backlog.load_best():
         if r.get("name"):
             seen[r["name"]] = r
-    stubs = stub_funcs(binary)
-    asm = f"asm/{binary}/nonmatchings/{binary}"
+    smap = stub_map(binary)
     out = []
     for r in sorted(seen.values(), key=lambda r: -(r.get("reach") or 0)):
         fn = r.get("name"); d = r.get("best_draft")
-        if fn not in stubs or not d or not os.path.exists(os.path.join(REPO, d)):
+        if fn not in smap or not d or not os.path.exists(os.path.join(REPO, d)):
             continue
         if (r.get("reach") or 0) < 2 or r.get("closeness") not in (0, None):
             continue
-        # drift-check: still a leaf MATCH on the recorded draft?
-        rr = sh([PY, "tools/match_one.py", fn, "--c", d, "--asm-subdir", asm], timeout=180)
+        # drift-check: still a leaf MATCH on the recorded draft? (per-fn asm subdir -> split-aware)
+        rr = sh([PY, "tools/match_one.py", fn, "--c", d, "--asm-subdir", smap[fn][1]], timeout=180)
         if (rr.stdout.strip().splitlines() or ["?"])[0].startswith("MATCH"):
             out.append((fn, d))
         if len(out) >= limit:
@@ -117,15 +121,26 @@ def main():
 
     listf = os.path.join(REPO, ".run/recover_fns.txt")
 
+    smap = stub_map(a.binary)
+
     def reconcile_and_gate(targets, propagate, commit):
-        """no-proto the targets' conflicting caller decls, then gate (canon/cast/sig_unify + byte-gate
-        + optional propagate). Returns the gate summary; caller decides what to keep/restore."""
+        """no-proto the targets' conflicting caller decls, then gate each SPLIT-file group separately —
+        harvest_verify substitutes into ONE --src/--asm-subdir per call, so _after/_a/_o0 drafts must be
+        gated against their own split (§39). run_gate self-filters the drafts dir to each split's stubs;
+        its per-group propagate is idempotent (dedup_propagate skips registered addrs)."""
         open(listf, "w").write("\n".join(targets) + "\n")
         r = sh([PY, "tools/fix_arity_callers.py", "--apply", "--any-proto", "--binary", a.binary,
                 "--from-file", ".run/recover_fns.txt", "--drafts", dd])
         print("  " + (r.stdout.strip().splitlines()[-1] if r.stdout.strip() else "(fix_arity_callers: no output)"))
-        return gate_stage.run_gate(dd, binary=a.binary, source_tag="t6-recover",
-                                   propagate=propagate, commit=commit)
+        groups = sorted({smap[fn] for fn in targets if fn in smap})
+        verified, fleet, propagated = [], None, 0
+        for src_rel, asm_sub in groups:
+            s = gate_stage.run_gate(dd, binary=a.binary, src=src_rel, asm=asm_sub, src_file=src_rel,
+                                    source_tag="t6-recover", propagate=propagate, commit=commit)
+            verified += s.get("verified", [])
+            propagated += (s.get("propagated") or 0)
+            fleet = s.get("fleet_pct", fleet)
+        return {"verified": verified, "fleet_pct": fleet, "propagated": propagated}
 
     # ---- PASS 1: reconcile+gate ALL candidates (no propagate) to find the bankable set.
     print("[recover] pass 1 — find bankable set")
