@@ -451,5 +451,11 @@ typedef struct { u16 x, y, z, w; } MoveT;
  * region-a camera giants (func_80129CF8 …). Shared so the matched body propagates ×134. */
 typedef struct { s32 vpx, vpy, vpz, vrx, vry, vrz, rz, super; } RView;
 
+/* Phase 24 (T7 §G): func_801372B0's debug 3D-axis local structs — an 8-byte vertex (sp+0x10 in,
+ * sp+0x18 out) and a 16-byte GsLine primitive (sp+0x20). Unique-renamed + lifted so the matched
+ * body propagates ×134 via engine_core.h (ov_SC01_077_after.c has a DIFFERENT same-named `SVEC`). */
+typedef struct { s16 vx, vy, vz, pad; } Svec_801372B0;
+typedef struct { u32 attr; s16 x0, y0, x1, y1; u8 r, g, b, code; } Gline_801372B0;
+
 #endif /* BFM_ENGINE_TYPES_H */
 typedef struct { u32 addr : 24; u32 len : 8; u8 r0, g0, b0, code; } P_TAG; /* PsyQ libgpu OT primitive tag (§36 func_8013AF20) */
