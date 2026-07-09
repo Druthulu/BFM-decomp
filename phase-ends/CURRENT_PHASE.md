@@ -35,8 +35,9 @@ idiom curriculum → sweep one exemplar per family (curriculum-ordered), each cr
       real substance):** crack the **127 draftable family exemplars** curriculum-ordered (T6 order), template/propagate ×134.
 - [ ] Close — clean-fleet verify · PhaseEnd synthesis · plain-English recap (R25) · Phase-26 backlog  *(NOT yet — phase open)*
 
-## FRESH SESSION — RESUME HERE  (**NEXT = more T5b measure batches**: 29 remaining cheap + 34 giants + 5 `_o0`, then T5c/T5d → T6; phase OPEN, do NOT close)
-**Phase is OPEN.** Order: T7-mechanical (done) → T4 (done, FAILED) → **T5 (pilot + batch-1-partial DONE 2026-07-08, fleet→72.02%; MORE T5b batches NEXT per Drew)** → T6 →
+## FRESH SESSION — RESUME HERE  (**NEXT = T5b batch-2, the ~34 giants — AWAITING DREW'S GO-AHEAD**; then batch-3 `_o0`, T5c/T5d → T6; phase OPEN, do NOT close)
+**T5b batch-1 (cheap tier, 83) COMPLETE 2026-07-08, fleet → 72.18%.** How to resume: reuse the proven pipeline — `wave_targets`/the giant list from `.run/t5_targets.json` (bucket=GIANT, 34) → generate a §12-robust wave (copy the `.run/t5_scaleup_cont.js` pattern: worker_wave head + waves-of-10 + retry, targets embedded — sandbox can't read files) → Opus-xHigh Workflow → independent `match_one` (R14) → split-file `gate_stage --no-propagate` → `family_sweep --only <banked>` → R22 clean-fleet 136/136 → commit. Frontier map accumulates in `.run/t5_frontier.jsonl` (93 exemplars so far). Giants: crack tractable directly (pilot cracked the 369-ins `func_80166994`), backlog intrinsic walls for Fable5/permuter; the -O0 ones (batch-3 + `func_801457A4`) need an -O0 `match_one`. **Effort: Max orchestrator + xHigh workers (NOT global Ultracode) — confirmed by Drew.**
+**Phase is OPEN.** Order: T7-mechanical (done) → T4 (done, FAILED) → **T5 (pilot + batch-1 DONE 2026-07-08, fleet→72.18%; batch-2 giants NEXT, awaiting Drew)** → T6 →
 T7-cracking → Close. T5 mechanics validated end-to-end (`worker_wave` Opus-xHigh → independent `match_one` → `gate_stage`
 per split-file → `family_sweep` ×N → R22). Effort = **Max orchestrator + xHigh workers** (Drew chose Opus-xHigh for ALL
 127, not global Ultracode; usage not a constraint). Scale-up staged: `.run/t5_waves.json` (12 waves ≤10, ROI-ordered) +
