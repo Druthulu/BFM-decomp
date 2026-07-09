@@ -35,15 +35,24 @@ idiom curriculum → sweep one exemplar per family (curriculum-ordered), each cr
       real substance):** crack the **127 draftable family exemplars** curriculum-ordered (T6 order), template/propagate ×134.
 - [ ] Close — clean-fleet verify · PhaseEnd synthesis · plain-English recap (R25) · Phase-26 backlog  *(NOT yet — phase open)*
 
-## FRESH SESSION — RESUME HERE  (T7-MECHANICAL done & pulled ahead; **NEXT = T4 → T5 → T6 → T7-cracking**; phase OPEN, no PhaseEnd)
-**Clarification (Drew, 2026-07-08):** "do NOT start T4 *yet*" meant *finish the pulled-ahead mechanical T7 sweep
-first* — **NOT** defer T4 to Phase 26. T4/T5/T6 + T7's exemplar-cracking (the 127 draftable families / 6.7 MB) are
-the phase's CORE remaining work. The mechanical sweeps were the cheap prelude.
+## FRESH SESSION — RESUME HERE  (**NEXT = T5, the Ultracode measure-wave**; phase OPEN, no PhaseEnd; do NOT close)
+**Phase is OPEN.** Order: T7-mechanical (done, pulled ahead) → T4 (done, FAILED/negative) → **T5 (NEXT)** → T6 →
+T7-cracking → Close. The phase's CORE prize is still ahead: **the 127 draftable family exemplars / 6.7 MB**, cracked
+by the frontier tier and propagated ×134 by deterministic tooling. Do NOT write a PhaseEnd until T5/T6/T7-cracking
+are done and top-family ROI drops (open-ended milestone, per the plan-of-record). *(A prior session misread "→ Close"
+in a handoff header and nearly closed early — see `docs/decision-log.md`; reconcile against the plan-of-record.)*
+
+**T5 — the cheap-tier soften + measure wave (Step A).** Over the T2 exemplars + reach-1 + reach-134-tractable:
+cheap drafters (**v3** — NOT v4, which failed T4 — + cheap-Opus applying §31) → `match_one` closeness + `klass` per
+fn; permuter-ILS softens regalloc/schedule seeds. Output = the complete class/closeness **frontier map** +
+pre-advanced seeds. Bank free wins via `gate_stage` as they land. **This is BREADTH → at session start, PROMPT Drew
+for `/effort ultracode` and WAIT for the toggle (R27); Claude cannot set effort.** Tools: `wave_targets.py` /
+`gen_harvest_targets.py`, `tools/workflows/worker_wave.js` + `distill.js`, `permuter_ils.py`, `bulk_harvest.py`.
 
 **Done + committed:** T0–T3 + T7-part-1 (matched-free sweep, `commit:0476`) + **T7.2 decl-reconcile** (`commit:0479`) +
-**T7.3 h_exact stragglers** (`commit:0481`) — fleet **66.02% → 70.82% → 71.32% → 71.36%**. T7.2 banked **1,729**
-(base 532 + `_after` 1,197) via type-lift + mechanical remap; T7.3 banked **~200** via `dedup_propagate`; **R22
-clean-fleet 136/136** every batch, dedup-check 1813/0.
+**T7.3 h_exact stragglers** (`commit:0481`) + **T4 (v4 retrain — FAILED, keep v3)** — fleet **66.02% → 70.82% → 71.32%
+→ 71.36%**. T7.2 banked **1,729** (base 532 + `_after` 1,197) via type-lift + mechanical remap; T7.3 banked **~200**
+via `dedup_propagate`; **R22 clean-fleet 136/136** every batch, dedup-check 1813/0.
 
 **The mechanical family method (the phase's engine — T3):** h_norm families are TEMPLATES, not free dedup. Per
 family: crack ONE exemplar → `family_remap` builds each member's C by positionally substituting the per-overlay
@@ -204,17 +213,16 @@ Every batch R22 clean-fleet **136/136**, dedup-check 1813/0. Tools added: `famil
 `build_engine_types --file/--exclude`. Cookbook **§40a** written (R30). **NEXT = T4** (see the RESUME section above);
 NOT closing — the curriculum + 127-draftable exemplar-cracking is the phase's core, still ahead.
 
-### T4 — v4 LoRA retrain + A/B gate ⏳ IN PROGRESS (2026-07-08)
-- **Corpus re-exported** (`export_pairs`, mines the now-fully-built objects): **2,891 → 3,574 pairs** (v3-era snapshot
-  saved at `datasets/match_pairs/pairs.v3era.jsonl`). Size dist: ≤5=784, 6-15=1199, **16-40=994, >40=597** — the
-  medium/large signal v3 (trained pre-giant-campaign) lacked. `format_finetune` → **3,176 train / 360 test** (99% compile).
-- **Training LAUNCHED** (`.run/train_v4.log`, pid 282216 @ 2026-07-08): `train_lora --out models/bfm-match-7b-v4
-  --maxlen 2048 --batch 1 --epochs 3 --rank 16` (v3's exact recipe; only the corpus changed → fair A/B). ~2-3h on the
-  3080 Ti. Completion-waiter = bg task; models/ + datasets/ are gitignored (R20) so nothing to commit until the A/B decision.
-- **NEXT when training ends:** `eval_lora --test datasets/match_pairs/test.jsonl` on BOTH v3 and v4 (same held-out set,
-  gate-true) → A/B. **Keep v4 in the wave only where it beats v3** (else fall back to v3). Then T5 (prompt `/effort ultracode`).
-- **If context compacts mid-train:** check `.run/train_v4.log` for `train_runtime` (done) or a Traceback (failed);
-  if `models/bfm-match-7b-v4/adapter_model.safetensors` exists, training finished — proceed to eval.
+### T4 — v4 LoRA retrain + A/B gate ❌ FAILED / NEGATIVE (2026-07-08) — v4 discarded, KEEP v3
+- Retrained v4 (same recipe as v3, corpus 2,891→3,574) — converged (loss ~0.082). Gate-true A/B vs v3 on identical
+  held-out functions, 3 bands: **easy 6-14** both 5/5; **medium 18-40** v3 closer near-misses + fewer compile-fails
+  (v3 better on 9/12); **hard 45-85** both 0/10. v4 = marginally WORSE. **Verdict: discard v4, keep v3** (frozen
+  ceiling). "Corpus quality > size" confirmed; the 7B is capacity-bound (0/5 even on trained fns, NOT truncation).
+- **v3 remains the drafter** (`models/bfm-match-7b-v3`). v4 adapter kept at `models/bfm-match-7b-v4` (gitignored) for
+  reference only. Full write-ups: `docs/decision-log.md` (strategic — 7B off the endgame critical path) +
+  `docs/gen2-mips-matching-model.md` (technical — the A/B + the maxlen-2048 truncation flaw for any future retrain).
+- **Strategic conclusion (Drew-aligned):** the local-7B tier is a $0 mop-up for the ≤~15-ins tail, NOT load-bearing.
+  The endgame engine is **frontier-crack → deterministic-propagate → byte-gate** + permuter-soften. **No more 7B retrains.**
 
 ## RULES ADDED THIS PHASE (transcribe to the PhaseEnd Rules table at close)
 - **R31 — CONFIRMED by Drew 2026-07-08 (binding now).** Capture the WHY behind strategic pivots in `docs/decision-log.md`, while fresh. At each major

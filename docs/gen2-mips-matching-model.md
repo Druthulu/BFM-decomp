@@ -345,3 +345,34 @@ not a bigger model. Total T10.7 spend ~$1.25 of $25. The reconciliation idioms �
 - `tools/export_pairs.py` — corpus miner (this doc's step 1)
 - `datasets/match_pairs/` — exported JSONL (gitignored)
 - eval: reuse `tools/api_draft.py` + `tools/ab_score.py`
+
+### v4 RESULT — retrain on the larger post-giant corpus is a NEGATIVE (2026-07-08, Phase 25 T4)
+
+Retrained v4 (same recipe as v3: Qwen2.5-Coder-7B QLoRA, rank 16, 3 epochs, maxlen 2048, batch 1) on the
+re-exported corpus **2,891→3,574 pairs** (+994 medium 16-40 ins + 597 large >40 ins from the giant campaign).
+Final loss ~0.082 (converged like v3). Gate-true A/B vs v3 on identical held-out functions, 3 bands:
+- **easy 6-14 ins:** v3 5/5, v4 5/5 (tie — no regression).
+- **medium 18-40 ins:** v3 0/12 but near-misses closer (one `near-1`), 1 compile-fail; v4 0/12 with 4 compile-fails
+  and farther near-misses → **v3 better** (closer on 9/12). v4 slightly REGRESSED.
+- **hard 45-85 ins:** both 0/10 (tie — the 7B capacity wall).
+
+**Verdict: discard v4, keep v3.** More (harder) data did NOT lift the capacity ceiling — the "corpus quality >
+size" note, confirmed. v4 scored 0/5 even on 76-83 ins functions it TRAINED on (verified ~1.4-1.7k tok, inside
+maxlen 2048 → genuine capacity, not truncation).
+
+**Two setup findings for any future retrain:**
+1. **maxlen-2048 truncates functions >~85 ins** (example = system + asm + C ≈ N×22 + 150 tok). The giant-campaign
+   corpus has many such functions → they trained on CUT-OFF completions (teaches incomplete C — actively harmful,
+   the likely source of v4's medium regression). **Fix: DROP over-length examples** (clean, zero VRAM cost) rather
+   than train on truncated ones; OR maxlen 4096 via **gradient checkpointing** (recompute, ~25% slower, no extra
+   VRAM — NOT CPU offload, which is 2-4× slower for training / 5-20× for inference over the ~25 GB/s PCIe straw on
+   this WSL2 box vs ~900 GB/s VRAM). The biggest giants clip even at 4096.
+2. **Train/inference maxlen mismatch:** v4 trained at 2048 but serves at 4096 — a big function that fits at
+   inference was never trained for that context. Train at the context you'll infer at.
+
+**Strategic conclusion (→ decision-log 2026-07-08):** the local-7B tier is capacity-bound and **off the endgame
+critical path**. The engine is `frontier-crack → deterministic-propagate (family_remap/dedup_propagate) → byte-gate`
++ permuter-soften. v3 stays as a frozen $0 mop-up for the ≤~15-ins setter/leaf tail; **no more retrains** — a real
+capability jump needs a bigger base (14B-4bit fits the 12 GB card; 32B → cloud A100) or the frontier tier, not more
+data on the 7B. v4 adapter kept at `models/bfm-match-7b-v4` (gitignored) for reference; the partial GGUF merge was
+aborted (unneeded — serve_local runs base+adapter).
