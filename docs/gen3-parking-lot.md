@@ -75,3 +75,75 @@ This is speculation + a survey, not committed RE. The load-bearing new fact — 
 data** — is byte-verified (real `jal` sites). Everything downstream (which blob, stock-vs-variant, the
 exporter, Musashi's anim) is **unstarted** and belongs to a future Gen3 effort. The decomp is the enabler:
 the matched renderer + the located call sites are the format spec.
+
+---
+
+# Native PC port — the recomp architecture (PsyQ→Vulkan HLE boundary)
+
+> Spitball with Drew, 2026-07-08 (during a T5b wait). The fleshed-out "native recomp / PC port" parking-lot
+> item. **PARKED — Gen3.** Not committed; captured while fresh (R30). The key architectural insight is the
+> **PsyQ-SDK HLE boundary**, which is what makes a PS1 port tractable rather than "write another emulator."
+
+## The idea
+A **native PC build** of BFM via a **static-recomp front-end** for the game's MIPS code + a **PsyQ-SDK
+HLE layer** on modern backends (**Vulkan** for the GPU, an audio lib for the SPU, native FS for the CD).
+Distinct from the asset-export axis above (that interprets DATA; this makes the CODE run natively).
+
+## The key insight — HLE the SDK API, not the hardware
+A naïve PS1 recomp is hard because you end up re-emulating the GPU at the command/register level (the
+emulator problem). **But BFM never touches GPU registers — it goes through the PsyQ SDK** (libgpu
+`GsSortObject`/`DrawOTag`, libgte `RotTransPers`, libspu, libcd). The SDK is a **finite, documented API**,
+and **we've already isolated it byte-exact** (Phase 7/8 linked libgpu/libgte/libspu/libcd from the real
+PsyQ 4.0 objects; we know precisely which addresses are SDK vs game code). So reimplement the **API**, not
+the **hardware** — Wine/Proton-shaped, not emulator-shaped.
+
+**Our decomp already draws the exact boundary:** every function is partitioned "game code (matched C)" vs
+"PsyQ library (linked object)." That split **IS** the "translate vs HLE" partition — Phase 7/8 hands the
+port its function partition for free. So: **game code → static-recomp** (or use our decomp'd C where it
+exists); **PsyQ SDK → replace with the Vulkan/audio/FS HLE layer** (don't translate it).
+
+## Three architectures (and the winning hybrid)
+- **A — full static recomp** (N64Recomp-style): translate ALL MIPS + emulate the GPU at command level. Hard;
+  re-does emulator work.
+- **B — PsyQ-HLE port (this idea):** game code recomp'd/decomp'd, boundary cut at the SDK, HLE'd on Vulkan.
+  The sweet spot.
+- **C — decomp port:** compile our matched C native + a PsyQ shim — converges with B (both need a PsyQ
+  reimplementation).
+- **Hybrid (the winning move):** a recomp front-end boots a native build **far sooner than a 100% decomp**,
+  then the **decomp incrementally replaces** recomp'd functions with readable C (recomp-now, decomp-forever).
+  This is the N64 world's proven pattern.
+
+## Hard parts (honest)
+- **Overlays — the #1 PS1 gotcha, and BFM is overlay-heavy** (134 overlays streamed to `0x80128158`). Static
+  recomp hates "same address = different code over time." N64Recomp handles it by recompiling each overlay
+  separately + dispatching on which is loaded — and **we've already mapped every overlay boundary + the
+  loader state machine** (Phase 3), so this is derisked *for us specifically*. This is the biggest reason our
+  recomp is more feasible than a cold one.
+- **GPU HLE (biggest single chunk):** walk the OT in `DrawOTag`, translate each primitive (`POLY_FT4`, …) to
+  Vulkan. Choose fidelity — replicate PS1 quirks (affine warp, OT painter's-algo, 15-bit dither) *or* "fix"
+  them (perspective-correct, hi-res). DuckStation's hardware renderer = a *reference* for the mapping.
+- **GTE:** mostly free via libgte HLE, **except** BFM uses inline GTE macros (`gte_rtps` → raw cop2; why our
+  import auto-detects GTEMAC + `gte_macros.inc`) — those cop2 ops land in recomp'd game code → still need a
+  small **software GTE** (fully documented, a few hundred lines).
+- **SPU + CD:** HLE libspu (SEQ/VAB) + libcd → read our extracted assets. The CD loader is **already RE'd**
+  (Phase 3), so the streaming state machine maps to a file/event model.
+
+## The gap + the reusability sleeper
+- **No mature PS1→PC static recompiler exists** the way N64Recomp does (the PS1 world went the emulator +
+  per-game-decomp routes). Drew's own **psxrecomp** (rocky v1–v3 post-mortem) is the closest prior art.
+  ⚠️ **Verify via web before committing** (X2/R17) — check for recent experimental MIPS-R3000/PS1 static-BT
+  efforts or anyone extending N64Recomp's `RabbitizerLib`/`N64ModernRuntime` toward R3000.
+- **Reusability:** because ~every PS1 game used PsyQ, a **PsyQ-HLE + MIPS-R3000-recomp toolkit generalizes to
+  the whole PsyQ library** — "N64Recomp for PS1," a genuinely new community tool + a Gen2-public-flip hook.
+
+## Sequencing
+Gen3, parked — do NOT fork Gen2 focus. This capture **is** the architecture decision to revisit at Gen3:
+*port architecture = PsyQ-SDK HLE boundary on Vulkan; recomp front-end for early boot, decomp replaces
+incrementally; overlays per-N64Recomp; reuses the Phase-7/8 SDK partition + the Phase-3 overlay/loader map.*
+
+## Also worth noting — C++ vs C# (from the same discussion)
+- **C++** = natural port target: closest to the decomp's C (structs/unions/pointer-math/manual-memory carry
+  over ~mechanically), best perf, direct graphics/audio interop. Port native first, modernize incrementally.
+- **C#** = a *reimplementation* character (pointer arithmetic/unions fight the managed model) using the decomp
+  as an executable spec/oracle — the Unity-remake route. Valid, more freedom, much more work.
+- The decomp enables both; C++ is pragmatic, C# is the "remake."

@@ -28,7 +28,7 @@ idiom curriculum → sweep one exemplar per family (curriculum-ordered), each cr
 - [x] T2 — Exemplar target manifest (tools/family_manifest.py: 2,764 multi-member families → 127 draftable / 156 matched-free / 2481 absent)
 - [x] T3 — Swing-question PROOF: free `--tier h_norm` REFUTED (0/133); **mechanical symbol-remap lever PROVEN** (tools/family_remap.py)  ← endgame reshaped, see log
 - [x] T4 — v4 retrain + A/B gate — **FAILED/negative, keep v3** (see log)
-- [~] T5 — Cheap-tier soften + measure wave → frontier map (Step A) + pre-advanced seeds. **PILOT + BATCH-1(partial) DONE** (Opus xHigh). Pilot 10: 3 banks+399 siblings. **T5b batch-1: 54 of 83 cheap-tier drafted** (batch stopped by Drew at ~50 after HTTP-529 overload), 46/54 match_one-MATCH → **16 clean banks + 1,861 siblings via family_sweep**. Fleet **71.36 → 72.02%** (+2,279 fns this session), R22 **136/136** each batch. ~30 def-side-wall + 8 near → backlog (frontier data). **More T5b batches + the 34 giants + 5 _o0 = REMAINING.**  *(Max orchestrator + xHigh workers, not global Ultracode)*
+- [~] T5 — Cheap-tier soften + measure wave → frontier map (Step A) + pre-advanced seeds. **PILOT + BATCH-1 COMPLETE** (Opus xHigh). Pilot 10 + **batch-1 cheap tier 83/83 drafted** (first 54 + the 29-continuation, which needed a resume after a session-cap hit — 20 cached + 9 re-run). Cheap-tier totals: **24 clean exemplar-banks + ~2,793 siblings via family_sweep** (~0 agent tokens). Fleet **71.36 → 72.18%** (+2,820 fns this session), R22 **136/136** every batch, dedup 1813/0. Frontier map = **93 exemplars measured** (`.run/t5_frontier.jsonl`; 75 match_one-MATCH). Clean-bank rate ~35% (rest = def-side-wall → backlog, the #1 T7 lever). **REMAINING: the ~34 giants (batch-2, awaiting Drew) + 5 _o0 (batch-3) + T5c/T5d.**  *(Max orch + xHigh workers)*
 - [ ] T6 — Step B: Fable5Max curriculum authoring from the measured map  *(Fable5Max — prompt)*
 - [~] T7 — Sweep one exemplar per family, curriculum-ordered. **MECHANICAL/free sub-scope DONE** (pulled ahead):
       matched-free harvest (+16,512) + T7.2 type-lift (+1,729) + T7.3 h_exact stragglers (+~200). **REMAINING (the
@@ -265,8 +265,14 @@ NOT closing — the curriculum + 127-draftable exemplar-cracking is the phase's 
   pilot's 3/7).
 - **Frontier map: 64 exemplars measured** (`.run/t5_frontier.jsonl`; classes: struct 15, plumbing 13, schedule 11,
   regalloc-order 11, remat 5, …). Near-miss permuter fuel: `func_8012FCC4`/`func_801549F8` (3), `func_8017EF50` (4).
-- **REMAINING (later T5b + T7):** the 29 un-drafted cheap targets (re-run a T5b batch) + the 34 giants + 5 `_o0` +
-  permuter-ILS soften (T5c) + the def-side-wall recovery tool (T7). Scale-up script + target pool are staged/reusable.
+- **BATCH-1 CONTINUATION DONE** (the 29 undrafted cheap, 74-149 ins): a resume (`resumeFromRunId`) recovered the 9
+  session-cap failures (20 cached-replay + 9 re-run, 0 errors). 22/29 -O2 match_one-MATCH → **8 clean banks + 533
+  siblings** (fleet 72.02 → 72.18%, R22 136/136). Notables logged to backlog: `func_801457A4` (MATCH but **-O0-only**
+  → batch-3), `func_80135004`/`func_8013AD38` (MATCH but need the T7 caller-decl reconcile), `func_80168828` (close=8,
+  permuter fuel). **Batch-1 cheap tier now 100% drafted.** Gen3 recomp/PsyQ→Vulkan architecture idea captured to
+  `docs/gen3-parking-lot.md` (Drew spitball).
+- **REMAINING:** the ~34 giants (batch-2, AWAITING Drew) + 5 `_o0` (batch-3, -O0 match_one) + permuter-ILS soften
+  (T5c) + frontier synthesis (T5d) + the def-side-wall reconcile tool (T7 lever #1). Scale-up wave generator reusable.
 
 ## RULES ADDED THIS PHASE (transcribe to the PhaseEnd Rules table at close)
 - **R31 — CONFIRMED by Drew 2026-07-08 (binding now).** Capture the WHY behind strategic pivots in `docs/decision-log.md`, while fresh. At each major
