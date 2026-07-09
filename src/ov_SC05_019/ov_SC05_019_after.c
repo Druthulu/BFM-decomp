@@ -1144,7 +1144,35 @@ INCLUDE_ASM("asm/ov_SC05_019/nonmatchings/ov_SC05_019_after", func_8014D12C);
 
 INCLUDE_ASM("asm/ov_SC05_019/nonmatchings/ov_SC05_019_after", func_8014D2A0);
 
-INCLUDE_ASM("asm/ov_SC05_019/nonmatchings/ov_SC05_019_after", func_8014D3E0);
+
+extern void func_8014D438(s32 a0);
+
+void func_8014D3E0(s32 _arg0)
+{
+    __asm__ __volatile__(
+        ".set noreorder\n"
+        "addiu $sp, $sp, -24\n"
+        "lui   $v1, 0x1f80\n"
+        "ori   $v1, $v1, 0x03fc\n"
+        "sw    $ra, 16($sp)\n"
+        "addu  $t0, $v1, $zero\n"
+        "lw    $t1, 0($t0)\n"
+        "nop\n"
+        "sw    $sp, 0($t1)\n"
+        "addiu $t1, $t1, -4\n"
+        "addu  $sp, $t1, $zero\n"
+        "jal   func_8014D438\n"
+        "lui   $at, %%hi(D_8018E810)\n"
+        "sw    $v0, %%lo(D_8018E810)($at)\n"
+        "addiu $sp, $sp, 4\n"
+        "lw    $sp, 0($sp)\n"
+        "lui   $v0, %%hi(D_8018E810)\n"
+        "lw    $v0, %%lo(D_8018E810)($v0)\n"
+        "lw    $ra, 16($sp)\n"
+        "addiu $sp, $sp, 24\n"
+        : : : "memory");
+}
+
 
 DEFINE_func_8014D438()  /* dedup: shared engine-core @0x8014D438 (src/shared) */
 
@@ -2836,7 +2864,79 @@ INCLUDE_ASM("asm/ov_SC05_019/nonmatchings/ov_SC05_019_after", func_80159698);
 
 DEFINE_func_801596D4()  /* dedup: shared engine-core @0x801596D4 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC05_019/nonmatchings/ov_SC05_019_after", func_801596F0);
+
+// @class: iv-combine
+// @stuck: none — MATCH (97 ins). Recipe: $s0=base=&(*(u8 *)&D_800AF630) hoisted at top; loop1 = for(p=base+0x65A8;
+//   p<base+0x9DA8;p+=0xe) p[1]|=... (the +4 field-offset store folds into the reduced IV -> gcc emits the
+//   -4 loop-inversion guard + reuses END for END+4). BOTHER: loop2 needs ab=&D_800AFAE8 POST-guard as a
+//   shared base for A=ab+1,B=ab+0x22 -> a for-loop hoists it PRE-guard (fold or perm); the fix is a manual
+//   guarded do-while `if(base+0x2A8<base+0x65A8){ ... do{}while(q<inline base+0x65AC);}` with a DISTINCT loop
+//   var (q, not p) so loop1's biv-elim survives, an INLINE while-bound (frees the delay slot for the OR
+//   const), and the OR const HOISTED to a var declared first so it fills the guard delay slot (a3) and A/B
+//   fall into a2/a1. Barrier after the two 0x7fff stores fixes their vs the loop-guard-low ordering.
+
+
+extern void func_80174B6C(void);
+extern void func_80129248(s16 a0);
+extern void func_8013C938(void);
+extern void func_8013CB20(void);
+extern void func_8013C98C(void);
+extern void func_8002850C(s32, s32, s32);
+extern void func_80028620(s32, void *);
+
+extern s16 D_800B9AAC[];
+extern s16 D_800B9B00;
+extern u16 D_801270C0;
+extern u8 D_800AF630[];
+extern u32 D_800AFAE8[];
+extern char D_80181684[];
+
+s32 func_801596F0(s32 param_1) {
+    u8 *base = &(*(u8 *)&D_800AF630);
+    s32 v;
+    u32 *p;
+    u32 *q;
+
+    v = *(s32 *)(param_1 + 0x28) - 1;
+    *(s32 *)(param_1 + 0x28) = v;
+    if (v == -1) {
+        func_80174B6C();
+        (*(s16 *)&D_800B9AAC) = 0x7fff;
+        D_800B9B00 = 0x7fff;
+
+        __asm__ __volatile__("" ::: "memory");
+
+        for (p = (u32 *)(base + 0x65A8); p < (u32 *)(base + 0x9DA8); p += 0xe) {
+            p[1] |= 0x80000000;
+        }
+
+        if ((u32 *)(base + 0x2A8) < (u32 *)(base + 0x65A8)) {
+            u32 orc = 0x80000000;
+            u32 *ab = D_800AFAE8;
+            q = (u32 *)(base + 0x2AC);
+            do {
+                if (q < ab + 1 || q >= ab + 0x22) {
+                    *q |= orc;
+                }
+                q += 0x21;
+            } while (q < (u32 *)(base + 0x65AC));
+        }
+
+        (*(s16 *)&D_801270C0) = 3;
+        ((void (*)(s32))func_80129248)(0);
+        func_8013C938();
+        func_8013CB20();
+        func_8013C98C();
+        func_8002850C(0x800, 0x800, 0x800);
+        func_80028620(0, &(*(u8 *)&D_80181684));
+        func_80028620(1, &(*(u8 *)&D_80181684) + 0x10);
+        func_80028620(2, &(*(u8 *)&D_80181684) + 0x20);
+        *(s32 *)(param_1 + 0x28) = 0xff;
+        *(u8 *)(param_1 + 0x15) = *(u8 *)(param_1 + 0x15) + 1;
+    }
+    return 0;
+}
+
 
 DEFINE_func_80159874()  /* dedup: shared engine-core @0x80159874 (src/shared) */
 

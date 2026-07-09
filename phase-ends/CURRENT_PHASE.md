@@ -27,17 +27,21 @@ idiom curriculum → sweep one exemplar per family (curriculum-ordered), each cr
 - [x] T1 — Integration-recovery pass (split-aware recover_integration fix; caller-arity cohort exhausted 0/16 — residuals backlogged)
 - [x] T2 — Exemplar target manifest (tools/family_manifest.py: 2,764 multi-member families → 127 draftable / 156 matched-free / 2481 absent)
 - [x] T3 — Swing-question PROOF: free `--tier h_norm` REFUTED (0/133); **mechanical symbol-remap lever PROVEN** (tools/family_remap.py)  ← endgame reshaped, see log
-- [ ] T4 — v4 retrain + A/B gate  *(xHigh pipeline; Max to judge A/B)*  ← **NEXT** (T7-mechanical was pulled ahead; now resume planned order)
-- [ ] T5 — Cheap-tier soften + measure wave → the complete class/closeness frontier map (Step A) + pre-advanced seeds  *(Ultracode — prompt)*
+- [x] T4 — v4 retrain + A/B gate — **FAILED/negative, keep v3** (see log)
+- [~] T5 — Cheap-tier soften + measure wave → frontier map (Step A) + pre-advanced seeds. **PILOT DONE** (10 targets, Opus xHigh): 7/10 match_one-MATCH, 3 clean banks + **399 siblings via family_sweep** (fleet 71.36→71.47%, R22 136/136), 4 def-side-wall→backlog, 3 near→permuter/Fable5. **Scale-up (117) = NEXT.**  *(Max orchestrator + xHigh workers per Drew, not global Ultracode)*
 - [ ] T6 — Step B: Fable5Max curriculum authoring from the measured map  *(Fable5Max — prompt)*
 - [~] T7 — Sweep one exemplar per family, curriculum-ordered. **MECHANICAL/free sub-scope DONE** (pulled ahead):
       matched-free harvest (+16,512) + T7.2 type-lift (+1,729) + T7.3 h_exact stragglers (+~200). **REMAINING (the
       real substance):** crack the **127 draftable family exemplars** curriculum-ordered (T6 order), template/propagate ×134.
 - [ ] Close — clean-fleet verify · PhaseEnd synthesis · plain-English recap (R25) · Phase-26 backlog  *(NOT yet — phase open)*
 
-## FRESH SESSION — RESUME HERE  (**NEXT = T5, the Ultracode measure-wave**; phase OPEN, no PhaseEnd; do NOT close)
-**Phase is OPEN.** Order: T7-mechanical (done, pulled ahead) → T4 (done, FAILED/negative) → **T5 (NEXT)** → T6 →
-T7-cracking → Close. The phase's CORE prize is still ahead: **the 127 draftable family exemplars / 6.7 MB**, cracked
+## FRESH SESSION — RESUME HERE  (**NEXT = T5 SCALE-UP** — the measure-wave over the remaining 117 exemplars; phase OPEN, no PhaseEnd; do NOT close)
+**Phase is OPEN.** Order: T7-mechanical (done) → T4 (done, FAILED) → **T5 (pilot DONE 2026-07-08; scale-up NEXT)** → T6 →
+T7-cracking → Close. T5 mechanics validated end-to-end (`worker_wave` Opus-xHigh → independent `match_one` → `gate_stage`
+per split-file → `family_sweep` ×N → R22). Effort = **Max orchestrator + xHigh workers** (Drew chose Opus-xHigh for ALL
+127, not global Ultracode; usage not a constraint). Scale-up staged: `.run/t5_waves.json` (12 waves ≤10, ROI-ordered) +
+5 `_o0` deferred (need -O0 match_one). Frontier map accumulates in `.run/t5_frontier.jsonl` + the backlog (def-side-wall
++ near-misses). Def-side-wall recovery (caller-decl reconcile, fleet-wide) + hard giants = **T7** (curriculum-directed). The phase's CORE prize is still ahead: **the 127 draftable family exemplars / 6.7 MB**, cracked
 by the frontier tier and propagated ×134 by deterministic tooling. Do NOT write a PhaseEnd until T5/T6/T7-cracking
 are done and top-family ROI drops (open-ended milestone, per the plan-of-record). *(A prior session misread "→ Close"
 in a handoff header and nearly closed early — see `docs/decision-log.md`; reconcile against the plan-of-record.)*
@@ -223,6 +227,28 @@ NOT closing — the curriculum + 127-draftable exemplar-cracking is the phase's 
   `docs/gen2-mips-matching-model.md` (technical — the A/B + the maxlen-2048 truncation flaw for any future retrain).
 - **Strategic conclusion (Drew-aligned):** the local-7B tier is a $0 mop-up for the ≤~15-ins tail, NOT load-bearing.
   The endgame engine is **frontier-crack → deterministic-propagate → byte-gate** + permuter-soften. **No more 7B retrains.**
+
+### T5 — cheap-tier soften + measure wave (Step A) — PILOT ✅ (2026-07-08); scale-up in progress
+- **Pipeline validated end-to-end** (the T5 engine): `tools/family_manifest`→ `.run/t5_targets.json` (127 draftable
+  exemplars, live-stub-verified: 34 GIANT/18 large/43 med/32 small) → `worker_wave.js` (Opus **xHigh**, 1 drafter/target,
+  returns {status,closeness,klass}) → independent `match_one` re-verify (R14) → `gate_stage --src-file <split>` (per
+  split; the whole-binary byte-gate is the arbiter) → `family_sweep --only <addr>` (h_norm mechanical remap ×N) → **R22
+  clean-fleet 136/136**.
+- **Pilot (10 diverse targets):** 7/10 match_one-MATCH incl. a **369-ins giant (`func_80166994`)** cracked by the wave.
+  Whole-binary gate banked **3/7 clean** (`func_801596F0`, `func_8014D3E0`, `func_801320D8`); `family_sweep` → **+399
+  siblings, 0 failed** across 133 overlays (~0 agent tokens). **Fleet 71.36% → 71.47%** (+402 fns), dedup 1813/0.
+- **Key findings (frontier data → T6):** (1) **byte-weight ≠ tractability** — `func_8014D3E0` (22 ins × 1997) looked like
+  the mega-ROI freebie but is a `$sp` stack-switcher, matched only by porting an already-matched sibling (`func_8014D04C`);
+  the 369-giant fell to the wave while a 304-giant (`func_8014D820`) is close=253 (Fable5). (2) **The dominant gate-failure
+  is the def-side loose-typing wall** (4/7): a byte-correct draft whose CALLERS carry guessed sigs (`void func_X(s32,s32…)`)
+  that conflict fleet-wide with the true def; `gate_stage` runs sig_unify (which *regresses* these) but not a caller-decl
+  reconcile. `func_80166994` is genuinely loose-typing-entangled (5 callers, mixed s16/s32 args → truncation risk) = T7.
+  (3) `family_sweep` is SAME-ADDRESS only → `func_8014D3E0`'s cross-address h_norm instances (~1863 of 1997) are a T5c/T7
+  cross-address-remap follow-up.
+- **Class dist (pilot):** schedule 5, other 2, iv-combine/struct/plumbing 1 each. Near-miss permuter/Fable5 fuel:
+  `func_8017B490` (3), `func_8014DD8C` (88), `func_8014D820` (253).
+- **Reproduce:** target pool `.run/t5_targets.json`; frontier `.run/t5_frontier.jsonl`; waves `.run/t5_waves.json`.
+  Scale-up (117) + permuter-ILS soften (T5c) + frontier synthesis (T5d) NEXT; def-side-wall recovery tool → T7.
 
 ## RULES ADDED THIS PHASE (transcribe to the PhaseEnd Rules table at close)
 - **R31 — CONFIRMED by Drew 2026-07-08 (binding now).** Capture the WHY behind strategic pivots in `docs/decision-log.md`, while fresh. At each major

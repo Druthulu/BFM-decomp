@@ -826,7 +826,31 @@ INCLUDE_ASM("asm/ov_SC06_016/nonmatchings/ov_SC06_016", func_80132018);
 
 DEFINE_func_801320D0()  /* dedup: shared engine-core @0x801320D0 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC06_016/nonmatchings/ov_SC06_016", func_801320D8);
+
+// @class: plumbing
+// @stuck: none — MATCH expected; simple if/else, param saved in $s0 across call
+
+extern void func_8012C1B8(void);
+extern void func_8012CAE4(void *a0);
+extern void func_8001C214(int, int);
+extern int D_801853C8;
+
+void func_801320D8(int param_1)
+{
+    int v0;
+
+    v0 = ((int (*)(void))func_8012C1B8)();
+    *(int *)(param_1 + 0x20) = v0;
+    if (v0 == 0) {
+        ((void (*)(int))func_8012CAE4)(param_1);
+    } else {
+        func_8001C214(v0, 0);
+        *(int *)(param_1 + 0x58) = (int)&D_801853C8;
+        *(short *)(param_1 + 0x5c) = 0x80;
+        *(unsigned short *)(param_1 + 2) += 1;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_016/nonmatchings/ov_SC06_016", func_80132144);
 
