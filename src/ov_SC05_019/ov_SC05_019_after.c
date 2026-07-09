@@ -2793,7 +2793,50 @@ DEFINE_func_80158E24()  /* dedup: shared engine-core @0x80158E24 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC05_019/nonmatchings/ov_SC05_019_after", func_80158F00);
 
-INCLUDE_ASM("asm/ov_SC05_019/nonmatchings/ov_SC05_019_after", func_80158FA4);
+
+// @class: plumbing
+// @stuck: none — MATCH (51 ins). Key: func_801594E8 takes a 2nd arg = sVar1 (the (short)func_80159464
+//        return). $a1 is set by sra BEFORE the beqz and stays live into the jal, so the value is used
+//        twice (branch test + arg2) — that 2nd use is what keeps the sll;sra (gcc folds sll;sra;beqz
+//        -> sll;beqz otherwise). Also: branch-polarity invert (!=0 -> 594E8 fall-through, else 767C);
+//        func_8013767C arg is &(*(u8 *)&D_80110C3C) (lui%hi+addiu%lo, not a literal). Ghidra missed the 2nd arg.
+
+extern s32 D_8018E860;
+extern u8 D_80110C3C[];
+
+extern u16 func_80148800(s32 *a0);
+extern s32 func_801399F0(s32);
+extern void func_80139914(s32);
+extern s32 func_80159464(void);
+extern void func_801594E8(s32, s32);
+extern void func_80146C98(s32 *a0, s16 a1);
+extern s32 func_8013767C(s32 a0);
+extern void func_80146CA0(void *a0);
+
+void func_80158FA4(s32 param_1)
+{
+    s32 v0;
+    s16 sVar1;
+
+    v0 = *(s32 *)(param_1 + 0x20);
+    *(u16 *)(v0 + 0x12) = (*(u16 *)(v0 + 0x12) + 0x16) & 0xfff;
+    if (((s32 (*)(void))func_80148800)() & 0xf0) {
+        D_8018E860 = 1;
+    }
+    if (func_801399F0(*(s32 *)(param_1 + 0x198)) != 0) {
+        func_80139914(*(s32 *)(param_1 + 0x198));
+        *(s32 *)(param_1 + 0x198) = 0;
+        sVar1 = ((s32 (*)(s32))func_80159464)(param_1);
+        if (sVar1 != 0) {
+            func_801594E8(param_1, sVar1);
+            ((void (*)(s32, s32))func_80146C98)(param_1, 0xc);
+        } else {
+            *(s32 *)(param_1 + 0x198) = ((s32 (*)(u8 *))func_8013767C)(&(*(u8 *)&D_80110C3C));
+            ((void (*)(s32))func_80146CA0)(param_1);
+        }
+    }
+}
+
 
 DEFINE_func_80159070()  /* dedup: shared engine-core @0x80159070 (src/shared) */
 
@@ -4508,7 +4551,56 @@ DEFINE_func_8016B448()  /* dedup: shared engine-core @0x8016B448 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC05_019/nonmatchings/ov_SC05_019_after", func_8016B4BC);
 
-INCLUDE_ASM("asm/ov_SC05_019/nonmatchings/ov_SC05_019_after", func_8016B4F8);
+
+// @class: struct
+// @stuck: none — MATCH
+
+extern void func_80015978(s32 a0, s32 *a1);
+extern int func_8016B9F8(int);
+extern int func_8016B834(int, int);
+extern void func_8016B984(void *a0);
+extern void func_8016B91C(int);
+extern int D_8018EC80;
+
+void func_8016B4F8(int param_1)
+{
+    int iVar1;
+    int uVar2;
+    volatile int buf[2];
+
+    ((void (*)(int, void *))func_80015978)(param_1 + 4, &D_8018EC80);
+    if (func_8016B9F8(param_1) == 0) {
+        *(int *)(param_1 + 0x18) = 0;
+        *(int *)(param_1 + 0x14) = 0;
+        *(int *)(param_1 + 0x10) = 0;
+        iVar1 = func_8016B834(param_1, 0);
+        *(int *)(param_1 + 0x10) = iVar1;
+        if (iVar1 != 0) {
+            iVar1 = func_8016B834(param_1, 1);
+            *(int *)(param_1 + 0x14) = iVar1;
+            if (iVar1 != 0) {
+                iVar1 = func_8016B834(param_1, 2);
+                *(int *)(param_1 + 0x18) = iVar1;
+                if (iVar1 != 0) goto success;
+            }
+        }
+    }
+    ((void (*)(int))func_8016B984)(param_1);
+    return;
+success:
+    func_8016B91C(param_1);
+    uVar2 = *(int *)(param_1 + 0x2c);
+    if (uVar2 == 0) {
+        uVar2 = 0xf0;
+    } else {
+        uVar2 = 0x2d0;
+    }
+    *(int *)(param_1 + 0x1c) = uVar2;
+    uVar2 = *(unsigned short *)(param_1 + 2);
+    uVar2 = uVar2 + 1;
+    *(unsigned short *)(param_1 + 2) = uVar2;
+}
+
 
 
 // @class: schedule
@@ -6172,7 +6264,56 @@ void func_8017B880(void)
 
 INCLUDE_ASM("asm/ov_SC05_019/nonmatchings/ov_SC05_019_after", func_8017B8E8);
 
-INCLUDE_ASM("asm/ov_SC05_019/nonmatchings/ov_SC05_019_after", func_8017B940);
+
+// @class: struct
+// @stuck: none — MATCH (63 ins)
+
+extern u16 D_80126B5E;
+extern u16 D_80126B62;
+extern u16 D_80126B66;
+extern u16 D_8018F994;
+extern u16 D_8018F996;
+extern u16 D_8018F998;
+
+extern s32 D_80114F30;
+extern s32 D_80114F34;
+extern s32 D_80114F38;
+extern s32 D_80114F24;
+extern s32 D_80114F28;
+extern s32 D_80114F2C;
+
+extern u8  D_8012694C;
+extern s16 D_8018F914;
+extern short D_8018F99C;
+extern short D_8018F99E;
+extern short D_8018F9A0;
+extern s16 D_8018F98C;
+extern s16 D_8018F98E;
+extern s16 D_8018F990;
+extern s16 D_8018F984;
+extern s16 D_8018F986;
+extern s16 D_8018F988;
+
+void func_8017B940(void)
+{
+    s32 buf[3];
+
+    D_8012694C = 2;
+    buf[0] = (*(s16 *)&D_80126B5E) - (*(s16 *)&D_8018F994);
+    buf[1] = (*(s16 *)&D_80126B62) - (*(s16 *)&D_8018F996);
+    buf[2] = (*(s16 *)&D_80126B66) - (*(s16 *)&D_8018F998);
+    (*(s16 *)&D_8018F99C) = buf[0];
+    (*(s16 *)&D_8018F99E) = buf[1];
+    (*(s16 *)&D_8018F9A0) = buf[2];
+    D_8018F98C = D_80114F30 + buf[0];
+    D_8018F914 = 0;
+    D_8018F98E = D_80114F34 + buf[1];
+    D_8018F990 = D_80114F38 + buf[2];
+    D_8018F984 = D_80114F24 + buf[0];
+    D_8018F986 = D_80114F28 + buf[1];
+    D_8018F988 = D_80114F2C + buf[2];
+}
+
 
 
 // @class: struct

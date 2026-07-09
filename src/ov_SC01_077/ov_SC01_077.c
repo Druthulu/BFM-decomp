@@ -692,7 +692,30 @@ INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80140958);
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80140D68);
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80140E6C);
+// @class: struct
+// @stuck: none — MATCH
+
+extern unsigned char D_80078E7F;
+extern unsigned char D_80078E7E;
+extern unsigned char D_80078E7D;
+extern M2C_UNK D_80187AB0;
+
+extern int func_800D2CA8(int, int);
+extern void func_800D2D10(int, int, void *, int);
+
+void func_80140E6C(void) {
+    void *puVar1;
+    unsigned int uVar2;
+    unsigned int uVar3;
+    unsigned int uVar4;
+
+    puVar1 = (*(void * *)&D_80187AB0);
+    uVar2 = func_800D2CA8(D_80078E7F, 0x18);
+    uVar3 = func_800D2CA8(D_80078E7E, 0xc);
+    uVar4 = func_800D2CA8(D_80078E7D, 0);
+    func_800D2D10(uVar2 | 0xb00000 | uVar3 | 0xb00 | uVar4, 8, puVar1, 0);
+}
+
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80140F00);
 
