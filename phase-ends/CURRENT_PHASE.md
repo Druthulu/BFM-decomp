@@ -30,12 +30,27 @@ idiom curriculum → sweep one exemplar per family (curriculum-ordered), each cr
 - [x] T4 — v4 retrain + A/B gate — **FAILED/negative, keep v3** (see log)
 - [~] T5 — Cheap-tier soften + measure wave → frontier map (Step A) + pre-advanced seeds. **PILOT + BATCH-1 COMPLETE** (Opus xHigh). Pilot 10 + **batch-1 cheap tier 83/83 drafted** (first 54 + the 29-continuation, which needed a resume after a session-cap hit — 20 cached + 9 re-run). Cheap-tier totals: **24 clean exemplar-banks + ~2,793 siblings via family_sweep** (~0 agent tokens). Fleet **71.36 → 72.18%** (+2,820 fns this session), R22 **136/136** every batch, dedup 1813/0. Frontier map = **93 exemplars measured** (`.run/t5_frontier.jsonl`; 75 match_one-MATCH). Clean-bank rate ~35% (rest = def-side-wall → backlog, the #1 T7 lever). **REMAINING: the ~34 giants (batch-2, awaiting Drew) + 5 _o0 (batch-3) + T5c/T5d.**  *(Max orch + xHigh workers)*
 - [x] T6 — Step B: Fable5Max curriculum authoring ✅ (2026-07-09) — **`docs/phase25-t6-curriculum.md`** + `.run/t6_worklist.json`; R14 re-verify flipped the map (62/95 iso-MATCH genuine); canon_sig_reconcile **v3.1** (5 defects fixed) → **44/62 probe-BANKABLE** (4,254 ins, 13 giants, incl. all 3 `_o0`); ×134 sweep law PROVEN (per-sibling re-reconcile, 6/6); gate-validated on func_8013DD68; cookbook §41a + decision-log
-- [~] T7 — Sweep one exemplar per family, curriculum-ordered. **MECHANICAL/free sub-scope DONE** (pulled ahead):
-      matched-free harvest (+16,512) + T7.2 type-lift (+1,729) + T7.3 h_exact stragglers (+~200). **REMAINING (the
-      real substance):** crack the **127 draftable family exemplars** curriculum-ordered (T6 order), template/propagate ×134.
+- [~] T7 — Sweep one exemplar per family, curriculum-ordered. **MECHANICAL/free sub-scope DONE** (matched-free
+      +16,512 · T7.2 type-lift +1,729 · T7.3 h_exact +~200). **T7 CURRICULUM MECHANICAL TIERS DONE 2026-07-10**
+      (see the T7 log): M1 37 exemplars + M2 4,389 members + M3 2+266 = **~4,694 fleet fns, fleet 72.29→73.66%**.
+      **REMAINING (the real substance):** the F-band frontier (31 near-misses: permuter/§31-Opus/Fable5) + the
+      deferred mechanical tail (M4 8, F-jumptable 4, M-linkwall 3, M3-residue 4, F-perturb 4, draft 2).
 - [ ] Close — clean-fleet verify · PhaseEnd synthesis · plain-English recap (R25) · Phase-26 backlog  *(NOT yet — phase open)*
 
-## FRESH SESSION — RESUME HERE  (**NEXT = T7 — EXECUTE the curriculum: read `docs/phase25-t6-curriculum.md` first**; Opus-Max orchestrator, NO agent fan-out for tiers M1–M4 (deterministic tool runs); phase OPEN, do NOT close)
+## FRESH SESSION — RESUME HERE  (**NEXT = the F-band frontier + the deferred mechanical tail**; the T7 mechanical tiers M1/M2/M3 are DONE — fleet **73.66%**, committed `commit:0497`; phase OPEN, do NOT close)
+> **T7 MECHANICAL DONE (2026-07-10, Opus-Max):** the curriculum's mechanical tiers are banked + swept ×134,
+> fleet **72.29% → 73.66% (+1.37%, ~4,694 fleet fns)**, R22 clean-fleet **136/136** at every checkpoint,
+> dedup 1813/0, 0 NON_MATCHING. Commits: M1 `commit:0495`, M2 `commit:0496`, M3 `commit:0497`. Tools:
+> `tools/t7_bank.py` (M1 driver), `canon_sig_reconcile` **v3.2** (5 defects + type-uniquify fixed),
+> `family_sweep --reconcile` (the ×134 per-sibling re-reconcile). See the T7 log below + cookbook §41a/b/c.
+> **NEXT (deferred, ranked): (1) F-near 31 fns / ~3,775 ×134 — the genuine frontier: permuter-ILS on the
+> ≤28-band [prompt Ultracode], §31-Opus mid-band, Fable5 only on new-idiom evidence [prompt R27]; (2) M4
+> 8 fns / ~1,206 — §33 reconcile_decls TU-retypes [mechanical, untried]; (3) F-jumptable 4 fns / ~536 —
+> jump-table-in-rodata workflow (cookbook §8); (4) M-linkwall 3 fns / ~402 — manual undefined-syms for
+> dropped scratch symbols; (5) M3-residue 4 / ~407 + F-perturb 4 / ~405 + draft-needed 2 / ~268.** Worklist:
+> `.run/t6_worklist.json` (F_jumptable/F_near/F_perturb tiers) + `.run/t7_rawdrafts/` (39 raw drafts) +
+> `docs/phase25-t6-curriculum.md`. T7 discipline stays: good-sha from `config/check.*.sha` (never hand-typed);
+> R22 clean-fleet every batch; the object-probe is NOT the gate (blind to rodata + link — cookbook §41b).
 > **T6 DONE (2026-07-09, Fable5):** the crack curriculum is authored and byte-grounded — **`docs/phase25-t6-curriculum.md`**
 > (tiers + per-fn worklists + commands) with `.run/t6_worklist.json` (machine-readable) and `.run/t6_recon6/` (44 staged
 > reconciled drafts). Headline: the def-side wall was ~71% TOOL-shaped — `canon_sig_reconcile.py` **v3.1** (committed) fixes
@@ -316,3 +331,30 @@ NOT closing — the curriculum + 127-draftable exemplar-cracking is the phase's 
 - **Validation:** func_8013DD68 (187-ins "wall" giant) banked BYTE-IDENTICAL through the real `make build`
   gate (then restored — no T7 execution in T6; tree stays at the committed state + these deliverables).
 - **Cost:** ~0 agent tokens (local deterministic compute only; no Workflow/Agent fan-out).
+
+### T7 — EXECUTE the crack curriculum: mechanical tiers M1/M2/M3 (2026-07-10, Opus-Max orchestrator, ~0 agent tokens)
+**Fleet 72.29% → 73.66% (+1.37%, ~4,694 fleet fns); R22 clean-fleet 136/136 at every checkpoint; dedup 1813/0; 0 NON_MATCHING (G4).**
+
+- **M1 (commit `commit:0495`) — 37 exemplars banked ×1.** `tools/t7_bank.py` (reconcile-at-bank-time + `harvest_verify`
+  whole-binary gate; chunk-bet + per-round re-reconcile for cross-fn ambient mutation; giants first). Two
+  `canon_sig_reconcile` fixes surfaced during execution: (a) **v3.2 uniquify ALL draft-defined type names + struct
+  tags** to `<name>_<addr>` (the `redefinition of struct Fr` inter-draft-collision class when many exemplars bank
+  into one TU) — banked the 284-ins `func_8016A290`; (b) the earlier v3.1 5-defect set. **R14 CORRECTION (cookbook
+  §41b):** the T6 object-only probe OVER-counted BANKABLE by 7 — it's blind to rodata + link: **4 jump-table fns**
+  (3 `_o0` giants + `func_8012ACE0`) have byte-perfect `.text` but a switch **jump table in rodata** diverges
+  (REFUTES the T6 "Q3 -O0 REFUTED" claim → F-jumptable); **3 last-referencer link-walls** (`func_8016D688/D1D8/165240`)
+  C-ify the only asm referencer of a scratch data symbol → `ld undefined reference` → M-linkwall.
+- **M2 (commit `commit:0496`) — 4,389 members swept ×134.** `family_sweep --reconcile`: per (exemplar, sibling),
+  symbol-remap the RAW draft then **RE-RUN canon_sig_reconcile against THAT sibling's TU** (the Q5 law — plain
+  remap of the ov077-reconciled body banks 0; per-sibling reconcile banks 94%). 4,389/4,655 (266 per-sibling
+  loose-typing-wall misses → backlog). cookbook §41c.
+- **M3 (commit `commit:0497`) — 2 no-proto exemplars + 266 swept.** Rewrote 4 clean fns' `engine_core.h` macro-internal
+  externs to no-proto (10 byte-neutral decl edits); banked `func_8012D664`+`func_8015D01C`, swept 266/266 (100%).
+  The fleet-wide EC change R22-verified neutral (136/136). 4 residue deferred.
+
+**Deferred backlog (ranked, `.run/t6_worklist.json` tiers + `.run/t7_rawdrafts/`):** F-near 31 / ~3,775 ×134
+(the genuine permuter/§31-Opus/Fable5 frontier — bands in curriculum §6) · M4 8 / ~1,206 (§33 reconcile_decls
+TU-retype, mechanical-untried) · F-jumptable 4 / ~536 (jump-table-in-rodata, cookbook §8) · M3-residue 4 / ~407
+(func_80131B14/8016F0AC arity, func_8013D9B0 TU-conflict, func_80182988 loose-typing) · F-perturb 4 / ~405 ·
+M-linkwall 3 / ~402 (manual undefined-syms) · draft-needed 2 / ~268 (tiny `_o0`). **~56 exemplars / ~7,000
+fleet-inst potential remain.**
