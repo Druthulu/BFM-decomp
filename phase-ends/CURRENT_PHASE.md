@@ -37,7 +37,31 @@ idiom curriculum → sweep one exemplar per family (curriculum-ordered), each cr
       deferred mechanical tail (M4 8, F-jumptable 4, M-linkwall 3, M3-residue 4, F-perturb 4, draft 2).
 - [ ] Close — clean-fleet verify · PhaseEnd synthesis · plain-English recap (R25) · Phase-26 backlog  *(NOT yet — phase open)*
 
-## FRESH SESSION — RESUME HERE  (**NEXT = the F-band frontier + the deferred mechanical tail**; the T7 mechanical tiers M1/M2/M3 are DONE — fleet **73.66%**, committed `commit:0497`; phase OPEN, do NOT close)
+## FRESH SESSION — RESUME HERE  (**NEXT = the remaining wave-3 F-band frontier — real-TU reconcile-crack, NOT gating the wave-2 artifacts**; fleet **73.89%**; phase OPEN, do NOT close)
+> **WAVE 3 (2026-07-10c, Opus-Max — surgical single-fn crack, NOT a fan-out) — COMMITTED, R22 clean-fleet 136/136 GREEN, fleet 73.85% → 73.89%:**
+> **func_80164930 (81) CRACKED + swept ×134 = 134 fns** (133/0 siblings). The crack = the read-global fix below.
+> **TWO DURABLE FINDINGS (cookbook §42b):**
+> (1) **THE STALE-OBJECT GATE TRAP** — a piped `make build >/dev/null` that FAILS leaves a stale `.o`; `asm-differ -o`
+>     then reports a phantom **score 0**. This INVALIDATED wave-2's "iso-drift" labels: a rigorous re-check
+>     (`rm` the split `.o` + build exit-code + real whole-binary SHA) shows **ALL 4 remaining iso-drift drafts
+>     NOCOMPILE** (unreconciled callee externs conflicting with the TU canonical-sig layer). Every gate MUST rm the
+>     `.o` + check the build exit code — never trust a piped `make build` + asm-differ alone (compounds §42a `--out`).
+> (2) **`canon_sig_reconcile` `*(T*)&D_sym` READ-global drift** — `&sym` forces the address into a HELD register
+>     (`lui;addiu;lhu 0(reg)` — kills the target's direct `lui;lhu %lo` → schedule drift); write-only globals are
+>     unaffected (direct `lui at;sh %lo(at)`). **FIX (byte-proven on func_80164930):** flip the file-scope decl to
+>     the exact type (`extern s16 D_8018971C;`→`u16`, byte-neutral to store-only callers) + reference the global
+>     DIRECTLY (no cast). A block-scoped `extern u16` vs ambient `s16` is a hard cc1 `conflicting types` ERROR
+>     (exit 33, NOT a warning), so the fix must be at file scope. Rigorous crack harness at `.run/crack3/` (gitignored).
+> **THE WAVE-3 FRONTIER IS HEAVIER THAN THE HANDOFF** (each remaining fn needs real-TU reconcile-crack, NOT gating
+> the broken wave-2 drafts; EACH cracks → ~134 fns since all are ×134 families → ~9 fns ≈ **~1,200 fleet potential**):
+>   - **4 iso-drift (NOCOMPILE, need decl-reconcile):** func_80136824 (156, _a, pointer-vs-array type-model drift),
+>     func_8014DD8C / func_8016C188 / func_80168828 (_after; func_80168828 self-doc c=8 schedule near).
+>   - **5 nears (residual closure, worker drafts in `.run/uc_crack2/`):** func_80134A74 (107), func_80133AB0 (137,
+>     first 37 ins exact ~c91), func_8012FCC4 (57, c=3 "irreducible" reorg thread-steal → G4 candidate),
+>     func_80185BA4 (177, c=79 structurally matched), func_801670E4 (279, 94→70).
+> **NEXT (Drew's call, R27): (A) corrected FAN-OUT [prompt `/effort ultracode`] — workers use the `.run/crack3`
+> rigorous gate (rm .o + exit + SHA) + real-TU reconcile-first; RELIABLE now the stale-object trap is fixed;
+> scales to the phase tail — RECOMMENDED. (B) continued Max serial (me) — highest per-fn quality, doesn't scale.**
 > **IN-FLIGHT (2026-07-10b, Opus-Max→Ultracode) — T7 F-band ≤28 crack wave RUNNING (nothing banked/committed yet):**
 > Re-triaged the ≤28 band (R14, all vs bytes): it's **regalloc-order-DOMINATED** (§17 `register __asm__` pin territory) —
 > the permuter PLATEAUS on it (func_80134C20 regalloc stuck@3 even with regalloc-directed weights; func_8017EF50

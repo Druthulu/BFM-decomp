@@ -4408,7 +4408,59 @@ void func_801647A4(int param_1) {
 
 DEFINE_func_80164864()  /* dedup: shared engine-core @0x80164864 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC02_026/nonmatchings/ov_SC02_026_after", func_80164930);
+// @class: regalloc-order — wave-3 real-TU crack (§42a); cracked at Max.
+// Fix: D_80188D1C read needs direct-addressed `lhu` (u16). Cannot use `*(u16*)&D_80188D1C`
+// (forces &sym into a held reg -> drift) NOR a block-scoped `extern u16` (conflicting-types
+// ERROR vs the ambient s16, cc1 exit 33). Solution: flip the file-scope decl (5802) to u16 —
+// byte-neutral to the only other user (func_801647A4 store-only) — and reference directly.
+typedef struct {
+    u16 f0;
+    u8 pad0[0x4e];
+    int f50;
+    u8 pad1[0x14];
+} Ent_80164930_80164930;
+
+
+void func_80164930(s32 param_1) {
+    int iVar3 = *(int *)(((int)param_1) + 0x20);
+    if (*(int *)(((int)param_1) + 0x50) == 0) {
+        short sVar1 = *(u16 *)(iVar3 + 0x1c) + 0x100;
+        short nv;
+        *(short *)(iVar3 + 0x1c) = sVar1;
+        *(short *)(iVar3 + 0x18) = sVar1;
+        *(short *)(iVar3 + 0x12) = *(u16 *)(iVar3 + 0x12) + 0x71;
+        nv = D_80188D1C - 8;
+        D_80188D1C = nv;
+        D_80188D1A = nv;
+        D_80188D18 = nv;
+        if (nv < -0x80) {
+            int i, lim;
+            Ent_80164930_80164930 *p;
+            for (i = 0, lim = 0x19, p = ((Ent_80164930_80164930 *)&D_8011F9D0); i < 0x14; i++) {
+                if (p->f0 == lim && p->f50 != 0) {
+                    ((void(*)(Ent_80164930_80164930 *))func_80162CCC)(p);
+                }
+                p++;
+            }
+            ((void(*)(Ent_80164930_80164930 *))func_80162CCC)((Ent_80164930_80164930 *)((int)param_1));
+        } else {
+            ((void(*)(int))func_80164ACC)(((int)param_1));
+        }
+    } else {
+        short sVar1 = *(u16 *)(iVar3 + 0x1c) + 0x40;
+        u16 uVar2;
+        *(short *)(iVar3 + 0x1c) = sVar1;
+        *(short *)(iVar3 + 0x18) = sVar1;
+        uVar2 = *(u16 *)(iVar3 + 0x1a) - 0x200;
+        *(u16 *)(iVar3 + 0x1a) = uVar2;
+        if ((int)((unsigned)uVar2 << 0x10) < 0) {
+            *(short *)(iVar3 + 0x1a) = 0;
+        }
+        *(short *)(iVar3 + 0x12) = *(u16 *)(iVar3 + 0x12) - 0x71;
+    }
+}
+
+
 
 DEFINE_func_80164A74()  /* dedup: shared engine-core @0x80164A74 (src/shared) */
 

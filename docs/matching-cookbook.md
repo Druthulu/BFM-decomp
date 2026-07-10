@@ -2571,3 +2571,42 @@ Verify with `cc1 -fno-builtin`: struct-assign still emits lwl/lwr; the memcpy dr
 LOWER than wave 1 (real-TU attrition), fixable by the real-TU-verify rule above. The 5 nears (func_80134A74 71→16,
 func_80133AB0 →28 aligned, func_8012FCC4 beqz/jal delay-swap, func_80185BA4 65, func_801670E4 70 "irreducible") are
 permuter-ILS fuel / G4 candidates.
+
+### §42b addendum — wave 3 (Max, 2026-07-10c): THE STALE-OBJECT GATE TRAP + the read-global `&`-cast drift + fix
+
+**THE #1 METHODOLOGY BUG (invalidated wave-2's "iso-drift" labels; fix ALL gates).** A per-function real-TU
+check that does `make build BINARY=<ov> >/dev/null 2>&1` and then runs `asm-differ -o <fn>` **without checking
+the build exit code and without removing the split `.o` first** will diff a **STALE object** whenever the build
+FAILS — reporting a phantom **score 0 / "MATCH"** for a draft that never compiled. Measured this wave: three
+wave-2 "iso-drift" fns (func_8016C188, func_80168828, func_80136824) read as score-0 on the first pass, then
+**NOCOMPILE** on a forced-clean pass (`rm build/src/<ov>/<split>.o` + exit-code check). Root cause of the false
+score: the stale `.o` from a prior good build survives the failed compile, and `asm-differ -o` happily diffs it.
+**This is almost certainly why wave 2 mis-classified 5 fns as "iso-MATCH → drift"** — several likely never
+compiled in the real TU at all. **MANDATORY gate shape (now in `.run/crack3/diff.sh`):** `git checkout <split>` →
+splice → `rm build/src/<ov>/<split>.o` → `make build BINARY=<ov>` and **assert exit 0** → `sha1sum` the built
+binary vs `config/check.<ov>.sha` (the real whole-binary arbiter) → only THEN `asm-differ -o` for the diff view.
+Never trust a piped `make build` you didn't exit-check. (Compounds with the §42a `--out` gotcha — both produce
+false PASS/FAIL on overlays.)
+
+**The `*(T*)&D_sym` read-global drift (a `canon_sig_reconcile` defect) + the fix — byte-proven on func_80164930.**
+`canon_sig_reconcile` rewrites an ambient-conflicting global access as `*(u16*)&D_sym` (cast-at-use, to dodge a
+type conflict). For a **write-only** global this is byte-neutral (`lui at,%hi; sh v,%lo(at)` — direct addressing).
+For a **read** (esp. read-modify-write) global it **DRIFTS**: `&D_sym` forces gcc to materialize the FULL address
+into a held register (`lui a0,%hi; addiu a0,a0,%lo; lhu v0,0(a0)`) instead of the target's direct
+`lui v0,%hi; lhu v0,%lo(D_sym)(v0)` — and it reuses that held reg for the store, shifting the whole schedule.
+**The wall:** the target read needs `lhu` (u16) but the ambient TU decl is `s16`; a block-scoped
+`extern unsigned short D_sym` inside the fn is a **hard `conflicting types` ERROR** in gcc-2.7.2 (cc1 exit 33,
+NOT a warning — signed/unsigned short mismatch). **The fix:** flip the **file-scope** decl to the exact type
+(`extern s16 D_8018971C;` → `extern u16 D_8018971C;`) — byte-neutral when the only other referencer is store-only
+(func_801647A4 stores `= 0x80` → `sh` either way) — and reference the global **directly** (no `*(T*)&`). Result:
+whole-overlay `d19c9580` BYTE-IDENTICAL, func_801647A4 unaffected. **General rule for drafters/reconcile:** a
+read global that needs a specific load width (`lhu`/`lh`) must be a **direct-typed lvalue at file scope**, never
+`*(T*)&sym`; align the whole TU on one type rather than casting at use. **Sweep caveat:** the file-scope-decl
+flip is per-TU, so `family_sweep --reconcile` must also flip each sibling's decl (or the sibling's caller must be
+an unmatched stub with no conflicting decl) — else siblings NOCOMPILE like the frame-pad class (§42 lever 3).
+
+**Wave-3 consequence:** the wave-2 `uc2_gate_*` drafts are **not** reliable seeds — several NOCOMPILE (unreconciled
+callee externs conflicting with the TU canonical-sig layer, e.g. `conflicting types for func_80015954`) and the
+"iso-MATCH" labels were stale-object phantoms. Wave-3 targets must be **re-reconciled + rigorously rebuilt** per fn
+(the `.run/crack3/` harness), not gated from the wave-2 artifacts. Confirmed banks this wave: **func_80164930**
+(the read-global fix above).
