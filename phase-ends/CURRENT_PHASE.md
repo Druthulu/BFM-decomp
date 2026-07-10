@@ -29,13 +29,23 @@ idiom curriculum → sweep one exemplar per family (curriculum-ordered), each cr
 - [x] T3 — Swing-question PROOF: free `--tier h_norm` REFUTED (0/133); **mechanical symbol-remap lever PROVEN** (tools/family_remap.py)  ← endgame reshaped, see log
 - [x] T4 — v4 retrain + A/B gate — **FAILED/negative, keep v3** (see log)
 - [~] T5 — Cheap-tier soften + measure wave → frontier map (Step A) + pre-advanced seeds. **PILOT + BATCH-1 COMPLETE** (Opus xHigh). Pilot 10 + **batch-1 cheap tier 83/83 drafted** (first 54 + the 29-continuation, which needed a resume after a session-cap hit — 20 cached + 9 re-run). Cheap-tier totals: **24 clean exemplar-banks + ~2,793 siblings via family_sweep** (~0 agent tokens). Fleet **71.36 → 72.18%** (+2,820 fns this session), R22 **136/136** every batch, dedup 1813/0. Frontier map = **93 exemplars measured** (`.run/t5_frontier.jsonl`; 75 match_one-MATCH). Clean-bank rate ~35% (rest = def-side-wall → backlog, the #1 T7 lever). **REMAINING: the ~34 giants (batch-2, awaiting Drew) + 5 _o0 (batch-3) + T5c/T5d.**  *(Max orch + xHigh workers)*
-- [ ] T6 — Step B: Fable5Max curriculum authoring from the measured map  *(Fable5Max — prompt)*
+- [x] T6 — Step B: Fable5Max curriculum authoring ✅ (2026-07-09) — **`docs/phase25-t6-curriculum.md`** + `.run/t6_worklist.json`; R14 re-verify flipped the map (62/95 iso-MATCH genuine); canon_sig_reconcile **v3.1** (5 defects fixed) → **44/62 probe-BANKABLE** (4,254 ins, 13 giants, incl. all 3 `_o0`); ×134 sweep law PROVEN (per-sibling re-reconcile, 6/6); gate-validated on func_8013DD68; cookbook §41a + decision-log
 - [~] T7 — Sweep one exemplar per family, curriculum-ordered. **MECHANICAL/free sub-scope DONE** (pulled ahead):
       matched-free harvest (+16,512) + T7.2 type-lift (+1,729) + T7.3 h_exact stragglers (+~200). **REMAINING (the
       real substance):** crack the **127 draftable family exemplars** curriculum-ordered (T6 order), template/propagate ×134.
 - [ ] Close — clean-fleet verify · PhaseEnd synthesis · plain-English recap (R25) · Phase-26 backlog  *(NOT yet — phase open)*
 
-## FRESH SESSION — RESUME HERE  (**NEXT = T6 Fable5 curriculum — START A FRESH SESSION AS FABLE5MAX, read `docs/phase25-t6-fable-brief.md`**; phase OPEN, do NOT close)
+## FRESH SESSION — RESUME HERE  (**NEXT = T7 — EXECUTE the curriculum: read `docs/phase25-t6-curriculum.md` first**; Opus-Max orchestrator, NO agent fan-out for tiers M1–M4 (deterministic tool runs); phase OPEN, do NOT close)
+> **T6 DONE (2026-07-09, Fable5):** the crack curriculum is authored and byte-grounded — **`docs/phase25-t6-curriculum.md`**
+> (tiers + per-fn worklists + commands) with `.run/t6_worklist.json` (machine-readable) and `.run/t6_recon6/` (44 staged
+> reconciled drafts). Headline: the def-side wall was ~71% TOOL-shaped — `canon_sig_reconcile.py` **v3.1** (committed) fixes
+> five measured defects; **44 exemplars probe-BANKABLE now** (M1), the **×134 sweep works via per-sibling re-reconcile**
+> (M2, 6/6 proven — extend `family_sweep` with the one-line reconcile step per the curriculum §3), **6 fns need the
+> engine_core.h no-proto rewrite** (M3, fix_arity_callers class, R22-gate the neutrality FIRST), **8 need §33 TU retypes**
+> (M4). Mechanical total ≈ **+2.2% fleet (~74.5%) for ~0 agent tokens**. True frontier = 33 fns (curriculum §6 bands:
+> permuter ≤28-band first, then §31-Opus, Fable5 only on new-idiom evidence — R27 prompt) + 2 tiny `_o0` drafts.
+> T7 discipline: re-reconcile at bank time (TU mutates); good-sha from `config/check.*.sha` (NEVER hand-typed); R22
+> clean-fleet after first-5 banks and every batch; probe≠gate (jal-symbol-blind) — harvest_verify is the sole arbiter.
 > **T6 HAND-OFF (2026-07-09):** Step A (measure wave) DONE — 125/127 exemplars measured, batches 1–3 complete, def-side wall cracked (`canon_sig_reconcile.py`, cookbook §41), fleet **72.29%** committed `commit:0492`. **The mechanical reconcile-sweep is NOT the clean 51-target ×134 win first hoped (R14-corrected: the frontier "match" status carried un-verified agent claims; a 5-sample spot-check = 3/5 genuine, and even genuine MATCHes hit VARIED walls — callee-sig conflicts, non-identical types Vec3/SVEC, macro-local data). ~19/51 have clean engine_core.h canonicals = the reliable mechanical tier; the rest need per-fn work → this is genuinely the Fable5/T6 residual.** So NEXT = **T6: Fable5Max authors the crack curriculum** from the measured frontier + the diagnosed wall-classes → the full input package is **`docs/phase25-t6-fable-brief.md`** (self-contained; read it first). Then T7 executes the curriculum (back at Opus-Max + surgical tiers). Drew: start the fresh session AS Fable5 (session model), confirm the system-reminder (R27).
 > **BATCH-3 DONE (measured, banking deferred to T7) — PAUSED 2026-07-09 at Drew's request.** The 3 `_o0` giants (`func_8013C414`/329, `func_8013BD74`/198, `func_8013C0F8`/154, all inst=134) drafted (Workflow `wf_f22bdea4-50d`, drafts `.run/drafts-t5-batch3/`): **3/3 isolation-MATCH at -O0** (R14-verified via new **`match_one.py --o0`**). But **0 banked** — all 3 hit an **-O0 in-context byte-diff** (compile OK, SHA differs; NOT the def-side sig wall — `canon_sig_reconcile`'s void→s32 return change is NOT byte-neutral at -O0, and `gate_stage`'s call-site transforms don't fix it either → 3 near). Cause = callee canonical sigs changing -O0 call codegen; needs an **-O0-specific reconcile (T7)**. Frontier updated: **125/127 draftable measured** (2 tiny `_o0` stragglers left: `0x8013bc7c`/24, `0x8013bcdc`/22). `func_801457A4` = whale-region -O0 tail, deferred. **Uncommitted (safe on ext4):** `tools/match_one.py` (--o0 flag), `docs/backlog.md` (gate re-render), this file. No src/ banks (tree = committed commit:0492 state).
 > **BATCH-2 DONE — DEF-SIDE WALL CRACKED MECHANICALLY (2026-07-09); R22 verifying, then COMMIT.** 29 non-`_o0` un-measured giants drafted (Workflow `wf_9ce827ee-933`, drafts `.run/drafts-t5-batch2/`); **16 R14-isolation-MATCH** (`.run/t5_batch2_verify.json`) but **0 auto-banked** — ALL blocked by the **def-side canonical-sig wall** (drafts use Ghidra-typed sigs conflicting with the engine_core.h canonical, which lives inside `DEFINE_func_*` macros so `sig_unify` can't reach it). **CRACKED** → new tool **`tools/canon_sig_reconcile.py`** (strip ambient-dup typedefs/externs → rewrite def to canonical sig → **cast changed params AT USE, never intermediate locals** [locals shift regalloc → byte-diff, measured `70ff4748`≠`d19c9580`]). Cookbook **§41** + decision-log **R31 entry** written (R30/R31).
@@ -291,3 +301,18 @@ NOT closing — the curriculum + 127-draftable exemplar-cracking is the phase's 
   from summaries). It is the substrate for the eventual project **retrospective** + the public
   **"how to AI-decomp a new project"** wiki (Drew, 2026-07-08). Doc created + seeded with this session's
   two fresh pivots (the handoff-misread; the split-TU mechanical ceiling).
+
+### T6 — Fable5Max curriculum authoring ✅ (2026-07-09, the Fable5 session)
+- **Deliverables:** `docs/phase25-t6-curriculum.md` (the tiered crack curriculum, all numbers probe-derived) +
+  `.run/t6_worklist.json` (machine-readable tiers) + `.run/t6_recon6/` (44 staged reconciled drafts) +
+  `tools/canon_sig_reconcile.py` **v3.1** + cookbook **§41a** + a decision-log entry (R31).
+- **Method:** R14 re-verified all 95 stubs (`.run/t6_verify.json`: 62 iso-MATCH / 31 near / 2 no-draft) →
+  6-iteration probe program (reconcile → splice into the real TU → full pipeline → masked in-TU byte-compare;
+  `.run/t6_reconcile_probe*.json`) → v1's reconcile itself was the wall for most (5 defects fixed) →
+  BANKABLE 10→20→37→**44**. Swing answers: Q1 = 44 mechanical (not ~19); Q2 = resident-callee extension moot
+  (real class = self/arity conflicts → M3 no-proto); Q3 = **-O0 reconcile REFUTED** (all 3 `_o0` giants bank
+  under v3.1); Q4 = type collisions are a RENAME, never layout (SVEC/ApplyMatrixSV giants bank); Q5 = ×134
+  sweep = remap + **per-sibling re-reconcile**, 6/6 proven (§41 fragility dissolved).
+- **Validation:** func_8013DD68 (187-ins "wall" giant) banked BYTE-IDENTICAL through the real `make build`
+  gate (then restored — no T7 execution in T6; tree stays at the committed state + these deliverables).
+- **Cost:** ~0 agent tokens (local deterministic compute only; no Workflow/Agent fan-out).

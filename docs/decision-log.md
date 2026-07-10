@@ -130,3 +130,36 @@ the session that produced it. Route TECHNICAL idioms to the cookbook; this file 
   and the integration ones are cheap ×134 wins hiding as "hard giants." Residual: non-identical ambient types and
   macro-local data symbols are the genuinely-hard remainder (real `reconcile_decls`/rename work), and a reconciled body
   doesn't `family_sweep` cleanly to siblings (per-sibling re-reconcile needed) — both logged for T7.
+
+## 2026-07-09 · Phase 25 — T6: the def-side wall was ~71% tool-shaped; the endgame's frontier shrank from 95 to 33 (Fable5 curriculum session)
+
+- **Context + belief going in (the T5 handoff):** the 95 still-stub family exemplars decomposed as
+  "~19 clean-canonical mechanical via canon_sig_reconcile; ~32 harder implicit-int fallback; 31 genuine
+  near-misses; 11 hard walls (non-identical types / macro-local data); the 3 `_o0` giants need a special
+  -O0 reconcile; the frontier 'match' statuses carry un-verified agent claims (spot-check 3/5); reconciled
+  bodies don't sweep (func_8016DC20 = 133 sibling failures)." T6's job was to author the crack curriculum
+  from that map, with the expectation that most of the 95 needed per-fn Fable5/permuter work.
+- **What was tried that failed / surprised:** (1) R14 re-verification of ALL 95 (not 5) flipped the
+  caution — 62/95 genuinely isolation-MATCH; the spot-check pessimism didn't generalize. (2) Probing all
+  62 through the REAL TU (splice + full pipeline + masked in-TU byte-compare) showed v1
+  canon_sig_reconcile itself was the wall for most: six probe iterations (v1→v3.1) flipped 10→20→37→44
+  fns to BANKABLE as five tool defects fell (scalar-typedef strip; preprocessed-TU canonical; block-scope-
+  move-not-strip; collision RENAME; decl-line cast protection). (3) Two of my own v2/v2.1 policies
+  (ambient-type rewrite of data externs; canonical-text re-emission + blanket casts) BYTE-DRIFTED or
+  parse-broke dozens — caught only because every iteration re-probed all 62 (the probe program, not the
+  first diagnosis, was the method). (4) A byte-perfect gate run reported MISMATCH because I hand-typed
+  `--good-sha` from memory — the check file is the only source of a hash.
+- **The pivot:** T7 is now mostly DETERMINISTIC EXECUTION, not discovery: tiers M1 (44 reconcile-banks,
+  4,254 ins, 13 giants) → M2 (sweep ×134 via remap + PER-SIBLING re-reconcile — proven 6/6, dissolving
+  §41's "sweep fragility") → M3 (6 fns: no-proto rewrite of engine_core.h macro externs — arity conflicts
+  with a visible typed prototype are the one thing no draft transform can fix) → M4 (8 fns: §33 TU
+  stale-decl retypes) ≈ **+2.2% fleet for ~0 agent tokens**; the true Fable5/permuter frontier is 33 fns
+  (31 verified nears + 4 perturbs, minus overlaps) + 2 trivial drafts. The "-O0-specific reconcile" need
+  was refuted outright. Deliverables: `docs/phase25-t6-curriculum.md`, `.run/t6_worklist.json`,
+  cookbook §41a, canon_sig_reconcile v3.1.
+- **Hindsight / better path:** a "wall" verdict is only as good as the TOOL REVISION it was measured
+  against — re-derive wall taxonomies after every tool change (three iterations moved 34 fns from
+  "wall" to "mechanical"). And validate the gate-proxy against the real gate before trusting either
+  direction (the probe caught real walls the drafts hid; the gate caught my SHA typo). The general
+  law: when a residual class's members share an error SHAPE (`conflicting types`, `undeclared`,
+  parse-at-decl), suspect the pipeline before the compiler.

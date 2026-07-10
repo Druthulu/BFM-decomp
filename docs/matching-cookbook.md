@@ -2353,3 +2353,58 @@ referencing an undeclared symbol, and keeping it conflicts → `reconcile_decls.
 back to permuter/hand). **Sweep fragility:** a reconciled body carries ov_SC01_077-specific canonical sigs/casts, so
 `family_sweep` to sibling overlays (with their OWN engine_core.h decls) byte-matches only some siblings (`func_8016DC20`
 = 133 siblings failed → exemplar-only). A robust sweep of reconciled giants must re-reconcile per sibling TU (T7 follow-up).
+
+### §41a — v3.1: the def-side wall was ~71% TOOL-shaped — the five measured defects + the laws that dissolve them (Phase 25 T6, Fable5, 2026-07-09)
+
+The T6 curriculum session R14-re-verified ALL 95 draftable-exemplar stubs (every draft in every
+`.run/drafts-t5*` dir, best-of, `match_one`): **62/95 are genuine isolation-MATCH** — the frontier's
+"match" statuses were honest, and all 11 batch-2 "walls" + the 3 `_o0` giants have byte-correct bodies.
+A 6-iteration probe program (reconcile → splice into the REAL TU → full `cpp|cc1|maspsx|as` →
+relocation-masked byte-compare of the fn inside the TU object, `.run/t6_reconcile_probe*.json`) then
+decomposed the §41 wall into **five mechanical defects of the v1 reconcile itself** — fixed in
+`tools/canon_sig_reconcile.py` v3.1, taking the mechanically-bankable set **10 → 44 of 62** (4,254 ins,
+13 giants ≥145; `func_8013DD68` gate-validated byte-identical through `make build`):
+
+1. **Scalar-typedef dups** (`typedef … u8;`) must be stripped (C89 redef error) — same set match_one
+   strips. Was 11 fns of "redef:u8/u16/s16/s8".
+2. **Canonical truth = the PREPROCESSED TU's file scope** (cpp + brace-depth-0 scan), not a token-scan:
+   token-scanning counted macro/block-scope names as ambient (over-strip → `undeclared`) and missed the
+   TU's own decl of the fn (self-`conflicting types`). NB: a `DEFINE_` macro's extern lands at FILE
+   scope when the macro is instantiated at file scope — and gcc-2.7.2 REMEMBERS block-scope extern
+   types TU-wide, so both kinds bind later defs.
+3. **Never strip a draft extern — BLOCK-SCOPE-MOVE it (types verbatim) when no decl is visible above
+   the splice point.** The draft's extern types are LOAD-BEARING (%lo-folding, access width, alignment:
+   an ambient-type rewrite byte-drifted 18/62 — e.g. `((s16**)&u8_sym)` derefs at alignment 1 → lwl/lwr).
+   Block-scope decls are private and legal even when a DIFFERENT file-scope decl exists below
+   (recover_giant's idiom, generalized). Visible-above + identical → drop; visible-above + different →
+   ambient + cast-at-use (fn callees per §17a-1; data via access-casts — alignment caveat above routes
+   the narrower-object cases to §33/reconcile_decls TU-retype instead).
+4. **Colliding typedefs are RENAMED** (`Vec3 → Vec3_<addr>`, attribute-tolerant), never
+   layout-reconciled: type names emit no code, so the def side NEVER has a real layout problem
+   (SVEC/Vec3/Prim/S8/ApplyMatrixSV walls all fell to the rename — 2 giants banked).
+5. **Blanket use-site substitutions must skip decl lines** ("decl lines are never cast" —
+   cast_call_sites' rule; violating it emits `extern void ((void(*)(…))f)(…)` parse errors). Also: find
+   the def on a COMMENT-MASKED copy (drafts' @stuck headers quote the sig and mis-anchor the rewrite).
+
+**The residue is three real classes (T6 curriculum tiers M3/M4/F):** (a) **arity conflicts with a
+visible typed prototype** (a banked caller's macro declares `void f(void*)` arity-1, the byte-true def
+needs 3 params) — no draft transform can fix; the cure is the fix_arity_callers-class **no-proto rewrite
+of the engine_core.h macro extern** (`extern s32 f();`, byte-neutral for the loose callers), R22-gated —
+6 fns. (b) **stale TU decl types** from earlier banked drafts (u8 vs s16* on D_801870B0 etc.) →
+`reconcile_decls`/§33 fleet-majority retype, then the drafts bank verbatim — 8 fns. (c) genuine per-fn
+residue — 4 fns (incl. `func_80166994`'s real mixed-arity loose-typing entanglement).
+
+**The ×134 sweep law (Q5, 6/6 proven):** sweep the RAW draft via `family_remap.symbol_map`, then
+**re-run canon_sig_reconcile against EACH SIBLING's own TU**, then gate. §41's "sweep fragility" was
+exactly the missing per-sibling re-reconcile (the ov077-reconciled text carries ov077-specific
+decisions). Sibling stubs live in the SAME split-file name fleet-wide (`_after` etc. — the whale-rollout
+structure); read the asm subdir off the sibling's INCLUDE_ASM line.
+
+**Refuted:** the batch-3 "-O0 in-context byte-diff needs an -O0-specific reconcile" — all 3 `_o0`
+giants (329/198/154 ins) probe BANKABLE at -O0 under v3.1 unchanged; the old diagnosis was v1's
+declaration perturbation, not a -O0 return-type law.
+
+**Probe-method notes (reusable):** the in-TU masked byte-compare (`insns_from_object(tu_o, fn)` vs
+`insns_from_s(splat_s)`) is a fast, link-free gate proxy — but it is **jal-symbol-blind** (mask eats
+the target field), so `harvest_verify` stays the arbiter (G3/P9). And **never hand-type a SHA**: a
+mistyped `--good-sha` made a byte-perfect gate run report MISMATCH — read it from `config/check.*.sha`.
