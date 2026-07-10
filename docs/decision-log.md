@@ -98,3 +98,35 @@ the session that produced it. Route TECHNICAL idioms to the cookbook; this file 
   precision on the hard/byte-weighty band, the **permuter** for regalloc/schedule search, a **frozen small LoRA**
   only for the cheap ≤15-ins tail. Don't spend GPU-hours chasing band-extension on a 7B; rent a bigger GPU or use
   the frontier tier when the hard band is the target.
+
+## 2026-07-09 · Phase 25 — the GIANT def-side wall is mechanically crackable → build the lever, don't just measure (T5b batch-2)
+- **Context / belief:** T5b batch-2 (the 29 giants) was scoped as a pure *measure* wave — draft, `match_one`, map the
+  frontier; the plan filed the def-side loose-typing wall as a T7 (post-curriculum) problem, expecting ~0 giant banks.
+  Belief going in: giants would mostly near-miss and feed Fable5/permuter; any that isolation-MATCHed would bank via
+  the gate's existing `sig_unify`/`cast` transforms.
+- **What was tried that failed:** all **16** R14-verified isolation-MATCH giants banked **0/16** through `gate_stage`
+  AND through raw `harvest_verify`. Root cause (dug out by placing one and reading the cc1 error, not trusting the
+  gate's summary): `conflicting types for func_X` — the drafters wrote Ghidra-*typed* sigs (`void f(u32*, s16*)`) that
+  clash with the TU's **canonical** sig, which lives *inside a `DEFINE_func_*` macro* in `engine_core.h` where
+  `sig_unify` (a file-scope-extern rewriter) can't see it. First reconcile attempt ALSO failed twice: an `s32/s32-args`
+  form conflicted with the engine_core.h `void/void*` canonical; then intermediate cast-locals (`u32 *a0 = (u32*)arg0`)
+  *compiled* but produced the WRONG bytes (`70ff4748`) — a fresh pseudo shifted regalloc.
+- **Pivot:** stop treating the def-side wall as a future-T7 abstraction and **build the lever now**
+  (`tools/canon_sig_reconcile.py`): strip ambient-dup typedefs/externs, rewrite the def to the engine_core.h canonical,
+  and **cast each changed param AT ITS USES, never via a local**. That banked `func_8013B274` byte-identical, then
+  **5/16** giants total; 3 swept ×134. Batch-2 turned from "measure + backlog" into "prove + partly-automate the
+  phase's #1 lever," pulling a chunk of T7 forward on real data.
+- **Why (byte/measurement-grounded):** the cast-local vs at-use difference is a *measured* byte fact (`70ff4748` wrong
+  vs `d19c9580` right), not a style call — an intermediate local is a new pseudo gcc-2.7.2 may color differently; an
+  at-use cast is free. The whole-binary byte-gate stayed the sole arbiter throughout (G3/P9): every one of the 5 banks
+  is byte-identical, and R22 clean-fleet is the backstop — it caught my *own* buggy R22 harness (an unexpanded
+  `$(OVERLAY_BINARIES)` that only extracted 2 of 136 binaries) before any false "136/136" could be reported.
+- **Hindsight / for the wiki:** when a whole *class* of candidates fails the gate identically, **read the raw compiler
+  error on ONE placed candidate before concluding "hard / defer"** — the summary ("0 banked") hid a *mechanical*
+  declaration conflict behind what looked like an intractable matching wall. The giant tier was never a matching
+  problem; it was a **plumbing** problem (the body was already right in isolation). General lesson for
+  frontier-crack→propagate→byte-gate: distinguish *codegen* residuals (permuter/Fable5) from *TU-integration* residuals
+  (a deterministic reconcile) early — they look identical at the gate ("0 banked") but have completely different levers,
+  and the integration ones are cheap ×134 wins hiding as "hard giants." Residual: non-identical ambient types and
+  macro-local data symbols are the genuinely-hard remainder (real `reconcile_decls`/rename work), and a reconciled body
+  doesn't `family_sweep` cleanly to siblings (per-sibling re-reconcile needed) — both logged for T7.

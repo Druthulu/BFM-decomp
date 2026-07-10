@@ -6010,7 +6010,94 @@ DEFINE_func_80167AD8()  /* dedup: shared engine-core @0x80167AD8 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_after", func_80167AE0);
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_after", func_80167DBC);
+// @class: schedule
+// @stuck: none — MATCH. The between-loops f1/f2 store-swap (0x55/0x56) is fixed by writing f2's assign first, then the chained `buf[0x44] = buf[0x45] = buf[0x45] << 1;` — the chain keeps f1's read first (read order fixed by -0x12 in $v0) while emitting f2's store (0x56) ahead of the f1/f0 pair (0x55,0x54). 173/173.
+
+extern void func_80168070(s32 a0, s16 *a1, s16 *a2, void *a3);
+extern u16  D_800B99DA;
+extern u8   D_80189A58[];
+extern u8   D_80189A6C[];
+
+s32 func_80167DBC(s32 arg0, s32 arg1, s32 arg2) {
+    u8 buf[0x54];
+    u8 *p;
+    s16 i;
+
+    func_80168070(arg0, ((s16 *)arg1), ((s16 *)arg2), buf);
+
+    *(s16 *)(buf + 0x3C) = 0;
+    *(s16 *)(buf + 0x34) = 0;
+    *(s16 *)(buf + 0x24) = 0;
+    *(s16 *)(buf + 0x2C) = 0;
+    *(s16 *)(buf + 0x2A) = 0;
+    *(s16 *)(buf + 0x28) = 0;
+    if (D_800B99DA & 1) {
+        buf[0x46] = 0x58;
+    } else {
+        buf[0x46] = 0x48;
+    }
+    buf[0x45] = buf[0x46] >> 2;
+    buf[0x44] = buf[0x45];
+    if (((u8 (*)(s32))func_80029178)(0x81) != 0) {
+        buf[0x45] = buf[0x45] << 2;
+        buf[0x46] = buf[0x46] >> 1;
+    }
+
+    p = D_80189A58;
+    buf[0x42] = 0;
+    buf[0x41] = 0;
+    buf[0x40] = 0;
+    buf[0x4A] = 0;
+    buf[0x49] = 0;
+    buf[0x48] = 0;
+    buf[0x4E] = 0;
+    buf[0x4D] = 0;
+    buf[0x4C] = 0;
+    *(s32 *)(buf + 0x50) = 0x50000000;
+
+    for (i = 0; i < 4; i++) {
+        *(s16 *)(buf + 0x20) = (s8)*p++;
+        *(s16 *)(buf + 0x22) = (s8)*p++;
+        *(s16 *)(buf + 0x30) = (s8)*p++;
+        *(s16 *)(buf + 0x32) = (s8)*p++;
+        *(s16 *)(buf + 0x38) = (s8)*p++;
+        *(s16 *)(buf + 0x3A) = (s8)*p--;
+        func_80017758(buf + 0x20, buf);
+    }
+
+    p = D_80189A6C;
+    *(s16 *)(buf + 0x2C) = -0x12;
+    *(s16 *)(buf + 0x3A) = 0;
+    *(s16 *)(buf + 0x32) = 0;
+    *(s16 *)(buf + 0x22) = 0;
+    *(s16 *)(buf + 0x2A) = 0;
+    *(s16 *)(buf + 0x28) = 0;
+    buf[0x46] = buf[0x46] << 1;
+    buf[0x44] = buf[0x45] = buf[0x45] << 1;
+
+    for (i = 0; i < 4; i++) {
+        *(s16 *)(buf + 0x20) = (s8)*p++;
+        *(s16 *)(buf + 0x24) = (s8)*p++;
+        *(s16 *)(buf + 0x30) = (s8)*p++;
+        *(s16 *)(buf + 0x34) = (s8)*p++;
+        *(s16 *)(buf + 0x38) = (s8)*p++;
+        *(s16 *)(buf + 0x3C) = (s8)*p--;
+        if (i == 2) {
+            buf[0x4E] = buf[0x46];
+            buf[0x4D] = buf[0x44];
+            buf[0x4C] = buf[0x4D];
+        } else if (i == 3) {
+            buf[0x4E] = 0;
+            buf[0x4D] = 0;
+            buf[0x4C] = buf[0x4D];
+            buf[0x42] = buf[0x46];
+            buf[0x41] = buf[0x44];
+            buf[0x40] = buf[0x44];
+        }
+        func_80017758(buf + 0x20, buf);
+    }
+}
+
 
 // @class: struct
 // @stuck: none — MATCH (99 ins, relocation-masked); array-decay (§18) kept mid/dir/pos stack-resident
@@ -6754,7 +6841,92 @@ DEFINE_func_8016DB34()  /* dedup: shared engine-core @0x8016DB34 (src/shared) */
 
 DEFINE_func_8016DBD8()  /* dedup: shared engine-core @0x8016DBD8 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_after", func_8016DC20);
+// @class: schedule
+// @stuck: none — MATCH (161 ins, relocation-masked). Keys: (1) mirror sibling func_8017BEF8 coord-transform idiom (16-byte Work struct {in x,y,z,xpad @0x20; out vx,vy,vz,vpad @0x28} -> frame 0x48, in@sp+0x20/out@sp+0x28); (2) SHORT loop counter i shared across all 3 loops defeats shift-IV strength reduction; (3) loop-2 = check-first/increment-after (like loop-1) keeps search key 0x11 in $a0 (reused as the func_80146A6C a0 arg) instead of spilling to $a1; (4) place loop-3 counter reset i=0 AFTER func_800D23D0 (not before func_80146A6C(0x11)) so it schedules as $s1-reset last, not first; (5) inverted final branch (if r!=0 {loops} else fall to ddb0/func_80146C3C) matches beqz; node-alloc block mirrors sibling func_8016DA7C.
+#include "common.h"
+
+typedef struct {
+    u16 x, y, z, xpad;      /* 0x00 : in  -> sp+0x20 */
+    u16 vx, vy, vz, vpad;   /* 0x08 : out -> sp+0x28 */
+} Work8016;
+
+extern s32  D_8011D030;
+extern s16  D_801DA2C0;
+extern s16  D_801DA2C4;
+extern s32  D_80189E20;
+extern s32  D_80189E2C;
+s32 func_8016DC20(s32 param_1) {
+    u16 *p;
+    short i;
+    s32 obj;
+    s32 r;
+    s32 node;
+    s32 e;
+    Work8016 w;
+
+    i = 0;
+    p = (u16 *)&D_8011D030;
+    obj = *(s32 *)(param_1 + 0x34);
+    do {
+        if ((p != (u16 *)param_1) && (*p == 0x34)) goto done;
+        i = i + 1;
+        p += 0x2c;
+    } while (i < 0x1e);
+
+    func_80149374(obj, param_1 + 4);
+    r = func_801619D0((void *)obj);
+    i = 0;
+    if (r != 0) {
+        p = (u16 *)&D_8011D030;
+        do {
+            if (*p == 0x11) goto ddb0;
+            i = i + 1;
+            p += 0x2c;
+        } while (i < 0x1e);
+
+        func_80146A6C(0x11, (void *)param_1, *(s16 *)(param_1 + 6),
+                      (s16)(*(u16 *)(param_1 + 0xA) - 8),
+                      *(s16 *)(param_1 + 0xE), 0, 0);
+        w.x = *(u16 *)(param_1 + 6);
+        w.y = *(u16 *)(param_1 + 0xA);
+        w.z = *(u16 *)(param_1 + 0xE);
+        func_800D20C0(&w.x, &w.vx, 0);
+        w.vy = 0;
+        func_800D23D0(&w.vx);
+        i = 0;
+        do {
+            e = func_80146A6C(0x12, (void *)param_1, *(s16 *)(obj + 6),
+                              *(s16 *)(obj + 0xA), *(s16 *)(obj + 0xE),
+                              i, 0);
+            if (e != 0) {
+                *(s16 *)(e + 0x12) = w.vx;
+                *(s16 *)(e + 0x16) = w.vy;
+                *(s16 *)(e + 0x1A) = 0;
+            }
+            i = i + 2;
+        } while (i < 3);
+        goto done;
+    }
+ddb0:
+    if (((D_801DA2C0 != *(s16 *)(obj + 6)) || (D_801DA2C4 != *(s16 *)(obj + 0xE)))
+        && (node = func_800D21C4(param_1, &D_80189E20, 0x18), node != 0)) {
+        D_801DA2C0 = *(u16 *)(obj + 6);
+        D_801DA2C4 = *(u16 *)(obj + 0xE);
+        func_800D1FC8(param_1, 7);
+        *(s32 *)(param_1 + 0x20) = node;
+        *(u16 *)(node + 0x1A) = 0x3000;
+        *(u16 *)(node + 0x18) = 0x3000;
+        *(u8 *)(node + 0x26) = 0xFF;
+        *(u32 *)(node + 4) = *(u32 *)(node + 4) | 0x50000000;
+        func_80128EA8(node, param_1 + 0x24, (s32)&D_80189E2C);
+        func_80128ED8(node, param_1 + 0x24);
+        *(u16 *)(param_1 + 2) = *(u16 *)(param_1 + 2) + 1;
+        return;
+    }
+done:
+    ((void (*)(s32))func_80146C3C)(param_1);
+}
+
 
 extern void (*D_80189E4C[])(void);
 
@@ -11521,7 +11693,109 @@ s32 func_80184ED8(s32 a0, s32 a1) {
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_after", func_80184F08);
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_after", func_8018514C);
+// @class: regalloc-order
+// @stuck: none — MATCH (168 ins). Keys: (1) pin param->$s1 via `register int self __asm__("$17")=param_1`
+//   (natural alloc put the short loop-counter in $s1); (2) block2's guarded dest via a test-temp
+//   `td=load; if(td){dest=td; ...}` forces the range-split `lw $a1; addu $s3,$a1,$0` the target has;
+//   (3) counter is `short i` do-while (keeps the `addu $s2,$v0,$0` raw-copy + sll16/sra16 compare);
+//   (4) gcc-2.7.2 loads s8/s16 via lbu/lhu+shift-extend (not lb/lh) so `signed char *p; *(s16*)buf=*p++`
+//   emits lbu;sll24;sra24;sh; (5) else-branch zero-byte asm barrier forces `addu $a0,$s1,$0` (else gcc
+//   reuses the still-live incoming $a0 with a nop delay slot).
+extern signed char D_80199178[];
+
+s32 func_8018514C(s32 param_1) {
+    register int self __asm__("$17") = ((int)param_1);
+    int iVar6;
+    int iVar1;
+    unsigned char buf[0x34];
+    signed char *p;
+    short i;
+    int dest;
+    int td;
+    unsigned short t;
+
+    iVar1 = *(int *)(self + 0x1c);
+    iVar6 = *(int *)(self + 0x20);
+    *(int *)(self + 0x1c) = iVar1 + 1;
+    if (iVar1 < 2) {
+        p = D_80199178;
+        i = 0;
+        dest = *(int *)(self + 0xcc);
+        t = *(unsigned short *)(self + 0x70);
+        *(short *)(buf + 0x0c) = 0;
+        *(short *)(buf + 0x0a) = 0;
+        *(short *)(buf + 0x08) = 0;
+        *(short *)(buf + 0x1c) = 0;
+        *(short *)(buf + 0x14) = 0;
+        *(short *)(buf + 0x04) = 0;
+        buf[0x22] = 0;
+        buf[0x21] = 0;
+        buf[0x20] = 0;
+        buf[0x2a] = 0;
+        buf[0x29] = 0;
+        buf[0x28] = 0;
+        buf[0x2e] = 0;
+        buf[0x2d] = 0;
+        buf[0x2c] = 0;
+        *(int *)(buf + 0x30) = 0x50000000;
+        buf[0x25] = t;
+        buf[0x26] = t;
+        buf[0x24] = t;
+        do {
+            *(short *)(buf + 0x00) = *p++;
+            *(short *)(buf + 0x02) = *p++;
+            *(short *)(buf + 0x10) = *p++;
+            *(short *)(buf + 0x12) = *p++;
+            *(short *)(buf + 0x18) = *p++;
+            *(short *)(buf + 0x1a) = *p--;
+            func_80017758(buf, (void *)dest);
+            i++;
+        } while (i < 4);
+
+        td = *(int *)(self + 0xd0);
+        if (td != 0) {
+            dest = td;
+            p = D_80199178;
+            i = 0;
+            t = *(unsigned short *)(self + 0x70);
+            *(short *)(buf + 0x0c) = 0;
+            *(short *)(buf + 0x0a) = 0;
+            *(short *)(buf + 0x08) = 0;
+            *(short *)(buf + 0x1c) = 0;
+            *(short *)(buf + 0x14) = 0;
+            *(short *)(buf + 0x04) = 0;
+            buf[0x22] = 0;
+            buf[0x21] = 0;
+            buf[0x20] = 0;
+            buf[0x2a] = 0;
+            buf[0x29] = 0;
+            buf[0x28] = 0;
+            buf[0x2e] = 0;
+            buf[0x2d] = 0;
+            buf[0x2c] = 0;
+            *(int *)(buf + 0x30) = 0x50000000;
+            buf[0x25] = t;
+            buf[0x26] = t;
+            buf[0x24] = t;
+            do {
+                *(short *)(buf + 0x00) = *p++;
+                *(short *)(buf + 0x02) = *p++;
+                *(short *)(buf + 0x10) = *p++;
+                *(short *)(buf + 0x12) = *p++;
+                *(short *)(buf + 0x18) = *p++;
+                *(short *)(buf + 0x1a) = *p--;
+                func_80017758(buf, (void *)dest);
+                i++;
+            } while (i < 4);
+        }
+        *(short *)(self + 0x70) = *(short *)(self + 0x70) >> 1;
+        *(unsigned short *)(iVar6 + 0x2c) |= 1;
+    } else {
+        __asm__ __volatile__("" : "=r"(self) : "0"(self));
+        func_8012C218((void *)self);
+    }
+}
+
 
 extern s32 (*D_801991C4[])();
 

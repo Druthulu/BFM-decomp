@@ -2309,3 +2309,47 @@ includes (`src/shared/engine_types.h` via `engine_core.h`), then re-sweep. **+1,
    (ov077 `d19c9580`) before sweeping. A broken strip / mis-ordered header surfaces as a compile failure or SHA drift
    at this cheap ~30s gate, before any expensive sweep. Then the full R22 clean-fleet 136/136 confirms no fleet-wide
    header collision. Tools: `build_engine_types.py --file/--exclude`, `family_sweep.py --no-preclassify`.
+
+## §41 — The DEF-SIDE canonical-sig wall: mechanically banking a drafted giant past `conflicting types` (Phase 25 T5b batch-2, 2026-07-09; `tools/canon_sig_reconcile.py`, byte-proven on `func_8013B274`)
+
+**The wall (dominant for GIANTS — ~universal, vs ~35% clean-bank for small fns):** a drafter writes an
+**isolation-MATCH** giant body (`match_one` c=0) with Ghidra-derived **TYPED** params — `void func(u32 *a0, s16 *a2)`.
+Placed in the real overlay TU it fails the whole-binary gate on `conflicting types for func_X` (a *declaration*
+conflict, NOT a byte diff). The gate's `sig_unify`/`cast_call_sites` can't fix it and it banks **0/16**. Two sources:
+1. The TU's callers reference the fn through the **CANONICAL signature** declared in `src/shared/engine_core.h`
+   (`extern void func_8013B274(s32 a0, s32 a1, void *a2);`) — but that decl lives **inside a `DEFINE_func_*` macro**,
+   so `sig_unify` (which rewrites file-scope externs) never sees it. The draft's typed sig conflicts with it.
+2. Absent an engine_core.h decl, a caller *above* the definition gives gcc-2.7.2 an implicit K&R `int func_X()`;
+   the draft's `void`/typed-param def conflicts with that. (This is *why* the overlay's "Phase-17 canonical-sig
+   layer" at each `_a.c` top uses `s32 func(s32,…)` — it's K&R-`int`-compatible AND byte-neutral.)
+
+**The crack — reconcile the DEF to the canonical sig, BYTE-NEUTRALLY (3 steps, all proven on `func_8013B274` → banked
+`d19c9580` byte-identical):**
+1. **Strip the draft's redefinitions of ambient symbols.** A `typedef … P_TAG;` identical to `engine_types.h`'s is a
+   *redefinition error* in gcc-2.7.2/C89 (not "compatible" like C11). Strip identical-def typedefs; strip `extern`
+   decls (func / data `D_*` / `memcpy`) the TU or engine headers already declare — the draft's Ghidra-typed
+   re-declaration is a conflict source. (`memcpy` always: a mismatched prototype trips `conflicting types for
+   built-in memcpy`; the TU macros / builtin provide it.)
+2. **Rewrite the def signature to the canonical** (`engine_core.h` decl if present, else the implicit-int-compatible
+   `s32 func(s32,…)` at the draft's arity; arity-grow adds unused params so an N-arg implicit caller still matches).
+3. **Cast each type-changed param AT ITS USES — NEVER via an intermediate local.** THE load-bearing insight:
+   `u32 *a0 = (u32*)arg0;` at the top introduces a *fresh pseudo* → gcc allocates it a different reg → **regalloc
+   shifts → byte diff** (measured: cast-locals gave `70ff4748`, wrong). Casting the param in place —
+   `((s16*)a2)[i]`, `((s16*)param + 1)` (preserves stride!), `*(T*)p` — adds **no pseudo**, is free, and preserves the
+   isolation-match codegen. `tools/canon_sig_reconcile.py` blanket-wraps every use of a changed param in
+   `((origtype)name)` (correct for index/deref/arith/member/already-cast alike). Give it `--tu <split.c>` so it treats
+   that TU's already-declared symbols as ambient (strips their redundant draft externs too).
+
+**Result:** **5/16** batch-2 giants banked purely mechanically (`func_8013B274 80130D48 80167DBC 8016DC20 8018514C`);
+3 then `family_sweep`'d **×134**. This is the phase's **#1 def-side lever**, now partly automated — reusable across the
+whole giant tier AND the batch-1 backlog of "match_one-MATCH but gate-rejected" near-misses (the dominant gate-failure).
+
+**The residual walls (the other 11 — genuine per-fn T7, NOT this mechanical pass; backlogged with cause):**
+(a) **non-identical ambient types** — draft's `SVEC`/`ApplyMatrixSV` differ in layout from `engine_types.h`'s (can't
+strip: not identical; can't keep: conflicts) → needs a rename or a real layout reconcile. (b) **data symbols declared
+inside `DEFINE_` macros** (`D_80078EB0`) — macro-local, not file-scope, so stripping the draft's extern leaves the body
+referencing an undeclared symbol, and keeping it conflicts → `reconcile_decls.py`/§33 byte-neutral-access-cast territory.
+(c) primitive-typedef redefs the reconcile missed; (d) genuine **byte-diff** (reconcile compiles but codegen differs —
+back to permuter/hand). **Sweep fragility:** a reconciled body carries ov_SC01_077-specific canonical sigs/casts, so
+`family_sweep` to sibling overlays (with their OWN engine_core.h decls) byte-matches only some siblings (`func_8016DC20`
+= 133 siblings failed → exemplar-only). A robust sweep of reconciled giants must re-reconcile per sibling TU (T7 follow-up).

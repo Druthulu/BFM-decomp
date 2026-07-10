@@ -1110,7 +1110,175 @@ INCLUDE_ASM("asm/ov_SC02_000/nonmatchings/ov_SC02_000", func_80130C08);
 
 INCLUDE_ASM("asm/ov_SC02_000/nonmatchings/ov_SC02_000", func_80130D0C);
 
-INCLUDE_ASM("asm/ov_SC02_000/nonmatchings/ov_SC02_000", func_80130D48);
+
+// @class: regalloc-order
+// @stuck: none — MATCH (266/266). Levers: pin pa=$s2 p=$s3, tbl=$s0 (NOT s1v — leave natural so switch-mask lands in $v1); tight-block pins for the table-addr temps `register s32 v1 __asm__("$3"); register s8 *bp __asm__("$2")` force offset=$v1/base=$v0 (else compute-into-dest $s0); inline offset `TABLE + s1v*2` (late) keeps the 2-sll delay-slot dup; 0x60000 reuses `tbl` (not a fresh `e`) so it stays $s0 and materializes after rand().
+extern s32 rand(void);
+extern u8 D_80078E78[];
+extern u16 D_80078EB2;
+extern u16 D_80078EB4;
+extern s16 D_8018AFDC[];
+extern s16 D_8018B00C[];
+extern s16 D_8018B06C[];
+extern s16 D_8018B074[];
+extern s16 D_8018B094[];
+
+void func_80130D48(s32 arg0)
+{
+    register s16 *tbl __asm__("$16");
+    register s32 pa __asm__("$18") = arg0;
+    register u8 *p  __asm__("$19") = D_80078E78;
+    s32 s1v;
+    s32 call_a0;
+    s32 call_a1;
+    s32 cnt;
+    s32 r;
+    void *ret;
+
+    s1v = func_80131CF4(*(s32 *)((s8 *)pa + 0xBC), 0x15);
+    if (s1v == 0) {
+        return;
+    }
+
+    if (*(u8 *)((s8 *)pa + 0x5E) == 0xB) {
+        call_a0 = 0x33;
+        call_a1 = 0;
+        goto do_call;
+    }
+
+    switch (s1v & 0xFFFF0000) {
+    case 0x10000: {
+        u32 x = D_80078EB4;
+        u32 y = D_80078EB2;
+        u32 b;
+        u32 a;
+
+        s1v = 0;
+        if (x == y) {
+            s1v = 0xC;
+        } else if ((y >> 1) >= x) {
+            s1v = 3;
+        }
+
+        b = *(u16 *)(p + 0x40);
+        a = *(u16 *)(p + 0x3E);
+        if (b == a) {
+            s1v += 0x18;
+        } else if ((a >> 1) >= b) {
+            s1v += 6;
+        }
+        { register s32 v1 __asm__("$3"); register s8 *bp __asm__("$2"); v1 = s1v * 2; bp = (s8 *)D_8018B00C; tbl = (s16 *)(bp + v1); }
+
+        r = rand() % 100;
+        cnt = 0;
+    loop27:
+        if (r >= *tbl) {
+            cnt += 1;
+            tbl += 1;
+            if (cnt < 3) {
+                goto loop27;
+            }
+        }
+
+        s1v = 0;
+        switch (cnt) {
+        case 0:
+            tbl = D_8018B06C;
+            s1v = 0x31;
+            break;
+        case 1: {
+            s32 mx = *(u16 *)(p + 0x3A);
+            s32 cur = *(u16 *)(p + 0x3C);
+            if (((mx * 7) / 10) >= cur) {
+                s1v = 4;
+                if ((mx / 2) >= cur) {
+                    s1v = 8;
+                    if ((mx / 5) >= cur) {
+                        s1v = 0xC;
+                    }
+                }
+            }
+            { register s32 v1 __asm__("$3"); register s8 *bp __asm__("$2"); v1 = s1v * 2; bp = (s8 *)D_8018B074; tbl = (s16 *)(bp + v1); }
+            s1v = 0x32;
+            break;
+        }
+        case 2: {
+            s32 mx = *(u16 *)(p + 0x3E);
+            s32 cur = *(u16 *)(p + 0x40);
+            if (((mx * 7) / 10) >= cur) {
+                s1v = 4;
+                if ((mx / 2) >= cur) {
+                    s1v = 8;
+                    if ((mx / 5) >= cur) {
+                        s1v = 0xC;
+                    }
+                }
+            }
+            { register s32 v1 __asm__("$3"); register s8 *bp __asm__("$2"); v1 = s1v * 2; bp = (s8 *)D_8018B094; tbl = (s16 *)(bp + v1); }
+            s1v = 0x33;
+            break;
+        }
+        }
+
+        r = rand() % 100;
+        call_a1 = 0;
+    loop50:
+        if (r >= *tbl) {
+            call_a1 += 1;
+            tbl += 1;
+            if (call_a1 < 4) {
+                goto loop50;
+            }
+        }
+        call_a0 = s1v;
+        goto do_call;
+    }
+    case 0x20000:
+        call_a0 = 0x33;
+        call_a1 = 0;
+        goto do_call;
+    case 0x30000:
+        call_a0 = 0x31;
+        call_a1 = 0;
+        goto do_call;
+    case 0x40000:
+        call_a0 = 0x32;
+        call_a1 = 0;
+        goto do_call;
+    case 0x50000:
+        call_a0 = 0x33;
+        call_a1 = 0;
+        goto do_call;
+    case 0x60000: {
+        s32 rr = rand() & 0xFF;
+        tbl = D_8018AFDC;
+        if (rr >= *tbl) {
+            do {
+                tbl += 3;
+            } while (rr >= *tbl);
+        }
+        call_a0 = tbl[1];
+        if (*(u16 *)(p + 0x40) < 4U) {
+            call_a0 = 0x33;
+        }
+        call_a1 = tbl[2];
+        goto do_call;
+    }
+    case 0x70000:
+        call_a0 = 0x27B;
+        call_a1 = 0;
+        goto do_call;
+    default:
+        return;
+    }
+
+do_call:
+    ret = func_8012C658(call_a0, call_a1, pa);
+    if (ret != 0) {
+        *(u16 *)((s8 *)ret + 0xA) -= 0x20;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC02_000/nonmatchings/ov_SC02_000", func_80131170);
 
@@ -1639,7 +1807,104 @@ DEFINE_func_8013AF20()  /* dedup: shared engine-core @0x8013AF20 (src/shared) */
 
 DEFINE_func_8013B204()  /* dedup: shared engine-core @0x8013B204 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC02_000/nonmatchings/ov_SC02_000", func_8013B274);
+
+
+extern void *func_80010A08(s32);
+extern s16 D_8018B344, D_8018B346, D_8018B348, D_8018B34A, D_8018B34C, D_8018B34E;
+extern u16 D_800D45F6;
+
+void func_8013B274(s32 a0, s32 a1, void *a2)
+{
+    u8 *p;
+    s32 L[10];
+    s16 sa;
+    s32 quot;
+    s16 ang;
+
+    p = (u8 *)func_80010A08(0x28);
+    p[3] = 9;
+    p[7] = 0x2C;
+    p[4] = 0x80;
+    p[5] = 0x80;
+    p[6] = 0x80;
+    *(s16 *)(p + 0x16) = 0x37;
+    *(s16 *)(p + 0xE) = 0x6FD6;
+    p[0xC] = 0xE0;
+    p[0xD] = 0;
+    p[0x14] = 0xEF;
+    p[0x15] = 0;
+    p[0x1C] = 0xE0;
+    p[0x1D] = 0xF;
+    p[0x24] = 0xEF;
+    p[0x25] = 0xF;
+
+    sa = (s16)a1;
+    if (sa == 0) {
+        *(s16 *)L = 0;
+    } else {
+        quot = ((s32)sa << 12) / ((s16*)a2)[0];
+        ang = (s16)quot;
+        if (!(D_8018B346 < ang)) goto outer_else;
+        if (!(ang < D_8018B34C)) goto inner_else;
+        if (ang < D_8018B348) { *(s16 *)L = D_8018B348; goto done; }
+        if (D_8018B34A < ang) { *(s16 *)L = D_8018B34A; goto done; }
+        *(s16 *)L = quot;
+        goto done;
+    outer_else:
+        if (ang < D_8018B344) { *(s16 *)L = D_8018B344; goto done; }
+        *(s16 *)L = quot;
+        goto done;
+    inner_else:
+        if (D_8018B34E < ang) { *(s16 *)L = D_8018B34E; goto done; }
+        *(s16 *)L = quot;
+    done: ;
+    }
+    *(s16 *)((u8 *)L + 2) = D_800D45F6;
+
+    __asm__ __volatile__(
+        "lwc2 $0, 0(%0)\n"
+        "lwc2 $1, 4(%0)\n"
+        "nop\n" "nop\n"
+        "mvmva 1, 0, 0, 0, 0\n"
+        : : "r"(L) : "memory");
+    __asm__ __volatile__(
+        "swc2 $25, 0(%0)\n"
+        "swc2 $26, 4(%0)\n"
+        "swc2 $27, 8(%0)\n"
+        : : "r"((u8 *)L + 8) : "memory");
+
+    if (((s16*)a2)[1] > 0)
+        *(s32 *)((u8 *)L + 0xC) -= 1;
+    else
+        *(s32 *)((u8 *)L + 0xC) += 2;
+
+    *(s16 *)L = 9;
+    *(s16 *)((u8 *)L + 2) = 9;
+    __asm__ __volatile__(
+        "lwc2 $0, 0(%0)\n"
+        "lwc2 $1, 4(%0)\n"
+        "nop\n" "nop\n"
+        "mvmva 1, 0, 0, 3, 0\n"
+        : : "r"(L) : "memory");
+    __asm__ __volatile__(
+        "swc2 $25, 0(%0)\n"
+        "swc2 $26, 4(%0)\n"
+        "swc2 $27, 8(%0)\n"
+        : : "r"((u8 *)L + 0x18) : "memory");
+
+    *(s16 *)(p + 8) = *(volatile s32 *)((u8 *)L + 8);
+    *(s16 *)(p + 0xA) = *(volatile s32 *)((u8 *)L + 0xC);
+    *(s16 *)(p + 0x10) = *(volatile s32 *)((u8 *)L + 8) + *(volatile s32 *)((u8 *)L + 0x18);
+    *(s16 *)(p + 0x12) = *(volatile s32 *)((u8 *)L + 0xC);
+    *(s16 *)(p + 0x18) = *(volatile s32 *)((u8 *)L + 8);
+    *(s16 *)(p + 0x1A) = *(volatile s32 *)((u8 *)L + 0xC) + *(volatile s32 *)((u8 *)L + 0x1C);
+    *(s16 *)(p + 0x20) = *(volatile s32 *)((u8 *)L + 8) + *(volatile s32 *)((u8 *)L + 0x18);
+    *(s16 *)(p + 0x22) = *(volatile s32 *)((u8 *)L + 0xC) + *(volatile s32 *)((u8 *)L + 0x1C);
+
+    ((P_TAG *)p)->addr = ((P_TAG *)a0)->addr;
+    ((P_TAG *)a0)->addr = (u32)p;
+}
+
 
 INCLUDE_ASM("asm/ov_SC02_000/nonmatchings/ov_SC02_000", func_8013B568);
 
