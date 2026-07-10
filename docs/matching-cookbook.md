@@ -2530,3 +2530,44 @@ extract` re-splits only the DEFAULT binary — you must `make extract BINARY=$b`
 
 **Wave economics:** 9 xHigh workers ≈ 1.66 M subagent tokens → 4 banked + 266 swept ×134 = **~270 fleet fns**. The ≤28
 regalloc band is genuine frontier — budget ~40-50% bank-rate per wave, NOT the mechanical tiers' ~94%.
+
+### §42a addendum — wave 2 (residuals + 29-100 band): iso-MATCH ≠ real-TU bank, the memcpy→struct-assign fix, +5 levers (2026-07-10b)
+
+**THE #1 LESSON — a crack worker must verify against the RECONCILED REAL TU, not isolation.** Wave 2's 14 workers
+produced 9 iso-MATCHes but only **4 banked** — **5 iso-MATCHes DRIFTED** in the real overlay TU (func_80136824/
+80164930/8014DD8C/8016C188/80168828). The ONE iso-drift fn that banked (func_8017B614) did so because its worker
+**embedded the def into a scratch copy of the real split `.c`, compiled the WHOLE TU (builtins ON = the real
+condition), and objdump-compared** to the isolation MATCH — catching the drift cause and fixing it. isolation
+`match_one` uses `-Iinclude`+prepended common.h; the real TU adds engine_core.h types, a `memcpy` decl, and the
+reconciled sig — any of which shifts codegen. **Wave-3+ crack prompt MUST require: after iso-MATCH, splice into a
+scratch copy of `src/ov_SC01_077/<split>.c`, `cc1` the TU, and confirm the target fn's bytes are identical modulo
+link relocation — THEN report MATCH.** (Cheap: one extra TU compile per worker; converts ~50% real-TU attrition to near-0.)
+
+**The memcpy-builtin→CALL fix (extends the T1 class, byte-proven func_8017B614):** a small fixed-size mem-copy written
+as `memcpy(x,y,8)` inlines to lwl/lwr/swl/swr in ISOLATION but lowers to a `jal memcpy` CALL in any TU that declares
+`extern memcpy` (a sibling triggers `conflicting types for built-in function memcpy`, disabling the builtin TU-wide) →
+byte-drift. **FIX:** `typedef struct { u8 b[8]; } Blk8;  *(Blk8*)dst = *(Blk8*)src;` — struct-assign routes through
+`emit_block_move` (identical lwl/lwr/swl/swr bytes) but references NO `memcpy` SYMBOL, so it is immune to the
+builtin-disable. Mirrors the codebase's own family idiom (matched sibling func_8017B368 uses `(*(SV4*)&D_x)=loc;`).
+Verify with `cc1 -fno-builtin`: struct-assign still emits lwl/lwr; the memcpy draft emits `jal memcpy`.
+
+**Five lever refinements (wave-2 journal `wf_dbadb86a-6b7`):**
+1. **`register int` NOT `register short` for a pin whose value is already sign-extended** (an `lh` result) — `register
+   int g __asm__("$6"); g = *(short*)p;` pins to $a2 with no `sll/sra` penalty; `register short` re-adds the extend
+   (func_8017EF50).
+2. **Never density-dead-read a pseudo that is LIVE ACROSS A BLOCK** — the `__asm__("":: "r"(v))` adds a real
+   instruction (count+1) and backfires; instead RESTRUCTURE the pseudo away (compute fresh at each use) (func_80136824).
+3. **When density fails, use STATEMENT-BLOCK reordering for `$v0/$v1` birth order** — group the var you want in $v0 so
+   it is first-born + dense; density dead-reads that must keep a var live past its consuming `sll` produce the wrong
+   schedule (func_80164930).
+4. **Birthing-boost coupling: a single-set const-load (`li $v1,0x40`) sinks to just before its EARLIEST-scheduled
+   consumer, not to its C statement position** — to move the load, reorder the CONSUMER store-block, not the assignment
+   (func_80168828).
+5. **for-init LUID ordering controls the delay slot** — `for (i=0, lim=0x19, p=P; i<N; i++)` makes `i=0` win the beqz
+   delay slot and emits `lim` before the pointer `lui/addiu`; a plain pre-loop `int lim=…;` captures the delay slot
+   instead (func_80164930).
+
+**Wave-2 economics:** 14 workers ≈ 2.47 M tok → 4 banked + 399 swept = **~403 fleet fns**. Bank-rate 4/9 iso-MATCH —
+LOWER than wave 1 (real-TU attrition), fixable by the real-TU-verify rule above. The 5 nears (func_80134A74 71→16,
+func_80133AB0 →28 aligned, func_8012FCC4 beqz/jal delay-swap, func_80185BA4 65, func_801670E4 70 "irreducible") are
+permuter-ILS fuel / G4 candidates.

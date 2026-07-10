@@ -73,6 +73,24 @@ idiom curriculum → sweep one exemplar per family (curriculum-ordered), each cr
 > (density-lever catalog + 3 tooling gotchas). Doc checkpoint commit next. F-band ≤28 wave = **DONE** (4/9 banked,
 > residuals backlogged above); NEXT F-band sub-tiers = 29–100 §31-Opus band + the residual re-cracks (memcpy-class
 > func_8017B614, jtbl func_801549F8) + func_80141A60's frame-pad siblings (per-sibling frame analysis).
+> **WAVE 2 (`wf_dbadb86a-6b7`, 14 workers, 2026-07-10b):** 9/14 iso-MATCH (R14) → GATE **4 BANKED** (func_80133784
+> 203-ins 29-100 win · func_8017B614 memcpy-fix HELD · func_8017EF50 · func_80145CEC) + **5 iso-drift** (func_80136824/
+> 80164930/8014DD8C/8016C188/80168828 — cracked isolation-only → drift) + 5 near (func_80134A74 71→16, func_80133AB0
+> →28aligned, func_8012FCC4 c=3 beqz/jal delay-swap, func_80185BA4 c=65, func_801670E4 c=70 "irreducible"→G4-candidate).
+> Sweeping the 4 ×134 (`buserg6v8`). **META-LESSON (→ wave 3 prompt + cookbook §42 addendum): iso-MATCH ≠ real-TU bank
+> (5/9 drifted); the ONLY iso-drift fn that banked (func_8017B614) did so because its worker VERIFIED against the
+> reconciled real TU (embed def into a scratch copy of the split .c, compile whole TU, objdump-compare) — wave 3
+> workers MUST do this, not isolation-only.** DURABLE LEVER (cookbook): memcpy-builtin→CALL fix = replace `memcpy(x,y,8)`
+> with `typedef struct{u8 b[8];}Blk8; *(Blk8*)x=*(Blk8*)y;` (routes emit_block_move lwl/lwr/swl/swr, references NO memcpy
+> symbol → immune to the TU-wide builtin-disable; mirrors sibling func_8017B368's SV4 struct-assign idiom).
+> **✅ WAVE 2 R22 CLEAN-FLEET 136/136 GREEN. Fleet 73.73% → 73.85%.** Sweep 399/0 (`commit:0502`); cookbook §42a written
+> (real-TU-verify rule + memcpy fix + 5 levers). **SESSION TOTAL: fleet 73.66% → 73.85% (+0.19%, ~673 fns): wave 1
+> 4 exemplars + 266 siblings (commit:0500/commit:0501), wave 2 4 exemplars + 399 siblings (commit:0502).** dedup 1813,
+> NON_MATCHING 7 (0 in default build). **NEXT (fresh session recommended, phase OPEN): WAVE 3 with the real-TU-verify
+> rule (§42a) baked into the worker prompt** over: the 5 wave-2 iso-drift fns (func_80136824/80164930/8014DD8C/8016C188/
+> 80168828) + the 5 nears (func_80134A74 c=16, func_80133AB0 c=28, func_8012FCC4 c=3, func_80185BA4 c=65, func_801670E4 c=70)
+> + the >100 band (task #4, re-triage naive-inflated first) + the deferred tiers (jtbl func_801549F8, -O0 func_801457A4,
+> func_80141A60 frame-pad siblings). Gate recipe: reconcile → `harvest_verify --out build/ov_SC01_077/ov_SC01_077` → `family_sweep --reconcile --commit` → R22 (clean+extract-ALL-136+check-all).
 > **TOOLING GOTCHA (fix in cookbook/SETUP):** `harvest_verify` for a NON-resident binary MUST pass `--out
 > build/<bin>/<bin>` — its `build()` removes+sha1s `--out` (defaults to `build/resident/resident`), so without it every
 > overlay draft spuriously reports "final SHA None"/fail even when byte-identical. func_80180F10 needed the RAW draft
