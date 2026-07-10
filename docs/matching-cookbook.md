@@ -2438,3 +2438,22 @@ gate" (R14): the probe compiles to an OBJECT and masks jal/%hi/%lo, so it is bli
 misses rodata (jump tables, float/string pools) and all link-time resolution. Size a "mechanical" tier from
 the WHOLE-BINARY gate on a sample, or expect a ~15% object-probe over-count and treat the surplus as the two
 classes above. `tools/t7_bank.py` (reconcile-per-round + chunk-bisection) is the reusable M1 driver.
+
+### §41c — T7-M2: the ×134 def-side-wall sweep via per-sibling RE-reconcile (Phase 25, 2026-07-10; 4,389 banks, ~0 agent tokens)
+
+§40's mechanical `family_remap` (symbol-remap a matched exemplar → sibling) banks **0** for the def-side-wall
+giants: the ov077-reconciled body carries ov077-specific block-scope-vs-ambient decisions, and each sibling's
+DIFFERENT decompile state (different fns banked above the splice) needs those decisions RE-COMPUTED. The
+Q5-proven fix, now `tools/family_sweep.py --reconcile <rawdir>`: per (exemplar, sibling), symbol-remap the
+**RAW** draft (source→sibling via `family_remap.symbol_map`) then **re-run `canon_sig_reconcile` v3.2 against
+THAT sibling's TU**, then the plain whole-binary byte-gate. `engine_core.h` is SHARED so the canonical sig is
+identical fleet-wide; only the per-overlay symbol names + the sibling's visible-above set change.
+
+**Result: 4,389 of 4,655 member-remaps banked (94%)** across 133 overlays for the 35 M1 exemplars — fleet
+**72.29% → 73.58%** (+1.29%), R22 clean-fleet **136/136**, dedup-check 1813/0. The 266 misses are per-sibling
+loose-typing walls (the sibling banked a conflicting-type neighbor) → backlog. Cost: local cpp+build only,
+zero agent tokens. **Cost note:** the per-member re-reconcile runs cpp on the sibling TU prefix for
+`visible_above` — ~2 s/member (≈45 min staging for 4,655), then the group gate. `_AMBIENT_CACHE`/`_VISIBLE_CACHE`
+are cleared per sibling-TU inside the sweep (the sibling source is static during phase-1 staging, so the caches
+stay valid across exemplars for one TU). **This is the endgame's economic engine for the def-side-wall giants:
+crack + reconcile ONE exemplar, sweep it ×134 mechanically.**

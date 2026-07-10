@@ -19,6 +19,7 @@ compile and are logged for the decl-reconcile pass; they are NOT remap failures.
 import json, glob, re, subprocess, os, sys, shutil, collections, argparse
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import family_remap as FR
+import canon_sig_reconcile as CSR      # v3.2 (Phase-25 T7-M2 per-sibling re-reconcile, Q5-proven)
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PY = ".venv/bin/python"
@@ -52,6 +53,30 @@ def stub_map(ov):
     return m
 
 
+def reconcile_remap(addr, source, ov, src_rel, rawdir):
+    """The Q5-proven M2 member draft: symbol-remap the RAW exemplar draft (source->ov), then
+    RE-RECONCILE against THIS sibling's TU (canon_sig_reconcile v3.2 — the block-scope-vs-ambient
+    decisions depend on the sibling's own decompile state, so a single ov077-reconciled body can't
+    just be remapped). Returns text or None."""
+    fn = f"func_{addr:08X}"
+    raw = os.path.join(REPO, rawdir, fn + ".c")
+    if not os.path.exists(raw):
+        return None
+    m, err = FR.symbol_map(addr, source, ov)
+    if err:
+        return None
+    text = open(raw).read()
+    for s, d in m.items():
+        text = re.sub(rf"\b{s}\b", d, text)
+    CSR._AMBIENT_CACHE.pop(src_rel, None)               # sibling TU is static during phase-1 staging,
+    for k in [k for k in CSR._VISIBLE_CACHE if k[0] == src_rel]:  # but each fn needs its own visibility
+        CSR._VISIBLE_CACHE.pop(k, None)
+    try:
+        return CSR.reconcile(fn, text, None, src_rel)
+    except Exception:
+        return None
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--source", default="ov_SC01_077")
@@ -60,6 +85,9 @@ def main():
     ap.add_argument("--chunk", type=int, default=8)
     ap.add_argument("--commit", action="store_true")
     ap.add_argument("--only", default=None, help="comma-separated exemplar addrs to sweep (validation)")
+    ap.add_argument("--reconcile", default=None, metavar="RAWDIR",
+                    help="M2 def-side-wall path: per (exemplar,sibling), symbol-remap the RAW draft in RAWDIR "
+                         "then canon_sig_reconcile against the sibling TU (Q5-proven). Implies --no-preclassify.")
     ap.add_argument("--no-preclassify", action="store_true",
                     help="skip the match_one isolation pre-classify (it can't see src/shared/engine_types.h, "
                          "so it false-negatives type-lifted families); route every remappable exemplar straight "
@@ -97,6 +125,8 @@ def main():
     # keeps the sweep gating only clean drafts. Deferred -> .run/sweep_deferred.txt (decl-reconcile pass).
     simple, deferred = [], []
     for addr, nins, sibs in exemplars:
+        if a.reconcile:                                         # M2: gate is the sole arbiter, no pre-classify
+            simple.append((addr, nins, sibs)); continue
         draft, _ = FR.remap(addr, a.source, sibs[0])
         if draft is None:
             deferred.append((addr, "remap-fail")); continue
@@ -120,11 +150,14 @@ def main():
     remap_fail = 0
     for addr, nins, sibs in exemplars:
         for ov in sibs:
-            draft, m = FR.remap(addr, a.source, ov)
+            src_rel, subdir = stubs[ov][addr]
+            if a.reconcile:
+                draft = reconcile_remap(addr, a.source, ov, src_rel, a.reconcile)
+            else:
+                draft, _ = FR.remap(addr, a.source, ov)
             if draft is None:
                 remap_fail += 1
                 continue
-            src_rel, subdir = stubs[ov][addr]
             d = os.path.join(REPO, SWEEP, ov)
             os.makedirs(d, exist_ok=True)
             open(os.path.join(d, f"func_{addr:08X}.c"), "w").write(draft + "\n")

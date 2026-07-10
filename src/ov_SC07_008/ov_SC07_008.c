@@ -820,9 +820,68 @@ s32 func_8012DB84(void)
 
 DEFINE_func_8012DBD0()  /* dedup: shared engine-core @0x8012DBD0 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC07_008/nonmatchings/ov_SC07_008", func_8012DDA4);
+// @class: regalloc-order
+// @stuck: none — MATCH
 
-INCLUDE_ASM("asm/ov_SC07_008/nonmatchings/ov_SC07_008", func_8012DE2C);
+
+typedef struct Entry_8012DDA4 {
+    u16 active;
+    unsigned char pad[0x10C - 2];
+} Entry_8012DDA4;
+
+
+s32 func_8012DDA4()
+{
+    extern Entry_8012DDA4 * D_801952BC;
+    extern Entry_8012DDA4 * D_801952B8;
+
+    Entry_8012DDA4 *p;
+    Entry_8012DDA4 *end = ((Entry_8012DDA4 *)D_80126720);
+
+    while (D_801952BC != end) {
+        p = D_801952BC;
+        if (p->active != 0 && p != D_801952B8) {
+            D_801952BC = p + 1;
+            return p;
+        }
+        D_801952BC++;
+    }
+    D_801952BC = 0;
+    return 0;
+}
+
+
+
+// @class: plumbing
+// @stuck: none — MATCH (35/35 ins, relocation-masked)
+
+
+s32 func_8012DE2C(s32 a0) {
+    extern u8 * D_801952BC;
+    extern u8 * D_801952B8;
+
+    u8 *base;
+    u8 *end;
+    u8 *p;
+
+    base = D_801202A0;
+    end = base + 0x6480;
+    D_801952BC = base;
+    D_801952B8 = ((u8 *)a0);
+
+    while (D_801952BC != end) {
+        p = D_801952BC;
+        if (*(u16 *)p != 0 && p != ((u8 *)a0)) {
+            D_801952BC = p + 0x10C;
+            return p;
+        }
+        D_801952BC += 0x10C;
+    }
+    D_801952BC = 0;
+    return 0;
+}
+
+
 
 DEFINE_func_8012DEB8()  /* dedup: shared engine-core @0x8012DEB8 (src/shared) */
 
@@ -1284,9 +1343,84 @@ do_call:
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_008/nonmatchings/ov_SC07_008", func_80131170);
+// @class: loop-guard
+// @stuck: none — MATCH (88 ins). Keys: duplicate the c!=0/c==0 bodies verbatim (gcc cross-jumps
+//   the shared "|=4;goto tail" into L240 on its own); tail dispatch as `if (((s32(*)(s32))func_8012BCCC)(p) <= 0x8FFF)`
+//   (the <= polarity makes the >0x8FFF/0x33-first block the bnez'd else=L298, fall-through = 0x32-first);
+//   both AC8 tails cross-jump-merge into the shared L2AC final call. Externs aligned to the file's
+//   existing decls for gate-safety: func_80131B14(void) [file line 1486], func_8012B14C/func_8012BCCC
+//   canonical (s32) [DEFINE macros], ((s32(*)())func_80131AC8)() no-proto (compatible w/ later 1-arg DEFINE, 2-arg call).
 
-INCLUDE_ASM("asm/ov_SC07_008/nonmatchings/ov_SC07_008", func_801312D0);
+
+void func_80131170(s32 p, s32 b, s32 c) {
+    extern u8 D_8017D664[];
+
+    func_80131B14();
+    *(u8 *)(((u8 *)p) + 0xC2) = 0;
+    *(u8 *)(((u8 *)p) + 0xC3) = 0;
+    *(s16 *)(((u8 *)p) + 0x98) = 0;
+    if (((u8 *)b) == 0) {
+        ((u8 *)b) = D_8017D664;
+    }
+    func_8012B14C((s32)((u8 *)p), (s32)((u8 *)b));
+    *(s32 *)(((u8 *)p) + 0x1C) = 0;
+    if (c != 0) {
+        if (((s32(*)(s32, s32))func_80131A34)((s32)((u8 *)p), c) != 0) goto tail;
+        if (((s32(*)(s32, s32))func_80131A34)((s32)((u8 *)p), 0x24) != 0) goto tail;
+        *(s32 *)(((u8 *)p) + 0xC4) &= ~4;
+        if (((s32(*)(s32, s32))func_80131A34)((s32)((u8 *)p), 0x20) != 0) {
+            *(s32 *)(((u8 *)p) + 0xC4) |= 4;
+        } else {
+            *(s16 *)(((u8 *)p) + 0x98) = 0;
+        }
+    } else {
+        if (((s32(*)(s32, s32))func_80131A34)((s32)((u8 *)p), 0x24) != 0) goto tail;
+        *(s32 *)(((u8 *)p) + 0xC4) &= ~4;
+        if (((s32(*)(s32, s32))func_80131A34)((s32)((u8 *)p), 0x20) != 0) {
+            *(s32 *)(((u8 *)p) + 0xC4) |= 4;
+        } else {
+            *(s16 *)(((u8 *)p) + 0x98) = 0;
+        }
+    }
+tail:
+    if (*(s16 *)(((u8 *)p) + 0x76) > 0) {
+        return;
+    }
+    if (((s32(*)(s32))func_8012BCCC)((s32)((u8 *)p)) <= 0x8FFF) {
+        if (((s32(*)())func_80131AC8)(((u8 *)p), 0x32) != 0) return;
+        ((s32(*)())func_80131AC8)(((u8 *)p), 0x33);
+    } else {
+        if (((s32(*)())func_80131AC8)(((u8 *)p), 0x33) != 0) return;
+        ((s32(*)())func_80131AC8)(((u8 *)p), 0x32);
+    }
+}
+
+
+
+// @class: struct
+// @stuck: none — MATCH (8-byte alignment-1 struct copy → lwl/lwr/swl/swr)
+
+typedef struct { char _b[8]; } M8_801312D0;   /* size 8, alignment 1 -> unaligned copy */
+
+
+s32 func_801312D0(s32 param_1, void *param_2)
+{
+    extern int func_80131CF4(int, int);
+    extern M8_801312D0 D_8017D7B8;
+
+    int iVar5;
+
+    iVar5 = func_80131CF4(*(int *)(((int)param_1) + 0xBC), 0x2E);
+    if (iVar5 != 0) {
+        ((short *)param_2)[2] = 0;
+        ((short *)param_2)[0] = 0;
+        ((short *)param_2)[1] = (short)iVar5;
+    } else {
+        *(M8_801312D0 *)((short *)param_2) = D_8017D7B8;
+    }
+}
+
+
 
 INCLUDE_ASM("asm/ov_SC07_008/nonmatchings/ov_SC07_008", func_80131340);
 
@@ -1421,13 +1555,155 @@ INCLUDE_ASM("asm/ov_SC07_008/nonmatchings/ov_SC07_008", func_80134310);
 
 DEFINE_func_8013435C()  /* dedup: shared engine-core @0x8013435C (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC07_008/nonmatchings/ov_SC07_008", func_801343C4);
+// @class: schedule
+// @stuck: none — MATCH (83 ins, relocation-masked)
+
+
+
+s32 func_801343C4(s32 angle, s32 p1, s32 p2)
+{
+    extern int func_80133AB0(int, s16, s16, int);
+    extern s16 * D_8017D890;
+    extern s16 * D_8017D894;
+    extern u16 D_80195318;
+    extern u16 D_80195314;
+
+    s16 *pac;
+    s16 *pb0;
+    s16 *pacs, *pb0s;
+    u16 *pb0u;
+    int a1v, a2v, d94, b0;
+    int sangle = ((s16)angle);
+
+    pac = D_8017D890;
+    d94 = D_80195308;
+    pb0 = D_8017D894;
+    pac[0] = ((u16 *)p1)[0];
+    pac[1] = ((u16 *)p1)[1];
+    pac[2] = ((u16 *)p1)[2];
+    pb0[0] = ((u16 *)p2)[0];
+    pb0[1] = ((u16 *)p2)[1];
+    pb0[2] = ((u16 *)p2)[2];
+
+    a1v = pac[0]; a2v = pac[2];
+    __asm__ __volatile__("" ::: "memory");
+    D_80195318 = 0;
+    D_80195314 = 0;
+    if (func_80133AB0(sangle, a1v, a2v, d94)) {
+    setdst:
+        pb0u = (u16 *)D_8017D894;
+        ((u16 *)p2)[0] = pb0u[0];
+        ((u16 *)p2)[1] = pb0u[1];
+        ((u16 *)p2)[2] = pb0u[2];
+        ((u16 *)p2)[3] = D_80195318;
+        return 1;
+    }
+
+    pacs = D_8017D890;
+    pb0s = D_8017D894;
+    b0 = pb0s[0];
+    if ((pacs[0] & 0xFF80) == (b0 & 0xFF80) &&
+        (pacs[2] & 0xFF80) == (pb0s[2] & 0xFF80)) {
+        return 0;
+    }
+    if (func_80133AB0(sangle, b0, pb0s[2], D_80195308)) {
+        goto setdst;
+    }
+    return 0;
+}
+
+
 
 INCLUDE_ASM("asm/ov_SC07_008/nonmatchings/ov_SC07_008", func_80134510);
 
 INCLUDE_ASM("asm/ov_SC07_008/nonmatchings/ov_SC07_008", func_801345F8);
 
-INCLUDE_ASM("asm/ov_SC07_008/nonmatchings/ov_SC07_008", func_801347A0);
+// @class: regalloc-order
+// @stuck: none — MATCH (162 ins). iv pinned to $4 (a0) forces move+delay-slot negu; divisor-temp forces divisor-first schedule (load-delay nop). Globals declared pointer-typed (SVec_801347A0*/s16*) so %lo folds per-use instead of &sym address-CSE into callee regs.
+#include "common.h"
+
+typedef struct {
+    /* 0x00 */ u16 f0;
+    /* 0x02 */ s16 f2;
+    /* 0x04 */ s16 f4;
+    /* 0x06 */ s16 f6;
+    /* 0x08 */ s16 f8;
+    /* 0x0A */ s16 fa;
+    /* 0x0C */ s16 fc;
+    /* 0x0E */ s16 fe;
+    /* 0x10 */ s16 f10;
+    /* 0x12 */ s16 f12;
+    /* 0x14 */ s16 f14;
+} S0_801347A0;
+
+typedef struct {
+    /* 0x0 */ s16 f0;
+    /* 0x2 */ s16 f2;
+    /* 0x4 */ s16 f4;
+    /* 0x6 */ s16 f6;
+} Elem_801347A0;
+
+typedef struct {
+    /* 0x0 */ u16 f0;
+    /* 0x2 */ u16 f2;
+    /* 0x4 */ u16 f4;
+    /* 0x6 */ u16 f6;
+} SVec_801347A0;
+
+
+
+s32 func_801347A0(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
+    extern s32 func_80134A28(s32 a0, s32 a1, s32 a2);
+    extern s16 * D_8017D894;
+    extern SVec_801347A0 * D_8017D890;
+    extern SVec_801347A0 * D_8017D898;
+
+    Elem_801347A0 *pElem;
+    s32 val;
+    register s32 iv __asm__("$4");
+    s32 q;
+    s32 dvsr;
+
+    pElem = &((Elem_801347A0 *)arg2)[((S0_801347A0 *)arg1)->f2];
+    val = ((s32 *)arg3)[((S0_801347A0 *)arg1)->f4];
+    if (func_80134A28((s32)pElem, (s32)D_8017D894, val) >= 0) {
+        return 0;
+    }
+    iv = func_80134A28((s32)pElem, (s32)D_8017D890, val);
+    if (iv < 0) {
+        return 0;
+    }
+    iv = -iv;
+    dvsr = pElem->f2 * 48;
+    q = (iv * 48) / dvsr;
+    D_8017D898->f0 = D_8017D890->f0;
+    D_8017D898->f2 = D_8017D890->f2 + q;
+    D_8017D898->f4 = D_8017D890->f4;
+    if (func_80134A28((s32)&((Elem_801347A0 *)arg2)[((S0_801347A0 *)arg1)->f6], (s32)D_8017D898, ((s32 *)arg3)[((S0_801347A0 *)arg1)->f8]) < -0x2F00) {
+        return 0;
+    }
+    if (func_80134A28((s32)&((Elem_801347A0 *)arg2)[((S0_801347A0 *)arg1)->fa], (s32)D_8017D898, ((s32 *)arg3)[((S0_801347A0 *)arg1)->fc]) < -0x2F00) {
+        return 0;
+    }
+    if (func_80134A28((s32)&((Elem_801347A0 *)arg2)[((S0_801347A0 *)arg1)->fe], (s32)D_8017D898, ((s32 *)arg3)[((S0_801347A0 *)arg1)->f10]) < -0x2F00) {
+        return 0;
+    }
+    if ((s16)arg0) {
+        if (func_80134A28((s32)&((Elem_801347A0 *)arg2)[((S0_801347A0 *)arg1)->f12], (s32)D_8017D898, ((s32 *)arg3)[((S0_801347A0 *)arg1)->f14]) < -0x2F00) {
+            return 0;
+        }
+    }
+    if ((((S0_801347A0 *)arg1)->f0 & 0x300) != 0) {
+        return 0;
+    }
+    D_8017D898->f0 = D_8017D890->f0;
+    D_8017D898->f4 = D_8017D890->f4;
+    (*(Elem_801347A0*)D_801152A8) = *pElem;
+    D_8017D890->f6 = pElem->f2;
+    return 1;
+}
+
+
 
 DEFINE_func_80134A28()  /* dedup: shared engine-core @0x80134A28 (src/shared) */
 
@@ -1437,7 +1713,67 @@ INCLUDE_ASM("asm/ov_SC07_008/nonmatchings/ov_SC07_008", func_80134C20);
 
 DEFINE_func_80134FB8()  /* dedup: shared engine-core @0x80134FB8 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC07_008/nonmatchings/ov_SC07_008", func_80135004);
+// @class: plumbing
+// @stuck: MATCH (89 ins). To BANK: retype D_8017D894 + D_8017D890 (u8 -> s16*) in sibling func_80135168's externs (src/ov_SC01_077/ov_SC01_077_a.c ~L1879); they hold pointers double-referenced across a call, so only a 4-byte/pointer decl folds %lo (u8 &-cast CSE's the address into a saved reg). Retype is byte-NEUTRAL for the sibling (verified: identical objdump bytes u8 vs s16*).
+
+
+
+
+s32 func_80135004(s32 arg0, s32 p1, s32 p2)
+{
+    extern int func_80134A74(int, s16, s16, int);
+    extern s16 * D_8017D894;
+    extern s16 * D_8017D890;
+    extern u8 D_8017D89C;
+    extern s32 D_8017D898[];
+    extern u16 D_80195318;
+
+    register s16 *pb0 __asm__("$9");   /* D_8017D894 -> $t1 */
+    register s16 *pac __asm__("$6");   /* D_8017D890 -> $a2 */
+    register s16 *pb8 __asm__("$8");   /* D_8017D89C -> $t0 */
+    u16 *pb4;
+    u16 a, b;
+    int id;
+    int a1v, a2v, d94;
+
+    pb0 = D_8017D894;
+    __asm__ __volatile__("" : : "r"(pb0));
+
+    a = ((u16 *)p2)[0]; pac = D_8017D890; pb0[0] = a; b = ((u16 *)p1)[0]; pb8 = (*(s16 * *)&D_8017D89C); pac[0] = b; pb8[0] = a - b;
+    a = ((u16 *)p2)[1]; pb0[1] = a; b = ((u16 *)p1)[1]; pac[1] = b; pb8[1] = a - b;
+    a = ((u16 *)p2)[2]; pb0[2] = a; b = ((u16 *)p1)[2]; pac[2] = b; pb8[2] = a - b;
+
+    id = ((int)arg0) & 0xFFFF;
+    a1v = pac[0]; a2v = pac[2]; d94 = D_80195308;
+    __asm__ __volatile__("" ::: "memory");
+    D_80195318 = 0;
+
+    if (func_80134A74(id, a1v, a2v, d94)) {
+    found:
+        pb4 = (*(u16 * *)&D_8017D898);
+        ((u16 *)p2)[0] = pb4[0];
+        ((u16 *)p2)[1] = pb4[1];
+        ((u16 *)p2)[2] = pb4[2];
+        ((u16 *)p2)[3] = D_80195318;
+        return 1;
+    }
+    {
+        register u16 *qb __asm__("$4");   /* D_8017D890 -> $a0 (reloaded) */
+        register int qa0 __asm__("$5");   /* D_8017D894[0], kept in $a1 for the 2nd-call arg */
+        register u16 *qa __asm__("$6");   /* D_8017D894 -> $a2 (reloaded) */
+        qb = (u16 *)D_8017D890;
+        qa = (u16 *)D_8017D894;
+        qa0 = qa[0];
+        if (((qb[0] & 0xFF80) == (qa0 & 0xFF80)) &&
+            ((qb[2] & 0xFF80) == (qa[2] & 0xFF80)))
+            return 0;
+        if (func_80134A74(id, (s16)qa0, (s16)qa[2], D_80195308))
+            goto found;
+        return 0;
+    }
+}
+
+
 
 
 // @class: schedule
@@ -1502,7 +1838,51 @@ INCLUDE_ASM("asm/ov_SC07_008/nonmatchings/ov_SC07_008", func_801365B8);
 
 INCLUDE_ASM("asm/ov_SC07_008/nonmatchings/ov_SC07_008", func_80136824);
 
-INCLUDE_ASM("asm/ov_SC07_008/nonmatchings/ov_SC07_008", func_80136A94);
+// @class: schedule
+// @stuck: none — MATCH (76 ins, relocation-masked). Key lever: the D_80126720/22/24 tail is a
+//   global-short RMW `+=`. Writing it via a cast `*(u16*)&SYM = *(u16*)&SYM + x` makes gcc CSE
+//   the address into a base reg (base-reuse) for ALL three — but the target only base-reuses
+//   D_80126720 (a SCHEDULER artifact: its addr-lui fills the load-delay slot after the pb4[4]
+//   load, and since $v0 is live it lands in $a0, reused for load+store). D_80126722/24 use the
+//   plain inline 2-lui form. Fix = DIRECT scalar RMW `SYM = SYM + x` (no &/cast) → inline %hi/%lo;
+//   the scheduler alone forces base-reuse on #1. Also: `s16 D_80126724 = D_80126724 + int` emits
+//   LHU (gcc-2.7.2 drops the sign-extend because the sum is truncated to 16b on the sh) — so the
+//   canonical s16 decl is byte-safe here (no u16 retype needed, keeps the sign-sensitive callers).
+
+
+extern s32 D_8017D898[];   /* holds a pointer value (*(u16**)&D_8017D898) */
+
+s32 func_80136A94(s32 a0, s32 a1, s32 a2, s32 a3) {
+    extern void ApplyMatrixSV(void *m, void *v0, void *v1);
+    extern void ApplyRotMatrix(void *v0, void *v1);
+    extern u16 D_80126722;
+    extern s16 D_80126724;
+    extern s16 D_801152AA;
+    extern s16 D_801152AC;
+
+    s32 out[4];
+    u16 *pb4;
+
+    if (a0) {
+        ApplyMatrixSV((void *)a3, *(void **)&D_8017D898, *(void **)&D_8017D898);
+        ApplyMatrixSV((void *)a3, (void *)D_80126720, (void *)D_80126720);
+        ApplyRotMatrix((void *)D_801152A8, (void *)out);
+        *(s16 *)D_801152A8 = out[0];
+        D_801152AA = out[1];
+        D_801152AC = out[2];
+    }
+
+    pb4 = *(u16 **)&D_8017D898;
+    *(s16 *)(a2)     = pb4[0] + *(s32 *)(a1 + 0x48);
+    *(s16 *)(a2 + 2) = pb4[1] + *(s32 *)(a1 + 0x4C);
+    *(s16 *)(a2 + 4) = pb4[2] + *(s32 *)(a1 + 0x50);
+
+    *(u16 *)D_80126720 = *(u16 *)D_80126720 + *(s32 *)(a1 + 0x48);
+    D_80126722 = D_80126722 + *(s32 *)(a1 + 0x4C);
+    D_80126724 = D_80126724 + *(s32 *)(a1 + 0x50);
+}
+
+
 
 DEFINE_func_80136BC4()  /* dedup: shared engine-core @0x80136BC4 (src/shared) */
 
@@ -1516,7 +1896,21 @@ DEFINE_func_80136C4C()  /* dedup: shared engine-core @0x80136C4C (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC07_008/nonmatchings/ov_SC07_008", func_80136C54);
 
-INCLUDE_ASM("asm/ov_SC07_008/nonmatchings/ov_SC07_008", func_80136C90);
+// @class: struct
+// @stuck: none — MATCH (28 ins). 10-byte 1-aligned struct copy (S10_80136C90{char s[10]}) from global D_8019438C into a stack buffer, then func_8001534C(0,&buf,0x78,0x10,0,0). gcc emits the block move as 2 unaligned words (lwl/lwr+swl/swr) + 2 bytes (lb/sb).
+
+typedef struct { char s[10]; } S10_80136C90;
+
+s32 func_80136C90()
+{
+    extern void func_8001534C(int, void *, int, int, int, int);
+    extern S10_80136C90 D_8019438C;
+
+    S10_80136C90 buf = D_8019438C;
+    func_8001534C(0, &buf, 0x78, 0x10, 0, 0);
+}
+
+
 
 DEFINE_func_80136D00()  /* dedup: shared engine-core @0x80136D00 (src/shared) */
 
@@ -1805,7 +2199,69 @@ DEFINE_func_8013AA24()  /* dedup: shared engine-core @0x8013AA24 (src/shared) */
 
 DEFINE_func_8013AB54()  /* dedup: shared engine-core @0x8013AB54 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC07_008/nonmatchings/ov_SC07_008", func_8013AD38);
+// @class: schedule
+// @stuck: none — MATCH (122 ins). GTE lerp+mvmva loop. Two levers: (1) flat `extern s16`
+//   source arrays indexed [2*i]/[2*i+1] force 4 separate walking IVs (t2/t3/t4/t5) instead of
+//   one shared offset-IV + symbol(reg) addressing; (2) INVERTED-arm if/else
+//   `if (flag<0) out3=-tbl; else out3=tbl;` gives the target's bgez polarity + reload-per-arm
+//   sign-flip block (a plain ?: hoists the common lbu; the inverted if/else does not, and gcc
+//   still merges the sb). out2[i]=out2[0] tail-copy of the align-2 Pair_8013AD38 emits lwl/lwr/swl/swr.
+#include "common.h"
+
+typedef struct { s16 x, y; } Pair_8013AD38;
+
+extern s16 D_800D45F4[];   /* src0 (flat: [2*i]=x, [2*i+1]=y) */
+extern u8  D_8017D9D0[];   /* sign table, alt (when a1 < 0xC00) */
+
+#define gte_ldv0(r0)  __asm__ __volatile__( \
+    "lwc2 $0, 0(%0)\n" \
+    "lwc2 $1, 4(%0)\n" \
+    : : "r"(r0) : "memory")
+
+#define gte_mvmva0()  __asm__ __volatile__( \
+    "nop\n" \
+    "nop\n" \
+    "mvmva 1, 0, 0, 0, 0\n" \
+    : : : "memory")
+
+#define gte_stlvnl(r0)  __asm__ __volatile__( \
+    "swc2 $25, 0(%0)\n" \
+    "swc2 $26, 4(%0)\n" \
+    "swc2 $27, 8(%0)\n" \
+    : : "r"(r0) : "memory")
+
+void func_8013AD38(void *flag, s32 a1, void *out2, void *out3)
+{
+    extern s16 D_800D466C[];
+    extern u8 D_8017DA0C[];
+
+    u8 *tbl;
+    s16 vec[4];
+    s32 res[3];
+    s32 i;
+
+    tbl = D_8017DA0C;
+    if (((s16)a1) < 0xC00) {
+        tbl = D_8017D9D0;
+    }
+
+    for (i = 0; i < 30; i++) {
+        vec[0] = D_800D45F4[2 * i]     + (((D_800D466C[2 * i]     - D_800D45F4[2 * i])     * ((s16)a1)) >> 12);
+        vec[1] = D_800D45F4[2 * i + 1] + (((D_800D466C[2 * i + 1] - D_800D45F4[2 * i + 1]) * ((s16)a1)) >> 12);
+        gte_ldv0(vec);
+        gte_mvmva0();
+        gte_stlvnl(res);
+        ((Pair_8013AD38 *)out2)[i].x = res[0];
+        ((Pair_8013AD38 *)out2)[i].y = res[1];
+        if (((s16 *)flag)[0] < 0) ((s8 *)out3)[2 * i]     = -tbl[2 * i];     else ((s8 *)out3)[2 * i]     = tbl[2 * i];
+        if (((s16 *)flag)[1] < 0) ((s8 *)out3)[2 * i + 1] = -tbl[2 * i + 1]; else ((s8 *)out3)[2 * i + 1] = tbl[2 * i + 1];
+    }
+    ((Pair_8013AD38 *)out2)[i] = ((Pair_8013AD38 *)out2)[0];
+    if (((s16 *)flag)[0] < 0) ((s8 *)out3)[2 * i]     = -tbl[0]; else ((s8 *)out3)[2 * i]     = tbl[0];
+    if (((s16 *)flag)[1] < 0) ((s8 *)out3)[2 * i + 1] = -tbl[1]; else ((s8 *)out3)[2 * i + 1] = tbl[1];
+}
+
+
 
 DEFINE_func_8013AF20()  /* dedup: shared engine-core @0x8013AF20 (src/shared) */
 
@@ -2101,7 +2557,75 @@ void func_8013CB5C(void) {
 
 INCLUDE_ASM("asm/ov_SC07_008/nonmatchings/ov_SC07_008", func_8013CB84);
 
-INCLUDE_ASM("asm/ov_SC07_008/nonmatchings/ov_SC07_008", func_8013CF68);
+// @class: struct
+// @stuck: none — MATCH (63 ins)
+//
+// Sets up 3 consecutive 16-byte records (at D_800A5E88[0..2]: {s32 a,b,c; u8 d,e,f,g})
+// and registers each via func_80028620(i, &rec[i]).
+//
+// Keys to the byte match:
+//  (1) The base pointer is anchored at D_800A5E94 (= &rec0.d, i.e. rec0+0xC) and materialized
+//      via a NON-volatile inline-asm `la` so gcc treats it as OPAQUE (not a const symbol).
+//      Opacity is what makes the base-relative stores FOLD into `off($s0)` instead of
+//      const-folding to a direct `lui $at; sw %lo(sym)`. A `__asm__ __volatile__` re-tie
+//      barrier (cookbook §21) also launders base, but the barrier pins the schedule and
+//      pushes the first call's `a0=0` down; the non-volatile `la` avoids the barrier so the
+//      scheduler still hoists `addu $a0,$zero,$zero` to the top (matches target idx1).
+//  (2) rec0's inner fields (E8C/E90 ints, E95/E96 bytes) are written as DIRECT globals, not
+//      base-relative — in the entry block gcc emits them as `lui $at; sw/sb %lo(sym)`. Only
+//      the address-taken E88 (= call arg base-0xC) and the offset-0 E94 fold via $s0. rec1/rec2
+//      fold entirely (base opaque, all offsets small).
+//  (3) The three source bytes per record are loaded into temps t0/t1/t2 BEFORE the stores so
+//      gcc keeps them live in three registers ($v1/$a2/$a3) as a group (not one-at-a-time in $v0).
+//  (4) Statement order matches the target scheduler: rec1 stores b(=7) before the loads;
+//      rec2 stores b(=-0x12) AFTER the loads (the differing constants drive the scheduler).
+#include "common.h"
+
+
+void func_8013CF68()
+{
+    extern void func_80028620();
+    extern u8 D_800A5E94[];
+    extern s32 D_800A5E8C;
+    extern s32 D_800A5E90;
+    extern u8 D_800A5E95;
+    extern u8 D_800A5E96;
+    extern u8 D_801965F0;
+    extern u8 D_801965F1;
+    extern u8 D_801965F2;
+    extern u8 D_801965F3;
+    extern u8 D_801965F4;
+    extern u8 D_801965F5;
+    extern u8 D_801965F6;
+    extern u8 D_801965F7;
+    extern u8 D_801965F8;
+
+    u8 t0, t1, t2;
+    u8 *base;
+    __asm__("la %0, D_800A5E94" : "=r"(base));
+
+    *(s32 *)(base - 0xC) = 0;
+    t0 = D_801965F0; t1 = D_801965F1; t2 = D_801965F2;
+    D_800A5E8C = 0x1E;
+    D_800A5E90 = 0;
+    base[0] = t0; D_800A5E95 = t1; D_800A5E96 = t2;
+    func_80028620(0, base - 0xC);
+
+    *(s32 *)(base + 4) = 0; *(s32 *)(base + 8) = 7;
+    t0 = D_801965F3; t1 = D_801965F4; t2 = D_801965F5;
+    *(s32 *)(base + 0xC) = 0x14;
+    base[0x10] = t0; base[0x11] = t1; base[0x12] = t2;
+    func_80028620(1, base + 4);
+
+    *(s32 *)(base + 0x14) = 0;
+    t0 = D_801965F6; t1 = D_801965F7; t2 = D_801965F8;
+    *(s32 *)(base + 0x18) = -0x12;
+    *(s32 *)(base + 0x1C) = 0;
+    base[0x20] = t0; base[0x21] = t1; base[0x22] = t2;
+    func_80028620(2, base + 0x14);
+}
+
+
 
 
 // @class: schedule
@@ -2345,7 +2869,87 @@ void func_8013DBE4(int param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_008/nonmatchings/ov_SC07_008", func_8013DD68);
+// @class: regalloc-order
+// @stuck: none — MATCH (187 ins). Levers: struct-assign DRAWENV copy (align via type); pbase local for $s2-relative D_800B9A02; two-biv SPRT loop (q anchored one-above -> gcc re-anchors, no bare-deref); P_TAG_8013DD68 addPrim; single p var coalesces puVar7->puVar15; pins uVar2=$v1,iVar14=$a3,c5=$t3; biv-increment order sets q-init-before-puVar10-init; Buf_8013DD68 0x68 -> frame 0xA0.
+
+typedef struct { u32 addr : 24; u32 len : 8; u8 r0, g0, b0, code; } P_TAG_8013DD68;
+typedef struct { u32 w[23]; } DrawEnv_8013DD68;              /* 0x5C copy unit, align 4 */
+typedef struct { DrawEnv_8013DD68 env; u8 pad[0x0C]; } Buf_8013DD68;  /* -> frame 0xA0 (gcc adds 0x10 for the struct-copy) */
+
+
+#define IDVAL (*(u16 *)(pbase + 0xA3D2))
+#define OTE ((P_TAG_8013DD68 *)(D_800BA0E4 + IDVAL * 0x10))
+
+void func_8013DD68() {
+    extern void SetDrawEnv(void *p, void *env);
+    extern u16 D_800AF7B8;
+    extern u8 D_800BA0E4[];
+    extern u8 D_8017DCA4[];
+
+    u32 *p;
+    u16 uVar1;
+    u16 *puVar16;
+    u16 *q;
+    u16 *puVar10;
+    register u16 uVar2 __asm__("$3");
+    int uVar5;
+    register int iVar14 __asm__("$7");
+    Buf_8013DD68 buf;
+    u8 *pbase;
+    u8 *base;
+
+    pbase = D_800AF630;
+    puVar16 = (*(u16 * *)&D_80195394);
+    p = (*(u32 * *)&D_800A5E60);
+    uVar1 = *puVar16;
+    puVar16 = puVar16 + 1;
+    base = pbase + (u32)D_800AF7B8 * 0x5C;
+    buf.env = *(DrawEnv_8013DD68 *)(base + 0x38);
+    *((u8 *)&buf + 0x18) = 0;
+    SetDrawEnv(p, &buf);
+    ((P_TAG_8013DD68 *)p)->addr = OTE->addr;
+    OTE->addr = (u32)p;
+    p = p + 0x10;
+    iVar14 = 0;
+    if (uVar1 != 0) {
+        register int c5 __asm__("$11") = 5;
+        puVar10 = (u16 *)((int)p + 0x18);
+        q = puVar16 + 8;
+        do {
+            *(u8 *)((int)puVar10 + -0x15) = c5;
+            uVar2 = q[-6];
+            *(u8 *)((int)puVar10 + -0xd) = 100;
+            *(u8 *)((int)puVar10 + -0x10) = (u8)(*(int*)&D_801953C4);
+            *(u8 *)((int)puVar10 + -0xf) = (u8)(*(int*)&D_801953C8);
+            uVar5 = (*(int*)&D_801953CC);
+            *(u32 *)((int)puVar10 + -0x14) = uVar2 & 0x9ff | 0xe1000400;
+            *(u8 *)((int)puVar10 + -0xe) = (u8)uVar5;
+            *(u16 *)((int)puVar10 + -0xc) = q[-4];
+            iVar14 = iVar14 + 1;
+            *(u16 *)((int)puVar10 + -0xa) = q[-3];
+            *(u8 *)((int)puVar10 + -8) = (u8)*puVar16;
+            uVar2 = q[-7];
+            *(u16 *)((int)puVar10 + -6) = 0x7800;
+            *(u8 *)((int)puVar10 + -7) = (u8)uVar2;
+            puVar16 = puVar16 + 8;
+            *(u16 *)((int)puVar10 + -4) = q[-2];
+            *(u16 *)((int)puVar10 + -2) = q[-1];
+            ((P_TAG_8013DD68 *)p)->addr = OTE->addr;
+            puVar10 = puVar10 + 0xc;
+            OTE->addr = (u32)p;
+            p = p + 6;
+            q = q + 8;
+        } while (iVar14 < (int)(u32)uVar1);
+    }
+    SetDrawEnv(p, D_8017DCA4);
+    ((P_TAG_8013DD68 *)p)->addr = OTE->addr;
+    OTE->addr = (u32)p;
+    p = p + 0x10;
+    (*(u32 * *)&D_800A5E60) = p;
+    return;
+}
+
+
 
 
 extern s32 D_801953AC;
