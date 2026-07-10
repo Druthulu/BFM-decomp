@@ -148,7 +148,74 @@ void func_8013CB5C(void) {
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8013CB84);
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8013CF68);
+// @class: struct
+// @stuck: none — MATCH (63 ins)
+//
+// Sets up 3 consecutive 16-byte records (at D_800A5E88[0..2]: {s32 a,b,c; u8 d,e,f,g})
+// and registers each via func_80028620(i, &rec[i]).
+//
+// Keys to the byte match:
+//  (1) The base pointer is anchored at D_800A5E94 (= &rec0.d, i.e. rec0+0xC) and materialized
+//      via a NON-volatile inline-asm `la` so gcc treats it as OPAQUE (not a const symbol).
+//      Opacity is what makes the base-relative stores FOLD into `off($s0)` instead of
+//      const-folding to a direct `lui $at; sw %lo(sym)`. A `__asm__ __volatile__` re-tie
+//      barrier (cookbook §21) also launders base, but the barrier pins the schedule and
+//      pushes the first call's `a0=0` down; the non-volatile `la` avoids the barrier so the
+//      scheduler still hoists `addu $a0,$zero,$zero` to the top (matches target idx1).
+//  (2) rec0's inner fields (E8C/E90 ints, E95/E96 bytes) are written as DIRECT globals, not
+//      base-relative — in the entry block gcc emits them as `lui $at; sw/sb %lo(sym)`. Only
+//      the address-taken E88 (= call arg base-0xC) and the offset-0 E94 fold via $s0. rec1/rec2
+//      fold entirely (base opaque, all offsets small).
+//  (3) The three source bytes per record are loaded into temps t0/t1/t2 BEFORE the stores so
+//      gcc keeps them live in three registers ($v1/$a2/$a3) as a group (not one-at-a-time in $v0).
+//  (4) Statement order matches the target scheduler: rec1 stores b(=7) before the loads;
+//      rec2 stores b(=-0x12) AFTER the loads (the differing constants drive the scheduler).
+#include "common.h"
+
+
+void func_8013CF68()
+{
+    extern void func_80028620();
+    extern u8 D_800A5E94[];
+    extern s32 D_800A5E8C;
+    extern s32 D_800A5E90;
+    extern u8 D_800A5E95;
+    extern u8 D_800A5E96;
+    extern u8 D_801DA9B8;
+    extern u8 D_801DA9B9;
+    extern u8 D_801DA9BA;
+    extern u8 D_801DA9BB;
+    extern u8 D_801DA9BC;
+    extern u8 D_801DA9BD;
+    extern u8 D_801DA9BE;
+    extern u8 D_801DA9BF;
+    extern u8 D_801DA9C0;
+
+    u8 t0, t1, t2;
+    u8 *base;
+    __asm__("la %0, D_800A5E94" : "=r"(base));
+
+    *(s32 *)(base - 0xC) = 0;
+    t0 = D_801DA9B8; t1 = D_801DA9B9; t2 = D_801DA9BA;
+    D_800A5E8C = 0x1E;
+    D_800A5E90 = 0;
+    base[0] = t0; D_800A5E95 = t1; D_800A5E96 = t2;
+    func_80028620(0, base - 0xC);
+
+    *(s32 *)(base + 4) = 0; *(s32 *)(base + 8) = 7;
+    t0 = D_801DA9BB; t1 = D_801DA9BC; t2 = D_801DA9BD;
+    *(s32 *)(base + 0xC) = 0x14;
+    base[0x10] = t0; base[0x11] = t1; base[0x12] = t2;
+    func_80028620(1, base + 4);
+
+    *(s32 *)(base + 0x14) = 0;
+    t0 = D_801DA9BE; t1 = D_801DA9BF; t2 = D_801DA9C0;
+    *(s32 *)(base + 0x18) = -0x12;
+    *(s32 *)(base + 0x1C) = 0;
+    base[0x20] = t0; base[0x21] = t1; base[0x22] = t2;
+    func_80028620(2, base + 0x14);
+}
+
 
 // @class: schedule
 // @stuck: testing if/else-if with ==2 placed as the else (tail) block
@@ -443,7 +510,88 @@ void func_8013DBE4(int param_1)
     }
 }
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8013DD68);
+// @class: regalloc-order
+// @stuck: none — MATCH (187 ins). Levers: struct-assign DRAWENV copy (align via type); pbase local for $s2-relative D_800B9A02; two-biv SPRT loop (q anchored one-above -> gcc re-anchors, no bare-deref); P_TAG_8013DD68 addPrim; single p var coalesces puVar7->puVar15; pins uVar2=$v1,iVar14=$a3,c5=$t3; biv-increment order sets q-init-before-puVar10-init; Buf 0x68 -> frame 0xA0.
+
+typedef struct { u32 addr : 24; u32 len : 8; u8 r0, g0, b0, code; } P_TAG_8013DD68;
+typedef struct { u32 w[23]; } DrawEnv;              /* 0x5C copy unit, align 4 */
+typedef struct { DrawEnv env; u8 pad[0x0C]; } Buf;  /* -> frame 0xA0 (gcc adds 0x10 for the struct-copy) */
+
+
+#define IDVAL (*(u16 *)(pbase + 0xA3D2))
+#define OTE ((P_TAG_8013DD68 *)(D_800BA0E4 + IDVAL * 0x10))
+
+void func_8013DD68() {
+    extern void SetDrawEnv(void *p, void *env);
+    extern s32 D_800A5E60;
+    extern u16 D_800AF7B8;
+    extern u8 D_800AF630[];
+    extern u8 D_800BA0E4[];
+    extern u8 D_801874C0[];
+
+    u32 *p;
+    u16 uVar1;
+    u16 *puVar16;
+    u16 *q;
+    u16 *puVar10;
+    register u16 uVar2 __asm__("$3");
+    int uVar5;
+    register int iVar14 __asm__("$7");
+    Buf buf;
+    u8 *pbase;
+    u8 *base;
+
+    pbase = D_800AF630;
+    puVar16 = (*(u16 * *)&D_801D957C);
+    p = (*(u32 * *)&D_800A5E60);
+    uVar1 = *puVar16;
+    puVar16 = puVar16 + 1;
+    base = pbase + (u32)D_800AF7B8 * 0x5C;
+    buf.env = *(DrawEnv *)(base + 0x38);
+    *((u8 *)&buf + 0x18) = 0;
+    SetDrawEnv(p, &buf);
+    ((P_TAG_8013DD68 *)p)->addr = OTE->addr;
+    OTE->addr = (u32)p;
+    p = p + 0x10;
+    iVar14 = 0;
+    if (uVar1 != 0) {
+        register int c5 __asm__("$11") = 5;
+        puVar10 = (u16 *)((int)p + 0x18);
+        q = puVar16 + 8;
+        do {
+            *(u8 *)((int)puVar10 + -0x15) = c5;
+            uVar2 = q[-6];
+            *(u8 *)((int)puVar10 + -0xd) = 100;
+            *(u8 *)((int)puVar10 + -0x10) = (u8)(*(int*)&D_801D95AC);
+            *(u8 *)((int)puVar10 + -0xf) = (u8)(*(int*)&D_801D95B0);
+            uVar5 = (*(int*)&D_801D95B4);
+            *(u32 *)((int)puVar10 + -0x14) = uVar2 & 0x9ff | 0xe1000400;
+            *(u8 *)((int)puVar10 + -0xe) = (u8)uVar5;
+            *(u16 *)((int)puVar10 + -0xc) = q[-4];
+            iVar14 = iVar14 + 1;
+            *(u16 *)((int)puVar10 + -0xa) = q[-3];
+            *(u8 *)((int)puVar10 + -8) = (u8)*puVar16;
+            uVar2 = q[-7];
+            *(u16 *)((int)puVar10 + -6) = 0x7800;
+            *(u8 *)((int)puVar10 + -7) = (u8)uVar2;
+            puVar16 = puVar16 + 8;
+            *(u16 *)((int)puVar10 + -4) = q[-2];
+            *(u16 *)((int)puVar10 + -2) = q[-1];
+            ((P_TAG_8013DD68 *)p)->addr = OTE->addr;
+            puVar10 = puVar10 + 0xc;
+            OTE->addr = (u32)p;
+            p = p + 6;
+            q = q + 8;
+        } while (iVar14 < (int)(u32)uVar1);
+    }
+    SetDrawEnv(p, D_801874C0);
+    ((P_TAG_8013DD68 *)p)->addr = OTE->addr;
+    OTE->addr = (u32)p;
+    p = p + 0x10;
+    (*(u32 * *)&D_800A5E60) = p;
+    return;
+}
+
 
 extern s32 D_801D9594;
 
@@ -692,9 +840,128 @@ void func_8013EB7C(void) {
 
 DEFINE_func_8013ED6C()  /* dedup: shared engine-core @0x8013ED6C (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8013EE10);
+// @class: struct
+// @stuck: none — MATCH (94 ins, relocation-masked). Keys: (1) §18 array-of-STRUCT fold
+//   `typedef struct{s32 f0;} E4; extern E4 arr[]; arr[i].f0` defeats gcc's base-CSE/loop-hoist so each
+//   global-array access stays a per-access `lui %hi; addu idx; lw/sw %lo(sym)($at)` (a plain `s32 arr[];
+//   arr[i]` HOISTS the base into a reg → wrong). (2) §21 global-RMW: the conditional `D_80187E96` bump and
+//   the `D_80115112` increment keep the address in ONE reg → access via a pointer var, not the bare global.
+//   (3) the 2nd-loop base `q = p-8` (=&D_80115118 kept in $s0 across the calls) is declared INSIDE the loop
+//   so loop.c hoists it to the preheader slot AFTER `i=0` (an explicit pre-loop `q=` emits it BEFORE i=0,
+//   +2 off). (4) dead `s32 sp10[2];(void)sp10;` reserves the extra 8 frame bytes (0x28, not 0x20).
+//   Conflict-safe externs: asm-alias `aD80115188` (file-scope decl is scalar `s32 D_80115188`); `(u16)`
+//   cast on the `s16 D_80187E94` read for the `lhu`; `D_80115168` is undeclared elsewhere in the TU.
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8013EF88);
+typedef struct { s32 f0; } E4;
+
+
+
+s32 func_8013EE10() {
+    extern E4 aD80115188[] __asm__("D_80115188");
+    extern E4 D_80115168[];
+    extern unsigned short D_80115118;
+
+    short i;
+    u16 *p;
+    u16 old;
+    s16 *r;
+    u16 *c;
+    s32 sp10[2];
+
+    D_801151D0 = *(s32 *)&D_801151C8[(u16)D_800B9A02 * 4];
+    func_8013FAF8(0, 5);
+    for (i = 0; i < 5; i++) {
+        s32 t = D_80115168[i].f0 * 3 >> 2;
+        aD80115188[i].f0 = t;
+        D_80115168[i].f0 = D_80115168[i].f0 - t;
+    }
+    r = &D_80187E96;
+    if (*r < 3) {
+        *r = *r + 1;
+    }
+    D_80187E94 = (u16)D_80187E94 + 2;
+    p = &D_80115118;
+    old = *p;
+    *p = old + 1;
+    if (old >= 5) {
+        ((void (*)(int, unsigned char *))func_801376E8)((int)func_80141CA4(), &D_80187E98);
+        for (i = 0; i < 5; i++) {
+            s32 *q = (s32 *)((char *)p - 8);
+            *(s32 *)((char *)&q[i] + 0x78) = 0;
+            D_80115168[i].f0 = 0;
+        }
+        c = &D_80115112;
+        *c += 1;
+    }
+    (void)sp10;
+}
+
+
+// @class: struct
+// @stuck: none — MATCH (108 ins, relocation-masked)
+
+typedef struct {
+    unsigned short field0;   /* 0x00  D_80115118 */
+    unsigned char  _pad[0xAE];
+    int            arrB0[128];/* 0xB0 */
+} S115118;
+
+
+
+s32 func_8013EF88() {
+    extern int func_800D0488(int);
+    extern void func_800D2624(void);
+    extern S115118 D_80115118;
+    extern int D_80115168;
+    extern unsigned short D_80115114;
+
+    unsigned short v;
+    short i;
+    register short *p124 __asm__("$16");
+
+    v = D_80115118.field0;
+    if (v != 0) {
+        v = v - 1;
+        D_80115118.field0 = v;
+        if (v != 0) {
+            (*(int*)&D_801151D0) = D_80115118.arrB0[(*(unsigned short*)&D_800B9A02)];
+            ((void(*)(int, int))func_8013FAF8)(0, 5);
+            for (i = 0; i < 5; i++) {
+                int a = *(int *)((char *)&(*(int*)&D_80115188) + (i << 2));
+                int b = *(int *)((char *)&D_80115168 + (i << 2));
+                int w = a * 3;
+                *(int *)((char *)&(*(int*)&D_80115188) + (i << 2)) = w;
+                *(int *)((char *)&D_80115168 + (i << 2)) = b + w;
+            }
+            if (D_80115118.field0 < 3) {
+                unsigned short *p96 = &(*(unsigned short*)&D_80187E96);
+                *p96 = *p96 - 1;
+            }
+            {
+                unsigned short *p94 = &(*(unsigned short*)&D_80187E94);
+                short t = *p94 - 2;
+                *p94 = t;
+                if (t < 0) *p94 = 0;
+            }
+        }
+    }
+    p124 = &(*(short*)&D_80115124);
+    {
+        short x124 = *p124;
+        if (x124 != 0) {
+            if (func_800D0488(x124) == 0) return;
+            *p124 = 0;
+        }
+    }
+    if (D_80115118.field0 == 0) {
+        if (D_80115114 == ((*(unsigned short*)&D_800B9A02) ^ 1)) {
+            func_800D2624();
+        } else {
+            D_80115112 = D_80115112 + 1;
+        }
+    }
+}
+
 
 // @class: struct
 // @stuck: none — MATCH expected (u16* base materialization for read+write, %lo-folded single-access globals)

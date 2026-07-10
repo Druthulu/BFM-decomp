@@ -252,28 +252,34 @@ def cast_uses(body, name, orig_type):
 # v2 draft transforms
 # ---------------------------------------------------------------------------
 
-def _rename_colliding_typedefs(draft, ambient_typedefs, fn):
-    """Same-name-DIFFERENT-definition typedefs are renamed Name -> Name_<addr> (byte-neutral);
-    identical ones are stripped. Handles `typedef struct {...} Name;`, `typedef struct Tag {...} Name;`
-    and simple alias/array/fnptr typedefs."""
+def _uniquify_draft_types(draft, ambient_typedefs, fn):
+    """v3.2: strip typedefs IDENTICAL to engine_types.h (use the ambient name); uniquify EVERY
+    other draft-DEFINED type name AND struct/union TAG to <name>_<addr>. Type names/tags emit no
+    code, so this is byte-neutral — and it makes any two drafts in ONE TU (and a draft vs an
+    ambient type) collision-proof (the `redefinition of struct Fr` class when many exemplars bank
+    into the same split, T7 M1). Only DEFINED types are touched (a used-but-not-defined
+    engine_types.h name like SVECTOR is never renamed)."""
     suffix = '_' + fn.replace('func_', '')
-    renames = []
+    rename = set()
 
     def strip_or_mark(m):
         name = m.group(1)
-        norm = _norm(m.group(0))
-        if name in ambient_typedefs:
-            if _norm(ambient_typedefs[name]) == norm:
-                return ''                      # identical dup -> strip
-            renames.append(name)               # collision -> rename
+        if name in ambient_typedefs and _norm(ambient_typedefs[name]) == _norm(m.group(0)):
+            return ''                          # identical to engine_types.h -> strip, use ambient
+        rename.add(name)                       # else uniquify (collision-proof)
         return m.group(0)
 
+    # aggregate typedefs: typedef struct/union [Tag] {...} Name;  (attr-tolerant)
     draft = re.sub(r'typedef\s+(?:struct|union)\s*(?:[A-Za-z_]\w*\s*)?\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\}\s*'
                    r'(?:__attribute__\s*\(\([^()]*(?:\([^()]*\))?[^()]*\)\)\s*)?'
                    r'([A-Za-z_]\w*)\s*;[ \t]*\n?', strip_or_mark, draft)
+    # simple/alias/fnptr/array typedefs
     draft = re.sub(r'^[ \t]*typedef\s+[^;{}\n]*?\b([A-Za-z_]\w*)\s*(?:\[[^\]]*\])?\s*;[ \t]*\n?',
                    strip_or_mark, draft, flags=re.M)
-    for name in set(renames):
+    # struct/union TAG definitions (struct Foo { ... }) -> uniquify the tag everywhere
+    for tag in set(re.findall(r'\b(?:struct|union)\s+([A-Za-z_]\w*)\s*\{', draft)):
+        draft = re.sub(r'\b(struct|union)\s+' + re.escape(tag) + r'\b', r'\1 ' + tag + suffix, draft)
+    for name in rename:
         draft = re.sub(r'\b' + re.escape(name) + r'\b', name + suffix, draft)
     return draft
 
@@ -392,8 +398,8 @@ def reconcile(fn, draft, canon_sig=None, tu_path=None):
     # 0) v2 #6: scalar typedef dups (common.h) — always strip
     draft = SCALAR_TYPEDEF_RE.sub('', draft)
 
-    # 1) v2 #7: ambient-identical typedefs strip / colliding typedefs rename
-    draft = _rename_colliding_typedefs(draft, amb['typedefs'], fn)
+    # 1) v3.2: strip ambient-identical typedefs; uniquify every other draft-defined type + tag
+    draft = _uniquify_draft_types(draft, amb['typedefs'], fn)
 
     # 1b) v3: callee + data externs (block-scope move / ambient + casts)
     draft, moved_fns = _reconcile_callees(draft, amb['funcs'], fn, vis)

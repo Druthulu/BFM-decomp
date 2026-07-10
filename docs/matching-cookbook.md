@@ -2408,3 +2408,33 @@ declaration perturbation, not a -O0 return-type law.
 `insns_from_s(splat_s)`) is a fast, link-free gate proxy — but it is **jal-symbol-blind** (mask eats
 the target field), so `harvest_verify` stays the arbiter (G3/P9). And **never hand-type a SHA**: a
 mistyped `--good-sha` made a byte-perfect gate run report MISMATCH — read it from `config/check.*.sha`.
+
+### §41b — T7 execution: the object-only probe OVER-counts BANKABLE by two link/rodata classes (Phase 25 T7-M1, 2026-07-10)
+
+Executing the §41a curriculum banked **37 of the 40** non-jumptable M1 exemplars byte-identical through the
+whole-binary gate (`tools/t7_bank.py`: reconcile-at-bank-time + `harvest_verify`, chunk-bet with per-round
+re-reconcile for cross-fn ambient mutation). The 7-fn gap between the T6 probe's "44 BANKABLE" and reality is
+**two integration classes the T6 in-TU masked object-compare could not see** — a sharper statement of "probe ≠
+gate" (R14): the probe compiles to an OBJECT and masks jal/%hi/%lo, so it is blind to both *rodata* and *link*.
+
+1. **Switch jump tables in rodata (4 fns: the 3 `_o0` giants + `func_8012ACE0`).** Their `.text` is byte-perfect
+   — the unmasked diff is 100% `j .L…` / `lui/addiu %hi/%lo(jtbl_…)`, all masked-EQ, **zero real `.text`
+   diffs** — but the switch emits a **jump table in rodata** (`jtbl_801D836C` …) that the object-only compare
+   never looked at, and the whole-binary SHA diverges there. **This REFUTES the T6 curriculum's "Q3 -O0
+   reconcile REFUTED" claim** (the probe said the `_o0` giants bank; the gate says no) — the batch-3
+   "in-context byte-diff" finding STANDS. Route: the jump-table-in-rodata workflow (cookbook §8, the LZSS/§5a
+   precedent — carve/match the `jtbl_*` rodata), F-band, NOT mechanical M1.
+
+2. **Last-referencer link-wall (3 fns: `func_8016D688`/`D_801D9C20`, `func_8016D1D8`/`D_801D9C20`+`D_801D9C60`,
+   `func_80165240`/`D_8018977C`).** The fn is the ONLY asm referencer of a scratch data symbol; splat
+   auto-generates that symbol into `undefined_syms_auto.txt` *from the disassembly*, so C-ifying the last
+   referencer **drops the symbol** → `ld: undefined reference to D_801D9C20`. Compiles clean, fails at LINK
+   (the object-only probe never links). Fix (M-linkwall tier): declare the symbol so ld resolves it — a manual
+   undefined-syms entry or a splat data-symbol carve at that address (the bytes already live in the overlay
+   image). Deferred pending the splat symbol-provisioning mechanics (don't guess an address into the byte-locked
+   build). Reusable class: ANY bank that removes the last asm reference to an overlay-local data/scratch symbol.
+
+**Method upgrade for future curricula:** an in-TU object probe is a necessary filter but NOT the gate — it
+misses rodata (jump tables, float/string pools) and all link-time resolution. Size a "mechanical" tier from
+the WHOLE-BINARY gate on a sample, or expect a ~15% object-probe over-count and treat the surplus as the two
+classes above. `tools/t7_bank.py` (reconcile-per-round + chunk-bisection) is the reusable M1 driver.
