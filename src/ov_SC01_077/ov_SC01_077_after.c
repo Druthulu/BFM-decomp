@@ -1577,7 +1577,58 @@ INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_after", func_8014D820);
 
 DEFINE_func_8014DCE0()  /* dedup: shared engine-core @0x8014DCE0 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_after", func_8014DD8C);
+s32 func_8014DD8C(s32 arg0, void *arg1, void *arg2) {
+    extern u8 D_801202A0[];
+    extern u8 D_80126720[];
+    extern s32 ratan2(s32 a0, s32 a1);
+    extern s32 func_80012A60(s32 a0, s32 a1);
+    extern s32 func_80135A4C(s32 a0, s32 a1, s32 *a2, s32 a3);
+
+    s16 temp_s0;
+    s32 temp_s0_2;
+    s16 temp_s1;
+    s16 temp_v0;
+    s16 temp_v1;
+    s32 temp_a1;
+    s8 *var_s2;
+    s8 *var_s3;
+
+    __asm__ __volatile__("" :: "r"(((void *)arg0)));
+    temp_v0 = M2C_FIELD(arg2, u16 *, 0) - M2C_FIELD(arg1, u16 *, 0);
+    temp_v1 = M2C_FIELD(arg2, u16 *, 4) - M2C_FIELD(arg1, u16 *, 4);
+    if (((temp_v0 | temp_v1) << 0x10) != 0) {
+        var_s3 = (s8 *) D_801202A0;
+        if (var_s3 < var_s3 + 0x6480) {
+            var_s2 = var_s3 + 0xE;
+            __asm__ __volatile__("" :: "r"(var_s2));
+loop_3:
+            if (M2C_FIELD(var_s3, u16 *, 0) != 0) {
+                temp_a1 = M2C_FIELD(var_s2, s32 *, 0x4A);
+                if ((temp_a1 != 0) && (M2C_FIELD(var_s2, u16 *, 0x4E) & 0x1000) && (func_80135A4C(M2C_FIELD(var_s2, s32 *, 0x12), temp_a1, (s32 *)arg1, (s32)arg2) != 0)) {
+                    temp_s1 = M2C_FIELD(var_s2, u16 *, -8) - M2C_FIELD(((void *)arg0), u16 *, 6);
+                    temp_s0 = M2C_FIELD(var_s2, u16 *, 0) - M2C_FIELD(((void *)arg0), u16 *, 0xE);
+                    temp_s0_2 = (s16) ratan2(temp_v1, temp_v0);
+                    if ((s16) func_80012A60(temp_s0_2, (s16) ratan2(temp_s0, temp_s1)) < 0x400) {
+                        M2C_FIELD(((void *)arg0), s8 **, 0x170) = var_s3;
+                        M2C_FIELD(((void *)arg0), u16 *, 6) = (u16) M2C_FIELD(arg2, u16 *, 0);
+                        M2C_FIELD(((void *)arg0), s16 *, 0xA) = (s16) (M2C_FIELD(arg2, u16 *, 2) + 0x10);
+                        M2C_FIELD(((void *)arg0), u16 *, 0xE) = (u16) M2C_FIELD(arg2, u16 *, 4);
+                        return 1;
+                    }
+                }
+            }
+            var_s3 += 0x10C;
+            var_s2 += 0x10C;
+            if ((u32) var_s3 >= (u32) D_80126720) {
+                goto block_10;
+            }
+            goto loop_3;
+        }
+        return 0;
+    }
+block_10:
+    return 0;
+}
 
 // @class: other
 // @stuck: none — MATCH (fully-handwritten scratchpad-stack-switch sequencer; byte-proven sibling DEFINE precedent func_8014CCB4, same idiom, only the jal target differs)
@@ -6756,7 +6807,94 @@ DEFINE_func_80168780()  /* dedup: shared engine-core @0x80168780 (src/shared) */
 
 DEFINE_func_801687CC()  /* dedup: shared engine-core @0x801687CC (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_after", func_80168828);
+// @class: decl-conflict (reconcile) — MATCH (108 ins), real-TU verified via rtu_match
+// @crack: The wave-2 "8-residual SCHEDULE" note was a STALE-OBJECT / isolation phantom (§42b):
+//   in the real TU the draft NOCOMPILEs — DEFINE_func_801687CC() (split line ~6757) expands
+//   `extern void func_80168828(void);` right before the def, so `void func_80168828(s32 param_1)`
+//   is a HARD `conflicting types` error (cc1 exit 33). RECONCILE-FIRST fix (sweep-safe, lives
+//   entirely in the def — no //@EDIT, no macro edit): declare the fn `(void)` and capture a0 via
+//     register s32 a0v __asm__("$4");  s32 param_1 = a0v;
+//   The register-var binds incoming $a0; copying it into a NORMAL pseudo (live across the calls)
+//   makes gcc allocate param_1 to a callee-saved reg, emitting the target's `addu $s1,$a0,$zero`
+//   at idx2. NOTE: a DIRECT `register s32 param_1 __asm__("$4")` FAILS (param_1 stays in the
+//   call-clobbered $a0 → 100-off). With this reconcile, gcc's natural schedule places the CSE'd
+//   `li $v1,0x40` at idx15 with ZERO extra levers — the §42a lever-4 consumer-block reorder was
+//   never needed. The $v1 pin (register c40 __asm__("$3")) is still load-bearing (else 0x40 folds
+//   to a $v0 immediate). 134-overlay family exemplar: only D_80189B00 differs -> banks x134.
+#include "common.h"
+
+typedef struct {
+    u16 f00, f02, f04, f06;
+    s16 f08;
+    u16 f0a, f0c, f0e, f10, f12, f14, f16;
+    u8  f18, f19, f1a, f1b, f1c, f1d, f1e, f1f, f20, f21, f22, f23;
+    u32 f24;
+} Thing_80168828;
+
+
+void func_80168828(void)
+{
+    extern s32 func_80017DC4(void *a0, void *a1);
+    extern void func_80049CAC(s32 a0, s32 a1);
+    extern void func_800173BC(void *a0, void *a1);
+    extern u16 D_80189B00[];
+
+    register s32 a0v __asm__("$4");
+    s32 param_1 = a0v;
+    Thing_80168828 thing;
+    s16 matA[16];
+    s16 matB[16];
+    s16 svec[4];
+    u16 *p;
+    short i;
+    register s32 c40 __asm__("$3");   /* $v1: hold the CSE'd 0x40 (else gcc folds to $v0 immediate) */
+
+    c40 = 0x40;
+    thing.f04 = 2;
+    thing.f0c = 0x24;
+    thing.f14 = 0x28;
+    thing.f08 = -3;
+    thing.f10 = 3;
+    thing.f02 = 0;
+    thing.f00 = 0;
+    thing.f12 = 0;
+    thing.f0a = 0;
+    thing.f18 = c40;
+    thing.f19 = c40;
+    thing.f22 = c40;
+    thing.f1e = c40;
+    thing.f1a = 0x10;
+    thing.f20 = 0xff;
+    thing.f1c = 0xff;
+    thing.f21 = 0xc0;
+    thing.f1d = 0xc0;
+    thing.f24 = 0x50000000;
+
+    svec[0] = *(u16 *)(param_1 + 6);
+    svec[1] = *(u16 *)(param_1 + 0xA);
+    svec[2] = *(u16 *)(param_1 + 0xE);
+    func_80017E68(svec, matA);
+
+    svec[0] = svec[1] = svec[2] = (*(s32 *)(param_1 + 0x1C) << 11) + 0x1000;
+    ((void (*)(void *, void *))func_80017DC4)(svec, matA);
+
+    svec[0] = *(u16 *)(param_1 + 0x12);
+    svec[1] = *(u16 *)(param_1 + 0x16);
+    svec[2] = *(u16 *)(param_1 + 0x1A);
+    RotMatrixYXZ(svec, matB);
+
+    func_80048EAC(matA, matB);
+
+    svec[1] = 0;
+    p = D_80189B00;
+    for (i = 0; i < 4; i++) {
+        svec[0] = *p++;
+        svec[2] = *p++;
+        ((void (*)(void *, void *))func_80049CAC)(svec, matA);
+        func_80048EAC(matB, matA);
+        func_800173BC(&thing, matA);
+    }
+}
 
 extern s32 (*D_80189B18[])();
 
@@ -7559,7 +7697,64 @@ void func_8016C14C(void *a0) {
     D_80189D84[*(u16 *)((s32)a0 + 0x2)]();
 }
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_after", func_8016C188);
+void func_8016C188(s32 param)
+{
+    register s32 s1 __asm__("$17");
+    register s32 s2 __asm__("$18");
+    register u8 *s0 __asm__("$16");
+    u16 buf[3];
+    s16 *pBCC;
+    s16 *pBD4;
+    s32 t34;
+
+    extern void func_80015954(s32, s32);
+    extern s32 func_8016C374(s32, s32, s32, s32);
+    extern void func_80146C3C(void);
+    extern void func_8001CD9C(s32, void *);
+    extern void func_800233CC(void *, unsigned short);
+    extern u8 D_801D9B84[];
+    extern s16 D_801D9BCC;
+    extern s16 D_801D9BCE;
+    extern s16 D_801D9BD0;
+    extern s16 D_801D9BD4;
+    extern s16 D_801D9BD6;
+    extern s16 D_801D9BD8;
+
+    s1 = param;
+    s2 = ((s32 (*)(void))func_801465C0)();
+    *(s32 *)(s1 + 0x20) = s2;
+    if (s2 != 0) {
+        *(u16 *)(s1 + 0x12) = *(u16 *)(s1 + 0x6);
+        *(u16 *)(s1 + 0x16) = *(u16 *)(s1 + 0xA);
+        *(u16 *)(s1 + 0x1A) = *(u16 *)(s1 + 0xE);
+        t34 = *(s32 *)(s1 + 0x34);
+        buf[0] = *(u16 *)(s1 + 0x12);
+        buf[1] = *(u16 *)(s1 + 0x16);
+        buf[2] = *(u16 *)(s1 + 0x1A);
+        ((void (*)(s32, void *, void *))func_80149350)(t34, buf, buf);
+        ((void (*)(void *, s32))func_80015954)(buf, s1 + 4);
+        s0 = D_801D9B84;
+        ((void (*)(s32, void *))func_8001CD9C)(s2, s0);
+        *(s16 *)(s2 + 0x1E) = 0xCCC;
+        *(s32 *)(s2 + 4) = *(s32 *)(s2 + 4) | 0x50000000;
+        ((void (*)(void *, s32))func_800233CC)(s0, 0x80);
+        *(s16 *)(s2 + 0x1A) = 0;
+        *(s16 *)(s2 + 0x18) = 0;
+        *(s16 *)(s1 + 0x10) = 0;
+        pBCC = &D_801D9BCC;
+        pBD4 = &D_801D9BD4;
+        *pBCC = 0x20;
+        D_801D9BCE = 0x20;
+        D_801D9BD0 = 0;
+        *pBD4 = 0xC0;
+        D_801D9BD6 = 0xC0;
+        D_801D9BD8 = 0;
+        ((s32 (*)(s32, void *, void *, void *))func_8016C374)(s1, pBCC, pBD4, s0);
+        *(u16 *)(s1 + 2) = *(u16 *)(s1 + 2) + 1;
+    } else {
+        ((void (*)(s32))func_80146C3C)(s1);
+    }
+}
 
 // @class: schedule
 // @stuck: none — MATCH (44 ins; pins $s0/$s1 + hoist call-arg into a temp so its load fills the buf-store delay slot)

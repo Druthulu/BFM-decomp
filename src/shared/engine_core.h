@@ -9748,7 +9748,7 @@
     }
 
 #define DEFINE_func_8014D790() \
-    extern void func_8014DD8C(s32 a0, void *a1, void *a2); \
+    extern s32 func_8014DD8C(s32 a0, void *a1, void *a2); \
     extern void func_8014D820(s32 a0, void *a1, void *a2); \
     void func_8014D790(s32 a0) { \
         s16 l1[3]; \

@@ -5084,7 +5084,97 @@ DEFINE_func_80168780()  /* dedup: shared engine-core @0x80168780 (src/shared) */
 
 DEFINE_func_801687CC()  /* dedup: shared engine-core @0x801687CC (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC06_011/nonmatchings/ov_SC06_011_after", func_80168828);
+// @class: decl-conflict (reconcile) — MATCH (108 ins), real-TU verified via rtu_match
+// @crack: The wave-2 "8-residual SCHEDULE" note was a STALE-OBJECT / isolation phantom (§42b):
+//   in the real TU the draft NOCOMPILEs — DEFINE_func_801687CC() (split line ~6757) expands
+//   `extern void func_80168828(void);` right before the def, so `void func_80168828(s32 param_1)`
+//   is a HARD `conflicting types` error (cc1 exit 33). RECONCILE-FIRST fix (sweep-safe, lives
+//   entirely in the def — no //@EDIT, no macro edit): declare the fn `(void)` and capture a0 via
+//     register s32 a0v __asm__("$4");  s32 param_1 = a0v;
+//   The register-var binds incoming $a0; copying it into a NORMAL pseudo (live across the calls)
+//   makes gcc allocate param_1 to a callee-saved reg, emitting the target's `addu $s1,$a0,$zero`
+//   at idx2. NOTE: a DIRECT `register s32 param_1 __asm__("$4")` FAILS (param_1 stays in the
+//   call-clobbered $a0 → 100-off). With this reconcile, gcc's natural schedule places the CSE'd
+//   `li $v1,0x40` at idx15 with ZERO extra levers — the §42a lever-4 consumer-block reorder was
+//   never needed. The $v1 pin (register c40 __asm__("$3")) is still load-bearing (else 0x40 folds
+//   to a $v0 immediate). 134-overlay family exemplar: only D_80183434 differs -> banks x134.
+#include "common.h"
+
+typedef struct {
+    u16 f00, f02, f04, f06;
+    s16 f08;
+    u16 f0a, f0c, f0e, f10, f12, f14, f16;
+    u8  f18, f19, f1a, f1b, f1c, f1d, f1e, f1f, f20, f21, f22, f23;
+    u32 f24;
+} Thing_80168828_80168828;
+
+
+void func_80168828()
+{
+    extern s32 func_80017DC4(void *a0, void *a1);
+    extern void func_80049CAC(s32 a0, s32 a1);
+    extern void func_800173BC(void *a0, void *a1);
+    extern u16 D_80183434[];
+
+
+    register s32 a0v __asm__("$4");
+    s32 param_1 = a0v;
+    Thing_80168828_80168828 thing;
+    s16 matA[16];
+    s16 matB[16];
+    s16 svec[4];
+    u16 *p;
+    short i;
+    register s32 c40 __asm__("$3");   /* $v1: hold the CSE'd 0x40 (else gcc folds to $v0 immediate) */
+
+    c40 = 0x40;
+    thing.f04 = 2;
+    thing.f0c = 0x24;
+    thing.f14 = 0x28;
+    thing.f08 = -3;
+    thing.f10 = 3;
+    thing.f02 = 0;
+    thing.f00 = 0;
+    thing.f12 = 0;
+    thing.f0a = 0;
+    thing.f18 = c40;
+    thing.f19 = c40;
+    thing.f22 = c40;
+    thing.f1e = c40;
+    thing.f1a = 0x10;
+    thing.f20 = 0xff;
+    thing.f1c = 0xff;
+    thing.f21 = 0xc0;
+    thing.f1d = 0xc0;
+    thing.f24 = 0x50000000;
+
+    svec[0] = *(u16 *)(param_1 + 6);
+    svec[1] = *(u16 *)(param_1 + 0xA);
+    svec[2] = *(u16 *)(param_1 + 0xE);
+    func_80017E68(svec, matA);
+
+    svec[0] = svec[1] = svec[2] = (*(s32 *)(param_1 + 0x1C) << 11) + 0x1000;
+    ((void (*)(void *, void *))func_80017DC4)(svec, matA);
+
+    svec[0] = *(u16 *)(param_1 + 0x12);
+    svec[1] = *(u16 *)(param_1 + 0x16);
+    svec[2] = *(u16 *)(param_1 + 0x1A);
+    RotMatrixYXZ(svec, matB);
+
+    func_80048EAC(matA, matB);
+
+    svec[1] = 0;
+    p = D_80183434;
+    for (i = 0; i < 4; i++) {
+        svec[0] = *p++;
+        svec[2] = *p++;
+        ((void (*)(void *, void *))func_80049CAC)(svec, matA);
+        func_80048EAC(matB, matA);
+        func_800173BC(&thing, matA);
+    }
+}
+
+
 
 INCLUDE_ASM("asm/ov_SC06_011/nonmatchings/ov_SC06_011_after", func_801689D8);
 

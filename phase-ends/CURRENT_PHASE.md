@@ -37,7 +37,23 @@ idiom curriculum → sweep one exemplar per family (curriculum-ordered), each cr
       deferred mechanical tail (M4 8, F-jumptable 4, M-linkwall 3, M3-residue 4, F-perturb 4, draft 2).
 - [ ] Close — clean-fleet verify · PhaseEnd synthesis · plain-English recap (R25) · Phase-26 backlog  *(NOT yet — phase open)*
 
-## FRESH SESSION — RESUME HERE  (**NEXT = the remaining wave-3 F-band frontier — real-TU reconcile-crack, NOT gating the wave-2 artifacts**; fleet **73.89%**; phase OPEN, do NOT close)
+## FRESH SESSION — RESUME HERE  (**NEXT = (a) permuter the 2 wave-3 DIFFs · (b) family_sweep //@EDIT-carry enhancement to recover ~266 dropped siblings · (c) apply the rtu_match fan-out engine to the phase tail**; fleet **73.97%**; phase OPEN, do NOT close)
+> **WAVE 3 PART 2 (2026-07-10c, Max orch + CORRECTED Ultracode fan-out) — COMMITTED, R22 clean-fleet 136/136 GREEN, fleet 73.89% → 73.97% (+273 fns):**
+> Built **`tools/rtu_match.py`** — real-TU-faithful, PARALLEL-SAFE per-fn match check (neutralizes INCLUDE_ASM →
+> compiles the whole split TU in a per-fn temp dir, no `asm/`, no shared overlay build). Closes match_one's isolation
+> blind spot so a MATCH HOLDS at the whole-binary gate (cookbook §42c). Corrected fan-out `wf_80762f2c-822` (9 xHigh
+> workers, ~1.27 M tok): **7/9 MATCH → all 7 banked byte-identical, ZERO drift** (vs wave-2's ~50% attrition). Swept
+> ×134: **266 siblings banked / 266 failed** (the 2 //@EDIT families func_80133AB0/80136824 can't per-sibling-reconcile
+> via family_sweep — BACKLOG (b)). Batch = 7 exemplars + 266 = **273 fns**. Banked exemplars: func_8012FCC4 (an
+> arity-bug — the "irreducible" delay-slot that wasn't), func_80133AB0, func_80134A74, func_80136824 (pointer-vs-array),
+> func_8014DD8C (engine_core.h void→s32 flip, R22-neutral fleet-wide), func_80168828 (register-a0v capture), func_8016C188.
+> **7 durable levers → cookbook §42c** (callee-arity delay-slot · pointer-global `*(T**)&` · array-decay CSE · §17
+> zero-reg copy · void→s32 · register-arg capture · free-floating load hoist). `rtu_match` → SETUP §6.
+> **2 DIFF → permuter** (seeds `.run/crack3/wave3/`): func_801670E4 (70→48), func_80185BA4 (177/177 struct, c=65).
+> **NEXT (ranked): (a) permuter-ILS the 2 DIFFs; (b) a family_sweep `--edit-remap` enhancement (carry the exemplar's
+> //@EDIT edits per sibling, symbol-remapped) → recovers ~266 dropped + any exemplar-only families; (c) apply the
+> rtu_match fan-out engine (reconcile-first + rtu_match-gated + §42c levers) to the phase tail (tasks #2–4).**
+>
 > **WAVE 3 (2026-07-10c, Opus-Max — surgical single-fn crack, NOT a fan-out) — COMMITTED, R22 clean-fleet 136/136 GREEN, fleet 73.85% → 73.89%:**
 > **func_80164930 (81) CRACKED + swept ×134 = 134 fns** (133/0 siblings). The crack = the read-global fix below.
 > **TWO DURABLE FINDINGS (cookbook §42b):**

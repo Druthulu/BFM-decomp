@@ -2610,3 +2610,52 @@ callee externs conflicting with the TU canonical-sig layer, e.g. `conflicting ty
 "iso-MATCH" labels were stale-object phantoms. Wave-3 targets must be **re-reconciled + rigorously rebuilt** per fn
 (the `.run/crack3/` harness), not gated from the wave-2 artifacts. Confirmed banks this wave: **func_80164930**
 (the read-global fix above).
+
+### §42c addendum — wave 3 (Max orchestrator + CORRECTED Ultracode fan-out, 2026-07-10c): the real-TU-faithful parallel harness (rtu_match) + 7/9 crack, ZERO iso-drift
+
+**THE TOOL that makes a reliable crack fan-out possible — `tools/rtu_match.py` (real-TU-faithful, parallel-safe).**
+Wave-2 workers self-checked in ISOLATION (match_one), blind to in-TU decl/global-type/memcpy-builtin drift, so their
+iso-MATCHes drifted at the whole-binary gate (~50% attrition). FIX: compile the WHOLE split `.c` with the candidate
+spliced and INCLUDE_ASM neutralized (`-DINCLUDE_ASM(a,b)=` + `-Isrc/<source>` for the relative `../shared` include)
+→ masked-diff the fn. No `asm/`, no shared overlay build → many workers run in PARALLEL in per-fn temp dirs. Because
+gcc-2.7.2 -O2 compiles each global fn independently, the neutralized whole-TU compile reproduces the exact ambient
+context, so a `rtu_match` MATCH HOLDS at the whole-binary gate. **Measured: 7 real-TU MATCHes → 7/7 banked
+byte-identical (individually + combined `d19c9580`), ZERO drift** (vs wave-2's ~50%). Corrected fan-out = 9 xHigh
+workers ~1.27 M tok → 7 MATCH + 2 DIFF(→permuter). This is the reusable engine for the phase tail: reconcile-first
++ rtu_match-gated + the levers below. Supports `//@EDIT old||new` file-scope pre-edits.
+
+**DURABLE LEVERS from the 7 cracks (all rtu_match-byte-gated):**
+1. **Callee-ARITY unblocks a delay-slot "steal" (func_8012FCC4 — the "irreducible" that wasn't).** A spurious extra
+   register arg on a callee that is LIVE ACROSS the call blocks gcc reorg `fill_slots_from_thread` from sharing a
+   downstream constant into a branch delay slot (reads as an irreducible ~3-off beqz/jal delay swap). **Before
+   conceding a delay-slot residual as irreducible, RE-DERIVE THE CALLEE ARITY FROM THE ASM**: drop the bogus arg →
+   the target schedule falls out of stock reorg, no barrier/pin/mutation.
+2. **Pointer-holding global via `*(T**)&sym` → `lui;lw %lo`(load ptr)+`lh off(ptr)`(deref) (func_80136824).** A
+   file-scope `extern u8 D_x` that actually HOLDS a pointer: read as `(*(s16**)&D_x)[i]`. Byte-neutral vs the u8 decl.
+3. **Array-decay CSE (func_80136824, the load-bearing extra):** reading `extern s32 D_x[]` (ARRAY) as `*(s16**)&D_x`
+   or `D_x[0]` makes gcc CSE the decayed BASE addr into a held reg (`lui;addiu;lw 0(reg)` reused) vs the target's
+   per-use direct `lui;lw %lo(sym)`. FIX: `//@EDIT extern s32 D_x[];||extern s16 *D_x;` (flip to a SCALAR POINTER).
+   (Scalar u8 symbols fold %lo fine; only the array decays.)
+4. **§17 zero-reg-copy `x + zr` for a delay-slot-SAFE live-range copy (func_80134A74):** `register u32 zr __asm__("$0"); y = x + zr;`
+   copies a pseudo with NO `__asm__` op, so it CAN land in a branch delay slot (an `__asm__` volatile copy cannot, and
+   disrupts delay-fill → +1 ins). Use to hoist a masked value into a bnez delay slot / before a range-check.
+5. **void→s32 flip for a discarded-return callee decl (func_8014DD8C):** when a fn truly returns a value (`addiu $v0,1`)
+   but a shared `DEFINE_func_*` macro in engine_core.h declares it `extern void` and the caller DISCARDS the return,
+   flip that macro-internal extern `void`→`s32` (byte-neutral fleet-wide; stops the void-decl DCE'ing the return).
+   R22-confirm fleet neutrality. Precedent: §20 func_8014EE14.
+6. **register-arg capture into a NORMAL pseudo for a callee-saved param (func_80168828, SWEEP-SAFE, no //@EDIT):**
+   to force incoming `$a0` into a callee-saved reg (target `addu $s1,$a0,$zero`): declare the fn `(void)`, then
+   `register s32 a0v __asm__("$4"); s32 param_1 = a0v;`. The copy into a normal pseudo (live across calls) gets a
+   callee-saved home. A direct `register ... __asm__("$4")` leaves it in call-clobbered $a0 (wrong frame → 100-off).
+7. **Free-floating load temp for a scheduler hoist (func_8016C188):** extracting an arg-load into its own statement
+   (`s32 t34 = *(s32*)(s1+0x34);`) lets the scheduler hoist it early to fill a load-delay slot (vs pinned late by the
+   call) — closed 63 mismatches at once.
+
+**block-extern-vs-definition is an ERROR, not a warning (func_80133AB0/8014DD8C):** in gcc-2.7.2 a block-scope
+`extern` whose sig conflicts with the function's own DEFINITION hard-errors (cc1 exit 33). A TU that forward-decls the
+fn with a wrong/loose sig must be reconciled (match the def's sig; `//@EDIT` the caller decl when it discards the
+return or the arg is already the right width in-register). The dominant "reconcile-first" wall for the F-band exemplars.
+
+**The 2 DIFFs (permuter tier), seeds in `.run/crack3/wave3/`:** func_801670E4 (70→48; block birth-order levers landed,
+"assign p/i late" shape from sibling func_8016A290) and func_80185BA4 (structurally 177/177, pure scheduler +
+caller-saved temp-numbering residual, no responsive C lever) — decomp-permuter fuel.

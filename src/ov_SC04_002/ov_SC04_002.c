@@ -1139,7 +1139,58 @@ DEFINE_func_8012FC30()  /* dedup: shared engine-core @0x8012FC30 (src/shared) */
 
 DEFINE_func_8012FCA4()  /* dedup: shared engine-core @0x8012FCA4 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC04_002/nonmatchings/ov_SC04_002", func_8012FCC4);
+// @class: schedule
+// @stuck: none — MATCH (57 ins), byte-exact via rtu_match on the real TU.
+// ROOT CAUSE of the prior 3-off "irreducible schedule-steal": the wave-2 draft had the WRONG ARITY for
+//   func_80131B14. It cast the call to (int,int) and passed (param_1, 0x1C), which forced `li a1,0x1C` to be
+//   func_80131B14's OWN arg. That premise made the beqz-delay `li a1,0x1C` / jal-delay `move a0,s0` look like an
+//   un-reorderable {li,move} schedule-steal (calls.c emits a0 first; sched2 keeps LUID; reorg swaps them).
+//   THE FIX: func_80131B14 takes ONE arg — ((void(*)(int))func_80131B14)(param_1). Then:
+//     - func_80131B14's own delay slot = `move a0,s0` (its a0 arg), and a1 is NOT live across it.
+//     - the `li a1,0x1C` in the beqz(0x100) delay slot is the TERMINAL func_80131CA8(param_1,0x1C)'s arg, which
+//       reorg fill_slots_from_thread shares into the delay slot for the beqz-taken (else) edge FOR FREE, because
+//       a1 is dead on the fall-through (1-arg func_80131B14 never reads a1) so there is no resource conflict.
+//   No barrier, no register pin, no schedule mutation — the correct arity makes the target schedule fall out
+//   of stock gcc-2.7.2 reorg. (Lesson for the cookbook: before conceding a delay-slot "steal" as irreducible,
+//   re-derive the CALLEE ARITY from the asm — a spurious extra register arg that is live across the call is what
+//   blocks reorg from sharing a downstream constant into a branch delay slot.)
+
+
+s32 func_8012FCC4(s32 param_1) {
+    extern int D_80188778;
+
+    int v1 = *(int *)(((int)param_1) + 0xC4);
+    *(char *)(((int)param_1) + 0xC1) = 8;
+    if (v1 & 2) {
+        *(char *)(((int)param_1) + 0xC1) = 1;
+        func_80131CA8(((int)param_1), 3);
+        return;
+    }
+    if (v1 & 1) {
+        ((void (*)(int, int))func_80131E00)(((int)param_1), 1);
+        return;
+    }
+    if (*(int *)(((int)param_1) + 0xB4) & 0x100) {
+        ((void (*)(int))func_80131B14)(((int)param_1));
+        if (*(short *)(((int)param_1) + 0x76) <= 0) {
+            ((void (*)(int, int))func_80131E00)(((int)param_1), 0xC);
+            return;
+        }
+        if (((s32(*)(s32, s32))func_80131A34)(((int)param_1), 4) != 0) {
+            *(char *)(((int)param_1) + 0xC2) = 0;
+        } else {
+            *(short *)(((int)param_1) + 0x98) = 0;
+            *(char *)(((int)param_1) + 0xC2) = 1;
+        }
+        ((void (*)(int, void *))func_8012B14C)(((int)param_1), &D_80188778);
+        *(int *)(((int)param_1) + 0x1C) = 0;
+        func_80131CA8(((int)param_1), 0x1C);
+        return;
+    }
+    func_80131CA8(((int)param_1), 0x1C);
+}
+
+
 
 DEFINE_func_8012FDA8()  /* dedup: shared engine-core @0x8012FDA8 (src/shared) */
 

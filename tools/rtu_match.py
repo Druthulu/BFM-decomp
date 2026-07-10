@@ -1,0 +1,98 @@
+#!/usr/bin/env python3
+"""Real-TU-faithful per-function match check (Phase-25 wave-3, cookbook §42b).
+
+Unlike match_one.py (which compiles ONE function in ISOLATION and is therefore blind to
+in-TU declaration conflicts -- the def-side loose-typing / memcpy-builtin / read-global-type
+drift class), this compiles the WHOLE split .c with the candidate spliced in and INCLUDE_ASM
+neutralized (`-DINCLUDE_ASM(a,b)=`, so no asm/ is needed and no shared overlay build is
+touched -> many workers run in PARALLEL, each in its own temp dir). gcc-2.7.2 -O2 compiles each
+global function independently, so the neutralized whole-TU compile reproduces the exact ambient
+context (types, canonical-sig layer, the `extern memcpy` builtin-disable, file-scope global
+types) that the real build sees -> its MATCH holds at the whole-binary gate far more reliably
+than match_one's. STILL finish on the real `make build` whole-binary SHA gate (G3/P9).
+
+  tools/rtu_match.py func_80164930 --split ov_SC01_077_after --c cand.c
+  # candidate may carry file-scope TU pre-edits as leading directive lines:
+  #   //@EDIT old_text||new_text     (applied to the split .c before splicing; e.g. the s16->u16 flip)
+"""
+import subprocess, re, sys, os, argparse
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import masked_diff
+
+ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+ap.add_argument('fn')
+ap.add_argument('--split', required=True, help='split basename, e.g. ov_SC01_077_after')
+ap.add_argument('--c', required=True, help='candidate C (the function def; may lead with //@EDIT lines)')
+ap.add_argument('--source', default='ov_SC01_077')
+ap.add_argument('--asm-subdir', default=None)
+ap.add_argument('--work', default='.run/crack3/rtu')
+ap.add_argument('--o0', action='store_true')
+ap.add_argument('--maxdiff', type=int, default=60)
+a = ap.parse_args()
+
+SPLIT_SRC = 'src/%s/%s.c' % (a.source, a.split)
+ASM_SUBDIR = a.asm_subdir or ('asm/%s/nonmatchings/%s' % (a.source, a.split))
+CPP='mipsel-linux-gnu-cpp'; CC1='tools/bin/gcc-2.7.2-psx/cc1'
+MASPSX='tools/maspsx/maspsx.py'; AS='mipsel-linux-gnu-as'; PY='.venv/bin/python'
+CPPFLAGS='-lang-c -Iinclude -undef -Wall -fno-builtin -Dmips -D__GNUC__=2 -D__OPTIMIZE__ -Dpsx -D_PSYQ -D_MIPSEL -D_LANGUAGE_C'.split()
+CC1FLAGS=('-quiet %s -G0 -mips1 -mcpu=3000 -mgas -msoft-float -fgnu-linker' % ('-O0' if a.o0 else '-O2')).split()
+ASFLAGS='-Iinclude -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0'.split()
+
+split_txt = open(SPLIT_SRC).read()
+cand_raw = open(a.c).read()
+# extract //@EDIT directives (file-scope pre-edits), strip them from the spliced body
+edits = []
+body_lines = []
+for ln in cand_raw.split('\n'):
+    m = re.match(r'\s*//@EDIT\s+(.*?)\|\|(.*)$', ln)
+    if m:
+        edits.append((m.group(1), m.group(2)))
+    else:
+        body_lines.append(ln)
+body = '\n'.join(body_lines).rstrip('\n')
+for old, new in edits:
+    if old not in split_txt:
+        print('EDIT-FAIL: text not found in split: %r' % old); sys.exit(2)
+    split_txt = split_txt.replace(old, new, 1)
+
+pat = re.compile(r'INCLUDE_ASM\([^;]*\b' + re.escape(a.fn) + r'\)\s*;')
+if pat.search(split_txt):
+    split_txt = pat.sub(lambda m: body, split_txt, count=1)
+elif re.search(r'\b%s\s*\(' % re.escape(a.fn), split_txt):
+    pass  # already defined (validation mode: compile as-is)
+else:
+    print('ERR: no INCLUDE_ASM stub nor def for %s in %s' % (a.fn, a.split)); sys.exit(2)
+
+wd = '%s/%s' % (a.work, a.fn); os.makedirs(wd, exist_ok=True)
+open('%s/t.c' % wd, 'w').write(split_txt)
+
+def pipe(cmd, data=None): return subprocess.run(cmd, input=data, capture_output=True)
+# -Isrc/<source> so the split's relative `#include "../shared/..."` resolves from the temp dir
+p = pipe([CPP]+CPPFLAGS+['-Isrc/%s'%a.source, '-DINCLUDE_ASM(a,b)=', '%s/t.c'%wd])
+if p.returncode: print('CPP FAIL\n'+p.stderr.decode()[-1500:]); sys.exit(1)
+p = pipe([CC1]+CC1FLAGS, p.stdout)
+if p.returncode: print('CC1 FAIL\n'+p.stderr.decode()[-2000:]); sys.exit(1)
+p = pipe([PY, MASPSX, '--aspsx-version=2.56', '--expand-div'], p.stdout)
+if p.returncode: print('MASPSX FAIL\n'+p.stderr.decode()[-1500:]); sys.exit(1)
+p = pipe([AS]+ASFLAGS+['-o', '%s/t.o'%wd], p.stdout)
+if p.returncode: print('AS FAIL\n'+p.stderr.decode()[-1500:]); sys.exit(1)
+
+mine = masked_diff.insns_from_object('%s/t.o'%wd, a.fn)
+tgt = masked_diff.insns_from_s('%s/%s.s' % (ASM_SUBDIR, a.fn))
+if not mine: print('FAIL: object has no function', a.fn); sys.exit(1)
+n = max(len(mine), len(tgt)); diffs=[]
+for i in range(n):
+    mw = mine[i]['word'] if i < len(mine) else None
+    mask = masked_diff.mask_for(mine[i]['word'], mine[i]['reloc_kind']) if i < len(mine) else 0xFFFFFFFF
+    me = (mw & mask) if mw is not None else None
+    tg = (tgt[i]['word'] & mask) if i < len(tgt) else None
+    if me != tg:
+        diffs.append((i, ('%08x %s'%(mine[i]['word'], mine[i]['mnem'])) if i<len(mine) else '--',
+                         ('%08x %s'%(tgt[i]['word'], tgt[i]['mnem'])) if i<len(tgt) else '--'))
+if not diffs and len(mine) == len(tgt):
+    print('MATCH (%d ins)  %s' % (len(mine), a.fn)); sys.exit(0)
+print('DIFF  %s   mine=%d ins, target=%d ins, %d mismatched' % (a.fn, len(mine), len(tgt), len(diffs)))
+print('  idx | MINE                          | TARGET')
+for i, me, tg in diffs[:a.maxdiff]:
+    print('  %3d | %-28s | %s' % (i, me, tg))
+sys.exit(1)
