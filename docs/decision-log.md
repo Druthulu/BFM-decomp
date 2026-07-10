@@ -163,3 +163,27 @@ the session that produced it. Route TECHNICAL idioms to the cookbook; this file 
   direction (the probe caught real walls the drafts hid; the gate caught my SHA typo). The general
   law: when a residual class's members share an error SHAPE (`conflicting types`, `undeclared`,
   parse-at-decl), suspect the pipeline before the compiler.
+
+## 2026-07-10 · Phase 25 — T7 executed the curriculum; the "mechanical tier" was ⅓ probe-over-counted (Opus-Max)
+
+- **Context + belief going in:** the T6 Fable5 curriculum projected 58 fns / ~2.5 MB as MECHANICAL (M1 44
+  reconcile-banks, M3 6 no-proto, M4 8 reconcile_decls-retypes), sized from an in-TU OBJECT probe (compile the
+  fn in the real TU, mask jal/%hi/%lo, byte-compare). Drew: "run T7."
+- **What was tried / surprised:** executing against the WHOLE-BINARY gate (`harvest_verify`) revealed the object
+  probe systematically OVER-counts, because it is blind to three things it cannot see: (1) **rodata** — 4 "M1"
+  jump-table fns have byte-perfect `.text` but a switch table in rodata diverges (this also REFUTED the T6 "Q3
+  -O0 REFUTED" claim — the `_o0` giants are jump-table fns); (2) **link** — 3 "M1" fns are the only asm referencer
+  of a scratch data symbol, so C-ifying them drops splat's auto-symbol → `ld undefined`; (3) **in-TU codegen
+  perturbation** — all 8 "M4" fns are byte-correct in ISOLATION but drift 8–69 in the real TU (scheduling order,
+  `volatile`-loss), and `reconcile_decls` banks 0/8 (4 have no data-decl conflict at all). Plus 4 M3 residue
+  (arity/loose-typing). Net: 19 of the 58 "mechanical" were per-fn F-band work.
+- **The pivot:** bank the TRULY-mechanical core and re-tier the rest honestly. M1 37 + M3-clean 2 = 39 exemplars,
+  reconciled (`canon_sig_reconcile` v3.2 — a type-name-uniquify fix unblocked the struct-collision giants) and
+  swept ×134 via `family_sweep --reconcile` (the Q5 per-sibling re-reconcile law: plain remap banks 0, per-sibling
+  reconcile banks 94%). **~4,694 fleet fns, fleet 72.29 → 73.66% (+1.37%), R22 136/136, ~0 agent tokens.** The 19
+  over-counts → F-band (permuter/§31/Fable5) or specialist workflows (jump-table-in-rodata, manual undefined-syms).
+- **Hindsight / better path:** an in-TU OBJECT probe is a necessary FILTER but must never SIZE a "mechanical"
+  tier — gate a full sample on the whole binary first, and budget ~⅓ of any object-probe "drift/fail" bucket as
+  genuine per-fn work. The mechanical ×134 sweep is the real economic engine (4,655 members from 39 cracks); the
+  curriculum's value was concentrating the crack effort onto the 39 exemplars, not the tier-size projection.
+  Reinforces R14 (verify vs bytes) at the tier-classification level and cookbook §41b/§41b-addendum.

@@ -43,14 +43,20 @@ idiom curriculum → sweep one exemplar per family (curriculum-ordered), each cr
 > dedup 1813/0, 0 NON_MATCHING. Commits: M1 `commit:0495`, M2 `commit:0496`, M3 `commit:0497`. Tools:
 > `tools/t7_bank.py` (M1 driver), `canon_sig_reconcile` **v3.2** (5 defects + type-uniquify fixed),
 > `family_sweep --reconcile` (the ×134 per-sibling re-reconcile). See the T7 log below + cookbook §41a/b/c.
-> **NEXT (deferred, ranked): (1) F-near 31 fns / ~3,775 ×134 — the genuine frontier: permuter-ILS on the
-> ≤28-band [prompt Ultracode], §31-Opus mid-band, Fable5 only on new-idiom evidence [prompt R27]; (2) M4
-> 8 fns / ~1,206 — §33 reconcile_decls TU-retypes [mechanical, untried]; (3) F-jumptable 4 fns / ~536 —
-> jump-table-in-rodata workflow (cookbook §8); (4) M-linkwall 3 fns / ~402 — manual undefined-syms for
-> dropped scratch symbols; (5) M3-residue 4 / ~407 + F-perturb 4 / ~405 + draft-needed 2 / ~268.** Worklist:
-> `.run/t6_worklist.json` (F_jumptable/F_near/F_perturb tiers) + `.run/t7_rawdrafts/` (39 raw drafts) +
-> `docs/phase25-t6-curriculum.md`. T7 discipline stays: good-sha from `config/check.*.sha` (never hand-typed);
-> R22 clean-fleet every batch; the object-probe is NOT the gate (blind to rodata + link — cookbook §41b).
+> **M4 RESOLVED 2026-07-10 — NOT mechanical (0/8 via reconcile_decls, R14 correction, cookbook §41b-addendum):**
+> the 8 M4 fns are byte-correct in ISOLATION but drift 8–69 in the real TU (codegen scheduling/`volatile`-loss,
+> not data-type casts; 4 have no data conflict at all) → they JOIN F-band. Same probe-over-count pattern as
+> jumptable/linkwall. **The truly-mechanical curriculum tier is exhausted (M1 37 + M3-clean 2 = 39 exemplars,
+> swept ×134).**
+> **NEXT (deferred, ranked): (1) F-near = 31 near-misses + the 8 ex-M4 = ~39 fns — the genuine frontier:
+> permuter-ILS on the ≤28-band [prompt Ultracode], §31-Opus mid-band, Fable5 only on new-idiom evidence
+> [prompt R27]; (2) F-jumptable 4 fns / ~536 — jump-table-in-rodata workflow (cookbook §8); (3) M-linkwall
+> 3 fns / ~402 — manual undefined-syms for dropped scratch symbols; (4) M3-residue 4 / ~407 (func_80131B14/
+> 8016F0AC arity, func_8013D9B0 TU-conflict, func_80182988 loose-typing) + F-perturb 4 / ~405 + draft 2 / ~268.**
+> Worklist: `.run/t6_worklist.json` (F_jumptable/F_near/F_perturb/M4 tiers) + `.run/t7_rawdrafts/` (39 raw drafts,
+> byte-correct-in-isolation) + `docs/phase25-t6-curriculum.md`. T7 discipline: good-sha from `config/check.*.sha`
+> (never hand-typed); R22 clean-fleet every batch; **the object-probe is NOT the gate — it's blind to rodata,
+> link, AND in-TU codegen (cookbook §41b + addendum); size any "mechanical" tier from the whole-binary gate.**
 > **T6 DONE (2026-07-09, Fable5):** the crack curriculum is authored and byte-grounded — **`docs/phase25-t6-curriculum.md`**
 > (tiers + per-fn worklists + commands) with `.run/t6_worklist.json` (machine-readable) and `.run/t6_recon6/` (44 staged
 > reconciled drafts). Headline: the def-side wall was ~71% TOOL-shaped — `canon_sig_reconcile.py` **v3.1** (committed) fixes

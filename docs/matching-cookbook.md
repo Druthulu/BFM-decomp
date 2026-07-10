@@ -2457,3 +2457,23 @@ zero agent tokens. **Cost note:** the per-member re-reconcile runs cpp on the si
 are cleared per sibling-TU inside the sweep (the sibling source is static during phase-1 staging, so the caches
 stay valid across exemplars for one TU). **This is the endgame's economic engine for the def-side-wall giants:
 crack + reconcile ONE exemplar, sweep it ×134 mechanically.**
+
+### §41b addendum — M4 "reconcile_decls" tier is ALSO a probe over-count: 0/8 mechanical (Phase 25 T7-M4, 2026-07-10)
+
+The T6 curriculum's third "mechanical" sub-tier (M4: 8 object-probe BYTEDRIFT fns projected to bank via a
+`reconcile_decls` §33 TU-retype) is **REFUTED by the whole-binary gate: 0/8 bank** (`reconcile_decls → canon_sig_reconcile → gate`).
+Root cause, same R14 pattern as §41b's jumptable/linkwall: the T6 object-probe's "BYTEDRIFT" does NOT imply a
+data-type conflict. **4 of the 8 have `reconcile_decls` "touched 0"** — no data decl even differs from the
+fleet-canonical — so their in-TU drift is pure codegen (scheduling ORDER: e.g. `func_8013E83C` reads
+`D_80115118` before the prologue in the target; `volatile`-loss: `func_801418F8`'s `D_8011511A` read-back;
+callee interactions). The other 4 have real data-decl differences but `reconcile_decls`' byte-neutral cast
+still perturbs the schedule. **These 8 are F-band** (byte-correct in ISOLATION — match_one c=0 — but drift
+8–69 in the real TU) → permuter-ILS / §31, not a mechanical tier. `reconcile_decls` remains valid ONLY for a
+genuine data-TYPE conflict where the cast is schedule-invariant (its §33 giant proofs); it is not a driftfix.
+
+**Net honest tally of the T6 "mechanical" projection (58 fns / ~2.5 MB):** truly mechanical = M1 37 + M3-clean 2
+= 39 exemplars (banked + swept ×134 = ~4,694 fleet fns, fleet 72.29→73.66%). The other 19 were probe
+over-counts → F-band/specialist: 8 M4 (codegen drift) + 4 jumptable (rodata) + 3 linkwall (undefined-sym) +
+4 M3-residue (arity/loose-typing). **Lesson (reinforces §41b): size a "mechanical" tier from the WHOLE-BINARY
+gate on a full sample, never from an object-only probe — it can't see rodata, link, OR in-TU codegen
+perturbation. Expect ~⅓ of an object-probe "BYTEDRIFT/COMPILE-FAIL" bucket to be genuine per-fn work.**
