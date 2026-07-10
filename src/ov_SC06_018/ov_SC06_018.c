@@ -800,7 +800,33 @@ DEFINE_func_8012D5E4()  /* dedup: shared engine-core @0x8012D5E4 (src/shared) */
 
 DEFINE_func_8012D624()  /* dedup: shared engine-core @0x8012D624 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018", func_8012D664);
+// @class: schedule
+// @stuck: none — MATCH
+
+
+struct S8012D664_8012D664 { short a, b, c; };
+
+int func_8012D664(int arg0, int arg1, int arg2) {
+    extern int func_8012F568();
+    extern int D_80193910;
+
+    struct S8012D664_8012D664 s;
+    int ret;
+    int t;
+
+    s.a = (*(unsigned short*)&D_80126B5E);
+    s.b = (*(unsigned short*)&D_80126B62) - 0x40;
+    s.c = (*(unsigned short*)&D_80126B66);
+    ret = ((int(*)())func_800132BC)(arg0, &s);
+    t = arg1 + 0x20;
+    if (ret < t * t) {
+        func_8012F568(1, 1, 0, arg2, arg0, &D_80193910);
+        return 1;
+    }
+    return 0;
+}
+
+
 
 DEFINE_func_8012D714()  /* dedup: shared engine-core @0x8012D714 (src/shared) */
 

@@ -1848,7 +1848,7 @@
     }
 
 #define DEFINE_func_8015CFFC() \
-    extern void func_8015D01C(void); \
+    extern void func_8015D01C(); \
     void func_8015CFFC(void) { \
         func_8015D01C(); \
     }
@@ -2014,7 +2014,7 @@
     }
 
 #define DEFINE_func_801747AC() \
-    extern s32 func_8016F0AC(s32); \
+    extern s32 func_8016F0AC(); \
     s32 func_801747AC(s32 a0) { \
         return func_8016F0AC(a0); \
     }
@@ -3504,7 +3504,7 @@
     }
 
 #define DEFINE_func_8012D624() \
-    extern void func_8012D664(void *a0); \
+    extern int func_8012D664(); \
     void func_8012D624(s32 a0) { \
         u16 sp[3]; \
         sp[0] = *(u16 *)(a0 + 0x6); \
@@ -5060,7 +5060,7 @@
     }
 
 #define DEFINE_func_8012F75C() \
-    extern void func_80131B14(void); \
+    extern void func_80131B14(); \
     extern void func_80131CA8(int a0, int a1); \
     void func_8012F75C(s32 a0) { \
         *(u8 *)(a0 + 0xC1) = 3; \
@@ -6302,7 +6302,7 @@
     }
 
 #define DEFINE_func_8012FC30() \
-    extern void func_80131B14(void); \
+    extern void func_80131B14(); \
     extern void func_8012B23C(s32 a0); \
     extern s32 func_80131A34(s32, s32); \
     extern void func_8002D4C8(s32 a0, s32 a1); \
@@ -7452,7 +7452,7 @@
     }
 
 #define DEFINE_func_8017484C() \
-    extern s32 func_8016F0AC(s32); \
+    extern s32 func_8016F0AC(); \
     extern s32 D_80126B9C; \
     void func_8017484C(s32 a0) { \
         func_8016F0AC(a0); \
@@ -17423,7 +17423,7 @@
     }
 
 #define DEFINE_func_8012F5F4() \
-    extern void func_80131B14(void); \
+    extern void func_80131B14(); \
     extern void func_80131E00(struct S80131E00 *a0, s32 a1); \
     extern s32 func_80131A34(s32, s32); \
     extern void func_80131CA8(int a0, int a1); \
@@ -19161,7 +19161,7 @@
     }
 
 #define DEFINE_func_8015CF58() \
-    extern void func_8015D01C(void); \
+    extern void func_8015D01C(); \
     void func_8015CF58(s32 *param_1) \
     { \
         func_80147078(param_1, 0xC); \
@@ -22566,7 +22566,7 @@
 
 #define DEFINE_func_80130AF0() \
     extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6); \
-    extern void func_80131B14(void); \
+    extern void func_80131B14(); \
     extern void func_80131E00(struct S80131E00 *a0, s32 a1); \
     extern int  func_80131A34(int a0, int a1); \
     extern void func_80131CA8(int a0, int a1); \
@@ -22971,7 +22971,7 @@
     }
 
 #define DEFINE_func_80130438() \
-    extern void func_80131B14(void); \
+    extern void func_80131B14(); \
     extern void func_80143CD4(s32 a0); \
     extern void func_8002D4C8(s32 a0, s32 a1); \
     extern void func_800CB0E8(s32 a0); \
