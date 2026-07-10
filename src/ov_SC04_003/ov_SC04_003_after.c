@@ -114,7 +114,109 @@ DEFINE_func_80145BF8()  /* dedup: shared engine-core @0x80145BF8 (src/shared) */
 
 DEFINE_func_80145C54()  /* dedup: shared engine-core @0x80145C54 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC04_003/nonmatchings/ov_SC04_003_after", func_80145CEC);
+// @class: struct
+// @stuck: 2 residuals — (1) target RELOADS global ptr D_80126B78 before each of its 5 field accesses (f28/f18/f1a/f1c/f2c); gcc-2.7.2 CSEs the single pointer load in every clean-C form I tried (int-cast, (s8*)/(s32) M2C_FIELD, struct*), keeping ONE load. volatile forces reloads but hoists them + leaves delay-slot nops the target fills (target is NOT volatile). (2) frame 0x20 not 0x18: target reserves an unused 8-byte stack local @0x10 (address-taken local — reproduced, but every code-free escape optimizes away and a visible escape corrupts the func_80145EE8(0) arg). Structure/order/values/callees all match; only the alias-driven reload chain + the phantom frame local remain. Family exemplar (~130 overlays).
+
+
+
+s32 func_80145CEC() {
+    extern int func_80016714();
+    extern int func_8001C320();
+    extern int func_801552F4();
+    extern int func_80147084();
+    extern int func_80147098();
+    extern int func_801470AC();
+    extern int func_80149210();
+    extern int func_8014BE9C();
+    extern int func_8016533C();
+    extern int func_801627C0();
+    extern int func_80162AF4();
+    extern int func_80165C78();
+    extern int func_801468C8();
+    extern int func_80145EE8();
+    extern int func_8014C968();
+    extern int func_8014C6D0();
+    extern int func_80165938();
+    extern int func_80153C8C();
+    extern int func_800290BC();
+    extern s32 D_800AFAE8;
+    extern s32 D_800DE2A4;
+    extern s32 D_801152C8;
+    extern s32 D_80183B3C;
+    extern s32 * D_80126B78[1];
+    extern s32 * D_800AF7C8;
+    extern s32 * D_80126B90;
+    extern s16 D_80126BB8;
+    extern s16 D_80126BBA;
+    extern s16 D_80126BBC;
+    extern s16 D_80126BC0;
+    extern s16 D_80126BC2;
+    extern s16 D_80126BC4;
+    extern s16 D_80126BC8;
+    extern s16 D_80126BCA;
+    extern s16 D_80126BCC;
+    extern s16 D_80126D10;
+    extern s16 D_80126D12;
+    extern s16 D_80126C4E;
+    extern s16 currentLocationId;
+    extern s32 D_8011F9C4;
+    extern s32 D_8012707C;
+    extern s32 D_8011DB10;
+
+    unsigned int uVar1;
+    s32 pad[2];
+    (void)&pad;
+
+    func_80016714(&D_80126B58, 0x254);
+    D_80126B78[0] = (s32 *)&D_800AFAE8;
+    D_800AF7C8 = (s32 *)&D_801152C8;
+    func_8001C320(&D_800AFAE8, &D_800DE2A4);
+    *(s32 *)((s32)D_80126B78[0] + 0x28) = 0x7fff7fff;
+    D_80126B90 = (s32 *)&D_80183B3C;
+    *(u16 *)((s32)D_80126B78[0] + 0x18) = 0x1000;
+    D_80126BC8 = 0x1000;
+    D_80126BC0 = 0x1000;
+    D_80126BB8 = 0x1000;
+    *(u16 *)((s32)D_80126B78[0] + 0x1a) = 0x1000;
+    D_80126BCA = 0x1000;
+    D_80126BC2 = 0x1000;
+    D_80126BBA = 0x1000;
+    *(u16 *)((s32)D_80126B78[0] + 0x1c) = 0x1000;
+    D_80126BCC = 0x1000;
+    D_80126BC4 = 0x1000;
+    D_80126BBC = 0x1000;
+    D_80126D12 = 0x1000;
+    D_80126D10 = 0x1000;
+    D_80126C4E = 0x1000;
+    func_801552F4(&D_80126B58);
+    func_80147084(&D_80126B58);
+    func_80147098(&D_80126B58);
+    func_801470AC(&D_80126B58);
+    *(u16 *)((s32)D_80126B78[0] + 0x2c) = *(u16 *)((s32)D_80126B78[0] + 0x2c) | 0x50;
+    func_80149210(&D_80126B58, 8);
+    func_8014BE9C();
+    func_8016533C();
+    func_801627C0();
+    func_80162AF4();
+    func_80165C78();
+    func_801468C8(&D_80126B58, 1);
+    if (currentLocationId != 0x30a2 && currentLocationId != 0x30a5) {
+        func_80145EE8(0);
+    }
+    func_8014C968();
+    func_8014C6D0();
+    D_8011F9C4 = 0;
+    func_80165938();
+    func_80153C8C();
+    D_8012707C = 0;
+    D_8011DB10 = 0;
+    uVar1 = ((int(*)())func_80029504)();
+    if (uVar1 >= 10) {
+        func_800290BC();
+    }
+}
+
+
 
 
 // @class: schedule
@@ -7318,7 +7420,78 @@ s32 func_8017B368(s32 param)
 
 INCLUDE_ASM("asm/ov_SC04_003/nonmatchings/ov_SC04_003_after", func_8017B490);
 
-INCLUDE_ASM("asm/ov_SC04_003/nonmatchings/ov_SC04_003_after", func_8017B614);
+// @class: regalloc-order + T1 memcpy-builtin→call re-crack
+// @stuck: 0 (iso). Register lever = $16 pin + in-place re-tie on the memcpy-branch src (keeps
+// param_2 in $a1 until the branch, then $s0 for the loads). Block-moves are align-1 struct-assigns
+// (u8[8]) so they lower via emit_block_move (movstrsi/move_by_pieces) with ZERO memcpy-symbol
+// reference — TU-independent, so the sibling TU's `extern memcpy` (which disables the builtin and
+// turned the old inlined block-move into a CALL) can no longer drift this.
+
+typedef struct { u8 b[8]; } Blk8_8017B614;
+
+
+
+s32 func_8017B614(s32 param_1, s32 param_2)
+{
+    extern void func_8012F214(s32 a0, s32 a1, s32 a2);
+    extern void func_80129CF8(void);
+    extern s32 func_8017BE60(void *a0);
+    extern u8 D_80185ACC[];
+    extern s16 D_8019B9B4;
+    extern s16 D_8019B9B6;
+    extern s16 D_8019B9B8;
+    extern s16 D_8019B9AC;
+    extern s16 D_8019B9AE;
+    extern s16 D_8019B9B0;
+    extern u8 D_8012694C;
+    extern s32 D_80126998;
+    extern s32 D_80126984;
+    extern s32 D_80126988;
+    extern s32 D_8012698C;
+
+    u8 buf[16];
+
+    if (((u32)param_2) >= 0xB) {
+        register u8 *src __asm__("$16");
+        __asm__ __volatile__("" : "=r"(src) : "0"((u8 *)((u32)param_2)));
+        *(Blk8_8017B614 *)&buf[0] = *(Blk8_8017B614 *)src;
+        *(Blk8_8017B614 *)&buf[8] = *(Blk8_8017B614 *)(src + 8);
+    } else {
+        s32 a1addr = (s32)&D_80185ACC[((u32)param_2) * 0x10];
+        s32 a2addr = (s32)&D_80185ACC[((u32)param_2) * 0x10 + 8];
+        func_8012F214(param_1, a1addr, (s32)&buf[0]);
+        func_8012F214(param_1, a2addr, (s32)&buf[8]);
+    }
+    {
+        s16 *p794 = &D_8019B9B4;
+        s16 *p78C = &D_8019B9AC;
+        *(Blk8_8017B614 *)p794 = *(Blk8_8017B614 *)&buf[0];
+        *(Blk8_8017B614 *)p78C = *(Blk8_8017B614 *)&buf[8];
+        ((void(*)(s32, s32))func_8012A018)((s32)func_8017BE60, 0);
+        {
+            s32 v794, v796, v798, v78C, v78E, v790;
+            D_8012694C = 0;
+            v794 = *p794;
+            v796 = D_8019B9B6;
+            v798 = D_8019B9B8;
+            v78C = *p78C;
+            v78E = D_8019B9AE;
+            v790 = D_8019B9B0;
+            __asm__ __volatile__("");
+            D_8019BB78 = 1;
+            D_8019B93C = 0x1E;
+            D_80126990 = v794;
+            D_80126994 = v796;
+            D_80126998 = v798;
+            D_80126984 = v78C;
+            D_80126988 = v78E;
+            D_8012698C = v790;
+        }
+        func_80129CF8();
+    }
+}
+
+
 
 
 // @class: plumbing
