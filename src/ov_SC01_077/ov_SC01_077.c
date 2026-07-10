@@ -1255,7 +1255,36 @@ void func_80141874(void) {
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_801418F8);
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80141A60);
+// @class: plumbing
+// @stuck: TBD — first pass
+
+
+
+s32 func_80141A60()
+{
+    int v;
+    s32 frame_pad[2];
+    (void)&frame_pad;
+
+    D_801151D0 = ((int *)D_801151C8)[(*(unsigned short *)&D_800B9A02)];
+    func_8013F350();
+    if ((*(unsigned short *)&D_8011511A) >= 4) {
+        func_8013FAF8((short)(*(unsigned short *)&D_8011511A), (short)((*(unsigned short *)&D_8011511A) + 1));
+    }
+    func_8013FAF8(2, 3);
+    v = ((int(*)(int, int))func_8014032C)(2, (short)((*(unsigned char *)&D_8011514C) + (*(unsigned char *)&D_8011514D) * (*(unsigned char *)&D_8011515C)));
+    if (v != 0 && v != D_80115130) {
+        D_80115130 = v;
+        func_80139954();
+        ((void (*)(int, void *))func_801376E8)(v, &(*(int *)&D_80187E98));
+    }
+    func_80137B80();
+    if (func_800D0EC4() != 0) {
+        (*(unsigned short *)&D_80115116) = 0xFFF8;
+        (*(unsigned short *)&D_80115112) = (*(unsigned short *)&D_80115112) + 1;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_80141B90);
 
