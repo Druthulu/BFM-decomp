@@ -25,12 +25,16 @@ ap.add_argument('fn')
 ap.add_argument('--c', help='C file (externs + the function def). Default: search .run/drafts3|2|/')
 ap.add_argument('--asm-subdir', default='asm/resident/nonmatchings/resident')
 ap.add_argument('--work', default='.run/match')
+ap.add_argument('--o0', action='store_true',
+                help='compile at -O0 (for the _o0 split subsegments: ov_SC01_077_o0.c, whale _o0b — '
+                     'their target bytes are -O0; an -O2 compile can never match them, Makefile:445)')
 a = ap.parse_args()
 
 CPP = 'mipsel-linux-gnu-cpp'; CC1 = 'tools/bin/gcc-2.7.2-psx/cc1'
 MASPSX = 'tools/maspsx/maspsx.py'; AS = 'mipsel-linux-gnu-as'; PY = '.venv/bin/python'
 CPPFLAGS = '-lang-c -Iinclude -undef -Wall -fno-builtin -Dmips -D__GNUC__=2 -D__OPTIMIZE__ -Dpsx -D_PSYQ -D_MIPSEL -D_LANGUAGE_C'.split()
-CC1FLAGS = '-quiet -O2 -G0 -mips1 -mcpu=3000 -mgas -msoft-float -fgnu-linker'.split()
+CC1FLAGS = ('-quiet %s -G0 -mips1 -mcpu=3000 -mgas -msoft-float -fgnu-linker'
+            % ('-O0' if a.o0 else '-O2')).split()
 ASFLAGS = '-Iinclude -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0'.split()
 
 cfile = a.c
