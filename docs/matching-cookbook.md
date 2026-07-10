@@ -2477,3 +2477,56 @@ over-counts → F-band/specialist: 8 M4 (codegen drift) + 4 jumptable (rodata) +
 4 M3-residue (arity/loose-typing). **Lesson (reinforces §41b): size a "mechanical" tier from the WHOLE-BINARY
 gate on a full sample, never from an object-only probe — it can't see rodata, link, OR in-TU codegen
 perturbation. Expect ~⅓ of an object-probe "BYTEDRIFT/COMPILE-FAIL" bucket to be genuine per-fn work.**
+
+## §42 — The F-band ≤28 regalloc crack wave: register-pin/DENSITY levers beat the permuter (Phase 25 T7 F-band, 2026-07-10; Ultracode 9-worker wave, 4/9 banked byte-identical, 266 swept ×134)
+
+The F-near ≤28 band (14 fns / ~1,393 ins, one ov_SC01_077 h_norm exemplar each) is **regalloc-order-DOMINATED**
+(9 of 14 = saved-register `$sN` allocation/ordering swaps). The permuter is **structurally blind** to this class:
+it mutates C source, and pycparser rejects `register __asm__` (§5a/§17), so a pure `$sN`-allocation swap has no
+source-mutation reachable. **Empirically proven this wave:** permuter-ILS (regalloc-directed `_REGALLOC` weights,
+8×120 s warm-restart) plateaued at base on EVERY regalloc fn (func_80134C20 stuck@3; schedule-class func_8017EF50
+stuck@4, func_80168828 8→5) — **0 closed**. A 9-worker Ultracode wave applying MANUAL §17/§31 levers cracked
+**7/9 to byte-0 in isolation**, of which **4 banked byte-identical** through the whole-binary gate.
+
+**The winning levers (all zero-runtime-code, semantics-preserving; full RTL in `subagents/workflows/wf_0329d3c2-75c/`):**
+1. **The §31 DENSITY lever (the workhorse for `$sN` races).** To win a razor-thin saved-reg allocation, ADD a
+   zero-byte dead-read `__asm__ __volatile__("" :: "r"(v));` on the pseudo you want gcc to prefer — it bumps `v`'s
+   ref-count so the local-alloc density heuristic gives it the contested `$sN`. **Calibrate the COUNT exactly**
+   (func_80134C20: ONE dead-read of the master reclaims `$s5`; TWO over-boost it into `$s4` → 13-off). Proven:
+   func_80134C20 (230, MATCH), func_801365B8 (155, 11→2).
+2. **The opaque asm-COPY for a param live-range split.** `__asm__("addu %0,%1,$zero" : "=r"(copy) : "r"(orig));`
+   (or the §17 in-place re-tie `__asm__("" : "=r"(p) : "0"((T)p));`) forces gcc to keep `orig` in its incoming arg
+   reg for early reads while `copy` carries the later reg — reproducing the target's single-pseudo live-range split.
+   Proven: func_8017B614 (RC-9 hoist-vs-remat, MATCH). CAVEAT: reorg.c forbids `__asm__` in a delay slot, so an
+   asm-copy that must fall in one lands a slot early (func_801365B8's irreducible 2-off).
+3. **Frame-pad induction:** `s32 pad[2]; (void)&pad;` — address-taken-then-discarded local defeats -O2 DCE, reserves
+   8 unused var_size bytes to match a target frame (0x20 vs 0x18), shifting every save offset; `(void)&pad` emits
+   zero code. Proven: func_80141A60 (MATCH). **CAVEAT: frame-pad is ov077-specific — its 133 h_norm siblings ALL
+   byte-drift on remap (each sibling's natural frame differs) → frame-pad families are EXEMPLAR-ONLY, NOT ×134-sweepable.**
+4. **Array-initializer LUID shift:** `s32 a[2] = {x, y};` vs two `a[0]=x; a[1]=y;` reorders the const-materialization
+   LUIDs → sched2 emits the callee-save stores before the const chain (matches a target prologue-weave, S7). Proven:
+   func_80180F10 (MATCH).
+5. **u16* zero-extend for a high-bit halfword store constant:** storing 0x8000+ through `unsigned short *` zero-extends
+   → `ori $r,$zero,0xFFF8` (opcode 0x34) vs `short *`'s sign-extend `addiu`/`li -8` (0x24). func_80141A60.
+
+**DIRECT `register T v __asm__("$21")` pins OFTEN BACKFIRE on giants** — they wreck the prologue save-birthing order
+and clobber the dead pinned regs (func_80134C20: direct pins = 97-off vs density = MATCH; func_80180F10: pin = 37-off
+vs array-init = MATCH). **Reach for the DENSITY lever first; use hard pins only when the residual is a clean,
+uncontested-reg home** (the `dont-conclude-unsteerable` memory still holds: try SOMETHING before declaring a wall,
+but density > pins on the giants).
+
+**Attrition — isolation-MATCH ≠ real-TU bank (reinforces §41b):** 7 iso-MATCH → **4 banked, 3 real-TU byte-drift**
+(compile OK, byte-differs). func_8017B614's drift = the **T1 memcpy-builtin→call class** (the sibling TU's
+`extern memcpy` disables the builtin, so the worker's inlined lwl/lwr block-move lowers to a CALL) → re-crack with
+field-by-field or explicit `memcpy(x,y,8)`. func_801365B8 = a GENUINE irreducible cse-representative conflict → G4/INCLUDE_ASM candidate.
+
+**Tooling gotchas (each cost a false-fail cycle):** (a) `harvest_verify.py` for a NON-resident binary MUST pass
+`--out build/<bin>/<bin>` — its `build()` removes+sha1s `--out` (default `build/resident/resident`), so an overlay run
+without it reports "final SHA None"/fail for EVERY draft even when byte-identical. (b) `canon_sig_reconcile` can't
+extract a def whose body has a fn-pointer cast `((s32(*)(...))func)` — such a draft banks RAW (no reconcile) if its
+sig is already canonical (func_80180F10). (c) R22 clean-fleet: `make clean` nukes the WHOLE splat tree (asm/); `make
+extract` re-splits only the DEFAULT binary — you must `make extract BINARY=$b` for ALL 136, else 135 fail "can't open .s"
+(a build-infra false-fail, not a byte mismatch).
+
+**Wave economics:** 9 xHigh workers ≈ 1.66 M subagent tokens → 4 banked + 266 swept ×134 = **~270 fleet fns**. The ≤28
+regalloc band is genuine frontier — budget ~40-50% bank-rate per wave, NOT the mechanical tiers' ~94%.

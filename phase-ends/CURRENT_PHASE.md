@@ -38,6 +38,51 @@ idiom curriculum → sweep one exemplar per family (curriculum-ordered), each cr
 - [ ] Close — clean-fleet verify · PhaseEnd synthesis · plain-English recap (R25) · Phase-26 backlog  *(NOT yet — phase open)*
 
 ## FRESH SESSION — RESUME HERE  (**NEXT = the F-band frontier + the deferred mechanical tail**; the T7 mechanical tiers M1/M2/M3 are DONE — fleet **73.66%**, committed `commit:0497`; phase OPEN, do NOT close)
+> **IN-FLIGHT (2026-07-10b, Opus-Max→Ultracode) — T7 F-band ≤28 crack wave RUNNING (nothing banked/committed yet):**
+> Re-triaged the ≤28 band (R14, all vs bytes): it's **regalloc-order-DOMINATED** (§17 `register __asm__` pin territory) —
+> the permuter PLATEAUS on it (func_80134C20 regalloc stuck@3 even with regalloc-directed weights; func_8017EF50
+> schedule stuck@4; func_80168828 schedule 8→5). cookbook §17 confirms "permuter can't help — pycparser rejects
+> `register __asm__`". Free permuter left **softened seeds**: func_8017EF50 c=4, func_80168828 c=5 (in `.run/permuter/<fn>/output-*`).
+> Better drafts found than the T6 table: func_8017B614 is **c=6** (not 22). Iso-MATCH-but-real-TU-drift class:
+> func_8017B490 (gate_stage failed=1 compile-wall → per-fn TU work). Length-drift seeds: func_8012E364 (+1), func_801345F8 (−2).
+> jtbl+schedule: func_801549F8 (c=3, `jtbl_801D89A4` %hi/%lo). **Ultracode wave `wf_0329d3c2-75c`** = 9 regalloc fns
+> (func_80134C20/8017B614/80180F10/80141A60/801365B8/80164930/80136824/8012E364/801345F8), 1 xHigh worker each, §17
+> pins → MATCH-in-isolation → `.run/uc_crack/<fn>.c`. **GATE RECIPE per MATCH:** `canon_sig_reconcile --fn X --draft
+> .run/uc_crack/X.c --out .run/uc_gate/X.c --tu src/ov_SC01_077/<split>.c` → `harvest_verify --binary ov_SC01_077 --src
+> src/ov_SC01_077/<split>.c --asm-subdir asm/ov_SC01_077/nonmatchings/<split-subdir> --drafts .run/uc_gate --good-sha
+> d19c9580a02dc63ba1f0e7e0c770f3b10de35635 --chunk 1` → on bank: `family_sweep --only 0xADDR --reconcile .run/uc_crack`
+> → R22 clean-fleet 136/136. Isolation-MATCH ≠ real-TU bank (def-side wall / codegen drift) — the whole-binary gate is
+> the sole arbiter (G3/P9). Task board #1 (re-triage ≤28 done) / #2 (crack wave in_progress).
+> **WAVE RESULT (2026-07-10b):** crack wave `wf_0329d3c2-75c` = **7/9 iso-MATCH** (R14 re-verified via independent
+> match_one) + 2 near (func_801365B8 c=2 irreducible cse-repr conflict, both fixes contain `__asm__` so permuter-blind;
+> func_8012E364 c=6). **GATE → 4 BANKED byte-identical** into ov_SC01_077: **func_80134C20 (230), func_801345F8 (106),
+> func_80141A60 (76), func_80180F10 (75)**. **3 iso-MATCH-but-real-TU-DRIFT** (compile OK, byte-differs → back to F-band):
+> func_80136824 (156), func_8017B614 (101 — the T1 **memcpy-builtin-vs-call** class: TU declares memcpy → worker's inlined
+> block-move lowers to a CALL → drift; re-crack with field-by-field copy), func_80164930 (81). **SWEEP ×134 DONE:** func_80134C20 ✓133 + func_801345F8 ✓133 = **266 siblings banked**;
+> func_80141A60 133 siblings ALL byte-DRIFT (frame-pad lever is ov077-specific, doesn't remap per-sibling →
+> frame-pad families are EXEMPLAR-ONLY, not ×134-sweepable — backlog); func_80180F10 = standalone (no h_norm
+> siblings). **BATCH = 4 exemplars + 266 siblings = 270 new matched fns.** `family_sweep --commit` AUTO-COMMITTED
+> (commit:0500, src/ov_*/*.c only, no ROM — R6/H1 OK; Drew pushes) — note it committed BEFORE R22 (running `bfpt9lgm0`);
+> revert commit:0500 if R22 ≠ 136/136. Banked-but-not-swept-cleanly func_80141A60 stands as exemplar (+1).
+> **F-band ≤28 residual after this wave:** 3 real-TU-drift (func_80136824/8017B614/80164930) + 2 near
+> (func_801365B8 c=2 / func_8012E364 c=6) + 4 schedule/jtbl/iso-drift (func_8017EF50 c=4-perm-softened /
+> func_80168828 c=5 / func_8012FCC4 / func_801549F8 jtbl / func_8017B490 real-TU). func_80141A60's 133 frame-pad siblings.
+> **✅ R22 CLEAN-FLEET 136/136 GREEN** (corrected recipe: `make clean` nukes asm/, so re-extract ALL 136 via
+> `for b in $BINS; do make extract BINARY=$b; done` THEN check-all — cookbook §42c). **Fleet 73.66% → 73.73%**,
+> dedup 1813, NON_MATCHING 7 (0 in default build). Commit `commit:0500` (src banks) VERIFIED. Cookbook **§42** written
+> (density-lever catalog + 3 tooling gotchas). Doc checkpoint commit next. F-band ≤28 wave = **DONE** (4/9 banked,
+> residuals backlogged above); NEXT F-band sub-tiers = 29–100 §31-Opus band + the residual re-cracks (memcpy-class
+> func_8017B614, jtbl func_801549F8) + func_80141A60's frame-pad siblings (per-sibling frame analysis).
+> **TOOLING GOTCHA (fix in cookbook/SETUP):** `harvest_verify` for a NON-resident binary MUST pass `--out
+> build/<bin>/<bin>` — its `build()` removes+sha1s `--out` (defaults to `build/resident/resident`), so without it every
+> overlay draft spuriously reports "final SHA None"/fail even when byte-identical. func_80180F10 needed the RAW draft
+> (canon_sig_reconcile choked on its fn-ptr cast `((s32(*)(...))func)`) — raw compiled + banked directly (sig already
+> canonical). WORKER LEVERS worth cookbook §17/§31 (from the wave journal): §31 density lever (zero-byte `__asm__("":: "r"(v))`
+> dead-read to boost a pseudo's ref-count and win a razor-thin $sN density race); opaque asm-copy `__asm__("addu %0,%1,$zero")`
+> to force a param live-range split; frame-pad induction (`s32 pad[2]; (void)&pad;` reserves unused var_size, zero code);
+> array-initializer LUID shift (`s32 a[2]={x,y};` vs two stmts → reorders const-materialization in sched2 prologue-weave);
+> u16* zero-extend for a high-bit (0x8000+) halfword store constant (`ori` opcode 0x34 vs s16* `addiu`/sign-extend 0x24).
+> DIRECT `register __asm__("$21")` pins OFTEN BACKFIRE on giants (wreck prologue save-birthing) — density levers beat them.
 > **T7 MECHANICAL DONE (2026-07-10, Opus-Max):** the curriculum's mechanical tiers are banked + swept ×134,
 > fleet **72.29% → 73.66% (+1.37%, ~4,694 fleet fns)**, R22 clean-fleet **136/136** at every checkpoint,
 > dedup 1813/0, 0 NON_MATCHING. Commits: M1 `commit:0495`, M2 `commit:0496`, M3 `commit:0497`. Tools:
