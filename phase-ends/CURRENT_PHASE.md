@@ -37,7 +37,32 @@ idiom curriculum → sweep one exemplar per family (curriculum-ordered), each cr
       deferred mechanical tail (M4 8, F-jumptable 4, M-linkwall 3, M3-residue 4, F-perturb 4, draft 2).
 - [ ] Close — clean-fleet verify · PhaseEnd synthesis · plain-English recap (R25) · Phase-26 backlog  *(NOT yet — phase open)*
 
-## FRESH SESSION — RESUME HERE  (fleet: fn-count ~74.6% / instr-weighted **58.2%** / distinct-code **30.3%**; phase OPEN, do NOT close. **NEXT: FABLE5 BATCH #2 — the 3 walled flywheel giants + the 2 permanent walls (pending Drew's R27 steer). Parallel-isolated agents + distill-between; the cheap flywheel + propagation run alongside.**)
+## FRESH SESSION — RESUME HERE  (fleet: instr-weighted **58.2%** / distinct-code **30.3%**; phase OPEN, do NOT close. **NEXT: the FAMILY-ENDGAME MEGAPLAN → `docs/family-endgame-megaplan.md`. Drew runs a plan-mode + Fable5 session to build the "finish the decomp this weekend" plan from it. ALL other tasks (Fable5 batch #2, F-band) are DEFERRED into that megaplan, most-value-first.**)
+
+### ⇒ MEGAPLAN PIVOT (2026-07-11, end of session) — the "unique tail" is mostly TEMPLATABLE FAMILIES
+> **THE FINDING (byte-verified; full detail + data + Fable5-examine list in `docs/family-endgame-megaplan.md`):**
+> the "36k unique / 87% distinct-code tail" was a STRICT-`h_norm` artifact. Re-clustered by `h_seq` (mnemonic
+> skeleton), **90% collapses into ~754 families**; **986 substantial (nins≥80) families / 1.88M ins, top-20 =
+> 52%**, all per-location-shaped (same fn at 1 addr × ~120 overlays). Templatability CONFIRMED — identical
+> nbytes/ncalls/call-sequence across members (e.g. `0x80178d40` 890ins×121, `0x8015ae2c` 562×121, `0x8017ca80`
+> 952×100 cross-address). → the endgame is **crack ~986 exemplars → template ×~120**, NOT 36k hand-decomps.
+> Drew's insight; it makes "finish this weekend" credible. (Reproduce: `h_seq` in `.run/sig.*.jsonl`; survey in
+> the megaplan §1.)
+> **NEXT SESSION = plan-mode + Fable5** analyze the megaplan → build the finish-plan (Step A cheap map+triage →
+> Step B Fable5 hard family CORES → Step C mechanical ×120 harvest → Step D unique residue). Do Step A's cheap
+> `h_seq` map + templatability validation + exemplar triage FIRST (the measured foundation); Fable5 drafts on
+> that data, not predictions.
+> **DEFERRED into the megaplan (most-value-first):** (1) Fable5 hard family CORES (890/952/562-ins exemplars,
+> ×~120 each — the real "monsters worth Fable5"); (2) the 2 permanent walls func_801412A8 (198×134 S11) /
+> func_80178004 (165×134 pin-free); (3) the 3 walled reach-134 giants (recon-done pin-free seeds + gdb specs:
+> func_8014D820/func_8016CBC0/func_801670E4 — see megaplan §6); (4) F-band residuals; (5) the 5.9MB matched-free
+> propagation (mechanical, no Fable5). NOT the 5 unique ≥1000-ins behemoths — ×1, worst ROI, Step D/never.
+> **PERMUTER BATCH this session (Drew-directed, DONE):** func_801670E4 + func_8012E364 + func_801549F8 through
+> the directed ILS → **ALL WALLED (masked 22/31/2), 0 banks** — the free permuter tier is exhausted on these
+> intrinsic ties (→ Fable5 or the fuzzy-family tail). func_801549F8 is masked-2 (jump-table; a `.text`-0 still
+> needs the rodata `jtbl` §8-verified).
+> **COMMITTED this session:** flagship func_80133CD4 ×134 (`commit:0515`, R22 136/136) + cookbook §45. This
+> checkpoint commit = the megaplan + this pivot note.
 
 ### SESSION 2026-07-11 — GIANT ESCALATION ROUND (Max orch; TASK A giant #2 flagship + flywheel) — [src banked; commit pending R22]
 > **Permuter round (both pin-free seeds) WALLED:** func_8014D820 masked-38 (RC-6), func_80133CD4 masked-172 (allocno tie). Both → Fable5 per the recipe.
