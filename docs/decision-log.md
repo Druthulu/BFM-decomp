@@ -187,3 +187,25 @@ the session that produced it. Route TECHNICAL idioms to the cookbook; this file 
   genuine per-fn work. The mechanical ×134 sweep is the real economic engine (4,655 members from 39 cracks); the
   curriculum's value was concentrating the crack effort onto the 39 exemplars, not the tier-size projection.
   Reinforces R14 (verify vs bytes) at the tier-classification level and cookbook §41b/§41b-addendum.
+
+## 2026-07-10c — Propagation-recovery (task b) is NOT a simple --edit-remap gap; it's a family_remap LIMITATION on lever-heavy F-band cracks
+
+**Context+belief:** After waves 3/4 banked exemplars but dropped ~1,200 siblings, I projected task (b) as a cheap
+`family_sweep --edit-remap` enhancement (carry the exemplar's //@EDIT file-scope edits per sibling) — a ~0-token bulk win.
+
+**What failed / the diagnosis:** Probing the 7 dropper families showed the drops are HETEROGENEOUS and dominated by
+**`family_remap` symbol-pairing FAILURE ("133 remap-fail")**, NOT the decl/byte layer an --edit-remap would fix.
+`family_remap` was built for MECHANICAL (reloc-only, T3) families; the F-band cracks carry heavy levers (register
+`__asm__` pins, density dead-reads, phantom-frame `frame_pad`, pointer casts, //@EDIT flips), whose disassembly
+doesn't positionally pair to the sibling image cleanly → remap aborts. func_8014FE60 (engine_core void→s32) also
+remap-fails even after the correct global flip. The families that DID sweep (func_80166690/8017B238/80131B14/
+8016CF04/8014FBC0) have remap-clean bodies; the droppers don't.
+
+**The pivot:** recovering the ~1,200 dropped siblings needs EITHER (a) a `family_remap` upgrade that pairs
+lever-heavy bodies (structure-aware, not positional-reloc-only), OR (b) a per-sibling re-crack (m2c+reconcile+rtu_match
+fan-out ×133/family — expensive). Both are a focused follow-up, not a quick enhancement. Backlogged.
+
+**Hindsight better-path:** the ×134 economics assumed family_remap propagates any crack; it only propagates
+remap-clean ones. Future crack-then-sweep waves should CHECK remap-ability of the exemplar body BEFORE counting the
+×134 (a cheap `family_remap --dry` per exemplar), so the frontier map's leverage estimate reflects propagate-able
+families, not all same-address families.
