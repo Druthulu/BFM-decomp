@@ -37,7 +37,17 @@ idiom curriculum → sweep one exemplar per family (curriculum-ordered), each cr
       deferred mechanical tail (M4 8, F-jumptable 4, M-linkwall 3, M3-residue 4, F-perturb 4, draft 2).
 - [ ] Close — clean-fleet verify · PhaseEnd synthesis · plain-English recap (R25) · Phase-26 backlog  *(NOT yet — phase open)*
 
-## FRESH SESSION — RESUME HERE  (**NEXT (from the frontier map `docs/phase25-frontier-map.md`): (a) the 7 GIANTS 200+ ins → Fable5 surgical probe; (b) a `family_sweep --edit-remap` enhancement → recover the ~2,200 dropped siblings (wave-3/4 //@EDIT/trampoline/engine_core families) + the matched-free 235 bucket; (c) F-band backlog — M-linkwall func_8016D1D8/80165240, -O0 func_801457A4, permuter func_8012E364/801549F8**; fleet **74.36%**; phase OPEN, do NOT close)
+## FRESH SESSION — RESUME HERE  (**NEXT (from the frontier map `docs/phase25-frontier-map.md`): (a) the 7 GIANTS 200+ ins → Fable5 surgical probe; (b) the `family_sweep --edit-remap` enhancement (SCOPED DOWN — see recovery block) → recover the 4 byte-drift families func_8016DF5C/80136334/8013D9B0/80156044 + wave-3's func_80136824/80133AB0; (c) F-band backlog — M-linkwall func_8016D1D8/80165240, -O0 func_801457A4, permuter func_8012E364/801549F8**; fleet **74.40%**; phase OPEN, do NOT close)
+> **PROPAGATION-RECOVERY (2026-07-10c, Max) — COMMITTED, R22 136/136 GREEN, fleet 74.36% → 74.40% (+133 fns):**
+> Investigated task (b). **R14 CORRECTION:** the "family_remap limitation" I first concluded was a MISDIAGNOSIS — the
+> "remap-fail" was a mislabeled **`canon_sig_reconcile` def-finder bug** (its regex required a leading `\n`, so a
+> `//@EDIT`-stripped raw draft with the fn def on line 1 → "no definition found"; `family_sweep` miscounts that as
+> remap-fail). **FIXED** `\n`→`(?:^|\n)`. Recovered **func_8014FE60 fully (133/133 siblings)** + its engine_core.h
+> void→s32 global flip. **Residual (the genuine, now-SMALL --edit-remap):** 4 families reconcile but byte-drift
+> per sibling — their fixes live OUTSIDE the remapped body (pointer `//@EDIT`, no-proto, return-flip). A
+> `--edit-remap` {per-sibling remap the `//@EDIT` + apply any shared-header flip once} recovers them. cookbook §42e,
+> decision-log corrected. **LESSON (R14): trace a tool's real exception, not its summary label.**
+
 > **WAVE 4 (2026-07-10c, Max orch + Ultracode fan-out over the FRONTIER MAP) — COMMITTED, R22 clean-fleet 136/136 GREEN, fleet 73.97% → 74.36% (+1350 fns):**
 > Built the systematic **frontier map** (`docs/phase25-frontier-map.md`, committed commit:0506): endgame = 42 draftable
 > (crack) + 235 matched-free (propagate) + 2481 absent; `rtu_match`-measured all 42 → 37 crack targets. Crack fan-out

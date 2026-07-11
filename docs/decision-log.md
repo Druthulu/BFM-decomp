@@ -209,3 +209,25 @@ fan-out ×133/family — expensive). Both are a focused follow-up, not a quick e
 remap-clean ones. Future crack-then-sweep waves should CHECK remap-ability of the exemplar body BEFORE counting the
 ×134 (a cheap `family_remap --dry` per exemplar), so the frontier map's leverage estimate reflects propagate-able
 families, not all same-address families.
+
+## 2026-07-10c (CORRECTION, same day) — the "family_remap limitation" was a MISDIAGNOSIS; the real bug was canon_sig_reconcile's def-finder (R14)
+
+**Correcting the entry above.** I concluded the propagation drops were a `family_remap` limitation because `family_sweep`
+reported "133 remap-fail". **That label was misleading.** Running `family_remap` directly on all 7 droppers SUCCEEDED
+(it paired 4–6 symbols each). The None that `reconcile_remap` returns — which `family_sweep` counts as "remap-fail" —
+actually came from **`canon_sig_reconcile.reconcile` raising "no definition of func_X found in draft"**: its def-finder
+regex required a leading `\n` (`r'\n(<type> fn(...)){'`), but stripping the `//@EDIT` lines left the fn definition on
+LINE 1 of the raw draft (no leading newline) → not found. The swept-clean families happened to have a leading `// @class`
+comment, so their def had a `\n` before it.
+
+**FIX (1 char, low-risk):** def-finder regex `\n` → `(?:^|\n)` (also match a def at the draft start; only ADDS matches).
+**Result:** func_8014FE60 fully recovered — 133/133 siblings banked (fix + its engine_core.h void→s32 global flip).
+
+**Residual (the GENUINE --edit-remap work):** 4 families (func_8016DF5C/80136334/8013D9B0/80156044) now RECONCILE but
+BYTE-DRIFT per sibling — their crack levers (s32↔void return flip, array-decay pointer `//@EDIT`, no-proto `//@EDIT`)
+aren't carried/re-derived per sibling. Recovery = carry the exemplar's `//@EDIT` per sibling (symbol-remapped) + apply
+the return-type flip to the shared engine_core.h decl once. Still a focused follow-up, but SMALL and well-understood
+now — NOT a family_remap rewrite.
+
+**LESSON (R14):** a tool's failure LABEL can misattribute the failing STAGE. "remap-fail" was actually a
+reconcile-def-finder throw. Trace the real exception (`reconcile_remap` swallows it) before concluding a limitation.

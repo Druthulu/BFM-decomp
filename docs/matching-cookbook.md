@@ -2698,3 +2698,29 @@ reconcile-first + rtu_match-gated + the §42/§42c/§42d levers.
 **Wave-4 economics:** 26 workers ~2.36 M tok → 24 MATCH → 20 banked + swept ×134. Bank-rate 20/24 at the
 whole-binary gate (4 hit rtu-blind link-walls / drift — rtu_match is `.text`-only, §41b/§42b caveat; those need the
 whole-binary/link gate). The 2 permuter DIFFs: func_8012E364 (c=4), func_801549F8 (c=3, jtbl delay-slot).
+
+### §42e — propagating a CRACK ×134: the def-finder bug + the byte-drift residual (the "remap-fail" misdiagnosis)
+
+Cracked F-band exemplars don't all propagate ×134 through `family_sweep --reconcile` — waves 3/4 dropped ~1,200
+siblings. Diagnosis (a two-layer story; both matter for future sweeps):
+
+1. **THE def-finder BUG (`canon_sig_reconcile`, fixed) — mislabeled "remap-fail".** `family_sweep`'s `reconcile_remap`
+   returns None on ANY failure and the caller counts it as "remap-fail", but `family_remap` itself SUCCEEDS (verify with
+   `tools/family_remap.py --addr … --from … --to …` — it pairs the symbols fine). The real None came from
+   `canon_sig_reconcile.reconcile` raising **"no definition of func_X found in draft"**: its def-finder regex required a
+   leading `\n` (`\n(<type> fn(...)){`), but a raw draft whose `//@EDIT` header lines were stripped has the fn
+   **definition on line 1** → no match. FIX: `\n` → `(?:^|\n)` (also match a def at draft start). This alone fully
+   recovered func_8014FE60 (133/133 siblings) once paired with its shared-header return-type flip.
+2. **THE byte-drift residual (the genuine `--edit-remap` work).** Families cracked with a **file-scope `//@EDIT`** (the
+   array-decay pointer flip §42c#3, the no-proto flip) or a **shared-header return-type flip** (§42d#1) reconcile per
+   sibling but BYTE-DRIFT, because those edits live OUTSIDE the function body that `family_sweep` remaps: the pointer/
+   no-proto `//@EDIT` targets per-overlay decls (must be symbol-remapped + applied per sibling), and the return-type
+   flip targets the ONE shared engine_core.h macro (apply once, globally — like func_8016CF04/8014FE60). `family_sweep`
+   carries neither. So a `--edit-remap` = {per-sibling: remap the exemplar's `//@EDIT` symbols and apply to the sibling
+   split; once: apply any shared-header flip globally} recovers this class. func_8016DF5C/80136334/8013D9B0/80156044
+   are the backlog exemplars.
+
+**Forward rule (frontier-map leverage realism):** a crack's ×134 is only free if its body is self-contained (no
+`//@EDIT`, no shared-header flip). Before counting a cracked family's ×134, note whether it carries out-of-body edits;
+if so it's exemplar+`--edit-remap`, not exemplar×134-free. **LESSON (R14):** trace a tool's real exception, not its
+summary label — "remap-fail" was a swallowed reconcile-throw two layers down.

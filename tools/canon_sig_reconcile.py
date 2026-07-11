@@ -410,7 +410,7 @@ def reconcile(fn, draft, canon_sig=None, tu_path=None):
     # (v3.1: drafts' @stuck headers quote the sig and mis-anchored the rewrite); offsets of
     # the mask apply to the real text.
     dm = None
-    for cand in re.finditer(r'\n((?:[A-Za-z_][\w ]*?\*?\s*)\b' + re.escape(fn) + r'\s*\([^;{]*\))\s*\n?\{',
+    for cand in re.finditer(r'(?:^|\n)((?:[A-Za-z_][\w ]*?\*?\s*)\b' + re.escape(fn) + r'\s*\([^;{]*\))\s*\n?\{',
                             _comment_masked(draft)):
         dm = cand                                # last match = the definition
     if not dm:

@@ -13265,7 +13265,7 @@
 
 #define DEFINE_func_8014FDF4() \
     extern void func_80150170(void *a0); \
-    extern void func_8014FE60(void *a0); \
+    extern s32 func_8014FE60(void *a0); \
     void func_8014FDF4(struct S8014FDF4 *a0) { \
         if (a0->f6 != a0->f88 || a0->fA != a0->f8A || a0->fE != a0->f8C) { \
             func_80150170(a0); \
