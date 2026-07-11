@@ -3,9 +3,13 @@
 # source-derived (committed src/*.c + config/dedup.us.yaml). Live byte gate: `make check-all`;
 # cross-binary collapsible-byte leverage: docs/duplicates.cross.md.
 
+# THREE progress metrics (all matter — see the labels):
+FLEET fn-count byte-ident: 256430 / 344306 = 74.48%   (REAL+LINKED+empties; FUNCTION-count, ×134-inflated — one crack counts per overlay)
+FLEET instr-weighted     : 7222555 / 12707182 = 56.8%   (shipped .text across resident+134 overlays; the decomp.dev-DISPLAY number)
+FLEET distinct-code(uniq): 1478352 / 5410077 = 27.3%   (28814/84996 unique fns; the DISTINCT-RE number; main EXE not sig'd)
+
 FLEET REAL substantive   : 254901   (of which dedup-shared 223275 via 1813 groups / 223725 instances)
 FLEET LINKED PsyQ objs   :    959
-FLEET byte-identical     : 256430 / 344306 = 74.48%   (REAL+LINKED+empties)
 FLEET NON_MATCHING       :      7   (0 in any default build — G4)
 FLEET INCLUDE_ASM stubs  :  87869
 FLEET matchable          : 344306
