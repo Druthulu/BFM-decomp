@@ -2724,3 +2724,30 @@ siblings. Diagnosis (a two-layer story; both matter for future sweeps):
 `//@EDIT`, no shared-header flip). Before counting a cracked family's ×134, note whether it carries out-of-body edits;
 if so it's exemplar+`--edit-remap`, not exemplar×134-free. **LESSON (R14):** trace a tool's real exception, not its
 summary label — "remap-fail" was a swallowed reconcile-throw two layers down.
+
+**BUILT + measured (Phase-25 task B, 2026-07-10):** `family_sweep --edit-remap MANIFEST` (JSON: per family, `edits`
+= split-scope `//@EDIT old||new` in EXEMPLAR symbols, symbol-remapped per sibling via `family_remap.symbol_map`;
+`ec_edits` = once-global `engine_core.h` flips, byte-neutral). Per sibling it applies the remapped edits to the split
++ stages the `family_remap` body + gates the (overlay,split) group via plain `harvest_verify`. Orphaned edits from a
+failed sibling are byte-neutral (R22-checked). Manifest at `.run/edit_remap_manifest.json`.
+
+**THE CC1-CRASH WALL (the decisive R14 finding — only 2 of the 6 backlog families recovered):** the whole-binary
+byte-gate is the sole arbiter, and it revealed that **out-of-body-edit families split into two classes:**
+- **array-decay pointer-flip** (`extern s32 D_x[];`→`extern s16 *D_x;`, a per-overlay symbol) — **recovers cleanly
+  ×134.** `func_80136824` + `func_80136334` → **266/266 siblings banked byte-identical, 0 failed** (2×133). Light
+  register pressure; `family_remap` body + the remapped split-edit is sufficient (no reconcile, no extern injection).
+- **register-pin-heavy** (GTE 20-pin bodies `func_8013D9B0`/`func_8016DF5C`; an exotic `register int zr __asm__("$0")`
+  zero-register pin `func_80133AB0`; the inline-asm trampoline `func_80156044`) — **cc1-2.7.2 SIGABRTs (`make` Error
+  134) compiling the *sibling* TU**, even though the identical body compiles fine in `ov_SC01_077`. Universal across
+  siblings (func_80133AB0 crashed 3/3 tested). The hand-tuned pins are **ov077-TU-context-specific**: cc1's register
+  allocator (a 1996 compiler with fixed-size tables) aborts on the pin pattern in a different overlay's surrounding
+  function set. These are **NOT mechanically ×134-recoverable** — they stay exemplar-only (×1), backlog for per-sibling
+  permuter/Fable5 or acceptance as ×1. func_80156044's `engine_core.h` `int`→`void` flip *is* byte-neutral (verified on
+  ov077), but its body still crashes the sibling `_after` TU.
+- **DIAGNOSTIC TRAP (R14):** `rtu_match` and `match_one` are BOTH useless here — the neutralized/isolation compiles
+  *also* crash cc1 (or fail on undeclared shared symbols), which looks like a candidate bug but is a compile-harness
+  artifact. Only `make build` (the real gate, stubs asm-`.include`d not cc1-compiled) is truth: a real build that
+  exits 134 = a cc1 ICE on that function in that TU, a genuine wall, not a fixable draft.
+- **Takeaway for the frontier-map:** "byte-drift //@EDIT family" is not one bucket. Pin-heavy cracks that banked in
+  ov077 by exotic register pins do **not** generalize ×134 — size the `--edit-remap` yield by the array-decay subset,
+  and route pin-heavy families to the ×1/permuter backlog.

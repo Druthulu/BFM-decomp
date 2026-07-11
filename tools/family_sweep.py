@@ -77,6 +77,98 @@ def reconcile_remap(addr, source, ov, src_rel, rawdir):
         return None
 
 
+def edit_remap_sweep(a, sig, src_sig, stubs):
+    """§42e --edit-remap: recover byte-drift families whose crack carries OUT-OF-BODY edits (a file-scope
+    //@EDIT the remapped body doesn't contain, and/or a once-global engine_core.h flip). Per family in the
+    JSON manifest: apply ec_edits ONCE to engine_core.h (byte-neutral); then per same-address h_norm sibling,
+    symbol-remap the split //@EDIT directives (family_remap.symbol_map) + apply to the sibling split, stage
+    the family_remap body, and gate each (overlay,split) group via plain harvest_verify (the sole arbiter —
+    a body that byte-drifts or cc1-crashes fails+reverts; its already-applied edit is byte-neutral, R22-checked)."""
+    manifest = json.load(open(os.path.join(REPO, a.edit_remap)))
+    src = a.source
+
+    # 1. once-global engine_core.h edits (byte-neutral; e.g. the func_80156044 return-type flip)
+    ecp = os.path.join(REPO, "src/shared/engine_core.h")
+    ec = open(ecp).read()
+    nec = 0
+    for fam in manifest["families"]:
+        for e in fam.get("ec_edits", []):
+            if e["old"] in ec:
+                ec = ec.replace(e["old"], e["new"]); nec += 1
+    if nec:
+        open(ecp, "w").write(ec)
+        print(f"[edit-remap] applied {nec} engine_core.h global edit(s)")
+
+    # 2. stage per (overlay,split): symbol-remapped split-edits + the remapped body
+    shutil.rmtree(os.path.join(REPO, SWEEP), ignore_errors=True)
+    splits = {}                                          # src_rel -> mutated split text (accumulates edits)
+    groups = collections.defaultdict(list)               # (ov, src_rel, subdir) -> [fn]
+    skipped = collections.Counter()
+    for fam in manifest["families"]:
+        addr = int(fam["addr"], 16)
+        hn = src_sig[addr][2]
+        sibs = [ov for ov in sig if ov != src and addr in sig[ov]
+                and sig[ov][addr][2] == hn and addr in stubs[ov]]
+        for ov in sibs:
+            src_rel, subdir = stubs[ov][addr]
+            m, err = FR.symbol_map(addr, src, ov)
+            if err:
+                skipped["symmap"] += 1; continue
+            body, berr = FR.remap(addr, src, ov)
+            if body is None:
+                skipped["remap"] += 1; continue
+            txt = splits.get(src_rel)
+            if txt is None:
+                txt = open(os.path.join(REPO, src_rel)).read()
+            ok = True
+            for e in fam.get("edits", []):
+                old, new = e["old"], e["new"]
+                for k, v in m.items():                   # exemplar symbol names -> this sibling's
+                    old = old.replace(k, v); new = new.replace(k, v)
+                if old in txt:
+                    txt = txt.replace(old, new)
+                elif new in txt:
+                    pass                                 # already applied (idempotent re-run)
+                else:
+                    ok = False; break                    # edit target absent in this sibling -> skip it
+            if not ok:
+                skipped["edit-missing"] += 1; continue
+            splits[src_rel] = txt
+            d = os.path.join(REPO, SWEEP, ov)
+            os.makedirs(d, exist_ok=True)
+            open(os.path.join(d, f"func_{addr:08X}.c"), "w").write(body + "\n")
+            groups[(ov, src_rel, subdir)].append(f"func_{addr:08X}")
+    for src_rel, txt in splits.items():                  # persist the edited splits for the build
+        open(os.path.join(REPO, src_rel), "w").write(txt)
+    print(f"[edit-remap] staged {sum(len(v) for v in groups.values())} member drafts across {len(groups)} "
+          f"(overlay,split) groups; skipped {dict(skipped)}")
+
+    # 3. gate each group via plain harvest_verify (bodies; the edits are already in the split)
+    banked = collections.Counter()
+    failed = collections.Counter()
+    for (ov, src_rel, subdir), fns in sorted(groups.items()):
+        good_sha = open(os.path.join(REPO, f"config/check.{ov}.sha")).read().split()[0]
+        sh([PY, "tools/harvest_verify.py", "--binary", ov, "--src", src_rel, "--asm-subdir", subdir,
+            "--out", f"build/{ov}/{ov}", "--good-sha", good_sha,
+            "--drafts", os.path.join(SWEEP, ov), "--chunk", str(a.chunk),
+            "--verified-out", f".run/sweep_verified.{ov}.txt",
+            "--failed-out", f".run/sweep_failed.{ov}.txt"], timeout=3600)
+        vpath = os.path.join(REPO, f".run/sweep_verified.{ov}.txt")
+        nver = len([x for x in open(vpath).read().split() if x]) if os.path.exists(vpath) else 0
+        banked[ov] += nver
+        failed[ov] += len(fns) - nver
+        print(f"  {ov} [{os.path.basename(src_rel)}]: {nver}/{len(fns)} banked")
+
+    nb, nf = sum(banked.values()), sum(failed.values())
+    print(f"\n[edit-remap] BANKED {nb} member-matches / {nf} failed across {len(banked)} overlays")
+    if a.commit and nb:
+        sh(["git", "add", "-A", "src"])
+        sh(["git", "commit", "-q", "-m",
+            f"feat(phase-25): T7 --edit-remap sweep — {nb} member-matches (out-of-body //@EDIT families)"])
+        print("[edit-remap] committed.")
+    print(json.dumps({"banked": nb, "failed": nf, "skipped": dict(skipped)}))
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--source", default="ov_SC01_077")
@@ -88,6 +180,12 @@ def main():
     ap.add_argument("--reconcile", default=None, metavar="RAWDIR",
                     help="M2 def-side-wall path: per (exemplar,sibling), symbol-remap the RAW draft in RAWDIR "
                          "then canon_sig_reconcile against the sibling TU (Q5-proven). Implies --no-preclassify.")
+    ap.add_argument("--edit-remap", default=None, metavar="MANIFEST",
+                    help="§42e out-of-body-edit path: JSON manifest of families with `edits` (split-scope "
+                         "//@EDIT old||new in EXEMPLAR symbols, symbol-remapped per sibling) + optional "
+                         "`ec_edits` (once-global engine_core.h, byte-neutral). Per sibling: apply the remapped "
+                         "edits to the split + stage the family_remap body, gate via harvest_verify (the sole "
+                         "arbiter, G3/P9 — pin-heavy families that cc1-crash fail+revert).")
     ap.add_argument("--no-preclassify", action="store_true",
                     help="skip the match_one isolation pre-classify (it can't see src/shared/engine_types.h, "
                          "so it false-negatives type-lifted families); route every remappable exemplar straight "
@@ -100,6 +198,9 @@ def main():
     src_sig = sig[a.source]
     src_stubs = stub_map(a.source)
     stubs = {ov: stub_map(ov) for ov in sig}
+
+    if a.edit_remap:
+        return edit_remap_sweep(a, sig, src_sig, stubs)
 
     # exemplars: MATCHED source fns (not a stub) with >=1 unmatched same-address h_norm-sibling
     only = set(int(x, 16) for x in a.only.split(",")) if a.only else None

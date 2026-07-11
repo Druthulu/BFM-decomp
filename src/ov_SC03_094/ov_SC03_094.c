@@ -2197,7 +2197,7 @@ s32 func_80135004(s32 arg0, s32 p1, s32 p2)
     extern s16 * D_80187E68;
     extern s16 * D_80187E64;
     extern u8 D_80187E70;
-    extern s32 D_80187E6C[];
+    extern s16 *D_80187E6C;
     extern u16 D_801D1E60;
 
     register s16 *pb0 __asm__("$9");   /* D_80187E68 -> $t1 */
@@ -2254,7 +2254,7 @@ s32 func_80135004(s32 arg0, s32 p1, s32 p2)
 
 extern u8 D_80187E68;
 extern u8 D_80187E64;
-extern s32 D_80187E6C[];
+extern s16 *D_80187E6C;
 extern u8 D_80187E70;
 extern int D_801D1E50;
 extern u16 D_801D1E60;
@@ -2304,11 +2304,167 @@ INCLUDE_ASM("asm/ov_SC03_094/nonmatchings/ov_SC03_094", func_80135D20);
 
 INCLUDE_ASM("asm/ov_SC03_094/nonmatchings/ov_SC03_094", func_80135EB0);
 
-INCLUDE_ASM("asm/ov_SC03_094/nonmatchings/ov_SC03_094", func_80136334);
+
+s32 func_80136334(void *arg0, s32 arg1, s32 arg2) {
+    extern u8 D_801152A8[];
+    extern s16 D_801152AA;
+    extern s16 D_801152AC;
+    extern s16 D_80126722;
+    extern s16 D_80126724;
+    register s32 a1v __asm__("$11");
+    register s32 a2v __asm__("$12");
+    register s32 n __asm__("$5");
+    register s16 *b4 __asm__("$7");
+    s32 d;
+    s32 dx;
+    s32 denom;
+    s32 result;
+    s32 frame_pad[2];
+    (void)&frame_pad;
+    __asm__("" : "=r"(a1v) : "0"(arg1));
+    a2v = arg2;
+
+    if (!(arg1 & 1)) {
+        dx = (s16) arg2 - (*(s16 **)&D_80187E64)[2];
+        d = dx;
+        denom = -(*(s16 **)&D_80187E70)[2];
+    } else {
+        denom = (*(s16 **)&D_80187E70)[2];
+        d = (*(s16 **)&D_80187E64)[2] - (s16) arg2;
+        dx = -d;
+    }
+    n = -d;
+    {
+        register s16 *b8 __asm__("$6") = *(s16 **)&D_80187E70;
+        u16 *ac = *(u16 **)&D_80187E64;
+        b4 = D_80187E6C;
+        b4[0] = ac[0] + n * b8[0] / denom;
+        b4[1] = ac[1] + n * b8[1] / denom;
+        b4[2] = ac[2] + dx;
+    }
+
+    if (b4[0] < M2C_FIELD(arg0, s16 *, 4)) return 0;
+    if (M2C_FIELD(arg0, s16 *, 6) < b4[0]) return 0;
+    if (b4[1] < M2C_FIELD(arg0, s16 *, 8)) return 0;
+    if (M2C_FIELD(arg0, s16 *, 0xA) < b4[1]) return 0;
+    if (a1v & 0x8000) {
+        u16 *b0 = *(u16 **)&D_80187E68;
+        b4[0] = b0[0];
+        b4[1] = b0[1];
+    }
+    D_801152AA = 0;
+    (*(s16 *)D_801152A8) = 0;
+    if (a1v & 1) {
+        D_80187E6C[2] = a2v + 2;
+        __asm__ __volatile__("");
+        D_801152AC = 0xFFF;
+    } else {
+        D_801152AC = -0xFFF;
+        D_80187E6C[2] = a2v - 2;
+    }
+    __asm__ __volatile__("" :: "r"(a1v), "r"(a2v));
+    (*(s16 *)D_80126720) = (M2C_FIELD(arg0, s16 *, 4) + M2C_FIELD(arg0, s16 *, 6)) >> 1;
+    D_80126722 = (M2C_FIELD(arg0, s16 *, 8) + M2C_FIELD(arg0, s16 *, 0xA)) >> 1;
+    result = 1;
+    D_80126724 = (M2C_FIELD(arg0, s16 *, 0xC) + M2C_FIELD(arg0, s16 *, 0xE)) >> 1;
+    return result;
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_094/nonmatchings/ov_SC03_094", func_801365B8);
 
-INCLUDE_ASM("asm/ov_SC03_094/nonmatchings/ov_SC03_094", func_80136824);
+
+// @class: pointer-type — pointer-vs-array reconcile for func_80136824 (ov_SC01_077_a)
+// D_80187E64/B0/B8 are file-scope `extern u8`, D_80187E6C is `extern s32 []`; each HOLDS a
+// pointer value that the target loads via lw then derefs. Read as pointer via *(T**)&sym.
+// D_80187E6C must be a SCALAR pointer (not s32[]) — as an array it decays and gcc CSEs the
+// base address into a held reg (lui;addiu;lw 0(reg)) across the 3 reloads; as a scalar
+// pointer it folds %lo (lui;lw %lo). Retype all 3 file-TU occurrences (byte-neutral: the
+// siblings read it once via *(u16**)&sym == direct lw either way).
+
+s32 func_80136824(s32 arg0, s32 arg1, s32 arg2) {
+    extern u8 D_801152A8[];
+    extern s16 D_801152AA;
+    extern s16 D_801152AC;
+    extern s16 D_80126722;
+    extern s16 D_80126724;
+
+    register u16 *ac __asm__("$4");
+    register s16 *b8 __asm__("$6");
+    register s16 *b4 __asm__("$9");
+    register s32 r __asm__("$3");
+    register s32 pos __asm__("$12");
+    register s32 a1v __asm__("$5");
+    s16 temp_v0;
+    s16 temp_v1;
+    s32 var_a3;
+    s16 var_v0_3;
+    s32 temp_a1;
+    s32 var_t0;
+    s32 var_v1;
+    s16 *b4b;
+    u16 *p;
+
+    __asm__ ("" : "=r"(a1v) : "0"(arg1));
+    pos = arg2;
+    if (!(a1v & 1)) {
+        var_t0 = (s16) arg2 - (*(s16 **)&D_80187E64)[1];
+        var_v1 = var_t0;
+        var_a3 = -(*(s16 **)&D_80187E70)[1];
+    } else {
+        var_a3 = (*(s16 **)&D_80187E70)[1];
+        var_v1 = (*(s16 **)&D_80187E64)[1] - (s16) arg2;
+        var_t0 = -var_v1;
+    }
+    b8 = (*(s16 **)&D_80187E70);
+    ac = (*(u16 **)&D_80187E64);
+    b4 = D_80187E6C;
+    temp_a1 = -var_v1;
+    r = (temp_a1 * b8[0]) / var_a3;
+    b4[0] = ac[0] + r;
+    b4[1] = ac[1] + var_t0;
+    r = (temp_a1 * b8[2]) / var_a3;
+    temp_v0 = ac[2] + r;
+    b4[2] = temp_v0;
+    temp_v1 = b4[0];
+    if (temp_v1 < M2C_FIELD(((void *)arg0), s16 *, 4)) {
+        return 0;
+    }
+    if (M2C_FIELD(((void *)arg0), s16 *, 6) < temp_v1) {
+        return 0;
+    }
+    if (temp_v0 < M2C_FIELD(((void *)arg0), s16 *, 0xC)) {
+        return 0;
+    }
+    if (M2C_FIELD(((void *)arg0), s16 *, 0xE) < temp_v0) {
+        return 0;
+    }
+    if (arg1 & 0x8000) {
+        p = (*(u16 **)&D_80187E68);
+        b4[0] = (s16) p[0];
+        b4[2] = (s16) p[2];
+    }
+    D_801152AC = 0;
+    (*(s16 *)D_801152A8) = 0;
+    if (arg1 & 1) {
+        b4b = D_80187E6C;
+        D_801152AA = 0xFFF;
+        __asm__ __volatile__("");
+        var_v0_3 = pos + 2;
+    } else {
+        b4b = D_80187E6C;
+        D_801152AA = -0xFFF;
+        __asm__ __volatile__("");
+        var_v0_3 = pos - 2;
+    }
+    b4b[1] = var_v0_3;
+    __asm__ __volatile__("" :: "r"(pos));
+    (*(s16 *)D_80126720) = (s16) ((s32) (M2C_FIELD(((void *)arg0), s16 *, 4) + M2C_FIELD(((void *)arg0), s16 *, 6)) >> 1);
+    D_80126722 = (s16) ((s32) (M2C_FIELD(((void *)arg0), s16 *, 8) + M2C_FIELD(((void *)arg0), s16 *, 0xA)) >> 1);
+    D_80126724 = (s16) ((s32) (M2C_FIELD(((void *)arg0), s16 *, 0xC) + M2C_FIELD(((void *)arg0), s16 *, 0xE)) >> 1);
+    return 1;
+}
+
 
 // @class: schedule
 // @stuck: none — MATCH (76 ins, relocation-masked). Key lever: the D_80126720/22/24 tail is a
@@ -2322,7 +2478,7 @@ INCLUDE_ASM("asm/ov_SC03_094/nonmatchings/ov_SC03_094", func_80136824);
 //   canonical s16 decl is byte-safe here (no u16 retype needed, keeps the sign-sensitive callers).
 
 
-extern s32 D_80187E6C[];   /* holds a pointer value (*(u16**)&D_80187E6C) */
+extern s16 *D_80187E6C;   /* holds a pointer value (*(u16**)&D_80187E6C) */
 
 s32 func_80136A94(s32 a0, s32 a1, s32 a2, s32 a3) {
     extern void ApplyMatrixSV(void *m, void *v0, void *v1);

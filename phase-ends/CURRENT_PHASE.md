@@ -37,8 +37,25 @@ idiom curriculum → sweep one exemplar per family (curriculum-ordered), each cr
       deferred mechanical tail (M4 8, F-jumptable 4, M-linkwall 3, M3-residue 4, F-perturb 4, draft 2).
 - [ ] Close — clean-fleet verify · PhaseEnd synthesis · plain-English recap (R25) · Phase-26 backlog  *(NOT yet — phase open)*
 
-## FRESH SESSION — RESUME HERE  (fleet **74.40%**; phase OPEN, do NOT close. **ORDER for the next sessions, Drew 2026-07-10c: B → A → C.**)
-> **B (FIRST) — the `family_sweep --edit-remap` enhancement** (scoped, well-understood — see the recovery block + cookbook §42e). Recover the 6 byte-drift families whose fix lives OUTSIDE the remapped body: **func_8016DF5C, func_80136334, func_8013D9B0, func_80156044** (wave-4) + **func_80136824, func_80133AB0** (wave-3) ≈ **~800 fns**. Approach: {per-sibling — remap the exemplar's `//@EDIT` `old||new` symbols via `family_remap.symbol_map` and apply to the sibling split before the gate} + {once — apply any shared-header (engine_core.h) flip globally, like func_8014FE60/8016CF04}. The `//@EDIT`-carrying candidates are `.run/crack3/wave3/*.c` + `.run/crack3/wave4/*.c` (NOT the `wave*raw` stripped copies). Byte-gate + R22 as always.
+## FRESH SESSION — RESUME HERE  (fleet **74.48%**; phase OPEN, do NOT close. **ORDER: B DONE (partial, see below) → A (NEXT, needs Fable5 prompt) → C.**)
+> **✅ TASK B DONE — `family_sweep --edit-remap` BUILT + swept (2026-07-11, Max, COMMITTED, R22 clean-fleet 136/136 GREEN, fleet 74.40% → 74.48%, +266 fns, dedup 1813/0, 0 NON_MATCHING):**
+> Built `family_sweep --edit-remap MANIFEST` (JSON: per family, `edits`=split-scope `//@EDIT old||new` in exemplar
+> symbols, symbol-remapped per sibling via `family_remap.symbol_map`; `ec_edits`=once-global engine_core.h flips,
+> byte-neutral). Manifest `.run/edit_remap_manifest.json`. Per sibling: apply remapped edits to split + stage
+> `family_remap` body + gate via `harvest_verify` (sole arbiter). **BANKED 266/266 (0 failed): func_80136824 +
+> func_80136334 (array-decay ptr-flip) × 133 siblings each — full ×134.**
+> **⚠️ R14 FINDING — B yields ~266, NOT ~800: 4 of the 6 byte-drift families are cc1-CRASH-WALLED (backlogged).**
+> The register-pin-heavy cracks — **func_80133AB0** (`register int zr __asm__("$0")` zero-reg pin, crash 3/3 sibs),
+> **func_8016DF5C / func_8013D9B0** (GTE 20-pin bodies), **func_80156044** (inline-asm trampoline; its engine_core.h
+> `int`→`void` flip IS byte-neutral but the body crashes the `_after` TU) — **SIGABRT cc1-2.7.2 (`make` Error 134)
+> compiling the SIBLING TU**, though the identical body compiles fine in ov077. The hand pins are ov077-TU-context-
+> specific (cc1's 1996 regalloc aborts on the pin pattern in a different overlay's function set). NOT mechanically
+> ×134-recoverable → exemplar-only (×1); route to per-sibling permuter/Fable5 or accept ×1. rtu_match/match_one are
+> BOTH useless (neutralized/isolation compiles ALSO crash — a harness artifact); only `make build` exit-134 is truth.
+> cookbook §42e addendum written. **NEXT = A** (7 giants, all remap-clean 133/133 → honest ×134 leverage ~938 fns
+> high-byte-weight; needs the Fable5 prompt R27; caveat: pin-heavy Fable5 cracks would hit the same ×134 cc1-crash wall).
+>
+> **B (ORIGINAL BRIEF, now DONE-partial) — the `family_sweep --edit-remap` enhancement** (cookbook §42e). Recover the 6 byte-drift families whose fix lives OUTSIDE the remapped body: **func_8016DF5C, func_80136334, func_8013D9B0, func_80156044** (wave-4) + **func_80136824, func_80133AB0** (wave-3). Approach: {per-sibling — remap the exemplar's `//@EDIT` `old||new` symbols via `family_remap.symbol_map` and apply to the sibling split before the gate} + {once — apply any shared-header (engine_core.h) flip globally}. **Outcome: 2/6 (array-decay) recovered ×133; 4/6 cc1-crash-walled (above).**
 > **A (SECOND) — the 7 GIANTS 200+ ins → Fable5 surgical probe** (`.run/frontier_crack_targets.json`, nins≥200: 0x80133cd4/80166994/8014d820/801670e4/80135480/80163ec8/8016cbc0). Prompt Drew for the Fable5 model switch (R27; 7/12 access). **Check `family_remap` remap-ability of each giant up front** (a crack only ×134-propagates if remap-clean or --edit-remap-able — §42e forward rule) so the leverage estimate is honest.
 > **C (THIRD) — F-band backlog:** M-linkwall func_8016D1D8/80165240 (compile-fixed, rtu-blind link-fail — manual undefined-syms), sig-reconcile func_80164E40, -O0 func_801457A4 (needs -O0 split handling), permuter func_8012E364 c=4 / func_801549F8 c=3.
 > **PROPAGATION-RECOVERY (2026-07-10c, Max) — COMMITTED, R22 136/136 GREEN, fleet 74.36% → 74.40% (+133 fns):**

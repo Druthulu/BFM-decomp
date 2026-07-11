@@ -231,3 +231,32 @@ now — NOT a family_remap rewrite.
 
 **LESSON (R14):** a tool's failure LABEL can misattribute the failing STAGE. "remap-fail" was actually a
 reconcile-def-finder throw. Trace the real exception (`reconcile_remap` swallows it) before concluding a limitation.
+
+## 2026-07-11 · Phase 25 — task B: `--edit-remap` BUILT, but 4/6 byte-drift families are cc1-crash-walled (~266, not ~800)
+
+**Context + belief (from the 2026-07-10c handoff):** the 6 byte-drift `//@EDIT` families were framed as "SMALL and
+well-understood — recover ~800 fns by carrying the exemplar's `//@EDIT` per sibling + a once-global engine_core.h
+flip." Drew locked B first on that basis (scoped, mechanical). I built `family_sweep --edit-remap MANIFEST` to do
+exactly that.
+
+**What the byte-gate revealed (probe-before-invest, R14):** the families are NOT one bucket. Only the **2 array-decay
+pointer-flip** families (`extern s32 D_x[];`→`extern s16 *D_x;`) recover — `func_80136824` + `func_80136334` banked
+**266/266 siblings byte-identical (0 failed), full ×134**. The other **4 are register-pin-heavy** (`func_80133AB0`'s
+exotic `register int zr __asm__("$0")`; `func_8016DF5C`/`func_8013D9B0`'s GTE 20-pin bodies; `func_80156044`'s
+inline-asm trampoline) and **cc1-2.7.2 SIGABRTs (`make` Error 134) compiling the SIBLING TU** — the identical body
+compiles fine in ov077. Universal (func_80133AB0 crashed 3/3 siblings tested). The hand pins are ov077-TU-context-
+specific: cc1's fixed-table 1996 register allocator aborts on the pin pattern in a different overlay's surrounding
+function set. func_80156044's engine_core.h `int`→`void` flip IS byte-neutral (verified) — the wall is its body, not
+the edit.
+
+**The pivot:** ship the 2 tractable families (266 ×134, R22 136/136 green, fleet 74.40→74.48%), backlog the 4 crashers
+as exemplar-only (×1) / per-sibling permuter-Fable5 fuel, and move to A (the 7 giants — all remap-clean 133/133, ~938
+fns high-byte-weight, the real ROI). The `--edit-remap` tool is reusable for future array-decay-class cracks; its yield
+must be sized by that subset, never by "family has an //@EDIT."
+
+**Better path (hindsight):** the "~800" estimate counted `sibs × families` without asking "does the CRACK compile in a
+sibling TU?". A hand crack that banked in ov077 by exotic register pins does not generalize — a 30-second single-sibling
+`make build` probe per family would have sized B honestly up front. **LESSON (R14):** an exemplar match proves the crack
+in ITS TU only; the ×134 claim needs a sibling-TU compile probe, because pins are TU-context-specific and cc1 *crashes*
+(not just drifts) on the ones that don't transfer. Corollary: rtu_match/match_one are blind here — their neutralized/
+isolation compiles crash too (harness artifact); only the real `make build` is the arbiter.
