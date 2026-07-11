@@ -8348,7 +8348,7 @@
     }
 
 #define DEFINE_func_801685EC() \
-    extern void func_80166994(s32 a0, s32 a1, s32 a2, s32 a3); \
+    extern s32 func_80166994(s32 a0, s32 a1, s32 a2, s32 a3); \
     extern s32 func_80166690(s32 a0, s32 a1); \
     extern void func_80146C3C(void); \
     void func_801685EC(s32 a0) { \
@@ -9688,7 +9688,7 @@
 
 #define DEFINE_func_8016829C() \
     extern void func_80146C3C(void); \
-    extern void func_80166994(s32 a0, s32 a1, s32 a2, s32 a3); \
+    extern s32 func_80166994(s32 a0, s32 a1, s32 a2, s32 a3); \
     void func_8016829C(s32 a0) { \
         s32 *s0 = (s32 *)a0; \
         if ((*(s32 *)(*(s32 *)(a0 + 0x34) + 0x44) & 0x2) == 0) { \
@@ -9706,7 +9706,7 @@
 
 #define DEFINE_func_801684B4() \
     extern void func_80146C3C(void); \
-    extern void func_80166994(s32 a0, s32 a1, s32 a2, s32 a3); \
+    extern s32 func_80166994(s32 a0, s32 a1, s32 a2, s32 a3); \
     void func_801684B4(s32 a0) { \
         if ((*(s32 *)(*(s32 *)(a0 + 0x34) + 0x44) & 0x2) == 0) { \
             func_80146C3C(); \
@@ -18477,7 +18477,7 @@
     }
 
 #define DEFINE_func_80168540() \
-    extern void func_80166994(s32 a0, s32 a1, s32 a2, s32 a3); \
+    extern s32 func_80166994(s32 a0, s32 a1, s32 a2, s32 a3); \
     extern s32 func_80166690(s32 a0, s32 a1); \
     extern void func_80146C3C(void); \
     void func_80168540(s32 a0) { \
@@ -18527,7 +18527,7 @@
     }
 
 #define DEFINE_func_80168328() \
-    extern void func_80166994(s32 a0, s32 a1, s32 a2, s32 a3); \
+    extern s32 func_80166994(s32 a0, s32 a1, s32 a2, s32 a3); \
     extern s32 func_80166690(s32 a0, s32 a1); \
     extern void func_80146C3C(void); \
     void func_80168328(s32 arg0) { \

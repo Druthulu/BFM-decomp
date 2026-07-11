@@ -2751,3 +2751,50 @@ byte-gate is the sole arbiter, and it revealed that **out-of-body-edit families 
 - **Takeaway for the frontier-map:** "byte-drift //@EDIT family" is not one bucket. Pin-heavy cracks that banked in
   ov077 by exotic register pins do **not** generalize ×134 — size the `--edit-remap` yield by the array-decay subset,
   and route pin-heavy families to the ×1/permuter backlog.
+
+## §43 — The K&R s16-param definition DISSOLVES the "narrow-param wall" for by-value register args (Phase 25 task A, Fable5 crack of the 369-ins giant `func_80166994` ×134, 2026-07-11)
+
+§17/§29 called a def with **narrow-scalar by-value params** an *irreducible* wall: it can't be no-proto-relaxed
+(K&R default-promotion "changes the ABI") and often can't match the TU's `s32` canon-sig prototype → stub it.
+A Fable5 giant crack **byte-proves that verdict is too broad for s16** (and s32) by-value params.
+
+**The refinement — use a K&R definition:**
+```c
+s32 func_X(param_1, param_2, param_3, param_4)
+    s32 param_1; s16 param_2; s16 param_3; s16 param_4;   /* K&R: params declared narrow */
+{ ... }
+```
+On MIPS all four args arrive in `$a0–$a3` as 32-bit words. K&R **promotes the `s16` params to `int` for the
+PROTOTYPE** — ABI-identical to the canon-sig `s32(s32,s32,s32,s32)` (so **no `conflicting types`, no `//@EDIT`
+for the param types**) — while the BODY still treats them as `s16`, producing the target's **lazy per-use
+in-place narrow/extend**: `sll aN,aN,16 ; sra aN,aN,16` on the *arg register itself*, with the raw values
+stashed to callee-saved pseudos first (s3←a1 …) and re-extended per use after calls. The `(s16)param_of_s32`
+cast form CANNOT reproduce this — it extends into fresh `v0/v1` temps instead.
+
+**Triage tell (read it off the diff):** target does `sll aN,aN,16` **in place** on an arg reg + copies the raw
+`aN` elsewhere *first* ⇒ true s16 param ⇒ K&R form. Extends into `v0/v1` temps ⇒ it's a cast-of-s32, keep s32.
+
+**The return-type flip pair (void-return value-drop):** if the def returns `s32` but the ambient decls say
+`void`, gcc-2.7.2 **discards `return expr;` in a void fn** (pedwarn) → you lose the target's exit
+materializations (`addiu v0,zero,1` / `addu v0,zero,zero`). Fix = flip `void`→`s32` at BOTH:
+- (a) the **split** canon-sig decl (`//@EDIT void func_X(...);||s32 func_X(...);`) — a self-fn decl, EXEMPLAR-
+  SPECIFIC (the canon-sig layer put it in ov077; **siblings usually have 0 of these** → make the split-edit
+  OPTIONAL in `family_sweep --edit-remap`: apply where present, never skip — the byte-gate is the arbiter), and
+- (b) the **engine_core.h** `DEFINE_func_*` externs (`ec_edit`, once-global, **byte-neutral** because every
+  caller discards the result — the func_80156044 trampoline precedent, now for a real returning fn).
+
+**Zero-footprint body ⇒ ×134-clean:** put ALL typedefs + externs **block-scope inside the function** (a
+conflicting *file-scope* typed extern is a hard cc1 error, exit 33, not a warning). Access a global as
+`&((Struct *)D_xxx)[i]` over an ambient-compatible `extern u8 D_xxx[];`. **No `register __asm__` pins** → it
+propagates ×134 via `family_sweep --edit-remap` with **no cc1-crash** (contrast the pin-heavy §42e families
+that SIGABRT in sibling TUs — structural cracks are the ×134-safe ones).
+
+**Scope (byte-tested = s16 only):** proven for **s16** by-value register params. `u16`/`u8`/`s8`/`float`
+by-value, and any narrow param accessed via **memory** (sh/sw width differences), remain §29 walls until
+byte-tested. So §29's blanket "narrow-param wall" narrows to **"narrow params that aren't s16/s32-by-value in
+an arg register."**
+
+**Flywheel (R16):** this idiom is now **cheap-Opus-applicable** — no Fable5 needed — for any giant whose diff
+shows the in-place-`sll` triage tell. Check each remaining giant for the s16-param class before spending the
+Fable5 tier. (Also caught: the prior wave's `@stuck: none — MATCH` note on `func_80166994` was **stale/false**
+— match_one re-ran DIFF 366/369; verify a "MATCH" claim against the bytes, R14, never trust a stale note.)

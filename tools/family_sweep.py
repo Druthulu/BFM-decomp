@@ -120,19 +120,15 @@ def edit_remap_sweep(a, sig, src_sig, stubs):
             txt = splits.get(src_rel)
             if txt is None:
                 txt = open(os.path.join(REPO, src_rel)).read()
-            ok = True
             for e in fam.get("edits", []):
                 old, new = e["old"], e["new"]
                 for k, v in m.items():                   # exemplar symbol names -> this sibling's
                     old = old.replace(k, v); new = new.replace(k, v)
                 if old in txt:
-                    txt = txt.replace(old, new)
-                elif new in txt:
-                    pass                                 # already applied (idempotent re-run)
-                else:
-                    ok = False; break                    # edit target absent in this sibling -> skip it
-            if not ok:
-                skipped["edit-missing"] += 1; continue
+                    txt = txt.replace(old, new)          # apply. Absence is FINE (already-applied, or the
+                else:                                    # edit is exemplar-specific, e.g. a canon-sig-layer
+                    skipped["edit-absent"] += 1          # decl a sibling lacks) — NEVER skip the sibling;
+                                                         # the whole-binary byte-gate is the sole arbiter (G3/P9).
             splits[src_rel] = txt
             d = os.path.join(REPO, SWEEP, ov)
             os.makedirs(d, exist_ok=True)
