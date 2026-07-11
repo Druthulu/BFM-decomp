@@ -2798,3 +2798,50 @@ an arg register."**
 shows the in-place-`sll` triage tell. Check each remaining giant for the s16-param class before spending the
 Fable5 tier. (Also caught: the prior wave's `@stuck: none — MATCH` note on `func_80166994` was **stale/false**
 — match_one re-ran DIFF 366/369; verify a "MATCH" claim against the bytes, R14, never trust a stale note.)
+
+## §44 — The Phase-25 cheap-Opus giant batch: 5 structural levers + the §43 extension (2026-07-11, 6 crackers over the frontier giants)
+
+A 6-agent **cheap-Opus** batch (each applying §43 + §31 + the giant recipe, escalate-if-new-class) over the 6
+frontier giants (209–399 ins, all reach-134): **3 banked ×134** (`func_80166994` §43; `func_80135480`;
+`func_80163EC8`), **4 pin-free/light-pin Fable5 seeds** (the intrinsic wall), and **5 reusable levers**. Meta-
+lesson: **cheap-Opus-first was right** — 3 giants + 5 levers + clean seeds for far less than 6× Fable5 — and
+**§43 does NOT universally transfer**: only 1 of 6 was a K&R-s16 case; each giant is its own class.
+
+**Lever 1 — §43 EXTENSION (widen the triage).** The §43 tell "in-place `sll aN,aN,16` on an arg reg" is too
+narrow. If the target holds `arg0` in **two callee regs** (a non-coalesced duplicate, e.g. `move s6,a0; move
+s7,s6` — one for a sign-test, one for a mask-test), the K&R `s16 arg0;` def **reproduces that duplication with
+zero pins** even when the sign-extend lands on the callee **stash** (`sll $sN,16`), not on `$aN`. `(s16)cast`
+collapses it to one reg. **Rule:** try the K&R s16 form whenever the target shows a duplicate-`arg0` pattern,
+not only the in-place-`$aN` tell. (`func_80133CD4`.)
+
+**Lever 2 — pointer-var decl (avoid the `&sym` CSE-hoist).** A held global pointer the target reloads per use:
+declare it `extern u16 *D_xxx` and access it **directly** (`D_xxx[i]`), NOT via `(*(u16 **)&D_xxx)[i]`. The
+`&D_xxx` form CSE-hoists the address into a callee reg (one `lui;addiu`, reused); the direct pointer-var form
+emits a fresh `lui %hi; lw %lo` per use — matching the target's reload pattern. (`func_80133CD4`,
+`func_80135480`.)
+
+**Lever 3 — block-scoped-pointer-split (local-alloc a reused output pointer).** A single pointer reused to
+write **multiple output-store groups across separate return tails** becomes a **global allocno pinned to one
+register**, so it can't match a target that uses a different reg per tail. **Split each store-group into its
+OWN block-scoped `set-once / used-N / dies-once` pointer** → each becomes a **local-alloc pseudo** that picks
+the per-window lowest-free scratch, reproducing the target's per-tail allocation AND un-sticking coupled
+delay-slot fills elsewhere in the schedule. Pin-free. (`func_80135480`, 258 ins; §31 RC-4 extension.)
+
+**Lever 4 — cross-jump the duplicated tail (steer a "permuter-only" dbr class).** For a shared reset/exit tail
+whose target shows **call-arg-hoist into a branch delay slot + per-predecessor const-rematerialization**: write
+the tail **duplicated inline in BOTH predecessors**, NOT as one shared `goto` block. gcc-2.7.2 `jump.c`
+**cross-jumps** the two copies, reproducing the exact dbr schedule (the call arg hoisted into the `bnez` delay
+slot serving both paths; the mask re-materialized per-predecessor in the `j`/`beq` delay slots, sharing a reg
+with the neighbouring `lh`). This cracks a residual §31 files under **D1/D2 as permuter-only** — it is
+**steerable**. (`func_80163EC8`, 234 ins; one benign `$v0` pin.)
+
+**Lever 5 — the intrinsic wall (what cheap-Opus canNOT do → Fable5/permuter).** The **§37 allocno-tie /
+RC-6 pressure-lock / scheduling-position** class: a pin-free structural seed floats at close 30–67 but the
+residual is a **whole-function register permutation or a schedule-position tie-break that no C-lever reaches**
+at the Opus tier — a caller-vs-callee allocno *heuristic* choice (`func_80133CD4` s0v→$v0-vs-$s0),
+RC-6 pressure-lock (`func_8014D820`), coalescing knife-edge (`func_8016CBC0`), `i=0`/`p`-hoist co-location
+(`func_801670E4`). The cheap tier's job here is to produce a **pin-free, structurally-complete seed** (correct
+body + count, zero file-scope footprint) and **hand off honestly** (no forced/pinned false match). Escalation:
+**Fable5 with `tools/reference/gcc-2.7.2/` and the §34 gdb-on-cc1 `find_reg`/`post_mark_life` method** (it
+reads the allocator's actual decision), or the pin-free seed → decomp-permuter. NEVER ship the pinned variant
+that only banks ×1 (it SIGABRTs sibling TUs, §42e).
