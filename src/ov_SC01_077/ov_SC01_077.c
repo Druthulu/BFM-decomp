@@ -224,7 +224,7 @@ extern s32 D_801D9598;
 extern s32 D_801D9580;
 extern s32 D_801D959C;
 extern s32 D_801D958C;
-extern void func_8013D9B0(void);
+extern void func_8013D9B0();
 
 void func_8013D064(void)
 {
@@ -249,7 +249,7 @@ void func_8013D064(void)
     return;
 }
 
-extern void func_8013D9B0(void);
+extern void func_8013D9B0();
 extern s32 D_801D958C;
 
 s32 func_8013D13C(void) {
@@ -422,7 +422,153 @@ void func_8013D8FC(void)
     }
 }
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8013D9B0);
+// @class: regalloc-order
+// @stuck: none — MATCH (141 ins). Handwritten GTE color-interp loop cracked via: 5 callee-saved
+//   pins (s0-s4); inner-temp pins (puVar10=t3,puVar9=t2,iVar11=t5,iVar12=t6); mult operands pinned
+//   v1/v0 so iVar12 keeps t6; per-copy "memory" barriers -> serial lhu;nop;sh store block; chained
+//   $2->$12 pin -> the redundant `addu t4,v0,zero` stORGB move; chained $5->t2 launder -> the a1/t2
+//   IV-init copy in the blez delay slot; scratch pins ($2) for the pixel/readback loads and the
+//   2nd-slt-per-channel result (v0); byte-offset via a $2 temp -> sll v0 not a1. Launder =
+//   `__asm__("":"=r"(x):"0"(x))` (defeats LICM hoist without moving the addiu).
+
+
+#define gte_ldIR0z()   __asm__ __volatile__("mtc2 $0, $8")
+#define gte_ldrgb(p)   __asm__ __volatile__("lwc2 $6, 0(%0)"  :: "r"(p) : "memory")
+#define gte_ldIRGB(p)  __asm__ __volatile__("lwc2 $28, 0(%0)" :: "r"(p) : "memory")
+#define gte_dpcl()     __asm__ __volatile__("nop\n\tnop\n\tdpcl")
+#define gte_stORGB(p)  __asm__ __volatile__("swc2 $29, 0(%0)" :: "r"(p) : "memory")
+
+void func_8013D9B0(int param_1)
+{
+    extern s32 D_801D9594;
+
+    u8 buf[0x20];
+    register s32 uVar13 __asm__("$16");
+    register u16 *psVar14 __asm__("$17");
+    register u16 *psVar15 __asm__("$18");
+    register s32 uVar16 __asm__("$19");
+    register void *r0 __asm__("$20");
+    register u16 *puVar10 __asm__("$11");
+    register u16 *puVar9 __asm__("$10");
+    register s32 iVar11 __asm__("$13");
+    register s32 iVar12 __asm__("$14");
+    u16 sVar4;
+    register u32 uVar5 __asm__("$3");
+    register u32 uVar7 __asm__("$6");
+    register u32 uVar1 __asm__("$7");
+    register u32 uVar6 __asm__("$4");
+    register u32 uVar8 __asm__("$8");
+    register u32 uVar3 __asm__("$9");
+
+    psVar15 = (*(u16 * *)&D_801D957C);
+    if (psVar15 != 0) {
+        sVar4 = *psVar15;
+        *(u32 *)(buf + 8) = (*(u32 * *)&D_801D9574)[param_1];
+        D_801D9594 = -1;
+        uVar16 = 0;
+        if (sVar4 != 0xff) {
+            r0 = buf + 8;
+            psVar14 = psVar15 + 6;
+            do {
+                iVar11 = 0;
+                if (sVar4 == 9) {
+                    *(s16 *)(buf + 0) = psVar14[-4];
+                    __asm__ __volatile__("" ::: "memory");
+                    *(s16 *)(buf + 2) = psVar14[-3];
+                    __asm__ __volatile__("" ::: "memory");
+                    *(s16 *)(buf + 4) = psVar14[-2];
+                    __asm__ __volatile__("" ::: "memory");
+                    *(s16 *)(buf + 6) = psVar14[-1];
+                    __asm__ __volatile__("" ::: "memory");
+                    {
+                        register s32 mw __asm__("$3") = (s32)((s16 *)psVar14)[-2];
+                        register s32 mh __asm__("$2") = (s32)((s16 *)psVar14)[-1];
+                        iVar12 = mw * mh;
+                    }
+                    uVar13 = 0;
+                    puVar10 = *(u16 **)psVar14;
+                    {
+                        register s32 boff __asm__("$2") = iVar12 * 2;
+                        register u16 *pi __asm__("$5");
+                        pi = (u16 *)((s32)puVar10 + boff);
+                        __asm__ __volatile__("" : "=r"(pi) : "0"(pi));
+                        puVar9 = pi;
+                    }
+                    if (0 < iVar12) {
+                        do {
+                            register u32 pix __asm__("$2");
+                            register u32 out __asm__("$2");
+                            u32 result;
+                            *(u32 *)(buf + 0xc) = (u32)*puVar10;
+                            pix = (u32)*puVar9;
+                            uVar5 = pix & 0x1f;
+                            uVar7 = pix & 0x3e0;
+                            uVar1 = pix & 0x7c00;
+                            {
+                                void *p1;
+                                register void *pa __asm__("$2");
+                                register void *pb __asm__("$12");
+                                __asm__ __volatile__("");
+                                p1 = buf + 0xc;
+                                __asm__ __volatile__("" : "=r"(p1) : "0"(p1));
+                                gte_ldIR0z();
+                                gte_ldrgb(r0);
+                                gte_ldIRGB(p1);
+                                gte_dpcl();
+                                pa = buf + 0x10;
+                                __asm__ __volatile__("" : "=r"(pa) : "0"(pa));
+                                pb = pa;
+                                gte_stORGB(pb);
+                            }
+                            out = *(u32 *)(buf + 0x10);
+                            uVar6 = out & 0x1f;
+                            uVar8 = out & 0x3e0;
+                            uVar3 = out & 0x7c00;
+                            if (uVar5 != uVar6) {
+                                register s32 c __asm__("$2");
+                                uVar13 = 1;
+                                if ((s32)uVar5 < (s32)uVar6) uVar5 = uVar5 + 1;
+                                c = (s32)uVar6 < (s32)uVar5;
+                                if (c) uVar5 = uVar5 - 1;
+                            }
+                            if (uVar7 != uVar8) {
+                                register s32 c __asm__("$2");
+                                uVar13 = 1;
+                                if ((s32)uVar7 < (s32)uVar8) uVar7 = uVar7 + 0x20;
+                                c = (s32)uVar8 < (s32)uVar7;
+                                if (c) uVar7 = uVar7 - 0x20;
+                            }
+                            if (uVar1 != uVar3) {
+                                register s32 c __asm__("$2");
+                                uVar13 = 1;
+                                if ((s32)uVar1 < (s32)uVar3) uVar1 = uVar1 + 0x400;
+                                c = (s32)uVar3 < (s32)uVar1;
+                                if (c) uVar1 = uVar1 - 0x400;
+                            }
+                            result = uVar5 | uVar7 | uVar1 | (*(u32 *)(buf + 0xc) & 0x8000);
+                            if (result == 0 && *(u32 *)(buf + 0xc) != 0) {
+                                result = 0x8000;
+                            }
+                            *puVar9 = (u16)result;
+                            puVar9 = puVar9 + 1;
+                            iVar11 = iVar11 + 1;
+                            puVar10 = puVar10 + 1;
+                        } while (iVar11 < iVar12);
+                    }
+                    if (uVar13 != 0) {
+                        ((void (*)(void *))func_800599B8)(buf);
+                    }
+                    uVar16 = uVar16 | uVar13;
+                }
+                psVar15 = psVar15 + 8;
+                sVar4 = *psVar15;
+                psVar14 = psVar14 + 8;
+            } while (sVar4 != 0xff);
+        }
+        D_801D958C = uVar16;
+    }
+    return;
+}
 
 // @class: struct
 // @stuck: none — MATCH (match_one 97/97). Two levers: (1) offset-first pointer arith
@@ -755,9 +901,104 @@ void func_8013E6AC(void) {
 
 DEFINE_func_8013E814()  /* dedup: shared engine-core @0x8013E814 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8013E83C);
+// @class: plumbing
+// @stuck: none — MATCH (direct u16 global reads fold to lui/lhu; scheduler hoists the D_8011511A read above the prologue, reproduced by -O2)
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8013E958);
+void func_8013E83C() {
+    extern int func_80029178(int);
+    extern void func_8002D4C8(int, int);
+    extern void func_80141C0C(int);
+    extern unsigned short D_80115118;
+    extern unsigned short D_80115128;
+    extern unsigned short D_8011512E;
+    extern unsigned int D_80115130;
+    extern unsigned short D_80115158;
+    extern unsigned short D_8011515A;
+    extern unsigned short D_8011515C;
+    extern unsigned short D_8011515E;
+    extern unsigned short D_80115162;
+    extern unsigned short D_80115166;
+    extern void * D_801D95C8;
+    extern void * D_801D95CC;
+    extern unsigned char D_80187B34;
+    extern unsigned char D_80187B4C;
+    extern unsigned char D_80187BC0;
+    extern unsigned char D_80187BC8;
+
+    D_80115118 = 0;
+    D_80115130 = 0;
+    if (D_8011511A >= 4) {
+        D_8011511A = D_8011511A - 3;
+    }
+    D_80115158 = 0x106;
+
+    if ((func_80029178(0x1c) & 0xFF) == 0) {
+        D_801D95C8 = &D_80187B34;
+        D_801D95CC = &D_80187BC0;
+    } else {
+        D_801D95C8 = &D_80187B4C;
+        D_801D95CC = &D_80187BC8;
+    }
+
+    D_8011515A = 0x104;
+    D_8011515C = 0x104;
+    D_8011515E = 0x129;
+    D_80115162 = 0x103;
+    D_80115166 = 0x105;
+    D_80115128 = 0;
+    D_8011512E = 0;
+
+    if (D_80115110 == 3) {
+        func_8002D4C8(0x46e, 0);
+    } else {
+        func_80141C0C(0);
+    }
+}
+
+// @class: schedule
+// @stuck: none — MATCH (63 ins). The idx-32+ residual was a THIRD held base pointer for the
+// D_80115188 store: the draft's `((Cell*)&D_80115188)[i].v = v` allocates a pointer, so gcc kept
+// three bases (D_80115110/D_80187EBC/D_80115188) and buried the branch-delay `sll` (i<<16 carry)
+// under the extra store. Switching to the sibling func_8013E6AC's relocation-masked form
+// `*(s32*)((char*)&D_80115188 + (i<<2))` recomputes that address via per-iteration %hi/%lo, leaving
+// only TWO held pointers (fp=&D_80115110 -> $t0, ep=&D_80187EBC -> $a3) and freeing the delay slot
+// to carry `i<<16` in $a0 exactly as the target does. Head (idx 0-31) already matched; i naturally
+// lands in $a2 from the goto-loop delay slots, driving the fp/ep/fa=$8/$7/$5 alloc with no pins.
+
+void func_8013E958()
+{
+    extern void func_80139954(void);
+    extern void func_8014AA28(void);
+    extern s32 func_800D0488(s32);
+    extern void func_80141C0C(s32);
+
+    s16 *p = &(*(s16*)&D_80115124);
+    s16 i;
+    s32 v;
+    s16 m;
+
+    D_800B9A15 = 0;
+    func_80139954();
+    if (D_80078EC0 != *p) {
+        func_8014AA28();
+        if ((D_80078EC0 & 0x7F) != 0) {
+            m = D_80078EC0 & 0x7F;
+            *p = m;
+            if (m == 0 || func_800D0488(m) == 0)
+                goto loop;
+        }
+    }
+    *p = 0;
+loop:
+    for (i = 0; i < 5; i++) {
+        s32 *q = &((s32 *)&D_80115110)[i];
+        v = ((s32 *)&D_80187EBC)[i] >> 6;
+        q[0x16] = v;
+        *(s32 *)((char *)&D_80115188 + (i << 2)) = v;
+    }
+    func_80141C0C(7);
+    (*(u16*)&D_80115112) = 4;
+}
 
 // @class: regalloc-order
 // @stuck: none — MATCH
@@ -1253,7 +1494,69 @@ void func_80141874(void) {
     D_80115116 += 1;
 }
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_801418F8);
+// @class: loose-typing
+// @stuck: none — MATCH (90 ins). Key levers:
+//   (1) D_8011511A must be a DIRECT volatile global (block-scope `extern volatile unsigned short`),
+//       NOT `*(volatile u16*)&D_8011511A`. Volatile forces the store-2-then-read-back reload (else
+//       gcc folds 2>=4 and drops the branch); direct-global access recomputes %hi/%lo per reference
+//       (3 fresh lui) whereas the `&`-cast pointer form CSEs the address into ONE register (2 ins short).
+//   (2) Reconcile with the TU/engine_core canonical types: D_80115158 is `u8[]` (decays -> `*(u16*)D_80115158`),
+//       D_8011515C is `u8` (halfword store -> `*(u16*)&D_8011515C`), func_80029178 is `s32(s32)`. Do not
+//       redeclare these — the shared DEFINE macros already provide them (conflicting-types hard error).
+
+extern void func_800D24A0(int);
+extern void func_8002D4C8(int, int);
+extern void func_80141C0C(int);
+extern u16 D_8011515A;
+extern u16 D_8011515E;
+extern u16 D_80115162;
+extern u16 D_80115166;
+extern u16 D_8011512E;
+extern void *D_801D95C8;
+extern void *D_801D95CC;
+extern u8 D_80187B34;
+extern u8 D_80187B4C;
+extern u8 D_80187BC0;
+extern u8 D_80187BC8;
+
+s32 func_801418F8(void) {
+    extern volatile unsigned short D_8011511A;
+    extern s32 func_80029178(s32);
+    unsigned short t;
+
+    func_800D24A0(1);
+    D_8011511A = 2;
+    t = D_8011511A;
+    D_80115118 = 0;
+    D_80115130 = 0;
+    if (t >= 4) {
+        D_8011511A = t - 3;
+    }
+    *(u16*)D_80115158 = 0x106;
+    if ((func_80029178(0x1C) & 0xFF) == 0) {
+        D_801D95C8 = &D_80187B34;
+        D_801D95CC = &D_80187BC0;
+    } else {
+        D_801D95C8 = &D_80187B4C;
+        D_801D95CC = &D_80187BC8;
+    }
+    D_8011515A = 0x104;
+    *(u16*)&D_8011515C = 0x104;
+    D_8011515E = 0x129;
+    D_80115162 = 0x103;
+    D_80115166 = 0x105;
+    D_80115128 = 0;
+    D_8011512E = 0;
+    if (D_80115110 == 3) {
+        func_8002D4C8(0x46E, 0);
+    } else {
+        func_80141C0C(0);
+    }
+    D_80115128 = 1;
+    D_80187E94 = 0xE;
+    D_80187E96 = 3;
+    D_80115112 += 1;
+}
 
 // @class: plumbing
 // @stuck: TBD — first pass

@@ -42,9 +42,27 @@ void func_8013B7F4(s32 a0, s32 a1) {
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_o0", func_8013B83C);
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_o0", func_8013BC7C);
+typedef struct { char pad_8013BC7C[0x68]; s32 f68; } S_8013BC7C;
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_o0", func_8013BCDC);
+extern void (*D_80186AD4[])(void *);
+
+void func_8013BC7C(void *arg0) {
+    D_80186AD4[((S_8013BC7C *)arg0)->f68](arg0);
+}
+
+/* func_8013BCDC (ov_SC01_077_o0, -O0): guarded indirect call through D_80187270.
+ * D_80187270 is declared `extern s32` in the TU (canonical-sig layer) and holds a
+ * function pointer; read it as an s32, test non-null, cast to fn-ptr and call.
+ * Frame residual: target frame is 0x30 (saves $ra/$fp/$s0 at 0x28/0x24/0x20) — 16
+ * bytes of var_size above the minimal 0x20. At -O0 (no DCE) an unused 16-byte local
+ * reserves exactly that var region (cookbook §42 lever 3, frame-pad induction) with
+ * zero body instructions. 22/22 byte-identical via rtu_match. */
+void func_8013BCDC(void) {
+    s32 pad[4];
+    if (D_80187270 != 0) {
+        ((void (*)(void))D_80187270)();
+    }
+}
 
 void func_8013BD34(s32 a0) {
     func_8013BD74(&D_801DAAC0, a0);

@@ -2659,3 +2659,42 @@ return or the arg is already the right width in-register). The dominant "reconci
 **The 2 DIFFs (permuter tier), seeds in `.run/crack3/wave3/`:** func_801670E4 (70→48; block birth-order levers landed,
 "assign p/i late" shape from sibling func_8016A290) and func_80185BA4 (structurally 177/177, pure scheduler +
 caller-saved temp-numbering residual, no responsive C lever) — decomp-permuter fuel.
+
+### §42d addendum — wave 4 (rtu_match fan-out over the mapped frontier, 2026-07-10c): 24/26 MATCH, +5 durable levers
+
+**META-YIELD (validates the frontier-map "reconcile-first" bucket):** a 26-worker rtu_match fan-out over the
+tractable-band draftable exemplars (the frontier map, `docs/phase25-frontier-map.md`) landed **24/26 MATCH**
+(20 banked byte-identical, 2 permuter, 4 needing per-fn link/drift fixes). Confirmed: **for the F-band exemplars,
+reconcile-first is often the WHOLE fix** — several (func_80131B14) were byte-correct in the body and only their
+TU-canonical decl layer conflicted; strip/align the decls → MATCH with no schedule/regalloc grind. The engine =
+reconcile-first + rtu_match-gated + the §42/§42c/§42d levers.
+
+**NEW / generalized durable levers:**
+1. **Return-type flip goes BOTH ways (generalizes §42c #5).** If a fn genuinely RETURNS a value but a discarding
+   caller's decl says `void`, flip the decl `void`→`s32`/`short` (func_8014FE60, func_8016CF04) — the void decl
+   DCE's the return computation. INVERSELY (func_8016DF5C): if a fn is effectively VOID (bare `return;`) but the
+   draft declares it `s32`, flip `s32`→`void` — an s32 return keeps `$v0` LIVE at the epilogue, blocking reorg's
+   eager fall-through delay-slot steal (a single-instruction cascade). Read the asm: does `$v0` carry a value out?
+2. **Address-recompute-vs-CACHE — the unifying read-global rule (subsumes §42b read-global + §42c array-decay CSE).**
+   Taking `&D_sym` (via `*(T*)&sym` or a cached local ptr) makes gcc materialize the symbol address into ONE reg
+   (`lui;addiu`) and **CSE it across all uses** → FEWER `lui` than a target that recomputes `%hi/%lo` per reference
+   (direct global access). When the target shows a fresh `lui $scratch,%hi; op %lo(sym)` at EACH use, declare the
+   global directly at the right type/scope (`extern volatile unsigned short D_x;` etc.) and reference it plainly —
+   never `&sym`. When the target instead HOLDS the address in a reg across uses, cache it (`T* p = ...;`). Same
+   root cause behind func_80164930, func_80136824, func_801418F8, func_80136334.
+3. **The full-inline-asm TRAMPOLINE idiom (func_8014FBC0, the 22×1996 family).** The scratchpad-stack-switch
+   trampolines (func_8014F468/F6F4/FA04/FCFC/…) are hand-asm: the callee symbol AND the global live INSIDE the
+   `__asm__` string (`%hi`/`%lo` escaped as `%%`), so ZERO C externs are declared → nothing to reconcile. maspsx
+   2.56 auto-fills the `jal` delay slot with a nop (do NOT write an explicit post-jal nop). **family_remap must
+   substitute the callee/global symbols INSIDE the inline-asm string, not as C extern lines** (the x134 sweep of an
+   inline-asm family needs this — else siblings drop).
+4. **memcpy→struct-assign, re-confirmed at scale (func_8017B238, §42a):** the TU's file-scope `extern memcpy`
+   disables the builtin → 8-byte moves lower to CALLs; model on the matched sibling's align-1 `typedef struct{u8 b[8];}`
+   struct-assign (routes emit_block_move, zero memcpy ref). Pair with the `register u8* __asm__("$16")` +
+   in-place re-tie pin to hold the src pointer across the moves.
+5. **phantom-frame induction (func_80136334, §42-refined):** a value live across BOTH arms of a branch makes gcc
+   reserve a spill slot the no-frame twin lacks — induce the frame with `s32 frame_pad[2]; (void)&frame_pad;`.
+
+**Wave-4 economics:** 26 workers ~2.36 M tok → 24 MATCH → 20 banked + swept ×134. Bank-rate 20/24 at the
+whole-binary gate (4 hit rtu-blind link-walls / drift — rtu_match is `.text`-only, §41b/§42b caveat; those need the
+whole-binary/link gate). The 2 permuter DIFFs: func_8012E364 (c=4), func_801549F8 (c=3, jtbl delay-slot).

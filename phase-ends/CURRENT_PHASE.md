@@ -37,7 +37,25 @@ idiom curriculum → sweep one exemplar per family (curriculum-ordered), each cr
       deferred mechanical tail (M4 8, F-jumptable 4, M-linkwall 3, M3-residue 4, F-perturb 4, draft 2).
 - [ ] Close — clean-fleet verify · PhaseEnd synthesis · plain-English recap (R25) · Phase-26 backlog  *(NOT yet — phase open)*
 
-## FRESH SESSION — RESUME HERE  (**NEXT = (a) permuter the 2 wave-3 DIFFs · (b) family_sweep //@EDIT-carry enhancement to recover ~266 dropped siblings · (c) apply the rtu_match fan-out engine to the phase tail**; fleet **73.97%**; phase OPEN, do NOT close)
+## FRESH SESSION — RESUME HERE  (**NEXT (from the frontier map `docs/phase25-frontier-map.md`): (a) the 7 GIANTS 200+ ins → Fable5 surgical probe; (b) a `family_sweep --edit-remap` enhancement → recover the ~2,200 dropped siblings (wave-3/4 //@EDIT/trampoline/engine_core families) + the matched-free 235 bucket; (c) F-band backlog — M-linkwall func_8016D1D8/80165240, -O0 func_801457A4, permuter func_8012E364/801549F8**; fleet **74.36%**; phase OPEN, do NOT close)
+> **WAVE 4 (2026-07-10c, Max orch + Ultracode fan-out over the FRONTIER MAP) — COMMITTED, R22 clean-fleet 136/136 GREEN, fleet 73.97% → 74.36% (+1350 fns):**
+> Built the systematic **frontier map** (`docs/phase25-frontier-map.md`, committed commit:0506): endgame = 42 draftable
+> (crack) + 235 matched-free (propagate) + 2481 absent; `rtu_match`-measured all 42 → 37 crack targets. Crack fan-out
+> `wf_b54b5d98-380` (26 tractable-band exemplars, ~2.36 M tok): **24/26 MATCH**. Gated → **20 banked byte-identical**
+> (incl. the **22×1996** func_8014FBC0 inline-asm trampoline + the **27×539** func_80132144; func_8016CF04 via the
+> real engine_core.h void→short flip). Swept ×134: **1330 siblings / 931 failed** (the //@EDIT/trampoline/engine_core
+> families → the `--edit-remap` backlog (b)). Batch = 20 exemplars + 1330 = **1350 fns**.
+> **CAUTION LOGGED (recovered):** a stray `git checkout ov_SC01_077_after.c` mid-gate reverted the wave-4 `_after`
+> exemplars (masked because reverted fns build byte-identical as stubs) — re-applied cleanly via
+> `.run/crack3/apply_wave4_final.py`. When surgically removing ONE fn from a big uncommitted batch, never `git
+> checkout` the whole split; re-stub just that fn.
+> **5 durable levers → cookbook §42d** (return-type flip BOTH ways void↔s32/short; address-recompute-vs-CACHE unifying
+> read-global rule; the full-inline-asm TRAMPOLINE idiom + `family_remap`-inside-asm note; memcpy→struct-assign at
+> scale; phantom-frame). **6 deferred (backlog, map tiers):** func_8016D1D8/80165240 (M-linkwall — compile-fixed but
+> rtu-blind link-fail), func_80164E40 (sig-reconcile), func_801457A4 (-O0 split), func_8012E364 c=4 / func_801549F8
+> c=3 (permuter). **SESSION TOTAL (this session): wave 3 (407) + map + wave 4 (1350) = ~1,757 fns; fleet 73.85% →
+> 74.36% (+0.51%).** The rtu_match engine is proven (wave-3 7/9 + wave-4 24/26 = 31/35 MATCH).
+>
 > **WAVE 3 PART 2 (2026-07-10c, Max orch + CORRECTED Ultracode fan-out) — COMMITTED, R22 clean-fleet 136/136 GREEN, fleet 73.89% → 73.97% (+273 fns):**
 > Built **`tools/rtu_match.py`** — real-TU-faithful, PARALLEL-SAFE per-fn match check (neutralizes INCLUDE_ASM →
 > compiles the whole split TU in a per-fn temp dir, no `asm/`, no shared overlay build). Closes match_one's isolation

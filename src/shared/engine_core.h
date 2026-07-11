@@ -5770,7 +5770,7 @@
 
 #define DEFINE_func_8016D464() \
     extern void func_800D22E4(s32 a0); \
-    extern void func_8016CF04(s32 a0, s32 a1); \
+    extern short func_8016CF04(s32 a0, s32 a1); \
     void func_8016D464(u8 *a0) { \
         u8 *s1 = *(u8 **)(a0 + 0x34); \
         s32 v0; \
@@ -8694,7 +8694,7 @@
     }
 
 #define DEFINE_func_8016D5EC() \
-    extern void func_8016CF04(s32 a0, s32 a1); \
+    extern short func_8016CF04(s32 a0, s32 a1); \
     extern void func_80146C3C(void); \
     void func_8016D5EC(s32 *a0) { \
         u16 *rec = (u16 *)a0[8];   /* lw 0x20(s0) */ \
@@ -11659,7 +11659,7 @@
     extern s32 D_80126B58; \
     extern void func_8016C83C(s32 a0); \
     extern s32 VectorNormalSS(void *a0, void *a1); \
-    extern void func_8016CF04(s32 a0, s32 a1); \
+    extern short func_8016CF04(s32 a0, s32 a1); \
     extern void func_8016C74C(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4); \
     extern void func_800D22E4(s32 a0); \
     void func_8016D4DC(s32 a0) { \
@@ -19078,7 +19078,7 @@
 #define DEFINE_func_8016C83C() \
     extern s32 VectorNormalSS(void *a0, void *a1); \
     extern void func_800D22E4(s32 a0); \
-    extern void func_8016CF04(s32 a0, s32 a1); \
+    extern short func_8016CF04(s32 a0, s32 a1); \
     void func_8016C83C(s32 a0) { \
         s16 d[20]; \
         s32 a1 = *(s32 *)(a0 + 0x34); \
