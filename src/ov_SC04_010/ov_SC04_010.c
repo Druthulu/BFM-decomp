@@ -1827,7 +1827,175 @@ after:
 
 INCLUDE_ASM("asm/ov_SC04_010/nonmatchings/ov_SC04_010", func_80133AB0);
 
-INCLUDE_ASM("asm/ov_SC04_010/nonmatchings/ov_SC04_010", func_80133CD4);
+
+s32 func_80133CD4(arg0, cmd, base, arr)
+    s16 arg0;
+    s16 *cmd;
+    s16 *base;
+    s32 *arr;
+{
+    typedef struct { s16 e[4]; } ElemK;
+
+    extern u16 *D_8017E730;
+    extern u16 *D_8017E72C;
+    extern s16 *D_8017E738;
+    extern s16 *D_8017E734;
+    extern s32 *D_8017E740;
+    extern s32 *D_8017E744;
+    extern u16 D_8018E2D8;
+    extern u8  D_801152A8[];
+    extern s16 D_801152AA;
+    extern s16 D_801152AC;
+    extern u16 D_801152AE;
+    extern u8  D_801152B0;
+    extern s32 func_80134310();
+    extern s32 func_8013435C();
+
+    s16 *s3 = ((ElemK *)base)[cmd[1]].e;
+    s32 s6 = arr[cmd[2]];
+    s32 s0var, s1var;
+    s32 s2a;
+    s16 y;
+
+    if (func_80134310(s3, D_8017E730, s6) >= 0)
+        return 0;
+
+    s1var = func_80134310(s3, D_8017E72C, s6);
+    if (s1var < 0)
+        return 0;
+
+    s0var = func_80134310(s3, D_8017E738, 0);
+    {
+        u16 *pac = D_8017E72C;
+        s16 *pb8 = D_8017E738;
+        s16 *pb4 = D_8017E734;
+        s32 neg = -s1var;
+        pb4[0] = pac[0] + neg * pb8[0] / s0var;
+        pb4[1] = pac[1] + neg * pb8[1] / s0var;
+        pb4[2] = pac[2] + neg * pb8[2] / s0var;
+        if (func_8013435C(((ElemK *)base)[cmd[3]].e, pb4, arr[cmd[4]], s3))
+            return 0;
+    }
+    if (func_8013435C(((ElemK *)base)[cmd[5]].e, D_8017E734, arr[cmd[6]], s3))
+        return 0;
+    if (func_8013435C(((ElemK *)base)[cmd[7]].e, D_8017E734, arr[cmd[8]], s3))
+        return 0;
+    if (arg0 < 0) {
+        if (func_8013435C(((ElemK *)base)[cmd[9]].e, D_8017E734, arr[cmd[10]], s3))
+            return 0;
+    }
+    if (arg0 & 0x10) {
+        if (*(u16 *)cmd & 0x100)
+            return 0;
+    }
+    if (*(u16 *)cmd & 0x200) {
+        D_8018E2D8 = *(u16 *)cmd;
+        return 0;
+    }
+
+    {
+        s32 ret = func_80134310(s3, D_8017E730, s6);
+        s32 *pc0;
+        s32 *pc4;
+        u16 *pb0;
+        s32 t, o2;
+        s32 q3v;
+
+        {
+            s32 *pw = D_8017E740;
+            ((struct { s32 w; } *)pw)->w = s3[0];
+            pw[1] = s3[1];
+            pw[2] = s3[2];
+        }
+        s1var = -ret;
+
+        __asm__ __volatile__(
+            "lwc2 $9, 0(%0)\n"
+            "lwc2 $10, 4(%0)\n"
+            "lwc2 $11, 8(%0)\n"
+            "nop\n"
+            "nop\n"
+            "sqr 0\n"
+            : : "r"(D_8017E740) : "$9", "$10", "$11", "memory");
+        __asm__ __volatile__(
+            "swc2 $25, 0(%0)\n"
+            "swc2 $26, 4(%0)\n"
+            "swc2 $27, 8(%0)\n"
+            : : "r"(D_8017E744) : "memory");
+
+        pc0 = D_8017E740;
+        pc4 = D_8017E744;
+        s0var = pc4[0] + pc4[1] + pc4[2];
+        pb0 = D_8017E730;
+        pb0[0] += s1var * pc0[0] / s0var;
+        pb0[1] += s1var * pc0[1] / s0var;
+        q3v = s1var * pc0[2] / s0var;
+
+        {
+            s32 h;
+            h = ((s16 *)pb0)[0];
+            s1var = h << 16;
+            __asm__("lh %0, 2(%2)" : "=r"(h) : "0"(h), "r"(pb0) : "memory");
+            s0var = h << 16;
+        }
+        pb0[2] += q3v;
+        s2a = (s16)pb0[2] << 16;
+
+        t = pc0[0] << 4;
+        pc0[0] = t;
+        if (t < 0) s1var |= 0xFFFF;
+        t = pc0[1] << 4;
+        pc0[1] = t;
+        if (t < 0) s0var |= 0xFFFF;
+        o2 = pc0[2];
+        t = o2 << 4;
+        pc0[2] = t;
+        if (t < 0) s2a |= 0xFFFF;
+        s2a += o2 << 5;
+        s1var += pc0[0] << 1;
+        s0var += pc0[1] << 1;
+
+        do {
+            s32 *pl = D_8017E740;
+            u16 *pb;
+            s1var += pl[0];
+            s0var += pl[1];
+            s2a += pl[2];
+            pb = D_8017E730;
+            pb[0] = s1var >> 16;
+            pb[1] = s0var >> 16;
+            pb[2] = s2a >> 16;
+            ret = func_80134310(s3, pb, s6);
+        } while (ret < ((s3[1] < -0xE00) ? 0x1800 : 0x2F00));
+    }
+
+    y = s3[1];
+    if (y >= -0xBCB) {
+        D_8017E72C[3] = y;
+        {
+            typedef struct { s8 c[8]; } Blk8;
+            *(Blk8 *)&D_801152B0 = *(Blk8 *)s3;
+        }
+        if (*(u8 *)cmd != 0)
+            goto ret1;
+        return -1;
+    }
+    {
+        typedef struct { u16 h; } H16;
+        u16 *s3u = (u16 *)s3;
+        u16 *bp = D_8017E730;
+        u16 w;
+        ((H16 *)D_801152A8)->h = s3u[0];
+        w = s3u[1];
+        bp[3] = w;
+        ((H16 *)&D_801152AA)->h = w;
+        ((H16 *)&D_801152AC)->h = s3u[2];
+        ((H16 *)&D_801152AE)->h = s3u[3];
+    }
+ret1:
+    return 1;
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_010/nonmatchings/ov_SC04_010", func_80134310);
 
