@@ -77,6 +77,27 @@ def reconcile_remap(addr, source, ov, src_rel, rawdir):
         return None
 
 
+def reconcile_remap_hseq(from_addr, from_ov, to_ov, to_addr, to_src_rel, rawdir):
+    """Phase-26 §41c: the h_seq per-sibling reconcile — the M2 path over remap_hseq. A cracked exemplar's
+    RAW draft (isolation-MATCH body with its own types/sigs) can't template plainly: the reconcile is
+    TU-specific. So per sibling: h_seq-remap the RAW draft (symbol + immediate + cross-address self-rename)
+    then canon_sig_reconcile against THAT sibling's TU. Returns the reconciled sibling body or None."""
+    raw = os.path.join(REPO, rawdir, f"func_{from_addr:08X}.c")
+    if not os.path.exists(raw):
+        return None
+    remapped, info = FR.remap_hseq_body(from_addr, from_ov, to_ov, to_addr, open(raw).read())
+    if remapped is None:
+        return None
+    fn_to = f"func_{to_addr:08X}"
+    CSR._AMBIENT_CACHE.pop(to_src_rel, None)
+    for k in [k for k in CSR._VISIBLE_CACHE if k[0] == to_src_rel]:
+        CSR._VISIBLE_CACHE.pop(k, None)
+    try:
+        return CSR.reconcile(fn_to, remapped, None, to_src_rel)
+    except Exception:
+        return None
+
+
 def edit_remap_sweep(a, sig, src_sig, stubs):
     """§42e --edit-remap: recover byte-drift families whose crack carries OUT-OF-BODY edits (a file-scope
     //@EDIT the remapped body doesn't contain, and/or a once-global engine_core.h flip). Per family in the
@@ -186,6 +207,9 @@ def hseq_sweep(a):
         fams = [f for f in fams if f["band"] in bands]
     if only is not None:
         fams = [f for f in fams if int(f["exemplar"]["addr"], 16) in only]
+    if a.reconcile_raw:                                        # only families with a raw crack to reconcile
+        fams = [f for f in fams if os.path.exists(
+            os.path.join(REPO, a.reconcile_raw, f"func_{int(f['exemplar']['addr'], 16):08X}.c"))]
     if a.min_members > 1:
         fams = [f for f in fams if f["n_members"] >= a.min_members]
     fams.sort(key=lambda f: -f["byte_weight_templatable"])
@@ -207,10 +231,15 @@ def hseq_sweep(a):
             if to_addr not in stubs.get(ov, {}):               # already matched / not a stub now
                 skip["not-stub"] += 1; continue
             src_rel, subdir = stubs[ov][to_addr]
-            draft, info = FR.remap_hseq(exaddr, exov, ov, to_addr)
-            if draft is None:
-                r = info.split(":")[0] if isinstance(info, str) else "skip"
-                skip[r[:24]] += 1; continue
+            if a.reconcile_raw:                                 # §41c per-sibling reconcile from the raw crack
+                draft = reconcile_remap_hseq(exaddr, exov, ov, to_addr, src_rel, a.reconcile_raw)
+                if draft is None:
+                    skip["reconcile-fail"] += 1; continue
+            else:
+                draft, info = FR.remap_hseq(exaddr, exov, ov, to_addr)
+                if draft is None:
+                    r = info.split(":")[0] if isinstance(info, str) else "skip"
+                    skip[r[:24]] += 1; continue
             if re.search(r'__asm__\s*\(\s*"\$', draft):         # hard-reg pin (§42e): ×1-only, cc1-crashes
                 skip["pinned-exemplar"] += 1; continue          # sibling TUs → skip the family, don't bisect-storm
             d = os.path.join(REPO, SWEEP, ov)
@@ -285,6 +314,10 @@ def main():
     ap.add_argument("--stage-only", action="store_true",
                     help="--hseq: stage the templated drafts to .run/sweep/ and stop before the byte-gate "
                          "(dry-run for inspection; no builds)")
+    ap.add_argument("--reconcile-raw", default=None, metavar="RAWDIR",
+                    help="--hseq §41c: template reconcile-class cracks — per sibling, h_seq-remap the RAW "
+                         "crack draft in RAWDIR (func_<EXEMPLAR>.c) then canon_sig_reconcile against the "
+                         "sibling TU. For type-heavy exemplars whose reconciled body is TU-specific.")
     a = ap.parse_args()
     os.chdir(REPO)
 

@@ -24,8 +24,7 @@ The Phase-25 h_seq reframe: the "unique tail" is really per-location families �
 - [ ] **Task 11 — Step-D residue map** `[xHigh]` — true singletons (~0.27M ins) + 5 behemoths → Phase-27 input doc. NO execution.
 - [ ] **Task 12 — PhaseEnd** `[Max — Tier 1; R27 prompt]` — P7 walk, milestone demo, gate 2, `PhaseEnd_Phase26.md`, worklog → `logs/Phase26.md` (R19), in-file recap (R25), decision-log current (R31).
 
-## ▶ CURRENT TASK: **PAUSED before Task 8** (Drew). Validation slice done (below). **Task-8 PREREQUISITE discovered: wire per-sibling re-reconcile into `hseq_sweep`** (port the h_norm `reconcile_remap`/M2 path over `remap_hseq`) — reconcile-class cracks (triage cracks + the 61 Fable5 cores) bank as ov077 exemplars but need per-sibling reconcile to template ×134; plain `--hseq` gives 0/4. Then: reconcile-bank the 23 triage cracks + Task-5 type-families + mid/tiny. Task 7 = Fable5 window on the 61 cores (needs Max+Fable5 toggle — R27); build the reconcile wiring first so its output can template.
-
+## ▶ CURRENT TASK: Task 7 (Fable5 window) + Task 8 (reconcile wiring) — IN PROGRESS (Drew toggled Max, Fable5 via subagents). **Reconcile wiring BUILT + validated:** `family_remap.remap_hseq_body` + `family_sweep.reconcile_remap_hseq` + `--reconcile-raw` (§41c per-sibling reconcile of the RAW crack) → `func_80155800` templated **63/0** ×133. 3 Fable5 agents cracking `func_80176218`/`80159C84`/`8015444C` (background). Chained task templating the other 3 triage cracks ×133. Next: R22 + commit the reconcile-class harvest; process Fable5 cracks as they land.
 ## Milestone (gate 2 — structural completion, per Drew)
 
 1. h_seq engine committed, V0–V3 validated with a measured template success rate.

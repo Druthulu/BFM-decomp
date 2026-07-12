@@ -296,6 +296,32 @@ def gather_externs(from_ov, from_addr, unit):
     return lines
 
 
+def remap_hseq_body(from_addr, from_ov, to_ov, to_addr, body):
+    """the h_seq remap (symbol + immediate + cross-address self-rename) applied to a PROVIDED body text
+    (a RAW crack draft), NOT the extract_unit matched body — for the per-sibling reconcile path (§41c):
+    remap the raw draft to the sibling, then canon_sig_reconcile it against the sibling's own TU. No
+    extern-carry (reconcile handles ambient decls). Returns (remapped_text, info) or (None, error)."""
+    nins = nins_of(from_ov, from_addr)
+    ex_words = stream_words(from_ov, from_addr, nins)
+    sib_words = stream_words(to_ov, to_addr, nins)
+    cls, _ = classify_member(ex_words, sib_words)
+    if cls in ("STRUCT", "LEN"):
+        return None, f"member class {cls}"
+    m, err = symbol_map(from_addr, from_ov, to_ov, to_addr)
+    if err:
+        return None, err
+    imm_map, unresolved = ({}, [])
+    if cls == "IMM":
+        imm_map, unresolved = imm_map_tier1(body, ex_words, sib_words)
+        if unresolved:
+            return None, f"unresolved immediates: {unresolved}"
+    table = dict(m)
+    if from_addr != to_addr:
+        table[f"func_{from_addr:08X}"] = f"func_{to_addr:08X}"
+    table.update(imm_map)
+    return apply_remap(body, table), {"symbol_map": m, "imm_map": imm_map}
+
+
 def remap_hseq(from_addr, from_ov, to_ov, to_addr=None):
     """h_seq family template: reloc symbol remap (§40b) + immediate substitution (T2a Tier 1) +
     cross-address self-rename (T2b) + carried file-scope externs. Returns (draft, info) or

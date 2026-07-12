@@ -2352,6 +2352,23 @@ This is also where the T2b **cross-address** self-rename (`func_<FROM>`→`func_
 T2a immediate `imm_map` merge into one pass. `remap(addr, from_ov, to_ov, to_addr=None, imm_map=None)` — backward
 compatible (to_addr defaults to addr; the pre-26 same-address callers are byte-unchanged).
 
+### §40c — The h_seq per-sibling reconcile: templating a reconcile-class crack ×134 (Phase 26 Task 8, 2026-07-12, byte-proven)
+
+A cracked exemplar whose body needs `canon_sig_reconcile` to bank (type-using / Ghidra-sig — the §41 def-side
+wall) **cannot template plainly**: the reconciled ov077 body is TU-SPECIFIC (its canonical-sig casts +
+`Name_<addr>` collision-renames fit ov077, not the sibling TUs). Plain `remap_hseq` of the reconciled body
+re-hits the wall in every sibling → 0/134. Proven (Task-8 validation slice): the 23 triage isolation-cracks
+gate 0/23 raw, reconcile 4/15 into ov077, but the 4 then template **0/4** plainly.
+
+**The fix — per-sibling re-reconcile from the RAW draft** (the h_seq port of §41c's h_norm M2 path):
+`family_sweep --hseq --reconcile-raw <RAWDIR>` → for each sibling, `family_remap.remap_hseq_body` h_seq-remaps
+the RAW crack draft (symbol §40b + immediate T2a + cross-address self-rename T2b) then `canon_sig_reconcile`
+re-reconciles against THAT sibling's own TU. The whole-binary byte-gate is the sole arbiter. Byte-proven:
+the 4 triage cracks templated **463/0 ×~133** this way (0 failures). This is the pipeline every reconcile-class
+crack (the type-using triage cracks AND the Fable5 cores) flows through to reach ×134. PURE cracks (clean
+bodies, no reconcile) still template via plain `--hseq` (Task 5: 399 banked). Key: reconcile PER SIBLING from
+the RAW draft, never remap the ov077-reconciled body.
+
 ## §41 — The DEF-SIDE canonical-sig wall: mechanically banking a drafted giant past `conflicting types` (Phase 25 T5b batch-2, 2026-07-09; `tools/canon_sig_reconcile.py`, byte-proven on `func_8013B274`)
 
 **The wall (dominant for GIANTS — ~universal, vs ~35% clean-bank for small fns):** a drafter writes an
