@@ -24,7 +24,36 @@ The Phase-25 h_seq reframe: the "unique tail" is really per-location families �
 - [ ] **Task 11 — Step-D residue map** `[xHigh]` — true singletons (~0.27M ins) + 5 behemoths → Phase-27 input doc. NO execution.
 - [ ] **Task 12 — PhaseEnd** `[Max — Tier 1; R27 prompt]` — P7 walk, milestone demo, gate 2, `PhaseEnd_Phase26.md`, worklog → `logs/Phase26.md` (R19), in-file recap (R25), decision-log current (R31).
 
-## ▶ CURRENT TASK: Task 7 (Fable5 window) + Task 8 (reconcile wiring) — IN PROGRESS (Drew toggled Max, Fable5 via subagents). **Reconcile wiring BUILT + validated:** `family_remap.remap_hseq_body` + `family_sweep.reconcile_remap_hseq` + `--reconcile-raw` (§41c per-sibling reconcile of the RAW crack) → `func_80155800` templated **63/0** ×133. 3 Fable5 agents cracking `func_80176218`/`80159C84`/`8015444C` (background). Chained task templating the other 3 triage cracks ×133. Next: R22 + commit the reconcile-class harvest; process Fable5 cracks as they land.
+## ▶ SESSION-2 CHECKPOINT (2026-07-12) — RESUME FROM HERE (fresh session)
+
+**Phase 26 status:** Tasks 0–6 DONE + committed (the h_seq engine + triage). Task 7 (Fable5) + Task 8 (mechanical harvest) IN PROGRESS. **Committed baseline = `commit:0528`, R22 136/136 confirmed.** Commits this phase: `commit:0518`→`commit:0528`.
+
+### What's banked (all committed + R22-verified through commit:0528)
+- **729 reconcile-class member-matches**: 463 (`commit:0527`) + 266 (`commit:0528`), from **6 no-jtbl reconcile-clean triage cracks** templated ×~133 via `--reconcile-raw`. Metrics ≈ **31%+ distinct-code / 59%+ instr-weighted** (was 30.3/58.2 at phase start).
+- **IN-FLIGHT (uncommitted): the mid-band harvest** (bg task `b3fzajrle`, `.run/_mid.log`) — plain `--hseq --band mid`, **~2477+ members banked and climbing** (166 matched-exemplar families, template plainly). **NEXT: when it finishes → R22 (make clean+extract-all+check-all 136/136) → commit → then run `--band tiny`** (STRUCT pre-filter screens the h_seq-collision families).
+
+### The h_seq family engine (all committed, the durable tooling)
+- `tools/family_hseq.py` — the survey → `.run/family_hseq.json` (regen after every bank) + `docs/family-hseq.md`. Bands: substantial(≥80)/mid(16–79)/tiny(<16).
+- `tools/family_remap.py` — extended reloc tracker (addu-hi §40b), `classify_member` (PURE/IMM/STRUCT), `imm_map_tier1` (T2a), `remap_hseq` (plain template), **`remap_hseq_body`** (remap a RAW crack body — for reconcile-raw), `gather_externs`.
+- `tools/family_sweep.py --hseq` — templates matched-exemplar families; `--reconcile-raw RAWDIR` = §41c per-sibling reconcile (remap the RAW crack per sibling + `canon_sig_reconcile` vs that sibling's TU); static pin guard (`__asm__("$N"` → skip). `--band`/`--only`/`--stage-only`/`--min-members`.
+- Cracked-seed dirs: `.run/crack_raw/` (raw seeds, func_<ADDR>.c) + `.run/phase26-seeds/` (triage m2c seeds) + `.run/phase26-cracks/` (Fable5 crack bodies).
+
+### The TWO harvest gaps (the levers for the remaining crack families) — see decision-log 2026-07-12
+1. **§8 jtbl-rodata (Drew APPROVED building it, 2026-07-12).** Overlay jtbls live in the monolithic `data tail` (`asm/ov_*/data/tail.data.s`, e.g. `dlabel jtbl_801D8E24` ~line 92735 in ov077). Replacing a jr-function with C emits a duplicate jtbl → broken layout. FIX = carve each jtbl out of the data tail into a dotted `.rodata` subseg co-located with its function's code object (ov077 config `section_order:[.rodata,.text,.data,.bss]`; `ld_interleave.py` already wired, Makefile:397). **Per-overlay ×134** (each sibling's data tail). STAGE: prove on ONE jtbl fn in ov077 → automate ×134. Blocks all jr cracks incl. the top Fable5 cores (890/562/536…) and the 2 Fable5 crack bodies (`.run/phase26-cracks/func_80159C84.c`+`func_8015444C.c` — code-matched, jtbl-rodata unconfirmed; they bank once §8 exists).
+2. **reconcile fn-ptr-extern gap.** `canon_sig_reconcile._reconcile_data` skips any extern containing `(` (fn-ptr syntax), AND `visible_above`/`tu_ambient` don't parse `void (*D_x[])(…)` → fn-ptr dispatch tables (D_801891B8) conflict → blocks ~15 of the 21 no-jtbl triage cracks. FIX = parse fn-ptr-array externs in all 3 fns (additive, but touches proven paths → regression-test the h_norm sweep). Smaller lever than mid/tiny.
+
+### Fable5 findings (decision-log 2026-07-12) — Drew: NO more Fable5 agents until re-approval
+- **rtu_match ≠ whole-binary gate for jr-functions:** rtu_match neutralizes INCLUDE_ASM (excludes the §8 jtbl rodata) + masks relocs → it MATCHES while the whole-binary gate FAILS. Batch-1 (`func_80159C84`/`8015444C`/`80176218`) = 0 whole-binary-confirmed cracks (2 jtbl false-MATCH, 1 limit-cut). **Fable5 crack prompts must require the whole-binary gate (or a jtbl-aware check), not plain rtu_match.** New idioms found (distill to cookbook when banked): postincrement pending-queue `(*(s32*)(p+K))++ >= N` (func_80159C84); split-temps inverse-§45-A for cross-jumped tails (func_8015444C).
+- Usage/session limits repeatedly interrupt Fable5 (weekly + session limits, ~3:40am/5am resets).
+
+### Triage (Task 6, committed) — `docs/phase26-triage.md` + `.run/phase26_triage.json`
+119 draftable substantial families: cheap 29 (23 closeness-0 isolation-cracks) / permuter 29 / fable5 61. Whole-binary reality: 6 cheap no-jtbl-reconcile-clean bank; ~15 no-jtbl need the fn-ptr fix; 2 jtbl + the fable5 cores need §8. `.run/_rr_todo.txt` = the 19 not-yet-banked cracks.
+
+### NEXT STEPS (priority order, all MECHANICAL — no Fable5)
+1. **mid-harvest → R22 → commit** (in flight). 2. **tiny band** `--hseq --band tiny`. 3. **§8 jtbl tooling** (Drew-approved; ov077 PoC → automate). 4. **reconcile fn-ptr fix** → re-harvest the ~15 no-jtbl cracks (`.run/_rr19.sh` pattern). 5. **Task-5 type-families** (9 zero-bank substantial) via reconcile. 6. re-measure metrics; when substantial+mid+tiny exhausted + gaps closed → milestone check.
+
+### Effort/model: Max set (this session). Fresh session: re-apply `/effort max` for §8 design (Tier-1 tooling) or `/effort xhigh` for mechanical harvest runs. Ghidra MCP NOT needed (matching uses cached asm; run `/mcp` only if RE work resumes — R29).
+
 ## Milestone (gate 2 — structural completion, per Drew)
 
 1. h_seq engine committed, V0–V3 validated with a measured template success rate.
