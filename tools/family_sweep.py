@@ -202,7 +202,9 @@ def hseq_sweep(a):
     only = set(int(x, 16) for x in a.only.split(",")) if a.only else None
     bands = None if a.band == "all" else set(a.band.split(","))
 
-    fams = [f for f in manifest["families"] if f["exemplar"]["kind"] in ("matched", "matched-ov077")]
+    kinds = (("matched", "matched-ov077", "draft-ov077") if a.reconcile_raw
+             else ("matched", "matched-ov077"))            # reconcile-raw templates from the RAW seed, so an
+    fams = [f for f in manifest["families"] if f["exemplar"]["kind"] in kinds]  # unbanked ov077 crack qualifies
     if bands:
         fams = [f for f in fams if f["band"] in bands]
     if only is not None:

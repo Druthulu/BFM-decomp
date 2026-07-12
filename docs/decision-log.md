@@ -357,3 +357,33 @@ reconcile into `hseq_sweep`.** Otherwise Fable5 output stalls at ×1 (ov077-only
 reconcile wiring (that IS Task 8, per Drew). **LESSON:** the validation slice paid for itself — it converted
 "the pipeline works, go spend the window" into "reconcile→bank works, but templating reconcile-class needs
 one more wiring step first," a decision that would have been very expensive to learn after the window closed.
+
+## 2026-07-12 · Phase 26 — the crack-harvest has TWO tooling gaps + the rtu_match-vs-whole-binary lesson (Fable5 batch-1 processing)
+
+**Context:** processing the Fable5 batch-1 cracks + the 23 triage isolation-cracks through the whole-binary
+gate revealed the "closeness-0 / rtu_match-MATCH" counts were optimistic. Whole-binary reality (G3/P9):
+
+**1. The rtu_match blind spot on jump-table functions.** Both Fable5 cracks (`func_80159C84`, `func_8015444C`)
+rtu_match-MATCH but FAIL the whole-binary gate. rtu_match neutralizes `INCLUDE_ASM` (excluding the §8
+jump-table rodata `.s`) and compares only the masked INSTRUCTION stream — it never verifies the jtbl rodata
+data bytes. The code is right; the jtbl rodata isn't confirmed. **rtu_match is NOT a sufficient sole arbiter
+for jr-functions** — the whole-binary gate is (as always, G3). Pattern is clean: all 6 whole-binary-banked
+cracks are no-jtbl; every jtbl crack (2 Fable5 + the 2 jtbl triage cracks) fails.
+
+**2. Two distinct harvest gaps, both fixable Task-8 tooling:**
+   - **§8 jtbl-rodata gap:** replacing an `INCLUDE_ASM` jr-function with C needs the compiler-generated jtbl to
+     byte-match + land in the right rodata slot (the §8 dotted-`.rodata`-subseg + ld_interleave). The overlay
+     splits don't have this per-cracked-jr-function setup → every jtbl crack fails the binary. **This blocks the
+     jtbl-heavy Fable5 window** (most top cores are jr giants).
+   - **reconcile data-extern gap:** ~15 of the 21 no-jtbl triage cracks fail canon_sig_reconcile on a
+     `conflicting types for D_x` (fn-ptr-array / typed-global the seed declares differently than the TU) — pt-9
+     data-extern handling is incomplete for these. Only 6 no-jtbl reconcile-clean cracks bank (729 members:
+     463 committed + 266).
+
+**The implication for the Fable5 window:** cracking a jtbl giant with an rtu_match-only agent produces an
+UNVERIFIED result — the §8 rodata must be handled + the whole-binary gate must be the arbiter. So the window
+is only productive on jtbl cores AFTER the §8-overlay-jtbl tooling exists (or with serial whole-binary
+verification). **Better path (hindsight):** the Fable5 crack prompt should have required the whole-binary gate
+(or an rtu_match variant that includes the jtbl rodata) as the bar, not plain rtu_match — for jr-functions the
+two diverge. LESSON: an indicator that MASKS a byte-region (rtu_match masks relocs + excludes neutralized
+INCLUDE_ASM rodata) cannot arbitrate a match whose difference lives in that region.

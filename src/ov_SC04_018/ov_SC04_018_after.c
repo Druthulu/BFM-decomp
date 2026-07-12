@@ -3472,7 +3472,63 @@ DEFINE_func_8015C08C()  /* dedup: shared engine-core @0x8015C08C (src/shared) */
 
 DEFINE_func_8015C0C4()  /* dedup: shared engine-core @0x8015C0C4 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC04_018/nonmatchings/ov_SC04_018_after", func_8015C128);
+#include "common.h"
+
+
+
+s32 func_8015C128(s32 param_1) {
+    extern void func_8015C6E0(int);
+    extern void (*D_8018F8B0[])(int);
+
+    int sp10[3];
+    int sp20[3];
+    int temp_s0;
+    int temp_v0;
+
+    ((void(*)())func_80149FB0)();
+    if (((int(*)(int))func_80148AFC)(((int)param_1)) & 0xFF) {
+        sp10[0] = 0;
+        sp10[1] = 0;
+        sp10[2] = -0x4000;
+        ((void(*)(int, int *, int *))func_8001382C)(*(short *)(*(int *)(((int)param_1) + 0x20) + 0x12), sp10, sp20);
+        *(int *)(((int)param_1) + 0x234) += sp20[0];
+        *(int *)(((int)param_1) + 0x238) += sp20[1];
+        *(int *)(((int)param_1) + 0x23C) += sp20[2];
+    }
+    ((void(*)(int, int *, int *))func_8001382C)((short)(-*(unsigned short *)(*(int *)(((int)param_1) + 0x20) + 0x12)),
+                  (int *)(((int)param_1) + 0x234), sp20);
+    ((void(*)(int, int *))func_80146DB8)(((int)param_1), sp20);
+    func_80147A84(((int)param_1));
+    ((void(*)(int))func_801473EC)(((int)param_1));
+    if (!(D_800B99DA & 3)) {
+        ((void(*)(int, int))func_8014C010)(((int)param_1), 1);
+        ((void(*)(int))func_80147324)(0x65F);
+    }
+    if (((int(*)(int))func_8014D738)(((int)param_1)) != 0) {
+        D_8018F8B0[*(u16 *)((int)param_1)](((int)param_1));
+        func_8015C6E0(((int)param_1));
+        return;
+    }
+    temp_s0 = ((int(*)(int))func_8014CC28)(((int)param_1));
+    temp_v0 = ((int(*)(int))func_8014F3E8)(((int)param_1));
+    if (temp_v0 != 0) {
+        if ((temp_v0 & 0xFF00) != 0x4000) {
+            ((void(*)(int, int))func_80146E90)(((int)param_1), 6);
+            ((void(*)(int))func_80146CA0)(((int)param_1));
+            return;
+        }
+        if ((temp_v0 & 0x4000) && ((int(*)(int))func_80146E98)(((int)param_1)) != 0) {
+            ((void(*)(int, int))func_80147078)(((int)param_1), 4);
+            ((void(*)(int))func_8015C0C4)(((int)param_1));
+        }
+    } else if (temp_s0 == 0) {
+        D_8018F8B0[*(u16 *)((int)param_1)](((int)param_1));
+        ((void(*)(int, int))func_80147078)(((int)param_1), 3);
+        ((void(*)(int))func_8015BE94)(((int)param_1));
+    }
+}
+
+
 
 INCLUDE_ASM("asm/ov_SC04_018/nonmatchings/ov_SC04_018_after", func_8015C32C);
 
@@ -3522,7 +3578,92 @@ DEFINE_func_8015CCB0()  /* dedup: shared engine-core @0x8015CCB0 (src/shared) */
 
 DEFINE_func_8015CCD0()  /* dedup: shared engine-core @0x8015CCD0 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC04_018/nonmatchings/ov_SC04_018_after", func_8015CD20);
+#define NULL 0
+
+struct Sub_8015CD20 {
+    u8 pad0[0x12];
+    u16 unk12;      /* +0x12 */
+};
+
+struct Ent_8015CD20 {
+    u16 unk0;       /* +0x00 */
+    u8 pad2[0x1E];
+    struct Sub_8015CD20 *unk20;  /* +0x20 */
+    u8 pad24[0x94];
+    s16 unkB8;      /* +0xB8 */
+    u8 pad1BA[0x102];
+    s8 unk1BC;      /* +0x1BC */
+    u8 pad1BD[0x77];
+    s32 unk234;     /* +0x234 */
+};
+
+
+
+s32 func_8015CD20(s32 arg0) {
+    extern void (*D_8018F8B0[])(struct Ent_8015CD20 *);
+    extern u8 D_8018F864;
+    extern u8 D_8018FA54;
+    extern u8 D_8018FA64;
+
+    s32 temp_v0;
+    s32 var_v0;
+    struct Sub_8015CD20 *sp;
+
+    ((void(*)())func_80149FB0)();
+    if (((s32(*)(struct Ent_8015CD20 *))func_801496D4)(((struct Ent_8015CD20 *)arg0)) != 0) {
+        D_8018F8B0[((struct Ent_8015CD20 *)arg0)->unk0](((struct Ent_8015CD20 *)arg0));
+        ((struct Ent_8015CD20 *)arg0)->unk1BC = 0xA;
+        ((s32(*)(struct Ent_8015CD20 *))func_80149724)(((struct Ent_8015CD20 *)arg0));
+        if (((s32(*)(struct Ent_8015CD20 *))func_80148AFC)(((struct Ent_8015CD20 *)arg0)) & 0xFF) {
+            ((void(*)(struct Ent_8015CD20 *, u8 *))func_80146DB8)(((struct Ent_8015CD20 *)arg0), &D_8018F864);
+        } else {
+            ((void(*)(struct Ent_8015CD20 *))func_80146D90)(((struct Ent_8015CD20 *)arg0));
+        }
+        return;
+    }
+    temp_v0 = ((struct Ent_8015CD20 *)arg0)->unk234;
+    if (temp_v0 == 0) {
+        if (((s32(*)(struct Ent_8015CD20 *))func_80148980)(((struct Ent_8015CD20 *)arg0)) != 0) {
+            ((void(*)(struct Ent_8015CD20 *, u8 *))func_80146DB8)(((struct Ent_8015CD20 *)arg0), &D_8018FA54);
+            ((void(*)(struct Ent_8015CD20 *))func_80147A84)(((struct Ent_8015CD20 *)arg0));
+            ((void(*)(struct Ent_8015CD20 *))func_801473EC)(((struct Ent_8015CD20 *)arg0));
+            ((void(*)(struct Ent_8015CD20 *, s32))func_80154150)(((struct Ent_8015CD20 *)arg0), 0x15);
+            sp = ((struct Ent_8015CD20 *)arg0)->unk20;
+            var_v0 = sp->unk12 - 0xAA;
+            goto block_13;
+        }
+        if (((s32(*)(struct Ent_8015CD20 *))func_8014891C)(((struct Ent_8015CD20 *)arg0)) != 0) {
+            ((void(*)(struct Ent_8015CD20 *, u8 *))func_80146DB8)(((struct Ent_8015CD20 *)arg0), &D_8018FA64);
+            ((void(*)(struct Ent_8015CD20 *))func_80147A84)(((struct Ent_8015CD20 *)arg0));
+            ((void(*)(struct Ent_8015CD20 *))func_801473EC)(((struct Ent_8015CD20 *)arg0));
+            ((void(*)(struct Ent_8015CD20 *, s32))func_80154150)(((struct Ent_8015CD20 *)arg0), 0x14);
+            ((struct Ent_8015CD20 *)arg0)->unkB8 = 1;
+        }
+        if (((s32(*)(struct Ent_8015CD20 *))func_801489E8)(((struct Ent_8015CD20 *)arg0)) != 0) {
+            sp = ((struct Ent_8015CD20 *)arg0)->unk20;
+            var_v0 = sp->unk12 + 0x71;
+            goto block_13;
+        }
+        if (((s32(*)(struct Ent_8015CD20 *))func_80148A48)(((struct Ent_8015CD20 *)arg0)) != 0) {
+            sp = ((struct Ent_8015CD20 *)arg0)->unk20;
+            var_v0 = sp->unk12 - 0x71;
+block_13:
+            sp->unk12 = var_v0 & 0xFFF;
+        }
+    } else {
+        ((struct Ent_8015CD20 *)arg0)->unk234 = temp_v0 - 1;
+    }
+    ((void(*)(struct Ent_8015CD20 *))func_8014FA04)(((struct Ent_8015CD20 *)arg0));
+    if (((s32(*)(struct Ent_8015CD20 *))func_8014E434)(((struct Ent_8015CD20 *)arg0)) == 0) {
+        D_8018F8B0[((struct Ent_8015CD20 *)arg0)->unk0](((struct Ent_8015CD20 *)arg0));
+        ((void(*)(struct Ent_8015CD20 *, s32))func_80147078)(((struct Ent_8015CD20 *)arg0), 0);
+        ((void(*)(struct Ent_8015CD20 *))func_80159B70)(((struct Ent_8015CD20 *)arg0));
+    } else {
+        ((void(*)(struct Ent_8015CD20 *))func_801725E0)(((struct Ent_8015CD20 *)arg0));
+    }
+}
+
+
 
 DEFINE_func_8015CF24()  /* dedup: shared engine-core @0x8015CF24 (src/shared) */
 
