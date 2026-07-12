@@ -88,6 +88,109 @@ def reloc_targets(ov, addr):
     return out
 
 
+# ---- Phase-26 shared word-diff classifier (family_hseq survey T1, imm engine T2a, sweep pre-filter T3) ----
+# Two members of an h_seq family have IDENTICAL mnemonic sequences but may differ in reloc fields
+# (symbol-remappable), in true immediates / shift amounts (imm-substitutable, T2a), OR in REGISTER
+# allocation (NOT templatable — h_seq ignores registers). Classify each differing instruction so a
+# family/member is bucketed PURE (reloc-only) / IMM / STRUCT-EXCLUDED (regalloc drift or collision).
+
+_IMG_CACHE = {}
+
+
+def _img(ov):
+    if ov not in _IMG_CACHE:
+        p = img_path(ov)
+        _IMG_CACHE[ov] = open(p, "rb").read() if p else None
+    return _IMG_CACHE[ov]
+
+
+def stream_words(ov, addr, nins):
+    """the nins raw instruction words of a function from its overlay image (cached)."""
+    data = _img(ov)
+    if data is None:
+        return None
+    off = addr - VRAM
+    return [struct.unpack_from("<I", data, off + k * 4)[0] for k in range(nins)]
+
+
+def reloc_indices(words):
+    """set of instruction indices that participate in an ADDRESS reloc — jal, an addr-anchor lui
+    (confirmed by a %lo consumer, propagated through add/addu), and the %lo consumer itself."""
+    pend, jal, lui_addr, lo = {}, set(), set(), set()      # pend: reg -> originating lui index
+    for k, w in enumerate(words):
+        op = w >> 26
+        if op in (2, 3):
+            jal.add(k)
+        elif op == 0x0F:
+            pend[(w >> 16) & 0x1F] = k
+        elif op in LO_OPS:
+            rs = (w >> 21) & 0x1F
+            if rs in pend:
+                lo.add(k)
+                lui_addr.add(pend[rs])
+                del pend[rs]
+            pend.pop((w >> 16) & 0x1F, None)
+        elif op == 0:
+            funct = w & 0x3F
+            rd = (w >> 11) & 0x1F
+            if funct in (0x20, 0x21):
+                rs, rt = (w >> 21) & 0x1F, (w >> 16) & 0x1F
+                if rs in pend:
+                    pend[rd] = pend[rs]
+                elif rt in pend:
+                    pend[rd] = pend[rt]
+                else:
+                    pend.pop(rd, None)
+            else:
+                pend.pop(rd, None)
+    return jal | lui_addr | lo
+
+
+def reg_fields(w):
+    """the register + opcode-identity fields (everything EXCEPT the imm / jump-target / shift-amount).
+    Equal reg_fields with unequal words ⟹ the diff is purely immediate/target/sa (not regalloc)."""
+    op = w >> 26
+    if op == 0:                                            # R-type: rs, rt, rd, funct (sa excluded)
+        return (0, (w >> 21) & 0x1F, (w >> 16) & 0x1F, (w >> 11) & 0x1F, w & 0x3F)
+    if op in (2, 3):                                       # j / jal: target excluded
+        return (op,)
+    if op == 0x0F:                                         # lui: rt only (hi excluded)
+        return (op, (w >> 16) & 0x1F)
+    return (op, (w >> 21) & 0x1F, (w >> 16) & 0x1F)        # I-type: rs, rt (imm excluded)
+
+
+_SHIFT_FUNCTS = (0x00, 0x02, 0x03)                          # sll srl sra (sa is the immediate); sllv/srlv/srav excluded
+
+
+def classify_member(words_ex, words_sib):
+    """returns (cls, positions): cls in {PURE, IMM, STRUCT, LEN}; positions = [(idx, kind)] for each
+    DIFFERING instruction, kind in {RELOC, IMM, IMM_SA, STRUCT}. Reuses the extended reloc tracker."""
+    if words_ex is None or words_sib is None:
+        return "LEN", []
+    if len(words_ex) != len(words_sib):
+        return "LEN", []
+    rel = reloc_indices(words_ex)
+    positions = []
+    for k, (a, b) in enumerate(zip(words_ex, words_sib)):
+        if a == b:
+            continue
+        if reg_fields(a) != reg_fields(b):                 # opcode/register/funct drift -> not templatable
+            positions.append((k, "STRUCT"))
+        elif k in rel:
+            positions.append((k, "RELOC"))
+        elif (a >> 26) == 0:
+            positions.append((k, "IMM_SA" if (a & 0x3F) in _SHIFT_FUNCTS else "STRUCT"))
+        else:
+            positions.append((k, "IMM"))                   # I-type non-address immediate (incl. const-lui hi)
+    if any(c == "STRUCT" for _, c in positions):
+        cls = "STRUCT"
+    elif any(c in ("IMM", "IMM_SA") for _, c in positions):
+        cls = "IMM"
+    else:
+        cls = "PURE"
+    return cls, positions
+
+
 def symbol_map(addr, from_ov, to_ov, to_addr=None):
     """{exemplar_name: sibling_name} for the per-overlay symbols (positional zip). None,err if not clean.
     to_addr defaults to addr (same-address h_norm sibling); pass it for a cross-address (T2b) sibling."""
