@@ -165,6 +165,95 @@ def edit_remap_sweep(a, sig, src_sig, stubs):
     print(json.dumps({"banked": nb, "failed": nf, "skipped": dict(skipped)}))
 
 
+def hseq_sweep(a):
+    """Phase-26 T3 --hseq: template h_seq FAMILIES (looser than h_norm — members may sit at DIFFERENT
+    addresses per overlay and differ in a few immediates). Per family in `.run/family_hseq.json` with a
+    MATCHED exemplar (its C exists), template each still-stubbed member via `family_remap.remap_hseq`
+    (reloc symbol remap §40b + immediate substitution T2a + cross-address self-rename T2b), stage grouped
+    by (overlay, split), and gate each group ONCE via plain harvest_verify (the sole arbiter, G3/P9).
+    remap_hseq REFUSES register-drift (STRUCT) and unresolved-immediate members — that IS the member
+    pre-filter, so a chunk never bisects on a hopeless draft. Pin-free templates only (§42e): a matched
+    exemplar carrying hard-reg pins would cc1-crash a sibling TU → that group fails+reverts at the gate."""
+    manifest = json.load(open(os.path.join(REPO, a.hseq)))
+    stubs = {ov: stub_map(ov) for ov in
+             [os.path.basename(p).split("sig.")[1][:-6] for p in
+              sorted(glob.glob(os.path.join(REPO, ".run/sig.ov_*.jsonl")))]}
+    only = set(int(x, 16) for x in a.only.split(",")) if a.only else None
+    bands = None if a.band == "all" else set(a.band.split(","))
+
+    fams = [f for f in manifest["families"] if f["exemplar"]["kind"] in ("matched", "matched-ov077")]
+    if bands:
+        fams = [f for f in fams if f["band"] in bands]
+    if only is not None:
+        fams = [f for f in fams if int(f["exemplar"]["addr"], 16) in only]
+    if a.min_members > 1:
+        fams = [f for f in fams if f["n_members"] >= a.min_members]
+    fams.sort(key=lambda f: -f["byte_weight_templatable"])
+    if a.limit:
+        fams = fams[:a.limit]
+    print(f"[hseq] {len(fams)} matched-exemplar families (band={a.band}); "
+          f"{sum(f['n_members'] for f in fams)} candidate members")
+
+    # ---- phase 1: template every (exemplar -> still-stubbed member), stage by (overlay, split, subdir)
+    shutil.rmtree(os.path.join(REPO, SWEEP), ignore_errors=True)
+    groups = collections.defaultdict(list)                     # (ov, src_rel, subdir) -> [fn]
+    skip = collections.Counter()
+    for f in fams:
+        exov, exaddr = f["exemplar"]["ov"], int(f["exemplar"]["addr"], 16)
+        for ov, addr_s in f["members"]:
+            to_addr = int(addr_s, 16)
+            if (ov, to_addr) == (exov, exaddr):
+                continue
+            if to_addr not in stubs.get(ov, {}):               # already matched / not a stub now
+                skip["not-stub"] += 1; continue
+            src_rel, subdir = stubs[ov][to_addr]
+            draft, info = FR.remap_hseq(exaddr, exov, ov, to_addr)
+            if draft is None:
+                r = info.split(":")[0] if isinstance(info, str) else "skip"
+                skip[r[:24]] += 1; continue
+            if re.search(r'__asm__\s*\(\s*"\$', draft):         # hard-reg pin (§42e): ×1-only, cc1-crashes
+                skip["pinned-exemplar"] += 1; continue          # sibling TUs → skip the family, don't bisect-storm
+            d = os.path.join(REPO, SWEEP, ov)
+            os.makedirs(d, exist_ok=True)
+            open(os.path.join(d, f"func_{to_addr:08X}.c"), "w").write(draft + "\n")
+            groups[(ov, src_rel, subdir)].append(f"func_{to_addr:08X}")
+    print(f"[hseq] staged {sum(len(v) for v in groups.values())} member drafts across {len(groups)} "
+          f"(overlay,split) groups; skipped {dict(skip)}")
+    if a.stage_only:
+        print(json.dumps({"families": len(fams), "staged": sum(len(v) for v in groups.values()),
+                          "groups": len(groups), "skipped": dict(skip)}))
+        return
+    if not groups:
+        print(json.dumps({"families": len(fams), "banked": 0, "failed": 0, "skipped": dict(skip)}))
+        return
+
+    # ---- phase 2: gate each group ONCE (unique verified-out per group so multi-split overlays sum right)
+    banked = collections.Counter()
+    failed = collections.Counter()
+    for gi, ((ov, src_rel, subdir), fns) in enumerate(sorted(groups.items())):
+        good_sha = open(os.path.join(REPO, f"config/check.{ov}.sha")).read().split()[0]
+        vout = f".run/hseq_verified.{ov}.{gi}.txt"
+        sh([PY, "tools/harvest_verify.py", "--binary", ov, "--src", src_rel, "--asm-subdir", subdir,
+            "--out", f"build/{ov}/{ov}", "--good-sha", good_sha,
+            "--drafts", os.path.join(SWEEP, ov), "--chunk", str(a.chunk),
+            "--verified-out", vout, "--failed-out", f".run/hseq_failed.{ov}.{gi}.txt"], timeout=3600)
+        vpath = os.path.join(REPO, vout)
+        nver = len([x for x in open(vpath).read().split() if x]) if os.path.exists(vpath) else 0
+        banked[ov] += nver
+        failed[ov] += len(fns) - nver
+        print(f"  {ov} [{os.path.basename(src_rel)}]: {nver}/{len(fns)} banked")
+
+    nb, nf = sum(banked.values()), sum(failed.values())
+    print(f"\n[hseq] BANKED {nb} member-matches / {nf} failed across {len(banked)} overlays; "
+          f"skipped {dict(skip)}")
+    if a.commit and nb:
+        sh(["git", "add", "-A", "src"])
+        sh(["git", "commit", "-q", "-m",
+            f"feat(phase-26): h_seq family sweep — {nb} member-matches banked via remap_hseq"])
+        print("[hseq] committed.")
+    print(json.dumps({"families": len(fams), "banked": nb, "failed": nf, "skipped": dict(skip)}))
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--source", default="ov_SC01_077")
@@ -187,8 +276,20 @@ def main():
                          "so it false-negatives type-lifted families); route every remappable exemplar straight "
                          "to the harvest_verify byte-gate (the real TU sees the shared types). Use after a "
                          "build_engine_types type-lift for the decl-reconcile pass.")
+    ap.add_argument("--hseq", nargs="?", const=".run/family_hseq.json", default=None, metavar="MANIFEST",
+                    help="Phase-26 T3: template h_seq FAMILIES from the family_hseq manifest (cross-address + "
+                         "immediate-substituting via remap_hseq), instead of the same-address h_norm path.")
+    ap.add_argument("--band", default="substantial",
+                    help="--hseq: family size band(s) to sweep — substantial|mid|tiny|all or a comma list")
+    ap.add_argument("--min-members", type=int, default=1, help="--hseq: skip families with fewer members")
+    ap.add_argument("--stage-only", action="store_true",
+                    help="--hseq: stage the templated drafts to .run/sweep/ and stop before the byte-gate "
+                         "(dry-run for inspection; no builds)")
     a = ap.parse_args()
     os.chdir(REPO)
+
+    if a.hseq:
+        return hseq_sweep(a)
 
     sig = load_sigs()
     src_sig = sig[a.source]
