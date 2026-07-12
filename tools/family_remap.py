@@ -267,11 +267,40 @@ def imm_map_tier1(unit, ex_words, sib_words):
     return imm_map, unresolved
 
 
+_TU_CACHE = {}
+
+
+def _tu_text(ov):
+    if ov not in _TU_CACHE:
+        _TU_CACHE[ov] = "".join(open(f).read() for f in sorted(glob.glob(f"src/{ov}/{ov}*.c")))
+    return _TU_CACHE[ov]
+
+
+def gather_externs(from_ov, from_addr, unit):
+    """file-scope `extern` decls from the exemplar TU for every func_/D_ symbol the body references but
+    the extracted unit does NOT already declare. extract_unit only grabs the immediately-preceding
+    externs; a per-location body that indexes a global (`(*D_x[..])()`) references symbols declared once
+    at file scope elsewhere — templated into a sibling TU that never declared them, they're `undeclared`
+    at the gate. Carrying them (they get remapped downstream) fixes the decl class. Excludes the self
+    name. Duplicate-identical externs are legal C; a type-conflict is the §41 reconcile class (rare)."""
+    self_sym = f"func_{from_addr:08X}"
+    refs = set(re.findall(r'\b(?:func_[0-9A-Fa-f]{8}|D_[0-9A-Fa-f]{8})\b', unit)) - {self_sym}
+    tu = _tu_text(from_ov)
+    lines, seen = [], set()
+    for sym in sorted(refs):
+        if re.search(rf'^\s*extern\b[^\n;{{}}]*\b{sym}\b[^\n;{{}}]*;', unit, re.M):
+            continue                                         # already declared inside the unit
+        m = re.search(rf'^\s*(extern\b[^\n;{{}}]*\b{sym}\b[^\n;{{}}]*;)', tu, re.M)
+        if m and sym not in seen:
+            lines.append(m.group(1).strip()); seen.add(sym)
+    return lines
+
+
 def remap_hseq(from_addr, from_ov, to_ov, to_addr=None):
     """h_seq family template: reloc symbol remap (§40b) + immediate substitution (T2a Tier 1) +
-    cross-address self-rename (T2b). Returns (draft, info) or (None, error_str). info = {symbol_map,
-    imm_map, unresolved, cf}. A member with register drift (STRUCT) or unresolved immediates is refused
-    (the caller skips it — byte-gate would reject anyway)."""
+    cross-address self-rename (T2b) + carried file-scope externs. Returns (draft, info) or
+    (None, error_str). info = {symbol_map, imm_map, unresolved, n_externs, cf}. A member with register
+    drift (STRUCT) or unresolved immediates is refused (the caller skips it — byte-gate would reject)."""
     if to_addr is None:
         to_addr = from_addr
     nins = nins_of(from_ov, from_addr)
@@ -291,11 +320,15 @@ def remap_hseq(from_addr, from_ov, to_ov, to_addr=None):
         imm_map, unresolved = imm_map_tier1(unit, ex_words, sib_words)
         if unresolved:
             return None, f"unresolved immediates (Tier-2): {unresolved}"
+    externs = gather_externs(from_ov, from_addr, unit)
+    if externs:
+        unit = "\n".join(externs) + "\n" + unit
     table = dict(m)
     if from_addr != to_addr:
         table[f"func_{from_addr:08X}"] = f"func_{to_addr:08X}"
     table.update(imm_map)
-    return apply_remap(unit, table), {"symbol_map": m, "imm_map": imm_map, "unresolved": unresolved, "cf": cf}
+    return apply_remap(unit, table), {"symbol_map": m, "imm_map": imm_map, "unresolved": unresolved,
+                                      "n_externs": len(externs), "cf": cf}
 
 
 def symbol_map(addr, from_ov, to_ov, to_addr=None):

@@ -4214,7 +4214,64 @@ INCLUDE_ASM("asm/ov_SC06_010/nonmatchings/ov_SC06_010", func_8014032C);
 
 INCLUDE_ASM("asm/ov_SC06_010/nonmatchings/ov_SC06_010", func_80140608);
 
-INCLUDE_ASM("asm/ov_SC06_010/nonmatchings/ov_SC06_010", func_801407F4);
+
+// @class: iv-combine
+// @stuck: none — MATCH (89 ins). Sequential struct fields fed from a running source
+//         pointer compile to fixed offsets when written base[0..n]; the target advances
+//         the pointer, so use post-increment `*p++` for EVERY field (gcc drops the dead
+//         final increment, yielding the "increment N-2 then offset 0/2" tail).
+
+extern u8 *D_80187A48;
+extern u8 *D_80187A4C;
+extern u8 *D_80187A50;
+extern u8 *D_80187A54;
+extern u8 *D_80187A58;
+extern u16 *D_80187A5C[];
+extern u16 *D_80187A64[];
+extern u16 *D_80187A84[];
+
+extern s32 func_80028D58(void);
+extern s32 func_80028DE0(void);
+extern s32 func_80028FBC(void);
+extern s32 func_80029000(void);
+extern s32 func_80028D9C(void);
+
+void func_801407F4(void)
+{
+    u8 *puVar1;
+    s32 iVar2;
+    u16 *puVar3;
+
+    puVar1 = D_80187A48;
+    iVar2 = func_80028D58();
+    puVar3 = D_80187A5C[iVar2];
+    *(s16 *)(puVar1 + 0x16) = *puVar3++;
+    *(s16 *)(puVar1 + 0x18) = *puVar3++;
+    *(s16 *)(puVar1 + 0x1a) = *puVar3++;
+
+    puVar1 = D_80187A4C;
+    iVar2 = func_80028DE0();
+    puVar3 = D_80187A5C[iVar2];
+    *(s16 *)(puVar1 + 0x16) = *puVar3++;
+    *(s16 *)(puVar1 + 0x18) = *puVar3++;
+    *(s16 *)(puVar1 + 0x1a) = *puVar3++;
+
+    iVar2 = func_80028FBC();
+    *(s16 *)(D_80187A50 + 0x18) = *D_80187A64[iVar2];
+    iVar2 = func_80029000();
+    *(s16 *)(D_80187A54 + 0x18) = *D_80187A64[iVar2];
+
+    puVar1 = D_80187A58;
+    iVar2 = func_80028D9C();
+    puVar3 = D_80187A84[iVar2];
+    *(s16 *)(puVar1 + 0x12) = *puVar3++;
+    *(s16 *)(puVar1 + 0x14) = *puVar3++;
+    *(s16 *)(puVar1 + 0x16) = *puVar3++;
+    *(s16 *)(puVar1 + 0x18) = *puVar3++;
+    *(s16 *)(puVar1 + 0x1a) = *puVar3++;
+    *(s16 *)(puVar1 + 0x1c) = *puVar3++;
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_010/nonmatchings/ov_SC06_010", func_80140958);
 

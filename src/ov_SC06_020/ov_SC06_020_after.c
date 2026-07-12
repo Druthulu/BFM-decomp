@@ -1318,7 +1318,60 @@ INCLUDE_ASM("asm/ov_SC06_020/nonmatchings/ov_SC06_020_after", func_8014D820);
 
 DEFINE_func_8014DCE0()  /* dedup: shared engine-core @0x8014DCE0 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC06_020/nonmatchings/ov_SC06_020_after", func_8014DD8C);
+
+s32 func_8014DD8C(s32 arg0, void *arg1, void *arg2) {
+    extern u8 D_801202A0[];
+    extern u8 D_80126720[];
+    extern s32 ratan2(s32 a0, s32 a1);
+    extern s32 func_80012A60(s32 a0, s32 a1);
+    extern s32 func_80135A4C(s32 a0, s32 a1, s32 *a2, s32 a3);
+
+    s16 temp_s0;
+    s32 temp_s0_2;
+    s16 temp_s1;
+    s16 temp_v0;
+    s16 temp_v1;
+    s32 temp_a1;
+    s8 *var_s2;
+    s8 *var_s3;
+
+    __asm__ __volatile__("" :: "r"(((void *)arg0)));
+    temp_v0 = M2C_FIELD(arg2, u16 *, 0) - M2C_FIELD(arg1, u16 *, 0);
+    temp_v1 = M2C_FIELD(arg2, u16 *, 4) - M2C_FIELD(arg1, u16 *, 4);
+    if (((temp_v0 | temp_v1) << 0x10) != 0) {
+        var_s3 = (s8 *) D_801202A0;
+        if (var_s3 < var_s3 + 0x6480) {
+            var_s2 = var_s3 + 0xE;
+            __asm__ __volatile__("" :: "r"(var_s2));
+loop_3:
+            if (M2C_FIELD(var_s3, u16 *, 0) != 0) {
+                temp_a1 = M2C_FIELD(var_s2, s32 *, 0x4A);
+                if ((temp_a1 != 0) && (M2C_FIELD(var_s2, u16 *, 0x4E) & 0x1000) && (func_80135A4C(M2C_FIELD(var_s2, s32 *, 0x12), temp_a1, (s32 *)arg1, (s32)arg2) != 0)) {
+                    temp_s1 = M2C_FIELD(var_s2, u16 *, -8) - M2C_FIELD(((void *)arg0), u16 *, 6);
+                    temp_s0 = M2C_FIELD(var_s2, u16 *, 0) - M2C_FIELD(((void *)arg0), u16 *, 0xE);
+                    temp_s0_2 = (s16) ratan2(temp_v1, temp_v0);
+                    if ((s16) func_80012A60(temp_s0_2, (s16) ratan2(temp_s0, temp_s1)) < 0x400) {
+                        M2C_FIELD(((void *)arg0), s8 **, 0x170) = var_s3;
+                        M2C_FIELD(((void *)arg0), u16 *, 6) = (u16) M2C_FIELD(arg2, u16 *, 0);
+                        M2C_FIELD(((void *)arg0), s16 *, 0xA) = (s16) (M2C_FIELD(arg2, u16 *, 2) + 0x10);
+                        M2C_FIELD(((void *)arg0), u16 *, 0xE) = (u16) M2C_FIELD(arg2, u16 *, 4);
+                        return 1;
+                    }
+                }
+            }
+            var_s3 += 0x10C;
+            var_s2 += 0x10C;
+            if ((u32) var_s3 >= (u32) D_80126720) {
+                goto block_10;
+            }
+            goto loop_3;
+        }
+        return 0;
+    }
+block_10:
+    return 0;
+}
+
 
 
 extern void func_8014DF94(s32 arg0);
@@ -3535,7 +3588,60 @@ DEFINE_func_8015D544()  /* dedup: shared engine-core @0x8015D544 (src/shared) */
 
 DEFINE_func_8015D57C()  /* dedup: shared engine-core @0x8015D57C (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC06_020/nonmatchings/ov_SC06_020_after", func_8015D5E8);
+
+// @class: loose-typing
+// @stuck: none — MATCH (field 0xb8 compared as u16 == 0x8000, not s16 == -0x8000)
+
+extern s32 func_80161B18(void *a0);
+extern s32 func_80161B84(void *a0);
+extern void func_80154A74(int, int);
+extern s32 func_80161208();
+extern void func_80154150(int, int);
+extern void func_80146CA0(void *a0);
+extern void func_80149374(int, int);
+
+extern unsigned char D_8018793C[];
+
+void func_8015D5E8(int param_1)
+{
+    int iVar1;
+    int iVar2;
+
+    if (((int (*)(void))func_80161B18)() != 0)
+        return;
+    if (((int (*)(int))func_80161B84)(param_1) != 0)
+        return;
+    if ((*(unsigned short *)(param_1 + 0xb8) & 0x4000) != 0)
+        func_80154A74(param_1, 0x17);
+    if (((int (*)(int))func_80161208)(param_1) != 0)
+        return;
+    if (*(unsigned short *)(param_1 + 0xb8) == 0x8000) {
+        *(int *)(param_1 + 0x234) = *(int *)(param_1 + 0x234) + -3;
+        func_80154150(param_1, 0x1a);
+        ((void (*)(int))func_80146CA0)(param_1);
+    } else {
+        iVar1 = *(int *)(param_1 + 0x178);
+        if (iVar1 != 0) {
+            iVar2 = *(int *)(param_1 + 0x234);
+            *(int *)(param_1 + 0x234) = iVar2 + 1;
+            *(short *)(iVar1 + 6) =
+                (short)((signed char)D_8018793C[iVar2] +
+                        *(unsigned short *)(*(int *)(iVar1 + 0x78) + 0xc));
+            iVar2 = *(int *)(param_1 + 0x234);
+            *(int *)(param_1 + 0x234) = iVar2 + 1;
+            *(short *)(iVar1 + 10) =
+                (short)((signed char)D_8018793C[iVar2] +
+                        *(unsigned short *)(*(int *)(iVar1 + 0x78) + 0xe));
+            iVar2 = *(int *)(param_1 + 0x234);
+            *(int *)(param_1 + 0x234) = iVar2 + 1;
+            *(short *)(iVar1 + 0xe) =
+                (short)((signed char)D_8018793C[iVar2] +
+                        *(unsigned short *)(*(int *)(iVar1 + 0x78) + 0x10));
+            func_80149374(param_1, iVar1 + 4);
+        }
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_020/nonmatchings/ov_SC06_020_after", func_8015D738);
 
@@ -3707,7 +3813,42 @@ DEFINE_func_8015F048()  /* dedup: shared engine-core @0x8015F048 (src/shared) */
 
 DEFINE_func_8015F080()  /* dedup: shared engine-core @0x8015F080 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC06_020/nonmatchings/ov_SC06_020_after", func_8015F118);
+extern s32 D_80062BE8;
+extern void (*D_801876F8[])(void *);
+extern void func_801466F0(s32, s32, s32, s32, s32, s32, s32, s32);
+extern void func_80147078(s32 *a0, s16 a1);
+extern void func_8014AB5C(void);
+extern void func_80159B70(void *a0);
+extern void func_80019064(void *a0);
+extern void func_80147324(s32 a0);
+extern s32 func_80161208(void);
+extern int func_80155FF8(int arg, int a1);
+
+void func_8015F118(void *a0) {
+    u16 flag;
+
+    *(s32 *)((u8 *)a0 + 0x44) = *(s32 *)((u8 *)a0 + 0x44) | 2;
+    flag = *(u16 *)((u8 *)a0 + 0xB8);
+    if (flag == 0x8000) {
+        (*D_801876F8[*(u16 *)a0])(a0);
+        ((void (*)(void *, s32))func_80147078)(a0, 0);
+        func_80159B70(a0);
+    } else {
+        if (flag & 0x4000) {
+            ((void (*)(s32))func_8014AB5C)(0x19);
+            ((void (*)(s32))func_8014AB5C)(0x1D);
+            func_801466F0(0x19, (s32)a0, 0, 0, 0, 0, 0, 1);
+            func_801466F0(0x19, (s32)a0, 0, 0, 0, 1, 0, 1);
+            func_801466F0(0x1D, (s32)a0, 0, 0, 0, 0, 0, 1);
+            func_80019064(&D_80062BE8);
+            func_80147324(0x9DA);
+        }
+        if (((s32 (*)(s32 *))func_80161208)(a0) == 0) {
+            func_80155FF8((int)a0, *(u8 *)((u8 *)a0 + 0x1AA));
+        }
+    }
+}
+
 
 DEFINE_func_8015F260()  /* dedup: shared engine-core @0x8015F260 (src/shared) */
 

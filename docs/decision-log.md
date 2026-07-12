@@ -288,3 +288,39 @@ wrong-but-compiling sibling body that only the byte-gate catches. When a normali
 generation (not just clustering), its conservative-miss becomes a correctness bug. **LESSON (R14):** before treating a
 "unique/unmatchable" population as intrinsic, re-run the *grouping and the remap* under a corrected fingerprint —
 here the "reach-1 tail" and the "unremappable family" were the SAME artifact of one dropped register-tracking case.
+
+## 2026-07-11 · Phase 26 — Task 5 GO/NO-GO: the h_seq engine is 100% correct on clean families; the substantial matched band is type-dominated (a reconcile follow-on, not a machinery gap)
+
+**Context + belief:** Task 5 was the validate-before-scaling gate — run the whole-binary byte-gate on the
+matched-exemplar families and MEASURE the real template success rate before any Fable5 spend. Expectation:
+a high mechanical bank rate on the "free-win" tracker-miss corpus.
+
+**What the byte-gate revealed (R14):** the substantial matched-exemplar band banked **532/1507 non-pinned
+members (~35%)** — but that aggregate is misleading, and the per-family breakdown is the real signal:
+- **3 families banked 100% ×133** = 399 byte-perfect members — exactly the 3 tracker-miss PURE families
+  (`0x8015d5e8`/`0x8015f118`/`0x801407f4`) the design pass named. The addu-hi tracker fix + the extern-carry
+  fix (below) make these template flawlessly. **The machinery is 100% correct on clean families.**
+- **9 of 13 clean families ZERO-banked** — all reference overlay-local custom struct types (`Work8016`,
+  `Work8017`, `SV4_8017B368`, `Prim`, `E4`) → the templated body is `undeclared-type` in the sibling TU =
+  the §41 def-side / type-lift RECONCILE class, which the existing `family_sweep --reconcile` /
+  `build_engine_types` path already handles. NOT a machinery failure — a known follow-on (Task 8).
+- 16 of 29 substantial matched families were pinned-exemplar (×1-only hard-reg cracks) → skipped by the
+  new static pin guard → Task-7 pin-free re-crack.
+
+**The load-bearing tooling fix (Task-5's "measure then fix", R16):** the first gate run banked only ~34%
+because `extract_unit` grabs only *immediately-preceding* externs — a per-location body that indexes a
+global (`(*D_x[i])()`) references symbols declared once at file scope elsewhere in the exemplar TU; templated
+into a sibling TU that never declared them, they are `undeclared` at the gate. Added `remap_hseq.gather_externs`
+(carry the file-scope externs for every body-referenced symbol, remapped). `func_8015F118` went from gate-fail
+to BYTE-IDENTICAL; the 3 clean families then banked 133/133 each.
+
+**The pivot / verdict: GO.** The zero-crack h_seq machinery (tracker + imm + cross-address + extern-carry) is
+byte-proven correct. Scale it (Task 8: the mid/tiny bands + the reconcile pass for the type families). The
+Fable5 window (Task 6/7) goes to the big PURE cores that have NO matched exemplar (890/562/536… — they need a
+crack before they can template).
+
+**Better path (hindsight):** the raw aggregate rate (35%) nearly read as "the engine is weak"; the per-FAMILY
+breakdown showed it is "the engine is perfect on the families it targets; the rest are a different, already-
+solved problem." **LESSON:** when measuring a mechanical harvest, stratify by family/class before judging the
+rate — an aggregate mixes 100%-clean, 0%-type-blocked, and skipped-pinned populations that demand different
+follow-ons.
