@@ -65,7 +65,20 @@ segments:
       - [0x14834, c, ov_SC01_077]         # -O2 after part 1: vram 0x8013C98C..0x80144B9C (file 0x14834..0x1CA44)
       - [0x1CA44, c, ov_SC01_077_o0b]     # -O0 WHALE func_80144B9C: vram 0x80144B9C..0x801457A4 (file 0x1CA44..0x1D64C)
       - [0x1D64C, c, ov_SC01_077_after]   # -O2 after part 2: vram 0x801457A4..0x80186AD0 (file 0x1D64C..0x5E978)
-      - [0x5E978, data, tail]       # data tail (word-aligned bulk): file 0x5E978..0xB29D4
+      # Phase-26 §8 jtbl-rodata carve (cookbook §8, the LZSS precedent adapted to a flat overlay).
+      # gcc emits each `switch` jump table into .rodata; this overlay's jtbl island sits at the TAIL
+      # (vram 0x801D7F9C..~0x801D9460), between the .data globals and a tiny .data remnant. While every
+      # jr-function is INCLUDE_ASM the jtbls emit as in-place .data (byte-fine). But a MATCHED jr-function's
+      # C emits its jtbl into .rodata (which section_order floats to the FRONT) while the raw copy stays in
+      # the data tail -> duplicate + wrong address. FIX: carve each matched fn's jtbl(s) out of the data tail
+      # into a dotted .rodata subseg co-located with its code object; tools/ld_interleave.py --section
+      # .ov_SC01_077 then places .data(pre) -> .rodata(jtbls) -> .data(post), reconstructing the island.
+      # PoC: func_8012ACE0's single jtbl jtbl_801D8078 (8-aligned, 204B) = vram 0x801D8078..0x801D8144
+      # = file 0xAFF20..0xAFFEC. func_8012ACE0 lives in the ov_SC01_077_a subseg. Other functions'
+      # jtbls stay raw .data until matched (each matched fn's jtbl gets its own carve — the ×134 tool).
+      - [0x5E978, data, tail]                    # globals + pre-carve jtbls (vram 0x80186AD0..0x801D8078)
+      - [0xAFF20, .rodata, ov_SC01_077_a]        # func_8012ACE0's jtbl_801D8078 -> migrate into ov_SC01_077_a.o
+      - [0xAFFEC, data, tail2]                   # post-carve jtbls + tail (vram 0x801D8144..0x801DAB2C)
       - [0xB29D4, bin, trailing]    # final 3 bytes (EOF 0xB29D7 not word-aligned; spimdisasm drops
                                     # a trailing partial word and a <4-byte `data` carve emits nothing,
                                     # so use `bin` = raw .incbin, byte-exact). Word-aligned overlays omit this.

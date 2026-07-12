@@ -31,8 +31,14 @@ _ap.add_argument("--front", action="append",
                  help="object basename whose .data belongs to the FRONT region (repeatable)")
 _ap.add_argument("--tail", action="append",
                  help="object basename whose .data belongs to the TAIL region (repeatable)")
+_ap.add_argument("--section", default=".main",
+                 help="output-section name to rewrite (default .main for the EXE; overlays "
+                      "use their own, e.g. .ov_SC01_077). The linker START/END/SIZE symbol "
+                      "prefix is derived by stripping the leading dot (Phase 26 §8 overlay carve).")
 _a = _ap.parse_args()
 LD = _a.ld
+SECTION = _a.section                 # output section to rewrite
+PREFIX = SECTION.lstrip(".")         # splat names its symbols <PREFIX>_TEXT_START etc.
 # object basenames whose (.data) belongs to the front / tail region. Defaults are the EXE's
 # LZSS-sandwich objects (TRANSITIONAL — the Makefile passes --front/--tail explicitly, and the
 # whole step is gated to BINARY=main since overlays have no rodata island). See cookbook §8.
@@ -41,11 +47,11 @@ TAIL_DATA  = tuple(_a.tail) if _a.tail else ("6324C.data.o",)
 
 src = open(LD).read()
 
-# Grab the .main output-section body (between its first '{' and matching '}').
-m = re.search(r"(\.main\b.*?\n[ \t]*\{\n)(.*?)(\n[ \t]*\})", src, re.S)
+# Grab the output-section body (between its first '{' and matching '}').
+m = re.search(re.escape(SECTION) + r"\b.*?\n[ \t]*\{\n(.*?)(\n[ \t]*\})", src, re.S)
 if not m:
-    sys.exit("ld_interleave: could not find .main { ... } block")
-head, body, tail = m.group(1), m.group(2), m.group(3)
+    sys.exit(f"ld_interleave: could not find {SECTION} {{ ... }} block")
+head, body, tail = src[m.start():m.start(1)], m.group(1), m.group(2)
 
 # Collect the object input-section lines by linker section, preserving order.
 def grab(section):
@@ -78,15 +84,15 @@ def grp(start, lines, end_sym, size_sym):
     return out
 
 new = [f"{I}FILL(0x00000000);"]
-new += grp("main_TEXT_START",   text_lines,   "main_TEXT_END",   "main_TEXT_SIZE")
-new += grp("main_DATA_START",   front_data,   "main_DATA_END",   "main_DATA_SIZE")
-new += grp("main_RODATA_START", rodata_lines, "main_RODATA_END", "main_RODATA_SIZE")
-new += grp("main_DATA2_START",  tail_data,    "main_DATA2_END",  "main_DATA2_SIZE")
-new += grp("main_BSS_START",    bss_lines,    "main_BSS_END",    "main_BSS_SIZE")
+new += grp(f"{PREFIX}_TEXT_START",   text_lines,   f"{PREFIX}_TEXT_END",   f"{PREFIX}_TEXT_SIZE")
+new += grp(f"{PREFIX}_DATA_START",   front_data,   f"{PREFIX}_DATA_END",   f"{PREFIX}_DATA_SIZE")
+new += grp(f"{PREFIX}_RODATA_START", rodata_lines, f"{PREFIX}_RODATA_END", f"{PREFIX}_RODATA_SIZE")
+new += grp(f"{PREFIX}_DATA2_START",  tail_data,    f"{PREFIX}_DATA2_END",  f"{PREFIX}_DATA2_SIZE")
+new += grp(f"{PREFIX}_BSS_START",    bss_lines,    f"{PREFIX}_BSS_END",    f"{PREFIX}_BSS_SIZE")
 new_body = "\n".join(new)
 
 out = src[:m.start()] + head + new_body + tail + src[m.end():]
 open(LD, "w").write(out)
-print(f"ld_interleave: rewrote .main — text={len(text_lines)} "
+print(f"ld_interleave: rewrote {SECTION} — text={len(text_lines)} "
       f"front_data={len(front_data)} rodata={len(rodata_lines)} "
       f"tail_data={len(tail_data)} bss={len(bss_lines)}")

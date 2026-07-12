@@ -100,6 +100,10 @@ OUT        := $($(BINARY)_OUT)
 ELF        := $($(BINARY)_ELF)
 MAPFILE    := $($(BINARY)_MAPFILE)
 LD_SCRIPT  := $($(BINARY)_LD_SCRIPT)
+# Phase-26 §8: overlay jtbl-rodata carve args (empty = no carve). $(strip) so a per-binary var
+# that is unset stays EMPTY (a trailing comment on the := line would leave whitespace -> non-empty
+# -> the extract branch would misfire on every binary; caught on resident).
+JTBL_INTERLEAVE := $(strip $($(BINARY)_JTBL_INTERLEAVE))
 SPLAT_YAML := $($(BINARY)_SPLAT_YAML)
 CHECK_SHA  := $($(BINARY)_CHECK_SHA)
 SYMBOLS    := $($(BINARY)_SYMBOLS)
@@ -395,6 +399,13 @@ ifeq ($(BINARY),main)
 	# EXE-only (overlays have no rodata island) — gated to BINARY=main; --front/--tail
 	# name the sandwich .data objects (cookbook §8).
 	$(PYTHON) tools/ld_interleave.py --front 53198.data.o --tail 6324C.data.o $(LD_SCRIPT)
+endif
+	# Phase-26 §8: overlays that carve a jr-function's jtbl into a dotted .rodata subseg run
+	# ld_interleave to place the migrated .rodata between the pre/post data-tail chunks (the
+	# data->rodata->data sandwich; cookbook §8). <bin>_JTBL_INTERLEAVE holds the --front/--tail
+	# object basenames (set per overlay in config/overlays.mk). Empty for overlays with no carve.
+ifneq ($(JTBL_INTERLEAVE),)
+	$(PYTHON) tools/ld_interleave.py --section .$(BINARY) $(JTBL_INTERLEAVE) $(LD_SCRIPT)
 endif
 
 # The linker script is an `extract` output, not produced by `build` — guard with a

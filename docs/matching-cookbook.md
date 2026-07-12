@@ -325,6 +325,43 @@ GCC emits each `switch` jump table into `.rodata`; in this EXE all compiler roda
   the misaligned jtbls. Fix = per-file split at those boundaries (sotn-style) — OR link the real library
   object (§9) when the owning function is SDK code.
 
+## §8a rodata island in a flat OVERLAY — the tail sandwich, per matched jr-function (Phase 26 — PoC PROVEN)
+The EXE's §8 was one central island. The **overlays** are different: gcc's switch jtbls sit in ONE contiguous
+`.rodata` block at the **TAIL** of the flat blob — between the `.data` globals and a tiny `.data` remnant
+(ov_SC01_077: island vram 0x801D7F9C..~0x801D9460, right after `.data` global D_801D7F94; layout = text →
+data-globals → **rodata-jtbls** → data-tiny). While every jr-function is INCLUDE_ASM the jtbls emit as in-place
+`.data` and the build is byte-fine. The moment you MATCH a jr-function, its C emits the jtbl into `.rodata`
+(which the overlay `section_order:[.rodata,.text,.data,.bss]` floats to the FRONT @0x80128158) **and** the raw
+copy is still in the data tail → duplicate + wrong address. The **proven fix (byte-identical on func_8012ACE0,
+a 25-ins single-jtbl jr-function in ov_SC01_077):**
+- **Carve per matched fn.** Split the `[…, data, tail]` subseg around that function's jtbl(s) into
+  `[…, data, tail]` (globals + pre-carve jtbls, still raw `.data`) + `[<off>, .rodata, <code-subseg-name>]`
+  (the fn's jtbl → migrates into its `asm/nonmatchings/<subseg>/<fn>.s` as `.section .rodata`; the name MUST
+  match the code subseg the fn lives in, e.g. `ov_SC01_077_a`) + `[<off2>, data, tail2]` (post-carve jtbls +
+  tail, raw). Other functions' jtbls STAY raw `.data` until they too are matched (per-fn carve, not whole-island).
+- **Place via the parameterized `ld_interleave`** (Phase-26: added `--section .<binary>` → derives the
+  `<binary>_TEXT/DATA/RODATA/DATA2/BSS` symbol prefix; default `.main` = the EXE, byte-identical): it rewrites
+  the overlay's output section to text → data(tail, `--front tail.data.o`) → rodata → data(tail2+trailing,
+  `--tail tail2.data.o --tail trailing.o`) → bss. Wired into `make extract` via a per-binary
+  **`<bin>_JTBL_INTERLEAVE`** var in `config/overlays.mk` (holds the `--front/--tail` basenames) + an
+  `ifneq ($(strip $(JTBL_INTERLEAVE)),)` branch. **GOTCHA:** put NO trailing `#comment` on the
+  `JTBL_INTERLEAVE :=` line and `$(strip)` it — a trailing comment leaves whitespace → non-empty → the branch
+  misfires on EVERY binary (ld_interleave then runs with EXE defaults → "front data object not found" on resident).
+- **The C body needs `canon_sig_reconcile`** before it will compile in the real TU (the raw draft hits
+  `conflicting types for <fn>` vs the TU's forward decl + `conflicting types for <typedef>` vs a sibling; reconcile
+  rewrites the def sig to canonical + uniquifies the draft's typedefs + block-scopes externs). Placement is
+  orthogonal — reconcile first, then the carved jtbl lands byte-exact.
+- **Alignment:** gcc emits the jtbl `.rdata .align 3` (8-byte). If the original jtbl address is 8-aligned
+  (`jtbl_801D8078`, 0x…078) there is no pad and it lands exact. A **4-aligned** original address (`jtbl_801D8AFC`)
+  would force a 4-byte align pad → handle then (not hit by the PoC target).
+- **rtu_match is NOT a whole-binary gate for jr-functions** — it masks relocs AND excludes the §8 jtbl rodata, so
+  it MATCHes a body whose switch is subtly wrong (e.g. func_80159C84's 2nd jtbl was 5 words vs the real 6 — a
+  false-MATCH). Always confirm jr-function cracks with the whole-binary gate (which now works, via this carve).
+- **×134 automation (NEXT):** each overlay sibling has the SAME jr-function at a per-overlay address with its own
+  jtbl in its own tail → the carve config + the `<bin>_JTBL_INTERLEAVE` var must be generated per overlay from
+  the sibling's jtbl address (a tool over `family_sweep`), then reconcile+template the body per sibling. The PoC
+  proves the per-binary mechanism; the fleet rollout is the mechanical generator.
+
 ## §9 Link real PsyQ library objects byte-exact (Phase 7 — GO proven)
 ~350 of BFM's functions are unmodified PsyQ 4.0 SDK code. They are **byte-identical to the real PsyQ library
 objects**, so link them directly instead of hand-decompiling — and each library `.o` brings its own correct

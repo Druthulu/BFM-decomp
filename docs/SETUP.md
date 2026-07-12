@@ -524,7 +524,7 @@ a miss fails loud, never a silent wrong-address-later):
 - `psyq_link.py` / `psyq_identify.py` / `psyq_link_lib.py` / `psyq_link_region.py`: `--vram-base <hex> --exe <path>`
 - `psyq_integrate.py`: `--vram-base --exe --symbols <file>` (flags go BEFORE the positionals)
 - `gen_lib_subsegs.py` / `make_snd_used.py` / `make_apicard_used.py`: `--vram-base --exe` (EXE-curation tools — these CLI flags *default* to the EXE's values for convenience, but thread explicit values down to the now-required pipeline)
-- `ld_interleave.py`: `--front <obj> --tail <obj>` (the EXE's LZSS-sandwich `.data` objects)
+- `ld_interleave.py`: `--front <obj> --tail <obj>` (the sandwich `.data` objects) + `--section .<binary>` (Phase 26: default `.main` = the EXE; overlays with a §8 jtbl-rodata carve pass their own section — derives the `<binary>_TEXT/DATA/RODATA/DATA2/BSS` symbol prefix)
 - `split_src_region.py`: `--symbols <file>`
 - report scripts (`progress.py` / `difficulty.py` / `dup_report.py`): `--binary <alias>` (default `main`)
 - asm-differ: select via the **`BFM_BINARY`** env var (default `main`); `diff_settings.py` maps alias → `{baseimg, myimg, mapfile}`
@@ -554,6 +554,13 @@ The reusable **flat-blob recipe** (every Gen2 overlay follows it):
   base, code at +0x04) fights `section_order: [.rodata,.text,.data,.bss]` (which puts `.data` after
   `.text`). Emit it as **`rodata`** (no-dot type → asm rodata, placed FIRST) — a 1-word analogue of
   main's rodata-island, **no `ld_interleave` needed**.
+- **§8 jtbl-rodata carve (Phase 26 — only when a jr-function is matched):** an overlay's gcc switch jump
+  tables sit in a contiguous `.rodata` island at the TAIL of the blob. Matching a jr-function makes its C
+  emit that jtbl into `.rodata` (floated to the front by `section_order`) while the raw copy stays in the
+  data tail → duplicate. Fix = carve the fn's jtbl into a dotted `[.rodata, <code-subseg>]` subseg + set
+  `<bin>_JTBL_INTERLEAVE := --front <pre>.data.o --tail <post>.data.o …` in `config/overlays.mk` (a
+  `$(strip)`-guarded `make extract` branch then runs `ld_interleave --section .<bin>`). The C body needs
+  `canon_sig_reconcile` first. Full recipe + gotchas: cookbook **§8a**. (No carve ⇒ this is a no-op.)
 - Per-binary `<bin>_GHIDRA_PROG` → `make sig-refresh BINARY=<bin>`; `diff_settings.py` + the three
   report scripts gain a `<bin>` entry; `make expected` is per-binary-safe (merge-copy, no sibling clobber).
 

@@ -21,6 +21,7 @@ ov_SC01_077_ELF        := $(ov_SC01_077_OUT).elf
 ov_SC01_077_MAPFILE    := $(ov_SC01_077_OUT).map
 ov_SC01_077_LD_SCRIPT  := $(ov_SC01_077_OUT).ld
 ov_SC01_077_SPLAT_YAML := config/splat.ov_SC01_077.yaml
+ov_SC01_077_JTBL_INTERLEAVE := --front tail.data.o --tail tail2.data.o --tail trailing.o  # Phase-26 §8: func_8012ACE0 jtbl-rodata carve
 ov_SC01_077_CHECK_SHA  := config/check.ov_SC01_077.sha
 ov_SC01_077_SYMBOLS    := config/symbols.ov_SC01_077.txt
 ov_SC01_077_SIG        := .run/sig.ov_SC01_077.jsonl
