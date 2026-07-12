@@ -324,3 +324,36 @@ breakdown showed it is "the engine is perfect on the families it targets; the re
 solved problem." **LESSON:** when measuring a mechanical harvest, stratify by family/class before judging the
 rate — an aggregate mixes 100%-clean, 0%-type-blocked, and skipped-pinned populations that demand different
 follow-ons.
+
+## 2026-07-11 · Phase 26 — Task-8 pipeline-validation slice (pre-Fable5-window de-risk): reconcile→bank works; templating reconcile-class cracks needs per-sibling re-reconcile in --hseq
+
+**Context + decision (Drew):** before spending the closing Fable5 window (Task 7), validate that the
+reconcile→gate→template pipeline actually banks an isolation-crack end-to-end — else the window's output
+(same isolation-crack format) could pile up un-bankable. Ran optimal-order step 1 only ("bank the wins,
+pause before Task 8").
+
+**What the byte-gate revealed (R14), in two halves:**
+1. **Reconcile→bank WORKS.** The 23 triage closeness-0 cracks gate **0/23 raw** (they carry standalone
+   `struct Obj`/scalar typedefs + Ghidra sigs → §41 def-side wall). Run through `canon_sig_reconcile` v3.2
+   (strip ambient dups, canonicalize the sig, cast callees at use) they bank **4/15** into ov077
+   (`func_801506A4`/`func_8016A73C`/`func_80167540`/`func_80155800`, byte-identical). The 11 residual fails
+   are a data-extern-typing gap (e.g. `conflicting types for D_801891B8`, a fn-ptr array the seed types
+   differently than the TU) the reconcile's pt-9 data-extern handling doesn't fully cover for these seeds.
+2. **Templating a RECONCILED body ×133 FAILS (0/4).** The reconciled ov077 body is TU-SPECIFIC — its
+   canonical-sig casts + `Name_<addr>` collision-renames fit ov077, not the sibling TUs (each has its own
+   ambient types/sigs). Plain `remap_hseq` copies the ov077-reconciled body → re-hits the def-side wall in
+   every sibling. This is the decision-log 2026-07-11 lesson again: an exemplar match proves the crack in
+   ITS TU only; ×134 needs per-sibling work.
+
+**The implication (the point of validating first):** the PURE tracker-miss families template cleanly via
+plain `--hseq` (Task 5: 399 banked). But the **type-using families — the triage cracks AND the 61 Fable5
+cores — are reconcile-class**: their cracks bank as ov077 exemplars but need **per-sibling re-reconcile**
+to template ×134. That machinery EXISTS for h_norm (`family_sweep --reconcile` / `reconcile_remap`, the
+Phase-25 M2 4,389-bank path) — it just needs porting into the `--hseq` path (over `remap_hseq`, i.e. with
+cross-address + imm). **So the Task-8 prerequisite before the Fable5 window is productive: wire per-sibling
+reconcile into `hseq_sweep`.** Otherwise Fable5 output stalls at ×1 (ov077-only).
+
+**Outcome:** kept the 4 real ov077 exemplar banks (byte-verified). Paused before building the per-sibling
+reconcile wiring (that IS Task 8, per Drew). **LESSON:** the validation slice paid for itself — it converted
+"the pipeline works, go spend the window" into "reconcile→bank works, but templating reconcile-class needs
+one more wiring step first," a decision that would have been very expensive to learn after the window closed.
