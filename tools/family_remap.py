@@ -12,7 +12,15 @@ with the sibling's. Shared EXE/resident symbols map to themselves. The result is
 generated mechanically from ONE crack, for ~0 agent tokens. The whole-binary byte-gate stays the sole
 arbiter (G3/P9): a wrong remap is rejected.
 
-  tools/family_remap.py --addr 0xADDR --from ov_SC01_077 --to ov_SC01_000 [--out draft.c]
+Phase-26 extends this to the looser h_seq family key (mnemonic skeleton, immediates may differ):
+  * reloc_targets propagates a pending lui-hi through add/addu index arithmetic (the gcc-2.7.2
+    indexed-global `lui;addu $idx;lw %lo($at)` idiom the pre-26 tracker dropped — the "reach-1 tail"
+    was largely this blind spot, not unique code);
+  * remap does a SINGLE-PASS simultaneous substitution (the old sequential re.sub corrupted chained /
+    permuted maps) and merges an optional imm_map (T2a per-member immediate edits);
+  * to_addr enables cross-address siblings (same engine fn at a different vram per overlay, T2b).
+
+  tools/family_remap.py --addr 0xADDR --from ov_SC01_077 --to ov_SC01_000 [--to-addr 0xADDR2] [--out draft.c]
 """
 import struct, json, glob, re, sys, argparse
 
@@ -37,7 +45,8 @@ def nins_of(ov, addr):
 
 def reloc_targets(ov, addr):
     """ordered [(kind, resolved_addr)] for jal targets + lui/lo address loads, in instruction order.
-    Verified against splat .s ground truth (22/22 on func_80141100)."""
+    Verified against splat .s ground truth (22/22 on func_80141100; 15/15 on func_801407F4 whose
+    indexed-global D[i] accesses the pre-Phase-26 tracker missed — see the add/addu hi-propagation)."""
     data = open(img_path(ov), "rb").read()
     n = nins_of(ov, addr)
     off = addr - VRAM
@@ -59,14 +68,32 @@ def reloc_targets(ov, addr):
                 out.append(("data", pend[rs] + lo))
                 del pend[rs]
             pend.pop((w >> 16) & 0x1F, None)               # rt overwritten
-        elif op == 0:                                      # R-type: rd overwritten
-            pend.pop((w >> 11) & 0x1F, None)
+        elif op == 0:                                      # R-type
+            funct = w & 0x3F
+            rd = (w >> 11) & 0x1F
+            if funct in (0x20, 0x21):                       # add / addu: the indexed-global idiom
+                # gcc-2.7.2 emits `lui $at,%hi(D); addu $at,$at,$idx; lw ..%lo(D)($at)` for D[i] —
+                # the addu PRESERVES the hi anchor (index shifts the runtime value, not the symbol).
+                # Propagate the pending hi through the add so the following %lo still resolves D.
+                rs = (w >> 21) & 0x1F
+                rt = (w >> 16) & 0x1F
+                if rs in pend:
+                    pend[rd] = pend[rs]
+                elif rt in pend:
+                    pend[rd] = pend[rt]
+                else:
+                    pend.pop(rd, None)
+            else:
+                pend.pop(rd, None)                          # rd overwritten with a non-address value
     return out
 
 
-def symbol_map(addr, from_ov, to_ov):
-    """{exemplar_name: sibling_name} for the per-overlay symbols (positional zip). None,err if not clean."""
-    ex, tg = reloc_targets(from_ov, addr), reloc_targets(to_ov, addr)
+def symbol_map(addr, from_ov, to_ov, to_addr=None):
+    """{exemplar_name: sibling_name} for the per-overlay symbols (positional zip). None,err if not clean.
+    to_addr defaults to addr (same-address h_norm sibling); pass it for a cross-address (T2b) sibling."""
+    if to_addr is None:
+        to_addr = addr
+    ex, tg = reloc_targets(from_ov, addr), reloc_targets(to_ov, to_addr)
     if len(ex) != len(tg):
         return None, f"reloc-count mismatch {len(ex)}!={len(tg)} (not an h_norm-clean pair)"
     m = {}
@@ -104,16 +131,38 @@ def extract_unit(ov, addr):
     return None, None
 
 
-def remap(addr, from_ov, to_ov):
-    """returns (draft_text, symbol_map) or (None, error_str)."""
-    m, err = symbol_map(addr, from_ov, to_ov)
+def apply_remap(unit, table):
+    """single-pass simultaneous substitution of {source_token: replacement} over unit — each source
+    token is matched once against the ORIGINAL text, so chained/permuted maps (D_A->D_B, D_B->D_C, or
+    an immediate value permutation 0x10->0xA & 0x4->0x10) are correct where the old sequential re.sub
+    corrupted them. Tokens are word-bounded (`\\b`); longest-first avoids any prefix ambiguity."""
+    if not table:
+        return unit
+    keys = sorted(table, key=len, reverse=True)
+    rx = re.compile(r'\b(?:' + '|'.join(re.escape(k) for k in keys) + r')\b')
+    return rx.sub(lambda mm: table[mm.group(0)], unit)
+
+
+def remap(addr, from_ov, to_ov, to_addr=None, imm_map=None):
+    """returns (draft_text, symbol_map) or (None, error_str).
+    Same-overlay-address remap by default; pass to_addr for a cross-address (T2b) sibling — the self
+    name func_<ADDR> is then remapped to func_<TO_ADDR> too. imm_map (T2a) merges per-member immediate
+    /literal token substitutions into the SAME single pass. The returned map is the per-overlay symbol
+    map only (self-rename + imm edits excluded), preserving the pre-Phase-26 contract."""
+    if to_addr is None:
+        to_addr = addr
+    m, err = symbol_map(addr, from_ov, to_ov, to_addr)
     if err:
         return None, err
     unit, cf = extract_unit(from_ov, addr)
     if not unit:
         return None, f"no matched unit for func_{addr:08x} in {from_ov}"
-    for src, dst in m.items():
-        unit = re.sub(rf'\b{src}\b', dst, unit)
+    table = dict(m)
+    if addr != to_addr:                                    # self-rename: definition + any recursion
+        table[f"func_{addr:08X}"] = f"func_{to_addr:08X}"
+    if imm_map:
+        table.update(imm_map)
+    unit = apply_remap(unit, table)
     return unit, m
 
 
@@ -122,14 +171,17 @@ def main():
     ap.add_argument("--addr", required=True)
     ap.add_argument("--from", dest="frm", required=True)
     ap.add_argument("--to", required=True)
+    ap.add_argument("--to-addr", dest="to_addr", default=None,
+                    help="sibling address if different from --addr (cross-address T2b family)")
     ap.add_argument("--out", default=None)
     a = ap.parse_args()
     addr = int(a.addr, 16)
-    draft, m = remap(addr, a.frm, a.to)
+    to_addr = int(a.to_addr, 16) if a.to_addr else None
+    draft, m = remap(addr, a.frm, a.to, to_addr)
     if draft is None:
         print(f"REMAP FAIL (func_{addr:08x} {a.frm}->{a.to}): {m}")
         sys.exit(1)
-    out = a.out or f".run/remap_{a.to}_{addr:08x}.c"
+    out = a.out or f".run/remap_{a.to}_{(to_addr or addr):08x}.c"
     open(out, "w").write(draft + "\n")
     print(f"remapped {len(m)} per-overlay symbol(s) {a.frm}->{a.to}: {m}")
     print(f"-> {out}")

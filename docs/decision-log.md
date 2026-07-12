@@ -260,3 +260,31 @@ sibling TU?". A hand crack that banked in ov077 by exotic register pins does not
 in ITS TU only; the ×134 claim needs a sibling-TU compile probe, because pins are TU-context-specific and cc1 *crashes*
 (not just drifts) on the ones that don't transfer. Corollary: rtu_match/match_one are blind here — their neutralized/
 isolation compiles crash too (harness artifact); only the real `make build` is the arbiter.
+
+## 2026-07-11 · Phase 26 — the "reach-1 tail" is largely a reloc-tracker blind spot, not unique code (Task 1)
+
+**Context + belief (from the Phase-25 close):** the h_seq reframe had already shown the "36k unique tail" collapses
+~90% into per-location families. The open question entering Phase 26 was HOW the families differ — the megaplan framed
+immediate-substitution as the central new problem (families "differ in immediates, so are NOT free dedup").
+
+**What the design pressure-test found (byte-verified before any scaling — R14):** the dominant difference is NOT
+immediates — it is a **tracker blind spot**. `norm_stream`/`reloc_targets` dropped the lui-hi on every R-type write,
+but gcc-2.7.2's indexed-global idiom `lui;addu $idx;lw %lo($at)` preserves it. So `D[i]`-indexing functions were
+*mis-normalized per overlay* → they inflated the "h_norm reach-1 tail," and `family_remap` silently dropped their
+indexed `D_` symbols → those families couldn't bank even though they are pure per-location templates. On the
+substantial tail the classification is **PURE-same-addr 62 fams / 1.55M ins · PURE-cross-addr 103 / 0.10M · genuine
+IMM only 8 / 0.10M** — i.e. ~95% of the byte-weight is reloc-only, fixable by a ≤15-LOC tracker change, and the
+immediate engine shrinks to an escalation tier for ~8 families. A second latent bug surfaced alongside: `remap`'s
+sequential substitution corrupts chained/permuted maps (harmless on h_norm, breaks the imm engine).
+
+**The pivot:** front-load the tracker fix (Task 1) as the load-bearing change, demote the immediate engine to a
+diff-driven 3-tier escalation (Task 3), and add a **free validation corpus** — 63 families / 0.31M ins already have a
+MATCHED exemplar and only failed earlier sweeps from this bug → they bank with zero cracking the moment the fix lands
+(Task 5 V2), simultaneously measuring the real template success rate before any Fable5 spend.
+
+**Better path (hindsight):** the tracker's own design note already said "conservative: can miss a match, never forge
+one" — but a *missed* reloc in a REMAP tool isn't harmless the way a missed h_norm match is; it silently produces a
+wrong-but-compiling sibling body that only the byte-gate catches. When a normalization/remap tool is REUSED for code
+generation (not just clustering), its conservative-miss becomes a correctness bug. **LESSON (R14):** before treating a
+"unique/unmatchable" population as intrinsic, re-run the *grouping and the remap* under a corrected fingerprint —
+here the "reach-1 tail" and the "unremappable family" were the SAME artifact of one dropped register-tracking case.

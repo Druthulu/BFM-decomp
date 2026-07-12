@@ -2310,6 +2310,48 @@ includes (`src/shared/engine_types.h` via `engine_core.h`), then re-sweep. **+1,
    at this cheap ~30s gate, before any expensive sweep. Then the full R22 clean-fleet 136/136 confirms no fleet-wide
    header collision. Tools: `build_engine_types.py --file/--exclude`, `family_sweep.py --no-preclassify`.
 
+### §40b — The reloc-tracker blind spot: the indexed-global idiom that hid the "reach-1 tail" (Phase 26 Task 1, 2026-07-11, byte-verified V0/V1)
+
+**The discovery (why the "36k unique tail" was largely a measurement artifact).** Both `norm_stream`
+(`sig_image.py`) and `reloc_targets` (`family_remap.py`) tracked lui-hi/lo pairs but **popped the pending hi on
+ANY R-type write** (`pend.pop(rd)`). gcc-2.7.2's indexed-global access `D[i]` compiles to
+`lui $at,%hi(D); addu $at,$at,$idx; lw $v1,%lo(D)($at)` — the **`addu` PRESERVES the hi anchor** (the index shifts
+the runtime value, not the symbol). So every function that indexes a per-overlay global array left its `%lo` fields
+**raw** in `h_norm` → the function normalized DIFFERENTLY per overlay → it looked **fleet-unique (h_norm reach-1)**
+when it is actually a per-location family, AND `family_remap`'s symbol map dropped those indexed `D_` symbols →
+the sibling draft kept the exemplar's array name → **byte-gate fail** (an earlier "unremappable" wall).
+
+**The fix (≤15 LOC, `reloc_targets` R-type branch only — NOT `norm_stream`).** On `add`/`addu` (funct 0x20/0x21),
+propagate the pending hi to `rd` when a source reg holds one, else pop:
+```python
+elif op == 0:                       # R-type
+    funct = w & 0x3F; rd = (w >> 11) & 0x1F
+    if funct in (0x20, 0x21):        # add/addu: address arithmetic preserves the hi anchor
+        rs, rt = (w>>21)&0x1F, (w>>16)&0x1F
+        if rs in pend:   pend[rd] = pend[rs]
+        elif rt in pend: pend[rd] = pend[rt]
+        else:            pend.pop(rd, None)
+    else:                pend.pop(rd, None)
+```
+The `%lo` resolution is unchanged (`pend[rs] + signext(lo)` = the symbol; the index is a runtime reg). **Leave
+`sig_image.norm_stream` / `h_norm` UNTOUCHED** — the fleet metrics, the proven h_norm sweep, and the manifest all
+depend on its stable (blind) hashing; the h_seq family key (mnemonic skeleton) is unaffected by the tracker, so
+families still cluster correctly, and the fix only makes the SYMBOL PAIRING correct so the remapped body byte-matches.
+
+**Verified (build-free, V0/V1 `2026-07-11`):** `func_801407F4` resolves **15/15 relocs vs splat `.s`** (pre-fix: 10),
+recovering the indexed arrays `D_80187B88/90/B0`; `func_80141100` (no idiom) stays **22/22 identical** (zero regression);
+across 160 real h_norm sibling pairs the new `remap` output is byte-identical to the committed pre-fix output (96 SAME,
+**0 lost**), differing only where it strictly recovers indexed relocs. Reproduce: `.run/v0_reloc.py`, `.run/v1_regression.py`.
+
+**Companion fix — single-pass simultaneous substitution.** The old `remap` applied renames **sequentially**
+(`for src,dst: re.sub`), which corrupts a chained/permuted map (`D_A→D_B` then `D_B→D_C`, or an immediate value
+permutation `0x10→0xA & 0x4→0x10`). Never tripped on h_norm data (disjoint exemplar/sibling address spaces) but the
+h_seq imm engine (§46, T2a) needs it: build ONE `\b(alt|…)\b` regex over the full table (symbols ∪ self-rename ∪
+immediates), replace via a dict lookup on the match — each source token is matched once against the ORIGINAL text.
+This is also where the T2b **cross-address** self-rename (`func_<FROM>`→`func_<TO>`, definition + recursion) and the
+T2a immediate `imm_map` merge into one pass. `remap(addr, from_ov, to_ov, to_addr=None, imm_map=None)` — backward
+compatible (to_addr defaults to addr; the pre-26 same-address callers are byte-unchanged).
+
 ## §41 — The DEF-SIDE canonical-sig wall: mechanically banking a drafted giant past `conflicting types` (Phase 25 T5b batch-2, 2026-07-09; `tools/canon_sig_reconcile.py`, byte-proven on `func_8013B274`)
 
 **The wall (dominant for GIANTS — ~universal, vs ~35% clean-bank for small fns):** a drafter writes an
