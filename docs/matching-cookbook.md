@@ -2346,7 +2346,7 @@ across 160 real h_norm sibling pairs the new `remap` output is byte-identical to
 **Companion fix — single-pass simultaneous substitution.** The old `remap` applied renames **sequentially**
 (`for src,dst: re.sub`), which corrupts a chained/permuted map (`D_A→D_B` then `D_B→D_C`, or an immediate value
 permutation `0x10→0xA & 0x4→0x10`). Never tripped on h_norm data (disjoint exemplar/sibling address spaces) but the
-h_seq imm engine (§46, T2a) needs it: build ONE `\b(alt|…)\b` regex over the full table (symbols ∪ self-rename ∪
+h_seq imm engine (T2a `imm_map_tier1`/`remap_hseq`) needs it: build ONE `\b(alt|…)\b` regex over the full table (symbols ∪ self-rename ∪
 immediates), replace via a dict lookup on the match — each source token is matched once against the ORIGINAL text.
 This is also where the T2b **cross-address** self-rename (`func_<FROM>`→`func_<TO>`, definition + recursion) and the
 T2a immediate `imm_map` merge into one pass. `remap(addr, from_ov, to_ov, to_addr=None, imm_map=None)` — backward

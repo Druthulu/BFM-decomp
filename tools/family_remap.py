@@ -22,7 +22,7 @@ Phase-26 extends this to the looser h_seq family key (mnemonic skeleton, immedia
 
   tools/family_remap.py --addr 0xADDR --from ov_SC01_077 --to ov_SC01_000 [--to-addr 0xADDR2] [--out draft.c]
 """
-import struct, json, glob, re, sys, argparse
+import struct, json, glob, re, sys, argparse, collections
 
 VRAM = 0x80128158
 # lo-type ops whose rs is a hi-base (loads/stores incl. unaligned, addiu, ori)
@@ -189,6 +189,113 @@ def classify_member(words_ex, words_sib):
     else:
         cls = "PURE"
     return cls, positions
+
+
+# ---- Phase-26 T2a: the diff-driven immediate engine (Tier 1) ----
+# h_seq IMM families differ in a handful of true immediates (per-location constants). Extract only the
+# DIFFERING imm/sa positions, and where a value is unambiguous (maps 1:1 and doesn't recur at a
+# non-differing position) swap its C literal. Ambiguous/folded values are left UNRESOLVED (Tier 2 probe
+# / agent queue). The whole-binary byte-gate arbitrates — a wrong swap simply fails.
+
+_SIGNED_IMM = frozenset((0x08, 0x09, 0x0A, 0x0B, 0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26,
+                         0x28, 0x29, 0x2A, 0x2B, 0x2E))          # addi/addiu/slti/sltiu + loads/stores
+_UNSIGNED_IMM = frozenset((0x0C, 0x0D, 0x0E))                     # andi/ori/xori
+
+
+def imm_value(w, is_reloc):
+    """the human immediate value at an instruction (signed where the field is), or None if this
+    position carries no plain substitutable immediate (reloc lo/hi, register op, lui const-hi)."""
+    if is_reloc:
+        return None
+    op = w >> 26
+    if op == 0:
+        return (w >> 6) & 0x1F if (w & 0x3F) in _SHIFT_FUNCTS else None
+    if op in _SIGNED_IMM:
+        v = w & 0xFFFF
+        return v - 0x10000 if v >= 0x8000 else v
+    if op in _UNSIGNED_IMM:
+        return w & 0xFFFF
+    return None                                                  # lui const-hi etc. -> Tier 2
+
+
+def _c_literal_swap(unit, exv, sibv):
+    """find a C integer-literal occurrence of exv and return (found_token, replacement_same_style),
+    or (None, None). Tries hex (both cases) then decimal; preserves sign + hex-case style."""
+    forms = ([f"0x{exv:x}", f"0x{exv:X}", str(exv)] if exv >= 0
+             else [f"-0x{-exv:x}", f"-0x{-exv:X}", str(exv)])
+    for t in forms:
+        if re.search(r'(?<!\w)' + re.escape(t) + r'\b', unit):
+            if "x" in t.lower():
+                digits = t.lstrip("-")[2:]
+                up = any(c.isalpha() and c.isupper() for c in digits)
+                rep = ("-" if sibv < 0 else "") + "0x" + (f"{abs(sibv):X}" if up else f"{abs(sibv):x}")
+            else:
+                rep = str(sibv)
+            return t, rep
+    return None, None
+
+
+def imm_map_tier1(unit, ex_words, sib_words):
+    """Tier 1: {c_literal_token: replacement} for the unambiguous immediate diffs; plus the list of
+    UNRESOLVED (value, reason) that need the Tier-2 probe. Returns (imm_map, unresolved)."""
+    rel = reloc_indices(ex_words)
+    valpos = [imm_value(w, k in rel) for k, w in enumerate(ex_words)]
+    diff_idx = {k for k in range(len(ex_words)) if ex_words[k] != sib_words[k]}
+    by_val = collections.defaultdict(set)                        # ex human-value -> {sib values}
+    handled = set()
+    unresolved = []
+    for k in sorted(diff_idx):
+        if k in rel:                                             # reloc -> symbol_map's job
+            continue
+        ev = valpos[k]
+        if ev is None:                                           # differing lui-hi / other -> Tier 2
+            unresolved.append((f"@{k}", f"non-imm diff op={ex_words[k] >> 26:#x}"))
+            continue
+        by_val[ev].add(imm_value(sib_words[k], False))
+        handled.add(k)
+    imm_map = {}
+    for exv, sibvs in by_val.items():
+        if len(sibvs) != 1 or None in sibvs:
+            unresolved.append((exv, "multi-target")); continue
+        sibv = next(iter(sibvs))
+        if any(valpos[k] == exv for k in range(len(ex_words)) if k not in diff_idx and valpos[k] is not None):
+            unresolved.append((exv, "asm-ambiguous")); continue  # value also used at a fixed position
+        tok, rep = _c_literal_swap(unit, exv, sibv)
+        if tok is None:
+            unresolved.append((exv, "not-in-C")); continue
+        imm_map[tok] = rep
+    return imm_map, unresolved
+
+
+def remap_hseq(from_addr, from_ov, to_ov, to_addr=None):
+    """h_seq family template: reloc symbol remap (§40b) + immediate substitution (T2a Tier 1) +
+    cross-address self-rename (T2b). Returns (draft, info) or (None, error_str). info = {symbol_map,
+    imm_map, unresolved, cf}. A member with register drift (STRUCT) or unresolved immediates is refused
+    (the caller skips it — byte-gate would reject anyway)."""
+    if to_addr is None:
+        to_addr = from_addr
+    nins = nins_of(from_ov, from_addr)
+    ex_words = stream_words(from_ov, from_addr, nins)
+    sib_words = stream_words(to_ov, to_addr, nins)
+    cls, _ = classify_member(ex_words, sib_words)
+    if cls in ("STRUCT", "LEN"):
+        return None, f"member class {cls} (not templatable)"
+    unit, cf = extract_unit(from_ov, from_addr)
+    if not unit:
+        return None, f"no matched unit for func_{from_addr:08x} in {from_ov}"
+    m, err = symbol_map(from_addr, from_ov, to_ov, to_addr)
+    if err:
+        return None, err
+    imm_map, unresolved = ({}, [])
+    if cls == "IMM":
+        imm_map, unresolved = imm_map_tier1(unit, ex_words, sib_words)
+        if unresolved:
+            return None, f"unresolved immediates (Tier-2): {unresolved}"
+    table = dict(m)
+    if from_addr != to_addr:
+        table[f"func_{from_addr:08X}"] = f"func_{to_addr:08X}"
+    table.update(imm_map)
+    return apply_remap(unit, table), {"symbol_map": m, "imm_map": imm_map, "unresolved": unresolved, "cf": cf}
 
 
 def symbol_map(addr, from_ov, to_ov, to_addr=None):
