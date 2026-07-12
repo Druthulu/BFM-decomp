@@ -30,7 +30,7 @@ The Phase-25 h_seq reframe: the "unique tail" is really per-location families �
 
 ### What's banked (all committed + R22-verified through commit:0528)
 - **729 reconcile-class member-matches**: 463 (`commit:0527`) + 266 (`commit:0528`), from **6 no-jtbl reconcile-clean triage cracks** templated ×~133 via `--reconcile-raw`. Metrics ≈ **31%+ distinct-code / 59%+ instr-weighted** (was 30.3/58.2 at phase start).
-- **IN-FLIGHT (uncommitted): the mid-band harvest** (bg task `b3fzajrle`, `.run/_mid.log`) — plain `--hseq --band mid`, **~2477+ members banked and climbing** (166 matched-exemplar families, template plainly). **NEXT: when it finishes → R22 (make clean+extract-all+check-all 136/136) → commit → then run `--band tiny`** (STRUCT pre-filter screens the h_seq-collision families).
+- **MID-BAND HARVEST DONE + committed + R22 136/136:** plain `--hseq --band mid` banked **6,853 member-matches = 320 distinct functions** (3,098 type-heavy tail / 1,743 pinned / 873 no-ov077-body — all expected). **Metrics: distinct-code 31.1→35.2%, instr-weighted 58.9→60.9%.** **NEXT: run `--band tiny`** (`python3 tools/family_sweep.py --hseq --band tiny` — the STRUCT pre-filter screens h_seq-collision families) → R22 → commit. Phase-26 total: distinct 30.3→**35.2%**, instr 58.2→**60.9%**.
 
 ### The h_seq family engine (all committed, the durable tooling)
 - `tools/family_hseq.py` — the survey → `.run/family_hseq.json` (regen after every bank) + `docs/family-hseq.md`. Bands: substantial(≥80)/mid(16–79)/tiny(<16).

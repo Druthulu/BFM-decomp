@@ -4706,11 +4706,64 @@ DEFINE_func_8015DE94()  /* dedup: shared engine-core @0x8015DE94 (src/shared) */
 
 DEFINE_func_8015DECC()  /* dedup: shared engine-core @0x8015DECC (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_after", func_8015DF34);
+
+// @class: struct
+// @stuck: none — MATCH (mirrors byte-matched func_8015F89C/func_8015F9A4 in same overlay)
+
+extern void (*D_801891B8[])(void *);
+extern int func_8015E0D4(int);
+extern void func_80147078(s32 *a0, s16 a1);
+extern void func_80159B70(void *a0);
+extern s32 func_80161208();
+extern void func_8015E018(s32 a0);
+
+void func_8015DF34(void *arg0) {
+    if (*(u16 *)((u8 *)arg0 + 0xB8) & 0x4000) {
+        ((void (*)(void))func_8015E0D4)();
+    }
+    if (*(u16 *)((u8 *)arg0 + 0xB8) == 0x8000) {
+        D_801891B8[*(u16 *)arg0](arg0);
+        ((void (*)(void *, s16))func_80147078)(arg0, 0);
+        func_80159B70(arg0);
+    } else {
+        if (*(s32 *)((u8 *)arg0 + 0x178) != 0) {
+            ((void (*)(void *))func_8015E018)(arg0);
+        }
+        ((s32 (*)(void *))func_80161208)(arg0);
+    }
+}
+
 
 DEFINE_func_8015DFE4()  /* dedup: shared engine-core @0x8015DFE4 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_after", func_8015E018);
+
+// @class: other
+// @stuck: none — MATCH (proxy gate)
+
+extern s8 D_80189438[];
+extern void func_80149374(s32 a0, s32 a1);
+
+void func_8015E018(s32 param_1) {
+    s32 iVar1;
+    s32 iVar2;
+
+    iVar2 = *(s32 *)(param_1 + 0x178);
+
+    iVar1 = *(s32 *)(param_1 + 0x234);
+    *(s32 *)(param_1 + 0x234) = iVar1 + 1;
+    *(s16 *)(iVar2 + 6) = (s16)D_80189438[iVar1] + *(s16 *)(*(s32 *)(iVar2 + 0x78) + 0xc);
+
+    iVar1 = *(s32 *)(param_1 + 0x234);
+    *(s32 *)(param_1 + 0x234) = iVar1 + 1;
+    *(s16 *)(iVar2 + 10) = (s16)D_80189438[iVar1] + *(s16 *)(*(s32 *)(iVar2 + 0x78) + 0xe);
+
+    iVar1 = *(s32 *)(param_1 + 0x234);
+    *(s32 *)(param_1 + 0x234) = iVar1 + 1;
+    *(s16 *)(iVar2 + 0xe) = (s16)D_80189438[iVar1] + *(s16 *)(*(s32 *)(iVar2 + 0x78) + 0x10);
+
+    func_80149374(param_1, iVar2 + 4);
+}
+
 
 void func_8014C1A0(s32 arg0, s32 arg1);
 void func_80015978(s32 a0, s32 *a1);
