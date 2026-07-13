@@ -535,23 +535,34 @@ endif
 # build = produce $(OUT) and verify its SHA1 (check pulls in $(OUT)).
 build: check
 
-# build-all / check-all (Phase 13): build + SHA1-check EVERY binary in $(BINARIES) (main, resident,
-# overlays) in one pass -> a single fleet PASS/FAIL. Recursion ($(MAKE) BINARY=$$b) RE-PARSES the
+# extract-all / build-all / check-all (Phase 13; PARALLELIZED Phase 26): build + SHA1-check EVERY
+# binary in $(BINARIES) -> a single fleet PASS/FAIL. Recursion ($(MAKE) BINARY={}) RE-PARSES the
 # Makefile per binary so each gets its correctly-pruned OBJS (a `foreach` can't — the OBJS glob is
-# parse-time, keyed on $(BINARY)). Serial across binaries (the shared build/asm/** + build/src/**
-# pattern outputs make binary-level -j racy; -j WITHIN each binary is fine). Day-to-day this is
-# incremental + fast; for the milestone fleet proof do a CLEAN run first (R22 — clean rebuild):
-#   make clean && for b in $(BINARIES); do make extract BINARY=$$b; done && make check-all
+# parse-time, keyed on $(BINARY)). PARALLEL across binaries via `xargs -P$(JOBS)`: every binary's
+# outputs are per-binary-disjoint (asm/<bin>, build/<bin>, build/{src,asm}/<bin>) and include/ is
+# READ-ONLY during a build, so concurrent builds never race. The one shared WRITE is the 4 generated
+# include/*.inc macros at EXTRACT time (identical content per binary) -> `extract-all` seeds them once
+# via main (serial) before fanning out. Proven 136/136 byte-identical, ~10x faster (Phase 26: the
+# serial R22 ~9m -> the parallel R22 ~1m). CLEAN fleet proof (R22 — clean rebuild):
+#   make clean && make extract-all && make check-all
+JOBS ?= 16    # parallel binary builds/extracts (override: `make check-all JOBS=32`)
+
+# extract-all: splat-split every binary. Seed `main` FIRST (serial) so the shared include/*.inc macros
+# (+ build/psyq) exist before the parallel fan-out; then extract the rest in parallel.
+extract-all:
+	@mkdir -p .run; : > .run/extract-all.txt
+	$(MAKE) --no-print-directory extract BINARY=main
+	echo "$(filter-out main,$(BINARIES))" | tr ' ' '\n' | xargs -P$(JOBS) -I{} sh -c \
+	  '$(MAKE) --no-print-directory extract BINARY={} >.run/extract.{}.log 2>&1 || echo "[EXTRACT FAIL] {}"' \
+	  | tee .run/extract-all.txt
+	! grep -q "EXTRACT FAIL" .run/extract-all.txt
+
 check-all:
-	@fail=0; pass=0
-	mkdir -p .run
-	for b in $(BINARIES); do
-		if $(MAKE) --no-print-directory check BINARY=$$b >.run/check.$$b.log 2>&1; then
-			echo "[ OK ] $$b"; pass=$$((pass+1))
-		else
-			echo "[FAIL] $$b  (see .run/check.$$b.log)"; tail -3 .run/check.$$b.log; fail=$$((fail+1))
-		fi
-	done
+	@mkdir -p .run; : > .run/check-all.txt
+	echo "$(BINARIES)" | tr ' ' '\n' | xargs -P$(JOBS) -I{} sh -c \
+	  '$(MAKE) --no-print-directory check BINARY={} >.run/check.{}.log 2>&1 && echo "[ OK ] {}" || { echo "[FAIL] {}"; tail -3 .run/check.{}.log >&2; }' \
+	  | tee .run/check-all.txt
+	pass=$$(grep -c "^\[ OK \]" .run/check-all.txt); fail=$$(grep -c "^\[FAIL\]" .run/check-all.txt)
 	echo "check-all: $$pass passed, $$fail failed of $(words $(BINARIES))"
 	[ "$$fail" -eq 0 ]
 build-all: check-all
