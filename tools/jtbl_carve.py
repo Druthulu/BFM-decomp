@@ -100,14 +100,58 @@ def all_data_labels(ov):
     return sorted(labels)
 
 
+def jtbl_words(ov, jtbl_hex):
+    """The raw `.word` values under `dlabel jtbl_<hex>`, in order."""
+    pat = re.compile(rf"dlabel\s+jtbl_{jtbl_hex}\b", re.I)
+    for p in glob.glob(os.path.join(REPO, "asm", ov, "data", "*.data.s")):
+        lines = open(p).read().split("\n")
+        for i, ln in enumerate(lines):
+            if pat.search(ln):
+                out = []
+                for ln2 in lines[i + 1:]:
+                    m = re.search(r"\.word\s+(0x[0-9A-Fa-f]+)", ln2)
+                    if m:
+                        out.append(int(m.group(1), 16))
+                        continue
+                    if re.search(r"\b(?:dlabel|glabel|enddlabel)\b", ln2):
+                        break
+                return out
+    return []
+
+
 def jtbl_range(ov, jtbl_hex, labels, region_end_vram):
-    """(start_vram, end_vram) of a RAW jtbl_<hex>: end = next data dlabel, else the region end."""
+    """(start_vram, end_vram) of a RAW jtbl_<hex>: end = the next data dlabel, MINUS any trailing
+    zero words.
+
+    A trailing `.word 0x00000000` under a jtbl dlabel is NOT a table entry — it is the original TU's
+    intra-rdata **`.align 3` padding** (a jtbl whose entries end ≡4 mod 8, with another jtbl of the
+    same TU following, gets one zero word of alignment fill). It cannot be an entry: 0x00000000 is
+    not a jump target, and the function's `sltiu <n>` range check names the true entry count
+    (byte-confirmed: `func_8015AE2C` → `sltiu 0x7` = 7 entries, yet the raw dlabel spans 8 words).
+
+    This matters because **maspsx drops `.align`**, so a C-emitted jump table can never reproduce the
+    pad. Carving to the next dlabel would reserve 8 words while the compiled object supplies only 7 —
+    under-filling the `.rodata` piece by 4 bytes and shifting every later symbol (the same +4 image
+    corruption class as §41d). Trimming leaves the pad where it belongs: in the raw post-carve data
+    piece. This also retroactively explains the §8a `func_80159C84` "5 words vs the real 6"
+    false-MATCH."""
     start = int(jtbl_hex, 16)
     if start not in labels:
         sys.exit(f"jtbl_carve: jtbl_{jtbl_hex} not found in the raw data asm "
                  f"(asm/{ov}/data/*.data.s) — already carved / stale asm? re-extract or --revert first")
     nxt = next((a for a in labels if a > start), None)
-    return start, (nxt if nxt is not None else region_end_vram)
+    end = nxt if nxt is not None else region_end_vram
+    words = jtbl_words(ov, jtbl_hex)
+    if words:
+        n = len(words)
+        while n > 0 and words[n - 1] == 0:
+            n -= 1
+        trimmed = start + n * 4
+        if trimmed < end:
+            print(f"jtbl_carve: jtbl_{jtbl_hex}: trimmed {(end - trimmed) // 4} trailing .align pad "
+                  f"word(s) — {n} real entries")
+            end = trimmed
+    return start, end
 
 
 def parse_config(ov):

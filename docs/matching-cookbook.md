@@ -362,6 +362,25 @@ a 25-ins single-jtbl jr-function in ov_SC01_077):**
   the sibling's jtbl address (a tool over `family_sweep`), then reconcile+template the body per sibling. The PoC
   proves the per-binary mechanism; the fleet rollout is the mechanical generator.
 
+### §8a-pad — a trailing `.word 0x00000000` under a jtbl dlabel is `.align` PAD, not an entry (Phase 26 session 6, byte-proven)
+
+**This retroactively explains the §8a `func_80159C84` "5 words vs the real 6" false-MATCH.**
+
+The raw `dlabel jtbl_XXXXXXXX` in `asm/<ov>/data/*.data.s` can span one word MORE than the switch has
+cases. That last `.word 0x00000000` is the ORIGINAL TU's intra-rdata **`.align 3` padding** — emitted when a
+jump table's entries end ≡4 mod 8 and another jtbl of the same TU follows. It cannot be a table entry:
+`0x00000000` is not a jump target.
+
+- **The true entry count is the function's `sltiu <n>` range check**, not the dlabel span. Byte-confirmed:
+  `func_8015AE2C` → `sltiu $v0, $v1, 0x7` = **7** entries, yet its raw dlabel spans **8** words.
+- **maspsx drops all `.align`** (maspsx.py:435), so a C-emitted jump table can NEVER reproduce the pad.
+- **Therefore `jtbl_carve` must TRIM trailing zero words** from the carve range, leaving the pad in the raw
+  post-carve `data` piece. Carving to the next dlabel reserves 8 words while the compiled object supplies
+  only 7 → the `.rodata` piece under-fills by 4 bytes → **every later symbol shifts +4** (the same image
+  corruption class as §41d: ~271k differing bytes from one missing word). Trimming is always safe.
+- Existing carves are parsed from the CONFIG (their `end` = the next piece's offset), not re-derived from
+  the data asm, so the trim only affects NEW carves — committed banks are unaffected.
+
 ## §8b MULTI-jtbl per overlay — the `ld_interleave --order` sandwich + the same-subseg cases (Phase 26 session 4)
 Once ONE jr-function is banked in an overlay, banking a SECOND makes it multi-jtbl (§8a's single-carve breaks:
 `jtbl_family_bank.revert()` restores the committed config = already has carve #1). The generalization:
