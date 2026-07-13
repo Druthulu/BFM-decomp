@@ -96,7 +96,9 @@ segments:
       - [0x0, c, ov_SC03_030]  # -O2 before whale (file 0x0..0x1CA44)
       - [0x1CA44, c, ov_SC03_030_o0b]  # -O0 whale func_80144B9C (0x1CA44..0x1D64C)
       - [0x1D64C, c, ov_SC03_030_after]  # -O2 after whale (0x1D64C..data tail)
-      - [0x59CA8, data, tail] # data tail: pointer tables + packed data (split iterated)
+      - [0x59ca8, data, tail]
+      - [0xb74ec, .rodata, ov_SC03_030]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
+      - [0xb75b8, data, tail2]
   - [0xB9AF0]   # EOF marker = the 0.4.dec byte length
 # @TRAILING@ (above) is replaced by tools/new_overlay.sh: for a non-4-aligned overlay it becomes
 #   `      - [0x<word_floor>, bin, trailing]`  (the final 1-3 bytes spimdisasm's data path drops);

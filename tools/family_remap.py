@@ -384,8 +384,12 @@ def extract_unit(ov, addr):
         for i, ln in enumerate(lines):
             if pat.search(ln) and "INCLUDE_ASM" not in ln and not ln.rstrip().endswith(";"):
                 j = i - 1
+                # Grab the fn's own preceding decls: externs, comments, AND single-line typedefs
+                # (Phase-26 §8: jr-function bodies define local `typedef struct {…} Foo_<addr>;` that
+                # must template with the body, else the sibling sees `Foo undeclared`. Multi-line
+                # typedefs aren't carried — those functions route through the engine_types.h lift).
                 while j >= 0 and (lines[j].strip() == "" or
-                                  lines[j].lstrip().startswith(("extern", "//", "/*", "*"))):
+                                  lines[j].lstrip().startswith(("extern", "//", "/*", "*", "typedef"))):
                     j -= 1
                 start = j + 1
                 depth, started, end = 0, False, i

@@ -529,7 +529,27 @@ void func_8012ACA0(void *arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_074/nonmatchings/ov_SC01_074", func_8012ACE0);
+
+
+// @class: iv-combine
+// @stuck: none — MATCH (25 ins). Array-subscript induction o->list[i] fixes preheader hoist order + loop-top load-delay nop; scattered case labels force the jump table (gcc merges contiguous same-target cases, so 6+ non-contiguous nodes needed for the density heuristic).
+typedef struct { int a; short cmd; short b; } Elem_8012ACE0_8012ACE0;      /* 8-byte element, cmd @ +4 */
+typedef struct { char pad[0x90]; Elem_8012ACE0_8012ACE0 *list; } Owner_8012ACE0_8012ACE0;    /* list ptr @ +0x90 */
+
+s32 func_8012ACE0(void *o) {
+    int i;
+    for (i = 0; ; i++) {
+        switch (((Owner_8012ACE0_8012ACE0 *)o)->list[i].cmd) {
+            case -2:
+            case -1:
+            case 0:
+                return i;
+            case -50: case -45: case -40: case -35: case -30:   /* scatter -> force jump table (min=-50 sets low bound) */
+            default:
+                break;
+        }
+    }
+}
 
 DEFINE_func_8012AD44()  /* dedup: shared engine-core @0x8012AD44 (src/shared) */
 
