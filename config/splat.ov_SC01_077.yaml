@@ -64,7 +64,8 @@ segments:
       # the -O2 "after" into before-whale (keeps the ov_SC01_077 name) and after-whale (ov_SC01_077_after).
       - [0x14834, c, ov_SC01_077]         # -O2 after part 1: vram 0x8013C98C..0x80144B9C (file 0x14834..0x1CA44)
       - [0x1CA44, c, ov_SC01_077_o0b]     # -O0 WHALE func_80144B9C: vram 0x80144B9C..0x801457A4 (file 0x1CA44..0x1D64C)
-      - [0x1D64C, c, ov_SC01_077_after]   # -O2 after part 2: vram 0x801457A4..0x80186AD0 (file 0x1D64C..0x5E978)
+      - [0x1d64c, c, ov_SC01_077_after]
+      - [0x5a110, c, ov_SC01_077_jr_80182268]
       # Phase-26 §8 jtbl-rodata carve (cookbook §8, the LZSS precedent adapted to a flat overlay).
       # gcc emits each `switch` jump table into .rodata; this overlay's jtbl island sits at the TAIL
       # (vram 0x801D7F9C..~0x801D9460), between the .data globals and a tiny .data remnant. While every
@@ -81,6 +82,8 @@ segments:
       - [0xaffec, data, tail2]
       - [0xb0b10, .rodata, ov_SC01_077_after]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
       - [0xb0b24, data, tail3]
+      - [0xb1148, .rodata, ov_SC01_077_jr_80182268]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
+      - [0xb1168, data, tail4]
       - [0xB29D4, bin, trailing]    # final 3 bytes (EOF 0xB29D7 not word-aligned; spimdisasm drops
                                     # a trailing partial word and a <4-byte `data` carve emits nothing,
                                     # so use `bin` = raw .incbin, byte-exact). Word-aligned overlays omit this.

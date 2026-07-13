@@ -88,16 +88,28 @@ def bank(func, from_ov, from_addr, to_ov, to_addr):
     cf = stub_file(to_ov, func)
     if not cf:
         revert(to_ov, keep_regions=keep); return "no-stub", ""
-    try:
-        rec = reconcile(func, body, tu_path=cf)
-    except Exception as e:
-        revert(to_ov, keep_regions=keep); return "reconcile-err", repr(e)[:160]
-    src = open(cf).read()
-    m = re.search(rf'INCLUDE_ASM\("[^"]*",\s*{func}\);', src)
-    open(cf, "w").write(src[:m.start()] + rec + src[m.end():])
-    b = sh(f"make --no-print-directory build BINARY={to_ov}")
-    if b.returncode == 0 and "[ OK ]" in b.stdout:
-        return "BANKED", cf
+
+    # TWO-STAGE GATE — the recovery pass is a FALLBACK, never unconditional (the §19 lesson, now
+    # byte-proven for canon_sig_reconcile too): reconcile rewrites the def to the canonical sig, and
+    # its `void`->`s32` return promotion is NOT byte-neutral for a void body with no `return` — it
+    # costs one instruction (proven on func_80182268: raw = MATCH 31 ins, reconciled = 32 ins, and the
+    # extra word shifted the whole image +4). So gate the RAW remapped body first and only reconcile
+    # if it fails (which is what the §41 def-side wall actually needs).
+    orig = open(cf).read()
+    m = re.search(rf'INCLUDE_ASM\("[^"]*",\s*{func}\);', orig)
+    if not m:
+        revert(to_ov, keep_regions=keep); return "no-stub", ""
+    stages = [("raw", lambda: body), ("reconciled", lambda: reconcile(func, body, tu_path=cf))]
+    for name, make in stages:
+        try:
+            cand = make()
+        except Exception as e:
+            revert(to_ov, keep_regions=keep); return "reconcile-err", repr(e)[:160]
+        open(cf, "w").write(orig[:m.start()] + cand + orig[m.end():])
+        b = sh(f"make --no-print-directory build BINARY={to_ov}")
+        if b.returncode == 0 and "[ OK ]" in b.stdout:
+            return "BANKED", f"{cf} [{name}]"
+        open(cf, "w").write(orig)          # restore the stub before the next stage
     revert(to_ov, cf, keep_regions=keep)
     return "gate-fail", ""
 

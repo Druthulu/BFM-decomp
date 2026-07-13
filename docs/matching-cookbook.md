@@ -2653,6 +2653,28 @@ over-counts → F-band/specialist: 8 M4 (codegen drift) + 4 jumptable (rodata) +
 gate on a full sample, never from an object-only probe — it can't see rodata, link, OR in-TU codegen
 perturbation. Expect ~⅓ of an object-probe "BYTEDRIFT/COMPILE-FAIL" bucket to be genuine per-fn work.**
 
+### §41d — `void`→`s32` is NOT always byte-neutral: gate the RAW draft FIRST (Phase 26 session 6, byte-proven)
+
+**R14 correction to the Phase-17 canonical convention.** The canonical-sig form ("`s32` return — `void`→`s32`
+is byte-neutral, §3a-1") is **false for a `void` body with no `return` statement**: promoting the return type
+makes gcc-2.7.2 emit **one extra instruction**. Byte-proven on `func_80182268` (31-ins jr, ov_SC01_077):
+
+| draft | result |
+|---|---|
+| `void func_80182268(void *a0)` (raw) | **MATCH, 31 ins** |
+| `s32 func_80182268(void *a0)` (return type alone) | DIFF, **32 ins** |
+| `s32 func_80182268(s32 a0)` (what `canon_sig_reconcile` emits) | DIFF, **32 ins** |
+
+The extra word is invisible in a leaf diff but **lethal whole-binary**: it pushed the isolated object's `.text`
+4 bytes long, shifting every data symbol +4 → ~271,000 differing bytes and a 5-byte-longer image. `match_one`
+said MATCH; only the whole-binary gate caught it (G3/P9 again).
+
+**The rule (generalizing §19's `sig_unify` lesson): every recovery pass is a FALLBACK, never unconditional.**
+`canon_sig_reconcile` exists to break the §41 def-side wall — it must not run on a draft that already compiles.
+`jtbl_family_bank` now gates **raw → (on failure) reconciled**, and `canon_sig_reconcile` only promotes the
+return type when a canonical extern actually demands it. Corollary: a function with **no** canonical decl
+anywhere (grep `engine_core.h` + the overlay `.c`) should be banked exactly as drafted.
+
 ## §42 — The F-band ≤28 regalloc crack wave: register-pin/DENSITY levers beat the permuter (Phase 25 T7 F-band, 2026-07-10; Ultracode 9-worker wave, 4/9 banked byte-identical, 266 swept ×134)
 
 The F-near ≤28 band (14 fns / ~1,393 ins, one ov_SC01_077 h_norm exemplar each) is **regalloc-order-DOMINATED**
