@@ -420,3 +420,50 @@ INCLUDE_ASM rodata) cannot arbitrate a match whose difference lives in that regi
   light tail because it "feels productive." Wiki lesson: when a newly-built mechanism has an
   un-built sub-case that the expensive targets will hit, force that sub-case out on the cheap
   targets first — de-risking and building-the-missing-piece are the same move.
+
+### 2026-07-13 — the jr-core ISOLATION wall: mechanical TU-splitting breaks gcc-2.7.2's lenient scoping
+
+- **Context + belief:** Stage 2 of the multi-jtbl campaign (heavy jr cores → template ×134) needs each
+  matched jr-function ALONE in its own code subseg so its jtbl carves without a same-subseg collision.
+  Drew's steer: build the **scalable "isolate-ALL-jr-per-sibling" upfront resegment** (one-shot multi-cut
+  per overlay) so every Stage-2 core bank is a trivial fill during the closing Fable5 window. Belief going
+  in: this is mechanical source-splitting — partition the overlay `.c` at jr boundaries, repoint config +
+  carves, rebuild byte-identical.
+- **What was built + PROVEN:** `tools/overlay_src_split.py` — an overlay-`.c`-aware partition (header =
+  includes + Phase-17 canonical-sig layer; each addressed item = its preamble + body; robust
+  definition/declaration/K&R/`DEFINE_func`/`SETTER`/`RETCONST` classification). **Fleet-validated 404/404
+  overlay `.c`, 341,902 items, round-trip exact / 0 unresolved / 0 non-monotonic.** `tools/jr_isolate_all.py`
+  — multi-cut resegment (config split at jr boundaries, source repartition + INCLUDE_ASM path repoint,
+  banked-jr carve repoint, -O0-object skip). **SINGLE-cut isolation byte-identical** (isolate func_8013FFD8
+  in the simple `main` object → clean `make build` = `d19c9580`, R22).
+- **What FAILED (byte-verified):** the FULL 54-jr isolation on ov_SC01_077 hits a **long tail of C-scoping
+  edge cases**, culminating in the decisive one: **`func_801734BC` uses `D_80126B3E` with no local decl;
+  `D_80126B3E` is declared `extern s16` ONLY inside `DEFINE_func` macros in `engine_core.h`.** The original
+  `_after.c` compiles because **gcc-2.7.2 lets a block-scope `extern` (from an earlier `DEFINE_func` macro
+  expansion) persist to file scope for the rest of the TU** — splitting `_after` separates the core from the
+  earlier macro that declares the symbol → `undeclared`. Earlier tail members (all fixed incrementally, in
+  order): block-scope externs must not be hoisted (per-fn type shadows — `D_80115118` is `unsigned short`
+  in most funcs but the struct `S115118` in one); file-scope decl ORDERING across a cut (`D_80115110` used
+  above its in-region decl); **ambient decl context** (a region needs the file-scope decls that lived in
+  earlier regions of the object — solved: prepend, original order, shadow-safe because a file-scope-declared
+  symbol can't carry a *different*-typed block shadow or the original wouldn't compile); file-local-typed
+  externs (`extern Vec8 D_…;`) can't hoist above their typedef.
+- **The why (root):** these overlay TUs are hand-matched against a compiler that treats a block-scope
+  `extern` as declaring the symbol for the WHOLE TU. Mechanical splitting into per-jr TUs breaks that
+  invisible cross-function dependency, and the dependency is carried through **`DEFINE_func`/`SETTER` macro
+  expansions in `engine_core.h`**, not just visible col-0 decls — so no amount of *col-0* ambient-carry
+  fixes it.
+- **The candidate fix (not yet built):** **declaration-completion** — build a global symbol→type map from
+  `engine_core.h`'s macro `extern`s + all overlay col-0 decls, and for each region emit a file-scope
+  `extern <type> <sym>;` for every `D_`/`func_` symbol the region USES, EXCLUDING type-inconsistent symbols
+  (the `D_80115118` shadow set, kept block-scope in bodies). This makes every region self-contained
+  regardless of where the original declared the symbol. Est. ~40–60 LOC on top of the proven parser; the
+  whole-binary byte-gate arbitrates. **Owner decision pending (Drew): invest in declaration-completion vs
+  a different Stage-2 approach** — surfaced this session before sinking more time (P5a: repeated failures,
+  distinct root cause each).
+- **Hindsight / for the wiki:** "mechanical source split" of matching-decomp overlay code is NOT mechanical
+  — the C is written against a specific compiler's lenient scoping (block-scope-extern TU persistence,
+  macro-injected decls, per-function type shadows). Splitting a TU means REBUILDING each fragment's full
+  declaration environment from a global symbol map, not relocating text. The parser (structure) was the
+  easy 20%; the declaration environment (semantics) is the 80%. Prove the mechanism on the SIMPLE object
+  first (it passed) but budget for the dense object's scoping tail before committing to upfront-×134.
