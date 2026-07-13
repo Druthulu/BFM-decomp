@@ -24,7 +24,26 @@ The Phase-25 h_seq reframe: the "unique tail" is really per-location families �
 - [ ] **Task 11 — Step-D residue map** `[xHigh]` — true singletons (~0.27M ins) + 5 behemoths → Phase-27 input doc. NO execution.
 - [ ] **Task 12 — PhaseEnd** `[Max — Tier 1; R27 prompt]` — P7 walk, milestone demo, gate 2, `PhaseEnd_Phase26.md`, worklog → `logs/Phase26.md` (R19), in-file recap (R25), decision-log current (R31).
 
-## ▶ SESSION-2 CHECKPOINT (2026-07-12) — RESUME FROM HERE (fresh session)
+## ▶ SESSION-3 CHECKPOINT (2026-07-12 late) — RESUME FROM HERE (fresh session)
+
+**Committed baseline = `commit:0534`, R22 136/136 (now ~50s, parallel).** Session-3 commits: `commit:0531` (tiny-band), `commit:0532` (§8 PoC), `commit:0533` (§8 ×134 automation), `commit:0534` (R22 parallelization). Phase-26 total: **distinct-code 30.3→39.1%, instr-weighted 58.2→63.0%.**
+
+### What session 3 delivered (all committed, R22 136/136)
+1. **Tiny-band harvest** — 17,975 member-matches; distinct 35.2→39.1%.
+2. **§8 jtbl-rodata tooling (the strategic unlock)** — overlay switch (jr) functions can now bank as C for the first time. `tools/jtbl_carve.py` (per-overlay jtbl-rodata carve) + `ld_interleave.py --section` + `<bin>_JTBL_INTERLEAVE` Makefile hook; cookbook **§8a** + SETUP. Reconcile-per-sibling + `extract_unit` now carries single-line typedefs. `tools/jtbl_family_bank.py` = the sibling sweep driver. **func_8012ACE0 banked ×133/133, 0 fail.**
+3. **R22 parallelized** — `make clean && make extract-all && make check-all` = ~50s (was ~9m), 136/136 byte-identical. `JOBS ?= 16`.
+
+### ⚠ THE STRATEGIC REFRAME (decision-log 2026-07-12, Drew's steer) — READ BEFORE PICKING THE NEXT TARGET
+§8 did NOT just unblock a small mop-up — it unblocked the **single heaviest byte-weight chunk of the game**. Measured (`.run/family_hseq.json`): **9 of the 10 heaviest unmatched family cores are switch (jr) functions** (`func_80178D40` 890×134 = 477K ins, `func_8017BEBC` 952×113, `func_8015AE2C` 562×134, `func_8017A4AC` 536, `func_8015A3C8` 493 …); **jr substantial = 191 fams / 5.53M templatable ins**; the 45 small jr families I first eyed = only 129K ins (a light-tail trap Drew caught). **The endgame plan = heaviest-byte-weight-first via crack-core → template ×134; §8 is its key enabler.**
+
+### ▶ THE CORRECTED NEXT PLAY (fresh session)
+**Crack the heaviest jr family cores (Fable5) → bank ×134 via §8.** This **needs Task 7 (Fable5) UN-PAUSED** — that's the point: §8 makes re-approving Fable5 worth it now (a jtbl core crack now banks fleet-wide instead of being unbankable fuel). Pipeline per core: Fable5 crack (whole-binary-gate-verified, NOT plain rtu_match — jr false-match risk, §8a) → `jtbl_carve` + `jtbl_family_bank.py` templates it ×134 → parallel R22 verifies. **First target: `func_80178D40` (890 ins ×134 = 477K ins, the heaviest single lever in the game).** Cheap-Opus applies banked §31/§45 idioms between Fable5 cracks; the 45 small jr families are cheap mop-up ONLY (not the lever). Non-jr substantial families (7.3M ins) — heavy too; mechanical ones via `family_sweep`, hard cores via Fable5.
+
+### Effort/model (fresh session): plan-mode Max for the Phase-Start re-plan; then **prompt Drew to re-approve + `/effort` for Fable5** (Agent model:fable, parallel-isolated, whole-binary gate) on the heavy cores; Ultracode for the mechanical ×134 template waves; Max for synthesis. Ghidra MCP NOT needed (matching uses cached asm).
+
+---
+
+## SESSION-2 CHECKPOINT (2026-07-12) — superseded by SESSION-3 above
 
 **Phase 26 status:** Tasks 0–6 DONE + committed (the h_seq engine + triage). Task 7 (Fable5) + Task 8 (mechanical harvest) IN PROGRESS. **Committed baseline = `commit:0528`, R22 136/136 confirmed.** Commits this phase: `commit:0518`→`commit:0528`.
 

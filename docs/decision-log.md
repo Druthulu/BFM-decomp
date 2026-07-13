@@ -387,3 +387,26 @@ verification). **Better path (hindsight):** the Fable5 crack prompt should have 
 (or an rtu_match variant that includes the jtbl rodata) as the bar, not plain rtu_match — for jr-functions the
 two diverge. LESSON: an indicator that MASKS a byte-region (rtu_match masks relocs + excludes neutralized
 INCLUDE_ASM rodata) cannot arbitrate a match whose difference lives in that region.
+
+## 2026-07-12 · Phase 26 — §8 unblocked the HEAVIEST byte-weight lever (switch functions), reframing the endgame priority
+- **Context / belief:** built the §8 overlay jtbl-rodata tooling + the ×134 automation (jr-functions can
+  now bank as C, proven func_8012ACE0 ×133), then recommended continuing with "the 45 small jr families"
+  as the next mechanical lever.
+- **Dead-end (the off-plan recommendation, Drew caught it):** that rec optimized for *mechanically easy*
+  (small families template cleanly) instead of the endgame's actual objective — **heaviest byte-weight
+  first**. Measured: the 45 small jr families = **129,028 templatable ins** (trivial).
+- **Pivot:** re-target the heavy tier. The frontier byte-weight (the instr-weighted metric lever):
+  **jr (switch) substantial families = 191 fams / 5,534,884 ins**; non-jr substantial = 1,168 / 7,328,348;
+  all substantial = 12.86M. And decisively — **9 of the 10 heaviest unmatched family cores are switch
+  (jr) functions** (func_80178D40 890×134 = 477K ins alone; func_8017BEBC 952×113; func_8015AE2C 562×134…).
+- **Why:** switch functions were UNBANKABLE before §8 (the jtbl-rodata duplicate). §8 didn't just enable a
+  small mop-up — it **unlocked the single heaviest chunk of the remaining game** (the byte-weight is
+  dominated by big switch cores). The endgame plan (heaviest-byte-weight-first via crack-core → template
+  ×134) is intact; §8 was its key enabler, and the correct follow-through is the HEAVY jr cores, not the
+  light tail. This needs Task 7 (Fable5) un-paused: Fable5 cracks the giant switch core → §8 + the ×134
+  automation bank it fleet-wide → the now-10×-faster R22 verifies.
+- **Hindsight / for the wiki:** when a build-mechanism unblocks a whole *class*, re-rank the endgame by
+  the class's byte-weight, not by which member is easiest to bank next. "Easy and on-metric" ≠ "easy";
+  the plan's objective (heaviest byte-weight) must gate the next-target choice, or you grind the light tail
+  of a newly-opened heavy vein. (Drew's steer: "the endgame plan is 1st smartest play to unlock the
+  heaviest byte-weighted remainder — does your recommendation follow it?" — it did not; this corrects it.)
