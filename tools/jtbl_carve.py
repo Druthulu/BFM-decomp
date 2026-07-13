@@ -4,29 +4,38 @@
 An overlay's gcc switch jump tables sit in one contiguous `.rodata` island at the TAIL of the flat
 blob. Matching a jr-function makes its C emit that jtbl into `.rodata` (floated to the FRONT by
 section_order) while the raw copy stays in the data tail -> duplicate + wrong address. This tool
-carves each named jr-function's jtbl(s) out of the `[…, data, tail]` subseg into a dotted
-`[.rodata, <code-subseg>]` subseg (spimdisasm migrates it into the fn's `.s`), splitting the data tail
-into pre/post `data` subsegs, and sets the `<ov>_JTBL_INTERLEAVE` var in config/overlays.mk so
-`make extract` runs `ld_interleave --section .<ov>` (the data->rodata->data sandwich; cookbook §8a).
+carves each named jr-function's jtbl(s) out of the `[…, data, tail]` region into a dotted
+`[.rodata, <code-subseg>]` subseg (spimdisasm migrates it into the fn's object), splitting the data
+tail into the surrounding `data` subsegs, and sets the `<ov>_JTBL_INTERLEAVE` var in
+config/overlays.mk so `make extract` runs `ld_interleave --order` (the address-ordered
+data->rodata->data->…->data sandwich; cookbook §8/§8a).
 
 Per-sibling: the SAME function is at the same vram across overlays but its jtbl is at a DIFFERENT
 address in each (the island floats with the overlay's size), so the carve is recomputed per overlay.
 
-SINGLE-jtbl scope (this slice): one jr-function -> one jtbl -> a 3-region data->rodata->data carve
-(--front tail / --tail tail2). Multiple matched jr-functions per overlay (scattered jtbls) need the
-address-ordered `ld_interleave --order` mode -> raised as NotImplementedError (the next slice).
+MULTI-jtbl (Phase-26 session 3): the carve is ADDITIVE and regenerated from the current config —
+each `--func` call re-derives the FULL address-ordered set of {data pieces, existing .rodata carves,
+the new jtbl(s)} and re-emits the region + an `--order` interleave list. So banking a 2nd matched
+jr-function into an overlay that already has one (the ×134 accumulation case) Just Works. A single
+code object contributes at most ONE contiguous .rodata run, so two matched jr-functions in the SAME
+code subseg (non-adjacent jtbls in the island) are UNSATISFIABLE -> this tool fails loud, and the
+caller must first isolate one into its own code subseg (the whale `_o0b` precedent).
 
-Usage:  jtbl_carve.py <ov> --func func_XXXX [--func ...]   # apply the carve for these matched jr-fns
+Usage:  jtbl_carve.py <ov> --func func_XXXX [--func ...]   # add these matched jr-fns to the carve set
         jtbl_carve.py <ov> --revert                        # restore the config from git (drop carves)
-Idempotent: re-running with the same funcs reproduces the same config.
+Idempotent: re-running with the same (accumulated) funcs reproduces the same config.
 """
 import argparse
+import glob
 import os
 import re
 import subprocess
 import sys
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+PIECE_RE = re.compile(r"^(\s*)- \[(0x[0-9A-Fa-f]+),\s*([.\w]+),\s*(\w+)\]")
+EOF_RE = re.compile(r"^\s*- \[(0x[0-9A-Fa-f]+)\]\s*(?:#.*)?$")
 
 
 def cfg_path(ov):
@@ -52,90 +61,159 @@ def func_subseg(ov, func):
 
 
 def func_jtbls(ov, func):
-    """The jtbl label(s) `func` references (from its .s %hi(jtbl_...))."""
+    """(subseg, [jtbl_hex,...]) that `func` references (from its .s %hi(jtbl_...))."""
     sub = func_subseg(ov, func)
     s = open(os.path.join(REPO, "asm", ov, "nonmatchings", sub, f"{func}.s")).read()
     return sub, sorted(set(re.findall(r"jtbl_([0-9A-Fa-f]{8})", s)))
 
 
-def jtbl_range(ov, jtbl_hex):
-    """(start_vram, end_vram) of jtbl_<hex> from the data-tail asm (dlabel .. next label)."""
-    tail = os.path.join(REPO, "asm", ov, "data", "tail.data.s")
-    lines = open(tail).read().splitlines()
+def all_data_labels(ov):
+    """All (jtbl_|D_) dlabel vrams across every asm/<ov>/data/*.data.s, sorted ascending."""
+    labels = set()
+    for p in glob.glob(os.path.join(REPO, "asm", ov, "data", "*.data.s")):
+        for ln in open(p):
+            m = re.match(r"\s*(?:dlabel|glabel)\s+(?:jtbl_|D_)([0-9A-Fa-f]{8})", ln)
+            if m:
+                labels.add(int(m.group(1), 16))
+    return sorted(labels)
+
+
+def jtbl_range(ov, jtbl_hex, labels, region_end_vram):
+    """(start_vram, end_vram) of a RAW jtbl_<hex>: end = next data dlabel, else the region end."""
     start = int(jtbl_hex, 16)
-    # find the dlabel, then the next (glabel|dlabel) at a higher address = end.
-    labels = []
-    for ln in lines:
-        m = re.match(r"\s*(?:dlabel|glabel)\s+(?:jtbl_|D_)([0-9A-Fa-f]{8})", ln)
-        if m:
-            labels.append(int(m.group(1), 16))
-    labels = sorted(set(labels))
     if start not in labels:
-        sys.exit(f"jtbl_carve: jtbl_{jtbl_hex} not found in asm/{ov}/data/tail.data.s (carved already? --revert first)")
+        sys.exit(f"jtbl_carve: jtbl_{jtbl_hex} not found in the raw data asm "
+                 f"(asm/{ov}/data/*.data.s) — already carved / stale asm? re-extract or --revert first")
     nxt = next((a for a in labels if a > start), None)
-    if nxt is None:
-        sys.exit(f"jtbl_carve: jtbl_{jtbl_hex} is the last label — cannot bound its size")
-    return start, nxt
+    return start, (nxt if nxt is not None else region_end_vram)
 
 
-def has_trailing(ov):
-    return bool(re.search(r"\[0x[0-9A-Fa-f]+,\s*bin,\s*trailing\]", open(cfg_path(ov)).read()))
+def parse_config(ov):
+    """Parse the flat-overlay config's tail data region.
+
+    Returns (lines, indent, region_lo_idx, region_hi_idx, tail_start, region_end, trailing_present,
+             existing_carves) where:
+      - lines: the config file split into lines.
+      - region_lo_idx..region_hi_idx: the [inclusive, exclusive) line range of the `- [...]` data/
+        rodata PIECE lines to replace (the `bin,trailing` + EOF lines stay).
+      - tail_start / region_end: file offsets bounding the regenerated data region.
+      - trailing_present: whether a `[off, bin, trailing]` piece caps the region.
+      - existing_carves: [(start_off, end_off, subseg), ...] for the `.rodata` carves already present.
+    """
+    lines = open(cfg_path(ov)).read().splitlines()
+    pieces = []   # (idx, indent, off, kind, name)
+    eof_off = None
+    for i, ln in enumerate(lines):
+        m = PIECE_RE.match(ln)
+        if m:
+            pieces.append((i, m.group(1), int(m.group(2), 16), m.group(3), m.group(4)))
+            continue
+        e = EOF_RE.match(ln)
+        if e:
+            eof_off = int(e.group(1), 16)
+    # The data region = the trailing run of {data, .rodata} pieces after the last `c` piece.
+    data_pieces = [p for p in pieces if p[3] in ("data", ".rodata")]
+    if not data_pieces:
+        sys.exit(f"jtbl_carve: no data-tail region in {cfg_path(ov)}")
+    region_lo_idx = data_pieces[0][0]
+    indent = data_pieces[0][1]
+    tail_start = data_pieces[0][2]
+    # Where the regenerated pieces stop: the trailing bin piece, else the EOF marker.
+    trailing = [p for p in pieces if p[3] == "bin" and p[4] == "trailing"]
+    if trailing:
+        region_hi_idx = trailing[0][0]
+        region_end = trailing[0][2]
+        trailing_present = True
+    else:
+        if eof_off is None:
+            sys.exit(f"jtbl_carve: no trailing bin and no EOF marker in {cfg_path(ov)}")
+        # region_hi_idx = the EOF marker line index
+        region_hi_idx = next(i for i, ln in enumerate(lines) if EOF_RE.match(ln))
+        region_end = eof_off
+        trailing_present = False
+    # Existing .rodata carves: end = the following piece's off (or region_end for the last).
+    region = [p for p in data_pieces if region_lo_idx <= p[0] < region_hi_idx]
+    existing = []
+    for j, (_, _, off, kind, name) in enumerate(region):
+        if kind == ".rodata":
+            end = region[j + 1][2] if j + 1 < len(region) else region_end
+            existing.append((off, end, name))
+    return lines, indent, region_lo_idx, region_hi_idx, tail_start, region_end, trailing_present, existing
 
 
 def build_carve(ov, funcs):
-    """Return (subsegs, interleave_args) for the given matched jr-functions.
-    subsegs: list of (file_off, kind, name) replacing the single [tail] data subseg.
-    Single-jtbl only in this slice."""
+    """Return (region_lines, order_arg): the regenerated data-region `- [...]` piece lines and the
+    `ld_interleave --order` object list, for the accumulated carve set (existing + the new funcs)."""
     base = overlay_vram_base(ov)
-    jtbls = []   # (start_vram, end_vram, subseg_name)
+    (_, indent, _, _, tail_start, region_end, trailing_present, existing) = parse_config(ov)
+    region_end_vram = base + region_end
+
+    # carves: (start_off, end_off, subseg). Existing ones come from the config (already migrated).
+    carves = list(existing)
+    have = {c[0] for c in carves}
+    labels = all_data_labels(ov)
     for f in funcs:
         sub, js = func_jtbls(ov, f)
+        if not js:
+            sys.exit(f"jtbl_carve: {f} references no jtbl_ (not a jr/switch function?)")
         for jh in js:
-            s, e = jtbl_range(ov, jh)
-            jtbls.append((s, e, sub))
-    jtbls.sort()
-    if len(jtbls) != 1:
-        raise NotImplementedError(
-            f"jtbl_carve: {len(jtbls)} jtbls for {ov} — the multi-jtbl address-ordered carve "
-            f"(ld_interleave --order) is the next slice; single-jtbl only for now.")
-    s, e, sub = jtbls[0]
-    tail_start = current_tail_start(ov)
-    j_off, j_end = s - base, e - base
-    subsegs = [
-        (tail_start, "data", "tail"),
-        (j_off, ".rodata", sub),
-        (j_end, "data", "tail2"),
-    ]
-    args = "--front tail.data.o --tail tail2.data.o" + (" --tail trailing.o" if has_trailing(ov) else "")
-    return subsegs, args
+            s_vram, e_vram = jtbl_range(ov, jh, labels, region_end_vram)
+            s_off, e_off = s_vram - base, e_vram - base
+            if s_off in have:
+                continue                       # idempotent: already carved
+            carves.append((s_off, e_off, sub))
+            have.add(s_off)
+    carves.sort()
 
+    # A code object contributes ONE contiguous .rodata run -> a subseg may host only one carve.
+    seen_subsegs = {}
+    for s_off, _, sub in carves:
+        if sub in seen_subsegs:
+            sys.exit(
+                f"jtbl_carve: subseg '{sub}' would host two .rodata carves "
+                f"(0x{seen_subsegs[sub]:x} and 0x{s_off:x}) — a single object can't place non-adjacent "
+                f"jtbls. Isolate one matched jr-function into its own code subseg first (the whale "
+                f"`_o0b` precedent), then re-carve.")
+        seen_subsegs[sub] = s_off
 
-def current_tail_start(ov):
-    """The file offset of the overlay's data-tail `data` subseg (before any carve)."""
-    txt = open(cfg_path(ov)).read()
-    m = re.search(r"\[(0x[0-9A-Fa-f]+),\s*data,\s*tail\]", txt)
-    if not m:
-        sys.exit(f"jtbl_carve: no `[…, data, tail]` subseg in {cfg_path(ov)}")
-    return int(m.group(1), 16)
+    # Walk the region [tail_start, region_end), emitting a `data` piece before each carve.
+    pieces = []          # (off, kind, name)
+    order = []           # object leaves for --order, in address order
+    cursor = tail_start
+    n_data = 0
+    def data_name():
+        nonlocal n_data
+        n_data += 1
+        return "tail" if n_data == 1 else f"tail{n_data}"
+    for s_off, e_off, sub in carves:
+        if cursor < s_off:
+            nm = data_name()
+            pieces.append((cursor, "data", nm))
+            order.append(f"{nm}.data.o")
+        pieces.append((s_off, ".rodata", sub))
+        order.append(f"{sub}.o")
+        cursor = e_off
+    if cursor < region_end:
+        nm = data_name()
+        pieces.append((cursor, "data", nm))
+        order.append(f"{nm}.data.o")
+    if trailing_present:
+        order.append("trailing.o")
+
+    region_lines = []
+    for off, kind, name in pieces:
+        comment = "  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)" if kind == ".rodata" else ""
+        region_lines.append(f"{indent}- [{hex(off)}, {kind}, {name}]{comment}")
+    return region_lines, "--order " + ",".join(order)
 
 
 def apply(ov, funcs):
-    subsegs, args = build_carve(ov, funcs)
-    txt = open(cfg_path(ov)).read()
-    # Replace the single `[<off>, data, tail]` line with the carve block (preserve indent).
-    line_re = re.compile(r"^(\s*)- \[0x[0-9A-Fa-f]+,\s*data,\s*tail\].*$", re.M)
-    m = line_re.search(txt)
-    if not m:
-        sys.exit(f"jtbl_carve: could not find the data-tail subseg line in {cfg_path(ov)}")
-    indent = m.group(1)
-    block = "\n".join(
-        f"{indent}- [{hex(off)}, {kind}, {name}]" + (
-            "  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)" if kind == ".rodata" else "")
-        for off, kind, name in subsegs)
-    txt = line_re.sub(lambda _: block, txt, count=1)
-    open(cfg_path(ov), "w").write(txt)
-    set_overlays_var(ov, args)
-    print(f"jtbl_carve {ov}: carved {funcs} -> {[hex(o) for o, _, _ in subsegs]}; JTBL_INTERLEAVE = {args}")
+    region_lines, order_arg = build_carve(ov, funcs)
+    lines, indent, lo, hi, *_ = parse_config(ov)
+    new_lines = lines[:lo] + region_lines + lines[hi:]
+    open(cfg_path(ov), "w").write("\n".join(new_lines) + "\n")
+    set_overlays_var(ov, order_arg)
+    print(f"jtbl_carve {ov}: carve set = {len(region_lines)} pieces; JTBL_INTERLEAVE = {order_arg}")
 
 
 def set_overlays_var(ov, args):

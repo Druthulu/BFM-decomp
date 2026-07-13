@@ -31,6 +31,13 @@ _ap.add_argument("--front", action="append",
                  help="object basename whose .data belongs to the FRONT region (repeatable)")
 _ap.add_argument("--tail", action="append",
                  help="object basename whose .data belongs to the TAIL region (repeatable)")
+_ap.add_argument("--order",
+                 help="Phase-26 §8 MULTI-jtbl mode: a comma-separated, address-ordered list of "
+                      "object LEAF names forming the data-region sandwich (text -> [these] -> bss). "
+                      "A `*.data.o` or `trailing.o` leaf contributes its (.data); any other (code) "
+                      "object leaf contributes its (.rodata) carve. Overrides --front/--tail. Every "
+                      "unlisted .data/.rodata line must be an empty code-object section (parked with "
+                      ".text, byte-neutral). Generalises the single-jtbl 3-piece sandwich to N pieces.")
 _ap.add_argument("--section", default=".main",
                  help="output-section name to rewrite (default .main for the EXE; overlays "
                       "use their own, e.g. .ov_SC01_077). The linker START/END/SIZE symbol "
@@ -62,6 +69,56 @@ text_lines   = grab(".text")
 rodata_lines = grab(".rodata")
 data_lines   = grab(".data")
 bss_lines    = grab(".bss")
+
+I = "        "  # 8-space indent matching splat's body
+
+if _a.order:
+    # --- Phase-26 §8 MULTI-jtbl address-ordered mode ---------------------------------------
+    # The data region is an explicit, address-ordered sequence of pieces (data subsegs and the
+    # per-function .rodata jtbl carves). Emit each piece's linker line back-to-back so the linker
+    # lays them out contiguously in exactly the original island order. ALIGN(.,4) between pieces
+    # is a no-op on the word-aligned jtbl/data boundaries (kept as a safety net, matching the
+    # proven single-carve path). Every code object contributes at most ONE contiguous .rodata run,
+    # so a matched jr-function whose jtbl is non-adjacent to a sibling's MUST be in its own subseg.
+    items = [x for x in _a.order.split(",") if x]
+
+    def _sect_of(leaf):
+        return ".data" if (leaf.endswith(".data.o") or leaf == "trailing.o") else ".rodata"
+
+    def _find_line(leaf, sect):
+        pat = f"/{leaf}({sect});"
+        hits = [l for l in (data_lines + rodata_lines) if pat in l]
+        if len(hits) != 1:
+            sys.exit(f"ld_interleave --order: expected exactly 1 `{leaf}({sect})` line, found {len(hits)}")
+        return hits[0]
+
+    ordered = [_find_line(leaf, _sect_of(leaf)) for leaf in items]
+    selected = set(ordered)
+    # Everything not placed in the island must be an EMPTY code-object .data/.rodata section
+    # (non-empty ones would be a real data conflict -> the byte-gate catches it). Park with .text.
+    empties = [l for l in (data_lines + rodata_lines) if l not in selected]
+
+    out_lines = [f"{I}FILL(0x00000000);", f"{I}{PREFIX}_TEXT_START = .;"]
+    out_lines += [f"{I}{l.strip()}" for l in text_lines]
+    out_lines += [f"{I}{l.strip()}" for l in empties]        # empty (0-byte) sections, byte-neutral
+    out_lines += [f"{I}. = ALIGN(., 4);", f"{I}{PREFIX}_TEXT_END = .;",
+                  f"{I}{PREFIX}_TEXT_SIZE = ABSOLUTE({PREFIX}_TEXT_END - {PREFIX}_TEXT_START);"]
+    out_lines.append(f"{I}{PREFIX}_DATA_START = .;")
+    for l in ordered:
+        out_lines.append(f"{I}{l.strip()}")
+        out_lines.append(f"{I}. = ALIGN(., 4);")
+    out_lines += [f"{I}{PREFIX}_DATA_END = .;",
+                  f"{I}{PREFIX}_DATA_SIZE = ABSOLUTE({PREFIX}_DATA_END - {PREFIX}_DATA_START);"]
+    out_lines += [f"{I}{PREFIX}_BSS_START = .;"]
+    out_lines += [f"{I}{l.strip()}" for l in bss_lines]
+    out_lines += [f"{I}. = ALIGN(., 4);", f"{I}{PREFIX}_BSS_END = .;",
+                  f"{I}{PREFIX}_BSS_SIZE = ABSOLUTE({PREFIX}_BSS_END - {PREFIX}_BSS_START);"]
+    new_body = "\n".join(out_lines)
+    out = src[:m.start()] + head + new_body + tail + src[m.end():]
+    open(LD, "w").write(out)
+    print(f"ld_interleave --order: {SECTION} island = {len(ordered)} pieces "
+          f"[{', '.join(items)}]; text={len(text_lines)} empties={len(empties)} bss={len(bss_lines)}")
+    sys.exit(0)
 
 def is_named(line, names):
     return any(n in line for n in names)

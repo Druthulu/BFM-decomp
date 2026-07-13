@@ -76,9 +76,11 @@ segments:
       # PoC: func_8012ACE0's single jtbl jtbl_801D8078 (8-aligned, 204B) = vram 0x801D8078..0x801D8144
       # = file 0xAFF20..0xAFFEC. func_8012ACE0 lives in the ov_SC01_077_a subseg. Other functions'
       # jtbls stay raw .data until matched (each matched fn's jtbl gets its own carve — the ×134 tool).
-      - [0x5E978, data, tail]                    # globals + pre-carve jtbls (vram 0x80186AD0..0x801D8078)
-      - [0xAFF20, .rodata, ov_SC01_077_a]        # func_8012ACE0's jtbl_801D8078 -> migrate into ov_SC01_077_a.o
-      - [0xAFFEC, data, tail2]                   # post-carve jtbls + tail (vram 0x801D8144..0x801DAB2C)
+      - [0x5e978, data, tail]
+      - [0xaff20, .rodata, ov_SC01_077_a]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
+      - [0xaffec, data, tail2]
+      - [0xb0b10, .rodata, ov_SC01_077_after]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
+      - [0xb0b24, data, tail3]
       - [0xB29D4, bin, trailing]    # final 3 bytes (EOF 0xB29D7 not word-aligned; spimdisasm drops
                                     # a trailing partial word and a <4-byte `data` carve emits nothing,
                                     # so use `bin` = raw .incbin, byte-exact). Word-aligned overlays omit this.

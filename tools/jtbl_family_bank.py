@@ -43,12 +43,13 @@ def bank(func, from_ov, from_addr, to_ov, to_addr):
     # clean slate (idempotent): restore this overlay's config AND src to the committed state
     revert(to_ov)
     subprocess.run(f"git checkout -- src/{to_ov}/ 2>/dev/null", shell=True)
+    # Extract FIRST so the on-disk asm matches the reverted committed config (the carve reads the
+    # new fn's raw jtbl from asm/<ov>/data — a stale/absent asm from a prior config would miss it).
+    if sh(f"make --no-print-directory extract BINARY={to_ov}").returncode:
+        revert(to_ov); return "extract0-fail", ""
     r = sh(f"python3 tools/jtbl_carve.py {to_ov} --func {func}")
-    if r.returncode and "not found in" in (r.stdout + r.stderr):
-        # stale carved asm from a prior run — regenerate clean asm, then retry the carve
-        sh(f"make --no-print-directory extract BINARY={to_ov}")
-        r = sh(f"python3 tools/jtbl_carve.py {to_ov} --func {func}")
     if r.returncode:
+        revert(to_ov)
         return "carve-fail", ((r.stdout + r.stderr).strip().splitlines()[-1:] or [""])
     if sh(f"make --no-print-directory extract BINARY={to_ov}").returncode:
         revert(to_ov); return "extract-fail", ""
