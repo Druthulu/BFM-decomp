@@ -410,3 +410,13 @@ INCLUDE_ASM rodata) cannot arbitrate a match whose difference lives in that regi
   the plan's objective (heaviest byte-weight) must gate the next-target choice, or you grind the light tail
   of a newly-opened heavy vein. (Drew's steer: "the endgame plan is 1st smartest play to unlock the
   heaviest byte-weighted remainder — does your recommendation follow it?" — it did not; this corrects it.)
+- **Sequencing refinement (Drew, same day):** do the 45 SMALL jr families first as a **de-risk
+  preamble** (NOT for byte-weight — ~+1% instr), THEN the heavy 191. The decisive reason isn't
+  size: `jtbl_carve` only built the single-jtbl carve, but func_8012ACE0 is now matched in all 133
+  siblings, so family #2 forces the **multi-jtbl address-ordered carve** — build & prove THAT on
+  cheap 30-ins targets before a Fable5-cracked 890-ins core depends on it. Also needs no Fable5
+  (progress without burning its limits). **Guardrail:** the small tier is a MEANS (harden the
+  pipeline), not the objective — pivot to the heavy 191 once multi-jtbl is proven; don't grind the
+  light tail because it "feels productive." Wiki lesson: when a newly-built mechanism has an
+  un-built sub-case that the expensive targets will hit, force that sub-case out on the cheap
+  targets first — de-risking and building-the-missing-piece are the same move.
