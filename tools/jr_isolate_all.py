@@ -315,11 +315,19 @@ def _render_region(header, items, old_sub, new_sub, ambient):
         (types if is_type else decls).append(text)
     parts = [header]
     if types or decls:
-        parts.append("/* Phase-26 §8b jr_isolate_all.py: the file-scope decl environment carried "
-                     "from earlier code regions of this object — file-local types, col-0 decls, "
-                     "DEFINE_func macro externs, and each earlier definition's implied prototype "
-                     "(types first, then decls in original order => byte-neutral). */\n"
-                     + "\n".join(types + decls))
+        # NB the trailing END MARKER is load-bearing, not decoration: family_remap.extract_unit walks
+        # BACKWARD from a definition absorbing every preceding extern/comment/blank line as the fn's
+        # "preamble". Without a stop, the first item of a region swallows this whole carried layer —
+        # which then gets templated into every sibling (dragging ~140 unrelated externs, some naming
+        # types the sibling's TU lacks) and the gate fails. The marker bounds the layer.
+        parts.append("/* ==== Phase-26 §8b carried decl layer (jr_isolate_all.py) "
+                     "===================\n"
+                     " * The file-scope decl environment from earlier code regions of this object —\n"
+                     " * file-local types, col-0 decls, DEFINE_func macro externs, and each earlier\n"
+                     " * definition's implied prototype (types first, then decls in original order).\n"
+                     " * Decls emit no code => byte-neutral. See cookbook §8c. */\n"
+                     + "\n".join(types + decls)
+                     + "\n/* ==== end §8b carried decl layer ==== */")
     parts.extend(t for _, _, _, t in items)
     return "\n".join(parts) + "\n"
 

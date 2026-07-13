@@ -61,6 +61,12 @@ def isolate(ov, func):
 
 
 def bank(func, from_ov, from_addr, to_ov, to_addr):
+    # CROSS-ADDRESS families: the sibling hosts the same function at a DIFFERENT vram, so its symbol
+    # is func_<to_addr>, not the exemplar's name. Everything on the sibling side (carve, isolation,
+    # stub lookup, reconcile) must use the sibling's name; `remap_hseq` already self-renames the body
+    # (T2b). The first two banked jr families were same-address, so this never surfaced until
+    # func_80182268 (ov_SC01_077 @0x80182268 -> ov_SC02_000/003 @0x8017FCB0).
+    to_func = "func_%08X" % to_addr
     # clean slate (idempotent): restore this overlay's config AND src to the committed state
     keep = region_files(to_ov)
     revert(to_ov)
@@ -69,14 +75,14 @@ def bank(func, from_ov, from_addr, to_ov, to_addr):
     # new fn's raw jtbl from asm/<ov>/data — a stale/absent asm from a prior config would miss it).
     if sh(f"make --no-print-directory extract BINARY={to_ov}").returncode:
         revert(to_ov, keep_regions=keep); return "extract0-fail", ""
-    r = sh(f"python3 tools/jtbl_carve.py {to_ov} --func {func}")
+    r = sh(f"python3 tools/jtbl_carve.py {to_ov} --func {to_func}")
     if r.returncode and "NON-CONTIGUOUS" in (r.stdout + r.stderr):
         # the §8b same-subseg wall -> isolate this core, re-extract, retry the carve
-        if isolate(to_ov, func).returncode:
+        if isolate(to_ov, to_func).returncode:
             revert(to_ov, keep_regions=keep); return "isolate-fail", ""
         if sh(f"make --no-print-directory extract BINARY={to_ov}").returncode:
             revert(to_ov, keep_regions=keep); return "extract-iso-fail", ""
-        r = sh(f"python3 tools/jtbl_carve.py {to_ov} --func {func}")
+        r = sh(f"python3 tools/jtbl_carve.py {to_ov} --func {to_func}")
     if r.returncode:
         revert(to_ov, keep_regions=keep)
         return "carve-fail", ((r.stdout + r.stderr).strip().splitlines()[-1:] or [""])
@@ -85,7 +91,7 @@ def bank(func, from_ov, from_addr, to_ov, to_addr):
     body, info = remap_hseq(from_addr, from_ov, to_ov, to_addr)
     if body is None:
         revert(to_ov, keep_regions=keep); return "remap-refuse", info
-    cf = stub_file(to_ov, func)
+    cf = stub_file(to_ov, to_func)
     if not cf:
         revert(to_ov, keep_regions=keep); return "no-stub", ""
 
@@ -96,10 +102,10 @@ def bank(func, from_ov, from_addr, to_ov, to_addr):
     # extra word shifted the whole image +4). So gate the RAW remapped body first and only reconcile
     # if it fails (which is what the §41 def-side wall actually needs).
     orig = open(cf).read()
-    m = re.search(rf'INCLUDE_ASM\("[^"]*",\s*{func}\);', orig)
+    m = re.search(rf'INCLUDE_ASM\("[^"]*",\s*{to_func}\);', orig)
     if not m:
         revert(to_ov, keep_regions=keep); return "no-stub", ""
-    stages = [("raw", lambda: body), ("reconciled", lambda: reconcile(func, body, tu_path=cf))]
+    stages = [("raw", lambda: body), ("reconciled", lambda: reconcile(to_func, body, tu_path=cf))]
     for name, make in stages:
         try:
             cand = make()

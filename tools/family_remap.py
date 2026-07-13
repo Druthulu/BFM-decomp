@@ -375,6 +375,11 @@ def symbol_map(addr, from_ov, to_ov, to_addr=None):
     return m, None
 
 
+# A machine-generated FILE-SCOPE decl layer terminates here; extract_unit's backward preamble
+# walk must not cross it (the layer belongs to the file, not to the function beneath it).
+_DECL_LAYER_END = re.compile(r"end (?:§8b carried decl layer|canonical-sig layer)")
+
+
 def extract_unit(ov, addr):
     """the matched inline def + its contiguous preceding extern/blank/comment lines, from the overlay src.
     func_<addr> names are UPPERCASE-hex in src (func_8013DBE4); match case-insensitively to be safe."""
@@ -388,8 +393,15 @@ def extract_unit(ov, addr):
                 # (Phase-26 §8: jr-function bodies define local `typedef struct {…} Foo_<addr>;` that
                 # must template with the body, else the sibling sees `Foo undeclared`. Multi-line
                 # typedefs aren't carried — those functions route through the engine_types.h lift).
+                # STOP at a machine-generated FILE-SCOPE decl layer (the §8b carried layer that
+                # jr_isolate_all prepends to an isolated region, or the Phase-17 canonical-sig layer):
+                # those belong to the FILE, not to the first function under them. Absorbing one makes
+                # the unit drag ~140 unrelated externs into every sibling — several naming types the
+                # sibling's TU lacks — and the whole family gate-fails (Phase 26 session 6).
                 while j >= 0 and (lines[j].strip() == "" or
                                   lines[j].lstrip().startswith(("extern", "//", "/*", "*", "typedef"))):
+                    if _DECL_LAYER_END.search(lines[j]):
+                        break
                     j -= 1
                 start = j + 1
                 depth, started, end = 0, False, i
