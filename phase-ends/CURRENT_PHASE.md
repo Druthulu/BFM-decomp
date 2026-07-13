@@ -51,6 +51,31 @@ All tools committed. Baseline clean (no config/src changes).
    134 overlays have one) on any failed sibling (now restored to its committed value). `jtbl_family_bank` also now
    refuses to start on a dirty `config/`+`src/` — **commit each family before sweeping the next.**
 
+**DE-RISK COMPLETE (Drew's call, session 6): `func_80182268` cracked + banked ×3 (the whole family) through the
+LAZY path — the composition is proven end-to-end.** Cracked first try (31-ins jr: shared-tail fallthrough where
+jtbl cases 3+7 enter case 4's tail, + the `(s8)(*(u16*)(p+0x70) >> 8)` sign-extend idiom). Its carve collided
+with the committed `func_801734BC` carve → lazy isolation fired → carve into its own subseg → whole-binary gate
+`d19c9580`. Siblings `ov_SC02_000`/`ov_SC02_003` (**cross-address**, @0x8017FCB0) banked via `jtbl_family_bank`.
+**The de-risk paid for itself — it exposed 3 more bugs that would each have silently capped the heavy sweeps:**
+1. **`canon_sig_reconcile`'s `void`→`s32` return promotion is NOT byte-neutral** (cookbook **§41d**, R14): for a
+   void body with no `return` it costs ONE instruction. It turned a perfect 31-ins MATCH into 32 → the extra word
+   made the isolated object's `.text` 4 B long → **every data symbol shifted +4** (~271k differing bytes).
+   `match_one` said MATCH; only the whole-binary gate caught it. **Fix (generalizes §19): every recovery pass is a
+   FALLBACK — `jtbl_family_bank` now gates RAW first, reconciled only on failure.**
+2. **`extract_unit` swallowed the §8b carried decl layer** (it walks backward absorbing extern/comment lines, and
+   the layer sits above a region's first item) → the template dragged ~140 unrelated externs into every sibling →
+   gate-fail. Fixed with an explicit end-marker + a stop in `extract_unit` (also guards the Phase-17 canon layer).
+3. **`jtbl_family_bank` used the EXEMPLAR's name for the sibling's carve/isolate/stub** → cross-address families
+   never resolved. Now derived from `to_addr`. (The first two banked jr families were same-address, so it hid.)
+
+**Backlogged:** `func_801549F8` (31-ins jr, **reach ×134** — the other cheap ×134 target) is a genuine **§31
+loop-IV / strength-reduction** residual: the target does NOT strength-reduce (recomputes `script+(i<<2)` each
+iteration), but plain `arr[i]` with constant per-branch increments makes gcc build a pointer GIV. A variable-stride
+`step` defeats biv recognition and gives the correct address shape (**17/31**, seed at
+`.run/backlog_drafts/func_801549F8.seed.c`) but gcc then keeps `step` in a register instead of folding K into each
+branch's `addiu`. Needs the C shape that keeps CONSTANT per-branch increments yet fails the giv worth-while test
+(`loop.md` L1). Permuter/Fable5 class — do NOT hand-grind it.
+
 **NEXT (R27 BOUNDARY — prompt Drew before launching):** Task 7 = the **heavy-jr core crack waves**. The 191 jr
 family cores / 5.53M templatable ins are now bankable. Per core: Fable5 crack (**whole-binary gate — NOT plain
 rtu_match**, jr false-match risk §8a) → lazy isolate → `jtbl_carve` → `jtbl_family_bank` ×134 → parallel R22 →
