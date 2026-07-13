@@ -139,11 +139,36 @@ def strip_c_comments(c):
     return COMMENT_RE.sub("", c)
 
 
+_DEFINE_ASM_RE = re.compile(r'^\s*#\s*define\b[^\n]*__asm__', re.M)
+
+
+def cpp_expand_macros(c):
+    """Macro-expand a draft whose GTE ops are `#define`s CONTAINING `__asm__` (the PsyQ `inline_c.h`
+    convention this codebase uses for RTPT/RTPS/NCLIP/etc).
+
+    `hide_asm` is built for `__asm__` STATEMENTS and `register ... __asm__("$sN")` pins inside a function
+    body: it scans back to the previous `;`/`{`/`}` and forward to the next top-level `;`. A multi-line
+    `#define gte_ldv0(r0) __asm__ volatile (...)` has neither boundary where hide_asm expects, so it chews
+    through the macro DEFINITIONS and swallows the function itself. pycparser then reports "Function <fn>
+    not found in base.c" and decomp-permuter **silently no-ops in 0s** — the same false-negative signature
+    as the §G comment bug, and it would disable the permuter on every GTE-using draft (i.e. most of the
+    renderer code). Pre-expanding with cpp turns each GTE op into an inline `__asm__` statement, which
+    hide_asm then hides correctly via the b64 pragma carrier.
+
+    Applied ONLY when the collision is actually present, so macro-free drafts are byte-untouched."""
+    if not _DEFINE_ASM_RE.search(c):
+        return c
+    p = subprocess.run(["mipsel-linux-gnu-cpp", "-P", "-nostdinc", "-"],
+                       input=c, capture_output=True, text=True)
+    return p.stdout if p.returncode == 0 and p.stdout.strip() else c
+
+
 def make_base_c(draft_c):
     """permuter base.c = scalar typedefs + the draft's custom typedefs/#defines/externs + the
     M2C_FIELD-expanded, asm-hidden body. Keeping externs + custom types is essential: without them the
     permuter matches in a DIFFERENT context than the whole-binary build (-> winners don't byte-gate)."""
     body = strip_c_comments(draft_c)
+    body = cpp_expand_macros(body)     # GTE `#define ... __asm__` would otherwise be eaten by hide_asm
     body = expand_m2c_field(body)
     body = hide_asm(body)
     body = drop_preproc_and_scalar_typedefs(body)
@@ -226,6 +251,9 @@ def main():
     ap.add_argument("--winners", default=".run/permuter-winners")
     ap.add_argument("--klass", default=None,
                     help="§31 residual class to direct the mutation weights (default: auto-lookup from the backlog)")
+    ap.add_argument("--asm-subdir", default=ASM,
+                    help="target asm dir (default: ov_SC01_077's main object). A core in another overlay "
+                         "or split object needs its own, e.g. asm/ov_SC01_000/nonmatchings/ov_SC01_000_after")
     a = ap.parse_args()
     os.chdir(REPO)
     os.makedirs(a.winners, exist_ok=True)
@@ -237,7 +265,7 @@ def main():
         funcs = []
         for cf in sorted(glob.glob(a.from_drafts + "/*.c")):
             fn = os.path.basename(cf)[:-2]
-            r = sh([PY, "tools/match_one.py", fn, "--c", cf, "--asm-subdir", ASM])
+            r = sh([PY, "tools/match_one.py", fn, "--c", cf, "--asm-subdir", a.asm_subdir])
             first = (r.stdout.strip().splitlines() or ["?"])[0]
             m = re.search(r"(\d+) mismatched", first)
             if m and 1 <= int(m.group(1)) <= a.near_max:
@@ -251,7 +279,7 @@ def main():
         if not os.path.exists(cf):
             print(f"  [{k}/{len(funcs)}] {fn}: no draft"); continue
         klass, where = (a.klass, "") if a.klass else klass_for_fn(fn)
-        pd = setup(fn, open(cf).read(), klass=klass, where=where)
+        pd = setup(fn, open(cf).read(), asm_subdir=a.asm_subdir, klass=klass, where=where)
         if not pd:
             print(f"  [{k}/{len(funcs)}] {fn}: setup failed (target.o)"); continue
         _prof = permuter_weights.classify(klass, where)
