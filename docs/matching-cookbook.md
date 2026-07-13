@@ -362,6 +362,37 @@ a 25-ins single-jtbl jr-function in ov_SC01_077):**
   the sibling's jtbl address (a tool over `family_sweep`), then reconcile+template the body per sibling. The PoC
   proves the per-binary mechanism; the fleet rollout is the mechanical generator.
 
+## §8b MULTI-jtbl per overlay — the `ld_interleave --order` sandwich + the same-subseg cases (Phase 26 session 4)
+Once ONE jr-function is banked in an overlay, banking a SECOND makes it multi-jtbl (§8a's single-carve breaks:
+`jtbl_family_bank.revert()` restores the committed config = already has carve #1). The generalization:
+- **`ld_interleave.py --order <leaf1,leaf2,…>`** — an explicit, ADDRESS-ORDERED list of the data-region pieces
+  forming the sandwich (text → [these] → bss). A `*.data.o`/`trailing.o` leaf contributes its `.data`; any other
+  (code) object leaf contributes its `.rodata` carve. Unlisted `.data`/`.rodata` lines must be empty code-object
+  sections → parked byte-neutrally with `.text`. Generalises the 3-piece single sandwich to N pieces. Legacy
+  `--front/--tail` path is byte-untouched (main EXE + single-carve siblings unaffected).
+- **`jtbl_carve.py` is additive / regenerate-from-config** — parse the tail data-region + the existing `.rodata`
+  carves, add the new fn's jtbl (split its containing data piece), re-emit the address-ordered pieces + the
+  `--order` arg. Idempotent. **BOUND-FIX (subtle, cost a false "non-contiguous"):** a new jtbl's end is bounded by
+  the next raw dlabel **OR the next EXISTING carve start** — an already-carved adjacent jtbl is GONE from the data
+  asm, so the raw dlabels alone over-extend the new jtbl past it.
+- **`jtbl_family_bank.bank()` must `make extract` BEFORE the carve** (the sibling asm must match the reverted
+  committed config so the carve finds the new fn's RAW jtbl; the old error-string retry was fragile).
+- **PROVEN cross-subseg (fleet-scale):** func_801734BC (34-ins PURE jr, clean shared-tail switch `case N:t=-N;break;
+  default:goto after;`) in `ov_SC01_077_after` + func_8012ACE0 in `_a` = 2 carves / 2 subsegs → banked ×134, R22
+  136/136 byte-identical.
+- **A code object emits its jtbls CONTIGUOUS (gcc source order)**, so two matched jr-fns in ONE subseg are
+  byte-correct only if their jtbls are ADJACENT in the island. Two flavors:
+  - **(a) adjacent → MERGE** into one spanning `.rodata` carve (`jtbl_carve` does this; config-proven on
+    func_80171B4C `801D8C48` + func_801734BC `801D8C68`). Byte-proof needs a matched adjacent pair.
+  - **(b) non-adjacent (unmatched jtbl between) → ISOLATE** one fn into its own code subseg (whale `_o0b`
+    precedent; `tools/jr_isolate.py`) so each object holds ONE contiguous rodata run. `jtbl_carve` then derives the
+    carve subseg from `func_subseg` (no rename bookkeeping); isolating F preserves carves BELOW F (trim keeps `<F`)
+    → bank same-subseg families ASCENDING. **BLOCKER (Stage-2 build item):** `split_src_region` can't partition the
+    overlay `.c` — it has non-address top-level items (the global canonical-sig extern layer + per-fn callee-extern
+    blocks + `DEFINE_func_X()` dedup macros + `// @class` annotations); needs an overlay-`.c`-aware pass (header =
+    includes+global-externs; attach leading externs to the following fn-block). A one-time
+    "isolate-ALL-jr-per-sibling" resegment is likely the scalable path for the 191 heavy cores (vs per-fn ×134).
+
 ## §9 Link real PsyQ library objects byte-exact (Phase 7 — GO proven)
 ~350 of BFM's functions are unmodified PsyQ 4.0 SDK code. They are **byte-identical to the real PsyQ library
 objects**, so link them directly instead of hand-decompiling — and each library `.o` brings its own correct

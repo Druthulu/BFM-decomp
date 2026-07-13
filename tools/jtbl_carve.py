@@ -151,7 +151,10 @@ def build_carve(ov, funcs):
     # carves: (start_off, end_off, subseg). Existing ones come from the config (already migrated).
     carves = list(existing)
     have = {c[0] for c in carves}
-    labels = all_data_labels(ov)
+    # A new jtbl's end is bounded by the next RAW data dlabel OR the next EXISTING carve start
+    # (an already-carved adjacent jtbl is gone from the data asm, so the raw dlabels alone would
+    # over-extend the new jtbl past it — the merge would then see an overlap, not an abutment).
+    labels = sorted(set(all_data_labels(ov)) | {base + c[0] for c in existing})
     for f in funcs:
         sub, js = func_jtbls(ov, f)
         if not js:
@@ -165,16 +168,26 @@ def build_carve(ov, funcs):
             have.add(s_off)
     carves.sort()
 
-    # A code object contributes ONE contiguous .rodata run -> a subseg may host only one carve.
+    # A code object emits its jtbls CONTIGUOUS in .rodata (gcc source order). So two carves in the
+    # SAME subseg are byte-correct only if ADJACENT in the island (no unmatched jtbl between) -> merge
+    # them into one spanning .rodata piece. NON-adjacent same-subseg is unsatisfiable (a single object
+    # can't leave a gap for the raw jtbl between) -> isolate one fn into its own subseg (jr_isolate.py).
+    merged = []
+    for s_off, e_off, sub in carves:
+        if merged and merged[-1][2] == sub and merged[-1][1] == s_off:
+            merged[-1] = (merged[-1][0], e_off, sub)      # extend the contiguous same-subseg run
+        else:
+            merged.append((s_off, e_off, sub))
     seen_subsegs = {}
-    for s_off, _, sub in carves:
+    for s_off, _, sub in merged:
         if sub in seen_subsegs:
             sys.exit(
-                f"jtbl_carve: subseg '{sub}' would host two .rodata carves "
-                f"(0x{seen_subsegs[sub]:x} and 0x{s_off:x}) — a single object can't place non-adjacent "
-                f"jtbls. Isolate one matched jr-function into its own code subseg first (the whale "
-                f"`_o0b` precedent), then re-carve.")
+                f"jtbl_carve: subseg '{sub}' would host NON-CONTIGUOUS .rodata carves "
+                f"(0x{seen_subsegs[sub]:x} and 0x{s_off:x}) — a single object can't leave a gap for the "
+                f"unmatched jtbl between them. Isolate one matched jr-function into its own code subseg "
+                f"first (tools/jr_isolate.py, the whale `_o0b` precedent), then re-carve.")
         seen_subsegs[sub] = s_off
+    carves = merged
 
     # Walk the region [tail_start, region_end), emitting a `data` piece before each carve.
     pieces = []          # (off, kind, name)
