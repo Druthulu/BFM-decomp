@@ -385,13 +385,61 @@ Once ONE jr-function is banked in an overlay, banking a SECOND makes it multi-jt
   - **(a) adjacent → MERGE** into one spanning `.rodata` carve (`jtbl_carve` does this; config-proven on
     func_80171B4C `801D8C48` + func_801734BC `801D8C68`). Byte-proof needs a matched adjacent pair.
   - **(b) non-adjacent (unmatched jtbl between) → ISOLATE** one fn into its own code subseg (whale `_o0b`
-    precedent; `tools/jr_isolate.py`) so each object holds ONE contiguous rodata run. `jtbl_carve` then derives the
-    carve subseg from `func_subseg` (no rename bookkeeping); isolating F preserves carves BELOW F (trim keeps `<F`)
-    → bank same-subseg families ASCENDING. **BLOCKER (Stage-2 build item):** `split_src_region` can't partition the
-    overlay `.c` — it has non-address top-level items (the global canonical-sig extern layer + per-fn callee-extern
-    blocks + `DEFINE_func_X()` dedup macros + `// @class` annotations); needs an overlay-`.c`-aware pass (header =
-    includes+global-externs; attach leading externs to the following fn-block). A one-time
-    "isolate-ALL-jr-per-sibling" resegment is likely the scalable path for the 191 heavy cores (vs per-fn ×134).
+    precedent) so each object holds ONE contiguous rodata run. `jtbl_carve` derives the carve subseg from
+    `func_subseg`; isolating F preserves carves BELOW F (trim keeps `<F`) → bank same-subseg families ASCENDING.
+    **RESOLVED (session 6, byte-proven):** `tools/overlay_src_split.py` (overlay-`.c`-aware partition, 404/404
+    round-trip) + `tools/jr_isolate_all.py` (multi-cut resegment) + the **declaration-environment reconstruction**
+    of §8c. Full 54-jr isolate-all on ov_SC01_077 → `d19c9580` **byte-identical, R22 clean-fleet 136/136**.
+    Applied **LAZILY** (isolate only the cores we actually bank — upfront-×134 would add ~7,200 region files):
+    `jtbl_family_bank` catches `jtbl_carve`'s `NON-CONTIGUOUS` fail-loud → `jr_isolate_all --only <core>` →
+    re-extract → re-carve. Proven on `func_80178D40` (the 890×134 heaviest core): carve blocked → isolated
+    (byte-neutral `d19c9580`) → carve lands in its own subseg.
+
+## §8c Splitting a TU means rebuilding its DECLARATION ENVIRONMENT, not moving text (Phase 26 session 6)
+
+The §8b isolation wall. A mechanical source split is *not* mechanical: this C is written against gcc-2.7.2's
+lenient scoping, and a cut silently strands declarations. **Four** file-scope decl sources must be carried
+forward into each new region (regions are address-ordered and file order == address order, so ambient flows
+strictly FORWARD — every carried decl already preceded every item of the receiving region in the original file):
+
+1. **col-0 decls in the `.c`** — the obvious one (the only one the first attempt handled).
+2. **`DEFINE_func_*` macro LEADING externs.** The macro expands *at file scope* to
+   `extern <type> <sym>; … <definition>`, so its externs ARE part of the invoking TU's file-scope environment —
+   but they live in `engine_core.h`, so **no col-0 text scan of the `.c` can ever see them** (1,377 macros /
+   3,929 extern lines / 1,462 symbols). This stranded `func_801734BC` from `extern s16 D_80126B3E;`.
+   *(Correcting the session-5 hypothesis: this is NOT a "block-scope extern persists to file scope" gcc quirk —
+   the externs are genuinely file-scope, just textually invisible. The 148 externs INSIDE macro bodies are real
+   block-scope shadows and must never be hoisted.)*
+3. **A function DEFINITION is itself a declaration** for everything below it in its TU. Cut the definition into
+   an earlier region and every later caller that took its address breaks (`func_8012B2CC undeclared`).
+   Synthesize its prototype — and a **K&R** definition declares an *unprototyped* function, so it must render
+   `extern T f();`, never `f(void)` or the K&R param names.
+4. **File-local typedefs** used by a carried prototype (`extern s32 f(Vec3s *a0)` → `parse error before '*'`).
+   Legal to re-emit because each region becomes its OWN TU. Emit types before decls.
+
+**Why NOT "declare every used symbol from a global symbol→type map"** (the intuitive design): this codebase is
+loosely typed, so a symbol legally carries contradictory decls — `func_80173544` is *defined* at file scope as
+`s32 f(void *)` yet declared `extern void f(void);` **inside** `func_801734BC`'s body. Hoisting "every used
+symbol" lifts that block-scope shadow to file scope, where it collides with the definition — so the design then
+needs a heuristic "type-shadowed set" to dodge a problem it created. Carrying forward only what was *already*
+file-scope is **conflict-free by construction**: every carried decl already coexisted with every definition in
+the one original TU, and decl compatibility is order-symmetric. Shadows stay in bodies and travel with them.
+
+- **Dedup by exact decl TEXT, not by symbol.** One symbol legitimately has several distinct file-scope decls
+  (the baseline build emits **87** `type mismatch with previous external decl` warnings and is byte-identical).
+  Collapsing to the first drops a decl the original had.
+- **Baseline-parity is the warning oracle:** diff the isolated build's warnings against the baseline's. New
+  *classes* mean you changed decl visibility; identical classes mean you reproduced it.
+- **TRAP — `func_subseg` from the asm tree is stale-prone.** `make extract` does not prune stale subseg dirs, so
+  after an isolation BOTH `nonmatchings/<ov>_after/<f>.s` and `nonmatchings/<ov>_jr_<A>/<f>.s` exist; an
+  `os.listdir` scan returns the STALE owner and silently re-creates the very collision the isolation removed.
+  **Derive the owning subseg from the CONFIG (address → containing code piece).**
+- **TRAP — a sweep's revert must restore, not delete.** `overlays.mk` is SHARED by all 134 overlays and every
+  one now has a *committed* `<ov>_JTBL_INTERLEAVE`; the old revert dropped the line unconditionally, destroying
+  a banked carve on any failed sibling. Restore it to its **committed value** (`git show HEAD:`), splice
+  per-overlay (never `git checkout` the shared file mid-sweep), and delete only the region files *this* attempt
+  created. `jtbl_family_bank` now refuses to start on a dirty `config/`+`src/` (an uncommitted prior family
+  would be silently reverted) — **commit each family before sweeping the next.**
 
 ## §9 Link real PsyQ library objects byte-exact (Phase 7 — GO proven)
 ~350 of BFM's functions are unmodified PsyQ 4.0 SDK code. They are **byte-identical to the real PsyQ library

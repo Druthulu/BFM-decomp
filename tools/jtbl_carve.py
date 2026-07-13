@@ -51,13 +51,35 @@ def overlay_vram_base(ov):
     return int(m.group(1), 16)
 
 
+def code_pieces(ov):
+    """[(vram, subseg)] for every `- [off, c, name]` code piece in the config, ascending."""
+    base = overlay_vram_base(ov)
+    out = []
+    for ln in open(cfg_path(ov)):
+        m = re.match(r'\s*- \[(0x[0-9A-Fa-f]+),\s*c,\s*(\w+)\]', ln)
+        if m:
+            out.append((base + int(m.group(1), 16), m.group(2)))
+    return sorted(out)
+
+
 def func_subseg(ov, func):
-    """The code subseg name that owns `func` (= the dir under asm/<ov>/nonmatchings/)."""
-    base = os.path.join(REPO, "asm", ov, "nonmatchings")
-    for sub in os.listdir(base):
-        if os.path.exists(os.path.join(base, sub, f"{func}.s")):
-            return sub
-    sys.exit(f"jtbl_carve: {func}.s not found under asm/{ov}/nonmatchings/ (extract first)")
+    """The code subseg that owns `func`, derived from the CONFIG (address -> containing code piece).
+
+    NOT from the asm tree: `make extract` does not prune stale subseg directories, so after a §8b
+    isolation BOTH `nonmatchings/<ov>_after/<func>.s` (stale) and `nonmatchings/<ov>_jr_<ADDR>/<func>.s`
+    (current) exist on disk, and an `os.listdir` scan can return the STALE owner — silently
+    re-creating the same-subseg NON-CONTIGUOUS collision the isolation just removed. The config is
+    authoritative and stale-proof."""
+    addr = int(func[len("func_"):], 16)
+    owner = None
+    for vram, name in code_pieces(ov):
+        if vram <= addr:
+            owner = name
+        else:
+            break
+    if owner is None:
+        sys.exit(f"jtbl_carve: {func} (0x{addr:08x}) precedes every code piece in {cfg_path(ov)}")
+    return owner
 
 
 def func_jtbls(ov, func):
@@ -245,12 +267,33 @@ def set_overlays_var(ov, args):
 
 
 def revert(ov):
+    """Restore this overlay's carve state to the COMMITTED one.
+
+    `<ov>_JTBL_INTERLEAVE` must be restored to its committed VALUE, not deleted: every overlay now
+    carries a committed carve (134/134 since func_8012ACE0 / func_801734BC banked ×134), so an
+    unconditional drop would destroy a banked carve on any failed sweep. And `overlays.mk` is SHARED
+    by all 134 overlays, so a blunt `git checkout` of it would wipe the OTHER siblings' in-flight
+    vars mid-sweep — hence the surgical, per-overlay line splice."""
     subprocess.check_call(["git", "-C", REPO, "checkout", "--", cfg_path(ov)])
     mk = os.path.join(REPO, "config/overlays.mk")
     txt = open(mk).read()
-    txt = re.sub(rf"^{re.escape(ov)}_JTBL_INTERLEAVE.*\n", "", txt, flags=re.M)
+    committed = subprocess.run(["git", "-C", REPO, "show", "HEAD:config/overlays.mk"],
+                               capture_output=True, text=True).stdout
+    m = re.search(rf"^{re.escape(ov)}_JTBL_INTERLEAVE.*$", committed, re.M)
+    has_now = re.search(rf"^{re.escape(ov)}_JTBL_INTERLEAVE\b", txt, re.M)
+    if m and has_now:
+        txt = re.sub(rf"^{re.escape(ov)}_JTBL_INTERLEAVE.*$", lambda _: m.group(0), txt,
+                     count=1, flags=re.M)
+    elif m:                                   # committed var was dropped -> put it back
+        anchor = f"{ov}_SPLAT_YAML := config/splat.{ov}.yaml"
+        if anchor not in txt:
+            sys.exit(f"jtbl_carve: no {anchor} anchor in overlays.mk")
+        txt = txt.replace(anchor, anchor + "\n" + m.group(0), 1)
+    else:                                     # no committed carve -> drop ours
+        txt = re.sub(rf"^{re.escape(ov)}_JTBL_INTERLEAVE.*\n", "", txt, flags=re.M)
     open(mk, "w").write(txt)
-    print(f"jtbl_carve {ov}: reverted config + dropped JTBL_INTERLEAVE")
+    print(f"jtbl_carve {ov}: reverted config + JTBL_INTERLEAVE restored to committed"
+          f"{'' if m else ' (none)'}")
 
 
 def main():

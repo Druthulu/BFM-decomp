@@ -24,7 +24,45 @@ The Phase-25 h_seq reframe: the "unique tail" is really per-location families �
 - [ ] **Task 11 — Step-D residue map** `[xHigh]` — true singletons (~0.27M ins) + 5 behemoths → Phase-27 input doc. NO execution.
 - [ ] **Task 12 — PhaseEnd** `[Max — Tier 1; R27 prompt]` — P7 walk, milestone demo, gate 2, `PhaseEnd_Phase26.md`, worklog → `logs/Phase26.md` (R19), in-file recap (R25), decision-log current (R31).
 
-## ▶ SESSION-5 CHECKPOINT (2026-07-13) — RESUME FROM HERE (fresh session)
+## ▶ SESSION-6 CHECKPOINT (2026-07-13) — RESUME FROM HERE (fresh session)
+
+**THE §8b SCOPING WALL IS BROKEN. Heavy-jr harvest is UNBLOCKED. Effort: Max.**
+Full 54-jr isolate-all on ov_SC01_077 → `d19c9580` **byte-identical**; **R22 clean-fleet 136/136**.
+All tools committed. Baseline clean (no config/src changes).
+
+**What session 6 delivered (committed):**
+1. **Declaration-environment reconstruction** (`overlay_src_split.py` + `jr_isolate_all.py`) — the fix. Session-5's
+   "gcc block-scope-extern TU-persistence" diagnosis was **WRONG (R14)**: `DEFINE_func_*` macros expand at FILE
+   scope, so their leading externs are genuine file-scope decls that merely live in `engine_core.h` — invisible to
+   any col-0 text scan. **Four** decl sources must be carried forward, and the byte-gate found three of them:
+   (1) col-0 decls · (2) macro leading externs (1,377 macros / 3,929 lines / 1,462 syms) → `D_80126B3E undeclared`
+   · (3) **a definition is itself a declaration** for everything below it → `func_8012B2CC undeclared`
+   · (4) file-local typedefs used by a carried proto → `parse error before '*'` (`Vec3s`).
+   **Rejected the approved "global symbol→type map + shadow set" design** — it would hoist loose-typing block-scope
+   shadows to file scope and *create* the conflict the shadow-set then dodges. Faithful forward-carry is
+   conflict-free by construction (see cookbook §8c + decision-log 2026-07-13).
+2. **LAZY per-core isolation wired** (`jtbl_family_bank`): `jtbl_carve` NON-CONTIGUOUS fail-loud →
+   `jr_isolate_all --only <core>` → re-extract → re-carve. Proven on **`func_80178D40` (890×134, the heaviest
+   core)**: carve blocked → isolated (byte-neutral `d19c9580`) → carve lands in its own subseg.
+3. **Two latent bugs fixed** (both would have corrupted the heavy sweeps): `jtbl_carve.func_subseg` derived the
+   owning subseg from the **asm tree**, which `make extract` never prunes → after an isolation it returned the
+   STALE owner and silently re-created the collision (now derived from the config); and the sweep's `revert()`
+   **deleted** the shared `overlays.mk` carve var unconditionally → would have destroyed a *committed* carve (all
+   134 overlays have one) on any failed sibling (now restored to its committed value). `jtbl_family_bank` also now
+   refuses to start on a dirty `config/`+`src/` — **commit each family before sweeping the next.**
+
+**NEXT (R27 BOUNDARY — prompt Drew before launching):** Task 7 = the **heavy-jr core crack waves**. The 191 jr
+family cores / 5.53M templatable ins are now bankable. Per core: Fable5 crack (**whole-binary gate — NOT plain
+rtu_match**, jr false-match risk §8a) → lazy isolate → `jtbl_carve` → `jtbl_family_bank` ×134 → parallel R22 →
+commit. Targets by byte-weight: `func_80178D40` (890×134 = 477K ins, isolation already proven), `func_8017BEBC`
+(952×113), `func_8015AE2C` (562×134), `func_8017A4AC` (536), `func_8015A3C8` (493). Fable5 window now **7/19**.
+Optional cheap de-risk first: the 45 small jr families (~129K ins, no Fable5) to exercise the full lazy bank
+end-to-end (isolate→carve→remap→reconcile→**gate**) on a cheap target — its composition is proven in parts but the
+end-to-end bank with a cracked body gates at the first real core. Ghidra MCP NOT needed (matching uses cached asm).
+
+---
+
+## ▶ SESSION-5 CHECKPOINT (2026-07-13) — superseded by SESSION-6 above
 
 **Stage-2 isolation build — parser DONE + single-cut PROVEN; full isolate-all hit the gcc-2.7.2 scoping wall. Effort: Max. Drew's decision (2026-07-13, Fable5 window extended to 7/19 so no time pressure): BUILD declaration-completion + apply isolation LAZILY per-core (not upfront-×134 — avoids the ~7,200-file cost; same tool, isolate only cores that crack). Tools committed this session.**
 
@@ -134,6 +172,34 @@ On approval → `/model opus` + `/effort xHigh` (Tasks 0–4; ALL Fable5 via `Ag
 
 ## Log
 
+- **2026-07-13 (session 6, the §8b scoping wall BROKEN — heavy-jr harvest unblocked; Max):** Built the
+  **declaration-environment reconstruction** on the proven `overlay_src_split.py` parser. **R14 correction:**
+  session-5's "gcc-2.7.2 block-scope-extern TU-persistence" root cause was *wrong* — there is no gcc quirk;
+  `DEFINE_func_*` macros expand at FILE scope, so their leading externs are genuine file-scope decls that simply
+  live in `engine_core.h` and are invisible to a col-0 `.c` scan (census: 1,377 macros / 3,929 extern lines / 1,462
+  symbols). **Rejected the approved "global symbol→type map + shadow set" design** (X1/P5d — same goal, better
+  mechanism): the engine is loosely typed (`func_80173544` is *defined* `s32 f(void*)` yet declared
+  `extern void f(void);` inside `func_801734BC`'s body), so "declare every used symbol" hoists that block-scope
+  shadow to file scope and CREATES the conflict a shadow-set heuristic then has to dodge. Instead: **reconstruct the
+  original TU's file-scope decl environment and carry it strictly forward** — conflict-free by construction (every
+  carried decl already coexisted with every definition in the one original TU; decl compatibility is
+  order-symmetric; shadows stay in bodies). The byte-gate then found **two more** lost decl sources I had not
+  predicted: **a definition is itself a declaration** for everything below it in its TU (`func_8012B2CC undeclared`)
+  and **file-local typedefs** used by a carried prototype (`parse error before '*'`, `Vec3s`). **Full 54-jr
+  isolate-all on ov_SC01_077 → `d19c9580` BYTE-IDENTICAL; R22 clean-fleet 136/136** (the exact configuration
+  session 5 could not build). Parser selftest still 404/404. Then wired **LAZY per-core isolation** into
+  `jtbl_family_bank` (Drew's call — upfront-×134 would add ~7,200 region files): `jtbl_carve` NON-CONTIGUOUS
+  fail-loud → `jr_isolate_all --only <core>` → re-extract → re-carve; **proven on `func_80178D40` (890×134, the
+  heaviest core)** — carve blocked → isolated (byte-neutral) → carve lands in its own subseg. **Two latent bugs
+  found + fixed** (both would have corrupted the heavy sweeps): `func_subseg` read the owning subseg from the
+  *asm tree*, which `make extract` never prunes, so after an isolation it returned the STALE owner and silently
+  re-created the collision (→ derive from the config); and the sweep's `revert()` **deleted** the shared
+  `overlays.mk` carve var unconditionally, which would have destroyed a *committed* carve (all 134 overlays have
+  one) on any failed sibling (→ restore to its committed value). Added a dirty-tree preflight to
+  `jtbl_family_bank` (an uncommitted prior family would be silently reverted). Knowledge captured DURING the
+  session (R30/R31): cookbook **§8b RESOLVED + new §8c** ("splitting a TU means rebuilding its declaration
+  environment, not moving text") + decision-log. Committed. **NEXT: Task 7 heavy-jr crack waves — R27 boundary,
+  prompt Drew for effort/Fable5 before launching.**
 - **2026-07-13 (session 5, Stage-2 isolation build — parser DONE, single-cut PROVEN, full isolate-all hit the gcc-2.7.2 scoping wall; Max):** Drew re-approved Stage 2 + set `/effort max`; steer = scalable isolate-ALL-jr-per-sibling upfront resegment, then Fable5 on the heavy cores. Built + fleet-validated **`tools/overlay_src_split.py`** (overlay-`.c`-aware partition; **404/404 overlay `.c`, 341,902 items, round-trip exact / 0 unresolved / 0 non-monotonic** — fixed 5 parser edge cases: definition-vs-declaration by brace/`;` scan, K&R defs, comment/`#`-directive peeling, `def_name` from the signature not preamble, `SETTER`/`RETCONST` macro anchors, trailing-footer preservation). Built **`tools/jr_isolate_all.py`** (multi-cut resegment: config split at jr boundaries, source repartition + INCLUDE_ASM path repoint, banked-jr carve repoint, -O0 skip, ambient file-scope decl carry). **SINGLE-cut isolation BYTE-IDENTICAL** (func_8013FFD8 in `main`, clean `make build` `d19c9580`, R22) — Task 2 proven. **Full 54-jr isolation FAILED on the dense `_after` object** after fixing 7 C-scoping edge cases in sequence, on the deep one (byte-verified): **gcc-2.7.2 block-scope-extern TU-persistence** — `func_801734BC` uses `D_80126B3E` declared `extern s16` only inside `engine_core.h` `DEFINE_func` macros; splitting the TU separates the core from the earlier macro expansion that declares it → `undeclared`. Root: mechanical TU-splitting rebuilds the decl ENVIRONMENT (semantics), not just text — col-0 ambient-carry can't reach macro-injected decls. **Candidate fix (not built): declaration-completion** from a global `engine_core.h`+overlay symbol→type map (decision-log 2026-07-13, R31). **Baseline reverted + intact; 2 tools untracked, NOT committed** — surfaced the fork to Drew (P5a) before sinking more time. NEXT: Drew's steer (build declaration-completion vs pivot Stage-2), then commit the tools.
 - **2026-07-12 (session 4, multi-jtbl `--order` + family-1 — the Stage-1 de-risk build; Max):** Recon proved the Stage-1 core risk is precise: `jtbl_family_bank.revert()` restores each sibling to committed = has func_8012ACE0's carve, so banking ANY 2nd jr family makes the overlay multi-jtbl. Built `ld_interleave.py --order` (address-ordered N-piece sandwich; legacy `--front/--tail` byte-untouched → main + 133 single-carve siblings unaffected) + rewrote `jtbl_carve.py` additive/regenerate-from-config (parses tail data-region + existing carves, splits the containing data piece for the new jtbl, re-emits `--order`; same-subseg → fails loud). Fixed `jtbl_family_bank.bank()` to `make extract` BEFORE the carve (asm must match the reverted config; the old error-string retry was fragile — 3 early siblings carve-failed). **Family-1 `func_801734BC` (34-ins PURE jr, ov_SC01_077_after) matched in ov077 (shared-tail switch idiom `case N: t=-N; break; default: goto after;`) + banked 133/133 siblings — CROSS-subseg multi-jtbl (func_8012ACE0 `_a` + func_801734BC `_after`), the primary Stage-1 goal. R22 clean-fleet 136/136 byte-identical (~52s).** Wrote `tools/jr_isolate.py` (same-subseg non-contiguous case — split a fn into its own subseg via `split_src_region`, `jtbl_carve` re-derives the carve subseg; ascending-order discipline avoids carve-renames) — not yet integrated/committed. §8a finding: the still-INCLUDE_ASM carve build fails (migrated rodata not emitted through INCLUDE_ASM) — OFF the banking critical path (bank swaps C before building). Committed (Drew pushes — R6). NEXT: prove isolation on a higher fn → integrate → pivot to Stage 2.
 - **2026-07-12 (session 3, R22 parallelization — Drew asked "why so slow, profile+optimize"):** Profiled the clean-fleet R22 (`make clean` + extract-all + check-all). **Phase split: extract-all ~6m11s (the BIGGER phase, 136 serial `splat split` runs) + check-all ~2m58s (136 serial builds; most overlays ~1.3s, ov077 slow — maspsx on its 15K-line `.c`) = ~9 min.** Both phases were serial on a 32-core box (the old Makefile comment called cross-binary `-j` "racy"). **Verified the only shared write is the 4 generated `include/*.inc` macros at extract time (identical content); everything else is per-binary-disjoint and `include/` is read-only during a build → parallel is safe.** Added `JOBS ?= 16` + **`make extract-all`** (seed `main` serial for the macros, then parallel-extract the rest) + **parallel `make check-all`** (`xargs -P$(JOBS)`), correctness-gated. **Result: `make clean && make extract-all && make check-all` = ~50s, 136/136 byte-identical — a ~10.5× speedup (9m→~50s).** Committed the Makefile change (own commit). This compounds across the endgame (R22 runs every commit).

@@ -289,6 +289,234 @@ def _comment_blank_only(text):
     return stripped.strip() == ""
 
 
+# --------------------------------------------------- macro-injected file-scope decls
+# A `DEFINE_func_XXXXXXXX()` macro (src/shared/engine_core.h) expands AT FILE SCOPE to
+#
+#     extern <type> <sym>;  ...  (0+ lines)     <-- FILE-SCOPE declarations
+#     <type> func_XXXXXXXX(...) { ... }         <-- the definition
+#
+# so its leading externs are part of the invoking TU's file-scope declaration environment
+# — yet they are invisible to any col-0 scan of the `.c` text, because they live in the
+# header. This is the §8b scoping wall a mechanical TU split hits: `func_801734BC` uses
+# `D_80126B3E`, which is declared `extern s16` ONLY inside `DEFINE_func_80173460`'s macro
+# header. Cut the object between them and the core is stranded from its declaration.
+#
+# Census (2026-07-13): 1801 macros, 1377 with leading decls, 3929 extern lines, 1462
+# distinct symbols — and every leading line is an `extern` (no typedefs/structs), so the
+# leading section is exactly recoverable. Their types come from engine_types.h/common.h
+# (pulled in by engine_core.h at the top of every region), so they need no local-type
+# guard. The 148 externs *inside* macro bodies are block-scope loose-typing shadows: they
+# expand with the invocation and must NEVER be hoisted.
+#
+# SETTER/RETCONST (src/shared/ov_setters.h) expand to a bare definition — no externs.
+_MACRO_HEADERS = ("src/shared/engine_core.h", "src/shared/ov_setters.h",
+                  "src/shared/clearTbl40.h")
+_MACRO_OPEN = re.compile(r'^#define\s+([A-Za-z_]\w*)\s*\(')
+_INVOKE_RE = re.compile(r'^([A-Za-z_]\w*)\s*\(')
+_MACRO_TABLE = None
+
+
+def _split_macro_body(body):
+    """(leading_externs, def_lines) — a macro body's FILE-SCOPE extern lines (everything
+    before the definition header) and the definition itself."""
+    out = []
+    for k, ln in enumerate(body):
+        s = ln.strip()
+        if not s or s.startswith("//") or (s.startswith("/*") and s.endswith("*/")):
+            continue
+        if s.startswith("extern"):
+            out.append(s)
+            continue
+        return out, body[k:]        # the definition header — the body starts here
+    return out, []
+
+
+def _proto_from_lines(lines):
+    """`extern <ret> <name>(<params>);` — the file-scope declaration a function DEFINITION
+    implies for everything below it in its TU. None if `lines` hold no definition header.
+
+    This is the third decl source a mechanical split loses: in ONE translation unit a
+    file-scope definition declares its function for all code below it, so cutting the
+    definition into an earlier region strands every later caller that took its address
+    (`func_8012B2CC undeclared`). A K&R definition (`void f(a, b) s32 a; s32 b; {`) declares
+    an UNPROTOTYPED function, so it must render as `extern void f();` — `(a, b)` is not a
+    prototype and `(void)` would be incompatible."""
+    code, in_block = [], False
+    for ln in lines:
+        c, in_block = _strip(ln, in_block)
+        if "{" in c:
+            code.append(c.split("{", 1)[0])
+            break
+        code.append(c)
+    header = re.sub(r'\s+', ' ', " ".join(code)).strip()
+    name = def_name(lines)
+    if not header or not name:
+        return None
+    m = re.search(r'\b' + re.escape(name) + r'\s*\(', header)
+    if not m:
+        return None
+    open_i = header.index("(", m.end() - 1)
+    depth, close = 0, -1
+    for k in range(open_i, len(header)):
+        if header[k] == "(":
+            depth += 1
+        elif header[k] == ")":
+            depth -= 1
+            if depth == 0:
+                close = k
+                break
+    if close < 0:
+        return None
+    ret = re.sub(r'^extern\s+', '', header[:m.start()]).strip()
+    params = header[open_i + 1:close].strip()
+    if header[close + 1:].strip():          # K&R parameter declarations follow => unprototyped
+        params = ""
+    return " ".join(x for x in ("extern", ret, f"{name}({params});") if x)
+
+
+_MACRO_SIG = re.compile(r'^#define\s+([A-Za-z_]\w*)\s*\(([^)]*)\)')
+
+
+def macro_table():
+    """{macro_name: (params, leading_externs, def_lines)} for every function-body macro in the
+    shared headers (cached). `params` are the macro's formal parameter names — SETTER/RETCONST
+    take the function name AND its type as arguments (`void name(void *p, ty v)`), so a
+    synthesized prototype must substitute the invocation's actual args."""
+    global _MACRO_TABLE
+    if _MACRO_TABLE is not None:
+        return _MACRO_TABLE
+    tbl = {}
+    for rel in _MACRO_HEADERS:
+        path = os.path.join(REPO, rel)
+        if not os.path.exists(path):
+            continue
+        lines = open(path).read().split("\n")
+        i = 0
+        while i < len(lines):
+            m = _MACRO_SIG.match(lines[i])
+            if not m:
+                i += 1
+                continue
+            params = [p.strip() for p in m.group(2).split(",") if p.strip()]
+            # the macro body = the remainder of the #define line + every `\`-continued line
+            body = [re.sub(r'\\\s*$', '', lines[i][m.end():])]
+            cont = lines[i].rstrip().endswith("\\")
+            i += 1
+            while cont and i < len(lines):
+                cont = lines[i].rstrip().endswith("\\")
+                body.append(re.sub(r'\\\s*$', '', lines[i]))
+                i += 1
+            externs, def_lines = _split_macro_body(body)
+            tbl[m.group(1)] = (params, externs, def_lines)
+    _MACRO_TABLE = tbl
+    return tbl
+
+
+def _invocation(item_text):
+    """(macro_name, [args]) for a `define`-kind item (its anchor = the last non-blank line)."""
+    for line in reversed(item_text.split("\n")):
+        s = line.strip()
+        if not s:
+            continue
+        m = _INVOKE_RE.match(s)
+        if not m:
+            return None, []
+        inner = s[m.end():]
+        depth, end = 1, -1
+        for k, ch in enumerate(inner):
+            if ch == "(":
+                depth += 1
+            elif ch == ")":
+                depth -= 1
+                if depth == 0:
+                    end = k
+                    break
+        args = [a.strip() for a in inner[:end].split(",")] if end > 0 else []
+        return m.group(1), [a for a in args if a]
+    return None, []
+
+
+def _expand(text, params, args):
+    """Substitute a macro's formal parameters with the invocation's actual arguments."""
+    for p, a in zip(params, args):
+        text = re.sub(r'\b' + re.escape(p) + r'\b', a, text)
+    return text
+
+
+def macro_externs(item_text):
+    """The file-scope extern lines a `define`-kind item's macro injects ([] if none)."""
+    name, args = _invocation(item_text)
+    params, externs, _ = macro_table().get(name, ([], [], []))
+    return [_expand(e, params, args) for e in externs]
+
+
+def macro_proto(item_text):
+    """The prototype implied by a `define`-kind item's macro DEFINITION (None if none)."""
+    name, args = _invocation(item_text)
+    params, _, def_lines = macro_table().get(name, ([], [], []))
+    if not def_lines:
+        return None
+    return _proto_from_lines([_expand(l, params, args) for l in def_lines])
+
+
+_TYPE_KW = ("typedef", "struct", "union", "enum")
+
+
+def file_scope_types(item_text):
+    """The col-0 TYPE definitions (typedef / struct / union / enum) in an item's text, each a
+    complete brace-aware block.
+
+    A file-local type defined in one region is needed by any LATER region whose carried
+    prototypes reference it — `extern s32 func_80134310(Vec3s *a0, ...)` is a parse error
+    without `typedef struct { s16 x, y, z; } Vec3s;`. Because each region becomes its OWN
+    translation unit, re-emitting the typedef is legal (C89 forbids re-defining a typedef
+    within one TU, but these are different TUs, and a region never both carries a type as
+    ambient and holds its defining item — ambient comes only from strictly earlier regions)."""
+    lines = item_text.split("\n")
+    n, i, out = len(lines), 0, []
+    while i < n:
+        ln = lines[i]
+        s = ln.strip()
+        if not ln or ln[0].isspace() or s.startswith(("//", "/*", "#")):
+            i += 1
+            continue
+        if not any(s == k or s.startswith(k + " ") or s.startswith(k + "\t") for k in _TYPE_KW):
+            i += 1
+            continue
+        j, is_def = scan_construct(lines, i)
+        if not is_def:
+            out.append("\n".join(lines[i:j]))
+        i = max(j, i + 1)
+    return out
+
+
+def def_proto(item_text):
+    """The prototype implied by a `def`-kind item's function definition (None if none)."""
+    lines = item_text.split("\n")
+    n = len(lines)
+    i = 0
+    while i < n:                       # peel the preamble to reach the definition construct
+        s = lines[i].strip()
+        if s == "" or s.startswith("//"):
+            i += 1
+            continue
+        if s.startswith("/*"):
+            while i < n and "*/" not in lines[i]:
+                i += 1
+            i = min(i + 1, n)
+            continue
+        if s.startswith("#"):
+            while i < n and lines[i].rstrip().endswith("\\"):
+                i += 1
+            i += 1
+            continue
+        j, is_def = scan_construct(lines, i)
+        if is_def:
+            return _proto_from_lines(lines[i:j])
+        i = j
+    return None
+
+
 def load_ov_syms(ov):
     """Merge every symbol file the overlay's splat config actually links
     (config's symbol_addrs_path) — us + resident + per-overlay."""

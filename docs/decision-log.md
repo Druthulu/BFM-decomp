@@ -467,3 +467,55 @@ INCLUDE_ASM rodata) cannot arbitrate a match whose difference lives in that regi
   declaration environment from a global symbol map, not relocating text. The parser (structure) was the
   easy 20%; the declaration environment (semantics) is the 80%. Prove the mechanism on the SIMPLE object
   first (it passed) but budget for the dense object's scoping tail before committing to upfront-×134.
+
+---
+
+## 2026-07-13 (session 6) — the §8b scoping wall RESOLVED: rebuild the decl environment, don't map symbols
+
+**Context + belief going in.** Session 5 hit a wall isolating jr cores: the full 54-jr split of `ov_SC01_077`
+failed with `D_80126B3E undeclared`, and I logged the cause as **"gcc-2.7.2 block-scope-extern TU-persistence"**
+— i.e. a non-conformant compiler quirk where an `extern` inside one function body leaks to file scope for the
+rest of the TU. The proposed fix (Drew-approved) was **declaration-completion**: build a global symbol→type map
+and emit a file-scope `extern` for every symbol a region *uses*, minus a heuristic "type-shadowed set".
+
+**What was actually wrong (R14 — the hypothesis was incorrect).** There is no gcc quirk. `DEFINE_func_80173460()`
+expands **at file scope** to `extern void func_801734BC(...); extern struct S80126B38 D_80126B38; extern s16
+D_80126B3E; void func_80173460(...) { … }`. Those externs are *genuinely file-scope* — they are merely
+**textually invisible in the `.c`**, because they live in `engine_core.h`. Any col-0 scan of the source can
+never see them. The wall was a blind spot in our own tooling, not a compiler eccentricity.
+
+**The pivot — and why the approved design was the wrong one.** Chasing "declare every used symbol from a global
+type map" would have been actively harmful. The engine is loosely typed: `func_80173544` is *defined* at file
+scope as `s32 f(void *)` while `func_801734BC`'s body declares `extern void f(void);` — contradictory, and legal
+only because the block-scope decl never meets the definition. Hoisting "every used symbol" lifts that shadow to
+file scope, **creating** a conflict that then needs the heuristic shadow-set to dodge. Instead I **reconstructed
+the original TU's file-scope declaration environment and carried it strictly forward**. That is conflict-free
+*by construction*: every carried decl already coexisted with every definition in the one original TU, and decl
+compatibility is order-symmetric. Shadows stay inside bodies and travel with them. No heuristic, no shadow set.
+
+**What the bytes taught (found by gating, not by reasoning).** Three decl sources were lost, not one — and I only
+found #2 and #3 because the byte-gate kept failing with a *new* error class each time:
+1. `DEFINE_func_*` macro leading externs (3,929 lines / 1,462 symbols) → `D_80126B3E undeclared`.
+2. **A definition is itself a declaration** for everything below it in its TU → `func_8012B2CC undeclared`.
+3. File-local typedefs used by a carried prototype → `parse error before '*'` (`Vec3s`).
+
+**Result.** Full 54-jr isolate-all on `ov_SC01_077` → `d19c9580` byte-identical, **R22 clean-fleet 136/136**.
+Two latent bugs fell out and were fixed: `func_subseg` derived the owning subseg from the *asm tree*, which
+`make extract` never prunes — so after an isolation it returned the STALE owner and silently re-created the
+collision the isolation had just removed (now derived from the config); and the sweep's revert **deleted** the
+shared `overlays.mk` carve var unconditionally, which would have destroyed a *committed* carve (all 134 overlays
+have one) on any failed sibling (now restored to its committed value).
+
+**Upfront vs lazy (new information for the owner).** Drew chose lazy isolation when isolate-all was *failing*,
+to avoid ~7,200 region files. Isolate-all is now byte-proven at 136/136, so upfront is available — but lazy is
+strictly cheaper (pay only for cores we bank) and is what shipped: `jtbl_family_bank` catches `jtbl_carve`'s
+`NON-CONTIGUOUS` fail-loud → isolate that one core → re-carve. Proven on `func_80178D40` (890×134, the heaviest
+core): blocked → isolated (byte-neutral) → carve lands in its own subseg. **The heavy-jr harvest is unblocked.**
+
+**Hindsight / for the wiki.** Two lessons. (1) *A wall's stated root cause is a hypothesis until the bytes
+confirm it* — I recorded a compiler quirk that did not exist, and the "fix" it implied would have introduced
+real conflicts. Re-derive the mechanism before building on it. (2) *Splitting a translation unit is a semantic
+operation, not a textual one.* The parser (structure) was the easy 20%; the declaration environment (semantics)
+was the 80% — and the correct move is to **reproduce the environment the original had**, never to invent a new
+one from a global map. Faithful-forward-carry needs no heuristics; "declare everything used" needs a growing
+pile of them.

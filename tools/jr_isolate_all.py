@@ -227,10 +227,9 @@ _HOIST_RE = re.compile(
     r'|[A-Za-z_][\w\*\s]*\b(?:func_[0-9A-Fa-f]{8}|D_[0-9A-Fa-f]{8})\b[^{]*;)\s*(?:/\*.*\*/)?\s*$')
 
 
-_SYM_RE = re.compile(r'\b((?:D_|func_)[0-9A-Fa-f]{8})\b')
-# a decl whose base type is a BUILTIN / include-provided type is safe to hoist to the region
-# top; one that names a FILE-LOCAL type (`Vec8`, `struct BigCopy`, ...) must stay where the type
-# is defined (hoisting it above the typedef is a parse error), so it is NOT carried as ambient.
+# a col-0 decl whose base type is a BUILTIN / include-provided type is safe to hoist as-is; one
+# naming a FILE-LOCAL type is only safe once that type is carried too — which `file_scope_types()`
+# now does, so such decls ride along after their typedef (types are emitted before decls).
 _SAFE_TYPE = re.compile(
     r'^\s*(?:extern\s+)?(?:const\s+)?(?:(?:un)?signed\s+)?'
     r'(?:void|char|short|int|long|float|double'
@@ -238,42 +237,89 @@ _SAFE_TYPE = re.compile(
 
 
 def _file_scope_decls(items):
-    """[(line, [syms])] for each COL-0 (file-scope) extern/proto decl with a builtin base type,
-    in item order (file-local-typed decls are left in place — see _SAFE_TYPE)."""
+    """[(line, [syms])] for every decl that stood at FILE SCOPE in the original TU, in item
+    order. TWO sources — the second is the §8b scoping-wall fix:
+
+      (1) COL-0 extern/proto lines in the `.c` text, with a builtin base type (a file-local
+          type would be a parse error if hoisted above its typedef — see _SAFE_TYPE).
+      (2) The LEADING EXTERNS of every `DEFINE_func_*()` macro the region invokes. The macro
+          expands at file scope to `extern <type> <sym>; ... <def>`, so those externs ARE part
+          of the TU's file-scope decl environment — but they live in engine_core.h, so no col-0
+          scan of the `.c` can see them. This is what stranded `func_801734BC` from
+          `extern s16 D_80126B3E;` (declared only inside DEFINE_func_80173460). Their types come
+          from engine_types.h/common.h — included by engine_core.h at every region top — so they
+          need no _SAFE_TYPE guard. (Externs *inside* macro bodies are block-scope shadows: they
+          expand with the invocation and are never hoisted.)
+      (3) The PROTOTYPE IMPLIED BY EVERY FUNCTION DEFINITION (`def` items and the `DEFINE_func_*`
+          / SETTER / RETCONST macros' own definitions). In ONE translation unit a file-scope
+          definition declares its function for all code below it — so a cut that moves the
+          definition into an earlier region strands every later caller that took its address
+          (`func_8012B2CC undeclared`). Every overlay def has external linkage (no `static`), so
+          re-declaring it in a later region is always legal.
+      (4) The col-0 TYPE definitions, so a carried prototype naming a file-local type
+          (`Vec3s *a0`) still parses. Returned flagged so the renderer emits types FIRST.
+
+    Returns [(text, is_type)] in item order."""
     out = []
-    for _, _, _, text in items:
+    for _, _, kind, text in items:
+        for block in oss.file_scope_types(text):        # (4) types first-class
+            out.append((block, True))
         for line in text.split("\n"):
-            if not line or line[0].isspace():          # col-0 only (block-scope stays put)
+            if not line or line[0].isspace():           # col-0 only (block-scope stays put)
                 continue
             if "{" in line or "}" in line:
                 continue
             if _HOIST_RE.match(line) and _SAFE_TYPE.match(line):
-                out.append((line.rstrip(), _SYM_RE.findall(line)))
+                out.append((line.rstrip(), False))
+        proto = None
+        if kind == "define":                            # (2) macro-injected file-scope externs
+            for line in oss.macro_externs(text):
+                out.append((line, False))
+            proto = oss.macro_proto(text)
+        elif kind == "def":
+            proto = oss.def_proto(text)
+        if proto:                                       # (3) the definition's implied declaration
+            out.append((proto, False))
     return out
 
 
 def _render_region(header, items, old_sub, new_sub, ambient):
     """Region .c = header + AMBIENT file-scope decls (from earlier regions of this object, in
-    original order, deduped by symbol) + the region's items unchanged. Ambient preserves the
-    exact decl visibility each function had in the original single object (a cut otherwise
-    strands a use above the decl that lived in an earlier region) — byte-neutral (decls emit
-    nothing; order preserved). Prepending is always safe: a symbol that has a file-scope decl
-    cannot also carry a *different*-typed block-scope shadow (the original would not compile),
-    so a same-typed block-scope redeclaration below is compatible."""
+    original order, deduped by symbol) + the region's items unchanged.
+
+    WHY THIS IS BYTE-NEUTRAL AND CONFLICT-FREE BY CONSTRUCTION: `ambient` reproduces the
+    original TU's file-scope decl environment, carried strictly FORWARD (regions are in address
+    order and file order == address order, so every ambient source textually preceded every item
+    of this region in the original). Therefore (a) every carried decl already coexisted with
+    every definition in the one original TU, so no NEW `conflicting types` can arise; (b) decl
+    compatibility is order-symmetric, so hoisting a decl earlier is safe; (c) decls emit no code.
+    The loose-typing shadows — e.g. `func_80173544`, defined at file scope as
+    `s32 f(void *)` yet declared `extern void f(void);` *inside* func_801734BC's body — live in
+    bodies, travel with their item, and are never hoisted, so the split never creates the clash a
+    naive "declare every used symbol" completion would. `make build` (SHA1) remains the sole
+    arbiter (G3/P9/R22)."""
     if new_sub != old_sub:
         items = [(a, n, k, oss.rewrite_asm_subseg(t, old_sub, new_sub)) for a, n, k, t in items]
-    lines, seen = [], set()
-    for line, syms in ambient:
-        key = tuple(sorted(syms)) if syms else (line,)
+    # Dedup by EXACT decl text, not by symbol: this codebase is loosely typed, so one symbol can
+    # legally carry several distinct (even mutually-warning) file-scope decls — the baseline build
+    # emits 87 `type mismatch with previous external decl` warnings and is still byte-identical.
+    # Collapsing them to the first would drop a decl the original TU had (e.g. hide a definition's
+    # own signature behind an earlier, differently-typed canonical extern). Emitting every distinct
+    # decl in original order reproduces the original sequence exactly.
+    types, decls, seen = [], [], set()
+    for text, is_type in ambient:
+        key = re.sub(r'\s+', ' ', text.strip())
         if key in seen:
             continue
         seen.add(key)
-        lines.append(line)
+        (types if is_type else decls).append(text)
     parts = [header]
-    if lines:
-        parts.append("/* Phase-26 §8b jr_isolate_all.py: ambient file-scope decls carried from "
-                     "earlier code regions of this object (original order, shadow-excluded => "
-                     "byte-neutral). */\n" + "\n".join(lines))
+    if types or decls:
+        parts.append("/* Phase-26 §8b jr_isolate_all.py: the file-scope decl environment carried "
+                     "from earlier code regions of this object — file-local types, col-0 decls, "
+                     "DEFINE_func macro externs, and each earlier definition's implied prototype "
+                     "(types first, then decls in original order => byte-neutral). */\n"
+                     + "\n".join(types + decls))
     parts.extend(t for _, _, _, t in items)
     return "\n".join(parts) + "\n"
 
