@@ -145,6 +145,53 @@ def rewrite_def(txt, fn, canon):
     return txt[:m.start()] + new_hdr + txt[m.end():], True
 
 
+_cdecl = _load('cdecl', 'tools/cdecl.py') if '_load' in dir() else None
+
+
+def _tu_for(overlay, fn):
+    """The TU that holds this function's stub — DERIVED (corpus.stubs); None if it is not an open
+    stub anywhere (already banked, or not ours)."""
+    try:
+        import importlib.util
+        spec = importlib.util.spec_from_file_location('corpus', os.path.join(REPO, 'tools/corpus.py'))
+        c = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(c)
+        st = c.stubs(overlay).get(int(fn[5:], 16))
+        return os.path.join(REPO, st.path) if st else None
+    except Exception:
+        return os.path.join(REPO, f'src/{overlay}/{overlay}.c')
+
+
+def _canon_for(tu):
+    """{symbol: 'extern <canonical decl>;'} — DERIVED from what cc1 sees in THIS TU (cpp), so the
+    macro-injected `DEFINE_func_*` externs are finally visible. The old union of three raw-text
+    scanners (collect_define_sigs + collect_inline_sigs + collect_extern_sigs) could not see them,
+    and its DATA_DECL_RE was blind to fn-ptr / sized-array / multi-declarator decls (44 of 646
+    symbols in this very corpus) — so the recovery pass silently did nothing for exactly the symbols
+    that were failing."""
+    import cdecl as cd
+    out = {}
+    for name, d in cd.tu_scope(tu).items():
+        if d.storage == 'typedef':
+            continue
+        out[name] = d.declaration(storage='extern')
+    return out
+
+
+def _keep(draft_line, canon_decl):
+    """Leave the draft's decl alone when cc1 would accept it beside the TU's. sig_unify's known
+    failure mode is REGRESSING already-correct drafts (§19/§25: 'canon-first, sig_unify FALLBACK'),
+    and a rewrite that changes nothing semantic can still perturb codegen. Rewrite only when the
+    front end would actually reject the pair."""
+    try:
+        import cdecl as cd
+        a = cd.parse(canon_decl)[0]
+        b = cd.parse(draft_line.strip())[0]
+        return cd.compatible(a, b)
+    except Exception:
+        return False
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--overlay', default='ov_SC01_077')
@@ -157,38 +204,41 @@ def main():
     ap.add_argument('--out', dest='outdir', required=True)
     args = ap.parse_args()
 
-    c_path = os.path.join(REPO, args.src_file) if args.src_file else \
-        os.path.join(REPO, f'src/{args.overlay}/{args.overlay}.c')
-    ec = os.path.join(REPO, 'src/shared/engine_core.h')
-
-    fdef = _ght.collect_define_sigs(ec)
-    fdef.update(_ght.collect_inline_sigs(c_path))
-    fdecl = _ght.collect_extern_sigs([ec, c_path])
-    func_canon = {}
-    for a, s in fdecl.items():
-        func_canon[f'func_{a:08X}'] = f'extern {s};'
-    for a, s in fdef.items():
-        func_canon[f'func_{a:08X}'] = f'extern {s};'
-    data_canon = collect_data_decls([c_path, ec])
-    canon = {**func_canon, **data_canon}
-
+    override = os.path.join(REPO, args.src_file) if args.src_file else None
     os.makedirs(os.path.join(REPO, args.outdir), exist_ok=True)
-    stub_re = re.compile(r'INCLUDE_ASM\([^,]*,\s*(func_[0-9A-Fa-f]+)\)')
-    cur_stubs = set(stub_re.findall(open(c_path).read()))
 
-    n = ext_rw = def_rw = 0
+    n = ext_rw = def_rw = passthru = 0
+    _canon_cache = {}
     for p in sorted(glob.glob(os.path.join(REPO, args.indir, '*.c'))):
         fn = os.path.basename(p)[:-2]
-        if fn not in cur_stubs:
-            continue
         txt = open(p).read()
+
+        # WHICH TU? DERIVED (Phase 26-A, §51g LAW 10). `--src-file` was an optional hand-passed flag
+        # defaulting to src/<ov>/<ov>.c, and `cur_stubs` was read from THAT file — so a draft whose
+        # stub lives in a Phase-26 `_jr_<ADDR>` carve was not in the set and hit
+        #     if fn not in cur_stubs: continue
+        # which dropped it BEFORE THE WRITE. It never reached --out, was never gated, was never
+        # logged; the summary just printed a smaller "drafts unified" and read like success.
+        # MEASURED: 190 of 196 drafts (97%) silently vanished — and this is gate_stage's STAGE-2
+        # RECOVERY, the pass whose whole job is to rescue the stage-1 failures. It has been a no-op
+        # for almost every draft it was meant to save.
+        # corpus.stubs() knows which TU holds each stub (the INCLUDE_ASM line is self-describing),
+        # so the derivation IS the check and the silent drop is now structurally impossible.
+        tu = override or _tu_for(args.overlay, fn)
+        if tu is None:                              # not an open stub anywhere -> nothing to unify
+            open(os.path.join(REPO, args.outdir, os.path.basename(p)), 'w').write(txt)
+            passthru += 1                           # PASSED THROUGH and COUNTED, never dropped
+            continue
+        if tu not in _canon_cache:
+            _canon_cache[tu] = _canon_for(tu)
+        canon = _canon_cache[tu]
         ext_changed = False
 
         def repl(m):
             nonlocal ext_changed
             line = m.group(0)
             s = sym_of(line)
-            if s and s in canon:
+            if s and s in canon and not _keep(line, canon[s]):
                 new = canon[s]
                 if re.sub(r'\s+', ' ', new).strip() != re.sub(r'\s+', ' ', line).strip():
                     ext_changed = True
@@ -201,7 +251,7 @@ def main():
             nonlocal ext_changed
             line = m.group(0)
             s = sym_of(line)
-            if s and s != fn and s in canon:
+            if s and s != fn and s in canon and not _keep(line, canon[s]):
                 new = canon[s]
                 if re.sub(r'\s+', ' ', new).strip() != re.sub(r'\s+', ' ', line).strip():
                     ext_changed = True
@@ -215,8 +265,9 @@ def main():
         ext_rw += ext_changed
         def_rw += def_changed
 
-    print(f'canonical decls: {len(func_canon)} func + {len(data_canon)} data')
-    print(f'drafts unified: {n}  (callee-externs rewritten in {ext_rw}, OWN def-sig rewritten in {def_rw})')
+    print(f'drafts in: {n + passthru}; unified: {n}; passed through (not an open stub): {passthru}; '
+          f'TUs: {len(_canon_cache)}')
+    print(f'  callee-externs rewritten in {ext_rw}, OWN def-sig rewritten in {def_rw}')
 
 
 if __name__ == '__main__':

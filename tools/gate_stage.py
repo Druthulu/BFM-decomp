@@ -259,6 +259,9 @@ def _run_gate_locked(drafts, binary, src, asm, out, good_sha, propagate, source_
         note = sm.group(1).strip() if sm else None
         if kind == "match":   # match_one says MATCH but the whole-binary gate rejected -> plumbing/TU conflict
             status, where = "near", note or "match_one MATCH but gate rejected (declaration/TU plumbing)"
+            near += 1         # …and COUNT it. It was logged as `near` and counted as NOTHING, so a
+                              # run of 63 such drafts printed "banked 0, near 0, failed 0" — three
+                              # zeros that do not sum to 63, and nobody ever added them up (R32).
         elif kind == "near":
             status, where = "near", note or f"{meta.get('lever') or meta.get('class') or 'residual'}: {close} mismatch"
             near += 1
@@ -311,8 +314,12 @@ def main():
     ap.add_argument("--commit", action="store_true")
     a = ap.parse_args()
     b = a.binary
+    # `src` RESTRICTS the byte-gate to ONE TU. Defaulting it to the main .c silently pinned the gate
+    # to 13 of 263 stubs (4.9%): A3 taught harvest_verify to derive each draft's home TU *when --src
+    # is omitted* — and this caller never omitted it, so the fix was neutralised by its own caller.
+    # Now: pass --src ONLY when a human explicitly restricts the gate. Omitted => derive per draft.
     summary = run_gate(a.drafts, binary=b,
-                       src=a.src or f"src/{b}/{b}.c",
+                       src=a.src,
                        asm=a.asm_subdir or f"asm/{b}/nonmatchings/{b}",
                        out=a.out or f"build/{b}/{b}",
                        good_sha=a.good_sha or DEF_SHA,

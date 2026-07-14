@@ -3724,3 +3724,34 @@ from **8 → 58 of 196** drafts (7× reach).
 > the difference between an **invisible failure that reads as a compiler wall** and a **scored near-miss
 > the permuter and the §47/§48 dials can act on.** Which is the audit's thesis exactly. Do not sell it as
 > more than it is; three times in one session a confirmed mechanism produced a null consequence.
+
+**LAW 11 — A FIX IS NOT LANDED UNTIL ITS CALLER STOPS OVERRIDING IT.** The single worst defect in the
+audit was not in a scanner. It was one default argument in the caller of a scanner we had *already fixed*:
+
+```python
+# tools/gate_stage.py:315
+summary = run_gate(a.drafts, binary=b, src=a.src or f"src/{b}/{b}.c", ...)   # <- ALWAYS the main .c
+```
+
+`src` **restricts the byte-gate to ONE translation unit.** A3 had just taught `harvest_verify` to derive
+each draft's home TU *when `--src` is omitted*, lifting the byte-gate's reach from **4.9% to 100%** — and
+**`gate_stage` never omits it.** So the primary banking path (every wave, the grinder, the orchestrator,
+`bulk_harvest`) stayed structurally incapable of banking **250 of 263 stubs**, *after the fix*, *because of
+its own caller's default*.
+
+> **AND HERE IS WHY IT SURVIVED 26 PHASES.** `harvest_verify` cannot splice a draft whose stub is not in
+> the TU it was pointed at, so the draft simply never verifies — and is then logged as `near`/`failed`,
+> i.e. **as a matching problem**. The wave reports a low close-rate and the function goes to the backlog
+> as a residual.
+> **A tool that CANNOT bank a function is indistinguishable, in every log this project keeps, from a
+> function that CANNOT BE banked.**
+> Proof, same draft, same gate, same second: `gate_stage` rejected `func_80129C40`; `harvest_verify` run
+> directly (no `--src`) **verified it byte-identical and banked it.**
+
+**And a counting bug that hid the hiding:** when `match_one` says MATCH but the whole-binary gate rejects,
+`gate_stage` logs `status="near"` and **never increments the counter**. A run of 63 such drafts printed
+`banked 0, near 0, failed 0` — *three zeros that do not sum to 63* — for phases. **Nobody added them up.**
+(LAW 2 again, and note the shape: the number was not wrong, it was ABSENT.)
+
+**Checklist item, promoted to the top:** after fixing a scanner, `grep` every call site and ask *does any
+caller pass a default that re-disables this?* An audit that stops at the callee is half an audit.

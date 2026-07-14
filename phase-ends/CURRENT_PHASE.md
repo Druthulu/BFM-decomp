@@ -659,6 +659,47 @@ On approval → `/model opus` + `/effort xHigh` (Tasks 0–4; ALL Fable5 via `Ag
 
 ## Log
 
+- **2026-07-14 (session 10, A3e — 🔴 THE BIG ONE: `gate_stage` pinned the byte-gate back to 4.9% — *of A3's own
+  fix*; Max):** Migrating `sig_unify` exposed a chain, and the last link is the worst defect in the whole audit.
+  **(1) `sig_unify` silently DROPPED 190 of 196 drafts (97%).** `cur_stubs` was read from the main `.c` (13
+  stubs of 263), so any draft whose stub lives in a `_jr_*` carve hit `if fn not in cur_stubs: continue` —
+  dropped **before the write**: never copied to `--out`, never gated, never logged. The summary printed *"drafts
+  unified: 6"* and read like success. **This is gate_stage's STAGE-2 RECOVERY** — the pass whose entire job is
+  to rescue stage-1 failures — **and it has been a no-op for almost every draft it was meant to save.** Fixed by
+  deriving the TU per draft (`corpus.stubs`) + the canon from `cdecl.tu_scope` (cpp, so macro-injected decls are
+  visible) + `_keep()` (only rewrite when cc1 would actually reject — the §19 "sig_unify regresses canonical
+  drafts" failure mode). Reach: **6 → 196 drafts; callee-externs rewritten 2 → 90; own def-sig 2 → 86.**
+  With all three consumers migrated the 196-draft failure profile went **near 5 → 116, failed 190 → 17**:
+  **173 of 190 "failures" were PLUMBING, not codegen** — now compiling and *scored* instead of invisible.
+  **(2) 🔴 `gate_stage.py:315`: `src=a.src or f"src/{b}/{b}.c"`.** `src` **RESTRICTS the byte-gate to ONE TU**,
+  and `_gate1` does `if src: cmd += ["--src", src]` — always truthy. **A3 had just taught `harvest_verify` to
+  derive each draft's home TU when `--src` is OMITTED (reach 4.9% → 100%), and `gate_stage` never omits it.**
+  The fix was neutralised **by its own caller's default**, leaving the *primary banking path* (every wave, the
+  grinder, the orchestrator, `bulk_harvest`) structurally unable to bank **250 of 263 stubs**.
+  **WHY IT SURVIVED 26 PHASES:** a draft whose stub isn't in the pointed-at TU simply never verifies → it is
+  logged `near`/`failed`, i.e. **as a MATCHING problem** → the wave reports a poor close-rate → the function
+  goes to the backlog as a compiler residual. **A tool that CANNOT bank a function is indistinguishable, in
+  every log this project keeps, from a function that CANNOT BE banked.** Proof, same draft/gate/second:
+  `gate_stage` rejected `func_80129C40`; **`harvest_verify` run directly (no `--src`) VERIFIED it
+  byte-identical and banked it.** **(3)** And a counting bug hid the hiding (`gate_stage:261`): `match_one`
+  MATCH + gate-reject logs `status="near"` and **never increments the counter** — a 63-draft run printed
+  `banked 0, near 0, failed 0`, *three zeros that do not sum to 63*, for phases, and **nobody added them up**.
+  **THE PRIZE, MEASURED:** the backlog holds **1,588** `closeness==0` entries (body byte-exact per `match_one`,
+  gate rejected). 1,215 were banked since by other paths; **373 are STILL OPEN STUBS whose bodies are already
+  byte-exact**, sitting in a ledger that calls them unrecoverable.
+  **⚠ THE HARVEST ATTEMPT FAILED AND WAS REVERTED (P9).** Gating the 63 ov_SC01_077 ones dragged
+  `dedup_propagate --auto-from --recover` behind it, which ran **>1 h and hit its timeout** — its first-ever run
+  over the FULL corpus (A6/A7 unblocked the 407 files it could never see). It **mutates the tree BEFORE it
+  gates**, so the kill left **859 files + engine_core.h (+544 lines) written and UN-GATED, and the registry
+  never updated**. R22 clean-fleet on it: **44 passed / 92 FAILED** → **`git checkout -- src/ config/`**, fleet
+  restored. **Nothing was lost (H4: the tree was clean, so the revert was one command) — but two real lessons:
+  `dedup_propagate` is NOT crash-safe and must never run under a timeout it can hit; and a 63-draft experiment
+  must not drag an unbounded fleet-wide propagation behind it (gate with `propagate=False`, then propagate as
+  its own bounded job).**
+  **Committed: the TOOL FIXES only. The harvest is NOT banked and is not claimed.** Knowledge captured live
+  (R30/R31): cookbook **§51g LAW 11** (*a fix is not landed until its caller stops overriding it* — after
+  fixing a scanner, grep every call site and ask whether a caller's default re-disables it), tooling-audit
+  **A3e**. **NEXT: re-run the 373-stub harvest with `propagate=False`, then propagate separately.**
 - **2026-07-14 (session 10, A3d — RETIRE the fleet-majority oracle; both banking paths; Max):** R33 applied to
   the audit's worst finding: **not fixed, RETIRED.** `reconcile_decls` asks *"what does the FLEET call this
   symbol?"*; C asks *"what does THIS TU declare?"*. The engine is loosely typed, so one fleet-wide answer is

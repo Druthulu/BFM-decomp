@@ -726,6 +726,25 @@ scanners** — the "best outcome is a deleted scanner" rule (R33), applied at sc
 3. **A recovery tool once wrote non-C into drafts:** `extern if ((func_80029178(0x119) & 0xFF) != 0);` appears in 33 drafts, *only* in `-canon`/`-recanon`/`-uni`/`-sigfix` output dirs (the pre-recovery draft has none), and gcc rejects it outright. **R14 blast-radius check: the source bug was already fixed in Phase 19** — today's oracle emits **0 garbage over 300 signatures** — so this is dead historical residue, not a live defect. *Mechanism confirmed, consequence nil.* But note what it cost at the time: a draft that cannot compile fails the byte-gate and reads, downstream, as **an intrinsic compiler wall**.
 4. **`tu_ambient`'s function regex drops any callee with a fn-ptr parameter.** Its param class is `[^()]*`, so `extern void func_8012A568(void (*a0)(void));` — a real declaration in ov_SC01_077 — lands in **no bucket at all**: not funcs, not data, not typedefs.
 
+### 🔴 A3e — THE ONE THAT MATTERS: `gate_stage` pinned the byte-gate back to 4.9% — *of its own fix*
+
+**`tools/gate_stage.py:315`**
+
+```python
+summary = run_gate(a.drafts, binary=b,
+                   src=a.src or f"src/{b}/{b}.c",     # <- ALWAYS the main .c
+```
+
+`src` **restricts the byte-gate to ONE translation unit.** `_gate1` then does `if src: cmd += ["--src", src]` — and `src` is *always* truthy.
+
+**A3 fixed `harvest_verify` to derive each draft's home TU *when `--src` is omitted*, taking the byte-gate's reach from 4.9% to 100%. `gate_stage` never omits it.** The fix was silently neutralised **by its own caller**, and `gate_stage` — the *primary banking path*, the thing every wave, the grinder, the orchestrator and `bulk_harvest` call — remained structurally incapable of banking **250 of ov_SC01_077's 263 stubs (95%)**.
+
+**How it hid.** `harvest_verify` cannot splice a draft whose stub is not in the TU it was pointed at, so those drafts simply never verify. They are then logged as `near`/`failed` — i.e. *as matching problems* — and the wave reports a low close-rate. **A tool that cannot bank a function is indistinguishable, in every log this project keeps, from a function that cannot be banked.** Proof: `func_80129C40` — `gate_stage` rejected it; `harvest_verify` run directly (no `--src`) **VERIFIED it byte-identical and banked it.** Same draft, same gate, same second.
+
+**And a counting bug that hid the hiding** (`gate_stage:261`): when `match_one` says MATCH but the whole-binary gate rejects, the record is logged `status="near"` and **the counter is never incremented**. A run of 63 such drafts printed `banked 0, near 0, failed 0` — three zeros that do not sum to 63, printed for phases, **and nobody ever added them up.**
+
+**The backlog says how big this is.** 1,588 entries at `closeness == 0` (body byte-exact per `match_one`, whole-binary gate rejected). 1,215 have been banked since by other paths — leaving **373 still-open stubs whose bodies are already byte-exact**, sitting in a backlog that describes them as unrecoverable.
+
 ### A3c — the first consumer migration (`cast_call_sites`), and what it measured
 
 | | |
