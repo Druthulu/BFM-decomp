@@ -1830,7 +1830,7 @@
     }
 
 #define DEFINE_func_8015BEC4() \
-    extern s32 func_8015AE2C(void); \
+    extern s32 func_8015AE2C(); \
     s32 func_8015BEC4(void) { \
         return func_8015AE2C(); \
     }

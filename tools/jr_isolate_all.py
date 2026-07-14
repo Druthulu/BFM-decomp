@@ -116,8 +116,19 @@ def plan(ov, only=None):
     alljr, banked = jr_inventory(ov)
     if only:
         only_addrs = {int(x[5:], 16) for x in only if re.fullmatch(r'func_[0-9A-Fa-f]{8}', x)}
+        # A region may host AT MOST ONE `.rodata` carve, because an object's `.rodata` is a single
+        # CONTIGUOUS section. So every ALREADY-BANKED jr in an object we are cutting must be cut too:
+        # otherwise it shares a region with the new core, and that one object has to emit both jump
+        # tables — which sit far apart in the island — into one `.rodata`. Byte-proven: isolating
+        # func_8015AE2C (jtbl 0x801D8B54) alone left the banked func_801734BC (jtbl 0x801D8C68) inside
+        # its region, and the object emitted a 0x34 `.rodata` spanning BOTH tables (image +33 B).
+        # Cutting at each banked jr gives every one its own region → exactly one carve per object.
+        # (This is what cookbook §8b's "bank same-subseg families ASCENDING" note was warning about;
+        # it is now enforced by construction rather than left to discipline.)
+        touched = {obj_of(a) for a in only_addrs}
+        only_addrs |= {a for a in banked if obj_of(a) in touched}
         alljr = {a: v for a, v in alljr.items() if a in only_addrs}
-        banked = {a: nm for a, nm in banked.items() if a in only_addrs}
+        # NB `banked` itself is deliberately NOT filtered — every banked carve must stay trackable.
 
     # group jr by their -O2 object (skip -O0 objects + objects with no jr)
     skipped_o0 = []
@@ -144,6 +155,27 @@ def subseg_name(ov, vram):
     return f"{ov}_jr_{vram:08X}"          # uppercase hex, matching the func_XXXXXXXX convention
 
 
+def carve_owners(ov, banked, base, carve_offs):
+    """{carve_offset: func_name} — which already-banked jr owns each existing `.rodata` carve.
+
+    Resolved from the EXTRACTED IMAGE (`family_remap.reloc_targets` reads each function's lui/%lo
+    address operands), NOT from splat `.s`: splat emits **no `.s` for a MATCHED function** (its `.c`
+    carries real C), so an asm scan finds nothing and every banked carve silently goes untracked —
+    which is precisely how func_801734BC's carve got stranded. A banked jr owns a carve iff it
+    references that carve's address."""
+    import family_remap
+    owners = {}
+    for addr, fn in banked.items():
+        try:
+            targets = family_remap.reloc_targets(ov, addr)
+        except Exception:
+            continue
+        for kind, t in targets:
+            if kind == "data" and (t - base) in carve_offs:
+                owners[t - base] = fn
+    return owners
+
+
 def build_new_config(ov, p):
     """Return (new_cfg_lines, new_files:{path:content}, carve_renames:{old_sub:new_sub})."""
     base = p["base"]
@@ -154,7 +186,15 @@ def build_new_config(ov, p):
     #    line indices stay valid).
     new_files = {}
     replacements = []            # (line_idx, [new config lines])
-    carve_renames = {}           # old code-subseg name -> banked jr's new _jr_ subseg
+    carve_moves = {}             # carve OFFSET (jtbl vram - base) -> the subseg that now hosts its fn
+    carve_renames = {}           # old code-subseg -> new subseg (derived; for the overlays.mk --order)
+    carve_offs = {int(m.group(1), 16) for m in
+                  (re.match(r'^\s*- \[(0x[0-9A-Fa-f]+),\s*\.rodata,\s*\w+\]', ln) for ln in cfg_lines)
+                  if m}
+    owners = carve_owners(ov, p["banked"], base, carve_offs)      # {carve_off: fn}
+    fn_carves = {}
+    for _off, _fn in owners.items():
+        fn_carves.setdefault(_fn, []).append(_off)
     banked_by_obj = {}
     for fn, obj in p["banked_obj"].items():
         banked_by_obj.setdefault(obj, []).append(fn)
@@ -177,22 +217,39 @@ def build_new_config(ov, p):
             body = _render_region(header, items, old_sub=nm, new_sub=sub, ambient=ambient)
             new_files[os.path.join(REPO, f"src/{ov}/{sub}.c")] = body
             ambient = ambient + _file_scope_decls(items)      # context for later regions
-            # a banked jr leading this region -> its carve must repoint to `sub`
-            if lo is not None:
-                for fn in banked_by_obj.get(nm, []):
-                    if int(fn[5:], 16) == lo:
-                        carve_renames[nm] = sub
+            # EVERY already-banked jr that now falls in this region must have its `.rodata` carve
+            # repointed to `sub` — not just one that LEADS it. A cut placed BELOW an already-banked jr
+            # MOVES that jr into the new region, so its C-emitted jump table is linked into the new
+            # object while the config still names the old subseg → the carve piece under-fills and every
+            # later symbol shifts (byte-proven: isolating func_8015AE2C at 0x8015AE2C moved the banked
+            # func_801734BC @0x801734BC, whose 20-B table then landed in the new object's .rodata,
+            # bloating it 0x1C→0x34 and lengthening the image). This stayed hidden because both earlier
+            # single-core isolations cut ABOVE func_801734BC, and the full isolate-all gave every jr its
+            # own leading region. Carves are keyed by OFFSET (the jtbl vram), since two banked jr of one
+            # object can now land in DIFFERENT regions. (Cookbook §8b's "bank ASCENDING" note is exactly
+            # this hazard — now handled instead of merely warned about.)
+            for fn in banked_by_obj.get(nm, []):
+                a = int(fn[len("func_"):], 16)
+                if (lo is None or a >= lo) and (hi is None or a < hi):
+                    for _o in fn_carves.get(fn, []):
+                        carve_moves[_o] = sub
         replacements.append((li, cfg_block))
 
     # apply config code-region replacements bottom-up
     for li, block in sorted(replacements, reverse=True):
         cfg_lines[li:li + 1] = block
 
-    # 2) repoint the .rodata carve pieces to the banked jr's new subseg
+    # 2) repoint each .rodata carve piece — matched by OFFSET, not by subseg name, because two banked
+    #    jr of one object can now land in DIFFERENT regions.
     for i, ln in enumerate(cfg_lines):
-        m = re.match(r'^(\s*- \[0x[0-9A-Fa-f]+,\s*\.rodata,\s*)(\w+)(\].*)$', ln)
-        if m and m.group(2) in carve_renames:
-            cfg_lines[i] = m.group(1) + carve_renames[m.group(2)] + m.group(3)
+        m = re.match(r'^(\s*- \[)(0x[0-9A-Fa-f]+)(,\s*\.rodata,\s*)(\w+)(\].*)$', ln)
+        if not m:
+            continue
+        off, cur = int(m.group(2), 16), m.group(4)
+        new = carve_moves.get(off)
+        if new and new != cur:
+            carve_renames[cur] = new          # for the overlays.mk --order (jtbl_carve re-emits it anyway)
+            cfg_lines[i] = m.group(1) + m.group(2) + m.group(3) + new + m.group(5)
 
     return cfg_lines, new_files, carve_renames
 
