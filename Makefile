@@ -125,7 +125,7 @@ CC1_SMOKE_FLAGS := -quiet -O2 -G0 -mips1 -mcpu=3000 -mgas -msoft-float -fgnu-lin
 BINUTILS_WARN_MAJOR := 2
 BINUTILS_WARN_MINOR := 38
 
-.PHONY: help check-env extract build check expected clean report sig-refresh sig-overlays build-all check-all
+.PHONY: help check-env extract build check expected clean report sig-refresh sig-overlays build-all check-all audit-corpus audit-cdecl
 
 # -----------------------------------------------------------------------------
 help:
@@ -148,10 +148,25 @@ GHIDRA_PROJ  := $(HOME)/bfm-decomp/ghidra
 # The corpus oracle (Phase 26-A, R32/R33). A SECOND, INDEPENDENT oracle: it cross-checks splat's
 # function boundaries against sig_image's, which are derived from the ORIGINAL bytes without splat.
 # The byte-gate is structurally BLIND to a bad boundary (the .s halves are pasted back verbatim, so
-# the image stays byte-identical) — only an oracle that can DISAGREE can see it. Currently RED:
-# 193 unmatchable slices from one bad symbol line. Wire into `report` once A4 lands it green.
+# the image stays byte-identical) — only an oracle that can DISAGREE can see it. GREEN since A4
+# (0 phantom + 0 truncated; was 193 unmatchable slices from one bad symbol line).
 audit-corpus:
 	$(VENV_PY) tools/corpus.py --all --audit
+
+# The C-declaration oracle (Phase 26-A; R33 BEFORE R32). ONE parser, replacing fifteen regex models
+# of what a C declaration is — models that disagree with each other and are blind, all fifteen, to
+# fn-ptr / sized-array / multi-declarator decls.
+#
+# It is a GATE, not just a capability, because this phase paid to learn that a loud failure NOBODY
+# COUNTS is exactly as invisible as a silent one (build_engine_types failed loudly for four phases
+# while hard-exiting on 81% of its own corpus). So: run it, and count it.
+#
+# Coverage is asserted from the C GRAMMAR itself — at file scope C admits nothing but declarations,
+# so the candidate set is every depth-0 statement, and there is no hand-maintained candidate regex
+# to rot. The real cross-gcc then adjudicates BOTH the parse and the residue (R34): it compiles each
+# declaration beside this parser's reconstruction of it, and a statement gcc also rejects is not C.
+audit-cdecl:
+	$(VENV_PY) tools/cdecl.py --audit --gcc
 
 report:
 	$(VENV_PY) tools/progress.py --binary $(BINARY) --audit

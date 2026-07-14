@@ -906,3 +906,56 @@ fleet-wide, and the resident window was clean.
 for four phases. The cheapest possible check — *do our two independent views of "where does this function
 start and end" agree?* — was never run, because each oracle was individually green and nobody thought to
 ask them the same question. **Redundancy is only worth what you spend comparing it.**
+
+---
+
+## 2026-07-14 — `cdecl`: parse the grammar, do not enumerate the shapes
+
+**Context & belief.** The audit's own prescription for the fifteen broken declaration scanners was a
+*shape-aware alternation* per tool: add an `(fn-ptr|sized-array|scalar)` branch to `DATA_DECL_RE`, mirror
+it in `DATA_DECL_LINE_RE`, add a `fnptr` kind to `parse_data_decl`, add a fn-ptr arm to
+`_uniquify_draft_types`, and so on — roughly fifteen coordinated regex edits, each with its own
+suggested coverage assertion.
+
+**Why I did not do that.** The audit had *already proved* that fifteen independent hand-maintained models
+diverge: two tools in ONE pipeline disagree today about whether `extern s32 D_a, D_b;` is a declaration.
+Patching fifteen regexes is fifteen fresh chances to diverge again, and an alternation only ever covers
+the shapes somebody remembered — it is the same hand-maintained model, one shape wider. The real problem
+was never the character class. It was that **the thing being scanned has a grammar, and nobody was
+parsing it.**
+
+C's declarator grammar is small, closed, and **total**. It describes fn-ptr arrays, sized and 2-D arrays,
+multi-declarators, fn-ptr parameters, and K&R identifier-lists *without being told they exist*. A
+250-line recursive-descent parser is **less** code than the fifteen regexes it deletes, and it is
+exhaustive by construction rather than by anyone's memory. That is R33 in its strongest form: the best
+outcome is not a fixed regex — it is a deleted model.
+
+**The measurement (not a belief).** Three oracles, whole corpus: coverage (**2,952,246 depth-0 statements
+→ 2,731,521 declarators, 0 parser defects**), the real cross-gcc (**50,405 distinct declarations
+round-tripped, 0 rejected**), and a differential against the incumbents (0 symbols they see at file scope
+that `cdecl` misses; 26 in `engine_core.h` they cannot see; 6 they wrongly promote from *block* scope).
+
+**Two design decisions worth keeping.**
+1. **The candidate set is derived, not hand-written.** At file scope C admits nothing but declarations, so
+   the over-approximating detector R32 demands is *every depth-0 statement* — supplied by the grammar,
+   with no second model to rot. (LAW 4.)
+2. **gcc adjudicates my own coverage gap.** When 40 statements would not parse, deciding for myself which
+   "don't count" is grading my own homework — the precise habit that wrote the fifteen bugs. gcc decides
+   instead: a statement it *also* rejects is not C (my rejection is correct, the input is corrupt); one it
+   *accepts* and I do not is my defect. All 33 residual came back NOT-C, all in dead scratch. (LAW 5.)
+
+**Hindsight / for the wiki.** The near-miss is the lesson. Those 33 corrupt drafts were written by a
+*recovery tool* that prepended `extern` to an `if` statement, and I was one step from reporting a live
+tool bug. Checking the blast radius instead (R14) showed the source defect was fixed back in Phase 19 —
+today's oracle emits **0 garbage over 300 signatures**. *Mechanism confirmed, consequence nil.* But note
+what it cost while it was live: a draft that cannot compile fails the byte-gate, and the failure reads
+downstream as **an intrinsic compiler wall.** That is the audit's whole thesis in one artifact — and the
+new parser is what finally makes the guarding assertion expressible: *every canonical signature the
+callee oracle emits must PARSE as a C declaration.* Before `cdecl`, nothing in the repo could tell a
+signature from garbage.
+
+**Scope discipline (deliberate).** This commit lands the parser and its proof and changes **no consumer**
+— so it cannot move a byte, and `check-all` is 136/136 by construction. That is not timidity: the audit
+explicitly warns that *making the parser see more ARMS dormant downstream transforms* — the moment
+`reconcile_decls` can parse a fn-ptr decl, its `data_access_subs` would happily mangle `D_1[i]()` into
+`((u8 *)D_1)[i]()`. Consumer migration is therefore one tool at a time, each byte-gated.

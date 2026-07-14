@@ -3611,3 +3611,73 @@ grinds forever at a wall that is not there, and the result is filed as an intrin
       **single-line bodies**. K&R is this project's house style for exactly the biggest, highest-reach
       functions. And find the signature's closing paren with a real **paren-walk** — `line.count('(')` and
       `split(')')[-1]` both land on the wrong paren for a one-line body containing a call.
+
+### §51g — When the thing you are scanning has a GRAMMAR, parse the grammar (`tools/cdecl.py`)
+
+> The `cdecl` build (Phase 26-A). Fifteen tools carried their own regex model of "what is a C
+> declaration". They disagreed — two tools in ONE pipeline disagreed about whether
+> `extern s32 D_a, D_b;` is a declaration at all — and all fifteen shared one character class:
+> ``extern\s+([A-Za-z_][\w\s\*]*?\bD_[0-9A-Fa-f]+\s*(?:\[\s*\])?)\s*;`` which cannot hold `(`, `,`,
+> or a non-empty `[N]`. So three whole shapes were invisible to every one of them: **fn-ptr / jump-table
+> arrays** (`extern void (*D_8018E858[])(void);`), **sized arrays** (`extern s32 D_80127530[4];` — one
+> unparsed `[4]` blocked `func_801387B8` in 134 TUs), and **multi-declarators** (where the *whole line*
+> is dropped, not just declarator 2..N).
+
+**THE LESSON. Do not enumerate shapes — parse the grammar.** The audit's own prescription was a
+shape-aware *alternation* per tool. That is N more chances to diverge, and it only ever covers the shapes
+someone remembered. C's declarator grammar is small, closed, and **total**: it describes fn-ptr arrays,
+2-D arrays, multi-declarators, fn-ptr parameters and K&R identifier-lists *without being told they
+exist*. A ~250-line recursive-descent parser is **less** code than the fifteen regexes it deletes, and it
+is total **by construction** rather than by anyone's memory.
+
+Measured, whole corpus: **2,952,246 depth-0 statements → 2,731,521 declarators, 0 parser defects**;
+**50,405 distinct declarations round-tripped through the real cross-gcc, 0 rejected**.
+
+**LAW 4 — The candidate set can be DERIVED too (R33 applied to R32).** Every other tool here
+hand-maintains an over-approximating candidate regex in order to measure its own coverage. It does not
+need one: **at file scope, C admits nothing but declarations.** So the candidate set is *every depth-0
+statement*, taken from the grammar itself — the strongest assertion available, and one that **cannot
+rot**, because there is no second model to drift.
+
+**LAW 5 — Let the compiler adjudicate your own coverage gap.** When 40 statements would not parse, the
+temptation is to decide for yourself which "don't count" — which is grading your own homework, the exact
+habit that produced the fifteen bugs. Instead, hand each one to gcc: **a statement gcc also rejects is
+not C**, so rejecting it is *correct* and the INPUT is corrupt; a statement gcc **accepts** and your
+parser does not is *your* defect. The exclusion set becomes a verdict from the C front end rather than an
+opinion. (Outcome here: 33 residual, **all 33 adjudicated NOT-C by gcc**, all in dead `.run/drafts*`
+scratch, **none in `src/`**. And an honest R14 near-miss: they were written by a *recovery tool* that
+prepended `extern` to an `if` statement — but the current oracle emits **0 garbage over 300 signatures**,
+so the bug was already fixed in Phase 19. Mechanism confirmed, consequence nil: verify the blast radius,
+not just the defect.)
+
+**LAW 6 — Column 0 is not file scope.** m2c emits goto labels (`done:`, `block_13:`) at **column 0 inside
+function bodies**. Every tool that equates "starts at column 0" with "is at file scope"
+(`reconcile_tu.tu_visible`, `scope_data_externs`, `jr_isolate_all`) rests on a heuristic the corpus
+violates. Track brace depth; it is ten lines.
+
+**LAW 7 — A raw text scan cannot see a TU's declarations, and `cpp` can.** `src/shared/engine_core.h` is
+**23,546 backslash-continued lines inside 1,801 `#define` macro bodies**. A declaration in a macro *body*
+declares nothing — it becomes a declaration only where the macro is **invoked**, above the invocation
+point (the §8c law). So a raw scan is wrong in *both* directions: skip the `#define`s and you miss all
+1,801; read them and you invent ambient decls the TU never had. **`cpp` answers it exactly, in 54 ms on
+the largest TU** (~20 s for the whole 678-TU fleet, cacheable) — which is why
+`canon_sig_reconcile._file_scope_statements` was the one scanner the audit measured CLEAN, and why any
+tool carrying its own model of macro expansion (`reconcile_tu._macro_externs()`, `.rstrip('\\')` and all)
+is re-deriving what the build already guarantees. **Corollary:** `reconcile_decls.DATA_DECL_LINE_RE` is
+line-anchored, and every decl in `engine_core.h` ends in a `\` — so its "authoritative tier" over the
+shared header finds **zero** declarations. It has always been empty.
+
+**LAW 8 — A block-scope `extern` is not a file-scope canonical.** `gen_harvest_targets` and `sig_unify`
+both count `extern`s declared *inside a function body* (6 of them in `engine_core.h`) as authoritative
+file-scope declarations. A block-scope decl is private to its function and expires at its `}`; promoting
+one to ambient truth is precisely the confusion behind the §8d `conflicting types for D_801812A4` wall.
+A depth-aware parser excludes them for free.
+
+**And the dividend: a real parser lets you assert things that were previously unaskable.** With `cdecl`
+in hand, *"every canonical signature the callee oracle emits must PARSE as a C declaration"* becomes a
+one-line check. Before it, nothing in the repo could tell a signature from garbage — which is how
+`extern if ((func_80029178(0x119) & 0xFF) != 0);` got written into a draft and then read, downstream, as
+a compiler wall.
+
+**Gate:** `make audit-cdecl` (coverage + gcc). Standing, because a loud failure nobody counts is exactly
+as invisible as a silent one (LAW 2).
