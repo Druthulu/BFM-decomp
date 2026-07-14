@@ -211,6 +211,13 @@ def build_new_config(ov, p):
         cfg_block = []
         ambient = []
         for (lo, hi, items) in regions:
+            # EMPTY region 0: the object's first item IS the first cut (an already-isolated region
+            # whose leading jr is being cut again, e.g. cutting func_80178D40 out of
+            # ov_SC01_000_jr_801734BC — the leader 0x801734BC is a cut too, per the banked-jr rule).
+            # Emitting it would duplicate region 1's line exactly (same offset, and subseg_name(lo)
+            # == nm when the object is already named _jr_<leader>) → splat "segments out of order".
+            if lo is None and not items:
+                continue
             sub = nm if lo is None else subseg_name(ov, lo)
             off = (s if lo is None else lo) - base
             cfg_block.append(f"{ind}- [{hex(off)}, c, {sub}]")
