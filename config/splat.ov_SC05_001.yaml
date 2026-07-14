@@ -95,6 +95,7 @@ segments:
       # - [0x0, rodata, head]
       - [0x0, c, ov_SC05_001]
       - [0x2b88, c, ov_SC05_001_jr_8012ACE0]
+      - [0xff88, c, ov_SC05_001_jr_801380E0]
       - [0x17e80, c, ov_SC05_001_jr_8013FFD8]
       - [0x1CA44, c, ov_SC05_001_o0b]  # -O0 whale func_80144B9C (0x1CA44..0x1D64C)
       - [0x1d64c, c, ov_SC05_001_after]
@@ -107,20 +108,22 @@ segments:
       - [0x5d8c4, data, tail]
       - [0x8b58c, .rodata, ov_SC05_001_jr_8012ACE0]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
       - [0x8b658, data, tail2]
+      - [0x8b704, .rodata, ov_SC05_001_jr_801380E0]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
+      - [0x8b768, data, tail3]
       - [0x8bdac, .rodata, ov_SC05_001_jr_8013FFD8]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0x8bde0, data, tail3]
+      - [0x8bde0, data, tail4]
       - [0x8be48, .rodata, ov_SC05_001_jr_8015444C]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0x8beb4, data, tail4]
+      - [0x8beb4, data, tail5]
       - [0x8c048, .rodata, ov_SC05_001_jr_8015A3C8]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0x8c064, data, tail5]
+      - [0x8c064, data, tail6]
       - [0x8c068, .rodata, ov_SC05_001_jr_8015AE2C]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0x8c084, data, tail6]
+      - [0x8c084, data, tail7]
       - [0x8c0dc, .rodata, ov_SC05_001_jr_8016AB6C]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0x8c0fc, data, tail7]
+      - [0x8c0fc, data, tail8]
       - [0x8c17c, .rodata, ov_SC05_001_jr_801734BC]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0x8c190, data, tail8]
+      - [0x8c190, data, tail9]
       - [0x8c338, .rodata, ov_SC05_001_jr_80178D40]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0x8c4b0, data, tail9]
+      - [0x8c4b0, data, tail10]
       - [0x8DEAC, bin, trailing]    # final 3 bytes (EOF not 4-aligned; spimdisasm drops a partial word)
   - [0x8DEAF]   # EOF marker = the 0.4.dec byte length
 # @TRAILING@ (above) is replaced by tools/new_overlay.sh: for a non-4-aligned overlay it becomes
