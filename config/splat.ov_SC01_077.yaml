@@ -67,7 +67,6 @@ segments:
       - [0x1d64c, c, ov_SC01_077_after]
       - [0x32cd4, c, ov_SC01_077_jr_8015AE2C]
       - [0x4b364, c, ov_SC01_077_jr_801734BC]
-      - [0x4b364, c, ov_SC01_077_jr_801734BC]
       - [0x50be8, c, ov_SC01_077_jr_80178D40]
       - [0x5a110, c, ov_SC01_077_jr_80182268]
       # Phase-26 §8 jtbl-rodata carve (cookbook §8, the LZSS precedent adapted to a flat overlay).
