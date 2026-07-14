@@ -659,6 +659,21 @@ On approval → `/model opus` + `/effort xHigh` (Tasks 0–4; ALL Fable5 via `Ag
 
 ## Log
 
+- **2026-07-14 (session 10, A3f+A3g — the payoff of A3e, banked & propagated; Max):** With `gate_stage` no
+  longer pinned to the main `.c`, ran the 63 `ov_SC01_077` `closeness==0` backlog drafts (byte-exact bodies the
+  ledger called unrecoverable) through the fixed gate **`--no-propagate`**: **33 banked, 30 near, 0 failed.**
+  **Every one landed in a SPLIT TU** (7 of 8 files are `_jr_/_a/_after`; none in the main `.c`) — the diagnosis
+  proven by placement: not hard, **unreachable**. **A3f** committed the 33 (`commit:0603`), R22 clean-fleet
+  **136/136**, +1,531 ins, ×1 (fn-count 82.79→82.80%). Then **A3g** (`commit:0604`): the **3** of the 33 that are
+  fleet-wide, propagated ×134 — done RIGHT this time (targeted `--addr`, dry-run-sized to 3×134 first, on a clean
+  tree), after the earlier `--auto-from` disaster. **+399 members** (3×133), instr-weighted **66.7→66.8%**,
+  dedup **1823→1826/0 failed**, R22 clean-fleet **136/136**. The other 30 are overlay-unique (×1, no
+  propagation). **⚠ THE STANDING LEAD:** the backlog holds **373 still-open stubs with byte-exact bodies**; 63
+  were in ov_SC01_077 → 33 banked (52%). **310 remain across the OTHER overlays — same class, same fix,
+  untouched** — the single largest lead the audit produced. **Disk hygiene (Drew, mid-session):** retired the
+  dead 7B LLM tier (`.venv-train` 7.9G + HF Qwen cache 5.3G + pip CUDA-wheel cache 5.9G + ghidra installer zip)
+  → ext4 33G→14G; the 112G `.vhdx` needs a Windows-side `wsl --shutdown` + compact to actually shrink (deferred
+  to Drew). 7B tier re-creatable from `docs/gen2-mips-matching-model.md`; nothing irreplaceable removed.
 - **2026-07-14 (session 10, A3e — 🔴 THE BIG ONE: `gate_stage` pinned the byte-gate back to 4.9% — *of A3's own
   fix*; Max):** Migrating `sig_unify` exposed a chain, and the last link is the worst defect in the whole audit.
   **(1) `sig_unify` silently DROPPED 190 of 196 drafts (97%).** `cur_stubs` was read from the main `.c` (13
