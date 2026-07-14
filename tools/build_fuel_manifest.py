@@ -20,7 +20,10 @@ Separately: CAPPED = the 7 matched-but-local fns (recovery pool, not draft fuel)
 Usage: .venv/bin/python tools/build_fuel_manifest.py [--source ov_SC01_077] [--out .run/fuel_manifest.json]
 Read-only except the manifest write.
 """
-import argparse, glob, json, os, re
+import argparse, glob, json, os, re, sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import corpus   # the derived corpus oracle (Phase 26-A) — never an allowlist
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 GOOD_SHA = "d19c9580a02dc63ba1f0e7e0c770f3b10de35635"  # ov_SC01_077 byte-locked reference
@@ -75,24 +78,42 @@ def load_src_h_exact(source):
 
 
 def live_stubs(source):
-    """name -> 'main'|'a'|'o0' for every current func_<hex> INCLUDE_ASM stub. Returns (stubs, n_named_skipped)."""
-    files = {"main": f"src/{source}/{source}.c", "a": f"src/{source}/{source}_a.c",
-             "o0": f"src/{source}/{source}_o0.c"}
+    """name -> region ('main'|'a'|'o0'|'o0b'|'after'|'jr_<ADDR>') for every func_<hex> INCLUDE_ASM
+    stub. Returns (stubs, named_skipped).
+
+    DERIVED from tools/corpus.py — no file allowlist (Phase 26-A audit, CRITICAL).
+
+    This function used to read a hardcoded 3-file dict {<ov>.c, _a.c, _o0.c}. ov_SC01_077 has
+    FOURTEEN .c files, so it saw 30 of 264 stubs and reported success. Downstream, worklist.py
+    (100% of its rows) and wave_targets.py (100% of its pools) consume this manifest, so
+    **91.6% of all remaining project gain was invisible to target selection**, and 117 of the
+    127 reach-134 functions — the entire high-ROI band — were never nominated by anything.
+
+    It rotted silently: .run/fuel_manifest.json (2026-07-08) recorded 130 stubs; the same code
+    today returns 30, because the Phase-26 jr splits moved ~100 stubs out from under a dict
+    literal last edited in Phase 22. NOBODY NOTICED, BECAUSE A TARGET THAT IS NEVER NOMINATED
+    PRODUCES SILENCE, NOT AN ERROR. Never re-introduce an allowlist here: the next split would
+    re-open the hole. The filesystem already knows."""
     out, skipped = {}, []
-    for tag, rel in files.items():
-        p = os.path.join(REPO, rel)
-        if not os.path.exists(p):
-            continue
-        for fn in STUB_RE.findall(open(p).read()):
-            if FUNC_RE.match(fn):
-                out[fn] = tag
-            else:
-                skipped.append(fn)
+    for st in corpus.stubs(source).values():
+        if FUNC_RE.match(st.symbol):
+            out[st.symbol] = st.region
+        else:
+            skipped.append(st.symbol)      # curated-name stub (listCdBuffer) — reported, not silent
     return out, skipped
 
 
 def nins_from_asm(source, name):
-    p = os.path.join(REPO, f"asm/{source}/nonmatchings/{source}/{name}.s")
+    """Instruction count from the function's .s — located via the stub that names it.
+
+    The INCLUDE_ASM line is self-describing (its first arg IS the asm subdir), so there is nothing
+    to guess. The old form hardcoded asm/<ov>/nonmatchings/<ov>/ and therefore returned None for
+    every function in a split TU — i.e. for 234 of the overlay's 264 stubs."""
+    st = corpus.stubs(source)
+    hit = next((s for s in st.values() if s.symbol == name), None)
+    if hit is None:
+        return None
+    p = os.path.join(REPO, hit.asm_path)
     if not os.path.exists(p):
         return None
     return len(INS_RE.findall(open(p, errors="replace").read()))
@@ -112,7 +133,7 @@ def main():
     hist, n_overlays = reach_histogram()
     src_sig = load_src_h_exact(src)
     stubs, named_skipped = live_stubs(src)
-    o0_set = {fn for fn, tag in stubs.items() if tag == "o0"}
+    o0_set = {fn for fn, tag in stubs.items() if tag in ("o0", "o0b")}
 
     # exemplar_miner routing: addr(int) -> {lever, bucket, mismatch}
     routing = {}
@@ -130,7 +151,7 @@ def main():
         return hist.get(s["h_exact"], 1) if s else None
 
     def classify(name, tag, ai, nins):
-        if tag == "o0":
+        if tag in ("o0", "o0b"):
             return "O0"
         if name in O1_FNS:
             return "O1"

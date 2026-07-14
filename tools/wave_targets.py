@@ -11,20 +11,37 @@ o0 | capped | any-reach134 | reach1 (overlay-unique reach-1 fns, region main, so
 
 Usage: tools/wave_targets.py --pool tractable --n 24 [--region main|a|any] [--out -]
 """
+import sys
 import argparse, glob, json, os, re, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import backlog
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.join(REPO, 'tools'))
+import corpus   # the derived corpus oracle (Phase 26-A) — never a REGION_SUB dict
+SOURCE = 'ov_SC01_077'
 STUB_RE = re.compile(r"INCLUDE_ASM\([^,]+,\s*(\w+)\)")
-ASM_SUBDIR = "asm/ov_SC01_077/nonmatchings/ov_SC01_077"
-# region (fuel_manifest) -> asm subdir. An _a/_o0 fn's .s lives under its Phase-19 SPLIT subdir, not
-# the main one — the batch must point drafters at the right .s, else they draft against the wrong asm.
-REGION_SUB = {"main": "ov_SC01_077", "a": "ov_SC01_077_a", "o0": "ov_SC01_077_o0"}
+ASM_SUBDIR = "asm/ov_SC01_077/nonmatchings/ov_SC01_077"   # legacy; prefer asm_for()
 
 
 def asm_for(region, name):
-    return f"asm/ov_SC01_077/nonmatchings/{REGION_SUB.get(region, 'ov_SC01_077')}/{name}.s"
+    """The .s a drafter must read. DERIVED from tools/corpus.py — the stub that names the function
+    also names its asm subdir, because splat wrote it into the INCLUDE_ASM line itself.
+
+    This used to be a 3-entry dict (REGION_SUB = main|a|o0) with a silent fallback to the main
+    subdir. ov_SC01_077 has TWELVE asm subdirs, so **78 of the 87 targets any --class wave emitted
+    were handed an asm path that does not exist** (Phase 26-A audit, HIGH). A drafter pointed at a
+    missing .s drafts against nothing — and the wasted attempt is then recorded in the backlog as a
+    *matching* failure, which feeds reserved_walls() and PERMANENTLY BLACKLISTS a function that was
+    never actually attempted. A silent skip compounding into a false wall.
+
+    A dict literal is strictly worse than the filesystem here, and it fails OPEN (returns a plausible
+    wrong path) instead of closed. Never re-introduce one."""
+    p = corpus.asm_path(SOURCE, name)
+    if p is None:
+        raise SystemExit(f"wave_targets: {name} is not a live INCLUDE_ASM stub in {SOURCE} — "
+                         f"refusing to hand a drafter an asm path I cannot prove exists")
+    return p
 
 # Canonical gcc-quirk residual classes (the cookbook §17–20 taxonomy). A wave studies ONE of these
 # at a time (the Phase-18 learning model): bank what the class's idiom reaches, distill the quirk,
@@ -147,7 +164,10 @@ def main():
     ap.add_argument("--list-classes", action="store_true",
                     help="print the backlog residual-class histogram (ranked by leverage) and exit")
     ap.add_argument("--n", type=int, default=24)
-    ap.add_argument("--region", default="main", choices=["main", "a", "any"])
+    ap.add_argument("--region", default="any",
+                    help="fuel_manifest region (main|a|o0|o0b|after|jr_<ADDR>|any). "
+                         "Was a 3-value whitelist defaulting to 'main' — which sees "
+                         "13 of 264 stubs even with a correct manifest (Phase 26-A).")
     ap.add_argument("--max-nins", type=int, default=150)
     ap.add_argument("--include-walls", action="store_true", help="don't skip backlog failed/stub")
     ap.add_argument("--out", default="-")
