@@ -24,7 +24,75 @@ The Phase-25 h_seq reframe: the "unique tail" is really per-location families �
 - [ ] **Task 11 — Step-D residue map** `[xHigh]` — true singletons (~0.27M ins) + 5 behemoths → Phase-27 input doc. NO execution.
 - [ ] **Task 12 — PhaseEnd** `[Max — Tier 1; R27 prompt]` — P7 walk, milestone demo, gate 2, `PhaseEnd_Phase26.md`, worklog → `logs/Phase26.md` (R19), in-file recap (R25), decision-log current (R31).
 
-## ▶ SESSION-7 CHECKPOINT (2026-07-13, cont.) — RESUME FROM HERE (fresh session)
+## ▶ SESSION-8 CHECKPOINT (2026-07-13, cont.) — RESUME FROM HERE (fresh session)
+
+**THE ×133 SWEEP BLOCKER IS FIXED. `func_8015AE2C` (562 ins) BANKED ×134 — 133/133 siblings, 0 failures.**
+**R22 clean-fleet 136/136 GREEN** (from `make clean`, 534 changed src files). dedup-check 1813 validated / 0 failed.
+**Metrics: instr-weighted 63.0 → 63.6% · distinct-code 39.1 → 40.5% (+256 unique fns / +79,957 ins) · fn-count 82.31%.**
+One core × 133 siblings = **+0.6% instr-weighted for ~0 agent tokens.** Tree clean, all work committed.
+
+### The fix — §8d, `tools/scope_data_externs.py` (the session-7 diagnosis was HALF RIGHT — R14)
+Session 7 blamed `reconcile_decls`' fleet-majority oracle and planned to teach it a TU-visible one. Reproducing
+one sibling by hand (rather than trusting the handoff) gave a sharper picture and a **smaller, safer fix**:
+- **The isolated region builds `[ OK ] ` WITHOUT the body** → §8b isolation was never implicated. The templated
+  body is the sole cause.
+- `family_remap.gather_externs` prepends carried decls at **FILE scope**. `D_801812A4` is a fn-ptr dispatch table
+  the sibling declares **four incompatible ways at BLOCK scope inside its own later functions**. The carried
+  file-scope decl **establishes a global the TU never had** → every later block-scope `extern` must now agree
+  with it → `conflicting types`. Byte-proven asymmetry:
+  `BLOCK(int) → BLOCK(struct*) → FILE(void*)` **builds**; `FILE(void*) → BLOCK(int)` **errors**.
+- It was the **ONLY** hard error in the build. All 27 carried *function* externs were fine raw —
+  `cast_call_sites` was not needed at all (session 7 thought it was doing the heavy lifting).
+- **FIX: demote, don't reconcile.** Emit a carried `D_` extern at **block scope inside the function body** when
+  the TU has no file-scope decl of it above the insertion point. Byte-neutral (an `extern` emits no code; type +
+  access opcodes unchanged), **never worse than raw** ⇒ needs no oracle, no type comparator, no fn-ptr parser.
+  It also *restores fidelity* — the original declares these symbols at block scope in exactly this way.
+  Wired as the `scoped` stage: **raw → scoped → recovered → reconciled** (and `scoped` is the base for the
+  later recovery stages). Cookbook **§8d** + decision-log + SETUP row (R30/R31/R21).
+- **`reconcile_decls` is the wrong instrument for this class, twice:** its oracle answers "what does the FLEET
+  call this symbol" when the question is "what can THIS TU see"; and its `DATA_DECL_LINE_RE` **cannot parse**
+  `extern void (*D_x[])(void *);`, so it silently skipped the very symbols that were failing. (This is the
+  "reconcile fn-ptr-extern gap" logged 2026-07-12 — filed as a small separate lever, it *was* the blocker.)
+- **The R17 triage rule (committed `commit:0550`) paid off immediately:** `conflicting types` = the compiler
+  REFUSED TO COMPILE = a C front-end diagnostic = **our Python**. Reading `cse.c`/`global.c` would have taught
+  nothing. ("Wrong BYTES" → read gcc; "won't COMPILE" → read our tooling.)
+- **Diagnostics gotcha:** gcc-2.7.2 does **not** prefix errors with `error:` — grepping a build log for `error`
+  finds only make's `Error 33`. Grep the diagnostic text (`conflicting types` / `undeclared` / `parse error`).
+
+### NEXT (priority order — byte-weight first; top-20 jr cores = 4.12M of the 5.53M templatable bytes)
+1. **`func_80178D40` (890 × 134 = 477K bytes — THE heaviest core).** Crack in hand at
+   `.run/phase26-cracks/func_80178D40.c`, **close=39, ALL 39 inside ONE case body (0x5C)**; every other case is
+   byte-exact. The 4 residuals are named in the file header (cross-jump merge of `D_801DAB2C = 3`; `$v0→$v1`
+   copy; loop2 keeping old q in `$v1`; gcc **peeling loop3's first iteration** where the original doesn't —
+   `loop.c`). All §31-map classes ⇒ **cheap-Opus + permuter, NO Fable5**. Exemplar = ov_SC01_077, PURE
+   per-location ⇒ straight `jtbl_family_bank` sweep once closed.
+2. **`func_8017BEBC` (952 × 113 = 430K bytes) — close=2. THE genuine R17/Fable5 target (R27: PROMPT DREW).**
+   Two `addiu`s TRANSPOSED in the loop preheader; registers already correct. Allocation order and preheader
+   emission order are **coupled** (both follow creation/LUID order) but the target needs them to DIFFER:
+   allocation (sz0, sz2, sz1) with emission (sz0, sz1, sz2). Permuter cannot reach it (not statement-permutable;
+   ran 25 min, no close). Agent localized it to `global.c`'s allocno-priority **TIE** and named the move: a §45-B
+   **gdb-on-cc1 read of `allocno_live_length`** (the original's length quantization plausibly split the tie),
+   then hunt a byte-neutral L-shifter that survives cse. Full spec: `.run/phase26-cracks/func_8017BEBC.md`.
+   ⚠ **Exemplar is `ov_SC01_000` (NOT ov077), class IMM, addr_tag scattered** → its sweep runs from ov_SC01_000
+   through the immediate engine, not the plain PURE template path.
+3. **The rest of the 191 substantial jr cores** (5.53M templatable bytes). Next by weight: `func_8017A4AC`
+   (536×134), `func_8015A3C8` (493×134), `func_8013F350` (490×134), `func_801380E0` (438×134) — all ov077 PURE
+   per-location. Recipe = the session-7 five-step (unchanged) + the new `scoped` stage.
+4. **Re-check for cracked-but-unswept jr cores** whose ×N sweeps never ran because of this blocker — use
+   `family_remap.extract_unit` as the definition oracle, **not** a hand-rolled regex (mine false-matched
+   `extern` lines — R14).
+
+### Banking a heavy jr core — the FULL recipe (unchanged from session 7, + the `scoped` stage)
+1. `jr_isolate_all --only <core>` (also cuts every already-banked jr in the same object — one `.rodata` carve
+   per region). 2. `jtbl_carve --func <core>` (trims trailing `.align` pad — §8a-pad). 3. If an `engine_core.h`
+   thunk calls the core with **zero args**, the def must be **K&R** and the thunk's extern must drop `(void)` →
+   `()`. 4. Gate stages: **raw → scoped (§8d) → recovered (`cast_call_sites`+`reconcile_decls`) → reconciled**.
+   5. Whole-binary gate → `jtbl_family_bank` ×N → R22 → commit. **Commit each family before sweeping the next**
+   (the per-sibling revert restores from HEAD).
+
+---
+
+## ▶ SESSION-7 CHECKPOINT (2026-07-13, cont.) — superseded by SESSION-8 above
 
 **Heavy-jr crack waves RUN (Drew approved top-3 + distill). 1 core BANKED, 2 cracks in hand. R22 136/136 GREEN,
 tree clean, all work committed.** The §8b wall stayed broken throughout.
@@ -257,6 +325,29 @@ On approval → `/model opus` + `/effort xHigh` (Tasks 0–4; ALL Fable5 via `Ag
 
 ## Log
 
+- **2026-07-13 (session 8, the ×133 sweep blocker FIXED — `func_8015AE2C` banked ×134; Max):** Reproduced ONE
+  sibling by hand instead of trusting the session-7 handoff (R14) and the picture sharpened: **the isolated region
+  builds `[ OK ]` WITHOUT the body** (so §8b isolation was never implicated), and `conflicting types for
+  D_801812A4` was the **only** hard error in the whole build — all 27 carried *function* externs were fine raw, so
+  `cast_call_sites` was doing nothing. Root cause: `family_remap.gather_externs` prepends carried decls at **FILE
+  scope**; `D_801812A4` is a fn-ptr dispatch table the sibling declares **four incompatible ways at BLOCK scope
+  inside its own later functions**, so the carried file-scope decl **establishes a global the TU never had** and
+  every later block-scope `extern` must now agree with it. Byte-proven asymmetry: `BLOCK(int) → BLOCK(struct*) →
+  FILE(void*)` builds; `FILE(void*) → BLOCK(int)` errors. **Rejected the session-7 plan** (teach `reconcile_decls`
+  a TU-visible oracle — a big, risky change to a proven path) for a smaller one: **don't disturb the TU's decl
+  environment at all.** New `tools/scope_data_externs.py` demotes a carried `D_` extern to **block scope inside
+  the function body** when the TU has no file-scope decl of it above the insertion point — byte-neutral (an
+  `extern` emits no code), *never worse than raw*, so it needs no oracle, no type comparator, and no fn-ptr parser
+  (`reconcile_decls`' regex **cannot parse** `extern void (*D_x[])(void *);` and was silently skipping exactly the
+  failing symbols — the third silent-skip bug of the phase). Wired as the `scoped` stage (raw → **scoped** →
+  recovered → reconciled). First sibling byte-identical first try; **full sweep 133/133 BANKED, 0 failures**;
+  **R22 clean-fleet 136/136** (534 changed src files); dedup 1813/0; **instr-weighted 63.0→63.6%, distinct-code
+  39.1→40.5% (+256 unique fns / +79,957 ins)** — one core, ~0 agent tokens. The **R17 triage rule** (committed
+  `commit:0550` at Drew's ask) paid off on its first test: `conflicting types` = the compiler *refused to compile* =
+  a C front-end diagnostic = **our Python**; a gcc-source read would have taught nothing. Knowledge captured
+  DURING the session (R30/R31): cookbook **§8d**, decision-log, SETUP tool row. **NEXT: `func_80178D40`**
+  (890×134, close=39, all in case 0x5C — cheap-Opus/permuter, no Fable5), then the R27 prompt for Fable5 on
+  **`func_8017BEBC`** (952×113, close=2 — the allocno-tie R17 target).
 - **2026-07-13 (session 6, the §8b scoping wall BROKEN — heavy-jr harvest unblocked; Max):** Built the
   **declaration-environment reconstruction** on the proven `overlay_src_split.py` parser. **R14 correction:**
   session-5's "gcc-2.7.2 block-scope-extern TU-persistence" root cause was *wrong* — there is no gcc quirk;

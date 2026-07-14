@@ -22,6 +22,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__))))
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 from family_remap import remap_hseq          # noqa: E402
 from canon_sig_reconcile import reconcile     # noqa: E402
+from scope_data_externs import fix as scope_data_fix   # noqa: E402
 
 
 def sh(cmd):
@@ -131,9 +132,20 @@ def bank(func, from_ov, from_addr, to_ov, to_addr):
     m = re.search(rf'INCLUDE_ASM\("[^"]*",\s*{to_func}\);', orig)
     if not m:
         revert(to_ov, keep_regions=keep); return "no-stub", ""
-    stages = [("raw", lambda: body),
-              ("recovered", lambda: recover(body, to_ov, cf, to_func) or body),
-              ("reconciled", lambda: reconcile(to_func, body, tu_path=cf))]
+    # SCOPED — the §8d fix (tools/scope_data_externs.py). `gather_externs` prepends the exemplar's data
+    # decls at FILE scope; for a per-location symbol the sibling declares only at BLOCK scope inside its
+    # OWN later functions (loosely typed), that carried decl establishes a global the TU never had, and
+    # every later block-scope `extern` of it must now agree — they don't, so gcc rejects the TU
+    # (`conflicting types for D_801812A4`). Demoting those decls into the function body declares no
+    # global, preserves the TU's decl environment exactly, and is byte-neutral (an extern emits no code).
+    # Strictly never worse than raw, so it also becomes the base the later recovery stages build on.
+    scoped, moved = scope_data_fix(body, orig, m.start(), to_func)
+    base = scoped if moved else body
+    stages = [("raw", lambda: body)]
+    if moved:
+        stages.append(("scoped", lambda: scoped))
+    stages += [("recovered", lambda: recover(base, to_ov, cf, to_func) or base),
+               ("reconciled", lambda: reconcile(to_func, base, tu_path=cf))]
     last_err = ""
     for name, make in stages:
         try:

@@ -519,3 +519,57 @@ operation, not a textual one.* The parser (structure) was the easy 20%; the decl
 was the 80% — and the correct move is to **reproduce the environment the original had**, never to invent a new
 one from a global map. Faithful-forward-carry needs no heuristics; "declare everything used" needs a growing
 pile of them.
+
+## 2026-07-13 (session 8) — the ×133 sweep blocker was OUR tool, not the compiler: the R17 triage rule, applied
+
+**Context / prior belief.** Session 7 banked `func_8015AE2C` (562 ins, reach 134) ×1 but its ×133 sibling sweep
+failed on `conflicting types for D_801812A4`, and the checkpoint diagnosed it as `reconcile_decls` resolving
+against a *fleet-majority* canonical oracle instead of the type the TU can actually see. Drew had just asked the
+routing question and we had committed the rule: **"wrong BYTES" → read the gcc source (R17); "won't COMPILE" →
+read our Python.** This was the first real test of that rule, and it held — but the diagnosis underneath it was
+only half right, and the half that was wrong is the interesting part.
+
+**What the bytes taught.** Reproducing one sibling by hand (rather than trusting the handoff — R14) produced a
+much sharper picture than the checkpoint's:
+
+1. The **isolated region compiles and builds `[ OK ]` *without* the body.** So §8b isolation was never implicated.
+   The conflict is introduced *entirely* by the templated body.
+2. `D_801812A4` was the **only** hard error in the whole build. All 27 carried *function* externs were fine raw —
+   `cast_call_sites` was not needed at all. (The checkpoint's "cast_call_sites already fixes the function half"
+   was true but irrelevant; it also implied ~4 data symbols needed reconciling. Eight were demoted; none needed
+   a type reconcile.)
+3. The real mechanism is an **ordering asymmetry**, both halves byte-proven:
+   `BLOCK(int) → BLOCK(struct*) → FILE(void*)` builds; `FILE(void*) → BLOCK(int)` is a hard error.
+   `family_remap.gather_externs` prepends carried decls at **file scope**. For a per-location symbol the sibling
+   declares only at *block* scope inside its own later functions, that carried decl **establishes a global
+   declaration the TU never had** — and every later block-scope `extern` of it must now agree. In loosely-typed
+   engine code they never do. `D_801812A4` is one fn-ptr dispatch table declared **four incompatible ways** in a
+   single region and the TU is perfectly happy — until we add a fifth decl *at the top*.
+4. `reconcile_decls` was the wrong instrument **twice**: its oracle answers "what does the fleet call this
+   symbol" when the question is "what can *this TU* see" — and its `DATA_DECL_LINE_RE` **cannot parse the
+   fn-ptr-array form** `extern void (*D_x[])(void *);` at all, so it silently skipped precisely the symbols that
+   were failing. (This is the same "reconcile fn-ptr-extern gap" logged on 2026-07-12; it had been filed as a
+   *separate, smaller* lever and was in fact the blocker itself.)
+
+**The pivot.** Don't teach `reconcile_decls` a TU-visible oracle (the checkpoint's plan, and a much bigger,
+riskier change to a proven path). Instead **don't change the TU's decl environment in the first place**:
+`tools/scope_data_externs.py` demotes a carried `D_` extern to **block scope inside the function body** whenever
+the TU has no file-scope decl of it above the insertion point. It then declares no global, nothing below can
+conflict, and the environment is preserved exactly. Byte-neutral (an `extern` emits no code; the declared type
+and every access opcode are unchanged), and *strictly never worse than raw*, so it needs no type comparator, no
+fn-ptr parser, and no oracle. It also **restores fidelity** — the original source declares these symbols at
+block scope in exactly this way. Wired as the `scoped` stage (raw → scoped → recovered → reconciled).
+
+**Result.** First sibling byte-identical on the first try; the 133-sibling sweep run to completion.
+
+**Hindsight / for the wiki.** Three lessons. (1) **The R17 triage rule paid for itself immediately.** The
+temptation with a `conflicting types` failure on a 1997 compiler is to assume the compiler is being exotic. It
+was not — gcc was correctly rejecting plain C89, and every minute spent in `cse.c` would have been wasted. *Ask
+which half of the compiler is complaining: the front end (our C is invalid → our bug) or the back end (our C is
+valid but the bytes differ → read the source).* (2) **A tool that no-ops on the failing input looks exactly like
+a tool that has nothing to fix.** `reconcile_decls` reported success while skipping the only symbol that
+mattered, because its regex couldn't see fn-ptr arrays — a silent-skip class we have now been bitten by three
+times (`find_site` braces, `overlay_files` splits, this). Prefer transforms that *fail loud on unparsed input*.
+(3) **The cheapest fix was to do less, not more.** The instinct was to make our reconciler smarter (a TU-visible
+oracle, a fn-ptr type comparator, a cast-at-use taxonomy). The correct move was to stop perturbing something we
+had no business perturbing. When a transform breaks a TU, first ask what it is *changing* that it needn't.

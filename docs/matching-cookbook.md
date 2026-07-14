@@ -460,6 +460,53 @@ the one original TU, and decl compatibility is order-symmetric. Shadows stay in 
   created. `jtbl_family_bank` now refuses to start on a dirty `config/`+`src/` (an uncommitted prior family
   would be silently reverted) — **commit each family before sweeping the next.**
 
+## §8d Templating a body INTO a TU must not CHANGE its declaration environment — demote the carried data externs (Phase 26 session 8, byte-proven on `func_8015AE2C` ×133)
+
+The mirror of §8c. There, *splitting* a TU meant **carrying its decl environment forward**. Here, *templating a
+cracked body into* a sibling TU means **not disturbing the environment that is already there** — and the ×N
+family sweep was doing exactly that, silently.
+
+`family_remap.gather_externs` carries the exemplar's decl for every symbol the body references and prepends
+them at **FILE scope**. For a per-location DATA symbol that the sibling declares only at **BLOCK** scope —
+inside its *own* later functions, loosely typed — that carried decl **establishes a global declaration the TU
+never had**, and every later block-scope `extern` of that symbol must now agree with it. In loosely-typed
+engine code they never do. The whole-binary gate proved both halves:
+
+```
+BLOCK(int) -> BLOCK(struct Ent *) -> FILE(void *) ...      builds [ OK ]   (the region, stub state)
+FILE(void *) -> BLOCK(int) -> ...                          conflicting types for `D_801812A4'   (ERROR)
+```
+
+`D_801812A4` (ov_SC01_000's entity dispatch table) is declared **four incompatible ways in one region** —
+`(int)` and `(struct Ent_8015CD20 *)` at block scope inside `func_8015C128` / `func_8015CD20`, then `(void *)`
+at file scope ×12. That compiles. Prepend the body's `extern void (*D_801812A4[])(void *);` above them and it
+does not. It was the **only** hard error in the build; all 27 carried *function* externs were fine raw.
+
+**THE FIX (`tools/scope_data_externs.py`, a pure draft-text transform):** emit a carried `D_` extern at
+**block scope inside the function body** whenever the target TU has **no file-scope decl of that symbol above
+the insertion point**. It then declares no global, nothing below it can conflict, and the TU's environment is
+preserved exactly. **Byte-neutral** — an `extern` emits no code, and moving it changes neither the symbol nor
+the declared type, so every access keeps its opcode. It also *restores fidelity*: the original source declares
+these symbols at block scope in precisely this way (m2c/Ghidra emit per-function externs there).
+Wired into `jtbl_family_bank` as the `scoped` stage (raw → **scoped** → recovered → reconciled) and used as
+the base for the later recovery stages. **First sibling byte-identical; 562-ins core ×133.**
+
+- **Never worse than raw**, which is why it can be applied unconditionally: a symbol that *does* have a
+  file-scope decl above is left alone (an identical spelling is a legal duplicate; a differing one is the §41
+  reconcile class and errors at file scope either way, so demoting could not have saved it).
+- **`reconcile_decls` is the WRONG instrument for this class, twice over.** (a) Its oracle is *fleet-majority*
+  (engine_core.h first-seen, else a plurality vote across all overlays) — but the question is not "what does
+  the fleet call this symbol", it is "what can *this TU* see". (b) Its `DATA_DECL_LINE_RE` cannot even parse
+  the **fn-ptr-array** form `extern void (*D_x[])(void *);`, so it silently skipped the very symbols that were
+  failing. A tool that no-ops on the failing input reads exactly like a tool that had nothing to fix.
+- **TRIAGE RULE (R17 boundary, Drew 2026-07-13).** "The compiler produced the wrong **BYTES**" → read the gcc
+  source (regalloc / sched / cross-jump / CSE — things no C change reaches). "The compiler **refused to
+  compile**" → read *our Python*. This was `conflicting types`: a C front-end diagnostic, gcc correctly
+  rejecting plain C89. Reading `cse.c`/`global.c` would have taught nothing; the bug was ours.
+- **Diagnostics gotcha:** gcc-2.7.2 does not prefix errors with `error:` — grepping a build log for `error`
+  finds only make's `Error 33`. Grep for the diagnostic text (`conflicting types`, `undeclared`, `parse error`,
+  `redefinition`) instead, and remember `warning: conflicting types for built-in function 'memcpy'` is benign.
+
 ## §9 Link real PsyQ library objects byte-exact (Phase 7 — GO proven)
 ~350 of BFM's functions are unmodified PsyQ 4.0 SDK code. They are **byte-identical to the real PsyQ library
 objects**, so link them directly instead of hand-decompiling — and each library `.o` brings its own correct
