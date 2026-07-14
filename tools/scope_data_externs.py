@@ -72,14 +72,20 @@ def _file_scope_data_syms(text):
 
 
 def _body_open_brace(body, func):
-    """Index of the newline ending the line that opens `func`'s body — i.e. where block-scope decls go.
-    Handles both the ANSI form and the K&R form (mandatory whenever a zero-arg engine_core.h thunk calls
-    the function), whose param decls sit between the signature and the `{`."""
+    r"""Index just past the `{` that opens `func`'s body — i.e. where block-scope decls go. Scans forward
+    from the signature to the first `{` at depth 0 of the *statement* (so it handles the ANSI form with
+    the brace on the signature line, the ANSI form with the brace on its own line, AND the K&R form whose
+    param decls sit between the signature and the `{`). The first cut of this used `^\s*\{\s*$` — own-line
+    braces only — and silently no-op'd on every ANSI draft (the same silent-skip disease as the four
+    catalogued in §40/§8d; caught because the h_seq re-sweep banked 0/780)."""
     sig = re.search(rf'^[^\n]*\b{re.escape(func)}\s*\(', body, re.M)
     if not sig:
         return None
-    brace = re.compile(r'^\s*\{\s*$', re.M).search(body, sig.end())
-    return brace.end() if brace else None
+    i = body.find('{', sig.end())
+    if i < 0:
+        return None
+    j = body.find('\n', i)
+    return (j + 1) if j >= 0 else (i + 1)
 
 
 def fix(body, tu_text, insert_pos, func):

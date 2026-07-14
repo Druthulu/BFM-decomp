@@ -20,6 +20,7 @@ import json, glob, re, subprocess, os, sys, shutil, collections, argparse
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import family_remap as FR
 import canon_sig_reconcile as CSR      # v3.2 (Phase-25 T7-M2 per-sibling re-reconcile, Q5-proven)
+from scope_data_externs import fix as scope_data_fix   # §8d (Phase-26 session 8)
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PY = ".venv/bin/python"
@@ -244,6 +245,19 @@ def hseq_sweep(a):
                     skip[r[:24]] += 1; continue
             if re.search(r'__asm__\s*\(\s*"\$', draft):         # hard-reg pin (§42e): ×1-only, cc1-crashes
                 skip["pinned-exemplar"] += 1; continue          # sibling TUs → skip the family, don't bisect-storm
+            # §8d — place the carried DATA externs at a scope this sibling's TU can accept.
+            # `remap_hseq` (via gather_externs) prepends them at FILE scope; for a per-location symbol the
+            # sibling declares only at BLOCK scope inside its own later functions, that ESTABLISHES A GLOBAL
+            # THE TU NEVER HAD and every later block-scope extern must now agree with it — loose typing ⇒ they
+            # don't ⇒ `conflicting types for D_80115128`. Byte-proven to be the dominant gate-rejection class
+            # here (as it was for the jr sweeps). Demoting is byte-neutral and never worse than raw, and the
+            # whole-binary gate remains the sole arbiter (G3/P9).
+            to_func = f"func_{to_addr:08X}"
+            tu_path = os.path.join(REPO, src_rel)
+            tu = open(tu_path).read()
+            mstub = re.search(rf'INCLUDE_ASM\("[^"]*",\s*{to_func}\);', tu)
+            if mstub:
+                draft, _moved = scope_data_fix(draft, tu, mstub.start(), to_func)
             d = os.path.join(REPO, SWEEP, ov)
             os.makedirs(d, exist_ok=True)
             open(os.path.join(d, f"func_{to_addr:08X}.c"), "w").write(draft + "\n")
