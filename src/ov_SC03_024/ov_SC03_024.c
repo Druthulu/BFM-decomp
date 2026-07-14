@@ -4327,7 +4327,73 @@ void func_8013EB7C(void) {
 
 DEFINE_func_8013ED6C()  /* dedup: shared engine-core @0x8013ED6C (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC03_024/nonmatchings/ov_SC03_024", func_8013EE10);
+extern short D_800B9A02;
+extern unsigned short D_80115112;
+extern u8 D_801151C8[];
+extern s32 D_801151D0;
+extern s16 D_80188284;
+extern s16 D_80188286;
+extern unsigned char D_80188288;
+extern void func_801376E8(int a0, int a1);
+extern void func_8013FAF8(s32 a0, s32 a1);
+extern unsigned char *func_80141CA4(void);
+
+// @class: struct
+// @stuck: none — MATCH (94 ins, relocation-masked). Keys: (1) §18 array-of-STRUCT fold
+//   `typedef struct{s32 f0;} E4; extern E4 arr[]; arr[i].f0` defeats gcc's base-CSE/loop-hoist so each
+//   global-array access stays a per-access `lui %hi; addu idx; lw/sw %lo(sym)($at)` (a plain `s32 arr[];
+//   arr[i]` HOISTS the base into a reg → wrong). (2) §21 global-RMW: the conditional `D_80188286` bump and
+//   the `D_80115112` increment keep the address in ONE reg → access via a pointer var, not the bare global.
+//   (3) the 2nd-loop base `q = p-8` (=&D_80115118 kept in $s0 across the calls) is declared INSIDE the loop
+//   so loop.c hoists it to the preheader slot AFTER `i=0` (an explicit pre-loop `q=` emits it BEFORE i=0,
+//   +2 off). (4) dead `s32 sp10[2];(void)sp10;` reserves the extra 8 frame bytes (0x28, not 0x20).
+//   Conflict-safe externs: asm-alias `aD80115188` (file-scope decl is scalar `s32 D_80115188`); `(u16)`
+//   cast on the `s16 D_80188284` read for the `lhu`; `D_80115168` is undeclared elsewhere in the TU.
+
+typedef struct { s32 f0; } E4;
+
+
+
+s32 func_8013EE10() {
+    extern E4 aD80115188[] __asm__("D_80115188");
+    extern E4 D_80115168[];
+    extern unsigned short D_80115118;
+
+    short i;
+    u16 *p;
+    u16 old;
+    s16 *r;
+    u16 *c;
+    s32 sp10[2];
+
+    D_801151D0 = *(s32 *)&D_801151C8[(u16)D_800B9A02 * 4];
+    func_8013FAF8(0, 5);
+    for (i = 0; i < 5; i++) {
+        s32 t = D_80115168[i].f0 * 3 >> 2;
+        aD80115188[i].f0 = t;
+        D_80115168[i].f0 = D_80115168[i].f0 - t;
+    }
+    r = &D_80188286;
+    if (*r < 3) {
+        *r = *r + 1;
+    }
+    D_80188284 = (u16)D_80188284 + 2;
+    p = &D_80115118;
+    old = *p;
+    *p = old + 1;
+    if (old >= 5) {
+        ((void (*)(int, unsigned char *))func_801376E8)((int)func_80141CA4(), &D_80188288);
+        for (i = 0; i < 5; i++) {
+            s32 *q = (s32 *)((char *)p - 8);
+            *(s32 *)((char *)&q[i] + 0x78) = 0;
+            D_80115168[i].f0 = 0;
+        }
+        c = &D_80115112;
+        *c += 1;
+    }
+    (void)sp10;
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_024/nonmatchings/ov_SC03_024", func_8013EF88);
 
