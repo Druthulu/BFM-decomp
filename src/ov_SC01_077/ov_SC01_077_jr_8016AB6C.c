@@ -4030,20 +4030,7 @@ DEFINE_func_8017197C()  /* dedup: shared engine-core @0x8017197C (src/shared) */
 
 DEFINE_func_80171990()  /* dedup: shared engine-core @0x80171990 (src/shared) */
 
-extern void *D_8011F738;
-
-void func_801719A4(int a0, int a1)
-{
-    u32 i;
-    s32 off;
-    s32 pad[1];
-    for (i = 0; i < a1; i++) {
-        off = i * 4;
-        *(s32*)((s32)&D_8011F738 + off) =
-            *(s32*)(((*(u8*)(a0 + 0x214) + i) << 2) + *(s32*)(a0 + 0x1FC));
-    }
-    *(u8*)(a0 + 0x214) += i;
-}
+DEFINE_func_801719A4()  /* dedup: shared engine-core @0x801719A4 (src/shared) */
 
 
 DEFINE_func_80171A04()  /* dedup: shared engine-core @0x80171A04 (src/shared) */

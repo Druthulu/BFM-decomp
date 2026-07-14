@@ -2562,11 +2562,11 @@ void func_80173B4C(void *a0) {
 
 DEFINE_func_80173B88()  /* dedup: shared engine-core @0x80173B88 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_006/nonmatchings/ov_SC01_006_jr_801734BC", func_80173BC0);
+DEFINE_func_80173BC0()  /* dedup: shared engine-core @0x80173BC0 (src/shared) */
 
 DEFINE_func_80173C64()  /* dedup: shared engine-core @0x80173C64 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_006/nonmatchings/ov_SC01_006_jr_801734BC", func_80173CB4);
+DEFINE_func_80173CB4()  /* dedup: shared engine-core @0x80173CB4 (src/shared) */
 
 DEFINE_func_80173E1C()  /* dedup: shared engine-core @0x80173E1C (src/shared) */
 
