@@ -29,6 +29,12 @@ The Phase-25 h_seq reframe: the "unique tail" is really per-location families �
 ### ⚠ DREW'S DIRECTIVE (2026-07-14, binding): the TOOLING-INTEGRITY AUDIT comes BEFORE any further matching work
 > *"I feel like we should do T14 now, before the rest of the work. but not in this phase."*
 
+# 📄 THE AUDIT PHASE'S INPUT DOCUMENT IS **`docs/tooling-audit.md`** — READ IT FIRST, IT IS THE PLAN
+> **40 MEASURED findings** (6 auditor agents + 6 adversarial skeptics, 1.2M tokens) with file:line evidence and
+> candidate/parsed/skip counts per scanner — plus the METHOD, the priority order, the 7 bugs already fixed
+> (do not redo), and the 63 tools not yet audited with the filter for which of them matter.
+> **Almost nothing in it is fixed. It is diagnosis.** Everything below is a summary OF that document.
+
 **The FIRST decision of the fresh session is a Tier-1 phase-boundary call for Drew** (do not decide it alone):
 the audit is not part of Phase 26, and it must precede the remaining matching work — so either
 **(a)** close Phase 26 with a PhaseEnd now (it has achieved a great deal, but its stated milestone — structural
@@ -171,8 +177,17 @@ every bank. dedup 1813/0. 0 NON_MATCHING. ~15 commits.
 ### ▶ NEXT — IN ORDER (Drew's directive: the AUDIT comes first)
 
 **0. [FIRST — Drew's call] The Tier-1 phase-boundary decision** (see the top of this file), then the
-   **TOOLING-INTEGRITY AUDIT** in plan mode, Max. `dedup_integrate.py` first (it can print a false green),
-   then the ~15 parse-and-gate/select tools. Apply R33 to each: *should this scanner exist at all?*
+   **TOOLING-INTEGRITY AUDIT** in plan mode, Max.
+   **▶ Plan it FROM `docs/tooling-audit.md`** — 40 measured findings, the method, the priority order, the
+   already-fixed list, and the not-yet-audited list are all in there. Do not re-derive them.
+   Order: **`dedup_integrate.py` FIRST** (a fail-closed validator that can print a FALSE GREEN) →
+   `jtbl_family_bank` → the SELECTION tools (`family_hseq`/`wave_targets`/`exemplar_miner` — a hole there
+   makes work invisible to *planning*) → `masked_diff`/`match_one` → the 40 findings by severity.
+   **Apply R33 to each BEFORE R32:** *why is this tool re-deriving something the build already guarantees?*
+   The best outcome is a **deleted scanner**, not a fixed regex.
+   **Then re-test the walls diagnosed on top of the broken oracle** (the real prize): the def-side loose-typing
+   wall (§20/§41), the 159 arity/narrow-param conflicts, the 3,098 type-heavy tail, the 9 zero-bank type-using
+   families. Some of that "intrinsic wall" may have been lookup misses all along.
 
 **1. [THEN — the cheapest matching work on the board] The CONSOLIDATED INTEGRATION FIX PASS.**
    **Nine byte-exact cracks; six cannot bank — for PLUMBING, not matching (~1.2 MB sitting behind it).**
