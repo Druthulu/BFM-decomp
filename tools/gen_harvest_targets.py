@@ -30,8 +30,18 @@ INCLUDE_ASM_RE = re.compile(r'INCLUDE_ASM\([^)]*,\s*(func_[0-9A-Fa-f]+)\s*\)')
 # Column-0 + `[\w \t\*]` before func_X excludes both the indentation and the `if (` paren.
 INLINE_DEF_RE = re.compile(r'^([A-Za-z_][\w \t\*]*?\bfunc_[0-9A-Fa-f]+\s*\([^;{]*\))\s*\{', re.M)
 DEFINE_HDR_RE = re.compile(r'^#define\s+DEFINE_(func_[0-9A-Fa-f]+)\(\)\s*\\?\s*$', re.M)
-# inside a DEFINE macro body, the signature line (may be preceded by `extern ...;` lines)
-SIG_IN_BODY_RE = re.compile(r'([A-Za-z_][^\\]*?\b(func_[0-9A-Fa-f]+)\s*\([^;{]*\))\s*\{')
+# inside a DEFINE macro body, the signature line (may be preceded by `extern ...;` lines).
+# `[\s\\]*` (NOT `\s*`) between the `)` and the `{`: a macro whose opening brace sits on its OWN
+# continuation line has a line-continuation BACKSLASH between them —
+#     s32 func_80148824(void *arg0) \
+#     { \
+# and `\s` does not match `\`. The old `\s*{` therefore silently dropped every own-line-brace macro:
+# 186 of 1801 (10%) of engine_core.h's shared signatures were MISSING from the canonical-callee
+# oracle that cast_call_sites / sig_unify / gen_harvest_targets resolve against — so a draft calling
+# one of them kept its own guessed sig, hit `conflicting types` against the TU's real definition, and
+# the "recovery" pass reported nothing to fix. (Phase 26 session 8; the same brace-placement class as
+# the §19 find_site bug and scope_data_externs' own-line-brace bug — see cookbook §40.)
+SIG_IN_BODY_RE = re.compile(r'([A-Za-z_][^\\]*?\b(func_[0-9A-Fa-f]+)\s*\([^;{]*\))[\s\\]*\{')
 
 
 def load_sig(path):

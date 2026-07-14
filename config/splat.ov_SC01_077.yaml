@@ -84,14 +84,16 @@ segments:
       - [0x5e978, data, tail]
       - [0xaff20, .rodata, ov_SC01_077_a]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
       - [0xaffec, data, tail2]
+      - [0xb09dc, .rodata, ov_SC01_077_after]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
+      - [0xb09f8, data, tail3]
       - [0xb09fc, .rodata, ov_SC01_077_jr_8015AE2C]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0xb0a18, data, tail3]
+      - [0xb0a18, data, tail4]
       - [0xb0b10, .rodata, ov_SC01_077_jr_801734BC]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0xb0b24, data, tail4]
+      - [0xb0b24, data, tail5]
       - [0xb0ccc, .rodata, ov_SC01_077_jr_80178D40]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0xb0e44, data, tail5]
+      - [0xb0e44, data, tail6]
       - [0xb1148, .rodata, ov_SC01_077_jr_80182268]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0xb1168, data, tail6]
+      - [0xb1168, data, tail7]
       - [0xB29D4, bin, trailing]    # final 3 bytes (EOF 0xB29D7 not word-aligned; spimdisasm drops
                                     # a trailing partial word and a <4-byte `data` carve emits nothing,
                                     # so use `bin` = raw .incbin, byte-exact). Word-aligned overlays omit this.
