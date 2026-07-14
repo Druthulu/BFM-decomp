@@ -422,6 +422,26 @@ def main():
         return
 
     cfg_lines, new_files, carve_renames = build_new_config(a.ov, p)
+    # FAIL-LOUD VALIDATION (Phase 26 session 8): the code-subseg list must be strictly ascending
+    # with unique names, or splat rejects the split ("segments out of order"). The byte-proven
+    # corruption path: a failed bank's revert once left an isolation's config lines in place, the
+    # committed config gained a DUPLICATE `- [off, c, name]` line (harmless to splat — zero-length),
+    # and the NEXT isolation walked the object twice, emitting a reversed duplicate block. Validate
+    # BEFORE writing so a corrupt input dies here, not three tools downstream.
+    code_re = re.compile(r'^\s*- \[(0x[0-9A-Fa-f]+), c, (\w+)\]')
+    seen_off, seen_nm = -1, set()
+    for ln in cfg_lines:
+        m = code_re.match(ln)
+        if not m:
+            continue
+        off, nm = int(m.group(1), 16), m.group(2)
+        if off <= seen_off or nm in seen_nm:
+            sys.exit(f"jr_isolate_all: REFUSING to write a corrupt config — code subseg "
+                     f"[{hex(off)}, {nm}] is {'out of order' if off <= seen_off else 'a duplicate'} "
+                     f"(prev off {hex(seen_off)}). The INPUT config likely carries duplicate/stale "
+                     f"subseg lines from an un-reverted isolation — `git diff config/splat.{a.ov}.yaml` "
+                     f"and clean it first.")
+        seen_off, seen_nm = off, seen_nm | {nm}
     mk_changes = repoint_overlays_mk(carve_renames, dry=True)
     print(f"  -> {len(new_files)} region .c files; carve repoints: {carve_renames or '(none)'}")
     for c in mk_changes:

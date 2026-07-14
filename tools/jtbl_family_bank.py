@@ -7,8 +7,16 @@ Per sibling (idempotent, revert-on-fail — the whole-binary byte-gate G3/P9 is 
   3. remap_hseq + canon_sig_reconcile — template the exemplar body onto the sibling's TU
   4. make build  — whole-binary gate; keep iff byte-identical, else revert (config + src)
 
-Usage:  jtbl_family_bank.py <func> <from_ov> <from_addr_hex> <members.json>
+Usage:  jtbl_family_bank.py <func> <from_ov> <from_addr_hex> <members.json> [--raw crack.c]
         members.json = [[to_ov, to_addr_hex], ...]
+
+--raw <crack.c>: template from the RAW crack body via remap_hseq_body instead of the exemplar's
+banked source unit. REQUIRED when the exemplar banked at the `reconciled` stage: a reconciled body
+is ov077-TU-SPECIFIC (§41c — uniquified type names, TU-targeted casts), so extract_unit hands the
+sweep a polluted template and every sibling gate-fails. The raw crack + the per-sibling stage
+ladder (raw → scoped → recovered → reconciled) is the correct composition — the same law behind
+family_sweep's --reconcile-raw. (func_8015AE2C banked raw, so its unit WAS the raw crack and the
+sweep worked; func_80178D40 banked reconciled and its sweep failed 0/4 until this mode.)
 """
 import glob
 import json
@@ -20,7 +28,7 @@ import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__))))
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-from family_remap import remap_hseq          # noqa: E402
+from family_remap import remap_hseq, remap_hseq_body   # noqa: E402
 from canon_sig_reconcile import reconcile     # noqa: E402
 from scope_data_externs import fix as scope_data_fix   # noqa: E402
 
@@ -48,6 +56,12 @@ def revert(ov, cf=None, keep_regions=None):
     if cf:
         subprocess.run(f"git checkout -- {cf}", shell=True)
     sh(f"python3 tools/jtbl_carve.py {ov} --revert")
+    # The splat config too: a lazy isolation rewrites the CODE-subseg lines, which jtbl_carve
+    # --revert does NOT touch — without this, a failed attempt leaves the isolation's config in
+    # place, and the NEXT isolation walks an obj list containing the object twice (duplicate/
+    # reversed subseg lines → splat "segments out of order"; byte-proven: the committed
+    # ov_SC01_000 duplicate that broke the func_80178D40 sweep).
+    subprocess.run(f"git checkout -- config/splat.{ov}.yaml 2>/dev/null", shell=True)
     subprocess.run(f"git checkout -- src/{ov}/ 2>/dev/null", shell=True)
     if keep_regions is not None:
         for f in region_files(ov) - keep_regions:
@@ -87,6 +101,9 @@ def isolate(ov, func):
     return sh(f"python3 tools/jr_isolate_all.py {ov} --only {func}")
 
 
+RAW_BODY = None      # set by main() from --raw; templates via remap_hseq_body instead of extract_unit
+
+
 def bank(func, from_ov, from_addr, to_ov, to_addr):
     # CROSS-ADDRESS families: the sibling hosts the same function at a DIFFERENT vram, so its symbol
     # is func_<to_addr>, not the exemplar's name. Everything on the sibling side (carve, isolation,
@@ -115,7 +132,10 @@ def bank(func, from_ov, from_addr, to_ov, to_addr):
         return "carve-fail", ((r.stdout + r.stderr).strip().splitlines()[-1:] or [""])
     if sh(f"make --no-print-directory extract BINARY={to_ov}").returncode:
         revert(to_ov, keep_regions=keep); return "extract-fail", ""
-    body, info = remap_hseq(from_addr, from_ov, to_ov, to_addr)
+    if RAW_BODY is not None:
+        body, info = remap_hseq_body(from_addr, from_ov, to_ov, to_addr, RAW_BODY)
+    else:
+        body, info = remap_hseq(from_addr, from_ov, to_ov, to_addr)
     if body is None:
         revert(to_ov, keep_regions=keep); return "remap-refuse", info
     cf = stub_file(to_ov, to_func)
@@ -167,7 +187,13 @@ def bank(func, from_ov, from_addr, to_ov, to_addr):
 
 
 def main():
-    func, from_ov, from_addr_hex, members_path = sys.argv[1:5]
+    global RAW_BODY
+    args = sys.argv[1:]
+    if "--raw" in args:
+        i = args.index("--raw")
+        RAW_BODY = open(args[i + 1]).read()
+        del args[i:i + 2]
+    func, from_ov, from_addr_hex, members_path = args[:4]
     from_addr = int(from_addr_hex, 16)
     members = json.load(open(members_path))
     # The per-sibling revert restores config/ and src/ from HEAD, so an UNCOMMITTED prior family
