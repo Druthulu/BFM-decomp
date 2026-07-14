@@ -24,7 +24,76 @@ The Phase-25 h_seq reframe: the "unique tail" is really per-location families �
 - [ ] **Task 11 — Step-D residue map** `[xHigh]` — true singletons (~0.27M ins) + 5 behemoths → Phase-27 input doc. NO execution.
 - [ ] **Task 12 — PhaseEnd** `[Max — Tier 1; R27 prompt]` — P7 walk, milestone demo, gate 2, `PhaseEnd_Phase26.md`, worklog → `logs/Phase26.md` (R19), in-file recap (R25), decision-log current (R31).
 
-## ▶ SESSION-8 CHECKPOINT (2026-07-13, cont.) — RESUME FROM HERE (fresh session)
+## ▶ SESSION-8 CHECKPOINT (2026-07-13/14) — RESUME FROM HERE (fresh session)
+
+> **STATUS AT LAST WRITE:** a 9-core banking run + 3 near-miss crack agents are IN FLIGHT (background).
+> Check `.run/bank_all.log` (per-core commits) and `.run/phase26-cracks/` before doing anything.
+> `make clean` is NOT safe while agents are using `asm/` — they use the frozen snapshot `.run/asm_snap/`.
+
+### THE HEADLINE — the three heaviest cores in the game are cracked, and the wave scaled
+| Core | size × reach | how | state |
+|---|---|---|---|
+| `func_80178D40` | 890 × 134 (477 KB) | **cheap-Opus** reading loop.c/jump.c/cse.c → §46 | **BANKED ×134** |
+| `func_8017BEBC` | 952 × 113 (430 KB) | **Fable5** + the §47 live-length slider | **BANKED ×1** (×113 sweep = IMM-class, Task 8) |
+| `func_8015AE2C` | 562 × 134 (301 KB) | §8d decl-scope fix unblocked the sweep | **BANKED ×134** |
+| **12-core Ultracode wave** | 2.29 MB | §31/§46/§47 in the prompt + adversarial verify | **9/12 MATCH**, 3 near (close=2/2/21) |
+
+**Metrics: instr-weighted 63.0 → 64.7% · distinct-code 39.1 → 42.8% · fn-count 82.43%.** R22 136/136 after
+every bank. dedup 1813/0. 0 NON_MATCHING. ~15 commits.
+
+### THE LESSON OF THE SESSION — every wall was OUR TOOLING, and the R17 triage rule called it every time
+**Six silent-skip bugs found and fixed**, THREE of them the same brace-placement class:
+1. `scope_data_externs` (NEW, §8d) — carried DATA externs were emitted at FILE scope, establishing a global
+   the sibling TU never had → `conflicting types`. **Demote to block scope when the TU has no file-scope decl
+   above.** Byte-neutral, never worse than raw. Unblocked the ×133 jr sweeps.
+2. `extract_unit` — `not ln.rstrip().endswith(";")` missed m2c's `...);   /* extern */` form → a DECLARATION
+   was read as a DEFINITION and the brace-scan swallowed the NEXT function's body. **15 of 35** substantial
+   exemplars were phantom "matches"; 3 more templated garbage.
+3. `scope_data_externs._body_open_brace` — matched only an own-line `{` → silently no-op'd on every ANSI draft.
+4. **`gen_harvest_targets.SIG_IN_BODY_RE`** — required `)\s*{`, but an own-line brace has a `\` before it, so
+   **186 of 1801 (10%) of engine_core.h's shared signatures were MISSING from the canonical-callee oracle**
+   that `cast_call_sites`/`sig_unify` resolve against. This is why the wave's byte-exact cores would not bank:
+   the draft kept its guessed sig, hit `conflicting types`, and the "recovery" pass reported nothing to fix.
+   **Fixing it turned `func_8015A3C8` from 28-conflicts-unbankable into BANKED BYTE-IDENTICAL with zero hand
+   edits.** (`commit:0561`)
+5. `jtbl_family_bank.revert()` didn't restore the splat config → an isolation's residue rode into a commit as
+   a DUPLICATE code-subseg line (harmless to splat, so R22 stayed green) → the NEXT isolation walked the
+   object twice → "segments out of order". Now reverts the config + `jr_isolate_all` FAILS LOUD on a
+   non-ascending/duplicate subseg list.
+6. `jr_isolate_all` emitted an EMPTY region 0 when the object's first item IS the first cut (cutting a
+   non-leader out of an already-isolated region) → duplicate config line.
+> **Standing rule (cookbook §40): a tool that silently no-ops on input it cannot parse is indistinguishable
+> from a tool that had nothing to do. Prefer fail-loud on unparsed input, and regression-gate any change to a
+> "proven" text scanner by snapshotting its output over the whole corpus before/after.**
+
+### NEW TOOLING + KNOWLEDGE (all committed)
+- `tools/scope_data_externs.py` (§8d) · `tools/bank_exemplar.py` (bank a cracked exemplar ×1 through the same
+  stage ladder) · `jtbl_family_bank --raw` (template from the RAW crack — REQUIRED when the exemplar banked at
+  the `reconciled` stage, since a reconciled body is TU-specific; byte-proven: D40 banked reconciled → sweep
+  0/4 until `--raw`, then 132/132).
+- **Cookbook §46** (four LOOP-STRUCTURE levers: the PEEL rule — a `break` must never land on the loop's own
+  fall-through label; the surviving-copy EBB rule; the merged store; the non-replaceable giv).
+  **§47** (the LIVE-LENGTH SLIDER: measure `pri = int(floor_log2(n)·n/L·10000)` in the `.lreg`/`.greg` dumps;
+  a zero-byte `asm("")` between two existing volatile asms shifts L by +1 and splits an allocno tie — and the
+  split direction is FORCED toward the target). **§48** (the allocno-PRICING dials: sink-the-init-into-the-arms;
+  the local-alloc `$s0` occupant; per-case temps as a tie gate. The EBB rule generalized. The C type selects
+  the addressing mode. The cross-jump RATCHET.)
+
+### NEXT (priority order)
+1. **Finish the banking run** (`.run/bank_all.log`) — 9 cracked cores × 133 siblings. Then R22 + commit.
+2. **Re-run the 780 h_seq rejections against the REPAIRED ORACLE** (Task 12). They were diagnosed as decl
+   conflicts; the root cause was the 10% oracle hole (#4 above). `family_sweep --hseq --band substantial`,
+   then mid/tiny. Large mechanical recovery expected for ~0 agent tokens.
+3. **The 3 near-misses** (in flight): `func_8017A4AC` (536×134, 287 KB, close=2 — the biggest single remaining),
+   `func_8016AB6C` (close=2), `func_80135EB0` (close=21). All §47-slider class.
+4. **The next crack wave** — 32 unmatched heavy-jr ov077 cores remain (the wave took the top 12). Same recipe:
+   `.run/wave_targets.json` has the ranked list with per-core asm subdirs. Also **32 PINNED families**
+   (1.09 MB) need pin-free re-cracks — the §45/§46/§47/§48 toolkit is pin-free by construction now.
+5. `func_8017BEBC`'s ×113 sweep (IMM-class, scattered addresses → the immediate engine, not the PURE path).
+
+---
+
+## ▶ SESSION-8 (earlier) — the ×133 sweep blocker
 
 **THE ×133 SWEEP BLOCKER IS FIXED. `func_8015AE2C` (562 ins) BANKED ×134 — 133/133 siblings, 0 failures.**
 **R22 clean-fleet 136/136 GREEN** (from `make clean`, 534 changed src files). dedup-check 1813 validated / 0 failed.
