@@ -3470,3 +3470,144 @@ keep same-page stores apart. **Never "tidy up" the store order of a matched func
 and **both are blocked by sched.c**, which always fills the load-use stall between `lh` and its consumer, and
 places byte-free (reload-deleted) copies *only* in such stalls. The one productive angle left: a lever that
 injects a **reload-deleted no-op reg copy** inside `[lhu 4($a2) … sh %lo(D_801152AC)]`. That is the whole delta.
+
+---
+
+## §51 — TOOLING INTEGRITY: the silent skip, and how to hunt it
+
+> Phase 26-A (the inserted tooling-integrity audit). 68 findings across ~36 tools. This section is the
+> METHOD and the LAWS; the findings themselves are in `docs/tooling-audit.md`, the strategic why in
+> `docs/decision-log.md`. **Read this before writing any tool that scans the corpus.**
+
+### §51a — The bug class
+
+> **A scanner extracts N items from a corpus. The true count is M > N. Nobody ever compared N to M.**
+
+That is the whole class. It is not a typo, it is a *structural* blind spot, and it produced every one of
+the seven bugs found in Phase-26 session 8 and the twenty-eight found in the audit. Its signature:
+
+* the tool reports success;
+* the number it reports is *smaller than reality* and self-consistent;
+* nothing downstream can tell, because **a target that is never nominated produces silence, not an error.**
+
+Measured consequences in this project: **91.6% of all remaining work was invisible to target selection**
+(a 3-file allowlist against a 14-file tree); the byte-gate could reach **4.9%** of the canonical overlay;
+**62% of the endgame plan's byte-weight was already-matched phantom targets**; and one 10% hole in a
+callee-signature oracle made **nine byte-exact functions look like an intrinsic compiler wall.**
+
+### §51b — Why the byte-gate cannot save you
+
+**The whole-binary byte-gate is a perfect CORRECTNESS oracle and a NULL COVERAGE oracle.** It has never
+once accepted a wrong match. It is also blind *by construction* to work never attempted: it has been
+green since Phase 5, when 0% was decompiled, because `INCLUDE_ASM` pastes the ORIGINAL assembly.
+
+> **A green byte-gate is compatible with ANY decomp percentage.**
+
+So the instrument the project trusts absolutely cannot see this class at all. Do not reach for it here.
+
+### §51c — THE METHOD (do not audit by reading the regex)
+
+Reading regexes is the failure mode that *wrote* these bugs. For every scanner:
+
+1. Build a deliberately **OVER-APPROXIMATING** candidate detector for what it is *supposed* to find.
+2. Run **both** the detector and the real scanner over the **real corpus** (production data, not a toy).
+3. `gap = candidates − parsed`.
+4. **Classify EVERY item in the gap** — real silent skip, or justified exclusion. "I sampled a few" is
+   not acceptable; if the gap is large, classify by shape and count each shape.
+5. **Measure the blast radius against the corpus.** Not "this could affect X" — go count how many
+   functions/members/banks are *actually* affected today. Distinguish LIVE from LATENT (armed but not
+   firing). Both are real; conflating them is not.
+6. Pair each finding with an **adversarial skeptic** told to REFUTE it. In this audit the skeptics killed
+   4 of 32 findings outright and corrected magnitudes in **both** directions.
+
+### §51d — THE LAWS
+
+**LAW 1 — Derive, don't re-derive (R33).** Where a proven invariant answers the question, derive the
+answer from it rather than re-parsing the source.
+
+* The invariant here: *the fleet builds byte-identical, and `INCLUDE_ASM` pastes the ORIGINAL assembly,
+  therefore a function NOT wrapped in `INCLUDE_ASM` is byte-exact.*
+* `progress.py` is the proof, in one file: `weighted_metrics()` **derived** from the invariant and was
+  correct; `classify()` **re-parsed C** and inherited a bug. Same question, two tools, and *the one that
+  refused to re-derive was the one that was right.*
+* **The best outcome of an audit is a DELETED SCANNER, not a fixed regex.** 28 findings collapsed to one
+  defect — *a hand-maintained model of the corpus layout sitting on top of a filesystem that already
+  answers the question* — and the fix was **one derived oracle (`tools/corpus.py`) and ~10 deleted
+  scanners.** A dict literal is strictly worse than the filesystem AND it **fails OPEN** (silently yields
+  a plausible wrong answer) instead of closed.
+* Corollary: **a derived fact cannot rot; a hand-maintained copy of it is a liability that grows with
+  every structural change.** `.run/fuel_manifest.json` recorded 130 live stubs on 2026-07-08; the same
+  code returned **30** six days later, because a TU split moved ~100 stubs out from under a dict literal.
+
+**LAW 2 — Assert your COVERAGE, not merely your correctness (R32).** A tool that scans the corpus must
+compare what it found against an over-approximating candidate set, and fail on the gap.
+
+> ⚠️ **The sharpest lesson of the audit, and a correction to the first draft of R32:**
+> `build_engine_types` **was never silent.** It printed `[overlap] … handle manually` *every single
+> time*, for four phases, while hard-exiting on **81% of its own corpus** — the type-heavy tail's only
+> sanctioned unblocker, unable to run on the corpus that tail lives in. It went unfixed because the
+> message reads like a rare edge case rather than a four-fifths coverage failure, **so nobody ever
+> counted it.**
+> **A loud failure that nobody counts is exactly as invisible as a silent one.** "Fail loud" is not the
+> rule. **"Assert your coverage" is the rule.**
+
+**LAW 3 — When an oracle is structurally blind to a class of error, add a SECOND ORACLE THAT CAN
+DISAGREE WITH IT.** Not a better assertion inside the first one.
+
+* `config/symbols.us.txt` declared a main-EXE RAM symbol at an address that is *live code* in every
+  overlay. splat cut **97 real functions in half** and **invented 96 phantoms** — 193 slices unmatchable
+  *by construction* (one phantom's `.s` literally begins `lw $ra,0x10($sp)` / `addiu $sp,$sp,0x18` /
+  `jr $ra`: splat cut a function immediately before its **epilogue** and called the epilogue a function).
+* **The byte-gate stayed green throughout and always would have**, because the `.s` halves are pasted
+  back verbatim in original order. One phantom even got **banked** as a real match.
+* What exposed it: `sig_image` computes function boundaries from the ORIGINAL bytes *without splat*, and
+  **disagreed**. `make audit-corpus` is now that second oracle, standing.
+* We had both oracles all along and never made them argue. **Redundancy is only worth what you spend
+  comparing it.**
+* ⚠️ **Scope a cross-oracle check to the domain where the second oracle is genuinely independent.** Run
+  naively over all 136 binaries the same check reports **914** slices; the truth is **193**. main/resident
+  are signed by the *Ghidra* dumper, whose boundaries are shorter by design — so the comparison measures
+  *Ghidra's* limits, not splat's errors. **A check applied outside its valid domain does not become more
+  thorough; it becomes noise.**
+
+**LAW 4 — A rule that needs a human to remember it is not a gate. Make it structural.**
+
+* `.o ← .s` is **not** a dependency `make` can see: assembly arrives via `INCLUDE_ASM`, expanded to a
+  `.include` consumed by maspsx/as *after* cpp, while `-MMD` tracks headers only. Re-extract, build
+  incrementally, and make links a **stale object**.
+* This is not merely slow. `INCLUDE_ASM` pastes the ORIGINAL bytes, so a stale object still yields the
+  original image: **SHA1 goes GREEN while the split you just changed is never exercised.** A broken
+  `config/` change can be "verified" by an incremental build.
+* R22/H3 already legislate this ("clean rebuild"; "`make clean` after any `config/` change"). They are
+  right, and they were broken anyway — by me, mid-audit. So `extract` now **deletes the objects that
+  include what it just rewrote**. Structural, not advisory.
+
+### §51e — The false-wall pipeline (why this is not just hygiene)
+
+A silent skip does not stay quiet. It **compounds into a false wall**:
+
+1. `wave_targets` hands a drafter an asm path that does not exist (78 of 87 targets).
+2. The drafter drafts against nothing and fails.
+3. The failure is booked into the backlog as a **matching** failure.
+4. `reserved_walls()` reads the backlog and **permanently blacklists a function that was never attempted.**
+
+Same shape with a lying closeness oracle: `masked_diff` left `R_MIPS_PC16` unmasked, so **155 functions
+scored a phantom non-zero** against an unresolved placeholder that can never compare equal. An agent
+grinds forever at a wall that is not there, and the result is filed as an intrinsic compiler residual.
+
+> **Before you write up a wall as intrinsic, prove your instruments could have seen the alternative.**
+> How many of the walls "byte-proven" across 26 phases were lookup misses wearing a wall's clothes?
+
+### §51f — Checklist for any new corpus-scanning tool
+
+* [ ] Does the **filesystem** already answer this? Then glob it — never keep a second copy (LAW 1).
+* [ ] Does a **proven invariant** already answer this? Then derive it — never re-parse (LAW 1).
+* [ ] Over-approximating candidate set + `assert found == candidates`, failing with the unparsed items (LAW 2).
+* [ ] Does it print a count nobody checks? Then it is not asserted — it is decoration (LAW 2).
+* [ ] Symbol regexes: **any C identifier**, not `func_[0-9A-Fa-f]{8}` — curated names exist, and curated
+      naming *increases* as RE quality improves, so a `func_`-only oracle **rots by design**.
+* [ ] File lists: **glob**, never a suffix allowlist — the next split kind re-opens the hole.
+* [ ] Definition detectors: handle **K&R** (`f(a)` / `int a;` / `{`), **multi-line signatures**, and
+      **single-line bodies**. K&R is this project's house style for exactly the biggest, highest-reach
+      functions. And find the signature's closing paren with a real **paren-walk** — `line.count('(')` and
+      `split(')')[-1]` both land on the wrong paren for a one-line body containing a call.

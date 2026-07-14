@@ -169,6 +169,58 @@ bytes (R14) and still got the conclusion wrong because **I did not verify its BL
 
 ---
 
+## 🔁 SESSION-9 CLOSE — HANDOFF (2026-07-14). Read this, then `docs/tooling-audit.md`.
+
+**State: `check-all` 136/136 BYTE-IDENTICAL · `make audit-corpus` 0 unmatchable slices · dedup 1823/0 ·
+fleet instr-weighted 66.5% → 66.7% · 0 NON_MATCHING. Tree clean, all work committed.**
+
+### DONE (A0–A8 + two unplanned finds)
+
+| | what | outcome |
+|---|---|---|
+| **A1** | `dedup_integrate` — a fail-closed gate that printed **false greens** | 3 paths closed w/ negative controls; 7 ghost groups purged |
+| **A2** | THE FULL AUDIT (18 tools, 38 agents, 2.24M tok) | **32 raised → 28 survived**, 4 refuted, 40 scanners measured clean |
+| **A3** | **`tools/corpus.py`** — ONE derived oracle + **`make audit-corpus`** (a *second oracle that can disagree*) | targets **30→263** · reach-134 **10→127** · gain **83k→994,633 ins** · byte-gate reach **4.9%→100%** |
+| **A4** | the **`listCdBuffer`** corpus defect | **193 unmatchable slices → 0**; 4 real functions un-hidden; a **banked phantom** removed |
+| **A5** | the closeness oracle (`masked_diff` PC16) | **150 lies → 4** (coverage-asserted over 2,741 fns) |
+| **A6** | `dedup_propagate` (glob + K&R `find_site`) | **17 fns banked ×134 free**, incl. all 4 the registry lied about |
+| **A7** | family engine (`extract_unit`/`symbol_map`/`gather_externs`/`stub_map`) | **96 phantom exemplars → 0** (216/216 real) |
+| **A7** | `build_engine_types` | ran on **73–81%** of its corpus for the first time |
+| **A8** | `jr_isolate_all._SAFE_TYPE` | **683 dropped prototypes** — a **latent BYTE-CHANGER** — fixed + coverage-asserted |
+| ➕ | **stale objects can produce a FALSE PASS** | `extract` now invalidates them. **Structural, not advisory.** |
+
+### REMAINING — all fully specified on disk; nothing lives only in a dead session's context
+
+1. **`tools/cdecl.py`** — the ONE coverage-asserting C-decl parser. The same char-class bug (`[\w\s\*]` cannot hold `(`, `,`, `[N]`) is re-implemented in **6+ scanners**, and two tools in ONE pipeline already disagree about what a data decl *is*. ~15 of the round-1 findings. **Spec + evidence: `docs/tooling-audit.md`, GROUP data-decls / callee-sigs / recovery-rest.**
+2. **Wire `tools/reconcile_tu.py`** (written + validated at `commit:0580`, still **NOT WIRED**) into `bank_exemplar`/`jtbl_family_bank`/`gate_stage`; retire `reconcile_decls`' fleet-majority oracle (**3,717 actively-wrong decls**; 21.7% of (TU,symbol) pairs). Unblocks `func_8017A4AC` (287 KB), `func_8013F350`, `func_80131340`. **Then DELETE `census_conflict_callees`** (already marked; `reconcile_tu` answers its question from the build).
+3. **`lint_symbol_refs`** — RED (43 false positives) and UNWIRED. Fix the 4 blind spots → green on HEAD → **wire into `make report`**. It is the only detector for the R22 rename-drift failure mode.
+4. **`overlay_src_split.scan_construct`** `force_decl` latch (swallows 2 real defs **in the exemplar overlay**, while its selftest passes green — a *serialisation* check masquerading as a *coverage* check) + `jr_inventory`'s banked-roster read from an **ephemeral gitignored scratch file** (R33 violation).
+5. **🏆 A10 — RE-TEST THE WALLS.** *This is the payoff and the reason the audit was gated ahead of matching.*
+   - **"The permuter's fuel is exhausted" (Phase 22) is UNSAFE.** `grinder` banks through `harvest_verify`, which could see ONE TU — **1,290 of its own 1,298 queued fns could never have banked.** "0 banks since Phase 21" is *equally consistent* with *the tool could not bank*. **Re-run it against the fixed gate before repeating that conclusion.**
+   - The def-side loose-typing wall (§20/§41, "triple-confirmed"); the 159 arity conflicts; the 3,098 type-heavy tail + 9 zero-bank type-using families (`build_engine_types` can now RUN); the **780 h_seq rejections** against the repaired callee oracle.
+   - Any wall whose closeness came from the **155 wrong scores**, or whose target was one of the **193 listCdBuffer slices** (unmatchable *by construction* — no C exists for them).
+6. **A11 — distill + close**: `docs/tooling-audit.md` DIAGNOSIS→ledger (partly done), PhaseEnd, **then resume Phase 26 at Task 7**.
+
+### RULE CANDIDATES for Drew's ratification (P10)
+
+- **R32 — Assert your COVERAGE.** A tool that scans the corpus must compare what it found against an
+  over-approximating candidate set and fail on the gap.
+  > ⚠️ **This is a CORRECTION to the first draft** ("fail loud on unparsed input"). `build_engine_types`
+  > **failed loud every single time for four phases** while hard-exiting on 81% of its own corpus — and was
+  > still invisible, because the message read like an edge case and **nobody counted it**.
+  > **A loud failure that nobody counts is exactly as invisible as a silent one.**
+- **R33 — Derive, don't re-derive.** Where a proven invariant answers the question, derive from it rather
+  than re-parse. **The best outcome is a DELETED SCANNER, not a fixed regex.** (28 findings → one derived
+  oracle + ~10 deleted scanners.)
+- **R34 (new) — A second oracle, not a better assertion.** When an oracle is *structurally* blind to a class
+  of error, no assertion inside it can help. Add an independent oracle that can **disagree** with it, and
+  make them argue. (The byte-gate is a perfect correctness oracle and a **null coverage oracle**; `sig_image`
+  disagreeing with splat is what exposed the 193 slices. We had both all along and never compared them.)
+
+**Reusable method + laws: `docs/matching-cookbook.md` §51.** Strategic why: `docs/decision-log.md`.
+
+---
+
 ## ▶ SESSION-8 RESULTS (2026-07-13/14)
 
 ### 📊 SESSION-8 SCOREBOARD
