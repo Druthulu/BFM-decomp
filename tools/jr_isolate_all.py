@@ -21,6 +21,7 @@ sole arbiter (G3/P9/R22).
 
     jr_isolate_all.py <ov> [--only func_X,func_Y] [--dry-run]
 """
+import collections
 import argparse
 import glob
 import json
@@ -294,10 +295,56 @@ _HOIST_RE = re.compile(
 # a col-0 decl whose base type is a BUILTIN / include-provided type is safe to hoist as-is; one
 # naming a FILE-LOCAL type is only safe once that type is carried too — which `file_scope_types()`
 # now does, so such decls ride along after their typedef (types are emitted before decls).
+#
+# ^ THAT COMMENT DESCRIBED A FIX THAT WAS NEVER APPLIED TO THE CODE (Phase 26-A audit, HIGH).
+# The predicate only ever whitelisted builtins, so a decl naming a carried file-local type was matched
+# by _HOIST_RE and then SILENTLY DROPPED. Measured: 4,040 dropped col-0 decls — 3,357 DATA externs and
+# **683 function PROTOTYPES**. The data drops are loud (undeclared identifier -> compile error, someone
+# notices). The prototype drops are NOT: in C89 an undeclared function is implicitly `int f()`, so the
+# TU still COMPILES — with the wrong return type and lost pointer-ness. And this project has BYTE-PROVEN
+# that the return type drives codegen (cookbook: "schedule — delay-slot fill via void return type";
+# ov_SC01_077_after.c carries an `extern int` -> `extern void` flip described as byte-neutral precisely
+# because the return type moves the delay slot). So a dropped prototype is a SILENT BYTE-CHANGER, armed
+# to fire on the NEXT carve. Today's split is green only because the source redundantly re-declares
+# externs per fn-group, so most items carry their own decl. That is luck, not design.
+#
+# Two of the dropped base types are not even file-local: `uint` (139 drops) and `code_fn` (21) are
+# DEFINED IN src/shared/engine_types.h, which engine_core.h pulls into every region — the predicate was
+# rejecting INCLUDE-PROVIDED types it had no reason to reject. And `volatile` (3 drops) fell off because
+# the qualifier group has `const` but not `volatile`.
 _SAFE_TYPE = re.compile(
-    r'^\s*(?:extern\s+)?(?:const\s+)?(?:(?:un)?signed\s+)?'
+    r'^\s*(?:extern\s+)?(?:(?:const|volatile)\s+)*(?:(?:un)?signed\s+)?'
     r'(?:void|char|short|int|long|float|double'
     r'|[su](?:8|16|32|64)|M2C_UNK|MNC_UNK)\b')
+
+# the base type of a col-0 decl (after extern/qualifiers/struct-union-enum), for the carried-type test
+_BASE_TYPE = re.compile(
+    r'^\s*(?:extern\s+)?(?:(?:const|volatile)\s+)*(?:struct\s+|union\s+|enum\s+)?([A-Za-z_]\w*)')
+
+_ENGINE_TYPES = None
+
+
+def _engine_types():
+    """Every type name the SHARED headers provide (engine_types.h / common.h). These are include-provided
+    in every region — a decl naming one is safe to hoist with no carried typedef at all."""
+    global _ENGINE_TYPES
+    if _ENGINE_TYPES is None:
+        names = set()
+        for h in ("src/shared/engine_types.h", "include/common.h"):
+            p = os.path.join(REPO, h)
+            if not os.path.exists(p):
+                continue
+            t = open(p, errors="replace").read()
+            names |= set(re.findall(r'\}\s*([A-Za-z_]\w*)\s*;', t))              # typedef struct {...} X;
+            names |= set(re.findall(r'^\s*typedef\s+[^;{}]*?\b([A-Za-z_]\w*)\s*;', t, re.M))
+            names |= set(re.findall(r'^\s*(?:struct|union|enum)\s+([A-Za-z_]\w*)\s*;', t, re.M))
+            # fn-ptr typedefs — the name sits INSIDE the parens (`typedef void (*ActorFn)(void);`), so
+            # every name-before-';' pattern above misses it. Measured: exactly the 5 residual drops
+            # (ActorFn, FuncPtr, DispatchFn, VoidFn, code_fn). Without this the coverage assertion below
+            # would fire on legitimate input.
+            names |= set(re.findall(r'typedef\s+[^;{}]*?\(\s*\*\s*([A-Za-z_]\w*)\s*\)\s*\([^;]*\)\s*;', t))
+        _ENGINE_TYPES = names
+    return _ENGINE_TYPES
 
 
 def _file_scope_decls(items):
@@ -324,7 +371,17 @@ def _file_scope_decls(items):
           (`Vec3s *a0`) still parses. Returned flagged so the renderer emits types FIRST.
 
     Returns [(text, is_type)] in item order."""
-    out = []
+    # Collect the types this layer CARRIES first, so a decl naming one can ride along after its typedef
+    # (which is exactly what the _SAFE_TYPE comment has always claimed, and never did).
+    carried = set()
+    for _, _, _kind, text in items:
+        for block in oss.file_scope_types(text):
+            for a, b in re.findall(r'\}\s*([A-Za-z_]\w*)\s*;|\b(?:struct|union|enum)\s+([A-Za-z_]\w*)', block):
+                carried.add(a or b)
+            carried |= set(re.findall(r'typedef\s+[^;{}]*?\(\s*\*\s*([A-Za-z_]\w*)\s*\)\s*\([^;]*\)\s*;', block))
+    known = carried | _engine_types()
+
+    out, dropped = [], []
     for _, _, kind, text in items:
         for block in oss.file_scope_types(text):        # (4) types first-class
             out.append((block, True))
@@ -333,8 +390,13 @@ def _file_scope_decls(items):
                 continue
             if "{" in line or "}" in line:
                 continue
-            if _HOIST_RE.match(line) and _SAFE_TYPE.match(line):
+            if not _HOIST_RE.match(line):
+                continue
+            base = _BASE_TYPE.match(line)
+            if _SAFE_TYPE.match(line) or (base and base.group(1) in known):
                 out.append((line.rstrip(), False))
+            else:
+                dropped.append(line.rstrip())           # REPORTED, never silently dropped (R32)
         proto = None
         if kind == "define":                            # (2) macro-injected file-scope externs
             for line in oss.macro_externs(text):
@@ -344,6 +406,25 @@ def _file_scope_decls(items):
             proto = oss.def_proto(text)
         if proto:                                       # (3) the definition's implied declaration
             out.append((proto, False))
+
+    # COVERAGE ASSERTION (R32). A line _HOIST_RE recognised as hoistable but that we could not place is
+    # a BUG, never a silent no-op. Print the base-type histogram so the cause is named, not guessed —
+    # this single check would have surfaced all 4,040 drops the day the first split shipped.
+    if dropped:
+        hist = collections.Counter()
+        for l in dropped:
+            m = _BASE_TYPE.match(l)
+            hist[m.group(1) if m else "?"] += 1
+        protos = sum(1 for l in dropped if re.search(r'\bfunc_[0-9A-Fa-f]{8}\s*\(', l))
+        sys.exit(
+            f"[jr_isolate_all] {len(dropped)} file-scope decl(s) matched _HOIST_RE but could not be "
+            f"placed — REFUSING to emit a region that silently omits them.\n"
+            f"  {protos} are function PROTOTYPES: in C89 an undeclared function is implicitly `int f()`, "
+            f"so the TU still COMPILES with the WRONG RETURN TYPE — and return type drives delay-slot "
+            f"fill in this codebase. A dropped prototype is a SILENT BYTE-CHANGER.\n"
+            f"  base types: {dict(hist.most_common(12))}\n"
+            f"  e.g. {dropped[:3]}\n"
+            f"  Fix: carry the naming type (file_scope_types) or add it to src/shared/engine_types.h.")
     return out
 
 
