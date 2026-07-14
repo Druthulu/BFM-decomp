@@ -774,3 +774,71 @@ build already proves. The tool that guards byte-honesty was the one least able t
 around it* — avoided a subtle honesty trap. Writing a PhaseEnd that says "milestone: not met, closing anyway"
 when the real story is "our measuring tape was short" would have been technically true and substantively
 misleading. **Phase boundaries should follow the work, not the paperwork.**
+
+---
+
+## 2026-07-14 (session 9, A2) — The audit found the endgame plan was majority-fiction
+
+**What we ran.** 6 auditor agents over the 18 unaudited PARSE+GATE/SELECT tools, each finding handed to an
+independent skeptic told to REFUTE it. 38 agents, 2.24M tokens. 32 findings raised → **28 survived**, 4 refuted,
+16 downgraded, and **40 scanners measured clean**. The skeptic pass earned its keep: it killed four claims and
+corrected magnitudes in both directions.
+
+**The root cause is singular, and it is not a regex.** Almost every finding is the same defect:
+
+> a hand-maintained model of the corpus layout — a file allowlist, a single-`.c` assumption, a `func_`-only
+> symbol regex, a `REGION_SUB` dict — sitting on top of a **filesystem that already answers the question**.
+
+An overlay's source is spread over up to 14 `.c` files (`<ov>.c`, `_a`, `_o0`, `_o0b`, `_after`, and the Phase-26
+`_jr_<ADDR>` carves). Tools written when there was one file still believe there is one file. **The decay is
+measurable:** `.run/fuel_manifest.json` from Jul 8 recorded 130 live stubs; the same tool run today returns **30**.
+The Phase-26 splits moved ~100 stubs out from under a dict literal last edited in Phase 22. **Nobody noticed,
+because a target that is never nominated produces silence, not an error.**
+
+**Why this is worse than a wrong answer.** 91.6% of all remaining project gain is invisible to the target-selection
+layer (994,633 instructions of real work; the manifest sees 83,305). 117 of the 127 reach-134 functions — the
+entire high-ROI band — are never nominated by anything. We were about to run Task 7's crack waves against that.
+
+**Three results overturn things we had written down as settled:**
+
+1. **"The permuter's fuel is exhausted" (Phase 22) is unsafe.** The grinder banks through `harvest_verify`, which
+   can only see one translation unit — and **1,290 of the grinder's own 1,298 queued functions live in a different
+   one**. 99% of its queue could never have banked, however good the permuter's output was. "7 all-time banks, 0
+   since Phase 21" is *equally consistent* with "the tool could not bank" as with "there was nothing to bank."
+   We concluded the latter and moved on. **Re-test before repeating it.**
+
+2. **The Phase-25/26 endgame plan is majority-fiction.** `docs/family-manifest.md` — the document the whole
+   structural-family endgame is planned from — advertises 2,758 multi-member families holding 11.0 MB of hidden
+   leverage. **1,071 of them (6.80 MB, 62% of the advertised byte-weight) are already fully matched.** The
+   matched-set oracle scans a single overlay. So the byte-weight *ranking*, which is the entire purpose of the
+   file, is sorted mostly on dead work, and the real targets are buried under phantoms.
+
+3. **A corpus defect the byte-gate cannot see, and never could.** `config/symbols.us.txt:981` declares
+   `listCdBuffer = 0x80180000` — a main-EXE **data** symbol — and every overlay's splat config loads that file. In
+   overlay space, 0x80180000 is **code**. splat therefore cuts 97 real functions in half and invents 96 phantom
+   ones: **193 slices that cannot be matched by anyone**, across 97 of 134 overlays. You cannot write C for a
+   function that ends on a `lui` with no return, nor for one that begins by reading the assembler temp `$at`. They
+   sit in the harvest queue as ordinary work items, so agents burn on them indefinitely and the failure reads as an
+   intrinsic compiler wall. **And the full-binary byte-gate stays green the entire time**, because the `.s` halves
+   are pasted back verbatim in original order.
+
+   This is the purest instance of the thesis that motivated the audit: *the byte-gate is a perfect correctness
+   oracle and a null coverage oracle.* And note precisely what rescued us — **`sig_image` was right.** Its
+   independently-computed function boundaries agree with spimdisasm on 58,524 of 58,621 functions, and on all 97
+   disagreements sig_image is demonstrably correct. **A second, independent oracle is the only reason the defect
+   was visible at all.** That is a design lesson worth more than the fix: when one oracle is structurally blind to
+   a class of error, the answer is not a better assertion inside it — it is a second oracle that can disagree with it.
+
+**The fix follows the root cause: ONE derived corpus oracle, and ~10 deleted scanners.** Not ten fixed regexes.
+`tools/corpus.py` answers — from the filesystem and the proven invariant, with coverage assertions baked in —
+*which files make up a binary*, *which stubs are live*, *which functions are matched* (sig − stubs, derived, never
+re-parsed), and *where a function's asm lives* (globbed, because splat already wrote the truth). Then the allowlists,
+the `REGION_SUB` dict, the single-TU regexes, and `census_conflict_callees` in its entirety all get deleted. This is
+the "best outcome is a deleted scanner" rule (R33) applied at scale.
+
+**Hindsight / for the wiki.** The strategic error was not writing any one of these tools badly. It was **letting the
+corpus layout become a fact that lived in ten places**. Each split was a correct, well-gated change to the *build*;
+none of them updated the ten private models of the tree, and nothing existed to notice. **A derived fact has no
+maintenance cost and cannot rot; a hand-maintained copy of it is a liability that grows with every structural
+change.** And the reason it stayed invisible for four phases is the deepest lesson of the audit: *we had no
+instrument that could report absence.* Every gate we owned answered "is this right?" — none answered "is this all?"
