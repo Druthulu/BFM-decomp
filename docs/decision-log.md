@@ -573,3 +573,34 @@ times (`find_site` braces, `overlay_files` splits, this). Prefer transforms that
 (3) **The cheapest fix was to do less, not more.** The instinct was to make our reconciler smarter (a TU-visible
 oracle, a fn-ptr type comparator, a cast-at-use taxonomy). The correct move was to stop perturbing something we
 had no business perturbing. When a transform breaks a TU, first ask what it is *changing* that it needn't.
+
+## 2026-07-13 (session 8, Fable5 Max) — func_8017BEBC closed: the allocno-tie class is a DIAL, not a wall
+
+**Context / prior belief.** The 952-ins jr core (reach ×113, the largest unmatched function in the game) sat at
+close=2 — two transposed preheader `addiu`s. The session-7 Fable5 agent had localized it to `global.c`'s
+allocno-priority tie and prescribed a §45-B gdb-on-cc1 read of `allocno_live_length`; the permuter had run 25
+minutes without closing it. The residual class: allocation order and emission order are COUPLED (both follow
+creation order), but the target needs them to DIFFER — the shipped draft could have either correct, never both.
+
+**What the bytes taught.** The dumps alone settled it — gdb was never needed. `.lreg` gave the two pseudos'
+ground truth: refs 13/13, live lengths 783/782 → `pri = int(390000/L)` = 498/498, an EXACT int-truncation tie
+(the agent's remembered "270000/L" had the wrong refs count — reading beats recalling, R14). The quantization
+boundary sat one insn away: +1 on both lengths → 497 vs 498. And the split direction is FORCED: the later-created
+pseudo always has the shorter live range, so a split always hands it the earlier allocation — precisely the
+"allocation ≠ creation" the target requires.
+
+**The pivot.** Rather than hunting an L-shifter that survives cse (the agent's proposed hunt), the map's own
+zero-byte-asm toolkit already contained the dial: `__asm__ volatile ("")` placed BETWEEN two existing GTE
+volatile asms adds no new cse/sched barrier (one is already there) — it is purely +1 static insn at
+global-alloc time, zero bytes emitted. Natural operand order restored (emission correct), one slider inserted →
+MATCH 952/952 first try. Whole-binary gate BYTE-IDENTICAL (jr function — the §8a trap respected); one TU-visible
+decl reconcile en route (`D_800B9A02`, §8d sub-class b). Banked ×1; the ×113 sweep is IMM-class Task-8 work.
+
+**Hindsight / for the wiki.** (1) *An "irreducible" tie is often a measurable quantization accident* — the
+formula is public, the dumps print its inputs, and the fix is one insn of live-range arithmetic. Before
+declaring a register-order residual intrinsic, READ THE PRIORITY NUMBERS. (2) *The dumps-first discipline
+scales:* .lreg/.greg gave everything gdb would have, at a fraction of the setup. gdb remains the tool for
+DYNAMIC questions (which reg find_reg actually grants when hand-modeling stalls), not for static quantities the
+dumps already print. (3) *The zero-byte toolkit compounds:* the slider now joins the density dial and the
+lifetime-extender as the third allocation dial that emits nothing — and the "adjacent to an existing volatile
+asm" placement rule makes it safe in GTE-heavy renderers, which is exactly where the remaining jr cores live.

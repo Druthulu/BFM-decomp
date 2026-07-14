@@ -3207,3 +3207,43 @@ when you need two tails to STAY separate, separate their registers.*
 gcc-2.7.2 passes** (`jump.c`, `loop.c`, `cse.c` in `tools/reference/gcc-2.7.2/`) and none by search: the residual
 class was "the compiler produced the wrong BYTES", so **R17 applies and the map/source is the lever**. And the
 tier held — *cheap-Opus applying the documented map* cracked the game's heaviest core; Fable5 was not needed.
+
+## §47 — The live-length SLIDER: splitting a global.c allocno-priority TIE with one zero-byte asm (Phase 26 session 8, Fable5 Max, byte-proven on `func_8017BEBC` 952 ins ×113)
+
+The close=2 endgame class: **allocation order and emission order are COUPLED** (both follow creation/LUID
+order), but the target needs them to DIFFER. `func_8017BEBC`'s two hoisted invariant addresses (`&g.sz1`,
+`&g.sz2`) tie in `allocno_compare` priority; the tie-break is creation order, so natural operand order gives
+correct emission + swapped allocation (close=10), and permuting the asm operand list gives correct allocation +
+transposed preheader emission (close=2). The permuter provably cannot reach it (not statement-permutable; 25 min,
+no close). **The fix decouples them: make the priority difference REAL so the tie-break never fires.**
+
+**The method (no gdb needed — the dumps are the oracle):**
+1. Compile with the pinned cc1 + `-dl -dg` (a file input, so `t.i.lreg`/`t.i.greg` appear). Find the two
+   preheader `addiu`s in the `.greg` RTL by their `const_int` (the sp offsets), take their insn UIDs, find the
+   same UIDs in the `.lreg` RTL to get the PSEUDO numbers, then read each pseudo's line:
+   `Register 228 used 13 times across 783 insns` / `Register 230 … across 782 insns`.
+2. Compute `pri = (int)((double)(floor_log2(n_refs) · n_refs) / live_length · 10000 · size)` (global.c:594).
+   Here: int(390000/783) = **498** = int(390000/782) — an exact int-truncation tie.
+3. Find the boundary: the tie splits when the pair straddles an integer of `numerator/L`. Here +1 on both
+   (L = 784/783) gives **497 vs 498** — split. (−1 would also split; you can only ADD insns.)
+4. **The slider: `__asm__ volatile ("");` placed BETWEEN TWO EXISTING GTE volatile asms** inside the common
+   live range. Adjacent to an existing volatile asm it adds NO new cse/sched barrier (one is already there) —
+   it is purely +1 static insn at global-alloc time, emitting only `#APP/#NO_APP` (zero bytes).
+
+**Why the split can only go the right way:** the later-created pseudo is defined one insn later in the
+preheader and dies at the same last use → it ALWAYS has the shorter live range → `pri(later) ≥ pri(earlier)`,
+with equality only on a quantization plateau. Sliding the window off the plateau therefore always hands the
+later-created pseudo the earlier allocation — which is exactly the "allocation ≠ creation" the target needs.
+(If the target needed the OTHER direction, it would be unreachable by this dial — creation-order permutation
+covers that case instead, §45-A.)
+
+- **Placement rule:** next to an existing volatile asm (GTE-heavy functions are full of them). A bare
+  `asm("")` elsewhere is a cse table-flush + sched barrier + a maspsx `#APP` hop-killer (§42) — the classic
+  perturbation trap. Between two volatile asms all three are already blocked.
+- The slider adds +1 live-length to EVERY pseudo spanning the insertion point — any OTHER exact-tie pair
+  straddling a boundary could flip. `match_one` verdicts the collateral instantly (here: none; MATCH first try).
+- ×N template-safe: the slider is body-local, pin-free, and travels with the template.
+- Banked through the §8 whole-binary gate (jr function — match_one alone is NOT the arbiter, §8a): lazy
+  isolation → carve (9-piece interleave) → splice → **BYTE-IDENTICAL**. One TU-visible decl reconcile was
+  needed on the way (`D_800B9A02` — declare the TU's `short`, force the unsigned access at use
+  `(*(u16 *)&D_800B9A02)`, the §8d sub-class (b) hand-move).
