@@ -145,6 +145,14 @@ help:
 GHIDRA       := $(or $(GHIDRA_INSTALL_DIR),$(HOME)/ghidra_12.1_PUBLIC)
 GHIDRA_PROJ  := $(HOME)/bfm-decomp/ghidra
 
+# The corpus oracle (Phase 26-A, R32/R33). A SECOND, INDEPENDENT oracle: it cross-checks splat's
+# function boundaries against sig_image's, which are derived from the ORIGINAL bytes without splat.
+# The byte-gate is structurally BLIND to a bad boundary (the .s halves are pasted back verbatim, so
+# the image stays byte-identical) — only an oracle that can DISAGREE can see it. Currently RED:
+# 193 unmatchable slices from one bad symbol line. Wire into `report` once A4 lands it green.
+audit-corpus:
+	$(VENV_PY) tools/corpus.py --all --audit
+
 report:
 	$(VENV_PY) tools/progress.py --binary $(BINARY) --audit
 	$(VENV_PY) tools/difficulty.py --binary $(BINARY)
