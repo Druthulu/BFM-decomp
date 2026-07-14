@@ -2438,6 +2438,21 @@ exemplar banks **0/133** siblings — one C body can't name 134 overlays' differ
 `D_8017Fxxx` in ov000). h_norm masks the reloc fields, so h_norm-identical ⟹ diffs are RELOC-ONLY, but the reloc
 TARGETS are per-overlay → not shareable by a single body.
 
+**TRAP — `extract_unit` mistook a DECLARATION for a DEFINITION (Phase 26 session 8, R14).** Its guard was
+`not ln.rstrip().endswith(";")`, but m2c writes declarations with a trailing comment —
+`M2C_UNK func_80178D40(s32, s32);   /* extern */` — so the raw line ends in `*/` and sailed through. The forward
+brace-scan then ran past the decl and **swallowed the NEXT function's body**, handing `remap_hseq` a garbage unit.
+Measured: **15 of 35** substantial-family exemplars were phantom "matches" (all still `INCLUDE_ASM` stubs,
+including `func_80178D40` and the carried-queue `func_801670E4`), and **3 more** anchored on the Phase-17
+canonical-sig layer's `extern … /* match-first, arity N */` decls and templated garbage — so those families were
+**silently unbankable**. The whole-binary byte-gate rejected every one, so **no wrong match was ever banked**
+(G3/P9 held) — but the engine burned a build per sibling on them, and any `extract_unit`-based readiness analysis
+was wrong. Fix: strip trailing comments before the `;` test. **The general lesson (the phase's FOURTH silent-skip
+bug, after `find_site`'s braces, `overlay_files`' splits, and `reconcile_decls`' fn-ptr regex): a tool that
+silently no-ops on input it cannot parse is indistinguishable from a tool that had nothing to do. Prefer
+fail-loud on unparsed input, and regression-gate any change to a "proven" text scanner by snapshotting its output
+over the whole corpus before/after — that is what caught this.**
+
 **The lever — mechanical per-overlay symbol remap (`tools/family_remap.py`):** two h_norm-identical members have
 identical instruction streams except in the masked reloc fields. So disassemble both overlay images at ADDR
 (`extracted/retail/<SC>.CD.dir/FILE_<nnn>.dir/0.4.dec`, vram 0x80128158), positionally pair the resolved reloc

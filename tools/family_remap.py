@@ -387,7 +387,16 @@ def extract_unit(ov, addr):
     for cf in sorted(glob.glob(f"src/{ov}/{ov}*.c")):
         lines = open(cf).read().split("\n")
         for i, ln in enumerate(lines):
-            if pat.search(ln) and "INCLUDE_ASM" not in ln and not ln.rstrip().endswith(";"):
+            # A DECLARATION ends in `;` — but m2c writes them with a trailing comment
+            # (`M2C_UNK func_80178D40(s32, s32);   /* extern */`), so the raw line ends in `*/` and the
+            # old `endswith(";")` guard let it through as a DEFINITION. The forward brace-scan then ran
+            # past it and swallowed the NEXT function's body, handing remap_hseq a garbage unit (5 of 35
+            # substantial-family exemplars — all still INCLUDE_ASM stubs). The whole-binary gate rejected
+            # every one, so no wrong match was ever banked (G3/P9) — but the family engine burned a
+            # build per sibling on them and any extract_unit-based readiness analysis was wrong.
+            # Strip trailing comments before the `;` test. (Phase 26 session 8, R14.)
+            code = re.sub(r'(/\*.*?\*/|//.*)\s*$', '', ln).rstrip()
+            if pat.search(ln) and "INCLUDE_ASM" not in ln and not code.endswith(";"):
                 j = i - 1
                 # Grab the fn's own preceding decls: externs, comments, AND single-line typedefs
                 # (Phase-26 §8: jr-function bodies define local `typedef struct {…} Foo_<addr>;` that
