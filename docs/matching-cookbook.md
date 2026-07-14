@@ -2504,6 +2504,23 @@ crack (the type-using triage cracks AND the Fable5 cores) flows through to reach
 bodies, no reconcile) still template via plain `--hseq` (Task 5: 399 banked). Key: reconcile PER SIBLING from
 the RAW draft, never remap the ov077-reconciled body.
 
+### §31-triage — R17 applies to CODEGEN residuals, never to a compile ERROR (Phase 26 session 7, Drew asked)
+
+Before reaching for `tools/reference/gcc-2.7.2/` or the `docs/gcc-2.7.2-map/`, classify the failure:
+
+| Symptom | Cause | Tool |
+|---|---|---|
+| The build SUCCEEDS but the bytes differ | a codegen decision (regalloc / sched / cross-jump / CSE / loop) | **R17** — read the pass, or gdb-on-cc1 (§45-B) |
+| The build FAILS to compile (`conflicting types`, `undeclared`, `parse error`) | plain C89 semantics — gcc is CORRECT | **our tooling.** Reading gcc source tells you nothing |
+
+Byte-example: the `func_8015AE2C` ×133 sweep blocker is `conflicting types for D_801812A4` — two incompatible
+file-scope decls of one identifier in one TU. That is not a gcc quirk; `reconcile_decls` was picking a
+**fleet-majority** canonical type instead of the type the TU can actually SEE (its §8b carried decl layer).
+A `loop.c`/`global.c` read would have been pure waste. Contrast `func_8017BEBC` (close=2, an `allocno`-priority
+tie in `global.c`): compiles fine, wrong bytes → exactly an R17/§45-B target.
+
+**Rule of thumb: "wrong BYTES" → read the compiler. "won't COMPILE" → read our Python.**
+
 ## §41 — The DEF-SIDE canonical-sig wall: mechanically banking a drafted giant past `conflicting types` (Phase 25 T5b batch-2, 2026-07-09; `tools/canon_sig_reconcile.py`, byte-proven on `func_8013B274`)
 
 **The wall (dominant for GIANTS — ~universal, vs ~35% clean-bank for small fns):** a drafter writes an

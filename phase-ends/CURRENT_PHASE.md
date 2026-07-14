@@ -63,11 +63,23 @@ banked set + carve-ownership read from a `.s` splat never emits for matched fns 
 carves** · `p16_permute` `hide_asm` eating GTE `#define`s (permuter silently no-op'd `0s` on ALL renderer
 drafts) + hardcoded to one overlay.
 
-### NEXT (in priority order)
+### NEXT (in priority order) — with the R17 routing call (Drew asked, 2026-07-13)
+> **Do NOT read the gcc-2.7.2 source for the sweep blocker.** R17 (read the compiler internals) is for
+> **codegen** residuals — regalloc / scheduling / cross-jump / CSE — i.e. things no C change reaches. The
+> sweep blocker is a **C FRONT-END diagnostic** (`conflicting types`: two incompatible file-scope decls of one
+> identifier in one TU). gcc is correctly rejecting plain C89; the bug is in OUR Python (`reconcile_decls`
+> picks a fleet-majority type instead of the type the TU can actually SEE). Reading `cse.c`/`loop.c`/`global.c`
+> would tell you nothing. **Triage rule: "the compiler produced the wrong BYTES" → R17. "the compiler refused
+> to COMPILE" → our tooling.**
+
 1. **Unblock the ×133 sweep** (above) → banks 562×133 ≈ 75K templatable ins. Highest ROI, well-diagnosed.
-2. **`func_8017BEBC` close=2** — permuter failed; needs a §45-B gdb-on-cc1 read of `allocno_live_length`
-   (the agent's own recommendation) or a targeted Fable5/Opus follow-up. ×113 reach.
-3. **`func_80178D40` close=39** — all in case 0x5C; agent named 4 concrete residuals. Cheap-Opus or permuter.
+   **Python fix, NOT a gcc read.**
+2. **`func_8017BEBC` close=2** (×113) — **THIS is where the gcc-source read belongs.** The permuter failed
+   (25 min, no close). The agent localized it to `global.c`'s allocno-priority TIE and named the exact move: a
+   §45-B **gdb-on-cc1 read of `allocno_live_length`** (the original's length quantization plausibly split the
+   tie). Two instructions from a 107K-ins bank — the best R17 target in the queue.
+3. **`func_80178D40` close=39** (×134) — all 39 in case 0x5C; agent named 4 concrete residuals (incl. gcc
+   peeling a loop iteration the original doesn't → likely `loop.c`). Cheap-Opus/permuter first, R17 if it walls.
 4. Then the rest of the 191 heavy jr cores. **R27: prompt Drew before any further Fable5.**
 
 ---
