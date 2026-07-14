@@ -24,11 +24,100 @@ The Phase-25 h_seq reframe: the "unique tail" is really per-location families �
 - [ ] **Task 11 — Step-D residue map** `[xHigh]` — true singletons (~0.27M ins) + 5 behemoths → Phase-27 input doc. NO execution.
 - [ ] **Task 12 — PhaseEnd** `[Max — Tier 1; R27 prompt]` — P7 walk, milestone demo, gate 2, `PhaseEnd_Phase26.md`, worklog → `logs/Phase26.md` (R19), in-file recap (R25), decision-log current (R31).
 
-## ▶ SESSION-8 CHECKPOINT (2026-07-13/14) — RESUME FROM HERE (fresh session)
+## ⛳ SESSION-8 CLOSE (2026-07-14) — READ THIS FIRST
 
-> **STATUS AT LAST WRITE:** a 9-core banking run + 3 near-miss crack agents are IN FLIGHT (background).
-> Check `.run/bank_all.log` (per-core commits) and `.run/phase26-cracks/` before doing anything.
-> `make clean` is NOT safe while agents are using `asm/` — they use the frozen snapshot `.run/asm_snap/`.
+### ⚠ DREW'S DIRECTIVE (2026-07-14, binding): the TOOLING-INTEGRITY AUDIT comes BEFORE any further matching work
+> *"I feel like we should do T14 now, before the rest of the work. but not in this phase."*
+
+**The FIRST decision of the fresh session is a Tier-1 phase-boundary call for Drew** (do not decide it alone):
+the audit is not part of Phase 26, and it must precede the remaining matching work — so either
+**(a)** close Phase 26 with a PhaseEnd now (it has achieved a great deal, but its stated milestone — structural
+completion — is NOT met, so this is an early close by owner decision), and open the audit as **Phase 27**; or
+**(b)** run the audit as an INSERTED phase (the Phase-3.5 precedent: a half-phase spike) and return to Phase 26
+afterwards. Present both; let Drew pick. Then plan the audit phase in **plan mode, Max** (Tier-1).
+
+### WHY (the case for doing it first — this is the session's most important finding)
+**Seven silent-skip tool bugs in one session**, and they were not typos — they are a *structural* blind spot:
+> a scanner extracts N items from a corpus, the true count is M > N, and **nobody ever compared N to M**.
+The whole-binary byte-gate is a perfect CORRECTNESS oracle (it never once accepted a wrong match) but it is
+**blind by construction to work never attempted** — it has been green since Phase 5, when 0% was decompiled,
+because `INCLUDE_ASM` pastes the ORIGINAL asm. A green byte-gate is compatible with ANY decomp %.
+One hole (`SIG_IN_BODY_RE`, 10% of the callee oracle) made **nine byte-exact functions look like an intrinsic
+compiler wall**. That is the cost of not auditing: not wrong answers — *invisible work*, and walls that aren't.
+
+**AUDIT SCOPE SO FAR: 19 of 82 tools (23%), chosen by risk. NOT comprehensive.** The unaudited set includes the
+most dangerous ones:
+- **`dedup_integrate.py`** — the FAIL-CLOSED byte-honesty validator. A silent skip there prints
+  *"1813 validated, 0 failed"* — **a false green from a gate.** Audit this FIRST.
+- **`jtbl_family_bank.py`** — three bugs found in it BY HAND this session; never formally audited.
+- **`family_hseq.py` / `wave_targets.py` / `exemplar_miner.py`** — target SELECTION. A hole here makes work
+  **invisible to planning** — the worst kind, because you never know to look.
+- **`masked_diff.py` / `match_one.py`** — the closeness oracle every agent trusts.
+- (`harvest_verify.py` is the byte-gate but DERIVES from the build, so a parse hole makes it *conservative,
+  not wrong* — the good kind of tool. See R33 below.)
+
+**Do NOT "audit all 82"** — many are dead LLM-tier scripts. The filter is: **does it PARSE something, and does it
+GATE or SELECT work?** (~15 tools.) And per R33, for each one ask the better question first: *why is this tool
+re-deriving something the build already guarantees?*
+
+### 🔑 THE COOKBOOK LESSON THAT SUPERSEDES THE ONE WE STARTED WITH (R33 candidate)
+> **A metric DERIVED FROM A PROVEN INVARIANT beats a metric that RE-PARSES THE WORLD.**
+`progress.py` has two metrics answering the same question. `weighted_metrics()` derives from the invariant —
+*"not wrapped in INCLUDE_ASM ⇒ byte-exact, because the build is byte-identical"* — and **inherits the byte-gate's
+correctness for free**. `classify()` re-derives the same fact by parsing C, and inherited a bug instead (it read
+a K&R definition as a forward declaration). Same question, two tools; **the one that refused to re-derive was the
+one that was right.**
+
+### 🔴 AND AN HONEST SELF-CORRECTION (P9/R14 — do not repeat it)
+I told Drew our headline numbers had been under-reporting by ~190k instructions. **That was WRONG.**
+`weighted_metrics()` never calls `classify()`, so it was structurally immune; **the published 65.6% / 44.9% were
+CORRECT ALL ALONG** — only the secondary REAL/fn-count report was wrong. I had verified the DEFECT against the
+bytes (R14) and still got the conclusion wrong because **I did not verify its BLAST RADIUS**. What caught it was a
+**null result** (+376 instructions, not +190,000) against a strong prediction — trivially easy to wave off as noise.
+*"This tool is broken" and "this number is wrong" are different claims needing different evidence.*
+
+### RULE CANDIDATES FOR PHASEEND (P10 — Drew ratifies)
+- **R32 — Coverage assertion.** A tool that scans the corpus must assert its own coverage (found vs. an
+  over-approximating candidate set) and **fail loud on unparsed input**. A silent skip is a DEFECT, not a no-op.
+  *(Drew: "agreed", 2026-07-14.)*
+- **R33 — Derive, don't re-derive.** Where a proven invariant answers a question, derive the answer from it rather
+  than re-parsing the source. Before adding a coverage assertion to a scanner, first ask whether the scanner
+  should exist at all.
+
+---
+
+## ▶ SESSION-8 RESULTS (2026-07-13/14)
+
+### 📊 SESSION-8 SCOREBOARD
+**Fleet: instr-weighted 63.0 → 66.5% · distinct-code 39.1 → 46.8% · fn-count 82.61%** (all DEFENSIBLE — see the
+self-correction below). **FINAL R22: `make clean` + extract-all + check-all → 136/136 BYTE-IDENTICAL, 0 coverage defects.**
+**136/136 byte-identical after every single bank** (R22). dedup 1813/0. 0 NON_MATCHING (G4). ~25 commits.
+
+**13 CORES CRACKED**, incl. the four heaviest functions in the game. The 12-agent Ultracode wave: **11/12 MATCH**
+first pass, every one adversarially verified by a skeptic (re-run `match_one` + the §8a jump-table check).
+
+| Core | size × reach | how it fell | banked |
+|---|---|---|---|
+| `func_8017BEBC` | 952 × 113 | **Fable5** + §47 live-length slider | ×1 |
+| `func_80178D40` | 890 × 134 | **cheap-Opus** reading loop.c/jump.c/cse.c (§46) | **×134** |
+| `func_8015AE2C` | 562 × 134 | §8d decl-scope fix unblocked the sweep | **×134** |
+| `func_8017A4AC` | 536 × 134 | §49 **LUID dial** (sched.c) | blocked — see below |
+| `func_8015A3C8` | 493 × 134 | §48-A1 sink-the-init | **×132** |
+| `func_8015444C` · `func_8016AB6C` · `func_8013FFD8` · `func_801380E0` | | wave | **×134 / ×134 / ×129 / ×134** |
+| `func_8013F350` · `func_80131340` · `func_8015B950` · `func_8015C32C` · `func_80159C84` | | wave (MATCH) | **blocked on plumbing** |
+| `func_80135EB0` | 289 × 134 | 21→**6**, WALLED with a named mechanism (§50-F) | honest defer |
+
+### 🧰 THE TOOLKIT CROSSED A LINE — three ZERO-BYTE DIALS now cover the three passes that make every residual
+Each emits nothing; each steers a tie; each has a **diagnostic signature a cheap agent can recognise on sight**.
+That is why 9/12 fell first-pass without Fable5. *Fable5 DISCOVERS a class; everyone else APPLIES it.*
+| signature | pass | dial |
+|---|---|---|
+| registers rotated | `global.c` allocno priority | **§47** live-length slider · **§48-A** pricing dials |
+| two insns swapped, **SAME registers** | `sched.c` `rank_for_schedule` LUID tiebreak | **§49** LUID dial |
+| structure right, instruction COUNT wrong | loop peel / cross-jump | **§46** · **§48-D** |
+New this session: **§46** (4 loop-structure levers) · **§47** (the slider) · **§48** (+A4 sink-the-consumer-call) ·
+**§49** (the LUID dial) · **§50** (refinements that **BOUND** §47/§48 — read §50-B before using A1/A4: the
+"cross_jump refunds the bytes" claim is FALSE for a 1-insn tail reached by two jumps, `jump.c:1993` minimum=2).
 
 ### THE HEADLINE — the three heaviest cores in the game are cracked, and the wave scaled
 | Core | size × reach | how | state |
@@ -79,17 +168,44 @@ every bank. dedup 1813/0. 0 NON_MATCHING. ~15 commits.
   the local-alloc `$s0` occupant; per-case temps as a tie gate. The EBB rule generalized. The C type selects
   the addressing mode. The cross-jump RATCHET.)
 
-### NEXT (priority order)
-1. **Finish the banking run** (`.run/bank_all.log`) — 9 cracked cores × 133 siblings. Then R22 + commit.
-2. **Re-run the 780 h_seq rejections against the REPAIRED ORACLE** (Task 12). They were diagnosed as decl
-   conflicts; the root cause was the 10% oracle hole (#4 above). `family_sweep --hseq --band substantial`,
-   then mid/tiny. Large mechanical recovery expected for ~0 agent tokens.
-3. **The 3 near-misses** (in flight): `func_8017A4AC` (536×134, 287 KB, close=2 — the biggest single remaining),
-   `func_8016AB6C` (close=2), `func_80135EB0` (close=21). All §47-slider class.
-4. **The next crack wave** — 32 unmatched heavy-jr ov077 cores remain (the wave took the top 12). Same recipe:
-   `.run/wave_targets.json` has the ranked list with per-core asm subdirs. Also **32 PINNED families**
-   (1.09 MB) need pin-free re-cracks — the §45/§46/§47/§48 toolkit is pin-free by construction now.
-5. `func_8017BEBC`'s ×113 sweep (IMM-class, scattered addresses → the immediate engine, not the PURE path).
+### ▶ NEXT — IN ORDER (Drew's directive: the AUDIT comes first)
+
+**0. [FIRST — Drew's call] The Tier-1 phase-boundary decision** (see the top of this file), then the
+   **TOOLING-INTEGRITY AUDIT** in plan mode, Max. `dedup_integrate.py` first (it can print a false green),
+   then the ~15 parse-and-gate/select tools. Apply R33 to each: *should this scanner exist at all?*
+
+**1. [THEN — the cheapest matching work on the board] The CONSOLIDATED INTEGRATION FIX PASS.**
+   **Nine byte-exact cracks; six cannot bank — for PLUMBING, not matching (~1.2 MB sitting behind it).**
+   Four distinct fixes, all identified, one already built:
+   - **`tools/reconcile_tu.py` — WRITTEN + VALIDATED, NOT YET WIRED IN.** Replaces `reconcile_decls`' oracle.
+     That tool asks *"what does the FLEET call this symbol"*; the only question that matters is **"what can THIS
+     TU SEE"** — 34.4% of fleet symbols carry ≥2 mutually incompatible spellings, so one fleet-wide answer is
+     **provably wrong for some TU by construction** (and it returns ACTIVELY WRONG decls for 3,717 symbols).
+     `reconcile_tu` reconstructs the TU's visible file-scope environment from BOTH §8c sources (col-0 decls AND
+     `engine_core.h` macro-injected externs — 544 visible syms from 1801 macros) and parses the **fn-ptr forms
+     `reconcile_decls` is structurally blind to**. Validated on `func_8017A4AC`: resolves `D_801DA75C` (fn-ptr),
+     `D_80126B58` (struct), `D_801DA734` (ptr). **Wire into `bank_exemplar.py` + `jtbl_family_bank.py` as a
+     stage, byte-gate it.** Unblocks `func_8017A4AC` (287 KB), `func_8013F350`, `func_80131340`.
+   - **Strip scalar typedefs** from the draft before splicing (`match_one` does this via
+     `masked_diff.SCALAR_TYPEDEF_RE`; the BANK path does not) → `redefinition of 's16'`. Unblocks `func_8015C32C`.
+   - **`canon_sig_reconcile` is not K&R-aware** — raises `no definition found in draft`, so the def-side (§41)
+     conflict never gets a recovery attempt. Unblocks `func_8015B950`.
+   - **`func_80159C84`**: carve STILL non-contiguous after isolation (0xb09a4 / 0xb09c4) — a real edge case where
+     a region ends up hosting two carves with an unmatched jtbl between them.
+   ⚠ **`func_8013F350` is NOT a plumbing bug — it is a real class.** Its `D_8011511C` must be **struct**-typed to
+   force `la`+offset (§48-C1): the type IS the code. The TU declares it `u16` at file scope, and **no cast fixes
+   it** (the cast folds back to `lui/%lo`). It needs an EBB-separated pointer re-crack (§48-B) or a fleet decl
+   migration.
+
+**2. Re-run the 780 h_seq rejections against the REPAIRED callee oracle** (`commit:0561`) — large mechanical
+   recovery expected for ~0 agent tokens.
+**3. The next crack wave** — 32 unmatched heavy-jr ov077 cores remain (`.run/wave_targets.json`, ranked, with
+   per-core asm subdirs). Plus **32 PINNED families (1.09 MB)** needing pin-free re-cracks — the toolkit is
+   pin-free by construction now. Recipe = the 12-core wave: §31/§46/§47/§48/§49 in the prompt + an adversarial
+   verifier + the mandatory §8a jump-table check.
+**4. `func_8017BEBC`'s ×113 sweep** (IMM-class, scattered addrs → the immediate engine, not the PURE path).
+**5. `func_80135EB0`** — the one documented wall (§50-F): needs a lever that injects a **reload-deleted no-op reg
+   copy** inside `[lhu 4($a2) … sh %lo(D_801152AC)]`. That is the entire remaining delta.
 
 ---
 
