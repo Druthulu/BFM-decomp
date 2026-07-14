@@ -24,7 +24,55 @@ The Phase-25 h_seq reframe: the "unique tail" is really per-location families �
 - [ ] **Task 11 — Step-D residue map** `[xHigh]` — true singletons (~0.27M ins) + 5 behemoths → Phase-27 input doc. NO execution.
 - [ ] **Task 12 — PhaseEnd** `[Max — Tier 1; R27 prompt]` — P7 walk, milestone demo, gate 2, `PhaseEnd_Phase26.md`, worklog → `logs/Phase26.md` (R19), in-file recap (R25), decision-log current (R31).
 
-## ▶ SESSION-6 CHECKPOINT (2026-07-13) — RESUME FROM HERE (fresh session)
+## ▶ SESSION-7 CHECKPOINT (2026-07-13, cont.) — RESUME FROM HERE (fresh session)
+
+**Heavy-jr crack waves RUN (Drew approved top-3 + distill). 1 core BANKED, 2 cracks in hand. R22 136/136 GREEN,
+tree clean, all work committed.** The §8b wall stayed broken throughout.
+
+### The three Fable5 cracks (all PIN-FREE, all independently re-verified against the bytes — R14)
+| Core | Size × reach | Result | State |
+|---|---|---|---|
+| `func_8015AE2C` | 562 × **134** | **MATCH 562/562** | **Exemplar BANKED** (`commit:0547`, `d19c9580`, R22 green). ×133 sweep **BLOCKED** — see below |
+| `func_80178D40` | 890 × **134** | **close=39/890** — 851 exact; **all 39 in ONE case body (0x5C)** | crack at `.run/phase26-cracks/func_80178D40.c`; 4 named residuals in a 44-ins block, agent calls it permuter-tractable |
+| `func_8017BEBC` | 952 × **113** | **close=2/952** — two `addiu` TRANSPOSED, same registers (pure emission order) | crack at `.run/phase26-cracks/func_8017BEBC.c`; **permuter ran 25 min, did NOT close it** |
+
+### ⛔ THE ONE BLOCKER — the `func_8015AE2C` ×133 sweep (precisely diagnosed, NOT yet fixed)
+The remapped sibling body's **DATA externs conflict with the sibling's §8b carried decl layer**
+(`conflicting types for D_801812A4`; the layer's decl is the "previous declaration"). `reconcile_decls`
+resolves against a **fleet-majority canonical oracle**, not against the TU's *actually-visible* decl, so it
+picks a type that still conflicts. **Fix direction:** reconcile the body's externs against the TU's carried
+layer (which is authoritative — it reproduces the original TU's decl environment), or drop body externs the
+layer already provides and cast at use. `cast_call_sites` already fixes the *function*-callee half (27
+callees); only the ~4 DATA symbols remain. Everything else in the sweep works (isolate → carve → remap →
+gate). **Bank flow now has 3 stages: raw → recovered (per-sibling cast+reconcile) → reconciled.**
+
+### Banking a heavy jr core — the FULL recipe (all byte-proven this session)
+1. `jr_isolate_all --only <core>` — now **also cuts every already-banked jr in the same object** (a region may
+   host at most ONE `.rodata` carve; an object's `.rodata` is a single contiguous section).
+2. `jtbl_carve --func <core>` — now **trims trailing `.align` pad words** (§8a-pad).
+3. If an `engine_core.h` thunk calls the core with **zero args**, the def must be **K&R/unprototyped** and the
+   thunk's extern must drop `(void)` → `()` (byte-neutral fleet-wide; R22-verified for func_8015AE2C).
+4. Recovery: `cast_call_sites` (callees) + `reconcile_decls` (data) against the **isolated region TU**.
+5. Whole-binary gate → `jtbl_family_bank` ×N → R22 → commit.
+
+### Six tool bugs found + fixed this session (each silently corrupts and each is committed)
+`canon_sig_reconcile` void→s32 not byte-neutral (§41d) · `extract_unit` swallowing the §8b decl layer ·
+`jtbl_family_bank` cross-address naming · `jtbl_carve.func_subseg` reading the stale asm tree ·
+`jtbl_carve/revert` deleting the committed `overlays.mk` carve var · `jr_isolate_all` `--only` erasing the
+banked set + carve-ownership read from a `.s` splat never emits for matched fns + **one region hosting two
+carves** · `p16_permute` `hide_asm` eating GTE `#define`s (permuter silently no-op'd `0s` on ALL renderer
+drafts) + hardcoded to one overlay.
+
+### NEXT (in priority order)
+1. **Unblock the ×133 sweep** (above) → banks 562×133 ≈ 75K templatable ins. Highest ROI, well-diagnosed.
+2. **`func_8017BEBC` close=2** — permuter failed; needs a §45-B gdb-on-cc1 read of `allocno_live_length`
+   (the agent's own recommendation) or a targeted Fable5/Opus follow-up. ×113 reach.
+3. **`func_80178D40` close=39** — all in case 0x5C; agent named 4 concrete residuals. Cheap-Opus or permuter.
+4. Then the rest of the 191 heavy jr cores. **R27: prompt Drew before any further Fable5.**
+
+---
+
+## ▶ SESSION-6 CHECKPOINT (2026-07-13) — superseded by SESSION-7 above
 
 **THE §8b SCOPING WALL IS BROKEN. Heavy-jr harvest is UNBLOCKED. Effort: Max.**
 Full 54-jr isolate-all on ov_SC01_077 → `d19c9580` **byte-identical**; **R22 clean-fleet 136/136**.
