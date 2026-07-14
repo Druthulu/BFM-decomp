@@ -2610,7 +2610,7 @@ DEFINE_func_80174650()  /* dedup: shared engine-core @0x80174650 (src/shared) */
 
 DEFINE_func_80174674()  /* dedup: shared engine-core @0x80174674 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC05_010/nonmatchings/ov_SC05_010_jr_801734BC", func_80174684);
+DEFINE_func_80174684()  /* dedup: shared engine-core @0x80174684 (src/shared) */
 
 DEFINE_func_801746A4()  /* dedup: shared engine-core @0x801746A4 (src/shared) */
 

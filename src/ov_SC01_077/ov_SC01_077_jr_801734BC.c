@@ -2946,16 +2946,7 @@ DEFINE_func_80174650()  /* dedup: shared engine-core @0x80174650 (src/shared) */
 
 DEFINE_func_80174674()  /* dedup: shared engine-core @0x80174674 (src/shared) */
 
-extern u8 D_80126D6C;
-extern void (*D_80127088)(void);
-extern s32 D_801270BC;
-
-void func_80174684(void* a0)
-{
-    D_80126D6C = 0;
-    (*(void * *)&D_80127088) = a0;
-    D_801270BC = 0;
-}
+DEFINE_func_80174684()  /* dedup: shared engine-core @0x80174684 (src/shared) */
 
 
 // @class: plumbing
