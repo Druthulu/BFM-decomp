@@ -1,3 +1,13 @@
 // config/symbols.ov_SC02_041.txt — overlay SC02/FILE_041 local symbols (Phase 13+)
 // R13/R15: overlay-REGION ONLY (vram 0x80128158..0x801B96D7); NEVER merged into config/symbols.us.txt.
-// count=0
+// count=1
+
+// Phase 26-A: a REAL 35-instruction function at 0x80180000, reached ONLY via a
+// function-pointer table (.word func_80180000 in tail.data) — never by `jal`, so splat's
+// auto-analysis cannot find it and needs the boundary declared. Until now it was supplied
+// BY ACCIDENT: config/symbols.us.txt declared `listCdBuffer = 0x80180000` (main's LIST.CD RAM
+// buffer) and every overlay stacked that file. In the other 97 overlays the SAME accident cut
+// real functions in half; here it happened to land on a true boundary. The address means a
+// different thing in every binary — which is exactly why it belongs HERE and not in a shared
+// symbol file (R13/R15). Verified against tools/sig_image.py, the independent oracle.
+func_80180000 = 0x80180000;

@@ -4465,7 +4465,6 @@ INCLUDE_ASM("asm/ov_SC03_093/nonmatchings/ov_SC03_093_jr_80178D40", func_8017FCE
 
 INCLUDE_ASM("asm/ov_SC03_093/nonmatchings/ov_SC03_093_jr_80178D40", func_8017FE74);
 
-INCLUDE_ASM("asm/ov_SC03_093/nonmatchings/ov_SC03_093_jr_80178D40", listCdBuffer);
 
 INCLUDE_ASM("asm/ov_SC03_093/nonmatchings/ov_SC03_093_jr_80178D40", func_80180320);
 

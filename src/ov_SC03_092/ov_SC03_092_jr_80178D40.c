@@ -4605,7 +4605,6 @@ extern void func_80029124(s32 arg0, s32 arg1);
 
 INCLUDE_ASM("asm/ov_SC03_092/nonmatchings/ov_SC03_092_jr_80178D40", func_8017FFD8);
 
-INCLUDE_ASM("asm/ov_SC03_092/nonmatchings/ov_SC03_092_jr_80178D40", listCdBuffer);
 
 INCLUDE_ASM("asm/ov_SC03_092/nonmatchings/ov_SC03_092_jr_80178D40", func_80180074);
 

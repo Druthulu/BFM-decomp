@@ -2989,7 +2989,6 @@ void func_8017FE68(int param_1)
 
 INCLUDE_ASM("asm/ov_SC02_000/nonmatchings/ov_SC02_000_jr_8017FCB0", func_8017FF18);
 
-INCLUDE_ASM("asm/ov_SC02_000/nonmatchings/ov_SC02_000_jr_8017FCB0", listCdBuffer);
 
 
 // @class: plumbing

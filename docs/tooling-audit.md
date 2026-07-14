@@ -689,6 +689,44 @@ Same class of fix in jtbl_carve.all_data_labels: accept any `(?:dlabel|glabel)\s
 
 <!-- groups: 6, verdicts: 6 -->
 
+---
+
+# ✅ FIX LEDGER — what has been repaired (Phase 26-A, session 9)
+
+> This document opened as **diagnosis only**. It is now also the ledger. Every row below is COMMITTED
+> and VERIFIED; the byte-gate stayed green throughout, and nothing here was accepted on a prediction.
+
+## The root cause, and the shape of the fix
+
+All 28 round-2 findings collapse to ONE defect repeated ~10 times:
+
+> **a hand-maintained model of the corpus layout — a file allowlist, a single-`.c` assumption, a
+> `func_`-only symbol regex, a `REGION_SUB` dict — sitting on top of a filesystem that already
+> answers the question.**
+
+So the fix is not ten repaired regexes. It is **one derived oracle (`tools/corpus.py`) and ~10 deleted
+scanners** — the "best outcome is a deleted scanner" rule (R33), applied at scale.
+
+| # | tool | was | now | commit |
+|---|---|---|---|---|
+| A1 | `dedup_integrate` | a **fail-closed gate that printed false greens**: 7 groups named a macro that did not exist; a missing sig → *"0 validated, 0 failed"* + **exit 0**; the bank claim never checked | all three fail-closed with negative controls; the bank claim **derived** from the build invariant | `commit:0586` |
+| A3 | **`tools/corpus.py`** *(new)* | — | the single derived oracle: files/stubs/matched/asm-path, coverage-asserted. Plus **`make audit-corpus`**, a *second oracle that can disagree with the corpus* | `commit:0589` |
+| A3 | `build_fuel_manifest` | 3-file allowlist → **30 of 264** stubs; **91.6% of all remaining gain invisible**; 117 of 127 reach-134 fns never nominated | **263** targets · **127** reach-134 · **994,633 ins** (the audit's predicted figure to the unit) | `commit:0590` |
+| A3 | `wave_targets` | `REGION_SUB` 3-entry dict → **78 of 87** targets handed an asm path **that does not exist** (wasted attempts booked as *matching* failures → `reserved_walls()` → **false walls**) | **0 of 263** missing; raises rather than guess | `commit:0590` |
+| A3 | `harvest_verify` + `gate_stage` | **the byte-gate could see ONE TU**: 4.9% of ov_SC01_077, **96.6% of fleet stubs unreachable**, **1,290 of the grinder's own 1,298 queued fns unbankable** | **100%**; each draft spliced into the TU that holds its stub; verdict untouched | `commit:0591` |
+| A3 | `family_manifest` | matched-set from **one overlay** → the endgame plan advertised **2,758 families / 11.0 MB**; **1,071 (62% of the byte-weight) were ALREADY MATCHED** | **1,495 / 3.9 MB** — derived from the invariant; the dedup-hash scanner **deleted** | `commit:0593` |
+| A3 | `family_hseq` | `func_`-only stub regex → 3 phantom "matched" exemplars | corpus-derived (+100 curated stubs); stale hardcoded baseline labelled | `commit:0593` |
+| A3 | `census_conflict_callees` | wave scope **2** when the truth is **57** (96% under-report) | **0/57**; **MARKED FOR DELETION** (R33 — `reconcile_tu` answers it from the build) | `commit:0593` |
+
+## Still open (round-2 findings not yet fixed)
+
+`masked_diff`/`match_one` (**155 provably-wrong closeness scores** — feeds false walls) · `harvest_verify._TD`
+(frozen 10-name typedef allowlist; 22 open stubs never got to compile) · `worklist`/`exemplar_miner`/`difficulty`
+(inherited) · `jr_isolate_all.jr_inventory` (banked-roster read from an **ephemeral gitignored scratch file**) ·
+`jtbl_carve.all_data_labels` · `canon_draft_decls` · plus the whole **round-1** fix campaign (the `cdecl`
+class, `reconcile_tu` wiring, the family engine, `dedup_propagate`, `build_engine_types`, split-infra,
+`lint_symbol_refs`).
+
 
 ---
 
@@ -1498,3 +1536,42 @@ RESIDUE: the hardcoded path IS stale for _a/_o0 (17 stubs would mislocate IF the
 - `sig_image.py func_end() (:76) + bootstrap_seeds() (:62) — function boundary detection` — 58621/58524 — MEASURED at full coverage via an INDEPENDENT oracle. Ground truth = the size header ('nonmatching func_X, 0xSIZE') and glabel address in every splat-emitted .s, which comes from spimdisasm's own algorithm — and I verified non-circularity: all 134 config/symbols.ov_*.txt files contain ZERO symbols, so splat's overlay function detection is in no way seeded by sig_image. Two independent codebases, two algorithms. 58,621 comparable function boundaries; 58,524 byte-exact agreement on BOTH start and size. The 97 disagreements are 100% attributable to the listCdBuffer symbol collision (CRITICAL finding #1) and in every one of them sig_image is the CORRECT party. So func_end's documented risks — the early-return `jr`, the trailing orphan `jr;nop` double-epilogue, the tail-call function ending in `j` that could merge two functions — are all real hazards in principle and all MEASURED ABSENT at fleet scale. h_exact rests on solid boundaries.
 - `dup_report.py — the BINARIES allowlist, cross_report()'s named-union-glob ingestion, and _load_sig()` — 134/134 — MEASURED at full coverage. This was the prime suspect for the hardcoded-allowlist bug (the brief warned several tools hardcode a list and miss files). It does not have it: BINARIES holds exactly 134 ov_ entries, exactly 134 .run/sig.ov_*.jsonl exist, exactly 134 src/ov_* dirs exist, and all three sets are IDENTICAL — empty symmetric difference in both directions. cross_report()'s named-union-glob dedup (the R14 honesty fix) resolves all 134 with 0 missing files, and main + resident both resolve. The nins>=8 default filter drops 41,604 of 341,671 signed overlay functions (12.2%), but that is an exposed CLI argument and a documented design choice, not a silent skip. Note dup_report does no text parsing at all — it consumes sig JSONL — so its correctness is inherited wholesale from sig_image, which is verified above.
 - `difficulty.py INSTR regex (:~185) and BRANCH regex (:~186), and find_s()` — 365665/365665 — MEASURED at full coverage. Over-approximating detector = any `*/ <mnemonic>` on any line of any .s. Over a 6,000-file sample of the real asm corpus: 365,665 instruction lines found by the over-approximator, 365,665 matched by INSTR. Gap ZERO — not one mnemonic in the entire corpus defeats it, including delay-slot lines with their extra leading space. BRANCH likewise: the corpus contains exactly 9 branch-like mnemonics (b, beq, beqz, bgez, bgtz, blez, bltz, bne, bnez) and the regex matches all 9, missing none. find_s() resolved all 60,733 stub names to a .s file with 0 failures — its single-level `*/{name}.s` glob happens to match the real asm/<ov>/nonmatchings/<subdir>/ depth exactly (unlike derive_canonical_sigs, which hardcodes the subdir NAME and thereby loses 95%). difficulty.py's src glob is `*.c` and so does NOT have the _jr_* suffix-allowlist bug.
+
+---
+
+## 🔴 NEW FINDING (session 9, found while fixing A4) — a stale object can produce a FALSE PASS
+
+**Severity: HIGH (byte-integrity).** Found by cutting the R22 corner and being punished within minutes.
+
+`Makefile` tracks HEADER dependencies (`-MMD -MP`, Phase 15) so an edit to `engine_core.h` correctly
+triggers a recompile. But an object's **assembly** arrives through `INCLUDE_ASM`, which expands to a
+`.include` consumed by **maspsx/as** — *after* cpp. So the dependency
+
+        build/src/<bin>/<tu>.o   <-   asm/<bin>/nonmatchings/<tu>/*.s
+
+**is never expressed.** `make` compares the `.o` against the `.c` only. Re-extract (which rewrites every
+`.s`) and then build incrementally, and Make sees a `.o` newer than its `.c` and **does not rebuild it**.
+
+**Why this is worse than an inconvenience: it can FALSELY PASS.** `INCLUDE_ASM` pastes the ORIGINAL
+assembly, so a stale object still contributes the original bytes — the image stays byte-identical and
+**SHA1 goes green**, while the split that was actually just changed is never exercised at all. A broken
+`config/` change can therefore be "verified" by an incremental build.
+
+Measured, live, during the A4 fix: after `make clean`-less re-extraction, `build/src/ov_SC05_000/
+ov_SC05_000_after.o` (timestamp 02:19:59) was newer than its `.c` (01:43:55), was NOT rebuilt, and still
+carried **1 undefined reference** to a symbol that no longer exists. 8 of 136 binaries failed to link.
+They failed *loudly only by luck* — an undefined symbol is a link error. Had the stale `.s` merely been
+a **different valid split** of the same bytes, all 136 would have gone green on stale objects and the
+regression would have shipped.
+
+**This is exactly the failure R22 and H3 already legislate against** ("verify from a CLEAN rebuild";
+"after any `config/` change, `make clean` before re-extract") — the rules are right, and I broke them.
+But a rule that depends on a human remembering is not a gate. Make it structural.
+
+**Fix:** `extract` must invalidate the objects that include what it just rewrote. In the `extract`
+target, `rm -rf build/src/$(BINARY)` (and `build/asm/$(BINARY)`), so a re-extract can never be followed
+by a build from stale objects. Cheap, total, and it removes the need to remember the rule.
+
+**Assertion (R32):** after `build`, assert every `.o` linked into the image is NEWER than every `.s` it
+includes; fail loud on the first inversion. A build that consumed a stale object must never be allowed
+to report BYTE-IDENTICAL.

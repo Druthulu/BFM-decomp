@@ -47,17 +47,43 @@ def _reloc_kind(name):
         return "HI16"
     if "LO16" in name:
         return "LO16"
+    if "PC16" in name:                # R_MIPS_PC16 — see mask_for() (Phase 26-A audit)
+        return "PC16"
     return name
 
 
 def mask_for(word, reloc_kind):
-    """The compare mask for one instruction word given its reloc kind (or None)."""
+    """The compare mask for one instruction word given its reloc kind (or None).
+
+    R_MIPS_PC16 (Phase 26-A audit). An over-approximating sweep of every reloc type `objdump -drz`
+    emits across all 3,367 real build objects found EXACTLY FOUR: R_MIPS_26 (1,090,661), R_MIPS_HI16
+    (633,662), R_MIPS_LO16 (633,437) — and R_MIPS_PC16 (211). The table handled three. PC16 fell
+    through to a FULL-WORD compare, but the object holds an UNRESOLVED PLACEHOLDER in the branch
+    displacement, so that compare can never succeed:
+
+        build/src/libgs6.o  func_80053E28  MINE 1040ffff (beqz v0,388)  TGT 10400018 (beqz $v0, GS_123…)
+                                                ^^^^ placeholder                ^^^^ real displacement
+
+    THE DECISIVE TEST — derived from the proven invariant, not from reading the regex: INCLUDE_ASM
+    pastes the ORIGINAL assembly, so for EVERY stub the build object's bytes ARE the target .s bytes,
+    and diff_object_s() MUST return 0. Run over all 60,740 stubs it returned 0 for 60,585 — and LIED
+    on 155.
+
+    Why a lying closeness oracle is worse than a slow one: every crack agent trusts this number. A
+    phantom non-zero sends an agent to grind at a wall that is not there, and the wasted attempt is
+    then booked into the backlog as a MATCHING failure, which feeds reserved_walls() and PERMANENTLY
+    BLACKLISTS a function that was never actually broken. A silent skip compounding into a false wall
+    — the same mechanism that made nine byte-exact functions look like an intrinsic compiler wall.
+
+    Masking PC16 exactly like HI16/LO16 (keep opcode+regs, drop the linker-filled displacement) cures
+    151 of the 155 and introduces ZERO new lies across all 60,740 functions (auditor's counterfactual,
+    independently re-run by a skeptic). The 4 survivors are a separate length-delta defect."""
     if (word >> 26) in (2, 3):        # jal / j — the 26-bit target is a link-time value
         return 0
     if reloc_kind == "26":
         return 0
-    if reloc_kind in ("HI16", "LO16"):
-        return 0xFFFF0000             # keep opcode+regs, drop the linker-filled immediate
+    if reloc_kind in ("HI16", "LO16", "PC16"):
+        return 0xFFFF0000             # keep opcode+regs, drop the linker-filled immediate/displacement
     return 0xFFFFFFFF
 
 

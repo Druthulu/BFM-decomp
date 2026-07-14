@@ -398,6 +398,24 @@ ASSET_OBJS := $(ASSET_BINS:assets/%.bin=build/assets/%.o)
 # extract: splat split -> asm/, the linker script, include/ macros, undefined_*_auto.txt.
 extract:
 	@mkdir -p $(OUT_DIR)
+	# A re-extract REWRITES every .s — and an object's assembly arrives through INCLUDE_ASM, which
+	# expands to a `.include` consumed by maspsx/as AFTER cpp. So `.o <- .s` is NOT a dependency make
+	# can see (-MMD tracks headers only), and an incremental build after an extract silently links
+	# STALE OBJECTS. That is not merely slow: INCLUDE_ASM pastes the ORIGINAL assembly, so a stale
+	# object still contributes the original bytes — the image stays byte-identical and SHA1 goes GREEN
+	# while the split that was just changed is never exercised. A broken config/ change can therefore
+	# be "verified" by an incremental build. (Found live in Phase 26-A: 8 of 136 binaries linked
+	# against stale objects; they failed loudly only by luck, because the dead symbol happened to be
+	# an undefined reference. A merely-different-but-valid split would have gone green on all 136.)
+	# R22/H3 already legislate this ("clean rebuild"; "make clean after any config/ change") — but a
+	# rule that depends on a human remembering is not a gate. Make it structural: invalidate here.
+ifeq ($(BINARY),main)
+	# main's objects are TOP-LEVEL (build/src/*.o, build/asm/*.o); every other binary lives in its own
+	# subdir. -maxdepth 1 so `make extract` for main cannot delete an overlay's objects.
+	find build/src build/asm -maxdepth 1 -type f \( -name '*.o' -o -name '*.d' \) -delete 2>/dev/null || true
+else
+	rm -rf build/src/$(BINARY) build/asm/$(BINARY)
+endif
 	$(SPLAT) split $(SPLAT_YAML)
 ifeq ($(BINARY),main)
 	# Phase 7 (LZSS): reorder splat's section-major .main into the real

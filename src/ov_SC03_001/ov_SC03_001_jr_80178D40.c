@@ -4706,7 +4706,6 @@ void func_8017FFBC(void) {
 
 INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001_jr_80178D40", func_8017FFF0);
 
-INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001_jr_80178D40", listCdBuffer);
 
 extern s32 D_80191894;
 extern s32 D_801EEAE8;

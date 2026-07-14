@@ -4463,7 +4463,6 @@ extern void func_8012AD44(s32 *a0, s16 a1);
 
 INCLUDE_ASM("asm/ov_SC06_022/nonmatchings/ov_SC06_022_jr_80178D40", func_8017FEF8);
 
-INCLUDE_ASM("asm/ov_SC06_022/nonmatchings/ov_SC06_022_jr_80178D40", listCdBuffer);
 
 extern void func_8012AD44(s32 *a0, s16 a1);
     void func_801800AC(s32 arg0) {

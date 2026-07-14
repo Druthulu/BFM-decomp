@@ -978,7 +978,6 @@ currentLocationId                = 0x800B9A08; // data
 resLoad_result                   = 0x800C6D10; // data
 resLoad_curId                    = 0x800C6D34; // data
 lzss_state                       = 0x800C7D24; // data
-listCdBuffer                     = 0x80180000; // data
 CdIntToPos                       = 0x80043A18; // func  PsyQ libcd (Ghidra-confirmed, Phase 7)
 CdPosToInt                       = 0x80043B1C; // func  PsyQ libcd (Ghidra-confirmed, Phase 7)
 CdSearchFile                     = 0x80045374; // func  PsyQ libcd (Ghidra-confirmed, Phase 7)

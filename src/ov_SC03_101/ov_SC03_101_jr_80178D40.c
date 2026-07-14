@@ -4483,7 +4483,6 @@ void func_8017FEA4(void *a0) {
 
 INCLUDE_ASM("asm/ov_SC03_101/nonmatchings/ov_SC03_101_jr_80178D40", func_8017FEE0);
 
-INCLUDE_ASM("asm/ov_SC03_101/nonmatchings/ov_SC03_101_jr_80178D40", listCdBuffer);
 
 
 // @class: struct

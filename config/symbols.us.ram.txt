@@ -1,0 +1,47 @@
+// symbols.us.ram.txt — MAIN-EXE-SCOPED symbols that live OUTSIDE main's image.
+//
+// STACKED ONLY BY config/splat.us.exe.yaml. NEVER by an overlay or the resident.
+//
+// WHY THIS FILE EXISTS  (Phase 26-A tooling audit — a corpus defect the byte-gate could not see)
+// ---------------------------------------------------------------------------------------------
+// `config/symbols.us.txt` is stacked by EVERY binary: main, the resident, and all 134 overlays.
+// That is correct for a symbol inside main's image (0x80010000–0x80074800) — those addresses mean
+// the same thing everywhere, because nothing else is loaded there.
+//
+// It is NOT correct for a main-scoped symbol whose address falls inside ANOTHER binary's vram
+// window. High RAM is REUSED: the resident occupies 0x800CEDF8–0x80128154 and a location overlay is
+// streamed into 0x80128158–~0x801DAB30. An address that is a RAM buffer to main is live CODE to an
+// overlay.
+//
+// `listCdBuffer = 0x80180000` is exactly that. Main writes LIST.CD's contents there at runtime (a
+// buffer, correctly named in Phase 3 — see docs/memory-map.md). But 0x80180000 is INSIDE the overlay
+// slot, and because every overlay's splat config stacked symbols.us.txt, splat saw a symbol boundary
+// in the middle of overlay code and:
+//
+//     * CUT 97 REAL FUNCTIONS IN HALF   (a truncated head that ends on a `lui` with no return), and
+//     * INVENTED 96 PHANTOM ONES        (a tail that begins by reading the assembler temp $at),
+//
+// across 97 of the 134 overlays. **193 slices that NOBODY CAN EVER MATCH** — you cannot write C for
+// either half. They sat in the harvest queue as ordinary work items, so agents burned on them
+// indefinitely and the failure read as an intrinsic compiler wall.
+//
+// AND THE FULL-BINARY BYTE-GATE STAYED GREEN THE ENTIRE TIME, because INCLUDE_ASM pastes the two .s
+// halves back verbatim in original order — the image is byte-identical either way. This is the
+// project's cleanest example of the audit's thesis: *a perfect correctness oracle and a null
+// coverage oracle.* What exposed it was a SECOND, INDEPENDENT oracle (tools/sig_image.py, which
+// derives function boundaries from the ORIGINAL bytes without splat) disagreeing with the corpus —
+// see `make audit-corpus`.
+//
+// THE RULE (the mirror of R13/R15, which nobody had written down)
+// --------------------------------------------------------------
+// R13/R15 say: overlay-derived symbols are overlay-REGION ONLY and must NEVER be merged into
+// symbols.us.txt. The reverse is equally true and was never stated:
+//
+//     A symbol whose address falls inside ANOTHER binary's vram window must never enter that
+//     binary's symbol stack.
+//
+// Enforced by `make audit-corpus` (tools/corpus.py), which fails loud when splat's function
+// boundaries disagree with sig_image's.
+
+listCdBuffer                     = 0x80180000; // data — LIST.CD RAM cache (Phase 3). OUTSIDE main's
+                                               // image; INSIDE the overlay slot. Main-only, by rule.

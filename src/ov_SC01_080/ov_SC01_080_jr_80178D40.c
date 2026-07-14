@@ -4635,7 +4635,6 @@ void func_8017FF78(void *a0) {
 
 INCLUDE_ASM("asm/ov_SC01_080/nonmatchings/ov_SC01_080_jr_80178D40", func_8017FFB4);
 
-INCLUDE_ASM("asm/ov_SC01_080/nonmatchings/ov_SC01_080_jr_80178D40", listCdBuffer);
 
 INCLUDE_ASM("asm/ov_SC01_080/nonmatchings/ov_SC01_080_jr_80178D40", func_801800F4);
 

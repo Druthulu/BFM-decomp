@@ -39,6 +39,9 @@ options:
 
   symbol_addrs_path:
     - config/symbols.us.txt
+    # main-scoped symbols OUTSIDE main's image (high RAM the overlays reuse as CODE).
+    # NEVER stacked by an overlay/resident — see the header of that file (Phase 26-A).
+    - config/symbols.us.ram.txt
 
   subalign: 2
 

@@ -4371,7 +4371,6 @@ INCLUDE_ASM("asm/ov_SC06_024/nonmatchings/ov_SC06_024_jr_80178D40", func_8017FCF
 
 INCLUDE_ASM("asm/ov_SC06_024/nonmatchings/ov_SC06_024_jr_80178D40", func_8017FFCC);
 
-INCLUDE_ASM("asm/ov_SC06_024/nonmatchings/ov_SC06_024_jr_80178D40", listCdBuffer);
 
 
 extern void (*D_8019366C[])(void);

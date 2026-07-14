@@ -842,3 +842,67 @@ none of them updated the ten private models of the tree, and nothing existed to 
 maintenance cost and cannot rot; a hand-maintained copy of it is a liability that grows with every structural
 change.** And the reason it stayed invisible for four phases is the deepest lesson of the audit: *we had no
 instrument that could report absence.* Every gate we owned answered "is this right?" — none answered "is this all?"
+
+---
+
+## 2026-07-14 (session 9, A4) — A corpus defect the byte-gate could never have caught
+
+**The defect.** `config/symbols.us.txt:981` declared `listCdBuffer = 0x80180000`. That is a correct,
+Phase-3-derived name for a main-EXE RAM buffer (the LIST.CD cache). But 0x80180000 lies **outside main's
+image** (0x80010000–0x80074800) and **inside the overlay slot** (0x80128158–~0x801DAB30) — and every
+overlay's splat config stacks `symbols.us.txt`. High RAM is *reused*: an address that is a buffer to
+main is live **code** to an overlay.
+
+So splat saw a symbol boundary in the middle of overlay code and, across 97 of the 134 overlays:
+
+* **cut 97 real functions in half** — leaving a head that ends on a `lui` with no return, and
+* **invented 96 phantom functions** — a tail that begins by reading the assembler temp `$at`.
+
+**193 slices that nobody can ever match.** Not "hard". Not "a compiler wall". *Unmatchable by
+construction* — there is no C you can write for either half. And they sat in the harvest queue as
+ordinary work items, so agents would burn on them indefinitely and the failures would be filed as
+intrinsic compiler residuals.
+
+**Why no gate caught it, and why that is the important part.** `INCLUDE_ASM` pastes the two `.s` halves
+back **verbatim, in original order**, so the image is byte-identical either way. The full-binary
+byte-gate — the instrument this project trusts absolutely, and rightly, because it has never once
+accepted a wrong match — **was green the entire time and always would have been.** It is a perfect
+*correctness* oracle and a **null coverage oracle**. No assertion added *inside* it could ever have
+found this.
+
+What found it was a **second, independent oracle**: `tools/sig_image.py` derives function boundaries
+from the ORIGINAL bytes without splat, and it *disagreed with the corpus*. It agrees with spimdisasm on
+58,524 of 58,621 functions and is demonstrably correct on all 97 disagreements. That is the whole
+lesson, and it generalises well past this bug:
+
+> **When one oracle is structurally blind to a class of error, the answer is not a better assertion
+> inside it. It is a second oracle that can disagree with it.**
+
+`make audit-corpus` now *is* that second oracle, standing.
+
+**The evidence that makes it concrete.** The phantom `listCdBuffer.s` in ov_SC01_005 begins:
+`lw $ra, 0x10($sp)` / `addiu $sp, $sp, 0x18` / `jr $ra`. splat cut a function immediately before its
+**epilogue** and called the epilogue a function. You cannot write C for a routine that restores a return
+address it never saved.
+
+**And it had already contaminated real work.** In `ov_SC03_031` the cut happened to land where the
+epilogue was exactly `jr $ra; nop`, so the Phase-26 ×134 sweep innocently "matched" it as
+`void listCdBuffer(void) {}` — byte-correct, gate-green, and completely fictitious — while leaving
+`func_8017FFC4` permanently unmatchable. A phantom got *banked*.
+
+**The rule, which nobody had written down.** R13/R15 say overlay-derived symbols are overlay-region only
+and must never be merged into `symbols.us.txt`. The mirror is equally true and was never stated:
+
+> **A symbol whose address falls inside ANOTHER binary's vram window must never enter that binary's
+> symbol stack.**
+
+Fix: `config/symbols.us.ram.txt` — main-scoped symbols that live outside main's image — stacked **only**
+by `config/splat.us.exe.yaml`. Main keeps the name (its asm carries 10 `%hi` / 11 `%lo` references and
+rebuilds `143dbb89` byte-identical); the overlays never see it. Exactly one symbol was in scope
+fleet-wide, and the resident window was clean.
+
+**Hindsight / for the wiki.** We had *two* oracles all along and never made them argue. The byte-gate and
+`sig_image` were both trusted, both correct, and silently disagreeing about the shape of 193 functions
+for four phases. The cheapest possible check — *do our two independent views of "where does this function
+start and end" agree?* — was never run, because each oracle was individually green and nobody thought to
+ask them the same question. **Redundancy is only worth what you spend comparing it.**
