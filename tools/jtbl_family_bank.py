@@ -12,12 +12,14 @@ Usage:  jtbl_family_bank.py <func> <from_ov> <from_addr_hex> <members.json>
 """
 import glob
 import json
+import shutil
 import os
 import re
 import subprocess
 import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__))))
+REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 from family_remap import remap_hseq          # noqa: E402
 from canon_sig_reconcile import reconcile     # noqa: E402
 
@@ -49,6 +51,30 @@ def revert(ov, cf=None, keep_regions=None):
     if keep_regions is not None:
         for f in region_files(ov) - keep_regions:
             os.remove(f)
+
+
+def recover(body, to_ov, cf, func):
+    """The §20/§24 recovery pass, run against THIS sibling's TU: `cast_call_sites` (rewrite a callee decl
+    that conflicts with its real engine_core.h definition to the canonical type, and cast at the call
+    site — codegen-neutral) then `reconcile_decls` (the DATA-symbol analog).
+
+    It must be redone PER SIBLING: the conflicting symbols are largely PER-OVERLAY (`D_801812A4` in
+    ov_SC01_000 vs `D_800D4F8C` in ov_SC01_077), so the exemplar's recovered decls do not transfer —
+    the remapped body reintroduces the same conflict class against a different symbol set. Returns None
+    if the tools produce nothing (caller falls back to the raw body)."""
+    d_in, d_mid, d_out = (f".run/_fb_{k}_{to_ov}" for k in ("in", "mid", "out"))
+    for d in (d_in, d_mid, d_out):
+        shutil.rmtree(os.path.join(REPO, d), ignore_errors=True)
+        os.makedirs(os.path.join(REPO, d), exist_ok=True)
+    open(os.path.join(REPO, d_in, f"{func}.c"), "w").write(body)
+    sh(f"python3 tools/cast_call_sites.py --overlay {to_ov} --src-file {cf} --in {d_in} --out {d_mid}")
+    stage2 = d_mid if os.path.exists(os.path.join(REPO, d_mid, f"{func}.c")) else d_in
+    sh(f"python3 tools/reconcile_decls.py --overlay {to_ov} --src-file {cf} --in {stage2} --out {d_out}")
+    for d in (d_out, d_mid):
+        p = os.path.join(REPO, d, f"{func}.c")
+        if os.path.exists(p):
+            return open(p).read()
+    return None
 
 
 def isolate(ov, func):
@@ -105,19 +131,27 @@ def bank(func, from_ov, from_addr, to_ov, to_addr):
     m = re.search(rf'INCLUDE_ASM\("[^"]*",\s*{to_func}\);', orig)
     if not m:
         revert(to_ov, keep_regions=keep); return "no-stub", ""
-    stages = [("raw", lambda: body), ("reconciled", lambda: reconcile(to_func, body, tu_path=cf))]
+    stages = [("raw", lambda: body),
+              ("recovered", lambda: recover(body, to_ov, cf, to_func) or body),
+              ("reconciled", lambda: reconcile(to_func, body, tu_path=cf))]
+    last_err = ""
     for name, make in stages:
         try:
             cand = make()
         except Exception as e:
-            revert(to_ov, keep_regions=keep); return "reconcile-err", repr(e)[:160]
+            # A stage that cannot even PRODUCE a candidate is not a failure of the sibling — skip to the
+            # next one. (canon_sig_reconcile raises on a K&R definition: it expects an ANSI signature.
+            # A K&R def is mandatory whenever a zero-arg engine_core.h thunk calls the function, so this
+            # must not abort the bank.)
+            last_err = f"{name}: {repr(e)[:90]}"
+            continue
         open(cf, "w").write(orig[:m.start()] + cand + orig[m.end():])
         b = sh(f"make --no-print-directory build BINARY={to_ov}")
         if b.returncode == 0 and "[ OK ]" in b.stdout:
             return "BANKED", f"{cf} [{name}]"
         open(cf, "w").write(orig)          # restore the stub before the next stage
     revert(to_ov, cf, keep_regions=keep)
-    return "gate-fail", ""
+    return "gate-fail", last_err
 
 
 def main():
