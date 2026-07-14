@@ -3418,3 +3418,55 @@ the same instructions**. Two placement rules are load-bearing:
 traces — the ready lists, the computed priorities, and the chosen order. When a residual is "two instructions
 swapped, same registers", dump the schedule and read the tie: if the priorities are equal, you are on a LUID
 tiebreak and the fix is a *placement* change, not a register change. Harness: `.run/a4ac/dump2.sh`.
+
+## §50 — Refinements that BOUND §47/§48 (from the `func_80135EB0` wall, 21→6; Phase 26 session 8)
+
+The one wave core that did NOT close still paid for itself: it produced the exact encoding of the §47 priority
+formula, a hard limit on the "cross_jump refunds the bytes" claim in §48-A1/A4, and a maspsx gotcha that
+explains a layout choice in the original we had never understood.
+
+**§50-A — THE PRIORITY ENCODING (use this; do not re-derive it).**
+`pri = floor_log2(refs) * refs * size / (death − birth)`, where **birth/death are `2 * insn_number`** — and
+**death is `2*M`, not `2*M+1`** (discriminated experimentally by the pre/post behaviour of a probe pseudo).
+Ties break by **ascending qty number = BIRTH ORDER**. Worked: hoisting one statement above another pushed a
+pseudo's birth one insn later, shrinking its qty range 11→10 → pri 0.4545 → **0.5**, exactly tying a rival —
+and because its qty is numbered first, it won the tie and took `$v1`. *A tie you can compute is a tie you can
+break: shift a birth, or shift a death.*
+
+**§50-B — ⚠ THE CROSS-JUMP REFUND HAS A FLOOR (this BOUNDS §48-A1 and §48-A4).**
+§48-A1/A4 say "duplicate the code into both arms; cross_jump re-merges the identical tails after regalloc, so
+it costs zero bytes." **That is only true when the tails are ≥ 2 instructions, or when one path FALLS THROUGH
+into the merged block.** `jump.c:1993` calls `find_cross_jump(..., minimum=2)` and **does not count the jumps
+themselves** — so **two `j`s with a 1-instruction common tail will NOT merge.** Only the `minimum=1` path (a
+jump compared against the code *before its own target label*) merges a single instruction.
+> **Before using A1/A4, check the tail length.** A 1-insn tail reached by two jumps costs you a real
+> instruction — the refund does not arrive. (This is what turned a correct-registers attempt into 290 ins.)
+
+**§50-C — `s16` PARAM + `x | 1` MANUFACTURES A POISON TEMP; `s32` DOES NOT.**
+With `s16 arg1`, `v = arg1 | 1;` expands to `ior→T; sll; sra` (REG_EQUAL `sign_extend`) — the `ior` can *never*
+write `v`, so a temp is born, and its hard reg leaks into the allocator as a plain preference (see §50-D).
+With `s32 arg1` it is ONE insn writing `v`: combine's split reuses `i2dest` (`combine.c:1818-1836`, gated on
+`!reg_referenced_p(i2dest, newpat)`) and **no temp exists at all**. Byte-neutral when the target's prologue does
+no truncation (`addu $s3,$a1,$zero`). *Widening a parameter can delete an allocno.*
+
+**§50-D — COPY PREFERENCES BEAT PLAIN PREFERENCES, AND THEY NEED A BLOCK BOUNDARY.**
+`set_preference` (`global.c:1535`) runs a pseudo through `reg_renumber[]`, so a **block-local** temp leaks *its
+hard reg* as a plain preference — and `find_reg` scans plain prefs in **ascending regno**, so `$v0`(2) beats
+`$a1`(5) deterministically. To override it you need a **copy** preference (`find_reg` checks those FIRST,
+global.c:1000-1030), which requires the arg setup to be a bare `(set (reg $aN) (reg P))` — and that means the
+copy must live in a **different basic block** from P's last def, because **combine's LOG_LINKS never cross
+blocks**. Route a second call through the *same* call site (a `goto` into a label at the shared `jal`) to give
+that block ≥2 predecessors; reload then deletes the now-no-op copy — **zero bytes**.
+
+**§50-E — maspsx/gas MERGES `lui $at` FOR TWO STORES TO THE SAME 64 KB PAGE.**
+Reordering global stores to lengthen a live range **loses an instruction**: when two stores to the same 64K page
+become adjacent, the assembler merges their `lui $at`. *This explains a layout we had never understood* — the
+original interleaves `D_801152AA / D_80126720 / D_801152A8 / D_80126724 / D_801152AC / D_80126722` precisely to
+keep same-page stores apart. **Never "tidy up" the store order of a matched function.**
+
+**§50-F — the documented wall (honest defer).** The residual 6 are a `local-alloc.c:1568` (`qty_compare_1` /
+`block_alloc`) priority race needing the *opposite* winner from §50-A's: `Q_x2` = 5 refs/range 18 → 0.5556 beats
+`Q_unkE` = 2 refs/range 4 → 0.5. Flipping it needs either x2's range ≥ 11 (pri ≤ 0.4545) or unkE's range = 1 —
+and **both are blocked by sched.c**, which always fills the load-use stall between `lh` and its consumer, and
+places byte-free (reload-deleted) copies *only* in such stalls. The one productive angle left: a lever that
+injects a **reload-deleted no-op reg copy** inside `[lhu 4($a2) … sh %lo(D_801152AC)]`. That is the whole delta.
