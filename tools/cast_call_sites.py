@@ -51,6 +51,30 @@ def _load(mod, rel):
 
 _ght = _load('ght', 'tools/gen_harvest_targets.py')
 _su = _load('su', 'tools/sig_unify.py')           # reuse split_top_commas / param_type
+_cdecl = _load('cdecl', 'tools/cdecl.py')         # THE declaration oracle (Phase 26-A, §51g)
+_corpus = _load('corpus', 'tools/corpus.py')      # THE corpus oracle — which TU holds a stub
+
+
+def tu_for(overlay, fn, override=None):
+    """The TU this draft will actually be SPLICED INTO — DERIVED from the corpus, not hand-passed.
+
+    `--src-file` was an OPTIONAL flag defaulting to `src/<ov>/<ov>.c`. Every caller that did not
+    know to set it — and none of them know about the Phase-26 `_jr_<ADDR>` carve files — was
+    therefore canonicalizing drafts against the MAIN .c while `harvest_verify` (fixed in A3)
+    correctly spliced them into the jr split. The recovery passes were reconciling against a
+    DIFFERENT TRANSLATION UNIT than the one that would compile the code, and the heavy Phase-26
+    cores live in exactly those jr files.
+
+    The INCLUDE_ASM line is self-describing, and corpus.stubs() reads it. Ask, don't assume."""
+    if override:
+        return override
+    try:
+        st = _corpus.stubs(overlay).get(int(fn[5:], 16))
+        if st:
+            return os.path.join(REPO, st.path)
+    except Exception:
+        pass
+    return os.path.join(REPO, f'src/{overlay}/{overlay}.c')
 
 # A function declaration line (prototype ending in `;`, NOT a definition): optional `extern`,
 # a type, func_X, a param list, `;`, optional trailing /* comment */. Matches both the
@@ -91,16 +115,30 @@ def cast_type(dret, dptypes):
 
 
 def canonical_map(overlay, src_file=None):
-    """addr-int -> canonical sig string '<ret> func_X(<params>)' for every func the TU declares
-    or defines (definitions/inline win over plain externs — the authoritative in-TU signature).
-    Mirrors sig_unify's precedence exactly. src_file overrides the .c (use the SPLIT file _a.c/_o0.c
-    for a draft that lands there — its TU sees that file's local decls, NOT the main .c's, so a
-    cross-file loose-typed callee (e.g. RotTransSV declared differently in main vs _a) resolves right)."""
-    ec = os.path.join(REPO, 'src/shared/engine_core.h')
+    """addr-int -> canonical sig string '<ret> func_X(<params>)' — DERIVED from what cc1 actually
+    sees in the TU (`cdecl.tu_scope`, i.e. cpp), not scraped out of the raw text.
+
+    WHY THIS CHANGED (Phase 26-A, R33; cookbook §51g LAW 7)
+    ------------------------------------------------------
+    It used to union three raw-text scanners:
+        collect_extern_sigs([engine_core.h, the .c]) + collect_define_sigs(ec) + collect_inline_sigs(c)
+    and NONE of them can see a MACRO-INJECTED declaration — an `extern` inside a `DEFINE_func_*`
+    macro body, which becomes a genuine file-scope declaration of every TU that invokes the macro.
+    engine_core.h is 23,546 continuation lines inside 1,801 such macros, so this was not an edge case.
+
+    The cost, measured: `func_801387B8` (a stub in 134 TUs) calls `func_80138DE0`, which its TU
+    declares — via a macro expansion — as `s32 (s32, s32, s32)`. The draft declares `s32 (s32)`.
+    The map returned NOTHING for that callee, so transform() took the
+        `if addr not in canon: continue   # pure stub callee -> no conflict, leave it`
+    branch — on a premise that was simply false — and the draft died with `conflicting types`,
+    which reads downstream as an intrinsic compiler wall. cpp answers it exactly, in 54 ms.
+    """
     c_path = src_file or os.path.join(REPO, f'src/{overlay}/{overlay}.c')
-    sigs = dict(_ght.collect_extern_sigs([ec, c_path]))
-    sigs.update(_ght.collect_define_sigs(ec))
-    sigs.update(_ght.collect_inline_sigs(c_path))
+    sigs = {}
+    for name, d in _cdecl.tu_scope(c_path).items():
+        if d.kind != 'func' or not re.fullmatch(r'func_[0-9A-Fa-f]{8}', name):
+            continue
+        sigs[int(name[5:], 16)] = d.declaration(storage='').rstrip(';').strip()
     return sigs, c_path
 
 
@@ -112,8 +150,33 @@ def split_sig_string(s):
     return m.group(1).strip(), m.group(2).strip()
 
 
+_ABOVE = set()          # names the TU declares ABOVE the splice point (set by main/gate_stage)
+
+
+def _no_conflict(canon_sig, draft_line, fn):
+    """Will cc1 accept the TU's declaration of `fn` alongside the draft's? (cdecl.compatible, which
+    is validated against the REAL gcc-2.7.2 cc1 on 1,485 live corpus pairs — `cdecl.py --compat`.)
+
+    This replaces `norm_sig(...) == norm_sig(...)`, which collapsed the int family (s32|u32|int|
+    unsigned|long) to ONE token and therefore called a SIGNEDNESS change "already compatible" and
+    emitted no rewrite — while cc1 rejects that redeclaration outright. It was right about codegen
+    (same width, same load) and wrong about the C FRONT END, which never reaches codegen.
+
+    Order matters, and only cc1 could have told us so: a no-prototype decl followed by a
+    narrow-param prototype CONFLICTS, but the reverse order is ACCEPTED (§51g / the Phase-15
+    narrow-param wall). So the TU's decl goes first iff it is declared above the splice point.
+    """
+    try:
+        c = _cdecl.parse(f'extern {canon_sig};')[0]
+        d = _cdecl.parse(draft_line.strip())[0]
+    except (_cdecl.CDeclError, IndexError):
+        return False                                # unparseable -> be safe, reconcile it
+    a, b = (c, d) if fn in _ABOVE else (d, c)       # TU order
+    return _cdecl.compatible(a, b)
+
+
 def transform(text, self_fn, canon):
-    """Return (new_text, n_callees_cast). For each callee whose canonical TU sig differs from the
+    """Return (new_text, n_callees_cast). For each callee whose canonical TU sig CONFLICTS with the
     draft's intended sig: rewrite the decl line to canonical + cast every call to the intended sig."""
     lines = text.split('\n')
 
@@ -136,8 +199,8 @@ def transform(text, self_fn, canon):
         if not csig:
             continue
         cret, cptypes = parse_sig(*csig)
-        if norm_sig(dret, dptypes) == norm_sig(cret, cptypes):
-            continue                                # already compatible -> no cast needed
+        if _no_conflict(canon[addr], ln, fn):
+            continue                                # cc1 accepts both -> no rewrite, no cast
         to_cast[fn] = cast_type(dret, dptypes)
         canon_decl[fn] = f'{indent}extern {canon[addr]};'
         decl_line_idx.setdefault(fn, set()).add(i)
@@ -176,18 +239,30 @@ def main():
     ap.add_argument('--out', dest='outdir', required=True)
     a = ap.parse_args()
 
-    canon, _c_path = canonical_map(a.overlay, a.src_file and os.path.join(REPO, a.src_file))
+    override = a.src_file and os.path.join(REPO, a.src_file)
     os.makedirs(os.path.join(REPO, a.outdir), exist_ok=True)
     drafts = touched = total_callees = 0
+    cache, ncanon = {}, 0
     for p in sorted(glob.glob(os.path.join(REPO, a.indir, '*.c'))):
         fn = os.path.basename(p)[:-2]
+        # PER-DRAFT: canonicalize against the TU that will actually compile it (derived), not
+        # against whatever .c the caller happened to name.
+        tu = tu_for(a.overlay, fn, override)
+        if tu not in cache:
+            cache[tu] = canonical_map(a.overlay, tu)[0]
+        canon = cache[tu]
+        ncanon = max(ncanon, len(canon))
+        # TU order for the no-prototype rule: which of the TU's decls precede this splice point?
+        # (cdecl caches the cpp run, so this is ~free per draft.)
+        _ABOVE.clear()
+        _ABOVE.update(_cdecl.tu_scope(tu, above=fn))
         new, k = transform(open(p).read(), fn, canon)
         open(os.path.join(REPO, a.outdir, os.path.basename(p)), 'w').write(new)
         drafts += 1
         if k:
             touched += 1
             total_callees += k
-    print(f'canonical sigs: {len(canon)}; drafts: {drafts}; '
+    print(f'canonical sigs: {ncanon} (per-TU, derived); TUs: {len(cache)}; drafts: {drafts}; '
           f'cast-recovered: {touched} draft(s), {total_callees} callee(s)')
 
 

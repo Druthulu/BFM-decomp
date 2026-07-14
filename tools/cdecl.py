@@ -733,8 +733,142 @@ def scope(statements, path=''):
 
 def tu_scope(tu_path, above=None):
     """{name: Declarator} the compiler sees in `tu_path` (optionally above a stub). THE oracle that
-    every 'what does this TU declare' question in this repo should be asking."""
+    every 'what does this TU declare' question in this repo should be asking.
+
+    ⚠️ `above` answers *"can I USE this symbol without declaring it"* — the visibility question, which
+    drives the block-scope-demotion branch. It is the WRONG question for *"will my declaration
+    CONFLICT"*: C requires every declaration of a name in a TU to be compatible **regardless of
+    order**, so a declaration BELOW the splice point conflicts just as hard as one above. Use the
+    full scope (`above=None`) for conflict detection. (`canon_sig_reconcile` drives both decisions
+    off one `visible` set — which is why `func_801387B8` hits `conflicting types` against a decl
+    1,000 lines below its stub and the recovery pass reports nothing to fix.)"""
     return scope(tu_statements(tu_path, above), tu_path)
+
+
+# ---------------------------------------------------------------------------------------------
+# C TYPE COMPATIBILITY — the predicate four tools each half-implement, and get wrong
+# ---------------------------------------------------------------------------------------------
+# The question every recovery pass actually asks is "will gcc accept the draft's declaration
+# alongside the TU's?" — and that is C's *compatible type* relation, which is NOT string equality:
+#
+#   * `extern s32 D_x[];`  IS compatible with  `extern s32 D_x[4];`   (incomplete vs complete array)
+#   * `extern s32 D_x;`    is NOT compatible with  `extern u32 D_x;`   (signedness — gcc REJECTS it)
+#
+# Both existing implementations get this exactly backwards. `reconcile_decls._norm_type` collapses
+# `s32|u32|int|unsigned|long` to ONE token, so it declares a signedness change "already compatible"
+# and refuses to repair it — the compile then fails anyway, on a decl the tool looked at and
+# approved. It is right about CODEGEN (same width, same load) and wrong about the C FRONT END, which
+# rejects the redeclaration before codegen is ever reached.
+#
+# Validated against the real cross-gcc over every (TU, draft) declaration pair in the corpus:
+# `tools/cdecl.py --audit --compat`.
+
+_PRIM = {'char': 'char', 'short': 'short', 'int': 'int', 'long': 'long', 'float': 'float',
+         'double': 'double', 'void': 'void', 'signed': 'int', 'unsigned': 'unsigned int'}
+
+
+@functools.lru_cache(1)
+def _aliases():
+    """typedef name -> underlying primitive, resolved transitively from the project's own prelude.
+    Derived by parsing common.h + engine_types.h with THIS parser — never a hand-kept table."""
+    al = {}
+    for h in ('include/common.h', 'src/shared/engine_types.h'):
+        p = os.path.join(REPO, h)
+        if not os.path.exists(p):
+            continue
+        for st in split_statements(open(p).read()):
+            try:
+                for d in parse(st.text):
+                    if d.storage == 'typedef' and not d.chain:
+                        al[d.name] = d.base
+            except CDeclError:
+                pass
+    for _ in range(4):                                   # resolve chains (u32 -> unsigned int -> …)
+        al = {k: al.get(v, v) for k, v in al.items()}
+    return al
+
+
+def _prim(base):
+    """Resolve a base type to its underlying spelling, canonically ordered."""
+    al = _aliases()
+    words = [al.get(w, w) for w in (base or '').split()]
+    words = ' '.join(words).split()
+    if any(w in TAGKW for w in words):
+        return ' '.join(words)                           # struct/union/enum: identity by tag
+    order = {'unsigned': 0, 'signed': 0, 'long': 1, 'short': 1, 'char': 2, 'int': 3, 'float': 2}
+    core = sorted((w for w in words if w not in QUALS), key=lambda w: order.get(w, 4))
+    s = ' '.join(core)
+    return {'int unsigned': 'unsigned int', 'unsigned': 'unsigned int', 'signed': 'int',
+            'signed int': 'int', 'long int': 'long', 'unsigned long int': 'unsigned long'}.get(s, s)
+
+
+def compatible(a, b):
+    """CAN THESE TWO DECLARATIONS OF ONE NAME COEXIST IN ONE TU? — i.e. **will cc1 accept them.**
+
+    Not "are these the same type", and NOT what the C standard says. This models **gcc-2.7.2's
+    actual behaviour**, because gcc-2.7.2 is what compiles this project, and it is measurably laxer
+    than both the standard and modern gcc. Every rule below was either confirmed or REFUTED by
+    running the real `cc1` over the live corpus (`tools/cdecl.py --compat`, 1,485 real pairs):
+
+      * A TYPEDEF may not be redeclared at all — not even identically (`redefinition of 'X'`). Two
+        typedef declarations of one name can NEVER coexist, however equal their types. (Modern gcc
+        ALLOWS this — C11 relaxed it — which is exactly why the adjudicator must be cc1. This is
+        also why `_uniquify_draft_types` must strip-or-rename rather than compare.)
+      * QUALIFIERS DO NOT CONFLICT: cc1 accepts `extern u16 X;` beside `extern volatile u16 X;`
+        (modern gcc rejects it). REFUTED by the oracle; the rule was removed.
+      * THE NO-PROTOTYPE RULE IS **ORDER-DEPENDENT**, and that is the headline. Measured on cc1:
+              void X(s16);  then  void X();      ->  ACCEPTS
+              void X();     then  void X(s16);   ->  REJECTS  (`conflicting types`)
+              void X();     then  void X(s32)/X(void*)  ->  ACCEPTS   (no default promotion)
+        i.e. a later PROTOTYPE must be compatible with the composite type the earlier `()` already
+        fixed (whose args are default-promoted) — but an earlier prototype simply wins.
+        ⚠️ **This is the wall Phase 15 wrote up as "the `()` no-prototype escape can never work"** —
+        the basis of the "159 arity/narrow-param conflicts — no clean deterministic fix" dead-end.
+        It is only true in ONE DIRECTION. Put the narrow-param prototype FIRST and cc1 accepts it.
+        Whether the resulting CODEGEN matches is a separate question the byte-gate answers — but the
+        wall's stated cause does not hold. **Re-test target for A10.**
+
+    So `compatible(first, second)` takes them IN TU ORDER. Callers get the order from
+    `tu_scope(above=fn)`: a TU declaration above the splice point precedes the draft's; one below
+    follows it.
+
+    Being permissive is also the SAFE direction: a decl cc1 accepts needs no rewrite, so the draft
+    keeps the types it intended (its `volatile`, its narrow params — all load-bearing for codegen),
+    and the whole-binary byte-gate remains the sole arbiter of the bytes (G3/P9). Every needless
+    rewrite is a perturbation that can only lose a match.
+    """
+    if a is None or b is None:
+        return True                                      # nothing to conflict with
+    if a.storage == 'typedef' or b.storage == 'typedef':
+        return False                                     # C89/2.7.2 forbids redeclaring a typedef
+    ca, cb = [o[0] for o in a.chain], [o[0] for o in b.chain]
+    if ca != cb:
+        return False                                     # array vs ptr vs fn: different types
+    if _prim(a.base) != _prim(b.base):
+        return False                                     # includes the signedness case cc1 rejects
+    for x, y in zip(a.chain, b.chain):
+        if x[0] == ARR and x[1] and y[1] and x[1] != y[1]:
+            return False                                 # T[4] vs T[8]; T[] vs T[4] IS compatible
+        if x[0] == FUN:
+            xt, yt, xe, ye = x[1], y[1], x[4], y[4]      # `empty` == a no-prototype declaration
+            if xe and not ye:
+                # `()` FIRST, prototype SECOND: the prototype must be compatible with the composite
+                # type the `()` already fixed — so no parameter may be altered by default promotion.
+                return not any(_prim(p.rstrip('* ')) in _PROMOTES and '*' not in p for p in yt)
+            if ye:
+                continue                                 # prototype first, `()` second: cc1 accepts
+            if len(xt) != len(yt):
+                return False                             # arity
+            if any(_prim(p.rstrip('* ')) != _prim(q.rstrip('* ')) or ('*' in p) != ('*' in q)
+                   for p, q in zip(xt, yt)):
+                return False
+    return True
+
+
+# The types C's default argument promotions alter. A later prototype naming one of these is
+# incompatible with an earlier `()` — the one direction in which the "no-prototype escape" really
+# does fail (measured on cc1, not assumed from the standard).
+_PROMOTES = {'char', 'short', 'unsigned char', 'unsigned short', 'signed char', 'float'}
 
 
 # ---------------------------------------------------------------------------------------------
@@ -937,6 +1071,95 @@ def audit_gcc(limit=None):
     return not bad
 
 
+CC1 = os.path.join(REPO, 'tools/bin/gcc-2.7.2-psx/cc1')
+CC1FLAGS = ['-quiet', '-O2', '-G0', '-mips1', '-mcpu=3000', '-mgas', '-msoft-float', '-fgnu-linker']
+_ERR = re.compile(r'error|redefinition|conflicting|incompatible|redeclar|parse error', re.I)
+
+
+def _cc1_accepts(body):
+    """Does THE REAL BUILD FRONT END (gcc-2.7.2 `cc1`) accept this? — not modern gcc.
+
+    They DISAGREE, and it matters: C11 permits redefining a typedef to the same type, C89/2.7.2 does
+    NOT (`redefinition of 'X'`). Validating a compatibility rule against a compiler that is not the
+    one compiling the code is *exactly* the failure this module exists to prevent — a recovery pass
+    that "approves" a declaration the real front end then refuses."""
+    d = os.path.join(REPO, '.run/audit/cdecl')
+    os.makedirs(d, exist_ok=True)
+    c, i = os.path.join(d, 'cc1probe.c'), os.path.join(d, 'cc1probe.i')
+    open(c, 'w').write(body)
+    p = subprocess.run(CPP + ['-Isrc', c], capture_output=True, text=True, cwd=REPO)
+    if p.returncode:
+        return None                                      # cannot adjudicate
+    open(i, 'w').write(p.stdout)
+    r = subprocess.run([CC1] + CC1FLAGS + [i, '-o', '/dev/null'],
+                       capture_output=True, text=True, cwd=REPO)
+    return not (r.returncode or _ERR.search(r.stderr or ''))
+
+
+def _synth_distinct(decls):
+    """Synthesize each unknown type as a DISTINCT struct. Emitting `typedef int Vec8;` would collapse
+    `extern Vec8 X;` and `extern int X;` into the same type and the probe would call them compatible
+    — the oracle destroying the very distinction it is meant to test."""
+    known, out = _known_types(), set()
+    for d in decls:
+        for tok in re.findall(r'[A-Za-z_]\w*', (d.base or '') + ' ' + ' '.join(d.params or [])):
+            if tok not in known and tok not in ('void', 'struct', 'union', 'enum'):
+                out.add(tok)
+    return ''.join(f'typedef struct {{ int _{t}; }} {t};\n' for t in sorted(out))
+
+
+def audit_compat(limit=2500):
+    """ORACLE 4 — `compatible()` vs the REAL cc1, on every (TU-decl, draft-decl) pair the corpus
+    actually contains. My predicate says accept/reject; gcc-2.7.2 says accept/reject. Any
+    disagreement is MY bug, and it is the kind that silently caps the whole recovery pipeline."""
+    tus = sorted(_glob.glob(os.path.join(REPO, 'src/ov_SC01_077/*.c')))
+    scopes = {t: tu_scope(t) for t in tus}
+    pairs = {}
+    import random
+    for p in random.Random(11).sample(_drafts(), min(limit, len(_drafts()))):
+        try:
+            txt = open(p, errors='replace').read()
+        except Exception:
+            continue
+        for st in split_statements(txt):
+            try:
+                ds = parse(st.text)
+            except CDeclError:
+                continue
+            for d in ds:
+                if d.is_definition:
+                    continue
+                for ns in scopes.values():
+                    tu = ns.get(d.name)
+                    if tu is None:
+                        continue
+                    key = (tu.declaration(name='X'), d.declaration(name='X'))
+                    pairs.setdefault(key, (compatible(tu, d), (tu, d)))
+
+    print(f'[compat] {len(pairs)} distinct (TU-decl, draft-decl) pairs from the real corpus')
+    print(f'[compat] adjudicator: gcc-2.7.2 cc1 (THE BUILD FRONT END), not modern gcc')
+    bad, skip = [], 0
+    for (tu_d, dr_d), (mine, (tu, d)) in pairs.items():
+        body = _PROBE_HDR + _synth_distinct([tu, d]) + tu_d + '\n' + dr_d + '\n'
+        got = _cc1_accepts(body)
+        if got is None:
+            skip += 1
+        elif got != mine:
+            bad.append(((tu_d, dr_d), mine, got))
+    print(f'[compat] agree: {len(pairs) - len(bad) - skip}   DISAGREE: {len(bad)}   unadjudicable: {skip}')
+    for (k, mine, got) in bad[:10]:
+        print(f'    TU   : {k[0]}\n    draft: {k[1]}')
+        print(f'    cdecl says {"compatible" if mine else "CONFLICT"}, cc1 says '
+              f'{"compatible" if got else "CONFLICT"}\n')
+    # An UNADJUDICABLE pair is a silent skip, and a gate that skips its whole corpus and prints GREEN
+    # is the exact bug this module was written to hunt. (It did that here, once: a missing `-Isrc`
+    # made cpp fail on all 1,485 probes, `bad` stayed empty, and the audit reported success. R32 is
+    # not "fail loud" — it is COUNT WHAT YOU SKIPPED.)
+    if skip:
+        print(f'    !! {skip} pair(s) could not be adjudicated — a skipped check is NOT a passed one')
+    return not bad and not skip
+
+
 def audit_differential():
     """ORACLE 3 — vs THE FIFTEEN INCUMBENTS. This parser must find a strict SUPERSET of every
     scanner it replaces: any symbol an incumbent sees and this one does not is a defect in THIS
@@ -1018,6 +1241,8 @@ def main():
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument('--audit', action='store_true', help='oracle 1 (coverage) + oracle 3 (differential)')
     ap.add_argument('--gcc', action='store_true', help='oracle 2: the C front end (slow, decisive)')
+    ap.add_argument('--compat', action='store_true',
+                    help='oracle 4: compatible() vs the REAL gcc-2.7.2 cc1 on live corpus pairs')
     ap.add_argument('--limit', type=int, help='sample N TUs (a fast smoke run)')
     ap.add_argument('--tu', help='print the file-scope scope of a TU')
     ap.add_argument('--above', help='...truncated above this function\'s INCLUDE_ASM stub')
@@ -1037,7 +1262,7 @@ def main():
             print(f'  {n:<24} {d.kind:<12} {d.type}')
         print(f'{len(ns)} file-scope names visible' + (f' above {a.above}' if a.above else ''))
         return
-    if a.audit or a.gcc:
+    if a.audit or a.gcc or a.compat:
         ok = True
         if a.audit:
             ok &= audit_coverage(a.limit, a.verbose)
@@ -1046,6 +1271,9 @@ def main():
         if a.gcc:
             print()
             ok &= audit_gcc(a.limit)
+        if a.compat:
+            print()
+            ok &= audit_compat()
         print('\n' + ('cdecl: ALL ORACLES GREEN' if ok else 'cdecl: DEFECTS FOUND (see above)'))
         sys.exit(0 if ok else 1)
     ap.print_help()

@@ -3681,3 +3681,46 @@ a compiler wall.
 
 **Gate:** `make audit-cdecl` (coverage + gcc). Standing, because a loud failure nobody counts is exactly
 as invisible as a silent one (LAW 2).
+
+**LAW 9 — THE ADJUDICATOR MUST BE THE COMPILER THAT COMPILES YOUR CODE.** Not the C standard, and not
+whatever `gcc` is on the PATH. Building `cdecl.compatible()` (*"will this declaration coexist with that
+one?"* — the question every recovery pass actually asks) against **modern** `mipsel-linux-gnu-gcc` and
+against the **real gcc-2.7.2 `cc1`** gives three different answers, and only one of them is the truth:
+
+| declarations in one TU | C standard | modern gcc (C11) | **gcc-2.7.2 `cc1`** |
+|---|---|---|---|
+| `typedef int X;` twice | error | **accepts** | **ERROR** — `redefinition of 'X'` |
+| `extern u16 X;` + `extern volatile u16 X;` | error | error | **ACCEPTS** |
+| `void X(s16);` then `void X();` | error | error | **ACCEPTS** |
+| `void X();` then `void X(s16);` | error | error | **ERROR** |
+
+Validate against modern gcc and you encode rules cc1 rejects and miss rules cc1 accepts — a recovery pass
+that "approves" declarations the real front end refuses is exactly the failure this whole audit is about.
+`cdecl --compat` therefore adjudicates with `tools/bin/gcc-2.7.2-psx/cc1`, and now agrees with it on
+**1,485/1,485 live corpus pairs**. Two rules in that table were *refuted* by the oracle after I had
+already written them from the standard.
+
+> 🏆 **AND THE LAST ROW IS A WALL COMING DOWN.** The no-prototype rule is **ORDER-DEPENDENT**: only
+> `()`-then-narrow-prototype fails; **prototype-then-`()` compiles fine.** Phase 15 wrote this class up as
+> *"the 159 arity/narrow-param conflicts — no clean deterministic fix"* and closed it. **The stated cause
+> does not hold.** Whether the resulting codegen matches is a separate question the byte-gate answers —
+> but the door was never locked. It took four three-line probes and 90 seconds to find out. **Probe the
+> compiler for FACTS; read its source only for LEVERS; byte-validate both** (we read `gcc-papermario` for
+> five phases believing it was 2.7.2 — it was 2.8.1).
+
+**LAW 10 — DERIVE *WHICH* TU, TOO — not just what is in it.** `cast_call_sites` / `sig_unify` /
+`reconcile_decls` take `--src-file`, an **optional, hand-passed** flag naming the TU to canonicalize
+against; unset, it defaults to `src/<ov>/<ov>.c`. No caller knows about the Phase-26 `_jr_<ADDR>` carves.
+Measured on ov_SC01_077: **263 open stubs across 12 TUs — only 13 in the main `.c`. 95.1% of drafts were
+being reconciled against a translation unit that would never compile them**, while `harvest_verify`
+(fixed in A3) correctly spliced them into the right one. `corpus.stubs()` already knows the answer — the
+`INCLUDE_ASM` line is self-describing. **Ask, don't assume.** Fixing it took the callee-conflict repair
+from **8 → 58 of 196** drafts (7× reach).
+
+> **AND THE HONEST OTHER HALF (P9/R14):** those 58 produced **ZERO new banks.** The historical draft tail
+> fails on *codegen*, not plumbing — `func_801387B8`, which the audit blamed on a single unparsed `[4]`,
+> is really 67/100 instructions off with a `$s0`/`$s1` swap. What the fix *did* buy is real but narrower:
+> **52 drafts moved from "won't compile" to "compiles, N instructions off."** That is not a bank — it is
+> the difference between an **invisible failure that reads as a compiler wall** and a **scored near-miss
+> the permuter and the §47/§48 dials can act on.** Which is the audit's thesis exactly. Do not sell it as
+> more than it is; three times in one session a confirmed mechanism produced a null consequence.

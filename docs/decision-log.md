@@ -959,3 +959,41 @@ signature from garbage.
 explicitly warns that *making the parser see more ARMS dormant downstream transforms* — the moment
 `reconcile_decls` can parse a fn-ptr decl, its `data_access_subs` would happily mangle `D_1[i]()` into
 `((u8 *)D_1)[i]()`. Consumer migration is therefore one tool at a time, each byte-gated.
+
+---
+
+## 2026-07-14 — Probe the compiler; and the adjudicator must BE the compiler
+
+**Context.** Building `cdecl.compatible()` — *"will cc1 accept these two declarations of one name?"*, the
+question every recovery pass in this repo actually asks and four of them half-implement. I wrote the rules
+from the C standard, then validated them against a compiler.
+
+**What happened.** The compiler contradicted me — and then the *right* compiler contradicted the first one.
+Validating against modern `mipsel-linux-gnu-gcc` and against the real gcc-2.7.2 `cc1` gives **three
+different answers** (with the standard as a third): typedef redefinition is an error in C89, accepted by
+C11 gcc, and rejected by cc1; a qualifier mismatch is an error to modern gcc and **accepted** by cc1; the
+no-prototype/narrow-param rule is an error to both — and **accepted by cc1 in one direction.**
+
+**The decision.** `--compat` adjudicates with `tools/bin/gcc-2.7.2-psx/cc1`, the front end that actually
+arbitrates the build. Now 1,485/1,485 live corpus pairs agree. **Validating a compiler rule against a
+compiler that is not the one compiling your code is not a shortcut — it is the same class of error as the
+five phases we spent reading `gcc-papermario` believing it was 2.7.2. It was 2.8.1.**
+
+**The prize (→ A10).** Phase 15 closed the "159 arity/narrow-param conflicts" as *"no clean deterministic
+fix — it is simply C's default-promotion rule."* **cc1 disagrees.** The rule is order-dependent:
+`void X(s16); void X();` compiles; only `void X(); void X(s16);` fails. The wall's stated cause does not
+hold. Four three-line probes, 90 seconds, zero tokens.
+
+**Hindsight / for the wiki.** *Probe the compiler for FACTS; read its source only for LEVERS; byte-validate
+both.* Reading source is inference and can be wrong (it was, for five phases). Probing is ground truth,
+because it IS the compiler — and it is orders of magnitude cheaper. We have the exact binary sitting in the
+tree and spent 26 phases reasoning about it instead of asking it.
+
+**And the discipline that saved this from being an over-claim.** Fixing the wrong-TU bug (95.1% of drafts
+canonicalized against a TU that would never compile them) took the callee-conflict repair from 8 to 58 of
+196 drafts — 7× reach — and banked **exactly zero** functions, because the historical tail fails on codegen,
+not plumbing. The real gain is narrower and still worth having: **52 drafts moved from "won't compile" to
+"compiles, N instructions off"** — from an invisible failure that reads as a compiler wall into a scored
+near-miss the permuter can act on. Three times in one session a confirmed mechanism produced a null
+consequence. *"This tool is broken" and "this number will move" are different claims, needing different
+evidence.*

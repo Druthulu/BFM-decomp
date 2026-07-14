@@ -659,6 +659,38 @@ On approval → `/model opus` + `/effort xHigh` (Tasks 0–4; ALL Fable5 via `Ag
 
 ## Log
 
+- **2026-07-14 (session 10, A3c — first consumer migration: `cast_call_sites` onto the cdecl oracle; Max):**
+  Added **`cdecl.compatible()`** — *"will cc1 accept these two declarations of one name?"*, the predicate four
+  tools each half-implement and get wrong (`norm_sig`/`_norm_type` collapse the int family, so a **signedness**
+  change reads as "already compatible" and gets no rewrite — while cc1 **rejects** that redeclaration). Wrote the
+  rules from the C standard; then let a compiler judge. **It contradicted me — and then the RIGHT compiler
+  contradicted the first one.** Modern `mipsel-linux-gnu-gcc`, gcc-2.7.2 `cc1`, and the standard give **three
+  different answers** (typedef redefinition: C89 error / C11 accepts / **cc1 ERRORS**; qualifier mismatch: modern
+  gcc errors / **cc1 ACCEPTS**; no-proto + narrow param: both error / **cc1 accepts in ONE direction**). So
+  `--compat` now adjudicates with **`tools/bin/gcc-2.7.2-psx/cc1`, the front end that actually arbitrates the
+  build** → **1,485/1,485 live corpus pairs agree, 0 disagree, 0 skipped.** 🏆 **THE PRIZE: the Phase-15
+  narrow-param wall rests on a false premise.** The `()` rule is **ORDER-DEPENDENT**: `void X(s16); void X();`
+  **compiles**; only the reverse fails. "The 159 arity/narrow-param conflicts — no clean deterministic fix" was
+  closed on a rule cc1 does not enforce. Four three-line probes, 90 s, zero tokens → **A10 re-test target**.
+  **THEN the migration itself: `cast_call_sites` was canonicalizing 95.1% of drafts against the WRONG TU.**
+  `--src-file` is an *optional hand-passed flag* defaulting to `src/<ov>/<ov>.c`, and no caller knows about the
+  Phase-26 `_jr_<ADDR>` carves — ov_SC01_077 has **263 open stubs across 12 TUs, only 13 in the main `.c`** —
+  while `harvest_verify` (A3) correctly splices into the real one. Now **DERIVED** from `corpus.stubs()` (the
+  `INCLUDE_ASM` line is self-describing) + the canonical map derived from `cdecl.tu_scope()` (cpp — so
+  macro-injected decls are finally visible). **Repair reach 8 → 58 of 196 drafts (7×).**
+  **THE NULL RESULT, REPORTED AS SUCH (P9/R14):** those 58 banked **ZERO**. The historical tail fails on
+  **codegen**, not plumbing — `func_801387B8`, which the audit blames on one unparsed `[4]`, is really **67/100
+  instructions off with a `$s0`/`$s1` swap** (that claim does not reproduce). The real gain is narrower and still
+  worth having: **52 drafts moved from "won't compile" to "compiles, N instructions off"** — from an *invisible
+  failure that reads as a compiler wall* into a *scored near-miss the permuter can act on*. **Three times in one
+  session a confirmed mechanism produced a null consequence.** I also mis-diagnosed the callee oracle as
+  "returning nothing" (my probe was buggy — it did have the sig) — corrected. **And my own new audit printed
+  "ALL ORACLES GREEN" while silently skipping 100% of its corpus** (a missing `-Isrc`): the exact bug class, in
+  the tool written to hunt it. Fixed — *an unadjudicable check is not a passed check.*
+  **R22 clean-fleet 136/136 BYTE-IDENTICAL; src/ untouched (0 changes); `make audit-cdecl` green.** Knowledge
+  captured live (R30/R31): cookbook **§51g LAWS 9–10**, decision-log, tooling-audit **A3c**.
+  **NEXT: `sig_unify` + `reconcile_decls` have the SAME wrong-TU bug** (same `--src-file` flag) — migrate them,
+  then `lint_symbol_refs`, then **A10 (re-test the walls)** with the narrow-param finding as the first target.
 - **2026-07-14 (session 10, A3b — `tools/cdecl.py`, THE C-declaration oracle; Max):** Built the one parser
   that lets fifteen die. **Rejected the audit's own prescription** (a shape-aware alternation per tool, ~15
   coordinated regex edits) on R33 grounds: fifteen hand-maintained models are precisely what diverged, and an
