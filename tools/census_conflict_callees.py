@@ -21,6 +21,9 @@ import argparse, json, os, importlib.util
 from collections import defaultdict
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+import sys
+sys.path.insert(0, os.path.join(REPO, 'tools'))
+import corpus   # the derived corpus oracle (Phase 26-A)
 
 _spec = importlib.util.spec_from_file_location('ght', os.path.join(REPO, 'tools/gen_harvest_targets.py'))
 _ght = importlib.util.module_from_spec(_spec)
@@ -36,15 +39,32 @@ def main():
     args = ap.parse_args()
 
     src = args.source
-    c_path = os.path.join(REPO, f'src/{src}/{src}.c')
     ec = os.path.join(REPO, 'src/shared/engine_core.h')
 
+    # ⚠ DEPRECATED — SCHEDULED FOR DELETION (Phase 26-A audit, R33).
+    # This tool re-derives, by re-parsing C text, the question "for this TU, which callees are
+    # defined / declared / stubbed / external?" — which is exactly and only what tools/reconcile_tu.py
+    # answers FROM THE BUILD. A parse hole in reconcile_tu makes it CONSERVATIVE; a parse hole here
+    # makes it WRONG IN THE UNSAFE DIRECTION (an unknown callee is silently bucketed "conflict-free").
+    # Delete this file once reconcile_tu is wired into derive_canonical_sigs (its only consumer).
+    #
+    # Until then, at least stop the 96% under-report: the corpus was `src/<ov>/<ov>.c` ALONE, so it
+    # saw 13 of ov_SC01_077's 264 stubs and printed "wave scope: 2 still-stub" when the truth is 57 —
+    # every downstream percentage was computed against a denominator 96% too small. The 0-conflict
+    # answer it gives today is right BY LUCK (those callees happen to be banked); point it at a fresh
+    # overlay and it would see ~14 of ~600 stubs and confidently report zero conflicts into a wave
+    # riddled with them — the exact failure that cost 60%-vs-33% in the Phase-17 calibration.
+    c_paths = [str(p) for p in corpus.src_files(src)]
+    c_path = c_paths[0] if c_paths else os.path.join(REPO, f'src/{src}/{src}.c')
+
     src_sig = _ght.load_sig(os.path.join(REPO, f'.run/sig.{src}.jsonl'))      # addr-int -> {calls,nins,h_exact,reach?}
-    stubs = _ght.collect_stubs(c_path)                                         # current INCLUDE_ASM set
+    stubs = set(corpus.stubs(src))            # ADDRESSES (ints) — ALL TUs, ANY symbol name
     define_sigs = _ght.collect_define_sigs(ec)
-    inline_sigs = _ght.collect_inline_sigs(c_path)
+    inline_sigs = {}
+    for cp in c_paths:
+        inline_sigs.update(_ght.collect_inline_sigs(cp))
     defined = {**define_sigs, **inline_sigs}
-    extern_sigs = _ght.collect_extern_sigs([ec, c_path])
+    extern_sigs = _ght.collect_extern_sigs([ec] + c_paths)
 
     s3 = json.load(open(os.path.join(REPO, args.targets)))
     tgt_addrs = [int(t['addr'], 16) for t in s3]

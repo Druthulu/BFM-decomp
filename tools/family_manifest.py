@@ -15,7 +15,10 @@ many overlays carry it), NOT h_exact-reach (which is ~1-3 for a byte-shattered f
 Ground truth = the sigs (they sign the ORIGINAL bytes, stable across matching); reproducible via
 `make sig-overlays`. Companion to the frontier surveys .run/{analyze_frontier,probe_hnorm}.py.
 """
-import json, glob, re, collections
+import json, glob, os, re, sys, collections
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import corpus   # the derived corpus oracle (Phase 26-A)
 
 sig_by_ov = {}
 for p in sorted(glob.glob(".run/sig.ov_*.jsonl")):
@@ -29,33 +32,50 @@ for p in sorted(glob.glob(".run/sig.ov_*.jsonl")):
         recs[int(d["addr"], 16)] = (d["nins"], d["h_exact"], d["h_norm"])
     sig_by_ov[ov] = recs
 
-# matched set (h_exact): ov_SC01_077's non-stub functions + every dedup-registered hash
-src077 = "".join(open(cf).read() for cf in glob.glob("src/ov_SC01_077/*.c"))
-stub077 = set(int(m, 16) for m in re.findall(r'INCLUDE_ASM\([^)]*,\s*func_([0-9A-Fa-f]+)\)', src077))
+# ---- THE MATCHED SET, DERIVED (Phase 26-A audit, HIGH — R33) --------------------------------------
+# The old oracle asked ov_SC01_077 ALONE: matched := {h_exact of its non-stub fns} | dedup hashes.
+# That is the wrong question. A function absent from that one overlay — or stubbed there but matched
+# in the 133 others — came out "unmatched", so it was ranked as live work.
+#
+# MEASURED CONSEQUENCE: docs/family-manifest.md, the document the whole Phase-25/26 endgame is planned
+# from, advertised "2,758 multi-member families / 11.0 MB of hidden leverage". 1,071 of them (6.80 MB,
+# **62% of the advertised byte-weight**) were ALREADY FULLY MATCHED — pure phantom targets. A further
+# 253 had their byte-weight inflated by already-matched members. The byte-weight RANKING — the entire
+# purpose of the file, "draft these first" — was therefore sorted mostly on dead work, with the real
+# targets buried underneath.
+#
+# The invariant answers it exactly, per overlay, with no oracle at all:
+#   an h_exact class is WORK iff at least ONE of its instances is still an INCLUDE_ASM stub somewhere.
+# (And the dedup-hash union is now redundant: a dedup-shared member is by definition not a stub. One
+#  more scanner deleted — the `hash:` regex over config/dedup.us.yaml is gone.)
+stub_by_ov = {ov: set(corpus.stubs(ov)) for ov in sig_by_ov}
 sig077 = sig_by_ov.get("ov_SC01_077", {})
-matched_hex = {hx for v, (n, hx, hn) in sig077.items() if v not in stub077}
-matched_hex |= set(re.findall(r'hash:\s*([0-9a-f]{40})', open("config/dedup.us.yaml").read()))
+stub077 = stub_by_ov.get("ov_SC01_077", set())
 
-# per h_exact class: {ovs, nins, rep_vram (ov_SC01_077's if present), h_norm}
+# per h_exact class: which overlays carry it, and in which is it STILL A STUB
 hexcls = {}
 for ov, recs in sig_by_ov.items():
+    st = stub_by_ov[ov]
     for v, (n, hx, hn) in recs.items():
-        e = hexcls.setdefault(hx, [set(), n, v, hn])
-        e[0].add(ov)
+        e = hexcls.setdefault(hx, {"ovs": set(), "stub_ovs": set(), "n": n, "rep": v, "hn": hn})
+        e["ovs"].add(ov)
+        if v in st:
+            e["stub_ovs"].add(ov)
         if ov == "ov_SC01_077":
-            e[2] = v
+            e["rep"] = v
 
 # UNMATCHED h_exact classes -> group by h_norm (the structural family)
 fam = collections.defaultdict(lambda: {"hexclasses": 0, "instances": 0, "nins": 0, "bw": 0, "rep": 0, "maxhexreach": 0})
-for hx, (ovs, n, v, hn) in hexcls.items():
-    if hx in matched_hex:
-        continue
-    r = len(ovs)
+for hx, e in hexcls.items():
+    if not e["stub_ovs"]:
+        continue                        # fully matched fleet-wide -> NOT work (was: counted as work)
+    n, hn, v = e["n"], e["hn"], e["rep"]
+    r = len(e["stub_ovs"])              # the REAL x-N leverage: only the members still to bank
     f = fam[hn]
     f["hexclasses"] += 1
-    f["instances"] += r                 # fleet-wide member count = the x-N propagation leverage
+    f["instances"] += r
     f["bw"] += r * n * 4
-    f["maxhexreach"] = max(f["maxhexreach"], r)
+    f["maxhexreach"] = max(f["maxhexreach"], len(e["ovs"]))
     if n >= f["nins"] or f["rep"] == 0:
         f["rep"] = v
         f["nins"] = n
@@ -63,7 +83,7 @@ for hx, (ovs, n, v, hn) in hexcls.items():
 # the draftable exemplar per family: the largest UNMATCHED ov_SC01_077 stub whose h_norm == the family
 ov077_ex = {}   # h_norm -> (vram, nins)
 for v, (n, hx, hn) in sig077.items():
-    if v not in stub077 or hx in matched_hex:
+    if v not in stub077:
         continue
     if hn not in ov077_ex or n > ov077_ex[hn][1]:
         ov077_ex[hn] = (v, n)
@@ -95,7 +115,7 @@ multi = [r for r in rows if r["multi_member"]]
 with_ex = [r for r in multi if r["ov077_exemplar"]]
 
 # classify the multi-member families by ov_SC01_077 membership -> the endgame's 3 levers
-ov077_matched_hn = {hn for v, (n, hx, hn) in sig077.items() if v not in stub077 or hx in matched_hex}
+ov077_matched_hn = {hn for v, (n, hx, hn) in sig077.items() if v not in stub077}
 lev = {"draftable": [0, 0], "matched_free": [0, 0], "absent": [0, 0]}
 for r in multi:
     k = "draftable" if r["ov077_exemplar"] else ("matched_free" if r["hnorm"] in ov077_matched_hn else "absent")

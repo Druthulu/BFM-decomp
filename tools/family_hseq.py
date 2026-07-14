@@ -20,7 +20,7 @@ arbiter (G3/P9): this survey RANKS and CLASSES; it never asserts a match.
 
 Ground truth = the sigs (`make sig-overlays`) + src stubs. Companion to tools/family_manifest.py (h_norm).
 """
-import json, glob, re, collections, sys
+import os, sys, json, glob, re, collections, sys
 sys.path.insert(0, "tools")
 import family_remap as FR
 
@@ -29,13 +29,18 @@ TINY = 16                 # nins < this is the coincidental-h_seq-collision band
 EX_OV = "ov_SC01_077"     # the canonical drafting overlay (cached Ghidra-C)
 
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import corpus   # the derived corpus oracle (Phase 26-A)
+
+
 def load():
     """-> instances[(ov, addr, nins, h_exact, h_norm, h_seq, matched)], and nins/matched maps."""
-    stubs = {}
-    for ovdir in sorted(glob.glob("src/ov_*")):
-        ov = ovdir.split("/")[-1]
-        txt = "".join(open(f).read() for f in glob.glob(f"{ovdir}/*.c"))
-        stubs[ov] = set(int(m, 16) for m in re.findall(r'INCLUDE_ASM\([^)]*,\s*func_([0-9A-Fa-f]+)\)', txt))
+    # DERIVED from tools/corpus.py (Phase 26-A). The old scan globbed every .c correctly but its
+    # regex only matched `func_<hex>` symbols — so the 100 CURATED-name stubs (listCdBuffer) were
+    # invisible, and family_hseq therefore labelled 3 still-stubbed functions as MATCHED exemplars.
+    # A phantom exemplar is re-nominated by every sweep, produces nothing, and books a silent skip.
+    stubs = {ov: set(corpus.stubs(ov)) for ov in
+             (d.split("/")[-1] for d in sorted(glob.glob("src/ov_*")))}
     inst = []
     for p in sorted(glob.glob(".run/sig.ov_*.jsonl")):
         ov = f"ov_{p.split('sig.ov_')[1][:-6]}"
@@ -197,7 +202,9 @@ def main():
     print(f"fleet: {metrics['fn_count_matched_pct']}% fn / {metrics['instr_weighted_matched_pct']}% instr / "
           f"{metrics['distinct_matched_pct']}% distinct")
     print(f"tailcheck: {tailcheck['hseq_families_ge2']} families ≥2, {tailcheck['substantial_families']} "
-          f"substantial / {tailcheck['substantial_ins']:,} ins  (expect ~663 / ~186 / ~1.85M)")
+          f"substantial / {tailcheck['substantial_ins']:,} ins"
+          f"   [Task-2 snapshot 2026-07-11: 663 / 186 / 1.85M — this number SHRINKS as banking "
+          f"proceeds; it is a point-in-time reference, NOT an invariant to match]")
     print(f"frontier: {len(multi)} target families ({len(subst)} substantial, {len(with_matched)} w/ matched sib) "
           f"+ {len(singles)} singletons")
     print(f"-> .run/family_hseq.json + docs/family-hseq.md")
