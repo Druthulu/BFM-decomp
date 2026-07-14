@@ -731,3 +731,46 @@ The best audit outcome is not a fixed regex — it is a **deleted scanner**.
 every wall was our own tooling, had written the coverage-oracle rule, had *corrected myself* about a metric — and
 my instinct was still "bank the 1.2 MB first". The lesson: **when your measurement layer is suspect, more
 measurements are not progress.** Fix the instrument before taking more readings.
+
+---
+
+## 2026-07-14 (session 9) — The audit runs as an INSERTED HALF-PHASE, not as Phase 27
+
+**Context.** Session 8 closed by gating the tooling-integrity audit ahead of all further matching work (entry
+above) and left the phase-boundary shape as an explicit Tier-1 question for the owner: **(a)** close Phase 26
+early with a PhaseEnd and open the audit as Phase 27, or **(b)** run it as an inserted half-phase (the Phase-3.5
+precedent) and return to Phase 26 afterwards.
+
+**Drew's call:** *"audit as an inserted half-phase in the current phase and then resume phase 26."* (Effort: Max.)
+
+**Why (b) is right.** Option (a) reads as the tidier choice — a clean PhaseEnd, a fresh phase, a fresh context
+window. But it would have closed Phase 26 on an **unmet milestone**. Phase 26's milestone is *structural
+completion*, and the audit is not a **successor** to that goal — it is a **prerequisite** to reaching it: the
+family engine's own numbers are what the audit found broken (93 of 218 "matched" exemplars are phantom; 1,834
+clean member templates never attempted; 407 of 811 overlay files invisible to propagation). Closing the phase
+would have forced a PhaseEnd that reported the milestone as abandoned, when in fact the tooling that *measures*
+the milestone was the thing at fault. The half-phase keeps the goal live and fixes the instrument under it.
+
+The Phase-3.5 precedent is exact: a spike inserted mid-arc, on the owner's directive, to answer a question that
+gates the work either side of it. It closed with a go/no-go, not a PhaseEnd, and the roadmap resumed.
+
+**The structural insight this rests on (worth repeating, because it is the whole reason the audit exists).**
+A scanner extracts N items from a corpus; the true count is M > N; **nobody ever compared N to M.** The seven
+silent-skip bugs were not typos — they are that one blind spot, seven times. And the byte-gate cannot see it:
+it is a perfect correctness oracle and a **null coverage oracle** (green since Phase 5 at 0% decompiled, because
+`INCLUDE_ASM` pastes the original asm). So the audit's ordering rule is **R33 before R32** — before adding a
+coverage assertion to a scanner, ask whether the scanner should exist at all. **The best outcome is a deleted
+scanner, not a fixed regex.**
+
+**First finding, immediately (A1).** `dedup_integrate.py` — the fail-closed byte-honesty validator, and the
+audit's #1 priority precisely because a silent skip there prints *a false green from a gate* — has **three**
+false-green paths, all confirmed within minutes of opening it: the 7 stale registry groups name a `DEFINE_func_*`
+macro with **zero hits in `src/`** and still print `[ OK ]`; an **absent** `.run/sig.*.jsonl` yields
+*"0 validated, 0 failed"* and **exit 0** (on a fresh clone the gate validates nothing and passes); and it never
+checks that a member is **actually banked** rather than still `INCLUDE_ASM` — which is exactly the invariant the
+build already proves. The tool that guards byte-honesty was the one least able to prove its own.
+
+**Hindsight / for the wiki.** The owner's framing — *fix it inside the phase, don't ceremonially close the phase
+around it* — avoided a subtle honesty trap. Writing a PhaseEnd that says "milestone: not met, closing anyway"
+when the real story is "our measuring tape was short" would have been technically true and substantively
+misleading. **Phase boundaries should follow the work, not the paperwork.**
