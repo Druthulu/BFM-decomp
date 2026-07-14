@@ -27,6 +27,8 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import backlog
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.join(REPO, 'tools'))
+import corpus   # the derived corpus oracle (Phase 26-A)
 PY = ".venv/bin/python"
 # ov_SC01_077 defaults (the canonical harvest binary)
 OV = "ov_SC01_077"
@@ -69,9 +71,14 @@ def _gate1(binary, src, asm, out, good_sha, d, verified_out=None, failed_out=Non
     binaries in parallel without cross-reading each other's results."""
     vo = verified_out or ".run/harvest_verified.txt"
     fo = failed_out or ".run/harvest_failed.txt"
-    sh([PY, "tools/harvest_verify.py", "--binary", binary, "--src", src, "--asm-subdir", asm,
-        "--out", out, "--good-sha", good_sha, "--drafts", d, "--chunk", "1",
-        "--verified-out", vo, "--failed-out", fo], timeout=7200)
+    # --src is passed ONLY when a caller explicitly restricts the gate to one TU. Omitted, the gate
+    # derives each draft's home TU from the tree and splices it there (Phase 26-A) — every TU links
+    # into the same image, so one `make build` still gates them all.
+    cmd = [PY, "tools/harvest_verify.py", "--binary", binary]
+    if src:
+        cmd += ["--src", src]
+    sh(cmd + ["--out", out, "--good-sha", good_sha, "--drafts", d, "--chunk", "1",
+              "--verified-out", vo, "--failed-out", fo], timeout=7200)
     vp = os.path.join(REPO, vo)
     return [w for w in (open(vp).read().split() if os.path.exists(vp) else []) if w.startswith("func_")]
 
@@ -92,8 +99,20 @@ def _dedup_group_count():
         len(re.findall(r"^[A-Za-z]", open(p).read(), re.M))
 
 
-def match_one_closeness(fn, cpath, asm):
-    """('match',0) | ('near', n) | ('fail', None) via match_one (relocation-masked)."""
+def match_one_closeness(fn, cpath, asm, binary=None):
+    """('match',0) | ('near', n) | ('fail', None) via match_one (relocation-masked).
+
+    The asm subdir is derived PER FUNCTION from the stub that names it (Phase 26-A). One subdir for
+    a whole batch is the same single-TU bug: an overlay has TWELVE, and pointing match_one at the
+    wrong one scores a draft against a DIFFERENT function's asm — a phantom non-zero closeness that
+    then lands in the backlog as a matching failure and feeds reserved_walls()."""
+    if binary:
+        st = corpus.stubs(binary)
+        hit = next((s for s in st.values() if s.symbol == fn), None)
+        if hit is not None:
+            asm = hit.asm_dir
+    if not asm:
+        return ("fail", None)
     try:
         r = sh([PY, "tools/match_one.py", fn, "--c", cpath, "--asm-subdir", asm], timeout=180)
     except subprocess.TimeoutExpired:
@@ -136,8 +155,13 @@ def _run_gate_locked(drafts, binary, src, asm, out, good_sha, propagate, source_
     # 0/222 Bug-B). good_sha is normalized to the BARE hash: config/check.<bin>.sha is sha1sum format
     # "<sha>  <name>", but harvest_verify compares it against a bare sha1() — passing the whole line
     # never matches, so banking is 0 for EVERY binary incl. ov_SC01_077 (the 0/12 Bug-A).
-    src = src or f"src/{binary}/{binary}.c"
-    asm = asm or f"asm/{binary}/nonmatchings/{binary}"
+    # src/asm are NOT defaulted (Phase 26-A audit, HIGH). harvest_verify now DERIVES each draft's
+    # home TU from the tree, so inventing a default here would silently PIN the gate to the main .c.
+    # That default is exactly what capped orchestrator.py / grinder.py / idiom_hunt.py — the three
+    # callers that pass no src — to 13 of ov_SC01_077's 264 stubs (4.9%), and made 1,290 of the
+    # grinder's own 1,298 queued functions UNBANKABLE however good the permuter's output was.
+    # Note the negative control below already globs every split .c: this function knew the right
+    # answer and then handed the gate the wrong file. Pass src ONLY to deliberately restrict to one TU.
     out = out or f"build/{binary}/{binary}"
     good_sha = (good_sha or _check_sha(binary) or DEF_SHA).split()[0]
     draft_fns = sorted(os.path.basename(p)[:-2] for p in
@@ -215,7 +239,7 @@ def _run_gate_locked(drafts, binary, src, asm, out, good_sha, propagate, source_
     for fn in [f for f in draft_fns if f not in verified]:
         cpath = os.path.join(REPO, d, fn + ".c")
         body = open(cpath).read() if os.path.exists(cpath) else ""
-        kind, close = match_one_closeness(fn, cpath, asm) if body else ("fail", None)
+        kind, close = match_one_closeness(fn, cpath, asm, binary) if body else ("fail", None)
         meta = _manifest_class(fn)
         cm = re.search(r"//\s*@class:\s*(.+)", body)
         sm = re.search(r"//\s*@stuck:\s*(.+)", body)
