@@ -3369,3 +3369,52 @@ stay distinct, make them structurally distinct — separate registers, or separa
   Every agent verified its `.rodata` table against the target jtbl and reported the evidence. Bake the
   trap into the prompt, not into the post-mortem.
 - The 3 near-misses are all pure allocation/emission-order residuals (close=2, 2, 21) — §47-slider class.
+
+## §49 — The LUID DIAL: a zero-byte SCHEDULING dial (the sched.c analogue of §47) — `func_8017A4AC` (536 ins ×134), Phase 26 session 8
+
+§47 splits a **global.c allocno-priority** tie by shifting a live-length. This splits a **sched.c
+`rank_for_schedule`** tie by shifting an insn's position in the expand stream. Same philosophy: *when a tie is
+broken by an accident of ordering, change the ordering — without changing a single emitted instruction.*
+
+**The residual.** Two adjacent instructions transposed, **registers already identical** — a pure emission-order
+residual. Not §47: `global.c` was innocent.
+
+**The mechanism (two passes, and the proximate cause is not the root cause).**
+- **sched2 (proximate).** gcc-2.7.2 schedules **BACKWARD** (`.sched2` prints `T-1` = the last insn). At the tie
+  point both candidates measured `priority = 2` and the same class vs `last_scheduled_insn`, so
+  `rank_for_schedule` fell through to its final tiebreak — `return INSN_LUID (tmp) - INSN_LUID (tmp2);` — i.e.
+  **the tie is decided purely by position in the `.greg` stream**.
+- **sched1 (root).** `adjust_priority` → `birthing_insn_p` (`bb_live_regs[dest] && reg_n_sets[dest]==1`) hands
+  every register-DEFINING insn `LAUNCH_PRIORITY = 0x7f000001` (`max_priority`, sched.c:2574). That boost lets
+  the load chain seize the early backward cycles and **sinks** the un-boosted insn past its rivals — so the
+  `.greg` LUID order comes out inverted and sched2's tiebreak then picks the wrong one. *(A dead-end store —
+  `(set (mem) …)`, never "birthing", priority 2 — is starved and always floats to the front of its block.)*
+
+**THE DIAL — materialize a call argument's sign-extension into an explicit `s32` temp, placed AFTER the
+intervening statement.**
+```c
+case 19: {
+    s16 a, b;  s32 ea, eb;
+    a = ring[i]; i = (i+1) & 0x1FF;  ea = a;      /* NOT next to the load — see below */
+    b = ring[i]; i = (i+1) & 0x1FF;  eb = b;
+    f(ea, eb);                                    /* prototype widened to (s32, s32) */
+}
+```
+It moves the `sll/sra 16` pair EARLIER in the expand stream (lowering its `INSN_LUID`) while emitting **exactly
+the same instructions**. Two placement rules are load-bearing:
+- **The prototype must be `(s32, s32)`** so the call itself adds no conversion.
+- **`ea = a;` must sit AFTER the store, not next to the load.** Adjacent to the load, `combine` fuses
+  `lhu`+`sll`+`sra` into a single `lh` and you LOSE 3 instructions. The intervening store blocks that fusion,
+  so the `sll/sra` pair survives — identical bytes, earlier LUID.
+
+**The zero-byte dial family is now three (all emit nothing; all steer a tie):**
+| dial | pass | what it shifts | §  |
+|---|---|---|---|
+| live-length slider (`asm("")` between two volatile asms) | `global.c` allocno priority | live_length ±1 | §47 |
+| sink-the-init / sink-the-consumer-call into the arms | `global.c` / `local-alloc` | refs + live-range, or deletes the allocno | §48-A1/A4 |
+| **LUID dial (materialize a temp, placement-controlled)** | **`sched.c` rank_for_schedule** | **INSN_LUID (expand-stream position)** | **§49** |
+
+**Method note (this is how it was measured, and it is reusable):** `-dS -dR` on cc1 emits the `.sched`/`.sched2`
+traces — the ready lists, the computed priorities, and the chosen order. When a residual is "two instructions
+swapped, same registers", dump the schedule and read the tie: if the priorities are equal, you are on a LUID
+tiebreak and the fix is a *placement* change, not a register change. Harness: `.run/a4ac/dump2.sh`.
