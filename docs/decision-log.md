@@ -604,3 +604,42 @@ DYNAMIC questions (which reg find_reg actually grants when hand-modeling stalls)
 dumps already print. (3) *The zero-byte toolkit compounds:* the slider now joins the density dial and the
 lifetime-extender as the third allocation dial that emits nothing — and the "adjacent to an existing volatile
 asm" placement rule makes it safe in GTE-heavy renderers, which is exactly where the remaining jr cores live.
+
+## 2026-07-14 (session 8) — the silent-skip class: promote the lesson from a rule to a MECHANISM (Drew approved)
+
+**Context / prior belief.** Six silent-skip bugs surfaced in one session (`scope_data_externs`' file-scope
+placement; `extract_unit` decl-vs-def; `_body_open_brace`'s own-line brace; `SIG_IN_BODY_RE`'s 10% oracle hole;
+`revert()`'s config residue; `jr_isolate_all`'s empty region 0) — and THREE were the same brace-placement class,
+the same class as the Phase-15 `find_site` bug and the Phase-24 `overlay_files` bug. Each was written off at the
+time as a one-off parser slip.
+
+**What the bytes taught.** They are not one-offs; they are a *structural* blind spot in how this project is
+built. Every instance has the identical shape: **a scanner extracts N items from a corpus, the true count is
+M > N, and nobody ever compared N to M.** The whole-binary byte-gate (G3/P9) is a perfect guard on
+*correctness* — it never once accepted a wrong match — but it is **blind by construction to work that was never
+attempted**. A tool that silently no-ops on input it cannot parse is indistinguishable from a tool that had
+nothing to do. That is why these survived 26 phases: nothing in the system was looking.
+
+The cost is not hypothetical. `SIG_IN_BODY_RE` hid **186 of 1801 (10%)** of the shared-callee signatures, which
+is why nine byte-exact cores from the crack wave would not bank — the draft kept its guessed signature, hit
+`conflicting types`, and the recovery pass truthfully reported nothing to fix. It read exactly like an intrinsic
+wall. One character class turned it into a zero-hand-edit bank.
+
+**The pivot (Drew, "agreed").** Promote the lesson from a *rule* to a *mechanism*, and do NOT audit by reading
+regexes — that is precisely the failure mode that wrote them. Instead **measure coverage**: for each scanner,
+build a deliberately OVER-APPROXIMATING candidate detector, run both over the corpus, and report
+found-vs-candidates; every gap must be classified as a real skip or a justified exclusion. Going forward, a new
+text scanner ships with a coverage assertion or it does not ship. (Rule candidate for PhaseEnd, P10.)
+
+**The bigger prize (the uncomfortable part).** Several verdicts we have treated as settled physics were reached
+*on top of* the broken oracle: the **def-side loose-typing wall** (§20/§41, "triple-confirmed" in Phase 23), the
+**159 arity/narrow-param conflicts** (Phase-15 "documented dead-end"), the **3,098 type-heavy tail**, the 9
+zero-bank type-using families. Each was diagnosed as "no C declaration exists satisfying both the definition and
+the call site" — but the tool computing the call site's canonical signature was blind to 10% of them. Phase 16
+byte-proved that genuinely contradictory typings DO exist, so the wall is real in part; but **"some of it was our
+tooling" is now the prior, not the long shot.** Re-test the cheap ones against the repaired tools.
+
+**Hindsight / for the wiki.** The deepest lesson of the phase, and it generalizes far past decomp: *an
+incorruptible correctness gate creates a false sense of completeness.* It tells you everything you banked is
+right. It tells you nothing about what you never tried. Pair every correctness oracle with a **coverage** oracle,
+or you will spend phases mistaking your own parser's blind spots for properties of the problem.
