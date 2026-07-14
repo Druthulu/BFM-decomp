@@ -3247,3 +3247,101 @@ covers that case instead, §45-A.)
   isolation → carve (9-piece interleave) → splice → **BYTE-IDENTICAL**. One TU-visible decl reconcile was
   needed on the way (`D_800B9A02` — declare the TU's `short`, force the unsigned access at use
   `(*(u16 *)&D_800B9A02)`, the §8d sub-class (b) hand-move).
+
+## §48 — The 12-core jr crack wave: the ALLOCNO-PRICING dials and the EBB rule (Phase 26 session 8, Ultracode, 9/12 MATCH first pass)
+
+Twelve heaviest unmatched jr cores, one agent each, §31/§46/§47 in the prompt: **9 byte-exact MATCH,
+3 near (close=2/2/21), 0 dead ends.** Every crack came from READING the pass (`loop.c`, `jump.c`,
+`cse.c`, `global.c`, `local-alloc.c`, `mips.c` in `tools/reference/gcc-2.7.2/`), none from search.
+The levers cluster into three families — and the first family is the important one, because it turns
+register allocation into something you can **steer from C without changing a byte**.
+
+### A. ALLOCNO-PRICING DIALS — move a value into the register you want, byte-neutrally
+All three exploit `global.c:594`  `pri = (int)((double)(floor_log2(n_refs) * n_refs) / live_length * 10000 * size)`.
+Higher density allocates first (and first-fit takes the lowest free reg). So **any C edit that changes a
+pseudo's refs or live-length while leaving the emitted insns identical is a free register dial.**
+
+- **§48-A1 — SINK THE INIT INTO THE IF/ELSE ARMS** (the biggest of the three; `func_8015A3C8`).
+  ```c
+  if (c) { min=A; grav=B; }        →   if (c) { min=A; grav=B; hi=0; }
+  else   { min=C; grav=D; }            else   { min=C; grav=D; hi=0; }
+  hi = 0;                              /* nothing at the join */
+  ```
+  **Byte-identical**: jump2/cross_jump runs AFTER regalloc and merges the two identical
+  `move rD,zero` tails back into the single insn at the join. But at ALLOCATION time the pseudo was
+  re-priced: measured 5 refs/318 live → 6 refs/**162** live, priority 314 → 740 — enough to jump two
+  other allocnos and take `$s0`. *An init at a merge point is live across every path into the merge;
+  the same init duplicated into the arms is not.*
+  **Rule: to RAISE a local's priority, sink its initializer into the arms of a preceding if/else.
+  To LOWER it, hoist the init to the join.** (Companion to §47's live-length slider: that one shifts
+  a length by ±1 to split a tie; this one collapses a length outright.)
+- **§48-A2 — the LOCAL-ALLOC `$s0` OCCUPANT** (`func_8015A3C8`). A temp that is (a) referenced in ONE
+  basic block and (b) crosses a call gets a callee-saved reg from **local**-alloc, *before* global-alloc
+  runs. It lands in `$s0` and enters `regs_used_so_far`, which forces the highest-priority global allocno
+  (the `arg0` copy — always first) off `$s0` onto `$s1`. **If the target has arg0 in `$s1`, look for a
+  call-crossing block-local temp and give it its own variable.** m2c will happily merge it with a
+  same-register variable; that merge destroys the occupant and rotates every `$s` reg.
+- **§48-A3 — BLOCK-SCOPED PER-CASE TEMPS ARE A local-alloc TIE GATE** (§44-L3, now source-cited;
+  `func_8017A4AC`). A function-scope scratch shared by 9 switch arms is a MULTI-BLOCK pseudo, and
+  `local-alloc.c:1765` **refuses to tie** it — so `lhu/sll/sra` gets three different hard regs. Declare
+  the temp INSIDE the case and local-alloc ties operand 0 to the dying input, collapsing the chain into
+  one register. **In a jr-switch dispatcher, NEVER share a scratch across arms.**
+
+### B. THE EBB RULE — the general form of §46-L2
+**cse resets its hash table at a label with >1 predecessor.** So *anything you need to survive cse must
+have its def and its uses in different extended basic blocks.* Three instances, one rule:
+- a **reg-reg copy** (§46-L2): `fp = q;` always dies — unless defined in a guard block and used in the loop.
+- a **held global address** (`func_8015B950`): `la $sN,&G` in a loop preheader. gcc will NEVER emit this
+  from plain global refs (a SYMBOL_REF is already a legal MIPS address), and `s16 *p = &G;` is
+  constant-folded straight back by cse's `find_best_addr`. **Fix:** define `p = &G` at the top of the loop
+  body and use it only inside a **case body reached through the jump table** — cse starts a fresh table at
+  the jtbl target label, cannot see `p == &G` there, the `la` survives, and `loop.c move_movables` hoists
+  it to the preheader where global-alloc gives it a callee-saved reg.
+- a **pointer-to-global held across calls** (`func_8017A4AC` L2): `struct X *w = &D_SYM;` at function top,
+  used deep in a switch arm → survives, spans calls, gets `$s0`.
+> **Corollary (`func_8013F350` L2):** a pointer-to-global survives *only if every use is at offset 0*.
+> With `p[k]`, k≠0, cse's `fold_rtx` folds the SYMBOL_REF into `CONST(sym+k)` — a legal address — and the
+> `la` loses its last user and is rematerialized away. For offset uses you need a **struct** (below).
+
+### C. TYPE- AND SHAPE-DRIVEN CODEGEN (the C type literally selects the addressing mode)
+- **§48-C1 — STRUCT vs SCALAR GLOBAL** (`func_8013F350` L1 — verified with 14 micro-probes). A
+  **scalar-typed** global always folds to the direct macro (`lui %hi; lhu %lo`). A **struct-typed** global
+  accessed by field always materializes a base (`la $b,SYM` + `off($b)`) once there are 2+ struct MEMs in
+  the block. **So: target shows `la` + nonzero offsets → declare a struct. Target shows plain `lui/%lo`
+  → declare a scalar.** A scalar and a struct at the same address may coexist; declare whichever each
+  site needs.
+- **§48-C2 — `lwl/lwr/swl/swr` block copy == a plain struct assign of a 2-BYTE-ALIGNED struct**
+  (`func_80131340` L1; `mips.c:output_block_move`, vanilla line 2580). The `lw/sw` arm is taken ONLY when
+  `bytes>=4 && align>=4`; align 1 AND align 2 both fall through to the unaligned pair. So
+  `typedef struct { u16 x,y,z,w; } V; a = b;` emits lwl/lwr+swl/swr even between two 4-aligned stack
+  slots. **m2c's `(unaligned s32)` on an 8-byte object means "declare a 4×u16 struct and assign it"** —
+  not "hand-roll a byte copy". No memcpy, no packed attribute.
+- **§48-C3 — DEAD-SIBLING-SCALAR TRAP** (`func_8017A4AC` L1 — cost 108 instructions). An arm that fills a
+  param block and passes its address MUST use a real **array**. Declare `u16 sp18, sp1A, sp1C` and take
+  only `&sp18`, and gcc sees the siblings as never-address-taken → their stores are DEAD → flow deletes
+  the stores *and the loads feeding them*. **Diagnostic signature: the index chain repeated N times but
+  only ONE load.**
+- **§48-C4 — CONST BEFORE LOAD** (`func_8015A3C8` L-B): to get `lui` into a branch delay slot, give the
+  compare constant a source temp one statement EARLIER, so its def precedes the operand load
+  (`lo = -0x94000; t = *p; if (t < lo)`). `gen_int_relational` force_reg's a large compare constant AT
+  the compare — i.e. after the load — and sched2 ties on LUID. *Dead end: writing `if (-0x94000 > t)`
+  does NOT work; `compare_from_rtx` canonicalizes a CONST_INT op0 back to op1.*
+
+### D. THE CROSS-JUMP RATCHET (the sharpest new trap — `func_80131340` L-C)
+Two cases needing **opposite branch senses on the same test** cannot be written as a mirrored `if/else`.
+It looks right and even emits the right `blez` — but after cross_jump collapses both bodies to jumps,
+`jump.c`'s *"invert a cond-jump that jumps over an uncond-jump"* fires, flipping `blez`→`bgtz`; the two
+cases are now byte-identical, so the NEXT cross_jump round swallows the compare entirely (−4 ins).
+**cross_jump + jump.c-invert together are a RATCHET toward collapse.** Break it with explicit `goto`s into
+labels living inside the *other* case's body: the branch targets become FAR, the invert-over-jump has no
+adjacent label to fire on, and only the intended tails merge. (Same family as §46-L5: when two sites must
+stay distinct, make them structurally distinct — separate registers, or separate branch targets.)
+
+### E. Meta
+- **9/12 first-pass MATCH with cheap agents.** The map is doing the work: every core was cracked by an
+  ordinary Opus agent applying documented idioms + reading the pass. The Phase-23 tier doctrine holds —
+  Fable5 DISCOVERS a class; everyone else APPLIES it.
+- **The `jr` §8a check is mandatory and it caught nothing this time — because it was in the prompt.**
+  Every agent verified its `.rodata` table against the target jtbl and reported the evidence. Bake the
+  trap into the prompt, not into the post-mortem.
+- The 3 near-misses are all pure allocation/emission-order residuals (close=2, 2, 21) — §47-slider class.
