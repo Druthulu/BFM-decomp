@@ -684,3 +684,50 @@ to STOP PARSING where an invariant already answers the question. Our byte-gate p
 (byte-identical build); every fact derivable from it should be *derived*, not re-computed by regex. Before adding
 a coverage assertion to a scanner, ask the better question first: **why is this scanner re-deriving something the
 build already guarantees?**
+
+## 2026-07-14 (session 8 close) — Drew: the TOOLING-INTEGRITY AUDIT gates further matching work, and gets its own phase
+
+**Context / prior belief.** Session 8 was the most productive of the project: 13 cores cracked (incl. the four
+heaviest functions in the game), a 12-agent wave at 11/12 first-pass MATCH, fleet 63.0→65.6% instr-weighted /
+39.1→44.9% distinct-code, 136/136 byte-identical throughout. The natural next move was obvious: bank the six
+blocked cores (~1.2 MB, all plumbing), then run the next wave.
+
+**Drew's call:** *"I feel like we should do T14 now, before the rest of the work. but not in this phase."*
+The tooling-integrity audit **gates** the remaining matching work, and it is substantial enough to deserve its own
+phase rather than being squeezed into Phase 26.
+
+**Why this is right (and why I would not have prioritised it as hard).** The session found **seven silent-skip
+tool bugs**, and the instinct is to treat them as a tax — annoying, fixable, keep moving. That instinct is wrong,
+for a reason that only became clear at the end:
+
+> The byte-gate is a perfect CORRECTNESS oracle and a **null COVERAGE oracle**. It never once accepted a wrong
+> match — and it is blind *by construction* to work never attempted. It has been green since Phase 5, when 0% was
+> decompiled, because `INCLUDE_ASM` pastes the ORIGINAL assembly: **a green byte-gate is compatible with any
+> decomp percentage.** So every silent skip is invisible to the one instrument we trust absolutely.
+
+The cost is not wrong answers. It is **invisible work, and walls that aren't there.** A single 10% hole in the
+callee-signature oracle (`SIG_IN_BODY_RE`, a `\s` that could not match a line-continuation backslash) made **nine
+byte-exact functions look like an intrinsic compiler wall** — and we would have written them up as such. How many
+of the walls we have already "byte-proven" across 26 phases were lookup misses wearing a wall's clothes? The
+def-side loose-typing wall, the 159 arity conflicts, the type-heavy tail — all were diagnosed on top of that hole.
+**That is the question the audit answers, and it is worth more than the next 1.2 MB.**
+
+Auditing after more matching would compound the problem: every wave run on broken selection tooling produces more
+"walls" we would then have to re-litigate.
+
+**Scope discipline (do NOT audit all 82 tools).** 19 were audited (23%), chosen by risk. The filter for the rest
+is: **does it PARSE something, and does it GATE or SELECT work?** (~15 tools.) Priority order:
+`dedup_integrate.py` (a fail-closed validator that can print a FALSE GREEN — *"1813 validated, 0 failed"*) →
+`jtbl_family_bank.py` (3 bugs found by hand this session, never audited) → the SELECTION tools (`family_hseq`,
+`wave_targets`, `exemplar_miner` — a hole here makes work invisible to *planning*, the worst kind) →
+`masked_diff`/`match_one` (the closeness oracle every agent trusts).
+
+**And apply R33 to each, first:** *why is this tool re-deriving something the build already guarantees?*
+`harvest_verify` is the model — it derives from `make build` + SHA1, so a parse hole makes it **conservative, not
+wrong**. Tools that lean on the invariant inherit its correctness for free; tools that re-parse inherit bugs.
+The best audit outcome is not a fixed regex — it is a **deleted scanner**.
+
+**Hindsight / for the wiki.** The owner saw this faster than I did. I had just spent the session proving that
+every wall was our own tooling, had written the coverage-oracle rule, had *corrected myself* about a metric — and
+my instinct was still "bank the 1.2 MB first". The lesson: **when your measurement layer is suspect, more
+measurements are not progress.** Fix the instrument before taking more readings.
