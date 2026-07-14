@@ -402,6 +402,10 @@ def asm_is_trivial(name):
     return set(mnem) <= {'jr', 'nop'} and len(mnem) <= 2
 
 SIG = re.compile(r'^\s*[A-Za-z_][\w \t\*]*\b([A-Za-z_]\w*)\s*\(')
+# A K&R parameter declaration sitting between the signature and the `{`: a bare `<type> <name>;`
+# (optionally an array/pointer). It carries NO parens — that is what distinguishes it from the
+# continuation line of a wrapped ANSI prototype, which always carries the closing `)`.
+KR_PARAM = re.compile(r'^\s*[A-Za-z_][\w \t\*]*\s+\**\w+\s*(?:\[[^\]]*\])?\s*;\s*$')
 
 def classify():
     real, empty, nonmatching, stubs, blobs, linked = [], [], [], [], [], []
@@ -434,12 +438,28 @@ def classify():
             if fm and '(' in lines[i]:
                 # Definition ({ ... }) vs forward declaration (ends ;)? Scan to the first { or ;.
                 # extern/prototype lines (e.g. `extern s32 CdQueueBusy(void);`) are NOT functions.
+                #
+                # K&R DEFINITIONS (Phase 26 session 8 — this silently erased ~190k banked instructions):
+                #     s32 func_8015AE2C(arg0)
+                #     s32 arg0;              <- a `;` BEFORE the `{`
+                #     { ... }
+                # The old scan hit that `;` and classified the function as a forward declaration, so it
+                # landed in NO bucket at all — not REAL, not a stub, invisible. And a K&R def is MANDATORY
+                # whenever a zero-arg engine_core.h thunk calls the function (it must be unprototyped), so
+                # the metric was blind to exactly the shape our own banking recipe requires: the heavy-jr
+                # cores. func_8015AE2C (562x134), func_8015A3C8 (493x132), func_80166994 (369x134) were all
+                # compiled, linked and BYTE-IDENTICAL in the shipped build while counting as zero.
+                # A K&R parameter declaration is a bare `<type> <name>;` — no parens (a wrapped ANSI
+                # prototype's continuation carries the `)`), so it is unambiguous to skip over.
                 j = i; kind = None
                 while j < n:
                     c = strip_comments(lines[j])
                     br = c.find('{'); sm = c.find(';')
                     if br != -1 and (sm == -1 or br < sm): kind = 'def'; break
-                    if sm != -1: kind = 'decl'; break
+                    if sm != -1:
+                        if j > i and '(' not in c and ')' not in c and KR_PARAM.match(c):
+                            j += 1; continue       # K&R parameter declaration -> keep scanning for the `{`
+                        kind = 'decl'; break
                     j += 1
                 if kind != 'def':
                     i = j + 1; continue            # skip the declaration
@@ -463,8 +483,24 @@ def report(binary, audit=False, write=True):
     real, empty, nonmatching, stubs, blobs, linked = classify()
     # Code-shared functions (dedup.us.yaml) are REAL byte-identical matches whose macro-instantiated
     # form classify() doesn't parse — fold them in (dedup-safe) so the count stays honest (P9).
-    shared = sorted(dedup_members(BINARY) - set(real))
+    #
+    # ...but ONLY if they are actually instantiated. A member that is STILL an INCLUDE_ASM stub in this
+    # binary is not banked, whatever the registry says — the registry can go stale (a group whose
+    # DEFINE_ macro no longer exists in src/). Counting it REAL while it also sits in `stubs`
+    # double-counts it into `matchable` AND inflates `byteident`. Measured: 532 phantom instances
+    # (Phase 26 session 8 scanner audit). Subtracting `stubs` makes the registry advisory, and the
+    # source tree authoritative — which is the right precedence (P9: only what is in the build counts).
+    shared = sorted(dedup_members(BINARY) - set(real) - set(stubs))
     real = sorted(set(real) | set(shared))
+
+    # ---- COVERAGE ASSERTION (the rule ratified 2026-07-14: a scanner over the corpus must assert its
+    # own coverage; a silent skip is a DEFECT, not a no-op). Ground truth = every function splat emitted
+    # a .s for. Anything classify() could not place in ANY bucket is a parsing hole, and it is exactly
+    # how the K&R blindness above hid ~190k banked instructions for 26 phases while the byte-gate stayed
+    # green (the gate compiles; this tool only reads text — they share no code, so the gate can never
+    # catch a miscount). Report it LOUDLY rather than silently under-reporting progress.
+    placed = set(real) | set(empty) | set(nonmatching) | set(stubs) | set(blobs) | set(linked)
+    unplaced = sorted(set(_S_INDEX) - placed)
     matchable = len(real) + len(empty) + len(nonmatching) + len(stubs) + len(linked)
     byteident = len(real) + len(linked) + len(empty)   # all byte-identical in the build
 
@@ -479,6 +515,11 @@ def report(binary, audit=False, write=True):
     out.append(f"splat-auto empty no-ops  : {len(empty):5d}")
     out.append(f"INCLUDE_ASM stubs        : {len(stubs):5d}")
     out.append(f"data blobs (excluded)    : {len(blobs):5d}")
+    if unplaced:
+        out.append(f"!! UNPLACED (parse hole) : {len(unplaced):5d}   <- classify() could not bucket these; "
+                   f"a SILENT SKIP is a defect, not a no-op. e.g. {', '.join(unplaced[:4])}")
+        print(f"[progress] COVERAGE DEFECT in {binary}: {len(unplaced)} function(s) splat emitted a .s for "
+              f"are in NO bucket — the count is WRONG. e.g. {', '.join(unplaced[:6])}", file=sys.stderr)
     out.append("-" * 40)
     out.append(f"matchable functions      : {matchable:5d}")
     out.append(f"REAL / matchable         : {len(real)} / {matchable} = {100*len(real)/matchable:.2f}%")
