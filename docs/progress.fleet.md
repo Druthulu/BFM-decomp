@@ -8,7 +8,7 @@ FLEET fn-count byte-ident: 283995 / 343774 = 82.61%   (REAL+LINKED+empties; FUNC
 FLEET instr-weighted     : 8448285 / 12707182 = 66.5%   (shipped .text across resident+134 overlays; the decomp.dev-DISPLAY number)
 FLEET distinct-code(uniq): 2530637 / 5410077 = 46.8%   (51834/84996 unique fns; the DISTINCT-RE number; main EXE not sig'd)
 
-FLEET REAL substantive   : 282466   (of which dedup-shared 222743 via 1813 groups / 223725 instances)
+FLEET REAL substantive   : 282466   (of which dedup-shared 222743 via 1806 groups / 222787 instances)
 FLEET LINKED PsyQ objs   :    959
 FLEET NON_MATCHING       :      7   (0 in any default build — G4)
 FLEET INCLUDE_ASM stubs  :  59772
