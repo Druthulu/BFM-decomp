@@ -643,3 +643,44 @@ tooling" is now the prior, not the long shot.** Re-test the cheap ones against t
 incorruptible correctness gate creates a false sense of completeness.* It tells you everything you banked is
 right. It tells you nothing about what you never tried. Pair every correctness oracle with a **coverage** oracle,
 or you will spend phases mistaking your own parser's blind spots for properties of the problem.
+
+## 2026-07-14 (session 8) — the coverage audit's biggest finding was REAL, and my reading of it was WRONG. The correction is the lesson.
+
+**Context / prior belief.** Six silent-skip bugs in one session led to the coverage-oracle rule (Drew: "agreed").
+The audit's headline came back alarming: *progress.py under-counts by ~243k instructions because classify()
+reads a K&R definition as a forward declaration.* I verified the MECHANISM against the bytes (it is real:
+`s32 f(arg0)` / `s32 arg0;` / `{` — the `;` precedes the brace, so the scan calls it a declaration and drops the
+function into NO bucket), measured 400 banked instances / ~190k instructions in that shape, and told Drew our
+headline numbers had been under-reporting our own progress.
+
+**What the bytes taught — I was wrong, and the null result caught me.** After fixing it, old-vs-new on the same
+tree moved the headline numbers by **+376 instructions**, not +190,000. A null result where a large effect was
+predicted is not noise; it is a refutation. Reading the code: **`weighted_metrics()` never calls `classify()`.**
+It determines "matched" as `func not in src_stubs(binary)` — and because the fleet is 136/136 byte-identical,
+anything NOT wrapped in `INCLUDE_ASM` is necessarily compiled C emitting the exact original bytes. It never
+parses a definition, so it is **structurally immune** to the bug. The published **instr-weighted (65.6%) and
+distinct-code (44.9%) were CORRECT ALL ALONG**; only the secondary REAL count and fn-count % were wrong.
+
+I had done the R14 thing (verify the mechanism against the bytes) and still got the conclusion wrong, because I
+verified the DEFECT and not its BLAST RADIUS. The auditor conflated "classify() is blind" with "the metrics are
+wrong", and I propagated it — to the owner, as fact, in the same breath as lecturing about unverified oracles.
+
+**The pivot.** Both bugs are still worth fixing (they corrupt the REAL/fn-count report, and the phantom-dedup
+over-count double-counts 532 stubs) and a coverage assertion now guards classify(). But the strategic conclusion
+inverts:
+
+> **A metric DERIVED FROM A PROVEN INVARIANT beats a metric that RE-PARSES THE WORLD.**
+> `weighted_metrics()` leans on the byte-gate — "not a stub ⇒ byte-exact, because the build is byte-identical" —
+> and *inherits its correctness for free*. `classify()` re-derives the same fact by parsing C, and inherited a
+> bug instead. Two tools, one question, and the one that refused to re-derive is the one that was right.
+
+**Hindsight / for the wiki.** Three lessons, and the third is the real one.
+(1) *Verify the blast radius, not just the defect.* "This tool is broken" and "this number is wrong" are
+different claims needing different evidence. A confirmed mechanism proves nothing about consequence.
+(2) *A null result where you predicted a large effect is a refutation — chase it.* The +376 delta was the whole
+story, and it would have been trivially easy to wave off as noise or as "the fix worked, the numbers moved".
+(3) **The coverage-oracle rule is right but incomplete.** Auditing parsers is treating the symptom. The cure is
+to STOP PARSING where an invariant already answers the question. Our byte-gate proves a strong property
+(byte-identical build); every fact derivable from it should be *derived*, not re-computed by regex. Before adding
+a coverage assertion to a scanner, ask the better question first: **why is this scanner re-deriving something the
+build already guarantees?**
