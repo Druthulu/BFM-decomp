@@ -398,7 +398,7 @@ DEFINE_func_80128DB4()  /* dedup: shared engine-core @0x80128DB4 (src/shared) */
 DEFINE_func_80128EA8()  /* dedup: shared engine-core @0x80128EA8 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC02_026/nonmatchings/ov_SC02_026", func_80128ED8);
+DEFINE_func_80128ED8()  /* dedup: shared engine-core @0x80128ED8 (src/shared) */
 
 extern M2C_UNK D_801CDC40;
 

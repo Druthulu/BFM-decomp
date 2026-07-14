@@ -1486,11 +1486,7 @@ DEFINE_func_80156ECC()  /* dedup: shared engine-core @0x80156ECC (src/shared) */
 DEFINE_func_80156FA8()  /* dedup: shared engine-core @0x80156FA8 (src/shared) */
 
 
-void func_80157158(s32 a0, u16 a1, u16 a2, s32 a3,
-                   s32 a4, s32 a5, s32 a6, s32 a7,
-                   s32 a8, s32 a9, u16 a10, s32 a11, s32 a12) {
-    func_801571C4(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12);
-}
+DEFINE_func_80157158()  /* dedup: shared engine-core @0x80157158 (src/shared) */
 
 
 DEFINE_func_801571C4()  /* dedup: shared engine-core @0x801571C4 (src/shared) */

@@ -23,6 +23,8 @@ import canon_sig_reconcile as CSR      # v3.2 (Phase-25 T7-M2 per-sibling re-rec
 from scope_data_externs import fix as scope_data_fix   # §8d (Phase-26 session 8)
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.join(REPO, 'tools'))
+import corpus   # the derived corpus oracle (Phase 26-A)
 PY = ".venv/bin/python"
 SWEEP = ".run/sweep"
 
@@ -45,13 +47,19 @@ def load_sigs():
 
 
 def stub_map(ov):
-    """{addr: (src_rel, asm_subdir)} for every INCLUDE_ASM stub in this overlay's src (all split files)."""
-    m = {}
-    for cf in sorted(glob.glob(os.path.join(REPO, f"src/{ov}/{ov}*.c"))):
-        rel = os.path.relpath(cf, REPO)
-        for asm_sub, fn in re.findall(r'INCLUDE_ASM\("([^"]+)",\s*(func_[0-9A-Fa-f]+)\)', open(cf).read()):
-            m[int(fn.split("_")[1], 16)] = (rel, asm_sub)
-    return m
+    """{addr: (src_rel, asm_subdir)} for every INCLUDE_ASM stub in this overlay's src (all split files).
+
+    DERIVED from tools/corpus.py (Phase 26-A audit). The regex here was `func_[0-9A-Fa-f]+` only, so a
+    stub carrying a CURATED symbol name was invisible — and an address absent from stub_map reads as
+    "already matched". That manufactured PHANTOM matched-exemplars: family_hseq nominated them, the
+    sweep re-nominated them every run, extract_unit returned None, and each run booked a silent skip.
+    (The one live instance — `listCdBuffer` at 0x80180000, a stub in 100 overlays and a REAL function
+    in 3 of them — is gone as of A4, but the SHAPE stays armed: curated naming is something this
+    project does more of as RE quality improves, so a func_-only oracle rots by design.)
+
+    corpus.stubs() resolves ANY C identifier through the binary's splat symbol stack and fails LOUD on
+    one it cannot resolve — it can no longer mistake a named stub for a match."""
+    return {s.addr: (s.path, s.asm_dir) for s in corpus.stubs(ov).values()}
 
 
 def reconcile_remap(addr, source, ov, src_rel, rawdir):

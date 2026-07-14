@@ -4373,50 +4373,7 @@ void func_801678B4(void *a0) {
 
 
 
-extern s32 rand(void);
-extern void RotMatrixYXZ(void *a0, void *a1);
-extern void func_80048EAC(void *a0, void *a1);
-extern s32 func_801670E4(s32 a0, s32 a1, s32 a2, s32 a3);
-extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
-extern void func_80146C3C(void);
-extern u16 D_800B99DA;
-
-void func_801678F0(s32 a0) {
-    s32 p;
-    s32 r;
-    s16 buf[4];
-
-    p = *(s32 *)(a0 + 0x34);
-    if ((*(s32 *)(p + 0x44) & 0x10) != 0) {
-        if (*(s16 *)(a0 + 0x12) > *(s16 *)(a0 + 0x10)) {
-            if (*(s32 *)(a0 + 0x1C) > 0) {
-                *(u16 *)(a0 + 0x10) = rand() & 0x30;
-                *(s32 *)(a0 + 0x1C) = -0x30;
-            }
-        } else {
-            if (*(s32 *)(a0 + 0x1C) < 0) {
-                *(u16 *)(a0 + 0x10) = (rand() & 0x30) + 0x40;
-                *(s32 *)(a0 + 0x1C) = 0x30;
-            }
-        }
-        *(s16 *)(a0 + 0x12) = *(u16 *)(a0 + 0x12) + *(s32 *)(a0 + 0x1C);
-        if (*(s32 *)(a0 + 0x30) != 0) {
-            *(s32 *)(a0 + 0x30) = *(s32 *)(a0 + 0x30) - 0xC0;
-        }
-        buf[0] = 0x400;
-        buf[1] = 0;
-        buf[2] = D_800B99DA << 8;
-        RotMatrixYXZ((void *)buf, (void *)(a0 + 0x38));
-        ((void (*)(s32, s32))func_80048EAC)(*(s32 *)(p + 0x20) + 0x34, a0 + 0x38);
-        func_801670E4(a0, -6, -0x44, -0x18);
-        r = ((s32 (*)(s32, s32, s32, s32, s32, s32, s32))func_80146A6C)(0xE, a0, *(s16 *)(a0 + 6), *(s16 *)(a0 + 0xA), *(s16 *)(a0 + 0xE), 0, 0);
-        if (r != 0) {
-            *(Blk32 *)(r + 0x38) = *(Blk32 *)(a0 + 0x38);
-        }
-    } else {
-        ((void (*)(s32))func_80146C3C)(a0);
-    }
-}
+DEFINE_func_801678F0()  /* dedup: shared engine-core @0x801678F0 (src/shared) */
 
 
 
@@ -5128,50 +5085,7 @@ DEFINE_func_8016A890()  /* dedup: shared engine-core @0x8016A890 (src/shared) */
 // @class: struct
 // @stuck: none — expect MATCH (single-call leaf, stack-struct prim build + averaging writeback)
 
-extern s32 func_80016A5C();
-extern Blk20 D_800AE620;
-
-s32 func_8016A8FC(s32 a0)
-{
-    Prim p;
-    int ptr;
-
-    ptr = *(int *)(a0 + 0x34);
-
-    p.v0 = (short)*(int *)(a0 + 0x4C);
-    p.v1 = (short)*(int *)(a0 + 0x50);
-    p.v2 = (short)*(int *)(a0 + 0x54);
-
-    p.w0 = *(unsigned short *)(ptr + 6);
-    p.w1 = *(unsigned short *)(ptr + 0xA);
-    p.w2 = *(unsigned short *)(ptr + 0xE);
-
-    p.v0 = (short)(((int)*(short *)(a0 + 6) + *(int *)(a0 + 0x4C)) >> 1);
-    p.v1 = (short)(((int)*(short *)(a0 + 0xA) + *(int *)(a0 + 0x50)) >> 1);
-    p.v2 = (short)(((int)*(short *)(a0 + 0xE) + *(int *)(a0 + 0x54)) >> 1);
-
-    *(short *)(a0 + 6) = (short)*(int *)(a0 + 0x4C);
-    p.w0 = (short)(((int)*(short *)(a0 + 6) + (int)*(short *)(ptr + 6)) >> 1);
-    *(int *)(a0 + 0x4C) = p.w0;
-
-    *(short *)(a0 + 0xA) = (short)*(int *)(a0 + 0x50);
-    p.w1 = (short)(((int)*(short *)(a0 + 0xA) + (int)*(short *)(ptr + 0xA)) >> 1);
-    *(int *)(a0 + 0x50) = p.w1;
-
-    *(short *)(a0 + 0xE) = (short)*(int *)(a0 + 0x54);
-    p.w2 = (short)(((int)*(short *)(a0 + 0xE) + (int)*(short *)(ptr + 0xE)) >> 1);
-    *(int *)(a0 + 0x54) = p.w2;
-
-    p.b11 = 0x10;
-    p.b15 = 0x80;
-    p.b16 = 0x20;
-    p.b14 = 0x20;
-    p.b12 = 0;
-    p.b10 = 0;
-    p.w18 = 0x50000000;
-
-    ((s32 (*)(void *, void *))func_80016A5C)(&p, &D_800AE620);
-}
+DEFINE_func_8016A8FC()  /* dedup: shared engine-core @0x8016A8FC (src/shared) */
 
 
 DEFINE_func_8016AA50()  /* dedup: shared engine-core @0x8016AA50 (src/shared) */

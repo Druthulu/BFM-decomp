@@ -286,13 +286,37 @@ def gather_externs(from_ov, from_addr, unit):
     self_sym = f"func_{from_addr:08X}"
     refs = set(re.findall(r'\b(?:func_[0-9A-Fa-f]{8}|D_[0-9A-Fa-f]{8})\b', unit)) - {self_sym}
     tu = _tu_text(from_ov)
-    lines, seen = [], set()
+    lines, seen, unresolved = [], set(), []
+
+    # STATEMENT-oriented, not line-oriented (Phase 26-A audit).
+    #
+    # The scan used `[^\n;{}]*`, which cannot cross a newline — so a WRAPPED comma-separated extern was
+    # invisible in BOTH directions: the first physical line has no ';' and the continuation line has no
+    # `extern`. src/ov_SC01_077/ov_SC01_077.c:271-272 declares NINE symbols that way:
+    #     extern unsigned char D_801DAA78, D_801DAA79, ..., D_801DAA7C,
+    #                          D_801DAA7D, ..., D_801DAA80;
+    # and the exemplar that references them (func_8013D178) is a substantial family with 133 members.
+    # Every sibling was therefore staged with NO declaration for those symbols, failed to compile
+    # (`D_801DAA7D undeclared`), and — because the gate chunks by (overlay, split) — bisect-stormed the
+    # whole group with it. Booked as a compile failure, i.e. invisible.
+    _EXTERN_STMT = re.compile(r'^[ \t]*extern\b[^;{}]*?;', re.M | re.S)
+    stmts = [s.group(0) for s in _EXTERN_STMT.finditer(tu)]
+    unit_stmts = [s.group(0) for s in _EXTERN_STMT.finditer(unit)]
+
     for sym in sorted(refs):
-        if re.search(rf'^\s*extern\b[^\n;{{}}]*\b{sym}\b[^\n;{{}}]*;', unit, re.M):
+        if any(re.search(rf'\b{sym}\b', s) for s in unit_stmts):
             continue                                         # already declared inside the unit
-        m = re.search(rf'^\s*(extern\b[^\n;{{}}]*\b{sym}\b[^\n;{{}}]*;)', tu, re.M)
-        if m and sym not in seen:
-            lines.append(m.group(1).strip()); seen.add(sym)
+        if sym in seen:
+            continue
+        hit = next((s for s in stmts if re.search(rf'\b{sym}\b', s)), None)
+        if hit is None:
+            unresolved.append(sym)                           # REPORTED, never silently dropped (R32)
+            continue
+        lines.append(" ".join(hit.split()))                  # collapse the wrap to one legal C line
+        seen.add(sym)
+    if unresolved:
+        print(f"[gather_externs] func_{from_addr:08X}: {len(unresolved)} referenced symbol(s) have NO "
+              f"file-scope decl in {from_ov} — the sibling will not compile: {unresolved[:6]}")
     return lines
 
 
@@ -370,8 +394,26 @@ def symbol_map(addr, from_ov, to_ov, to_addr=None):
         if ke != kt:
             return None, "reloc-kind mismatch (not h_norm-clean)"
         if ae != at:
-            pfx = "func_" if ke == "call" else "D_"
-            m[f"{pfx}{ae:08X}"] = f"{pfx}{at:08X}"
+            # Name the symbol by WHAT THE ADDRESS IS, not by HOW IT WAS LOADED (Phase 26-A audit).
+            #
+            # The prefix used to come from the reloc KIND: `func_` for a `jal`, `D_` for anything else.
+            # But reloc_targets labels every lui/%lo pair "data" — and a FUNCTION's address taken via
+            # lui/%lo (an address-taken callback) is exactly that shape. splat's own .s proves it:
+            # `%lo(func_8017E1D4)` occurs 7 times in ov_SC01_077's asm. For all 7 the map got a
+            # `D_<ADDR>` key while the exemplar's C writes `func_<ADDR>`, so apply_remap's word-bounded
+            # substitution matched NOTHING and silently no-op'd. The sibling body then kept the
+            # EXEMPLAR's function pointer, the whole-binary gate rejected it, and the loss was booked
+            # as a BYTE failure — indistinguishable from a genuine compiler wall. (3 families x 37
+            # still-stubbed members, live.)
+            #
+            # Belt-and-braces: for a data-kind reloc emit BOTH keys. Addresses are unique and
+            # apply_remap is a single simultaneous pass, so only the token that actually appears in the
+            # C can ever match — the extra key is free and cannot mis-substitute.
+            if ke == "call":
+                m[f"func_{ae:08X}"] = f"func_{at:08X}"
+            else:
+                m[f"D_{ae:08X}"] = f"D_{at:08X}"
+                m[f"func_{ae:08X}"] = f"func_{at:08X}"
     return m, None
 
 
@@ -422,6 +464,79 @@ def extract_unit(ov, addr):
                         end = k
                         break
                 return "\n".join(lines[start:end + 1]), cf
+    return _macro_unit(addr)
+
+
+def _macro_unit(addr):
+    r"""Fallback: reconstruct the unit from its SHARED `DEFINE_func_<ADDR>()` macro.
+
+    A function can be MATCHED with no inline definition in ANY .c — once dedup_propagate lifts it, the
+    body lives only as a macro in src/shared/engine_core.h and every overlay carries a bare
+    `DEFINE_func_X()` instantiation. extract_unit globbed only `src/<ov>/<ov>*.c`, so for those it
+    returned None — and the caller reads None as "not matched".
+
+    MEASURED (Phase 26-A audit, CRITICAL): 93 of the 218 h_seq exemplars the manifest calls MATCHED are
+    phantom for exactly this reason, carrying 2,157 candidate members of which **1,834 are still
+    INCLUDE_ASM stubs that are PURE/IMM-clean, symbol_map-clean and unpinned** — i.e. they would be
+    staged and byte-gated today, and were instead dropped before the first build. And because these are
+    the functions dedup lifted precisely BECAUSE their reach is high, the loss is concentrated in the
+    largest families.
+
+    This is an exact INVERSE of dedup_propagate.make_macro(), which built the macro from `externs +
+    def block` as:  `#define DEFINE_func_<ADDR>() \` then, per line, 4 spaces + line.rstrip() + ` \`
+    (no continuation on the last). So the reconstruction IS the unit extract_unit wants — it is derived
+    from the generator, not re-guessed from the text.
+
+    NOTE for callers: the returned path is a HEADER, not a TU. family_sweep must keep using the
+    SIBLING's src_rel for its reconcile/scope_data step."""
+    head = f"#define DEFINE_func_{addr:08X}() \\"
+    for hp in sorted(glob.glob("src/shared/*.h")):
+        lines = open(hp).read().split("\n")
+        for i, ln in enumerate(lines):
+            if ln.rstrip() != head:
+                continue
+            body, j = [], i + 1
+            while j < len(lines):
+                raw = lines[j]
+                cont = raw.rstrip().endswith("\\")
+                stripped = re.sub(r'\s*\\$', '', raw)          # drop the line-continuation
+                body.append(stripped[4:] if stripped.startswith("    ") else stripped)
+                j += 1
+                if not cont:
+                    break
+            return "\n".join(body), hp
+
+    # There is a SECOND shared-body mechanism, and a macro-only fallback would be blind to it: a DIRECT
+    # definition in a shared header, #included per overlay rather than instantiated as a macro. The whale
+    # (func_80144B9C, 770 ins, -O0) is shared exactly that way — config/dedup.us.yaml records it as
+    # `func: func_80144B9C  # ... shared via a HEADER #included in each overlay's -O0 <ov>_o0b.c (NOT a
+    # DEFINE_ macro)`. Costs nothing today (the whale is fully banked), but the shape is armed for the
+    # next shared-header function, and "the tool silently says NOT MATCHED" is precisely the failure
+    # class this audit exists to remove. Be TOTAL over both mechanisms.
+    # COLUMN 0 only. A shared header is mostly MACRO BODIES, and make_macro indents every body line by
+    # exactly 4 spaces — so anchoring at column 0 excludes them by construction. That matters: a macro
+    # body line like `    extern void func_80144B9C(void); \` would otherwise be read as a DEFINITION,
+    # because the trailing line-continuation means the line does not end in ';' and the decl guard never
+    # fires. That is exactly the declaration-read-as-definition bug fixed at commit:0552 — do not re-open
+    # it. The whale's direct definition (`void func_80144B9C(void) {`) is at column 0, as any real
+    # file-scope definition must be.
+    pat = re.compile(rf'^[A-Za-z_][\w \*]*\bfunc_{addr:08X}\s*\(', re.I)
+    for hp in sorted(glob.glob("src/shared/*.h")):
+        lines = open(hp).read().split("\n")
+        for i, ln in enumerate(lines):
+            code = re.sub(r'\s*\\$', '', ln)                       # drop a macro line-continuation FIRST
+            code = re.sub(r'(/\*.*?\*/|//.*)\s*$', '', code).rstrip()
+            if not (pat.search(ln) and "INCLUDE_ASM" not in ln and not code.endswith(";")):
+                continue
+            depth, started, end = 0, False, i
+            for k in range(i, len(lines)):
+                depth += lines[k].count("{") - lines[k].count("}")
+                if "{" in lines[k]:
+                    started = True
+                if started and depth <= 0:
+                    end = k
+                    break
+            return "\n".join(lines[i:end + 1]), hp
     return None, None
 
 

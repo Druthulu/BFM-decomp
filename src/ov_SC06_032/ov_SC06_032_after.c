@@ -691,37 +691,7 @@ INCLUDE_ASM("asm/ov_SC06_032/nonmatchings/ov_SC06_032_after", func_801495C4);
 //   two independent arg setups (`lw $a0,0x20($a0)` vs `addiu $a2,$sp,0x20`) tie in sched2 —
 //   force target order with VOLATILE barriers in textual order pin(&in)->mtx-load->mid.
 
-extern void func_8012F14C(s32);
-extern void func_8012EFB8(s32 a0);
-
-void func_8014964C(s32 param_1, s32 param_2) {
-    Vec3 in;
-    Vec3 out;
-    s32 mid[2];
-    register s32 p2 __asm__("$16");
-    Vec3 *pin;
-    s32 *m1;
-    s32 *m2;
-    s32 mtx;
-
-    p2 = param_2;
-    in.f0 = *(s16 *)(p2 + 2);
-    in.f2 = *(s16 *)(p2 + 6);
-    in.f4 = *(s16 *)(p2 + 0xA);
-    pin = &in;
-    __asm__ __volatile__("" : "=r"(pin) : "0"(pin));
-    mtx = *(s32 *)(param_1 + 0x20);
-    __asm__ __volatile__("" : "=r"(mtx) : "0"(mtx));
-    m1 = mid;
-    __asm__ __volatile__("" : "=r"(m1) : "0"(m1));
-    ((void (*)(s32, Vec3 *, s32 *))func_8012F14C)(mtx + 0x34, pin, m1);
-    m2 = mid;
-    __asm__ __volatile__("" : "=r"(m2) : "0"(m2));
-    ((void (*)(s32 *, Vec3 *))func_8012EFB8)(m2, &out);
-    *(s16 *)(p2 + 2) = out.f0;
-    *(s16 *)(p2 + 6) = out.f2;
-    *(s16 *)(p2 + 0xA) = out.f4;
-}
+DEFINE_func_8014964C()  /* dedup: shared engine-core @0x8014964C (src/shared) */
 
 
 DEFINE_func_801496D4()  /* dedup: shared engine-core @0x801496D4 (src/shared) */
@@ -836,64 +806,7 @@ s32 func_80149FB0(s32 a0) {
 //   (6) setup-store SOURCE order a30,a2e,a2c,a1e,a20,a1c makes the scheduler hold a2c(0xE)
 //   in $v1 (loaded early, stored last at 0x14) while a2e(0xA) stores immediately at 0x12.
 
-extern u8 func_8014BEF8(void);
-extern void func_8012F14C(s32);
-extern s32 func_80135260(s32, s32, s32, s32);
-extern void func_8014A1B0(s32 a0, s32 a1);
-extern u8 D_801202A0[];
-
-s32 func_8014A048(s32 param_1) {
-    Loc L;
-    s32 s0;
-    s32 s2;
-    u32 s3;
-
-    if ((*(u32 *)(param_1 + 0x44) & 0x400) != 0) {
-        return 0;
-    }
-    if ((*(u16 *)(param_1 + 0xAC) & 0x80) == 0) {
-        if ((*(u16 *)(param_1 + 0xAC) & 0x10) == 0) {
-            return 0;
-        }
-        if (((s32 (*)(s32))func_8014BEF8)(param_1) == 0) {
-            goto ret0;
-        }
-    }
-
-    L.a30 = *(s16 *)(param_1 + 6);
-    L.a2e = *(s16 *)(param_1 + 0xA);
-    L.a2c = *(s16 *)(param_1 + 0xE);
-    L.a1e = -0x10;
-    L.a20 = 0;
-    L.a1c = -0x20;
-    ((void (*)(s32, s32, s32))func_8012F14C)(*(s32 *)(param_1 + 0x20) + 0x34, (s32)&L.a20, (s32)L.buf);
-
-    s3 = 0;
-    s2 = 0;
-    while (1) {
-        s0 = (s32)D_801202A0 + s2;
-        __asm__ __volatile__("" : "=r"(s0) : "0"(s0));
-        if ((*(u16 *)s0 != 0) &&
-            (*(s32 *)(s0 + 0x58) != 0) &&
-            (*(s16 *)(s0 + 0xAA) == 0) &&
-            (*(s32 *)(param_1 + 0x184) != s0) &&
-            ((*(u16 *)(s0 + 0x5C) & 0x200) != 0) &&
-            (((s32 (*)(s32, s32, s32, s32))func_80135260)(*(s32 *)(s0 + 0x20), *(s32 *)(s0 + 0x58), (s32)&L.a30, (s32)L.buf) != 0)) {
-            break;
-        }
-        s3++;
-        s2 += 0x10C;
-        if (s3 >= 0x60) {
-            return 0;
-        }
-    }
-
-    *(s32 *)(param_1 + 0x178) = s0;
-    func_8014A1B0(param_1, s0);
-    return 1;
-ret0:
-    return 0;
-}
+DEFINE_func_8014A048()  /* dedup: shared engine-core @0x8014A048 (src/shared) */
 
 
 DEFINE_func_8014A1B0()  /* dedup: shared engine-core @0x8014A1B0 (src/shared) */
@@ -1130,11 +1043,7 @@ DEFINE_func_8014C860()  /* dedup: shared engine-core @0x8014C860 (src/shared) */
 DEFINE_func_8014C88C()  /* dedup: shared engine-core @0x8014C88C (src/shared) */
 
 
-void func_8014C8C8(s32 dst, s32 * src)
-{
-    *(struct up *)(dst + 0x15c) = *(struct up *)(src + 0);
-    *(s16 *)(dst + 0x162) = 0;
-}
+DEFINE_func_8014C8C8()  /* dedup: shared engine-core @0x8014C8C8 (src/shared) */
 
 
 DEFINE_func_8014C8F0()  /* dedup: shared engine-core @0x8014C8F0 (src/shared) */
@@ -1330,58 +1239,7 @@ INCLUDE_ASM("asm/ov_SC06_032/nonmatchings/ov_SC06_032_after", func_8014D820);
 DEFINE_func_8014DCE0()  /* dedup: shared engine-core @0x8014DCE0 (src/shared) */
 
 
-s32 func_8014DD8C(s32 arg0, void *arg1, void *arg2) {
-    extern u8 D_801202A0[];
-    extern u8 D_80126720[];
-    extern s32 ratan2(s32 a0, s32 a1);
-    extern s32 func_80012A60(s32 a0, s32 a1);
-    extern s32 func_80135A4C(s32 a0, s32 a1, s32 *a2, s32 a3);
-
-    s16 temp_s0;
-    s32 temp_s0_2;
-    s16 temp_s1;
-    s16 temp_v0;
-    s16 temp_v1;
-    s32 temp_a1;
-    s8 *var_s2;
-    s8 *var_s3;
-
-    __asm__ __volatile__("" :: "r"(((void *)arg0)));
-    temp_v0 = M2C_FIELD(arg2, u16 *, 0) - M2C_FIELD(arg1, u16 *, 0);
-    temp_v1 = M2C_FIELD(arg2, u16 *, 4) - M2C_FIELD(arg1, u16 *, 4);
-    if (((temp_v0 | temp_v1) << 0x10) != 0) {
-        var_s3 = (s8 *) D_801202A0;
-        if (var_s3 < var_s3 + 0x6480) {
-            var_s2 = var_s3 + 0xE;
-            __asm__ __volatile__("" :: "r"(var_s2));
-loop_3:
-            if (M2C_FIELD(var_s3, u16 *, 0) != 0) {
-                temp_a1 = M2C_FIELD(var_s2, s32 *, 0x4A);
-                if ((temp_a1 != 0) && (M2C_FIELD(var_s2, u16 *, 0x4E) & 0x1000) && (func_80135A4C(M2C_FIELD(var_s2, s32 *, 0x12), temp_a1, (s32 *)arg1, (s32)arg2) != 0)) {
-                    temp_s1 = M2C_FIELD(var_s2, u16 *, -8) - M2C_FIELD(((void *)arg0), u16 *, 6);
-                    temp_s0 = M2C_FIELD(var_s2, u16 *, 0) - M2C_FIELD(((void *)arg0), u16 *, 0xE);
-                    temp_s0_2 = (s16) ratan2(temp_v1, temp_v0);
-                    if ((s16) func_80012A60(temp_s0_2, (s16) ratan2(temp_s0, temp_s1)) < 0x400) {
-                        M2C_FIELD(((void *)arg0), s8 **, 0x170) = var_s3;
-                        M2C_FIELD(((void *)arg0), u16 *, 6) = (u16) M2C_FIELD(arg2, u16 *, 0);
-                        M2C_FIELD(((void *)arg0), s16 *, 0xA) = (s16) (M2C_FIELD(arg2, u16 *, 2) + 0x10);
-                        M2C_FIELD(((void *)arg0), u16 *, 0xE) = (u16) M2C_FIELD(arg2, u16 *, 4);
-                        return 1;
-                    }
-                }
-            }
-            var_s3 += 0x10C;
-            var_s2 += 0x10C;
-            if ((u32) var_s3 >= (u32) D_80126720) {
-                goto block_10;
-            }
-            goto loop_3;
-        }
-        return 0;
-    }
-block_10:
-    return 0;
-}
+DEFINE_func_8014DD8C()  /* dedup: shared engine-core @0x8014DD8C (src/shared) */
 
 
 

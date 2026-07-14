@@ -373,9 +373,9 @@ DEFINE_func_8012BFA8()  /* dedup: shared engine-core @0x8012BFA8 (src/shared) */
 
 DEFINE_func_8012C044()  /* dedup: shared engine-core @0x8012C044 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC03_012/nonmatchings/ov_SC03_012_jr_8012ACE0", func_8012C098);
+DEFINE_func_8012C098()  /* dedup: shared engine-core @0x8012C098 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC03_012/nonmatchings/ov_SC03_012_jr_8012ACE0", func_8012C0EC);
+DEFINE_func_8012C0EC()  /* dedup: shared engine-core @0x8012C0EC (src/shared) */
 
 DEFINE_func_8012C194()  /* dedup: shared engine-core @0x8012C194 (src/shared) */
 
@@ -403,7 +403,7 @@ INCLUDE_ASM("asm/ov_SC03_012/nonmatchings/ov_SC03_012_jr_8012ACE0", func_8012C65
 
 DEFINE_func_8012C724()  /* dedup: shared engine-core @0x8012C724 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC03_012/nonmatchings/ov_SC03_012_jr_8012ACE0", func_8012C750);
+DEFINE_func_8012C750()  /* dedup: shared engine-core @0x8012C750 (src/shared) */
 
 DEFINE_func_8012C820()  /* dedup: shared engine-core @0x8012C820 (src/shared) */
 
@@ -708,24 +708,7 @@ DEFINE_func_8012E57C()  /* dedup: shared engine-core @0x8012E57C (src/shared) */
 
 // @class: schedule
 // @stuck: none — MATCH
-extern u8 D_800AF648;
-extern void func_8004914C(void *a0);
-extern void func_800491AC(void *a0);
-extern s32 RotTransPers(s32 a0, s32 a1, s32 *a2, s32 *a3);
-extern void func_8002D4C8(s32 a0, s32 a1);
-
-void func_8012E5CC(s32 param_1, u16 param_2, u16 param_3)
-{
-    struct { short xy[2]; int sp14; int flag; } f;
-    register void *p __asm__("$4");
-    p = &D_800AF648;
-    func_8004914C(p);
-    func_800491AC(&D_800AF648);
-    RotTransPers(param_1, (s32)f.xy, &f.sp14, &f.flag);
-    if (f.flag >= 0 && (u16)(f.xy[0] + 199) < 399 && (u16)(f.xy[1] + 0xA9) < 0x153) {
-        func_8002D4C8(param_2, param_3);
-    }
-}
+DEFINE_func_8012E5CC()  /* dedup: shared engine-core @0x8012E5CC (src/shared) */
 
 
 DEFINE_func_8012E688()  /* dedup: shared engine-core @0x8012E688 (src/shared) */
@@ -796,20 +779,7 @@ INCLUDE_ASM("asm/ov_SC03_012/nonmatchings/ov_SC03_012_jr_8012ACE0", func_8012EFB
 // @class: other
 // @stuck: none — MATCH (33 ins, match_one verified)
 
-extern void ApplyTransposeMatrixLV(void *a0, void *a1, void *a2);
-
-void func_8012F038(int param_1, short *param_2, short *param_3) {
-    int in[3];
-    int out[3];
-
-    in[0] = (int)param_2[0] - *(int *)(param_1 + 0x14);
-    in[1] = (int)param_2[1] - *(int *)(param_1 + 0x18);
-    in[2] = (int)param_2[2] - *(int *)(param_1 + 0x1c);
-    ApplyTransposeMatrixLV((void *)param_1, in, out);
-    param_3[0] = out[0];
-    param_3[1] = out[1];
-    param_3[2] = out[2];
-}
+DEFINE_func_8012F038()  /* dedup: shared engine-core @0x8012F038 (src/shared) */
 
 
 DEFINE_func_8012F0BC()  /* dedup: shared engine-core @0x8012F0BC (src/shared) */
@@ -817,17 +787,7 @@ DEFINE_func_8012F0BC()  /* dedup: shared engine-core @0x8012F0BC (src/shared) */
 
 // @class: plumbing
 // @stuck: none — MATCH (clone of confirmed func_8012F214 template; passthrough a0)
-extern void func_8004914C(void *a0);
-extern void func_800491AC(void *a0);
-extern void RotTransSV(s32 a0, s32 a1, void *a2);
-
-void func_8012F14C(s32 a0, s32 a1, s32 a2)
-{
-    s32 buf[2];
-    func_8004914C((void *)a0);
-    func_800491AC((void *)a0);
-    RotTransSV(a1, a2, buf);
-}
+DEFINE_func_8012F14C()  /* dedup: shared engine-core @0x8012F14C (src/shared) */
 
 
 DEFINE_func_8012F1A4()  /* dedup: shared engine-core @0x8012F1A4 (src/shared) */

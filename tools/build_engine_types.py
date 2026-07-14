@@ -158,13 +158,40 @@ def main():
     if not defs and not tdefs:
         sys.exit('no named struct/union/typedef defs found')
 
-    # safety: a `typedef struct Tag {...} Alias;` would be matched by BOTH finders (overlapping spans),
-    # and stripping both corrupts the source. Our source has only ANONYMOUS-struct typedefs (no tag),
-    # so assert no overlap rather than silently corrupt; a future tagged-struct typedef errors loudly.
-    for _, _, ds, de in defs:
-        for _, _, ts, te in tdefs:
-            if ds < te and ts < de:
-                sys.exit('[overlap] a tagged-struct typedef matched both finders — handle manually')
+    # A `typedef struct Tag {...} Alias;` is matched by BOTH finders (overlapping spans), and lifting or
+    # stripping both would corrupt the source. The old guard therefore sys.exit'd on ANY overlap, with the
+    # comment "our source has only ANONYMOUS-struct typedefs (no tag)".
+    #
+    # That was true in Phase 20 and is now false: the harvest agents write their guessed overlay-local
+    # structs in the TAGGED form. MEASURED (Phase 26-A audit, CRITICAL): 1,929 tagged typedefs, in
+    # **573 of the 709 type-bearing overlay .c (81%), across all 134 overlays** — so this tool hard-exits
+    # on four fifths of its own corpus. And inject_capped_externs routes every type-bearing body HERE as
+    # the type-heavy tail's ONLY sanctioned unblocker (§28b). This is the "3,098 type-heavy tail" and the
+    # 9 zero-bank type-using families.
+    #
+    # It went unfixed for the most instructive reason in the whole audit: it FAILS LOUD. It was never a
+    # silent skip — it printed "[overlap] ... handle manually" every time. But the message reads like a
+    # rare edge case rather than an 81% coverage failure, so nobody measured it. A loud failure nobody
+    # counts is as invisible as a silent one.
+    #
+    # The guard is simply over-conservative. A CONTAINED def (the typedef's span encloses the struct body)
+    # is perfectly liftable — the typedef already carries the body; it just must not be counted twice.
+    # Only a PARTIAL overlap is the malformed case the guard was actually written for.
+    contained = [d for d in defs if any(ts <= d[2] and d[3] <= te for _, _, ts, te in tdefs)]
+    partial = [d for d in defs
+               if any(ts < d[3] and d[2] < te for _, _, ts, te in tdefs) and d not in contained]
+    if partial:
+        sys.exit(f'[overlap] {len(partial)} PARTIAL def/typedef span overlap(s) — genuinely malformed, '
+                 f'handle manually: {[d[1] for d in partial[:5]]}')
+    if contained:
+        # the typedef carries the body -> do not lift or strip it a second time. Emit a `struct Tag;`
+        # forward decl for each so pointer-only references to the tag still resolve.
+        tagged_fwd = sorted({(k, n) for k, n, _, _ in contained})
+        defs = [d for d in defs if d not in contained]
+        print(f'[types] {len(contained)} tagged-struct typedef(s) folded into their typedef '
+              f'(forward-declared): {[n for _, n in tagged_fwd[:6]]}')
+    else:
+        tagged_fwd = []
 
     # dedup named structs by (kind, name); keep first (scoped check already proved 0 layout collisions)
     seen, ordered = set(), []
@@ -226,6 +253,11 @@ def main():
            '#include "common.h"', '']
     # forward decls first (lets pointer-only references resolve regardless of order)
     for kind, name, _ in ordered:
+        out.append(f'{kind} {name};')
+    # ...including the TAGGED structs whose body is carried by their own typedef below (Phase 26-A).
+    # The body is emitted once, by the typedef; the tag still needs a forward decl so a pointer-only
+    # reference (`struct Tag *p;`) resolves.
+    for kind, name in tagged_fwd:
         out.append(f'{kind} {name};')
     out.append('')
     # full named-struct definitions in source order (source order is compile-valid for by-value nesting)

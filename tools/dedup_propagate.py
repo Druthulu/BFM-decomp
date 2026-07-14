@@ -90,11 +90,23 @@ def overlay_files(ov):
     """[(path, asm_subdir)] for ov's source file(s): the main .c plus any Phase-19 split files
     (ov_SC01_077_a.c / _o0.c). Single-file overlays return just the main .c — default behaviour
     preserved. Lets a fn matched in a split file propagate ×reach (its stub/def lives in _a/_o0)."""
+    # DERIVED from the tree — a GLOB, never an allowlist (Phase 26-A audit, HIGH).
+    #
+    # This was a hardcoded suffix list ("_a","_o0","_o0b","_after") that predated the Phase-26 jr
+    # carves, so it returned 404 of the fleet's 811 overlay .c. The 407-file gap held **36,135
+    # INCLUDE_ASM stubs and ~32,000 inline defs — half the corpus** — and overlay_files gates ALL of
+    # dedup_propagate (source_text / find_site / apply_plan / struct_check / reconcile_caller_extern).
+    # 435 of ov_SC01_077's 689 inline defs were invisible to --auto-from.
+    #
+    # It is also WHY the 4 functions in .run/audit/a1_harvest_fuel.json were never propagated: three
+    # of them are defined in ov_SC01_077_jr_8012ACE0.c, which this list could not see. The dedup group
+    # was registered anyway and dedup_integrate greenlit the lie (A1). Two silent-skip bugs compounding.
+    #
+    # Do NOT "fix" this by adding _jr_* to the tuple: the NEXT split family would re-open the hole.
+    # The asm_subdir is always the file stem — an invariant the four old entries already satisfied.
     out = [(c_path(ov), ov)]
-    for suf in ("_a", "_o0", "_o0b", "_after"):   # incl. the Phase-24 whale split (_o0b/_after)
-        p = ROOT / f"src/{ov}/{ov}{suf}.c"
-        if p.exists():
-            out.append((p, f"{ov}{suf}"))
+    for p in sorted(ROOT.glob(f"src/{ov}/{ov}_*.c")):
+        out.append((p, p.stem))
     return out
 
 
@@ -130,20 +142,59 @@ def find_site(text, ov, addr):
     # SAFE against indented CALL-exprs: the pattern requires a TYPE prefix ([A-Za-z_][\w \*]*, which
     # admits neither '(' nor '=') before the name AND the whole line to BE the signature (ends ')' or
     # '){'), so `if (func_X(...)) {`, `x = func_X(...);`, and a bare `func_X(a);` call never match.
-    defre = re.compile(rf"^\s*[A-Za-z_][\w \*]*\b{s}\s*\([^;{{]*\)\s*(\{{)?\s*$")
+    # The signature HEAD. Anchored on a type prefix ([A-Za-z_][\w \*]*, which admits neither '(' nor
+    # '=') followed by the name and an open paren — so `if (func_X(...))`, `x = func_X(...);` and a
+    # bare `func_X(a);` call can never match. Deliberately NOT anchored on the line ENDING in ')':
+    # that anchor silently dropped every MULTI-LINE signature (Phase 26-A audit).
+    defhead = re.compile(rf"^\s*[A-Za-z_][\w \*]*\b{s}\s*\(")
+    # A K&R parameter declaration, e.g. `s32 arg0;` / `struct S *p[4];`
+    kr_param = re.compile(r"^\s*[A-Za-z_][\w \t\*]*\b\w+\s*(\[[^\]]*\])?\s*;\s*$")
     for i, l in enumerate(lines):
-        m = defre.match(l)
+        m = defhead.match(l)
         if not m:
             continue
-        # locate the opening brace: same line, or the next non-blank line (else it's a prototype)
-        bstart = i
-        if not m.group(1):
-            j = i + 1
-            while j < len(lines) and lines[j].strip() == "":
-                j += 1
-            if j >= len(lines) or not lines[j].lstrip().startswith("{"):
-                continue
-            bstart = j
+        # Walk from the '(' that opens the parameter list to ITS matching ')', character by character
+        # and across lines. Do NOT use line.count('(')-count(')') or split(')')[-1]: a single-line body
+        # containing a call (`void f(int a) { g(a); }`) has balanced parens of its own, so both
+        # shortcuts land on the WRONG paren and then misread the body's `;` as a prototype terminator.
+        depth, li, ci = 0, i, m.end() - 1
+        while li < len(lines):
+            line = lines[li]
+            while ci < len(line):
+                if line[ci] == "(":
+                    depth += 1
+                elif line[ci] == ")":
+                    depth -= 1
+                    if depth == 0:
+                        break
+                ci += 1
+            if depth == 0 and ci < len(lines[li]):
+                break
+            li += 1
+            ci = 0
+        if li >= len(lines):
+            continue
+        close = li                      # the line on which the parameter list closes
+        rest = lines[close][ci + 1:]    # everything AFTER the signature's own ')'
+        if rest.lstrip().startswith(";"):
+            continue                    # `... );`  -> a PROTOTYPE, not a definition
+        tail = rest
+        # locate the body's opening brace. It is on the closing line, OR on a following line — and in
+        # a K&R definition the PARAMETER DECLARATIONS sit between ')' and '{'. The old code demanded
+        # the next non-blank line start with '{', so it silently dropped EVERY K&R definition — which
+        # is the project's house style for exactly the biggest, highest-reach functions (func_8015AE2C
+        # 562 ins, func_80166994, func_80133CD4, func_8015A3C8). Those live in the _jr_* files this
+        # function could not even open until the overlay_files glob above; fixing one without the other
+        # would have exposed the files and still dropped their biggest prizes.
+        if "{" in tail:
+            bstart = close             # single-line body / brace on the signature line
+        else:
+            k = close + 1
+            while k < len(lines) and (lines[k].strip() == "" or kr_param.match(lines[k])):
+                k += 1                 # skip blanks AND K&R parameter declarations
+            if k >= len(lines) or "{" not in lines[k]:
+                continue               # no body -> a prototype
+            bstart = k
         if True:
             # brace-match forward to the closing '}'
             depth = 0
