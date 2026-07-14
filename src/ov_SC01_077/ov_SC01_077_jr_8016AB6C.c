@@ -4030,7 +4030,21 @@ DEFINE_func_8017197C()  /* dedup: shared engine-core @0x8017197C (src/shared) */
 
 DEFINE_func_80171990()  /* dedup: shared engine-core @0x80171990 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_8016AB6C", func_801719A4);
+extern void *D_8011F738;
+
+void func_801719A4(int a0, int a1)
+{
+    u32 i;
+    s32 off;
+    s32 pad[1];
+    for (i = 0; i < a1; i++) {
+        off = i * 4;
+        *(s32*)((s32)&D_8011F738 + off) =
+            *(s32*)(((*(u8*)(a0 + 0x214) + i) << 2) + *(s32*)(a0 + 0x1FC));
+    }
+    *(u8*)(a0 + 0x214) += i;
+}
+
 
 DEFINE_func_80171A04()  /* dedup: shared engine-core @0x80171A04 (src/shared) */
 
@@ -4229,7 +4243,17 @@ DEFINE_func_80172BC8()  /* dedup: shared engine-core @0x80172BC8 (src/shared) */
 
 DEFINE_func_80172C48()  /* dedup: shared engine-core @0x80172C48 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_8016AB6C", func_80172C50);
+extern void func_80174684(void *);
+extern s32 func_80172CA0(void*);
+
+struct S80172C50 { s32 a; s32 b; } __attribute__((packed));
+extern s16 D_80126B30;
+
+void func_80172C50(struct S80172C50 *a0) {
+    (*(struct S80172C50 *)&D_80126B30) = *a0;
+    func_80174684((void *)func_80172CA0);
+}
+
 
 extern s32 (*D_8018A0D0[])(void *);
 

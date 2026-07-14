@@ -4547,9 +4547,65 @@ void func_8017D8F0(void) {
     D_8012694C = 0;
 }
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_80178D40", func_8017D900);
+// @class: plumbing
+// @stuck: none — expect MATCH (STUB: ordered global stores + single tail call, sibling of func_8017D840)
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_80178D40", func_8017D98C);
+extern void func_80174E9C(s32 a0);
+
+extern s32 D_80126950;
+extern s32 D_80126954;
+extern s32 D_8012695C;
+extern s16 D_80126968;
+extern s16 D_8012696A;
+extern s16 D_8012696C;
+extern s16 D_80126976;
+extern s16 D_80126978;
+extern s16 D_8012697A;
+extern u8 D_801B1DAC;
+
+M2C_UNK func_8017D900(void)
+{
+    D_80126950 = 0x1F4;
+    D_80126954 = 0x1F4;
+    D_8012695C = 0x320;
+    D_80126968 = 0x60;
+    D_8012696A = 0x800;
+    D_80126976 = 0x18;
+    D_80126978 = -0x80;
+    D_8012696C = 0;
+    D_8012697A = -0x7D;
+    ((void (*)(void *))func_80174E9C)(&D_801B1DAC);
+}
+
+
+// @class: plumbing
+// @stuck: none — MATCH (expected): straight global stores + tail call; const 0x140 reused for two halves
+
+extern s32 D_80126954;
+extern s32 D_8012695C;
+extern s16 D_80126968;
+extern s16 D_8012696A;
+extern s16 D_8012696C;
+extern s16 D_80126976;
+extern s16 D_80126978;
+extern s16 D_8012697A;
+
+extern s32 func_8017DA08(void *a0);
+extern void func_8012A018(s32 a, s32 b);
+
+M2C_UNK func_8017D98C(void)
+{
+    D_80126954 = 0x15E;
+    D_8012695C = 600;
+    D_80126968 = 0x1C2;
+    D_8012696A = 0x600;
+    D_8012696C = 0;
+    D_80126976 = 0x140;
+    D_80126978 = 0;
+    D_8012697A = 0x140;
+    ((void (*)(void (*fn)(void), int))func_8012A018)(func_8017DA08, 0);
+}
+
 
 extern s32 (*D_8018A530[])(void *);
 
@@ -5371,9 +5427,81 @@ void func_8017F0B4(u8 *a0) {
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_80178D40", func_8017F114);
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_80178D40", func_8017F240);
+// @class: regalloc-order
+// @stuck: none — MATCH (base &D_801270D0 pinned to $s0 holds across call; one lui/addiu reused for load+store)
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_80178D40", func_8017F290);
+extern s32 D_801270D0;
+extern u8 D_8018A868;
+extern s32 func_8012C51C(void *a0, s32 a1);
+
+M2C_UNK func_8017F240(void)
+{
+    register s32 *p __asm__("$16");
+    p = &D_801270D0;
+    if (*p == 0) {
+        ((void (*)(u8 *, s32))func_8012C51C)(&D_8018A868, 0);
+        *p = 1;
+    }
+}
+
+
+// @class: regalloc-order
+// @stuck: none — MATCH. Two levers: (1) hold &D_801270CC in a `int *state` local so its
+//   address lives in a saved reg ($s0) across calls (raw `D_801270CC` re-materializes per access);
+//   (2) write case 0 as `if(==8){...state=2}else{...state=1;return;}` so the ==8 path falls
+//   through to the gcc-cross-jump-merged CC=2 tail (the !=8 path branches out to L32C, matching `bne`).
+
+extern int D_801270CC;
+extern int D_801270D4;
+extern u16 D_80126B66;
+extern unsigned char D_80078EC1;
+
+extern void func_8016EDEC(s32 a0, s32 a1, s32 a2);
+extern void func_8017E1D4(void *arg0);
+extern void func_8017E748(void *arg0);
+extern void func_8017E868(void *arg0);
+
+void func_8017F290(void)
+{
+    int *state = &D_801270CC;
+    switch (*state) {
+    case 0:
+        if ((*(short *)&D_80126B66) < 0x600) {
+            return;
+        }
+        if ((D_80078EC1 & 0x7F) == 8) {
+            ((void (*)(void *, int))func_8016EDEC)(func_8017E1D4, 0x1000000);
+            *state = 2;
+        } else {
+            ((void (*)(void *, int))func_8016EDEC)(func_8017E1D4, 0x1000000);
+            *state = 1;
+            return;
+        }
+        break;
+    case 1:
+        if ((D_80078EC1 & 0x7F) != 8) {
+            return;
+        }
+        ((void (*)(void *, int))func_8016EDEC)(func_8017E748, 0x1000000);
+        *state = 2;
+        break;
+    case 2:
+        if (D_801270D4 == 0) {
+            return;
+        }
+        *state = 3;
+        D_801270D4 = D_801270D4 + 1;
+        ((void (*)(void *, int))func_8016EDEC)(func_8017E868, 0x1000000);
+        break;
+    case 3:
+        if (D_801270D4 == 0) {
+            return;
+        }
+        D_801270D4 = D_801270D4 + 1;
+        break;
+    }
+}
+
 
 extern s32 (*D_8018A87C[])();
 
