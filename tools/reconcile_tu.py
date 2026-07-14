@@ -1,257 +1,188 @@
 #!/usr/bin/env python3
 """reconcile_tu.py — conform a draft's DATA declarations to what the TARGET TU can actually SEE.
 
-The successor to `reconcile_decls.py` for the templating/banking path. Two things are wrong with that
-tool, and the second is structural, not a typo (Phase-26 session-8 scanner audit):
+THE SUCCESSOR TO reconcile_decls.py, and the reason is structural, not a typo.
 
-  1. ITS REGEX IS BLIND TO FUNCTION POINTERS. `DATA_DECL_LINE_RE` wants `extern <type-words> D_x[];`,
-     so the `(` in
-         extern void (*D_801DA75C)(void);            <- fn-ptr scalar
-         extern void (*D_801812A4[])(void *);        <- fn-ptr array (a dispatch table)
-     breaks the type run and the line never matches. The tool then SILENTLY SKIPS exactly the symbols
-     that are failing and reports success — the classic silent skip. (Blocking func_8017A4AC, 536 ins
-     x134 = 287 KB, today.)
+    reconcile_decls asks "what does the FLEET call this symbol?"
+    C asks           "what does THIS TRANSLATION UNIT declare?"
 
-  2. ITS ORACLE ASKS THE WRONG QUESTION. It elects a canonical decl by FLEET MAJORITY (engine_core.h
-     first-seen, else a plurality vote across all overlays). But this engine is loosely typed: 34.4% of
-     fleet symbols carry >= 2 mutually incompatible decl spellings, so a single fleet-wide answer is
-     **provably wrong for some TU by construction** — and it is worse than a skip, because it hands back
-     an ACTIVELY WRONG decl (measured: 3,717 symbols) that then collides with the very macro it was
-     supposed to conform to.
+Those are different questions, and only the second one has an answer. This engine is loosely typed:
+the same address is legitimately declared with incompatible types in different overlays, so a single
+fleet-wide answer is **wrong for some TU by construction** — and it is worse than a silent skip,
+because it hands back an ACTIVELY WRONG declaration that then collides with the very TU it was
+supposed to conform to. Measured on ov_SC01_077's 12 TUs (Phase 26-A):
 
-The question is never "what does the fleet call this symbol". It is **"what can THIS TU see"** — because
-that, and only that, is what gcc compares the draft's decl against. So:
+    the fleet oracle AGREES with the TU's own declaration ...... 2883
+    the fleet oracle CONFLICTS with it (cc1 REJECTS the result) . 548     <- 16%
+    the TU declares it and the fleet oracle has NO answer ....... 357
 
-  * Reconstruct the TU's VISIBLE file-scope decl environment above the insertion point, from BOTH
-    sources (the §8c law — a decl can be invisible to any col-0 text scan):
-        (a) col-0 `extern ...;` lines in the .c, and
-        (b) MACRO-INJECTED externs — a `DEFINE_func_*()` / `SETTER()` / `RETCONST()` invocation expands
-            at FILE scope, so its leading `extern`s are genuine file-scope declarations of the invoking
-            TU even though they live in engine_core.h (1,801 macros / ~1,462 symbols).
-  * If the symbol has NO visible decl -> no conflict is possible; leave the draft's decl alone (and let
-    `scope_data_externs` (§8d) demote it, so it establishes no global the TU's own later block-scope
-    externs would then have to agree with).
-  * If it HAS one and the draft agrees -> nothing to do.
-  * If it HAS one and the draft disagrees -> the TU's decl WINS (it is the environment; we are the
-    guest). Rewrite the draft's decl to the visible one and CAST AT EVERY USE so the access the draft
-    intended is preserved. gcc-2.7.2 folds a compile-time cast of a known symbol, so the emitted bytes
+and it is live: it rewrote 60 of 196 drafts in the current batch.
+
+WHAT THIS DOES INSTEAD
+======================
+  * Ask cpp what the TU actually declares (`cdecl.tu_scope` — so macro-injected `DEFINE_func_*`
+    externs are visible; a raw text scan cannot see them, §8c / cookbook §51g LAW 7).
+  * Ask cc1 whether the draft's declaration can coexist with it (`cdecl.compatible`, validated
+    against the real gcc-2.7.2 front end on 1,485 live pairs — NOT against the C standard and NOT
+    against modern gcc, which give different answers; §51g LAW 9).
+  * NO visible declaration -> no conflict is possible -> LEAVE THE DRAFT ALONE. Its extern types are
+    load-bearing (%lo-folding, access width, alignment all key off the declared type), and
+    scope_data_externs (§8d) will demote it to block scope so it establishes no global that the TU's
+    own later block-scope externs would have to agree with.
+  * A visible, COMPATIBLE declaration -> nothing to do.
+  * A visible, CONFLICTING declaration -> **the TU wins** (it is the environment; we are the guest).
+    Rewrite the draft's decl to the TU's, and CAST AT EVERY USE so the access the draft intended is
+    preserved exactly. gcc-2.7.2 folds a compile-time cast of a known symbol, so the emitted bytes
     are unchanged — and the whole-binary byte-gate (G3/P9) remains the sole arbiter either way.
 
-COVERAGE ASSERTION (the rule ratified 2026-07-14: a scanner over the corpus must assert its own
-coverage; a silent skip is a DEFECT, not a no-op). Every line in the draft that LOOKS like an extern
-declaration of a `D_` symbol must be parsed by one of the forms below. Any that is not is reported
-LOUDLY (and `--strict` exits non-zero) instead of being quietly ignored.
+WHICH TU? DERIVED, NEVER HAND-PASSED (§51g LAW 10)
+==================================================
+`--src-file` was an OPTIONAL flag defaulting to `src/<ov>/<ov>.c`. ov_SC01_077 has **263 open stubs
+across 12 TUs and only 13 of them are in the main .c**, so 95% of drafts were being reconciled
+against a translation unit that would never compile them. The INCLUDE_ASM line is self-describing;
+`corpus.stubs()` reads it. Ask, don't assume.
 
 Usage:
-    from reconcile_tu import fix
-    body, notes = fix(body, tu_text, insert_pos, self_fn)
-
-    tools/reconcile_tu.py --body draft.c --tu src/ov_X/ov_X.c --func func_Y [--out out.c] [--strict]
+    tools/reconcile_tu.py --overlay ov_SC01_077 --in <drafts> --out <dir> [--src-file <tu.c>]
+    from reconcile_tu import fix;  body, notes = fix(body, tu_path, fn)
 """
 import argparse
+import glob
+import importlib.util
 import os
 import re
 import sys
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-ENGINE_CORE = os.path.join(REPO, 'src/shared/engine_core.h')
-
-# ---- the three declaration FORMS a D_ symbol can take -------------------------------------------
-# plain data: `extern u8 D_x[];`  `extern struct S D_x;`  `extern s32 *D_x;`
-PLAIN_RE = re.compile(
-    r'^([ \t]*)extern\s+([A-Za-z_][\w \t]*?)\s*(\*?)\s*\b(D_[0-9A-Fa-f]+)\b\s*(\[[^\]]*\])?\s*;'
-    r'[ \t]*(?:/\*.*?\*/)?[ \t]*\\?[ \t]*$')
-# fn-ptr scalar: `extern void (*D_x)(void);`   fn-ptr array: `extern void (*D_x[])(void *);`
-FNPTR_RE = re.compile(
-    r'^([ \t]*)extern\s+([A-Za-z_][\w \t\*]*?)\s*\(\s*\*\s*\b(D_[0-9A-Fa-f]+)\b\s*(\[[^\]]*\])?\s*\)'
-    r'\s*\(([^;]*)\)\s*;[ \t]*(?:/\*.*?\*/)?[ \t]*\\?[ \t]*$')
-# the COVERAGE ORACLE — deliberately over-approximating: anything that looks like an extern of a D_ sym
-CANDIDATE_RE = re.compile(r'^[ \t]*extern\b[^;]*\bD_[0-9A-Fa-f]+\b[^;]*;')
-# a macro invocation at file scope, whose expansion injects file-scope externs (§8c)
-MACRO_CALL_RE = re.compile(r'^(DEFINE_func_[0-9A-Fa-f]+|SETTER|RETCONST)\s*\(')
 
 
-def parse_decl(line):
-    """-> (sym, decl_text, kind, elem, params) or None.
-    kind in {'plain','array','ptr','fnptr','fnarr'}; params only for the fn-ptr kinds."""
-    m = FNPTR_RE.match(line)
-    if m:
-        ret, sym, arr, params = m.group(2), m.group(3), m.group(4), m.group(5)
-        return (sym, line.strip().rstrip('\\').strip(),
-                'fnarr' if arr else 'fnptr',
-                re.sub(r'\s+', ' ', ret).strip(), re.sub(r'\s+', ' ', params).strip())
-    m = PLAIN_RE.match(line)
-    if m:
-        base, star, sym, arr = m.group(2), m.group(3), m.group(4), m.group(5)
-        kind = 'array' if arr else ('ptr' if star else 'plain')
-        return (sym, line.strip().rstrip('\\').strip(), kind,
-                re.sub(r'\s+', ' ', base).strip(), None)
-    return None
+def _load(mod, rel):
+    spec = importlib.util.spec_from_file_location(mod, os.path.join(REPO, rel))
+    m = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(m)
+    return m
 
 
-def _norm(kind, elem, params):
-    """Spelling-insensitive identity: int-family aliases are byte-identical to cast between."""
-    e = re.sub(r'\b(s32|u32|int|unsigned int|unsigned|long|unsigned long|u_long)\b', 'int', elem or '')
-    p = re.sub(r'\b(s32|u32|int|unsigned int|unsigned|long)\b', 'int', params or '')
-    return (kind, re.sub(r'\s+', ' ', e).strip(), re.sub(r'\s+', ' ', p).strip())
+cdecl = _load('cdecl', 'tools/cdecl.py')
+corpus = _load('corpus', 'tools/corpus.py')
 
 
-# ---- the TU-VISIBLE oracle ----------------------------------------------------------------------
-_MACRO_EXTERNS = None
-
-
-def _macro_externs():
-    """{macro_name: [extern lines]} — the file-scope decls each engine_core.h macro INJECTS into its
-    invoking TU. Invisible to any col-0 scan of the .c, and load-bearing (§8c)."""
-    global _MACRO_EXTERNS
-    if _MACRO_EXTERNS is not None:
-        return _MACRO_EXTERNS
-    _MACRO_EXTERNS = {}
-    if not os.path.exists(ENGINE_CORE):
-        return _MACRO_EXTERNS
-    lines = open(ENGINE_CORE).read().splitlines()
-    hdr = re.compile(r'^#define\s+(DEFINE_func_[0-9A-Fa-f]+|SETTER|RETCONST)\b')
-    i = 0
-    while i < len(lines):
-        m = hdr.match(lines[i])
-        if not m:
-            i += 1
-            continue
-        name, ext, j = m.group(1), [], i
-        while j < len(lines):
-            s = lines[j].strip().rstrip('\\').strip()
-            if s.startswith('extern'):
-                ext.append(s if s.endswith(';') else s + ';')
-            if not lines[j].rstrip().endswith('\\'):
-                break
-            j += 1
-        _MACRO_EXTERNS.setdefault(name, []).extend(ext)
-        i = j + 1
-    return _MACRO_EXTERNS
-
-
-def tu_visible(tu_text, pos):
-    """{sym: (decl_text, kind, elem, params)} for every DATA symbol declared at FILE scope ABOVE `pos`.
-    Both §8c sources: col-0 externs in the .c, AND the externs injected by macro invocations above pos.
-    (All visible decls of one symbol must already be mutually compatible — the TU compiles today — so
-    the FIRST one is a sound canonical.)"""
-    seen = {}
-    macros = _macro_externs()
-    for ln in tu_text[:pos].split('\n'):
-        cand = None
-        mm = MACRO_CALL_RE.match(ln)
-        if mm:
-            for e in macros.get(mm.group(1), []):
-                p = parse_decl(e)
-                if p and p[0] not in seen:
-                    seen[p[0]] = p[1:]
-            continue
-        if ln[:1] not in (' ', '\t'):            # col-0 only: block-scope decls are not the environment
-            cand = parse_decl(ln)
-        if cand and cand[0] not in seen:
-            seen[cand[0]] = cand[1:]
-    return seen
+def tu_for(overlay, fn, override=None):
+    """The TU this draft is spliced into — DERIVED from the corpus (§51g LAW 10)."""
+    if override:
+        return override
+    try:
+        st = corpus.stubs(overlay).get(int(fn[5:], 16))
+        if st:
+            return os.path.join(REPO, st.path)
+    except Exception:
+        pass
+    return os.path.join(REPO, f'src/{overlay}/{overlay}.c')
 
 
 # ---- the byte-neutral access casts ---------------------------------------------------------------
-def _cast_subs(sym, dkind, delem, dparams, ckind):
-    """(regex, repl) reproducing the DRAFT's intended access to `sym` under the TU's canonical storage.
-    gcc folds a compile-time cast of a known symbol, so the emitted access is unchanged."""
+def _elem(d):
+    """The element/base type the DRAFT believes the symbol has."""
+    return (d.base + (' *' if d.kind == 'ptr' else '')).strip()
+
+
+def _cast_sub(d, tu):
+    """(regex, repl) reproducing the DRAFT's intended access to the symbol under the TU's storage.
+    gcc folds a compile-time cast of a known symbol, so the emitted access is unchanged.
+
+    NOTE the fn-ptr arms. reconcile_decls' `data_access_subs` has no fn-ptr kind, so the moment its
+    parser is taught to SEE `extern void (*D_x[])(void);` it would happily rewrite a call-through
+    `D_x[i]()` into `((u8 *)D_x)[i]()` — a dormant transform that fixing the parser would ARM. This
+    tool handles the kind natively, which is why it supersedes that one rather than patching it."""
+    sym = d.name
     rx = re.compile(rf'(&?)\b{re.escape(sym)}\b(\s*\[)?')
-    c_is_arr = ckind in ('array', 'fnarr')
+    c_arr = tu.kind in ('array', 'fnptr_array')
+    e = _elem(d)
 
-    if dkind == 'fnptr':                                   # draft: void (*D_x)(P) ; TU: some scalar
-        acc = f'((({delem} (*)({dparams})){sym}))'
-        return [(rx, lambda m: f'{m.group(1)}{acc}{m.group(2) or ""}')]
-
-    if dkind == 'fnarr':                                   # draft: void (*D_x[])(P) ; TU: scalar/array
-        base = f'(({delem} (**)({dparams})){"" if c_is_arr else "&"}{sym})'
-        return [(rx, lambda m: f'{m.group(1)}{base}{m.group(2) or ""}')]
-
-    if dkind == 'array':                                   # draft: E D_x[]
-        base = f'(({delem} *){"" if c_is_arr else "&"}{sym})'
-        return [(rx, lambda m: f'{m.group(1)}{base}{m.group(2) or ""}')]
-
-    # draft: a scalar / struct / pointer -> force the intended width+type via a cast-lvalue
-    star = ' *' if dkind == 'ptr' else ''
-    acc = f'(*({delem}{star} *)&{sym})'
-    return [(rx, lambda m: f'{m.group(1)}{acc}{m.group(2) or ""}')]
+    if d.kind == 'fnptr':                                   # draft: void (*D_x)(P)
+        acc = f'(({e} (*)({", ".join(d.params or [])})){sym})'
+    elif d.kind == 'fnptr_array':                           # draft: void (*D_x[])(P)
+        acc = f'(({e} (**)({", ".join(d.params or [])})){"" if c_arr else "&"}{sym})'
+    elif d.kind == 'array':                                 # draft: E D_x[]
+        acc = f'(({e} *){"" if c_arr else "&"}{sym})'
+    else:                                                   # scalar / struct / pointer
+        acc = f'(*({e} *)&{sym})' if not c_arr else f'(*({e} *){sym})'
+    return rx, lambda m: f'{m.group(1)}{acc}{m.group(2) or ""}'
 
 
-def fix(body, tu_text, insert_pos, self_fn=None):
-    """Conform the draft's file-scope DATA decls to what the TU can SEE above `insert_pos`.
-    Returns (new_body, notes). notes carries the coverage report — UNPARSED lines are DEFECTS."""
-    vis = tu_visible(tu_text, insert_pos)
-    lines = body.split('\n')
+def fix(body, tu_path, fn):
+    """Conform the draft's DATA decls to the TU. Returns (new_body, notes)."""
+    full = cdecl.tu_scope(tu_path)                  # CONFLICT domain: a decl BELOW still conflicts
+    above = set(cdecl.tu_scope(tu_path, above=fn))  # ORDER, for cc1's no-prototype rule
 
-    plan, decl_at, notes = {}, {}, []
-    unparsed = []
-    for i, ln in enumerate(lines):
-        if not CANDIDATE_RE.match(ln):
+    plan, notes = {}, []
+    for st in cdecl.split_statements(body):
+        try:
+            ds = cdecl.parse(st.text)
+        except cdecl.CDeclError as e:
+            notes.append(f'!! UNPARSED (a coverage defect, not a no-op): {st.text[:60]} -> {e}')
             continue
-        p = parse_decl(ln)
-        if not p:
-            unparsed.append((i + 1, ln.strip()))            # COVERAGE DEFECT — never silently skip
-            continue
-        sym, _dtext, dkind, delem, dparams = p
-        if sym not in vis:
-            continue                                        # no visible decl -> no conflict possible
-        cdecl, ckind, celem, cparams = vis[sym]
-        if _norm(dkind, delem, dparams) == _norm(ckind, celem, cparams):
-            continue                                        # already agrees
-        plan[sym] = (cdecl, _cast_subs(sym, dkind, delem, dparams, ckind))
-        decl_at[sym] = i
-        notes.append(f'{sym}: draft {dkind}({delem}{"/" + dparams if dparams else ""}) '
-                     f'-> TU-visible `{cdecl}` + cast at use')
-
-    if unparsed:
-        notes.append(f'!! COVERAGE DEFECT: {len(unparsed)} extern line(s) of a D_ symbol did not parse '
-                     f'— a silent skip is a defect, not a no-op: ' +
-                     '; '.join(f'L{n}: {t[:60]}' for n, t in unparsed[:3]))
+        for d in ds:
+            if d.is_definition or d.kind == 'func' or d.storage == 'typedef':
+                continue
+            tu = full.get(d.name)
+            if tu is None:
+                continue                            # not declared here -> no conflict is possible
+            a, b = (tu, d) if d.name in above else (d, tu)
+            if cdecl.compatible(a, b):
+                continue                            # cc1 accepts both -> leave the draft's types
+            plan[d.name] = (tu, d, st)
+            notes.append(f'{d.name}: draft {d.type!r} vs TU {tu.type!r} -> TU wins + cast at use')
 
     if not plan:
         return body, notes
 
-    out = []
-    for i, ln in enumerate(lines):
-        sym = next((s for s, j in decl_at.items() if j == i), None)
-        if sym is not None:
-            indent = re.match(r'^[ \t]*', ln).group(0)
-            out.append(indent + plan[sym][0])               # the TU's decl replaces the draft's
+    out, done = [], set()
+    for line in body.split('\n'):
+        hit = next((s for s, (_t, _d, st) in plan.items()
+                    if st.text.split('\n')[0].strip() == line.strip() and s not in done), None)
+        if hit:                                     # the draft's decl line -> the TU's declaration
+            done.add(hit)
+            indent = re.match(r'^[ \t]*', line).group(0)
+            out.append(indent + plan[hit][0].declaration())
             continue
-        if CANDIDATE_RE.match(ln):                          # never cast inside another decl line
-            out.append(ln)
+        if re.match(r'\s*(extern|typedef)\b', line):
+            out.append(line)                        # never cast inside a declaration line
             continue
-        for _s, (_c, subs) in plan.items():
-            for rx, rep in subs:
-                ln = rx.sub(rep, ln)
-        out.append(ln)
+        for _s, (tu, d, _st) in plan.items():       # cast every USE to the draft's intended view
+            rx, rep = _cast_sub(d, tu)
+            line = rx.sub(rep, line)
+        out.append(line)
     return '\n'.join(out), notes
 
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument('--body', required=True)
-    ap.add_argument('--tu', required=True)
-    ap.add_argument('--func', required=True)
-    ap.add_argument('--out')
+    ap.add_argument('--overlay', default='ov_SC01_077')
+    ap.add_argument('--in', dest='indir', required=True)
+    ap.add_argument('--out', dest='outdir', required=True)
+    ap.add_argument('--src-file', dest='src_file', default=None,
+                    help='override the derived TU (normally unnecessary — it is derived per draft)')
     ap.add_argument('--strict', action='store_true', help='exit non-zero on a coverage defect')
     a = ap.parse_args()
 
-    tu = open(a.tu).read()
-    m = re.search(rf'INCLUDE_ASM\("[^"]*",\s*{re.escape(a.func)}\);', tu)
-    pos = m.start() if m else len(tu)
-    new, notes = fix(open(a.body).read(), tu, pos, a.func)
-    vis = tu_visible(tu, pos)
-    print(f'TU-visible data symbols above the insertion point: {len(vis)} '
-          f'({len(_macro_externs())} macros scanned for injected externs)')
-    for n in notes:
-        print('  ' + n)
-    if a.out:
-        open(a.out, 'w').write(new)
-        print(f'wrote {a.out}')
-    if a.strict and any(n.startswith('!!') for n in notes):
+    override = a.src_file and os.path.join(REPO, a.src_file)
+    os.makedirs(os.path.join(REPO, a.outdir), exist_ok=True)
+    drafts = touched = syms = defects = 0
+    for p in sorted(glob.glob(os.path.join(REPO, a.indir, '*.c'))):
+        fn = os.path.basename(p)[:-2]
+        new, notes = fix(open(p).read(), tu_for(a.overlay, fn, override), fn)
+        open(os.path.join(REPO, a.outdir, os.path.basename(p)), 'w').write(new)
+        drafts += 1
+        n = sum(1 for x in notes if not x.startswith('!!'))
+        defects += sum(1 for x in notes if x.startswith('!!'))
+        if n:
+            touched += 1
+            syms += n
+    print(f'drafts: {drafts}; reconciled: {touched} draft(s), {syms} data symbol(s); '
+          f'coverage defects: {defects}')
+    if a.strict and defects:
         sys.exit(1)
 
 

@@ -189,11 +189,23 @@ def _run_gate_locked(drafts, binary, src, asm, out, good_sha, propagate, source_
     cast_extra = (["--src-file", src_file] if src_file else None)
     d1 = _xform("canon_resident_calls.py", binary, drafts, "-cn")
     d1 = _xform("cast_call_sites.py", binary, d1, "-cast", extra=cast_extra)
-    # data-symbol analog of cast_call_sites: rewrite each loose D_XXXX extern -> fleet-canonical +
-    # byte-neutral access cast (§33, T7b). No-op/idempotent on drafts without a data-decl conflict, so
-    # it can't regress the wave; the byte-gate is still the sole arbiter. Chiefly unblocks GIANTS
-    # (hoisted global base arrays) but composes harmlessly for every draft.
-    d1 = _xform("reconcile_decls.py", binary, d1, "-rc", extra=cast_extra)
+    # data-symbol analog of cast_call_sites: rewrite each loose D_XXXX extern -> canonical + a
+    # byte-neutral access cast (§33, T7b). No-op/idempotent without a data-decl conflict; the
+    # byte-gate is still the sole arbiter.
+    #
+    # Phase 26-A: reconcile_decls.py -> reconcile_tu.py (R33 — retire the oracle, don't fix it).
+    # reconcile_decls asked "what does the FLEET call this symbol?"; C asks "what does THIS TU
+    # declare?". The engine is loosely typed, so one fleet-wide answer is wrong for some TU BY
+    # CONSTRUCTION — and worse than a skip, because it writes an ACTIVELY WRONG decl into the draft.
+    # Measured across ov_SC01_077's 12 TUs: 2,883 of its answers agree with the TU, 548 CONFLICT
+    # (cc1 rejects the result), 357 are absent — and it was rewriting 60 of 196 live drafts.
+    # reconcile_tu asks cpp what the TU declares (macro-injected externs included) and cc1 whether
+    # the draft's decl can coexist; where it cannot, the TU wins and every USE is cast so the
+    # draft's intended access is preserved byte-for-byte. It also handles the fn-ptr kind natively,
+    # which is why it SUPERSEDES reconcile_decls rather than patching it: teaching the old parser to
+    # see `extern void (*D_x[])(void);` would ARM its fn-ptr-blind data_access_subs to rewrite a
+    # call-through `D_x[i]()` into `((u8 *)D_x)[i]()`.
+    d1 = _xform("reconcile_tu.py", binary, d1, "-rc", extra=cast_extra)
     verified = _gate1(binary, src, asm, out, good_sha, d1, verified_out, failed_out)
 
     d = d1

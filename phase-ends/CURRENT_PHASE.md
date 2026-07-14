@@ -659,6 +659,30 @@ On approval → `/model opus` + `/effort xHigh` (Tasks 0–4; ALL Fable5 via `Ag
 
 ## Log
 
+- **2026-07-14 (session 10, A3d — RETIRE the fleet-majority oracle; both banking paths; Max):** R33 applied to
+  the audit's worst finding: **not fixed, RETIRED.** `reconcile_decls` asks *"what does the FLEET call this
+  symbol?"*; C asks *"what does THIS TU declare?"*. The engine is loosely typed, so one fleet-wide answer is
+  **wrong for some TU by construction** — and worse than a skip, because it writes an **actively wrong decl**
+  into the draft that then collides with the very TU it was meant to conform to. **Measured** across
+  ov_SC01_077's 12 TUs vs what cpp says each TU really declares: **agrees 2,883 · CONFLICTS 548 (16%, cc1
+  rejects the result) · absent 357.** And it was live on **both** banking paths — `gate_stage` (rewrote **60 of
+  196** drafts) and **`jtbl_family_bank`, i.e. EVERY SIBLING of the ×134 family sweep, the project's economic
+  engine**. A poisoned decl means that sibling silently doesn't bank and the sweep just reports a smaller
+  number. The irony is exact: that function's own docstring already knew the conflicting symbols are
+  **per-overlay** — which is precisely why a FLEET oracle could never have been right.
+  **`reconcile_tu.py`** (written in Phase 26, **never wired**) now supersedes it, rebuilt on cdecl: cpp for what
+  the TU declares (macro-injected externs included), **cc1** for whether the draft's decl can coexist, TU-derived
+  from `corpus.stubs()`, and it **handles the fn-ptr kind NATIVELY** — which is *why* it supersedes rather than
+  patches: teaching the old parser to see `extern void (*D_x[])(void);` would have **ARMED** its fn-ptr-blind
+  `data_access_subs` to rewrite a call-through `D_x[i]()` into `((u8 *)D_x)[i]()`. **Fixing the regex would have
+  detonated a dormant bug.**
+  **NULL RESULT AGAIN (P9/R14):** on the 196 never-banked drafts the new oracle banks **exactly as many as the
+  old — zero**; the two disagree on 45 of 196 and the outcome does not move. That tail fails on **codegen**, not
+  plumbing. This is a **correctness** fix (548 wrong decls removed from two live pipelines, protecting all future
+  drafts and every future family sweep), **not a banking win, and it is not being sold as one.** Three nulls in
+  one session. `reconcile_decls.py` kept as EVIDENCE, marked RETIRED, **no live caller**.
+  **R22 clean-fleet 136/136; src/ untouched; reconcile_tu 0 coverage defects over 196 drafts.**
+  ⚠ **The family-sweep path gets its real exercise at Task 8 — watch the per-sibling bank rate.**
 - **2026-07-14 (session 10, A3c — first consumer migration: `cast_call_sites` onto the cdecl oracle; Max):**
   Added **`cdecl.compatible()`** — *"will cc1 accept these two declarations of one name?"*, the predicate four
   tools each half-implement and get wrong (`norm_sig`/`_norm_type` collapse the int family, so a **signedness**

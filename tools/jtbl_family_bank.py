@@ -71,7 +71,16 @@ def revert(ov, cf=None, keep_regions=None):
 def recover(body, to_ov, cf, func):
     """The §20/§24 recovery pass, run against THIS sibling's TU: `cast_call_sites` (rewrite a callee decl
     that conflicts with its real engine_core.h definition to the canonical type, and cast at the call
-    site — codegen-neutral) then `reconcile_decls` (the DATA-symbol analog).
+    site — codegen-neutral) then `reconcile_tu` (the DATA-symbol analog).
+
+    Phase 26-A: `reconcile_decls` -> `reconcile_tu` here TOO, and this is the path that mattered most.
+    This is the ×134 family sweep — the project's economic engine — and it was running every sibling
+    through the FLEET-MAJORITY oracle, which is measurably wrong for the TU **16% of the time**
+    (across ov_SC01_077's 12 TUs: 2,883 answers agree, **548 CONFLICT** — cc1 rejects the result —
+    and 357 are absent). A poisoned declaration means that sibling silently does not bank, and the
+    loss is invisible: the sweep just reports a smaller number. The irony is exact — the docstring
+    below already knew the symbols are PER-OVERLAY, which is precisely why a FLEET-wide oracle could
+    never have been right.
 
     It must be redone PER SIBLING: the conflicting symbols are largely PER-OVERLAY (`D_801812A4` in
     ov_SC01_000 vs `D_800D4F8C` in ov_SC01_077), so the exemplar's recovered decls do not transfer —
@@ -84,7 +93,7 @@ def recover(body, to_ov, cf, func):
     open(os.path.join(REPO, d_in, f"{func}.c"), "w").write(body)
     sh(f"python3 tools/cast_call_sites.py --overlay {to_ov} --src-file {cf} --in {d_in} --out {d_mid}")
     stage2 = d_mid if os.path.exists(os.path.join(REPO, d_mid, f"{func}.c")) else d_in
-    sh(f"python3 tools/reconcile_decls.py --overlay {to_ov} --src-file {cf} --in {stage2} --out {d_out}")
+    sh(f"python3 tools/reconcile_tu.py --overlay {to_ov} --src-file {cf} --in {stage2} --out {d_out}")
     for d in (d_out, d_mid):
         p = os.path.join(REPO, d, f"{func}.c")
         if os.path.exists(p):

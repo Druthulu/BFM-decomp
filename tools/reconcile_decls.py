@@ -1,4 +1,33 @@
 #!/usr/bin/env python3
+"""RETIRED (Phase 26-A, R33) — superseded by tools/reconcile_tu.py. DO NOT RE-WIRE.
+
+This tool asked the wrong question, and no regex fix could have saved it:
+
+    reconcile_decls asks "what does the FLEET call this symbol?"
+    C asks           "what does THIS TRANSLATION UNIT declare?"
+
+The engine is loosely typed — the same address is legitimately declared with incompatible types in
+different overlays — so a single fleet-wide answer is **wrong for some TU by construction**. And it
+is worse than a silent skip: it writes an ACTIVELY WRONG declaration into the draft, which then
+collides with the very TU it was meant to conform to. Measured across ov_SC01_077's 12 TUs:
+
+    agrees with the TU's own declaration ....... 2883
+    CONFLICTS with it (cc1 REJECTS the result) .  548   <- 16%
+    TU declares it, this oracle has NO answer ..  357
+
+and it was live on both banking paths: it rewrote 60 of 196 drafts in gate_stage, and every sibling
+in the ×134 jtbl_family_bank sweep — the project's economic engine.
+
+Its own docstring already knew the symbols are PER-OVERLAY. That is exactly why a FLEET oracle
+could never have been right.
+
+KEPT AS EVIDENCE, NOT AS CODE. Its `data_access_subs` also has no fn-ptr kind, so teaching its parser
+to see `extern void (*D_x[])(void);` would have ARMED it to rewrite a call-through `D_x[i]()` into
+`((u8 *)D_x)[i]()` — a dormant transform that "fixing the regex" would have detonated. reconcile_tu
+handles the kind natively, which is why it SUPERSEDES this rather than patching it.
+
+Original docstring follows.
+"""
 """reconcile_decls.py — the DATA-symbol analog of cast_call_sites.py (Phase 24 T7b, cookbook §33).
 
 A freshly-matched giant / wave draft byte-matches STANDALONE with its own guessed decls, but to bank
