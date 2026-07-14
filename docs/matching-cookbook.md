@@ -3155,3 +3155,55 @@ The 399-ins flagship — a "whole-function register permutation" that walled the
 **Lever D — goto-shared-return isolates the exit `li` (tail).** A common `return 1` reached by `goto ret1:` gets its OWN basic block → stops sched1 hoisting the exit `li v0,1` into a last-element load-delay slot cross-BB (freeing `$v0` for a trailing temp); dbr still steals the `li` into the branch delay slot. Use when a return-constant materializes one instruction too early.
 
 **Transfer caveat (the §44 meta-lesson holds):** each giant is its own class — Levers A/B are regalloc-**permutation** tools; apply them to a walled giant only when its residual IS a merged-variable or 2-set-temp permutation (read the `.greg`/`.lreg` tell first). The Phase-25 flywheel applies A–D via cheap-Opus to the sibling walled giants (`func_8014D820` RC-6, `func_801670E4`, `func_8016CBC0`), escalating to Fable5 only for a genuinely new class.
+
+## §46 — The `func_80178D40` crack (890 ins ×134, the heaviest core in the game): four LOOP-STRUCTURE levers cheap-Opus found by reading loop.c/jump.c/cse.c (Phase 26 session 8, 2026-07-13)
+
+The heaviest jr core (890 ins, reach 134 = 477 KB) sat at **close=39 with every case byte-exact but one**. All 39
+residuals lived in a single 44-instruction case body. **No pins, no permuter** — every residual was *structural*,
+and the permuter could not have reached any of them. Cheap-Opus + the §31 map closed it to **MATCH 890/890**.
+These four levers are new and general; the classes recur in every loop-bearing overlay function.
+
+**L1 — A loop's `break` must NOT land on the loop's own fall-through label (the PEEL lever).**
+When a `break` target *coincides* with the loop's natural fall-through exit, the RTL leaves `NOTE_INSN_LOOP_BEG`
+followed by an unconditional jump — which fires `duplicate_loop_exit_test` (`jump.c:2131`, called from
+`jump.c:599`). gcc **rotates the loop and peels iteration 1**; if the induction variable is provably 0 the peeled
+`i++` const-folds (`li $a2,1`) and drags a whole `lui/addiu/lw` address re-materialization block with it.
+**Fix: write `goto <label>;` instead of `break;` — the same destination, a different construct.** It stays a plain
+do-while and the peel vanishes. *Tell: an extra address-materialization block and a `li reg,1` at the loop head.*
+
+**L2 — To make a reg-reg COPY survive, split its def and uses across extended basic blocks.**
+A source-level `fp = q;` **always dies**: cse's `canon_reg` rewrites later uses back to `q` (`qty_first_reg` keeps
+the older register) and flow deletes the dead set. Every "just write the copy in C" variant collapses. But cse
+**resets its hash table at a label with >1 predecessor** (a loop top), so a copy defined in a *guard* block and
+used only *inside* the loop cannot be propagated away:
+```c
+if (arg1->a.w != 0) { fp = arg1->a.w; ... do { ... fp ... } while (...); }   /* addu $v1,$v0,$zero survives */
+```
+**Test the memory, assign inside the branch.** *(Hoisting the same load into the loop preheader instead puts the
+copy AFTER the `lui/addiu` — right copy, wrong place.)*
+
+**L3 — A store merged into a shared tail must be written INSIDE the branch that reaches it.**
+`if (i != 10) { D_801DAB2C = 3; break; }` lets jump2 tail-merge the `lui/sh` into the shared tail label and lets
+reorg steal the `li 3` into the `bne` delay slot. Storing unconditionally *before* the `if` blocks the merge and
+costs 3 inline instructions. (Same family as §8's cross-jump-merge-of-direct-stores.)
+
+**L4 — The un-coalesced loop copy = a NON-REPLACEABLE giv, and it needs all THREE parts.**
+This copy cannot come from C (see L2); it must come out of loop.c as a reduced giv whose move survives:
+  (a) an **index giv** — `p = &D_801DA764[i];` (not a hand-rolled pointer walk);
+  (b) the giv is **used outside the loop** (e.g. the "found" body after the loop stores through `p`) → `record_giv`
+      (`loop.c:4437`) marks it *non-replaceable* → `emit_insn_after (move dest, new_reg)` at `loop.c:3945`;
+  (c) the **biv increment is LAST in the body** — loop.c inserts the reduced giv's `addiu` immediately *before*
+      the biv increment, so `i++` at the bottom puts `addiu $a0,$v1,4` into the loop-back **delay slot**. With
+      `i++` at the top the giv-add lands at the top, nothing fills the delay slot, and reorg *steals the loop-top
+      `move`* into it — duplicating it, +1 instruction (891 vs 890).
+
+**L5 — Two structurally identical loops must differ in a REGISTER, or `cross_jump` merges their tails.**
+Loop3 reusing loop1's pointer pseudo put both "found" bodies in `$a0`, made them textually identical, and jump2
+**cross-jumped them into one block** (−2 ins). Giving loop3 its own pseudo frees it into `$v1`, so
+`sw $zero,0($v1)` ≠ `sw $zero,0($a0)` and the blocks stay distinct. *Corollary of §8's cross-jump lever, inverted:
+when you need two tails to STAY separate, separate their registers.*
+
+**Meta (confirms the §44 law + Phase-23's finding).** Every one of these was found by **reading the actual
+gcc-2.7.2 passes** (`jump.c`, `loop.c`, `cse.c` in `tools/reference/gcc-2.7.2/`) and none by search: the residual
+class was "the compiler produced the wrong BYTES", so **R17 applies and the map/source is the lever**. And the
+tier held — *cheap-Opus applying the documented map* cracked the game's heaviest core; Fable5 was not needed.
