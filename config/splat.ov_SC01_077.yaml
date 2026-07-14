@@ -67,6 +67,8 @@ segments:
       - [0x1d64c, c, ov_SC01_077_after]
       - [0x32cd4, c, ov_SC01_077_jr_8015AE2C]
       - [0x4b364, c, ov_SC01_077_jr_801734BC]
+      - [0x4b364, c, ov_SC01_077_jr_801734BC]
+      - [0x50be8, c, ov_SC01_077_jr_80178D40]
       - [0x5a110, c, ov_SC01_077_jr_80182268]
       # Phase-26 §8 jtbl-rodata carve (cookbook §8, the LZSS precedent adapted to a flat overlay).
       # gcc emits each `switch` jump table into .rodata; this overlay's jtbl island sits at the TAIL
@@ -86,8 +88,10 @@ segments:
       - [0xb0a18, data, tail3]
       - [0xb0b10, .rodata, ov_SC01_077_jr_801734BC]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
       - [0xb0b24, data, tail4]
+      - [0xb0ccc, .rodata, ov_SC01_077_jr_80178D40]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
+      - [0xb0e44, data, tail5]
       - [0xb1148, .rodata, ov_SC01_077_jr_80182268]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0xb1168, data, tail5]
+      - [0xb1168, data, tail6]
       - [0xB29D4, bin, trailing]    # final 3 bytes (EOF 0xB29D7 not word-aligned; spimdisasm drops
                                     # a trailing partial word and a <4-byte `data` carve emits nothing,
                                     # so use `bin` = raw .incbin, byte-exact). Word-aligned overlays omit this.
