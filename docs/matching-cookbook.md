@@ -3287,6 +3287,30 @@ pseudo's refs or live-length while leaving the emitted insns identical is a free
   the temp INSIDE the case and local-alloc ties operand 0 to the dying input, collapsing the chain into
   one register. **In a jr-switch dispatcher, NEVER share a scratch across arms.**
 
+### A4 — SINK THE CONSUMER CALL INTO THE ARMS (the inverse of A1; `func_8016AB6C`, byte-proven)
+A1 sinks an *init* to SHORTEN a live range. This sinks the *consumer* to DELETE the allocno outright.
+```c
+if (c) { s3 = f(A1,P1)+3; p = P1; }      →   if (c) { s3 = f(A1,P1)+3; g(obj,P1); }
+else   { s3 = f(A2,P2)+9; p = P2; }          else   { s3 = f(A2,P2)+9; g(obj,P2); }
+g(obj, p);                                   /* `p` no longer exists */
+```
+**The mechanism (why the join-copy is poison).** A value defined in both arms and consumed only by a call in
+the join becomes a cross-block **global allocno** whose copy-preferences include the ARG register. And
+`find_reg`'s copy-preference override scans `for (i = 0; i < FIRST_PSEUDO_REGISTER; i++)` — **plain ascending
+regno, NOT `reg_alloc_order`** — so `$5` (=`$a1`) deterministically beats `$16` (=`$s0`). The only escape is
+`allocno_calls_crossed > 0`, which makes `find_reg` set `used1 = call_used_reg_set` (`global.c:906`) and strip
+the caller-saved prefs — but a pseudo defined *after* one call and dead *before* the next crosses ZERO calls,
+so the arg reg wins and your value lands in `$a1` instead of the target's `$s0`.
+**Duplicating the call into both arms deletes the pseudo**: the pointer demotes to a *block-local* that crosses
+a call, so **local-alloc** parks it in a callee-saved reg — and that also PRESERVES the §48-A2 `$s0` occupant
+that pushes `arg0` onto `$s1`. The duplicated `[addu $a0][addu $a1][jal]` tail is identical in both arms *after
+reload*, so **jump2's cross_jump re-merges it into one join block — zero extra bytes** — and dbr fills the jal's
+delay slot with the second move.
+> **Rule: if a value is defined in both arms and the target keeps it CALLEE-SAVED, duplicate its consumer call
+> into the arms. cross_jump refunds the bytes.** (Also note `set_preference`, `global.c:1535`, applies
+> `reg_renumber[]` — so a *locally*-allocated pseudo appears in the pref set as its hard reg. That is why `$16`
+> was even a contender.)
+
 ### B. THE EBB RULE — the general form of §46-L2
 **cse resets its hash table at a label with >1 predecessor.** So *anything you need to survive cse must
 have its def and its uses in different extended basic blocks.* Three instances, one rule:
