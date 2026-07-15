@@ -686,10 +686,20 @@ On approval → `/model opus` + `/effort xHigh` (Tasks 0–4; ALL Fable5 via `Ag
   D_80126B58 struct + D_801DA75C fn-ptr conflicts). Isolated + carved + jtbl_family_bank --raw swept **133/133
   siblings, 0 failed**. **R22 clean-fleet 136/136** after each; **instr-weighted 68.1→68.6% (+0.5%), distinct
   48.0→49.2% (+1.2%)**; dedup 1840/0. **The audit thesis demonstrated: a many-phase "wall" was our TOOLING, not
-  an intrinsic residual — fixed the oracle, the wall banked ×134.** SESSION-12 net: instr 68.1→68.6%, distinct
-  48.0→49.2%, 3 commits. **NEXT (tool-hygiene tail):** A9c `lint_symbol_refs` (RED+unwired, 3 blind spots → green
-  + wire into make report — the only R22 rename-drift detector); A9d (census delete, reconcile_tu→bank_exemplar,
-  split-infra latch); then A10 full wall re-test + A11 close.
+  an intrinsic residual — fixed the oracle, the wall banked ×134.**
+  **A9c — `lint_symbol_refs` green + wired (`commit:0613`).** The ONLY detector for the R22 rename-drift failure
+  mode (a symbols rename leaves a func_<ADDR> ref dangling; a clean build fails, an incremental masks it —
+  undetected Phase 21→23). Was RED (262 FPs) + UNWIRED. All 3 audit blind spots fixed: #1 now scans
+  `src/shared/*.h` (engine_core.h's 10k+ tokens; negative-control-proven a shared-header ref IS flagged); #2
+  reads every REAL stacked symbol file, excludes R13 proto; #3 **all 262 FPs were the `__asm__("memcpy")` class**
+  (engine_core.h binds func_8005C324→memcpy via an asm label → resolves at link) — now modeled. Negative control
+  (inject a bare func_800d1bd8→DsMix in a shared header) FLAGS it then clears — detection intact. Wired
+  fail-closed into `make report`; no src/build change (report-time gate). **SESSION-12 net: instr 68.1→68.6%,
+  distinct 48.0→49.2%, 5 commits (`commit:0609`, `commit:0610`, `commit:0611`, `commit:0612`, `commit:0613`) + this log.**
+  **NEXT (tool-hygiene tail):** A9d (DELETE census_conflict_callees after confirming derive_canonical_sigs is
+  dead; wire reconcile_tu into bank_exemplar; overlay_src_split force_decl latch + jr_inventory ephemeral read);
+  then A10 (full wall re-test — the def-side loose-typing wall, 159 arity conflicts, 780 h_seq rejections, the
+  permuter-fuel "exhausted" claim) + A11 (distill + close, then resume Phase 26 Task 7).
 - **2026-07-14 (session 11, A3h — the standing-lead harvest, measured then banked; xHigh):** Resumed the
   A3f/A3g "310 byte-exact stubs" lead. **Measured it precisely first (R14) — and the "310 same class, same
   fix" framing was optimistic.** Deduped the backlog's `closeness==0` rows (recovering `addr` from `name` for
