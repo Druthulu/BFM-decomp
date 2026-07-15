@@ -252,7 +252,7 @@ def hseq_sweep(a):
                     r = info.split(":")[0] if isinstance(info, str) else "skip"
                     skip[r[:24]] += 1; continue
             _code = re.sub(r'//[^\n]*', '', re.sub(r'/\*.*?\*/', '', draft, flags=re.S))
-            if re.search(r'__asm__\s*\(\s*"\$', _code):         # hard-reg pin (§42e): ×1-only, cc1-crashes
+            if not getattr(a, "allow_pins", False) and re.search(r'__asm__\s*\(\s*"\$', _code):   # hard-reg pin (§42e): ×1-only, cc1-crashes
                 skip["pinned-exemplar"] += 1; continue          # sibling TUs → skip. Strip comments first: a body
                                                                 # that DOCUMENTS a removed pin ("__asm__(\"$16\") REMOVED")
                                                                 # is pin-free code and must not be false-skipped.
@@ -318,6 +318,9 @@ def main():
     ap.add_argument("--chunk", type=int, default=8)
     ap.add_argument("--commit", action="store_true")
     ap.add_argument("--only", default=None, help="comma-separated exemplar addrs to sweep (validation)")
+    ap.add_argument("--allow-pins", action="store_true",
+                    help="bypass the §42e pinned-exemplar skip: template WITH the register pins and let the "
+                         "whole-binary byte-gate arbitrate (some pinned families bank ×134 per-sibling, e.g. func_8017A4AC).")
     ap.add_argument("--reconcile", default=None, metavar="RAWDIR",
                     help="M2 def-side-wall path: per (exemplar,sibling), symbol-remap the RAW draft in RAWDIR "
                          "then canon_sig_reconcile against the sibling TU (Q5-proven). Implies --no-preclassify.")
