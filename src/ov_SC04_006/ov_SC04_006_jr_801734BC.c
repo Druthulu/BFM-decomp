@@ -2736,7 +2736,17 @@ s32 func_80175218(void * param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_006/nonmatchings/ov_SC04_006_jr_801734BC", func_80175268);
+
+extern u8 D_80078EC0;
+
+s32 func_80175268(s32 param_1)
+{
+
+    extern VoidFn D_8018327C[];
+    *(u32 *)(param_1 + 0x44) |= 2;
+    (*(VoidFn *)((s32)D_8018327C + ((D_80078EC0 - 1) << 2)))();
+}
+
 
 DEFINE_func_801752BC()  /* dedup: shared engine-core @0x801752BC (src/shared) */
 

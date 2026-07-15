@@ -4218,7 +4218,11 @@ s32 func_8017CE58(u8 *a0) {
 
 INCLUDE_ASM("asm/ov_SC07_009/nonmatchings/ov_SC07_009_jr_80178D40", func_8017CE74);
 
-INCLUDE_ASM("asm/ov_SC07_009/nonmatchings/ov_SC07_009_jr_80178D40", func_8017CEC8);
+extern int func_800167F0(int arg);
+int func_8017CEC8(void) {
+    return (func_800167F0(4) & 0xFFFF) != 0;
+}
+
 
 
 extern void (*D_80181818[])(void);

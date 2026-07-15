@@ -4248,7 +4248,11 @@ s32 func_8017CEC0(u8 *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_096/nonmatchings/ov_SC03_096_jr_80178D40", func_8017CF3C);
+extern void func_800D1EBC(void);
+void func_8017CF3C(void) {
+    func_800D1EBC();
+}
+
 
 
 extern void (*D_80184504[])(void);

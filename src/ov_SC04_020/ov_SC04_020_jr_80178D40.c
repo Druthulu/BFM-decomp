@@ -4268,7 +4268,22 @@ INCLUDE_ASM("asm/ov_SC04_020/nonmatchings/ov_SC04_020_jr_80178D40", func_8017D5C
 
 INCLUDE_ASM("asm/ov_SC04_020/nonmatchings/ov_SC04_020_jr_80178D40", func_8017D604);
 
-INCLUDE_ASM("asm/ov_SC04_020/nonmatchings/ov_SC04_020_jr_80178D40", func_8017E4E4);
+
+// @class: plumbing
+// @stuck: none — MATCH (simple two-call wrapper, $s0 holds param across calls by default regalloc)
+
+extern void func_8017E848(void *arg0);
+extern void func_8016EDEC(s32 a0, s32 a1, s32 a2);
+extern void func_800167B8(s32 a0);
+
+s32 func_8017E4E4(s32 param_1)
+{
+    ((void (*)(void *, s32))func_8016EDEC)(func_8017E848, 0x1000000);
+    func_800167B8(0);
+    *(u8 *)(param_1 + 0x15) = *(u8 *)(param_1 + 0x15) + 1;
+    return 0;
+}
+
 
 
 extern s32 func_800167F0(s32 a0);
@@ -4282,7 +4297,11 @@ INCLUDE_ASM("asm/ov_SC04_020/nonmatchings/ov_SC04_020_jr_80178D40", func_8017E55
 
 INCLUDE_ASM("asm/ov_SC04_020/nonmatchings/ov_SC04_020_jr_80178D40", func_8017E5C8);
 
-INCLUDE_ASM("asm/ov_SC04_020/nonmatchings/ov_SC04_020_jr_80178D40", func_8017E678);
+extern void func_800D1EBC(void);
+void func_8017E678(void) {
+    func_800D1EBC();
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_020/nonmatchings/ov_SC04_020_jr_80178D40", func_8017E698);
 

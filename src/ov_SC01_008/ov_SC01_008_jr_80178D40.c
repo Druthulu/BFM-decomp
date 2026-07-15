@@ -4299,7 +4299,12 @@ s32 func_8017D428(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_008/nonmatchings/ov_SC01_008_jr_80178D40", func_8017D430);
+s16 func_8017D430(void) {
+
+    extern s16 D_801A3320;
+    return D_801A3320;
+}
+
 
 INCLUDE_ASM("asm/ov_SC01_008/nonmatchings/ov_SC01_008_jr_80178D40", func_8017D440);
 

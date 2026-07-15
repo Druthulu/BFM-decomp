@@ -4254,7 +4254,11 @@ s32 func_8017CF80(u8 *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_094/nonmatchings/ov_SC03_094_jr_80178D40", func_8017CFFC);
+extern void func_800D1EBC(void);
+void func_8017CFFC(void) {
+    func_800D1EBC();
+}
+
 
 
 extern void (*D_8018B464[])(void);

@@ -1079,7 +1079,14 @@ void func_80138BE0(int p)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_022/nonmatchings/ov_SC06_022_jr_801380E0", func_80138C30);
+void func_80138C30(void *a0) {
+    if (*(s16 *)((s32)a0 + 4) == 4) {
+        *(s16 *)((s32)a0 + 4) = 2;
+    } else {
+        *(u32 *)((s32)a0 + 8) |= 0x800;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_022/nonmatchings/ov_SC06_022_jr_801380E0", func_80138C60);
 

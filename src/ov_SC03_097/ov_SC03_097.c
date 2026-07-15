@@ -451,7 +451,15 @@ DEFINE_func_80129CF8()  /* dedup: shared engine-core @0x80129CF8 (src/shared) */
 
 DEFINE_func_80129FF4()  /* dedup: shared engine-core @0x80129FF4 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC03_097/nonmatchings/ov_SC03_097", func_8012A018);
+extern void func_8012A048(void *a0, s32 a1, u8 a2);
+
+void func_8012A018(s32 a0, s32 a1)
+{
+    extern u8 D_80126948[];
+
+    func_8012A048(D_80126948, a0, a1);
+}
+
 
 DEFINE_func_8012A048()  /* dedup: shared engine-core @0x8012A048 (src/shared) */
 
@@ -473,11 +481,28 @@ INCLUDE_ASM("asm/ov_SC03_097/nonmatchings/ov_SC03_097", func_8012A328);
 
 INCLUDE_ASM("asm/ov_SC03_097/nonmatchings/ov_SC03_097", func_8012A418);
 
-INCLUDE_ASM("asm/ov_SC03_097/nonmatchings/ov_SC03_097", func_8012A464);
+
+
+typedef struct { s32 w[8]; } Vec8;
+
+
+void func_8012A464(void)
+{
+
+    extern s32 D_801151D4;
+    extern Vec8 D_80114F24;
+    D_80114F24 = *(Vec8 *)(*(s32 *)&D_801151D4 + 0x3C);
+}
+
 
 DEFINE_func_8012A4BC()  /* dedup: shared engine-core @0x8012A4BC (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC03_097/nonmatchings/ov_SC03_097", func_8012A568);
+extern void func_8012A598(void *a0);
+void func_8012A568(void (*a0)(void)) {
+    func_8012A598(a0);
+    a0();
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_097/nonmatchings/ov_SC03_097", func_8012A598);
 

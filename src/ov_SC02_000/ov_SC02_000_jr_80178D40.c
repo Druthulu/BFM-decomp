@@ -4267,7 +4267,30 @@ void func_8017CA80(void *a0) {
 
 INCLUDE_ASM("asm/ov_SC02_000/nonmatchings/ov_SC02_000_jr_80178D40", func_8017CABC);
 
-INCLUDE_ASM("asm/ov_SC02_000/nonmatchings/ov_SC02_000_jr_80178D40", func_8017CC80);
+extern void func_80146C3C(void);
+void func_8017CC80(u8 *p) {
+    u8 *q;
+    s32 t;
+    s32 b;
+    q = *(u8 **)(p + 0x20);
+    *(u16 *)(p + 0x16) = *(u16 *)(p + 0x16) + *(u16 *)(p + 0x14);
+    if (*(s32 *)(p + 0x1C) < 8) {
+        *(s16 *)(p + 0x14) = *(u16 *)(p + 0x14) - 0x200;
+    } else {
+        *(s16 *)(p + 0x14) = *(u16 *)(p + 0x14) - 0x51;
+    }
+    b = *(u8 *)(q + 0x26) - 2;
+    *(s16 *)(q + 0x1A) = *(u16 *)(p + 0x16);
+    *(s8 *)(q + 0x26) = b;
+    *(s8 *)(q + 0x25) = b;
+    *(s8 *)(q + 0x24) = b;
+    t = *(s32 *)(p + 0x1C);
+    *(s32 *)(p + 0x1C) = t + 1;
+    if (t >= 0x1E) {
+        ((void (*)(u8 *))func_80146C3C)(p);
+    }
+}
+
 
 
 extern void (*D_8018E664[])(void);
@@ -4312,11 +4335,42 @@ INCLUDE_ASM("asm/ov_SC02_000/nonmatchings/ov_SC02_000_jr_80178D40", func_8017CDF
 
 INCLUDE_ASM("asm/ov_SC02_000/nonmatchings/ov_SC02_000_jr_80178D40", func_8017CE58);
 
-INCLUDE_ASM("asm/ov_SC02_000/nonmatchings/ov_SC02_000_jr_80178D40", func_8017D230);
+extern void ReadRotMatrix(void *a0);
+extern void PushMatrix(void);
+extern void func_8004974C(void *a0, void *a1);
+extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
+extern void PopMatrix(void);
+void func_8017D230(u16 *a0, void *a1) {
+    s32 mat[8];
+    s32 buf[8];
+    s16 sv[4];
+    ReadRotMatrix((void *)mat);
+    PushMatrix();
+    sv[0] = (s16)(a0[0] - *(s32 *)((u8 *)mat + 0x14));
+    sv[1] = (s16)(a0[1] - *(s32 *)((u8 *)mat + 0x18));
+    sv[2] = (s16)(a0[2] - *(s32 *)((u8 *)mat + 0x1C));
+    func_8004974C((void *)mat, (void *)buf);
+    ApplyMatrixSV((void *)buf, (void *)sv, a1);
+    PopMatrix();
+}
+
 
 INCLUDE_ASM("asm/ov_SC02_000/nonmatchings/ov_SC02_000_jr_80178D40", func_8017D2D4);
 
-INCLUDE_ASM("asm/ov_SC02_000/nonmatchings/ov_SC02_000_jr_80178D40", func_8017D4CC);
+extern void ReadGeomOffset(s32 *a0, s32 *a1);
+extern s32 RotTransPers(s32 a0, s32 a1, s32 *a2, s32 *a3);
+extern void func_8004921C(s32 a0, s32 a1);
+void func_8017D4CC(s32 a0, s32 a1) {
+    s32 ofx;
+    s32 ofy;
+    s32 sxy;
+    s32 p;
+    ReadGeomOffset(&ofx, &ofy);
+    func_8004921C(0, 0);
+    RotTransPers(a0, a1, &sxy, &p);
+    func_8004921C(ofx, ofy);
+}
+
 
 INCLUDE_ASM("asm/ov_SC02_000/nonmatchings/ov_SC02_000_jr_80178D40", func_8017D538);
 

@@ -1351,7 +1351,14 @@ DEFINE_func_80142454()  /* dedup: shared engine-core @0x80142454 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC06_013/nonmatchings/ov_SC06_013_jr_8013FFD8", func_801424E4);
 
-INCLUDE_ASM("asm/ov_SC06_013/nonmatchings/ov_SC06_013_jr_8013FFD8", func_801425CC);
+
+
+void func_801425CC(void *a0) {
+
+    extern void (*D_80180000[])(void);
+    D_80180000[*(u16 *)((s32)a0 + 0x2)]();
+}
+
 
 
 // @class: schedule

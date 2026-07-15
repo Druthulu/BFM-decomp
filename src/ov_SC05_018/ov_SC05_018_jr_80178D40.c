@@ -4268,7 +4268,22 @@ INCLUDE_ASM("asm/ov_SC05_018/nonmatchings/ov_SC05_018_jr_80178D40", func_8017D5C
 
 INCLUDE_ASM("asm/ov_SC05_018/nonmatchings/ov_SC05_018_jr_80178D40", func_8017D604);
 
-INCLUDE_ASM("asm/ov_SC05_018/nonmatchings/ov_SC05_018_jr_80178D40", func_8017E4E4);
+
+// @class: plumbing
+// @stuck: none — MATCH (simple two-call wrapper, $s0 holds param across calls by default regalloc)
+
+extern void func_8017EA50(void *arg0);
+extern void func_8016EDEC(s32 a0, s32 a1, s32 a2);
+extern void func_800167B8(s32 a0);
+
+s32 func_8017E4E4(s32 param_1)
+{
+    ((void (*)(void *, s32))func_8016EDEC)(func_8017EA50, 0x1000000);
+    func_800167B8(0);
+    *(u8 *)(param_1 + 0x15) = *(u8 *)(param_1 + 0x15) + 1;
+    return 0;
+}
+
 
 
 extern s32 func_800167F0(s32 a0);
@@ -4282,7 +4297,11 @@ INCLUDE_ASM("asm/ov_SC05_018/nonmatchings/ov_SC05_018_jr_80178D40", func_8017E55
 
 INCLUDE_ASM("asm/ov_SC05_018/nonmatchings/ov_SC05_018_jr_80178D40", func_8017E5C8);
 
-INCLUDE_ASM("asm/ov_SC05_018/nonmatchings/ov_SC05_018_jr_80178D40", func_8017E678);
+extern void func_800D1EBC(void);
+void func_8017E678(void) {
+    func_800D1EBC();
+}
+
 
 INCLUDE_ASM("asm/ov_SC05_018/nonmatchings/ov_SC05_018_jr_80178D40", func_8017E698);
 
@@ -4292,7 +4311,10 @@ INCLUDE_ASM("asm/ov_SC05_018/nonmatchings/ov_SC05_018_jr_80178D40", func_8017E77
 
 INCLUDE_ASM("asm/ov_SC05_018/nonmatchings/ov_SC05_018_jr_80178D40", func_8017E7D4);
 
-INCLUDE_ASM("asm/ov_SC05_018/nonmatchings/ov_SC05_018_jr_80178D40", func_8017E810);
+s32 func_8017E810(void) {
+    return 0;
+}
+
 
 INCLUDE_ASM("asm/ov_SC05_018/nonmatchings/ov_SC05_018_jr_80178D40", func_8017E818);
 
@@ -4383,7 +4405,11 @@ void func_8017EAD8(void *a0) {
 
 INCLUDE_ASM("asm/ov_SC05_018/nonmatchings/ov_SC05_018_jr_80178D40", func_8017EB14);
 
-INCLUDE_ASM("asm/ov_SC05_018/nonmatchings/ov_SC05_018_jr_80178D40", func_8017EB28);
+extern void func_8016F0E4(void);
+void func_8017EB28(void) {
+    func_8016F0E4();
+}
+
 
 extern void (*D_8018A860[])(void);
 
@@ -4588,7 +4614,14 @@ INCLUDE_ASM("asm/ov_SC05_018/nonmatchings/ov_SC05_018_jr_80178D40", func_8018124
 
 INCLUDE_ASM("asm/ov_SC05_018/nonmatchings/ov_SC05_018_jr_80178D40", func_80181294);
 
-INCLUDE_ASM("asm/ov_SC05_018/nonmatchings/ov_SC05_018_jr_80178D40", func_801812FC);
+extern void func_8012A828(void);
+void func_801812FC(void) {
+
+    extern s16 D_801E6508;
+    func_8012A828();
+    D_801E6508 = 0;
+}
+
 
 INCLUDE_ASM("asm/ov_SC05_018/nonmatchings/ov_SC05_018_jr_80178D40", func_80181324);
 

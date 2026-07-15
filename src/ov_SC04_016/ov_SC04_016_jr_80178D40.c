@@ -4327,13 +4327,25 @@ extern s32 func_8012A828(void *a0, void *a1);
     }
 
 
-INCLUDE_ASM("asm/ov_SC04_016/nonmatchings/ov_SC04_016_jr_80178D40", func_8017EBB4);
+void func_8017EBB4(void *a0) {
+        *(short *)(*(int *)((char *)a0 + 0xcc) + 0x10a) = -29952;
+    }
 
-INCLUDE_ASM("asm/ov_SC04_016/nonmatchings/ov_SC04_016_jr_80178D40", func_8017EBC4);
 
-INCLUDE_ASM("asm/ov_SC04_016/nonmatchings/ov_SC04_016_jr_80178D40", func_8017EBD4);
+void func_8017EBC4(void *a0) {
+        *(short *)(*(int *)((char *)a0 + 0xcc) + 0x10a) = -29696;
+    }
 
-INCLUDE_ASM("asm/ov_SC04_016/nonmatchings/ov_SC04_016_jr_80178D40", func_8017EBE4);
+
+void func_8017EBD4(void *a0) {
+        *(short *)(*(int *)((char *)a0 + 0xcc) + 0x10a) = -29440;
+    }
+
+
+void func_8017EBE4(void *a0) {
+        *(short *)(*(int *)((char *)a0 + 0xcc) + 0x10a) = -29184;
+    }
+
 
 INCLUDE_ASM("asm/ov_SC04_016/nonmatchings/ov_SC04_016_jr_80178D40", func_8017EBF4);
 

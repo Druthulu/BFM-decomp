@@ -4381,9 +4381,17 @@ extern void func_8017DE84(s32 arg0);
     }
 
 
-INCLUDE_ASM("asm/ov_SC03_010/nonmatchings/ov_SC03_010_jr_80178D40", func_8017DE24);
+extern void func_8017DE84(int);
+void func_8017DE24(void) {
+    func_8017DE84(0x5);
+}
 
-INCLUDE_ASM("asm/ov_SC03_010/nonmatchings/ov_SC03_010_jr_80178D40", func_8017DE44);
+
+extern void func_8017DE84(int);
+void func_8017DE44(void) {
+    func_8017DE84(0x6);
+}
+
 
 extern void func_8017DE84(s32 arg0);
     void func_8017DE64(void) {
