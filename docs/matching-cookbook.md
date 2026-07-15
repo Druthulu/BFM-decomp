@@ -3801,3 +3801,41 @@ whole-binary-gate route.
 
 **Flywheel note (R16):** even walled, this pass paid off — a cheap-Opus wave applying levers 1-5 should crack
 the siblings that are NOT at the intrinsic wall. Fable5 DISCOVERS the skeleton; cheap-Opus APPLIES it.
+
+### §52a — The regalloc sibling wave: new levers + two new wall classes (cheap-Opus applying §52, 2026-07-15)
+
+Ran §52 as a 6-agent Opus wave over the regalloc-order reach-134 cluster: **2/6 banked ×134** (`func_80171FFC`,
+`func_801775E0` → 268 instances, R22 136/136), the other 4 = precisely-characterized walls. Banks and walls
+each yielded a byte-verified, reusable lever:
+
+**New banking levers (each verified by a whole-binary bank):**
+- **Pass the callee its real arguments** — `f((s32)a0,(s32)a1)`, NOT the void-cast no-arg trick
+  `((T(*)(void))f)()`. When params are saved to callee-saved regs before the first call, the void-cast form
+  STRIPS the param pseudos' arg refs → shuffles the `$s0/$s1/$s2` order (RC-10 density). Passing the args
+  naturally BOTH suppresses arg-setup moves (params already in place) AND preserves the density order. (`func_80171FFC`.)
+- **Recompute a store-base in BOTH if/else arms** (the §52-lever-3 analogue for a base pointer): keeps the
+  recomputed base live across the branch-merge so subsequent `p[k]` address off it, not gcc address-CSE onto a
+  still-live keeper base. (`func_801775E0`.)
+- **Copy-chain direction:** use the incoming param DIRECTLY as the persistent keeper (`keep = param+off`) with a
+  working copy `w = param`; gcc saves `param→$sK`, chains `$sJ=$sK`. An explicit keeper var reverses it. (`func_801775E0`.)
+- **`pp`-declaration position drives the prologue schedule** (RC-1/K1): declare a param-copy pseudo AFTER the one
+  you want saved first — sched1 emits in pseudo-creation order. (`func_801775E0`.)
+- **A `const`/`RTX_UNCHANGING_P` pre-call load frees a sched2 prologue save-order tie** (RC-3):
+  `f(*(const s32*)(a0+off))` — sched.c:true_dependence drops the load↔store deps so `sw $s0`/`sw $ra` stop readying
+  simultaneously → the descending-regno save tie staggers right. BOUNDARY: it can OVER-free (the load then hoists
+  above the saves), so it fixes save-order but not always the whole function. (`func_80131A34`.)
+
+**Two NEW intrinsic-wall classes (byte-characterized, P9 — distinct from §52's flagship `$s0` local-alloc wall):**
+- **Caller-saved priority-first-fit wall.** A long-lived block-local value (`$v0/$v1/$a0` scratch) stored many
+  times has LOW `qty_compare` priority (`floor_log2(refs)·refs·size/(death−birth)`) → loses the low-reg first-fit
+  to its SHORT-lived competitor. §31-B in-out-asm and §47 live-length split TIES only, never a priority GAP, and
+  the competitor can't be lengthened without deleting an instruction the target keeps. Needs pins → ×1-only.
+  (`func_80169228`, bounded to 3 register identities.)
+- **Non-coalescing delay-slot copy wall.** A value computed in `$vX`, tested, then copied to `$vY` to survive a
+  clobber in the branch delay slot needs two non-coalescing equal-valued pseudos. Every pure-C `y=x` is destroyed
+  by cse.c `canon_reg`/`make_regs_eqv` head-promotion or global-alloc coalescing; the only preserving forms are
+  `#APP` asm (blocks reorg's delay-slot fill) or a `$0`-add (SIGABRTs cc1 in sibling TUs, §42e). Intrinsic
+  pin-free/sweep-safe wall. (`func_80177AD4`, 1 instruction.)
+
+**Wave economics:** ~⅓ of a fully-walled cluster cracks pin-free by applying the idiom; the rest wall on a small
+set of distinct, now-named mechanisms. Cracks bank ×134; walls become permuter seeds or documented dead-ends.

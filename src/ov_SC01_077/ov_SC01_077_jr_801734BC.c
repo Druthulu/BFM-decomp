@@ -3239,7 +3239,73 @@ DEFINE_func_80177340()  /* dedup: shared engine-core @0x80177340 (src/shared) */
 
 DEFINE_func_8017742C()  /* dedup: shared engine-core @0x8017742C (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_801734BC", func_801775E0);
+// @class: regalloc-order (walker-family, §52) — PIN-FREE MATCH (0-off), 67 ins
+// Byte-exact via match_one; NO `register __asm__` pins (cookbook §42e safe for the x134 sweep).
+//
+// Levers that got it to 0 (all pin-free):
+//  L-store  (§52 "in-loop-const-in-both-arms" analogue): assign the recomputed base
+//           `s0 = param_1 + 0x14` in BOTH if/else arms + a single store after. Keeps the
+//           recomputed base live across the branch merge so the p[6]/p[0xa] stores address
+//           off the recomputed $s0 — NOT address-CSE'd onto the still-live param base $s1.
+//           (A ternary/store-once collapses the base back to $s1+0x1a — the historic residual.)
+//  L-layout (§52 lever-1 "mutated-parameter / no derived copy"): use `param_1` directly as
+//           the persistent keeper (`... = param_1 + 0x14`) with `s0 = param_1` as the working
+//           copy. gcc saves param_1 -> $s1 (keeper) and chains $s0 = $s1 (working), giving the
+//           target copy DIRECTION. An explicit `s1` keeper var reverses the chain ($s0=a0;$s1=$s0).
+//  L-sched  (RC-1 / K1 declaration-order): declare the param_2 copy `pp` AFTER `s0`. Its pseudo
+//           is created after s0's, so sched1 emits the s0 working-copy BEFORE the param_2 save
+//           in the prologue (target order: s1, s0, s2, s3). Using param_2 directly saved $s2
+//           first and broke the prologue order (4-off).
+//  L-call   (block layout): `if (c != 0) { ...; goto docall; }` block form keeps the range
+//           checks as the entry fall-through (correct global layout); duplicated func call
+//           (both arms) cross-jumps to one block placed after st0 (target order).
+//
+// Note (fragility): the `pp` decl position is load-bearing for the prologue schedule, and the
+// two-call cross-jump reproduces the target's single call block with the arg in the jal delay
+// slot. The single-call / branch-only-callit forms invert the whole-function block layout
+// (gcc cross-jumps the two `goto`s). Whole-binary gate is the real arbiter.
+#include "common.h"
+extern u8 D_8011F83B;
+extern u8 D_8011F837;
+extern u8 D_8011F7F0;
+extern void func_801776EC(u8 *a0);
+void func_801775E0(s32 param_1, s32 param_2) {
+    s32 s0 = param_1;
+    s32 pp = param_2;
+    u8 *base = &D_8011F7F0;
+    s16 sVar1; s32 t; s32 v;
+    s32 c = D_8011F83B;
+    if (c != 0) {
+        if (c < 0) goto store;
+        if (c >= 0xf7) goto store;
+        if (c < 0xf3) goto store;
+        goto docall;
+    }
+    if (D_8011F837 != 0x80) {
+        *(u8 *)(s0 + 4) = 0xff;
+        *(u8 *)(s0 + 6) = 0x10;
+        *(u8 *)(s0 + 5) = 0x10;
+        goto L684;
+    }
+    func_801776EC((u8 *)s0);
+    goto L684;
+docall:
+    func_801776EC((u8 *)s0);
+    goto L684;
+store:
+    *(u8 *)(s0 + 5) = 0xff;
+    *(u8 *)(s0 + 6) = 0x10;
+    *(u8 *)(s0 + 4) = 0x10;
+L684:
+    sVar1 = (s16)((u32)(base[0x47] * 9) >> 4);
+    t = pp + 0x48;
+    *(s16 *)(s0 + 0xe) = sVar1;
+    *(s16 *)(s0 + 0xa) = t - sVar1;
+    if (base[0x47] != 0) { s0 = param_1 + 0x14; v = 0xa0; } else { s0 = param_1 + 0x14; v = 0x40; }
+    *(u8 *)(s0 + 6) = v;
+    *(s16 *)(s0 + 0xa) = pp;
+}
+
 
 DEFINE_func_801776EC()  /* dedup: shared engine-core @0x801776EC (src/shared) */
 

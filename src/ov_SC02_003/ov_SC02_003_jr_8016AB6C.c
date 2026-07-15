@@ -3728,7 +3728,27 @@ DEFINE_func_80171E08()  /* dedup: shared engine-core @0x80171E08 (src/shared) */
 
 DEFINE_func_80171EC8()  /* dedup: shared engine-core @0x80171EC8 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC02_003/nonmatchings/ov_SC02_003_jr_8016AB6C", func_80171FFC);
+
+extern s32 func_8017248C(s32, s32);
+extern s32 ratan2(s32, s32);
+extern void func_80172170(s32, s32);
+extern void func_80146D90(s32);
+
+s32 func_80171FFC(short *a0, short *a1, s32 a2)
+{
+    s32 r;
+
+    r = func_8017248C((s32)a0, (s32)a1);
+    if (r != 0) {
+        func_80146D90((s32)a0);
+        return r;
+    }
+    *(s16 *)(*(s32 *)((s32)a0 + 0x20) + 0x12) =
+        (ratan2(a1[0] - a0[3], a1[2] - a0[7]) + 0x800) & 0xFFF;
+    func_80172170((s32)a0, a2 & 0xFF);
+    return 0;
+}
+
 
 DEFINE_func_8017209C()  /* dedup: shared engine-core @0x8017209C (src/shared) */
 
