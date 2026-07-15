@@ -50,10 +50,26 @@ Usage:
       --out .run/t5b2-recon/func_8013B274.c --tu src/ov_SC01_077/ov_SC01_077_a.c \
       [--sig 'void func_8013B274(s32 a0, s32 a1, void *a2)']
 """
-import re, os, argparse, subprocess
+import re, os, argparse, subprocess, importlib.util
 
 EC = 'src/shared/engine_core.h'
 ET = 'src/shared/engine_types.h'
+
+
+def _load(mod, rel):
+    spec = importlib.util.spec_from_file_location(
+        mod, os.path.join(os.path.dirname(os.path.abspath(__file__)), rel))
+    m = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(m)
+    return m
+
+
+# THE declaration oracle (Phase 26-A §51g): a total recursive-descent parser of C's declarator
+# grammar. It classifies fn-ptr / sized-array / multi-declarator decls the tu_ambient/visible_above
+# regexes were structurally blind to — the class that put fn-ptr DISPATCH TABLES in NO bucket, so
+# `visible_above` under-reported them and _reconcile_data block-moved the draft's extern into a
+# guaranteed `conflicting types` (docs/tooling-audit.md, the two HIGH findings on this file).
+cdecl = _load('cdecl', 'cdecl.py')
 
 CPP = ['mipsel-linux-gnu-cpp', '-lang-c', '-Iinclude', '-undef', '-Wall', '-fno-builtin',
        '-Dmips', '-D__GNUC__=2', '-D__OPTIMIZE__', '-Dpsx', '-D_PSYQ', '-D_MIPSEL', '-D_LANGUAGE_C']
@@ -135,9 +151,25 @@ _AMBIENT_CACHE = {}
 _VISIBLE_CACHE = {}
 
 
+def _fnptr_data(tu_path, above=None):
+    """cdecl SUPPLEMENT: the fn-ptr DATA dispatch tables (`extern void (*D_x[])(void);`) the
+    tu_ambient/visible_above regexes are structurally blind to — their type class `[\\w \\*]`
+    cannot hold a `(`, so these land in NO bucket, `visible_above` under-reports them, and
+    _reconcile_data block-moves the draft's extern into a guaranteed `conflicting types`
+    (docs/tooling-audit.md, the two HIGH findings). Additive: name -> (fnptr-type, is_array),
+    over exactly the symbols the regex dropped."""
+    out = {}
+    for name, d in cdecl.tu_scope(tu_path, above=above).items():
+        if d.storage != 'typedef' and d.kind in ('fnptr', 'fnptr_array'):
+            out[name] = (d.type, bool(d.is_array))     # 'void (*)(void)' / 'void (*[])(void)'
+    return out
+
+
 def visible_above(tu_path, fn):
     """v3: the set of file-scope names (funcs+data) declared ABOVE fn's INCLUDE_ASM stub —
-    what is actually in scope at the splice point. Drives the block-scope-vs-ambient branch."""
+    what is actually in scope at the splice point. Drives the block-scope-vs-ambient branch.
+    v3.3 (Phase 26-A): UNION the cdecl fn-ptr-data names the regex is blind to, so a dispatch
+    table can no longer fall out of `visible` and trigger a wrong block-scope move."""
     key = (tu_path, fn)
     if key in _VISIBLE_CACHE:
         return _VISIBLE_CACHE[key]
@@ -162,13 +194,16 @@ def visible_above(tu_path, fn):
                         names.add(nm.group(1))
     finally:
         os.path.exists(tmp) and os.remove(tmp)
+    names |= set(_fnptr_data(tu_path, above=fn))       # v3.3: + the fn-ptr dispatch tables
     _VISIBLE_CACHE[key] = names
     return names
 
 
 def tu_ambient(tu_path):
     """The TU's REAL file-scope namespace: {'funcs': name->decl, 'data': name->(type,is_arr),
-    'typedefs': name->normalized def}. Function DEFINITIONS count as decls (sig authority)."""
+    'typedefs': name->normalized def}. Function DEFINITIONS count as decls (sig authority).
+    v3.3 (Phase 26-A): the fn-ptr DATA symbols the regex drops into no bucket are supplemented
+    from cdecl — additive, so every symbol the proven regex classified is byte-identical."""
     if tu_path in _AMBIENT_CACHE:
         return _AMBIENT_CACHE[tu_path]
     funcs, data, typedefs = {}, {}, {}
@@ -195,6 +230,9 @@ def tu_ambient(tu_path):
                     if dm:
                         data[dm.group(2)] = (base + (' ' + dm.group(1) if dm.group(1) else ''),
                                              dm.group(3) is not None)
+    for name, dt in _fnptr_data(tu_path).items():      # v3.3: + the fn-ptr dispatch tables
+        if name not in data and name not in funcs and name not in typedefs:
+            data[name] = dt
     _AMBIENT_CACHE[tu_path] = dict(funcs=funcs, data=data, typedefs=typedefs)
     return _AMBIENT_CACHE[tu_path]
 
@@ -320,6 +358,10 @@ def _reconcile_callees(draft, ambient_funcs, fn, visible):
         plist = ', '.join(ptypes) if ptypes else ''
         cast = f'(({dret}(*)({plist})){name})'
         draft = _sub_skip_decls(draft, r'\b' + re.escape(name) + r'\s*\(', cast + '(')
+    # R32 coverage: every fn-ptr data extern must have been consumed (stripped or block-moved) by
+    # visit_fnptr above — never silently emitted verbatim into a TU that declares it differently.
+    assert not _FNPTR_DATA_RE.search(draft), \
+        'canon_sig_reconcile: a fn-ptr data extern survived _reconcile_data (silent skip = a defect)'
     return draft, moved
 
 
@@ -339,6 +381,13 @@ _DATA_EXTERN_RE = re.compile(r'^[ \t]*extern\s+([^;\n()]*?)\s*\b'
                              r'([A-Za-z_]\w*(?:\s*\[[^\]]*\])?(?:\s*,\s*\**[A-Za-z_]\w*(?:\s*\[[^\]]*\])?)*)'
                              r'\s*;[ \t]*(?:/\*[^\n]*\*/)?[ \t]*\n', re.M)
 
+# fn-ptr DATA externs (dispatch tables): `extern void (*D_x[])(void);` / `extern s32 (*D_x)(s32);`.
+# _DATA_EXTERN_RE's type class `[^;\n()]*?` forbids the `(`, so it is 100% blind to these (F1, 436
+# draft lines) — the class that IS the per-overlay jump-table dispatch arrays jtbl_family_bank banks.
+_FNPTR_DATA_RE = re.compile(
+    r'^[ \t]*extern\s+[^;\n]*?\(\s*\*\s*([A-Za-z_]\w*)\s*(?:\[[^\]]*\])?\s*\)\s*\([^;]*\)'
+    r'\s*;[ \t]*(?:/\*[^\n]*\*/)?[ \t]*\n', re.M)
+
 
 def _reconcile_data(draft, ambient_data, visible):
     """v3: per data-extern name —
@@ -351,9 +400,24 @@ def _reconcile_data(draft, ambient_data, visible):
       to the reconcile_decls/§33 TU-retype tier, not this transform)."""
     casts, moved = [], []
 
+    # v3.3: fn-ptr DATA externs (dispatch tables) FIRST — _DATA_EXTERN_RE below cannot see them.
+    # visible -> STRIP (the ambient/engine_core.h decl serves; a call-through `D_x[i]()` is
+    # decl-INDEPENDENT indirect codegen, so NO access-cast — casting a fn-ptr would mangle
+    # `D_x[i]()` into `((u8*)D_x)[i]()`, the dormant transform the reconcile_decls audit named).
+    # not visible -> block-move the draft's decl verbatim (its type is exact + expires at the `}`).
+    def visit_fnptr(m):
+        name = m.group(1)
+        if name not in visible:
+            moved.append(_norm(m.group(0).strip()))
+        return ''
+
+    draft = _FNPTR_DATA_RE.sub(visit_fnptr, draft)
+
     def visit(m):
         base = m.group(1).strip()
-        if not base or '(' in m.group(0):
+        # v3.3: bail on a `(` in the CODE, not in a trailing comment — F2: an ordinary scalar extern
+        # was silently abandoned because a drafter wrote '(' in prose (87 corpus lines).
+        if not base or '(' in m.group(0).split('/*')[0]:
             return m.group(0)
         kept = []
         for piece in m.group(2).split(','):
