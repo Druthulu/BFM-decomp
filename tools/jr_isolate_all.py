@@ -70,31 +70,70 @@ def rodata_carves(cfg_lines):
 
 
 def jr_inventory(ov):
-    """Return (all_jr:{vram:src_kind}, banked:{vram:func_name}). src_kind in
-    {'asm','banked'}. jr = INCLUDE_ASM funcs whose .s references a jtbl_ + the
-    already-banked jr (real-C `def`/`define` items whose name is recorded in a
-    .run/banked_func_*.json — the exemplar is NOT in its own sibling list, so we
-    confirm presence by parsing the source, not by the sibling roster)."""
+    """Return (all_jr:{vram:src_kind}, banked:{vram:func_name}). src_kind in {'asm','banked'}.
+
+    jr = still-unmatched switch functions (INCLUDE_ASM `.s` referencing a jtbl_) + the
+    already-banked jr (whose jtbl became a committed `.rodata` carve).
+
+    `banked` is DERIVED FROM THE IMAGE — never from a roster (R33). The old code filtered
+    real-C defs by an EPHEMERAL, gitignored `.run/banked_func_*.json` set: a `rm -rf .run`
+    / fresh clone made all banked jr invisible at once, and a cross-address sibling (whose
+    roster file is named after the exemplar) was structurally missing. Two proven invariants
+    answer it instead: (1) the committed splat config lists every `.rodata` carve; (2) a
+    real-C function OWNS a carve iff it references that carve's address — `family_remap.
+    reloc_targets` reads the extracted image and says so. So a real-C def/define fn is a
+    banked jr iff it references a committed carve offset. Cross-address- and
+    curated-name-immune, and it finds NON-LEADER banked jr (carve in the object's own
+    subseg, not a `_jr_` leader) that a subseg-name model would miss. Every carve MUST
+    resolve to exactly one owner or the run aborts (R32) — a stranded/duplicated carve is
+    the func_801734BC incident (§8b) and must never be silent.
+
+    Cost: ~6s -> ~0.1s by reading the overlay image ONCE and passing it to reloc_targets."""
+    import family_remap
+    base = oss_vram(ov)
+    syms = oss.load_ov_syms(ov)
+
+    # still-unmatched jr: an INCLUDE_ASM fn whose .s references a jtbl_. Resolve the .s
+    # basename through the symbol table (addr_of) so a CURATED name (e.g. listCdBuffer) is
+    # not dropped by a func_-shape fullmatch (§26-A LOW finding).
     asm_jr = {}
     for p in glob.glob(os.path.join(REPO, f"asm/{ov}/nonmatchings/*/*.s")):
         if re.search(r'jtbl_[0-9A-Fa-f]{8}', open(p).read()):
-            fn = os.path.basename(p)[:-2]
-            if re.fullmatch(r'func_[0-9A-Fa-f]{8}', fn):
-                asm_jr[int(fn[5:], 16)] = fn
-    # candidate banked-jr names (global roster) -> confirm each is a real-C def here
-    cand = set()
-    for bj in glob.glob(os.path.join(REPO, ".run/banked_func_*.json")):
-        cand.add(os.path.basename(bj)[len("banked_"):-len(".json")])
-    realc = {}                                          # addr -> name for def/define items
-    syms = oss.load_ov_syms(ov)
+            nm = os.path.basename(p)[:-2]
+            a = oss.addr_of(nm, syms)
+            if a is not None:
+                asm_jr[a] = nm
+
+    # already-banked jr: every real-C def/define fn that references a committed carve
+    # offset in the IMAGE (read once, passed to reloc_targets).
+    cfg_lines = open(os.path.join(REPO, f"config/splat.{ov}.yaml")).read().splitlines()
+    carve_offs = {off for _li, off, _sub in rodata_carves(cfg_lines)}
+    img = open(family_remap.img_path(ov), "rb").read()
+    banked, owners = {}, {}                              # owners: carve_off -> [names]
     for cf in glob.glob(os.path.join(REPO, f"src/{ov}/*.c")):
         _, items = oss.parse_overlay_c(open(cf).read(), syms)
         for addr, name, kind, _ in items:
-            if kind in ("def", "define") and name and addr is not None:
-                realc[addr] = name
-    banked = {a: nm for a, nm in realc.items() if nm in cand}
+            if kind not in ("def", "define") or not name or addr is None:
+                continue
+            try:
+                targets = family_remap.reloc_targets(ov, addr, data=img)
+            except Exception:
+                continue
+            hits = {t - base for k, t in targets if k == "data" and (t - base) in carve_offs}
+            if hits:
+                banked[addr] = name
+                for off in hits:
+                    owners.setdefault(off, []).append(name)
+
+    # R32: every committed carve resolves to EXACTLY ONE banked owner, or abort loud.
+    problems = [("UNOWNED", hex(base + o)) for o in sorted(carve_offs - set(owners))]
+    problems += [("MULTI", hex(base + o), owners[o]) for o in sorted(owners) if len(owners[o]) > 1]
+    if problems:
+        sys.exit(f"jr_inventory({ov}): committed .rodata carve ownership is not 1:1 (R32/R33) — "
+                 f"a stranded/duplicated carve (§8b func_801734BC class): {problems}")
+
     alljr = dict(asm_jr)
-    alljr.update({a: "banked" for a in banked})       # marker; name in `banked`
+    alljr.update({a: "banked" for a in banked})         # marker; name in `banked`
     return alljr, banked
 
 

@@ -659,6 +659,26 @@ On approval → `/model opus` + `/effort xHigh` (Tasks 0–4; ALL Fable5 via `Ag
 
 ## Log
 
+- **2026-07-14 (session 13, A9g — jr_inventory: retire the ephemeral roster, derive banked from the image; Max):**
+  R33 applied to "the purest R33 case in the group" (audit). `jr_inventory`'s `banked` set was filtered by an
+  **EPHEMERAL, gitignored `.run/banked_func_*.json` roster** — `rm -rf .run`/a fresh clone would blind ALL
+  banked jr at once, cross-address siblings (roster named after the exemplar) were structurally invisible, and
+  non-leader banked jr were missed. **FIX (audit's exact prescription): deleted the roster glob + `cand`
+  filter; `banked` is now DERIVED FROM THE IMAGE** — a real-C def/define fn is a banked jr iff
+  `family_remap.reloc_targets` shows it references a committed `.rodata` carve offset (config + image, both
+  durable). **R32 assertion added:** every committed carve must resolve to EXACTLY ONE owner or the run
+  aborts (a stranded/duplicated carve = the §8b func_801734BC incident, never silent). **Also fixed** the
+  adjacent MEDIUM/LOW finding — the `asm_jr` scan's `func_`-fullmatch dropped the curated-name `listCdBuffer`
+  jr; now resolved via `oss.addr_of()` (the `--only` path's own fullmatch is left — it parses user input, not
+  the corpus). **Perf:** the image is read ONCE and passed to `reloc_targets(…, data=)` (new
+  backward-compatible param on family_remap; regression-verified 0/80 mismatch vs the re-read path). **VERIFIED:**
+  (1) reloc_targets `data`-param behavior-identical; (2) the R33 win — ov_SC02_000 now finds the cross-address
+  sibling `func_8017FCB0` the roster missed; the 3 non-leader overlays (ov_SC01_077/04_008/05_009) resolve;
+  (3) **full-fleet parallel run = 134/134 OK, 0 false aborts, 1336 banked jr == 1336 carves → 1:1 ownership
+  holds fleet-wide** (the R32 assertion is safe). **BYTE-SAFE:** jr_isolate_all is NOT in the make build/extract
+  path (R22-neutral); the change makes future isolations strictly MORE correct (finds carve owners the roster
+  missed → fewer stranded carves). tooling-audit ledger marked FIXED (3 jr_isolate_all findings). **NEXT: A10 —
+  re-test the walls (the audit payoff).**
 - **2026-07-14 (session 13, A9f — overlay_src_split force_decl latch fixed + a coverage oracle; Max):**
   The parser `jr_isolate_all` rewrites source from swallowed **2 real function definitions** on physical
   lines of the form `extern A; extern B; void f(){...}`: `scan_construct`'s `force_decl` latched from the

@@ -43,11 +43,17 @@ def nins_of(ov, addr):
     return None
 
 
-def reloc_targets(ov, addr):
+def reloc_targets(ov, addr, data=None):
     """ordered [(kind, resolved_addr)] for jal targets + lui/lo address loads, in instruction order.
     Verified against splat .s ground truth (22/22 on func_80141100; 15/15 on func_801407F4 whose
-    indexed-global D[i] accesses the pre-Phase-26 tracker missed — see the add/addu hi-propagation)."""
-    data = open(img_path(ov), "rb").read()
+    indexed-global D[i] accesses the pre-Phase-26 tracker missed — see the add/addu hi-propagation).
+
+    `data` (optional) = the overlay image bytes, read once by the caller and passed to AVOID the
+    per-call `open(...).read()` when scanning many functions of one overlay (jr_inventory reads it
+    once, then calls this ~2,300× — 6s -> 0.1s). Omit it and the image is re-read fresh per call
+    (the default, so a re-extraction mid-process is always seen)."""
+    if data is None:
+        data = open(img_path(ov), "rb").read()
     n = nins_of(ov, addr)
     off = addr - VRAM
     out, pend = [], {}
