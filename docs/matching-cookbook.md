@@ -3755,3 +3755,49 @@ its own caller's default*.
 
 **Checklist item, promoted to the top:** after fixing a scanner, `grep` every call site and ask *does any
 caller pass a default that re-disables this?* An audit that stops at the callee is half an audit.
+
+## §52 — The WALKER-FAMILY skeleton: 6 regalloc-order levers + a deeply-characterized intrinsic wall (`func_80178004`, 165 ins ×134; Phase 26, Fable5, 2026-07-15)
+
+`func_80178004` is the exemplar of the **regalloc-order** residual class (12 reach-134 siblings share it: the
+9 close=0 + 3 close-21+ cores). A ~93-min / 477k-token Fable5 pass drove a PIN-FREE draft to
+**structure-exact (163 vs 165 ins); residual = pure register identity** — byte-verified (`match_one` 126/165
+masked; the 126 is dominated by one `$s0`↔`$s2` swap rippling ~90 lines). It did **not** byte-match: the wall
+reduces to **three compiler-internal integers** and is (probably) intrinsic to vanilla gcc-2.7.2.
+**Correction (R14):** the historic "pinned MATCH" was a myth — the pinned seed was NEVER a match (best
+historic permuter score 5, pinned); this is the deepest state the function has reached. Artifacts + gdb
+oracles under `.run/fable_80178004/` (repro `runorc.sh`); Fable5-derived, headline byte-verified.
+
+### The 6 levers (the "walker-family skeleton" — apply to the 12 siblings; levers 1-5 retire ~half the residual)
+1. **Mutated-parameter pointer.** Declare the walking pointer AS the mutated parameter (`u32 *p`=arg0, then
+   `p += …`). Any `p = (u32*)a0` COPY leaves the initial value live in the param pseudo → cse1 rebases every
+   store block onto constant offsets and DELETES the pointer-walk. The single biggest lever; transfers to
+   every walker-style function.
+2. **No derived-base variable.** Never declare the second pointer — write `p[1..3]` directly and let loop.c
+   mint a combined DEST_ADDR giv of the biv (anchor = last-recorded giv → the -8/-4/0 offsets; preheader init
+   reads the biv reg). A source-level `q` biv makes loop.c reduce the (q-4,q-8) pair into an EXTRA pointer
+   (loop.c:3824 worthwhile test).
+3. **In-loop constant remat.** A constant the target recomputes in-loop must be a **user variable assigned in
+   BOTH if/else arms** (`n_times_set==2` fails scan_loop's movable gate, loop.c:698-712 → stays in-loop). A
+   bare literal is hoisted.
+4. **Split the OR across two statements.** `t = …|0x4000; p[3] = t|0x6d160000;` beats tree-level constant
+   reassociation → in-loop `ori` + a hoisted lui-only temp.
+5. **Break biv-recognition.** Interpose one statement between `n = i+1` and `i = n` (basic_induction_var
+   follows a copy only to the immediately-previous insn, loop.c:4862) → the target's literal counter survives
+   instead of a `<<16` giv.
+6. **Diagnose allocation walls with gdb-on-cc1 FIRST.** `peek2.gdb` (allocno_order/find_reg) + a 3-integer
+   oracle (`reg_n_deaths`/`reg_n_refs`) tells you in minutes whether a register identity is even reachable —
+   before grinding C.
+
+### Why the wall is (probably) intrinsic
+The walker is a block-local 1-death qty → **local-alloc runs first and hands it the first free callee-saved
+`$s0`** (local-alloc.c:472/2103; nothing can pre-occupy s0/s1 for a call-crossing qty). Force it global
+(deaths≥2) and its priority `floor_log2(44)*44/103 ≈ 21000` dominates → allocated first → pass-1 first-fit
+`$s0` again (global.c:924, callee prefs stripped for call-crossers). The target needs `pri < 2400` ⇒ effective
+refs ≤ ~10-12, but **REG_N_REFS counts RTL mentions, fixed at 44 by the bytes**, and every legal construct
+only pushes it UP (each ruled out with file:line). **One untested lever:** instrument `qty_n_refs` (local-alloc
+SUMS at tying, local-alloc.c:1869) vs flow's per-reg `REG_N_REFS` with `peek2.gdb` on tied-copy chains — if a
+tie shape yields a low-ref *global* view of an s2-window value, the wall falls; else it's the ×1-pinned +
+whole-binary-gate route.
+
+**Flywheel note (R16):** even walled, this pass paid off — a cheap-Opus wave applying levers 1-5 should crack
+the siblings that are NOT at the intrinsic wall. Fable5 DISCOVERS the skeleton; cheap-Opus APPLIES it.

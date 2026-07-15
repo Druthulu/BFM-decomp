@@ -1032,3 +1032,33 @@ to manufacture a wall out of a lookup miss.
 **Handed forward:** #4 the type-heavy harvest (~1,200 members; `build_engine_types` unblocked but not yet
 wired into the family path — Phase-26 Task-8 integration, not a re-test). Substrate for the retrospective + the
 public "how to AI-decomp" wiki (R31): *audit your instruments before you trust their silence.*
+
+### 2026-07-15 — Phase 26 Task 7 resume: re-baseline corrections + the flagship regalloc wall (single Fable5, likely intrinsic)
+
+**Re-baseline before cracking (R14).** Task 7 resumed at xHigh after the audit. Regenerating the target
+frontier from the FIXED tools corrected the handoff twice, both byte-grounded: (1) the "~1,200-member
+type-heavy harvest" from the audit ledger was **already banked** by A3h's post-fix h_seq re-run (+2,675) — the
+current STRUCT-excluded tail is ~6 substantial members, not 1,200. (2) The real remaining deterministic lever is
+bigger and different: **128 matched-sibling families ≈ 2.64M templatable ins**, and **register pins are NOT a
+banking blocker** (`func_8017A4AC` banked ×134 with 4 pins/sibling) — so most of that is *un-run ×N sweeps*, not
+a wall. Also: all 97 reach-134 tractable cores are already walled, and re-gating the close 1-5 seeds through the
+fixed pipeline banked **0/13** — Task 7 is a near-miss CLOSING campaign, not fresh cracking.
+
+**The single-Fable5 test ("can we crack not on Max?" — Drew).** One Fable5 (xHigh orchestration, 477k tokens,
+93 min) on `func_80178004` (165 ins ×134, the regalloc-order class exemplar shared by 12 siblings). Result: an
+**honest wall** (P9). A pin-free draft driven to structure-exact (163/165); residual = pure register identity,
+reduced by a gdb-on-cc1 oracle to **three compiler-internal integers**, each ruled unreachable under every legal
+C construct with file:line evidence. Byte-verified: `match_one` 126/165, the 126 dominated by one `$s0`↔`$s2`
+swap. **R14 ledger correction:** the historic "pinned MATCH / close=0" was a myth — the seed was never a match
+(best historic permuter score 5, pinned). Likely intrinsic to gcc-2.7.2; ONE untested lever remains
+(`qty_n_refs` tie-shape, local-alloc.c:1869). The parallel permuter could not crack `func_801325B8` either (best 25).
+
+**Payoff despite the wall (R16 flywheel).** The pass produced 6 byte-proven "walker-family" levers + the
+skeleton idiom (cookbook §52) that transfer to the 11 regalloc-order siblings: **Fable5 DISCOVERS the skeleton,
+cheap-Opus APPLIES it.** So a walled exemplar still fed the flywheel.
+
+**Pivot (pending Drew's Max call, R27).** Per Drew's instruction the failed single-Fable5 → prompt for Max.
+Recommendation to be logged on decision: Max-grinding `func_80178004` itself is low-EV (Fable5 already went to
+depth; one untested lever); the higher-ROI use of the perishable window is the §52 sibling-idiom wave
+(cheap-Opus) + the deterministic matched-sib harvest (2.6M-ins ceiling, pins OK) — both higher-certainty than
+grinding an intrinsic wall.
