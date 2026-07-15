@@ -659,6 +659,24 @@ On approval → `/model opus` + `/effort xHigh` (Tasks 0–4; ALL Fable5 via `Ag
 
 ## Log
 
+- **2026-07-14 (session 13, A10 Max-phase — wall re-test SCOPING + arity measurement; Max, fan-out pending R27):**
+  Began A10 (Drew: "begin at Max, prompt before the ultracode fan-out"). **Measured before claiming (R14).**
+  **KEY FRAMING:** the audit FIXES already dissolved the *easy* wall — A3f/g/h banked +2,675 h_seq re-harvest +
+  the byte-exact-stub backlog wins, A9b re-banked func_8017A4AC ×134 (a def-side wall) — driving 66.5→68.6%
+  instr. So A10 is the *systematic* re-test of what remains. **Scoping:** backlog = **2,218 open-stub drafts**
+  (deduped by fn) — **958 at closeness 0** (match_one says byte-exact, gate-rejected before the A3e all-TU fix),
+  429 @1-5, 543 @6-20, 288 @20+; fleet = 9,543 open stubs; h_seq = 16,049 residual failures (mostly
+  collision false-templates the byte-gate correctly refused — A3h already re-ran that sweep). **#2 arity
+  (targeted, measured):** of the 18 Phase-15 arity/narrow-param drafts, **13 are ALREADY banked** — the
+  "documented dead-end" wall largely fell (fix_arity_callers Phase-19 + later banking), 5 remain
+  (func_80156600/8015C030/80161208/8016191C/8016BF50); A3c already proved its premise false (the `()` rule is
+  order-dependent, cc1 doesn't enforce it). **#4 type-heavy:** build_engine_types now runs (A7) — the tail is
+  re-testable. **CONFIRMED the remaining re-test is BREADTH:** a serial `gate_stage` sample timed out (ov_SC01_077
+  rebuilds per draft; the reason the audit banked via ×134 family sweeps, not per-fn gating). Tree reverted clean
+  (HEAD commit:0618). **→ R27 BOUNDARY: prompting Drew for `/effort ultracode` before the fan-out** = re-gate the
+  2,218 open-stub drafts (958 closeness-0 first — the definitive "fuel exhausted" test) + the type-heavy tail
+  through the fixed oracles (reconcile_tu/cdecl-compat/build_engine_types), parallel-isolated, bank the
+  byte-gated wins, R22 before commit; a re-confirmed wall is as valuable as a dissolved one (P9).
 - **2026-07-14 (session 13, A9g — jr_inventory: retire the ephemeral roster, derive banked from the image; Max):**
   R33 applied to "the purest R33 case in the group" (audit). `jr_inventory`'s `banked` set was filtered by an
   **EPHEMERAL, gitignored `.run/banked_func_*.json` roster** — `rm -rf .run`/a fresh clone would blind ALL
