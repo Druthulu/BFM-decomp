@@ -179,6 +179,10 @@ ifeq ($(BINARY),main)
 	$(VENV_PY) tools/dup_report.py --cross
 	# Fleet roll-up (Phase 15): deterministic per-binary table + fleet totals -> docs/progress.fleet.md.
 	$(VENV_PY) tools/progress.py --fleet
+	# Rename-drift gate (Phase 26-A): fail-closed if a symbols.us.txt rename left a func_<ADDR>
+	# ref dangling in committed src/ or src/shared/*.h — the R22 failure mode an incremental build
+	# masks (stale .o) but a genuinely-clean rebuild fails on. The ONLY detector for it.
+	$(VENV_PY) tools/lint_symbol_refs.py
 	# Byte-honesty gate (Phase 11): fail-closed if any registered code-share drifted from its
 	# recorded signature hash. Last in the recipe, so a stale share fails `make report` (P9).
 	$(VENV_PY) tools/dedup_integrate.py --check

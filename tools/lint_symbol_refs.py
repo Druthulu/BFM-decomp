@@ -19,16 +19,25 @@ import re, glob, os, sys
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+# The files a real binary actually stacks (main/resident/overlays). The proto symbol files
+# (symbols.proto-*.txt) are R13 UNVERIFIED cross-build data and are NEVER stacked into a build —
+# reading them would invent phantom curated names. This is blind spot #2 (the audit read only 2 of
+# these): a per-overlay rename must be seen or a genuine dangling ref hides.
+def _symbol_files():
+    files = []
+    for p in sorted(glob.glob(os.path.join(REPO, "config/symbols*.txt"))):
+        if "proto" in os.path.basename(p):
+            continue
+        files.append(p)
+    return files
+
 
 def load_symbols():
     """addr(lower hex) -> curated name (excludes the func_<ADDR>/D_<ADDR> auto-names); and the set
     of addresses that DO have a literal auto-name symbol (those resolve under func_/D_ as written).
-    Covers both the func_ (code) and D_ (data) auto-name classes."""
+    Covers both the func_ (code) and D_ (data) auto-name classes, across every REAL stacked file."""
     curated, autosym = {}, set()
-    for sf in ("config/symbols.us.txt", "config/symbols.resident.txt"):
-        p = os.path.join(REPO, sf)
-        if not os.path.exists(p):
-            continue
+    for p in _symbol_files():
         for m in re.finditer(r'^([A-Za-z_]\w*)\s*=\s*(0x[0-9A-Fa-f]+)', open(p).read(), re.M):
             nm, a = m.group(1), m.group(2).lower()
             if nm.lower() in ("func_" + a[2:], "d_" + a[2:]):
@@ -36,6 +45,22 @@ def load_symbols():
             else:
                 curated.setdefault(a, nm)
     return curated, autosym
+
+
+# A `func_<ADDR>` / `D_<ADDR>` given an explicit asm label — `extern void func_8005C324(...)
+# __asm__("memcpy");` — emits a reference to the LABEL, not to a `func_<ADDR>` symbol, so it resolves
+# at link regardless of the rename. This is blind spot #3 (the audit's 43-then-262 false positives are
+# entirely this class: engine_core.h's block-copy macro binds func_8005C324 to memcpy via __asm__).
+_ASM_LABEL_RE = re.compile(
+    r'\b(?:func_|D_)([0-9A-Fa-f]{6,8})\b[^;{}\n]*?__asm__\s*\(\s*"[^"]+"\s*\)')
+
+
+def asm_labeled_addrs(files):
+    out = set()
+    for cf in files:
+        for m in _ASM_LABEL_RE.finditer(open(cf, errors="replace").read()):
+            out.add("0x" + m.group(1).lower())
+    return out
 
 
 def strip_comments_strings(src):
@@ -68,14 +93,19 @@ def strip_comments_strings(src):
 
 def main():
     curated, autosym = load_symbols()
+    # Blind spot #1: src/shared/*.h (engine_core.h — 10k+ func_/D_ tokens across every overlay) was
+    # never scanned, yet one dangling ref there breaks EVERY clean build at once.
+    files = sorted(glob.glob(os.path.join(REPO, "src/**/*.c"), recursive=True) +
+                   glob.glob(os.path.join(REPO, "src/shared/*.h")))
+    asm_labeled = asm_labeled_addrs(files)      # blind spot #3: __asm__("label") resolves the ref
     stale = []
-    for cf in sorted(glob.glob(os.path.join(REPO, "src/**/*.c"), recursive=True)):
+    for cf in files:
         rel = os.path.relpath(cf, REPO)
         code = strip_comments_strings(open(cf, errors="replace").read())
         for i, line in enumerate(code.splitlines(), 1):
             for m in re.finditer(r'\b(?:func_|D_)([0-9A-Fa-f]{6,8})\b', line):
                 a = "0x" + m.group(1).lower()
-                if a in autosym:            # a real func_/D_<ADDR> symbol exists -> resolves
+                if a in autosym or a in asm_labeled:   # real auto-name OR bound to a label -> resolves
                     continue
                 if a in curated:            # renamed to a curated name, no auto-name symbol -> DANGLING
                     stale.append((rel, i, m.group(0), curated[a]))
