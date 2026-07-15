@@ -342,6 +342,9 @@ big wave.** Targets: `.run/harvest_targets_s3.json` (300, relocs≤5, reach-sort
 gcc-quirk tail, so the next lever is understanding gcc-2.7.2 (R17 research, Phase 18), NOT more brute waves.**
 
 ### 8a. What was built (committed, byte-neutral, reusable)
+> **DELETED in Phase 26-A (R33):** both tools below were removed — `reconcile_tu`/`cdecl` answer their
+> question (a TU's *visible* declarations) **from the build**, not by re-parsing C text. This section is
+> retained as the historical Phase-17 record of the (now-retired) fleet-canonical-sig approach.
 - `tools/census_conflict_callees.py` — the accurate conflict predicate: an undeclared-`stub` callee with
   `decl_sources = n_callers + is_target >= 2` is a sig-conflict risk (a `declared`/`defined`/`extern` callee
   is conflict-free; gen_harvest_targets feeds the one sig). Writes `.run/conflict_callees.json`.

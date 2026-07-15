@@ -1257,7 +1257,7 @@ callees inconsistently → `conflicting types` in the one-big-TU; 100% compile-e
 SURGICAL per-callee canonical-sig layer: `tools/census_conflict_callees.py` (the conflict predicate:
 undeclared-stub callee with `decl_sources = n_callers + is_target >= 2`) + `tools/derive_canonical_sigs.py`
 (byte-neutral `s32 func_X(s32...)`, arity from Ghidra-C + asm read-before-write `$a0-$a3`) → a 20-extern
-block at the TOP of `ov_SC01_077.c` (LOCAL, not engine_core.h — reach-1 names differ across overlays).
+block at the TOP of `ov_SC01_077.c` (LOCAL, not engine_core.h — reach-1 names differ across overlays). *(Both `census_conflict_callees.py` and `derive_canonical_sigs.py` were **DELETED in Phase 26-A** — R33; the fleet-canonical-sig approach was superseded by `reconcile_tu`'s per-TU oracle. Historical record.)*
 `gen_harvest_targets` + `sig_unify` auto-read it; **the gate pipeline is now draft → `sig_unify` (MANDATORY)
 → `harvest_verify --chunk 1`** (the accumulating baseline now carries the file-top block, so a raw draft's
 guessed extern would clash without sig_unify). **SIZING CORRECTION (R14):** for the *remaining 270*, the

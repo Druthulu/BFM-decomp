@@ -659,6 +659,32 @@ On approval → `/model opus` + `/effort xHigh` (Tasks 0–4; ALL Fable5 via `Ag
 
 ## Log
 
+- **2026-07-14 (session 13, A9d — retire the dead Phase-17 canonical-sig chain; Max):** R33 applied to a
+  two-tool dead chain. **DELETED `tools/census_conflict_callees.py` + `tools/derive_canonical_sigs.py`.**
+  `census` was audit-CONFIRMED MARKED-FOR-DELETION (`commit:0593`; decision-log 836 "in its entirety gets
+  deleted"): it re-derives from C text the question — "for this TU, which callees are defined/declared/
+  stubbed/external?" — that `reconcile_tu` (Phase 26) answers FROM THE BUILD; a parse hole in `reconcile_tu`
+  is conservative, a parse hole here is WRONG in the unsafe direction (unknown→"conflict-free"). Its output
+  fed only `derive_canonical_sigs`, which the audit DOWNGRADED but which is genuinely **dead**: last touched
+  Phase-17 (`commit:0140`), output `.run/canonical_sigs.json` read by **nothing** (no Makefile target, no
+  workflow, no module import — all verified by grep), no-ops on the 2-byte `[]` input, and its asm-arity
+  heuristic is **36% wrong vs byte-exact banked C** (audit skeptic, ground-truth run). Its canonical-sig
+  purpose was itself retired in **A3d** (fleet-majority oracle → `reconcile_tu`'s per-TU oracle). So the
+  whole dead chain **ceases to exist** rather than leaving an orphaned, non-runnable, wrong-by-36% scanner
+  (R33: "the best outcome is a DELETED SCANNER"). **Byte-neutral BY CONSTRUCTION** — neither tool is in any
+  build/report path; verification = module-import smoke over the 13 importable harvest/bank/report/reconcile
+  tools (`corpus`/`cdecl`/`reconcile_tu`/`canon_sig_reconcile`/`gen_harvest_targets`/`gate_stage`/
+  `jtbl_family_bank`/`family_sweep`/`dedup_propagate`/`sig_unify`/`cast_call_sites`/`scope_data_externs`/
+  `family_remap`) = **all clean** (`bank_exemplar` is a run-only script that indexes `sys.argv` at module
+  scope → not importable by design, imports neither deleted module — a test-method false alarm, not
+  breakage). No `src/`/`config/` change ⇒ no byte can move ⇒ full R22 not warranted (P9-honest: a 136-binary
+  rebuild would prove only what the absence of a build-path edit already guarantees). **Doc-pointer hygiene**
+  (so nothing points at a nonexistent tool): `docs/hand-matching-process.md` §8a, `docs/matching-cookbook.md`
+  (canonical-sig-layer entry), and `docs/tooling-audit.md` (ledger row + the `derive_canonical_sigs` entry)
+  all annotated DELETED/historical. **NEXT: A9e — wire `reconcile_tu` into `bank_exemplar`** (its stage
+  ladder is `raw→scoped→recovered→reconciled`; `recovered`=`fb.recover`, `reconciled`=`canon_sig_reconcile`
+  — add a `reconcile_tu` stage, byte-gate); then A9f (overlay_src_split force_decl latch), A9g (jr_inventory
+  ephemeral read), A10 (wall re-test), A11 (distill + close → resume Phase 26 Task 7).
 - **2026-07-14 (session 12, A9a+A9b — canon_sig_reconcile fn-ptr fix + wall re-test; Max):** Continued the
   tool-hygiene audit. **A9a — `canon_sig_reconcile` sees fn-ptr dispatch tables (`commit:0609`).** The def-side-wall
   recovery tool, live on the ×134 economic-engine paths (jtbl_family_bank, family_sweep --reconcile-raw,
