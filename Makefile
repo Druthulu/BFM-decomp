@@ -8,6 +8,13 @@
 
 SHELL := /bin/bash
 .ONESHELL:
+# FAIL-CLOSED BY DEFAULT (Phase-27 T2). Without `-e`, .ONESHELL sends the WHOLE recipe to one
+# `bash -c`, so a recipe's exit status is its LAST command's only — every earlier failure is
+# silently swallowed. That made `report`'s lint_symbol_refs / progress --audit / difficulty /
+# dup_report non-gates (dedup-check "worked" purely by being last), i.e. exactly the defect the
+# 26-A audit exists to kill: a loud failure nobody counts is as invisible as a silent one (R32).
+# `-e` makes every recipe line load-bearing. Deliberate opt-out: `check-env` (see its recipe).
+.SHELLFLAGS := -ec
 .DEFAULT_GOAL := help
 
 # --- paths & tooling ---------------------------------------------------------
@@ -125,7 +132,7 @@ CC1_SMOKE_FLAGS := -quiet -O2 -G0 -mips1 -mcpu=3000 -mgas -msoft-float -fgnu-lin
 BINUTILS_WARN_MAJOR := 2
 BINUTILS_WARN_MINOR := 38
 
-.PHONY: help check-env extract build check expected clean report sig-refresh sig-overlays build-all check-all audit-corpus audit-cdecl
+.PHONY: help check-env extract build check expected clean report sig-refresh sig-overlays build-all check-all audit-corpus audit-cdecl tools-health
 
 # -----------------------------------------------------------------------------
 help:
@@ -167,6 +174,18 @@ audit-corpus:
 # declaration beside this parser's reconstruction of it, and a statement gcc also rejects is not C.
 audit-cdecl:
 	$(VENV_PY) tools/cdecl.py --audit --gcc
+
+# The tool-health ritual (Phase-27 T2). Before the 26-A audit the two oracles above had NO dependent
+# — nothing invoked them, so "run the audits" was a manual habit, and a habit nobody automates is a
+# gate nobody counts (R32). This is that dependent: `make tools-health` runs both derived oracles and
+# the report gates (lint_symbol_refs + dedup-check) together, and under the global -e ANY one failing
+# aborts it. It is deliberately NOT a prerequisite of `report`/`build` — audit-cdecl cross-compiles
+# every C declaration through real gcc (minutes), so it belongs to a deliberate pre-matching ritual,
+# not the inner harvest loop. Matches the roadmap's standing invariant (audit-corpus · audit-cdecl ·
+# report green before matching).
+tools-health: audit-corpus audit-cdecl
+	$(MAKE) --no-print-directory report BINARY=main
+	echo "tools-health: OK — corpus + cdecl + report(lint+dedup) all green."
 
 report:
 	$(VENV_PY) tools/progress.py --binary $(BINARY) --audit
@@ -214,7 +233,13 @@ sig-overlays:
 # stop at the first failure) so the report is complete, then exits nonzero if any
 # hard check failed. binutils >= 2.38 is a WARN, never a FAIL (§4.5).
 check-env:
-	@fail=0
+	# DELIBERATE opt-out from the global `-e` (.SHELLFLAGS, Phase-27 T2). This recipe's contract is
+	# "run EVERY preflight check, print EVERY [FAIL], exit with the accumulated status" — it manages
+	# its own `fail` and exits 1 at the end. Under `-e` a probe assignment (e.g. `pyver=$$(python3
+	# ...)` on a box without python3) would abort at the FIRST problem and hide the rest, turning a
+	# diagnostic into a stop-on-first-error. Accumulate-and-report is correct here; nowhere else.
+	@set +e
+	fail=0
 	echo "== BFM-decomp environment preflight (Phase 4 check-env) =="
 	echo
 	# 1) Python >= 3.12 (system python3 drives tooling + the EXE-hash import)
@@ -596,20 +621,41 @@ JOBS ?= 16    # parallel binary builds/extracts (override: `make check-all JOBS=
 # (+ build/psyq) exist before the parallel fan-out; then extract the rest in parallel.
 extract-all:
 	@mkdir -p .run; : > .run/extract-all.txt
+	# Under the global `-e` a failing main extract now aborts here. It previously did NOT: its status
+	# was swallowed by .ONESHELL, and the closing `! grep -q` then passed regardless — a seed failure
+	# could sail through as green.
 	$(MAKE) --no-print-directory extract BINARY=main
 	echo "$(filter-out main,$(BINARIES))" | tr ' ' '\n' | xargs -P$(JOBS) -I{} sh -c \
-	  '$(MAKE) --no-print-directory extract BINARY={} >.run/extract.{}.log 2>&1 || echo "[EXTRACT FAIL] {}"' \
+	  '$(MAKE) --no-print-directory extract BINARY={} >.run/extract.{}.log 2>&1 && echo "[ OK ] {}" || echo "[EXTRACT FAIL] {}"' \
 	  | tee .run/extract-all.txt
-	! grep -q "EXTRACT FAIL" .run/extract-all.txt
+	pass=$$(grep -c "^\[ OK \]" .run/extract-all.txt || true)
+	fail=$$(grep -c "^\[EXTRACT FAIL\]" .run/extract-all.txt || true)
+	want=$$(( $(words $(BINARIES)) - 1 ))
+	echo "extract-all: $$pass extracted, $$fail failed of $$want (+ main, serial)"
+	# Assert COVERAGE (pass == N-1), not the absence of a marker (R32) — `! grep -q "EXTRACT FAIL"`
+	# was a vacuous pass on an empty pipeline.
+	if [ "$$pass" -ne "$$want" ]; then
+		echo "[FAIL] extract-all: expected $$want extracted, got $$pass (failed=$$fail)"; exit 1
+	fi
 
 check-all:
 	@mkdir -p .run; : > .run/check-all.txt
 	echo "$(BINARIES)" | tr ' ' '\n' | xargs -P$(JOBS) -I{} sh -c \
 	  '$(MAKE) --no-print-directory check BINARY={} >.run/check.{}.log 2>&1 && echo "[ OK ] {}" || { echo "[FAIL] {}"; tail -3 .run/check.{}.log >&2; }' \
 	  | tee .run/check-all.txt
-	pass=$$(grep -c "^\[ OK \]" .run/check-all.txt); fail=$$(grep -c "^\[FAIL\]" .run/check-all.txt)
-	echo "check-all: $$pass passed, $$fail failed of $(words $(BINARIES))"
-	[ "$$fail" -eq 0 ]
+	# `|| true`: grep -c EXITS 1 when the count is 0, and under `-e` a failing command substitution
+	# aborts the assignment — so the bare form would make check-all FAIL exactly when nothing failed.
+	pass=$$(grep -c "^\[ OK \]" .run/check-all.txt || true)
+	fail=$$(grep -c "^\[FAIL\]" .run/check-all.txt || true)
+	want=$(words $(BINARIES))
+	echo "check-all: $$pass passed, $$fail failed of $$want"
+	# Assert COVERAGE (pass == N), not merely the absence of a failure marker (R32). `fail -eq 0`
+	# was a VACUOUS PASS: if the xargs pipeline emitted nothing at all, pass=0 fail=0 -> [ 0 -eq 0 ]
+	# -> green while checking NOTHING. The byte-gate is a correctness oracle with a null coverage
+	# dimension; this line is the coverage half.
+	if [ "$$pass" -ne "$$want" ]; then
+		echo "[FAIL] check-all: expected $$want passing, got $$pass (failed=$$fail)"; exit 1
+	fi
 build-all: check-all
 
 # check: SHA1 of the build vs the committed original hash. The definition of "build OK".
