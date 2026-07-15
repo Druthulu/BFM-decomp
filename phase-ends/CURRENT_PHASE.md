@@ -659,6 +659,37 @@ On approval → `/model opus` + `/effort xHigh` (Tasks 0–4; ALL Fable5 via `Ag
 
 ## Log
 
+- **2026-07-14 (session 12, A9a+A9b — canon_sig_reconcile fn-ptr fix + wall re-test; Max):** Continued the
+  tool-hygiene audit. **A9a — `canon_sig_reconcile` sees fn-ptr dispatch tables (`commit:0609`).** The def-side-wall
+  recovery tool, live on the ×134 economic-engine paths (jtbl_family_bank, family_sweep --reconcile-raw,
+  bank_exemplar, t7_bank, scope_data_externs, family_remap). Its tu_ambient/visible_above classifiers +
+  `_reconcile_data`'s `_DATA_EXTERN_RE` have a type class `[\w \*]` that can't hold a `(` → 100% blind to
+  `extern void (*D_x[])(void);`, the per-overlay jump-table DISPATCH arrays. A fn-ptr symbol landed in NO bucket,
+  fell out of `visible`, and the tool block-moved the draft's extern into a guaranteed `conflicting types`.
+  **Fix = SUPPLEMENT, not wholesale-replace** (R14-driven): a full cdecl delegation of the funcs classification
+  was tried and REJECTED — cdecl normalizes funcs formatting (`void*`→`void *`, param names, a real return-ptr
+  hazard `u8*`→`u8`) → 728k value-changes rippling into the callee string-compare; the audit flagged fn-ptr
+  DATA, not funcs. So keep the proven regex byte-identical and supplement from `cdecl.tu_scope` ONLY the fn-ptr
+  symbols it drops (`_fnptr_data`); `_reconcile_data` gains a fn-ptr pre-pass (visible→STRIP, no cast — a
+  call-through `D_x[i]()` is decl-independent indirect codegen; casting would mangle it, the trap reconcile_tu
+  documents; not-visible→block-move) + the F2 comment-paren-bail fix + an R32 coverage assertion. **PROVEN
+  ADDITIVE:** classifier snapshot over 1683 TUs = **REGRESSIONS 0, ADDITIONS 69,798 (all data fn-ptr)**;
+  reconcile() OLD-vs-NEW over 434 real drafts = **0 regressions**; src/ UNTOUCHED (a tool change moves no bytes).
+  Harness in `.run/audit/a9a_*`. **A9a's immediate banking impact = NULL** (correctness fix, like A3c/A3d/A3e —
+  the historical tail fails on codegen/heterogeneous blockers, not the one fix); its value is protecting all
+  future dispatch-table banking.
+  **A9b — re-test the walls (`commit:0610`, `commit:0611`).** Re-ran 7 fn-ptr-referencing "blocked" cracks through
+  bank_exemplar. **HONEST (R14): A9a did NOT independently unblock any** — the `reconciled` stage failed on
+  func_8015B950's func-conflicts; the rest hit K&R / scalar-typedef / non-ov077 / non-contiguous-carve blockers.
+  **BUT the audit's recover path (A3d reconcile_tu / A3e gate) dissolved `func_8017A4AC` (536 ins × 134)** — a
+  giant "blocked on plumbing" since session 8. It banked at the `recovered` stage (reconcile_tu resolves its
+  D_80126B58 struct + D_801DA75C fn-ptr conflicts). Isolated + carved + jtbl_family_bank --raw swept **133/133
+  siblings, 0 failed**. **R22 clean-fleet 136/136** after each; **instr-weighted 68.1→68.6% (+0.5%), distinct
+  48.0→49.2% (+1.2%)**; dedup 1840/0. **The audit thesis demonstrated: a many-phase "wall" was our TOOLING, not
+  an intrinsic residual — fixed the oracle, the wall banked ×134.** SESSION-12 net: instr 68.1→68.6%, distinct
+  48.0→49.2%, 3 commits. **NEXT (tool-hygiene tail):** A9c `lint_symbol_refs` (RED+unwired, 3 blind spots → green
+  + wire into make report — the only R22 rename-drift detector); A9d (census delete, reconcile_tu→bank_exemplar,
+  split-infra latch); then A10 full wall re-test + A11 close.
 - **2026-07-14 (session 11, A3h — the standing-lead harvest, measured then banked; xHigh):** Resumed the
   A3f/A3g "310 byte-exact stubs" lead. **Measured it precisely first (R14) — and the "310 same class, same
   fix" framing was optimistic.** Deduped the backlog's `closeness==0` rows (recovering `addr` from `name` for
