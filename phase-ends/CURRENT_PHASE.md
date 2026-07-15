@@ -659,6 +659,27 @@ On approval → `/model opus` + `/effort xHigh` (Tasks 0–4; ALL Fable5 via `Ag
 
 ## Log
 
+- **2026-07-14 (session 13, A9f — overlay_src_split force_decl latch fixed + a coverage oracle; Max):**
+  The parser `jr_isolate_all` rewrites source from swallowed **2 real function definitions** on physical
+  lines of the form `extern A; extern B; void f(){...}`: `scan_construct`'s `force_decl` latched from the
+  FIRST token and returned at the first depth-0 `;`, so the def after it was never anchored — absorbed into
+  the next anchor's preamble. **The selftest was structurally blind** (round-trip = `"\n".join(item_texts)`
+  stays exact by construction when a miss lands in a preamble — a *serialisation* check, not *coverage*).
+  **FIX (byte-safe, R14-chosen):** rejected the audit's "split the line into 3 constructs" — round-trip
+  joins whole-line chunks with `\n`, so sub-line splitting would insert a newline where a space was and
+  BREAK round-trip. Instead: `force_decl` no longer survives a same-line `;` with trailing code (re-classify
+  + keep scanning → the def anchors, its leading externs staying in its whole-line text); `def_name` now
+  names the LAST top-level header before `{` (the definition, not the first same-line extern; byte-identical
+  on every single-def construct). **R32 coverage oracle** `hidden_definitions()` wired into `selftest`
+  (independent detector of `func_XXXX(...){` bodies not anchored) — the selftest is now a coverage check.
+  **Audit line refs were STALE** (src rewritten by banking): real cases are `ov_SC01_077_after.c:2020`
+  (func_8014FDF4) + `ov_SC01_077_jr_8015444C.c:1495` (func_80155FF8), found via the new oracle (matched the
+  audit's count of 2). **VERIFIED:** 2 swallowed→0; full-fleet regression over **1738** overlay `.c` = 0
+  round-trip fails, 0 non-monotonic, **0 non-additive changes** (nothing removed/reordered, `def_name`
+  unchanged everywhere), exactly **+2** anchored defs. **BYTE-SAFE:** overlay_src_split is NOT in the
+  make build/extract path (R22 byte-neutral); ov_SC01_077 rebuilds `d19c9580` `[OK]`; neither def straddles
+  a committed subseg boundary (no cut in `(def, next]`) ⇒ a future re-isolation stays byte-identical.
+  tooling-audit ledger marked FIXED. **NEXT: A9g — jr_inventory ephemeral gitignored-scratch read (R33).**
 - **2026-07-14 (session 13, A9e — reconcile_tu already wired into bank_exemplar; NULL RESULT; Max):**
   P9/R14 — the session-12 handoff item "wire reconcile_tu into bank_exemplar" is a **stale carryover; it
   was already done by A3d.** Traced the call chain rather than trusting the note: `bank_exemplar`'s

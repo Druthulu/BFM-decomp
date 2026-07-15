@@ -73,31 +73,39 @@ def item_func_name(text):
 
 
 def def_name(construct_lines):
-    """The defined function's name = the identifier immediately before the first
-    params `(` in the (comment/string-stripped) definition signature. Robust to a
-    leading banner comment and to multi-line prototypes in a shared preamble (those
-    never reach here — scan_construct hands us the definition construct only)."""
+    """The defined function's name = the identifier before the LAST top-level header
+    `(` that precedes the body `{`.
+
+    Reading to the `{` (not stopping at the FIRST `(`) makes this robust to a rare but
+    real overlay shape: a definition sharing a physical line with preceding
+    same-line `extern ...;` declarations (`extern A(...); extern B(...); void f(...){`)
+    — those earlier `name(` headers are correctly skipped so we name the DEFINITION,
+    not the first extern. K&R parameter declarations carry no `(`, so they never add a
+    spurious candidate; and a normal single-def construct has exactly one header `(`,
+    so first==last and the result is byte-identical to the previous implementation
+    (verified over the whole corpus in A9f)."""
     code = []
     in_block = False
     for line in construct_lines:
-        c = line
-        if in_block:
-            if "*/" in c:
-                c = c.split("*/", 1)[1]
-                in_block = False
-            else:
-                continue
-        c = re.sub(r'/\*.*?\*/', '', c)
-        if "/*" in c:
-            c = c.split("/*", 1)[0]
-            in_block = True
-        c = re.sub(r'//.*$', '', c)
+        c, in_block = _strip(line, in_block)      # blanks comments AND strings/chars
         code.append(c)
-        if "(" in "".join(code):
+        if "{" in c:
             break
     joined = "".join(code)
-    m = re.search(r'([A-Za-z_]\w*)\s*\(', joined)
-    return m.group(1) if m else None
+    depth = 0
+    name = None
+    for k, ch in enumerate(joined):
+        if ch == '{' and depth == 0:
+            break
+        if ch == '(':
+            if depth == 0:                        # a top-level header ( : the ident before it
+                m = re.search(r'([A-Za-z_]\w*)\s*$', joined[:k])
+                if m:
+                    name = m.group(1)
+            depth += 1
+        elif ch == ')':
+            depth = max(0, depth - 1)
+    return name
 
 
 def _strip(line, in_block):
@@ -164,7 +172,7 @@ def scan_construct(lines, i):
     j = i
     while j < n:
         code, in_block = _strip(lines[j], in_block)
-        for ch in code:
+        for p, ch in enumerate(code):
             if ch == '(':
                 paren += 1
             elif ch == ')':
@@ -186,12 +194,24 @@ def scan_construct(lines, i):
                         return j + 1, True          # function body closed
                     body_open = False               # braced type -> await terminating ;
             elif ch == ';' and paren == 0 and brace == 0:
-                if seen_header and not body_open and not force_decl:
-                    if "".join(since_header).strip() == "":
-                        return j + 1, False          # prototype: )  ;
-                    # else: a K&R param decl -> keep scanning for the body {
+                if seen_header and not body_open and not force_decl \
+                        and "".join(since_header).strip() != "":
+                    pass                             # K&R param decl -> keep scanning for `{`
+                elif code[p + 1:].strip():
+                    # Another construct follows on the SAME physical line, e.g.
+                    # `extern A; extern B; void f(){...}`: this `;` ends a LEADING
+                    # declaration, not the whole construct. force_decl was latched from
+                    # the FIRST token and must not survive the `;` — re-classify from the
+                    # remaining text and keep scanning, so a following DEFINITION anchors
+                    # instead of being swallowed into a preamble (A9f; §26-A audit).
+                    nxt = code[p + 1:].lstrip()
+                    force_decl = any(nxt == k or nxt.startswith(k + " ") or nxt.startswith(k + "\t")
+                                     for k in _DECL_KW)
+                    seen_header = body_open = False
+                    since_header = []
+                    continue
                 else:
-                    return j + 1, False              # plain / braced declaration end
+                    return j + 1, False              # prototype `) ;` or plain/braced decl end
             if seen_header and not body_open:
                 since_header.append(ch)
         j += 1
@@ -577,9 +597,51 @@ def partition(srcpath, cuts, syms_path, verbose=True):
     return header, regions
 
 
+# --------------------------------------------------------------------------- coverage
+_DEF_HDR_RE = re.compile(r'\b(func_[0-9A-Fa-f]{8})\s*\(')
+
+
+def hidden_definitions(src, items):
+    """R32 coverage oracle — INDEPENDENT of scan_construct's line-based classifier.
+
+    The round-trip selftest is a SERIALISATION check, not a coverage one: an
+    unrecognised construct is absorbed into the next anchor's preamble, so the
+    round-trip stays exact BY CONSTRUCTION even when a definition is never anchored
+    (the force_decl-latch bug, §26-A audit). This closes that blind spot by
+    over-approximating: every top-level `func_XXXX(...)` header whose body is `{` (a
+    real definition — not a `...);` prototype and not a call) MUST be an anchored
+    def/define/asm item. Returns the names of any that are not. Empty == clean."""
+    stripped, in_block = [], False
+    for line in src.split("\n"):
+        c, in_block = _strip(line, in_block)
+        stripped.append(c)
+    code = "\n".join(stripped)
+    anchored = {it[0] for it in items if it[2] in ("def", "define", "asm", "nonmatch")}
+    missed = []
+    for m in _DEF_HDR_RE.finditer(code):
+        k = m.end() - 1                          # index of the header (
+        depth = 0
+        while k < len(code):                     # find its matching )
+            if code[k] == '(':
+                depth += 1
+            elif code[k] == ')':
+                depth -= 1
+                if depth == 0:
+                    break
+            k += 1
+        # a DEFINITION: the header ) is followed (after optional K&R `type var;` decls)
+        # by `{`; a prototype/call is followed by `;`. Over-approximate deliberately.
+        if not re.match(r'\s*(?:[A-Za-z_][\w\s,*]*;\s*)*\{', code[k + 1:]):
+            continue
+        addr = int(m.group(1)[5:], 16)
+        if addr not in anchored:
+            missed.append(m.group(1))
+    return missed
+
+
 # --------------------------------------------------------------------------- CLI
 def selftest(srcpath, syms):
-    """Round-trip + anchor-order + kind census — proves the parser on a real file."""
+    """Round-trip + anchor-order + kind census + coverage — proves the parser on a file."""
     src = open(srcpath).read()
     header, items = parse_overlay_c(src, syms)
     rebuilt = header + "\n" + "\n".join(it[3] for it in items)
@@ -590,13 +652,16 @@ def selftest(srcpath, syms):
     addrs = [it[0] for it in items if it[0] is not None]
     unres = [it for it in items if it[0] is None and it[2] != "footer"]
     mono = sum(1 for a, b in zip(addrs, addrs[1:]) if b < a)
+    hidden = hidden_definitions(src, items)      # R32: swallowed definitions (serialisation-blind)
     print(f"{os.path.basename(srcpath)}: {len(items)} items {dict(kinds)}")
     print(f"  round-trip exact: {ok}")
     print(f"  addressed: {len(addrs)}  unresolved(non-footer): {len(unres)}  "
-          f"non-monotonic transitions: {mono}")
+          f"non-monotonic transitions: {mono}  swallowed-defs: {len(hidden)}")
     if unres:
         for it in unres[:5]:
             print(f"    UNRESOLVED [{it[2]}]: {it[3].strip()[:90]}")
+    if hidden:
+        print(f"    SWALLOWED DEFINITION(S) (a coverage defect, not a no-op): {hidden[:8]}")
     if not ok:
         # locate first divergence for debugging
         a, b = src.split("\n"), rebuilt.split("\n")
@@ -606,7 +671,7 @@ def selftest(srcpath, syms):
                       f"    got : {b[idx][:80]!r}")
                 break
         print(f"  line counts: orig={len(a)} rebuilt={len(b)}")
-    return ok and not unres and mono == 0
+    return ok and not unres and mono == 0 and not hidden
 
 
 def _ov_from_path(p):
