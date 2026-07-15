@@ -659,6 +659,29 @@ On approval → `/model opus` + `/effort xHigh` (Tasks 0–4; ALL Fable5 via `Ag
 
 ## Log
 
+- **2026-07-14 (session 13, A10 COMPLETE — the wall re-test verdict on all 5 walls; Ultracode/Max):**
+  **A10 SYNTHESIS — the audit's thesis is CONFIRMED, and the payoff was banked by the FIXES, not by re-gating
+  the residual.** Verdict per wall:
+  **① fuel/closeness-0 — CONFIRMED REAL.** Fleet-scale re-gate of all 958 closeness-0 backlog drafts = **0/958
+  bank** (135 binaries). Genuine whole-binary near-misses; `match_one closeness==0` overstates. The wall is real.
+  **② arity/narrow-param (Phase-15 "dead-end") — WAS TOOLING, dissolved.** A3c proved the `()` rule
+  order-dependent (cc1 doesn't enforce it); **13/18** Phase-15 arity fns already banked; 5 residual.
+  **③ def-side loose-typing (§20/§41, "triple-confirmed") — WAS PARTLY TOOLING, dissolved.** reconcile_tu (A3d,
+  retired the fleet-majority oracle) + A9a; **A9b banked func_8017A4AC ×134** — a many-phase "wall" that was our
+  oracle. Residual def-side conflicts are genuine (Phase-16 byte-proved real contradictions exist).
+  **④ type-heavy tail (3,098 + 9 zero-bank families) — the BLOCKING TOOL was broken (tooling); now UNBLOCKED,
+  harvest → Task 8.** A7 fixed `build_engine_types` (was dead on 81% of its corpus); confirmed it now RUNS +
+  is idempotent. But the 9 families' types (`Work8016`/`E4`/…) aren't lifted, and `family_sweep` doesn't wire
+  the type-lift (`remap_hseq` refuses STRUCT members) — so banking them (~1,200 members) is Task-8 INTEGRATION,
+  not a pure re-test. The wall's *cause* (tool couldn't run) is dissolved; the harvest is handed forward.
+  **⑤ 780 h_seq callee-oracle rejections — WAS TOOLING, dissolved.** A3h's post-fix `--hseq --band all` banked
+  **+2,675** members; the 16,049 residual failures are h_seq-collision false-templates the byte-gate correctly
+  refuses (real).
+  **BOTTOM LINE (P9):** the audit fixes dissolved the tooling-walls and BANKED the payoff (**A3f/g/h + A9a/b:
+  66.5→68.6% instr**); the re-tests CONFIRM the residual walls (closeness-0, genuine type contradictions) are
+  real; #4's type-harvest is unblocked and sequenced to Task 8. "A re-confirmed wall is as valuable as a
+  dissolved one" — A10 delivered both. **NEXT: A11 — distill + close the audit (R32/R33/R34 for ratification,
+  cookbook, decision-log, ledger, final R22), then resume Phase 26 at Task 7.**
 - **2026-07-14 (session 13, A10 fan-out wave 1 — closeness-0 backlog re-test = WALL CONFIRMED REAL; Ultracode):**
   Drew toggled `/effort ultracode`. **Definitive fleet-scale re-test of the "fuel exhausted"/closeness-0 wall
   (#1):** re-gated all **958** open-stub backlog drafts with `closeness==0` (match_one says byte-exact,
