@@ -659,6 +659,21 @@ On approval → `/model opus` + `/effort xHigh` (Tasks 0–4; ALL Fable5 via `Ag
 
 ## Log
 
+- **2026-07-14 (session 13, A9e — reconcile_tu already wired into bank_exemplar; NULL RESULT; Max):**
+  P9/R14 — the session-12 handoff item "wire reconcile_tu into bank_exemplar" is a **stale carryover; it
+  was already done by A3d.** Traced the call chain rather than trusting the note: `bank_exemplar`'s
+  `recovered` stage (l.53) = `fb.recover(base, OV, cf, FUNC)` = `jtbl_family_bank.recover()`, which runs
+  `cast_call_sites` **then `reconcile_tu`** (l.94/96) — the reconcile_tu wiring entered there in **A3d
+  (`commit:0601`, "retire the fleet-majority oracle … on BOTH banking paths")**. So `reconcile_tu` reaches
+  `bank_exemplar` transitively via `recovered`, needing no bank_exemplar-specific rung. **Already
+  PROVEN**: A9b banked `func_8017A4AC` "at the recovered stage (reconcile_tu resolves its D_80126B58 struct
+  + D_801DA75C fn-ptr conflicts)". Also confirmed **no live tool references the RETIRED `reconcile_decls`**
+  (only docstring mentions + the `make audit-cdecl` differential harness, which legitimately measures cdecl
+  against the old regexes). **NO code change warranted** — adding a redundant explicit reconcile_tu rung
+  would duplicate `recovered` and diverge from `jtbl_family_bank`'s pattern for zero benefit. One byte-neutral
+  hardening: documented the recovery-ladder composition inline in `bank_exemplar` (scoped/recovered/reconciled)
+  so a future session doesn't re-run this exact "is it wired?" investigation — the precise waste the audit
+  exists to eliminate. **NEXT: A9f — overlay_src_split force_decl latch.**
 - **2026-07-14 (session 13, A9d — retire the dead Phase-17 canonical-sig chain; Max):** R33 applied to a
   two-tool dead chain. **DELETED `tools/census_conflict_callees.py` + `tools/derive_canonical_sigs.py`.**
   `census` was audit-CONFIRMED MARKED-FOR-DELETION (`commit:0593`; decision-log 836 "in its entirety gets

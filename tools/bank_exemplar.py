@@ -47,6 +47,13 @@ body = open(CRACK).read()
 
 scoped, moved = scope_data_fix(body, orig, m.start(), FUNC)
 base = scoped if moved else body
+# Fallback ladder (§19 — gate the RAW draft first, each rung more aggressive, bank on the first
+# byte-match). What each recovery rung actually runs:
+#   scoped     — §8d block-scope demotion of carried D_ externs (only when scope_data_fix moved any).
+#   recovered  — fb.recover = cast_call_sites (callee-sig casts) THEN reconcile_tu (the DATA-symbol
+#                per-TU oracle, wired A3d/commit:0601): conform each D_ decl to what THIS TU can SEE and
+#                cast at use. This is how reconcile_tu reaches bank_exemplar — no separate rung needed.
+#   reconciled — canon_sig_reconcile (the def-side loose-typing sig wall; A9a made it fn-ptr-aware).
 stages = [("raw", lambda: body)]
 if moved:
     stages.append(("scoped", lambda: scoped))
