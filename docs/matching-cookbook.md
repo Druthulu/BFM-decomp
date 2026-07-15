@@ -3552,7 +3552,7 @@ compare what it found against an over-approximating candidate set, and fail on t
 > rule. **"Assert your coverage" is the rule.**
 
 **LAW 3 — When an oracle is structurally blind to a class of error, add a SECOND ORACLE THAT CAN
-DISAGREE WITH IT.** Not a better assertion inside the first one.
+DISAGREE WITH IT (R34).** Not a better assertion inside the first one.
 
 * `config/symbols.us.txt` declared a main-EXE RAM symbol at an address that is *live code* in every
   overlay. splat cut **97 real functions in half** and **invented 96 phantoms** — 193 slices unmatchable

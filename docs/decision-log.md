@@ -997,3 +997,38 @@ not plumbing. The real gain is narrower and still worth having: **52 drafts move
 near-miss the permuter can act on. Three times in one session a confirmed mechanism produced a null
 consequence. *"This tool is broken" and "this number will move" are different claims, needing different
 evidence.*
+
+## 2026-07-15 (session 13, A10) — the wall re-test verdict: the broken tools WERE the walls, and the payoff was banked by the FIXES
+
+**Context + belief.** The audit set out to answer one question (its own thesis): *how many of the walls we
+byte-proved across 26 phases were lookup misses wearing a wall's clothes?* Going in, the honest prior — set by
+the `SIG_IN_BODY_RE` finding, where one 10% oracle hole made nine byte-exact functions look like an intrinsic
+compiler wall — was *"some of it was our tooling."* A10 was gated ahead of all matching to test that at scale.
+
+**What we found.** The payoff did not come from A10's own re-gating — it came from the **fixes**, and it was
+already banked by the time A10 ran: retiring the fleet-majority oracle (A3d → `reconcile_tu`), the all-TU gate
+(A3e), the h_seq callee oracle (`SIG_IN_BODY_RE`), the fn-ptr blindness (A9a), and the `build_engine_types`
+blocker (A7) collectively moved the fleet **66.5 → 68.6% instr**, with the flagship proof being A9b —
+`func_8017A4AC` (536 ins × 134), a "blocked on plumbing" wall since session 8, banking ×134 the moment the
+oracle it tripped was fixed. **The walls named in this audit's thesis were, in the parts that moved, our tooling.**
+
+**The pivot inside A10 (measure, then adapt — R14).** The obvious A10 move — brute re-gate the 958
+`closeness==0` backlog drafts through the fixed gate — was tested first on one overlay (0/14 bank) and then
+settled at fleet scale: **0 of 958 bank across 135 binaries.** `match_one closeness==0` (isolated,
+reloc-masked) systematically overstates whole-binary bankability; the fixed gate recovers **none** of them.
+So rather than a Workflow fan-out that would have burned agents confirming a null, A10 ran it as a
+deterministic parallel job and reported the number. **The closeness-0 residual is genuine codegen — a
+re-confirmed wall (P9), which is as valuable as a dissolved one: it tells the endgame where NOT to look.**
+
+**The better path, in hindsight.** The single most load-bearing lesson is upstream of any specific fix:
+**a green byte-gate is compatible with any decomp %, so it can never tell you what you failed to attempt.**
+Every wall this audit dissolved was invisible to the one instrument we trusted absolutely — not because the
+gate was wrong, but because it is a correctness oracle with a null coverage dimension (R34). Had a coverage
+oracle (R32) and a *second, disagreeing* oracle (R34) existed from Phase 6, most of these walls would never
+have been written down as walls. The audit's real deliverable is not the ~15 fixes — it is the three rules
+(R32/R33/R34) and the derived-oracle pattern (`corpus.py`/`cdecl.py`) that make the *next* 26 phases unable
+to manufacture a wall out of a lookup miss.
+
+**Handed forward:** #4 the type-heavy harvest (~1,200 members; `build_engine_types` unblocked but not yet
+wired into the family path — Phase-26 Task-8 integration, not a re-test). Substrate for the retrospective + the
+public "how to AI-decomp" wiki (R31): *audit your instruments before you trust their silence.*

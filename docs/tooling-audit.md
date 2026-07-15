@@ -1,7 +1,10 @@
 # Tooling-Integrity Audit — measured findings (Phase 26 session 8, 2026-07-14)
 
-> **STATUS: DIAGNOSIS ONLY. Almost nothing here is fixed.** This is the input to the audit phase Drew gated
-> ahead of all further matching work (*"we should do T14 now, before the rest of the work"*).
+> **STATUS: ✅ CLOSED (Phase 26-A, 2026-07-14 → 07-15).** This began as DIAGNOSIS ONLY (session 8, below) and
+> became the inserted half-phase Drew gated ahead of all further matching (*"we should do T14 now"*). The
+> **AUDIT-CLOSE LEDGER** immediately below is the outcome; the per-finding sections carry inline `✅ FIXED`
+> marks. The individual "STATUS/priority/not-yet-audited" notes further down are the session-8 diagnosis,
+> preserved as the historical input.
 >
 > **Method (do not audit by reading regexes — that is the failure mode that WROTE these bugs).** For each
 > scanner: build a deliberately OVER-APPROXIMATING candidate detector, run both over the real corpus, compute
@@ -10,6 +13,40 @@
 > recorded per group — several magnitudes were wrong in BOTH directions, and one whole class was refuted).
 >
 > **Coverage of this audit: 19 of 82 tools (23%), chosen by risk. NOT comprehensive.** See "Not yet audited".
+
+## AUDIT-CLOSE LEDGER (Phase 26-A outcome)
+
+**Verdict on the question this audit set out to answer** (*"how many walls were lookup misses wearing a wall's
+clothes?"*): **the broken tools WERE the walls, and fixing the oracles banked the payoff** — fleet
+**instr-weighted 66.5 → 68.6%** across A3f/g/h + A9a/b, at **136/136 byte-identical** throughout (final R22
+clean-fleet 2026-07-15: 136 passed, 0 failed). The residual walls, re-tested, are **real** (P9 — a
+re-confirmed wall is as valuable as a dissolved one).
+
+| # | tool / defect | outcome | commit |
+|---|---|---|---|
+| A1 | `dedup_integrate` — a fail-closed gate that printed **false greens** | 3 paths closed + negative controls; 7 ghost groups purged | `commit:0586` |
+| A2 | THE FULL AUDIT (18 tools · 38 agents · 2.24M tok) | 32 raised → **28 survived**, 4 refuted, 40 scanners clean | `commit:0588` |
+| A3 | **`corpus.py`** (derived oracle) + **`cdecl.py`** (C-decl grammar oracle) + `gate_stage`/`harvest_verify`/`cast_call_sites`/`sig_unify` migrated; the fleet-majority oracle **RETIRED** for `reconcile_tu` | targets 30→263 · reach-134 10→127 · gain 83k→**994,633 ins** · byte-gate reach 4.9%→**100%** · 3,717 actively-wrong canonicals removed | `commit:0589`..`commit:0602` |
+| A4 | the `listCdBuffer` corpus defect | **193 unmatchable slices → 0**; a banked phantom removed; 4 real fns un-hidden | `commit:0594` |
+| A5 | closeness oracle (`masked_diff` PC16) | **150 lies → 4** (coverage-asserted over 2,741 fns) | `commit:0594` |
+| ➕ | stale objects can produce a FALSE PASS | `extract` invalidates them — **structural, not advisory** | `commit:0595` |
+| A6/A7 | family engine + `build_engine_types` un-blinded | 96 phantom exemplars → 0; 17 fns banked ×134 free; type-lift now RUNS | `commit:0596` |
+| A8 | `jr_isolate_all` dropped **683 prototypes** — a latent BYTE-CHANGER | fixed + coverage-asserted | `commit:0597` |
+| A9a | `canon_sig_reconcile` blind to fn-ptr dispatch tables | cdecl-supplemented (0 regressions / 69,798 additions) | `commit:0609` |
+| A9b | **wall re-test payoff** | `func_8017A4AC` (536×134) — a many-phase "plumbing wall" — **banked ×134** by the fixed oracle | `commit:0611` |
+| A9c | `lint_symbol_refs` (the only R22 rename-drift detector) RED + UNWIRED | green on HEAD + wired into `make report` | `commit:0613` |
+| A9d | dead Phase-17 canonical-sig chain (`census_conflict_callees`+`derive_canonical_sigs`) | **DELETED** (R33 — the build answers it) | `commit:0615` |
+| A9e | `reconcile_tu` into `bank_exemplar` | already wired via A3d (`fb.recover`) — null result, documented | `commit:0616` |
+| A9f | `overlay_src_split` swallowed 2 real definitions; selftest was blind | force_decl latch fixed + `hidden_definitions()` R32 coverage oracle | `commit:0617` |
+| A9g | `jr_inventory` read banked-roster from an EPHEMERAL gitignored file | derive `banked` from the image (R33); 1:1 carve-ownership assert; fleet 134/134 | `commit:0618` |
+| A10 | **re-test the 5 walls** | ① closeness-0 **0/958 = REAL** · ② arity 13/18 fell (A3c) · ③ def-side dissolved (A9b) · ④ type-heavy tool unblocked (A7) → Task-8 harvest · ⑤ h_seq +2,675 (A3h) | `commit:0620`,`commit:0621` |
+
+**REMAINING (handed forward, not audit-blockers):** (1) the un-migrated `cdecl` consumers — `canon_sig_reconcile`'s
+non-fn-ptr classifier is still on its own regex (A9a supplemented only the fn-ptr data class, deliberately —
+a full cdecl swap rippled 728k value-changes); migrate one-at-a-time, byte-gated, when a specific bank needs
+it. (2) **#4 the type-heavy harvest** (~1,200 members across the 9 `Work8016`/`E4`/… families) — `build_engine_types`
+now RUNS but is not wired into the family path (`remap_hseq` refuses STRUCT members); this is **Phase-26 Task-8
+integration**, not a re-test. (3) the closeness-0 residual is confirmed genuine codegen — not actionable by tooling.
 
 ## Why this gates the matching work
 
@@ -30,15 +67,23 @@ byte-exact functions look like an intrinsic compiler wall.** We would have writt
 > Phase 16 byte-proved that genuinely contradictory typings DO exist, so the wall is real in part — but
 > *"some of it was our tooling"* is now the prior, not the long shot. **Re-test the cheap ones.**
 
-## The two rules this produced (P10 candidates — Drew ratifies at PhaseEnd)
+## The three rules this produced (P10 candidates — Drew ratifies at the Phase-26 PhaseEnd)
 
-- **R32 — Coverage assertion.** A tool that scans the corpus must assert its own coverage (found vs. an
-  over-approximating candidate set) and **fail loud on unparsed input**. A silent skip is a DEFECT, not a no-op.
+- **R32 — Assert your COVERAGE.** A tool that scans the corpus must compare what it found against an
+  over-approximating candidate set and **fail on the gap**. A silent skip is a DEFECT, not a no-op — *and a
+  LOUD failure nobody counts is exactly as invisible as a silent one* (`build_engine_types` fail-exited on 81%
+  of its corpus for four phases and stayed invisible because the message read like an edge case). *(Drew: "agreed", 2026-07-14.)*
 - **R33 — Derive, don't re-derive.** Where a proven invariant answers the question, derive the answer from it
   rather than re-parsing the source. **Apply R33 to each tool BEFORE R32: the best audit outcome is not a fixed
-  regex — it is a DELETED SCANNER.** `harvest_verify` is the model (it derives from `make build` + SHA1, so a
-  parse hole makes it *conservative, not wrong*). `progress.py` is the counter-example: `weighted_metrics()`
-  derives from the invariant and was correct; `classify()` re-parsed C and was not.
+  regex — it is a DELETED SCANNER.** (28 findings → one derived oracle + ~10 deleted scanners; the dead
+  canonical-sig chain and the ephemeral-roster read both ceased to exist rather than being patched.)
+  `harvest_verify` is the model (derives from `make build` + SHA1, so a parse hole makes it *conservative, not
+  wrong*); `progress.py classify()` was the counter-example (re-parsed C, inherited a bug).
+- **R34 — A second oracle, not a better assertion.** When an oracle is *structurally* blind to a class of
+  error, no assertion inside it can help — add an INDEPENDENT oracle that can **disagree** with it, and make
+  them argue. The whole-binary byte-gate is a perfect correctness oracle and a **null coverage oracle**;
+  `sig_image` disagreeing with splat is what exposed the 193 `listCdBuffer` slices, and `make audit-corpus`
+  reproduced that number from an independently-written tool. We had both oracles all along and never compared them.
 
 ## Priority order for the audit phase
 

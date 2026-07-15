@@ -19,7 +19,14 @@ The Phase-25 h_seq reframe: the "unique tail" is really per-location families �
 - [x] **Task 6 — Step-A triage of the 119 draftable substantial exemplars** `[Ultracode]` — Workflow (`.run/wf_triage_full.js`, 119 agents / 0 err / 5.3M tok): per-family m2c draft (+§8 jtbl) → `match_one` closeness → class + §31/§45 lever + seed (`.run/phase26-seeds/`). **119 triaged → cheap 29 (325k ins, 23 closeness-0 isolation-MATCH) / permuter 29 (341k) / fable5 61 (1.71M).** Curriculum → `docs/phase26-triage.md`. **⚠ Banking caveat (verified): the 23 closeness-0 seeds gate 0/23 into ov077** — genuine function matches but carry standalone types + Ghidra sigs conflicting with the TU (§41 def-side wall: `redefinition of struct Obj` / `conflicting types`); banking needs the Task-8 `--reconcile`/`canon_sig_reconcile` pass. *(committed)*
 ---
 
-## 🔬 PHASE 26-A — TOOLING-INTEGRITY AUDIT (INSERTED HALF-PHASE)
+## 🔬 PHASE 26-A — TOOLING-INTEGRITY AUDIT (INSERTED HALF-PHASE) — ✅ COMPLETE (2026-07-15)
+
+> **CLOSED.** A0–A11 done. Outcome + the fixed/remaining ledger: `docs/tooling-audit.md` (AUDIT-CLOSE LEDGER).
+> Rules for P10 ratification at the Phase-26 PhaseEnd: **R32/R33/R34**. Payoff **66.5→68.6% instr** (banked by
+> the fixes A3f/g/h + A9a/b). Final R22 **136/136 byte-identical**; `make report`/`audit-corpus`/`audit-cdecl`
+> green. **Phase 26 RESUMES at Task 7** (fresh session — see the Log's A11 entry + the checklist below).
+> *(The A0–A11 checklist below evolved its sub-numbering across sessions; the authoritative per-task trail is
+> the `## Log` at the bottom. Do not re-derive from the checklist alone.)*
 
 > **Drew's call, 2026-07-14 (gate-1 approved):** *"audit as an inserted half-phase in the current phase and
 > then resume phase 26."* The Phase-3.5 precedent — a spike inserted mid-arc, not a new phase. Phase 26's
@@ -659,6 +666,22 @@ On approval → `/model opus` + `/effort xHigh` (Tasks 0–4; ALL Fable5 via `Ag
 
 ## Log
 
+- **2026-07-15 (session 13, A11 — DISTILL + CLOSE THE AUDIT (26-A COMPLETE); Max):** Closed the inserted
+  tool-hygiene half-phase. **Distillation (most captured live per R30/R21 during A1–A10; A11 synthesised the
+  close):** `docs/tooling-audit.md` transformed DIAGNOSIS → **AUDIT-CLOSE LEDGER** (A1–A10 outcomes table +
+  the payoff 66.5→68.6% instr + the remaining/handoff) and its "two rules" → **R32/R33/R34** written crisp for
+  P10 ratification at the Phase-26 PhaseEnd. `docs/decision-log.md` +A10 verdict (R31 — the broken tools WERE
+  the walls; the payoff was banked by the fixes; the closeness-0 residual is genuine; the real deliverable is
+  the 3 rules + the derived-oracle pattern). `docs/SETUP.md` +the A9d–A10 tool changes (R21). Cookbook **§51**
+  (silent-skip class + over-approximating-detector method + LAWS 1–8) verified complete; LAW 3 tagged **R34**.
+  **OBSERVABLES GREEN (P9):** final R22 clean-fleet `make clean`+extract-all+check-all = **136 passed, 0 failed
+  of 136 BYTE-IDENTICAL**; `make report` EXIT 0 — dedup **1840 validated / 0 failed**, C1 coverage
+  227211/227211 signed, `lint_symbol_refs` (A9c, now wired) passing; `make audit-corpus` 0 slices,
+  `make audit-cdecl` green. **This session (13) made ZERO src/config changes** — all tool/doc hygiene; the
+  A10 re-gate banked 0 (confirmed-real wall). Tree clean (only db.gbf R23 noise). **🔬 PHASE 26-A COMPLETE.**
+  **NEXT: resume Phase 26 at Task 7** (family-core crack waves) — a fresh session (Tier-1 R27 boundary:
+  Max/Ultracode + re-plan the Fable5 tier per the window). The handed-forward audit items (un-migrated cdecl
+  consumers; the #4 type-heavy harvest → Task 8) are recorded in the audit-close ledger.
 - **2026-07-14 (session 13, A10 COMPLETE — the wall re-test verdict on all 5 walls; Ultracode/Max):**
   **A10 SYNTHESIS — the audit's thesis is CONFIRMED, and the payoff was banked by the FIXES, not by re-gating
   the residual.** Verdict per wall:
