@@ -1089,3 +1089,41 @@ truth. Validate a "templatable"/"matchable" count against the gate with one smal
 phase around it.* The megaplan's "986 families / 2.6M ins" set an expectation the gate then had to walk back
 twice this session; a probe up front would have sized the real yield. This is R14 applied at planning scale, and
 it is exactly why Phase 27 opens with a gate-validated re-scan.
+
+### 2026-07-15 — The Road-to-100 roadmap adopted (Phase 27+); the megaplan superseded
+
+**Context.** Phase 26 closed on the honest pivot (mechanical harvest byte-proven exhausted; instruments made
+trustworthy by the 26-A audit). Drew directed a plan-mode session (Fable5, Max): not a Phase-27 plan but a
+**full roadmap from 68.9% instr / 49.2% distinct to game-code 100%**, grounded in the audit. Method: all 26
+PhaseEnds + 3 scout distillations (audit / frontier / strategy) + a 16-defect red-team pass. Deliverable:
+**`docs/roadmap-to-100.md`** (P27 farewell-sprint+honest-frontier → P28 engine → P29 families → P30 mass+main
+→ P31 behemoths+walls → P32 verify+flip+Gen2-exit).
+
+**Drew's four contract decisions (the values calls, 2026-07-15):** (1) **game-code TRUE 100%** — no completion
+declaration while any game-code stub remains; walls re-attacked each phase boundary / model generation until
+they fall (the §45/§52 model-relativity history). (2) **PsyQ LINKED = complete**; libs-from-source (sotn
+precedent) recorded as a far-future side note only. (3) **Public flip AT 100%** — over the 2026-07-01 strategy
+review's near-term recommendation ("community labor is how every peer crossed the hard middle"). The tension is
+resolved by a **standing velocity checkpoint**: every phase close reports instr-%/session; if the trajectory
+stretches beyond what solo+agents can credibly finish, the flip-timing question is re-surfaced with the numbers
+— the decision stays falsifiable, not assumed. (4) **Fable5 window ~7/19**: the discovery sprint is P27's FIRST
+task (recon-done seeds, 1–2 fresh top cores, the qty_n_refs lever, the pin-crash SIGABRT characterization).
+
+**What the red-team caught (the why behind the roadmap's shape).** My own draft carried numbers past their
+invalidation events — reconcile_tu "needs wiring" (already wired, PhaseEnd26), a "~300k free plumbing win"
+(really ≈123k across 3 cores; func_8017A4AC already banked; func_8013F350 is a real class), "top-20 = 52%"
+(34% post-audit), worklist "needs regen" (already regenerated) — exactly the R14-at-planning-scale failure the
+Phase-26 close named. Fixes: every number in the roadmap traces to a committed post-audit artifact; §0 mandates
+that every PhaseEnd re-baseline the roadmap via a standing **"Roadmap delta"** line; and P27 re-derives whatever
+it consumes. The red-team also surfaced two real finds the plan now owns: **the `0x8017BEBC` family (952×~112,
+~106k ins, exemplar MATCHED) was never covered by the exhaustion probes** — the IMM-scattered class gets a P27
+gate-probe as possibly the largest cheap win left — and **the R34 second oracle covers only the overlays**, so
+main/resident (exactly where the 100% flags plant) get the oracle extension before any 100% claim.
+
+**Supersession.** `docs/family-endgame-megaplan.md` is superseded by `docs/roadmap-to-100.md` (banner added,
+content preserved). Its h_seq reframe survives — it produced Phase 26 — but its scan-derived numbers and the
+"crack ~986 exemplars → template ×120" thesis are byte-proven spent.
+
+**Hindsight better-path.** A roadmap "grounded in the audit" nearly shipped with pre-audit numbers in it. The
+transferable rule: when authoring any forward plan, red-team it against the committed artifacts *of the same
+day*, and make the plan self-expiring (the Roadmap-delta line) rather than self-perpetuating.

@@ -1,5 +1,11 @@
 # BFM Family-Endgame Megaplan — draft for the Fable5 plan-mode session (2026-07-11)
 
+> ⚠️ **SUPERSEDED (2026-07-15) by [`docs/roadmap-to-100.md`](roadmap-to-100.md)** — the Road-to-100 endgame
+> roadmap adopted at the Phase-27 planning gate (see `docs/decision-log.md`, 2026-07-15). The h_seq reframe in
+> this file survives (it produced Phase 26); its scan-derived numbers and the "crack ~986 exemplars → template
+> ×120" thesis are **byte-proven spent** (PhaseEnd_Phase26: 3 gate probes, 0%). Kept intact for the record —
+> do not plan from it.
+
 > **Purpose.** Input package for a fresh **plan-mode, Fable5Max** session to build the "finish the decomp this
 > weekend" plan. This file holds every byte-verified finding from the 2026-07-11 session. **The headline: the
 > "87% unique tail" was a measurement artifact — most of the remaining code is templatable per-location
