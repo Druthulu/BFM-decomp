@@ -659,6 +659,38 @@ On approval → `/model opus` + `/effort xHigh` (Tasks 0–4; ALL Fable5 via `Ag
 
 ## Log
 
+- **2026-07-14 (session 11, A3h — the standing-lead harvest, measured then banked; xHigh):** Resumed the
+  A3f/A3g "310 byte-exact stubs" lead. **Measured it precisely first (R14) — and the "310 same class, same
+  fix" framing was optimistic.** Deduped the backlog's `closeness==0` rows (recovering `addr` from `name` for
+  the 1,492 null-addr LLM-tier rows — dropping them would have been the exact R32 silent-skip), cross-referenced
+  against `corpus.stubs()` over all 136 binaries: **1,024 still-open byte-exact functions**, in 3 buckets —
+  **G** (66 open in ov077), **P** (61 matched in ov077 + open in siblings), **X** (897 absent from ov077).
+  **Bucket G — re-gated the 66 through the A3e-fixed `gate_stage --no-propagate` → 0 banked, 64 near, 3 failed.**
+  HONEST: A3f already took the bankable 33; the residual is the known hard classes (jtbl-rodata / register-pins /
+  struct-collision) + **stale backlog rows whose LATEST state is a WAVE mismatch** (the `closeness==0` was an old
+  row). Correct G3/P9.
+  **Bucket P — `dedup_propagate --addr` (A3g primitive). It skipped 70 of 83 as h_exact reach<2** (their sibling
+  bytes DIFFER — per-location variants → `family_sweep` territory, not plain propagation) and **propagated the 14
+  genuine PURE fleet families ×~133** (2 stragglers all-or-nothing-dropped). R22 clean-fleet **136/136**;
+  **instr-weighted 66.8→67.4%** (distinct flat — propagation adds MEMBERS); dedup **1826→1840/0**. Committed
+  `commit:0606`.
+  **Variant families — regenerated `family_hseq.json` (the 14 banks refreshed it), then `family_sweep --hseq
+  --band all`** (the audit fixes A3–A8 + new exemplars unblocked it): staged 12,373 member drafts / 223 families,
+  **BANKED 2,675 / 9,698 failed** (22% — the hard residual; easy bands long-harvested), skipped 3,319 pinned +
+  212 imm + 137 STRUCT. R22 clean-fleet **136/136**; **instr 67.4→68.1%, distinct 46.8→48.0% (+1,435 unique
+  fns** — templated members are distinct byte-variants, so this moved BOTH). Committed `commit:0607`.
+  **Bucket X (897 absent-from-ov077) — DE-RISKED, then STOPPED (P9).** Gated ov_SC04_018's 35 X-drafts →
+  **0 banked, 35 near.** **THE FINDING (R14): `match_one closeness==0` (isolated, relocation-masked) ≠
+  whole-binary byte-exact.** In the real TU their fresh gate logs read `residual: 13/19/55… mismatch` — they were
+  never whole-binary-bankable; the backlog's isolated-proxy overstated them. Only ~5/35 are true match_one-MATCH
+  "declaration/TU plumbing" — and `reconcile_tu` is **already wired** into `gate_stage` (A3d, l.208), so those
+  need the **un-migrated cdecl recovery consumers** (`sig_unify` done A3e, but `canon_sig_reconcile`'s classifier
+  still on the old parser — session-9 handoff item 1), i.e. **the next tool-fixing task / A10**, not the current
+  pipeline. So the mechanically-clean lead is banked; the residual is gated behind hard classes + recovery holes.
+  **NET SESSION: instr-weighted 66.8→68.1% (+1.3%), distinct-code 46.8→48.0% (+1.2%, +1,435 fns).** 2 commits,
+  R22 136/136 after each. Tree clean (only db.gbf restart-noise, R23). Measurement + buckets in
+  `.run/audit/a3h_*`. **NEXT: the recovery-tooling task at Max** (migrate `canon_sig_reconcile` + the remaining
+  cdecl consumers → re-test Bucket-G/X plumbing-class + the A10 walls). — R27: prompt Drew, wait for `/effort max`.
 - **2026-07-14 (session 10, A3f+A3g — the payoff of A3e, banked & propagated; Max):** With `gate_stage` no
   longer pinned to the main `.c`, ran the 63 `ov_SC01_077` `closeness==0` backlog drafts (byte-exact bodies the
   ledger called unrecoverable) through the fixed gate **`--no-propagate`**: **33 banked, 30 near, 0 failed.**
