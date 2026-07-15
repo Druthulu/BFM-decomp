@@ -659,6 +659,21 @@ On approval → `/model opus` + `/effort xHigh` (Tasks 0–4; ALL Fable5 via `Ag
 
 ## Log
 
+- **2026-07-14 (session 13, A10 fan-out wave 1 — closeness-0 backlog re-test = WALL CONFIRMED REAL; Ultracode):**
+  Drew toggled `/effort ultracode`. **Definitive fleet-scale re-test of the "fuel exhausted"/closeness-0 wall
+  (#1):** re-gated all **958** open-stub backlog drafts with `closeness==0` (match_one says byte-exact,
+  gate-rejected before the A3e all-TU fix) through the FIXED `gate_stage --no-propagate` across **135 binaries**
+  in parallel (Pool-16, 63 min). **RESULT: banked=0, near=957, failed=71, 0 errors, tree clean (0 banks).**
+  **CONCLUSION (P9 — a re-confirmed wall is as valuable as a dissolved one):** the closeness-0 backlog is
+  **genuine whole-binary near-misses, NOT tooling misses.** `match_one closeness==0` (isolated, reloc-masked)
+  systematically OVERSTATES whole-binary bankability (A3h's Bucket-X finding, now confirmed fleet-wide at scale),
+  and the repaired gate recovers **none** of them. The audit's "some walls were tooling" thesis was ALREADY
+  validated by the *fixes'* banking (A3f/g/h + A9b, 66.5→68.6% instr); this residual is real codegen. Ran as a
+  deterministic parallel job (not agents — agents would be wasted running a shell gate); `backlog.py` gained an
+  env-gated `BACKLOG_NO_RENDER` (workers skip the render race; append is atomic) — a small backward-compatible
+  parallel-safety change. **NEXT: pivot the reasoning Workflow to the one UNTESTED wall — #4 the type-heavy tail
+  (9 zero-bank type-using families + ~73 type-suspect stubs + the 3,098 tail), which A7 fixed `build_engine_types`
+  to run but nothing has re-harvested since (A3h's h_seq sweep skipped STRUCT). Sample-test first, then scale.**
 - **2026-07-14 (session 13, A10 Max-phase — wall re-test SCOPING + arity measurement; Max, fan-out pending R27):**
   Began A10 (Drew: "begin at Max, prompt before the ultracode fan-out"). **Measured before claiming (R14).**
   **KEY FRAMING:** the audit FIXES already dissolved the *easy* wall — A3f/g/h banked +2,675 h_seq re-harvest +

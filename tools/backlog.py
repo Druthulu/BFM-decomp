@@ -110,6 +110,11 @@ def _rank_key(r):
 
 
 def render():
+    # Parallel workers set BACKLOG_NO_RENDER=1 so concurrent gate_stage runs don't race on
+    # docs/backlog.md (render is a read-whole-file + rewrite; appends are atomic, render is not).
+    # The orchestrator renders ONCE after the wave. Backward-compatible: unset -> render as before.
+    if os.environ.get("BACKLOG_NO_RENDER"):
+        return
     recs = sorted(load_best(), key=_rank_key)
     by_status, by_class = {}, {}
     for r in recs:
