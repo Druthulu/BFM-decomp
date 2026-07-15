@@ -251,8 +251,11 @@ def hseq_sweep(a):
                 if draft is None:
                     r = info.split(":")[0] if isinstance(info, str) else "skip"
                     skip[r[:24]] += 1; continue
-            if re.search(r'__asm__\s*\(\s*"\$', draft):         # hard-reg pin (§42e): ×1-only, cc1-crashes
-                skip["pinned-exemplar"] += 1; continue          # sibling TUs → skip the family, don't bisect-storm
+            _code = re.sub(r'//[^\n]*', '', re.sub(r'/\*.*?\*/', '', draft, flags=re.S))
+            if re.search(r'__asm__\s*\(\s*"\$', _code):         # hard-reg pin (§42e): ×1-only, cc1-crashes
+                skip["pinned-exemplar"] += 1; continue          # sibling TUs → skip. Strip comments first: a body
+                                                                # that DOCUMENTS a removed pin ("__asm__(\"$16\") REMOVED")
+                                                                # is pin-free code and must not be false-skipped.
             # §8d — place the carried DATA externs at a scope this sibling's TU can accept.
             # `remap_hseq` (via gather_externs) prepends them at FILE scope; for a per-location symbol the
             # sibling declares only at BLOCK scope inside its own later functions, that ESTABLISHES A GLOBAL

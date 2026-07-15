@@ -680,7 +680,53 @@ DEFINE_func_80149544()  /* dedup: shared engine-core @0x80149544 (src/shared) */
 
 DEFINE_func_80149584()  /* dedup: shared engine-core @0x80149584 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_074/nonmatchings/ov_SC01_074_after", func_801495C4);
+extern void func_8014964C(s32 param_1, s32 param_2);
+
+/* func_801495C4  (ov_SC01_077, 34 ins) — clone of the banked sibling func_8014964C.
+ *
+ * REGISTER-PIN-FREE byte-match (close=0). The sibling's engine_core.h macro pins
+ * `register s32 p2 __asm__("$16")` to force a1->$s0; that pin is REMOVED here — once
+ * the &buf CSE-hoist is broken, natural density allocation puts a1 in $s0 by itself
+ * (a1: 7 refs / 21 insns crosses 2 calls; &buf pseudo out-densities it otherwise).
+ *
+ * Wall (pure-C, zero-asm): gcc-2.7.2 CSE commons the two identical stack-address
+ * computations `&buf` (sp+0x20, passed to both calls) into ONE call-crossing pseudo,
+ * which then wins $s0 over a1 (RC-2/K2 density) and spills a1 to $s1 (frame 0x30->0x38).
+ * v1 (buf declared first, buf@sp+0x10) rematerializes &buf and matches everything but
+ * the in/buf slot offsets; but correct slots REQUIRE `in,result,buf` decl order, which
+ * puts buf@sp+0x20 and triggers the hoist. Every zero-asm CSE-break tried (2 pointer
+ * vars, single ptr 2-set, struct, (char*)result+8, buf[z-z], a1&0, volatile ptr) is
+ * folded/re-commoned by gcc. The two `m1/m2` reg-tie barriers below make the two &buf
+ * opaque so each is materialized fresh (as the target does); `pin`/`mtx` barriers fix
+ * the call-1 arg-materialization schedule order. These are __asm__ value-barriers, NOT
+ * `register __asm__("$N")` pins.
+ */
+extern void func_8012F14C(s32);
+extern void func_8012EF70(s32, s32);
+
+void func_801495C4(s32 a0, s32 a1) {
+    s16 in[4];
+    s16 result[4];
+    s16 buf[4];
+    s16 *pin;
+    s16 *m1;
+    s16 *m2;
+    s32 mtx;
+
+    in[0] = *(u16 *)(a1 + 0x2);
+    in[1] = *(u16 *)(a1 + 0x6);
+    in[2] = *(u16 *)(a1 + 0xA);
+    pin = in;                  __asm__ __volatile__("" : "=r"(pin) : "0"(pin));
+    mtx = *(s32 *)(a0 + 0x20); __asm__ __volatile__("" : "=r"(mtx) : "0"(mtx));
+    m1 = buf;                  __asm__ __volatile__("" : "=r"(m1) : "0"(m1));
+    ((void (*)(s32, void *, void *))func_8012F14C)(mtx + 0x34, pin, m1);
+    m2 = buf;                  __asm__ __volatile__("" : "=r"(m2) : "0"(m2));
+    ((void (*)(void *, void *))func_8012EF70)(m2, result);
+    *(s16 *)(a1 + 0x2) = result[0];
+    *(s16 *)(a1 + 0x6) = result[1];
+    *(s16 *)(a1 + 0xA) = result[2];
+}
+
 
 
 // @class: regalloc-order
@@ -704,7 +750,34 @@ DEFINE_func_80149744()  /* dedup: shared engine-core @0x80149744 (src/shared) */
 
 DEFINE_func_80149788()  /* dedup: shared engine-core @0x80149788 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_074/nonmatchings/ov_SC01_074_after", func_801497A8);
+
+extern s32 func_8014CB7C(void);
+extern s32 func_8014C088(s32 a0, s32 a1);
+extern u8 func_80165658(s32 a0, s32 a1);
+
+s32 func_801497A8(s32 *a0) {
+
+    extern u8 D_80078E78[];
+    extern u8 D_80078EC1;
+    u8 *s1 = D_80078E78;
+    /* Zero-byte RC-7 "second set": reg_n_sets(s1)==2 fails update_equiv_regs'
+       single-set gate -> no REG_EQUIV -> the address constant is NOT
+       rematerialized at its lone use; it is held in a callee-saved reg ($s1)
+       across the calls, as the target does. NOT a register pin (no $N). */
+    __asm__("" : "=r"(s1) : "0"(s1));
+
+    if (*(u16 *)a0 == 0x1A) goto ret0;
+    if (func_8014CB7C() != 0) goto ret0;
+    if (D_80078EC1 == 0xF) {
+        if (func_8014C088((s32)a0, 0xA) != 0) goto ret0;
+    }
+    if (*(s32 *)((u8 *)a0 + 0x44) & 0x404) goto ret0;
+    if (func_80165658((s32)a0, s1[0x49]) & 0x80) goto ret0;
+    if (*(u16 *)((u8 *)a0 + 0xAC) & 0x20) return 1;
+ret0:
+    return 0;
+}
+
 
 DEFINE_func_80149864()  /* dedup: shared engine-core @0x80149864 (src/shared) */
 

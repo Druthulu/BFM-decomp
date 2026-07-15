@@ -3839,3 +3839,34 @@ each yielded a byte-verified, reusable lever:
 
 **Wave economics:** ~⅓ of a fully-walled cluster cracks pin-free by applying the idiom; the rest wall on a small
 set of distinct, now-named mechanisms. Cracks bank ×134; walls become permuter seeds or documented dead-ends.
+
+### §52b — Sibling wave 2: more de-pin levers, a third wall class, and the match_one→whole-binary gap at scale (2026-07-15)
+
+A second 6-agent Opus wave (armed with §52a) over the close=0 regalloc cluster: **3/6 banked ×134**
+(`func_801379FC`, `func_801497A8`, `func_801495C4`), 2 whole-binary-near, 1 new wall. Additional VERIFIED levers
+(each proven by a whole-binary ×1 bank):
+
+- **Per-loop pseudos for a register role-swap** — when the target uses pointer=$s0/index=$s2 in one loop and the
+  swapped roles in another, a single shared C var can't (one hard reg each). Declare SEPARATE per-loop locals
+  (`s32 p; s32 idx;` inside each block); the swap falls out of K2 density (the ref-heavier value wins the low
+  callee-saved per block). (`func_801379FC`.)
+- **The RC-7 "second-set" dial** — `u8 *s = SYM; __asm__("" : "=r"(s) : "0"(s));` makes `reg_n_sets(s)==2`,
+  failing `update_equiv_regs`' single-set gate → NO `REG_EQUIV` → the value is NOT rematerialized at its use → it
+  must hold a callee-saved reg across calls (matching a target that keeps a base in `$s1`). Zero bytes, sweep-safe
+  (generic `"=r"`/`"0"`, no `$N` — distinct from the §42e `$0`-add). (`func_801497A8`.)
+- **Value-barriers dissolve the CSE-stack-address-common wall** — when correct stack-slot order (RC-1 decl order)
+  forces a `&buf`(sp+off) to be CSE-commoned across two calls into a call-crossing pseudo that steals a
+  callee-saved reg, wrap each `&buf` use in `__asm__("" : "=r"(m) : "0"(&buf))` so cse can't fold them → each
+  rematerialized fresh at its call. STEERABLE (banked), not intrinsic. (`func_801495C4`; its `func_8014964C`
+  template used a register pin + 5 barriers — the **pin was superfluous**.)
+
+**A third intrinsic wall class (byte-characterized, P9):** the **symbol-address-base "wins-low-needs-high" wall**
+(dual of §52a's caller-saved-priority wall). A 2-instruction symbol-address base feeding its own N loads is the
+densest block-local pseudo → first-fits the LOW reg (`$v0`), but the target needs it HIGH (`$a1`); making it
+low-priority is structurally impossible (a base can't out-rank the loads it feeds), and the movstri form that
+would place it high triggers the §52-flagship `(plus $fp const)` local-alloc theft (`update_equiv_regs` can't
+rematerialize a non-CONSTANT_P source). Only a register pin resolves both → ×1-only. (`func_8012B4B8`, close=15.)
+
+**Process finding — the match_one→whole-binary gap at wave scale:** ~half of the agents' match_one close=0 drafts
+do NOT bank whole-binary (isolated reloc-masked compile overstates; A10). The whole-binary gate is the sole
+arbiter — a match_one MATCH is a CANDIDATE, not a bank; budget the gate cycles.
