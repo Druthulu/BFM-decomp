@@ -1062,3 +1062,30 @@ Recommendation to be logged on decision: Max-grinding `func_80178004` itself is 
 depth; one untested lever); the higher-ROI use of the perishable window is the §52 sibling-idiom wave
 (cheap-Opus) + the deterministic matched-sib harvest (2.6M-ins ceiling, pins OK) — both higher-certainty than
 grinding an intrinsic wall.
+
+### 2026-07-15 — Phase 26 close: the mechanical-harvest thesis is byte-proven exhausted → close + Phase-27 fresh scans
+
+**The §52 flywheel worked — and then the byte-gate closed the phase.** The single-Fable5 failure on `func_80178004`
+still distilled the walker-family idiom (§52), and two cheap-Opus waves applied it to bank **5 pin-free regalloc
+cores ×134 = 670 instances** (68.6→68.9% instr), confirming *Fable5 DISCOVERS, cheap-Opus APPLIES* and the
+crack-then-template loop for CLEAN families.
+
+**The correction (P9/R14 — walking back my own prior entry).** The entry above recommended "the deterministic
+matched-sib harvest (2.6M-ins ceiling, pins OK)" as *higher-certainty*. **That was wrong.** Three byte-gate
+probes returned 0% — tiny-IMM 0/241, PURE reach-134 0/134, and pinned-PURE-templated-WITH-pins 0/133 (so the
+`func_8017A4AC` pinned-×134 precedent does NOT generalize). The manifest's ~13,075 "templatable" member-slots
+are an h_seq *prediction* the whole-binary gate refuses (collision / register-drift / pin-crash). A3h + the wave
+propagations already banked everything cleanly templatable. The mechanical/templating thesis is spent at
+68.9% instr / 49.2% distinct.
+
+**The pivot (Drew, 2026-07-15).** Close Phase 26; open Phase 27 with a byte-gate-honest re-scan. Why it matters:
+the 26-A audit fixed the TOOLS, but the megaplan's frontier was scoped by the PRE-audit (buggy) scans, and even
+the post-audit manifests over-predict templatability (h_seq ≠ bankable). The remaining work is a different shape
+— hard-wall cracks + hand-decomp of the genuine unique residue — and deserves a plan built on a gate-validated
+frontier, not a manifest that over-promises phantom members.
+
+**Hindsight better-path — the phase's most transferable lesson:** *a scan is a hypothesis; the byte-gate is the
+truth. Validate a "templatable"/"matchable" count against the gate with one small probe BEFORE scoping a whole
+phase around it.* The megaplan's "986 families / 2.6M ins" set an expectation the gate then had to walk back
+twice this session; a probe up front would have sized the real yield. This is R14 applied at planning scale, and
+it is exactly why Phase 27 opens with a gate-validated re-scan.
