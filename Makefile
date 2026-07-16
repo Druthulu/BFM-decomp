@@ -132,7 +132,7 @@ CC1_SMOKE_FLAGS := -quiet -O2 -G0 -mips1 -mcpu=3000 -mgas -msoft-float -fgnu-lin
 BINUTILS_WARN_MAJOR := 2
 BINUTILS_WARN_MINOR := 38
 
-.PHONY: help check-env extract build check expected clean report sig-refresh sig-overlays sig-resident build-all check-all audit-corpus audit-cdecl tools-health
+.PHONY: help check-env extract build check expected clean report sig-refresh sig-overlays sig-resident build-all check-all audit-corpus audit-cdecl audit-binaries tools-health
 
 # -----------------------------------------------------------------------------
 help:
@@ -175,6 +175,16 @@ audit-corpus:
 audit-cdecl:
 	$(VENV_PY) tools/cdecl.py --audit --gcc
 
+# Binary-citizenship gate (Phase-28 T7, R36 via R32). Asserts every onboarded binary
+# (main + resident + every config/splat.ov_*.yaml) is a full citizen of every consumer that
+# enumerates binaries: present in dup_report.BINARIES, has a sig, and (overlays) includes the shared
+# engine-core header so shared bodies can reach it. The 4 SC07 overlays were byte-clean yet invisible
+# to four consumers for a month; this is the loud assertion that makes the NEXT onboarding wire the
+# binary in or fail here, before matching is built on a binary half the tools cannot see. Cheap
+# (config + text scans; no build), so unlike audit-cdecl it CAN sit in the fast lane.
+audit-binaries:
+	$(VENV_PY) tools/audit_binaries.py
+
 # The tool-health ritual (Phase-27 T2). Before the 26-A audit the two oracles above had NO dependent
 # — nothing invoked them, so "run the audits" was a manual habit, and a habit nobody automates is a
 # gate nobody counts (R32). This is that dependent: `make tools-health` runs both derived oracles and
@@ -191,8 +201,9 @@ tools-health:
 	$(MAKE) --no-print-directory sig-resident
 	$(MAKE) --no-print-directory audit-corpus
 	$(MAKE) --no-print-directory audit-cdecl
+	$(MAKE) --no-print-directory audit-binaries
 	$(MAKE) --no-print-directory report BINARY=main
-	echo "tools-health: OK — sigs fresh; corpus(+resident) + cdecl + report(lint+dedup) all green."
+	echo "tools-health: OK — sigs fresh; corpus(+resident) + cdecl + binaries + report(lint+dedup) all green."
 
 report:
 	$(VENV_PY) tools/progress.py --binary $(BINARY) --audit
