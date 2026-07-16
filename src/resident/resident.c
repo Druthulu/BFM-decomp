@@ -104,7 +104,48 @@ void func_800CEFB0(void) {
     func_80011A3C();
 }
 
-INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800CEFD0);
+#include "common.h"
+
+void func_800CEFD0(void) {
+    extern void func_8001B85C(void);
+    extern s32 func_8001B86C(s32);
+    extern void func_80011B7C(s32);
+    extern void func_800596F4(s32);
+    extern void VSync(s32);
+    extern void func_80059CF4(s32);
+    extern void func_8001AF34(void);
+
+    extern s32 D_80114E98;
+    extern s32 D_80114E9C;
+    extern u16 D_800B99F6;
+    extern void (*D_800D3488[])(void);
+    extern u8 D_800AF630[];
+    extern s32 D_800A651C;
+
+    u8 *base = &(*(u8 *)&D_800AF630);
+
+    D_80114E98 = 0;
+    D_80114E9C = 0;
+    func_8001B85C();
+
+loop:
+    if (D_80114E98 == 0) {
+        D_800D3488[D_800B99F6]();
+    }
+    if (D_80114E9C == 0) {
+        D_80114E9C = func_8001B86C(0);
+    }
+    if (D_80114E98 != 0 && D_80114E9C != 0) {
+        func_80011B7C(7);
+        return;
+    }
+    func_800596F4(0);
+    VSync(*(s32 *)(base + 0xA3E8));
+    func_80059CF4(*(s32 *)((u8 *)&D_800A651C + *(u16 *)(base + 0xA3D2) * 20) + 4);
+    func_8001AF34();
+    goto loop;
+}
+
 
 // func_800CF104 — resident engine main loop (vsync/dispatch).
 //   D_80114E98 = 0; D_80114E9C = 0;            (two s32 globals zeroed, source order)
@@ -1154,7 +1195,60 @@ s32 func_800D0CE0(void) {
     return 0;
 }
 
-INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D0D7C);
+
+
+
+
+
+
+
+/* Packed BCD-ish clock word: low byte = minutes (mod 0x3C), high byte = hours
+ * (mod 0x18), held in the two consecutive bytes D_80078EB0 / D_80078EB1.
+ * Returns the signed 16-bit packed difference "now - (arg0:arg1)".
+ *
+ * Matching notes (residual levers, see docs/gcc-2.7.2-map/regalloc.md):
+ *  - RC-12 ($0-ADD OPAQUE COPY): the target keeps the packed read live in $a3
+ *    while a second, opaque copy lives in $a2 (compares read $a2, the &0xFF00
+ *    terms read $a3), and likewise $t0 vs $a0 for the hour. A plain C copy is
+ *    dissolved by cse/canon; `x = y + zr` with zr pinned to $0 emits the
+ *    byte-identical `addu rD,rS,$zero` that neither cse nor combine can remove.
+ *    This is also why `andi $v0,$a2,0xFF` survives: combine cannot see through
+ *    the opaque copy to fold the low byte back to the D_80078EB0 lbu.
+ *  - The 8-byte frame is a phantom: the target reserves `vars= 8` but never
+ *    touches the stack. An unused 8-byte local reproduces it (get_frame_size()
+ *    is set at expand and never shrinks). Its presence is load-bearing beyond
+ *    the two sp insns -- it also lets dbr steal `subu $v0,$t0,$v1` into the
+ *    second branch's delay slot and keeps the `sra` out of the jr slot.
+ *  - Conditions are spelled `>=` (not `<`): gcc branches on the inverted
+ *    compare to the else-label, which is what puts the 0x3C/0x18 arms second.
+ */
+s32 func_800D0D7C(s32 arg0, s32 arg1) {
+    extern u8 D_80078EB0;
+    extern u8 D_80078EB1;
+    register s32 zr __asm__("$0");
+    u32 now;
+    u32 r;
+    s32 h;
+    u32 dead[2];
+
+    now = D_80078EB0 | (D_80078EB1 << 8);
+    r = now + zr;
+    h = arg0 + zr;
+    if ((r & 0xFF) >= ((u32)arg1 & 0xFF)) {
+        r = ((r - arg1) & 0xFF) | (now & 0xFF00);
+    } else {
+        r = ((0x3C - (arg1 - r)) & 0xFF) | (now & 0xFF00);
+        h = arg0 + 1;
+    }
+
+    if (((r & 0xFFFF) >> 8) >= ((u32)h & 0xFF)) {
+        r = ((((r & 0xFFFF) >> 8) - h) << 8) | (r & 0xFF);
+    } else {
+        r = ((0x18 - (h - ((r & 0xFFFF) >> 8))) << 8) | (r & 0xFF);
+    }
+    return (s16)r;
+}
+
 
 INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D0E30);
 
@@ -1736,7 +1830,62 @@ s32 func_800D1B10(u8 *arg0) {
     return 0;
 }
 
-INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D1B80);
+#include "common.h"
+
+/* func_800D1B80:
+ *   s0 = arg0 (struct ptr, callee-saved: live across the indirect call)
+ *   v0 = arg0->[0xC]                  lw    -- the fn ptr
+ *   if (v0() != 0) {                  jalr v0 ; bnez v0
+ *       a0 = s0                       addu $a0,$s0,$zero  (branch delay slot)
+ *       arg0[0x14] = arg0[0x14] + 1;  lbu s0 / addiu / sb A0   <-- note the base
+ *       return DsMix(arg0);           jal DsMix (sb in the delay slot)
+ *   }
+ *   return 0;                         j .L800D1BC4 ; addu v0,zero,zero (delay)
+ *
+ * TWO LEVERS (both byte-required):
+ *
+ * 1. BLOCK LAYOUT — `if (cond != 0) { body; return DsMix(..); } return 0;`
+ *    NOT the early-exit `if (cond == 0) return 0;` spelling.  The two are
+ *    semantically identical but NOT byte-identical: the early-exit form sinks the
+ *    return-0 block to the end (beqz + a trailing `j` = 23 ins).  The target puts
+ *    the return-0 block INLINE before the body (bnez + `j` to the shared epilogue
+ *    = 22 ins), which is what the `if (x != 0) {...} return 0;` shape expands to.
+ *
+ * 2. THE sb BASE IS $a0, NOT $s0 (regalloc map RC-12, the $0-ADD OPAQUE COPY).
+ *    The load reads $s0 but the store reads $a0 => the original RTL had a SECOND
+ *    pointer pseudo `p`, born before the lbu (so it conflicts with arg0 and cannot
+ *    tie to $s0), used for the store and passed to DsMix -- local-alloc's hard-reg
+ *    *suggestion* then grants it $a0 and the `a0 = p` arg copy self-deletes, leaving
+ *    `addu $a0,$s0,$zero` as the copy itself.  A plain `u8 *p = arg0;` will NOT
+ *    survive: cse2 canon (cse.c:826 make_regs_eqv) copy-propagates it away and the
+ *    store reverts to $s0 (verified: 4 separate plain-C spellings all did exactly
+ *    that).  `p = arg0 + zr` with zr pinned to $0 is a (plus reg (reg 0)) -- not a
+ *    reg-reg set, so no canon and no qty merge -- and assembles to the byte-identical
+ *    `addu $a0,$s0,$zero`.  $0 is fixed, so there are no regs_explicitly_used /
+ *    bad_spill_regs side channels (RC-5) as a real-register pin would have.
+ *
+ * DsMix is declared K&R-unprototyped ON PURPOSE: the asm proves the call passes
+ * arg0 in $a0, but resident.c defines `s32 DsMix(void)` (a custom 2-line wrapper
+ * that ignores the arg -- docs/psyq-worklist.md).  An `extern s32 DsMix(u8 *)`
+ * prototype would be a conflicting-types error against that definition; the empty-
+ * paren declaration is C89-compatible with a (void) definition (cc1 exit 0, silent)
+ * and still emits the $a0 argument setup.
+ */
+s32 func_800D1B80(u8 *arg0) {
+    extern s32 DsMix();
+    register s32 zr __asm__("$0");
+    s32 (*fp)(void);
+    u8 *p;
+
+    fp = *(s32 (**)(void)) (arg0 + 0xC);
+    if (fp() != 0) {
+        p = arg0 + zr;
+        p[0x14] = arg0[0x14] + 1;
+        return DsMix(p);
+    }
+    return 0;
+}
+
 
 extern void func_800D1BF8(void);
 
@@ -1906,7 +2055,35 @@ s32 func_800D1DB0(void) {
 void func_800D1E20(void) {
 }
 
-INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D1E28);
+void func_800D1E28(void) {
+    extern s16 currentLocationId;
+    extern u16 D_80078E50;
+    extern int func_800CFC5C(int);
+    extern int func_800CFD68(int);
+    extern void func_800168B4(int);
+    extern void func_800167B8(int);
+    int result;
+    int r;
+
+    if (currentLocationId == 0x3005) goto two;
+    r = func_800CFC5C(currentLocationId);
+    result = 2;
+    if (r != 0) goto test;
+    if (func_800CFD68(D_80078E50) == 0) goto two;
+    r = func_800CFC5C(D_80078E50);
+    result = 1;
+    if (r == 0) goto test;
+two:
+    result = 2;
+test:
+    if (result < 0) goto other;
+    if (result >= 2) goto other;
+    func_800168B4(4);
+    return;
+other:
+    func_800167B8(4);
+}
+
 
 /* func_800D1EBC — MATCH (39 ins)
  * Computes a small state (1 or 2) via a condition chain, then dispatches to one of two
@@ -2001,7 +2178,53 @@ void func_800D1F90(void) {
     D_80078E8C = D_80128150;
 }
 
-INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D1FC8);
+/* func_800D1FC8 — resident (0x800D1FC8).
+ * Step an object's position toward the global target/camera vector.
+ *
+ * Levers (docs/matching-cookbook.md / gcc-2.7.2-map):
+ *  - regalloc.md S13/RC-10: `sh = arg1;` taken MID-BODY (after the deltas) dissolves the
+ *    assign_parms head copy, keeping $a1 live through the delta window -> hard-reg conflict
+ *    steers the global pointer to $a2 (not $a1) and dy to $a3. Pin-free.
+ *  - local-alloc qty_compare density: hoisting the pair-2/3 global loads into t1/t2 makes the
+ *    lw's qty span 2 and the lhu's span 1, so the lhu wins $v1 and the lw takes $a0 (target
+ *    order). Pair 1's lw merges with the block-local dx qty, so it must stay un-hoisted.
+ */
+void func_800D1FC8(void *arg0, int arg1) {
+    extern int D_801151D4;
+    extern void VectorNormalSS(void *a0, void *a1);
+
+    int *g;
+    short v[4];
+    int dx, dy, dz;
+    int sh, t1, t2;
+
+    g = (int *)D_801151D4;
+
+    dx = *(int *)((char *)g + 0x5C) - *(unsigned short *)((char *)arg0 + 6);
+    v[0] = dx;
+    t1 = *(int *)((char *)g + 0x60);
+    dy = t1 - *(unsigned short *)((char *)arg0 + 10);
+    v[1] = dy;
+    t2 = *(int *)((char *)g + 0x64);
+    dz = t2 - *(unsigned short *)((char *)arg0 + 14);
+    v[2] = dz;
+    sh = arg1;
+
+    if ((unsigned int)((dx + 0x3FFF) & 0xFFFF) >= 0x7FFF ||
+        (unsigned int)((dy + 0x3FFF) & 0xFFFF) >= 0x7FFF ||
+        (unsigned int)((dz + 0x3FFF) & 0xFFFF) >= 0x7FFF) {
+        v[2] = 0;
+        v[0] = 0;
+        v[1] = -0xFFF;
+    }
+
+    VectorNormalSS(v, v);
+
+    *(unsigned short *)((char *)arg0 + 6) += v[0] >> (sh & 0xFFFF);
+    *(unsigned short *)((char *)arg0 + 10) += v[1] >> (sh & 0xFFFF);
+    *(unsigned short *)((char *)arg0 + 14) += v[2] >> (sh & 0xFFFF);
+}
+
 
 /* ANALYSIS (asm 0x104):
  * arg0 (s0) = position struct {u16 x@0, y@2, z@4}.
@@ -2233,7 +2456,146 @@ INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D2650);
 
 INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D27DC);
 
-INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D29F8);
+/* func_800D29F8 — MATCH (172 ins). Emit a run of POLY_G4 quads (a gouraud "ladder"/trail
+ * strip) into the packet buffer at `out`, bracketed by two 1-word E1 (GP0 draw-mode) packets,
+ * addPrim()-ing every packet onto the current double-buffer's OT tag.
+ *
+ * Source stream `src` is a 0x10-byte record per rung:
+ *   +0 u32 c0 | +4 u32 c1 | +8 u16 x | +0xA u16 y | +0xC u16 w | +0xE u16 h
+ * Quad verts (X,Y) (X+W,Y) (X,Y+H) (X+W,Y+H); colours c0 / c0-0x280000 / c1+0x280000 / c1
+ * (i.e. a +-0x28 blue ramp top-to-bottom). Prim code 0x38 (POLY_G4), |2 = semi-transparent.
+ * Rungs are skipped unless `i>>1 == hs`, `i >= 8`, or `i` is odd.
+ *
+ * FOUR levers, each byte-verified load-bearing (dropping it re-breaks the match):
+ *
+ *  1. `D_800B9A02` is VOLATILE, and read as `*(volatile u16 *)&D_800B9A02`. Two effects, both
+ *     required, and this is also semantically right: it is the double-buffer index flipped by
+ *     the VSync IRQ.
+ *       (a) volatile => CSE never caches the MEM => the target's SIX separate reloads (two per
+ *           addPrim, because the libgpu macro double-evaluates `ot`). Non-volatile collapses
+ *           the fn to 158 ins. NB the §30 "deny /s" bare-store lever does NOT substitute here:
+ *           once the address is a register with a known-constant quantity, cse.c's
+ *           `cse_rtx_varies_p` reports it as NOT varying, so a /s store leaves it cached — only
+ *           an `all=1` store or volatile kills it.
+ *       (b) the cast-wrapped `*&` cannot be folded back to the VAR_DECL by the front end, so it
+ *           takes expr.c's INDIRECT_REF path => `memory_address()` force_regs the constant
+ *           address ("by passing constant addresses thru registers we get a chance to cse
+ *           them") => `la $t0, D_800B9A02` + `lhu 0($t0)`, and the loop preheader's
+ *           `addu $t5,$t0,$zero` (CSE turns the in-loop address into a copy, loop.c hoists it).
+ *           A bare `D_800B9A02` returns DECL_RTL via validize_mem => (mem (symbol_ref)) => the
+ *           maspsx `lui/lhu` pair instead, and no preheader copy.
+ *
+ *  2. addPrim is the REAL libgpu bitfield macro (both halves `->addr =`), not hand-written
+ *     masks. store_bit_field masks the VALUE (0xFFFFFF) before the DESTINATION (0xFF000000),
+ *     which fixes both the constant creation order (=> the LUID tie-break in sched's
+ *     `rank_for_schedule` => `lui $a0,0xff00` lands in the load-delay slot at idx21 reusing the
+ *     index's dead reg, not hoisted to idx10 needing its own) and the `or` operand order.
+ *     Hand-rolled `(*q & 0xff000000) | (ot[2] & 0xffffff)` gets both backwards (37 mismatches).
+ *
+ *  3. OT_800D29F8 is a MACRO, and `ot` is double-evaluated exactly as libgpu's addPrim does.
+ *     A named `ot` local is ONE pseudo for the whole fn (gcc-2.7.2 has no live-range
+ *     splitting) => one long-lived reg; the target's base is a per-expression temp ($v0/$v1/$a0).
+ *
+ *  4. `o = ofs` — an int alias for the u16 param. A u16 param is a PROMOTED SUBREG, so
+ *     combine's commutative canonicalisation ("object first, non-object second") swaps
+ *     `(plus src_val ofs)` => `addu $a1,$t7,$a1`. Aliasing to a plain int pseudo defeats the
+ *     swap => `addu $a1,$a1,$t7`. (This is why `x`/`w` read `*src++ + v` but `h` reads
+ *     `y + *src++` — the target's own operand orders, byte-confirmed either way.)
+ *
+ * Also load-bearing: the y pair is UNCHAINED (`p->y1=y; p->y0=y;`) while x/w/h are chained
+ * (`p->a = p->b = v`) — chaining emits store_expr's SImode->HImode truncation copy, which the
+ * target has for x only; and `c`/`c2` are separate locals (one shared local pins both colour
+ * groups to the same hard reg).
+ */
+
+typedef struct {
+    u32 addr : 24;      /* 0x00 tag */
+    u32 len  : 8;
+} PTag_800D29F8;
+
+typedef struct {
+    u32 c0;             /* 0x04 r0,g0,b0,code */
+    s16 x0, y0;         /* 0x08 */
+    u32 c1;             /* 0x0C */
+    s16 x1, y1;         /* 0x10 */
+    u32 c2;             /* 0x14 */
+    s16 x2, y2;         /* 0x18 */
+    u32 c3;             /* 0x1C */
+    s16 x3, y3;         /* 0x20 */
+} PolyG4_800D29F8;      /* 0x24 = tag + 8 words */
+
+typedef struct {
+    u32 *ot;            /* 0x00 */
+    u32 pad[4];         /* 0x04..0x13 */
+} Env_800D29F8;         /* 0x14 stride */
+
+#define OT_800D29F8             (D_800AE7BC[*(volatile u16 *)&D_800B9A02].ot)
+#define getaddr_800D29F8(t)     (((PTag_800D29F8 *)(t))->addr)
+#define setaddr_800D29F8(t, v)  (((PTag_800D29F8 *)(t))->addr = (u32)(v))
+#define addPrim_800D29F8(ot, p) (setaddr_800D29F8(p, getaddr_800D29F8(ot)), \
+                                 setaddr_800D29F8(ot, p))
+
+u32 *func_800D29F8(s16 hs, u32 *out, u16 *src, s16 n, u16 ofs)
+{
+    extern Env_800D29F8 D_800AE7BC[];
+    extern short D_800B9A02;
+
+    u32 *q;
+    PolyG4_800D29F8 *p;
+    s16 i;
+    int code;
+    u32 c, c2;
+    int x, y, w, h;
+    int o;
+
+    o = ofs;
+    q = out;
+    p = (PolyG4_800D29F8 *)((u8 *)q + 4);
+    ((u8 *)q)[3] = 1;                       /* setlen(q, 1) */
+    p->c0 = 0xE1000000;                     /* GP0 draw-mode: dither off */
+    addPrim_800D29F8(&OT_800D29F8[2], q);
+    q += 2;
+
+    for (i = 0; i < n; i++) {
+        if ((i >> 1) == hs || i >= 8) {
+            code = 0;
+        } else if (i & 1) {
+            code = 2;                       /* ABE: semi-transparent */
+        } else {
+            src += 8;                       /* skip this rung's 0x10-byte record */
+            continue;
+        }
+        p = (PolyG4_800D29F8 *)((u8 *)q + 4);
+        *q = 0x08000000;                    /* tag: len 8, addr 0 */
+        c = ((code | 0x38) << 24) | *(u32 *)src;
+        src += 2;
+        p->c0 = c;
+        p->c1 = c - 0x280000;
+        c2 = *(u32 *)src;
+        src += 2;
+        p->c3 = c2;
+        p->c2 = c2 + 0x280000;
+        x = *src++ + o;
+        p->x0 = p->x2 = x;
+        y = *src++;
+        p->y1 = y;
+        p->y0 = y;
+        w = *src++ + x;
+        h = y + *src++;
+        p->x1 = p->x3 = w;
+        p->y2 = p->y3 = h;
+
+        addPrim_800D29F8(&OT_800D29F8[2], q);
+        q += 9;
+    }
+
+    p = (PolyG4_800D29F8 *)((u8 *)q + 4);
+    ((u8 *)q)[3] = 1;
+    p->c0 = 0xE1000200;                     /* GP0 draw-mode: dither on */
+    addPrim_800D29F8(&OT_800D29F8[2], q);
+    return q + 2;
+}
+
 
 /* func_800D2CA8(a0, a1): pack a0 into BCD nibbles (LSD first into the low bits),
  * then shift the whole packed result left by a1.
@@ -2274,7 +2636,35 @@ s32 func_800D2CA8(s32 a0, s32 a1) {
     return result << a1;
 }
 
-INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D2D10);
+void func_800D2D10(val, n, dst, flag)
+unsigned int val;
+short n;
+unsigned short *dst;
+short flag;
+{
+    extern unsigned short *D_800D38D8[];
+    register unsigned int d __asm__("$8");
+    short i;
+    int idx;
+
+    for (i = 0; i < n; i++) {
+        d = val >> 28;
+        idx = d;
+        if (flag != 0) {
+            if (d != 0) {
+                flag = 0;
+            } else if (flag < 0) {
+                idx = (i != n - 1) ? 10 : 0;
+            } else {
+                idx = 10;
+            }
+        }
+        val <<= 4;
+        *dst = *D_800D38D8[idx];
+        dst++;
+    }
+}
+
 
 /* func_800D2DAC(arg0):
  *   func_8016EDEC(func_800D3238, 0x1000000);   ; a0=&func_800D3238, a1=0x1000000

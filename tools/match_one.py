@@ -24,11 +24,27 @@ ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDe
 ap.add_argument('fn')
 ap.add_argument('--c', help='C file (externs + the function def). Default: search .run/drafts3|2|/')
 ap.add_argument('--asm-subdir', default='asm/resident/nonmatchings/resident')
-ap.add_argument('--work', default='.run/match')
+ap.add_argument('--work', default=None,
+                help='scratch dir. Default: a PRIVATE per-invocation dir (.run/match/<fn>.<pid>). '
+                     'It used to default to the SHARED ".run/match", which silently broke the one '
+                     'property this tool advertises — see below.')
 ap.add_argument('--o0', action='store_true',
                 help='compile at -O0 (for the _o0 split subsegments: ov_SC01_077_o0.c, whale _o0b — '
                      'their target bytes are -O0; an -O2 compile can never match them, Makefile:445)')
 a = ap.parse_args()
+
+# PRIVATE SCRATCH BY DEFAULT (Phase-28 T5). This tool's own docstring promises "Fully isolated (own
+# temp dir) so many run in PARALLEL with no shared build -- a real asm-differ loop for an agent to
+# iterate against." That was FALSE: --work defaulted to the shared '.run/match', so every concurrent
+# caller compiled into the SAME t.c/t.o. A 16-agent wave found it the only way it can be found — one
+# agent read another's function out of its own scratch file ("found another agent's func_800D2650 in
+# my t.c") and said so. Every other agent in that wave iterated against a loop that could silently
+# hand it someone else's compile, which is worse than a crash: it produces a CONFIDENT WRONG verdict.
+# The docstring was the spec; the default contradicted it; nothing checked. Now the default IS the
+# promise. (The whole-binary byte-gate was never at risk — it is the sole arbiter, G3/P9 — but the
+# iteration loop agents steer by absolutely was.)
+if not a.work:
+    a.work = os.path.join('.run/match', f'{a.fn}.{os.getpid()}')
 
 CPP = 'mipsel-linux-gnu-cpp'; CC1 = 'tools/bin/gcc-2.7.2-psx/cc1'
 MASPSX = 'tools/maspsx/maspsx.py'; AS = 'mipsel-linux-gnu-as'; PY = '.venv/bin/python'
