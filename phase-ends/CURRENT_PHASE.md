@@ -42,7 +42,7 @@ Two further roadmap premises are stale (verified): the **parallel gate farm alre
   - Bounded ~8 members, byte-gated, R22-clean. **Either outcome is the deliverable.** Correct `calibration.md` + `decision-log.md` (R31) in-session (R30).
 - [x] **T2 — Purge the poisoned grinder blacklist** · xHigh · ✅ purged (8 of 22 had MATCHED anyway)
   - 22 permanent never-retry entries built from a known-broken gate (`tooling-audit.md:927-931`: 16/22 never compiled, 5 absent); `worklist.md:50,56` marks two of them **"none — MATCH"**. Purge; fix `harvest_verify`'s `--src`/`--asm-subdir` split coupling that poisoned it; re-derive only from the fixed gate.
-- [ ] **T3 — The stratified templatability re-probe: THE swing number** · Max · 🚩 **milestone report to Drew** · blocked by T0,T1
+- [~] **T3 — The stratified templatability re-probe: THE swing number** · Max · 🚩 **stratum A done — 0 DIFF; the pool is h_exact + UNWIRED.** Strata B/C (legacy) carried → T3b
   - Strata: **PURE non-jr** (96 fam / 7,148 members) · **IMM** (35 fam, `imm_map_tier1`) · **MIXED** (30 fam). ~8–12 members/class, byte-gated, R22-clean.
   - **Classify every failure** (`harvest_verify.classify_fail` → DIFF/PLUMBING/CC1-FAIL/SKIP) — the distinction Phase 26 never recorded.
   - **Do not score with `masked_diff`** — `mask_for` drops HI16/LO16 (`:92-124`), blind to this delta class (would score all 112 `0x8017BEBC` members a perfect 0). The gate decides.
@@ -118,6 +118,34 @@ Whole-binary byte-gate = sole arbiter (G3/P9) · R22 clean-fleet per banked batc
   - **And the audit's snapshot is itself now stale (verified in code):** `harvest_verify` is **fully multi-TU** today — `_stubs` derives every stub across every TU from the `corpus` oracle (`:122`), `render()` splices "each draft into the TU that actually holds its stub", `_write()` writes multiple paths, un-stubbed drafts are "REPORTED, never silently dropped (R32)". **The gate that manufactured the blacklist no longer exists.**
   - **The proof the verdict was manufactured, not observed:** of the 22 entries — recorded as "permuter won, gate rejected ⇒ plumbing-bound, never re-permute" — **8 have since MATCHED anyway** (`func_80131D68/80149374/8014FE60/80150528/8016BBE0/80171C64/80174684/8017F290`); the other **14 are still stubs** and would have been skipped **forever** on a verdict from a gate that no longer exists. (The audit predicted 5 such; it is 8.)
   - **Done:** blacklist → `[]` (poisoned copy kept at `.run/auto/grinder_blacklist.json.poisoned-pre-T2`); `grinder.py` carries the **rule** (R35): *a blacklist entry is a verdict from a specific gate and EXPIRES when that gate changes — purge and re-derive; never inherit.* No `harvest_verify` change was needed or made.
+
+- **2026-07-15 — T3 stratum A 🚩 — ZERO DIFF. The SC07 pool is the EASY (h_exact) class, and it is simply UNWIRED.**
+  - **The probe (cleanest available):** the 4 SC07-only families of highest byte-weight are **the giants** — `0x80144B9C` (770, the whale), `0x80141CA4` (476), `0x80132784` (400, "irreducible for 22 phases"), `0x80133CD4` (399, the §45 Fable5 crack). Exemplars already byte-proven, members PURE, non-jr → **every confound removed; a failure here is pure mechanism.** `family_sweep --hseq --band substantial --chunk 1`.
+  - **Result: 4 banked / 8 failed / 4 skipped of 16 — and the classification is the finding:**
+
+    | verdict | fns | n |
+    |---|---|---|
+    | **BANKED** | `func_80133CD4` — a 399-ins Fable5 giant → **4/4 overlays, free** | 4 |
+    | **PLUMBING** `parse error before ')'` | `func_80144B9C`, `func_80132784` | 8 |
+    | skipped `pinned-exemplar` (the §42e guard — P27's T5 dissolved the wall behind it; `--allow-pins` bypasses) | `func_80141CA4` | 4 |
+    | **DIFF (real codegen)** | — | **0** |
+
+    **Not one failure is a byte mismatch.** Of the members that reached the gate as valid C: **4/4 = 100%**. The 8 never compiled. *This is the DIFF-vs-CC1-FAIL distinction Phase 26 never recorded — and precisely why its 0% could not be trusted.*
+  - **🔑 ROOT CAUSE (byte-verified, and far bigger than the parse error): the 4 new overlays were onboarded but NEVER WIRED INTO THE SHARED-BODY ECOSYSTEM.**
+
+    | | established (`ov_SC01_001`) | the 4 new SC07 |
+    |---|---|---|
+    | includes | `common.h` + **`../shared/engine_core.h`** | `common.h` **only** |
+    | body | `DEFINE_func_*()` instantiations | **~2,400 raw `INCLUDE_ASM` stubs** |
+    | matched | ~2,150 | ~80 |
+    | refs in `config/dedup.us.yaml` | member of 1,689 groups | **0** |
+
+    The parse error is a *symptom*: the drafts reference types (`P10/P14/P18/P1C/HDR/ENT`) that live in `src/shared/func_80144B9C.h` — a header the SC07 TU doesn't include. **1,689 registry groups say "134 binaries", never 138.**
+  - **📐 SCALE (measured against the registry): 6,513 live stubs across the 4 new overlays are byte-identical to an ALREADY-REGISTERED h_exact group** (1,625 / 1,628 / 1,627 / 1,633). That is the **h_exact** class — which `calibration.md` itself rates **≈×N, near-100%** — not the h_seq class, and **not** a `member_adapt` problem.
+  - **✅ MECHANISM PROVEN BY HAND (probe-before-investing):** added `#include "../shared/engine_core.h"` + swapped ONE stub → `DEFINE_func_80128158()` in `ov_SC07_006.c` → `make build BINARY=ov_SC07_006` → **`7ca772be…` BYTE-IDENTICAL**. Probe reverted; let the tool do it uniformly.
+  - **The gap in the tooling:** `dedup_propagate --auto-from` only plans **11** fns here — it authors macros from ov_SC01_077's *inline defs*; the ~1,600 shared bodies are **already** `DEFINE_func_*` macros in `engine_core.h`, and `--addr` errors *"no source overlay has it matched"* because no overlay holds an inline def. **There is no mode for "extend an existing macro-backed group to a newly-onboarded binary."** → T4.
+  - **R22: `make clean` + extract-all + `check-all` → 140/140**, 0 FAIL (stratum A's 4 banks).
+  - **Carried → T3b:** strata **B** (legacy PURE non-jr, 95 fam / 7,993 members) and **C** (legacy IMM, 36 fam / 6,644) — the *legacy* h_seq rate, still genuinely unmeasured. The SC07 pool answered a different (and cheaper) question than the one T3 set out to ask.
 
   - **T3 strata (honest, from the fixed map):** SC07-only **1,255 fam / 6,268 mem / 230,612 ins** · legacy PURE non-jr **95 / 7,993 / 478,379** · legacy IMM **36 / 6,644 / 212,707** · legacy MIXED **30 / 968 / 10,462** · legacy PURE w/ jr **2 / 16 / 5,088** (T1's jtbl territory — note B2's family is far smaller here than the roadmap's "×112 ≈ 106k ins"; T1 re-derives it). **Total addressable = 937,248 ins = 21.7% of all remaining weight = 7.16pp of fleet instr if it all banked.** This is the prize the roadmap declared dead. It stays a prediction until T3's gate.
 </content>
