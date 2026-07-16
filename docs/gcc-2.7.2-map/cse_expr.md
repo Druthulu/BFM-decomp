@@ -307,3 +307,11 @@ internal offsets AND changes `/s` (stmt.c:3646 gives the array home `/s`) and IV
 3. §30a extension: `/s` full setter list (SAVE_EXPR arm, aggregate-deref arm, store-side
    4292, temp-slot reset) + the store-side CSE flush table (§4b).
 4. §5-layout: BLKmode 8-align/8-round + temp-slot recycling as the frame-fragility mechanism.
+
+## §H Phase-27 — the CSE address-fold antidote + the fall-through delete (func_80176734, Fable5, 2026-07-15)
+
+Fresh-core pass (`.run/giants/func_80176734.fable.md`, full pass dumps `.run/giants/fable_76734/`) — no bank (5 permuter-shaped clusters), but two byte-proven CSE mechanisms with pure-C antidotes worth reusing:
+
+1. **The cse address-fold pair — killed by a balanced if/else diamond (zero asm).** `find_best_addr`'s cost-ungated qty-const fold + `from_plus` re-association eat reg-based global accesses and derived pointers on *every* cse walk (so a target that recomputes `&g + k` per use, instead of folding, looks unreachable). The pure-C antidote: wrap the merge in a **balanced `if/else` diamond** so its label is **barrier-preceded** → cse starts a FRESH table there → both folds die with no `#APP`. This replaced two asm dials on this function — prefer it to an inline-asm fence whenever the divergence is a cse fold across a join.
+2. **`update_equiv_regs` doubles live_length for single-set REG_EQUIV pseudos** (`local-alloc.c:1064`) — a **2nd set** of an address pointer forfeits the doubling and ~quadruples its allocno priority, rotating the callee-saved bank. Explains a whole "my zero-byte dial broke the $s-order" class: the dial added a second set. (Companion to regalloc §H; recorded there too.)
+3. **`record_jump_equiv` fall-through recording** (`cse.c:7511`) deletes a target's provably-dead branch; only an identity-asm 2nd-set re-opaques the value. A recognition **tell**: if the original keeps a branch cse would prove dead, the source had a genuine (non-constant-foldable) second writer.
