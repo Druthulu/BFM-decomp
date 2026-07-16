@@ -101,8 +101,15 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 - **⚠️ LESSON:** `--band all` sweeps are too long for one background pass (SIGTERM'd). Future Arm B
   runs go band-bounded + committed-per-batch (resumable). The comprehensive sweep still had residual
   FAILED members (pin/drift/plumbing) not yet re-attacked.
-- **NEXT:** (a) finish the Arm B tail (remaining tiny/mid/pinned members not banked this pass, in
-  bounded batches); (b) **Arm A** — the -O0 cluster carve tool (9 families / 1,233 members / ~24k ins;
+- **✅ ARM B TAIL FINISHED (2026-07-16).** Band-bounded `family_sweep --hseq --allow-pins` in 3 clean
+  bounded passes (substantial 53 + mid 372 + tiny 323 = **748 member-matches**), the SIGTERM lesson applied
+  (each band completed exit 0). All 748 confined to the 4 undermatched SC07 tail overlays (the `files=1`
+  ones): **ov_SC07_010 897→516 (+381) · ov_SC07_011 797→436 (+361) · 006 457→454 (+3) · 007 595→592 (+3)**.
+  Verified pure-reduction (0 NEW stubs, 0 dup INCLUDE_ASM). 006/007's residual is jr-families (§53 carve →
+  Task 3) + plumbing/DIFF — the plain-sweep tail is drained. **R22 clean-fleet 140/140 byte-identical;
+  audit-binaries OK; dedup-check 1840/0; main 143dbb89.** Fleet: **instr 70.2→70.4% · distinct-code
+  51.9→52.3% · fn-count 84.73→84.94%**; 0 NON_MATCHING linked (G4).
+- **NEXT:** (b) **Arm A** — the -O0 cluster carve tool (9 families / 1,233 members / ~24k ins;
   adapt `rollout_whale_o0.py` for the multi-file carve of 0x13410..0x14834; the swing verdict's
   whole-binary confirmation); (c) teach `family_sweep` per-member opt-level awareness (the general lever).
 
@@ -122,3 +129,10 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   type-lift plumbing). Verdict + byte evidence → `docs/calibration.md` (swing RESOLVED section) +
   `docs/decision-log.md` (R31). §52b caveat: masked-MATCH is a candidate — Task 2a whole-binary-gates
   the -O0 split rollout. Run artifacts in `.run/probe29/`.
+- **2026-07-16 — Task 2 (Arm B tail) DONE.** Resumed the interrupted comprehensive `--band all` sweep as
+  3 band-bounded passes (substantial/mid/tiny, `--allow-pins`, each exit 0 — the SIGTERM lesson) →
+  **748 member-matches banked** across the 4 `files=1` SC07 tail overlays (010 +381, 011 +361, 006 +3,
+  007 +3), each whole-binary-gated by `harvest_verify` (G3/P9). R22 clean-fleet **140/140 byte-identical**;
+  fleet instr 70.2→70.4% / distinct 51.9→52.3% / fn-count 84.73→84.94%; audit-binaries OK, dedup 1840/0,
+  main 143dbb89, 0 NON_MATCHING (G4). Verified pure-reduction (0 new/dup stubs, R14/H5). Logs
+  `.run/armB_tail_{substantial,mid,tiny,checkall}.log`. NEXT: Arm A (-O0 cluster carve) + item (c).

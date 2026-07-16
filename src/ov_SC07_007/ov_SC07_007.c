@@ -2613,11 +2613,267 @@ INCLUDE_ASM("asm/ov_SC07_007/nonmatchings/ov_SC07_007", func_80135D20);
 
 INCLUDE_ASM("asm/ov_SC07_007/nonmatchings/ov_SC07_007", func_80135EB0);
 
-INCLUDE_ASM("asm/ov_SC07_007/nonmatchings/ov_SC07_007", func_80136334);
 
-INCLUDE_ASM("asm/ov_SC07_007/nonmatchings/ov_SC07_007", func_801365B8);
+s32 func_80136334(void *arg0, s32 arg1, s32 arg2) {
 
-INCLUDE_ASM("asm/ov_SC07_007/nonmatchings/ov_SC07_007", func_80136824);
+    extern u8 D_80126720[];
+    extern Box_80133784 * D_801834C0;
+    extern Box_80133784 * D_801834C4;
+    extern s16 *D_801834C8;
+    extern u8 D_801834CC;
+    extern u8 D_801152A8[];
+    extern s16 D_801152AA;
+    extern s16 D_801152AC;
+    extern s16 D_80126722;
+    extern s16 D_80126724;
+    register s32 a1v __asm__("$11");
+    register s32 a2v __asm__("$12");
+    register s32 n __asm__("$5");
+    register s16 *b4 __asm__("$7");
+    s32 d;
+    s32 dx;
+    s32 denom;
+    s32 result;
+    s32 frame_pad[2];
+    (void)&frame_pad;
+    __asm__("" : "=r"(a1v) : "0"(arg1));
+    a2v = arg2;
+
+    if (!(arg1 & 1)) {
+        dx = (s16) arg2 - (*(s16 **)&D_801834C0)[2];
+        d = dx;
+        denom = -(*(s16 **)&D_801834CC)[2];
+    } else {
+        denom = (*(s16 **)&D_801834CC)[2];
+        d = (*(s16 **)&D_801834C0)[2] - (s16) arg2;
+        dx = -d;
+    }
+    n = -d;
+    {
+        register s16 *b8 __asm__("$6") = *(s16 **)&D_801834CC;
+        u16 *ac = *(u16 **)&D_801834C0;
+        b4 = D_801834C8;
+        b4[0] = ac[0] + n * b8[0] / denom;
+        b4[1] = ac[1] + n * b8[1] / denom;
+        b4[2] = ac[2] + dx;
+    }
+
+    if (b4[0] < M2C_FIELD(arg0, s16 *, 4)) return 0;
+    if (M2C_FIELD(arg0, s16 *, 6) < b4[0]) return 0;
+    if (b4[1] < M2C_FIELD(arg0, s16 *, 8)) return 0;
+    if (M2C_FIELD(arg0, s16 *, 0xA) < b4[1]) return 0;
+    if (a1v & 0x8000) {
+        u16 *b0 = *(u16 **)&D_801834C4;
+        b4[0] = b0[0];
+        b4[1] = b0[1];
+    }
+    D_801152AA = 0;
+    (*(s16 *)D_801152A8) = 0;
+    if (a1v & 1) {
+        D_801834C8[2] = a2v + 2;
+        __asm__ __volatile__("");
+        D_801152AC = 0xFFF;
+    } else {
+        D_801152AC = -0xFFF;
+        D_801834C8[2] = a2v - 2;
+    }
+    __asm__ __volatile__("" :: "r"(a1v), "r"(a2v));
+    (*(s16 *)D_80126720) = (M2C_FIELD(arg0, s16 *, 4) + M2C_FIELD(arg0, s16 *, 6)) >> 1;
+    D_80126722 = (M2C_FIELD(arg0, s16 *, 8) + M2C_FIELD(arg0, s16 *, 0xA)) >> 1;
+    result = 1;
+    D_80126724 = (M2C_FIELD(arg0, s16 *, 0xC) + M2C_FIELD(arg0, s16 *, 0xE)) >> 1;
+    return result;
+}
+
+
+
+// @class: regalloc-order — F-band exemplar func_801365B8 (x134). Real-TU reconciled (rtu_match).
+// D_801834C0/B0/B8 file-scope `extern u8` holding pointers -> read via *(T**)&sym (§42c-2).
+// D_801834C8 file-scope `extern s16*` -> use directly. D_80126720 file-scope `extern u8[]`
+// -> single store via *(s16*)D_80126720. D_801152A8/AA/AC, D_80126722/24 block-scope externs
+// (siblings use block-scope; gcc-2.7.2 does not cross-conflict block-scope externs).
+s32 func_801365B8(void *arg0, s32 arg1, s32 arg2) {
+
+    extern u8 D_80126720[];
+    extern Box_80133784 * D_801834C0;
+    extern Box_80133784 * D_801834C4;
+    extern s16 *D_801834C8;
+    extern u8 D_801834CC;
+    extern u8 D_801152A8[];
+    extern s16 D_801152AA;
+    extern s16 D_801152AC;
+    extern s16 D_80126722;
+    extern s16 D_80126724;
+    u16 *ac;
+    s16 *b8;
+    s16 *b4;
+    s16 temp_v0;
+    s16 temp_v1;
+    s32 var_a3;
+    s32 temp_a1;
+    s32 var_a1;
+    s32 var_v0;
+    s32 var_v1;
+    s32 a1c;
+    s32 a2c;
+    s32 cond;
+    register u32 zr __asm__("$0");
+
+    __asm__("addu %0,%1,$zero" : "=r"(a1c) : "r"(arg1));
+    cond = arg1 & 1;
+    a2c = arg2 + zr;
+    if (!cond) {
+        var_v1 = (s16) arg2 - (*(s16 **)&D_801834C0)[0];
+        var_a1 = var_v1;
+        var_a3 = -(*(s16 **)&D_801834CC)[0];
+    } else {
+        var_a3 = (*(s16 **)&D_801834CC)[0];
+        var_v1 = (*(s16 **)&D_801834C0)[0] - (s16) arg2;
+        var_a1 = -var_v1;
+    }
+    ac = *(u16 **)&D_801834C0;
+    b4 = D_801834C8;
+    b8 = *(s16 **)&D_801834CC;
+    b4[0] = ac[0] + var_a1;
+    temp_a1 = -var_v1;
+    b4[1] = ac[1] + (temp_a1 * b8[1]) / var_a3;
+    temp_v0 = ac[2] + (temp_a1 * b8[2]) / var_a3;
+    b4[2] = temp_v0;
+    var_v0 = 0;
+    if (temp_v0 < M2C_FIELD(arg0, s16 *, 0xC)) {
+        return var_v0;
+    }
+    if (M2C_FIELD(arg0, s16 *, 0xE) < temp_v0) {
+        return var_v0;
+    }
+    temp_v1 = b4[1];
+    if (temp_v1 < M2C_FIELD(arg0, s16 *, 8)) {
+        return var_v0;
+    }
+    if (M2C_FIELD(arg0, s16 *, 0xA) < temp_v1) {
+        return var_v0;
+    }
+    __asm__("" :: "r"(a1c));
+    __asm__("" :: "r"(a1c));
+    if (a1c & 0x8000) {
+        b4[1] = (s16) (*(u16 **)&D_801834C4)[1];
+        b4[2] = (s16) (*(u16 **)&D_801834C4)[2];
+    }
+    D_801152AC = 0;
+    D_801152AA = 0;
+    if ((a1c & 1) != 0) {
+        *(s16 *)D_801152A8 = 0xFFF;
+        M2C_FIELD(D_801834C8, s16 *, 0) = a2c + 2;
+    } else {
+        *(s16 *)D_801152A8 = -0xFFF;
+        M2C_FIELD(D_801834C8, s16 *, 0) = a2c - 2;
+    }
+    *(s16 *)D_80126720 = (s16) ((s32) (M2C_FIELD(arg0, s16 *, 4) + M2C_FIELD(arg0, s16 *, 6)) >> 1);
+    D_80126722 = (s16) ((s32) (M2C_FIELD(arg0, s16 *, 8) + M2C_FIELD(arg0, s16 *, 0xA)) >> 1);
+    var_v0 = 1;
+    D_80126724 = (s16) ((s32) (M2C_FIELD(arg0, s16 *, 0xC) + M2C_FIELD(arg0, s16 *, 0xE)) >> 1);
+    return var_v0;
+}
+
+
+
+// @class: pointer-type — pointer-vs-array reconcile for func_80136824 (ov_SC01_077_a)
+// D_801834C0/B0/B8 are file-scope `extern u8`, D_801834C8 is `extern s32 []`; each HOLDS a
+// pointer value that the target loads via lw then derefs. Read as pointer via *(T**)&sym.
+// D_801834C8 must be a SCALAR pointer (not s32[]) — as an array it decays and gcc CSEs the
+// base address into a held reg (lui;addiu;lw 0(reg)) across the 3 reloads; as a scalar
+// pointer it folds %lo (lui;lw %lo). Retype all 3 file-TU occurrences (byte-neutral: the
+// siblings read it once via *(u16**)&sym == direct lw either way).
+
+s32 func_80136824(s32 arg0, s32 arg1, s32 arg2) {
+
+    extern u8 D_80126720[];
+    extern Box_80133784 * D_801834C0;
+    extern Box_80133784 * D_801834C4;
+    extern s16 *D_801834C8;
+    extern u8 D_801834CC;
+    extern u8 D_801152A8[];
+    extern s16 D_801152AA;
+    extern s16 D_801152AC;
+    extern s16 D_80126722;
+    extern s16 D_80126724;
+
+    register u16 *ac __asm__("$4");
+    register s16 *b8 __asm__("$6");
+    register s16 *b4 __asm__("$9");
+    register s32 r __asm__("$3");
+    register s32 pos __asm__("$12");
+    register s32 a1v __asm__("$5");
+    s16 temp_v0;
+    s16 temp_v1;
+    s32 var_a3;
+    s16 var_v0_3;
+    s32 temp_a1;
+    s32 var_t0;
+    s32 var_v1;
+    s16 *b4b;
+    u16 *p;
+
+    __asm__ ("" : "=r"(a1v) : "0"(arg1));
+    pos = arg2;
+    if (!(a1v & 1)) {
+        var_t0 = (s16) arg2 - (*(s16 **)&D_801834C0)[1];
+        var_v1 = var_t0;
+        var_a3 = -(*(s16 **)&D_801834CC)[1];
+    } else {
+        var_a3 = (*(s16 **)&D_801834CC)[1];
+        var_v1 = (*(s16 **)&D_801834C0)[1] - (s16) arg2;
+        var_t0 = -var_v1;
+    }
+    b8 = (*(s16 **)&D_801834CC);
+    ac = (*(u16 **)&D_801834C0);
+    b4 = D_801834C8;
+    temp_a1 = -var_v1;
+    r = (temp_a1 * b8[0]) / var_a3;
+    b4[0] = ac[0] + r;
+    b4[1] = ac[1] + var_t0;
+    r = (temp_a1 * b8[2]) / var_a3;
+    temp_v0 = ac[2] + r;
+    b4[2] = temp_v0;
+    temp_v1 = b4[0];
+    if (temp_v1 < M2C_FIELD(((void *)arg0), s16 *, 4)) {
+        return 0;
+    }
+    if (M2C_FIELD(((void *)arg0), s16 *, 6) < temp_v1) {
+        return 0;
+    }
+    if (temp_v0 < M2C_FIELD(((void *)arg0), s16 *, 0xC)) {
+        return 0;
+    }
+    if (M2C_FIELD(((void *)arg0), s16 *, 0xE) < temp_v0) {
+        return 0;
+    }
+    if (arg1 & 0x8000) {
+        p = (*(u16 **)&D_801834C4);
+        b4[0] = (s16) p[0];
+        b4[2] = (s16) p[2];
+    }
+    D_801152AC = 0;
+    (*(s16 *)D_801152A8) = 0;
+    if (arg1 & 1) {
+        b4b = D_801834C8;
+        D_801152AA = 0xFFF;
+        __asm__ __volatile__("");
+        var_v0_3 = pos + 2;
+    } else {
+        b4b = D_801834C8;
+        D_801152AA = -0xFFF;
+        __asm__ __volatile__("");
+        var_v0_3 = pos - 2;
+    }
+    b4b[1] = var_v0_3;
+    __asm__ __volatile__("" :: "r"(pos));
+    (*(s16 *)D_80126720) = (s16) ((s32) (M2C_FIELD(((void *)arg0), s16 *, 4) + M2C_FIELD(((void *)arg0), s16 *, 6)) >> 1);
+    D_80126722 = (s16) ((s32) (M2C_FIELD(((void *)arg0), s16 *, 8) + M2C_FIELD(((void *)arg0), s16 *, 0xA)) >> 1);
+    D_80126724 = (s16) ((s32) (M2C_FIELD(((void *)arg0), s16 *, 0xC) + M2C_FIELD(((void *)arg0), s16 *, 0xE)) >> 1);
+    return 1;
+}
+
 
 
 // @class: schedule
