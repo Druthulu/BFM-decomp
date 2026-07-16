@@ -22,22 +22,59 @@ Two compare modes:
 Neither mode is the byte-gate: the whole-binary rebuild (tools/harvest_verify.py) is the sole arbiter
 (G3/P9). These masked metrics only rank candidates / measure closeness.
 """
+import os
 import re
 import struct
 import subprocess
+
+import cdecl   # the C-declaration oracle — the shared typedef-strip primitive (Phase-27 T4)
 
 OBJDUMP = "mipsel-linux-gnu-objdump"
 
 _HDR_RE = re.compile(r"^[0-9a-f]+ <([^>]+)>:")
 _INS_RE = re.compile(r"\s+[0-9a-f]+:\s+([0-9a-f]{8})\s+(.*)")
 _REL_RE = re.compile(r"R_MIPS_(\w+)\s+(\S+)")
-# scalar/M2C typedef REDEFINITIONS common.h already provides (C89 rejects the dup); shared so match_one
-# and the permuter setup strip exactly the same set and never the draft's own custom struct typedefs.
+
+# scalar/M2C typedef REDEFINITIONS common.h already provides (C89 rejects the dup). match_one and the
+# permuter compile a draft in ISOLATION with `#include "common.h"` prepended, so the strip-set is
+# exactly what common.h provides — derived from the header once (R33), never a hand-kept name list.
+# DEPRECATED: SCALAR_TYPEDEF_RE (its `[^;]*` body cannot cross a `;`, so a multi-typedef LINE stripped
+# NONE and the isolated compile then failed on the dup — 42 masked-MATCH drafts discarded over
+# whitespace). Kept only as a fallback if the header probe can't run; strip_scalar_typedefs is correct.
 SCALAR_TYPEDEF_RE = re.compile(
     r"^[ \t]*typedef\b[^;]*\b(u8|u16|u32|u64|s8|s16|s32|s64|f32|f64|"
     r"M2C_UNK|M2C_UNK8|M2C_UNK16|M2C_UNK32|M2C_UNK64)[ \t]*;[ \t]*\n",
     re.M,
 )
+
+_COMMON_TD = None
+
+
+def _common_typedefs():
+    """The typedef names common.h provides — derived from the header once, cached. This is the
+    strip-set for an ISOLATED compile (match_one / the permuter prepend common.h). Falls back to the
+    deprecated regex's name set if the cpp probe can't run (offline / no toolchain)."""
+    global _COMMON_TD
+    if _COMMON_TD is None:
+        probe = os.path.join(cdecl.REPO, "src", ".masked_diff_probe.c")
+        try:
+            with open(probe, "w") as f:
+                f.write('#include "common.h"\n')
+            _COMMON_TD = frozenset(cdecl.typedef_names(probe))
+        except Exception:
+            _COMMON_TD = frozenset("u8 u16 u32 u64 s8 s16 s32 s64 f32 f64 "
+                                   "M2C_UNK M2C_UNK8 M2C_UNK16 M2C_UNK32 M2C_UNK64".split())
+        finally:
+            if os.path.exists(probe):
+                os.remove(probe)
+    return _COMMON_TD
+
+
+def strip_scalar_typedefs(text):
+    """Strip the scalar/M2C typedef redefinitions common.h provides, splitting multi-typedef lines
+    correctly (the T4 primitive). Keeps the draft's OWN custom struct/fn-ptr typedefs — common.h
+    doesn't provide those, and an isolated compile needs them. Replaces SCALAR_TYPEDEF_RE.sub('', …)."""
+    return cdecl.strip_provided_typedefs(text, _common_typedefs())
 
 
 def _reloc_kind(name):

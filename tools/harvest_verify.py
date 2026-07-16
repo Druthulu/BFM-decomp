@@ -18,6 +18,7 @@ import subprocess, glob, os, re, sys, hashlib, argparse
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import corpus   # the derived corpus oracle (Phase 26-A) — a draft's home TU is a FACT of the tree
+import cdecl    # the C-declaration oracle (Phase 26-A) — the per-TU typedef strip-set (T4)
 
 ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
 ap.add_argument('--binary', default='resident')
@@ -48,27 +49,59 @@ if not a.good_sha:
         sys.exit(f'harvest_verify: no --good-sha and no {p} — refusing to gate against an unknown SHA')
     a.good_sha = open(p).read().split()[0]
 
-# Some drafts inline `typedef unsigned char u8;` etc. ("self-contained") -> when placed in a
-# .c that already #includes common.h, gcc-2.7.2 (C89) errors on the redefinition. Strip those
-# lines so common.h provides the types (a compile error is NOT a byte mismatch).
-_TD = re.compile(r'^[ \t]*typedef\b.*\b(u8|u16|u32|u64|s8|s16|s32|s64|f32|f64)[ \t]*;[ \t]*\n', re.M)
-
-
-def strip_typedefs(c):
-    return _TD.sub('', c)
-
-
+# A self-contained draft inlines its own typedefs (`typedef unsigned char u8;`, and often a struct
+# type like `typedef struct {...} Blk16;`). Spliced into a TU that already provides those names
+# (common.h + engine_types.h), gcc-2.7.2/C89 REJECTS the redefinition — a plumbing error, not a byte
+# mismatch. Strip exactly the names the TARGET TU provides, per-TU (cdecl.typedef_names + the T4
+# primitive). The old `_TD` here was scalar-only (no M2C_UNK, no struct typedefs) and dropped 39
+# still-open functions this way; the strip-set is now derived from the tree, not hand-listed.
 def sha1(path):
     return hashlib.sha1(open(path, 'rb').read()).hexdigest() if os.path.exists(path) else None
 
 
+# Distinguish a DECLARATION/PLUMBING failure (byte-correct C the front end rejects — recoverable by
+# strip/reconcile) from a genuine codegen miss. The build's stderr was being discarded, so a draft
+# that failed to COMPILE was recorded identically to one that compiled to the wrong bytes — the exact
+# "a compiler wall that is really a plumbing error" the 26-A audit exists to end (R32). We surface it.
+_PLUMBING = re.compile(
+    r'conflicting types|redefinition of|redeclar|parse error before|storage size|'
+    r'undefined reference|prototype declaration', re.I)
+_last_err = ''
+_last_sha = None
+_NO_BUILD = object()   # attempt() short-circuited (stub already spliced) — no build ran
+
+
 def build():
     """make build BINARY=<bin>; return the output SHA1, or None on compile/link failure
-    (remove the output first so a stale file can't masquerade as a passing build)."""
+    (remove the output first so a stale file can't masquerade as a passing build). Stashes the
+    build's stderr + sha in _last_err/_last_sha so a single-draft failure can be CLASSIFIED."""
+    global _last_err, _last_sha
     if os.path.exists(a.out):
         os.remove(a.out)
-    subprocess.run(['make', 'build', 'BINARY=' + a.binary], capture_output=True, text=True)
-    return sha1(a.out)
+    p = subprocess.run(['make', 'build', 'BINARY=' + a.binary], capture_output=True, text=True)
+    _last_err = (p.stderr or '') + (p.stdout or '')
+    _last_sha = sha1(a.out)
+    return _last_sha
+
+
+def classify_fail(got_sha):
+    """Why did this single draft fail? Only meaningful right after a 1-draft attempt().
+      * no build ran (stub already spliced)            -> SKIP
+      * built but wrong bytes (sha present, != good)   -> DIFF        (a genuine codegen residual)
+      * did not build, stderr matches a decl conflict  -> PLUMBING:...(recoverable, not a wall)
+      * did not build, other                           -> CC1-FAIL   (needs a look)"""
+    if got_sha is _NO_BUILD:
+        return 'SKIP'
+    if got_sha is not None:
+        return 'DIFF'
+    m = _PLUMBING.search(_last_err)
+    if m:
+        # pull the offending line for the log (e.g. "redefinition of 's16'")
+        for ln in _last_err.splitlines():
+            if m.re.search(ln):
+                return 'PLUMBING: ' + ln.strip()[:90]
+        return 'PLUMBING: ' + m.group(0).lower()
+    return 'CC1-FAIL'
 
 
 # --- locate every live stub, in EVERY TU of the binary (Phase 26-A, HIGH) ------------------------
@@ -102,7 +135,10 @@ for cf in sorted(glob.glob(a.drafts + '/*.c')):
         w = open(cp).read().strip().lower().split()
         if w and w[0] in ('high', 'medium', 'low'):
             conf = w[0]
-    drafts[fn] = {'c': strip_typedefs(open(cf).read()), 'conf': conf}
+    # Strip the typedefs the DRAFT's OWN target TU already provides (per-TU strip-set, T4). Computed
+    # against the baseline tree (before any splice); cdecl.typedef_names is cached per TU.
+    provided = cdecl.typedef_names(_stubs[fn].path)
+    drafts[fn] = {'c': cdecl.strip_provided_typedefs(open(cf).read(), provided), 'conf': conf}
 
 order = {'high': 0, 'medium': 1, 'low': 2}
 items = sorted(drafts, key=lambda fn: (order[drafts[fn]['conf']], len(drafts[fn]['c'])))
@@ -145,8 +181,10 @@ def _write(state):
 
 
 def attempt(fns):
+    global _last_sha
     s = render(fns)
     if s is None:
+        _last_sha = _NO_BUILD          # no build ran -> classify_fail reports SKIP, not a false CC1-FAIL
         return False
     _write(s)
     return build() == a.good_sha
@@ -166,20 +204,30 @@ while i < len(items):
         commit(chunk)
         print('  + chunk(%d): %s' % (len(chunk), ' '.join(chunk)))
     else:
-        for fn in chunk:                 # bisect: isolate the matches from the misses
+        for fn in chunk:                 # bisect: isolate the matches from the misses, CLASSIFY the misses
             if attempt([fn]):
                 commit([fn]); print('  + %s' % fn)
             else:
-                failed.append(fn); print('  - %s (%s)' % (fn, drafts[fn]['conf']))
+                klass = classify_fail(_last_sha)   # DIFF (real codegen) vs PLUMBING (recoverable) vs CC1-FAIL
+                failed.append((fn, klass))
+                print('  - %s (%s) [%s]' % (fn, drafts[fn]['conf'], klass))
 
 # restore the accumulated verified state and confirm the binary is byte-identical
 _write(baseline)
 final = build()
+# failure breakdown by class — a PLUMBING count > 0 means "recoverable, not a compiler wall" (T4)
+from collections import Counter
+_klass = Counter(k.split(':')[0] for _, k in failed)
 print('\n=== RESULT ===')
 print('verified %d / failed %d ; final SHA %s  (%s)' % (
     len(verified), len(failed), final,
     'BYTE-IDENTICAL' if final == a.good_sha else '*** MISMATCH — investigate ***'))
+if _klass:
+    print('  failed by class:', ' '.join('%s=%d' % (k, n) for k, n in sorted(_klass.items())))
 print('VERIFIED:', ' '.join(verified) or '(none)')
-print('FAILED  :', ' '.join(failed) or '(none)')
+print('FAILED  :', ' '.join(fn for fn, _ in failed) or '(none)')
 open(a.verified_out, 'w').write('\n'.join(verified) + '\n')
-open(a.failed_out, 'w').write('\n'.join(failed) + '\n')
+# failed_out stays NAMES-only (backward-compatible for existing consumers); the class goes to a sidecar
+open(a.failed_out, 'w').write('\n'.join(fn for fn, _ in failed) + '\n')
+open(a.failed_out.rsplit('.', 1)[0] + '.classified.txt', 'w').write(
+    '\n'.join('%s\t%s' % (fn, k) for fn, k in failed) + '\n')

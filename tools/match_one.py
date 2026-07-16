@@ -47,8 +47,9 @@ if not cfile or not os.path.exists(cfile):
 
 wd = '%s/%s' % (a.work, a.fn); os.makedirs(wd, exist_ok=True)
 src = open(cfile).read()
-# strip inline scalar-typedef redefinitions (common.h provides them; C89 rejects the dup)
-src = masked_diff.SCALAR_TYPEDEF_RE.sub('', src)
+# strip inline scalar-typedef redefinitions (common.h provides them; C89 rejects the dup).
+# The T4 primitive splits multi-typedef lines the old regex couldn't cross (42 discarded MATCHes).
+src = masked_diff.strip_scalar_typedefs(src)
 if '#include "common.h"' not in src:
     src = '#include "common.h"\n' + src
 open('%s/t.c' % wd, 'w').write(src)

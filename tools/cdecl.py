@@ -746,6 +746,72 @@ def tu_scope(tu_path, above=None):
 
 
 # ---------------------------------------------------------------------------------------------
+# DRAFT TYPEDEF STRIP — one primitive, six copied regexes (Phase-27 T4)
+# ---------------------------------------------------------------------------------------------
+# A drafted matching-C body is written "self-contained": it carries its own `typedef unsigned char
+# u8;` … so it compiles standalone. Spliced into a TU that already provides those names (via
+# common.h / engine_types.h), C89/gcc-2.7.2 REJECTS the redefinition — a plumbing error, not a byte
+# mismatch. Six tools each carried a scalar-name regex to strip the dups; they had COMPLEMENTARY
+# holes (harvest_verify._TD lacked M2C_UNK; masked_diff.SCALAR_TYPEDEF_RE's `[^;]*` body could not
+# cross a `;`, so a multi-typedef LINE stripped none; none handled a struct typedef the target
+# provides), and each silently recorded the resulting compile failure as "not a match". These two
+# functions replace all of it with the parser that already knows what a typedef is.
+
+_TYPEDEF_HEAD = re.compile(r'\s*typedef\b')
+
+
+@functools.lru_cache(maxsize=None)
+def typedef_names(tu_path, above=None):
+    """The set of names the TU declares as typedefs (what a self-contained draft must NOT redefine).
+
+    Built on tu_statements (cpp-derived, NOT coverage-asserting) rather than tu_scope on purpose:
+    this feeds the byte-gate, and a cdecl coverage gap on some unrelated file-scope statement must
+    not be able to crash a matching run — only typedef statements are parsed, everything else is
+    ignored. PER-TU by design: engine_types.h reaches ~1470 of 1683 TUs, so a global header parse
+    would strip a `Blk16` the 213 non-including TUs still need. Cached via tu_statements' own cache."""
+    names = set()
+    for st in tu_statements(tu_path, above):
+        if not _TYPEDEF_HEAD.match(st):
+            continue
+        try:
+            for d in parse(st):
+                if d.storage == 'typedef':
+                    names.add(d.name)
+        except CDeclError:
+            pass                      # a typedef this parser can't read -> don't strip on a guess
+    return names
+
+
+def strip_provided_typedefs(draft_text, provided):
+    """Remove from a DRAFT every depth-0 typedef statement whose declared name(s) are ALL in
+    `provided` (the target scope already supplies them). Splits multi-typedef lines correctly
+    (`split_statements` is depth-aware: `typedef ...;typedef ...;` -> two, `typedef struct{int
+    a;}F;` -> one), and covers scalar AND struct typedefs uniformly. KEEPS a draft-local typedef
+    whose name `provided` lacks, and KEEPS a mixed statement (some names provided, some not) so a
+    needed local type is never dropped — the byte-gate then arbitrates. `provided` empty -> no-op."""
+    if not provided:
+        return draft_text
+    drop = []
+    for st in split_statements(draft_text):
+        if not _TYPEDEF_HEAD.match(st.text):
+            continue
+        try:
+            ds = parse(st.text)
+        except CDeclError:
+            continue
+        if ds and all(d.storage == 'typedef' and d.name in provided for d in ds):
+            drop.append((st.start, st.end))
+    if not drop:
+        return draft_text
+    out, last = [], 0
+    for s, e in sorted(drop):
+        out.append(draft_text[last:s])
+        last = e
+    out.append(draft_text[last:])
+    return ''.join(out)
+
+
+# ---------------------------------------------------------------------------------------------
 # C TYPE COMPATIBILITY — the predicate four tools each half-implement, and get wrong
 # ---------------------------------------------------------------------------------------------
 # The question every recovery pass actually asks is "will gcc accept the draft's declaration

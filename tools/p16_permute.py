@@ -123,7 +123,7 @@ def drop_preproc_and_scalar_typedefs(c):
     include can't resolve). KEEP #define (cpp expands it), custom struct/union/fn-ptr typedefs (the
     draft's OWN types -- dropping them left their uses undeclared), and extern callee/data decls (so
     the fn compiles in its REAL signature context)."""
-    c = masked_diff.SCALAR_TYPEDEF_RE.sub("", c)
+    c = masked_diff.strip_scalar_typedefs(c)   # T4: splits multi-typedef lines the old regex couldn't
     return "\n".join(ln for ln in c.splitlines() if not ln.lstrip().startswith("#include"))
 
 
