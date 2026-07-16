@@ -22,7 +22,8 @@ import argparse, json, os, sys, pathlib, datetime
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "tools"))
-import dedup_propagate as dp  # load_sig, onboarded_overlays, registered_addrs (reach == its computation)
+import dedup_propagate as dp  # load_sig, onboarded_overlays (reach == its h_exact computation)
+import corpus                 # the derived stub oracle (Phase 26-A) — "still work?" = "still INCLUDE_ASM"
 
 # bucket -> lever. ADVISORY routing (the byte-gate decides truth). Grouped by how we'd actually attack it:
 #   WAVE   = m2c/hand-draftable by the Ultracode swarm + §17 toolkit + canon-first gate + fix_arity_callers
@@ -59,7 +60,12 @@ def main():
     recs = json.load(open(ROOT / a.census))
     pool = dp.onboarded_overlays()
     sigs = {ov: dp.load_sig(ov) for ov in pool}
-    reg = dp.registered_addrs()
+    # "Is this census entry still work?" — answered by the INVARIANT (R33), not the dedup registry.
+    # registered_addrs() (config/dedup.us.yaml) is a PROXY: a function matched-but-not-registered
+    # (banked inline, or matched-but-local) is absent from it, so the old filter kept matched
+    # functions in the residual pool (the audit measured ~60% wrong). A function is unmatched iff it
+    # is still an INCLUDE_ASM stub in the source — which corpus.stubs derives from the tree.
+    live_stub_addrs = set(corpus.stubs(a.source))   # {addr_int: Stub} -> the set of addr ints
 
     def reach(addr_int):
         h = sigs[a.source].get(addr_int, {}).get("h_exact")
@@ -70,7 +76,7 @@ def main():
     rows = []
     for r in recs:
         ai = int(r["addr"], 16)
-        if ai in reg:                       # already matched+shared — not a residual
+        if ai not in live_stub_addrs:       # not a live INCLUDE_ASM stub -> already matched, not a residual
             continue
         lever = LEVER.get(r["bucket"], "WAVE")
         rows.append({"addr": r["addr"].upper(), "nins": r["nins"], "mismatch": r.get("mismatch"),

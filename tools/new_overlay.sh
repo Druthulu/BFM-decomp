@@ -94,7 +94,10 @@ EOF
   echo "  + config/overlays.mk"
 fi
 
-# 5) register in the 4 report/diff tools' BINARIES dicts (sentinel-anchored, idempotent, syntax-checked)
+# 5) register in the report/diff tools' BINARIES dicts (sentinel-anchored, idempotent, syntax-checked).
+# difficulty.py was DROPPED from this list (Phase-27 T6): it now DERIVES its per-binary paths from the
+# alias (cfg_for), so a new overlay needs no hand-registration there — the remaining 3 tools still carry
+# hand-lists (migrating them is future work; each is byte-gated per the audit's one-at-a-time cadence).
 $PYV - "$ALIAS" <<'PY'
 import sys, ast
 alias = sys.argv[1]
@@ -105,8 +108,6 @@ entries = {
                       f'                        mapfile="build/{alias}/{alias}.map"),\n'),
  "tools/progress.py": (f'    "{alias}": dict(build="build/{alias}/{alias}", check="config/check.{alias}.sha",\n'
                       f'                        src="src/{alias}", asm="asm/{alias}/nonmatchings", out="docs/progress.{alias}.md"),\n'),
- "tools/difficulty.py": (f'    "{alias}": dict(src="src/{alias}", asm="asm/{alias}/nonmatchings",\n'
-                      f'                        md="docs/difficulty.{alias}.md", csv=".run/difficulty.{alias}.csv"),\n'),
  "tools/dup_report.py": (f'    "{alias}": dict(sig=".run/sig.{alias}.jsonl", md="docs/duplicates.{alias}.md"),\n'),
 }
 for path, entry in entries.items():
