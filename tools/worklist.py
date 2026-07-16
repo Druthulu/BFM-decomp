@@ -152,17 +152,46 @@ def render_md(rows, total_gain, manifest, top):
     return "\n".join(L) + "\n"
 
 
+def assert_partition(manifest, source="ov_SC01_077"):
+    """R32 coverage assertion (Phase-27 T8, tooling-audit.md:1173): every live stub of the manifest's
+    SOURCE overlay lives in exactly one worklist row. worklist's universe is ONE overlay (~263 stubs),
+    NOT the fleet's 53k — so this asserts the manifest is a partition OF ov_SC01_077, and says so. A
+    silent under-cover (a stub in no row) is the class the audit exists to catch; an over-cover (a row
+    that is no longer a live stub) means the manifest is stale. Independently enumerates the live stubs
+    from the INVARIANT (corpus.stubs = still-INCLUDE_ASM), never the manifest's own scan (R33)."""
+    import corpus
+    live = {s.symbol for s in corpus.stubs(source).values()}
+    rows = {t["name"] for t in manifest["targets"]}
+    missing = sorted(live - rows)      # live stub in NO worklist row -> invisible work
+    stale = sorted(rows - live)        # worklist row that is no longer a live stub -> stale manifest
+    dup = len(manifest["targets"]) - len({t["name"] for t in manifest["targets"]})
+    ok = not missing and not stale and not dup
+    print(f"worklist --assert-partition (source {source}): {len(live)} live stubs, {len(rows)} rows "
+          f"-> {'PARTITION OK' if ok else 'FAIL'}")
+    if missing:
+        print(f"  [FAIL] {len(missing)} live stub(s) in NO row (invisible work): {missing[:8]}")
+    if stale:
+        print(f"  [FAIL] {len(stale)} row(s) not a live stub (stale manifest — --refresh): {stale[:8]}")
+    if dup:
+        print(f"  [FAIL] {dup} duplicate row name(s)")
+    return 0 if ok else 1
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--manifest", default=".run/fuel_manifest.json")
     ap.add_argument("--top", type=int, default=40)
     ap.add_argument("--refresh", action="store_true",
                     help="first re-run build_fuel_manifest.py + backlog.render() (loop refresh)")
+    ap.add_argument("--assert-partition", action="store_true",
+                    help="R32: assert the manifest partitions its source overlay's live stubs, then exit")
     a = ap.parse_args()
     if a.refresh:
         subprocess.run([sys.executable, os.path.join(REPO, "tools/build_fuel_manifest.py")], check=True)
         backlog.render()
     manifest = json.load(open(os.path.join(REPO, a.manifest)))
+    if getattr(a, "assert_partition", False):
+        sys.exit(assert_partition(manifest, manifest.get("source", "ov_SC01_077")))
     bl = load_backlog_by_name()
     rows, total_gain = build_rows(manifest, bl)
     json.dump({"note": "Phase-22 ranked worklist; gain_ins = reach*nins (byte-weighted). "
