@@ -3900,3 +3900,68 @@ rematerialize a non-CONSTANT_P source). Only a register pin resolves both → ×
 **Process finding — the match_one→whole-binary gap at wave scale:** ~half of the agents' match_one close=0 drafts
 do NOT bank whole-binary (isolated reloc-masked compile overstates; A10). The whole-binary gate is the sole
 arbiter — a match_one MATCH is a CANDIDATE, not a bank; budget the gate cycles.
+
+## §53 — SWEEP A FAMILY WITH THE TOOL ITS EXEMPLAR NEEDED: the jr/switch carve, and how omitting it manufactured the "families don't template" doctrine (Phase 28 T1, 2026-07-15)
+
+**The law (one line):** *a family sweep must reproduce every build step the exemplar's own bank required.*
+Omit one and the gate rejects every sibling — a result that reads exactly like an intrinsic wall, at any scale.
+
+### The case
+
+`0x8017BEBC` (952 ins, the largest unmatched core in the game; 115 unmatched members across 21 addresses,
+`addr_tag: scattered`, PURE 109 / IMM 6) was the roadmap's **B2 — "possibly the largest cheap win left."**
+Phase-27 T5 swept it with `family_sweep`, banked **0 of 8**, recorded *"all genuine byte-DIFF"*, and
+generalized it to **"h_seq/h_norm structural families do not mechanically template (≈0%)"** — which
+rewrote the endgame's arithmetic to "(cores cracked) × (reach), NOT (families) × 120"
+(`PhaseEnd_Phase27` Roadmap delta; `docs/calibration.md` called it *"the decisive P28/P29 input"*).
+
+**Re-run through the carve path: 8 of 8 BANKED** (4 same-address + 4 cross-address via `to_addr`),
+`make clean` + extract-all + `check-all` → **140/140 byte-identical**.
+
+### Why 0/8 was structural, and predictable from two words
+
+`0x8017BEBC` is a **jr/switch** core. §47 banked its exemplar as *"lazy isolation → carve (9-piece
+interleave) → splice → BYTE-IDENTICAL"* and explicitly noted the fix is *"×N template-safe."*
+`family_sweep.hseq_sweep` stages C and gates — **it has no carve step**. So gcc's generated jump table is
+never placed at the sibling's address, and the residual is exactly:
+
+```
+classify_member(ov_SC01_000 -> ov_SC01_001) = PURE, ndiff=2   # positions 343, 345 — TWO WORDS
+  idx 343: 3c01801a vs 3c01801f   lui $at,%hi(jtbl_801EC44C)
+  idx 345: 8c224374 vs 8c22c44c   lw  $v0,%lo(jtbl_801EC44C)($at)
+config/overlays.mk:112  ov_SC01_000_JTBL_INTERLEAVE := ...,ov_SC01_000_jr_8017BEBC.o,tail12.data.o,...
+config/overlays.mk:134  ov_SC01_001_JTBL_INTERLEAVE := ...      <- no jr_8017BEBC entry. The table is unplaced.
+```
+
+A **PURE, ndiff=2** family is the closest thing to templatable that exists. It failed on a build-config gap.
+
+### The rule
+
+- **A family with `has_mid_jr: true` MUST be swept with `tools/jtbl_family_bank.py`**, never `family_sweep`.
+  It carves per sibling (`jtbl_carve` → `make extract` (+`ld_interleave` sandwich) → remap → whole-binary gate,
+  revert-on-fail). `family_sweep` is correct only for non-jr families.
+- **`--raw` the standalone crack**, not the banked TU. `extract_unit` on a banked jr body hands the sweep the
+  TU's file-scope decl layer (here two `D_800B9A02` externs) = §41c pollution. The preserved crack
+  (`.run/phase26-cracks/<fn>.c`) carries the fix *and* its reconcile at **block scope**, so it travels.
+- **Trust the file, not its header.** `func_8017BEBC.md` still says *"close=2 of 952"* — the state BEFORE
+  §47's slider closed it. The `.c` was updated; the `.md` was not. Templating from a body you believe is a
+  near-miss, or reading a stale header as current, produces zeros you will misread as a wall.
+- **`symbol_map` does NOT need a `jtbl_` prefix.** Tempting and wrong: a compiler-generated switch table is
+  never named in C, so there is no token to substitute (`grep jtbl src/ov_SC01_000/…_jr_8017BEBC.c` → nothing).
+  The fix is **placement** (carve + interleave), not substitution. *(This was a real mid-plan error: the
+  diagnosis "symbol_map cannot generate jtbl_" is TRUE and the fix derived from it is FALSE.)*
+
+### The meta-lesson (R35, and why this one is expensive)
+
+The 0/8 was cited as the decisive input for two phases of planning. Three compounding failures made it:
+1. **Wrong tool for the class** — swept a jr family with a carve-less sweeper.
+2. **n=1, least-representative** — `has_mid_jr` is **3 of 163** matched-exemplar families; the rarest class
+   was generalized to the whole frontier.
+3. **The corroborating evidence was pre-fix** — the three Phase-26 exhaustion probes (tiny-IMM 0/241,
+   PURE 0/134, pinned 0/133) all predate `_carry_macros` (P27 T5, `commit:0637`). P27's own decision-log calls
+   its re-probe *"a **fourth** phantom exhaustion proof"* — naming the mechanism that would have faked the
+   first three, and never re-running them.
+
+**Before a 0% retires a lever, ask: did I run the steps the exemplar's own bank required? is this family
+representative of the class I'm generalizing to? was the corroborating evidence taken through the same
+broken tool?** A 0% from a broken tool and a 0% from a working one are the same number and opposite facts.

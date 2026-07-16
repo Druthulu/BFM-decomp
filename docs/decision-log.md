@@ -1139,3 +1139,69 @@ day*, and make the plan self-expiring (the Roadmap-delta line) rather than self-
 **(3) The `0x8017BEBC` family is "possibly the largest cheap win left" (roadmap B2) — REFUTED, and the refutation is only trustworthy because the tool was fixed first.** Pre-T5, the probe would have read a fake 0% (112/112 CC1-FAIL on dropped macros) — a fourth phantom exhaustion proof. Post-fix: 106/112 stage, and the byte-gate says 0/8 (all genuine DIFF). The family is genuinely not byte-templatable; the h_seq structural match is necessary, not sufficient. **Why it matters:** it confirms Phase-26's mechanical-harvest-exhausted thesis extends to the families the roadmap hoped were cheap — and it is the cleanest demonstration of the phase's meta-lesson: **fix the measuring tool before you trust a measurement; a 0% from a broken tool and a 0% from a working one are the same number and opposite facts.**
 
 **The through-line (the phase's transferable rule).** Every one of these was a case where an instrument — a scanner (`make report` swallowing gates, T2), a strip regex (six of them, T4), a boundary oracle blind to main/resident (T10), a staging step dropping macros (T5), an onboarding glob (T7) — silently mis-reported reality, and the fix changed the answer. The roadmap's own numbers were red-teamed; the *tools under them* were not, until this phase. R32/R33/R34 exist for exactly this, and Phase 27 is their first full application to the frontier the endgame plans against.
+
+## 2026-07-15 (Phase 28 T0/T1) — the "families don't template" doctrine was a missing build step; B2 lives
+
+**Context + belief.** P28 exists to measure the member-adapt close-rate — the roadmap's §6 "THE swing
+number", with all P28/P29 yield projections deliberately withheld until it existed. Going in, the settled
+belief (PhaseEnd_Phase26 + PhaseEnd_Phase27 + `calibration.md`'s "decisive P28/P29 input") was: **the
+mechanical templating harvest is dead** — h_seq/h_norm structural families bank at **≈0%**, so P29's
+arithmetic is "(cores cracked) × (reach)", not "(families) × 120", and B2 (`0x8017BEBC`, "possibly the
+largest cheap win left") is byte-refuted.
+
+**What failed.** All of it, and the failures compound:
+
+1. **The ≈0% was measured with the wrong tool for the class.** `0x8017BEBC` is a **jr/switch** core. §47
+   banked its exemplar as *"lazy isolation → carve (9-piece interleave) → splice → BYTE-IDENTICAL"* and
+   called the fix *"×N template-safe."* The P27 T5 probe swept it with `family_sweep`, which stages C and
+   gates and **has no carve step** — so gcc's jump table was never placed. The whole residual is **two
+   words** (`classify_member` → **PURE, ndiff=2**, idx 343/345 = `lui/lw %hi/%lo(jtbl_801EC44C)`);
+   `overlays.mk:112` carves the table for the exemplar, `:134` does not for the member. **Re-run through
+   `jtbl_family_bank.py --raw` (which carves per sibling): 8 of 8 BANKED**, 4 same-address + 4
+   cross-address, `make clean` + extract-all + `check-all` → **140/140**.
+2. **n=1, on the least representative family in the population.** `has_mid_jr` is **3 of 163**
+   matched-exemplar families (120 of 13,232 members). The rarest class was generalized to the whole frontier.
+3. **Its corroborating evidence was pre-fix.** The three Phase-26 exhaustion probes (tiny-IMM 0/241,
+   PURE 0/134, pinned 0/133) all predate `_carry_macros` (P27 T5, `commit:0637`). P27's decision-log calls its
+   own re-probe *"a **fourth** phantom exhaustion proof"* — it named the mechanism that would have faked the
+   first three and never re-ran them. **The ≈0% doctrine now has no surviving post-fix evidence.**
+4. **A second instrument was lying underneath.** `family_remap.img_path` hardcoded `0.4.dec`, so the 4 SC07
+   overlays P27 onboarded returned `None` → `stream_words` → `None` → `classify_member` → `("LEN", [])` —
+   **silently** classified "not templatable" AND poisoning their family's `diff_class` to MIXED. Fixed by
+   deriving from `config/splat.<bin>.yaml`'s `target_path` (R33 — what the BUILD reads) + raising (R32).
+   Negative control: `ov_SC07_006` **None → `1.4.dec`**; all **233** shared substantial fns between
+   ov_SC07_006 and ov_SC01_001 classify **PURE**, every one of which the old tool called LEN.
+
+**The pivot.** The mechanical-templating thesis is **un-refuted, not vindicated** — and re-opened as the
+phase's central question rather than its retired premise. P28 T3 now measures the rate over the population
+that actually exists (from the fixed map): **1,418 matched-exemplar families / 21,889 unmatched members**,
+PURE 17,024 (78%) · IMM 4,473 (20%) · **STRUCT 392 (1.8%)**. Note the roadmap sizes its swing number on
+*register-drift* = **STRUCT = 1.8%** of the input; the mass is PURE+IMM.
+
+**Why it matters (the number).** Regenerating the map exposed a **doubly-hidden** pool: **1,255 families /
+6,268 members / 230,612 ins whose ONLY unmatched members are the 4 new SC07 overlays** (0 elsewhere), each
+behind an already-matched, byte-proven exemplar — hidden once because P27 never regenerated the map after
+onboarding them, and again because `img_path` would have called them all LEN. Total addressable behind a
+matched exemplar: **937,248 ins = 21.7% of all remaining weight = 7.16pp of fleet instr**. `0x8017BEBC`
+alone is 115 members × 952 ins ≈ **109,480 ins**. All of this is a **prediction** until T3's gate — h_seq
+predicts, the whole-binary gate decides (G3/P9).
+
+**The better path, in hindsight.** Three of the four failures above are one habit: **a probe inherits the
+authority of the tool that ran it, and nobody re-runs a probe after fixing the tool under it.** P27 coined
+R35 for exactly this and then, in the same phase, generalized a 0% from a carve-less sweeper on the rarest
+family class in the population. The transferable rule is sharper than R35 as written:
+
+> **Before a 0% retires a lever:** (a) did the probe run every build step the *exemplar's own bank*
+> required? (b) is the probe family *representative* of the class being generalized to? (c) was the
+> corroborating evidence taken through the same tool you just fixed? A negative result is a claim about a
+> tool until each is answered.
+
+Two further R14 corrections this session, both mine: the approved plan's own population figures (163
+families / 13,232 members) came from the **stale** map; and "add `jtbl_` to `symbol_map`" was a **wrong fix
+derived from a true diagnosis** — a compiler-generated switch table is never named in C, so there is no
+token to substitute; the fix is placement, not substitution. Recorded in cookbook **§53**.
+
+**Handed forward:** the remaining 107 members of `0x8017BEBC`; T3's stratified probe (SC07-only pool first —
+its exemplars are already byte-proven, so a failure isolates the templating mechanism with no drafting
+variable); and the roadmap's B1/B2/§2 numbers + the "(cores) × (reach)" arithmetic all need re-deriving at
+the P28 close (Roadmap delta).

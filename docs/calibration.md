@@ -23,19 +23,62 @@ re-measured there.**
 
 ## The templatability swing (the number that decides P28/P29 yield)
 
-Two propagation regimes, both byte-measured this phase:
+> ### ⚠️ CORRECTED 2026-07-15 (Phase-28 T1) — the ≈0% row below was measuring a MISSING BUILD STEP.
+>
+> The Phase-27 row said `h_seq family ≈ 0%`, on the strength of `0x8017BEBC` banking **0 of 8**, and that
+> number rewrote the endgame ("P29's arithmetic is (cores cracked) × (reach), NOT (families) × 120",
+> `PhaseEnd_Phase27` Roadmap delta). **It is refuted.** The same family, same era, through the carve path
+> its own exemplar required: **8 of 8 BANKED** (4 same-address + 4 cross-address; `make clean` +
+> extract-all + `check-all` → **140/140 byte-identical**).
+>
+> **Root cause — the probe used a tool with no carve step.** `0x8017BEBC` is a **jr/switch** core. §47
+> banked its exemplar as *"lazy isolation → carve (9-piece interleave) → splice → BYTE-IDENTICAL"* and
+> stated the fix is *"×N template-safe"*. `family_sweep.hseq_sweep` stages C and gates — it has **no
+> carve step**, so gcc's generated jump table is never placed at the sibling's address. The entire
+> residual I byte-verified is **two words**: `lui $at,%hi(jtbl_801EC44C)` / `lw $v0,%lo(jtbl_801EC44C)($at)`
+> (`classify_member` → **PURE, ndiff=2**, positions 343/345). `config/overlays.mk:112` carves
+> `ov_SC01_000_jr_8017BEBC.o` for the exemplar; `:134` has no such entry for the member. The 0/8 measured
+> the omitted carve, not the family. **`tools/jtbl_family_bank.py` exists to do exactly this per sibling
+> and had never been run on this family.**
+>
+> **Compounding:** the family is one of only **3 of 163** with `has_mid_jr` — i.e. the roadmap generalized
+> from n=1, on the least representative family in the population, using the wrong tool for its class. And
+> the three Phase-26 exhaustion probes it corroborated (tiny-IMM 0/241, PURE 0/134, pinned 0/133) all
+> **predate** `_carry_macros` (Phase-27 T5, `commit:0637`) — Phase 27's decision-log itself calls its re-probe
+> "a **fourth** phantom exhaustion proof" while never re-running the first three. **R35: a 0% from a broken
+> tool and a 0% from a working one are the same number and opposite facts.**
+
+Propagation regimes, byte-measured (the whole-binary gate is the only entry here — G3/P9):
 
 | regime | rate | evidence |
 |---|---|---|
 | **h_exact reach-N core** (byte-identical across N overlays) | **≈ ×N, near-100%** | §52 (Phase 26): 5 cracked cores → **670 banked instances** = ×134 each, mechanical |
-| **h_seq / h_norm structural family** (same skeleton, per-overlay byte-variants) | **≈ 0%** | `0x8017BEBC` (T5): 106/112 members STAGE cleanly (macro-carry fixed), but **0 of 8 bank** — all genuine byte-DIFF |
+| **h_seq family, jr/switch core, WITH the per-sibling carve** | **8/8 on a bounded probe** (n=1 family) | `0x8017BEBC` via `jtbl_family_bank.py --raw` (P28 T1): 4 same-addr + 4 cross-addr (`to_addr`), 140/140 clean-fleet |
+| **h_seq family, jr/switch core, WITHOUT the carve** | 0/8 — **an artifact, not a rate** | the P27 T5 probe (`family_sweep`, no carve step). Do not cite this as templatability evidence. |
+| **h_seq family, non-jr (PURE / IMM / MIXED)** | **UNMEASURED** | the three Phase-26 probes are pre-`_carry_macros` and were never re-run → P28 T3 |
 
-**This is the decisive P28/P29 input.** The roadmap's B1/B2 hoped the large `h_seq` families were a
-cheap mechanical harvest; the byte-gate says they are **not templatable** — the structural (h_seq) match
-is necessary, not sufficient. So the remaining yield is NOT "template ×120 the 986 families"; it is
-**per-member cracking** for the structural families and **mechanical ×N only for the h_exact reach-N
-cores**. The current 223-live-stub frontier: **101 reach-134** (h_exact — ×134-able IF the core cracks),
-119 reach-1 (×1), 3 mid. So the P29 arithmetic is: (cores cracked) × (their reach), NOT (families) × 120.
+**The honest state of the swing number.** The ≈0% doctrine has **no surviving post-fix evidence**. What
+T1 establishes is narrow and real: a jr/switch family templates at 8/8 *when the carve its exemplar
+required is actually performed*. What it does **not** establish is a general rate — n=1, and jr is by
+construction the rarest class (3/163 families). **The general rate is exactly what P28 T3 measures**, over
+the population that actually exists (from the T0-fixed map): **1,418 matched-exemplar families / 21,889
+unmatched members** — PURE 17,024 (78%) · IMM 4,473 (20%) · **STRUCT 392 (1.8%)**.
+
+**Note the roadmap's swing number is aimed at the wrong class.** It sizes P28/P29 on the *register-drift*
+(STRUCT) close-rate — **1.8%** of the input. The mass is PURE+IMM (98%).
+
+**The addressable pool (T0, from the fixed map).** 937,248 ins = **21.7% of all remaining weight** =
+**7.16pp of fleet instr if it all banked**, all behind an already-matched exemplar:
+
+| stratum | families | members | ins |
+|---|---:|---:|---:|
+| **SC07-only** (unmatched ONLY in the 4 P27 overlays; exemplar already byte-proven) | 1,255 | 6,268 | 230,612 |
+| legacy PURE non-jr | 95 | 7,993 | 478,379 |
+| legacy IMM (incl. `0x8017BEBC`: 115 members × 952 ins ≈ 109,480) | 36 | 6,644 | 212,707 |
+| legacy MIXED | 30 | 968 | 10,462 |
+| legacy PURE w/ jr | 2 | 16 | 5,088 |
+
+This is a **prediction** (h_seq predicts; the gate decides). T3 gates it before P29 scales.
 
 ## Cost / yield per tier (this session)
 
