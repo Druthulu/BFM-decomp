@@ -94,7 +94,9 @@ segments:
       # 0x80128158 ahead of the code, a 1-word analogue of main's rodata-island (no ld_interleave).
       # - [0x0, rodata, head]
       - [0x0, c, ov_SC07_007]        # code: starts at file 0x0 (overlays open with a prologue)
-      - [0x5AD8C, data, tail] # data tail: pointer tables + packed data (split iterated)
+      - [0x5ad8c, data, tail]
+      - [0x9e330, .rodata, ov_SC07_007]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
+      - [0x9e350, data, tail2]
       - [0x9F9DC, bin, trailing]    # final 3 bytes (EOF not 4-aligned; spimdisasm drops a partial word)
   - [0x9F9DF]   # EOF marker = the 0.4.dec byte length
 # @TRAILING@ (above) is replaced by tools/new_overlay.sh: for a non-4-aligned overlay it becomes

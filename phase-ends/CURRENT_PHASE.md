@@ -103,5 +103,15 @@ Whole-binary byte-gate = sole arbiter (G3/P9) · R22 clean-fleet per banked batc
   - **Distilled in-session (R30):** cookbook **§53** (the carve law + the `--raw` rule + the `symbol_map`-jtbl trap + the "before a 0% retires a lever" test) · `calibration.md` (the decisive table **rewritten**; the ≈0% row marked an artifact) · `decision-log.md` (R31).
   - **Carried:** the remaining **107** members of the family (≈101,864 ins, ~0 tokens) → T1b.
 
+- **2026-07-15 — T1b ✅ the B2 family swept: `102 of 115` banked (88.7%), ~0 agent tokens.**
+  - **Sweep:** 107 remaining members → **`{'BANKED': 94, 'gate-fail': 7, 'remap-refuse': 6}`**. Family total **8 + 94 = 102 / 115**. **R22: `make clean` + extract-all + `check-all` → 140 passed, 0 failed of 140**, 0 FAIL lines.
+  - **📈 FLEET (measured, `make report`): instr-weighted 67.0% → 67.7% (+0.7pp, +97,104 ins) · distinct-code 47.8% → 49.4% (+1.6pp) · fn-count 82.16% → 82.19%.** 102 × 952 = **97,104** = the exact measured delta (the arithmetic reconciles to the byte).
+  - **The 13-member tail is the predicted shape, and both halves are data:**
+    - **6 remap-refuse** = *exactly* the family's 6 IMM members (`cls_counts` PURE 109 / IMM 6). `imm_map_tier1` **refused rather than guessed** — `unresolved immediates: [(512, 'asm-ambiguous')]` (512 also occurs at a non-differing position, so a blind swap could corrupt it). This is the concrete shape of T3's IMM stratum.
+    - **7 gate-fail** = genuine byte-DIFFs, correctly rejected; **verified to leave no config/source residue** (all 7: `split_file=none cfg_refs=0` — no false-bank risk).
+  - **Hygiene:** the 7 `git checkout … did not match any file` errors are benign (revert of a never-tracked path). Verified **0** untracked splits belong to a non-banked member; 91 new splits + 3 banked into existing splits = 94 ✓.
+  - **The comparison that matters:** this is the family recorded as **0/8 → "≈0%, structural families do not template"** — the number that rewrote P29's arithmetic. Run with the carve its own exemplar required: **88.7%**.
+  - **Scope (P9, unchanged):** still **n=1 family**, and jr is the rarest class (3/163). This demonstrates the mechanism at family scale; it does **not** give a rate for the PURE/IMM mass (98% of the population). **T3 is the swing number.**
+
   - **T3 strata (honest, from the fixed map):** SC07-only **1,255 fam / 6,268 mem / 230,612 ins** · legacy PURE non-jr **95 / 7,993 / 478,379** · legacy IMM **36 / 6,644 / 212,707** · legacy MIXED **30 / 968 / 10,462** · legacy PURE w/ jr **2 / 16 / 5,088** (T1's jtbl territory — note B2's family is far smaller here than the roadmap's "×112 ≈ 106k ins"; T1 re-derives it). **Total addressable = 937,248 ins = 21.7% of all remaining weight = 7.16pp of fleet instr if it all banked.** This is the prize the roadmap declared dead. It stays a prediction until T3's gate.
 </content>
