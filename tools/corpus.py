@@ -249,8 +249,16 @@ def sig_is_independent(binary):
     914 'unmatchable slices'; restricted to the domain where the oracle is actually independent it
     reports 193 — and the 193 are real, reproduce the audit exactly, and are all one defect. The
     721 difference was an artefact of comparing two oracles that were never measuring the same thing.
-    A check applied outside its valid domain does not become more thorough; it becomes noise (R14)."""
-    return binary.startswith("ov_")
+    A check applied outside its valid domain does not become more thorough; it becomes noise (R14).
+
+    RESIDENT (Phase-27 T10): now covered. `make sig-resident` signs the resident flat blob with
+    sig_image (the same byte-derived signer, `--vram-base 0x800CEDF8`) instead of Ghidra, so its sig
+    IS independent — probed clean (144 sig fns, all 21 source stubs present, 0 phantom). The check is
+    valid IFF .run/sig.resident.jsonl is the sig_image sig; run `make sig-resident` first (a stale
+    Ghidra sig there would resurrect the 'measuring Ghidra's limits' artefact). MAIN stays excluded —
+    sig_image cannot yet sign the EXE (0x800 header offset, interleaved data islands, one text range);
+    that second oracle is scoped-and-deferred in docs/second-oracle.md."""
+    return binary.startswith("ov_") or binary == "resident"
 
 
 def audit(binary):

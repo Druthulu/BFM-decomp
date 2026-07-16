@@ -132,7 +132,7 @@ CC1_SMOKE_FLAGS := -quiet -O2 -G0 -mips1 -mcpu=3000 -mgas -msoft-float -fgnu-lin
 BINUTILS_WARN_MAJOR := 2
 BINUTILS_WARN_MINOR := 38
 
-.PHONY: help check-env extract build check expected clean report sig-refresh sig-overlays build-all check-all audit-corpus audit-cdecl tools-health
+.PHONY: help check-env extract build check expected clean report sig-refresh sig-overlays sig-resident build-all check-all audit-corpus audit-cdecl tools-health
 
 # -----------------------------------------------------------------------------
 help:
@@ -183,9 +183,16 @@ audit-cdecl:
 # every C declaration through real gcc (minutes), so it belongs to a deliberate pre-matching ritual,
 # not the inner harvest loop. Matches the roadmap's standing invariant (audit-corpus · audit-cdecl ·
 # report green before matching).
-tools-health: audit-corpus audit-cdecl
+tools-health:
+	# Regenerate the byte-derived boundary oracles FIRST (they're gitignored/regenerable), so the
+	# audit checks CURRENT sigs and never crashes on an absent one — the resident audit (T10) needs
+	# the sig_image resident sig, and a fresh clone has neither it nor the overlay sigs.
+	$(MAKE) --no-print-directory sig-overlays
+	$(MAKE) --no-print-directory sig-resident
+	$(MAKE) --no-print-directory audit-corpus
+	$(MAKE) --no-print-directory audit-cdecl
 	$(MAKE) --no-print-directory report BINARY=main
-	echo "tools-health: OK — corpus + cdecl + report(lint+dedup) all green."
+	echo "tools-health: OK — sigs fresh; corpus(+resident) + cdecl + report(lint+dedup) all green."
 
 report:
 	$(VENV_PY) tools/progress.py --binary $(BINARY) --audit
@@ -219,14 +226,28 @@ sig-refresh:
 # duplicates. Each -> .run/sig.ov_<SCxx>_<nnn>.jsonl (gitignored; regenerable). Re-run when overlays
 # change; not part of `make report` (it scans whatever ov_* sigs exist, like sig-refresh).
 OVERLAY_VRAM := 0x80128158
+# Derived from config/overlays.mk's <ov>_EXE payloads (the SINGLE source of truth, R33) — NOT a
+# `find … 0.4.dec` glob, which silently dropped the 4 Phase-27 SC07 overlays whose code is at PAC
+# entry 1 (1.4.dec). `<alias>:<payload>` pairs built at Make level so every onboarded overlay signs.
+OVERLAY_SIG_JOBS := $(foreach a,$(OVERLAY_BINARIES),$(a):$($(a)_EXE))
 sig-overlays:
 	@n=0
-	for f in $$(find extracted/retail -path '*SC*.CD.dir/FILE_*.dir/0.4.dec' | sort); do
-		nm=$$(echo "$$f" | sed -E 's|.*/(SC[0-9]+)\.CD\.dir/FILE_([0-9]+)\.dir.*|ov_\1_\2|')
-		$(VENV_PY) tools/sig_image.py --image "$$f" --vram-base $(OVERLAY_VRAM) --bootstrap --name "$$nm" >/dev/null
+	for job in $(OVERLAY_SIG_JOBS); do
+		alias=$${job%%:*}; f=$${job#*:}
+		[ -f "$$f" ] || { echo "sig-overlays: WARN no payload for $$alias ($$f)"; continue; }
+		$(VENV_PY) tools/sig_image.py --image "$$f" --vram-base $(OVERLAY_VRAM) --bootstrap --name "$$alias" >/dev/null
 		n=$$((n+1))
 	done
-	echo "sig-overlays: signed $$n overlays -> .run/sig.ov_*.jsonl"
+	echo "sig-overlays: signed $$n overlays -> .run/sig.ov_*.jsonl (of $(words $(OVERLAY_BINARIES)) onboarded)"
+
+# sig-resident (Phase-27 T10): sign the resident flat blob with sig_image — the Ghidra-FREE,
+# byte-DERIVED signer — so `make audit-corpus` gains a SECOND, INDEPENDENT boundary oracle for the
+# resident (R34; corpus.sig_is_independent now trusts it). sig_image already supports the resident
+# case; it was simply never invoked. Overwrites .run/sig.resident.jsonl (was a Ghidra sig); h_exact
+# is raw-byte SHA1 so it is format-independent — weighted_metrics is unaffected. R23-free.
+sig-resident:
+	$(VENV_PY) tools/sig_image.py --image $(resident_EXE) --vram-base $(resident_VRAM_BASE) --bootstrap --name resident
+	echo "sig-resident: signed the resident -> .run/sig.resident.jsonl (byte-derived, second-oracle-ready)"
 
 # -----------------------------------------------------------------------------
 # check-env: assert every Phase-4 toolchain component. Runs ALL checks (does not

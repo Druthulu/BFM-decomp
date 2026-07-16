@@ -11,7 +11,7 @@ Usage:
   tools/progress.py --check     # also hash build/us/SLUS_007.26 vs config/check.us.sha
   tools/progress.py --binary <alias>   # report a non-default binary (default: main = the EXE)
 """
-import re, sys, hashlib, pathlib
+import os, re, sys, hashlib, pathlib
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 
@@ -558,17 +558,32 @@ def report(binary, audit=False, write=True):
                 matchable=matchable, byteident=byteident)
 
 
+def _sig_binary(sigpath):
+    """Map a sig filename to its corpus/build binary name. main's sig is historically named after the
+    EXE (sig.SLUS_007.26.jsonl); overlays/resident already match."""
+    b = os.path.basename(sigpath).split("sig.")[1][:-6]
+    return "main" if b == "SLUS_007.26" else b
+
+
 def weighted_metrics():
-    """Instruction/byte-weighted matching % from the committed sigs (.run/sig.*.jsonl) + src stubs.
-    Two framings, both against EXECUTABLE CODE only (not the ISO/audio/assets/data); MIPS instrs are
-    all 4 bytes so instruction% == byte%:
+    """Instruction/byte-weighted matching % from the committed sigs (.run/sig.*.jsonl) + the DERIVED
+    stub oracle (corpus.stubs, R33 — NOT a func_-only regex, which missed curated-named stubs and, for
+    main, would have globbed the nonexistent src/SLUS_007.26/ and reported main 100% matched). Against
+    EXECUTABLE CODE only; MIPS instrs are 4 bytes so instruction% == byte%:
       - fleet   : sum(matched nins) / sum(total nins) over resident + every overlay (shared engine
-                  counted PER-OVERLAY) — the number a decomp.dev/frogress per-binary aggregate displays.
-      - dedup   : each distinct h_exact class ONCE, nins-weighted, matched if ANY overlay has it non-stub
-                  — the 'distinct reverse-engineering' number (harsh: the ~74k x1 unique monsters dominate).
-    Covers resident + the 134 overlays; the main EXE has no image-sig (a small separate binary, excluded).
-    Returns a dict, or None if no sigs (run `make sig-overlays` first — keeps --fleet working without them)."""
+                  counted PER-OVERLAY) — the decomp.dev/frogress per-binary aggregate DISPLAY number.
+      - dedup   : each distinct h_exact class ONCE, nins-weighted — the 'distinct RE' number.
+      - main    : the main EXE's GAME-CODE weighted %, reported SEPARATELY (Phase-27 T10). main is not
+                  folded into `fleet` because its only sig today is a Ghidra sig (different provenance
+                  from the overlays' sig_image sigs) that EXCLUDES the LINKED PsyQ objects (Ghidra never
+                  analysed them) — so it is a clean game-code-only number, but a stale one (see main_sig_date),
+                  and folding a stale/incomplete value into the decomp.dev-comparable headline would
+                  mislead. A fresh/complete main sig (sig-refresh, or the deferred sig_image-on-main
+                  oracle — docs/second-oracle.md) makes it authoritative and foldable.
+    Returns a dict, or None if no sigs."""
     import os, glob, json
+    sys.path.insert(0, str(ROOT / "tools"))
+    import corpus
     paths = sorted(glob.glob(str(ROOT / ".run/sig.ov_*.jsonl")))
     rp = ROOT / ".run/sig.resident.jsonl"
     if rp.exists():
@@ -576,31 +591,48 @@ def weighted_metrics():
     if not paths:
         return None
 
-    def src_stubs(binname):
-        m = set()
-        for cf in glob.glob(str(ROOT / f"src/{binname}/*.c")):
-            for a in re.findall(r'INCLUDE_ASM\([^)]*,\s*func_([0-9A-Fa-f]+)\)', open(cf).read()):
-                m.add(int(a, 16))
-        return m
+    def stub_addrs(binary):
+        try:
+            return set(corpus.stubs(binary))       # {addr:int -> Stub}; the derived INCLUDE_ASM set (R33)
+        except Exception:
+            return set()
 
     fm = ft = 0
     cls_nins, matched_cls = {}, set()
     for p in paths:
-        b = os.path.basename(p).split("sig.")[1][:-6]
-        st = src_stubs(b)
+        st = stub_addrs(_sig_binary(p))
         for line in open(p):
             r = json.loads(line)
             a, n, hx = int(r["addr"], 16), r["nins"], r["h_exact"]
             ft += n
             cls_nins[hx] = n                       # h_exact-identical -> identical nins
-            if a not in st:                        # non-stub == matched (fleet is 136/136 byte-identical)
+            if a not in st:                        # non-stub == matched (fleet is byte-identical)
                 fm += n
                 matched_cls.add(hx)
     ut = sum(cls_nins.values())
     um = sum(n for hx, n in cls_nins.items() if hx in matched_cls)
+
+    # main — separate, game-code-only, from its (stale, LINKED-excluding) Ghidra sig. See docstring.
+    mm = mt = 0
+    main_date = None
+    mp = ROOT / ".run/sig.SLUS_007.26.jsonl"
+    if mp.exists():
+        import datetime
+        main_date = datetime.date.fromtimestamp(mp.stat().st_mtime).isoformat()
+        mst = stub_addrs("main")
+        for line in open(mp):
+            r = json.loads(line)
+            a, n = int(r["addr"], 16), r["nins"]
+            if n == 0:
+                continue                           # GTE thunks / no-body
+            mt += n
+            if a not in mst:
+                mm += n
+
     return dict(fleet_m=fm, fleet_t=ft, fleet_pct=(100 * fm / ft if ft else 0.0),
                 dedup_m=um, dedup_t=ut, dedup_pct=(100 * um / ut if ut else 0.0),
-                nbins=len(paths), dedup_fns=len(matched_cls), dedup_total_fns=len(cls_nins))
+                nbins=len(paths), dedup_fns=len(matched_cls), dedup_total_fns=len(cls_nins),
+                main_m=mm, main_t=mt, main_pct=(100 * mm / mt if mt else 0.0), main_sig_date=main_date)
 
 
 def fleet():
@@ -635,7 +667,10 @@ def fleet():
     if wm:
         head += [
             f"FLEET instr-weighted     : {wm['fleet_m']:7d} / {wm['fleet_t']} = {wm['fleet_pct']:.1f}%   (shipped .text across resident+{wm['nbins']-1} overlays; the decomp.dev-DISPLAY number)",
-            f"FLEET distinct-code(uniq): {wm['dedup_m']:7d} / {wm['dedup_t']} = {wm['dedup_pct']:.1f}%   ({wm['dedup_fns']}/{wm['dedup_total_fns']} unique fns; the DISTINCT-RE number; main EXE not sig'd)"]
+            f"FLEET distinct-code(uniq): {wm['dedup_m']:7d} / {wm['dedup_t']} = {wm['dedup_pct']:.1f}%   ({wm['dedup_fns']}/{wm['dedup_total_fns']} unique fns; the DISTINCT-RE number)"]
+        if wm.get('main_t'):
+            head += [
+                f"MAIN game-code weighted  : {wm['main_m']:7d} / {wm['main_t']} = {wm['main_pct']:.1f}%   (Phase-27 T10; SEPARATE — LINKED-excluding Ghidra sig dated {wm['main_sig_date']}, PROVISIONAL until a fresh/complete main sig; NOT folded into the fleet number)"]
     else:
         head += ["# (instr-weighted + distinct-code metrics need .run/sig.*.jsonl — run `make sig-overlays`)"]
     head += ["",
