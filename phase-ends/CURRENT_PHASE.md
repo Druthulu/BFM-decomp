@@ -79,7 +79,25 @@ Whole-binary byte-gate = sole arbiter (G3/P9) · R22 clean-fleet per banked batc
 
 ## Blockers
 
-*(none yet)*
+*(none)*
+
+## ⏭️ RESUME POINT (fresh session) — T7, then T3b. Both benefit from fresh context.
+
+**9 of 11 tasks committed** (`commit:0644` T0 → `commit:0654` T6). Gate items already met (swing number measured; resident resolved). Fleet **67.0% → 68.9% instr / 47.8% → 49.5% distinct**, 140/140 byte-identical throughout, 0 NON_MATCHING. **Two tasks remain; neither needs this session's accumulated context.**
+
+### T7 — Coverage gate + the blind disc sweep + stale labels (EXPANDED, Drew-approved)
+Was "burn-down + stale labels"; **promoted** after the SC07 evidence showed 4 consumers silently ignoring onboarded binaries. Three parts:
+1. **`make audit-binaries` — the R32/R36 citizenship gate (the real deliverable).** Assert every onboarded binary is a full citizen of every consumer that enumerates binaries: present in the sig set, the family map, the dedup registry (or an explicit exemption), the shared-header include, and the reports/labels. A binary a consumer silently ignores is invisible work (R34). This is what would have made tonight's SC07 pool *not exist as a hidden bug*.
+2. **Fix `tools/disc_code_sweep.py` — it is STRUCTURALLY BLIND to compressed code.** `:87` `if … p.endswith(".dec"): continue` excludes the `.dec` universe, and it never decompresses raw payloads — so it cannot see where all 138 type-4 overlays live (its "type 4: code 0, onboarded 0" row is vacuous). It found the 39 type-1 modules only because those are uncompressed; **it could NOT have found the 4 SC07 overlays** (those were caught by hand-reconciling 138-vs-134). Fix = decompress each payload (`lzss.decompress`, NOT the nonexistent `.decode`) + cross-reference the onboarded set + assert coverage. Tonight's ad-hoc exhaustive sweep (1190/1190, coverage-asserted) found NO further hidden overlays — 138 type-4 all onboarded, 1 type-0 hit is a false positive (469KB→578B decoder bail), types 2/3/6/7/8 = 0 code — but that must become a reproducible tool, not a one-off script (`.run/t7_lzss_full_sweep.log`).
+3. **Burn-down tracker** over `progress --weighted` (roadmap §1 velocity = a standing obligation with no instrument) + **the stale `134`→138 labels** (`fuel_manifest.reach_buckets`, `progress.fleet.md:7`, `second-oracle.md:60`, `backlog.py:22`, `worklist.py:14`, `roadmap:161-165`) + **`worklist.py:194`** (reads `source`; key is `source_overlay` → R32 assertion rides a hardcoded default).
+
+Also fold into T7: the **`func_800CEDFC` / `func_800D33E0` sig_image boundary question** (defined in `resident.c`, absent from the 2nd oracle, while `audit-corpus` = 0 PHANTOM/TRUNCATED; `progress.py`=145 vs both oracles=144). That is exactly an `audit-binaries` finding.
+
+### T3b — The LEGACY h_seq templatability rate (still genuinely unmeasured)
+T3-A answered a *cheaper* question (the SC07 pool = h_exact + unwired). The roadmap's actual swing number — the *legacy* h_seq rate — is unmeasured. Strata from the fixed map (`.run/t3_strata.json`): **B legacy PURE non-jr** (95 fam / 7,993 members) · **C legacy IMM** (36 fam / 6,644). `family_sweep --hseq --only <exemplar addrs> --chunk 1`, EXCLUDE `has_mid_jr` (§53), classify every failure (DIFF/PLUMBING/CC1-FAIL), do NOT score with `masked_diff`. Known datapoints to fold in: B2 = 102/115 (88.7%, jr+carve), stratum A = 0 DIFF (giants, h_exact), the resident wave = 7/16 gate (64% of match_one MATCH, all blocks = loose-typing). Deliverable: the honest legacy per-class rate → `calibration.md` + the Roadmap delta.
+
+### New rule to ratify at PhaseEnd
+**R36** — *A newly-discovered binary is not real until every consumer knows it.* Onboarding a code-bearing payload produces a byte-clean binary that is NOT yet a citizen; the same change must wire it into every consumer that enumerates binaries (sig set, family map, dedup registry or explicit exemption, shared include, reports/labels), asserted by a gate (R32), not remembered. Justification: P27 onboarded 4 SC07 overlays byte-clean; P28 found FOUR consumers silently ignoring them (`img_path`, the family map, the dedup registry, the overlays' own `.c`), hiding ~6,400 already-matched bodies. Every failure was silent. `make audit-binaries` (T7) is its enforcement.
 
 ## Progress log
 
