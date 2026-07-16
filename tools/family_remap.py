@@ -427,6 +427,40 @@ def symbol_map(addr, from_ov, to_ov, to_addr=None):
 # walk must not cross it (the layer belongs to the file, not to the function beneath it).
 _DECL_LAYER_END = re.compile(r"end (?:§8b carried decl layer|canonical-sig layer)")
 
+_DEFINE_FN = re.compile(r'^\s*#define\s+([A-Za-z_]\w*)\s*\(')
+
+
+def _carry_macros(lines, start, end, unit_text):
+    r"""The file-scope function-like `#define` macros the unit BODY references but does not itself
+    contain — returned in file order, to be prepended to the unit (Phase-27 T5).
+
+    A GTE-heavy per-location function calls C inline-asm macros (`gte_ldv0(...)`, `gte_rtps()`, …)
+    that are `#define`d at FILE scope, above the function, NOT pulled from common.h (common.h carries
+    the *assembler* gte_macros.inc for the INCLUDE_ASM path; the C macros live only in the exemplar's
+    .c). extract_unit's backward preamble walk stops at the first `#define`/continuation line, so it
+    dropped them — and a sibling staged without them saw every GTE op as an implicit-declaration CALL.
+    That is TWO failures in one: the sibling fails to compile, AND — if the body carries a caller-saved
+    register pin — the phantom call pushes cc1's sched1 into `create_reg_dead_note`'s abort
+    (sched.c:2725), the SIGABRT long mis-recorded as the §42e "pin-crash wall" (`.run/giants/
+    pin_crash_sigabrt.md`: the wall is this staging drop, not a compiler limit — a pinned family
+    stages 133/133 clean once its macros ride along). Carried macros never reach dedup_propagate's
+    engine_core.h lift (that path builds from its own body, not extract_unit), so no `#define` is ever
+    embedded inside a `DEFINE_func_*()` macro."""
+    carried, i = [], 0
+    while i < len(lines):
+        m = _DEFINE_FN.match(lines[i])
+        if not m:
+            i += 1
+            continue
+        j = i
+        while j < len(lines) and lines[j].rstrip().endswith("\\"):
+            j += 1
+        inside = start <= i and j <= end
+        if not inside and re.search(rf'\b{re.escape(m.group(1))}\s*\(', unit_text):
+            carried.append("\n".join(lines[i:j + 1]))
+        i = j + 1
+    return carried
+
 
 def extract_unit(ov, addr):
     """the matched inline def + its contiguous preceding extern/blank/comment lines, from the overlay src.
@@ -469,7 +503,11 @@ def extract_unit(ov, addr):
                     if started and depth <= 0:
                         end = k
                         break
-                return "\n".join(lines[start:end + 1]), cf
+                unit_text = "\n".join(lines[start:end + 1])
+                macros = _carry_macros(lines, start, end, unit_text)   # gte_* etc. the body needs (T5)
+                if macros:
+                    unit_text = "\n".join(macros) + "\n" + unit_text
+                return unit_text, cf
     return _macro_unit(addr)
 
 
