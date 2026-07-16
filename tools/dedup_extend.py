@@ -44,6 +44,8 @@ import yaml
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import corpus
+import family_hseq          # has_mid_jr — the ONE jr oracle (R33)
+import family_remap as FR   # stream_words/nins_of
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PY = sys.executable
@@ -70,34 +72,95 @@ def load_groups():
     return doc, groups
 
 
+def add_members_surgical(additions):
+    """Append binaries to each group's `binaries: [...]` list by TEXT EDIT, in place.
+
+    NEVER `yaml.safe_dump` this file. The first cut of this tool round-tripped it through
+    safe_dump and silently destroyed BOTH of the things a human needs from it (H5 — "never
+    silently drop comments on a rewrite"):
+      * all 47 comment lines — including the curated Phase-11 header explaining WHY the share is
+        source-level (the linker cannot excise bytes interior to an object) — dumped to nothing;
+      * every `vram: 0x80162FF4` re-serialized as `vram: 2148937716` (PyYAML parses YAML-1.1 hex
+        to int, and dumps int as decimal), making 1,832 entries unreadable.
+    It was invisible to every gate: dedup-check passed 1840/0 and check-all stayed 140/140,
+    because `_addr()` accepts both forms — the data was fine and the DOCUMENT was ruined. A
+    formatting-destructive write that all your oracles call green is exactly the class this
+    project keeps re-learning: the gate measures bytes, not intent.
+
+    `additions` = {group_id: [binary, ...]}. Idempotent: a binary already listed is skipped.
+    """
+    p = os.path.join(REPO, REGISTRY)
+    lines = open(p).read().splitlines(keepends=True)
+    cur, n = None, 0
+    for i, ln in enumerate(lines):
+        m = re.match(r"^\s*-?\s*id:\s*(\S+)\s*$", ln)
+        if m:
+            cur = m.group(1)
+            continue
+        if cur and cur in additions and re.match(r"^\s*binaries:\s*\[", ln):
+            add = [b for b in additions[cur] if re.search(rf"\b{re.escape(b)}\b", ln) is None]
+            if add:
+                lines[i] = ln.rstrip("\n").rstrip()[:-1].rstrip() + ", " + ", ".join(add) + "]\n"
+                n += len(add)
+            cur = None
+    open(p, "w").write("".join(lines))
+    return n
+
+
 def _addr(v):
     return int(v, 16) if isinstance(v, str) else int(v)
 
 
 def plan_for(binary, groups):
-    """[(group, vram, macro)] for every h_exact group this binary could join.
+    """[(group, vram, macro)] for every h_exact group this binary could join, plus the skip tally.
 
     A group is extendable into `binary` iff: it is h_exact tier, the binary is not already a member,
-    the binary has a LIVE STUB at the group's vram, and that stub's original bytes hash to the
-    group's recorded h_exact (the C1 equivalence the registry itself asserts).
+    the binary has a LIVE STUB at the group's vram, that stub's original bytes hash to the group's
+    recorded h_exact (the C1 equivalence the registry itself asserts), and it is NOT a jr/switch
+    function (see below).
+
+    THE jr GUARD (cookbook §53). A function with a mid-body `jr` on a non-$ra register dispatches
+    through a compiler-generated jump table the LINKER must place at the sibling's exact address — a
+    per-sibling `jtbl_carve` + interleave (`jtbl_family_bank.py`). This tool has no carve step and a
+    newly-onboarded overlay has no `_jr_*` split at all, so a jr body instantiated here would leave
+    its table unplaced and the gate would (correctly) reject it. The guard is PREVENTIVE: it skips
+    and REPORTS rather than feeding the gate drafts that cannot pass (R32 — a skip is only honest if
+    it is counted and named). On the SC07 set it currently skips ZERO: no jr function is in the
+    extendable set.
+
+    ⚠️ R14 — WHAT THIS GUARD IS *NOT*. It does NOT explain the 12 DIFFs the first run produced
+    (`func_80162FF4/801630C4/80163194/8016325C`, the same 4 in every overlay, 12 of 6457 = 0.19%).
+    I first assumed those were the jr class because ov_SC01_077 hosts them in `_jr_8017A4AC.c` /
+    `_jr_80182268.c` — a natural read, and WRONG: `has_mid_jr` is **False** for all four (33-52 ins,
+    no jump table). They merely LIVE in a carved jr-REGION split (the carve region for
+    `func_8017A4AC` sweeps in every function in its address range), which says nothing about them.
+    Their DIFF cause is UNDIAGNOSED and logged for follow-up; they are correctly left as stubs by the
+    gate. Hosting file != function class — do not infer one from the other.
+
+    Detector reused verbatim from `family_hseq.has_mid_jr` (R33 — one oracle, not two).
     """
     sig = sig_hashes(binary)
     stubs = corpus.stubs(binary)
-    out = []
+    out, skips = [], {}
     for g in groups:
         if g.get("tier") != "h_exact":
             continue
         if "vram" not in g or "binaries" not in g:
-            continue                                   # verbose-form group: not position-locked, skip
+            skips["verbose-form"] = skips.get("verbose-form", 0) + 1
+            continue                                   # not position-locked
         if binary in g["binaries"]:
             continue
         vram = _addr(g["vram"])
         if vram not in stubs:
             continue                                   # not a live stub here (matched already, or absent)
         if sig.get(vram) != g["hash"]:
-            continue                                   # DIFFERENT CODE at the same vram — the whole point of the check
+            continue                                   # DIFFERENT CODE at the same vram — the point of the check
+        words = FR.stream_words(binary, vram, FR.nins_of(binary, vram))
+        if words and family_hseq.has_mid_jr(words):
+            skips["jr-needs-carve"] = skips.get("jr-needs-carve", 0) + 1
+            continue                                   # §53: route via jtbl_family_bank, not here
         out.append((g, vram, g["func"]))
-    return out
+    return out, skips
 
 
 def ensure_include(binary, apply=True):
@@ -162,12 +225,13 @@ def main():
 
     total_banked, total_planned = 0, 0
     for b in targets:
-        plan = plan_for(b, groups)
+        plan, skips = plan_for(b, groups)
         if a.limit:
             plan = plan[:a.limit]
         total_planned += len(plan)
         print(f"[{b}] {len(plan)} extendable h_exact group(s); "
-              f"include {'ABSENT -> add' if ensure_include(b, apply=False) else 'present'}")
+              f"include {'ABSENT -> add' if ensure_include(b, apply=False) else 'present'}"
+              + (f"; skipped {skips}" if skips else ""))
         if a.check_only or not plan:
             continue
 
@@ -180,13 +244,10 @@ def main():
         if not banked:
             ensure_include_revert(b)
             continue
-        for g, vram, _ in plan:                        # registry: only what the GATE accepted (P9)
-            if f"func_{vram:08X}" in banked and b not in g["binaries"]:
-                g["binaries"].append(b)
-
-    if not a.check_only and total_banked:
-        yaml.safe_dump(doc, open(REGISTRY, "w"), sort_keys=False, width=10**6, default_flow_style=None)
-        print(f"registry: {REGISTRY} updated")
+        adds = {g["id"]: [b] for g, vram, _ in plan   # registry: only what the GATE accepted (P9)
+                if f"func_{vram:08X}" in banked}
+        n = add_members_surgical(adds)                 # TEXT edit — never safe_dump (see the docstring)
+        print(f"[{b}] registry: +{n} membership(s)")
     print(f"\n=== dedup_extend: banked {total_banked} / {total_planned} planned "
           f"across {len(targets)} binaries ===")
     if a.check_only:
