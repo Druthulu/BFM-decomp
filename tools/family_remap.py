@@ -29,10 +29,40 @@ VRAM = 0x80128158
 LO_OPS = {0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x28, 0x29, 0x2A, 0x2B, 0x2E, 0x09, 0x0D}
 
 
+_PATH_CACHE = {}
+
+
 def img_path(ov):
-    _, sc, fn = ov.split("_")
-    p = f"extracted/retail/{sc}.CD.dir/FILE_{fn}.dir/0.4.dec"
-    return p if glob.glob(p) else None
+    """The binary's extracted payload, DERIVED from its splat config's `target_path` (R33).
+
+    NEVER reconstruct this path from the alias. The first 134 overlays put their code at PAC entry 0
+    (`0.4.dec`), but the four SC07 overlays the Phase-27 disc-completeness audit found put graphics at
+    entry 0 and CODE at entry 1 (`1.4.dec`). The old hardcoded `…/FILE_{fn}.dir/0.4.dec` guess returned
+    None for them, and None was SILENT: `_img` -> None -> `stream_words` -> None -> `classify_member`
+    -> ("LEN", []) — i.e. every SC07 member was dropped as "not templatable" and, worse, poisoned its
+    family's `diff_class` to MIXED (`family_hseq.py:141-143` counts LEN against n_templatable). A
+    scanner that mis-reports a whole overlay as structurally-different, silently, is exactly the
+    silent-skip defect class (R32) — and it is the SAME bug `new_overlay.sh` had (its hardcoded
+    `0.4.dec` glob hid these four overlays for a month), left uncorrected in a second tool.
+
+    `config/splat.<bin>.yaml` is what the BUILD reads, so it cannot drift from the bytes. This also
+    makes the resident work for free (its target_path is `MAIN.CD.dir/FILE_010.dir/1.1`).
+
+    Raises rather than returning None: a missing payload is a DEFECT, not a state (R32). Every caller
+    either opened it unguarded already (`reloc_targets`, `jr_isolate_all`) or silently mis-classified.
+    """
+    if ov not in _PATH_CACHE:
+        cfg = f"config/splat.{ov}.yaml"
+        if not glob.glob(cfg):
+            raise FileNotFoundError(f"img_path({ov}): no {cfg} — is this binary onboarded?")
+        m = re.search(r"^\s*target_path:\s*(\S+)\s*$", open(cfg).read(), re.M)
+        if not m:
+            raise ValueError(f"img_path({ov}): {cfg} has no `target_path:` — cannot derive the payload")
+        p = m.group(1)
+        if not glob.glob(p):
+            raise FileNotFoundError(f"img_path({ov}): {cfg} names {p}, which does not exist — run `make extract BINARY={ov}`")
+        _PATH_CACHE[ov] = p
+    return _PATH_CACHE[ov]
 
 
 def nins_of(ov, addr):
@@ -104,9 +134,11 @@ _IMG_CACHE = {}
 
 
 def _img(ov):
+    # img_path raises on a missing payload (R32), so this can no longer hand `None` downstream and
+    # manufacture a phantom LEN. `classify_member`'s None-guard now catches only a genuine
+    # `nins_of` miss (the address is not in that overlay's sig), which is a real state.
     if ov not in _IMG_CACHE:
-        p = img_path(ov)
-        _IMG_CACHE[ov] = open(p, "rb").read() if p else None
+        _IMG_CACHE[ov] = open(img_path(ov), "rb").read()
     return _IMG_CACHE[ov]
 
 
