@@ -1205,3 +1205,35 @@ token to substitute; the fix is placement, not substitution. Recorded in cookboo
 its exemplars are already byte-proven, so a failure isolates the templating mechanism with no drafting
 variable); and the roadmap's B1/B2/§2 numbers + the "(cores) × (reach)" arithmetic all need re-deriving at
 the P28 close (Roadmap delta).
+
+## 2026-07-16 (Phase 28 T3b) — the legacy h_seq swing number: ~3% as-tooled, but the failure mode is the tooling-vs-wall ambiguity that keeps resolving to tooling
+
+**Context + belief.** T3-A measured the SC07 pool (h_exact + unwired, banked 95.6% via dedup_extend) but
+that answered a *different* question than the roadmap's swing number, which is the LEGACY h_seq
+templatability rate. Going in, the roadmap's belief (from Phase 26 + the pre-T1 calibration) was that
+structural families bank at ≈0% — a belief this phase already refuted for B2 (jr+carve, 88.7%) by proving
+the 0/8 was a missing build step.
+
+**What T3b measured.** `family_sweep --hseq --chunk 1` over 6 legacy PURE non-jr families: **9 BANKED /
+37 PLUMBING / 274 DIFF** = ~3% as-tooled. **Classified, unlike Phase 26's 0%.**
+
+**The load-bearing nuance (R14/R35 on my own probe).** The 274 DIFF is NOT proof the families don't
+template. The members are byte-level PURE (`classify_member` = reloc-only, 20/20 sampled), genuine h_seq
+(all DIFF_BYTES vs the exemplar, so `family_sweep` is the correct tool, not `dedup_extend`), at the same
+vram. A PURE family should reproduce once its relocs are remapped — so 274 non-reproducing members means
+the **remapped exemplar body fails to recompile to the member's bytes**, which is one of: (a) an
+incomplete `symbol_map` (the recurring jtbl/prefix bug — B2's 0/8 and T4's 12 DIFFs BOTH resolved to
+tooling THIS phase), or (b) genuine TU-context regalloc divergence (a real wall).
+
+**Why I did not resolve it.** Distinguishing (a) from (b) needs a region-by-region byte-diff of one PURE
+DIFF member's staged output against the target — a Max-effort diagnostic, and I was at ~40% context after
+a very long session. Rushing it is exactly how Phase 26 manufactured a wrong ≈0%. So the honest deliverable
+is the CLASSIFIED measurement + the named next probe, not a verdict.
+
+**The better path / handoff.** P29 opens by running the disambiguating probe BEFORE scaling its
+"(cores)×(reach)" arithmetic on 3%: diff one PURE DIFF member's `family_sweep`-staged bytes vs the target
+— mismatch AT a reloc position ⇒ (a) incomplete remap, fixable, and the legacy h_seq ceiling is far above
+3%; mismatch in regalloc/schedule AWAY from relocs ⇒ (b) a TU-context wall and 3% is real. Given this
+phase's scoreboard — every "structural wall" probed (B2, SC07, the pin-crash wall in P27) has resolved to
+tooling — the prior should lean toward (a), but that is a prior, not a measurement. **The swing number is
+~3% as-tooled, ceiling unknown; do not treat 3% as the ceiling until the probe runs.**

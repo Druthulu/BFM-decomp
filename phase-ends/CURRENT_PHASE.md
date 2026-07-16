@@ -81,7 +81,15 @@ Whole-binary byte-gate = sole arbiter (G3/P9) · R22 clean-fleet per banked batc
 
 *(none)*
 
-## ⏭️ RESUME POINT (fresh session) — T7, then T3b. Both benefit from fresh context.
+## ⏭️ RESUME POINT (fresh session) — PhaseEnd at Max. All 11 tasks done; 1 sub-item carried.
+
+**PhaseEnd_Phase28 is the only remaining work** (Tier-1 Max synthesis — write it in a fresh session with headroom; it re-reads the committed state cold, which is the discipline that caught tonight's stale-map/stale-.md traps). Everything it needs is in this file + the commits `commit:0644`..(T3b). **Carried to P29:** the burn-down velocity tracker (T7c — a genuine new tool, no history to track until built) and the T3b disambiguating probe (below). Ratify **R36** at PhaseEnd.
+
+**Roadmap delta to write:** B1/B2 numbers re-derived (B2 LIVES, 102/115); the "structural families ≈0%" doctrine has NO surviving post-fix evidence (calibration.md rewritten); the legacy h_seq swing number is **~3% as-tooled, ceiling unknown** (T3b — P29 must run the disambiguating probe first); binary count 138 overlays + main + resident = 140, disc-complete (the fixed disc_code_sweep confirms 0 further hidden type-4; 39 type-1 modules still pending load-address RE); R36 added.
+
+---
+
+### (historical) The pre-T7 resume note — T7 and T3b are now DONE (kept for the trail):
 
 **9 of 11 tasks committed** (`commit:0644` T0 → `commit:0654` T6). Gate items already met (swing number measured; resident resolved). Fleet **67.0% → 68.9% instr / 47.8% → 49.5% distinct**, 140/140 byte-identical throughout, 0 NON_MATCHING. **Two tasks remain; neither needs this session's accumulated context.**
 
@@ -181,6 +189,12 @@ T3-A answered a *cheaper* question (the SC07 pool = h_exact + unwired). The road
   - **§52b's law, independently re-measured:** agents self-reported **11 match_one MATCH** → gate banked **7 (64%)**. All 4 blocked MATCHes died on **`conflicting types`** (loose-typing def-side wall), **not codegen**; `gate_stage` recovery banked **0/5**.
   - **🔧 FIX — `match_one`'s isolation was FAKE, and its own docstring was the false spec.** It promises *"Fully isolated (own temp dir) so many run in PARALLEL"* while `--work` defaulted to the **shared** `.run/match` — every concurrent caller compiling into one `t.c`. **Found by an agent mid-wave** (the only way it can be found): it read another agent's function out of its own scratch and reported it. Every other agent steered by a loop that could hand it someone else's compile — a **confident wrong verdict**, worse than a crash. Default is now a private `.run/match/<fn>.<pid>`; the default IS the promise. The byte-gate was never at risk (sole arbiter); the agents' iteration loop was.
   - **The 14 remaining** (`docs/resident-dossier.md`, raw verdicts preserved at `.run/resident_wave_verdicts.json`, R20): **5 PLUMBING** (loose-typing, byte-correct C the TU can't hold) · **4 DIFF** (`func_800D2650` close=4 · `func_800CFAD0` close=5 · `func_800D0E30` close=12 · `func_800D27DC` close=48 — each with a named allocno/sched verdict) · **5 jtbl deferred** (§53 — the rodata-island carve; deliberately NOT forced, since forcing a jr sweep without its carve is exactly how the ≈0% doctrine was manufactured).
+
+- **2026-07-16 — T3b ✅ the LEGACY h_seq rate: ~3% AS-TOOLED, classified, ceiling UNKNOWN.**
+  - `family_sweep --hseq` over 6 legacy PURE non-jr families (smallest-nins, `has_mid_jr` excluded per §53): **9 BANKED / 37 PLUMBING / 274 DIFF** (173 skipped not-stub/pinned). **~3% (9/320).** *Unlike Phase 26, the failures are CLASSIFIED.*
+  - **The DIFF is NOT structural variance (R14/R35 on my own probe):** the members are byte-level **PURE** (`classify_member` 20/20 PURE, reloc-only), **genuine h_seq** (all DIFF_BYTES vs exemplar → `family_sweep` is the *right* tool, not `dedup_extend`), at the **same vram**. A PURE family should template once relocs are remapped → the 274 failures are **recompilation divergence**: either **(a)** an incomplete `symbol_map` (the recurring jtbl/prefix bug — B2 0/8 and T4's 12 DIFFs BOTH resolved to tooling this phase) or **(b)** genuine TU-context regalloc divergence (a real wall).
+  - **Honest verdict:** ~3% as-tooled, **ceiling unknown** — provisionally consistent with "legacy h_seq doesn't mechanically template" but on a probe whose dominant failure mode is the exact ambiguity that keeps resolving to *tooling*. **P29 must run the disambiguating probe** (diff one PURE DIFF member's staged bytes region-by-region: reloc-position mismatch = fixable remap; regalloc-away-from-relocs = TU wall) **before scaling "(cores)×(reach)" on 3%.** → `calibration.md`, R31.
+  - 9 real banks (R22 pending). This is the roadmap's swing number, measured and classified — the single most important open input to P29, handed forward honestly rather than rush-resolved on tight context.
 
   - **T3 strata (honest, from the fixed map):** SC07-only **1,255 fam / 6,268 mem / 230,612 ins** · legacy PURE non-jr **95 / 7,993 / 478,379** · legacy IMM **36 / 6,644 / 212,707** · legacy MIXED **30 / 968 / 10,462** · legacy PURE w/ jr **2 / 16 / 5,088** (T1's jtbl territory — note B2's family is far smaller here than the roadmap's "×112 ≈ 106k ins"; T1 re-derives it). **Total addressable = 937,248 ins = 21.7% of all remaining weight = 7.16pp of fleet instr if it all banked.** This is the prize the roadmap declared dead. It stays a prediction until T3's gate.
 </content>

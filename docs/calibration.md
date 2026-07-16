@@ -80,6 +80,42 @@ unmatched members** — PURE 17,024 (78%) · IMM 4,473 (20%) · **STRUCT 392 (1.
 
 This is a **prediction** (h_seq predicts; the gate decides). T3 gates it before P29 scales.
 
+## The LEGACY h_seq rate — measured, CLASSIFIED (Phase-28 T3b, 2026-07-16)
+
+The roadmap's actual swing number is the *legacy* h_seq rate (the SC07 pool T3-A measured turned out to
+be h_exact + unwired, a different question). A bounded `family_sweep --hseq --chunk 1` over **6 legacy
+PURE non-jr families** (smallest-nins first; `has_mid_jr` excluded per §53) gated:
+
+| | count |
+|---|---|
+| **BANKED** (whole-binary) | **9** |
+| **PLUMBING** (recoverable class) | 37 |
+| **DIFF** (genuine gate byte-mismatch) | **274** |
+| skipped (not-stub / pinned-exemplar) | 173 |
+
+**~3% as-tooled (9 of 320 attempted).** *Unlike Phase 26, the failures are CLASSIFIED* — 274 genuine
+gate-DIFF, not an unclassified 0%.
+
+**But the DIFF is NOT structural variance, and this is the load-bearing nuance (R14/R35 on my own probe):**
+the members are byte-level **PURE** (`classify_member` = PURE, reloc-only, 20/20 sampled), **genuine
+h_seq** (all DIFF_BYTES vs the exemplar → `family_sweep` is the correct tool, not `dedup_extend`), and at
+the **same vram**. A PURE family should template once its relocs are remapped. That 274 members do NOT
+reproduce means the remapped exemplar body **fails to reproduce the member's bytes when recompiled** — i.e.
+the residual is **recompilation divergence**, one of:
+- **(a) an incomplete remap** — `symbol_map` not covering a symbol class these families use (the recurring
+  jtbl/prefix bug: B2's 0/8, T4's 12 DIFFs — *both* turned out to be tooling this phase); or
+- **(b) genuine TU-context regalloc divergence** — the same C compiling to different bytes in different
+  overlay TUs (a real wall).
+
+**These are the SAME two hypotheses B2 and the SC07 pool presented, and BOTH resolved to (a) tooling this
+phase.** So the honest swing number is: **~3% as-tooled, ceiling UNKNOWN** — provisionally consistent with
+"legacy h_seq largely doesn't mechanically template", but on a probe whose dominant failure mode is the
+exact tooling-vs-wall ambiguity that keeps resolving to tooling. **P29 must run the disambiguating probe
+before trusting 3%:** take one PURE DIFF member, diff its `family_sweep`-staged compiled bytes against the
+target region-by-region — if the mismatch is at a reloc position, it's (a) incomplete remap (fixable); if
+it's regalloc/schedule away from relocs, it's (b) a TU-context wall. Do NOT scale P29's "(cores)×(reach)"
+arithmetic on 3% until that probe runs.
+
 ## Cost / yield per tier (this session)
 
 | tier | cost/fn | direct banks | durable yield |
