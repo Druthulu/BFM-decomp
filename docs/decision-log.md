@@ -1279,3 +1279,43 @@ exemplar's own bank, and refuse to gate at the wrong build step rather than book
 builds the -O0 arm of that; the carve arm (§53/`jtbl_family_bank`) already exists — they should converge
 into one build-step-faithful sweep. That would have made both the Phase-26 "≈0%" and the Phase-28 "~3%"
 impossible to manufacture.
+
+### 2026-07-16 — P29 Task 2 Arm A: the swing verdict is now a BANKED FACT, but the fleet-scale -O0 carve hits a splat-integration wall (deferred, not a compiler wall)
+
+**Context + belief.** Task 1 proved the swing pool is -O0-flag tooling (masked-MATCH at -O0), a *candidate*
+(§52b). Arm A was to build the -O0-cluster split rollout (`tools/rollout_o0_cluster.py`, adapting the whale
+`rollout_whale_o0.py`) and **whole-binary-gate one overlay to convert the candidate to a fact**, then roll
+the ~478k-ins -O0 pool out fleet-wide.
+
+**What was proven (byte-gated).** The tool carves the -O0 cluster (16 fns, vram 0x8013B568..0x8013C98C,
+file 0x13410..0x14834) into a per-overlay `<ov>_o0.c` compiled -O0 (new Makefile `O0_CLUSTER_OBJS`
+wildcard). On **`ov_SC07_010` the carve is byte-neutral and `family_sweep --hseq` banked 9/9 of the -O0
+exemplar families' members whole-binary** (`func_8013B568/B7AC/B7F4/BC7C/BCDC/BD34/C360/C938/C964`), R22
+clean-fleet 140/140. **So the swing verdict is confirmed as a FACT — these -O0 cluster members DO bank when
+compiled at -O0, not just masked-MATCH.** (Phase 20's "`func_8013B7AC` is overlay-local" blanket claim is
+also refuted at the member level — it banks in 010.)
+
+**The wall (byte-proven, and it is TOOLING not the compiler).** Carving the SAME cluster in the other 3
+sampled tail overlays (006/007/011) **byte-shifts the whole image** — a +0x20 data-symbol-address shift
+(`lw v0,%lo(D_..3b6c)` → `..3b8c`), 34% of bytes differ — from a genuinely-clean `make clean &&
+extract-all`. The boundary offsets are verified real fn-starts in every overlay's sig (identical 14-fn
+layout), so this is **not** a wrong-boundary bug: it is a splat *re-disassembly* sensitivity — 3-way
+splitting a code subseg makes splat resolve some `%lo` data references to a different auto-symbol. The
+whale carve avoids it (single fn, a shared-header `_o0b` body, no INCLUDE_ASM in the split); the multi-stub
+cluster carve triggers it on most overlays. This is the same "-O0 cluster split infra" that **Phase 20
+built + reverted** — now characterized precisely (splat data-symbol resolution, not the compiler).
+
+**The pivot (ROI-gated, honest).** The full -O0 fleet rollout (~1,233 members / ~0.6pp) is **deferred**: (1)
+the splat-data-shift wall blocks 3/4 sampled overlays and debugging splat's `%lo` resolution is deep
+splat-internals work; (2) the 134 whale-swept overlays have the cluster embedded INSIDE the
+`jr_801380E0` carve (a carve-within-a-carve, even harder); (3) the remaining P29 levers are bigger and
+cleaner — Task 6's tiny-IMM mega-pools (`0x80131eec` 2887×15 + `0x80130d0c` 2679×15 ≈ 5,566 members via
+`imm_map`) and Task 3's core-cracks. The swing verdict's *strategic* claim (the ~478k-ins pool is real
+matchable work, ceiling ≫ 3%) stands, banked-confirmed; only its *mechanical fleet harvest* is blocked on
+the splat-carve integration, logged for a future session. The tool + the byte-neutral 010 carve are kept.
+
+**Better path, in hindsight.** The whale's `_o0b` shape (a thin split whose body is a shared header
+`#include`, no INCLUDE_ASM in the -O0 object) is splat-safe; the cluster rollout should likely mirror it —
+route each overlay's -O0 members through a shared-per-member header rather than leaving INCLUDE_ASM stubs
+in the split that splat re-disassembles. Testing that hypothesis is the cheap first move if/when the -O0
+pool is revisited; it may dissolve the +0x20 shift the same way the whale never hit it.

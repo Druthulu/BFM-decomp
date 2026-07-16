@@ -109,9 +109,20 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   Task 3) + plumbing/DIFF — the plain-sweep tail is drained. **R22 clean-fleet 140/140 byte-identical;
   audit-binaries OK; dedup-check 1840/0; main 143dbb89.** Fleet: **instr 70.2→70.4% · distinct-code
   51.9→52.3% · fn-count 84.73→84.94%**; 0 NON_MATCHING linked (G4).
-- **NEXT:** (b) **Arm A** — the -O0 cluster carve tool (9 families / 1,233 members / ~24k ins;
-  adapt `rollout_whale_o0.py` for the multi-file carve of 0x13410..0x14834; the swing verdict's
-  whole-binary confirmation); (c) teach `family_sweep` per-member opt-level awareness (the general lever).
+- **✅ ARM A: swing verdict CONFIRMED as a BANKED FACT (2026-07-16).** Built `tools/rollout_o0_cluster.py`
+  (the -O0-cluster carve, adapting `rollout_whale_o0.py`) + the Makefile `O0_CLUSTER_OBJS` -O0 wildcard.
+  On **ov_SC07_010 the carve is byte-neutral and `family_sweep --hseq` banked 9/9 of the -O0 exemplar
+  families' members whole-binary** (R22 clean-fleet 140/140) — so the -O0 cluster members DO bank at -O0,
+  not just masked-MATCH (§52b candidate → fact; Phase-20's "func_8013B7AC overlay-local" also refuted).
+  **BUT the fleet-scale carve hits a splat-integration wall:** the same carve on 006/007/011 byte-shifts the
+  whole image (+0x20 data-symbol shift, 34% diff) from a CLEAN build — a splat `%lo` re-disassembly
+  sensitivity (boundaries verified correct), the Phase-20 "-O0 split infra" wall now characterized. **Full
+  -O0 fleet rollout (~1,233 / ~0.6pp) DEFERRED** on ROI: 3/4 sampled overlays walled + 134 overlays have the
+  cluster inside the jr_801380E0 carve + bigger levers wait. Details → `docs/decision-log.md`. (c) opt-level
+  awareness is moot — the -O0-ness is per-FILE via the Makefile rule; `family_sweep`/`stub_map` already
+  route to the carved split. Hindsight fix logged: mirror the whale's shared-header `_o0b` shape.
+- **TASK 2 SUBSTANTIVELY COMPLETE.** Arm B tail (748 members) + Arm A (verdict = banked fact). NEXT: **Task 3
+  (core-cracks + B3 near-misses)** and/or **Task 6 (tiny-IMM mega-pools ~5,566 members)** — the bigger levers.
 
 ---
 
@@ -136,3 +147,12 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   fleet instr 70.2→70.4% / distinct 51.9→52.3% / fn-count 84.73→84.94%; audit-binaries OK, dedup 1840/0,
   main 143dbb89, 0 NON_MATCHING (G4). Verified pure-reduction (0 new/dup stubs, R14/H5). Logs
   `.run/armB_tail_{substantial,mid,tiny,checkall}.log`. NEXT: Arm A (-O0 cluster carve) + item (c).
+- **2026-07-16 — Task 2 (Arm A) DONE = swing verdict → banked fact + wall characterized.** New tool
+  `tools/rollout_o0_cluster.py` + Makefile `O0_CLUSTER_OBJS` -O0 wildcard. Carved 4 SC07 tail overlays;
+  byte-neutrality gate (clean R22): **ov_SC07_010 byte-identical, 006/007/011 FAIL** (+0x20 splat
+  data-symbol shift, boundaries verified — the Phase-20 splat "-O0 split infra" wall, not the compiler).
+  Kept 010's carve, reverted the 3; `family_sweep --hseq --only <9 -O0 exemplars> --band all` banked
+  **9/9 -O0 members in ov_SC07_010** whole-binary → **the -O0 cluster masked-MATCHes ARE real banks
+  (§52b fact)**. R22 clean-fleet **140/140 byte-identical**; fleet 70.4% instr / 52.3% distinct / 84.94%
+  fn-count; dedup 1840/0; main 143dbb89. Full -O0 fleet rollout DEFERRED (splat wall on 3/4 + jr-embedded
+  on 134 + ROI vs Task 3/6). R31 writeup in `docs/decision-log.md`. Logs `.run/armA_*`.

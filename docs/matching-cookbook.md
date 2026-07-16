@@ -1414,6 +1414,20 @@ worked-example templates). Measured on ov_SC01_077 tractable reach-134 residuals
   exclusive — a real §10 residual.)
 
 ## §18 Per-file `-O0` split inside an overlay/blob (Phase 19 T1)
+> **§18-P29 — the multi-stub cluster carve is splat-integration-fragile (defer, or use the whale's shape).**
+> P29 Arm A generalized the whale rollout (§38) to the 0x13410..0x14834 `-O0` cluster via
+> `tools/rollout_o0_cluster.py` (3-way `<ov>` / `<ov>_o0` / `<ov>_o2b` carve + `O0_CLUSTER_OBJS` Makefile
+> wildcard). It **banked 9/9 -O0 members on ov_SC07_010** (whole-binary, R22 140/140 — the Task-1 swing
+> verdict is a BANKED FACT, not just masked-MATCH), **but the SAME carve byte-shifts 006/007/011** (+0x20
+> `%lo` data-symbol shift, 34% of bytes, from a CLEAN build; boundaries verified as real fn-starts). Root
+> cause is **splat re-disassembly**: 3-way splitting a code subseg that still contains `INCLUDE_ASM` stubs
+> makes spimdisasm resolve some `%lo` refs to a different auto-symbol — NOT the compiler, NOT a boundary bug.
+> The **whale carve (§38) never hits this** because its `_o0b` split is a thin `#include "../shared/<fn>.h"`
+> wrapper with **no INCLUDE_ASM to re-disassemble**. Lesson: a per-overlay `-O0` cluster rollout should route
+> each member through a shared-per-member header (whale shape), not leave stubs in the split. Until then the
+> fleet `-O0` harvest (~1,233 members / ~0.6pp) is DEFERRED; `docs/decision-log.md` (2026-07-16) has the full
+> byte-evidence. This is the "-O0 cluster split infra" Phase 20 "built + reverted", now root-caused.
+
 A cluster of functions compiled `-O0` inside an otherwise-`-O2` binary needs its own `-O0`-compiled `.c` (the
 `src/boot.c` precedent — gcc-2.7.2 has no per-function optimize pragma, opt is per-file via a target-specific
 `build/src/<path>.o: CC1FLAGS := -O0 …`). Detect `-O0` by the prologue `21F0A003` (`addu $fp,$sp,$zero`) + param
