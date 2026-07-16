@@ -1,0 +1,51 @@
+disc code sweep — 1189 payloads under extracted/retail, window=4096w, valid>=0.9, jr_ra>=0.01
+type  payloads  code onboarded  HIDDEN
+   0       301     0         0       0
+   1       166    40         1      39
+   2       201     0         0       0
+   3       201     0         0       0
+   4       138   138       138       0
+   6        29     0         0       0
+   7       139     0         0       0
+   8        14     0         0       0
+
+HIDDEN code-bearing payloads (valid>=0.9 AND jr_ra>=0.01, NOT onboarded): 39
+  type 1  valid 96.4%  jr_ra 7.23% (83w, raw)  extracted/retail/MAIN.CD.dir/FILE_024.dir/0.1
+  type 1  valid 96.9%  jr_ra 6.19% (97w, raw)  extracted/retail/MAIN.CD.dir/FILE_023.dir/0.1
+  type 1  valid 98.4%  jr_ra 5.13% (312w, raw)  extracted/retail/MAIN.CD.dir/FILE_035.dir/1.1
+  type 1  valid 100.0%  jr_ra 3.39% (4096w, raw)  extracted/retail/MAIN.CD.dir/FILE_012.dir/1.1
+  type 1  valid 100.0%  jr_ra 3.39% (4096w, raw)  extracted/retail/SC02.CD.dir/FILE_037.dir/0.1
+  type 1  valid 100.0%  jr_ra 3.39% (4096w, raw)  extracted/retail/SC03.CD.dir/FILE_107.dir/0.1
+  type 1  valid 99.4%  jr_ra 3.24% (1018w, raw)  extracted/retail/MAIN.CD.dir/FILE_022.dir/1.1
+  type 1  valid 100.0%  jr_ra 2.86% (210w, raw)  extracted/retail/MAIN.CD.dir/FILE_008.dir/1.1
+  type 1  valid 98.8%  jr_ra 2.70% (482w, raw)  extracted/retail/MAIN.CD.dir/FILE_016.dir/1.1
+  type 1  valid 96.0%  jr_ra 2.68% (373w, raw)  extracted/retail/MAIN.CD.dir/FILE_017.dir/1.1
+  type 1  valid 99.2%  jr_ra 2.67% (900w, raw)  extracted/retail/MAIN.CD.dir/FILE_026.dir/1.1
+  type 1  valid 100.0%  jr_ra 2.52% (159w, raw)  extracted/retail/MAIN.CD.dir/FILE_042.dir/0.1
+  type 1  valid 99.0%  jr_ra 2.49% (522w, raw)  extracted/retail/MAIN.CD.dir/FILE_014.dir/1.1
+  type 1  valid 100.0%  jr_ra 2.35% (978w, raw)  extracted/retail/MAIN.CD.dir/FILE_043.dir/0.1
+  type 1  valid 93.4%  jr_ra 2.34% (726w, raw)  extracted/retail/MAIN.CD.dir/FILE_037.dir/1.1
+  type 1  valid 98.8%  jr_ra 2.33% (816w, raw)  extracted/retail/MAIN.CD.dir/FILE_033.dir/1.1
+  type 1  valid 98.4%  jr_ra 2.28% (1229w, raw)  extracted/retail/MAIN.CD.dir/FILE_036.dir/1.1
+  type 1  valid 99.2%  jr_ra 2.27% (484w, raw)  extracted/retail/MAIN.CD.dir/FILE_021.dir/1.1
+  type 1  valid 96.4%  jr_ra 2.22% (496w, raw)  extracted/retail/MAIN.CD.dir/FILE_029.dir/1.1
+  type 1  valid 98.6%  jr_ra 2.20% (1318w, raw)  extracted/retail/MAIN.CD.dir/FILE_027.dir/1.1
+  type 1  valid 97.4%  jr_ra 2.13% (469w, raw)  extracted/retail/MAIN.CD.dir/FILE_030.dir/1.1
+  type 1  valid 99.2%  jr_ra 1.97% (1115w, raw)  extracted/retail/MAIN.CD.dir/FILE_028.dir/1.1
+  type 1  valid 93.9%  jr_ra 1.97% (2230w, raw)  extracted/retail/MAIN.CD.dir/FILE_044.dir/0.1
+  type 1  valid 98.9%  jr_ra 1.89% (636w, raw)  extracted/retail/MAIN.CD.dir/FILE_009.dir/0.1
+  type 1  valid 92.4%  jr_ra 1.82% (1425w, raw)  extracted/retail/MAIN.CD.dir/FILE_039.dir/1.1
+  type 1  valid 94.8%  jr_ra 1.62% (678w, raw)  extracted/retail/MAIN.CD.dir/FILE_018.dir/1.1
+  type 1  valid 90.1%  jr_ra 1.61% (4096w, raw)  extracted/retail/SC03.CD.dir/FILE_076.dir/2.1
+  type 1  valid 90.1%  jr_ra 1.61% (4096w, raw)  extracted/retail/SC03.CD.dir/FILE_135.dir/2.1
+  type 1  valid 90.2%  jr_ra 1.61% (4096w, raw)  extracted/retail/SC04.CD.dir/FILE_027.dir/2.1
+  type 1  valid 90.4%  jr_ra 1.61% (4096w, raw)  extracted/retail/SC05.CD.dir/FILE_026.dir/2.1
+  type 1  valid 99.5%  jr_ra 1.50% (1861w, raw)  extracted/retail/MAIN.CD.dir/FILE_034.dir/1.1
+  type 1  valid 99.9%  jr_ra 1.47% (818w, raw)  extracted/retail/MAIN.CD.dir/FILE_047.dir/0.1
+  type 1  valid 99.9%  jr_ra 1.46% (4096w, raw)  extracted/retail/SC07.CD.dir/FILE_004.dir/1.1
+  type 1  valid 90.5%  jr_ra 1.46% (1025w, raw)  extracted/retail/MAIN.CD.dir/FILE_041.dir/1.1
+  type 1  valid 97.3%  jr_ra 1.43% (1261w, raw)  extracted/retail/MAIN.CD.dir/FILE_031.dir/1.1
+  type 1  valid 100.0%  jr_ra 1.37% (4096w, raw)  extracted/retail/SC07.CD.dir/FILE_003.dir/1.1
+  type 1  valid 93.0%  jr_ra 1.30% (1690w, raw)  extracted/retail/MAIN.CD.dir/FILE_019.dir/1.1
+  type 1  valid 99.5%  jr_ra 1.25% (4096w, raw)  extracted/retail/MAIN.CD.dir/FILE_003.dir/1.1
+  type 1  valid 99.5%  jr_ra 1.25% (4096w, raw)  extracted/retail/MAIN.CD.dir/FILE_004.dir/0.1
