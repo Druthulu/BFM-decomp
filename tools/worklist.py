@@ -97,7 +97,7 @@ def _table(rows, with_cum=True):
 
 
 def render_md(rows, total_gain, manifest, top):
-    n_over = manifest.get("n_overlays", 134)
+    n_over = manifest.get("n_overlays", 138)   # 138 since the P27 disc audit (was 134); the manifest always provides it
     by_class = {}
     for r in rows:
         d = by_class.setdefault(r["class"], {"n": 0, "gain": 0})
@@ -191,7 +191,16 @@ def main():
         backlog.render()
     manifest = json.load(open(os.path.join(REPO, a.manifest)))
     if getattr(a, "assert_partition", False):
-        sys.exit(assert_partition(manifest, manifest.get("source", "ov_SC01_077")))
+        # The manifest key is `source_overlay`, NOT `source` (Phase-28 T7). Reading `source` meant the
+        # `, "ov_SC01_077"` DEFAULT always fired — so the R32 partition assertion checked a hardcoded
+        # binary regardless of what the manifest was actually about, and would print "PARTITION OK"
+        # while validating the wrong binary. An assertion that silently targets a default is not an
+        # assertion. Fail loudly if the key is truly absent rather than guess.
+        src = manifest.get("source_overlay")
+        if not src:
+            sys.exit("worklist --assert-partition: manifest has no `source_overlay` key — cannot "
+                     "know which binary to partition-check (refusing to guess a default, R32/R35).")
+        sys.exit(assert_partition(manifest, src))
     bl = load_backlog_by_name()
     rows, total_gain = build_rows(manifest, bl)
     json.dump({"note": "Phase-22 ranked worklist; gain_ins = reach*nins (byte-weighted). "
