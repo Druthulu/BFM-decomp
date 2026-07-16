@@ -1,0 +1,146 @@
+[
+ {
+  "addr": "0x800CEFD0",
+  "name": "func_800CEFD0",
+  "status": "MATCH",
+  "klass": "",
+  "mismatches": 0,
+  "nins": 77,
+  "note": "goto-loop (label:/goto, not while(1)) suppresses loop.c invariant motion -> D_800D3488/D_800A651C stay inline GAS macros while the explicit `u8 *base = &(*(u8*)&D_800AF630)` local still lands in $s0; matched on 2nd iteration."
+ },
+ {
+  "addr": "0x800D1984",
+  "name": "func_800D1984",
+  "status": "MATCH",
+  "klass": "",
+  "mismatches": 0,
+  "nins": 22,
+  "note": "if/else merged-return layout closed 12->1; RC-12 $0-add opaque copy (register int zr __asm__(\"$0\"); p = arg0 + zr) closed the last one \u2014 store base $a0 needs a 2nd pseudo cse's canon_reg can't fold back onto $s0. Notable: RC-12 firing on a 22-ins stub, not a giant."
+ },
+ {
+  "addr": "0x800D2D10",
+  "name": "func_800D2D10",
+  "status": "MATCH",
+  "klass": "",
+  "mismatches": 0,
+  "nins": 39,
+  "note": "\u00a743 K&R s16 params (n, flag) got 38/39; the last delta was gcc CSE-merging `d = val>>28` into `idx` \u2014 \u00a717 pin `register unsigned int d __asm__(\"$8\")` kept the copy alive ($t0 + addu $v1,$t0,$zero) and shifted i/n-1/&table onto $t1-$t3 \u2192 MATCH."
+ },
+ {
+  "addr": "0x800D1B80",
+  "name": "func_800D1B80",
+  "status": "MATCH",
+  "klass": "",
+  "mismatches": 0,
+  "nins": 22,
+  "note": "Two levers: (1) `if (x!=0){body;return DsMix(p);} return 0;` NOT early-exit `if(x==0)return 0;` \u2014 fixes block layout/branch polarity (12->1 mismatch); (2) RC-12 $0-add opaque copy `p = arg0 + zr` (zr pinned $0) gives the sb its $a0 base \u2014 4 plain `u8 *p=arg0;` spellings all lost to cse2 canon copy-prop. Bonus integration fix: DsMix declared K&R-unprototyped on purpose \u2014 asm proves the $a0 arg, but resident.c already defines `s32 DsMix(void)`, so an `(u8*)` prototype would be a conflicting-types error on splice (verified compatible in one TU vs real cc1, exit 0)."
+ },
+ {
+  "addr": "0x800D1E28",
+  "name": "func_800D1E28",
+  "status": "MATCH",
+  "nins": 37,
+  "mismatches": 0,
+  "klass": "",
+  "note": "Placing `result = 2` BETWEEN the call and its test (r = call(); result = 2; if (r != 0) goto test;) fixed both residuals at once: fills term2's delay slot from BEFORE the branch (killing dbr's steal+retarget L80->L84, restoring term3's nop) AND conflicts result with live $v0 -> $v1 falls out naturally, no register pin. Range test needed cookbook line-1867's per-bound `if (...) goto` split (bltz+slti signed order; switch/&& both canonicalize wrong) -- that idiom was flagged CANDIDATE/unverified and is now byte-confirmed. Note: D_80078E50 typed u16 here (lhu) vs u8 in existing overlay TUs -- loose-typing risk at splice."
+ },
+ {
+  "addr": "0x800D24A0",
+  "name": "func_800D24A0",
+  "status": "MATCH",
+  "klass": "",
+  "mismatches": 0,
+  "nins": 87,
+  "note": "Prior-art func_8013EE10 shape (u16* v=&D_80115112, base q=(char*)v-2, E4 struct-fold on D_80115168) gave 87/87 with a pure $a1/$a2 swap; RTL dump showed a REAL ~9x allocno-priority gap (counter 7refs/36 vs base 3refs/68), not a \u00a747 plateau -> closed with a register pin q=$5 on the base PLUS an explicit `j=0;` hoisted before `q=` (for(;j<8;j++)) to fix emission order. Both levers load-bearing; pinning the counter instead kills the target's un-coalesced rotate copy."
+ },
+ {
+  "addr": "0x800D1FC8",
+  "name": "func_800D1FC8",
+  "status": "MATCH",
+  "klass": "",
+  "mismatches": 0,
+  "nins": 62,
+  "note": "S13 mid-body param copy (sh=arg1 after the deltas) denied $a1 to the global ptr -> $a2/$a3, pin-free; then qty_compare density: hoist pair-2/3 global loads into t1/t2 (lw span 2 > lhu span 1) while pair-1 stays un-hoisted (its lw merges with block-local dx). 0 mismatches, reproduced."
+ },
+ {
+  "addr": "0x800D1658",
+  "name": "func_800D1658",
+  "status": "MATCH",
+  "nins": 47,
+  "mismatches": 0,
+  "klass": "",
+  "note": "\u00a752a non-coalescing delay-slot copy wall CRACKED via hard->hard pin pair (v=$2 + ret=$16, both required \u2014 either alone lets cse/global-alloc kill the addu $s0,$v0,$zero copy \u2192 44 ins) + single-return convergence (goto out) to keep the sll/sra tail from const-propagating + a $3-pinned `t = ret & 0xFFFF` temp that both saves ret from the andi dest and displaces id onto $a0; pins \u21d2 \u00d71-only, not sweep-safe."
+ },
+ {
+  "addr": "0x800D0D7C",
+  "name": "func_800D0D7C",
+  "status": "MATCH",
+  "mismatches": 0,
+  "nins": 45,
+  "klass": "",
+  "note": "Three stacked levers: `>=` condition polarity (fixed block order/branch sense), RC-12 $0-add opaque copies (`r=now+zr`,`h=arg0+zr` -> the $a2=$a3 and $t0=$a0 moves + the unfoldable `andi $a2,0xFF`), and an unused 8-byte local to restore the phantom `vars=8` frame -- the pin and the frame fight each other (zr removes the temp reservation plain C creates), so both routes plateaued at 43 ins until the dead local decoupled them; the frame also gates the dbr delay-slot steal of `subu $v0,$t0,$v1` and the epilogue sra placement."
+ },
+ {
+  "addr": "0x800D0214",
+  "name": "func_800D0214",
+  "status": "NEAR",
+  "mismatches": 5,
+  "nins": 43,
+  "klass": "sched",
+  "note": "43/43 ins, ins 2-15 byte-exact; stuck on S2 birthing boost \u2014 the single-set `lh` chunk temp sinks to its consumer (target keeps it at source position => original had reg_n_sets(chunk)>=2, unreachable in C since chunk dies at `*p=chunk`); that sink sets Lv 8-vs-5, losing the local-alloc density race (mask 2*4/3=26666 > idx 2*7/8=17500), which a `register mask __asm__(\"$3\")` pin buys back (15->5, and the schedule followed the regs per \u00a7H) leaving only Qlh<->QD_800A2E20 swapped via RC-11's <=3-qty sort bug; the S2 asm re-tie that would kill the boost always costs +1 ins because #APP blocks the maspsx delay-slot hop (RC-11 caveat) \u2014 route to decomp-permuter."
+ },
+ {
+  "addr": "0x800CFAD0",
+  "name": "func_800CFAD0",
+  "status": "NEAR",
+  "mismatches": 5,
+  "nins": 59,
+  "klass": "sched",
+  "note": "52->35->5 via separate-globals (dodges cse use_related_value sym+3 rebasing) + chained r0=g0=b0=0x80 + \u00a737 /s dep lattice (fixed all regs); stuck on S5: sched1 `blocking insn 114 for 1 cycles` \u2014 0xE1000085 is a 2-insn unboosted const so no ALU filler wedges between two stores, tag lw loses the mem-unit hazard and lands idx 6 not 9; 100 stmt-orders + 7 levers all hold at 5 \u2192 permuter next."
+ },
+ {
+  "addr": "0x800D0E30",
+  "name": "func_800D0E30",
+  "status": "NEAR",
+  "nins": 37,
+  "mismatches": 12,
+  "klass": "regalloc-order",
+  "note": "37/37 ins, idx0-12 exact (u8 dummy[16] -> RTL prologue schedules addiu $sp into the delay slot; u32 hi/lo block `shorten` fixing the ior order; u16 a promoted-subreg gives the addu $a1,$a0,$zero copy). Stuck on ONE fact: allocno_order is b(pri 16000)->m(7500)->a(3750) so b takes $v1; target needs a->m->b (b last => LL>64, unreachable). Interlock: u16 pins are silently ignored by gcc-2.7.2 so `a` is unpinnable, pinning b cascades (RC-5 ch3/4), and the \u00a747 dead-read slider materializes `a` as HImode killing the copy (38 ins)."
+ },
+ {
+  "addr": "0x800CFE60",
+  "name": "func_800CFE60",
+  "status": "MATCH",
+  "mismatches": 0,
+  "nins": 161,
+  "klass": "",
+  "note": "MATCH 161 ins (verified 2x, isolated work dirs). Six levers: split the 2 call results (else a 7th $s reg); (u32) casts for srl not sra; RC-3 pins base=$s4/mode=$s3 (densities .162 vs .122 differ -> decl swap is a no-op, range-shaping unreachable); read the high half via its own symbol D_800D34AE[i*2] (&arr[i] costs an 8-byte expand temp); NEW+GENERAL -> the 2nd D_800D34AC read as pointer arith, because two array-index reads of the SAME symbol let CSE unify the symbol pseudo, combine deletes the folded address pseudo but its stale refcount becomes a phantom ST_REGS allocno that reload spills to an 8-rounded slot nothing accesses (vars=8 -> every prologue/epilogue offset off by 8); zero-byte asm(\"\" : \"=r\"(q) : \"0\"(q)) blocks combine folding q=sym;p=q so the target's addu $a3,$v0,$zero survives. Two cookbook-worthy idioms (phantom ST_REGS slot + &arr[i] frame cost). WARNING: match_one's default --work .run/match collides across parallel agents (found another agent's func_800D2650 in my t.c); pass --work per agent."
+ },
+ {
+  "addr": "0x800D29F8",
+  "name": "func_800D29F8",
+  "status": "MATCH",
+  "mismatches": 0,
+  "nins": 172,
+  "klass": "",
+  "note": "Closed by volatile D_800B9A02 read as *(volatile u16*)&sym (kills CSE -> 6 reloads; INDIRECT_REF path force_regs the const addr -> la+lhu+preheader copy) + the real libgpu bitfield addPrim (store_bit_field masks value 0xFFFFFF before dest 0xFF000000 -> fixes const order/LUID tie-break + or operand order) + ot-as-macro + an int alias for the u16 ofs param (defeats combine's promoted-SUBREG commutative swap). NOTE for the cookbook: \u00a730's \"deny /s\" bare-store lever does NOT substitute for volatile once the load addr is a reg with a known-constant quantity \u2014 cse_rtx_varies_p then calls it NOT varying, so a /s store leaves it cached (that lever alone stalled at 37/172)."
+ },
+ {
+  "addr": "0x800D2650",
+  "name": "func_800D2650",
+  "status": "NEAR",
+  "klass": "regalloc-order",
+  "mismatches": 4,
+  "nins": 99,
+  "note": "\u00a737 /s-dep lever (MEM_IN_STRUCT_P on the D_800B9A02 load) closed 79->4 by restoring the CSE-killing store<->load dep (cascaded: reload + &D_800B9A02 hoist to $t4 + const-8 un-hoist); stuck at \u00a747's allocation-vs-emission coupling on the two hoisted stack params \u2014 .lreg proves cy(78)=2refs/12len(equiv-doubled)=pri1666 loses $v1 to col(79)=2refs/8len=pri2500; \u00a747's slider provably cannot reach it (len_cy=len_col+4 structurally, so 2/(x+4)<2/x always \u2014 not a truncation tie), and per vendored gcc the only dials left are reg_n_sets!=1 (local-alloc.c:1021) or did_conversion (function.c:3803, forces lhu and contradicts the target's lw). Real source likely sets cy twice; no zero-byte C form found (dead-output asm deleted by flow, volatile won't hoist, S2-kill re-tie adds a use too and over-boosts to 59). u16 cy probe reaches 2 but its residual IS the load width = dead end."
+ },
+ {
+  "addr": "0x800D27DC",
+  "name": "func_800D27DC",
+  "status": "NEAR",
+  "mismatches": 48,
+  "nins": 135,
+  "klass": "regalloc-order",
+  "note": "POLY_FT4+addPrim builder: structure byte-exact (135/135, prologue/preheader/cross-jump/delay slots all match) via macro-OT (not a named `e` local: addPrim double-evaluates ot -> two temps -> evicts `out` from $a1, 131->74), `s16 i` + `for(i=0;i<count;i++)` on the param directly (mints the single blez + two-pseudo counter + loop.c's `addu $s2,$v0,$zero` + frame 0x18), f2 hoisted from in-loop, getaddr-into-temp for the preheader constant order, and narrow `u16 sv/s16 w` (NEW IDIOM: combine puts a u16 stack param's zero_extend first in a commutative plus, silently losing source order). Stuck on pure register identity: i<->0xFFFFFF ($t7/$t8) and u<->v ($a0/$a1); `i`/`out` are unpinnable (a hard reg is not a basic_induction_var -> the `addiu $t0,$out,0x1D` giv anchor vanishes, 135->132), u/v pins are inert -> \u00a752a priority-first-fit GAP not a tie -> permuter seed. Pin-free structural-exact variant = 74 (header documents how to restore it)."
+ }
+]
