@@ -3032,20 +3032,41 @@ byte-gate is the sole arbiter, and it revealed that **out-of-body-edit families 
   ×134.** `func_80136824` + `func_80136334` → **266/266 siblings banked byte-identical, 0 failed** (2×133). Light
   register pressure; `family_remap` body + the remapped split-edit is sufficient (no reconcile, no extern injection).
 - **register-pin-heavy** (GTE 20-pin bodies `func_8013D9B0`/`func_8016DF5C`; an exotic `register int zr __asm__("$0")`
-  zero-register pin `func_80133AB0`; the inline-asm trampoline `func_80156044`) — **cc1-2.7.2 SIGABRTs (`make` Error
-  134) compiling the *sibling* TU**, even though the identical body compiles fine in `ov_SC01_077`. Universal across
-  siblings (func_80133AB0 crashed 3/3 tested). The hand-tuned pins are **ov077-TU-context-specific**: cc1's register
-  allocator (a 1996 compiler with fixed-size tables) aborts on the pin pattern in a different overlay's surrounding
-  function set. These are **NOT mechanically ×134-recoverable** — they stay exemplar-only (×1), backlog for per-sibling
-  permuter/Fable5 or acceptance as ×1. func_80156044's `engine_core.h` `int`→`void` flip *is* byte-neutral (verified on
-  ov077), but its body still crashes the sibling `_after` TU.
-- **DIAGNOSTIC TRAP (R14):** `rtu_match` and `match_one` are BOTH useless here — the neutralized/isolation compiles
-  *also* crash cc1 (or fail on undeclared shared symbols), which looks like a candidate bug but is a compile-harness
-  artifact. Only `make build` (the real gate, stubs asm-`.include`d not cc1-compiled) is truth: a real build that
-  exits 134 = a cc1 ICE on that function in that TU, a genuine wall, not a fixable draft.
-- **Takeaway for the frontier-map:** "byte-drift //@EDIT family" is not one bucket. Pin-heavy cracks that banked in
-  ov077 by exotic register pins do **not** generalize ×134 — size the `--edit-remap` yield by the array-decay subset,
-  and route pin-heavy families to the ×1/permuter backlog.
+  zero-register pin `func_80133AB0`; the inline-asm trampoline `func_80156044`) — the original verdict here was
+  **"cc1-2.7.2 SIGABRTs compiling the *sibling* TU… ov077-TU-context-specific… NOT mechanically ×134-recoverable, stay
+  exemplar-only (×1)."** ⚠️ **REFUTED — Phase-27 (Fable5 characterization, `.run/giants/pin_crash_sigabrt.md`).** See
+  the corrected verdict below; the pin-×1 ceiling was a STAGING-TOOL artefact, not a compiler wall, and it is fixed.
+
+**§42e-CORRECTION — the "pin-crash wall" is the `extract_unit` macro-drop, not the pins (Phase-27 T5 + SIGABRT
+characterization, 2026-07-15).** The SIGABRT is real and now exactly located — **`gcc-2.7.2/sched.c:2725`,
+`create_reg_dead_note()`: `if (dead_notes == 0) abort();`**, a sched1 REG_DEAD-note conservation bug (flow places the
+pinned reg's death on the fall-through path; sched1's clobber-aware per-block recount demands a death note for a
+use-after-call in the CALL's block, whose harvested note-pool is empty → abort; backtrace `abort ←
+create_reg_dead_note ← attach_deaths ← attach_deaths_insn ← schedule_block`). **But it was TRIGGERED by
+`family_remap.extract_unit` dropping the body's file-scope `#define` dependencies**, not by any TU context:
+- **Of the 4 "crash-walled" families only `func_8013D9B0` ever genuinely SIGABRTed** — and only because the dropped
+  `gte_*` macros became implicit-declaration CALLS, putting its caller-saved pins into the fatal shape. The other
+  three were **exit-33 plumbing** (a dropped multi-line typedef `func_80133AB0`; a dropped single-line typedef
+  `func_8016DF5C`; the one-line-wrapper false-positive `func_80156044`) **misfiled as crashes** because the era
+  one-big-split gate shared a TU compile with d9b0 and reported its Error-134 for all of them (the R14 lesson,
+  recursed: one exit code folded three distinct failures into a phantom "universal SIGABRT").
+- **Properly staged, all four compile CLEAN in sibling TUs:** `func_80133AB0` 133/133 (today AND at the era commit),
+  `func_8013D9B0` 133/133 (today, fleet-swept), df5c + x6044 spot-proven. **T5's `_carry_macros` fixes (a) the
+  `#define` drop**; (b) multi-line typedefs route through the `engine_types.h` lift; (c) the one-line-wrapper
+  false-positive is already fixed by the current comment-strip guard; (d) per-sibling decl flips are `--edit-remap`.
+- **The fatal-pin predicate (checkable at DRAFT time, probe-matrix-proven):** FATAL = a `register T x __asm__("$N")`
+  pin where `$N` is **caller-saved** ($2–$15, $24, $25), the value is **used after a CALL_INSN**, and the post-call
+  use has a **branch-dependent use-then-conditionally-set** shape. SAFE = callee-saved pins ($16–$23, $30) in any
+  shape; caller-saved pins whose live range never crosses a call; use-only or single-level-conditional shapes; `$0`
+  pins. (12-line minimal repro + probe matrix in `pin_crash_sigabrt.md`; `-fno-schedule-insns`/-O1 suppresses it —
+  a safe "is this the dead-notes bug?" probe, useless for matching.) So ov077 banked these pins precisely because,
+  in its TU (macros present), no pin crossed a real call.
+- **DIAGNOSTIC (R14, corrected):** exit **134** + the `create_reg_dead_note` backtrace = this bug, always; exit **33**
+  = ordinary decl/typedef plumbing. Distinguish them (T4 surfaces cc1 stderr; don't fold both into "cc1-crash").
+- **Takeaway:** the pin-×1 ceiling does NOT exist — **P31's pin-propagation route is OPEN.** Route pin-heavy families
+  back to the mechanical `family_sweep` harvest (macros now carried); byte-identity per sibling is the byte-gate's
+  question, but cc1-crash is no longer a barrier. (Array-decay pointer-flip families were never affected and still
+  recover cleanly ×134.)
 
 ## §43 — The K&R s16-param definition DISSOLVES the "narrow-param wall" for by-value register args (Phase 25 task A, Fable5 crack of the 369-ins giant `func_80166994` ×134, 2026-07-11)
 
@@ -3130,16 +3151,25 @@ slot serving both paths; the mask re-materialized per-predecessor in the `j`/`be
 with the neighbouring `lh`). This cracks a residual §31 files under **D1/D2 as permuter-only** — it is
 **steerable**. (`func_80163EC8`, 234 ins; one benign `$v0` pin.)
 
-**Lever 5 — the intrinsic wall (what cheap-Opus canNOT do → Fable5/permuter).** The **§37 allocno-tie /
+**Lever 5 — the "intrinsic wall" (what cheap-Opus canNOT do → Fable5/permuter).** The **§37 allocno-tie /
 RC-6 pressure-lock / scheduling-position** class: a pin-free structural seed floats at close 30–67 but the
 residual is a **whole-function register permutation or a schedule-position tie-break that no C-lever reaches**
-at the Opus tier — a caller-vs-callee allocno *heuristic* choice (`func_80133CD4` s0v→$v0-vs-$s0),
-RC-6 pressure-lock (`func_8014D820`), coalescing knife-edge (`func_8016CBC0`), `i=0`/`p`-hoist co-location
-(`func_801670E4`). The cheap tier's job here is to produce a **pin-free, structurally-complete seed** (correct
-body + count, zero file-scope footprint) and **hand off honestly** (no forced/pinned false match). Escalation:
-**Fable5 with `tools/reference/gcc-2.7.2/` and the §34 gdb-on-cc1 `find_reg`/`post_mark_life` method** (it
-reads the allocator's actual decision), or the pin-free seed → decomp-permuter. NEVER ship the pinned variant
-that only banks ×1 (it SIGABRTs sibling TUs, §42e).
+at the Opus tier — a caller-vs-callee allocno *heuristic* choice (`func_80133CD4` s0v→$v0-vs-$s0). The cheap
+tier's job here is to produce a **pin-free, structurally-complete seed** (correct body + count, zero file-scope
+footprint) and **hand off honestly** (no forced/pinned false match). Escalation: **Fable5 with
+`tools/reference/gcc-2.7.2/` and the §34 gdb-on-cc1 `find_reg`/`post_mark_life` method** (it reads the
+allocator's actual decision), or the pin-free seed → decomp-permuter.
+> ⚠️ **Phase-27 reclassification (regalloc-map §H, `.run/giants/*.fable.md`):** the three functions this lever
+> once cited as intrinsic — `func_8014D820` "RC-6 pressure-lock", `func_8016CBC0` "coalescing knife-edge",
+> `func_801670E4` "i=0/p co-location" — were each **oracle-refuted**: `func_8016CBC0`'s callee-saved swap CRACKED
+> byte-zero (a `floor_log2` density gap, and gcc-2.7.2 has **no** coalescing so "knife-edge" was never the class),
+> `func_8014D820`'s block-0 cracked pin-free 261→110 (reused-load-temp serialization; the sched.c:3199 pin was a
+> red herring), and `func_801670E4`'s dominant residual is **RC-6 register allocation, not S3 scheduling** (proven
+> by the reg_renumber-swap oracle). The pattern (continuing map §F/§G): an "RC-6 intrinsic" verdict is usually
+> map-incompleteness — audit for a density/lifetime/merge lever before declaring it. And the old "NEVER ship the
+> pinned variant — it SIGABRTs sibling TUs (§42e)" is **corrected** (§42e-CORRECTION): the SIGABRT was a staging
+> macro-drop, now fixed; a pin whose live range does not cross a call is safe to propagate. Prefer pin-free still
+> (fewer failure modes), but the pinned-×1 ceiling is not real.
 
 ## §45 — The flagship `func_80133CD4` crack (399 ins ×134): the merged-variable permutation-breaker + the 1-death local-alloc gate (Phase 25 task A giant escalation, Fable5 gdb-on-cc1, 2026-07-11)
 
