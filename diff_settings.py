@@ -422,6 +422,18 @@ BINARIES = {
     "ov_SC07_009": dict(baseimg="expected/build/ov_SC07_009/ov_SC07_009.elf",
                         myimg="build/ov_SC07_009/ov_SC07_009.elf",
                         mapfile="build/ov_SC07_009/ov_SC07_009.map"),
+    "ov_SC07_006": dict(baseimg="expected/build/ov_SC07_006/ov_SC07_006.elf",
+                        myimg="build/ov_SC07_006/ov_SC07_006.elf",
+                        mapfile="build/ov_SC07_006/ov_SC07_006.map"),
+    "ov_SC07_007": dict(baseimg="expected/build/ov_SC07_007/ov_SC07_007.elf",
+                        myimg="build/ov_SC07_007/ov_SC07_007.elf",
+                        mapfile="build/ov_SC07_007/ov_SC07_007.map"),
+    "ov_SC07_010": dict(baseimg="expected/build/ov_SC07_010/ov_SC07_010.elf",
+                        myimg="build/ov_SC07_010/ov_SC07_010.elf",
+                        mapfile="build/ov_SC07_010/ov_SC07_010.map"),
+    "ov_SC07_011": dict(baseimg="expected/build/ov_SC07_011/ov_SC07_011.elf",
+                        myimg="build/ov_SC07_011/ov_SC07_011.elf",
+                        mapfile="build/ov_SC07_011/ov_SC07_011.map"),
     # <<< overlays: tools/new_overlay.sh inserts ov_* entries above this line (Phase 13) >>>
 }
 

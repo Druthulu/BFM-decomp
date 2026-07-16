@@ -160,6 +160,10 @@ BINARIES = {
     "ov_SC07_002": dict(sig=".run/sig.ov_SC07_002.jsonl", md="docs/duplicates.ov_SC07_002.md"),
     "ov_SC07_008": dict(sig=".run/sig.ov_SC07_008.jsonl", md="docs/duplicates.ov_SC07_008.md"),
     "ov_SC07_009": dict(sig=".run/sig.ov_SC07_009.jsonl", md="docs/duplicates.ov_SC07_009.md"),
+    "ov_SC07_006": dict(sig=".run/sig.ov_SC07_006.jsonl", md="docs/duplicates.ov_SC07_006.md"),
+    "ov_SC07_007": dict(sig=".run/sig.ov_SC07_007.jsonl", md="docs/duplicates.ov_SC07_007.md"),
+    "ov_SC07_010": dict(sig=".run/sig.ov_SC07_010.jsonl", md="docs/duplicates.ov_SC07_010.md"),
+    "ov_SC07_011": dict(sig=".run/sig.ov_SC07_011.jsonl", md="docs/duplicates.ov_SC07_011.md"),
     # <<< overlays: tools/new_overlay.sh inserts ov_* entries above this line (Phase 13) >>>
 }
 CROSS_MD = "docs/duplicates.cross.md"

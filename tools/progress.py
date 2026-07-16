@@ -291,6 +291,14 @@ BINARIES = {
                         src="src/ov_SC07_008", asm="asm/ov_SC07_008/nonmatchings", out="docs/progress.ov_SC07_008.md"),
     "ov_SC07_009": dict(build="build/ov_SC07_009/ov_SC07_009", check="config/check.ov_SC07_009.sha",
                         src="src/ov_SC07_009", asm="asm/ov_SC07_009/nonmatchings", out="docs/progress.ov_SC07_009.md"),
+    "ov_SC07_006": dict(build="build/ov_SC07_006/ov_SC07_006", check="config/check.ov_SC07_006.sha",
+                        src="src/ov_SC07_006", asm="asm/ov_SC07_006/nonmatchings", out="docs/progress.ov_SC07_006.md"),
+    "ov_SC07_007": dict(build="build/ov_SC07_007/ov_SC07_007", check="config/check.ov_SC07_007.sha",
+                        src="src/ov_SC07_007", asm="asm/ov_SC07_007/nonmatchings", out="docs/progress.ov_SC07_007.md"),
+    "ov_SC07_010": dict(build="build/ov_SC07_010/ov_SC07_010", check="config/check.ov_SC07_010.sha",
+                        src="src/ov_SC07_010", asm="asm/ov_SC07_010/nonmatchings", out="docs/progress.ov_SC07_010.md"),
+    "ov_SC07_011": dict(build="build/ov_SC07_011/ov_SC07_011", check="config/check.ov_SC07_011.sha",
+                        src="src/ov_SC07_011", asm="asm/ov_SC07_011/nonmatchings", out="docs/progress.ov_SC07_011.md"),
     # <<< overlays: tools/new_overlay.sh inserts ov_* entries above this line (Phase 13) >>>
 }
 MAKEFILE = ROOT / "Makefile"
