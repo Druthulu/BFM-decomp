@@ -60,6 +60,15 @@
 !/.run/backlog.jsonl
 !/.run/fuel_manifest.json
 
+# Phase-27 pin-crash characterization: the minimal repro + gdb harness (the irreplaceable ~KB
+# core; pin_crash_sigabrt.md above is already covered by giants/*.md). The 260M of RTL dumps +
+# bisection .s/.c beside them are regenerable via abort.gdb -> stay ignored (R33).
+!/.run/giants/pincrash/
+/.run/giants/pincrash/*
+!/.run/giants/pincrash/minimal_repro.c
+!/.run/giants/pincrash/*.gdb
+!/.run/giants/pincrash/*.md
+
 # Regenerated build output (deterministic churn)
 /build/
 /expected/
