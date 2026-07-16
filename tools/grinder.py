@@ -26,6 +26,18 @@ STOP = f"{AUTODIR}/STOP"
 HB = f"{AUTODIR}/grinder_heartbeat.json"
 DRAFTS = f"{AUTODIR}/grinder_drafts"
 BLACKLIST = f"{AUTODIR}/grinder_blacklist.json"   # fns the permuter wins but the byte-gate rejects = plumbing-bound; never re-permute
+# A BLACKLIST ENTRY IS A VERDICT FROM A SPECIFIC GATE, AND IT EXPIRES WHEN THAT GATE CHANGES.
+# Purged 2026-07-15 (Phase-28 T2). The 22 entries were recorded when harvest_verify was single-TU: it
+# spliced only into `src/<bin>/<bin>.c`, so a SPLIT-hosted fn's stub literal was never found, the draft
+# was never compiled, and the permuter's byte-match was discarded UNBUILT — which this file then recorded
+# permanently as "plumbing-bound, never re-permute". 16 of 22 were split-hosted (docs/tooling-audit.md
+# :931). The proof it was manufactured, not observed: **8 of the 22 have since MATCHED anyway**
+# (func_80131D68/80149374/8014FE60/80150528/8016BBE0/80171C64/80174684/8017F290), and the other 14 would
+# have been skipped forever on a verdict from a gate that no longer exists. harvest_verify now derives
+# each stub's home TU from the corpus oracle and splices into whichever TU holds it (:122, render()), so
+# the mechanism that manufactured these is gone.
+# RULE (R35): when the gate changes, purge this file — a persisted negative verdict is only as good as the
+# instrument that produced it. Re-derive from the fixed gate; never inherit.
 
 
 def stop_requested():
