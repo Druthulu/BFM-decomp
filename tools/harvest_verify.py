@@ -203,6 +203,18 @@ while i < len(items):
     if attempt(chunk):
         commit(chunk)
         print('  + chunk(%d): %s' % (len(chunk), ' '.join(chunk)))
+    elif len(chunk) == 1:
+        # ATOMIC CHUNK — do NOT bisect (Phase-28 T6). The old code fell into the loop below and
+        # re-ran attempt([fn]) on the SAME single element against the SAME baseline: a byte-identical
+        # DUPLICATE build. classify_fail reads _last_sha/_last_err, which the failed attempt(chunk)
+        # above ALREADY set — so the re-attempt bought nothing but a second cc1+maspsx+as+ld. On the
+        # gate's hot path (--chunk 1, the prescribed default: chunked failures mis-attribute innocent
+        # neighbours, cookbook:1568) that was 1.35 builds/draft at the measured 65% bank rate; now 1.0
+        # — ~26% fewer builds, every wave, for one branch. The gate's verdict is unchanged.
+        fn = chunk[0]
+        klass = classify_fail(_last_sha)
+        failed.append((fn, klass))
+        print('  - %s (%s) [%s]' % (fn, drafts[fn]['conf'], klass))
     else:
         for fn in chunk:                 # bisect: isolate the matches from the misses, CLASSIFY the misses
             if attempt([fn]):
