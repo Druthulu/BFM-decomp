@@ -116,6 +116,43 @@ target region-by-region — if the mismatch is at a reloc position, it's (a) inc
 it's regalloc/schedule away from relocs, it's (b) a TU-context wall. Do NOT scale P29's "(cores)×(reach)"
 arithmetic on 3% until that probe runs.
 
+## The swing number RESOLVED — (a) TOOLING, an -O0 compile-flag artifact (Phase-29 Task 1, 2026-07-16)
+
+The disambiguating probe RAN. **Verdict: the legacy-PURE-non-jr "~3%" is (a) TOOLING — dominated by an
+`-O0` COMPILE-FLAG artifact — NOT a TU-context regalloc wall.** Built `tools/diff_regions.py` (the
+deferred roadmap tool): remap the exemplar EXACTLY as `family_sweep --hseq` stages it, compile at the
+EXEMPLAR's real optimization level (auto-detected from the Makefile -O0 rules), masked-diff vs the target,
+classify each member (`O0-FLAG` / `TEMPLATES` / `PLUMBING-ISO` / `REGALLOC` / `NO-TARGET`).
+
+**Root cause (byte-proven).** The two families supplying **~272 of the 274 DIFF** (`0x8013c964`,
+`0x8013c938`) are **-O0 functions** — their exemplar lives in `ov_SC01_077_o0.c` (the Phase-19 -O0 cluster,
+vram 0x8013B568..0x8013C98C, `21F0A003` frame-pointer prologue). `family_sweep --hseq` stages the remapped
+draft into the member's CURRENT stub file, which compiles **-O2** (the Makefile -O0 rule covers ONLY
+`ov_SC01_077_o0.o` / `boot.o` / the whale `_o0b` wildcard). An -O2 compile of an -O0 target can NEVER match
+(a frameless ~4-ins leaf vs the 10-ins -O0 frame — `match_one`'s own `--o0` flag exists for exactly this).
+Compiled at **-O0** the remapped C masked-MATCHes: `func_8013C964`@ov_SC01_000 → MATCH(10),
+`func_8013C938` → MATCH(11); the -O2 compile the sweep used DIFFs(10/11).
+
+**Distribution (106-member sample, 11 matched PURE-non-jr families, nins 2..133):**
+`O0-FLAG 45 · NO-TARGET(already-banked) 29 · TEMPLATES(at exemplar opt) 17 · PLUMBING-ISO(type-lift) 15 ·
+REGALLOC 0`. **ZERO genuine codegen walls.** Every failure mode is recoverable tooling: the -O0
+compile-flag, already-banked, template-clean, or the §40a/§8d type-lift plumbing (a `match_one`-isolation
+blind spot the real TU carries via `engine_types.h`; `family_sweep --no-preclassify` resolves it).
+
+**Honest scope (§52b, R14/R35).** These are masked-MATCHes — a CANDIDATE, not a whole-binary bank. But the
+fix is an INDEPENDENTLY byte-proven mechanism: the -O0 split (the whale banks ×134 via exactly this;
+`ov_SC01_077_o0.c` banks byte-identical for THIS cluster in ov_SC01_077) + the §8d/§40a recovery (~20k
+members banked so in Phase 25/26). **Whole-binary banking + the TRUE ceiling (larger families) are P29
+Task 2a's gate — a prediction, gate-validated there.** Caveat carried: one cluster fn (`func_8013B7AC`,
+%lo-fold) was called "overlay-local" in Phase 20 — Task 2a byte-gates EACH cluster member, never assumes
+all 16 template.
+
+**Consequence.** The "~3% as-tooled ceiling" is RETIRED (a tooling artifact — the THIRD "structural wall"
+this endgame resolved to tooling, after B2 and SC07). P29's member track is NOT a low-ceiling per-member
+grind; it is a **mechanical -O0 split rollout** (the deferred "-O0 ×134") + the type-lift sweep. The
+~478k-ins legacy-PURE pool is back on the table. `member_adapt.py` (the (b)-wall delta engine) is NOT
+needed for this pool. (Full run: `.run/probe29/`; tool: `tools/diff_regions.py`.)
+
 ## Cost / yield per tier (this session)
 
 | tier | cost/fn | direct banks | durable yield |

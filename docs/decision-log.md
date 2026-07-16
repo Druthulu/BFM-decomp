@@ -1237,3 +1237,45 @@ is the CLASSIFIED measurement + the named next probe, not a verdict.
 phase's scoreboard — every "structural wall" probed (B2, SC07, the pin-crash wall in P27) has resolved to
 tooling — the prior should lean toward (a), but that is a prior, not a measurement. **The swing number is
 ~3% as-tooled, ceiling unknown; do not treat 3% as the ceiling until the probe runs.**
+
+## 2026-07-16 (Phase 29 Task 1) — the swing number RESOLVED: the "~3%" was an -O0 compile-flag artifact, not a wall (the third structural wall to resolve to tooling)
+
+**Context + belief.** P29 opened, as the Phase-28 handoff mandated, by running the disambiguating probe on
+the legacy-PURE-non-jr "~3% as-tooled" swing number BEFORE scaling any "(cores)×(reach)" arithmetic on it.
+The prior (from the phase scoreboard — B2, SC07, pin-crash all resolved to tooling) leaned (a) incomplete
+remap; but that was a prior, not a measurement, and the honest state was "ceiling unknown."
+
+**What the probe found (byte-proven).** Built `tools/diff_regions.py` (the deferred roadmap tool): it
+remaps the exemplar EXACTLY as `family_sweep --hseq` stages it and compiles at the EXEMPLAR's real
+optimization level. The two families supplying **~272 of the 274 DIFF** (`0x8013c964`, `0x8013c938`) are
+**-O0 functions** (their exemplar is in `ov_SC01_077_o0.c`, the Phase-19 -O0 cluster), and `family_sweep
+--hseq` stages the draft into the member's -O2 stub file — so it compiled an -O0 target at -O2, which can
+NEVER match. Compiled at -O0 the remapped C masked-MATCHes (`func_8013C964`→MATCH(10),
+`func_8013C938`→MATCH(11)). A 106-member sample across all size bands (nins 2..133): **O0-FLAG 45 ·
+already-banked 29 · TEMPLATES 17 · type-lift-plumbing 15 · REGALLOC 0**. Zero codegen walls.
+
+**Why the T3b measurement was neither wrong nor a lie — it was a measurement of a broken build step.** The
+Phase-28 T3b probe honestly classified the 274 as "genuine gate-DIFF" and honestly refused to call 3% a
+ceiling. What it could not see (at ~40% context, end of a long session) was that its own tool
+(`family_sweep --hseq`) had no per-member opt-level awareness — the SAME shape as the §53 carve-law finding
+(a family swept with the wrong build step reads exactly like an intrinsic wall). R35 again: a 0/near-0 from
+a tool missing a build step, and a real wall, are the same number and opposite facts. The `has_mid_jr`
+carve gap (§53) and this -O0 opt-level gap are two instances of one class: **`family_sweep` must reproduce
+every build step the exemplar's own bank required — the carve AND the optimization level.**
+
+**The pivot.** The swing is (a) tooling. P29's member track is NOT a low-ceiling per-member grind and does
+NOT need `member_adapt.py` (the (b)-wall delta engine) for this pool. It is the mechanical **-O0 split
+rollout** (the deferred "-O0 ×134", the whale `_o0b` precedent) + the type-lift sweep — Task 2a. The
+~478k-ins legacy-PURE pool is back on the table.
+
+**Honest caveat (not yet a bank).** The verdict is masked-MATCH — a candidate (§52b). The -O0-split
+mechanism is independently byte-proven (the whale banks ×134; `ov_SC01_077_o0.c` banks byte-identical), so
+confidence is high, but Task 2a whole-binary-gates it (and byte-gates EACH cluster member — `func_8013B7AC`
+in this cluster was called "overlay-local" in Phase 20, so no blanket assumption).
+
+**Better path, in hindsight.** The generalizable lever `family_sweep` is still missing: it should DERIVE
+each member's required build steps (carve for `has_mid_jr`, -O0 for an -O0-cluster exemplar) from the
+exemplar's own bank, and refuse to gate at the wrong build step rather than book a phantom DIFF. Task 2a
+builds the -O0 arm of that; the carve arm (§53/`jtbl_family_bank`) already exists — they should converge
+into one build-step-faithful sweep. That would have made both the Phase-26 "≈0%" and the Phase-28 "~3%"
+impossible to manufacture.
