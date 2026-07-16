@@ -3427,7 +3427,24 @@ void func_8017DCD0(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_002/nonmatchings/ov_SC05_002_jr_8017BEBC", func_8017DD74);
+extern void func_80146C3C(void);
+void func_8017DD74(int a0) {
+    int v0 = *(int *)(a0 + 0x1C);
+    register unsigned char *p __asm__("$5") = *(unsigned char **)(a0 + 0x20);
+    *(int *)(a0 + 0x1C) = v0 + 1;
+    if (v0 >= 0x1F) {
+        func_80146C3C();
+    } else {
+        unsigned short hv = *(unsigned short *)(p + 0x1A) + 0x1E0;
+        signed char bv = *(unsigned char *)(p + 0x26) - 3;
+        *(unsigned short *)(p + 0x1A) = hv;
+        *(unsigned short *)(p + 0x18) = hv;
+        *(signed char *)(p + 0x26) = bv;
+        *(signed char *)(p + 0x25) = bv;
+        *(signed char *)(p + 0x24) = bv;
+    }
+}
+
 
 
 extern void (*D_801840DC[])(void);

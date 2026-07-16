@@ -3242,7 +3242,22 @@ void func_80188220(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_091/nonmatchings/ov_SC03_091_jr_80182268", func_8018825C);
+
+
+void func_8018825C(void *a0) {
+
+    extern s32 D_801A8C5C;
+    register s32 p __asm__("$3");
+    register s32 q __asm__("$2");
+    p = *(u16 *)((char *)a0 + 0x2);
+    q = (s32)&D_801A8C5C;
+    *(s32 *)((char *)a0 + 0xd0) = q;
+    *(s32 *)((char *)a0 + 0xcc) = q;
+    *(s32 *)((char *)a0 + 0xe0) = *(s32 *)q;
+    p += 1;
+    *(s16 *)((char *)a0 + 0x2) = p;
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_091/nonmatchings/ov_SC03_091_jr_80182268", func_80188284);
 

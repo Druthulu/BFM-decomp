@@ -3488,7 +3488,16 @@ INCLUDE_ASM("asm/ov_SC01_008/nonmatchings/ov_SC01_008_jr_8017BE9C", func_8017D5D
 
 INCLUDE_ASM("asm/ov_SC01_008/nonmatchings/ov_SC01_008_jr_8017BE9C", func_8017D890);
 
-INCLUDE_ASM("asm/ov_SC01_008/nonmatchings/ov_SC01_008_jr_8017BE9C", func_8017DA80);
+void func_8017DA80(void) {
+
+    extern u16 D_80115112;
+    register s32 *p __asm__("$3"); /* pinned to $v1 */
+    register s32 v __asm__("$2"); /* pinned to $v0 */
+    p = &D_80115112;
+    v = *(u16 *)p + 1;
+    *(u16 *)p = v;
+}
+
 
 INCLUDE_ASM("asm/ov_SC01_008/nonmatchings/ov_SC01_008_jr_8017BE9C", func_8017DA9C);
 

@@ -3546,7 +3546,19 @@ INCLUDE_ASM("asm/ov_SC04_005/nonmatchings/ov_SC04_005_jr_8017BEBC", func_8017EFA
 
 INCLUDE_ASM("asm/ov_SC04_005/nonmatchings/ov_SC04_005_jr_8017BEBC", func_8017F048);
 
-INCLUDE_ASM("asm/ov_SC04_005/nonmatchings/ov_SC04_005_jr_8017BEBC", func_8017F1E0);
+
+extern void func_8013B7F4(void *a0, int a1);
+
+int func_8017F1E0(int param_1)
+{
+
+    extern unsigned char D_8018B7F8[];
+    register int iVar1 __asm__("$4");
+    iVar1 = *(int *)(D_8018B7F8 + param_1 * 4);
+    __asm__ __volatile__("" ::: "memory");
+    func_8013B7F4((void *)iVar1, 0);
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_005/nonmatchings/ov_SC04_005_jr_8017BEBC", func_8017F210);
 

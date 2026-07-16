@@ -3663,7 +3663,24 @@ void func_8017CD50(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_000/nonmatchings/ov_SC02_000_jr_8017A4AC", func_8017CDF4);
+extern void func_80146C3C(void);
+void func_8017CDF4(int a0) {
+    int v0 = *(int *)(a0 + 0x1C);
+    register unsigned char *p __asm__("$5") = *(unsigned char **)(a0 + 0x20);
+    *(int *)(a0 + 0x1C) = v0 + 1;
+    if (v0 >= 0x1F) {
+        func_80146C3C();
+    } else {
+        unsigned short hv = *(unsigned short *)(p + 0x1A) + 0x1E0;
+        signed char bv = *(unsigned char *)(p + 0x26) - 3;
+        *(unsigned short *)(p + 0x1A) = hv;
+        *(unsigned short *)(p + 0x18) = hv;
+        *(signed char *)(p + 0x26) = bv;
+        *(signed char *)(p + 0x25) = bv;
+        *(signed char *)(p + 0x24) = bv;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC02_000/nonmatchings/ov_SC02_000_jr_8017A4AC", func_8017CE58);
 
@@ -3687,7 +3704,36 @@ void func_8017D230(u16 *a0, void *a1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_000/nonmatchings/ov_SC02_000_jr_8017A4AC", func_8017D2D4);
+int func_8017D2D4(short *param_1, short *param_2, short *param_3, int param_4) {
+    register int i2o __asm__("$5");
+    register int i4o __asm__("$9");
+    short sVar1; int rx, rz, uVar5;
+    i4o = param_2[1];
+    __asm__ __volatile__("" : : "r"(i4o));
+    i2o = param_1[1]; uVar5 = 0;
+    if (i2o >= i4o) {
+        rx = param_1[0] - i2o * (param_2[0] - param_1[0]);
+        rz = param_1[2] - i2o * (param_2[2] - param_1[2]);
+    } else {
+        register int den __asm__("$3");
+        int p2x = param_2[0], p2z = param_2[2];
+        den = i2o - i4o;
+        rx = p2x + i4o * (p2x - param_1[0]) / den;
+        rz = p2z + i4o * (p2z - param_1[2]) / den;
+    }
+    if (rx >= -0x7fff) { i2o = 0x7fff; if (rx < 0x8000) i2o = rx; }
+    else i2o = -0x7fff;
+    *param_3 = (short)i2o;
+    if (rz >= -0x7fff) { i2o = 0x7fff; if (rz < 0x8000) i2o = rz; }
+    else i2o = -0x7fff;
+    param_3[2] = (short)i2o; param_3[1] = 0; sVar1 = (short)param_4;
+    if ((int)*param_3 < *param_1 - param_4) { uVar5 = 0xffffffff; *param_3 = *param_1 - sVar1; }
+    if (*param_1 + param_4 < (int)*param_3) { uVar5 = 0xffffffff; *param_3 = *param_1 + sVar1; }
+    if ((int)param_3[2] < param_1[2] - param_4) { uVar5 = 0xffffffff; param_3[2] = param_1[2] - sVar1; }
+    if (param_1[2] + param_4 < (int)param_3[2]) { uVar5 = 0xffffffff; param_3[2] = param_1[2] + sVar1; }
+    return uVar5;
+}
+
 
 extern void ReadGeomOffset(s32 *a0, s32 *a1);
 extern s32 RotTransPers(s32 a0, s32 a1, s32 *a2, s32 *a3);
@@ -3706,7 +3752,57 @@ void func_8017D4CC(s32 a0, s32 a1) {
 
 INCLUDE_ASM("asm/ov_SC02_000/nonmatchings/ov_SC02_000_jr_8017A4AC", func_8017D538);
 
-INCLUDE_ASM("asm/ov_SC02_000/nonmatchings/ov_SC02_000_jr_8017A4AC", func_8017E404);
+
+// @class: regalloc-order
+// @stuck: none — MATCH (relocation-masked, 70 ins). pins $s0/$s1 + precomputed a0v anchored in a zero-byte barrier fix the prologue schedule.
+
+extern s32 func_8012BC60(struct Vec *a0, struct Vec *a1);
+extern s32 ratan2(s32, s32);
+extern void func_8012B0B4(SVEC *, s32, s32);
+extern s32 func_8012CEB0(s32 a0, s32 a1, s32 a2);
+extern void func_8012ADE4(u8 *a0);
+
+s32 func_8017E404(s32 param_1, s32 param_2)
+{
+    register s32 p1 __asm__("$16") = param_1;
+    register s32 p2 __asm__("$17") = param_2;
+    SVEC in;
+    SVEC out;
+    SVEC buf;
+    s32 d;
+    s32 ang;
+    u16 px, pz;
+    s32 a0v;
+
+    a0v = p1 + 4;
+    __asm__ __volatile__("" : : "r"(p2), "r"(a0v));
+    if (((s32 (*)(s32, s32))func_8012BC60)(a0v, p2 + 4) >= 0x1000) {
+        return 0;
+    }
+    ang = ratan2((s32)*(s16 *)(p1 + 0xe) - (s32)*(s16 *)(p2 + 0xe),
+                 (s32)*(s16 *)(p2 + 6) - (s32)*(s16 *)(p1 + 6));
+    func_8012B0B4(&buf, (ang - 0x400) & 0xfff, 0x41);
+    d = *(s32 *)&buf;
+    px = *(u16 *)(p2 + 6);
+    out.vx = px;
+    out.vy = *(u16 *)(p2 + 0xa);
+    pz = *(u16 *)(p2 + 0xe);
+    out.vz = pz;
+    out.vx = px + d;
+    out.vz = pz + (d >> 16);
+    in.vx = *(u16 *)(p1 + 0x3a);
+    in.vy = *(u16 *)(p1 + 0x3e);
+    in.vz = *(u16 *)(p1 + 0x42);
+    if ((((s32 (*)(SVEC *, SVEC *, s32))func_8012CEB0)(&in, &out, 0) & 0x2000) == 0) {
+        ((void (*)(s32))func_8012ADE4)(p1);
+        return 1;
+    }
+    *(s16 *)(p1 + 6) = out.vx;
+    *(s16 *)(p1 + 0xa) = out.vy;
+    *(s16 *)(p1 + 0xe) = out.vz;
+    return 1;
+}
+
 
 
 // @class: struct

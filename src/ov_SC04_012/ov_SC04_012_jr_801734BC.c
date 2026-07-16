@@ -2922,7 +2922,30 @@ DEFINE_func_80178744()  /* dedup: shared engine-core @0x80178744 (src/shared) */
 
 DEFINE_func_801787D4()  /* dedup: shared engine-core @0x801787D4 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC04_012/nonmatchings/ov_SC04_012_jr_801734BC", func_80178840);
+
+// @class: regalloc-order
+// @stuck: sll $v0,$s1,2 must be recomputed AFTER the call (target nops the delay slot)
+
+extern void func_80019064(void *a0);
+extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+
+
+void func_80178840(int param_1) {
+
+    extern int D_80181E44;
+    extern int D_80181E50[];
+    register int p __asm__("$16");
+    register int s1byte __asm__("$17");
+    p = param_1;
+    if ((*(unsigned short *)(p + 0x5c) & 1) != 0) {
+        s1byte = *(unsigned char *)(p + 0x5e);
+        if (s1byte == 0xc) {
+            ((void (*)(int))func_80019064)((int)&D_80181E44);
+        }
+        ((void (*)(int, int))func_80131E00)(p, D_80181E50[s1byte]);
+    }
+}
+
 
 DEFINE_func_801788B8()  /* dedup: shared engine-core @0x801788B8 (src/shared) */
 

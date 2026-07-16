@@ -3726,7 +3726,15 @@ extern u16 D_80126B62;
     }
 
 
-INCLUDE_ASM("asm/ov_SC05_010/nonmatchings/ov_SC05_010_jr_8017C8D0", func_80185394);
+extern u16 D_80126B62;
+void func_80185394(void) {
+    register s32 *p __asm__("$3"); /* pinned to $v1 */
+    register s32 v __asm__("$2"); /* pinned to $v0 */
+    p = &D_80126B62;
+    v = *(u16 *)p + -12;
+    *(u16 *)p = v;
+}
+
 
 INCLUDE_ASM("asm/ov_SC05_010/nonmatchings/ov_SC05_010_jr_8017C8D0", func_801853B0);
 

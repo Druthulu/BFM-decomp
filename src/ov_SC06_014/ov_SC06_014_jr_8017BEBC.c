@@ -3425,7 +3425,24 @@ void func_8017D06C(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_014/nonmatchings/ov_SC06_014_jr_8017BEBC", func_8017D110);
+extern void func_80146C3C(void);
+void func_8017D110(int a0) {
+    int v0 = *(int *)(a0 + 0x1C);
+    register unsigned char *p __asm__("$5") = *(unsigned char **)(a0 + 0x20);
+    *(int *)(a0 + 0x1C) = v0 + 1;
+    if (v0 >= 0x1F) {
+        func_80146C3C();
+    } else {
+        unsigned short hv = *(unsigned short *)(p + 0x1A) + 0x1E0;
+        signed char bv = *(unsigned char *)(p + 0x26) - 3;
+        *(unsigned short *)(p + 0x1A) = hv;
+        *(unsigned short *)(p + 0x18) = hv;
+        *(signed char *)(p + 0x26) = bv;
+        *(signed char *)(p + 0x25) = bv;
+        *(signed char *)(p + 0x24) = bv;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_014/nonmatchings/ov_SC06_014_jr_8017BEBC", func_8017D174);
 
@@ -3510,7 +3527,19 @@ INCLUDE_ASM("asm/ov_SC06_014/nonmatchings/ov_SC06_014_jr_8017BEBC", func_8017D6D
 
 INCLUDE_ASM("asm/ov_SC06_014/nonmatchings/ov_SC06_014_jr_8017BEBC", func_8017D774);
 
-INCLUDE_ASM("asm/ov_SC06_014/nonmatchings/ov_SC06_014_jr_8017BEBC", func_8017D90C);
+
+extern void func_8013B7F4(void *a0, int a1);
+
+int func_8017D90C(int param_1)
+{
+
+    extern unsigned char D_80183B08[];
+    register int iVar1 __asm__("$4");
+    iVar1 = *(int *)(D_80183B08 + param_1 * 4);
+    __asm__ __volatile__("" ::: "memory");
+    func_8013B7F4((void *)iVar1, 0);
+}
+
 
 extern void func_8017D95C(void);
 void func_8017D93C(void) {

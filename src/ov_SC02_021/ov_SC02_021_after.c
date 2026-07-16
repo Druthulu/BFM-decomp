@@ -560,7 +560,50 @@ DEFINE_func_80148A48()  /* dedup: shared engine-core @0x80148A48 (src/shared) */
 
 DEFINE_func_80148AAC()  /* dedup: shared engine-core @0x80148AAC (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC02_021/nonmatchings/ov_SC02_021_after", func_80148AFC);
+
+// @class: regalloc-order
+// @stuck: none — MATCH (71 ins). switch binary-tree; s1 angle = pin-source-of-copy ($5 temp + retie); 2nd-block double-load + 0x80-clobber via $v1/$v0/$a0 pins + lazy hi-pin reusing dead c80 reg
+
+extern s32 ratan2(s32 a0, s32 a1);
+
+int func_80148AFC(void *a0) {
+
+    extern s32 D_801151D4;
+    extern ActorFn D_801815C0[];
+    s32 p = (s32)a0;
+    s32 iVar5 = *(s32 *)(p + 0x20);
+    register s32 tmp __asm__("$5") = (ratan2(*(s32 *)(D_801151D4 + 0x44) - *(s32 *)(D_801151D4 + 0x50),
+                        *(s32 *)(D_801151D4 + 0x48) - *(s32 *)(D_801151D4 + 0x3C)) - 0x400) & 0xFFF;
+    s32 sVar3;
+    u8 bVar1;
+    __asm__("" : "=r"(tmp) : "0"(tmp));
+    sVar3 = tmp;
+    bVar1 = *(u8 *)(p + 0xA9);
+
+    switch (bVar1) {
+    case 0x41:
+        return D_801815C0[*(u16 *)(p + 0xAA) >> 12](a0) & 0xFF;
+    case 0x53:
+    case 0x73:
+        {
+            register u32 bb __asm__("$3");
+            register s32 c80 __asm__("$2") = 0x80;
+            register s32 lo __asm__("$4");
+            register s32 hi __asm__("$2");
+            bb = *(u16 *)(p + 0xAE);
+            lo = bb & 0xFF;
+            if (lo != c80 || (hi = bb >> 8) != 0x80) {
+                s32 sVar4;
+                __asm__ __volatile__("" : : : "memory");
+                sVar4 = ratan2((*(u16 *)(p + 0xAE) & 0xFF) - 0x80, 0x80 - (*(u16 *)(p + 0xAE) >> 8));
+                *(u16 *)(iVar5 + 0x12) = (sVar3 + sVar4) & 0xFFF;
+                return 1;
+            }
+            return 0;
+        }
+    }
+}
+
 
 DEFINE_func_80148C18()  /* dedup: shared engine-core @0x80148C18 (src/shared) */
 
@@ -594,7 +637,57 @@ DEFINE_func_80148D24()  /* dedup: shared engine-core @0x80148D24 (src/shared) */
 
 DEFINE_func_80148D3C()  /* dedup: shared engine-core @0x80148D3C (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC02_021/nonmatchings/ov_SC02_021_after", func_80148D44);
+
+// @class: schedule
+// @stuck: none — MATCH (68 ins)
+extern s32 ratan2(s32 a0, s32 a1);
+
+s32 func_80148D44(void) {
+
+    extern s32 D_801151D4;
+    extern u8 D_80126C01;
+    extern u16 D_80126C02;
+    extern u16 D_80126C06;
+    extern s32 D_80181600[];
+    register s32 ang __asm__("$16");
+    register s32 a __asm__("$4");
+    s32 p;
+    s32 res;
+    s32 d;
+
+    p = D_801151D4;
+    a = (ratan2(*(s32 *)(p + 0x44) - *(s32 *)(p + 0x50),
+                  *(s32 *)(p + 0x48) - *(s32 *)(p + 0x3c)) - 0x400) & 0xFFF;
+    d = (s32)D_80126C01;
+    __asm__ __volatile__("" : : "r"(a));
+    ang = a;
+    if (d == 0x53) {
+        goto final;
+    }
+    if (d < 0x54) {
+        if (d == 0x41) {
+            goto call;
+        }
+        return 0x41;
+    }
+    if (d != 0x73) {
+        return 0x73;
+    }
+    goto final;
+call:
+    return (s32)(s16)((s16 (*)())(D_80181600[D_80126C02 >> 0xc]))();
+final:
+    {
+        u32 e = D_80126C06;
+        if (((e & 0xff) == 0x80) && ((e >> 8) == (e & 0xff))) {
+            return -1;
+        }
+        __asm__ __volatile__("" : : : "memory");
+        res = (ang + ratan2((D_80126C06 & 0xff) - 0x80, 0x80 - (D_80126C06 >> 8))) & 0xFFF;
+    }
+    return res;
+}
+
 
 INCLUDE_ASM("asm/ov_SC02_021/nonmatchings/ov_SC02_021_after", func_80148E54);
 
@@ -1993,7 +2086,28 @@ void func_80150A70(s32 a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_021/nonmatchings/ov_SC02_021_after", func_80150B28);
+
+// @class: regalloc-order
+// @stuck: none — MATCH (fn-ptr table; split idx-1 into a $v0-pinned temp to stop (idx-1)*4 strength-reducing into a -4 load offset AND land the subtract in $v0)
+
+
+void func_80150B28(int param_1) {
+
+    extern s32 D_800AE6B0;
+    extern void (*D_80181744[])(void);
+    u32 idx;
+    register u32 sub __asm__("$2");
+
+    if ((D_800AE6B0 & 0x80FFFFFF) == 0) {
+        idx = *(u16 *)(param_1 + 0x16C);
+        if (idx != 0 && idx < 0x26) {
+            sub = idx - 1;
+            D_80181744[sub]();
+        }
+    }
+    *(u16 *)(param_1 + 0x16C) = 0;
+}
+
 
 DEFINE_func_80150B9C()  /* dedup: shared engine-core @0x80150B9C (src/shared) */
 

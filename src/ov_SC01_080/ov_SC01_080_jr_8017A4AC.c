@@ -3559,7 +3559,36 @@ void func_8017C294(u16 *a0, void *a1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_080/nonmatchings/ov_SC01_080_jr_8017A4AC", func_8017C338);
+int func_8017C338(short *param_1, short *param_2, short *param_3, int param_4) {
+    register int i2o __asm__("$5");
+    register int i4o __asm__("$9");
+    short sVar1; int rx, rz, uVar5;
+    i4o = param_2[1];
+    __asm__ __volatile__("" : : "r"(i4o));
+    i2o = param_1[1]; uVar5 = 0;
+    if (i2o >= i4o) {
+        rx = param_1[0] - i2o * (param_2[0] - param_1[0]);
+        rz = param_1[2] - i2o * (param_2[2] - param_1[2]);
+    } else {
+        register int den __asm__("$3");
+        int p2x = param_2[0], p2z = param_2[2];
+        den = i2o - i4o;
+        rx = p2x + i4o * (p2x - param_1[0]) / den;
+        rz = p2z + i4o * (p2z - param_1[2]) / den;
+    }
+    if (rx >= -0x7fff) { i2o = 0x7fff; if (rx < 0x8000) i2o = rx; }
+    else i2o = -0x7fff;
+    *param_3 = (short)i2o;
+    if (rz >= -0x7fff) { i2o = 0x7fff; if (rz < 0x8000) i2o = rz; }
+    else i2o = -0x7fff;
+    param_3[2] = (short)i2o; param_3[1] = 0; sVar1 = (short)param_4;
+    if ((int)*param_3 < *param_1 - param_4) { uVar5 = 0xffffffff; *param_3 = *param_1 - sVar1; }
+    if (*param_1 + param_4 < (int)*param_3) { uVar5 = 0xffffffff; *param_3 = *param_1 + sVar1; }
+    if ((int)param_3[2] < param_1[2] - param_4) { uVar5 = 0xffffffff; param_3[2] = param_1[2] - sVar1; }
+    if (param_1[2] + param_4 < (int)param_3[2]) { uVar5 = 0xffffffff; param_3[2] = param_1[2] + sVar1; }
+    return uVar5;
+}
+
 
 extern void ReadGeomOffset(s32 *a0, s32 *a1);
 extern s32 RotTransPers(s32 a0, s32 a1, s32 *a2, s32 *a3);
@@ -3632,7 +3661,61 @@ void func_8017DC78(int param_1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_080/nonmatchings/ov_SC01_080_jr_8017A4AC", func_8017DCF8);
+
+extern void func_8012C1B8(void);
+extern void func_8012CAE4(void *a0);
+extern void func_8001C214(s32 a0, s32 a1);
+extern void func_8001D0E8(s32, s32, s32);
+extern void func_8012A828(s32 a0, void *a1);
+
+
+void func_8017DCF8(s32 arg0) {
+
+    extern u8 D_80188970;
+    extern u8 D_80186FC4;
+    extern s32 D_80186FB0[];
+    extern u8 D_80186F6C;
+    extern u8 D_80186F5C;
+    register s32 param_1 __asm__("$16") = arg0;
+    register s32 iVar1 __asm__("$17");
+    s32 ret;
+    s32 iVar2;
+
+    ret = ((s32 (*)(void))func_8012C1B8)();
+    *(s32 *)(param_1 + 0x20) = ret;
+    iVar1 = ret;
+    if (ret == 0) {
+        ((void (*)(s32))func_8012CAE4)(param_1);
+    } else {
+        ((void (*)(s32, void *))func_8001C214)(iVar1, &D_80188970);
+        func_8001D0E8(iVar1, 0x104, 0x190);
+        *(u16 *)(iVar1 + 0x1c) = 0x1c00;
+        *(u16 *)(iVar1 + 0x1a) = 0x1c00;
+        *(u16 *)(iVar1 + 0x18) = 0x1c00;
+        *(u16 *)(iVar1 + 0x2c) = *(u16 *)(iVar1 + 0x2c) | 0x10;
+        *(u16 *)(param_1 + 0x76) = 4;
+        *(s32 *)(param_1 + 0x78) = (s32)&D_80186FC4;
+        *(u16 *)(param_1 + 0xdc) = *(u16 *)(param_1 + 6);
+        *(u16 *)(param_1 + 0xde) = *(u16 *)(param_1 + 0xe);
+        ((void (*)(s32, s32))func_8012A828)(param_1, D_80186FB0[*(s16 *)(param_1 + 0x76)]);
+        *(u16 *)(param_1 + 2) = 1;
+        if (*(s16 *)(param_1 + 0x70) == 4) {
+            *(s32 *)(param_1 + 0x58) = (s32)&D_80186F6C;
+        } else {
+            *(s32 *)(param_1 + 0x58) = (s32)&D_80186F5C;
+        }
+        iVar2 = *(s32 *)(param_1 + 0x20);
+        *(u32 *)(param_1 + 0x58) = *(u32 *)(param_1 + 0x58) | 0x60000000;
+        *(u16 *)(iVar2 + 0x1c) = 0x1c00;
+        *(u16 *)(iVar2 + 0x1a) = 0x1c00;
+        *(u16 *)(iVar2 + 0x18) = 0x1c00;
+        *(u16 *)(param_1 + 0x5e) = 0;
+        *(u16 *)(param_1 + 0x5c) = *(u16 *)(param_1 + 0x5c) | 0x8800;
+        *(u16 *)(param_1 + 6) = *(u16 *)(param_1 + 0xdc);
+        *(u16 *)(param_1 + 0xe) = *(u16 *)(param_1 + 0xde);
+    }
+}
+
 
 
 // @class: struct

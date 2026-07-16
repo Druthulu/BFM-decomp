@@ -79,7 +79,32 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 ---
 
 ## Blockers
-(none)
+(none — Arm B substantial-band sweep running in background as of 2026-07-16)
+
+## Task 2 progress (in flight)
+- **Verdict → branch 2a (tooling).** Sized the fix: **Arm A** (-O0 cluster carve) = 9 families /
+  1,233 stub members / ~24k ins (~0.6pp), needs a per-overlay -O0 carve tool (adapt
+  `rollout_whale_o0.py`; the -O0 cluster 0x13410..0x14834 is deferred-since-Phase-19). **Arm B**
+  (-O2 type-lift sweep, EXISTING `family_sweep --hseq --no-preclassify`) = 398 families / 7,541 stub
+  members / **~520k ins (~4pp)** — the ROI winner; unbanked pool concentrates in the 4 newest (SC07)
+  overlays.
+- **Arm B gate-probe (10 families): BANKED 32/40 = 80%** — gate-validated (R14). Substantial band alone
+  = 76 banks (size-dependent: substantial is pin/drift-limited, 1,799 pinned skips). Comprehensive
+  **`--band all --allow-pins`** sweep then banked across **~140 overlays (891 src files)** before a
+  **SIGTERM (exit 143)** interrupted it mid-gate (during/after ov_SC07_006 346/570). Triage: 3 clean
+  single-binary rebuilds all BYTE-IDENTICAL → the incremental banks survive R22.
+- **✅ ARM B CHECKPOINT COMMITTED (2026-07-16).** R22 clean-fleet verify = 136 PASS / 1 FAIL; the
+  FAIL (ov_SC07_010, the SIGTERM mid-gate partial) reverted → byte-identical. **3,407 member-matches
+  banked** across 136 overlays. `make check-all` → **140/140 byte-identical**; dedup-check 1840/0;
+  audit-binaries OK; audit-cdecl green. **Fleet: instr-weighted 68.9→70.2% (+1.3pp) · distinct-code
+  49.5→51.9% (+2.4pp) · fn-count 83.94→84.73% (+0.79pp)**; 0 NON_MATCHING (G4).
+- **⚠️ LESSON:** `--band all` sweeps are too long for one background pass (SIGTERM'd). Future Arm B
+  runs go band-bounded + committed-per-batch (resumable). The comprehensive sweep still had residual
+  FAILED members (pin/drift/plumbing) not yet re-attacked.
+- **NEXT:** (a) finish the Arm B tail (remaining tiny/mid/pinned members not banked this pass, in
+  bounded batches); (b) **Arm A** — the -O0 cluster carve tool (9 families / 1,233 members / ~24k ins;
+  adapt `rollout_whale_o0.py` for the multi-file carve of 0x13410..0x14834; the swing verdict's
+  whole-binary confirmation); (c) teach `family_sweep` per-member opt-level awareness (the general lever).
 
 ---
 

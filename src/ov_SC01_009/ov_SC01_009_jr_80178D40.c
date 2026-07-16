@@ -3590,4 +3590,41 @@ s32 func_8017A3B0(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_009/nonmatchings/ov_SC01_009_jr_80178D40", func_8017A3D8);
+
+// @class: regalloc-order
+// @stuck: none — MATCH
+
+
+extern int func_800D0CA0(int);
+extern int func_8001AAA0(void);
+extern int func_800D0CE0(void);
+
+int func_8017A3D8(void)
+{
+
+    extern short D_801F3114;
+    extern short D_801F3110;
+    switch (D_801F3114) {
+    case 0:
+        func_800D0CA0(1);
+        D_801F3114 = D_801F3114 + 1;
+        return 0;
+    case 100:
+    {
+        register int a __asm__("$4");
+        a = D_801F3110;
+        if (a != -1) {
+            return func_8001AAA0() != 0;
+        }
+        return func_800D0CE0() == 1;
+    }
+    default:
+        D_801F3114 = D_801F3114 + 1;
+        if (D_801F3114 < 0x1E) {
+            return 0;
+        }
+        D_801F3114 = 100;
+        return 0;
+    }
+}
+

@@ -1740,7 +1740,50 @@ void func_8013D164(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_032/nonmatchings/ov_SC06_032_jr_801380E0", func_8013D178);
+
+void func_8013D178(void) {
+
+    extern u8 D_801D1018;
+    extern u8 D_801D1019;
+    extern u8 D_801D101A;
+    extern u8 D_801D101B;
+    extern u8 D_801D101C;
+    extern u8 D_801D101D;
+    extern u8 D_801D101E;
+    extern u8 D_801D101F;
+    extern u8 D_801D1020;
+    extern unsigned char D_801D10B8, D_801D10B9, D_801D10BA, D_801D10BB, D_801D10BC, D_801D10BD, D_801D10BE, D_801D10BF, D_801D10C0;
+    extern unsigned char D_801D10B8, D_801D10B9, D_801D10BA, D_801D10BB, D_801D10BC, D_801D10BD, D_801D10BE, D_801D10BF, D_801D10C0;
+    extern unsigned char D_801D10B8, D_801D10B9, D_801D10BA, D_801D10BB, D_801D10BC, D_801D10BD, D_801D10BE, D_801D10BF, D_801D10C0;
+    extern unsigned char D_801D10B8, D_801D10B9, D_801D10BA, D_801D10BB, D_801D10BC, D_801D10BD, D_801D10BE, D_801D10BF, D_801D10C0;
+    extern unsigned char D_801D10B8, D_801D10B9, D_801D10BA, D_801D10BB, D_801D10BC, D_801D10BD, D_801D10BE, D_801D10BF, D_801D10C0;
+    extern unsigned char D_801D10B8, D_801D10B9, D_801D10BA, D_801D10BB, D_801D10BC, D_801D10BD, D_801D10BE, D_801D10BF, D_801D10C0;
+    extern unsigned char D_801D10B8, D_801D10B9, D_801D10BA, D_801D10BB, D_801D10BC, D_801D10BD, D_801D10BE, D_801D10BF, D_801D10C0;
+    extern unsigned char D_801D10B8, D_801D10B9, D_801D10BA, D_801D10BB, D_801D10BC, D_801D10BD, D_801D10BE, D_801D10BF, D_801D10C0;
+    extern unsigned char D_801D10B8, D_801D10B9, D_801D10BA, D_801D10BB, D_801D10BC, D_801D10BD, D_801D10BE, D_801D10BF, D_801D10C0;
+    unsigned char v, t;
+    register unsigned char *p __asm__("$5");
+
+    p = &D_801D1018; v = *p; t = D_801D10B8;
+    if (v != t) { if (v < t) *p = v + 8; else *p = v - 8; }
+    p = &D_801D1019; v = *p; t = D_801D10B9;
+    if (v != t) { if (v < t) *p = v + 8; else *p = v - 8; }
+    p = &D_801D101A; v = *p; t = D_801D10BA;
+    if (v != t) { if (v < t) *p = v + 8; else *p = v - 8; }
+    p = &D_801D101B; v = *p; t = D_801D10BB;
+    if (v != t) { if (v < t) *p = v + 8; else *p = v - 8; }
+    p = &D_801D101C; v = *p; t = D_801D10BC;
+    if (v != t) { if (v < t) *p = v + 8; else *p = v - 8; }
+    p = &D_801D101D; v = *p; t = D_801D10BD;
+    if (v != t) { if (v < t) *p = v + 8; else *p = v - 8; }
+    p = &D_801D101E; v = *p; t = D_801D10BE;
+    if (v != t) { if (v < t) *p = v + 8; else *p = v - 8; }
+    p = &D_801D101F; v = *p; t = D_801D10BF;
+    if (v != t) { if (v < t) *p = v + 8; else *p = v - 8; }
+    p = &D_801D1020; v = *p; t = D_801D10C0;
+    if (v != t) { if (v < t) *p = v + 8; else *p = v - 8; }
+}
+
 
 
 // @class: other
@@ -2043,7 +2086,35 @@ DEFINE_func_8013E558()  /* dedup: shared engine-core @0x8013E558 (src/shared) */
 
 DEFINE_func_8013E588()  /* dedup: shared engine-core @0x8013E588 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC06_032/nonmatchings/ov_SC06_032_jr_801380E0", func_8013E5E8);
+
+extern void func_80029444(void);
+extern void func_801754A8(void);
+extern s32 func_80014ED4(s32);
+extern s32 func_80015018(s32);
+extern void func_800190AC(void);
+extern void func_80141C04(void);
+
+
+void func_8013E5E8(void)
+{
+
+    extern u16 D_8011511E;
+    extern u16 D_8011511C;
+    extern unsigned short D_80115112;
+    extern u16 D_80115116;
+    extern void (*D_801946D8[])(void);
+    register void (*fp)(void) __asm__("$2"); /* pin fn-ptr to $v0 -> store retires early */
+    func_80029444();
+    func_801754A8();
+    D_8011511E = func_80014ED4(0);
+    D_8011511C = func_80015018(0);
+    fp = D_801946D8[D_80115112];
+    fp();
+    func_800190AC();
+    func_80141C04();
+    D_80115116 += 1;
+}
+
 
 DEFINE_func_8013E67C()  /* dedup: shared engine-core @0x8013E67C (src/shared) */
 
