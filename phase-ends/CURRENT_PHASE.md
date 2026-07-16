@@ -147,6 +147,18 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   fleet instr 70.2→70.4% / distinct 51.9→52.3% / fn-count 84.73→84.94%; audit-binaries OK, dedup 1840/0,
   main 143dbb89, 0 NON_MATCHING (G4). Verified pure-reduction (0 new/dup stubs, R14/H5). Logs
   `.run/armB_tail_{substantial,mid,tiny,checkall}.log`. NEXT: Arm A (-O0 cluster carve) + item (c).
+- **2026-07-16 — Task 6 mega-pools SCOUTED (not yet banked; a symbol-definition gap, R35).** The two
+  tiny-IMM mega-pools `0x80131eec` (2887, 2620 stub) + `0x80130d0c` (2679, 2496 stub) = ~5,116 unbanked.
+  `family_sweep --hseq --only <both> --band tiny`: **4966 staged, BANKED 1/4966 (0.0%)**. `diff_regions`
+  classifies them **TEMPLATES / O2:MATCH(0)** — the remapped C is byte-correct at -O2 AND the jump-table
+  symbol IS remapped (exemplar `D_8018708C[idx]()` → member `D_801815EC[idx]()`). The contradiction
+  (masked-MATCH vs 0% whole-binary) resolves to: **the remapped data symbol (`D_801815EC`) is splat-local
+  in the member's asm and NOT a DEFINED linker symbol** (absent from every `config/symbols*`), so the C
+  draft's named reference can't resolve at link → whole-binary DIFF; masked_diff hides it (masks %hi/%lo).
+  → a **fixable symbol-definition / symbol_map gap gating ~4,966 members** (the biggest cheap lever left),
+  but a focused tooling sub-project (define/export the per-overlay jump-table data symbols so remapped C
+  links). DEFERRED to a dedicated pass; tree reverted clean (0 banks kept). This is the same "reproduce the
+  build step" class as §53-carve / -O0-flag — here the missing step is symbol DEFINITION.
 - **2026-07-16 — Task 2 (Arm A) DONE = swing verdict → banked fact + wall characterized.** New tool
   `tools/rollout_o0_cluster.py` + Makefile `O0_CLUSTER_OBJS` -O0 wildcard. Carved 4 SC07 tail overlays;
   byte-neutrality gate (clean R22): **ov_SC07_010 byte-identical, 006/007/011 FAIL** (+0x20 splat
