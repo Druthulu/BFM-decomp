@@ -147,18 +147,19 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   fleet instr 70.2→70.4% / distinct 51.9→52.3% / fn-count 84.73→84.94%; audit-binaries OK, dedup 1840/0,
   main 143dbb89, 0 NON_MATCHING (G4). Verified pure-reduction (0 new/dup stubs, R14/H5). Logs
   `.run/armB_tail_{substantial,mid,tiny,checkall}.log`. NEXT: Arm A (-O0 cluster carve) + item (c).
-- **2026-07-16 — Task 6 mega-pools SCOUTED (not yet banked; a symbol-definition gap, R35).** The two
-  tiny-IMM mega-pools `0x80131eec` (2887, 2620 stub) + `0x80130d0c` (2679, 2496 stub) = ~5,116 unbanked.
-  `family_sweep --hseq --only <both> --band tiny`: **4966 staged, BANKED 1/4966 (0.0%)**. `diff_regions`
-  classifies them **TEMPLATES / O2:MATCH(0)** — the remapped C is byte-correct at -O2 AND the jump-table
-  symbol IS remapped (exemplar `D_8018708C[idx]()` → member `D_801815EC[idx]()`). The contradiction
-  (masked-MATCH vs 0% whole-binary) resolves to: **the remapped data symbol (`D_801815EC`) is splat-local
-  in the member's asm and NOT a DEFINED linker symbol** (absent from every `config/symbols*`), so the C
-  draft's named reference can't resolve at link → whole-binary DIFF; masked_diff hides it (masks %hi/%lo).
-  → a **fixable symbol-definition / symbol_map gap gating ~4,966 members** (the biggest cheap lever left),
-  but a focused tooling sub-project (define/export the per-overlay jump-table data symbols so remapped C
-  links). DEFERRED to a dedicated pass; tree reverted clean (0 banks kept). This is the same "reproduce the
-  build step" class as §53-carve / -O0-flag — here the missing step is symbol DEFINITION.
+- **✅ 2026-07-16 — Task 6 tiny-IMM mega-pools CRACKED (+4,801 members).** `0x80131eec` (2887) +
+  `0x80130d0c` (2679) went from **1/4966 (0.0%)** to **pool1 2331/2470 (94%) + pool2 2470/2496 (99%) =
+  4,801 banked**. Root cause (byte-proven after 3 masked-metric mis-reads — R14/R35, see decision-log):
+  NOT a symbol-definition gap (my `commit:0665` scout was WRONG) — it's a **def-signature conflict**:
+  `engine_core.h` forward-declares the member (`extern void func_8015FAAC(s32 *a0)`, a shared fn calls it)
+  while `family_remap` copies the EXEMPLAR's sig (`void *a0`) → `conflicting types` → the member TU never
+  compiles (invisible to standalone diff_regions/match_one AND to --reconcile). FIX: **new
+  `family_sweep --fix-def-sig`** (`header_sig_map` + `reconcile_def_sig`, 1005 mapped fns) rewrites the
+  member draft's def sig to the shared-header canonical — byte-neutral, gate-arbitrated (G3/P9); one member
+  hand-verified byte-identical first. **R22 clean-fleet 140/140**; pure-reduction (0 new/dup stubs);
+  fleet **instr 70.4→71.0% · distinct 52.3→53.2% · fn-count 84.94→86.30%**; dedup 1840/0; 0 NON_MATCHING.
+  §54 cookbook + R31 decision-log. The 4th "reproduce the build step" instance (§53-carve, -O0-flag,
+  now the member's canonical DECLARATION). `--fix-def-sig` likely should be default-on for the h_seq path.
 - **2026-07-16 — Task 2 (Arm A) DONE = swing verdict → banked fact + wall characterized.** New tool
   `tools/rollout_o0_cluster.py` + Makefile `O0_CLUSTER_OBJS` -O0 wildcard. Carved 4 SC07 tail overlays;
   byte-neutrality gate (clean R22): **ov_SC07_010 byte-identical, 006/007/011 FAIL** (+0x20 splat

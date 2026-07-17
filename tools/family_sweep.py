@@ -46,6 +46,49 @@ def load_sigs():
     return sig
 
 
+_HDR_SIG_CACHE = None
+def header_sig_map():
+    """{func_name: 'ret func(params)'} from the `extern <ret> func_X(<params>);` decls a DEFINE_func
+    macro emits in src/shared/engine_core.h (a shared engine fn that CALLS the member forward-declares
+    it). When family_remap copies the EXEMPLAR's def signature onto a member, and that member is
+    forward-declared in engine_core.h with a DIFFERENT signature (e.g. `s32 *a0` vs the exemplar's
+    `void *a0`), the member TU gets `conflicting types for func_X` and never compiles — the dominant
+    tiny-IMM mega-pool gate-block (Phase-29 T6, byte-proven). This maps each such fn to its CANONICAL
+    signature so `reconcile_def_sig` can rewrite the draft def to match (byte-neutral for pointer-type
+    param diffs; the whole-binary gate arbitrates anything else, G3/P9)."""
+    global _HDR_SIG_CACHE
+    if _HDR_SIG_CACHE is not None:
+        return _HDR_SIG_CACHE
+    smap = {}
+    for hdr in ("src/shared/engine_core.h", "src/shared/engine_types.h"):
+        path = os.path.join(REPO, hdr)
+        if not os.path.exists(path):
+            continue
+        for m in re.finditer(r'extern\s+([A-Za-z_][\w ]*?\**)\s*(func_[0-9A-Fa-f]+)\s*\(([^)]*)\)\s*;',
+                             open(path).read()):
+            ret, fn, params = m.group(1).strip(), m.group(2), " ".join(m.group(3).split())
+            smap.setdefault(fn, f"{ret} {fn}({params})")   # first (engine_core precedence) wins
+    _HDR_SIG_CACHE = smap
+    return smap
+
+
+def reconcile_def_sig(draft, to_func, smap):
+    """If `to_func` is forward-declared in a shared header, rewrite the draft's DEFINITION signature
+    (return type + param list) to that canonical decl, so the member TU stops seeing conflicting types.
+    Body param names come from the header decl (auto-generated a0/a1/... on both sides, so they align in
+    the common case; a rare name mismatch makes the body reference an undeclared name → the gate rejects
+    it, never a false bank). Returns the draft unchanged if the fn isn't in a header or no def is found."""
+    canon = smap.get(to_func)
+    if not canon:
+        return draft
+    # match the def line: `<ret...> to_func(<params>) {`  (allow ptr stars + multiword return type)
+    pat = re.compile(rf'(^|\n)[A-Za-z_][\w ]*?\**\s*{to_func}\s*\([^;{{]*\)\s*\{{')
+    m = pat.search(draft)
+    if not m:
+        return draft
+    return draft[:m.start()] + m.group(1) + canon + " {" + draft[m.end():]
+
+
 def stub_map(ov):
     """{addr: (src_rel, asm_subdir)} for every INCLUDE_ASM stub in this overlay's src (all split files).
 
@@ -233,6 +276,7 @@ def hseq_sweep(a):
     shutil.rmtree(os.path.join(REPO, SWEEP), ignore_errors=True)
     groups = collections.defaultdict(list)                     # (ov, src_rel, subdir) -> [fn]
     skip = collections.Counter()
+    hdrmap = header_sig_map() if getattr(a, "fix_def_sig", False) else {}
     for f in fams:
         exov, exaddr = f["exemplar"]["ov"], int(f["exemplar"]["addr"], 16)
         for ov, addr_s in f["members"]:
@@ -264,6 +308,8 @@ def hseq_sweep(a):
             # here (as it was for the jr sweeps). Demoting is byte-neutral and never worse than raw, and the
             # whole-binary gate remains the sole arbiter (G3/P9).
             to_func = f"func_{to_addr:08X}"
+            if hdrmap:                                          # T6: reconcile the def sig to the shared-header
+                draft = reconcile_def_sig(draft, to_func, hdrmap)   # decl (else `conflicting types` in the TU)
             tu_path = os.path.join(REPO, src_rel)
             tu = open(tu_path).read()
             mstub = re.search(rf'INCLUDE_ASM\("[^"]*",\s*{to_func}\);', tu)
@@ -321,6 +367,10 @@ def main():
     ap.add_argument("--allow-pins", action="store_true",
                     help="bypass the §42e pinned-exemplar skip: template WITH the register pins and let the "
                          "whole-binary byte-gate arbitrate (some pinned families bank ×134 per-sibling, e.g. func_8017A4AC).")
+    ap.add_argument("--fix-def-sig", action="store_true",
+                    help="T6: rewrite each member draft's DEF signature to the shared-header (engine_core.h) "
+                         "canonical decl, so a member forward-declared there with a different sig (e.g. s32* vs "
+                         "void*) stops throwing `conflicting types` and compiles. Byte-neutral; gate arbitrates.")
     ap.add_argument("--reconcile", default=None, metavar="RAWDIR",
                     help="M2 def-side-wall path: per (exemplar,sibling), symbol-remap the RAW draft in RAWDIR "
                          "then canon_sig_reconcile against the sibling TU (Q5-proven). Implies --no-preclassify.")

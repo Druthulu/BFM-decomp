@@ -2059,7 +2059,14 @@ DEFINE_func_8015DA90()  /* dedup: shared engine-core @0x8015DA90 (src/shared) */
 
 DEFINE_func_8015DAC4()  /* dedup: shared engine-core @0x8015DAC4 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_8015AE2C", func_8015DAF8);
+
+
+void func_8015DAF8(s32 *a0) {
+
+    extern void (*D_80189430[])(void);
+    D_80189430[*(u16 *)((s32)a0 + 0x2)]();
+}
+
 
 DEFINE_func_8015DB34()  /* dedup: shared engine-core @0x8015DB34 (src/shared) */
 
@@ -2610,7 +2617,14 @@ void func_8015FA78(s32 *a0) {
     func_8015FAAC(a0);
 }
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_8015AE2C", func_8015FAAC);
+
+
+void func_8015FAAC(s32 *a0) {
+
+    extern void (*D_80189500[])(void);
+    D_80189500[*(u16 *)((s32)a0 + 0x2)]();
+}
+
 
 // @class: struct
 // @stuck: none — MATCH expected (call-crossing s0=param_1; D_801891B8 fn-ptr dispatch; 0x184 |= 0x80000000)
@@ -2865,7 +2879,14 @@ void func_80160368(s32 *a0) {
     func_8016039C(a0);
 }
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_8015AE2C", func_8016039C);
+
+
+void func_8016039C(s32 *a0) {
+
+    extern void (*D_801895A0[])(void);
+    D_801895A0[*(u16 *)((s32)a0 + 0x2)]();
+}
+
 
 DEFINE_func_801603D8()  /* dedup: shared engine-core @0x801603D8 (src/shared) */
 

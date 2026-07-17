@@ -1319,3 +1319,37 @@ the splat-carve integration, logged for a future session. The tool + the byte-ne
 route each overlay's -O0 members through a shared-per-member header rather than leaving INCLUDE_ASM stubs
 in the split that splat re-disassembles. Testing that hypothesis is the cheap first move if/when the -O0
 pool is revisited; it may dissolve the +0x20 shift the same way the whale never hit it.
+
+### 2026-07-16 — P29 Task 6: the tiny-IMM mega-pools CRACKED (+4,801) — a def-signature conflict, after THREE byte-gate-corrected mis-diagnoses (R14/R35)
+
+**Context.** The two tiny-IMM mega-pools (`0x80131eec` 2887 + `0x80130d0c` 2679 members, ~15-ins jump-table
+dispatchers repeated per location) were the biggest unbanked pool (~5,116). `family_sweep --hseq` banked
+**1/4966 (0.0%)** — a total block.
+
+**Three wrong diagnoses, each refuted by the byte-gate/build (the R35 lesson, live, three times).** (1) I
+first read `diff_regions`'s `O2:MATCH(0)` as "just a symbol-definition gap" and committed that finding
+(`commit:0665`) — WRONG: masked_diff masks `%hi/%lo`, so a masked-MATCH cannot prove the reloc target resolves.
+(2) I traced it to a "splat-local undefined symbol" — WRONG: the symbol (`D_801815EC`) is a defined `dlabel`
+in the data tail. (3) The failure is a **compile** error, not a link/symbol issue: substituting one member
+draft gave `conflicting types for func_8015FAAC` (cc1 exit 33), and the `family_sweep --reconcile`
+(canon_sig_reconcile) path also banked **0/2470**. Only reading the *actual cc1 error* (not the masked
+metric) got the truth.
+
+**The byte-proven root cause + fix.** `src/shared/engine_core.h` forward-declares the member
+(`extern void func_8015FAAC(s32 *a0);` — a shared engine fn CALLS it), while `family_remap` copies the
+EXEMPLAR's signature (`void *a0`) onto the member's def → `conflicting types` → the member TU never
+compiles. (The exemplar `func_80131EEC` has NO engine_core.h decl, so it banks cleanly — that asymmetry is
+why the family templates in ov_SC01_077 but not its members.) Fix = **reconcile the member draft's DEF
+signature to the shared-header canonical** (`s32 *a0` not `void *a0`) — byte-NEUTRAL (a pointer-type param
+diff doesn't change codegen; `(s32)a0` is identical), and the whole-binary gate arbitrates anything else
+(G3/P9). Implemented as `family_sweep --fix-def-sig` (`header_sig_map` + `reconcile_def_sig`, 1005 mapped
+fns). Result: pool 1 **2331/2470 (94%)**, pool 2 **2470/2496 (99%)** = **4,801 members banked**, one member
+hand-verified byte-identical first.
+
+**The generalizable lesson (this is the FOURTH instance of one class).** `family_sweep` must reproduce every
+build step the member's own bank requires — the §53 carve, the -O0 flag (Task 1), AND now the member's
+CANONICAL DECLARATION when a shared header forward-declares it. The plain sweep's premise ("remapped drafts
+are self-contained") is false whenever `engine_core.h` already declares the member with a caller-derived
+signature. `--fix-def-sig` should likely be default-on for the h_seq path. And the meta-lesson, hammered
+three times in one task: **a masked/intermediate MATCH is a candidate, never a diagnosis — reproduce the
+real build and read the real error before naming the cause (R35).**

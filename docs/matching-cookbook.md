@@ -3979,3 +3979,27 @@ The 0/8 was cited as the decisive input for two phases of planning. Three compou
 **Before a 0% retires a lever, ask: did I run the steps the exemplar's own bank required? is this family
 representative of the class I'm generalizing to? was the corroborating evidence taken through the same
 broken tool?** A 0% from a broken tool and a 0% from a working one are the same number and opposite facts.
+
+## §54 — `--fix-def-sig`: the member's CANONICAL DECLARATION is a build step too (tiny-IMM mega-pools, +4,801, Phase 29 T6, 2026-07-16)
+
+The §53 law — *sweep a family with the tool its exemplar needed* — has a fourth instance beyond the jr-carve
+(§53) and the -O0 flag (Task 1): **the member's shared-header declaration.** The two tiny-IMM mega-pools
+(`0x80131eec`, `0x80130d0c`; ~15-ins jump-table dispatchers `D_x[*(u16*)(a0+2)]()`, ~2600 members each) banked
+**1/4966 (0.0%)** via plain `family_sweep --hseq` AND **0/2470** via `--reconcile` (canon_sig_reconcile).
+
+**Root cause (byte-proven, after 3 masked-metric mis-reads — see decision-log 2026-07-16):** `family_remap`
+copies the EXEMPLAR's def signature onto each member. When a member is **forward-declared in
+`src/shared/engine_core.h`** with a caller-derived signature (a shared engine fn calls it:
+`extern void func_8015FAAC(s32 *a0);`) that *differs* from the exemplar's (`void *a0`), the member TU throws
+`conflicting types for func_X` (cc1 exit 33) and never compiles. The exemplar itself has no such header decl
+(that asymmetry is why the family templates in ov_SC01_077 but not its members). This is INVISIBLE to
+`diff_regions`/`match_one`/`masked_diff` (they compile the draft STANDALONE, so no header decl to conflict
+with → they report `O2:MATCH(0)`), and to `--reconcile` (it reconciles against the sibling TU's local decls,
+not the *included* header).
+
+**The fix — byte-neutral, gate-arbitrated.** `family_sweep --fix-def-sig` (`header_sig_map` parses the 1005
+`extern … func_X(…)` decls in `engine_core.h`/`engine_types.h`; `reconcile_def_sig` rewrites the member draft's
+DEF sig to that canonical). A pointer-type param diff (`s32*` vs `void*`, `(s32)a0` identical) doesn't change
+codegen; the whole-binary gate rejects anything that does (G3/P9). Result: pool 1 **94%**, pool 2 **99%** =
+**4,801 banked**. Consider making `--fix-def-sig` default-on for the h_seq path. Meta: a masked/standalone MATCH
+is a candidate, never a diagnosis — reproduce the real member TU and read the real cc1 error (R35).
