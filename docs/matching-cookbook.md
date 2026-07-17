@@ -4118,3 +4118,27 @@ conflicts, ~5 gate iterations):
 until `make clean && extract-all && check-all` = 140/140. func_8013FAF8: 140/140, +312 ins ×1 (propagate ×137
 is the separate §55b step). **The README's "pure def-sig plumbing" undersold it** — a giant is a *multi-symbol*
 reconciliation; budget ~5 gate iterations, not one edit.
+
+### §56b — PROPAGATING an h_seq giant: the exemplar's externs MUST be fleet-canonical, not the draft's types
+
+An h_seq family (masked-identical body, per-overlay symbol names/reloc targets) propagates via
+`family_sweep --hseq --only <addr> --source <exemplar> --allow-pins` — it copies the exemplar's matched C
+into each member and **remaps the per-overlay data symbols** (the undefined-`D_xxxxxxxx`-reference the raw
+exemplar throws in a member is exactly what the remap resolves; a manual `harvest_verify` of the raw exemplar
+into a member is NOT a valid family test — only `family_sweep` remaps). But it copies the exemplar's **extern
+block VERBATIM** (only the data symbols are remapped, not the callee-extern *types*). So if your hand-crafted
+exemplar declared a callee with a type that diverges from the **fleet-canonical** (the member consensus /
+`engine_core.h`), *every* member TU throws `conflicting types for func_Y` and the whole sweep banks **0/137**.
+
+**The fix (byte-neutral, unblocks the entire family in one edit):** before sweeping, audit every callee extern
+in the banked exemplar against the fleet-canonical —
+`grep -rh 'extern.*\bfunc_Y\b' src/ov_*/ | sort | uniq -c | sort -rn | head -1` — and rewrite the exemplar's
+decl to the high-count consensus form. Return-type and pointer↔int param diffs are byte-neutral (gcc-2.7.2
+warns, doesn't error; the call's arg *values* are unchanged, and a discarded/`(cast)`-assigned return emits
+identically). func_8013FAF8 had **4** divergent externs (`func_8005A600` void→s32, `func_80024054`
+s32→void*, `func_80137D08` s32*→int, `func_8013AB54` s32*→s32); aligning them in the *committed* exemplar
+`.c` (family_sweep reads the tree, not your `.run/` draft) took the sweep from **0/137 → 137/137 banked**,
++312 ins ×137 ≈ +42.7k ins, R22 clean-fleet 140/140. Meta: a hand-authored exemplar carries the *drafter's*
+type guesses; the fleet already voted on the canonical — make the exemplar agree before it becomes the template.
+(Contrast the h_exact path — `dedup_propagate --recover` — which auto-reconciles conflicting *caller* externs;
+`family_sweep` does not, so you pre-align the *callee* externs by hand.)

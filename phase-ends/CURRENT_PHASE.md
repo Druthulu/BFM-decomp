@@ -187,6 +187,16 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   non-first jump table `.align 3` (8-aligned) but the original island packs it 4-aligned → +4B padding → island +4 →
   every downstream data symbol shifts → %lo relocs break image-wide (+5B, 3077 diffs, byte-proven). A jtbl_carve
   8-align/isolation fix would unlock ~4 giants × ~137 members — a real lever, flagged as a distinct tooling task.
+- **✅ 2026-07-17 — func_8013FAF8 PROPAGATED x137 (h_seq family sweep) → giant DONE fleet-wide.** h_seq (not
+  h_exact, so dedup_propagate refused it: reach<2); path = `family_sweep --hseq --only 0x8013FAF8 --allow-pins`
+  (per-overlay symbol remap). First sweep 0/137: family_sweep copies the exemplar's extern block VERBATIM and my
+  hand-crafted exemplar had 4 callee externs diverging from the fleet-canonical (func_8005A600 void→s32,
+  func_80024054 s32→void*, func_80137D08 s32*→int, func_8013AB54 s32*→s32) → every member `conflicting types`.
+  Aligning those 4 in the COMMITTED exemplar .c to the member-consensus form (byte-neutral; ov_SC01_077 stays
+  byte-identical) → re-sweep 137/137 banked, 0 failed. +312 ins x137 ≈ +42.7k ins. R22 clean-fleet 140/140.
+  Cookbook §56b (exemplar-externs-must-be-canonical for h_seq; contrast dedup_propagate --recover which
+  auto-reconciles CALLER externs). Both NON-jtbl giants now fully banked+propagated (func_8013FAF8 x137,
+  func_8014F4C0 x134); the 4 jtbl giants stay deferred on the 8-align carve gap.
 - **2026-07-17 — Task 3 core-crack wave: 13 agents → 7 MATCH → 5 BANKED ×1.** Ultracode `worker_wave`
   (13 xHigh drafters over 6 cores 260–371 ins + 7 B3 near-misses 100–141 ins; all had cached Ghidra-C).
   Wave hit a usage limit at 2/13, **resumed cleanly** (cached agents replay) → **13/13 done: 7 match / 6 near**.

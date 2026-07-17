@@ -1257,13 +1257,13 @@ extern s32  *func_80140958(s32 *, s32, s32);
 extern int   func_80141100(int);
 extern s16   func_8014168C(s16);
 extern s32   func_8013FFD8(s16, s32, s32 *);
-extern void  func_80024054(s32, void *);
+extern void func_80024054(void *a0, void *a1);
 extern s32  *func_800D2650(s32 *, void *, s32, s32, s32, s32);
-extern void  func_8005A600(s32, s32, s32, s32, s32);
+extern s32 func_8005A600(s32, s32, s32, s32, s32);
 extern s32   func_800D27DC(s32, s32 *, void *, s32, s32);
 extern s32  *func_800D29F8(s32, s32, void *, s32, s32);
-extern s32  *func_80137D08(s32 *, void *, s32);
-extern s32  *func_8013AB54(s32 *, u32 *, s32, s32);
+extern int func_80137D08(int arg0, int arg1, short arg2);
+extern s32 func_8013AB54(s32 a0, s32 a1, s32 a2, s32 a3);
 
 extern s32    D_801151D0;
 extern u16    D_8011511A;
