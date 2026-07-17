@@ -160,6 +160,12 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   fleet **instr 70.4→71.0% · distinct 52.3→53.2% · fn-count 84.94→86.30%**; dedup 1840/0; 0 NON_MATCHING.
   §54 cookbook + R31 decision-log. The 4th "reproduce the build step" instance (§53-carve, -O0-flag,
   now the member's canonical DECLARATION). `--fix-def-sig` likely should be default-on for the h_seq path.
+- **2026-07-16 — broad `--fix-def-sig` harvest = TAPPED beyond the mega-pools (+19).** Fleet-wide
+  `--band substantial` (17) + `--band tiny` (2) with `--fix-def-sig` (all families, not just the 2 pools) =
+  **19 more members** banked (the def-sig conflict was highly concentrated in the 2 tiny-IMM mega-pools;
+  8491 tiny members now skip as not-stub). R22 clean-fleet **140/140**; fleet instr 71.0% (steady) /
+  distinct 53.2→53.3% / fn-count 86.30%. Task 6 mega-pool track COMPLETE. **Remaining Task 6:** the permuter
+  backlog sweep (the 550 close-1..4 drafts via grinder/permuter_ils) — separate track, not yet run.
 - **2026-07-16 — Task 2 (Arm A) DONE = swing verdict → banked fact + wall characterized.** New tool
   `tools/rollout_o0_cluster.py` + Makefile `O0_CLUSTER_OBJS` -O0 wildcard. Carved 4 SC07 tail overlays;
   byte-neutrality gate (clean R22): **ov_SC07_010 byte-identical, 006/007/011 FAIL** (+0x20 splat

@@ -4,15 +4,15 @@
 # cross-binary collapsible-byte leverage: docs/duplicates.cross.md.
 
 # THREE progress metrics (all matter — see the labels):
-FLEET fn-count byte-ident: 305250 / 353722 = 86.30%   (REAL+LINKED+empties; FUNCTION-count, ×134-inflated — one crack counts per overlay)
-FLEET instr-weighted     : 9283489 / 13081451 = 71.0%   (shipped .text across resident+138 overlays; the decomp.dev-DISPLAY number)
-FLEET distinct-code(uniq): 2968120 / 5574674 = 53.2%   (59884/87459 unique fns; the DISTINCT-RE number)
+FLEET fn-count byte-ident: 305269 / 353722 = 86.30%   (REAL+LINKED+empties; FUNCTION-count, ×134-inflated — one crack counts per overlay)
+FLEET instr-weighted     : 9285844 / 13081451 = 71.0%   (shipped .text across resident+138 overlays; the decomp.dev-DISPLAY number)
+FLEET distinct-code(uniq): 2969937 / 5574674 = 53.3%   (59896/87459 unique fns; the DISTINCT-RE number)
 MAIN game-code weighted  :     436 / 60201 = 0.7%   (Phase-27 T10; SEPARATE — LINKED-excluding Ghidra sig dated 2026-06-14, PROVISIONAL until a fresh/complete main sig; NOT folded into the fleet number)
 
-FLEET REAL substantive   : 303395   (of which dedup-shared 233341 via 1840 groups / 233385 instances)
+FLEET REAL substantive   : 303414   (of which dedup-shared 233341 via 1840 groups / 233385 instances)
 FLEET LINKED PsyQ objs   :    959
 FLEET NON_MATCHING       :      7   (0 in any default build — G4)
-FLEET INCLUDE_ASM stubs  :  48465
+FLEET INCLUDE_ASM stubs  :  48446
 FLEET matchable          : 353722
 
 | binary | REAL | shared | LINKED | byte-ident | matchable | byte-ident % |
@@ -155,5 +155,5 @@ FLEET matchable          : 353722
 | ov_SC07_007 | 1974 | 1544 | 0 | 2058 | 2614 | 78.7% |
 | ov_SC07_008 | 2166 | 1693 | 0 | 2166 | 2386 | 90.8% |
 | ov_SC07_009 | 2176 | 1693 | 0 | 2178 | 2430 | 89.6% |
-| ov_SC07_010 | 1972 | 1544 | 0 | 2055 | 2526 | 81.4% |
-| ov_SC07_011 | 1970 | 1543 | 0 | 2050 | 2450 | 83.7% |
+| ov_SC07_010 | 1987 | 1544 | 0 | 2070 | 2526 | 81.9% |
+| ov_SC07_011 | 1974 | 1543 | 0 | 2054 | 2450 | 83.8% |
