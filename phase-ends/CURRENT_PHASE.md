@@ -236,3 +236,17 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   (§52b fact)**. R22 clean-fleet **140/140 byte-identical**; fleet 70.4% instr / 52.3% distinct / 84.94%
   fn-count; dedup 1840/0; main 143dbb89. Full -O0 fleet rollout DEFERRED (splat wall on 3/4 + jr-embedded
   on 134 + ROI vs Task 3/6). R31 writeup in `docs/decision-log.md`. Logs `.run/armA_*`.
+- **✅ 2026-07-17 — Task 4 giant-bank #1: `func_8013FAF8` (312) BANKED ×1 in ov_SC01_077** (whole-binary
+  byte-identical; R22 clean-fleet **140/140**). The README billed it "pure def-sig plumbing" but it was a
+  **multi-symbol reconciliation** (3 data + 2 fn conflicts, ~5 gate iterations) — distilled to cookbook **§56**.
+  Fixes, all byte-neutral + gate-arbitrated: **(1)** def-sig s16/s16 vs canonical s32/s32 → **narrowed the extern
+  fleet-wide** (404 decls / 266 files; NOT `--fix-def-sig` — that rewrites the DRAFT to the canon and the s32
+  variant diverges at insn 22; verified via `match_one` R35). All callers pass `(s16)`-cast/small-const → neutral.
+  **(2)** 3 data-symbol conflicts (`D_80115128` lh, `D_800B9A02` lhu, `D_80187AC0` s32[]) declared BEFORE the
+  splice (block-scope §55a-blocked) → the TU's **§18 cast-at-use-site** convention (`*(s16*)&`, `*(u16*)&`,
+  `((s32*)&sym)[i]`) — forces the load width regardless of decl signedness, keeps the TU decl untouched,
+  propagation-safe. No CSE-hoist across 5 uses. **(3)** 2 fn-extern conflicts (`func_8013FFD8` s16 arg0,
+  `func_80141100` int(int)) → reconciled draft decl to the TU def + byte-neutral call-site cast. Still MATCH
+  312/312. Stubs 138→137, defs 1, 0 NON_MATCHING (G4). Resolved draft `.run/drafts_faf8/func_8013FAF8.c`.
+  **NEXT:** giant #2 `func_80131340` (424, _jr_8012ACE0.c — in-TU-verified twice, earlier "gate reject" was a
+  §55b propagate-damage artifact; re-gate on the clean tree). Propagation of all banked giants = batched (§55b).

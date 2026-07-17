@@ -917,7 +917,7 @@ extern void func_8013E83C();
 extern void func_8013E958();
 extern s32 func_80141C50(void);
 extern void func_8013F244(void);
-extern void func_8013FAF8(s32 a0, s32 a1);
+extern void func_8013FAF8(s16 a0, s16 a1);
 extern void func_8013E958(void);
 extern u8 D_801151C8[];
 extern s32 D_801151D0;

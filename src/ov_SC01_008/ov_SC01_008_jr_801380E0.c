@@ -2290,7 +2290,7 @@ DEFINE_func_8013EA54()  /* dedup: shared engine-core @0x8013EA54 (src/shared) */
 
 extern s32 func_80141C50(void);
 extern void func_8013F350(void);
-extern void func_8013FAF8(s32 a0, s32 a1);
+extern void func_8013FAF8(s16 a0, s16 a1);
 extern s16 func_8014168C(s16 a0);
 extern s32 func_8014032C(s32 a0, s32 a1);
 extern void func_80139954(void);
@@ -2369,7 +2369,7 @@ extern s16 D_80180B08;
 extern s16 D_80180B0A;
 extern unsigned char D_80180B0C;
 extern void func_801376E8(int a0, int a1);
-extern void func_8013FAF8(s32 a0, s32 a1);
+extern void func_8013FAF8(s16 a0, s16 a1);
 extern unsigned char *func_80141CA4(void);
 
 // @class: struct

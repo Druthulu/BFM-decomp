@@ -15175,7 +15175,7 @@
 #define DEFINE_func_8013ED6C() \
     extern s32 func_80141C50(void); \
     extern void func_8013F350(void); \
-    extern void func_8013FAF8(s32 a0, s32 a1); \
+    extern void func_8013FAF8(s16 a0, s16 a1); \
     extern void func_8013E958(void); \
     extern short D_800B9A02; \
     extern u8 D_801151C8[]; \
@@ -20242,7 +20242,7 @@
 #define DEFINE_func_8013EA54() \
     extern s32 func_80141C50(void); \
     extern void func_8013F244(void); \
-    extern void func_8013FAF8(s32 a0, s32 a1); \
+    extern void func_8013FAF8(s16 a0, s16 a1); \
     extern void func_80137B80(void); \
     extern void func_8013E958(void); \
     extern void func_8002D4C8(s32 a0, s32 a1); \

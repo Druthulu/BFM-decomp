@@ -4073,3 +4073,48 @@ DEF sig to that canonical). A pointer-type param diff (`s32*` vs `void*`, `(s32)
 codegen; the whole-binary gate rejects anything that does (G3/P9). Result: pool 1 **94%**, pool 2 **99%** =
 **4,801 banked**. Consider making `--fix-def-sig` default-on for the h_seq path. Meta: a masked/standalone MATCH
 is a candidate, never a diagnosis — reproduce the real member TU and read the real cc1 error (R35).
+
+## §56 — Banking a hand-drafted GIANT into its exemplar TU: self-contained draft vs live-TU decls, 4 reconciliation tactics (`func_8013FAF8`, 312 ins ×138, Phase 29 T4, 2026-07-17)
+
+A hand-crafted giant draft is **self-contained** (its own typedefs + externs) so `match_one` can compile it
+standalone. Splicing it into its live exemplar TU surfaces decl conflicts the standalone compile is blind to
+(same blind spot as §54, but a GIANT touches dozens of symbols). `harvest_verify` strips the typedefs the TU
+already provides (per-TU strip-set) but **NOT the externs** — those you reconcile by hand. Every fix below is
+byte-neutral and re-verified two ways: `match_one` must stay green AND the whole-binary gate must stay
+byte-identical (G3/P9). The loop: `harvest_verify --binary <exemplar> --drafts <isolated-dir>` → it prints ONE
+`PLUMBING: <cc1 line>` per fail. **That classifier line is often a red herring** — it grabs the FIRST
+`conflicting types` in stderr, which may be a pre-existing benign warning (`conflicting types for built-in
+function memcpy`, present in the 140/140 baseline). Get the FULL cc1 stderr (splice manually, `make build
+BINARY=<ov> 2>&1 | grep error`) and fix the REAL errors bottom-up.
+
+The four conflict classes and their byte-neutral fixes (all proven on func_8013FAF8: s16/s16 def, 3 data + 2 fn
+conflicts, ~5 gate iterations):
+
+1. **Def-sig conflict** (draft `void func_X(s16,s16)` vs the fleet-canonical `extern void func_X(s32,s32)`,
+   404 decls). **NARROW the extern fleet-wide s32→s16** — NOT `--fix-def-sig`. `--fix-def-sig` rewrites the
+   DRAFT to the canon; here the s32 def diverges from the target at insn 22 (the `for(i=arg0;i<arg1)` compare
+   promotes differently). **Direction test (R35):** the correct direction is whichever keeps `match_one` green
+   — test the canon-typed variant explicitly before assuming `--fix-def-sig`. Byte-neutral iff EVERY fleet
+   caller passes cast/small-const args — verify (`grep -rh 'func_X('`): here all were `(s16)`-cast or `0/5/7/8`.
+
+2. **Data-symbol conflict, file-scope decl BEFORE the splice point** (block-scope is §55a-BLOCKED — a
+   block-scope extern after the file-scope one is cc1 exit 33). Use the TU's established **§18 cast-at-use-site**
+   convention: `*(s16*)&D_80115128` (forces `lh`), `*(u16*)&D_800B9A02` (forces `lhu`),
+   `((s32*)&D_80187AC0)[i]` — the cast fixes the load width **independent of the decl's signedness**, so you
+   keep the TU's existing decl untouched and there is **no conflict at all**. This is also **propagation-safe**:
+   unlike block-scope, it carries no macro-slot-ordering dependency across the 137 member TUs. Caveat (§18):
+   `&sym` can CSE-hoist across many uses in a tight loop — verify it didn't (func_8013FAF8: 5 uses of
+   `&D_800B9A02`, no hoist; giants with few uses/symbol are safe, re-test if a symbol is hammered in an inner loop).
+
+3. **Data-symbol conflict, file-scope decl AFTER the splice** — block-scope extern is legal here (§55a), but
+   **prefer the tactic-2 cast form anyway** for propagation safety (the member TUs won't share the ordering).
+
+4. **Function-extern conflict** (draft `extern s32 func_Y(s32,…)` vs the TU's own DEF `func_Y(s16,…)` /
+   `int func_Z(int)`): reconcile the DRAFT's decl to the TU's type + a byte-neutral call-site cast, e.g.
+   `ot = (s32*)func_80141100((int)ot)`. Pointer↔int and s16↔s32-of-an-already-sign-extended-value are free.
+
+**Then R22 clean-fleet (mandatory):** the tactic-1 narrowing edits `engine_core.h` (404 decls, 266 files) —
+`harvest_verify` gates only the exemplar binary, so the fleet-wide byte-neutrality of the narrowing is unproven
+until `make clean && extract-all && check-all` = 140/140. func_8013FAF8: 140/140, +312 ins ×1 (propagate ×137
+is the separate §55b step). **The README's "pure def-sig plumbing" undersold it** — a giant is a *multi-symbol*
+reconciliation; budget ~5 gate iterations, not one edit.
