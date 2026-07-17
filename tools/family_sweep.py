@@ -19,6 +19,7 @@ compile and are logged for the decl-reconcile pass; they are NOT remap failures.
 import json, glob, re, subprocess, os, sys, shutil, collections, argparse
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import family_remap as FR
+import family_hseq                     # §53 interlock — the ONE has_mid_jr oracle (R33, shared with dedup_extend)
 import canon_sig_reconcile as CSR      # v3.2 (Phase-25 T7-M2 per-sibling re-reconcile, Q5-proven)
 from scope_data_externs import fix as scope_data_fix   # §8d (Phase-26 session 8)
 
@@ -266,6 +267,27 @@ def hseq_sweep(a):
             os.path.join(REPO, a.reconcile_raw, f"func_{int(f['exemplar']['addr'], 16):08X}.c"))]
     if a.min_members > 1:
         fams = [f for f in fams if f["n_members"] >= a.min_members]
+
+    # ---- §53 INTERLOCK: a has_mid_jr family CANNOT bank through this carve-less path.
+    # Its exemplar's own bank required a jump-table carve (jtbl_family_bank / the §8 rodata workflow);
+    # sweeping it here just burns gate cycles and returns 0% — and a 0% from the WRONG tool is the exact
+    # artifact that manufactured the Phase-26 "structural families ≈0% / don't template" doctrine and
+    # steered two phases of strategy (§53, Phase-28 T1). So SKIP them LOUDLY and name the right tool,
+    # rather than let the omission read as a wall. `has_mid_jr` comes from the manifest (family_hseq
+    # already derived it off the exemplar's words — R33: one oracle, don't re-derive).
+    # --allow-jr is the escape hatch (the whole-binary byte-gate remains the sole arbiter, G3/P9).
+    jr_fams = [f for f in fams if f.get("has_mid_jr")]
+    if jr_fams and not getattr(a, "allow_jr", False):
+        fams = [f for f in fams if not f.get("has_mid_jr")]
+        skipped_members = sum(f["n_members"] for f in jr_fams)
+        print(f"[hseq] §53 INTERLOCK: skipping {len(jr_fams)} has_mid_jr family(ies) "
+              f"({skipped_members} member-slots) — they need the jtbl carve, NOT this sweep.\n"
+              f"        route: tools/jtbl_family_bank.py <func> <from_ov> <from_addr> <members.json>\n"
+              f"        (a 0% from this path would be a TOOL artifact, not a wall — §53. "
+              f"Override with --allow-jr if you mean it.)")
+        for f in jr_fams[:8]:
+            print(f"          jr-family exemplar {f['exemplar']['addr']} band={f['band']} n={f['n_members']}")
+
     fams.sort(key=lambda f: -f["byte_weight_templatable"])
     if a.limit:
         fams = fams[:a.limit]
@@ -367,6 +389,10 @@ def main():
     ap.add_argument("--allow-pins", action="store_true",
                     help="bypass the §42e pinned-exemplar skip: template WITH the register pins and let the "
                          "whole-binary byte-gate arbitrate (some pinned families bank ×134 per-sibling, e.g. func_8017A4AC).")
+    ap.add_argument("--allow-jr", action="store_true",
+                    help="§53 escape hatch: sweep has_mid_jr families through this carve-less path anyway "
+                         "(they normally need tools/jtbl_family_bank.py). The whole-binary byte-gate stays "
+                         "the sole arbiter, but expect ~0% — and do NOT read that 0% as a wall.")
     ap.add_argument("--fix-def-sig", action="store_true",
                     help="T6: rewrite each member draft's DEF signature to the shared-header (engine_core.h) "
                          "canonical decl, so a member forward-declared there with a different sig (e.g. s32* vs "

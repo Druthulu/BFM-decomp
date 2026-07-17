@@ -48,7 +48,21 @@ function drafterPrompt(t, draftDir) {
   // (asm/ov_SC01_077/nonmatchings/ov_SC01_077_a/<fn>.s). Derive the dir so the match_one
   // self-check finds the right .s; fall back to the main subdir if t.asm is absent.
   const asmSubdir = (t.asm && t.asm.indexOf('/') >= 0) ? t.asm.replace(/\/[^/]+$/, '') : ASM_SUBDIR
-  return `Match ONE MIPS function for the Brave Fencer Musashi PS1 matching decompilation (overlay ov_SC01_077).
+  // -O0 targets (the ov_SC01_077_o0 cluster / whale _o0b): the TU is compiled -O0 by a Makefile
+  // target-specific CC1FLAGS, so match_one MUST self-check with --o0 or the agent iterates against
+  // the WRONG build step (the Phase-29 Task-1 trap that manufactured the "~3%" swing number: a -O0
+  // target compiled -O2 can NEVER match). §53/§54 law: reproduce every build step the target needs.
+  const o0flag = t.o0 ? ' --o0' : ''
+  const o0note = t.o0
+    ? `\n-O0 TARGET (this fn lives in an -O0-compiled split, ${asmSubdir}). Your match_one self-check MUST pass --o0
+  (already included below). Read COOKBOOK §18 + §18-P29: this cluster's classic residual is the %lo-fold on
+  indexed global access — our cc1 materializes the address (lui;addiu;addu;sw 0(reg)) where the original folds
+  %lo (lui;addu idx;sw %lo(sym)(reg), 1 ins shorter). The CRACK (§18/T3a, byte-proven) is the ARRAY-OF-STRUCT
+  idiom: \`extern Struct base[];\` with sizeof(Struct)==stride, then \`base[i].field\`. Do NOT write
+  \`*(T*)(&sym + i*stride)\` — that materializes &sym. At -O0 there is no DCE, so an unused local reserves its
+  var region (frame-pad induction, §42 lever 3) with zero body instructions.\n`
+    : ''
+  return `Match ONE MIPS function for the Brave Fencer Musashi PS1 matching decompilation (overlay ov_SC01_077).${o0note}
 GOAL: write C that the pinned compiler (gcc-2.7.2-psx -O2 -G0 -mips1 -mcpu=3000 -mgas -msoft-float -fgnu-linker + maspsx --aspsx-version=2.56 --expand-div) compiles to BYTE-IDENTICAL machine code.
 
 TARGET: ${t.name} @ ${t.addr} — ${t.nins} instructions, class hint "${t.class}".${prior}${giant}
@@ -80,7 +94,7 @@ PROCESS (you have Bash + Read):
      // @class: <one of: regalloc-order | schedule | remat | struct | iv-combine | loop-guard | loose-typing | plumbing | other>
      // @stuck: <one concrete line on the residual that remains, or "none — MATCH">
 3. Self-check (fast relocation-masked proxy for the byte-gate):
-   .venv/bin/python tools/match_one.py ${t.name} --c ${draftDir}/${t.name}.c --asm-subdir ${asmSubdir}
+   .venv/bin/python tools/match_one.py ${t.name} --c ${draftDir}/${t.name}.c --asm-subdir ${asmSubdir}${o0flag}
    - "MATCH (N ins)"  => byte-identical (relocation-masked). You nailed it. Stop.
    - "N mismatched"   => N instructions differ. Apply the toolkit, iterate to reduce N.
 4. Iterate a few times; KEEP THE BEST draft in the file (always leave a file, even if imperfect —
