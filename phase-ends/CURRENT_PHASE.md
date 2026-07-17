@@ -48,6 +48,21 @@ arithmetic scales (R14/R35).** Every prior "structural wall" (B2, SC07, pin-cras
       sample (nins 2..133): O0-FLAG 45 · already-banked 29 · TEMPLATES 17 · type-lift-plumbing 15 ·
       **REGALLOC 0**. Ceiling ≫ 3%; the pool is back on the table. → `calibration.md` + `decision-log.md`.
       (masked-MATCH = candidate; whole-binary bank is Task 2a's gate, §52b.)
+> **🛑 SESSION CHECKPOINT (2026-07-17) — safe to open a FRESH session here.**
+> Tree clean, **140/140 byte-identical**, `tools-health` green, dedup 1843/0, 0 NON_MATCHING, main
+> `143dbb89`. Fleet: **71.4% instr · 53.3% distinct-code · 86.42% fn-count** (opened at 68.9/49.5/83.94).
+> **Tasks 1, 2, 3, 6 DONE.** Remaining: **Task 4** (member harvest behind each crack + grinder
+> family-warm-start + the 2 Phase-22 grinder bug-fixes), **Task 5** (fleet Ghidra-C prefetch — needs
+> `/mcp`, R23/R29), **Task 7** (burn-down tracker + ROI-gated close).
+> **THE HIGHEST-VALUE NEXT MOVE:** bank the 12 preserved giants in `.run/giants/p29t3_README.md` — all
+> match_one-MATCH or near, each with its exact blocker and a cheapest-first order (`func_8013FAF8` 312 =
+> pure def-sig plumbing is the best value). They cost ~2.6M agent tokens; banking is plumbing, not drafting.
+> **Also carried:** the 2 local-type-blocked cores (`func_8014E284`, `func_80137DD4`) need the
+> `build_engine_types` type-lift to propagate ×137 (~+276 instances, ~0 tokens).
+> **READ FIRST:** cookbook **§55b** (the gate-orchestration law) — `--no-propagate` per group → commit the
+> banks → THEN one targeted `dedup_propagate --addr` (~233s/core). It is the distilled cost of ~3.5h I
+> lost this session.
+
 - [ ] ▶ **Task 2 — Act on the verdict [Max/xHigh]** — **branch = 2a (tooling).** Build the -O0-cluster
       split rollout (adapt `rollout_whale_o0.py` → per-overlay `[0x13410,c,<ov>_o0]` carve, -O0 Makefile
       rule) + teach `family_sweep --hseq` per-member opt-level awareness; WHOLE-BINARY gate one overlay
@@ -190,6 +205,22 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   member-gate was failing/retrying. **On a healthy tree a targeted `--addr` propagate is ~233s/core**
   (`[ OK ] 138 overlays byte-identical`) — ~20× faster. Only `--auto-from` is genuinely fleet-slow.
   **A timing taken on a broken tree measures the breakage, not the tool** (§55c).
+- **✅ 2026-07-17 — TASK 3 COMPLETE (both deliverables) + 12 giant drafts preserved.**
+  **(a) The jr cores — 4/4 match_one MATCH, 0/4 banked (integration, not codegen).** A 2nd ultracode wave
+  cracked all four giants: `func_8013F350` (490), `func_80131340` (424, verified TWICE — standalone AND
+  in-TU cc1 rc=0), `func_80159C84` (337), `func_8013C414` (329, **-O0**). All four gate-rejected on
+  *plumbing* (def-sig / rodata-island / decl-conflict), each blocker NAMED. **`func_8013C414` only matched
+  because of the new `worker_wave --o0` fix** — against an -O2 self-check a -O0 target can never match
+  (the §53/§54 wrong-build-step trap, Task-1's "~3%" artifact). Drafts + exact blockers + a suggested
+  cheapest-first bank order → **`.run/giants/p29t3_README.md`** (12 drafts, tracked; ~2.6M agent tokens
+  to reproduce — do NOT re-draft, bank them).
+  **(b) The §53 `has_mid_jr` INTERLOCK — BUILT + negative-control-proven** (`commit:0670`): `family_sweep`
+  now refuses to sweep a `has_mid_jr` family carve-less, names `jtbl_family_bank`, and states that a 0%
+  from that path is a TOOL ARTIFACT not a wall. Uses the manifest's `has_mid_jr` (R33 — one oracle, shared
+  with `dedup_extend`). Verified: 11 jr families / 163 slots of 1418 sweepable; `--band substantial` skips
+  9 families / 155 slots (159→150); `--allow-jr` → 159 (does not skip). **It flags `0x8017bebc` (n=115) =
+  B2** — the very family whose missing carve manufactured the Phase-26 "≈0%" doctrine. That class of
+  self-inflicted wall is now structurally impossible.
 - **2026-07-16 — broad `--fix-def-sig` harvest = TAPPED beyond the mega-pools (+19).** Fleet-wide
   `--band substantial` (17) + `--band tiny` (2) with `--fix-def-sig` (all families, not just the 2 pools) =
   **19 more members** banked (the def-sig conflict was highly concentrated in the 2 tiny-IMM mega-pools;
