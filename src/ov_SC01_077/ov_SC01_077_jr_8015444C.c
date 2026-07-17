@@ -658,7 +658,7 @@ extern s32 func_8014F24C(struct SubF24C *a0);
 extern void func_8014F1F4(void);
 extern s32 func_8014F2E0(s32 a0, s16 *a1, s16 *a2);
 extern s32 func_8014F2E0(s32 arg0, s16 * arg1, s16 * arg2);
-extern s32 func_8014F4C0(void);
+extern s32 func_8014F4C0();
 extern s32 func_8014F468(void);
 extern int func_8014F74C();
 extern int func_8014F6F4(void);

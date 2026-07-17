@@ -1880,7 +1880,92 @@ DEFINE_func_80132288()  /* dedup: shared engine-core @0x80132288 (src/shared) */
 
 DEFINE_func_8013240C()  /* dedup: shared engine-core @0x8013240C (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_8012ACE0", func_801325B8);
+// @class: regalloc-order
+// @stuck: none — MATCH
+
+/* func_801325B8 — TMD-shaped MIMe apply (ov_SC01_077).
+ *
+ * Levers used (all §17/§49):
+ *  1. $a0 PIN on the rolling TMD base `p` (§17). The target re-materialises
+ *     `addu $a0,$s4/$s5,$zero` before each flags test; a plain `int p` is
+ *     copy-propagated away, so the copy must be forced with a hard-reg pin.
+ *  2. $s0/$s1/$s2 PINS on m/n/dv (§17 regalloc-ORDER). Unpinned, global.c's
+ *     density sort hands m=$s1, dv=$s0, n=$s2 — the exact inverse of the target.
+ *  3. Two-statement `ofs = ((x>>2)<<2) + 0xC; p + ofs;` — fold's `associate`
+ *     rewrites the single expression `p + t + 12` to `(p+t)+12` (addu;addiu);
+ *     splitting the statement keeps the target's `addiu $v0,$v0,0xC; addu`.
+ *  4. THE CLOSER (§49 birthing boost): `c = *(int*)(m+8); dv += c*8;` instead of
+ *     `dv += *(int*)(m+8)*8;`. As a fresh compiler temp the load's dest has
+ *     reg_n_sets==1, so sched1's birthing_insn_p hands it LAUNCH_PRIORITY
+ *     0x7f000001 and — scheduling BACKWARD — sinks it past the un-boosted
+ *     `lw $s1,0xC($s0)`, which then floats ahead of it in the .greg stream and
+ *     sched2's LUID tiebreak preserves the inversion. Routing the load through a
+ *     `c` that is assigned in BOTH halves makes reg_n_sets==2, the boost never
+ *     fires, both loads tie at priority 1, and the LUID tiebreak emits them in
+ *     source order. Zero-byte dial: same instructions, correct order.
+ */
+
+extern void memcpy();
+extern void gteMIMefunc();
+
+void func_801325B8(int dst, int src, int m0, int mm, int arg5)
+{
+    register int p __asm__("$4");
+    register int m __asm__("$16");
+    register int n __asm__("$17");
+    register int dv __asm__("$18");
+    int sv;
+    int ofs;
+    int c;
+
+    m = m0;
+    p = src;
+    if (*(int *)(p + 4) == 1) {
+        sv = *(int *)(p + 0xC);
+    } else {
+        ofs = (int)((*(unsigned int *)(p + 0xC) >> 2) << 2) + 0xC;
+        sv = p + ofs;
+    }
+    p = dst;
+    sv += *(int *)(m + 8) * 8;
+    if (*(int *)(p + 4) == 1) {
+        dv = *(int *)(p + 0xC);
+    } else {
+        ofs = (int)((*(unsigned int *)(p + 0xC) >> 2) << 2) + 0xC;
+        dv = p + ofs;
+    }
+    c = *(int *)(m + 8);
+    dv += c * 8;
+    n = *(int *)(m + 0xC);
+    m += 0x10;
+    memcpy(dv, sv, n * 8);
+    gteMIMefunc(dv, m, n, arg5);
+    if (mm != 0) {
+        m = mm;
+        p = src;
+        if (*(int *)(p + 4) == 1) {
+            sv = *(int *)(p + 0x14);
+        } else {
+            ofs = (int)((*(unsigned int *)(p + 0x14) >> 2) << 2) + 0xC;
+            sv = p + ofs;
+        }
+        p = dst;
+        sv += *(int *)(m + 8) * 8;
+        if (*(int *)(p + 4) == 1) {
+            dv = *(int *)(p + 0x14);
+        } else {
+            ofs = (int)((*(unsigned int *)(p + 0x14) >> 2) << 2) + 0xC;
+            dv = p + ofs;
+        }
+        c = *(int *)(m + 8);
+        dv += c * 8;
+        n = *(int *)(m + 0xC);
+        m += 0x10;
+        memcpy(dv, sv, n * 8);
+        gteMIMefunc(dv, m, n, arg5);
+    }
+}
+
 
 DEFINE_func_8013277C()  /* dedup: shared engine-core @0x8013277C (src/shared) */
 
@@ -3599,6 +3684,79 @@ int func_80137D08(int arg0, int arg1, short arg2)
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_8012ACE0", func_80137DD4);
+// @class: regalloc-order
+// @stuck: none — MATCH (129 ins)
+// Levers (all byte-gated via match_one, canonical-sig retyped):
+//  1. PsyQ P_TAG bitfield (addr:24/len:8) reproduces addPrim/setlen: the `lw;and 0xff000000;
+//     and 0xffffff;or;sw` RMW pairs + the byte-3 `sb` for len. (Same idiom as the banked
+//     ov_SC03_099 P_TAG_8013DD68 exemplar.)
+//  2. t/d SPLIT + `register s32 t __asm__("$4")` pin: the target keeps a real `d = t` copy
+//     (it fills the bgez delay slot, freeing the load-delay slot at idx 12 for `s5 = a2`).
+//     gcc coalesces d into t unless t is a hard reg -> global.c then records a t/d conflict
+//     at `e = t + 1` and the copy survives. Un-pinned = 5 off; pinning d instead cascades
+//     (subtarget stickiness), pinning t is the clean side.
+//  3. h12/h16 temps pinned to $2/$3: with only the $a0 pin, local-alloc TIES the first lhu's
+//     pseudo to $a0 (`lhu a0,0x12`), giving `subu a0,a0,v0` instead of `subu a0,v0,v1`.
+//     Pinning the two loads off the accumulator restores the target's operand regs. Ditto
+//     `e` -> $2 for `addiu v0,a0,1`.
+//  4. `volatile` on the 0x1f byte load: plain `*(s8 *)` (and every non-volatile variant --
+//     u8-local+cast, u32-local+cast, signed bitfield, packed bitfield) COMBINEs down to a
+//     single `lb`. The target's `lbu; sll 24; sra 24` needs combine blocked at the load.
+//  5. `e = t + 1` and `c1 = c + 1` as named temps: fold's `associate:` reassociates
+//     `p2E + (t + 1)` -> `(p2E + 1) + t` and `sub + (c + 1)` -> `(sub + c) + 1` when the
+//     `+1` is a live subtree; a VAR_DECL operand is opaque to split_tree. The split also
+//     orders `subu` before `addiu` to match.
+#include "common.h"
+
+extern void *func_80010A08(s32);
+extern void func_80137FD8(s32 a0, s32 a1, s32 a2, s32 a3);
+
+typedef struct { u32 addr : 24; u32 len : 8; u8 r0, g0, b0, code; } P_TAG_80137DD4;
+
+#define OTE ((P_TAG_80137DD4 *)((u32)*(u16 *)(ent + 0x1a) * 4 + *(s32 *)(work + 4)))
+
+void func_80137DD4(s32 ent, u8 *arg, u8 *work) {
+    register s32 t __asm__("$4");
+    s32 d, c, c1, sub, y;
+    u32 b;
+    P_TAG_80137DD4 *q, *r;
+
+    {
+        register u32 h12 __asm__("$2"), h16 __asm__("$3");
+        h12 = *(u16 *)(ent + 0x12);
+        h16 = *(u16 *)(ent + 0x16);
+        t = h12 - h16;
+    }
+    d = t;
+    if ((s16)t < 0) {
+        register s32 e __asm__("$2");
+        e = t + 1;
+        d = (u32)*(u16 *)(ent + 0x2e) + e;
+    }
+    b = *(volatile u8 *)(ent + 0x1f);
+    c = (s8)b;
+    sub = d - (u32)*(u8 *)(ent + 0x21);
+    c1 = c + 1;
+    y = (u32)*(u16 *)(ent + 0x32) + (s16)(sub + c1) * 0xe;
+
+    q = (P_TAG_80137DD4 *)func_80010A08(0x48);
+    *(u8 *)(arg + 3) = 0;
+    func_80137FD8(ent, (s32)arg, (s32)q, (s16)y);
+    q->addr = OTE->addr;
+    OTE->addr = (u32)q;
+
+    q = (P_TAG_80137DD4 *)((u8 *)q + 0x24);
+    *(u8 *)(arg + 3) = 1;
+    func_80137FD8(ent, (s32)arg, (s32)q, (s16)y);
+    q->addr = OTE->addr;
+    OTE->addr = (u32)q;
+
+    r = (P_TAG_80137DD4 *)func_80010A08(8);
+    r->len = 1;
+    *(u32 *)((u8 *)r + 4) = 0xe100000a;
+    r->addr = OTE->addr;
+    OTE->addr = (u32)r;
+}
+
 
 DEFINE_func_80137FD8()  /* dedup: shared engine-core @0x80137FD8 (src/shared) */

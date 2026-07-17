@@ -1159,7 +1159,122 @@ DEFINE_func_8014AD7C()  /* dedup: shared engine-core @0x8014AD7C (src/shared) */
 
 DEFINE_func_8014ADA8()  /* dedup: shared engine-core @0x8014ADA8 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_after", func_8014ADE0);
+// @class: plumbing
+// @stuck: none — MATCH. Verified TWICE: match_one 139/139 standalone, AND 139/139
+//   relocation-masked through the REAL src/ov_SC01_077/ov_SC01_077_after.c with all 481
+//   DEFINE_ macros expanded (cpp -> cc1 -> maspsx --expand-div -> as, exit 0, zero
+//   `conflicting types`). The in-TU compile is the check the prior draft never got: it
+//   ALSO hit match_one 139/139, but match_one compiles STANDALONE with the draft's own
+//   externs (§17a-1 / §20), so it never saw the two real in-TU decl conflicts below —
+//   that, not codegen, is why it was a B3-near-miss.
+//
+//   (1) DEFINE_func_80146128() @line 353 (BEFORE our slot @1162) declares
+//       `extern void func_8014ADE0(s32 a0);` -> the def sig MUST be `(s32 a0)`, not the
+//       prior draft's `struct Ent *`. Param reached via casts (`*(u16*)a0`), neutral.
+//   (2) DEFINE_func_8014B034() @line 1166 declares `extern s16 D_80078E90;` -> the prior
+//       draft's file-scope `extern s32 D_80078E90;` is a hard conflict. Fixed with a
+//       BLOCK-scope `extern s32 D_80078E90;` inside the function (see the note at the
+//       decl). NOTE the two forms that FAIL here, both measured:
+//         - `*(s32*)&D_80078E90` (the obvious "keep the s16 extern" dodge): the cast
+//           changes the type so gcc can't collapse `*(&x)`, the address becomes a real
+//           value, and with 4 uses CSE hoists it into a reg — ~100 insns shift. This is
+//           the §18 `&sym` materialization trap wearing a different hat.
+//         - file-scope `extern s32` — `conflicting types`, the original B3 blocker.
+//   Callee externs pinned to the exact sigs the in-TU DEFINE_ macros define (func_8014B154
+//   takes `s32*`, the rest `s32` args), with call-site casts (§17a-1).
+//   Structs dropped for raw casts: identical RTL, and it keeps the body free of local types
+//   so dedup_propagate (§19 compiles_standalone) can lift it.
+//
+// Codegen levers (byte-proven, retained from the prior draft):
+//   - base &D_80078E78 cached in a pointer local pinned to $s1 -> addr hoisted to the
+//     prologue, live across all calls (§17); direct array access instead folds %lo per use
+//     (no $s1, frame 0x18 not 0x20).
+//   - var_a1 as if/else-if (not "=4 then conditional 0xA") -> caller-saved $a1
+//     rematerialized into both beqz delay slots; the 0xA branch as fall-through fixes the
+//     2nd beqz polarity.
+//   - NO $s2 pin on temp_s2 -> gcc uses a fresh $a1 for (temp>>16) instead of clobbering
+//     $s2 in place, which also pushes the /60 magic 0x88888889 into $a2.
+//   - `*(s16*)(p+0x1A)` emits `lh` at the plain uses but `lhu; sll; sra` inside the /60:
+//     gcc-2.7.2's extendhisi2 force_not_mem's the HImode mem, and combine only folds the
+//     shift-pair back into `lh` when the `x<<16` temp has ONE use — the division needs it
+//     twice (sra 16 for the value, sra 31 for the sign fix), so it stays unfolded.
+
+extern u8 D_80078E78[];
+
+extern s32 func_8016F1C4(void);
+extern s32 func_8014B154(s32 *a0);
+extern void func_8014BD24(s32 a0, s32 a1);
+extern void func_8014BB24(s32 a0, s32 a1, s32 a2);
+extern void func_8014BC80(s32 a0, s32 a1);
+extern void func_8014BD60(s32 a0, s32 a1);
+extern void func_8014B084(void);
+extern s32 func_80029178(s32 a0);
+
+void func_8014ADE0(s32 a0)
+{
+    /* BLOCK-scope extern: the s32 view of the accumulator. The only file-scope decl of
+     * this symbol in the TU is `extern s16 D_80078E90;` from DEFINE_func_8014B034(),
+     * instantiated at line 1166 — AFTER our slot at 1162 — so gcc-2.7.2 emits only
+     * "warning: type mismatch with previous external decl" (probe-verified, exit 0, no
+     * -Werror in the build) instead of a hard `conflicting types` error. Unlike
+     * `*(s32*)&D_80078E90`, this keeps the symbol_ref INSIDE the mem so each access folds
+     * to `lui %hi / lw %lo`; taking the address instead materializes it and CSE hoists it
+     * into a reg across all 4 uses (§18 &sym trap) — measured, it shifts ~100 insns. */
+    extern s32 D_80078E90;
+    register u8 *p __asm__("$17") = D_80078E78;
+    s32 temp_s2;
+    s32 var_a1;
+
+    if (func_8016F1C4() != 0) {
+        return;
+    }
+    if ((*(u16 *)a0 == 0x1A) || (*(u16 *)a0 == 0x1E) || (*(s32 *)(a0 + 0x44) & 0x10)) {
+        return;
+    }
+    temp_s2 = D_80078E90;
+    if (func_8014B154((s32 *)a0) != 0) {
+        D_80078E90 = D_80078E90 + 0xAAA8;
+    } else {
+        D_80078E90 = D_80078E90 + 0x1555;
+    }
+    if ((*(s16 *)(p + 0x1A) - (temp_s2 >> 16)) > 0) {
+        if (p[0x49] == 3) {
+            func_8014BD24(a0, 1);
+        }
+    }
+    if (((s16)(*(s16 *)(p + 0x1A) / 60) - (s16)((s16)(temp_s2 >> 16) / 60)) > 0) {
+        if (func_8014B154((s32 *)a0) == 0) {
+            var_a1 = 4;
+        } else if (func_80029178(0x1B) & 0xFF) {
+            var_a1 = 0xA;
+        } else {
+            var_a1 = 4;
+        }
+        if (*(u16 *)(p + 0x40) != 0) {
+            func_8014BB24(a0, var_a1, 0);
+        } else if (*(u16 *)(p + 0x3C) != 0) {
+            if (*(u16 *)(p + 0x3C) >= 5U) {
+                func_8014BC80(a0, 4);
+            } else {
+                *(u16 *)(p + 0x3C) = 1;
+            }
+        }
+        if (func_8014B154((s32 *)a0) != 0) {
+            if (func_80029178(0x1B) & 0xFF) {
+                func_8014BD24(a0, 8);
+            } else {
+                func_8014BD60(a0, 1);
+            }
+        } else {
+            func_8014BD60(a0, 4);
+        }
+    }
+    if (*(s16 *)(p + 0x1A) >= 0x5A0) {
+        *(s32 *)(p + 0x18) = 0;
+        func_8014B084();
+    }
+}
+
 
 DEFINE_func_8014B00C()  /* dedup: shared engine-core @0x8014B00C (src/shared) */
 
@@ -1612,7 +1727,99 @@ DEFINE_func_8014DF94()  /* dedup: shared engine-core @0x8014DF94 (src/shared) */
 
 DEFINE_func_8014E048()  /* dedup: shared engine-core @0x8014E048 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_after", func_8014E284);
+// @class: regalloc-order
+// @stuck: none — MATCH (108 ins, match_one relocation-masked)
+//
+// Keys to the crack (all four were load-bearing; the B3 near-miss was NOT a register-pin job —
+// pinning actively HURTS here, see (2)):
+//
+// (1) POINTER loop over an array-of-struct with sizeof == the 0x10C stride (§18 %lo-fold idiom
+//     generalized to the giv layer). `for (p = base; p < base + 96; p++)` reproduces BOTH halves
+//     of the "gcc loop-guard / IV-final-value" residual §17a filed as unsteerable on the sibling
+//     func_8012C2D0: the ENTRY guard CSEs the bound off the just-materialized base
+//     (`addiu $v0,$s3,0x6480; sltu $s3,$v0`) while the loop-BOTTOM test — rewritten by loop.c
+//     AFTER invariant motion — re-materializes the folded address `%hi/%lo(D_801202A0+0x6480)`
+//     (which splat names D_80126720). No separate `end` symbol is needed; do NOT try to write the
+//     bound as its own extern.
+// (2) The two-register walk ($s3 = p, $s2 = p+0xE) is gcc's combine_givs, NOT a source construct
+//     and NOT pinnable. `record_giv` PREPENDS to bl->giv, so the LAST-discovered `p+const` address
+//     becomes the combining representative -> here `p->f0E` (last in body order) -> base = p+0xE,
+//     everything else folds to 0x4A/0x4E/0x12/-0x8($s2). The bare-biv address `(reg p)` is never
+//     given a giv, so `p->f00` stays `0($s3)` and `sw $s3,0x170` keeps p live (biv not eliminable).
+//     => Body access ORDER is load-bearing: f00, f58, f5C, f20, f06, f0E. Pinning p to `$s3`
+//     DESTROYS this (loop.c rejects hard-reg bivs) -> strength reduction dies, $s2 vanishes, and
+//     the entry guard folds away. Register pins were the wrong tool for this class.
+// (3) `s16 dx/dz/ax/az` (HImode pseudos) give the target's `subu $v0,..` + `addu $fp,$v0,$zero`
+//     truncation-move pair and the raw (unextended) live value + `sll/sra` at each use. The
+//     `if ((s16)(dx|dz) != 0)` fold is what emits `or; sll 16; beqz` (one branch, not two).
+// (4) DENSITY: the ax/az subtractions must happen BEFORE the first ratan2 call. Holding the four
+//     u16 operands across the call instead needs 4 callee-saved regs, which starves dx/dz and
+//     SPILLS them to the frame (frame 0x48 vs 0x38, +3 ins). Likewise `s32 r1 = (s16)ratan2(...)`
+//     (extend eagerly, keep the extended value across call 2) vs `s16 r1` (move now, extend later)
+//     — that one alone was the final 3-instruction residual.
+
+#include "common.h"
+
+/* stride 0x10C == the D_801202A0 entry size; keeps the symbol_ref through gcc's array-index
+   addressing (§18). Named uniquely: the TU-canonical decl of the symbol itself stays `u8 []`
+   (engine_core.h / DEFINE_func_8014A048 already declare it that way at file scope). */
+typedef struct EntSC01077 {
+    u16 f00;
+    u8  pad02[4];
+    u16 f06;
+    u8  pad08[2];
+    u16 f0A;
+    u8  pad0C[2];
+    u16 f0E;
+    u8  pad10[0x10];
+    s32 f20;
+    u8  pad24[0x34];
+    s32 f58;
+    u16 f5C;
+    u8  pad5E[0xAE];
+} EntSC01077;
+
+extern u8 D_801202A0[];
+extern s32 func_80135A4C(s32 a0, s32 a1, s32 *a2, s32 a3);  /* canonical (engine_core.h:11555) */
+extern s32 ratan2(s32 a0, s32 a1);
+extern s32 func_80012A60(s32 a0, s32 a1);
+
+s32 func_8014E284(s32 a0, s16 *arg1, s16 *arg2) {
+    u16 *a1 = (u16 *)arg1;
+    u16 *a2 = (u16 *)arg2;
+    EntSC01077 *p;
+    s16 dx;
+    s16 dz;
+    s16 ax;
+    s16 az;
+    s32 r1;
+    s32 r2;
+
+    dx = a2[0] - a1[0];
+    dz = a2[2] - a1[2];
+    if ((s16)(dx | dz) != 0) {
+        for (p = (EntSC01077 *)D_801202A0; p < (EntSC01077 *)D_801202A0 + 96; p++) {
+            if (p->f00 == 0) continue;
+            if (p->f58 == 0) continue;
+            if ((p->f5C & 0x1000) == 0) continue;
+            /* §17a-1 fn-ptr cast: keep the canonical extern, call with the intended sig. */
+            if (((s32 (*)(s32, s32, u16 *, u16 *))func_80135A4C)(p->f20, p->f58, a1, a2) == 0) continue;
+            ax = p->f06 - *(u16 *)(a0 + 6);
+            az = p->f0E - *(u16 *)(a0 + 0xE);
+            r1 = (s16)ratan2(dz, dx);
+            r2 = (s16)ratan2(az, ax);
+            if ((s16)func_80012A60(r1, r2) < 0x400) {
+                *(s32 *)(a0 + 0x170) = (s32)p;
+                *(u16 *)(a0 + 6) = a2[0];
+                *(u16 *)(a0 + 0xA) = a2[1] + 0x10;
+                *(u16 *)(a0 + 0xE) = a2[2];
+                return 1;
+            }
+        }
+    }
+    return 0;
+}
+
 
 // @class: other
 // @stuck: none — MATCH (hand-written scratchpad-stack-switch trampoline; inline-asm precedent func_8014CCB4, byte-proven)
@@ -1895,7 +2102,7 @@ INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_after", func_8014F3E8);
 // @stuck: none — MATCH (handwritten scratchpad-stack-switch sequencer; byte-proven DEFINE_func_8014CCB4 precedent. Do NOT write an explicit nop in the jal delay slot: maspsx 2.56 reorders the following lui %hi into the slot and re-emits the nop, so an explicit one is a redundant +1 ins.)
 #include "common.h"
 
-extern s32 func_8014F4C0(void);
+extern s32 func_8014F4C0();
 
 s32 func_8014F468(void)
 {

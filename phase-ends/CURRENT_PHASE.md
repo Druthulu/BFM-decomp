@@ -160,6 +160,34 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   fleet **instr 70.4→71.0% · distinct 52.3→53.2% · fn-count 84.94→86.30%**; dedup 1840/0; 0 NON_MATCHING.
   §54 cookbook + R31 decision-log. The 4th "reproduce the build step" instance (§53-carve, -O0-flag,
   now the member's canonical DECLARATION). `--fix-def-sig` likely should be default-on for the h_seq path.
+- **2026-07-17 — Task 3 core-crack wave: 13 agents → 7 MATCH → 5 BANKED ×1.** Ultracode `worker_wave`
+  (13 xHigh drafters over 6 cores 260–371 ins + 7 B3 near-misses 100–141 ins; all had cached Ghidra-C).
+  Wave hit a usage limit at 2/13, **resumed cleanly** (cached agents replay) → **13/13 done: 7 match / 6 near**.
+  **BANKED (whole-binary, R22 clean-fleet 140/140):** `func_8014ADE0` (139), `func_8014E284` (108),
+  `func_80137DD4` (129), `func_801325B8` (113), `func_801387B8` (100). **Near (2 of the 7):**
+  `func_8013FAF8` (312 giant — def-sig s16/s16 vs fleet-canonical s32/s32 plumbing), `func_8014F4C0`
+  (byte-verified in-TU; a decl conflict `fix_arity_callers` didn't resolve). Fleet 71.0% instr / 53.3%
+  distinct / 86.30% fn-count. **NEW levers to distill (R16/R30):** §49-variant birthing-boost suppression
+  via reg_n_sets 1→2 (`func_801325B8`); sched1 birthing/LUID + `cc1 -dL` movable introspection
+  (`func_80177940`); switch-tree vs jtbl CASE_VALUES_THRESHOLD (`func_801387B8`).
+- **⚠️ 2026-07-17 — THREE tooling traps hit in the T3 gate (all mine; ~3.5h lost, no data lost):**
+  (1) **`gate_stage` propagate is FLEET-WIDE** (`dedup_propagate --auto-from`), so running gate_stage
+  per-src-group ran it 4× redundantly; 3 hit the 3600s timeout → **partial propagate damage: 90/140
+  overlays broken, 887 files, engine_core.h +561**. → **Always `--no-propagate` per group, then ONE
+  targeted `dedup_propagate --addr <banked>` at the end.** (2) **A reverted src needs a RE-EXTRACT**
+  (R22 corollary): `git checkout -- src` left `asm/` in the banked state (no `.s` for banked fns) →
+  `corpus.CorpusError: 5 stub(s) have NO .s on disk` (R34's second oracle caught it — working as designed).
+  (3) **`gate_stage`'s default `.run/harvest_verified.txt` ACCUMULATES across runs and its CLI exposes no
+  `--verified-out`** → it reported a **phantom `banked:1`** for a function still stubbed in src (stale
+  residue of a reverted run). **Trust the SOURCE, not the report** (R32/R35 class — still armed).
+  **Sequencing law learned: COMMIT the cheap verified banks BEFORE the expensive propagate**, else every
+  propagate failure takes the banks with it.
+- **PROPAGATE DEFERRED (properly sized this time):** dry-run plan = 3 of 5 cores self-contained
+  (`0x8014ADE0`/`0x801325B8`/`0x801387B8`, 138 members each ≈ **414 instances**); 2 skipped (local types →
+  needs the `build_engine_types` type-lift). Straggler `ov_SC03_093` forces `--recover` (all-or-nothing
+  h_exact). Measured: needs **~2h+** (≈411 whole-binary member-gates) — my 3000s guards killed it twice.
+  Next run: `dedup_propagate --addr 0x8014ADE0,0x801325B8,0x801387B8 --source-overlay ov_SC01_077 --recover`
+  with a **≥7200s** budget, as a standalone revertable step (banks already committed).
 - **2026-07-16 — broad `--fix-def-sig` harvest = TAPPED beyond the mega-pools (+19).** Fleet-wide
   `--band substantial` (17) + `--band tiny` (2) with `--fix-def-sig` (all families, not just the 2 pools) =
   **19 more members** banked (the def-sig conflict was highly concentrated in the 2 tiny-IMM mega-pools;

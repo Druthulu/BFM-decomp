@@ -1145,7 +1145,102 @@ done:
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_801380E0", func_801387B8);
+// @class: other
+// @stuck: none — MATCH (100 ins)
+// Levers (gcc-2.7.2 switch dispatch-tree reconstruction — the Ghidra if-chain is a DECOMPILER
+// ARTIFACT, not source; transliterating it floors at 49-off):
+//  1. `beq`-forward-to-body + a lone median `slt` split == a real gcc switch tree, not an if-chain.
+//     count=4 cases {1,7,10,23} < CASE_VALUES_THRESHOLD(5) => branch tree, not a jump table. The
+//     `if (cmd != 0)` guard is OUTSIDE the switch (a 5th case would cross the threshold -> jtbl).
+//     No low-bound test before `case 10` == stmt.c "omit the branch to default to avoid only one
+//     right child" (node->right is a childless single value -> plain do_jump_if_equal).
+//  2. SIGNED `slti` on the median split but UNSIGNED `sltiu` on `cmd >= 0x20`: `u8 cmd` gives both
+//     free — switch() default-promotes u8 -> int (signed tree), while `>= 0x20` on a zero-extended
+//     u8 folds to an unsigned compare. (`u32 cmd` yields sltiu on the split and needs an ugly
+//     `switch ((s32)cmd)` cast to match — same bytes, less plausible as the original source.)
+//  3. Case-body emission order == SOURCE order: target lays out 10, 1, 7, 23, default.
+//  4. `func_80139220(arg0)` is 1-arg here (no `li a1,10`); the ov_SC03_099 sibling's 2-arg
+//     `func_80139220(arg0, cmd)` const-props cmd=10 into an extra `li a1,10`. The eager
+//     `lbu a1/a2` pair is func_80138DE0(arg0, cmd, sub) ARG SETUP — that is why only $a0 is
+//     reloaded at each jal, and why `cont=1` can be delay-slot-stolen from the case-1 body head.
+
+
+
+
+
+
+void func_801387B8(s32 arg0) {
+    extern s32 func_80138DE0(s32, s32, s32);
+    extern s32 func_80139220(s32 a0);
+    extern void func_80138948(void *a0);
+    extern void func_80139A8C(s32 a0);
+    extern void func_80139B18(s32 a0);
+    extern s32 D_80127530[];
+
+    u16 *p;
+    s32 base;
+    s32 cont;
+    u8 cmd;
+    s32 sub;
+    s32 pc;
+
+    for (;;) {
+        cont = 0;
+        if (*(s32 *)(arg0 + 8) & 0x400) {
+            base = D_80127530[*(u16 *)(arg0 + 0x4A)];
+            p = (u16 *)(arg0 + 0x44);
+        } else {
+            p = (u16 *)(arg0 + 0x10);
+            base = *(s32 *)(arg0 + 0);
+        }
+        pc = *p;
+        cmd = *(u8 *)(base + pc);
+        sub = *(u8 *)(base + pc + 1);
+
+        if (cmd >= 0x20) {
+            cont = func_80138DE0(arg0, cmd, sub);
+            if (!(*(s32 *)(arg0 + 8) & 0x80220)) {
+                cont = 0;
+            }
+        } else {
+            if (cmd != 0) {
+                switch (cmd) {
+                case 10:
+                    func_80139220(arg0);
+                    *p += 1;
+                    goto loop_end;
+
+                case 1:
+                    cont = 1;
+                    *(u8 *)(arg0 + 0x23) = sub;
+                    *p += 2;
+                    goto loop_end;
+
+                case 7:
+                    if (!(*(s32 *)(arg0 + 8) & 0x20000)) {
+                        *(s32 *)(arg0 + 8) &= ~0x20;
+                    }
+                    break;
+
+                case 23:
+                    *(s32 *)(arg0 + 8) |= 2;
+                default:
+                    cont = 1;
+                    *p += 1;
+                    goto loop_end;
+                }
+            }
+            func_80138948((void *)arg0);
+        }
+    loop_end:
+        if (cont == 0) {
+            func_80139A8C(arg0);
+            func_80139B18(arg0);
+            return;
+        }
+    }
+}
+
 
 /* func_80138948: sh 7 @0x4; sb 0 @0x1F; sb 0 @0xD (store order = source order). */
 DEFINE_func_80138948()  /* dedup: shared engine-core @0x80138948 (src/shared) */
