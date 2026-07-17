@@ -182,12 +182,14 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   residue of a reverted run). **Trust the SOURCE, not the report** (R32/R35 class — still armed).
   **Sequencing law learned: COMMIT the cheap verified banks BEFORE the expensive propagate**, else every
   propagate failure takes the banks with it.
-- **PROPAGATE DEFERRED (properly sized this time):** dry-run plan = 3 of 5 cores self-contained
-  (`0x8014ADE0`/`0x801325B8`/`0x801387B8`, 138 members each ≈ **414 instances**); 2 skipped (local types →
-  needs the `build_engine_types` type-lift). Straggler `ov_SC03_093` forces `--recover` (all-or-nothing
-  h_exact). Measured: needs **~2h+** (≈411 whole-binary member-gates) — my 3000s guards killed it twice.
-  Next run: `dedup_propagate --addr 0x8014ADE0,0x801325B8,0x801387B8 --source-overlay ov_SC01_077 --recover`
-  with a **≥7200s** budget, as a standalone revertable step (banks already committed).
+- **✅ 2026-07-17 — PROPAGATE DONE + a self-correction (R14/R35).** Dry-run plan = 3 of 5 cores
+  self-contained (`0x8014ADE0`/`0x801325B8`/`0x801387B8`, 138 members each ≈ **414 instances**); 2 skipped
+  (local types → needs the `build_engine_types` type-lift). Straggler `ov_SC03_093` forces `--recover`
+  (h_exact share is all-or-nothing). **CORRECTION: my earlier "needs ~2h+" was WRONG** — that timing came
+  from propagating into the tree still carrying the killed-`--auto-from` damage (90/140 broken), so every
+  member-gate was failing/retrying. **On a healthy tree a targeted `--addr` propagate is ~233s/core**
+  (`[ OK ] 138 overlays byte-identical`) — ~20× faster. Only `--auto-from` is genuinely fleet-slow.
+  **A timing taken on a broken tree measures the breakage, not the tool** (§55c).
 - **2026-07-16 — broad `--fix-def-sig` harvest = TAPPED beyond the mega-pools (+19).** Fleet-wide
   `--band substantial` (17) + `--band tiny` (2) with `--fix-def-sig` (all families, not just the 2 pools) =
   **19 more members** banked (the def-sig conflict was highly concentrated in the 2 tiny-IMM mega-pools;

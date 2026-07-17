@@ -27582,4 +27582,205 @@
         func_80171A1C((u8 *)s0); \
     }
 
+#define DEFINE_func_8014ADE0() \
+    extern u8 D_80078E78[]; \
+    extern s32 func_8016F1C4(void); \
+    extern s32 func_8014B154(s32 *a0); \
+    extern void func_8014BD24(s32 a0, s32 a1); \
+    extern void func_8014BB24(s32 a0, s32 a1, s32 a2); \
+    extern void func_8014BC80(s32 a0, s32 a1); \
+    extern void func_8014BD60(s32 a0, s32 a1); \
+    extern void func_8014B084(void); \
+    extern s32 func_80029178(s32 a0); \
+    void func_8014ADE0(s32 a0) \
+    { \
+        /* BLOCK-scope extern: the s32 view of the accumulator. The only file-scope decl of \
+         * this symbol in the TU is `extern s16 D_80078E90;` from DEFINE_func_8014B034(), \
+         * instantiated at line 1166 — AFTER our slot at 1162 — so gcc-2.7.2 emits only \
+         * "warning: type mismatch with previous external decl" (probe-verified, exit 0, no \
+         * -Werror in the build) instead of a hard `conflicting types` error. Unlike \
+         * `*(s32*)&D_80078E90`, this keeps the symbol_ref INSIDE the mem so each access folds \
+         * to `lui %hi / lw %lo`; taking the address instead materializes it and CSE hoists it \
+         * into a reg across all 4 uses (§18 &sym trap) — measured, it shifts ~100 insns. */ \
+        extern s32 D_80078E90; \
+        register u8 *p __asm__("$17") = D_80078E78; \
+        s32 temp_s2; \
+        s32 var_a1; \
+        if (func_8016F1C4() != 0) { \
+            return; \
+        } \
+        if ((*(u16 *)a0 == 0x1A) || (*(u16 *)a0 == 0x1E) || (*(s32 *)(a0 + 0x44) & 0x10)) { \
+            return; \
+        } \
+        temp_s2 = D_80078E90; \
+        if (func_8014B154((s32 *)a0) != 0) { \
+            D_80078E90 = D_80078E90 + 0xAAA8; \
+        } else { \
+            D_80078E90 = D_80078E90 + 0x1555; \
+        } \
+        if ((*(s16 *)(p + 0x1A) - (temp_s2 >> 16)) > 0) { \
+            if (p[0x49] == 3) { \
+                func_8014BD24(a0, 1); \
+            } \
+        } \
+        if (((s16)(*(s16 *)(p + 0x1A) / 60) - (s16)((s16)(temp_s2 >> 16) / 60)) > 0) { \
+            if (func_8014B154((s32 *)a0) == 0) { \
+                var_a1 = 4; \
+            } else if (func_80029178(0x1B) & 0xFF) { \
+                var_a1 = 0xA; \
+            } else { \
+                var_a1 = 4; \
+            } \
+            if (*(u16 *)(p + 0x40) != 0) { \
+                func_8014BB24(a0, var_a1, 0); \
+            } else if (*(u16 *)(p + 0x3C) != 0) { \
+                if (*(u16 *)(p + 0x3C) >= 5U) { \
+                    func_8014BC80(a0, 4); \
+                } else { \
+                    *(u16 *)(p + 0x3C) = 1; \
+                } \
+            } \
+            if (func_8014B154((s32 *)a0) != 0) { \
+                if (func_80029178(0x1B) & 0xFF) { \
+                    func_8014BD24(a0, 8); \
+                } else { \
+                    func_8014BD60(a0, 1); \
+                } \
+            } else { \
+                func_8014BD60(a0, 4); \
+            } \
+        } \
+        if (*(s16 *)(p + 0x1A) >= 0x5A0) { \
+            *(s32 *)(p + 0x18) = 0; \
+            func_8014B084(); \
+        } \
+    }
+
+#define DEFINE_func_801325B8() \
+    extern void memcpy(); \
+    extern void gteMIMefunc(); \
+    void func_801325B8(int dst, int src, int m0, int mm, int arg5) \
+    { \
+        register int p __asm__("$4"); \
+        register int m __asm__("$16"); \
+        register int n __asm__("$17"); \
+        register int dv __asm__("$18"); \
+        int sv; \
+        int ofs; \
+        int c; \
+        m = m0; \
+        p = src; \
+        if (*(int *)(p + 4) == 1) { \
+            sv = *(int *)(p + 0xC); \
+        } else { \
+            ofs = (int)((*(unsigned int *)(p + 0xC) >> 2) << 2) + 0xC; \
+            sv = p + ofs; \
+        } \
+        p = dst; \
+        sv += *(int *)(m + 8) * 8; \
+        if (*(int *)(p + 4) == 1) { \
+            dv = *(int *)(p + 0xC); \
+        } else { \
+            ofs = (int)((*(unsigned int *)(p + 0xC) >> 2) << 2) + 0xC; \
+            dv = p + ofs; \
+        } \
+        c = *(int *)(m + 8); \
+        dv += c * 8; \
+        n = *(int *)(m + 0xC); \
+        m += 0x10; \
+        memcpy(dv, sv, n * 8); \
+        gteMIMefunc(dv, m, n, arg5); \
+        if (mm != 0) { \
+            m = mm; \
+            p = src; \
+            if (*(int *)(p + 4) == 1) { \
+                sv = *(int *)(p + 0x14); \
+            } else { \
+                ofs = (int)((*(unsigned int *)(p + 0x14) >> 2) << 2) + 0xC; \
+                sv = p + ofs; \
+            } \
+            p = dst; \
+            sv += *(int *)(m + 8) * 8; \
+            if (*(int *)(p + 4) == 1) { \
+                dv = *(int *)(p + 0x14); \
+            } else { \
+                ofs = (int)((*(unsigned int *)(p + 0x14) >> 2) << 2) + 0xC; \
+                dv = p + ofs; \
+            } \
+            c = *(int *)(m + 8); \
+            dv += c * 8; \
+            n = *(int *)(m + 0xC); \
+            m += 0x10; \
+            memcpy(dv, sv, n * 8); \
+            gteMIMefunc(dv, m, n, arg5); \
+        } \
+    }
+
+#define DEFINE_func_801387B8() \
+    void func_801387B8(s32 arg0) { \
+        extern s32 func_80138DE0(s32, s32, s32); \
+        extern s32 func_80139220(s32 a0); \
+        extern void func_80138948(void *a0); \
+        extern void func_80139A8C(s32 a0); \
+        extern void func_80139B18(s32 a0); \
+        extern s32 D_80127530[]; \
+        u16 *p; \
+        s32 base; \
+        s32 cont; \
+        u8 cmd; \
+        s32 sub; \
+        s32 pc; \
+        for (;;) { \
+            cont = 0; \
+            if (*(s32 *)(arg0 + 8) & 0x400) { \
+                base = D_80127530[*(u16 *)(arg0 + 0x4A)]; \
+                p = (u16 *)(arg0 + 0x44); \
+            } else { \
+                p = (u16 *)(arg0 + 0x10); \
+                base = *(s32 *)(arg0 + 0); \
+            } \
+            pc = *p; \
+            cmd = *(u8 *)(base + pc); \
+            sub = *(u8 *)(base + pc + 1); \
+            if (cmd >= 0x20) { \
+                cont = func_80138DE0(arg0, cmd, sub); \
+                if (!(*(s32 *)(arg0 + 8) & 0x80220)) { \
+                    cont = 0; \
+                } \
+            } else { \
+                if (cmd != 0) { \
+                    switch (cmd) { \
+                    case 10: \
+                        func_80139220(arg0); \
+                        *p += 1; \
+                        goto loop_end; \
+                    case 1: \
+                        cont = 1; \
+                        *(u8 *)(arg0 + 0x23) = sub; \
+                        *p += 2; \
+                        goto loop_end; \
+                    case 7: \
+                        if (!(*(s32 *)(arg0 + 8) & 0x20000)) { \
+                            *(s32 *)(arg0 + 8) &= ~0x20; \
+                        } \
+                        break; \
+                    case 23: \
+                        *(s32 *)(arg0 + 8) |= 2; \
+                    default: \
+                        cont = 1; \
+                        *p += 1; \
+                        goto loop_end; \
+                    } \
+                } \
+                func_80138948((void *)arg0); \
+            } \
+        loop_end: \
+            if (cont == 0) { \
+                func_80139A8C(arg0); \
+                func_80139B18(arg0); \
+                return; \
+            } \
+        } \
+    }
+
 #endif

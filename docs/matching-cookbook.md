@@ -3980,6 +3980,76 @@ The 0/8 was cited as the decisive input for two phases of planning. Three compou
 representative of the class I'm generalizing to? was the corroborating evidence taken through the same
 broken tool?** A 0% from a broken tool and a 0% from a working one are the same number and opposite facts.
 
+## §55 — Core-crack wave levers + the GATE-ORCHESTRATION law (Phase 29 T3, 13-agent ultracode wave, 2026-07-17)
+
+A 13-agent `worker_wave` over 6 fresh cores (260–371 ins) + 7 B3 near-misses (100–141) returned **7 MATCH /
+6 near**; 5 banked whole-binary. The durable yield is the levers + the orchestration law.
+
+### §55a — New byte-proven levers (each from a banked or near draft)
+- **§49-variant — suppress sched1's `birthing_insn_p` LAUNCH_PRIORITY boost by `reg_n_sets` 1→2**
+  (`func_801325B8`, 113 ins, BANKED, reproduced twice). Route the load through a temp assigned in BOTH
+  halves of a branch: the pseudo now has `reg_n_sets==2`, so it is no longer "birthing", the priority boost
+  disappears, and two transposed loads un-invert **at zero byte cost**. Companion to §30's birthing-boost.
+- **`birthing_insn_p` governs sched1 PLACEMENT, steerable both ways** (`func_80177940`, 101 ins, close=5):
+  an *in-place single-variable update* makes a chain **non**-birthing → sched1 stops sinking it (18→10);
+  a *fresh pseudo* for `c<<16` makes it birthing (10→5). Also: `__asm__("" : "=r"(v) : "0"(v))` is a
+  zero-code CSE fence that blocks the cse2 fold of a duplicated chain.
+- **`cc1 -dL` prints loop.c `move_movables` decisions** (moved / not-desirable, per movable) — the
+  threshold (−3/movable) is steerable by statement order. A **dead second set** (`col = 0;`) makes
+  `n_times_set != 1`, so a constant is not a movable and stays in-loop. (`func_80177940`.)
+- **Switch TREE vs jump table — `CASE_VALUES_THRESHOLD` is 5** (`func_801387B8`, 100 ins, BANKED): 4 cases
+  `{1,7,10,23}` < 5 ⇒ gcc emits a branch tree (forward-beq-to-body + lone median `slti`), NOT a jtbl — so a
+  guard like `if (cmd != 0)` **must stay OUTSIDE** the switch or a 5th case forces a jump table. `u8 cmd`
+  buys a signed `slti` on the split AND an unsigned `sltiu` on `cmd >= 0x20` for free; case bodies emit in
+  SOURCE order. **Ghidra's if-chain for a switch is a decompiler artifact** (floors at 49-off) — recognize
+  the dispatch tree.
+- **Block-scope beats `*(T*)&sym` for a conflicting extern** (`func_8014ADE0`, BANKED): when a
+  `DEFINE_func_*` macro declares `extern s16 D_X` and you need `s32`, a **block-scope `extern s32 D_X`**
+  is a warning (not an error) — but it is **order-dependent: block-scope must precede the file-scope decl**
+  (reverse = hard error, cc1 exit 33). `*(s32*)&D_X` FAILS (~100-ins shift — the §18 `&sym`
+  materialize + CSE trap).
+
+### §55b — THE GATE-ORCHESTRATION LAW (3 traps, ~3.5h lost; all recovered, 0 data lost)
+1. **`gate_stage`'s propagate step is FLEET-WIDE** (`dedup_propagate --auto-from`), NOT scoped to the drafts
+   you gated. Running `gate_stage` once per src-file group therefore re-runs the whole-fleet scan N times;
+   each exceeds the 3600s timeout and dies **mid-mutation** → partial propagate damage (measured: **90/140
+   overlays broken, 887 files, engine_core.h +561**). **LAW: `--no-propagate` on every per-group gate, then
+   ONE targeted `dedup_propagate --addr <banked addrs>` at the end.**
+2. **COMMIT the cheap verified banks BEFORE the expensive propagate.** The byte-gate is minutes; the
+   propagate is ~2h and mutates 300+ files. Gating and propagating in one motion means every propagate
+   failure takes the (already-verified) banks down with it. Commit, then propagate as a standalone
+   revertable step.
+3. **A reverted `src/` needs a RE-EXTRACT** (the R22 corollary, again): `git checkout -- src` restores the
+   `INCLUDE_ASM` stubs, but `asm/` still reflects the BANKED state (splat emits no `.s` for a matched fn) ⇒
+   `corpus.CorpusError: N stub(s) have NO .s on disk`. Recovery = `git checkout -- src docs .run` **+**
+   `make extract BINARY=<ov>`. (R34's second oracle caught this loudly — working as designed.)
+4. **`gate_stage`'s default `.run/harvest_verified.txt` ACCUMULATES across runs and its CLI exposes no
+   `--verified-out`** ⇒ after a revert it reports a **phantom `banked: N`** for functions still stubbed in
+   `src` (stale residue). **Trust the SOURCE (`grep INCLUDE_ASM`), never the report** — R32/R35 class, and
+   **still armed**: either expose `--verified-out` on the CLI or unlink the default before each gate.
+
+### §55c — Sizing the propagate: a TARGETED propagate is ~4 min/core, and "it's slow" was a BROKEN-TREE ARTIFACT
+`--check-only` prints the real plan first — always use it (it also aborts free when a group is undroppable).
+
+**The real cost, measured on a HEALTHY tree: `--addr <1 core>` = 233s for 138 members** → 3 cores ≈ 12 min.
+`[ OK ] 138 overlays byte-identical after propagation`.
+
+**The trap (and a live R14/R35 self-correction worth remembering):** the same 3-core targeted propagate had
+*timed out at 3000s* earlier in this task, and I wrote "**needs ~2h+**" into the commit + this cookbook as a
+*measurement*. It was nothing of the kind — it was propagating into a tree still carrying the partial damage
+of a previous killed `--auto-from` (90/140 overlays broken), so every member-gate was failing/retrying. On a
+clean tree the identical command is ~20× faster. **A timing taken on a broken tree is not a measurement of
+the tool** — it is a measurement of the breakage. (Same shape as the §53 carve-law and the §54 def-sig
+findings: the number was real, the attribution was wrong.) Recover the tree FIRST (revert + re-extract),
+THEN measure.
+
+- Only **`--auto-from`** is genuinely fleet-slow (it scans every matched fn) — that is the one to avoid, not
+  the targeted `--addr` path.
+- **`h_exact` share is all-or-nothing:** one straggler overlay (`ov_SC03_093`) drops the whole group unless
+  `--recover` (per-overlay exclude) is passed.
+- **Local-type bodies are skipped** ("not self-contained") until `build_engine_types` lifts their types
+  (§19/§20 propagation cap) — 2 of this wave's 5 banked cores were blocked this way.
+
 ## §54 — `--fix-def-sig`: the member's CANONICAL DECLARATION is a build step too (tiny-IMM mega-pools, +4,801, Phase 29 T6, 2026-07-16)
 
 The §53 law — *sweep a family with the tool its exemplar needed* — has a fourth instance beyond the jr-carve

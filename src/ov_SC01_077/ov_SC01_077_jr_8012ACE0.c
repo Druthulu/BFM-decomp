@@ -1905,66 +1905,7 @@ DEFINE_func_8013240C()  /* dedup: shared engine-core @0x8013240C (src/shared) */
  *     source order. Zero-byte dial: same instructions, correct order.
  */
 
-extern void memcpy();
-extern void gteMIMefunc();
-
-void func_801325B8(int dst, int src, int m0, int mm, int arg5)
-{
-    register int p __asm__("$4");
-    register int m __asm__("$16");
-    register int n __asm__("$17");
-    register int dv __asm__("$18");
-    int sv;
-    int ofs;
-    int c;
-
-    m = m0;
-    p = src;
-    if (*(int *)(p + 4) == 1) {
-        sv = *(int *)(p + 0xC);
-    } else {
-        ofs = (int)((*(unsigned int *)(p + 0xC) >> 2) << 2) + 0xC;
-        sv = p + ofs;
-    }
-    p = dst;
-    sv += *(int *)(m + 8) * 8;
-    if (*(int *)(p + 4) == 1) {
-        dv = *(int *)(p + 0xC);
-    } else {
-        ofs = (int)((*(unsigned int *)(p + 0xC) >> 2) << 2) + 0xC;
-        dv = p + ofs;
-    }
-    c = *(int *)(m + 8);
-    dv += c * 8;
-    n = *(int *)(m + 0xC);
-    m += 0x10;
-    memcpy(dv, sv, n * 8);
-    gteMIMefunc(dv, m, n, arg5);
-    if (mm != 0) {
-        m = mm;
-        p = src;
-        if (*(int *)(p + 4) == 1) {
-            sv = *(int *)(p + 0x14);
-        } else {
-            ofs = (int)((*(unsigned int *)(p + 0x14) >> 2) << 2) + 0xC;
-            sv = p + ofs;
-        }
-        p = dst;
-        sv += *(int *)(m + 8) * 8;
-        if (*(int *)(p + 4) == 1) {
-            dv = *(int *)(p + 0x14);
-        } else {
-            ofs = (int)((*(unsigned int *)(p + 0x14) >> 2) << 2) + 0xC;
-            dv = p + ofs;
-        }
-        c = *(int *)(m + 8);
-        dv += c * 8;
-        n = *(int *)(m + 0xC);
-        m += 0x10;
-        memcpy(dv, sv, n * 8);
-        gteMIMefunc(dv, m, n, arg5);
-    }
-}
+DEFINE_func_801325B8()  /* dedup: shared engine-core @0x801325B8 (src/shared) */
 
 
 DEFINE_func_8013277C()  /* dedup: shared engine-core @0x8013277C (src/shared) */

@@ -1056,7 +1056,7 @@ done:
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_011/nonmatchings/ov_SC02_011_jr_801380E0", func_801387B8);
+DEFINE_func_801387B8()  /* dedup: shared engine-core @0x801387B8 (src/shared) */
 
 DEFINE_func_80138948()  /* dedup: shared engine-core @0x80138948 (src/shared) */
 
