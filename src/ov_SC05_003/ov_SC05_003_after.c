@@ -1635,7 +1635,7 @@ DEFINE_func_8014F2E0()  /* dedup: shared engine-core @0x8014F2E0 (src/shared) */
 INCLUDE_ASM("asm/ov_SC05_003/nonmatchings/ov_SC05_003_after", func_8014F3E8);
 
 
-extern s32 func_8014F4C0(void);
+extern s32 func_8014F4C0();
 
 s32 func_8014F468(void)
 {
@@ -1664,7 +1664,7 @@ s32 func_8014F468(void)
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_003/nonmatchings/ov_SC05_003_after", func_8014F4C0);
+DEFINE_func_8014F4C0()  /* dedup: shared engine-core @0x8014F4C0 (src/shared) */
 
 
 // @class: plumbing

@@ -2056,7 +2056,48 @@ s32 func_8014F468(void)
         : : : "memory");
 }
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_after", func_8014F4C0);
+// @class: plumbing
+// @stuck: none — MATCH 141/141 both standalone (match_one) AND byte-verified IN-TU (draft
+//         substituted into the real src/ov_SC01_077/ov_SC01_077_after.c, full cpp+cc1+maspsx+as:
+//         0 mismatched). Needs ONE byte-neutral decl fix the drafter may not touch:
+//           tools/fix_arity_callers.py --apply --funcs func_8014F4C0 --binary ov_SC01_077 \
+//                                      --drafts .run/drafts-t3-wave
+//         (rewrites ov_SC01_077_after.c:1898 `extern s32 func_8014F4C0(void);` -> `(...)();`.
+//          --binary is REQUIRED: the tool defaults to engine_core.h only, but this caller decl
+//          lives in the overlay's own .c.) Without it the TU fails `conflicting types for
+//          func_8014F4C0` — that lone error is the whole B3 gate gap; with it the TU compiles
+//          clean and the bytes are identical.
+
+/* func_8014F4C0 — the simpler twin of the already-banked DEFINE_func_8014F74C()
+ * (src/shared/engine_core.h:25443). Same shape: build a PosT probe + a MoveT move vector from
+ * the entity, call the collision query func_80133784, then splat one of three canned 8-byte
+ * blobs into e+0x120 per the returned hit mask. Every idiom below (PosT/MoveT locals, the
+ * x6/xA/xE forwarding temps, *(u8*)&w / (u32)w>>13, __builtin_memcpy for the byte-aligned
+ * 8-byte blob copies) is lifted verbatim from that byte-proven sibling, and every extern uses
+ * that sibling's canonical type — in particular `extern s16 D_801152B0;` (NOT `u8 D_801152B0[]`),
+ * because DEFINE_func_8014F74C() is instantiated later in this same TU
+ * (src/ov_SC01_077/ov_SC01_077_after.c:1973) and re-declares it at block scope.
+ *
+ * NOTE: func_8014F74C is called with NO argument — the asm has a bare `jal func_8014F74C; nop`
+ * with no $a0 setup (it inherits the incoming $a0). Declared no-proto to stay compatible with
+ * the DEFINE_func_8014F74C() def `int func_8014F74C(s32 arg0)` instantiated later in the TU.
+ *
+ * DEF-SIG / GATE NOTE: this TU already carries a file-scope `extern s32 func_8014F4C0(void);` at
+ * ov_SC01_077_after.c:1898, written only so the inline-asm caller func_8014F468 has a name in
+ * scope (its `jal` is inside __asm__, so the decl emits nothing and is byte-neutral). It
+ * conflicts with this def's parameter. Return type is s32 and the param is s32 (promotion-safe),
+ * so the §17a-3b no-proto rewrite `extern s32 func_8014F4C0();` (fix_arity_callers.py) resolves
+ * it; deleting line 1898 outright is equally byte-neutral. */
+
+#include "common.h"
+
+#ifndef BFM_ENGINE_TYPES_H
+
+
+#endif
+
+DEFINE_func_8014F4C0()  /* dedup: shared engine-core @0x8014F4C0 (src/shared) */
+
 
 // @class: plumbing
 // @stuck: none — MATCH (22 ins, relocation-masked). Handwritten scratchpad-stack-switch

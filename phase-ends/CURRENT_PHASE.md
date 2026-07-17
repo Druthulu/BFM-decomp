@@ -175,6 +175,18 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   fleet **instr 70.4→71.0% · distinct 52.3→53.2% · fn-count 84.94→86.30%**; dedup 1840/0; 0 NON_MATCHING.
   §54 cookbook + R31 decision-log. The 4th "reproduce the build step" instance (§53-carve, -O0-flag,
   now the member's canonical DECLARATION). `--fix-def-sig` likely should be default-on for the h_seq path.
+- **✅ 2026-07-17 — Task 4 giants #2 (func_8014F4C0) BANKED + PROPAGATED ×134.** func_8014F4C0 (141) banked
+  ×1 in ov_SC01_077_after.c (its earlier "gate reject" was pure §55b propagate-damage — it gated clean on the
+  healthy tree, no fleet change needed). h_exact family → `dedup_propagate --addr 0x8014F4C0 --recover`
+  (ov_SC01_000 straggler; --recover reconciled conflicting caller externs, kept it) = **134 overlays byte-identical
+  after propagation**, +1 dedup group registered. R22 clean-fleet **140/140**; ~+19k ins. §55b honored (targeted
+  --addr, fail-closed, committed as its own batch). **GIANT TAXONOMY (the session's key finding):** the 12 giants
+  split into **NON-jtbl** (func_8013FAF8, func_8014F4C0 — bank clean once the tree is healthy + propagate ×137 via
+  macro/h_seq alone) and **jtbl** (func_80131340/func_80159C84/func_8013C414/func_8013F350 — each needs a per-overlay
+  jtbl carve ×137 AND hits an 8-align tooling gap). **func_80131340 DEFERRED with a precise root cause:** gcc emits a
+  non-first jump table `.align 3` (8-aligned) but the original island packs it 4-aligned → +4B padding → island +4 →
+  every downstream data symbol shifts → %lo relocs break image-wide (+5B, 3077 diffs, byte-proven). A jtbl_carve
+  8-align/isolation fix would unlock ~4 giants × ~137 members — a real lever, flagged as a distinct tooling task.
 - **2026-07-17 — Task 3 core-crack wave: 13 agents → 7 MATCH → 5 BANKED ×1.** Ultracode `worker_wave`
   (13 xHigh drafters over 6 cores 260–371 ins + 7 B3 near-misses 100–141 ins; all had cached Ghidra-C).
   Wave hit a usage limit at 2/13, **resumed cleanly** (cached agents replay) → **13/13 done: 7 match / 6 near**.
