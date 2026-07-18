@@ -88,7 +88,7 @@ segments:
       # jtbls stay raw .data until matched (each matched fn's jtbl gets its own carve — the ×134 tool).
       - [0x5e978, data, tail]
       - [0xaff20, .rodata, ov_SC01_077_jr_8012ACE0]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0xaffec, data, tail2]
+      - [0xb0000, data, tail2]
       - [0xb0098, .rodata, ov_SC01_077_jr_801380E0]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
       - [0xb00fc, data, tail3]
       - [0xb0740, .rodata, ov_SC01_077]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)

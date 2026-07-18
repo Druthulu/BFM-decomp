@@ -177,6 +177,12 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   byte-identical, tools-health green (dedup 1846/0, C1 234205/234205), zero new banks — fleet-neutral.**
   Flywheel captured in-session (R30): cookbook **§8e** + §8a/§8a-pad corrections, decision-log entry,
   SETUP.md row. NEXT: Step 4 — bank func_80131340 ×1.
+- **✅ 2026-07-18 — func_80131340 (424) BANKED ×1 — the first 4-mod-8 non-first jtbl bank ever (§8e live).**
+  Draft spliced at the L1635 slot (stub 0, def 1); `jtbl_carve --func func_80131340` → merged span
+  `0xaff20..0xb0000` + `JTBL_PADS := 0,0` (stale-.o auto-invalidated); `make extract` + whole-binary gate
+  → **[ OK ] d19c9580 == check** (build log `.run/bank_80131340_build.log`). Production object proof:
+  `.rodata` 0xE0 / Al=4 / table 2 TIGHT at 0xCC — the filter ran in the real pipeline. NEXT: Step 5
+  — ×137 family sweep (`jtbl_family_bank --raw`).
 
 - **2026-07-16 — Phase opened.** Session Start Protocol complete (all 28 PhaseEnds + roadmap +
   calibration + decision-log read). 3 Explore surveys grounded the plan (tooling state, frontier
