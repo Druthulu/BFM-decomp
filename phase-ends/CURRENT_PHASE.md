@@ -183,6 +183,13 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   → **[ OK ] d19c9580 == check** (build log `.run/bank_80131340_build.log`). Production object proof:
   `.rodata` 0xE0 / Al=4 / table 2 TIGHT at 0xCC — the filter ran in the real pipeline. NEXT: Step 5
   — ×137 family sweep (`jtbl_family_bank --raw`).
+- **✅ 2026-07-18 — func_80131340 family COMPLETE ×138 (the §8e mechanism's ×N proof): 137/137 siblings
+  BANKED, 0 failed.** 3 bounded chunks (50+50+37, committed per chunk `commit:0680`/`commit:0681`/`commit:0682`),
+  every sibling whole-binary gated, per-sibling §8e carve+`JTBL_PADS` auto-derived from each overlay's own
+  island addresses. **R22 clean-fleet: 140/140 byte-identical; tools-health green; dedup 1846/0.**
+  Fleet **72.1→72.5% instr · 54.0→55.0% distinct-code · 86.61% fn-count** (~+58.5k ins from one family —
+  vs the B2 precedent's 102/115 this ran 138/138). NEXT: Step 6 — the 3 remaining giants
+  (59C84 → F350 (pad=4 spec case!) → C414 -O0).
 
 - **2026-07-16 — Phase opened.** Session Start Protocol complete (all 28 PhaseEnds + roadmap +
   calibration + decision-log read). 3 Explore surveys grounded the plan (tooling state, frontier
