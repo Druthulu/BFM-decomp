@@ -1615,7 +1615,112 @@ void func_8013CB5C(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_033/nonmatchings/ov_SC06_033_jr_801380E0", func_8013CB84);
+
+typedef struct { s32 a, b, c; } Rec12;
+typedef struct { s32 a, b; s8 c; } __attribute__((packed, aligned(1))) Rec9;
+
+extern s16 currentLocationId;
+extern s32 D_801CF378;
+extern s32 D_801CF370;
+extern s32 D_801CF374;
+extern s32 D_801CF368;
+extern s32 D_801CF36C;
+
+extern void func_8013DBE4();
+extern void func_8013D9B0();
+extern void func_8013D330(void);
+extern void func_8013D178(void);
+extern void func_8013CF68(void);
+
+void func_8013CB84(void) {
+
+    extern u8 D_80078EAF;
+    extern s32 D_801CF37C;
+    extern s32 D_801CF388;
+    extern s32 D_801CF390;
+    extern s32 D_801D0F60;
+    extern s32 D_801D0EE0;
+    extern s32 D_801D0ED4[];
+    extern u8 D_801D0EA1;
+    extern u8 D_801D0FEE;
+    extern u8 D_801D0F5C;
+    extern Rec12 D_8019219C[];
+    extern Rec9 D_80192164[];
+    extern u8 D_801D0F38;  /* canonical (§8d); Rec9 block-move via cast-at-use */
+    s32 loc = currentLocationId;
+    s32 s0 = D_80078EAF;
+    s32 ta, tb, tc, t;
+
+    D_801D0F60 = 0;
+    if (D_801CF378 == 0 && s0 != D_801CF370) {
+        ta = D_8019219C[s0].a;
+        tb = D_8019219C[s0].b;
+        tc = D_8019219C[s0].c;
+        D_801CF370 = s0;
+        D_801D0EA1 = tc;
+        D_801D0FEE = ta;
+        D_801D0F5C = tb;
+        *(Rec9 *)&D_801D0F38 = D_80192164[s0];
+        D_801CF374 = 1;
+        D_801CF368 = 1;
+        if (D_801CF388 & 2) {
+            if (s0 == 4) { D_801D0ED4[0] = 0x100; D_801D0EE0 = 0x80; }
+            if (s0 == 0) { D_801D0ED4[0] = 0x100; D_801D0EE0 = 0; }
+        }
+    }
+    if (D_801CF374 != 0) {
+        t = D_801CF368 - 1;
+        D_801CF368 = t;
+        if (t == 0) {
+            if (D_801CF378 == 0) {
+                if ((D_801CF388 & 2) && s0 == 4) {
+                    if (D_801CF390 != 0) func_8013DBE4(6);
+                    else func_8013D9B0(6);
+                } else {
+                    if (D_801CF390 != 0) func_8013DBE4(s0);
+                    else func_8013D9B0(s0);
+                }
+                func_8013D330();
+                func_8013D178();
+                func_8013CF68();
+                D_801CF368 = 2;
+                if (D_801CF374 != 0) {
+                    if (D_801CF388 & 2) {
+                        if (s0 == 4) {
+                            s32 *p = &D_801D0EE0;
+                            t = *p - 8;
+                            *p = t;
+                            if (t < 0) *p = 0;
+                        } else if (s0 == 0) {
+                            s32 *p = &D_801D0EE0;
+                            t = *p + 0x20;
+                            *p = t;
+                            if (t >= 0x81) *p = 0x80;
+                        }
+                    }
+                } else if (D_801CF388 & 2) {
+                    if (s0 == 4) D_801D0EE0 = 0;
+                    if (s0 == 0) D_801D0EE0 = 0x80;
+                }
+            } else {
+                if (D_801CF390 != 0) func_8013DBE4(5);
+                else func_8013D9B0(5);
+                D_801CF368 = 1;
+            }
+        }
+    }
+    D_801CF37C = 0;
+    if (loc == 0x1010) {
+        if (s0 == 3) {
+            if (D_801CF374 != 0) D_801CF37C = D_801CF36C;
+            else D_801CF37C = 0x1F;
+        } else if (s0 == 4) {
+            if (D_801CF374 != 0) D_801CF37C = 0x1F - D_801CF36C;
+            else D_801CF37C = 0;
+        }
+    }
+}
+
 
 // @class: struct
 // @stuck: none — MATCH (63 ins)
