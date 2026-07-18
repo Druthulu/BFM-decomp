@@ -397,7 +397,34 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   same-file siblings. (c) **Type-lift recovers clean-TYPE families 137/137** (Blk16_956C/Ent_956C, SVec/Fr →
   engine_types.h, byte-neutral) but NOT def-sig/per-sibling-decl-conflict families.
   **CARRIED FOLLOW-UPS (all preserved, R20):** (1) 801670e4/8016cbc0 — type-lifted but the sweep hits a
-  per-sibling func_801670E4 decl-conflict (needs the func_80161208-style all-decls-normalize applied per sibling,
-  or a sweep enhancement). (2) 8013d53c family — void* def-sig caller-decl thread per sibling. (3) 801412a8 —
-  §29 narrow-u16-param def-side wall (caller decl int; matching adds masking). (4) permuter/Fable fuel: 8014d820
-  (11), 80175da8 (11), 80175ab8 (58), 80178004 (39). Drafts in .run/giants/{wave2_,fable_,*.close11}*.
+  per-sibling decl-conflict (see BUILD SPEC below). (2) 8013d53c family — void* def-sig caller-decl thread per
+  sibling. (3) 801412a8 — §29 narrow-u16-param def-side wall (caller decl int; matching adds masking). (4)
+  permuter/Fable fuel: 8014d820 (11), 80175da8 (11), 80175ab8 (58), 80178004 (39). Drafts in
+  .run/giants/{wave2_,fable_,*.close11}*.
+
+- **▶ NEXT-SESSION BUILD SPEC — the sweep DECL-NORMALIZE enhancement (Drew-directed 2026-07-18; effort Max).**
+  **The problem, byte-verified:** `family_sweep --hseq` templates the banked function F's DEF into each sibling
+  TU, but the sibling's *own already-banked callers* may carry a block-scope decl of F whose signature differs
+  from F's canonical — a HARD `conflicting types`. Byte-proof (func_801670E4, sibling ov_SC01_004): the sibling's
+  caller has `extern void func_801670E4(struct Entity_80167540 *, s32, s32, s32);` (jr_8015AE2C.c:5076) while F's
+  canonical/def is `s32 func_801670E4(s32,s32,s32,s32)` (engine_core.h:19003) → 133/137 fail. **Crucially the
+  EXEMPLAR's copy of that same caller used a fn-ptr CAST instead of a decl** (ov_SC01_077 jr_8015AE2C.c:5338:
+  `((void(*)(struct Entity_80167540 *,s32,s32,s32))func_801670E4)(...)`) — different overlays' callers were
+  matched in different C forms, so the conflict is per-sibling, invisible in the exemplar. Same root as the
+  func_80161208 ×1 whack-a-mole (a callee declared inconsistently → a reconcile re-adds a file-scope prototyped
+  decl that poisons every no-proto call).
+  **THE FIX (a per-sibling decl-normalize pass — the SAME-FUNCTION analog of `tools/cast_call_sites.py`, which
+  only does the CALLEE direction):** after templating F into the sibling, scan the sibling TU for EVERY decl of F
+  (block- or file-scope) whose sig ≠ F's engine_core canonical; for each, rewrite the decl to canonical (or drop
+  it) AND fn-ptr-cast the associated call site(s) so codegen is byte-neutral (§17a-1). Generalize to conflicting
+  CALLEE decls too (func_80161208 class: normalize all decls of the callee to the canonical/no-proto form; a
+  reconcile that re-adds a file-scope prototyped decl must be suppressed). Whole-binary gate is the sole arbiter
+  (G3/P9) — the pass only needs to make it COMPILE; wrong casts fail the gate.
+  **WHERE:** a new stage in `tools/family_sweep.py`'s per-sibling ladder (raw→scoped→recovered→reconciled), or
+  extend `tools/reconcile_tu.py`/`cast_call_sites.py`. Model it on `cast_call_sites.py` (decl→canonical + cast).
+  **VALIDATE on:** re-sweep func_801670E4 (expect ~137; type-lift already committed) then func_8016CBC0 (also
+  type-lifted-needed — lift Blk_8016CBC0 + Mtx8_8016CBC0 first, byte-neutral, like 8012956c). 8013D53C is a
+  DISTINCT class (void* def-sig where the sibling CALLER declares/calls F(void) — needs the def-sig+caller thread,
+  not this pass). Reproduce a failure fast: `family_sweep --hseq --only 0x801670E4`, then manually splice a
+  `.run/sweep/<ov>/func_801670E4.c` staged draft into the sibling stub + `make build BINARY=<ov>` to read cc1.
+  Est. reward: ~+300-400 members (801670e4 + 8016cbc0 + the residual SC07 tails) ≈ +0.7pp. Cookbook §-note when done.
