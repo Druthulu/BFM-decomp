@@ -4231,3 +4231,50 @@ s32→void*, `func_80137D08` s32*→int, `func_8013AB54` s32*→s32); aligning t
 type guesses; the fleet already voted on the canonical — make the exemplar agree before it becomes the template.
 (Contrast the h_exact path — `dedup_propagate --recover` — which auto-reconciles conflicting *caller* externs;
 `family_sweep` does not, so you pre-align the *callee* externs by hand.)
+
+## §57 — The SELF-decl normalize: the sibling's OWN caller declares the templated fn divergently (the third §17a-1 direction; `tools/normalize_self_decls.py`, func_801670E4 ×137, Phase 29, 2026-07-18)
+
+§17a-1 (fold a compile-time fn-ptr cast of a known symbol back to a bare `jal`, byte-neutrally) has **three**
+directions, one per "who declares the conflicting signature":
+
+| tool | the conflicting decl is of… | lives in |
+|---|---|---|
+| `cast_call_sites` (§20) | a **callee** the draft calls | the DRAFT's own forward-decls |
+| `reconcile_tu` (§8d/§33) | a **data** symbol `D_xxxx` | the DRAFT's own externs |
+| **`normalize_self_decls` (this)** | **the templated fn F ITSELF** | the SIBLING TU's *other* already-banked functions |
+
+**The blocker (byte-proven, func_801670E4 ×137).** `family_sweep --hseq` templates F's DEF into each sibling TU.
+But that sibling's OWN already-matched caller of F may carry a **block-scope decl of F** left when *that overlay's*
+caller was matched — in a different C form than the exemplar's caller used. ov_SC01_004, `ov_SC01_004_jr_8015AE2C.c`:
+the stub of F (→ where the def lands) and `func_80167540`'s local `extern void func_801670E4(struct Entity_80167540 *,
+s32, s32, s32);` sit in **one TU**; splice F's def (`s32 func_801670E4(s32,s32,s32,s32)`) and cc1 exit-33s with
+`conflicting types for func_801670E4` — twice (once vs the def, once vs the canonical decl the `DEFINE_func_*` macro
+injects at file scope; the second is error-recovery cascade from the same one decl). **The EXEMPLAR never hit this**:
+ov_SC01_077's copy of that same caller used the fn-ptr CAST form instead of a decl, so the conflict is **per-sibling
+and invisible in the exemplar** (like §54's header-decl asymmetry and §56b's exemplar-externs, a third "the two overlays
+matched the same code in different C forms" trap). All 133 still-stubbed siblings carried the identical block-scope decl.
+
+**The fix (byte-neutral, gate-arbitrated).** For each decl of F in the sibling TU **incompatible** with F's def
+(`cdecl.compatible`, the cc1-validated oracle — a no-prototype `void f()` never conflicts in either TU order, §51g,
+so skip it): **DROP the decl** (F's def is now the declaration cc1 sees) and **CAST every call of F in that decl's
+scope to the decl's ORIGINAL sig** — `func_F(a)` → `((void(*)(struct Entity_80167540 *,s32,s32,s32))func_F)(a)`. This
+is the byte-faithful move (preserves the caller's exact ABI, the form the exemplar's caller already used); the
+`sig_unify` "rewrite the decl to canonical, keep the bare call" alternative reconverts the args to the canonical
+param widths and drifts codegen (§20). Manually proven byte-identical on ov_SC01_004 (**remove the stale output
+first** — a failed compile leaves a passing STALE binary that false-passes SHA, §42b) before the tool existed.
+
+**Wired.** `tools/normalize_self_decls.py` (`fix(tu_text, fn, ref_decl)` — scope via `cdecl._mask`ed brace-depth,
+block scope → the enclosing top-level fn body, file scope → to EOF; idempotent no-op when no divergent decl exists).
+`family_sweep --hseq --normalize-self-decls`: a new per-sibling stage after `reconcile_def_sig` that edits the
+**sibling TU FILE** (F's callers live in F's own TU = `harvest_verify`'s baseline, like `edit_remap_sweep`), with a
+snapshot + **final-SHA-MISMATCH revert backstop** (a MISMATCH ⇒ a transform bug, since `harvest_verify` always
+reverts a wrong DRAFT — so a wrong draft leaves the binary byte-identical, only a non-neutral TU edit can MISMATCH).
+Result: **func_801670E4 133/133 banked, 0 failed** (family 4→137/137), 0 backstop fires. **Do NOT add `--fix-def-sig`
+for this family:** the raw draft def `s32 func_801670E4(s32 arg0,…)` is already type-compatible with canonical
+(param NAMES are irrelevant to a C prototype); `--fix-def-sig` renames the params to `a0..a3` while the body still
+says `arg0..arg3` → `arg0 undeclared` (the "rare name mismatch" its own docstring warns of). Diagnose the sweep's
+ACTUAL blocker (splice one member, read cc1) before stacking plumbing flags (R35).
+
+**Not every type-lifted family needs this:** `func_8016CBC0` (also 137-member, also blocked) has NO divergent
+self-decl (survey the members: `grep 'func_X(' the-member-TUs`) — its blocker is a local-typedef lift (§ type-lift,
+like func_8012956C), a different lever. Route by the real cc1 error, not by "it's a stuck 137-family."

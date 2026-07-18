@@ -5028,7 +5028,178 @@ s32 func_80166F58(s32 param_1, s32 param_2, s32 param_3, s32 param_4)
 
 INCLUDE_ASM("asm/ov_SC01_074/nonmatchings/ov_SC01_074_jr_8015AE2C", func_8016706C);
 
-INCLUDE_ASM("asm/ov_SC01_074/nonmatchings/ov_SC01_074_jr_8015AE2C", func_801670E4);
+
+// @class: schedule
+// @stuck: 16/279 masked. 3 runs, ONE residual class: gcc's list-scheduler puts `la $s2` (p=DATA) + `addu $s4,$zero,$zero` (i=0) BEFORE the callee-arg address setup (addiu $a1,$sp,0x10 / addu $a2,$a1,$zero); the target emits them AFTER. Inert to ~40 statement-order permutations + pin/barrier combos (sched priority dominates the LUID tie-break, sched.c rank_for_schedule). Runs: 19-24 (blk1), 111-114 (region-B cx-load rotation), 177-182 (blk3). Permuter fuel.
+
+
+
+
+extern void func_80149350(s32);
+extern void func_800D20C0(void *a0, void *a1, s32 a2);
+extern void func_80017E68(void *a0, void *a1);
+extern void func_800D23D0(void *a0);
+extern void RotMatrixYXZ(void *a0, void *a1);
+extern s32  func_80017758(void *a0, void *a1);
+extern s32  func_80017DC4(void *a0, void *a1);
+extern void func_80048EAC(void *a0, void *a1);
+
+
+s32 func_801670E4(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
+
+    extern u8  D_801814FC[];
+    extern u8  D_801814E8[];
+    extern u8  D_80181510[];
+    extern s32 D_801269A4;
+    extern s32 D_801269A8;
+    extern s32 D_801269AC;
+    extern u16 D_80126CE0;
+    Fr_801670E4 f;
+    register u8 *p   __asm__("$18");   /* $s2 */
+    register s32 ent __asm__("$19");   /* $s3 */
+    s16 i;
+    s32 d;
+    s32 node;
+    u16 c;
+    u8 cv;
+    u8 cv2;
+    register s32 gA __asm__("$2");
+    register s32 cxv __asm__("$4");
+    register s32 czv __asm__("$5");
+    u8 *vc;
+    u8 *ap;
+    u8 *mp;
+    u8 *va;
+    u8 *vb;
+
+    ent = arg0;
+    node = *(s32 *)(ent + 0x34);
+    f.v[1].z = 0;
+    f.v[1].y = 0;
+    f.v[1].x = 0;
+    f.v[3].z = 0;
+    f.v[2].z = 0;
+    f.v[0].z = 0;
+    f.col[1].b = 0x70;
+    cv = *(u8 *)(ent + 0x12);
+    f.cx = arg1;
+    __asm__ __volatile__("");
+    va = (u8 *)&f.cx;
+    __asm__ __volatile__("" : "=r"(va) : "0"(va));
+    f.cy = arg2;
+    vb = va;
+    __asm__ __volatile__("" : "=r"(vb) : "0"(vb));
+    p = D_801814FC;
+    i = 0;
+    f.col[0].b = 0;
+    f.col[0].g = 0;
+    f.col[0].r = 0;
+    f.col[2].b = 0;
+    f.col[2].g = 0;
+    f.col[2].r = 0;
+    f.col[3].b = 0;
+    f.col[3].g = 0;
+    f.col[3].r = 0;
+    f.code = 0x50000000;
+    f.cz = arg3;
+    f.col[1].r = cv;
+    f.col[1].g = cv;
+    ((void (*)(s32, void *, void *))func_80149350)(node, va, vb);
+
+    c = f.cx;
+    *(s16 *)(ent + 0x06) = c;
+    *(s32 *)(ent + 0x4C) = (s16)c;
+    c = f.cy;
+    *(s16 *)(ent + 0x0A) = c;
+    *(s32 *)(ent + 0x50) = (s16)c;
+    c = f.cz;
+    *(s16 *)(ent + 0x0E) = c;
+    *(s32 *)(ent + 0x54) = (s16)c;
+    func_800D20C0(&f.cx, f.a8, 7);
+    func_80017E68(&f.cx, f.m1);
+    func_800D23D0(f.a8);
+    RotMatrixYXZ(f.a8, f.m1);
+
+    do {
+        f.v[0].x = (s8)*p++;
+        f.v[0].y = (s8)*p++;
+        f.v[2].x = (s8)*p++;
+        f.v[2].y = (s8)*p++;
+        f.v[3].x = (s8)*p++;
+        f.v[3].y = (s8)*p--;
+        func_80017758(f.v, f.m1);
+    } while ((i = i + 1) < 4);
+
+    p = D_801814E8;
+    gA = 0xA0;
+    cxv = (s16)f.cx;
+    f.col[1].g = gA;
+    gA = D_801269A4;
+    czv = (s16)f.cz;
+    f.col[1].b = 0x10;
+    f.col[1].r = 0x10;
+    f.pos[0] = gA - cxv;
+    i = 0;
+    f.v[3].y = 0;
+    f.v[2].y = 0;
+    f.v[0].y = 0;
+    f.pos[1] = D_801269A8 - (s16)f.cy;
+    f.pos[2] = D_801269AC - czv;
+
+    do {
+        f.v[0].x = (s8)*p++;
+        f.v[0].z = (s8)*p++;
+        f.v[2].x = (s8)*p++;
+        f.v[2].z = (s8)*p++;
+        f.v[3].x = (s8)*p++;
+        f.v[3].z = (s8)*p--;
+        func_80017758(f.v, (void *)(ent + 0x38));
+    } while ((i = i + 1) < 4);
+
+    if (*(s32 *)(ent + 0x30) > 0) {
+        vc = (u8 *)&f.cx;
+        __asm__ __volatile__("" : "=r"(vc) : "0"(vc));
+        mp = f.m1;
+        ap = mp;
+        __asm__ __volatile__("" : "=r"(ap) : "0"(ap));
+        p = D_80181510;
+        i = 0;
+        d = (s16)f.a8[0] >> 6;
+        f.cx += d;
+        f.cy += d;
+        f.cz += d;
+        func_80017E68(vc, ap);
+        f.cx = f.cy = f.cz = ((u32)*(s32 *)(ent + 0x30) >> 1) + D_80126CE0 * 0x20;
+        func_80017DC4(&f.cx, f.m2);
+        func_80048EAC(f.m2, mp);
+        f.v[3].z = 0;
+        f.v[2].z = 0;
+        f.v[0].z = 0;
+        cv2 = *(u8 *)(ent + 0x12);
+        f.col[1].b = 0x20;
+        f.col[1].r = 0x20;
+        f.col[3].b = 0;
+        f.col[3].r = 0;
+        f.col[2].b = 0;
+        f.col[2].r = 0;
+        f.col[0].b = 0;
+        f.col[0].r = 0;
+        f.col[3].g = 0;
+        f.col[2].g = 0;
+        f.col[0].g = 0;
+        f.col[1].g = cv2 + 0x60;
+        do {
+            f.v[0].x = (s8)*p++;
+            f.v[0].y = (s8)*p++;
+            f.v[2].x = (s8)*p++;
+            f.v[2].y = (s8)*p++;
+            f.v[3].x = (s8)*p++;
+            f.v[3].y = (s8)*p--;
+            func_80017758(f.v, f.m1);
+        } while ((i = i + 1) < 8);
+    }
+}
+
 
 
 typedef struct { s32 m[8]; } Mat_80167540; /* 0x20 bytes */
@@ -5073,7 +5244,6 @@ struct Entity_80167540 {
 
 
 s32 func_80167540(s32 arg0) {
-    extern void func_801670E4(struct Entity_80167540 *, s32, s32, s32);
 
     struct Node_80167540 *node;
     struct Entity_80167540 *ent;
@@ -5095,7 +5265,7 @@ shared:
         }
         ((struct Entity_80167540 *)arg0)->unk12 = (s16) (((struct Entity_80167540 *)arg0)->unk12 + ((struct Entity_80167540 *)arg0)->unk1C);
         ((struct Entity_80167540 *)arg0)->mat = node->unk20->mat;
-        func_801670E4(((struct Entity_80167540 *)arg0), 0, 0, 0);
+        ((void (*)(struct Entity_80167540 *, s32, s32, s32))func_801670E4)(((struct Entity_80167540 *)arg0), 0, 0, 0);
         ent = ((struct Entity_80167540 *(*)(s32, struct Entity_80167540 *, s16, s16, s32, s32, s32))func_80146A6C)(0xE, ((struct Entity_80167540 *)arg0), node->unk6, node->unkA, node->unkE, 0, 0);
         if (ent != 0) {
             ent->mat = node->unk20->mat;

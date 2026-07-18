@@ -428,3 +428,26 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   not this pass). Reproduce a failure fast: `family_sweep --hseq --only 0x801670E4`, then manually splice a
   `.run/sweep/<ov>/func_801670E4.c` staged draft into the sibling stub + `make build BINARY=<ov>` to read cc1.
   Est. reward: ~+300-400 members (801670e4 + 8016cbc0 + the residual SC07 tails) ≈ +0.7pp. Cookbook §-note when done.
+
+- **✅ 2026-07-18 — DECL-NORMALIZE ENHANCEMENT BUILT + VALIDATED: func_801670E4 family 4→137/137 (+133 banked, 0 failed).**
+  Built `tools/normalize_self_decls.py` — the **third §17a-1 direction** (cast_call_sites = callee decls in the DRAFT;
+  reconcile_tu = data decls in the DRAFT; this = **F ITSELF**, declared divergently by the sibling TU's OWN already-banked
+  callers). `fix(tu_text, fn, ref_decl)`: drop each decl of F incompatible with F's def (`cdecl.compatible` oracle; skips
+  no-proto `void f()` which never conflicts, §51g) + cast its in-scope calls to the dropped sig (scope via `cdecl._mask`ed
+  brace-depth). Wired into `family_sweep --hseq` as `--normalize-self-decls` (new per-sibling stage after reconcile_def_sig;
+  edits the **sibling TU FILE** = harvest_verify's baseline, like edit_remap_sweep) + a snapshot/**final-SHA-MISMATCH revert
+  backstop** (a MISMATCH ⇒ transform bug — a wrong DRAFT is always reverted by harvest_verify, so only a non-neutral TU edit
+  can MISMATCH). **Byte-proof before the tool existed:** manually dropped the ov_SC01_004 decl + cast the call + spliced F's
+  def → fresh build (output removed first — dodged the §42b STALE-binary false-pass) BYTE-IDENTICAL. Survey: all 133 still-
+  stubbed siblings carried the *identical* block-scope `extern void func_801670E4(struct Entity_80167540*,s32,s32,s32)`.
+  **R14 CORRECTION (do not re-trust the confound):** my first repro added `--fix-def-sig`, which renamed F's def params to
+  `a0..a3` while the body used `arg0..arg3` → `arg0 undeclared` (a DIFFERENT bug — the "rare name mismatch" reconcile_def_sig's
+  own docstring warns of). The raw draft def `s32 func_801670E4(s32 arg0,…)` is already type-compatible with canonical (param
+  NAMES are irrelevant to a C prototype), so this family needs NO `--fix-def-sig` — the caller-decl conflict is the SOLE
+  blocker. Sweep `family_sweep --hseq --only 0x801670E4 --band substantial --allow-pins --no-preclassify --normalize-self-decls`
+  → **133/133 banked, 0 failed, 0 backstop fires**; 0 func_801670E4 stubs remain fleet-wide. **R22 clean-fleet 140/140
+  byte-identical; tools-health OK (dedup 1846/0, C1 234205/234205); 0 NON_MATCHING linked (G4).** Fleet **74.6→74.9% instr ·
+  59.4→60.1% distinct · 86.92→86.96% fn-count** (~+37k ins). Cookbook **§57** (R30). **R14 finding for Task-4/8016CBC0:**
+  survey proved its 137 members have NO divergent self-decl — it is TYPE-LIFT-blocked (6-typedef cluster Rec_/Blk_/SVEC_/CLR_/
+  Poly_/Mtx8_8016CBC0), a DIFFERENT lever (like 8012956c), NOT this pass. Route by the real cc1 error, not by "stuck 137-family."
+  NEXT: the func_8016CBC0 type-lift (separate commit) + the 8013D53C void*-def-sig class + the permuter/Fable backlog.
