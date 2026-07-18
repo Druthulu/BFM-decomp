@@ -135,9 +135,24 @@ def func_subseg(ov, func):
 
 
 def func_jtbls(ov, func):
-    """(subseg, [jtbl_hex,...]) that `func` references (from its .s %hi(jtbl_...))."""
+    """(subseg, [jtbl_hex,...]) that `func` references (from its .s %hi(jtbl_...)).
+
+    The owning SUBSEG is config-derived (stale-proof, see func_subseg). The .s CONTENT lookup may
+    fall back to a stale-location copy (Phase-29 §8e): once the fn is spliced as C and re-extracted
+    (e.g. after a jr isolation), no fresh .s exists anywhere — but a stale one in a previous owner's
+    dir still holds the correct jtbl refs (the fn's code, hence its %hi(jtbl_...) set, is
+    address-stable regardless of which subseg owned it)."""
     sub = func_subseg(ov, func)
-    s = open(os.path.join(REPO, "asm", ov, "nonmatchings", sub, f"{func}.s")).read()
+    p = os.path.join(REPO, "asm", ov, "nonmatchings", sub, f"{func}.s")
+    if not os.path.exists(p):
+        stale = sorted(glob.glob(os.path.join(REPO, "asm", ov, "nonmatchings", "*", f"{func}.s")))
+        if not stale:
+            sys.exit(f"jtbl_carve: no .s for {func} anywhere under asm/{ov}/nonmatchings/ — "
+                     f"already spliced AND no stale copy; re-extract from the stub state first")
+        p = stale[0]
+        print(f"jtbl_carve: {func}.s not in config-derived subseg '{sub}' — using stale-location "
+              f"{os.path.relpath(p, REPO)} for jtbl refs (content is address-stable)")
+    s = open(p).read()
     return sub, sorted(set(re.findall(r"jtbl_([0-9A-Fa-f]{8})", s)))
 
 
