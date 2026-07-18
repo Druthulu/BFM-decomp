@@ -3152,7 +3152,7 @@ int func_80137D08(int arg0, int arg1, short arg2)
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_007/nonmatchings/ov_SC07_007", func_80137DD4);
+DEFINE_func_80137DD4()  /* dedup: shared engine-core @0x80137DD4 (src/shared) */
 
 DEFINE_func_80137FD8()  /* dedup: shared engine-core @0x80137fd8 (src/shared) */
 
@@ -7215,7 +7215,7 @@ DEFINE_func_8014DF94()  /* dedup: shared engine-core @0x8014df94 (src/shared) */
 DEFINE_func_8014E048()  /* dedup: shared engine-core @0x8014e048 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC07_007/nonmatchings/ov_SC07_007", func_8014E284);
+DEFINE_func_8014E284()  /* dedup: shared engine-core @0x8014E284 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC07_007/nonmatchings/ov_SC07_007", func_8014E434);
 

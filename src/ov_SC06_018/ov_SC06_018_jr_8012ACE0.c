@@ -3063,6 +3063,6 @@ int func_80137D08(int arg0, int arg1, short arg2)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_8012ACE0", func_80137DD4);
+DEFINE_func_80137DD4()  /* dedup: shared engine-core @0x80137DD4 (src/shared) */
 
 DEFINE_func_80137FD8()  /* dedup: shared engine-core @0x80137FD8 (src/shared) */

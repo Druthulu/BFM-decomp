@@ -27842,4 +27842,86 @@
         return 0; \
     }
 
+#define DEFINE_func_8014E284() \
+    extern u8 D_801202A0[]; \
+    extern s32 func_80135A4C(s32 a0, s32 a1, s32 *a2, s32 a3);  /* canonical (engine_core.h:11555) */ \
+    extern s32 ratan2(s32 a0, s32 a1); \
+    extern s32 func_80012A60(s32 a0, s32 a1); \
+    s32 func_8014E284(s32 a0, s16 *arg1, s16 *arg2) { \
+        u16 *a1 = (u16 *)arg1; \
+        u16 *a2 = (u16 *)arg2; \
+        EntSC01077 *p; \
+        s16 dx; \
+        s16 dz; \
+        s16 ax; \
+        s16 az; \
+        s32 r1; \
+        s32 r2; \
+        dx = a2[0] - a1[0]; \
+        dz = a2[2] - a1[2]; \
+        if ((s16)(dx | dz) != 0) { \
+            for (p = (EntSC01077 *)D_801202A0; p < (EntSC01077 *)D_801202A0 + 96; p++) { \
+                if (p->f00 == 0) continue; \
+                if (p->f58 == 0) continue; \
+                if ((p->f5C & 0x1000) == 0) continue; \
+                /* §17a-1 fn-ptr cast: keep the canonical extern, call with the intended sig. */ \
+                if (((s32 (*)(s32, s32, u16 *, u16 *))func_80135A4C)(p->f20, p->f58, a1, a2) == 0) continue; \
+                ax = p->f06 - *(u16 *)(a0 + 6); \
+                az = p->f0E - *(u16 *)(a0 + 0xE); \
+                r1 = (s16)ratan2(dz, dx); \
+                r2 = (s16)ratan2(az, ax); \
+                if ((s16)func_80012A60(r1, r2) < 0x400) { \
+                    *(s32 *)(a0 + 0x170) = (s32)p; \
+                    *(u16 *)(a0 + 6) = a2[0]; \
+                    *(u16 *)(a0 + 0xA) = a2[1] + 0x10; \
+                    *(u16 *)(a0 + 0xE) = a2[2]; \
+                    return 1; \
+                } \
+            } \
+        } \
+        return 0; \
+    }
+
+#define DEFINE_func_80137DD4() \
+    extern void *func_80010A08(s32); \
+    extern void func_80137FD8(s32 a0, s32 a1, s32 a2, s32 a3); \
+    void func_80137DD4(s32 ent, u8 *arg, u8 *work) { \
+        register s32 t __asm__("$4"); \
+        s32 d, c, c1, sub, y; \
+        u32 b; \
+        P_TAG_80137DD4 *q, *r; \
+        { \
+            register u32 h12 __asm__("$2"), h16 __asm__("$3"); \
+            h12 = *(u16 *)(ent + 0x12); \
+            h16 = *(u16 *)(ent + 0x16); \
+            t = h12 - h16; \
+        } \
+        d = t; \
+        if ((s16)t < 0) { \
+            register s32 e __asm__("$2"); \
+            e = t + 1; \
+            d = (u32)*(u16 *)(ent + 0x2e) + e; \
+        } \
+        b = *(volatile u8 *)(ent + 0x1f); \
+        c = (s8)b; \
+        sub = d - (u32)*(u8 *)(ent + 0x21); \
+        c1 = c + 1; \
+        y = (u32)*(u16 *)(ent + 0x32) + (s16)(sub + c1) * 0xe; \
+        q = (P_TAG_80137DD4 *)func_80010A08(0x48); \
+        *(u8 *)(arg + 3) = 0; \
+        func_80137FD8(ent, (s32)arg, (s32)q, (s16)y); \
+        q->addr = ((P_TAG_80137DD4 *)((u32)*(u16 *)(ent + 0x1a) * 4 + *(s32 *)(work + 4)))->addr; \
+        ((P_TAG_80137DD4 *)((u32)*(u16 *)(ent + 0x1a) * 4 + *(s32 *)(work + 4)))->addr = (u32)q; \
+        q = (P_TAG_80137DD4 *)((u8 *)q + 0x24); \
+        *(u8 *)(arg + 3) = 1; \
+        func_80137FD8(ent, (s32)arg, (s32)q, (s16)y); \
+        q->addr = ((P_TAG_80137DD4 *)((u32)*(u16 *)(ent + 0x1a) * 4 + *(s32 *)(work + 4)))->addr; \
+        ((P_TAG_80137DD4 *)((u32)*(u16 *)(ent + 0x1a) * 4 + *(s32 *)(work + 4)))->addr = (u32)q; \
+        r = (P_TAG_80137DD4 *)func_80010A08(8); \
+        r->len = 1; \
+        *(u32 *)((u8 *)r + 4) = 0xe100000a; \
+        r->addr = ((P_TAG_80137DD4 *)((u32)*(u16 *)(ent + 0x1a) * 4 + *(s32 *)(work + 4)))->addr; \
+        ((P_TAG_80137DD4 *)((u32)*(u16 *)(ent + 0x1a) * 4 + *(s32 *)(work + 4)))->addr = (u32)r; \
+    }
+
 #endif

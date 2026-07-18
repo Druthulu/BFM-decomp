@@ -585,4 +585,24 @@ typedef struct { u16 a, b, c, d; } SV4U;
 
 typedef struct { short a, b, c; } SV3;
 
+
+/* lifted for dedup propagation (Phase 29 T4 type-lift): func_8014E284 / func_80137DD4 */
+typedef struct EntSC01077 {
+    u16 f00;
+    u8  pad02[4];
+    u16 f06;
+    u8  pad08[2];
+    u16 f0A;
+    u8  pad0C[2];
+    u16 f0E;
+    u8  pad10[0x10];
+    s32 f20;
+    u8  pad24[0x34];
+    s32 f58;
+    u16 f5C;
+    u8  pad5E[0xAE];
+} EntSC01077;
+
+typedef struct { u32 addr : 24; u32 len : 8; u8 r0, g0, b0, code; } P_TAG_80137DD4;
+
 #endif /* BFM_ENGINE_TYPES_H */

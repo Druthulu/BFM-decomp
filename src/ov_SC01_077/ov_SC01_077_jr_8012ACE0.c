@@ -3649,55 +3649,7 @@ int func_80137D08(int arg0, int arg1, short arg2)
 //     orders `subu` before `addiu` to match.
 #include "common.h"
 
-extern void *func_80010A08(s32);
-extern void func_80137FD8(s32 a0, s32 a1, s32 a2, s32 a3);
-
-typedef struct { u32 addr : 24; u32 len : 8; u8 r0, g0, b0, code; } P_TAG_80137DD4;
-
-#define OTE ((P_TAG_80137DD4 *)((u32)*(u16 *)(ent + 0x1a) * 4 + *(s32 *)(work + 4)))
-
-void func_80137DD4(s32 ent, u8 *arg, u8 *work) {
-    register s32 t __asm__("$4");
-    s32 d, c, c1, sub, y;
-    u32 b;
-    P_TAG_80137DD4 *q, *r;
-
-    {
-        register u32 h12 __asm__("$2"), h16 __asm__("$3");
-        h12 = *(u16 *)(ent + 0x12);
-        h16 = *(u16 *)(ent + 0x16);
-        t = h12 - h16;
-    }
-    d = t;
-    if ((s16)t < 0) {
-        register s32 e __asm__("$2");
-        e = t + 1;
-        d = (u32)*(u16 *)(ent + 0x2e) + e;
-    }
-    b = *(volatile u8 *)(ent + 0x1f);
-    c = (s8)b;
-    sub = d - (u32)*(u8 *)(ent + 0x21);
-    c1 = c + 1;
-    y = (u32)*(u16 *)(ent + 0x32) + (s16)(sub + c1) * 0xe;
-
-    q = (P_TAG_80137DD4 *)func_80010A08(0x48);
-    *(u8 *)(arg + 3) = 0;
-    func_80137FD8(ent, (s32)arg, (s32)q, (s16)y);
-    q->addr = OTE->addr;
-    OTE->addr = (u32)q;
-
-    q = (P_TAG_80137DD4 *)((u8 *)q + 0x24);
-    *(u8 *)(arg + 3) = 1;
-    func_80137FD8(ent, (s32)arg, (s32)q, (s16)y);
-    q->addr = OTE->addr;
-    OTE->addr = (u32)q;
-
-    r = (P_TAG_80137DD4 *)func_80010A08(8);
-    r->len = 1;
-    *(u32 *)((u8 *)r + 4) = 0xe100000a;
-    r->addr = OTE->addr;
-    OTE->addr = (u32)r;
-}
+DEFINE_func_80137DD4()  /* dedup: shared engine-core @0x80137DD4 (src/shared) */
 
 
 DEFINE_func_80137FD8()  /* dedup: shared engine-core @0x80137FD8 (src/shared) */

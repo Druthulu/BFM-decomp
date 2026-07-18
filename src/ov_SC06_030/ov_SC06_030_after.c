@@ -1448,7 +1448,7 @@ DEFINE_func_8014DF94()  /* dedup: shared engine-core @0x8014DF94 (src/shared) */
 
 DEFINE_func_8014E048()  /* dedup: shared engine-core @0x8014E048 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC06_030/nonmatchings/ov_SC06_030_after", func_8014E284);
+DEFINE_func_8014E284()  /* dedup: shared engine-core @0x8014E284 (src/shared) */
 
 
 extern void func_8014E48C(s32 a0);

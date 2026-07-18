@@ -41,14 +41,34 @@ draft STANDALONE, so it is blind to the member TU's conflicting decls. The whole
 
 ---
 
-## Suggested order for a fresh session (cheapest → dearest)
-1. **`func_8013FAF8` (312)** — pure def-sig plumbing on an already-MATCHing giant. Best value.
-2. **`func_80131340` (424)** — in-TU-proven body; just re-read the real gate error.
-3. **`func_8013F350` (490)** — §30#2 macro-widen (`void`→`s32`).
-4. **`func_8014F4C0`** — one stubborn decl.
-5. **`func_8013C414` (329)** — §8a rodata-island carve (config work, self-contained, well-precedented).
-6. **`func_80159C84` (337)** — needs a fresh gate diagnosis first.
-7. Permuter fuel: `func_80177940` (5), `func_801670E4` (16 — strip pins first), `func_8014D820` (33), `func_80140958` (116).
+## STATUS after Phase-29 T4 session (2026-07-17) — the giants split into TWO classes
+
+**✅ DONE (both NON-jtbl giants, fully banked + propagated fleet-wide):**
+- **`func_8013FAF8` (312)** — banked x1 (cookbook §56 multi-symbol reconciliation) + **propagated x137**
+  via `family_sweep --hseq` (h_seq family; §56b — align the exemplar's callee externs to fleet-canonical
+  first or it banks 0/137). Commits `commit:0673`, `commit:0675`. ~+42.7k ins.
+- **`func_8014F4C0` (141)** — banked x1 (clean; earlier reject was §55b propagate-damage) + **propagated
+  x134** via `dedup_propagate --recover` (h_exact). Commit `commit:0674`. ~+19k ins.
+
+**⏸ DEFERRED — the 4 jtbl giants are BLOCKED on ONE tooling gap (the teed-up next-session task):**
+`func_80131340` (424), `func_80159C84` (337, +a trivial D_801891B8 (u8*/void*) plumbing fix),
+`func_8013C414` (329, -O0), `func_8013F350` (490, +§30#2 macro-widen void→s32).
+Each needs a per-overlay jtbl carve (`jtbl_carve` / `jtbl_family_bank`) x~137, and the carve currently
+OVERSHOOTS: **byte-proven on func_80131340 —** its `jtbl_801D8144` is a non-first, 4-aligned jtbl in a
+shared code object; the carved `.rodata` run comes out **+4 bytes** (an 8-align pad at rodata offset 0xCC
+after the 51-entry jtbl_801D8078), shifting the whole data island → all downstream `%lo` relocs break
+image-wide (+5B, 3077 diffs from a CLEAN build).
+**ROOT CAUSE HALF-PINNED (do NOT re-derive):** it is NOT gcc — **cc1 AND maspsx both emit the jtbl
+`.align 2` (4-byte, correct)** (probe: `.run/probe_jtbl_cc1.s` / `probe_jtbl_maspsx.s`). The 8-byte pad
+is a downstream build-infra artifact (GNU `as` `.rodata` section-align defaulting to `2**3`, or the
+`ld_interleave` placement). **NEXT-SESSION TASK:** pin whether it's `as` section-align vs interleave →
+fix `jtbl_carve`/`ld_interleave` to pack the non-first jtbl 4-aligned (or isolate) → prove x137 propagation
+on func_80131340 end-to-end BEFORE scaling to all 4. Ceiling ≈ +1 to +1.5pp instr (the biggest lever left).
+
+**Permuter fuel (separate track):** `func_80177940` (5), `func_801670E4` (16 — strip pins first),
+`func_8014D820` (33), `func_80140958` (116).
 
 **Gate law (§55b):** `--no-propagate` per group → **commit the banks** → THEN one targeted
 `dedup_propagate --addr <banked>` (~233s/core on a healthy tree; only `--auto-from` is fleet-slow).
+**h_seq giants use `family_sweep --hseq` (per-overlay symbol remap), NOT dedup_propagate (reach<2);
+pre-align the exemplar's callee externs to the fleet-canonical (§56b).**

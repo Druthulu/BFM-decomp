@@ -197,6 +197,27 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   Cookbook §56b (exemplar-externs-must-be-canonical for h_seq; contrast dedup_propagate --recover which
   auto-reconciles CALLER externs). Both NON-jtbl giants now fully banked+propagated (func_8013FAF8 x137,
   func_8014F4C0 x134); the 4 jtbl giants stay deferred on the 8-align carve gap.
+- **✅ 2026-07-17 — 2-core type-lift + propagate x138 each (func_8014E284 108, func_80137DD4 129).** Both were
+  banked x1 in Task 3 but `dedup_propagate` skipped them ("not self-contained: local types"). Lifted `EntSC01077`
+  (func_8014E284) + `P_TAG_80137DD4` (func_80137DD4) into `src/shared/engine_types.h` (fleet-included via
+  engine_core.h) and **inlined func_80137DD4's file-local `#define OTE`** into the body (byte-neutral macro
+  expansion, re-evaluated per use to preserve codegen) → both self-contained → `dedup_propagate --recover` =
+  **138 overlays byte-identical, 0 stragglers, 2 new dedup groups**. ~+32.7k ins. R22 clean-fleet 140/140;
+  dedup 1846/0; C1 234205. Cheap carried Task-3 win closed (§55c local-type cap lifted for these 2).
+
+> **🛑 SESSION-2 CHECKPOINT (2026-07-17) — supersedes the checkpoint above; safe to open a FRESH session here.**
+> Tree clean, **140/140 byte-identical**, `tools-health` green, dedup **1852/0**, 0 NON_MATCHING.
+> Fleet **72.1% instr · 54.0% distinct-code · 86.57% fn-count** (session opened 71.4/53.3/86.42 → **+0.7pp instr**).
+> **This session banked ~94k ins across 4 fns ×~137 overlays:** func_8013FAF8 (312) ×137 + func_8014F4C0 (141) ×134
+> (the 2 NON-jtbl giants, fully done) + func_8014E284 (108) ×138 + func_80137DD4 (129) ×138 (the 2-core type-lift).
+> Commits `commit:0673`, `commit:0674`, `commit:0675` + the type-lift commit (Drew pushes). Cookbook **§56/§56b** added.
+> **THE TEED-UP NEXT TASK (Drew-directed): the jtbl 8-align tooling fix** — unblocks the 4 remaining giants
+> (`func_80131340`/`func_80159C84`/`func_8013C414`/`func_8013F350`), ceiling ≈ **+1 to +1.5pp instr** (biggest lever
+> left). Root cause HALF-PINNED (do not re-derive): cc1 AND maspsx both emit the jtbl `.align 2` (correct) — the
+> +4B 8-align pad is a downstream `as`/`ld_interleave` artifact. **START from `.run/giants/p29t3_README.md`** (the
+> STATUS section — full findings, probes at `.run/probe_jtbl_*.s`) + cookbook §8/§8a. Step 1: pin `as` section-align
+> vs interleave; Step 2: fix jtbl_carve to pack the non-first jtbl 4-aligned; Step 3: prove x137 on func_80131340
+> before scaling. Also open: Task 6 permuter backlog, Task 5 Ghidra prefetch (needs /mcp), Task 7 ROI-close.
 - **2026-07-17 — Task 3 core-crack wave: 13 agents → 7 MATCH → 5 BANKED ×1.** Ultracode `worker_wave`
   (13 xHigh drafters over 6 cores 260–371 ins + 7 B3 near-misses 100–141 ins; all had cached Ghidra-C).
   Wave hit a usage limit at 2/13, **resumed cleanly** (cached agents replay) → **13/13 done: 7 match / 6 near**.
