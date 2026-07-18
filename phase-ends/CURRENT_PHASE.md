@@ -451,3 +451,18 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   survey proved its 137 members have NO divergent self-decl — it is TYPE-LIFT-blocked (6-typedef cluster Rec_/Blk_/SVEC_/CLR_/
   Poly_/Mtx8_8016CBC0), a DIFFERENT lever (like 8012956c), NOT this pass. Route by the real cc1 error, not by "stuck 137-family."
   NEXT: the func_8016CBC0 type-lift (separate commit) + the 8013D53C void*-def-sig class + the permuter/Fable backlog.
+
+- **✅ 2026-07-18 — func_8016CBC0 TYPE-LIFT + sweep COMPLETE ×138 (the separate lever the R14 survey predicted).**
+  Confirmed the survey: func_8016CBC0's 137 members are NOT self-decl-blocked (§57) — blocked purely on the exemplar's
+  **6 local typedefs** (Rec_/Blk_/SVEC_/CLR_/Poly_/Mtx8_8016CBC0). Lifted all 6 VERBATIM into
+  `src/shared/engine_types.h` (marked "Phase-29 crack-wave lift (func_8016CBC0 family)" section, fleet-visible via
+  engine_core.h) + removed the locals from the exemplar TU (ov_SC01_077_jr_8016AB6C.c). Verified **no fleet
+  name-collision** (all 6 exclusive to the exemplar, grep) and **byte-neutral** (exemplar overlay rebuilds
+  byte-identical d19c9580). Sweep `family_sweep --hseq --only 0x8016CBC0 --no-preclassify --normalize-self-decls`
+  → **137/137 banked, 0 failed** (--normalize-self-decls a correct no-op here — 0 divergent self-decls, as surveyed);
+  0 func_8016CBC0 stubs remain fleet-wide. R22 clean-fleet **140/140 byte-identical**; tools-health OK (dedup 1846/0,
+  C1 234205/234205); 0 NON_MATCHING linked (G4). Fleet **74.9→75.1% instr · 60.1→60.6% distinct · 86.96→87.00%
+  fn-count**. **Session-total (both families): 74.6→75.1% instr (+0.5pp), 59.4→60.6% distinct (+1.2pp), +270 members**
+  — the decl-normalize win (§57, +133) and the type-lift win (+137) from the SAME BUILD-SPEC validation set that
+  looked like one "stuck 137-family" but needed two different levers. NEXT: 8013D53C (void*-def-sig + caller-thread
+  class), the SC07 tails, permuter/Fable backlog.

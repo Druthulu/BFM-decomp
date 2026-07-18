@@ -2869,42 +2869,6 @@ void func_8016CB84(void *a0) {
 
 #include "common.h"
 
-typedef struct
-{
-  u16 h[6];
-} Rec_8016CBC0;
-typedef struct 
-{
-  u8 f0;
-  u8 f1;
-  u8 f2;
-  u8 f3;
-  Rec_8016CBC0 ent[16];
-} Blk_8016CBC0;
-typedef struct 
-{
-  s16 x;
-  s16 y;
-  s16 z;
-  s16 pad;
-} SVEC_8016CBC0;
-typedef struct 
-{
-  u8 r;
-  u8 g;
-  u8 b;
-  u8 pad;
-} CLR_8016CBC0;
-typedef struct 
-{
-  SVEC_8016CBC0 v[4];
-  CLR_8016CBC0 col[4];
-  s32 tag;
-} Poly_8016CBC0;
-typedef struct 
-{
-  s32 w[8];
-} Mtx8_8016CBC0;
 extern s32 func_80017758(void *a0, void *a1);
 extern Blk20 D_800AE620;
 short func_8016CBC0(void)

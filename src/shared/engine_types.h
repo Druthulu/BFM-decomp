@@ -641,3 +641,42 @@ typedef struct {
     /* 0x58 */ u8 m1[0x20];
     /* 0x78 */ u8 m2[0x20];
 } Fr_801670E4;   /* 0x98 bytes -> sp+0x10 .. sp+0xA8 */
+
+
+/* Phase-29 crack-wave lift (func_8016CBC0 family) */
+typedef struct
+{
+  u16 h[6];
+} Rec_8016CBC0;
+typedef struct
+{
+  u8 f0;
+  u8 f1;
+  u8 f2;
+  u8 f3;
+  Rec_8016CBC0 ent[16];
+} Blk_8016CBC0;
+typedef struct
+{
+  s16 x;
+  s16 y;
+  s16 z;
+  s16 pad;
+} SVEC_8016CBC0;
+typedef struct
+{
+  u8 r;
+  u8 g;
+  u8 b;
+  u8 pad;
+} CLR_8016CBC0;
+typedef struct
+{
+  SVEC_8016CBC0 v[4];
+  CLR_8016CBC0 col[4];
+  s32 tag;
+} Poly_8016CBC0;
+typedef struct
+{
+  s32 w[8];
+} Mtx8_8016CBC0;
