@@ -358,3 +358,19 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   312/312. Stubs 138→137, defs 1, 0 NON_MATCHING (G4). Resolved draft `.run/drafts_faf8/func_8013FAF8.c`.
   **NEXT:** giant #2 `func_80131340` (424, _jr_8012ACE0.c — in-TU-verified twice, earlier "gate reject" was a
   §55b propagate-damage artifact; re-gate on the clean tree). Propagation of all banked giants = batched (§55b).
+
+- **✅ 2026-07-18 — CRACK-WAVE (Ultracode, 7 fresh-core agents, ~2M tokens): 3 MATCH / 4 near; 1 family banked ×138.**
+  Fan-out over the top unbanked substantial families (m2c + §31 map + gcc-2.7.2 source + match_one).
+  **MATCH:** `func_8013CB84` (249, non-jr) → **banked ×138** (5-lever crack: §32 struct-base-hoist + §18
+  address-caching + packed-struct block-move + 1-arg-callee + Rec12 stride array; §8d reconcile D_801DAA78
+  Rec9→u8 cast-at-use). `func_8015B950` (271, jr) + `func_8013B83C` (272, jr-O0) — MATCH but DEFERRED on
+  real walls (8015b950 = def-side register-threading: canonical (void) vs def-reads-$a0, thin-wrapper caller
+  func_8015BEE4 forwards $a0 implicitly, pin perturbs codegen; 8013b83c = Arm-A -O0 sweep-block + -O0 jr-isolation
+  gap). Both preserved+characterized (.run/giants/wave_func_*.c, R20). **Near (permuter/Fable5 fuel, rich probes):**
+  func_8012956C (15), func_8013D53C (27, CSE address-merge — literal-probe gives structural match, family-wide),
+  func_80175DA8 (30), func_80135EB0 (36, jr). **Permuter:** func_8014D820 33→27 (regalloc-order wall → Fable5
+  seed, preserved). **CRACK-WAVE SWEEP LESSON (new memory + §-note):** a freshly-cracked exemplar is draft-ov077
+  in the stale map → family_sweep finds 0; --reconcile-raw mishandles per-overlay externs (0/137). FIX: bank ×1 →
+  `make sig-overlays` + `family_hseq.py` regen (→matched-ov077) → standard `family_sweep --hseq --only` (137/137).
+  **BATCH R22: check-all 140/140 byte-identical; tools-health green; dedup 1846/0.** Fleet **73.4→73.7% instr ·
+  56.9→57.5% distinct · 86.73% fn-count**. Commit `commit:0699`.
