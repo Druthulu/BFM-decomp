@@ -26,12 +26,15 @@ MULTI-TABLE spans & the 8-align pad spec (Phase-29 §8e; .run/probe_jtbl/verdict
 non-first table sits at an original vram ≡4 mod 8 would gain a +4 interior pad the original does
 not have (originally-separate TUs pack TIGHT) — and conversely a real intra-TU pad word must be
 reproduced where the original HAS one. When a span holds >1 table, this tool derives the per-table
-pad spec by interval arithmetic (pad[K] = start[K] - end[K-1] ∈ {0,4}; a 4-gap must be a zero word
-in the payload) and writes a per-object `JTBL_PADS` target var into config/overlays.mk; the
-Makefile then pipes that object through tools/jtbl_rodata_pads.py, which REPLACES each rodata
-`.align` with the spec'd pad bytes. Committed spec values are carried, never re-derived (a
-committed span's interior boundaries are not recoverable from its interval). Single-table carves
-get NO var and keep today's byte-identical pipeline.
+pad spec by the payload ZERO-WORD rule (pad before table K iff the word at start[K]-4 is zero — a
+zero can never be a table entry) over the span's TABLE STARTS, and writes a per-object `JTBL_PADS`
+target var into config/overlays.mk; the Makefile then pipes that object through
+tools/jtbl_rodata_pads.py, which REPLACES each rodata `.align` with the spec'd pad bytes. Table
+starts are PERSISTED in the var's `tables=` comment (extract prunes matched owners' stub .s, so
+they are unrecoverable later); an untouched span's committed line is reused verbatim; sibling
+sweeps transfer span structure from the exemplar via `--like` (same family => same structure,
+pads still derived from the local payload); `--span-tables` is the pre-§8e archaeology escape.
+Single-table carves get NO var and keep today's byte-identical pipeline.
 
 Usage:  jtbl_carve.py <ov> --func func_XXXX [--func ...]   # add these matched jr-fns to the carve set
         jtbl_carve.py <ov> --revert                        # restore the config from git (drop carves)
@@ -45,6 +48,10 @@ import subprocess
 import sys
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# §8e CLI state (set by main)
+LIKE_OV = None
+SPAN_TABLES_OVERRIDE = {}
 
 PIECE_RE = re.compile(r"^(\s*)- \[(0x[0-9A-Fa-f]+),\s*([.\w]+),\s*(\w+)\]")
 EOF_RE = re.compile(r"^\s*- \[(0x[0-9A-Fa-f]+)\]\s*(?:#.*)?$")
@@ -86,21 +93,33 @@ def payload_word(ov, off):
 
 
 # Per-object pad-spec lines in config/overlays.mk (Phase-29 §8e — consumed by the Makefile's
-# jtbl_rodata_pads.py stage). One line per multi-table span:
-#   build/src/<ov>/<sub>.o: JTBL_PADS := 0,4  # Phase-29 §8e jtbl pad spec (jtbl_carve.py)
-PADS_COMMENT = "  # Phase-29 §8e jtbl pad spec (jtbl_carve.py)"
+# jtbl_rodata_pads.py stage). One line per multi-table span; the comment PERSISTS the span's
+# table starts as span-relative offsets (the durable record — matched owners' stub .s files are
+# pruned by extract, so starts can't be reconstructed later without it):
+#   build/src/<ov>/<sub>.o: JTBL_PADS := 0,0,4,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x20,+0x38,+0x58
+def pads_comment(rel_starts):
+    if rel_starts is None:      # carried from a line predating the tables= persistence
+        return "  # §8e pads (jtbl_carve.py)"
+    return ("  # §8e pads (jtbl_carve.py) tables="
+            + ",".join(f"+0x{r:x}" for r in rel_starts))
 
 
 def pads_line_re(ov):
-    return rf"^build/src/{re.escape(ov)}/(\w+)\.o: JTBL_PADS := ([\d,]+).*$"
+    return rf"^build/src/{re.escape(ov)}/(\w+)\.o: JTBL_PADS := ([\d,]+)\s*(?:#[^\n]*)?$"
 
 
 def current_pads_specs(ov, txt=None):
-    """{subseg: [pad,...]} from the CURRENT overlays.mk (carries committed + in-flight values)."""
+    """{subseg: (spec, rel_starts_or_None)} from the CURRENT overlays.mk."""
     if txt is None:
         txt = open(os.path.join(REPO, "config/overlays.mk")).read()
-    return {m.group(1): [int(x) for x in m.group(2).split(",")]
-            for m in re.finditer(pads_line_re(ov), txt, re.M)}
+    out = {}
+    for m in re.finditer(pads_line_re(ov), txt, re.M):
+        spec = [int(x) for x in m.group(2).split(",")]
+        line = m.group(0)
+        tm = re.search(r"tables=([+0-9a-fx,]+)", line)
+        rel = [int(x, 16) for x in tm.group(1).replace("+", "").split(",")] if tm else None
+        out[m.group(1)] = (spec, rel)
+    return out
 
 
 def code_pieces(ov):
@@ -132,6 +151,37 @@ def func_subseg(ov, func):
     if owner is None:
         sys.exit(f"jtbl_carve: {func} (0x{addr:08x}) precedes every code piece in {cfg_path(ov)}")
     return owner
+
+
+def overlay_jtbl_addrs(ov):
+    """Every jtbl_ vram referenced by ANY per-function .s under asm/<ov>/nonmatchings/ (stale
+    copies included — a matched fn's last stub .s still names its tables, and jtbl refs are
+    address-stable). Used to reconstruct the TABLE STARTS inside an existing carve span, whose
+    dlabels are long gone from the data asm (Phase-29 §8e)."""
+    addrs = set()
+    for p in glob.glob(os.path.join(REPO, "asm", ov, "nonmatchings", "*", "func_*.s")):
+        for m in re.finditer(r"jtbl_([0-9A-Fa-f]{8})", open(p).read()):
+            addrs.add(int(m.group(1), 16))
+    return addrs
+
+
+def spec_from_starts(ov, base, s_off, e_off, tables):
+    """The JTBL_PADS spec for a span [s_off, e_off) given its table starts (absolute vrams):
+    one entry per table, pad[K] = 4 iff the payload word right before table K is zero.
+
+    Sound because a zero word can never be a jump-table ENTRY (0x00000000 is not a jump target —
+    the §8a-pad axiom), so the word at start[K]-4 is zero IFF it is the original `.align 3` pad.
+    Needs no entry counts — derived from {table starts} + the payload (R33)."""
+    s_vram, e_vram = base + s_off, base + e_off
+    tables = sorted(set(tables))
+    if not tables or tables[0] != s_vram or tables[-1] >= e_vram:
+        sys.exit(f"jtbl_carve: span 0x{s_off:x}..0x{e_off:x}: table starts "
+                 f"{['0x%x' % t for t in tables]} do not fit the span (first must equal the "
+                 f"span start; all must lie inside)")
+    spec = [0]
+    for a in tables[1:]:
+        spec.append(4 if payload_word(ov, (a - base) - 4) == 0 else 0)
+    return spec, [a - tables[0] for a in tables]
 
 
 def func_jtbls(ov, func):
@@ -286,12 +336,8 @@ def build_carve(ov, funcs):
     (_, indent, _, _, tail_start, region_end, trailing_present, existing) = parse_config(ov)
     region_end_vram = base + region_end
 
-    # carves: (start_off, end_off, subseg, spec). Existing ones come from the config (already
-    # migrated); their pad spec is CARRIED from overlays.mk (a committed span's interior boundaries
-    # are not recoverable from its interval — never re-derive), default [0] = single-table (the
-    # fleet-wide state before Phase-29 §8e; a multi-table span always writes its spec line).
-    specs = current_pads_specs(ov)
-    carves = [(s, e, sub, specs.get(sub, [0])) for (s, e, sub) in existing]
+    # carves: (start_off, end_off, subseg). Existing ones come from the config (already migrated).
+    carves = list(existing)
     have = {c[0] for c in carves}
     # A new jtbl's end is bounded by the next RAW data dlabel OR the next EXISTING carve start
     # (an already-carved adjacent jtbl is gone from the data asm, so the raw dlabels alone would
@@ -306,19 +352,18 @@ def build_carve(ov, funcs):
             s_off, e_off = s_vram - base, e_vram - base
             if s_off in have:
                 continue                       # idempotent: already carved
-            carves.append((s_off, e_off, sub, [0]))
+            carves.append((s_off, e_off, sub))
             have.add(s_off)
-    carves.sort(key=lambda c: (c[0], c[1]))
+    carves.sort()
 
     # A code object emits its jtbls CONTIGUOUS in .rodata (gcc source order). So two carves in the
     # SAME subseg are byte-correct only if ADJACENT in the island — where "adjacent" is abutting
     # (gap 0) OR separated by exactly one original `.align 3` pad word (gap 4, verifiably zero in
-    # the payload; Phase-29 §8e) -> merge them into one spanning .rodata piece, recording the
-    # boundary pad in the span's spec (jtbl_rodata_pads.py reproduces it at compile time).
-    # Any other same-subseg gap is unsatisfiable (a single object can't leave a hole for the raw
-    # jtbl between) -> isolate one fn into its own subseg (jr_isolate_all.py).
+    # the payload; Phase-29 §8e) -> merge them into one spanning .rodata piece. Any other
+    # same-subseg gap is unsatisfiable (a single object can't leave a hole for the raw jtbl
+    # between) -> isolate one fn into its own subseg (jr_isolate_all.py).
     merged = []
-    for s_off, e_off, sub, spec in carves:
+    for s_off, e_off, sub in carves:
         if merged and merged[-1][2] == sub:
             gap = s_off - merged[-1][1]
             if gap in (0, 4):
@@ -330,12 +375,11 @@ def build_carve(ov, funcs):
                             f"carves is 0x{w:08x}, not a zero .align pad word — treating as "
                             f"NON-CONTIGUOUS. Isolate one matched jr-function into its own code "
                             f"subseg first (tools/jr_isolate_all.py), then re-carve.")
-                ps, _, _, pspec = merged[-1]
-                merged[-1] = (ps, e_off, sub, pspec + [gap] + spec[1:])
+                merged[-1] = (merged[-1][0], e_off, sub)
                 continue
-        merged.append((s_off, e_off, sub, spec))
+        merged.append((s_off, e_off, sub))
     seen_subsegs = {}
-    for s_off, _, sub, _ in merged:
+    for s_off, _, sub in merged:
         if sub in seen_subsegs:
             sys.exit(
                 f"jtbl_carve: subseg '{sub}' would host NON-CONTIGUOUS .rodata carves "
@@ -344,6 +388,53 @@ def build_carve(ov, funcs):
                 f"first (tools/jr_isolate_all.py, the whale `_o0b` precedent), then re-carve.")
         seen_subsegs[sub] = s_off
     carves = merged
+
+    # Per-span pad specs (spec, rel_starts), source priority per span:
+    #   (a) UNTOUCHED this run + an existing overlays.mk line -> reuse verbatim (byte-gated when
+    #       written; its tables= comment is the durable starts record).
+    #   (b) touched/new span -> table starts = union of {the new fn's .s refs, any surviving
+    #       stub .s refs, the existing line's tables= (rebased on the old span start),
+    #       --span-tables override, --like <exemplar-ov> role-transfer} -> pads by the payload
+    #       zero-word rule (spec_from_starts). Matched owners' stub .s are PRUNED by extract, so
+    #       persistence (tables=) + the --like transfer are what make sibling sweeps possible
+    #       (the func_8013F350 lesson: a pre-§8e Phase-26 merged double had NO recoverable
+    #       structure — interval carry mis-defaulted it to [0]).
+    prior_map = current_pads_specs(ov)
+    old_span_start = {sub: s for (s, _e, sub) in existing}   # pre-merge span starts (for rebase)
+    new_offs = {}                                            # sub -> new table offs added this run
+    for f in funcs:
+        sub_f, js_f = func_jtbls(ov, f)
+        for jh in js_f:
+            new_offs.setdefault(sub_f, set()).add(int(jh, 16) - base)
+    like_map = current_pads_specs(LIKE_OV) if LIKE_OV else {}
+
+    def role(sub_name, ov_name):
+        return sub_name[len(ov_name):] if sub_name.startswith(ov_name) else sub_name
+
+    pads_map = {}
+    for s_off, e_off, sub in carves:
+        touched = any(s_off <= o < e_off for o in new_offs.get(sub, ()))
+        prior = prior_map.get(sub)
+        if not touched:
+            if prior is not None:
+                pads_map[sub] = prior                        # (a) reuse verbatim
+            # untouched + no line = a pre-§8e span whose natural `.align 3`s are already
+            # byte-correct (it is committed green) — leave it unfiltered, reconstruct nothing.
+            continue
+        s_vram = base + s_off
+        starts = {base + o for o in new_offs.get(sub, ()) if s_off <= o < e_off}
+        starts.update(a for a in overlay_jtbl_addrs(ov) if s_vram <= a < base + e_off)
+        if prior is not None and prior[1] is not None and sub in old_span_start:
+            starts.update(base + old_span_start[sub] + r for r in prior[1])
+        if sub in SPAN_TABLES_OVERRIDE:
+            starts.update(SPAN_TABLES_OVERRIDE[sub])
+        if LIKE_OV:
+            lk = like_map.get(LIKE_OV + role(sub, ov))
+            if lk is not None and lk[1] is not None:
+                # role-transfer: same family => same span structure; rebase rel offsets on THIS
+                # span's start. The local payload zero-word rule still derives the pads honestly.
+                starts.update(s_vram + r for r in lk[1])
+        pads_map[sub] = spec_from_starts(ov, base, s_off, e_off, sorted(starts))
 
     # Walk the region [tail_start, region_end), emitting a `data` piece before each carve.
     pieces = []          # (off, kind, name)
@@ -354,7 +445,7 @@ def build_carve(ov, funcs):
         nonlocal n_data
         n_data += 1
         return "tail" if n_data == 1 else f"tail{n_data}"
-    for s_off, e_off, sub, _spec in carves:
+    for s_off, e_off, sub in carves:
         if cursor < s_off:
             nm = data_name()
             pieces.append((cursor, "data", nm))
@@ -373,7 +464,6 @@ def build_carve(ov, funcs):
     for off, kind, name in pieces:
         comment = "  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)" if kind == ".rodata" else ""
         region_lines.append(f"{indent}- [{hex(off)}, {kind}, {name}]{comment}")
-    pads_map = {sub: spec for (_s, _e, sub, spec) in carves}
     return region_lines, "--order " + ",".join(order), pads_map
 
 
@@ -384,7 +474,7 @@ def apply(ov, funcs):
     open(cfg_path(ov), "w").write("\n".join(new_lines) + "\n")
     set_overlays_var(ov, order_arg)
     set_pads_vars(ov, pads_map)
-    multi = {s: p for s, p in pads_map.items() if len(p) > 1}
+    multi = {s: p[0] for s, p in pads_map.items() if len(p[0]) > 1}
     print(f"jtbl_carve {ov}: carve set = {len(region_lines)} pieces; JTBL_INTERLEAVE = {order_arg}"
           + (f"; JTBL_PADS = {multi}" if multi else ""))
 
@@ -416,13 +506,13 @@ def set_pads_vars(ov, pads_map):
     mk = os.path.join(REPO, "config/overlays.mk")
     txt = open(mk).read()
     before = current_pads_specs(ov, txt)
-    after = {sub: spec for sub, spec in pads_map.items() if len(spec) > 1}
+    after = {sub: sr for sub, sr in pads_map.items() if len(sr[0]) > 1}
     # drop all current lines for this overlay, then insert the regenerated block
     txt = re.sub(pads_line_re(ov) + r"\n", "", txt, flags=re.M)
     if after:
         block = "\n".join(
-            f"build/src/{ov}/{sub}.o: JTBL_PADS := {','.join(map(str, spec))}{PADS_COMMENT}"
-            for sub, spec in sorted(after.items()))
+            f"build/src/{ov}/{sub}.o: JTBL_PADS := {','.join(map(str, spec))}{pads_comment(rel)}"
+            for sub, (spec, rel) in sorted(after.items()))
         m = re.search(rf"^{re.escape(ov)}_JTBL_INTERLEAVE.*$", txt, re.M)
         if not m:
             sys.exit(f"jtbl_carve: no {ov}_JTBL_INTERLEAVE line to anchor JTBL_PADS on")
@@ -486,11 +576,24 @@ def revert(ov):
 
 
 def main():
+    global LIKE_OV, SPAN_TABLES_OVERRIDE
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("ov")
     ap.add_argument("--func", action="append", default=[], help="matched jr-function to carve (repeatable)")
     ap.add_argument("--revert", action="store_true", help="restore config from git + drop the var")
+    ap.add_argument("--like", metavar="OV",
+                    help="§8e sibling sweep: transfer span table-structure (tables= rel offsets) "
+                         "from this exemplar overlay's committed JTBL_PADS lines, role-matched by "
+                         "subseg suffix (same family => same structure; pads still derived from "
+                         "THIS overlay's payload)")
+    ap.add_argument("--span-tables", action="append", default=[], metavar="SUB=A1,A2,..",
+                    help="§8e escape hatch: absolute table-start vrams for a span whose owners' "
+                         "stub .s are pruned and no persisted tables= exists (pre-§8e archaeology)")
     a = ap.parse_args()
+    LIKE_OV = a.like
+    for ent in a.span_tables:
+        sub, addrs = ent.split("=", 1)
+        SPAN_TABLES_OVERRIDE[sub] = {int(x, 16) for x in addrs.split(",")}
     if a.revert:
         revert(a.ov)
     elif a.func:
