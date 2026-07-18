@@ -353,7 +353,8 @@ a 25-ins single-jtbl jr-function in ov_SC01_077):**
   orthogonal — reconcile first, then the carved jtbl lands byte-exact.
 - **Alignment:** gcc emits the jtbl `.rdata .align 3` (8-byte). If the original jtbl address is 8-aligned
   (`jtbl_801D8078`, 0x…078) there is no pad and it lands exact. A **4-aligned** original address (`jtbl_801D8AFC`)
-  would force a 4-byte align pad → handle then (not hit by the PoC target).
+  would force a 4-byte align pad → **HANDLED (Phase 29): the §8e `JTBL_PADS` pad-spec filter** (hit for real by
+  `jtbl_801D8144` in the func_80131340 bank).
 - **rtu_match is NOT a whole-binary gate for jr-functions** — it masks relocs AND excludes the §8 jtbl rodata, so
   it MATCHes a body whose switch is subtly wrong (e.g. func_80159C84's 2nd jtbl was 5 words vs the real 6 — a
   false-MATCH). Always confirm jr-function cracks with the whole-binary gate (which now works, via this carve).
@@ -363,6 +364,11 @@ a 25-ins single-jtbl jr-function in ov_SC01_077):**
   proves the per-binary mechanism; the fleet rollout is the mechanical generator.
 
 ### §8a-pad — a trailing `.word 0x00000000` under a jtbl dlabel is `.align` PAD, not an entry (Phase 26 session 6, byte-proven)
+
+> **⚠ CORRECTED by §8e (Phase 29):** the "maspsx drops all `.align`" rationale below is **FALSE** (that
+> `continue` is in an inventory-only pass; the output path passes `.align` verbatim). The TRIM itself remains
+> correct — the pad belongs to the NEXT table's `.align 3`, absent when that owner isn't compiled in the same
+> object. Multi-table spans now reproduce interior pads via the §8e `JTBL_PADS` spec filter.
 
 **This retroactively explains the §8a `func_80159C84` "5 words vs the real 6" false-MATCH.**
 
@@ -506,6 +512,51 @@ the base for the later recovery stages. **First sibling byte-identical; 562-ins 
 - **Diagnostics gotcha:** gcc-2.7.2 does not prefix errors with `error:` — grepping a build log for `error`
   finds only make's `Error 33`. Grep for the diagnostic text (`conflicting types`, `undeclared`, `parse error`,
   `redefinition`) instead, and remember `warning: conflicting types for built-in function 'memcpy'` is benign.
+
+## §8e The jtbl ALIGNMENT LAW + the pad-spec filter — multi-table .rodata spans (Phase 29, byte-proven; `.run/probe_jtbl/verdict.md`)
+
+**Two prior cookbook claims are CORRECTED here** (both were instrument errors, R35):
+- §8a-pad's "**maspsx drops all `.align`**" is **FALSE**. The `continue` at `maspsx/__init__.py:435` is in
+  `preprocess_lines` — an *inventory-only* pass (sbss/bss/sdata dicts) whose skips produce no output; the real
+  output path (`process_line`, L872-873 catch-all) re-emits `.align` **verbatim**. The §8a-pad *trim* is still
+  right, for a different reason: the trailing pad word belongs to the NEXT table's `.align 3`, which is only
+  emitted when that next owner is compiled in the same object.
+- The Phase-29 session-2 "half-pin" ("cc1 AND maspsx emit the jtbl `.align 2`") was **inverted**, measured off
+  VACUOUS probes (an empty `j $31` fn — no jtbl in them at all; the only `.align 2` was the function-entry
+  `.text` align). Lesson: **a probe whose output contains no instance of the thing being probed pins nothing.**
+
+**The law (each link byte-verified in `.run/probe_jtbl/`):**
+1. cc1 (Sony gcc 2.7.2) emits `.rdata` + **`.align 3`** + label before **every** switch jump table
+   (probe: 2 tables in one TU → 2× `.align 3`; the clean single-table object's `.rodata` sh_addralign=8).
+2. maspsx passes `.align` through; `as` bakes the pad into the section **SECTION-RELATIVE** — the linker can
+   never remove an intra-object pad. (`as` control: bare `.word` section → Al=4; with `.align 3` → Al=8.)
+3. Link placement is always TIGHT: `SUBALIGN(2)` (splat `subalign: 2`, fleet-wide) + `ld_interleave`'s
+   `. = ALIGN(., 4)` override input-section alignment — a 4-mod-8 carve start places exactly (the banked
+   `0xb07dc` carve is the byte proof). So **only intra-object pads can diverge from the original.**
+4. ORIGINAL layout semantics: originally-separate TUs pack **TIGHT** (PSX linker, 4-aligned placement:
+   jtbl_801D8078's 51 entries end 0x801D8144 exactly where the next TU's table begins, %8==4); **intra-TU**
+   consecutive tables carry a REAL zero-word pad wherever the previous table ends ≡4 mod 8
+   (tail2.data.s: jtbl_801D8158/8170/8188/81A0 = 5 entries + one `.word 0` each).
+5. ⇒ Merging originally-separate TUs into one decomp TU makes cc1's intra-TU `.align 3` fire where the
+   original had a tight TU boundary: a non-first table at original vram ≡4 mod 8 gains a **+4 interior pad**
+   → every downstream data symbol shifts → `%lo` relocs break image-wide (func_80131340: pad at rodata 0xCC,
+   SHA1 fail from a clean build). Conversely a genuine intra-TU pad must be REPRODUCED.
+6. **Isolation does NOT fix this in general**: `.align` is section-relative, so an isolated object whose
+   first table starts at vram ≡4 mod 8 flips the parity of every INTERNAL align — a multi-table function
+   with a 4-mod-8 first table would mis-pad inside its own object. Only explicit pad control is general.
+
+**The mechanism (`tools/jtbl_rodata_pads.py` + `jtbl_carve` + Makefile `JTBL_PADS`):** for a multi-table
+span, `jtbl_carve` derives each boundary's pad by **interval arithmetic** (`pad[K] = start[K] − end[K−1]`
+∈ {0,4}; a 4-gap must be a verifiably-zero payload word, else NON-CONTIGUOUS→isolate) and writes a
+per-object `build/src/<ov>/<sub>.o: JTBL_PADS := 0,4,…` target var into `config/overlays.mk`; the Makefile
+pipes that object through the filter, which **REPLACES each rodata `.align` with the spec'd pad bytes**
+(`.word 0` or nothing). Per-sibling self-adapting (each overlay's own addresses), fail-loud on drift
+(spec count ≠ align count; non-`.align 3`; non-jtbl rodata content). Committed spec values are CARRIED,
+never re-derived (a committed span's interior boundaries are unrecoverable from its interval).
+Single-table carves get no var — their pipeline is byte-identical to pre-§8e (their lone `.align 3` at
+section offset 0 pads nothing and SUBALIGN neutralizes the sh_addralign).
+- **Object-layer proof before image-layer claims:** verbatim vs filtered objdump — 0xE4/pad-at-0xCC vs
+  0xE0/tight — settled the mechanism before any carve landed. Cheap, decisive, reusable probe shape.
 
 ## §9 Link real PsyQ library objects byte-exact (Phase 7 — GO proven)
 ~350 of BFM's functions are unmodified PsyQ 4.0 SDK code. They are **byte-identical to the real PsyQ library

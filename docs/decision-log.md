@@ -1353,3 +1353,42 @@ are self-contained") is false whenever `engine_core.h` already declares the memb
 signature. `--fix-def-sig` should likely be default-on for the h_seq path. And the meta-lesson, hammered
 three times in one task: **a masked/intermediate MATCH is a candidate, never a diagnosis — reproduce the
 real build and read the real error before naming the cause (R35).**
+
+### 2026-07-18 — P29 jtbl 8-align wall: the half-pin was INVERTED (vacuous probes), the fix is a pad-spec filter (§8e)
+
+**Context.** The 4 jtbl giants (`func_80131340`/`80159C84`/`8013C414`/`8013F350`, all match_one MATCH,
+~2.6M agent-tokens of preserved drafts) were blocked on ONE tooling gap: banking `func_80131340` into the
+shared `_jr_8012ACE0` TU produced a +4 pad at rodata 0xCC → image-wide %lo shift → SHA1 fail. The session-2
+checkpoint recorded a half-pin — "cc1 AND maspsx both emit the jtbl `.align 2`; the +4 is a downstream
+`as`/`ld_interleave` artifact" — and told the next session to start from there.
+
+**What the evidence actually said (R35, again).** Both preserved probes were VACUOUS: an empty `j $31`
+function with NO jump table — the `.align 2` they "showed" was the function-entry `.text` align. The honest
+stage-walk (real draft spliced into the real TU, `.run/probe_jtbl/`) inverted every clause: cc1 emits
+**`.align 3` before every table**; **maspsx passes it through verbatim** (the famous `maspsx.py:435` "drops
+`.align`" is an inventory-only pass — the §8a-pad cookbook claim was false too); `as` bakes the pad
+section-relative; and the LINK side was never guilty (`SUBALIGN(2)` + `ALIGN(.,4)` place even 4-mod-8 carve
+starts tight — the banked `0xb07dc` carve proves it). Two Explore subagents produced OPPOSITE readings of
+maspsx (one read the inventory pass as the output path); the tie was broken by reading the code path myself
+plus one byte observable — the clean object's `.rodata` sh_addralign=8, which only a surviving `.align 3`
+explains (R34: make oracles argue; R14: settle on bytes).
+
+**The design fork and why the filter won.** The obvious fixes all fail a generality test: blanket align-demote
+breaks the main EXE's island (its intra-TU pads are load-bearing); pure isolation fails multi-table functions
+whose first table sits at vram ≡4 mod 8 (`.align` is section-relative, so the section-start parity flips every
+internal pad); sed/as/ld have no per-occurrence mechanism. The winning shape: **replace each rodata `.align 3`
+with the ORIGINAL's exact pad bytes** — derived per span by interval arithmetic from the carve config
+(`pad[K] = start[K] − end[K−1]` ∈ {0,4}), emitted as a per-object `JTBL_PADS` make var, applied by a ~50-line
+post-maspsx filter with fail-loud drift guards. Parity-independent, per-sibling self-adapting (each overlay's
+own addresses), and structurally fleet-neutral (every pre-existing carve is single-table → no var → pipeline
+byte-identical). A red-team subagent pre-verified the transform empirically (verbatim 0xE4/pad-at-0xCC vs
+filtered 0xE0/tight) and surfaced 7 hardening items, including the LATENT bug that produced the original
+failure (tight abutment silently merged into a bytes-impossible span) and a byte-witnessed wrong-TU splice
+(`stub_file` first-match returned a stale duplicate stub — the "conflicting types" cascade was never the
+draft's fault).
+
+**Hindsight better-path.** The checkpoint's half-pin cost nothing this time because R35 forced re-derivation —
+but only because the vacuous probes were LOOKED AT. The transferable rule: **a probe whose output contains no
+instance of the probed thing pins nothing** — check that first, before trusting any recorded verdict. And when
+a wall involves a multi-stage pipeline, walk it stage-by-stage with one byte observable per stage before
+designing anything; the whole design fell out of five observables in under an hour.

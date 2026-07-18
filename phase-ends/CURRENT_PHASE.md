@@ -144,6 +144,40 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 ## Per-task log
 *(appended after each task; the crash-recovery trail — becomes `phase-ends/logs/Phase29.md` at close, R19)*
 
+- **2026-07-18 — jtbl 8-align fix OPENED (Fable5 Max, plan approved).** Plan mirror:
+  `~/.claude/plans/fable5-max-set-jtbl-ancient-marble.md`. **⚠️ CORRECTION of the session-2 checkpoint's
+  half-pin (R35/R14 — do NOT re-trust it): the claim "cc1 AND maspsx both emit the jtbl `.align 2`" is
+  INVERTED, and both preserved probes (`.run/probe_jtbl_{cc1,maspsx}.s`) are VACUOUS (empty `j $31` fn, no
+  jtbl).** True chain (byte-grounded this session): **(1)** Sony cc1 emits `.align 3` before EACH jump table
+  in `.rdata` (clean `jr_8012ACE0.o` has `.rodata` sh_addralign=8 w/ a single 51-entry table); **(2)** maspsx
+  passes `.align` through VERBATIM (`maspsx/__init__.py:872-873` output catch-all; the L435-437 `continue` is
+  an inventory-only pass — `jtbl_carve.py:132`'s "maspsx drops .align" docstring is FALSE); **(3)** `as` bakes
+  the pad SECTION-RELATIVE (intra-object, linker can't remove); **(4)** placement is always tight
+  (`SUBALIGN(2)` fleet-wide + ld_interleave `ALIGN(.,4)` — the 0xb07dc 4-mod-8 carve proves it); **(5)**
+  original semantics: separate TUs pack TIGHT (078→144 abutment), intra-TU tables 8-align w/ real zero-word
+  pads (tail2.data.s 8158/8170/8188/81A0). **THE BUG:** merging originally-separate TUs into one decomp TU
+  fires an intra-TU `.align 3` where the original had a tight TU boundary → +4 at rodata 0xCC → image-wide
+  %lo shift (build_g2.log SHA1 FAIL). **THE FIX (red-team-hardened, empirically pre-verified):** pad-spec
+  filter `tools/jtbl_rodata_pads.py` (post-maspsx, per-object `JTBL_PADS` make var, fail-loud guards) +
+  `jtbl_carve` interval-arithmetic specs + merge relaxation (gap 4 must be verifiably zero) + revert/stale-.o
+  coverage + `jtbl_family_bank` stub_file uniqueness assert (yesterday's ladder failure spliced into a stale
+  `_a.c` duplicate stub — byte-witnessed in bank_func_80131340.log). Isolation is NOT general (as aligns
+  section-relative; a 4-mod-8-start multi-table object mis-pads internally) — kept as NON-CONTIGUOUS fallback.
+- **✅ 2026-07-18 — jtbl §8e fix BUILT + fleet-neutral (Steps 1-3 of the approved plan).** Honest probes
+  persisted (`.run/probe_jtbl/verdict.md` + objdumps; the vacuous pair deleted): cc1 `.align 3` per table
+  (2 tables → 2 aligns, byte-listed), maspsx verbatim passthrough in situ, **the +4 pad materialized at object
+  rodata 0xCC** (0xE4 verbatim), as-controls (bare rodata → Al=4; +`.align 3` → Al=8). Built: NEW
+  `tools/jtbl_rodata_pads.py` (spec-driven align→pad-bytes replacement; guards byte-tested rc=1 ×3; pad=4
+  direction synthetically proven), `jtbl_carve.py` (spec-aware merge: gap∈{0,4-zero-checked-in-payload},
+  interval-arithmetic pads CARRIED never re-derived, `JTBL_PADS` target-var emission into overlays.mk +
+  revert() restore + stale-.o invalidation, honest docstring), Makefile `$(if $(JTBL_PADS),…)` stage +
+  env-shield default, `jtbl_family_bank.stub_file` duplicate-stub fail-loud. **Object-layer byte proof:**
+  filtered `.rodata` = 0xE0, table 2 TIGHT at 0xCC = the merged carve span exactly. Dry-run build_carve →
+  span `0xaff20..0xb0000` spec `[0,0]` as designed. **R22 clean-fleet WITH the fix wired: 140/140
+  byte-identical, tools-health green (dedup 1846/0, C1 234205/234205), zero new banks — fleet-neutral.**
+  Flywheel captured in-session (R30): cookbook **§8e** + §8a/§8a-pad corrections, decision-log entry,
+  SETUP.md row. NEXT: Step 4 — bank func_80131340 ×1.
+
 - **2026-07-16 — Phase opened.** Session Start Protocol complete (all 28 PhaseEnds + roadmap +
   calibration + decision-log read). 3 Explore surveys grounded the plan (tooling state, frontier
   data, idiom bank). Plan approved at Max/plan-mode. Beginning Task 1.

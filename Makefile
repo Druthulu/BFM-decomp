@@ -436,6 +436,12 @@ ASPSX_VERSION := 2.56
 # maspsx leaves a bare divu and div/rem functions never match. Only affects div/rem,
 # so the all-INCLUDE_ASM build and div-free functions are unchanged.
 MASPSX_FLAGS  := --expand-div
+# Phase-29 §8e: per-object jump-table pad spec (tools/jtbl_rodata_pads.py). Set ONLY as a
+# target-specific var by tools/jtbl_carve.py in config/overlays.mk for multi-table .rodata
+# carve spans; the file-scope empty default shields the recipe from an inherited environment
+# variable accidentally arming the filter fleet-wide (a plain `JTBL_PADS=... make` would
+# otherwise become a global make var). Unset => the compile pipeline is byte-unchanged.
+JTBL_PADS     :=
 
 # Object set must match the splat linker script's references. After the Phase-6 asm->c
 # flip the text subseg is src/800.c -> build/src/800.o; the per-function
@@ -539,10 +545,15 @@ build/assets/%.o: assets/%.bin
 # fingerprint ladder PINS the triple (then this block + ASPSX_VERSION are updated, G8).
 CPPFLAGS := -lang-c -Iinclude -undef -Wall -fno-builtin -Dmips -D__GNUC__=2 -D__OPTIMIZE__ -Dpsx -D_PSYQ -D_MIPSEL -D_LANGUAGE_C
 CC1FLAGS := -quiet -O2 -G0 -mips1 -mcpu=3000 -mgas -msoft-float -fgnu-linker
+# The optional jtbl_rodata_pads stage (Phase-29 §8e) is inserted only when the object has a
+# JTBL_PADS target-specific var (written by tools/jtbl_carve.py for multi-table .rodata carve
+# spans): it replaces cc1's per-table `.align 3` with the ORIGINAL's exact pad bytes, so a merged
+# span reproduces the original packing regardless of section-start parity. Unset => stage absent,
+# pipeline byte-identical to pre-§8e.
 build/src/%.o: src/%.c
 	@mkdir -p $(dir $@)
 	@echo "  CC      $@"
-	@set -o pipefail; $(CPP) $(CPPFLAGS) -MMD -MP -MT $@ -MF $(@:.o=.d) $< | $(CC1_PSX) $(CC1FLAGS) | $(VENV_PY) $(MASPSX) --aspsx-version=$(ASPSX_VERSION) $(MASPSX_FLAGS) | $(AS) $(ASFLAGS) -o $@
+	@set -o pipefail; $(CPP) $(CPPFLAGS) -MMD -MP -MT $@ -MF $(@:.o=.d) $< | $(CC1_PSX) $(CC1FLAGS) | $(VENV_PY) $(MASPSX) --aspsx-version=$(ASPSX_VERSION) $(MASPSX_FLAGS) $(if $(JTBL_PADS),| $(VENV_PY) tools/jtbl_rodata_pads.py --pads $(JTBL_PADS)) | $(AS) $(ASFLAGS) -o $@
 
 # Per-module optimization override (SETUP §5.5 — per-module compiler mixing). The boot/
 # main/game-mode-dispatch module (src/boot.c, vram 0x80010000-0x800123F0) was compiled at

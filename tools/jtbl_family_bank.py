@@ -38,10 +38,17 @@ def sh(cmd):
 
 
 def stub_file(ov, func):
-    for cf in sorted(glob.glob(f"src/{ov}/{ov}*.c")):
-        if re.search(rf'INCLUDE_ASM\("[^"]*",\s*{func}\);', open(cf).read()):
-            return cf
-    return None
+    """The ONE .c holding this func's INCLUDE_ASM stub. Fail-loud on duplicates (Phase-29 §8e):
+    the first-sorted-glob behavior once returned a STALE duplicate stub in a different TU
+    (func_80131340 spliced into ov_SC01_077_a.c instead of ..._jr_8012ACE0.c), producing a
+    misattributed `conflicting types` cascade — a wrong-TU splice, not a draft defect."""
+    hits = [cf for cf in sorted(glob.glob(f"src/{ov}/{ov}*.c"))
+            if re.search(rf'INCLUDE_ASM\("[^"]*",\s*{func}\);', open(cf).read())]
+    if len(hits) > 1:
+        sys.exit(f"jtbl_family_bank: {func} has {len(hits)} INCLUDE_ASM stubs in {ov}: {hits} — "
+                 f"duplicate/stale stub; fix the source before banking (a first-match splice "
+                 f"would hit the wrong TU's decl environment)")
+    return hits[0] if hits else None
 
 
 def region_files(ov):

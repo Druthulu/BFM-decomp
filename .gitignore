@@ -36,6 +36,11 @@
 !/.run/giants/*.c
 !/.run/giants/*.md
 !/.run/giants/*.sh
+!/.run/probe_jtbl/
+/.run/probe_jtbl/*
+!/.run/probe_jtbl/verdict.md
+!/.run/probe_jtbl/rodata_verbatim.objdump
+!/.run/probe_jtbl/rodata_filtered.objdump
 !/.run/giants/fable_cd4/
 /.run/giants/fable_cd4/*
 !/.run/giants/fable_cd4/*.c

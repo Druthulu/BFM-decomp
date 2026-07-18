@@ -21,6 +21,18 @@ code object contributes at most ONE contiguous .rodata run, so two matched jr-fu
 code subseg (non-adjacent jtbls in the island) are UNSATISFIABLE -> this tool fails loud, and the
 caller must first isolate one into its own code subseg (the whale `_o0b` precedent).
 
+MULTI-TABLE spans & the 8-align pad spec (Phase-29 §8e; .run/probe_jtbl/verdict.md): cc1 emits
+`.align 3` before EVERY jump table and maspsx passes it through, so a merged same-subseg span whose
+non-first table sits at an original vram ≡4 mod 8 would gain a +4 interior pad the original does
+not have (originally-separate TUs pack TIGHT) — and conversely a real intra-TU pad word must be
+reproduced where the original HAS one. When a span holds >1 table, this tool derives the per-table
+pad spec by interval arithmetic (pad[K] = start[K] - end[K-1] ∈ {0,4}; a 4-gap must be a zero word
+in the payload) and writes a per-object `JTBL_PADS` target var into config/overlays.mk; the
+Makefile then pipes that object through tools/jtbl_rodata_pads.py, which REPLACES each rodata
+`.align` with the spec'd pad bytes. Committed spec values are carried, never re-derived (a
+committed span's interior boundaries are not recoverable from its interval). Single-table carves
+get NO var and keep today's byte-identical pipeline.
+
 Usage:  jtbl_carve.py <ov> --func func_XXXX [--func ...]   # add these matched jr-fns to the carve set
         jtbl_carve.py <ov> --revert                        # restore the config from git (drop carves)
 Idempotent: re-running with the same (accumulated) funcs reproduces the same config.
@@ -49,6 +61,46 @@ def overlay_vram_base(ov):
     if not m:
         sys.exit(f"jtbl_carve: no vram in {cfg_path(ov)}")
     return int(m.group(1), 16)
+
+
+def payload_path(ov):
+    """The overlay's decompressed payload, derived from the config's target_path (R33)."""
+    m = re.search(r"target_path:\s*(\S+)", open(cfg_path(ov)).read())
+    if not m:
+        sys.exit(f"jtbl_carve: no target_path in {cfg_path(ov)}")
+    p = os.path.join(REPO, m.group(1))
+    if not os.path.exists(p):
+        sys.exit(f"jtbl_carve: payload {p} missing — run `make extract` first (R32: refusing to "
+                 f"skip the gap-word check)")
+    return p
+
+
+def payload_word(ov, off):
+    """The little-endian u32 at file offset `off` in the overlay's payload."""
+    with open(payload_path(ov), "rb") as f:
+        f.seek(off)
+        b = f.read(4)
+    if len(b) != 4:
+        sys.exit(f"jtbl_carve: short read at payload offset 0x{off:x}")
+    return int.from_bytes(b, "little")
+
+
+# Per-object pad-spec lines in config/overlays.mk (Phase-29 §8e — consumed by the Makefile's
+# jtbl_rodata_pads.py stage). One line per multi-table span:
+#   build/src/<ov>/<sub>.o: JTBL_PADS := 0,4  # Phase-29 §8e jtbl pad spec (jtbl_carve.py)
+PADS_COMMENT = "  # Phase-29 §8e jtbl pad spec (jtbl_carve.py)"
+
+
+def pads_line_re(ov):
+    return rf"^build/src/{re.escape(ov)}/(\w+)\.o: JTBL_PADS := ([\d,]+).*$"
+
+
+def current_pads_specs(ov, txt=None):
+    """{subseg: [pad,...]} from the CURRENT overlays.mk (carries committed + in-flight values)."""
+    if txt is None:
+        txt = open(os.path.join(REPO, "config/overlays.mk")).read()
+    return {m.group(1): [int(x) for x in m.group(2).split(",")]
+            for m in re.finditer(pads_line_re(ov), txt, re.M)}
 
 
 def code_pieces(ov):
@@ -129,12 +181,16 @@ def jtbl_range(ov, jtbl_hex, labels, region_end_vram):
     not a jump target, and the function's `sltiu <n>` range check names the true entry count
     (byte-confirmed: `func_8015AE2C` → `sltiu 0x7` = 7 entries, yet the raw dlabel spans 8 words).
 
-    This matters because **maspsx drops `.align`**, so a C-emitted jump table can never reproduce the
-    pad. Carving to the next dlabel would reserve 8 words while the compiled object supplies only 7 —
-    under-filling the `.rodata` piece by 4 bytes and shifting every later symbol (the same +4 image
-    corruption class as §41d). Trimming leaves the pad where it belongs: in the raw post-carve data
-    piece. This also retroactively explains the §8a `func_80159C84` "5 words vs the real 6"
-    false-MATCH."""
+    Why trim (CORRECTED Phase-29 §8e — the old rationale "maspsx drops `.align`" was FALSE; maspsx
+    passes it through, .run/probe_jtbl/verdict.md): the pad belongs to the NEXT table's `.align 3`,
+    which is emitted only if that next table's owner is compiled in the SAME object. When the next
+    owner is unmatched (or another TU), the carved object ends at the last real entry, so carving
+    to the next dlabel would reserve the pad word the object does not supply — under-filling the
+    `.rodata` piece by 4 bytes and shifting every later symbol (the same +4 image corruption class
+    as §41d). Trimming leaves the pad where it belongs: in the raw post-carve data piece — and when
+    the next owner IS matched into the same span later, the merge re-attributes the pad to that
+    table's JTBL_PADS spec (pad[K]=4) and jtbl_rodata_pads.py emits it. This also retroactively
+    explains the §8a `func_80159C84` "5 words vs the real 6" false-MATCH."""
     start = int(jtbl_hex, 16)
     if start not in labels:
         sys.exit(f"jtbl_carve: jtbl_{jtbl_hex} not found in the raw data asm "
@@ -208,14 +264,19 @@ def parse_config(ov):
 
 
 def build_carve(ov, funcs):
-    """Return (region_lines, order_arg): the regenerated data-region `- [...]` piece lines and the
-    `ld_interleave --order` object list, for the accumulated carve set (existing + the new funcs)."""
+    """Return (region_lines, order_arg, pads_map): the regenerated data-region `- [...]` piece
+    lines, the `ld_interleave --order` object list, and {subseg: [pad,...]} for every carve span,
+    for the accumulated carve set (existing + the new funcs)."""
     base = overlay_vram_base(ov)
     (_, indent, _, _, tail_start, region_end, trailing_present, existing) = parse_config(ov)
     region_end_vram = base + region_end
 
-    # carves: (start_off, end_off, subseg). Existing ones come from the config (already migrated).
-    carves = list(existing)
+    # carves: (start_off, end_off, subseg, spec). Existing ones come from the config (already
+    # migrated); their pad spec is CARRIED from overlays.mk (a committed span's interior boundaries
+    # are not recoverable from its interval — never re-derive), default [0] = single-table (the
+    # fleet-wide state before Phase-29 §8e; a multi-table span always writes its spec line).
+    specs = current_pads_specs(ov)
+    carves = [(s, e, sub, specs.get(sub, [0])) for (s, e, sub) in existing]
     have = {c[0] for c in carves}
     # A new jtbl's end is bounded by the next RAW data dlabel OR the next EXISTING carve start
     # (an already-carved adjacent jtbl is gone from the data asm, so the raw dlabels alone would
@@ -230,28 +291,42 @@ def build_carve(ov, funcs):
             s_off, e_off = s_vram - base, e_vram - base
             if s_off in have:
                 continue                       # idempotent: already carved
-            carves.append((s_off, e_off, sub))
+            carves.append((s_off, e_off, sub, [0]))
             have.add(s_off)
-    carves.sort()
+    carves.sort(key=lambda c: (c[0], c[1]))
 
     # A code object emits its jtbls CONTIGUOUS in .rodata (gcc source order). So two carves in the
-    # SAME subseg are byte-correct only if ADJACENT in the island (no unmatched jtbl between) -> merge
-    # them into one spanning .rodata piece. NON-adjacent same-subseg is unsatisfiable (a single object
-    # can't leave a gap for the raw jtbl between) -> isolate one fn into its own subseg (jr_isolate.py).
+    # SAME subseg are byte-correct only if ADJACENT in the island — where "adjacent" is abutting
+    # (gap 0) OR separated by exactly one original `.align 3` pad word (gap 4, verifiably zero in
+    # the payload; Phase-29 §8e) -> merge them into one spanning .rodata piece, recording the
+    # boundary pad in the span's spec (jtbl_rodata_pads.py reproduces it at compile time).
+    # Any other same-subseg gap is unsatisfiable (a single object can't leave a hole for the raw
+    # jtbl between) -> isolate one fn into its own subseg (jr_isolate_all.py).
     merged = []
-    for s_off, e_off, sub in carves:
-        if merged and merged[-1][2] == sub and merged[-1][1] == s_off:
-            merged[-1] = (merged[-1][0], e_off, sub)      # extend the contiguous same-subseg run
-        else:
-            merged.append((s_off, e_off, sub))
+    for s_off, e_off, sub, spec in carves:
+        if merged and merged[-1][2] == sub:
+            gap = s_off - merged[-1][1]
+            if gap in (0, 4):
+                if gap == 4:
+                    w = payload_word(ov, merged[-1][1])
+                    if w != 0:
+                        sys.exit(
+                            f"jtbl_carve: the 4-byte gap at 0x{merged[-1][1]:x} between same-subseg "
+                            f"carves is 0x{w:08x}, not a zero .align pad word — treating as "
+                            f"NON-CONTIGUOUS. Isolate one matched jr-function into its own code "
+                            f"subseg first (tools/jr_isolate_all.py), then re-carve.")
+                ps, _, _, pspec = merged[-1]
+                merged[-1] = (ps, e_off, sub, pspec + [gap] + spec[1:])
+                continue
+        merged.append((s_off, e_off, sub, spec))
     seen_subsegs = {}
-    for s_off, _, sub in merged:
+    for s_off, _, sub, _ in merged:
         if sub in seen_subsegs:
             sys.exit(
                 f"jtbl_carve: subseg '{sub}' would host NON-CONTIGUOUS .rodata carves "
                 f"(0x{seen_subsegs[sub]:x} and 0x{s_off:x}) — a single object can't leave a gap for the "
                 f"unmatched jtbl between them. Isolate one matched jr-function into its own code subseg "
-                f"first (tools/jr_isolate.py, the whale `_o0b` precedent), then re-carve.")
+                f"first (tools/jr_isolate_all.py, the whale `_o0b` precedent), then re-carve.")
         seen_subsegs[sub] = s_off
     carves = merged
 
@@ -264,7 +339,7 @@ def build_carve(ov, funcs):
         nonlocal n_data
         n_data += 1
         return "tail" if n_data == 1 else f"tail{n_data}"
-    for s_off, e_off, sub in carves:
+    for s_off, e_off, sub, _spec in carves:
         if cursor < s_off:
             nm = data_name()
             pieces.append((cursor, "data", nm))
@@ -283,16 +358,20 @@ def build_carve(ov, funcs):
     for off, kind, name in pieces:
         comment = "  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)" if kind == ".rodata" else ""
         region_lines.append(f"{indent}- [{hex(off)}, {kind}, {name}]{comment}")
-    return region_lines, "--order " + ",".join(order)
+    pads_map = {sub: spec for (_s, _e, sub, spec) in carves}
+    return region_lines, "--order " + ",".join(order), pads_map
 
 
 def apply(ov, funcs):
-    region_lines, order_arg = build_carve(ov, funcs)
+    region_lines, order_arg, pads_map = build_carve(ov, funcs)
     lines, indent, lo, hi, *_ = parse_config(ov)
     new_lines = lines[:lo] + region_lines + lines[hi:]
     open(cfg_path(ov), "w").write("\n".join(new_lines) + "\n")
     set_overlays_var(ov, order_arg)
-    print(f"jtbl_carve {ov}: carve set = {len(region_lines)} pieces; JTBL_INTERLEAVE = {order_arg}")
+    set_pads_vars(ov, pads_map)
+    multi = {s: p for s, p in pads_map.items() if len(p) > 1}
+    print(f"jtbl_carve {ov}: carve set = {len(region_lines)} pieces; JTBL_INTERLEAVE = {order_arg}"
+          + (f"; JTBL_PADS = {multi}" if multi else ""))
 
 
 def set_overlays_var(ov, args):
@@ -308,6 +387,38 @@ def set_overlays_var(ov, args):
             sys.exit(f"jtbl_carve: no {anchor} anchor in overlays.mk")
         txt = txt.replace(anchor, anchor + "\n" + var, 1)
     open(mk, "w").write(txt)
+
+
+def set_pads_vars(ov, pads_map):
+    """Write this overlay's per-object JTBL_PADS lines (Phase-29 §8e), preserving carried values.
+
+    Only multi-table spans (len(spec) > 1) get a line; single-table spans get none (their pipeline
+    stays byte-identical to pre-§8e). All of this overlay's current pads lines are replaced by the
+    regenerated block as one unit (values were CARRIED into pads_map by current_pads_specs, so this
+    is a rewrite of the same state plus the new boundary — not a re-derivation). Any object whose
+    spec appears, changes, or disappears gets its stale build/src/<ov>/<sub>.o deleted: the spec is
+    no make-prerequisite, and a padless stale object would fail the SHA gate mystifyingly."""
+    mk = os.path.join(REPO, "config/overlays.mk")
+    txt = open(mk).read()
+    before = current_pads_specs(ov, txt)
+    after = {sub: spec for sub, spec in pads_map.items() if len(spec) > 1}
+    # drop all current lines for this overlay, then insert the regenerated block
+    txt = re.sub(pads_line_re(ov) + r"\n", "", txt, flags=re.M)
+    if after:
+        block = "\n".join(
+            f"build/src/{ov}/{sub}.o: JTBL_PADS := {','.join(map(str, spec))}{PADS_COMMENT}"
+            for sub, spec in sorted(after.items()))
+        m = re.search(rf"^{re.escape(ov)}_JTBL_INTERLEAVE.*$", txt, re.M)
+        if not m:
+            sys.exit(f"jtbl_carve: no {ov}_JTBL_INTERLEAVE line to anchor JTBL_PADS on")
+        txt = txt[:m.end()] + "\n" + block + txt[m.end():]
+    open(mk, "w").write(txt)
+    for sub in set(before) | set(after):
+        if before.get(sub) != after.get(sub):
+            obj = os.path.join(REPO, f"build/src/{ov}/{sub}.o")
+            if os.path.exists(obj):
+                os.remove(obj)
+                print(f"jtbl_carve: JTBL_PADS changed for {sub} — removed stale {obj}")
 
 
 def revert(ov):
@@ -335,9 +446,28 @@ def revert(ov):
         txt = txt.replace(anchor, anchor + "\n" + m.group(0), 1)
     else:                                     # no committed carve -> drop ours
         txt = re.sub(rf"^{re.escape(ov)}_JTBL_INTERLEAVE.*\n", "", txt, flags=re.M)
+    # JTBL_PADS lines (Phase-29 §8e): restore this overlay's per-object pad specs to the committed
+    # set with the same surgical splice (a failed sibling bank must not leave its spec behind, and
+    # a blunt checkout would wipe OTHER siblings' in-flight lines — overlays.mk is shared).
+    now_pads = current_pads_specs(ov, txt)
+    committed_pads = current_pads_specs(ov, committed)
+    txt = re.sub(pads_line_re(ov) + r"\n", "", txt, flags=re.M)
+    committed_lines = [l for l in committed.splitlines()
+                       if re.match(pads_line_re(ov), l)]
+    if committed_lines:
+        m2 = re.search(rf"^{re.escape(ov)}_JTBL_INTERLEAVE.*$", txt, re.M)
+        if not m2:
+            sys.exit(f"jtbl_carve: no {ov}_JTBL_INTERLEAVE line to anchor committed JTBL_PADS on")
+        txt = txt[:m2.end()] + "\n" + "\n".join(committed_lines) + txt[m2.end():]
     open(mk, "w").write(txt)
+    for sub in set(now_pads) | set(committed_pads):
+        if now_pads.get(sub) != committed_pads.get(sub):
+            obj = os.path.join(REPO, f"build/src/{ov}/{sub}.o")
+            if os.path.exists(obj):
+                os.remove(obj)
     print(f"jtbl_carve {ov}: reverted config + JTBL_INTERLEAVE restored to committed"
-          f"{'' if m else ' (none)'}")
+          f"{'' if m else ' (none)'}"
+          + (f" + {len(committed_lines)} JTBL_PADS line(s) restored" if committed_lines else ""))
 
 
 def main():
