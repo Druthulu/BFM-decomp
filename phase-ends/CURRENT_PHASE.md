@@ -374,3 +374,30 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   `make sig-overlays` + `family_hseq.py` regen (→matched-ov077) → standard `family_sweep --hseq --only` (137/137).
   **BATCH R22: check-all 140/140 byte-identical; tools-health green; dedup 1846/0.** Fleet **73.4→73.7% instr ·
   56.9→57.5% distinct · 86.73% fn-count**. Commit `commit:0699`.
+
+- **✅ 2026-07-18 — CRACK-WAVE 2 + FABLE AGENTS + TYPE-LIFT RECOVERY (Ultracode→xHigh). Fleet 73.4→74.6% instr.**
+  **Two Opus crack-waves (15 fresh-core agents) + 3 Fable5 agents (gcc-2.7.2 source-readers) + a permuter track.**
+  Wave-1: `func_8013CB84` (249) MATCH → **banked ×138**. Wave-2 (8 non-jr cores 93-209 ins): **6 MATCH**
+  (8016cbc0/8015ea3c/8015d738/8015f448/8014ffdc[×276]/801412a8) + 2 near (80175ab8=58, 80178004=39).
+  **Fable5 (each read the compiler source): 3 MATCH** — `func_8013D53C` (240, the cse.c cross-statement
+  address-CSE wall: `*(S9*)(&D_801DA998+0x20)` never unifies with SYMBOL_REF while gas folds %hi/%lo(sym+k)
+  byte-identical — NEW family-portable idiom), `func_801670E4` (279, post-reload scheduler boost-kill re-ties),
+  `func_8012956C` (226, 4 stacked mechanisms incl. the reorg j-slot-steal barrier) — plus 2 near driven far
+  closer (8014D820 33→**11**, 80175DA8 30→**11**, permuter/Fable seeds preserved).
+  **BANKED: 8 exemplars ×1** (all but 801412a8) **+ ~815 members swept**: first sweep 538 (4 clean families:
+  8015ea3c 134 / 8015d738 134 / 8015f448 138 / 8014ffdc 135) + type-lift recovery (8012956c **137/137**,
+  801670e4 partial 4). **R22 clean-fleet 140/140 byte-identical; tools-health green; dedup 1846/0; 0 NON_MATCHING.**
+  Fleet **74.6% instr · 59.4% distinct-code · 86.92% fn-count** (crack-wave arc start 73.4/56.9/86.61;
+  **session-total 72.1→74.6 = +2.5pp instr**). Commits `commit:0699`..`commit:0708`.
+  **NEW LESSONS (R30):** (a) crack-wave sweep needs a **map-regen** step (freshly-cracked exemplar is draft-ov077
+  → family_sweep finds 0; bank ×1 → sig-overlays + family_hseq.py → matched-ov077 → standard sweep). (b) The
+  reconcile ladder (cast_call_sites→reconcile_tu→scope_data_externs) handles most, but recurring manual fixups:
+  **func_80161208/func_801670E4 all-decls-normalized-to-no-proto** (a reconcile re-adds a file-scope prototyped
+  decl that poisons every no-proto call), scalar-typedef strip, §17a-1 fn-ptr casts, local-typedef uniquify vs
+  same-file siblings. (c) **Type-lift recovers clean-TYPE families 137/137** (Blk16_956C/Ent_956C, SVec/Fr →
+  engine_types.h, byte-neutral) but NOT def-sig/per-sibling-decl-conflict families.
+  **CARRIED FOLLOW-UPS (all preserved, R20):** (1) 801670e4/8016cbc0 — type-lifted but the sweep hits a
+  per-sibling func_801670E4 decl-conflict (needs the func_80161208-style all-decls-normalize applied per sibling,
+  or a sweep enhancement). (2) 8013d53c family — void* def-sig caller-decl thread per sibling. (3) 801412a8 —
+  §29 narrow-u16-param def-side wall (caller decl int; matching adds masking). (4) permuter/Fable fuel: 8014d820
+  (11), 80175da8 (11), 80175ab8 (58), 80178004 (39). Drafts in .run/giants/{wave2_,fable_,*.close11}*.
