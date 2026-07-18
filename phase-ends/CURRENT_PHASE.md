@@ -466,3 +466,19 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   — the decl-normalize win (§57, +133) and the type-lift win (+137) from the SAME BUILD-SPEC validation set that
   looked like one "stuck 137-family" but needed two different levers. NEXT: 8013D53C (void*-def-sig + caller-thread
   class), the SC07 tails, permuter/Fable backlog.
+  **⚠️ COMMIT GOTCHA (caught + fixed by amend):** a family's members do NOT all live in the same-named split
+  file — SC07 overlays carve `func_8016CBC0` into `jr_8013F350.c`/`o2b.c`, not `jr_8016AB6C.c`. A filename-glob
+  `git add "src/ov_*/*_jr_8016AB6C.c"` silently missed 4 R22-verified banks. **Use `git add -u src/` (all
+  modified tracked) for sweep commits**, never a split-name glob — else a pushed tree omits banks the R22 verified.
+
+> **🛑 SESSION-3 CHECKPOINT (2026-07-18) — safe to open a FRESH session here.** Tree clean (only db.*.gbf R23
+> churn), **140/140 byte-identical**, tools-health OK (dedup 1846/0, C1 234205/234205), 0 NON_MATCHING (G4).
+> Main `commit:0712`. Fleet **75.1% instr · 60.6% distinct-code · 87.00% fn-count** (session opened 74.6/59.4/86.92).
+> **This session delivered the DECL-NORMALIZE ENHANCEMENT (Drew's teed-up BUILD SPEC) + banked both its validation
+> families:** `func_801670E4` 4→137/137 (+133, the new §17a-1 self-decl pass, `tools/normalize_self_decls.py` +
+> `family_sweep --normalize-self-decls`, cookbook §57) and `func_8016CBC0` 1→138/138 (+137, a 6-typedef
+> engine_types.h lift — the R14 survey proved it was a DIFFERENT blocker than it looked). **+270 members, +0.5pp
+> instr**, commits `commit:0711` + `commit:0712` (Drew pushes). **NEXT levers (BUILD SPEC residue):** `func_8013D53C`
+> (the DISTINCT void*-def-sig + per-sibling caller-thread class — NOT the self-decl pass), the SC07 span-composition
+> tails (§8e-2), and the permuter/Fable close-1..N backlog (Task 6). The decl-normalize pass is now a standing
+> `family_sweep` stage for any future family whose members' own callers declare F divergently.
