@@ -190,6 +190,24 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   Fleet **72.1→72.5% instr · 54.0→55.0% distinct-code · 86.61% fn-count** (~+58.5k ins from one family —
   vs the B2 precedent's 102/115 this ran 138/138). NEXT: Step 6 — the 3 remaining giants
   (59C84 → F350 (pad=4 spec case!) → C414 -O0).
+- **✅ 2026-07-18 — THE JTBL 8-ALIGN CAMPAIGN COMPLETE (Steps 4-7): 4 giants ×1 + 3 families swept; fleet
+  72.1→73.4% instr (+1.3pp — the checkpoint's +1..1.5pp ceiling hit in one session).**
+  **Banked:** `func_80131340` (424) **138/138** (0 fail) · `func_80159C84` (337) **134/138** (isolate path +
+  the FIRST pad=4 spec; 4 SC07 residuals named) · `func_8013F350` (490) **138/138** (0 fail — the 4-table
+  `[0,0,4,0]` span, `tables=` persistence, `--like` structure transfer ×137, §30#2 fleet-widen ×267) ·
+  `func_8013C414` (329, -O0) **×1** (family name-deferred: uniform -O2 gate-fail — rides the Arm-A -O0-cluster
+  rollout wall, NOT codegen). ≈ **+165k ins** total. **BATCH R22: check-all 140 passed, 0 failed of 140;
+  tools-health green; dedup 1846/0; 0 NON_MATCHING.** Fleet **73.4% instr · 56.9% distinct-code · 86.69%
+  fn-count** (session opened 72.1/54.0/86.57).
+  **Sweep lessons distilled (§8e-2, R30):** the CLEAN-DRAFT law (59C84 went 3/8→100% once the exemplar's
+  canonical-form reconciles were mirrored into the --raw draft — diagnosed by ONE failed-sibling re-run, §55b);
+  zero-word spec rule + `tables=` persistence + `--like` role-transfer (built after the F350 pre-§8e merged-double
+  archaeology); the SC07 `_o2b` composition class (fail-loud, 4 overlays); commit-per-chunk sweeps with
+  auto-commit chaining. Tooling: `jtbl_carve` span-structure engine + `jtbl_rodata_pads` filter +
+  `jtbl_family_bank --like`/stub-uniqueness (commits `commit:0678`..`commit:0696`).
+  **Burn-down residuals (named):** 4× SC07 59C84-members (o2b span composition) · 137× C414 members (-O0
+  rollout dependency) · the -O0 cluster rollout itself (Arm-A splat wall). Ghidra-C/Task-5, permuter
+  backlog/Task-6-tail, Task-7 ROI-close remain the open phase items.
 
 - **2026-07-16 — Phase opened.** Session Start Protocol complete (all 28 PhaseEnds + roadmap +
   calibration + decision-log read). 3 Explore surveys grounded the plan (tooling state, frontier

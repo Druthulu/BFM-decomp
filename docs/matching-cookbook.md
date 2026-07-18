@@ -558,6 +558,44 @@ section offset 0 pads nothing and SUBALIGN neutralizes the sh_addralign).
 - **Object-layer proof before image-layer claims:** verbatim vs filtered objdump — 0xE4/pad-at-0xCC vs
   0xE0/tight — settled the mechanism before any carve landed. Cheap, decisive, reusable probe shape.
 
+**§8e-2 — the spec-derivation law (learned banking the 4 giants, Phase 29):**
+- **The ZERO-WORD rule is the whole derivation:** pad before table K ⟺ payload word at `start[K]−4`
+  is `0x00000000` (a zero can never be a table ENTRY — the §8a-pad axiom). No entry counts, no interval
+  bookkeeping. `spec_from_starts` needs only the span's TABLE STARTS + the payload.
+- **Table starts are PERISHABLE — persist them.** `make extract` prunes a matched owner's stub `.s`, so a
+  span's interior structure becomes unrecoverable (the `func_8013F350` lesson: the existing `0xb0740`
+  carve was a Phase-26 **merged double** (8+5 tight) that the red-team's "all single-table" sample missed
+  — R14; its structure had to be re-derived from the compiled stream + span length). The `JTBL_PADS` line
+  now persists starts as span-relative offsets (`tables=+0x0,+0x20,…`); source priority per span:
+  untouched+line → reuse verbatim · untouched+no-line → skip (its natural `.align 3`s are committed-green)
+  · touched → union{new fn's `.s`, surviving stub `.s`, line `tables=` rebased, `--span-tables` override,
+  `--like <exemplar>` role-transfer} → zero-word rule. Sibling sweeps get structure via `--like`
+  (same family ⇒ same span shape; pads still derived from the LOCAL payload).
+- **4-mod-8 FIRST tables are placement-only** (SUBALIGN packs them tight — `jtbl_801D836C`/`0xb07dc`
+  proofs); only NON-first tables need the spec. A single-table carve never needs a line.
+- **Splice-reconcile carry-overs** (the 59C84/F350 banks; all §56-class, byte-neutral): the draft's
+  standalone scalar typedefs must be STRIPPED in-TU; a conflicting draft decl is replaced by the
+  **macro-canonical redecl** (NOT just dropped — C89 rejects file-scope use-before-declaration, so the
+  decl must exist above the use) + §18 width-preserving store casts (`*(u16 *)&D_x = …` under a canonical
+  `u8`) + §17a-1 fn-ptr call casts where the canonical prototype differs from the matched call shape
+  (`((s32 (*)(s32))func_801416D4)(…)` under a `(s16)` def; a prototyped `(void)` canon needs it too).
+  §30#2 def-side widen (`extern void`→`s32` in every DISCARDING caller decl, incl. engine_core macros).
+- **Crash-ordering gotcha:** `jtbl_carve.apply()` writes the splat yaml BEFORE the overlays.mk vars — a
+  crash between the two leaves a half-applied config vs stale asm (symptom: phantom trim counts /
+  shifted NON-CONTIGUOUS offsets). Recover: `git checkout` both configs + re-extract, then re-carve.
+- **The CLEAN-DRAFT law (the 59C84 sweep lesson, 3/8→100%):** a family sweep's `--raw` draft must carry
+  the exemplar's reconciles as **canonical-form decls + call casts IN THE DRAFT TEXT** (typedefs stripped;
+  decls in the fleet-canonical spelling; §17a-1/§18 casts baked in). The per-sibling ladder absorbs *some*
+  of a dirty draft on *some* siblings (3/8), which disguises the class as random — diagnose by re-running
+  ONE failed sibling with the cleaned draft (BANKED ⇒ the class is the draft, not the siblings). Symbol
+  names remap per sibling, so textual canonical fixes transfer.
+- **Named deferral classes from the 4-giant campaign** (fail-loud, zero corruption, burn-down items):
+  (i) the 4 SC07 `files=1` overlays compose a new span against a PRE-EXISTING `_o2b` carve whose object
+  emits no tables at raw stage (the count-guard refuses — needs a per-overlay look); (ii) an **-O0 family
+  member cannot bank until its overlay has the -O0 cluster carve** (`rollout_o0_cluster`, the Arm-A splat
+  wall) — func_8013C414 banked ×1 (ov_SC01_077 has `_o0`) but its 137 siblings uniformly gate-fail at -O2;
+  the family rides the -O0-rollout dependency, not a codegen wall.
+
 ## §9 Link real PsyQ library objects byte-exact (Phase 7 — GO proven)
 ~350 of BFM's functions are unmodified PsyQ 4.0 SDK code. They are **byte-identical to the real PsyQ library
 objects**, so link them directly instead of hand-decompiling — and each library `.o` brings its own correct
