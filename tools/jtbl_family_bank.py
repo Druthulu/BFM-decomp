@@ -135,14 +135,14 @@ def bank(func, from_ov, from_addr, to_ov, to_addr):
     # new fn's raw jtbl from asm/<ov>/data — a stale/absent asm from a prior config would miss it).
     if sh(f"make --no-print-directory extract BINARY={to_ov}").returncode:
         revert(to_ov, keep_regions=keep); return "extract0-fail", ""
-    r = sh(f"python3 tools/jtbl_carve.py {to_ov} --func {to_func}")
+    r = sh(f"python3 tools/jtbl_carve.py {to_ov} --func {to_func} --like {from_ov}")
     if r.returncode and "NON-CONTIGUOUS" in (r.stdout + r.stderr):
         # the §8b same-subseg wall -> isolate this core, re-extract, retry the carve
         if isolate(to_ov, to_func).returncode:
             revert(to_ov, keep_regions=keep); return "isolate-fail", ""
         if sh(f"make --no-print-directory extract BINARY={to_ov}").returncode:
             revert(to_ov, keep_regions=keep); return "extract-iso-fail", ""
-        r = sh(f"python3 tools/jtbl_carve.py {to_ov} --func {to_func}")
+        r = sh(f"python3 tools/jtbl_carve.py {to_ov} --func {to_func} --like {from_ov}")
     if r.returncode:
         revert(to_ov, keep_regions=keep)
         return "carve-fail", ((r.stdout + r.stderr).strip().splitlines()[-1:] or [""])
