@@ -46,8 +46,9 @@ ov_SC01_005_ELF        := $(ov_SC01_005_OUT).elf
 ov_SC01_005_MAPFILE    := $(ov_SC01_005_OUT).map
 ov_SC01_005_LD_SCRIPT  := $(ov_SC01_005_OUT).ld
 ov_SC01_005_SPLAT_YAML := config/splat.ov_SC01_005.yaml
-ov_SC01_005_JTBL_INTERLEAVE := --order tail.data.o,ov_SC01_005_jr_8012ACE0.o,tail2.data.o,ov_SC01_005_jr_801380E0.o,tail3.data.o,ov_SC01_005_jr_8013FFD8.o,tail4.data.o,ov_SC01_005_jr_8015444C.o,tail5.data.o,ov_SC01_005_jr_8015A3C8.o,tail6.data.o,ov_SC01_005_jr_8015AE2C.o,tail7.data.o,ov_SC01_005_jr_8016AB6C.o,tail8.data.o,ov_SC01_005_jr_801734BC.o,tail9.data.o,ov_SC01_005_jr_80178D40.o,tail10.data.o,ov_SC01_005_jr_8017A4AC.o,tail11.data.o,ov_SC01_005_jr_8017C340.o,tail12.data.o,trailing.o  # Phase-26 §8 jtbl-rodata carve
-build/src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.o: JTBL_PADS := 0,0  # Phase-29 §8e jtbl pad spec (jtbl_carve.py)
+ov_SC01_005_JTBL_INTERLEAVE := --order tail.data.o,ov_SC01_005_jr_8012ACE0.o,tail2.data.o,ov_SC01_005_jr_801380E0.o,tail3.data.o,ov_SC01_005_jr_8013FFD8.o,tail4.data.o,ov_SC01_005_jr_8015444C.o,tail5.data.o,ov_SC01_005_jr_80159C84.o,tail6.data.o,ov_SC01_005_jr_8015A3C8.o,tail7.data.o,ov_SC01_005_jr_8015AE2C.o,tail8.data.o,ov_SC01_005_jr_8016AB6C.o,tail9.data.o,ov_SC01_005_jr_801734BC.o,tail10.data.o,ov_SC01_005_jr_80178D40.o,tail11.data.o,ov_SC01_005_jr_8017A4AC.o,tail12.data.o,ov_SC01_005_jr_8017C340.o,tail13.data.o,trailing.o  # Phase-26 §8 jtbl-rodata carve
+build/src/ov_SC01_005/ov_SC01_005_jr_8012ACE0.o: JTBL_PADS := 0,0  # §8e pads (jtbl_carve.py)
+build/src/ov_SC01_005/ov_SC01_005_jr_80159C84.o: JTBL_PADS := 0,4  # §8e pads (jtbl_carve.py) tables=+0x0,+0x20
 ov_SC01_005_CHECK_SHA  := config/check.ov_SC01_005.sha
 ov_SC01_005_SYMBOLS    := config/symbols.ov_SC01_005.txt
 ov_SC01_005_SIG        := .run/sig.ov_SC01_005.jsonl
@@ -115,8 +116,9 @@ ov_SC01_000_ELF        := $(ov_SC01_000_OUT).elf
 ov_SC01_000_MAPFILE    := $(ov_SC01_000_OUT).map
 ov_SC01_000_LD_SCRIPT  := $(ov_SC01_000_OUT).ld
 ov_SC01_000_SPLAT_YAML := config/splat.ov_SC01_000.yaml
-ov_SC01_000_JTBL_INTERLEAVE := --order tail.data.o,ov_SC01_000_jr_8012ACE0.o,tail2.data.o,ov_SC01_000_jr_801380E0.o,tail3.data.o,ov_SC01_000_jr_8013FFD8.o,tail4.data.o,ov_SC01_000_jr_8015444C.o,tail5.data.o,ov_SC01_000_jr_8015A3C8.o,tail6.data.o,ov_SC01_000_jr_8015AE2C.o,tail7.data.o,ov_SC01_000_jr_8016AB6C.o,tail8.data.o,ov_SC01_000_jr_801734BC.o,tail9.data.o,ov_SC01_000_jr_80178D40.o,tail10.data.o,ov_SC01_000_jr_8017A4AC.o,tail11.data.o,ov_SC01_000_jr_8017BEBC.o,tail12.data.o,trailing.o  # Phase-26 §8 jtbl-rodata carve
-build/src/ov_SC01_000/ov_SC01_000_jr_8012ACE0.o: JTBL_PADS := 0,0  # Phase-29 §8e jtbl pad spec (jtbl_carve.py)
+ov_SC01_000_JTBL_INTERLEAVE := --order tail.data.o,ov_SC01_000_jr_8012ACE0.o,tail2.data.o,ov_SC01_000_jr_801380E0.o,tail3.data.o,ov_SC01_000_jr_8013FFD8.o,tail4.data.o,ov_SC01_000_jr_8015444C.o,tail5.data.o,ov_SC01_000_jr_80159C84.o,tail6.data.o,ov_SC01_000_jr_8015A3C8.o,tail7.data.o,ov_SC01_000_jr_8015AE2C.o,tail8.data.o,ov_SC01_000_jr_8016AB6C.o,tail9.data.o,ov_SC01_000_jr_801734BC.o,tail10.data.o,ov_SC01_000_jr_80178D40.o,tail11.data.o,ov_SC01_000_jr_8017A4AC.o,tail12.data.o,ov_SC01_000_jr_8017BEBC.o,tail13.data.o,trailing.o  # Phase-26 §8 jtbl-rodata carve
+build/src/ov_SC01_000/ov_SC01_000_jr_8012ACE0.o: JTBL_PADS := 0,0  # §8e pads (jtbl_carve.py)
+build/src/ov_SC01_000/ov_SC01_000_jr_80159C84.o: JTBL_PADS := 0,4  # §8e pads (jtbl_carve.py) tables=+0x0,+0x20
 ov_SC01_000_CHECK_SHA  := config/check.ov_SC01_000.sha
 ov_SC01_000_SYMBOLS    := config/symbols.ov_SC01_000.txt
 ov_SC01_000_SIG        := .run/sig.ov_SC01_000.jsonl
@@ -138,8 +140,9 @@ ov_SC01_001_ELF        := $(ov_SC01_001_OUT).elf
 ov_SC01_001_MAPFILE    := $(ov_SC01_001_OUT).map
 ov_SC01_001_LD_SCRIPT  := $(ov_SC01_001_OUT).ld
 ov_SC01_001_SPLAT_YAML := config/splat.ov_SC01_001.yaml
-ov_SC01_001_JTBL_INTERLEAVE := --order tail.data.o,ov_SC01_001_jr_8012ACE0.o,tail2.data.o,ov_SC01_001_jr_801380E0.o,tail3.data.o,ov_SC01_001_jr_8013FFD8.o,tail4.data.o,ov_SC01_001_jr_8015444C.o,tail5.data.o,ov_SC01_001_jr_8015A3C8.o,tail6.data.o,ov_SC01_001_jr_8015AE2C.o,tail7.data.o,ov_SC01_001_jr_8016AB6C.o,tail8.data.o,ov_SC01_001_jr_801734BC.o,tail9.data.o,ov_SC01_001_jr_80178D40.o,tail10.data.o,ov_SC01_001_jr_8017A4AC.o,tail11.data.o,ov_SC01_001_jr_8017BEBC.o,tail12.data.o,trailing.o  # Phase-26 §8 jtbl-rodata carve
-build/src/ov_SC01_001/ov_SC01_001_jr_8012ACE0.o: JTBL_PADS := 0,0  # Phase-29 §8e jtbl pad spec (jtbl_carve.py)
+ov_SC01_001_JTBL_INTERLEAVE := --order tail.data.o,ov_SC01_001_jr_8012ACE0.o,tail2.data.o,ov_SC01_001_jr_801380E0.o,tail3.data.o,ov_SC01_001_jr_8013FFD8.o,tail4.data.o,ov_SC01_001_jr_8015444C.o,tail5.data.o,ov_SC01_001_jr_80159C84.o,tail6.data.o,ov_SC01_001_jr_8015A3C8.o,tail7.data.o,ov_SC01_001_jr_8015AE2C.o,tail8.data.o,ov_SC01_001_jr_8016AB6C.o,tail9.data.o,ov_SC01_001_jr_801734BC.o,tail10.data.o,ov_SC01_001_jr_80178D40.o,tail11.data.o,ov_SC01_001_jr_8017A4AC.o,tail12.data.o,ov_SC01_001_jr_8017BEBC.o,tail13.data.o,trailing.o  # Phase-26 §8 jtbl-rodata carve
+build/src/ov_SC01_001/ov_SC01_001_jr_8012ACE0.o: JTBL_PADS := 0,0  # §8e pads (jtbl_carve.py)
+build/src/ov_SC01_001/ov_SC01_001_jr_80159C84.o: JTBL_PADS := 0,4  # §8e pads (jtbl_carve.py) tables=+0x0,+0x20
 ov_SC01_001_CHECK_SHA  := config/check.ov_SC01_001.sha
 ov_SC01_001_SYMBOLS    := config/symbols.ov_SC01_001.txt
 ov_SC01_001_SIG        := .run/sig.ov_SC01_001.jsonl
