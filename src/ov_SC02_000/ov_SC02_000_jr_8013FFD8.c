@@ -927,7 +927,7 @@ extern u16 D_8011511E;
 extern s32 D_80115130;
 extern s16 D_8011514C;
 extern void func_8013EA54(void);
-extern void func_8013F350(void);
+extern s32 func_8013F350(void);   /* §30#2 widened: def returns live $v0; callers discard */
 extern s16 func_8014168C(s16 a0);
 extern s32 func_8014032C(s32 a0, s32 a1);
 extern unsigned char *func_80141CA4(void);

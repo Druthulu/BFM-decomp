@@ -2284,7 +2284,7 @@ DEFINE_func_8013EA54()  /* dedup: shared engine-core @0x8013EA54 (src/shared) */
 
 
 extern s32 func_80141C50(void);
-extern void func_8013F350(void);
+extern s32 func_8013F350(void);   /* §30#2 widened: def returns live $v0; callers discard */
 extern void func_8013FAF8(s16 a0, s16 a1);
 extern s16 func_8014168C(s16 a0);
 extern s32 func_8014032C(s32 a0, s32 a1);
