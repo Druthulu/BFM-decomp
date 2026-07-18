@@ -524,23 +524,7 @@ DEFINE_func_8012944C()  /* dedup: shared engine-core @0x8012944C (src/shared) */
 
 #include "common.h"
 
-typedef struct { s32 a, b, c, d; } Blk16_956C;
 
-typedef struct {
-    u8 pad0[0x1C];
-    s16 f1C;
-    s16 f1E;
-    u8 pad20[0x14];
-    u16 f34;
-    u16 f36;
-    u16 f38;
-    u16 f3A;
-    u8 pad3C[2];
-    s16 f3E;
-    u16 f40;
-    u16 f42;
-    u8 pad44[0x10];
-} Ent_956C;
 
 extern s32 D_801D9484;
 

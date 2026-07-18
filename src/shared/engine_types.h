@@ -606,3 +606,22 @@ typedef struct EntSC01077 {
 typedef struct { u32 addr : 24; u32 len : 8; u8 r0, g0, b0, code; } P_TAG_80137DD4;
 
 #endif /* BFM_ENGINE_TYPES_H */
+
+/* Phase-29 crack-wave lift (func_8012956C family) */
+typedef struct { s32 a, b, c, d; } Blk16_956C;
+typedef struct {
+    u8 pad0[0x1C];
+    s16 f1C;
+    s16 f1E;
+    u8 pad20[0x14];
+    u16 f34;
+    u16 f36;
+    u16 f38;
+    u16 f3A;
+    u8 pad3C[2];
+    s16 f3E;
+    u16 f40;
+    u16 f42;
+    u8 pad44[0x10];
+} Ent_956C;
+
