@@ -109,7 +109,7 @@ segments:
       - [0x540f4, c, ov_SC06_018_jr_8017C24C]
       - [0x6b430, data, tail]
       - [0xaa810, .rodata, ov_SC06_018_jr_8012ACE0]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0xaa8dc, data, tail2]
+      - [0xaa8f0, data, tail2]
       - [0xaa988, .rodata, ov_SC06_018_jr_801380E0]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
       - [0xaa9ec, data, tail3]
       - [0xab030, .rodata, ov_SC06_018_jr_8013FFD8]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
