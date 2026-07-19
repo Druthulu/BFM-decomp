@@ -4352,3 +4352,33 @@ canonical callee sigs, which removes (a) and (c) at the source. `harvest_verify`
 a first-diagnostic red-herring (it reported a shared `built-in memcpy @4017` for 7 unrelated drafts) — always
 read the REAL error by splicing ONE draft and reading full cc1/ld stderr (and beware the §42b stale-image
 false-pass: on a build FAIL the old image lingers, so confirm rc==0 before trusting a sha). 6/9 banked this way.
+
+## §59 — Three h_seq sweep-residual classes match_one/the-exemplar-bank don't reveal (Phase 29 crack-wave close, 2026-07-18)
+
+After a core banks ×1 in ov_SC01_077 and swaps to `matched-ov077`, `family_sweep --hseq --only` can still bank
+0/137 for reasons invisible at the exemplar (they're per-SIBLING, or per-overlay data facts). Three seen in one batch:
+
+- **(1) The exemplar's LOCAL struct type is dropped by the remap** (func_80165240, 0→137/137). The exemplar TU
+  defines `struct W4 { u32 w; } __attribute__((packed,aligned(1)))` inline; `remap_hseq` templates the DEF but
+  not that local type, so each sibling's `*(struct W4*)dst = *(struct W4*)src` lowers to a DIFFERENT-sized memcpy
+  → byte-DIFF (compiles clean — it's a DIFF, not a compile error, so match_one/standalone never sees it). FIX:
+  prepend the local struct decl to each member draft (the tiny-inline-type analog of the §57/func_8016CBC0
+  engine_types.h lift — but too small/local to lift; carry it in the template). Symptom is "compiles, 0/137 DIFF."
+- **(2) h_seq data is per-overlay RELOCATED — there is NO fleet-fixed data address** (func_8016D1D8/D688,
+  0→274/274). The exemplar body reads `D_801D9C20` (a tail work-buffer); the WRONG assumption is that 0x801D9C20
+  is the same in every overlay. It is NOT — each overlay's buffer sits at a different base (ov_000 → 0x801A4B78).
+  `remap_hseq`'s `symbol_map` keys the byte-OFFSET labels (`D_801D9C21`…) not the base symbol the C uses, so the
+  base is left unresolved → `undefined reference`. FIX, scripted per sibling: `base = symbol_map["D_<off>"] − off`;
+  declare `D_<base> = 0x<base>; // type:u8` in `config/symbols.<ov>.txt` (in-overlay → re-extract emits the linker
+  def, byte-neutral); remap the exemplar's base symbol → `D_<base>`. (A few SC07 stragglers also needed carried
+  externs like `ApplyMatrixSV` dropped — their TU declares them with a conflicting sig, §20/§58c.)
+- **(3) jtbl carve isolation/table-drift walls** (2 cores blocked, genuine tooling). `jtbl_carve` refuses a
+  NON-CONTIGUOUS same-subseg table (another matched fn's carve already occupies the subseg); isolating requires
+  `jr_isolate`/`split_src_region`, which **cannot partition the Phase-17 canonical-sig-layer TU** (`trim: cannot
+  resolve address of item`). And a merged two-table span (§8e-2) trips `jtbl_rodata_pads: more rodata .align than
+  pad specs` when the -O0 code object holds more jump tables than the span's derived pad spec ("one contiguous
+  .rodata run per object"). Both are documented walls — bank the contiguous/last-table cases, report the rest.
+
+Meta: a `family_sweep --hseq` "0/137 banked" is a per-sibling INTEGRATION signal, not a codegen verdict — read one
+sibling's real gate result (COMPILE-fail vs byte-DIFF) before concluding. Extends §58 (match_one blind spots) to the
+sweep stage.

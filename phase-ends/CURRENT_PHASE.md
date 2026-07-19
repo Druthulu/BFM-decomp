@@ -539,3 +539,19 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   `func_8016D1D8` (148) + `func_8016D688` (60) reference the carve-boundary data-label `D_801D9C20`/`D_801D9C60`
   only in ov077's symbols; siblings need it propagated (per-sibling symbols + re-extract). Plus the 3 §8
   jtbl-carve cores (Task 6). NEXT: reconcile the residuals (ROI-triaged), then the next crack-wave / permuter backlog.
+
+- **✅ 2026-07-19 — SESSION-4 RESIDUALS BANKED + VERIFIED (delegated agent): +412 more members, 3 commits.**
+  A focused agent ROI-triaged the 3 residual classes (byte-gate arbitrated): **`func_80165240` 137/137**
+  (`commit:0720` — the sweep dropped the exemplar's LOCAL `struct W4` type → per-member memcpy DIFF; carried the
+  decl into each member draft, §59#1), **`func_8016D1D8`+`func_8016D688` 274/274** (`commit:0721` — my "fixed
+  0x801D9C20 data" premise was WRONG: h_seq data is per-overlay RELOCATED, no fleet-fixed address; derived each
+  overlay's base `= symbol_map[offset]−offset`, declared `D_<base>` per sibling + re-extract, §59#2), and
+  **`func_8013C0F8` ×1** (`commit:0722` — jtbl_801D82FC carve, def-sig reconcile). **BLOCKED (genuine tooling
+  walls, §59#3):** `func_801549F8` ×137 (jtbl §8c isolation — `trim` can't partition the Phase-17 canonical-sig
+  layer TU) + `func_8013BD74` ×1 (§8e-2 table-count drift). **R22 clean-fleet: 140/140 byte-identical,
+  extract-all 139/0; tools-health OK (dedup 1847/0, C1 234343/234343); 0 NON_MATCHING linked (G4).**
+  **SESSION-4 TOTAL (from the 74.6→ session open, this conversation): fleet 75.2→75.7% instr · 60.6→61.3%
+  distinct · 87.04→87.24% fn-count** — 6 cores cracked + propagated ≈ **687 member-banks** across
+  `commit:0716`/`commit:0717`/`commit:0718`/`commit:0720`/`commit:0721`/`commit:0722` (+ `commit:0719` checkpoint). Cookbook §58/§59
+  captured (R30). 2 near cores preserved (`func_8014D820` close-11, `func_8012E364` close-22 — permuter fuel).
+  NEXT: next Ultracode crack-wave over a freshly-regenerated frontier + the permuter backlog (Task 7).
