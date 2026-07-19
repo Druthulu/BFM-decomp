@@ -1924,7 +1924,7 @@ s32 func_8014FFDC(s32 e, void *a1, void *a2) {
 
 DEFINE_func_80150150()  /* dedup: shared engine-core @0x80150150 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC04_002/nonmatchings/ov_SC04_002_after", func_80150170);
+DEFINE_func_80150170()  /* dedup: shared engine-core @0x80150170 (src/shared) */
 
 
 extern s32 func_80135D20(s32 a0, s32 a1, void *a2);
