@@ -4318,3 +4318,37 @@ the plumbing levers harvest the easy fraction ×0 tokens, the residual 123 are p
 edits are byte-neutral even where the member does NOT bank (the caller's canonical decl + cast matches with F still
 a stub), so they persist on all 137 TUs — revert the ones that didn't bank (still carry the stub) so you commit
 banks, not churn on matched code.** The classifier's `PLUMBING` count is a §56 memcpy red-herring; read full cc1 stderr.
+
+## §58 — match_one MATCH ≠ BANK: the four blind spots + the crack-wave reconcile-before-bank law (Phase 29 crack-wave, 2026-07-18)
+
+A crack-wave drafter iterates a C body against `tools/match_one.py` (standalone compile of ONE function
+with the DRAFT's own externs + relocation masking). That is the right per-function oracle, but it is
+STRUCTURALLY BLIND to everything that only surfaces when the def is spliced into its real TU + the whole
+binary is linked. An 11-core wave produced 9 match_one MATCHes; **all 9 gate-failed the whole-binary bank
+with ZERO codegen problems** — every failure was one of four integration classes match_one cannot see:
+
+  (a) **Ghidra symbol names.** Drafters paste `DAT_801d9c20` / `PTR_DAT_80186ad0` (Ghidra) instead of the
+      splat `D_801D9C20`. match_one links the draft's own `extern`, so it never notices; the whole-binary
+      link fails `undefined reference`. FIX: rename `DAT_<hex>`/`PTR_DAT_<hex>` → `D_<UPPERHEX>` (verify the
+      splat label exists: `grep -rn D_<HEX> asm/<ov>/data/`).
+  (b) **Def-sig conflict vs the fleet.** The draft's def sig (from m2c/Ghidra) diverges from `engine_core.h`
+      or the TU's own caller-decls. **The draft sig is byte-TRUTH (it MATCHed); the header/caller decl is
+      often a stale stub-era guess** (`void func_80164E40(void)` where the truth is `s32` — `canon_sig_reconcile`
+      forcing the draft to `void` produced a DIFF, i.e. dropped the return computation). Conform the DECLS to
+      the draft, byte-neutrally: narrow the `engine_core.h` extern void→s32 (callers that ignore the return
+      are unaffected — R22 clean-fleet confirms neutrality), or `tools/normalize_self_decls.py --tu --fn
+      --canon "<draft sig>"` when the TU's own caller declares F divergently.
+  (c) **Callee-decl conflict.** The draft declares a callee with a sig conflicting with the TU's canonical →
+      `tools/cast_call_sites.py` (fn-ptr-cast the calls, drop the divergent extern).
+  (d) **Opt-level.** A function in an `-O2` segment can actually be `-O0` (frame pointer, per-case stack
+      reloads). match_one masks this if the agent tried `--o0`; the whole-binary `-O2` build then DIFFs. FIX:
+      relocate the def into the overlay's `_o0`/`_o0b` object (whose .text covers that addr). A "DIFF" verdict
+      is often THIS, not a codegen miss (func_8013C0F8 was mis-filed as a real -O0 DIFF; it was §8 jtbl).
+
+**LAW:** a crack-wave's match_one MATCHes are CANDIDATES; budget a reconcile pass before banking. Best is a
+pre-bank auto-reconcile (rename → cast_call_sites → reconcile_tu → normalize_self_decls / narrow-extern), then
+the whole-binary gate. And feed it upstream: tell the drafters to use splat `D_` names + the `engine_core.h`
+canonical callee sigs, which removes (a) and (c) at the source. `harvest_verify`'s per-draft failure LABEL is
+a first-diagnostic red-herring (it reported a shared `built-in memcpy @4017` for 7 unrelated drafts) — always
+read the REAL error by splicing ONE draft and reading full cc1/ld stderr (and beware the §42b stale-image
+false-pass: on a build FAIL the old image lingers, so confirm rc==0 before trusting a sha). 6/9 banked this way.

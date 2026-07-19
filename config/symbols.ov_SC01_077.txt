@@ -3,4 +3,12 @@
 // config/symbols.us.txt. Seeded in T1c from sig_image (.run/sig.ov_SC01_077.jsonl) +
 // docs/duplicates.cross.md to fix conservative splat carves (jump-table-in-rodata, §8/§11)
 // and attach stable names. The all-asm byte-match (T1b) does not depend on this file.
-// count=0
+// count=2
+
+// Phase-29 bank wave: base symbols for func_8016D1D8 / func_8016D688 (jr_8016AB6C). Each
+// accesses a small byte array whose base fell on a splat carve boundary (the LAST byte of the
+// preceding dlabel), so no standalone global label existed and the whole-binary link failed
+// (undefined reference). Declaring the boundary here makes the split reproducible so a future
+// `make extract` re-emits the `dlabel D_801D9C20` / `dlabel D_801D9C60` these banks reference.
+D_801D9C20 = 0x801D9C20; // type:u8
+D_801D9C60 = 0x801D9C60; // type:u8

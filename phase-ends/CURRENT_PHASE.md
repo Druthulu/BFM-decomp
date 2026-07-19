@@ -505,3 +505,25 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   each substantial family carries its own blocker (self-decl / type-lift / def-sig+caller / genuine codegen), and the
   mechanical fraction is small (~137 broad + 14 D53C). Remaining Task-4/6 levers: the permuter backlog (551 close-1..4
   drafts, high-reach) + per-family type-lift/crack of the ~50 remaining substantial families + the tiny/mid bands.
+
+- **✅ 2026-07-18 — CRACK-WAVE (session-4, Ultracode 11-core): 9 MATCH / 2 near → 6 BANKED ×1 in ov_SC01_077.
+  PAUSED at Drew's request after the bank (before sweeps).** Regenerated the `family_manifest` frontier FIRST
+  (R35 — the Jul-14 digest still listed this phase's already-banked families as draftable): 14 draftable
+  (ov077-STUB) families; 11 with 138-fleet reach dispatched to xHigh drafters (cached Ghidra-C + m2c + §31 +
+  `match_one`). **9 MATCH / 2 near** (`func_8014D820` close-11 intrinsic-sched wall, `func_8012E364` close-22
+  div-block regalloc — both preserved `.run/giants/wave_*`, R20). **Banking = the §55b reality (new cookbook
+  §58):** all 9 `match_one` MATCHes gate-failed on INTEGRATION, 0 codegen — `match_one` compiles STANDALONE so
+  it is blind to (a) Ghidra symbol names (DAT_/PTR_DAT_ vs splat D_), (b) def-sig conflict vs the fleet
+  (draft sig is byte-truth; the engine_core `void` is a stale stub-era guess — canon_sig_reconcile forcing
+  `void` DIFFed), (c) callee-decl conflict, (d) -O0-vs-O2. A focused reconcile agent banked **6/9** byte-identical:
+  `func_80150170` (95, hexR=138 DEDUP core) + `func_8016D1D8` (148) + `func_8016D688` (60) + `func_80164E40` (25)
+  + `func_80165240` (63) + `func_801457A4` (79, -O0 → relocated into `_o0b`). Levers: 3 `engine_core.h` decls
+  narrowed void→s32 (byte-neutral fleet-wide, callers ignore the return), `normalize_self_decls`, `cast_call_sites`,
+  + a `D_801D9C20/60` **u8** symbols mirror (fixed my `type:data`→`type:u8` splat-format bug that failed
+  ov_SC01_077 extract). **3 NOT banked (`func_801549F8`/`func_8013BD74`/`func_8013C0F8`) — ALL match standalone,
+  blocked ONLY by the §8 jtbl-rodata carve** (NOT codegen; 8013C0F8 was NOT a real DIFF — corrected). Drafts
+  preserved. **R22 clean-fleet 140/140 byte-identical; tools-health OK (dedup 1846/0, C1 234205/234205); 0
+  NON_MATCHING (G4).** Fleet 75.2/60.6/87.04 (FLAT — these are ×1 banks; the **×138 sweep is the deferred
+  fleet-mover**). Commit `<this>`. **NEXT (paused, not started):** map-regen + `family_sweep --hseq --only
+  --normalize-self-decls` the 4 -O2 cores (8016D1D8/80165240/8016D688/80164E40) + `dedup_propagate 0x80150170`
+  (hexR=138 → ~138 free) + jtbl-carve the 3 (Task 6). §58 flywheel captured (R30).

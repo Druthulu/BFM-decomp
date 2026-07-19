@@ -5753,7 +5753,7 @@
     }
 
 #define DEFINE_func_80164CD4() \
-    extern void func_80164E40(void); \
+    extern s32 func_80164E40(void); \
     extern void func_80146CA0(void *a0); \
     void func_80164CD4(u8 *a0) { \
         u8 *s0 = *(u8 **)(a0 + 0x20); \
@@ -13264,7 +13264,7 @@
     }
 
 #define DEFINE_func_8014FDF4() \
-    extern void func_80150170(void *a0); \
+    extern s32 func_80150170(void *a0); \
     extern s32 func_8014FE60(void *a0); \
     void func_8014FDF4(struct S8014FDF4 *a0) { \
         if (a0->f6 != a0->f88 || a0->fA != a0->f8A || a0->fE != a0->f8C) { \
@@ -18101,7 +18101,7 @@
     }
 
 #define DEFINE_func_80164D4C() \
-    extern void func_80164E40(void); \
+    extern s32 func_80164E40(void); \
     extern void func_80146CA0(void *a0); \
     void func_80164D4C(void *arg0) { \
         register s32 a __asm__("$16"); \

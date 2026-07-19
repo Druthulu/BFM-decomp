@@ -4404,7 +4404,27 @@ DEFINE_func_80164DB0()  /* dedup: shared engine-core @0x80164DB0 (src/shared) */
 
 DEFINE_func_80164DD0()  /* dedup: shared engine-core @0x80164DD0 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_8015AE2C", func_80164E40);
+
+
+
+extern u8 D_801D9728;
+extern u8 D_801D9729;
+extern u8 D_801D972A;
+
+s32 func_80164E40(void) {
+    u8 *p = &D_801D9728;
+    if (*p != 0) {
+        *p -= 0x10;
+    }
+    if (D_801D9729 != 0) {
+        D_801D9729 -= 0x10;
+    }
+    if (D_801D972A != 0) {
+        D_801D972A -= 0x10;
+    }
+    return *(s32 *)p == 0;
+}
+
 
 extern s32 (*D_8018973C[])();
 
@@ -4483,7 +4503,7 @@ s32 func_80165140(s32 param_1) {
 // @class: schedule
 // @stuck: none — MATCH (pins $s2/$s1/$s0 + zero-code barrier hoists $a0 copy into beqz delay slot)
 
-extern s32 func_80165240(s32 a0, s32 a1, s32 a2);
+extern void func_80165240(void *param_1, void *param_2, void *param_3);
 extern s32 D_801D9768;
 
 void func_801651B8(void * param_1)
@@ -4493,14 +4513,14 @@ void func_801651B8(void * param_1)
     register s32 p __asm__("$18");        /* $s2 */
 
     p = param_1;
-    func_80165240(p, p + 0x2c, p + 0x50);
+    ((s32 (*)(s32, s32, s32))func_80165240)(p, p + 0x2c, p + 0x50);
     iVar2 = 0;
     puVar1 = &D_801D9768;
     do {
         if (puVar1[3] != 0) {
             s32 a0v = p;
             __asm__ __volatile__("" : "=r"(a0v) : "0"(a0v));
-            func_80165240(a0v, (s32)puVar1, (s32)(puVar1 + 2));
+            ((s32 (*)(s32, s32, s32))func_80165240)(a0v, (s32)puVar1, (s32)(puVar1 + 2));
             puVar1[3] = puVar1[3] + -1;
         }
         iVar2 = iVar2 + 1;
@@ -4508,7 +4528,45 @@ void func_801651B8(void * param_1)
     } while (iVar2 < 8);
 }
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_8015AE2C", func_80165240);
+
+
+
+
+
+
+extern s32  func_80017DC4(void *a0, void *a1);
+extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
+extern void func_80016ED4(void *a0);
+
+extern u8  D_80189750[];
+extern u32 D_80189770, D_80189774, D_80189778, D_8018977C;
+
+struct W4 { u32 w; } __attribute__((packed, aligned(1)));
+
+void func_80165240(void *param_1, void *param_2, void *param_3)
+{
+    u8 prim[0x40];   /* $sp+0x10 .. 0x50 */
+    u8 mat[0x20];    /* $sp+0x50 .. 0x70 */
+    u8 *p = prim;
+
+    func_80017DC4(param_2, mat);
+    ApplyMatrixSV(mat, &D_80189750[0x00], p);
+    ApplyMatrixSV(mat, &D_80189750[0x08], prim + 0x08);
+    ApplyMatrixSV(mat, &D_80189750[0x10], prim + 0x10);
+    ApplyMatrixSV(mat, &D_80189750[0x18], prim + 0x18);
+
+    *(s16 *)(prim + 0x04) = 3;
+    prim[0x38] = 0x2c;
+    *(u32 *)(prim + 0x20) = D_80189778;
+    *(u32 *)(prim + 0x24) = D_80189770;
+    *(u32 *)(prim + 0x28) = D_8018977C;
+    *(u32 *)(prim + 0x2c) = D_80189774;
+    *(struct W4 *)(prim + 0x30) = *(struct W4 *)param_3;
+    *(u32 *)(prim + 0x34) = 0x50000000;
+
+    func_80016ED4(p);
+}
+
 
 DEFINE_func_8016533C()  /* dedup: shared engine-core @0x8016533C (src/shared) */
 
