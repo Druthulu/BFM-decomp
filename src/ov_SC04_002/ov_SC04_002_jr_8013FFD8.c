@@ -1416,7 +1416,64 @@ void func_801418F8(void)
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_002/nonmatchings/ov_SC04_002_jr_8013FFD8", func_80141A60);
+/* func_80141A60 @ 0x80141A60 (0x130, 76 ins) -- ov_SC01_000 shared engine fn.
+ *
+ * ((s32 *)D_801151C8)[]: word (s32) table indexed by (u16)(*(u16 *)&D_800B9A02) -> D_801151D0.
+ * D_8011511A: u16, unsigned compare vs 4 (sltiu).
+ * (*(u8 *)&D_8011514C)/4D/5C: u8 fields; a1 = (s16)((*(u8 *)&D_8011514C) + D_8011514D*D_8011515C).
+ * D_80115130: cached s32 handle. D_8018976C: address-taken arg to func_801376E8.
+ * D_80115116: s16 <- 0xfff8 (ori, positive const). D_80115112: u16 counter.
+ */
+
+extern s16 D_800B9A02;
+extern u8 D_801151C8[];
+extern s32 D_801151D0;
+/* D_8011511A: this TU declares it volatile at file scope -> a direct read reloads on every
+ * use; the cast-at-use *(u16 *)&D_8011511A strips volatile so gcc CSEs the three reads into
+ * one load (matches the single-load target). */
+extern s16 D_8011514C;
+extern s32 D_80115130;
+extern u8  D_8018976C;
+extern u16 D_80115112;
+
+extern s32  func_8013F350(void);
+extern void func_8013FAF8(s16 a0, s16 a1);
+extern s32  func_8014032C(s32 a0, s32 a1);
+extern void func_80139954(void);
+extern void func_801376E8(int a0, int a1);
+extern void func_80137B80(void);
+extern s32  func_800D0EC4(void);
+
+void func_80141A60(void)
+{
+
+    extern u8  D_8011514D;
+    extern u8  D_8011515C;
+    extern u16 D_80115116;
+    s32 iVar1;
+    s32 pad[2];
+    (void)&pad;   /* §36#3 frame-pad induction: force frame 0x20 (vs 0x18) */
+
+    D_801151D0 = ((s32 *)D_801151C8)[(*(u16 *)&D_800B9A02)];
+    func_8013F350();
+    if ((*(u16 *)&D_8011511A) >= 4) {
+        func_8013FAF8((*(u16 *)&D_8011511A), (*(u16 *)&D_8011511A) + 1);
+    }
+    func_8013FAF8(2, 3);
+    iVar1 = func_8014032C(2, (s16)((*(u8 *)&D_8011514C) + D_8011514D * D_8011515C));
+    if (iVar1 != 0 && iVar1 != D_80115130) {
+        D_80115130 = iVar1;
+        func_80139954();
+        func_801376E8(iVar1, (int)&D_8018976C);
+    }
+    func_80137B80();
+    iVar1 = func_800D0EC4();
+    if (iVar1 != 0) {
+        D_80115116 = 0xfff8;
+        D_80115112 = D_80115112 + 1;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_002/nonmatchings/ov_SC04_002_jr_8013FFD8", func_80141B90);
 

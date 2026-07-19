@@ -1427,9 +1427,9 @@ void func_801418F8(void)
 extern s16 D_800B9A02;
 extern u8 D_801151C8[];
 extern s32 D_801151D0;
-/* D_8011511A: TU declares it `volatile` (file-scope, from func_801418F8) -> a direct read
- * reloads on every use; §18 cast-at-use `*(u16*)&D_8011511A` strips volatile so gcc CSEs the
- * three reads into one load (matches target's single $a1 load). Decl carried by the TU. */
+/* D_8011511A: this TU declares it volatile at file scope -> a direct read reloads on every
+ * use; the cast-at-use *(u16 *)&D_8011511A strips volatile so gcc CSEs the three reads into
+ * one load (matches the single-load target). */
 extern s16 D_8011514C;
 extern u8  D_8011514D;
 extern u8  D_8011515C;
