@@ -12189,7 +12189,7 @@
     }
 
 #define DEFINE_func_8016AFB0() \
-    extern void func_8016B234(void); \
+    extern void func_8016B234(); \
     extern void func_800D22E4(s32 a0); \
     void func_8016AFB0(s32 a0) { \
         s32 s0 = a0; \
@@ -17916,7 +17916,7 @@
     }
 
 #define DEFINE_func_8016B114() \
-    extern void func_8016B234(void); \
+    extern void func_8016B234(); \
     extern void func_800D22E4(s32 a0); \
     extern void func_80146C3C(void); \
     void func_8016B114(void *arg0) \

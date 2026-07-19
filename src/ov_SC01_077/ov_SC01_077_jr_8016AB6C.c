@@ -2264,7 +2264,87 @@ DEFINE_func_8016AFB0()  /* dedup: shared engine-core @0x8016AFB0 (src/shared) */
 
 DEFINE_func_8016B114()  /* dedup: shared engine-core @0x8016B114 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_8016AB6C", func_8016B234);
+
+extern u8 D_800AF648;
+extern u8 D_80189C80;
+extern void func_8004914C(void *a0);
+extern void func_800491AC(void *a0);
+extern s32 RotTransPers(s32 a0, s32 a1, s32 *a2, s32 *a3);
+extern void func_80016ED4(void *a0);
+
+struct Prim {
+    /* +0x00 */ s16 ax, ay, a04, a06;
+    /* +0x08 */ s16 bx, by, b0c, b0e;
+    /* +0x10 */ s16 cx, cy, c14, c16;
+    /* +0x18 */ s16 dx, dy, d1c, d1e;
+    /* +0x20 */ s16 u0, v0, u1, v1;
+    /* +0x28 */ s16 u2, v2, u3, v3;
+    /* +0x30 */ u8  r, g, b, pad33;
+    /* +0x34 */ s32 tag;
+    /* +0x38 */ u8  code, pad39, pad3a, pad3b;
+    /* +0x3C */ s32 pad3c;
+};
+
+void func_8016B234(s32 param_1) {
+    short input[3];
+    struct Prim prim;
+    struct { s16 xy[2]; s32 sp1c; s32 flag; } out;
+    void *dp;
+    u32 uVar1;
+    s16 iVar2;
+    s32 X, Y0, Y1, base, ni;
+    register s32 sy __asm__("$16");
+    register s16 xtmp __asm__("$4");
+    register s32 sxy __asm__("$3");
+
+    dp = &D_800AF648;
+    func_8004914C(dp);
+    func_800491AC(dp);
+    input[0] = *(u16 *)(param_1 + 6);
+    input[1] = *(u16 *)(param_1 + 0xA);
+    input[2] = *(u16 *)(param_1 + 0xE);
+    RotTransPers((s32)input, (s32)out.xy, &out.sp1c, &out.flag);
+    if ((out.flag & 0xffffefff) == 0) {
+        sxy = *(s32 *)out.xy;
+        prim.a04 = 0x10;
+        X = *(u16 *)(param_1 + 0x2a) + sxy;
+        sy = (u16)out.xy[1];
+        prim.ax = prim.cx = X;
+        prim.bx = prim.dx = X + 8;
+        Y0 = sy - *(u16 *)(param_1 + 0x26);
+        prim.ay = prim.by = Y0;
+        sxy = *(u16 *)(param_1 + 0x26);
+        prim.v0 = prim.v1 = 0x1d0;
+        prim.v2 = prim.v3 = 0x1d8;
+        sxy = sy + sxy;
+        prim.cy = prim.dy = sxy;
+        __asm__ __volatile__("" : : "r"(sy));
+        prim.r = prim.g = prim.b = *(u8 *)(param_1 + 0x24);
+        prim.code = (&D_80189C80)[*(s32 *)(param_1 + 0x2c)];
+        if (*(s16 *)(param_1 + 0x26) < 5) {
+            prim.tag = 0;
+        } else {
+            prim.tag = 0x50000000;
+        }
+        uVar1 = *(u16 *)(param_1 + 0x30);
+        iVar2 = 0;
+        if (0 < *(s16 *)(param_1 + 0x28) + 1) {
+            do {
+                base = ((uVar1 + 1) & 0xf) << 3;
+                prim.u0 = prim.u2 = base + 0x620;
+                prim.u1 = prim.u3 = base + 0x628;
+                func_80016ED4(&prim);
+                uVar1 = (s32)(uVar1 << 0x10) >> 0x14;
+                iVar2 = iVar2 + 1;
+                __asm__ __volatile__("");
+                xtmp = prim.ax;
+                prim.cx = prim.ax = xtmp - 8;
+                prim.bx = prim.dx = xtmp;
+            } while ((s16)iVar2 < *(s16 *)(param_1 + 0x28) + 1);
+        }
+    }
+}
+
 
 DEFINE_func_8016B3F4()  /* dedup: shared engine-core @0x8016B3F4 (src/shared) */
 
@@ -2855,7 +2935,64 @@ DEFINE_func_8016C74C()  /* dedup: shared engine-core @0x8016C74C (src/shared) */
 
 DEFINE_func_8016C83C()  /* dedup: shared engine-core @0x8016C83C (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_8016AB6C", func_8016C998);
+#include "common.h"
+
+extern short func_8016CBC0(void);
+extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+extern s32 D_80126B9C;
+extern s16 D_80126CE0;
+typedef struct { u8 f0; u8 pad[0xc3]; } Slot_998;
+
+typedef struct { s32 w[8]; } Blk32_998;
+
+void func_8016C998(s32 param_1)
+{
+    u16 *psVar7;
+    s32 r;
+    short i;
+    extern Slot_998 D_801D9CA0[];
+
+    psVar7 = *(u16 **)(param_1 + 0x34);
+    if (*psVar7 != 1) {
+        *(s16 *)(param_1 + 2) = 6;
+    }
+    func_8016CBC0();
+    if (*(s16 *)(param_1 + 0x28) != *(s16 *)(*(s32 *)(param_1 + 0x30) + 0x36)) {
+        return;
+    }
+    if ((D_80126B9C & 0x20) == 0) {
+        return;
+    }
+    if ((*(s32 *)(param_1 + 0x1c) == 0) ||
+        (*(s16 *)(param_1 + 0x12) < D_80126CE0)) {
+        *(s16 *)(param_1 + 0x12) = D_80126CE0;
+        i = 0;
+        do {
+            if (D_801D9CA0[i].f0 == 0) {
+                goto found;
+            }
+            i++;
+        } while (i < 8);
+    found:
+        if (i >= 8) {
+            return;
+        }
+        r = func_80146A6C(0x30, psVar7, 0, 0, 0, 0x8000, *(s32 *)(param_1 + 0x30));
+        if (r == 0) {
+            return;
+        }
+        D_801D9CA0[i].f0 = 1;
+        *(Blk32_998 *)(r + 0x38) = *(Blk32_998 *)(param_1 + 0x38);
+        *(s16 *)(r + 0x2a) = i;
+        *(s16 *)(r + 6) = *(s16 *)(param_1 + 6);
+        *(s16 *)(r + 0xa) = *(s16 *)(param_1 + 0xa);
+        *(s16 *)(r + 0xe) = *(s16 *)(param_1 + 0xe);
+        *(s32 *)(param_1 + 0x1c) = 0x10;
+    } else {
+        *(s32 *)(param_1 + 0x1c) = *(s32 *)(param_1 + 0x1c) - 1;
+    }
+}
+
 
 // @class: struct
 // @stuck: none — MATCH (byte-matched sibling idiom func_80131EEC, table-dispatch via jalr)
