@@ -2272,22 +2272,11 @@ extern void func_800491AC(void *a0);
 extern s32 RotTransPers(s32 a0, s32 a1, s32 *a2, s32 *a3);
 extern void func_80016ED4(void *a0);
 
-struct Prim {
-    /* +0x00 */ s16 ax, ay, a04, a06;
-    /* +0x08 */ s16 bx, by, b0c, b0e;
-    /* +0x10 */ s16 cx, cy, c14, c16;
-    /* +0x18 */ s16 dx, dy, d1c, d1e;
-    /* +0x20 */ s16 u0, v0, u1, v1;
-    /* +0x28 */ s16 u2, v2, u3, v3;
-    /* +0x30 */ u8  r, g, b, pad33;
-    /* +0x34 */ s32 tag;
-    /* +0x38 */ u8  code, pad39, pad3a, pad3b;
-    /* +0x3C */ s32 pad3c;
-};
+typedef struct { s16 ax, ay, a04, a06, bx, by, b0c, b0e, cx, cy, c14, c16, dx, dy, d1c, d1e, u0, v0, u1, v1, u2, v2, u3, v3; u8 r, g, b, pad33; s32 tag; u8 code, pad39, pad3a, pad3b; s32 pad3c; } Prim;
 
 void func_8016B234(s32 param_1) {
     short input[3];
-    struct Prim prim;
+    Prim prim;
     struct { s16 xy[2]; s32 sp1c; s32 flag; } out;
     void *dp;
     u32 uVar1;
