@@ -485,7 +485,45 @@ void func_8013D3D4(int param_1, int param_2)
 
 INCLUDE_ASM("asm/ov_SC07_010/nonmatchings/ov_SC07_010_o2b", func_8013D53C);
 
-INCLUDE_ASM("asm/ov_SC07_010/nonmatchings/ov_SC07_010_o2b", func_8013D8FC);
+
+
+// @class: schedule
+// @stuck: none — MATCH (45 ins, match_one verified)
+
+extern void func_800599B8(s32 a0, s32 a1);
+
+void func_8013D8FC(void)
+{
+
+    extern s16 *D_801A6AB4;
+    register s16 *psVar3 __asm__("$17");
+    register s16 *psVar2 __asm__("$16");
+    register s32 c9 __asm__("$19");
+    register s32 cff __asm__("$18");
+    u16 sVar1;
+    s16 buf[4];
+
+    psVar3 = D_801A6AB4;
+    if (psVar3 != (s16 *)0x0 && (sVar1 = (u16)*psVar3, sVar1 != 0xff)) {
+        c9 = 9;
+        cff = 0xff;
+        psVar2 = psVar3 + 5;
+        do {
+            if (sVar1 == c9) {
+                s32 arg2 = *(s32 *)(psVar2 + 1) + psVar2[-1] * 2;
+                buf[0] = psVar2[-3];
+                buf[1] = psVar2[-2];
+                buf[2] = psVar2[-1];
+                buf[3] = *psVar2;
+                func_800599B8((s32)buf, arg2);
+            }
+            psVar3 = psVar3 + 8;
+            sVar1 = (u16)*psVar3;
+            psVar2 = psVar2 + 8;
+        } while (sVar1 != cff);
+    }
+}
+
 
 extern void func_800599B8(s32 a0, s32 a1);
 #define gte_ldIR0z()   __asm__ __volatile__("mtc2 $0, $8")
