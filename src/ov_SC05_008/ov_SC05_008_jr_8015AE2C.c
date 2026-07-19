@@ -4463,7 +4463,40 @@ void func_801651B8(void * param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_008/nonmatchings/ov_SC05_008_jr_8015AE2C", func_80165240);
+struct W4 { u32 w; } __attribute__((packed, aligned(1)));
+extern void func_80016ED4(void *a0);
+extern s32 func_80017DC4(void *a0, void *a1);
+
+void func_80165240(void *param_1, void *param_2, void *param_3)
+{
+
+    extern u8 D_801855E8[];
+    extern u32 D_80185608, D_8018560C, D_80185610, D_80185614;
+    extern u32 D_80185608, D_8018560C, D_80185610, D_80185614;
+    extern u32 D_80185608, D_8018560C, D_80185610, D_80185614;
+    extern u32 D_80185608, D_8018560C, D_80185610, D_80185614;
+    u8 prim[0x40];   /* $sp+0x10 .. 0x50 */
+    u8 mat[0x20];    /* $sp+0x50 .. 0x70 */
+    u8 *p = prim;
+
+    func_80017DC4(param_2, mat);
+    ApplyMatrixSV(mat, &D_801855E8[0x00], p);
+    ApplyMatrixSV(mat, &D_801855E8[0x08], prim + 0x08);
+    ApplyMatrixSV(mat, &D_801855E8[0x10], prim + 0x10);
+    ApplyMatrixSV(mat, &D_801855E8[0x18], prim + 0x18);
+
+    *(s16 *)(prim + 0x04) = 3;
+    prim[0x38] = 0x2c;
+    *(u32 *)(prim + 0x20) = D_80185610;
+    *(u32 *)(prim + 0x24) = D_80185608;
+    *(u32 *)(prim + 0x28) = D_80185614;
+    *(u32 *)(prim + 0x2c) = D_8018560C;
+    *(struct W4 *)(prim + 0x30) = *(struct W4 *)param_3;
+    *(u32 *)(prim + 0x34) = 0x50000000;
+
+    func_80016ED4(p);
+}
+
 
 DEFINE_func_8016533C()  /* dedup: shared engine-core @0x8016533C (src/shared) */
 
