@@ -1354,7 +1354,7 @@ extern u16 D_80115112;
 extern unsigned short D_80115118;
 extern volatile u16 D_8011511A;
 extern s16 D_80115128;
-extern s16 D_8011512E;
+extern u16 D_8011512E;   /* §17a-1: canonical width (jr_8013F350 TUs decl u16); byte-neutral here (only use is store-0) */
 extern s32 D_80115130;
 extern u8 D_80115158[];
 extern s16 D_8011515A;
