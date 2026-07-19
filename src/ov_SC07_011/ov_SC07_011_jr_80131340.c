@@ -815,7 +815,78 @@ INCLUDE_ASM("asm/ov_SC07_011/nonmatchings/ov_SC07_011_jr_80131340", func_80131A3
 DEFINE_func_80131AC8()  /* dedup: shared engine-core @0x80131ac8 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC07_011/nonmatchings/ov_SC07_011_jr_80131340", func_80131B14);
+extern void func_80019064(void *a0);
+extern void func_8012B23C(s32 a0);
+extern void func_8012B2CC(s32 a0);
+extern void func_8016AA50(int, int);
+extern void func_8016B428(int);
+
+// @class: regalloc-order
+// @stuck: none — MATCH (89 ins). Reconcile: TU canonical decl is `void func_80131B14(void)`
+//   (ov_SC01_077_a.c L1676/L1756; callers cast to (void(*)(int)) when passing p), so the def MUST be
+//   (void) or cc1 hard-errors `conflicting types` (exit 33). §42c lever #6: capture incoming $a0 into a
+//   NORMAL pseudo (`register u8 *a0v __asm__("$4"); u8 *p = a0v;`) so p gets a callee-saved home ($s0).
+//   func_8012B2CC/func_8012B23C are file-scope DEFINE'd here (split L740/L744) as void(s32) — do NOT redeclare;
+//   the (void(*)(void*)) cast on the bare name is byte-neutral. Body keys: e(0x5E) as s32 not u8 (kills the
+//   compare-time andi 0xff); f76 dual-width via per-access casts (lhu in the decrement, lh in the <=0 compare);
+//   the p->f20 reload split into TWO separate temps so the 2nd load takes $v0 not $v1.
+
+void func_80131B14() {
+    register u8 *a0v __asm__("$4");
+    u8 *p = a0v;
+
+    extern void func_8002A520(void *);
+    extern void func_8002A790(void *);
+    extern u8 D_8017EB40;
+
+    s32 e = *(u8 *)(p + 0x5E);
+
+    if (*(s16 *)(p + 0x60) != 0) {
+        if (e == 0x1D) {
+            *(s16 *)(p + 0x82) = 0;
+            *(s16 *)(p + 0x7C) = *(u16 *)(p + 0x06);
+            *(s16 *)(p + 0x7E) = *(u16 *)(p + 0x0A);
+            *(s16 *)(p + 0x80) = *(u16 *)(p + 0x0E);
+        }
+        {
+            s32 dec;
+            s32 q = *(s32 *)(p + 0x78);
+            if (q != 0) {
+                dec = ((s32)*(s16 *)(p + 0x60) * (s32)*(s16 *)(q + 0x30)) >> 12;
+                if (dec <= 0) dec = 1;
+            }
+            *(u16 *)(p + 0x76) = *(u16 *)(p + 0x76) - dec;
+        }
+        ((void (*)(void *))func_8016AA50)(p);
+        if (*(u16 *)(p + 0x82) & 1) {
+            ((void (*)(void *))func_8016B428)(p);
+            ((void(*)(void *))func_80019064)(&D_8017EB40);
+        }
+    }
+
+    *(u16 *)(p + 0x5C) = *(u16 *)(p + 0x5C) & 0xFFFE;
+
+    if (e != 0x1D) {
+        if (*(u8 *)(p + 0xC8)) func_8002A520(p);
+        if (*(u8 *)(p + 0xC9)) func_8002A790(p);
+    }
+
+    if (*(s16 *)(p + 0x76) <= 0) *(s16 *)(p + 0x5C) = 0;
+
+    {
+        s32 r = *(s32 *)(p + 0x20);
+        *(s16 *)(r + 0x12) = (*(u16 *)(p + 0x62) + 0x800) & 0xFFF;
+        {
+            s32 r2 = *(s32 *)(p + 0x20);
+            *(s16 *)(r2 + 0x14) = 0;
+            *(s16 *)(r2 + 0x10) = 0;
+        }
+    }
+
+    ((void (*)(void *))func_8012B2CC)(p);
+    ((void (*)(void *))func_8012B23C)(p);
+}
+
 
 DEFINE_func_80131C78()  /* dedup: shared engine-core @0x80131c78 (src/shared) */
 
