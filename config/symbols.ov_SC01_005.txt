@@ -1,3 +1,5 @@
 // config/symbols.ov_SC01_005.txt — overlay SC01/FILE_005 local symbols (Phase 13+)
 // R13/R15: overlay-REGION ONLY (vram 0x80128158..0x801CE061); NEVER merged into config/symbols.us.txt.
 // count=0
+D_801CCCD0 = 0x801CCCD0; // type:u8 (Phase-29 func_8016D1D8/688 buf1 base)
+D_801CCD10 = 0x801CCD10; // type:u8 (Phase-29 func_8016D1D8 buf2 base)
