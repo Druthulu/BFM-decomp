@@ -527,3 +527,15 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   fleet-mover**). Commit `<this>`. **NEXT (paused, not started):** map-regen + `family_sweep --hseq --only
   --normalize-self-decls` the 4 -O2 cores (8016D1D8/80165240/8016D688/80164E40) + `dedup_propagate 0x80150170`
   (hexR=138 → ~138 free) + jtbl-carve the 3 (Task 6). §58 flywheel captured (R30).
+
+- **✅ 2026-07-18 — SESSION-4 FLEET-MULTIPLIER PASS (Ultracode auto, resumed): +275 members / 2 commits.**
+  Propagated the 6-core bank fleet-wide: **`func_80150170` ×138** (`dedup_propagate --addr`, hexR=138 group
+  registered — commit `commit:0717`; first run SIGTERM'd mid-gate at the 2-min timeout → reverted the half-gated
+  state, re-ran clean fail-closed) + **`func_80164E40` ×137** (`family_sweep --hseq --only --normalize-self-decls`;
+  the fleet-wide engine_core void→s32 narrow made it clean — commit `commit:0718`). Map-regen (sig-overlays +
+  family_hseq) done first (crack-wave-map-regen rule). **R22 clean-fleet checkpoint: 140/140 byte-identical,
+  extract-all 139/0.** Fleet ~75.3% instr (`make report` will confirm; the ×137/×138 propagations register now).
+  **3 sweep-residuals (delegated):** `func_80165240` (63, byte-DIFF/reconcile — compiles standalone),
+  `func_8016D1D8` (148) + `func_8016D688` (60) reference the carve-boundary data-label `D_801D9C20`/`D_801D9C60`
+  only in ov077's symbols; siblings need it propagated (per-sibling symbols + re-extract). Plus the 3 §8
+  jtbl-carve cores (Task 6). NEXT: reconcile the residuals (ROI-triaged), then the next crack-wave / permuter backlog.
