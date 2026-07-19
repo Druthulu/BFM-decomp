@@ -1933,7 +1933,7 @@ extern u8 D_8018DAA8[];
 extern u8 D_8018DB28[];
 extern u8 D_8018DA00[];
 
-extern void func_8013D53C(void);
+extern void func_8013D53C(void *arg0v);
 extern void func_8013DD68(void);
 extern void func_8013D8FC(void);
 extern void func_8013CF68(void);
@@ -1954,7 +1954,7 @@ void func_8013D3D4(int param_1, int param_2)
         D_801E5B04 = D_8018DB28;
         D_801E5B08 = D_8018DA00;
     }
-    func_8013D53C();
+    ((void (*)(void))func_8013D53C)();
     if ((param_2 & 1) != 0) {
         if (D_801E5B38 != 0) {
             func_8013DD68();
@@ -1978,7 +1978,138 @@ void func_8013D3D4(int param_1, int param_2)
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_801380E0", func_8013D53C);
+
+typedef struct { u8 b[9]; } S9;   /* 9-byte, align-1 -> unaligned block copy */
+
+
+extern s32 D_801E5B30;
+extern s32 D_801E5B18;
+
+
+extern u8 D_801E7AB2;
+extern u8 D_801E7B26;
+extern u8 D_801E79B2;
+extern u8 D_801E7A7C;
+extern u8 D_801E7988;
+extern u8 D_801E79B1;
+
+
+extern s32 D_801E7A80;
+extern s32 D_801E5B2C;
+extern s32 D_801E5B28;
+extern s32 D_801E5B10;
+extern s32 D_801E5B1C;
+extern s32 D_801E5B20;
+
+extern void *D_801E5B00;
+extern s32 D_801E5B38;
+extern void *D_801E5B08;
+
+void func_8013D53C(void *arg0v) {
+
+    extern Rec9 D_8018DB44[];
+    extern Rec12 D_8018DB7C[];
+    extern u8 D_80078EAF;
+    extern u8 D_801E7A58;
+    extern s32 D_801E5B24;
+    Cmd_8013D53C *arg0 = arg0v;
+
+    extern u8 D_8018DB80[];
+    extern u8 D_8018DB84[];
+    extern unsigned char D_801E79A8;
+    extern s16 *D_801E5B0C;
+    extern s32 D_801E5B3C;
+    extern s32 D_801E5B40;
+    extern s32 D_801E5B44;
+    s32 s0v;
+    s32 t9v;
+    s32 t8v;
+    u8 b0, b1, b2;
+    u8 pad[8];   /* dead BLKmode local: frame 0x10 -> 0x18, zero code */
+
+    if (!(D_801E5B30 & 1)) {
+        D_801E5B18 = 1;
+    } else {
+        D_801E5B18 = D_80078EAF;
+    }
+
+    b0 = ((u8 *)D_8018DB7C)[D_801E5B18 * 12];
+    D_801E7AB2 = b0;
+    D_801E7B26 = b0;
+    b1 = D_8018DB80[D_801E5B18 * 12];
+    D_801E79B2 = b1;
+    D_801E7A7C = b1;
+    b2 = D_8018DB84[D_801E5B18 * 12];
+    D_801E7988 = b2;
+    D_801E79B1 = b2;
+
+    (*(S9 *)&D_801E79A8) = ((S9 *)D_8018DB44)[D_801E5B18];
+    (*(S9 *)&D_801E7A58) = *(S9 *)(&D_801E7988 + 0x20);  /* same addr as (*(S9 *)&D_801E79A8); distinct sym defeats cse, keeps %hi/%lo */
+
+    D_801E7A80 = 1;
+    D_801E5B2C = -1;
+    D_801E5B28 = 0;
+    D_801E5B24 = -1;
+    D_801E5B10 = 0;
+    D_801E5B1C = 0;
+    D_801E5B20 = 0;
+
+    if ((D_801E5B30 & 2) && (D_801E5B18 == 4)) {
+        s0v = (*(s32 * *)&D_801E5B00)[18];
+        t9v = (*(s32 * *)&D_801E5B00)[19];
+        t8v = (*(s32 * *)&D_801E5B00)[20];
+    } else {
+        s32 *p = (s32 *)(D_801E5B18 * 12 + (s32) (*(s32 * *)&D_801E5B00));  /* block-local: local-alloc ties sum into mul chain */
+        s0v = p[0];
+        t9v = p[1];
+        t8v = p[2];
+    }
+
+    (*(Cmd_8013D53C * *)&D_801E5B0C) = arg0;
+    if (arg0 != 0) {
+        if (D_801E5B38 != 0) {
+            s32 *p = (s32 *)(D_801E5B18 * 12 + (s32) (*(s32 * *)&D_801E5B08));
+            D_801E5B3C = p[0];
+            D_801E5B40 = p[1];
+            D_801E5B44 = p[2];
+        } else {
+            while ((arg0->cmd & 0xFFFF) != 0xFF) {
+                if ((arg0->cmd & 0xFFFF) == 9) {
+                    s32 n;
+                    s32 i;
+                    u16 *src;
+                    u16 *dst;
+                    n = arg0->w * arg0->h;
+                    i = 0;
+                    src = arg0->data;
+                    __asm__("" :: "r"(src));  /* +2 refs on src (depth-2): keeps src above i, below the mfhi temp */
+                    dst = src + n;
+                    if (n > 0) {
+                        do {
+                            u16 px;
+                            s32 r, g, b, out;
+                            __asm__("" :: "r"(i));  /* +3 refs on i (depth-3): lifts i over dst in the $t2 race */
+                            px = *src;
+                            r = ((px & 0x1F) * s0v) / 2560;
+                            g = (((px & 0x3E0) * t9v) / 2560) & 0x3E0;
+                            b = (((px & 0x7C00) * t8v) / 2560) & 0x7C00;
+                            out = r | g | b | (px & 0x8000);
+                            if (out == 0 && px != 0) {
+                                out = 0x8000;
+                            }
+                            *dst = out;
+                            dst++;
+                            i++;
+                            src++;
+                        } while (i < n);
+                    }
+                }
+                arg0++;
+            }
+        }
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_801380E0", func_8013D8FC);
 

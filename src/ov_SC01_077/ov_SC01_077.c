@@ -493,15 +493,6 @@ void func_8013D3D4(int param_1, int param_2)
 
 typedef struct { u8 b[9]; } S9;   /* 9-byte, align-1 -> unaligned block copy */
 
-typedef struct {
-    u16 cmd;        /* 0x0 */
-    u16 pad2;       /* 0x2 */
-    u16 pad4;       /* 0x4 */
-    u16 pad6;       /* 0x6 */
-    s16 w;          /* 0x8 */
-    s16 h;          /* 0xA */
-    u16 *data;      /* 0xC */
-} Cmd;              /* 0x10 */
 
 extern s32 D_801D95A0;
 extern u8 D_80078EAF;
@@ -530,7 +521,7 @@ extern s32 D_801D95A8;
 extern void *D_801D9578;
 
 void func_8013D53C(void *arg0v) {
-    Cmd *arg0 = arg0v;
+    Cmd_8013D53C *arg0 = arg0v;
 
     extern u8 D_80187488[];
     extern u8 D_8018748C[];
@@ -583,7 +574,7 @@ void func_8013D53C(void *arg0v) {
         t8v = p[2];
     }
 
-    (*(Cmd * *)&D_801D957C) = arg0;
+    (*(Cmd_8013D53C * *)&D_801D957C) = arg0;
     if (arg0 != 0) {
         if (D_801D95A8 != 0) {
             s32 *p = (s32 *)(D_801D9588 * 12 + (s32) (*(s32 * *)&D_801D9578));

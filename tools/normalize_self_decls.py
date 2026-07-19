@@ -130,7 +130,18 @@ def fix(tu_text, fn, ref_decl=None):
     lines = tu_text.split('\n')
     depths = _brace_depths(tu_text)
 
-    remove = set()                    # decl line indices to drop
+    # The canonical forward decl we REWRITE each divergent decl to. It matches the def (so no
+    # `conflicting types`) AND keeps forward visibility for a caller whose reference precedes the def
+    # in the TU — the func_8013D53C case (a file-scope `void f(void)` forward decl, def spliced BELOW
+    # it) that *dropping* the decl broke (`func_8013D53C undeclared`). This is cast_call_sites' proven
+    # shape: rewrite the decl to canonical, then cast every call to its original sig (byte-exact).
+    canon_line = ref_decl.strip()
+    if not canon_line.startswith('extern '):
+        canon_line = 'extern ' + canon_line
+    if not canon_line.endswith(';'):
+        canon_line += ';'
+
+    rewrite = {}                      # decl line idx -> canonical decl replacement
     casts = []                        # (start, end, cast_type_str)
     notes = []
     for i, ln in enumerate(lines):
@@ -140,9 +151,13 @@ def fix(tu_text, fn, ref_decl=None):
         indent, _extern, ret, name, params = m.groups()
         if name != fn:
             continue
-        # A no-prototype `void fn()` NEVER conflicts with a prototyped def in either TU order
-        # (cdecl §51g) — skip it; only prototypes can be the `conflicting types` culprit here.
-        if params.strip() in ('', 'void'):
+        # A TRUE no-prototype `void fn()` (empty param list) NEVER conflicts with a prototyped def in
+        # either TU order (cdecl §51g), and casting it is the §32 no-proto mis-cast trap — so skip it.
+        # But `(void)` is NOT no-proto: it is a 0-param PROTOTYPE that genuinely conflicts with a
+        # >0-param def (func_8013D53C: sibling `void f(void)` vs def `void f(void *)` — cdecl.compatible
+        # returns False), so let the compatibility check below judge it. Skipping `(void)` here was the
+        # bug that made this pass miss the (void)/(T) arity class (the BUILD SPEC's "distinct" D53C).
+        if params.strip() == '':
             continue
         clean = f'extern {ret.strip()} {fn}({params});'
         try:
@@ -154,24 +169,25 @@ def fix(tu_text, fn, ref_decl=None):
         dret, dptypes = _ccs.parse_sig(ret, params)
         cty = _ccs.cast_type(dret, dptypes)
         s, e = _scope_of(depths, i, len(lines))
-        remove.add(i)
+        rewrite[i] = indent + canon_line
         casts.append((s, e, cty))
-        notes.append(f'{fn}@{i + 1}: dropped `{clean}`; cast calls in lines {s + 1}..{e + 1} to ({cty})')
+        notes.append(f'{fn}@{i + 1}: `{clean}` -> `{canon_line}`; cast calls in lines {s + 1}..{e + 1} to ({cty})')
 
-    if not remove:
+    if not rewrite:
         return tu_text, 0, notes
 
     call_re = re.compile(rf'\b{re.escape(fn)}\s*\(')
     out = []
     for i, ln in enumerate(lines):
-        if i in remove:
-            continue                          # drop the divergent decl
+        if i in rewrite:
+            out.append(rewrite[i])            # rewrite the divergent decl to canonical (keeps visibility)
+            continue
         if not _is_def_or_decl_line(ln, fn):  # never cast a decl/def line's `fn(`
             for (s, e, cty) in casts:
                 if s <= i <= e:
                     ln = call_re.sub(f'(({cty}){fn})(', ln)
         out.append(ln)
-    return '\n'.join(out), len(remove), notes
+    return '\n'.join(out), len(rewrite), notes
 
 
 def main():

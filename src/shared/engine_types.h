@@ -680,3 +680,14 @@ typedef struct
 {
   s32 w[8];
 } Mtx8_8016CBC0;
+
+/* Phase-29 decl-normalize+lift (func_8013D53C family) */
+typedef struct {
+    u16 cmd;        /* 0x0 */
+    u16 pad2;       /* 0x2 */
+    u16 pad4;       /* 0x4 */
+    u16 pad6;       /* 0x6 */
+    s16 w;          /* 0x8 */
+    s16 h;          /* 0xA */
+    u16 *data;      /* 0xC */
+} Cmd_8013D53C;              /* 0x10 */

@@ -482,3 +482,26 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 > (the DISTINCT void*-def-sig + per-sibling caller-thread class — NOT the self-decl pass), the SC07 span-composition
 > tails (§8e-2), and the permuter/Fable close-1..N backlog (Task 6). The decl-normalize pass is now a standing
 > `family_sweep` stage for any future family whose members' own callers declare F divergently.
+
+- **✅ 2026-07-18 — BROAD SWEEP (honest yield +137) + func_8013D53C (14/137) + NSD HARDENED (2 bug-fixes).**
+  After the SESSION-3 checkpoint: ran the broad substantial-family sweep, then attacked func_8013D53C. All findings
+  → cookbook **§57a**. **(1) The substantial-family frontier is NOT broadly mechanical (R14/R35):** 60 families /
+  2,169 stubbed members STAGE but only **137 bank** with --fix-def-sig — staging ≠ banking; I over-projected ~1,500
+  from the staged count instead of gate-probing a sample (the phase's own invariant, violated). Banked func_801502EC
+  ×134 + func_80131B14 ×3 (commit `commit:0714`). **(2) NSD is SURGICAL-ONLY:** broad `--normalize-self-decls` (esp.
+  combined with `--fix-def-sig`, which changes NSD's reference sig) makes byte-neutral-but-wrong TU edits that poison
+  whole (overlay,split) groups — the backstop reverts them (0 false banks) but banked **7** / reverted **752**.
+  `--fix-def-sig` edits DRAFTS (bisect-safe per member) so it IS broad-safe. Law: NSD per-family, --fix-def-sig broad.
+  **(3) NSD HARDENED — 2 real bug-fixes (validated on D53C):** rewrite-to-canonical instead of DROP (dropping broke
+  def-AFTER-caller forward visibility → `func undeclared`); and `(void)` is a genuine 0-param conflict, NOT skippable
+  like a true no-proto `()` (the bug that filed D53C's arity class as "not this pass"). **(4) func_8013D53C =
+  PARTLY-mechanical:** NSD + a byte-neutral `Cmd_8013D53C` type-lift clear its plumbing → **14/137 bank** (the h_seq
+  members whose bodies template); **123** carry genuine per-member codegen DIFFs (the hard cse.c-wall crack does not
+  fully template → permuter/Fable fuel). Reverted the 123 bankless NSD edits (byte-neutral but churn on matched code
+  — §57a NB). R22 clean-fleet **140/140**; tools-health OK (dedup 1846/0, C1 234205/234205); 0 NON_MATCHING (G4).
+  Fleet **75.2% instr · 60.6% distinct · 87.04% fn-count**. **SESSION-TOTAL from 74.6/59.4/86.92: +0.6pp instr,
+  +1.2pp distinct, ~+421 members** across 4 commits (commit:0711, commit:0712, commit:0714, + this).
+  **REFRAME (the session's strategic finding):** the family campaign is **per-family cracking, not one broad sweep** —
+  each substantial family carries its own blocker (self-decl / type-lift / def-sig+caller / genuine codegen), and the
+  mechanical fraction is small (~137 broad + 14 D53C). Remaining Task-4/6 levers: the permuter backlog (551 close-1..4
+  drafts, high-reach) + per-family type-lift/crack of the ~50 remaining substantial families + the tiny/mid bands.

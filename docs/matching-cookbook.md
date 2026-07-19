@@ -4278,3 +4278,43 @@ ACTUAL blocker (splice one member, read cc1) before stacking plumbing flags (R35
 **Not every type-lifted family needs this:** `func_8016CBC0` (also 137-member, also blocked) has NO divergent
 self-decl (survey the members: `grep 'func_X(' the-member-TUs`) — its blocker is a local-typedef lift (§ type-lift,
 like func_8012956C), a different lever. Route by the real cc1 error, not by "it's a stuck 137-family."
+
+### §57a — Two NSD corrections + the SURGICAL-ONLY law + the honest broad-sweep yield (Phase 29, 2026-07-18)
+
+Three findings from applying §57 at scale, all byte-grounded:
+
+**(1) REWRITE the divergent decl to canonical — do NOT drop it (the def-after-caller trap).** The first §57
+build DROPPED the divergent decl. That is byte-neutral only when F's def sits ABOVE the caller in the TU (so the
+def itself provides the caller's forward visibility — `func_801670E4`, def-before-caller). `func_8013D53C` is
+def-AFTER-caller: a FILE-scope `void f(void)` forward decl, F's def spliced BELOW it — drop the decl and the
+caller gets `func_8013D53C undeclared`. The fix is exactly what `cast_call_sites` does: **rewrite** the decl to
+the def's canonical sig (matches the def → no conflict, AND keeps forward visibility), then cast the calls to the
+decl's ORIGINAL sig (byte-exact). Works both ways (a canonical forward decl above/below the def is compatible).
+
+**(2) `(void)` is NOT no-proto — do not skip it.** The first build skipped `params in ('', 'void')`. But `void
+f(void)` is a 0-param PROTOTYPE that genuinely conflicts with a >0-param def (`cdecl.compatible(void f(void*),
+void f(void)) == False`), while a true no-proto `void f()` is compatible in either order (§51g). Skip ONLY the
+literal empty `()` (also the §32 no-proto-mis-cast guard); let `cdecl.compatible` judge `(void)`. This was why the
+BUILD SPEC filed D53C's `(void)`/(T) arity class as "not this pass" — it was a tool gap, now closed.
+
+**(3) NSD is SURGICAL-ONLY; `--fix-def-sig` is broad-safe — the blast-radius asymmetry.** `--normalize-self-decls`
+edits the **TU file** (F's callers live in F's own TU), so a non-neutral edit poisons the ENTIRE `(overlay,split)`
+group — and unlike a bad DRAFT (which `harvest_verify` bisects away per-member), a bad TU edit can't be isolated;
+the whole group's build MISMATCHes and the backstop reverts all of it. A broad `--band substantial
+--normalize-self-decls` (esp. combined with `--fix-def-sig`, whose canonical-rewrite changes NSD's reference sig)
+banked **7** with ~752 groups backstop-reverted. `--fix-def-sig` edits DRAFTS (bisect-safe per member), so it IS
+broad-safe. **Law: apply NSD per-family (`--only`, on a surveyed self-decl blocker); apply `--fix-def-sig` broadly.**
+The backstop makes broad NSD SAFE (0 false banks) but useless.
+
+**(4) The honest broad-sweep yield (R14/R35): staging ≠ banking.** The 60 substantial matched-ov077 families with
+2,163 stubbed members STAGE 2,169 drafts, but a broad `--fix-def-sig` sweep banks only **137** (one def-sig family +
+stragglers) — 2,032 fail. The substantial-family frontier is NOT broadly mechanical; each family carries its own
+blocker (self-decl / type-lift / def-sig+caller / genuine codegen). **Gate-probe a SAMPLE before scaling a yield
+estimate off the STAGED count** — the phase's own invariant, which I violated by projecting ~1,500 from 2,169 staged.
+`func_8013D53C` is the archetype: NSD + a `Cmd_8013D53C` type-lift clear its plumbing (it now COMPILES), and the
+sweep banks **14/137** — the h_seq members whose bodies happen to match the exemplar — while **123** carry a genuine
+per-member codegen DIFF (the hard cse.c-wall crack does not fully template). So it is a PARTLY-mechanical family:
+the plumbing levers harvest the easy fraction ×0 tokens, the residual 123 are permuter/Fable fuel. **NB the NSD
+edits are byte-neutral even where the member does NOT bank (the caller's canonical decl + cast matches with F still
+a stub), so they persist on all 137 TUs — revert the ones that didn't bank (still carry the stub) so you commit
+banks, not churn on matched code.** The classifier's `PLUMBING` count is a §56 memcpy red-herring; read full cc1 stderr.
