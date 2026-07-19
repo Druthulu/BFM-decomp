@@ -555,3 +555,29 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   `commit:0716`/`commit:0717`/`commit:0718`/`commit:0720`/`commit:0721`/`commit:0722` (+ `commit:0719` checkpoint). Cookbook §58/§59
   captured (R30). 2 near cores preserved (`func_8014D820` close-11, `func_8012E364` close-22 — permuter fuel).
   NEXT: next Ultracode crack-wave over a freshly-regenerated frontier + the permuter backlog (Task 7).
+
+> **🛑 SESSION-4 CHECKPOINT (2026-07-19) — safe to open a FRESH session here.** Tree clean (only db.*.gbf R23
+> churn + 2 preserved near-drafts + progress.fleet.md digest), **140/140 byte-identical**, tools-health OK
+> (dedup 1847/0, C1 234343/234343), 0 NON_MATCHING (G4). Main `commit:0734`.
+> **Fleet 76.3% instr · 62.8% distinct-code · 87.47% fn-count** (session opened 75.2/60.6/87.04 → **+1.1pp instr,
+> +2.2pp distinct** — ~1,500 member-banks across TWO crack-waves).
+- **✅ 2026-07-19 — CRACK-WAVE 2 (absent-from-ov077 pool) + propagation: +819 members, HEAD `commit:0734`.**
+  Broad substantial sweep first = **0 banked / 858 failed** (the mechanical frontier is DRAINED — §57a confirmed).
+  So cracked the FRESH absent-from-ov077 substantial pool instead: 9 families drafted from **ov_SC01_000** (cached
+  Ghidra-C, NON-MCP) → **7 MATCH / 2 near**. Banked ×1 (4 clean via the §58 ladder, 2 residuals via §18 cast-at-use
+  + K&R self-decl reconcile) then propagated: **func_8013EF88 ×136, func_801418F8 ×136, func_8013D8FC ×136,
+  func_80141A60 ×136, func_8013D9B0 ×136, func_8016DC20 ×135** (1 wall). **2 walls (reported, not forced):**
+  func_8016DC20 in ov_SC07_010_o2b (-O2 recon TU trips `as --fatal-warnings $at`), func_80156044 (byte-match needs a
+  `void` def but fleet-canonical is `int(int,int)` via a 138-overlay DEFINE macro — a disproportionate fleet-wide decl
+  flip for 74 ins). **R22 clean-fleet 140/140 byte-identical; tools-health OK; 0 NON_MATCHING.**
+  **⚠️ TOOLING FINDING (R35, fix next):** `family_sweep --hseq --source <ov>` is IGNORED — it templates from the
+  MANIFEST exemplar (`pick_exemplar` hard-prefers ov_SC01_077), so a non-ov077 source silently used ov077's
+  heavy-local-struct spelling → 0 banks until the manifest exemplar was redirected. The `--source` flag lies; the
+  agent worked around it by editing the manifest. **§57a NSD-hazard re-confirmed** (NSD mis-parses `else func(N);`
+  call statements as decls → wrong `void(*)(void)` cast; use K&R self-decl reconcile, not NSD, for these).
+  **FRONTIER STATE (honest):** the cheap NON-MCP substantial-family pool (ov077-draftable + absent-cached) is now
+  WORKED OUT (broad sweep 0; ~14 absent-substantial → 10 cracked/6 banked-families, 2 walls, 2 uncached needing MCP).
+  Remaining levers: (a) **fresh cracks need a Ghidra-C prefetch → /mcp** (mid/tiny bands, resident's 14, main-EXE);
+  (b) the **permuter backlog** (4 preserved nears: 8014D820/8012E364/8017B490/80143D28 + the 551 close-1..4 — uncertain
+  yield, §26 exhausted-lever caution); (c) **tooling fixes** (family_sweep --source; the §8c/§8e-2 jtbl walls unlock
+  func_801549F8 ×137 + func_8013BD74). This is the ROI-floor signal for non-MCP cracking (Task 7).
