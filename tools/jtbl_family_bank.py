@@ -136,8 +136,15 @@ def bank(func, from_ov, from_addr, to_ov, to_addr):
     if sh(f"make --no-print-directory extract BINARY={to_ov}").returncode:
         revert(to_ov, keep_regions=keep); return "extract0-fail", ""
     r = sh(f"python3 tools/jtbl_carve.py {to_ov} --func {to_func} --like {from_ov}")
-    if r.returncode and "NON-CONTIGUOUS" in (r.stdout + r.stderr):
-        # the §8b same-subseg wall -> isolate this core, re-extract, retry the carve
+    _carve_out = r.stdout + r.stderr
+    # Auto-isolate on EITHER §8b same-subseg wall: the NON-CONTIGUOUS collision, OR the span-fit wall
+    # ("do not fit the span" — the --like structure transfer's merged span doesn't match this sibling's
+    # actual jtbl layout because another matched fn's tables share the subseg). Phase-29 finding: jr_isolate
+    # unblocks the span-fit case too (byte-proven on func_8017AE2C's exemplar), same as non-contiguous —
+    # splitting the fn into its own subseg shrinks the carve span to just its tables, which then fit.
+    # NOTE: the DISTINCT "more rodata .align than pad specs" table-count-drift error is NOT isolate-fixable
+    # and is deliberately excluded here (it falls through to carve-fail).
+    if r.returncode and ("NON-CONTIGUOUS" in _carve_out or "do not fit the span" in _carve_out):
         if isolate(to_ov, to_func).returncode:
             revert(to_ov, keep_regions=keep); return "isolate-fail", ""
         if sh(f"make --no-print-directory extract BINARY={to_ov}").returncode:
