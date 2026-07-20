@@ -594,3 +594,15 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   extract-all 139/0.** **Fleet 76.3→77.8% instr · 87.47→88.1% fn-count.** New idiom (cookbook-worthy): a jtbl core that
   isolate-fails early can succeed after sibling jtbl cores bank (the overlay's jr-structure evolves) — func_80140608
   went isolate-fail → 138/138. **⚠️ WEEKLY usage limit hit (resets 5am MT 2026-07-20) — session winding down here.**
+
+- **✅ 2026-07-20 — TASK 8 (2 tooling fixes) DONE + immediate payoff: func_8017AE2C ×137 recovered.**
+  **(1) `family_sweep --hseq --source` no longer a no-op** (commit): it templated from the manifest exemplar
+  (pick_exemplar hard-prefers ov077), silently ignoring --source; now overrides to the --source overlay's MATCHED
+  member per family (self-correcting via the gate; ov077-default path unchanged). **(2) `jtbl_family_bank`
+  auto-isolates on the span-fit wall too** (commit): was NON-CONTIGUOUS-only; now also fires on "do not fit the
+  span" (jr_isolate unblocks it — byte-proven). The distinct table-count-drift error ("more rodata .align than pad
+  specs") stays excluded (not isolate-fixable). **PAYOFF: `func_8017AE2C` (174 ins) recovered ×137** (was
+  exemplar-only from wave-3's jtbl wall) — the fixed tool banked all 137 members whole-binary; **R22 clean-fleet
+  140/140 byte-identical, extract-all 139/0.** **`func_8014032C` STAYS blocked** (its wall IS the excluded
+  table-count-drift, confirmed rc=1/0-banked — a separate future fix). ~+24k ins. NEXT: Tasks 9 (crack remaining
+  cached fuel), 10 (permuter backlog), 11 (burn-down tracker).
