@@ -123,25 +123,24 @@ segments:
       - [0x68018, .rodata, ov_SC04_012_jr_8015444C]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
       - [0x68084, data, tail6]
       - [0x680f4, .rodata, ov_SC04_012_jr_80154C24]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0x68118, data, tail7]
       - [0x68138, .rodata, ov_SC04_012_jr_801588CC]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0x68180, data, tail8]
+      - [0x68180, data, tail7]
       - [0x681e0, .rodata, ov_SC04_012_jr_80159C84]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0x68214, data, tail9]
+      - [0x68214, data, tail8]
       - [0x68218, .rodata, ov_SC04_012_jr_8015A3C8]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0x68234, data, tail10]
+      - [0x68234, data, tail9]
       - [0x68238, .rodata, ov_SC04_012_jr_8015AE2C]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0x68254, data, tail11]
+      - [0x68254, data, tail10]
       - [0x68278, .rodata, ov_SC04_012_jr_8015C32C]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0x68294, data, tail12]
+      - [0x68294, data, tail11]
       - [0x682ac, .rodata, ov_SC04_012_jr_8016AB6C]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0x682cc, data, tail13]
+      - [0x682cc, data, tail12]
       - [0x6834c, .rodata, ov_SC04_012_jr_801734BC]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0x68360, data, tail14]
+      - [0x68360, data, tail13]
       - [0x68508, .rodata, ov_SC04_012_jr_80178D40]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0x68680, data, tail15]
+      - [0x68680, data, tail14]
       - [0x68710, .rodata, ov_SC04_012_jr_8017A4AC]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0x6879c, data, tail16]
+      - [0x6879c, data, tail15]
       - [0x6B0E4, bin, trailing]    # final 3 bytes (EOF not 4-aligned; spimdisasm drops a partial word)
   - [0x6B0E7]   # EOF marker = the 0.4.dec byte length
 # @TRAILING@ (above) is replaced by tools/new_overlay.sh: for a non-4-aligned overlay it becomes
