@@ -581,3 +581,16 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   (b) the **permuter backlog** (4 preserved nears: 8014D820/8012E364/8017B490/80143D28 + the 551 close-1..4 — uncertain
   yield, §26 exhausted-lever caution); (c) **tooling fixes** (family_sweep --source; the §8c/§8e-2 jtbl walls unlock
   func_801549F8 ×137 + func_8013BD74). This is the ROI-floor signal for non-MCP cracking (Task 7).
+
+- **✅ 2026-07-20 — CRACK-WAVE 3 (16 fresh cached ov077 substantial families) + propagation: ~1,378 instances,
+  23 commits (`commit:0736..commit:0759`).** The h_seq frontier revealed ~95 cached substantial families still crackable
+  NON-MCP (the h_norm view had undercounted); 16 fresh (non-attempted) cracked → **12 MATCH / 4 near** (100% on the
+  first 8; wave hit + recovered from a session-limit mid-run via resume). Banked ×1 + propagated (delegated agent,
+  §58/§59 ladder, K&R self-decl reconcile NOT NSD per §57a): **9 cores fully 138/138** (func_80160534/8016C998/
+  8016B234 non-jtbl + func_8015C32C/80154C24/801588CC/801594E8/80140608/801555F4 jtbl via jtbl_family_bank),
+  **func_80169BBC 134/138** (4 SC07 special-split residuals), **func_8014032C + func_8017AE2C exemplar-only** (§59(3)
+  jtbl span-fit carve walls — cracks are true MATCHes, recoverable if jtbl_family_bank learns span-fit auto-isolate).
+  **4 near preserved** (permuter seeds: 80175AB8/80177B5C/8015D1B8/80179B74). **R22 clean-fleet 140/140 byte-identical,
+  extract-all 139/0.** **Fleet 76.3→77.8% instr · 87.47→88.1% fn-count.** New idiom (cookbook-worthy): a jtbl core that
+  isolate-fails early can succeed after sibling jtbl cores bank (the overlay's jr-structure evolves) — func_80140608
+  went isolate-fail → 138/138. **⚠️ WEEKLY usage limit hit (resets 5am MT 2026-07-20) — session winding down here.**
