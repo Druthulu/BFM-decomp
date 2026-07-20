@@ -78,6 +78,7 @@ segments:
       - [0x4b364, c, ov_SC01_077_jr_801734BC]
       - [0x50be8, c, ov_SC01_077_jr_80178D40]
       - [0x52354, c, ov_SC01_077_jr_8017A4AC]
+      - [0x52cd4, c, ov_SC01_077_jr_8017AE2C]
       - [0x5a110, c, ov_SC01_077_jr_80182268]
       # Phase-26 §8 jtbl-rodata carve (cookbook §8, the LZSS precedent adapted to a flat overlay).
       # gcc emits each `switch` jump table into .rodata; this overlay's jtbl island sits at the TAIL
