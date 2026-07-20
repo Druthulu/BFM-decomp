@@ -268,6 +268,22 @@ def hseq_sweep(a):
     only = set(int(x, 16) for x in a.only.split(",")) if a.only else None
     bands = None if a.band == "all" else set(a.band.split(","))
 
+    # --source override (Phase-29 fix): the --hseq path otherwise templates from the manifest exemplar
+    # (pick_exemplar hard-prefers ov_SC01_077), silently ignoring --source. When --source names a DIFFERENT
+    # overlay AND that overlay carries a MATCHED member of the family, template from IT instead — the
+    # wave-2 finding (ov077's spelling can carry heavy local structs remap_hseq drops; a sibling's minimal
+    # spelling banks clean). Self-correcting: only a matched (non-stub) source member is used, so remap_hseq
+    # always has real C to template; the whole-binary gate stays the sole arbiter (G3/P9).
+    if a.source and a.source != family_hseq.EX_OV:
+        n_over = 0
+        for f in manifest["families"]:
+            for m in f.get("members", []):
+                if m[0] == a.source and int(m[1], 16) not in stubs.get(a.source, {}):
+                    f["exemplar"] = dict(f["exemplar"], ov=m[0], addr=m[1], kind="matched")
+                    n_over += 1
+                    break
+        print(f"[hseq] --source {a.source}: overrode {n_over} family exemplar(s) to a matched {a.source} member.")
+
     kinds = (("matched", "matched-ov077", "draft-ov077") if a.reconcile_raw
              else ("matched", "matched-ov077"))            # reconcile-raw templates from the RAW seed, so an
     fams = [f for f in manifest["families"] if f["exemplar"]["kind"] in kinds]  # unbanked ov077 crack qualifies
