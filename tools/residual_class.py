@@ -207,12 +207,12 @@ def classify_streams(mine, tgt):
             return _v("LENGTH-DRIFT", closeness, nm, nt,
                       {"delta": d, "at": k, "explains": "tail",
                        "mine_extra": [_show(mine, k + t) for t in range(min(d, 4))]},
-                      sig="LENGTH-DRIFT/+%d" % d, **_drift_route(d))
+                      sig="LENGTH-DRIFT/+%d" % d, **_drift_route(d, "tail"))
         if d < 0 and all(eqm(k + t, k - d + t) for t in range(nm - k)):
             return _v("LENGTH-DRIFT", closeness, nm, nt,
                       {"delta": d, "at": k, "explains": "tail",
                        "tgt_extra": [_show(tgt, k + t) for t in range(min(-d, 4))]},
-                      sig="LENGTH-DRIFT/%d" % d, **_drift_route(d))
+                      sig="LENGTH-DRIFT/%d" % d, **_drift_route(d, "tail"))
         # No single shift point explains it. Now the SIZE ratio decides between two very different
         # situations that a scalar `closeness` renders identical:
         #   a draft 1-2 instructions off  -> a real near-miss; a seed tweak or a known idiom closes it
@@ -222,14 +222,18 @@ def classify_streams(mine, tgt):
         # second wants a re-draft — and a corpus full of the second, ranked by closeness, is how a
         # queue of NEVER-PROPERLY-ATTEMPTED functions comes to look like a wall of hard ones.
         # Evidence first (the shift test above), ratio only as the fallback discriminator.
-        if abs(d) > max(2, 0.15 * nt):
+        # `max(2, 0.15*nt)` alone is far too permissive for a TINY target: a 2-instruction draft
+        # against a 4-instruction target is |d|=2 and reads as a near-miss, when it is a different
+        # function (byte-witnessed: func_8017FF90 stored to arg0+8, the target to a global). Add a
+        # PROPORTIONAL test so smallness cannot disguise a wholesale mismatch.
+        if abs(d) > max(2, 0.15 * nt) or abs(d) >= 0.5 * nt:
             return _v("SIZE-MISMATCH", closeness, nm, nt,
                       {"delta": d, "at": k, "ratio": round(nm / float(nt), 2),
                        "note": "draft is a different-sized function — re-draft, do not seed-tweak"},
                       sig="SIZE-MISMATCH/%s" % ("short" if d < 0 else "long"))
         return _v("LENGTH-DRIFT", closeness, nm, nt,
                   {"delta": d, "at": k, "explains": "partial"},
-                  sig="LENGTH-DRIFT/%d?" % d, **_drift_route(d))
+                  sig="LENGTH-DRIFT/%d?" % d, **_drift_route(d, "partial"))
     if closeness > 8:
         # equal lengths: an insert+delete pair re-aligns the middle. Accept a shift only if it
         # explains most of the run (a coincidental partial alignment must not become a verdict).
@@ -438,12 +442,19 @@ def _family(a, b):
     return None
 
 
-def _drift_route(d):
-    """A LENGTH-DRIFT of +-1..2 is permuter-shaped (one local add/drop of an instruction); anything
-    larger is a wrong-shaped draft. Phase-29 measurement: |d|<=2 is 339 fns / 472k instruction-
-    weighted member-instances (~3.6pp of the fleet) — 10x the entire pre-existing permuter bucket,
-    which is why this magnitude split is worth having at all."""
-    return {"profile": "length", "bucket": "permuter"} if abs(d) <= 2 else {}
+def _drift_route(d, explains="partial"):
+    """Permuter-shaped ONLY when the drift is small AND a single shift point explains the whole
+    tail (`explains == "tail"`): that is the shape "everything matches except one added/dropped
+    instruction", which perm_temp_for_expr / perm_expand_expr can actually reach.
+
+    MEASURED (Phase-29 Task-13B, 20-target probe): `tail` converted 1/6, `partial` converted 0/12.
+    Autopsy of the partial plateaus found them to be WRONG DRAFTS, not missing transforms — e.g. a
+    draft writing `(u32)(x ^ 1)` (emits `xori`) against a target doing `!x` (emits `sltiu rd,rs,1`),
+    and a draft storing to `arg0+8` against a target storing to a GLOBAL. No local mutation crosses
+    either gap. So a `partial` drift is seed-structural: it wants a re-draft, and admitting it to
+    the permuter spends CPU that can never pay (the same waste Task-13A's targeting reclaimed —
+    this is the second, finer cut of the same knife)."""
+    return {"profile": "length", "bucket": "permuter"} if (abs(d) <= 2 and explains == "tail") else {}
 
 
 def _v(klass, closeness, nm, nt, detail, sig=None, profile=_KEEP, bucket=_KEEP):

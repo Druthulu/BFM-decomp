@@ -67,9 +67,24 @@ arithmetic scales (R14/R35).** Every prior "structural wall" (B2, SC07, pin-cras
       `residual_class.py` + `autopsy.py` + `corpus.is_o0`; grinder targeting wired (1,303→78). FINDING: only
       **75/972 (7.7%)** of the grinder-admissible backlog is permuter-shaped — the problem was TARGETING, not
       a missing transform. R22 140/140. Cookbook §60 + decision-log + SETUP.
-- [ ] ▶ **Task 13B (RE-SCOPED) — run the DIRECTED permuter over the 75, then autopsy what actually plateaus**
-      — the LLM batch autopsy is deferred until genuine plateaus exist (R35: do not diagnose a search that
-      never ran under correct targeting). Then Task 14 (gate_stage ladder §57/§59 — priced by the 1/12 probe).
+- [x] **Task 13B — directed permuter run + the plateau autopsy [Max]** ✅ 2026-07-21
+      Ran the targeted grinder over all 77 permuter-bucket candidates: **24 wins → 21 banked** (27%), 3
+      won-but-gate-rejected as PLUMBING. `func_80141B90` propagated **×138**. Then the `length` expansion:
+      probe = 20 targets, **1 win** — `tail` 1/6, `partial` **0/12**. **AUTOPSY VERDICT: ZERO
+      missing-transforms.** The partial plateaus are WRONG DRAFTS (byte-read: `(u32)(x^1)`→`xori` vs the
+      target's `sltiu`=`!x`; a draft storing to `arg0+8` vs a target storing to a global). So the §7
+      "extend the mutation set" bucket came back EMPTY for this class, and the permanent win was the
+      opposite move — a tighter ADMISSION rule: `_drift_route` now needs `|Δ|≤2` AND `explains=="tail"`
+      (length pool 339→**34**, permuter bucket 389→**84**), plus a proportional `SIZE-MISMATCH` test.
+      Cookbook **§60a/§60b**. `permuter_weights` needs no extension.
+- [ ] ▶ **Task 14 — enrich `gate_stage`'s ladder (§57/§59) so more wins auto-integrate + grinder auto-R22
+      [Max]** — the permuter-automation program's final stage (Tasks 12→13→14). Justified as the SHARED
+      BANKING SPINE, not as a bucket: today 3 of 24 permuter wins were lost to plumbing (12.5% of work
+      already paid for in CPU), the 12-draft probe banked 1/12, and crack-wave-4's 6 -O2 cores ×138 were
+      explicitly deferred to this ladder. **Corrected ceiling for the integration bucket alone: 0.84pp**
+      (NOT the 3.2pp I first quoted — see the valuation correction below). Start by splicing 6–10 failures
+      individually and reading real cc1/ld stderr: the shared `conflicting types for built-in function`
+      label is a §58 red-herring, so the causes are UNDIAGNOSED.
 - [ ] **Task 2 — Act on the verdict [Max/xHigh]** — **branch = 2a (tooling).** Build the -O0-cluster
       split rollout (adapt `rollout_whale_o0.py` → per-overlay `[0x13410,c,<ov>_o0]` carve, -O0 Makefile
       rule) + teach `family_sweep --hseq` per-member opt-level awareness; WHOLE-BINARY gate one overlay

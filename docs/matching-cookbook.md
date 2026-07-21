@@ -4479,3 +4479,38 @@ diverged.
 path, because nothing exercises it. Before trusting an unattended fix-and-run, budget for the first success
 to fail — and check the tree state, not the exit code (here the durable Task-12 winner save in
 `.run/permuter-winners/` is what made the crash a non-event).
+
+### §60b — The plateau autopsy's verdict: a `partial` drift is a WRONG DRAFT, not a missing transform (Phase 29 Task-13B close, 2026-07-21)
+
+hindsight-study §7 predicts that a search-closer's plateaus decompose into *missing-transform* (extend the
+mutation set — "the highest-value bucket and the whole point"), *seed-structural*, and *genuine-wall*. Run
+against real plateaus, **this class produced ZERO missing-transforms.** The autopsy is worth recording
+because the answer was legible in the bytes and needed no LLM at all.
+
+**The measurement.** A 20-target probe of the `length` profile: `tail` drifts (a single shift point explains
+the whole tail) converted **1/6**; `partial` drifts (length differs AND other positions differ) converted
+**0/12**. Reading three `partial` plateaus directly:
+
+  * `func_8017F0C0`, `func_801806C8` — target contains `sltiu $v0,$v0,0x1`. **That is gcc's codegen for
+    `!x` / `x == 0`.** The drafts wrote `(u32)(D_x ^ 1)`, which emits `xori`. No local mutation rewrites
+    `xori` into `sltiu`: it is a different operation, chosen by the front end from a different C expression.
+  * `func_8017FF90` — the draft stores to `arg0 + 8`; the target stores to a **global**
+    (`lui $at,%hi(D_…)` / `sw $zero,%lo(D_…)($at)`). Not the same function at all.
+
+**Two permanent fixes, both NARROWING what the offline tool is allowed to attempt:**
+
+1. `_drift_route` now admits a drift to the permuter only when `|Δ|<=2` **AND** `explains == "tail"`.
+   Length-profile pool 339 → **34**; permuter bucket 389 → **84**. A `partial` drift is seed-structural by
+   construction — the count is wrong *and* other positions are wrong, which is not one local edit.
+2. `SIZE-MISMATCH` gained a PROPORTIONAL test (`|Δ| >= 0.5*nt`) alongside the absolute one. `max(2, 0.15*nt)`
+   is far too permissive on a tiny target: a 2-instruction draft against a 4-instruction target is `|Δ|=2`
+   and read as a near-miss when it is a wholesale mismatch.
+
+**The transferable lesson.** The §7 taxonomy tacitly assumes the plateaus are *near*. Ours mostly were not —
+they were bad drafts wearing a small `closeness`. So the highest-value autopsy outcome was not a new
+transform but a **tighter admission rule**: the way to raise a search-closer's yield is at least as often to
+stop feeding it unreachable work as to widen its mutation set. Same knife as Task-13A's targeting fix, one
+cut finer.
+
+**Cookbook idiom for drafters (recurring):** `sltiu rd, rs, 1` ⇒ the C is `!x` / `x == 0`, NOT `x ^ 1`.
+The XOR form emits `xori` and can never match.
