@@ -29,7 +29,8 @@ THE CLASSES (decision tree, first match wins; every path terminates in a NAMED c
 unclassifiable residual is `UNKNOWN`, COUNTED, never silently bucketed, R32):
 
   MATCH               streams identical under the mask
-  LENGTH-DRIFT        len differs and ONE shift point explains the whole tail  -> structural
+  LENGTH-DRIFT        len differs and ONE shift point explains the whole tail  -> permuter
+                      if |delta|<=2 (profile `length`), else structural
   SIZE-MISMATCH       len differs wildly and no shift explains it: the draft is -> redraft
                       a different-sized function, never a near-miss
   SHIFT-DRIFT         len equal but a small shift re-aligns most of the tail   -> structural
@@ -53,8 +54,8 @@ unclassifiable residual is `UNKNOWN`, COUNTED, never silently bucketed, R32):
 BUCKETS (what the autopsy does with it):
   permuter    — local mutation CAN reach it; the permuter is the right tool (and if it plateaued
                 anyway, that is a genuine missing-transform candidate — the highest-value bucket)
-  structural  — local mutation CANNOT introduce it (a different access width, an extra
-                instruction, a flipped branch). Spending permuter CPU here is waste; it wants a
+  structural  — local mutation CANNOT introduce it (a different access width, a flipped
+                branch, a multi-instruction shape change). Spending permuter CPU here is waste; it wants a
                 C-level idiom, and WIDTH / BRANCH-POLARITY / IMM-OFFSET map to KNOWN cookbook
                 idioms (§18 cast-at-use, §43 K&R s16, the loop-guard class).
   integration — closeness 0: byte-correct standalone, blocked purely on plumbing (§58/§59). The
@@ -83,6 +84,9 @@ import masked_diff
 # Coverage is asserted, not assumed (R32): an opcode outside the table raises UnknownOpcode and
 # the caller COUNTS it as UNKNOWN. A silent fallthrough here would misread a coprocessor word as
 # a register difference and invent a regalloc verdict out of nothing.
+
+
+_KEEP = object()          # _v() sentinel: keep the static _ROUTE entry
 
 
 class UnknownOpcode(Exception):
@@ -203,12 +207,12 @@ def classify_streams(mine, tgt):
             return _v("LENGTH-DRIFT", closeness, nm, nt,
                       {"delta": d, "at": k, "explains": "tail",
                        "mine_extra": [_show(mine, k + t) for t in range(min(d, 4))]},
-                      sig="LENGTH-DRIFT/+%d" % d)
+                      sig="LENGTH-DRIFT/+%d" % d, **_drift_route(d))
         if d < 0 and all(eqm(k + t, k - d + t) for t in range(nm - k)):
             return _v("LENGTH-DRIFT", closeness, nm, nt,
                       {"delta": d, "at": k, "explains": "tail",
                        "tgt_extra": [_show(tgt, k + t) for t in range(min(-d, 4))]},
-                      sig="LENGTH-DRIFT/%d" % d)
+                      sig="LENGTH-DRIFT/%d" % d, **_drift_route(d))
         # No single shift point explains it. Now the SIZE ratio decides between two very different
         # situations that a scalar `closeness` renders identical:
         #   a draft 1-2 instructions off  -> a real near-miss; a seed tweak or a known idiom closes it
@@ -225,7 +229,7 @@ def classify_streams(mine, tgt):
                       sig="SIZE-MISMATCH/%s" % ("short" if d < 0 else "long"))
         return _v("LENGTH-DRIFT", closeness, nm, nt,
                   {"delta": d, "at": k, "explains": "partial"},
-                  sig="LENGTH-DRIFT/%d?" % d)
+                  sig="LENGTH-DRIFT/%d?" % d, **_drift_route(d))
     if closeness > 8:
         # equal lengths: an insert+delete pair re-aligns the middle. Accept a shift only if it
         # explains most of the run (a coincidental partial alignment must not become a verdict).
@@ -434,9 +438,25 @@ def _family(a, b):
     return None
 
 
-def _v(klass, closeness, nm, nt, detail, sig=None):
-    prof, bucket = _ROUTE[klass]
-    return {"klass": klass, "profile": prof, "bucket": bucket, "closeness": closeness,
+def _drift_route(d):
+    """A LENGTH-DRIFT of +-1..2 is permuter-shaped (one local add/drop of an instruction); anything
+    larger is a wrong-shaped draft. Phase-29 measurement: |d|<=2 is 339 fns / 472k instruction-
+    weighted member-instances (~3.6pp of the fleet) — 10x the entire pre-existing permuter bucket,
+    which is why this magnitude split is worth having at all."""
+    return {"profile": "length", "bucket": "permuter"} if abs(d) <= 2 else {}
+
+
+def _v(klass, closeness, nm, nt, detail, sig=None, profile=_KEEP, bucket=_KEEP):
+    """`profile`/`bucket` override the static _ROUTE entry for the cases where the ROUTE depends on
+    the residual's MAGNITUDE, not just its kind — LENGTH-DRIFT being the one that matters: a ±1-2
+    instruction delta is plausibly reachable by a local mutation that adds or drops one instruction
+    (perm_temp_for_expr / perm_expand_expr), while a larger drift means the draft's shape is wrong
+    and no amount of search fixes it. Same class, opposite tool."""
+    prof, bkt = _ROUTE[klass]
+    return {"klass": klass,
+            "profile": prof if profile is _KEEP else profile,
+            "bucket": bkt if bucket is _KEEP else bucket,
+            "closeness": closeness,
             "nins_mine": nm, "nins_tgt": nt, "sig": sig or klass, "detail": detail}
 
 

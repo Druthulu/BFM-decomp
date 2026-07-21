@@ -86,7 +86,29 @@ def heartbeat(state, current=None, banked=0, fp=None):
               open(os.path.join(REPO, HB), "w"), indent=1)
 
 
-def candidates(max_nins, max_close, tried, attempts, blacklist, verdicts=None, stats=None):
+ATTEMPTED = f"{AUTODIR}/grinder_attempted.json"   # fn -> [n_attempts, draft_sig] ACROSS runs
+
+
+def load_attempted():
+    """Attempts PERSISTED across `--once` invocations.
+
+    `tried` is in-process only, so every fresh `--once` run re-permuted the previous run's losers
+    from scratch — the permuter is deterministic given (base.c, target.o), so that CPU can never
+    produce a new win. Measured 2026-07-21: a 20-target probe drew 19 targets the immediately
+    preceding run had already tried and failed. Keyed by draft_sig so an IMPROVED draft legitimately
+    re-opens the function (same rule as the in-process input-changed gate, T5)."""
+    try:
+        return json.load(open(os.path.join(REPO, ATTEMPTED)))
+    except Exception:
+        return {}
+
+
+def save_attempted(d):
+    json.dump(d, open(os.path.join(REPO, ATTEMPTED), "w"), indent=1, sort_keys=True)
+
+
+def candidates(max_nins, max_close, tried, attempts, blacklist, verdicts=None, stats=None,
+               profile=None, attempted=None):
     """closest still-open near-misses with a saved best draft (permuter-amenable), least-tried first.
 
     TARGETING (Phase-29 Task-13A). "closest" is a scalar and a bad proxy for "a search-closer can
@@ -118,8 +140,18 @@ def candidates(max_nins, max_close, tried, attempts, blacklist, verdicts=None, s
                 if stats is not None:
                     stats[v.get("bucket") or "?"] += 1
                 continue
+            elif profile and v.get("profile") != profile:
+                if stats is not None:
+                    stats["profile!=%s" % profile] += 1
+                continue
         if tried.get(nm, 0) >= attempts:
             continue
+        if attempted is not None:
+            prev = attempted.get(nm)
+            if prev and prev[0] >= attempts and prev[1] == list(draft_sig(r)):
+                if stats is not None:
+                    stats["already-tried (unchanged draft)"] += 1
+                continue
         c = r.get("closeness")
         if c is None or c > max_close:          # permuter closes small regalloc/sched gaps, not large rewrites
             continue
@@ -142,6 +174,9 @@ def main():
     ap.add_argument("--attempts", type=int, default=2)
     ap.add_argument("--idle-secs", type=int, default=90)
     ap.add_argument("--once", action="store_true")
+    ap.add_argument("--profile", default=None,
+                    help="restrict to ONE measured permuter profile (regalloc|schedule|cse|length) "
+                         "— for probing a single residual class's conversion rate")
     ap.add_argument("--no-targeting", action="store_true",
                     help="ignore the measured residual classes and search undirected (the "
                          "pre-Task-13 behaviour; for A/B-ing the targeting filter)")
@@ -156,6 +191,7 @@ def main():
     # the MEASURED residual class per function (tools/autopsy.py collect). Empty = not collected;
     # the daemon then runs undirected exactly as before, and says so.
     verdicts = {} if a.no_targeting else autopsy.verdicts()
+    attempted = load_attempted()
     log(f"start (permute={a.permute_secs}s -j{a.j} batch={a.batch} max_close={a.max_closeness}; "
         f"blacklist={len(blacklist)} plumbing-bound fns skipped)")
     log("targeting: %s" % (
@@ -169,7 +205,7 @@ def main():
         import collections as _c
         skipped = _c.Counter()
         cand = candidates(a.max_nins, a.max_closeness, tried, a.attempts, blacklist,
-                          verdicts, skipped)[:a.batch]
+                          verdicts, skipped, a.profile, attempted)[:a.batch]
         if skipped:
             log("targeting skipped %d non-permuter candidate(s): %s"
                 % (sum(skipped.values()), dict(skipped)))
@@ -210,7 +246,9 @@ def main():
             if stop_requested():
                 break
             fn = r["name"]; tried[fn] = tried.get(fn, 0) + 1
-            last_sig[fn] = draft_sig(r)                    # record the input we're about to permute (T5 gate)
+            last_sig[fn] = draft_sig(r)
+            attempted[fn] = [attempted.get(fn, [0, None])[0] + 1, list(draft_sig(r))]
+            save_attempted(attempted)                    # record the input we're about to permute (T5 gate)
             binary = r.get("binary") or "ov_SC01_077"     # legacy records: the canonical site (a 077-stub fn still gates)
             asm_sub = asm_subdir_for(binary, fn)
             heartbeat("permuting", fn, banked, fp)

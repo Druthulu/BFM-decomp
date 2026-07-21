@@ -104,7 +104,27 @@ _CSE = {
        if k not in ("perm_add_sub",)},
 }
 
-PROFILES = {"regalloc": _REGALLOC, "schedule": _SCHEDULE, "cse": _CSE}
+# LENGTH — a +-1..2 instruction-count delta (Phase-29 Task-13B). The residual is not WHICH
+# registers or WHAT order, it is one instruction too many or too few, so the levers are the passes
+# that materialize or dissolve a temporary: perm_temp_for_expr (introduce a temp -> an extra
+# move/load), perm_expand_expr (inline a temp -> one fewer), perm_split_assignment (split one
+# statement into two). The reorder/decl-order levers that dominate the regalloc/schedule profiles
+# cannot change an instruction COUNT at all, so they are down-weighted here rather than up.
+_LENGTH = {
+    "perm_temp_for_expr": 70.0,       # introduce a temp -> +1 insn (THE lever in this direction)
+    "perm_expand_expr": 70.0,         # inline a temp     -> -1 insn (THE lever in the other)
+    "perm_split_assignment": 40.0,
+    "perm_duplicate_assignment": 20.0, "perm_add_self_assignment": 20.0,
+    "perm_cast_simple": 15.0,         # a cast can add/remove a widening insn
+    "perm_add_mask": 10.0,            # an explicit mask can materialize an andi
+    "perm_ins_block": 8.0, "perm_empty_stmt": 6.0,
+    "perm_reorder_stmts": 10.0, "perm_reorder_decls": 8.0,   # count-neutral: kept low
+    "perm_commutative": 4.0, "perm_struct_ref": 6.0,
+    **{k: v for k, v in _NOISE.items()
+       if k not in ("perm_cast_simple", "perm_add_mask", "perm_empty_stmt")},
+}
+
+PROFILES = {"regalloc": _REGALLOC, "schedule": _SCHEDULE, "cse": _CSE, "length": _LENGTH}
 
 # --- The classifier ----------------------------------------------------------------------
 # Precedence: the `klass` TAG is the primary bucket (a seed tagged `regalloc-order` gets the
@@ -131,6 +151,12 @@ def classify(klass, where=""):
     """
     kt = klass or ""
     wt = where or ""
+    # A caller may pass a PROFILE NAME directly — tools/residual_class.py derives the profile from
+    # the bytes, which is strictly better than re-deriving it from a free-text label (91% of backlog
+    # records carry no label at all). Accept it verbatim rather than round-tripping through regexes
+    # that were written to parse an agent's prose.
+    if kt in PROFILES:
+        return kt
     if _CSE_RE.search(kt) or _CSE_RE.search(wt):     # residual-level override
         return "cse"
     if _REGALLOC_TAG.search(kt):

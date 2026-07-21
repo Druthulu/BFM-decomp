@@ -705,6 +705,39 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   committed cheap, propagation left as its own targeted `--addr` batch per the §55b law.
   **R22 clean-fleet: 140/140 byte-identical.** Cookbook §60 extended; SETUP.md updated.
 
+- **✅ 2026-07-21 — TASK 13B (full directed run): 21 fns banked, 27% conversion — and the REACH
+  measurement that reprices the whole permuter track.** Ran the targeted grinder over all **77**
+  permuter-bucket candidates (`--once --batch 80 --permute-secs 120 -j14 --max-closeness 30`, ~2h CPU,
+  **zero tokens**). **24 permuter WINS → 21 distinct functions banked** whole-binary (3 won-but-gate-rejected
+  → blacklisted WITH the reason, all PLUMBING not codegen: `func_8016EC0C`, `func_8017D880`,
+  `func_800D0214`@resident). **Conversion 21/77 = 27%**, vs the ≥10% bar Drew and I set as the go/no-go.
+  **The classifier's pre-run verdicts held exactly** — every bank came from the admitted bucket, by class:
+  REGALLOC-PERM 7 · IMM-VALUE 6 · SCHEDULE-REORDER 6 · DELAY-SLOT 2. All four permuter classes converted.
+  Landed as **20 gate auto-commits** `commit:0774`..`commit:0793` (generic `grinder gate — +N fns` messages; the
+  per-commit "+N" counts are bank EVENTS — a shared fn re-banks in every binary that stubs it, so the
+  running "42" is events, **21** is distinct, taken from the SOURCE not the report).
+  **R22 clean-fleet: 140 passed, 0 failed of 140**; tools-health OK (dedup 1847/0, C1 234343/234343).
+  **⚠️ THE REPRICING (R14 — measure the VALUE of a bucket, not just its conversion rate):** fleet moved
+  **~0.03pp** (78.0% instr / 66.5% distinct, essentially flat) because the fuel is small per-overlay
+  functions. h_exact reach of the 21: **only `func_80141B90` is reach-138**; TEN are reach-1 (nothing to
+  propagate at all); the rest are reach 2–10. Total 178 member-instances, 138 of them from that one function.
+  Instruction-weighted, **the entire permuter bucket is worth ~0.36pp at 100% conversion.** The 27% was real
+  and the mechanism is validated — but I should have priced the bucket BEFORE spending 2h on it, not after.
+  **THE PRICED FRONTIER (ins-weighted member-instances / 13.08M fleet denominator):**
+  `LENGTH-DRIFT |Δ|≤2` **472,178 ≈ 3.6pp** (339 fns) · `integration` **419,162 ≈ 3.2pp** (305 fns) ·
+  `WIDTH` 71,593 ≈ 0.55pp (45) · **permuter bucket (current) 46,571 ≈ 0.36pp** (74) · `BRANCH-POLARITY`
+  9,462 ≈ 0.07pp (22). So the two real levers are LENGTH-DRIFT and the Task-14 integration ladder;
+  WIDTH/BRANCH-POLARITY are NOT worth prioritizing (my earlier "~200 candidates" framing undersold
+  LENGTH-DRIFT by 10× and oversold WIDTH).
+  **BUILT (Drew-approved next step):** the `length` permuter profile (`permuter_weights._LENGTH` —
+  `perm_temp_for_expr`/`perm_expand_expr` are the only passes that change instruction COUNT; the
+  reorder/decl-order levers that dominate regalloc/schedule cannot, so they are down-weighted) +
+  a magnitude-dependent route in `residual_class._drift_route` (|Δ|≤2 → permuter/`length`; larger stays
+  structural) + `permuter_weights.classify()` now accepts a PROFILE NAME directly (the measured profile
+  beats re-parsing a free-text label). 17 unit tests green.
+  **`func_80141B90` propagated ×138** as its own targeted `--addr` batch (§55b) — 117 stubs remained after
+  the gate had already banked it in ~21 binaries.
+
 > **🛑 SESSION-6 CHECKPOINT (2026-07-21) — safe to open a FRESH session here.** Tree clean (only the R23
 > `db.*.gbf` churn + 4 preserved wave-4 `-O0` drafts). **R22 clean-fleet 140/140 byte-identical**;
 > `make tools-health` OK (dedup **1847/0**, C1 234343/234343); 0 NON_MATCHING (G4). HEAD `commit:0772`

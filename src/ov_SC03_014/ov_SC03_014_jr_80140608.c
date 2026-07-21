@@ -1427,24 +1427,7 @@ void func_80141A60(void)
 
 
 
-extern s16 D_800B9A02;
-extern u8 D_801151C8[];
-extern s32 D_801151D0;
-extern u16 D_80115116;
-extern unsigned short D_80115112;
-extern u8 D_800B9A15;
-extern void func_8013FAF8(s16, s16);
-void func_80141B90(void)
-{
-  volatile double reserved;
-  D_801151D0 = ((unsigned int *)D_801151C8)[(*(unsigned short *)&D_800B9A02)];
-  ((void (*)(s32, s32))func_8013FAF8)(2, 3);
-  if (D_80115116 == 0)
-  {
-    D_800B9A15 = 0;
-    D_80115112 = (long long) (D_80115112 + 1);
-  }
-}
+DEFINE_func_80141B90()  /* dedup: shared engine-core @0x80141B90 (src/shared) */
 
 DEFINE_func_80141C04()  /* dedup: shared engine-core @0x80141C04 (src/shared) */
 

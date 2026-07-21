@@ -1426,7 +1426,7 @@ void func_80141A60(void)
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_009/nonmatchings/ov_SC05_009_jr_80140608", func_80141B90);
+DEFINE_func_80141B90()  /* dedup: shared engine-core @0x80141B90 (src/shared) */
 
 DEFINE_func_80141C04()  /* dedup: shared engine-core @0x80141C04 (src/shared) */
 

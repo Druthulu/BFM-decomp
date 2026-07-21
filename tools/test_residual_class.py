@@ -95,9 +95,19 @@ def main():
     a = body[:4] + [I(NOP, "nop")] + body[4:]
     b = list(body)
     v = rc.classify_streams(a, b)
-    check("one extra insn", v, "LENGTH-DRIFT", "structural")
+    # |delta|<=2 routes to the PERMUTER with the `length` profile (Task-13B): one local add/drop of
+    # an instruction is exactly what perm_temp_for_expr / perm_expand_expr do.
+    check("one extra insn", v, "LENGTH-DRIFT", "permuter")
     assert v["detail"]["delta"] == 1 and v["detail"]["explains"] == "tail", v["detail"]
+    assert v["profile"] == "length", v
     assert v["closeness"] > 30, "index-wise closeness really is inflated (that is the point)"
+
+    # 6b. a LARGER drift stays STRUCTURAL — no local mutation adds five instructions in one place,
+    #     and routing it to the permuter would waste exactly the CPU Task-13A reclaimed.
+    a = body[:4] + [I(NOP, "nop")] * 5 + body[4:]
+    v = rc.classify_streams(a, list(body))
+    check("five extra insns", v, "LENGTH-DRIFT", "structural")
+    assert v["profile"] is None, v
 
     # 7. access WIDTH flip lw->lh -> structural (an §18/§43 idiom, NOT permuter fuel)
     a = [I(LW_V0_8_A0, "lw $v0,8($a0)"), I(ADDU_V0_A0_A1, "addu")]
