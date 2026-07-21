@@ -705,7 +705,45 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   committed cheap, propagation left as its own targeted `--addr` batch per the §55b law.
   **R22 clean-fleet: 140/140 byte-identical.** Cookbook §60 extended; SETUP.md updated.
 
-> **🛑 SESSION-5 CHECKPOINT (2026-07-20) — superseded by the Task-13A/13B entries above.** Tree clean (only db.*.gbf R23
+> **🛑 SESSION-6 CHECKPOINT (2026-07-21) — safe to open a FRESH session here.** Tree clean (only the R23
+> `db.*.gbf` churn + 4 preserved wave-4 `-O0` drafts). **R22 clean-fleet 140/140 byte-identical**;
+> `make tools-health` OK (dedup **1847/0**, C1 234343/234343); 0 NON_MATCHING (G4). HEAD `commit:0772`
+> (Drew pushes — commits `commit:0771` Task-13A, `commit:0772` Task-13B).
+>
+> **THIS SESSION delivered Task 13A + the first directed 13B run.** The headline is not the classifier, it is
+> what it MEASURED: of the **972** records the grinder's own filter admits, only **75 (7.7%)** are
+> permuter-shaped — 547 structural, 348 drafts that are not the function at all. **~92% of the daemon's CPU
+> has been going where a search-closer provably cannot win**, which is the byte-grounded explanation of the
+> Phase-22 audit's "7 banks all-time, all Phase 21, 0 since." It was never a missing transform; it was
+> **targeting**. Fixed free (1,303 → 78 candidates + directed profile from the measured class, since 91% of
+> records carry no label and the "directed" search was silently running on gcc defaults). The very first
+> directed run then **won on its first candidate** and banked 2.
+>
+> **▶ THE SINGLE NEXT TASK: finish 13B — run the directed permuter over the remaining ~73 permuter-bucket
+> functions**, then autopsy only what genuinely plateaus. Command:
+> `.venv/bin/python tools/grinder.py --once --batch 20 --permute-secs 120 -j 14 --max-closeness 30`
+> (repeat; `--no-targeting` A/Bs the filter). Expect ~2 min/fn of CPU, no tokens. **Re-run
+> `tools/autopsy.py collect` first** if the backlog has moved (21 s) — the corpus is regenerable and
+> gitignored by policy. THEN, and only then, the LLM batch autopsy over the survivors: cluster by `sig`
+> (`docs/autopsy.md`), one representative per cluster, routing each to missing-transform (extend
+> `permuter_weights`) / mis-classified / seed-structural / genuine-wall-with-expiry.
+>
+> **CARRIED, with measured prices (not projections):** (a) the **306 `integration`** rows — a 12-draft gate
+> probe banked **1/12** (11 PLUMBING), so this **prices Task 14's §57/§59 reconcile ladder** rather than
+> promising free banks; it is the largest reach-weighted bucket (2,303) and the ladder is the lever.
+> (b) the **699 `redraft`** rows are **un-attempted work misfiled as near-misses** (a ~15-ins draft scored
+> against a large target; "closeness 278" is a length artefact) — fresh crack fuel, and the reason
+> `docs/backlog.md`'s closeness ranking overstates how nearly-done the frontier is. (c) `func_80167714`
+> (104 ins, reach-134) and the 2 grinder banks are **×1, un-propagated by design** (§55b: propagation is its
+> own targeted `dedup_propagate --addr` batch).
+>
+> **DO NOT RE-DERIVE (this session's byte-grounded findings):** `residual_class` closeness == 
+> `masked_diff.structured_diff` on 1,673/1,673 rows, 0 classifier errors (R34 cross-check is baked into
+> `autopsy collect` and refuses the corpus on any disagreement). `masked_diff`'s shared probe file was
+> losing **0.8% of drafts in every parallel wave** (now per-PID). `gate_stage` never passed `--o0` (phantom
+> residuals for every -O0 function, written into this very backlog). The three §60a gate defects are fixed.
+>
+> **SESSION-5 CHECKPOINT (2026-07-20) — superseded by the Task-13A/13B entries above.** Tree clean (only db.*.gbf R23
 > churn), **140/140 byte-identical** (last R22 clean-fleet at the crack-wave-4 verify + func_8017AE2C ×137;
 > Task-8/12 tooling changes touch only matching-loop tools, no build/src output). tools-health OK (dedup 1846/0
 > class). Main HEAD after this = the checkpoint commit. **Fleet 78.0% instr · 66.5% distinct-code · 87.9%
