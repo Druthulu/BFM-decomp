@@ -2735,7 +2735,78 @@ s32 func_8017496C(void *a0) {
 
 DEFINE_func_801749A8()  /* dedup: shared engine-core @0x801749A8 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_000/nonmatchings/ov_SC01_000_jr_801734BC", func_801749C8);
+// func_801749C8 @ 0x801749c8 — shared engine fn, drafted in ov_SC01_000.
+// Ported from the proven MATCH in src/ov_SC01_077/ov_SC01_077_jr_801734BC.c (105 ins).
+// Keys: (1) single-buffer struct for the func_80049CAC/func_8012F14C out-params
+//   (local_2c..local_14 are fields of ONE stack buffer, not separate scalars — else gcc
+//   DCEs the unread ones + overlaps the buffer -> wrong 0x40 frame); (2) $s2/$s1 pins for
+//   iVar5/iVar4 (call-crossing saved regs); (3) load D_80126B66 as RAW u16 (lhu) with (s16)
+//   sext at each USE — defeats gcc's lhu+sext->lh combine fold so lhu+sll+sra reappears;
+//   (4) inline `iVar5 = (s16)D_80126B5E` into the f48 expression so the f28 operand loads first.
+
+
+
+
+
+
+
+extern u16 D_80126B5E;
+extern u16 D_80126B62;
+extern u16 D_80126B66;
+
+extern s32  func_80012C6C(s32 a0, s32 a1, s32 a2);
+extern s16  func_80012ABC(s32 a0, s32 a1, s32 a2);
+extern void func_80049CAC(s32 a0, s32 a1);
+extern void func_8012F14C(s32);
+
+typedef struct {
+    /* 0x00 */ s8  head[0x14];
+    /* 0x14 */ s32 f14;
+    /* 0x18 */ s32 f18;
+    /* 0x1C */ s32 f1c;
+    /* 0x20 */ s16 f20;
+    /* 0x22 */ s16 f22;
+    /* 0x24 */ s16 f24;
+    /* 0x26 */ s16 pad26;
+    /* 0x28 */ s16 f28;
+    /* 0x2A */ s16 f2a;
+    /* 0x2C */ s16 f2c;
+} Buf;
+
+s32 func_801749C8(s32 param_1)
+{
+    Buf buf;
+    register s32 iVar5 __asm__("$18");
+    register u32 iVar4 __asm__("$17");
+
+    *(s32 *)(param_1 + 8) = (s16)((s16 (*)(s32, s32, s32))func_80012C6C)((s32)*(s16 *)(param_1 + 8), (s32)*(s16 *)(param_1 + 0xc), 4);
+    *(s32 *)(param_1 + 0x10) = (s16)((s16 (*)(s32, s32, s32))func_80012C6C)((s32)*(s16 *)(param_1 + 0x10), (s32)*(s16 *)(param_1 + 0x14), 4);
+    *(s16 *)(param_1 + 0x18) = func_80012ABC((s32)*(s16 *)(param_1 + 0x18), (s32)*(s16 *)(param_1 + 0x20), 4);
+    *(s16 *)(param_1 + 0x1a) = func_80012ABC((s32)*(s16 *)(param_1 + 0x1a), (s32)*(s16 *)(param_1 + 0x22), 4);
+    *(s16 *)(param_1 + 0x1c) = func_80012ABC((s32)*(s16 *)(param_1 + 0x1c), (s32)*(s16 *)(param_1 + 0x24), 4);
+    *(s16 *)(param_1 + 0x28) = ((s16 (*)(s32, s32, s32))func_80012C6C)((s32)*(s16 *)(param_1 + 0x28), (s32)*(s16 *)(param_1 + 0x2e), 0x10);
+    *(s16 *)(param_1 + 0x2a) = ((s16 (*)(s32, s32, s32))func_80012C6C)((s32)*(s16 *)(param_1 + 0x2a), (s32)*(s16 *)(param_1 + 0x30), 0x10);
+    *(s16 *)(param_1 + 0x2c) = ((s16 (*)(s32, s32, s32))func_80012C6C)((s32)*(s16 *)(param_1 + 0x2c), (s32)*(s16 *)(param_1 + 0x32), 0x10);
+
+    iVar4 = (u16)D_80126B66;
+    *(s32 *)(param_1 + 0x48) = *(s16 *)(param_1 + 0x28) + (iVar5 = (s16)D_80126B5E);
+    *(s32 *)(param_1 + 0x4c) = *(s16 *)(param_1 + 0x2a) + (s16)D_80126B62;
+    *(s32 *)(param_1 + 0x50) = *(s16 *)(param_1 + 0x2c) + (s16)iVar4;
+    func_80049CAC(param_1 + 0x18, (s32)&buf);
+
+    buf.f14 = *(s16 *)(param_1 + 0x28) + iVar5;
+    buf.f18 = *(s16 *)(param_1 + 0x2a) + (s16)D_80126B62;
+    buf.f1c = *(s16 *)(param_1 + 0x2c) + (s16)iVar4;
+    buf.f20 = 0;
+    buf.f22 = 0;
+    buf.f24 = (s16)*(s32 *)(param_1 + 0x10);
+    ((void (*)(s32, s32, s32))func_8012F14C)((s32)&buf, (s32)&buf.f20, (s32)&buf.f28);
+
+    *(s32 *)(param_1 + 0x3c) = buf.f28;
+    *(s32 *)(param_1 + 0x40) = buf.f2a;
+    *(s32 *)(param_1 + 0x44) = buf.f2c;
+}
+
 
 DEFINE_func_80174B6C()  /* dedup: shared engine-core @0x80174B6C (src/shared) */
 

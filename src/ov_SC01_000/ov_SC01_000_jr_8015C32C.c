@@ -4512,7 +4512,50 @@ DEFINE_func_80165C58()  /* dedup: shared engine-core @0x80165C58 (src/shared) */
 
 DEFINE_func_80165C78()  /* dedup: shared engine-core @0x80165C78 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_000/nonmatchings/ov_SC01_000_jr_8015C32C", func_80165CA0);
+
+
+
+
+extern s32 D_8011D030;
+extern s32 D_80126728;
+#define SHB(x) __asm__ __volatile__("" : "=r"(x) : "0"(x))
+
+void func_80165CA0(void) {
+    register s32 i __asm__("$17");
+    s32 off;
+    u16 *q;
+    s32 a1, base;
+    short *p;
+    register short v __asm__("$2");
+    register short w __asm__("$3");
+    i = 0; q = &D_8011D030;
+    do {
+        if (*q != 0) (*(void (**)(u16 *))((u32)*q * 4 + D_80126728))(q);
+        i = i + 1; q = q + 0x2c;
+    } while (i < 0x1e);
+    i = 0; off = 0;
+    do {
+        base = (s32)&D_8011D030; SHB(base);
+        a1 = off + base;
+        p = *(short **)(a1 + 0x20);
+        if (p != 0) {
+            s32 q2;
+            if ((u16)*p == 1) {
+                v = *(short *)(a1 + 6); p[4] = v; SHB(v); *(int *)(p + 0x24) = v;
+                v = *(short *)(a1 + 0xa); p[5] = v; SHB(v); *(int *)(p + 0x26) = v;
+                w = *(short *)(a1 + 0xe); p[6] = w; v = p[0x16] | 1; SHB(w); p[0x16] = v; *(int *)(p + 0x28) = w;
+            } else if ((q2 = *(int *)(p + 0x1a)) != 0) {
+                v = *(short *)(a1 + 6); p[4] = v; SHB(v); *(int *)(q2 + 0x14) = v;
+                v = *(short *)(a1 + 0xa); p[5] = v; q2 = *(int *)(p + 0x1a); SHB(v); *(int *)(q2 + 0x18) = v;
+                v = *(short *)(a1 + 0xe); p[6] = v; q2 = *(int *)(p + 0x1a); SHB(v); *(int *)(q2 + 0x1c) = v;
+            } else {
+                p[4] = *(short *)(a1 + 6); p[5] = *(short *)(a1 + 0xa); p[6] = *(short *)(a1 + 0xe);
+            }
+        }
+        i = i + 1; off = off + 0x58;
+    } while (i < 0x1e);
+}
+
 
 extern M2C_UNK D_801A3E64;
 
@@ -5363,7 +5406,29 @@ s32 func_80167DBC(s32 arg0, s32 arg1, s32 arg2) {
 
 DEFINE_func_80168070()  /* dedup: shared engine-core @0x80168070 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_000/nonmatchings/ov_SC01_000_jr_8015C32C", func_801681FC);
+extern int func_80029178(int arg);
+extern int func_80166F58(int arg0, int arg1, int arg2, int arg3);
+extern unsigned char D_80181B9C[];
+extern unsigned char D_80181B6C[];
+extern unsigned char D_80181B6D[];
+
+void func_801681FC(int param_1) {
+    unsigned char bVar1;
+    int iVar3;
+    unsigned int uVar4;
+
+    *(unsigned short *)(param_1 + 0x28) = func_80029178(0x81) & 0xff;
+    *(unsigned int *)(param_1 + 0x30) = (unsigned int)D_80181B9C[*(int *)(param_1 + 0x2c)];
+    iVar3 = (*(int *)(param_1 + 0x2c) << 0x11) >> 0x10;
+    *(unsigned short *)(param_1 + 0x2a) = (unsigned short)D_80181B6C[iVar3];
+    bVar1 = D_80181B6D[iVar3];
+    uVar4 = *(unsigned int *)(param_1 + 0x2c) & 1;
+    *(unsigned int *)(param_1 + 0x2c) = uVar4;
+    *(unsigned int *)(param_1 + 0x1c) = (unsigned int)bVar1;
+    func_80166F58(param_1, 4, 4, uVar4);
+    *(short *)(param_1 + 2) = *(short *)(param_1 + 2) + 1;
+}
+
 
 DEFINE_func_8016829C()  /* dedup: shared engine-core @0x8016829C (src/shared) */
 
@@ -5371,7 +5436,23 @@ DEFINE_func_80168328()  /* dedup: shared engine-core @0x80168328 (src/shared) */
 
 DEFINE_func_801683D8()  /* dedup: shared engine-core @0x801683D8 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_000/nonmatchings/ov_SC01_000_jr_8015C32C", func_80168430);
+extern unsigned char D_80181BA8[];
+extern unsigned char D_80181B80[];
+extern unsigned char D_80181B81[];
+extern int func_80166F58(int param_1, int param_2, int param_3, int param_4);
+
+void func_80168430(int param_1)
+{
+    int iVar1;
+
+    *(unsigned int *)(param_1 + 0x30) = (unsigned int)(unsigned char)D_80181BA8[*(int *)(param_1 + 0x2c)];
+    iVar1 = (*(int *)(param_1 + 0x2c) << 0x11) >> 0x10;
+    *(unsigned short *)(param_1 + 0x2a) = (unsigned short)(unsigned char)D_80181B80[iVar1];
+    *(unsigned int *)(param_1 + 0x1c) = (unsigned int)(unsigned char)D_80181B81[iVar1];
+    func_80166F58(param_1, 5, 0x3b, 2);
+    *(short *)(param_1 + 2) = *(short *)(param_1 + 2) + 1;
+}
+
 
 DEFINE_func_801684B4()  /* dedup: shared engine-core @0x801684B4 (src/shared) */
 
