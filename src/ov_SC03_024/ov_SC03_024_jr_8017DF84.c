@@ -4042,7 +4042,28 @@ INCLUDE_ASM("asm/ov_SC03_024/nonmatchings/ov_SC03_024_jr_8017DF84", func_801855A
 
 INCLUDE_ASM("asm/ov_SC03_024/nonmatchings/ov_SC03_024_jr_8017DF84", func_80185638);
 
-INCLUDE_ASM("asm/ov_SC03_024/nonmatchings/ov_SC03_024_jr_8017DF84", func_8018567C);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+extern s32 func_800D06CC(void);
+char func_8018567C(void)
+{
+  func_800D06CC();
+  return 0x67;
+}
 
 extern void func_800D0694(void);
     void func_8018569C(void) {
