@@ -63,7 +63,14 @@ arithmetic scales (R14/R35).** Every prior "structural wall" (B2, SC07, pin-cras
 > banks → THEN one targeted `dedup_propagate --addr` (~233s/core). It is the distilled cost of ~3.5h I
 > lost this session.
 
-- [ ] ▶ **Task 2 — Act on the verdict [Max/xHigh]** — **branch = 2a (tooling).** Build the -O0-cluster
+- [x] **Task 13A — deterministic residual→class classifier + the corpus it reads [Max]** ✅ 2026-07-21
+      `residual_class.py` + `autopsy.py` + `corpus.is_o0`; grinder targeting wired (1,303→78). FINDING: only
+      **75/972 (7.7%)** of the grinder-admissible backlog is permuter-shaped — the problem was TARGETING, not
+      a missing transform. R22 140/140. Cookbook §60 + decision-log + SETUP.
+- [ ] ▶ **Task 13B (RE-SCOPED) — run the DIRECTED permuter over the 75, then autopsy what actually plateaus**
+      — the LLM batch autopsy is deferred until genuine plateaus exist (R35: do not diagnose a search that
+      never ran under correct targeting). Then Task 14 (gate_stage ladder §57/§59 — priced by the 1/12 probe).
+- [ ] **Task 2 — Act on the verdict [Max/xHigh]** — **branch = 2a (tooling).** Build the -O0-cluster
       split rollout (adapt `rollout_whale_o0.py` → per-overlay `[0x13410,c,<ov>_o0]` carve, -O0 Makefile
       rule) + teach `family_sweep --hseq` per-member opt-level awareness; WHOLE-BINARY gate one overlay
       (convert the verdict to a banked fact), then fleet + the type-lift sweep. `member_adapt.py` NOT
@@ -632,7 +639,49 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   wins). Then run the closed loop: improved permuter over the whole backlog → collect telemetry → extend ILS →
   re-run → track the LLM-free fraction (burndown.py). Design substrate: docs/hindsight-study.md §7.**
 
-> **🛑 SESSION-5 CHECKPOINT (2026-07-20) — safe to open a FRESH session here.** Tree clean (only db.*.gbf R23
+- **✅ 2026-07-21 — TASK 13A DONE: the deterministic residual classifier + the corpus it reads; the
+  permuter's problem is TARGETING, not a missing transform.** Built `tools/residual_class.py` (decode each
+  mismatching MIPS word → `(op-skeleton, register-fields, immediate)`; drift FIRST, then consistent-injective
+  register map → `REGALLOC-PERM`, same-multiset-different-order → `SCHEDULE-REORDER`, `DELAY-SLOT`,
+  `WIDTH`/`BRANCH-POLARITY`/`STRENGTH`/`ADDRESSING`/`IMM-OFFSET`/`IMM-VALUE`; every class routes to a BUCKET =
+  which tool the failure wants; uncovered opcode → `UNKNOWN`, counted; 16 unit tests) + `tools/autopsy.py`
+  (`collect` recompiles every open draft through the EXISTING `match_one` path, deriving the asm subdir and the
+  **-O0 flag** via the new coverage-asserted `corpus.o0_sources()/is_o0()`; `report` → `docs/autopsy.md`).
+  **Why a collect step at all (R35):** Task-12's telemetry only fills records written after it landed — 1 of
+  6,169 had a `residual`, 0 had `passes_tried` — but 1,752 open near-misses had draft+`.s` on disk, i.e. ~1 s
+  of CPU each. Full corpus in **21 s at -j12**; closeness cross-checked against `masked_diff.structured_diff`
+  on **1,673/1,673** rows (R34), 0 classifier errors.
+  **THE MEASUREMENT (byte-grounded, whole open backlog):** `redraft` 699 · `structural` 578 · `integration` 306
+  · **`permuter` 75** · unknown 2. Of the **972** records the grinder's own filter admits, only **75 (7.7%)**
+  are permuter-shaped — 547 structural, 348 drafts that are not the function at all. **~92% of the grinder's
+  CPU has been going where a search-closer provably cannot win**, which is the byte-grounded explanation of the
+  Phase-22 audit's "7 banks all-time, all Phase 21, 0 since." Fixed free: `grinder.candidates()` now filters on
+  the measured bucket (**1,303 → 78**) and takes its directed `permuter_weights` profile from the measured
+  class instead of the logged label (91% of records carry none → the "directed" search was silently running on
+  gcc defaults). Degrades to undirected if the corpus is absent, says which mode it is in, `--no-targeting` A/Bs it.
+  **Two corollaries (R14, both measured not projected):** (1) `closeness` conflates "one instruction off" with
+  "this draft is a different function" — 699 records rank as near-misses at closeness up to 278 from a pure
+  length artefact; they are **un-attempted work misfiled as a backlog of hard functions** (fresh crack fuel),
+  so `docs/backlog.md`'s closeness ranking overstates how nearly-done the frontier is. (2) A **12-draft gate
+  probe** of the `integration` bucket (reach-134, ov_SC01_077) banked **1/12**, 11 PLUMBING — so the 306
+  **prices Task 14's reconcile ladder**, it is not 306 free banks. One real bank landed: **`func_80167714`
+  (104 ins, reach-134) ×1**, un-propagated by design (§55b: propagate is its own batch).
+  **Two defects fixed forward:** `masked_diff._common_typedefs()` used ONE shared probe path
+  `src/.masked_diff_probe.c`, so N parallel `match_one`/permuter processes clobbered each other — **14 of 1,752
+  drafts lost in a single 12-way run (0.8%)**, silently, in every parallel wave ever run (a drafter that
+  crashes on its self-check is indistinguishable from one that failed); now per-PID. And `gate_stage`'s
+  `match_one_closeness` never passed `--o0`, so every -O0 function it scored produced a phantom residual
+  written straight into the backlog this autopsy reads.
+  **R22 clean-fleet: `make clean && extract-all && check-all` → 140 passed, 0 failed of 140**; `make
+  tools-health` OK (dedup **1847/0**, C1 234343/234343); 0 NON_MATCHING (G4). Flywheel captured in-session
+  (R30/R31): cookbook **§60**, `docs/decision-log.md` entry, SETUP.md 3 inventory rows + the grinder row.
+  **▶ TASK 13B RE-SCOPED BY THE DATA (the pivot):** do **NOT** run an LLM batch autopsy over the backlog — the
+  deterministic classifier resolves 96% of it into three non-LLM routes, and the 75 permuter-bucket functions
+  **have not yet been permuted under correct targeting**, so calling any of them a "plateau" today would be
+  diagnosing a search that never properly ran (R35). Correct order: **run the directed permuter over the 75 →
+  collect genuine plateaus with real `passes_tried` → only then spend the LLM on what survives.**
+
+> **🛑 SESSION-5 CHECKPOINT (2026-07-20) — superseded by the Task-13A entry above.** Tree clean (only db.*.gbf R23
 > churn), **140/140 byte-identical** (last R22 clean-fleet at the crack-wave-4 verify + func_8017AE2C ×137;
 > Task-8/12 tooling changes touch only matching-loop tools, no build/src output). tools-health OK (dedup 1846/0
 > class). Main HEAD after this = the checkpoint commit. **Fleet 78.0% instr · 66.5% distinct-code · 87.9%

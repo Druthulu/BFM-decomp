@@ -106,15 +106,24 @@ def match_one_closeness(fn, cpath, asm, binary=None):
     a whole batch is the same single-TU bug: an overlay has TWELVE, and pointing match_one at the
     wrong one scores a draft against a DIFFERENT function's asm — a phantom non-zero closeness that
     then lands in the backlog as a matching failure and feeds reserved_walls()."""
+    o0 = []
     if binary:
         st = corpus.stubs(binary)
         hit = next((s for s in st.values() if s.symbol == fn), None)
         if hit is not None:
             asm = hit.asm_dir
+            # ...and the OPT LEVEL, from the same stub (Phase-29 Task-13A). Same bug as the asm
+            # subdir, one level down: an -O0-compiled TU's target bytes are -O0, so scoring its
+            # draft at -O2 yields a residual that is 100% artefact — recorded here as a matching
+            # failure, ranked into the backlog, and read by the autopsy as evidence of a compiler
+            # wall. corpus.is_o0 derives the answer from the Makefile's own rules (R33).
+            if corpus.is_o0(hit.path):
+                o0 = ["--o0"]
     if not asm:
         return ("fail", None, None)
     try:
-        r = sh([PY, "tools/match_one.py", fn, "--c", cpath, "--asm-subdir", asm, "--json"], timeout=180)
+        r = sh([PY, "tools/match_one.py", fn, "--c", cpath, "--asm-subdir", asm, "--json"] + o0,
+               timeout=180)
     except subprocess.TimeoutExpired:
         return ("fail", None, None)
     # Task-12: parse the JSON result line (structured residual for the autopsy); text-fallback on any issue.

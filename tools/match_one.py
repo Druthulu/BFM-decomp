@@ -20,6 +20,7 @@ import subprocess, re, sys, os, argparse
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import json
 import masked_diff
+import residual_class
 
 ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
 ap.add_argument('fn')
@@ -98,17 +99,43 @@ if not mine:
 # structured residual (shared with gate_stage's near-record + the Task-12 autopsy telemetry)
 diffs = masked_diff.structured_diff(mine, tgt)
 
+# Task-13A: the DETERMINISTIC residual class, computed here because this is the only place both
+# FULL streams exist. A stored residual is capped at 48 entries, which is exactly enough to hide
+# the drift signature that explains an inflated closeness — so the verdict is computed on the
+# uncapped streams and carried alongside the (still capped) residual.
+#
+# The classifier's own closeness is index-wise and must equal len(diffs) by construction. Asserting
+# that here is a SECOND ORACLE, not a nicer assertion inside one (R34): structured_diff and
+# classify_streams compute it by different routes, so a disagreement is a real defect and says so
+# in the output rather than silently picking a winner. A classifier crash degrades to a loud
+# ERROR verdict instead of killing the agent iteration loop this tool exists to serve.
+try:
+    verdict = residual_class.classify_streams(mine, tgt)
+    if verdict["closeness"] != len(diffs):
+        verdict["closeness_disagree"] = [verdict["closeness"], len(diffs)]
+except Exception as e:                                     # noqa: BLE001 — loud in the data
+    verdict = {"klass": "ERROR", "profile": None, "bucket": "unknown",
+               "closeness": len(diffs), "sig": "ERROR", "detail": {"error": repr(e)}}
+
 if not diffs and len(mine) == len(tgt):
     if a.json:
-        print(json.dumps({"status": "match", "closeness": 0, "nins": len(mine), "residual": []}))
+        print(json.dumps({"status": "match", "closeness": 0, "nins": len(mine), "residual": [],
+                          "verdict": verdict}))
     else:
         print('MATCH (%d ins)  %s' % (len(mine), a.fn))
     sys.exit(0)
 if a.json:
     print(json.dumps({"status": "near" if diffs else "fail", "closeness": len(diffs),
-                      "nins": len(mine), "residual": [[i, me, tg] for i, me, tg in diffs[:48]]}))
+                      "nins": len(mine), "residual": [[i, me, tg] for i, me, tg in diffs[:48]],
+                      "verdict": verdict}))
     sys.exit(1)
 print('DIFF  %s   mine=%d ins, target=%d ins, %d mismatched' % (a.fn, len(mine), len(tgt), len(diffs)))
+# the class tells you WHICH tool to reach for before you read a single instruction: a `permuter`
+# bucket is search-closeable; a `structural` one never is (no local mutation introduces a
+# different load width or an extra instruction) and wants the cookbook idiom named in its sig.
+print('  class: %s  [%s]  sig=%s%s' % (
+    verdict["klass"], verdict["bucket"], verdict["sig"],
+    ("  profile=" + verdict["profile"]) if verdict.get("profile") else ""))
 print('  idx | MINE                          | TARGET')
 for i, me, tg in diffs[:40]:
     print('  %3d | %-28s | %s' % (i, me, tg))

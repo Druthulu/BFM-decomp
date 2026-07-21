@@ -4382,3 +4382,68 @@ After a core banks ×1 in ov_SC01_077 and swaps to `matched-ov077`, `family_swee
 Meta: a `family_sweep --hseq` "0/137 banked" is a per-sibling INTEGRATION signal, not a codegen verdict — read one
 sibling's real gate result (COMPILE-fail vs byte-DIFF) before concluding. Extends §58 (match_one blind spots) to the
 sweep stage.
+
+## §60 — Classify the residual, don't rank it: the deterministic residual→class classifier and what it measured about the backlog (Phase 29 Task-13A, 2026-07-21)
+
+**The instrument.** `tools/residual_class.py` decides a near-miss's class FROM THE BYTES. It decodes each
+mismatching MIPS word into `(operation-skeleton, register-fields, immediate)` and runs a decision tree:
+drift first (a single inserted instruction desynchronises the tail and inflates `closeness` by the tail's
+length — a 1-instruction structural delta wearing a 200-mismatch costume), then a consistent-injective
+**register map** (⇒ `REGALLOC-PERM`, the §31 S11/RC-3 class), same-multiset-different-order (⇒
+`SCHEDULE-REORDER`), nop-vs-instruction (`DELAY-SLOT`), then operation-family splits (`WIDTH` lw↔lh =
+the §18/§43 idioms, `BRANCH-POLARITY`, `STRENGTH`, `ADDRESSING`), then immediate-only (`IMM-OFFSET`
+constant delta = a frame/struct-layout shift, `IMM-VALUE`). Every path ends in a NAMED class; an opcode the
+decoder does not cover is `UNKNOWN` and COUNTED (R32). Each class routes to a **bucket** — `permuter` /
+`structural` / `integration` / `redraft` — which says WHICH TOOL the failure wants.
+
+`tools/autopsy.py collect` materialises the corpus by recompiling every open backlog draft through the
+EXISTING `match_one` path (R33 — never a second copy of the pipeline), deriving the two silent-artefact
+inputs rather than guessing them: the **asm subdir** (from the stub's self-describing INCLUDE_ASM line) and
+the **-O0 flag** (`corpus.is_o0`, parsed from the Makefile's own -O0 rules with a coverage assertion). 1,752
+drafts in ~21 s at -j12.
+
+**Cross-check (R34).** The classifier's `closeness` is computed by a different route than
+`masked_diff.structured_diff`'s; `collect` asserts equality on every row and refuses the corpus on any
+disagreement. 1,673/1,673 agreed, 0 classifier errors — so the MIPS decoder covered every opcode in the
+real corpus.
+
+### What it measured — the whole open backlog, byte-grounded
+
+| bucket | fns | reach-wtd | meaning |
+|---|--:|--:|---|
+| `redraft` | 699 | 2,162 | the stored draft is **not this function** (a 15-ins body vs a 132-ins target) |
+| `structural` | 578 | 7,761 | local mutation cannot introduce it — wants a C idiom, not CPU |
+| `integration` | 306 | 2,303 | byte-correct standalone; blocked on plumbing (§58/§59) |
+| `permuter` | 75 | 740 | a search-closer can actually reach it |
+| `unknown` | 2 | 2 | the LLM tier's residue |
+
+**THE FINDING: of the 972 records the grinder's own filter admits, 75 (7.7%) are permuter-shaped.** 547 are
+structural and 348 are junk drafts. The daemon has been spending ~92% of its CPU where the permuter provably
+cannot win — which is the byte-grounded explanation of "7 banks all-time, all in Phase 21, 0 since"
+(Phase-22 audit). It was never a missing transform; it was **targeting**. `grinder.candidates()` now filters
+on the measured bucket (1,303 → 78 candidates) and takes its directed `permuter_weights` profile from the
+measured class instead of the logged label — 91% of records carry NO label, so `classify()` returned None and
+the search ran on gcc defaults. Degrades to the old undirected behaviour if the corpus is absent, and says
+which mode it is in (`--no-targeting` A/Bs it).
+
+### Two corollaries worth remembering
+
+1. **A large `closeness` and a hard function are different things.** 699 records rank as "near-misses" with
+   closeness up to 278 purely because a stub-sized draft was scored against a large target. Ranked by
+   closeness they look like a wall of nearly-done work; they are **un-attempted work misfiled as
+   near-misses** — fresh crack fuel, not a backlog of hard functions. Hence the separate `redraft` bucket:
+   the routing is opposite (re-draft vs seed-tweak).
+2. **`match_one` MATCH still ≠ bank (§58), measured.** A 12-draft gate probe of the `integration` bucket
+   (reach-134, ov_SC01_077) banked **1 of 12**; the other 11 failed PLUMBING. So the 306 is a pool of
+   integration candidates whose conversion depends on the reconcile ladder — it prices Task 14, it is not
+   306 free banks. (Note the harvest_verify failure LABEL is the §58 red-herring: 10 of the 11 reported the
+   same `conflicting types for built-in function` line from an unrelated TU position.)
+
+### The parallel-probe race this surfaced
+
+`masked_diff._common_typedefs()` wrote, read and deleted ONE shared path `src/.masked_diff_probe.c`. Under N
+concurrent `match_one`/permuter processes, whoever unlinked first made another's open/parse fail, and that
+process died with a traceback instead of a verdict: **14 of 1,752 drafts lost in a single 12-way run (0.8%)**
+— and every parallel wave has paid it invisibly, because a drafter that crashes on its self-check merely
+looks like a drafter that failed. Now per-PID. Same defect class, one level down, as the Phase-28
+`match_one --work` shared scratch whose docstring promised the isolation its default contradicted.

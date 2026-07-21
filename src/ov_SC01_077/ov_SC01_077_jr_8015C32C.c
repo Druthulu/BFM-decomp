@@ -5260,7 +5260,75 @@ shared:
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_8015C32C", func_80167714);
+// @class: regalloc-order (walker-family sibling, ov_SC01_077, 104 ins)
+// @stuck: none — PIN-FREE MATCH (close=0, match_one byte-exact, reloc-masked)
+// The historic seed forced iVar2 into $v0 with `register s32 iVar2 __asm__("$2")`.
+// That pin is SUPERFLUOUS. Two source-shape levers reproduce the exact allocation
+// with NO register pins (so it survives the x134 cc1 sweep, cf. cookbook §42e):
+//   L1 (control-flow / merge-label shape): the early-`goto` structure with a FRESH
+//       *(param_1+0x1c) deref at LAB_801677b0 (rather than reusing a reload var) is
+//       what lands iVar2 in $v0. A "v0 = *(a0+0x1c); ...; v0 = *(a0+0x1c)" reload-var
+//       shape (the old backlog draft) mis-allocates iVar2 to $a0.
+//   L2 (batched struct copy = §52 lever-2 spirit "let the compiler mint the access"):
+//       the 8-word block copy MUST be two `Blk16` (4x u32) struct assignments, not 8
+//       individual `*(s32*)... = *(s32*)...;` statements. The struct assign makes gcc
+//       batch load-4 ($v1,$a1,$a2,$a3) / store-4; individual copies emit lw/sw/lw/sw
+//       one word at a time (longer AND wrong regs).
+#include "common.h"
+
+extern void func_80146C3C(void);
+extern void func_80147324(s32 arg0);
+extern s32 func_801670E4(s32 a0, s32 a1, s32 a2, s32 a3);
+extern s32 rand(void);
+
+
+
+void func_80167714(s32 param_1) {
+    s32 *psVar7;
+    s32 iVar2;
+    s32 src;
+    u32 uVar4;
+
+    psVar7 = *(s32 **)(param_1 + 0x34);
+    if (*(u16 *)psVar7 != 1) {
+        goto LAB_80167894;
+    }
+    if (*(s16 *)(param_1 + 0x12) > *(s16 *)(param_1 + 0x10)) {
+        iVar2 = *(s32 *)(param_1 + 0x1c);
+        if (iVar2 < 1) goto LAB_801677b0;
+        *(u16 *)(param_1 + 0x10) = rand() & 0x30;
+        iVar2 = -0x20;
+    } else {
+        iVar2 = *(s32 *)(param_1 + 0x1c);
+        if (-1 < iVar2) goto LAB_801677b0;
+        *(u16 *)(param_1 + 0x10) = (rand() & 0x30) + 0x40;
+        iVar2 = 0x20;
+    }
+    *(s32 *)(param_1 + 0x1c) = iVar2;
+LAB_801677b0:
+    *(s16 *)(param_1 + 0x12) = *(u16 *)(param_1 + 0x12) + *(s32 *)(param_1 + 0x1c);
+    if ((*(u32 *)(param_1 + 0x2c) & 8) != 0) {
+        *(s32 *)(param_1 + 0x30) = *(s32 *)(param_1 + 0x30) + 0x80;
+    } else {
+        *(s32 *)(param_1 + 0x30) = *(s32 *)(param_1 + 0x30) - 0x40;
+    }
+    uVar4 = *(u32 *)(param_1 + 0x2c);
+    *(u32 *)(param_1 + 0x2c) = uVar4 + 1;
+    if ((uVar4 & 0xf) == 0) {
+        func_80147324(0x44e);
+    }
+    src = *(s32 *)((s32)psVar7 + 0x20);
+    *(Blk16 *)(param_1 + 0x38) = *(Blk16 *)(src + 0x34);
+    *(Blk16 *)(param_1 + 0x48) = *(Blk16 *)(src + 0x44);
+    func_801670E4(param_1, 0, 0, 0);
+    if ((*(u32 *)(*(s32 *)(*(s32 *)(param_1 + 0x34) + 0x4c) + 0x44) & 0x20) == 0) {
+        *(s16 *)(param_1 + 2) = *(s16 *)(param_1 + 2) - 1;
+    }
+    return;
+LAB_80167894:
+    ((void (*)(s32))func_80146C3C)(param_1);
+}
+
 
 extern s32 (*D_80189AEC[])();
 

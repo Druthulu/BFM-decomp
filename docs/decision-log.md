@@ -1392,3 +1392,52 @@ but only because the vacuous probes were LOOKED AT. The transferable rule: **a p
 instance of the probed thing pins nothing** — check that first, before trusting any recorded verdict. And when
 a wall involves a multi-stage pipeline, walk it stage-by-stage with one byte observable per stage before
 designing anything; the whole design fell out of five observables in under an hour.
+
+---
+
+## 2026-07-21 — Phase 29 Task-13A: the permuter's problem was TARGETING, not a missing transform
+
+**Context + belief going in.** `docs/hindsight-study.md` §7 framed the offline endgame as *mine the
+permuter's failures*: capture structured residuals, batch-diagnose them with an LLM, and route each plateau
+to **missing-transform** (extend `permuter_weights` — "the highest-value bucket and the whole point"),
+**seed-structural** (one LLM seed), or **genuine-wall** (file with an expiry). The implicit premise was that
+the permuter is pointed at reachable work and is losing for want of the right mutation. Task 12 had plumbed
+the telemetry; Task 13 was to build the classifier and the LLM autopsy on top.
+
+**What the measurement said instead.** Before writing the LLM tier I materialised the corpus the classifier
+was supposed to read — and it did not exist: 1 of 6,169 backlog records carried a `residual`, 0 carried
+`passes_tried`, because Task-12's telemetry only fills records written after it landed. But 1,752 open
+near-misses had their draft and their target .s on disk, so the residual was ~1 s of CPU away per function.
+Recomputing all of them (21 s at -j12, through the existing `match_one` path) and classifying deterministically
+gave the real distribution: **699 `redraft` · 578 `structural` · 306 `integration` · 75 `permuter` · 2 unknown.**
+
+Of the 972 records the grinder's OWN filter admits, **75 (7.7%) are permuter-shaped.** The daemon has been
+spending ~92% of its CPU on residuals a search-closer provably cannot close — 547 structural (a different
+load width, an extra instruction, a flipped branch) and 348 drafts that are not the function at all. That is
+the byte-grounded explanation of the Phase-22 audit's "7 banks all-time, all in Phase 21, and 0 since," and it
+is a *targeting* defect, not a missing transform. Fixed for free: `grinder.candidates()` filters on the
+measured bucket (1,303 → 78) and takes its directed profile from the measured class rather than the logged
+label — 91% of records have no label, so the directed search had been silently running on gcc defaults.
+
+**The pivot.** §7's ordering is now inverted for the rest of the phase: **do not run an LLM batch autopsy over
+the backlog.** The deterministic classifier resolves 96% of it into three non-LLM routes, and the remaining 75
+have not yet been permuted *under correct targeting* — so calling any of them a "plateau" today would be
+diagnosing a search that never properly ran (the R35 failure mode: a probe from a mis-aimed instrument is not
+evidence). Correct order: run the directed permuter over the 75 → collect genuine plateaus with real
+`passes_tried` → only then spend the LLM, on what survives.
+
+**Two findings that change other numbers.** (1) `closeness` conflates "one instruction off" with "this draft
+is a different function"; 699 records rank as near-misses at closeness up to 278 purely from a length
+artefact. They are un-attempted work misfiled as a backlog of hard functions — fresh crack fuel, and a reason
+`docs/backlog.md`'s closeness ranking overstates how nearly-done the frontier is. (2) A 12-draft gate probe of
+the `integration` bucket banked **1 of 12** (11 PLUMBING), so the 306 prices Task 14's reconcile ladder rather
+than promising 306 free banks — stated as a measured conversion, not a projection, precisely because this
+phase already over-projected once from a staged count (§57a).
+
+**Hindsight better-path.** The corpus was one command away for months; the reason nobody ran it is that the
+backlog's scalar `closeness` *looked* like a diagnosis. The transferable rule: **when a queue is ranked by a
+scalar, check what the scalar is measuring on a sample before building anything that consumes the ranking** —
+here, 40 % of the queue's "closeness" was a length artefact, and the tool built to consume it (the grinder)
+had been quietly wasting 92 % of its work for two phases. Also: fixing the instrument surfaced a genuine
+concurrency defect (`masked_diff`'s shared probe file) that had been silently dropping 0.8 % of drafts in
+every parallel wave — a crashed self-check is indistinguishable from a failed draft, so it never got reported.

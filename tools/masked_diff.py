@@ -56,7 +56,15 @@ def _common_typedefs():
     deprecated regex's name set if the cpp probe can't run (offline / no toolchain)."""
     global _COMMON_TD
     if _COMMON_TD is None:
-        probe = os.path.join(cdecl.REPO, "src", ".masked_diff_probe.c")
+        # PER-PROCESS probe path. It used to be the single shared "src/.masked_diff_probe.c", so N
+        # concurrent match_one/permuter processes wrote, read and DELETED the same file: whoever
+        # unlinked first made another's open() or parse fail, and that process died with a
+        # traceback instead of a verdict. Measured cost: 14 of 1752 drafts lost in one 12-way
+        # autopsy collect (0.8%) — and every parallel wave has been paying it invisibly, because a
+        # drafter that crashes on its self-check just looks like a drafter that failed. Exactly the
+        # shared-scratch defect Phase 28 found one level up in match_one's --work (whose docstring
+        # promised isolation the default contradicted); same fix, same reason.
+        probe = os.path.join(cdecl.REPO, "src", ".masked_diff_probe.%d.c" % os.getpid())
         try:
             with open(probe, "w") as f:
                 f.write('#include "common.h"\n')

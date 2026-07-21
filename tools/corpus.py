@@ -199,6 +199,81 @@ def asm_path(binary, symbol):
 
 
 # --------------------------------------------------------------------------------------------
+# the optimization level — DERIVED FROM THE MAKEFILE, never from a filename convention
+# --------------------------------------------------------------------------------------------
+# gcc-2.7.2 has no per-function optimize pragma, so opt level is PER FILE and lives in the
+# Makefile as target-specific CC1FLAGS. Four rules currently select -O0: src/boot.c, the
+# ov_SC01_077 -O0 cluster, the whale's <ov>_o0b, and the Phase-29 per-overlay -O0 cluster.
+#
+# WHY THIS IS DERIVED AND COVERAGE-ASSERTED RATHER THAN `path.endswith("_o0.c")`:
+# compiling an -O0 target's draft at -O2 (or the reverse) produces a residual that is 100%
+# ARTEFACT — the C may be byte-perfect and still "mismatch" everywhere. This project has paid for
+# that exact confusion four times (§53 missing carve, the -O0 flag, the member's canonical
+# declaration, and Task-1's "~3% ceiling", which was two -O0 families swept at -O2). A hardcoded
+# suffix list is the same class of hand-maintained model corpus.py exists to delete: it fails
+# OPEN, silently mislabelling any future -O0 rule. So parse the rules, and if a rule appears in a
+# form this parser does not understand, REFUSE TO ANSWER (R32/R33/R35).
+_O0_RULE = re.compile(r'^([^:\s#][^:\n]*):\s*CC1FLAGS\s*:?=\s*(.*)$', re.M)
+_MAKE_VAR = re.compile(r'^\s*%s\s*:?=\s*(.*)$', re.M)
+_WILDCARD = re.compile(r'\$\(wildcard\s+([^)]*)\)')
+_FILTEROUT = re.compile(r'\$\(filter-out\s+([^,]*),')
+
+
+@functools.lru_cache(maxsize=1)
+def o0_sources():
+    """The set of repo-relative .c files the Makefile compiles at -O0. Coverage-asserted."""
+    mk = open(os.path.join(REPO, "Makefile"), errors="replace").read()
+    out, unresolved = set(), []
+    for target, flags in _O0_RULE.findall(mk):
+        if "-O0" not in flags.split("#")[0]:
+            continue
+        for tok in target.split():
+            if tok.startswith("$(") and tok.endswith(")"):          # a wildcard-built object list
+                var = tok[2:-1]
+                m = re.search(_MAKE_VAR.pattern % re.escape(var), mk, re.M)
+                if not m:
+                    unresolved.append(tok)
+                    continue
+                value = m.group(1)
+                globs = [g for spec in _WILDCARD.findall(value) for g in spec.split()]
+                if not globs:
+                    unresolved.append(tok)
+                    continue
+                drop = {os.path.normpath(x) for spec in _FILTEROUT.findall(value)
+                        for x in spec.split()}
+                hit = False
+                for g in globs:
+                    for p in _glob.glob(os.path.join(REPO, g)):
+                        rel = os.path.relpath(p, REPO)
+                        if os.path.normpath(rel) not in drop:
+                            out.add(rel)
+                            hit = True
+                if not hit:
+                    # a glob matching nothing is legitimate (no such split exists yet); the RULE
+                    # was still understood, so this is not a coverage defect.
+                    pass
+            elif tok.startswith("build/src/") and tok.endswith(".o"):
+                out.add("src/" + tok[len("build/src/"):-2] + ".c")
+            else:
+                unresolved.append(tok)
+    if unresolved:
+        raise CorpusError(
+            "Makefile has -O0 CC1FLAGS rule target(s) this parser cannot resolve: %s. "
+            "Refusing to answer 'is this file -O0?' — a wrong answer makes every residual it "
+            "touches a pure artefact (R32/R35)." % ", ".join(sorted(set(unresolved))))
+    if not out:
+        raise CorpusError("Makefile has NO -O0 CC1FLAGS rule — src/boot.c alone should match. "
+                          "The parser is broken or the rules moved.")
+    return frozenset(out)
+
+
+def is_o0(src_path):
+    """Is this .c compiled at -O0? `src_path` is repo-relative (a Stub.path) or absolute."""
+    rel = os.path.relpath(src_path, REPO) if os.path.isabs(src_path) else src_path
+    return os.path.normpath(rel) in {os.path.normpath(p) for p in o0_sources()}
+
+
+# --------------------------------------------------------------------------------------------
 # the invariant
 # --------------------------------------------------------------------------------------------
 @functools.lru_cache(maxsize=None)

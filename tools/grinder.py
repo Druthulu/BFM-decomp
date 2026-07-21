@@ -18,7 +18,7 @@ Usage: grinder.py [--permute-secs 120] [-j 14] [--batch 10] [--max-nins 220]
 """
 import argparse, glob, json, os, shutil, subprocess, sys, time
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-import p16_permute, gate_stage, backlog
+import p16_permute, gate_stage, backlog, autopsy
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 AUTODIR = ".run/auto"
@@ -86,8 +86,22 @@ def heartbeat(state, current=None, banked=0, fp=None):
               open(os.path.join(REPO, HB), "w"), indent=1)
 
 
-def candidates(max_nins, max_close, tried, attempts, blacklist):
-    """closest still-open near-misses with a saved best draft (permuter-amenable), least-tried first."""
+def candidates(max_nins, max_close, tried, attempts, blacklist, verdicts=None, stats=None):
+    """closest still-open near-misses with a saved best draft (permuter-amenable), least-tried first.
+
+    TARGETING (Phase-29 Task-13A). "closest" is a scalar and a bad proxy for "a search-closer can
+    reach it". Measured over the whole open backlog through the whole-binary compile path: of the
+    972 records this filter admits, **75 (7.7%) are permuter-shaped**; 547 are STRUCTURAL (a
+    different load width, an extra instruction, a flipped branch — no local mutation introduces
+    those) and 348 are drafts that are not the function at all (a 15-instruction body against a
+    132-instruction target, whose "closeness 117" is pure length artefact).
+
+    So the daemon has been spending ~92% of its CPU where the permuter provably cannot win. That —
+    not a missing transform — is why it banked 7 functions all-time, all in Phase 21, and 0 since
+    (the Phase-22 audit). Filtering by the MEASURED residual class is the whole fix, and it is free.
+
+    Degrades to the previous undirected behaviour when the corpus has not been collected, and says
+    which mode it is in rather than filtering silently (R32)."""
     out = []
     for r in backlog.load_best():
         nm = r.get("name")
@@ -95,6 +109,15 @@ def candidates(max_nins, max_close, tried, attempts, blacklist):
             continue
         if nm in blacklist:                      # permuter-won-but-gate-rejected (plumbing) — never re-permute
             continue
+        if verdicts:
+            v = verdicts.get(nm)
+            if v is None:                        # not in the corpus (logged after the last collect)
+                if stats is not None:
+                    stats["unclassified"] += 1   # kept: unknown is not a reason to skip
+            elif v.get("bucket") != "permuter":
+                if stats is not None:
+                    stats[v.get("bucket") or "?"] += 1
+                continue
         if tried.get(nm, 0) >= attempts:
             continue
         c = r.get("closeness")
@@ -119,6 +142,9 @@ def main():
     ap.add_argument("--attempts", type=int, default=2)
     ap.add_argument("--idle-secs", type=int, default=90)
     ap.add_argument("--once", action="store_true")
+    ap.add_argument("--no-targeting", action="store_true",
+                    help="ignore the measured residual classes and search undirected (the "
+                         "pre-Task-13 behaviour; for A/B-ing the targeting filter)")
     a = ap.parse_args()
     os.chdir(REPO)
     os.makedirs(AUTODIR, exist_ok=True)
@@ -127,12 +153,26 @@ def main():
     tried, banked, fp = {}, 0, None
     last_sig = {}                                # fn -> draft_sig at last permute (input-changed gate, T5)
     blacklist = load_blacklist()
+    # the MEASURED residual class per function (tools/autopsy.py collect). Empty = not collected;
+    # the daemon then runs undirected exactly as before, and says so.
+    verdicts = {} if a.no_targeting else autopsy.verdicts()
     log(f"start (permute={a.permute_secs}s -j{a.j} batch={a.batch} max_close={a.max_closeness}; "
         f"blacklist={len(blacklist)} plumbing-bound fns skipped)")
+    log("targeting: %s" % (
+        f"ON — {len(verdicts)} classified; only bucket=permuter is admitted"
+        if verdicts else
+        "OFF — no .run/autopsy/residuals.jsonl (run tools/autopsy.py collect); "
+        "searching UNDIRECTED, which historically wastes ~92% of the CPU"))
     while True:
         if stop_requested():
             log("STOP — clean exit."); heartbeat("stopped", None, banked, fp); return
-        cand = candidates(a.max_nins, a.max_closeness, tried, a.attempts, blacklist)[:a.batch]
+        import collections as _c
+        skipped = _c.Counter()
+        cand = candidates(a.max_nins, a.max_closeness, tried, a.attempts, blacklist,
+                          verdicts, skipped)[:a.batch]
+        if skipped:
+            log("targeting skipped %d non-permuter candidate(s): %s"
+                % (sum(skipped.values()), dict(skipped)))
         if not cand:
             if a.once:
                 log("no candidates (once) — exit."); heartbeat("dry", None, banked, fp); return
@@ -181,8 +221,13 @@ def main():
                 # §31-directed mutation (T5): the wave-diagnosed residual class biases the pass
                 # weights toward that class's levers (permuter_weights). A generic/absent class
                 # -> the plain gcc defaults (unchanged undirected search).
+                # the MEASURED class beats the logged label: 91% of records carry no label at
+                # all, so permuter_weights.classify() returned None and the search ran on gcc
+                # defaults. residual_class names the class from today's bytes.
+                _v = verdicts.get(fn) or {}
                 pd = p16_permute.setup(fn, draft, asm_sub,
-                                       klass=r.get("klass"), where=r.get("where_stuck") or "")
+                                       klass=_v.get("profile") or r.get("klass"),
+                                       where=r.get("where_stuck") or "")
                 if not pd:
                     continue
                 win = p16_permute.run_permuter(pd, a.permute_secs, a.j)
