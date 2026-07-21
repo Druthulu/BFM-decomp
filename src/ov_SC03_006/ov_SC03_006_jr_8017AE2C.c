@@ -4456,7 +4456,28 @@ extern s32 func_80189CD4(void);
     }
 
 
-INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_80189498);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void func_80189498(void *a0)
+{
+  *((short *) (((char *) a0) + 0x2)) = 0x3;
+  *((unsigned short *) (((char *) a0) + 0x5c)) = 0xaa10;
+  *((short *) (((char *) a0) + 0xfe)) = 0;
+}
 
 INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_801894B0);
 
