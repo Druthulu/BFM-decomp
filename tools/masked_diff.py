@@ -166,6 +166,28 @@ def insns_from_s(s_path):
     return insns
 
 
+def structured_diff(mine, tgt):
+    """The per-instruction relocation-masked mismatch list: [(idx, mine_str, tgt_str), ...] over
+    two insns_from_* streams. Each entry is a mismatching instruction position; mine_str/tgt_str are
+    '<word_hex> <mnemonic>' (or '--' past the end of the shorter stream). len() == the masked mismatch
+    count (the `closeness`). This is the STRUCTURED RESIDUAL telemetry the permuter-autopsy classifier
+    reads (Phase-29 Task-12): idx localizes the residual, the word+mnem pair says what codegen differs
+    (a reg-alloc swap, a scheduled-order flip, an extra/absent instruction). Shared by match_one +
+    gate_stage's near-record so the same residual an agent reads is the one the autopsy mines."""
+    n = max(len(mine), len(tgt))
+    diffs = []
+    for i in range(n):
+        mw = mine[i]['word'] if i < len(mine) else None
+        mask = mask_for(mine[i]['word'], mine[i]['reloc_kind']) if i < len(mine) else 0xFFFFFFFF
+        me = (mw & mask) if mw is not None else None
+        tg = (tgt[i]['word'] & mask) if i < len(tgt) else None
+        if me != tg:
+            diffs.append((i,
+                          ('%08x %s' % (mine[i]['word'], mine[i]['mnem'])) if i < len(mine) else '--',
+                          ('%08x %s' % (tgt[i]['word'], tgt[i]['mnem'])) if i < len(tgt) else '--'))
+    return diffs
+
+
 def diff_object_object(cand, tgt):
     """masked mismatch count between two objdump'd objects (permuter scorer). Mask driven by the
     TARGET's relocs; at masked reloc/jal positions also require reloc-operand (symbol+addend) equality.

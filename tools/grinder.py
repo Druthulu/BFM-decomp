@@ -187,8 +187,14 @@ def main():
                     continue
                 win = p16_permute.run_permuter(pd, a.permute_secs, a.j)
                 if win:
-                    open(os.path.join(REPO, DRAFTS, fn + ".c"), "w").write(
-                        p16_permute.winner_to_draft(open(win).read()))
+                    _wtext = p16_permute.winner_to_draft(open(win).read())
+                    open(os.path.join(REPO, DRAFTS, fn + ".c"), "w").write(_wtext)
+                    # Task-12: durably persist the winning C BEFORE gate_stage banks/propagates/commits, so a
+                    # mid-flight interrupt (kill or a revert of the uncommitted bank) never loses a hard-won
+                    # permuter crack (this session's lesson: 3 wins lost to exactly that). permuter-winners/ is
+                    # the recovery source — winner_to_draft(...) form, re-gateable any time.
+                    _wdir = os.path.join(REPO, ".run", "permuter-winners"); os.makedirs(_wdir, exist_ok=True)
+                    open(os.path.join(_wdir, fn + ".c"), "w").write(_wtext)
                     won.append((fn, binary)); log(f"permuter WON {fn} @ {binary} (close was {r.get('closeness')})")
             except Exception as e:
                 log(f"{fn}: {e}")

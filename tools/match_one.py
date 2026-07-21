@@ -18,6 +18,7 @@ longer under-counted (func_80132784 now reads its true 400 ins, not 384).
 """
 import subprocess, re, sys, os, argparse
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import json
 import masked_diff
 
 ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -31,6 +32,9 @@ ap.add_argument('--work', default=None,
 ap.add_argument('--o0', action='store_true',
                 help='compile at -O0 (for the _o0 split subsegments: ov_SC01_077_o0.c, whale _o0b — '
                      'their target bytes are -O0; an -O2 compile can never match them, Makefile:445)')
+ap.add_argument('--json', action='store_true',
+                help='emit one JSON result line {status,closeness,nins,residual} (Task-12 structured '
+                     'residual telemetry for the permuter-autopsy). Still exits 0 on MATCH, 1 otherwise.')
 a = ap.parse_args()
 
 # PRIVATE SCRATCH BY DEFAULT (Phase-28 T5). This tool's own docstring promises "Fully isolated (own
@@ -91,21 +95,19 @@ tgt = masked_diff.insns_from_s('%s/%s.s' % (a.asm_subdir, a.fn))
 if not mine:
     print('FAIL: my object has no function', a.fn, '(compile produced nothing?)'); sys.exit(1)
 
-n = max(len(mine), len(tgt))
-diffs = []
-for i in range(n):
-    mw = mine[i]['word'] if i < len(mine) else None
-    mask = masked_diff.mask_for(mine[i]['word'], mine[i]['reloc_kind']) if i < len(mine) else 0xFFFFFFFF
-    me = (mw & mask) if mw is not None else None
-    tg = (tgt[i]['word'] & mask) if i < len(tgt) else None
-    if me != tg:
-        diffs.append((i,
-                      ('%08x %s' % (mine[i]['word'], mine[i]['mnem'])) if i < len(mine) else '--',
-                      ('%08x %s' % (tgt[i]['word'], tgt[i]['mnem'])) if i < len(tgt) else '--'))
+# structured residual (shared with gate_stage's near-record + the Task-12 autopsy telemetry)
+diffs = masked_diff.structured_diff(mine, tgt)
 
 if not diffs and len(mine) == len(tgt):
-    print('MATCH (%d ins)  %s' % (len(mine), a.fn))
+    if a.json:
+        print(json.dumps({"status": "match", "closeness": 0, "nins": len(mine), "residual": []}))
+    else:
+        print('MATCH (%d ins)  %s' % (len(mine), a.fn))
     sys.exit(0)
+if a.json:
+    print(json.dumps({"status": "near" if diffs else "fail", "closeness": len(diffs),
+                      "nins": len(mine), "residual": [[i, me, tg] for i, me, tg in diffs[:48]]}))
+    sys.exit(1)
 print('DIFF  %s   mine=%d ins, target=%d ins, %d mismatched' % (a.fn, len(mine), len(tgt), len(diffs)))
 print('  idx | MINE                          | TARGET')
 for i, me, tg in diffs[:40]:

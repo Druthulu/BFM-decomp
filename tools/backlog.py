@@ -37,7 +37,14 @@ DRAFTS = os.path.join(REPO, ".run/backlog_drafts")
 SRC_GLOB = os.path.join(REPO, "src/ov_SC01_077/ov_SC01_077*.c")
 STUB_RE = re.compile(r"INCLUDE_ASM\([^,]+,\s*(\w+)\)")
 FIELDS = ("ts", "addr", "name", "reach", "klass", "nins", "status",
-          "closeness", "where_stuck", "best_draft", "binary", "source")
+          "closeness", "where_stuck", "best_draft", "binary", "source",
+          # Phase-29 Task-12: structured failure telemetry for the permuter-autopsy loop.
+          # residual = masked_diff.structured_diff()[:cap] — [(idx, mine, target), ...]; the WHAT/WHERE
+          # of the residual (reg-alloc swap / scheduled-order flip / extra-absent insn). passes_tried =
+          # the permuter perm_* passes exercised (from permuter_weights) before the plateau — so the
+          # autopsy can tell "the right lever was tried and failed" (wall) from "the lever was never
+          # tried" (missing-transform → extend the ILS). Both optional; absent on legacy records.
+          "residual", "passes_tried")
 
 
 def append_record(rec):

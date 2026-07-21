@@ -112,16 +112,25 @@ def match_one_closeness(fn, cpath, asm, binary=None):
         if hit is not None:
             asm = hit.asm_dir
     if not asm:
-        return ("fail", None)
+        return ("fail", None, None)
     try:
-        r = sh([PY, "tools/match_one.py", fn, "--c", cpath, "--asm-subdir", asm], timeout=180)
+        r = sh([PY, "tools/match_one.py", fn, "--c", cpath, "--asm-subdir", asm, "--json"], timeout=180)
     except subprocess.TimeoutExpired:
-        return ("fail", None)
-    first = (r.stdout.strip().splitlines() or ["?"])[0]
-    if first.startswith("MATCH"):
-        return ("match", 0)
-    m = re.search(r"(\d+) mismatch", first)
-    return ("near", int(m.group(1))) if m else ("fail", None)
+        return ("fail", None, None)
+    # Task-12: parse the JSON result line (structured residual for the autopsy); text-fallback on any issue.
+    try:
+        j = json.loads([l for l in r.stdout.strip().splitlines() if l.strip()][-1])
+        if j.get("status") == "match":
+            return ("match", 0, [])
+        if j.get("status") == "near":
+            return ("near", int(j["closeness"]), j.get("residual"))
+        return ("fail", None, None)
+    except Exception:
+        first = (r.stdout.strip().splitlines() or ["?"])[0]
+        if first.startswith("MATCH"):
+            return ("match", 0, [])
+        m = re.search(r"(\d+) mismatch", first)
+        return ("near", int(m.group(1)), None) if m else ("fail", None, None)
 
 
 def run_gate(drafts, binary=OV, src=None, asm=None, out=None, good_sha=None,
@@ -251,7 +260,7 @@ def _run_gate_locked(drafts, binary, src, asm, out, good_sha, propagate, source_
     for fn in [f for f in draft_fns if f not in verified]:
         cpath = os.path.join(REPO, d, fn + ".c")
         body = open(cpath).read() if os.path.exists(cpath) else ""
-        kind, close = match_one_closeness(fn, cpath, asm, binary) if body else ("fail", None)
+        kind, close, resid = match_one_closeness(fn, cpath, asm, binary) if body else ("fail", None, None)
         meta = _manifest_class(fn)
         cm = re.search(r"//\s*@class:\s*(.+)", body)
         sm = re.search(r"//\s*@stuck:\s*(.+)", body)
@@ -272,6 +281,7 @@ def _run_gate_locked(drafts, binary, src, asm, out, good_sha, propagate, source_
         backlog.append_record({"addr": meta.get("addr"), "name": fn, "reach": meta.get("reach"),
                                "klass": rclass or meta.get("class"), "nins": meta.get("nins"), "status": status,
                                "closeness": close, "where_stuck": where, "best_draft": draft_path,
+                               "residual": (resid[:24] if resid else None),   # Task-12 structured residual telemetry
                                "binary": binary, "source": source_tag})   # binary: lets the grinder gate non-077 near-misses
     backlog.render()
 
