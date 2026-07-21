@@ -620,3 +620,14 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   mid-flight left an 872-file mid-gate_stage state AND lost 3 permuter wins' C (not durably saved before banking) →
   reverted clean. The grinder needs (a) a fast/clean STOP between functions, (b) durable winner-C saving BEFORE
   gate_stage banks, (c) clear commit boundaries — folded into Tasks 12/14.
+
+- **✅ 2026-07-20 — TASK 12 (permuter-autopsy prerequisite) DONE + committed commit:0768.** Structured failure
+  telemetry now FLOWS: `masked_diff.structured_diff()` (per-instruction masked residual) + `match_one --json`
+  ({status,closeness,nins,residual}) + `backlog` fields `residual`/`passes_tried` + `gate_stage` logs the
+  residual on every near/fail (verified end-to-end: a near-miss's [idx,mine,tgt] residual lands in
+  backlog.jsonl) + grinder durably saves the winning C to `.run/permuter-winners/` BEFORE banking (the lost-3-wins
+  lesson). **NEXT (fresh session): Task 13 (A+B — deterministic residual→class classifier + LLM-batch autopsy that
+  routes each plateau to missing-transform/mis-classified/seed-structural/wall + extends `permuter_weights`), then
+  Task 14 (C+D — enrich `gate_stage`'s ladder with §57/§59 so more wins auto-integrate + grinder auto-R22 every N
+  wins). Then run the closed loop: improved permuter over the whole backlog → collect telemetry → extend ILS →
+  re-run → track the LLM-free fraction (burndown.py). Design substrate: docs/hindsight-study.md §7.**
