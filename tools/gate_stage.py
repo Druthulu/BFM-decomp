@@ -55,8 +55,19 @@ def _check_sha(binary):
 
 
 def _xform(tool, ov, indir, suffix, extra=None):
-    """Run a draft-dir transform; return its out dir, or the in dir if the tool no-ops/fails."""
+    """Run a draft-dir transform; return its out dir, or the in dir if the tool no-ops/fails.
+
+    The out dir is CLEARED first. It used to be reused across runs, and the transform tools only
+    WRITE the drafts they are given — so every stale draft from every previous run survived in
+    `<drafts>-cn/-cast/-rc/-uni` and was handed to the byte-gate again. Measured 2026-07-21: the
+    grinder submitted ONE permuter winner and the gate processed THIRTY-FOUR drafts and banked TWO
+    — the extra one a leftover from an earlier session. Nothing wrong entered the tree (the
+    whole-binary gate is the sole arbiter, G3/P9, and it banks only byte-identical output), but the
+    run banked a function it was never asked to try and would have committed it under a message
+    naming a different one. A stage that silently widens its own input set is the same defect class
+    as a scanner that silently narrows it (R32): in both, the report and the work diverge."""
     out = indir + suffix
+    shutil.rmtree(os.path.join(REPO, out), ignore_errors=True)
     cmd = [PY, f"tools/{tool}", "--overlay", ov, "--in", indir, "--out", out] + (extra or [])
     r = sh(cmd, timeout=900)
     return out if _isdir(out) else indir
@@ -305,8 +316,19 @@ def _run_gate_locked(drafts, binary, src, asm, out, good_sha, propagate, source_
 
     commit_sha = None
     if commit and verified:
-        sh(["git", "add", src, "src/shared/engine_core.h", DEDUP_YAML] +
-           glob.glob(os.path.join(REPO, "src/ov_*/*.c")))
+        # `git add -u src/` = every MODIFIED TRACKED file under src/ — the TU the draft landed in
+        # (whichever split that is), engine_core.h, engine_types.h, and every overlay a propagate
+        # touched. Two bugs this replaces:
+        #   1. it passed `src` straight to git add, and src is DELIBERATELY never defaulted (the
+        #      Phase 26-A audit) — so every caller that omits it (grinder, orchestrator,
+        #      idiom_hunt) crashed with `TypeError: expected str … not NoneType` THE MOMENT IT
+        #      BANKED. Unreachable while the grinder banked nothing; the Task-13A targeting fix
+        #      made it win on its first directed run and it crashed immediately.
+        #   2. the `src/ov_*/*.c` glob is a name pattern, and a family's members do NOT all live in
+        #      the same-named split — the Phase-29 §-lesson (a filename glob silently omitted 4
+        #      R22-verified banks from a commit). `-u` cannot miss a modified tracked file.
+        sh(["git", "add", "-u", "src/"])
+        sh(["git", "add", DEDUP_YAML] + ([src] if src else []))
         sh(["git", "commit", "-q", "-m",
             f"feat({os.environ.get('GATE_PHASE', 'decomp')}): {source_tag} gate — +{len(verified)} fns x{propagated} propagated (fleet {fp}%)"])
         commit_sha = sh(["git", "rev-parse", "--short", "HEAD"]).stdout.strip()

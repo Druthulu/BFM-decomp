@@ -251,10 +251,22 @@ def main():
                 by_bin[binary].append(fn)
             verified = set()
             for binary, fns in sorted(by_bin.items()):     # one gate per source binary; propagate stamps × reach
-                s = gate_stage.run_gate(DRAFTS, binary=binary, source_tag="grinder", commit=True)
+                # §55b LAW: bank with --no-propagate, commit the cheap verified banks, and run
+                # ONE targeted `dedup_propagate --addr <banked>` afterwards as its own batch.
+                # gate_stage's propagate=True path is `dedup_propagate --auto-from`, the fleet-wide
+                # slow route that timed out at 3600s and left 90/140 overlays broken (887 files) —
+                # and because it runs INSIDE the gate, a propagate failure takes the banks with it.
+                # The grinder is the unattended caller, so it must never fire that path.
+                s = gate_stage.run_gate(DRAFTS, binary=binary, source_tag="grinder", commit=True,
+                                        propagate=False)
                 banked += s.get("banked", 0); fp = s.get("fleet_pct", fp)
                 verified |= set(s.get("verified", []))
-                log(f"gate {binary}: banked {s.get('banked')} (+{s.get('propagated')} prop); total {banked}; fleet {fp}%")
+                log(f"gate {binary}: banked {s.get('banked')} (UN-propagated by design, §55b); "
+                    f"total {banked}; fleet {fp}%")
+                if s.get("verified"):
+                    log("  -> propagate as its own batch: "
+                        + "; ".join("tools/dedup_propagate.py --addr 0x%s --recover" % f.split('_')[-1]
+                                    for f in s["verified"][:4]))
             # A permuter win the whole-binary gate STILL rejects is plumbing-bound (not regalloc/sched) —
             # re-permuting can never bank it. Blacklist so the grinder stops churning it (the §20 trap).
             rejected = [f for f, _b in won if f not in verified]

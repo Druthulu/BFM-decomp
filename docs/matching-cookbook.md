@@ -4447,3 +4447,35 @@ process died with a traceback instead of a verdict: **14 of 1,752 drafts lost in
 — and every parallel wave has paid it invisibly, because a drafter that crashes on its self-check merely
 looks like a drafter that failed. Now per-PID. Same defect class, one level down, as the Phase-28
 `match_one --work` shared scratch whose docstring promised the isolation its default contradicted.
+
+### §60a — What the first DIRECTED grinder run exposed (Phase 29 Task-13B, 2026-07-21)
+
+Turning the targeting on and running the grinder bounded (`--once --batch 8 --permute-secs 90`) produced a win
+on the FIRST candidate — `func_80181F78`, close=1, classified `DELAY-SLOT`/schedule, banked in ~6 min — and
+then immediately surfaced three latent defects that had been unreachable **because the daemon had not banked
+anything since Phase 21**. All three are the same shape: a step whose REPORT and whose WORK had quietly
+diverged.
+
+1. **`gate_stage`'s commit path crashed on `src=None`.** `src` is deliberately never defaulted (the Phase 26-A
+   audit: a default would silently PIN the gate to the main `.c`), but the commit did `git add src …`
+   unconditionally. So every caller that omits `src` — grinder, orchestrator, idiom_hunt — crashes
+   **the moment it banks**. Fix: `git add -u src/` (every modified tracked file under src/), which also
+   retires the `src/ov_*/*.c` filename glob that once omitted 4 R22-verified banks from a commit because a
+   family's members do not all live in the same-named split.
+2. **The `_xform` ladder dirs accumulate.** `<drafts>-cn/-cast/-rc/-uni` are reused across runs and the
+   transform tools only write the drafts they are handed, so every stale draft from every previous run
+   survives and is re-submitted to the byte-gate. Measured: the grinder submitted **1** draft, the gate
+   processed **34** and banked **2**. Nothing wrong entered the tree (G3/P9: the gate banks only
+   byte-identical output) — but a run banked a function it was never asked to try, and would have committed
+   it under a message naming a different one. Fix: clear the out dir per run. Note the symmetry with R32: a
+   scanner that silently NARROWS its input hides work; a stage that silently WIDENS it fabricates provenance.
+3. **The grinder fired the fleet-wide propagate from inside the gate.** `gate_stage(propagate=True)` runs
+   `dedup_propagate --auto-from` — the §55b path that timed out at 3600 s and left 90/140 overlays broken,
+   and which, being *inside* the gate, takes the banks down with it when it fails. The unattended caller must
+   never fire it: bank with `propagate=False`, commit the cheap verified banks, then run ONE targeted
+   `dedup_propagate --addr` as its own batch.
+
+**The transferable point:** a tool that has been failing for a long time accretes latent bugs on its success
+path, because nothing exercises it. Before trusting an unattended fix-and-run, budget for the first success
+to fail — and check the tree state, not the exit code (here the durable Task-12 winner save in
+`.run/permuter-winners/` is what made the crash a non-event).

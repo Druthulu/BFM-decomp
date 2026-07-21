@@ -681,7 +681,31 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   diagnosing a search that never properly ran (R35). Correct order: **run the directed permuter over the 75 →
   collect genuine plateaus with real `passes_tried` → only then spend the LLM on what survives.**
 
-> **🛑 SESSION-5 CHECKPOINT (2026-07-20) — superseded by the Task-13A entry above.** Tree clean (only db.*.gbf R23
+- **✅ 2026-07-21 — TASK 13B (first run): the directed permuter WINS on its first target; two gate
+  defects fixed at the root.** Ran the newly-targeted grinder bounded (`--once --batch 8 --permute-secs 90
+  --max-closeness 12`). Log: `targeting: ON — 1665 classified; only bucket=permuter is admitted` /
+  `targeting skipped 1601 non-permuter candidates {redraft 707, structural 583, integration 305, unclassified
+  4, unknown 2}` → **`permuter WON func_80181F78 @ ov_SC03_014 (close was 1)`** in ~6 min. **Banked 2**
+  (both byte-gated): `func_80181F78` (8 ins, DELAY-SLOT/schedule) + `func_80141B90` (29 ins, IMM-VALUE/cse).
+  **Both were classified `bucket=permuter` by the Task-13A classifier before the run** — it predicted a
+  search-closer could reach them and one did; the first end-to-end validation of the targeting thesis.
+  **THREE defects found + fixed at the root (all pre-existing, all surfaced by the grinder finally winning):**
+  (1) **`gate_stage` commit path crashed** — `git add src …` with `src` deliberately never defaulted (the
+  Phase 26-A audit), so EVERY caller that omits it (grinder/orchestrator/idiom_hunt) crashes the moment it
+  banks. Unreachable while the grinder banked nothing since Phase 21; the targeting fix made it win and it
+  crashed instantly. Now `git add -u src/` (also kills the §-lesson filename-glob hole that once omitted 4
+  R22-verified banks from a commit). (2) **`_xform` ladder dirs ACCUMULATE across runs** — `-cn/-cast/-rc/-uni`
+  held 34 stale drafts from earlier sessions, so the gate processed 34 when the grinder submitted **1**, and
+  banked one function it was never asked to try (which would then have been committed under a message naming a
+  different one). Now cleared per run. Nothing wrong entered the tree — G3/P9 held throughout, the gate banks
+  only byte-identical output — but the report and the work had diverged (the R32 defect class, inverted:
+  a stage silently WIDENING its input set). (3) **grinder was calling `gate_stage` with the default
+  `propagate=True`** = `dedup_propagate --auto-from`, the fleet-wide path that timed out at 3600s and left
+  90/140 overlays broken (§55b) — unacceptable for the unattended caller; now `propagate=False`, banks
+  committed cheap, propagation left as its own targeted `--addr` batch per the §55b law.
+  **R22 clean-fleet: 140/140 byte-identical.** Cookbook §60 extended; SETUP.md updated.
+
+> **🛑 SESSION-5 CHECKPOINT (2026-07-20) — superseded by the Task-13A/13B entries above.** Tree clean (only db.*.gbf R23
 > churn), **140/140 byte-identical** (last R22 clean-fleet at the crack-wave-4 verify + func_8017AE2C ×137;
 > Task-8/12 tooling changes touch only matching-loop tools, no build/src output). tools-health OK (dedup 1846/0
 > class). Main HEAD after this = the checkpoint commit. **Fleet 78.0% instr · 66.5% distinct-code · 87.9%
