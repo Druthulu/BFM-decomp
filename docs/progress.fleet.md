@@ -4,22 +4,22 @@
 # cross-binary collapsible-byte leverage: docs/duplicates.cross.md.
 
 # THREE progress metrics (all matter — see the labels):
-FLEET fn-count byte-ident: 310910 / 353722 = 87.90%   (REAL+LINKED+empties; FUNCTION-count, ×134-inflated — one crack counts per overlay)
-FLEET instr-weighted     : 10202973 / 13081451 = 78.0%   (shipped .text across resident+138 overlays; the decomp.dev-DISPLAY number)
-FLEET distinct-code(uniq): 3708567 / 5574674 = 66.5%   (64082/87459 unique fns; the DISTINCT-RE number)
+FLEET fn-count byte-ident: 310916 / 353722 = 87.90%   (REAL+LINKED+empties; FUNCTION-count, ×134-inflated — one crack counts per overlay)
+FLEET instr-weighted     : 10203335 / 13081451 = 78.0%   (shipped .text across resident+138 overlays; the decomp.dev-DISPLAY number)
+FLEET distinct-code(uniq): 3708640 / 5574674 = 66.5%   (64084/87459 unique fns; the DISTINCT-RE number)
 MAIN game-code weighted  :     436 / 60201 = 0.7%   (Phase-27 T10; SEPARATE — LINKED-excluding Ghidra sig dated 2026-06-14, PROVISIONAL until a fresh/complete main sig; NOT folded into the fleet number)
 
-FLEET REAL substantive   : 309055   (of which dedup-shared 234299 via 1847 groups / 234343 instances)
+FLEET REAL substantive   : 309061   (of which dedup-shared 234299 via 1847 groups / 234343 instances)
 FLEET LINKED PsyQ objs   :    959
 FLEET NON_MATCHING       :      7   (0 in any default build — G4)
-FLEET INCLUDE_ASM stubs  :  42805
+FLEET INCLUDE_ASM stubs  :  42799
 FLEET matchable          : 353722
 
 | binary | REAL | shared | LINKED | byte-ident | matchable | byte-ident % |
 |---|---:|---:|---:|---:|---:|---:|
 | main | 54 | 2 | 959 | 1055 | 2096 | 50.3% |
 | resident | 129 | 0 | 0 | 131 | 145 | 90.3% |
-| ov_SC01_000 | 2213 | 1705 | 0 | 2213 | 2403 | 92.1% |
+| ov_SC01_000 | 2219 | 1705 | 0 | 2219 | 2403 | 92.3% |
 | ov_SC01_001 | 2218 | 1705 | 0 | 2220 | 2466 | 90.0% |
 | ov_SC01_004 | 2211 | 1696 | 0 | 2212 | 2414 | 91.6% |
 | ov_SC01_005 | 2240 | 1718 | 0 | 2240 | 2503 | 89.5% |

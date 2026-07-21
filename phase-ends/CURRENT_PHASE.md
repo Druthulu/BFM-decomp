@@ -631,3 +631,28 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   Task 14 (C+D — enrich `gate_stage`'s ladder with §57/§59 so more wins auto-integrate + grinder auto-R22 every N
   wins). Then run the closed loop: improved permuter over the whole backlog → collect telemetry → extend ILS →
   re-run → track the LLM-free fraction (burndown.py). Design substrate: docs/hindsight-study.md §7.**
+
+> **🛑 SESSION-5 CHECKPOINT (2026-07-20) — safe to open a FRESH session here.** Tree clean (only db.*.gbf R23
+> churn), **140/140 byte-identical** (last R22 clean-fleet at the crack-wave-4 verify + func_8017AE2C ×137;
+> Task-8/12 tooling changes touch only matching-loop tools, no build/src output). tools-health OK (dedup 1846/0
+> class). Main HEAD after this = the checkpoint commit. **Fleet 78.0% instr · 66.5% distinct-code · 87.9%
+> fn-count** (remaining substantial frontier 572 families / 1.58M templatable ins).
+> **THIS SESSION delivered (commits `commit:0736`..this):** (1) **crack-waves 1–4** — the non-MCP cached substantial
+> crack-fuel is now DRAINED; crack-wave 4 = 6 -O2 cores ×1 (`commit:0766`), its ×138 propagation + 4 -O0 cores
+> DEFERRED (integration/-O0 walls). (2) **2 tooling fixes** — `family_sweep --source` now honored + `jtbl_family_bank`
+> span-fit auto-isolate → **recovered `func_8017AE2C` ×137** (`commit:0763`, R22 140/140). (3) **`tools/burndown.py`**
+> (the ROI-close instrument, `commit:0764`). (4) **`docs/hindsight-study.md`** (`commit:0765`) — the optimal-decomp-ordering
+> study for a future Fable roadmap pass; **§7 = the permuter-failure-autopsy design**. (5) **Task-12** (`commit:0768`) —
+> structured failure telemetry NOW FLOWS (`masked_diff.structured_diff` + `match_one --json` + `backlog.residual`/
+> `passes_tried` + `gate_stage` logs the residual per near/fail, verified end-to-end) + grinder durably saves the
+> winning C to `.run/permuter-winners/` before banking.
+> **THE SINGLE NEXT TASK (fresh session): Task 13 (A+B)** — build the deterministic residual→class classifier +
+> the LLM-batch autopsy that routes each backlog plateau to missing-transform (extend `permuter_weights` pass→class
+> map) / mis-classified (fix classifier) / seed-structural (one LLM seed) / genuine-wall (file w/ expiry). Then
+> **Task 14 (C+D)** — enrich `gate_stage`'s ladder with §57/§59 so more wins auto-integrate + grinder auto-R22
+> every N wins. Then run the closed loop (improved permuter over the whole backlog → collect telemetry → extend
+> ILS → re-run → track the LLM-free fraction via `burndown.py`). **DESIGN SUBSTRATE: `docs/hindsight-study.md` §7 +
+> Tasks 12–14.** Carried residuals: crack-wave-4's 6 -O2 ×138 propagation + 4 -O0 (needs the Task-14 ladder / -O0
+> rollout); the permuter backlog (Task 10, 550 close-1..4 — the autopsy loop's input). **Effort: Max for the
+> classifier/autopsy design (Task 13 is Tier-1 synthesis); prompt Ultracode only for a breadth backlog-sweep.**
+> **Drew pushes all commits (R6/R20).**
