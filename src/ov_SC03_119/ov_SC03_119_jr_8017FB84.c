@@ -3829,7 +3829,33 @@ extern s32 func_8012A828(void *a0, void *a1);
     }
 
 
-INCLUDE_ASM("asm/ov_SC03_119/nonmatchings/ov_SC03_119_jr_8017FB84", func_801848D8);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void func_801848D8(void *a0)
+{
+  unsigned int new_var;
+  s32 v1 = *((s32 *) (((s32) a0) + 0xcc));
+__asm__ __volatile__("" ::: "memory");
+  *((s32 *) (v1 + 0xe0)) |= 0x20000000;
+__asm__ __volatile__("" ::: "memory");
+  new_var = *((s32 *) (((s32) a0) + 0xd0));
+  v1 = new_var;
+  *((s32 *) (v1 + 0xe0)) |= 0x20000000;
+}
 
 INCLUDE_ASM("asm/ov_SC03_119/nonmatchings/ov_SC03_119_jr_8017FB84", func_8018490C);
 
