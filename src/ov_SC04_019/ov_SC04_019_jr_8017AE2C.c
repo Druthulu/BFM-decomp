@@ -3756,7 +3756,32 @@ void func_8017E1F4(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_8017E230);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+extern void func_8017E26C(s32 *a0, s32 a1);
+extern void func_8017E3AC(s32 a0);
+void func_8017E230(s32 *a0)
+{
+  s32 *new_var;
+  volatile long pad;
+  new_var = a0;
+  func_8017E26C(new_var, ((s32) new_var) + 0xA0);
+  func_8017E3AC((s32) new_var);
+}
 
 DEFINE_func_8017E264()  /* dedup: shared engine-core @0x8017E264 (src/shared) */
 
