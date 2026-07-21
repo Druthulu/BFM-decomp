@@ -606,3 +606,17 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   140/140 byte-identical, extract-all 139/0.** **`func_8014032C` STAYS blocked** (its wall IS the excluded
   table-count-drift, confirmed rc=1/0-banked — a separate future fix). ~+24k ins. NEXT: Tasks 9 (crack remaining
   cached fuel), 10 (permuter backlog), 11 (burn-down tracker).
+
+- **✅ 2026-07-20 — CRACK-WAVE 4 (cached-fuel tail) + the crack-track FLOOR.** 10 fresh cached targets from
+  ov_SC01_000 → **10/10 MATCH**, but the tail is thin: **6 -O2 cores banked ×1** (`commit:0766`, reconciled: func_80142C84
+  cast + func_80143994 s32-cast; R22 clean-fleet 140/140), the 6 -O2 **×138 propagation banked 0** (per-family §59
+  reconcile bottleneck — deferred to Task-14 gate_stage-ladder enrichment), and the **4 -O0 cores didn't bank** (the
+  ov_SC01_000 -O0-build wall; drafts in .run/drafts_wave4/). **The non-MCP cached substantial crack-fuel is now
+  DRAINED** (waves 1-4). Remaining crack levers are all gated: -O0-cluster rollout, jr (jtbl path), or uncached/absent
+  (need a Ghidra-C prefetch → overlay import → /mcp). **→ PIVOT to the permuter-automation program (Tasks 12-14,
+  Drew-directed): make the offline permuter+ILS pipeline self-improving so it drains the backlog + the deferred
+  propagations without an LLM in the loop except for genuine humps.**
+  **⚠️ GRINDER CONCURRENCY LESSON (this session):** running the grinder concurrently with a crack-wave + killing it
+  mid-flight left an 872-file mid-gate_stage state AND lost 3 permuter wins' C (not durably saved before banking) →
+  reverted clean. The grinder needs (a) a fast/clean STOP between functions, (b) durable winner-C saving BEFORE
+  gate_stage banks, (c) clear commit boundaries — folded into Tasks 12/14.
