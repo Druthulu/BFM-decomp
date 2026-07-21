@@ -3659,7 +3659,33 @@ extern void func_8016EE40(s32 a0, s32 a1, s32 a2);
     }
 
 
-INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_8017EDE0);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+extern s32 D_80126D54;
+extern s32 D_8019052C;
+s32 func_8017EDE0(void)
+{
+  int new_var2;
+  int new_var;
+  new_var2 = (new_var = 0);
+  return ((u32) (D_80126D54 ^ ((u32) (&D_8019052C)))) == new_var;
+  new_var = 0x1;
+ do { } while (new_var2); do { } while (0);
+}
 
 extern s16 D_80126B0C;
     s32 func_8017EDFC(void) {
