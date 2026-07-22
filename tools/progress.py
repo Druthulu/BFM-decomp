@@ -663,9 +663,29 @@ def weighted_metrics():
             if a not in mst:
                 mm += n
 
-    return dict(fleet_m=fm, fleet_t=ft, fleet_pct=(100 * fm / ft if ft else 0.0),
-                dedup_m=um, dedup_t=ut, dedup_pct=(100 * um / ut if ut else 0.0),
-                nbins=len(paths), dedup_fns=len(matched_cls), dedup_total_fns=len(cls_nins),
+    # MAIN IS NOW IN THE WEIGHTED DENOMINATORS (roadmap §1 metrics contract, 2026-07-22).
+    # The contract requires all three headline metrics to include the main EXE; it had been reported
+    # as a separate provisional line since Phase-27 T10, which meant the headline silently measured
+    # 139 of 140 binaries and flattered itself by omitting the least-decompiled one.
+    #
+    # What the caveat actually is (restated precisely, because "stale" was misleading): main's sig
+    # comes from Ghidra (2026-06-14), and function BOUNDARIES derive from the original bytes, which
+    # do not change — matched-vs-stub comes from the LIVE corpus.stubs. So the numbers do not drift.
+    # The real limitation is R34: `sig_image` cannot independently validate a PS-X EXE's boundaries,
+    # so main has no SECOND, DISAGREEING oracle for the PHANTOM/TRUNCATED class. The sig also
+    # EXCLUDES the LINKED PsyQ objects, which is exactly right for a GAME-CODE contract.
+    #
+    # Effect: the headline instr number DROPS, because main is ~0.7% matched. That is the point.
+    fleet_m_all, fleet_t_all = fm + mm, ft + mt
+    dedup_m_all, dedup_t_all = um + mm, ut + mt      # main's fns are unique — no h_exact sharing
+    return dict(fleet_m=fleet_m_all, fleet_t=fleet_t_all,
+                fleet_pct=(100 * fleet_m_all / fleet_t_all if fleet_t_all else 0.0),
+                dedup_m=dedup_m_all, dedup_t=dedup_t_all,
+                dedup_pct=(100 * dedup_m_all / dedup_t_all if dedup_t_all else 0.0),
+                nbins=len(paths) + (1 if mt else 0),
+                dedup_fns=len(matched_cls), dedup_total_fns=len(cls_nins),
+                fleet_m_exmain=fm, fleet_t_exmain=ft,
+                fleet_pct_exmain=(100 * fm / ft if ft else 0.0),
                 main_m=mm, main_t=mt, main_pct=(100 * mm / mt if mt else 0.0), main_sig_date=main_date)
 
 
@@ -700,11 +720,12 @@ def fleet():
             f"FLEET fn-count byte-ident: {BYTE:6d} / {MATCH} = {100*BYTE/MATCH:.2f}%   (REAL+LINKED+empties; FUNCTION-count, ×134-inflated — one crack counts per overlay)"]
     if wm:
         head += [
-            f"FLEET instr-weighted     : {wm['fleet_m']:7d} / {wm['fleet_t']} = {wm['fleet_pct']:.1f}%   (shipped .text across resident+{wm['nbins']-1} overlays; the decomp.dev-DISPLAY number)",
+            f"FLEET instr-weighted     : {wm['fleet_m']:7d} / {wm['fleet_t']} = {wm['fleet_pct']:.1f}%   (shipped .text across main + resident + {wm['nbins']-2} overlays; the decomp.dev-DISPLAY number)",
             f"FLEET distinct-code(uniq): {wm['dedup_m']:7d} / {wm['dedup_t']} = {wm['dedup_pct']:.1f}%   ({wm['dedup_fns']}/{wm['dedup_total_fns']} unique fns; the DISTINCT-RE number)"]
         if wm.get('main_t'):
             head += [
-                f"MAIN game-code weighted  : {wm['main_m']:7d} / {wm['main_t']} = {wm['main_pct']:.1f}%   (Phase-27 T10; SEPARATE — LINKED-excluding Ghidra sig dated {wm['main_sig_date']}, PROVISIONAL until a fresh/complete main sig; NOT folded into the fleet number)"]
+                f"MAIN game-code weighted  : {wm['main_m']:7d} / {wm['main_t']} = {wm['main_pct']:.1f}%   (INCLUDED in the fleet numbers above since 2026-07-22 — roadmap §1 metrics contract; LINKED-excluding Ghidra sig dated {wm['main_sig_date']}; caveat is R34: no independent second oracle for a PS-X EXE, NOT drift)",
+                f"  (fleet EXCLUDING main, for continuity with pre-2026-07-22 readings: {wm['fleet_m_exmain']} / {wm['fleet_t_exmain']} = {wm['fleet_pct_exmain']:.1f}%)"]
     else:
         head += ["# (instr-weighted + distinct-code metrics need .run/sig.*.jsonl — run `make sig-overlays`)"]
     head += ["",

@@ -5,9 +5,10 @@
 
 # THREE progress metrics (all matter — see the labels):
 FLEET fn-count byte-ident: 311769 / 353722 = 88.14%   (REAL+LINKED+empties; FUNCTION-count, ×134-inflated — one crack counts per overlay)
-FLEET instr-weighted     : 10299057 / 13081451 = 78.7%   (shipped .text across resident+138 overlays; the decomp.dev-DISPLAY number)
-FLEET distinct-code(uniq): 3782554 / 5574674 = 67.9%   (64633/87459 unique fns; the DISTINCT-RE number)
-MAIN game-code weighted  :     436 / 60201 = 0.7%   (Phase-27 T10; SEPARATE — LINKED-excluding Ghidra sig dated 2026-06-14, PROVISIONAL until a fresh/complete main sig; NOT folded into the fleet number)
+FLEET instr-weighted     : 10299493 / 13141652 = 78.4%   (shipped .text across main + resident + 138 overlays; the decomp.dev-DISPLAY number)
+FLEET distinct-code(uniq): 3782990 / 5634875 = 67.1%   (64633/87459 unique fns; the DISTINCT-RE number)
+MAIN game-code weighted  :     436 / 60201 = 0.7%   (INCLUDED in the fleet numbers above since 2026-07-22 — roadmap §1 metrics contract; LINKED-excluding Ghidra sig dated 2026-06-14; caveat is R34: no independent second oracle for a PS-X EXE, NOT drift)
+  (fleet EXCLUDING main, for continuity with pre-2026-07-22 readings: 10299057 / 13081451 = 78.7%)
 
 FLEET REAL substantive   : 309914   (of which dedup-shared 234571 via 1849 groups / 234615 instances)
 FLEET LINKED PsyQ objs   :    959
