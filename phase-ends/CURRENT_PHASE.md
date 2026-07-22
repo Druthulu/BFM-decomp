@@ -104,6 +104,12 @@ arithmetic scales (R14/R35).** Every prior "structural wall" (B2, SC07, pin-cras
       **▶ STAGE 2 (not started):** the `redefinition of 'struct <T>'` type-lift/uniquify class — 3 of the
       5 remaining failures also carry a `(void)` header decl the arity pass alone does not clear. It edits
       `engine_types.h`, so it INHERITS the shared-state constraint above by default.
+- [x] **Task 15 — §61c diagnosis: the blocker is REFUTED; `func_80135A4C` banked ×1 [xHigh]** ✅ 2026-07-22
+      Two independent `make clean && extract-all && check-all` runs → **140/140** with the bank applied
+      through the single-function automated jtbl path. The path IS reproducible from committed config +
+      source; the prior 139/140 was the *batch* `_jtbl_prep` residue (fixed in the same commit that named
+      the blocker). jtbl banking is UNFROZEN, one draft per `harvest_verify` invocation. Cookbook §61c
+      REFUTED-block + decision-log (R31).
 - [ ] ▶ **Task 14 stage 2 / close — type-lift stage (§19/§57a/§59) OR begin the phase close [Max]** — the
       corrected frontier says every remaining lever is ≤~1pp at low measured conversion; Task 7's
       ROI-gated close is the honest alternative. (Superseded spec below.)
@@ -954,3 +960,43 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 > **Effort:** xHigh is fine for the §61c diagnosis (settled shape); prompt **Max** if it turns into
 > non-obvious debugging. **3 stuck self-matching `pgrep` waiters** may still be sleeping (harmless;
 > kill by PID if seen).
+
+- **✅ 2026-07-22 — §61c REFUTED: the "clean-invalid jtbl bank" blocker does not exist; `func_80135A4C`
+  (181 ins) BANKED ×1 and clean-fleet-verified TWICE.** The session-7 checkpoint gated the whole jtbl
+  track behind a single finding: the carve+isolation path yields a bank that is incrementally valid and
+  clean-invalid (139/140, `[FAIL] ov_SC06_018`, "twice, identically"). **The diagnosis never reached the
+  prescribed object diff, because the failure does not reproduce.** Applying the bank through the
+  single-function automated path (`harvest_verify --binary ov_SC06_018 --chunk 1` → `[jtbl] carved
+  func_80135A4C` → `+ chunk(1)` → BYTE-IDENTICAL) and then measuring:
+  **per-binary clean** (rm asm+build for the overlay → extract → build) → BYTE-IDENTICAL `cbbc4f44…`;
+  **`make clean && extract-all && check-all` run 1 → 140 passed, 0 failed of 140**; **run 2 (independent)
+  → 140 passed, 0 failed of 140.** So the state the incremental gate blesses IS what a clean pipeline
+  reconstructs — no extraction-order effect, no mid-flow asm.
+  **Attribution (best-supported, not byte-proof — the failing tree is gone):** the 139/140 runs were taken
+  on the tree left by the *batch* `_jtbl_prep` (`6 table-bearing → 1 carved, 4 isolate-FAILED, 1 stale-asm
+  carve fail`), i.e. five failed preps' residue of stranded carves + half-applied isolations. The
+  per-function snapshot-restore that removes exactly that residue landed **after** those runs, in
+  `commit:0803` — the same commit that named the blocker.
+  **THE LESSON (R35 turned on ourselves, → decision-log):** "twice, identically" was not a replication —
+  it was two reads of the SAME contaminated state, which is one observation. A replication must RE-CREATE
+  the state, not re-run the check. Standing guard, one command: **before writing a fault down as a property
+  of a mechanism, re-apply it from a known-clean tree.** This is the sixth "structural wall" to resolve to
+  our own tree/tooling (B2 · SC07 · pin-crash · the ~3% -O0 artifact · grinder targeting · this) — the base
+  rate now justifies making "our own state or instrument" the FIRST hypothesis for any new wall.
+  **Faults 1-2 of §61c stand** (a stranded carve poisons the overlay; per-function undo is unsound in a
+  batch because isolation repartitions shared source) → the standing constraint is **one jtbl draft per
+  `harvest_verify` invocation** until the undo is region-aware. `jr_inventory`'s 1:1 ownership assertion
+  was RIGHT (already settled in `commit:0804`) and needs no change.
+  **BANKED:** `func_80135A4C` ×1 in ov_SC06_018 (isolated into the new `ov_SC06_018_jr_80135A4C` code
+  subseg + its own `.rodata` carve; single-table, so no `JTBL_PADS` var; `tail3..tail18` renumbered).
+  **R22 clean-fleet 140/140 byte-identical ×2; `make tools-health` OK** (corpus 0 PHANTOM/0 TRUNCATED,
+  cdecl ALL ORACLES GREEN 53189/53189, audit-binaries 140 citizens, **dedup 1848/0, C1 234481/234481**);
+  **0 NON_MATCHING (G4)**. Fleet **78.0% instr · 66.5% distinct-code · 87.95% fn-count** (a ×1 bank; the
+  fleet mover is the sweep below).
+  **▶ THE UNFROZEN WORK, ranked:** (1) `func_80135A4C`'s family is **138 members / PURE / 24,978 ins ≈
+  +0.19pp** — sweep it via `jtbl_family_bank` (§53 carve law; `has_mid_jr: true`). (2) The **9 remaining
+  preserved t5wave cracks** (`.run/giants/t5wave_*`, ~2M agent tokens — do NOT re-draft): of the 11, one
+  (this one) banks via the carve path and 4 table-bearing ones fail one-at-a-time on §57 self-decl /
+  local-type plumbing = **Task 14 stages 2-3**, not the carve.
+  **Housekeeping:** killed an orphaned `cc1` from the Jul-21 session that had been burning a full core for
+  **13h23m** (pid 104350, dead pipe); committed the 4 wave-4 `.o0` drafts left untracked (R20).

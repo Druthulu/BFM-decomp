@@ -1441,3 +1441,45 @@ here, 40 % of the queue's "closeness" was a length artefact, and the tool built 
 had been quietly wasting 92 % of its work for two phases. Also: fixing the instrument surfaced a genuine
 concurrency defect (`masked_diff`'s shared probe file) that had been silently dropping 0.8 % of drafts in
 every parallel wave — a crashed self-check is indistinguishable from a failed draft, so it never got reported.
+
+## 2026-07-22 (Phase 29, §61c) — the "clean-invalid jtbl bank" blocker does not exist: two reads of one polluted tree are not a replication
+
+**Context + belief.** Phase 29's session-7 checkpoint named a single blocking finding and gated the entire
+jtbl track behind it (cookbook §61c): the carve+isolation path produces a bank that is *incrementally valid
+and clean-invalid*. `func_80135A4C` gated BYTE-IDENTICAL through `harvest_verify` every time, and
+`make clean && extract-all && check-all` came back **139/140, `[FAIL] ov_SC06_018`, twice, identically.**
+The stated implication was that the whole-binary byte-gate — the project's sole arbiter since Phase 12 —
+cannot see this class of defect, *because the gate IS the incremental build* (§42b in its worst form). On
+that reading, no jtbl core could be banked by anyone, and the 9 preserved cracks were frozen. It was written
+up as the single next task with a precise diagnostic recipe: diff the incremental vs clean object set.
+
+**What happened when the diagnosis ran.** It never reached the object diff, because the failure does not
+reproduce. Re-applying the bank through the single-function automated path and then measuring:
+per-binary clean rebuild BYTE-IDENTICAL; `make clean && extract-all && check-all` **140/140**; an
+independent second full-fleet run **140/140**. The path is reproducible from committed config + source.
+There is no extraction-order effect and no mid-flow asm.
+
+**Why the original measurement said otherwise.** The failing R22 runs were taken on the tree left by the
+*batch* `_jtbl_prep` — the run that ended `6 table-bearing → 1 carved, 4 isolate-FAILED, 1 stale-asm carve
+fail`, i.e. a tree carrying the residue of five failed preps (stranded carves, half-applied isolations).
+The per-function snapshot-restore that removes exactly that residue landed **after** those runs, in the very
+commit that named the blocker (`commit:0803`). The measurement was real; the attribution was to the mechanism
+rather than to the tree it ran on. The failing tree is gone, so that stays the best-supported explanation
+rather than a byte-proof — but the load-bearing claim (the path is clean-invalid) is byte-refuted twice.
+
+**The pivot.** §61c is retired; jtbl cores bank again, one draft per `harvest_verify` invocation (fault 2 —
+isolation repartitions shared source, so a per-function undo is unsound in a batch — is real and stands).
+`func_80135A4C` (181 ins) is banked and clean-fleet-verified; its family is 138 members / 24,978 ins ≈ 0.19pp
+and the 9 remaining preserved cracks are unfrozen.
+
+**Hindsight better-path.** "Twice, identically" felt like replication and was not: it was two reads of the
+*same* contaminated state, which is one observation. A replication has to re-create the state, not re-run the
+check — especially when the session that took the reading had, in the same hour, documented the tree as
+polluted and then shipped the fix for the pollution. This is R35 turned on ourselves: we are disciplined
+about not trusting a *tool* until it is verified, and much less disciplined about not trusting a *tree*.
+The cheap guard is procedural and costs one command: **before writing a fault down as a property of a
+mechanism, re-apply it from a known-clean tree.** Had that run before the checkpoint was written, the phase
+would not have spent its single named next task on a blocker that was already fixed. That makes six
+"structural walls" in this project that resolved to our own state or tooling (B2, SC07, pin-crash, the ~3%
+-O0 artifact, the grinder targeting, and now this) — the base rate is now high enough that *the first
+hypothesis for any new wall should be our own tree or instrument*, not the 1997 compiler.

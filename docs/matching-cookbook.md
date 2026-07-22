@@ -4701,6 +4701,39 @@ build.
 ladder. The correct next step is to diagnose the divergence itself (diff the incremental vs clean
 `build/ov_SC06_018/**` object set and the generated `.ld`/asm for the carved subseg), NOT to bank more.
 
+> ### ⛔ §61c IS REFUTED — the blocker does not exist (2026-07-22, R35/R14)
+>
+> The diagnosis above was run, and it never got as far as diffing objects, because **the failure does
+> not reproduce.** On a tree carrying ONLY this bank, applied through the single-function automated
+> path (`harvest_verify --chunk 1`, `[jtbl] carved func_80135A4C` → `+ chunk(1)` → BYTE-IDENTICAL):
+>
+>     per-binary clean (rm asm+build for the ov; extract; build)   : BYTE-IDENTICAL  cbbc4f44…
+>     make clean && extract-all && check-all   (run 1)              : 140 passed, 0 failed of 140
+>     make clean && extract-all && check-all   (run 2, independent) : 140 passed, 0 failed of 140
+>
+> So the carve+isolation path IS reproducible from committed config + source. There is no
+> extraction-order effect and no mid-flow asm: the state the incremental gate blesses is the state a
+> clean pipeline reconstructs.
+>
+> **What the 139/140 actually was.** The failing R22 runs were taken on the tree left by the *batch*
+> `_jtbl_prep` — the same run that ended `6 table-bearing → 1 carved, 4 isolate-FAILED, 1 stale-asm
+> carve fail`. That tree carried the residue of five failed preps (stranded carves and half-applied
+> isolations); the per-function snapshot-restore that removes exactly that residue landed **after**
+> those runs, in the same commit that named the blocker (`commit:0803`). The measurement was real; its
+> attribution was to the wrong cause. The failing tree is not recoverable, so this is stated as the
+> best-supported explanation, not a byte-proof — but the claim that *matters* (the path is
+> clean-invalid) is byte-refuted twice, and that is the claim that was blocking the work.
+>
+> **The transferable lesson is R35 pointed at ourselves:** a fault observed on a tree that is
+> *known to be polluted* must be re-observed on a clean one before it is written down as a property
+> of the mechanism. "Twice, identically" felt like replication; it was two reads of the *same*
+> contaminated state, which is one observation. A replication has to re-create the state, not re-run
+> the check.
+>
+> Faults 1 and 2 below are unaffected — they are real, they are what polluted the tree, and their
+> fixes are what makes the single-function path reproducible. Constraint that stands: **jtbl drafts
+> are processed one per `harvest_verify` invocation** until the undo is region-aware.
+
 **Two design faults found on the way, both real and both fixed in `harvest_verify`:**
 1. **A stranded carve poisons the overlay.** `_jtbl_prep` carved a draft the gate then REJECTED; the
    carve stayed with no owner (the fn is still `INCLUDE_ASM`), and `jr_inventory`'s 1:1 ownership
