@@ -4575,3 +4575,36 @@ set-only: exact by construction, and incapable of inventing a signature. The pla
 struct the TU already defines. That is the type-lift / local-typedef-uniquify class (§19/§57a/§59), NOT the
 arity class, and three of the five remaining failures carry a `(void)` header decl that the arity pass alone
 does not clear. Wire that next, and validate it the same way: splice one, read real stderr, probe, then wire.
+
+### §61a — The Task-5 wave: 11/12 MATCH, 0 banked — three DISTINCT integration walls, each now named (Phase 29, 2026-07-21)
+
+A 12-agent Ultracode wave over freshly-prefetched `ov_SC06_018` exemplars returned **11 MATCH / 1 near**
+(~2M agent tokens), including all three giants (710 / 673 / 478 ins). **The whole-binary gate banked ZERO.**
+This is §58's law at its sharpest — and splicing each class individually gave three *different* blockers,
+none of which the ladder currently clears:
+
+1. **§8e-2 jtbl table-count drift — 10 of 12 drafts.**
+   `jtbl_rodata_pads: more rodata .align directives than pad specs (2) — table-count drift vs the carve`.
+   The draft introduces a switch/jump table into a TU whose jtbl carve has a FIXED pad spec, so the
+   fail-loud guard fires. This is the already-named wall that blocks `func_8014032C` and `func_8013BD74`.
+   **The structural finding: fresh crack fuel in a well-matched overlay CONCENTRATES in jtbl-carved TUs**
+   (10 of 12 here), because the non-carved TUs were harvested first. So §8e-2 is not a rare straggler —
+   it is the gate on the next tranche of substantial cracking.
+2. **§57 self-decl / prototype conflict — the 2 plain-TU drafts.**
+   `argument 'arg2' doesn't match prototype` (def at :595 vs the TU's own decl at :447).
+   `tools/normalize_self_decls.py` exists for exactly this and is wired into `family_sweep` but **NOT into
+   `gate_stage`** — the same gap the arity pre-pass had.
+3. **Local-type redefinition** (`redefinition of 'struct V8'`) — seen in the Task-14 diagnosis set; wants
+   the type-lift.
+
+**So `gate_stage`'s ladder needs three stages, not one**, and today only the arity pre-pass landed. Ranked by
+what they unblock HERE: jtbl-drift (10/12) > self-decl (2/12) > type-lift.
+
+**Method note that made this cheap:** the gate's own per-draft label is useless for this (§58's `memcpy`
+red-herring), and `make build … | grep -i error` MISSED the real failure twice — once because the true error
+was a `jtbl_rodata_pads` line containing no "error" token, once because the build failed at a later stage
+than the warnings I was reading. **Check `rc`, and read the tail unfiltered.** A filtered build log is a
+selection tool, and every selection tool in this project has eventually lied (R32/R35).
+
+**Preserved:** all 12 drafts at `.run/giants/t5wave_*` (R20) — they are genuine cracks with per-function
+lever notes, recoverable the moment the three ladder stages exist. Do NOT re-draft them.

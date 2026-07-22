@@ -804,6 +804,30 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   **`func_80141B90` propagated ×138** as its own targeted `--addr` batch (§55b) — 117 stubs remained after
   the gate had already banked it in ~21 binaries.
 
+- **✅ 2026-07-21 — TASK-5 CRACK WAVE (Ultracode, 12 agents, ~2M tokens): 11/12 MATCH, 0 BANKED —
+  three distinct integration walls, each now NAMED.** Fanned out over freshly-prefetched `ov_SC06_018`
+  exemplars (verified-fresh: 60 candidates, known-blocked set excluded by hand after the automated
+  freshness check missed `func_80135EB0` and `func_8014032C` — it matches backlog+draft-filenames only).
+  **Result: 11 MATCH / 1 near**, including ALL THREE giants (`func_80191C50` 710, `func_8019059C` 673,
+  `func_8018F694` 478). The near (`func_80191C50` close=9) has a precise verdict: gcc schedules the
+  `D_80126B62` lui 2nd because its extra `addiu -0x38` gives that chain +1 list-scheduler priority.
+  **THE WHOLE-BINARY GATE BANKED ZERO** — §58's law at its sharpest. Splicing each class individually
+  (the gate label is the §58 `memcpy` red-herring, useless here) gave **THREE DIFFERENT blockers**:
+  **(1) §8e-2 jtbl table-count drift — 10 of 12 drafts** (`jtbl_rodata_pads: more rodata .align
+  directives than pad specs (2)`): the draft adds a switch table to a TU whose carve has a FIXED pad
+  spec. **Structural finding: fresh crack fuel in a well-matched overlay CONCENTRATES in jtbl-carved TUs**
+  (the non-carved ones were harvested first), so §8e-2 is not a straggler — it GATES the next tranche of
+  substantial cracking. **(2) §57 self-decl conflict — the 2 plain-TU drafts** (`argument 'arg2' doesn't
+  match prototype`, def vs the TU's own decl): `normalize_self_decls` exists, is wired into
+  `family_sweep`, and is **NOT in `gate_stage`** — the same gap the arity pre-pass had.
+  **(3) local-type redefinition** (from the Task-14 set). **So the ladder needs THREE stages; today only
+  the arity pre-pass landed.** Ranked by what they unblock here: jtbl-drift (10/12) > self-decl (2/12) >
+  type-lift. **All 12 drafts PRESERVED at `.run/giants/t5wave_*` (R20) — genuine cracks with per-function
+  lever notes; do NOT re-draft.** Cookbook **§61a**. **Method note:** `make build | grep -i error` MISSED
+  the real failure TWICE (the `jtbl_rodata_pads` line contains no "error" token; and the build failed at a
+  later stage than the warnings I was reading) — **check `rc`, read the tail unfiltered.**
+  Tree reverted to clean; nothing banked, nothing committed to src.
+
 > **🛑 SESSION-6 CHECKPOINT (2026-07-21) — safe to open a FRESH session here.** Tree clean (only the R23
 > `db.*.gbf` churn + 4 preserved wave-4 `-O0` drafts). **R22 clean-fleet 140/140 byte-identical**;
 > `make tools-health` OK (dedup **1847/0**, C1 234343/234343); 0 NON_MATCHING (G4). HEAD `commit:0772`
