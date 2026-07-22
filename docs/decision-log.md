@@ -1483,3 +1483,43 @@ would not have spent its single named next task on a blocker that was already fi
 "structural walls" in this project that resolved to our own state or tooling (B2, SC07, pin-crash, the ~3%
 -O0 artifact, the grinder targeting, and now this) — the base rate is now high enough that *the first
 hypothesis for any new wall should be our own tree or instrument*, not the 1997 compiler.
+
+## 2026-07-22 (Phase 29) — the shared byte-gate compared one binary against another binary's hash, for a month, because a default was truthy
+
+**Context + belief.** `gate_stage` is the project's shared banking spine — the ladder every wave, the grinder,
+and every manual harvest run through. Phase 29 had spent two sessions treating its verdicts as measurements:
+"the ladder converts 0/10" was used to price Task 14 stages 2-3, and the Task-5 wave's "11/12 match_one MATCH,
+the gate banked ZERO" was written up as three named integration walls (§61a).
+
+**What the bytes said.** `main()` did `good_sha=a.good_sha or DEF_SHA`, where `DEF_SHA` is **ov_SC01_077's**
+locked hash. Being truthy it beat `run_gate`'s per-binary `good_sha or _check_sha(binary)`, making that lookup
+dead code on every CLI invocation. So the gate BUILT `ov_SC06_018` and compared it to `ov_SC01_077`'s SHA.
+It cannot match. Every draft came back `"near"` — built, wrong bytes — which is *exactly* what a genuine
+codegen residual looks like. **Nothing could ever bank outside ov_SC01_077 from the CLI, since 2026-06-21.**
+
+**Why it survived a month.** The programmatic callers take a different path and were all correct:
+grinder/idiom_hunt pass `None` (per-binary lookup); lora_grind/bulk_harvest pass an explicit per-binary sha;
+orchestrator only ever gates 077, where DEF_SHA happens to be right. So the tool banked fine for daemons and
+never for a human — and the two paths were never compared. This is R34 experienced from the inside: we had
+two oracles all along (the CLI verdict and the direct `harvest_verify` verdict) and never made them argue.
+The tell was visible and ignored: Task 13B's grinder banked `func_80181F78` in **ov_SC03_014** in the same
+week my CLI ladder banked **0/10** on the same tree.
+
+**Blast radius, measured not assumed.** 0 of 6,708 backlog records come from the affected path (worker 2724 /
+bulk-harvest 2275 / lora-grind 766 / grinder 522 — all correct). The backlog needs no re-run. The void
+verdicts are exactly the manually CLI-gated non-077 functions: the 12 preserved t5wave cracks. Re-run after
+the fix, **7 of 12 now bank**, including two giants (478, 673 ins) and `func_801299C8`, which had been filed
+as "PLUMBING: prototype declaration".
+
+**The pivot.** Three "findings" are withdrawn: §61a's three integration walls, the 0/10 ladder pricing, and
+the "9 compile / 0 bank ⇒ image-level effect" reading. Task 14 stages 2-3 remain unpriced — but now against
+a gate that can actually bank.
+
+**Hindsight better-path.** The defect is one truthy default, and the fix is one line — but the *detectable*
+signal was a **disagreement between two paths to the same answer**, which existed for weeks. The transferable
+rule: **when a tool has both a library entry point and a CLI, gate them against each other, because a
+divergence there is invisible to every downstream check** — the byte-gate is a perfect correctness oracle and
+a null oracle for "was the right question asked". Concretely: a gate must ASSERT that the SHA it is comparing
+against belongs to the binary it just built (R32-style — assert the premise, not just the result). That
+assertion would have failed loudly on the first non-077 CLI run in June. This is the fourth wall in one
+session, and the fifth this phase, to resolve to our own tooling rather than gcc-2.7.2.
