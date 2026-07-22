@@ -4682,3 +4682,36 @@ the 9 preserved cracks.
   region files THIS run created (§61's constraint, applied where I had first ignored my own rule).
 * **Being in a `_jr_*` TU ≠ having a table.** Only 4 of 8 wave drafts in jtbl-carved TUs actually
   reference a `jtbl_`; the stage correctly prepares only those. The other 4 fail for other classes.
+
+### §61c — The jtbl bank is INCREMENTALLY valid and CLEAN-INVALID (Phase 29, 2026-07-21) — the blocking finding
+
+`func_80135A4C` banks through the automated jtbl path every time: `[jtbl] carved` → `+ chunk(1)` →
+`verified 1 / failed 0  BYTE-IDENTICAL`. **And it fails a clean rebuild, twice, identically:**
+
+    incremental (harvest_verify's own gate) : BYTE-IDENTICAL
+    make clean && extract-all && check-all  : 139 passed, 1 failed  ([FAIL] ov_SC06_018)
+
+So the carve+isolation path yields a state that is **not reproducible from committed config + source**
+— the incremental tree carries something the clean pipeline does not reconstruct (extraction order, or
+asm that only exists mid-flow). This is the §42b stale-incremental false pass in its most expensive
+form: the gate that authorises the bank cannot see the defect, because the gate IS the incremental
+build.
+
+**Until that reproducibility gap is closed, NO jtbl core can be banked** — not by hand, not by the
+ladder. The correct next step is to diagnose the divergence itself (diff the incremental vs clean
+`build/ov_SC06_018/**` object set and the generated `.ld`/asm for the carved subseg), NOT to bank more.
+
+**Two design faults found on the way, both real and both fixed in `harvest_verify`:**
+1. **A stranded carve poisons the overlay.** `_jtbl_prep` carved a draft the gate then REJECTED; the
+   carve stayed with no owner (the fn is still `INCLUDE_ASM`), and `jr_inventory`'s 1:1 ownership
+   assertion then refused EVERY later isolation in that overlay (`[('UNOWNED','0x801d288c')]` =
+   func_801299C8's table). **The assertion was RIGHT and caught it** — R32/R33 working exactly as
+   designed. Fix: per-function carve with snapshot-restore on gate rejection.
+2. **Per-function undo is unsound in a BATCH.** Isolation REPARTITIONS shared source, so restoring one
+   draft's snapshot deletes region files that now host OTHER pending drafts — their stubs vanish
+   (`KeyError` in render). jtbl drafts must therefore be processed **one per `harvest_verify`
+   invocation**, or the undo must be region-aware.
+
+**Measured, so the next session does not re-derive it:** of 11 preserved wave cracks, exactly ONE
+(`func_80135A4C`) reaches byte-identical through the carve path; the other four table-bearing ones
+fail one-at-a-time too, on the PLUMBING classes (§57 self-decl et al), not on the carve.

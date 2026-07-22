@@ -208,13 +208,47 @@ def _reload_corpus():
     baseline = {q: open(q).read() for q in _touched}
 
 
-def _jtbl_prep():
-    """Make every table-bearing draft's carve valid. Returns the list prepared."""
-    todo = [fn for fn in items if _fn_has_jtbl(fn)]
-    if not todo:
-        return []
+def _jtbl_snapshot():
+    """Text of the config files a carve/isolation may rewrite (for an exact undo)."""
+    out = {}
+    for q in (os.path.join(REPO, 'config/splat.%s.yaml' % a.binary),
+              os.path.join(REPO, 'config/overlays.mk')):
+        try:
+            out[q] = open(q).read()
+        except OSError:
+            pass
+    return out
+
+
+def _jtbl_restore(snap, regions_before):
+    """Undo a carve/isolation EXACTLY: restore the config text and delete only the region files
+    this attempt created. Then re-extract and re-derive the stub map.
+
+    WHY THIS EXISTS (byte-proven 2026-07-21). A carve left behind by a draft the gate REJECTED has
+    no owner — the function is still INCLUDE_ASM — so `jr_inventory`'s 1:1 ownership assertion
+    (R32/R33) then refuses EVERY later isolation in that overlay:
+        committed .rodata carve ownership is not 1:1 … [('UNOWNED','0x801d288c')]
+    0x801d288c is func_801299C8's table: prepped, gate-rejected, carve stranded. The assertion is
+    CORRECT and caught it; the defect was leaving the carve behind. One failed draft poisoned the
+    whole overlay for the rest of the batch (4 isolate-FAILs downstream)."""
+    for q, txt in snap.items():
+        open(q, 'w').write(txt)
+    for rf in set(glob.glob('src/%s/%s_jr_*.c' % (a.binary, a.binary))) - regions_before:
+        try:
+            os.remove(rf)
+        except OSError:
+            pass
+    _sh(['make', '--no-print-directory', 'extract', 'BINARY=%s' % a.binary])
+    _reload_corpus()
+
+
+def _jtbl_prep_one(fn):
+    """Prep ONE table-bearing draft's carve. Returns (ok, snapshot, regions_before)."""
+    if not _fn_has_jtbl(fn):
+        return True, None, None
+    snap, regions_before = _jtbl_snapshot(), set(glob.glob('src/%s/%s_jr_*.c' % (a.binary, a.binary)))
     done = []
-    for fn in todo:
+    for fn in [fn]:
         st = _stubs.get(fn)
         if st is None:
             continue
@@ -245,11 +279,13 @@ def _jtbl_prep():
             last = ((r.stdout or '') + (r.stderr or '')).strip().splitlines()[-1:] or ['']
             print('  [jtbl] carve FAILED %s: %s' % (fn, last[0][:120])); continue
         done.append(fn)
-    if done:
-        _sh(['make', '--no-print-directory', 'extract', 'BINARY=%s' % a.binary])
-        _reload_corpus()
-        print('  [jtbl] carved %d/%d table-bearing draft(s): %s' % (len(done), len(todo), ' '.join(done)))
-    return done
+    if not done:
+        _jtbl_restore(snap, regions_before)
+        return False, None, None
+    _sh(['make', '--no-print-directory', 'extract', 'BINARY=%s' % a.binary])
+    _reload_corpus()
+    print('  [jtbl] carved %s' % done[0])
+    return True, snap, regions_before
 
 
 def _stub_line(fn):
@@ -289,16 +325,22 @@ def commit(fns):
     verified.extend(fns)
 
 
-_jtbl_prepared = _jtbl_prep()
-
 i = 0
 while i < len(items):
     chunk = items[i:i + a.chunk]
     i += a.chunk
+    # per-chunk jtbl prep (chunk==1 is the prescribed default, so this is per-function): carve the
+    # table, and if the gate then REJECTS the draft, undo the carve — a stranded carve has no owner
+    # and poisons every later isolation in the overlay (see _jtbl_restore).
+    _jsnap = _jregions = None
+    if len(chunk) == 1:
+        _ok, _jsnap, _jregions = _jtbl_prep_one(chunk[0])
     if attempt(chunk):
         commit(chunk)
         print('  + chunk(%d): %s' % (len(chunk), ' '.join(chunk)))
     elif len(chunk) == 1:
+        if _jsnap is not None:
+            _jtbl_restore(_jsnap, _jregions)      # stranded-carve undo (R32 ownership stays 1:1)
         # ATOMIC CHUNK — do NOT bisect (Phase-28 T6). The old code fell into the loop below and
         # re-ran attempt([fn]) on the SAME single element against the SAME baseline: a byte-identical
         # DUPLICATE build. classify_fail reads _last_sha/_last_err, which the failed attempt(chunk)
