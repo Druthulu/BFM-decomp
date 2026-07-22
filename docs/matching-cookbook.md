@@ -4649,6 +4649,30 @@ gates as a byte-DIFF. The MANUAL order banks it byte-identical:
 per-draft prep INSIDE the splice loop (harvest_verify), not a batch pre-pass in gate_stage. That is the
 next increment; the stage's carve/isolate/undo machinery is correct and reusable as-is.
 
+**RESOLVED (2026-07-21, same session): the prep belongs in `harvest_verify`, and it BANKS there.**
+`harvest_verify._jtbl_prep()` splices each table-bearing draft TEMPORARILY, asks `jtbl_carve`,
+isolates on the §8b walls, un-splices, re-extracts, and re-derives the stub map + baseline (isolation
+MOVES a stub's TU, so both are keyed on stale paths otherwise). Byte-proven: `func_80135A4C` goes
+`[jtbl] carved 1/1` -> `+ chunk(1)` -> **BYTE-IDENTICAL**, fully automated.
+
+**BUT THE BATCH STILL FAILS, AND THE REASON IS A NEW, PRECISE TOOLING GAP:**
+
+> **Banking a jtbl core makes its own carve UNOWNED to `jr_inventory`, which then refuses every
+> subsequent isolation in that overlay** — `committed .rodata carve ownership is not 1:1 (R32/R33)
+> — a stranded/duplicated carve (§8b func_801734BC class): [('UNOWNED', '0x801d288c')]`.
+
+Byte-proven both ways: on the COMMITTED tree `jr_isolate_all --only func_80135260 --dry-run` succeeds;
+with `func_80135A4C` banked it fails the ownership assertion. The assertion is right — a banked
+function's stub `.s` is pruned, so the owner lookup finds nobody — but its conclusion is wrong: the
+carve IS owned, by C rather than by a stub. **So today jtbl cores bank ONE PER OVERLAY.**
+Measured on a 10-draft batch: 6 table-bearing, 1 carved, **4 isolate-FAILED on this assertion**, 1
+stale-asm carve failure.
+
+**NEXT INCREMENT (precise):** teach `jr_inventory`'s ownership check to attribute a carve to a
+BANKED (C) function — i.e. resolve owners from `corpus.matched` ∪ stubs, not stubs alone (R33: the
+same derive-don't-reparse move that fixed the corpus oracle). That unblocks batch jtbl banking and
+the 9 preserved cracks.
+
 **Two sub-findings, both paid for:**
 * **A wholesale `git checkout -- config/…` undo is WRONG in a batch gate.** `jfb.revert` is right for
   `jtbl_family_bank`'s one-function-at-a-time flow, but here it discarded a PREVIOUSLY-banked-but-

@@ -17,6 +17,9 @@ Resident defaults; pass flags for another binary.
 import subprocess, glob, os, re, sys, hashlib, argparse
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+PY = '.venv/bin/python'
+
 import corpus   # the derived corpus oracle (Phase 26-A) — a draft's home TU is a FACT of the tree
 import cdecl    # the C-declaration oracle (Phase 26-A) — the per-TU typedef strip-set (T4)
 
@@ -159,6 +162,96 @@ baseline = {p: open(p).read() for p in _touched}
 verified, failed = [], []
 
 
+# --------------------------------------------------------------------------------------------
+# jtbl prep (Phase-29 Task-14 stage 4) — the carve MUST FOLLOW THE SPLICE
+# --------------------------------------------------------------------------------------------
+# A draft whose function owns a switch jump table cannot link into a jtbl-CARVED TU until that
+# table has its own contiguous .rodata carve. gate_stage tried this as a batch pre-pass and it
+# does not work, for a reason that is the whole point of doing it here instead:
+#
+#   THE NON-CONTIGUITY IS ONLY DETECTABLE ONCE THE BODY IS IN THE OBJECT. While the function is
+#   still INCLUDE_ASM, `jtbl_carve` reports SUCCESS and yields a spec that fails when the body
+#   lands. Byte-witnessed both ways on func_80135A4C: spliced -> "NON-CONTIGUOUS 0xaa810 and
+#   0xaa920"; unspliced -> "prepared 1/1", then a byte-DIFF at the gate.
+#
+# So we splice TEMPORARILY, ask jtbl_carve, isolate if it refuses, then un-splice and let the
+# normal gate loop do the real splice. Isolation MOVES the stub's TU, so the stub map and the
+# baseline are re-derived afterwards (they are keyed by path).
+_JTBL_RE = re.compile(r"jtbl_[0-9A-Fa-f]{8}")
+_ISO_WALLS = ("NON-CONTIGUOUS", "do not fit the span")
+
+
+def _sh(cmd, timeout=1800):
+    return subprocess.run(cmd, capture_output=True, text=True, cwd=REPO, timeout=timeout)
+
+
+def _fn_has_jtbl(fn):
+    st = _stubs.get(fn)
+    if st is None:
+        return False
+    try:
+        return bool(_JTBL_RE.search(open(os.path.join(REPO, st.asm_path)).read()))
+    except OSError:
+        return False
+
+
+def _reload_corpus():
+    """Re-derive the stub map + baseline after an isolation moved a stub to a new TU."""
+    global _stubs, baseline, _touched
+    for f in (corpus.stubs, corpus.sig, corpus.symbols, corpus.src_files):
+        if hasattr(f, 'cache_clear'):
+            f.cache_clear()
+    _stubs = {x.symbol: x for x in corpus.stubs(a.binary).values()}
+    if a.src:
+        _stubs = {n: x for n, x in _stubs.items() if x.path == a.src}
+    _touched = sorted({_stubs[fn].path for fn in items if fn in _stubs})
+    baseline = {q: open(q).read() for q in _touched}
+
+
+def _jtbl_prep():
+    """Make every table-bearing draft's carve valid. Returns the list prepared."""
+    todo = [fn for fn in items if _fn_has_jtbl(fn)]
+    if not todo:
+        return []
+    done = []
+    for fn in todo:
+        st = _stubs.get(fn)
+        if st is None:
+            continue
+        line = _stub_line(fn)
+        txt = open(st.path).read()
+        if line not in txt:
+            continue
+        open(st.path, 'w').write(txt.replace(line, drafts[fn]['c'], 1))   # TEMPORARY splice
+        r = _sh([PY, 'tools/jtbl_carve.py', a.binary, '--func', fn])
+        out = (r.stdout or '') + (r.stderr or '')
+        if r.returncode and any(w in out for w in _ISO_WALLS):
+            open(st.path, 'w').write(txt)                                 # un-splice before isolating
+            if _sh([PY, 'tools/jr_isolate_all.py', a.binary, '--only', fn]).returncode:
+                print('  [jtbl] isolate FAILED %s' % fn); continue
+            if _sh(['make', '--no-print-directory', 'extract', 'BINARY=%s' % a.binary]).returncode:
+                print('  [jtbl] extract-after-isolate FAILED %s' % fn); continue
+            _reload_corpus()
+            st = _stubs.get(fn)
+            if st is None:
+                print('  [jtbl] stub vanished after isolate %s' % fn); continue
+            line, txt = _stub_line(fn), open(st.path).read()
+            if line not in txt:
+                print('  [jtbl] no stub after isolate %s' % fn); continue
+            open(st.path, 'w').write(txt.replace(line, drafts[fn]['c'], 1))
+            r = _sh([PY, 'tools/jtbl_carve.py', a.binary, '--func', fn])
+        open(st.path, 'w').write(txt)                                     # ALWAYS un-splice
+        if r.returncode:
+            last = ((r.stdout or '') + (r.stderr or '')).strip().splitlines()[-1:] or ['']
+            print('  [jtbl] carve FAILED %s: %s' % (fn, last[0][:120])); continue
+        done.append(fn)
+    if done:
+        _sh(['make', '--no-print-directory', 'extract', 'BINARY=%s' % a.binary])
+        _reload_corpus()
+        print('  [jtbl] carved %d/%d table-bearing draft(s): %s' % (len(done), len(todo), ' '.join(done)))
+    return done
+
+
 def _stub_line(fn):
     s = _stubs[fn]
     return 'INCLUDE_ASM("%s", %s);' % (s.asm_dir, s.symbol)
@@ -195,6 +288,8 @@ def commit(fns):
     baseline = render(fns)
     verified.extend(fns)
 
+
+_jtbl_prepared = _jtbl_prep()
 
 i = 0
 while i < len(items):
