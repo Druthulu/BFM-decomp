@@ -2951,6 +2951,3 @@ s16 func_80135480(void *param_1, s32 param_2, s16 *param_3, s16 *param_4)
     }
     return 1;
 }
-
-
-INCLUDE_ASM("asm/ov_SC07_009/nonmatchings/ov_SC07_009_jr_8012ACE0", func_80135888);

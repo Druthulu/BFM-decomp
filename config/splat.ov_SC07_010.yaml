@@ -95,6 +95,7 @@ segments:
       # - [0x0, rodata, head]
       - [0x0, c, ov_SC07_010]
       - [0x91e8, c, ov_SC07_010_jr_80131340]
+      - [0xd730, c, ov_SC07_010_jr_80135888]
       - [0xd8f4, c, ov_SC07_010_jr_80135A4C]
       - [0x13410, c, ov_SC07_010_o0]  # -O0 cluster 0x8013B568..0x8013C98C (0x13410..0x14834)
       - [0x14834, c, ov_SC07_010_o2b]
@@ -107,19 +108,21 @@ segments:
       - [0x59e1c, data, tail]
       - [0x7d884, .rodata, ov_SC07_010_jr_80131340]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
       - [0x7d898, data, tail2]
+      - [0x7d8b0, .rodata, ov_SC07_010_jr_80135888]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
+      - [0x7d8c4, data, tail3]
       - [0x7d8c8, .rodata, ov_SC07_010_jr_80135A4C]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0x7d8dc, data, tail3]
+      - [0x7d8dc, data, tail4]
       - [0x7dfa0, .rodata, ov_SC07_010_jr_8013F350]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0x7dfd4, data, tail4]
+      - [0x7dfd4, data, tail5]
       - [0x7e048, .rodata, ov_SC07_010_jr_80140608]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0x7e05c, data, tail5]
+      - [0x7e05c, data, tail6]
       - [0x7e150, .rodata, ov_SC07_010_jr_80154C24]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
       - [0x7e194, .rodata, ov_SC07_010_jr_801588CC]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0x7e1dc, data, tail6]
+      - [0x7e1dc, data, tail7]
       - [0x7e2d4, .rodata, ov_SC07_010_jr_8015C32C]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0x7e2f0, data, tail7]
+      - [0x7e2f0, data, tail8]
       - [0x7e7fc, .rodata, ov_SC07_010_jr_8017AE2C]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0x7e810, data, tail8]
+      - [0x7e810, data, tail9]
       - [0x813EC, bin, trailing]    # final 3 bytes (EOF not 4-aligned; spimdisasm drops a partial word)
   - [0x813EF]   # EOF marker = the 0.4.dec byte length
 # @TRAILING@ (above) is replaced by tools/new_overlay.sh: for a non-4-aligned overlay it becomes

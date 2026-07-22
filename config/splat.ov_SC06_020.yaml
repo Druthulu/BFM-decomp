@@ -95,6 +95,7 @@ segments:
       # - [0x0, rodata, head]
       - [0x0, c, ov_SC06_020]
       - [0x2b88, c, ov_SC06_020_jr_8012ACE0]
+      - [0xd730, c, ov_SC06_020_jr_80135888]
       - [0xd8f4, c, ov_SC06_020_jr_80135A4C]
       - [0xff88, c, ov_SC06_020_jr_801380E0]
       - [0x171f8, c, ov_SC06_020_jr_8013F350]
@@ -118,40 +119,42 @@ segments:
       - [0x5ceb8, data, tail]
       - [0x900f8, .rodata, ov_SC06_020_jr_8012ACE0]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
       - [0x901d8, data, tail2]
+      - [0x901f0, .rodata, ov_SC06_020_jr_80135888]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
+      - [0x90204, data, tail3]
       - [0x90208, .rodata, ov_SC06_020_jr_80135A4C]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0x9021c, data, tail3]
+      - [0x9021c, data, tail4]
       - [0x90270, .rodata, ov_SC06_020_jr_801380E0]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0x902d4, data, tail4]
+      - [0x902d4, data, tail5]
       - [0x908e0, .rodata, ov_SC06_020_jr_8013F350]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0x90914, data, tail5]
+      - [0x90914, data, tail6]
       - [0x90918, .rodata, ov_SC06_020_jr_8013FFD8]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0x9094c, data, tail6]
+      - [0x9094c, data, tail7]
       - [0x90988, .rodata, ov_SC06_020_jr_80140608]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0x9099c, data, tail7]
+      - [0x9099c, data, tail8]
       - [0x909b4, .rodata, ov_SC06_020_jr_8015444C]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0x90a20, data, tail8]
+      - [0x90a20, data, tail9]
       - [0x90a90, .rodata, ov_SC06_020_jr_80154C24]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
       - [0x90ad4, .rodata, ov_SC06_020_jr_801588CC]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0x90b1c, data, tail9]
+      - [0x90b1c, data, tail10]
       - [0x90b7c, .rodata, ov_SC06_020_jr_80159C84]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0x90bb0, data, tail10]
+      - [0x90bb0, data, tail11]
       - [0x90bb4, .rodata, ov_SC06_020_jr_8015A3C8]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0x90bd0, data, tail11]
+      - [0x90bd0, data, tail12]
       - [0x90bd4, .rodata, ov_SC06_020_jr_8015AE2C]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0x90bf0, data, tail12]
+      - [0x90bf0, data, tail13]
       - [0x90c14, .rodata, ov_SC06_020_jr_8015C32C]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0x90c30, data, tail13]
+      - [0x90c30, data, tail14]
       - [0x90c48, .rodata, ov_SC06_020_jr_8016AB6C]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0x90c68, data, tail14]
+      - [0x90c68, data, tail15]
       - [0x90ce8, .rodata, ov_SC06_020_jr_801734BC]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0x90cfc, data, tail15]
+      - [0x90cfc, data, tail16]
       - [0x90ea4, .rodata, ov_SC06_020_jr_80178D40]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0x9101c, data, tail16]
+      - [0x9101c, data, tail17]
       - [0x910ac, .rodata, ov_SC06_020_jr_8017A4AC]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0x91138, data, tail17]
+      - [0x91138, data, tail18]
       - [0x9113c, .rodata, ov_SC06_020_jr_8017AE2C]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
       - [0x91150, .rodata, ov_SC06_020_jr_8017C24C]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0x91170, data, tail18]
+      - [0x91170, data, tail19]
       - [0x92894, bin, trailing]    # final 3 bytes (EOF not 4-aligned; spimdisasm drops a partial word)
   - [0x92897]   # EOF marker = the 0.4.dec byte length
 # @TRAILING@ (above) is replaced by tools/new_overlay.sh: for a non-4-aligned overlay it becomes
