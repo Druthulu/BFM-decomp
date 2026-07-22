@@ -77,7 +77,37 @@ arithmetic scales (R14/R35).** Every prior "structural wall" (B2, SC07, pin-cras
       opposite move — a tighter ADMISSION rule: `_drift_route` now needs `|Δ|≤2` AND `explains=="tail"`
       (length pool 339→**34**, permuter bucket 389→**84**), plus a proportional `SIZE-MISMATCH` test.
       Cookbook **§60a/§60b**. `permuter_weights` needs no extension.
-- [ ] ▶ **Task 14 — enrich `gate_stage`'s ladder (§57/§59) so more wins auto-integrate + grinder auto-R22
+- [~] **Task 14 (stage 1 DONE) — the ARITY pre-pass wired into `gate_stage` [Max]** ✅ 2026-07-21
+      **DIAGNOSED, not assumed:** the 12-draft probe reported the SAME label for 10 of 11 failures
+      (`conflicting types for built-in function 'memcpy'`) — the §58 red-herring, a WARNING from an
+      unrelated TU position. Splicing three top-reach failures and reading real cc1 stderr gave
+      `conflicting types for func_XXXX` **3/3** + a second class `redefinition of 'struct V8'`.
+      The first is the loose-typing ARITY conflict: a banked shared caller macro in `engine_core.h`
+      declares the fn with FEWER params than its byte-true def takes. `fix_arity_callers --any-proto`
+      already fixed it and was simply **never wired into the ladder** (only `family_sweep` had §57).
+      **MEASURED: 2 of 7** top integration candidates banked (`func_8016EFC8`, `func_80164418`, both
+      reach-138) vs the **1/12** old-ladder baseline. R22 **140/140**; tools-health OK (dedup 1848/0).
+      **⚠️ INCIDENT — I BROKE 138/140 AND R22 CAUGHT IT.** Pairing `--apply --any-proto` with `--revert`
+      for the unbanked drafts corrupted decls fleet-wide: `--revert` only inverts a PLAIN apply
+      (`()`→`(void)`), so an unbanked fn whose real decl was `extern void func_801708B0(void *a0)` came
+      back as `(void)` — in `engine_core.h` (all 138 overlays) + 6 sites in ov_SC01_077's own sources.
+      **`harvest_verify --binary ov_SC01_077` said BYTE-IDENTICAL and was RIGHT about that binary** —
+      the other 137 were broken and structurally invisible to it. Diagnosed to the exact lines, repaired
+      precisely (both legitimate rewrites kept), **nothing ever committed**. Root cause fixed: the ladder
+      now SNAPSHOTS every file the pre-pass touches and undoes by **restore + re-apply-for-banked-only**.
+      **NEW HARD CONSTRAINT (cookbook §61):** *any ladder stage mutating SHARED state must be undone by
+      snapshot restore, never an inverse transform, and validated FLEET-WIDE (R22), not by the
+      per-binary gate that authorised it.* §55b's law one level down. Also fixed: the first wiring passed
+      only `--drafts` (the narrow-param FILTER) without the required `--funcs`, so the stage exited
+      `no funcs given` as a SILENT NO-OP and the gate reported 0/6 as if diagnosed — `sh()` does not raise
+      on non-zero exit; there is now an explicit rc check.
+      **▶ STAGE 2 (not started):** the `redefinition of 'struct <T>'` type-lift/uniquify class — 3 of the
+      5 remaining failures also carry a `(void)` header decl the arity pass alone does not clear. It edits
+      `engine_types.h`, so it INHERITS the shared-state constraint above by default.
+- [ ] ▶ **Task 14 stage 2 / close — type-lift stage (§19/§57a/§59) OR begin the phase close [Max]** — the
+      corrected frontier says every remaining lever is ≤~1pp at low measured conversion; Task 7's
+      ROI-gated close is the honest alternative. (Superseded spec below.)
+- [ ] **(superseded) Task 14 — enrich `gate_stage`'s ladder (§57/§59) so more wins auto-integrate + grinder auto-R22
       [Max]** — the permuter-automation program's final stage (Tasks 12→13→14). Justified as the SHARED
       BANKING SPINE, not as a bucket: today 3 of 24 permuter wins were lost to plumbing (12.5% of work
       already paid for in CPU), the 12-draft probe banked 1/12, and crack-wave-4's 6 -O2 cores ×138 were

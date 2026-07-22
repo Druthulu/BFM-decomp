@@ -1960,7 +1960,7 @@
     }
 
 #define DEFINE_func_8016EFA8() \
-    extern s32 func_8016EFC8(s32); \
+    extern s32 func_8016EFC8(); \
     s32 func_8016EFA8(s32 a0) { \
         return func_8016EFC8(a0); \
     }
@@ -6720,7 +6720,7 @@
     }
 
 #define DEFINE_func_8016EF78() \
-    extern s32 func_8016EFC8(s32); \
+    extern s32 func_8016EFC8(); \
     extern void func_801726D0(void *a0); \
     extern s32 D_80126B58; \
     void func_8016EF78(s32 a0) { \
@@ -9295,7 +9295,7 @@
     }
 
 #define DEFINE_func_801642AC() \
-    extern void func_80164418(void); \
+    extern void func_80164418(); \
     extern s32 func_80013328(s32 a0, s32 a1); \
     extern s32 func_80146E98(s32 a0); \
     extern void func_80146E90(s32 *a0, s32 a1); \
@@ -20461,7 +20461,7 @@
     }
 
 #define DEFINE_func_8016432C() \
-    extern void func_80164418(void); \
+    extern void func_80164418(); \
     extern s32 func_80146E98(s32 a0); \
     extern void func_801553C0(s32 a0); \
     extern void func_80147364(u16, s32); \

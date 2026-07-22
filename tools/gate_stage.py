@@ -235,7 +235,75 @@ def _run_gate_locked(drafts, binary, src, asm, out, good_sha, propagate, source_
     # see `extern void (*D_x[])(void);` would ARM its fn-ptr-blind data_access_subs to rewrite a
     # call-through `D_x[i]()` into `((u8 *)D_x)[i]()`.
     d1 = _xform("reconcile_tu.py", binary, d1, "-rc", extra=cast_extra)
+
+    # ARITY PRE-PASS (Phase-29 Task-14). The three transforms above all rewrite the DRAFT. The
+    # dominant residual blocker does not live in the draft at all: an already-banked SHARED caller
+    # macro in src/shared/engine_core.h declares the function being banked with FEWER parameters
+    # than its real definition takes (the original calls it K&R-style with fewer args than it
+    # reads), so the C89 prototype conflicts with the byte-true definition -> `conflicting types`.
+    #
+    # DIAGNOSED, not assumed: splicing three top integration failures individually and reading real
+    # cc1 stderr gave `conflicting types for func_XXXX` 3/3 — while the label harvest_verify
+    # reports for them is the §58 red-herring `conflicting types for built-in function memcpy`,
+    # which is a WARNING and not the failure. Byte-probe: func_8016EFC8 (reach-138) went from
+    # gate-REJECTED to BANKED byte-identical after `fix_arity_callers --any-proto` rewrote 7 caller
+    # decls to the no-prototype K&R form (byte-neutral: an empty call emits identical code, and a
+    # no-proto decl is compatible with a definition whose params are default-promotion-safe).
+    #
+    # This edits SHARED state (engine_core.h), so it is scoped to the drafts in play and REVERTED
+    # for every function the gate then rejects — a bank that succeeded needs its no-proto decl kept
+    # or the tree stops building. The whole-binary gate remains the sole arbiter (G3/P9).
+    # NB: --funcs is REQUIRED (the tool exits "no funcs given" without it) and --drafts is only the
+    # narrow-param FILTER. Passing --drafts alone made this stage a silent no-op — sh() does not
+    # raise on a non-zero exit, so the try/except below never saw it. Hence the explicit rc check:
+    # a pre-pass that quietly does nothing is indistinguishable from one that found nothing to do,
+    # which is the whole failure mode this ladder exists to remove (R32).
+    _arity_rc = None
+    _arity_snapshot = {}
+    if draft_fns:
+        # snapshot every file the pre-pass may touch, so the undo is a restore, not a re-derivation
+        for _f in ([os.path.join(REPO, "src/shared/engine_core.h")]
+                   + glob.glob(os.path.join(REPO, f"src/{binary}/{binary}*.c"))):
+            try:
+                _arity_snapshot[_f] = open(_f).read()
+            except OSError:
+                pass
+        _arity = [PY, "tools/fix_arity_callers.py", "--apply", "--funcs", ",".join(draft_fns),
+                  "--drafts", d1, "--binary", binary, "--any-proto"]
+        try:
+            _r = sh(_arity, timeout=600)
+            _arity_rc = _r.returncode
+            if _r.returncode != 0:
+                print(f"[gate] arity pre-pass FAILED rc={_r.returncode}: "
+                      f"{(_r.stderr or _r.stdout).strip()[:200]}", file=sys.stderr)
+        except Exception as e:                               # never let the pre-pass sink the gate
+            print(f"[gate] arity pre-pass skipped: {e}", file=sys.stderr)
+
     verified = _gate1(binary, src, asm, out, good_sha, d1, verified_out, failed_out)
+
+    # UNDO for the drafts that did NOT bank — by SNAPSHOT RESTORE, never by `--revert`.
+    #
+    # `--revert` rewrites `()` -> `(void)`. That is the exact inverse of a PLAIN apply (which only
+    # relaxes `(void)`), but NOT of `--any-proto`, which relaxes ANY prototype. Round-tripping an
+    # unbanked function whose real decl was `extern void func_801708B0(void *a0);` therefore wrote
+    # back `(void)` — a DIFFERENT signature, in a header all 138 overlays include.
+    #
+    # Byte-cost, measured 2026-07-21: ov_SC01_077 gated byte-identical and 138 of 140 binaries then
+    # FAILED check-all. The single-binary gate cannot see this, because the edit is fleet-wide and
+    # the gate verifies one binary — so a lossy undo here is invisible until the full R22 sweep.
+    # Restoring the pre-pass snapshot and re-applying ONLY for the functions that banked is exact by
+    # construction and cannot invent a signature.
+    _unbanked = [f for f in draft_fns if f not in verified]
+    if _unbanked and _arity_snapshot:
+        try:
+            for _f, _txt in _arity_snapshot.items():
+                with open(_f, "w") as _fh:
+                    _fh.write(_txt)
+            if verified:
+                sh([PY, "tools/fix_arity_callers.py", "--apply", "--funcs", ",".join(verified),
+                    "--drafts", d1, "--binary", binary, "--any-proto"], timeout=600)
+        except Exception as e:
+            print(f"[gate] arity snapshot-restore failed: {e}", file=sys.stderr)
 
     d = d1
     fails1 = [f for f in draft_fns if f not in verified]

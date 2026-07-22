@@ -4514,3 +4514,64 @@ cut finer.
 
 **Cookbook idiom for drafters (recurring):** `sltiu rd, rs, 1` ⇒ the C is `!x` / `x == 0`, NOT `x ^ 1`.
 The XOR form emits `xori` and can never match.
+
+## §61 — Task 14: the gate ladder's missing stage is the ARITY pre-pass, and it is TU-side not draft-side (Phase 29, 2026-07-21)
+
+`gate_stage`'s recovery ladder was four DRAFT rewrites (`canon_resident_calls` → `cast_call_sites` →
+`reconcile_tu` → gate → `sig_unify` → gate). The dominant residual blocker is not in the draft at all.
+
+**Diagnosis (not assumption).** The 12-draft integration probe banked 1/12 and reported the SAME failure
+label for 10 of the 11 failures: `warning: conflicting types for built-in function 'memcpy'`. That label is
+the §58 red-herring — it is a WARNING, from an unrelated TU position, and it is not the failure. Splicing
+three of the highest-reach failures individually and reading real cc1 stderr gave the actual cause:
+
+    src/…_jr_8016AB6C.c:3839: conflicting types for `func_8016EFC8'      <- 3 of 3
+    src/…_jr_8012ACE0.c:879:  redefinition of `struct V8'                 <- a SECOND class
+
+The first is the **loose-typing arity conflict**: an already-banked shared caller macro in
+`src/shared/engine_core.h` declares the function with FEWER parameters than its byte-true definition takes
+(`extern s32 func_8016EFC8(s32);` and it calls with one arg, while the def takes two — the original calls
+K&R-style with fewer args than the callee reads). A C89 prototype makes that a hard error.
+
+**The fix already existed and was simply not wired in.** `tools/fix_arity_callers.py --any-proto` rewrites
+those caller decls to the no-prototype K&R form (byte-neutral: an empty/short call emits identical code, and
+a no-proto decl is compatible with a definition whose params are default-promotion-safe). Byte-probe:
+`func_8016EFC8` (reach-138) went gate-REJECTED → BANKED byte-identical after 7 caller decls were rewritten.
+
+**Wiring notes that cost real time:**
+* It is a **TU-side** pre-pass, not an `_xform`: it edits shared state (`engine_core.h` + the overlay's own
+  inline caller decls), so it is scoped to the drafts in play and **reverted for every function the gate
+  then rejects** — a bank that SUCCEEDED must keep its loosened decl or the tree stops building.
+* `--funcs` is REQUIRED; `--drafts` is only the narrow-param filter. Wiring it with `--drafts` alone made
+  the stage exit `no funcs given` — and because `sh()` does not raise on a non-zero exit, the surrounding
+  try/except never saw it. **The stage silently did nothing and the gate reported 0/6 as if diagnosed.**
+  Hence the explicit `returncode` check now in the ladder: a pre-pass that quietly no-ops is
+  indistinguishable from one that found nothing to do, which is the exact failure this ladder exists to
+  remove (R32). Author's note: this was committed roughly an hour after writing §60b about silent skips.
+
+**Measured:** on the 7 highest-reach-weighted `ov_SC01_077` integration candidates, the enriched ladder banks
+**2** (`func_8016EFC8`, `func_80164418`) against a **1/12** baseline for the old ladder.
+
+**THE INCIDENT THIS STAGE CAUSED, and the constraint it establishes.** Pairing `--apply --any-proto`
+with `--revert` for the drafts that did NOT bank **broke 138 of 140 binaries.** `--revert` rewrites
+`() -> (void)`, which inverts a PLAIN apply but not `--any-proto` (which relaxes ANY prototype), so the
+round-trip turned an unbanked function's real decl `extern void func_801708B0(void *a0);` into `(void)` —
+a DIFFERENT signature — in `engine_core.h` and in 6 places in the overlay's own sources.
+
+**A SINGLE-BINARY GATE CANNOT VALIDATE A FLEET-WIDE EDIT.** `harvest_verify --binary ov_SC01_077` reported
+byte-identical and was RIGHT — about that one binary. The other 137 were broken and structurally invisible
+to it, because the edit lands in a header all 138 overlays include. Only the standing R22 clean-fleet sweep
+saw it. This is the same shape as §55b's propagation law, one level down, and it yields a hard constraint:
+
+> **Any ladder stage that mutates SHARED state (`engine_core.h`, `engine_types.h`, another binary's TU)
+> must be undone by SNAPSHOT RESTORE, never by an inverse transform, and must be validated fleet-wide
+> (R22) rather than by the per-binary gate that authorised it.**
+
+`gate_stage` now snapshots every file the pre-pass touches and undoes by restore + re-apply-for-the-banked-
+set-only: exact by construction, and incapable of inventing a signature. The planned type-lift stage edits
+`engine_types.h` — also shared — so it inherits this constraint by default.
+
+**The residual class, named for the next stage:** `redefinition of 'struct <T>'` — the draft defines a local
+struct the TU already defines. That is the type-lift / local-typedef-uniquify class (§19/§57a/§59), NOT the
+arity class, and three of the five remaining failures carry a `(void)` header decl that the arity pass alone
+does not clear. Wire that next, and validate it the same way: splice one, read real stderr, probe, then wire.
