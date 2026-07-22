@@ -1288,3 +1288,45 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   bytes; matched-state from the live `corpus.stubs`) — the real limitation is **R34**: `sig_image` cannot
   independently validate a PS-X EXE, so main has no second, disagreeing oracle. The LINKED-PsyQ exclusion
   is correct for a GAME-CODE contract.
+
+> **🛑 SESSION-10 CHECKPOINT (2026-07-22) — supersedes SESSION-9; safe to open a FRESH session here.**
+> Tree clean (only R23 `db.*.gbf` churn). **R22 clean-fleet 140/140 byte-identical** (verified 9× today);
+> `tools-health` OK (dedup 1848/0, C1 234481/234481); 0 NON_MATCHING (G4). **Drew pushes** (R6/R20).
+> **Fleet (main NOW INCLUDED, roadmap §1): 78.4% instr · 67.1% distinct · 88.14% fn-count.**
+> Ex-main continuity figure: 78.7% instr (session opened 78.0).
+>
+> **THE SESSION IN ONE LINE: five "compiler walls" were our own tooling, and the biggest one had made
+> the shared byte-gate unable to bank ANY binary except ov_SC01_077 for a month.**
+> 1. **`gate_stage` gated every non-077 binary against ov_SC01_077's SHA** (`good_sha=a.good_sha or
+>    DEF_SHA`, truthy default beat the per-binary lookup). Builds one binary, compares another's hash →
+>    every draft reports `"near"` → nothing can bank. **Blast radius MEASURED: 0 of 6,708 backlog records
+>    affected** (all 4 programmatic callers pass the sha correctly — which is why the grinder banked in
+>    ov_SC03_014 while the CLI banked 0/10 the same week, a disagreement nobody compared).
+> 2. **The jtbl undo was EATING THE TREE** — `jr_isolate_all` truncates the original `src/<ov>/<nm>.c`;
+>    both `harvest_verify` and `gate_stage` snapshotted only `config/`. Fixed in the former, the batch
+>    pre-pass DELETED from the latter (R33).
+> 3. **The isolation must follow the splice** (like the carve, §61b) — isolating around a STUB gives the
+>    region the wrong ambient decl set → byte-DIFF, not a compile error.
+> 4. **`jtbl_family_bank.revert` left the tree GIT-CLEAN BUT UNBUILDABLE** (restores config, never
+>    re-extracts). Fixed + negative-control-validated.
+> 5. **The FLOOR VERDICT was an artifact of snapshot frequency** — three mid-session snapshots of a
+>    +0.7pp session averaged to +0.23 and printed "AT THE FLOOR — consider closing P29". **I nearly closed
+>    the phase on it.** `--session-close` added; floor now UNDETERMINED, needs 3 session boundaries.
+>
+> **BANKED:** 7 of 12 preserved t5wave cracks + 5 families swept ×134-138 (`func_80135A4C`,
+> `func_80135888`, `func_80135D20`, `func_801299C8`, `func_80167714`) ≈ **+680 member-instances**.
+>
+> **▶ NEXT (recommended, in order):**
+> 1. **A CRACK WAVE over `ov_SC06_018`'s prefetch** (~89 of 101 cached substantial stubs undrafted;
+>    Task-5 measured this overlay at 1.59pp of fresh families). **BREADTH — prompt Drew for
+>    `/effort ultracode` and WAIT for the toggle (R27); do not launch on a verbal yes.**
+>    **Rationale (the day's key planning finding): sweeps only pay when they RIDE a fresh ×1 crack —
+>    cracking GENERATES sweep fuel.** The h_seq sweep from an ov_SC01_077 exemplar is byte-proven dead
+>    (4 refusals × ~137 members); the remaining 1.27pp zero-crack pool is largely UNAVAILABLE.
+> 2. **P29 item 4, the family-adapt fine-tune** — the only untouched plan item; compute-bound, local, $0,
+>    kill criterion = beat v3 on a 50-fn byte-gated sample. Today makes it *more* interesting:
+>    adaptation-from-a-fresh-exemplar is exactly the task that worked.
+> 3. **Do NOT close P29 on ROI grounds** — the floor is undetermined by the (now-honest) instrument.
+> **CARRIED:** 5 t5wave cracks still blocked (2 DIFF, 2 CC1-FAIL, 1 §57) at `.run/giants/t5wave_*` — do
+> NOT re-draft. **HYGIENE:** a bankless `family_sweep` leaves byte-neutral NSD churn on matched code —
+> `git checkout -- src/` after a 0-bank sweep (§57a NB); 133 such files reverted at this checkpoint.
