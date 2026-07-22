@@ -66,6 +66,12 @@ def load_log():
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--label", default="", help="optional session label for this snapshot")
+    ap.add_argument("--session-close", action="store_true",
+                    help="mark this snapshot as a SESSION BOUNDARY. The floor verdict is computed "
+                         "ONLY from these: the ROI criterion is per-SESSION yield, so averaging "
+                         "mid-session snapshots silently drives the mean down and manufactures a "
+                         "floor (byte-witnessed 2026-07-22: three mid-session snapshots of a +0.7pp "
+                         "session read as mean +0.23 = 'AT THE FLOOR').")
     ap.add_argument("--floor-pp", type=float, default=0.3,
                     help="instr-pp/snapshot below which yield is 'at the floor' (default 0.3)")
     ap.add_argument("--no-append", action="store_true", help="report only; do not write the snapshot")
@@ -74,7 +80,7 @@ def main():
     fleet, front, head = parse_fleet(), parse_frontier(), git_head()
     if fleet["instr_pct"] is None:
         sys.exit("burndown: could not parse docs/progress.fleet.md — run `make report` first.")
-    snap = {"head": head, "label": a.label, **fleet, **front}
+    snap = {"head": head, "label": a.label, "session_close": bool(a.session_close), **fleet, **front}
 
     log = load_log()
     prev = next((s for s in reversed(log) if s.get("head") != head), None)  # last DIFFERENT commit
@@ -113,9 +119,18 @@ def main():
     print("-" * 64)
 
     # ---- floor verdict: mean instr-pp over the last N inter-commit deltas ----
+    # GRANULARITY GUARD (2026-07-22). The phase's ROI criterion is "per-SESSION yield floors out",
+    # so the deltas averaged here must be SESSION-to-SESSION. Mid-session snapshots are useful for
+    # tracking but must NOT feed the verdict: three of them inside a single +0.7pp session average
+    # to +0.23 and read as "AT THE FLOOR" — an artifact of how often someone ran the tool, not a
+    # measurement of yield decay. Count only snapshots explicitly marked --session-close; older
+    # records predate the flag, so treat a label containing "close" as one too.
+    def _is_close(r):
+        return bool(r.get("session_close")) or ("close" in (r.get("label") or "").lower())
+    marks = [r for r in log if _is_close(r)]
     hist = []
-    for i in range(1, len(log)):
-        a_, b_ = log[i - 1], log[i]
+    for i in range(1, len(marks)):
+        a_, b_ = marks[i - 1], marks[i]
         if a_.get("head") != b_.get("head") and a_.get("instr_pct") and b_.get("instr_pct"):
             hist.append(round(b_["instr_pct"] - a_["instr_pct"], 2))
     if len(hist) >= 3:
@@ -125,7 +140,8 @@ def main():
         print(f"  velocity (last 3 snapshots, instr pp): {recent}  mean {mean:+.2f}")
         print(f"  FLOOR VERDICT (threshold {a.floor_pp} pp): {verdict}")
     else:
-        print(f"  velocity: {len(hist)} inter-commit delta(s) logged — need >=3 for a floor verdict.")
+        print(f"  velocity: {len(hist)} SESSION-to-SESSION delta(s) logged — need >=3 for a floor "
+              f"verdict ({len(marks)} session-close snapshot(s) on record).")
         print(f"  (seed more snapshots each session: `make report && tools/family_hseq.py && tools/burndown.py`)")
     print("=" * 64)
 
