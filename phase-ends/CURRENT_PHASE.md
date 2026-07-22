@@ -902,65 +902,55 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   PLUMBING (§57 self-decl et al), not the carve. **Tree reverted; clean-fleet 140/140; nothing banked.**
   All 12 cracks preserved at `.run/giants/t5wave_*`. Commit `commit:0803`.
 
-> **🛑 SESSION-6 CHECKPOINT (2026-07-21) — safe to open a FRESH session here.** Tree clean (only the R23
-> `db.*.gbf` churn + 4 preserved wave-4 `-O0` drafts). **R22 clean-fleet 140/140 byte-identical**;
-> `make tools-health` OK (dedup **1847/0**, C1 234343/234343); 0 NON_MATCHING (G4). HEAD `commit:0772`
-> (Drew pushes — commits `commit:0771` Task-13A, `commit:0772` Task-13B).
+> **🛑 SESSION-6 CHECKPOINT (2026-07-21, superseded by SESSION-7 below) — Task 13A/13B.**
+> The classifier + the targeting finding: of the **972** grinder-admissible records only **75 (7.7%)**
+> are permuter-shaped, so ~92% of its CPU was unreachable work. Directed run: 24 wins → **21 banked**
+> (27%); `func_80141B90` propagated **×138**. Plateau autopsy: **ZERO missing-transforms** — the
+> plateaus are wrong drafts, so the win was NARROWING admission (permuter bucket 389→84), not widening
+> the mutation set. Commits `commit:0771`, `commit:0772`, `commit:0796`, `commit:0794`.
+
+> **🛑 SESSION-7 CHECKPOINT (2026-07-22) — THE CURRENT ONE; safe to open a FRESH session here.**
+> Tree clean (only R23 `db.*.gbf` churn + preserved drafts). **R22 clean-fleet 140/140 byte-identical**;
+> `make tools-health` OK (dedup 1848/0, C1 234481/234481); 0 NON_MATCHING (G4). HEAD `commit:0804`.
+> **Fleet 78.0% instr · 66.5% distinct-code · 87.9% fn-count** (flat this session — see "banked: 0").
+> **Drew pushes** all commits (R6/R20).
 >
-> **THIS SESSION delivered Task 13A + the first directed 13B run.** The headline is not the classifier, it is
-> what it MEASURED: of the **972** records the grinder's own filter admits, only **75 (7.7%)** are
-> permuter-shaped — 547 structural, 348 drafts that are not the function at all. **~92% of the daemon's CPU
-> has been going where a search-closer provably cannot win**, which is the byte-grounded explanation of the
-> Phase-22 audit's "7 banks all-time, all Phase 21, 0 since." It was never a missing transform; it was
-> **targeting**. Fixed free (1,303 → 78 candidates + directed profile from the measured class, since 91% of
-> records carry no label and the "directed" search was silently running on gcc defaults). The very first
-> directed run then **won on its first candidate** and banked 2.
+> **THIS SESSION (after 13A/13B): Task-14 stage 1, Task 5, a 12-agent wave, and the jtbl campaign.**
+> * **Task 14 stage 1 — the ARITY pre-pass** (`commit:0797`): diagnosed from REAL cc1 stderr (the gate's
+>   own `memcpy` label is the §58 red-herring, 10/11 identical). Banks **2 of 7** vs a **1/12**
+>   baseline. **NEW HARD CONSTRAINT (§61):** any ladder stage mutating SHARED state must undo by
+>   SNAPSHOT-RESTORE, never an inverse transform, and be verified FLEET-WIDE — it broke 138/140 once.
+> * **Task 5 — Ghidra-C prefetch** (`commit:0798`): `ov_SC06_018` imported, **101 stubs decompiled**
+>   (cache 882→983). Scoping corrected my own claim: the substantial mass is **1,398 h_seq families**;
+>   **340 (7.72pp) are already-attempted/walled**, **1,058 (5.40pp) fresh**, and the 877 needing a
+>   prefetch have **median 1 member** (overlay-unique) → prefetch is PER-OVERLAY, one import ≈ 1.59pp.
+> * **The wave** (`commit:0799`): 12 agents, ~2M tokens → **11 MATCH / 1 near**, incl. all 3 giants
+>   (710/673/478). **Gate banked ZERO.** All 12 preserved at `.run/giants/t5wave_*` — **DO NOT re-draft.**
+> * **jtbl campaign** (`commit:0800`, `commit:0801`, `commit:0803`): the carve-must-follow-splice law
+>   implemented in `harvest_verify` (temporary splice → carve → isolate → un-splice → re-extract →
+>   re-derive stub map). `jr_inventory`'s ownership assertion was **RIGHT** — it caught MY stranded
+>   carve. Fixed per-function snapshot-restore; found per-function undo is unsound in a batch
+>   (isolation repartitions shared source).
 >
-> **▶ THE SINGLE NEXT TASK: finish 13B — run the directed permuter over the remaining ~73 permuter-bucket
-> functions**, then autopsy only what genuinely plateaus. Command:
-> `.venv/bin/python tools/grinder.py --once --batch 20 --permute-secs 120 -j 14 --max-closeness 30`
-> (repeat; `--no-targeting` A/Bs the filter). Expect ~2 min/fn of CPU, no tokens. **Re-run
-> `tools/autopsy.py collect` first** if the backlog has moved (21 s) — the corpus is regenerable and
-> gitignored by policy. THEN, and only then, the LLM batch autopsy over the survivors: cluster by `sig`
-> (`docs/autopsy.md`), one representative per cluster, routing each to missing-transform (extend
-> `permuter_weights`) / mis-classified / seed-structural / genuine-wall-with-expiry.
+> **⛔ THE ONE BLOCKER, AND THE SINGLE NEXT TASK (cookbook §61c):** the jtbl carve+isolation path is
+> **INCREMENTALLY VALID AND CLEAN-INVALID.** `func_80135A4C` banks every time at the gate
+> (BYTE-IDENTICAL) and **fails `make clean && extract-all && check-all` TWICE, identically**
+> (139/140, `[FAIL] ov_SC06_018`). The gate cannot see it **because the gate IS the incremental
+> build** (§42b, worst form). **NEXT: diff the incremental vs clean `build/ov_SC06_018/**` object set
+> + the generated `.ld`/asm for the carved subseg. Do NOT bank any jtbl core until it reproduces.**
 >
-> **CARRIED, with measured prices (not projections):** (a) the **306 `integration`** rows — a 12-draft gate
-> probe banked **1/12** (11 PLUMBING), so this **prices Task 14's §57/§59 reconcile ladder** rather than
-> promising free banks; it is the largest reach-weighted bucket (2,303) and the ladder is the lever.
-> (b) the **699 `redraft`** rows are **un-attempted work misfiled as near-misses** (a ~15-ins draft scored
-> against a large target; "closeness 278" is a length artefact) — fresh crack fuel, and the reason
-> `docs/backlog.md`'s closeness ranking overstates how nearly-done the frontier is. (c) `func_80167714`
-> (104 ins, reach-134) and the 2 grinder banks are **×1, un-propagated by design** (§55b: propagation is its
-> own targeted `dedup_propagate --addr` batch).
+> **BANKED THIS SESSION: 0.** 21 came from 13B earlier; everything after is tooling + findings.
+> Reported as zero, not rounded up.
 >
-> **DO NOT RE-DERIVE (this session's byte-grounded findings):** `residual_class` closeness == 
-> `masked_diff.structured_diff` on 1,673/1,673 rows, 0 classifier errors (R34 cross-check is baked into
-> `autopsy collect` and refuses the corpus on any disagreement). `masked_diff`'s shared probe file was
-> losing **0.8% of drafts in every parallel wave** (now per-PID). `gate_stage` never passed `--o0` (phantom
-> residuals for every -O0 function, written into this very backlog). The three §60a gate defects are fixed.
+> **MEASURED, do not re-derive:** of 11 preserved cracks exactly ONE reaches byte-identical via the
+> carve path; the other 4 table-bearing ones fail **one-at-a-time too**, on §57 plumbing, not the carve.
+> The remaining wave drafts' blockers are §57 self-decl + local-type redefinition → **Task 14 stages
+> 2–3** (`normalize_self_decls` and the type-lift are wired into `family_sweep` but NOT `gate_stage`).
 >
-> **SESSION-5 CHECKPOINT (2026-07-20) — superseded by the Task-13A/13B entries above.** Tree clean (only db.*.gbf R23
-> churn), **140/140 byte-identical** (last R22 clean-fleet at the crack-wave-4 verify + func_8017AE2C ×137;
-> Task-8/12 tooling changes touch only matching-loop tools, no build/src output). tools-health OK (dedup 1846/0
-> class). Main HEAD after this = the checkpoint commit. **Fleet 78.0% instr · 66.5% distinct-code · 87.9%
-> fn-count** (remaining substantial frontier 572 families / 1.58M templatable ins).
-> **THIS SESSION delivered (commits `commit:0736`..this):** (1) **crack-waves 1–4** — the non-MCP cached substantial
-> crack-fuel is now DRAINED; crack-wave 4 = 6 -O2 cores ×1 (`commit:0766`), its ×138 propagation + 4 -O0 cores
-> DEFERRED (integration/-O0 walls). (2) **2 tooling fixes** — `family_sweep --source` now honored + `jtbl_family_bank`
-> span-fit auto-isolate → **recovered `func_8017AE2C` ×137** (`commit:0763`, R22 140/140). (3) **`tools/burndown.py`**
-> (the ROI-close instrument, `commit:0764`). (4) **`docs/hindsight-study.md`** (`commit:0765`) — the optimal-decomp-ordering
-> study for a future Fable roadmap pass; **§7 = the permuter-failure-autopsy design**. (5) **Task-12** (`commit:0768`) —
-> structured failure telemetry NOW FLOWS (`masked_diff.structured_diff` + `match_one --json` + `backlog.residual`/
-> `passes_tried` + `gate_stage` logs the residual per near/fail, verified end-to-end) + grinder durably saves the
-> winning C to `.run/permuter-winners/` before banking.
-> **THE SINGLE NEXT TASK (fresh session): Task 13 (A+B)** — build the deterministic residual→class classifier +
-> the LLM-batch autopsy that routes each backlog plateau to missing-transform (extend `permuter_weights` pass→class
-> map) / mis-classified (fix classifier) / seed-structural (one LLM seed) / genuine-wall (file w/ expiry). Then
-> **Task 14 (C+D)** — enrich `gate_stage`'s ladder with §57/§59 so more wins auto-integrate + grinder auto-R22
-> every N wins. Then run the closed loop (improved permuter over the whole backlog → collect telemetry → extend
-> ILS → re-run → track the LLM-free fraction via `burndown.py`). **DESIGN SUBSTRATE: `docs/hindsight-study.md` §7 +
-> Tasks 12–14.** Carried residuals: crack-wave-4's 6 -O2 ×138 propagation + 4 -O0 (needs the Task-14 ladder / -O0
-> rollout); the permuter backlog (Task 10, 550 close-1..4 — the autopsy loop's input). **Effort: Max for the
-> classifier/autopsy design (Task 13 is Tier-1 synthesis); prompt Ultracode only for a breadth backlog-sweep.**
-> **Drew pushes all commits (R6/R20).**
+> **PHASE STATE:** remaining frontier **22.0pp** (substantial 80–1000 ins = 12.84pp · mid 16–79 =
+> 8.60pp · behemoths 0.28pp · small 0.25pp). Remaining tasks: **§61c diagnosis (gates all jtbl)** ·
+> Task 14 stages 2–3 · Task 4 remainder · Task 7 ROI-close · ~11 un-propagated small banks · the
+> −O0 rollout (splat wall) · 2 permanent giant walls.
+> **Effort:** xHigh is fine for the §61c diagnosis (settled shape); prompt **Max** if it turns into
+> non-obvious debugging. **3 stuck self-matching `pgrep` waiters** may still be sleeping (harmless;
+> kill by PID if seen).
