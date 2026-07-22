@@ -877,6 +877,31 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   `\`-continuations it can't parse — NOT a corpus defect).
   **All 12 wave cracks preserved at `.run/giants/t5wave_*`.** Commits `commit:0800`, `commit:0801`.
 
+- **✅ 2026-07-21 — jr_inventory ownership INVESTIGATED (the tool was RIGHT) + the CLEAN-REBUILD
+  BLOCKER that stops all jtbl banking.** Drew asked to fix `jr_inventory` and bank the 9. Root-caused
+  instead: **`jr_inventory`'s 1:1 ownership assertion is CORRECT and was catching MY defect.** The
+  UNOWNED carve `0x801d288c` is **func_801299C8's table** — `_jtbl_prep` carved it, the gate REJECTED
+  the draft, and the carve stayed with no owner (fn still `INCLUDE_ASM`), poisoning every later
+  isolation in that overlay (the 4 downstream isolate-FAILs). R32/R33 working exactly as designed.
+  **FIXED in `harvest_verify`:** per-function carve + exact snapshot-restore (config text + only that
+  attempt's region files) on gate rejection. **SECOND FAULT FOUND:** per-function undo is UNSOUND in a
+  BATCH — isolation REPARTITIONS shared source, so restoring one draft's snapshot deletes region files
+  now hosting OTHER pending drafts and their stubs vanish (`KeyError` in render). jtbl drafts must run
+  **one per `harvest_verify` invocation** (or the undo must be region-aware).
+  **⛔ THE BLOCKER (cookbook §61c) — why the 9 are NOT banked:** the carve+isolation path yields a state
+  that is **INCREMENTALLY valid and CLEAN-INVALID**. `func_80135A4C` banks every time through the
+  automated path (`[jtbl] carved` → `+ chunk(1)` → BYTE-IDENTICAL at the gate) and **fails
+  `make clean && extract-all && check-all` TWICE, identically (139/140, [FAIL] ov_SC06_018)**. The bank
+  is therefore NOT reproducible from committed config+source, and **the gate that authorises it cannot
+  see the defect because the gate IS the incremental build** (§42b in its most expensive form).
+  **=> NO jtbl core can be banked until that divergence is diagnosed.** ▶ **NEXT: diff the incremental
+  vs clean `build/ov_SC06_018/**` object set + the generated `.ld`/asm for the carved subseg — do NOT
+  bank more until it reproduces.**
+  **MEASURED (do not re-derive):** of 11 preserved cracks exactly **ONE** (`func_80135A4C`) reaches
+  byte-identical through the carve path; the other 4 table-bearing ones fail **one-at-a-time too**, on
+  PLUMBING (§57 self-decl et al), not the carve. **Tree reverted; clean-fleet 140/140; nothing banked.**
+  All 12 cracks preserved at `.run/giants/t5wave_*`. Commit `commit:0803`.
+
 > **🛑 SESSION-6 CHECKPOINT (2026-07-21) — safe to open a FRESH session here.** Tree clean (only the R23
 > `db.*.gbf` churn + 4 preserved wave-4 `-O0` drafts). **R22 clean-fleet 140/140 byte-identical**;
 > `make tools-health` OK (dedup **1847/0**, C1 234343/234343); 0 NON_MATCHING (G4). HEAD `commit:0772`
