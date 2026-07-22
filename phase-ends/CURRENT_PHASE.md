@@ -854,6 +854,29 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   **Tree restored byte-identical; nothing banked this round; `func_80135A4C`'s manual bank was reverted
   with it** (its draft is preserved at `.run/giants/t5wave_*`, re-bankable by the recipe in minutes).
 
+- **✅ 2026-07-21 — jtbl prep MOVED INTO `harvest_verify` — it BANKS automatically; new blocker named.**
+  Implemented the carve-must-follow-splice law where the splice actually happens: `_jtbl_prep()`
+  splices each table-bearing draft TEMPORARILY, asks `jtbl_carve`, isolates on the §8b walls,
+  un-splices, re-extracts, and **re-derives the stub map + baseline** (isolation MOVES a stub's TU).
+  **BYTE-PROVEN AUTOMATED:** `func_80135A4C` (181 ins, 138 members) → `[jtbl] carved 1/1` →
+  `+ chunk(1)` → **verified 1 / failed 0, BYTE-IDENTICAL**, no manual steps.
+  **⚠️ NEW BLOCKER (precise, byte-proven both ways): banking a jtbl core makes its own carve UNOWNED
+  to `jr_inventory`, which then refuses EVERY subsequent isolation in that overlay** —
+  `committed .rodata carve ownership is not 1:1 (R32/R33) … [('UNOWNED','0x801d288c')]`. On the
+  COMMITTED tree `jr_isolate_all --only func_80135260 --dry-run` succeeds; with `func_80135A4C`
+  banked it fails. The assertion is RIGHT (a banked fn's stub `.s` is pruned → owner lookup finds
+  nobody) but its conclusion is wrong — the carve IS owned, by C rather than a stub. **So jtbl cores
+  currently bank ONE PER OVERLAY.** 10-draft batch: 6 table-bearing → 1 carved, **4 isolate-FAILED**,
+  1 stale-asm carve fail. **▶ NEXT INCREMENT (one precise change): resolve `jr_inventory`'s carve
+  owners from `corpus.matched ∪ stubs`, not stubs alone (R33 — the same derive-don't-reparse move
+  that fixed the corpus oracle). That unblocks batch jtbl banking + the 9 preserved cracks.**
+  **BANK NOT KEPT:** R22 clean-fleet showed **139/140** (ov_SC06_018 fails from a CLEAN tree) though
+  the INCREMENTAL build read byte-identical — the §42b stale-incremental false pass R22 exists to
+  catch. Reverted; **clean-fleet re-verified 140/140**, tools-health OK (dedup 1848/0). Also cleared
+  my ladder scratch dirs, which were tripping `audit-cdecl` (it scans draft dirs; agent drafts carry
+  `\`-continuations it can't parse — NOT a corpus defect).
+  **All 12 wave cracks preserved at `.run/giants/t5wave_*`.** Commits `commit:0800`, `commit:0801`.
+
 > **🛑 SESSION-6 CHECKPOINT (2026-07-21) — safe to open a FRESH session here.** Tree clean (only the R23
 > `db.*.gbf` churn + 4 preserved wave-4 `-O0` drafts). **R22 clean-fleet 140/140 byte-identical**;
 > `make tools-health` OK (dedup **1847/0**, C1 234343/234343); 0 NON_MATCHING (G4). HEAD `commit:0772`
