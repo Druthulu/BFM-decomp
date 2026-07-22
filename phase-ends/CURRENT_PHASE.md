@@ -132,8 +132,29 @@ arithmetic scales (R14/R35).** Every prior "structural wall" (B2, SC07, pin-cras
 - [ ] **Task 4 — Member harvest behind each crack + grinder family-warm-start [xHigh/Ultracode]** —
       propagate members per Task-2's mechanism; build the grinder family-warm-start + 2 Phase-22
       bug-fixes (split-file-blind lookup; churn-without-blacklist).
-- [ ] **Task 5 — Fleet Ghidra-C prefetch (JIT drafting fuel) [xHigh; MCP: R23/R29 — prompt /mcp]** —
-      built only when Task-3 waves exhaust the ~300-fn cache.
+- [~] **Task 5 — Ghidra-C prefetch: SCOPED BY MEASUREMENT, then executed per-overlay [Max]** 2026-07-21
+      **The frontier, measured honestly (and it corrected me twice):** remaining = **2,873,658 stub ins =
+      22.0pp** (resident+138 overlays; main is outside this denominator). By band: **substantial 80–1000
+      ins = 10,934 fns / 12.84pp** · mid 16–79 = 27,952 / 8.60pp · behemoths >1000 = 14 / 0.28pp ·
+      small ≤15 = 2,700 / 0.25pp.
+      **I first claimed Task 5 "gates 12.84pp". It does not.** The substantial mass is **1,398 distinct
+      h_seq families**, and splitting them by whether their exemplar was ever attempted:
+      **340 families / 7.72pp are ALREADY-ATTEMPTED or WALLED** (the top-12 by value are exactly our known
+      set — `func_8013C414` -O0, `func_8014D820` close-11, `func_801412A8` permanent wall, `func_8013B83C`/
+      `func_8015B950` cracked-but-deferred, `func_8013D53C` 14/137, `func_8013BD74` §8e-2 …), i.e. they need
+      the DEFERRED TOOLING fixes (-O0 rollout, jtbl §8c/§8e-2, def-side wall), NOT fresh drafting.
+      **1,058 families / 5.40pp have a never-attempted exemplar — the true fresh fuel.** Of those:
+      **48 families / 0.62pp already have a cached member (draftable NOW, no MCP)** and **877 families /
+      3.10pp have none** (median **1 member** → overlay-UNIQUE code, which is exactly why it was never
+      cached: the big 138-member families all live in ov_SC01_077 and were cached+drained by waves 1–4).
+      **So the prefetch is per-overlay, not fleet-wide.** Greedy cover: importing **ONE overlay
+      (`ov_SC06_018`) unlocks 54 fresh families = 1.59pp**; imports 2–8 add only +0.59pp combined
+      (ov_SC03_015/ov_SC07_006/ov_SC03_124/ov_SC06_029/ov_SC02_011/ov_SC03_094/ov_SC04_011), leaving a
+      632-family long tail. Ranked ready-list: `.run/autopsy/t5_ready.json`.
+      **EXECUTED:** MCP stopped (R23, save succeeded) → `ghidra_import_raw.sh …/SC06.CD.dir/FILE_018.dir/
+      0.4.dec 0x80128158 ov_SC06_018` → `DefineFunctions` → `DecompileFunctions` over the **101 uncached
+      substantial stubs** (`.run/ov_SC06_018_funcs.txt`, 17,723 ins; largest `func_80191C50` 710,
+      `func_8019059C` 673, `func_8018F694` 478). **R29: Drew must run `/mcp` after the server restarts.**
 - [ ] **Task 6 — Mechanical mass: tiny-IMM mega-pools + permuter backlog sweep [Ultracode/permuter]**
       — `0x80131eec` (2,887×15) + `0x80130d0c` (2,679×15) via `imm_map`; the 550 close-1..4
       backlog drafts via grinder/`permuter_ils`.
