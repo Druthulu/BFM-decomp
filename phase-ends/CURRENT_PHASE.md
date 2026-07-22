@@ -1054,3 +1054,50 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   **Housekeeping:** cookbook — the `git add -u` complementary hole (an isolation's NEW region file is
   untracked → a carve/isolation bank needs `git add -A src/ config/`; `jtbl_family_bank`'s uncommitted-tree
   guard is what caught it).
+
+> **🛑 SESSION-8 CHECKPOINT (2026-07-22) — supersedes SESSION-7; safe to open a FRESH session here.**
+> Tree clean (only R23 `db.*.gbf` churn). **R22 clean-fleet 140/140 byte-identical** (run 3× this session);
+> `make tools-health` OK (dedup 1848/0, C1 234481/234481, cdecl 53189/53189, audit-binaries 140 citizens);
+> 0 NON_MATCHING (G4). HEAD `commit:0812`. **Drew pushes** all commits (R6/R20).
+> **Fleet 78.2% instr · 67.0% distinct-code · 87.98% fn-count** (opened 78.0/66.5/87.9).
+> **Banked: +138 function-instances = +25,275 ins** — exactly 137×181 (the `func_80135A4C` family) + 478
+> (the giant `func_8018F694`). Predicted and measured agree to the instruction.
+>
+> **THE HEADLINE: §61c — the phase's single named blocker — IS REFUTED, and the real defect it was hiding
+> is FIXED in two tools.**
+> * §61c claimed the jtbl carve path yields a bank that is incrementally valid and clean-invalid ("139/140,
+>   twice"). **It does not reproduce:** per-binary clean BYTE-IDENTICAL; `make clean && extract-all &&
+>   check-all` **140/140, twice, independently.**
+> * The real defect, byte-witnessed: **`jr_isolate_all` truncates the ORIGINAL `src/<ov>/<nm>.c`** when it
+>   repartitions, and BOTH `harvest_verify._jtbl_restore` and `gate_stage._jtbl_prepare` snapshotted only
+>   `config/` — so every REJECTED draft permanently ate that TU's stubs (measured: 419→414→406→395 →
+>   `undefined reference`). **Invisible to the byte-gate**, because the incremental build keeps linking
+>   stale objects (§42b) while a clean rebuild fails. That is exactly the "139/140" signature.
+> * Fixed in `harvest_verify` (full src snapshot-restore, negative-control-validated); **DELETED** from
+>   `gate_stage` (R33 — §61b had already byte-proved the batch pre-pass cannot work, and harvest_verify does
+>   it correctly one layer down). Also fixed: `classify_fail` was returning a CONSTANT label (the §58
+>   `memcpy` warning won on 8/8 failures across four real causes).
+>
+> **THE RE-PROBE (Drew-directed) — 11 preserved t5wave cracks, one invocation each:**
+> **`func_8018F694` (478 ins) BANKED.** The other 10 gave TEN DISTINCT diagnoses: **4 data-decl · 3
+> callee-decl · 3 self-decl**; **ZERO jtbl-drift, ZERO local-type redef, ZERO codegen DIFF** — so §61a's
+> "§8e-2 jtbl drift blocks 10 of 12" does **not** survive the carve-follows-splice prep.
+> Through `gate_stage`'s ladder (honest re-measurement on a clean tree): **0/10 bank**, **9/10 now COMPILE**
+> and land as whole-binary byte-DIFF, 1/10 plumbing. `match_one` close=0 on several; `rtu_match` MATCH-in-
+> real-TU for `func_80135888`; `func_801299C8` does not compile in its real TU at all → the residual is
+> **MIXED**, and at least one is an IMAGE-level effect (prime suspect: jtbl/rodata carve placement).
+>
+> **▶ THE SINGLE NEXT TASK:** for a close=0 / rtu-MATCH residual (`func_80135888` is the clean specimen),
+> find what changes at the IMAGE level when it is spliced — diff the built image / `.ld` / the carved
+> subseg's placement against the un-spliced build. That decides whether the 9 are a carve-placement class
+> (one fix, nine banks) or nine separate residuals. **Do not** wire more transforms into the ladder first:
+> measured, it converts **0 of 10**, so Task 14 stages 2-3 are not the ten free banks the backlog implies.
+>
+> **STANDING CONSTRAINTS:** one jtbl draft per `harvest_verify` invocation (isolation repartitions shared
+> source). A carve/isolation bank must commit with **`git add -A src/ config/`** — `-u` misses the new
+> region file. **Never measure while a background job mutates the tree** (a mid-run `progress.py` reading
+> misled me by 54 ins this session).
+> **Effort:** xHigh is right for the image-level diff (settled shape); prompt **Max** if it becomes
+> non-obvious root-cause work.
+> **Preserved (R20, do NOT re-draft):** all 12 t5wave cracks at `.run/giants/t5wave_*` (~2M agent tokens);
+> 10 of them now carry a precise per-function blocker.
