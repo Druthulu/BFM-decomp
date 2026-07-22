@@ -1262,3 +1262,29 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   self-match their own `bash -c` command line and can never exit. The SESSION-7 checkpoint had warned
   about exactly this, and the standing rule is no sleep-polling (the harness notifies). Killed; harmless
   to the work, but do not write them.
+
+- **✅ 2026-07-22 (cont.) — ZERO-CRACK VEIN BYTE-PROVEN TAPPED + main folded into the weighted denominators.**
+  **THE SWEEP VERDICT (4 refusals in a row, ~137 members each — no partial middle):** `func_801749C8`
+  **0/135** · `0x80144090` **0/136** · `0x801365B8` **0/133** · `0x80133AB0` **0/137**. Against the day's
+  4 successes at 137-138/138. **THE DISCRIMINATOR IS NOT THE FAMILY'S `PURE` CLASS — IT IS THE EXEMPLAR'S
+  PROVENANCE:** every success templated from a core **freshly banked ×1 today** (`jtbl_family_bank`);
+  every refusal templated from an **ov_SC01_077** exemplar (`family_sweep --hseq`). This CONFIRMS §57a
+  ("the substantial-family frontier is NOT broadly mechanical") rather than contradicting it.
+  **⇒ The remaining zero-crack pool (61 families / 166,769 ins / 1.27pp after excluding 7 done + 7
+  refused) is LARGELY UNAVAILABLE via the h_seq sweep path. Do not bill it as yield. Stopped after 4
+  refusals rather than proving it 57 more times.**
+  **⇒ STRATEGIC INVERSION (the day's most useful planning finding): sweeps only pay when they RIDE a
+  fresh ×1 crack. Cracking is the GENERATOR of sweep fuel, not a parallel track.** The compounding loop
+  demonstrated today: `func_801299C8` banked ×1 (only possible after the gate_stage SHA fix) → immediately
+  swept 137/137. So P29 item 1 (core cracks) should drive item 2, and the honest fuel source is the
+  **per-overlay Ghidra-C prefetch** (Task 5 measured `ov_SC06_018` alone at 1.59pp of fresh families;
+  it is imported, and ~89 of its 101 cached substantial stubs are still undrafted).
+  **METRICS CONTRACT MET (roadmap §1):** `progress.py` now folds **main into the weighted denominators**.
+  It had been a separate provisional line since Phase-27 T10, so the headline silently measured 139 of 140
+  binaries — omitting the least-decompiled one. **instr 78.7% → 78.4% · distinct 67.9% → 67.1%** (the
+  headline DROPS; that is the point). A continuity line keeps the ex-main figure comparable; the
+  binary-count label is corrected ("resident+139 overlays" → "main + resident + 138 overlays").
+  **Caveat restated precisely:** main's numbers do NOT drift (boundaries come from the fixed original
+  bytes; matched-state from the live `corpus.stubs`) — the real limitation is **R34**: `sig_image` cannot
+  independently validate a PS-X EXE, so main has no second, disagreeing oracle. The LINKED-PsyQ exclusion
+  is correct for a GAME-CODE contract.
