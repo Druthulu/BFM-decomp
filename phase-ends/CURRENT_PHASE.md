@@ -1234,3 +1234,31 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   **OBSERVED PATTERN (2 data points, NOT yet a rule): a zero-crack family either sweeps ~100% or refuses
   wholesale** — 137/137, 137/137, 138/138, 137/137 vs 0/135, 0/3. No partial middle so far. Worth
   confirming across more families before relying on it for planning.
+
+- **✅ 2026-07-22 (cont.) — ZERO-CRACK SWEEP TRACK + the revert fix + the FLOOR-VERDICT correction.**
+  **SWEPT/PROPAGATED:** `func_801299C8` **137/137** (~21.6k ins) · `func_80167714` **×134** via
+  `dedup_propagate --addr` (h_exact; the 4 SC07 overlays byte-diverge and were correctly excluded,
+  kept ×1). **REFUSED (3-member probes, ~1 min each vs a 40-min full sweep):** `0x8013C414` **0/3**
+  (the -O0 cluster wall — and it is the LARGEST zero-crack item at 45,073 ins, so the ~2.6pp headline
+  must be discounted by it) · `0x8013C0F8` **0/3**.
+  **PATTERN (5 sweeps vs 3 refusals, still a heuristic not a law): a zero-crack family either sweeps
+  ~100% or refuses WHOLESALE — no partial middle**, and a 3-member probe has predicted the family every
+  time. That makes the remaining ~65 zero-crack families cheap to TRIAGE even though their aggregate
+  yield is clearly well under the 2.6pp headline.
+  **TOOL FIX — `jtbl_family_bank.revert` left the tree GIT-CLEAN BUT UNBUILDABLE:** restoring `config/`
+  from git does not rewind `asm/`, and within a sweep each sibling is a DIFFERENT overlay, so the next
+  sibling's extract never repairs the previous one. `revert()` now re-extracts (`extract=False` only at
+  the clean-slate call, which extracts anyway) and only `git checkout`s TRACKED paths (an isolation's new
+  region files were emitting `error: pathspec ... did not match any file(s) known to git`).
+  **Negative-control-validated:** the same probe still gate-fails 3/3, and all 3 overlays now build
+  BYTE-IDENTICAL with a clean `git status`.
+  **⚠️ THE FLOOR VERDICT WAS AN ARTIFACT — CORRECTED.** `burndown.py` averaged the last 3 INTER-COMMIT
+  deltas, but the ROI criterion is per-SESSION yield. Three mid-session snapshots of a **+0.7pp** session
+  averaged to **+0.23** and printed **"AT THE FLOOR — consider closing P29"**. **I nearly closed the phase
+  on it.** Fixed: `--session-close` marks a session boundary and the verdict uses ONLY those; honest
+  output is now "0 SESSION-to-SESSION delta(s) logged — need >=3". **P29 must NOT close on ROI grounds:
+  the floor is UNDETERMINED and needs 3 session closes to become computable.**
+  **⚠️ PROCESS: I left two `while pgrep -f <pat>; do sleep; done` waiters spinning** (one for 4 h) — they
+  self-match their own `bash -c` command line and can never exit. The SESSION-7 checkpoint had warned
+  about exactly this, and the standing rule is no sleep-polling (the harness notifies). Killed; harmless
+  to the work, but do not write them.
