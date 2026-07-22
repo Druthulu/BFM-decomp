@@ -5112,7 +5112,7 @@ shared:
 
 
 
-INCLUDE_ASM("asm/ov_SC07_009/nonmatchings/ov_SC07_009_jr_8015C32C", func_80167714);
+DEFINE_func_80167714()  /* dedup: shared engine-core @0x80167714 (src/shared) */
 
 
 extern void (*D_80180D74[])(void);
