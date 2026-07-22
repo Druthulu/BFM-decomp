@@ -276,6 +276,30 @@ def _jtbl_restore(snap):
     _reload_corpus()
 
 
+def _unsplice_body(fn, st, orig_txt):
+    """Restore fn's INCLUDE_ASM stub after a prep that left the body spliced.
+
+    The isolation may have MOVED the body into a freshly-created region file, so the stub cannot
+    simply be written back to the path it came from — that would also undo the partition. Locate
+    the file that actually holds the body now and put back the stub line for THAT subseg (the
+    `asm/<bin>/nonmatchings/<subseg>` convention, subseg == the region file's basename). If nothing
+    moved, this restores the original file verbatim."""
+    body = drafts[fn]['c']
+    for cf in sorted(glob.glob(os.path.join(REPO, 'src/%s/*.c' % a.binary))):
+        t = open(cf).read()
+        if body in t:
+            sub = os.path.basename(cf)[:-2]
+            stub = 'INCLUDE_ASM("asm/%s/nonmatchings/%s", %s);' % (a.binary, sub, fn)
+            open(cf, 'w').write(t.replace(body, stub, 1))
+            return True
+    # body not found: nothing was spliced anywhere (carve failed before the splice landed) —
+    # restore the original text so the caller's snapshot logic sees an untouched tree.
+    if st is not None and orig_txt is not None:
+        open(st.path, 'w').write(orig_txt)
+        return True
+    return False
+
+
 def _jtbl_prep_one(fn):
     """Prep ONE table-bearing draft's carve. Returns (ok, snapshot)."""
     if not _fn_has_jtbl(fn):
@@ -294,21 +318,25 @@ def _jtbl_prep_one(fn):
         r = _sh([PY, 'tools/jtbl_carve.py', a.binary, '--func', fn])
         out = (r.stdout or '') + (r.stderr or '')
         if r.returncode and any(w in out for w in _ISO_WALLS):
-            open(st.path, 'w').write(txt)                                 # un-splice before isolating
+            # ISOLATE WITH THE BODY STILL SPLICED (byte-proven 2026-07-22, func_80135888).
+            # This used to un-splice first. `jr_isolate_all` accumulates each object's file-scope
+            # decls as the new region's `ambient` set, so partitioning around an INCLUDE_ASM stub
+            # gives the region a DIFFERENT decl context than the one the draft's body needs — and
+            # the gate then produced a byte-DIFF rather than a compile error, which is exactly why
+            # a batch of these read as "9/10 compile, 0 bank" and looked like a codegen wall.
+            # §61b's law (THE CARVE MUST FOLLOW THE SPLICE) extends one step: SO MUST THE
+            # ISOLATION. The un-splice was there only because the tool is stub-centric and a
+            # spliced function is no longer in corpus.stubs — a plumbing problem, handled below.
             if _sh([PY, 'tools/jr_isolate_all.py', a.binary, '--only', fn]).returncode:
                 print('  [jtbl] isolate FAILED %s' % fn); continue
             if _sh(['make', '--no-print-directory', 'extract', 'BINARY=%s' % a.binary]).returncode:
                 print('  [jtbl] extract-after-isolate FAILED %s' % fn); continue
-            _reload_corpus()
-            st = _stubs.get(fn)
-            if st is None:
-                print('  [jtbl] stub vanished after isolate %s' % fn); continue
-            line, txt = _stub_line(fn), open(st.path).read()
-            if line not in txt:
-                print('  [jtbl] no stub after isolate %s' % fn); continue
-            open(st.path, 'w').write(txt.replace(line, drafts[fn]['c'], 1))
             r = _sh([PY, 'tools/jtbl_carve.py', a.binary, '--func', fn])
-        open(st.path, 'w').write(txt)                                     # ALWAYS un-splice
+        # ALWAYS un-splice — but the isolation may have MOVED the body to a new region file, so
+        # find where it actually is now and restore the stub line for THAT subseg. The gate then
+        # re-splices identical text, so the build it verifies is the one proven above.
+        if not _unsplice_body(fn, st, txt):
+            print('  [jtbl] could not un-splice %s (body not found)' % fn); continue
         if r.returncode:
             last = ((r.stdout or '') + (r.stderr or '')).strip().splitlines()[-1:] or ['']
             print('  [jtbl] carve FAILED %s: %s' % (fn, last[0][:120])); continue
