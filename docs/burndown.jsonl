@@ -1,2 +1,3 @@
 {"head": "commit:0763", "label": "session-4 close (post func_8017AE2C \u00d7137)", "instr_pct": 78.0, "distinct_pct": 66.5, "fn_pct": 87.9, "substantial_families": 572, "templatable_ins": 1578048, "matched_sib": 67}
 {"head": "commit:0826", "label": "session-9 (gate_stage SHA fix + t5wave re-run + family sweeps)", "instr_pct": 78.5, "distinct_pct": 67.5, "fn_pct": 88.06, "substantial_families": 569, "templatable_ins": 1521954, "matched_sib": 71}
+{"head": "commit:0831", "label": "session-9b (func_801299C8 x137; 0x8013C414 -O0-walled)", "instr_pct": 78.6, "distinct_pct": 67.9, "fn_pct": 88.1, "substantial_families": 568, "templatable_ins": 1500308, "matched_sib": 70}

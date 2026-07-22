@@ -1203,3 +1203,34 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 > size, is the multiplier.
 > **6 preserved cracks remain** (2 DIFF, 2 CC1-FAIL, 2 §57 self-decl) at `.run/giants/t5wave_*` — do NOT
 > re-draft. **Effort:** xHigh for the gate_stage A/B; prompt **Max** if it turns into deep debugging.
+
+- **✅ 2026-07-22 (cont.) — TASK 7 BURN-DOWN + the zero-crack sweep track. Fleet 78.5→78.6% instr ·
+  67.5→67.9% distinct.**
+  **BURN-DOWN INSTRUMENT LIVE** (`tools/burndown.py`, snapshots in `docs/burndown.jsonl`, git-HEAD-keyed).
+  Two snapshots seeded this session. **FLOOR VERDICT NOT AVAILABLE — the tool requires ≥3 inter-commit
+  deltas and has 2.** So the phase-close cannot yet be justified on "yield floored out", and my earlier
+  eyeballed "+2.5 → +1.1 → +0.6 → +0.2pp" trend is NOT the instrument's verdict — do not close on it.
+  **THE FRONTIER (measured, and independent of the gate_stage SHA bug — `family_hseq` derives from sigs +
+  source, not from the gate):** substantial = **568 families / 1,500,308 templatable ins (~11.5pp)**, of
+  which **70 are matched-sibling ZERO-CRACK sweeps worth ~2.6pp** (no drafting, no agents) and ~498 need
+  a fresh crack.
+  **SWEPT THIS BLOCK:** `func_801299C8` **137/137, 0 failed** (~21.6k ins) — a family that became
+  sweepable ONLY because the gate_stage SHA fix let it bank ×1 an hour earlier. **This is the compounding
+  effect: every ×1 bank converts a family into free sweep fuel**, so the zero-crack pool is fed by the
+  crack track rather than being a fixed stock.
+  **REFUSED — `0x8013C414` (329 ins ×137 = 45,073, the single LARGEST zero-crack item): 3/3 gate-fail**,
+  the predicted **-O0 cluster wall** (members compile -O2; the fix is the per-overlay -O0 carve that hit a
+  splat byte-shift wall on 3 of 4 overlays in Task-2 Arm A). **So the ~2.6pp zero-crack figure must be
+  DISCOUNTED by this item until the -O0 rollout is solved.** The 3-member probe settled it in ~1 minute
+  instead of a 40-minute full sweep — the probe-before-scaling invariant paying for itself.
+  **⚠️ TOOL DEFECT FOUND (fix next): `jtbl_family_bank`'s per-sibling revert leaves the tree GIT-CLEAN BUT
+  UNBUILDABLE.** After the failed probe, `git status` was empty yet `ov_SC01_004` failed to link
+  (`undefined reference to jtbl_8018DAC8`): the revert restores `config/` from git but does NOT re-extract,
+  so the on-disk asm stays stale — and `git status` is structurally blind to that (the R22 corollary, now
+  inside a tool's own undo path). It also emitted `error: pathspec '…_jr_8013C414.c' did not match any
+  file(s) known to git` while trying to `git checkout` a file the isolation had created but never tracked.
+  Recovered by `make extract` per overlay (all 3 byte-identical). **Fix: the revert must re-extract, and
+  must delete untracked region files rather than git-checkout them.**
+  **OBSERVED PATTERN (2 data points, NOT yet a rule): a zero-crack family either sweeps ~100% or refuses
+  wholesale** — 137/137, 137/137, 138/138, 137/137 vs 0/135, 0/3. No partial middle so far. Worth
+  confirming across more families before relying on it for planning.
