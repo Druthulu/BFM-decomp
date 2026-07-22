@@ -4583,10 +4583,29 @@ A 12-agent Ultracode wave over freshly-prefetched `ov_SC06_018` exemplars return
 This is §58's law at its sharpest — and splicing each class individually gave three *different* blockers,
 none of which the ladder currently clears:
 
-1. **§8e-2 jtbl table-count drift — 10 of 12 drafts.**
+1. **jtbl NON-CONTIGUOUS CARVE — 10 of 12 drafts.** *(Corrected: I first filed this as "§8e-2
+   table-count drift". That is the SYMPTOM the filter reports; it is not the wall, and the fix is
+   NOT a jtbl_carve code change.)*
    `jtbl_rodata_pads: more rodata .align directives than pad specs (2) — table-count drift vs the carve`.
-   The draft introduces a switch/jump table into a TU whose jtbl carve has a FIXED pad spec, so the
-   fail-loud guard fires. This is the already-named wall that blocks `func_8014032C` and `func_8013BD74`.
+   The draft introduces a switch/jump table into a TU whose carve has a FIXED pad spec, so
+   `jtbl_rodata_pads` fires. But re-running `jtbl_carve --func <fn>` to re-derive the spec REFUSES
+   with the real reason: *"subseg would host NON-CONTIGUOUS .rodata carves (0xaa810 and 0xaa920) —
+   a single object can't leave a gap for the unmatched jtbl between them."* The newly-banked
+   function's table is separated from the TU's existing carve by an UNMATCHED function's table, and
+   one object cannot straddle that gap.
+
+   **THE RECIPE (byte-proven on `func_80135A4C`, 181 ins / 138 members):**
+
+       tools/jr_isolate_all.py <ov> --only <fn>     # give the fn its OWN code subseg
+       make extract BINARY=<ov> && make build       # isolation is BYTE-NEUTRAL by construction — verify
+       <splice the draft>
+       tools/jtbl_carve.py <ov> --func <fn>         # now the table carves contiguously in its own object
+       make extract BINARY=<ov> && make build       # -> BYTE-IDENTICAL
+
+   The tool names its own remedy in the refusal message, and `jtbl_family_bank` already auto-isolates
+   on this class (Phase-29 Task-8) — but `gate_stage`/`harvest_verify` do NOT, which is why a wave
+   that banks through the ordinary gate reports a flat 0 and looks like a compiler wall. **A config
+   change needs `make extract`, not just `make build`** (the R22 corollary) — both steps above.
    **The structural finding: fresh crack fuel in a well-matched overlay CONCENTRATES in jtbl-carved TUs**
    (10 of 12 here), because the non-carved TUs were harvested first. So §8e-2 is not a rare straggler —
    it is the gate on the next tranche of substantial cracking.
@@ -4608,3 +4627,34 @@ selection tool, and every selection tool in this project has eventually lied (R3
 
 **Preserved:** all 12 drafts at `.run/giants/t5wave_*` (R20) — they are genuine cracks with per-function
 lever notes, recoverable the moment the three ladder stages exist. Do NOT re-draft them.
+
+### §61b — The jtbl gate stage: built, and the ORDERING law it exposed (Phase 29 Task-14 stage 4, 2026-07-21)
+
+`gate_stage` now carries a jtbl stage (`_jtbl_prepare`): for every draft whose function references a
+`jtbl_`, carve its table into a contiguous object, auto-isolating (`jr_isolate_all --only <fn>`) on the
+§8b walls — the logic lifted from `jtbl_family_bank` rather than re-implemented (R33). It is wired, it
+runs, and it **does not yet bank**, for a reason worth writing down:
+
+> **THE CARVE MUST FOLLOW THE SPLICE.** The non-contiguity that requires isolation is only *detectable*
+> once the function's body is in the object. While it is still `INCLUDE_ASM`, `jtbl_carve` reports
+> SUCCESS and produces a spec that does not hold once the body lands.
+
+Byte-witnessed both ways on `func_80135A4C`: carving the **spliced** function → `NON-CONTIGUOUS …
+0xaa810 and 0xaa920`; carving the **unspliced** one → `prepared 1/1`, no isolation, and the draft then
+gates as a byte-DIFF. The MANUAL order banks it byte-identical:
+
+    jr_isolate_all --only <fn> ; make extract ; <splice> ; jtbl_carve --func <fn> ; make extract ; build
+
+`gate_stage` runs the stage before `_gate1`, but `harvest_verify` owns the splice — so the fix is a
+per-draft prep INSIDE the splice loop (harvest_verify), not a batch pre-pass in gate_stage. That is the
+next increment; the stage's carve/isolate/undo machinery is correct and reusable as-is.
+
+**Two sub-findings, both paid for:**
+* **A wholesale `git checkout -- config/…` undo is WRONG in a batch gate.** `jfb.revert` is right for
+  `jtbl_family_bank`'s one-function-at-a-time flow, but here it discarded a PREVIOUSLY-banked-but-
+  uncommitted carve in the same overlay, leaving that bank's source with no subseg → `undefined
+  reference to func_80136C90` at link. An inverse/wholesale undo cannot know what it did not do.
+  Now a SNAPSHOT-RESTORE of `config/splat.<ov>.yaml` + `config/overlays.mk`, plus removal of only the
+  region files THIS run created (§61's constraint, applied where I had first ignored my own rule).
+* **Being in a `_jr_*` TU ≠ having a table.** Only 4 of 8 wave drafts in jtbl-carved TUs actually
+  reference a `jtbl_`; the stage correctly prepares only those. The other 4 fail for other classes.

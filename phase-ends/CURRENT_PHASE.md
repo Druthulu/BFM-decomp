@@ -828,6 +828,32 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   later stage than the warnings I was reading) — **check `rc`, read the tail unfiltered.**
   Tree reverted to clean; nothing banked, nothing committed to src.
 
+- **✅ 2026-07-21 — TASK-14 STAGE 4 (jtbl isolate+carve) BUILT + the ORDERING LAW that blocks it.**
+  Diagnosed the wave's 10/12 blocker properly: **NOT "§8e-2 table-count drift"** (the symptom the filter
+  reports) but a **NON-CONTIGUOUS .rodata carve** — the new function's table is separated from the TU's
+  existing carve by an UNMATCHED function's table, and one object can't straddle that gap. `jtbl_carve`
+  names its own remedy in the refusal. **RECIPE BYTE-PROVEN on `func_80135A4C`** (181 ins, 138 members):
+  `jr_isolate_all --only <fn>` → `make extract` → splice → `jtbl_carve --func <fn>` → `make extract`
+  → **BYTE-IDENTICAL** (isolation is byte-neutral by construction; verified separately).
+  **BUILT:** `gate_stage._jtbl_prepare` — per-draft carve + auto-isolate on the §8b walls, logic LIFTED
+  from `jtbl_family_bank` (R33), `GATE_NO_ARITY` A/B guard, snapshot-restore undo. Ladder is now
+  canon → cast → reconcile_tu → **jtbl** → **arity** → gate → sig_unify → gate.
+  **⚠️ IT DOES NOT YET BANK, and the reason is the finding: THE CARVE MUST FOLLOW THE SPLICE.** The
+  non-contiguity is only DETECTABLE once the body is in the object; while still `INCLUDE_ASM`,
+  `jtbl_carve` reports SUCCESS and yields a spec that fails once the body lands. Byte-witnessed both
+  ways (spliced → `NON-CONTIGUOUS 0xaa810/0xaa920`; unspliced → `prepared 1/1` then byte-DIFF).
+  A/B'd out the innocent suspects: draft transforms leave the body **IDENTICAL** through canon/cast/
+  reconcile_tu, and `GATE_NO_ARITY=1` changes nothing. **FIX (next increment): per-draft prep INSIDE
+  `harvest_verify`'s splice loop**, not a batch pre-pass in `gate_stage` — harvest_verify owns the
+  splice. The carve/isolate/undo machinery is correct and reusable as-is.
+  **Two sub-findings paid for:** (a) a wholesale `git checkout -- config/` undo (jfb.revert) is WRONG in
+  a batch gate — it discarded a previously-banked-but-UNCOMMITTED carve, leaving that bank's source with
+  no subseg (`undefined reference to func_80136C90`); now snapshot-restore + drop only this run's region
+  files (§61's own constraint, which I had ignored). (b) being in a `_jr_*` TU ≠ having a table — only
+  4 of 8 wave drafts actually reference a `jtbl_`. Cookbook **§61a corrected + §61b**.
+  **Tree restored byte-identical; nothing banked this round; `func_80135A4C`'s manual bank was reverted
+  with it** (its draft is preserved at `.run/giants/t5wave_*`, re-bankable by the recipe in minutes).
+
 > **🛑 SESSION-6 CHECKPOINT (2026-07-21) — safe to open a FRESH session here.** Tree clean (only the R23
 > `db.*.gbf` churn + 4 preserved wave-4 `-O0` drafts). **R22 clean-fleet 140/140 byte-identical**;
 > `make tools-health` OK (dedup **1847/0**, C1 234343/234343); 0 NON_MATCHING (G4). HEAD `commit:0772`
