@@ -1,1 +1,2 @@
 {"head": "commit:0763", "label": "session-4 close (post func_8017AE2C \u00d7137)", "instr_pct": 78.0, "distinct_pct": 66.5, "fn_pct": 87.9, "substantial_families": 572, "templatable_ins": 1578048, "matched_sib": 67}
+{"head": "commit:0826", "label": "session-9 (gate_stage SHA fix + t5wave re-run + family sweeps)", "instr_pct": 78.5, "distinct_pct": 67.5, "fn_pct": 88.06, "substantial_families": 569, "templatable_ins": 1521954, "matched_sib": 71}
