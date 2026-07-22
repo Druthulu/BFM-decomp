@@ -1881,7 +1881,7 @@ s32 func_8014FE60(void *e) {
 
 
 
-extern s32 func_80135D20(s32 a0, s32 a1, void *a2);
+extern s32 func_80135D20();
 
 typedef struct { s16 unk0, unk2, unk4, unk6; } Vec8;
 
@@ -1927,7 +1927,7 @@ DEFINE_func_80150150()  /* dedup: shared engine-core @0x80150150 (src/shared) */
 DEFINE_func_80150170()  /* dedup: shared engine-core @0x80150170 (src/shared) */
 
 
-extern s32 func_80135D20(s32 a0, s32 a1, void *a2);
+extern s32 func_80135D20();
 
 
 

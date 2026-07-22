@@ -458,7 +458,17 @@ def main():
                        src=a.src,
                        asm=a.asm_subdir or f"asm/{b}/nonmatchings/{b}",
                        out=a.out or f"build/{b}/{b}",
-                       good_sha=a.good_sha or DEF_SHA,
+                       # NOT `a.good_sha or DEF_SHA` (fixed 2026-07-22). DEF_SHA is ov_SC01_077's
+                       # hash, and passing it as a TRUTHY default made run_gate's per-binary
+                       # `good_sha or _check_sha(binary)` lookup DEAD CODE on every CLI invocation:
+                       # every non-077 binary was gated against 077's SHA, so it could never match
+                       # and every draft reported as "near" — indistinguishable from a real codegen
+                       # residual. Measured: two ladder runs over ov_SC06_018 returned 0/10 and 0/9
+                       # while the same drafts banked byte-identical through harvest_verify directly.
+                       # Pass None through and let run_gate read config/check.<bin>.sha (R33).
+                       # (grinder/orchestrator call run_gate() directly, so they were never affected
+                       # — which is why the grinder could bank in ov_SC03_014 while the CLI could not.)
+                       good_sha=a.good_sha,
                        propagate=not a.no_propagate, source_tag=a.source_tag, commit=a.commit,
                        src_file=a.src_file)
     print(json.dumps(summary))

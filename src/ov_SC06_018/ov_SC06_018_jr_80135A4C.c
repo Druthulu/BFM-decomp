@@ -208,7 +208,7 @@ extern void func_8012943C(void);
 extern s32 D_8005128C;
 extern u8 D_800B9A78;
 extern void func_801298F4(void *arg0);
-extern void func_801299C8(s32 a, s32 b, s32 c);
+extern void func_801299C8();
 extern void func_8012944C(void);
 extern unsigned short D_800B99F0;
 extern void func_8012A328(void);
