@@ -1101,3 +1101,41 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 > non-obvious root-cause work.
 > **Preserved (R20, do NOT re-draft):** all 12 t5wave cracks at `.run/giants/t5wave_*` (~2M agent tokens);
 > 10 of them now carry a precise per-function blocker.
+
+- **✅ 2026-07-22 (cont.) — THE RECOMMENDED DIAGNOSIS: there is no image-level difference. The ISOLATION
+  must follow the splice too. 5 of the 11 preserved cracks now banked.**
+  **(a) THE ANSWER.** Performed by hand, `func_80135888` builds **BYTE-IDENTICAL** (R22 clean-fleet 140/140):
+  `splice → jtbl_carve (NON-CONTIGUOUS) → jr_isolate_all --only <fn> **WITH THE BODY STILL SPLICED** →
+  make extract → jtbl_carve → make extract → build`. The draft was never wrong and neither was the carve.
+  The ladder path differed by ONE line: `_jtbl_prep_one` **un-spliced before isolating**, so
+  `jr_isolate_all` partitioned a TU whose function was still `INCLUDE_ASM`. It accumulates each object's
+  file-scope decls as the new region's `ambient` set, so partitioning around a STUB hands the region a
+  different decl context than the body needs — surfacing as a **byte-DIFF, not a compile error**, which is
+  exactly why the batch read as "9 compile / 0 bank" and looked like a codegen wall.
+  **→ §61b's law extends one step: THE CARVE MUST FOLLOW THE SPLICE — AND SO MUST THE ISOLATION.**
+  (Third layer of one root cause this session: carve-before-splice, an undo narrower than its write scope,
+  and now isolate-around-a-stub. All three presented as compiler walls; all three were ours.)
+  **(b) FIXED** in `harvest_verify._jtbl_prep_one` + new `_unsplice_body()` (the un-splice existed only
+  because the tool is stub-centric; it now finds the file that NOW holds the body — isolation may have
+  MOVED it — and restores the stub line for THAT subseg, so the gate re-splices identical text).
+  **(c) BANKED — 5 of 11 preserved t5wave cracks** (each whole-binary gated, one per invocation, R22
+  clean-fleet 140/140 after each batch): `func_8018F694` (478) · `func_80135888` (113, reach 138) ·
+  `func_80135D20` (100, reach 138) · `func_801749C8` (105, reach 136) · `func_8019059C` (673, a giant).
+  **(d) THE REMAINING 6, honestly classed:** 2 genuine **DIFF** (`func_80135260`, `func_80191C50`) · 2
+  **CC1-FAIL** (`func_801365B8`, `func_80165CA0`) · 2 **§57 self-decl** (`func_801299C8` "prototype
+  declaration", `func_8012AAAC` own-name conflict). A real residual, not a tooling artifact.
+  **(e) ⚠️ RETRACTED: "the ladder converts 0/10, which prices Task 14 stages 2-3."** WRONG, withdrawn.
+  Three of those ten bank through `harvest_verify` alone using **gate_stage's own final-stage draft** —
+  so the 0/10 measured gate_stage's interference, not the residuals. **Task 14 stages 2-3 are UNPRICED.**
+  **(f) ▶ THE OPEN QUESTION (the next task): `gate_stage` REJECTS drafts its own byte-gate ACCEPTS.**
+  Both hypotheses are **untested**: the arity pre-pass A/B (`GATE_NO_ARITY=1`) came back STILL-STUBBED but
+  was **CONFOUNDED** — gate_stage **re-transforms an already-transformed input** (feeding it `-s2in-uni`
+  produced `ab-cn`, `ab-cn-cast`, … on top), so that run tested a doubly-transformed draft and establishes
+  nothing. Candidate causes: (i) the transforms are **not idempotent** (§19 already found `sig_unify`
+  regresses already-canonical drafts); (ii) **tree-state residue** across the ladder's multiple `_gate1`
+  calls (earlier stages' jtbl preps applied/undone) means the winning draft is gated against a different
+  tree than a fresh invocation. **Design the A/B so gate_stage gets a RAW draft in both arms.**
+  **Until then: use `harvest_verify` DIRECTLY for jtbl-class drafts** — it is the proven path.
+  **(g) Diagnostic gap noted:** `gate_stage` captures `harvest_verify`'s stdout, so the `[jtbl]` prep lines
+  are invisible in its logs — which is why this took a direct run to see.
+  **Fleet: 78.2% instr · 67.0% distinct · 87.99% fn-count** (10,234,240 ins).

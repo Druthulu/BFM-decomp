@@ -4,15 +4,15 @@
 # cross-binary collapsible-byte leverage: docs/duplicates.cross.md.
 
 # THREE progress metrics (all matter — see the labels):
-FLEET fn-count byte-ident: 311220 / 353722 = 87.98%   (REAL+LINKED+empties; FUNCTION-count, ×134-inflated — one crack counts per overlay)
-FLEET instr-weighted     : 10233249 / 13081451 = 78.2%   (shipped .text across resident+138 overlays; the decomp.dev-DISPLAY number)
-FLEET distinct-code(uniq): 3733280 / 5574674 = 67.0%   (64239/87459 unique fns; the DISTINCT-RE number)
+FLEET fn-count byte-ident: 311224 / 353722 = 87.99%   (REAL+LINKED+empties; FUNCTION-count, ×134-inflated — one crack counts per overlay)
+FLEET instr-weighted     : 10234240 / 13081451 = 78.2%   (shipped .text across resident+138 overlays; the decomp.dev-DISPLAY number)
+FLEET distinct-code(uniq): 3734166 / 5574674 = 67.0%   (64242/87459 unique fns; the DISTINCT-RE number)
 MAIN game-code weighted  :     436 / 60201 = 0.7%   (Phase-27 T10; SEPARATE — LINKED-excluding Ghidra sig dated 2026-06-14, PROVISIONAL until a fresh/complete main sig; NOT folded into the fleet number)
 
-FLEET REAL substantive   : 309365   (of which dedup-shared 234437 via 1848 groups / 234481 instances)
+FLEET REAL substantive   : 309369   (of which dedup-shared 234437 via 1848 groups / 234481 instances)
 FLEET LINKED PsyQ objs   :    959
 FLEET NON_MATCHING       :      7   (0 in any default build — G4)
-FLEET INCLUDE_ASM stubs  :  42495
+FLEET INCLUDE_ASM stubs  :  42491
 FLEET matchable          : 353722
 
 | binary | REAL | shared | LINKED | byte-ident | matchable | byte-ident % |
@@ -138,7 +138,7 @@ FLEET matchable          : 353722
 | ov_SC06_014 | 2229 | 1701 | 0 | 2231 | 2453 | 90.9% |
 | ov_SC06_015 | 2226 | 1701 | 0 | 2226 | 2421 | 91.9% |
 | ov_SC06_016 | 2244 | 1701 | 0 | 2246 | 2549 | 88.1% |
-| ov_SC06_018 | 2241 | 1704 | 0 | 2248 | 2665 | 84.4% |
+| ov_SC06_018 | 2245 | 1704 | 0 | 2252 | 2665 | 84.5% |
 | ov_SC06_020 | 2233 | 1703 | 0 | 2234 | 2518 | 88.7% |
 | ov_SC06_022 | 2247 | 1701 | 0 | 2255 | 2642 | 85.4% |
 | ov_SC06_024 | 2253 | 1701 | 0 | 2259 | 2667 | 84.7% |
