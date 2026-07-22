@@ -4462,6 +4462,12 @@ diverged.
    **the moment it banks**. Fix: `git add -u src/` (every modified tracked file under src/), which also
    retires the `src/ov_*/*.c` filename glob that once omitted 4 R22-verified banks from a commit because a
    family's members do not all live in the same-named split.
+   **COMPLEMENTARY HOLE (2026-07-22): `git add -u` misses the NEW files an ISOLATION creates.** A jtbl
+   sweep cuts a fresh region file per sibling (`src/<ov>/<ov>_jr_<ADDR>.c`), which is UNTRACKED — so
+   `-u` commits the modified TU and drops the file holding the banked body, i.e. a tree that cannot
+   clean-rebuild. For any carve/isolation bank use **`git add -A src/ config/`**. `jtbl_family_bank`
+   already refuses to sweep on an uncommitted `config/`+`src/` (its per-sibling revert restores from
+   HEAD), and that guard is what caught this — a fail-loud precondition doing exactly its job.
 2. **The `_xform` ladder dirs accumulate.** `<drafts>-cn/-cast/-rc/-uni` are reused across runs and the
    transform tools only write the drafts they are handed, so every stale draft from every previous run
    survives and is re-submitted to the byte-gate. Measured: the grinder submitted **1** draft, the gate

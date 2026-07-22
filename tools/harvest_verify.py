@@ -97,13 +97,23 @@ def classify_fail(got_sha):
         return 'SKIP'
     if got_sha is not None:
         return 'DIFF'
-    m = _PLUMBING.search(_last_err)
-    if m:
-        # pull the offending line for the log (e.g. "redefinition of 's16'")
-        for ln in _last_err.splitlines():
-            if m.re.search(ln):
-                return 'PLUMBING: ' + ln.strip()[:90]
-        return 'PLUMBING: ' + m.group(0).lower()
+    # §58 RED-HERRING GUARD (2026-07-22). The build log is full of BENIGN WARNINGS — chiefly
+    # `warning: conflicting types for built-in function 'memcpy'`, which fires from an unrelated
+    # TU position on essentially every overlay build. The old code searched the whole stderr and
+    # returned the FIRST match, so that warning won: an 11-draft re-probe returned the SAME
+    # 'PLUMBING: …conflicting types for built-in fu' label for 8 of 8 failures, across four
+    # genuinely different causes. A label that is identical for every input carries no
+    # information, and it is worse than none — the cookbook had to record "the gate label is
+    # useless here, splice individually and read real cc1 stderr" as a manual step. Classify on
+    # NON-warning lines only, and when nothing but warnings matched, surface the real error
+    # instead of guessing (R32: report the gap, do not paper over it).
+    lines = [ln for ln in _last_err.splitlines() if 'warning:' not in ln]
+    for ln in lines:
+        if _PLUMBING.search(ln):
+            return 'PLUMBING: ' + ln.strip()[:90]
+    errs = [ln for ln in lines if re.search(r'\berror\b|\bError \d', ln)]
+    if errs:
+        return 'CC1-FAIL: ' + errs[-1].strip()[:90]
     return 'CC1-FAIL'
 
 
@@ -209,7 +219,22 @@ def _reload_corpus():
 
 
 def _jtbl_snapshot():
-    """Text of the config files a carve/isolation may rewrite (for an exact undo)."""
+    """Text of EVERY file a carve/isolation may rewrite — config AND the binary's sources.
+
+    SOURCES ARE NOT OPTIONAL (byte-witnessed 2026-07-22). `jr_isolate_all` repartitions a code
+    object by writing region 0 back over the ORIGINAL `src/<ov>/<nm>.c` (truncated to just that
+    region) and emitting the rest as new `_jr_<lo>.c` files. An undo that restores only config/
+    and deletes the new region files therefore leaves the original TU PERMANENTLY TRUNCATED —
+    its stubs are gone, and nothing regenerates them (splat does not rewrite a committed
+    overlay .c). Measured on an 11-draft re-probe: live stubs fell 419 -> 414 -> 406 -> 395 as
+    successive rejected drafts each ate a TU, ending in `undefined reference to func_80191C50`.
+
+    Worse, it is INVISIBLE to the gate that caused it: the incremental build keeps linking the
+    stale objects (§42b), so `make build` stays green while a CLEAN rebuild fails. That is the
+    mechanism behind the "139/140, twice" reading that became the §61c blocker — the tree was
+    being eaten by the very undo meant to protect it.
+
+    So snapshot the whole source set, and undo by RESTORE, never by an inverse transform (§61)."""
     out = {}
     for q in (os.path.join(REPO, 'config/splat.%s.yaml' % a.binary),
               os.path.join(REPO, 'config/overlays.mk')):
@@ -217,10 +242,15 @@ def _jtbl_snapshot():
             out[q] = open(q).read()
         except OSError:
             pass
+    for q in glob.glob(os.path.join(REPO, 'src/%s/*.c' % a.binary)):
+        try:
+            out[q] = open(q).read()
+        except OSError:
+            pass
     return out
 
 
-def _jtbl_restore(snap, regions_before):
+def _jtbl_restore(snap):
     """Undo a carve/isolation EXACTLY: restore the config text and delete only the region files
     this attempt created. Then re-extract and re-derive the stub map.
 
@@ -233,7 +263,11 @@ def _jtbl_restore(snap, regions_before):
     whole overlay for the rest of the batch (4 isolate-FAILs downstream)."""
     for q, txt in snap.items():
         open(q, 'w').write(txt)
-    for rf in set(glob.glob('src/%s/%s_jr_*.c' % (a.binary, a.binary))) - regions_before:
+    # Remove every source file the attempt CREATED. Derived from the snapshot (which holds the
+    # exact pre-attempt file set), not from the `_jr_*` name shape — an isolation may emit a
+    # region whose name that glob does not predict, and a leftover .c is picked up by the OBJS
+    # glob at the next parse (R33: derive from the recorded state, do not re-guess it).
+    for rf in set(glob.glob(os.path.join(REPO, 'src/%s/*.c' % a.binary))) - set(snap):
         try:
             os.remove(rf)
         except OSError:
@@ -243,10 +277,10 @@ def _jtbl_restore(snap, regions_before):
 
 
 def _jtbl_prep_one(fn):
-    """Prep ONE table-bearing draft's carve. Returns (ok, snapshot, regions_before)."""
+    """Prep ONE table-bearing draft's carve. Returns (ok, snapshot)."""
     if not _fn_has_jtbl(fn):
-        return True, None, None
-    snap, regions_before = _jtbl_snapshot(), set(glob.glob('src/%s/%s_jr_*.c' % (a.binary, a.binary)))
+        return True, None
+    snap = _jtbl_snapshot()
     done = []
     for fn in [fn]:
         st = _stubs.get(fn)
@@ -280,12 +314,12 @@ def _jtbl_prep_one(fn):
             print('  [jtbl] carve FAILED %s: %s' % (fn, last[0][:120])); continue
         done.append(fn)
     if not done:
-        _jtbl_restore(snap, regions_before)
-        return False, None, None
+        _jtbl_restore(snap)
+        return False, None
     _sh(['make', '--no-print-directory', 'extract', 'BINARY=%s' % a.binary])
     _reload_corpus()
     print('  [jtbl] carved %s' % done[0])
-    return True, snap, regions_before
+    return True, snap
 
 
 def _stub_line(fn):
@@ -332,15 +366,15 @@ while i < len(items):
     # per-chunk jtbl prep (chunk==1 is the prescribed default, so this is per-function): carve the
     # table, and if the gate then REJECTS the draft, undo the carve — a stranded carve has no owner
     # and poisons every later isolation in the overlay (see _jtbl_restore).
-    _jsnap = _jregions = None
+    _jsnap = None
     if len(chunk) == 1:
-        _ok, _jsnap, _jregions = _jtbl_prep_one(chunk[0])
+        _ok, _jsnap = _jtbl_prep_one(chunk[0])
     if attempt(chunk):
         commit(chunk)
         print('  + chunk(%d): %s' % (len(chunk), ' '.join(chunk)))
     elif len(chunk) == 1:
         if _jsnap is not None:
-            _jtbl_restore(_jsnap, _jregions)      # stranded-carve undo (R32 ownership stays 1:1)
+            _jtbl_restore(_jsnap)                 # stranded-carve + truncated-TU undo (R32/§61)
         # ATOMIC CHUNK — do NOT bisect (Phase-28 T6). The old code fell into the loop below and
         # re-ran attempt([fn]) on the SAME single element against the SAME baseline: a byte-identical
         # DUPLICATE build. classify_fail reads _last_sha/_last_err, which the failed attempt(chunk)
