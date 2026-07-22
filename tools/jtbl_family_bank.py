@@ -56,12 +56,26 @@ def region_files(ov):
     return set(glob.glob(f"src/{ov}/{ov}_jr_*.c"))
 
 
-def revert(ov, cf=None, keep_regions=None):
+def revert(ov, cf=None, keep_regions=None, extract=True):
     """Restore the overlay to its committed state. `keep_regions` = the region files that existed
     BEFORE this bank attempt (a previously-banked core's, possibly still uncommitted) — only the
-    files THIS attempt created are removed."""
+    files THIS attempt created are removed.
+
+    `extract` (default True) RE-EXTRACTS afterwards. This is not optional for correctness: restoring
+    config/ from git does NOT rewind asm/, so a reverted overlay is left GIT-CLEAN BUT UNBUILDABLE —
+    and `git status` is structurally blind to it (the R22 corollary, here inside a tool's own undo).
+    Byte-witnessed 2026-07-22 on the 0x8013C414 probe: after 3 gate-fails `git status` was EMPTY and
+    ov_SC01_004 failed to link (`undefined reference to jtbl_8018DAC8`). Within a sweep each sibling
+    is a DIFFERENT overlay, so the next sibling's own extract never repairs the previous one — the
+    damage persists to whatever runs next. Pass extract=False only where the caller extracts
+    immediately afterwards anyway (the clean-slate call at the top of bank_one)."""
     if cf:
-        subprocess.run(f"git checkout -- {cf}", shell=True)
+        # Only `git checkout` a TRACKED path: an isolation creates region .c files that were never
+        # added, and checkout on those emits `error: pathspec ... did not match any file(s) known to
+        # git` while doing nothing. Those are removed by the keep_regions cleanup below instead.
+        if subprocess.run(f"git ls-files --error-unmatch {cf}", shell=True,
+                          capture_output=True).returncode == 0:
+            subprocess.run(f"git checkout -- {cf}", shell=True)
     sh(f"python3 tools/jtbl_carve.py {ov} --revert")
     # The splat config too: a lazy isolation rewrites the CODE-subseg lines, which jtbl_carve
     # --revert does NOT touch — without this, a failed attempt leaves the isolation's config in
@@ -73,6 +87,8 @@ def revert(ov, cf=None, keep_regions=None):
     if keep_regions is not None:
         for f in region_files(ov) - keep_regions:
             os.remove(f)
+    if extract:
+        sh(f"make --no-print-directory extract BINARY={ov}")
 
 
 def recover(body, to_ov, cf, func):
@@ -129,7 +145,7 @@ def bank(func, from_ov, from_addr, to_ov, to_addr):
     to_func = "func_%08X" % to_addr
     # clean slate (idempotent): restore this overlay's config AND src to the committed state
     keep = region_files(to_ov)
-    revert(to_ov)
+    revert(to_ov, extract=False)      # the explicit extract below covers it (no double-extract)
     subprocess.run(f"git checkout -- src/{to_ov}/ 2>/dev/null", shell=True)
     # Extract FIRST so the on-disk asm matches the reverted committed config (the carve reads the
     # new fn's raw jtbl from asm/<ov>/data — a stale/absent asm from a prior config would miss it).
