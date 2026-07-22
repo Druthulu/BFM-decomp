@@ -1139,3 +1139,67 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   **(g) Diagnostic gap noted:** `gate_stage` captures `harvest_verify`'s stdout, so the `[jtbl]` prep lines
   are invisible in its logs — which is why this took a direct run to see.
   **Fleet: 78.2% instr · 67.0% distinct · 87.99% fn-count** (10,234,240 ins).
+
+- **✅ 2026-07-22 (cont.) — THE SWEEP: 2 of 5 families swept ×137 (274 siblings, ~29.2k ins); 3 REFUSED,
+  informatively. Fleet 78.2→78.5% instr · 67.0→67.5% distinct.**
+  **SWEPT COMPLETE (0 failures, commit per chunk, `git add -A`):** `func_80135888` **137/137** (~15.5k ins)
+  · `func_80135D20` **137/137** (~13.7k ins). Both via `jtbl_family_bank` (§53: table-bearing → the carve
+  path). **R22 clean-fleet 140/140 byte-identical.**
+  **REFUSED — and the refusals are the finding:**
+  * `func_801749C8` (105 ins × 135) — **I MIS-ROUTED IT** to `jtbl_family_bank`; it references **no
+    `jtbl_` at all** (the re-probe had already recorded `jtbl_lines=0`; its siblings merely LIVE in
+    `_jr_*` TUs, which is not the same thing — the §53 carve law in reverse). `jtbl_carve` refused loudly
+    (`references no jtbl_ (not a jr/switch function?)`), `jtbl_family_bank` reverted per sibling, cost =
+    time only. Re-routed to the plain `family_sweep --hseq`: **staged 135, banked 0.**
+  * `func_8019059C` (2 siblings) gate-fail · `func_8018F694` (2 siblings) gate-fail.
+  **THE FINDING (worth more than the 0.02pp the small ones represent): a PURE family does NOT imply a
+  mechanical ×N.** `func_801749C8` is `diff_class: PURE`, `has_mid_jr: false`, `n_templatable: 135`,
+  `n_matched: 3` — the classifier's best case — and it stages all 135 and banks **zero**. This is §57a's
+  "staging ≠ banking" law reappearing on a family the manifest predicts should template, i.e. the
+  manifest's `n_templatable` remains a PREDICTION the whole-binary gate is free to refuse (the Phase-26
+  ≈0% lesson, same shape). **Blocker undiagnosed — do NOT bill it as available yield.**
+  **TOOLING ANSWER (Drew's question — the offline-tooling-first rule):** three items, different states.
+  **(1) DONE:** the isolate-with-body fix + the full-src snapshot/restore are IN `harvest_verify` (they
+  were computable, so they are in the tool, not in prose). **(2) LATENT, evidence-gated:**
+  `jtbl_family_bank` isolates AROUND THE STUB (the body is spliced later, after `remap_hseq`) — the same
+  ordering defect just fixed in `harvest_verify`. It did **not** fire across 274 swept siblings this
+  session (isolation only triggers on the §8b walls), so it is latent, not universal; fixing it on theory
+  after a 274/274 run would be the very error this phase keeps catching. **Fix it when a sweep fails with
+  the signature (isolation fires → gate DIFF), not before.** **(3) BLOCKED:** "route jtbl-class drafts to
+  `harvest_verify` directly, not `gate_stage`" is still prose, correctly — it is a routing rule, and
+  routing IS computable, but the REASON gate_stage rejects what its own gate accepts is undiagnosed, and
+  encoding a workaround before knowing the cause bakes in a guess.
+
+> **🛑 SESSION-9 CHECKPOINT (2026-07-22) — supersedes SESSION-8; safe to open a FRESH session here.**
+> Tree clean (only R23 `db.*.gbf` churn). **R22 clean-fleet 140/140 byte-identical** (verified 6× today);
+> `make tools-health` OK (dedup 1848/0, C1 234481/234481, cdecl 53189/53189, audit-binaries 140);
+> 0 NON_MATCHING (G4). **Drew pushes** all commits (R6/R20).
+> **Fleet 78.5% instr · 67.5% distinct-code · 88.1% fn-count** (opened 78.0/66.5/87.9 → **+0.5pp instr,
+> +1.0pp distinct**). Banked today: the `func_80135A4C` family ×138, 5 preserved t5wave cracks, and
+> `func_80135888`/`func_80135D20` ×137 each.
+>
+> **THE THROUGH-LINE: three layers of ONE root cause, all of which had been recorded as compiler walls.**
+> (1) carve-before-splice (§61b) · (2) an undo whose scope was narrower than its write scope (§61d) ·
+> (3) isolation performed around a STUB. Each surfaced as a byte-DIFF, and each was invisible to the
+> byte-gate because the incremental build keeps linking stale objects (§42b) while a clean rebuild fails.
+> **§61c is REFUTED; the law is now: THE CARVE MUST FOLLOW THE SPLICE — AND SO MUST THE ISOLATION.**
+>
+> **▶ NEXT TASK (highest value, non-mechanical): DIAGNOSE `gate_stage`.** It rejects drafts its own
+> byte-gate accepts — 3 functions banked through `harvest_verify` alone using **gate_stage's own
+> final-stage draft**. Both hypotheses are UNTESTED: the `GATE_NO_ARITY=1` A/B was **CONFOUNDED**
+> (gate_stage RE-TRANSFORMS an already-transformed input — feeding it `-s2in-uni` produced `ab-cn`,
+> `ab-cn-cast`, … on top). **Design the A/B so gate_stage receives a RAW draft in both arms.** Candidates:
+> non-idempotent transforms (§19: `sig_unify` regresses already-canonical drafts) or tree-state residue
+> across its multiple `_gate1` calls. This gates the offline-tooling routing rule AND silently suppresses
+> conversions in every future wave.
+> **Then:** `func_801749C8`'s PURE-but-0/135 blocker · Task 7 (burn-down + ROI-gated close + fix the
+> STALE CHECKBOXES: Tasks 2/3/6 are logged complete but still show `[ ]`).
+>
+> **⚠️ RETRACTED THIS SESSION (do not re-use):** "the ladder converts 0/10, which prices Task 14 stages
+> 2-3" — it measured gate_stage's interference, not the residuals. **Stages 2-3 are UNPRICED.**
+> **MEASURED, do not re-derive:** a **PURE** family does not imply a mechanical ×N (`func_801749C8`:
+> PURE, `has_mid_jr:false`, `n_templatable:135`, stages 135, banks **0**) — `n_templatable` is a
+> PREDICTION the gate may refuse. The 2 remaining 700-ins giants are **reach-3** (~0.03pp) — reach, not
+> size, is the multiplier.
+> **6 preserved cracks remain** (2 DIFF, 2 CC1-FAIL, 2 §57 self-decl) at `.run/giants/t5wave_*` — do NOT
+> re-draft. **Effort:** xHigh for the gate_stage A/B; prompt **Max** if it turns into deep debugging.
