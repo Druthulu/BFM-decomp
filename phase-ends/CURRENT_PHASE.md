@@ -1000,3 +1000,57 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   local-type plumbing = **Task 14 stages 2-3**, not the carve.
   **Housekeeping:** killed an orphaned `cc1` from the Jul-21 session that had been burning a full core for
   **13h23m** (pid 104350, dead pipe); committed the 4 wave-4 `.o0` drafts left untracked (R20).
+
+- **✅ 2026-07-22 — THE FAMILY SWEEP (138/138) + THE RE-PROBE: a giant recovered, TWO tree-eating tool
+  defects found and fixed, and `gate_stage`'s jtbl pre-pass DELETED.**
+  **(a) `func_80135A4C` family COMPLETE ×138** (probe 1 → chunks 45+45+46, commit per chunk, `git add -A`).
+  **137/137 siblings banked, 0 failed** — 100% conversion, exactly as its PURE/`n_templatable:137`
+  classification predicted. **R22 clean-fleet 140/140.** Fleet **78.0→78.2% instr · 66.5→67.0% distinct ·
+  87.95→87.98% fn-count** (+25,329 ins; predicted +24,797 — the measurement matched the prediction).
+  **(b) THE UNDO WAS EATING THE TREE (the §61c mechanism, byte-witnessed).** `jr_isolate_all` repartitions
+  a code object by writing region 0 back over the ORIGINAL `src/<ov>/<nm>.c` **truncated**, emitting the
+  rest as new `_jr_*.c`. `harvest_verify._jtbl_restore` undid only `config/` + the new region files → every
+  gate-REJECTED draft permanently ate that TU's stubs, and **nothing regenerates them** (splat does not
+  rewrite a committed overlay `.c`). Measured live across the first re-probe: live stubs **419 → 414 → 406
+  → 395**, ending in `undefined reference to func_80191C50`. **Invisible to the gate that causes it** — the
+  incremental build keeps linking stale objects (§42b) so `make build` stays green while a CLEAN rebuild
+  fails. That is precisely the "139/140, twice" signature, so the §61c attribution is now a **demonstrated
+  defect, not an inference**. FIXED: `_jtbl_snapshot` captures every `src/<binary>/*.c`; `_jtbl_restore`
+  restores them + deletes exactly the files the attempt created (derived from the snapshot's file set, R33).
+  Negative-control-validated: the same failing draft now leaves the tree byte-identical and `git status` clean.
+  **(c) THE GATE LABEL WAS A CONSTANT.** `classify_fail` searched the whole stderr, so the benign
+  `warning: conflicting types for built-in function 'memcpy'` won on **8 of 8** failures across four
+  different real causes — the §58 red-herring the cookbook had been working around by hand. Now classifies
+  on NON-warning lines and falls through to `CC1-FAIL:<last error>`. Same failure immediately became
+  `ov_SC06_018.c:447: prototype declaration`.
+  **(d) THE RE-PROBE (11 preserved t5wave cracks, one `harvest_verify` invocation each).**
+  **BANKED: `func_8018F694` (478 ins)** — one of the wave's three giants, previously inside "the gate banked
+  ZERO". The other 10 gave **ten DISTINCT** diagnoses: **4 data-decl** (`D_80193B64`×2, `D_8011D030`,
+  `D_80126B5C`) · **3 callee-decl** (`func_80135480`×2, `func_8012F14C`) · **3 self-decl/own-sig** (§57).
+  **ZERO jtbl-drift · ZERO local-type redefinition · ZERO codegen DIFF** — so **§61a's "§8e-2 jtbl
+  table-count drift blocks 10 of 12" does NOT survive** the carve-follows-splice prep: the carve now
+  succeeds and what remains is ordinary decl plumbing.
+  **(e) `gate_stage._jtbl_prepare` DELETED (R33), not patched.** It carried the SAME config-only undo and
+  ate the tree again on the first ladder run (5 orphan region files, truncated TUs, `undefined reference to
+  func_80192F64`) — which **invalidated that run's 0/10**, so it was re-measured, not reported (R35). It was
+  wrong on two axes: §61b had already byte-proved the carve must FOLLOW the splice (a pre-pass carving
+  unspliced functions yields a spec that fails when the body lands), and `harvest_verify` now does the
+  correct per-draft prep one layer down. Two implementations of one capability, the outer one ineffective
+  AND destructive → delete.
+  **(f) THE HONEST LADDER MEASUREMENT (clean tree, tree verified clean after):** **0/10 bank**; **9/10 now
+  COMPILE** and land as whole-binary byte-DIFF, **1/10** still plumbing. `match_one` reports **close=0** on
+  several (the function's own bytes exact) and `rtu_match` says **MATCH in the real TU** for
+  `func_80135888` — while `func_801299C8`'s transformed draft does not compile in its real TU at all. So the
+  residual is **MIXED, not uniform**, and at least one is an IMAGE-level effect rather than the draft or its
+  TU decl context. **Not generalized from one data point** — the next increment is to identify what changes
+  at the image level for a close=0/rtu-MATCH function (prime suspect: the jtbl/rodata carve placement).
+  **This prices Task 14 stages 2-3 with a measurement, not a projection:** the existing ladder converts
+  **0/10** of these residuals, so stages 2-3 are NOT "wire in `normalize_self_decls` + the type-lift and
+  collect 10 banks."
+  **VERIFIED:** R22 clean-fleet **140/140 byte-identical** (post-sweep) + a final clean-fleet after the
+  giant bank; `tools-health` OK (dedup 1848/0, C1 234481/234481, cdecl 53189/53189, audit-binaries 140);
+  0 NON_MATCHING (G4). Nothing was ever committed broken — both times the tree was eaten it was restored
+  from HEAD and re-verified byte-identical BEFORE any further work.
+  **Housekeeping:** cookbook — the `git add -u` complementary hole (an isolation's NEW region file is
+  untracked → a carve/isolation bank needs `git add -A src/ config/`; `jtbl_family_bank`'s uncommitted-tree
+  guard is what caught it).

@@ -73,96 +73,6 @@ def _xform(tool, ov, indir, suffix, extra=None):
     return out if _isdir(out) else indir
 
 
-# --------------------------------------------------------------------------------------------
-# the jtbl stage (Phase-29 Task-14 stage 4) — isolate + re-carve so a table-bearing draft can link
-# --------------------------------------------------------------------------------------------
-_JTBL_RE = re.compile(r"jtbl_[0-9A-Fa-f]{8}")
-
-
-def _fn_has_jtbl(binary, fn):
-    """Does this function reference a jump table? (Then banking it needs a .rodata carve.)"""
-    try:
-        hit = next((s for s in corpus.stubs(binary).values() if s.symbol == fn), None)
-    except Exception:
-        return False
-    if hit is None:
-        return False
-    try:
-        return bool(_JTBL_RE.search(open(os.path.join(REPO, hit.asm_path)).read()))
-    except OSError:
-        return False
-
-
-def _jtbl_prepare(binary, draft_fns):
-    """Carve every jtbl-bearing draft's table into its OWN contiguous object, auto-isolating on the
-    §8b same-subseg walls. Returns (prepared, keep_regions).
-
-    WHY THIS STAGE EXISTS (byte-proven 2026-07-21, cookbook §61a). A 12-agent wave produced 11
-    match_one MATCHes and the gate banked ZERO. 10 of the 12 drafts land in jtbl-CARVED TUs, and the
-    filter reported `more rodata .align directives than pad specs` — which reads like a compiler
-    wall and is not one. Re-running jtbl_carve gives the real reason:
-
-        subseg would host NON-CONTIGUOUS .rodata carves (0xaa810 and 0xaa920) — a single object
-        can't leave a gap for the unmatched jtbl between them.
-
-    The newly-banked function's table is separated from the TU's existing carve by an UNMATCHED
-    function's table. The remedy is §8b lazy isolation (give the fn its own code subseg, so its
-    carve spans only its own tables) — which `jtbl_family_bank` has done since Task 8 but
-    `gate_stage` did not, so every ordinary wave banking into a jtbl TU reported a phantom 0.
-
-    STRUCTURAL NOTE: fresh crack fuel in a well-matched overlay CONCENTRATES in jtbl-carved TUs (the
-    non-carved ones get harvested first), so this is not a straggler path — it gates the next
-    tranche of substantial cracking.
-
-    The isolate/revert primitives are IMPORTED from jtbl_family_bank rather than re-implemented
-    (R33: one implementation, two callers — the divergence between those two callers is exactly
-    what produced this bug). Config is shared-ish state, so the caller undoes by RESTORE
-    (jfb.revert), never an inverse transform, and verifies fleet-wide (R22) — cookbook §61."""
-    import jtbl_family_bank as jfb
-    todo = [f for f in draft_fns if _fn_has_jtbl(binary, f)]
-    if not todo:
-        return [], None
-    # SNAPSHOT the config this stage may rewrite (§61 constraint). NOT jfb.revert(): that does a
-    # wholesale `git checkout -- config/…`, which is correct for jtbl_family_bank's one-function-
-    # at-a-time flow but WRONG here — it discards any PREVIOUSLY-banked-but-uncommitted carve in the
-    # same overlay, leaving that bank's source with no subseg to live in (byte-witnessed: it stripped
-    # func_80135A4C's carve while keeping its banked region file -> `undefined reference to
-    # func_80136C90` at link). An inverse/wholesale undo cannot know what it did not do.
-    keep = jfb.region_files(binary)
-    snap = {}
-    for f in (os.path.join(REPO, f"config/splat.{binary}.yaml"),
-              os.path.join(REPO, "config/overlays.mk")):
-        try:
-            snap[f] = open(f).read()
-        except OSError:
-            pass
-    prepared = []
-    for fn in todo:
-        r = sh([PY, "tools/jtbl_carve.py", binary, "--func", fn], timeout=900)
-        out = (r.stdout or "") + (r.stderr or "")
-        if r.returncode and ("NON-CONTIGUOUS" in out or "do not fit the span" in out):
-            # §8b lazy isolation, then re-extract so the carve reads the new subseg layout, then retry.
-            # The DISTINCT "more rodata .align than pad specs" drift is NOT isolate-fixable and is
-            # deliberately not retried here (it falls through as a carve failure).
-            if sh([PY, "tools/jr_isolate_all.py", binary, "--only", fn], timeout=900).returncode:
-                print(f"[gate] jtbl: isolate failed for {fn}", file=sys.stderr); continue
-            if sh(["make", "--no-print-directory", "extract", f"BINARY={binary}"], timeout=1800).returncode:
-                print(f"[gate] jtbl: extract after isolate failed for {fn}", file=sys.stderr); continue
-            _corpus_reset()
-            r = sh([PY, "tools/jtbl_carve.py", binary, "--func", fn], timeout=900)
-        if r.returncode:
-            last = ((r.stdout or "") + (r.stderr or "")).strip().splitlines()[-1:] or [""]
-            print(f"[gate] jtbl: carve failed for {fn}: {last[0][:150]}", file=sys.stderr); continue
-        prepared.append(fn)
-    if prepared:
-        # a CONFIG change needs a re-extract, not just a rebuild (the R22 corollary)
-        sh(["make", "--no-print-directory", "extract", f"BINARY={binary}"], timeout=1800)
-        _corpus_reset()
-        print(f"[gate] jtbl: prepared {len(prepared)}/{len(todo)} table-bearing draft(s): "
-              f"{', '.join(prepared)}")
-    return prepared, (keep, snap)
-
-
 def _corpus_reset():
     """Drop corpus caches after a config/extract change — the stub set and each stub's home TU
     have moved, and every later stage derives from them."""
@@ -358,13 +268,21 @@ def _run_gate_locked(drafts, binary, src, asm, out, good_sha, propagate, source_
     # raise on a non-zero exit, so the try/except below never saw it. Hence the explicit rc check:
     # a pre-pass that quietly does nothing is indistinguishable from one that found nothing to do,
     # which is the whole failure mode this ladder exists to remove (R32).
-    # jtbl stage FIRST: isolation rewrites which TU hosts the stub, and every later stage
-    # (arity scan, harvest_verify's TU derivation) reads that layout.
-    _jtbl_prepared, _jtbl_keep = [], None
-    try:
-        _jtbl_prepared, _jtbl_keep = _jtbl_prepare(binary, draft_fns)
-    except Exception as e:                                   # never let the pre-pass sink the gate
-        print(f"[gate] jtbl stage skipped: {e}", file=sys.stderr)
+    # NO jtbl stage HERE — DELETED 2026-07-22 (R33: one implementation, and it is one layer down).
+    # This used to be a BATCH pre-pass that carved every table-bearing draft before the gate ran.
+    # It was wrong twice over:
+    #   1. §61b byte-proved the carve MUST FOLLOW THE SPLICE — the non-contiguity that requires
+    #      isolation is only detectable once the body is in the object. Carving an unspliced
+    #      function reports "prepared 1/1" and yields a spec that fails when the body lands.
+    #      harvest_verify owns the splice, so the prep belongs there, and IS there (_jtbl_prep_one).
+    #   2. Its undo snapshotted only config/. But `jr_isolate_all` rewrites region 0 back over the
+    #      ORIGINAL src/<ov>/<nm>.c, TRUNCATED — so every rejected draft permanently ate that TU's
+    #      stubs, invisibly (the incremental build keeps linking stale objects, §42b). Measured
+    #      2026-07-22: a 10-draft ladder run left 5 orphan region files, truncated TUs, and
+    #      `undefined reference to func_80192F64` — after which every later draft in the run was
+    #      probing a corrupted tree, so its 0/10 was not a measurement (R35).
+    # Deleting it is strictly better than fixing it: harvest_verify's per-draft prep is the correct
+    # mechanism, snapshots the full source set, and undoes per function.
 
     _arity_rc = None
     _arity_snapshot = {}
@@ -402,29 +320,6 @@ def _run_gate_locked(drafts, binary, src, asm, out, good_sha, propagate, source_
     # Restoring the pre-pass snapshot and re-applying ONLY for the functions that banked is exact by
     # construction and cannot invent a signature.
     _unbanked = [f for f in draft_fns if f not in verified]
-
-    # jtbl undo: if NOTHING banked, restore this overlay's config + drop the region files THIS run
-    # created (jfb.revert(keep_regions=...) keeps a previously-banked core's). If something DID bank,
-    # the carve/isolation is load-bearing for it and must stay — so we only revert the all-fail case,
-    # and a mixed batch keeps the config that the surviving banks need (the byte-gate already
-    # reverted the losers' source).
-    if _jtbl_prepared and not verified and _jtbl_keep:
-        try:
-            import jtbl_family_bank as jfb
-            _keep_regions, _snap = _jtbl_keep
-            for _f, _txt in _snap.items():                 # RESTORE, never inverse-transform (§61)
-                with open(_f, "w") as _fh:
-                    _fh.write(_txt)
-            for _rf in jfb.region_files(binary) - _keep_regions:   # only what THIS run created
-                try:
-                    os.remove(os.path.join(REPO, _rf))
-                except OSError:
-                    pass
-            sh(["make", "--no-print-directory", "extract", f"BINARY={binary}"], timeout=1800)
-            _corpus_reset()
-            print(f"[gate] jtbl: restored config for {len(_jtbl_prepared)} draft(s) (none banked)")
-        except Exception as e:
-            print(f"[gate] jtbl revert failed: {e}", file=sys.stderr)
 
     if _unbanked and _arity_snapshot:
         try:

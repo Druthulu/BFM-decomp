@@ -4754,3 +4754,57 @@ ladder. The correct next step is to diagnose the divergence itself (diff the inc
 **Measured, so the next session does not re-derive it:** of 11 preserved wave cracks, exactly ONE
 (`func_80135A4C`) reaches byte-identical through the carve path; the other four table-bearing ones
 fail one-at-a-time too, on the PLUMBING classes (§57 self-decl et al), not on the carve.
+
+### §61d — The undo was eating the tree: two tools, one defect, invisible to the byte-gate (Phase 29, 2026-07-22)
+
+The §61c blocker turned out not to exist (see the REFUTED block above), and chasing *why* it had ever been
+observed found the mechanism — in **two** tools, both times invisible to the gate that caused it.
+
+> **`jr_isolate_all` repartitions a code object by writing region 0 back over the ORIGINAL
+> `src/<ov>/<nm>.c`, TRUNCATED to just that region**, and emitting the remainder as new `_jr_<lo>.c` files.
+> An undo that restores only `config/` and deletes the new region files therefore leaves the original TU
+> permanently truncated — its stubs are gone, and **nothing regenerates them** (splat does not rewrite a
+> committed overlay `.c`).
+
+Both `harvest_verify._jtbl_restore` and `gate_stage._jtbl_prepare` snapshotted only the two config files.
+Measured, twice, on live re-probe runs: live stubs **419 → 414 → 406 → 395**, five orphan region files, and
+`undefined reference to func_80192F64` at link.
+
+**Why it survived so long: it is invisible to the byte-gate.** The incremental build keeps linking the stale
+objects (§42b), so `make build` stays GREEN while a clean rebuild fails — the gate that authorises the bank
+is the same incremental build that hides the damage. This is the §42b blind spot doing real, cumulative
+damage, and it is what manufactured the "139/140, twice" reading that became the §61c blocker.
+
+**Fixes.** `harvest_verify`: snapshot every `src/<binary>/*.c`, restore on rejection, and delete exactly the
+files the attempt created — derived from the snapshot's file set, not re-guessed from the `_jr_*` name shape
+(R33). `gate_stage._jtbl_prepare`: **DELETED, not patched** (R33 — the best outcome is a deleted stage). It
+was wrong on two independent axes: §61b had already byte-proved the carve must FOLLOW the splice, and
+`harvest_verify` now does the correct per-draft prep one layer down. Two implementations of one capability,
+the outer one both ineffective and destructive.
+
+**A label that is constant carries no information (and is worse than none).** `classify_fail` searched the
+whole build stderr, so `warning: conflicting types for built-in function 'memcpy'` — benign, from an
+unrelated TU position, present on essentially every overlay build — won the match on **8 of 8** failures
+spanning four genuinely different causes. That is the §58 red-herring, and the cookbook had been recording
+"the gate label is useless here, splice individually and read real cc1 stderr" as a *manual workaround for a
+one-line bug*. Fix: classify on NON-warning lines; fall through to `CC1-FAIL:<last error line>`. The same
+failure instantly became `ov_SC06_018.c:447: prototype declaration`.
+
+**What the honest re-probe then measured** (11 preserved t5wave cracks, one invocation each, clean tree):
+* **`func_8018F694` (478 ins) BANKED** — a giant previously inside "the gate banked ZERO".
+* The other 10: **4 data-decl · 3 callee-decl · 3 self-decl** conflicts. **ZERO jtbl-drift, ZERO local-type
+  redefinition, ZERO codegen DIFF.** So **§61a's "§8e-2 jtbl drift blocks 10 of 12" does not survive** the
+  carve-follows-splice prep — the carve succeeds; what is left is ordinary decl plumbing.
+* Through `gate_stage`'s ladder: **0/10 bank**, but **9/10 now COMPILE** and land as whole-binary byte-DIFF.
+  `match_one` close=0 on several and `rtu_match` MATCH-in-real-TU for `func_80135888`, while
+  `func_801299C8`'s transformed draft does not compile in its real TU at all — the residual is **MIXED**, and
+  at least one is an IMAGE-level effect rather than the draft or its TU context (prime suspect: jtbl/rodata
+  carve placement). **Deliberately not generalized from one data point.**
+
+**The pricing this yields:** the existing ladder converts **0 of 10** of these residuals. Task 14 stages 2-3
+are therefore NOT "wire in `normalize_self_decls` + the type-lift and collect ten banks" — a measurement, not
+a projection, which is the error §57a already caught once this phase.
+
+**The rule, stated generally:** *any* stage that mutates shared state must undo by SNAPSHOT-RESTORE over the
+**complete** set of files it can touch — config AND source — and a stage whose undo scope is narrower than
+its write scope will silently destroy work that no byte-gate can see. §61's law, one level deeper.
