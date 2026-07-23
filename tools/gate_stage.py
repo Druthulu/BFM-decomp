@@ -323,7 +323,19 @@ def _run_gate_locked(drafts, binary, src, asm, out, good_sha, propagate, source_
 
     if _unbanked and _arity_snapshot:
         try:
+            # RESTORE ONLY src/shared/ (the fleet-shared header). The snapshot also captured
+            # src/<binary>/*.c, but _gate1 SPLICES each banked draft into those files AFTER the
+            # snapshot was taken — so restoring them REVERTS the banks that just landed (and the
+            # re-apply below only re-does arity, not the splice). Bug measured 2026-07-22 (Phase-29
+            # non-jtbl wave): a 9-draft run banked 4, and the 5 unbanked triggered this restore,
+            # silently reverting all 4 back to INCLUDE_ASM. The fleet hazard the snapshot exists for
+            # (a fix_arity edit lingering in engine_core.h for an unbanked fn, all 138 overlays) is
+            # entirely in src/shared/; the binary's own TU arity edits are LOCAL + byte-neutral, so
+            # leaving an unbanked fn's `(void)->()` there is harmless. (R33 — narrow the undo to its
+            # real write scope; §61's law that undo scope must not EXCEED write scope, from below.)
             for _f, _txt in _arity_snapshot.items():
+                if os.sep + "shared" + os.sep not in _f:
+                    continue
                 with open(_f, "w") as _fh:
                     _fh.write(_txt)
             if verified:
