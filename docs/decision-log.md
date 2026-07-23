@@ -1667,3 +1667,24 @@ the DIFFs, §54 `--fix-def-sig` on the def-side-plumbing failures) or a differen
 ROI-gated close arithmetic now has a third low-yield data point: ov_SC06_018 non-jtbl tail ≈0.1pp, this ≈9
 functions). **Do NOT close P29 on ROI — the burn-down floor is still undetermined (needs 3 session-close
 deltas).**
+
+**UPDATE (same session, R35 — the probe REVERSED this verdict).** Rather than defer the header-decl reconcile
+as future work, I ran the bounded probe on `func_8014CD80` (138 live, 0 matched, NO DEFINE macro; a clean MATCH
+draft with a **universal body** — only universal callees + param offsets, zero overlay-local `D_*` refs). The
+def-side blocker was engine_core.h `DEFINE_func_8014CD0C()` forward-declaring it `void func_8014CD80(s32,void*,
+void*)` while the byte-true def is `int func_8014CD80(s32,u16*,u16*)`. **One byte-neutral header edit**
+(`void`→`int`, `void*`→`u16*`; the call site passes `u16[3]` arrays and ignores the return, so codegen is
+unchanged) → `harvest_verify` banked ×1 BYTE-IDENTICAL → **`dedup_propagate --addr` propagated 138/138 overlays
+byte-identical (live 138→0)** → R22 clean-fleet **140/140**. **So the fresh-138 families ARE recoverable ×138 —
+the blocker was purely the def-side header decl, NOT a wall.** (func_80165CA0's 0/135 was a non-universal
+*body*, a different failure mode; h_exact=1 does not distinguish them — the BODY's universality does.)
+**Quantified market:** of the 75 fresh (≥100-live) families, **46 carry an engine_core.h caller forward-decl,
+38 SIMPLIFIED (`void`/`void*`) = the func_8014CD80 pattern** — each a candidate ×138 (≈+1.5–2.8pp instr if
+half-to-most bank, gated by whether each draft's body is universal + byte-correct). **DECISION: build a
+`fix_header_decl` tool** — parse the byte-true def sig (from the banked def or a MATCH draft), rewrite every
+engine_core.h forward-decl of that fn to match, then hand off to the existing bank→dedup_propagate→R22 chain.
+It edits fleet-shared engine_core.h → INHERITS the §61 snapshot-undo constraint (undo = restore, never an
+inverse; validate FLEET-WIDE via R22). Pair it with a fresh-family wave (`--rank live --min-live 100`): the tool
+is the INTEGRATION half, the wave supplies the byte-true draft. **This reopens option (b) as the campaign's best
+lever — the "low-ROI, spent" read above was measured on the WRONG 24 (leverage-ranked → onboarded-tail) and is
+superseded for the FRESH pool. The onboarded-tail read stands.**

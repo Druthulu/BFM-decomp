@@ -1537,3 +1537,23 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 > - **DO NOT close P29 on ROI** — burn-down floor still undetermined (needs 3 session-close deltas; this is one).
 > **CARRIED:** the 8 session-limit-unfinished drafts (redraft when the limit resets); `func_80165CA0`/the
 > diverging tail families are documented walls — do NOT re-sweep.
+
+> **🔥 SESSION-13 LATE UPDATE (R35 — the probe REVERSED the "low-ROI/spent" verdict). Commit `<pending>`.**
+> Ran the bounded header-decl probe on **func_8014CD80** (138 live, 0 matched, universal body, clean MATCH
+> draft). Blocker = engine_core.h `DEFINE_func_8014CD0C()` declares it `void(s32,void*,void*)` vs byte-true
+> `int(s32,u16*,u16*)`. **One byte-neutral header edit → harvest_verify ×1 BYTE-IDENTICAL → `dedup_propagate
+> --addr` 138/138 byte-identical (live 138→0) → R22 140/140.** **THE FRESH-138 FAMILIES ARE RECOVERABLE ×138**
+> — the def-side header decl was the ONLY blocker (func_80165CA0's 0/135 was a non-universal *body*, a
+> different failure mode). Fleet **78.7→78.8% instr · 88.22→88.26% fn-count** from this ONE family.
+> **Quantified market: 38 of the 75 fresh (≥100-live) families carry the exact pattern** (engine_core.h caller
+> forward-decl, simplified `void`/`void*`) → each a candidate ×138 ≈ **+1.5–2.8pp instr**. → decision-log.
+>
+> **▶ THE SINGLE NEXT TASK (supersedes the options above for the FRESH pool):** build **`tools/fix_header_decl.py`**
+> — given a fn with a MATCH draft (or banked def), parse the byte-true sig, rewrite EVERY engine_core.h
+> forward-decl of that fn to match (byte-neutral: ptr-width-compatible + return-ignored callers), then hand to
+> the existing `harvest_verify → dedup_propagate --addr → R22` chain. It edits fleet-shared engine_core.h → MUST
+> use the §61 snapshot-undo (restore, never inverse) + validate FLEET-WIDE (R22, not the per-binary gate).
+> Then run a **fresh-family wave** (`build_wave_args.py --rank live --min-live 100`, needs agent budget — reset
+> ~1:40am Denver) over the 38, gate each through fix_header_decl. Expected: ~half-to-most bank ×138 (each
+> draft's BODY must be universal + byte-correct — that's the residual risk, not the header). This is option (b)
+> reopened as the campaign's best lever. **The onboarded-tail low-ROI read still stands; only the FRESH read flipped.**

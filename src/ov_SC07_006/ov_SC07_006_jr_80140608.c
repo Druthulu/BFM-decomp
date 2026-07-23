@@ -3600,7 +3600,16 @@ void func_8014CCB4(void)
 DEFINE_func_8014CD0C()  /* dedup: shared engine-core @0x8014cd0c (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_80140608", func_8014CD80);
+// @class: regalloc-order
+// @stuck: none — MATCH (97 ins). Levers: (1) goto-into-if to place the early-return
+//   CE00 block between the CDEC block and the main body; (2) swap if/else so the
+//   &8!=0 (80135A4C) path is fall-through; (3) reorder tail so the cleanup(cec4) is
+//   fall-through and the return-1 block (ced0) is the forward bnez target;
+//   (4) pin iVar3 to $3 (v1) so call-returns move to v1 and store-temp stays v0;
+//   (5) split store-temp (uVar1->v0) from tail-temp (uVar2->v1).
+
+DEFINE_func_8014CD80()  /* dedup: shared engine-core @0x8014CD80 (src/shared) */
+
 
 INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_80140608", func_8014CF04);
 

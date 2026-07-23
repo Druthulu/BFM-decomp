@@ -8963,7 +8963,7 @@
 
 #define DEFINE_func_8014CD0C() \
     extern void func_8014CF04(s32 a0, void *a1, void *a2); \
-    extern void func_8014CD80(s32 a0, void *a1, void *a2); \
+    extern int func_8014CD80(s32 a0, u16 *a1, u16 *a2); \
     void func_8014CD0C(u8 *a0) { \
         u16 sp10[3]; \
         u16 sp18[3]; \
@@ -28080,6 +28080,60 @@
             } \
             i = i + 1; off = off + 0x58; \
         } while (i < 0x1e); \
+    }
+
+#define DEFINE_func_8014CD80() \
+    extern int func_80135A4C(); \
+    extern int func_80135888(); \
+    extern int func_8014C918(); \
+    int func_8014CD80(int param_1, unsigned short *param_2, unsigned short *param_3) \
+    { \
+        short *psVar4; \
+        register int iVar3 __asm__("$3"); \
+        unsigned short uVar1; \
+        unsigned short uVar2; \
+        psVar4 = *(short **)(param_1 + 0x174); \
+        if (*(unsigned short *)psVar4 == 0) goto LAB_ce00; \
+        if (((*(unsigned short *)((int)psVar4 + 0x5c) & 0x400) == 0) || \
+            (*(int *)((int)psVar4 + 0x58) == 0) || \
+            (*(short *)((int)psVar4 + 0xa) < *(short *)(param_1 + 0xa))) { \
+            if (*(unsigned short *)psVar4 != 0) { \
+                *(char *)((int)psVar4 + 0x74) = 0; \
+            } \
+    LAB_ce00: \
+            *(int *)(param_1 + 0x174) = 0; \
+            return 0; \
+        } \
+        *param_2 = *(unsigned short *)(param_1 + 0x98); \
+        param_2[1] = *(unsigned short *)(param_1 + 0x9a) - 3; \
+        param_2[2] = *(unsigned short *)(param_1 + 0x9c); \
+        if ((*(unsigned short *)((int)psVar4 + 0x5c) & 8) != 0) { \
+            param_3[1] = param_2[1] + 0xc; \
+            iVar3 = func_80135A4C(*(int *)((int)psVar4 + 0x20), \
+                                  *(int *)((int)psVar4 + 0x58), param_2, param_3); \
+            if (iVar3 == 0) goto LAB_cec4; \
+            uVar1 = param_3[0]; \
+            *(unsigned short *)(param_1 + 0x78) = uVar1; \
+            *(unsigned short *)(param_1 + 6) = uVar1; \
+            uVar1 = param_3[1]; \
+            *(unsigned short *)(param_1 + 0x7a) = uVar1; \
+            *(unsigned short *)(param_1 + 0xa) = uVar1; \
+            uVar1 = param_3[2]; \
+            *(unsigned short *)(param_1 + 0x7c) = uVar1; \
+            *(unsigned short *)(param_1 + 0xe) = uVar1; \
+        } else { \
+            iVar3 = func_80135888(*(int *)((int)psVar4 + 0x20), \
+                                  *(int *)((int)psVar4 + 0x58), param_2, param_3); \
+        } \
+        if (iVar3 != 0) goto LAB_ced0; \
+    LAB_cec4: \
+        *(char *)((int)psVar4 + 0x74) = 0; \
+        *(int *)(param_1 + 0x174) = 0; \
+        return 0; \
+    LAB_ced0: \
+        uVar2 = func_8014C918(param_1, *(unsigned char *)((int)psVar4 + 0x75)) & 0xff; \
+        *(unsigned short *)(param_1 + 0x16e) = uVar2; \
+        return 1; \
     }
 
 #endif

@@ -1487,7 +1487,7 @@ void func_8014CCB4(void)
 /* func_8014CD0C — overlay ov_SC01_077 shared core */
 DEFINE_func_8014CD0C()  /* dedup: shared engine-core @0x8014CD0C (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_after", func_8014CD80);
+DEFINE_func_8014CD80()  /* dedup: shared engine-core @0x8014CD80 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_after", func_8014CF04);
 

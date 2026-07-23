@@ -3542,7 +3542,7 @@ void func_8014CCB4(void)
 DEFINE_func_8014CD0C()  /* dedup: shared engine-core @0x8014cd0c (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC07_011/nonmatchings/ov_SC07_011_jr_80140608", func_8014CD80);
+DEFINE_func_8014CD80()  /* dedup: shared engine-core @0x8014CD80 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC07_011/nonmatchings/ov_SC07_011_jr_80140608", func_8014CF04);
 
