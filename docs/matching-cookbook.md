@@ -4808,3 +4808,47 @@ a projection, which is the error §57a already caught once this phase.
 **The rule, stated generally:** *any* stage that mutates shared state must undo by SNAPSHOT-RESTORE over the
 **complete** set of files it can touch — config AND source — and a stage whose undo scope is narrower than
 its write scope will silently destroy work that no byte-gate can see. §61's law, one level deeper.
+
+## §62 — The jtbl RECONCILE must also follow the carve: the post-carve draft reconcile (`harvest_verify._jtbl_reconcile`, Phase 29 SESSION-11, 2026-07-22)
+
+§61b's law was "THE CARVE MUST FOLLOW THE SPLICE." This is its sibling: **the decl RECONCILE must follow the
+carve too, and run against the CARVED TU.**
+
+**The wall.** A loose-typed jtbl function (calls/references shared symbols declared incompatibly across the
+engine) drafts to a clean `match_one` MATCH, but the whole-binary gate fails to COMPILE — `conflicting types
+for D_XXXX / func_XXXX` — not a byte miss. `jr_isolate_all` accumulates each earlier region's file-scope
+decls as the new split region's **§8b carried-decl layer** (the canonical externs for the data/callees the
+body touches). The draft declares those SAME symbols its own way for the byte-match, and where the two
+disagree, cc1 rejects the TU. A batch of these read as "carves, 0 banks" and looked like a codegen wall.
+
+**Why the existing reconcile ladder misses it (the ordering bug).** `cast_call_sites` (§17a-1 callee cast) +
+`reconcile_tu` (§8d data, conform the draft to what THIS TU declares) already fix exactly this class and take
+`--src-file`. But gate_stage runs them **pre-carve** and against the default `src/<ov>/<ov>.c` — never the
+jtbl fn's real TU, because for a jtbl fn that TU is the split file, which does not exist until harvest_verify
+carves (gate_stage.py:271 deleted its batch jtbl stage for this reason: "harvest_verify owns the splice, so
+the prep belongs there").
+
+**The fix.** `harvest_verify._jtbl_reconcile(fn)`: after `_jtbl_prep_one` establishes the carve, run
+`cast_call_sites` then `reconcile_tu` with `--src-file <the carved TU>` and update `drafts[fn]['c']` in place,
+before the gate re-splices. A draft-only rewrite (no shared-state edit → no §61 undo needed); the whole-binary
+gate stays the sole arbiter (G3/P9). Guarded by `_jsnap is not None`, so it runs ONLY when a carve happened.
+**Validated:** `func_80135260` (callee `func_80134A74`) and `func_80191C50` (data `D_801152A8`) both went
+`conflicting types` → a genuine codegen **DIFF** — the reconcile dissolved the plumbing.
+
+**The honest finding it exposed (R14/R31).** Dissolving the plumbing does NOT bank these families — it reveals
+what the plumbing hid. All four ov_SC06_018 jtbl drafts had a DEEPER issue: `func_80135260`/`func_80191C50` a
+real codegen residual (a `%hi`-sharing regalloc the agents' `match_one` MATCH over-claimed — reloc-masked
+`match_one` cannot see it); `func_8012AAAC` a def-side-arity conflict AND it is in engine_core.h (fleet-shared)
+AND it still DIFFs after the arity fix (a def-side register-threading wall); `func_80135EB0` an `[jtbl] isolate
+FAILED`. So the reach-138 jtbl families are genuine near-misses/walls, not plumbing-only wins — the projected
+"+0.58pp from 3 jtbl families" is **refuted**. The fix's value is (a) it BANKS any jtbl family that is
+plumbing-only-blocked with a true MATCH, and (b) it makes the jtbl gate HONEST — it attributes the blocker
+(plumbing vs codegen) instead of reporting every loose-typed jtbl fn as an unbankable wall.
+
+**Two traps re-confirmed while building this (both §61-class).** (1) **Gate jtbl functions ONE AT A TIME** — a
+single `[jtbl] isolate FAILED` in a multi-fn `--chunk 1` batch corrupts the tree for the whole batch (`final
+SHA None`); the per-function restore does not contain a mid-batch isolation failure's damage. (2) **The
+fleet-shared-state restore trap:** `fix_arity_callers --funcs <fn in engine_core.h>` edits `src/shared/
+engine_core.h` fleet-wide; a `git checkout HEAD -- src/<ov>/` restore MISSES it (wrong directory), and the
+per-overlay build stays byte-identical so nothing flags the leak. Restore `src/shared/` too, and R22
+clean-fleet after any fix_arity probe (this bit me exactly as §61 warns — caught by a full `git status`).

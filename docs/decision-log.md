@@ -1576,3 +1576,47 @@ a genuine per-member-wall minority (func_80133AB0). So the ~1.5pp campaign estim
 the wall-family fraction (~1/3 here) and the per-family remap-refusals, not treated as a flat 50% haircut —
 and the only way to know a given family's rate is to crack it fresh and let the gate sweep it. Cracking
 remains the generator; the sweep is high-yield but not universal.
+
+---
+
+## 2026-07-22 (Phase 29, SESSION-11) — the jtbl families are near-misses/walls, not plumbing wins; the post-carve reconcile makes the gate honest
+
+**Context + belief.** SESSION-11's calibration wave drafted 4 jtbl families to match_one MATCH; the plan
+(SESSION-11 checkpoint) billed the 3 reach-138 ones (`func_80135EB0`/`func_80135260`/`func_8012AAAC`) as
+"≈+0.58pp, drafts done, just bank via the §8e carve." Banking them all failed with `conflicting types` —
+looked like a jtbl tooling wall. Drew set /effort max to "fix the tooling once."
+
+**Root cause (diagnosed, not assumed).** The jtbl carve's §8b carried-decl layer (jr_isolate_all's ambient
+file-scope decls) conflicts with each draft's own externs. The reconcile chain that fixes this
+(`cast_call_sites` + `reconcile_tu`, both `--src-file`-aware) already exists but runs PRE-carve against the
+wrong TU — a jtbl fn's real TU is the split file, which doesn't exist until harvest_verify carves. gate_stage
+had even deleted its batch jtbl stage noting "harvest_verify owns the splice." So the fix is one hook:
+`harvest_verify._jtbl_reconcile` runs the same chain POST-carve against the carved TU (cookbook §62).
+
+**The fix works — and that is exactly how it delivered a NEGATIVE result.** Validated on two functions
+(`func_80135260` callee, `func_80191C50` data): both went `conflicting types` → a genuine codegen DIFF. The
+plumbing was real and is now dissolved. But dissolving it revealed that all four jtbl drafts have a DEEPER
+issue the plumbing hid: `func_80135260`/`func_80191C50` a real `%hi`-sharing regalloc residual (the agents'
+reloc-masked match_one MATCH over-claimed it — R14); `func_8012AAAC` a def-side-arity conflict that is ALSO
+fleet-shared (engine_core.h) and ALSO still DIFFs after the arity fix (a def-side register-threading wall);
+`func_80135EB0` a carve `isolate FAILED`. **So the "+0.58pp from 3 reach-138 jtbl families" is REFUTED** —
+they are genuine near-misses/walls needing per-function matching (re-draft/permuter), not cheap plumbing wins.
+
+**Why this is a good outcome, not a wasted phase.** (1) The post-carve reconcile is the durable fix Drew
+approved — it BANKS any jtbl family that is plumbing-only-blocked with a true MATCH, and it makes the jtbl
+gate HONEST: it now attributes the blocker (plumbing vs codegen) instead of reporting every loose-typed jtbl
+fn as an unbankable wall (the §26/§53-class error that manufactured two phases of wrong doctrine). (2) It
+corrected an optimistic read: a reloc-masked match_one MATCH is NOT a whole-binary MATCH for a jtbl fn that
+references shared symbols — the mask hides both the reloc-resolved codegen AND the carried-decl plumbing
+(§58, extended).
+
+**Hindsight better-path.** The calibration wave's jtbl drafts should have been whole-binary-gated (not just
+match_one) before the checkpoint billed them as "drafts done, +0.58pp." A match_one MATCH on a jtbl fn is the
+weakest MATCH signal we have (two masked layers). For the remaining ov_SC06_018 harvest: gate jtbl drafts
+whole-binary early, and expect the reach-138 shared-region jtbl families to be walls (they are the most
+loose-typed code in the engine). The cheaper yield is the ~83 non-jtbl targets (no carve, no §8b layer).
+
+**Two §61-class traps re-confirmed** (both in cookbook §62): gate jtbl functions ONE AT A TIME (a mid-batch
+isolate-FAIL corrupts the whole batch, `final SHA None`); and `fix_arity` on a fn in engine_core.h edits
+fleet-shared state — a `git checkout src/<ov>/` restore misses `src/shared/`, and the per-overlay build stays
+byte-identical so nothing flags the leak (caught here by a full `git status` + R22 clean-fleet).

@@ -14,7 +14,7 @@ Resident defaults; pass flags for another binary.
   python3 tools/harvest_verify.py            # resident
   python3 tools/harvest_verify.py --chunk 6
 """
-import subprocess, glob, os, re, sys, hashlib, argparse
+import subprocess, glob, os, re, sys, hashlib, argparse, shutil
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -350,6 +350,44 @@ def _jtbl_prep_one(fn):
     return True, snap
 
 
+def _jtbl_reconcile(fn):
+    """Post-carve draft reconcile (Phase-29). After _jtbl_prep_one carves the table, fn's stub lives
+    in a split TU carrying a §8b decl layer — canonical externs for the data/callees fn's body
+    touches (jr_isolate_all accumulates each earlier region's file-scope decls as the new region's
+    ambient set). The draft declares those SAME symbols for its own byte-match, and where the two
+    disagree the whole-binary gate fails to COMPILE (`conflicting types for D_XXXX / func_XXXX`), not
+    a byte miss — the exact class that made a batch of loose-typed jtbl families read as "carves, 0
+    banks" and look like a codegen wall.
+
+    The chain that fixes it ALREADY exists and takes --src-file: cast_call_sites (§17a-1, the callee
+    fn-ptr cast) + reconcile_tu (§8d, conform the draft's DATA decls to what THIS TU declares, casting
+    every use so the access is byte-identical). gate_stage runs it, but only PRE-carve and against the
+    default src/<ov>/<ov>.c — never fn's real TU, because for a jtbl fn that TU is this split file,
+    which did not exist when the ladder ran (gate_stage.py:271 deleted its batch jtbl stage for exactly
+    this reason: "harvest_verify owns the splice, so the prep belongs there"). So run the chain HERE,
+    against the carved TU, and update the draft in place. Draft-only rewrite (no shared-state edit, so
+    no §61 undo needed); the whole-binary gate stays the sole arbiter (G3/P9)."""
+    st = _stubs.get(fn)
+    if st is None:
+        return
+    tu = os.path.relpath(st.path, REPO)
+    base = os.path.join(REPO, '.run', '%s_jtbl_rc' % a.binary)
+    shutil.rmtree(base, ignore_errors=True)
+    cur = os.path.join(base, 'in')
+    os.makedirs(cur, exist_ok=True)
+    open(os.path.join(cur, fn + '.c'), 'w').write(drafts[fn]['c'])
+    for tool, suf in (('cast_call_sites.py', '-cast'), ('reconcile_tu.py', '-rc')):
+        out = cur + suf
+        shutil.rmtree(out, ignore_errors=True)
+        _sh([PY, 'tools/' + tool, '--overlay', a.binary, '--in', cur, '--out', out,
+             '--src-file', tu])
+        if os.path.isdir(out) and os.path.exists(os.path.join(out, fn + '.c')):
+            cur = out
+    reconciled = os.path.join(cur, fn + '.c')
+    if os.path.exists(reconciled):
+        drafts[fn]['c'] = open(reconciled).read()
+
+
 def _stub_line(fn):
     s = _stubs[fn]
     return 'INCLUDE_ASM("%s", %s);' % (s.asm_dir, s.symbol)
@@ -397,6 +435,8 @@ while i < len(items):
     _jsnap = None
     if len(chunk) == 1:
         _ok, _jsnap = _jtbl_prep_one(chunk[0])
+        if _jsnap is not None:              # a jtbl carve happened -> reconcile the draft vs the CARVED TU
+            _jtbl_reconcile(chunk[0])
     if attempt(chunk):
         commit(chunk)
         print('  + chunk(%d): %s' % (len(chunk), ' '.join(chunk)))

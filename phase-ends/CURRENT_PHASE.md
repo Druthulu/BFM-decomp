@@ -1401,3 +1401,30 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 > `func_80133AB0` family is a documented per-member wall (do not re-sweep from a single exemplar).
 > **Effort:** ultracode for the waves (breadth); Max for jtbl §8e surgery + synthesis. **Do NOT close P29 on
 > ROI grounds** — the burn-down floor is still undetermined (needs 3 session-close deltas).
+
+- **✅ 2026-07-22 (SESSION-11 cont., Max) — jtbl POST-CARVE RECONCILE fix built + validated; the reach-138
+  jtbl families byte-REFUTED as plumbing wins (they are near-misses/walls). Fleet unchanged 78.6% (no bank).**
+  Drew set /effort max ("fix the tooling once") on the finding that all 3 reach-138 jtbl families
+  (func_80135EB0/80135260/8012AAAC) + func_80191C50 failed banking on `conflicting types`.
+  **ROOT CAUSE (diagnosed):** the jtbl carve's §8b carried-decl layer conflicts with each draft's externs;
+  the reconcile chain (`cast_call_sites`+`reconcile_tu`, both `--src-file`-aware) exists but gate_stage runs
+  it PRE-carve against the wrong TU (a jtbl fn's real TU is the split file, which doesn't exist yet).
+  **FIX (cookbook §62):** `harvest_verify._jtbl_reconcile(fn)` runs the same chain POST-carve against the
+  carved TU, updating the draft in place (draft-only, no §61 undo; gate is sole arbiter). Guarded by
+  `_jsnap is not None`. **VALIDATED:** func_80135260 (callee func_80134A74) + func_80191C50 (data D_801152A8)
+  both went `conflicting types` → a genuine codegen **DIFF** — plumbing dissolved.
+  **THE FINDING (R14/R31 → decision-log):** dissolving the plumbing REVEALED all 4 jtbl drafts have a deeper
+  issue: func_80135260/80191C50 = a real `%hi`-sharing regalloc residual (agents' reloc-masked match_one
+  MATCH over-claimed it); func_8012AAAC = def-side-arity + FLEET-SHARED (engine_core.h) + still DIFFs after
+  the arity fix (def-side register-threading wall); func_80135EB0 = carve `isolate FAILED`. **⇒ the
+  "+0.58pp from 3 reach-138 jtbl families" is REFUTED** — they are per-function near-misses/walls, not cheap
+  plumbing. The fix's value: it BANKS any plumbing-only jtbl family with a TRUE match, and makes the jtbl
+  gate HONEST (attributes plumbing vs codegen). **⚠️ §61 traps re-confirmed** (§62): gate jtbl ONE-AT-A-TIME
+  (a mid-batch isolate-FAIL corrupts the whole batch → `SHA None`); `fix_arity` on an engine_core.h fn leaks
+  fleet-wide (a `git checkout src/<ov>/` restore MISSES `src/shared/` — caught by full `git status` + R22).
+  **R22 clean-fleet 140/140; tools-health-safe (tool change only, not committed bytes).** Commit: the
+  `_jtbl_reconcile` hook + §62 + decision-log; Drew pushes.
+  **▶ REVISED NEXT (the yield is cheaper elsewhere):** the ~83 NON-jtbl ov_SC06_018 targets (no carve, no §8b
+  layer — plain harvest_verify) via a `wave_binary.js` breadth wave = the cleaner path. The reach-138 jtbl
+  families need re-draft/permuter for their real residuals (not this phase's cheap lever). func_80135260's
+  `%hi`-sharing residual is a decent permuter seed; func_8012AAAC/80135EB0 are documented walls.
