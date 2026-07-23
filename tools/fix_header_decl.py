@@ -144,8 +144,8 @@ def canon_sig(ret, params):
     return r, ps
 
 
-def build_decl(m, true_ret, true_params):
-    """Return just the rewritten `extern <ret> func_X(...);` span (the caller splices it back into the
+def build_decl(m, true_ret, true_params, sym):
+    """Return just the rewritten `extern <ret> <sym>(...);` span (the caller splices it back into the
     line, preserving leading whitespace + any trailing macro `\\` continuation)."""
     extern = m.group(1)
     decl_params = parse_sig(m.group(3))
@@ -157,7 +157,38 @@ def build_decl(m, true_ret, true_params):
         base = canon_base(tb) if tb else "void"
         parts.append((f"{base} *{name}" if tptr else f"{base} {name}").rstrip())
     inner = ", ".join(parts) if parts else "void"
-    return f"{extern}{ret} func_{FN_ADDR}({inner});"
+    return f"{extern}{ret} {sym}({inner});"
+
+
+def parse_draft_fn_externs(draft_path):
+    """Return {fn_name: (ret, [params])} for every `extern <ret> func_X(<params>);` in the draft."""
+    text = open(draft_path).read()
+    out = {}
+    for m in re.finditer(r"extern\s+([A-Za-z_][\w \t\*]*?)\b(func_[0-9A-Fa-f]+)\s*\(([^;]*?)\)\s*;", text):
+        out[m.group(2)] = (m.group(1).strip(), parse_sig(m.group(3)))
+    return out
+
+
+def plan_symbol(sym, true_ret, true_params):
+    """Plan header-decl rewrites so every shared-header decl of `sym` matches (true_ret, true_params).
+    Returns (changes, saw_decl) where changes = [(hdr, old_line, new_line)]. Prints per-decl status."""
+    changes = []
+    decls = find_decls(sym)
+    for h, ln, line, dret, dparams, m in decls:
+        already = (canon_sig(true_ret, true_params) == canon_sig(dret, dparams))
+        ok, why = compatible(true_ret, true_params, dret, dparams)
+        new_line = line[:m.start()] + build_decl(m, true_ret, true_params, sym) + line[m.end():]
+        status = "ALREADY-OK" if already else ("SAFE" if ok else "REFUSE")
+        print(f"  {sym}  {h}:{ln}  [{status}]")
+        print(f"    - {line.rstrip()}")
+        if already:
+            continue
+        if not ok:
+            print(f"    ! {why}")
+            continue
+        print(f"    + {new_line.rstrip()}")
+        changes.append((h, line, new_line))
+    return changes, bool(decls)
 
 
 def main():
@@ -166,6 +197,12 @@ def main():
     ap.add_argument("--draft", required=True, help="draft .c holding the byte-true DEFINITION")
     ap.add_argument("--check", action="store_true", help="dry-run: show the rewrite, touch nothing")
     ap.add_argument("--apply", action="store_true", help="snapshot + rewrite the header decls")
+    ap.add_argument("--reconcile-externs", action="store_true",
+                    help="v2: ALSO reconcile every CALLEE the draft declares differently than the shared "
+                         "header (byte-perfect body blocked by a callee-decl conflict, not its own def). "
+                         "Sources the byte-true sig from the draft's `extern` line. The byte-gate + R22 "
+                         "arbitrate — an over-reach (e.g. a scalar-width return change that adds a "
+                         "sign-extension in some caller) fails to bank, never banks wrong.")
     args = ap.parse_args()
     global FN_ADDR
     FN_ADDR = args.fn.replace("func_", "")
@@ -179,27 +216,18 @@ def main():
     pstr = ", ".join(f"{b}{'*' if p else ''}" for (b, p, _) in true_params) or "void"
     print(f"byte-true def: {true_ret} {args.fn}({pstr})")
 
-    decls = find_decls(args.fn)
-    if not decls:
-        print(f"[fix_header_decl] no shared-header forward-decl of {args.fn} — nothing to reconcile "
-              f"(the blocker is elsewhere: callee/data/struct/DIFF).")
+    changes, saw = plan_symbol(args.fn, true_ret, true_params)   # v1: the fn's own decl
+    if args.reconcile_externs:                                    # v2: each callee the draft declares
+        for callee, (cret, cparams) in parse_draft_fn_externs(args.draft).items():
+            if callee == args.fn:
+                continue
+            ch, s = plan_symbol(callee, cret, cparams)
+            changes += ch
+            saw = saw or s
+    if not saw:
+        print(f"[fix_header_decl] no shared-header forward-decl to reconcile "
+              f"(blocker is elsewhere: data/struct/DIFF).")
         return 1
-    changes = []
-    for h, ln, line, dret, dparams, m in decls:
-        already = (canon_sig(true_ret, true_params) == canon_sig(dret, dparams))
-        ok, why = compatible(true_ret, true_params, dret, dparams)
-        # splice the rewritten decl span back into the line, preserving leading ws + trailing `\`
-        new_line = line[:m.start()] + build_decl(m, true_ret, true_params) + line[m.end():]
-        status = "ALREADY-OK" if already else ("SAFE" if ok else "REFUSE")
-        print(f"  {h}:{ln}  [{status}]")
-        print(f"    - {line.rstrip()}")
-        if already:
-            continue
-        if not ok:
-            print(f"    ! {why}")
-            continue
-        print(f"    + {new_line.rstrip()}")
-        changes.append((h, line, new_line))
 
     if not changes:
         print("no change needed (decls already byte-true, or all REFUSED).")

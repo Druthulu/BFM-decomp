@@ -1562,3 +1562,19 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 > `dedup_propagate --addr` → R22. Expect ~half-to-most bank ×138 (residual risk = a non-universal body, a
 > per-member wall like func_80165CA0, NOT the header). Option (b) reopened as the campaign's best lever
 > (≈+1.5–2.8pp instr). **The onboarded-tail low-ROI read still stands; only the FRESH read flipped.**
+
+> **🔧 SESSION-13 CONT (2026-07-23, ultracode) — 3 parallel streams launched; gate-on-completion pending.**
+> **Stream A — CRACK WAVE RUNNING:** Workflow `w9lidyi5b` drafting **24 fresh (LIVE=138) families** →
+> `.run/drafts-sc07006-fresh/`. Batch/args `.run/wave_sc07006_fresh_b1_args.json`. **ON COMPLETION:** gate
+> each — class-1 self-def blockers via `fix_header_decl --fn <fn> --draft <d> --apply` → `harvest_verify` →
+> `dedup_propagate --addr 0x<a> --recover` → (batch) R22. Full fresh pool (74) in `.run/wave_sc07006_fresh_nonjtbl_pool.json`.
+> **Stream C — PERMUTER WIN:** `func_8014D12C` (fresh-138) cracked score-0 → `.run/perm_d12c_winners/func_8014D12C.c`.
+> Bank it: `fix_header_decl --fn func_8014D12C --draft .run/perm_d12c_winners/func_8014D12C.c --apply`
+> (its header decl is `void(s32,void*,void*)`; byte-true `s32(s32,u16*,u16*)`) → harvest_verify → dedup_propagate ×138.
+> **Stream B — `fix_header_decl` v2 BUILT + committed:** `--reconcile-externs` fixes CALLEE decls in shared
+> headers too (sources byte-true sig from the draft's `extern`). --check validated (func_80174CB0 → func_80012C6C
+> s32→s16, all SAFE; v1 unbroken). **⚠️ v2 LIMITATION (byte-gate caught it, fail-closed):** it fixes only
+> `src/shared/*.h`, NOT per-overlay-local decls — func_80174CB0 still blocked by a LOCAL decl of func_80012C6C
+> at `src/ov_SC07_006/ov_SC07_006_jr_8015C32C.c:8523`. **v3 = extend the fix to the per-overlay split .c the
+> draft targets (or wire it into harvest_verify's splice).** func_80174CB0/func_801463A0 (data, multi-symbol)
+> carried as v3 exemplars. R22 NOT yet run this stream (no bank landed — wave pending). Tree clean.
