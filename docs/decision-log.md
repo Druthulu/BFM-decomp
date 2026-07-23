@@ -1754,3 +1754,39 @@ single-caller/ignored-return self-def case (it's cheap + proven there). For the 
 general, the SPINE is `gate_stage` (call-site casts + arity pre-pass, byte-gated), NOT header-decl rewriting.
 "Matching is solved; integration is the bottleneck" holds hard here — the 20 bodies matched; the plumbing is
 the wall, and the call-site-cast ladder is the way through it, per-family, not a bulk header edit.
+
+## 2026-07-23 (Phase 29, SESSION-13) — the §20 type-lift is a FLEET-WIDE collision-resolution op, not a tool-run (R32/R35; do NOT improvise it)
+
+**Goal.** Unblock the 4 §20-capped fresh-138 cores (func_8012B4B8/80175308/8012E138/8012A1BC — "not
+self-contained (local types)") via `build_engine_types` so they propagate ×138 (+552 stubs; roadmap B4).
+
+**Diagnosis (correctly measured, after fixing a broken instrument twice — R35).** The cores reference
+fleet-local struct types (`Vec8`, `Mat32`, `Buf`, `MATRIX`) that live at overlay file scope, NOT in
+`src/shared/engine_types.h`. `dedup_propagate` conservatively skips any body referencing a non-shared type.
+`build_engine_types` lifts such types to the shared header (byte-neutral: `--strip` removes the defs, type
+decls emit no code) — the proven §19 Phase-20 lever.
+
+**The blocker — MULTI-DEF COLLISION across the fleet.** Robust scan (`}[ ]*<T>[ ]*;`, NOT the `[^;]*` regex
+that silently under-counts multi-field structs — that bug read "Mat32 = 1 copy/SAFE" when it is 138+1, and I
+nearly trusted it: R35, twice): **`Mat32`/`Vec8`/`Buf` each have 2 distinct defs across 138 overlays, `MATRIX`
+has 3.** The extra defs are drafter-invented simplified variants (`Mat32 = {int w[8]}` from THIS session's
+wave vs the canonical `{s32 w0,w4,w8,wC; s16 h10,hpad; s32 t0,t1,t2}`). So a naive `build_engine_types
+--source ov_SC07_006 --strip` would push a NON-CANONICAL def into the fleet-shared header and break the 138
+overlays holding the canonical local copy. The safe scoped lift (ov07-UNIQUE types only, e.g. the named
+`Cam8012E138`) unblocks ~1 core — not worth an R22.
+
+**Why this is not a tail-of-session improvisation (the responsible call).** It is a genuine fleet-wide op: (1)
+pick the canonical def PER type (resolve the 2–3-way collisions); (2) reconcile every non-canonical draft
+(this session's simplified Mat32/Vec8/Buf + historical variants) to the canonical — byte-checking each (a
+32-byte struct COPY is byte-neutral across layouts, but any FIELD access is not); (3) lift canonical →
+engine_types.h; (4) `--strip` FLEET-WIDE (138 overlays, no make target exists — Phase-20 did it manually); (5)
+R22. Rushing a fleet-shared header edit with colliding type defs is exactly the SESSION-12 corruption class.
+
+**Bounded payoff (cookbook §20).** The lift only helps type-blocked-BUT-otherwise-clean bodies. The DOMINANT
+§20 fraction is the DEF-conflict loose-typing wall — byte-proven unrecoverable by text transform, only path is
+RE-DRAFTING under the caller-canonical sig. So the type-lift is real but not a fleet-% silver bullet.
+
+**RECOMMENDATION.** Do the type-lift as a DEDICATED operation with: a correct multi-field type-scanner (the
+`[^;]*` one is retired), a per-type canonical-def picker + a draft-reconcile pass, fleet-wide strip
+orchestration (build the missing `make lift-types` that loops all overlays + `--exclude` the irreconcilable),
+and R22. It is high-value (roadmap B4) but must be planned, not improvised. The 4 cores stay ×1 until then.
