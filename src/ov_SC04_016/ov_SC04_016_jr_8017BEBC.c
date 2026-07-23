@@ -3588,7 +3588,40 @@ INCLUDE_ASM("asm/ov_SC04_016/nonmatchings/ov_SC04_016_jr_8017BEBC", func_8017F82
 
 INCLUDE_ASM("asm/ov_SC04_016/nonmatchings/ov_SC04_016_jr_8017BEBC", func_8017F8A8);
 
-INCLUDE_ASM("asm/ov_SC04_016/nonmatchings/ov_SC04_016_jr_8017BEBC", func_8017FD48);
+
+// @class: loose-typing
+// @stuck: none — MATCH (99 ins). short* for param_2/param_3: gcc emits lh where sign is live (<<1 for signed div), lhu where truncated to short (arith result / direct copy)
+
+extern int rand(void);
+extern int func_8017FF08(short *pos, int a1, int a2);
+
+void func_8017FD48(unsigned short *param_1, short *param_2, short *param_3,
+                   unsigned int param_4, int param_5)
+{
+    int r;
+    int d;
+    short buf[4];
+    int p;
+
+    if ((*param_1 & (short)((1 << param_4) - 1)) == 0) {
+        r = rand();
+        d = param_3[0] << 1;
+        buf[0] = (param_2[0] + (r % d)) - param_3[0];
+        r = rand();
+        d = param_3[1] << 1;
+        buf[1] = (param_2[1] + (r % d)) - param_3[1];
+        r = rand();
+        d = param_3[2] << 1;
+        buf[2] = (param_2[2] + (r % d)) - param_3[2];
+        buf[3] = param_3[3];
+        p = func_8017FF08(buf, 0, param_5);
+        if (p != 0) {
+            *(short *)(*(int *)(p + 0x20) + 0x18) = param_2[3];
+        }
+    }
+    *param_1 = *param_1 + 1;
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_016/nonmatchings/ov_SC04_016_jr_8017BEBC", func_8017FED4);
 
