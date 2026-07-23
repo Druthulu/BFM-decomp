@@ -5335,7 +5335,7 @@
 
 #define DEFINE_func_8012DFD4() \
     extern void func_8012E014(void); \
-    extern void func_8012E138(void); \
+    extern void func_8012E138(); \
     void func_8012DFD4(u8 *a0) { \
         if (a0[0x74]) { \
             func_8012E014(); \
@@ -5390,7 +5390,7 @@
     }
 
 #define DEFINE_func_801284F0() \
-    extern void func_80175308(void); \
+    extern void func_80175308(); \
     extern void func_8016E8F0(void); \
     extern void func_80175494(void); \
     extern void func_80011C10(void); \

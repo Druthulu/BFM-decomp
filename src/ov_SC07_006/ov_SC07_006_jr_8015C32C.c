@@ -71,7 +71,7 @@ extern u8 D_800B9A10;
 extern void func_80128420(void);
 extern s32 func_800D0588(void);
 extern void func_801284B8(void);
-extern void func_80175308(void);
+extern void func_80175308();
 extern void func_8016E8F0(void);
 extern void func_80175494(void);
 extern u8 D_800B9A64;
@@ -372,8 +372,8 @@ extern s16 D_80126B9A;
 extern u8 D_801152A8[];
 extern void func_8012DFBC(void);
 extern void func_8012DFCC(void);
-extern void func_8012E014(void);
-extern void func_8012E138(void);
+extern void func_8012E014();
+extern void func_8012E138();
 extern void func_8012DFD4(u8 *a0);
 extern s32 func_8012E27C(void);
 extern void func_8012E284(void);
@@ -1502,13 +1502,13 @@ extern void func_8014D04C(void);
 extern void func_8014CCB4(void);
 extern void func_8014CC28(s32 a0);
 extern void func_8014CD0C(u8 *a0);
-extern void func_8014CF04(s32 a0, void *a1, void *a2);
+extern void func_8014CF04();
 extern void func_8014CD80();
-extern void func_8014D2A0(s32 a0, void *a1, void *a2);
+extern void func_8014D2A0();
 extern void func_8014D12C();
 extern void func_8014D0A4(s32 a0);
-extern void func_8014D610(s32 a0, void *a1, void *a2);
-extern void func_8014D4C0(s32 a0, void *a1, void *a2);
+extern void func_8014D610();
+extern void func_8014D4C0();
 extern void func_8014D438(s32 a0);
 extern s32 func_8014DD8C(s32 a0, void *a1, void *a2);
 extern void func_8014D820(s32 a0, void *a1, void *a2);
@@ -5896,7 +5896,92 @@ INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_8015C32C", func_8016905
 
 INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_8015C32C", func_801691B8);
 
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_8015C32C", func_80169228);
+// @class: struct
+// @stuck: none — MATCH (105 ins). Modeled on matched sibling DEFINE_func_80169A4C (engine_core.h):
+//   buf[0x60]@sp+0x10, p=buf+0x38(->$s0), arg0 captured via register $4 (->$s1). Color if/else on
+//   field_2c&2 via two chained-assign RGB groups per branch (rightmost-lvalue stores first). KEY
+//   LEVER: in the ELSE, compute `col = -0x40-(idx<<4)` BEFORE the 0x20 stores (store order A/B/C
+//   unchanged) — this stops gcc hoisting the else's 0x20 into the bnez delay slot, so the shared
+//   -0x40 fills it in $v0 (reusing the dead field_2c reg) and the else regs (0x20->$v1,idx->$a0)
+//   fall out correct. p pinned to $s0 so arg0 gets $s1; rot value uses a fresh temp `v` (not
+//   `base +=`) so it lands in $v0 like the target.
+#include "common.h"
+
+extern s32  func_80017DC4(void *a0, void *a1);
+extern void func_80048EAC(void *a0, void *a1);
+extern s32  func_80017758(void *a0, void *a1);
+
+void func_80169228(void) {
+    register s32 a0v __asm__("$4");
+    s32 arg0 = a0v;
+    u8 buf[0x60];               /* $sp+0x10 .. $sp+0x6F */
+    register u8 *p __asm__("$16");   /* $sp+0x48 (matrix, a1 to the calls) -> $s0 */
+    s32 col;
+    s16 base;
+    s16 v;
+
+    /* first-draw SVECTOR verts — source order == target store order */
+    *(s16 *)(buf + 0x08) = -5;   /* 0x18 */
+    *(s16 *)(buf + 0x00) = -5;   /* 0x10 */
+    *(s16 *)(buf + 0x18) = 5;    /* 0x28 */
+    *(s16 *)(buf + 0x10) = 5;    /* 0x20 */
+    *(s16 *)(buf + 0x12) = -5;   /* 0x22 */
+    *(s16 *)(buf + 0x02) = -5;   /* 0x12 */
+    *(s16 *)(buf + 0x1a) = 5;    /* 0x2A */
+    *(s16 *)(buf + 0x0a) = 5;    /* 0x1A */
+    *(s16 *)(buf + 0x1c) = 0;    /* 0x2C */
+    *(s16 *)(buf + 0x14) = 0;    /* 0x24 */
+    *(s16 *)(buf + 0x0c) = 0;    /* 0x1C */
+    *(s16 *)(buf + 0x04) = 0;    /* 0x14 */
+
+    /* colors */
+    if ((*(u32 *)(arg0 + 0x2c) & 2) == 0) {
+        col = -0x40 - (*(s32 *)(arg0 + 0x1c) << 4);
+        *(u8 *)(buf + 0x21) = *(u8 *)(buf + 0x22) =
+        *(u8 *)(buf + 0x25) = *(u8 *)(buf + 0x26) =
+        *(u8 *)(buf + 0x29) = *(u8 *)(buf + 0x2a) =
+        *(u8 *)(buf + 0x2d) = *(u8 *)(buf + 0x2e) = col;
+        *(u8 *)(buf + 0x20) = *(u8 *)(buf + 0x24) =
+        *(u8 *)(buf + 0x28) = *(u8 *)(buf + 0x2c) = col;
+    } else {
+        col = -0x40 - (*(s32 *)(arg0 + 0x1c) << 4);
+        *(u8 *)(buf + 0x20) = *(u8 *)(buf + 0x24) =
+        *(u8 *)(buf + 0x2a) = *(u8 *)(buf + 0x2e) = 0x20;
+        *(u8 *)(buf + 0x21) = *(u8 *)(buf + 0x25) =
+        *(u8 *)(buf + 0x29) = *(u8 *)(buf + 0x2d) = col;
+        *(u8 *)(buf + 0x29) = *(u8 *)(buf + 0x2d) = 0x20;
+    }
+
+    *(s32 *)(buf + 0x30) = 0x50000000;   /* 0x40 tag */
+
+    base = 0x800;
+    if (*(u32 *)(arg0 + 0x2c) & 1) base = 0x4cc;
+    v = base + (*(s32 *)(arg0 + 0x1c) << 7);
+    *(u16 *)(buf + 0x5c) = v;   /* 0x6C */
+    *(u16 *)(buf + 0x5a) = v;   /* 0x6A */
+    *(u16 *)(buf + 0x58) = v;   /* 0x68 */
+
+    p = buf + 0x38;
+    func_80017DC4(buf + 0x58, p);
+    func_80048EAC((void *)(arg0 + 0x38), p);
+
+    *(s32 *)(buf + 0x4c) = (s32)*(s16 *)(arg0 + 6);    /* 0x5C */
+    *(s32 *)(buf + 0x50) = (s32)*(s16 *)(arg0 + 0xa);  /* 0x60 */
+    *(s32 *)(buf + 0x54) = (s32)*(s16 *)(arg0 + 0xe);  /* 0x64 */
+    func_80017758(buf + 0x00, p);
+
+    /* second-draw SVECTOR verts */
+    *(s16 *)(buf + 0x00) = -7;   /* 0x10 */
+    *(s16 *)(buf + 0x10) = 0;    /* 0x20 */
+    *(s16 *)(buf + 0x08) = 0;    /* 0x18 */
+    *(s16 *)(buf + 0x18) = 7;    /* 0x28 */
+    *(s16 *)(buf + 0x1a) = 0;    /* 0x2A */
+    *(s16 *)(buf + 0x02) = 0;    /* 0x12 */
+    *(s16 *)(buf + 0x0a) = 7;    /* 0x1A */
+    *(s16 *)(buf + 0x12) = -7;   /* 0x22 */
+    func_80017758(buf + 0x00, p);
+}
+
 
 
 
@@ -8602,7 +8687,53 @@ s32 func_80175268(s32 param_1)
 DEFINE_func_801752BC()  /* dedup: shared engine-core @0x801752bc (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_8015C32C", func_80175308);
+// @class: struct
+// @stuck: none — MATCH (67 ins). Base pointer `p=&D_8011F7A8` shares $t0 for offset-0
+// store + p+0x48 struct-assign dest + p+0xE0 call arg; field stores 1/6/0xC..0x16 are
+// separate globals (LO_SUM); 152-byte struct assign -> gcc block-move (16B loop + 8B tail);
+// &D_800B9A02 held in $s0 across the calls via an explicit `s16 *q` pointer local
+// (lh for signed read, *(u16*)q for the lhu ^1 read).
+#include "common.h"
+
+typedef struct { u32 w[38]; } Blk152; /* 0x98 = 152 bytes */
+
+extern u8  D_8011F7A8;
+extern u8  D_8011F7A9;
+extern u8  D_8011F7AE;
+extern u16 D_8011F7B4;
+extern u16 D_8011F7B6;
+extern s16 D_8011F7B8;
+extern s16 D_8011F7BA;
+extern s16 D_8011F7BC;
+extern s16 D_8011F7BE;
+extern u8 D_80078E78[];
+extern s16 D_800B9A02;
+
+extern void func_80016714(void *, s32);
+extern void func_801757A0(s32);
+extern void func_800596F4(s32);
+
+void func_80175308(void) {
+    u8 *p = (u8 *)&D_8011F7A8;
+    p[0] = 1;
+    D_8011F7A9 = 2;
+    D_8011F7AE = 0x37;
+    D_8011F7B8 = -0x37;
+    (*(s16 *)&D_8011F7B4) = -0x37;
+    D_8011F7BE = 0x37;
+    D_8011F7BA = 0x37;
+    (*(s16 *)&D_8011F7B6) = 0x37;
+    D_8011F7BC = 0x37;
+    *(Blk152 *)(p + 0x48) = (*(Blk152 *)D_80078E78);
+    func_80016714(p + 0xE0, 0x98);
+    {
+        s16 *q = &D_800B9A02;
+        func_801757A0(*q);
+        func_800596F4(0);
+        func_801757A0((s16)(*(u16 *)q ^ 1));
+    }
+}
+
 
 DEFINE_func_80175414()  /* dedup: shared engine-core @0x80175414 (src/shared) */
 

@@ -66,7 +66,7 @@ extern u8 D_800B9A10;
 extern void func_80128420(void);
 extern s32 func_800D0588(void);
 extern void func_801284B8(void);
-extern void func_80175308(void);
+extern void func_80175308();
 extern void func_8016E8F0(void);
 extern void func_80175494(void);
 extern u8 D_800B9A64;
@@ -367,8 +367,8 @@ extern s16 D_80126B9A;
 extern u8 D_801152A8[];
 extern void func_8012DFBC(void);
 extern void func_8012DFCC(void);
-extern void func_8012E014(void);
-extern void func_8012E138(void);
+extern void func_8012E014();
+extern void func_8012E138();
 extern void func_8012DFD4(u8 *a0);
 extern s32 func_8012E27C(void);
 extern void func_8012E284(void);
@@ -1017,7 +1017,88 @@ INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_80135D20", func_80136F3
 DEFINE_func_80137030()  /* dedup: shared engine-core @0x80137030 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_80135D20", func_80137178);
+// @class: regalloc-order
+// @stuck: none — MATCH (match_one 78/78, relocation-masked)
+//
+// 3-line GsSortLine family (same shape as byte-proven DEFINE_func_80137030), blue variant:
+//   x0=a0-3, x1=a0+3 constant; y0: a1-3 -> a1+3 -> a1+3 ; y1: a1-3 -> a1-3 -> a1+3 ; color r=0 g=0 b=0xFF.
+// Levers that make gcc-2.7.2 -O2 emit the target's exact regalloc + schedule:
+//   * y0/y1 as two separate vars each reassigned in-place: a1 is clobbered by each call, so gcc is
+//     forced to materialize a1-3 and a1+3 BEFORE call1. The surviving a1-3 (needed at line2.y1) is
+//     preserved by a reload-inserted live-range split ($s5 -> $s4, the `addu $s4,$s5,$zero` copy) when
+//     $s5 is reused for a1+3. Do NOT write an explicit copy (it front-loads as a real insn).
+//   * pin x0->$s3, white(0xFF)->$s1, base(&D_800A6518)->$s2. Leave x1 UNPINNED: gcc naturally homes a0
+//     in $s0 (prologue `addu $s0,$a0,$zero`) and computes x1=$s0+3 in place, landing x1 in $s0 and
+//     scheduling it early (right after y0). Pinning x1, or any __asm__ touching x1, perturbs the
+//     register pressure and destroys the fragile reload split (drops to 77 ins).
+//   * the `__asm__("" : "=r"(x0) : "0"(x0))` anchor nails x0's compute point right after the three
+//     initial computes (x0, y0, x1) so it schedules before the store/split block (16 -> 12 -> MATCH).
+
+
+
+
+
+
+
+extern short D_800B9A02;
+extern u8 D_800A6518[];
+extern void GsSortLine(void *a0, void *a1, s32 a2);
+
+void func_80137178(s32 a0, s32 a1)
+{
+    struct {
+        u32 tag;
+        s16 x0;
+        s16 y0;
+        s16 x1;
+        s16 y1;
+        u8 r;
+        u8 g;
+        u8 b;
+    } line;
+    register s16 x0    __asm__("$19");             /* $s3 */
+    register s16 white __asm__("$17");             /* $s1 */
+    register u8 *base  __asm__("$18") = D_800A6518; /* $s2 */
+    s16 x1;
+    s16 y0;
+    s16 y1;
+    x0 = a0 - 3;
+    y0 = a1 - 3;
+    x1 = a0 + 3;
+    __asm__("" : "=r"(x0) : "0"(x0));
+    y1 = a1 - 3;
+    white = 0xFF;
+    line.tag = 0;
+    line.r = 0;
+    line.g = 0;
+    line.b = white;
+    line.x0 = x0;
+    line.y0 = y0;
+    line.x1 = x1;
+    line.y1 = y1;
+    GsSortLine(&line, &base[(u16)D_800B9A02 * 20], 0);
+    y0 = a1 + 3;
+    line.tag = 0;
+    line.r = 0;
+    line.g = 0;
+    line.b = white;
+    line.x0 = x0;
+    line.y0 = y0;
+    line.x1 = x1;
+    line.y1 = y1;
+    GsSortLine(&line, &base[(u16)D_800B9A02 * 20], 0);
+    y1 = a1 + 3;
+    line.tag = 0;
+    line.r = 0;
+    line.g = 0;
+    line.b = white;
+    line.x0 = x0;
+    line.y0 = y0;
+    line.x1 = x1;
+    line.y1 = y1;
+    GsSortLine(&line, &base[(u16)D_800B9A02 * 20], 0);
+}
+
 
 DEFINE_func_801372B0()  /* dedup: shared engine-core @0x801372b0 (src/shared) */
 

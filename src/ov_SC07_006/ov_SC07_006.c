@@ -661,7 +661,44 @@ DEFINE_func_8012A100()  /* dedup: shared engine-core @0x8012a100 (src/shared) */
 DEFINE_func_8012A110()  /* dedup: shared engine-core @0x8012a110 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006", func_8012A1BC);
+// @class: regalloc-order
+// @stuck: none — MATCH (78 ins, relocation-masked). Register pins ($2-$5 reused for
+//   the D_x200-x20C words then the D_x220-x226 halfwords; $6-$10 held across for the
+//   D_x228/x22A/x294/x298/x29A tail) force the frameless 9-deep allocation the default
+//   -O2 pre-reload scheduler otherwise blows to a 3-reg spill (all 720 stmt orders spill
+//   without the pins). A single zero-byte scheduling/memory barrier after the 4 word
+//   stores stops gcc hoisting the first 8-byte block copy above them.
+
+
+extern s32 D_80120200, D_80120204, D_80120208, D_8012020C;
+extern s16 D_80120210;
+extern s16 D_80120220;
+extern s32 D_80120294;
+extern s16 D_80120298;
+
+extern s32 D_80126950, D_80126954, D_80126958, D_8012695C;
+extern Blk8 D_80126960, D_80126968;
+extern u16 D_80126970, D_80126972, D_80126974, D_80126976, D_80126978, D_8012697A;
+extern s32 D_801269E4;
+extern u16 D_801269E8, D_801269EA;
+
+void func_8012A1BC(void) {
+    register s32 r2 __asm__("$2"), r3 __asm__("$3"), r4 __asm__("$4"), r5 __asm__("$5");
+    register u16 r6 __asm__("$6"), r7 __asm__("$7");
+    register s32 r8 __asm__("$8");
+    register u16 r9 __asm__("$9"), r10 __asm__("$10");
+
+    r2 = D_80120200; r3 = D_80120204; r4 = D_80120208; r5 = D_8012020C;
+    r6 = (*(u16 *)&D_80120228); r7 = (*(u16 *)&D_8012022A); r8 = D_80120294; r9 = (*(u16 *)&D_80120298); r10 = (*(u16 *)&D_8012029A);
+    D_80126950 = r2; D_80126954 = r3; D_80126958 = r4; D_8012695C = r5;
+    __asm__ __volatile__("" ::: "memory");
+    D_80126960 = (*(Blk8 *)&D_80120210);
+    r2 = (*(u16 *)&D_80120220); r3 = (*(u16 *)&D_80120222); r4 = (*(u16 *)&D_80120224); r5 = (*(u16 *)&D_80120226);
+    D_80126968 = (*(Blk8 *)&D_80120218);
+    D_80126978 = r6; D_8012697A = r7; D_801269E4 = r8; D_801269E8 = r9; D_801269EA = r10;
+    D_80126970 = r2; D_80126972 = r3; D_80126974 = r4; D_80126976 = r5;
+}
+
 
 DEFINE_func_8012A2F4()  /* dedup: shared engine-core @0x8012a2f4 (src/shared) */
 
@@ -821,7 +858,65 @@ DEFINE_func_8012B370()  /* dedup: shared engine-core @0x8012b370 (src/shared) */
 DEFINE_func_8012B414()  /* dedup: shared engine-core @0x8012b414 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006", func_8012B4B8);
+// @class: regalloc-order
+// @stuck: none — MATCH (84 ins)
+//
+// §52b wall cracked (func_8012B4B8, "symbol-base wins-low-needs-high" + the
+// movstrsi `(plus $fp const)` local-alloc theft). Recipe:
+//  1. self->$s1, pre-call obj->$s0 pins; tail-reload is a SEPARATE unpinned var
+//     (o2) so it lands in $a0 like the target (a pinned iVar2 would force $s0).
+//  2. The copy-in from D_800AE620 must NOT be a struct-assign/movstrsi: that
+//     leaves a `&m`=(plus $fp 0x10) dest pseudo that CSE shares with the 3 call
+//     args -> it goes call-crossing -> stolen into a callee-saved reg ($s2)
+//     (update_equiv_regs can't rematerialize a non-CONSTANT_P source). Instead:
+//     load through a LAUNDERED source pointer with EXPLICIT 3-3-2 grouped temps.
+//     sp-direct stores => no dest pseudo => each call rematerializes
+//     `addiu $a1,$sp,0x10` in its own delay slot (matches target, 84 ins).
+//  3. The laundered src is a real var, so pin it to $a1 ($5) to win the
+//     symbol-base's "needs-HIGH" slot (else it first-fits $v0, the §52b wall).
+
+typedef struct { int w[8]; } Mat32;
+
+extern Mat32 D_800AE620;
+extern void RotMatrixX(int r, void *m);
+extern void RotMatrixY(int r, void *m);
+extern void RotMatrixZ(int r, void *m);
+
+void func_8012B4B8(int param_1)
+{
+    register int self __asm__("$17");
+    register int obj  __asm__("$16");
+    register int *src __asm__("$5");
+    int m[8];
+    short sVar1;
+    int o2, t0, t1, t2;
+
+    self = param_1;
+    obj = *(int *)(self + 0x20);
+    if (obj != 0) {
+        src = (int *)&D_800AE620;
+        __asm__("" : "=r"(src) : "0"(src));
+        t0 = src[0]; t1 = src[1]; t2 = src[2]; m[0] = t0; m[1] = t1; m[2] = t2;
+        t0 = src[3]; t1 = src[4]; t2 = src[5]; m[3] = t0; m[4] = t1; m[5] = t2;
+        t0 = src[6]; t1 = src[7];              m[6] = t0; m[7] = t1;
+        RotMatrixX((int)*(short *)(obj + 0x10), (void *)m);
+        RotMatrixZ((int)*(short *)(obj + 0x14), (void *)m);
+        RotMatrixY((int)*(short *)(obj + 0x12), (void *)m);
+        *(Mat32 *)(obj + 0x34) = *(Mat32 *)m;
+        o2 = *(int *)(self + 0x20);
+        sVar1 = *(unsigned short *)(self + 6) + *(unsigned short *)(self + 0x50);
+        *(short *)(o2 + 8) = sVar1;
+        *(int *)(o2 + 0x48) = (int)sVar1;
+        sVar1 = *(unsigned short *)(self + 0xa) + *(unsigned short *)(self + 0x52);
+        *(short *)(o2 + 0xa) = sVar1;
+        *(int *)(o2 + 0x4c) = (int)sVar1;
+        sVar1 = *(unsigned short *)(self + 0xe) + *(unsigned short *)(self + 0x54);
+        *(short *)(o2 + 0xc) = sVar1;
+        *(unsigned short *)(o2 + 0x2c) = *(unsigned short *)(o2 + 0x2c) | 1;
+        *(int *)(o2 + 0x50) = (int)sVar1;
+    }
+}
+
 
 DEFINE_func_8012B608()  /* dedup: shared engine-core @0x8012b608 (src/shared) */
 
@@ -1197,7 +1292,56 @@ DEFINE_func_8012DFD4()  /* dedup: shared engine-core @0x8012dfd4 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006", func_8012E014);
 
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006", func_8012E138);
+// @class: regalloc-order
+// @stuck: none — MATCH (81/81). Key lever: post-80049CAC pointer reload uses a SEPARATE local (mm) from the pre-call/branch pointer (m) -> gcc allocates $a0 for mm not $a1; decl order cam,bufB,bufA -> slots 0x10/0x18/0x20; u16 field reads for lhu; short s -> (int)s sign-extend = sll/sra.
+#include "common.h"
+
+struct Cam8012E138 { u16 a, b, c; };
+
+extern u16 D_80126B5E;
+extern u16 D_80126B62;
+extern u16 D_80126B66;
+
+extern void func_8012F038();
+extern void func_80049CAC();
+extern void func_8012F14C();
+extern s32 func_80135888();
+
+void func_8012E138(int model) {
+    struct Cam8012E138 cam;
+    int bufB[2];
+    int bufA[2];
+    int m;
+    short s;
+
+    cam.a = D_80126B5E;
+    cam.b = D_80126B62;
+    cam.c = D_80126B66;
+    func_8012F038(*(int *)(model + 0x20) + 0x34, &cam, bufA);
+    m = *(int *)(model + 0x20);
+    if (m != 0) {
+        int mm;
+        func_80049CAC(m + 0x10, m + 0x34);
+        mm = *(int *)(model + 0x20);
+        s = *(u16 *)(model + 6) + *(u16 *)(model + 0x50);
+        *(u16 *)(mm + 8) = s;
+        *(int *)(mm + 0x48) = s;
+        s = *(u16 *)(model + 0xA) + *(u16 *)(model + 0x52);
+        *(u16 *)(mm + 0xA) = s;
+        *(int *)(mm + 0x4C) = s;
+        s = *(u16 *)(model + 0xE) + *(u16 *)(model + 0x54);
+        *(u16 *)(mm + 0xC) = s;
+        *(u16 *)(mm + 0x2C) = *(u16 *)(mm + 0x2C) | 1;
+        *(int *)(mm + 0x50) = s;
+    }
+    func_8012F14C(*(int *)(model + 0x20) + 0x34, bufA, bufB);
+    if (func_80135888(*(int *)(model + 0x20), *(int *)(model + 0x58), bufB, &cam)) {
+        D_80126B5E = cam.a;
+        D_80126B62 = cam.b;
+        D_80126B66 = cam.c;
+    }
+}
+
 
 
 s32 func_8012E27C(void) {
@@ -1638,7 +1782,54 @@ DEFINE_func_80130AC4()  /* dedup: shared engine-core @0x80130ac4 (src/shared) */
 DEFINE_func_80130AF0()  /* dedup: shared engine-core @0x80130af0 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006", func_80130C08);
+// @class: schedule
+// @stuck: none — MATCH (65 ins). Two levers: (1) ((s32 (*)(s32))func_8012CBCC)(arg0) WITH arg — it's the
+//   first call so a0 still holds arg0 (no move emitted), and keeping a0 live blocks the
+//   move-a0-hoist into the b4&1 delay slot (nop there, matches). (2) tail: 5-call textually
+//   BEFORE the goto'd 0x38-call → recheck is beqz (5-arm fall-through, placed first with `j`),
+//   giving the double-a0 shared-CDC layout. bnez/beqz polarity = arm order.
+
+extern void func_8012CBCC(s32);
+extern void func_80131E00(struct S80131E00*, s32);
+extern s32 func_8012BEE8(s32 a0);
+extern void func_80131C78(s32 a0);
+extern void func_80131CA8(int a0, int a1);
+
+void func_80130C08(s32 arg0) {
+    s32 flag;
+    u32 cond;
+    flag = 0;
+    if (!(*(u32 *)(arg0 + 0xC4) & 2)) {
+        if (*(u32 *)(arg0 + 0xB4) & 0x20000) {
+            if (*(u32 *)(arg0 + 0xB4) & 1) {
+                if ((u8)((s32 (*)(s32))func_8012CBCC)(arg0) == 2) {
+                    ((void (*)(void *, s32))func_80131E00)((void *)arg0, 0x12);
+                    return;
+                }
+                if (*(u8 *)(arg0 + 0xC2) != 0) {
+                    cond = func_8012BEE8(arg0);
+                } else {
+                    cond = *(u16 *)(arg0 + 0x72) & 0x4000;
+                }
+                if (cond != 0) {
+                    flag = 1;
+                }
+                if (flag != 0) {
+                    func_80131C78(arg0);
+                }
+            }
+            func_80131CA8(arg0, 5);
+        }
+        if (!(*(u32 *)(arg0 + 0xC4) & 2)) {
+            goto mode_38;
+        }
+    }
+    func_80131CA8(arg0, 5);
+    return;
+mode_38:
+    func_80131CA8(arg0, 0x38);
+}
+
 
 
 
