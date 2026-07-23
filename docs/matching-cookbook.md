@@ -4852,3 +4852,34 @@ fleet-shared-state restore trap:** `fix_arity_callers --funcs <fn in engine_core
 engine_core.h` fleet-wide; a `git checkout HEAD -- src/<ov>/` restore MISSES it (wrong directory), and the
 per-overlay build stays byte-identical so nothing flags the leak. Restore `src/shared/` too, and R22
 clean-fleet after any fix_arity probe (this bit me exactly as §61 warns — caught by a full `git status`).
+
+## §63 — The fresh-138 DEF-SIDE blocker: fix the HEADER decl, not the draft (`fix_header_decl.py`, Phase 29 SESSION-13, 2026-07-23)
+
+**The blocker.** A genuinely fresh reach-138 family (live in ~138 overlays, matched nowhere, no
+`DEFINE_func_*` macro) with a byte-perfect universal draft still fails the gate as
+`conflicting types for func_X` (cc1 exit 33). Cause: a shared caller macro in `src/shared/engine_core.h`
+forward-declares it with a SIMPLIFIED, caller-derived signature — `extern void func_X(s32 a0, void *a1,
+void *a2);` — that conflicts with the byte-true def `int func_X(s32, u16*, u16*)` the moment the def is
+spliced into an overlay TU that `#include`s the header. `gate_stage`'s §61 arity pre-pass is
+param-COUNT-only (misses return type + pointer element type); §54 `reconcile_def_sig` rewrites the DRAFT
+to match the header (wrong direction — the header is the simplified one, matching it can DCE the return).
+
+**The fix — proven ×138 (func_8014CD80).** Rewrite the HEADER decl to the byte-true def. It is byte-neutral:
+(a) return `void`↔`intN` — the true fn always sets `$v0`; a caller that declared it `void` never read `$v0`
+(unchanged), and no caller USES the return; (b) pointer element type `void*`↔`T*` — register-passed
+regardless. One edit → `harvest_verify` banks ×1 BYTE-IDENTICAL → `dedup_propagate --addr` fills 138/138
+byte-identical → R22 140/140. Fleet +0.1pp instr off ONE family.
+
+**`tools/fix_header_decl.py`** automates it: `--fn --draft [--check|--apply]`. Parses the byte-true def sig,
+canon-compares (typedef-aware: `int`≡`s32`, `unsigned short*`≡`u16*`) to skip ALREADY-OK decls, REFUSES any
+rewrite that changes param COUNT / flips pointer↔scalar / changes scalar class (ABI change — left to a
+human), and preserves the macro line's trailing `\` continuation (dropping it corrupts the DEFINE macro
+fleet-wide — a self-test caught this). Snapshots + prints the `git checkout` restore (§61: undo = restore,
+never inverse; validate FLEET-WIDE by R22, never the per-binary gate).
+
+**Market (SESSION-13 scan):** of the 75 fresh (≥100-live) families, **46 carry an engine_core.h caller
+forward-decl, 38 SIMPLIFIED** = this pattern → each a candidate ×138 (≈+1.5–2.8pp instr). RESIDUAL RISK: the
+header is only the INTEGRATION half — each family still needs a byte-true UNIVERSAL body from a wave; a
+non-universal body (overlay-local `D_*` refs) is a genuine per-member wall regardless (`func_80165CA0`,
+0/135). Distinguish: h_exact=1 does NOT — the BODY's universality does. Pipeline: wave (`build_wave_args.py
+--rank live --min-live 100`) → `fix_header_decl --apply` → `harvest_verify` → `dedup_propagate --addr` → R22.

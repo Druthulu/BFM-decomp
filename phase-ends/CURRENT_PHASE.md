@@ -1548,12 +1548,17 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 > **Quantified market: 38 of the 75 fresh (≥100-live) families carry the exact pattern** (engine_core.h caller
 > forward-decl, simplified `void`/`void*`) → each a candidate ×138 ≈ **+1.5–2.8pp instr**. → decision-log.
 >
-> **▶ THE SINGLE NEXT TASK (supersedes the options above for the FRESH pool):** build **`tools/fix_header_decl.py`**
-> — given a fn with a MATCH draft (or banked def), parse the byte-true sig, rewrite EVERY engine_core.h
-> forward-decl of that fn to match (byte-neutral: ptr-width-compatible + return-ignored callers), then hand to
-> the existing `harvest_verify → dedup_propagate --addr → R22` chain. It edits fleet-shared engine_core.h → MUST
-> use the §61 snapshot-undo (restore, never inverse) + validate FLEET-WIDE (R22, not the per-binary gate).
-> Then run a **fresh-family wave** (`build_wave_args.py --rank live --min-live 100`, needs agent budget — reset
-> ~1:40am Denver) over the 38, gate each through fix_header_decl. Expected: ~half-to-most bank ×138 (each
-> draft's BODY must be universal + byte-correct — that's the residual risk, not the header). This is option (b)
-> reopened as the campaign's best lever. **The onboarded-tail low-ROI read still stands; only the FRESH read flipped.**
+> **✅ `tools/fix_header_decl.py` BUILT + SELF-TESTED (SESSION-13, cookbook §63).** `--fn --draft
+> [--check|--apply]`: parses the byte-true sig, canon-compares (typedef-aware, skips ALREADY-OK), REFUSES
+> ABI-changing rewrites (param-count / ptr↔scalar / scalar-class), preserves the macro `\` continuation,
+> snapshots + prints the git-restore (§61). 4 self-tests pass: idempotent on func_8014CD80; correct rewrite
+> +`\` preserved; REFUSE on a 2-vs-3 param mismatch; **end-to-end `--apply` on func_8014D12C turned the
+> `conflicting types` PLUMBING into a clean codegen DIFF** (plumbing dissolved; func_8014D12C's body is a
+> near-miss so it didn't bank — the tool is the INTEGRATION half, reverted clean).
+>
+> **▶ THE SINGLE NEXT TASK (needs agent budget — wave reset ~1:40am Denver):** run the fresh-family pipeline
+> over the 38-family market. `build_wave_args.py --rank live --min-live 100 --binary ov_SC07_006` → wave the
+> fresh families (byte-true UNIVERSAL bodies) → `fix_header_decl --apply` per fn → `harvest_verify` →
+> `dedup_propagate --addr` → R22. Expect ~half-to-most bank ×138 (residual risk = a non-universal body, a
+> per-member wall like func_80165CA0, NOT the header). Option (b) reopened as the campaign's best lever
+> (≈+1.5–2.8pp instr). **The onboarded-tail low-ROI read still stands; only the FRESH read flipped.**
