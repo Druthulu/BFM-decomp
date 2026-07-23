@@ -1518,6 +1518,15 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 > - **(a) RE-SCOPE FIRST (cheap, token-free):** `build_wave_args.py --rank live --min-live 100 --binary ov_SC07_006`
 >   emits the 76 genuine-fresh pool; then decide if ANY are worth a permuter/§54 attack. Most fresh-138 are
 >   walls/def-side-plumbing (batch-1 proof), so expect a thin real yield.
+>   **DIAGNOSED the fresh-138 def-side blocker (token-free probe, func_8014CD80, 138 live, no macro):**
+>   engine_core.h forward-declares it inside a shared-caller macro with a SIMPLIFIED sig
+>   (`void func_8014CD80(s32,void*,void*)` @ line 8966) that mismatches the byte-true def
+>   (`int func_8014CD80(s32,u16*,u16*)`) in RETURN TYPE + param types. `gate_stage`'s arity pre-pass is
+>   param-COUNT-only (misses return/ptr-type); §54 `reconcile_def_sig` rewrites the DRAFT to match the header
+>   (wrong direction — the header is the simplified one, matching it can DCE the return). **The missing tool is
+>   a HEADER-decl reconcile (fix the engine_core.h caller decl to the byte-true def, then fleet-verify R22) —
+>   fleet-shared, so it INHERITS the §61 snapshot-undo constraint.** This is Task-14-stage-2-adjacent and is
+>   the real gate the fresh-138 families need; until it exists they are per-function hand-surgery, not breadth.
 > - **(b) TOKEN-FREE per-function grind (I am out of agent-wave budget):** permuter/grinder on batch-1's 2 DIFFs
 >   (func_80177940, func_80169228 — incomplete session-limit drafts) + the 7 gate-near reconcile-fails; and
 >   `family_sweep --fix-def-sig` (§54) on the def-side-plumbing fails (func_8014D12C/func_80168070/func_8014CD80
