@@ -605,6 +605,10 @@ typedef struct EntSC01077 {
 
 typedef struct { u32 addr : 24; u32 len : 8; u8 r0, g0, b0, code; } P_TAG_80137DD4;
 
+
+/* --- lift_types.py fleet lift --- */
+struct Cam8012E138 { u16 a, b, c; };
+typedef struct { s32 w0, w4, w8, wC; s16 h10, hpad; s32 t0, t1, t2; } Mat32;
 #endif /* BFM_ENGINE_TYPES_H */
 
 /* Phase-29 crack-wave lift (func_8012956C family) */

@@ -3288,8 +3288,7 @@ s16 func_80135480(void *param_1, s32 param_2, s16 *param_3, s16 *param_4)
 {
     typedef struct { s32 vx, vy, vz, pad; } Vec32;
     typedef struct { s16 vx, vy, vz, pad; } Vec16;
-    typedef struct { s32 w0, w4, w8, wC; s16 h10, hpad; s32 t0, t1, t2; } Mat32;
-    extern void func_80048EAC(void *m0, void *m1);
+        extern void func_80048EAC(void *m0, void *m1);
     extern void func_8004914C(void *m);
     extern void ApplyTransposeMatrixLV(void *m, void *in, void *out);
     extern void ApplyRotMatrixLV(void *in, void *out);

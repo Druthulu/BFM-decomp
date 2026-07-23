@@ -875,7 +875,6 @@ DEFINE_func_8012B414()  /* dedup: shared engine-core @0x8012b414 (src/shared) */
 //  3. The laundered src is a real var, so pin it to $a1 ($5) to win the
 //     symbol-base's "needs-HIGH" slot (else it first-fits $v0, the §52b wall).
 
-typedef struct { int w[8]; } Mat32;
 
 extern Mat32 D_800AE620;
 extern void RotMatrixX(int r, void *m);
@@ -1296,7 +1295,6 @@ INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006", func_8012E014);
 // @stuck: none — MATCH (81/81). Key lever: post-80049CAC pointer reload uses a SEPARATE local (mm) from the pre-call/branch pointer (m) -> gcc allocates $a0 for mm not $a1; decl order cam,bufB,bufA -> slots 0x10/0x18/0x20; u16 field reads for lhu; short s -> (int)s sign-extend = sll/sra.
 #include "common.h"
 
-struct Cam8012E138 { u16 a, b, c; };
 
 extern u16 D_80126B5E;
 extern u16 D_80126B62;
