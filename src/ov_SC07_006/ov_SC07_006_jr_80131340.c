@@ -318,14 +318,14 @@ extern s32 func_8012C750(s32 a0);
 extern s32 func_8012C820(u8 *a0);
 extern u16 D_801274E4[];
 extern s32 func_8012CB64(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
-extern void func_8012CC88(s32 a, s32 b, s32 c);
+extern void func_8012CC88();
 extern u8 D_800D3918[];
 extern void func_8012CBA4(s32 a0);
 extern void func_8012CBCC(s32 a0);
 extern void func_8012CBF4(s32 a0);
 extern void func_8012CC1C(s32 arg0, s32 arg1);
 extern void func_8012CC40(s32 arg0, s32 arg1);
-extern void func_8012CC88(s32 a0, s32 a1, s32 a2);
+extern void func_8012CC88();
 extern void func_8012CC64(s32 a0, s32 a1);
 extern s32 func_80133784(s32 a0, void *a1, s32 a2);
 extern s32 func_8012CE2C(s32 a0);
@@ -1082,7 +1082,67 @@ DEFINE_func_80132288()  /* dedup: shared engine-core @0x80132288 (src/shared) */
 DEFINE_func_8013240C()  /* dedup: shared engine-core @0x8013240c (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_80131340", func_801325B8);
+// @class: plumbing
+// @stuck: none — MATCH (reuse of proven DEFINE_func_801325B8 body, engine_core.h h_exact)
+extern void memcpy();
+extern void gteMIMefunc();
+void func_801325B8(int dst, int src, int m0, int mm, int arg5)
+{
+    register int p __asm__("$4");
+    register int m __asm__("$16");
+    register int n __asm__("$17");
+    register int dv __asm__("$18");
+    int sv;
+    int ofs;
+    int c;
+    m = m0;
+    p = src;
+    if (*(int *)(p + 4) == 1) {
+        sv = *(int *)(p + 0xC);
+    } else {
+        ofs = (int)((*(unsigned int *)(p + 0xC) >> 2) << 2) + 0xC;
+        sv = p + ofs;
+    }
+    p = dst;
+    sv += *(int *)(m + 8) * 8;
+    if (*(int *)(p + 4) == 1) {
+        dv = *(int *)(p + 0xC);
+    } else {
+        ofs = (int)((*(unsigned int *)(p + 0xC) >> 2) << 2) + 0xC;
+        dv = p + ofs;
+    }
+    c = *(int *)(m + 8);
+    dv += c * 8;
+    n = *(int *)(m + 0xC);
+    m += 0x10;
+    memcpy(dv, sv, n * 8);
+    gteMIMefunc(dv, m, n, arg5);
+    if (mm != 0) {
+        m = mm;
+        p = src;
+        if (*(int *)(p + 4) == 1) {
+            sv = *(int *)(p + 0x14);
+        } else {
+            ofs = (int)((*(unsigned int *)(p + 0x14) >> 2) << 2) + 0xC;
+            sv = p + ofs;
+        }
+        p = dst;
+        sv += *(int *)(m + 8) * 8;
+        if (*(int *)(p + 4) == 1) {
+            dv = *(int *)(p + 0x14);
+        } else {
+            ofs = (int)((*(unsigned int *)(p + 0x14) >> 2) << 2) + 0xC;
+            dv = p + ofs;
+        }
+        c = *(int *)(m + 8);
+        dv += c * 8;
+        n = *(int *)(m + 0xC);
+        m += 0x10;
+        memcpy(dv, sv, n * 8);
+        gteMIMefunc(dv, m, n, arg5);
+    }
+}
+
 
 void func_8013277C(void) {
 }
