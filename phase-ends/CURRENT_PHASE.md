@@ -1475,3 +1475,56 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 > - **DO NOT close P29 on ROI** (burn-down floor still undetermined). **CARRIED:** the 5 batch-1 deferred matches
 >   (missing-sym/§58/deeper) + the jtbl residuals (func_80135260 %hi-share = permuter seed). `wave_binary.js` is
 >   the reusable binary-aware wave; scope `.run/wave_sc06018_nonjtbl.json`.
+
+- **✅ 2026-07-23 (SESSION-13, ultracode) — took option (b): ov_SC07_006 reach-138 fresh-exemplar crack-wave
+  batch-1. Fleet 78.6→78.7% instr · 67.6 distinct (flat) · 88.22 fn-count (flat); ov_SC07_006 84.6→84.8%.**
+  New `tools/build_wave_args.py` emits `wave_binary.js` args from a fuel manifest (asm/ghidra_c path resolve +
+  jtbl detect). Scoped ov_SC07_006 = **122 draft-now reach-138 WAVE families** (all cached → zero prefetch;
+  ov_SC03_015 had 100 but 227 uncached). Ran batch-1 = **top-24 by nins*reach leverage** (`wave_binary.js`, 24
+  xHigh). **Wave: 16 self-assessed MATCH, 8 killed by the Anthropic session usage limit** (resets ~1:40am
+  Denver — no more agent waves possible this session).
+  **Byte-gate ladder (all inline, no agent tokens): 6 ×1 banked** — plain harvest_verify 2 (func_801325B8,
+  func_80165CA0) + `gate_stage` reconcile 4 (func_8014FE60, func_8014A048, func_801678F0, func_80167540). 17
+  PLUMBING-fail / 2 CC1-FAIL / 2 DIFF. **Propagation (§55b: banks committed FIRST, then targeted):**
+  `dedup_propagate --addr` → **func_801325B8 +3 onboarded-tail siblings**; func_8014A048/func_801678F0
+  byte-DIVERGE in the SC07 cluster (×1); func_8014FE60/func_80167540 local-type-blocked §20 (×1);
+  **func_80165CA0 consolidated its h_exact subgroup (+0) then `family_sweep --hseq` 0/135 — a PER-MEMBER WALL**
+  (like func_80133AB0 0/136). **Net ≈ 9 newly-matched functions.** R22 clean-fleet 140/140 ×2 (engine_core.h
+  arity edit fleet-safe); tools-health green (dedup 1850/0).
+  **THE FINDING (R14/R35 → decision-log 2026-07-23):** the fuel manifest's `nins*reach` leverage OVER-COUNTS —
+  a reach-138 family matched in ~135 overlays yields +(live), not +138. Corrected metric = **live-siblings**:
+  the 122-pool splits **76 fresh (≥100 live) / 44 onboarded-tail (<5 live)**, and they have OPPOSITE difficulty
+  — the tail banks easily (has a sibling to port; 5 of 6 banks) but +few; the fresh families are the HARD tail
+  (def-side plumbing `conflicting types for func_XXXX` → §54 `--fix-def-sig`; DIFF → permuter; per-member
+  walls). A fresh crack does NOT reliably unlock its family. `build_wave_args.py --rank live` now ranks by the
+  true lever + reports the fresh/tail split. Commits: `commit:0848` (6 banks) + the propagation/tooling commit.
+
+> **🛑 SESSION-13 CHECKPOINT (2026-07-23, ultracode) — supersedes SESSION-12; safe to open a FRESH session here.**
+> Tree clean after commit (only R23 `db.*.gbf` churn). **R22 clean-fleet 140/140 byte-identical** ×2;
+> tools-health OK (dedup 1850/0, 0 NON_MATCHING G4). **Drew pushes** (R6/R20). Commits: `commit:0848` + the
+> propagation/tooling/checkpoint commit.
+> **Fleet: 78.7% instr · 67.6% distinct · 88.22% fn-count** (SESSION-12 opened 78.6/67.6/88.22 → **+0.1 instr,
+> flat distinct/fn** — a SMALL, honest delta; the reach-138 wave path is LOW-ROI, 3rd such data point).
+>
+> **WHAT LANDED (all byte-gated, committed):**
+> 1. **ov_SC07_006 reach-138 batch-1: 6 ×1 banks + 3 propagated = ~9 functions** (84.6→84.8%). Wave killed
+>    early by the usage limit (8/24 drafters).
+> 2. **The corrected-metric finding** (R14/R35): rank by LIVE-siblings, not `nins*reach`. `build_wave_args.py
+>    --rank live` shipped. The reach-138 family well is largely SPENT via wave+gate (re-confirms Phase-26).
+> 3. func_80165CA0 = a per-member wall (0/135 sweep) — the fresh-exemplar bet is family-specific, and this one
+>    lost.
+>
+> **▶ NEXT — the batch-1 evidence says DON'T run more ov_SC07_006 wave batches (low-ROI). Options, ranked:**
+> - **(a) RE-SCOPE FIRST (cheap, token-free):** `build_wave_args.py --rank live --min-live 100 --binary ov_SC07_006`
+>   emits the 76 genuine-fresh pool; then decide if ANY are worth a permuter/§54 attack. Most fresh-138 are
+>   walls/def-side-plumbing (batch-1 proof), so expect a thin real yield.
+> - **(b) TOKEN-FREE per-function grind (I am out of agent-wave budget):** permuter/grinder on batch-1's 2 DIFFs
+>   (func_80177940, func_80169228 — incomplete session-limit drafts) + the 7 gate-near reconcile-fails; and
+>   `family_sweep --fix-def-sig` (§54) on the def-side-plumbing fails (func_8014D12C/func_80168070/func_8014CD80
+>   — "conflicting types for func_XXXX"). Drafts staged in `.run/drafts-sc07006-b1/`, pool
+>   `.run/wave_sc07006_nonjtbl_pool.json`.
+> - **(c) A DIFFERENT lever entirely** — the reach-138 family campaign's easy wins are banked; Task 7's
+>   ROI-gated close now has 3 low-yield data points (ov_SC06_018 non-jtbl ≈0.1pp; ov_SC07_006 reach-138 ≈9 fns).
+> - **DO NOT close P29 on ROI** — burn-down floor still undetermined (needs 3 session-close deltas; this is one).
+> **CARRIED:** the 8 session-limit-unfinished drafts (redraft when the limit resets); `func_80165CA0`/the
+> diverging tail families are documented walls — do NOT re-sweep.

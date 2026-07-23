@@ -1620,3 +1620,50 @@ loose-typed code in the engine). The cheaper yield is the ~83 non-jtbl targets (
 isolate-FAIL corrupts the whole batch, `final SHA None`); and `fix_arity` on a fn in engine_core.h edits
 fleet-shared state — a `git checkout src/<ov>/` restore misses `src/shared/`, and the per-overlay build stays
 byte-identical so nothing flags the leak (caught here by a full `git status` + R22 clean-fleet).
+
+## 2026-07-23 (Phase 29, SESSION-13) — the reach-138 wave on a P27-onboarded overlay is LOW-ROI; the true lever is LIVE-siblings, and the fresh families are per-member walls / def-side plumbing (R14/R35)
+
+**Context + belief.** The SESSION-12 checkpoint's option (b): a fresh-exemplar crack-wave on a *higher-reach*
+overlay (Task-5 greedy cover, ov_SC03_015/ov_SC07_006 "each ~+0.3–0.6pp of FRESH families"), billed as a
+cleaner path than the drained ov_SC06_018 non-jtbl tail. Belief: ov_SC07_006's **122 draft-now reach-138 WAVE
+families** (all cached, zero prefetch) are untouched fresh fuel — one crack + sweep banks ×138 (the SESSION-11
+`func_801365B8 ×138` precedent).
+
+**What happened.** `tools/build_wave_args.py` (new) emitted the top-24 reach-138 families **ranked by the fuel
+manifest's `nins*reach` leverage**. Wave (`wave_binary.js`, 24 xHigh): 16 self-assessed MATCH, 8 killed by the
+Anthropic session usage limit. Byte-gate: **2 via plain harvest_verify + 4 via `gate_stage` reconcile = 6 ×1
+banked**; 17 failed as PLUMBING (`conflicting types for func_XXXX/D_XXXX`), 2 CC1-FAIL, 2 DIFF. Propagation:
+`dedup_propagate --addr` banked **func_801325B8 → +3 onboarded-tail siblings**; func_8014A048/func_801678F0
+**byte-diverge** in the SC07 cluster (kept ×1); func_8014FE60/func_80167540 **local-type-blocked** (§20 cap);
+**func_80165CA0 consolidated its h_exact subgroup (+0 new)** and then **swept 0/135** via `family_sweep --hseq`
+— a per-member wall like func_80133AB0 (0/136). **Net batch-1 yield ≈ 9 newly-matched functions**; ov_SC07_006
+84.6% → 84.8%; fleet +0.1pp instr, ~0 distinct. R22 clean-fleet 140/140 twice (the engine_core.h arity edit
+was fleet-safe); tools-health green.
+
+**The finding (R14/R35 — verify the leverage assumption against the bytes BEFORE scaling).** The fuel
+manifest's `nins*reach` leverage **badly over-counts**: a reach-138 family already matched in ~135 overlays
+yields **+(live siblings)** on a fresh crack, not +138. Re-scoping the 122-fn pool by **actual live-sibling
+count** (grep INCLUDE_ASM): **76 "fresh" (≥100 live) vs 44 onboarded-tail (<5 live)**. And the two classes have
+OPPOSITE difficulty: the **onboarded-tail** families bank *easily* (they have a matched sibling in ~135
+overlays to port verbatim — 5 of the 6 banks) but yield only +few; the **genuine fresh** families are the HARD
+tail — batch-1's fresh-138 attempts FAILED as **def-side plumbing** (`conflicting types for func_XXXX`, needs
+§54 `--fix-def-sig`, which `gate_stage`'s caller-arity pre-pass does NOT clear), **genuine DIFF** (permuter
+fuel), or **per-member walls** (func_80165CA0). A fresh crack does **not** reliably unlock its family.
+
+**Why this is a good outcome, not a wasted batch.** (1) The corrected lever is durable: `build_wave_args.py`
+now ranks by `--rank live` and reports the fresh/tail split, so future scoping targets the true fuel and never
+again mistakes an onboarded-tail family's inflated `nins*reach` for leverage. (2) It confirms — from a fresh
+overlay ov077/ov_SC06_018 never sourced from — that the reach-138 *family well is largely SPENT via wave+gate*
+(the Phase-26 "h_seq templatable-families thesis is byte-proven SPENT" finding, now re-confirmed on the SC07
+cluster). The remaining reach-138 residual is per-function (permuter + §54), not breadth.
+
+**Hindsight better-path.** (a) Rank by live-count AND *require a matched-sibling-to-adapt* — that combination
+is what banks (the tail wins had siblings; the sibling-less fresh families didn't). (b) The onboarded SC07
+overlays (006/007/010/011) are a **distinct less-shared ~84% cluster** (1549 vs 1702 distinct-code base), not
+merely un-integrated — so a "sweep every matched family into them" pass will hit the same per-member
+divergence batch-1 saw (func_8014A048/func_801678F0 diverge; two more local-type-blocked). (c) The genuinely
+higher-ROI next move is NOT more ov_SC07_006 wave batches — it is either the per-function grind (permuter on
+the DIFFs, §54 `--fix-def-sig` on the def-side-plumbing failures) or a different lever entirely (Task 7's
+ROI-gated close arithmetic now has a third low-yield data point: ov_SC06_018 non-jtbl tail ≈0.1pp, this ≈9
+functions). **Do NOT close P29 on ROI — the burn-down floor is still undetermined (needs 3 session-close
+deltas).**
