@@ -1523,3 +1523,46 @@ a null oracle for "was the right question asked". Concretely: a gate must ASSERT
 against belongs to the binary it just built (R32-style — assert the premise, not just the result). That
 assertion would have failed loudly on the first non-077 CLI run in June. This is the fourth wall in one
 session, and the fifth this phase, to resolve to our own tooling rather than gcc-2.7.2.
+
+---
+
+## 2026-07-22 (Phase 29, SESSION-11) — the fresh-exemplar sweep is FAMILY-SPECIFIC, not a blanket mechanical ×137
+
+**Context + belief.** SESSION-10 closed on a strong claim: "sweeps only pay when they RIDE a fresh ×1 crack;
+the discriminator is the exemplar's PROVENANCE — every success templated from a core freshly banked ×1 today,
+every refusal from an ov_SC01_077 exemplar." The plan was to crack ov_SC06_018 exemplars fresh and sweep their
+h_seq families (Task-5 measured ~1.59pp of fresh families for this one overlay).
+
+**The experiment.** Two families SESSION-10 had swept 0/137 from an ov077 exemplar — `func_801365B8` (0/133)
+and `func_80133AB0` (0/137) — were cracked FRESH in ov_SC06_018 (agent drafts, whole-binary byte-gated ×1),
+then swept via `family_sweep --hseq --source ov_SC06_018 --allow-pins` from the fresh exemplar.
+
+**The result (byte-gated, R22 140/140).** SPLIT: `func_801365B8` → **132/132 siblings banked** (thesis
+confirmed — a fresh non-ov077 exemplar unlocked the whole family ov077 could not). `func_80133AB0` → **0/136,
+reverted clean** (thesis refuted for this family — the members diverge in more than reloc symbols; no fresh
+exemplar remaps into them).
+
+**The refined finding.** A fresh ×1 crack is **necessary but not sufficient**. The fresh-exemplar sweep is
+**family-specific** — the whole-binary byte-gate arbitrates each family, and on this 2-family thesis sample
+the sweep rate was ~50%. The SESSION-10 provenance claim holds DIRECTIONALLY (func_801365B8 swept where ov077
+refused) but overstated it as a mechanical ×137. **Consequence:** the ~1.5pp "fresh families" campaign
+estimate must be discounted — cracking generates sweep fuel for SOME families, not all, and only the gate
+says which. The honest yield model is (families that crack) × (per-family sweep probability), not
+(families) × (reach).
+
+**Why the difference (hypothesis, not yet exhaustively byte-proven).** func_801365B8's members differ only in
+per-overlay reloc symbols over a uniform pinned regalloc → the fresh pinned exemplar templates cleanly.
+func_80133AB0's members carry per-location immediate/codegen divergence the single exemplar does not share.
+
+**Tooling caught in the act (R33 — fix the instrument).** The `family_sweep --source` override only searched
+`members`, but a freshly-banked source member moves to `matched_members` after a sig-regen, so the override
+silently missed it and would have templated from ov077 (a false refutation). Fixed to search both lists —
+without it the thesis test would have "confirmed" SESSION-10's refusal for the wrong reason. Second fix:
+`cdecl._depth0_spans` now consumes `\`-continuations, so a raw-draft `#define` macro no longer trips
+audit-cdecl (the committed, cpp-expanded source was never affected — the gate was reading scratch).
+
+**Hindsight better-path.** Test the sweep-from-fresh mechanism on ONE family before scoping a 95-target
+campaign around it. The calibration cost ~1 wave and delivered a load-bearing correction to the yield model —
+exactly the probe-before-scaling discipline (Phase-15/R35). Carry it forward: every fresh core crack this
+phase must be followed by a gate-arbitrated sweep attempt, and the sweep's 0/N is data (per-member wall),
+not a tooling artifact — provided the tools (`--source`, cdecl) are themselves verified first.

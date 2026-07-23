@@ -200,7 +200,14 @@ def _depth0_spans(text):
             # skip a whole preprocessor line
             line_start = m.rfind('\n', 0, i) + 1
             if m[line_start:i].strip() == '' and ch == '#':
+                # Skip the whole LOGICAL preprocessor line, consuming \-continuations: a multi-line
+                # #define macro body is NOT a sequence of file-scope statements, so a raw-draft scan
+                # that stops at the first '\n' leaks the continuation lines as bogus declarations
+                # ('declaration with no declared name'). cpp-derived src TUs never hit this (the macro
+                # is already expanded); only the raw .run/drafts* scan does. (R33 — Phase-29.)
                 i = m.find('\n', i)
+                while i > 0 and m[i - 1] == '\\':
+                    i = m.find('\n', i + 1)
                 if i < 0:
                     break
                 continue

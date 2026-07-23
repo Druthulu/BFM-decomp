@@ -277,7 +277,10 @@ def hseq_sweep(a):
     if a.source and a.source != family_hseq.EX_OV:
         n_over = 0
         for f in manifest["families"]:
-            for m in f.get("members", []):
+            # A freshly-banked <source> member sits in matched_members (family_hseq moves matched
+            # members out of `members` after a sig-regen), so search BOTH lists (Phase-29 crack-wave
+            # fix: the fresh-exemplar sweep is the whole point of --source, and the member is matched).
+            for m in list(f.get("members", [])) + list(f.get("matched_members", [])):
                 if m[0] == a.source and int(m[1], 16) not in stubs.get(a.source, {}):
                     f["exemplar"] = dict(f["exemplar"], ov=m[0], addr=m[1], kind="matched")
                     n_over += 1

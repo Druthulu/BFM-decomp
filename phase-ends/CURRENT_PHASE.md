@@ -1330,3 +1330,40 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 > **CARRIED:** 5 t5wave cracks still blocked (2 DIFF, 2 CC1-FAIL, 1 §57) at `.run/giants/t5wave_*` — do
 > NOT re-draft. **HYGIENE:** a bankless `family_sweep` leaves byte-neutral NSD churn on matched code —
 > `git checkout -- src/` after a 0-bank sweep (§57a NB); 133 such files reverted at this checkpoint.
+
+- **✅ 2026-07-22 (SESSION-11, ultracode) — ov_SC06_018 CRACK-WAVE CALIBRATION + the fresh-exemplar-sweep
+  thesis MEASURED (it is FAMILY-SPECIFIC, not universal). Fleet 78.4→78.5% instr · 67.1→67.5% distinct ·
+  88.14→88.18% fn-count.**
+  **Scoping (R33/R35 — corrected the SESSION-10 assumptions vs the bytes via `corpus`):** the ov_SC06_018
+  prefetch (`.run/ov_SC06_018_funcs.txt`) = **95 genuine stubs, ALL with cached Ghidra-C**, all substantial
+  (80–710 ins), **94/95 in jr-carve files but only 12 with an in-body jtbl** (83 bank via plain harvest_verify).
+  Total family leverage **≈201k ins-instances ≈1.54pp** (confirms Task-5's 1.59pp), concentrated in **5 top
+  shared-region families** (reach 133–138 ≈115k). Manifest `.run/wave_sc06018_scope.json`.
+  **Wave (new `tools/workflows/wave_binary.js`, binary-aware; 8-target calibration, 8 xHigh drafters):
+  7/8 match_one MATCH, 1 near** (func_80181468 close=70, regalloc-coalescing → permuter fuel).
+  **BANKED (whole-binary byte-gate, R22 clean-fleet 140/140):**
+  - **func_801365B8 (155, reach 133) ×138** — the THESIS TEST. SESSION-10 refused this family 0/133 from an
+    ov077 exemplar; cracked FRESH in ov_SC06_018 + `family_sweep --hseq --source ov_SC06_018 --allow-pins` →
+    **132/132 siblings banked** (+the ov_SC06_018 ×1). **THESIS CONFIRMED for this family.** (~+20.6k ins.)
+  - **func_80133AB0 (137, reach 137) ×1** — the OTHER SESSION-10 refusal (0/137). Cracked fresh + banked ×1
+    (needed a §17a-1 byte-neutral cast reconcile of the banked caller `func_801343C4`: `int(int,s16,s16,int)`
+    view preserved via a call-site cast so the def's canonical `s32(s16,s16,s16,s32)` could splice). BUT the
+    family **sweep FAILED 0/136 even from the fresh exemplar** (reverted clean) — **THESIS REFUTED for this
+    family**: genuine per-member divergence beyond reloc symbols.
+  **⇒ THE REFINED FINDING (R14/R31, → decision-log): the fresh-exemplar sweep is FAMILY-SPECIFIC.** A fresh
+  ×1 crack is NECESSARY but NOT SUFFICIENT; the whole-binary byte-gate arbitrates each family. 1 of 2
+  thesis-test families swept (~50% on this tiny sample) → **the ~1.5pp campaign estimate must be discounted**
+  (not every fresh crack unlocks its family). The SESSION-10 "provenance is the discriminator" thesis holds
+  DIRECTIONALLY (func_801365B8 swept where ov077 couldn't) but is not a blanket mechanical ×137.
+  **Tooling fixes (R33, all this session):** (1) `family_sweep --source` override now searches
+  `matched_members` too (a freshly-banked source member leaves `members` after a sig-regen → the override was
+  silently missing it → templated from ov077 → refuse); (2) `cdecl._depth0_spans` consumes `\`-continuations
+  so a raw-draft `#define` macro body no longer leaks bogus "declarations" (audit-cdecl was choking on the
+  func_80191C50 draft's `XFER` macro; committed source is cpp-expanded so was never affected).
+  **⚠️ PHANTOM BANK (trust source, not the report — SESSION-10 class):** `gate_stage` reported func_8017D648
+  banked but source stayed INCLUDE_ASM. NOT actually banked — needs a real re-bank (callee-conflict reconcile).
+  **PENDING (staged, next block):** re-bank func_8017D648 (reach 82) + sweep · the **3 high-reach jtbl families**
+  func_80135EB0/80135260/8012AAAC (×137 each ≈76k ins, members.json staged `.run/jtbl_members_*.json`; need the
+  §8e exemplar bank then `jtbl_family_bank`) · func_80191C50 ×3 · the near-miss func_80181468 (permuter) · the
+  **~87 untested ov_SC06_018 targets** (a full wave, gate/bank/sweep). tools-health green (dedup 1849/0,
+  C1 234615). Commit this block; Drew pushes.
