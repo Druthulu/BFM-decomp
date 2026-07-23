@@ -1566,3 +1566,13 @@ campaign around it. The calibration cost ~1 wave and delivered a load-bearing co
 exactly the probe-before-scaling discipline (Phase-15/R35). Carry it forward: every fresh core crack this
 phase must be followed by a gate-arbitrated sweep attempt, and the sweep's 0/N is data (per-member wall),
 not a tooling artifact — provided the tools (`--source`, cdecl) are themselves verified first.
+
+**Addendum (same session, 3rd data point).** `func_8017D648` — a MODAL/cross-address family (reach 82, a
+structurally different case than the two per-location families) — cracked fresh in ov_SC06_018 and swept
+**70/82 (85%)** (+3 gate-fail, +8 remap-refused "unresolved immediates"). So across three thesis families the
+fresh-exemplar sweep rate is **100% · 0% · 85%** — 2 of 3 sweep, and the two that sweep do so at high rates.
+The refined model: the fresh-exemplar sweep works for the MAJORITY of families at high per-family rates, with
+a genuine per-member-wall minority (func_80133AB0). So the ~1.5pp campaign estimate should be discounted by
+the wall-family fraction (~1/3 here) and the per-family remap-refusals, not treated as a flat 50% haircut —
+and the only way to know a given family's rate is to crack it fresh and let the gate sweep it. Cracking
+remains the generator; the sweep is high-yield but not universal.
