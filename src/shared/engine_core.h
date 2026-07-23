@@ -28136,4 +28136,104 @@
         return 1; \
     }
 
+#define DEFINE_func_80130C08() \
+    extern void func_8012CBCC(s32); \
+    extern void func_80131E00(struct S80131E00*, s32); \
+    extern s32 func_8012BEE8(s32 a0); \
+    extern void func_80131C78(s32 a0); \
+    extern void func_80131CA8(int a0, int a1); \
+    void func_80130C08(s32 arg0) { \
+        s32 flag; \
+        u32 cond; \
+        flag = 0; \
+        if (!(*(u32 *)(arg0 + 0xC4) & 2)) { \
+            if (*(u32 *)(arg0 + 0xB4) & 0x20000) { \
+                if (*(u32 *)(arg0 + 0xB4) & 1) { \
+                    if ((u8)((s32 (*)(s32))func_8012CBCC)(arg0) == 2) { \
+                        ((void (*)(void *, s32))func_80131E00)((void *)arg0, 0x12); \
+                        return; \
+                    } \
+                    if (*(u8 *)(arg0 + 0xC2) != 0) { \
+                        cond = func_8012BEE8(arg0); \
+                    } else { \
+                        cond = *(u16 *)(arg0 + 0x72) & 0x4000; \
+                    } \
+                    if (cond != 0) { \
+                        flag = 1; \
+                    } \
+                    if (flag != 0) { \
+                        func_80131C78(arg0); \
+                    } \
+                } \
+                func_80131CA8(arg0, 5); \
+            } \
+            if (!(*(u32 *)(arg0 + 0xC4) & 2)) { \
+                goto mode_38; \
+            } \
+        } \
+        func_80131CA8(arg0, 5); \
+        return; \
+    mode_38: \
+        func_80131CA8(arg0, 0x38); \
+    }
+
+#define DEFINE_func_80137178() \
+    extern short D_800B9A02; \
+    extern u8 D_800A6518[]; \
+    extern void GsSortLine(void *a0, void *a1, s32 a2); \
+    void func_80137178(s32 a0, s32 a1) \
+    { \
+        struct { \
+            u32 tag; \
+            s16 x0; \
+            s16 y0; \
+            s16 x1; \
+            s16 y1; \
+            u8 r; \
+            u8 g; \
+            u8 b; \
+        } line; \
+        register s16 x0    __asm__("$19");             /* $s3 */ \
+        register s16 white __asm__("$17");             /* $s1 */ \
+        register u8 *base  __asm__("$18") = D_800A6518; /* $s2 */ \
+        s16 x1; \
+        s16 y0; \
+        s16 y1; \
+        x0 = a0 - 3; \
+        y0 = a1 - 3; \
+        x1 = a0 + 3; \
+        __asm__("" : "=r"(x0) : "0"(x0)); \
+        y1 = a1 - 3; \
+        white = 0xFF; \
+        line.tag = 0; \
+        line.r = 0; \
+        line.g = 0; \
+        line.b = white; \
+        line.x0 = x0; \
+        line.y0 = y0; \
+        line.x1 = x1; \
+        line.y1 = y1; \
+        GsSortLine(&line, &base[(u16)D_800B9A02 * 20], 0); \
+        y0 = a1 + 3; \
+        line.tag = 0; \
+        line.r = 0; \
+        line.g = 0; \
+        line.b = white; \
+        line.x0 = x0; \
+        line.y0 = y0; \
+        line.x1 = x1; \
+        line.y1 = y1; \
+        GsSortLine(&line, &base[(u16)D_800B9A02 * 20], 0); \
+        y1 = a1 + 3; \
+        line.tag = 0; \
+        line.r = 0; \
+        line.g = 0; \
+        line.b = white; \
+        line.x0 = x0; \
+        line.y0 = y0; \
+        line.x1 = x1; \
+        line.y1 = y1; \
+        GsSortLine(&line, &base[(u16)D_800B9A02 * 20], 0); \
+    }
+
 #endif

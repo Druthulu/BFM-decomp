@@ -1120,7 +1120,7 @@ INCLUDE_ASM("asm/ov_SC03_114/nonmatchings/ov_SC03_114_jr_80135D20", func_80136F3
 
 DEFINE_func_80137030()  /* dedup: shared engine-core @0x80137030 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC03_114/nonmatchings/ov_SC03_114_jr_80135D20", func_80137178);
+DEFINE_func_80137178()  /* dedup: shared engine-core @0x80137178 (src/shared) */
 
 DEFINE_func_801372B0()  /* dedup: shared engine-core @0x801372B0 (src/shared) */
 

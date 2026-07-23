@@ -1726,3 +1726,31 @@ P28 "fleet Ghidra-C prefetch" is a **P30 fuel-generator for the tail+main**, NOT
 top-down; **STOP capping the wave at 150 ins — the GIANT fresh families (150–371 ins) are the biggest single
 wins and were being skipped.** Non-jr via wave→fix_header_decl→dedup_propagate; jr-half via the carve path.
 Defer main+tail to P30 (the MCP prefetch pays off there); behemoths (incl. 0x80183814) to P31.
+
+## 2026-07-23 (Phase 29, SESSION-13) — CORRECTION: fix_header_decl is fragile for SHARED multi-caller decls; gate_stage's call-site-cast is the right tool (R14/R31)
+
+**The over-claim.** The earlier SESSION-13 entry billed ~38 fresh-138 families as a `fix_header_decl` ×138
+market. On the actual crack wave (24 fresh families, 20 MATCH drafts), bulk-applying `fix_header_decl`
+(v1 self-def AND v2 --reconcile-externs) **BROKE the build** (`SHA None`, CC1-FAIL across the batch).
+
+**Root cause (byte-proven).** `fix_header_decl` rewrites a decl in `src/shared/engine_core.h`. But that decl
+is SHARED by MANY caller macros, each using the fn differently. Changing the return (e.g. `s32`→`void`) breaks
+a caller that USES the return (`void value not ignored`); changing a callee's params to match one draft's
+loose extern is an ABI change the tool correctly REFUSES — but a bulk pass still corrupts the header.
+`func_8014CD80` (the ×138 proof) worked only because it was a LUCKY single-caller / ignored-return case. The
+header-rewrite lever is therefore NARROW: it is byte-neutral only when the decl change is compatible with
+EVERY caller — a minority of the 38, not all. **Also:** most of these fresh families' def-side conflict is a
+PER-OVERLAY-LOCAL forward-decl in the split `.c` (emitted by a matched sibling), which `fix_header_decl`
+(src/shared only) never touches.
+
+**The right tool — `gate_stage`'s reconcile ladder.** It casts the CALL SITES in the draft's OWN TU
+(`cast_call_sites`) instead of rewriting the shared decl, so it never breaks other callers. On the same wave
+it banked **5** (func_80175308/8012E138/80130C08/8012A1BC/80137178) where `fix_header_decl` broke the build;
+plain harvest_verify banked 2 self-contained (func_8012B4B8 §52b-wall + func_80169228). **7 of 20 MATCH banked
+cleanly; R22 140/140.** The other ~13 are near / deeper-plumbing, staged for a member-adapt/gate_stage pass.
+
+**Doctrine (supersedes the "build fix_header_decl v3" next-step).** Keep `fix_header_decl` for the narrow
+single-caller/ignored-return self-def case (it's cheap + proven there). For the fresh-138 integration in
+general, the SPINE is `gate_stage` (call-site casts + arity pre-pass, byte-gated), NOT header-decl rewriting.
+"Matching is solved; integration is the bottleneck" holds hard here — the 20 bodies matched; the plumbing is
+the wall, and the call-site-cast ladder is the way through it, per-family, not a bulk header edit.

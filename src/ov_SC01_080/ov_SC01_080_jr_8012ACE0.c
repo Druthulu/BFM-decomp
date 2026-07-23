@@ -1096,7 +1096,7 @@ DEFINE_func_80130AC4()  /* dedup: shared engine-core @0x80130AC4 (src/shared) */
 
 DEFINE_func_80130AF0()  /* dedup: shared engine-core @0x80130AF0 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_080/nonmatchings/ov_SC01_080_jr_8012ACE0", func_80130C08);
+DEFINE_func_80130C08()  /* dedup: shared engine-core @0x80130C08 (src/shared) */
 
 
 extern void (*D_801838E8[])(void);

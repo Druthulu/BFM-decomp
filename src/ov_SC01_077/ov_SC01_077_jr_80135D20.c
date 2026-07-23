@@ -1184,7 +1184,7 @@ INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_80135D20", func_80136F3
 DEFINE_func_80137030()  /* dedup: shared engine-core @0x80137030 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_80135D20", func_80137178);
+DEFINE_func_80137178()  /* dedup: shared engine-core @0x80137178 (src/shared) */
 
 /* func_801372B0 — MATCH (207 ins), match_one relocation-masked byte-exact (2026-07-07, Fable5)
  * ov_SC01_077 region-a (asm/ov_SC01_077/nonmatchings/ov_SC01_077_a). Debug 3D-axis overlay:

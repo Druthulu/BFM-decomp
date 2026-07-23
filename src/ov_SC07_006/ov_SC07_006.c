@@ -1789,46 +1789,7 @@ DEFINE_func_80130AF0()  /* dedup: shared engine-core @0x80130af0 (src/shared) */
 //   BEFORE the goto'd 0x38-call → recheck is beqz (5-arm fall-through, placed first with `j`),
 //   giving the double-a0 shared-CDC layout. bnez/beqz polarity = arm order.
 
-extern void func_8012CBCC(s32);
-extern void func_80131E00(struct S80131E00*, s32);
-extern s32 func_8012BEE8(s32 a0);
-extern void func_80131C78(s32 a0);
-extern void func_80131CA8(int a0, int a1);
-
-void func_80130C08(s32 arg0) {
-    s32 flag;
-    u32 cond;
-    flag = 0;
-    if (!(*(u32 *)(arg0 + 0xC4) & 2)) {
-        if (*(u32 *)(arg0 + 0xB4) & 0x20000) {
-            if (*(u32 *)(arg0 + 0xB4) & 1) {
-                if ((u8)((s32 (*)(s32))func_8012CBCC)(arg0) == 2) {
-                    ((void (*)(void *, s32))func_80131E00)((void *)arg0, 0x12);
-                    return;
-                }
-                if (*(u8 *)(arg0 + 0xC2) != 0) {
-                    cond = func_8012BEE8(arg0);
-                } else {
-                    cond = *(u16 *)(arg0 + 0x72) & 0x4000;
-                }
-                if (cond != 0) {
-                    flag = 1;
-                }
-                if (flag != 0) {
-                    func_80131C78(arg0);
-                }
-            }
-            func_80131CA8(arg0, 5);
-        }
-        if (!(*(u32 *)(arg0 + 0xC4) & 2)) {
-            goto mode_38;
-        }
-    }
-    func_80131CA8(arg0, 5);
-    return;
-mode_38:
-    func_80131CA8(arg0, 0x38);
-}
+DEFINE_func_80130C08()  /* dedup: shared engine-core @0x80130C08 (src/shared) */
 
 
 
