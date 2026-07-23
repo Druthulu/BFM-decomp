@@ -1362,8 +1362,42 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   func_80191C50 draft's `XFER` macro; committed source is cpp-expanded so was never affected).
   **⚠️ PHANTOM BANK (trust source, not the report — SESSION-10 class):** `gate_stage` reported func_8017D648
   banked but source stayed INCLUDE_ASM. NOT actually banked — needs a real re-bank (callee-conflict reconcile).
-  **PENDING (staged, next block):** re-bank func_8017D648 (reach 82) + sweep · the **3 high-reach jtbl families**
-  func_80135EB0/80135260/8012AAAC (×137 each ≈76k ins, members.json staged `.run/jtbl_members_*.json`; need the
-  §8e exemplar bank then `jtbl_family_bank`) · func_80191C50 ×3 · the near-miss func_80181468 (permuter) · the
-  **~87 untested ov_SC06_018 targets** (a full wave, gate/bank/sweep). tools-health green (dedup 1849/0,
-  C1 234615). Commit this block; Drew pushes.
+  **func_8017D648 (102, reach 82, MODAL/cross-address) — DONE ×71 (3rd data point).** Re-banked ×1 (a
+  byte-neutral §17a-1 callee-cast reconcile of func_8012F14C to the TU's 1-arg convention) → swept **70/82
+  (85%)** (+3 gate-fail, +8 remap-refused unresolved-immediates). **⇒ across 3 thesis families the sweep rate
+  is 100% / 0% / 85%** — the majority sweep at high per-family rates; func_80133AB0 is the per-member-wall
+  minority. Commit `commit:0841` (batch 2); `commit:0840` (batch 1). Drew pushes.
+
+> **🛑 SESSION-11 CHECKPOINT (2026-07-22, ultracode) — supersedes SESSION-10; safe to open a FRESH session here.**
+> Tree clean (only R23 `db.*.gbf` churn). **R22 clean-fleet 140/140 byte-identical** (verified per batch);
+> `tools-health` OK (dedup 1849/0, C1 234615/234615, cdecl green, audit-binaries 140); 0 NON_MATCHING (G4).
+> **Drew pushes** (R6/R20). Commits `commit:0840`, `commit:0841`.
+> **Fleet: 78.6% instr · 67.5% distinct · 88.20% fn-count** (session opened 78.4/67.1/88.14 → **+0.2pp instr,
+> +0.4pp distinct**).
+>
+> **THE SESSION IN ONE LINE: the SESSION-10 "fresh crack unlocks the family" thesis is now MEASURED — it is
+> FAMILY-SPECIFIC (2 of 3 thesis families swept, at 100% / 85%; 1 is a genuine per-member wall at 0%).**
+> Delivered by a binary-aware crack-wave (`tools/workflows/wave_binary.js`) over ov_SC06_018's prefetch
+> (95 stubs, all cached-Ghidra-C, 80–710 ins; scoping corrected vs SESSION-10 via `corpus`, R33). Banked:
+> **func_801365B8 ×138** (SESSION-10 refused 0/133 from ov077 → 132/132 from a fresh ov_SC06_018 exemplar),
+> **func_8017D648 ×71**, **func_80133AB0 ×1** (family sweep refused — per-member wall). Three tooling fixes
+> (R33): `family_sweep --source` searches `matched_members`; `cdecl._depth0_spans` consumes `\`-continuations;
+> the §17a-1 byte-neutral caller-cast reconcile pattern applied twice (func_801343C4, func_8012F14C).
+>
+> **▶ NEXT (recommended, in order) — the campaign is VALIDATED; scale it:**
+> 1. **The 3 high-reach jtbl families** `func_80135EB0`/`80135260`/`8012AAAC` (reach 138, ≈76k ins ≈+0.58pp) —
+>    wave MATCHes are drafted (`.run/drafts-sc06018-calib/`), members.json staged (`.run/jtbl_members_*.json`).
+>    Path: bank the ov_SC06_018 jtbl exemplar ×1 via the §8e carve (jtbl_carve + JTBL_PADS + harvest_verify;
+>    cookbook §8e / §61c REFUTED-block), commit (jtbl_family_bank needs a clean tree), then
+>    `jtbl_family_bank <func> ov_SC06_018 <addr> .run/jtbl_members_<addr>.json` (per-sibling carve+bank).
+>    Also `func_80191C50` ×3 (710-ins jtbl giant, drafted; its `XFER` `\`-macro is fine — cdecl fixed).
+> 2. **The ~87 untested ov_SC06_018 targets** — a full `wave_binary.js` wave (batch ~15–20), then the
+>    gate/bank/sweep ladder (plain harvest_verify for the 83 non-jtbl; jtbl path for the 12). Each fresh ×1
+>    crack → `--source ov_SC06_018 --allow-pins` sweep (gate arbitrates; expect ~2/3 families to sweep well).
+> 3. **The near-miss** `func_80181468` (close=70, regalloc-coalescing) → permuter/grinder fuel.
+> 4. **More per-overlay Ghidra-C prefetch** (Task-5 greedy cover: ov_SC03_015/ov_SC07_006/… each +~0.3–0.6pp)
+>    once ov_SC06_018 is drained — cracking is the fuel generator (SESSION-10 strategic inversion).
+> **CARRIED:** the 5 t5wave cracks (`.run/giants/t5wave_*`) still blocked — do NOT re-draft. The
+> `func_80133AB0` family is a documented per-member wall (do not re-sweep from a single exemplar).
+> **Effort:** ultracode for the waves (breadth); Max for jtbl §8e surgery + synthesis. **Do NOT close P29 on
+> ROI grounds** — the burn-down floor is still undetermined (needs 3 session-close deltas).
