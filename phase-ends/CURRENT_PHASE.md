@@ -1578,3 +1578,46 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 > at `src/ov_SC07_006/ov_SC07_006_jr_8015C32C.c:8523`. **v3 = extend the fix to the per-overlay split .c the
 > draft targets (or wire it into harvest_verify's splice).** func_80174CB0/func_801463A0 (data, multi-symbol)
 > carried as v3 exemplars. R22 NOT yet run this stream (no bank landed — wave pending). Tree clean.
+
+> **🛑 SESSION-13 CHECKPOINT (2026-07-23, ultracode) — supersedes SESSION-12; safe to open a FRESH session here.**
+> Tree clean (R23 db churn only). **R22 clean-fleet 140/140** (verified 4× this session); tools-health OK
+> (dedup 1853/0); 0 NON_MATCHING. **Drew pushes** (R6/R20). **Fleet: 78.9% instr · 67.6% distinct · 88.34%
+> fn-count** (opened 78.6/67.6/88.22 → +0.3 instr, +0.12 fn-count; distinct flat — shared-family work).
+> ov_SC07_006 84.6→85.1%. Commits: `commit:0848 commit:0849 commit:0850 commit:0851 commit:0852 commit:0853 commit:0854
+> commit:0855 commit:0856` (9).
+>
+> **WHAT LANDED:**
+> 1. **func_8014CD80 ×138** — the header-reconcile PROOF (fresh-138 def-side blocker → byte-neutral header fix).
+> 2. **fix_header_decl v1+v2 built + self-tested** (cookbook §63). **⚠️ CORRECTED same session:** it is FRAGILE
+>    for SHARED multi-caller decls (rewriting a decl breaks callers that use the return → CC1-FAIL). Keep it for
+>    the narrow single-caller/ignored-return self-def case ONLY. **The integration SPINE is `gate_stage`'s
+>    call-site-cast, NOT header rewriting.** (decision-log 2026-07-23 ×3 entries.)
+> 3. **Two fresh-138 crack waves** (batch-1: 24, batch-2: 24; ~40 MATCH bodies total). **Banked: batch-1 6 ×1 +
+>    func_801325B8 propagated; batch-2 7 ×1 cores + 2 ×138 (func_80130C08, func_80137178, +274).** ov_SC07_006
+>    reach-138 pool: ~15 cores banked of 74.
+> 4. **THE INTEGRATION-WALL finding (the real P29 bottleneck):** drafting is SOLVED (bodies byte-match); three
+>    walls stack on propagation — (a) extern/decl plumbing (gate_stage clears ~⅓: 7/20), (b) **§20 local-type cap
+>    ("not self-contained") — blocked 4/6 from ×138**, (c) per-member divergence (func_80169228, whole SC03
+>    cluster). Each ×138 family must clear ALL THREE.
+> 5. **Full remaining-work map + roadmap deltas** (decision-log): 40,395 overlay stubs / 2.74M ins + main 84k;
+>    159 reach-138 fams; **top-100 fams = 53% of remaining**; B1 pessimism partially reversed; **B7 behemoth list
+>    stale — 0x80183814 (5122, ov_SC07_006) is the new largest**; prefetch gap is the tail (146/159 reach-138
+>    cached), not the top.
+>
+> **⚠️ INCIDENT (recovered, 0 work lost):** `dedup_propagate --recover` on func_80169228 (many byte-divergent
+> stragglers) THRASHED >1hr (re-gates the fleet per excluded straggler = quadratic). Killed + reverted 326
+> half-mutated files to the committed baseline; re-ran WITHOUT --recover (droppers drop instantly). **LESSON:
+> --recover is only for a FEW stragglers; a broadly-divergent family must be dropped or capped, never --recover'd.**
+> Banks were committed BEFORE the propagate (§55b) so nothing was lost.
+>
+> **▶ NEXT (highest-value, in order):**
+> 1. **`build_engine_types` type-lift** — the §20 local-type cap is the single biggest propagation unlock: it
+>    frees the 4 blocked cores here (func_8012B4B8/80175308/8012E138/8012A1BC → +552 stubs) AND a large fleet-wide
+>    fraction (roadmap B4). ⚠️ known-fragile (R32: hard-exited on 81% of its corpus for 4 phases) — verify/fix
+>    its coverage FIRST (R32/R35), then re-propagate the 4 + a fleet sweep.
+> 2. **gate_stage the ~13 staged near/plumbing batch-2 bodies** (`.run/drafts-sc07006-fresh/` — byte-correct,
+>    integration-blocked) + permuter the 3 nears (func_80177940/8014C6F4/80140D68 close 17/10/27).
+> 3. **Next fresh-138 wave** over the remaining ~59-family pool (`.run/wave_sc07006_fresh_nonjtbl_pool.json`,
+>    `--rank live --min-live 100`); the GIANT families (150–371 ins) are the biggest untapped wins (I capped at 150).
+> **CARRIED:** func_80169228 (divergent, ×1, do NOT --recover); the 4 local-type-blocked cores (need type-lift);
+> fix_header_decl (narrow use only). **Do NOT close P29 on ROI** — burn-down floor undetermined.
