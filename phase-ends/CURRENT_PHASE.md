@@ -1445,3 +1445,33 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   **⚠️ ROI CAVEAT:** batch-1 = +0.1pp distinct for ~5M tokens (low-reach modal → poor yield). Assess after
   batch 2 whether to run batch 3 or stop the non-jtbl tail. **R22 clean-fleet after batch-2 (can't `make clean`
   while drafters read asm/).**
+
+> **🛑 SESSION-12 CHECKPOINT (2026-07-23, ultracode) — supersedes SESSION-11; safe to open a FRESH session here.**
+> Tree clean (only R23 `db.*.gbf` churn). **R22 clean-fleet 140/140 byte-identical**; audit-binaries OK;
+> 0 NON_MATCHING (G4). **Drew pushes** (R6/R20). Commits this session: `commit:0840` `commit:0841` `commit:0842`
+> `commit:0843` `commit:0844` `commit:0845` `commit:0846`.
+> **Fleet: 78.6% instr · 67.6% distinct · 88.22% fn-count** (session-11 opened 78.4/67.1/88.14 → **+0.2 instr,
+> +0.5 distinct**). Long multi-part session (several usage-limit/crash interruptions, all recovered).
+>
+> **WHAT LANDED (all byte-gated, committed):**
+> 1. **The fresh-exemplar sweep is FAMILY-SPECIFIC** (SESSION-11): func_801365B8 ×138 (ov077 refused 0/133),
+>    func_8017D648 ×71 (modal), func_80133AB0 ×1 (per-member wall). 3 families: 100%/85%/0% sweep. → decision-log.
+> 2. **jtbl post-carve reconcile** (`harvest_verify._jtbl_reconcile`, cookbook §62) — dissolves the carve's §8b
+>    carried-decl plumbing; **REFUTED the reach-138 jtbl families as cheap wins** (real residuals/arity/isolate).
+> 3. **ov_SC06_018 NON-JTBL wave** (`wave_binary.js`, 80 targets): batch-1 (8 ×1 + 30 swept) + batch-2 partial
+>    (5 ×1 + 21 swept) = **13 ×1 + 51 swept = 64 instances**. Low-reach modal → **low ROI (~0.1pp distinct/batch)**.
+> 4. **gate_stage arity-undo BUG fixed** (R33): its snapshot-restore silently reverted banks; now restores only
+>    src/shared/. `--src-file <jr TU>` is REQUIRED to gate non-jtbl fns in jr-split files.
+>
+> **▶ NEXT (resume aids all staged) — but WEIGH THE ROI FIRST:**
+> - The non-jtbl tail is **low-yield** (0.1pp/batch of large modal fns). **Recommendation: do NOT grind all 80.**
+>   Remaining: batch-2's 20 undrafted (`.run/wave_b2_args.json`) + batch-3's 30 (`.run/wave_b3_args.json`),
+>   drafts → `.run/drafts-sc06018-b{2,3}/`. Gate with `gate_stage --src-file src/ov_SC06_018/ov_SC06_018_jr_8017C24C.c`
+>   (or `_jr_8019059C` for 0x8019xxxx addrs), then `family_sweep --hseq --source ov_SC06_018 --allow-pins --only <addrs>`.
+> - **Higher-value alternatives:** (a) the **12 batch-1 + growing permuter-fuel nears** (func_8017F0F4 close=2,
+>   func_801811DC close=3, func_80189000 close=4, etc. — grinder/permuter_ils, drafts in `.run/drafts-sc06018-b1/`);
+>   (b) a **different per-overlay Ghidra-C prefetch** (Task-5 greedy cover: ov_SC03_015/ov_SC07_006 each ~+0.3-0.6pp
+>   of FRESH families — higher-reach than ov_SC06_018's non-jtbl tail); (c) P29 item 4 (family-adapt fine-tune).
+> - **DO NOT close P29 on ROI** (burn-down floor still undetermined). **CARRIED:** the 5 batch-1 deferred matches
+>   (missing-sym/§58/deeper) + the jtbl residuals (func_80135260 %hi-share = permuter seed). `wave_binary.js` is
+>   the reusable binary-aware wave; scope `.run/wave_sc06018_nonjtbl.json`.
