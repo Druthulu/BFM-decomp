@@ -1688,3 +1688,41 @@ inverse; validate FLEET-WIDE via R22). Pair it with a fresh-family wave (`--rank
 is the INTEGRATION half, the wave supplies the byte-true draft. **This reopens option (b) as the campaign's best
 lever — the "low-ROI, spent" read above was measured on the WRONG 24 (leverage-ranked → onboarded-tail) and is
 superseded for the FRESH pool. The onboarded-tail read stands.**
+
+## 2026-07-23 (Phase 29, SESSION-13) — the full remaining-work re-derivation + two roadmap-bucket corrections (R31, roadmap delta)
+
+**Context.** While a crack wave ran, re-derived the ENTIRE remaining-work map from `family_hseq.json` +
+`asm/nonmatchings/` (main) to answer "largest families, largest unique fns, what's MCP-automatable." This is
+the re-derivation the roadmap §0 mandates (numbers rot; consume §2 only through one). It does NOT supersede the
+roadmap's PHASE SEQUENCE (families P29 → main+tail P30 → behemoths P31 → flip P32 — CONFIRMED), but it
+re-baselines the numbers and corrects two buckets.
+
+**The re-derived baseline (2026-07-23).** Fleet 78.8% instr · 67.6% distinct · 88.26% fn-count. Remaining:
+**overlays 40,395 stubs / 2,738,677 ins / 6,472 families** (159 reach-138 · 2,510 reach-2..133 · 3,803
+singletons) **+ main EXE 2,002 fns / ~84k ins (~1,048 game-code, 0.7% done).** **CONCENTRATION: top-20
+families = 23% of remaining instr, top-100 = 53%** — half the entire remaining project is 100 shared cores,
+each ×N. Largest cores: `0x80176734` 371×138=51k · `0x80176218` 327×138 · `0x8013c414` 329×137 (jr) ·
+`0x8014d820` 304×138 · `0x80135eb0` 289×138 (jr); ~half the top-20 are jr (jtbl-carve path).
+
+**CORRECTION 1 — B1 pessimism partially REVERSED (cross-ref the SESSION-13 fix_header_decl entry).** B1 =
+"substantial h_seq families, mechanical templating byte-proven dead, per-member cracking only." FALSE for the
+def-side-blocked slice: `fix_header_decl` recovers them ×138 (func_8014CD80 proved; ~38+ candidates). The
+templating-dead verdict holds for the h_seq-adapt path; it does NOT hold once the shared-header decl is fixed.
+
+**CORRECTION 2 — B7 behemoth list is STALE/INCOMPLETE.** B7 lists 5 behemoths topping at `0x8017bf14` (4,763).
+It MISSES **`0x80183814` (5,122 ins, ov_SC07_006) — now the largest single function in the game** — and
+`0x8017dc1c` (1,518, ov_SC07_006). Cause: the 4 SC07 overlays were P27-onboarded AFTER the roadmap's
+2026-07-15 baseline, so their singletons never entered B7's count. **P31 must rebuild B7 from
+`family_hseq.json` singletons, not the roadmap's list.** (R14 caveat: verify `0x80183814` is one function, not
+a mis-split, before scoping it.)
+
+**MCP-automation finding — the prefetch gap is in the TAIL, not the top.** reach-138 families are **146/159
+already cached** (draft-now, no MCP); the 6,027 tail families + main (0/2,002) are uncached. So the roadmap's
+P28 "fleet Ghidra-C prefetch" is a **P30 fuel-generator for the tail+main**, NOT a P29 blocker — the top-100
+(half the project) is already fuel-ready. The only MCP-dependent link left in the pipeline
+(prefetch → wave → fix_header_decl → dedup_propagate) is that tail prefetch.
+
+**Path forward (abiding by the roadmap, refined by concentration).** Stay in P29; order by ×138 byte-weight
+top-down; **STOP capping the wave at 150 ins — the GIANT fresh families (150–371 ins) are the biggest single
+wins and were being skipped.** Non-jr via wave→fix_header_decl→dedup_propagate; jr-half via the carve path.
+Defer main+tail to P30 (the MCP prefetch pays off there); behemoths (incl. 0x80183814) to P31.
