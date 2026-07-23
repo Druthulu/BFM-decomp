@@ -1428,3 +1428,20 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   layer — plain harvest_verify) via a `wave_binary.js` breadth wave = the cleaner path. The reach-138 jtbl
   families need re-draft/permuter for their real residuals (not this phase's cheap lever). func_80135260's
   `%hi`-sharing residual is a decent permuter seed; func_8012AAAC/80135EB0 are documented walls.
+
+- **✅ 2026-07-22/23 (SESSION-11 cont., ultracode) — NON-JTBL ov_SC06_018 wave (80 targets, 3 batches of 25/25/30).
+  BATCH-1 COMMITTED `commit:0844`: 8 ×1 + 30 swept = 38 instances; distinct 67.5→67.6%.**
+  Ran `wave_binary.js` over the 80 non-jtbl undrafted stubs (`.run/wave_sc06018_nonjtbl.json`, all reach 2-14
+  modal — 65k leverage ≈0.5pp total, low per-crack yield). **Batch-1: 13/25 match_one MATCH → 8 whole-binary
+  banked** (4 plain harvest_verify + 4 via `gate_stage --src-file <jr TU>` — non-jtbl fns in a jr-split file
+  need `--src-file`, the same class as the jtbl fix). **4 families swept → 30 members / 13 overlays.** 5 matches
+  deferred (missing-sym/§58/deeper plumbing); 12 nears = permuter fuel (several close=2/3/4).
+  **⚠️ gate_stage arity-undo BUG FOUND + FIXED (R33, committed):** the arity pre-pass snapshotted `src/<bin>/*.c`
+  BEFORE `_gate1` splices the banks there, so an unbanked draft triggered a snapshot-restore that SILENTLY
+  REVERTED the banks (4 lost + recovered). Fix: restore ONLY `src/shared/` (the fleet hazard). `GATE_NO_ARITY=1`
+  was the interim workaround. **RESUME AIDS:** wave args staged `.run/wave_b{2,3}_args.json`; batch-2 drafts →
+  `.run/drafts-sc06018-b2/`; scope `.run/wave_sc06018_nonjtbl.json`. Gate non-jtbl with
+  `gate_stage --src-file src/ov_SC06_018/ov_SC06_018_jr_8017C24C.c` (or _jr_8019059C for those addrs).
+  **⚠️ ROI CAVEAT:** batch-1 = +0.1pp distinct for ~5M tokens (low-reach modal → poor yield). Assess after
+  batch 2 whether to run batch 3 or stop the non-jtbl tail. **R22 clean-fleet after batch-2 (can't `make clean`
+  while drafters read asm/).**
