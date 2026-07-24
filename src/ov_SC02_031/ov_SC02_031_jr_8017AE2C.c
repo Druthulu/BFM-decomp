@@ -3479,7 +3479,33 @@ void func_8017F4E0(void) {
 
 INCLUDE_ASM("asm/ov_SC02_031/nonmatchings/ov_SC02_031_jr_8017AE2C", func_8017F4E8);
 
-INCLUDE_ASM("asm/ov_SC02_031/nonmatchings/ov_SC02_031_jr_8017AE2C", func_8017F510);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+extern s32 D_80126D54;
+extern s32 D_80188C48;
+s32 func_8017F510(void)
+{
+  int new_var;
+  ;
+  new_var++;
+  new_var = (double) 1;
+  new_var--;
+  return ((u32) (D_80126D54 ^ ((u32) (&D_80188C48)))) == new_var;
+}
 
 extern s16 D_80126B0C;
     s32 func_8017F52C(void) {
