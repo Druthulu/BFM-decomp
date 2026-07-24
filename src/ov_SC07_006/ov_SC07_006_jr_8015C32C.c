@@ -570,7 +570,7 @@ extern void func_801375EC(s32 a0, s16 a1);
 extern s32 func_801399A8(void);
 extern void func_801377B4(s32 a0, s32 a1, s32 a2);
 extern s32 func_8013767C(s32 a0);
-extern void func_801376E8(int a0, int a1);
+extern void func_801376E8();
 extern void func_801376C8(int a0);
 extern s32 D_80127524;
 extern s32 D_80127528;
@@ -946,7 +946,7 @@ extern void func_80142A80(void);
 extern void func_80142C7C(void);
 extern void func_80142C84(s32 a0);
 extern void func_80142C9C(s32 * arg0);
-extern void func_80142B2C(void *arg0);
+extern void func_80142B2C();
 extern void func_80142DC4(int param_1);
 extern void func_80142E38(int param_1);
 extern void func_8012A828(s32 a0, void *a1);
@@ -1002,7 +1002,7 @@ extern void func_80144A2C(void *a0);
 extern void func_80144A68(s32 *a0);
 extern void func_80144A90(void);
 extern void func_80144A98(u8 *a0);
-extern void func_80144B14(void);
+extern void func_80144B14();
 extern void func_80144AEC(s32 *a0);
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
@@ -1288,7 +1288,7 @@ extern void func_80160B00();
 extern void func_801498C0(void);
 extern s32 func_80149AA8(s32 *a0);
 extern s32 func_80149B54(s32 *a0);
-extern void func_80146750(void *a0);
+extern void func_80146750();
 extern s32 func_801498E0(s32 *a0);
 extern s32 func_80149A64(s32 *a0);
 extern void func_8015DAC4(s32 *a0);
@@ -1637,7 +1637,7 @@ extern s32 func_801518D8(s32 a0);
 extern s32 func_80151944(void);
 extern s32 func_80151924(void);
 extern void func_8014E934(s32 a0);
-extern void func_8014F3E8(s32 a0);
+extern void func_8014F3E8();
 extern void func_801519C8(s32 a0);
 extern void func_80151980(s32 a0);
 extern M2C_UNK D_800D5880;
@@ -1858,7 +1858,7 @@ extern void func_801575E4(void *a0);
 extern void func_801574DC(s32 *a0);
 extern void func_80157544(void *a0);
 extern void func_8014CC28(s32 a0);      /* defined  */
-extern void func_8014F3E8(s32 a0);      /* declared */
+extern void func_8014F3E8();      /* declared */
 extern void func_8015BDD0(s32 *a0);     /* defined  */
 extern void func_801575E4(void *a0);    /* defined  */
 extern void func_80157580(s32 arg0);
@@ -2013,7 +2013,7 @@ extern int func_8015B6F4(int param_1);
 extern u8 D_800D4F8C[];
 extern s32 func_8015B7B4(s32 a0);
 extern u8 D_800D4BE0[];
-extern s32 func_8014A51C(void);
+extern s32 func_8014A51C();
 extern s32 func_8015B858(u8 *a0);
 extern s32 D_800D4B48;
 extern void func_8015B8F8(s32 *a0);
@@ -2064,7 +2064,7 @@ extern void func_8014C010(s32 a0, s32 a1);
 extern void func_80147324(s32 a0);
 extern void func_8014D738(void);
 extern void func_8014CC28(s32);
-extern void func_8014F3E8(s32);
+extern void func_8014F3E8();
 extern s32 func_80146E98(s32 a0);
 extern void func_80147078(s32 *a0, s16 a1);
 extern s32 func_8015BE94();
@@ -7717,7 +7717,34 @@ void func_80171260(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_8015C32C", func_8017129C);
+// @class: struct
+// @stuck: none — MATCH (three 16-byte struct copies into a loaded dst pointer)
+
+
+
+extern void *D_8011F738;
+extern struct B16 D_800A5E88;
+extern struct B16 D_800A5E98;
+extern struct B16 D_800A5EA8;
+
+extern void func_801719A4(int, int);
+extern s32 func_80171990(u8*);
+extern void func_80171384(void*);
+
+void func_8017129C(int param_1) {
+    S16 *p;
+
+    func_801719A4(param_1, 1);
+    p = (*(S16 * *)&D_8011F738);
+    p[0] = (*(S16 *)&D_800A5E88);
+    p[1] = (*(S16 *)&D_800A5E98);
+    p[2] = (*(S16 *)&D_800A5EA8);
+    *(unsigned short *)(*(int *)(param_1 + 0x20) + 0x2C) |= 0x20;
+    *(int *)(*(int *)(param_1 + 0x20) + 0x80) = (int)p;
+    ((void (*)(int))func_80171990)(param_1);
+    ((void (*)(int))func_80171384)(param_1);
+}
+
 
 DEFINE_func_80171384()  /* dedup: shared engine-core @0x80171384 (src/shared) */
 
@@ -8691,7 +8718,7 @@ INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_8015C32C", func_801754A
 
 extern s32 func_801758FC(void);
 extern s32 func_80175820(void);
-extern s32 func_801759D8(void);
+extern s32 func_801759D8();
 
 void func_8017553C(s32 *param) {
 
@@ -8715,7 +8742,7 @@ DEFINE_func_80175668()  /* dedup: shared engine-core @0x80175668 (src/shared) */
 
 extern s32 func_801758FC(void);
 extern s32 func_80175820(void);
-extern s32 func_801759D8(void);
+extern s32 func_801759D8();
 
 void func_80175690(s32 *param) {
 
@@ -8743,7 +8770,49 @@ INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_8015C32C", func_8017582
 
 INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_8015C32C", func_801758FC);
 
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_8015C32C", func_801759D8);
+// @class: schedule
+// @stuck: none — MATCH (56 ins)
+#include "common.h"
+
+extern u8 D_8011F7B1;
+extern u8 D_8011F7A8;
+extern s16 D_800B9A02;
+
+typedef struct { u32 *f0; s32 pad[4]; } S_AE7BC;   /* size 0x14 */
+typedef struct { s32 g0; s32 pad[2]; } S_AF634;    /* size 0x0C */
+extern S_AE7BC D_800AE7BC[];
+extern S_AF634 D_800AF634[];
+
+s32 func_801759D8(void)
+{
+    u8 *p = (u8 *)&D_8011F7A8;
+    u16 *q;
+    u32 *ptr;
+    u32 old;
+    u32 *p2;
+
+    if (D_8011F7B1 != 0) {
+        return;
+    }
+
+    q = (u16 *)&(*(u16 *)&D_800B9A02);
+
+    ptr = D_800AE7BC[*q].f0;
+    old = ptr[1];
+    ptr[1] = (old & 0xff000000) | (*(u32 *)(p + *q * 4 + 0x40) & 0xffffff);
+    __asm__("" ::: "memory");
+
+    p2 = *(u32 **)(p + *q * 4 + 0x38);
+    *p2 = (*p2 & 0xff000000) | (old & 0xffffff);
+    __asm__("" ::: "memory");
+
+    {
+        s32 acc = D_800AF634[*q].g0;
+        s32 t = *(s32 *)(p + *q * 4 + 0x38) - 0x14;
+        D_800AF634[*q].g0 = acc + ((*(s32 *)(p + *q * 4 + 0x40) - t) >> 2);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_8015C32C", func_80175AB8);
 
@@ -8788,7 +8857,41 @@ INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_8015C32C", func_801778A
 
 INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_8015C32C", func_80177940);
 
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_8015C32C", func_80177AD4);
+// @class: iv-combine
+// @stuck: none — MATCH (34 ins). Cracked the cookbook's stubbed IV-combine divergence.
+//
+// Three levers, all required:
+//  1. IV-COMBINE ANCHOR (the stubbed blocker): the byte-RMW split gcc into 2 IVs (anchor
+//     0x1e). Fix per cookbook §20 anchor-steering: keep `base` a biv NOT dereferenced at +0
+//     (index as base[0x20] / base+0x1e, all positive-offset givs so the biv eliminates + the
+//     givs merge to ONE reduced reg), and write the BYTE store LAST so record_giv makes it
+//     giv_array[0] -> anchor flips to p+0x20, hw reaches it at displacement -2. (The hw
+//     load+store givs at -2 combining is what raised benefit past the reduce threshold in the
+//     walked-pointer form; the all-giv merge sidesteps it.)
+//  2. REGISTER-`and` (not `andi 0xfeff`): load the hw into an explicit `int t` first, so gcc
+//     loses the "16-bit from lhu" fact and hoists 0xfffffeff into t1 -> `and a0,a0,t1`.
+//  3. THE COALESCED-AWAY MOVE (`addu v1,v0,zero` in the branch delay slot): gcc naturally
+//     coalesces the nibble straight into $v1. Force the target's copy with an explicit
+//     $v0-pinned condition var `c` and $v1-pinned byte var `b` doing `b = c` — c tests in the
+//     bnez, b survives to the byte store, the move lands in the delay slot.
+
+void func_80177AD4(int param_1, unsigned int param_2) {
+    register unsigned int c __asm__("$2");
+    register unsigned int b __asm__("$3");
+    char *base; short i; int f; int t;
+    f = 0x100; i = 0; base = (char *)param_1;
+    do {
+        c = (param_2 << 16) >> 28;
+        b = c;
+        if ((c != 0) || (i == 3) || (i == 1)) f = 0;
+        param_2 = param_2 << 4; i = i + 1;
+        t = *(unsigned short *)(base + 0x1e);
+        *(unsigned short *)(base + 0x1e) = f | (t & ~0x100);
+        base[0x20] = b * 8 + 8;
+        base = base + 0x14;
+    } while (i < 4);
+}
+
 
 INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_8015C32C", func_80177B5C);
 

@@ -10294,7 +10294,7 @@
 #define DEFINE_func_8015B858() \
     extern u8 D_800D4BE0[]; \
     extern s32 D_8011F730; \
-    extern s32 func_8014A51C(void); \
+    extern s32 func_8014A51C(); \
     extern void func_801477E8(s32 *a0, s32 a1); \
     extern void func_80154274(s32 *a0, s32 a1); \
     s32 func_8015B858(u8 *a0) { \
@@ -16550,7 +16550,7 @@
     }
 
 #define DEFINE_func_80161124() \
-    extern void func_801483E8(void); \
+    extern void func_801483E8(); \
     extern void func_8014CBF8(void *a0); \
     extern void func_801474EC(s32 *a0); \
     extern void func_80154150(s32 a0, s32 a1); \
