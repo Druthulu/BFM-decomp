@@ -3419,15 +3419,7 @@ INCLUDE_ASM("asm/ov_SC01_006/nonmatchings/ov_SC01_006_jr_8017C340", func_801806B
 
 
 
-extern s16 func_8017DA9C(void);
-int func_80180710(void)
-{
-  int new_var;
-  new_var = 0x1;
-  new_var--;
-  return (((unsigned int) ((int (*)(void))func_8017DA9C)()) << 16) == new_var;
-  new_var++;
-}
+DEFINE_func_80180710()  /* dedup: shared engine-core @0x80180710 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC01_006/nonmatchings/ov_SC01_006_jr_8017C340", func_80180734);
 

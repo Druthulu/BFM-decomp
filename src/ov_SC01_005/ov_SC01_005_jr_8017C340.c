@@ -3405,7 +3405,7 @@ INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005_jr_8017C340", func_8018067
 
 INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005_jr_8017C340", func_801806B8);
 
-INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005_jr_8017C340", func_80180710);
+DEFINE_func_80180710()  /* dedup: shared engine-core @0x80180710 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005_jr_8017C340", func_80180734);
 

@@ -28876,4 +28876,15 @@
         GsSortLine(&line, &base[(u16)D_800B9A02 * 20], 0); \
     }
 
+#define DEFINE_func_80180710() \
+    extern s16 func_8017DA9C(void); \
+    int func_80180710(void) \
+    { \
+      int new_var; \
+      new_var = 0x1; \
+      new_var--; \
+      return (((unsigned int) ((int (*)(void))func_8017DA9C)()) << 16) == new_var; \
+      new_var++; \
+    }
+
 #endif
