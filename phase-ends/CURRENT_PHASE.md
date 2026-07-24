@@ -2636,3 +2636,13 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   (needs use-replacement through a 304-line body — the expensive option the permuter found for free on
   `func_80177940` via its `new_var` staging), or hand it to Fable5 as a §66d "reader's turn" case.
   **Do not spend more CPU on this seed** — 7 identical cycles is the measurement.
+
+- **📈 2026-07-24 (SESSION-17) — `func_80140958`: ILS is WORKING — 116 → 59 in 8 cycles, still
+  descending on the last one. Continuation launched (14 × 300 s from the 59-waypoint).**
+  Per-cycle: **80 → 75 → 72 → 69 → 64 → 62 → 60 → 59** (cse profile, -j10). Monotone the whole way and
+  it never repeated a score — the exact opposite of `func_8014D820`'s seven identical cycles.
+  **THE READABLE SIGNAL, worth more than either number:** an ILS that repeats its best score is DONE
+  (`func_8014D820`: 25, ×7 → stop, spend a reader/Fable5 instead); an ILS still dropping at the last
+  cycle is BUDGET-LIMITED, not stuck (`func_80140958`: 59 and falling → buy more cycles, it is CPU not
+  tokens). Read the per-cycle series, never just the final best — the two look identical in a summary
+  line and mean opposite things. Seeds: `.run/perm_s17d/best59.c`.
