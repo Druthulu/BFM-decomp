@@ -677,7 +677,6 @@ DEFINE_func_8012A418()  /* dedup: shared engine-core @0x8012A418 (src/shared) */
 
 
 
-typedef struct { s32 w[8]; } Vec8;
 
 
 void func_8012A464(void)

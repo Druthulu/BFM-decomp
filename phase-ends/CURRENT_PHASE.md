@@ -1807,3 +1807,12 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   `check-all: 140 passed, 0 failed of 140` — that summary is emitted only on completion, so it proves the
   run finished. Same discipline as the earlier `cmd | tail` masking: **read the gate's own output, never
   the wrapper's exit code.**
+
+- **✅ 2026-07-23 (SESSION-14 cont.) — Vec8 camps uniquified + lifted; `0x8012E778` ×138; queue 10 → 7.**
+  `0x8012E778` (the MATRIX-freed core) propagated **138/138 byte-identical, 0 stragglers**. Then `Vec8`:
+  camp1 `{s16 unk0,unk2,unk4,unk6}` (8B) ×**139 files** → `Vec8_c1`; the 180-file `{s32 w[8]}` (32B)
+  majority keeps the name — **two genuinely different types that had been sharing one identifier across
+  TUs of the same overlay**. Both lifted, **319 local copies stripped**; pre-filtered on both camps →
+  **R22 clean-fleet 140/140**. Freed `0x8012a464`, `0x8014ffdc`, `0x801502ec`.
+  **QUEUE ARC THIS SESSION: 13 → 11 (Buf) → 10 (MATRIX) → 7 (Vec8)** — 6 cores unblocked by uniquify.
+  **Remaining camps:** Handler · Blk8 · V8 · Prim · Prim_8016E7C8 (all small).

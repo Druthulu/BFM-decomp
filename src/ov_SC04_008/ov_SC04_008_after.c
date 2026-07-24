@@ -1852,15 +1852,14 @@ s32 func_8014FE60(void *e) {
 
 extern s32 func_80135D20(s32 a0, s32 a1, void *a2);
 
-typedef struct { s16 unk0, unk2, unk4, unk6; } Vec8;
 
 s32 func_8014FFDC(s32 e, void *a1, void *a2) {
 
     extern u8 D_801202A0[];
     extern u8 D_80126720[];
     extern u8 D_801152A8[];
-    Vec8 save;
-    Vec8 test;
+    Vec8_c1 save;
+    Vec8_c1 test;
     s32 found;
     u8 *p;
 
@@ -1905,8 +1904,8 @@ s32 func_801502EC(s32 e, void *a1, void *a2) {
     extern u8 D_801202A0[];
     extern u8 D_80126720[];
     extern u8 D_801152A8[];
-    Vec8 save;
-    Vec8 test;
+    Vec8_c1 save;
+    Vec8_c1 test;
     s32 found;
     u8 *p;
 

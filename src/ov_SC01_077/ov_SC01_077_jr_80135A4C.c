@@ -35,7 +35,6 @@ extern s32 func_801758FC(void);                          /* derive-decl, arity 0
  * file-local types, col-0 decls, DEFINE_func macro externs, and each earlier
  * definition's implied prototype (types first, then decls in original order).
  * Decls emit no code => byte-neutral. See cookbook §8c. */
-typedef struct { s32 w[8]; } Vec8;
       /* 8-byte element, cmd @ +4 */
     /* list ptr @ +0x90 */
 struct S80131E00;

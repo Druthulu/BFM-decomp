@@ -765,7 +765,6 @@ INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_a", func_8012A328);
 DEFINE_func_8012A418()  /* dedup: shared engine-core @0x8012A418 (src/shared) */
 
 
-typedef struct { s32 w[8]; } Vec8;
 
 extern s32 D_801151D4;
 extern Vec8 D_80114F24;

@@ -1141,6 +1141,10 @@ typedef struct { DrawEnv env; u8 pad[0x0C]; } Buf_c2;
 typedef struct { s32 m[3][3]; s32 t[3]; } MATRIX;
 typedef struct { short m[3][3]; long t[3]; } MATRIX_c1;
 typedef struct { short m[3][3]; short pad; s32 t[3]; } MATRIX_c2;
+
+/* --- lift_types.py fleet lift --- */
+typedef struct { s32 w[8]; } Vec8;
+typedef struct { s16 unk0, unk2, unk4, unk6; } Vec8_c1;
 #endif /* BFM_ENGINE_TYPES_H */
 
 /* Phase-29 crack-wave lift (func_8012956C family) */
