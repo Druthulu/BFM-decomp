@@ -2132,4 +2132,40 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   **Smoke test (3 fns, `-v`): both oracles AGREE 3/3, 0 static-only, 0 cc1-only.** Not yet evidence
   about the population — that is T2.
 
+- **✅ 2026-07-24 (SESSION-16, Max) — Task 16 / T2 = S0: KILL GATE A PASSED ON MEASURED NUMBERS, and
+  the §20 "DEF-conflict is unrecoverable by text transform" doctrine is REFUTED for the per-overlay case.**
+  Whole probe over all 36 stranded drafts: **9.2 s**. Both oracles agree 36/36 (0 static-only, 0 cc1-only).
+  **THE POPULATION, corrected (R14).** The SESSION-15 audit's "~92% of drafts are byte-correct" is a
+  WHOLE-WAVE figure. Among the STRANDED residue, `match_one` says **24/36 MATCH · 11 near · 1 ERR = 67%**.
+  The 11 `near` are unfinished drafts, NOT integration problems — and they are exactly the 4 that
+  compile in their real TU and DIFF. So "we strand ~16 paid-for CORRECT functions per wave" is ~11,
+  not 16, and one third of the "stranded correct" premise was never correct.
+  **BLOCKERS (per-blocker counts; they STACK — cc1 reveals only the first):** `self_decl_hdr` **21** ·
+  `callee_decl` 19 · `data_decl` 16 · `self_decl_tu` 5 · `local_type` 5. **Per function by MAX tier:
+  T0=6 · T1=26 · not-an-integration-problem=4.** The dominant blocker is the SHARED-HEADER self-decl —
+  far bigger than the pre-probe static inference (6–7 of 16) predicted.
+  **T3's baseline, measured early and for free.** Running the EXISTING draft-side ladder transforms
+  (`cast_call_sites` + `reconcile_tu`) over all 36 clears what they target — `callee_decl` 19→3,
+  `data_decl` 16→**0** — and converts exactly **1 of 36** from CC1-FAIL to compiling, which then
+  **DIFFs**. That is §61d reproducing verbatim: dissolving the plumbing reveals what the plumbing hid.
+  The existing ladder cannot bank this population; the wave's gate orchestration was NOT broken.
+  **THE ESCAPE, BUILT AND BYTE-PROVEN — `tools/demacroize.py` (NEW).** The conflicting `extern` lives
+  INSIDE a `DEFINE_func_*` macro BODY in `engine_core.h`, so it exists only where the macro is
+  INSTANTIATED. Replacing those instantiations, in this overlay's own TU, with the macro's own
+  expansion — correcting ONLY the conflicting decl to the draft's byte-true sig, never dropping it
+  (§57a-1) — dissolves the conflict while writing nothing outside `src/ov_SC07_006/`. This is the
+  "per-overlay-local decl" §63's own note named as the unexplored alternative.
+  **Measured on the 14 clean candidates** (match_one MATCH, `self_decl_hdr` their only remaining
+  blocker): **13 MATCH / 1 DIFF** in the REAL TU (1–12 macro instantiations each; `func_8014F3E8`
+  DIFFs at 28-vs-32 ins — a short draft, not an integration failure).
+  **END-TO-END PROOF (the arbiter, not the proxy):** `func_8012CC88` (6 instantiations)
+  → `harvest_verify --chunk 1` → **verified 1 / failed 0, BYTE-IDENTICAL**; stub gone, confirmed by
+  `grep INCLUDE_ASM` on the source, never the report (§55b trap 4).
+  **THE TIER CLAIM, VALIDATED EMPIRICALLY:** full R22 `make clean && extract-all && check-all` →
+  **140 passed, 0 failed of 140** (80 s). A `src/<binary>/**`-confined edit does not perturb the
+  fleet — which is precisely the difference from `fix_header_decl`, whose `src/shared/` write broke
+  139/140 under the same per-binary green light (§63 UPDATE).
+  **GATE A:** cond-1 ≥12/36 with a real decl/type error → **32/36 PASS**; cond-2 ≥12/36 rtu-MATCH
+  once the blocker is simulated → **13/36 PASS**. Proceed.
+
 

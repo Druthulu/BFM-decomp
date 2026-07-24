@@ -138,6 +138,11 @@ def static_verdict(fn, stub, draft_text):
         if d.is_definition and d.name == fn:
             out.append(('self_decl_hdr' if src.startswith('hdr') else 'self_decl_tu',
                         '%s declares %s | def is %s' % (src, other.type, d.type)))
+        elif 'typedef' in (d.storage, other.storage):
+            # cc1 forbids redeclaring a typedef AT ALL, even identically (`compatible` encodes it).
+            # This is a TYPE conflict, not a data conflict: the fix is to rename/drop the draft's
+            # copy, which is draft-only — routing it as `data_decl` would send it at the wrong tool.
+            out.append(('local_type', '%s: %s declares %s | draft %s' % (d.name, src, other.type, d.type)))
         else:
             klass = 'callee_decl' if d.kind == 'func' else 'data_decl'
             out.append((klass, '%s: %s declares %s | draft %s' % (d.name, src, other.type, d.type)))

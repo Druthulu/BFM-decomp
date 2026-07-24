@@ -1206,25 +1206,101 @@ DEFINE_func_8012CAE4()  /* dedup: shared engine-core @0x8012cae4 (src/shared) */
 DEFINE_func_8012CB64()  /* dedup: shared engine-core @0x8012cb64 (src/shared) */
 
 
-DEFINE_func_8012CBA4()  /* dedup: shared engine-core @0x8012cba4 (src/shared) */
+/* de-macroized: per-overlay-local decl for func_8012CC88 (byte-true sig); do NOT re-macroize */
+    extern s32 func_8012CC88(s32, s32, s32);
+    extern u8 D_800D3918[];
+    void func_8012CBA4(s32 a0) {
+        func_8012CC88(a0, 0, (s32)D_800D3918);
+    }  /* dedup: shared engine-core @0x8012cba4 (src/shared) */
 
 
-DEFINE_func_8012CBCC()  /* dedup: shared engine-core @0x8012cbcc (src/shared) */
+/* de-macroized: per-overlay-local decl for func_8012CC88 (byte-true sig); do NOT re-macroize */
+    extern s32 func_8012CC88(s32, s32, s32);
+    extern u8 D_800D3918[];
+    void func_8012CBCC(s32 a0) {
+        func_8012CC88(a0, 1, (s32)D_800D3918);
+    }  /* dedup: shared engine-core @0x8012cbcc (src/shared) */
 
 
-DEFINE_func_8012CBF4()  /* dedup: shared engine-core @0x8012cbf4 (src/shared) */
+/* de-macroized: per-overlay-local decl for func_8012CC88 (byte-true sig); do NOT re-macroize */
+    extern u8 D_800D3918[];
+    extern s32 func_8012CC88(s32, s32, s32);
+    void func_8012CBF4(s32 a0) {
+        func_8012CC88(a0, 0x11, (s32)D_800D3918);
+    }  /* dedup: shared engine-core @0x8012cbf4 (src/shared) */
 
 
-DEFINE_func_8012CC1C()  /* dedup: shared engine-core @0x8012cc1c (src/shared) */
+/* de-macroized: per-overlay-local decl for func_8012CC88 (byte-true sig); do NOT re-macroize */
+    extern s32 func_8012CC88(s32, s32, s32);
+    void func_8012CC1C(s32 arg0, s32 arg1) {
+        func_8012CC88(arg0, 0, arg1);
+    }  /* dedup: shared engine-core @0x8012cc1c (src/shared) */
 
 
-DEFINE_func_8012CC40()  /* dedup: shared engine-core @0x8012cc40 (src/shared) */
+/* de-macroized: per-overlay-local decl for func_8012CC88 (byte-true sig); do NOT re-macroize */
+    extern s32 func_8012CC88(s32, s32, s32);
+    void func_8012CC40(s32 arg0, s32 arg1) {
+        func_8012CC88(arg0, 1, arg1);
+    }  /* dedup: shared engine-core @0x8012cc40 (src/shared) */
 
 
-DEFINE_func_8012CC64()  /* dedup: shared engine-core @0x8012cc64 (src/shared) */
+/* de-macroized: per-overlay-local decl for func_8012CC88 (byte-true sig); do NOT re-macroize */
+    extern s32 func_8012CC88(s32, s32, s32);
+    void func_8012CC64(s32 a0, s32 a1) {
+        func_8012CC88(a0, 0x11, a1);
+    }  /* dedup: shared engine-core @0x8012cc64 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006", func_8012CC88);
+// @class: other
+// @stuck: none — MATCH (105 ins). BANK NOTE: engine_core.h declares `extern void func_8012CC88(s32,s32,s32)` at 5 sites; the return value is REAL (void-return probe = 102 ins / 13 mismatch, LENGTH-DRIFT -3), so the HEADER decl must be lifted void->s32 (§63 fix_header_decl.py), not the draft.
+#include "common.h"
+
+extern s32 func_8012CEB0(s32 a0, s32 a1, s32 a2);
+
+/* a0 = actor/entity base, a1 = mode passed through to func_8012CEB0, a2 = s16[3] offset vector.
+ * Two 8-byte s16 vectors live at sp+0x10 and sp+0x18 and are passed by address; the second one
+ * is written back to the entity's hi-16 fixed-point position after the offset is removed. */
+s32 func_8012CC88(s32 a0, s32 a1, s32 a2) {
+    typedef struct { s16 vx, vy, vz, pad; } SV3_8012CC88;
+    SV3_8012CC88 sp10;
+    SV3_8012CC88 sp18;
+    s32 v0;
+
+    sp10.vx = *(u16*)(a0 + 0x3A);
+    sp10.vy = *(u16*)(a0 + 0x3E);
+    sp10.vz = *(u16*)(a0 + 0x42);
+    sp10.vx += *(u16*)(a2 + 0);
+    sp10.vy += *(u16*)(a2 + 2);
+    sp10.vz += *(u16*)(a2 + 4);
+
+    *(s32*)(a0 + 0x10) += *(s32*)(a0 + 0x44);
+    *(s32*)(a0 + 0x14) += *(s32*)(a0 + 0x48);
+    *(s32*)(a0 + 0x18) += *(s32*)(a0 + 0x4C);
+    *(s32*)(a0 + 0x04) += *(s32*)(a0 + 0x10);
+    *(s32*)(a0 + 0x08) += *(s32*)(a0 + 0x14);
+    *(s32*)(a0 + 0x0C) += *(s32*)(a0 + 0x18);
+
+    sp18.vx = *(u16*)(a0 + 0x06);
+    sp18.vy = *(u16*)(a0 + 0x0A);
+    sp18.vz = *(u16*)(a0 + 0x0E);
+    sp18.vx += *(u16*)(a2 + 0);
+    sp18.vy += *(u16*)(a2 + 2);
+    sp18.vz += *(u16*)(a2 + 4);
+
+    v0 = func_8012CEB0((s32)&sp10, (s32)&sp18, a1);
+
+    sp18.vx -= *(u16*)(a2 + 0);
+    sp18.vy -= *(u16*)(a2 + 2);
+    sp18.vz -= *(u16*)(a2 + 4);
+    *(s16*)(a0 + 0x06) = sp18.vx;
+    *(s16*)(a0 + 0x0A) = sp18.vy;
+    *(s16*)(a0 + 0x0E) = sp18.vz;
+
+    if (v0 & 0x6000) {
+        *(s32*)(a0 + 0x14) = 0;
+    }
+    return v0;
+}
 
 DEFINE_func_8012CE2C()  /* dedup: shared engine-core @0x8012ce2c (src/shared) */
 
