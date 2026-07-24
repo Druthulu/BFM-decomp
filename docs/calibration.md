@@ -183,3 +183,28 @@ in the manifest (and the 4 characterized pin families) were routed to the ×1 ba
 intrinsic"; they now stage clean and are mechanically harvestable (byte-identity per sibling is the
 gate's question, but the crash barrier is gone). This is un-projected P29 fuel — a whole reach-N class
 the roadmap wrote off, back on the table.
+
+---
+
+## Stranded-draft integration recovery — measured 2026-07-24 (Phase 29 SESSION-16)
+
+Population: the 36 stranded drafts of waves s14+s15 (`ov_SC07_006`, all reach-138), i.e. the drafts a
+wave produced and the whole-binary gate rejected.
+
+| question | measured |
+|---|---|
+| of the STRANDED residue, how many are byte-correct? | **24/36 MATCH, 11 near, 1 ERR (67%)** — the "~92%" is a whole-wave figure |
+| blockers (they stack; cc1 shows only the first) | `self_decl_hdr` 21 · `callee_decl` 19 · `data_decl` 16 · `self_decl_tu` 5 · `local_type` 5 |
+| per function, by MAX tier | T0 = 6 · T1 = 26 · not-an-integration-problem = 4 |
+| yield of the EXISTING draft-side ladder | clears its own classes (callee 19→3, data 16→0) but converts **1/36** to compiling, which then DIFFs |
+| yield of the per-overlay de-macroize (§65b) | 13/14 clean candidates rtu-MATCH; **14/14 attempted banks succeeded** |
+| **total recovered** | **14 of 36 = 39%** (vs a pre-session projection of "all 22") |
+| implied wave multiple | ~6/24 → ~20/24 = **~2.3×**, NOT the projected 3.7× |
+| metric shape | distinct-code **+14 unique fns**; instr-weighted / fn-count ~flat (de-macroized banks are ×1) |
+| R22 after each batch | **140/140**, three times — the T1 blast-radius claim holds |
+
+Remaining, named (not silently dropped): 10 `match_one`-MATCH drafts still blocked by stacked classes
+(3 `self_decl_tu` → `normalize_self_decls`; 3 `local_type`+`self_decl_hdr` → draft type uniquify then
+de-macroize; 1 struct-tag redefinition; 1 callee-decl that rtu over-claimed; 2 with no static blocker
+whose real cc1 error needs reading). 11 `near` drafts are NOT recovery fuel — they are unfinished
+drafts and belong to the permuter/redraft track.

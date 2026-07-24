@@ -67,13 +67,22 @@ def macro_bodies(header=ENGINE_CORE):
     return out
 
 
-def draft_decl(fn, draft_text):
-    """`extern <byte-true sig>;` reconstructed from the draft's own definition (cdecl renders it,
-    so the spelling is canonical rather than copied source text)."""
+def draft_decls(fn, draft_text):
+    """{name: Declarator} the DRAFT asserts — its own definition plus every extern it declares.
+
+    The draft is byte-truth for all of them: its body was compiled against exactly these types, so
+    a macro body that contradicts any one of them is the thing that must yield.  Restricting this
+    to the draft's OWN function would leave the callee-conflict variant of the same blocker
+    unreachable (a macro declaring `RotTransPers` differently than the draft does)."""
+    out = {}
     for d in cdecl.declarations(cdecl.split_statements(draft_text), path='<draft>'):
         if d.name == fn and d.is_definition:
-            return d.declaration(storage='extern')
-    raise SystemExit('demacroize: no definition of %s in the draft' % fn)
+            out[d.name] = d
+        else:
+            out.setdefault(d.name, d)
+    if fn not in out:
+        raise SystemExit('demacroize: no definition of %s in the draft' % fn)
+    return out
 
 
 def plan(binary, fn, draft_text):
@@ -84,27 +93,28 @@ def plan(binary, fn, draft_text):
         raise SystemExit('demacroize: %s is not an INCLUDE_ASM stub in %s (already banked?)' % (fn, binary))
     tu_path = os.path.join(REPO, stub.path)
     tu_text = open(tu_path, errors='replace').read()
-    want = draft_decl(fn, draft_text)
-    want_d = cdecl.parse(want)[0]
+    want = draft_decls(fn, draft_text)
 
     out = []
     for macro, body in sorted(macro_bodies().items()):
         if not re.search(r'\b%s\s*\(\s*\)' % re.escape(macro), tu_text):
             continue                                     # not instantiated in THIS TU
-        hit = None
+        new, fixed = body, []
         for stmt in re.findall(r'\bextern\b[^;{}]*;', body):
             try:
                 ds = cdecl.parse(stmt)
             except cdecl.CDeclError:
                 continue
             for d in ds:
-                if d.name == fn and not (cdecl.compatible(d, want_d) and cdecl.compatible(want_d, d)):
-                    hit = stmt
-        if hit is None:
-            continue
-        # Correct ONLY the conflicting declaration; never DROP it (§57a correction 1 — dropping a
-        # decl breaks the def-after-caller order the caller relies on).
-        out.append((macro, stub, hit, body.replace(hit, want, 1)))
+                w = want.get(d.name)
+                if w is None or (cdecl.compatible(d, w) and cdecl.compatible(w, d)):
+                    continue
+                # Correct ONLY the conflicting declaration; never DROP it (§57a correction 1 —
+                # dropping it breaks the def-after-caller order the caller relies on).
+                new = new.replace(stmt, w.declaration(storage='extern'), 1)
+                fixed.append(d.name)
+        if fixed:
+            out.append((macro, stub, fixed, new))
     return tu_path, out
 
 
@@ -126,7 +136,7 @@ def main():
         return 1
 
     if a.emit_edits:
-        for macro, _stub, _old, new in items:
+        for macro, _stub, _fixed, new in items:
             # rtu_match applies these to the TU before splicing; \n is unescaped there.
             print('//@EDIT %s()||%s' % (macro, new.replace('\\', '\\\\').replace('\n', '\\n')))
         print('// %d macro instantiation(s) in %s' % (len(items), os.path.relpath(tu_path, REPO)),
@@ -134,7 +144,7 @@ def main():
         return 0
 
     text = open(tu_path, errors='replace').read()
-    for macro, _stub, _old, new in items:
+    for macro, _stub, _fixed, new in items:
         pat = re.compile(r'^([ \t]*)%s\(\s*\)' % re.escape(macro), re.M)
         if not pat.search(text):
             raise SystemExit('demacroize: instantiation of %s not found for in-place edit' % macro)

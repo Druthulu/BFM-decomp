@@ -2168,4 +2168,44 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   **GATE A:** cond-1 ≥12/36 with a real decl/type error → **32/36 PASS**; cond-2 ≥12/36 rtu-MATCH
   once the blocker is simulated → **13/36 PASS**. Proceed.
 
+- **✅ 2026-07-24 (SESSION-16, Max) — Task 16 / T5+T6: 14 STRANDED DRAFTS RECOVERED AND BANKED. R22 140/140 ×3.**
+  **Banked ×1, all whole-binary BYTE-IDENTICAL** (stub-gone confirmed by `grep INCLUDE_ASM`, never the
+  report — §55b trap 4): `func_8012CC88` `func_8012F40C` `func_80138DE0` `func_80144B14` `func_80146750`
+  `func_80147364` `func_8014CF04` `func_8014D12C` `func_8014D610` `func_80161374` `func_8016163C`
+  `func_80161774` `func_80161888` `func_801778A8`.
+  **Recipe:** existing draft-side transforms (`cast_call_sites` → `reconcile_tu`) → **`demacroize --apply`**
+  → `harvest_verify --chunk 1` → R22. Every rtu-MATCH in the self-decl class converted: **13/13**.
+  **GATE B** (≥4/36 required): **14/36 = 39%** — passed with room.
+  **THE GENERALIZATION THAT PAID:** relaxing `demacroize` from "the draft's own function" to "any decl
+  the DRAFT declares incompatibly" reached the callee-conflict variant too (`RotTransPers`/`RotTransSV`
+  declared differently by a macro than by the draft) — `func_8012F40C` banked on it.
+  **⚠️ THE ONE FAILURE, AND WHAT IT TEACHES (§65c):** `func_8012F49C` was rtu-MATCH but the whole-binary
+  gate REJECTED it. rtu_match is **relocation-masked**, so a wrong call TARGET is invisible to it and
+  fatal to the real link — and this was a *callee*-decl case, i.e. exactly where the correction touches
+  something the mask hides. **Trust rtu MATCH for self-decl corrections; distrust it for callee ones.**
+  I reverted its edits and re-banked only the winner rather than leave byte-neutral churn on matched
+  code (§57a-4). Cost: one build. The gate remains the only arbiter (G3/P9).
+  **METRICS (honest):** distinct-code **64,860 → 64,874 unique fns (+14)** — the FULL credit, since
+  `progress.py:645` marks an h_exact class matched if ANY instance is. instr-weighted **79.6%** and
+  fn-count **88.86%** are ~FLAT, because a de-macroized bank is ×1 and cannot propagate ×138. That
+  price was stated in the plan before the work. dedup 1879/0; 0 NON_MATCHING (G4).
+  **THE HONEST MULTIPLE:** 14 of 36 = **39%** recovered, vs the SESSION-15 projection of "all 22".
+  Implied wave bank-rate 6/24 → ~20/24 = **~2.3×, not 3.7×** — and it lands on distinct-code, not on
+  the decomp.dev display number. Right trade for the 0-stubs contract; wrong one for the headline.
+  **DISTILLED IN-SESSION (R30):** cookbook **§65/§65a–§65e** (the blast-radius taxonomy · the
+  de-macroize escape + the §20 refutation · the rtu-vs-gate divergence · the existing-ladder baseline ·
+  the two-oracle practice) · `docs/decision-log.md` (R31) · `docs/calibration.md` (the measured table) ·
+  `docs/SETUP.md` tooling rows for `blocker_probe`/`demacroize` **plus the three rows the inventory was
+  missing** (`lift_types`, `uniquify_type`, `fix_header_decl`-as-retired) — R21 debt cleared.
+  **CARRIED, named (not silently dropped):** 10 `match_one`-MATCH drafts still blocked by stacked
+  classes — 3 `self_decl_tu` (→ `normalize_self_decls`, the other named-but-unwired ladder stage),
+  3 `local_type`+`self_decl_hdr` (→ draft type uniquify, which already exists as
+  `canon_sig_reconcile._uniquify_draft_types`, then de-macroize), 1 struct-TAG redefinition
+  (`func_80173A60` — the static oracle's blind spot, named by cc1), 1 rtu-over-claim (`func_8012F49C`),
+  2 with no static blocker whose real cc1 error still needs reading. The 11 `near` drafts are NOT
+  recovery fuel — they are unfinished drafts and belong to the permuter/redraft track.
+  **STILL OPEN (T4):** encoding this recipe into `tools/recover_integration.py` (add `--draft-dir`,
+  `--run-id`, tier assertion, `banked_from_source`) so future waves run it as one command. The recipe
+  is now PROVEN, so the driver can be written against a measured procedure rather than a hypothesis.
+
 

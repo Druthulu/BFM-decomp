@@ -1943,3 +1943,48 @@ pass** (def-side sig reconcile + data-extern reconcile + auto struct-def lift, R
 after the gate — NOT fix_header_decl (fleet-blind, §63). It ~3.7×'s the yield of every wave, past and
 future. Stop waves; invest in integration tooling first, then resume at ~3× efficiency. (Drew stopped the
 waves on this instinct — the data confirms it.)
+
+## 2026-07-24 (Phase 29, SESSION-16) — the integration-recovery pass: measured, and the §20 DEF-conflict wall refuted per-overlay
+
+**Belief going in (SESSION-15 audit).** Waves bank ~27% of drafts; the ~73% stranded are "byte-correct
+bodies stranded by plumbing", so a fleet-safe integration-recovery pass would **~3.7×** every wave's
+yield for zero new drafting tokens. Drew stopped the waves on that finding and this session was
+chartered to build the pass.
+
+**What measuring first changed (before any recovery tooling existed).**
+1. **The premise was ~2/3 true, not true.** Among the 36 STRANDED drafts, `match_one` says **24 MATCH,
+   11 near, 1 ERR**. The "~92% byte-correct" was a whole-wave figure; the residue is **67%**. The 11
+   `near` are unfinished drafts — and they are precisely the ones that compile in their real TU and
+   DIFF. So the recoverable fuel was ~24, not ~36, and the 3.7× was over-stated at the source.
+2. **The blocker was not the class the existing ladder targets.** Running `cast_call_sites` +
+   `reconcile_tu` over all 36 clears `callee_decl` 19→3 and `data_decl` 16→**0**, and converts **1 of
+   36** to compiling — which then DIFFs. §61d verbatim. The dominant blocker is the **shared-header
+   self-decl (21 of 36)**, which no draft-side transform can reach.
+
+**The move that worked, and why it was available.** `fix_header_decl` is off-limits (fleet-blind: 3/3
+per-binary then R22 139/140). §20 had concluded the DEF-conflict class is "byte-proven unrecoverable by
+text transform" because the shared macro's `extern` is the only declaration in the 137 stub overlays and
+"can't be edited per-overlay — it's in the shared header". **The missed move: you do not have to edit
+the header to change what ONE overlay sees — you expand the macro there.** The conflicting `extern`
+lives INSIDE the `DEFINE_func_*` body, so it exists only at instantiation sites; replacing those in the
+overlay's own TU with the expansion, correcting only the conflicting decl to the draft's byte-true sig,
+is a **T1 (binary-local)** edit that cannot reach another binary. `tools/demacroize.py`.
+
+**Measured result.** 13/14 clean candidates MATCH in their real TU; **14 banked whole-binary
+BYTE-IDENTICAL**, R22 clean-fleet **140/140** (three times). Distinct-code **64,860 → 64,874 unique
+fns**. The one rtu-MATCH that did not bank was a *callee*-decl case — rtu is relocation-masked, so a
+wrong call target is invisible to it (§65c).
+
+**The honest multiple.** 14 recovered of 36 stranded = **39%**, against a pre-session projection of
+"all 22". Wave bank-rate 6/24 → ~20/24 if this recovery runs after every wave, i.e. **~2.3×, not 3.7×** —
+and the ×138 propagation is forfeited for de-macroized functions, so the gain lands almost entirely on
+**distinct-code** and barely at all on the instr-weighted headline. That is the right trade for the
+0-stubs completion contract and the wrong one if the goal is the decomp.dev display number. Stated
+before the work, not after.
+
+**Transferable lesson.** Three of this session's four biggest corrections came from measuring something
+that already existed rather than building something new: the residue's real MATCH rate, the existing
+ladder's real yield, and the real first cc1 error (which was invisible behind ~180 lines of benign
+warnings until `rtu_match --stderr-out` persisted the full log). **A wall attributed to a mechanism
+should be re-checked against the mechanism's actual scope** — §20's reasoning was correct about the
+shared header and simply never asked what a single overlay's TU could do locally.

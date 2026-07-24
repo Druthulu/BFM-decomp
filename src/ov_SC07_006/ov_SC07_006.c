@@ -1320,10 +1320,64 @@ DEFINE_func_8012D38C()  /* dedup: shared engine-core @0x8012d38c (src/shared) */
 void func_8012D3AC(void) {
 }
 
-DEFINE_func_8012D3B4()  /* dedup: shared engine-core @0x8012d3b4 (src/shared) */
+/* de-macroized: per-overlay-local decl for func_8012F40C (byte-true sig); do NOT re-macroize */
+    extern s32 AddPrim(s32, void *);
+    extern s32 RotTransPers(s32, s32*, s32*, s32*);
+    extern void SetLineF2(void *);
+    extern void *func_80010A08(s32);
+    extern void func_8004914C(void *);
+    extern void func_800491AC(void *);
+    extern s32 D_800A651C;
+    extern u8 D_800AF648;
+    extern s16 D_800B9A02;
+    void func_8012D3B4(s32 arg0, s32 arg1, s32 arg2) {
+        s32 sp10;
+        s32 sp14;
+        s32 temp_v0_2;
+        void *temp_v0;
+        temp_v0 = func_80010A08(0x10);
+        (*(s32 *)((s8*)(temp_v0)+(4))) = arg2;
+        SetLineF2(temp_v0);
+        func_8004914C(&D_800AF648);
+        func_800491AC(&D_800AF648);
+        temp_v0_2 = RotTransPers(arg0, temp_v0 + 8, &sp10, &sp14);
+        if ((temp_v0_2 > 0) && (sp14 >= 0) && (RotTransPers(arg1, temp_v0 + 0xC, &sp10, &sp14) > 0) && (sp14 >= 0)) {
+            AddPrim(*(s32 *)((s8 *)&D_800A651C + ((u16)D_800B9A02 * 0x14)) + (temp_v0_2 * 4), temp_v0);
+        }
+    }  /* dedup: shared engine-core @0x8012d3b4 (src/shared) */
 
 
-DEFINE_func_8012D4B4()  /* dedup: shared engine-core @0x8012d4b4 (src/shared) */
+/* de-macroized: per-overlay-local decl for func_8012F40C (byte-true sig); do NOT re-macroize */
+    extern void func_8012F214(s32 a0, s32 a1, s32 a2);
+    extern s32 AddPrim(s32, void *);
+    extern s32 RotTransPers(s32, s32*, s32*, s32*);
+    extern void SetLineF2(void *);
+    extern void *func_80010A08(s32);
+    extern void func_8004914C(void *);
+    extern void func_800491AC(void *);
+    extern s32 D_800A651C;
+    extern u8 D_800AF648;
+    extern s16 D_800B9A02;
+    void func_8012D4B4(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
+        s32 sp10[2];
+        s32 sp18[2];
+        s32 sp20;
+        s32 sp24;
+        s32 temp_v0_2;
+        void *temp_v0;
+        func_8012F214(arg0, arg1, (s32)sp10);
+        func_8012F214(arg0, arg2, (s32)sp18);
+        temp_v0 = func_80010A08(0x10);
+        (*(s32 *)((s8 *)(temp_v0) + (4))) = arg3;
+        SetLineF2(temp_v0);
+        func_8004914C(&D_800AF648);
+        func_800491AC(&D_800AF648);
+        temp_v0_2 = RotTransPers((s32)sp10, temp_v0 + 8, &sp20, &sp24);
+        if ((temp_v0_2 > 0) && (sp24 >= 0) &&
+            (RotTransPers((s32)sp18, temp_v0 + 0xC, &sp20, &sp24) > 0) && (sp24 >= 0)) {
+            AddPrim(*(s32 *)((s8 *)&D_800A651C + ((u16)D_800B9A02 * 0x14)) + (temp_v0_2 * 4), temp_v0);
+        }
+    }  /* dedup: shared engine-core @0x8012d4b4 (src/shared) */
 
 
 void func_8012D5DC(void) {
@@ -1451,10 +1505,58 @@ DEFINE_func_8012E544()  /* dedup: shared engine-core @0x8012e544 (src/shared) */
 DEFINE_func_8012E57C()  /* dedup: shared engine-core @0x8012e57c (src/shared) */
 
 
-DEFINE_func_8012E5CC()  /* dedup: shared engine-core @0x8012e5cc (src/shared) */
+/* de-macroized: per-overlay-local decl for func_8012F40C (byte-true sig); do NOT re-macroize */
+    extern u8 D_800AF648;
+    extern void func_8004914C(void *a0);
+    extern void func_800491AC(void *a0);
+    extern s32 RotTransPers(s32, s32*, s32*, s32*);
+    extern void func_8002D4C8(s32 a0, s32 a1);
+    void func_8012E5CC(s32 param_1, u16 param_2, u16 param_3)
+    {
+        struct { short xy[2]; int sp14; int flag; } f;
+        register void *p __asm__("$4");
+        p = &D_800AF648;
+        func_8004914C(p);
+        func_800491AC(&D_800AF648);
+        RotTransPers(param_1, (s32)f.xy, &f.sp14, &f.flag);
+        if (f.flag >= 0 && (u16)(f.xy[0] + 199) < 399 && (u16)(f.xy[1] + 0xA9) < 0x153) {
+            func_8002D4C8(param_2, param_3);
+        }
+    }  /* dedup: shared engine-core @0x8012e5cc (src/shared) */
 
 
-DEFINE_func_8012E688()  /* dedup: shared engine-core @0x8012e688 (src/shared) */
+/* de-macroized: per-overlay-local decl for func_8012F40C (byte-true sig); do NOT re-macroize */
+    extern u8 D_800AF648;
+    extern void func_8004914C(void *a0);
+    extern void func_800491AC(void *a0);
+    extern s32 RotTransPers(s32, s32*, s32*, s32*);
+    extern void func_8002D4C8(s32 a0, s32 a1);
+    void func_8012E688(s32 param_1, u16 param_2, u16 param_3)
+    {
+        struct { short v[3]; short pad; short xy[2]; int sp1c; int flag; } f;
+        register void *p __asm__("$4");
+        register u16 a __asm__("$16") = param_2;
+        register u16 b __asm__("$17") = param_3;
+        if (*(s32 *)(param_1 + 0x20) != 0) {
+            f.v[0] = (short)*(s32 *)(*(s32 *)(param_1 + 0x20) + 0x48);
+            f.v[1] = (short)*(s32 *)(*(s32 *)(param_1 + 0x20) + 0x4C);
+            f.v[2] = (short)*(s32 *)(*(s32 *)(param_1 + 0x20) + 0x50);
+            p = &D_800AF648;
+            func_8004914C(p);
+            func_800491AC(&D_800AF648);
+            RotTransPers((s32)f.v, (s32)f.xy, &f.sp1c, &f.flag);
+            if (f.flag < 0) {
+                return;
+            }
+            if ((u16)(f.xy[0] + 199) >= 399) {
+                return;
+            }
+            if ((u16)(f.xy[1] + 0xA9) >= 0x153) {
+                return;
+            }
+        }
+        func_8002D4C8(a, b);
+    }  /* dedup: shared engine-core @0x8012e688 (src/shared) */
 
 
 #define gte_SetRotMatrix(r0) __asm__ volatile (         \
@@ -1567,7 +1669,32 @@ DEFINE_func_8012F2E8()  /* dedup: shared engine-core @0x8012f2e8 (src/shared) */
 DEFINE_func_8012F374()  /* dedup: shared engine-core @0x8012f374 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006", func_8012F40C);
+// @class: remat
+// @stuck: none — MATCH
+
+extern void func_8004914C();
+extern void func_800491AC();
+extern s32 RotTransPers(s32 a0, s32 *a1, s32 *a2, s32 *a3);
+extern u8 D_800AF648;
+
+s32 *func_8012F40C(s32 *param_1, s32 param_2) {
+    s32 sxy, p, flag;
+
+    sxy = 0;
+    /* $a0-pinned scopes force the &D_800AF648 constant to be rematerialized
+       (lui/addiu) before each call instead of CSE-hoisting it into a third
+       callee-saved register. */
+    { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }
+    { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_800491AC(r4); }
+    RotTransPers(param_2, &sxy, &p, &flag);
+    if (flag < 0) {
+        *param_1 = sxy = 0;
+    } else {
+        *param_1 = sxy;
+    }
+    return param_1;
+}
+
 
 INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006", func_8012F49C);
 

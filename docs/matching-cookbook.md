@@ -4990,3 +4990,106 @@ NECESSARY-not-sufficient filter here.** The byte-gate caught it; the whole recov
 broken landed. The 3 drafts are byte-correct in isolation — they need a per-overlay-local decl or an
 alternate integration path (not a fleet-shared header widen), logged to the backlog.
 
+
+## §65 — The stranded-draft recovery: BLAST-RADIUS TIERS, and the per-overlay de-macroize that refutes §20's DEF-conflict wall (`tools/demacroize.py` + `tools/blocker_probe.py`, Phase 29 SESSION-16, 2026-07-24)
+
+**The population.** A crack wave banks ~27% of its drafts; the rest are stranded. Measured over the
+s14+s15 residue (36 drafts, `ov_SC07_006`): **24 are `match_one` MATCH, 11 are `near`, 1 ERR.** So the
+audit's "~92% byte-correct" is a WHOLE-WAVE figure; among the *stranded* residue it is **67%**. A third
+of the "we strand paid-for correct functions" premise was never correct — and the `near` ones are
+exactly the drafts that compile in their real TU and DIFF. **Measure the residue separately from the
+wave before pricing a recovery pass off it (R14).**
+
+**Blockers STACK, and cc1 reveals only the FIRST.** Per-blocker counts over those 36: `self_decl_hdr`
+21 · `callee_decl` 19 · `data_decl` 16 · `self_decl_tu` 5 · `local_type` 5 — on 36 functions. So a
+per-function verdict read off one cc1 run is always an underestimate; route on a static oracle's
+COMPLETE list and use cc1 to confirm the class, not to enumerate it. A function's recovery tier is the
+**MAX** over its blockers, never the first one's.
+
+### §65a — The blast-radius taxonomy (makes §61's law structural instead of remembered)
+
+| tier | write set | validator | why |
+|---|---|---|---|
+| **T0** draft-only | the draft file | per-binary gate | nothing else changed |
+| **T1** binary-local | `src/<binary>/**` | per-binary gate — **SUFFICIENT** | the write set *cannot reach* another binary |
+| **T2** fleet-shared | `src/shared/**`, `config/**` | **R22 clean-fleet, MANDATORY** | one edit reaches ~140 binaries (§63 UPDATE) |
+
+The §63 disaster was not "a per-binary gate is untrustworthy" — it was a **T2 edit validated by a T1
+validator**. Stating the tier makes the right validator mechanical. Every stage should DECLARE its tier
+and the driver should MEASURE the write set (`git status --porcelain` before/after) and assert
+containment: a stage whose undo scope is narrower than its write scope destroys work no byte-gate can
+see (§61d), and one that lies about its tier should abort, not be trusted. **Validated empirically
+here:** a `src/<binary>/**`-confined batch of 14 banks passed R22 **140/140** three times.
+
+### §65b — The escape: de-macroize the instantiation, don't touch the shared header
+
+**The blocker (the largest single class, 21 of 36).** A `DEFINE_func_*` macro in `engine_core.h`
+forward-declares the draft's own function with a caller-derived signature the byte-true definition
+cannot satisfy (typically `void` where the real return is live). Both obvious fixes are byte-proven
+wrong: rewriting the DRAFT to the header sig compiles but MISMATCHes (§20/§58b — the body needs its own
+sig), and rewriting the SHARED decl is fleet-blind (`fix_header_decl` banked 3/3 per-binary then failed
+R22 **139/140**, §63 UPDATE).
+
+**The key structural fact: the conflicting `extern` lives INSIDE the macro BODY**, so it exists only
+where the macro is INSTANTIATED — and for a given overlay that is a handful of sites in that overlay's
+own TU. Replacing those instantiations with the macro's own expansion, correcting ONLY the conflicting
+declaration to the draft's byte-true signature (**never DROPPING it** — §57a-1's def-after-caller
+trap), dissolves the conflict as a **T1** edit. Every other overlay is textually untouched, so no R22
+risk is created by construction. This is the "per-overlay-local decl" §63's own note named as the
+unexplored alternative.
+
+> **⇒ §20's "the DEF-conflict class is byte-proven unrecoverable by text transform" is REFUTED for the
+> per-overlay case.** §20's reasoning was sound for the mechanism it considered (the shared macro's
+> `extern` is the only declaration in the 137 STUB overlays, so it cannot be dropped, and it "can't be
+> edited per-overlay — it's in the shared header"). The missed move is that you do not have to edit the
+> header to change what ONE overlay sees: you expand the macro there. Measured: **13/14 of the clean
+> candidates MATCH in their real TU; 14/14 of the whole-binary attempts banked.**
+
+**Generalizes to callee conflicts.** The same transform, applied to any decl in the body that the DRAFT
+declares incompatibly (not just the draft's own function), reaches the callee-conflict variant — e.g. a
+macro declaring `RotTransPers` differently than the draft does. The draft is byte-truth for every type
+it was compiled against; the macro body is what must yield.
+
+**The price, stated before the work, not after.** A de-macroized function can no longer be propagated
+×138 from the shared macro (`dedup_propagate` would re-macroize it). Such a bank is **×1**: it credits
+the FULL distinct-code unit (`progress.py` marks an h_exact class matched if ANY instance is —
+`matched_cls.add(hx)`) but only ~1/138 of the instruction-weighted headline. Measured: 14 banks →
+**distinct-code +14 unique fns, instr-weighted and fn-count ~flat.** For the 0-stubs completion contract
+that is real progress; for the decomp.dev display number it is not. Say which one you are buying.
+
+### §65c — `rtu_match` MATCH → bank held 13/13 on self-decl, but broke on the FIRST callee-decl case
+
+`rtu_match` is far better than `match_one` here (it compiles the real TU, so it sees decl conflicts),
+and its real-TU MATCH predicted the whole-binary bank **13/13** for the self-decl class. It then failed
+on `func_8012F49C` — a **callee**-decl case. That is its documented blind spot doing exactly what it
+says on the tin: it is **relocation-masked**, so a wrong call TARGET is invisible to it and fatal to the
+real link. **Trust rtu MATCH more when the correction is to the function's own declaration; trust it
+less when the correction is to something it CALLS.** The whole-binary gate remains the only arbiter
+(G3/P9), and it cost one build to find this.
+
+### §65d — Existing-ladder baseline, measured (do this before building a recovery stage)
+
+Running the existing draft-side ladder (`cast_call_sites` + `reconcile_tu`) over all 36 clears exactly
+what it targets — `callee_decl` 19→3, `data_decl` 16→**0** — and converts **1 of 36** from CC1-FAIL to
+compiling, which then DIFFs. **§61d verbatim: dissolving the plumbing reveals what the plumbing hid.**
+The conclusion is not "the ladder is broken" — it is that the ladder's classes were not this
+population's blocker. A recovery pass that had been built on the assumption it was would have measured
+~0 and been abandoned as "the wall". Baseline the existing tooling against the actual residue first; it
+costs seconds and it re-prices the whole task.
+
+### §65e — Two oracles, and the disagreement is the finding (R34 in practice)
+
+`tools/blocker_probe.py` runs a STATIC oracle (`cdecl.parse` + **`cdecl.compatible`** — cc1's own
+acceptance question) beside the REAL cc1 (via `rtu_match`), and reports where they disagree. Two things
+this bought immediately:
+* **Text equality is never the question.** The deleted `.run/diag_plumbing.py` compared declaration
+  TEXT, so `extern u8 D_X;` vs `extern unsigned char D_X;` read as a conflict although `common.h`
+  typedefs make them the same type and cc1 accepts both silently. That artifact alone accounted for the
+  pre-probe "~10 data-extern co-blockers" estimate.
+* **The static oracle's own blind spot, named by the other oracle.** A bare `struct Tag {...}`
+  redefinition is not a `Declarator` conflict, so the static side reported "no blocker" for
+  `func_80173A60` while cc1 said `redefinition of 'struct S80126B38'`. The CC1-ONLY column is where a
+  single-oracle design would have silently mis-routed the fix.
+Also: `cdecl.tu_scope` runs REAL cpp (`tu_statements`, the §8c law), so it already expands instantiated
+macros and is authoritative about whether a conflict EXISTS. A separate macro scan is still needed, but
+only for **attribution** — TU text vs shared-header macro body are the same tier and different edits.
