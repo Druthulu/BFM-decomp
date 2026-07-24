@@ -3402,7 +3402,31 @@ extern void func_80131E00(struct S80131E00 *a0, s32 a1);
 
 INCLUDE_ASM("asm/ov_SC03_121/nonmatchings/ov_SC03_121_jr_8017BEBC", func_8017F998);
 
-INCLUDE_ASM("asm/ov_SC03_121/nonmatchings/ov_SC03_121_jr_8017BEBC", func_8017FA64);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+void func_8017FA64(void)
+{
+  int new_var2;
+  void (*new_var)(int, int);
+  new_var = (void (*)(int, int)) func_80131E00;
+  new_var(new_var2, 0x1);
+  new_var2 = 0x80C70000;
+}
 
 INCLUDE_ASM("asm/ov_SC03_121/nonmatchings/ov_SC03_121_jr_8017BEBC", func_8017FA84);
 
