@@ -2014,3 +2014,26 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 >    permuter/backlog.
 > **DO NOT close P29 on ROI** — burn-down floor undetermined (needs ≥3 session-to-session deltas). One
 >    session-close already logged this session — do NOT log a second (SESSION-13 granularity error).
+
+- **📊 2026-07-23 (SESSION-14 close) — REMAINING-WORK MAP + next targets (measured, read-only).**
+  **Total distinct work: 9,591 unique fns / 556,531 ins** (the "39,098 stubs" is ×138 fleet-inflation).
+  **By band (distinct):** behemoth>1000 5/6,870(1.2%) · large151-1000 609/155,843(28%) · substantial80-150
+  1,237/131,048(23.5%) · mid16-79 6,824/252,471(45.4%) · tiny≤15 916/10,299(1.9%).
+  **BY REACH — the targeting crux:**
+    - **reach≥100 (shared cores): only 153 distinct fns / 11,361 ins — but they cover 21,025 stub-instances
+      = 54% of remaining fn-count work.** THE high-leverage batch. 28 substantial + 17 giants + tail.
+    - reach 5-99 (regional): 354 fns / 22,630 ins → 2,382 instances.
+    - **reach<5 (overlay-UNIQUE): 9,084 fns / 522,540 ins → 15,691 instances.** 94% of distinct work, ×1 each.
+  **STRATEGIC READ (honest): the shared-core well is nearly dry (153 left). After it, ~94% of remaining
+  work is overlay-unique — no propagation leverage, a linear hand-crack grind.** The endgame transitions
+  from "crack once → stamp ×138" economics to "9,000 unique fns, one at a time."
+  **NEXT TARGETS, ranked:**
+    1. **The 153 reach≥100 shared cores** — highest leverage left; today's fresh-crack wave hit these (6 banked).
+       Keep running `wave_binary` waves (`build_wave_args.py --rank live --min-live 100`), gate per-TU, ×138.
+    2. **The 954 permuter near-misses (close≤8)** — drafts exist; func_8014F3E8 close=1 reach=134 is 1 ins from
+       ×134. **The grinder is running this NOW** (autonomous, byte-gates + commits itself; STOP via
+       tools/auto_stop.sh). Skips 1,571 non-permuter (redraft/structural/integration) — only 75 permuter-shaped.
+    3. **The 9,084 overlay-unique tail** — the true endgame, ×1 each, no shortcut. Sequence by the mid band
+       (6,824 fns = 45% of remaining ins) via per-overlay Ghidra-C prefetch (needs /mcp, R23/R29).
+  **GRINDER RUNNING (Task 11):** `.run/grinder_s14.log`; banks+commits byte-verified matches autonomously
+  (gate_stage commit=True, fail-closed, winning C persisted pre-bank). Let it run; STOP + it's already committed.
