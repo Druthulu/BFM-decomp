@@ -4974,3 +4974,19 @@ clear minority, so expect to name BOTH camps), then Handler / Blk8 / V8 / Prim /
 three unrelated causes into `n_local` — a body skipped merely for containing a `//` comment or a line
 continuation (macro-unsafe, a one-line fix) was reported identically to one genuinely using an
 overlay-local type. The queue is now named and split by cause, so the work it represents is visible.
+
+
+### §63 UPDATE (Phase 29 SESSION-14) — `fix_header_decl`'s "SAFE" verdict is FLEET-BLIND; it MUST be R22-validated
+The §63 header-decl reconcile (`void`→`s32` widening of a shared `engine_core.h` caller decl) banked 3 of
+3 fresh cracks under the PER-BINARY gate (`gate_stage --no-propagate` on ov_SC07_006) — then **R22
+clean-fleet FAILED (139/140): ov_SC01_077 broke.** Reverting the biggest-fanout decl (`func_8012CC88`, 12
+refs) did NOT fix it — at least one of the 2-ref `void`→`s32` widenings (`func_8014D12C`/`func_8014CF04`)
+ALSO perturbs ov_SC01_077, where those functions are already matched and a caller's codegen shifts under
+the widened (even no-proto `()`) shared decl. `fix_header_decl --check`'s `[SAFE]` verdict only inspects the
+ONE caller's return-use; it is structurally blind to the other ~137 overlays the shared decl reaches.
+**RULE: a `fix_header_decl` (or any `engine_core.h` decl) edit is a §61 shared-state mutation — validate it
+with a full R22 clean-fleet, NEVER the per-binary gate that authorised it. The per-binary gate is a
+NECESSARY-not-sufficient filter here.** The byte-gate caught it; the whole recovery pass was reverted, 0
+broken landed. The 3 drafts are byte-correct in isolation — they need a per-overlay-local decl or an
+alternate integration path (not a fleet-shared header widen), logged to the backlog.
+

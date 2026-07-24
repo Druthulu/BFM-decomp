@@ -1953,3 +1953,28 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   failure signal WAS the success. Today the wrapper status has been wrong three separate ways: `| tail`
   masked a real 103/140 failure as exit 0; a session fork reported a green run as exit -1; and now
   grep-no-match reported a green run as exit 1. **Read the gate's own output. Never the wrapper's status.**
+
+- **✅ 2026-07-23 (SESSION-14, ULTRACODE) — fresh-crack wave: 6 reach-138 cores banked; the FIRST distinct-code gain.**
+  `wave_binary` fanned 24 xHigh drafters over FRESH (unmatched, live=138) ov_SC07_006 families → 20
+  self-reported match_one MATCH. **Whole-binary byte-gate (sole arbiter, R14/G3) banked 6:** func_8014C6F4,
+  func_801463A0, func_8012B77C, func_80136F3C, func_80156670, func_801749C8 (`commit:0877`). 1 propagated ×138
+  (func_80136F3C), 4 §20-capped, 1 straggler (`commit:0878`). **THE WIN (byte-verified): distinct-code UNIQUE
+  count 64832 → 64837 (+5) — the FIRST distinct-code movement of the entire session.** Every prior lever
+  today was de-duplication (0 on distinct-code); these are genuinely UNMATCHED cores. Fleet instr 79.3→79.4%,
+  fn-count 88.61→88.65%. **The pivot to fresh cracks is byte-validated as the correct lever.**
+  **⚠️ WORKFLOW HAZARD + FIX:** the 24 drafters reported MATCH but wrote winners under SCRATCH filenames;
+  only 3 func_<name>.c persisted. All 24 were recovered from per-agent transcripts (Write calls + Bash
+  heredocs → `.run/drafts-s14r/`). `wave_binary.js` drafter prompt HARDENED: a mandatory copy-back +
+  existence check as the final step (a whole wave's winners were nearly lost).
+  **⚠️ §63 RECOVERY PASS REVERTED (a clean byte-gate save):** `fix_header_decl` banked 3 more (func_8012CC88/
+  func_8014D12C/func_8014CF04) under the PER-BINARY gate, but **R22 clean-fleet FAILED 139/140 — ov_SC01_077
+  broke.** `fix_header_decl --check`'s `[SAFE]` verdict is FLEET-BLIND (inspects only the one caller's
+  return-use; a shared engine_core.h decl widen reaches all ~137 matched overlays and shifts a caller's
+  codegen). Reverting the 12-ref func_8012CC88 didn't fix it → the 2-ref widenings break it too. **Entire
+  recovery pass reverted to `commit:0878`; 0 broken landed; R22 re-verified 140/140.** RULE (cookbook §63
+  UPDATE): a fix_header_decl edit is §61 shared-state — validate with full R22, the per-binary gate is
+  necessary-not-sufficient. The 3 drafts are byte-correct in isolation → backlog (need a per-overlay-local
+  decl path, not a fleet header widen).
+  **EXIT-CODE TRAP recurred 2 MORE times** (`grep -c` returning 1 on zero matches reported a green R22 as
+  "exit 1", twice) + a real one: a FOREGROUND `make build` raced a background R22's build/ dir and produced
+  a phantom pass. **Never foreground-build while a background R22 runs; read the gate line, not the wrapper.**
