@@ -2253,3 +2253,25 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 > `--check-only` first and assert the 14 banked addresses are absent from the plan (§55b bans
 > `--auto-from` anyway; use targeted `--addr`).
 > **DO NOT close P29 on ROI** — burn-down floor still undetermined.
+
+- **✅ 2026-07-24 (SESSION-16, Max) — Task 16 / T4: the recipe ENCODED in `tools/recover_integration.py`.**
+  Extended, not replaced (a new driver would be a 7th snapshot implementation — R33). It already owned
+  the right shape: exact snapshot/restore, split-aware grouping, and the two-pass
+  *gate-all → restore → re-stage winners only* protocol.
+  **Added:** `--draft-dir` (repeatable — consume a WAVE dir, not the backlog, whose `closeness` is
+  unreliable and whose drafts are overlay-specific) · `--run-id` (all scratch under
+  `.run/recover/<id>/`, and run-local `verified_out`/`failed_out` passed into `run_gate` — **closes
+  §55b trap 4, which the cookbook still lists as "armed"**) · `--stages` with the new **demacroize**
+  stage · `--max-tier` · `--r22` · `--probe-only` · `--report`.
+  **The tier taxonomy is now ENFORCED, not documented:** each stage declares T0/T1/T2; the driver
+  measures the write set via `git status --porcelain` before/after and **aborts** if a stage writes
+  outside its declared blast radius (§61d: an undo narrower than the write scope destroys work no
+  byte-gate can see). A fleet-tier stage is refused unless `--max-tier fleet` AND `--r22` are both
+  given. Negative-control-tested: both refusals fire with the right message.
+  **`stub_map` now derives from `corpus.stubs`** (R33 — one coverage-asserting oracle) instead of a
+  private regex that could silently return a short map; **`banked_from_source()`** (stub GONE from src)
+  is the sole bank oracle for reporting.
+  **END-TO-END on the remaining 22 strandeds: excluded the 26 already-banked by name, ran demacroize on
+  12 of 22, banked 0, restored exactly (src/ clean), 14/14 prior banks intact.** A clean negative —
+  the driver does not manufacture banks. Those 22 are the 11 unfinished `near` drafts plus the 10 whose
+  blockers stack beyond this stage (they need `normalize_self_decls` / draft type-uniquify wired next).
