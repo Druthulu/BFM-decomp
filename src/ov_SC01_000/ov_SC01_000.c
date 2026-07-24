@@ -677,13 +677,7 @@ DEFINE_func_8012A418()  /* dedup: shared engine-core @0x8012A418 (src/shared) */
 
 
 
-void func_8012A464(void)
-{
-
-    extern s32 D_801151D4;
-    extern Vec8 D_80114F24;
-    D_80114F24 = *(Vec8 *)(*(s32 *)&D_801151D4 + 0x3C);
-}
+DEFINE_func_8012A464()  /* dedup: shared engine-core @0x8012A464 (src/shared) */
 
 
 DEFINE_func_8012A4BC()  /* dedup: shared engine-core @0x8012A4BC (src/shared) */

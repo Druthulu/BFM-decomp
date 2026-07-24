@@ -1889,3 +1889,30 @@ and the one address-suffixed collision (`Prim_8016E7C8`) differs only in a membe
 parallel agents** each inventing a local name and layout for the same memory. Enforcing an address-suffixed
 naming convention at draft time costs nothing; cleaning it up afterwards cost a session. **Types-first would
 not have made one function match sooner; a naming convention would have saved most of SESSION-14.**
+
+## 2026-07-23 (Phase 29, SESSION-14 close) — the §20 propagation cap was gating DE-DUPLICATION, not coverage
+
+**Belief going in** (carried from Phase 19/20 and restated in the SESSION-13 checkpoint): the §20
+local-type cap is "the single biggest propagation unlock" — free the capped cores and the fleet %
+follows. This session tested it end to end and the bytes say otherwise.
+
+**Measured.** The broad type-lift freed 17 propagatable cores (13 banked ×138) = **−831 stubs**. Then the
+uniquify campaign (Buf → MATRIX → Vec8; 3 camps, 223 files renamed, ~1,559 local copies stripped, 5
+propagations, 4 full R22 cycles) freed 6 more cores and moved the fleet by: **+6 functions, +558
+instructions, −6 stubs, 0.00pp on all three headline metrics.**
+
+**Why.** A core capped by a local type was still MATCHED in every overlay that has it — each overlay's copy
+had been banked individually. Propagation replaces those N individual definitions with one shared
+`DEFINE_func_*()` macro. That is a source-DRY win (and it shrinks the registry/gate surface), but it banks
+no new bytes, because nothing was unmatched. **"Unblocked" and "unmatched" were being conflated.**
+
+**Consequence for the roadmap.** Roadmap B4 ("close the propagation cap") should be re-labelled as a
+maintainability item, not a coverage lever. The remaining camps (Handler, Blk8, V8, Prim, Prim_8016E7C8)
+are small AND now known low-yield — do them opportunistically, never as the session's main bet. **The only
+lever that moved distinct-code today was nothing: it sat at exactly 3,811,442/5,634,875 = 67.6% at open and
+at close.** Fresh cracks are the sole mover of the distinct-RE number, and that is where the next session
+should point.
+
+**What the campaign IS worth keeping for:** the uniquify recipe + `tools/uniquify_type.py` (the correct
+operation for same-name-different-type camps, §64a), the blocked-queue drop 13 → 7, and the R32 fix that
+makes `dedup_propagate` name what it skips. Cheap to re-apply later; just not a yield play.

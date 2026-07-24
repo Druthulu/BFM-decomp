@@ -3719,14 +3719,14 @@ DEFINE_func_8014FDF4()  /* dedup: shared engine-core @0x8014fdf4 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC07_007/nonmatchings/ov_SC07_007_jr_80140608", func_8014FE60);
 
-INCLUDE_ASM("asm/ov_SC07_007/nonmatchings/ov_SC07_007_jr_80140608", func_8014FFDC);
+DEFINE_func_8014FFDC()  /* dedup: shared engine-core @0x8014FFDC (src/shared) */
 
 DEFINE_func_80150150()  /* dedup: shared engine-core @0x80150150 (src/shared) */
 
 
 DEFINE_func_80150170()  /* dedup: shared engine-core @0x80150170 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC07_007/nonmatchings/ov_SC07_007_jr_80140608", func_801502EC);
+DEFINE_func_801502EC()  /* dedup: shared engine-core @0x801502EC (src/shared) */
 
 DEFINE_func_80150460()  /* dedup: shared engine-core @0x80150460 (src/shared) */
 

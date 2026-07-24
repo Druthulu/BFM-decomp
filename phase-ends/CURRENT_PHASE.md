@@ -1862,3 +1862,20 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   - **The real defs are already in hand** (derivable, not research): the **2,599 PsyQ 4.0 types imported
     into Ghidra** (Phase 1, `psyq400.gdt`) + the SDK `.LIB`s at `tools/psyq/` that Phase 8 linked
     byte-identically. `ExportSymbols.java`-style extraction of the .gdt types is the obvious route.
+
+- **✅ 2026-07-23 (SESSION-14 close) — 3 Vec8-freed cores ×138; R22 140/140. ⚠️ AND THE HONEST ROI VERDICT.**
+  `0x8012A464`/`0x8014FFDC`/`0x801502EC` propagated **138/138, 0 stragglers**, 3 new groups.
+  **R22 clean-fleet 140/140; dedup 1872/0; C1 237654/237654.**
+  **THE UNIQUIFY CAMPAIGN'S NET COVERAGE IS ~NIL (P9).** Measured across Buf+MATRIX+Vec8 + 5 propagations
+  + 4 R22 cycles: **fn-count 313,429 → 313,435 (+6 functions) · instr +558 · stubs 40,281 → 40,275 (−6)**.
+  All three percentages UNCHANGED (79.3 / 67.6 / 88.61). The freed cores' members were **already matched
+  individually**; propagation only consolidated them into shared macros.
+  **⇒ THE FINDING (R14/R31): the §20 propagation cap was NOT holding back COVERAGE — it was holding back
+  source-level DE-DUPLICATION.** "Unblock a capped core" ≠ "bank new bytes". The Buf increment hinted this
+  (0 new fns); the full campaign confirms it at scale.
+  **SESSION ATTRIBUTION, honestly:** of the session's **−837 stubs / +0.3pp instr / +0.23pp fn-count**,
+  **−831 stubs came from the FIRST batch** (broad §20 lift → 13 cores ×138). The entire uniquify campaign
+  contributed **−6 stubs**. The recipe, the tool, and the queue drop (13 → 7) are real; the coverage is not.
+  **⇒ NEXT-SESSION PRIORITY CHANGES:** do NOT keep uniquifying camps expecting coverage (Handler/Blk8/V8/
+  Prim/Prim_8016E7C8 are all small AND now known low-yield). **Fresh cracks are the only lever that moves
+  distinct-code**, which sat at exactly 67.6% (3811442/5634875) ALL SESSION, unmoved by any of this.
