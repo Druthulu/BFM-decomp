@@ -1790,3 +1790,16 @@ RE-DRAFTING under the caller-canonical sig. So the type-lift is real but not a f
 `[^;]*` one is retired), a per-type canonical-def picker + a draft-reconcile pass, fleet-wide strip
 orchestration (build the missing `make lift-types` that loops all overlays + `--exclude` the irreconcilable),
 and R22. It is high-value (roadmap B4) but must be planned, not improvised. The 4 cores stay ×1 until then.
+
+## 2026-07-23 (Phase 29, SESSION-13) — UPDATE: the §20 type-lift IS safely executable when SCOPED to clean types (lift_types.py works)
+
+Refines the "do NOT improvise it" entry above. The fleet type-lift is NOT all-or-nothing: `tools/lift_types.py`
+(built this session — reuses build_engine_types' brace-aware parser, picks each type's CANONICAL/majority def
+fleet-wide, strips all local copies, R22 arbitrates) lets you lift the CLEAN subset safely while deferring the
+variant-heavy types. Applied to Mat32 (138 canonical + 1 copy-only variant) + Cam8012E138 (unique): R22
+**140/140**, unblocked **func_8012B4B8 + func_8012E138** for ×138 propagation. **The doctrine:** classify each
+type first (`lift_types --types … ` dry-run reports distinct-def counts + variant overlays); lift the 1-def and
+copy-only-variant types NOW (byte-neutral, R22-verified); DEFER the genuinely fleet-split types (MATRIX 3-def,
+Vec8 180/139, Buf 3-def, M8 2-def) to a per-camp reconcile pass — they need field-access reconciliation, not a
+blind strip. So: not a monolith, an incremental clean-first lift. The variant reconcile is the remaining hard
+part of roadmap B4.

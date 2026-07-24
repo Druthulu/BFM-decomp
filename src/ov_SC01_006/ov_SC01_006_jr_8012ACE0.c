@@ -673,7 +673,7 @@ DEFINE_func_8012DFD4()  /* dedup: shared engine-core @0x8012DFD4 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC01_006/nonmatchings/ov_SC01_006_jr_8012ACE0", func_8012E014);
 
-INCLUDE_ASM("asm/ov_SC01_006/nonmatchings/ov_SC01_006_jr_8012ACE0", func_8012E138);
+DEFINE_func_8012E138()  /* dedup: shared engine-core @0x8012E138 (src/shared) */
 
 RETCONST(func_8012E27C, 1)   /* dedup: shared with ov_SC01_005 (src/shared/ov_setters.h) */
 

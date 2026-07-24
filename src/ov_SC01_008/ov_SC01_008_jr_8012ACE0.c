@@ -678,7 +678,7 @@ DEFINE_func_8012DFD4()  /* dedup: shared engine-core @0x8012DFD4 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC01_008/nonmatchings/ov_SC01_008_jr_8012ACE0", func_8012E014);
 
-INCLUDE_ASM("asm/ov_SC01_008/nonmatchings/ov_SC01_008_jr_8012ACE0", func_8012E138);
+DEFINE_func_8012E138()  /* dedup: shared engine-core @0x8012E138 (src/shared) */
 
 s32 func_8012E27C(void) {
         return 0x1;
