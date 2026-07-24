@@ -2409,15 +2409,68 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 >   `blocker_probe` (36 drafts ×3 runs, both oracles, attribution bug found+fixed+re-verified against
 >   the tree) · `demacroize` (**15 whole-binary gate attempts: 14 banked byte-identical, 1 correctly
 >   REJECTED** — both `--emit-edits` and `--apply`, self-decl AND callee-decl forms).
-> - **NOT VERIFIED — `recover_integration.py`'s SUCCESS PATH.** The end-to-end run banked 0, so pass 2
->   (re-stage winners → propagate), `--commit`, the `r22()` helper, and `--report` have **never
->   executed**. Verified only: imports, both tier-guard refusals (negative-control), `--probe-only`,
->   and pass 1 + exact restore. Also unexercised: `assert_write_set`'s ABORT branch (it passed, never
->   fired) and `r22()`'s failure-detection branch.
-> - **THE FREE TEST — no agents, no wave needed:** `git revert`/checkout ONE of the 14 banked functions
->   back to its stub, then re-bank it THROUGH the driver (`--draft-dir` on the saved draft, `--commit`,
->   `--r22`). That exercises pass1→restore→pass2→propagate→commit→R22 end-to-end for one build's cost.
->   **Do this BEFORE pointing the driver at a fresh wave** — it mutates `src/` and can commit, and this
->   session found a malformed line and a silent-no-op class in exactly this kind of code (R32/R35).
+> - ~~**NOT VERIFIED — `recover_integration.py`'s SUCCESS PATH.**~~ **DONE 2026-07-24 (SESSION-17) — the
+>   free test was run and the success path is VERIFIED end-to-end** (pass1 → restore → pass2 → `--commit`
+>   → `r22()` → `--report`). See the T10 log entry below: it also found 2 real defects, both fixed.
+>   STILL unexercised: `assert_write_set`'s ABORT branch and `r22()`'s failure-detection branch (both
+>   only fire on a fault this run did not produce).
+> - **THE FREE TEST (the recipe, now proven — cookbook §66):** revert ONE banked function back to its
+>   stub, then re-bank it THROUGH the driver (`--draft-dir` on the saved draft, `--commit`, `--r22`).
+>   Two properties make it strong: the reverted stub state must rebuild BYTE-IDENTICAL (so a faithful
+>   revert proves itself — but it needs `make extract` first, or the `.s` the stub includes does not
+>   exist), and `git diff <pre-revert-commit> -- src/` must come back EMPTY (the driver has to reproduce
+>   the known-good state character-for-character). One build's cost.
 > - Known+recorded LIMITATION (not a bug): `blocker_probe`'s static oracle is blind to a bare
 >   `struct Tag {…}` redefinition — cc1 catches it (§65e). Leave it; the second oracle covers it.
+
+- **✅ 2026-07-24 (SESSION-17, high on Opus 5) — Task 16 / T10: the driver's SUCCESS PATH is VERIFIED
+  end-to-end by the free re-bank test, and it surfaced TWO real defects — one of them a safety hole.**
+  **THE TEST (cookbook §66).** Target `func_801778A8` (the clean single-blocker case: `self_decl_hdr`
+  only, tier T1, draft preserved in `.run/drafts-s15`). Reverted its bank surgically — the def back to
+  `INCLUDE_ASM`, and the 2 de-macroized instantiations (`DEFINE_func_80176FF4` / `DEFINE_func_80177340`)
+  back to their macro form. **The reverted stub state rebuilds BYTE-IDENTICAL** (`7ca772be…` ==
+  `config/check.ov_SC07_006.sha`), so the revert proved itself before the driver ran. *It needed
+  `make extract` first:* splat only emits `asm/nonmatchings/**/<fn>.s` for functions NOT defined in
+  source, so the `.s` the restored stub includes did not exist yet (`can't open …/func_801778A8.s`) —
+  the R22 corollary in its source-reverted form.
+  **THE RUN:** `recover_integration.py --draft-dir .run/drafts-t17a --binary ov_SC07_006 --run-id t17a
+  --stages demacroize --no-propagate --commit --r22 --report` → `pass 1 banked 1/1` → exact restore →
+  `pass 2 banked 1/1` → commit **`commit:0928`** → **R22 `check-all: 140 passed, 0 failed of 140`** →
+  `report.json {"banked":["func_801778A8"],"r22":true,"tier":"binary"}`. Bank confirmed from the SOURCE
+  (`grep INCLUDE_ASM` → gone), never the report (§55b trap 4).
+  **THE EQUIVALENCE CHECK — the part that makes this a test and not a smoke test:** `git diff commit:0927
+  -- src/` = **one blank line**, which I introduced in the hand revert. The driver reproduced SESSION-16's
+  banked state character-for-character.
+  **⚠️ DEFECT 1 (SAFETY — found by READING the path before firing it).** **Propagation is a FLEET-tier
+  write and was both undeclared and the DEFAULT.** `run_gate(propagate=True)` shells out to
+  `dedup_propagate --auto-from`, which writes `src/shared/engine_core.h` + up to 138 overlay `.c` — so
+  `--max-tier binary` (the default, meaning "no shared-state edits") still permitted the widest write in
+  the toolchain. The §65a taxonomy had been applied to the stages I wrote and NOT to the pipeline's own
+  inherited behaviour. **`assert_write_set` structurally cannot catch it:** it runs before the gate, and
+  under `--commit` the writes are already committed, so `git status --porcelain` sees a clean tree and
+  passes. **FIXED up front, the way stage tiers already are:** propagation now requires `--max-tier fleet`
+  AND `--r22`, and is **refused outright after a `demacroize` stage** (those banks are ×1 by construction
+  and `--auto-from` would re-macroize the expanded sites and undo them — `demacroize.py`'s own stated
+  price, and §55b bans `--auto-from` regardless). Ordered general-rule-first so BOTH branches stay
+  reachable; **both negative-control-tested, exit 1.** This retires the checkpoint's "STANDING HAZARD"
+  from something you must remember into something the tool refuses.
+  **⚠️ DEFECT 2 (METRIC).** `gate_stage` scraped the fleet % with a regex for a `progress.py` label that
+  no longer exists (`byte-identical :` → the three-metric block). `fp` has been `None` ever since:
+  **50 gate commits record `fleet None%`** (counted in `git log`). Fixed to read `FLEET instr-weighted`
+  with the legacy label as fallback **and a loud stderr warning when neither matches** — now parses 79.6.
+  **STALE DIGEST (R14, caught in passing).** `docs/progress.fleet.md` at HEAD disagreed with HEAD's own
+  source by 45 in the dedup-shared attribution (`238365` vs `238410`; ov_SC07_006 `1503` vs `1548`).
+  Regenerating from committed source gives 238410 in **two independent runs** (in-gate and standalone),
+  and `commit:0919` had already recorded 1548 — so the committed digest was generated during the §65g
+  `local_type` trial, whose edits were then reverted. Headline percentages unaffected (79.6/67.7/88.86);
+  the regenerated file is committed. Lesson: regenerate digests on a CLEAN tree.
+  **VERIFICATION:** `make tools-health` → **OK** (corpus(+resident) 0 PHANTOM/0 TRUNCATED · cdecl ALL
+  ORACLES GREEN · audit-binaries 140 onboarded, every one a full citizen · lint OK · **dedup-check 1879
+  validated / 0 failed**, C1 238484/238484). Fleet unchanged at **79.6% instr · 67.7% distinct · 88.86%
+  fn-count** — expected: one function reverted and re-banked is net zero.
+  **DISTILLED IN-SESSION (R30):** cookbook **§66** (the free re-bank test + its two strong properties),
+  **§66a** (the widest write in a pipeline is the one most likely to be undeclared; a measurement-based
+  containment guard is blind once anything commits), **§66b** (a metric scraped from another tool's prose
+  goes NULL silently on a label change — and the same shape one level up: a digest regenerated over an
+  experiment's uncommitted edits). **R21 debt cleared:** `docs/SETUP.md` had no inventory row for
+  `recover_integration.py` at all; added.

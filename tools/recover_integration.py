@@ -28,6 +28,10 @@ SESSION-16 (cookbook §65) added the mode this was missing and the blocker it co
     driver MEASURES the write set (`git status --porcelain`) and asserts containment, and picks the
     validator from the tier — per-binary gate for T0/T1, R22 clean-fleet for T2. The §63 disaster was
     a T2 edit validated by a T1 validator; stating the tier makes that mistake structural to catch.
+  * PROPAGATION is fleet-tier too, and was the write the tier machinery did not cover (it was also the
+    default): it needs `--max-tier fleet` AND `--r22`, and is refused outright after a `demacroize`
+    stage, whose banks are ×1 by construction. (Phase 29 SESSION-17, found by exercising the success
+    path — `assert_write_set` cannot see it, because under `--commit` the writes are already committed.)
   * Bank truth comes from `banked_from_source()` (the stub is GONE from src), never from a gate report
     — `.run/harvest_verified.txt` accumulates across runs and yields phantom banks (§55b trap 4);
     `--run-id` also gives every run its own result files so concurrent runs cannot read each other's.
@@ -203,6 +207,29 @@ def main():
         raise SystemExit("a fleet-tier stage requires --r22: the per-binary gate is "
                          "necessary-not-sufficient for shared state (§63 UPDATE broke 139/140 that way).")
 
+    # PROPAGATION IS ITSELF A FLEET-TIER ACTION, and it was the one write the tier machinery did not
+    # cover: `run_gate(propagate=True)` shells out to `dedup_propagate --auto-from`, which writes
+    # src/shared/engine_core.h and up to 138 overlay .c files — yet it was the DEFAULT here, so a
+    # `--max-tier binary` run could perform the widest write in the toolchain. It cannot be caught
+    # after the fact either: `assert_write_set` runs BEFORE the gate, and under --commit the writes
+    # are already committed, so `git status` sees nothing. So it is refused UP FRONT, exactly the way
+    # the stage tiers are — a declared radius, not a remembered one (§65a).
+    # (General rule first, so BOTH refusals stay reachable and testable — a guard whose branch can
+    # never fire is untested code, and this driver already shipped two such branches.)
+    propagate = not a.no_propagate
+    if propagate:
+        if a.max_tier != "fleet" or not a.r22:
+            raise SystemExit(
+                "propagation is a FLEET-tier write (src/shared/engine_core.h + up to 138 overlay .c): "
+                "it requires --max-tier fleet AND --r22, or pass --no-propagate (§65a).")
+        if "demacroize" in stages:
+            raise SystemExit(
+                "refusing to propagate a de-macroized bank: such a bank is ×1 BY CONSTRUCTION (the "
+                "byte-true decl lives in this overlay's OWN TU), and `dedup_propagate --auto-from` "
+                "would re-macroize the expanded sites and undo it (demacroize.py's stated price; "
+                "§55b bans --auto-from regardless). Use --no-propagate, then propagate a genuinely "
+                "shared bank with a targeted `dedup_propagate --addr`.")
+
     run_dir = f".run/recover/{a.run_id}"
     dd = f"{run_dir}/drafts"
     shutil.rmtree(os.path.join(REPO, run_dir), ignore_errors=True)
@@ -317,7 +344,7 @@ def main():
     for p in glob.glob(os.path.join(REPO, dd, "*.c")):
         if os.path.basename(p)[:-2] not in banked:
             os.remove(p)
-    s2 = reconcile_and_gate(banked, propagate=not a.no_propagate, commit=a.commit)
+    s2 = reconcile_and_gate(banked, propagate=propagate, commit=a.commit)
     banked2 = sorted(s2.get("verified", []))
     print(f"[recover] pass 2 banked {len(banked2)}/{len(banked)}  propagated groups +{s2.get('propagated')}  "
           f"fleet {s2.get('fleet_pct')}%")

@@ -416,8 +416,22 @@ def _run_gate_locked(drafts, binary, src, asm, out, good_sha, propagate, source_
     if compute_fleet:
         try:
             r = sh([PY, "tools/progress.py", "--fleet"], timeout=180)
-            mm = re.search(r"byte-identical\s+:\s+\d+\s*/\s*\d+\s*=\s*([\d.]+)%", r.stdout)
-            fp = float(mm.group(1)) if mm else None
+            # The label this parses is progress.py's, and progress.py renamed it: the single
+            # "byte-identical :" line became the THREE-metric block (fn-count / instr-weighted /
+            # distinct-code). The old pattern matched nothing from that day on, so `fp` was None and
+            # every gate commit message read "fleet None%" — 50 of them before anyone added up the
+            # zeros (R32: a silently-nulled number is a defect, not a no-op). Take the instr-weighted
+            # line (the decomp.dev-DISPLAY number), keep the legacy label as a fallback, and SAY SO
+            # when neither matches so a future rename cannot go quiet again.
+            for pat in (r"FLEET instr-weighted\s*:\s*\d+\s*/\s*\d+\s*=\s*([\d.]+)%",
+                        r"byte-identical\s+:\s+\d+\s*/\s*\d+\s*=\s*([\d.]+)%"):
+                mm = re.search(pat, r.stdout)
+                if mm:
+                    fp = float(mm.group(1)); break
+            if fp is None:
+                print("[gate] WARNING: could not parse the fleet %% from progress.py --fleet — its "
+                      "label changed again; fix the pattern in gate_stage._run_gate_locked",
+                      file=sys.stderr)
         except Exception:
             pass
 

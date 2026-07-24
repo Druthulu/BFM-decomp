@@ -5134,3 +5134,61 @@ Measured, both reverted with nothing landed:
 stop.** The remaining ~8 blocked functions are not a matter of running one more tool; each needs a
 transform that does not exist yet. Do not re-run these two classes expecting a different number — the
 negative is byte-recorded here precisely so the next session does not re-buy it.
+
+## §66 — Exercise a banking driver's SUCCESS path before pointing it at a wave: the free re-bank test (Phase 29 SESSION-17, 2026-07-24)
+
+A driver can be "built, proven, and encoded" and still have never run its own success path. SESSION-16
+ended exactly there: `recover_integration.py`'s end-to-end run banked **0**, so pass 2 (re-stage winners
+→ propagate), `--commit`, the `r22()` helper and `--report` had **never executed**. A driver that mutates
+`src/` and can commit is the wrong place to discover that.
+
+**THE TEST, and it is free.** Revert ONE already-banked function to its `INCLUDE_ASM` stub, then re-bank
+it *through the driver* on its saved draft, with `--commit --r22`. Cost: one build. It exercises
+pass1 → restore → pass2 → commit → R22 → report on a case whose answer is already known.
+
+Two properties make it a strong test rather than a smoke test:
+* **A byte-checked baseline for free.** The reverted (stub) state must rebuild **byte-identical** — the
+  stub pastes the original asm — so a faithful revert proves itself before the driver runs. *Reverting a
+  banked def needs `make extract` first:* splat only emits `asm/nonmatchings/**/<fn>.s` for functions not
+  defined in source, so the `.s` the restored stub includes does not exist until you re-extract (the R22
+  corollary, in its source-reverted form: `can't open …/func_X.s for reading`).
+* **An exact equivalence check on the output.** `git diff <pre-revert-commit> -- src/` must come back
+  **empty**: the driver has to reproduce the known-good banked state character-for-character. Anything
+  else is a real behavioural difference, not a judgement call. (Ours: one stray blank line, from the hand
+  revert, not the driver.)
+
+### §66a — The widest write in a pipeline is the one most likely to be UNDECLARED
+
+The §65a blast-radius taxonomy was applied to the *stages the driver author wrote* (`arity` = fleet,
+`demacroize` = binary) and **not** to the pipeline's own inherited default: `run_gate(propagate=True)`
+shells out to `dedup_propagate --auto-from`, which writes `src/shared/engine_core.h` and up to 138
+overlay `.c` files. So `--max-tier binary` — the default, chosen to mean "no shared-state edits" —
+still performed the widest write in the toolchain, and `--no-propagate` was a thing you had to
+*remember* (the checkpoint carried it as a "STANDING HAZARD", which is the tell).
+
+**A measurement-based guard cannot save you here.** `assert_write_set` diffs `git status --porcelain`,
+and under `--commit` the writes are already committed by the time it could look — it sees a clean tree
+and passes. Containment by measurement must run before anything commits; otherwise refuse **up front**,
+the way stage tiers already are. Now: propagation requires `--max-tier fleet` AND `--r22`, and is
+refused outright after a `demacroize` stage (whose banks are ×1 by construction, and which
+`--auto-from` would re-macroize and undo). Both refusals negative-control-tested, exit 1.
+
+**Generalize:** when you add a blast-radius taxonomy to an existing pipeline, enumerate what the
+pipeline *already did* — inherited defaults are exactly the writes nobody re-reads.
+
+### §66b — A metric parsed out of another tool's prose goes NULL silently when the label changes
+
+`gate_stage` scraped the fleet % from `progress.py --fleet` with a regex for `byte-identical :`.
+`progress.py` later replaced that single line with the three-metric block (`FLEET fn-count byte-ident:`
+/ `FLEET instr-weighted     :` / `FLEET distinct-code(uniq):`). The regex matched nothing from that day
+on, `fp` became `None`, and **50 automated bank commits recorded `fleet None%`** in their messages
+before anyone added up the zeros (R32 — a silently-nulled number is a defect, not a no-op). Fixed to
+read `FLEET instr-weighted` with the legacy label as fallback **and a loud stderr warning when neither
+matches**, so the next rename cannot go quiet.
+
+Same shape, one level up: **a digest regenerated while an experiment's edits are still on disk gets
+committed as if it described the committed tree.** `docs/progress.fleet.md` at HEAD disagreed with HEAD's
+own source by 45 in the dedup-shared column — it was generated during the §65g `local_type` trial and the
+edits were reverted afterwards. Provable in one command: regenerate from committed source and compare
+(two independent runs, in-gate and standalone, agreed). *Regenerate digests on a clean tree, or the
+digest describes a state that no longer exists.*
