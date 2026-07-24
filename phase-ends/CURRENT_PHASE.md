@@ -2322,3 +2322,26 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 > **⚠️ STANDING HAZARD:** `dedup_propagate --auto-from` would RE-MACROIZE the 14 de-macroized sites and
 > undo them. `--check-only` first; targeted `--addr` only (§55b bans `--auto-from` anyway).
 > **DO NOT close P29 on ROI** — burn-down floor still undetermined.
+
+- **⚠️ 2026-07-24 (SESSION-16, xHigh) — Task 16 / T9: the `local_type` class does NOT recover either.
+  0 of 4 banked. Reverted; nothing landed; `make check` BYTE-IDENTICAL; tree clean.**
+  Targets `func_8014C4AC` (Blk8) · `func_80174CB0` (MATRIX/SVECTOR) · `func_80176144` (S_AF634) ·
+  `func_80173A60` (struct-TAG `S80126B38`).
+  **The ordering bug I introduced and then fixed (worth the record):** uniquifying the draft's type
+  renames it inside the draft's own `extern <T> D_x;` decls too, so it **trades a `redefinition of
+  struct T` for a `conflicting types for D_x`** — i.e. running it AFTER `reconcile_tu` re-breaks what
+  that pass had conformed. Re-ordered (uniquify FIRST), one compiled — and then **DIFFed 48/53**,
+  because the data reconcile's cast-at-use genuinely changes codegen when the body depends on its own
+  struct layout. A struct-TYPED data extern is the case `reconcile_tu` cannot cast.
+  **`func_8014C4AC` is the instructive one:** `rtu_match` MATCH, then the whole-binary gate returned
+  **`final SHA 6a37625c…` — a REAL hash, not `None`** — meaning the *baseline* (draft reverted,
+  de-macroize edits still applied) no longer built byte-identical. The de-macroize edit itself shifted
+  the codegen of one of the four macros' OWN already-matched functions. **That is the §63 failure mode,
+  relocated from the fleet (where it broke 139/140 invisibly) into a place the per-binary gate catches
+  for free.** Measured boundary: **de-macroize is byte-neutral 14 times of 15.**
+  **Read the FINAL SHA, not the verified count:** `None` = no image (compile/link break, T8's shape);
+  a real hash ≠ locked = the TU edit moved bytes (T9's shape). Different faults, different fixes.
+  **⇒ Two consecutive honest negatives (T8, T9). The EXISTING transforms stop at 14 of 36 (39%).**
+  The remaining ~8 are not "run one more tool" — each needs a transform that does not exist yet.
+  Distilled to cookbook **§65f** (the lever's measured boundary + the SHA-reading rule) and **§65g**
+  (where the cheap levers stop, so the next session does not re-buy this negative).

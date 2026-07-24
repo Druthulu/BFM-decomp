@@ -5093,3 +5093,44 @@ this bought immediately:
 Also: `cdecl.tu_scope` runs REAL cpp (`tu_statements`, the §8c law), so it already expands instantiated
 macros and is authoritative about whether a conflict EXISTS. A separate macro scan is still needed, but
 only for **attribution** — TU text vs shared-header macro body are the same tier and different edits.
+
+### §65f — The de-macroize lever's BOUNDARY, measured: byte-neutral 14 times of 15, and the 15th is why the gate exists
+
+De-macroizing corrects a declaration that an **already-matched** function (the macro's own body) is
+compiled against. Usually that is byte-neutral — but not always, and the failure is not a compile error:
+
+| outcome | n | signature in the gate |
+|---|---|---|
+| banked BYTE-IDENTICAL | 14 | `verified N / failed 0`, final SHA == locked |
+| **edit shifted the macro's own matched function** | **1** | `verified 0 / failed 1`, **final SHA is a REAL hash ≠ locked** |
+
+`func_8014C4AC` was `rtu_match` MATCH and still failed, because the *baseline* (draft reverted, the
+de-macroize edits still in place) no longer built byte-identical. **Read the final SHA, not just the
+verified count:** `final SHA None` = the build produced no image (a compile/link break, e.g. §65g);
+`final SHA <hash>` ≠ locked = the TU edit itself moved bytes. Those are different faults with different
+fixes, and the count alone does not distinguish them.
+
+So the lever's precondition is not "the draft is byte-correct" — it is **"the draft is byte-correct AND
+correcting the decl does not perturb the macro's own function."** The second half is unknowable in
+advance and costs one build to test. That is exactly the §63 failure mode, relocated from the fleet
+(where it broke 139/140 invisibly) into a place the per-binary gate can see and reject for free.
+
+### §65g — Where the cheap levers STOP: the local-type and in-TU-self-decl classes did not yield
+
+Measured, both reverted with nothing landed:
+* **`local_type` (4 fns) — 0 banked.** `canon_sig_reconcile._uniquify_draft_types` renames the draft's
+  colliding type (byte-neutral: a type name emits no code), but that renames the type in the draft's
+  own `extern <T> D_x;` declarations too, so it **trades a `redefinition of struct T` for a
+  `conflicting types for D_x`**. Re-ordering (uniquify BEFORE `cast_call_sites`/`reconcile_tu` instead
+  of after) fixes the ordering bug and lets one compile — which then **DIFFs 48/53**, because the data
+  reconcile's cast-at-use changes real codegen when the body's semantics depend on its own struct
+  layout. A struct-TYPED data extern is the case `reconcile_tu` cannot cast.
+* **`self_decl_tu` (3 fns) — 0 banked.** `normalize_self_decls` skips a literal `()` unconditionally
+  (blind to a RETURN-type conflict, so `func_801376E8` normalizes 0), and its narrow-param rewrite on
+  the other two **broke the build outright** (`final SHA None`). §57a already classes it SURGICAL-ONLY —
+  it edits the TU file, so a bad edit poisons the whole group and cannot be bisected per-member.
+
+**⇒ The recovery pass's measured yield is 14 of 36 (39%), and that is where the EXISTING transforms
+stop.** The remaining ~8 blocked functions are not a matter of running one more tool; each needs a
+transform that does not exist yet. Do not re-run these two classes expecting a different number — the
+negative is byte-recorded here precisely so the next session does not re-buy it.
