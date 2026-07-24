@@ -2474,3 +2474,36 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   goes NULL silently on a label change — and the same shape one level up: a digest regenerated over an
   experiment's uncommitted edits). **R21 debt cleared:** `docs/SETUP.md` had no inventory row for
   `recover_integration.py` at all; added.
+
+- **⛔ 2026-07-24 (SESSION-17, high on Opus 5) — Task 4/wave: THE QUEUE'S WAVE PREMISE IS REFUTED BY
+  MEASUREMENT — the cached high-reach drafting pool is EXHAUSTED. Nothing spent; no agents launched.**
+  The SESSION-17 queue's pipeline opens `build_wave_args.py --rank live --min-live 100`. Run against
+  `ov_SC07_006`: **37 candidates, 0 never-attempted.** Against `ov_SC06_018` (the overlay Task 5
+  prefetched precisely for this): **163 candidates, 33 never-attempted — all reach-1, live 1–4.**
+  **Fleet-wide, the decisive query** (all 139 src binaries; live = how many still hold it as an
+  INCLUDE_ASM stub; 983 cached Ghidra-C files; drafts = every `.run/**/func_*.c` that is NOT the
+  Ghidra-C cache): **cached & live≥100 = 141 → 111 gated in the backlog, 30 carrying a preserved draft
+  (`.run/wt_uni/`, `.run/drafts_wave4/`, `.run/giants/`), and *0* genuinely never attempted.**
+  The only never-attempted cached fuel anywhere is **40 functions, every one live 1–4** (overlay-unique,
+  ×1). **So a 5–6 agent wave has no reach-138 fuel to draft** — the s14/s15 waves plus the Task-3 giant
+  runs drained it, and the queue's "6 drafts → ~3 banks ×138" economics do not apply to what is left.
+  **⚠️ TWO SELECTION BUGS IN MY OWN FILTER, both caught before spending (R14 on myself):**
+  **(1)** my first exclusion set came from the backlog alone and missed `.run/giants/` — so the top three
+  "fresh" targets were `func_80176734` (close=76, §27 frame-pressure lock), `func_80176218` (close=271,
+  "hardest of the set") and `func_80140958` (close=116, LICM) — ~2.6M agent tokens of preserved,
+  *characterized permuter-only* work that a wave would have re-bought. **(2)** my corrected scan then
+  counted `.run/ghidra_c/func_*.c` as drafts, but that is the Ghidra decompile **input**, not an
+  attempt — which made 100% of every pool read "already tried" (5,488 phantom attempts; 169 in one
+  band). A selection tool whose candidate set is derived from the wrong directory manufactures both
+  false work and false exhaustion, in the same afternoon. §66c.
+  **THE GATING DEPENDENCY, unchanged from Task 5's own measurement:** fresh high-reach fuel is created
+  by a **per-overlay Ghidra-C prefetch**, not found. Task 5 measured the greedy cover — ov_SC06_018 was
+  #1 (now drafted out), imports 2–8 (`ov_SC03_015`, `ov_SC07_006`, `ov_SC03_124`, `ov_SC06_029`,
+  `ov_SC02_011`, `ov_SC03_094`, `ov_SC04_011`) add **+0.59pp combined**, then a 632-family long tail.
+  That import needs the MCP server restarted and **Drew to run `/mcp`** (R23/R29) — a human step, so it
+  is a genuine gate, not something to work around.
+  **WHAT IS ACTUALLY AVAILABLE, priced honestly:** (a) 40 cached reach-1..4 targets — real distinct-code
+  units, ~×1 each, ≈0.006pp instr for a 6-agent batch; (b) the ~8 stranded functions §65g says need a
+  transform that does not exist yet; (c) the characterized permuter-class giants — token-FREE CPU, but
+  blocked on pycparser refusing the `register __asm__` pins (`.run/giants` README, §66-adjacent tooling);
+  (d) the Ghidra-C prefetch (a), which restores wave economics and needs `/mcp`.
