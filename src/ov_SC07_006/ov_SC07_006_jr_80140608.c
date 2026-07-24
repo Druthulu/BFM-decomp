@@ -2124,10 +2124,47 @@ void func_80144A90(void) {
 DEFINE_func_80144A98()  /* dedup: shared engine-core @0x80144a98 (src/shared) */
 
 
-DEFINE_func_80144AEC()  /* dedup: shared engine-core @0x80144aec (src/shared) */
+/* de-macroized: per-overlay-local decl for func_80144B14 (byte-true sig); do NOT re-macroize */
+    extern int func_80144B14(int);
+    void func_80144AEC(s32 *a0) {
+        s32 old;
+        old = *(s32 *)((s32)a0 + 0xDC);
+        *(s32 *)((s32)a0 + 0xDC) = (s32)&func_80144B14;
+        *(s16 *)((s32)a0 + 0x0) = 0x83;
+        *(s16 *)((s32)a0 + 0x2) = 1;
+        *(s32 *)((s32)a0 + 0xCC) = old;
+    }  /* dedup: shared engine-core @0x80144aec (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_80140608", func_80144B14);
+// @class: struct
+// @stuck: none — MATCH
+
+extern int func_80013294(void *a0, void *a1);
+extern unsigned short D_80126B5E;
+extern unsigned short D_80126B62;
+extern unsigned short D_80126B66;
+
+typedef struct { short vx, vy, vz, pad; } Vec;
+
+int func_80144B14(int param_1)
+{
+    int r;
+    Vec a;
+    Vec b;
+
+    a.vx = *(unsigned short *)(param_1 + 6);
+    a.vy = *(unsigned short *)(param_1 + 0xa);
+    a.vz = *(unsigned short *)(param_1 + 0xe);
+    b.vx = D_80126B5E;
+    b.vy = D_80126B62;
+    b.vz = D_80126B66;
+    r = func_80013294(&a, &b);
+    if (r < *(short *)(param_1 + 0xfc)) {
+        return *(int *)(param_1 + 0xcc);
+    }
+    return 0;
+}
+
 
 INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_80140608", func_80144B9C);
 
@@ -2493,7 +2530,46 @@ DEFINE_func_801466B4()  /* dedup: shared engine-core @0x801466b4 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_80140608", func_801466F0);
 
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_80140608", func_80146750);
+// @class: regalloc-order
+// @stuck: none — MATCH
+#include "common.h"
+
+extern u16 D_8011FD10;
+extern int D_8011FA1C;
+extern u16 D_8011F9D6;
+extern u16 D_8011F9DA;
+extern u16 D_8011F9DE;
+extern int D_8011FA20;
+extern int D_8011FA24;
+
+u16 *func_80146750(u16 *param_1) {
+    s32 iVar1;
+    s32 iVar2;
+    u16 *psVar3;
+    register u16 *psVar4 __asm__("$7"); /* $a3: pin so &sym loads here, copy -> psVar3($v1) */
+
+    iVar2 = 8;
+    psVar4 = &D_8011FD10;
+    psVar3 = psVar4;
+    iVar1 = 0x340;
+    for (; iVar2 < 0x14; iVar2++) {
+        if (*psVar3 == 0) {
+            *(u32 *)((char *)&(*(u32 *)&D_8011FA1C) + iVar1) = *(u32 *)((char *)param_1 + 8);
+            *psVar3 = *param_1;
+            *(u16 *)((char *)&D_8011F9D6 + iVar1) = param_1[1];
+            *(u16 *)((char *)&D_8011F9DA + iVar1) = param_1[2];
+            *(u16 *)((char *)&D_8011F9DE + iVar1) = param_1[3];
+            *(u32 *)((char *)&(*(u32 *)&D_8011FA20) + iVar1) = *(u32 *)((char *)param_1 + 0xC);
+            *(u32 *)((char *)&(*(u32 *)&D_8011FA24) + iVar1) = *(u32 *)((char *)param_1 + 0x10);
+            return psVar4;
+        }
+        psVar4 = psVar4 + 0x34;
+        psVar3 = psVar3 + 0x34;
+        iVar1 = iVar1 + 0x68;
+    }
+    return (u16 *)0x0;
+}
+
 
 // @class: regalloc-order
 // @stuck: none — MATCH
@@ -2627,13 +2703,48 @@ DEFINE_func_801472DC()  /* dedup: shared engine-core @0x801472dc (src/shared) */
 DEFINE_func_801472F0()  /* dedup: shared engine-core @0x801472f0 (src/shared) */
 
 
-DEFINE_func_80147300()  /* dedup: shared engine-core @0x80147300 (src/shared) */
+/* de-macroized: per-overlay-local decl for func_80147364 (byte-true sig); do NOT re-macroize */
+    extern void func_80147364(u16, u16);
+    void func_80147300(u16 arg0) {
+        func_80147364(arg0, 0);
+    }  /* dedup: shared engine-core @0x80147300 (src/shared) */
 
 
-DEFINE_func_80147324()  /* dedup: shared engine-core @0x80147324 (src/shared) */
+/* de-macroized: per-overlay-local decl for func_80147364 (byte-true sig); do NOT re-macroize */
+    extern void func_80147364(u16, u16);
+    extern void *D_8012707C;
+    void func_80147324(s32 arg0) {
+        s32 temp_a0;
+        temp_a0 = arg0 & 0xFFFF;
+        if (temp_a0 == D_8012707C) {
+            D_8012707C = 0;
+            return;
+        }
+        func_80147364(temp_a0, 0);
+    }  /* dedup: shared engine-core @0x80147324 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_80140608", func_80147364);
+// @class: struct
+// @stuck: none — MATCH
+#include "common.h"
+
+extern s16 currentLocationId;
+extern s32 D_80126B58;
+extern void func_80015978(s32, s32*);
+extern void func_8012E5CC(s32, u16, u16);
+extern void func_8002D4C8(s32 a0, s32 a1);
+
+void func_80147364(u16 param_1, u16 param_2) {
+    s32 sp10[2];
+    s32 *p = &D_80126B58;
+    if (currentLocationId == 0x308d) {
+        ((void (*)(void *, void *))func_80015978)(p + 1, sp10);
+        ((void (*)(void *, s32, s32))func_8012E5CC)(sp10, param_1, param_2);
+    } else {
+        func_8002D4C8(param_1, param_2);
+    }
+}
+
 
 DEFINE_func_801473DC()  /* dedup: shared engine-core @0x801473dc (src/shared) */
 
@@ -3095,7 +3206,26 @@ DEFINE_func_80149884()  /* dedup: shared engine-core @0x80149884 (src/shared) */
 DEFINE_func_801498C0()  /* dedup: shared engine-core @0x801498c0 (src/shared) */
 
 
-DEFINE_func_801498E0()  /* dedup: shared engine-core @0x801498e0 (src/shared) */
+/* de-macroized: per-overlay-local decl for func_80146750 (byte-true sig); do NOT re-macroize */
+    extern s32 func_80149AA8(s32 *a0);
+    extern s32 func_80149B54(s32 *a0);
+    extern u16 *func_80146750(u16*);
+    s32 func_801498E0(s32 *a0) {
+        s16 st[4];
+        s32 stw[3];
+        if (func_80149AA8(a0) != 0 || func_80149B54(a0) != 0) {
+            st[0] = 8;
+            stw[0] = (s32)a0;
+            st[1] = 0;
+            st[2] = -0x1E;
+            st[3] = 0;
+            stw[1] = 0;
+            stw[2] = 0;
+            func_80146750(st);
+            return 1;
+        }
+        return 0;
+    }  /* dedup: shared engine-core @0x801498e0 (src/shared) */
 
 
 INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_80140608", func_80149954);
@@ -3689,13 +3819,43 @@ DEFINE_func_8014C99C()  /* dedup: shared engine-core @0x8014c99c (src/shared) */
 DEFINE_func_8014CA00()  /* dedup: shared engine-core @0x8014ca00 (src/shared) */
 
 
-DEFINE_func_8014CA14()  /* dedup: shared engine-core @0x8014ca14 (src/shared) */
+/* de-macroized: per-overlay-local decl for func_80147364 (byte-true sig); do NOT re-macroize */
+    extern u16 func_8014CA70(s32 a0, s32 a1);
+    extern void func_80147364(u16, u16);
+    extern void *D_8012707C;
+    s32 func_8014CA14(s32 a0, s32 a1) {
+        u16 x = func_8014CA70(a0, a1);
+        if (x == 0) {
+            return 1;
+        }
+        if (x != (s32)D_8012707C) {
+            func_80147364(x, 0);
+            return 0;
+        }
+        D_8012707C = 0;
+        return 0;
+    }  /* dedup: shared engine-core @0x8014ca14 (src/shared) */
 
 
 DEFINE_func_8014CA70()  /* dedup: shared engine-core @0x8014ca70 (src/shared) */
 
 
-DEFINE_func_8014CA88()  /* dedup: shared engine-core @0x8014ca88 (src/shared) */
+/* de-macroized: per-overlay-local decl for func_80147364 (byte-true sig); do NOT re-macroize */
+    extern u16 func_8014CAE4(s32 *a0, s32 a1);
+    extern void func_80147364(u16, u16);
+    extern void *D_8012707C;
+    s32 func_8014CA88(s32 *a0, s32 a1) {
+        u16 x = func_8014CAE4(a0, a1);
+        if (x == 0) {
+            return 1;
+        }
+        if (x != (s32)D_8012707C) {
+            func_80147364(x, 0);
+            return 0;
+        }
+        D_8012707C = 0;
+        return 0;
+    }  /* dedup: shared engine-core @0x8014ca88 (src/shared) */
 
 
 DEFINE_func_8014CAE4()  /* dedup: shared engine-core @0x8014cae4 (src/shared) */
@@ -3771,7 +3931,30 @@ void func_8014CCB4(void)
 }
 
 
-DEFINE_func_8014CD0C()  /* dedup: shared engine-core @0x8014cd0c (src/shared) */
+/* de-macroized: per-overlay-local decl for func_8014CF04 (byte-true sig); do NOT re-macroize */
+    extern s32 func_8014CF04(s32, void*, void*);
+    extern int func_8014CD80(s32 a0, u16 *a1, u16 *a2);
+    void func_8014CD0C(u8 *a0) {
+        u16 sp10[3];
+        u16 sp18[3];
+        u16 b;
+        u16 c;
+        u16 d;
+        b = *(u16 *)(a0 + 0x6);
+        sp18[0] = b;
+        sp10[0] = b;
+        c = *(u16 *)(a0 + 0xA);
+        sp10[1] = c - 3;
+        d = *(u16 *)(a0 + 0xE);
+        sp18[1] = c + 5;
+        sp18[2] = d;
+        sp10[2] = d;
+        if (*(s32 *)(a0 + 0x174) == 0) {
+            func_8014CF04((s32)a0, sp10, sp18);
+        } else {
+            func_8014CD80((s32)a0, sp10, sp18);
+        }
+    }  /* dedup: shared engine-core @0x8014cd0c (src/shared) */
 
 
 // @class: regalloc-order
@@ -3785,25 +3968,207 @@ DEFINE_func_8014CD0C()  /* dedup: shared engine-core @0x8014cd0c (src/shared) */
 DEFINE_func_8014CD80()  /* dedup: shared engine-core @0x8014CD80 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_80140608", func_8014CF04);
+// @class: plumbing
+// @stuck: none — MATCH (82/82 ins, relocation-masked) both standalone AND spliced into the real
+//   TU; the ONLY blocker to banking is the §63 header decl in src/shared/engine_core.h:8965
+//   (inside DEFINE_func_8014CD0C, used by ov_SC07_006_jr_80140608.c itself) —
+//   `extern void func_8014CF04(s32,void*,void*);` must become `extern s32 ...`.
+//   `tools/fix_header_decl.py --fn func_8014CF04 --draft <this> --check` reports exactly 1 SAFE
+//   rewrite. Verified: with that one-line header fix the FULL spliced TU cc1-compiles rc=0 and
+//   maspsx+as -> objdump gives 0 masked mismatches vs the target .s (probe: .run/_cf04_probe).
+//
+// Two-IV actor-table scan over D_801202A0[96] (stride 0x10C, end = base + 0x6480 = D_80126720).
+// Three codegen levers, all required:
+//  1) far-field pointer q PINNED to $s1 ($17) — the target's second induction variable is the
+//     combine_givs representative at base+0x75; pinning it stops loop.c splitting the 0x74/0x75
+//     cluster into extra spurious IVs (§30/§17 IV-COMBINE, inverted: here the target WANTS the
+//     2nd IV, so nail it to one hard reg instead of collapsing it).
+//  2) loop bound written as (D_801202A0 + 0x6480) — ONE symbol+addend, so the entry guard reuses
+//     the base already live in $s0 -> `addiu $v0,$s0,0x6480` + `sltu` (matches 8014CF2C/CF30).
+//     Writing the distinct symbol D_80126720 forces a lui/addiu pair at the guard (+1 insn);
+//     the LATCH still rematerializes %hi/%lo of the end address (8014D010/D014), which is what
+//     gcc does with the folded form anyway (masked).
+//  3) explicit `if (guard) { q = ...; do {} while (...); }` — the pinned q-init emits at its
+//     lexical point, so putting it INSIDE the guard defers it to the preheader (past the guard
+//     branch), reproducing the target's `sw $s1` in the guard's delay slot + `addiu $s1,$s0,0x75`.
+//
+// Signature note (§58b / §63): the def sig is byte-TRUTH. Params are kept EXACTLY as the
+// engine_core.h caller decl (`s32, void*, void*`) so the required header rewrite is the minimal,
+// fix_header_decl-SAFE return-type-only edit (void -> s32); param_3 is cast to u16* at each use.
+// No fleet TU carries both DEFINE_func_8014CD0C() and the 5 stray `extern void func_8014CF04();`
+// K&R decls, so the header rewrite has no collateral conflict (checked).
+
+extern u8 D_801202A0[];
+extern s32 func_80135A4C();
+extern s32 func_8014C918();
+
+s32 func_8014CF04(s32 param_1, void *param_2, void *param_3) {
+    register u8 *q __asm__("$17");
+    u16 *p;
+    s32 r;
+
+    p = (u16 *)D_801202A0;
+    if (p < (u16 *)(D_801202A0 + 0x6480)) {
+        q = (u8 *)D_801202A0 + 0x75;
+        do {
+            if (*p != 0
+                && (*(u16 *)(q - 0x19) & 0x400)
+                && *(s32 *)(q - 0x1D) != 0
+                && p != *(u16 **)(param_1 + 0x178)
+                && p != *(u16 **)(param_1 + 0x174)
+                && *(s16 *)(q - 0x6B) >= *(s16 *)(param_1 + 0xA)
+                && func_80135A4C(*(s32 *)(q - 0x55), *(s32 *)(q - 0x1D), param_2, param_3) != 0) {
+                *(u16 **)(param_1 + 0x174) = p;
+                q[-1] = 1;
+                *(u16 *)(param_1 + 6) = ((u16 *)param_3)[0];
+                *(u16 *)(param_1 + 0xA) = ((u16 *)param_3)[1];
+                *(u16 *)(param_1 + 0xE) = ((u16 *)param_3)[2];
+                r = func_8014C918(param_1, q[0]);
+                *(u16 *)(param_1 + 0x16E) = r & 0xFF;
+                return 1;
+            }
+            p += 0x86;
+            q += 0x10C;
+        } while (p < (u16 *)(D_801202A0 + 0x6480));
+    }
+    return 0;
+}
+
 
 INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_80140608", func_8014D04C);
 
-DEFINE_func_8014D0A4()  /* dedup: shared engine-core @0x8014d0a4 (src/shared) */
+/* de-macroized: per-overlay-local decl for func_8014D12C (byte-true sig); do NOT re-macroize */
+    extern void func_8014D2A0(s32 a0, void *a1, void *a2);
+    extern s32 func_8014D12C(s32, void*, void*);
+    void func_8014D0A4(s32 a0) {
+        s16 buf1[4];
+        s16 buf2[4];
+        buf1[0] = *(u16 *)(a0 + 0x88);
+        buf1[1] = *(u16 *)(a0 + 0x8A);
+        buf1[2] = *(u16 *)(a0 + 0x8C);
+        buf2[0] = *(u16 *)(a0 + 0x6);
+        buf2[1] = *(u16 *)(a0 + 0xA);
+        buf2[2] = *(u16 *)(a0 + 0xE);
+        if (*(s32 *)(a0 + 0x174) == 0) {
+            func_8014D2A0(a0, buf1, buf2);
+        } else {
+            func_8014D12C(a0, buf1, buf2);
+        }
+    }  /* dedup: shared engine-core @0x8014d0a4 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_80140608", func_8014D12C);
+// @class: plumbing
+// @stuck: none — MATCH (93/93). BANK NOTE: the in-TU DEFINE_func_8014D0A4() macro
+//   (engine_core.h:9511, instantiated at ov_SC07_006_jr_80140608.c:3607) forward-declares
+//   `extern void func_8014D12C(s32 a0, void *a1, void *a2);` — a `void` return conflicts with
+//   this def, which MUST return s32 (the target sets $v0 = 0/1: addu v0,zero,zero x2 +
+//   addiu v0,zero,1). Params are already canonical (s32, void*, void*), so the only edit
+//   needed is that one extern's return type: `void` -> `s32` (byte-neutral: the caller
+//   discards $v0). Do NOT let sig_unify force a `void` def-sig — that loses 3 instructions.
+#include "common.h"
+
+extern s32 func_80135A4C(s32 a0, s32 a1, s32 *a2, s32 a3);
+extern s32 func_8014C918(s32 a0, s32 a1);
+
+s32 func_8014D12C(s32 arg0, void *a1, void *a2)
+{
+    u16 *arg1 = (u16 *)a1;
+    u16 *arg2 = (u16 *)a2;
+    s32 e;
+
+    arg1[1] -= 3;
+    arg2[1] += 8;
+    e = *(s32 *)(arg0 + 0x174);
+    if ((*(u16 *)e == 0) || ((*(u16 *)(e + 0x5C) & 0x400) == 0) || (*(s32 *)(e + 0x58) == 0) ||
+        (*(s16 *)(e + 0xA) < *(s16 *)(arg0 + 0xA))) {
+        if (*(u16 *)e != 0) {
+            *(u8 *)(e + 0x74) = 0;
+        }
+        *(s32 *)(arg0 + 0x174) = 0;
+        return 0;
+    }
+    arg1[0] = *(u16 *)(arg0 + 0x98);
+    arg1[1] = *(u16 *)(arg0 + 0x9A) - 3;
+    arg1[2] = *(u16 *)(arg0 + 0x9C);
+    if ((*(u16 *)(e + 0x5C) & 8) != 0) {
+        arg2[1] = arg1[1] + 0x18;
+    }
+    if (func_80135A4C(*(s32 *)(e + 0x20), *(s32 *)(e + 0x58), (s32 *)arg1, (s32)arg2) != 0) {
+        *(u16 *)(arg0 + 6) = arg2[0];
+        *(u16 *)(arg0 + 0xA) = arg2[1];
+        *(u16 *)(arg0 + 0xE) = arg2[2];
+        *(u16 *)(arg0 + 0x16E) = func_8014C918(arg0, *(u8 *)(e + 0x75)) & 0xFF;
+        return 1;
+    }
+    *(u8 *)(e + 0x74) = 0;
+    *(s32 *)(arg0 + 0x174) = 0;
+    return 0;
+}
 
 INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_80140608", func_8014D2A0);
 
 INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_80140608", func_8014D3E0);
 
-DEFINE_func_8014D438()  /* dedup: shared engine-core @0x8014d438 (src/shared) */
+/* de-macroized: per-overlay-local decl for func_8014D610 (byte-true sig); do NOT re-macroize */
+    extern s32 func_8014D610(s32, s32, u16*);
+    extern void func_8014D4C0(s32 a0, void *a1, void *a2);
+    void func_8014D438(s32 a0) {
+        s16 buf1[4];
+        s16 buf2[4];
+        buf1[0] = *(u16 *)(a0 + 0x88);
+        buf1[1] = *(u16 *)(a0 + 0x8A);
+        buf1[2] = *(u16 *)(a0 + 0x8C);
+        buf2[0] = *(u16 *)(a0 + 0x6);
+        buf2[1] = *(u16 *)(a0 + 0xA);
+        buf2[2] = *(u16 *)(a0 + 0xE);
+        if (*(s32 *)(a0 + 0x174) == 0) {
+            func_8014D610(a0, buf1, buf2);
+        } else {
+            func_8014D4C0(a0, buf1, buf2);
+        }
+    }  /* dedup: shared engine-core @0x8014d438 (src/shared) */
 
 
 INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_80140608", func_8014D4C0);
 
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_80140608", func_8014D610);
+// @class: other
+// @stuck: first draft — untested
+
+#include "common.h"
+
+extern u8 D_801202A0[];
+extern s32 func_80135A4C(s32 a0, s32 a1, s32 *a2, s32 a3);
+extern s32 func_8014C918(s32 a0, s32 a1);
+
+s32 func_8014D610(s32 param_1, s32 param_2, u16 *param_3)
+{
+    u16 *psVar4;
+    u8 *puVar3;
+    s32 iVar2;
+
+    psVar4 = (u16 *)D_801202A0;
+    while (psVar4 < (u16 *)(D_801202A0 + 0x6480)) {
+        puVar3 = (u8 *)psVar4 + 0x75;
+        if (*psVar4 != 0 && (*(u16 *)(puVar3 - 0x19) & 0x400) != 0 &&
+            *(s32 *)(puVar3 - 0x1D) != 0 &&
+            *(s16 *)(puVar3 - 0x6B) >= *(s16 *)(param_1 + 0xA)) {
+            iVar2 = ((s32 (*)(s32, s32, s32, u16 *))func_80135A4C)(
+                *(s32 *)(puVar3 - 0x55), *(s32 *)(puVar3 - 0x1D), param_2, param_3);
+            if (iVar2 != 0) {
+                *(s32 *)(param_1 + 0x174) = (s32)psVar4;
+                puVar3[-1] = 1;
+                *(u16 *)(param_1 + 6) = param_3[0];
+                *(u16 *)(param_1 + 0xA) = param_3[1];
+                *(u16 *)(param_1 + 0xE) = param_3[2];
+                *(u16 *)(param_1 + 0x16E) = func_8014C918(param_1, *puVar3) & 0xff;
+                return 1;
+            }
+        }
+        psVar4 += 0x86;
+    }
+    return 0;
+}
+
 
 INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_80140608", func_8014D738);
 

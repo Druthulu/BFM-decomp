@@ -1171,7 +1171,72 @@ DEFINE_func_80137FD8()  /* dedup: shared engine-core @0x80137fd8 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_80135D20", func_801380E0);
 
-DEFINE_func_801387B8()  /* dedup: shared engine-core @0x801387B8 (src/shared) */
+/* de-macroized: per-overlay-local decl for func_80138DE0 (byte-true sig); do NOT re-macroize */
+    void func_801387B8(s32 arg0) {
+        extern s32 func_80138DE0(u8*, u8, s32);
+        extern s32 func_80139220(s32 a0);
+        extern void func_80138948(void *a0);
+        extern void func_80139A8C(s32 a0);
+        extern void func_80139B18(s32 a0);
+        extern s32 D_80127530[];
+        u16 *p;
+        s32 base;
+        s32 cont;
+        u8 cmd;
+        s32 sub;
+        s32 pc;
+        for (;;) {
+            cont = 0;
+            if (*(s32 *)(arg0 + 8) & 0x400) {
+                base = D_80127530[*(u16 *)(arg0 + 0x4A)];
+                p = (u16 *)(arg0 + 0x44);
+            } else {
+                p = (u16 *)(arg0 + 0x10);
+                base = *(s32 *)(arg0 + 0);
+            }
+            pc = *p;
+            cmd = *(u8 *)(base + pc);
+            sub = *(u8 *)(base + pc + 1);
+            if (cmd >= 0x20) {
+                cont = func_80138DE0(arg0, cmd, sub);
+                if (!(*(s32 *)(arg0 + 8) & 0x80220)) {
+                    cont = 0;
+                }
+            } else {
+                if (cmd != 0) {
+                    switch (cmd) {
+                    case 10:
+                        func_80139220(arg0);
+                        *p += 1;
+                        goto loop_end;
+                    case 1:
+                        cont = 1;
+                        *(u8 *)(arg0 + 0x23) = sub;
+                        *p += 2;
+                        goto loop_end;
+                    case 7:
+                        if (!(*(s32 *)(arg0 + 8) & 0x20000)) {
+                            *(s32 *)(arg0 + 8) &= ~0x20;
+                        }
+                        break;
+                    case 23:
+                        *(s32 *)(arg0 + 8) |= 2;
+                    default:
+                        cont = 1;
+                        *p += 1;
+                        goto loop_end;
+                    }
+                }
+                func_80138948((void *)arg0);
+            }
+        loop_end:
+            if (cont == 0) {
+                func_80139A8C(arg0);
+                func_80139B18(arg0);
+                return;
+            }
+        }
+    }  /* dedup: shared engine-core @0x801387B8 (src/shared) */
 
 DEFINE_func_80138948()  /* dedup: shared engine-core @0x80138948 (src/shared) */
 
@@ -1179,7 +1244,38 @@ DEFINE_func_80138948()  /* dedup: shared engine-core @0x80138948 (src/shared) */
 DEFINE_func_8013895C()  /* dedup: shared engine-core @0x8013895c (src/shared) */
 
 
-DEFINE_func_80138AB4()  /* dedup: shared engine-core @0x80138ab4 (src/shared) */
+/* de-macroized: per-overlay-local decl for func_80138DE0 (byte-true sig); do NOT re-macroize */
+    extern s16 D_80127540[4];
+    extern s32 func_80139D04(s32 a0, s32 a1);
+    extern s32 func_80138DE0(u8*, u8, s32);
+    extern void func_80139B18(s32 a0);
+    void func_80138AB4(s32 a0) {
+        u8 sp10[8];
+        s32 s0 = a0;
+        s32 s1;
+        s32 a0v;
+        s1 = func_80139D04((s32)sp10, (u16)D_80127540[*(u16 *)(s0 + 0x48)]) & 0xFFFF;
+        do {
+            s32 v1 = *(u16 *)(s0 + 0x44);
+            a0v = 0;
+            if ((s32)v1 < s1) {
+                s32 a1v = (sp10[v1] + 0x30) & 0xFF;
+                a0v = func_80138DE0(s0, a1v, 0);
+                if (*(s32 *)(s0 + 0x8) & 0x80220) {
+                    /* a0v stays */
+                } else {
+                    a0v = 0;
+                }
+            } else {
+                s32 t = *(u16 *)(s0 + 0x48);
+                if ((u32)t < 3) {
+                    *(s16 *)(s0 + 0x48) = t + 1;
+                }
+                *(s16 *)(s0 + 0x4) = 2;
+            }
+        } while (a0v != 0);
+        func_80139B18(s0);
+    }  /* dedup: shared engine-core @0x80138ab4 (src/shared) */
 
 
 DEFINE_func_80138B88()  /* dedup: shared engine-core @0x80138b88 (src/shared) */
@@ -1218,7 +1314,63 @@ DEFINE_func_80138D58()  /* dedup: shared engine-core @0x80138d58 (src/shared) */
 DEFINE_func_80138DB8()  /* dedup: shared engine-core @0x80138db8 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_80135D20", func_80138DE0);
+// @class: struct
+// @stuck: none — MATCH
+/* func_80138DE0 — advance the text cursor by 1 or 2 after emitting a glyph.
+ *
+ * Key levers (both required; the body itself is a plain if/else-if):
+ *  - D_80127548 MUST be declared as an ARRAY (`extern s32 D_80127548[];`) and accessed as
+ *    D_80127548[0].  As a scalar, gcc emits the assembler-macro form twice in the tail
+ *    (lui+lw %lo / lui+sw %lo via $at, 8 insns); as an array the address is materialised once
+ *    (la $v1 = lui+addiu) and the lw/sw use 0($v1), which is what the target does and is one
+ *    instruction shorter.  This is the §40b indexed-global idiom, and it is also the form the
+ *    shared engine-core macro DEFINE_func_80138ED0() already uses for this same symbol.
+ *  - arg1 is a byte param (u8): each use re-emits `andi ...,0xFF` (§I2), which is why the
+ *    0x20-subtraction path recomputes the mask instead of reusing $v1.
+ *  - The 2nd argument of func_80138ED0 is u32, so the (u16) cast supplies the `andi 0xFFFF`.
+ *  - The `if (arg2 != 0) return 0;` tail check is redundant on the two call paths; gcc's
+ *    thread_jumps folds them straight to the return-0 tails (.L80138EB8 / .L80138EBC), and the
+ *    `*p = ...` store is cross-jumped between the +2 and +1 arms.
+ */
+#include "common.h"
+
+extern s32 D_80127548[];
+extern u8 D_800D3AB4[];
+extern s32 func_80138ED0(u8 *param_1, u32 param_2, u8 *param_3);
+
+s32 func_80138DE0(u8 *arg0, u8 arg1, s32 arg2) {
+    u16 *p;
+
+    if (D_80127548[0] == 0) {
+        return 0;
+    }
+    p = (u16 *)(arg0 + 0x44);
+    if ((*(u32 *)(arg0 + 8) & 0x400) == 0) {
+        p = (u16 *)(arg0 + 0x10);
+        if (*(s16 *)(arg0 + 4) == 8) {
+            p = (u16 *)(arg0 + 0x44);
+        }
+    }
+    if (arg1 >= 0xE0) {
+        arg2 = func_80138ED0(arg0, 0x1F, D_800D3AB4);
+        if (arg2 != 0) {
+            return 0;
+        }
+        *p = *p + 2;
+    } else if (arg1 >= 0x20) {
+        arg2 = func_80138ED0(arg0, (u16)(arg1 - 0x20), D_800D3AB4);
+        if (arg2 != 0) {
+            return 0;
+        }
+        *p = *p + 1;
+    }
+    if (arg2 != 0) {
+        return 0;
+    }
+    D_80127548[0] = D_80127548[0] - 1;
+    return D_80127548[0];
+}
+
 
 DEFINE_func_80138ED0()  /* dedup: shared engine-core @0x80138ed0 (src/shared) */
 
