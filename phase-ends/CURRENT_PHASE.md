@@ -2507,3 +2507,40 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   transform that does not exist yet; (c) the characterized permuter-class giants — token-FREE CPU, but
   blocked on pycparser refusing the `register __asm__` pins (`.run/giants` README, §66-adjacent tooling);
   (d) the Ghidra-C prefetch (a), which restores wave economics and needs `/mcp`.
+
+- **✅ 2026-07-24 (SESSION-17, high on Opus 5) — Task 17 / probe: THE PERMUTER *CAN* INGEST THE PINNED
+  GIANT DRAFTS — the `.run/giants` README's "pycparser/permuter CANNOT ingest it as-is" is REFUTED, and
+  `func_80177940` went 5 → 1 on the first bounded run.**
+  **THE INGESTION CLAIM, checked against the tool instead of the note (R35).** `p16_permute.setup` has a
+  **b64-pragma pin carrier** (Phase-24 T5) built for exactly `register T x __asm__("$sN")` pins and bare
+  `__asm__` statements: it rewrites each into `#pragma _permuter b64literal <b64>`, which pycparser parses
+  as an opaque node and decomp-permuter's own `process_pragmas` decodes back on emit. Measured on
+  `func_80177940`'s draft: **6 pins → 6 carriers, 0 raw `__asm__` left**, `target.o` built, `settings.toml`
+  carrying the §31 `schedule` profile. The README's warning is true of the RAW draft and false of the tool
+  built for it — the third recorded wall this session that dissolved on contact with the right tool.
+  **DRIFT-CHECKED FIRST (R14):** every preserved draft still reproduces its recorded closeness exactly —
+  `func_80177940` 101/101 ins **5 mismatched**, `func_8014D820` 304/304 **33**, `func_80176734` 369/371
+  **76**, `func_80140958` 260/260 **116**. And **`func_801670E4` (close=16) is already banked fleet-wide**
+  (0 binaries still stub it) — the preserved README is stale on that one; it is not work.
+  **THE RUN (900 s, -j12, §31 schedule profile): 5 → 4 → 3 → 2 → 1.** The permuter closed the exact
+  4-instruction residual the drafting agent had recorded as *not* steerable ("equal-priority
+  `birthing_insn_p` ties broken by INSN_LUID, not steerable from source order" — it swept all 6 assign
+  orders and all pin combos by hand). A randomized search over declaration/statement order moves the LUIDs
+  that a hand sweep cannot, which is precisely the division of labour §31 predicts.
+  **THE LAST INSTRUCTION, and what the bytes said about it.** Residual = idx 51 only: mine `andi
+  $a2,$v0,0xf` vs target `addu $a2,$v0,$zero`. The fix came from a **byte-verified sibling**:
+  `func_801778A8` (banked byte-identical, same family, same nibble walk) writes `nib = uVar1;` — a plain
+  copy — after the identical `(x << 16) >> 28` shift pair, with BOTH variables hard-pinned, which is what
+  materializes the `addu`. Dropping my redundant `& 0xf` alone **collapsed the copy entirely** (100 vs 101
+  ins, 52 mismatched — gcc reused one register), proving the target genuinely needs a distinct register
+  holding a copy, not just an unmasked value. Pinning the copy target to `$a2` (`register u32 n
+  __asm__("$6")`) + `n = nn;` restores **101/101 ins with 6 mismatched**, and `residual_class` now types
+  the remainder **`ADDRESSING` → [permuter], profile=cse** (which register holds the intermediate + one
+  store reorder) — so it is handed back to the permuter from the structurally-correct seed rather than
+  hand-designed. Runs in flight: `func_80177940` (seed=6, cse, -j12) and `func_8014D820` (seed=33,
+  regalloc, -j8).
+  **⚠️ TOOLING BUG FIXED (throughput):** `p16_permute.run_permuter`'s cleanup was
+  `pkill -f permuter/run_masked.py` — a pattern matching EVERY concurrent run, so two permuter processes
+  on the 32-thread box silently killed each other the moment the first timed out, with no error anywhere.
+  Scoped to the run's own scratch dir (which is in argv). This is what makes grinding several giants at
+  once safe, and it is why the giant queue had only ever been run one-at-a-time.

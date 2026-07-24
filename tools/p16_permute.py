@@ -233,8 +233,11 @@ def run_permuter(pd, secs, j):
                        cwd=REPO, env=env, capture_output=True, text=True, timeout=secs)
     except subprocess.TimeoutExpired:
         pass
-    # kill stragglers
-    subprocess.run(["pkill", "-f", "permuter/run_masked.py"], capture_output=True)
+    # Kill stragglers for THIS function only. The old pattern was `permuter/run_masked.py`, which
+    # matches EVERY concurrent run — so two p16_permute processes on a 32-thread box silently killed
+    # each other the moment the first one timed out, and the second's remaining budget vanished with
+    # no error anywhere. The scratch dir is in argv, so scope the pattern to it.
+    subprocess.run(["pkill", "-f", f"run_masked.py {pd}"], capture_output=True)
     # ONLY output-0-* is a true byte-match; output-<N>-* are intermediate bests (score N != 0)
     win = glob.glob(f"{pd}/output-0-*/source.c")
     return win[0] if win else None
