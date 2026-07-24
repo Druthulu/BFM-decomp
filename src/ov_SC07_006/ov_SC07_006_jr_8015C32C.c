@@ -8,16 +8,8 @@
  * Decls emit no code => byte-neutral. See cookbook §8c. */
 typedef struct { s32 w[8]; } Vec8;
 typedef struct { s32 m[3][3]; s32 t[3]; } MATRIX;
-typedef struct { s32 vx, vy, vz; } VECTOR;
 typedef struct { s16 h[8]; } Buf;
-typedef struct { char _b[8]; } M8;   /* size 8, alignment 1 -> unaligned copy */
-typedef struct { u16 f0, f2, f4; s16 f6; } Box_80133784;
-typedef struct { s16 x, y, z; } Vec3s;
-typedef struct { s32 f0; } E4;
-typedef struct { u16 f0; s16 f2; } Prim4;
-typedef struct { s16 x; s16 y; } Hw4;
-typedef struct { s32 f0; u32 *f4; s32 f8; s32 fC; s32 f10; } Rec20;
-typedef struct { u8 d[0x60]; } Blk60;
+   /* size 8, alignment 1 -> unaligned copy */
 extern void func_80128288(void);
 extern void func_80128158(void);
 extern void func_801285E4(void);
@@ -3676,7 +3668,6 @@ DEFINE_func_801608C0()  /* dedup: shared engine-core @0x801608c0 (src/shared) */
 // @class: struct
 // @stuck: none — MATCH (function-pointer table folds %lo via extern array indexed by halfword)
 
-typedef void (*code)(unsigned short *);
 
 
 extern u16 func_801487F4(s32 *a0);
@@ -4905,9 +4896,6 @@ DEFINE_func_80165124()  /* dedup: shared engine-core @0x80165124 (src/shared) */
 // combine_givs split the field offsets into a second pointer IV (+2 ins).
 
 
-typedef struct { u8 d[8]; } __attribute__((packed, aligned(1))) B8_80165140;
-typedef struct { u8 d[4]; } __attribute__((packed, aligned(1))) B4;
-typedef struct { B8_80165140 a; B4 b; s32 used; } Slot;
 
 
 s32 func_80165140(s32 param_1) {
@@ -4959,7 +4947,6 @@ void func_801651B8(void * param_1)
 }
 
 
-struct W4 { u32 w; } __attribute__((packed, aligned(1)));
 extern void func_80016ED4(void *a0);
 extern s32 func_80017DC4(void *a0, void *a1);
 
@@ -5510,45 +5497,11 @@ extern s32 func_801670E4(s32, s32, s32, s32);
 extern s32 func_80146A6C(s32, void*, s32, s32, s32, s32, s32);
 extern void func_80146C3C();
 
-typedef struct { s32 m[8]; } Mat_80167540; /* 0x20 bytes */
+ /* 0x20 bytes */
 
-struct Src_80167540 {
-    u8 pad0[0x34];
-    Mat_80167540 mat;          /* 0x34 */
-};
 
-struct Sub2_80167540 {
-    u8 pad0[0x44];
-    s32 unk44;        /* 0x44 */
-};
 
-struct Node_80167540 {
-    /* 0x0 */ u16 unk0;
-    u8 pad2[0x4];
-    /* 0x6 */ s16 unk6;
-    u8 pad8[0x2];
-    /* 0xA */ s16 unkA;
-    u8 padC[0x2];
-    /* 0xE */ s16 unkE;
-    u8 pad10[0x10];
-    /* 0x20 */ struct Src_80167540 *unk20;
-    u8 pad24[0x28];
-    /* 0x4C */ struct Sub2_80167540 *unk4C;
-};
 
-struct Entity_80167540 {
-    /* 0x0 */ s16 unk0;
-    /* 0x2 */ u16 unk2;
-    u8 pad4[0xC];
-    /* 0x10 */ s16 unk10;
-    /* 0x12 */ s16 unk12;
-    u8 pad14[0x8];
-    /* 0x1C */ s32 unk1C;
-    u8 pad20[0x10];
-    /* 0x30 */ s32 unk30;
-    /* 0x34 */ struct Node_80167540 *unk34;
-    /* 0x38 */ Mat_80167540 mat;
-};
 
 
 s32 func_80167540(s32 arg0) {
@@ -6106,7 +6059,6 @@ extern void func_800491AC(void *a0);
 extern s32 RotTransPers(s32 a0, s32 a1, s32 *a2, s32 *a3);
 extern void func_80016ED4(void *a0);
 
-typedef struct { s16 ax, ay, a04, a06, bx, by, b0c, b0e, cx, cy, c14, c16, dx, dy, d1c, d1e, u0, v0, u1, v1, u2, v2, u3, v3; u8 r, g, b, pad33; s32 tag; u8 code, pad39, pad3a, pad3b; s32 pad3c; } Prim_B234;
 
 void func_8016B234(s32 param_1) {
 
@@ -6473,9 +6425,7 @@ DEFINE_func_8016C83C()  /* dedup: shared engine-core @0x8016c83c (src/shared) */
 
 extern short func_8016CBC0(void);
 extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
-typedef struct { u8 f0; u8 pad[0xc3]; } Slot_998;
 
-typedef struct { s32 w[8]; } Blk32_998;
 
 void func_8016C998(s32 param_1)
 {
@@ -6698,8 +6648,8 @@ void func_8016D19C(void *a0) {
 
 
 
-typedef struct { short vx, vy, vz, pad; } SVEC_L1;   /* 8 bytes */
-typedef struct { int a[8]; } MTX_L1;                 /* 32 bytes */
+   /* 8 bytes */
+                 /* 32 bytes */
 
 
 extern void func_801465C0(void);
@@ -8695,7 +8645,7 @@ DEFINE_func_801752BC()  /* dedup: shared engine-core @0x801752bc (src/shared) */
 // (lh for signed read, *(u16*)q for the lhu ^1 read).
 #include "common.h"
 
-typedef struct { u32 w[38]; } Blk152; /* 0x98 = 152 bytes */
+ /* 0x98 = 152 bytes */
 
 extern u8  D_8011F7A8;
 extern u8  D_8011F7A9;

@@ -1822,3 +1822,40 @@ a tail-of-session push. **The CLEAN 2-type lift (Mat32+Cam8012E138, +276) stands
 lever; the broad lift is a follow-up with the harder strip/vet. `lift_types.py`'s topo-sort is kept (correct +
 needed for any future multi-type lift). Doctrine unchanged: classify-first, lift the truly-conflict-free
 types, and let R22 arbitrate — it did.
+
+## 2026-07-23 (Phase 29, SESSION-14) — the broad §20 lift LANDS (154 types, R22 140/140); all three carried "blockers" were misdiagnosed
+
+**Context + belief.** SESSION-13 closed the broad lift at "139/140-close, needs (a) full name-collision
+vetting (case-variant + struct-tag/typedef aliasing) and (b) a strip that is exact against the -O0 file
+format — both real tool work." I opened by treating that as the spec.
+
+**What actually failed.** Fixing the instrument before trusting its readings (R35) changed all three answers:
+1. **(a) is not a naming problem.** `actor4c`/`Actor4C` is a single TAGGED TYPEDEF counted twice with
+   OVERLAPPING spans — 13 such pairs / 6,142 occurrences fleet-wide, 0 with a standalone tag. The
+   case-insensitive exclude that appeared to fix it was a heuristic over a structural fact, and would have
+   wrongly dropped the legitimate `Obj`/`obj` and `Vec`/`vec` pairs. `build_engine_types` had solved this
+   correctly since Phase 26-A; `lift_types` simply carried its own copy of the model (the R33 failure mode).
+2. **(b) is not strip precision.** `ov_SC01_077_o0.c` is the 1 TU of 3,226 that deliberately omits
+   `engine_core.h`. Stripping its types deleted them; `multiple definition of D_801DAA08` was three steps
+   downstream (undeclared type → parse error → implicit int → tentative definition → link collision). The
+   link error named a data symbol that no diff ever touched, which is why the strip-span theory survived.
+3. **A third blocker, introduced by me this session.** `--candidates` classifies per ENTITY but emits per
+   NAME; passing `Prim` dragged in the deferred VARIANT `typedef Prim`, repointing 103 overlays at the
+   header's different layout. Compiled clean; per-binary pre-filter green; **R22 37/140**, and the 103
+   failures were exactly the 103 Prim-stripped overlays (set equality).
+
+**The pivot.** Three guards, each at the point of mutation rather than in the selector: one shared
+containment model (R33), a pairwise-disjointness assertion (R32), a header-visibility check, and the strip
+invariant *"remove a local def only if what becomes visible is textually identical to it."* A selector bug
+can no longer reach the source. Byte-grounded: R22 **140/140**, `engine_types.h` +510 lines, 2,958 files.
+
+**Hindsight — the better path.** Two of my own measurements lied before the tools did: an `__attribute__`
+regex artifact invented a "defs that also declare an object" class (zero real instances — I nearly built a
+`cdecl` vetter for it), and a `while read` loop counted the literal string `check-all:` as an overlay. R14
+applies to the three-line script I just wrote, not only to sub-agents. And the pre-filter lesson generalises
+§61 one level down: **a pre-filter is evidence only about what it filtered** — `ov_SC01_077` passed the
+Prim-broken run too. Pre-filter on a binary that FAILED.
+
+**Deferred, named, not dropped:** 8 VARIANT entities (MATRIX 3-def, Buf 3-def, Vec8, Prim, Handler, Blk8,
+V8, Prim_8016E7C8) for the per-camp field-access reconcile — still the remaining hard part of roadmap B4;
+14 carried tags; 5 types kept local in the -O0 TU.

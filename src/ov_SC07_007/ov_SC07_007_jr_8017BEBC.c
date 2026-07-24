@@ -8,26 +8,10 @@
  * Decls emit no code => byte-neutral. See cookbook §8c. */
 typedef struct { s32 w[8]; } Vec8;
 typedef struct { s32 m[3][3]; s32 t[3]; } MATRIX;
-typedef struct { s32 vx, vy, vz; } VECTOR;
 typedef struct { s16 h[8]; } Buf;
-typedef struct { char _b[8]; } M8;   /* size 8, alignment 1 -> unaligned copy */
-typedef struct { u16 f0, f2, f4; s16 f6; } Box_80133784;
-typedef struct { s16 x, y, z; } Vec3s;
-typedef struct { s32 f0; } E4;
-typedef struct { u16 f0; s16 f2; } Prim4;
-typedef struct { s16 x; s16 y; } Hw4;
-typedef struct { s32 f0; u32 *f4; s32 f8; s32 fC; s32 f10; } Rec20;
-typedef struct { u8 d[0x60]; } Blk60;
-typedef void (*code)(unsigned short *);
-typedef struct { u8 d[8]; } __attribute__((packed, aligned(1))) B8_80165140;
-typedef struct { u8 d[4]; } __attribute__((packed, aligned(1))) B4;
-typedef struct { B8_80165140 a; B4 b; s32 used; } Slot;
-typedef struct { u8 b[8]; } Blk8_8017B238;
-typedef struct { s16 a, b, c, d; } SV4_8017B368;      /* 8 bytes, align 2 -> lwl/lwr/swl/swr copy */
-typedef struct { SV4_8017B368 x, y; } Pair16;         /* 16-byte stride array element */
-typedef struct { unsigned char b[8]; } S8_8017B8E8;
-typedef struct { s16 a, b, c, d; } SV4_8017BB34;
-typedef struct { s16 m[3][3]; s16 pad; s32 t[3]; } MTX_8017BB34;
+   /* size 8, alignment 1 -> unaligned copy */
+      /* 8 bytes, align 2 -> lwl/lwr/swl/swr copy */
+         /* 16-byte stride array element */
 extern void func_80128288(void);
 extern void func_80128158(void);
 extern void func_801285E4(void);
@@ -3339,15 +3323,7 @@ extern void func_8017BEB4(void);
 
 void func_8017BEBC(s32 arg0)
 {
-    typedef struct { s16 vx, vy; } DVECTOR2;
-    typedef struct { s16 vx, vy, vz, pad; } SVECTOR2;
-    typedef struct { s16 m[3][3]; s32 t[3]; } MATRIX2;
-    typedef struct { u32 xx, yy, zz; u32 nprim; u32 *prim; } Part;
     typedef struct { u32 w0, w1, w2; } Prim;
-    typedef struct { u32 tag, rgbc; s16 x0, y0, x1, y1, x2, y2; } PolyF3;
-    typedef struct { u32 tag, rgbc; s16 x0, y0; u32 uvc0; s16 x1, y1; u32 uvp1; s16 x2, y2; u16 uv2, p2; } PolyFT3;
-    typedef struct { u32 tag, rgbc; s16 x0, y0, x1, y1, x2, y2, x3, y3; } PolyF4;
-    typedef struct { u32 tag, rgbc; s16 x0, y0; u32 uvc0; s16 x1, y1; u32 uvp1; s16 x2, y2; u16 uv2, p2; s16 x3, y3; u16 uv3, p3; } PolyFT4;
 
     extern s32 func_800491EC(void);
     extern void func_800547D8(s32, MATRIX2 *);

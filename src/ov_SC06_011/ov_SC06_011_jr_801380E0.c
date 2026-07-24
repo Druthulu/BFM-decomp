@@ -6,47 +6,9 @@
  * file-local types, col-0 decls, DEFINE_func macro externs, and each earlier
  * definition's implied prototype (types first, then decls in original order).
  * Decls emit no code => byte-neutral. See cookbook §8c. */
-typedef struct { int a; short cmd; short b; } Elem_8012ACE0_8012ACE0;      /* 8-byte element, cmd @ +4 */
-typedef struct { char pad[0x90]; Elem_8012ACE0_8012ACE0 *list; } Owner_8012ACE0_8012ACE0;    /* list ptr @ +0x90 */
-struct S8012D664_8012D664 { short a, b, c; };
-typedef struct Entry_8012DDA4 {
-    u16 active;
-    unsigned char pad[0x10C - 2];
-} Entry_8012DDA4;
-typedef struct { char _b[8]; } M8_801312D0;   /* size 8, alignment 1 -> unaligned copy */
-typedef struct { u16 f0, f2, f4; s16 f6; } Box_80133784;
-typedef struct {
-    u16 f0;   /* 0x0 */
-    u16 f2;   /* 0x2 */
-    u16 f4;   /* 0x4 */
-    s16 f6;   /* 0x6 */
-} Foo_80134510_80134510;
-typedef struct {
-    /* 0x00 */ u16 f0;
-    /* 0x02 */ s16 f2;
-    /* 0x04 */ s16 f4;
-    /* 0x06 */ s16 f6;
-    /* 0x08 */ s16 f8;
-    /* 0x0A */ s16 fa;
-    /* 0x0C */ s16 fc;
-    /* 0x0E */ s16 fe;
-    /* 0x10 */ s16 f10;
-    /* 0x12 */ s16 f12;
-    /* 0x14 */ s16 f14;
-} S0_801347A0;
-typedef struct {
-    /* 0x0 */ s16 f0;
-    /* 0x2 */ s16 f2;
-    /* 0x4 */ s16 f4;
-    /* 0x6 */ s16 f6;
-} Elem_801347A0;
-typedef struct {
-    /* 0x0 */ u16 f0;
-    /* 0x2 */ u16 f2;
-    /* 0x4 */ u16 f4;
-    /* 0x6 */ u16 f6;
-} SVec_801347A0;
-typedef struct { char s[10]; } S10_80136C90;
+      /* 8-byte element, cmd @ +4 */
+    /* list ptr @ +0x90 */
+   /* size 8, alignment 1 -> unaligned copy */
 extern void func_80128288(void);
 extern void func_80128158(void);
 extern void func_801285E4(void);
@@ -1268,7 +1230,6 @@ DEFINE_func_8013AB54()  /* dedup: shared engine-core @0x8013AB54 (src/shared) */
 //   still merges the sb). out2[i]=out2[0] tail-copy of the align-2 Pair_8013AD38 emits lwl/lwr/swl/swr.
 #include "common.h"
 
-typedef struct { s16 x, y; } Pair_8013AD38;
 
 extern s16 D_800D45F4[];   /* src0 (flat: [2*i]=x, [2*i+1]=y) */
 extern u8  D_80180B20[];   /* sign table, alt (when a1 < 0xC00) */
@@ -1616,8 +1577,6 @@ void func_8013CB5C(void) {
 
 
 
-typedef struct { s32 a, b, c; } Rec12;
-typedef struct { s32 a, b; s8 c; } __attribute__((packed, aligned(1))) Rec9;
 
 extern s16 currentLocationId;
 extern s32 D_801AA9A8;
@@ -1984,7 +1943,7 @@ void func_8013D3D4(int param_1, int param_2)
 
 
 
-typedef struct { u8 b[9]; } S9;   /* 9-byte, align-1 -> unaligned block copy */
+   /* 9-byte, align-1 -> unaligned block copy */
 
 
 extern s32 D_801AA9B8;
@@ -2391,9 +2350,8 @@ void func_8013DBE4(int param_1)
 // @class: regalloc-order
 // @stuck: none — MATCH (187 ins). Levers: struct-assign DRAWENV copy (align via type); pbase local for $s2-relative D_800B9A02; two-biv SPRT loop (q anchored one-above -> gcc re-anchors, no bare-deref); P_TAG_8013DD68 addPrim; single p var coalesces puVar7->puVar15; pins uVar2=$v1,iVar14=$a3,c5=$t3; biv-increment order sets q-init-before-puVar10-init; Buf_8013DD68 0x68 -> frame 0xA0.
 
-typedef struct { u32 addr : 24; u32 len : 8; u8 r0, g0, b0, code; } P_TAG_8013DD68;
-typedef struct { u32 w[23]; } DrawEnv_8013DD68;              /* 0x5C copy unit, align 4 */
-typedef struct { DrawEnv_8013DD68 env; u8 pad[0x0C]; } Buf_8013DD68;  /* -> frame 0xA0 (gcc adds 0x10 for the struct-copy) */
+              /* 0x5C copy unit, align 4 */
+  /* -> frame 0xA0 (gcc adds 0x10 for the struct-copy) */
 
 
 #define IDVAL (*(u16 *)(pbase + 0xA3D2))
@@ -2797,7 +2755,6 @@ extern unsigned char *func_80141CA4(void);
 //   Conflict-safe externs: asm-alias `aD80115188` (file-scope decl is scalar `s32 D_80115188`); `(u16)`
 //   cast on the `s16 D_801817C8` read for the `lhu`; `D_80115168` is undeclared elsewhere in the TU.
 
-typedef struct { s32 f0; } E4;
 
 
 

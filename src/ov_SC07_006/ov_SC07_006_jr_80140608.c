@@ -8,16 +8,8 @@
  * Decls emit no code => byte-neutral. See cookbook §8c. */
 typedef struct { s32 w[8]; } Vec8;
 typedef struct { s32 m[3][3]; s32 t[3]; } MATRIX;
-typedef struct { s32 vx, vy, vz; } VECTOR;
 typedef struct { s16 h[8]; } Buf;
-typedef struct { char _b[8]; } M8;   /* size 8, alignment 1 -> unaligned copy */
-typedef struct { u16 f0, f2, f4; s16 f6; } Box_80133784;
-typedef struct { s16 x, y, z; } Vec3s;
-typedef struct { s32 f0; } E4;
-typedef struct { u16 f0; s16 f2; } Prim4;
-typedef struct { s16 x; s16 y; } Hw4;
-typedef struct { s32 f0; u32 *f4; s32 f8; s32 fC; s32 f10; } Rec20;
-typedef struct { u8 d[0x60]; } Blk60;
+   /* size 8, alignment 1 -> unaligned copy */
 extern void func_80128288(void);
 extern void func_80128158(void);
 extern void func_801285E4(void);
@@ -3805,17 +3797,9 @@ DEFINE_func_8014FDF4()  /* dedup: shared engine-core @0x8014fdf4 (src/shared) */
 extern s32 func_8014FFDC(s32 param_1, void *a1, void *a2);
 extern s32 func_80150150(s32, s32);
 
-typedef struct {
-    u8 b[8];
-} Blob8;
 
 extern u8 D_801152A8[];
 
-typedef struct {
-    u16 x;
-    s16 y;
-    u16 z;
-} Vec3h;
 
 s32 func_8014FE60(int param_1) {
     s32 iVar5;

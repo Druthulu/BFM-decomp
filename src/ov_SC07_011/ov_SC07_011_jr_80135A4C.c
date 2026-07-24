@@ -8,11 +8,8 @@
  * Decls emit no code => byte-neutral. See cookbook §8c. */
 typedef struct { s32 w[8]; } Vec8;
 typedef struct { s32 m[3][3]; s32 t[3]; } MATRIX;
-typedef struct { s32 vx, vy, vz; } VECTOR;
 typedef struct { s16 h[8]; } Buf;
-typedef struct { char _b[8]; } M8;   /* size 8, alignment 1 -> unaligned copy */
-typedef struct { u16 f0, f2, f4; s16 f6; } Box_80133784;
-typedef struct { s16 x, y, z; } Vec3s;
+   /* size 8, alignment 1 -> unaligned copy */
 extern void func_80128288(void);
 extern void func_80128158(void);
 extern void func_801285E4(void);
@@ -550,9 +547,7 @@ extern s16 func_80135480(void *param_1, s32 param_2, s16 *param_3, s16 *param_4)
 
 
 s32 func_80135A4C(s32 a0, s32 a1, s32 *a2, s32 a3) {
-    typedef struct { u16 f0, f2, f4; s16 f6; } Box;
     typedef struct { s8 c[8]; } Blk8;
-    typedef struct { s16 x, y, z; } V3;
     extern s16 func_80135480(void *param_1, s32 param_2, s16 *param_3, s16 *param_4);
     extern s32 func_80135EB0(s32 *p, s32 v);
     extern s32 func_80136A94(s32 a0, s32 a1, s32 a2, s32 a3);

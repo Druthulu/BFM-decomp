@@ -8,16 +8,8 @@
  * Decls emit no code => byte-neutral. See cookbook §8c. */
 typedef struct { s32 w[8]; } Vec8;
 typedef struct { s32 m[3][3]; s32 t[3]; } MATRIX;
-typedef struct { s32 vx, vy, vz; } VECTOR;
 typedef struct { s16 h[8]; } Buf;
-typedef struct { char _b[8]; } M8;   /* size 8, alignment 1 -> unaligned copy */
-typedef struct { u16 f0, f2, f4; s16 f6; } Box_80133784;
-typedef struct { s16 x, y, z; } Vec3s;
-typedef struct { s32 f0; } E4;
-typedef struct { u16 f0; s16 f2; } Prim4;
-typedef struct { s16 x; s16 y; } Hw4;
-typedef struct { s32 f0; u32 *f4; s32 f8; s32 fC; s32 f10; } Rec20;
-typedef struct { u8 d[0x60]; } Blk60;
+   /* size 8, alignment 1 -> unaligned copy */
 extern void func_80128288(void);
 extern void func_80128158(void);
 extern void func_801285E4(void);
@@ -3671,7 +3663,6 @@ DEFINE_func_801608C0()  /* dedup: shared engine-core @0x801608c0 (src/shared) */
 // @class: struct
 // @stuck: none — MATCH (function-pointer table folds %lo via extern array indexed by halfword)
 
-typedef void (*code)(unsigned short *);
 
 
 extern u16 func_801487F4(s32 *a0);
@@ -4900,9 +4891,6 @@ DEFINE_func_80165124()  /* dedup: shared engine-core @0x80165124 (src/shared) */
 // combine_givs split the field offsets into a second pointer IV (+2 ins).
 
 
-typedef struct { u8 d[8]; } __attribute__((packed, aligned(1))) B8_80165140;
-typedef struct { u8 d[4]; } __attribute__((packed, aligned(1))) B4;
-typedef struct { B8_80165140 a; B4 b; s32 used; } Slot;
 
 
 s32 func_80165140(s32 param_1) {
@@ -4954,7 +4942,6 @@ void func_801651B8(void * param_1)
 }
 
 
-struct W4 { u32 w; } __attribute__((packed, aligned(1)));
 extern void func_80016ED4(void *a0);
 extern s32 func_80017DC4(void *a0, void *a1);
 
@@ -5875,7 +5862,6 @@ extern void func_800491AC(void *a0);
 extern s32 RotTransPers(s32 a0, s32 a1, s32 *a2, s32 *a3);
 extern void func_80016ED4(void *a0);
 
-typedef struct { s16 ax, ay, a04, a06, bx, by, b0c, b0e, cx, cy, c14, c16, dx, dy, d1c, d1e, u0, v0, u1, v1, u2, v2, u3, v3; u8 r, g, b, pad33; s32 tag; u8 code, pad39, pad3a, pad3b; s32 pad3c; } Prim_B234;
 
 void func_8016B234(s32 param_1) {
 
@@ -6242,9 +6228,7 @@ DEFINE_func_8016C83C()  /* dedup: shared engine-core @0x8016c83c (src/shared) */
 
 extern short func_8016CBC0(void);
 extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
-typedef struct { u8 f0; u8 pad[0xc3]; } Slot_998;
 
-typedef struct { s32 w[8]; } Blk32_998;
 
 void func_8016C998(s32 param_1)
 {
@@ -6467,8 +6451,8 @@ void func_8016D19C(void *a0) {
 
 
 
-typedef struct { short vx, vy, vz, pad; } SVEC_L1;   /* 8 bytes */
-typedef struct { int a[8]; } MTX_L1;                 /* 32 bytes */
+   /* 8 bytes */
+                 /* 32 bytes */
 
 
 extern void func_801465C0(void);

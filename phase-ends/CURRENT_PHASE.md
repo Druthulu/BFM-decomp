@@ -1633,3 +1633,44 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 > **▶ NEXT:** (1) the variant-reconcile pass for MATRIX/Vec8/Buf (per-camp: pick canonical, rewrite variant
 > field-access, R22) — unblocks func_80175308/func_8012A1BC + many fleet-wide; (2) the ~13 staged near/plumbing
 > batch-2 bodies (`.run/drafts-sc07006-fresh/`) via gate_stage; (3) next fresh-138 GIANT-family wave.
+
+- **✅ 2026-07-23 (SESSION-14, Max) — THE BROAD §20 TYPE-LIFT LANDS: 154 types fleet-wide, R22 140/140.**
+  The three-session-carried blocker ("needs collision-vetting + -O0 strip precision") was **misdiagnosed on
+  all three counts** — fixing the instrument first (R35) changed every answer. Cookbook **§64**, decision-log.
+  **(1) The "case-variant collision" is a TAGGED TYPEDEF counted twice.** `typedef struct Tag {...} Alias;`
+  is matched by BOTH finders with OVERLAPPING spans → the inner span (starting at `struct`) is emitted as a
+  *variable definition*, the alias is redeclared, and the strip deletes highest-first so the outer span's end
+  offset is STALE and over-deletes. MEASURED: **13 pairs / 6,142 occurrences, 0 standalone tags.**
+  `build_engine_types.resolve_type_defs()` is now the ONE shared model (R33); `assert_disjoint()` enforces
+  span disjointness at every mutation (R32). The case-insensitive exclude was a heuristic over a structural
+  fact — and would have wrongly dropped the legitimate `Obj`/`obj` + `Vec`/`vec` pairs. Key by (kind, name).
+  **(2) The "-O0 strip precision" bug is a VISIBILITY bug.** `ov_SC01_077_o0.c` is the **1 TU of 3,226** that
+  deliberately omits `engine_core.h`. Stripping its types DELETED them; `multiple definition of D_801DAA08`
+  was three steps downstream (undeclared → parse error → implicit int → tentative def → link collision),
+  naming a data symbol no diff ever touched. `bet.type_visible()` derives the visible-header set from the
+  include graph and keeps such defs local, named.
+  **(3) A third blocker, mine, caught by R22: `--candidates` classifies per ENTITY but emits per NAME.**
+  Passing `Prim` dragged in the deferred VARIANT `typedef Prim`, repointing 103 overlays at the header's
+  different layout. Compiled clean; the per-binary pre-filter passed; **R22 37/140** — and the 103 failures
+  were **exactly** the 103 Prim-stripped overlays (set equality, byte-verified). Fixed by the strip invariant
+  *"remove a local def only if what becomes visible is TEXTUALLY IDENTICAL"*, placed at the mutation so a
+  selector bug cannot reach the source; divergent copies reported as per-camp reconcile work.
+  **RESULT: 154 types lifted, 2,958 files stripped, `engine_types.h` +510 lines, R22 clean-fleet 140/140
+  BYTE-IDENTICAL** (attempt 2; attempt 1 correctly refused). Negative controls: `assert_disjoint` refuses the
+  overlap shape; forcing `--types Prim` now refuses all 103 divergent copies and strips only the 1 that matches.
+  **DEFERRED + NAMED (not dropped):** 8 VARIANT entities (MATRIX 3-def, Buf 3-def, Vec8, Prim, Handler, Blk8,
+  V8, Prim_8016E7C8) = the per-camp field-access reconcile, still the hard part of roadmap B4; 14 carried
+  tags; 5 types kept local in the -O0 TU.
+  **SEQUENCING LESSON (§61 one level down):** `make build BINARY=ov_SC01_077` reproduced the -O0 failure in
+  **0.26 s** with a compile error naming the 5 affected types, where the fleet cycle gave a link error naming
+  an unrelated symbol — but a pre-filter is evidence ONLY about what it filtered (ov_SC01_077 passed the
+  Prim-broken run too). **Pre-filter on a binary that FAILED.**
+  **TWO SELF-INFLICTED MEASUREMENT ERRORS (R14 applies to my own 3-line scripts):** an `__attribute__` regex
+  artifact invented a "defs that also declare an object" class (zero real instances — I nearly built a cdecl
+  vetter for it), and a `while read` loop counted the literal string `check-all:` as an overlay name.
+  **GATES:** R22 clean-fleet **140/140 byte-identical**; `tools-health` OK (corpus 0 PHANTOM/0 TRUNCATED,
+  cdecl ALL ORACLES GREEN, audit-binaries 140 full citizens, **dedup-check 1854 validated / 0 failed**,
+  C1 235170/235170); 0 NON_MATCHING in any default build (G4).
+  **METRICS UNCHANGED — 79.0% instr · 67.6% distinct · 88.38% fn-count.** Expected and honest (P9): a
+  type-lift banks NO functions. Its value is removing the §20 cap that stops already-matched cores from
+  propagating ×138 — the yield shows up in the NEXT propagate, not here.

@@ -6,50 +6,11 @@
  * file-local types, col-0 decls, DEFINE_func macro externs, and each earlier
  * definition's implied prototype (types first, then decls in original order).
  * Decls emit no code => byte-neutral. See cookbook §8c. */
-typedef struct { int a; short cmd; short b; } Elem_8012ACE0_8012ACE0;      /* 8-byte element, cmd @ +4 */
-typedef struct { char pad[0x90]; Elem_8012ACE0_8012ACE0 *list; } Owner_8012ACE0_8012ACE0;    /* list ptr @ +0x90 */
-struct S8012D664_8012D664 { short a, b, c; };
-typedef struct Entry_8012DDA4 {
-    u16 active;
-    unsigned char pad[0x10C - 2];
-} Entry_8012DDA4;
+      /* 8-byte element, cmd @ +4 */
+    /* list ptr @ +0x90 */
 typedef struct { s32 m[3][3]; s32 t[3]; } MATRIX;
-typedef struct { s32 vx, vy, vz; } VECTOR;
 typedef struct { s16 h[8]; } Buf;
-typedef struct { char _b[8]; } M8_801312D0;   /* size 8, alignment 1 -> unaligned copy */
-typedef struct { u16 f0, f2, f4; s16 f6; } Box_80133784;
-typedef struct { s16 x, y, z; } Vec3s;
-typedef struct {
-    u16 f0;   /* 0x0 */
-    u16 f2;   /* 0x2 */
-    u16 f4;   /* 0x4 */
-    s16 f6;   /* 0x6 */
-} Foo_80134510_80134510;
-typedef struct {
-    /* 0x00 */ u16 f0;
-    /* 0x02 */ s16 f2;
-    /* 0x04 */ s16 f4;
-    /* 0x06 */ s16 f6;
-    /* 0x08 */ s16 f8;
-    /* 0x0A */ s16 fa;
-    /* 0x0C */ s16 fc;
-    /* 0x0E */ s16 fe;
-    /* 0x10 */ s16 f10;
-    /* 0x12 */ s16 f12;
-    /* 0x14 */ s16 f14;
-} S0_801347A0;
-typedef struct {
-    /* 0x0 */ s16 f0;
-    /* 0x2 */ s16 f2;
-    /* 0x4 */ s16 f4;
-    /* 0x6 */ s16 f6;
-} Elem_801347A0;
-typedef struct {
-    /* 0x0 */ u16 f0;
-    /* 0x2 */ u16 f2;
-    /* 0x4 */ u16 f4;
-    /* 0x6 */ u16 f6;
-} SVec_801347A0;
+   /* size 8, alignment 1 -> unaligned copy */
 extern void func_80128288(void);
 extern void func_80128158(void);
 extern void func_801285E4(void);
@@ -1095,7 +1056,6 @@ void func_80136C54(void)
 // @class: struct
 // @stuck: none — MATCH (28 ins). 10-byte 1-aligned struct copy (S10_80136C90{char s[10]}) from global D_801E59E8 into a stack buffer, then func_8001534C(0,&buf,0x78,0x10,0,0). gcc emits the block move as 2 unaligned words (lwl/lwr+swl/swr) + 2 bytes (lb/sb).
 
-typedef struct { char s[10]; } S10_80136C90;
 
 s32 func_80136C90()
 {

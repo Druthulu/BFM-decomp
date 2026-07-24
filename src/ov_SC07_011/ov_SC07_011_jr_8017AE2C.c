@@ -8,26 +8,10 @@
  * Decls emit no code => byte-neutral. See cookbook §8c. */
 typedef struct { s32 w[8]; } Vec8;
 typedef struct { s32 m[3][3]; s32 t[3]; } MATRIX;
-typedef struct { s32 vx, vy, vz; } VECTOR;
 typedef struct { s16 h[8]; } Buf;
-typedef struct { char _b[8]; } M8;   /* size 8, alignment 1 -> unaligned copy */
-typedef struct { u16 f0, f2, f4; s16 f6; } Box_80133784;
-typedef struct { s16 x, y, z; } Vec3s;
-typedef struct { s32 f0; } E4;
-typedef struct { u16 f0; s16 f2; } Prim4;
-typedef struct { s16 x; s16 y; } Hw4;
-typedef struct { s32 f0; u32 *f4; s32 f8; s32 fC; s32 f10; } Rec20;
-typedef struct { u8 d[0x60]; } Blk60;
-typedef void (*code)(unsigned short *);
-typedef struct { u8 d[8]; } __attribute__((packed, aligned(1))) B8_80165140;
-typedef struct { u8 d[4]; } __attribute__((packed, aligned(1))) B4;
-typedef struct { B8_80165140 a; B4 b; s32 used; } Slot;
-struct W4 { u32 w; } __attribute__((packed, aligned(1)));
-typedef struct { s16 ax, ay, a04, a06, bx, by, b0c, b0e, cx, cy, c14, c16, dx, dy, d1c, d1e, u0, v0, u1, v1, u2, v2, u3, v3; u8 r, g, b, pad33; s32 tag; u8 code, pad39, pad3a, pad3b; s32 pad3c; } Prim_B234;
-typedef struct { u8 f0; u8 pad[0xc3]; } Slot_998;
-typedef struct { s32 w[8]; } Blk32_998;
-typedef struct { short vx, vy, vz, pad; } SVEC_L1;   /* 8 bytes */
-typedef struct { int a[8]; } MTX_L1;                 /* 32 bytes */
+   /* size 8, alignment 1 -> unaligned copy */
+   /* 8 bytes */
+                 /* 32 bytes */
 extern void func_80128288(void);
 extern void func_80128158(void);
 extern void func_801285E4(void);
@@ -3409,8 +3393,8 @@ INCLUDE_ASM("asm/ov_SC07_011/nonmatchings/ov_SC07_011_jr_8017AE2C", func_8017B23
 // @class: struct
 // @stuck: none — MATCH (74 ins)
 
-typedef struct { s16 a, b, c, d; } SV4_8017B368;      /* 8 bytes, align 2 -> lwl/lwr/swl/swr copy */
-typedef struct { SV4_8017B368 x, y; } Pair16;         /* 16-byte stride array element */
+      /* 8 bytes, align 2 -> lwl/lwr/swl/swr copy */
+         /* 16-byte stride array element */
 
 
 
@@ -3508,7 +3492,6 @@ extern void func_8012A018(s32 a, s32 b);
 // reference — TU-independent, so the sibling TU's `extern memcpy` (which disables the builtin and
 // turned the old inlined block-move into a CALL) can no longer drift this.
 
-typedef struct { u8 b[8]; } Blk8_8017B614;
 
 
 
@@ -3664,7 +3647,6 @@ void func_8017B880(void)
 
 
 
-typedef struct { unsigned char b[8]; } S8_8017B8E8;
 
 
 s32 func_8017B8E8(s32 src) {
@@ -3735,8 +3717,6 @@ extern void func_8004914C(void *a0);
 extern void func_800491AC(void *a0);
 extern void func_80049CAC(s32 a0, s32 a1);
 
-typedef struct { s16 a, b, c, d; } SV4_8017BB34;
-typedef struct { s16 m[3][3]; s16 pad; s32 t[3]; } MTX_8017BB34;
 
 
 

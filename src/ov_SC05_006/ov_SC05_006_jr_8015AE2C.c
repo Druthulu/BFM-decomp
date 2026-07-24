@@ -7,13 +7,6 @@
  * file-local types, col-0 decls, DEFINE_func macro externs, and each earlier
  * definition's implied prototype (types first, then decls in original order).
  * Decls emit no code => byte-neutral. See cookbook §8c. */
-struct Ent_801506A4 {
-    unsigned short unk0;    /* 0x0 */
-    char pad[0x5A];
-    unsigned short unk5C;   /* 0x5C */
-    char pad2[0x12];
-    short unk70;            /* 0x70 */
-};
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
 extern s32 D_800AE6B0;

@@ -761,7 +761,6 @@ DEFINE_func_8012A304()  /* dedup: shared engine-core @0x8012A304 (src/shared) */
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_a", func_8012A328);
 
 
-struct Q16 { s32 a, b, c, d; };
 
 extern s32 D_801151D4;
 extern struct BigCopy D_80114EE8;

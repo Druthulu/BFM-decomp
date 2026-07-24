@@ -35,7 +35,6 @@ extern s32 func_801758FC(void);                          /* derive-decl, arity 0
  * file-local types, col-0 decls, DEFINE_func macro externs, and each earlier
  * definition's implied prototype (types first, then decls in original order).
  * Decls emit no code => byte-neutral. See cookbook §8c. */
-struct Q16 { s32 a, b, c, d; };
 typedef struct { s32 w[8]; } Vec8;
 extern void func_80128288(void);
 extern void func_80128158(void);
@@ -296,8 +295,8 @@ extern void func_8012ACA0(void *arg0);
 
 // @class: iv-combine
 // @stuck: none — MATCH (25 ins). Array-subscript induction o->list[i] fixes preheader hoist order + loop-top load-delay nop; scattered case labels force the jump table (gcc merges contiguous same-target cases, so 6+ non-contiguous nodes needed for the density heuristic).
-typedef struct { int a; short cmd; short b; } Elem_8012ACE0;      /* 8-byte element, cmd @ +4 */
-typedef struct { char pad[0x90]; Elem_8012ACE0 *list; } Owner_8012ACE0;    /* list ptr @ +0x90 */
+      /* 8-byte element, cmd @ +4 */
+    /* list ptr @ +0x90 */
 
 s32 func_8012ACE0(void *o) {
     int i;
@@ -485,17 +484,6 @@ DEFINE_func_8012C588()  /* dedup: shared engine-core @0x8012C588 (src/shared) */
 extern u8 D_80126720[];
 extern s32 func_8012C890(s32 a0, s32 a1, s32 a2);
 
-struct S8012C658 {
-    u16 unk0;
-    u16 unk2;
-    u16 unk4;
-    s16 unk6;
-    s16 unk8;
-    s16 unkA;
-    s16 unkC;
-    s16 unkE;
-    s32 unk10;
-};
 
 s32 func_8012C658(s32 arg0, s32 arg1, s32 arg2) {
     struct S8012C658 sp;
@@ -754,7 +742,6 @@ DEFINE_func_8012D624()  /* dedup: shared engine-core @0x8012D624 (src/shared) */
 // @stuck: none — MATCH
 
 
-struct S8012D664_8012D664 { short a, b, c; };
 
 int func_8012D664(int arg0, int arg1, int arg2) {
     extern int func_8012F568();
@@ -807,10 +794,6 @@ DEFINE_func_8012DBD0()  /* dedup: shared engine-core @0x8012DBD0 (src/shared) */
 // @stuck: none — MATCH
 
 
-typedef struct Entry_8012DDA4 {
-    u16 active;
-    unsigned char pad[0x10C - 2];
-} Entry_8012DDA4;
 
 
 s32 func_8012DDA4()
@@ -970,7 +953,6 @@ DEFINE_func_8012E688()  /* dedup: shared engine-core @0x8012E688 (src/shared) */
     : "memory" )
 
 typedef struct { s32 m[3][3]; s32 t[3]; } MATRIX;
-typedef struct { s32 vx, vy, vz; } VECTOR;
 
 extern u8 D_800AF648;
 
@@ -1611,7 +1593,7 @@ tail:
 // @class: struct
 // @stuck: none — MATCH (8-byte alignment-1 struct copy → lwl/lwr/swl/swr)
 
-typedef struct { char _b[8]; } M8;   /* size 8, alignment 1 -> unaligned copy */
+   /* size 8, alignment 1 -> unaligned copy */
 
 
 s32 func_801312D0(s32 param_1, void *param_2)
@@ -2299,7 +2281,6 @@ void func_8013373C(s16 arg0) {
 // @class: regalloc-order
 #include "common.h"
 
-typedef struct { u16 f0, f2, f4; s16 f6; } Box_80133784;
 
 
 s32 func_80133784(s32 arg0, void *arg1, s32 arg2) {
@@ -2433,18 +2414,6 @@ after:
 //  hib→a0 copy comes from `harg = hib + zr` (sibling idiom); Xc/Yc live-range splits via the $0-add asm.
 #include "common.h"
 
-typedef struct Map_80133AB0 {
-    u16 ox;       /* 0x00 */
-    u16 oy;       /* 0x02 */
-    u16 w;        /* 0x04 */
-    u16 h;        /* 0x06 */
-    u16 *cells;   /* 0x08 */
-    void *p0C;    /* 0x0C */
-    void *p10;    /* 0x10 */
-    u8  *p14;     /* 0x14 */
-    u8  *p18;     /* 0x18 */
-    u8  *p1C;     /* 0x1C */
-} Map_80133AB0;
 
 s32 func_80133AB0(s16 flag, s16 x, s16 y, s32 arg3)
 {
@@ -2573,7 +2542,6 @@ s32 func_80133CD4(arg0, cmd, base, arr)
     s16 *base;
     s32 *arr;
 {
-    typedef struct { s16 e[4]; } ElemK;
 
     extern u16 *D_801870B0;
     extern u16 *D_801870AC;
@@ -2720,7 +2688,6 @@ s32 func_80133CD4(arg0, cmd, base, arr)
         return -1;
     }
     {
-        typedef struct { u16 h; } H16;
         u16 *s3u = (u16 *)s3;
         u16 *bp = D_801870B0;
         u16 w;
@@ -2736,7 +2703,6 @@ ret1:
 }
 
 
-typedef struct { s16 x, y, z; } Vec3s;
 
 s32 func_80134310(Vec3s *a0, Vec3s *a1, s32 a2) {
     return a0->x * a1->x + a0->y * a1->y + a0->z * a1->z + a2;
@@ -2803,12 +2769,6 @@ s32 func_801343C4(s32 angle, s32 p1, s32 p2)
 
 
 // @class: schedule
-typedef struct {
-    u16 f0;   /* 0x0 */
-    u16 f2;   /* 0x2 */
-    u16 f4;   /* 0x4 */
-    s16 f6;   /* 0x6 */
-} Foo_80134510;
 
 
 s32 func_80134510(s32 param) {
@@ -2913,33 +2873,8 @@ s32 func_801345F8(s32 arg)
 // @stuck: none — MATCH (162 ins). iv pinned to $4 (a0) forces move+delay-slot negu; divisor-temp forces divisor-first schedule (load-delay nop). Globals declared pointer-typed (SVec*/s16*) so %lo folds per-use instead of &sym address-CSE into callee regs.
 #include "common.h"
 
-typedef struct {
-    /* 0x00 */ u16 f0;
-    /* 0x02 */ s16 f2;
-    /* 0x04 */ s16 f4;
-    /* 0x06 */ s16 f6;
-    /* 0x08 */ s16 f8;
-    /* 0x0A */ s16 fa;
-    /* 0x0C */ s16 fc;
-    /* 0x0E */ s16 fe;
-    /* 0x10 */ s16 f10;
-    /* 0x12 */ s16 f12;
-    /* 0x14 */ s16 f14;
-} S0;
 
-typedef struct {
-    /* 0x0 */ s16 f0;
-    /* 0x2 */ s16 f2;
-    /* 0x4 */ s16 f4;
-    /* 0x6 */ s16 f6;
-} Elem;
 
-typedef struct {
-    /* 0x0 */ u16 f0;
-    /* 0x2 */ u16 f2;
-    /* 0x4 */ u16 f4;
-    /* 0x6 */ u16 f6;
-} SVec;
 
 
 
@@ -3286,8 +3221,6 @@ INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_8012ACE0", func_8013526
  */
 s16 func_80135480(void *param_1, s32 param_2, s16 *param_3, s16 *param_4)
 {
-    typedef struct { s32 vx, vy, vz, pad; } Vec32;
-    typedef struct { s16 vx, vy, vz, pad; } Vec16;
         extern void func_80048EAC(void *m0, void *m1);
     extern void func_8004914C(void *m);
     extern void ApplyTransposeMatrixLV(void *m, void *in, void *out);

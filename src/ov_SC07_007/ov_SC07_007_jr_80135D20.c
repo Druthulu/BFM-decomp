@@ -8,11 +8,8 @@
  * Decls emit no code => byte-neutral. See cookbook §8c. */
 typedef struct { s32 w[8]; } Vec8;
 typedef struct { s32 m[3][3]; s32 t[3]; } MATRIX;
-typedef struct { s32 vx, vy, vz; } VECTOR;
 typedef struct { s16 h[8]; } Buf;
-typedef struct { char _b[8]; } M8;   /* size 8, alignment 1 -> unaligned copy */
-typedef struct { u16 f0, f2, f4; s16 f6; } Box_80133784;
-typedef struct { s16 x, y, z; } Vec3s;
+   /* size 8, alignment 1 -> unaligned copy */
 extern void func_80128288(void);
 extern void func_80128158(void);
 extern void func_801285E4(void);
@@ -1781,8 +1778,6 @@ void func_8013CB5C(void) {
 
 
 
-typedef struct { s32 a, b, c; } Rec12;
-typedef struct { s32 a, b; s8 c; } __attribute__((packed, aligned(1))) Rec9;
 
 extern s16 currentLocationId;
 
@@ -2130,7 +2125,7 @@ void func_8013D3D4(int param_1, int param_2)
 
 
 
-typedef struct { u8 b[9]; } S9;   /* 9-byte, align-1 -> unaligned block copy */
+   /* 9-byte, align-1 -> unaligned block copy */
 
 
 
@@ -2886,7 +2881,6 @@ extern unsigned char *func_80141CA4(void);
 //   Conflict-safe externs: asm-alias `aD80115188` (file-scope decl is scalar `s32 D_80115188`); `(u16)`
 //   cast on the `s16 D_801842A8` read for the `lhu`; `D_80115168` is undeclared elsewhere in the TU.
 
-typedef struct { s32 f0; } E4;
 
 
 

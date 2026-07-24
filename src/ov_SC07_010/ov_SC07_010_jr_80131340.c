@@ -8,9 +8,8 @@
  * Decls emit no code => byte-neutral. See cookbook §8c. */
 typedef struct { s32 w[8]; } Vec8;
 typedef struct { s32 m[3][3]; s32 t[3]; } MATRIX;
-typedef struct { s32 vx, vy, vz; } VECTOR;
 typedef struct { s16 h[8]; } Buf;
-typedef struct { char _b[8]; } M8;   /* size 8, alignment 1 -> unaligned copy */
+   /* size 8, alignment 1 -> unaligned copy */
 extern void func_80128288(void);
 extern void func_80128158(void);
 extern void func_801285E4(void);
@@ -1164,7 +1163,6 @@ void func_8013373C(s16 arg0) {
 
 
 
-typedef struct { u16 f0, f2, f4; s16 f6; } Box_80133784;
 
 
 s32 func_80133784(s32 arg0, void *arg1, s32 arg2) {
@@ -1288,7 +1286,6 @@ s32 func_80133CD4(arg0, cmd, base, arr)
     s16 *base;
     s32 *arr;
 {
-    typedef struct { s16 e[4]; } ElemK;
 
     extern u16 *D_80182554;
     extern u16 *D_80182550;
@@ -1435,7 +1432,6 @@ s32 func_80133CD4(arg0, cmd, base, arr)
         return -1;
     }
     {
-        typedef struct { u16 h; } H16;
         u16 *s3u = (u16 *)s3;
         u16 *bp = D_80182554;
         u16 w;
@@ -1453,7 +1449,6 @@ ret1:
 
 
 
-typedef struct { s16 x, y, z; } Vec3s;
 
 s32 func_80134310(Vec3s *a0, Vec3s *a1, s32 a2) {
     return a0->x * a1->x + a0->y * a1->y + a0->z * a1->z + a2;
@@ -1832,8 +1827,6 @@ s16 func_80135480(void *param_1, s32 param_2, s16 *param_3, s16 *param_4)
 
     extern Box_80133784 * D_80182550;
     extern Box_80133784 * D_80182554;
-    typedef struct { s32 vx, vy, vz, pad; } Vec32;
-    typedef struct { s16 vx, vy, vz, pad; } Vec16;
         extern void func_80048EAC(void *m0, void *m1);
     extern void func_8004914C(void *m);
     extern void ApplyTransposeMatrixLV(void *m, void *in, void *out);

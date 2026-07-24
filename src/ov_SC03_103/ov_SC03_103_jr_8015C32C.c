@@ -7,33 +7,6 @@
  * file-local types, col-0 decls, DEFINE_func macro externs, and each earlier
  * definition's implied prototype (types first, then decls in original order).
  * Decls emit no code => byte-neutral. See cookbook §8c. */
-struct Ent_801506A4 {
-    unsigned short unk0;    /* 0x0 */
-    char pad[0x5A];
-    unsigned short unk5C;   /* 0x5C */
-    char pad2[0x12];
-    short unk70;            /* 0x70 */
-};
-typedef struct {
-    u8   pad00[0x12];
-    u16  unk12;              /* 0x12 */
-} Sub_80155800_80155800;
-typedef struct {
-    u8            pad00[0x20];
-    Sub_80155800_80155800 *unk20;     /* 0x20 */
-    u8            pad24[0x44 - 0x24];
-    s32           unk44;     /* 0x44 */
-    u8            pad48[0xB8 - 0x48];
-    u16           unkB8;     /* 0xB8 */
-    u8            padBA[0x1A8 - 0xBA];
-    u8            unk1A8;    /* 0x1A8 */
-    u8            unk1A9;    /* 0x1A9 */
-    u8            unk1AA;    /* 0x1AA */
-    u8            pad1AB[0x1C0 - 0x1AB];
-    u8            unk1C0;    /* 0x1C0 */
-    u8            pad1C1[0x234 - 0x1C1];
-    u8            unk234;    /* 0x234 */
-} Ent_80155800_80155800;
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
 extern s32 D_800AE6B0;
@@ -1580,22 +1553,7 @@ DEFINE_func_8015CCD0()  /* dedup: shared engine-core @0x8015CCD0 (src/shared) */
 
 #define NULL 0
 
-struct Sub_8015CD20 {
-    u8 pad0[0x12];
-    u16 unk12;      /* +0x12 */
-};
 
-struct Ent_8015CD20 {
-    u16 unk0;       /* +0x00 */
-    u8 pad2[0x1E];
-    struct Sub_8015CD20 *unk20;  /* +0x20 */
-    u8 pad24[0x94];
-    s16 unkB8;      /* +0xB8 */
-    u8 pad1BA[0x102];
-    s8 unk1BC;      /* +0x1BC */
-    u8 pad1BD[0x77];
-    s32 unk234;     /* +0x234 */
-};
 
 
 
@@ -3059,7 +3017,6 @@ DEFINE_func_801608C0()  /* dedup: shared engine-core @0x801608C0 (src/shared) */
 // @class: struct
 // @stuck: none — MATCH (function-pointer table folds %lo via extern array indexed by halfword)
 
-typedef void (*code)(unsigned short *);
 
 extern void (*D_801867CC[])(void*);
 
@@ -4030,12 +3987,6 @@ DEFINE_func_80164864()  /* dedup: shared engine-core @0x80164864 (src/shared) */
 // (forces &sym into a held reg -> drift) NOR a block-scoped `extern u16` (conflicting-types
 // ERROR vs the ambient s16, cc1 exit 33). Solution: flip the file-scope decl (5802) to u16 —
 // byte-neutral to the only other user (func_801647A4 store-only) — and reference directly.
-typedef struct {
-    u16 f0;
-    u8 pad0[0x4e];
-    int f50;
-    u8 pad1[0x14];
-} Ent_80164930_80164930;
 
 
 void func_80164930(s32 param_1) {
@@ -4229,9 +4180,6 @@ DEFINE_func_80165124()  /* dedup: shared engine-core @0x80165124 (src/shared) */
 // combine_givs split the field offsets into a second pointer IV (+2 ins).
 
 
-typedef struct { u8 d[8]; } __attribute__((packed, aligned(1))) B8_80165140;
-typedef struct { u8 d[4]; } __attribute__((packed, aligned(1))) B4_80165140;
-typedef struct { B8_80165140 a; B4_80165140 b; s32 used; } Slot_80165140;
 
 
 s32 func_80165140(s32 param_1) {
@@ -4282,7 +4230,6 @@ void func_801651B8(void * param_1)
 }
 
 
-struct W4 { u32 w; } __attribute__((packed, aligned(1)));
 extern void func_80016ED4(void *a0);
 extern s32 func_80017DC4(void *a0, void *a1);
 
@@ -4580,17 +4527,8 @@ void func_80166654(void *a0) {
 
 #include "common.h"
 
-typedef struct { u16 h[6]; } Rec_80166690_80166690;   /* 12-byte sub-table record (stride 0xC) */
+   /* 12-byte sub-table record (stride 0xC) */
 
-typedef struct {
-    short v0, v1, v2, pad06, w0, w1, w2, pad0E;          /* 0x00..0x0F */
-    short v3, v4, v5, pad16, w3, w4, w5, pad1E;          /* 0x10..0x1F */
-    u8 c00, c01, c02, pad23;                             /* 0x20 */
-    u8 c10, c11, c12, pad27;                             /* 0x24 */
-    u8 c20, c21, c22, pad2B;                             /* 0x28 */
-    u8 c30, c31, c32, pad2F;                             /* 0x2C */
-    int tag;                                             /* 0x30 -> struct size 0x34; tag lands at sp+0x40 */
-} Frame_80166690_80166690;
 
 
 s32 func_80166690(s32 param_1, s32 param_2)
@@ -4732,8 +4670,6 @@ s32 func_80166994(param_1, param_2, param_3, param_4)
     s16 param_3;
     s16 param_4;
 {
-    typedef struct { s16 f0, f1, f2, f3, f4, f5; } TrailEntry;
-    typedef struct { u8 flag, idx, count, timer; TrailEntry e[16]; } Trail;
     extern u8 D_801C3B40[];
     extern void RotTransSV(void *a0, void *a1, void *a2);
     extern s32 VectorNormalSS(void *a0, void *a1);
@@ -5054,45 +4990,11 @@ s32 func_801670E4(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
 
 
 
-typedef struct { s32 m[8]; } Mat_80167540; /* 0x20 bytes */
+ /* 0x20 bytes */
 
-struct Src_80167540 {
-    u8 pad0[0x34];
-    Mat_80167540 mat;          /* 0x34 */
-};
 
-struct Sub2_80167540 {
-    u8 pad0[0x44];
-    s32 unk44;        /* 0x44 */
-};
 
-struct Node_80167540 {
-    /* 0x0 */ u16 unk0;
-    u8 pad2[0x4];
-    /* 0x6 */ s16 unk6;
-    u8 pad8[0x2];
-    /* 0xA */ s16 unkA;
-    u8 padC[0x2];
-    /* 0xE */ s16 unkE;
-    u8 pad10[0x10];
-    /* 0x20 */ struct Src_80167540 *unk20;
-    u8 pad24[0x28];
-    /* 0x4C */ struct Sub2_80167540 *unk4C;
-};
 
-struct Entity_80167540 {
-    /* 0x0 */ s16 unk0;
-    /* 0x2 */ u16 unk2;
-    u8 pad4[0xC];
-    /* 0x10 */ s16 unk10;
-    /* 0x12 */ s16 unk12;
-    u8 pad14[0x8];
-    /* 0x1C */ s32 unk1C;
-    u8 pad20[0x10];
-    /* 0x30 */ s32 unk30;
-    /* 0x34 */ struct Node_80167540 *unk34;
-    /* 0x38 */ Mat_80167540 mat;
-};
 
 
 s32 func_80167540(s32 arg0) {
@@ -5164,14 +5066,7 @@ DEFINE_func_80167AD8()  /* dedup: shared engine-core @0x80167AD8 (src/shared) */
 
 
 
-typedef struct { s16 x, y, z, pad; } SVEC_80167AE0;
 
-struct Fr_80167AE0 {
-    u8   matrix[0x20];                    /* 0x00 -> sp+0x10 */
-    SVEC_80167AE0 v[4];                            /* 0x20 -> sp+0x30 */
-    struct { u8 r, g, b, pad; } col[4];   /* 0x40 -> sp+0x50 */
-    u32  code;                            /* 0x50 -> sp+0x60 */
-};
 
 s32 func_80167AE0(s32 param_1, s32 param_2, s32 param_3) {
     extern void func_80168070(s32 param_1, s16 *param_2, s16 *param_3, void *param_4);
@@ -5413,13 +5308,6 @@ DEFINE_func_801687CC()  /* dedup: shared engine-core @0x801687CC (src/shared) */
 //   to a $v0 immediate). 134-overlay family exemplar: only D_80187114 differs -> banks x134.
 #include "common.h"
 
-typedef struct {
-    u16 f00, f02, f04, f06;
-    s16 f08;
-    u16 f0a, f0c, f0e, f10, f12, f14, f16;
-    u8  f18, f19, f1a, f1b, f1c, f1d, f1e, f1f, f20, f21, f22, f23;
-    u32 f24;
-} Thing_80168828_80168828;
 
 
 void func_80168828()
@@ -5727,18 +5615,7 @@ DEFINE_func_8016A1CC()  /* dedup: shared engine-core @0x8016A1CC (src/shared) */
 
 
 
-typedef struct { s16 x, y, z, pad; } SVEC_8016A290;
 
-struct Fr_8016A290 {
-    SVEC_8016A290 center;                          /* 0x00 -> sp+0x10 */
-    SVEC_8016A290 diff;                            /* 0x08 -> sp+0x18 */
-    s32  pos[3];                          /* 0x10 -> sp+0x20 */
-    s32  _pad1c;                          /* 0x1C -> sp+0x2C */
-    s16  mtx[32];                         /* 0x20 -> sp+0x30 */
-    SVEC_8016A290 v[4];                            /* 0x60 -> sp+0x70 */
-    struct { u8 r, g, b, pad; } col[4];   /* 0x80 -> sp+0x90 */
-    u32  code;                            /* 0x90 -> sp+0xA0 */
-};
 
 void func_8016A290(s32 param_1, void *param_2, void *param_3) {
     extern u8 D_80187218;
@@ -5873,24 +5750,8 @@ void func_8016A700(void *a0) {
 
 
 // Seed for func_8016A73C (ov_SC01_077 exemplar). Overlay-local struct guessed.
-typedef struct SubB_8016A73C { char pad[0x20]; int unk20; } SubB_8016A73C;
-typedef struct SubA_8016A73C { char pad[0x34]; SubB_8016A73C *unk34; } SubA_8016A73C;
 
-typedef struct Mat_8016A73C { int w[8]; } Mat_8016A73C;
 
-typedef struct Obj_8016A73C {
-    short unk0;
-    short unk2;
-    short unk4;
-    short unk6;
-    short unk8;
-    short unkA;
-    short unkC;
-    short unkE;
-    char pad10[0x24];   /* 0x10 .. 0x33 */
-    SubA_8016A73C *unk34;         /* 0x34 */
-    Mat_8016A73C mat;             /* 0x38 .. 0x57 */
-} Obj_8016A73C;
 
 
 

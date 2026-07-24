@@ -24,7 +24,7 @@ instead) — byte-neutral (type defs emit no code); verify with `make check`.
 Usage:
   tools/build_engine_types.py --source ov_SC01_077 --out src/shared/engine_types.h [--strip]
 """
-import argparse, os, re, sys
+import argparse, glob, os, re, sys
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 NAMED_DEF_RE = re.compile(r'\b(struct|union)\s+([A-Za-z_]\w*)\s*\{')
@@ -130,6 +130,101 @@ def find_typedefs(text):
     return out
 
 
+def resolve_type_defs(text):
+    """THE type-definition model, shared by every caller (R33: one model, not one per tool).
+
+    Returns (defs, tdefs, carried, partial):
+      defs     [(kind, name, s, e)]        named struct/union defs NOT carried by a typedef
+      tdefs    [(name, body, s, e)]        typedef defs (a TAGGED typedef carries its struct body)
+      carried  [(kind, tag, alias)]        tags whose body a typedef carries -> forward-declare,
+                                           never lift or strip independently
+      partial  [(kind, name, s, e)]        genuinely malformed partial overlaps (caller decides)
+
+    THE INVARIANT THIS EXISTS TO PROVIDE: the spans in `defs` and `tdefs` are pairwise DISJOINT.
+
+    A `typedef struct Tag {...} Alias;` is matched by BOTH finders, with the struct span CONTAINED
+    in the typedef span. A caller that treats those as two independent types does three wrong
+    things at once, all of which were observed (Phase 29):
+      1. it lifts the inner span, which starts at `struct` — so the emitted text is
+         `struct Tag {...} Alias;`, a *variable definition* of Alias in every TU that includes it;
+      2. it then lifts the typedef too -> `Alias redeclared as different kind of symbol`;
+      3. it strips both spans highest-first, so the outer span's end offset is STALE by the length
+         of the inner one and the second delete removes that many EXTRA characters past its
+         intended end -- silently corrupting whatever followed (a declaration losing its `extern`
+         and becoming a tentative definition, two declarations splicing together).
+    Measured on this fleet: 13 such tag/alias pairs, 6,142 occurrences, and 0 of those tags is
+    ever defined standalone -- so folding the tag into its typedef is always the correct read.
+
+    A CONTAINED def is therefore folded (the typedef already carries the body, and carries the tag
+    with it when the typedef is written tagged). Only a PARTIAL overlap is genuinely malformed.
+    """
+    scan = blank_comments(text)                       # scan comment-blanked; extract from `text`
+    defs = find_defs(scan)
+    tdefs = [(name, text[s:e], s, e) for name, _b, s, e in find_typedefs(scan)]
+    carried, contained = [], []
+    for d in defs:
+        for tn, _tb, ts, te in tdefs:
+            if ts <= d[2] and d[3] <= te:             # struct span inside the typedef span
+                carried.append((d[0], d[1], tn))
+                contained.append(d)
+                break
+    partial = [d for d in defs
+               if any(ts < d[3] and d[2] < te for _, _, ts, te in tdefs) and d not in contained]
+    defs = [d for d in defs if d not in contained and d not in partial]
+    return defs, tdefs, carried, partial
+
+
+def _visible_headers(_cache=[]):
+    """Basenames of the shared headers that make engine_types.h visible, DERIVED by reading the
+    include graph in src/shared (R33) rather than hardcoding 'engine_core.h'."""
+    if _cache:
+        return _cache[0]
+    want = {'engine_types.h'}
+    changed = True
+    while changed:
+        changed = False
+        for h in glob.glob(os.path.join(REPO, 'src/shared/*.h')):
+            base = os.path.basename(h)
+            if base in want:
+                continue
+            incs = {os.path.basename(i)
+                    for i in re.findall(r'#include\s+"([^"]+)"', open(h).read())}
+            if incs & want:
+                want.add(base)
+                changed = True
+    _cache.append(want)
+    return want
+
+
+def type_visible(path):
+    """True iff this TU can SEE engine_types.h. Stripping a type definition out of a TU that
+    cannot see the shared replacement does not consolidate it — it deletes it. The symptom is
+    three steps removed from the cause: the type goes undeclared, the next declaration hits
+    `parse error` / `data definition has no type or storage class`, gcc falls back to implicit
+    int, and that TENTATIVE definition collides at LINK as `multiple definition of <sym>` — a
+    link error that names a data symbol nobody touched. Measured: exactly one TU in this fleet
+    (ov_SC01_077_o0.c, the -O0 split) deliberately omits engine_core.h, and it is the one that
+    broke. So visibility is CHECKED, never assumed."""
+    incs = {os.path.basename(i)
+            for i in re.findall(r'#include\s+"([^"]+)"', open(path).read())}
+    return bool(incs & _visible_headers())
+
+
+def assert_disjoint(spans, where=''):
+    """R32 guard: the spans deleted from ONE file must be pairwise disjoint, or the strip corrupts
+    the file. Deleting overlapping spans highest-first leaves the earlier span's end offset stale,
+    so the next delete removes len(overlap) EXTRA characters past its intended end. `git status`
+    still looks clean and the per-binary gate can still pass, which is exactly why this must be an
+    assertion and not a code comment. Returns the spans sorted; raises on any overlap."""
+    ordered = sorted(spans)
+    for (s1, e1), (s2, e2) in zip(ordered, ordered[1:]):
+        if s2 < e1:
+            raise ValueError(f'[R32] overlapping strip spans in {where}: ({s1},{e1}) overlaps '
+                             f'({s2},{e2}) — refusing to write. Spans must come from '
+                             f'resolve_type_defs(), which folds contained tagged typedefs.')
+    return ordered
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--source', default='ov_SC01_077')
@@ -148,9 +243,10 @@ def main():
     c_path = os.path.join(REPO, args.file) if args.file else os.path.join(REPO, f'src/{args.source}/{args.source}.c')
     out_path = os.path.join(REPO, args.out)
     text = open(c_path).read()
-    scan = blank_comments(text)                       # scan comment-blanked; extract from `text`
-    defs = find_defs(scan)
-    tdefs = [(name, text[s:e], s, e) for name, _b, s, e in find_typedefs(scan)]
+    # The def/typedef model — including the tagged-typedef containment resolution documented
+    # below — lives in resolve_type_defs() so lift_types.py shares it EXACTLY (R33: one model,
+    # two callers; lift_types carrying its own copy is what produced the Phase-29 corruption).
+    defs, tdefs, carried, partial = resolve_type_defs(text)
     if args.exclude:                                   # leave these TU-local (cross-TU same-name conflicts)
         excl = set(x.strip() for x in args.exclude.split(',') if x.strip())
         defs = [d for d in defs if d[1] not in excl]
@@ -177,21 +273,16 @@ def main():
     # The guard is simply over-conservative. A CONTAINED def (the typedef's span encloses the struct body)
     # is perfectly liftable — the typedef already carries the body; it just must not be counted twice.
     # Only a PARTIAL overlap is the malformed case the guard was actually written for.
-    contained = [d for d in defs if any(ts <= d[2] and d[3] <= te for _, _, ts, te in tdefs)]
-    partial = [d for d in defs
-               if any(ts < d[3] and d[2] < te for _, _, ts, te in tdefs) and d not in contained]
     if partial:
         sys.exit(f'[overlap] {len(partial)} PARTIAL def/typedef span overlap(s) — genuinely malformed, '
                  f'handle manually: {[d[1] for d in partial[:5]]}')
-    if contained:
-        # the typedef carries the body -> do not lift or strip it a second time. Emit a `struct Tag;`
-        # forward decl for each so pointer-only references to the tag still resolve.
-        tagged_fwd = sorted({(k, n) for k, n, _, _ in contained})
-        defs = [d for d in defs if d not in contained]
-        print(f'[types] {len(contained)} tagged-struct typedef(s) folded into their typedef '
+    # the typedef carries the body -> do not lift or strip it a second time. Emit a `struct Tag;`
+    # forward decl for each so pointer-only references to the tag still resolve. (resolve_type_defs
+    # has already removed them from `defs`.)
+    tagged_fwd = sorted({(k, n) for k, n, _ in carried})
+    if tagged_fwd:
+        print(f'[types] {len(carried)} tagged-struct typedef(s) folded into their typedef '
               f'(forward-declared): {[n for _, n in tagged_fwd[:6]]}')
-    else:
-        tagged_fwd = []
 
     # dedup named structs by (kind, name); keep first (scoped check already proved 0 layout collisions)
     seen, ordered = set(), []
@@ -277,9 +368,10 @@ def main():
 
     if args.strip:
         # remove the def spans (named structs + typedefs) from the source, last-first to keep offsets
-        # valid. The overlap guard above guarantees these spans are disjoint.
-        spans = sorted([(s, e) for _, _, s, e in defs] + [(s, e) for _, _, s, e in tdefs],
-                       key=lambda t: t[0], reverse=True)
+        # valid. resolve_type_defs() folds contained spans so these are disjoint — ASSERTED, not
+        # assumed (R32): an overlap here silently over-deletes past the span's end.
+        spans = assert_disjoint([(s, e) for _, _, s, e in defs] + [(s, e) for _, _, s, e in tdefs],
+                                where=c_path)[::-1]
         new = text
         for s, e in spans:
             new = new[:s] + new[e:]

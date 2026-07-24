@@ -7,182 +7,18 @@
  * file-local types, col-0 decls, DEFINE_func macro externs, and each earlier
  * definition's implied prototype (types first, then decls in original order).
  * Decls emit no code => byte-neutral. See cookbook §8c. */
-struct Ent_801506A4 {
-    unsigned short unk0;    /* 0x0 */
-    char pad[0x5A];
-    unsigned short unk5C;   /* 0x5C */
-    char pad2[0x12];
-    short unk70;            /* 0x70 */
-};
-struct Sub_8015CD20 {
-    u8 pad0[0x12];
-    u16 unk12;      /* +0x12 */
-};
-struct Ent_8015CD20 {
-    u16 unk0;       /* +0x00 */
-    u8 pad2[0x1E];
-    struct Sub_8015CD20 *unk20;  /* +0x20 */
-    u8 pad24[0x94];
-    s16 unkB8;      /* +0xB8 */
-    u8 pad1BA[0x102];
-    s8 unk1BC;      /* +0x1BC */
-    u8 pad1BD[0x77];
-    s32 unk234;     /* +0x234 */
-};
-typedef struct {
-    u16 f0;
-    u8 pad0[0x4e];
-    int f50;
-    u8 pad1[0x14];
-} Ent_80164930_80164930;
-typedef struct { u8 d[8]; } __attribute__((packed, aligned(1))) B8_80165140;
-typedef struct { u8 d[4]; } __attribute__((packed, aligned(1))) B4_80165140;
-typedef struct { B8_80165140 a; B4_80165140 b; s32 used; } Slot_80165140;
-typedef struct { u16 h[6]; } Rec_80166690_80166690;   /* 12-byte sub-table record (stride 0xC) */
-typedef struct {
-    short v0, v1, v2, pad06, w0, w1, w2, pad0E;          /* 0x00..0x0F */
-    short v3, v4, v5, pad16, w3, w4, w5, pad1E;          /* 0x10..0x1F */
-    u8 c00, c01, c02, pad23;                             /* 0x20 */
-    u8 c10, c11, c12, pad27;                             /* 0x24 */
-    u8 c20, c21, c22, pad2B;                             /* 0x28 */
-    u8 c30, c31, c32, pad2F;                             /* 0x2C */
-    int tag;                                             /* 0x30 -> struct size 0x34; tag lands at sp+0x40 */
-} Frame_80166690_80166690;
-typedef struct { s32 m[8]; } Mat_80167540; /* 0x20 bytes */
-struct Src_80167540 {
-    u8 pad0[0x34];
-    Mat_80167540 mat;          /* 0x34 */
-};
-struct Sub2_80167540 {
-    u8 pad0[0x44];
-    s32 unk44;        /* 0x44 */
-};
-struct Node_80167540 {
-    /* 0x0 */ u16 unk0;
-    u8 pad2[0x4];
-    /* 0x6 */ s16 unk6;
-    u8 pad8[0x2];
-    /* 0xA */ s16 unkA;
-    u8 padC[0x2];
-    /* 0xE */ s16 unkE;
-    u8 pad10[0x10];
-    /* 0x20 */ struct Src_80167540 *unk20;
-    u8 pad24[0x28];
-    /* 0x4C */ struct Sub2_80167540 *unk4C;
-};
-struct Entity_80167540 {
-    /* 0x0 */ s16 unk0;
-    /* 0x2 */ u16 unk2;
-    u8 pad4[0xC];
-    /* 0x10 */ s16 unk10;
-    /* 0x12 */ s16 unk12;
-    u8 pad14[0x8];
-    /* 0x1C */ s32 unk1C;
-    u8 pad20[0x10];
-    /* 0x30 */ s32 unk30;
-    /* 0x34 */ struct Node_80167540 *unk34;
-    /* 0x38 */ Mat_80167540 mat;
-};
-typedef struct { s16 x, y, z, pad; } SVEC_80167AE0;
-struct Fr_80167AE0 {
-    u8   matrix[0x20];                    /* 0x00 -> sp+0x10 */
-    SVEC_80167AE0 v[4];                            /* 0x20 -> sp+0x30 */
-    struct { u8 r, g, b, pad; } col[4];   /* 0x40 -> sp+0x50 */
-    u32  code;                            /* 0x50 -> sp+0x60 */
-};
-typedef struct {
-    u16 f00, f02, f04, f06;
-    s16 f08;
-    u16 f0a, f0c, f0e, f10, f12, f14, f16;
-    u8  f18, f19, f1a, f1b, f1c, f1d, f1e, f1f, f20, f21, f22, f23;
-    u32 f24;
-} Thing_80168828_80168828;
-typedef struct { s16 x, y, z, pad; } SVEC_8016A290;
-struct Fr_8016A290 {
-    SVEC_8016A290 center;                          /* 0x00 -> sp+0x10 */
-    SVEC_8016A290 diff;                            /* 0x08 -> sp+0x18 */
-    s32  pos[3];                          /* 0x10 -> sp+0x20 */
-    s32  _pad1c;                          /* 0x1C -> sp+0x2C */
-    s16  mtx[32];                         /* 0x20 -> sp+0x30 */
-    SVEC_8016A290 v[4];                            /* 0x60 -> sp+0x70 */
-    struct { u8 r, g, b, pad; } col[4];   /* 0x80 -> sp+0x90 */
-    u32  code;                            /* 0x90 -> sp+0xA0 */
-};
-typedef struct SubB_8016A73C { char pad[0x20]; int unk20; } SubB_8016A73C;
-typedef struct SubA_8016A73C { char pad[0x34]; SubB_8016A73C *unk34; } SubA_8016A73C;
-typedef struct Mat_8016A73C { int w[8]; } Mat_8016A73C;
-typedef struct Obj_8016A73C {
-    short unk0;
-    short unk2;
-    short unk4;
-    short unk6;
-    short unk8;
-    short unkA;
-    short unkC;
-    short unkE;
-    char pad10[0x24];   /* 0x10 .. 0x33 */
-    SubA_8016A73C *unk34;         /* 0x34 */
-    Mat_8016A73C mat;             /* 0x38 .. 0x57 */
-} Obj_8016A73C;
-typedef struct { char b[4]; } W_8016BFD0;
-typedef struct { s16 x, y, z; } Vec3_8016BFD0;
-typedef struct {
-    s16 m[9];    /* 0x00 */
-    s16 pad;     /* 0x12 */
-    s32 t[3];    /* 0x14, 0x18, 0x1c */
-    s32 rest[8]; /* 0x20..0x3f */
-} Mtx_8016BFD0;
-typedef struct {
-    u8 f0, f1, f2, f3;
-    struct { s16 a, b, c, d, e, g; } ent[16];
-} Blk_8016CF04_8016CF04;                /* 4 + 16*12 = 0xC4 stride */
-typedef struct { short vx, vy, vz, pad; } SVECTOR_8016E7C8;                 /* 0x08 */
-typedef struct { short m[3][3]; short pad; s32 t[3]; } MATRIX_8016E7C8;     /* 0x20 */
+   /* 12-byte sub-table record (stride 0xC) */
+ /* 0x20 bytes */
+                /* 4 + 16*12 = 0xC4 stride */
+                 /* 0x08 */
+     /* 0x20 */
 typedef struct {
     SVECTOR_8016E7C8 v[4];               /* 0x00 */
     s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
     u8  f6;                     /* 0x38 */
     u8  pad[7];                 /* -> 0x40 */
 } Prim_8016E7C8;
-struct Entry_8016E95C {
-    u8 f0;
-    u8 f1;
-    u8 pad[0x1e];
-};
 typedef void (*Handler)(struct Entry_8016E95C *);
-typedef struct { s16 vx, vy, vz, pad; } SV3_80178D40;
-typedef struct { u8 pad0[0x12]; u16 unk12; } Obj20_80178D40;
-typedef struct { u16 f0; u16 f2; u16 f4; u16 f6; } Blk_80178D40;
-typedef struct Actor_80178D40 {
-    s16 unk0;
-    s16 unk2;
-    s16 unk4;
-    u16 unk6;
-    s16 unk8;
-    u16 unkA;
-    s16 unkC;
-    u16 unkE;
-    u8 pad10[0x20 - 0x10];
-    Obj20_80178D40 *unk20;
-    u8 pad24[0x34 - 0x24];
-    s16 unk34;
-    u8 pad36[0xD4 - 0x36];
-    struct Actor_80178D40 *unkD4;
-    s32 unkD8;
-    s32 unkDC[7];
-    s32 unkF8;
-    u8 padFC[0x10A - 0xFC];
-    s16 unk10A;
-} Actor_80178D40;
-typedef struct {
-    s32 op;
-    union {
-        s32 w;
-        void *p;
-        s16 h[2];
-        u16 uh[2];
-    } a;
-} Cmd_80178D40;
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
 extern s32 D_800AE6B0;
@@ -2761,15 +2597,11 @@ extern int func_8017A3D8(void);
 
 // func_8017A4AC (ov_SC01_077) — 536-ins command/bytecode interpreter, 35-case jtbl switch.
 
-struct S126B58_inner { u16 pad[9]; u16 unk12; };
 
     extern u16 D_801D0038[0x200];
     extern s16 D_801D0438;
     extern s16 D_801D043C;
     extern s32 D_801D0480;
-struct S126B58 { u8 pad[0x20]; struct S126B58_inner *unk20; };
-struct S734 { s32 unk0; s32 unk4; s32 unk8; s32 unkC; u8 unk10[8]; s32 unk18;
-              void (*unk1C)(s32, void *, s32); };
 
 extern s32 D_80126B58;
 extern s16 D_801D0440;

@@ -135,8 +135,6 @@ void func_8013CB5C(void) {
 
 
 
-typedef struct { s32 a, b, c; } Rec12;
-typedef struct { s32 a, b; s8 c; } __attribute__((packed, aligned(1))) Rec9;
 
 extern s16 currentLocationId;
 
@@ -1109,7 +1107,6 @@ extern unsigned char *func_80141CA4(void);
 //   Conflict-safe externs: asm-alias `aD80115188` (file-scope decl is scalar `s32 D_80115188`); `(u16)`
 //   cast on the `s16 D_80183338` read for the `lhu`; `D_80115168` is undeclared elsewhere in the TU.
 
-typedef struct { s32 f0; } E4;
 
 
 

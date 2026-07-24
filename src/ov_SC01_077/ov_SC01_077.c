@@ -148,8 +148,6 @@ void func_8013CB5C(void) {
 
 #include "common.h"
 
-typedef struct { s32 a, b, c; } Rec12;
-typedef struct { s32 a, b; s8 c; } __attribute__((packed, aligned(1))) Rec9;
 
 extern s16 currentLocationId;
 extern u8 D_80078EAF;
@@ -491,7 +489,7 @@ void func_8013D3D4(int param_1, int param_2)
 
 #include "common.h"
 
-typedef struct { u8 b[9]; } S9;   /* 9-byte, align-1 -> unaligned block copy */
+   /* 9-byte, align-1 -> unaligned block copy */
 
 
 extern s32 D_801D95A0;
@@ -893,8 +891,7 @@ void func_8013DBE4(int param_1)
 // @class: regalloc-order
 // @stuck: none — MATCH (187 ins). Levers: struct-assign DRAWENV copy (align via type); pbase local for $s2-relative D_800B9A02; two-biv SPRT loop (q anchored one-above -> gcc re-anchors, no bare-deref); P_TAG_8013DD68 addPrim; single p var coalesces puVar7->puVar15; pins uVar2=$v1,iVar14=$a3,c5=$t3; biv-increment order sets q-init-before-puVar10-init; Buf 0x68 -> frame 0xA0.
 
-typedef struct { u32 addr : 24; u32 len : 8; u8 r0, g0, b0, code; } P_TAG_8013DD68;
-typedef struct { u32 w[23]; } DrawEnv;              /* 0x5C copy unit, align 4 */
+              /* 0x5C copy unit, align 4 */
 typedef struct { DrawEnv env; u8 pad[0x0C]; } Buf;  /* -> frame 0xA0 (gcc adds 0x10 for the struct-copy) */
 
 
@@ -1327,7 +1324,6 @@ DEFINE_func_8013ED6C()  /* dedup: shared engine-core @0x8013ED6C (src/shared) */
 //   Conflict-safe externs: asm-alias `aD80115188` (file-scope decl is scalar `s32 D_80115188`); `(u16)`
 //   cast on the `s16 D_80187E94` read for the `lhu`; `D_80115168` is undeclared elsewhere in the TU.
 
-typedef struct { s32 f0; } E4;
 
 
 
@@ -1375,11 +1371,6 @@ s32 func_8013EE10() {
 // @class: struct
 // @stuck: none — MATCH (108 ins, relocation-masked)
 
-typedef struct {
-    unsigned short field0;   /* 0x00  D_80115118 */
-    unsigned char  _pad[0xAE];
-    int            arrB0[128];/* 0xB0 */
-} S115118;
 
 
 
@@ -1786,10 +1777,6 @@ s32 func_8013F350(void) {
 
 
 
-typedef struct { u16 f0; s16 f2; } Prim4;
-typedef struct { s16 x; s16 y; } Hw4;
-typedef struct { s32 f0; u32 *f4; s32 f8; s32 fC; s32 f10; } Rec20;
-typedef struct { u8 d[0x60]; } Blk60;
 
 
 extern void  func_80140E6C(void);

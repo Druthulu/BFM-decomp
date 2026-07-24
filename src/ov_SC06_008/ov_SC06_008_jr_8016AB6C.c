@@ -7,123 +7,8 @@
  * file-local types, col-0 decls, DEFINE_func macro externs, and each earlier
  * definition's implied prototype (types first, then decls in original order).
  * Decls emit no code => byte-neutral. See cookbook §8c. */
-struct Ent_801506A4 {
-    unsigned short unk0;    /* 0x0 */
-    char pad[0x5A];
-    unsigned short unk5C;   /* 0x5C */
-    char pad2[0x12];
-    short unk70;            /* 0x70 */
-};
-struct Sub_8015CD20 {
-    u8 pad0[0x12];
-    u16 unk12;      /* +0x12 */
-};
-struct Ent_8015CD20 {
-    u16 unk0;       /* +0x00 */
-    u8 pad2[0x1E];
-    struct Sub_8015CD20 *unk20;  /* +0x20 */
-    u8 pad24[0x94];
-    s16 unkB8;      /* +0xB8 */
-    u8 pad1BA[0x102];
-    s8 unk1BC;      /* +0x1BC */
-    u8 pad1BD[0x77];
-    s32 unk234;     /* +0x234 */
-};
-typedef struct {
-    u16 f0;
-    u8 pad0[0x4e];
-    int f50;
-    u8 pad1[0x14];
-} Ent_80164930_80164930;
-typedef struct { u8 d[8]; } __attribute__((packed, aligned(1))) B8_80165140;
-typedef struct { u8 d[4]; } __attribute__((packed, aligned(1))) B4_80165140;
-typedef struct { B8_80165140 a; B4_80165140 b; s32 used; } Slot_80165140;
-typedef struct { u16 h[6]; } Rec_80166690_80166690;   /* 12-byte sub-table record (stride 0xC) */
-typedef struct {
-    short v0, v1, v2, pad06, w0, w1, w2, pad0E;          /* 0x00..0x0F */
-    short v3, v4, v5, pad16, w3, w4, w5, pad1E;          /* 0x10..0x1F */
-    u8 c00, c01, c02, pad23;                             /* 0x20 */
-    u8 c10, c11, c12, pad27;                             /* 0x24 */
-    u8 c20, c21, c22, pad2B;                             /* 0x28 */
-    u8 c30, c31, c32, pad2F;                             /* 0x2C */
-    int tag;                                             /* 0x30 -> struct size 0x34; tag lands at sp+0x40 */
-} Frame_80166690_80166690;
-typedef struct { s32 m[8]; } Mat_80167540; /* 0x20 bytes */
-struct Src_80167540 {
-    u8 pad0[0x34];
-    Mat_80167540 mat;          /* 0x34 */
-};
-struct Sub2_80167540 {
-    u8 pad0[0x44];
-    s32 unk44;        /* 0x44 */
-};
-struct Node_80167540 {
-    /* 0x0 */ u16 unk0;
-    u8 pad2[0x4];
-    /* 0x6 */ s16 unk6;
-    u8 pad8[0x2];
-    /* 0xA */ s16 unkA;
-    u8 padC[0x2];
-    /* 0xE */ s16 unkE;
-    u8 pad10[0x10];
-    /* 0x20 */ struct Src_80167540 *unk20;
-    u8 pad24[0x28];
-    /* 0x4C */ struct Sub2_80167540 *unk4C;
-};
-struct Entity_80167540 {
-    /* 0x0 */ s16 unk0;
-    /* 0x2 */ u16 unk2;
-    u8 pad4[0xC];
-    /* 0x10 */ s16 unk10;
-    /* 0x12 */ s16 unk12;
-    u8 pad14[0x8];
-    /* 0x1C */ s32 unk1C;
-    u8 pad20[0x10];
-    /* 0x30 */ s32 unk30;
-    /* 0x34 */ struct Node_80167540 *unk34;
-    /* 0x38 */ Mat_80167540 mat;
-};
-typedef struct { s16 x, y, z, pad; } SVEC_80167AE0;
-struct Fr_80167AE0 {
-    u8   matrix[0x20];                    /* 0x00 -> sp+0x10 */
-    SVEC_80167AE0 v[4];                            /* 0x20 -> sp+0x30 */
-    struct { u8 r, g, b, pad; } col[4];   /* 0x40 -> sp+0x50 */
-    u32  code;                            /* 0x50 -> sp+0x60 */
-};
-typedef struct {
-    u16 f00, f02, f04, f06;
-    s16 f08;
-    u16 f0a, f0c, f0e, f10, f12, f14, f16;
-    u8  f18, f19, f1a, f1b, f1c, f1d, f1e, f1f, f20, f21, f22, f23;
-    u32 f24;
-} Thing_80168828_80168828;
-typedef struct { s16 x, y, z, pad; } SVEC_8016A290;
-struct Fr_8016A290 {
-    SVEC_8016A290 center;                          /* 0x00 -> sp+0x10 */
-    SVEC_8016A290 diff;                            /* 0x08 -> sp+0x18 */
-    s32  pos[3];                          /* 0x10 -> sp+0x20 */
-    s32  _pad1c;                          /* 0x1C -> sp+0x2C */
-    s16  mtx[32];                         /* 0x20 -> sp+0x30 */
-    SVEC_8016A290 v[4];                            /* 0x60 -> sp+0x70 */
-    struct { u8 r, g, b, pad; } col[4];   /* 0x80 -> sp+0x90 */
-    u32  code;                            /* 0x90 -> sp+0xA0 */
-};
-typedef struct SubB_8016A73C { char pad[0x20]; int unk20; } SubB_8016A73C;
-typedef struct SubA_8016A73C { char pad[0x34]; SubB_8016A73C *unk34; } SubA_8016A73C;
-typedef struct Mat_8016A73C { int w[8]; } Mat_8016A73C;
-typedef struct Obj_8016A73C {
-    short unk0;
-    short unk2;
-    short unk4;
-    short unk6;
-    short unk8;
-    short unkA;
-    short unkC;
-    short unkE;
-    char pad10[0x24];   /* 0x10 .. 0x33 */
-    SubA_8016A73C *unk34;         /* 0x34 */
-    Mat_8016A73C mat;             /* 0x38 .. 0x57 */
-} Obj_8016A73C;
+   /* 12-byte sub-table record (stride 0xC) */
+ /* 0x20 bytes */
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
 extern s32 D_800AE6B0;
@@ -2008,30 +1893,8 @@ extern void func_8016AB30(void *a0);
  *     above the call — pseudos may cross calls at sched1) puts `addiu $s0,$zero,3` in the delay
  *     slot instead of the a1=0 arg move.  (8 -> 2.)
  */
-typedef struct Obj_8016AB6C {
-    s32 unk0;
-    s32 unk4;
-    u8  pad8[0xE - 0x8];
-    s16 unkE;
-    u8  pad10[0x24 - 0x10];
-    u8  unk24, unk25, unk26, unk27;
-    u8  pad28[0x2E - 0x28];
-    s16 unk2E;
-    s16 unk30;
-} Obj_8016AB6C;
 
-typedef struct Ent_8016AB6C {
-    u16 unk0, unk2, unk4, unk6, unk8, unkA, unkC, unkE;
-    s32 unk10, unk14, unk18, unk1C;
-    Obj_8016AB6C *unk20;
-    s16 unk24, unk26, unk28, unk2A;
-    s32 unk2C;
-    s32 unk30;
-} Ent_8016AB6C;
 
-typedef struct SVec_8016AB6C {
-    s16 vx, vy, vz, pad;
-} SVec_8016AB6C;
 
 
 
@@ -2160,7 +2023,6 @@ extern void func_800491AC(void *a0);
 extern s32 RotTransPers(s32 a0, s32 a1, s32 *a2, s32 *a3);
 extern void func_80016ED4(void *a0);
 
-typedef struct { s16 ax, ay, a04, a06, bx, by, b0c, b0e, cx, cy, c14, c16, dx, dy, d1c, d1e, u0, v0, u1, v1, u2, v2, u3, v3; u8 r, g, b, pad33; s32 tag; u8 code, pad39, pad3a, pad3b; s32 pad3c; } Prim_B234;
 
 void func_8016B234(s32 param_1) {
 
@@ -2580,14 +2442,6 @@ void func_8016BFA8(s32 a0, s32 a1, s32 a2, s32 a3) {
 //   0x40, not 0x20) sets the frame to 0x70 and lands v1/v2 at sp+0x50/0x58; (3) func_80017714(a4)
 //   takes param_5 as an arg -> gcc materializes `addu $a0,$s0,$zero` and stores the 4 zeros via $a0.
 
-typedef struct { char b[4]; } W_8016BFD0;
-typedef struct { s16 x, y, z; } Vec3_8016BFD0;
-typedef struct {
-    s16 m[9];    /* 0x00 */
-    s16 pad;     /* 0x12 */
-    s32 t[3];    /* 0x14, 0x18, 0x1c */
-    s32 rest[8]; /* 0x20..0x3f */
-} Mtx_8016BFD0;
 
 
 
@@ -2849,9 +2703,7 @@ DEFINE_func_8016C83C()  /* dedup: shared engine-core @0x8016C83C (src/shared) */
 extern short func_8016CBC0(void);
 extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern s32 D_80126B9C;
-typedef struct { u8 f0; u8 pad[0xc3]; } Slot_998;
 
-typedef struct { s32 w[8]; } Blk32_998;
 
 void func_8016C998(s32 param_1)
 {
@@ -3061,10 +2913,7 @@ register unsigned int zr __asm__("$0");
  * byte-neutral engine_core.h void->short flip (every caller discards or ptr-casts the return,
  * cf. func_8016D5EC's `(s16)(...)` cast). The //@EDIT lines above are the rtu_match proxy for
  * that flip. Body verified 166/166 in isolation AND in a whole-TU compile w/ the reconciled hdr. */
-typedef struct {
-    u8 f0, f1, f2, f3;
-    struct { s16 a, b, c, d, e, g; } ent[16];
-} Blk_8016CF04_8016CF04;                /* 4 + 16*12 = 0xC4 stride */
+                /* 4 + 16*12 = 0xC4 stride */
 
 short func_8016CF04(s32 param_1, s32 param_2) {
     extern Blk_8016CF04_8016CF04 D_801A94D0[];
@@ -3136,8 +2985,8 @@ void func_8016D19C(void *a0) {
 
 
 
-typedef struct { short vx, vy, vz, pad; } SVEC_L1;   /* 8 bytes */
-typedef struct { int a[8]; } MTX_L1;                 /* 32 bytes */
+   /* 8 bytes */
+                 /* 32 bytes */
 
 
 extern void func_801465C0(void);
@@ -3452,7 +3301,6 @@ extern void func_800233CC(void *, unsigned short);
 extern void func_801465C0(void);
 extern void func_80146C3C(void);
 
-typedef struct { s32 w[8]; } Blk20_8016DF5C;
 
 
 
@@ -3567,8 +3415,8 @@ DEFINE_func_8016E778()  /* dedup: shared engine-core @0x8016E778 (src/shared) */
 // @class: regalloc-order
 // @stuck: none — MATCH (74 ins); register pin $s2 forces &prim into a saved reg (§17)
 
-typedef struct { short vx, vy, vz, pad; } SVECTOR_8016E7C8;                 /* 0x08 */
-typedef struct { short m[3][3]; short pad; s32 t[3]; } MATRIX_8016E7C8;     /* 0x20 */
+                 /* 0x08 */
+     /* 0x20 */
 
 typedef struct {
     SVECTOR_8016E7C8 v[4];               /* 0x00 */
@@ -3627,11 +3475,6 @@ DEFINE_func_8016E918()  /* dedup: shared engine-core @0x8016E918 (src/shared) */
 // @stuck: none — MATCH (36/36 ins, match_one relocation-masked)
 
 
-struct Entry_8016E95C {
-    u8 f0;
-    u8 f1;
-    u8 pad[0x1e];
-};
 
 typedef void (*Handler)(struct Entry_8016E95C *);
 

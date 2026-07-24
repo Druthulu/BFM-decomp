@@ -4883,3 +4883,52 @@ header is only the INTEGRATION half — each family still needs a byte-true UNIV
 non-universal body (overlay-local `D_*` refs) is a genuine per-member wall regardless (`func_80165CA0`,
 0/135). Distinguish: h_exact=1 does NOT — the BODY's universality does. Pipeline: wave (`build_wave_args.py
 --rank live --min-live 100`) → `fix_header_decl --apply` → `harvest_verify` → `dedup_propagate --addr` → R22.
+
+## §64 — The §20 type-lift's three laws: fold the tagged typedef, check VISIBILITY, and strip only what is TEXTUALLY IDENTICAL (`lift_types.py`, Phase 29 SESSION-14, 2026-07-23)
+
+**The setup.** The broad §20 lift (154 fleet-local types → `engine_types.h`, 2,958 files stripped) had been
+carried three sessions as "needs collision-vetting + -O0 strip precision." Both framings were wrong, and the
+one real collision class was misdiagnosed. Fixing the tool first (R35) changed all three answers.
+
+**Law 1 — a tagged typedef is ONE entity, not two.** `typedef struct Tag {...} Alias;` is matched by BOTH
+`find_defs` (as `Tag`) and `find_typedefs` (as `Alias`), with the struct span CONTAINED in the typedef span.
+Treating them as independent does three wrong things at once: it lifts the inner span, which starts at
+`struct`, so the header gets `struct Tag {...} Alias;` — a *variable definition* of `Alias` in every TU; it
+then lifts the typedef too (`Alias redeclared as different kind of symbol`); and it strips both spans
+highest-first, so the outer span's end offset is **stale by the length of the inner one** and the second
+delete removes that many EXTRA characters past its intended end. MEASURED: 13 tag/alias pairs, 6,142
+occurrences, and **0 of those tags is ever defined standalone** — folding is always the correct read.
+`build_engine_types.resolve_type_defs()` is now the ONE model both tools call (R33), and it *guarantees*
+`defs`/`tdefs` spans are pairwise disjoint; `assert_disjoint()` enforces that at every mutation (R32).
+> The Phase-29 "case-variant name collision" (`actor4c` vs `Actor4C`) was this, not a naming problem. A
+> single-def filter accidentally hid 12 of the 13 pairs and leaked exactly the one whose tag and alias differ
+> in case, which made a *case-insensitive exclude* look like the fix. It is not: it would also wrongly drop
+> the legitimate, non-colliding `Obj`/`obj` and `Vec`/`vec` pairs. Key by **(kind, name)** — the C namespace.
+
+**Law 2 — never strip a definition out of a TU that cannot SEE the replacement.** MEASURED: exactly **1 TU
+of 3,226** (`ov_SC01_077_o0.c`, the -O0 split) deliberately omits `engine_core.h` — for the documented reason
+that its -O0 functions cannot propagate through a header other overlays compile at -O2. Stripping its types
+does not consolidate them, it DELETES them, and the symptom surfaces three steps downstream: type undeclared
+→ `parse error` on the next declaration → *"data definition has no type or storage class"* → gcc falls back
+to implicit `int` → that TENTATIVE definition collides at LINK as **`multiple definition of D_801DAA08`** — a
+link error naming a data symbol nobody touched. That is the whole of the "-O0 strip precision" mystery.
+`bet.type_visible(path)` derives the visible-header set from the `src/shared` include graph (R33) and the
+lift keeps such defs local, naming them.
+
+**Law 3 (the expensive one) — strip a local def ONLY if what becomes visible is TEXTUALLY IDENTICAL to it.**
+`--candidates` classifies per ENTITY and defers VARIANTs, but `--types` takes NAMES: `struct Prim` was
+LIFTABLE while `typedef Prim` was a deferred VARIANT (header ≠ the 103 overlay copies), and passing the
+shared name dragged the deferred entity back in. Result: 103 overlays silently repointed at a different
+`Prim` layout. It compiled clean, the per-binary pre-filter passed, and **R22 failed 37/140 — the 103
+failures were EXACTLY the 103 Prim-stripped overlays** (set equality, byte-verified). The guard now lives at
+the mutation, not in the selector, so a selector bug cannot reach the source; divergent copies are reported
+as the per-camp reconcile work they are.
+
+**Sequencing that paid for itself.** `make build BINARY=ov_SC01_077` reproduced the -O0 failure in **0.26 s**
+with a compile error naming the five affected types, where the fleet cycle had produced a link error naming
+an unrelated symbol. But a pre-filter is only evidence about what it filtered: `ov_SC01_077` passed the
+Prim-broken run too. **Pre-filter on a binary that FAILED, not one that passed** (§61 one level down).
+
+**Result.** 154 types lifted, 2,958 files stripped, **R22 140/140 byte-identical**, `engine_types.h` +510
+lines. Deferred and named, not silently dropped: 8 VARIANT entities (MATRIX/Buf/Vec8/Prim/Handler/…) awaiting
+the per-camp field-access reconcile, 14 carried tags, and 5 types kept local in the -O0 TU.

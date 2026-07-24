@@ -1279,7 +1279,6 @@ DEFINE_func_8012E688()  /* dedup: shared engine-core @0x8012e688 (src/shared) */
     : "memory" )
 
 typedef struct { s32 m[3][3]; s32 t[3]; } MATRIX;
-typedef struct { s32 vx, vy, vz; } VECTOR;
 
 
 s32 func_8012E778(int param_1, int param_2)
@@ -1716,7 +1715,7 @@ tail:
 // @class: struct
 // @stuck: none — MATCH (8-byte alignment-1 struct copy → lwl/lwr/swl/swr)
 
-typedef struct { char _b[8]; } M8;   /* size 8, alignment 1 -> unaligned copy */
+   /* size 8, alignment 1 -> unaligned copy */
 
 
 s32 func_801312D0(s32 param_1, void *param_2)

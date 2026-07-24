@@ -6,52 +6,11 @@
  * file-local types, col-0 decls, DEFINE_func macro externs, and each earlier
  * definition's implied prototype (types first, then decls in original order).
  * Decls emit no code => byte-neutral. See cookbook §8c. */
-typedef struct { int a; short cmd; short b; } Elem_8012ACE0_8012ACE0;      /* 8-byte element, cmd @ +4 */
-typedef struct { char pad[0x90]; Elem_8012ACE0_8012ACE0 *list; } Owner_8012ACE0_8012ACE0;    /* list ptr @ +0x90 */
-struct S8012D664_8012D664 { short a, b, c; };
-typedef struct Entry_8012DDA4 {
-    u16 active;
-    unsigned char pad[0x10C - 2];
-} Entry_8012DDA4;
-typedef struct { char _b[8]; } M8_801312D0;   /* size 8, alignment 1 -> unaligned copy */
-typedef struct { u16 f0, f2, f4; s16 f6; } Box_80133784;
-typedef struct {
-    u16 f0;   /* 0x0 */
-    u16 f2;   /* 0x2 */
-    u16 f4;   /* 0x4 */
-    s16 f6;   /* 0x6 */
-} Foo_80134510_80134510;
-typedef struct {
-    /* 0x00 */ u16 f0;
-    /* 0x02 */ s16 f2;
-    /* 0x04 */ s16 f4;
-    /* 0x06 */ s16 f6;
-    /* 0x08 */ s16 f8;
-    /* 0x0A */ s16 fa;
-    /* 0x0C */ s16 fc;
-    /* 0x0E */ s16 fe;
-    /* 0x10 */ s16 f10;
-    /* 0x12 */ s16 f12;
-    /* 0x14 */ s16 f14;
-} S0_801347A0;
-typedef struct {
-    /* 0x0 */ s16 f0;
-    /* 0x2 */ s16 f2;
-    /* 0x4 */ s16 f4;
-    /* 0x6 */ s16 f6;
-} Elem_801347A0;
-typedef struct {
-    /* 0x0 */ u16 f0;
-    /* 0x2 */ u16 f2;
-    /* 0x4 */ u16 f4;
-    /* 0x6 */ u16 f6;
-} SVec_801347A0;
-typedef struct { char s[10]; } S10_80136C90;
-typedef struct { s16 x, y; } Pair_8013AD38;
-typedef struct { u32 addr : 24; u32 len : 8; u8 r0, g0, b0, code; } P_TAG_8013DD68;
-typedef struct { u32 w[23]; } DrawEnv_8013DD68;              /* 0x5C copy unit, align 4 */
-typedef struct { DrawEnv_8013DD68 env; u8 pad[0x0C]; } Buf_8013DD68;  /* -> frame 0xA0 (gcc adds 0x10 for the struct-copy) */
-typedef struct { s32 f0; } E4;
+      /* 8-byte element, cmd @ +4 */
+    /* list ptr @ +0x90 */
+   /* size 8, alignment 1 -> unaligned copy */
+              /* 0x5C copy unit, align 4 */
+  /* -> frame 0xA0 (gcc adds 0x10 for the struct-copy) */
 extern void func_80128288(void);
 extern void func_80128158(void);
 extern void func_801285E4(void);
@@ -1268,10 +1227,6 @@ s32 func_8013F350(void) {
 
 
 
-typedef struct { u16 f0; s16 f2; } Prim4;
-typedef struct { s16 x; s16 y; } Hw4;
-typedef struct { s32 f0; u32 *f4; s32 f8; s32 fC; s32 f10; } Rec20;
-typedef struct { u8 d[0x60]; } Blk60;
 
 
 extern void  func_80140E6C(void);
