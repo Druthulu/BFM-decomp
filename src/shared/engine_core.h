@@ -28887,4 +28887,108 @@
       new_var++; \
     }
 
+#define DEFINE_func_8014A51C() \
+    extern s32 func_80029178(s32); \
+    int func_8014A51C(int param_1) { \
+        if (((unsigned char (*)(int))func_80029178)(0x1e) == 0) return 0; \
+        if (*(unsigned int *)(param_1 + 0x44) & 0x400) return 0; \
+        if (*(unsigned char *)(param_1 + 0xa8) >= 0x19) return 0; \
+        if (*(unsigned char *)(param_1 + 0x223) != 0) return 0; \
+        if ((*(unsigned short *)(param_1 + 0xac) & 0x40) == 0) return 0; \
+        return 1; \
+    }
+
+#define DEFINE_func_801483E8() \
+    extern void func_80015978(int a0, int *a1); \
+    extern int func_80133784(int a0, void *a1, int a2); \
+    void func_801483E8(unsigned char *self) { \
+        unsigned short src[4]; \
+        short dst[4]; \
+        int ret; \
+        func_80015978((int)(self + 4), (int *)src); \
+        dst[0] = src[0]; \
+        dst[1] = src[1] + 8; \
+        dst[2] = src[2]; \
+        ret = func_80133784(1, src, (int)dst); \
+        if (ret == 0x2000 && \
+            *(short *)(self + 6) == dst[0] && \
+            *(short *)(self + 0xA) == dst[1] && \
+            *(short *)(self + 0xE) == dst[2] && \
+            *(unsigned char *)&dst[3] == 0) { \
+            func_80015978((int)(self + 4), (int *)(self + 0xA0)); \
+        } \
+    }
+
+#define DEFINE_func_8014680C() \
+    extern s32 D_8011F9D0; \
+    extern unsigned short D_8011F9D6; \
+    extern unsigned short D_8011F9DA; \
+    extern unsigned short D_8011F9DE; \
+    extern int   D_8011FA1C; \
+    extern int   D_8011FA20; \
+    extern int   D_8011FA24; \
+    unsigned short *func_8014680C(short *param_1) \
+    { \
+        int iVar1, iVar2; \
+        register unsigned short *psVar3 __asm__("$3"); \
+        register unsigned short *psVar4 __asm__("$7"); \
+        iVar2 = 0; \
+        psVar4 = (unsigned short *)&(*(unsigned short *)&D_8011F9D0); \
+        psVar3 = psVar4; \
+        iVar1 = 0; \
+        for (; iVar2 < 8; \
+             psVar4 = psVar4 + 0x34, psVar3 = psVar3 + 0x34, iVar2 = iVar2 + 1, iVar1 = iVar1 + 0x68) { \
+            if (*psVar3 == 0) { \
+                *(int *)((char *)&D_8011FA1C + iVar1) = *(int *)(param_1 + 4); \
+                *psVar3 = *param_1; \
+                *(short *)((char *)&D_8011F9D6 + iVar1) = param_1[1]; \
+                *(short *)((char *)&D_8011F9DA + iVar1) = param_1[2]; \
+                *(short *)((char *)&D_8011F9DE + iVar1) = param_1[3]; \
+                *(int *)((char *)&D_8011FA20 + iVar1) = *(int *)(param_1 + 6); \
+                *(int *)((char *)&D_8011FA24 + iVar1) = *(int *)(param_1 + 8); \
+                return psVar4; \
+            } \
+        } \
+        return (unsigned short *)0; \
+    }
+
+#define DEFINE_func_8017129C() \
+    extern void *D_8011F738; \
+    extern struct B16 D_800A5E88; \
+    extern struct B16 D_800A5E98; \
+    extern struct B16 D_800A5EA8; \
+    extern void func_801719A4(int, int); \
+    extern s32 func_80171990(u8*); \
+    extern void func_80171384(void*); \
+    void func_8017129C(int param_1) { \
+        S16 *p; \
+        func_801719A4(param_1, 1); \
+        p = (*(S16 * *)&D_8011F738); \
+        p[0] = (*(S16 *)&D_800A5E88); \
+        p[1] = (*(S16 *)&D_800A5E98); \
+        p[2] = (*(S16 *)&D_800A5EA8); \
+        *(unsigned short *)(*(int *)(param_1 + 0x20) + 0x2C) |= 0x20; \
+        *(int *)(*(int *)(param_1 + 0x20) + 0x80) = (int)p; \
+        ((void (*)(int))func_80171990)(param_1); \
+        ((void (*)(int))func_80171384)(param_1); \
+    }
+
+#define DEFINE_func_80177AD4() \
+    void func_80177AD4(int param_1, unsigned int param_2) { \
+        register unsigned int c __asm__("$2"); \
+        register unsigned int b __asm__("$3"); \
+        char *base; short i; int f; int t; \
+        f = 0x100; i = 0; base = (char *)param_1; \
+        do { \
+            c = (param_2 << 16) >> 28; \
+            b = c; \
+            if ((c != 0) || (i == 3) || (i == 1)) f = 0; \
+            param_2 = param_2 << 4; i = i + 1; \
+            t = *(unsigned short *)(base + 0x1e); \
+            *(unsigned short *)(base + 0x1e) = f | (t & ~0x100); \
+            base[0x20] = b * 8 + 8; \
+            base = base + 0x14; \
+        } while (i < 4); \
+    }
+
 #endif

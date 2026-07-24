@@ -7722,28 +7722,7 @@ void func_80171260(void *a0) {
 
 
 
-extern void *D_8011F738;
-extern struct B16 D_800A5E88;
-extern struct B16 D_800A5E98;
-extern struct B16 D_800A5EA8;
-
-extern void func_801719A4(int, int);
-extern s32 func_80171990(u8*);
-extern void func_80171384(void*);
-
-void func_8017129C(int param_1) {
-    S16 *p;
-
-    func_801719A4(param_1, 1);
-    p = (*(S16 * *)&D_8011F738);
-    p[0] = (*(S16 *)&D_800A5E88);
-    p[1] = (*(S16 *)&D_800A5E98);
-    p[2] = (*(S16 *)&D_800A5EA8);
-    *(unsigned short *)(*(int *)(param_1 + 0x20) + 0x2C) |= 0x20;
-    *(int *)(*(int *)(param_1 + 0x20) + 0x80) = (int)p;
-    ((void (*)(int))func_80171990)(param_1);
-    ((void (*)(int))func_80171384)(param_1);
-}
+DEFINE_func_8017129C()  /* dedup: shared engine-core @0x8017129C (src/shared) */
 
 
 DEFINE_func_80171384()  /* dedup: shared engine-core @0x80171384 (src/shared) */
@@ -8875,22 +8854,7 @@ INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_8015C32C", func_8017794
 //     $v0-pinned condition var `c` and $v1-pinned byte var `b` doing `b = c` — c tests in the
 //     bnez, b survives to the byte store, the move lands in the delay slot.
 
-void func_80177AD4(int param_1, unsigned int param_2) {
-    register unsigned int c __asm__("$2");
-    register unsigned int b __asm__("$3");
-    char *base; short i; int f; int t;
-    f = 0x100; i = 0; base = (char *)param_1;
-    do {
-        c = (param_2 << 16) >> 28;
-        b = c;
-        if ((c != 0) || (i == 3) || (i == 1)) f = 0;
-        param_2 = param_2 << 4; i = i + 1;
-        t = *(unsigned short *)(base + 0x1e);
-        *(unsigned short *)(base + 0x1e) = f | (t & ~0x100);
-        base[0x20] = b * 8 + 8;
-        base = base + 0x14;
-    } while (i < 4);
-}
+DEFINE_func_80177AD4()  /* dedup: shared engine-core @0x80177AD4 (src/shared) */
 
 
 INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_8015C32C", func_80177B5C);

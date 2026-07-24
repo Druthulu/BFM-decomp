@@ -1916,3 +1916,30 @@ should point.
 **What the campaign IS worth keeping for:** the uniquify recipe + `tools/uniquify_type.py` (the correct
 operation for same-name-different-type camps, §64a), the blocked-queue drop 13 → 7, and the R32 fix that
 makes `dedup_propagate` name what it skips. Cheap to re-apply later; just not a yield play.
+
+## 2026-07-24 (Phase 29, SESSION-15) — crack-wave efficiency audit: the bottleneck is INTEGRATION, not idioms
+
+**Question (Drew):** waves cost millions of tokens each — how many succeed, and are we missing a new idiom?
+
+**Measured (2 LLM waves, byte-verified):**
+- s14: 24 drafted / 20 match_one MATCH / **6 whole-binary banked** / 2.52M tok.
+- s15: 24 drafted / 22 match_one MATCH / **6 whole-binary banked** / 2.77M tok.
+- Draft success ~**92%**; bank success ~**27%**.
+
+**Are we missing an idiom? NO — verified against the bytes.** Re-ran match_one on 6 s15 NON-banks:
+all 6 are MATCH (byte-correct bodies). The drafters find the right idioms (92% byte-correct C). The
+functions that don't bank are **byte-correct-but-unintegrated** — the whole-binary build rejects a
+declaration/type conflict (def-side sig, data-extern type, unshared struct), NOT a wrong instruction.
+The only recurring genuine codegen residual is the phantom-frame schedule class (~2/wave) — minor.
+
+**The waste:** each wave produces ~22 byte-correct functions and banks 6, **stranding ~16 paid-for
+correct functions**. 461K tok/bank now; if integration recovered all 22, ~126K tok/bank — a **3.7×
+efficiency gain for ZERO additional drafting tokens.** We already bought the correct code; we throw
+away 73% of it at the gate.
+
+**Conclusion / next investment:** the bottleneck is INTEGRATION AUTOMATION, not drafting and not idioms.
+Pointing more tokens at drafting strands more correct functions. Build a **fleet-safe integration-recovery
+pass** (def-side sig reconcile + data-extern reconcile + auto struct-def lift, R22-validated) that runs
+after the gate — NOT fix_header_decl (fleet-blind, §63). It ~3.7×'s the yield of every wave, past and
+future. Stop waves; invest in integration tooling first, then resume at ~3× efficiency. (Drew stopped the
+waves on this instinct — the data confirms it.)

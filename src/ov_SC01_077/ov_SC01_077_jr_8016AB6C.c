@@ -4191,7 +4191,7 @@ s32 func_80171260(void *a0) {
     return D_8018A084[*(u8 *)((s32)a0 + 0x216)](a0);
 }
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_8016AB6C", func_8017129C);
+DEFINE_func_8017129C()  /* dedup: shared engine-core @0x8017129C (src/shared) */
 
 DEFINE_func_80171384()  /* dedup: shared engine-core @0x80171384 (src/shared) */
 
