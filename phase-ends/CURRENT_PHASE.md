@@ -1879,3 +1879,43 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   **⇒ NEXT-SESSION PRIORITY CHANGES:** do NOT keep uniquifying camps expecting coverage (Handler/Blk8/V8/
   Prim/Prim_8016E7C8 are all small AND now known low-yield). **Fresh cracks are the only lever that moves
   distinct-code**, which sat at exactly 67.6% (3811442/5634875) ALL SESSION, unmoved by any of this.
+
+> **🛑 SESSION-14 CLOSING CHECKPOINT (2026-07-23) — supersedes ALL earlier SESSION-14 blocks. Fresh session safe here.**
+> Tree clean (only R23 `db.*.gbf` churn). **R22 clean-fleet 140/140 byte-identical — verified 6× this session.**
+> `tools-health` green; **dedup 1872 validated / 0 failed**, C1 237654/237654; 0 NON_MATCHING (G4).
+> **Drew pushes** (R6/R20). Commits: `commit:0863` `commit:0864` `commit:0865` `commit:0866` `commit:0867` `commit:0868`
+> `commit:0869` `commit:0870` `commit:0871` `commit:0872`.
+> **Fleet: 79.3% instr · 67.6% distinct · 88.61% fn-count · 40,275 stubs** (opened 79.0 / 67.6 / 88.38 / 41,112).
+>
+> **⚠️ BURN-DOWN: do NOT log another `--session-close`.** One was logged MID-session at 79.3% instr (my
+> error — the same granularity mistake that manufactured SESSION-13's false floor). Work continued after it,
+> but that work moved instr by ~0.00pp, so the recorded boundary is accurate for this session. Floor is
+> still UNDETERMINED (needs ≥3 session-to-session deltas) → **P29 must NOT close on ROI.**
+>
+> **WHAT LANDED:** (1) the **broad §20 type-lift** — 154 types, 2,958 files, after all three carried
+> "blockers" proved misdiagnosed (§64); (2) **13 cores ×138, −831 stubs**; (3) the VARIANT plan corrected
+> from *reconcile* to **UNIQUIFY** + `tools/uniquify_type.py` (§64a), applied to Buf/MATRIX/Vec8 → blocked
+> queue **13 → 7**, 6 cores freed, 5 propagated ×138; (4) R32 fix — `dedup_propagate` now NAMES what it
+> skips and splits the 3 causes it had aggregated; (5) the **types-first verdict** + the **PsyQ-primitives
+> audit**, both recorded for the PhaseEnd at Drew's request.
+>
+> **⚠️ THE SESSION'S MOST USEFUL FINDING (and it is a NEGATIVE one): the §20 cap gated DE-DUPLICATION, not
+> COVERAGE.** The entire uniquify campaign = +6 functions / −6 stubs / **0.00pp** on all three metrics.
+> Roadmap **B4 is re-labelled a maintainability item, not a coverage lever**.
+>
+> **▶ NEXT (re-ranked BY this finding):**
+> 1. **FRESH CRACKS — the only lever that moves `distinct-code`**, which sat at EXACTLY 3811442/5634875 =
+>    67.6% at open AND close, untouched by everything above. Breadth-shaped → **prompt Drew for
+>    `/effort ultracode` and WAIT for the toggle** (R27). Fuel: `build_wave_args.py --rank live
+>    --min-live 100`; the fresh-138 header-decl class (§63) is the known-good integration path.
+> 2. Remaining camps (Handler/Blk8/V8/Prim/Prim_8016E7C8) — small AND now known low-yield. **Opportunistic
+>    only; never the session's main bet.**
+> 3. PsyQ primitive-type correctness (27 lookalikes; the `MATRIX` 48B-vs-32B name hazard) — byte-NEUTRAL,
+>    so a Gen2/public-repo QUALITY item, sequenced away from the harvest. Derivable from the 2,599 Ghidra
+>    `psyq400.gdt` types.
+> **CARRIED:** 7 cores still overlay-local-type-blocked (named in the skip output); 6 cross-overlay
+> stragglers correctly dropped (`--recover` NOT used — quadratic thrash hazard).
+> **STANDING LESSONS:** a pre-filter is evidence ONLY about what it filtered (pre-filter on a binary that
+> FAILED); read the GATE's own output, never the wrapper's exit code (`| tail` masked a 103/140 failure as
+> "exit 0"; a session fork later reported a GREEN run as "exit -1"); R14 applies to my own 3-line scripts —
+> two produced false evidence before any project tool did.
