@@ -4137,7 +4137,29 @@ extern void func_8012B370(int a0);
     }
 
 
-INCLUDE_ASM("asm/ov_SC06_008/nonmatchings/ov_SC06_008_jr_8017C294", func_80183904);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void func_80183904(void *a0)
+{
+  s32 v0 = *((s32 *) (((s32) a0) + 0x64));
+  *((s16 *) (v0 + 0x5C)) = 0;
+  ;
+  *((s16 *) ((*((s32 *) ((*((s32 *) (((s32) a0) + 0x64))) + 0xCC))) + 0x5C)) = 0;
+}
 
 INCLUDE_ASM("asm/ov_SC06_008/nonmatchings/ov_SC06_008_jr_8017C294", func_80183924);
 
