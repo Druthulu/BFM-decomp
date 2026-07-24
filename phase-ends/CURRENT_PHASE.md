@@ -1762,3 +1762,36 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   cause; the 13 turned out to be all the real cap, but the queue is no longer invisible.
   **NEXT CAMPS by cost:** `MATRIX` (578/71/6) · `Vec8` (180/139 — no clear minority, expect to name BOTH) ·
   then Handler / Blk8 / V8 / Prim / Prim_8016E7C8.
+
+> **🛑 SESSION-14 FINAL CHECKPOINT (2026-07-23) — supersedes the SESSION-14 block above.**
+> Tree clean (only R23 `db.*.gbf` churn). **R22 clean-fleet 140/140 byte-identical — verified 4× this
+> session** (after the broad lift, after the 13-core propagate, after the Buf lift, after the final
+> propagate). `tools-health` OK; **dedup-check 1868 validated / 0 failed**, C1 237102/237102;
+> 0 NON_MATCHING (G4). **Drew pushes** (R6/R20). Commits: `commit:0863` `commit:0864` `commit:0865` `commit:0866`.
+> **Fleet: 79.3% instr · 67.6% distinct · 88.61% fn-count** (opened 79.0/67.6/88.38).
+> **Burn-down `--session-close` logged: +0.60pp instr / +0.47pp fn-count.** NB its "distinct −0.30pp" is
+> against an OLDER baseline snapshot under a different denominator convention — **this session's
+> distinct-code was exactly FLAT** (3811442/5634875 at both open and close). 3 session-close snapshots on
+> record; still **<3 deltas, so the ROI floor remains UNDETERMINED — do NOT close P29 on ROI.**
+>
+> **WHAT LANDED:** (1) the broad §20 type-lift — **154 types, 2,958 files, engine_types.h +510**, after all
+> three carried "blockers" proved misdiagnosed (§64); (2) **13 cores propagated ×138, −831 stubs**;
+> (3) the VARIANT plan CORRECTED from reconcile to **UNIQUIFY** + `tools/uniquify_type.py`, validated on
+> `Buf` (§64a), blocked queue **13 → 11**; (4) R32 fix: `dedup_propagate` now NAMES what it skips and
+> splits the three causes it had aggregated.
+>
+> **▶ NEXT (ranked):**
+> 1. **Uniquify the remaining camps** — `MATRIX` (578/71/6) then `Vec8` (180/139 — no clear majority, so
+>    expect to name BOTH camps), then Handler / Blk8 / V8 / Prim / Prim_8016E7C8. Recipe PROVEN:
+>    `uniquify_type --apply` → `lift_types --candidates` → `--types <camps> --apply` → pre-filter build →
+>    R22 → `dedup_propagate --addr`. Expect this to keep draining the 11-core blocked queue.
+>    ⚠️ **Temper the expected yield:** the Buf increment banked **0 new matched functions** (its members
+>    were already matched; propagation only de-duplicated source). Unblocking a core ≠ new coverage.
+> 2. **Fresh cracks** — the ONLY lever that moves `distinct-code` (flat at 67.6% ALL session). Breadth →
+>    prompt Drew for `/effort ultracode` and WAIT for the toggle (R27).
+> 3. Do NOT close P29 on ROI (floor undetermined).
+> **CARRIED:** 11 cores still overlay-local-type-blocked (named in the skip output); 5+1 cross-overlay
+> stragglers correctly dropped (`--recover` NOT used — quadratic thrash hazard).
+> **STANDING LESSONS THIS SESSION:** a pre-filter is evidence ONLY about what it filtered (pre-filter on a
+> binary that FAILED); `cmd | tail` masks make's exit status (echo the real status inside the command);
+> and R14 applies to my own 3-line scripts — two of them produced false evidence before any project tool did.
