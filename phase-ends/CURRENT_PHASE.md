@@ -40,6 +40,13 @@ arithmetic scales (R14/R35).** Every prior "structural wall" (B2, SC07, pin-cras
 ---
 
 ## Task checklist (current-task pointer = ▶)
+> **STATE AS OF 2026-07-23 (SESSION-14 close) — boxes reconciled against the per-task log.**
+> GENUINELY OPEN: **Task 4** (member harvest + grinder family-warm-start + the 2 Phase-22 grinder
+> bugs) · **Task 5** (per-overlay Ghidra-C prefetch — ov_SC06_018 done, greedy cover carries on;
+> needs `/mcp`, R23/R29) · **Task 6's permuter backlog sweep** · **Task 7** (ROI-gated close —
+> BLOCKED: burn-down needs >=3 session-to-session deltas). Everything else is complete.
+> **NEXT-SESSION PRIORITY (re-ranked by the SESSION-14 finding): FRESH CRACKS** — the only lever that
+> moves distinct-code; the propagation cap is byte-proven to gate de-duplication, not coverage.
 
 - [x] **Task 1 — T3b disambiguating probe: build `tools/diff_regions.py` + the swing verdict [Max]** ✅
       **VERDICT: (a) TOOLING — an -O0 compile-flag artifact, NOT a regalloc wall.** The two families
@@ -110,10 +117,12 @@ arithmetic scales (R14/R35).** Every prior "structural wall" (B2, SC07, pin-cras
       source; the prior 139/140 was the *batch* `_jtbl_prep` residue (fixed in the same commit that named
       the blocker). jtbl banking is UNFROZEN, one draft per `harvest_verify` invocation. Cookbook §61c
       REFUTED-block + decision-log (R31).
-- [ ] ▶ **Task 14 stage 2 / close — type-lift stage (§19/§57a/§59) OR begin the phase close [Max]** — the
+- [x] **Task 14 stage 2 — type-lift stage [Max]** ✅ 2026-07-23 (SESSION-14): DELIVERED as the broad §20
+      type-lift (`lift_types.py` hardened, 154 types) + the UNIQUIFY operation (`uniquify_type.py`, §64/§64a).
+      Superseded spec below. — the
       corrected frontier says every remaining lever is ≤~1pp at low measured conversion; Task 7's
       ROI-gated close is the honest alternative. (Superseded spec below.)
-- [ ] **(superseded) Task 14 — enrich `gate_stage`'s ladder (§57/§59) so more wins auto-integrate + grinder auto-R22
+- [x] **(SUPERSEDED — see Task 14 stage 2 above; left for its context)** Task 14 — enrich `gate_stage`'s ladder (§57/§59) so more wins auto-integrate + grinder auto-R22
       [Max]** — the permuter-automation program's final stage (Tasks 12→13→14). Justified as the SHARED
       BANKING SPINE, not as a bucket: today 3 of 24 permuter wins were lost to plumbing (12.5% of work
       already paid for in CPU), the 12-draft probe banked 1/12, and crack-wave-4's 6 -O2 cores ×138 were
@@ -121,14 +130,16 @@ arithmetic scales (R14/R35).** Every prior "structural wall" (B2, SC07, pin-cras
       (NOT the 3.2pp I first quoted — see the valuation correction below). Start by splicing 6–10 failures
       individually and reading real cc1/ld stderr: the shared `conflicting types for built-in function`
       label is a §58 red-herring, so the causes are UNDIAGNOSED.
-- [ ] **Task 2 — Act on the verdict [Max/xHigh]** — **branch = 2a (tooling).** Build the -O0-cluster
+- [x] **Task 2 — Act on the verdict [Max/xHigh]** ✅ (log: "TASK 2 SUBSTANTIVELY COMPLETE", Arm B tail +
+      Arm A verdict-as-banked-fact; the -O0 fleet rollout stays DEFERRED on the splat wall.) Orig spec: — **branch = 2a (tooling).** Build the -O0-cluster
       split rollout (adapt `rollout_whale_o0.py` → per-overlay `[0x13410,c,<ov>_o0]` carve, -O0 Makefile
       rule) + teach `family_sweep --hseq` per-member opt-level awareness; WHOLE-BINARY gate one overlay
       (convert the verdict to a banked fact), then fleet + the type-lift sweep. `member_adapt.py` NOT
       needed for this pool. Originally: (2a) extend `family_remap.symbol_map` + re-run
       the legacy-PURE `family_sweep --hseq` (the ~478k-ins mechanical win); OR (2b) build
       `tools/member_adapt.py` (exemplar→member delta engine + per-member delta briefs); OR both.
-- [ ] **Task 3 — Core-crack track: fresh exemplar + B3 near-miss cracks [Ultracode/xHigh/Max]** —
+- [x] **Task 3 — Core-crack track [Ultracode/xHigh/Max]** ✅ (log: "TASK 3 COMPLETE (both deliverables)" —
+      5 banked ×1 + the §53 has_mid_jr interlock; 12 giant drafts preserved.) Orig spec: —
       top substantial stub exemplars (non-jr `0x80176734`/`0x80176218`/`0x8013faf8`/`0x8014d820`/
       `0x801670e4`/`0x80140958`; jr via `jtbl_family_bank` `0x8013f350`/`0x80131340`/`0x80159c84`/
       `0x8013c414`) + B3 high-close near-miss cores (`func_8014F4C0` 127, `func_80137DD4` 107,
@@ -161,7 +172,8 @@ arithmetic scales (R14/R35).** Every prior "structural wall" (B2, SC07, pin-cras
       0.4.dec 0x80128158 ov_SC06_018` → `DefineFunctions` → `DecompileFunctions` over the **101 uncached
       substantial stubs** (`.run/ov_SC06_018_funcs.txt`, 17,723 ins; largest `func_80191C50` 710,
       `func_8019059C` 673, `func_8018F694` 478). **R29: Drew must run `/mcp` after the server restarts.**
-- [ ] **Task 6 — Mechanical mass: tiny-IMM mega-pools + permuter backlog sweep [Ultracode/permuter]**
+- [~] **Task 6 — Mechanical mass [Ultracode/permuter]** — mega-pool track ✅ COMPLETE (+4,801 members via
+      `--fix-def-sig`, §54); **permuter backlog sweep still OPEN** (the close-1..4 drafts). Orig spec:
       — `0x80131eec` (2,887×15) + `0x80130d0c` (2,679×15) via `imm_map`; the 550 close-1..4
       backlog drafts via grinder/`permuter_ils`.
 - [ ] **Task 7 — Burn-down tracker + velocity/3-metric report + ROI-gated close [Max]** — close
