@@ -1692,3 +1692,49 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   distinct-matched; only a fresh crack moves that number.
   **STILL BLOCKED: 13 cores, "not self-contained (local types)"** — blocked by exactly the 8 deferred
   VARIANT entities. That is the next lever, and it is a per-camp FIELD-ACCESS RECONCILE, not a lift.
+
+> **🛑 SESSION-14 CHECKPOINT (2026-07-23, Max) — supersedes SESSION-13; safe to open a FRESH session here.**
+> Tree clean (only R23 `db.*.gbf` churn). **R22 clean-fleet 140/140 byte-identical** (verified 2× this
+> session); `tools-health` OK (corpus 0 PHANTOM/0 TRUNCATED, cdecl ALL ORACLES GREEN, audit-binaries 140
+> full citizens); **dedup-check 1867 validated / 0 failed**, C1 236964/236964; 0 NON_MATCHING (G4).
+> **Drew pushes** (R6/R20). Commits: `commit:0863`, `commit:0864`.
+> **Fleet: 79.3% instr · 67.6% distinct · 88.61% fn-count** (opened 79.0/67.6/88.38 → **+0.3pp instr,
+> +0.23pp fn-count, −831 INCLUDE_ASM stubs**; distinct flat — shared-family propagation, not fresh cracks).
+>
+> **THE SESSION IN ONE LINE: the 3-session-carried "collision-vet + -O0 strip precision" blocker was
+> misdiagnosed on all three counts, and fixing the INSTRUMENTS first changed every answer (R35).**
+> 1. The "case-variant collision" (`actor4c`/`Actor4C`) is a **TAGGED TYPEDEF counted twice** with
+>    OVERLAPPING spans — 13 pairs / 6,142 occurrences / **0 standalone tags**. The inner span starts at
+>    `struct`, so lifting it emits a *variable definition*; and the highest-first strip leaves the outer
+>    span's end offset STALE → over-deletes past its end. `build_engine_types.resolve_type_defs()` is now
+>    the ONE shared model (R33); `assert_disjoint()` enforces disjointness at every mutation (R32).
+>    **The case-insensitive exclude was a heuristic over a structural fact** — it would ALSO have wrongly
+>    dropped the legitimate `Obj`/`obj` + `Vec`/`vec` pairs. Key by **(kind, name)** — the C namespace.
+> 2. The "-O0 strip precision" bug is a **VISIBILITY** bug: `ov_SC01_077_o0.c` is the **1 TU of 3,226**
+>    that deliberately omits `engine_core.h`, so the strip DELETED its types. `multiple definition of
+>    D_801DAA08` was **3 steps downstream** (undeclared → parse error → implicit int → tentative def →
+>    link collision) and named a data symbol no diff ever touched. `bet.type_visible()` now derives the
+>    visible-header set from the include graph and keeps such defs local, NAMED.
+> 3. **A third blocker, introduced by me and caught by R22:** `--candidates` classifies per ENTITY but
+>    emits per NAME, so passing `Prim` dragged in the deferred VARIANT `typedef Prim` → 103 overlays
+>    repointed at the header's different layout. Compiled clean, per-binary pre-filter GREEN, **R22
+>    37/140** — and the 103 failures were EXACTLY the 103 Prim-stripped overlays (set equality).
+>
+> **WHAT LANDED:** 154 types lifted fleet-wide (2,958 files stripped, `engine_types.h` +510) → then
+> **13 cores propagated ×138** (12 via `--auto-from` + `func_80175308`, the provable unblock), −831 stubs.
+> 5 cores correctly DROPPED as cross-overlay stragglers; `--recover` NOT used (quadratic thrash hazard).
+>
+> **▶ NEXT (ranked):**
+> 1. **The per-camp FIELD-ACCESS RECONCILE for the 8 VARIANT entities** — MATRIX (3 defs), Buf (3), Vec8,
+>    Prim, Handler, Blk8, V8, Prim_8016E7C8. They block the **13 cores still "not self-contained (local
+>    types)"**. Pick a canonical layout per camp, rewrite the variant camps' FIELD ACCESS, R22. **This is
+>    NOT a lift** — lifting them blindly is exactly what broke 103 overlays today. Remaining hard part of
+>    roadmap B4. Enumerate with `lift_types.py --candidates` (VARIANT bucket).
+> 2. **Fresh cracks** — the only lever that moves **distinct-code** (flat at 67.6% all session).
+> 3. Do NOT close P29 on ROI — the burn-down floor is still undetermined (needs 3 session-close deltas).
+> **TOOLING NOW SAFE TO RE-RUN:** `lift_types.py --candidates` is derived + reproducible (retires the
+> ad-hoc 102-type pipeline); 4 negative controls armed (overlap refused, containment folded, visibility
+> False on the -O0 TU, divergent copies refused). **PRE-FILTER LESSON (§61 one level down): a pre-filter
+> is evidence ONLY about what it filtered** — `ov_SC01_077` passed the Prim-broken run too. **Pre-filter on
+> a binary that FAILED.** Also: `cmd | tail` masks make's exit status — the harness reported "exit 0" on a
+> run that failed 103/140. **Two of my own 3-line scripts lied before any tool did (R14).**
