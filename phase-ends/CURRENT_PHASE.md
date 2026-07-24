@@ -1816,3 +1816,31 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   **R22 clean-fleet 140/140**. Freed `0x8012a464`, `0x8014ffdc`, `0x801502ec`.
   **QUEUE ARC THIS SESSION: 13 → 11 (Buf) → 10 (MATRIX) → 7 (Vec8)** — 6 cores unblocked by uniquify.
   **Remaining camps:** Handler · Blk8 · V8 · Prim · Prim_8016E7C8 (all small).
+
+- **📌 → PHASEEND (Drew-requested, 2026-07-23): "would types-first help a fresh decomp / Vagrant Story?"**
+  Answer, grounded in this project's own measurements — **mostly NO, with one cheap exception.**
+  **(a) For MATCHING: no. Byte-proven three times.** Phases 16/17/18 each re-confirmed struct types are
+  **byte-NEUTRAL** for byte-matching: codegen depends on access WIDTH + OFFSET, which we read off the MIPS
+  opcode (`lh`/`lhu`/`lw` + displacement); a struct is just a nicer spelling of `*(s16*)(p+0x24)`. Phase 16
+  spent a whole phase betting on "recover the actor struct → matching gets easier" and the byte-gate said
+  no. **SESSION-14 confirms it from the other side: lifting 154 types banked ZERO new matched functions.**
+  **(b) What types actually gate is SHARING, not matching** — and that is ARCHITECTURE-SPECIFIC. Our
+  economics are "match once → stamp into 138 near-identical overlays"; a matched body naming a file-local
+  type can't enter the shared header, so it can't be stamped (the §20 cap). A game WITHOUT heavy
+  cross-binary duplication barely has this lever, so types-first buys much less there. **Unmeasured for
+  Vagrant Story** — same compiler (gcc-2.7.2-psx) and CC0 so IDIOMS transfer, but whether VS has
+  comparable duplication is unknown; measure before claiming.
+  **(c) The cheap day-one exception — a NAMING/PROCESS discipline, not type recovery:**
+    1. **Seed the real SDK types immediately.** `MATRIX`/`SVECTOR`/`VECTOR`/`DVECTOR` have documented PsyQ
+       layouts. We didn't, and this tree accumulated **THREE contradictory `MATRIX` defs**; the 578-file
+       MAJORITY is `{s32 m[3][3]; s32 t[3]}` (48B) while the 71-file camp `{short m[3][3]; long t[3]}` (32B)
+       is the DOCUMENTED PsyQ layout. **The most widespread definition in our tree is probably the wrong
+       one** — it spread because it never mattered for bytes. Same for `Vec8` existing as 32B AND 8B.
+    2. **Forbid drafters from inventing BARE generic type names; require an address suffix.** MEASURED:
+       of the 8 collided names, **7 are bare** (MATRIX, Buf, Vec8, Handler, Blk8, V8, Prim); the single
+       address-suffixed one (`Prim_8016E7C8`) differs only in a MEMBER's type spelling, not layout.
+    3. A shared types header from day one, so anything genuinely common has one home.
+  **ROOT CAUSE (the transferable lesson): the camps are self-inflicted** — hundreds of parallel AI drafting
+  agents each invented a local name+layout for the same memory. The fix is a convention enforced at DRAFT
+  time, which costs nothing; today's cleanup cost a session. **Blunt form: types-first would not have made
+  a single function match sooner — a NAMING CONVENTION would have saved most of this session.**

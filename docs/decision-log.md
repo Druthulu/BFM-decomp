@@ -1859,3 +1859,33 @@ Prim-broken run too. Pre-filter on a binary that FAILED.
 **Deferred, named, not dropped:** 8 VARIANT entities (MATRIX 3-def, Buf 3-def, Vec8, Prim, Handler, Blk8,
 V8, Prim_8016E7C8) for the per-camp field-access reconcile — still the remaining hard part of roadmap B4;
 14 carried tags; 5 types kept local in the -O0 TU.
+
+## 2026-07-23 (Phase 29, SESSION-14) — "should a fresh decomp do types FIRST?" — no for matching; yes for one cheap naming convention
+
+**Context.** Drew asked whether doing the type work up front would help a lot — e.g. for Vagrant Story or a
+fresh game decomp. Worth recording because the intuitive answer ("of course, types make code readable and
+matchable") is **byte-refuted by this project three separate times**.
+
+**(a) Types are byte-NEUTRAL for matching.** Phases 16, 17 and 18 each re-confirmed it: gcc's output is
+determined by access WIDTH and OFFSET, which we read directly off the MIPS opcode; a struct definition is a
+spelling convenience for `*(s16*)(p+0x24)`. Phase 16 spent an entire phase on "recover the actor struct →
+matching gets easier" and the byte-gate refused it. SESSION-14 closes the loop from the other direction:
+lifting 154 types fleet-wide banked **zero** new matched functions.
+
+**(b) What types gate is SHARING, and that is architecture-specific.** BFM's economics are "match once →
+stamp ×138 overlays"; a matched body naming a file-local type cannot enter the shared header, so it cannot
+be stamped (§20 cap). That lever exists because 138 overlays run the same engine. A decomp without that
+duplication gets far less from types-first. **For VS specifically: unmeasured.** Same compiler and CC0, so
+the gcc idioms transfer; whether its structure supports propagation is an open question, not a claim.
+
+**(c) The cheap exception is a NAMING convention, not type recovery.** Seed documented SDK types on day one
+(we found THREE contradictory `MATRIX` layouts, and the 578-file majority — `{s32 m[3][3]; s32 t[3]}`, 48B —
+is almost certainly WRONG versus the documented PsyQ `{short m[3][3]; long t[3]}`, 32B, which sits in only 71
+files; it spread precisely because it never mattered for bytes). Then forbid bare generic type names at
+DRAFT time: measured, **7 of the 8 collided names are bare** (MATRIX, Buf, Vec8, Handler, Blk8, V8, Prim),
+and the one address-suffixed collision (`Prim_8016E7C8`) differs only in a member's type spelling.
+
+**The transferable lesson** (→ the public "how to AI-decomp" wiki): the type camps were **self-inflicted by
+parallel agents** each inventing a local name and layout for the same memory. Enforcing an address-suffixed
+naming convention at draft time costs nothing; cleaning it up afterwards cost a session. **Types-first would
+not have made one function match sooner; a naming convention would have saved most of SESSION-14.**
