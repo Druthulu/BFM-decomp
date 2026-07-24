@@ -2345,3 +2345,38 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   The remaining ~8 are not "run one more tool" — each needs a transform that does not exist yet.
   Distilled to cookbook **§65f** (the lever's measured boundary + the SHA-reading rule) and **§65g**
   (where the cheap levers stop, so the next session does not re-buy this negative).
+
+> **🛑 SESSION-16 CLOSING CHECKPOINT (2026-07-24) — supersedes ALL earlier SESSION-16 blocks. Fresh session safe here.**
+> Tree clean (only R23 `db.*.gbf` churn). `make check BINARY=ov_SC07_006` **BYTE-IDENTICAL**; last full
+> R22 **140/140**; 0 NON_MATCHING (G4); dedup 1879/0. **Drew pushes** (R6/R20). HEAD `commit:0925`.
+> **Fleet: 79.6% instr · 67.7% distinct (count 64,874, +14) · 88.86% fn-count.** ov_SC07_006 stubs 344→330.
+>
+> **THE SESSION'S RESULT IN ONE LINE:** the integration-recovery pass is BUILT, PROVEN, and ENCODED —
+> and its ceiling with existing transforms is **measured at 14 of 36 (39%)**, not the projected "all 22".
+>
+> **DELIVERED:** `tools/blocker_probe.py` (two oracles) · `tools/demacroize.py` (the per-overlay escape
+> that refutes §20's DEF-conflict wall) · **14 stranded drafts banked** · the recipe encoded in
+> `tools/recover_integration.py` with tiers ENFORCED and §55b trap 4 closed · cookbook **§65–§65g** ·
+> decision-log · calibration · SETUP (+3 missing rows).
+>
+> **THREE BYTE-RECORDED NEGATIVES — do NOT re-buy them:**
+> - **`self_decl_tu` class (3 fns): 0 banked** — `normalize_self_decls`'s `()` skip is blind to
+>   RETURN-type conflicts, and its narrow-param rewrite breaks the build (`final SHA None`). §57a
+>   already classed it SURGICAL-ONLY.
+> - **`local_type` class (4 fns): 0 banked** — uniquify trades `redefinition of struct T` for
+>   `conflicting types for D_x`; fixing the order lets one compile, which then DIFFs 48/53 (a
+>   struct-TYPED data extern is what `reconcile_tu` cannot cast).
+> - **de-macroize is byte-neutral 14 of 15**, not always (§65f) — the 15th shifted a macro's own
+>   already-matched function, caught by the gate for free.
+>
+> **▶ NEXT — the productive path is to RESUME THE WAVES, not to grind the residue.**
+> The recovery pass converts ~39% of a wave's strandeds, and a wave produces FRESH strandeds in the
+> classes it handles (`self_decl_hdr` was 21 of 36). Grinding the current ~8 leftovers means building a
+> new transform per function; running a wave and recovering it is the better trade.
+> Waves are breadth-shaped → **prompt Drew for `/effort ultracode` and WAIT for the toggle (R27)**.
+> Pipeline: `build_wave_args.py --rank live --min-live 100` → wave → then
+> `recover_integration.py --draft-dir <wave dir> --binary <ov> --run-id <id> --stages demacroize
+> --no-propagate --r22`.
+> **⚠️ STANDING HAZARD:** `dedup_propagate --auto-from` would RE-MACROIZE the 14 de-macroized sites and
+> undo them. `--check-only` first; targeted `--addr` only.
+> **DO NOT close P29 on ROI** — burn-down floor still undetermined.
