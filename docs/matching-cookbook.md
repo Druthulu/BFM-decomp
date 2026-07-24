@@ -5192,3 +5192,31 @@ own source by 45 in the dedup-shared column — it was generated during the §65
 edits were reverted afterwards. Provable in one command: regenerate from committed source and compare
 (two independent runs, in-gate and standalone, agreed). *Regenerate digests on a clean tree, or the
 digest describes a state that no longer exists.*
+
+### §66c — Before a wave, verify the FUEL exists; an "already attempted" set built from the wrong directory lies in BOTH directions
+
+`build_wave_args.py` ranks candidates by live-sibling count but has no notion of *already attempted* —
+so its "FRESH (>=100 live)" line means "fresh by leverage", not "never drafted". Filtering it is on you,
+and the filter is where the traps are. Both of these happened in one afternoon:
+
+* **Exclusion set too NARROW → false work.** Built from the backlog alone, it missed `.run/giants/`, so
+  the top three "fresh" targets were `func_80176734` (close=76), `func_80176218` (close=271) and
+  `func_80140958` (close=116) — ~2.6M agent tokens of *preserved, characterized, permuter-only* drafts a
+  wave would have paid to re-derive. **Preserved drafts do not all live in the backlog** (`.run/giants/`,
+  `.run/wt_uni/`, `.run/drafts_wave4/`, the per-wave `.run/drafts-*` dirs); 30 of 141 high-reach cached
+  targets have a draft and *no* backlog record at all.
+* **Exclusion set too WIDE → false exhaustion.** Corrected to scan `.run/**/func_*.c`, it swept in
+  `.run/ghidra_c/func_*.c` — which is the Ghidra decompile **INPUT**, not an attempt — and reported
+  5,488 attempts, making 100% of every pool read "already tried". A 0 from that filter and a 0 from a
+  correct one are the same number and opposite facts (R35, one level up from tools onto queries).
+
+**The query that actually answers "is there fuel?"** — over all binaries, per candidate: *(cached
+Ghidra-C?)* ∧ *(still an INCLUDE_ASM stub in ≥N binaries — the TRUE lever, recomputed from
+`corpus.stubs`, never a manifest's stale `reach`)* ∧ *(no backlog record)* ∧ *(no preserved draft
+anywhere outside `.run/ghidra_c/`)*. Answer at this checkpoint: **141 cached high-reach targets → 111
+gated, 30 draft-only, 0 never attempted**; the only never-attempted cached fuel fleet-wide is 40
+functions at live 1–4.
+
+**The structural point:** wave fuel at high reach is **created by a per-overlay Ghidra-C prefetch, not
+found** — the cached pool is a consumable, and once a wave drains it the next wave's cost/benefit is
+computed against a pool that no longer exists. Re-measure the fuel before each wave, not the leverage.
