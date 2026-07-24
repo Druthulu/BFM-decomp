@@ -1621,3 +1621,15 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 >    `--rank live --min-live 100`); the GIANT families (150–371 ins) are the biggest untapped wins (I capped at 150).
 > **CARRIED:** func_80169228 (divergent, ×1, do NOT --recover); the 4 local-type-blocked cores (need type-lift);
 > fix_header_decl (narrow use only). **Do NOT close P29 on ROI** — burn-down floor undetermined.
+
+> **🔧 SESSION-13 TYPE-LIFT ADDENDUM (2026-07-23) — §20 cap partially cracked, +276.**
+> Built **`tools/lift_types.py`** (fleet-wide targeted §20 type-lift; brace-aware parser, canonical-def picker,
+> retires the `[^;]*` regex that broke twice — R35). Lifted the CLEAN types **Mat32 + Cam8012E138** fleet-wide
+> (139 files stripped) → unblocked + propagated **func_8012B4B8 + func_8012E138 ×138 (+276 stubs)**. R22 140/140.
+> **Fleet 79.0% instr · 67.6% distinct · 88.38% fn-count** (session opened 78.6/67.6/88.22). Commits through
+> `commit:0860` (16 this session). **DOCTRINE (decision-log):** classify types first; lift 1-def/copy-only-variant
+> types NOW (byte-neutral, R22-verified); DEFER fleet-split variants (MATRIX 3-def, Vec8 180/139, Buf 3-def, M8)
+> to a per-camp field-access reconcile pass — the remaining hard part of roadmap B4.
+> **▶ NEXT:** (1) the variant-reconcile pass for MATRIX/Vec8/Buf (per-camp: pick canonical, rewrite variant
+> field-access, R22) — unblocks func_80175308/func_8012A1BC + many fleet-wide; (2) the ~13 staged near/plumbing
+> batch-2 bodies (`.run/drafts-sc07006-fresh/`) via gate_stage; (3) next fresh-138 GIANT-family wave.
