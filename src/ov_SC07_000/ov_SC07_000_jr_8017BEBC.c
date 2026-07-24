@@ -3295,7 +3295,29 @@ s32 func_8017DFF4(void) {
     }
 
 
-INCLUDE_ASM("asm/ov_SC07_000/nonmatchings/ov_SC07_000_jr_8017BEBC", func_8017DFFC);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+extern void func_8012AD44(s32 *a0, s16 a1);
+void func_8017DFFC(void)
+{
+  int new_var;
+  ((void (*)(s32, s32)) func_8012AD44)(new_var, 2);
+  new_var = 0x51AB;
+}
 
 INCLUDE_ASM("asm/ov_SC07_000/nonmatchings/ov_SC07_000_jr_8017BEBC", func_8017E01C);
 
