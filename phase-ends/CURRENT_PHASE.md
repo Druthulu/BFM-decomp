@@ -1674,3 +1674,21 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   **METRICS UNCHANGED — 79.0% instr · 67.6% distinct · 88.38% fn-count.** Expected and honest (P9): a
   type-lift banks NO functions. Its value is removing the §20 cap that stops already-matched cores from
   propagating ×138 — the yield shows up in the NEXT propagate, not here.
+
+- **✅ 2026-07-23 (SESSION-14 cont.) — THE LIFT'S PAYOFF: 13 cores propagated ×138, −831 stubs.**
+  With the §20 cap lifted, `dedup_propagate --auto-from ov_SC01_077 --check-only` planned **17**
+  self-contained cores (was blocked); the batch banked **12** + `func_80175308` (propagated separately,
+  138/138) = **13 cores ×138**. **5 were correctly DROPPED as cross-overlay stragglers** (`0x8012A018`,
+  `0x80172C50`, `0x80173A60`, `0x80144090` in ov_SC01_000; `0x801495C4` in ov_SC07_006) — h_exact sharing
+  is all-or-nothing and those overlays' bytes diverge; dropping is right, `--recover` is the documented
+  thrash hazard and was NOT used.
+  **`func_80175308` is the provable unblock** — it is the core the SESSION-13 checkpoint named as
+  local-type-blocked. (I do NOT claim all 17 were unblocked by this lift: measuring that needs a pre-lift
+  re-scan I did not run — P9.)
+  **GATES: R22 clean-fleet 140/140 BYTE-IDENTICAL** (2nd full cycle this session); `make report` green;
+  **dedup-check 1867 validated / 0 failed** (was 1854), C1 236964/236964; 0 NON_MATCHING (G4).
+  **FLEET: instr 79.0 → 79.3% · fn-count 88.38 → 88.61% · INCLUDE_ASM stubs 41,112 → 40,281 (−831).**
+  **distinct-code stays 67.6% — correct and expected:** propagation replicates code already counted as
+  distinct-matched; only a fresh crack moves that number.
+  **STILL BLOCKED: 13 cores, "not self-contained (local types)"** — blocked by exactly the 8 deferred
+  VARIANT entities. That is the next lever, and it is a per-camp FIELD-ACCESS RECONCILE, not a lift.

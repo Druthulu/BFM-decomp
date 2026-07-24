@@ -2986,7 +2986,7 @@ DEFINE_func_80149744()  /* dedup: shared engine-core @0x80149744 (src/shared) */
 DEFINE_func_80149788()  /* dedup: shared engine-core @0x80149788 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_80140608", func_801497A8);
+DEFINE_func_801497A8()  /* dedup: shared engine-core @0x801497A8 (src/shared) */
 
 DEFINE_func_80149864()  /* dedup: shared engine-core @0x80149864 (src/shared) */
 
@@ -3445,7 +3445,7 @@ DEFINE_func_8014C43C()  /* dedup: shared engine-core @0x8014c43c (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_80140608", func_8014C4AC);
 
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_80140608", func_8014C568);
+DEFINE_func_8014C568()  /* dedup: shared engine-core @0x8014C568 (src/shared) */
 
 DEFINE_func_8014C59C()  /* dedup: shared engine-core @0x8014c59c (src/shared) */
 
@@ -4266,34 +4266,7 @@ DEFINE_func_8015220C()  /* dedup: shared engine-core @0x8015220c (src/shared) */
 DEFINE_func_80152254()  /* dedup: shared engine-core @0x80152254 (src/shared) */
 
 
-extern void func_8014BC44(s32 a0, s32 a1);
-extern void func_80154A74(s32 a0, s32 a1);
-extern void func_801553C0(s32 a0);
-extern void func_801470AC(s32 *a0);
-extern void func_801472B4(void *a0);
-extern void func_801477E8(s32 *a0, s32 a1);
-extern void func_80153C18();
-void func_801522CC(s32 a0) {
-    s32 v1;
-    func_8014BC44(a0, *(s16 *)(a0 + 0xF2));
-    *(u8 *)(a0 + 0xA8) = 0x20;
-    func_80154A74(a0, 0x11);
-    func_801553C0(a0);
-    func_801470AC((s32 *)a0);
-    func_801472B4((void *)a0);
-    v1 = *(s32 *)(a0 + 0x20);
-    *(s16 *)(a0 + 0x3E) = 0;
-    *(s16 *)(a0 + 0x40) = 0;
-    *(s16 *)(a0 + 0x42) = 0;
-    *(u8 *)(a0 + 0xDD) = 0;
-    *(u16 *)(a0 + 0x3C) = *(u16 *)(a0 + 0x3C) & 0xFFFE;
-    *(s16 *)(v1 + 0x10) = 0;
-    *(u16 *)(a0 + 0x60) = 0x1000;
-    *(u16 *)(a0 + 0x62) = 0x1000;
-    *(u16 *)(a0 + 0x64) = 0x1000;
-    func_801477E8((s32 *)a0, 0);
-    func_80153C18(a0);
-}
+DEFINE_func_801522CC()  /* dedup: shared engine-core @0x801522CC (src/shared) */
 
 
 

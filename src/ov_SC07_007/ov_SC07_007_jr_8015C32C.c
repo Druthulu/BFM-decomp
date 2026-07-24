@@ -4658,7 +4658,7 @@ DEFINE_func_8016432C()  /* dedup: shared engine-core @0x8016432c (src/shared) */
 void func_80164410(void) {
 }
 
-INCLUDE_ASM("asm/ov_SC07_007/nonmatchings/ov_SC07_007_jr_8015C32C", func_80164418);
+DEFINE_func_80164418()  /* dedup: shared engine-core @0x80164418 (src/shared) */
 
 DEFINE_func_80164530()  /* dedup: shared engine-core @0x80164530 (src/shared) */
 
@@ -6878,7 +6878,7 @@ DEFINE_func_8016EF78()  /* dedup: shared engine-core @0x8016ef78 (src/shared) */
 DEFINE_func_8016EFA8()  /* dedup: shared engine-core @0x8016efa8 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC07_007/nonmatchings/ov_SC07_007_jr_8015C32C", func_8016EFC8);
+DEFINE_func_8016EFC8()  /* dedup: shared engine-core @0x8016EFC8 (src/shared) */
 
 DEFINE_func_8016F094()  /* dedup: shared engine-core @0x8016f094 (src/shared) */
 
@@ -7643,25 +7643,7 @@ DEFINE_func_80171EC8()  /* dedup: shared engine-core @0x80171ec8 (src/shared) */
 
 
 
-extern s32 func_8017248C(s32, s32);
-extern s32 ratan2(s32, s32);
-extern void func_80172170(s32, s32);
-extern void func_80146D90(s32);
-
-s32 func_80171FFC(short *a0, short *a1, s32 a2)
-{
-    s32 r;
-
-    r = func_8017248C((s32)a0, (s32)a1);
-    if (r != 0) {
-        func_80146D90((s32)a0);
-        return r;
-    }
-    *(s16 *)(*(s32 *)((s32)a0 + 0x20) + 0x12) =
-        (ratan2(a1[0] - a0[3], a1[2] - a0[7]) + 0x800) & 0xFFF;
-    func_80172170((s32)a0, a2 & 0xFF);
-    return 0;
-}
+DEFINE_func_80171FFC()  /* dedup: shared engine-core @0x80171FFC (src/shared) */
 
 
 DEFINE_func_8017209C()  /* dedup: shared engine-core @0x8017209c (src/shared) */
@@ -8445,7 +8427,7 @@ s32 func_80175268(s32 param_1)
 DEFINE_func_801752BC()  /* dedup: shared engine-core @0x801752bc (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC07_007/nonmatchings/ov_SC07_007_jr_8015C32C", func_80175308);
+DEFINE_func_80175308()  /* dedup: shared engine-core @0x80175308 (src/shared) */
 
 DEFINE_func_80175414()  /* dedup: shared engine-core @0x80175414 (src/shared) */
 
@@ -8543,47 +8525,7 @@ DEFINE_func_80177340()  /* dedup: shared engine-core @0x80177340 (src/shared) */
 DEFINE_func_8017742C()  /* dedup: shared engine-core @0x8017742c (src/shared) */
 
 
-extern void func_801776EC(u8 *a0);
-void func_801775E0(s32 param_1, s32 param_2) {
-
-    extern u8 D_8011F83B;
-    extern u8 D_8011F837;
-    extern u8 D_8011F7F0;
-    s32 s0 = param_1;
-    s32 pp = param_2;
-    u8 *base = &D_8011F7F0;
-    s16 sVar1; s32 t; s32 v;
-    s32 c = D_8011F83B;
-    if (c != 0) {
-        if (c < 0) goto store;
-        if (c >= 0xf7) goto store;
-        if (c < 0xf3) goto store;
-        goto docall;
-    }
-    if (D_8011F837 != 0x80) {
-        *(u8 *)(s0 + 4) = 0xff;
-        *(u8 *)(s0 + 6) = 0x10;
-        *(u8 *)(s0 + 5) = 0x10;
-        goto L684;
-    }
-    func_801776EC((u8 *)s0);
-    goto L684;
-docall:
-    func_801776EC((u8 *)s0);
-    goto L684;
-store:
-    *(u8 *)(s0 + 5) = 0xff;
-    *(u8 *)(s0 + 6) = 0x10;
-    *(u8 *)(s0 + 4) = 0x10;
-L684:
-    sVar1 = (s16)((u32)(base[0x47] * 9) >> 4);
-    t = pp + 0x48;
-    *(s16 *)(s0 + 0xe) = sVar1;
-    *(s16 *)(s0 + 0xa) = t - sVar1;
-    if (base[0x47] != 0) { s0 = param_1 + 0x14; v = 0xa0; } else { s0 = param_1 + 0x14; v = 0x40; }
-    *(u8 *)(s0 + 6) = v;
-    *(s16 *)(s0 + 0xa) = pp;
-}
+DEFINE_func_801775E0()  /* dedup: shared engine-core @0x801775E0 (src/shared) */
 
 
 DEFINE_func_801776EC()  /* dedup: shared engine-core @0x801776ec (src/shared) */

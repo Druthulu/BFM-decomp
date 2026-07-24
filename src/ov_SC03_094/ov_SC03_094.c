@@ -673,7 +673,7 @@ DEFINE_func_8012A304()  /* dedup: shared engine-core @0x8012A304 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC03_094/nonmatchings/ov_SC03_094", func_8012A328);
 
-INCLUDE_ASM("asm/ov_SC03_094/nonmatchings/ov_SC03_094", func_8012A418);
+DEFINE_func_8012A418()  /* dedup: shared engine-core @0x8012A418 (src/shared) */
 
 
 

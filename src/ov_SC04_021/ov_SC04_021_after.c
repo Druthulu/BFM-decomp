@@ -844,32 +844,7 @@ DEFINE_func_80149744()  /* dedup: shared engine-core @0x80149744 (src/shared) */
 DEFINE_func_80149788()  /* dedup: shared engine-core @0x80149788 (src/shared) */
 
 
-extern s32 func_8014CB7C(void);
-extern s32 func_8014C088(s32 a0, s32 a1);
-extern u8 func_80165658(s32 a0, s32 a1);
-
-s32 func_801497A8(s32 *a0) {
-
-    extern u8 D_80078E78[];
-    extern u8 D_80078EC1;
-    u8 *s1 = D_80078E78;
-    /* Zero-byte RC-7 "second set": reg_n_sets(s1)==2 fails update_equiv_regs'
-       single-set gate -> no REG_EQUIV -> the address constant is NOT
-       rematerialized at its lone use; it is held in a callee-saved reg ($s1)
-       across the calls, as the target does. NOT a register pin (no $N). */
-    __asm__("" : "=r"(s1) : "0"(s1));
-
-    if (*(u16 *)a0 == 0x1A) goto ret0;
-    if (func_8014CB7C() != 0) goto ret0;
-    if (D_80078EC1 == 0xF) {
-        if (func_8014C088((s32)a0, 0xA) != 0) goto ret0;
-    }
-    if (*(s32 *)((u8 *)a0 + 0x44) & 0x404) goto ret0;
-    if (func_80165658((s32)a0, s1[0x49]) & 0x80) goto ret0;
-    if (*(u16 *)((u8 *)a0 + 0xAC) & 0x20) return 1;
-ret0:
-    return 0;
-}
+DEFINE_func_801497A8()  /* dedup: shared engine-core @0x801497A8 (src/shared) */
 
 
 DEFINE_func_80149864()  /* dedup: shared engine-core @0x80149864 (src/shared) */
@@ -1180,11 +1155,7 @@ DEFINE_func_8014C43C()  /* dedup: shared engine-core @0x8014C43C (src/shared) */
 INCLUDE_ASM("asm/ov_SC04_021/nonmatchings/ov_SC04_021_after", func_8014C4AC);
 
 
-extern s32 ratan2(s32 x, s32 y);
-
-s32 func_8014C568(s16 *a0, s16 *a1) {
-    return ratan2(a0[3] - a1[0], a0[7] - a1[2]) & 0xFFF;
-}
+DEFINE_func_8014C568()  /* dedup: shared engine-core @0x8014C568 (src/shared) */
 
 
 DEFINE_func_8014C59C()  /* dedup: shared engine-core @0x8014C59C (src/shared) */
@@ -2370,34 +2341,7 @@ DEFINE_func_8015220C()  /* dedup: shared engine-core @0x8015220C (src/shared) */
 
 DEFINE_func_80152254()  /* dedup: shared engine-core @0x80152254 (src/shared) */
 
-extern void func_8014BC44(s32 a0, s32 a1);
-extern void func_80154A74(s32 a0, s32 a1);
-extern void func_801553C0(s32 a0);
-extern void func_801470AC(s32 *a0);
-extern void func_801472B4(void *a0);
-extern void func_801477E8(s32 *a0, s32 a1);
-extern void func_80153C18();
-void func_801522CC(s32 a0) {
-    s32 v1;
-    func_8014BC44(a0, *(s16 *)(a0 + 0xF2));
-    *(u8 *)(a0 + 0xA8) = 0x20;
-    func_80154A74(a0, 0x11);
-    func_801553C0(a0);
-    func_801470AC((s32 *)a0);
-    func_801472B4((void *)a0);
-    v1 = *(s32 *)(a0 + 0x20);
-    *(s16 *)(a0 + 0x3E) = 0;
-    *(s16 *)(a0 + 0x40) = 0;
-    *(s16 *)(a0 + 0x42) = 0;
-    *(u8 *)(a0 + 0xDD) = 0;
-    *(u16 *)(a0 + 0x3C) = *(u16 *)(a0 + 0x3C) & 0xFFFE;
-    *(s16 *)(v1 + 0x10) = 0;
-    *(u16 *)(a0 + 0x60) = 0x1000;
-    *(u16 *)(a0 + 0x62) = 0x1000;
-    *(u16 *)(a0 + 0x64) = 0x1000;
-    func_801477E8((s32 *)a0, 0);
-    func_80153C18(a0);
-}
+DEFINE_func_801522CC()  /* dedup: shared engine-core @0x801522CC (src/shared) */
 
 
 

@@ -399,7 +399,7 @@ DEFINE_func_8012C51C()  /* dedup: shared engine-core @0x8012C51C (src/shared) */
 
 DEFINE_func_8012C588()  /* dedup: shared engine-core @0x8012C588 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC06_006/nonmatchings/ov_SC06_006_jr_8012ACE0", func_8012C658);
+DEFINE_func_8012C658()  /* dedup: shared engine-core @0x8012C658 (src/shared) */
 
 DEFINE_func_8012C724()  /* dedup: shared engine-core @0x8012C724 (src/shared) */
 
@@ -2264,9 +2264,7 @@ ret1:
 
 
 
-s32 func_80134310(Vec3s *a0, Vec3s *a1, s32 a2) {
-    return a0->x * a1->x + a0->y * a1->y + a0->z * a1->z + a2;
-}
+DEFINE_func_80134310()  /* dedup: shared engine-core @0x80134310 (src/shared) */
 
 
 DEFINE_func_8013435C()  /* dedup: shared engine-core @0x8013435C (src/shared) */

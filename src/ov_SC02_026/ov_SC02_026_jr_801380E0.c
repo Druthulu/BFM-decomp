@@ -1074,7 +1074,7 @@ DEFINE_func_801392C8()  /* dedup: shared engine-core @0x801392C8 (src/shared) */
 
 DEFINE_func_801392FC()  /* dedup: shared engine-core @0x801392FC (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC02_026/nonmatchings/ov_SC02_026_jr_801380E0", func_801395D4);
+DEFINE_func_801395D4()  /* dedup: shared engine-core @0x801395D4 (src/shared) */
 
 DEFINE_func_80139634()  /* dedup: shared engine-core @0x80139634 (src/shared) */
 

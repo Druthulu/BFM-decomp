@@ -762,24 +762,7 @@ INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_a", func_8012A328);
 
 
 
-extern s32 D_801151D4;
-extern struct BigCopy D_80114EE8;
-
-void func_8012A418(void) {
-    struct Q16 *src;
-    struct Q16 *dst;
-    struct Q16 *end;
-
-    src = (struct Q16 *)D_801151D4;
-    dst = &D_80114EE8;
-    end = src + 10;
-    do {
-        *dst = *src;
-        src++;
-        dst++;
-    } while (src != end);
-    *(s32 *)dst = *(s32 *)src;
-}
+DEFINE_func_8012A418()  /* dedup: shared engine-core @0x8012A418 (src/shared) */
 
 
 typedef struct { s32 w[8]; } Vec8;

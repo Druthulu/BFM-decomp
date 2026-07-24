@@ -28278,4 +28278,398 @@
         } \
     }
 
+#define DEFINE_func_80175308() \
+    extern u8  D_8011F7A8; \
+    extern u8  D_8011F7A9; \
+    extern u8  D_8011F7AE; \
+    extern u16 D_8011F7B4; \
+    extern u16 D_8011F7B6; \
+    extern s16 D_8011F7B8; \
+    extern s16 D_8011F7BA; \
+    extern s16 D_8011F7BC; \
+    extern s16 D_8011F7BE; \
+    extern u8 D_80078E78[]; \
+    extern s16 D_800B9A02; \
+    extern void func_80016714(void *, s32); \
+    extern void func_801757A0(s32); \
+    extern void func_800596F4(s32); \
+    void func_80175308(void) { \
+        u8 *p = (u8 *)&D_8011F7A8; \
+        p[0] = 1; \
+        D_8011F7A9 = 2; \
+        D_8011F7AE = 0x37; \
+        D_8011F7B8 = -0x37; \
+        (*(s16 *)&D_8011F7B4) = -0x37; \
+        D_8011F7BE = 0x37; \
+        D_8011F7BA = 0x37; \
+        (*(s16 *)&D_8011F7B6) = 0x37; \
+        D_8011F7BC = 0x37; \
+        *(Blk152 *)(p + 0x48) = (*(Blk152 *)D_80078E78); \
+        func_80016714(p + 0xE0, 0x98); \
+        { \
+            s16 *q = &D_800B9A02; \
+            func_801757A0(*q); \
+            func_800596F4(0); \
+            func_801757A0((s16)(*(u16 *)q ^ 1)); \
+        } \
+    }
+
+#define DEFINE_func_8014C568() \
+    extern s32 ratan2(s32 x, s32 y); \
+    s32 func_8014C568(s16 *a0, s16 *a1) { \
+        return ratan2(a0[3] - a1[0], a0[7] - a1[2]) & 0xFFF; \
+    }
+
+#define DEFINE_func_8012A418() \
+    extern s32 D_801151D4; \
+    extern struct BigCopy D_80114EE8; \
+    void func_8012A418(void) { \
+        struct Q16 *src; \
+        struct Q16 *dst; \
+        struct Q16 *end; \
+        src = (struct Q16 *)D_801151D4; \
+        dst = &D_80114EE8; \
+        end = src + 10; \
+        do { \
+            *dst = *src; \
+            src++; \
+            dst++; \
+        } while (src != end); \
+        *(s32 *)dst = *(s32 *)src; \
+    }
+
+#define DEFINE_func_80134310() \
+    s32 func_80134310(Vec3s *a0, Vec3s *a1, s32 a2) { \
+        return a0->x * a1->x + a0->y * a1->y + a0->z * a1->z + a2; \
+    }
+
+#define DEFINE_func_801395D4() \
+    extern void func_80059888(void *a0, s32 a1, s32 a2, s32 a3); \
+    void func_801395D4(void * a0) \
+    { \
+        Stk801395D4 sp10; \
+        u16 mul; \
+        u16 base; \
+        sp10.f0 = *(u16 *)(a0 + 0x38); \
+        mul = *(u16 *)(a0 + 0x12); \
+        base = *(u16 *)(a0 + 0x3A); \
+        sp10.f4 = 0x38; \
+        sp10.f6 = 0xC; \
+        sp10.f2 = base + mul * 12; \
+        func_80059888(&sp10, 0, 0, 0); \
+    }
+
+#define DEFINE_func_80171FFC() \
+    extern s32 func_8017248C(s32, s32); \
+    extern s32 ratan2(s32, s32); \
+    extern void func_80172170(s32, s32); \
+    extern void func_80146D90(s32); \
+    s32 func_80171FFC(short *a0, short *a1, s32 a2) \
+    { \
+        s32 r; \
+        r = func_8017248C((s32)a0, (s32)a1); \
+        if (r != 0) { \
+            func_80146D90((s32)a0); \
+            return r; \
+        } \
+        *(s16 *)(*(s32 *)((s32)a0 + 0x20) + 0x12) = \
+            (ratan2(a1[0] - a0[3], a1[2] - a0[7]) + 0x800) & 0xFFF; \
+        func_80172170((s32)a0, a2 & 0xFF); \
+        return 0; \
+    }
+
+#define DEFINE_func_801522CC() \
+    extern void func_8014BC44(s32 a0, s32 a1); \
+    extern void func_80154A74(s32 a0, s32 a1); \
+    extern void func_801553C0(s32 a0); \
+    extern void func_801470AC(s32 *a0); \
+    extern void func_801472B4(void *a0); \
+    extern void func_801477E8(s32 *a0, s32 a1); \
+    extern void func_80153C18(); \
+    void func_801522CC(s32 a0) { \
+        s32 v1; \
+        func_8014BC44(a0, *(s16 *)(a0 + 0xF2)); \
+        *(u8 *)(a0 + 0xA8) = 0x20; \
+        func_80154A74(a0, 0x11); \
+        func_801553C0(a0); \
+        func_801470AC((s32 *)a0); \
+        func_801472B4((void *)a0); \
+        v1 = *(s32 *)(a0 + 0x20); \
+        *(s16 *)(a0 + 0x3E) = 0; \
+        *(s16 *)(a0 + 0x40) = 0; \
+        *(s16 *)(a0 + 0x42) = 0; \
+        *(u8 *)(a0 + 0xDD) = 0; \
+        *(u16 *)(a0 + 0x3C) = *(u16 *)(a0 + 0x3C) & 0xFFFE; \
+        *(s16 *)(v1 + 0x10) = 0; \
+        *(u16 *)(a0 + 0x60) = 0x1000; \
+        *(u16 *)(a0 + 0x62) = 0x1000; \
+        *(u16 *)(a0 + 0x64) = 0x1000; \
+        func_801477E8((s32 *)a0, 0); \
+        func_80153C18(a0); \
+    }
+
+#define DEFINE_func_801497A8() \
+    extern u8 D_80078E78[]; \
+    extern u8 D_80078EC1; \
+    extern s32 func_8014CB7C(void); \
+    extern s32 func_8014C088(s32 a0, s32 a1); \
+    extern u8 func_80165658(s32 a0, s32 a1); \
+    s32 func_801497A8(s32 *a0) { \
+        u8 *s1 = D_80078E78; \
+        /* Zero-byte RC-7 "second set": reg_n_sets(s1)==2 fails update_equiv_regs' \
+           single-set gate -> no REG_EQUIV -> the address constant is NOT \
+           rematerialized at its lone use; it is held in a callee-saved reg ($s1) \
+           across the calls, as the target does. NOT a register pin (no $N). */ \
+        __asm__("" : "=r"(s1) : "0"(s1)); \
+        if (*(u16 *)a0 == 0x1A) goto ret0; \
+        if (func_8014CB7C() != 0) goto ret0; \
+        if (D_80078EC1 == 0xF) { \
+            if (func_8014C088((s32)a0, 0xA) != 0) goto ret0; \
+        } \
+        if (*(s32 *)((u8 *)a0 + 0x44) & 0x404) goto ret0; \
+        if (func_80165658((s32)a0, s1[0x49]) & 0x80) goto ret0; \
+        if (*(u16 *)((u8 *)a0 + 0xAC) & 0x20) return 1; \
+    ret0: \
+        return 0; \
+    }
+
+#define DEFINE_func_8012C658() \
+    extern u8 D_80126720[]; \
+    extern s32 func_8012C890(s32 a0, s32 a1, s32 a2); \
+    s32 func_8012C658(s32 arg0, s32 arg1, s32 arg2) { \
+        struct S8012C658 sp; \
+        s32 var_v0; \
+        u16 *var_a1; \
+        u16 *end; \
+        u16 *param; \
+        if ((arg2 != 0) && (*(u16 *)(arg2 + 0x0) != 0)) { \
+            sp.unk0 = *(u16 *)(arg2 + 0x6); \
+            sp.unk2 = *(u16 *)(arg2 + 0xA); \
+            sp.unk4 = *(u16 *)(arg2 + 0xE); \
+        } else { \
+            sp.unk4 = 0; \
+            sp.unk2 = 0; \
+            sp.unk0 = 0; \
+        } \
+        sp.unk6 = (s16)arg0; \
+        sp.unk8 = (s16)arg1; \
+        sp.unkA = 0; \
+        sp.unk10 = 0; \
+        sp.unkE = 0; \
+        sp.unkC = 0x7FFF; \
+        param = &sp.unk0; \
+        end = (u16 *)D_80126720; \
+        if (arg2 == 0) { \
+            var_a1 = (u16 *)((u8 *)end - 0x6480); \
+        } else { \
+            var_a1 = (u16 *)(arg2 + 0x10C); \
+        } \
+        while (var_a1 != end) { \
+            if (*var_a1 == 0) { \
+                goto found; \
+            } \
+            var_a1 = (u16 *)((u8 *)var_a1 + 0x10C); \
+        } \
+        var_a1 = 0; \
+    found: \
+        var_v0 = 0; \
+        if (var_a1 != 0) { \
+            var_v0 = ((s32 (*)(u16 *, u16 *))func_8012C890)(param, var_a1); \
+        } \
+        return var_v0; \
+    }
+
+#define DEFINE_func_8016EFC8() \
+    extern u8 D_80126D6C; \
+    extern s32 D_80126D54; \
+    extern u8 D_80126D6D; \
+    extern u8 D_80126D6E; \
+    extern s32 D_80126D5C; \
+    extern s32 D_80126D60; \
+    extern s16 D_80126D64; \
+    extern s16 D_80126D66; \
+    extern s16 D_80126D68; \
+    extern s16 D_80126D6A; \
+    extern u8 D_80126D1A; \
+    extern s32 D_80127058; \
+    extern s32 D_8012705C; \
+    extern s32 D_80127060; \
+    extern s32 D_80127064; \
+    extern s32 D_80127068; \
+    extern s32 D_8012706C; \
+    extern s32 D_80127070; \
+    extern s32 D_80127074; \
+    extern u8 D_800B9A17; \
+    extern s16 D_80126D20; \
+    extern s32 D_80126D50; \
+    s32 func_8016EFC8(s32 a0, s32 a1) \
+    { \
+        s32 v1; \
+        s32 m; \
+        v1 = *(s32 *)a0; \
+        m = 0x4000000; \
+        D_80126D6C = 1; \
+        D_80126D54 = a0; \
+        D_80126D6D = 0; \
+        D_80126D6E = 0; \
+        D_80126D5C = 0; \
+        D_80126D60 = 0; \
+        D_80126D64 = 0; \
+        D_80126D66 = 0; \
+        D_80126D68 = 0; \
+        D_80126D6A = 0; \
+        D_80126D1A = 0; \
+        D_80127058 = 0; \
+        D_8012705C = 0; \
+        D_80127060 = 0; \
+        D_80127064 = 0; \
+        D_80127068 = 0; \
+        D_8012706C = 0; \
+        D_80127070 = 0; \
+        D_80127074 = 0; \
+        D_800B9A17 = 0; \
+        D_80126D20 = 0; \
+        D_80126D50 = v1 | m | a1; \
+    }
+
+#define DEFINE_func_801775E0() \
+    extern u8 D_8011F83B; \
+    extern u8 D_8011F837; \
+    extern u8 D_8011F7F0; \
+    extern void func_801776EC(u8 *a0); \
+    void func_801775E0(s32 param_1, s32 param_2) { \
+        s32 s0 = param_1; \
+        s32 pp = param_2; \
+        u8 *base = &D_8011F7F0; \
+        s16 sVar1; s32 t; s32 v; \
+        s32 c = D_8011F83B; \
+        if (c != 0) { \
+            if (c < 0) goto store; \
+            if (c >= 0xf7) goto store; \
+            if (c < 0xf3) goto store; \
+            goto docall; \
+        } \
+        if (D_8011F837 != 0x80) { \
+            *(u8 *)(s0 + 4) = 0xff; \
+            *(u8 *)(s0 + 6) = 0x10; \
+            *(u8 *)(s0 + 5) = 0x10; \
+            goto L684; \
+        } \
+        func_801776EC((u8 *)s0); \
+        goto L684; \
+    docall: \
+        func_801776EC((u8 *)s0); \
+        goto L684; \
+    store: \
+        *(u8 *)(s0 + 5) = 0xff; \
+        *(u8 *)(s0 + 6) = 0x10; \
+        *(u8 *)(s0 + 4) = 0x10; \
+    L684: \
+        sVar1 = (s16)((u32)(base[0x47] * 9) >> 4); \
+        t = pp + 0x48; \
+        *(s16 *)(s0 + 0xe) = sVar1; \
+        *(s16 *)(s0 + 0xa) = t - sVar1; \
+        if (base[0x47] != 0) { s0 = param_1 + 0x14; v = 0xa0; } else { s0 = param_1 + 0x14; v = 0x40; } \
+        *(u8 *)(s0 + 6) = v; \
+        *(s16 *)(s0 + 0xa) = pp; \
+    }
+
+#define DEFINE_func_80164418() \
+    extern s32 ratan2(s32 a0, s32 a1); \
+    extern s32 func_80012ABC(s32 a0, s32 a1, s32 a2); \
+    extern void func_801630C4(s32, s32, s32, s32); \
+    extern void func_80162FC0(s32 *a0); \
+    extern void func_80162D88(s32 *a0); \
+    void func_80164418(s32 s0) { \
+        s16 v[6]; \
+        s32 s1 = *(s32 *)(s0 + 0x20); \
+        s32 a1 = *(s32 *)(s0 + 0x4C); \
+        v[0] = *(u16 *)(a1 + 0x6) - *(u16 *)(s0 + 0x6); \
+        v[1] = *(u16 *)(a1 + 0xA) - (*(u16 *)(s0 + 0xA) + 0x1E); \
+        v[2] = *(u16 *)(a1 + 0xE) - *(u16 *)(s0 + 0xE); \
+        v[5] = ratan2(v[0], v[2]); \
+        if (v[2] < 0) { \
+            v[2] = -v[2]; \
+        } \
+        if (v[2] == 0) { \
+            v[4] = 0; \
+        } else { \
+            v[4] = ratan2(-v[1], v[2]); \
+        } \
+        *(u16 *)(s1 + 0x14) = (*(u16 *)(s1 + 0x14) + 0x71) & 0xFFF; \
+        *(s16 *)(s1 + 0x10) = func_80012ABC(*(s16 *)(s1 + 0x10), v[4], 0x2); \
+        *(s16 *)(s1 + 0x12) = func_80012ABC(*(s16 *)(s1 + 0x12), v[5], 0x2); \
+        ((s32 (*)(s32, s32, s32, s32))func_801630C4)(s0, 0, 0, 0x8000); \
+        func_80162FC0((s32 *)s0); \
+        func_80162D88((s32 *)s0); \
+    }
+
+#define DEFINE_func_801379FC() \
+    extern s32 D_80127524; \
+    extern s32 D_80127548[]; \
+    extern s32 D_801269F0; \
+    extern s16 D_801269F4; \
+    extern s32 D_801269F8; \
+    extern void func_80138BE0(s32 a0); \
+    extern void func_80137BD8(s32 a0); \
+    extern void func_8013A380(void); \
+    void func_801379FC(void) { \
+        s32 i; \
+        (*(s32 *)D_80127548) = 0x24; \
+        if ((D_80127524 != 0) && (*(s32 *)D_80127524 != 0)) { \
+            s32 p; \
+            s32 idx; \
+            func_80138BE0(D_80127524); \
+            i = 0; \
+            p = (s32)&D_801269F0; \
+            idx = 0; \
+            do { \
+                if ((p != D_80127524) && (*(s32 *)((s32)&D_801269F0 + idx) != 0)) { \
+                    func_80138BE0(p); \
+                } \
+                p = p + 0x4c; \
+                i = i + 1; \
+                idx = idx + 0x4c; \
+            } while (i < 3); \
+        } else { \
+            s32 p; \
+            s32 idx; \
+            i = 0; \
+            p = (s32)&D_801269F0; \
+            idx = 0; \
+            do { \
+                if (*(s32 *)((s32)&D_801269F0 + idx) != 0) { \
+                    func_80138BE0(p); \
+                } \
+                p = p + 0x4c; \
+                i = i + 1; \
+                idx = idx + 0x4c; \
+            } while (i < 3); \
+        } \
+        { \
+            s32 p; \
+            s32 idx; \
+            s32 flags; \
+            i = 0; \
+            p = (s32)&D_801269F0; \
+            idx = 0; \
+            do { \
+                if (*(s16 *)((s32)&D_801269F4 + idx) != 0) { \
+                    if (*(s32 *)((s32)&D_801269F0 + idx) != 0) { \
+                        flags = *(s32 *)((s32)&D_801269F8 + idx); \
+                        if ((flags & 0x1000) != 0) { \
+                            if ((flags & 0x2000) == 0) { \
+                                func_80137BD8(p); \
+                            } \
+                        } \
+                    } \
+                } \
+                p = p + 0x4c; \
+                i = i + 1; \
+                idx = idx + 0x4c; \
+            } while (i < 3); \
+        } \
+        func_8013A380(); \
+    }
+
 #endif

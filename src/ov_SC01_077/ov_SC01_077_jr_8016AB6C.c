@@ -3646,59 +3646,7 @@ DEFINE_func_8016EF78()  /* dedup: shared engine-core @0x8016EF78 (src/shared) */
 
 DEFINE_func_8016EFA8()  /* dedup: shared engine-core @0x8016EFA8 (src/shared) */
 
-extern u8 D_80126D6C;
-extern s32 D_80126D54;
-extern u8 D_80126D6D;
-extern u8 D_80126D6E;
-extern s32 D_80126D5C;
-extern s32 D_80126D60;
-extern s16 D_80126D64;
-extern s16 D_80126D66;
-extern s16 D_80126D68;
-extern s16 D_80126D6A;
-extern u8 D_80126D1A;
-extern s32 D_80127058;
-extern s32 D_8012705C;
-extern s32 D_80127060;
-extern s32 D_80127064;
-extern s32 D_80127068;
-extern s32 D_8012706C;
-extern s32 D_80127070;
-extern s32 D_80127074;
-extern u8 D_800B9A17;
-extern s16 D_80126D20;
-extern s32 D_80126D50;
-
-s32 func_8016EFC8(s32 a0, s32 a1)
-{
-    s32 v1;
-    s32 m;
-
-    v1 = *(s32 *)a0;
-    m = 0x4000000;
-    D_80126D6C = 1;
-    D_80126D54 = a0;
-    D_80126D6D = 0;
-    D_80126D6E = 0;
-    D_80126D5C = 0;
-    D_80126D60 = 0;
-    D_80126D64 = 0;
-    D_80126D66 = 0;
-    D_80126D68 = 0;
-    D_80126D6A = 0;
-    D_80126D1A = 0;
-    D_80127058 = 0;
-    D_8012705C = 0;
-    D_80127060 = 0;
-    D_80127064 = 0;
-    D_80127068 = 0;
-    D_8012706C = 0;
-    D_80127070 = 0;
-    D_80127074 = 0;
-    D_800B9A17 = 0;
-    D_80126D20 = 0;
-    D_80126D50 = v1 | m | a1;
-}
+DEFINE_func_8016EFC8()  /* dedup: shared engine-core @0x8016EFC8 (src/shared) */
 
 
 DEFINE_func_8016F094()  /* dedup: shared engine-core @0x8016F094 (src/shared) */
@@ -4353,25 +4301,7 @@ DEFINE_func_80171E08()  /* dedup: shared engine-core @0x80171E08 (src/shared) */
 
 DEFINE_func_80171EC8()  /* dedup: shared engine-core @0x80171EC8 (src/shared) */
 
-extern s32 func_8017248C(s32, s32);
-extern s32 ratan2(s32, s32);
-extern void func_80172170(s32, s32);
-extern void func_80146D90(s32);
-
-s32 func_80171FFC(short *a0, short *a1, s32 a2)
-{
-    s32 r;
-
-    r = func_8017248C((s32)a0, (s32)a1);
-    if (r != 0) {
-        func_80146D90((s32)a0);
-        return r;
-    }
-    *(s16 *)(*(s32 *)((s32)a0 + 0x20) + 0x12) =
-        (ratan2(a1[0] - a0[3], a1[2] - a0[7]) + 0x800) & 0xFFF;
-    func_80172170((s32)a0, a2 & 0xFF);
-    return 0;
-}
+DEFINE_func_80171FFC()  /* dedup: shared engine-core @0x80171FFC (src/shared) */
 
 
 extern s32 func_8017248C(s32 a0, s32 a1);
