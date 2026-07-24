@@ -5235,10 +5235,18 @@ belong to different tools:
 | the register/schedule fallout of that fix (6 left) | **the permuter** (6 → 0, 1800 s) | ditto the first row |
 
 **The handoff signal is free and already computed.** `tools/match_one.py` prints `residual_class`'s
-bucket on every run: `[permuter]` → hand it back to the search; `[structural]` → stop burning CPU and
-read it. Here it went `structural(OPCODE-MIXED)` → after the idiom fix `ADDRESSING [permuter] profile=cse`
+bucket on every run: `[permuter]` → hand it back to the search; `[structural]` → read it. Here it went
+`structural(OPCODE-MIXED)` → after the idiom fix `ADDRESSING [permuter] profile=cse`
 → MATCH. Feed that profile straight to `p16_permute --klass` (`permuter_weights.classify` accepts a
 profile name verbatim).
+
+**⚠️ Correction, same session, before this rule could mislead anyone:** `[structural]` is a HINT, not a
+veto. `func_80177940` was `structural(OPCODE-MIXED)` at close=5 and the permuter still took it
+**5 → 1** — at low closeness a randomized search reaches ties the class label says nothing about, since
+the label describes only the *dominant* residual. Read `[structural]` as "a search alone probably will
+not finish this", not "do not run the search". Cheap policy: at LOW closeness run the search anyway (it
+costs CPU, not tokens); at HIGH closeness read first, because a search that must invent a semantic
+change will burn hours to plateau.
 
 **Diagnose from a byte-verified SIBLING, never from first principles.** The fix came from
 `func_801778A8` — same family, same nibble walk, already banked byte-identical — which writes
