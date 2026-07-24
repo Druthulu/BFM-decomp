@@ -60,6 +60,10 @@ PROCESS (you have Bash + Read + Write):
 1. Read the target asm and the Ghidra-C (and the matched sibling if one is named above).
 2. Write your best C (the function definition + any externs it needs) to: ${draftDir}/${t.name}.c
    Write ONLY this one draft file. Do NOT edit docs/, src/, config/, or any other tracked file (the orchestrator owns all cookbook/src edits; a drafter appending to the cookbook injects UNVERIFIED idioms).
+   ⚠️ MANDATORY FINAL STEP — the orchestrator's byte-gate reads ONLY this exact path. If you iterated under
+   scratch filenames, your LAST action MUST copy the WINNING C back to ${draftDir}/${t.name}.c and verify:
+   \`cp <your-winner>.c ${draftDir}/${t.name}.c && test -s ${draftDir}/${t.name}.c && grep -q '${t.name}' ${draftDir}/${t.name}.c && echo SAVED\`.
+   A reported MATCH whose C is not at this path is LOST WORK (a whole wave's winners were nearly lost this way).
    START the file with TWO comment lines (the gate reads them for the flywheel + backlog):
      // @class: <regalloc-order | schedule | remat | struct | iv-combine | loop-guard | loose-typing | plumbing | jtbl | other>
      // @stuck: <one concrete line on the residual, or "none — MATCH">
