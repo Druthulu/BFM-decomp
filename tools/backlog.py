@@ -150,6 +150,29 @@ def render():
     return len(recs)
 
 
+def prune():
+    """Compact .run/backlog.jsonl to reality: keep ONE record per addr (the best), and DROP every
+    entry whose function is no longer an open stub in its binary (banked since it was logged, P9).
+
+    The raw log is append-only, so it grows without bound and fills with already-banked noise
+    (measured 2026-07-24: 6,867 rows, ~98% already banked). `render()`/`load_best()` already filter
+    on READ, so docs/backlog.md was correct — but every render re-scanned all 6,867 rows and re-hit
+    the stub oracle, and the file itself misrepresented the real open count. prune rewrites the log
+    to load_best()'s output so the file matches what the tools already compute.
+
+    Atomic (temp + os.replace) so an interrupt never truncates the log. Idempotent."""
+    before = sum(1 for _ in open(JSONL)) if os.path.exists(JSONL) else 0
+    kept = load_best()                          # already: drop-now-matched (P9) + best-per-addr
+    tmp = JSONL + ".tmp"
+    with open(tmp, "w") as f:
+        for r in kept:
+            f.write(json.dumps({k: r.get(k) for k in FIELDS}) + "\n")
+    os.replace(tmp, JSONL)
+    print(f"backlog prune: {before} rows -> {len(kept)} open near-misses "
+          f"(dropped {before - len(kept)} banked/superseded)")
+    return len(kept)
+
+
 def main():
     ap = argparse.ArgumentParser()
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -159,6 +182,7 @@ def main():
     for fl in ("reach", "nins", "closeness"):
         lg.add_argument(f"--{fl}", type=int, default=None)
     sub.add_parser("render")
+    sub.add_parser("prune")
     sh = sub.add_parser("show"); sh.add_argument("-n", type=int, default=40)
     a = ap.parse_args()
     if a.cmd == "log":
@@ -169,6 +193,8 @@ def main():
         print(f"logged {rec.get('name') or rec.get('addr')}; backlog open={n}")
     elif a.cmd == "render":
         print(f"docs/backlog.md: {render()} open near-misses")
+    elif a.cmd == "prune":
+        prune(); render()
     elif a.cmd == "show":
         for i, r in enumerate(sorted(load_best(), key=_rank_key)[:a.n], 1):
             print(f"{i:3} {r.get('name'):16} reach={r.get('reach')} {r.get('klass'):7} "
