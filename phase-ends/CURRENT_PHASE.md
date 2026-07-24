@@ -2037,3 +2037,48 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
        (6,824 fns = 45% of remaining ins) via per-overlay Ghidra-C prefetch (needs /mcp, R23/R29).
   **GRINDER RUNNING (Task 11):** `.run/grinder_s14.log`; banks+commits byte-verified matches autonomously
   (gate_stage commit=True, fail-closed, winning C persisted pre-bank). Let it run; STOP + it's already committed.
+
+> **🛑 SESSION-15 CHECKPOINT (2026-07-24) — supersedes all earlier SESSION-14/15 blocks. Fresh session safe here.**
+> Tree clean (only R23 db churn). **R22 clean-fleet 140/140 byte-identical** (verified many times); 0
+> NON_MATCHING (G4); dedup 1879/0. **Drew pushes** (R6/R20). HEAD `commit:0914`.
+> **Fleet: 79.6% instr · 67.7% distinct (count 64,860) · 88.86% fn-count.**
+>
+> **WHAT LANDED THIS SESSION (all byte-gated, committed):**
+> 1. **s14 + s15 fresh-crack waves** (ov_SC07_006 reach-138 families): 12 cores banked, 6 propagated ×138.
+>    All 24 s15 winners persisted to the canonical path — the drafter-prompt copy-back fix HELD at scale
+>    (vs s14's 3/24 recovered from transcripts). match_one isolation (per-pid --work) confirmed clean.
+> 2. **Permuter overnight harvest**: ran to EXHAUSTION (75 permuter-shaped candidates), banked **29 distinct
+>    fns** (39% conversion), ALL low-reach overlay-unique (0x8017-0x8018). The high-reach near-misses are
+>    NOT permuter-shaped (redraft/structural) — permuter can't reach them.
+> 3. **distinct-code 64,832 → 64,860 (+28 unique fns)** — the FIRST real distinct-code movement in many
+>    sessions (waves +11, permuter +17). Every de-dup lever this session moved it 0.
+> 4. **PsyQ MATRIX hazard FIXED** (Task 9): the true 32B PsyQ layout now owns `MATRIX`; the 48B invention is
+>    `MATRIX_L48`; oracle-sourced ground-truth block in engine_types.h. VECTOR (12B vs PsyQ 16B, 1 live use)
+>    left for its own commit.
+> 5. **Backlog pruned + kept-current** (Drew's ask): `backlog.py prune` (6,867 → 1,704 open), wired into
+>    `make report`. The backlog was 98% already-banked noise.
+>
+> **THE HEADLINE FINDING (efficiency audit → decision-log): the crack-wave bottleneck is INTEGRATION, not
+> idioms.** Byte-verified: ~92% of drafts are byte-correct (match_one MATCH) but only ~27% bank whole-binary;
+> the non-banks are byte-correct bodies stranded by def-side-sig / data-extern / unshared-struct plumbing —
+> NOT a missing codegen idiom (only ~2/wave are a genuine residual, the phantom-frame schedule class). We
+> strand ~16 paid-for correct functions per 2.6M-token wave. **A fleet-safe integration-recovery pass would
+> ~3.7× every wave's yield for ZERO new drafting tokens** — saving ~40M+ tokens over the 153 shared cores.
+>
+> **▶ NEXT TASK (Tier-1, plan-mode/Max — the approved direction): BUILD THE INTEGRATION-RECOVERY PASS, SCOPED.**
+> - Start with the ONE fleet-safe transform already built + hardened this session: **auto-struct-lift via
+>   `lift_types.py`** (§64/§64a) as a POST-GATE recovery step, with **MANDATORY R22 self-validation** (the
+>   fix_header_decl lesson: a per-binary gate is necessary-not-sufficient for shared-state edits — proven
+>   again by a 139/140 probe break this session).
+> - **Consume the FRESH per-wave stranded drafts** (in the wave dir), NOT the backlog. The backlog's
+>   `closeness` field is UNRELIABLE (byte-correct drafts logged closeness>0) and its drafts are
+>   overlay-specific (per-location symbols) → a messy recovery source. The wave-dir strandeds are matched to
+>   the right overlay. Live test set: the s15 nears in `.run/drafts-s15/` (16 byte-correct, gate-rejected).
+> - Measure the recovered fraction on that set BEFORE adding the riskier def-side-sig / data-extern
+>   reconciles (probe-before-scaling). Do NOT use `fix_header_decl` (fleet-blind, §63 UPDATE).
+> - Then resume waves at ~3× efficiency. **Waves HELD until Drew re-authorizes** (breadth → prompt for
+>   ultracode). The endgame map: 153 reach≥100 shared cores left (the wave lever), then a 9,084-fn
+>   overlay-unique tail (×1, hand-crack, no shortcut).
+> **CARRIED:** the 16 s15 nears + 18 s14 nears (byte-correct, integration-blocked) in the wave dirs — the
+> recovery tool's first fuel. The 2 s15 genuine nears (func_80175820/func_801758FC, phantom-frame) → permuter.
+> **DO NOT close P29 on ROI** — burn-down floor undetermined.
