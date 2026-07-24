@@ -1803,3 +1803,22 @@ copy-only-variant types NOW (byte-neutral, R22-verified); DEFER the genuinely fl
 Vec8 180/139, Buf 3-def, M8 2-def) to a per-camp reconcile pass — they need field-access reconciliation, not a
 blind strip. So: not a monolith, an incremental clean-first lift. The variant reconcile is the remaining hard
 part of roadmap B4.
+
+## 2026-07-23 (Phase 29, SESSION-13) — the BROAD 100+-type lift needs collision-vetting + precise strip; the CLEAN 2-type lift stands
+
+Attempted #2 (broaden the clean §20 lift): discovered 102 single-def fleet-local types + added a topological
+sort to `lift_types.py` (dependency ordering — a type with a value member of another lifted type must follow
+it). Two edge cases blocked the broad lift, both caught by R22 (as designed — nothing committed):
+1. **Name collisions.** `actor4c` (struct) vs `Actor4C` (typedef) are the SAME logical type declared under
+   case-variant names across overlays — lifting both → `redefinition`/`redeclared as different kind`. A
+   case-insensitive name-collision exclude dropped it (100/102), taking R22 138-fail → 1-fail.
+2. **-O0 strip precision.** The last straggler (ov_SC01_077's `_o0.c`) hit a link `multiple definition of
+   D_801DAA08` — stripping a type def indirectly perturbed a nearby declaration in the -O0 file format (the
+   diff showed nothing removed AT D_801DAA08, so it is an indirect/format edge case in the strip span logic).
+
+**Verdict:** the broad lift is 139/140-close but needs (a) full name-collision vetting (case-variant + struct-
+tag/typedef aliasing), and (b) a strip that is exact against the -O0 file format. Both are real tool work, not
+a tail-of-session push. **The CLEAN 2-type lift (Mat32+Cam8012E138, +276) stands committed** and proved the
+lever; the broad lift is a follow-up with the harder strip/vet. `lift_types.py`'s topo-sort is kept (correct +
+needed for any future multi-type lift). Doctrine unchanged: classify-first, lift the truly-conflict-free
+types, and let R22 arbitrate — it did.

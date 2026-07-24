@@ -96,13 +96,30 @@ def main():
               f"{len(strip_by_file)} files. Re-run with --apply, then R22.")
         return 0
 
-    # 1) append canonical defs to the header (before the #endif), if not already present
+    # 1) append canonical defs to the header (before the #endif), if not already present.
+    #    Emit in DEPENDENCY order (a type whose body has a value member of another lifted type must
+    #    follow it) — else cc1 errors on the forward value reference. Topological sort (Kahn).
     htext = open(HEADER).read()
-    add = []
-    for name in sorted(canon):
-        if re.search(rf"}}\s*{re.escape(name)}\s*;", htext) or re.search(rf"\bstruct\s+{re.escape(name)}\b", htext):
-            continue  # already in header
-        add.append(canon[name].strip())
+    pending = [n for n in canon
+               if not (re.search(rf"}}\s*{re.escape(n)}\s*;", htext) or re.search(rf"\bstruct\s+{re.escape(n)}\b", htext))]
+    dep = {n: set() for n in pending}
+    for n in pending:
+        inner = canon[n][canon[n].find("{") + 1:canon[n].rfind("}")] if "{" in canon[n] else ""
+        for other in pending:
+            if other != n and re.search(rf"\b{re.escape(other)}\b", inner):
+                dep[n].add(other)
+    ordered_names, ready = [], sorted(n for n in pending if not dep[n])
+    while ready:
+        n = ready.pop(0)
+        ordered_names.append(n)
+        for m in pending:
+            if n in dep[m]:
+                dep[m].discard(n)
+                if not dep[m] and m not in ordered_names and m not in ready:
+                    ready.append(m)
+        ready.sort()
+    ordered_names += [n for n in pending if n not in ordered_names]  # any cycle: append as-is
+    add = [canon[n].strip() for n in ordered_names]
     if add:
         block = "\n/* --- lift_types.py fleet lift --- */\n" + "\n".join(add) + "\n"
         idx = htext.rfind("#endif")
