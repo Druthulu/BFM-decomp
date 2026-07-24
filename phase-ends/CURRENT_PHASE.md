@@ -2616,3 +2616,23 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 > de-macroized sites and undo them. `--check-only` first; targeted `--addr` only — as done for
 > `func_80177940` this session (plan held exactly one address, so the hazard could not apply).
 > **DO NOT close P29 on ROI** — burn-down floor still undetermined.
+
+- **⛔ 2026-07-24 (SESSION-17) — `func_8014D820`: ILS PLATEAU at 25, and the §17 barrier probe is inert.
+  A genuine stop, not an effort gap. Seed handed forward.**
+  `permuter_ils` from the best-27 waypoint (regalloc profile, 8 cycles × 240 s @ -j10): **27 → 25 in
+  cycle 1, then unchanged for seven consecutive cycles** — the warm-restart mode that drove
+  `func_80148094` 72→36 has nothing left to find here.
+  **The residual, read (25 of 304):** the target emits `addu $s3,$a1,$zero` FIRST and `addu $s4,$a0,$zero`
+  twelfth; mine emits them in the opposite order. **Same register→param mapping, swapped BIRTH ORDER**,
+  which cascades into the prologue save order (idx 1/6) and the load base registers (idx 10/11: target
+  loads via `$a3`/`$s3`, mine via `$a2`/`$a1`). This is §17's register-ORDER class — the same shape the
+  permuter closed unaided on `func_80177940`.
+  **Probe (§17 pins+barrier): a one-line `__asm__("" : "=r"(a1) : "0"(a1))` scheduling barrier on `a1`,
+  placed after the declaration block, changed NOTHING** — byte-identical residual, still 25. (First
+  attempt put it before the declarations, which C89 rejects; worth knowing the barrier has to go after
+  them.) That corroborates the drafting agent's note that it had already swept pins and barriers.
+  **Carried:** seeds at `.run/perm_s17c/best25.c` (and `best27.c`). Next moves for it, in cost order:
+  force the birth order by staging BOTH pointer params through pinned locals in the target's order
+  (needs use-replacement through a 304-line body — the expensive option the permuter found for free on
+  `func_80177940` via its `new_var` staging), or hand it to Fable5 as a §66d "reader's turn" case.
+  **Do not spend more CPU on this seed** — 7 identical cycles is the measurement.
