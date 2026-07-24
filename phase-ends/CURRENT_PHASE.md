@@ -2544,3 +2544,26 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   on the 32-thread box silently killed each other the moment the first timed out, with no error anywhere.
   Scoped to the run's own scratch dir (which is in argv). This is what makes grinding several giants at
   once safe, and it is why the giant queue had only ever been run one-at-a-time.
+
+- **✅ 2026-07-24 (SESSION-17) — `func_80177940` (101 ins, reach-138) BANKED byte-identical in
+  ov_SC01_077. R22 clean-fleet 140/140. The permuter→diagnose→idiom→permuter loop closed a giant the
+  drafting agent had characterized as un-steerable.**
+  **The loop, in order:** (1) permuter, §31 `schedule` profile, 900 s @ -j12 → **5 → 1**, closing the
+  4-instruction INSN_LUID scheduler tie by itself. (2) Read the last instruction: `andi $a2,$v0,0xf` vs
+  target `addu $a2,$v0,$zero`. (3) Fixed it from a **byte-verified sibling** — `func_801778A8`'s
+  `nib = uVar1;` plain copy between two hard-pinned vars — NOT by guessing: dropping the redundant mask
+  alone collapsed the copy (100 vs 101 ins, 52 mismatched), which is what proved the target needs a
+  distinct pinned register rather than an unmasked value. (4) `register u32 n __asm__("$6")` + `n = nn;`
+  → 101/101, 6 left, retyped by `residual_class` as `ADDRESSING` → [permuter]/cse. (5) permuter again
+  from that structurally-correct seed, cse profile, 1800 s → **MATCH**. Its edit was two uses of one
+  temp (`new_var = a_` as a cse-opaque copy; `new_var = n * 8` splitting the expression) — the kind of
+  thing a hand sweep does not find and a search does.
+  **GATE (the sole arbiter, G3/P9):** `harvest_verify --chunk 1` → `verified 1 / failed 0`, final SHA
+  **`d19c9580…` BYTE-IDENTICAL**; stub confirmed GONE from source by `grep INCLUDE_ASM`, never the
+  report (§55b trap 4). **R22 `make clean && extract-all && check-all` → 140 passed, 0 failed of 140.**
+  **⚠️ NEGATIVE, recorded so it is not re-bought:** the same pin idiom does NOT transfer to
+  `func_8014D820`. Its residual is the mirror image (target holds the `lhu` results in `$v1` and keeps
+  `$a0` live to fill the load-delay slot), but pinning its reusable temp `t` to `$3` made it far worse
+  — **303 vs 304 ins, 285 mismatched** (`$v1` is needed elsewhere). §44's "each giant is its own class"
+  holds: the *loop* transfers, the *specific pin* does not. Its permuter run improved **33 → 27** in
+  1800 s @ -j8 and plateaued; the 27-seed is kept at `.run/perm_s17c/best27.c` for an ILS warm restart.
