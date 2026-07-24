@@ -1110,7 +1110,7 @@ DEFINE_func_80136EC4()  /* dedup: shared engine-core @0x80136EC4 (src/shared) */
 
 DEFINE_func_80136ECC()  /* dedup: shared engine-core @0x80136ECC (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_80135D20", func_80136F3C);
+DEFINE_func_80136F3C()  /* dedup: shared engine-core @0x80136F3C (src/shared) */
 
 // @class: schedule
 // @stuck: none — MATCH
