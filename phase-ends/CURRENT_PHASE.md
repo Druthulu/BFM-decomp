@@ -2275,3 +2275,24 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   12 of 22, banked 0, restored exactly (src/ clean), 14/14 prior banks intact.** A clean negative —
   the driver does not manufacture banks. Those 22 are the 11 unfinished `near` drafts plus the 10 whose
   blockers stack beyond this stage (they need `normalize_self_decls` / draft type-uniquify wired next).
+
+- **⚠️ 2026-07-24 (SESSION-16, Max) — Task 16 / T8: `normalize_self_decls` does NOT recover the
+  `self_decl_tu` class as-is. Reverted; honest negative, nothing landed.**
+  Targets were the 3 carried MATCH drafts whose own function is declared incompatibly by literal TU
+  text (not a macro): `func_801376E8`, `func_80163534`, `func_8016706C`.
+  **Gap 2 confirmed exactly as predicted:** `func_801376E8` normalizes **0** decls — NSD skips a
+  literal `()` unconditionally (line ~160), and its conflict is on the RETURN type (`void` vs
+  `void *`), which a no-prototype does not excuse. The skip's comment is right about PARAMS and blind
+  to the return.
+  **The other two produced edits and BROKE THE BUILD** (`harvest_verify` → `final SHA None`, i.e. no
+  image, not a byte-DIFF): NSD rewrote each TU decl to the draft's narrow sig
+  (`(s32 a0)`→`(short)`, `(s32×6)`→`(s32,u16,u16,s32,u16,s32)`). Reverted with `git checkout`;
+  `make check BINARY=ov_SC07_006` → **BYTE-IDENTICAL**, tree clean.
+  **Why this is not a surprise, and what it costs:** §57a already classes NSD as **SURGICAL-ONLY** —
+  it edits the TU FILE, so a bad edit poisons the whole group and, unlike a bad DRAFT, cannot be
+  bisected away per-member. That is exactly what happened. **It needs its own diagnosis session**
+  (read the real cc1/ld error from the failing build, not the classified file — which was empty
+  because classification never ran once the build produced no image at all).
+  **So the `self_decl_tu` class (5 blockers / 3 carried functions) stays OPEN**, and the recovery
+  pass's measured yield stands at **14 of 36**. I did not force it: forcing a TU edit past a failing
+  build is how the ≈0% doctrine got manufactured.
