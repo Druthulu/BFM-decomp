@@ -9101,7 +9101,7 @@ void func_801778A8(int param_1, unsigned int param_2, short param_3, short param
 
 
 
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_8015C32C", func_80177940);
+DEFINE_func_80177940()  /* dedup: shared engine-core @0x80177940 (src/shared) */
 
 // @class: iv-combine
 // @stuck: none — MATCH (34 ins). Cracked the cookbook's stubbed IV-combine divergence.
