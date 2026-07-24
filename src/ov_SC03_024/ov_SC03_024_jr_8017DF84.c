@@ -3814,7 +3814,30 @@ extern void func_8018091C(void);
     }
 
 
-INCLUDE_ASM("asm/ov_SC03_024/nonmatchings/ov_SC03_024_jr_8017DF84", func_80184688);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+extern s32 func_80014C54(s32 arg0, s32 arg1, s32 arg2);
+s32 func_80184688(void)
+{
+  short new_var;
+  new_var = func_80014C54(0, 0, 0x10);
+  ;
+  return ((u32) (new_var == 1)) & 1;
+}
 
 INCLUDE_ASM("asm/ov_SC03_024/nonmatchings/ov_SC03_024_jr_8017DF84", func_801846BC);
 
