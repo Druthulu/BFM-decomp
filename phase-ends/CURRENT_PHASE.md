@@ -2567,3 +2567,52 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   — **303 vs 304 ins, 285 mismatched** (`$v1` is needed elsewhere). §44's "each giant is its own class"
   holds: the *loop* transfers, the *specific pin* does not. Its permuter run improved **33 → 27** in
   1800 s @ -j8 and plateaued; the 27-seed is kept at `.run/perm_s17c/best27.c` for an ILS warm restart.
+
+> **🛑 SESSION-17 CHECKPOINT (2026-07-24, high on Opus 5) — supersedes the SESSION-17 QUEUE block above.
+> Fresh session safe here.**
+> Tree clean (only R23 `db.*.gbf` churn — never staged). **R22 clean-fleet 140/140 byte-identical**
+> (verified 3× this session: after the driver test, after the bank, after the propagation); 0
+> NON_MATCHING (G4); dedup **1880**/0. **Drew pushes** (R6/R20). HEAD `commit:0935`.
+> **Fleet: 79.7% instr · 67.7% distinct (64,875) · 88.90% fn-count** (opened at 79.6 / 67.7 / 88.86).
+>
+> **WHAT LANDED (all byte-gated, committed):**
+> 1. **`recover_integration.py`'s SUCCESS path is VERIFIED** end-to-end by the §66 free re-bank test
+>    (revert one banked fn → re-bank through the driver with `--commit --r22`). Two real defects fixed:
+>    **propagation was an undeclared FLEET-tier write left ON by default** (now refused up front — needs
+>    `--max-tier fleet` AND `--r22`, and refused outright after `demacroize`; both refusals
+>    negative-control-tested, exit 1), and a **dead fleet-% regex** that had written `fleet None%` into
+>    **50** gate commits. Also: the committed `progress.fleet.md` disagreed with committed source by 45
+>    (generated over the §65g trial's since-reverted edits) — regenerated.
+> 2. **`func_80177940` (101 ins) BANKED and propagated ×138** via the permuter⇄reader loop (§66d):
+>    permuter 5→1, sibling idiom + `$a2` pin, permuter 6→0, whole-binary gate `d19c9580` BYTE-IDENTICAL,
+>    138 overlays byte-identical after propagation. **+13,938 instructions.**
+> 3. **Cookbook §66 / §66a / §66b / §66c / §66d (+§66d-1/-2)**; SETUP gains the missing
+>    `recover_integration.py` inventory row (R21 debt).
+>
+> **THREE MEASURED FINDINGS THAT CHANGE THE PLAN:**
+> - **THE QUEUED WAVE HAS NO FUEL.** Fleet-wide (139 binaries, 983 cached Ghidra-C, live recomputed from
+>   `corpus.stubs`): **cached & live≥100 = 141 → 111 gated, 30 draft-only, 0 never attempted.** The only
+>   never-attempted cached fuel anywhere is **40 fns at live 1–4**. High-reach wave fuel is **CREATED by a
+>   per-overlay Ghidra-C prefetch, not found** — and that needs an MCP restart + **Drew running `/mcp`**
+>   (R23/R29). Do not re-run `build_wave_args --min-live 100` expecting targets.
+> - **The permuter INGESTS pinned giant drafts** — `p16_permute.setup`'s b64-pragma carrier handles
+>   `register __asm__` pins (6 pins → 6 carriers, 0 raw `__asm__`). The `.run/giants` README's
+>   "pycparser/permuter CANNOT ingest it as-is" is true of the RAW draft and false of the tool. The whole
+>   preserved-giant queue is therefore permuter-addressable.
+> - **`func_801670E4` (close=16) is ALREADY BANKED fleet-wide** — the preserved README is stale on it.
+>
+> **▶ NEXT (ranked):**
+> 1. **Continue the giant queue with the §66d loop** — the proven, token-free lever. Live queue, all
+>    drift-checked this session: `func_8014D820` (304 ins, **33→27**, seed at `.run/perm_s17c/best27.c`,
+>    → ILS warm restart via `tools/permuter_ils.py`) · `func_80176734` (369/371, 76, frame-pressure lock)
+>    · `func_80140958` (260, 116, LICM) · `func_80176218` (327, 271, hardest). Read the residual between
+>    runs; `[permuter]` → back to the search, `[structural]` → read it.
+> 2. **The Ghidra-C prefetch** (Task 5's greedy cover, imports 2–8 ≈ +0.59pp combined) if fresh wave fuel
+>    is wanted — **needs Drew to run `/mcp`** after the server restart (R29). This is the only thing that
+>    restores wave economics.
+> 3. The 40 cached reach-1..4 targets (×1, moves distinct-code) and the ~8 stranded (§65g: each needs a
+>    transform that does not exist yet) remain available, both lower-value.
+> **⚠️ STANDING HAZARD (unchanged):** `dedup_propagate --auto-from` would re-macroize the 14
+> de-macroized sites and undo them. `--check-only` first; targeted `--addr` only — as done for
+> `func_80177940` this session (plan held exactly one address, so the hazard could not apply).
+> **DO NOT close P29 on ROI** — burn-down floor still undetermined.
