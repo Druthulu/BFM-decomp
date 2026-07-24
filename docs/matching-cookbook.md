@@ -5275,3 +5275,18 @@ per giant; do not budget a pin.
   timed out, with no error anywhere. Now scoped to the run's own scratch dir (it is in argv). This is
   what makes grinding several giants at once safe, and it is likely why the giant queue had only ever
   been run one at a time.
+
+### §66d-3 — Read the ILS per-cycle SERIES, not its final best: a repeated score and a still-falling one look identical in a summary line and mean opposite things
+
+Two `permuter_ils` runs, same session, same machine, same 8×240 s budget:
+
+| function | per-cycle best | verdict |
+|---|---|---|
+| `func_8014D820` | 25, 25, 25, 25, 25, 25, 25, 25 | **DONE.** The warm restart has nothing left to find; more CPU is waste. Escalate to a reader / Fable5, or accept the stub. |
+| `func_80140958` | 80, 75, 72, 69, 64, 62, 60, 59 | **BUDGET-LIMITED.** Monotone, never repeating, still dropping on the last cycle → buy more cycles. It is CPU, not tokens. |
+
+`ILS done: best=NN` is the same line in both cases, and choosing on it alone gets both decisions wrong
+— you stop the one that was still descending and keep paying for the one that had finished. The series
+is already printed per cycle; the rule is: **a repeat means stop, a fall means continue.** (A first-cycle
+drop followed by repeats — `func_8014D820`'s 27→25 then ×7 — is the "one easy waypoint then done" shape,
+which still means stop.)
