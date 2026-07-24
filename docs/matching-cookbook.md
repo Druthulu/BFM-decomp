@@ -5220,3 +5220,50 @@ functions at live 1–4.
 **The structural point:** wave fuel at high reach is **created by a per-overlay Ghidra-C prefetch, not
 found** — the cached pool is a consumable, and once a wave drains it the next wave's cost/benefit is
 computed against a pool that no longer exists. Re-measure the fuel before each wave, not the leverage.
+
+## §66d — The permuter⇄reader loop: alternate a random search with a byte-verified idiom, and let `residual_class` decide whose turn it is (Phase 29 SESSION-17)
+
+`func_80177940` (101 ins, reach-138) was preserved as close=5 with the note *"equal-priority
+`birthing_insn_p` ties broken by INSN_LUID, **not steerable from source order** — swept all 6 assign
+orders/pin combos"*. Both halves of that note were right, and it still banked, because the two halves
+belong to different tools:
+
+| residual | who closes it | why the other cannot |
+|---|---|---|
+| 4-ins scheduler tie (INSN_LUID order) | **the permuter** (5 → 1, 900 s) | a hand sweep enumerates *source orders*; the tie is broken by internal LUIDs, which randomized decl/statement churn moves and a human cannot address |
+| `andi $a2,$v0,0xf` vs `addu $a2,$v0,$zero` | **the reader** | the permuter's mutation set adds masks/casts; it does not invent "delete this mask AND hard-pin the destination" |
+| the register/schedule fallout of that fix (6 left) | **the permuter** (6 → 0, 1800 s) | ditto the first row |
+
+**The handoff signal is free and already computed.** `tools/match_one.py` prints `residual_class`'s
+bucket on every run: `[permuter]` → hand it back to the search; `[structural]` → stop burning CPU and
+read it. Here it went `structural(OPCODE-MIXED)` → after the idiom fix `ADDRESSING [permuter] profile=cse`
+→ MATCH. Feed that profile straight to `p16_permute --klass` (`permuter_weights.classify` accepts a
+profile name verbatim).
+
+**Diagnose from a byte-verified SIBLING, never from first principles.** The fix came from
+`func_801778A8` — same family, same nibble walk, already banked byte-identical — which writes
+`nib = uVar1;` (a plain copy) between two hard-pinned variables after the identical `(x << 16) >> 28`
+shift pair. **And test the naive reading first:** deleting the redundant `& 0xf` *alone* collapsed the
+copy (100 vs 101 ins, 52 mismatched), because gcc then reused one register. That failure is what proved
+the target needs a *distinct pinned* register — the mask was never the point. A residual of one
+instruction can still be a two-part fix.
+
+### §66d-1 — What transfers between giants is the LOOP, not the PIN
+
+Applied to `func_8014D820` (304 ins, close=33), whose residual is the mirror image (target holds the
+`lhu` results in `$v1`, keeps `$a0` live to fill the load-delay slot), the *same* move — pin the
+reusable temp to the register the target uses — went **303 vs 304 ins, 285 mismatched**: `$v1` is needed
+elsewhere in that function. §44's "each giant is its own class" holds at the level of the specific pin.
+Its permuter run improved 33 → 27 and plateaued (seed kept for an ILS warm restart). Budget the loop
+per giant; do not budget a pin.
+
+### §66d-2 — Two operational sharp edges
+
+* **`p16_permute.setup` wipes `.run/permuter/<fn>/`.** Re-running a target destroys the previous run's
+  `output-<n>-*` dirs, best score included. Copy the best `source.c` out *before* re-running — the
+  score-1 candidate here survived only because it had been copied to a run-local path first.
+* **`run_permuter`'s cleanup used a global `pkill -f permuter/run_masked.py`**, which matches every
+  concurrent run — so two permuters on a multi-core box silently killed each other the moment the first
+  timed out, with no error anywhere. Now scoped to the run's own scratch dir (it is in argv). This is
+  what makes grinding several giants at once safe, and it is likely why the giant queue had only ever
+  been run one at a time.
