@@ -1844,3 +1844,21 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   agents each invented a local name+layout for the same memory. The fix is a convention enforced at DRAFT
   time, which costs nothing; today's cleanup cost a session. **Blunt form: types-first would not have made
   a single function match sooner — a NAMING CONVENTION would have saved most of this session.**
+  **📌 → PHASEEND FOLLOW-UP (Drew asked, same session): "are the primitive types now DONE, or are more
+  still to define from the PsyQ headers?"** MEASURED: **not done — consistency is fixed, CORRECTNESS is not.**
+  - Real PsyQ headers in-tree: **exactly one** (`include/psyq/libcd.h`, Phase 7). **No libgpu/libgte
+    headers at all** — no `POLY_F4`, `DR_TPAGE`, `DISPENV`/`DRAWENV`, `P_TAG`.
+  - **27 drafter-invented PsyQ LOOKALIKES** now live in `engine_types.h`: MATRIX(+_c1,_c2,2,_8016E7C8,
+    _8017E6D8) · SVECTOR(+2,_8016E7C8,_8017E6D8,_80184F08) · VECTOR · DVECTOR2 · P_TAG(+2) ·
+    PolyF3/F4/FT3/FT4 · DrawEnv(+1) · TPage/PTag/UVEC/LineF2_8018F694 · Poly_8016CBC0. (159 types total.)
+  - SESSION-14 made each type **single-def + shared**; it checked **none** against its documented PsyQ
+    layout. Different problems; only the first is done.
+  - **It is BYTE-NEUTRAL to fix** (per the verdict above) → a comprehension/public-repo QUALITY item, NOT a
+    matching lever. Sequence it with the Gen2 quality work, not the harvest.
+  - **⚠️ HAZARD NOW BAKED IN:** the fleet-wide name **`MATRIX` holds the 48-byte** `{s32 m[3][3]; s32 t[3]}`
+    while **`MATRIX_c1` holds the 32-byte** `{short m[3][3]; long t[3]}` — the ACTUAL PsyQ layout. The
+    canonical-looking name carries the wrong type; a future reader will be misled. Fix when the real
+    headers are seeded (rename the true one to `MATRIX`, suffix the imposter).
+  - **The real defs are already in hand** (derivable, not research): the **2,599 PsyQ 4.0 types imported
+    into Ghidra** (Phase 1, `psyq400.gdt`) + the SDK `.LIB`s at `tools/psyq/` that Phase 8 linked
+    byte-identically. `ExportSymbols.java`-style extraction of the .gdt types is the obvious route.
