@@ -2380,3 +2380,44 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 > **⚠️ STANDING HAZARD:** `dedup_propagate --auto-from` would RE-MACROIZE the 14 de-macroized sites and
 > undo them. `--check-only` first; targeted `--addr` only.
 > **DO NOT close P29 on ROI** — burn-down floor still undetermined.
+
+> **📋 SESSION-17 QUEUE (agreed with Drew 2026-07-24, at the SESSION-16 close) — read this FIRST.**
+>
+> **THE PLAN: small batches, isolated agents, xHigh, NO ultracode.**
+> Batch size is a RISK lever, not a token lever: each agent drafts one fn in its own context, so N
+> agents cost ~N× one agent whether concurrent or serial (~110k tok/drafted fn, measured s14+s15).
+> Concurrency buys wall-clock only. Therefore **batches of ~5–6**: ~600k tokens of exposure per batch,
+> a measured yield before committing the next, and a clean stop at any boundary.
+> - **Do NOT draft one-at-a-time in the MAIN LOOP** — results accumulate in the orchestrator's context
+>   and are re-read every turn (quadratic). Small batch via ISOLATED agents keeps that flat.
+> - **Ultracode is NOT needed** for a batch this size (it is xHigh + large-scale orchestration; agents
+>   spawn fine at xHigh). R26/R27 govern big fan-outs. Phase-13 T7 measured Max 14/80 vs UC 13/80 =
+>   noise, so per-agent depth does not move drafting yield anyway.
+> - A dying batch is survivable: Workflow runs are RESUMABLE (completed agents cached+replayed) — a
+>   13-agent wave already hit a usage limit at 2/13 this phase and resumed cleanly to 13/13.
+> - Free tiers do NOT apply to this fuel: local v3 saturates at ≤15-ins (these are 80+), and the
+>   token-free permuter was run to EXHAUSTION last session (75 candidates).
+> **Pipeline:** `build_wave_args.py --rank live --min-live 100` → 5–6 drafters →
+> `recover_integration.py --draft-dir <wave dir> --binary <ov> --run-id <id> --stages demacroize
+> --no-propagate --r22` → commit → targeted `dedup_propagate --addr` (NEVER `--auto-from`).
+> **Expected:** 24 drafts used to yield 6 banks (~460k tok each); with recovery ~13/24 ≈ **200k tok per
+> banked fn**. A 6-batch should bank ~3. ⚠️ That 2.3× is PROJECTED — the 39% recovery was measured on
+> OLD strandeds, not on a fresh wave's output. **The first batch tests the projection.**
+>
+> **⚠️ TOOL-VERIFICATION STATUS — what is byte-proven vs what is NOT (do not assume):**
+> - **BYTE-PROVEN, heavily exercised:** `rtu_match` (--stderr-out + multi-line //@EDIT, ~60 runs) ·
+>   `blocker_probe` (36 drafts ×3 runs, both oracles, attribution bug found+fixed+re-verified against
+>   the tree) · `demacroize` (**15 whole-binary gate attempts: 14 banked byte-identical, 1 correctly
+>   REJECTED** — both `--emit-edits` and `--apply`, self-decl AND callee-decl forms).
+> - **NOT VERIFIED — `recover_integration.py`'s SUCCESS PATH.** The end-to-end run banked 0, so pass 2
+>   (re-stage winners → propagate), `--commit`, the `r22()` helper, and `--report` have **never
+>   executed**. Verified only: imports, both tier-guard refusals (negative-control), `--probe-only`,
+>   and pass 1 + exact restore. Also unexercised: `assert_write_set`'s ABORT branch (it passed, never
+>   fired) and `r22()`'s failure-detection branch.
+> - **THE FREE TEST — no agents, no wave needed:** `git revert`/checkout ONE of the 14 banked functions
+>   back to its stub, then re-bank it THROUGH the driver (`--draft-dir` on the saved draft, `--commit`,
+>   `--r22`). That exercises pass1→restore→pass2→propagate→commit→R22 end-to-end for one build's cost.
+>   **Do this BEFORE pointing the driver at a fresh wave** — it mutates `src/` and can commit, and this
+>   session found a malformed line and a silent-no-op class in exactly this kind of code (R32/R35).
+> - Known+recorded LIMITATION (not a bug): `blocker_probe`'s static oracle is blind to a bare
+>   `struct Tag {…}` redefinition — cc1 catches it (§65e). Leave it; the second oracle covers it.
