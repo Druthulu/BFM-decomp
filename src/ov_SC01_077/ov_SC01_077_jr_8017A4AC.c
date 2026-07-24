@@ -41,7 +41,7 @@ struct Obj;
  /* 0x20 bytes */
                 /* 4 + 16*12 = 0xC4 stride */
                  /* 0x08 */
-typedef struct { short m[3][3]; short pad; s32 t[3]; } MATRIX;     /* 0x20 */
+     /* 0x20 */
 typedef struct {
     SVECTOR v[4];               /* 0x00 */
     s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */

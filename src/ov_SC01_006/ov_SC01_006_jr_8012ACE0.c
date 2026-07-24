@@ -739,7 +739,6 @@ DEFINE_func_8012E688()  /* dedup: shared engine-core @0x8012E688 (src/shared) */
     : "r"( r0 )                                          \
     : "memory" )
 
-typedef struct { s32 m[3][3]; s32 t[3]; } MATRIX;
 
 
 s32 func_8012E778(int param_1, int param_2)

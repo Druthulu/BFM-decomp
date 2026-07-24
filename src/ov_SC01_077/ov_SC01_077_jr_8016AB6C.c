@@ -3490,7 +3490,7 @@ DEFINE_func_8016E778()  /* dedup: shared engine-core @0x8016E778 (src/shared) */
 // @stuck: none — MATCH (74 ins); register pin $s2 forces &prim into a saved reg (§17)
 
                  /* 0x08 */
-typedef struct { short m[3][3]; short pad; s32 t[3]; } MATRIX;     /* 0x20 */
+     /* 0x20 */
 
 typedef struct {
     SVECTOR v[4];               /* 0x00 */
@@ -3513,7 +3513,7 @@ void func_8016E7C8(int param_1, short *param_2, unsigned int *param_3)
     extern s32 D_80189EA0;
 
     Prim_8016E7C8 prim;
-    MATRIX m;
+    MATRIX_c2 m;
     SVECTOR tmp;
     register Prim_8016E7C8 *pp __asm__("$18");   /* $s2 — force &prim into a saved reg */
 

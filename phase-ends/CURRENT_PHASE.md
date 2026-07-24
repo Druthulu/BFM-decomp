@@ -1795,3 +1795,15 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 > **STANDING LESSONS THIS SESSION:** a pre-filter is evidence ONLY about what it filtered (pre-filter on a
 > binary that FAILED); `cmd | tail` masks make's exit status (echo the real status inside the command);
 > and R14 applies to my own 3-line scripts — two of them produced false evidence before any project tool did.
+
+- **✅ 2026-07-23 (SESSION-14 cont.) — MATRIX camps uniquified + lifted; blocked queue 11 → 10.**
+  `uniquify_type --type MATRIX --apply` → **77 files rewritten** (camp1 `{short m[3][3]; long t[3]}` ×71
+  jr-split TUs → `MATRIX_c1`; camp2 `{short m[3][3]; short pad; s32 t[3]}` ×6 → `MATRIX_c2`; the 578-file
+  `{s32 m[3][3]; s32 t[3]}` majority keeps the name). All 3 camps → LIFTABLE → lifted, **655 local copies
+  stripped**. Pre-filtered on one overlay from EACH camp (ov_SC01_000 camp1 / ov_SC01_077 camp2 /
+  ov_SC06_033 camp0) then **R22 clean-fleet 140/140 byte-identical**. Freed `0x8012e778`.
+  **⚠️ R22 STATUS-READING NOTE:** the harness reported the background job as `exit code -1` (the session
+  forked and killed the shell wrapper AFTER make finished). The verdict was taken from the log's final
+  `check-all: 140 passed, 0 failed of 140` — that summary is emitted only on completion, so it proves the
+  run finished. Same discipline as the earlier `cmd | tail` masking: **read the gate's own output, never
+  the wrapper's exit code.**

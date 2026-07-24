@@ -7,7 +7,6 @@
  * definition's implied prototype (types first, then decls in original order).
  * Decls emit no code => byte-neutral. See cookbook §8c. */
 typedef struct { s32 w[8]; } Vec8;
-typedef struct { s32 m[3][3]; s32 t[3]; } MATRIX;
    /* size 8, alignment 1 -> unaligned copy */
 extern void func_80128288(void);
 extern void func_80128158(void);

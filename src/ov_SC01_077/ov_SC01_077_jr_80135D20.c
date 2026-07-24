@@ -38,7 +38,6 @@ extern s32 func_801758FC(void);                          /* derive-decl, arity 0
 typedef struct { s32 w[8]; } Vec8;
       /* 8-byte element, cmd @ +4 */
     /* list ptr @ +0x90 */
-typedef struct { s32 m[3][3]; s32 t[3]; } MATRIX;
 struct S80131E00;
    /* size 8, alignment 1 -> unaligned copy */
 extern void func_80128288(void);
