@@ -1978,3 +1978,39 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   **EXIT-CODE TRAP recurred 2 MORE times** (`grep -c` returning 1 on zero matches reported a green R22 as
   "exit 1", twice) + a real one: a FOREGROUND `make build` raced a background R22's build/ dir and produced
   a phantom pass. **Never foreground-build while a background R22 runs; read the gate line, not the wrapper.**
+
+> **🛑 SESSION-14 ULTRACODE CHECKPOINT (2026-07-23) — supersedes the earlier SESSION-14 closing block. Fresh session safe here.**
+> Tree clean (only R23 db churn). **R22 clean-fleet 140/140 byte-identical** (verified many times this session);
+> 0 NON_MATCHING (G4); dedup 1873/0. **Drew pushes** (R6/R20). HEAD `commit:0879`.
+> **Fleet: 79.4% instr · 67.6% distinct (count 64,837, +5 this wave) · 88.65% fn-count · 40,275→~ stubs.**
+>
+> **THIS ULTRACODE STRETCH (after the /effort ultracode toggle):**
+> 1. Housekeeping: reconciled the stale task checklist (Task 8) + PsyQ MATRIX name hazard fixed — the true
+>    32B PsyQ layout now owns `MATRIX`, the 48B invention is `MATRIX_L48`, ground-truth block in engine_types.h
+>    (Task 9, oracle-sourced via Ghidra `types get`).
+> 2. **FRESH-CRACK WAVE (Task 10, the headline):** 24 xHigh drafters over fresh reach-138 ov_SC07_006 families
+>    → **6 banked ×1** → **distinct-code count 64832→64837, the session's FIRST distinct-code gain.** The pivot
+>    to fresh cracks is byte-validated. Commits commit:0877 / commit:0878 / commit:0879.
+>
+> **THREE HARD LESSONS (all → docs, all cost real time):**
+> - **wave_binary drafters lose their winners** to scratch filenames — recovered all 24 from transcripts;
+>   prompt hardened (mandatory copy-back). If a future wave reports MATCH but `.run/<draftdir>/func_*.c` is
+>   missing, recover from `subagents/workflows/<runid>/agent-*.jsonl` (Write calls + Bash heredocs).
+> - **fix_header_decl `[SAFE]` is FLEET-BLIND** — a shared engine_core.h decl widen broke ov_SC01_077 fleet-wide
+>   though it passed the per-binary gate. §61 shared-state → ALWAYS R22-validate. Cookbook §63 UPDATE.
+> - **Exit codes lie** (5+ times today): `cmd | tail` masks make status; `grep -c` returns 1 on 0 matches; a
+>   FOREGROUND build racing a background R22's build/ gives a phantom pass. **Read the `check-all:` line.**
+>
+> **▶ NEXT (ranked):**
+> 1. **MORE FRESH-CRACK WAVES** — the proven distinct-code lever. Pipeline: `build_wave_args.py --rank live
+>    --min-live 100` fuel (ov_SC07_006 has ~57 fresh families left; then greedy-cover the next overlay's
+>    prefetch, R23/R29 /mcp). Gate per-TU with `gate_stage --src-file <jr> --no-propagate`, R22, commit,
+>    propagate. **Do NOT use fix_header_decl for the integration nears** — it's fleet-blind (backlog those).
+> 2. **Permuter backlog sweep (Task 11)** — token-free, close-1..4 nears via grinder/permuter_ils; the 2
+>    "carried grinder bugs" were ALREADY fixed in Phase 28 (verified — asm_subdir_for globs */; blacklist
+>    purged w/ R35 rule). Runs alongside a wave.
+> 3. The 4 §20-capped fresh cracks (0x8012b77c/0x801463a0/0x8014c6f4/0x80156670) → uniquify/lift to bank
+>    ×138 (fn-count, low-value de-dup — opportunistic). The 12 s14 nears (drafts in `.run/drafts-s14r/`) →
+>    permuter/backlog.
+> **DO NOT close P29 on ROI** — burn-down floor undetermined (needs ≥3 session-to-session deltas). One
+>    session-close already logged this session — do NOT log a second (SESSION-13 granularity error).
