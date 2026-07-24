@@ -14,8 +14,14 @@ than match_one's. STILL finish on the real `make build` whole-binary SHA gate (G
   tools/rtu_match.py func_80164930 --split ov_SC01_077_after --c cand.c
   # candidate may carry file-scope TU pre-edits as leading directive lines:
   #   //@EDIT old_text||new_text     (applied to the split .c before splicing; e.g. the s16->u16 flip)
+  #   the replacement may be MULTI-LINE: a literal backslash-n in new_text becomes a newline
+  #   (needed to expand a DEFINE_func_* macro instantiation in place -- the §63 per-overlay-local
+  #   decl override).  Use \\n in the directive if you want a literal backslash-n.
+  # --stderr-out PATH persists the FULL stderr of every stage.  The inline prints are tail-truncated,
+  # and these TUs emit hundreds of benign `type mismatch with previous external decl' warnings, so a
+  # truncated tail can hide the real first error entirely (the §58 red-herring, one level down).
 """
-import subprocess, re, sys, os, argparse
+import subprocess, re, sys, os, argparse, atexit
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import masked_diff
 
@@ -28,7 +34,23 @@ ap.add_argument('--asm-subdir', default=None)
 ap.add_argument('--work', default='.run/crack3/rtu')
 ap.add_argument('--o0', action='store_true')
 ap.add_argument('--maxdiff', type=int, default=60)
+ap.add_argument('--stderr-out', default=None,
+                help='write the FULL stderr of every stage here (the inline prints are tail-truncated)')
 a = ap.parse_args()
+
+# Every stage's stderr, verbatim, flushed on ANY exit path (including sys.exit).  A consumer that
+# classifies a failure needs the FIRST non-warning error line; a truncated tail cannot supply it.
+_errlog = []
+def _flush_errlog():
+    if not a.stderr_out:
+        return
+    d = os.path.dirname(a.stderr_out)
+    if d:
+        os.makedirs(d, exist_ok=True)
+    with open(a.stderr_out, 'w') as f:
+        for stage, err in _errlog:
+            f.write('### %s\n%s\n' % (stage, err))
+atexit.register(_flush_errlog)
 
 SPLIT_SRC = 'src/%s/%s.c' % (a.source, a.split)
 ASM_SUBDIR = a.asm_subdir or ('asm/%s/nonmatchings/%s' % (a.source, a.split))
@@ -40,13 +62,27 @@ ASFLAGS='-Iinclude -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0'.split()
 
 split_txt = open(SPLIT_SRC).read()
 cand_raw = open(a.c).read()
+
+def _unescape_nl(s):
+    """`\\n` -> newline, `\\\\` -> a literal backslash.  A //@EDIT directive is one LINE, so a
+    multi-line replacement (expanding a DEFINE_func_* macro in place) can only be written escaped."""
+    out, i = [], 0
+    while i < len(s):
+        if s[i] == '\\' and i + 1 < len(s) and s[i + 1] in 'n\\':
+            out.append('\n' if s[i + 1] == 'n' else '\\')
+            i += 2
+            continue
+        out.append(s[i])
+        i += 1
+    return ''.join(out)
+
 # extract //@EDIT directives (file-scope pre-edits), strip them from the spliced body
 edits = []
 body_lines = []
 for ln in cand_raw.split('\n'):
     m = re.match(r'\s*//@EDIT\s+(.*?)\|\|(.*)$', ln)
     if m:
-        edits.append((m.group(1), m.group(2)))
+        edits.append((_unescape_nl(m.group(1)), _unescape_nl(m.group(2))))
     else:
         body_lines.append(ln)
 body = '\n'.join(body_lines).rstrip('\n')
@@ -66,15 +102,18 @@ else:
 wd = '%s/%s' % (a.work, a.fn); os.makedirs(wd, exist_ok=True)
 open('%s/t.c' % wd, 'w').write(split_txt)
 
-def pipe(cmd, data=None): return subprocess.run(cmd, input=data, capture_output=True)
+def pipe(stage, cmd, data=None):
+    p = subprocess.run(cmd, input=data, capture_output=True)
+    _errlog.append((stage, p.stderr.decode('utf-8', 'replace')))
+    return p
 # -Isrc/<source> so the split's relative `#include "../shared/..."` resolves from the temp dir
-p = pipe([CPP]+CPPFLAGS+['-Isrc/%s'%a.source, '-DINCLUDE_ASM(a,b)=', '%s/t.c'%wd])
+p = pipe('CPP', [CPP]+CPPFLAGS+['-Isrc/%s'%a.source, '-DINCLUDE_ASM(a,b)=', '%s/t.c'%wd])
 if p.returncode: print('CPP FAIL\n'+p.stderr.decode()[-1500:]); sys.exit(1)
-p = pipe([CC1]+CC1FLAGS, p.stdout)
+p = pipe('CC1', [CC1]+CC1FLAGS, p.stdout)
 if p.returncode: print('CC1 FAIL\n'+p.stderr.decode()[-2000:]); sys.exit(1)
-p = pipe([PY, MASPSX, '--aspsx-version=2.56', '--expand-div'], p.stdout)
+p = pipe('MASPSX', [PY, MASPSX, '--aspsx-version=2.56', '--expand-div'], p.stdout)
 if p.returncode: print('MASPSX FAIL\n'+p.stderr.decode()[-1500:]); sys.exit(1)
-p = pipe([AS]+ASFLAGS+['-o', '%s/t.o'%wd], p.stdout)
+p = pipe('AS', [AS]+ASFLAGS+['-o', '%s/t.o'%wd], p.stdout)
 if p.returncode: print('AS FAIL\n'+p.stderr.decode()[-1500:]); sys.exit(1)
 
 mine = masked_diff.insns_from_object('%s/t.o'%wd, a.fn)

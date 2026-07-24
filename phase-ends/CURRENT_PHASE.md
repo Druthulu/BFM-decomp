@@ -178,6 +178,22 @@ arithmetic scales (R14/R35).** Every prior "structural wall" (B2, SC07, pin-cras
       backlog drafts via grinder/`permuter_ils`.
 - [ ] **Task 7 — Burn-down tracker + velocity/3-metric report + ROI-gated close [Max]** — close
       when per-session yield across both tracks floors out; Roadmap delta; hand P30 an honest frontier.
+- [~] **Task 16 — THE INTEGRATION-RECOVERY PASS (measurement-first, blast-radius-typed)**
+      SESSION-16, plan approved 2026-07-24 (plan mirror
+      `~/.claude/plans/max-effort-set-plan-reactive-gem.md`). The SESSION-15 audit measured the wave
+      bottleneck as INTEGRATION (~92% of drafts byte-correct, ~27% bank) — 36 stranded byte-correct
+      reach-138 drafts sit in `.run/drafts-s15` (18) + `.run/drafts-s14r` (18), all `ov_SC07_006`.
+      Sub-tasks: **T1** instrument the probe ✅ · **T2** S0 measure all 36 [KILL GATE A] ·
+      **T3** reproduce the ladder as a baseline · **T4** extend `recover_integration.py` into the
+      tiered driver · **T5** run the T0/T1 stages [KILL GATE B] · **T6** class-1 de-macroize probe
+      [KILL GATE E] · **T7** bank/propagate/R22/distill.
+      **The design spine — a BLAST-RADIUS TAXONOMY that makes §61 structural, not remembered:**
+      T0 draft-only → per-binary gate · T1 binary-local (`src/<binary>/**`) → per-binary gate is
+      SUFFICIENT (the write set cannot reach another binary) · T2 fleet-shared (`src/shared/**`) →
+      **R22 mandatory** (§63 UPDATE: the per-binary gate is necessary-not-sufficient). Every stage
+      declares its tier; the driver MEASURES the write set and asserts containment.
+      Drew's Phase-Start decisions: probe-then-continue with kill gates; class-1 de-macroize IN
+      scope as a bounded ×1 probe (the ×138 variant is OUT of scope).
 
 **OUT of scope:** parallel gate farm (bulk_harvest already is it) · family-adapt fine-tune (bounded,
 conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7 + walls B8 (P31).
@@ -2082,3 +2098,38 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 > **CARRIED:** the 16 s15 nears + 18 s14 nears (byte-correct, integration-blocked) in the wave dirs — the
 > recovery tool's first fuel. The 2 s15 genuine nears (func_80175820/func_801758FC, phantom-frame) → permuter.
 > **DO NOT close P29 on ROI** — burn-down floor undetermined.
+
+- **✅ 2026-07-24 (SESSION-16, Max) — Task 16 / T1: the two-oracle blocker probe BUILT. Read-only; `src/` untouched.**
+  **`tools/rtu_match.py` (2 additions).** `--stderr-out PATH` persists EVERY stage's stderr via an
+  `atexit` flush (so all `sys.exit` paths are covered); `//@EDIT` replacements now accept `\n`
+  (multi-line), which T6's macro expansion needs. **The `--stderr-out` change earned itself on its
+  first run:** the tail rtu_match prints inline for `func_80161374` is **100% warnings**, while the
+  real errors sit ~180 lines earlier. Nobody diagnosing from that tail could have seen the cause —
+  §58's red-herring one level down, and the reason every prior per-function verdict for these
+  drafts was inferred rather than read.
+  **`tools/blocker_probe.py` (NEW, read-only, two oracles — R34).** *Static:* `cdecl.parse` +
+  **`cdecl.compatible`** (never text equality — `.run/diag_plumbing.py` compared decl TEXT, so
+  `extern u8 D_X;` vs `extern unsigned char D_X;` read as a conflict though `common.h` makes them
+  the same type; that is very likely the whole "~10 data-extern co-blockers" figure). *Real cc1:*
+  shells out to `rtu_match` (ONE implementation of the compile, R33) → `CC1-FAIL:<first non-warning
+  error>` / `MATCH` / `DIFF`. Output leads with the DISAGREEMENT table, not the agreement rate.
+  **DELETED `.run/diag_plumbing.py`** (R3 tooling belongs in `tools/`; R33 — net −1 scanner).
+  **Two corrections the build forced (both would have mis-routed the recovery):**
+  **(1) `cdecl.tu_scope` runs REAL cpp** (`tu_statements`, the §8c law) — so it ALREADY expands an
+  instantiated `DEFINE_func_*` macro body and is authoritative about whether a conflict exists. My
+  first cut added a redundant macro scanner for DETECTION. Its real job is **ATTRIBUTION**: a decl
+  in the TU's own text is rewritten in place (`normalize_self_decls`), one inside an instantiated
+  shared-header macro is escaped by de-macroizing that single instantiation (§63's route). Both are
+  T1 — but they are different edits, and the first version mis-labelled the second as the first.
+  Byte-checked against the tree: `func_80161374` has NO literal decl in its TU (only the
+  `INCLUDE_ASM` at :3861 and `DEFINE_func_80161278()` at :3853); the conflicting
+  `extern void func_80161374(void *a0, s32 a1);` is `engine_core.h:7533`, inside the macro body.
+  The probe now reports exactly that.
+  **(2) BLOCKERS STACK, and cc1 only ever reveals the FIRST.** All 3 smoke-test functions carry
+  2–5 independent blockers (e.g. `func_80161374`: 4 callee_decl + 1 self_decl_hdr). So the tier a
+  function needs is the **MAX** over its blockers, not the first one's — and the static oracle's
+  COMPLETE list is the routing signal, with cc1 confirming only "yes, it is a decl conflict".
+  **Smoke test (3 fns, `-v`): both oracles AGREE 3/3, 0 static-only, 0 cc1-only.** Not yet evidence
+  about the population — that is T2.
+
+
