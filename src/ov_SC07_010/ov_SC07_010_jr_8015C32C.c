@@ -5327,8 +5327,8 @@ void func_80169058(s32 a0) {
     s32 s1 = a0;
     s16 v10[4];   /* sp+0x10 SVECTOR */
     s16 v18[4];   /* sp+0x18 SVECTOR */
-    s16 v20[16];  /* sp+0x20 MATRIX */
-    s16 v40[16];  /* sp+0x40 MATRIX */
+    s16 v20[16];  /* sp+0x20 MATRIX_L48 */
+    s16 v40[16];  /* sp+0x40 MATRIX_L48 */
     register s32 v1 __asm__("$3");
     register s32 v0 __asm__("$2");
     v10[0] = *(u16 *)(s1 + 0x6);
@@ -5416,8 +5416,8 @@ void func_8016986C(s32 a0) {
     s32 s1 = a0;
     s16 v10[4];   /* sp+0x10 SVECTOR */
     s16 v18[4];   /* sp+0x18 SVECTOR */
-    s16 v20[16];  /* sp+0x20 MATRIX */
-    s16 v40[16];  /* sp+0x40 MATRIX */
+    s16 v20[16];  /* sp+0x20 MATRIX_L48 */
+    s16 v40[16];  /* sp+0x40 MATRIX_L48 */
     s32 v1;
     s32 t;
     v10[0] = *(u16 *)(s1 + 0x6);

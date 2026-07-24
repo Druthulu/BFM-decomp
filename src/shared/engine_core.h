@@ -12144,8 +12144,8 @@
         s32 s1 = a0; \
         s16 v10[4];   /* sp+0x10 SVECTOR */ \
         s16 v18[4];   /* sp+0x18 SVECTOR */ \
-        s16 v20[16];  /* sp+0x20 MATRIX */ \
-        s16 v40[16];  /* sp+0x40 MATRIX */ \
+        s16 v20[16];  /* sp+0x20 MATRIX_L48 */ \
+        s16 v40[16];  /* sp+0x40 MATRIX_L48 */ \
         s32 v1; \
         s32 t; \
         v10[0] = *(u16 *)(s1 + 0x6); \
@@ -19755,8 +19755,8 @@
         s32 s1 = a0; \
         s16 v10[4];   /* sp+0x10 SVECTOR */ \
         s16 v18[4];   /* sp+0x18 SVECTOR */ \
-        s16 v20[16];  /* sp+0x20 MATRIX */ \
-        s16 v40[16];  /* sp+0x40 MATRIX */ \
+        s16 v20[16];  /* sp+0x20 MATRIX_L48 */ \
+        s16 v40[16];  /* sp+0x40 MATRIX_L48 */ \
         register s32 v1 __asm__("$3"); \
         register s32 v0 __asm__("$2"); \
         v10[0] = *(u16 *)(s1 + 0x6); \
@@ -20049,8 +20049,8 @@
     void func_80168D94(int a0) { \
         int s1 = a0; \
         short v10[4];   /* sp+0x10 SVECTOR */ \
-        short v18[16];  /* sp+0x18 MATRIX */ \
-        short v38[16];  /* sp+0x38 MATRIX */ \
+        short v18[16];  /* sp+0x18 MATRIX_L48 */ \
+        short v38[16];  /* sp+0x38 MATRIX_L48 */ \
         register int v1 __asm__("$3"); \
         register int v0 __asm__("$2"); \
         v10[0] = *(unsigned short *)(s1 + 0x12); \
@@ -20433,7 +20433,7 @@
         register s32 s1 __asm__("$17"); \
         s16 v10[4];   /* sp+0x10 SVECTOR */ \
         s16 out[4];   /* sp+0x18 SVECTOR */ \
-        s16 m[32];    /* sp+0x20 MATRIX (+ trailing reserve to 0x60 — matches target frame) */ \
+        s16 m[32];    /* sp+0x20 MATRIX_L48 (+ trailing reserve to 0x60 — matches target frame) */ \
         if (*(s32 *)(s2 + 0x2C) == 0) { \
             s32 r = rand(); \
             s1 = s2 + 0x38; \
@@ -28714,7 +28714,7 @@
     extern u8 D_800AF648; \
     s32 func_8012E778(int param_1, int param_2) \
     { \
-        MATRIX *r0; \
+        MATRIX_L48 *r0; \
         int iVarX; \
         int iVarY; \
         int iVar3; \
@@ -28723,7 +28723,7 @@
         sp[0] = (int)*(short *)(param_1 + 6); \
         sp[1] = (int)*(short *)(param_1 + 10); \
         sp[2] = (int)*(short *)(param_1 + 0xe); \
-        r0 = (MATRIX *)&D_800AF648; \
+        r0 = (MATRIX_L48 *)&D_800AF648; \
         gte_SetRotMatrix(r0); \
         gte_SetTransMatrix(r0); \
         gte_ldlv0((VECTOR *)sp); \

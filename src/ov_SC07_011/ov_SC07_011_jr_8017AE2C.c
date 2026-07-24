@@ -3723,7 +3723,7 @@ s32 func_8017BB34(s32 param_1, s32 param_2)
     extern s32 D_8019030C;
     extern SV4_8017B368 D_80190314;
     SV4_8017BB34 v0;            /* sp+0x10 : func_80049CAC arg0 */
-    MTX_8017BB34 mtx;           /* sp+0x18 : MATRIX, t[] at sp+0x2c */
+    MTX_8017BB34 mtx;           /* sp+0x18 : MATRIX_L48, t[] at sp+0x2c */
     SV4_8017BB34 v1;            /* sp+0x38 : RotTransSV arg0 */
     SV4_8017BB34 svec;          /* sp+0x40 */
     SV4_8017BB34 buf1;          /* sp+0x48 : RotTransSV arg1 (-> (*(SV4_8017BB34*)&D_80190314)) */

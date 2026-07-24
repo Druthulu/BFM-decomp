@@ -3433,7 +3433,7 @@ INCLUDE_ASM("asm/ov_SC03_024/nonmatchings/ov_SC03_024_jr_8017DF84", func_80180E6
 
 
 // @class: schedule
-// @stuck: none — MATCH (102 ins). MATRIX_c1(0x20:m@0,t@0x14)+SVECTOR in/out stack layout; the only
+// @stuck: none — MATCH (102 ins). MATRIX(0x20:m@0,t@0x14)+SVECTOR in/out stack layout; the only
 //   lever past struct-layout was source order: emit m1.t[2] BEFORE svec_in.vx/vy so the two `sh
 //   zero` stores schedule into the t[2] load-delay slot (after the a1 setup), not after t[1].
 
@@ -3446,7 +3446,7 @@ extern void func_80049CAC(s32 a0, s32 a1);
 extern void func_8012F14C(s32);
 
 void func_80180EA8(s32 param_1, s16 *param_2) {
-    MATRIX_c1 m1;
+    MATRIX m1;
     SVECTOR svec_in;
     SVECTOR svec_out;
 

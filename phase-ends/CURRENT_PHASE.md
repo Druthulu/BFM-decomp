@@ -1931,3 +1931,25 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 > FAILED); read the GATE's own output, never the wrapper's exit code (`| tail` masked a 103/140 failure as
 > "exit 0"; a session fork later reported a GREEN run as "exit -1"); R14 applies to my own 3-line scripts —
 > two produced false evidence before any project tool did.
+
+- **✅ 2026-07-23 (SESSION-14 cont.) — PsyQ primitive-type CORRECTNESS: the `MATRIX` name hazard fixed.**
+  **Oracle-sourced (G1, Ghidra `types get`, /LIBGTE.H, psyq400.gdt):** `MATRIX` = **32B** (`short m[3][3]`
+  @+0x00, `long t[3]` @**+0x14** — 2B pad after m) · `SVECTOR` = 8B · `VECTOR` = **16B** (`long vx,vy,vz,pad`).
+  **THE HAZARD, CONFIRMED AND FIXED:** the fleet-wide name `MATRIX` held `{s32 m[3][3]; s32 t[3]}` = **48B,
+  NOT a PsyQ type**, while THREE other names (`MATRIX_c1`, `MATRIX_c2`, `MATRIX2`) held the true 32B layout.
+  Swapped by pure consistent rename across **205 files**: the 48B invention → **`MATRIX_L48`** (kept — ~131
+  files are byte-correct against it; "fixing" it to 32B would change sizeof/stride and therefore codegen),
+  and the true layout now owns **`MATRIX`**. **R22 clean-fleet 140/140 byte-identical.**
+  **`VECTOR` left UNCHANGED deliberately:** ours is 12B vs PsyQ's 16B (missing the trailing `pad`), and I
+  first called it dead — **WRONG, it has 1 live use** (`engine_core.h` `gte_ldlv0((VECTOR*)sp)`). vx/vy/vz
+  offsets already agree so a fix is likely byte-neutral, but it is a LAYOUT change and must not be bundled
+  with a rename (an R22 failure would then be ambiguous about which caused it). Own commit, later.
+  **`engine_types.h` now carries an oracle-sourced GROUND-TRUTH block** documenting the real layouts, which
+  of our names are true vs invented, and the draft-time rule (address-suffix anything you invent — 7 of the
+  8 collisions were bare generic names). SCOPE HELD: renamed + documented; did NOT force code onto real
+  PsyQ definitions.
+  **⚠️ EXIT-CODE TRAP, THIRD VARIANT TODAY:** this R22 was reported by the harness as **"failed, exit 1"** —
+  the exit came from my own trailing `grep -c '^\[FAIL\]'`, which returns 1 when it matches NOTHING. The
+  failure signal WAS the success. Today the wrapper status has been wrong three separate ways: `| tail`
+  masked a real 103/140 failure as exit 0; a session fork reported a green run as exit -1; and now
+  grep-no-match reported a green run as exit 1. **Read the gate's own output. Never the wrapper's status.**

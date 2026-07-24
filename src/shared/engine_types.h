@@ -7,6 +7,32 @@
  * common.h consumers. */
 #include "common.h"
 
+/* ===== PsyQ GROUND TRUTH (oracle: Ghidra `types get`, category /LIBGTE.H, psyq400.gdt — Phase 29) =====
+ * Recorded because this header accumulated 27 drafter-INVENTED lookalikes of real SDK types, several
+ * of which are wrong. Matching never noticed: codegen depends on access WIDTH+OFFSET read off the MIPS
+ * opcode, not on a struct definition, so a wrong layout propagates freely (SESSION-14 finding).
+ *
+ *   MATRIX   32 bytes:  short m[3][3] @+0x00 (18B) ; long t[3] @+0x14   (2 bytes padding after m)
+ *   SVECTOR   8 bytes:  short vx, vy, vz, pad
+ *   VECTOR   16 bytes:  long  vx, vy, vz, pad
+ *
+ * STATUS in this header:
+ *   MATRIX      = the TRUE PsyQ layout (SESSION-14 renamed it here; it previously named a 48-byte
+ *                 invention, which is now MATRIX_L48 — the canonical name held the wrong type).
+ *   MATRIX_L48  = `{s32 m[3][3]; s32 t[3]}`, 48 bytes. NOT a PsyQ type. Kept because ~131 files were
+ *                 written against it and it is byte-correct for them; do NOT "fix" it to 32 bytes —
+ *                 that changes sizeof/array stride and therefore codegen.
+ *   MATRIX_c2 / MATRIX2 = also the true 32-byte layout under other names (pad spelled explicitly).
+ *   SVECTOR / SVECTOR2  = both the true 8-byte layout.
+ *   VECTOR      = `{s32 vx, vy, vz}`, 12 bytes — MISSING PsyQ's trailing `pad`, so 12 vs 16. Left
+ *                 UNCHANGED deliberately: it has one live use (engine_core.h `gte_ldlv0((VECTOR*)sp)`).
+ *                 vx/vy/vz offsets already agree, so a fix is likely byte-neutral, but it is a LAYOUT
+ *                 change and belongs in its own R22-gated commit, not bundled with a rename.
+ *
+ * FOR NEW DRAFTS: use an address-suffixed name (`Ent_8016AB6C`) for anything you invent. MEASURED: 7 of
+ * the 8 same-name-different-layout collisions this fleet accumulated were BARE generic names.
+ * ==================================================================================================== */
+
 struct vec;
 struct V8;
 struct M8012AF0C;
@@ -1138,8 +1164,8 @@ typedef struct {
 typedef struct { DrawEnv env; u8 pad[0x0C]; } Buf_c2;
 
 /* --- lift_types.py fleet lift --- */
-typedef struct { s32 m[3][3]; s32 t[3]; } MATRIX;
-typedef struct { short m[3][3]; long t[3]; } MATRIX_c1;
+typedef struct { s32 m[3][3]; s32 t[3]; } MATRIX_L48;
+typedef struct { short m[3][3]; long t[3]; } MATRIX;
 typedef struct { short m[3][3]; short pad; s32 t[3]; } MATRIX_c2;
 
 /* --- lift_types.py fleet lift --- */

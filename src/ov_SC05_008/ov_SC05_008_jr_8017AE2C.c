@@ -3075,7 +3075,7 @@ extern void RotTransSV(void *a0, void *a1, void *a2);
 
 /* short-only (align 2) struct -> the 8-byte struct copy emits lwl/lwr/swl/swr */
 
-/* PSX MATRIX_c1: 3x3 short rotation + pad + 3 long translation (offset 0x14) */
+/* PSX MATRIX: 3x3 short rotation + pad + 3 long translation (offset 0x14) */
 
 extern SV4 D_801A0FFC;
 extern SV4 D_801A1004;
@@ -3083,7 +3083,7 @@ extern SV4 D_801A1004;
 void func_8017BA3C(s32 param_1, s32 param_2)
 {
     SV4 v0;            /* sp+0x10 : func_80049CAC arg0 */
-    MTX mtx;           /* sp+0x18 : MATRIX_c1, t[] at sp+0x2c */
+    MTX mtx;           /* sp+0x18 : MATRIX, t[] at sp+0x2c */
     SV4 v1;            /* sp+0x38 : RotTransSV arg0 */
     SV4 svec;          /* sp+0x40 : func_8012F214 out */
     SV4 buf1;          /* sp+0x48 : RotTransSV arg1 (-> D_801A1004) */
@@ -3121,7 +3121,7 @@ void func_8017BA3C(s32 param_1, s32 param_2)
 s32 func_8017BB34(s32 param_1, s32 param_2)
 {
     SV4_8017BB34 v0;            /* sp+0x10 : func_80049CAC arg0 */
-    MTX_8017BB34 mtx;           /* sp+0x18 : MATRIX_c1, t[] at sp+0x2c */
+    MTX_8017BB34 mtx;           /* sp+0x18 : MATRIX, t[] at sp+0x2c */
     SV4_8017BB34 v1;            /* sp+0x38 : RotTransSV arg0 */
     SV4_8017BB34 svec;          /* sp+0x40 */
     SV4_8017BB34 buf1;          /* sp+0x48 : RotTransSV arg1 (-> (*(SV4_8017BB34*)&D_801A1004)) */
@@ -3372,7 +3372,7 @@ INCLUDE_ASM("asm/ov_SC05_008/nonmatchings/ov_SC05_008_jr_8017AE2C", func_8017D90
 
 
 // @class: schedule
-// @stuck: none — MATCH (102 ins). MATRIX_c1(0x20:m@0,t@0x14)+SVECTOR in/out stack layout; the only
+// @stuck: none — MATCH (102 ins). MATRIX(0x20:m@0,t@0x14)+SVECTOR in/out stack layout; the only
 //   lever past struct-layout was source order: emit m1.t[2] BEFORE svec_in.vx/vy so the two `sh
 //   zero` stores schedule into the t[2] load-delay slot (after the a1 setup), not after t[1].
 
@@ -3385,7 +3385,7 @@ extern void func_80049CAC(s32 a0, s32 a1);
 extern void func_8012F14C(s32);
 
 void func_8017DAB8(s32 param_1, s16 *param_2) {
-    MATRIX_c1 m1;
+    MATRIX m1;
     SVECTOR svec_in;
     SVECTOR svec_out;
 

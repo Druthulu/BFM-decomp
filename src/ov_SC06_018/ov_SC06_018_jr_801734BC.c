@@ -2596,7 +2596,7 @@ DEFINE_func_801749A8()  /* dedup: shared engine-core @0x801749A8 (src/shared) */
 //    with czr a SEPARATE temp (reusing one var costs 5 more mismatches).
 //  * LUID dial (§49/§50-A): materializing `t28 = *(s16*)(param_1+0x28)` BEFORE `cx = ...`
 //    moves the 0x28 load ahead of the D_80126B5E lui/lh in the expand stream — the last 3.
-//  * frame: MATRIX at sp+0x10 (t[] at sp+0x24), SVECTOR in at sp+0x30, SVECTOR out at sp+0x38;
+//  * frame: MATRIX_L48 at sp+0x10 (t[] at sp+0x24), SVECTOR in at sp+0x30, SVECTOR out at sp+0x38;
 //    locals are laid out in DECLARATION order.
 //  * canonical sigs kept (func_8012F14C is `void(s32)` in the TU) -> cast at the call site.
 

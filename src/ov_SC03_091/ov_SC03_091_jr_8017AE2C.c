@@ -3076,7 +3076,7 @@ extern void RotTransSV(void *a0, void *a1, void *a2);
 
 /* short-only (align 2) struct -> the 8-byte struct copy emits lwl/lwr/swl/swr */
 
-/* PSX MATRIX: 3x3 short rotation + pad + 3 long translation (offset 0x14) */
+/* PSX MATRIX_L48: 3x3 short rotation + pad + 3 long translation (offset 0x14) */
 
 extern SV4 D_801D2224;
 extern SV4 D_801D222C;
@@ -3084,7 +3084,7 @@ extern SV4 D_801D222C;
 void func_8017BA3C(s32 param_1, s32 param_2)
 {
     SV4 v0;            /* sp+0x10 : func_80049CAC arg0 */
-    MTX mtx;           /* sp+0x18 : MATRIX, t[] at sp+0x2c */
+    MTX mtx;           /* sp+0x18 : MATRIX_L48, t[] at sp+0x2c */
     SV4 v1;            /* sp+0x38 : RotTransSV arg0 */
     SV4 svec;          /* sp+0x40 : func_8012F214 out */
     SV4 buf1;          /* sp+0x48 : RotTransSV arg1 (-> D_801D222C) */
@@ -3122,7 +3122,7 @@ void func_8017BA3C(s32 param_1, s32 param_2)
 s32 func_8017BB34(s32 param_1, s32 param_2)
 {
     SV4_8017BB34 v0;            /* sp+0x10 : func_80049CAC arg0 */
-    MTX_8017BB34 mtx;           /* sp+0x18 : MATRIX, t[] at sp+0x2c */
+    MTX_8017BB34 mtx;           /* sp+0x18 : MATRIX_L48, t[] at sp+0x2c */
     SV4_8017BB34 v1;            /* sp+0x38 : RotTransSV arg0 */
     SV4_8017BB34 svec;          /* sp+0x40 */
     SV4_8017BB34 buf1;          /* sp+0x48 : RotTransSV arg1 (-> (*(SV4_8017BB34*)&D_801D222C)) */
