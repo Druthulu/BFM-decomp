@@ -3271,7 +3271,32 @@ void func_801811B4(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_089/nonmatchings/ov_SC03_089_jr_8017CA80", func_801811F0);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+extern void func_80181510(void);
+s32 func_801811F0(s32 arg0)
+{
+  s32 temp_v0;
+  func_80181510();
+  temp_v0 = (temp_v0 = 0);
+  ;
+  *((u8 *) (arg0 + 0x15)) = (*((u8 *) (arg0 + 0x15))) + 1;
+  return temp_v0;
+}
 
 s32 func_8018122C(void) {
         return 0;
