@@ -2209,3 +2209,47 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   is now PROVEN, so the driver can be written against a measured procedure rather than a hypothesis.
 
 
+
+> **🛑 SESSION-16 CHECKPOINT (2026-07-24, Max) — supersedes SESSION-15. Fresh session safe here.**
+> Tree clean (only R23 `db.*.gbf` churn — never staged). **R22 clean-fleet 140/140 byte-identical**
+> (verified 3× this session); 0 NON_MATCHING (G4); dedup 1879/0. **Drew pushes** (R6/R20).
+> HEAD `commit:0919`. Commits: `commit:0916` `commit:0917` `commit:0918` `commit:0919`.
+> **Fleet: 79.6% instr · 67.7% distinct (count 64,874, +14) · 88.86% fn-count.**
+>
+> **THE SESSION IN ONE LINE:** the wave-integration bottleneck was measured rather than assumed, and
+> the measurement both **shrank the prize** (the audit's 3.7× is really ~2.3×, on distinct-code only)
+> and **opened a wall §20 had closed for 9 phases** — a byte-correct draft blocked by a shared-header
+> macro decl can be recovered *per overlay*, without touching the shared header at all.
+>
+> **WHAT LANDED (all byte-gated, committed):**
+> 1. **`tools/blocker_probe.py`** (NEW, read-only, two oracles R34) + `rtu_match --stderr-out` and
+>    multi-line `//@EDIT`. Deleted `.run/diag_plumbing.py` (R33 net −1).
+> 2. **`tools/demacroize.py`** (NEW) — the per-overlay-local decl escape (§65b). **T1**: writes
+>    confined to `src/<binary>/**`, so no R22 risk is created by construction.
+> 3. **14 stranded drafts recovered and banked ×1**, R22 140/140 three times.
+> 4. **Cookbook §65/§65a–e**, decision-log (R31), calibration.md, SETUP.md (+3 missing inventory rows).
+>
+> **FOUR FINDINGS THAT CHANGE THE PLAN (all measured, all in §65):**
+> - **The residue is 67% byte-correct, not ~92%** — that figure was whole-wave. A third of the
+>   "stranded correct functions" premise was never correct (the 11 `near` are unfinished drafts).
+> - **The existing ladder cannot reach this population**: it clears its own classes (callee 19→3,
+>   data 16→0) and converts **1 of 36** to compiling, which then DIFFs. §61d verbatim.
+> - **§20's DEF-conflict wall is REFUTED per-overlay.** Its reasoning was right about the shared
+>   header and never asked what one overlay's own TU can do locally.
+> - **`rtu_match` MATCH is class-dependent evidence**: 13/13 on self-decl, failed on the first
+>   callee-decl case (it is relocation-masked, so a wrong call target is invisible to it).
+>
+> **▶ NEXT (ranked):**
+> 1. **T4 — encode the recipe in `tools/recover_integration.py`** (`--draft-dir`, `--run-id`, tier
+>    assertion via `git status` containment, `banked_from_source`, run-local `verified_out` to close
+>    §55b trap 4). The recipe is now PROVEN, so the driver is written against a measured procedure.
+>    Until it exists, running the recovery on a new wave is manual.
+> 2. **The 10 carried MATCH drafts**, each named with its blocker above: 3 `self_decl_tu` (wire
+>    `normalize_self_decls` — still the only named-but-unwired ladder stage), 3
+>    `local_type`+`self_decl_hdr` (`canon_sig_reconcile._uniquify_draft_types` already exists), 1
+>    struct-TAG redefinition, 1 rtu over-claim, 2 needing their real cc1 error read.
+> 3. **Then resume waves** (breadth → prompt Drew for `/effort ultracode`, R27) at the measured ~2.3×.
+> **⚠️ `dedup_propagate --auto-from` would RE-MACROIZE the de-macroized sites and undo them.** Always
+> `--check-only` first and assert the 14 banked addresses are absent from the plan (§55b bans
+> `--auto-from` anyway; use targeted `--addr`).
+> **DO NOT close P29 on ROI** — burn-down floor still undetermined.
