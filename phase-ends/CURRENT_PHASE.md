@@ -2296,3 +2296,29 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   **So the `self_decl_tu` class (5 blockers / 3 carried functions) stays OPEN**, and the recovery
   pass's measured yield stands at **14 of 36**. I did not force it: forcing a TU edit past a failing
   build is how the ≈0% doctrine got manufactured.
+
+> **🛑 SESSION-16 FINAL CHECKPOINT (2026-07-24) — supersedes the SESSION-16 block above. Fresh session safe here.**
+> Tree clean (only R23 `db.*.gbf` churn). **R22 clean-fleet 140/140** (3× this session); `make check
+> BINARY=ov_SC07_006` BYTE-IDENTICAL after the T8 revert; 0 NON_MATCHING (G4); dedup 1879/0.
+> **Drew pushes** (R6/R20). HEAD `commit:0922`. Commits `commit:0916` `commit:0917` `commit:0918` `commit:0919`
+> `commit:0920` `commit:0921` `commit:0922`.
+> **Fleet: 79.6% instr · 67.7% distinct (count 64,874, +14) · 88.86% fn-count.**
+>
+> **DELIVERED:** the measurement (Gate A, two oracles, 9 s for 36 drafts) · `tools/blocker_probe.py` ·
+> `tools/demacroize.py` · **14 stranded drafts recovered and banked** · the recipe encoded in
+> `tools/recover_integration.py` with **tiers ENFORCED** (write-set assertion + validator selection)
+> and **§55b trap 4 closed** · cookbook **§65/§65a–e** · decision-log · calibration · SETUP (+3 rows).
+>
+> **▶ NEXT (ranked, all named with their blocker):**
+> 1. **Diagnose `normalize_self_decls`** (T8's negative) — it breaks the build on the narrow-param
+>    rewrite, and its literal-`()` skip is blind to RETURN-type conflicts. Read the real cc1/ld error
+>    from the failing build (the classified file is EMPTY when no image is produced — a gap worth
+>    fixing in `harvest_verify` too). Unblocks 3 carried functions.
+> 2. **The `local_type` class (3 fns)** — `canon_sig_reconcile._uniquify_draft_types` already exists;
+>    rename the draft's colliding type (T0, draft-only, byte-neutral) then de-macroize.
+> 3. **`func_80173A60`** — struct-TAG redefinition, the static oracle's known blind spot (cc1 named it).
+> 4. **Then resume waves** at the measured ~2.3× — breadth-shaped, so **prompt Drew for
+>    `/effort ultracode` and WAIT for the toggle** (R27).
+> **⚠️ STANDING HAZARD:** `dedup_propagate --auto-from` would RE-MACROIZE the 14 de-macroized sites and
+> undo them. `--check-only` first; targeted `--addr` only (§55b bans `--auto-from` anyway).
+> **DO NOT close P29 on ROI** — burn-down floor still undetermined.
