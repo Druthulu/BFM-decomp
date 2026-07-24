@@ -2608,23 +2608,10 @@ extern s16  func_80012ABC(s32 a0, s32 a1, s32 a2);
 extern void func_80049CAC(s32 a0, s32 a1);
 extern void func_8012F14C(s32);
 
-typedef struct {
-    /* 0x00 */ s8  head[0x14];
-    /* 0x14 */ s32 f14;
-    /* 0x18 */ s32 f18;
-    /* 0x1C */ s32 f1c;
-    /* 0x20 */ s16 f20;
-    /* 0x22 */ s16 f22;
-    /* 0x24 */ s16 f24;
-    /* 0x26 */ s16 pad26;
-    /* 0x28 */ s16 f28;
-    /* 0x2A */ s16 f2a;
-    /* 0x2C */ s16 f2c;
-} Buf;
 
 s32 func_801749C8(s32 param_1)
 {
-    Buf buf;
+    Buf_c1 buf;
     register s32 iVar5 __asm__("$18");
     register u32 iVar4 __asm__("$17");
 

@@ -1119,6 +1119,23 @@ typedef struct {
 } LineF2_8018F694;
 typedef struct { u32 addr : 24; u32 len : 8; u8 r0, g0, b0, code; } P_TAG_8013DD68;
 typedef struct { s16 ax, ay, a04, a06, bx, by, b0c, b0e, cx, cy, c14, c16, dx, dy, d1c, d1e, u0, v0, u1, v1, u2, v2, u3, v3; u8 r, g, b, pad33; s32 tag; u8 code, pad39, pad3a, pad3b; s32 pad3c; } Prim_B234;
+
+/* --- lift_types.py fleet lift --- */
+typedef struct { s16 h[8]; } Buf;
+typedef struct {
+    /* 0x00 */ s8  head[0x14];
+    /* 0x14 */ s32 f14;
+    /* 0x18 */ s32 f18;
+    /* 0x1C */ s32 f1c;
+    /* 0x20 */ s16 f20;
+    /* 0x22 */ s16 f22;
+    /* 0x24 */ s16 f24;
+    /* 0x26 */ s16 pad26;
+    /* 0x28 */ s16 f28;
+    /* 0x2A */ s16 f2a;
+    /* 0x2C */ s16 f2c;
+} Buf_c1;
+typedef struct { DrawEnv env; u8 pad[0x0C]; } Buf_c2;
 #endif /* BFM_ENGINE_TYPES_H */
 
 /* Phase-29 crack-wave lift (func_8012956C family) */

@@ -889,10 +889,10 @@ void func_8013DBE4(int param_1)
 }
 
 // @class: regalloc-order
-// @stuck: none — MATCH (187 ins). Levers: struct-assign DRAWENV copy (align via type); pbase local for $s2-relative D_800B9A02; two-biv SPRT loop (q anchored one-above -> gcc re-anchors, no bare-deref); P_TAG_8013DD68 addPrim; single p var coalesces puVar7->puVar15; pins uVar2=$v1,iVar14=$a3,c5=$t3; biv-increment order sets q-init-before-puVar10-init; Buf 0x68 -> frame 0xA0.
+// @stuck: none — MATCH (187 ins). Levers: struct-assign DRAWENV copy (align via type); pbase local for $s2-relative D_800B9A02; two-biv SPRT loop (q anchored one-above -> gcc re-anchors, no bare-deref); P_TAG_8013DD68 addPrim; single p var coalesces puVar7->puVar15; pins uVar2=$v1,iVar14=$a3,c5=$t3; biv-increment order sets q-init-before-puVar10-init; Buf_c2 0x68 -> frame 0xA0.
 
               /* 0x5C copy unit, align 4 */
-typedef struct { DrawEnv env; u8 pad[0x0C]; } Buf;  /* -> frame 0xA0 (gcc adds 0x10 for the struct-copy) */
+  /* -> frame 0xA0 (gcc adds 0x10 for the struct-copy) */
 
 
 #define IDVAL (*(u16 *)(pbase + 0xA3D2))
@@ -914,7 +914,7 @@ void func_8013DD68() {
     register u16 uVar2 __asm__("$3");
     int uVar5;
     register int iVar14 __asm__("$7");
-    Buf buf;
+    Buf_c2 buf;
     u8 *pbase;
     u8 *base;
 

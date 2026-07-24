@@ -1738,3 +1738,27 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 > is evidence ONLY about what it filtered** — `ov_SC01_077` passed the Prim-broken run too. **Pre-filter on
 > a binary that FAILED.** Also: `cmd | tail` masks make's exit status — the harness reported "exit 0" on a
 > run that failed 103/140. **Two of my own 3-line scripts lied before any tool did (R14).**
+
+- **✅ 2026-07-23 (SESSION-14 cont., xHigh) — VARIANT camps: the plan CORRECTED to UNIQUIFY, validated on `Buf`.**
+  **THE CORRECTION (measurement, not opinion — cookbook §64a):** the checkpoint said the 8 VARIANT types
+  need a "per-camp field-access reconcile." Measuring the camps refutes that for most of them:
+  `Vec8` = `{s32 w[8]}` (32B) in 180 files AND `{s16 unk0..unk6}` (8B) in 139 files; `MATRIX` 48B/32B/32B;
+  `Buf` 16B / 0x20+ / DrawEnv-based. **These are DIFFERENT types sharing an identifier in different TUs
+  of the same overlay** — reconciling to a canonical layout would MERGE them, the same failure that broke
+  103 binaries on `Prim`. **The right op is UNIQUIFY** (rename the non-majority camp): byte-neutral (a type
+  name emits no code), TU-local by construction, and it makes every camp single-def → liftable by the
+  existing rules. **NEW `tools/uniquify_type.py`** (deterministic camp order; majority keeps the name;
+  rewrites ONLY files that DEFINE the camp; `\bT\b` so `Buf` never matches `Buf80153978`).
+  **VALIDATED on `Buf` (cheapest camp: 578/6/1 files):** 11 identifiers across 7 files → 3 camps LIFTABLE →
+  lifted (585 local copies stripped) → **R22 140/140** → blocked queue **13 → 11** (`0x8012ea90`,
+  `0x801749c8` freed). Propagated `0x8012EA90` ×138; `0x801749C8` DROPPED (straggler in ov_SC07_006).
+  **YIELD, HONESTLY (P9): ZERO new matched functions.** fn-count 88.61%, instr 79.3%, stubs 40,281 — all
+  UNCHANGED; dedup 1867→1868, C1 +138. `0x8012EA90`'s members were ALREADY matched in all 138 overlays, so
+  the propagation consolidated duplication into one shared macro (a DRY win) rather than banking coverage.
+  The increment's real value is the **proven recipe** + the queue moving 13→11, NOT the numbers.
+  **ALSO FIXED (R32):** `dedup_propagate`'s skip line printed a COUNT and no names, and aggregated THREE
+  unrelated causes into `n_local` — a body skipped for merely containing a `//` comment (macro-unsafe, a
+  1-line fix) was reported identically to one genuinely using an overlay-local type. Now named + split by
+  cause; the 13 turned out to be all the real cap, but the queue is no longer invisible.
+  **NEXT CAMPS by cost:** `MATRIX` (578/71/6) · `Vec8` (180/139 — no clear minority, expect to name BOTH) ·
+  then Handler / Blk8 / V8 / Prim / Prim_8016E7C8.

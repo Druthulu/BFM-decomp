@@ -31,7 +31,7 @@ Options:
   --binaries a,b,c                    restrict members to these onboarded overlays (default: all that share)
   --no-gate                           skip the per-overlay build gate (CI / batch re-gate later)
 """
-import argparse, json, pathlib, re, subprocess, sys
+import argparse, collections, json, pathlib, re, subprocess, sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 
@@ -433,6 +433,11 @@ def main():
     plan = []
     sig_cache, txt_cache = {}, {}
     n_nondef = n_local = n_lowreach = 0
+    # R32: a skip that only increments a counter is invisible work — and `n_local` aggregates THREE
+    # unrelated causes (macro-unsafe body / inline type def / genuinely overlay-local type), which
+    # mislabels the queue: a body skipped for containing a `//` comment is a 1-line fix, not the
+    # per-camp type reconcile. Track and NAME each class separately.
+    skipped = collections.defaultdict(list)
     for addr, src in targets:
         ssig = sig_cache.setdefault(src, load_sig(src))
         if addr not in ssig:
@@ -441,13 +446,13 @@ def main():
         ctext = txt_cache.setdefault(src, source_text(src))
         site = find_site(ctext, src, addr)
         if not site or site[0] != "def":
-            n_nondef += 1; continue
+            n_nondef += 1; skipped["not-inline-def"].append(addr); continue
         body = site[3]
         members = [ov for ov in pool if sigs[ov].get(addr, {}).get(a.tier) == h]
         if len(members) < 2:
-            n_lowreach += 1; continue
+            n_lowreach += 1; skipped["reach<2"].append(addr); continue
         if any("//" in l or l.rstrip().endswith("\\") for l in body):
-            n_local += 1; continue            # not macro-safe (// comment / line-continuation)
+            n_local += 1; skipped["macro-unsafe (// or \\)"].append(addr); continue
         # A body that inline-DEFINES a named struct/union or a typedef can't be lifted as a macro
         # (two macros defining the same type redefine it when both instantiate in one overlay). But
         # USING a type that lives in the shared src/shared/engine_types.h header (§14c struct follow-up)
@@ -456,14 +461,16 @@ def main():
         # ONLY inline named-struct defs + typedefs; compiles_standalone (which includes engine_types.h)
         # then rejects any body using an overlay-local type NOT yet promoted to the header.
         if re.search(r'(\b(struct|union)\s+\w+\s*\{)|(\btypedef\b)', "\n".join(body)):
-            n_local += 1; continue
+            n_local += 1; skipped["inline type def in body"].append(addr); continue
         if not compiles_standalone(body):     # uses overlay-local types -> can't lift mechanically
-            n_local += 1; continue
+            n_local += 1; skipped["overlay-local TYPE (the real cap)"].append(addr); continue
         plan.append(dict(addr=addr, src=src, hash=h, body=body, members=members))
 
     if n_local or n_nondef or n_lowreach:
         print(f"[skip] {n_local} not self-contained (local types), {n_nondef} not inline-def, "
               f"{n_lowreach} reach<{a.min_reach}")
+        for why, addrs in sorted(skipped.items()):
+            print(f"    [{why}] {len(addrs)}: {' '.join('0x%08x' % x for x in sorted(addrs))}")
     if not plan:
         sys.exit("[error] nothing to propagate")
 

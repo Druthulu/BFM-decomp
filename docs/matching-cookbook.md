@@ -4932,3 +4932,45 @@ Prim-broken run too. **Pre-filter on a binary that FAILED, not one that passed**
 **Result.** 154 types lifted, 2,958 files stripped, **R22 140/140 byte-identical**, `engine_types.h` +510
 lines. Deferred and named, not silently dropped: 8 VARIANT entities (MATRIX/Buf/Vec8/Prim/Handler/…) awaiting
 the per-camp field-access reconcile, 14 carried tags, and 5 types kept local in the -O0 TU.
+
+## §64a — VARIANT types: UNIQUIFY the camps, do not reconcile them (`uniquify_type.py`, Phase 29 SESSION-14)
+
+**The trap.** §64 defers any type with 2+ distinct definitions as a VARIANT, and the obvious next move
+reads as "pick the canonical layout and reconcile the other camps' field access." **For most of these
+names that is actively WRONG.** Measured on this fleet:
+
+    Vec8 = { s32 w[8] }                 180 files  (32 bytes)
+    Vec8 = { s16 unk0,unk2,unk4,unk6 }  139 files  ( 8 bytes)
+    MATRIX = { s32 m[3][3]; s32 t[3] }  578 files  |  { short m[3][3]; long t[3] }  71 files
+    Buf    = { s16 h[8] }               578 files  |  a 0x20+ struct  6 files  |  { DrawEnv env; … }  1
+
+These are not one type with two spellings — they are **different types that happen to share an
+identifier in different TUs of the same overlay** (each TU carried its own local guess, which is
+exactly why they diverged). "Reconciling" them MERGES two layouts and silently repoints the minority
+camp's TUs at the wrong struct — the same failure mode that broke 103 binaries on `Prim` (§64 Law 3).
+
+**The correct operation is the opposite: keep both layouts, give them distinct NAMES.**
+
+    reconcile  -> merges two layouts     -> breaks the minority camp   WRONG
+    uniquify   -> preserves both layouts -> every camp becomes liftable  RIGHT
+
+Renaming a type is **byte-neutral** (a type name emits no code) and TU-local by construction: the
+definition and all its uses live in the same file. Once each camp is uniquely named it has exactly ONE
+definition fleet-wide, so `lift_types.py` lifts them all by its ordinary rules and the §20 propagation
+cap lifts with them. `tools/uniquify_type.py --type <T> [--apply]` does it: deterministic camp ordering
+(file-count desc, then normalized text, so re-runs assign the same suffixes), majority keeps the name,
+camp *n* becomes `<T>_c<n>`, and it rewrites ONLY files that DEFINE that camp — a file that merely uses
+the name is getting the type from elsewhere and must keep referring to it (`\bT\b` word boundaries also
+keep `Buf` from matching `Buf80153978`).
+
+**Validated on `Buf` (the cheapest camp: 578 / 6 / 1 files).** 11 identifiers rewritten across 7 files →
+3 camps all LIFTABLE → lifted (585 local copies stripped) → **R22 140/140 byte-identical** → the blocked
+core queue fell **13 → 11** (`0x8012ea90`, `0x801749c8` freed, both `Buf`-blocked). Recipe:
+`uniquify_type --apply` → `lift_types --candidates` → `--types <camps> --apply` → pre-filter build →
+R22 → `dedup_propagate --addr`. Remaining camps by cost: **MATRIX** (578/71/6), **Vec8** (180/139 — no
+clear minority, so expect to name BOTH camps), then Handler / Blk8 / V8 / Prim / Prim_8016E7C8.
+
+**Also fixed here (R32):** `dedup_propagate`'s skip line printed a COUNT and no names, and aggregated
+three unrelated causes into `n_local` — a body skipped merely for containing a `//` comment or a line
+continuation (macro-unsafe, a one-line fix) was reported identically to one genuinely using an
+overlay-local type. The queue is now named and split by cause, so the work it represents is visible.

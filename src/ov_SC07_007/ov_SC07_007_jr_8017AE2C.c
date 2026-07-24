@@ -8,7 +8,6 @@
  * Decls emit no code => byte-neutral. See cookbook §8c. */
 typedef struct { s32 w[8]; } Vec8;
 typedef struct { s32 m[3][3]; s32 t[3]; } MATRIX;
-typedef struct { s16 h[8]; } Buf;
    /* size 8, alignment 1 -> unaligned copy */
    /* 8 bytes */
                  /* 32 bytes */

@@ -49,19 +49,6 @@ typedef struct {
     u8  pad[7];                 /* -> 0x40 */
 } Prim_8016E7C8;
 typedef void (*Handler)(struct Entry *);
-typedef struct {
-    /* 0x00 */ s8  head[0x14];
-    /* 0x14 */ s32 f14;
-    /* 0x18 */ s32 f18;
-    /* 0x1C */ s32 f1c;
-    /* 0x20 */ s16 f20;
-    /* 0x22 */ s16 f22;
-    /* 0x24 */ s16 f24;
-    /* 0x26 */ s16 pad26;
-    /* 0x28 */ s16 f28;
-    /* 0x2A */ s16 f2a;
-    /* 0x2C */ s16 f2c;
-} Buf;
       /* 8 bytes, align 2 -> lwl/lwr/swl/swr copy */
          /* 16-byte stride array element */
 struct vec;
