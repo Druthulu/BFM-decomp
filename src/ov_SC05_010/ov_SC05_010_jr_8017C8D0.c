@@ -3193,7 +3193,31 @@ void func_8017D908(void) {
 
 INCLUDE_ASM("asm/ov_SC05_010/nonmatchings/ov_SC05_010_jr_8017C8D0", func_8017D910);
 
-INCLUDE_ASM("asm/ov_SC05_010/nonmatchings/ov_SC05_010_jr_8017C8D0", func_8017D938);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+extern s32 D_80126D54;
+extern s32 D_8018C490;
+s32 func_8017D938(void)
+{
+  int new_var;
+  new_var = 0xFFFFFFFF;
+  new_var = (float) 0xFFFFFFFF;
+  return ((u32) (D_80126D54 ^ ((s32) (&D_8018C490)))) == (1 & new_var);
+}
 
 extern s16 D_80126B0C;
     s32 func_8017D954(void) {
