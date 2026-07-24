@@ -3287,7 +3287,37 @@ void func_8017EC78(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_097/nonmatchings/ov_SC03_097_jr_8017D898", func_8017ECB4);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+extern void func_8017F0D4(void);
+s32 func_8017ECB4(s32 arg0)
+{
+  s32 temp_v0;
+  u8 *new_var;
+  func_8017F0D4();
+  new_var = (u8 *) (arg0 + 0x15);
+  temp_v0 = 1;
+  ;
+  *new_var = (*new_var) + temp_v0;
+  temp_v0++;
+  temp_v0 = 1;
+  temp_v0--;
+  return ((((((temp_v0 & 0xFFu) & 0xFFu) & 0xFFu) & 0xFFu) & 0xFFu) & 0xFFu) & 0xFFu;
+}
 
 s32 func_8017ECF0(void) {
         return 0;
