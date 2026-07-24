@@ -139,7 +139,7 @@ extern s8 D_801152C0;
 extern u8 D_80127504;
 extern void func_800144D4(void);
 extern void func_80129C40(s32 _arg0);
-extern void func_8012A328(void);
+extern void func_8012A328();
 extern void func_80053308(s32);
 extern s32 func_80012F74(s32, s32, s32, s32);  /* canonical s32 (engine_core); (s16)-cast the return for the sll/sra */
 extern void GsSetRefView2L(void *);

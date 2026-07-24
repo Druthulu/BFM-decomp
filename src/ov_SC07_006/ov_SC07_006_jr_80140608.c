@@ -137,7 +137,7 @@ extern s8 D_801152C0;
 extern u8 D_80127504;
 extern void func_800144D4(void);
 extern void func_80129C40(s32 _arg0);
-extern void func_8012A328(void);
+extern void func_8012A328();
 extern void func_80053308(s32);
 extern s32 func_80012F74(s32, s32, s32, s32);  /* canonical s32 (engine_core); (s16)-cast the return for the sll/sra */
 extern void GsSetRefView2L(void *);
@@ -2372,7 +2372,100 @@ void func_80146360(void)
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_80140608", func_801463A0);
+// @class: struct
+// @stuck: none — MATCH (101 ins); also byte-verified spliced into the real ov_SC07_006 TU
+/* func_801463A0 — ov_SC07_006 / ov_SC07_006_jr_80140608 (cross-overlay family reach 138).
+ *
+ * Byte-verified twice: `match_one` in isolation AND spliced into a scratch copy of
+ * src/ov_SC07_006/ov_SC07_006_jr_80140608.c compiled whole (§42a: iso-MATCH != TU bank).
+ *
+ * Keys:
+ *  - D_80126B78 is `s32 *`, read ONCE before the five calls -> it lives in $s0 across them;
+ *    &D_80126B58 is CSE'd into $s1 for all eight `addu $a0,$s1,$zero` call arguments.
+ *  - The 8-byte BE0->BE8 copy is a STRUCT ASSIGN of an align-1 blob (cookbook §48-C2) ->
+ *    emit_block_move force_regs both bases (`la $a1` / `la $a0`) + lwl/lwr + swl/swr.
+ *    NOT `memcpy(...)`: the real TU declares `extern void *memcpy(...)`, which disables the
+ *    builtin TU-wide and would lower this copy to a `jal memcpy` CALL (§42a T1 drift class).
+ *  - NEW IDIOM (this was the whole residual, -1 instruction): the halfword store at the SAME
+ *    address as the block-copy SOURCE must not be spelled with the same C declaration. If it is,
+ *    cse substitutes the block move's already-loaded base register for the store's constant
+ *    address (`sh $v1,0($a3)` instead of `lui $at,%hi; sh %lo($at)`) — one instruction short, and
+ *    the extended live range of that base also pushes the block move off $a1/$a0 onto $a3/$a1.
+ *    Splitting the two views into two DECLS (here: the TU's `u8 D_80126BE0[]` for the copy, an
+ *    `__asm__("D_80126BE0")`-labelled `u16` for the store) gives cse two non-identical SYMBOL_REFs
+ *    (rtx_equal_p compares XSTR pointers), so the direct `lui %hi / sh %lo($at)` macro survives.
+ *    The emitted relocation is still against D_80126BE0 — no new undefined symbol.
+ *  - The three halfword stores must precede the D_80126B9C read-modify-write so its `sw` schedules last.
+ *  - Callee decls mirror the real TU's environment (the engine_core DEFINE_func_* signatures and
+ *    `u8 D_80126BE0[]` from DEFINE_func_80146128) so the def splices in with no conflicting types.
+ */
+#include "common.h"
+
+typedef struct { char _b[8]; } Blk8_801463A0;   /* size 8, align 1 -> unaligned block move */
+
+extern void func_8014C6F4(u8*);
+extern void func_80155150(s32 a0);
+extern void func_801470C0(s32 a0);
+extern void func_80147478(s32 a0);
+extern void func_80147118(s32 a0);
+extern void func_8014BDE8(s32 a0);
+extern short func_801508F8(s32 a0);
+extern void func_8014B5B0(s32 *a0);
+extern void func_80161D88(s32 a0);
+
+extern s32 D_80126B58;
+extern s32 *D_80126B78;
+extern u16 D_80126B5E;
+extern u16 D_80126B62;
+extern u16 D_80126B66;
+extern u16 D_80126C90;
+extern u16 D_80126C92;
+extern u16 D_80126C94;
+extern s32 D_80126B9C;
+extern s32 D_80126BA0;
+extern u8 D_80126BE0[];     /* identical to the decl DEFINE_func_80146128() already emits in this TU */
+extern u8 D_80126BE8[];
+extern u16 D_80126BE0_hw __asm__("D_80126BE0");   /* halfword view of BE0 — see NEW IDIOM above */
+extern u16 D_80126BE2;
+extern u16 D_80126BE4;
+extern s16 D_80126C9E;
+
+void func_801463A0(void)
+{
+    s32 obj;
+    short v;
+
+    obj = (s32)D_80126B78;
+    func_8014C6F4((s32)&D_80126B58);
+    func_80155150((s32)&D_80126B58);
+    func_801470C0((s32)&D_80126B58);
+    func_80147478((s32)&D_80126B58);
+    func_80147118((s32)&D_80126B58);
+    if (obj != 0) {
+        v = D_80126B5E + D_80126C90;
+        *(short *)(obj + 8) = v;
+        *(s32 *)(obj + 0x48) = (s32)v;
+        v = D_80126B62 + D_80126C92;
+        *(short *)(obj + 0xA) = v;
+        *(s32 *)(obj + 0x4C) = (s32)v;
+        v = D_80126B66 + D_80126C94;
+        *(short *)(obj + 0xC) = v;
+        *(u16 *)(obj + 0x2C) = *(u16 *)(obj + 0x2C) | 0x11;
+        *(s32 *)(obj + 0x50) = (s32)v;
+    }
+    func_8014BDE8((s32)&D_80126B58);
+    *(Blk8_801463A0 *)&D_80126BE8 = *(Blk8_801463A0 *)&D_80126BE0;
+    D_80126BE0_hw = D_80126B5E;
+    D_80126BE2 = D_80126B62;
+    D_80126BE4 = D_80126B66;
+    D_80126BA0 = D_80126B9C;
+    D_80126B9C = D_80126B9C & 0x3FFFFFFF;
+    func_801508F8((s32)&D_80126B58);
+    D_80126C9E = 0;
+    func_8014B5B0(&D_80126B58);
+    func_80161D88((s32)&D_80126B58);
+}
+
 
 DEFINE_func_80146534()  /* dedup: shared engine-core @0x80146534 (src/shared) */
 
@@ -3472,7 +3565,87 @@ DEFINE_func_8014C6D0()  /* dedup: shared engine-core @0x8014c6d0 (src/shared) */
 DEFINE_func_8014C6E0()  /* dedup: shared engine-core @0x8014c6e0 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_80140608", func_8014C6F4);
+// @class: schedule
+// @stuck: none — MATCH (match_one 91/91)
+//
+// Levers used (all byte-gated on ov_SC07_006):
+//  1. §struct  8-byte alignment-1 struct copy `*(M8_8014C6F4*)(a+0x164) = *(M8_8014C6F4*)(p+0x10)`
+//     -> the lwl/lwr,lwl/lwr,swl/swr,swl/swr block (engine_types.h M8_xxx convention).
+//  2. §17 base-pointer cache: `u8 *p = D_80078E78;` (NOT a direct D_80078E78[0x49]) so gcc pins
+//     the base into callee-saved $s1 and hoists the la into the prologue (live across the jal).
+//  3. §17 register pins: the search result `e` MUST be $v0 and the limit `lim` $v1, else
+//     local-alloc swaps the loop IV/limit pair ($v1<->$a0) and coalesces `e` into the IV.
+//  4. DELAY-SLOT lever (new): writing the compare constant as its own pre-loop statement
+//     (`want = 0x22;`) instead of the literal `0x22` inside the loop test. With the literal,
+//     loop.c hoists the `li $a1,0x22` into the loop PREHEADER (after the duplicated entry test),
+//     so reorg.c's guard branch has nothing local to take and instead COPIES the branch-target
+//     insn (`addu $v0,$zero,$zero`) into its delay slot and redirects past it — a +1 shift that
+//     also lets the loop-back branch steal the same insn (nop -> move). Materialising the
+//     constant in the block BEFORE the entry test makes fill_simple_delay_slots take it from
+//     the preceding insns, reproducing `beqz $v0,.L8014C7F4 / addiu $a1,$zero,0x22` and leaving
+//     the loop-back delay slot a nop. `want` needs no pin — gcc lands it in $a1 on its own.
+
+typedef struct { char _b[8]; } M8_8014C6F4;
+
+void func_8014C6F4(u8 *a) {
+    extern u8 D_80078E78[];
+    extern s32 D_8011F9D0;
+    extern s32 func_8016F1AC(void);
+    extern void func_80015978(s32 a0, s32 *a1);
+
+    u8 *p = D_80078E78;
+    register u8 *e __asm__("$2");
+    register u8 *lim __asm__("$3");
+    u8 *q;
+    s32 want;
+    u8 *src;
+
+    if ((*(u32 *)(a + 0x44) & 2) != 0) {
+        a[0x1C3] = 1;
+    }
+    if (((*(u32 *)(a + 0x44) ^ *(u32 *)(a + 0x48)) & *(u32 *)(a + 0x44) & 0x200) != 0) {
+        a[0x1C3] = 0;
+    }
+    *(M8_8014C6F4 *)(a + 0x164) = *(M8_8014C6F4 *)(*(u8 **)(a + 0x20) + 0x10);
+    if (func_8016F1AC() != 0
+        || (((*(u32 *)(a + 0x44) & 0x200) != 0) && a[0x1C3] == 0)) {
+        *(s16 *)(a + 0x162) = 1;
+        goto tail;
+    }
+    if (p[0x49] == 0x17) {
+        want = 0x22;
+        q = (u8 *)&D_8011F9D0;
+        lim = q + 0xC30;
+        for (; q < lim; q += 0x68) {
+            if (*(u16 *)q == want) {
+                e = q;
+                goto found;
+            }
+        }
+        e = 0;
+    found:
+        if (e != 0) {
+            src = e + 4;
+            goto call;
+        }
+    }
+    if (*(u16 *)a == 0x19) {
+        goto done;
+    }
+    src = a + 4;
+call:
+    func_80015978((s32)src, (s32 *)(a + 0x15C));
+done:
+    *(s16 *)(a + 0x162) = 0;
+tail:
+    if (*(s16 *)(a + 0x15A) == 0) {
+        *(u16 *)(a + 0x154) = *(u16 *)(a + 0x6);
+        *(u16 *)(a + 0x156) = *(u16 *)(a + 0xA);
+        *(u16 *)(a + 0x158) = *(u16 *)(a + 0xE);
+    }
+    *(s16 *)(a + 0x15A) = 0;
+}
+
 
 DEFINE_func_8014C860()  /* dedup: shared engine-core @0x8014c860 (src/shared) */
 

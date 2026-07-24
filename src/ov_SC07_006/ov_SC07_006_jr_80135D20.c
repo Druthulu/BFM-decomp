@@ -137,7 +137,7 @@ extern s8 D_801152C0;
 extern u8 D_80127504;
 extern void func_800144D4(void);
 extern void func_80129C40(s32 _arg0);
-extern void func_8012A328(void);
+extern void func_8012A328();
 extern void func_80053308(s32);
 extern s32 func_80012F74(s32, s32, s32, s32);  /* canonical s32 (engine_core); (s16)-cast the return for the sll/sra */
 extern void GsSetRefView2L(void *);
@@ -1006,7 +1006,80 @@ void func_80136EC4(void) {
 DEFINE_func_80136ECC()  /* dedup: shared engine-core @0x80136ecc (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_80135D20", func_80136F3C);
+// @class: regalloc-order
+// @stuck: none — MATCH (match_one 61/61, relocation-masked)
+//
+// 2-line "X cross" GsSortLine family (same shape as byte-proven DEFINE_func_80137030 /
+// DEFINE_func_80137178, RED variant):
+//   line1 = (a0-3, a1-3) -> (a0+3, a1+3);  line2 = (a0+3, a1-3) -> (a0-3, a1+3);
+//   color r=0xFF g=0 b=0.  All four endpoints are loop-invariant across the two calls, so all
+//   six live values (x0,y0,x1,y1,white,base) are homed in $s0-$s5 for the whole body.
+//
+// Levers that make gcc-2.7.2 -O2 emit the target's exact regalloc + schedule:
+//   * ROLE COALESCING (the 28 -> 13 step): the target coalesces x0 into a0's incoming copy
+//     ($s1: `addu $s1,$a0,$zero` ... `addiu $s1,$s1,-0x3`) and y1 into a1's copy ($s2), while
+//     x1 lands in a FRESH $s0. gcc coalesces whichever derived value is computed LAST off the
+//     param, so the source must emit y0, x1, y1, x0 in that order — writing x0 first (the
+//     "natural" order) coalesces x1 instead and costs 28 instructions.
+//   * `__asm__("" : "=r"(x1) : "0"(x1))` right after `x1 = a0 + 3;` nails x1's compute point
+//     between x1 and y1, which is what keeps x1 from being the last a0-user (13 -> 7).
+//   * PINS: x1 -> $s0 ($16), x0 -> $s1 ($17), base(&D_800A6518) -> $s3 ($19), white(0xFF) ->
+//     $s4 ($20). Without the x1 pin the whole $s bank rotates by one; without the x0 pin the
+//     a0-copy fights x1 for $s0. y0/y1 must stay UNPINNED — pinning y1 to $s2 kills the
+//     `addu $s2,$a1,$zero` param copy entirely (a1 stays in $a1, -1 insn, 58 mismatched).
+//   * NO anchor on `white`: an `__asm__` on white front-loads its `li $s4,255` ahead of the
+//     call's $a0/$a2 argument setup (the last 4-mismatch schedule residual). Leaving white
+//     un-anchored lets the scheduler emit `addiu $a0,$sp,0x10` / `addu $a2,$zero,$zero` first,
+//     exactly as the target does.
+extern short D_800B9A02;
+extern u8 D_800A6518[];
+extern void GsSortLine(void *a0, void *a1, s32 a2);
+
+void func_80136F3C(s32 a0, s32 a1)
+{
+    struct {
+        u32 tag;
+        s16 x0;
+        s16 y0;
+        s16 x1;
+        s16 y1;
+        u8 r;
+        u8 g;
+        u8 b;
+    } line;
+    register s16 x1    __asm__("$16");               /* $s0 */
+    register s16 x0    __asm__("$17");               /* $s1 */
+    register u8 *base  __asm__("$19") = D_800A6518;  /* $s3 */
+    register s16 white __asm__("$20");               /* $s4 */
+    s16 y0;
+    s16 y1;
+
+    y0 = a1 - 3;
+    x1 = a0 + 3;
+    __asm__("" : "=r"(x1) : "0"(x1));
+    y1 = a1 + 3;
+    white = 0xFF;
+    x0 = a0 - 3;
+    line.tag = 0;
+    line.r = white;
+    line.g = 0;
+    line.b = 0;
+    line.x0 = x0;
+    line.y0 = y0;
+    line.x1 = x1;
+    line.y1 = y1;
+    GsSortLine(&line, &base[(u16)D_800B9A02 * 20], 0);
+    line.tag = 0;
+    line.r = white;
+    line.g = 0;
+    line.b = 0;
+    line.x0 = x1;
+    line.y0 = y0;
+    line.x1 = x0;
+    line.y1 = y1;
+    GsSortLine(&line, &base[(u16)D_800B9A02 * 20], 0);
+}
+
 
 DEFINE_func_80137030()  /* dedup: shared engine-core @0x80137030 (src/shared) */
 

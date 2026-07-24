@@ -2027,7 +2027,7 @@
     }
 
 #define DEFINE_func_801749A8() \
-    extern s32 func_801749C8(s32); \
+    extern s32 func_801749C8(); \
     s32 func_801749A8(s32 a0) { \
         return func_801749C8(a0); \
     }

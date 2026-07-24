@@ -137,7 +137,7 @@ extern s8 D_801152C0;
 extern u8 D_80127504;
 extern void func_800144D4(void);
 extern void func_80129C40(s32 _arg0);
-extern void func_8012A328(void);
+extern void func_8012A328();
 extern void func_80053308(s32);
 extern s32 func_80012F74(s32, s32, s32, s32);  /* canonical s32 (engine_core); (s16)-cast the return for the sll/sra */
 extern void GsSetRefView2L(void *);
@@ -2137,7 +2137,74 @@ INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_80154C24", func_8015660
 DEFINE_func_80156648()  /* dedup: shared engine-core @0x80156648 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_80154C24", func_80156670);
+// @class: regalloc-order
+// @stuck: none — MATCH (83 ins)
+//
+// Body notes (what makes the codegen land):
+//   * param_2/param_3 MUST be s32 (not u16) — u16 params flip the $s5/$s6 tie-break and reorder
+//     the prologue; the explicit `& 0xFFFF` at the call site is what yields the two `andi`s.
+//   * D_80126AF0 as `S8[]` (8-byte stride) folds the guard load into
+//     `lui %hi(D_80126AF6)` + `addu $at,$at,$s0` + `lh %lo(D_80126AF6)($at)` (§18 %lo-fold).
+//   * do-while + `D_801151E0[i]` lets gcc derive all three IVs itself
+//     ($s2 = &D_801151E0[i], $s0 = i*8, $s1 = i) and strength-reduce $s2 to an `addiu 4`.
+//
+// TU-plumbing notes (this is the revision that should BANK; the older
+// .run/drafts-sc07006-fresh-* copies match_one-MATCHed but were struct-walled, §23 case 3):
+//   * `S8` / `B8` are ALREADY defined in src/shared/engine_types.h (Phase-22 type-lift), which
+//     engine_core.h includes — a local `typedef ... S8;` is a hard C89 redefinition error in the
+//     TU. They are therefore emitted only under `#ifndef BFM_ENGINE_TYPES_H` so the draft still
+//     compiles standalone under match_one and is a no-op once spliced into the TU.
+//   * The TU's DEFINE_func_801567BC / _80156848 / _80156A88 / _80156B74 expansions already declare
+//     D_801151E0/D_801150E0/D_8011DAD8/D_80128120/D_80128138/D_80126AF0/D_80126730 with exactly
+//     these types, and D_801270A8 as scalar `S8` (not `u8[]`) — declared canonically here so no
+//     "type mismatch with previous external decl" fires. `(s32)&D_801270A8` is byte-identical to
+//     the old `(s32)D_801270A8` on a `u8[]` (both are just the symbol address).
+
+#ifndef BFM_ENGINE_TYPES_H
+
+
+#endif
+
+extern void func_80156B74(s32 param_1, u32 param_2, u8 *param_3);
+extern void func_80157158(s32 a0, u16 a1, u16 a2, s32 a3, s32 a4, s32 a5,
+                          s32 a6, s32 a7, s32 a8, s32 a9, u16 a10, s32 a11, s32 a12);
+extern s32 D_801151E0[];
+extern s32 D_801150E0[];
+extern u8 D_8011DAD8[];
+extern B8 D_80128120[];
+extern B8 D_80128138[];
+extern S8 D_80126AF0[];
+extern u8 D_80126730[];
+extern u8 D_8011520C[];
+extern S8 D_801270A8;
+
+void func_80156670(s32 param_1, s32 param_2, s32 param_3, s32 param_4, s32 param_5, u16 param_6)
+{
+    u32 i;
+
+    func_80156B74(param_1, param_4, (u8 *)(param_1 + 0x1A9));
+    i = 0;
+    do {
+        D_801151E0[i] = 0;
+        if (D_80126AF0[i].d == 0) {
+            D_801151E0[i] = ((s32 (*)(s32, u16, u16, s32, s32, s32, s32, s32, s32,
+                                      s32, u16, s32, s32))func_80157158)(
+                param_1, param_2 & 0xFFFF, param_3 & 0xFFFF,
+                (s32)&D_801270A8,
+                (s32)&D_80126AF0[i],
+                (s32)&D_80128120[i],
+                (s32)&D_80128138[i],
+                (s32)&D_801150E0[i],
+                (s32)&D_8011DAD8[i * 8],
+                param_5,
+                param_6,
+                (s32)&D_8011520C[i],
+                (s32)&D_80126730[i]);
+        }
+        i = i + 1;
+    } while (i < 3);
+}
+
 
 DEFINE_func_801567BC()  /* dedup: shared engine-core @0x801567bc (src/shared) */
 
