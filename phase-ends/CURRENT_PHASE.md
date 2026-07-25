@@ -3737,6 +3737,31 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   h_exact** — so it is NOT a dedup sibling; it is a `family_remap` TEMPLATE candidate (same shape, same
   3-callee set, per-overlay reloc symbols). Worth a positional-remap attempt off the b4 source.
 
+- **🏆 2026-07-25 (SESSION-19) — `func_8017F5B4` (1,511 ins) BANKED MECHANICALLY off the behemoth-#3
+  crack: ~0 agent tokens. Two behemoths in one stretch; +3,022 distinct-code ins total.**
+  `func_8017F5B4` @ `ov_SC02_031` shares behemoth #3's **h_norm AND h_seq** (`96fe0455c344` /
+  `9a6bd2b91fd4`) but a different `h_exact` — i.e. the same instruction stream differing only in
+  masked reloc fields. That is the §40 `family_remap` case exactly, so **no agent was spent**:
+  `family_remap --addr 0x8017F510 --from ov_SC03_006 --to ov_SC02_031 --to-addr 0x8017F5B4`
+  substituted **52 per-overlay symbols correctly on the FIRST invocation**. `match_one` → **MATCH
+  (1511 ins)**; `harvest_verify --binary ov_SC02_031` → **BYTE-IDENTICAL**; **R22 140/140**.
+  **ALL the work was PREAMBLE, none of it the body (→ cookbook §77).** Four `CC1 FAIL` rounds, each
+  naming one construct the extractor drops: (1) multi-line `typedef struct {…} PolyGT4;` —
+  `family_remap`'s backward walk accepts a line only if it STARTS with `extern`/`typedef`/comment, and
+  a multi-line typedef ENDS with `} PolyGT4;`, so the walk halts there **and loses everything above
+  it**; (2) consequently the file-scope `extern` block above the `#define BOXTEST/ATTEN` block; (3) the
+  exemplar's own `#include` lines (`PolyFT3`/`PolyFT4` live in `engine_types.h`).
+  **THIS IS THE THIRD CONFIRMATION TODAY OF ONE DEFECT CLASS, NOW ACROSS TWO TOOLS** — §75b found
+  `dedup_propagate` dropping a file-scope `#define` and PREDICTED the generalisation; `family_remap`
+  then dropped a typedef, an extern block and the includes. **Rule (§77): after any mechanical
+  template/propagate step, diff the exemplar's full file-scope preamble against what the tool emitted.
+  A `CC1 FAIL` on a remapped sibling is a PREAMBLE report until proven otherwise — it says nothing
+  about whether the remap was right.** Don't reason about what the tool should have carried; compile
+  and let cc1 enumerate the gaps one per round.
+  **METRICS: distinct-code 3,815,023 → 3,816,534 (+1,511).** Combined with behemoth #3 that is
+  **+3,022 distinct-code ins from the two**, versus **+0 from every propagation win this session**.
+  Artifact preserved: `.run/giants/s19_func_8017F5B4_remap.c`.
+
 > **🛑 SESSION-19 CLOSING CHECKPOINT (2026-07-25, Opus 5 @ High) — REFRESHED mid-session; supersedes
 > both the SESSION-18 block and the earlier SESSION-19 block (which was written before the
 > ENGINE_SHB / class-B / dedup_extend-bug work and went stale). Fresh session safe here.**
@@ -3759,6 +3784,7 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 > | `func_80165CA0` | 99 | **×135** | §75b `ENGINE_SHB` (the carried-`#define` gap) |
 > | 22 assorted | — | ×1 | picked up in the 3 overlays the first sweep excluded |
 > | **`func_8017F510`** | **1,511** | **×1 (distinct-code)** | **BEHEMOTH #3 — §76 allocno-class levers, pin-free, xHigh agent** |
+> | **`func_8017F5B4`** | **1,511** | **×1 (distinct-code)** | **§40 family_remap off F510 + §77 preamble carry — ~0 agent tokens** |
 > | `func_80174CB0` | 123 | **×135** | §75c the full §17a-1 pair (3 residual = the predicted class-A set) |
 >
 > **+46,433 ins banked with ZERO function drafting** — every gain was carried-declaration plumbing.

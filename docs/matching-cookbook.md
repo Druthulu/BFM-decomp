@@ -6059,3 +6059,42 @@ a scheduling tie-break" into a one-line source swap.
 3. Then sweep **variable REUSE** (merge two temps into one) to move `allocno_compare` priority.
 4. Keep the measured result of every lever; behemoth #3's session produced a ~50-row do-not-re-buy
    table (`.run/giants/s19_f510_report.md`) that is worth more than the match itself.
+
+## §77 — Every extraction tool carries a NARROW hard-coded preamble set; anything outside it silently caps the body's reach. Diff the preamble before you gate. (Phase 29 SESSION-19 — three variants in one session, two different tools)
+
+§75b found that `dedup_propagate`'s `extract_unit` lifts `extern` lines but **not** file-scope
+`#define`s, and predicted the generalisation: *"any preamble construct that is not an `extern` —
+`#define`, a file-scope `typedef`, a `static` helper — is silently dropped."* That prediction was
+confirmed **three more times the same day**, in a second tool, while templating behemoth #3's crack
+onto its sibling with `family_remap`:
+
+| # | construct dropped | tool | how it surfaced |
+|---|---|---|---|
+| 1 | file-scope `#define` (`SHB`) | `dedup_propagate` | `undefined reference to 'SHB'` — a **LINK** error (§75b) |
+| 2 | **multi-line** `typedef struct {…} T;` | `family_remap` | `'PolyGT4' undeclared` + a cascade of `parse error before ')'` |
+| 3 | file-scope `extern` block sitting **above** a `#define` block | `family_remap` | `'D_801B79E8' undeclared` |
+| 4 | the exemplar's own `#include` lines | `family_remap` | `'PolyFT4' undeclared` (it lives in `engine_types.h`) |
+
+**Why #2 and #3 happen, precisely.** `family_remap`'s backward preamble walk accepts a line only if it
+starts with `extern` / `//` / `/*` / `*` / `typedef`. A **multi-line** typedef *ends* with `} PolyGT4;`,
+which starts with none of those, so the walk halts there — and everything above it (including a
+perfectly ordinary `extern` block) is lost. The tool documents the typedef half of this
+("Multi-line typedefs aren't carried — those functions route through the `engine_types.h` lift") but
+the consequence is broader than the note implies: **one unrecognised line truncates the whole
+preamble, dropping constructs the walk *would* have accepted.**
+
+**The recipe (cheap, and it converges in 2–3 rounds).** Do NOT reason about what the tool should have
+carried — compile and let cc1 enumerate it:
+1. `match_one` the generated sibling. cc1 names the first missing symbol/type.
+2. Find it in the exemplar; carry that construct across, applying the tool's own printed substitution
+   map to any per-overlay names inside it.
+3. Repeat. Each round clears one construct class, and the error text tells you which.
+
+Behemoth #3's sibling `func_8017F5B4` (1,511 ins) went `CC1 FAIL → CC1 FAIL → CC1 FAIL → **MATCH**`
+across four rounds of exactly this, for **~0 agent tokens** — the remap itself was correct from the
+first invocation (52 per-overlay symbols substituted); only the preamble was short.
+
+**Rule:** after any mechanical template/propagate step, **diff the exemplar's full file-scope preamble
+against what the tool emitted** before concluding anything about the body. A `CC1 FAIL` on a
+mechanically-remapped sibling is a *preamble* report until proven otherwise — it says nothing about
+whether the remap was right.
