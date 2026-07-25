@@ -3806,35 +3806,16 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 > **🛑 SESSION-19 CLOSING CHECKPOINT (2026-07-25, Opus 5 @ High) — REFRESHED mid-session; supersedes
 > both the SESSION-18 block and the earlier SESSION-19 block (which was written before the
 > ENGINE_SHB / class-B / dedup_extend-bug work and went stale). Fresh session safe here.**
-> **⚠️ AN OPUS-5 AGENT IS RUNNING (launched 2026-07-25, SESSION-19, effort xHigh):** cracking
-> **behemoth #2 `func_8017D960`** (3,338 ins, ov_SC03_090). Deliverables
-> `.run/giants/s19_func_8017D960_b5.c` + `s19_d960_report.md`; sandboxed to `.run/giants/`
-> (no `src/`/`config/`/`docs/`, no commits, no `make` build targets). **If this session died
-> mid-run, check those two files — the agent's work is NOT committed.**
-> **THE PRIZE: its h_norm+h_seq family has 5 UNMATCHED members** (`func_8017D960` @ SC03_089/
-> 090/104 + `func_8017E778` @ SC03_091 + `func_8017CD9C` @ SC03_102), all §40-remappable from
-> one crack ⇒ **≈16,690 distinct-code ins**, ~5.5× both of today's behemoths combined.
-> **BASELINE (I measured it): 3334 vs 3338 ins, 1,806 mismatched, `LENGTH-DRIFT/-4`.** The old
-> summary "3,334/3,338, one fold OR-chain error left" reads as *4 instructions from done* and
-> **is wrong** — it is 4 SHORT, and the drift shifts every downstream position. Length must be
-> fixed before any register reasoning (the F510 precedent: dedicated `vw`/`vzw` temps restored
-> exact length; a NEGATIVE drift means we are MISSING instructions the target has).
-> **Briefed with today's assets:** `func_8017F510` (1,511) MATCHED = the single-light variant of
-> the SAME family at half the size, plus `func_8017CA80` (952) MATCHED in the SAME TU — matched
-> relatives bracketing the target; cookbook **§76** (allocno class = declaration scope +
-> variable reuse), §74 (its 5 pins are audited-safe but F510 cracked PIN-FREE — remove them),
-> §77, and the `-fno-schedule-insns{,2}` attribution primitive.
- Behemoth #3 `func_8017F510` is **CRACKED and BANKED**
-> (97 → MATCH, 1,511 ins, pin-free; §76), and its sibling **`func_8017F5B4` banked mechanically**
-> off it (§40 remap + §77 preamble carry, ~0 agent tokens). R22 140/140. The `func_80174CB0`
-> sweep is complete and committed.
+> **No background job is running.** Three behemoths banked this session: `func_8017F510`
+> (1,511, §76 crack), `func_8017F5B4` (1,511, §40 remap), and **`func_8017D960` + its entire
+> 5-member family (5 × 3,338 = 16,690 ins, §78 crack + 4 first-try remaps)**.
 > **Tree clean** (only R23 `db.*.gbf` churn — never staged).
-> **STATE:** HEAD `commit:1009`, **19 commits this session**. **R22 clean-fleet 140/140, run 7×** — the
-> last after the func_8017F5B4 remap bank.
+> **STATE:** HEAD `commit:1012`, **22 commits this session**. **R22 clean-fleet 140/140, run 8×** — the
+> last after the behemoth-#2 family bank.
 > **0 NON_MATCHING** (G4). dedup **1886 validated / 0 failed**, C1 coverage 239,604/239,604. **Drew pushes** (R6/R20).
-> **FLEET: 80.3% instr** — 10,558,981 / 13,141,652 · **distinct-code 3,816,534 (+3,022 this
-> session — ALL of it from the two behemoths; every propagation win contributed +0)** ·
-> fn-count **89.18%** (session opened 80.0 / 67.7 / 89.02).
+> **FLEET: 80.5% instr** — 10,575,671 / 13,141,652 · **distinct-code 3,833,224 = 68.0%
+> (+19,712 ins this session — ALL of it from the three behemoths; every propagation win
+> contributed +0)** · fn-count **89.18%** (session opened 80.0 / 67.7 / 89.02).
 >
 > ## BANKED THIS SESSION
 > | fn | ins | reach | lever |
@@ -3845,6 +3826,7 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 > | 22 assorted | — | ×1 | picked up in the 3 overlays the first sweep excluded |
 > | **`func_8017F510`** | **1,511** | **×1 (distinct-code)** | **BEHEMOTH #3 — §76 allocno-class levers, pin-free, xHigh agent** |
 > | **`func_8017F5B4`** | **1,511** | **×1 (distinct-code)** | **§40 family_remap off F510 + §77 preamble carry — ~0 agent tokens** |
+> | **`func_8017D960` + family** | **3,338 ×5** | **×1 each (distinct-code)** | **BEHEMOTH #2 — §78 crack (1806→0, pin-free) + 4 first-try §40 remaps = 16,690 ins** |
 > | `func_80174CB0` | 123 | **×135** | §75c the full §17a-1 pair (3 residual = the predicted class-A set) |
 >
 > **+46,433 ins banked with ZERO function drafting** — every gain was carried-declaration plumbing.
@@ -3877,10 +3859,9 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 >    73 `s32` vs 7 `s16`) — worth 3 overlays only; normalize the 7 `s16` decls if trivially cheap.
 > 2. **BEHEMOTHS — now the PROVEN distinct-code lever** (+3,022 ins today vs +0 from all
 >    propagation). **8 untouched:** `func_8017BF14` 4,763 · `func_8017E778` 3,338 ·
->    `func_8017CD9C` 3,338 · `func_8017D2DC` 1,586 · `func_8017DC1C` 1,518 · `func_8017C954`
->    1,194 · `func_8017C730` 1,061 · (+`func_80183814` 5,122, mapped only). **`func_8017D960`
->    is NOT '4 off'** — that summary means 4 ins SHORT; measured it is 1,806 mismatched with a
->    −4 LENGTH-DRIFT. **A fresh untouched behemoth at xHigh is the clean effort experiment**
+>    `func_8017D2DC` 1,586 · `func_8017DC1C` 1,518 · `func_8017C954` 1,194 · `func_8017C730`
+>    1,061 (family of 2) · (+`func_80183814` 5,122, mapped only). **`func_8017E778`/`func_8017CD9C`
+>    are DONE — they were behemoth #2's family.** **6 behemoths remain.** **A fresh untouched behemoth at xHigh is the clean effort experiment**
 >    (F510 was a High-effort continuation, so today's result is confounded).
 >    Check every crack for h_norm/h_seq siblings — §40 remap makes the second one ~free.
 > 3. **FRESH CRACKS — the other distinct-code lever.** Fuel: the **48 families / 0.62pp** with a
