@@ -3060,3 +3060,39 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   **56** · `func_80176218` **328 vs 327** — the +1 is NOT §67 (its prologue is fine); mine burns an extra
   callee-saved (`sw $s6`) to **hoist** a global address (`lui/addiu $s6`) the target rematerializes ⇒
   the hoist-vs-remat / array-decay lever (§17), a different antidote.
+
+- **🔎 2026-07-24 (SESSION-18) — `func_8014D820` 16 → 14 → 12 via WEIGHT-VARIED permuter passes; the
+  residual is now ONE contiguous scheduling cluster. Not banked (G3).** The pattern is the useful part:
+  each ILS pass with a *different* `--klass` profile drops ~2 and then converges flat, so the weight
+  profile — not run length — is the variable that moves a converged seed.
+  | pass | seed | series | result | what it actually changed |
+  |---|---|---|---|---|
+  | `--klass REGALLOC` 10×180 s | close=16 | 14, then ×9 flat | **14** | hoisted `desc.y + 0x10` into a temp → cleared idx 271/272 |
+  | `--klass SCHEDULE` 8×240 s | close=14 | 12, then ×7 flat | **12** | hoisted `(s16) dx` into a temp → cleared idx 21/22 (the `$v1` vs `$a0` scratch) |
+  | `--klass cse` 10×240 s | close=12 | *running* | — | targeting the `currentLocationId` address placement |
+  Both permuter edits are trivially semantics-preserving (pure temp hoists), verified by reading the
+  diff — not the store-rewriting kind §66d warns about. Seeds tracked: `s18_func_8014D820_close{16,14,12}.c`.
+  **The residual 12 is entirely idx 84–98** — the `pos`/`desc` block schedule. Mine hoists the
+  `ent->z` load to idx 87; the target issues it at 91 (and orders `pos.y`/`desc.y` before it).
+  **SOURCE REORDERING THAT BLOCK IS A DEAD END — four attempts, two bases, all inert or worse:**
+  transcribing the target's *exact* instruction order into source order (idx 82–101 read off the `.s`)
+  → **305 ins** · sinking `z0 = ent->z` to its use → **305 ins, twice, on two different bases** ·
+  swapping the `y0`/`z0` load order → inert (12) · storing `desc.x` last → inert (16). **The
+  `z0 = ent->z` position is load-bearing; do not re-buy any of these.** The lesson generalizes: *the
+  target's instruction order is NOT reachable by making source order match asm order* — the scheduler
+  produced it from a different source shape, so this block is search-shaped, not reader-shaped.
+  **Pre-gate de-risked:** `symcheck` (NEW, below) → **12/12 symbols agree**, so a match here will link
+  cleanly; the §65c "rtu MATCH but gate rejects" class is ruled out for this function in advance.
+
+- **🔧 2026-07-24 (SESSION-18) — built `tools/symcheck.py`, the pre-gate SYMBOL-SET guard SESSION-17
+  left as a TODO. Negative-control proven.** Diffs the symbols a draft's object references (reloc
+  records) against the target `.s`'s `%hi`/`%lo`/`jal` set; reports MISSING (the invented-alias
+  signature) and INVENTED separately. **It fills a real structural hole:** `match_one`/`masked_diff`
+  compare relocation-MASKED words (object-vs-`.s` is symbol-agnostic *by construction*) and `rtu_match`
+  **compiles without linking** — so both are blind to a draft that invents an extern no symbol table
+  defines, which is exactly the SESSION-17 `func_801463A0` `_s`-alias trap (rtu MATCH, gate always
+  rejects). **Negative control:** rename one data extern to an invented alias → `match_one` reports the
+  **same 14 mismatched as the correct draft**, `symcheck` exits 1 naming both symbols. Run it after any
+  decl-rewriting transform (`sig_unify`, `canon_resident_calls`, `cast_call_sites`,
+  `canon_sig_reconcile`) and before paying for a gate. Cookbook **§67a**; SETUP inventory row (R21).
+  A necessary condition, NOT a match oracle — finish on the byte-gate (G3/P9).
