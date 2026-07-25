@@ -29217,7 +29217,7 @@
         vec.vx = 0; \
         vec.vy = 0; \
         vec.vz = (s16)*(s32 *)(param_1 + 0x10); \
-        func_8012F14C((s32)&mtx, (s32)&vec, (s32)&out); \
+        ((void (*)(s32, s32, s32))func_8012F14C)((s32)&mtx, (s32)&vec, (s32)&out); \
         *(s32 *)(param_1 + 0x3c) = (s32)out.vx; \
         *(s32 *)(param_1 + 0x40) = (s32)out.vy; \
         *(s32 *)(param_1 + 0x44) = (s32)out.vz; \
