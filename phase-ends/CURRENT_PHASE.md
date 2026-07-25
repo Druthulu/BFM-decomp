@@ -3156,10 +3156,14 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 >    Zero instructions. It dissolved what looked like three separate residuals (wrong temp register,
 >    mirrored prologue saves, +1 ins with an unfilled load-delay `nop`) — they were ONE defect.
 >    **Signature to look for: a draft one instruction OVER with a `nop` the target fills.**
-> 2. **Weight-profile round-robin.** Each `--klass` profile drops ~2 then goes flat; a *different*
->    profile then drops ~2 more from the new seed. **"ILS converged" means converged FOR THAT PROFILE,
->    not a floor** — this directly amends §66d-3's read-the-series rule, which SESSION-17 used to
->    conclude all four giants were "at their measured permuter floor". They were not.
+> 2. **Weight-profile diversity — worth a cheap pass, NOT expected yield (corrected later in-session).**
+>    On `func_8014D820` each unused `--klass` profile dropped ~2 then went flat (16→14→12→10), so
+>    **"ILS converged" can mean converged FOR THAT PROFILE, not a floor** — SESSION-17 used §66d-3's
+>    read-the-series rule to call all four giants floored, and for this one that was wrong.
+>    **BUT the same experiment on `func_80140958` returned ZERO** (base 56, fresh `cse` pass, 8 cycles,
+>    no change) — 3-for-3 on one giant, 0-for-1 on the next. Treat it as a ~0-token lottery ticket to
+>    spend before declaring a floor; **do NOT project giant yields from the func_8014D820 curve.**
+>    A *repeated* profile yields nothing at all (two round-2 runs, both flat). See §66d-4.
 >
 > ## ⛔ DEAD END — do not spend more reader time here
 > The residual 9 is entirely **idx 84–98**, the `pos`/`desc` block schedule (mine issues `z0 = ent->z`
