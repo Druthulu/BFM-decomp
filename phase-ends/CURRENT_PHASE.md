@@ -3698,8 +3698,23 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 > **🛑 SESSION-19 CLOSING CHECKPOINT (2026-07-25, Opus 5 @ High) — REFRESHED mid-session; supersedes
 > both the SESSION-18 block and the earlier SESSION-19 block (which was written before the
 > ENGINE_SHB / class-B / dedup_extend-bug work and went stale). Fresh session safe here.**
-> **The `func_80174CB0` sweep referenced by the earlier draft of this block has COMPLETED,
-> been R22'd (140/140) and committed (`commit:1004`). No background job is running.**
+> **⚠️ AN OPUS-5 AGENT IS RUNNING (launched 2026-07-25, SESSION-19, effort xHigh):**
+> cracking **behemoth #3 `func_8017F510`** (1,511 ins, ov_SC03_006, reach ×1 = pure
+> distinct-code). It writes ONLY `.run/giants/` (deliverables `s19_func_8017F510_b4.c` +
+> `s19_f510_report.md`); it is forbidden to touch `src/`/`config/`/`docs/`, to commit, or to
+> run any `make` build target. **If this session died mid-run, check those two files — the
+> agent's work is NOT committed and `.run/giants/` is only partly tracked.**
+> Baseline it was given (I re-measured it myself, the b3 header's numbers reproduce):
+> `match_one` **1511/1511 ins, 97 mismatched**, class `ADDRESSING [permuter] profile=cse`,
+> 99.5% structural. Residual localized as **A** 2 ins (mny/my transposition) · **B** 3×2 ins
+> (unlit-tail sched order) · **C** ~93 ins cascading from ONE seed (`c3` needs `$a2`, gets
+> `$a3`). **decomp-permuter is BYTE-PROVEN SPENT** on it (3,663 candidates, base 97, zero
+> improvement) — this is a gcc-2.7.2 `global.c` reasoning problem, not a search problem.
+> **EFFORT EXPERIMENT (Drew):** behemoths #1–#3 were worked at **High**; this is the first at
+> **xHigh**. The comparison is the point — record the outcome against that framing.
+> Stretch: `func_8017F5B4` (1,511 ins, untouched, identical 3-callee set) may template from a
+> cracked F510.
+> The `func_80174CB0` sweep is COMPLETE, R22'd (140/140) and committed (`commit:1004`).
 > **Tree clean** (only R23 `db.*.gbf` churn — never staged).
 > **STATE:** HEAD `commit:1004`, **12 commits this session**. **R22 clean-fleet 140/140, run 5×** — the
 > last after the `func_80174CB0` sweep.
