@@ -211,16 +211,27 @@ def find_site(text, ov, addr):
             # e.g. `extern u8 D_x[];   /* canonical TU type */` — a comment-blind `;\s*$` stopped the
             # scan there and dropped every EARLIER extern, failing compiles_standalone on the now-
             # undeclared callees/data; T6.4 fix for func_8014E048's pin/asm body).
+            # SESSION-18: the walk skipped BLANK lines but not STANDALONE COMMENT lines, so a
+            # full-line `/* ---- */` between two extern groups halted it and silently dropped every
+            # extern ABOVE the comment. That is the whole "CARRY-FIXABLE" class: the body then fails
+            # compiles_standalone on now-undeclared data/callees, and the caller filed it under
+            # "overlay-local TYPE (the real cap)" — a mislabel that wrote the class off for ~4 phases.
+            # (T6.4 had already fixed the TRAILING-comment case, `extern u8 D_x[]; /* note */`; this
+            # is the standalone-LINE case it did not reach.) Skip comment-only lines exactly like
+            # blanks, and drop them from the emitted body so make_macro never sees a `//`.
+            def _skippable(ln):
+                t = ln.strip()
+                return t == "" or t.startswith("//") or (t.startswith("/*") and t.endswith("*/"))
             start = i
             k = i - 1
-            while k >= 0 and lines[k].strip() == "":
+            while k >= 0 and _skippable(lines[k]):
                 k -= 1
             while k >= 0 and re.match(r"^\s*extern\b.*;\s*(/\*.*\*/\s*)?$", lines[k]):
                 start = k
                 k -= 1
-                while k >= 0 and lines[k].strip() == "":
+                while k >= 0 and _skippable(lines[k]):
                     k -= 1
-            body = [ln for ln in lines[start:end + 1] if ln.strip() != ""]
+            body = [ln for ln in lines[start:end + 1] if not _skippable(ln)]
             return ("def", start, end, body)
     return None
 
