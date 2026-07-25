@@ -2687,3 +2687,23 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 > **⚠️ STANDING HAZARD (unchanged):** `dedup_propagate --auto-from` would re-macroize the 14
 > de-macroized sites. `--check-only` first; targeted `--addr` only.
 > **DO NOT close P29 on ROI** — burn-down floor still undetermined.
+
+- **⛔ 2026-07-24 (SESSION-17) — `func_8014D820`: the §17 toolkit is EXHAUSTED on it. Four moves,
+  byte-proven inert or worse. Stopping; it is now a genuine Fable5 case.**
+  Best remains the ILS's **25/304** (`.run/perm_s17c/best25.c`). Tried, each measured, nothing forced:
+  | move | result |
+  |---|---|
+  | scheduling barrier on `a1` (after the decl block) | **25 — byte-identical residual, inert** |
+  | scheduling barrier on `a2` (the copy-propagated pin the note names) | **25 — inert** |
+  | stage BOTH params through pinned locals `$s3`/`$s4` in the target's birth order | **35** (worse) |
+  | the same staging + the `a2` barrier | **34** (worse) |
+  **What the staging DID show (worth keeping):** it fixed the register *assignment* — mine started
+  loading via `$v1` like the target, instead of `$a0` — while shuffling the *order*. So assignment and
+  birth-order are separately steerable here, and no combination tried gets both at once.
+  **The named residual, unchanged:** target loads through the pinned COPIES (`lhu $v1,0($a3)` /
+  `lhu $v0,0($s3)`); mine loads through the INCOMING registers, i.e. gcc copy-propagates the `$a3` pin
+  and a barrier does not stop it. That is precisely the Task-3 note's diagnosis, now independently
+  reproduced and with the obvious antidotes eliminated.
+  **⇒ Escalation is now justified by the doctrine, not by frustration:** the class is known (§17
+  register-ORDER) but every documented lever for it is byte-proven inert here, which is the definition
+  of a new wall variant — the one thing Fable5 is reserved for. Give it `best25.c` + this table.
