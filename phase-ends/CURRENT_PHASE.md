@@ -3838,19 +3838,53 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   `src/*.c` (no config), so `make check-all` (140/140, run) is sound here; **the full clean R22 must
   still be run once the agent finishes.**
 
+- **⚖️ 2026-07-25 (SESSION-19) — THE COLD-START EXPERIMENT: `func_8017BF14` (4,763 ins) reached
+  4763/4763, **45 mismatched** (99.06% byte, 99.94% structural) — NOT a match, and the honest answer
+  to Drew's effort question. It also REFUTED THE PREMISE I GAVE IT (§79).**
+  Verified independently: `match_one` → `mine=4763 target=4763, 45 mismatched, OPCODE-MIXED`. Agent
+  respected its sandbox (only `.run/giants/`). **Nothing banked — 45 ≠ 0, and the byte-gate is the
+  sole arbiter (G3/P9).**
+  **MY BRIEF'S "NO MATCHED RELATIVE — A GENUINE COLD START" WAS WRONG, BY CONSTRUCTION.** I picked this
+  target partly BECAUSE §71's callee-set fingerprint returned jaccard 0.00 against every matched giant.
+  But **this function makes ZERO `jal` calls**, so its callee fingerprint is EMPTY and §71 *cannot
+  fire* — 0.00 meant "cannot answer", not "no relative". Grepping the target's **data** symbol
+  `D_800A5E60` found the matched `func_8017BEBC` immediately: `func_8017BF14` is the **4-light-box**
+  member of the very renderer family whose 3-box sibling `func_8017D960` we matched hours earlier.
+  **⇒ §79: when §71 returns an empty/zero-overlap callee set, fall back to DATA-symbol fingerprinting.
+  An empty fingerprint must never be allowed to become a cold-start brief.**
+  **NEW LEVER — THE FRAME LAYOUT IS A DECLARATION-ORDER ORACLE (§79).** gcc-2.7.2 assigns stack slots
+  to spilled pseudos in pseudo-number order, and pseudo numbers follow first use ≈ declaration order —
+  so **the target's frame map reads back its source's declaration order**. Moving ONE line (`f0..f3`
+  after `pkt`) took 73% → 84% structural and brought **all 127 slots** into exact correspondence.
+  Counterpart to §78's asm→source reads. Automatable (`.run/giants/bf14_slots.py`).
+  **§76 CONFIRMED AT SCALE:** the entire **−62 length residual was ONE allocno-class decision**
+  (`s32 c0..c3` declared inside the cull blocks ⇒ 1-death local allocnos ⇒ `global.c:668-671` removes
+  those regs from the global pool ⇒ `r1lo` spills): 52% → 93%. An `__asm__` ref-dial reached the same
+  spill and scored WORSE — **declaration scope beat the ref dial, again.**
+  **PIN NUANCE:** pins are SAFE on a 0-`jal` function (§74's caller-saved-across-a-call hazard cannot
+  arise); 4 pins took 94% → 99%. **But §72 held — pins 5 and 6 made it worse.**
+  **THE EFFORT ANSWER, HONESTLY:** xHigh from a genuine cold start on a 4,763-ins giant bought the
+  decode, the exact length, the exact frame and 99.06% — but **did not close**. The residual is **three
+  register-grant ties, zero structural divergence**. Budget a SECOND pass for anything this size: the
+  first buys structure, the last ~1% is register grants. Named next move: **variable REUSE across
+  `c0..c3`/`a0v..a3v`** — the one §76 lever class this pass never reached.
+  Artifacts: `s19_func_8017BF14_b1.c` (45/4763) + a **pin-free fallback at 789/4763 that is 100%
+  structural** + `s19_bf14_report.md` (~40-row do-not-re-buy table, 4 refuted diagnoses).
+
 > **🛑 SESSION-19 CLOSING CHECKPOINT (2026-07-25, Opus 5 @ High) — REFRESHED mid-session; supersedes
 > both the SESSION-18 block and the earlier SESSION-19 block (which was written before the
 > ENGINE_SHB / class-B / dedup_extend-bug work and went stale). Fresh session safe here.**
-> **No background job is running.** Three behemoths banked this session: `func_8017F510`
+> **No background job is running; the deferred full R22 has been run (140/140).** Three behemoths banked this session: `func_8017F510`
 > (1,511, §76 crack), `func_8017F5B4` (1,511, §40 remap), and **`func_8017D960` + its entire
 > 5-member family (5 × 3,338 = 16,690 ins, §78 crack + 4 first-try remaps)**.
 > **Tree clean** (only R23 `db.*.gbf` churn — never staged).
-> **STATE:** HEAD `commit:1012`, **22 commits this session**. **R22 clean-fleet 140/140, run 8×** — the
-> last after the behemoth-#2 family bank.
+> **STATE:** HEAD (see git log), **26 commits this session**. **R22 clean-fleet 140/140, run 9×** — the
+> last one FULL (`make clean` + extract-all + check-all) AFTER the BF14 agent finished, which
+> discharges the deferral noted in the pool entry. `make tools-health` → **OK**.
 > **0 NON_MATCHING** (G4). dedup **1886 validated / 0 failed**, C1 coverage 239,604/239,604. **Drew pushes** (R6/R20).
-> **FLEET: 80.5% instr** — 10,575,671 / 13,141,652 · **distinct-code 3,833,224 = 68.0%
-> (+19,712 ins this session — ALL of it from the three behemoths; every propagation win
-> contributed +0)** · fn-count **89.18%** (session opened 80.0 / 67.7 / 89.02).
+> **FLEET: 80.5% instr** — 10,580,590 / 13,141,652 · **distinct-code 3,838,143 = 68.1%
+> (+24,631 ins this session: 19,712 from the three behemoths + 4,919 from the h_norm-remap pool;
+> every PROPAGATION win contributed +0)** · fn-count **89.18%** (session opened 80.0/67.7/89.02).
 >
 > ## BANKED THIS SESSION
 > | fn | ins | reach | lever |
@@ -3892,7 +3926,12 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 > ## ⚠️ OPEN ACTIONS, ranked
 > 1. **[DONE] `func_80174CB0` ×135.** Residual = the **3 class-A overlays** (`func_80012ABC`, census
 >    73 `s32` vs 7 `s16`) — worth 3 overlays only; normalize the 7 `s16` decls if trivially cheap.
-> 2. **BEHEMOTHS — now the PROVEN distinct-code lever** (+3,022 ins today vs +0 from all
+> 2. **`func_8017BF14` SECOND PASS — 45/4763 away** (99.06%), three register-grant ties, zero
+>    structural divergence. Named next move: **variable REUSE across `c0..c3`/`a0v..a3v`** (the one
+>    §76 lever class the cold pass never reached). Draft `.run/giants/s19_func_8017BF14_b1.c`;
+>    pin-free 100%-structural fallback at 789/4763. **Its matched relative is `func_8017BEBC`**
+>    (found by DATA-symbol fingerprint, §79 — NOT by §71, which cannot fire on a 0-callee fn).
+> 3. **BEHEMOTHS — the PROVEN distinct-code lever** (+3,022 ins today vs +0 from all
 >    propagation). **8 untouched:** `func_8017BF14` 4,763 · `func_8017E778` 3,338 ·
 >    `func_8017D2DC` 1,586 · `func_8017DC1C` 1,518 · `func_8017C954` 1,194 · `func_8017C730`
 >    1,061 (family of 2) · (+`func_80183814` 5,122, mapped only). **`func_8017E778`/`func_8017CD9C`

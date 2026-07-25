@@ -6144,3 +6144,53 @@ shared `rgbw` result temp · `s32 za, zb;` per case.
 **Five of the nine were read straight off the MATCHED relatives** (`func_8017F510` 1,511 and
 `func_8017CA80` 952, same renderer family) — worth more than every expression sweep combined.
 **Crack the smaller family member first; it is a lever library for the larger one.**
+
+## §79 — For a 0-callee giant, fingerprint by DATA symbols (§71 cannot fire); and the STACK-SLOT ORDER is a declaration-order oracle (Phase 29 SESSION-19, `func_8017BF14` 4,763 ins, cold start → 45/4763)
+
+A cold-start attempt on the project's second-largest function reached **4763/4763 ins, 45 mismatched
+(99.06% byte-identical, 99.94% structural, exact frame, exact opcode histogram)** — not a match, but it
+produced two levers and refuted the premise it was given.
+
+### §71 has a blind spot, and this is it
+The target was briefed as "**no matched relative — a genuine cold start**": `h_norm`/`h_seq` family
+size 1, and §71's callee-set fingerprint returned jaccard 0.00 against every matched giant. **That
+premise was wrong.** §71 fingerprints by **callee set** — and this function makes **zero `jal` calls**,
+so the fingerprint is empty and cannot fire *by construction*. Grepping the target's **data** symbol
+`D_800A5E60` landed immediately on the matched `func_8017BEBC`: it is the **4-light-box** member of the
+same volumetric-light renderer family whose 3-box sibling (`func_8017D960`, 3,338 ins) was matched
+hours earlier.
+
+**Rule: when §71 returns an empty or zero-overlap callee set, fall back to DATA-symbol fingerprinting**
+(`lui %hi(D_xxxxxxxx)` operands in the target `.s`). A leaf giant has no callees to fingerprint by, but
+it still touches the same globals as its family. **An empty fingerprint is a "cannot answer", not a
+"no relative" — do not let it become a cold-start brief.**
+
+### NEW LEVER — the frame layout reads back the original declaration order
+gcc-2.7.2 assigns stack slots to spilled pseudos in **pseudo-number order**, and pseudo numbers are
+issued in order of first use ≈ **declaration order**. Therefore **the target's frame layout is a direct
+readout of its source's declaration order.** Compare your draft's slot assignments against the
+target's and reorder declarations until they agree — moving a single line (`f0..f3` after `pkt`) took
+73% → 84% structural and brought **all 127 slots** into exact correspondence. Automatable; the
+session's implementation is `.run/giants/bf14_slots.py`.
+
+This is the counterpart to §78's "read the asm back to source shape": there, an `|`-chain's first term
+tells you a literal was a variable; here, the frame map tells you the declaration order.
+
+### §76 confirmed at scale, and a pin nuance
+- The **entire −62 length residual was ONE allocno-class decision**: declaring `s32 c0..c3` *inside the
+  cull blocks* (1 death ⇒ local allocno ⇒ `global.c:668-671` removes those hard regs from the global
+  pool) spilled `r1lo` and moved the draft 52% → 93%. An `__asm__` ref-dial reached the same spill and
+  scored **worse** — **declaration scope beat the ref dial**, again.
+- **Pins are safe on a 0-`jal` function** — §74's caller-saved-across-a-call hazard cannot arise, so
+  the usual suspicion is unwarranted here; 4 pins took 94% → 99%. **But §72 still held: pins 5 and 6
+  made it worse.** Pins remain a preference, and past a small number they fight the allocator.
+
+### The residual, and the honest read
+45 mismatches, **three register-grant ties, zero structural divergence**. The one §76 lever class the
+session never reached is **variable REUSE across `c0..c3` / `a0v..a3v`** — that is the named next move.
+Artifacts: `.run/giants/s19_func_8017BF14_b1.c` (45/4763), a **pin-free fallback at 789/4763 that is
+100% structural**, and `s19_bf14_report.md` (~40-row do-not-re-buy table + 4 refuted diagnoses).
+
+**Cold-start economics, measured:** a 4,763-instruction leaf giant with a *findable* matched relative
+reached 99.06% in one pass but did not close. Budget a second pass for anything this size; the first
+pass buys the decode, the frame, and the length — the last ~1% is register grants.
