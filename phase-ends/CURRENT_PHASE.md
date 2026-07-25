@@ -3524,6 +3524,29 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   propagation is worth its own gated pass (32+84 ins × 138 = 16,008 ins ≈ **+0.12pp** if it lands).
   Drafts: `.run/drafts-s18-widen/` (F3E8) + `.run/drafts-s18-widen2/` (D4C0, the param-axis variant).
 
+- **✅ 2026-07-25 (SESSION-19) — §72 PIN-SAFETY AUDIT (open action #3): the 5-pin behemoth draft is
+  SAFE, and the audit produced the general test (§74).** `.run/giants/s18_func_8017D960_b2.c` carries
+  `register __asm__` pins on `$25 $17 $19 $20 $21`. **`$25` is `$t9` — CALLER-SAVED**, which is the
+  only genuinely corrupting form of the §72 hazard (gcc-2.7.2 does not save/restore an
+  explicit-register variable across a call, so a live range spanning a `jal` is destroyed silently).
+  **Audited without recompiling** — the SESSION-18 `match_one` object survives at
+  `.run/match/func_8017D960.2216347/func_8017D960/t.o` and `cmp` proves its `t.c` IS this draft.
+  **VERDICT — mode (1) does not arise:** the object contains **exactly 3 `jal`s, all at `0x2c–0x50`,
+  and the first pin write is at `0x58`** ⇒ *no call after the pins are established*. Corroborated in
+  the C: every call-shaped token after line 270 is a macro defined in the file (`gte_*`, `BOXTEST`,
+  `ATTEN`, `CLAMP80`) — checked by token census, not by eye, because a 636-line behemoth hides a
+  `jal` easily.
+  **Mode (2) IS present and is benign:** write-counts per pinned reg are 2/3/3/5/5 against 2
+  assignments each (+1 epilogue restore for the callee-saved four). The excess is gcc using the pinned
+  register as a SCRATCH before the pinned variable's own value lands — `lui s4,..; lw s4,0(s4);
+  addiu s4,s4,-128` (`$20` carrying the raw `D_801CBC90` for two insns) with `addu t9,s4,zero`
+  routing `r1`'s value out through it. Self-consistent; nothing live was clobbered.
+  **⇒ the draft is safe to keep building on**, and the reusable test is cookbook **§74** (objdump the
+  surviving `match_one` object; compare `jal` addresses against the first pin write; expect
+  `writes == assignments + 1 epilogue lw`). **Standing rule:** prefer a **callee-saved** register for
+  any pin whose variable outlives a call; if the target genuinely wants a caller-saved reg across a
+  `jal`, the pin cannot express it — that is a real wall verdict, not a drafting slip.
+
 > **🛑 SESSION-18 CLOSING CHECKPOINT (2026-07-25, Opus 5 @ High) — SUPERSEDES the earlier SESSION-18
 > block, which was written mid-session and is STALE (it still says "two searches in flight").
 > Fresh session safe here.**

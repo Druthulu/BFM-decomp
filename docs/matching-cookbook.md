@@ -5797,3 +5797,47 @@ compile-time; the emitted code is unchanged; nothing outside the draft is touche
 5. **Pick the isolation probe deliberately:** an overlay that instantiates the *return-casting* macros
    (`((s32 (*)(...))func_X)(...)`, §17a-1) is the only place a decl's return type could plausibly touch
    codegen. `ov_SC01_000` served that role for `func_8014F3E8`.
+
+## §74 — Auditing a pinned draft: the §72 hazard is CALLER-SAVED pins spanning a call, and only the disassembly can tell you (Phase 29 SESSION-19, `func_8017D960` b2, 5 pins)
+
+§72 established that a `register __asm__("$N")` pin is a **preference, not a reservation** — gcc will
+happily put another value in `$N` while your variable is notionally live. The banked corpus is safe
+from this by construction (the whole-binary byte-gate rejects any miscompile), but **un-gated drafts
+are not**, and a behemoth draft can carry pins for days before it ever reaches a gate. This is the
+cheap audit.
+
+**Two distinct failure modes, only one of which is real most of the time:**
+
+1. **CALLER-SAVED PIN SPANNING A CALL — the one that silently corrupts.** `$25` (`$t9`) and the
+   `$t0–$t9` range are call-clobbered. gcc-2.7.2 does **not** save/restore an explicit-register
+   variable across a call, so if the pinned variable's live range crosses a `jal`, the value is
+   destroyed with no diagnostic. **Callee-saved pins (`$16–$23` = `$s0–$s7`) are immune** — the
+   prologue/epilogue save/restore covers them.
+2. **SCRATCH REUSE OF THE PINNED REGISTER — usually benign.** gcc will use `$N` as a temporary for an
+   unrelated value *before* the pinned variable's own value lands there. Observed here: `lui s4,..;
+   lw s4,0(s4); addiu s4,s4,-128` — `$20` (pinned `r1lo`) carried the raw global for two insns, and
+   `addu t9,s4,zero` copied that value out to `$25` (pinned `r1`) on the way. Self-consistent; nothing
+   live was clobbered.
+
+**The audit (no recompile needed if a `match_one` object survives — `.run/match/<fn>.<pid>/<fn>/t.o`;
+confirm it is the draft you think it is with `cmp t.c <draft>`):**
+```
+mipsel-linux-gnu-objdump -d <t.o> > dis.txt
+# (a) does any call exist after the first pin write?
+grep -nE '\bjalr?\b' dis.txt          # compare addresses against the pin-write addresses
+# (b) how many times is each pinned reg WRITTEN?  (first operand, excluding sw/branch/jal/mult-class)
+```
+Expect `writes == (assignments in the C) + 1 epilogue `lw` for each callee-saved pin`. Anything above
+that is scratch reuse — read those sites before assuming they are benign.
+
+**Worked verdict (`.run/giants/s18_func_8017D960_b2.c`, pins `$25 $17 $19 $20 $21`):** 3 `jal`s total,
+all at `0x2c–0x50`, and the **first pin write is at `0x58`** — *no call after the pins are
+established*, so the caller-saved `$25` pin never spans one and mode (1) does not arise. Modes (2)
+sightings on `$20`/`$21`/`$17` are the benign scratch pattern above. **Draft is safe to keep building
+on.** (The C corroborates: everything after the three prologue calls is a macro — `gte_*`, `BOXTEST`,
+`ATTEN`, `CLAMP80` — not a function call. Verify that with a token census, not by eye: a 636-line
+behemoth hides a `jal` easily.)
+
+**Standing rule of thumb:** prefer a **callee-saved** register for any pin whose variable outlives a
+call; if the target's register really is caller-saved and the value really does span a `jal`, the pin
+cannot express it — that is a genuine wall verdict, not a drafting slip.
