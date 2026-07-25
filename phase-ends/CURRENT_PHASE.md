@@ -3462,3 +3462,25 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   84×138 = 11,592 ins ≈ **+0.12pp combined**), and `func_8014D820` will join it when it matches. The
   sed is per-function-name so it is narrow and reviewable, but it is FLEET-SHARED ⇒ **one R22 for the
   whole batch**, never one per function.
+
+- **⚖️ 2026-07-25 (SESSION-18) — the §68 comment-halt fix UNBLOCKED the plan but only banked ×3, not
+  ×138. The measured reason is exactly the risk I flagged when enabling the carry.**
+  `dedup_propagate --addr 0x80174CB0 --recover` → *"propagated 1 function(s); **3 overlays** rebuilt
+  byte-identical"*; **135 overlays excluded** with `byte-diverge / irreconcilable here -> kept ×1`.
+  **That message is misleading and the bytes say so:** the plan listed 138 members because all 138
+  share the same `h_exact` — the function's bytes ARE identical everywhere. So the exclusions are NOT
+  byte divergence; they are the **carried file-scope externs colliding with each target overlay's own
+  declarations** of the same symbols. The 3 that landed (ov_SC07_006/007/011) are the overlays whose
+  existing decls happened to be compatible.
+  **⇒ THE CARRY IS NECESSARY BUT NOT SUFFICIENT — the spec for Task 8 tightens:** collecting the
+  referenced file-scope decls is step 1; step 2 is **reconciling them against each TARGET TU** (drop a
+  carried decl the target already declares compatibly; refuse/repair where it declares it
+  incompatibly — `cdecl.compatible()` is the oracle, and `reconcile_tu` already does this shape of
+  work for data externs). Without step 2 the macro is only instantiable in overlays that happen to
+  agree, which is what we just measured.
+  **Also worth fixing: the exclusion message itself.** `byte-diverge / irreconcilable` conflates "the
+  function's bytes differ here" with "the instantiation would not compile here" — two causes with
+  opposite remedies, and today it reported the wrong one. Same defect family as §68's mislabel, in the
+  same tool, one function down. Make it print the failing cc1 line.
+  **Net today: ×1 → ×3** (+246 ins, ≈0.002pp) — honest, small, and the structure (a real
+  `DEFINE_func_80174CB0` in engine_core.h) is correct and reusable once step 2 lands. R22 running.
