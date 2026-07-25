@@ -2922,3 +2922,29 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   (b) change the shared canonical decl → **T2 fleet-shared**, the §63 disaster class, R22-mandatory;
   (c) find a C form that keeps `u8[]` AND defeats the address CSE — the open question.
   **Value if (c) is found: +13,938 ins (×138).** Do not re-buy (a) or the two antidotes above.
+
+- **⛔ 2026-07-24 (SESSION-17) — THE GHIDRA-C PREFETCH (#5) IS MEASURABLY NOT WORTH IT ANY MORE. Its
+  fleet-wide ceiling is 0.51pp, spread across 87 overlays at ~0.01pp each. Nothing spent; no import run.**
+  Measured locally (no MCP needed to decide): per overlay, stubs that are substantial (nins≥80) AND have
+  **no cached Ghidra-C** AND **no surviving draft anywhere** — i.e. exactly what an import would unlock:
+  | overlay | fns | ins | ceiling |
+  |---|---:|---:|---|
+  | ov_SC07_006 | 5 | 6,062 | 0.05pp |
+  | ov_SC06_032 | 14 | 2,331 | 0.02pp |
+  | ov_SC06_022 | 12 | 2,120 | 0.02pp |
+  | **87 overlays, total** | — | **67,116** | **0.51pp** |
+  **Why it decayed:** Task 5's greedy cover (2026-07-21) measured ov_SC06_018 at **+1.59pp** and imports
+  2–8 at +0.59pp — but those families have since been DRAFTED (the s14/s15 waves + the permuter runs).
+  The cover was a snapshot of a **consumable**, and it has been consumed. The remaining uncached pool is
+  overlay-unique tail code, ~×1, in 87 separate overlays — each import needing a server restart and a
+  human `/mcp` (R23/R29) for ~0.01pp.
+  **⇒ RANKED AGAINST THE ALTERNATIVES (all measured this session):** the 4 converged giants ≈ **+1.3pp**
+  (seeds ready, `.run/giants/s17_*.c`) · `func_801463A0` ≈ **+0.11pp** (one named open question) · the
+  ENTIRE prefetch program ≈ **+0.51pp** at ~87 human-gated imports. **The prefetch is now the WORST
+  lever on the board, not the wave-unblocker the roadmap treats it as.**
+  **⚠️ A CORRECTION I OWE MY OWN EARLIER MEASUREMENT (R14):** a 3-line `ls` of two draft dirs made
+  `func_8014032C` (live=137, cached) look never-attempted and therefore look like high-reach fresh fuel.
+  The full glob found **six** drafts for it (`.run/drafts_wave3*`, `.run/wt_uni`, `.run/w3_*`). The
+  fleet-wide figure — **0 cached + never-drafted targets at live≥100** — is the one that survives. Same
+  failure mode as §66c, committed by the same person twice in one session: *check every draft directory,
+  and prefer the glob over a hand-listed pair.*
