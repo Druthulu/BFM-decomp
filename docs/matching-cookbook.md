@@ -5449,6 +5449,14 @@ its own edits made a *local* position worse while the total improved. The cse pa
 reverting just that operand order, keeping every other gain, took 10 → **9 for one compile**. Same for
 `x >= k` ↔ `k <= x`. These are free points and they are invisible to the scorer's total.
 
+**⚠️ QUALIFY THIS: profile diversity is worth TRYING, but it is NOT reliable.** Everything above is
+measured on ONE function. The same session ran the identical experiment on `func_80140958` — base 56,
+prior profile `regalloc`, fresh `--klass cse` pass — and got **best=56, zero improvement across all 8
+cycles**. So the honest rule is *"before declaring a floor, spend one cheap unattended pass per unused
+profile"*, **not** *"each profile is worth ~2 points"*. Score so far: 3-for-3 on `func_8014D820`,
+0-for-1 on `func_80140958`. The test is cheap enough (~0 tokens, unattended CPU) that it stays worth
+running — but budget it as a lottery ticket, not as expected yield, and do not plan a session around it.
+
 **MEASURED: a repeated profile does NOT yield again.** REGALLOC round-2, warm-started from the
 close=9 seed (a seed it had never seen — SCHEDULE, cse and a reader fix had rewritten it since), came
 back **flat for all 10 cycles, 0 gain**. So the lever is *profile diversity*, not *seed novelty*: each

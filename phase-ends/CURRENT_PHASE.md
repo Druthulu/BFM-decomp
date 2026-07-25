@@ -3308,3 +3308,16 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   self-terminating waiter instead**, e.g. Bash `run_in_background` with
   `until ! pgrep -f "permuter_ils.py <fn>" >/dev/null; do sleep 20; done; tail -3 <log>` — one
   notification, exits on its own. Reserve `Monitor` for genuinely per-occurrence streams.
+
+- **⚖️ 2026-07-24 (SESSION-18) — §66d-4 QUALIFIED by its own counter-example (R14). `func_80140958`
+  (giant #2): fresh `--klass cse` pass, base 56, prior profile `regalloc` → **best=56, ZERO improvement
+  across all 8 cycles** (196 waypoints, every one at 56).** So profile diversity is **3-for-3 on
+  `func_8014D820`, 0-for-1 on `func_80140958`** — it is a cheap lottery ticket, not expected yield.
+  The rule stands as *"before declaring a floor, spend one unattended pass per unused profile"* (it costs
+  ~0 tokens and it did unlock 6 points on one giant); it does **NOT** stand as *"each profile is worth
+  ~2"*. Cookbook §66d-4 amended in place — I recorded the general form off one function earlier this
+  session and the second data point refuted it, which is exactly the R14 failure mode this project keeps
+  catching. **Consequence for planning: do not project giant yields from the `func_8014D820` curve.**
+  `func_80140958` remains at **54** (match_one) / 56 (permuter object scorer) with its SESSION-17
+  diagnosis intact (LICM hoists inner-loop constants to the outer preheader, stealing the two callee
+  regs the target gives const-3 `$fp` and `&D_801879BE` `$s6`) — untouched by reading this session.
