@@ -3236,3 +3236,17 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   bounded batch job (~1 compile/entry, no agent tokens) and a good P30 opener, but it is not a grep.
   Worth doing precisely because the mis-route has been silently steering this class away from the only
   tool that moves it for the whole project.
+
+- **🔎 2026-07-24 (SESSION-18) — `func_80176734` (371/371, **56**): SESSION-17's diagnosis CONFIRMED
+  against the bytes, with the exact C idiom named.** At idx 270–275 the target loads `D_80126CE0`
+  **twice from the same address at two widths** — `lh $v0, %lo(D_80126CE0)` (signed, feeding the
+  `beqz $v0` test) *and* `lhu $a1, %lo(D_80126CE0)` (unsigned, feeding the value stored via
+  `sb $v1, 0x4B($s1)`). Mine loads it once (`lh` → `$v1`) and reuses it (`move a0,v1`,
+  `andi v1,a0,0xff`), which is why the whole window shifts.
+  **The idiom to force it:** read through two differently-typed lvalues — plain `D_80126CE0` (declared
+  `u16`) for the `lhu`, and `*(s16 *) &D_80126CE0` for the `lh`. A cast of a single `u16` lvalue will
+  NOT do it (that compiles to `lhu` + `sll/sra`); it must be two distinct memory reads.
+  **The known catch (SESSION-17, unverified this session):** forcing the second load relieves register
+  pressure and cascades the frame 0x40→0x38 into every save offset (§27 frame-pressure lock) — so
+  expect the fix to trade 56 mismatches for a different set until the frame is re-locked. Untouched
+  this session; this is the next giant to read after `func_8014D820`.
