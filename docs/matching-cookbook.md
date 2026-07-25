@@ -5371,3 +5371,36 @@ and the launder is how you set it.
 **Where this applies.** Any draft that is `+1 ins with an unfilled load-delay nop` and shows mirrored
 `sw $sN` / `move $sN,$aX` prologue pairs. That signature is the tell — count the instructions first: a
 draft one *over* with a `nop` the target fills is a placement bug, not a regalloc wall.
+
+## §67a — Run the symbol-set guard BEFORE you pay for a gate (`tools/symcheck.py`, Phase 29 SESSION-18)
+
+SESSION-17 ended `func_801463A0` with an open TODO: *"a cheap guard worth building: diff a draft's
+referenced symbol set against the target `.s`'s `%hi/%lo/jal` set before gating."* Built, negative-control
+proven, and it belongs in front of every gate cycle.
+
+**Why nothing we already had can do this.** All three of our fast oracles are blind to it *by
+construction*, not by accident:
+
+| oracle | blindness |
+|---|---|
+| `match_one` / `masked_diff` | compares relocation-**masked** words; object-vs-`.s` mode is symbol-agnostic, so a reloc against the *wrong* symbol matches at that position |
+| `rtu_match` | **compiles but never links** — an extern no symbol table defines is invisible to it |
+| the whole-binary byte-gate | correct, but it tells you *rejected*, not *why*, and costs a full cycle |
+
+**The measurement that proves the point** (`func_8014D820`, one data extern renamed to an invented
+`_s` alias):
+
+| | correct draft | draft with an invented symbol |
+|---|---|---|
+| `match_one` | 14 mismatched | **14 mismatched — identical** |
+| `symcheck` | `SYMS-OK  12 symbols agree` | `SYMS-DIFF` + names MISSING and INVENTED, exit 1 |
+
+Two directions, both reported: **MISSING** (target references it, draft does not — the invented-alias
+signature, since the alias silently stands in for the real symbol) and **INVENTED** (draft references
+something the original never touched).
+
+**Where it goes:** immediately before `harvest_verify`, and immediately *after* any transform that
+rewrites declarations (`sig_unify`, `canon_resident_calls`, `cast_call_sites`, `canon_sig_reconcile`) —
+those rewrite extern names, which is precisely how an alias gets invented. It is a **necessary
+condition, not a match oracle**: `SYMS-OK` means "no link-level defect of this class", nothing more.
+Finish on the byte-gate (G3/P9).
