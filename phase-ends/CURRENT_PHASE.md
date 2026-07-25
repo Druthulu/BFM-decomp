@@ -3484,3 +3484,76 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   same tool, one function down. Make it print the failing cc1 line.
   **Net today: ×1 → ×3** (+246 ins, ≈0.002pp) — honest, small, and the structure (a real
   `DEFINE_func_80174CB0` in engine_core.h) is correct and reusable once step 2 lands. R22 running.
+
+> **🛑 SESSION-18 CLOSING CHECKPOINT (2026-07-25, Opus 5 @ High) — SUPERSEDES the earlier SESSION-18
+> block, which was written mid-session and is STALE (it still says "two searches in flight").
+> Fresh session safe here.**
+> Tree clean (only R23 `db.*.gbf` churn — never staged). **R22 clean-fleet 140/140** (run 3× this
+> session, last after the ×138). **0 NON_MATCHING** (G4). **dedup 1884 validated / 0 failed**, C1
+> coverage complete. HEAD `commit:0990`, 36 commits. **Drew pushes** (R6/R20).
+> **FLEET CROSSED 80.0% instr** — 10,509,526 / 13,141,652 · distinct-code 67.7% · fn-count 89.02%
+> (opened the session at 79.9 / 67.7 / 88.98).
+>
+> ## BANKED THIS SESSION
+> | fn | ins | reach | note |
+> |---|---|---|---|
+> | `func_801777BC` | 59 | **×138** | §70 giv-init lever; 0 exclusions; R22 green |
+> | `func_80174CB0` | 123 | ×3 | §65g verdict REFUTED — it needed the right self-signature, not a new transform |
+>
+> ## MATCHED BUT NOT BANKED — both blocked on ONE shared action
+> `func_8014D4C0` (84 ins) and `func_8014F3E8` (32 ins) are byte-correct, real-TU verified, and both
+> wait on the **§30#2 return-type widen**. `func_8014D820` will join them if it ever matches.
+> **Recipe (agent-verified, counts re-verified by me):**
+> `sed -E -i 's/extern void (func_8014F3E8)/extern s32 \1/g' src/shared/engine_core.h src/*/*.c`
+> — 15 decls in `engine_core.h` (all inside `DEFINE_func_*`; 4 of them already read `$v0` via a
+> return-cast) + **3,349** decls across 3,304 `src/*/*.c` files. **⚠️ ALL SPELLINGS MUST MOVE
+> TOGETHER** — widening only the header re-creates the conflict per-overlay (reproduced). K&R `()`
+> stays compatible (`s32` is promotion-safe). Byte-neutrality spot-checked on 3 files. **One R22 for
+> the whole batch, never one per function.** Value ≈ +0.12pp.
+>
+> ## THE SESSION'S REAL YIELD: FIVE STANDING VERDICTS OVERTURNED
+> Every one by making an instrument print what it MEASURED instead of what its author assumed.
+> | verdict | truth | cost of the wrong label |
+> |---|---|---|
+> | "overlay-local TYPE (the real cap)" | undeclared file-scope externs | **~4 phases** — Phase 21 had already written the fix |
+> | "byte-diverge / irreconcilable" | carried decls colliding with the target TU | this session's ×138 → ×3 |
+> | `structural` ⇒ "permuter CPU is waste" | permuter took it 16 → 10 | project-wide mis-route |
+> | "at their measured permuter floor" | floor is PROFILE-relative | 4 giants written off |
+> | "§65g — needs a transform that does not exist" | needed the right signature | ~100 wasted drafts |
+>
+> ## NEW KNOWLEDGE (all distilled in-session, R30)
+> **§67** arg-copy placement lever · **§67a** `tools/symcheck.py` (pre-gate symbol guard,
+> negative-control-proven) · **§68** the comment-halted extern scan + the mislabel · **§69** behemoth
+> method (map-first — **partly refuted by §71, do not follow its headline**) · **§70** giv-init base
+> register (walk the PARAMETER) · **§71** fingerprint a giant's family by **CALLEE SET** (not
+> adjacency, not h_seq) · **§72** **a `register __asm__` pin is a PREFERENCE, not a reservation** ·
+> **§66d-4/-5** the permuter-floor + structural-bucket corrections.
+>
+> ## ⚠️ OPEN ACTIONS, ranked
+> 1. **The §30#2 widen batch** (above) — 2 matched functions waiting, one R22.
+> 2. **`recover_integration` step 2** (Task 8): reconcile carried externs against the TARGET TU
+>    (`cdecl.compatible()`, the shape `reconcile_tu` already uses). Without it, propagation only lands
+>    where decls happen to agree (measured: 3 of 138). Also fix the exclusion message — it reports
+>    "byte-diverge" for a compile conflict.
+> 3. **§72 SAFETY RE-CHECK:** `.run/giants/s18_func_8017D960_b2.c` carries **5 pins**
+>    (`$25 $17 $19 $20 $21`). A pin can silently share a hard register with another live value.
+>    Banked work is safe (the byte-gate rejects miscompiles); **un-gated drafts are not.**
+> 4. **The 7 propagation-capped fns in ov_SC01_077** are a THIRD sub-class (symbols that live nowhere
+>    at file scope) — still unsolved, do NOT assume §68 cleared them.
+> 5. `func_8014D820` sits at a **3-profile measured floor of 9**; both cheap tiers are spent. This is
+>    the justified Fable5 case if Drew wants it.
+>
+> ## BEHEMOTHS — 11 unmatched, 3 attempted, ALL artifacts tracked under `.run/giants/`
+> | fn | ins | result |
+> |---|---|---|
+> | `func_8017F510` | 1,511 | **1,511/1,511**, 99.5% structural, 93.3% byte — ~93 of 97 residual trace to ONE register (`c3`→`$a2`) |
+> | `func_8017D960` | 3,338 | **3,334/3,338**, 98.8% structural — one `fold` OR-chain error left; templates ×3 |
+> | `func_80183814` | 5,122 | mapped only (666 drafted); 35× repeated template found |
+> Remaining 8 untouched. **§71 checked fleet-wide: none of them has a matched same-callee-set
+> relative** — they get no free ride.
+> **⚠️ HAZARDS (unchanged):** `dedup_propagate --auto-from` re-macroizes the 14 de-macroized sites
+> (`--check-only` first, targeted `--addr` only) · `p16_permute.setup` WIPES `.run/permuter/<fn>/` ·
+> `.run` subdirs are NOT tracked — agent output there is one `git clean` from gone (now allowlisted:
+> `.run/giants/*.py`) · sig names are lowercase, splat `.s` files UPPERCASE (**I made that
+> case-sensitivity error twice tonight**).
+> **DO NOT close P29 on ROI** — burn-down floor still undetermined.
