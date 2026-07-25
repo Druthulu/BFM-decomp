@@ -3362,3 +3362,27 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   agent was still WRITING into that directory — it picked up the half-finished sibling and reported
   0/2. Nothing was corrupted (tree stayed clean, the run banks nothing on failure), but **never gate a
   draft dir that a live agent owns** — copy the finished file out first (`.run/drafts-s18b1-solo/`).
+
+- **✅ 2026-07-24 (SESSION-18) — `func_80174CB0` BANKED into ov_SC07_006 (123 ins, live 138). The
+  SESSION-17 "§65g-class — needs a transform that does not exist yet" verdict is REFUTED: it needed the
+  right SIGNATURE, not a new tool.** Agent B (isolated, Opus 5 @ High, 65k tokens / 4.7 min) found the
+  layer nobody had reached under the callee conflict — **the function's OWN declaration**. The TU
+  expands `DEFINE_func_80174C80()` carrying `extern s32 func_80174CB0(s32, s32);`, while **every prior
+  draft (100 of them) defined `void func_80174CB0(s32, s16)`** — which matches perfectly standalone and
+  dies in the TU with `conflicting types`. Defining it `s32 (s32, s32)` and recovering param_2's
+  s16-ness with an explicit `(s16)param_2` cast at the `func_80012558` use site is byte-identical.
+  The agent also self-verified through the **real** cpp→cc1→maspsx→as chain on a scratch TU copy
+  (cc1 rc=0, 123/123 ins, 0 diffs) *before* handing back — which is why the bank was first-try clean.
+  `make check BINARY=ov_SC07_006` → **BYTE-IDENTICAL** (`7ca772be…`). R22 clean-fleet running.
+  **⚠️ HYPOTHESIS TO TEST AFTER R22 — the recovery tool may have taken a FLEET-TIER edit it did not
+  need.** The bank rewrote `src/shared/engine_core.h` (2 lines, `DEFINE_func_80174C60` +
+  `DEFINE_func_80174C80`) relaxing `extern s32 func_80174CB0(s32, s32);` → `extern s32
+  func_80174CB0();`, plus the same in 2 overlay-local files. **But the banked definition is
+  `s32 func_80174CB0(s32 param_1, s32 param_2)`, which AGREES with the original prototype** — the
+  conflict belonged to the *old* `void (s32, s16)` drafts. So the relaxation looks unnecessary, and it
+  converted a T1 binary-local bank into a **T2 fleet-shared** one (blast radius 138 overlays, R22
+  mandatory) for nothing. The `()` form is byte-safe *here* only because both call sites pass `s32`
+  (Phase-15: `()` is REJECTED when a param needs default promotion — `s8/s16/u8/u16/float`).
+  **Test: revert the 4 decl lines, re-gate. If it still banks, `recover_integration` should probe
+  whether a stage is NEEDED before applying it** — an unrequested tier escalation is exactly the class
+  R32–R35 exist to catch.
