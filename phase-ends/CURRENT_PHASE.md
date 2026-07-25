@@ -3485,6 +3485,45 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   **Net today: ×1 → ×3** (+246 ins, ≈0.002pp) — honest, small, and the structure (a real
   `DEFINE_func_80174CB0` in engine_core.h) is correct and reusable once step 2 lands. R22 running.
 
+- **✅ 2026-07-25 (SESSION-19, Opus 5 @ High) — THE §30#2 WIDEN BATCH EXECUTED. Both functions banked;
+  the widen is byte-neutral fleet-wide; and the batch produced a §30#2 REFINEMENT the recipe missed.**
+  **Scope verified against the tree before touching anything (R14/R35).** The SESSION-18 recipe's
+  counts reproduce EXACTLY: `extern void func_8014F3E8` = **15** in `src/shared/engine_core.h` +
+  **3,349** across 1,729 `src/*/*.c`; `extern void func_8014D4C0` = **1** + **1,730**. An exhaustive
+  spelling census (`extern|definition` forms of both names over every `.c`/`.h` under `src/`) found
+  **no decl outside the `extern void <name>` shape** and **no header other than `engine_core.h`**
+  carrying one — so the sed is complete, not merely plausible. Pre-existing `extern s32` decls of
+  either name: **0**.
+  **Applied as ONE fleet edit** (`find src -name '*.c' -o -name '*.h' | xargs sed -E -i
+  's/extern void (func_8014F3E8|func_8014D4C0)/extern s32 \1/g'`) → 1,731 files changed; post-state
+  15+1 / 3,349+1,730 `extern s32`, **0 `extern void` remaining**. Snapshot discipline (§61/§63): `src/`
+  was clean at `commit:0991`, so `git checkout -- src/` is the restore path — no inverse transform.
+  **BYTE-NEUTRALITY OF THE WIDEN, ISOLATED FIRST (cheap, before spending a gate cycle):**
+  `make build BINARY=ov_SC07_006` → `7ca772be…` and `BINARY=ov_SC01_000` → `9052dc0e…`, both
+  **BYTE-IDENTICAL**. ov_SC01_000 was chosen deliberately — it instantiates the two return-CASTING
+  macros (`DEFINE_func_80157580` / `DEFINE_func_801612B8`), the only sites where the decl's return
+  type could plausibly interact with codegen. Isolating the shared edit from the drafts is what made
+  the one failure below trivially attributable.
+  **GATE 1 — `func_8014F3E8` VERIFIED (32 ins), `func_8014D4C0` FAILED `PLUMBING`.**
+  **⇒ THE RECIPE WAS HALF A FIX, and the gate said so precisely:** `conflicting types for
+  'func_8014D4C0'` persisted because the canonical decl
+  (`engine_core.h:9530`, inside `DEFINE_func_8014D438`) is `(s32 a0, void *a1, void *a2)` while the
+  byte-true draft used `u16 *`. **The widen addresses the RETURN half of a self-decl conflict only;
+  the PARAMETER half is a separate axis.** `func_8014F3E8` (single `s32` param) never had one, which
+  is why the SESSION-18 recipe — derived from it — did not mention the case.
+  **FIX = draft-local (T0), NOT a second fleet edit:** define with the canonical `void *` params and
+  cast **at each use** (`((u16 *)a1)[1]`, `*(u16 *)a1`, …) — the §17a-1 move applied to the def's own
+  signature, exactly as `func_80174CB0` needed in SESSION-18. **GATE 2 → VERIFIED, `7ca772be…`.**
+  **⇒ §30#2 GENERALIZED (cookbook update):** a def-side self-decl conflict has TWO independent axes —
+  *return* (fix = the fleet macro-widen, T2, R22-mandatory) and *params* (fix = canonical param types
+  + casts at each use, **T0, no fleet edit at all**). Diagnose which axis before reaching for the
+  expensive one; reaching for the fleet edit when the params are the wall spends an R22 cycle and
+  still fails.
+  **REACH CONFIRMED BY THE SIGS, not assumed:** both are present in **138/138** overlay sigs with a
+  **single distinct `h_exact`** each (`2ccf344d` / `acc0ee6d`) — genuine ×138 candidates, so
+  propagation is worth its own gated pass (32+84 ins × 138 = 16,008 ins ≈ **+0.12pp** if it lands).
+  Drafts: `.run/drafts-s18-widen/` (F3E8) + `.run/drafts-s18-widen2/` (D4C0, the param-axis variant).
+
 > **🛑 SESSION-18 CLOSING CHECKPOINT (2026-07-25, Opus 5 @ High) — SUPERSEDES the earlier SESSION-18
 > block, which was written mid-session and is STALE (it still says "two searches in flight").
 > Fresh session safe here.**

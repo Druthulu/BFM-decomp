@@ -4111,7 +4111,7 @@ INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_80140608", func_8014D3E
 
 /* de-macroized: per-overlay-local decl for func_8014D610 (byte-true sig); do NOT re-macroize */
     extern s32 func_8014D610(s32, s32, u16*);
-    extern void func_8014D4C0(s32 a0, void *a1, void *a2);
+    extern s32 func_8014D4C0(s32 a0, void *a1, void *a2);
     void func_8014D438(s32 a0) {
         s16 buf1[4];
         s16 buf2[4];
@@ -4129,7 +4129,59 @@ INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_80140608", func_8014D3E
     }  /* dedup: shared engine-core @0x8014d438 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_80140608", func_8014D4C0);
+// @class: schedule
+// @stuck: none — MATCH (goto forces the &&-body out of line; the success path as the
+//         if(call!=0){...} THEN-block makes ret0 the inline fall-through; psVar3-first compare)
+// Bankable variant: uses the CANONICAL func_80135A4C decl (engine_core.h:11555) verbatim and
+// casts the ARGUMENTS at the call site — no redeclaration, no function-pointer cast.
+//
+// SESSION-19: the §30#2 return widen (extern void -> extern s32, fleet-wide) cleared the RETURN
+// half of the self-decl conflict; the PARAMETER half remained — the fleet canon is
+// `extern s32 func_8014D4C0(s32 a0, void *a1, void *a2);` (engine_core.h:9530, inside
+// DEFINE_func_8014D438) while the byte-true shape wants u16* element access.  Defining the
+// params as the canonical `void *` and casting AT EACH USE is compile-time-only and keeps the
+// definition compatible with the macro's decl — the same move §17a-1 makes at a call site,
+// applied to the def's own signature (cf. func_80174CB0, SESSION-18).
+#include "common.h"
+
+extern s32 func_80135A4C(s32 a0, s32 a1, s32 *a2, s32 a3);
+extern s32 func_8014C918(s32 a0, s32 a1);
+
+s32 func_8014D4C0(s32 a0, void *a1, void *a2) {
+    s32 psVar3;
+
+    ((u16 *)a1)[1] = ((u16 *)a1)[1] - 3;
+    ((u16 *)a2)[1] = ((u16 *)a2)[1] + 8;
+    psVar3 = *(s32 *)(a0 + 0x174);
+    if (*(u16 *)psVar3 != 0) {
+        if ((*(u16 *)(psVar3 + 0x5c) & 0x400) &&
+            *(s32 *)(psVar3 + 0x58) != 0 &&
+            *(s16 *)(psVar3 + 0xa) >= *(s16 *)(a0 + 0xa)) {
+            goto do_body;
+        }
+        if (*(u16 *)psVar3 != 0) {
+            *(s8 *)(psVar3 + 0x74) = 0;
+        }
+    }
+    *(s32 *)(a0 + 0x174) = 0;
+    return 0;
+do_body:
+    *(u16 *)a1 = *(u16 *)(a0 + 0x98);
+    ((u16 *)a1)[1] = *(u16 *)(a0 + 0x9a) - 3;
+    ((u16 *)a1)[2] = *(u16 *)(a0 + 0x9c);
+    if (func_80135A4C(*(s32 *)(psVar3 + 0x20), *(s32 *)(psVar3 + 0x58),
+                      (s32 *)a1, (s32)a2) != 0) {
+        *(u16 *)(a0 + 6) = ((u16 *)a2)[0];
+        *(u16 *)(a0 + 0xa) = ((u16 *)a2)[1];
+        *(u16 *)(a0 + 0xe) = ((u16 *)a2)[2];
+        *(u16 *)(a0 + 0x16e) = func_8014C918(a0, *(u8 *)(psVar3 + 0x75)) & 0xff;
+        return 1;
+    }
+    *(s8 *)(psVar3 + 0x74) = 0;
+    *(s32 *)(a0 + 0x174) = 0;
+    return 0;
+}
+
 
 // @class: other
 // @stuck: first draft — untested
@@ -4238,7 +4290,78 @@ DEFINE_func_8014F24C()  /* dedup: shared engine-core @0x8014f24c (src/shared) */
 DEFINE_func_8014F2E0()  /* dedup: shared engine-core @0x8014f2e0 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_80140608", func_8014F3E8);
+// @class: def-side return-type wall (cookbook §30 #2)
+// @stuck: none — MATCH (32 ins) standalone; banks after the §30#2 widen described below.
+//
+// SHAPE (read straight off the asm):
+//   guard  : `lw $v0,0x44($a0)` & 0x40000 -> bnez to the epilogue.
+//   compare: three s16 pairs (6 vs 0x88, 0xA vs 0x8A, 0xE vs 0x8C) -> all equal ? F468 : F6F4.
+//   Neither call passes an argument (no `move $a0,..`, and $a0 is already live) -> both are ().
+//
+// THE DELAY SLOT IS THE WHOLE STORY:  `bnez $v0, .L8014F458` is followed by
+// `addu $v0, $zero, $zero`.  That is dbr's eager-steal (§31 D3) of the *return-value set* from
+// the `return 0;` block, which cc1 then merges into the shared epilogue ($L2/$L5 collapse).
+// A `void` definition DCEs that set (nothing keeps $v0 live at a void epilogue) and the slot
+// becomes a `nop` -> 31/32.  Verified exhaustively (see the agent report): pinning
+// `register s32 rv __asm__("$2")` and storing 0 is deleted as dead; keeping it alive with a
+// zero-byte `__asm__ __volatile__("" : : "r"(rv))` DOES put `move $v0,$zero` in the delay slot
+// but leaves an active insn in the $L2 block, so the func_8014F6F4 arm can no longer fall
+// through to the epilogue and pays `j $L1` + nop -> 34 ins.  `register volatile` gets a stack
+// slot (frame 0x20).  There is no void-typed C form that emits this byte sequence.
+//
+// => the byte-true def-sig is `s32 func_8014F3E8(s32)`.  The fleet canon is
+//    `extern void func_8014F3E8(s32 a0);` -- 15 DEFINE_func_* macros in src/shared/engine_core.h
+//    (lines 4120, 7733, 7747, 7774, 7788, 7815, 7829, 7856, 7883, 7910, 8215, 19216, 20926,
+//    21103, 25586).  Eleven DISCARD the return (`func_8014F3E8(a0);`); four already read $v0
+//    through the §17a-1 return-cast `((s32 (*)(s32))func_8014F3E8)(..)` -- engine_core.h:25593
+//    even documents it ("canonical func_8014F3E8 is void, but its $v0 is tested here").  So the
+//    cookbook §30 #2 escape applies verbatim.
+//
+//    BANKING RECIPE (mechanical, byte-neutral -- decls emit no code, every call site either
+//    discards the return or already goes through a fn-ptr cast):
+//        sed -E -i 's/extern void (func_8014F3E8)/extern s32 \1/g' \
+//            src/shared/engine_core.h src/*/*.c
+//    Scope, measured: 15 lines in engine_core.h + 3349 in src/*/*.c
+//    (3197 `(s32 a0)` + 140 `(s32)` + 12 K&R `()`).  ALL THREE spellings must move together --
+//    widening only engine_core.h leaves each overlay's §8b carried decl layer at `void` and the
+//    conflict simply reappears per-overlay (reproduced: ov_SC01_000_jr_80154C24.c:736 vs 1265).
+//    The K&R `()` form is compatible with an `s32` param (default-promotion-safe).
+//    Then fleet re-gate (`make check-all`).
+//
+//    BYTE-PROVEN IN SCRATCH (no src/ file touched; shadow copies under .run/drafts-s18b2/):
+//      * target TU (src/ov_SC07_006/ov_SC07_006_jr_80140608.c, INCLUDE_ASM removed, this file
+//        spliced in): real header -> `cc1 rc=33, conflicting types for func_8014F3E8`;
+//        widened header -> cc1 rc=0, no hard diagnostics, func_8014F3E8 = 32/32 ins, 0 diffs.
+//      * byte-neutrality: same TU un-spliced, and ov_SC01_000_jr_80154C24.c +
+//        ov_SC01_000_jr_8015C32C.c (both instantiate the return-casting macros
+//        DEFINE_func_80157580 / DEFINE_func_801612B8; the other two are DEFINE_func_80155D70 and
+//        DEFINE_func_80151AE4) -- `.text` cmp identical before/after.
+//
+// Callee decls are the TU/fleet canon VERBATIM:
+//   func_8014F468 is DEFINED in this same TU as `void func_8014F468(void)` (an inline-asm
+//   $sp-switch trampoline whose real result is left in $v0) -> keep `extern void ...(void)`
+//   and recover the value with the §17a-1 return-cast at the CALL SITE.
+//   func_8014F6F4 is fleet-canonical `extern int func_8014F6F4(void);` (e.g.
+//   src/ov_SC07_006/ov_SC07_006_jr_80159C84.c:622) and is INCLUDE_ASM in this TU, so no conflict.
+#include "common.h"
+
+extern void func_8014F468(void);
+extern int func_8014F6F4(void);
+
+s32 func_8014F3E8(s32 param_1)
+{
+    if ((*(u32 *)(param_1 + 0x44) & 0x40000) == 0) {
+        if ((*(s16 *)(param_1 + 6) == *(s16 *)(param_1 + 0x88)) &&
+            (*(s16 *)(param_1 + 10) == *(s16 *)(param_1 + 0x8a)) &&
+            (*(s16 *)(param_1 + 0xe) == *(s16 *)(param_1 + 0x8c))) {
+            return ((s32 (*)(void))func_8014F468)();
+        } else {
+            return func_8014F6F4();
+        }
+    }
+    return 0;
+}
+
 
 
 extern void func_8014F4C0();

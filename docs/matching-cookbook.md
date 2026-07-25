@@ -5758,3 +5758,42 @@ allocation out of `global.c`, not to spend more compute.
 
 **Tooling:** `.run/giants/b3_align.py` (shape-agnostic structural+byte aligner) and `b3_pos.py`
 (positional diff for equal-length drafts) supersede the `b2_*` set.
+
+## §73 — A def-side self-decl conflict has TWO axes: RETURN (fleet widen, T2) and PARAMS (casts at each use, T0). Diagnose which before paying for the expensive one (Phase 29 SESSION-19, `func_8014F3E8` + `func_8014D4C0`)
+
+§30 #2 established the **return-type** escape: when the byte-true def must return `s32` but the fleet
+canon declares `extern void func_X(...)` inside a `DEFINE_func_*` macro, **widen the macro's extern**
+— byte-neutral wherever the caller discards the return. What the recipe did not say, because the
+function it was derived from had a single scalar param, is that this is only **one of two independent
+axes** of the same `conflicting types for 'func_X'` error.
+
+**The batch that separated them.** Both functions were byte-correct, real-TU verified, and blocked on
+the identical cc1 message. One fleet-wide `sed -E 's/extern void (func_8014F3E8|func_8014D4C0)/extern
+s32 \1/g'` over `src/**` (16 decls in `engine_core.h` + 5,079 across 3,459 overlay `.c` files) was
+proven byte-neutral in isolation — then the gate banked `func_8014F3E8` (32 ins) and **still refused
+`func_8014D4C0`** with the same error. The residue was the *parameter* half: canon
+`(s32, void *, void *)` vs the draft's `(s32, u16 *, u16 *)`.
+
+| axis | symptom | fix | blast radius |
+|---|---|---|---|
+| **return** | def needs `s32`, canon says `void`; a `void` def DCEs the value-set (delay slot → `nop`, or a live local dies → frame shrinks) | widen `extern void`→`extern s32` in **every spelling together** (macro + each overlay's carried decl layer) | **T2 fleet-shared ⇒ R22 mandatory** |
+| **params** | def wants a narrower/typed pointer than the canon's `void *` (or vice-versa) | keep the **canonical param types in the signature** and cast **at each use** — `((u16 *)a1)[1]`, `*(u16 *)a1` | **T0 draft-only — no fleet edit at all** |
+
+**The param fix is §17a-1 applied to the definition's own signature** (the same move `func_80174CB0`
+needed in SESSION-18, where the wall was the fn's own decl rather than a callee's). Casts are
+compile-time; the emitted code is unchanged; nothing outside the draft is touched.
+
+**Practice:**
+1. **Read the cc1 error's two halves before acting.** `conflicting types` does not tell you which axis;
+   diff the canon decl against the byte-true signature term by term (return, then each param).
+2. **If only the params disagree, do NOT reach for the fleet widen.** It costs an R22 cycle and still
+   fails — exactly what happened here (the widen was independently justified by the *other* function).
+3. **If both disagree, fix the params in the draft first** — then the widen batch only has to carry the
+   return axis, and the fleet edit stays as narrow as possible.
+4. **Batch the return-axis widens** (one R22 for N functions, never one per function, §63) and
+   **isolate the shared edit from the drafts**: build 1–2 representative binaries after the widen ALONE
+   before splicing anything. Here that step is what made the single failure instantly attributable to
+   the param axis rather than to the widen — one cheap build replaced a diagnosis.
+5. **Pick the isolation probe deliberately:** an overlay that instantiates the *return-casting* macros
+   (`((s32 (*)(...))func_X)(...)`, §17a-1) is the only place a decl's return type could plausibly touch
+   codegen. `ov_SC01_000` served that role for `func_8014F3E8`.

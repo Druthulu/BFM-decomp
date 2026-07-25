@@ -584,7 +584,7 @@ extern void func_8014D12C(s32 a0, void *a1, void *a2);
 extern void func_8014D438(s32 a0);
 extern void func_8014D3E0(s32 _arg0);
 extern void func_8014D610(s32 a0, void *a1, void *a2);
-extern void func_8014D4C0(s32 a0, void *a1, void *a2);
+extern s32 func_8014D4C0(s32 a0, void *a1, void *a2);
 extern void func_8014D790(s32 a0);
 extern void func_8014D738(void);
 extern s32 func_8014DD8C(s32 a0, void *a1, void *a2);
@@ -746,7 +746,7 @@ extern s32 func_801518D8(s32 a0);
 extern s32 func_80151944(void);
 extern s32 func_80151924(void);
 extern void func_8014E934(s32 a0);
-extern void func_8014F3E8(s32 a0);
+extern s32 func_8014F3E8(s32 a0);
 extern void func_801519C8(s32 a0);
 extern void func_80151980(s32 a0);
 extern M2C_UNK D_800D5880;
@@ -990,7 +990,7 @@ extern void func_801574DC(s32 *a0);
 extern void func_80157544(void *a0);
 extern void (*D_80184C5C[])(void);
 extern void func_8014CC28(s32 a0);      /* defined  */
-extern void func_8014F3E8(s32 a0);      /* declared */
+extern s32 func_8014F3E8(s32 a0);      /* declared */
 extern void func_8015BDD0(s32 *a0);     /* defined  */
 extern void func_801575E4(void *a0);    /* defined  */
 extern void func_80157580(s32 arg0);
