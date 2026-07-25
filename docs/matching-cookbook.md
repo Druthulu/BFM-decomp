@@ -5458,3 +5458,36 @@ three passes per giant, then stop.
 That also makes rule 2 above operational: **a floor is measured when all three profiles come back flat
 from the SAME seed.** For `func_8014D820` at close=9, REGALLOC is flat; SCHEDULE and cse from that seed
 are the remaining evidence needed before calling 9 a floor.
+
+## §66d-5 — `residual_class`'s "structural ⇒ permuter CPU is waste" is WRONG for schedule permutations (measured, Phase 29 SESSION-18)
+
+`tools/residual_class.py` documents its buckets (lines 55–58) as:
+
+> **structural** — local mutation CANNOT introduce it (a different access width, a flipped branch, a
+> multi-instruction shape change). *Spending permuter CPU here is waste*; it wants an idiom.
+
+**Byte-measured counterexample.** `func_8014D820` was classed `OPCODE-MIXED [structural]`, and later
+`WIDTH [structural] sig=WIDTH/lhu!=sh`, at *every* waypoint — and the permuter moved it **16 → 14 → 12
+→ 10** across three weight profiles. Six points of gain inside a bucket whose documented guidance is
+"don't run the permuter." Meanwhile the guidance the bucket *does* give ("read it") was exhausted:
+**eleven** source-shape attempts on the same window, all inert or worse.
+
+**Why the classifier is fooled.** It reasons position-by-position. A pure **schedule permutation**
+changes *what lands at every index* in the affected window — so a block whose instructions are all
+present but reordered presents as "different operations, no single family" (OPCODE-MIXED) or as a
+width flip (WIDTH), because index *i* now holds a `sh` where the target holds an `lhu`. The signature
+of a reorder is indistinguishable, per-position, from a genuine shape change. The classifier's
+`SHIFT-DRIFT` rule catches this only when ONE shift point re-aligns the tail; a permutation *within* a
+window with matching endpoints re-aligns nowhere.
+
+**The corrected routing rule:**
+1. `[permuter]` ⇒ search, as before.
+2. `[structural]` ⇒ read **first** — the idiom is the cheap win when there is one.
+3. **But `structural` is NOT a permuter veto.** If reading fails 2–3 times AND the instruction COUNTS
+   match AND the same multiset of operations appears in the window in a different order, treat it as a
+   schedule permutation and run the three profiles (§66d-4). Instruction-count equality is the tell:
+   a genuine shape change usually changes the count; a permutation never does.
+
+**Cost of the old reading:** this is a project-wide mis-route, not a one-off — every schedule-permuted
+residual that ever landed in OPCODE-MIXED/WIDTH was steered away from the one tool that moves it. Worth
+a targeted re-check of backlog entries carrying those two class tags with equal instruction counts.
