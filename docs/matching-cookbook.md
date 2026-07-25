@@ -5290,3 +5290,84 @@ Two `permuter_ils` runs, same session, same machine, same 8×240 s budget:
 is already printed per cycle; the rule is: **a repeat means stop, a fall means continue.** (A first-cycle
 drop followed by repeats — `func_8014D820`'s 27→25 then ×7 — is the "one easy waypoint then done" shape,
 which still means stop.)
+
+## §67 — The arg-copy PLACEMENT lever: launder a parameter into a fresh pseudo AT the statement where the target's copy lands (Phase 29 SESSION-18, `func_8014D820` 25 → 16)
+
+`func_8014D820` (304 ins, reach-138) sat at the permuter floor (ILS 27→25, then 25 ×7) with the
+SESSION-17 note *"target births `$s3←a1` FIRST, `$s4←a0` twelfth; mine the reverse … §17 register-ORDER
+class"*. The diagnosis was right and the class label was wrong: this is not a register-ORDER problem you
+solve by pinning registers (four pin/barrier/staging variants were byte-measured inert or worse). It is
+an **instruction-PLACEMENT** problem — *where* gcc materializes the entry copy `addu $sN,$aX,$zero`.
+
+**The cascade, and why it looks like three unrelated bugs.** gcc-2.7.2 schedules the arg→pseudo entry
+copies as ordinary in-block insns. An *unconstrained* copy gets hoisted to the earliest ready slot, and
+whichever parameter's copy goes first **frees its argument register**, which then gets used as the early
+load temp. So one root cause presents as:
+
+| symptom | actually |
+|---|---|
+| `sw $s4` / `move $s4,$a0` first, target has `sw $s3` / `addu $s3,$a1` | the copy raced to slot 2 |
+| my load temp is `$a0`, target's is `$v1` | **consequence** — a0 left `$a0` early, so `$a0` was free |
+| I am +1 ins with an unfilled load-delay `nop` | the target *fills that slot with the deferred copy* |
+| a later scratch is `$v1` where the target uses `$a0` | downstream of the same free-register difference |
+
+Do not chase these separately. Fix the placement and they collapse together (here 25 → 16 in one move,
+with the whole prologue going exact and the instruction count landing on 304).
+
+**The lever.** Declare a *plain, unpinned* local and launder the parameter into it at the statement where
+the target's copy sits, then rewrite every later use of the parameter to the new name:
+
+```c
+    s32 a0v;                       /* NOT a register pin -- see below */
+    ...
+    __asm__ __volatile__("" : "=r"(a0v) : "0"(a0));   /* zero instructions; forces the copy HERE */
+    ent = *((Ent **) (a0v + 0x170));
+```
+
+`"0"(a0)` ties the input to output 0, so gcc emits exactly the copy it was going to emit anyway — the
+asm only fixes *when*. It costs no instruction.
+
+**Placement is the tuning knob, and it is NOT linear — sweep it.** Measured for `func_8014D820`, whose
+target copy sits at idx 12 (between the `a1[0]` load and the `dx` subtract):
+
+| launder placed before … | copy lands at | result |
+|---|---|---|
+| `dx = t - u;` | idx 10 (hoisted above both loads) | 305 ins, worse |
+| `t = a2[2];` / `u = a1[2];` / `dz = t - u;` | **idx 12** ✅ | **304 ins, 16 mismatched** |
+| the `if (…) goto fail;` | idx 16 (the *other* delay slot) | 304 ins, 18 mismatched |
+
+Three adjacent statements all give the same correct slot, so the target is a plateau, not a knife-edge —
+sweep 3–4 anchors and take the best. Adding an artificial input dependency (`"r"(t)`) to force a slot
+did **nothing**: gcc still hoisted the copy above the load. Placement, not dependency, is the control.
+
+**Two hard rules, both byte-measured:**
+1. **Do not pin the laundered variable to a hard register.** Pinning `a0v` to `$s4` (`__asm__("$20")`)
+   made gcc pre-stage through `$t0` — an extra `move t0,a0` at idx 1 and 305 ins. Unpinned is correct;
+   gcc picks the same callee-saved register by itself. (Same failure shape as pinning a *reused* temp:
+   pinning the load temp `t` to `$3` globally gave 287 mismatched / 303 ins.)
+2. **Launder inside the block that owns the delay slot.** Placing it after the `beqz` that ends block 1
+   forces a *second* materialization (the value must already survive the branch), so you pay an extra
+   insn and gain nothing.
+
+**Prerequisite — collapse redundant pointer aliases first (the two-pseudo law).** The draft carried
+`new_var2 = a1;` and used both names. That splits one pointer into two pseudos: gcc served the first use
+out of the **incoming arg register** and deferred the callee-saved copy, which is exactly the defect. One
+`sed` collapsing `new_var2` → `a1` made `a1[0]` load from `$s3` like the target and removed idx 11 from
+the diff. Do this before reasoning about copy placement, or you are debugging two mechanisms at once.
+
+**Re-test your older pins after the fix — they may be crutches.** A `register s32 t __asm__("$3")` pin
+was load-bearing *before* the launder (it forced the `$v1` load temp) and **provably redundant after**
+(identical 16 either way), because once `a0` stays live through the early loads the temp *must* be `$v1`.
+Drop it: same bytes, simpler C, one less thing to explain to the next session.
+
+**A refuted hypothesis, recorded so it is not re-bought.** SESSION-17 left an "untried, cheap lever":
+maybe birth order follows **first-use order** (§31 regalloc RC-1/RC-2/RC-3 — declaration/use order drives
+`allocno_compare` density). **It does not, for this class.** `func_8014D820`'s use order *already* matched
+the target (`a1` first used at body-line 28, `a0` at body-line 41 — a1 before a0, exactly the target's
+birth order) while the birth order was inverted. Declaration order is likewise inert (moving `ent`/`p` to
+the end of the decl block: byte-identical result). What moves the copy is its **schedulable position**,
+and the launder is how you set it.
+
+**Where this applies.** Any draft that is `+1 ins with an unfilled load-delay nop` and shows mirrored
+`sw $sN` / `move $sN,$aX` prologue pairs. That signature is the tell — count the instructions first: a
+draft one *over* with a `nop` the target fills is a placement bug, not a regalloc wall.

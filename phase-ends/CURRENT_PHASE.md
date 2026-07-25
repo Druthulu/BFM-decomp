@@ -3016,3 +3016,47 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 > rewrite the doc (run it bare) · when checking "was this attempted?", **glob every draft dir** — a
 > hand-listed pair produced a false "fresh fuel" finding twice this session (§66c).
 > **DO NOT close P29 on ROI** — burn-down floor still undetermined.
+
+- **🔎 2026-07-24 (SESSION-18, Opus 5 @ High) — `func_8014D820` driven 25 → 16 by READING, with the
+  prologue now byte-exact and the instruction count landed on 304. The SESSION-17 diagnosis was right
+  about the symptom and wrong about the class: this is instruction PLACEMENT, not register ORDER.**
+  Distilled as **cookbook §67** (written in-session, R30).
+  **First, the unfinished probe is ANSWERED — and it is a negative that retires the lever:** `a0`'s
+  first use is **body-line 41** (`ent = *((Ent **)(a0 + 0x170))`), `a1`'s is 28, `a2`'s is 5. So use
+  order **already matched** the target's birth order (a1 before a0) while the birth order was inverted
+  ⇒ the §31 RC-1/RC-2/RC-3 *first-use-order* hypothesis is **REFUTED for this class**. Declaration order
+  is inert too (moving `ent`/`p` to the end of the decl block: byte-identical). **Do not re-buy either.**
+  **The root cause, byte-read:** gcc schedules the arg→pseudo entry copies as ordinary in-block insns;
+  an unconstrained copy is hoisted to the earliest slot. Mine raced `move $s4,$a0` to idx 2, which
+  **freed `$a0` to become the early load temp** (target uses `$v1`) and left the target's idx-12
+  load-delay slot unfilled (`nop`) — so the "wrong temp register", the "mirrored `sw $sN`/`move $sN`
+  prologue", and the +1 instruction were **one defect wearing three costumes**, not three residuals.
+  **The fix (§67):** an unpinned launder `__asm__ __volatile__("" : "=r"(a0v) : "0"(a0));` placed at the
+  statement where the target's copy sits, all later `a0` uses rewritten to `a0v`. Zero instructions.
+  Prerequisite: collapse the redundant `new_var2 = a1;` alias first (the two-pseudo split was making
+  gcc serve the first use from the incoming arg reg and defer the copy — that alone fixed idx 11).
+  | variant | result |
+  |---|---|
+  | s17 seed (baseline) | 304/304, **25** |
+  | + collapse `new_var2` alias | 304/304, 27 (idx 11 fixed; a0/a2 copies then swapped) |
+  | + launder the `a2` pin (`"0"(a2x)`) so CSE can't serve `$6` | 305/304, prologue exact from idx 11 |
+  | + `t` pinned `$3` | 305/304, temps now `$v1` — **structurally identical, off by the one copy** |
+  | **+ a0 launder before `t = a2[2];`** | **304/304, 16** ✅ (`s18_func_8014D820_close16.c`) |
+  | − the `t` pin (now redundant) | 304/304, **16** — same bytes, simpler C |
+  **Placement is the knob and it is not linear** (target slot 12): before `dx = t - u;` → slot 10
+  (305 ins); before `t = a2[2]` / `u = a1[2]` / `dz = t - u` → **slot 12** ✅; before the `if` → slot 16
+  (18 mismatched). A 3-statement plateau, so sweep anchors rather than aiming.
+  **MEASURED NEGATIVES — do not re-buy:** pinning the laundered var to `$s4` (`__asm__("$20")`) →
+  gcc pre-stages via `$t0`, 305 ins · pinning the reused temp `t` to `$3` on the *old* base → 287
+  mismatched / 303 ins · an artificial `"r"(t)` input dependency to force the slot → **inert**, gcc
+  still hoisted above the load · laundering *after* the `beqz` (SESSION-18 exp5/exp6) → forces a second
+  materialization, 305 ins · dropping the `a2` pin entirely → 29 · reordering the pos/desc block
+  wholesale, or sinking `z0 = ent->z` → +1 ins (the `ent->z` load position is load-bearing).
+  **Residual 16, in 3 clusters:** idx 21/22 scratch `$v1` vs `$a0` (2) · idx 84–98 the `desc.y` /
+  `currentLocationId` schedule (11) · idx 271/272 a load-order swap (2). All regalloc/schedule class ⇒
+  handed to `permuter_ils` per the §66d loop (running: 10 cycles × 180 s, `-j 14`, from the close=16
+  seed; old close=25 waypoints preserved at `.run/permuter_bak_func_8014D820_s17_close25/` per §66d-2).
+  **Also measured, for the other giants:** `func_80140958` 260/260 **54** · `func_80176734` 371/371
+  **56** · `func_80176218` **328 vs 327** — the +1 is NOT §67 (its prologue is fine); mine burns an extra
+  callee-saved (`sw $s6`) to **hoist** a global address (`lui/addiu $s6`) the target rematerializes ⇒
+  the hoist-vs-remat / array-decay lever (§17), a different antidote.
