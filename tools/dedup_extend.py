@@ -235,14 +235,21 @@ def main():
         if a.check_only or not plan:
             continue
 
-        ensure_include(b)
+        added_include = ensure_include(b)              # True IFF this run inserted the line
         d = write_drafts(b, plan)
         banked = gate(b, d, a.chunk)
         print(f"[{b}] BANKED {len(banked)} / {len(plan)}")
         total_banked += len(banked)
 
         if not banked:
-            ensure_include_revert(b)
+            # ONLY undo what THIS run did (§61/§63). The revert is an INVERSE TRANSFORM, not a
+            # snapshot restore, so firing it on a binary that ALREADY had the include strips a
+            # load-bearing line: every `DEFINE_func_*()` in that overlay stops resolving. It was
+            # unconditional until Phase 29 SESSION-19, where a 0-banked run over 135 already-wired
+            # binaries removed the include from all 135 at once. Invisible to every byte-gate (R34)
+            # because the damage lands AFTER the last gate has run.
+            if added_include:
+                ensure_include_revert(b)
             continue
         adds = {g["id"]: [b] for g, vram, _ in plan   # registry: only what the GATE accepted (P9)
                 if f"func_{vram:08X}" in banked}
