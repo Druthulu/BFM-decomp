@@ -5413,3 +5413,42 @@ rewrites declarations (`sig_unify`, `canon_resident_calls`, `cast_call_sites`, `
 those rewrite extern names, which is precisely how an alias gets invented. It is a **necessary
 condition, not a match oracle**: `SYMS-OK` means "no link-level defect of this class", nothing more.
 Finish on the byte-gate (G3/P9).
+
+## §66d-4 — "ILS converged" means converged FOR THAT WEIGHT PROFILE, not a floor (amends §66d-3; Phase 29 SESSION-18)
+
+§66d-3 gave the read-the-series rule: *a repeat means stop, a fall means continue.* That rule is right
+about **when to stop the current run** and was over-applied to mean **the function is at its floor**.
+SESSION-17 used it to record all four remaining giants as "at their **measured permuter floor** (ILS
+converged)". `func_8014D820` then fell from 16 to 10 under nothing but weight changes.
+
+**The measurement** (`func_8014D820`, each pass warm-started from the previous pass's best waypoint):
+
+| pass | profile | series | best |
+|---|---|---|---|
+| 1 | `--klass REGALLOC` | 14, then ×9 unchanged | 14 |
+| 2 | `--klass SCHEDULE` | 12, then ×7 unchanged | 12 |
+| 3 | `--klass cse` | 10, then ×9 unchanged | 10 |
+
+Three profiles, three identical shapes: **one drop in cycle 1, then dead flat.** The flatness is real —
+continuing that run is waste, exactly as §66d-3 says. But it is a statement about the *mutation
+distribution*, not about the function: `permuter_weights.classify` biases decomp-permuter's pass
+selection toward one class's levers (regalloc.md RC-*, sched.md S-*, the CSE address-fold levers), so a
+converged run means **this profile's neighbourhood is exhausted around this seed** — and the seed has
+just changed, because the pass rewrote it.
+
+**The rule, corrected:**
+1. A flat series ⇒ stop **this run**. (§66d-3, unchanged.)
+2. Before calling a floor, **re-run with a different `--klass`** from the new best waypoint. Only after
+   all three profiles come back flat from the *same* seed have you measured a floor.
+3. Cheap, unattended, ~0 tokens — so it is the first thing to try on any "converged" giant, ahead of
+   reader time and far ahead of Fable5.
+
+**And check every pass's diff for operand-order regressions.** A random search cannot tell that one of
+its own edits made a *local* position worse while the total improved. The cse pass here swapped
+`if (p == ent)` → `if (ent == p)`, which cost idx 110 (`beq $s2,$s1` vs the target's `beq $s1,$s2`);
+reverting just that operand order, keeping every other gain, took 10 → **9 for one compile**. Same for
+`x >= k` ↔ `k <= x`. These are free points and they are invisible to the scorer's total.
+
+**Status of the round-robin question:** whether a *repeated* profile yields again on a seed it already
+converged on is UNMEASURED as of SESSION-18 close (a REGALLOC round-2 from close=9 was in flight —
+`.run/giants/s18_d820_ils_rr2.log`). Do not assume it does; read the log.
