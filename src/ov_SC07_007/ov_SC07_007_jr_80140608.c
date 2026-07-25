@@ -3624,7 +3624,7 @@ DEFINE_func_8014F3E8()  /* dedup: shared engine-core @0x8014F3E8 (src/shared) */
 
 extern void func_8014F4C0(u8 *a0);
 
-void func_8014F468(void)
+s32 func_8014F468(void)
 {
 
     extern int D_801C665C;

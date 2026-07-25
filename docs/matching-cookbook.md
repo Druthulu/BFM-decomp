@@ -5841,3 +5841,62 @@ behemoth hides a `jal` easily.)
 **Standing rule of thumb:** prefer a **callee-saved** register for any pin whose variable outlives a
 call; if the target's register really is caller-saved and the value really does span a `jal`, the pin
 cannot express it — that is a genuine wall verdict, not a drafting slip.
+
+## §75 — A propagation cap is usually a MINORITY-SPELLING SOURCE OVERLAY, not a wall: census the carried extern before believing the exclusion message (Phase 29 SESSION-19, `func_8014F3E8` ×4 → ×138)
+
+`dedup_propagate` authors the shared macro from ONE source overlay and carries that overlay's
+file-scope `extern` lines into the macro **verbatim**. Those externs are then instantiated in every
+member TU. So **whatever spelling the source overlay happens to use becomes the fleet's spelling** —
+and if the source is an outlier, the macro conflicts everywhere else and the group silently caps its
+reach at the outlier's island. The exclusion message calls that `byte-diverge / irreconcilable`,
+which is the wrong cause and reads like a wall.
+
+**The tell: the bytes cannot be diverging.** Members are selected by `h_exact` — the SHA1 of raw
+instruction bytes, relocs included. If a group has N members it is because all N are byte-identical.
+So an exclusion is a **compile** conflict, never a byte one. Any message saying otherwise is lying
+(cf. §68's mislabel — same tool, same defect family).
+
+**The census that names the real cause (30 seconds, read-only).** Take the symbol the carried extern
+declares and count every spelling of it across the tree:
+```
+grep -rh '<sym>' src --include=*.c --include=*.h \
+  | grep -E 'extern|^\s*(void|s32|int|u32)\s+<sym>\s*\(' \
+  | sed -E 's/^\s+//; s/\s+/ /g; s/ \\$//' | sort | uniq -c | sort -rn
+```
+Worked case — `func_8014F468`, carried by the `func_8014F3E8` body:
+
+| spelling | count | |
+|---|---|---|
+| `extern s32 func_8014F468(void);` | 1,710 | fleet canon |
+| `s32 func_8014F468(void)` (def) | 134 | fleet canon |
+| `extern void func_8014F468(void);` | 20 | **the outlier** |
+| `void func_8014F468(void)` (def) | 4 | **the outlier — and all 4 are `ov_SC07_{006,007,010,011}`** |
+
+The source overlay I banked from was one of the four. The macro inherited `extern void`, and the 134
+overlays that *define* the symbol `s32` rejected it — propagation landed on exactly the 4-overlay
+island. Nothing about the code was hard.
+
+**The fix is NORMALIZATION, not a reconciliation engine.** Flip the minority spelling to the fleet
+canon (here 24 occurrences: 4 definitions + 19 overlay externs + 1 line in the freshly-authored
+macro), byte-gate the affected binaries, then extend the group. `func_8014F468` is a pure inline-asm
+`$sp`-switch trampoline, so the return type carries no C-level value flow — and 134 overlays already
+*proved* `s32` is byte-correct for the identical function. All 4 flipped binaries stayed
+byte-identical.
+
+**Why a reconciliation engine is the WRONG shape here.** One macro text is instantiated in 138 TUs;
+it cannot carry a per-overlay extern. If the members genuinely disagree, no per-member rewrite of a
+*shared* body can satisfy them all — you must make them agree first. (`reconcile_tu.fix()` already
+does "TU wins + cast at use" for DATA decls and deliberately skips `d.kind == 'func'`; extending it
+would not have helped, because the conflicting text lives in the shared header, not in a draft.)
+
+**Practice:**
+1. **Prefer a majority-spelling source overlay.** Before propagating from overlay X, census X's decls
+   of every symbol the body carries. A minority source caps the group by construction.
+2. **Always pass `--recover`** on a targeted `--addr` run. Without it, the first culprit overlay
+   triggers the historical all-or-nothing drop and the group banks **×0** instead of ×(N−1). This
+   session lost a whole group to that flag before re-running.
+3. **After normalizing, the body is already a macro** — so the follow-up is `dedup_extend`
+   (`--binaries <the excluded set>`), **not** `dedup_propagate --addr`, which can only author from an
+   *inline def* and will report "no source overlay has it matched".
+4. Re-check any group historically stuck at a small reach for the same cause — `func_80174CB0` (×3
+   since SESSION-18) was carrying the identical class.

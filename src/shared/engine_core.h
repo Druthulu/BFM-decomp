@@ -29296,7 +29296,7 @@
     }
 
 #define DEFINE_func_8014F3E8() \
-    extern void func_8014F468(void); \
+    extern s32 func_8014F468(void); \
     extern int func_8014F6F4(void); \
     s32 func_8014F3E8(s32 param_1) \
     { \
