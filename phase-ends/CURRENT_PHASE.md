@@ -3611,75 +3611,70 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   → cookbook **§75a**. `func_80174CB0` (123 ins, ×3 since SESSION-18) and `func_80165CA0` stay capped,
   now with a named cause and a named next probe each — not a wall verdict.
 
-> **🛑 SESSION-18 CLOSING CHECKPOINT (2026-07-25, Opus 5 @ High) — SUPERSEDES the earlier SESSION-18
-> block, which was written mid-session and is STALE (it still says "two searches in flight").
+> **🛑 SESSION-19 CLOSING CHECKPOINT (2026-07-25, Opus 5 @ High) — SUPERSEDES the SESSION-18 block.
 > Fresh session safe here.**
 > Tree clean (only R23 `db.*.gbf` churn — never staged). **R22 clean-fleet 140/140** (run 3× this
-> session, last after the ×138). **0 NON_MATCHING** (G4). **dedup 1884 validated / 0 failed**, C1
-> coverage complete. HEAD `commit:0990`, 36 commits. **Drew pushes** (R6/R20).
-> **FLEET CROSSED 80.0% instr** — 10,509,526 / 13,141,652 · distinct-code 67.7% · fn-count 89.02%
-> (opened the session at 79.9 / 67.7 / 88.98).
+> session: after the widen, after the propagation, after the extend). **0 NON_MATCHING** (G4).
+> **dedup 1886 validated / 0 failed**, C1 coverage 239,315/239,315. HEAD `commit:0996`, 5 commits this
+> session. **Drew pushes** (R6/R20).
+> **FLEET: 80.1% instr** — 10,525,534 / 13,141,652 · distinct-code **67.7%** · fn-count **89.09%**
+> (opened the session at 80.0 / 67.7 / 89.02; **+16,008 ins**, exactly the projected 84×138 + 32×138).
 >
 > ## BANKED THIS SESSION
 > | fn | ins | reach | note |
 > |---|---|---|---|
-> | `func_801777BC` | 59 | **×138** | §70 giv-init lever; 0 exclusions; R22 green |
-> | `func_80174CB0` | 123 | ×3 | §65g verdict REFUTED — it needed the right self-signature, not a new transform |
+> | `func_8014D4C0` | 84 | **×138** | §30#2 widen + the §73 PARAM axis; propagated clean first try |
+> | `func_8014F3E8` | 32 | **×138** | banked ×1 → ×4 → ×138 after the §75 normalization + `dedup_extend` |
 >
-> ## MATCHED BUT NOT BANKED — both blocked on ONE shared action
-> `func_8014D4C0` (84 ins) and `func_8014F3E8` (32 ins) are byte-correct, real-TU verified, and both
-> wait on the **§30#2 return-type widen**. `func_8014D820` will join them if it ever matches.
-> **Recipe (agent-verified, counts re-verified by me):**
-> `sed -E -i 's/extern void (func_8014F3E8)/extern s32 \1/g' src/shared/engine_core.h src/*/*.c`
-> — 15 decls in `engine_core.h` (all inside `DEFINE_func_*`; 4 of them already read `$v0` via a
-> return-cast) + **3,349** decls across 3,304 `src/*/*.c` files. **⚠️ ALL SPELLINGS MUST MOVE
-> TOGETHER** — widening only the header re-creates the conflict per-overlay (reproduced). K&R `()`
-> stays compatible (`s32` is promotion-safe). Byte-neutrality spot-checked on 3 files. **One R22 for
-> the whole batch, never one per function.** Value ≈ +0.12pp.
+> **Distinct-code did NOT move (67.7%).** Expected: propagation moves COVERAGE, not distinct-RE. The
+> only lever that moves distinct-code is FRESH CRACKS — the SESSION-14 re-ranking still stands.
 >
-> ## THE SESSION'S REAL YIELD: FIVE STANDING VERDICTS OVERTURNED
-> Every one by making an instrument print what it MEASURED instead of what its author assumed.
-> | verdict | truth | cost of the wrong label |
-> |---|---|---|
-> | "overlay-local TYPE (the real cap)" | undeclared file-scope externs | **~4 phases** — Phase 21 had already written the fix |
-> | "byte-diverge / irreconcilable" | carried decls colliding with the target TU | this session's ×138 → ×3 |
-> | `structural` ⇒ "permuter CPU is waste" | permuter took it 16 → 10 | project-wide mis-route |
-> | "at their measured permuter floor" | floor is PROFILE-relative | 4 giants written off |
-> | "§65g — needs a transform that does not exist" | needed the right signature | ~100 wasted drafts |
+> ## THE SESSION'S REAL YIELD: THREE CAPS, NONE OF THEM THE COMPILER
+> | believed | measured truth |
+> |---|---|
+> | "§30#2 widen banks both" | the widen fixes only the RETURN axis; `func_8014D4C0` was blocked on the **PARAM** axis (T0 draft-local, no fleet edit) — **§73** |
+> | propagation "drop" = a wall | a **missing `--recover` flag**; without it ONE culprit overlay costs the whole group (×0 instead of ×N−1) |
+> | `byte-diverge / irreconcilable` | **impossible** — members are selected BY `h_exact`, so all 138 are byte-identical. It is a COMPILE conflict, and the real cause was a **minority-spelling source overlay** — **§75** |
 >
 > ## NEW KNOWLEDGE (all distilled in-session, R30)
-> **§67** arg-copy placement lever · **§67a** `tools/symcheck.py` (pre-gate symbol guard,
-> negative-control-proven) · **§68** the comment-halted extern scan + the mislabel · **§69** behemoth
-> method (map-first — **partly refuted by §71, do not follow its headline**) · **§70** giv-init base
-> register (walk the PARAMETER) · **§71** fingerprint a giant's family by **CALLEE SET** (not
-> adjacency, not h_seq) · **§72** **a `register __asm__` pin is a PREFERENCE, not a reservation** ·
-> **§66d-4/-5** the permuter-floor + structural-bucket corrections.
+> **§73** the two axes of a def-side self-decl conflict (RETURN = fleet widen T2/R22; PARAMS = casts
+> at each use, T0) · **§74** the pin-safety audit (the corrupting form is a CALLER-SAVED pin spanning
+> a `jal`; audit the surviving `match_one` object, no recompile) · **§75** census the carried extern
+> before believing an exclusion message; prefer a majority-spelling source overlay; always
+> `--recover`; after normalizing use `dedup_extend` not `dedup_propagate --addr` · **§75a** the three
+> exclusion classes (A minority spelling / B genuine arity split / C missing carried extern) and the
+> one grep that discriminates them.
 >
 > ## ⚠️ OPEN ACTIONS, ranked
-> 1. **The §30#2 widen batch** (above) — 2 matched functions waiting, one R22.
-> 2. **`recover_integration` step 2** (Task 8): reconcile carried externs against the TARGET TU
->    (`cdecl.compatible()`, the shape `reconcile_tu` already uses). Without it, propagation only lands
->    where decls happen to agree (measured: 3 of 138). Also fix the exclusion message — it reports
->    "byte-diverge" for a compile conflict.
-> 3. **§72 SAFETY RE-CHECK:** `.run/giants/s18_func_8017D960_b2.c` carries **5 pins**
->    (`$25 $17 $19 $20 $21`). A pin can silently share a hard register with another live value.
->    Banked work is safe (the byte-gate rejects miscompiles); **un-gated drafts are not.**
-> 4. **The 7 propagation-capped fns in ov_SC01_077** are a THIRD sub-class (symbols that live nowhere
->    at file scope) — still unsolved, do NOT assume §68 cleared them.
-> 5. `func_8014D820` sits at a **3-profile measured floor of 9**; both cheap tiers are spent. This is
->    the justified Fable5 case if Drew wants it.
+> 1. **`func_80174CB0` (123 ins, capped ×3) — class A on the TARGET side.** cc1 names
+>    `func_80012ABC` at ov_SC01_000; census = **73 `s32` vs 7 `s16`**, so normalizing the **7**
+>    minority decls should free it. Cheap, byte-gated, ~+0.13pp if it reaches ×138. **Collect the
+>    classifier line across ALL 134 first (§75a) — the blockers differ per overlay.**
+> 2. **`func_8012F14C` — class B, the genuine arity split** (1,944 `(s32)` vs 968 `(s32,s32,s32)`).
+>    Do NOT normalize on a guess. The probe: a K&R `extern void func_8012F14C();` in the macro is
+>    compatible with BOTH per `cdecl.compatible` (no param default-promotes), but the rule is
+>    **order-dependent** — it only holds if the macro's decl precedes the TU's. Measure, then gate.
+> 3. **`func_80165CA0` — class C** (`undefined reference to 'SHB'`): the SESSION-18 CARRY-FIXABLE
+>    class, a missing file-scope extern, not a type problem.
+> 4. **The 7 propagation-capped fns in ov_SC01_077** remain a distinct sub-class (symbols that live
+>    nowhere at file scope) — still unsolved; §68/§75 did NOT clear them.
+> 5. `func_8014D820` sits at a **3-profile measured floor of 9**; both cheap tiers are spent. The
+>    justified Fable5 case if Drew wants it.
+> 6. **FRESH CRACKS remain the only distinct-code lever** — fuel: the 48 families / 0.62pp with a
+>    cached member (draftable now, no MCP) + the `ov_SC06_018` prefetch (101 uncached substantial
+>    stubs, 17,723 ins). Breadth-shaped ⇒ prompt Drew for `/effort ultracode` (R26/R27).
 >
-> ## BEHEMOTHS — 11 unmatched, 3 attempted, ALL artifacts tracked under `.run/giants/`
+> ## BEHEMOTHS — 11 unmatched, 3 attempted, ALL artifacts tracked under `.run/giants/` (unchanged)
 > | fn | ins | result |
 > |---|---|---|
 > | `func_8017F510` | 1,511 | **1,511/1,511**, 99.5% structural, 93.3% byte — ~93 of 97 residual trace to ONE register (`c3`→`$a2`) |
-> | `func_8017D960` | 3,338 | **3,334/3,338**, 98.8% structural — one `fold` OR-chain error left; templates ×3 |
+> | `func_8017D960` | 3,338 | **3,334/3,338**, 98.8% structural — one `fold` OR-chain error left; templates ×3. **§74-audited SAFE** (its 5 pins are not crossed by any call) |
 > | `func_80183814` | 5,122 | mapped only (666 drafted); 35× repeated template found |
-> Remaining 8 untouched. **§71 checked fleet-wide: none of them has a matched same-callee-set
-> relative** — they get no free ride.
+> Remaining 8 untouched. **§71 checked fleet-wide: none has a matched same-callee-set relative.**
+>
 > **⚠️ HAZARDS (unchanged):** `dedup_propagate --auto-from` re-macroizes the 14 de-macroized sites
-> (`--check-only` first, targeted `--addr` only) · `p16_permute.setup` WIPES `.run/permuter/<fn>/` ·
-> `.run` subdirs are NOT tracked — agent output there is one `git clean` from gone (now allowlisted:
-> `.run/giants/*.py`) · sig names are lowercase, splat `.s` files UPPERCASE (**I made that
-> case-sensitivity error twice tonight**).
+> (`--check-only` first, targeted `--addr` only) · **`dedup_extend` refuses a dirty tree (H4) — commit
+> before running it** · `p16_permute.setup` WIPES `.run/permuter/<fn>/` · `.run` subdirs are NOT
+> tracked — agent output there is one `git clean` from gone · sig names are lowercase, splat `.s`
+> files UPPERCASE.
 > **DO NOT close P29 on ROI** — burn-down floor still undetermined.
