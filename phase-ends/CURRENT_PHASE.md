@@ -3312,6 +3312,13 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   self-terminating waiter instead**, e.g. Bash `run_in_background` with
   `until ! pgrep -f "permuter_ils.py <fn>" >/dev/null; do sleep 20; done; tail -3 <log>` — one
   notification, exits on its own. Reserve `Monitor` for genuinely per-occurrence streams.
+  **⚠️ AND THE OBVIOUS WAITER SELF-DEADLOCKS — I hit this immediately after writing the line above.**
+  `until ! pgrep -f "permuter_ils.py <fn>"` matches **the waiter's own command line** (it contains that
+  string), so the loop never exits and you get a phantom "still RUNNING" forever. Use a PID captured at
+  launch, which cannot self-match:
+  `nohup … & echo $! > .run/ils.pid` then `until ! kill -0 "$(cat .run/ils.pid)" 2>/dev/null; do sleep 20; done`.
+  (Or `pgrep -f` with a pattern the waiter does not contain.) Same class as every other instrument bug
+  this project keeps finding: the tool answered a slightly different question than the one asked.
 
 - **⚖️ 2026-07-24 (SESSION-18) — §66d-4 QUALIFIED by its own counter-example (R14). `func_80140958`
   (giant #2): fresh `--klass cse` pass, base 56, prior profile `regalloc` → **best=56, ZERO improvement
