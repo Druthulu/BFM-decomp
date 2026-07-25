@@ -2646,3 +2646,44 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   cycle is BUDGET-LIMITED, not stuck (`func_80140958`: 59 and falling → buy more cycles, it is CPU not
   tokens). Read the per-cycle series, never just the final best — the two look identical in a summary
   line and mean opposite things. Seeds: `.run/perm_s17d/best59.c`.
+
+- **⛔ 2026-07-24 (SESSION-17) — `func_80140958` CONVERGED at 56. §66d-3 called both decisions right.**
+  Continuation from the 59-waypoint (14 × 300 s @ -j12): **58 → 57 → 56, then unchanged for ELEVEN
+  cycles.** Session net **116 → 56** (a 52% cut), and the search is now genuinely done — the same
+  repeat-signal that stopped `func_8014D820`. The rule paid for itself in both directions on its first
+  outing: it said *continue* at 59-and-falling (bought 3 more) and *stop* at 56-×11.
+  **Both remaining giants are now READER/Fable5 cases, with fresh warm seeds far better than the
+  preserved drafts:** `func_80140958` 116 → **56** (`.run/permuter/func_80140958/output-56-1/source.c`),
+  `func_8014D820` 33 → **25** (`.run/perm_s17c/best25.c`). That is the durable output — the next
+  reader starts from a much closer draft than the ~2.6M-token Task-3 originals.
+
+> **🛑 SESSION-17 FINAL CHECKPOINT (2026-07-24, high on Opus 5) — supersedes the SESSION-17 checkpoint
+> above. Fresh session safe here.**
+> Tree clean (only R23 `db.*.gbf` churn — never staged). **R22 clean-fleet 140/140** (verified 3× this
+> session; last after the ×138 propagation); 0 NON_MATCHING (G4); **dedup 1880 validated / 0 failed**
+> (C1 238,622/238,622). **Drew pushes** (R6/R20).
+> **Fleet: 79.7% instr · 67.7% distinct (64,875) · 88.90% fn-count** (opened 79.6 / 67.7 / 88.86).
+>
+> **BANKED THIS SESSION:** `func_80177940` (101 ins) ×138 = **+13,938 instructions**, via the §66d
+> permuter⇄reader loop.
+> **TOOLS FIXED:** `recover_integration` (propagation refused unless fleet-tier + `--r22`, and outright
+> after `demacroize`) · `gate_stage` (the fleet-% regex that wrote `fleet None%` into 50 commits) ·
+> `p16_permute` (the global `pkill` that made concurrent runs kill each other).
+> **KNOWLEDGE:** cookbook **§66, §66a, §66b, §66c, §66d (+ correction, -1, -2, -3)**; SETUP row for
+> `recover_integration.py` (R21).
+>
+> **▶ NEXT (ranked, all with measured state):**
+> 1. **`func_80176734` (369/371, close=76) — the only giant not yet given a permuter run this session.**
+>    Its residual is a LENGTH gap (-2), i.e. reader-shaped by §66d, and the Task-3 note says the 2 missing
+>    instructions are a `lh`+`lhu` double-load of `D_80126CE0` whose every C form triggers a frame
+>    0x40→0x38 save-offset cascade (§27 frame-pressure lock). Try an ILS anyway per the §66d correction
+>    (low cost, CPU only) before spending a reader.
+> 2. **Reader/Fable5 on the two converged seeds** — `func_80140958` at 56 and `func_8014D820` at 25.
+>    For `func_8014D820` the diagnosis is already written: the two callee-saved param copies are born in
+>    the wrong ORDER (§17 register-ORDER); pins and a scheduling barrier are both byte-proven inert, so
+>    the remaining idea is staging BOTH params through pinned locals in the target's order.
+> 3. **The Ghidra-C prefetch** if fresh wave fuel is wanted — **needs Drew to run `/mcp`** (R23/R29).
+>    Still the only thing that restores wave economics; nothing else in the queue creates fuel.
+> **⚠️ STANDING HAZARD (unchanged):** `dedup_propagate --auto-from` would re-macroize the 14
+> de-macroized sites. `--check-only` first; targeted `--addr` only.
+> **DO NOT close P29 on ROI** — burn-down floor still undetermined.
