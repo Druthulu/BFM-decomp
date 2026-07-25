@@ -3765,7 +3765,25 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 > **🛑 SESSION-19 CLOSING CHECKPOINT (2026-07-25, Opus 5 @ High) — REFRESHED mid-session; supersedes
 > both the SESSION-18 block and the earlier SESSION-19 block (which was written before the
 > ENGINE_SHB / class-B / dedup_extend-bug work and went stale). Fresh session safe here.**
-> **No background job is running.** Behemoth #3 `func_8017F510` is **CRACKED and BANKED**
+> **⚠️ AN OPUS-5 AGENT IS RUNNING (launched 2026-07-25, SESSION-19, effort xHigh):** cracking
+> **behemoth #2 `func_8017D960`** (3,338 ins, ov_SC03_090). Deliverables
+> `.run/giants/s19_func_8017D960_b5.c` + `s19_d960_report.md`; sandboxed to `.run/giants/`
+> (no `src/`/`config/`/`docs/`, no commits, no `make` build targets). **If this session died
+> mid-run, check those two files — the agent's work is NOT committed.**
+> **THE PRIZE: its h_norm+h_seq family has 5 UNMATCHED members** (`func_8017D960` @ SC03_089/
+> 090/104 + `func_8017E778` @ SC03_091 + `func_8017CD9C` @ SC03_102), all §40-remappable from
+> one crack ⇒ **≈16,690 distinct-code ins**, ~5.5× both of today's behemoths combined.
+> **BASELINE (I measured it): 3334 vs 3338 ins, 1,806 mismatched, `LENGTH-DRIFT/-4`.** The old
+> summary "3,334/3,338, one fold OR-chain error left" reads as *4 instructions from done* and
+> **is wrong** — it is 4 SHORT, and the drift shifts every downstream position. Length must be
+> fixed before any register reasoning (the F510 precedent: dedicated `vw`/`vzw` temps restored
+> exact length; a NEGATIVE drift means we are MISSING instructions the target has).
+> **Briefed with today's assets:** `func_8017F510` (1,511) MATCHED = the single-light variant of
+> the SAME family at half the size, plus `func_8017CA80` (952) MATCHED in the SAME TU — matched
+> relatives bracketing the target; cookbook **§76** (allocno class = declaration scope +
+> variable reuse), §74 (its 5 pins are audited-safe but F510 cracked PIN-FREE — remove them),
+> §77, and the `-fno-schedule-insns{,2}` attribution primitive.
+ Behemoth #3 `func_8017F510` is **CRACKED and BANKED**
 > (97 → MATCH, 1,511 ins, pin-free; §76), and its sibling **`func_8017F5B4` banked mechanically**
 > off it (§40 remap + §77 preamble carry, ~0 agent tokens). R22 140/140. The `func_80174CB0`
 > sweep is complete and committed.
