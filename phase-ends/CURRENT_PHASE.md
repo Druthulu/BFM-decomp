@@ -3766,15 +3766,16 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 > both the SESSION-18 block and the earlier SESSION-19 block (which was written before the
 > ENGINE_SHB / class-B / dedup_extend-bug work and went stale). Fresh session safe here.**
 > **No background job is running.** Behemoth #3 `func_8017F510` is **CRACKED and BANKED**
-> (97 → MATCH, 1,511 ins, pin-free; R22 140/140; cookbook §76). The `func_80174CB0` sweep
-> is complete and committed.
+> (97 → MATCH, 1,511 ins, pin-free; §76), and its sibling **`func_8017F5B4` banked mechanically**
+> off it (§40 remap + §77 preamble carry, ~0 agent tokens). R22 140/140. The `func_80174CB0`
+> sweep is complete and committed.
 > **Tree clean** (only R23 `db.*.gbf` churn — never staged).
-> **STATE:** HEAD `commit:1007`, **17 commits this session**. **R22 clean-fleet 140/140, run 6×** — the
-> last after the behemoth bank.
+> **STATE:** HEAD `commit:1009`, **19 commits this session**. **R22 clean-fleet 140/140, run 7×** — the
+> last after the func_8017F5B4 remap bank.
 > **0 NON_MATCHING** (G4). dedup **1886 validated / 0 failed**, C1 coverage 239,604/239,604. **Drew pushes** (R6/R20).
-> **FLEET: 80.3% instr** — 10,557,470 / 13,141,652 · **distinct-code 3,815,023 (+1,511 — the
-> behemoth; the ONLY distinct-code movement all session)** · fn-count **89.18%**
-> (session opened 80.0 / 67.7 / 89.02).
+> **FLEET: 80.3% instr** — 10,558,981 / 13,141,652 · **distinct-code 3,816,534 (+3,022 this
+> session — ALL of it from the two behemoths; every propagation win contributed +0)** ·
+> fn-count **89.18%** (session opened 80.0 / 67.7 / 89.02).
 >
 > ## BANKED THIS SESSION
 > | fn | ins | reach | lever |
@@ -3815,7 +3816,15 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 > ## ⚠️ OPEN ACTIONS, ranked
 > 1. **[DONE] `func_80174CB0` ×135.** Residual = the **3 class-A overlays** (`func_80012ABC`, census
 >    73 `s32` vs 7 `s16`) — worth 3 overlays only; normalize the 7 `s16` decls if trivially cheap.
-> 2. **FRESH CRACKS — the only distinct-code lever.** Fuel: the **48 families / 0.62pp** with a
+> 2. **BEHEMOTHS — now the PROVEN distinct-code lever** (+3,022 ins today vs +0 from all
+>    propagation). **8 untouched:** `func_8017BF14` 4,763 · `func_8017E778` 3,338 ·
+>    `func_8017CD9C` 3,338 · `func_8017D2DC` 1,586 · `func_8017DC1C` 1,518 · `func_8017C954`
+>    1,194 · `func_8017C730` 1,061 · (+`func_80183814` 5,122, mapped only). **`func_8017D960`
+>    is NOT '4 off'** — that summary means 4 ins SHORT; measured it is 1,806 mismatched with a
+>    −4 LENGTH-DRIFT. **A fresh untouched behemoth at xHigh is the clean effort experiment**
+>    (F510 was a High-effort continuation, so today's result is confounded).
+>    Check every crack for h_norm/h_seq siblings — §40 remap makes the second one ~free.
+> 3. **FRESH CRACKS — the other distinct-code lever.** Fuel: the **48 families / 0.62pp** with a
 >    cached member (draftable now, no MCP) + the `ov_SC06_018` prefetch (**101 uncached substantial
 >    stubs, 17,723 ins**). Breadth-shaped ⇒ **prompt Drew for `/effort ultracode`** (R26/R27).
 > 3. **Permuter backlog sweep** (Task 6 remainder) — the close-1..4 drafts under the tightened §60b
