@@ -2798,3 +2798,35 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   strip_provided_typedefs` with the full provided set — note `cdecl.typedef_names` takes a **PATH**, not
   text) and re-run through the **driver's ladder**, not bare `harvest_verify`. Drafts staged at
   `.run/perm_s17i/`. Worth ≈ **+0.4pp** for the two.
+
+> **🛑 SESSION-17 FINAL CHECKPOINT (2026-07-24) — supersedes ALL earlier SESSION-17 blocks. Fresh
+> session safe here.**
+> Tree clean (only R23 `db.*.gbf` churn). **R22 clean-fleet 140/140** (verified 5× this session);
+> 0 NON_MATCHING (G4); dedup **1882**/0. **Drew pushes** (R6/R20).
+> **Fleet: 79.9% instr · 67.7% distinct (64,875) · 88.98% fn-count** (opened 79.6 / 67.7 / 88.86).
+>
+> **BANKED: 3 functions, all propagated ×138** — `func_80177940` (101, §66d permuter⇄reader loop) +
+> `func_8012B4B8` (84) + `func_80169228` (105) ≈ **+40,020 instructions**.
+> **TOOLS FIXED:** `recover_integration` (propagation refused unless fleet-tier + `--r22`, and outright
+> after `demacroize`; SUCCESS PATH now verified end-to-end) · `gate_stage` (the `fleet None%` regex,
+> dead for 50 commits) · `p16_permute` (the global `pkill` that made concurrent runs kill each other).
+> **KNOWLEDGE:** cookbook **§66–§66d-3**; SETUP row for `recover_integration.py` (R21).
+>
+> **▶ NEXT (ranked, all measured):**
+> 1. **Finish the integration cluster** — the cheapest known work. `func_80156670` + `func_80174CB0`:
+>    strip ALL shared-provided typedefs (`cdecl.strip_provided_typedefs`; `typedef_names` takes a PATH)
+>    then run the **driver's ladder** (not bare `harvest_verify` — the residual blocker is a callee
+>    conflict the ladder clears). ≈ **+0.4pp**. Drafts staged at `.run/perm_s17i/`.
+> 2. **`func_801463A0`** (101, +13,938 ins) — real-cc1 MATCH in its own TU but gate-rejected: the §65c
+>    divergence. A link-level diagnosis, and a NEW instance of a class we have only seen once.
+> 3. **Re-run `worklist.py` (bare) before choosing anything else** — the spine was 9 days stale today and
+>    ranked 3 already-banked fns in its top 7. `--assert-partition` does NOT rewrite the doc.
+> 4. **The giants** are all at their permuter floor (`func_8014D820` 25 · `func_80140958` 56 ·
+>    `func_80176734` 57 · `func_80176218` 110; seeds `.run/giants/s17_*.c`) — reader/frontier work,
+>    ≈ +1.3pp if they crack. `func_8014D820` is the justified Fable5 case (4 §17 levers byte-proven inert).
+> 5. **The Ghidra-C prefetch** — still the only thing that creates fresh WAVE fuel; MCP is currently UP
+>    serving `SLUS_007.26`, and only that program is open. Ask Drew for `/mcp` if a restart is needed.
+> **⚠️ STANDING HAZARDS:** `dedup_propagate --auto-from` would re-macroize the 14 de-macroized sites
+> (`--check-only` first; targeted `--addr` only) · `p16_permute.setup` WIPES `.run/permuter/<fn>/` —
+> copy a best waypoint out before re-running (§66d-2).
+> **DO NOT close P29 on ROI** — burn-down floor still undetermined.
