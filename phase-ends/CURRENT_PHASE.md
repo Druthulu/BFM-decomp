@@ -2875,3 +2875,29 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   correct inline `lwl/lwr` shape. **Residual: 100 vs 101 ins, 36 mismatched — register assignment
   (`$a3/$a1` vs the target's `$a1/$a0`) plus one folded instruction.** That is a NORMAL near-miss now,
   permuter-shaped, not a link failure. Fixed draft preserved: `.run/giants/s17_func_801463A0_symfix.c`.
+
+- **🔎 2026-07-24 (SESSION-17) — `func_801463A0` driven from "gate rejects, cause unknown" to a
+  MASKED-MATCH with ONE named blocker left. Not banked; the remaining step is a documented §H antidote.**
+  Three byte-measured iterations, each falsifying the previous hypothesis:
+  | variant | decls | result |
+  |---|---|---|
+  | original | `_s` aliases (undefined symbols) | rtu MATCH, gate reject — **the symbol set was missing `D_80126BE8`** |
+  | struct-typed `&sym` | `extern M8 D_80126BE0;` | 100 vs 101 ins, 36 mismatched |
+  | array-decay + cast-at-use | `extern u8 D_80126BE0[];` | 100 vs 101, 36 — **identical**, so decay was not the lever |
+  | **direct-symbol scalar** | `extern u16 D_80126BE0;` | **MATCH (101 ins)** ✅ |
+  **WHY the length differed (byte-read at idx 76–81):** the target **re-materializes `lui $at,%hi(sym)`
+  at every scalar store** (2 ins each); the array/struct forms let gcc CSE the address into `$a3` once
+  and store in 1 — so my drafts were exactly one instruction short. The direct-symbol form restores the
+  per-store materialization.
+  **THE REMAINING BLOCKER, named:** in the REAL TU `D_80126BE0`'s canonical decl is
+  `extern u8 D_80126BE0[];` — and it lives **inside a `DEFINE_func_*` macro body** in
+  `engine_core.h:19813`. So the `u16` form that MATCHES standalone gives `conflicting types for
+  D_80126BE0` in the TU (real cc1, via `rtu_match --stderr-out`).
+  **⇒ Two exits, and the cheap one is a trap:** `demacroize` would clear it but banks **×1** (+101 ins,
+  ~0.001pp) and forfeits the ×138 — **not worth it** for this function. The right exit is the
+  **§H CSE address-fold antidote** (`gcc-2.7.2-map/cse_expr.md` §H): a **balanced if/else diamond**
+  whose label is barrier-preceded makes cse start a FRESH table, killing the fold with **zero asm**, so
+  the canonical `u8[]` decl can stay and the bank propagates **×138 (+13,938 ins)**. That is the next
+  move on it — deliberate, function-specific work, not a guess.
+  Preserved: `.run/giants/s17_func_801463A0_match101.c` (the standalone-MATCH form) +
+  `s17_func_801463A0_symfix.c` (the symbol-corrected form).
