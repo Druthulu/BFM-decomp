@@ -8728,7 +8728,7 @@ DEFINE_func_80174C80()  /* dedup: shared engine-core @0x80174c80 (src/shared) */
 //     `((s16 (*)(s32,s32,s32))f)(...)` func-ptr cast idiom already used by func_801749C8,
 //     so the canonical s32 prototypes are kept and NEVER redeclared.
 //   * D_80126940/42/44 are already `extern s16` at TU:160-162 — drop the three externs below.
-//   * Mtx_80174CB0 / Svec_80174CB0 are locally-unique names (== MATRIX / SVECTOR layouts) so
+//   * MATRIX / SVECTOR are locally-unique names (== MATRIX / SVECTOR layouts) so
 //     they cannot collide with engine_types.h; they may be kept as-is or swapped for
 //     MATRIX / SVECTOR when banking.
 //   * THE OWN-SIGNATURE BLOCKER (the layer under the func_80012ABC one): the TU expands
@@ -8745,8 +8745,6 @@ DEFINE_func_80174C80()  /* dedup: shared engine-core @0x80174c80 (src/shared) */
 #include "common.h"
 
 /* --- standalone-only scaffolding (bank-safe: names are unique to this function) --- */
-typedef struct { short m[3][3]; long t[3]; } Mtx_80174CB0;   /* == MATRIX,  0x20 bytes */
-typedef struct { short vx, vy, vz, pad; } Svec_80174CB0;     /* == SVECTOR, 0x08 bytes */
 
 extern s16 D_80126940;
 extern s16 D_80126942;
@@ -8764,9 +8762,9 @@ extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
 s32 func_80174CB0(s32 param_1, s32 param_2)
 {
     s16 *pv = &D_80126940;
-    Mtx_80174CB0 mtx;
-    Svec_80174CB0 vec;
-    Svec_80174CB0 out;
+    MATRIX mtx;
+    SVECTOR vec;
+    SVECTOR out;
 
     *(s32 *)(param_1 + 8) = (s16)((s16 (*)(s32, s32, s32))func_80012C6C)((s32)*(s16 *)(param_1 + 8), (s32)*(s16 *)(param_1 + 0xc), 4);
     *(s32 *)(param_1 + 0x10) = (s16)((s16 (*)(s32, s32, s32))func_80012C6C)((s32)*(s16 *)(param_1 + 0x10), (s32)*(s16 *)(param_1 + 0x14), 4);

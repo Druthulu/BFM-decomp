@@ -3386,3 +3386,40 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   **Test: revert the 4 decl lines, re-gate. If it still banks, `recover_integration` should probe
   whether a stage is NEEDED before applying it** — an unrequested tier escalation is exactly the class
   R32–R35 exist to catch.
+
+- **🚨 2026-07-24 (SESSION-18) — THE PROPAGATION "TYPE CAP" IS A MISLABEL. Measured 7/7 CARRY-FIXABLE,
+  0/7 actual type problems. This is why a fix Phase 21 already specified was never built.**
+  `dedup_propagate.compiles_standalone()` returned a bare `False` and the caller filed EVERY failure
+  under `"overlay-local TYPE (the real cap)"`. Reproducing the compile by hand shows the real cc1
+  errors are **undeclared file-scope externs** — the body references `extern` decls that live OUTSIDE
+  the extracted def block. For `func_80174CB0`: 22 carried externs make it compile **clean** (verified:
+  cc1 rc=0). It is not a type problem at all; it is the exact gap Phase-27's
+  `family_remap._carry_macros` closed for file-scope `#define`s, one level over — **extern decls**.
+  **FIXED (safe, read-only classification):** `compiles_standalone` now returns `(ok, stderr)` and the
+  skip is classified by ACTUAL cause — `missing file-scope extern (CARRY-FIXABLE): <names>` vs
+  `overlay-local TYPE (the real cap)`. R32/R33/R34: a skip that discards its own diagnosis is invisible
+  work; one that ASSERTS the wrong cause is worse — it redirects every later session.
+  **FLEET SIZING (`--auto-from ov_SC01_077 --check-only`, touches nothing): 7 skipped, ALL 7
+  CARRY-FIXABLE, ZERO genuine type-cap.**
+  | addr | missing externs |
+  |---|---|
+  | 0x8016A73C | ApplyMatrixSV, D_800AE620, RotMatrixYXZ, func_80048EAC |
+  | 0x80155800 | D_8011F730, func_8001382C, func_80146DB8, func_80146E98 |
+  | 0x80167540 | func_80146A6C, func_80146C3C, func_801670E4, rand |
+  | 0x801535F4 | func_8014CC28, func_8014ED28, func_8014FA04 |
+  | 0x8016F0AC | D_80126B58, func_80165770 |
+  | 0x80142B2C | func_80142C84, func_80143994 |
+  | 0x8014FE60 | D_801152A8 |
+  **⚠️ THE HISTORY MATTERS:** `0x80142B2C`, `0x801535F4`, `0x80155800` are on the **Phase-21 backlog's
+  "7 callee/data-plumbing capped fns"** list, whose note already read *"a macro-extern-injection (or
+  canonical-callee-sig embed) frees them ×134 (~+0.3%)"*. **Phase 21 diagnosed it correctly and it was
+  never built** — and in the meantime the mislabel told every subsequent session these were the type
+  wall. A wrong diagnostic label cost this project ~4 phases of a known, mechanical win.
+  **VALUE LOCKED BEHIND THE CARRY FIX:** these 7 (Phase-21 estimated ~+0.3pp) **plus `func_80174CB0`
+  itself** (123 ins × 138 = 16,974 ins ≈ **+0.13pp**), so ≈ **+0.4pp mechanical, ~0 agent tokens**.
+  **NEXT (spec, deliberately NOT built in this long session — it writes 138 overlay files, the §63
+  disaster class):** add `_carry_externs` to `dedup_propagate` mirroring `family_remap._carry_macros` —
+  collect the file-scope `extern` lines matching the identifiers the body references, emit them INSIDE
+  the lifted `DEFINE_func_*` body (existing macros already carry externs, e.g. `DEFINE_func_80174C60`,
+  so the shape is established), dedupe against decls the target TU already has, then `--check-only` →
+  one gate → **R22 mandatory**. `func_80174CB0` is banked ×1 today and is the ready-made test case.

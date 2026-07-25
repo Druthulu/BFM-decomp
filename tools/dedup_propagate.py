@@ -345,11 +345,11 @@ def compiles_standalone(body_lines):
                           "-fno-builtin", "-Dmips", "-D__GNUC__=2", "-D__OPTIMIZE__", "-Dpsx",
                           "-D_PSYQ", "-D_MIPSEL", "-D_LANGUAGE_C", str(f)], capture_output=True, text=True)
     if cpp.returncode != 0:
-        return False
+        return False, (cpp.stderr or "cpp failed")
     cc1 = subprocess.run([str(CC1), "-quiet", "-O2", "-G0", "-mips1", "-mcpu=3000", "-mgas",
                           "-msoft-float", "-fgnu-linker", "-o", "/dev/null"],
                          input=cpp.stdout, capture_output=True, text=True)
-    return cc1.returncode == 0
+    return cc1.returncode == 0, (cc1.stderr or "")
 
 
 # ---------------------------------------------------------------- main
@@ -462,8 +462,20 @@ def main():
         # then rejects any body using an overlay-local type NOT yet promoted to the header.
         if re.search(r'(\b(struct|union)\s+\w+\s*\{)|(\btypedef\b)', "\n".join(body)):
             n_local += 1; skipped["inline type def in body"].append(addr); continue
-        if not compiles_standalone(body):     # uses overlay-local types -> can't lift mechanically
-            n_local += 1; skipped["overlay-local TYPE (the real cap)"].append(addr); continue
+        ok, why = compiles_standalone(body)
+        if not ok:
+            # SESSION-18: this bucket asserted "overlay-local TYPE" for EVERY failure, which is a
+            # mislabel — the dominant real cause is that the body references file-scope `extern`
+            # decls that live OUTSIDE the extracted block (func_80174CB0: 22 of them), exactly the
+            # gap Phase-27's family_remap._carry_macros closed for file-scope #defines. Name the
+            # causes apart so the queue can be sized honestly (R32/R33).
+            undecl = sorted(set(re.findall(r"`([A-Za-z_]\w*)' undeclared", why)))
+            if undecl:
+                n_local += 1
+                skipped["missing file-scope extern (CARRY-FIXABLE): " + ",".join(undecl[:4])].append(addr)
+            else:
+                n_local += 1; skipped["overlay-local TYPE (the real cap)"].append(addr)
+            continue
         plan.append(dict(addr=addr, src=src, hash=h, body=body, members=members))
 
     if n_local or n_nondef or n_lowreach:
