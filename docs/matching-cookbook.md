@@ -5362,7 +5362,7 @@ Drop it: same bytes, simpler C, one less thing to explain to the next session.
 
 **This is a PATTERN, not a one-off — it fired twice on the same function.** The `t` pin (`$3`) went
 redundant after the launder, and later the `u` pin (`$2`) went redundant too (identical 9 either way),
-leaving the banked seed **pin-free**. A register pin is a *crutch for a mis-scheduled value*; once the
+leaving only the `a2` `$7` pin, which stays genuinely load-bearing (dropping it costs 9 → 29). A register pin is a *crutch for a mis-scheduled value*; once the
 value is scheduled correctly the pin is dead weight — and a stale pin actively costs you, because it
 reserves a hard register the allocator then cannot use where the target does. **After any structural
 fix, re-test every pin you inherited and drop the ones that are inert.** (Corollary, byte-measured:
