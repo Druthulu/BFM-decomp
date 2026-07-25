@@ -10,7 +10,7 @@ FLEET distinct-code(uniq): 3813214 / 5634875 = 67.7%   (64875/87459 unique fns; 
 MAIN game-code weighted  :     436 / 60201 = 0.7%   (INCLUDED in the fleet numbers above since 2026-07-22 — roadmap §1 metrics contract; LINKED-excluding Ghidra sig dated 2026-06-14; caveat is R34: no independent second oracle for a PS-X EXE, NOT drift)
   (fleet EXCLUDING main, for continuity with pre-2026-07-22 readings: 10500579 / 13081451 = 80.3%)
 
-FLEET REAL substantive   : 312870   (of which dedup-shared 238824 via 1882 groups / 238898 instances)
+FLEET REAL substantive   : 312870   (of which dedup-shared 238821 via 1882 groups / 238898 instances)
 FLEET LINKED PsyQ objs   :    959
 FLEET NON_MATCHING       :      7   (0 in any default build — G4)
 FLEET INCLUDE_ASM stubs  :  38985
@@ -152,7 +152,7 @@ FLEET matchable          : 353717
 | ov_SC07_000 | 2266 | 1737 | 0 | 2268 | 2521 | 90.0% |
 | ov_SC07_001 | 2249 | 1733 | 0 | 2251 | 2454 | 91.7% |
 | ov_SC07_002 | 2277 | 1733 | 0 | 2281 | 2579 | 88.4% |
-| ov_SC07_006 | 2046 | 1551 | 0 | 2126 | 2455 | 86.6% |
+| ov_SC07_006 | 2046 | 1548 | 0 | 2126 | 2455 | 86.6% |
 | ov_SC07_007 | 2037 | 1581 | 0 | 2121 | 2613 | 81.2% |
 | ov_SC07_008 | 2234 | 1733 | 0 | 2234 | 2386 | 93.6% |
 | ov_SC07_009 | 2243 | 1733 | 0 | 2245 | 2430 | 92.4% |

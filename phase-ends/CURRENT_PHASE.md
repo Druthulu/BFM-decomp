@@ -3332,3 +3332,33 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   `func_80140958` remains at **54** (match_one) / 56 (permuter object scorer) with its SESSION-17
   diagnosis intact (LICM hoists inner-loop constants to the outer preheader, stealing the two callee
   regs the target gives const-3 `$fp` and `&D_801879BE` `$s6`) — untouched by reading this session.
+
+- **🌊 2026-07-24 (SESSION-18) — WAVE BATCH 1 (Drew-authorised: 2 drafters, no ultracode, Opus 5 @ High).
+  The premise was WRONG and checking it first saved the tokens.** `build_wave_args --rank live
+  --min-live 100` on ov_SC07_006 selected `func_80174CB0` + `func_8014D4C0` — and a glob of every draft
+  dir (§66c) showed **0 of the 36 fresh non-jtbl targets are never-drafted**; `func_80174CB0` alone has
+  **100 existing drafts**, and `func_8014D4C0` already had a byte-correct **MATCH** sitting unbanked in
+  `.run/drafts-sc07006-fresh-cn-cast/`. This confirms SESSION-17's "0 cached + never-drafted targets at
+  live≥100" at wave-selection time: **on this pool, drafting is not the bottleneck — integration is.**
+  **⇒ THE REFRAME THAT MADE THE WAVE WORTH RUNNING:** a draft's blocker class is determined by *how it
+  declares its callees*, so the agents were pointed at the **named blocker** with the canonical callee
+  signature supplied verbatim, i.e. "produce a BANKABLE variant of known-correct C" rather than
+  "re-derive the C". **Result on `func_8014D4C0`: MATCH (84 ins) on the first iteration, 55 s, 32k
+  tokens** — vs the ~110k/fn measured for cold drafting. The change was two lines (canonical
+  `func_80135A4C` decl + argument casts at the call site, both compile-time-only).
+  **THEN THE BLOCKER MOVED ONE LEVEL UP (§65 layering, as designed):** with the callee fixed, cc1 now
+  reports `conflicting types for func_8014D4C0` itself — `self_decl_tu`. The TU declares
+  `extern void func_8014D4C0(s32 a0, void *a1, void *a2);` (inside a `DEFINE_` body,
+  engine_core.h:9530) while the byte-true def is `s32 (s32, u16 *, u16 *)`.
+  **Route (a) REFUTED by bytes:** re-declaring the def `void` (returns kept) → **81 ins vs 84**, the
+  `li $v0` returns are dropped. So the return value is real codegen, not paperwork.
+  **⇒ The correct route is the §30#2 macro-widen** (`extern void`→`s32` in the macro), and it is
+  **byte-neutral here because the callers discard the return** (`func_8014D4C0(a0, buf1, buf2);`,
+  verified at engine_core.h:9543 + ov_SC07_006:4127). That is a **T2 fleet-shared edit ⇒ R22
+  MANDATORY** (§61/§63). Value 84×138 = 11,592 ins ≈ **0.09pp**.
+  **BATCH THE WIDEN:** `func_8014D820` is blocked on the *identical* class (`DEFINE_func_8014D790`
+  declaring it `void (s32, void*, void*)`). Do the widens together and pay ONE R22 cycle, not two.
+  **⚠️ PROCESS SLIP (mine):** I ran `recover_integration` against `.run/drafts-s18b1/` while a second
+  agent was still WRITING into that directory — it picked up the half-finished sibling and reported
+  0/2. Nothing was corrupted (tree stayed clean, the run banks nothing on failure), but **never gate a
+  draft dir that a live agent owns** — copy the finished file out first (`.run/drafts-s18b1-solo/`).
