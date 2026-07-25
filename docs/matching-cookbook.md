@@ -5449,6 +5449,12 @@ its own edits made a *local* position worse while the total improved. The cse pa
 reverting just that operand order, keeping every other gain, took 10 → **9 for one compile**. Same for
 `x >= k` ↔ `k <= x`. These are free points and they are invisible to the scorer's total.
 
-**Status of the round-robin question:** whether a *repeated* profile yields again on a seed it already
-converged on is UNMEASURED as of SESSION-18 close (a REGALLOC round-2 from close=9 was in flight —
-`.run/giants/s18_d820_ils_rr2.log`). Do not assume it does; read the log.
+**MEASURED: a repeated profile does NOT yield again.** REGALLOC round-2, warm-started from the
+close=9 seed (a seed it had never seen — SCHEDULE, cse and a reader fix had rewritten it since), came
+back **flat for all 10 cycles, 0 gain**. So the lever is *profile diversity*, not *seed novelty*: each
+of the three profiles is worth about one drop, and re-spending one buys nothing. Budget accordingly —
+three passes per giant, then stop.
+
+That also makes rule 2 above operational: **a floor is measured when all three profiles come back flat
+from the SAME seed.** For `func_8014D820` at close=9, REGALLOC is flat; SCHEDULE and cse from that seed
+are the remaining evidence needed before calling 9 a floor.
