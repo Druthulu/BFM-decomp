@@ -3299,3 +3299,12 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   length-shifted diff's *count* is meaningless.)
   Draft preserved: `.run/giants/s18_func_80176218_indexedglobal.c`. **Next reader session starts here:
   find the 2 missing instructions**, not the hoist — that question is closed.
+
+- **🔧 2026-07-24 (SESSION-18) — operational note for whoever launches the next ILS batch.** I watched
+  six ILS runs with `Monitor` + `tail -f … | grep`, which is the documented anti-pattern: `tail -f`
+  never exits, so each watcher stayed armed until its 1-hour timeout **long after its result had
+  arrived** — Drew saw 7 live monitors when only 1 job was actually running. `permuter_ils` also buffers
+  stdout, so nothing streams anyway; the whole run lands in one batch at exit. **Use a single
+  self-terminating waiter instead**, e.g. Bash `run_in_background` with
+  `until ! pgrep -f "permuter_ils.py <fn>" >/dev/null; do sleep 20; done; tail -3 <log>` — one
+  notification, exits on its own. Reserve `Monitor` for genuinely per-occurrence streams.
