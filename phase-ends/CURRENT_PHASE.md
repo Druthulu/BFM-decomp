@@ -2852,3 +2852,26 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   does not exist yet" (a data-extern reconcile that `reconcile_tu` does not reach, and a callee
   reconcile `cast_call_sites` does not reach). **Estimated value if solved: ≈ +0.4pp.** Fully-stripped
   drafts preserved at `.run/perm_s17j/` so the next attempt starts three layers in, not from scratch.
+
+- **🔎 2026-07-24 (SESSION-17) — `func_801463A0`: the §65c "rtu MATCH but gate rejects" case is SOLVED
+  at the root, and the mechanism is sharper than the doctrine said. Not yet banked; now an ordinary
+  near-miss.**
+  **The hunt (all byte-evidence, no guessing):** rtu_match reproduced **MATCH (101 ins)** in the real TU
+  while the whole-binary gate rejected with the baseline intact (`d19c9580`), so the divergence had to
+  live where a masked diff cannot look. Compared the two symbol sets: **every one of the 9 `jal` targets
+  agreed**, and of 15 data symbols the target references, the draft referenced **14** — missing exactly
+  **`D_80126BE8`**.
+  **THE CAUSE:** the draft declared `extern M8_801463A0 D_80126BE0_s;` / `D_80126BE8_s;` — **`_s`-suffixed
+  ALIASES that no symbol table defines.** The drafter invented them because `D_80126BE0` was already
+  declared at a different type (`u8 D_80126BE0[]`) in the same draft, and C cannot have both.
+  **⇒ THE MECHANISM, corrected (§65c refinement):** the doctrine says rtu over-claims because it is
+  *relocation-masked*. The deeper reason is that **`rtu_match` COMPILES but never LINKS** — so an extern
+  that no symbol table can resolve is invisible to it *by construction*, not merely masked. Any draft
+  inventing a symbol name will read MATCH in rtu and can never bank. **A cheap, general guard falls out:
+  diff the draft's referenced symbol set against the target `.s`'s `%hi/%lo/jal` set before gating** —
+  it is one `comm` over two greps, and it found this in seconds.
+  **FIXED:** aliases repointed to the real `D_80126BE0`/`D_80126BE8`, duplicate `u8[]` decl dropped, the
+  u16 store re-expressed as `(*(u16 *)&D_80126BE0)`. Symbol set now complete; the struct copy emits the
+  correct inline `lwl/lwr` shape. **Residual: 100 vs 101 ins, 36 mismatched — register assignment
+  (`$a3/$a1` vs the target's `$a1/$a0`) plus one folded instruction.** That is a NORMAL near-miss now,
+  permuter-shaped, not a link failure. Fixed draft preserved: `.run/giants/s17_func_801463A0_symfix.c`.
