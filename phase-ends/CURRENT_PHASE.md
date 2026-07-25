@@ -3129,3 +3129,70 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   idiom — **305 ins**; matching the target's store order `desc.x → pos.z → desc.z` — inert). Treat this
   block as search-only; do not spend more reader time on statement order here.
   `symcheck` re-run on every waypoint: **12/12 symbols agree** throughout.
+
+> **🛑 SESSION-18 CHECKPOINT (2026-07-24, Opus 5 @ High — a deliberate calibration vs the Opus-4.8/Max
+> giant sessions). Fresh session safe here. Two searches were IN FLIGHT at write time — read their logs
+> before trusting the numbers below.**
+> Tree clean apart from R23 `db.*.gbf` churn (never staged). **No bank this session ⇒ fleet unchanged:
+> 79.9% instr · 67.7% distinct · 88.98% fn-count; 140/140; 0 NON_MATCHING; dedup 1882/0.** **Drew pushes**
+> (R6/R20). Nothing was gated, so R22 was not re-run — the tree is exactly HEAD plus docs/seeds.
+>
+> ## `func_8014D820`: 25 → 9 mismatched (304/304 ins, prologue byte-exact). NOT banked (G3).
+> | step | score | how |
+> |---|---|---|
+> | s17 seed | 25 | — |
+> | reading (§67 launder + alias collapse) | **16** | ~15 cheap compile-and-measure cycles |
+> | ILS `--klass REGALLOC` | 14 | temp hoist, cleared idx 271/272 |
+> | ILS `--klass SCHEDULE` | 12 | temp hoist, cleared idx 21/22 |
+> | ILS `--klass cse` | 10 | temp hoists + operand swaps |
+> | **reader fix of a permuter regression** | **9** | reverted `ent == p` → `p == ent` (idx 110) |
+> Seeds tracked: `.run/giants/s18_func_8014D820_close{16,14,12,10,9}.c`. The close=9 seed keeps only the
+> `a2` `$7` pin (load-bearing: dropping it → 29); the inherited `t` and `u` pins were both proven
+> redundant and removed.
+>
+> ## THE TWO METHOD FINDINGS (both reusable, both cookbook'd)
+> 1. **§67 — the arg-copy PLACEMENT lever.** An unpinned launder
+>    `__asm__ __volatile__("" : "=r"(pv) : "0"(p));` at the statement where the target's copy lands.
+>    Zero instructions. It dissolved what looked like three separate residuals (wrong temp register,
+>    mirrored prologue saves, +1 ins with an unfilled load-delay `nop`) — they were ONE defect.
+>    **Signature to look for: a draft one instruction OVER with a `nop` the target fills.**
+> 2. **Weight-profile round-robin.** Each `--klass` profile drops ~2 then goes flat; a *different*
+>    profile then drops ~2 more from the new seed. **"ILS converged" means converged FOR THAT PROFILE,
+>    not a floor** — this directly amends §66d-3's read-the-series rule, which SESSION-17 used to
+>    conclude all four giants were "at their measured permuter floor". They were not.
+>
+> ## ⛔ DEAD END — do not spend more reader time here
+> The residual 9 is entirely **idx 84–98**, the `pos`/`desc` block schedule (mine issues `z0 = ent->z`
+> at 87 and stores `desc.x` at 90 / `pos.y` at 98; target issues `z0` at 91, stores `pos.y` at 89 /
+> `desc.x` at 98). **NINE source-shape attempts, two bases, all inert or worse:** target-order
+> transcription (305) · sink `z0` (305, ×2) · swap `y0`/`z0` load order (inert) · `desc.x` stored last
+> (inert) · target store order `desc.x→pos.z→desc.z` (inert) · split the `desc.y` chain into a temp
+> (inert ×2) · uniform per-axis `pos.N = (vN = ent->N)` idiom (305) · **memory-clobber barrier after the
+> `desc.y` store (19, over-constrains)**. Lesson: *the target's instruction order is NOT reachable by
+> making source order match asm order.* Search-only from here.
+>
+> ## BANKING IS PRE-CLEARED (done before the match, not after)
+> `symcheck` **12/12 symbols agree** on every waypoint ⇒ the §65c link class is ruled out.
+> `blocker_probe`: 32 `local_type` (T0, `harvest_verify` strips them) · 3 `data_decl` (T0,
+> `reconcile_decls`) · **1 `self_decl_hdr`** — `DEFINE_func_8014D790`'s body declares `func_8014D820`
+> as `void (s32, void*, void*)` vs the byte-true `s32 (s32, u16*, u16*)` ⇒ the §30#2 **macro-widen**,
+> which edits `src/shared/engine_core.h` ⇒ **FLEET-SHARED (T2), R22 MANDATORY** (§61/§63).
+>
+> ## ▶ NEXT SESSION STARTS HERE
+> 1. **Read the two in-flight logs first** — `.run/giants/s18_d820_ils_rr2.log` (REGALLOC round 2 from
+>    close=9; tests the round-robin hypothesis) and `.run/giants/s18_d140958_ils_cse.log` (giant #2,
+>    `func_80140958`, CSE profile — its prior profile was regalloc, series 116→59→56). Waypoints land in
+>    `.run/permuter/<fn>/output-<score>-*/source.c`. **If round 2 yields, keep round-robining profiles —
+>    that is the cheapest lever on the board.**
+> 2. **After every permuter pass, diff for operand-order regressions** (`a == b` vs `b == a`, `x >= k`
+>    vs `k <= x`). One such revert was worth a full point this session, for one compile.
+> 3. **The other giants:** `func_80176734` 371/371 **56** (frame-pressure lock, §27) · `func_80176218`
+>    **328 vs 327** — its +1 is NOT §67; it burns an extra callee-saved (`sw $s6`) to hoist
+>    `&D_8018A23C` (declared `extern u8 *D_8018A23C[]`) which the target rematerializes ⇒ the §17
+>    array-decay / direct-symbol-scalar lever, per the SESSION-17 `func_801463A0` pair.
+> **⚠️ HAZARDS (unchanged):** `p16_permute.setup` WIPES `.run/permuter/<fn>/` — waypoints for this
+> session are preserved at `.run/permuter_bak_func_8014D820_s18_close{12,10}` and
+> `..._s17_close25` · `dedup_propagate --auto-from` would re-macroize the 14 de-macroized sites
+> (`--check-only` first, targeted `--addr` only) · concurrent ILS runs on *different* functions are
+> safe (the `pkill` at `p16_permute.py:240` is scoped to the per-function dir — verified, not assumed).
+> **DO NOT close P29 on ROI** — burn-down floor still undetermined.
