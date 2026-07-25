@@ -2743,3 +2743,33 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 > (`--check-only` first; targeted `--addr` only) · `p16_permute.setup` WIPES `.run/permuter/<fn>/`, so
 > copy a best waypoint out before re-running (§66d-2).
 > **DO NOT close P29 on ROI** — burn-down floor still undetermined.
+
+- **✅ 2026-07-24 (SESSION-17) — `func_80176218` (the last untried giant): 271 → 110, converged. THE
+  GIANT QUEUE IS NOW COMPLETE — every one is at its measured permuter floor.**
+  ILS 12 × 300 s @ -j12, regalloc profile: **110 in cycle 1, then unchanged for eleven** — §66d-3's
+  "one easy waypoint then done" shape. A 59% cut on the hardest of the set, for CPU only.
+  Seed tracked: `.run/giants/s17_func_80176218_close110.c`.
+  **Final giant ledger (all seeds at `.run/giants/s17_*.c`, all far better than the ~2.6M-token Task-3
+  originals):** `func_80177940` **BANKED ×138** · `func_8014D820` 33→**25** · `func_80140958` 116→**56**
+  · `func_80176734` 76→**57** · `func_80176218` 271→**110**. Remaining value ≈ **+1.3pp instr** if the
+  four crack. All four are now reader/frontier cases; the search has given what it has.
+
+- **🔎 2026-07-24 (SESSION-17) — THE DECISION SPINE WAS 9 DAYS STALE, and refreshing it changes what to
+  do next (R35).** `docs/worklist.md` + `.run/fuel_manifest.json` were dated 2026-07-15 and claimed
+  **223 live stubs / 870,668 ins**, ranking three ALREADY-BANKED functions in the top 7
+  (`func_801325B8`, `func_8014ADE0`, `func_8012CC88` — each verified 0-live in `src/`). Regenerated:
+  **160 live stubs / 583,077 ins.**
+  **⚠️ The sharp edge that hid it:** `worklist.py --assert-partition` **exits at the assertion and never
+  rewrites the doc** — so "regenerating" with that flag leaves the stale file in place and still exits 0.
+  (Its own assertion printed "160 live stubs, 160 rows → PARTITION OK" while the doc it left behind said
+  223. The two numbers were on screen at once.) Run it bare to write.
+  **WHAT THE REFRESHED SPINE SAYS — the next lever is INTEGRATION, not the giants.** The top is a cluster
+  of byte-correct drafts stranded on plumbing: `func_80174CB0` (123, close=0, `Buf` typedef collision) ·
+  `func_8012CC88` (105, close=0 — banked in ov_SC07_006, still a stub in ov_SC01_077) · `func_80169228`
+  (105, close=0) · `func_801463A0` (101, close=0) · `func_8012B4B8` (84, close=0) · `func_80156670` (83,
+  close=0) · `func_80158638` (87, close=1) ≈ **83,000 ins ≈ +0.6pp**, versus the two giants above them at
+  close=110 and close=91 (documented §52 walls).
+  **The plan (no agents, no MCP — the drafts exist):** run `recover_integration.py` **ladder-only first**
+  (no `demacroize`) so anything that banks is a NORMAL bank and propagates **×138**; only then add
+  `--stages demacroize` for the remainder, whose banks are **×1 by construction** (the guard added this
+  session refuses to propagate them).
