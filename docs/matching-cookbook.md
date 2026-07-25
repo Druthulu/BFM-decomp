@@ -5701,3 +5701,60 @@ changed — one crack templates ×3.**
 switch**, from grepping `sltiu` jump-table bounds. Wrong — the switch is compiled as a **comparison
 tree** (23 `slti`). A jump-table grep is not a switch detector. The agent caught it; a less careful
 one would have inherited my false premise.
+
+## §72 — A `register __asm__` pin is a PREFERENCE, not a reservation (Phase 29 SESSION-18, `func_8017F510`)
+
+Behemoth #3, and the best behemoth result so far: **1,511 of 1,511 instructions** (exact length),
+frame `0x258` exact, **byte-exact prologue AND epilogue**, identical sp-slot set, **99.5%
+register-masked structural / 93.3% byte-aligned**, SYMS-OK, 97 divergent. Not a match (G3) — but ~93
+of the 97 trace to a single register decision (below). §71's callee-set lever delivered: diffing the
+two references gave ~90% of the C and a first compile of 1528/1511.
+
+### ⚠️ THE CORRECTNESS FINDING — this qualifies §17
+
+Pinning a local with `register s32 amb __asm__("$30")` produced a seductive **1,511 ins / 98.9%** —
+and was a **MISCOMPILE**. gcc-2.7.2 *also* allocated `$s8` to an unrelated live value (`hi_z`): one
+hard register holding two live values at once.
+
+> **A local `register … __asm__("$N")` declaration is a hint to the allocator, NOT a reservation.**
+> gcc-2.7.2 will still hand that hard register to another pseudo. **Never ship a pin without
+> inspecting the pinned register's defs in the output.**
+
+§17 (pins + a scheduling barrier) remains valid — it is how `func_8012B8E4` and others were cracked —
+but it now carries this obligation. **Anything already BANKED is safe by construction** (the
+whole-binary byte-gate would have rejected a miscompile); the exposure is **un-gated drafts**.
+**ACTION: `.run/giants/s18_func_8017D960_b2.c` (behemoth #2, 3,334/3,338) carries FIVE pins
+(`$25 $17 $19 $20 $21`) and must be re-checked before anyone builds on it.**
+
+### The honest fix was source-level and cheap
+
+The +17-instruction drift was **live-range stretching**: reusing `w`/`wz` (which already carry
+`prim->w1/w2` and `part->zz`) for the vertex-word reads stretched two live ranges enough to spill
+`amb`, costing 7 `lw`+`nop` pairs. **Dedicated temps for the vertex loads** (`vw`/`vzw`) →
+1528→1511 ins, 88%→99.6% structural, **no pin**.
+> Generalisable: when a draft is long by a handful of `lw`+`nop` pairs, look for a REUSED local whose
+> live range now spans a region it did not before. A fresh temp is cheaper than a pin and cannot
+> miscompile.
+
+### Giv record order (the §70 family)
+
+**`part->prim` must be read BEFORE `part->nprim`.** `loop.c:combine_givs` walks `bl->giv` in reverse
+record order, so the *last-recorded* giv becomes the combined base: prim-then-nprim yields base
+`part+0xC` (the target); the other order yields `part+0x10`.
+
+### What is left, and what is byte-recorded as SPENT
+
+Residual 97 = 2 ins (box-build emission/allocation transposition — source order sets both, via
+`sched.c` UID ties and `global.c` allocno ties; needs a third form) + 3×2 ins (unlit-tail OT-tag
+scheduling) + **~93 ins of pure register naming off ONE seed**: `c3` (4th quad vertex colour) is
+`$a2` in the target and `$a3` in the draft; `tp` is one pseudo across all four emit tails and takes
+the other of the pair, renaming the whole block. **Fix `c3` → `$a2` and ~93 should fall together.**
+
+**Do not re-buy:** decl-order permutations (gcc numbers pseudos by first *use*, not declaration) ·
+block-scoping the emit temps (1509 ins) · splitting or inlining `tp` · reusing `f0` as `c3` · vertex
+x/z/y orderings · **decomp-permuter, 4,724 candidates at `-j 10`, base 97, ZERO improvement** — a §3
+hard tail outside the C-randomisation search space. The remaining move is to reason the `c3`
+allocation out of `global.c`, not to spend more compute.
+
+**Tooling:** `.run/giants/b3_align.py` (shape-agnostic structural+byte aligner) and `b3_pos.py`
+(positional diff for equal-length drafts) supersede the `b2_*` set.
