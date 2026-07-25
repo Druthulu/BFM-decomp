@@ -3423,3 +3423,42 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   the lifted `DEFINE_func_*` body (existing macros already carry externs, e.g. `DEFINE_func_80174C60`,
   so the shape is established), dedupe against decls the target TU already has, then `--check-only` →
   one gate → **R22 mandatory**. `func_80174CB0` is banked ×1 today and is the ready-made test case.
+
+- **✅ 2026-07-25 (SESSION-18) — WAVE BATCH 2 / `func_8014F3E8`: MATCH (32 ins), real-TU verified, and
+  the agent CORRECTED MY PREMISE — the named callee was not the wall.** I briefed it that
+  `conflicting types for func_8014F468` was the blocker. It disposed of that entirely with the
+  canonical `extern void func_8014F468(void)` + a **call-site return-cast**
+  (`((s32 (*)(void))func_8014F468)()`, the §17a-1 idiom) and found the real wall one layer down: **this
+  function's own return type**. Byte-true def-sig is `s32 func_8014F3E8(s32)`.
+  **`void` is PROVABLY impossible here — 4 variants tested, all byte-recorded:**
+  | variant | result |
+  |---|---|
+  | plain `void`, no pin | 32 ins, **1 diff** — delay slot becomes `nop` (the `$v0` set is DCE'd at a void epilogue) |
+  | `register s32 rv __asm__("$2"); rv = 0;` | identical 1-diff `nop` — dead store deleted |
+  | + `__asm__ __volatile__("" : : "r"(rv))` | `move $v0,$zero` DOES fill the slot, but the asm keeps `$L2` non-empty so the `func_8014F6F4` arm can't fall through → `j $L1`+nop → **34 ins** |
+  | `register volatile` | gets a stack slot, frame 0x20 → 5 diffs |
+  The tell is the guard branch's delay slot `bnez $v0,.L8014F458 / addu $v0,$zero,$zero` — dbr's
+  eager-steal of the `return 0;` value-set after cc1 collapses `$L2`/`$L5` into the shared epilogue.
+  ⇒ textbook **§30 #2**, def-side return-type wall with a macro escape.
+  **REAL-TU PROOF (both directions):** spliced into a scratch copy of the TU — with today's
+  `engine_core.h`, cc1 **rc=33** `conflicting types for 'func_8014F3E8'`; with a scratch-shadowed
+  header carrying the widen, cc1 **rc=0** and the object's `func_8014F3E8` is **32/32 ins, 0 diffs**.
+  Nothing under `src/` was touched; artifacts at `.run/drafts-s18b2/{tu_base,tu_widen,w3,try}`.
+  **THE BANKING RECIPE (mechanical, byte-neutral) — and its one trap:**
+  `sed -E -i 's/extern void (func_8014F3E8)/extern s32 \1/g' src/shared/engine_core.h src/*/*.c`
+  - **15** decls in `engine_core.h`, all inside `DEFINE_func_*` bodies (4120, 7733, 7747, 7774, 7788,
+    7815, 7829, 7856, 7883, 7910, 8215, 19216, 20926, 21103, 25586). 11 discard the return; **4 already
+    read `$v0`** via `((s32 (*)(s32))func_8014F3E8)(…)` — `engine_core.h:25593` even documents
+    *"canonical func_8014F3E8 is void, but its $v0 is tested here"*.
+  - **3,349** decls in `src/*/*.c` (3,197 `(s32 a0)` + 140 `(s32)` + 12 K&R `()`) — the §8b carried
+    decl layers.
+  - **⚠️ ALL SPELLINGS MUST MOVE TOGETHER.** Widening only the header RE-CREATES the conflict
+    per-overlay — reproduced on `src/ov_SC01_000/ov_SC01_000_jr_80154C24.c` (`:736` void vs `:1265`
+    s32). The K&R `()` form stays compatible (`s32` is promotion-safe).
+  - Byte-neutrality spot-checked bit-identical before/after on 3 files incl. two that instantiate the
+    return-casting macros (`DEFINE_func_80157580` / `DEFINE_func_801612B8`). **`make check-all` is
+    still the arbiter (G3/P9).**
+  **⇒ THE §30#2 WIDEN IS NOW A BATCH OF ≥2** (`func_8014F3E8` 32×138 = 4,416 ins · `func_8014D4C0`
+  84×138 = 11,592 ins ≈ **+0.12pp combined**), and `func_8014D820` will join it when it matches. The
+  sed is per-function-name so it is narrow and reviewable, but it is FLEET-SHARED ⇒ **one R22 for the
+  whole batch**, never one per function.
