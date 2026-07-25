@@ -88,7 +88,7 @@ register u16 *a2 __asm__("$7");
   s32 tz;
   s32 r;
   s32 t;
-register s32 u __asm__("$2");
+  s32 u;
   s32 a0v;
 __asm__ __volatile__("" : "=r"(a2) : "0"(a2x));
   t = a2[0];

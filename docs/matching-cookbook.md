@@ -5360,6 +5360,15 @@ was load-bearing *before* the launder (it forced the `$v1` load temp) and **prov
 (identical 16 either way), because once `a0` stays live through the early loads the temp *must* be `$v1`.
 Drop it: same bytes, simpler C, one less thing to explain to the next session.
 
+**This is a PATTERN, not a one-off — it fired twice on the same function.** The `t` pin (`$3`) went
+redundant after the launder, and later the `u` pin (`$2`) went redundant too (identical 9 either way),
+leaving the banked seed **pin-free**. A register pin is a *crutch for a mis-scheduled value*; once the
+value is scheduled correctly the pin is dead weight — and a stale pin actively costs you, because it
+reserves a hard register the allocator then cannot use where the target does. **After any structural
+fix, re-test every pin you inherited and drop the ones that are inert.** (Corollary, byte-measured:
+adding a *new* pin to chase a register choice is usually worse — pinning `y0` to `$v0` to force the
+target's early `pos.y` store went 9 → 12.)
+
 **A refuted hypothesis, recorded so it is not re-bought.** SESSION-17 left an "untried, cheap lever":
 maybe birth order follows **first-use order** (§31 regalloc RC-1/RC-2/RC-3 — declaration/use order drives
 `allocno_compare` density). **It does not, for this class.** `func_8014D820`'s use order *already* matched
