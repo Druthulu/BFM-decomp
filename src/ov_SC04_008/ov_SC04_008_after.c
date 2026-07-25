@@ -1339,7 +1339,7 @@ void func_8014D3E0(s32 _arg0)
 
 DEFINE_func_8014D438()  /* dedup: shared engine-core @0x8014D438 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC04_008/nonmatchings/ov_SC04_008_after", func_8014D4C0);
+DEFINE_func_8014D4C0()  /* dedup: shared engine-core @0x8014D4C0 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC04_008/nonmatchings/ov_SC04_008_after", func_8014D610);
 

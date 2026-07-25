@@ -3036,7 +3036,7 @@ INCLUDE_ASM("asm/ov_SC07_010/nonmatchings/ov_SC07_010_jr_80140608", func_8014D3E
 DEFINE_func_8014D438()  /* dedup: shared engine-core @0x8014d438 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC07_010/nonmatchings/ov_SC07_010_jr_80140608", func_8014D4C0);
+DEFINE_func_8014D4C0()  /* dedup: shared engine-core @0x8014D4C0 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC07_010/nonmatchings/ov_SC07_010_jr_80140608", func_8014D610);
 
@@ -3108,7 +3108,7 @@ DEFINE_func_8014F24C()  /* dedup: shared engine-core @0x8014f24c (src/shared) */
 DEFINE_func_8014F2E0()  /* dedup: shared engine-core @0x8014f2e0 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC07_010/nonmatchings/ov_SC07_010_jr_80140608", func_8014F3E8);
+DEFINE_func_8014F3E8()  /* dedup: shared engine-core @0x8014F3E8 (src/shared) */
 
 
 extern void func_8014F4C0(u8 *a0);

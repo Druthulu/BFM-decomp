@@ -4144,43 +4144,7 @@ INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_80140608", func_8014D3E
 // applied to the def's own signature (cf. func_80174CB0, SESSION-18).
 #include "common.h"
 
-extern s32 func_80135A4C(s32 a0, s32 a1, s32 *a2, s32 a3);
-extern s32 func_8014C918(s32 a0, s32 a1);
-
-s32 func_8014D4C0(s32 a0, void *a1, void *a2) {
-    s32 psVar3;
-
-    ((u16 *)a1)[1] = ((u16 *)a1)[1] - 3;
-    ((u16 *)a2)[1] = ((u16 *)a2)[1] + 8;
-    psVar3 = *(s32 *)(a0 + 0x174);
-    if (*(u16 *)psVar3 != 0) {
-        if ((*(u16 *)(psVar3 + 0x5c) & 0x400) &&
-            *(s32 *)(psVar3 + 0x58) != 0 &&
-            *(s16 *)(psVar3 + 0xa) >= *(s16 *)(a0 + 0xa)) {
-            goto do_body;
-        }
-        if (*(u16 *)psVar3 != 0) {
-            *(s8 *)(psVar3 + 0x74) = 0;
-        }
-    }
-    *(s32 *)(a0 + 0x174) = 0;
-    return 0;
-do_body:
-    *(u16 *)a1 = *(u16 *)(a0 + 0x98);
-    ((u16 *)a1)[1] = *(u16 *)(a0 + 0x9a) - 3;
-    ((u16 *)a1)[2] = *(u16 *)(a0 + 0x9c);
-    if (func_80135A4C(*(s32 *)(psVar3 + 0x20), *(s32 *)(psVar3 + 0x58),
-                      (s32 *)a1, (s32)a2) != 0) {
-        *(u16 *)(a0 + 6) = ((u16 *)a2)[0];
-        *(u16 *)(a0 + 0xa) = ((u16 *)a2)[1];
-        *(u16 *)(a0 + 0xe) = ((u16 *)a2)[2];
-        *(u16 *)(a0 + 0x16e) = func_8014C918(a0, *(u8 *)(psVar3 + 0x75)) & 0xff;
-        return 1;
-    }
-    *(s8 *)(psVar3 + 0x74) = 0;
-    *(s32 *)(a0 + 0x174) = 0;
-    return 0;
-}
+DEFINE_func_8014D4C0()  /* dedup: shared engine-core @0x8014D4C0 (src/shared) */
 
 
 // @class: other
@@ -4345,22 +4309,7 @@ DEFINE_func_8014F2E0()  /* dedup: shared engine-core @0x8014f2e0 (src/shared) */
 //   src/ov_SC07_006/ov_SC07_006_jr_80159C84.c:622) and is INCLUDE_ASM in this TU, so no conflict.
 #include "common.h"
 
-extern void func_8014F468(void);
-extern int func_8014F6F4(void);
-
-s32 func_8014F3E8(s32 param_1)
-{
-    if ((*(u32 *)(param_1 + 0x44) & 0x40000) == 0) {
-        if ((*(s16 *)(param_1 + 6) == *(s16 *)(param_1 + 0x88)) &&
-            (*(s16 *)(param_1 + 10) == *(s16 *)(param_1 + 0x8a)) &&
-            (*(s16 *)(param_1 + 0xe) == *(s16 *)(param_1 + 0x8c))) {
-            return ((s32 (*)(void))func_8014F468)();
-        } else {
-            return func_8014F6F4();
-        }
-    }
-    return 0;
-}
+DEFINE_func_8014F3E8()  /* dedup: shared engine-core @0x8014F3E8 (src/shared) */
 
 
 
