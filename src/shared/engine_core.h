@@ -29189,7 +29189,7 @@
     extern void func_800123F0(s32 a0, s32 a1); \
     extern void func_80012558(s32 a0, s32 a1); \
     extern void func_800126C4(s32 a0, s32 a1); \
-    extern void func_8012F14C(s32 a0, s32 a1, s32 a2); \
+    extern void func_8012F14C();                        \
     s32 func_80174CB0(s32 param_1, s32 param_2) \
     { \
         s16 *pv = &D_80126940; \
