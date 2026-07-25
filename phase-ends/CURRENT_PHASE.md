@@ -2707,3 +2707,39 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   **⇒ Escalation is now justified by the doctrine, not by frustration:** the class is known (§17
   register-ORDER) but every documented lever for it is byte-proven inert here, which is the definition
   of a new wall variant — the one thing Fable5 is reserved for. Give it `best25.c` + this table.
+
+> **🛑 SESSION-17 CLOSING CHECKPOINT (2026-07-24) — supersedes ALL earlier SESSION-17 blocks. Fresh
+> session safe here.**
+> Tree clean (only R23 `db.*.gbf` churn). **R22 clean-fleet 140/140** (3× this session); 0 NON_MATCHING
+> (G4); **dedup 1880/0** (C1 238,622/238,622). **Drew pushes** (R6/R20).
+> **Fleet: 79.7% instr · 67.7% distinct (64,875) · 88.90% fn-count** (opened 79.6 / 67.7 / 88.86).
+>
+> **THE SESSION IN ONE LINE:** the recovery driver's success path was verified (and two defects in it
+> fixed), the queued wave was byte-proven to have NO fuel, and the permuter track banked one giant ×138
+> and drove **every** remaining giant to its measured search floor.
+>
+> **BANKED:** `func_80177940` (101 ins) ×138 = **+13,938 ins** (§66d permuter⇄reader loop).
+> **THE GIANT QUEUE, ALL NOW AT THEIR PERMUTER FLOOR** (seeds TRACKED at `.run/giants/s17_*.c` — note
+> `.run/giants/*.c` is allowlisted but **subdirectories are NOT**, so they live at the top level):
+> | fn | ins | was | now | ILS series | verdict |
+> |---|---|---|---|---|---|
+> | `func_80177940` | 101 | 5 | **BANKED ×138** | — | done |
+> | `func_8014D820` | 304 | 33 | **25** | 25 ×7 | converged; §17 toolkit EXHAUSTED (4 moves, all inert/worse) → Fable5 |
+> | `func_80140958` | 260 | 116 | **56** | 116→59 falling, then 56 ×11 | converged → reader/Fable5 |
+> | `func_80176734` | 371 | 76 | **57** | 57 ×9 | converged → reader/Fable5 |
+> | `func_80176218` | 327 | 271 | 271 | not run | the hardest; untouched this session |
+> Remaining value if cracked: ~**+1.3pp instr** across the four (each ×138).
+>
+> **▶ NEXT (ranked):**
+> 1. **Fable5 on `func_8014D820`** (closest at 25/304, and the ONLY one where escalation is justified by
+>    the doctrine rather than by difficulty — the class is known §17 register-ORDER but every documented
+>    lever is byte-proven inert; the table of 4 dead moves is in the log above). Give it
+>    `.run/giants/s17_func_8014D820_close25.c`.
+> 2. **`func_80176218`** — never permuter-run; do that first (CPU, not tokens) before any reader spend.
+> 3. **Reader/Fable5 on `func_80140958` (56) / `func_80176734` (57)**.
+> 4. **The Ghidra-C prefetch** — still the only thing that restores WAVE economics, still **needs Drew to
+>    run `/mcp`** (R23/R29). Worth ~+0.59pp across imports 2–8, i.e. less than the giants.
+> **⚠️ STANDING HAZARDS:** `dedup_propagate --auto-from` would re-macroize the 14 de-macroized sites
+> (`--check-only` first; targeted `--addr` only) · `p16_permute.setup` WIPES `.run/permuter/<fn>/`, so
+> copy a best waypoint out before re-running (§66d-2).
+> **DO NOT close P29 on ROI** — burn-down floor still undetermined.
