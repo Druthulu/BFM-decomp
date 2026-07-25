@@ -5499,3 +5499,48 @@ window with matching endpoints re-aligns nowhere.
 **Cost of the old reading:** this is a project-wide mis-route, not a one-off — every schedule-permuted
 residual that ever landed in OPCODE-MIXED/WIDTH was steered away from the one tool that moves it. Worth
 a targeted re-check of backlog entries carrying those two class tags with equal instruction counts.
+
+## §68 — A comment-only line halted the extern scan, and the skip label blamed the type cap (Phase 29 SESSION-18)
+
+`dedup_propagate.find_site()` extracts a matched body as *"preceding contiguous externs .. closing
+brace"*. Its backward walk skipped **blank** lines but not **comment-only** lines. So a body written
+like this — which is ordinary house style — silently lost its first extern group:
+
+```c
+extern s16 D_80126940;                 /* <- DROPPED: everything above the comment */
+extern s16 D_80126942;
+/* ------------------------------------------------ */   /* <- the walk stops HERE */
+extern s32 func_80012ABC(s32, s32, s32);                  /* <- only these were carried */
+s32 func_80174CB0(s32 param_1, s32 param_2) { … }
+```
+
+The truncated body then failed `compiles_standalone()` on the now-undeclared symbols — and the caller
+filed **every** such failure under `"overlay-local TYPE (the real cap)"`.
+
+**That label is why the class went unfixed for ~4 phases.** The Phase-21 backlog already carried the
+right answer — *"a macro-extern-injection (or canonical-callee-sig embed) frees them ×134 (~+0.3%)"* —
+but every session after that read the skip line, saw "the real cap", and treated it as the known-hard
+overlay-local-type wall. **A diagnostic that discards its cause is invisible work (R32); one that
+asserts the WRONG cause actively redirects everyone who reads it.**
+
+**Two fixes, both small:**
+1. `compiles_standalone()` returns `(ok, stderr)`; the caller classifies by actual cc1 output —
+   `missing file-scope extern (CARRY-FIXABLE): <names>` vs `overlay-local TYPE (the real cap)`.
+2. the backward walk treats comment-only lines like blanks, and the emitted body filters them out so
+   `make_macro` never meets a `//`.
+
+Result: `func_80174CB0` went from "not self-contained (local types)" to a **138-member plan**.
+
+**⚠️ "CARRY-FIXABLE" is NOT one cause — measured.** After fix (2), the 7 skipped functions in
+`ov_SC01_077` (`0x8016A73C 0x80155800 0x80167540 0x801535F4 0x8016F0AC 0x80142B2C 0x8014FE60`) are
+**still** blocked, so at least one more sub-class exists: their missing symbols are not adjacent to the
+def at all (e.g. `D_801152A8` appears 26× in `engine_core.h` but only ever INSIDE `DEFINE_func_*`
+macro bodies, never at file scope). Those need the genuine carry mechanism — collect the referenced
+file-scope decls wherever they live (`cdecl.scope()` is the right oracle, R33) and emit them inside
+the lifted macro. **Do not assume fix (2) cleared the queue: re-run
+`--auto-from <ov> --check-only` and read the per-class counts.**
+
+**The general lesson:** when a tool refuses, make it print *what the compiler said*, not what the
+author guessed the compiler meant. Every wrong-label bug in this project (§53's carve, the 193
+`listCdBuffer` slices, `masked_diff`'s 150 closeness lies, this one) had the true cause available and
+threw it away.
