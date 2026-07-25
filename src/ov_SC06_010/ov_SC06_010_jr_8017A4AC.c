@@ -3437,7 +3437,139 @@ void func_8017DD68(s32 param_1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_010/nonmatchings/ov_SC06_010_jr_8017A4AC", func_8017DECC);
+#include "common.h"
+#include "/home/musashi/bfm-decomp/src/shared/engine_types.h"
+
+
+
+// @class: regalloc-order
+// @stuck: none — MATCH (223 ins). Giant GTE coord transform. Two levers: (1) vy = {int t=vy-0x10; t+(r&0x1f);}
+//   blocks the (r&0x1f)-16 reassoc that materialized -0x10 via `li 0xfff0` (+1 ins); (2) inline the one-shot
+//   r0_00+1 stsv arg so it stays a $v0 temp instead of stealing a saved reg from the reused pSVar6.
+
+   /* 8, align 2 -> lwl/lwr copy */
+  /* 0x20 */
+    /* 4, align 1 -> lwl/lwr */
+
+extern void func_80013F3C(s32);
+extern void RotMatrixZ(s32, void *);
+extern void func_8004914C(void *);
+extern void func_800491AC(void *);
+extern int rand(void);
+extern void func_80017714(void *);
+
+extern SVECTOR_8017E6D8 D_801B253C[4];
+extern struct PW8017E6D8 D_801B255C;
+extern struct PW8017E6D8 D_801B2560;
+extern u8 D_801B2564, D_801B2565, D_801B2566, D_801B2568, D_801B2569, D_801B256A;
+extern int D_801B256C;
+
+#define gte_ldv0(r0)  __asm__ __volatile__( \
+    "lwc2 $0, 0(%0)\n" \
+    "lwc2 $1, 4(%0)\n" \
+    : : "r"(r0) : "memory")
+
+#define gte_rt()  __asm__ __volatile__( \
+    "nop\n" \
+    "nop\n" \
+    "mvmva 1, 0, 0, 0, 0\n" \
+    : : : "memory")
+
+#define gte_stsv(r0)  __asm__ __volatile__( \
+    "mfc2 $12, $9\n" \
+    "mfc2 $13, $10\n" \
+    "mfc2 $14, $11\n" \
+    "sh $12, 0(%0)\n" \
+    "sh $13, 2(%0)\n" \
+    "sh $14, 4(%0)\n" \
+    : : "r"(r0) : "$12", "$13", "$14", "memory")
+
+void func_8017DECC(int a, s16 *b, SVECTOR_8017E6D8 *c, SVECTOR_8017E6D8 *d,
+                   SVECTOR_8017E6D8 *e, SVECTOR_8017E6D8 *f, s16 *g, struct PW8017E6D8 *h)
+{
+    MATRIX_8017E6D8 m;
+    SVECTOR_8017E6D8 *r0_00;
+    SVECTOR_8017E6D8 *pSVar6;
+    SVECTOR_8017E6D8 *r0;
+    int r;
+    int mask;
+
+    func_80013F3C((s32)&m);
+    RotMatrixZ(g[0], &m);
+    m.t[0] = b[0];
+    m.t[1] = b[1];
+    m.t[2] = 0;
+    func_8004914C(&m);
+    func_800491AC(&m);
+
+    r0_00 = &D_801B253C[0];
+    if (*(s16 *)(a + 0x12) == 0) {
+        D_801B256C = 0x50000000;
+        D_801B2564 = 0;
+        D_801B2565 = 0;
+        D_801B2566 = 0;
+        D_801B2568 = 0;
+        D_801B2569 = 0;
+        D_801B256A = 0;
+    }
+    D_801B255C = h[0];
+    D_801B2560 = h[1];
+
+    f->vx = f->vx + c->vx;
+    f->vy = f->vy + c->vy;
+    r = rand();
+    mask = f->pad & r;
+    if (*(u16 *)(a + 0x12) & 1)
+        f->vx = f->vx + mask;
+    else
+        f->vx = f->vx - mask;
+    r = rand();
+    { int t = f->vy - 0x10; f->vy = t + (r & 0x1f); }
+
+    gte_ldv0(c);
+    gte_rt();
+    gte_stsv(r0_00);
+
+    gte_ldv0(f);
+    gte_rt();
+    gte_stsv(r0_00 + 1);
+
+    gte_ldv0(d);
+    gte_rt();
+    r0 = r0_00 + 2;
+    gte_stsv(r0);
+
+    *d = *f;
+    r = rand();
+    d->vx = d->vx - (f->pad & r);
+
+    gte_ldv0(d);
+    gte_rt();
+    pSVar6 = r0_00 + 3;
+    gte_stsv(pSVar6);
+
+    r0_00->vz = ((u16 *)b)[2];
+    func_80017714(r0_00);
+
+    gte_ldv0(e);
+    gte_rt();
+    gte_stsv(r0);
+
+    *e = *f;
+    r = rand();
+    e->vx = e->vx + (f->pad & r);
+
+    gte_ldv0(e);
+    gte_rt();
+    gte_stsv(pSVar6);
+
+    r0_00->vz = ((u16 *)b)[2];
+    func_80017714(r0_00);
+
+    *c = *f;
+}
+
+
 
 extern void func_8002931C(void);
     void func_8017E248(void) {

@@ -3803,6 +3803,41 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   Artifacts: `s19_func_8017D960_b5.c` (dossier), `s19_d960_report.md` (~90-row do-not-re-buy table +
   citations), `d960_{mk,cc,score,full,side,hist,probe}` tooling.
 
+- **✅ 2026-07-25 (SESSION-19) — THE h_norm-REMAPPABLE POOL: +4,919 ins banked, no cracking, no agent.
+  And TWO of my own counts collapsed under scrutiny before I acted on either (R14/R35).**
+  Surveying beyond the behemoths for stubs whose `h_norm` ALREADY has a matched instance (⇒ free §40
+  remap):
+  | my first reading | the truth | why |
+  |---|---|---|
+  | "`func_8017CA80`'s family = **102** unmatched" | **13** | my count tallied family members whose NAME appears as a stub ANYWHERE in the fleet, not instances actually unmatched. Semantics error, not arithmetic. |
+  | "**56,267** ins remappable" | **8,114** | 86% of it was the known `-O0`/deferred set (`func_80144B9C` the whale, the `func_8013C414` cluster). |
+  **I nearly recommended a target on the first number.** Both were caught by re-deriving before acting —
+  the R35 discipline, applied to myself.
+  **BANKED (each whole-binary byte-gated; `make check-all` → 140/140):** `func_80130D48` ×4 (1,064) ·
+  `func_8018F3E4` (478) · `func_8018B3D0` (478) · `func_8017DECC`/`8017E428`/`8017EFB0`/`8017E830`/
+  `8017F314`/`80180404`/`80180FEC`/`801819B8`/`801829D8`/`80183ED8`/`8018451C`/`801857C4`/`8018BA5C`
+  (13 × 223 = 2,899) — **+4,919 ins**, distinct-code 68.0% → **68.1%**.
+  **THE §77 CARRY GAP IS NOW THE DOMINANT COST OF MECHANICAL REMAP — 23 of 27 first-pass CC1-FAILs.**
+  A second carry tool closed almost all of them: **`.run/giants/s19_remap_tu.py`** (companion to
+  `s19_remap_family.py`) sources the preamble from the exemplar's **overlay TU** — the block between
+  the previous top-level `}` and the def — instead of a standalone draft, applies `family_remap`'s own
+  substitution map to it, and adds the two includes `match_one` never adds. **Result: 21 drafts went
+  from 0 MATCH → 14 MATCH.** The 13 × 223-ins family all share ONE exemplar (`func_8017E6D8` @
+  ov_SC06_018), so a single preamble fix cleared all 13.
+  **A USEFUL ASYMMETRY OBSERVED:** `func_8018F3E4`/`func_8018B3D0` **failed `match_one` but BANKED in
+  the whole-binary gate** — the real TU supplies decls the standalone compile lacks. So a `CC1 FAIL`
+  from `match_one` is NOT a reason to skip the real gate on a remapped sibling.
+  **RESIDUAL — 3,195 ins, 3 named causes, none chased on a guess:** `func_8017D5C0` (952) matches
+  standalone but the whole-binary gate reports `conflicting types for 'memcpy'` — **the §58
+  red-herring** (a WARNING from an unrelated TU position, not the real error; SESSION-14 hit the same
+  label and the true cause was `conflicting types for func_XXXX` found only by hand-splicing and
+  reading real cc1 stderr). `func_80166994` ×3 (1,107) and `func_8016A290` ×4 (1,136) still CC1-FAIL
+  after the TU carry — a further preamble class, not yet classified.
+  **⚠️ FULL R22 DEFERRED, DELIBERATELY:** `make clean` wipes `asm/`, and the concurrently-running
+  BF14 agent reads `asm/ov_SC03_116/…/func_8017BF14.s` on every probe. This batch changed only
+  `src/*.c` (no config), so `make check-all` (140/140, run) is sound here; **the full clean R22 must
+  still be run once the agent finishes.**
+
 > **🛑 SESSION-19 CLOSING CHECKPOINT (2026-07-25, Opus 5 @ High) — REFRESHED mid-session; supersedes
 > both the SESSION-18 block and the earlier SESSION-19 block (which was written before the
 > ENGINE_SHB / class-B / dedup_extend-bug work and went stale). Fresh session safe here.**

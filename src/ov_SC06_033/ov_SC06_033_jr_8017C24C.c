@@ -3467,7 +3467,139 @@ void func_8017EE4C(s32 param_1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_033/nonmatchings/ov_SC06_033_jr_8017C24C", func_8017EFB0);
+#include "common.h"
+#include "/home/musashi/bfm-decomp/src/shared/engine_types.h"
+
+
+
+// @class: regalloc-order
+// @stuck: none — MATCH (223 ins). Giant GTE coord transform. Two levers: (1) vy = {int t=vy-0x10; t+(r&0x1f);}
+//   blocks the (r&0x1f)-16 reassoc that materialized -0x10 via `li 0xfff0` (+1 ins); (2) inline the one-shot
+//   r0_00+1 stsv arg so it stays a $v0 temp instead of stealing a saved reg from the reused pSVar6.
+
+   /* 8, align 2 -> lwl/lwr copy */
+  /* 0x20 */
+    /* 4, align 1 -> lwl/lwr */
+
+extern void func_80013F3C(s32);
+extern void RotMatrixZ(s32, void *);
+extern void func_8004914C(void *);
+extern void func_800491AC(void *);
+extern int rand(void);
+extern void func_80017714(void *);
+
+extern SVECTOR_8017E6D8 D_801D0ABC[4];
+extern struct PW8017E6D8 D_801D0ADC;
+extern struct PW8017E6D8 D_801D0AE0;
+extern u8 D_801D0AE4, D_801D0AE5, D_801D0AE6, D_801D0AE8, D_801D0AE9, D_801D0AEA;
+extern int D_801D0AEC;
+
+#define gte_ldv0(r0)  __asm__ __volatile__( \
+    "lwc2 $0, 0(%0)\n" \
+    "lwc2 $1, 4(%0)\n" \
+    : : "r"(r0) : "memory")
+
+#define gte_rt()  __asm__ __volatile__( \
+    "nop\n" \
+    "nop\n" \
+    "mvmva 1, 0, 0, 0, 0\n" \
+    : : : "memory")
+
+#define gte_stsv(r0)  __asm__ __volatile__( \
+    "mfc2 $12, $9\n" \
+    "mfc2 $13, $10\n" \
+    "mfc2 $14, $11\n" \
+    "sh $12, 0(%0)\n" \
+    "sh $13, 2(%0)\n" \
+    "sh $14, 4(%0)\n" \
+    : : "r"(r0) : "$12", "$13", "$14", "memory")
+
+void func_8017EFB0(int a, s16 *b, SVECTOR_8017E6D8 *c, SVECTOR_8017E6D8 *d,
+                   SVECTOR_8017E6D8 *e, SVECTOR_8017E6D8 *f, s16 *g, struct PW8017E6D8 *h)
+{
+    MATRIX_8017E6D8 m;
+    SVECTOR_8017E6D8 *r0_00;
+    SVECTOR_8017E6D8 *pSVar6;
+    SVECTOR_8017E6D8 *r0;
+    int r;
+    int mask;
+
+    func_80013F3C((s32)&m);
+    RotMatrixZ(g[0], &m);
+    m.t[0] = b[0];
+    m.t[1] = b[1];
+    m.t[2] = 0;
+    func_8004914C(&m);
+    func_800491AC(&m);
+
+    r0_00 = &D_801D0ABC[0];
+    if (*(s16 *)(a + 0x12) == 0) {
+        D_801D0AEC = 0x50000000;
+        D_801D0AE4 = 0;
+        D_801D0AE5 = 0;
+        D_801D0AE6 = 0;
+        D_801D0AE8 = 0;
+        D_801D0AE9 = 0;
+        D_801D0AEA = 0;
+    }
+    D_801D0ADC = h[0];
+    D_801D0AE0 = h[1];
+
+    f->vx = f->vx + c->vx;
+    f->vy = f->vy + c->vy;
+    r = rand();
+    mask = f->pad & r;
+    if (*(u16 *)(a + 0x12) & 1)
+        f->vx = f->vx + mask;
+    else
+        f->vx = f->vx - mask;
+    r = rand();
+    { int t = f->vy - 0x10; f->vy = t + (r & 0x1f); }
+
+    gte_ldv0(c);
+    gte_rt();
+    gte_stsv(r0_00);
+
+    gte_ldv0(f);
+    gte_rt();
+    gte_stsv(r0_00 + 1);
+
+    gte_ldv0(d);
+    gte_rt();
+    r0 = r0_00 + 2;
+    gte_stsv(r0);
+
+    *d = *f;
+    r = rand();
+    d->vx = d->vx - (f->pad & r);
+
+    gte_ldv0(d);
+    gte_rt();
+    pSVar6 = r0_00 + 3;
+    gte_stsv(pSVar6);
+
+    r0_00->vz = ((u16 *)b)[2];
+    func_80017714(r0_00);
+
+    gte_ldv0(e);
+    gte_rt();
+    gte_stsv(r0);
+
+    *e = *f;
+    r = rand();
+    e->vx = e->vx + (f->pad & r);
+
+    gte_ldv0(e);
+    gte_rt();
+    gte_stsv(pSVar6);
+
+    r0_00->vz = ((u16 *)b)[2];
+    func_80017714(r0_00);
+
+    *c = *f;
+}
+
+
 
 INCLUDE_ASM("asm/ov_SC06_033/nonmatchings/ov_SC06_033_jr_8017C24C", func_8017F32C);
 
@@ -4512,7 +4644,190 @@ INCLUDE_ASM("asm/ov_SC06_033/nonmatchings/ov_SC06_033_jr_8017C24C", func_8018AAF
 
 INCLUDE_ASM("asm/ov_SC06_033/nonmatchings/ov_SC06_033_jr_8017C24C", func_8018AD9C);
 
-INCLUDE_ASM("asm/ov_SC06_033/nonmatchings/ov_SC06_033_jr_8017C24C", func_8018B3D0);
+#define gte_ldv0(r0) __asm__ volatile (          \
+    "lwc2 $0, 0( %0 );"                          \
+    "lwc2 $1, 4( %0 )"                           \
+    :                                            \
+    : "r"( r0 ) )
+#define gte_rtps() __asm__ volatile ("nop;nop;rtps")
+#define gte_stsxy(r0) __asm__ volatile (         \
+    "swc2 $14, 0( %0 )"                          \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "memory" )
+#define gte_stszotz(r0) __asm__ volatile (       \
+    "mfc2 $12, $19;"                             \
+    "nop;"                                       \
+    "sra $12, $12, 2;"                           \
+    "sw $12, 0( %0 )"                            \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "$12", "memory" )
+#define gte_stflg(r0) __asm__ volatile (         \
+    "cfc2 $12, $31;"                             \
+    "nop;"                                       \
+    "sw $12, 0( %0 )"                            \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "$12", "memory" )
+#define gte_ldv0(r0)  __asm__ __volatile__( \
+    "lwc2 $0, 0(%0)\n" \
+    "lwc2 $1, 4(%0)\n" \
+    : : "r"(r0) : "memory")
+#define gte_ldv0(r0) __asm__ volatile (          \
+    "lwc2 $0, 0( %0 );"                          \
+    "lwc2 $1, 4( %0 )"                           \
+    :                                            \
+    : "r"( r0 ) )
+#define gte_rtps() __asm__ volatile ("nop;nop;rtps")
+#define gte_stsxy(r0) __asm__ volatile (         \
+    "swc2 $14, 0( %0 )"                          \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "memory" )
+#define gte_stszotz(r0) __asm__ volatile (       \
+    "mfc2 $12, $19;"                             \
+    "nop;"                                       \
+    "sra $12, $12, 2;"                           \
+    "sw $12, 0( %0 )"                            \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "$12", "memory" )
+#define gte_stflg(r0) __asm__ volatile (         \
+    "cfc2 $12, $31;"                             \
+    "nop;"                                       \
+    "sw $12, 0( %0 )"                            \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "$12", "memory" )
+
+
+void func_8018B3D0(void)
+{
+    extern void func_8004914C(void *);
+    extern void func_800491AC(void *);
+    extern void *func_80010A08(s32);
+    extern u8 D_800AF648;
+    extern u8 D_800A6610[];
+    extern short D_800B9A02;
+    extern Blip_8018F694 D_801D0C40[];
+
+    UVEC_8018F694 sxy;
+    UVEC_8018F694 p0;
+    UVEC_8018F694 p1;
+    long flag;
+    long otz;
+    s32 i;
+    PTag_8018F694 *ot;
+    PTag_8018F694 *otp;
+    Blip_8018F694 *bp;
+    s32 t, c, d, z, x, n;
+
+    ot = (PTag_8018F694 *)&D_800A6610[(*(u16 *)&D_800B9A02) << 14];
+    func_8004914C(&D_800AF648);
+    func_800491AC(&D_800AF648);
+    bp = D_801D0C40;
+
+#define EMIT_8018F694() { \
+    LineF2_8018F694 *pk = (LineF2_8018F694 *)func_80010A08(0x10); \
+    pk->len = 3; \
+    pk->code = 0x42; \
+    pk->r0 = bp->r; \
+    pk->g0 = bp->g; \
+    pk->b0 = bp->b; \
+    pk->x0 = p0.vx; \
+    pk->y0 = p0.vy; \
+    pk->x1 = p1.vx; \
+    pk->y1 = p1.vy; \
+    pk->addr = otp->addr; \
+    otp->addr = (u32) pk; }
+
+    for (i = 0; i < 32; i++, bp++) {
+        t = bp->tm;
+        __asm__ __volatile__ ("" : "=r" (t) : "0" (t));
+        if (t != 0) {
+            gte_ldv0(&bp->vx);
+            gte_rtps();
+            gte_stsxy((long *) &sxy);
+            gte_stflg(&flag);
+            gte_stszotz(&otz);
+            if ((u16) (sxy.vx + 0x200) < 0x401 &&
+                (u16) (sxy.vy + 0x180) < 0x301 &&
+                (u32) (otz - 0x10) < 0x1000) {
+                z = otz - 0x10;
+                c = t >> 6;
+                d = (t * 3) >> 8;
+                otp = (PTag_8018F694 *) ((z << 2) + (s32) ot);
+
+                p0.vx = sxy.vx - c;
+                p0.vy = sxy.vy - c;
+                p1.vx = p0.vx + d;
+                p1.vy = p0.vy;
+                EMIT_8018F694();
+
+                p1.vx = p0.vx;
+                p1.vy = p0.vy + d;
+                EMIT_8018F694();
+
+                p0.vx = sxy.vx + c;
+                p1.vx = p0.vx - d;
+                p1.vy = p0.vy;
+                EMIT_8018F694();
+
+                p1.vx = p0.vx;
+                p1.vy = p0.vy + d;
+                EMIT_8018F694();
+
+                p0.vy = sxy.vy + c;
+                p1.vx = p0.vx - d;
+                p1.vy = p0.vy;
+                EMIT_8018F694();
+
+                p1.vx = p0.vx;
+                p1.vy = p0.vy - d;
+                EMIT_8018F694();
+
+                p0.vx = sxy.vx - c;
+                p1.vx = p0.vx + d;
+                p1.vy = p0.vy;
+                EMIT_8018F694();
+
+                p1.vx = p0.vx;
+                p1.vy = p0.vy - d;
+                EMIT_8018F694();
+
+                {
+                    TPage_8018F694 *tp = (TPage_8018F694 *) func_80010A08(8);
+                    tp->len = 1;
+                    tp->code0 = 0xE100002A;
+                    tp->addr = otp->addr;
+                    otp->addr = (u32) tp;
+                }
+
+                n = bp->r;
+                x = n - bp->dr;
+                n = x;
+                if (x < 0) { n = 0; }
+                bp->r = n;
+                n = bp->g;
+                x = n - bp->dg;
+                n = x;
+                if (x < 0) { n = 0; }
+                bp->g = n;
+                n = bp->b;
+                x = n - bp->db;
+                n = x;
+                if (x < 0) { n = 0; }
+                bp->b = n;
+                x = n | (bp->r | bp->g);
+                if ((u8) x == 0) {
+                    bp->tm = 0;
+                }
+            }
+        }
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_033/nonmatchings/ov_SC06_033_jr_8017C24C", func_8018BB48);
 
