@@ -1171,7 +1171,6 @@ typedef struct { short m[3][3]; short pad; s32 t[3]; } MATRIX_c2;
 /* --- lift_types.py fleet lift --- */
 typedef struct { s32 w[8]; } Vec8;
 typedef struct { s16 unk0, unk2, unk4, unk6; } Vec8_c1;
-#endif /* BFM_ENGINE_TYPES_H */
 
 /* Phase-29 crack-wave lift (func_8012956C family) */
 typedef struct { s32 a, b, c, d; } Blk16_956C;
@@ -1257,3 +1256,9 @@ typedef struct {
     s16 h;          /* 0xA */
     u16 *data;      /* 0xC */
 } Cmd_8013D53C;              /* 0x10 */
+
+#endif /* BFM_ENGINE_TYPES_H */   /* SESSION-19: moved here — 11 typedefs (the
+ * Phase-29 crack-wave lift onward) were sitting OUTSIDE the guard, so any TU that
+ * included this header twice re-declared them. gcc-2.7.2 rejects a repeated typedef
+ * even when identical (cdecl.compatible), so that surfaced as `conflicting types for
+ * Blk16_956C` the first time a draft produced a double include. Byte-neutral. */

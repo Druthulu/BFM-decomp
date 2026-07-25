@@ -6003,3 +6003,59 @@ unchanged (byte-gated on all 3 existing members: `7ca772be` / `b3b95547` / `9885
 **Rule:** for class B, change the decl **and** the call together. A decl-only change is not a smaller
 version of the fix — it relocates the diagnostic, and a session reading only the failure class will
 record a fresh wall where there is none.
+
+## §76 — The allocno CLASS (local vs global) is the dominant regalloc lever, and C reaches it ONLY through declaration scope and variable reuse (Phase 29 SESSION-19, behemoth #3 `func_8017F510` 1,511 ins, 97 → MATCH, pin-free)
+
+Behemoth #3 sat at **97/1511 mismatched** after a full pass at a lower reasoning tier that had already
+localized every mismatch, exhausted ~10 C-shape levers, and run **3,663 permuter candidates at base 97
+with zero improvement**. The residual was not in the C-randomisation search space — and the reason is
+the reusable lesson: **four of the five decisions were local-vs-global allocno CLASS choices**, which C
+expresses *only* through declaration scope and variable reuse. Statement order, expression shape,
+register pins and random search cannot reach them.
+
+### The mechanism, with citations
+- **`local-alloc.c:472`** admits a pseudo to LOCAL allocation only when
+  `REG_BASIC_BLOCK >= 0 && REG_N_DEATHS == 1`. A function-scope variable used in four emit arms has
+  **4 deaths** ⇒ it becomes a **global** allocno ⇒ `combine_regs` (`local-alloc.c:1825`) can no longer
+  tie its producer chain into it (global-alloc has no coalescing), so an in-place
+  `sra/sll/addu` chain on that register is unreachable. **Declaring the same variable inside each arm
+  makes it four 1-death local pseudos and the chain ties.**
+- **`global.c:668-671`** re-marks every pseudo that local-alloc already placed (`reg_renumber[i] >= 0`)
+  as a **hard register** for global-alloc's conflict scan. So a local pseudo's placement *removes a
+  register from the global pool*, and that shows up as a hard-reg number in the `;; N conflicts:` tail
+  of the `.greg` dump. In this function a global `otp` in `$a2` pushed a per-tail constant into `$a0`,
+  which made the target's `otp = $a0` **structurally impossible** — not merely lower-priority.
+  **Read the `;; N conflicts:` hard-reg tail before reasoning about priorities.**
+- **`global.c:594 allocno_compare`** ranks by `floor_log2(n_refs)*n_refs/live_length`, with refs counted
+  **× loop depth**. Reusing an existing variable as a second temp (§45-A / RC-14 MERGE) raises its ref
+  count — here `cb` 27 → 39 refs — and flips the grant ORDER of a 3-way colouring
+  (`cb→$a1, c3→$a2, tp→$a3` instead of `tp→$a2, cb→$a1, c3→$a3`). Recomputing that formula off the
+  `.lreg` dump reproduces the `;; N regs to allocate:` order exactly, so you can PREDICT a flip
+  instead of searching for one.
+
+### The attribution primitive (use this before calling anything a scheduling residual)
+Compile the draft with **`-fno-schedule-insns`** and again with **`-fno-schedule-insns2`**. If a
+transposed instruction pair keeps **source order under both**, the ordering was fixed at **RTL
+expansion**, not by either scheduler — so the lever is source statement order, and no amount of
+sched.c reasoning applies. That test converted this function's residual A from "needs a third form of
+a scheduling tie-break" into a one-line source swap.
+
+### Two diagnosis traps this function proved
+1. **A "scheduling" diff can be a register grant in disguise.** Residual B (an OT tag materialised
+   before a two-insn constant) was never a sched.c choice: once the unlit colour temp was granted `$a1`,
+   the `0xFFFFFF` constant — also wanting `$a1` — could not be materialised until that temp died, so
+   sched2 slid it below the tag *by itself*. Fixing the allocation fixed the "schedule".
+2. **A "single seed cascade" model can be wrong even when the cascade is real.** The prior dossier
+   attributed ~93 of the 97 to one seed (`c3` must win `$a2`). `c3` turned out to have **no lever of its
+   own** — it moves only as a side-effect of `cb` out-ranking `tp`. The cascade was real; the seed was
+   not the thing you can steer. **Steer the ranked variable, not the symptom variable.**
+
+### Practice
+1. When a residual survives a full permuter sweep at its measured base, **stop searching** and ask which
+   allocno CLASS decisions the C is failing to express. Search cannot reach a class choice.
+2. Sweep **declaration scope at three granularities** — function / innermost-`if` / per-ARM — for every
+   temp in the divergent block. Per-arm is a distinct granularity from per-case and is frequently the
+   one that matters (here: per-case = neutral, per-arm = the crack).
+3. Then sweep **variable REUSE** (merge two temps into one) to move `allocno_compare` priority.
+4. Keep the measured result of every lever; behemoth #3's session produced a ~50-row do-not-re-buy
+   table (`.run/giants/s19_f510_report.md`) that is worth more than the match itself.

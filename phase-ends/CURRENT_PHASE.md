@@ -3695,6 +3695,48 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   the failures.** 123 ins × 132 ≈ **+0.12pp**. The remaining 3 are worth 3 overlays; normalize the 7
   `s16` decls only if trivially cheap.
 
+- **🏆 2026-07-25 (SESSION-19) — BEHEMOTH #3 `func_8017F510` CRACKED, PIN-FREE: 97 → MATCH (1,511 ins).
+  The first xHigh behemoth, and the first distinct-code movement of the session.** An Opus 5 agent at
+  **xHigh** (behemoths #1–#3 were worked at **High** — Drew's effort experiment) closed a residual that
+  a full lower-tier pass had localized but not moved, and that **3,663 permuter candidates at base 97
+  had failed to improve by even 1**.
+  **VERIFIED INDEPENDENTLY, NOT TAKEN ON REPORT (R14):** I re-ran `match_one` → **MATCH (1511 ins)**,
+  then the real arbiter — `harvest_verify --binary ov_SC03_006` → **BYTE-IDENTICAL**; **R22 clean-fleet
+  140/140**. The agent honoured its sandbox exactly: zero changes outside `.run/giants/`.
+  **METRICS: distinct-code 3,813,512 → 3,815,023 = +1,511 — EXACTLY the function's instruction count,
+  and the ONLY distinct-code movement all session.** (instr-weighted 80.3%, fn-count 89.18%.) Reach is
+  **×1** by sig — no propagation — which is precisely why it moves the metric propagation cannot.
+  **THE MECHANISM (→ cookbook §76): the allocno CLASS (local vs global) is the dominant lever, and C
+  reaches it ONLY through declaration scope and variable reuse.** Four of the five decisions were class
+  choices — unreachable by statement order, expression shape, pins, or random search, which is exactly
+  why the permuter was provably spent. Levers: (1) `otp` declared **per emit ARM** (4 deaths → four
+  1-death local pseudos; `local-alloc.c:472`), whose second-order effect via `global.c:668-671`
+  (local placements re-marked as HARD registers for global-alloc) had made the target's `otp = $a0`
+  *structurally impossible*; (2) `cb` reused as the unlit `rgbc` temp — refs 27→39 lifts its
+  `global.c:594 allocno_compare` priority past `tp`, flipping the 3-colouring → **97 → 10**; (3) one
+  shared `rgbw` temp → **10 → 2**; (4) `mny` before `my` + one zero-byte `__asm__` at the head of the
+  tri cull block → **MATCH**.
+  **THREE CORRECTIONS TO THE BRIEF I GAVE IT — all byte-evidenced, all worth more than the match:**
+  · **Residual B was never a scheduling residual** — it fell out free with lever 2 (a register grant
+  observed as a schedule diff). · **Residual A is RTL EXPANSION order, not scheduling** — proven with
+  `-fno-schedule-insns` AND `-fno-schedule-insns2` (source order survives both). **That attribution
+  primitive is the reusable bit: run it before calling anything a scheduling residual.** · **Residual C
+  had no single `c3` seed** — `c3` has no lever of its own and moves only when `cb` out-ranks `tp`. The
+  cascade was real; the seed I briefed was not the steerable thing.
+  **ALSO FOUND — a latent defect in a SHARED HEADER, pre-existing and unrelated to the draft:**
+  `src/shared/engine_types.h` closed its include guard at line 1174 of 1259, leaving **11 typedefs / 85
+  lines OUTSIDE the guard** since the Phase-29 crack-wave lift. Any TU including the header twice
+  re-declares them, and gcc-2.7.2 rejects a repeated typedef even when identical — it surfaced as
+  `conflicting types for 'Blk16_956C'` the first time a draft produced a double include. Guard moved to
+  EOF; byte-neutral; R22 140/140.
+  **ARTIFACTS (tracked — `.run/giants/*.{c,md,sh,py}` are allowlisted):**
+  `.run/giants/s19_func_8017F510_b4.c` (130-line dossier) + `.run/giants/s19_f510_report.md`, whose
+  **~50-row do-not-re-buy table is arguably worth more than the match** + `s19_{cc.sh,full.py,side.py,
+  mk.py,sweep.py,probe.sh}`.
+  **STRETCH, MEASURED NOT ASSUMED:** `func_8017F5B4` (1,511 ins, `ov_SC02_031`) is a **different
+  h_exact** — so it is NOT a dedup sibling; it is a `family_remap` TEMPLATE candidate (same shape, same
+  3-callee set, per-overlay reloc symbols). Worth a positional-remap attempt off the b4 source.
+
 > **🛑 SESSION-19 CLOSING CHECKPOINT (2026-07-25, Opus 5 @ High) — REFRESHED mid-session; supersedes
 > both the SESSION-18 block and the earlier SESSION-19 block (which was written before the
 > ENGINE_SHB / class-B / dedup_extend-bug work and went stale). Fresh session safe here.**
