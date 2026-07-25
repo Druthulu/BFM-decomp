@@ -36,6 +36,7 @@
 !/.run/giants/*.c
 !/.run/giants/*.md
 !/.run/giants/*.sh
+!/.run/giants/*.py
 !/.run/probe_jtbl/
 /.run/probe_jtbl/*
 !/.run/probe_jtbl/verdict.md

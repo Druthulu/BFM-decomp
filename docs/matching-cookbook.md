@@ -5544,3 +5544,53 @@ the lifted macro. **Do not assume fix (2) cleared the queue: re-run
 author guessed the compiler meant. Every wrong-label bug in this project (§53's carve, the 193
 `listCdBuffer` slices, `masked_diff`'s 150 closeness lies, this one) had the true cause available and
 threw it away.
+
+## §69 — How to attack a behemoth: map it, don't draft it (Phase 29 SESSION-18, `func_80183814`, 5,122 ins)
+
+First attempt ever on the game's largest unmatched function. It did **not** match, and the useful
+output was never going to be a match — it was the map. Every claim below is byte-verified against the
+target `.s`.
+
+**What it is.** Not a straight-line giant: an **actor state machine**. ~48-ins preamble → `switch
+(*(u16 *)(a0 + 0x34))` over **21 cases** via `jtbl_801F4CE4` (`sltiu $v0,$v1,0x15`) → 19-ins shared
+tail. **359 `jal`s to only 37 distinct callees** (verified). A cutscene/boss-script driver.
+
+**THE FINDING — it is not 5,122 unique instructions, it is a few templates repeated:**
+| sub-shape | instances | notes |
+|---|---|---|
+| "spawn-effect" packet | **35** | ~60% of cases 11–20 (~1,400 ins). Body is `DEFINE_func_80142454`'s `s16 st[10]` packet verbatim. **Crack one → 34 free.** |
+| "wait/countdown" | 7 | `if (a0->0x1C < 7) …; if (--a0->0x1C != 0) break;` — **already reproduced at 0 skeleton diffs** (cases 2/5/7) |
+| "6-slot HUD/text" | 12 | cases 0/1/3/4; and **case 0 ≈ case 3, case 1 ≈ case 4** (identical call histograms, 363/365 and 280/281 ins) — near-free twins |
+Coupling is light: only **3 cross-jump edges** (cases 5, 10, 12 all `j` into case 14's merged tail),
+so those four must be written together and everything else is independent.
+
+**TWO LAWS FOR GIANTS, both measured here:**
+
+1. **Register pressure is GLOBAL, so a partial draft can never show a matching prefix.** A truncated
+   body (15 of 21 cases stubbed) was allocated **10 callee-saved regs instead of 8**, and from case-0
+   idx 278 gcc CSE'd address constants into callee regs that the real function cannot afford and
+   rematerialises. ⇒ **Do not aim for a contiguous matching prefix on a giant.** Write ALL cases
+   coarsely first to restore the true pressure, *then* refine. A "first N instructions match"
+   partition is structurally unavailable until the whole body exists.
+2. **`match_one`'s global number is meaningless on a partial giant** (here: `mine=666 target=5122`,
+   `SIZE-MISMATCH`). Measure **region-aligned** instead — per case, registers masked, relocs masked.
+   Tool: **`.run/giants/s18_regions_comparator.py`** (reusable for any giant). It gave
+   PROLOGUE+PREAMBLE **0 diffs**, cases 2/5/7 **0 diffs**, 139 real skeleton diffs over 638 decoded
+   ins (78% skeleton-identical). **Caveat that must travel with the metric:** it masks register
+   NUMBERS and `j`/`jal` targets, so it proves sequence/opcodes/constants/offsets — *structural*
+   correctness — and is **never** a closeness score. Finish on the whole-binary gate (G3/P9).
+
+**Two idioms cracked in passing:**
+- `D_8018E034[t + K]` folds the `+K` into the `lw` (`lw a1,%lo(base+4K)`). The target keeps a runtime
+  `addiu`, so the source needs a **separate index variable and a separate `idx = t + K;` statement**.
+  Worth 246 → 83 skeleton diffs on case 0 by itself.
+- A `u16` field read as `(s16)*(u16 *)p` (`lhu`+`sll 16`+`sra 16`), and `/455` via magic
+  `0x90090091` with the `hi+n` add-back form.
+
+**Verdict: tractable, but a ~2,000-line WRITE, not a hard puzzle.** No scheduler wall, no unsteerable
+regalloc, no exotic idiom — every construct decoded on the first or second try. The blockers are
+volume plus the two couplings above. **Recipe for the next attempt:** all 21 cases coarsely → fix the
+frame/8-reg allocation → crack ONE spawn-effect instance and paste it 35× → the twin pairs (0↔3, 1↔4)
+→ the 7 wait instances (already solved, reuse verbatim) → cases 17/18/20 (560/484/525 ins) last.
+Banking will need §27-step-2 / §28 plumbing recovery: `func_80178970`/`func_80178D18`/`func_800599B8`/
+`func_8017D8A4` are all called at arities that disagree with their canonical externs.
