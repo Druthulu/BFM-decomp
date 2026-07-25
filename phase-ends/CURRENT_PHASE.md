@@ -3281,3 +3281,21 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   cascade SESSION-17 predicted (relieving the pressure re-sizes the frame 0x40→0x38 and moves every
   save offset). ⇒ The idiom must be applied **together with** whatever re-locks the frame; applied alone
   it is a regression. Next reader session on this function should start from the frame, not the load.
+
+- **🔎 2026-07-24 (SESSION-18) — `func_80176218`: the hoist is DIAGNOSED AND REMOVED; the residual
+  flipped from +1 to −2 instructions. A real lead, not a wall.** The SESSION-17 label was
+  "hoist-vs-remat"; the bytes say it is the **indexed-global idiom** and my draft simply had the wrong C.
+  **Target** (idx 324–326): `lbu $v0,0x4A($s1)` · `sll $v0,$v0,2` · `lui $at,%hi(D_8018A23C)` ·
+  `addu $at,$at,$v0` · `lw $a0,%lo(D_8018A23C)($at)` — the address is materialized **inline through
+  `$at` with the index folded in**, never kept in a register.
+  **My draft** declared `u8 **new_var;`, assigned `new_var = D_8018A23C;` at line 96, and indexed it at
+  line 277 — that early intermediate is what forced `&D_8018A23C` into a callee-saved `$s6` (plus its
+  `sw`/restore), i.e. **exactly the §67 two-pseudo law in a different costume: an intermediate pointer
+  variable makes gcc materialize early.**
+  **Result of deleting `new_var` and writing `D_8018A23C[idx]` at the use site:** the hoist, its save and
+  its restore all disappear — **328 ins (+1) → 325 ins (−2)** against the target's 327. So the idiom is
+  RIGHT and now overshoots: two instructions the target has are missing. (Raw mismatch count reads worse,
+  271 vs 105, but that is LENGTH-DRIFT misalignment, not divergence — cf. the §67 EXP4 lesson that a
+  length-shifted diff's *count* is meaningless.)
+  Draft preserved: `.run/giants/s18_func_80176218_indexedglobal.c`. **Next reader session starts here:
+  find the 2 missing instructions**, not the hoist — that question is closed.
