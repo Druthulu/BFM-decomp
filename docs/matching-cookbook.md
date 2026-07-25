@@ -5635,3 +5635,56 @@ drafting agent**, unprompted, as part of finishing one function (270k tokens). T
 local copy of the real compiler source appears to have moved compiler-internals reasoning down a tier.
 Do not read this as "Fable5 is unnecessary" on one data point — but DO give routine drafting agents
 the gcc source path and expect them to use it.
+
+## §71 — Before mapping a giant, look for an already-matched SIBLING beside it (Phase 29 SESSION-18, `func_8017D960`, 3,338 ins)
+
+Behemoth #2. Result: **3,334 of 3,338 instructions, 98.8% register-masked-identical, 88.3%
+byte-aligned, byte-exact prologue AND epilogue, exact 0x320 frame, the same 10 saved registers at the
+same offsets, and the identical ~110 stack slots** — on a 3,338-instruction function, in one session.
+Not a match (G3), but an order of magnitude closer than behemoth #1.
+
+**THE LEVER, and it is embarrassingly cheap.** `func_8017D960` is the *lit* variant of
+`func_8017CA80` — the 952-instruction renderer **immediately above it in the same source file**
+(`ov_SC03_090_jr_8017CA80.c`, the file is named after it), **already matched**. Diffing against that
+sibling handed over ~90% of the C for free and produced a 3,334/3,338-instruction draft on the FIRST
+compile. No mapping phase was needed to get there.
+
+> **Do this first on every giant: check whether an already-matched function adjacent to it in the
+> binary is the same routine.** Address adjacency is a strong prior in this codebase — related
+> renderers/handlers were written together and sit together. It costs one `grep` and can replace days
+> of structural analysis.
+
+**§69 IS PARTLY REFUTED — corrected here, do not follow its headline blindly.**
+| §69 claim | verdict on a non-dispatcher |
+|---|---|
+| **Law 1** — write the whole body coarsely first; a partial draft gets the wrong callee-saved set, so no matching prefix exists | **CONFIRMED and decisive.** Doing this got the exact frame + saved-reg set on the first compile. |
+| **Law 2** — `match_one`'s global number is meaningless; measure region-aligned | **CONFIRMED and essential** (its 1806 is noise; a 4-instruction length drift destroys positional comparison) — **but the tool did not transfer.** `s18_regions_comparator.py` is per-switch-case. |
+| **Headline** — "the deliverable is the map, not a match" | **REFUTED for this shape.** §69 was derived from a 359-call dispatcher with no sibling. Here mapping was not the lever at all; the sibling was. |
+
+**Tooling supersession:** `.run/giants/b2_mask.py` + `b2_full.py` are a **shape-agnostic word-level
+masked sequence aligner** (structural number *and* byte number, no switch assumption). **They replace
+`s18_regions_comparator.py`** — use them for any giant.
+
+**What it is** (useful for the family): a 3-source volumetric-light mesh renderer. Same skeleton as
+the matched sibling — 3-call prologue, `Part[]` outer loop (stride 0x14, 8-corner AABB `rtpt/rtps`
++ screen-bbox reject), `Prim[]` inner loop (stride 0xC, `rtpt`/`nclip`/`stopz`), OT insertion. The
+added work is three axis-aligned light boxes (`{s32 enable; u16 cx,cy,cz; s32 range}`, stride 0x1C):
+per vertex, a separable per-axis linear falloff over the outer 0x80 of the range, **axes visited
+x, z, y — that ordering is load-bearing**, summed and clamped to 0x80 into a grey gouraud colour.
+Lit → `POLY_GT3/GT4`; unlit → `POLY_FT3/FT4` with `rgbc = tp[0] & 0xFF000000`.
+
+**Two shape facts worth generalising:** only **2 back edges** in 3,338 instructions (it is two nested
+loops, not a maze); and the 8-byte stack stride that looks like an exotic aggregate is just **gcc's
+spill-slot granularity** — every non-array local is spilled. Do not invent a struct to explain it.
+
+**Residual (4 ins short, ~40 divergent):** the only genuine structural error is gcc `fold`
+reassociating the colour OR-chain; a rewrite fixes structure to 99.1% but cascades a live range and
+drops byte-alignment to 76% (`s18_func_8017D960_b2_rgbchain.c` — an unresolved trade, do not re-buy
+blindly). The rest is register naming. **Family: `func_8017CD9C` (ov_SC03_102) and `func_8017E778`
+(ov_SC03_091) are the same 3,338-instruction function with only the 3 light-descriptor symbols
+changed — one crack templates ×3.**
+
+**⚠️ A PROFILING ERROR OF MINE, recorded (R14/R35):** I briefed this agent that the function had **no
+switch**, from grepping `sltiu` jump-table bounds. Wrong — the switch is compiled as a **comparison
+tree** (23 `slti`). A jump-table grep is not a switch detector. The agent caught it; a less careful
+one would have inherited my false premise.
