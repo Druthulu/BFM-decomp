@@ -6098,3 +6098,49 @@ first invocation (52 per-overlay symbols substituted); only the preamble was sho
 against what the tool emitted** before concluding anything about the body. A `CC1 FAIL` on a
 mechanically-remapped sibling is a *preamble* report until proven otherwise — it says nothing about
 whether the remap was right.
+
+## §78 — A LENGTH drift can be a register grant in disguise; and `fold` never leaves a literal first in an `|` chain (Phase 29 SESSION-19, behemoth #2 `func_8017D960` 3,338 ins, 1806 → 0, pin-free)
+
+Behemoth #2 was carried at "3,334/3,338, one fold OR-chain error left" — a summary that reads as *four
+instructions from done*. Measured, it was **1,806 mismatched with a `LENGTH-DRIFT/-4`**, and the
+prior diagnosis was wrong in both halves.
+
+### The drift was an allocation decision, not missing code
+The 4 missing instructions were **4 emit tails × 1 `nop`**. The target's `0xFFFFFF` OT mask lives in
+`$a1` — the same register as `tp` — so it cannot be materialised until `tp`'s last load retires, and
+the first `tp[]` load-delay slot therefore stays a real `nop`. In the draft the mask sat in `$a0`,
+free early, so maspsx hoisted it into that slot and the `nop` vanished. Root cause one level up:
+`u32 *otp;` at **function scope** has 4 deaths ⇒ fails `local-alloc.c:472` ⇒ global allocno in `$a2`
+⇒ via `global.c:668-671` that pushes `tp` off `$a1`. **Declaring `otp` per emit arm fixed the entire
+drift in one edit** (`3334→3338`, `1806→333`).
+
+**This is the second time in one session that a residual which LOOKS structural was an allocno-class
+choice** (the first: a "scheduling" transposition on the sibling that fell out of a register grant,
+§76). **Practice: before treating a length or ordering diff as structural, check whether a register
+grant explains it.** A `nop` that exists in the target and not in your draft is very often a delay
+slot the target could not fill *because the register it wanted was still live*.
+
+### `fold` never leaves a literal in the first term of an `|` chain
+Seven parenthesisations of `cb | c | (c<<8) | 0x800000` were measured; **all** reassociate — gcc-2.7.2's
+`fold-const.c` will not emit `or acc, K, var` with the constant first. **So if the target's asm shows
+`or acc, var, K` as the FIRST term of a chain, `K` was a VARIABLE in the original source, not a
+literal.** That is a direct read from asm back to source shape, and it retires an entire family of
+"try another parenthesisation" sweeps.
+
+### "Make it a variable" has TWO separable effects — and the wrong choice is catastrophic
+Turning a literal into a variable changes (a) **opacity to `fold`** (fixes structure) and (b) **adds an
+allocno** (changes registers). They are independent, and you usually want only (a):
+- a **fresh short-lived local** gets the structure right and the allocation catastrophically wrong —
+  measured **690 mismatched / 79.6%**, with damage appearing ~300 instructions away in unrelated
+  blocks;
+- **reusing an already-busy or function-scope variable** gets both right.
+When you need opacity, spend an existing variable's ref count, not a new allocno.
+
+### The economics
+Nine levers, each proven individually necessary by drop-one ablation against the matching draft:
+`otp` per arm · **no pins** · dedicated `vw`/`vzw` vertex-word temps · an RC-15 zero-byte `mny` dial in
+the tri cull block only · `base = D_800AF630` first · `f2,f1,f0 = 0` order · shared `cb` colour base ·
+shared `rgbw` result temp · `s32 za, zb;` per case.
+**Five of the nine were read straight off the MATCHED relatives** (`func_8017F510` 1,511 and
+`func_8017CA80` 952, same renderer family) — worth more than every expression sweep combined.
+**Crack the smaller family member first; it is a lever library for the larger one.**

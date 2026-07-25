@@ -3762,6 +3762,47 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   **+3,022 distinct-code ins from the two**, versus **+0 from every propagation win this session**.
   Artifact preserved: `.run/giants/s19_func_8017F5B4_remap.c`.
 
+- **🏆🏆 2026-07-25 (SESSION-19) — BEHEMOTH #2 `func_8017D960` CRACKED (1,806 → 0, PIN-FREE) AND ITS
+  ENTIRE 5-MEMBER FAMILY BANKED: 16,690 distinct-code ins from ONE crack.** Opus 5 agent @ **xHigh**.
+  **VERIFIED INDEPENDENTLY (R14):** `match_one` → **MATCH (3338 ins)**; then the real arbiter,
+  `harvest_verify` on all five binaries → **BYTE-IDENTICAL** each; **R22 clean-fleet 140/140**.
+  | overlay | fn | how |
+  |---|---|---|
+  | ov_SC03_090 | `func_8017D960` | the crack |
+  | ov_SC03_089 · ov_SC03_104 | `func_8017D960` | §40 remap → MATCH **first try** |
+  | ov_SC03_091 | `func_8017E778` | §40 remap (cross-address) → MATCH **first try** |
+  | ov_SC03_102 | `func_8017CD9C` | §40 remap (cross-address) → MATCH **first try** |
+  **METRICS: distinct-code 3,816,534 → 3,833,224 (+16,690) — 67.7% → 68.0%, the first percentage-point
+  movement in that metric all session.** instr-weighted 80.3% → **80.5%**. Session distinct-code total
+  **+19,712 ins**, ALL of it from the three behemoths; every propagation win contributed **+0**.
+  **MY OWN BRIEF WAS WRONG IN AN INSTRUCTIVE WAY (→ cookbook §78).** I told the agent a negative length
+  drift means "we are MISSING instructions the target has." True, but the CAUSE was not missing code:
+  the 4 absent instructions were **4 emit tails × 1 `nop`** — delay slots the target could not fill
+  *because the register it wanted was still live*. `u32 *otp;` at function scope has 4 deaths ⇒ fails
+  `local-alloc.c:472` ⇒ global allocno in `$a2` ⇒ via `global.c:668-671` that pushes `tp` off `$a1` ⇒
+  the `0xFFFFFF` mask is free early ⇒ maspsx hoists it into the slot and the `nop` vanishes.
+  **Declaring `otp` per emit ARM fixed the entire drift in ONE edit** (3334→3338, 1806→333).
+  **⇒ SECOND TIME IN ONE SESSION a residual that LOOKED structural was an allocno-class choice** (the
+  first: F510's "scheduling" transposition, §76). **Rule: a `nop` present in the target but absent from
+  your draft is usually a register-liveness fact, not a missing instruction — check for a register
+  grant before treating a length or ordering diff as structural.**
+  **TWO MORE REUSABLE FINDINGS (§78):** (1) gcc-2.7.2 `fold` **never** leaves a literal in the first
+  term of an `|` chain — 7 parenthesisations measured, all reassociate — so `or acc, var, K` FIRST in
+  the target means **`K` was a VARIABLE in the original source**; a direct asm→source read that retires
+  a whole family of parenthesisation sweeps. (2) "make it a variable" has **two separable effects** —
+  opacity to `fold` (structure) and a new allocno (registers); a **fresh short-lived local** gets
+  structure right and allocation catastrophically wrong (690 mismatched, damage ~300 ins away),
+  **reusing an already-busy variable** gets both.
+  **THE ECONOMIC LESSON:** 9 levers, each proven necessary by drop-one ablation — and **5 of the 9 were
+  read straight off the MATCHED relatives** `func_8017F510` (1,511, cracked earlier TODAY) and
+  `func_8017CA80` (952), "worth more than every expression sweep combined". **Crack the smaller family
+  member first; it is a lever library for the larger one.**
+  **NEW TOOLING:** `.run/giants/s19_remap_family.py` — `family_remap` + the §77 preamble carry in one
+  step (reproduces the exemplar's FULL file-scope preamble with the tool's own substitution map
+  applied). It took the four siblings from "4 rounds of `CC1 FAIL` each" to **MATCH first try, ×4**.
+  Artifacts: `s19_func_8017D960_b5.c` (dossier), `s19_d960_report.md` (~90-row do-not-re-buy table +
+  citations), `d960_{mk,cc,score,full,side,hist,probe}` tooling.
+
 > **🛑 SESSION-19 CLOSING CHECKPOINT (2026-07-25, Opus 5 @ High) — REFRESHED mid-session; supersedes
 > both the SESSION-18 block and the earlier SESSION-19 block (which was written before the
 > ENGINE_SHB / class-B / dedup_extend-bug work and went stale). Fresh session safe here.**
