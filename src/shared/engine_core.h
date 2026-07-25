@@ -29058,4 +29058,112 @@
       *((u16 *) (r - 3)) += 6; \
     }
 
+#define DEFINE_func_8012B4B8() \
+    extern Mat32 D_800AE620; \
+    extern void RotMatrixX(int r, void *m); \
+    extern void RotMatrixY(int r, void *m); \
+    extern void RotMatrixZ(int r, void *m); \
+    s32 func_8012B4B8(int param_1) \
+    { \
+        register int self __asm__("$17"); \
+        register int obj  __asm__("$16"); \
+        register int *src __asm__("$5"); \
+        int m[8]; \
+        short sVar1; \
+        int o2, t0, t1, t2; \
+        self = param_1; \
+        obj = *(int *)(self + 0x20); \
+        if (obj != 0) { \
+            src = (int *)&D_800AE620; \
+            __asm__("" : "=r"(src) : "0"(src)); \
+            t0 = src[0]; t1 = src[1]; t2 = src[2]; m[0] = t0; m[1] = t1; m[2] = t2; \
+            t0 = src[3]; t1 = src[4]; t2 = src[5]; m[3] = t0; m[4] = t1; m[5] = t2; \
+            t0 = src[6]; t1 = src[7];              m[6] = t0; m[7] = t1; \
+            RotMatrixX((int)*(short *)(obj + 0x10), (void *)m); \
+            RotMatrixZ((int)*(short *)(obj + 0x14), (void *)m); \
+            RotMatrixY((int)*(short *)(obj + 0x12), (void *)m); \
+            *(Mat32 *)(obj + 0x34) = *(Mat32 *)m; \
+            o2 = *(int *)(self + 0x20); \
+            sVar1 = *(unsigned short *)(self + 6) + *(unsigned short *)(self + 0x50); \
+            *(short *)(o2 + 8) = sVar1; \
+            *(int *)(o2 + 0x48) = (int)sVar1; \
+            sVar1 = *(unsigned short *)(self + 0xa) + *(unsigned short *)(self + 0x52); \
+            *(short *)(o2 + 0xa) = sVar1; \
+            *(int *)(o2 + 0x4c) = (int)sVar1; \
+            sVar1 = *(unsigned short *)(self + 0xe) + *(unsigned short *)(self + 0x54); \
+            *(short *)(o2 + 0xc) = sVar1; \
+            *(unsigned short *)(o2 + 0x2c) = *(unsigned short *)(o2 + 0x2c) | 1; \
+            *(int *)(o2 + 0x50) = (int)sVar1; \
+        } \
+    }
+
+#define DEFINE_func_80169228() \
+    extern s32  func_80017DC4(void *a0, void *a1); \
+    extern void func_80048EAC(void *a0, void *a1); \
+    extern s32  func_80017758(void *a0, void *a1); \
+    s32 func_80169228(void) \
+    { \
+        register s32 a0v __asm__("$4"); \
+        s32 arg0 = a0v; \
+        u8 buf[0x60];               /* $sp+0x10 .. $sp+0x6F */ \
+        register u8 *p __asm__("$16");   /* $sp+0x48 (matrix, a1 to the calls) -> $s0 */ \
+        s32 col; \
+        s16 base; \
+        s16 v; \
+        /* first-draw SVECTOR verts — source order == target store order */ \
+        *(s16 *)(buf + 0x08) = -5;   /* 0x18 */ \
+        *(s16 *)(buf + 0x00) = -5;   /* 0x10 */ \
+        *(s16 *)(buf + 0x18) = 5;    /* 0x28 */ \
+        *(s16 *)(buf + 0x10) = 5;    /* 0x20 */ \
+        *(s16 *)(buf + 0x12) = -5;   /* 0x22 */ \
+        *(s16 *)(buf + 0x02) = -5;   /* 0x12 */ \
+        *(s16 *)(buf + 0x1a) = 5;    /* 0x2A */ \
+        *(s16 *)(buf + 0x0a) = 5;    /* 0x1A */ \
+        *(s16 *)(buf + 0x1c) = 0;    /* 0x2C */ \
+        *(s16 *)(buf + 0x14) = 0;    /* 0x24 */ \
+        *(s16 *)(buf + 0x0c) = 0;    /* 0x1C */ \
+        *(s16 *)(buf + 0x04) = 0;    /* 0x14 */ \
+        /* colors */ \
+        if ((*(u32 *)(arg0 + 0x2c) & 2) == 0) { \
+            col = -0x40 - (*(s32 *)(arg0 + 0x1c) << 4); \
+            *(u8 *)(buf + 0x21) = *(u8 *)(buf + 0x22) = \
+            *(u8 *)(buf + 0x25) = *(u8 *)(buf + 0x26) = \
+            *(u8 *)(buf + 0x29) = *(u8 *)(buf + 0x2a) = \
+            *(u8 *)(buf + 0x2d) = *(u8 *)(buf + 0x2e) = col; \
+            *(u8 *)(buf + 0x20) = *(u8 *)(buf + 0x24) = \
+            *(u8 *)(buf + 0x28) = *(u8 *)(buf + 0x2c) = col; \
+        } else { \
+            col = -0x40 - (*(s32 *)(arg0 + 0x1c) << 4); \
+            *(u8 *)(buf + 0x20) = *(u8 *)(buf + 0x24) = \
+            *(u8 *)(buf + 0x2a) = *(u8 *)(buf + 0x2e) = 0x20; \
+            *(u8 *)(buf + 0x21) = *(u8 *)(buf + 0x25) = \
+            *(u8 *)(buf + 0x29) = *(u8 *)(buf + 0x2d) = col; \
+            *(u8 *)(buf + 0x29) = *(u8 *)(buf + 0x2d) = 0x20; \
+        } \
+        *(s32 *)(buf + 0x30) = 0x50000000;   /* 0x40 tag */ \
+        base = 0x800; \
+        if (*(u32 *)(arg0 + 0x2c) & 1) base = 0x4cc; \
+        v = base + (*(s32 *)(arg0 + 0x1c) << 7); \
+        *(u16 *)(buf + 0x5c) = v;   /* 0x6C */ \
+        *(u16 *)(buf + 0x5a) = v;   /* 0x6A */ \
+        *(u16 *)(buf + 0x58) = v;   /* 0x68 */ \
+        p = buf + 0x38; \
+        func_80017DC4(buf + 0x58, p); \
+        func_80048EAC((void *)(arg0 + 0x38), p); \
+        *(s32 *)(buf + 0x4c) = (s32)*(s16 *)(arg0 + 6);    /* 0x5C */ \
+        *(s32 *)(buf + 0x50) = (s32)*(s16 *)(arg0 + 0xa);  /* 0x60 */ \
+        *(s32 *)(buf + 0x54) = (s32)*(s16 *)(arg0 + 0xe);  /* 0x64 */ \
+        func_80017758(buf + 0x00, p); \
+        /* second-draw SVECTOR verts */ \
+        *(s16 *)(buf + 0x00) = -7;   /* 0x10 */ \
+        *(s16 *)(buf + 0x10) = 0;    /* 0x20 */ \
+        *(s16 *)(buf + 0x08) = 0;    /* 0x18 */ \
+        *(s16 *)(buf + 0x18) = 7;    /* 0x28 */ \
+        *(s16 *)(buf + 0x1a) = 0;    /* 0x2A */ \
+        *(s16 *)(buf + 0x02) = 0;    /* 0x12 */ \
+        *(s16 *)(buf + 0x0a) = 7;    /* 0x1A */ \
+        *(s16 *)(buf + 0x12) = -7;   /* 0x22 */ \
+        func_80017758(buf + 0x00, p); \
+    }
+
 #endif

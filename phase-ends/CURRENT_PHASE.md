@@ -2773,3 +2773,28 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   (no `demacroize`) so anything that banks is a NORMAL bank and propagates **×138**; only then add
   `--stages demacroize` for the remainder, whose banks are **×1 by construction** (the guard added this
   session refuses to propagate them).
+
+- **✅ 2026-07-24 (SESSION-17) — INTEGRATION PASS off the refreshed spine: 2 banked + propagated ×138.
+  R22 140/140. Fleet 79.7 → 79.9% instr.**
+  Ladder-only (`--stages ""`, no demacroize, so these are NORMAL banks): **`func_8012B4B8` (84) +
+  `func_80169228` (105), 2 of 5**, each confirmed gone from src; `dedup_propagate --addr` (targeted,
+  `--check-only` first) → **138 overlays byte-identical, 2 new groups**. ≈ **+26,082 ins**.
+  **DRIFT-CHECK EARNED ITS KEEP (R14) — 2 of 7 spine entries were wrong:** `func_8012CC88`'s "close=0"
+  is for **ov_SC07_006**, and its draft is **13 off in ov_SC01_077** (the documented "backlog drafts are
+  overlay-specific" caveat, now confirmed by measurement); `func_80158638` is 2 off, not 0. Never gate a
+  spine row without re-measuring it.
+  **THE 3 NON-BANKS, DIAGNOSED (blocker_probe, both oracles agreeing):**
+  · `func_801463A0` — **real cc1 says MATCH 101 ins in its own TU**, yet the whole-binary gate rejects it:
+    the §65c rtu-vs-gate divergence (rtu is relocation-masked, so a wrong call target is invisible).
+    Needs a link-level look, not a codegen one.
+  · `func_80156670` / `func_80174CB0` — **`local_type`, and the drafts say so themselves**: each carries
+    "standalone-only scaffolding (drop when banking)" typedefs that are **TEXTUALLY IDENTICAL** to the
+    canonical ones in `engine_types.h` (gcc-2.7.2 rejects a duplicate typedef even when identical).
+    **Stripping the cc1-named one is NOT enough — blockers STACK:** removing `S8` exposed `B8`; removing
+    `MATRIX`/`SVECTOR` exposed a `callee_decl` conflict on `func_80012ABC` (which the ladder handles but
+    a bare `harvest_verify` does not). Both gate attempts left the tree BYTE-IDENTICAL (`d19c9580`), so
+    the failures are clean (§65f SHA-reading rule).
+  **⇒ The remedy is mechanical and named:** strip **all** shared-provided typedefs (`cdecl.
+  strip_provided_typedefs` with the full provided set — note `cdecl.typedef_names` takes a **PATH**, not
+  text) and re-run through the **driver's ladder**, not bare `harvest_verify`. Drafts staged at
+  `.run/perm_s17i/`. Worth ≈ **+0.4pp** for the two.

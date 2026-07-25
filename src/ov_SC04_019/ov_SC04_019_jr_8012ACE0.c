@@ -319,7 +319,7 @@ DEFINE_func_8012B370()  /* dedup: shared engine-core @0x8012B370 (src/shared) */
 
 DEFINE_func_8012B414()  /* dedup: shared engine-core @0x8012B414 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8012ACE0", func_8012B4B8);
+DEFINE_func_8012B4B8()  /* dedup: shared engine-core @0x8012B4B8 (src/shared) */
 
 DEFINE_func_8012B608()  /* dedup: shared engine-core @0x8012B608 (src/shared) */
 
