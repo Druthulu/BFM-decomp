@@ -3012,7 +3012,7 @@ extern s32 func_801749A8(s32 a0);
 extern void func_80174BBC(void *a0);
 extern void func_80174BF4(void *a0);
 extern void func_80174BF4(void * arg0);
-extern s32 func_80174CB0(s32, s32);
+extern s32 func_80174CB0();
 extern s32 func_80174C60(s32 a0);
 extern void func_80174C80(s32 a0);
 extern s32 D_8012697C;

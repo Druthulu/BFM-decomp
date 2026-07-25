@@ -2033,7 +2033,7 @@
     }
 
 #define DEFINE_func_80174C60() \
-    extern s32 func_80174CB0(s32, s32); \
+    extern s32 func_80174CB0(); \
     s32 func_80174C60(s32 a0) { \
         return func_80174CB0(a0, 0); \
     }
@@ -4945,7 +4945,7 @@
     }
 
 #define DEFINE_func_80174C80() \
-    extern s32 func_80174CB0(s32, s32); \
+    extern s32 func_80174CB0(); \
     void func_80174C80(s32 a0) { \
         s32 v; \
         v = (*(u16 *)(a0 + 0xA0) - 0x16) & 0xFFF; \

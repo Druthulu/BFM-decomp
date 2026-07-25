@@ -8702,7 +8702,104 @@ DEFINE_func_80174C60()  /* dedup: shared engine-core @0x80174c60 (src/shared) */
 DEFINE_func_80174C80()  /* dedup: shared engine-core @0x80174c80 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_8015C32C", func_80174CB0);
+// @class: regalloc-order
+// @stuck: none — MATCH (123 ins)
+//
+// Sibling of func_801749C8 (already banked in this same TU, ~line 8640): identical 8-call
+// clamp/approach prologue and identical trailing MATRIX+SVECTOR / func_8012F14C rotate.
+// Two deltas vs that sibling: the single func_80049CAC(p+0x18,&m) is expanded inline here into
+// the 4-call matrix build (func_80013F3C / func_800123F0 / func_80012558 / func_800126C4), and
+// param_2 is a *short* (hence the sll/sra 16 on $s1) folded into the func_80012558 angle & 0xFFF.
+//
+// THE ONLY NON-OBVIOUS LEVER (regalloc-order, +2 ins = the $s2 save/restore pair):
+//   The target keeps &D_80126940 materialized in a callee-saved reg ($s2: lui+addiu once, then
+//   `lh 0($s2)` on BOTH sides of the 4 matrix calls), while D_80126942/44 are re-emitted as
+//   lui + `lh %lo(...)` at each of their two uses. Reading D_80126940 as a plain scalar makes gcc
+//   treat all three uniformly (121 ins, no $s2) -> LENGTH-DRIFT -2. Taking its address ONCE into
+//   a local pointer (`s16 *pv = &D_80126940;`) forces the address into a call-crossing pseudo,
+//   which lands in $s2. No `register __asm__` pin is needed.
+//
+// BANKING NOTES (this draft is written to drop straight into
+// src/ov_SC07_006/ov_SC07_006_jr_8015C32C.c):
+//   * Every callee decl below is VERBATIM the one the TU already carries at file scope —
+//     func_80012ABC (engine_core.h:28579 / TU:8631), func_80012C6C (TU:1149),
+//     func_80013F3C/func_80012558/func_800126C4/func_800123F0 (TU:1152-1155),
+//     func_8012F14C (TU:399).  The s16-returning calls therefore go through the
+//     `((s16 (*)(s32,s32,s32))f)(...)` func-ptr cast idiom already used by func_801749C8,
+//     so the canonical s32 prototypes are kept and NEVER redeclared.
+//   * D_80126940/42/44 are already `extern s16` at TU:160-162 — drop the three externs below.
+//   * Mtx_80174CB0 / Svec_80174CB0 are locally-unique names (== MATRIX / SVECTOR layouts) so
+//     they cannot collide with engine_types.h; they may be kept as-is or swapped for
+//     MATRIX / SVECTOR when banking.
+//   * THE OWN-SIGNATURE BLOCKER (the layer under the func_80012ABC one): the TU expands
+//     DEFINE_func_80174C80() at line 8702, and that macro carries
+//         extern s32 func_80174CB0(s32, s32);
+//     So this function MUST be defined `s32 func_80174CB0(s32, s32)` — a `void`/`s16 param_2`
+//     draft compiles fine standalone but dies with "conflicting types for `func_80174CB0'"
+//     in the TU. The s16-ness of param_2 (the sll/sra 16 at 80174DDC) is recovered by the
+//     explicit `(s16)param_2` cast at the func_80012558 use site; byte-identical either way.
+//
+// VERIFIED IN-TU: appending this file to a copy of the real TU (with the INCLUDE_ASM line
+// removed) compiles cc1-clean (rc=0, same as baseline) and the resulting object's
+// func_80174CB0 is 123/123 instructions with 0 diffs vs the target .s.
+#include "common.h"
+
+/* --- standalone-only scaffolding (bank-safe: names are unique to this function) --- */
+typedef struct { short m[3][3]; long t[3]; } Mtx_80174CB0;   /* == MATRIX,  0x20 bytes */
+typedef struct { short vx, vy, vz, pad; } Svec_80174CB0;     /* == SVECTOR, 0x08 bytes */
+
+extern s16 D_80126940;
+extern s16 D_80126942;
+extern s16 D_80126944;
+/* -------------------------------------------------------------------------------- */
+
+extern s32 func_80012ABC(s32 a0, s32 a1, s32 a2);
+extern s32 func_80012C6C(s32 a0, s32 a1, s32 a2);
+extern void func_80013F3C(s32 a0);
+extern void func_800123F0(s32 a0, s32 a1);
+extern void func_80012558(s32 a0, s32 a1);
+extern void func_800126C4(s32 a0, s32 a1);
+extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
+
+s32 func_80174CB0(s32 param_1, s32 param_2)
+{
+    s16 *pv = &D_80126940;
+    Mtx_80174CB0 mtx;
+    Svec_80174CB0 vec;
+    Svec_80174CB0 out;
+
+    *(s32 *)(param_1 + 8) = (s16)((s16 (*)(s32, s32, s32))func_80012C6C)((s32)*(s16 *)(param_1 + 8), (s32)*(s16 *)(param_1 + 0xc), 4);
+    *(s32 *)(param_1 + 0x10) = (s16)((s16 (*)(s32, s32, s32))func_80012C6C)((s32)*(s16 *)(param_1 + 0x10), (s32)*(s16 *)(param_1 + 0x14), 4);
+    *(s16 *)(param_1 + 0x18) = ((s16 (*)(s32, s32, s32))func_80012ABC)((s32)*(s16 *)(param_1 + 0x18), (s32)*(s16 *)(param_1 + 0x20), 4);
+    *(s16 *)(param_1 + 0x1a) = ((s16 (*)(s32, s32, s32))func_80012ABC)((s32)*(s16 *)(param_1 + 0x1a), (s32)*(s16 *)(param_1 + 0x22), 4);
+    *(s16 *)(param_1 + 0x1c) = ((s16 (*)(s32, s32, s32))func_80012ABC)((s32)*(s16 *)(param_1 + 0x1c), (s32)*(s16 *)(param_1 + 0x24), 4);
+    *(s16 *)(param_1 + 0x28) = ((s16 (*)(s32, s32, s32))func_80012C6C)((s32)*(s16 *)(param_1 + 0x28), (s32)*(s16 *)(param_1 + 0x2e), 0x10);
+    *(s16 *)(param_1 + 0x2a) = ((s16 (*)(s32, s32, s32))func_80012C6C)((s32)*(s16 *)(param_1 + 0x2a), (s32)*(s16 *)(param_1 + 0x30), 0x10);
+    *(s16 *)(param_1 + 0x2c) = ((s16 (*)(s32, s32, s32))func_80012C6C)((s32)*(s16 *)(param_1 + 0x2c), (s32)*(s16 *)(param_1 + 0x32), 0x10);
+
+    *(s32 *)(param_1 + 0x48) = (s32)*(s16 *)(param_1 + 0x28) + (s32)*pv;
+    *(s32 *)(param_1 + 0x4c) = (s32)*(s16 *)(param_1 + 0x2a) + (s32)D_80126942;
+    *(s32 *)(param_1 + 0x50) = (s32)*(s16 *)(param_1 + 0x2c) + (s32)D_80126944;
+
+    func_80013F3C((s32)&mtx);
+    func_800123F0((s32)&mtx, (s32)*(s16 *)(param_1 + 0x1c));
+    func_80012558((s32)&mtx, ((s32)*(s16 *)(param_1 + 0x1a) + (s32)(s16)param_2) & 0xFFF);
+    func_800126C4((s32)&mtx, (s32)*(s16 *)(param_1 + 0x18));
+
+    mtx.t[0] = (s32)*(s16 *)(param_1 + 0x28) + (s32)*pv;
+    mtx.t[1] = (s32)*(s16 *)(param_1 + 0x2a) + (s32)D_80126942;
+    mtx.t[2] = (s32)*(s16 *)(param_1 + 0x2c) + (s32)D_80126944;
+    vec.vx = 0;
+    vec.vy = 0;
+    vec.vz = (s16)*(s32 *)(param_1 + 0x10);
+
+    func_8012F14C((s32)&mtx, (s32)&vec, (s32)&out);
+
+    *(s32 *)(param_1 + 0x3c) = (s32)out.vx;
+    *(s32 *)(param_1 + 0x40) = (s32)out.vy;
+    *(s32 *)(param_1 + 0x44) = (s32)out.vz;
+}
+
 
 DEFINE_func_80174E9C()  /* dedup: shared engine-core @0x80174e9c (src/shared) */
 
