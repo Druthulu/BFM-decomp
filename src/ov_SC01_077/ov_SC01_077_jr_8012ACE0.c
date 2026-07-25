@@ -10,7 +10,7 @@
  * this TU on purpose (reach-1 names like func_801809BC differ across overlays, so NOT in the
  * shared engine_core.h). Whole-binary harvest_verify byte-gate remains the sole arbiter (G3/P9). */
 extern s32 func_8016EC0C(s32 a0, s32 a1);                /* match-first, arity 2 */
-extern s32 func_8012B4B8(s32 a0);                        /* match-first, arity 1 */
+extern s32 func_8012B4B8();                        /* match-first, arity 1 */
 extern s32 func_801670E4(s32 a0, s32 a1, s32 a2, s32 a3); /* derive-decl, arity 4 */
 extern s32 func_80169A4C(s32 a0, s32 a1);                /* match-first, arity 2 */
 extern s32 func_8016A8FC(s32 a0);                        /* match-first, arity 1 */
@@ -367,7 +367,65 @@ DEFINE_func_8012B370()  /* dedup: shared engine-core @0x8012B370 (src/shared) */
 
 DEFINE_func_8012B414()  /* dedup: shared engine-core @0x8012B414 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_8012ACE0", func_8012B4B8);
+// @class: regalloc-order
+// @stuck: none — MATCH (84 ins)
+//
+// §52b wall cracked (func_8012B4B8, "symbol-base wins-low-needs-high" + the
+// movstrsi `(plus $fp const)` local-alloc theft). Recipe:
+//  1. self->$s1, pre-call obj->$s0 pins; tail-reload is a SEPARATE unpinned var
+//     (o2) so it lands in $a0 like the target (a pinned iVar2 would force $s0).
+//  2. The copy-in from D_800AE620 must NOT be a struct-assign/movstrsi: that
+//     leaves a `&m`=(plus $fp 0x10) dest pseudo that CSE shares with the 3 call
+//     args -> it goes call-crossing -> stolen into a callee-saved reg ($s2)
+//     (update_equiv_regs can't rematerialize a non-CONSTANT_P source). Instead:
+//     load through a LAUNDERED source pointer with EXPLICIT 3-3-2 grouped temps.
+//     sp-direct stores => no dest pseudo => each call rematerializes
+//     `addiu $a1,$sp,0x10` in its own delay slot (matches target, 84 ins).
+//  3. The laundered src is a real var, so pin it to $a1 ($5) to win the
+//     symbol-base's "needs-HIGH" slot (else it first-fits $v0, the §52b wall).
+
+
+
+extern Mat32 D_800AE620;
+extern void RotMatrixX(int r, void *m);
+extern void RotMatrixY(int r, void *m);
+extern void RotMatrixZ(int r, void *m);
+
+s32 func_8012B4B8(int param_1)
+{
+    register int self __asm__("$17");
+    register int obj  __asm__("$16");
+    register int *src __asm__("$5");
+    int m[8];
+    short sVar1;
+    int o2, t0, t1, t2;
+
+    self = param_1;
+    obj = *(int *)(self + 0x20);
+    if (obj != 0) {
+        src = (int *)&D_800AE620;
+        __asm__("" : "=r"(src) : "0"(src));
+        t0 = src[0]; t1 = src[1]; t2 = src[2]; m[0] = t0; m[1] = t1; m[2] = t2;
+        t0 = src[3]; t1 = src[4]; t2 = src[5]; m[3] = t0; m[4] = t1; m[5] = t2;
+        t0 = src[6]; t1 = src[7];              m[6] = t0; m[7] = t1;
+        RotMatrixX((int)*(short *)(obj + 0x10), (void *)m);
+        RotMatrixZ((int)*(short *)(obj + 0x14), (void *)m);
+        RotMatrixY((int)*(short *)(obj + 0x12), (void *)m);
+        *(Mat32 *)(obj + 0x34) = *(Mat32 *)m;
+        o2 = *(int *)(self + 0x20);
+        sVar1 = *(unsigned short *)(self + 6) + *(unsigned short *)(self + 0x50);
+        *(short *)(o2 + 8) = sVar1;
+        *(int *)(o2 + 0x48) = (int)sVar1;
+        sVar1 = *(unsigned short *)(self + 0xa) + *(unsigned short *)(self + 0x52);
+        *(short *)(o2 + 0xa) = sVar1;
+        *(int *)(o2 + 0x4c) = (int)sVar1;
+        sVar1 = *(unsigned short *)(self + 0xe) + *(unsigned short *)(self + 0x54);
+        *(short *)(o2 + 0xc) = sVar1;
+        *(unsigned short *)(o2 + 0x2c) = *(unsigned short *)(o2 + 0x2c) | 1;
+        *(int *)(o2 + 0x50) = (int)sVar1;
+    }
+}
+
 
 DEFINE_func_8012B608()  /* dedup: shared engine-core @0x8012B608 (src/shared) */
 

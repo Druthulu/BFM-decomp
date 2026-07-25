@@ -10,7 +10,7 @@
  * this TU on purpose (reach-1 names like func_801809BC differ across overlays, so NOT in the
  * shared engine_core.h). Whole-binary harvest_verify byte-gate remains the sole arbiter (G3/P9). */
 extern s32 func_8016EC0C(s32 a0, s32 a1);                /* match-first, arity 2 */
-extern s32 func_8012B4B8(s32 a0);                        /* match-first, arity 1 */
+extern s32 func_8012B4B8();                        /* match-first, arity 1 */
 extern s32 func_801670E4(s32 a0, s32 a1, s32 a2, s32 a3); /* derive-decl, arity 4 */
 extern s32 func_80169A4C(s32 a0, s32 a1);                /* match-first, arity 2 */
 extern s32 func_8016A8FC(s32 a0);                        /* match-first, arity 1 */
@@ -1867,7 +1867,7 @@ extern s32 func_80016A5C();
 extern void func_80168F40(void *arg0);
 extern s32 func_8016901C(void *a0);
 extern void func_80169058(s32 a0);
-extern s32 func_80169228(void);
+extern s32 func_80169228();
 extern void func_801691B8(void *a0);
 extern void (*D_80189B38[])(void);
 extern void func_801693CC(void *a0);
@@ -2956,7 +2956,7 @@ extern void func_8017F694(void *arg0);
 extern s32 (*D_8018A904[])();
 extern s32 func_8017F6D8(s16 *a0);
 extern void (*D_8018A934[])(void);
-extern s32 func_8012B4B8(s32 a0);
+extern s32 func_8012B4B8();
 extern s32 func_8012C0EC(s32 *a0);
 extern void func_8017F780(s32 *arg0);
 extern void func_8012C1B8(void);
@@ -3620,7 +3620,7 @@ void func_80184254(s32 a0) {
 
 extern code_fn D_8018AE88[];
 
-extern s32 func_8012B4B8(s32 a0);
+extern s32 func_8012B4B8();
 
 void func_80184278(int param_1)
 {
