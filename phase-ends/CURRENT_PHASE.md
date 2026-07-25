@@ -3096,3 +3096,18 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   decl-rewriting transform (`sig_unify`, `canon_resident_calls`, `cast_call_sites`,
   `canon_sig_reconcile`) and before paying for a gate. Cookbook **§67a**; SETUP inventory row (R21).
   A necessary condition, NOT a match oracle — finish on the byte-gate (G3/P9).
+
+- **🧭 2026-07-24 (SESSION-18) — BANKING PATH FOR `func_8014D820` PRE-CLEARED (blocker_probe run BEFORE
+  the match, not after).** Three blocker classes, all known, none novel — so when the search lands a 0
+  the bank is plumbing, not discovery:
+  | class | n | tier | disposition |
+  |---|---|---|---|
+  | `local_type` (typedef redefs) | 32 | T0 | automatic — `harvest_verify` strips per-TU via `cdecl` (P27 T4) |
+  | `data_decl` (`D_801152AC` hdr `s16` vs draft `u16`, +2) | 3 | T0 | `reconcile_decls` |
+  | `self_decl_hdr` | 1 | **T1→T2 in practice** | **`DEFINE_func_8014D790`'s body declares `func_8014D820` as `void (s32, void*, void*)`; the byte-true def is `s32 (s32, u16*, u16*)`** — the §30#2 **def-side return-type macro-widen**, the same blocker all three Phase-23 giants hit |
+  **⚠️ The macro-widen edits `src/shared/engine_core.h` ⇒ FLEET-SHARED (T2): R22 is MANDATORY, the
+  per-binary gate is necessary-not-sufficient (§61/§63, and the SESSION-14 incident where a per-binary
+  BYTE-IDENTICAL was RIGHT about its binary while 137 others were broken).** Widening `void`→`s32` is
+  byte-neutral only IF every caller discards the return — verify, don't assume.
+  `symcheck` already cleared the link-level class (12/12). So the only open question on this function
+  remains the 12-instruction schedule.
