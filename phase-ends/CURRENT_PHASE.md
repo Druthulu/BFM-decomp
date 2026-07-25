@@ -3698,19 +3698,14 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 > **🛑 SESSION-19 CLOSING CHECKPOINT (2026-07-25, Opus 5 @ High) — REFRESHED mid-session; supersedes
 > both the SESSION-18 block and the earlier SESSION-19 block (which was written before the
 > ENGINE_SHB / class-B / dedup_extend-bug work and went stale). Fresh session safe here.**
-> **⚠️ ONE BACKGROUND JOB WAS RUNNING when this block was written:** `dedup_extend --binaries <134>`
-> extending **`func_80174CB0`** (log `.run/extend_s19d.log`). It writes `src/ov_*/*_jr_801734BC.c`
-> + `config/dedup.us.yaml`. **If it did not finish: `git status` will show ~130 modified
-> `*_jr_801734BC.c`. Those are its in-flight instantiations — re-run the sweep or
-> `git checkout -- src/`; do NOT commit a partial sweep.** The run banks 1/1 per binary; the tail
-> of the log is the truth.
-> **UNCOMMITTED at write time (deliberate — cannot commit mid-sweep):** `docs/matching-cookbook.md`
-> (§75c), `.run/backlog.jsonl`, `config/dedup.us.yaml`, the sweep's `src/` edits.
-> **STATE:** HEAD `commit:1002`, **9 commits this session**. Last **R22 clean-fleet 140/140** (run 4×
-> this session) was after the ENGINE_SHB batch; **the `func_80174CB0` sweep still needs its R22.**
-> **0 NON_MATCHING** (G4). dedup **1886 validated / 0 failed** (pre-sweep). **Drew pushes** (R6/R20).
-> **FLEET at last measurement: 80.2% instr** — 10,539,723 / 13,141,652 · distinct-code **67.7%** ·
-> fn-count **89.14%** (session opened 80.0 / 67.7 / 89.02).
+> **The `func_80174CB0` sweep referenced by the earlier draft of this block has COMPLETED,
+> been R22'd (140/140) and committed (`commit:1004`). No background job is running.**
+> **Tree clean** (only R23 `db.*.gbf` churn — never staged).
+> **STATE:** HEAD `commit:1004`, **12 commits this session**. **R22 clean-fleet 140/140, run 5×** — the
+> last after the `func_80174CB0` sweep.
+> **0 NON_MATCHING** (G4). dedup **1886 validated / 0 failed**, C1 coverage 239,604/239,604. **Drew pushes** (R6/R20).
+> **FLEET: 80.3% instr** — 10,555,959 / 13,141,652 · distinct-code **67.7%** · fn-count **89.18%**
+> (session opened 80.0 / 67.7 / 89.02).
 >
 > ## BANKED THIS SESSION
 > | fn | ins | reach | lever |
@@ -3719,9 +3714,9 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 > | `func_8014F3E8` | 32 | **×138** | §75 minority-spelling normalization + `dedup_extend` |
 > | `func_80165CA0` | 99 | **×135** | §75b `ENGINE_SHB` (the carried-`#define` gap) |
 > | 22 assorted | — | ×1 | picked up in the 3 overlays the first sweep excluded |
-> | `func_80174CB0` | 123 | **sweep in flight** | §75c the full §17a-1 pair |
+> | `func_80174CB0` | 123 | **×135** | §75c the full §17a-1 pair (3 residual = the predicted class-A set) |
 >
-> **+30,197 ins banked with ZERO function drafting** — every gain was carried-declaration plumbing.
+> **+46,433 ins banked with ZERO function drafting** — every gain was carried-declaration plumbing.
 > **Distinct-code did NOT move (67.7%)** and will not: propagation moves COVERAGE, not distinct-RE.
 > **Fresh cracks remain the only distinct-code lever.**
 >
@@ -3747,9 +3742,8 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 >    checkpoint-before-pause rule exists to prevent. Refreshed on Drew's prompt, not on my own.
 >
 > ## ⚠️ OPEN ACTIONS, ranked
-> 1. **Finish the `func_80174CB0` sweep** → R22 → `make report` → commit. ~123 ins × ~131 ≈ +0.12pp.
->    The **3 class-A overlays** (`func_80012ABC`, census 73 `s32` vs 7 `s16`) will still fail — worth
->    3 overlays only, do it only if trivially cheap.
+> 1. **[DONE] `func_80174CB0` ×135.** Residual = the **3 class-A overlays** (`func_80012ABC`, census
+>    73 `s32` vs 7 `s16`) — worth 3 overlays only; normalize the 7 `s16` decls if trivially cheap.
 > 2. **FRESH CRACKS — the only distinct-code lever.** Fuel: the **48 families / 0.62pp** with a
 >    cached member (draftable now, no MCP) + the `ov_SC06_018` prefetch (**101 uncached substantial
 >    stubs, 17,723 ins**). Breadth-shaped ⇒ **prompt Drew for `/effort ultracode`** (R26/R27).
