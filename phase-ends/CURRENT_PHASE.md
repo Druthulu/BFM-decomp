@@ -2901,3 +2901,24 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   move on it — deliberate, function-specific work, not a guess.
   Preserved: `.run/giants/s17_func_801463A0_match101.c` (the standalone-MATCH form) +
   `s17_func_801463A0_symfix.c` (the symbol-corrected form).
+
+- **⛔ 2026-07-24 (SESSION-17) — `func_801463A0`: the §H antidotes do NOT reach this fold. Two more
+  byte-recorded negatives; stopping with the blocker precisely named.**
+  With the TU-canonical `u8 D_80126BE0[]` decls (the form that avoids the TU conflict), the address is
+  CSE'd into a register and the function comes out one instruction short (100 vs 101, 36 mismatched).
+  Tried, both **inert — byte-identical 100/36, no movement at all**:
+  | antidote | source | result |
+  |---|---|---|
+  | balance the existing `if (iVar1 != 0)` with an empty `else {}` (§H diamond: make the join label barrier-preceded) | `cse_expr.md` §H | **100/36, unchanged** |
+  | zero-instruction `__asm__ __volatile__("" ::: "memory")` between the struct copy and the scalar store | §17 barrier | **100/36, unchanged** |
+  **Why they miss:** §H's diamond kills a fold *across a join*; here both uses sit in the SAME basic
+  block with no join between them (the copy and the store are adjacent statements), so there is nowhere
+  for a fresh cse table to start. The memory clobber constrains memory ops, not the address constant.
+  **⇒ THE STATE, exactly:** a standalone **MATCH (101 ins)** exists — `.run/giants/
+  s17_func_801463A0_match101.c` with direct-symbol `extern u16` decls — and it is blocked ONLY by the
+  canonical `extern u8 D_80126BE0[]` living inside a `DEFINE_func_*` macro body at
+  `engine_core.h:19813`. Every remaining exit is a decl-visibility move, not a codegen one:
+  (a) `demacroize` → banks **×1** (+101 ins) and forfeits ×138 — measured trap, not recommended;
+  (b) change the shared canonical decl → **T2 fleet-shared**, the §63 disaster class, R22-mandatory;
+  (c) find a C form that keeps `u8[]` AND defeats the address CSE — the open question.
+  **Value if (c) is found: +13,938 ins (×138).** Do not re-buy (a) or the two antidotes above.
