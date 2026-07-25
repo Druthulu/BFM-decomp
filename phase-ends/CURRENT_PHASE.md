@@ -3267,3 +3267,17 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   a *single named mechanism* (a 9-instruction schedule permutation in one 15-instruction window) rather
   than a vague wall — the shape Fable5 has historically cracked (§45 flagship, §52). Value if solved:
   **×138**. Cost control: one isolated agent on this one function, per the parallel-isolated doctrine.
+
+- **⛔ 2026-07-24 (SESSION-18) — `func_80176734`: the dual-width-load idiom is NECESSARY BUT NOT
+  SUFFICIENT. Two byte-recorded negatives; do not re-buy either in isolation.** Forcing the second read
+  of `D_80126CE0` through a distinct lvalue works — both directions produce the two loads — but each
+  lands at **373 ins vs the target's 371 (+2) and 103 mismatched**, worse than the 371/371 **56**
+  baseline:
+  | variant | shape | result |
+  |---|---|---|
+  | keep `extern s16` (→ `lh` test), value via `*(u16 *) &D_80126CE0` | two loads | 373/371, 103 |
+  | declare `extern u16` (→ `lhu` value), test via `*(s16 *) &D_80126CE0` | two loads | 373/371, 103 |
+  **+2, not +1** — so the extra cost is the second load *plus* fallout, exactly the §27 frame-pressure
+  cascade SESSION-17 predicted (relieving the pressure re-sizes the frame 0x40→0x38 and moves every
+  save offset). ⇒ The idiom must be applied **together with** whatever re-locks the frame; applied alone
+  it is a regression. Next reader session on this function should start from the frame, not the load.
