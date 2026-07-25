@@ -3874,7 +3874,19 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 > **🛑 SESSION-19 CLOSING CHECKPOINT (2026-07-25, Opus 5 @ High) — REFRESHED mid-session; supersedes
 > both the SESSION-18 block and the earlier SESSION-19 block (which was written before the
 > ENGINE_SHB / class-B / dedup_extend-bug work and went stale). Fresh session safe here.**
-> **No background job is running; the deferred full R22 has been run (140/140).** Three behemoths banked this session: `func_8017F510`
+> **⚠️ AN OPUS-5 AGENT IS RUNNING (round 2 on `func_8017BF14`, effort xHigh):** closing the last
+> **45/4763**. Deliverables `.run/giants/s19_func_8017BF14_b2.c` + `s19_bf14_report2.md`;
+> sandboxed to `.run/giants/` (no `src/`/`config/`/`docs/`, no commits, no `make` targets).
+> **If this session died mid-run, check those two files — its work is NOT committed.**
+> Briefed with the round-1 map: **(a)** ~8 ins producer-temp tie (fix by MULTI-death named
+> offsets, NOT by removing the `va→$t2` pin — measured to cost 4% elsewhere) · **(b)** ~15 ins
+> `c0`/`c2` grants (direct pinning REFUTED; needs `allocno_compare` reordering) · **(c)** ~20 ins
+> rgb accumulator `$v1` vs `$v0`. **THE #1 MOVE: sweep variable REUSE across `c0..c3`/`a0v..a3v`
+> — declaration SCOPE was swept exhaustively in round 1, REUSE never was**, and that exact merge
+> took `func_8017F510` from 97→10. **Cheapest unrun probe: the §76 attribution primitive
+> (`-fno-schedule-insns`{,2}) on (c)** — never run, and §78 already caught one "scheduling"
+> residual that was really a register grant.
+> The deferred full R22 HAS been run (140/140) and `tools-health` is OK.** Three behemoths banked this session: `func_8017F510`
 > (1,511, §76 crack), `func_8017F5B4` (1,511, §40 remap), and **`func_8017D960` + its entire
 > 5-member family (5 × 3,338 = 16,690 ins, §78 crack + 4 first-try remaps)**.
 > **Tree clean** (only R23 `db.*.gbf` churn — never staged).
