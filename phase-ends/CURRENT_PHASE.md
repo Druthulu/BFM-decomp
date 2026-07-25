@@ -3213,3 +3213,26 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   gain**. The lever is **profile diversity, not seed novelty** — budget three passes per giant, then
   stop. Cookbook **§66d-4** (amends §66d-3's "measured permuter floor", which SESSION-17 applied to all
   four giants and which is now shown to be profile-relative, not absolute).
+
+- **🔬 2026-07-24 (SESSION-18) — `residual_class`'s `structural` bucket says "permuter CPU here is
+  waste". MEASURED FALSE for schedule permutations — a project-wide mis-route.** `func_8014D820` was
+  classed `OPCODE-MIXED [structural]`, later `WIDTH [structural] sig=WIDTH/lhu!=sh`, at **every**
+  waypoint — while the permuter moved it **16 → 14 → 12 → 10** across three profiles. Six points inside
+  a bucket documented as "don't run the permuter", *and* the guidance it does give ("read it") was the
+  part that failed (11 attempts).
+  **Why it is fooled:** the classifier reasons position-by-position, and a pure schedule PERMUTATION
+  changes what lands at every index in the window — so an all-present-but-reordered block reads as
+  "different operations, no single family" or as a width flip, because index *i* now holds a `sh` where
+  the target holds an `lhu`. Its `SHIFT-DRIFT` rule only catches the case where ONE shift point
+  re-aligns the tail; a permutation with matching endpoints re-aligns nowhere.
+  **Corrected routing (cookbook §66d-5):** `structural` ⇒ read FIRST, but it is **not a permuter veto**
+  — if reading fails 2–3× AND the instruction COUNTS match AND the same multiset of ops appears
+  reordered, run the three profiles. **Count equality is the tell:** a genuine shape change usually
+  changes the count; a permutation never does.
+  **FOLLOW-UP, sized honestly (P30 fuel, NOT done):** the obvious re-check — sweep the backlog for
+  OPCODE-MIXED/WIDTH entries with equal instruction counts — **is not cheaply available**: all 1,736
+  `.run/backlog.jsonl` rows carry `residual: null` (and 1,549 carry no `klass` either), so the class
+  would have to be **recomputed per entry by compiling each preserved `best_draft`**. That is a real,
+  bounded batch job (~1 compile/entry, no agent tokens) and a good P30 opener, but it is not a grep.
+  Worth doing precisely because the mis-route has been silently steering this class away from the only
+  tool that moves it for the whole project.
