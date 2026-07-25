@@ -2830,3 +2830,25 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 > (`--check-only` first; targeted `--addr` only) · `p16_permute.setup` WIPES `.run/permuter/<fn>/` —
 > copy a best waypoint out before re-running (§66d-2).
 > **DO NOT close P29 on ROI** — burn-down floor still undetermined.
+
+- **⛔ 2026-07-24 (SESSION-17) — the 2 typedef-blocked drafts do NOT bank: blockers stack THREE deep,
+  and the last layer is a class the existing transforms do not reach. 0/2, tree restored exactly.**
+  Did it properly this time: computed each draft's **own TU's** provided-typedef set via
+  `cdecl.typedef_names(tu_path)` (217 / 215 names — note it takes a **PATH**, not text) →
+  `strip_provided_typedefs` dropped **2 of 2** typedef lines from each draft → ran the **driver's
+  ladder** (`--stages ""`, so `canon_resident_calls → cast_call_sites → sig_unify → gate`).
+  **Result: pass 1 banked 0/2**, `src/` restored exactly (only `.run/backlog.jsonl` moved).
+  **The stack, layer by layer** (cc1 reveals ONLY the first, so each fix exposes the next — §65):
+  | fn | layer 1 | layer 2 | layer 3 (now) |
+  |---|---|---|---|
+  | `func_80156670` | `S8` dup typedef | `B8` dup typedef | **`conflicting types for D_801270A8`** — a DATA-extern conflict |
+  | `func_80174CB0` | `MATRIX`/`SVECTOR` dup typedefs | — | **`conflicting types for func_80012ABC`** — a callee conflict `cast_call_sites` did NOT clear |
+  **⚠️ A NEW STATIC-ORACLE BLIND SPOT, and the two-oracle design is what caught it (R34):**
+  `func_80156670`'s data-extern conflict is **CC1-ONLY** — `blocker_probe`'s static oracle reports
+  `none` while real cc1 fails. That is the first CC1-ONLY case measured (SESSION-16's 36-draft probe was
+  36/36 agreement, 0 cc1-only). The static side needs a data-extern comparison it currently lacks; until
+  it has one, a `static: none` verdict is NOT evidence that a draft is clean.
+  **⇒ Honest status: these two are §65g-class** — not "run one more tool", but "needs a transform that
+  does not exist yet" (a data-extern reconcile that `reconcile_tu` does not reach, and a callee
+  reconcile `cast_call_sites` does not reach). **Estimated value if solved: ≈ +0.4pp.** Fully-stripped
+  drafts preserved at `.run/perm_s17j/` so the next attempt starts three layers in, not from scratch.
