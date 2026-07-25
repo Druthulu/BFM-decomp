@@ -7,6 +7,19 @@
 #include "common.h"
 #include "engine_types.h"   /* shared engine struct/union types (§14c struct follow-up) */
 
+/* ENGINE_SHB — the sign-extension barrier some shared bodies were matched with (§75b).
+ * A body's preamble may carry file-scope `#define`s as well as `extern`s, but extraction lifts
+ * only the externs, so a `#define` left behind in the source overlay makes the macro compile
+ * ONLY where that overlay's define happens to be in scope ABOVE the splice point. func_80165CA0
+ * was capped at ×3 by exactly that: its `#define SHB` sits between its two externs and its
+ * instantiation, and the other 132 overlays define SHB only ~300 lines further down the file.
+ * Owning it here (under a distinct name, so the overlays' own SHB — which exists in BOTH a
+ * volatile and a non-volatile spelling — can never collide) makes the body self-contained.
+ * Volatile form: that is what the 3 banked members compile with today. */
+#ifndef ENGINE_SHB
+#define ENGINE_SHB(x) __asm__ __volatile__("" : "=r"(x) : "0"(x))
+#endif
+
 #define DEFINE_func_80128EA8() \
     void func_80128EA8(s32 a0, s32 a1, s32 a2) { \
         *(s32 *)(a1 + 0x0) = a2;                       /* sw a2, 0x0(a1) */ \
@@ -28061,19 +28074,19 @@
         } while (i < 0x1e); \
         i = 0; off = 0; \
         do { \
-            base = (s32)&D_8011D030; SHB(base); \
+            base = (s32)&D_8011D030; ENGINE_SHB(base); \
             a1 = off + base; \
             p = *(short **)(a1 + 0x20); \
             if (p != 0) { \
                 s32 q2; \
                 if ((u16)*p == 1) { \
-                    v = *(short *)(a1 + 6); p[4] = v; SHB(v); *(int *)(p + 0x24) = v; \
-                    v = *(short *)(a1 + 0xa); p[5] = v; SHB(v); *(int *)(p + 0x26) = v; \
-                    w = *(short *)(a1 + 0xe); p[6] = w; v = p[0x16] | 1; SHB(w); p[0x16] = v; *(int *)(p + 0x28) = w; \
+                    v = *(short *)(a1 + 6); p[4] = v; ENGINE_SHB(v); *(int *)(p + 0x24) = v; \
+                    v = *(short *)(a1 + 0xa); p[5] = v; ENGINE_SHB(v); *(int *)(p + 0x26) = v; \
+                    w = *(short *)(a1 + 0xe); p[6] = w; v = p[0x16] | 1; ENGINE_SHB(w); p[0x16] = v; *(int *)(p + 0x28) = w; \
                 } else if ((q2 = *(int *)(p + 0x1a)) != 0) { \
-                    v = *(short *)(a1 + 6); p[4] = v; SHB(v); *(int *)(q2 + 0x14) = v; \
-                    v = *(short *)(a1 + 0xa); p[5] = v; q2 = *(int *)(p + 0x1a); SHB(v); *(int *)(q2 + 0x18) = v; \
-                    v = *(short *)(a1 + 0xe); p[6] = v; q2 = *(int *)(p + 0x1a); SHB(v); *(int *)(q2 + 0x1c) = v; \
+                    v = *(short *)(a1 + 6); p[4] = v; ENGINE_SHB(v); *(int *)(q2 + 0x14) = v; \
+                    v = *(short *)(a1 + 0xa); p[5] = v; q2 = *(int *)(p + 0x1a); ENGINE_SHB(v); *(int *)(q2 + 0x18) = v; \
+                    v = *(short *)(a1 + 0xe); p[6] = v; q2 = *(int *)(p + 0x1a); ENGINE_SHB(v); *(int *)(q2 + 0x1c) = v; \
                 } else { \
                     p[4] = *(short *)(a1 + 6); p[5] = *(short *)(a1 + 0xa); p[6] = *(short *)(a1 + 0xe); \
                 } \
