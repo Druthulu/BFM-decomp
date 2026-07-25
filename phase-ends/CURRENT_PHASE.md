@@ -2948,3 +2948,71 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   fleet-wide figure — **0 cached + never-drafted targets at live≥100** — is the one that survives. Same
   failure mode as §66c, committed by the same person twice in one session: *check every draft directory,
   and prefer the glob over a hand-listed pair.*
+
+> **🛑 SESSION-17 CLOSING CHECKPOINT (2026-07-24, high on Opus 5) — supersedes ALL earlier SESSION-17
+> blocks. Fresh session safe here. NEXT SESSION STARTS ON THE GIANTS (Drew, at close).**
+> Tree clean (only R23 `db.*.gbf` churn — never staged). **R22 clean-fleet 140/140** (verified 5× this
+> session); 0 NON_MATCHING (G4); **dedup 1882 / 0 failed**. **Drew pushes** (R6/R20). HEAD `commit:0953`.
+> **Fleet: 79.9% instr · 67.7% distinct (64,875) · 88.98% fn-count** (opened 79.6 / 67.7 / 88.86).
+>
+> **BANKED: 3 fns, all propagated ×138 ≈ +40,020 ins** — `func_80177940` (101, §66d loop) ·
+> `func_8012B4B8` (84) · `func_80169228` (105).
+> **TOOLS FIXED:** `recover_integration` (propagation refused unless fleet-tier + `--r22`, refused
+> outright after `demacroize`; **SUCCESS PATH VERIFIED end-to-end** by the §66 free re-bank test) ·
+> `gate_stage` (the fleet-% regex dead for 50 commits) · `p16_permute` (global `pkill` killing
+> concurrent runs). **KNOWLEDGE:** cookbook **§66–§66d-3**; SETUP row for `recover_integration.py`.
+>
+> ## ▶ START HERE: THE GIANTS (everything needed is below — no re-discovery)
+> All four are at their **measured permuter floor** (ILS converged; see §66d-3 for the read-the-series
+> rule). Seeds are TRACKED at `.run/giants/s17_*.c` (note: `.run/giants/*.c` is allowlisted but
+> **subdirectories are NOT**). **Drew: no Fable5 for now** — this is reader work + permuter cleanup.
+> | fn | ins | seed | ILS series | residual, as diagnosed |
+> |---|---:|---|---|---|
+> | `func_8014D820` | 304 | `s17_func_8014D820_close25.c` | 27→25, then 25 ×7 | **the closest.** Target births `$s3←a1` FIRST, `$s4←a0` twelfth; mine the reverse. Same register→param MAPPING, swapped BIRTH ORDER → cascades into prologue save order (idx 1/6) + load bases (idx 10/11: target `$a3`/`$s3`, mine `$a2`/`$a1`). §17 register-ORDER class. |
+> | `func_80140958` | 260 | `s17_func_80140958_close56.c` | 116→59 falling, then 56 ×11 | LICM hoists inner-loop consts to the outer preheader, stealing the two callee regs the target gives const-3 (`$fp`) and `&D_801879BE` (`$s6`). |
+> | `func_80176734` | 371 | `s17_func_80176734_close57.c` | 76→57 in cycle 1, then ×9 | `D_80126CE0` needs BOTH `lh` (test) + `lhu` (value); every C form forcing the 2nd load relieves pressure → frame 0x40→0x38 save-offset cascade (§27 frame-pressure lock). |
+> | `func_80176218` | 327 | `s17_func_80176218_close110.c` | 271→110 in cycle 1, then ×11 | ne-boolean coalescing copy + blk-1 delay-slot steal + blk-2 cross-jumped into the adjust tail. |
+> **`func_8014D820` — DO NOT RE-BUY THESE (each byte-measured this session, all inert or worse):**
+> `__asm__("" : "=r"(a1) : "0"(a1))` barrier after the decl block → **25, unchanged** · the same barrier
+> on `a2` (the copy-propagated pin the note names) → **25, unchanged** · staging BOTH params through
+> pinned locals `$s3`/`$s4` in the target's birth order → **35** (worse) · staging + the `a2` barrier →
+> **34**. *(A barrier placed BEFORE the declaration block is a C89 error — it must go after.)*
+> **The one useful sub-finding:** staging **fixed the register ASSIGNMENT** (loads via `$v1` like the
+> target) while shuffling the ORDER — so assignment and birth-order are **separately steerable**, and no
+> combination tried gets both at once. That is the crack to aim at.
+> **THE UNFINISHED PROBE (I was mid-check when the session closed):** birth order may follow **first-use
+> order** (§31 regalloc RC-1/RC-2/RC-3: declaration/use order drives `allocno_compare` density). Measured
+> so far in the body: `a2` first used at body-line 27, `a1` at 28 — **`a0`'s first use was NOT located
+> yet.** If `a0` is used before `a1`, reordering the first touches (semantically neutral) is an untried,
+> cheap lever. If `a0` is used AFTER `a1`, then use-order is already target-shaped and is NOT the lever —
+> which itself would be worth knowing. **Finish that check first; it is one grep.**
+> **The §66d loop is the method:** structural change by reading → hand back to `permuter_ils` to clean
+> up the fallout. That is exactly how `func_80177940` banked this session (5→1 search, sibling idiom by
+> reading, 6→0 search).
+>
+> ## Also carried (lower value, all measured)
+> - **`func_801463A0`** (101 ins, **+13,938 ins**): a standalone **MATCH exists** —
+>   `s17_func_801463A0_match101.c`, direct-symbol `extern u16` decls — blocked ONLY by the canonical
+>   `extern u8 D_80126BE0[]` living inside a `DEFINE_func_*` macro body at `engine_core.h:19813`.
+>   Exits: (a) `demacroize` = **×1 trap** (+101 ins, forfeits ×138); (b) change the shared decl = **T2 /
+>   §63 disaster class**; (c) a C form keeping `u8[]` that defeats the address CSE = **the open question**.
+>   Both §H antidotes (balanced-if diamond, zero-ins memory barrier) are **byte-proven inert** — §H kills
+>   a fold ACROSS A JOIN and here both uses are adjacent statements in one basic block.
+> - **The Ghidra-C prefetch is SPENT** — 0.51pp ceiling across 87 overlays (~0.01pp each, each needing a
+>   human `/mcp`). Task 5's +1.59pp cover was a snapshot of a consumable and has been consumed. It is now
+>   the WORST lever on the board; do not plan P30 around it without re-measuring.
+> - `func_80156670` + `func_80174CB0`: **§65g-class**, blockers stack 3 deep (dup typedefs → a DATA-extern
+>   conflict / a callee conflict the ladder does not clear). Fully-stripped drafts at `.run/perm_s17j/`.
+> - **NEW static-oracle blind spot (R34):** `blocker_probe`'s static side missed a data-extern conflict
+>   that real cc1 caught — the **first CC1-ONLY case ever measured**. `static: none` is NOT proof a draft
+>   is clean. Worth a data-extern comparison in the static oracle.
+> - **A cheap guard worth building:** diff a draft's referenced symbol set against the target `.s`'s
+>   `%hi/%lo/jal` set BEFORE gating. One `comm` over two greps; it found the `func_801463A0` invented-alias
+>   bug in seconds, and `rtu_match` is blind to that whole class **because it compiles without linking**.
+>
+> **⚠️ STANDING HAZARDS:** `dedup_propagate --auto-from` would re-macroize the 14 de-macroized sites
+> (`--check-only` first; targeted `--addr` only) · `p16_permute.setup` **WIPES** `.run/permuter/<fn>/` —
+> copy the best waypoint out before re-running (§66d-2) · `worklist.py --assert-partition` does NOT
+> rewrite the doc (run it bare) · when checking "was this attempted?", **glob every draft dir** — a
+> hand-listed pair produced a false "fresh fuel" finding twice this session (§66c).
+> **DO NOT close P29 on ROI** — burn-down floor still undetermined.
