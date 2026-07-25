@@ -5594,3 +5594,44 @@ frame/8-reg allocation → crack ONE spawn-effect instance and paste it 35× →
 → the 7 wait instances (already solved, reuse verbatim) → cases 17/18/20 (560/484/525 ins) last.
 Banking will need §27-step-2 / §28 plumbing recovery: `func_80178970`/`func_80178D18`/`func_800599B8`/
 `func_8017D8A4` are all called at arities that disagree with their canonical externs.
+
+## §70 — The giv-init base register: walk the PARAMETER, not a copy of it (Phase 29 SESSION-18, `func_801777BC`)
+
+`func_801777BC` (59 ins, reach 138) came down to **one instruction**: mine emitted
+`addiu $t0,$t1,0xC`, the target `addiu $t0,$a0,0xC`. A general-induction-variable based on the wrong
+register. This is the `REGALLOC-PERM/$tN>$a0` signature and no pin or permuter pass reaches it —
+it is decided in `loop.c` before allocation.
+
+**Why the natural C can NEVER produce the target** (read out of `tools/reference/gcc-2.7.2/`):
+with the obvious form —
+```c
+u32 *q = (u32 *)a0;   /* … */   q += 5;   /* … */   return q;
+```
+`cse.c:make_regs_eqv` makes **`q`** the canonical register of the equivalence class, because `q`
+out-lives `a0`; and `loop.c:update_reg_last_use` then refuses to extend `a0`'s last-use, because the
+giv-init insn's UID is ≥ `max_uid_for_loop`. So every giv gets based on the copy, forever.
+
+**The fix — make the loop pointer the parameter itself:**
+```c
+a0 = (void *)((u32 *)a0 + 5);   /* … */   return a0;
+```
+Now `loop.c:record_initial` finds the biv's initial value is the **hard register** `(reg:SI 4)`,
+`valid_initial_value_p` accepts it (**precondition: no calls in the function**), and
+`emit_iv_add_mult` bases the giv on `$a0` — which yields **both** `addu $t1,$a0,$zero` (index 0) and
+`addiu $t0,$a0,0xC` (index 16) for free.
+
+**Look for it when:** a pointer-walking loop *returns the walked pointer*, and the only residual is a
+giv/base register differing between a `$t`/`$s` temp and an argument register.
+
+**Two supporting levers from the same function:**
+- **Hoist `i = 0;` OUTSIDE the guard.** Left inside, `reorg` steals the `lui $t4` constant into the
+  `blez` delay slot instead of the target's `move $11,$0`.
+- **Reuse one variable sequentially for two constants** (`mask = 0xffffff; t = … & mask;
+  mask = 0x3000000;`) so both share `$v1` instead of pinning two registers simultaneously.
+
+**The meta-point, and it is a tier shift.** Phase 23 established that *reading the gcc source to break
+a class* was the Fable5 tier — the expensive wall-breaker. This was done by an **ordinary Opus 5
+drafting agent**, unprompted, as part of finishing one function (270k tokens). The §31 map plus a
+local copy of the real compiler source appears to have moved compiler-internals reasoning down a tier.
+Do not read this as "Fable5 is unnecessary" on one data point — but DO give routine drafting agents
+the gcc source path and expect them to use it.
