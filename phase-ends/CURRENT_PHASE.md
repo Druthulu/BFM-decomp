@@ -3647,70 +3647,123 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   not byte-neutral by inspection (§29's narrow-param wall is exactly this), so it gets a measured
   probe, not a guess.
 
-> **🛑 SESSION-19 CLOSING CHECKPOINT (2026-07-25, Opus 5 @ High) — SUPERSEDES the SESSION-18 block.
-> Fresh session safe here.**
-> Tree clean (only R23 `db.*.gbf` churn — never staged). **R22 clean-fleet 140/140** (run 3× this
-> session: after the widen, after the propagation, after the extend). **0 NON_MATCHING** (G4).
-> **dedup 1886 validated / 0 failed**, C1 coverage 239,315/239,315. HEAD `commit:0996`, 5 commits this
-> session. **Drew pushes** (R6/R20).
-> **FLEET: 80.1% instr** — 10,525,534 / 13,141,652 · distinct-code **67.7%** · fn-count **89.09%**
-> (opened the session at 80.0 / 67.7 / 89.02; **+16,008 ins**, exactly the projected 84×138 + 32×138).
+- **✅ 2026-07-25 (SESSION-19) — CLASS B RESOLVED: the remedy is the FULL §17a-1 PAIR, and a
+  decl-only fix MOVES the error rather than shrinking it (§75c).** The K&R `()` probe on
+  `func_8012F14C` was byte-neutral on the 3 members but banked **0/179** — and the failure class
+  moved **PLUMBING → CC1-FAIL**, which is the tell that the first wall fell and a second appeared.
+  I reproduced it by hand-splicing the macro into `ov_SC01_001` and reading real cc1 stderr
+  (**not** the classifier's bare `make … Error 33`):
+  `ov_SC01_001_jr_801734BC.c:2616: too many arguments to function 'func_8012F14C'`.
+  C's composite-type rule: after `void f(s32);` then `void f();` the composite is **still
+  `void f(s32)`** — the earlier prototype wins — so a 3-arg call is a hard error no declaration
+  spelling can rescue. **FIX = the other half §17a-1 always specified** (what `cast_call_sites.py`
+  implements): keep the `()` decl (conflict-free in either order) **and** cast the call —
+  `((void (*)(s32,s32,s32))func_8012F14C)(…)`; gcc folds a cast of a KNOWN function symbol back to
+  a direct `jal`, so the bytes are unchanged. Byte-gated on all 3 members (`7ca772be` / `b3b95547`
+  / `9885af74`), then `func_80174CB0` VERIFIED on the first extended binary. → cookbook **§75c**.
+
+- **🚨 2026-07-25 (SESSION-19) — A TOOL DEFECT I INTRODUCED THE CONDITIONS FOR, AND CAUGHT:
+  `dedup_extend` STRIPPED A LOAD-BEARING INCLUDE FROM 135 BINARIES.** On a 0-banked run,
+  `if not banked: ensure_include_revert(b)` fired **unconditionally**. `ensure_include()` returns
+  True only when *it* inserted the line, but the revert ignored that return value — so on the 135
+  binaries that already had `#include "../shared/engine_core.h"` from earlier work, the class-B
+  probe's zero-bank run **removed it from all 135 at once**, leaving every `DEFINE_func_*()` in
+  those overlays unresolvable.
+  **Why it survived until now:** the tool's designed case is NEWLY-onboarded binaries (which
+  genuinely lack the include, so the revert is correct there), and every prior run banked ≥1 per
+  binary so the branch never fired.
+  **WHY NO BYTE-GATE SAW IT (R34):** the damage lands **after** the last gate — `harvest_verify`
+  had already finished and reverted its drafts. The byte-gate is a null oracle for state mutated
+  after it runs. Caught by reading `git status` before moving on; `git checkout -- src/` restored;
+  **nothing was committed, nothing lost.**
+  **CLASS:** §61/§63 — an undo written as an **inverse transform** instead of a snapshot restore,
+  applied without checking whether the forward action was ever taken. Identical shape to the
+  SESSION-14 `fix_arity_callers --revert` incident.
+  **FIXED** (`added_include = ensure_include(b)`; revert only if this run added it) and
+  **NEGATIVE-CONTROL-PROVEN**: stripping the include from `ov_SC01_004` makes `make audit-binaries`
+  fail loud (`[FAIL] … does NOT include ../shared/engine_core.h`, make Error 1) — the **R36
+  citizenship gate is exactly the detector for this class**, then restored. `make tools-health` →
+  **OK** (sigs fresh; corpus+resident, cdecl, binaries, report/lint/dedup all green).
+
+> **🛑 SESSION-19 CLOSING CHECKPOINT (2026-07-25, Opus 5 @ High) — REFRESHED mid-session; supersedes
+> both the SESSION-18 block and the earlier SESSION-19 block (which was written before the
+> ENGINE_SHB / class-B / dedup_extend-bug work and went stale). Fresh session safe here.**
+> **⚠️ ONE BACKGROUND JOB WAS RUNNING when this block was written:** `dedup_extend --binaries <134>`
+> extending **`func_80174CB0`** (log `.run/extend_s19d.log`). It writes `src/ov_*/*_jr_801734BC.c`
+> + `config/dedup.us.yaml`. **If it did not finish: `git status` will show ~130 modified
+> `*_jr_801734BC.c`. Those are its in-flight instantiations — re-run the sweep or
+> `git checkout -- src/`; do NOT commit a partial sweep.** The run banks 1/1 per binary; the tail
+> of the log is the truth.
+> **UNCOMMITTED at write time (deliberate — cannot commit mid-sweep):** `docs/matching-cookbook.md`
+> (§75c), `.run/backlog.jsonl`, `config/dedup.us.yaml`, the sweep's `src/` edits.
+> **STATE:** HEAD `commit:1002`, **9 commits this session**. Last **R22 clean-fleet 140/140** (run 4×
+> this session) was after the ENGINE_SHB batch; **the `func_80174CB0` sweep still needs its R22.**
+> **0 NON_MATCHING** (G4). dedup **1886 validated / 0 failed** (pre-sweep). **Drew pushes** (R6/R20).
+> **FLEET at last measurement: 80.2% instr** — 10,539,723 / 13,141,652 · distinct-code **67.7%** ·
+> fn-count **89.14%** (session opened 80.0 / 67.7 / 89.02).
 >
 > ## BANKED THIS SESSION
-> | fn | ins | reach | note |
+> | fn | ins | reach | lever |
 > |---|---|---|---|
-> | `func_8014D4C0` | 84 | **×138** | §30#2 widen + the §73 PARAM axis; propagated clean first try |
-> | `func_8014F3E8` | 32 | **×138** | banked ×1 → ×4 → ×138 after the §75 normalization + `dedup_extend` |
+> | `func_8014D4C0` | 84 | **×138** | §30#2 widen + the §73 PARAM axis |
+> | `func_8014F3E8` | 32 | **×138** | §75 minority-spelling normalization + `dedup_extend` |
+> | `func_80165CA0` | 99 | **×135** | §75b `ENGINE_SHB` (the carried-`#define` gap) |
+> | 22 assorted | — | ×1 | picked up in the 3 overlays the first sweep excluded |
+> | `func_80174CB0` | 123 | **sweep in flight** | §75c the full §17a-1 pair |
 >
-> **Distinct-code did NOT move (67.7%).** Expected: propagation moves COVERAGE, not distinct-RE. The
-> only lever that moves distinct-code is FRESH CRACKS — the SESSION-14 re-ranking still stands.
+> **+30,197 ins banked with ZERO function drafting** — every gain was carried-declaration plumbing.
+> **Distinct-code did NOT move (67.7%)** and will not: propagation moves COVERAGE, not distinct-RE.
+> **Fresh cracks remain the only distinct-code lever.**
 >
-> ## THE SESSION'S REAL YIELD: THREE CAPS, NONE OF THEM THE COMPILER
-> | believed | measured truth |
-> |---|---|
-> | "§30#2 widen banks both" | the widen fixes only the RETURN axis; `func_8014D4C0` was blocked on the **PARAM** axis (T0 draft-local, no fleet edit) — **§73** |
-> | propagation "drop" = a wall | a **missing `--recover` flag**; without it ONE culprit overlay costs the whole group (×0 instead of ×N−1) |
-> | `byte-diverge / irreconcilable` | **impossible** — members are selected BY `h_exact`, so all 138 are byte-identical. It is a COMPILE conflict, and the real cause was a **minority-spelling source overlay** — **§75** |
->
-> ## NEW KNOWLEDGE (all distilled in-session, R30)
+> ## THE SESSION'S YIELD: SIX COOKBOOK ENTRIES, ALL FROM MEASUREMENT
 > **§73** the two axes of a def-side self-decl conflict (RETURN = fleet widen T2/R22; PARAMS = casts
 > at each use, T0) · **§74** the pin-safety audit (the corrupting form is a CALLER-SAVED pin spanning
 > a `jal`; audit the surviving `match_one` object, no recompile) · **§75** census the carried extern
 > before believing an exclusion message; prefer a majority-spelling source overlay; always
-> `--recover`; after normalizing use `dedup_extend` not `dedup_propagate --addr` · **§75a** the three
-> exclusion classes (A minority spelling / B genuine arity split / C missing carried extern) and the
-> one grep that discriminates them.
+> `--recover`; after normalizing use `dedup_extend`, not `dedup_propagate --addr` · **§75a** the
+> three exclusion classes (A minority spelling / B arity split / C missing carried extern) + the one
+> grep that discriminates them · **§75b** extraction lifts `extern`s but NOT file-scope `#define`s
+> (signature = a LINK error) · **§75c** class B needs the PAIR (decl **and** call-site cast).
+>
+> ## MY OWN ERRORS THIS SESSION (recorded so they are not repeated)
+> 1. **Ranked on one sample.** Put the class-A normalization first at "~+0.13pp"; the full-sweep
+>    census said **3 overlays**, not 138. §75a's own rule caught me one commit after I wrote it.
+> 2. **Applied a decl-only class-B fix** and would have logged a fresh wall had I trusted the
+>    failure class instead of reading cc1's actual line.
+> 3. **`sleep`-polled a background job** against the project's explicit guidance (the harness
+>    notifies on completion).
+> 4. **Misread my own negative control's exit code** (`$?` from `tail`, not `make`).
+> 5. **Left this checkpoint stale across several turn-ends** — the exact failure the
+>    checkpoint-before-pause rule exists to prevent. Refreshed on Drew's prompt, not on my own.
 >
 > ## ⚠️ OPEN ACTIONS, ranked
-> 1. **`func_80174CB0` (123 ins, capped ×3) — class A on the TARGET side.** cc1 names
->    `func_80012ABC` at ov_SC01_000; census = **73 `s32` vs 7 `s16`**, so normalizing the **7**
->    minority decls should free it. Cheap, byte-gated, ~+0.13pp if it reaches ×138. **Collect the
->    classifier line across ALL 134 first (§75a) — the blockers differ per overlay.**
-> 2. **`func_8012F14C` — class B, the genuine arity split** (1,944 `(s32)` vs 968 `(s32,s32,s32)`).
->    Do NOT normalize on a guess. The probe: a K&R `extern void func_8012F14C();` in the macro is
->    compatible with BOTH per `cdecl.compatible` (no param default-promotes), but the rule is
->    **order-dependent** — it only holds if the macro's decl precedes the TU's. Measure, then gate.
-> 3. **`func_80165CA0` — class C** (`undefined reference to 'SHB'`): the SESSION-18 CARRY-FIXABLE
->    class, a missing file-scope extern, not a type problem.
-> 4. **The 7 propagation-capped fns in ov_SC01_077** remain a distinct sub-class (symbols that live
->    nowhere at file scope) — still unsolved; §68/§75 did NOT clear them.
-> 5. `func_8014D820` sits at a **3-profile measured floor of 9**; both cheap tiers are spent. The
+> 1. **Finish the `func_80174CB0` sweep** → R22 → `make report` → commit. ~123 ins × ~131 ≈ +0.12pp.
+>    The **3 class-A overlays** (`func_80012ABC`, census 73 `s32` vs 7 `s16`) will still fail — worth
+>    3 overlays only, do it only if trivially cheap.
+> 2. **FRESH CRACKS — the only distinct-code lever.** Fuel: the **48 families / 0.62pp** with a
+>    cached member (draftable now, no MCP) + the `ov_SC06_018` prefetch (**101 uncached substantial
+>    stubs, 17,723 ins**). Breadth-shaped ⇒ **prompt Drew for `/effort ultracode`** (R26/R27).
+> 3. **Permuter backlog sweep** (Task 6 remainder) — the close-1..4 drafts under the tightened §60b
+>    admission rule; fix the 2 carried Phase-22 grinder bugs first (split-file-blind `.s` lookup;
+>    churn-without-blacklist).
+> 4. **The 7 propagation-capped fns in ov_SC01_077** — a distinct sub-class (symbols that live
+>    nowhere at file scope). §68/§75/§75b did NOT clear them.
+> 5. `func_8014D820` sits at a **3-profile measured floor of 9**; both cheap tiers spent. The
 >    justified Fable5 case if Drew wants it.
-> 6. **FRESH CRACKS remain the only distinct-code lever** — fuel: the 48 families / 0.62pp with a
->    cached member (draftable now, no MCP) + the `ov_SC06_018` prefetch (101 uncached substantial
->    stubs, 17,723 ins). Breadth-shaped ⇒ prompt Drew for `/effort ultracode` (R26/R27).
+> 6. **Audit the other `ensure_*_revert`-shaped undos** for the §61 inverse-transform bug just fixed
+>    in `dedup_extend` — the same shape has now bitten twice (SESSION-14, SESSION-19).
 >
-> ## BEHEMOTHS — 11 unmatched, 3 attempted, ALL artifacts tracked under `.run/giants/` (unchanged)
+> ## BEHEMOTHS — 11 unmatched, 3 attempted, artifacts under `.run/giants/` (unchanged)
 > | fn | ins | result |
 > |---|---|---|
 > | `func_8017F510` | 1,511 | **1,511/1,511**, 99.5% structural, 93.3% byte — ~93 of 97 residual trace to ONE register (`c3`→`$a2`) |
 > | `func_8017D960` | 3,338 | **3,334/3,338**, 98.8% structural — one `fold` OR-chain error left; templates ×3. **§74-audited SAFE** (its 5 pins are not crossed by any call) |
 > | `func_80183814` | 5,122 | mapped only (666 drafted); 35× repeated template found |
-> Remaining 8 untouched. **§71 checked fleet-wide: none has a matched same-callee-set relative.**
+> Remaining 8 untouched. **§71: none has a matched same-callee-set relative.**
 >
-> **⚠️ HAZARDS (unchanged):** `dedup_propagate --auto-from` re-macroizes the 14 de-macroized sites
-> (`--check-only` first, targeted `--addr` only) · **`dedup_extend` refuses a dirty tree (H4) — commit
-> before running it** · `p16_permute.setup` WIPES `.run/permuter/<fn>/` · `.run` subdirs are NOT
-> tracked — agent output there is one `git clean` from gone · sig names are lowercase, splat `.s`
-> files UPPERCASE.
+> **⚠️ HAZARDS:** `dedup_propagate --auto-from` re-macroizes the 14 de-macroized sites
+> (`--check-only` first, targeted `--addr` only) · **`dedup_extend` refuses a dirty tree (H4) —
+> commit before running it** · `p16_permute.setup` WIPES `.run/permuter/<fn>/` · `.run` subdirs are
+> NOT tracked — agent output there is one `git clean` from gone · sig names are lowercase, splat
+> `.s` files UPPERCASE.
 > **DO NOT close P29 on ROI** — burn-down floor still undetermined.
