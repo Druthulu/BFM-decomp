@@ -3144,7 +3144,7 @@ extern u16 D_8011F7B6;
 extern s16 D_8011F81E;
 extern void *func_80177784(void *a0, s32 a1, s32 a2, s32 a3);
 extern u32 func_801783D0(s32 a0, s32 a1);
-extern void *func_801777BC(void *a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+extern void *func_801777BC();
 extern u16 D_8011F82C;
 extern u16 D_8011F82A;
 extern u32 * func_80176D94(void *param_1, u32 param_2, s16 param_3_);

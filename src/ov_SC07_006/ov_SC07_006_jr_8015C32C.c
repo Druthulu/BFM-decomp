@@ -9030,7 +9030,10 @@ DEFINE_func_801776EC()  /* dedup: shared engine-core @0x801776ec (src/shared) */
 DEFINE_func_80177784()  /* dedup: shared engine-core @0x80177784 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_8015C32C", func_801777BC);
+#include "common.h"
+
+DEFINE_func_801777BC()  /* dedup: shared engine-core @0x801777BC (src/shared) */
+
 
 // @class: regalloc-order
 // @stuck: none — MATCH
