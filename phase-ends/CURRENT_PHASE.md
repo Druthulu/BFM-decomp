@@ -3196,3 +3196,20 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 > (`--check-only` first, targeted `--addr` only) · concurrent ILS runs on *different* functions are
 > safe (the `pkill` at `p16_permute.py:240` is scoped to the per-function dir — verified, not assumed).
 > **DO NOT close P29 on ROI** — burn-down floor still undetermined.
+
+- **⛔ 2026-07-24 (SESSION-18) — the idx 84–98 block: ELEVEN source-shape attempts, and the negative is
+  now a positive finding.** Added since the checkpoint: eliminating the `z0` variable so CSE places the
+  load at first use → **305** · transcribing the target's exact *interleave* (`addu` | `lhu z0` |
+  `addiu +8` | `sh desc.y` | `addu tz`, splitting the `desc.y` chain with the load in the gap) → **305**.
+  **THE PATTERN, across five independent arrangements: any source change that relocates
+  `z0 = ent->z` LATER costs exactly +1 instruction, every time — while the target issues it late at
+  ZERO cost.** ⇒ The target's late placement is not expressible in source: it is produced by the
+  SCHEDULER from a source in which the load is EARLY (which is what my draft already has). So the load
+  must STAY early in source and only the search can move it. That closes the question — this block is
+  search-only, and further reader time on statement order here is provably wasted.
+- **📏 2026-07-24 (SESSION-18) — the profile round-robin, MEASURED both ways.** Different profile from a
+  converged seed ⇒ ~2 each (REGALLOC 16→14, SCHEDULE 14→12, cse 12→10). **Repeated profile ⇒ nothing:**
+  REGALLOC round-2, warm-started from close=9 (a seed it had never seen), was **flat all 10 cycles, 0
+  gain**. The lever is **profile diversity, not seed novelty** — budget three passes per giant, then
+  stop. Cookbook **§66d-4** (amends §66d-3's "measured permuter floor", which SESSION-17 applied to all
+  four giants and which is now shown to be profile-relative, not absolute).
