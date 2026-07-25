@@ -3547,6 +3547,70 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   any pin whose variable outlives a call; if the target genuinely wants a caller-saved reg across a
   `jal`, the pin cannot express it — that is a real wall verdict, not a drafting slip.
 
+- **🚨 2026-07-25 (SESSION-19) — THE PROPAGATION CAP IS A MINORITY-SPELLING SOURCE OVERLAY. Measured,
+  not inferred; and it retires the "build a reconciliation engine" framing of Task 8/open-action-2.**
+  Propagating the two banked functions: **`func_8014D4C0` → ×138** (all 138 rebuilt byte-identical,
+  group registered) but **`func_8014F3E8` → dropped**, then on a re-run **×4**.
+  **TWO SEPARATE CAUSES, and the first was MINE:**
+  **(1) The drop was a FLAG OMISSION, not a wall.** Without `--recover`, `dedup_propagate` takes the
+  historical all-or-nothing path on the first culprit overlay — so ONE divergent member costs the
+  WHOLE group (×0). With `--recover`, Part A excludes just the culprit. **Always pass `--recover` on a
+  targeted `--addr` run.** (The `[drop]` message even printed *"reach<2 after exclude"* when reach was
+  **138** and no exclude had been attempted — the no-recover branch jumps straight to `dropped`.)
+  **(2) The 134 exclusions are a COMPILE conflict, and the message's stated cause is impossible.**
+  `[exclude] … byte-diverge / irreconcilable` — but members are selected **by `h_exact`**, so all 138
+  are byte-identical *by construction* (single hash `2ccf344d`). A byte divergence cannot be what
+  excluded them. The census names the real cause in 30 seconds:
+  | spelling of `func_8014F468` (the carried extern) | count |
+  |---|---|
+  | `extern s32 func_8014F468(void);` | **1,710** |
+  | `s32 func_8014F468(void)` (definition) | **134** |
+  | `extern void func_8014F468(void);` | 20 |
+  | `void func_8014F468(void)` (definition) | **4 — all `ov_SC07_{006,007,010,011}`** |
+  `dedup_propagate` carries the SOURCE overlay's file-scope externs into the shared macro **verbatim**,
+  and the overlay I banked from is one of the four outliers. The macro inherited `extern void`, the
+  134 overlays that *define* the symbol `s32` rejected it, and propagation landed on exactly that
+  4-overlay island. **Nothing about the code was hard.**
+  **⇒ THE FIX IS NORMALIZATION, NOT A RECONCILIATION ENGINE — and the engine would not have worked.**
+  One macro text is instantiated in 138 TUs; it **cannot** carry a per-overlay extern, so if members
+  genuinely disagree no per-member rewrite of a *shared* body can satisfy them — they must be made to
+  agree first. (`reconcile_tu.fix()` already does "TU wins + cast at use" for DATA decls and skips
+  `d.kind == 'func'`; extending it would not have reached this, because the conflicting text lives in
+  the shared header, not in a draft.) Flipped the 24 minority occurrences to the fleet canon (4
+  definitions + 19 overlay externs + the 1 macro line). `func_8014F468` is a pure inline-asm `$sp`-switch
+  trampoline — no C-level value flow — and 134 overlays had already *proved* `s32` byte-correct for the
+  identical function. **Blast radius byte-gated in full** (the 4 instantiators): `7ca772be` / `b3b95547`
+  / `d7b5875d` / `9885af74`, all BYTE-IDENTICAL. Fleet now uniform: 1,730 `extern s32` + 138 defs, **0
+  `void`**. → cookbook **§75**.
+  **THE FOLLOW-UP IS `dedup_extend`, NOT `dedup_propagate`** (§75 #3): once banked, the body IS a macro,
+  and `--addr` can only author from an *inline def* ("no source overlay has it matched"). `dedup_extend
+  --check-only` over the 134 excluded overlays planned **400 extensions / 3 groups per binary** — so
+  this also picks up **`func_80174CB0`**, stuck at ×3 since SESSION-18 on what looks like the identical
+  class. It also refuses a dirty tree (H4), which is why the normalization commits first.
+  **R22 clean-fleet after the propagation: 140 passed, 0 failed of 140.**
+
+- **✅ 2026-07-25 (SESSION-19) — THE EXTEND SWEEP: `func_8014F3E8` reaches ×138, and the residual
+  exclusions are ENUMERATED with named causes (§75a).** One `dedup_extend --binaries <the 134
+  excluded>` run: **banked 134 / 400 planned**, i.e. **`func_8014F3E8` VERIFIED in all 134** (→ ×138
+  total, +4,288 ins) — the §75 normalization converted a 4-overlay island into full fleet reach with
+  no drafting at all. The other two planned groups failed in *every* binary, and
+  `harvest_verify`'s classifier named a **different cause for each**, which is the real deliverable:
+  | class | cc1/ld | example | remedy |
+  |---|---|---|---|
+  | **A — minority spelling** | `conflicting types` + a lopsided census | `func_8014F468` 1,710 `s32` vs 4 `void` | normalize (done, §75) — cheap, byte-neutral |
+  | **B — genuine arity split** | same message, TWO real populations | `func_8012F14C` **1,944 `(s32)` vs 968 `(s32,s32,s32)`** | the §29 loose-typing wall; a K&R `()` in the macro MAY satisfy both (order-dependent per `cdecl.compatible`) — **probe, do not normalize on a guess** |
+  | **C — missing carried extern** | `undefined reference to 'SHB'` (a LINK error) | `func_80165CA0` | the SESSION-18 CARRY-FIXABLE class |
+  **⚠️ I ALMOST GENERALIZED FROM ONE SAMPLE (R14).** I predicted `func_80174CB0` was "the identical
+  class" as `func_8014F3E8`. It is class A *in kind* but on **different symbols, and different ones
+  per overlay** — `func_80012ABC` at ov_SC01_000 (73 `s32` vs 7 `s16` — the minority is on the TARGET
+  side this time), `func_8012F14C` at ov_SC01_001 (class B). **One member's error names one blocker,
+  not the blocker set** — collect the classifier's line across the whole sweep before scoping a fix.
+  **The discriminator is ONE grep and it decides the remedy:** census every spelling of the symbol cc1
+  named. ≥95/5 ⇒ class A, normalize. Two substantial populations ⇒ class B, an arity change is **not**
+  byte-neutral by inspection, measure first. A *link* error ⇒ class C, nothing to do with types.
+  → cookbook **§75a**. `func_80174CB0` (123 ins, ×3 since SESSION-18) and `func_80165CA0` stay capped,
+  now with a named cause and a named next probe each — not a wall verdict.
+
 > **🛑 SESSION-18 CLOSING CHECKPOINT (2026-07-25, Opus 5 @ High) — SUPERSEDES the earlier SESSION-18
 > block, which was written mid-session and is STALE (it still says "two searches in flight").
 > Fresh session safe here.**

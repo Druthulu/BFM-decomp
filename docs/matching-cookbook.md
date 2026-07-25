@@ -5900,3 +5900,26 @@ would not have helped, because the conflicting text lives in the shared header, 
    *inline def* and will report "no source overlay has it matched".
 4. Re-check any group historically stuck at a small reach for the same cause — `func_80174CB0` (×3
    since SESSION-18) was carrying the identical class.
+
+## §75a — The exclusion classes, enumerated with named causes (Phase 29 SESSION-19, the 134-binary `dedup_extend` sweep)
+
+After the §75 normalization, one `dedup_extend --binaries <134>` sweep banked **134/400 planned** and
+the two residual groups failed in *every* binary — with `harvest_verify`'s classifier naming a
+different cause for each. That enumeration is the useful artifact: "propagation-capped" is not one
+class, it is at least three, and only the first is cheap.
+
+| class | cc1/ld says | example | remedy | cost |
+|---|---|---|---|---|
+| **A — minority spelling** (§75) | `conflicting types for <callee>` where one spelling dominates the census | `func_8014F468`: 1,710 `s32` vs 4 `void` defs | normalize the minority, byte-gate, `dedup_extend` | **cheap, byte-neutral** |
+| **B — genuine arity/type split** | same message, but the census shows two real populations | `func_8012F14C`: **1,944 `(s32)` vs 968 `(s32,s32,s32)`** | NOT a typo — two live call conventions. The §29 loose-typing wall. A K&R `()` in the macro may be compatible with both (`compatible()`: `()` first + prototype second is ACCEPTED when no param default-promotes, and `s32` does not) — but it is **order-dependent**, so it only works if the macro's decl precedes the TU's. Measure before moving. | **unknown — probe first** |
+| **C — missing carried extern** | `undefined reference to '<sym>'` (a LINK error, not a type error) | `func_80165CA0`: `undefined reference to 'SHB'` | the SESSION-18 CARRY-FIXABLE class — the body references a file-scope decl the extraction did not carry | **cheap once carried** |
+
+**The discriminator is one grep, and it decides the whole remedy:** census every spelling of the
+symbol cc1 named. A lopsided count (≥95/5) is class A — normalize. Two substantial populations is
+class B — do not normalize on a guess; an arity change is not byte-neutral by inspection (§29's
+narrow-param wall is exactly this). A *link* error is class C and has nothing to do with types.
+
+**Do not generalize from one member's error.** The same blocked function reported *different* callees
+in different overlays (`func_80012ABC` at `ov_SC01_000`, `func_8012F14C` at `ov_SC01_001`) — so one
+sample names one blocker, not the blocker set. Collect the classifier's line across the whole sweep
+before scoping the fix.
