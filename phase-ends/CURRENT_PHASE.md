@@ -3250,3 +3250,20 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   pressure and cascades the frame 0x40→0x38 into every save offset (§27 frame-pressure lock) — so
   expect the fix to trade 56 mismatches for a different set until the frame is re-locked. Untouched
   this session; this is the next giant to read after `func_8014D820`.
+
+- **📐 2026-07-24 (SESSION-18) — `func_8014D820` close=9 is a **MEASURED FLOOR**, by the corrected
+  §66d-4 rule, not a guess.** All THREE weight profiles now come back flat **from the same close=9
+  seed**: `regalloc` (10 cycles, 0 gain) · `schedule` (8 cycles, 0) · `cse` (8 cycles, 0). Combined with
+  reading being exhausted (11 source-shape attempts, and the +1-instruction law that proves the
+  placement is scheduler-produced), **both cheap tiers are genuinely spent on this function** — which is
+  a very different claim from SESSION-17's "at its measured permuter floor" at close=25, because that
+  one rested on a single profile.
+  **Backlog updated** (`tools/backlog.py log`): `func_8014D820`, reach 138, nins 304, closeness **9**
+  (was 25), class `schedule`, best draft `.run/giants/s18_func_8014D820_close9.c`, with the full
+  diagnosis + the pre-cleared banking path recorded in `where_stuck`.
+  **⇒ THIS IS NOW THE JUSTIFIED FABLE5 CASE, and it is Drew's call** (he set "no Fable5 for now" at the
+  SESSION-17 close and asked this session to "see if we need Fable5 later"). The doctrine's condition is
+  met exactly: cheap-Opus reading stalled, the permuter stalled across all profiles, and the residual is
+  a *single named mechanism* (a 9-instruction schedule permutation in one 15-instruction window) rather
+  than a vague wall — the shape Fable5 has historically cracked (§45 flagship, §52). Value if solved:
+  **×138**. Cost control: one isolated agent on this one function, per the parallel-isolated doctrine.
