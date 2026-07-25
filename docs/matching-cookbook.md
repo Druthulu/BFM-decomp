@@ -5923,3 +5923,52 @@ narrow-param wall is exactly this). A *link* error is class C and has nothing to
 in different overlays (`func_80012ABC` at `ov_SC01_000`, `func_8012F14C` at `ov_SC01_001`) — so one
 sample names one blocker, not the blocker set. Collect the classifier's line across the whole sweep
 before scoping the fix.
+
+## §75b — A body's preamble can carry `#define`s, not just `extern`s; extraction lifts only the externs (Phase 29 SESSION-19, `func_80165CA0` ×3 → fleet)
+
+`dedup_propagate`'s `extract_unit` walks BACKWARD from a definition collecting contiguous
+`extern …;` lines into the macro. **It does not collect `#define`s** — so a body matched with a
+file-scope macro in its preamble loses that macro when it is lifted into `engine_core.h`, and the
+shared body then compiles **only where the source overlay's `#define` happens to be in scope above
+the splice point.** This is the `dedup_propagate` counterpart of the `family_remap._carry_macros`
+gap Phase 27 closed.
+
+**The signature of this class is a LINK error, not a type error.** `undefined reference to 'SHB'` —
+because an unexpanded `SHB(x)` is parsed as a call to an undeclared function (implicit `int`), which
+compiles cleanly and dies at link. Anything reporting `conflicting types` is a *different* class
+(§75/§75a). One grep tells them apart: **is the name a `#define` or a symbol?**
+```
+grep -rh '\b<name>\b' src --include=*.c --include=*.h | sort | uniq -c | sort -rn | head
+```
+If the top hit is `#define <name>(x) …`, it is this class.
+
+**Worked case.** `func_80165CA0` sat at ×3 for a phase. Its preamble in the source overlay is:
+```c
+extern s32 D_8011D030;
+extern s32 D_80126728;
+#define SHB(x) __asm__ __volatile__("" : "=r"(x) : "0"(x))   /* <- NOT carried */
+DEFINE_func_80165CA0()
+```
+The two externs were lifted; the `#define` between them was not. The other 132 overlays *do* define
+`SHB` — about 300 lines further down (`ov_SC01_001`: stub @4462, `#define` @4781), i.e. **below** the
+splice point. Pure ordering. And it explains the membership exactly: **the 3 members are precisely
+the 3 files carrying the `__volatile__` spelling of `SHB`** — that define is the function's own
+preamble, still sitting above its instantiation.
+
+**Fix — the shared header OWNS the macro, under a distinct name:**
+```c
+#ifndef ENGINE_SHB
+#define ENGINE_SHB(x) __asm__ __volatile__("" : "=r"(x) : "0"(x))
+#endif
+```
+and rewrite the body's uses. **Do not reuse the original name**: the overlays define `SHB`
+themselves in *two different spellings* (volatile in 3 files, non-volatile in 132), and a shared
+`#define SHB` with a different replacement list is a hard redefinition error. A distinct name cannot
+collide with either. Pick the spelling the **currently-banked members actually compile with** (here
+volatile), not the one a stale body comment claims — then let the byte-gate confirm on those members
+before extending.
+
+**Generalises:** any preamble construct that is not an `extern` — `#define`, a file-scope `typedef`,
+a `static` helper — is silently dropped by extraction and will cap the body's reach at whatever
+subset happens to supply it. When a group's reach is stuck at a suspiciously small number, diff the
+source overlay's preamble against what the macro actually carries.

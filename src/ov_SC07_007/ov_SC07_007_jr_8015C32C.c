@@ -5221,7 +5221,8 @@ DEFINE_func_80165C58()  /* dedup: shared engine-core @0x80165c58 (src/shared) */
 DEFINE_func_80165C78()  /* dedup: shared engine-core @0x80165c78 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC07_007/nonmatchings/ov_SC07_007_jr_8015C32C", func_80165CA0);
+DEFINE_func_80165CA0()  /* dedup: shared engine-core @0x80165ca0 (src/shared) */
+
 
 
 void func_80165E2C(u16 *arg0) {

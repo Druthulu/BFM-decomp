@@ -3611,6 +3611,42 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   → cookbook **§75a**. `func_80174CB0` (123 ins, ×3 since SESSION-18) and `func_80165CA0` stay capped,
   now with a named cause and a named next probe each — not a wall verdict.
 
+- **✅ 2026-07-25 (SESSION-19) — `func_80165CA0` ×3 → ×135: the blocker was a `#define` extraction
+  never carried (§75b). The full-sweep census REVERSED my ranking (R14/R35).**
+  §75a says collect the classifier's line across the WHOLE sweep before scoping. Doing that on the
+  134-binary log inverted the plan I had just written:
+  | blocked fn | blocker cc1 named | count | class |
+  |---|---|---|---|
+  | `func_80174CB0` | `func_8012F14C` | **131 / 134** | B — genuine arity split |
+  | `func_80174CB0` | `func_80012ABC` | **3** | A — minority spelling |
+  | `func_80165CA0` | `SHB` | **132 / 132** | C |
+  **I had ranked the class-A normalization FIRST at "~+0.13pp if it reaches ×138". It is worth 3
+  overlays, not 138.** The dominant blocker is the class-B arity split, and the genuinely cheap win
+  was the one I had ranked third.
+  **`SHB` IS NOT A SYMBOL — it is a file-scope `#define`** (`__asm__("" : "=r"(x) : "0"(x))`, a
+  sign-extension barrier). An unexpanded `SHB(x)` parses as a call to an undeclared function, compiles
+  clean, and dies at LINK — which is why this class reports `undefined reference`, never `conflicting
+  types`. `extract_unit` walks back over contiguous `extern …;` lines and **does not collect
+  `#define`s**, so the define was left behind in the source overlay — sitting literally BETWEEN the
+  two carried externs and the instantiation:
+  `extern s32 D_8011D030; / extern s32 D_80126728; / #define SHB(x) … / DEFINE_func_80165CA0()`.
+  The other 132 overlays DO define `SHB` — ~300 lines further down (`ov_SC01_001`: stub @4462,
+  `#define` @4781), i.e. **below** the splice point. **Pure ordering; nothing was missing.**
+  **THE CONFIRMATION THAT IT WASN'T JUST A FITTING STORY:** the 3 stuck members are *precisely* the 3
+  files carrying the `__volatile__` spelling of `SHB` — that define is the function's own preamble,
+  still above its own instantiation. The diagnosis predicted the membership exactly.
+  **FIX:** `engine_core.h` owns the barrier as **`ENGINE_SHB`** (a DISTINCT name — the overlays define
+  `SHB` themselves in two different spellings, 3 volatile / 132 non-volatile, so a shared `#define SHB`
+  with a different replacement list is a hard redefinition error); the body's 7 uses now call it.
+  Volatile form = what the 3 banked members actually compile with (not what a stale body comment
+  claims). Byte-gated on the full existing radius first: `d19c9580` / `9052dc0e` / `7ca772be`.
+  **RESULT: `dedup_extend` banked 157 / 478 planned across 135 binaries** — `func_80165CA0` **×135**
+  (99 ins × 135 ≈ **+0.10pp**) plus **22 other functions ×1** picked up in the 3 overlays the first
+  sweep had excluded. → cookbook **§75b**.
+  **`func_80174CB0` (123 ins) failed in 133 — class B, unchanged and untouched.** An arity change is
+  not byte-neutral by inspection (§29's narrow-param wall is exactly this), so it gets a measured
+  probe, not a guess.
+
 > **🛑 SESSION-19 CLOSING CHECKPOINT (2026-07-25, Opus 5 @ High) — SUPERSEDES the SESSION-18 block.
 > Fresh session safe here.**
 > Tree clean (only R23 `db.*.gbf` churn — never staged). **R22 clean-fleet 140/140** (run 3× this
