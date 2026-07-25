@@ -3111,3 +3111,21 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   byte-neutral only IF every caller discards the return — verify, don't assume.
   `symcheck` already cleared the link-level class (12/12). So the only open question on this function
   remains the 12-instruction schedule.
+
+- **🔎 2026-07-24 (SESSION-18) — `func_8014D820` 12 → 10 → **9**. The permuter⇄reader alternation
+  (§66d) is paying on every turn.** `--klass cse` took 12 → 10 (flat ×9 after cycle 1, the same shape as
+  the other two profiles). Its edits are again pure dead-variable temp hoists + comparison-operand swaps
+  — semantics-preserving, verified by reading the diff.
+  **Then a READER fix took 10 → 9 for one compile:** the CSE pass had swapped `if (p == ent)` →
+  `if (ent == p)`, which *gained* elsewhere but introduced a local regression at idx 110
+  (`beq $s2,$s1` vs the target's `beq $s1,$s2`). Reverting just that operand order kept every gain and
+  removed the regression. **This is the §66d loop's whole point: a random search cannot see that one of
+  its own edits is locally wrong; a reader can, in seconds.** Check the diff for operand-order
+  regressions after every permuter pass — they are free points.
+  **Residual 9, all still idx 84–98** (the `pos`/`desc` block): mine issues `z0 = ent->z` at 87 and
+  stores `desc.x` at 90 / `pos.y` at 98; the target issues `z0` at 91 and stores `pos.y` at 89 /
+  `desc.x` at 98. **Source-shape attempts on this block now stand at EIGHT, all inert or worse** (add:
+  splitting the `desc.y` chain into a temp — inert ×2; the uniform per-axis `pos.N = (vN = ent->N)`
+  idiom — **305 ins**; matching the target's store order `desc.x → pos.z → desc.z` — inert). Treat this
+  block as search-only; do not spend more reader time on statement order here.
+  `symcheck` re-run on every waypoint: **12/12 symbols agree** throughout.
