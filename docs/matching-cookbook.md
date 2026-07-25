@@ -5649,10 +5649,23 @@ Not a match (G3), but an order of magnitude closer than behemoth #1.
 sibling handed over ~90% of the C for free and produced a 3,334/3,338-instruction draft on the FIRST
 compile. No mapping phase was needed to get there.
 
-> **Do this first on every giant: check whether an already-matched function adjacent to it in the
-> binary is the same routine.** Address adjacency is a strong prior in this codebase — related
-> renderers/handlers were written together and sit together. It costs one `grep` and can replace days
-> of structural analysis.
+> **Do this first on every giant: check whether an already-matched function elsewhere is the same
+> ROUTINE.** It costs one `grep` and can replace days of structural analysis.
+
+**HOW to run the check — fingerprint by CALLEE SET, not by `h_seq` or adjacency (corrected same
+session).** Two wrong versions were tried first:
+- *Adjacency* found `func_8017CA80` only because it happened to sit next door. Running it over the
+  six remaining behemoths: **0 hits** — their neighbours are all 2–128-ins helpers.
+- *`h_seq` fleet-wide* also returned **0 hits**, and is structurally incapable of finding these:
+  `h_seq` is a mnemonic skeleton, so a 952-ins base renderer and its 1,511- and 3,338-ins variants
+  never share one. Worse, it produces FALSE families — `func_8017F510` and `func_8017F5B4` share an
+  `h_seq` yet call completely different functions (`jal X` and `jal Y` both normalise to `jal`).
+- **The CALLEE SET works.** `func_8017CA80` (952, matched), `func_8017D960` (3,338) and
+  `func_8017F510` (1,511) all call exactly `{func_800491EC, func_80052E38, func_800547D8}` and
+  nothing else — three variants of one renderer, found in one grep:
+  `grep -oE 'jal[[:space:]]+[A-Za-z_]\w*' <fn>.s | awk '{print $2}' | sort -u`
+  A small, distinctive callee set is a far better routine-identity fingerprint than any hash we have,
+  because it survives the size differences that variants are made of.
 
 **§69 IS PARTLY REFUTED — corrected here, do not follow its headline blindly.**
 | §69 claim | verdict on a non-dispatcher |
