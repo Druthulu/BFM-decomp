@@ -2614,7 +2614,8 @@ DEFINE_func_80174C60()  /* dedup: shared engine-core @0x80174C60 (src/shared) */
 
 DEFINE_func_80174C80()  /* dedup: shared engine-core @0x80174C80 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_006/nonmatchings/ov_SC01_006_jr_801734BC", func_80174CB0);
+DEFINE_func_80174CB0()  /* dedup: shared engine-core @0x80174cb0 (src/shared) */
+
 
 DEFINE_func_80174E9C()  /* dedup: shared engine-core @0x80174E9C (src/shared) */
 

@@ -5972,3 +5972,34 @@ before extending.
 a `static` helper — is silently dropped by extraction and will cap the body's reach at whatever
 subset happens to supply it. When a group's reach is stuck at a suspiciously small number, diff the
 source overlay's preamble against what the macro actually carries.
+
+## §75c — Class-B's remedy is the FULL §17a-1 PAIR (decl **and** call-site cast); a decl-only fix moves the error and looks like a new wall (Phase 29 SESSION-19, `func_8012F14C`)
+
+§75a's class B is a genuine arity split — the same callee declared with two different arities across
+the fleet (`func_8012F14C`: **1,944 `(s32)` vs 968 `(s32,s32,s32)`**). The obvious move is to make the
+shared macro's carried decl compatible with both, using the no-prototype `()` form that
+`cdecl.compatible()` measures as accepted in either order when no parameter default-promotes. **That
+is half a fix, and the half that does not work.**
+
+**What actually happens.** `()` really does dissolve the *declaration* conflict — the byte-gate's
+classifier moved the failure from `PLUMBING` to `CC1-FAIL`, which is the tell that the first wall fell
+and a second appeared. Reading real cc1 stderr (hand-splice the macro into one member, build that
+object; do **not** trust a bare `make … Error 33`):
+```
+ov_SC01_001_jr_801734BC.c:2616: too many arguments to function `func_8012F14C'
+```
+C's composite-type rule: after `void f(s32);` then `void f();`, the composite is still **`void
+f(s32)`** — the earlier prototype wins. So a 3-argument call is a hard error no declaration spelling
+can rescue.
+
+**The remedy is the pair §17a-1 always specified** (and what `cast_call_sites.py` implements):
+```c
+extern void func_8012F14C();                                        /* conflict-free in either order */
+((void (*)(s32, s32, s32))func_8012F14C)((s32)&mtx, (s32)&vec, (s32)&out);   /* call bypasses the prototype */
+```
+gcc-2.7.2 folds a cast of a **known function symbol** back to a direct `jal`, so the body's bytes are
+unchanged (byte-gated on all 3 existing members: `7ca772be` / `b3b95547` / `9885af74`).
+
+**Rule:** for class B, change the decl **and** the call together. A decl-only change is not a smaller
+version of the fix — it relocates the diagnostic, and a session reading only the failure class will
+record a fresh wall where there is none.

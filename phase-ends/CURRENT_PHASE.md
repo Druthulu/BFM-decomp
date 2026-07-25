@@ -3685,6 +3685,16 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   citizenship gate is exactly the detector for this class**, then restored. `make tools-health` →
   **OK** (sigs fresh; corpus+resident, cdecl, binaries, report/lint/dedup all green).
 
+- **✅ 2026-07-25 (SESSION-19) — `func_80174CB0` ×3 → ×135, and the census predicted the residual
+  EXACTLY.** With the §75c pair in place, `dedup_extend` banked **132 / 179 planned across 135
+  binaries** — `func_80174CB0` VERIFIED in **132**, failed in **3**. The class-A census
+  (`func_80012ABC`: **73 `s32` vs 7 `s16`**) had predicted the class-B fix would leave exactly the
+  class-A overlays behind, and it left **3** — the same 3 the original sweep's blocker breakdown
+  named (131 class-B / 3 class-A). **A measurement that predicts its own residual to the overlay is
+  the strongest evidence this session produced that the classes are real and not a story fitted to
+  the failures.** 123 ins × 132 ≈ **+0.12pp**. The remaining 3 are worth 3 overlays; normalize the 7
+  `s16` decls only if trivially cheap.
+
 > **🛑 SESSION-19 CLOSING CHECKPOINT (2026-07-25, Opus 5 @ High) — REFRESHED mid-session; supersedes
 > both the SESSION-18 block and the earlier SESSION-19 block (which was written before the
 > ENGINE_SHB / class-B / dedup_extend-bug work and went stale). Fresh session safe here.**
