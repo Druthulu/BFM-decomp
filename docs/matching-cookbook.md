@@ -6387,3 +6387,63 @@ declared it `(MATRIX2 *, SVECTOR2 *, SVECTOR2 *)`, the TU and the fleet canon us
 void *)` — **2,286 of 2,835 sites**. Conforming the draft's decl to the canon is byte-neutral
 (pointer args pass identically) and banked first try. **On a jr function, expect BOTH gates to have
 something to say: the carve chain answers the jump table, and §75a answers the declarations.**
+
+## §83 — The parameterised-repeat law, the spill-area trap, and why a per-case edit cannot move a per-case symptom (Phase 29 SESSION-20, `func_80183814` 5,122 ins, cold-ish start → 36 structural / 99.3%)
+
+The largest unmatched function in the project, a 21-case state machine. Round 1 reached **5,127 ins vs
+5,122 target, 36 structurally-unmatched instructions under a register-blind mask (99.3% exact), 17 of
+21 case bodies EXACT, args+locals byte-exact at 216 bytes** — not a match, and the residual is *one*
+decision, not 36 problems.
+
+### §83a — READ THE HEADLINE NUMBER CORRECTLY: a LENGTH drift makes `match_one`'s count meaningless
+`match_one` compares **strictly index-wise**. A +5 instruction delta shifts every later index, so the
+tool reported **4,622 mismatched** where difflib-aligned comparison shows **36**. Those two numbers
+describe the same draft. **When the class is `LENGTH-DRIFT`, the mismatch count is not a progress
+signal — align first (difflib) and re-read, or you will abandon a 99.3% draft as a 10% one.**
+(Counterpart to §78: there, a length drift *was* a register grant in disguise; here it inflates the
+score. Both say the same thing — never read a length-drifted diff literally.)
+
+### §83b — THE LEVER: find the parameterised REPEAT before decoding case-by-case
+Three callees (`func_8012EC04`/`func_8012F14C`/`func_8012C51C`) each appear **exactly 35 times** as
+one **72-instruction body parameterised only by `(KIND, START, BOUND)`** — with the invariants
+`member == KIND*4`, `array == &D_801F61C0[START]`, and `prev.BOUND == next.START`. **That is 2,625 of
+5,122 instructions (51%) from a SINGLE definition.** Writing it once as a template and generating the
+35 sites (harness: `.run/giants/s20_g14_*.py` — edit the template in one place, re-propagate to all
+35) is the whole game on a function this size.
+**Practice: on any large state machine, hunt for a parameterised repeated block BEFORE decoding case
+bodies one at a time.** The tell is a repeated call triplet at a fixed stride with monotone constants.
+*(A prior handoff asserted this repeat existed; it was carried forward flagged UNVERIFIED because it
+appeared nowhere in the recon. It proved TRUE — but flagging it cost nothing and the discipline stands:
+an unverified premise is a hypothesis to test first, not a foundation to build on.)*
+
+**Three sub-levers made the template byte-exact:**
+1. **A running POINTER walk, not array indexing** — under `-G0` array indexing does not strength-reduce.
+2. **`rand() % (u32)x`** to force `divu` (the signed spelling emits `div` + the sign-fixup dance).
+3. **`(s32)((u8 *)p + (X + 0xC))`** — the cast barrier stops `combine` reassociating the offset.
+
+### §83c — TRAP: a "dead local" in a prior draft may be gcc's OWN spill area
+The inherited recon modelled a 128-byte `s32 pad[32]` local and called it dead. **It is not a local at
+all — it is gcc's spill area.** Declaring it explicitly *adds* 132 bytes and corrupts the layout;
+**removing it made the 216-byte args+locals area byte-exact.** If a draft needs an unexplained dead
+block to reach the target frame size, suspect the spill area before inventing a variable. (The frame
+being 8 bytes over here is a *different* cause — two extra callee-saved registers, §83d.)
+
+### §83d — CSE's quantity budget is WHOLE-FUNCTION, so a local rewrite cannot fix a local symptom
+The stall: in cases 0 and 3, gcc CSEs three `&D_8018E27C`-class address constants (+0x30) across two
+call groups that share a basic block, consuming **2 callee-saved registers the target spends on real
+variables** — so `a0` lands in `$s7` instead of `$s2` and every register downstream renames.
+**Why no rewrite of case 0 moved it:** `cse.c:8340` sizes the quantity table as
+`max(nsets*2, 500) + max_reg` — **gated by the whole-function pseudo count.** A per-case edit does not
+change `max_reg`, so it cannot change a CSE decision, even one whose *symptom* is local.
+**⇒ The lever for a function-global CSE fork is a function-global quantity change** — here, closing the
++5 length delta is expected to move `max_reg` and the fork together. **Diagnose the SCOPE of a
+compiler decision (function-global vs block-local) before choosing where to edit.**
+A diagnostic `a0 → $s2` pin halves the residual and makes the prologue byte-exact — which *confirms*
+the diagnosis — but it is a hand-placed dial, not plausible source, and it does not fix the frame. It
+belongs in the do-not-re-buy table, **not** in the deliverable (§72/§74).
+
+### §83e — §80 vindicated again, on the same day it was written
+Two case residuals (6 and 11, 8 and 7 diffs) had been written off as "pure allocation". They were not:
+the morph/lerp loop walks **copies** of its two input pointers (`pa = msa; pb = msb;`), not the
+originals — and spelling that took both cases to **zero**. **A residual class you assigned on an
+earlier base is a hypothesis, not a verdict** (§80). Re-run the negative list after the base moves.

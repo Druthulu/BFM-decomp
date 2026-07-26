@@ -4386,3 +4386,42 @@ resolves. T0.1/T0.3 only read sigs/configs and write `.run/` + `docs/` ⇒ safe 
   already PROVED -O0 members bank (9/9 on ov_SC07_010, R22-verified); the blocker is the *fleet-scale*
   carve's splat `%lo` re-disassembly sensitivity, deferred on ROI. **That is a build-infra task with a
   known shape, not a compiler wall** — worth re-pricing once the FREE subset is harvested.
+
+- **◐ 2026-07-26 (SESSION-20) — T1.1 `func_80183814` (5,122 ins, ov_SC07_006) ROUND 1: 99.3%
+  structural, NOT banked. The predicted shape, with a precise named next move. → cookbook §83.**
+  **Verified independently (R14), agent did NOT over-claim:** my own `match_one` re-run reproduces
+  `DIFF mine=5127 target=5122, 4622 mismatched`, class **LENGTH-DRIFT/+5**. Tree untouched
+  (`git status config/ src/` clean — the agent respected the no-build-tree constraint).
+  **The honest state, difflib-aligned:** **36 / 5,122 structurally unmatched (99.3% exact)** under a
+  register-blind mask · 1,201 register-sensitive · **args+locals byte-exact at 216 B** · frame 8 B over
+  (2 extra callee-saved regs) · **17 of 21 case bodies structurally EXACT** (case 20, 525 ins, perfect).
+  **⚠️ THE 4,622 IS AN ARTEFACT OF INDEX-WISE COMPARISON** — a +5 length delta smears every later
+  index. 4,622 and 36 describe the SAME draft. **On a LENGTH-DRIFT class, the mismatch count is not a
+  progress signal** (§83a) — this is exactly how a 99.3% draft gets mistaken for a 10% one.
+  **THE LEVER (and the vindication of a flag I raised):** the handoff's *"35× repeated template"*
+  claim — which I passed to the agent **flagged UNVERIFIED because it appeared nowhere in the recon** —
+  **is TRUE and was the whole game.** Three callees each appear exactly 35× as ONE 72-ins body
+  parameterised by `(KIND, START, BOUND)` (`member==KIND*4`, `array==&D_801F61C0[START]`,
+  `prev.BOUND==next.START`) = **2,625 of 5,122 ins (51%) from a single definition**. Flagging it cost
+  nothing and the discipline stands: an unverified premise is a hypothesis to TEST, not a foundation.
+  **TWO INHERITED-RECON CORRECTIONS (both R14-class):** (1) the `pad[32]` "dead local" is **gcc's own
+  spill area** — declaring it corrupts the layout; removing it made the locals area byte-exact (§83c);
+  (2) the recon's case 12 was **incomplete** (it cross-jumps into case 14's tail).
+  **THE STALL, WITH A SOURCE CITATION:** one global regalloc fork — gcc CSEs three `&D_8018E27C`-class
+  address constants across two call groups sharing a basic block, eating 2 callee-saved regs the target
+  spends on real variables. **`cse.c:8340` sizes the quantity table `max(nsets*2,500)+max_reg` — gated
+  by WHOLE-FUNCTION pseudo count**, which is why no local rewrite of case 0 ever moved it (§83d).
+  **⇒ NAMED NEXT MOVE (round 2):** find the ~5 spurious instructions (5127→5122). That buys length
+  parity **and** perturbs `max_reg` — the same lever — then **re-run the 15-row do-not-re-buy table on
+  the new base** (§80). Round-2 economics are measured-cheaper than round 1 (§79/SESSION-19).
+  **§80 VINDICATED THE DAY AFTER IT WAS WRITTEN:** cases 6 and 11 (8 and 7 diffs) had been written off
+  as "pure allocation"; they were a copy-pointer walk (`pa = msa; pb = msb;`) and went to **zero**.
+  **NO PINS IN THE DELIVERABLE.** A diagnostic `a0→$s2` pin halves the residual and makes the prologue
+  byte-exact (confirming the diagnosis) but is a hand-placed dial and does not fix the frame — recorded
+  as row 15 of the do-not-re-buy table, not shipped (§72/§74). **Agent self-reported this unprompted.**
+  Artifacts: `.run/giants/s20_func_80183814_b1.c` · `s20_80183814_report.md` (15-row table with BASES)
+  · 6 × `s20_g14_*.py` (regenerate the draft identically; edit the template once → all 35 sites).
+  Cost: 367,677 agent tokens / 115 tool-uses / ~41 min.
+  **DECISION: do NOT spend round 2 now.** Per the approved order this is a ~0.04pp lever while **T0.2
+  is a measured probe on a 224,410-ins (12.5%) pool** — and T0.2 was blocked only by this agent holding
+  `asm/`. Round 2 is queued with its lever named; nothing is lost (§80 table + harness are on disk).
