@@ -4549,3 +4549,34 @@ resolves. T0.1/T0.3 only read sigs/configs and write `.run/` + `docs/` ⇒ safe 
   regresses; `--normalize-self-decls` 0/123); the untried ones are **`canon_sig_reconcile` v3.2** and
   **`reconcile_decls.py`** (the DATA-symbol analog — and one of T0.2's two failure texts was a DATA
   symbol, `conflicting types for 'D_800A651C'`, which neither tested flag targets).
+
+- **⚠️ 2026-07-26 (SESSION-20) — CORRECTION TO MY OWN T0.1 FRAMING (Drew asked the right question:
+  "did we bank all those?"). NO. We banked 4 of 1,073 members = 0.4%.**
+  **The measured state of the "zero-crack pool":**
+  | | |
+  |---|---|
+  | T0.1 PREDICTED (zero-crack, 76 fams) | 347,892 ins |
+  | T0.1 PREDICTED ("FREE" subset, 61 fams) | 224,410 ins |
+  | nominated for the T0.2 probe (8 top fams) | **1,073 members** |
+  | **ACTUALLY BANKED** | **4 members** (`func_801463A0` ×2, `func_8017B490` ×2) |
+  | fleet movement | **+396 instr-weighted / +194 distinct-code** |
+  **⇒ ~1 part in 900 of the prediction.**
+  **THE FRAMING ERROR, owned: I labelled it "FREE" and "the actionable shortcut."** The
+  classification establishes **"no DRAFTING needed"** (the exemplar is matched; the members are the
+  same code). It does **NOT** establish "no WORK needed" — and "FREE" reads as the latter. The probe
+  then located the work precisely: **2 of 8 top families (270 members) were refused BEFORE any gate
+  by the §42e pin guard** (so "FREE" did not even imply *sweepable*), and of what reached the gate
+  **67% hit declaration plumbing** (0% hit compiler walls). **Both plumbing keys tried failed**
+  (`--fix-def-sig` regressed; `--normalize-self-decls` 0/123).
+  **HONEST STATUS OF THE POOL: real, structurally confirmed, NOT gcc-blocked — and still locked.**
+  We found a large room and proved it is not bricked up; we have not found the key.
+  **TO ACTUALLY BANK IT:** (1) find the working plumbing key — **`reconcile_decls.py`** (the
+  DATA-symbol analog; one of the two failure texts WAS a DATA symbol, `conflicting types for
+  'D_800A651C'`) or **`canon_sig_reconcile` v3.2** — both UNTRIED; (2) then re-sweep, which is
+  mechanical and zero-token; (3) handle the pin-refused families separately via `--allow-pins`
+  (SESSION-19 proved some pinned families bank ×134). **Until (1) lands the pool converts at the
+  MEASURED 33% of whatever clears the pin guard, not the ~100% a "free" reading implies.**
+  **WHY THIS IS RECORDED RATHER THAN QUIETLY SUPERSEDED:** this exact pool has been mis-called in
+  BOTH directions — P26 declared it dead off a broken tool (0%), P28 found the same family bank 89%.
+  A prediction stated as a bank is how that happens. **Any future session reading the T0.1 entry must
+  read this one with it.**
