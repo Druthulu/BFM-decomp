@@ -4262,3 +4262,82 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
    *Also worth a line at PhaseEnd: this is the second portability/documents-class defect the
    byte-gate could not see (the first was Phase-28's `yaml.safe_dump` registry destruction, H5).
    Both argue the same thing — R34 wants a non-byte oracle for the repo's NON-byte invariants.*
+
+---
+
+## ▶ THE MEASURED-ORDER PLAN (Drew-approved 2026-07-26, SESSION-20)
+> Drew's framing: *"idiom discovery and shortcuts that could solve tons of funcs is the priority —
+> why hand-grind everything if a smarter order can unveil a hidden secret."* **Agreed and confirmed**,
+> with one calibration recorded honestly: in 21 phases **no single discovery ever cracked 50%** — the
+> biggest (§31, the codegen map) converted expensive *discovery* into cheap *application*. The real
+> shape is many 1–5% unlocks that compound; that is how the project went **3.8% → 80.6%**, and almost
+> none of it came from grinding. So: order for discovery, but do not wait on a master key.
+
+### The frontier, MEASURED 2026-07-26 (derived, not quoted — roadmap §2 is 11 days + ~11pp stale)
+Fleet **80.6% instr · 68.3% distinct-code · 89.18% fn-count**, 140 binaries.
+Remaining: **38,249 stubs · 2,552,983 weighted ins · 1,788,653 distinct ins (22,550 unique fns)**.
+
+| bucket | measured | note |
+|---|---|---|
+| behemoths >1000 | **3 fns / 8,226 ins** | 1 in flight; 2 of 3 in ov_SC07_006 |
+| 700–999 | **60 fns / 52,028 ins** | `func_8017BEBC` matched ×3, **stubbed ×56**; sibling-remap shape |
+| 500–699 | **44 fns / 25,202 ins** | same shape |
+| main EXE game code | **~59,765 ins / ~1,048 stubs** (0.7%) | not idiom-blocked — un-attempted |
+| resident | **14 stubs** | classed dossier exists |
+| walls | 2 permanent giants | model-relative, re-priced each phase |
+| SDK residue | gsgap 5 + libapi 800c3 ~22 objs | mechanical → LINKED |
+| 39 type-1 modules | **unquantified** | needs load-address RE first |
+| sub-500 mass | **~38,000 stubs ≈ 94% of remaining** | avg ~79 ins/fn |
+*(Scan floor: the band counts came from `.s` files >25 KB; the sub-500 figure is derived by
+subtraction from corpus totals, not counted directly.)*
+**The honest headline: the top four buckets are 5.7% of what is left. The endgame is ~38,000
+small-to-medium functions — not behemoths, not walls.**
+
+### THE OPEN QUESTION T0.1 EXISTS TO ANSWER
+Do the remaining 22,550 distinct fns cluster into few structural families (⇒ one idiom + remap per
+family = the 50%-class lever) or are they genuinely distinct (⇒ knowing grind)? **This has flipped
+three times, every time on TOOLING, never on the compiler:**
+P25 ~986 templatable families → P26 byte-refuted (3 probes **0%**), thesis declared spent →
+P28 found one probe had a **missing carve**; same family run properly banked **89%**, and recorded
+*"the ≈0% doctrine has NO surviving post-fix evidence"* → P29 T1 found the residual was an **-O0
+compile-flag artifact, not a regalloc wall**: *"ceiling ≫ 3%; the pool is back on the table."*
+**Nobody has re-measured it since, on fixed tools, over 140 binaries.** It is the highest-leverage
+unknown in the project and it costs **zero agent tokens**.
+
+### The order (approved)
+- **T0.1 — frontier survey re-run on fixed tools, 140 binaries.** Decides T2.2's entire method.
+- **T0.2 — bounded 8-member gate probe on the 700–999 sibling band.** Tests today's 40-min no-agent
+  recipe at scale. **A number from the gate, never a projection** (R14) — this is the exact class
+  where P26 read 0% off a broken tool and P28 read 89% off a fixed one.
+- **T0.3 — triage the 1,670 untriaged backlog entries** (already paid for in CPU, invisible to planning).
+- **T1.1 — `func_80183814`** (in flight). Its value is NOT its 5,122 ins: every prior behemoth was a
+  *renderer*; this is a 21-case **state machine in a different subsystem** = the best available probe
+  for a NEW idiom class. **T1.2 — `func_8017DC1C`** after it, *from its distilled levers* (same subseg,
+  0 callees ⇒ §71 cannot fire ⇒ 80183814 is its only relative).
+- **T2.1 — main EXE** (~59,765 ins, highest certain return). **T2.2 — the sub-500 mass**, method
+  chosen by T0.1.
+- **T3 — structural completeness**: the 39 type-1 modules (load-address RE first), resident's 14,
+  SDK residue, walls re-priced, and the roadmap re-baseline.
+
+### Why T0 leads
+Not caution — **T0 is the cheapest thing that can invalidate everything below it.** If the families
+template, T2.2 becomes "crack N exemplars and stamp" and most of that bucket evaporates. If they do
+not, we grind *knowingly* instead of hopefully. R35 exists because this project has scoped whole
+phases against broken readings twice; P26 spent its longest phase on a thesis its own tools had
+already refuted.
+
+### ⚠️ CONCURRENCY CONSTRAINT (while any behemoth agent is live)
+Agents read `asm/` on **every** probe. **No `make clean`, no `make extract`** until the agent
+resolves. T0.1/T0.3 only read sigs/configs and write `.run/` + `docs/` ⇒ safe concurrently.
+**T0.2 builds ⇒ it waits for the agent.** Banking is exclusive per overlay for the same reason
+(the §81 chain runs `make extract BINARY=<ov>`).
+
+### Roadmap-to-100 gaps found while planning this (→ PhaseEnd carry)
+1. **The 39 type-1 code modules appear in NO phase's task list** (checked P30/P31/P32). P27's
+   PhaseEnd updated the completion *contract*; nobody added the *tasks*. §1 still reads "currently 136".
+2. **B7 (behemoths) missed the biggest function in the game** — `func_80183814` (5,122) and
+   `func_8017DC1C` (1,518) are absent because both live in `ov_SC07_006`, an overlay that did not
+   exist in the fleet when the roadmap was written (2026-07-15). So **every B-bucket silently excludes
+   the 4 late SC07 overlays**, and 4 of B7's 5 listed behemoths are now banked.
+3. §2's numbers are stale — but the roadmap *declares* this (§0 + its own risk register), so that one
+   is a documented limitation, handled correctly.
