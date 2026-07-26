@@ -3871,6 +3871,48 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   Artifacts: `s19_func_8017BF14_b1.c` (45/4763) + a **pin-free fallback at 789/4763 that is 100%
   structural** + `s19_bf14_report.md` (~40-row do-not-re-buy table, 4 refuted diagnoses).
 
+- **🏆🏆🏆 2026-07-25 (SESSION-19) — `func_8017BF14` (4,763 ins) CLOSED IN ROUND 2: 45 → 0.
+  The 4th behemoth of the session, and the largest single function matched in the project.**
+  `45 → 37 → 33 → 21 → 11 → 3 → 2 → 0`, reproduced 3× from independent work dirs. **Verified
+  independently (R14):** `match_one` → **MATCH (4763 ins)**; `harvest_verify --binary ov_SC03_116`
+  → **BYTE-IDENTICAL**. (Agent was interrupted mid-run by a weekly API limit and RESUMED FROM ITS
+  TRANSCRIPT — its round-2 harness `bf14_mk2.py`/`bf14_sw2.sh` survived intact, so nothing was
+  re-derived.)
+  **⚠️ THE PROCESS CORRECTION THAT MATTERS MORE THAN THE MATCH (→ §80): A DO-NOT-RE-BUY ENTRY IS
+  SCOPED TO ITS BASE, NOT TO THE FUNCTION.** Three of round 1's ~40 carefully-measured negatives
+  **INVERTED** on round 2's base — the same edit (`qsingle23`) measured **1,040 mismatched on the
+  45-base and 11 on the 21-base**. Re-testing the round-1 negative list cost **~20 seconds** and
+  produced **three of the seven winning levers**. **A do-not-re-buy table records `(edit, base) →
+  result`, NOT `edit → useless`; after any lever that moves the base materially, RE-RUN THE NEGATIVE
+  LIST.** This retroactively qualifies every such table in the cookbook (§45, §60b, §75a, §76, §78,
+  §79) — they are starting hypotheses at the base where they were taken, not closed questions.
+  Concrete instance: round 1 measured "removing the `va→$t2` pin costs 4% elsewhere" ⇒ *keep the pin*;
+  on a base with `c0..c3` at function scope, **removing those pins is worth 21→13** — opposite
+  conclusion, same experiment.
+  **MY FLAGGED "#1 MOVE" LOST, AND THE FAILURE IS THE FINDING.** I briefed variable REUSE (§45-A /
+  RC-14) as the #1 lever because it took `func_8017F510` from 97→10. Swept in full here: **every
+  merge lost, 43–3294 across 8 merges.** Reason: **the TRI and QUAD grants did not differ by RANK,
+  they differed by IDENTITY — two independent allocno sets, and re-ranking inside one set cannot fix
+  a two-set problem.** Diagnose ranking-vs-identity BEFORE reaching for a merge. The actual fix
+  (`s32 c0,c1,c2,c3;` at **function** scope, 33→21) was **read off the two matched relatives**
+  (`b5:310`, `b4:338`) and confirmed against the target (its TRI grants are identical to its QUAD
+  grants) — **the 4th time today that reading a matched relative beat the clever lever.**
+  **THE PIN'S HIDDEN COST, WITH A CITATION:** `combine_regs`' hard-register branch
+  (`local-alloc.c:1795`, reached from `:1295` with `already_dead == 0`) records the pinned register in
+  **`qty_phys_sugg` UNCONDITIONALLY — no death guard**. A pin doesn't merely *prefer* a register, it
+  invites local-alloc to tie producer chains into it. New cure **R7**: a zero-byte `__asm__` ref that
+  keeps the pinned value LIVE PAST the temp so `find_free_reg` can't honour the suggestion — closed
+  the last 2 ins, and was necessary because `c1→$a0` is uniquely load-bearing (it is what spills
+  `r1lo`; every alternative pin lost 64 ins).
+  **§78's ATTRIBUTION PRIMITIVE RUN AND REPRODUCED:** under `-fno-schedule-insns`,
+  `-fno-schedule-insns2`, and both, the order was **unchanged** ⇒ the rgb-accumulator transposition
+  was never a `sched.c` decision (a 3-statement accumulator pins the value, so no scheduler *could*
+  hoist the `or` above the `sw`). Changing the grant fixed the order for free.
+  **COLD-START ECONOMICS, NOW COMPLETE:** round 1 = decode + exact length + exact frame + 99.06%;
+  round 2 = the last 45, and far cheaper than round 1. **Budget TWO passes at this size; do not read a
+  99% round-1 result as a stall.** Also found a **5th original-source copy-paste artefact** (QUAD
+  vertex-1 box-3 y-axis accumulates into `a2v` while its kill branch still says `a3v`).
+
 > **🛑 SESSION-19 CLOSING CHECKPOINT (2026-07-25, Opus 5 @ High) — REFRESHED mid-session; supersedes
 > both the SESSION-18 block and the earlier SESSION-19 block (which was written before the
 > ENGINE_SHB / class-B / dedup_extend-bug work and went stale). Fresh session safe here.**

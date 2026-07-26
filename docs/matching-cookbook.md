@@ -6194,3 +6194,56 @@ Artifacts: `.run/giants/s19_func_8017BF14_b1.c` (45/4763), a **pin-free fallback
 **Cold-start economics, measured:** a 4,763-instruction leaf giant with a *findable* matched relative
 reached 99.06% in one pass but did not close. Budget a second pass for anything this size; the first
 pass buys the decode, the frame, and the length — the last ~1% is register grants.
+
+## §80 — A do-not-re-buy entry is scoped to its BASE, not to the function; and the pin's hidden cost is an unconditional `qty_phys_sugg` (Phase 29 SESSION-19, `func_8017BF14` 45 → 0)
+
+Round 2 closed the 4,763-instruction behemoth (`45 → 37 → 33 → 21 → 11 → 3 → 2 → 0`, reproduced 3×
+from independent work dirs, banked whole-binary BYTE-IDENTICAL). The route matters more than the win.
+
+### ⚠️ THE PROCESS CORRECTION: a measured negative is relative to the draft it was measured on
+Round 1 left a careful ~40-row do-not-re-buy table. **Three of its entries INVERTED on round 2's base.**
+The same edit (`qsingle23`) measured **1,040 mismatched on the 45-base and 11 on the 21-base**.
+Re-testing the round-1 negative list cost **~20 seconds** and produced **three of the seven winning
+levers**.
+
+**So: a do-not-re-buy table is a record of `(edit, base) → result`, NOT `edit → useless`.** After any
+lever that moves the base materially, **re-run the negative list** — it is seconds with a real harness
+and it is where the next levers hide. This retroactively qualifies every such table in this cookbook
+(§45, §60b, §75a, §76, §78, §79 and round 1 of this function): treat them as *starting hypotheses at
+the base where they were taken*, not as closed questions.
+
+Corollary already seen: round 1 measured "removing the `va→$t2` pin costs 4% elsewhere" and concluded
+*keep the pin*. On a base where `c0..c3` sit at function scope, **removing those pins is worth 21→13**
+— the opposite conclusion from the same experiment.
+
+### The pin's hidden cost, with the citation
+`combine_regs`' hard-register branch (`local-alloc.c:1795`, reached from `:1295` with
+`already_dead == 0`) records the pinned register in **`qty_phys_sugg` unconditionally — there is no
+death guard.** So a `register __asm__` pin does not merely *prefer* a register: it actively invites
+local-alloc to tie producer chains into it, which is exactly the residual-(a) tie round 1 diagnosed
+but mis-cured. Three separable cures exist; the new one is worth knowing:
+- **R7 — a zero-byte `__asm__` ref that keeps the pinned value LIVE PAST the temp**, so
+  `find_free_reg` cannot honour the suggestion. That closed the final 2 instructions, and was
+  *necessary* because `c1→$a0` proved uniquely load-bearing (it is what spills `r1lo`; every
+  alternative pin lost 64 instructions).
+
+### The flagged "#1 move" LOST — and why the failure is informative
+Variable REUSE (§45-A / RC-14 MERGE) was swept in full: **every merge lost, 43–3294 across 8 merges.**
+It was the right lever class for the sibling `func_8017F510` (97 → 10) and the wrong one here, for a
+structural reason worth carrying: **the TRI and QUAD grants did not differ by RANK, they differed by
+IDENTITY — two independent allocno sets.** Re-ranking inside one set cannot fix a two-set problem.
+**Diagnose whether you have a ranking problem or an identity problem before reaching for a merge.**
+The actual fix was `s32 c0,c1,c2,c3;` at **function** scope (33 → 21), read off the two matched
+relatives (`b5:310`, `b4:338`) and confirmed against the target itself: its TRI grants are *identical*
+to its QUAD grants.
+
+### §78's attribution primitive, run and reproduced
+Under `-fno-schedule-insns`, `-fno-schedule-insns2`, and both, the draft's order was **unchanged** ⇒
+the rgb-accumulator transposition was never a `sched.c` decision. A 3-statement accumulator pins the
+value to one register, so no scheduler *could* hoist the `or` above the `sw`. Changing the grant fixed
+the order for free — §78 reproduced on a second function.
+
+### Cold-start economics, now complete
+A 4,763-instruction leaf giant with a findable matched relative: **round 1 = decode + exact length +
+exact frame + 99.06%; round 2 = the last 45.** Two passes, and the second was far cheaper than the
+first. Budget two passes at this size and do not read a 99% round-1 result as a stall.
