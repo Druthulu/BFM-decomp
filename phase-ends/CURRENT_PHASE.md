@@ -3969,6 +3969,47 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   measured. The bytes are unaffected but the true source shape is unfound — the report names the exact
   next probe.
 
+- **🏆 2026-07-25 (SESSION-19) — BEHEMOTH #6 `func_8017C730` (1,061 ins) CRACKED **AND BANKED** via the
+  §81 carve chain. Two new SOURCE-SHAPE ORACLES (§82) — the best of the session.**
+  **Verified independently (R14):** `match_one` → **MATCH (1061 ins)** (agent re-matched 3× from clean
+  runs; 100% register-masked AND register-kept, all 10 regions, frame `0x270` exact). Carve chain clean
+  first try: `jr_isolate_all --only` → **byte-identical `cacaf7c2`** → `jtbl_carve` (43-piece set) →
+  **byte-identical** → bank → **R22 clean-fleet 140/140**, `tools-health` OK.
+  **WHAT IT IS:** the matched base `func_8017CA80` + **camera height-band cull + distance-driven CLUT
+  fade**. `func_8004974C` (TransposeMatrix) sits in a 36-ins prologue deriving a Y band; the part-level
+  `lim >= g.otz` cull is GONE (no `gte_stszotz` at all); flat arms gain an `sz < lim` near-plane cull.
+  The base+one-extra-callee fingerprint predicted this exactly.
+  **§82 ORACLE 1 — A DUPLICATED `addiu $aN,$sp,K` ACROSS A `jal` MEANS THE BLOCK WAS INLINED.** `&X` on
+  any non-first local always creates a pseudo and CSE always merges two of them (`expr.c:6260`
+  ADDR_EXPR → `force_operand(..., NULL)`; the exception is virtual-stack-vars offset 0). So if the
+  target re-materialises the SAME stack address at two sites separated by a `jal`, CSE was *prevented*
+  from merging them ⇒ they were not in the same function body. **17 non-inline spellings failed; a
+  `static inline` helper reproduced the prologue BYTE-FOR-BYTE first try.** Reusable probe that found
+  it: scan the ~1,200 built objects for that duplicated-`addiu` signature in NON-`INCLUDE_ASM`
+  functions (i.e. known-real source shapes).
+  **§82 ORACLE 2 — SCALAR vs AGGREGATE DECIDES *WHEN* A STACK SLOT IS ALLOCATED:** lazily at first `&`
+  for a scalar, **at declaration** for an aggregate. The six GTE result words had to be six separate
+  `long`s, not a struct — only then do they land after the inlined helper's temps (0x118..0x12F) and
+  the frame comes out `0x270`. **Second-order:** it also flips `MEM_IN_STRUCT_P` (§30's `/s`) — with one
+  word a fixed-address scalar, `((PolyF3*)pkt)->rgbc` stops aliasing it, so a store needed respelling
+  `*(u32 *)(pkt + 4)` to keep the target's `nop`. **A scalar-vs-struct choice is simultaneously a
+  frame-layout AND an aliasing decision.**
+  **BANKING FOOTNOTE (§75a class A, one line):** the first bank was rejected `conflicting types for
+  'ApplyMatrixSV'` — draft `(MATRIX2 *, SVECTOR2 *, SVECTOR2 *)` vs the TU/fleet canon
+  `(void *, void *, void *)` (**2,286 of 2,835 sites**). Conforming the decl is byte-neutral (pointer
+  args pass identically) and banked first try. **On a jr function expect BOTH gates to speak: the carve
+  chain answers the jump table, §75a answers the declarations.**
+  **Also reproduced:** §78 (reuse a busy variable — `t32 = mid` matched where a fresh temp did not) ·
+  **§80(i)** (a lever went −8 ins → *exactly neutral* as the base moved) · §72 (a `register` pin made it
+  worse).
+  **AGENT'S OWN CAVEAT, recorded not hidden:** one zero-byte `__asm__ volatile ("" : : "r"(mnc))`
+  survives, keeping a provably vestigial `mnc = hmid` alive that `flow.c` would delete (costing 10 ins
+  and the 0x130 spill slot). It emits nothing and the compile is 1061 exact, but it is a documented
+  stand-in — 12 natural spellings measured, all DCE'd; the next probe is named in the report.
+  Artifacts: `s19_func_8017C730_b1.c` (~140-line dossier, 12 levers each with a drop-one ablation) +
+  `s19_c730_report.md` (~40-row do-not-re-buy table) + `c730_{cc,probe,probe2,score,sweep,sw,sw2}.sh` /
+  `c730_{reg,side,mk,abl}.py` (**`c730_abl.py` = a new drop-one ablation matrix**).
+
 > **🛑 SESSION-19 CLOSING CHECKPOINT (2026-07-25, Opus 5 @ High) — REFRESHED mid-session; supersedes
 > both the SESSION-18 block and the earlier SESSION-19 block (which was written before the
 > ENGINE_SHB / class-B / dedup_extend-bug work and went stale). Fresh session safe here.**

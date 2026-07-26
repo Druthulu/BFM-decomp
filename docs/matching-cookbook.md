@@ -6294,3 +6294,45 @@ had already converted this predicate's *silent drop* into a **loud refusal**. Th
 byte-changer** (C89 implicit `int f()`, and return type drives delay-slot fill in this codebase). The
 refusal named the exact symbols and the exact remedy. **A loud "I cannot place this" is worth far more
 than a green build.**
+
+## §82 — Two source-shape oracles from behemoth #6: a duplicated `addiu $aN,$sp,K` across a `jal` means the block was INLINED, and scalar-vs-aggregate decides WHEN a stack slot is allocated (Phase 29 SESSION-19, `func_8017C730` 1,061 ins)
+
+Two findings that read the ORIGINAL SOURCE SHAPE off the asm — the same class as §78's `|`-chain rule
+and §79's frame-slot oracle, and the pair that actually cracked this function.
+
+### 1. The inlined-helper signature
+**`&X` for any non-first local always creates a pseudo, and CSE always merges two of them**
+(`expr.c:6260`, ADDR_EXPR → `force_operand(..., NULL)`; the one exception is the
+virtual-stack-vars offset-0 local). **So if the target re-materialises the SAME `addiu $aN,$sp,K`
+at two call sites separated by a `jal`, CSE was prevented from merging them — which means those two
+sites were not in the same function body. The block was an INLINED function.**
+
+17 non-inline spellings failed to reproduce the prologue; a `static inline` helper reproduced it
+**byte-for-byte on the first try**.
+
+**The reusable probe** that produced the hypothesis: scan the built objects for that duplicated-`addiu`
+signature in functions that are NOT `INCLUDE_ASM` (i.e. already-matched code known to come from real
+source) — ~1,200 objects, cheap, and it tells you which shapes the original codebase actually used.
+
+### 2. Scalar vs aggregate decides *when* the slot is allocated
+**A scalar's stack slot is allocated LAZILY, at its first `&`; an aggregate's is allocated AT ITS
+DECLARATION.** So six GTE result words must be six separate `long`s, not a `struct` — only then do
+they land *after* an inlined helper's temps (here 0x118..0x12F) and the frame comes out at the
+target's `0x270`. Declaring the same six as a struct puts the slot in the wrong place and no amount
+of reordering recovers it.
+
+**Second-order effect worth knowing:** this also flips `MEM_IN_STRUCT_P` (§30's `/s` flag). With one
+of those words a fixed-address *scalar*, `((PolyF3*)pkt)->rgbc` no longer aliases it — so a store had
+to be respelled `*(u32 *)(pkt + 4)` to keep the target's `nop`. **A scalar-vs-struct choice is
+simultaneously a frame-layout decision and an aliasing decision.**
+
+### Also reproduced on this function
+§78 (reuse an already-busy variable — `t32 = mid` matched where a fresh temp did not) · §80(i) (a
+lever went from −8 ins to *exactly neutral* as the base moved) · §72 (a `register` pin made it worse).
+
+### And the banking footnote (§75a class A, one line)
+The whole-binary gate rejected the first bank with `conflicting types for 'ApplyMatrixSV'`: the draft
+declared it `(MATRIX2 *, SVECTOR2 *, SVECTOR2 *)`, the TU and the fleet canon use `(void *, void *,
+void *)` — **2,286 of 2,835 sites**. Conforming the draft's decl to the canon is byte-neutral
+(pointer args pass identically) and banked first try. **On a jr function, expect BOTH gates to have
+something to say: the carve chain answers the jump table, and §75a answers the declarations.**
