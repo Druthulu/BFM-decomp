@@ -4638,3 +4638,53 @@ resolves. T0.1/T0.3 only read sigs/configs and write `.run/` + `docs/` ⇒ safe 
 > never fires. **Fix: on a 0-bank group, restore the snapshot regardless of neutrality** — §61's law
 > applied to the success path ("neutral" is not "wanted"). Both reverted; binaries verified.
 > **DO NOT close P29 on ROI** — burn-down floor still undetermined.
+
+- **✅ 2026-07-26 (SESSION-20) — BOTH MECHANICAL LEVERS HARVESTED END-TO-END. 395 members banked,
+  0 failed, ~56,200 ins, ZERO agent tokens.**
+  | lever | members | mechanism | recipe | Δinstr | Δdistinct |
+  |---|---|---|---|---|---|
+  | **§85 return-axis** | **272** | ONE-TIME fleet widen (3,668 sites / 2,688 files) | widen → **plain** `harvest_verify` | +26,928 | **+0** |
+  | **§84 derived-offset** | **123** | per-member literal recompute (`family_remap.fix_derived_offsets`) | recompute → **`gate_stage` LADDER** | +29,280 | **+27,840** |
+  Both 100%: return-axis 8/8 sample then 264/0; §84 3/3 sample then 119/0. `func_8013D53C` and both
+  return-axis functions are now stubbed in **ZERO** overlays. R22 **140/140** after each; tools-health
+  OK; dedup 1886/0; 0 NON_MATCHING (G4).
+  **⚠️ THE TWO RECIPES ARE NOT INTERCHANGEABLE — and sampling is what caught it.** The return-axis
+  members bank with plain `harvest_verify` (the fleet widen removed their conflict *globally*), but
+  the §84 members do **not**: with the recompute alone the sample was **0/8**; through the ladder,
+  **3/3 → 119/119**. **Had I reused the return-axis recipe I would have swept 123 members to zero
+  banks and concluded the §84 fix was wrong.** Probe-before-scale earned its keep twice today (it
+  also caught the T0.2 missing-ladder error).
+  **📊 THE METRIC FINDING (carry this into P30 planning):** §84 moved **distinct-code +27,840**;
+  the return-axis sweep moved **distinct-code +0**. §84-class members are byte-VARIANTS ⇒ each is a
+  NEW unique function; propagation-class members were already counted once via their shared exemplar.
+  **⇒ variant-cracking moves the RE-COMPLETENESS number; propagation moves only the DISPLAY number.**
+  This sharpens SESSION-19's split into an actionable selection rule: **to move distinct-code, target
+  byte-VARIANT families, not high-reach h_exact ones.**
+  **Session fleet: 80.6 → 81.0% instr · 68.2 → 68.8% distinct-code · 89.18 → 89.30% fn-count.**
+
+> **🛑 SESSION-20 FINAL CHECKPOINT (2026-07-26) — fresh session safe here.**
+> **Nothing running.** Tree clean but for the R23 `db.*.gbf` churn (never stage). **R22 140/140**
+> (run 8× this session), `tools-health` **OK**, dedup **1886/0**, **0 NON_MATCHING**, HEAD `commit:1044`.
+> **FLEET: 81.0% instr · 68.8% distinct-code · 89.30% fn-count.** **Drew pushes** (R6/R20).
+>
+> ## ▶ START HERE NEXT SESSION
+> **1. APPLY §84/§85 TO THE REST OF THE POOL.** Both root causes are fixed IN THE TOOLING now, so the
+>    remaining zero-crack families should be re-probed against them. **Re-run T0.1's decomposition
+>    first** (`family_hseq` + the FREE-subset query) — it is stale by 395 banked members. Then sample
+>    8 per family before each sweep. **Route by class: variant families for distinct-code, h_exact
+>    families for the display metric.**
+> **2. `func_80144090`** (154×136 ≈ 20,944) — LENGTH-DRIFT, +13 B / ~3 ins. Genuine codegen; real
+>    matching work, NOT mechanical. The 4th T0.2 cause and the only one still open.
+> **3. The 315 integration-class backlog entries** (T0.3b) — now that the ladder + §84/§85 are
+>    understood, re-gate them through `gate_stage`; ~108,959 gain-ins.
+> **4. T1.1b `func_80183814` round 2** — 99.3% structural, lever named (close the +5 to move `max_reg`).
+> **5.** The 707 `redraft` backlog entries are NOT near-misses (44% of the ledger) — route to fresh
+>    cracks, never to the permuter.
+>
+> ## ⚠️ CARRIED DEFECTS (unfixed, both recorded)
+> - **The absolute-include portability defect** — 21 files, PhaseEnd carry item (Drew: handle later).
+> - **Two ladder-hygiene bugs:** `--normalize-self-decls` (123 files) and the **ARITY pre-pass**
+>   (40 TUs) both leave their edits after a 0-bank run, because the transforms are byte-neutral so the
+>   non-neutral backstop never fires. **Fix: on a 0-bank group restore the snapshot regardless of
+>   neutrality** (§61's law applied to the success path). Both reverted manually this session.
+> **DO NOT close P29 on ROI** — burn-down floor still undetermined.
