@@ -4580,3 +4580,61 @@ resolves. T0.1/T0.3 only read sigs/configs and write `.run/` + `docs/` ⇒ safe 
   BOTH directions — P26 declared it dead off a broken tool (0%), P28 found the same family bank 89%.
   A prediction stated as a bank is how that happens. **Any future session reading the T0.1 entry must
   read this one with it.**
+
+- **✅ 2026-07-26 (SESSION-20) — THE T0.2 FAILURES, ALL FOUR DIAGNOSED. 3 of 4 causes are MECHANICAL
+  and now proven; 3 banked. Drew: "succeed it; if it fails, see why and try again."**
+  The diagnostic that did it (reusable, ~15 min/function): **splice the laddered draft → build →
+  byte-diff the image against the extracted payload → decode the differing word.** It converts
+  "PLUMBING, cause unknown" into a named root cause.
+  | family | value | cause | outcome |
+  |---|---|---|---|
+  | `func_8013D53C` | 240×123 ≈ 29,520 | **§84 derived-offset** (remap carried a literal encoding a per-overlay symbol distance) | ✅ BANKED |
+  | `func_8012CC88` | 105×137 ≈ 14,385 | **§73/§30#2 RETURN axis** (def `s32` vs fleet `extern void`) | ✅ BANKED |
+  | `func_8014D12C` | 93×137 ≈ 12,741 | same RETURN-axis conflict | ✅ BANKED |
+  | `func_80144090` | 154×136 ≈ 20,944 | **LENGTH-DRIFT** +13 B (~3 ins), shifting 255 downstream regions | ❌ genuine codegen — real matching work |
+  **⇒ The "33% conversion" from T0.2 was measuring MY MISSING LADDER, not the pool.** Bare
+  `harvest_verify` is the last rung; `gate_stage` runs canon → cast → reconcile_tu → ARITY →
+  sig_unify → harvest_verify. Re-measured properly: **3 of 4 mechanical.**
+  **THE FLEET-WIDEN FAILURE AND THE RETRY (→ §85):** widening only `engine_core.h` banked the target
+  overlay and **BROKE `ov_SC01_077` — R22 139/140.** The source overlay carries its OWN local
+  `extern void func_X(...)` decls, so a shared-header-only widen conflicts with them by construction.
+  **The per-binary gate passed while breaking a binary it never built** (§63/§61 — a T2 write set is
+  provable only by R22). **A half-done axis is a guaranteed break, not a smaller win.** The retry did
+  the WHOLE axis: **3,668 decl sites / 2,688 files → 0 remaining** (R32 completion assertion), after
+  verifying the precondition **0 callers consume the return value** ⇒ byte-neutral by construction.
+  **R22 140/140, tools-health OK, dedup 1886/0.**
+  **⚠️ MY OWN VERIFICATION ERROR, recorded not buried:** I spot-checked ov_SC01_077 with
+  `make build | grep … | head; echo rc=$?` and read **rc=0 as success** — that is `head`'s exit
+  status, not `make`'s, and the output had **no `BYTE-IDENTICAL` line**. I reported a false
+  BYTE-IDENTICAL to Drew in the interim. **Assert on the expected SUCCESS STRING, never `$?` after a
+  pipe.** R22 caught the real breakage; my reading of the cheap check did not. → cookbook §85.
+  **Session fleet: instr 80.6% (10,589,503) · distinct-code 68.3% (3,846,656) · fn-count 89.19%.**
+
+> **🛑 SESSION-20 CHECKPOINT (2026-07-26) — fresh session safe here.**
+> **Nothing running.** Tree clean except the R23 `db.*.gbf` churn (never stage). **R22 clean-fleet
+> 140/140** (run 5× this session), `tools-health` **OK**, dedup **1886/0**, **0 NON_MATCHING** (G4).
+> HEAD `commit:1041`. **Drew pushes** (R6/R20).
+> **FLEET: 80.6% instr · 68.3% distinct-code · 89.19% fn-count** (opened 80.6 / 68.2 / 89.18).
+>
+> ## BANKED THIS SESSION
+> `func_8017C730` @ ov_SC03_013 (1,061, §81 carve chain) · 4 sibling members (T0.2) ·
+> `func_8013D53C` (§84) · `func_8012CC88` + `func_8014D12C` (§85 fleet widen).
+>
+> ## ▶ START HERE NEXT SESSION — the unlock is IDENTIFIED but NOT YET HARVESTED
+> **1. SWEEP THE TWO RETURN-AXIS FAMILIES (~27,126 ins, ~0 tokens).** The §85 widen is a ONE-TIME
+>    fleet edit that is now DONE — so the other ~272 members of `func_8012CC88`/`func_8014D12C`
+>    should no longer hit the conflict. Stage + `gate_stage` them. **Sample 8 FIRST** (probe-before-
+>    scale — it caught my T0.2 error today), then the rest.
+> **2. IMPLEMENT THE §84 OFFSET RECOMPUTE in `family_remap`** (`correct_literal =
+>    mapped(aliased_sym) − mapped(base_sym)`), then sweep `func_8013D53C`'s 123 members (~29,520 ins).
+>    133 staged drafts all carry the un-recomputed `+0x20` with different per-overlay bases.
+> **3.** `func_80144090` is LENGTH-DRIFT — real matching work, not mechanical. Deprioritise.
+> **4.** T1.1b `func_80183814` round 2 (99.3%, lever named: close the +5 to move `max_reg`).
+> **5.** The 315 integration-class backlog entries (T0.3b) — same ladder, ~108,959 gain-ins.
+>
+> ## ⚠️ TWO TOOL-HYGIENE DEFECTS FOUND (both leave dead diff after a 0-bank run)
+> `--normalize-self-decls` (123 files) and the **ARITY pre-pass** (40 TUs) both leave their edits in
+> the tree when nothing banks, because their transforms are byte-neutral so the non-neutral backstop
+> never fires. **Fix: on a 0-bank group, restore the snapshot regardless of neutrality** — §61's law
+> applied to the success path ("neutral" is not "wanted"). Both reverted; binaries verified.
+> **DO NOT close P29 on ROI** — burn-down floor still undetermined.
