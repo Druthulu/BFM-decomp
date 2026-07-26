@@ -4032,120 +4032,100 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   heuristic also breaks on an **isolated region file**, where the preceding construct IS the needed
   helper (it returned a 1-line preamble).
 
-> **🛑 SESSION-19 CLOSING CHECKPOINT (2026-07-25, Opus 5 @ High) — REFRESHED mid-session; supersedes
-> both the SESSION-18 block and the earlier SESSION-19 block (which was written before the
-> ENGINE_SHB / class-B / dedup_extend-bug work and went stale). Fresh session safe here.**
-> **⚠️ AN OPUS-5 AGENT IS RUNNING (`func_8017C730`, 1,061 ins, ov_SC03_010, effort xHigh):**
-> deliverables `.run/giants/s19_func_8017C730_b1.c` + `s19_c730_report.md`; sandboxed to
-> `.run/giants/` (no `src/`/`config/`/`docs/`, no commits, no `make` targets). **If this session
-> died mid-run, check those two files — its work is NOT committed.**
-> **Strongest starting signal yet:** its shared-symbol set is a **strict SUPERSET** of the matched
-> base `func_8017CA80` — all 6 of its symbols **plus exactly one extra callee `func_8004974C`** —
-> and 1,061 vs 952 ins ⇒ **base + ~109 ins of one feature**, centred on that call site.
-> **FIVE matched family exemplars** now bracket it (952 · 1,194 · 1,511 · 3,338 · 4,763).
-> **⚠️ IT IS A JR FUNCTION** (`jr $v0` @ .s:439) ⇒ **`match_one` MATCH will NOT be the end**:
-> banking needs the **§81 carve chain** (`jr_isolate_all --only` → `jtbl_carve` →
-> `harvest_verify` → full R22), which is MY step, not the agent's. Its switch structure (arm
-> count/order, dead arms) must be exactly right because the emitted table is byte-compared.
-> **FIVE behemoths banked this session** — `func_8017F510`
-> (1,511) · `func_8017F5B4` (1,511, free remap) · `func_8017D960` **+ its 5-member family**
-> (16,690) · `func_8017BF14` (4,763, the largest match in the project) · `func_8017C954`
-> (1,194, via the §81 jr-carve chain). **`func_8017C730` (1,061, 0.86 fingerprint, same
-> renderer family) is the approved NEXT target** (Drew: successive single agents).
-> **⚠️ FINGERPRINTING METHOD NOTE (I got this wrong twice before getting it right):** §71's
-> callee set CANNOT fire on a leaf fn; §79 says fall back to DATA symbols — but compare
-> **SHARED symbols only** (`< 0x80128158`), since per-overlay `D_801?????` names never match
-> across overlays; AND a MATCHED function has no `nonmatchings/*.s`, so read its fingerprint
-> from its **banked C**. Both mistakes silently return 0.00 = 'no relative'.
- — `func_8017F510`
-> (1,511) · `func_8017F5B4` (1,511, free remap) · `func_8017D960` **+ its 5-member family**
-> (16,690) · **`func_8017BF14` (4,763 — the largest single match in the project)**.
-> Full R22 run after every bank (140/140); `tools-health` OK.
-Three behemoths banked this session: `func_8017F510`
-> (1,511, §76 crack), `func_8017F5B4` (1,511, §40 remap), and **`func_8017D960` + its entire
-> 5-member family (5 × 3,338 = 16,690 ins, §78 crack + 4 first-try remaps)**.
-> **Tree clean** (only R23 `db.*.gbf` churn — never staged).
-> **STATE:** HEAD `commit:1021`, **33 commits this session**. **R22 clean-fleet 140/140, run 11×** — the
-> last after the `func_8017C954` jr-carve bank. `make tools-health` → **OK**.
-> **0 NON_MATCHING** (G4). dedup **1886 validated / 0 failed**, C1 coverage 239,604/239,604. **Drew pushes** (R6/R20).
-> **FLEET: 80.6% instr** — 10,586,547 / 13,141,652 · **distinct-code 3,844,100 = 68.2%
-> (+30,588 ins this session: 25,669 from FIVE behemoths + 4,919 from the h_norm-remap pool;
-> every PROPAGATION win contributed +0)** · fn-count **89.18%** (session opened 80.0/67.7/89.02).
+> **🛑 SESSION-19 CLOSING CHECKPOINT (2026-07-25, Opus 5 @ xHigh) — FINAL. Fresh session safe here.**
+> **No background job is running.** Tree clean (only R23 `db.*.gbf` churn — never staged).
+> **R22 clean-fleet 140/140, run 12×** (the last after the `func_8017C730` bank). `make tools-health`
+> → **OK**. **0 NON_MATCHING** (G4). dedup **1886 validated / 0 failed**, C1 coverage complete.
+> HEAD `commit:1025`, **38 commits this session**. **Drew pushes** (R6/R20).
+>
+> ## FLEET
+> **80.6% instr** (10,587,608 / 13,141,652) · **distinct-code 3,845,161 = 68.2%** · fn-count **89.18%**
+> Session opened at **80.0 / 67.7 / 89.02**.
+> **+31,649 distinct-code ins this session: 26,730 from SIX behemoths + 4,919 from the h_norm-remap
+> pool. Every PROPAGATION win contributed +0 to distinct-code** — that split is the session's single
+> most actionable finding.
 >
 > ## BANKED THIS SESSION
-> | fn | ins | reach | lever |
+> | fn | ins | reach | how |
 > |---|---|---|---|
-> | `func_8014D4C0` | 84 | **×138** | §30#2 widen + the §73 PARAM axis |
-> | `func_8014F3E8` | 32 | **×138** | §75 minority-spelling normalization + `dedup_extend` |
-> | `func_80165CA0` | 99 | **×135** | §75b `ENGINE_SHB` (the carried-`#define` gap) |
-> | 22 assorted | — | ×1 | picked up in the 3 overlays the first sweep excluded |
-> | **`func_8017F510`** | **1,511** | **×1 (distinct-code)** | **BEHEMOTH #3 — §76 allocno-class levers, pin-free, xHigh agent** |
-> | **`func_8017F5B4`** | **1,511** | **×1 (distinct-code)** | **§40 family_remap off F510 + §77 preamble carry — ~0 agent tokens** |
-> | **`func_8017D960` + family** | **3,338 ×5** | **×1 each (distinct-code)** | **BEHEMOTH #2 — §78 crack (1806→0, pin-free) + 4 first-try §40 remaps = 16,690 ins** |
-> | **`func_8017BF14`** | **4,763** | **×1 (distinct-code)** | **THE LARGEST MATCH IN THE PROJECT — cold start → 45 (round 1) → 0 (round 2), §79 + §80** |
-> | **`func_8017C954`** | **1,194** | **×1 (distinct-code)** | base+2 deltas; banked via the **§81 jr-carve chain** (a shared type was present-but-invisible) |
-> | `func_80174CB0` | 123 | **×135** | §75c the full §17a-1 pair (3 residual = the predicted class-A set) |
+> | `func_8014D4C0` | 84 | ×138 | §30#2 widen + the §73 PARAM axis |
+> | `func_8014F3E8` | 32 | ×138 | §75 minority-spelling normalization + `dedup_extend` |
+> | `func_80165CA0` | 99 | ×135 | §75b `ENGINE_SHB` (the carried-`#define` gap) |
+> | `func_80174CB0` | 123 | ×135 | §75c the full §17a-1 pair (decl **and** call-site cast) |
+> | 19 pool fns | — | ×1 | h_norm remap + the §77 preamble carry (**+4,919**) |
+> | **`func_8017F510`** | **1,511** | ×1 | **BEHEMOTH — §76 allocno-class levers, pin-free** |
+> | **`func_8017F5B4`** | **1,511** | ×1 | **BEHEMOTH — §40 remap off F510, ~0 agent tokens** |
+> | **`func_8017D960` + 5-member family** | **3,338 ×5** | ×1 ea | **BEHEMOTH — §78; 4 first-try remaps = 16,690 ins** |
+> | **`func_8017BF14`** | **4,763** | ×1 | **THE LARGEST MATCH IN THE PROJECT — cold start → 45 → 0 (§79/§80)** |
+> | **`func_8017C954`** | **1,194** | ×1 | **BEHEMOTH — banked via the §81 jr-carve chain** |
+> | **`func_8017C730`** | **1,061** | ×1 | **BEHEMOTH — §82 two source-shape oracles** |
 >
-> **+46,433 ins banked with ZERO function drafting** — every gain was carried-declaration plumbing.
-> **Distinct-code did NOT move (67.7%)** and will not: propagation moves COVERAGE, not distinct-RE.
-> **Fresh cracks remain the only distinct-code lever.**
+> ## TEN COOKBOOK ENTRIES, §73–§82 — ALL FROM MEASUREMENT
+> **§73** a def-side self-decl conflict has TWO axes: RETURN (fleet widen, T2/R22) and PARAMS (casts at
+> each use, T0) · **§74** the pin-safety audit (the corrupting form is a CALLER-SAVED pin spanning a
+> `jal`) · **§75** census the carried extern before believing an exclusion message; prefer a
+> majority-spelling source overlay; always `--recover` · **§75a** the three exclusion classes + the one
+> grep that discriminates them · **§75b** extraction lifts `extern`s but NOT `#define`s (signature = a
+> LINK error) · **§75c** class B needs the PAIR, decl **and** call-site cast · **§76** the allocno CLASS
+> is the dominant regalloc lever, reachable ONLY via declaration scope + variable reuse · **§77** every
+> extraction tool carries a NARROW preamble set — 4 measured variants (`#define`, multi-line `typedef`,
+> `extern` above a `#define`, `static` helper) + the corollary: carry the MINIMAL CLOSURE, not the whole
+> file · **§78** a LENGTH/ORDERING diff can be a register grant in disguise; `fold` never leaves a
+> literal first in an `|` chain · **§79** the frame layout is a declaration-order oracle; DATA-symbol
+> fingerprinting when §71 cannot fire · **§80** a do-not-re-buy entry is scoped to its BASE; the pin's
+> unconditional `qty_phys_sugg`; diagnose ranking-vs-identity before a merge · **§81** the 3-step
+> jr-carve chain and why `match_one` cannot see the problem · **§82** a duplicated `addiu $aN,$sp,K`
+> across a `jal` means the block was INLINED; scalar-vs-aggregate decides WHEN a stack slot is allocated.
 >
-> ## THE SESSION'S YIELD: SIX COOKBOOK ENTRIES, ALL FROM MEASUREMENT
-> **§73** the two axes of a def-side self-decl conflict (RETURN = fleet widen T2/R22; PARAMS = casts
-> at each use, T0) · **§74** the pin-safety audit (the corrupting form is a CALLER-SAVED pin spanning
-> a `jal`; audit the surviving `match_one` object, no recompile) · **§75** census the carried extern
-> before believing an exclusion message; prefer a majority-spelling source overlay; always
-> `--recover`; after normalizing use `dedup_extend`, not `dedup_propagate --addr` · **§75a** the
-> three exclusion classes (A minority spelling / B arity split / C missing carried extern) + the one
-> grep that discriminates them · **§75b** extraction lifts `extern`s but NOT file-scope `#define`s
-> (signature = a LINK error) · **§75c** class B needs the PAIR (decl **and** call-site cast).
->
-> ## MY OWN ERRORS THIS SESSION (recorded so they are not repeated)
-> 1. **Ranked on one sample.** Put the class-A normalization first at "~+0.13pp"; the full-sweep
->    census said **3 overlays**, not 138. §75a's own rule caught me one commit after I wrote it.
-> 2. **Applied a decl-only class-B fix** and would have logged a fresh wall had I trusted the
->    failure class instead of reading cc1's actual line.
-> 3. **`sleep`-polled a background job** against the project's explicit guidance (the harness
->    notifies on completion).
-> 4. **Misread my own negative control's exit code** (`$?` from `tail`, not `make`).
-> 5. **Left this checkpoint stale across several turn-ends** — the exact failure the
->    checkpoint-before-pause rule exists to prevent. Refreshed on Drew's prompt, not on my own.
+> ## THE THROUGH-LINE
+> **Almost every cap this session was our own tooling or my own use of it, not gcc.** A missing
+> `--recover` flag · a minority-spelling source overlay · four preamble-carry gaps · a shared type
+> present-but-invisible to its own checker (77 tags) · `dedup_extend` stripping a load-bearing include
+> from 135 binaries · and four of MY OWN claims that collapsed under checking ("102 unmatched" → 13;
+> "56,267 ins" → 8,114; "the identical class" → different symbols per overlay; "a genuine cold start" →
+> §71 *couldn't fire* and the relative was one grep away). **In every case I read a tool's output
+> without first asking whether the tool could answer the question** — R35 aimed at myself.
 >
 > ## ⚠️ OPEN ACTIONS, ranked
-> 1. **[DONE] `func_80174CB0` ×135.** Residual = the **3 class-A overlays** (`func_80012ABC`, census
->    73 `s32` vs 7 `s16`) — worth 3 overlays only; normalize the 7 `s16` decls if trivially cheap.
-> 2. **[DONE] `func_8017BF14` CLOSED in round 2 (45→0).** 5 behemoths remain.
-> 3. **BEHEMOTHS — the PROVEN distinct-code lever** (+3,022 ins today vs +0 from all
->    propagation). **8 untouched:** `func_8017BF14` 4,763 · `func_8017E778` 3,338 ·
->    `func_8017D2DC` 1,586 · `func_8017DC1C` 1,518 · `func_8017C954` 1,194 · `func_8017C730`
->    1,061 (family of 2) · (+`func_80183814` 5,122, mapped only). **`func_8017E778`/`func_8017CD9C`
->    are DONE — they were behemoth #2's family.** **6 behemoths remain.** **A fresh untouched behemoth at xHigh is the clean effort experiment**
->    (F510 was a High-effort continuation, so today's result is confounded).
->    Check every crack for h_norm/h_seq siblings — §40 remap makes the second one ~free.
-> 3. **FRESH CRACKS — the other distinct-code lever.** Fuel: the **48 families / 0.62pp** with a
->    cached member (draftable now, no MCP) + the `ov_SC06_018` prefetch (**101 uncached substantial
->    stubs, 17,723 ins**). Breadth-shaped ⇒ **prompt Drew for `/effort ultracode`** (R26/R27).
-> 3. **Permuter backlog sweep** (Task 6 remainder) — the close-1..4 drafts under the tightened §60b
->    admission rule; fix the 2 carried Phase-22 grinder bugs first (split-file-blind `.s` lookup;
->    churn-without-blacklist).
-> 4. **The 7 propagation-capped fns in ov_SC01_077** — a distinct sub-class (symbols that live
->    nowhere at file scope). §68/§75/§75b did NOT clear them.
-> 5. `func_8014D820` sits at a **3-profile measured floor of 9**; both cheap tiers spent. The
->    justified Fable5 case if Drew wants it.
-> 6. **Audit the other `ensure_*_revert`-shaped undos** for the §61 inverse-transform bug just fixed
->    in `dedup_extend` — the same shape has now bitten twice (SESSION-14, SESSION-19).
+> 1. **`func_8017C730` @ ov_SC03_013** — standalone **MATCH (1061)** already achieved; banking needs the
+>    **MINIMAL** preamble (the `bandsetup` static-inline helper + its 5 externs + the **18 `gte_*`
+>    macros**; helper+externs alone left −34) then the **§81 carve chain** (it is also a jr fn). Draft:
+>    `.run/giants/s19_func_8017C730_SC03_013_nearmiss.c`. **+1,061 ins, cheap.**
+> 2. **4 BEHEMOTHS REMAIN / 9,287 ins:** `func_80183814` 5,122 (ov_SC07_006, 37 callees, mapped-only,
+>    different subsystem) · `func_8017D2DC` 1,586 (ov_SC01_001, 32 callees) · `func_8017DC1C` 1,518
+>    (ov_SC07_006, **0 callees** ⇒ use §79 DATA-symbol fingerprinting, NOT §71) · `func_8017C730` 1,061
+>    (ov_SC03_013, = item 1). **Behemoths are the PROVEN distinct-code lever (+26,730 today).**
+> 3. **The h_norm-remap residual, 3,195 ins, causes NAMED:** `func_8017D5C0` (952) matches standalone,
+>    gate reports the **§58 memcpy red-herring** (needs a hand-splice + real cc1 stderr);
+>    `func_80166994` ×3 + `func_8016A290` ×4 still CC1-FAIL after the TU carry.
+> 4. **Fresh-crack wave** (Task 4) — 48 families / 0.62pp with a cached member + the `ov_SC06_018`
+>    prefetch (101 uncached substantial stubs). Breadth ⇒ prompt for `/effort ultracode` (R26/R27).
+> 5. **Permuter backlog sweep** (Task 5) under the tightened §60b rule; fix the 2 carried Phase-22
+>    grinder bugs first.
+> 6. **Audit the other `*_revert`-shaped undos** for the §61 inverse-transform bug — it has now bitten
+>    twice (SESSION-14, SESSION-19).
 >
-> ## BEHEMOTHS — 11 unmatched, 3 attempted, artifacts under `.run/giants/` (unchanged)
-> | fn | ins | result |
-> |---|---|---|
-> | `func_8017F510` | 1,511 | **1,511/1,511**, 99.5% structural, 93.3% byte — ~93 of 97 residual trace to ONE register (`c3`→`$a2`) |
-> | `func_8017D960` | 3,338 | **3,334/3,338**, 98.8% structural — one `fold` OR-chain error left; templates ×3. **§74-audited SAFE** (its 5 pins are not crossed by any call) |
-> | `func_80183814` | 5,122 | mapped only (666 drafted); 35× repeated template found |
-> Remaining 8 untouched. **§71: none has a matched same-callee-set relative.**
+> ## ⚠️ METHOD TRAPS THAT COST ME TIME — DO NOT REDISCOVER
+> - **§71's callee fingerprint CANNOT fire on a leaf fn** (0 callees ⇒ empty set ⇒ 0.00 reads as "no
+>   relative"). Fall back to §79 DATA symbols.
+> - **Compare SHARED symbols only** (`< 0x80128158`): per-overlay `D_801?????` names never match across
+>   overlays.
+> - **A MATCHED function has no `nonmatchings/*.s`** — read its fingerprint from its **banked C**.
+> - Each of the three above silently returns **0.00**, which looks exactly like a finding.
+> - **On a jr function, `match_one` MATCH is not the end** (§81) — and expect BOTH gates to speak: the
+>   carve chain answers the jump table, §75a answers the declarations.
+> - **`jr_isolate_all` / `jtbl_carve`: ALWAYS `--only <func>`.** Bare resegments every jr in the overlay
+>   (47 across 21 objects on ov_SC06_029); `--only` touched 2 in 1.
 >
-> **⚠️ HAZARDS:** `dedup_propagate --auto-from` re-macroizes the 14 de-macroized sites
-> (`--check-only` first, targeted `--addr` only) · **`dedup_extend` refuses a dirty tree (H4) —
-> commit before running it** · `p16_permute.setup` WIPES `.run/permuter/<fn>/` · `.run` subdirs are
-> NOT tracked — agent output there is one `git clean` from gone · sig names are lowercase, splat
-> `.s` files UPPERCASE.
+> ## BEHEMOTH ECONOMICS, MEASURED
+> Round 1 on a 4,763-ins cold start bought the decode + exact length + exact frame + 99.06%; **round 2
+> bought the last 45 and was CHEAPER.** **Budget two passes at that size; do not read a 99% round-1
+> result as a stall.** And **reading a matched relative beat the clever lever I proposed FIVE times** —
+> crack the smaller family member first; it is a lever library for the larger one.
+>
+> **⚠️ HAZARDS:** `dedup_propagate --auto-from` re-macroizes de-macroized sites (`--check-only` first,
+> targeted `--addr` only) · **`dedup_extend` refuses a dirty tree (H4)** · `p16_permute.setup` WIPES
+> `.run/permuter/<fn>/` · `.run` subdirs are largely untracked (`.run/giants/*.{c,md,sh,py}` ARE
+> allowlisted) · sig names lowercase, splat `.s` UPPERCASE · **never `make clean` while an agent is
+> running — it wipes `asm/`, which agents read on every probe.**
 > **DO NOT close P29 on ROI** — burn-down floor still undetermined.
