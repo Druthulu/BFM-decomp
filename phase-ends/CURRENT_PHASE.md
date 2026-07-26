@@ -4507,3 +4507,45 @@ resolves. T0.1/T0.3 only read sigs/configs and write `.run/` + `docs/` ⇒ safe 
   **⇒ The single highest-value backlog action is to RUN `residual_class.py` over the 1,486 unlabelled
   entries** (deterministic, LLM-free, reads the bytes) so the 333 close=0 + 184 close-1-4 band can be
   routed to the right lever instead of grinding undirected. That is a zero-token tooling run.
+
+- **✅ 2026-07-26 (SESSION-20) — T0.3b AUTOPSY: every backlog residual RECOMPUTED from the bytes
+  (1,699 rows, `-j 12`, zero agent tokens). Three findings, one of them a large honesty correction.**
+  `autopsy.py collect` re-derives each residual through the validated `match_one` path, deriving the
+  asm subdir AND the `-O0` flag from `corpus.py` (both are documented silent-artefact generators).
+  **R34 cross-check PASSED: closeness agreed with `masked_diff.structured_diff` on all 1,610 built
+  rows, 0 classifier errors.** 89 `nobuild` rows REPORTED, not silently dropped (R32).
+  **THE BUCKETS (reach-weighted in parens):**
+  | bucket | fns | meaning |
+  |---|---|---|
+  | **redraft** | **707** (1,638) | *the stored draft is NOT this function* — un-attempted work MISFILED as a near-miss |
+  | **structural** | **528** (5,067) | local mutation cannot introduce it — wants a C-level idiom, not CPU |
+  | **integration** | **315** (2,454) | **byte-correct standalone; blocked on PLUMBING** |
+  | permuter | **57** (855) | local mutation CAN reach it — the only true permuter fuel |
+  | unknown | 3 (140) | the residue the LLM tier is for |
+  **① THE HONESTY CORRECTION — 707 of 1,610 (44%) of the "near-miss backlog" ARE NOT NEAR-MISSES.**
+  Class `SIZE-MISMATCH` (614 `short` + 93 `long`): the stored best-draft is a PARTIAL — an agent's
+  incomplete attempt logged with a closeness score, exactly like `func_80183814`'s 666-of-5,122 recon.
+  **`docs/backlog.md` — "the phase's other durable deliverable" (PhaseEnd 21) — has been overstating
+  readiness by ~44% ever since.** These route to a FRESH CRACK, not to a wall and not to the permuter.
+  **② THE ACTIONABLE POOL — 315 entries are `match_one` MATCH RIGHT NOW**, blocked only on the
+  §58/§59 reconcile ladder. Recomputing beat trusting the stored label exactly as the tool's docstring
+  argued: the tree has moved (type-lifts, shared-header work) since these were logged. Top by value:
+  `func_80174CB0` (123×134 = 16,482) · `func_801463A0` (101×134 = 13,534) · `func_80173A60` (59×134) ·
+  `func_80176144` (53×138) · `func_8012F49C` (51×138); **total ≈108,959 gain-ins** where reach is
+  known. Spread across ~40 binaries (35 in ov_SC01_077). **⚠️ §52b still applies — ~half of close=0
+  drafts fail the whole-binary gate — so this is 315 CANDIDATES, not 315 banks.**
+  **③ THE PERMUTER BUCKET IS 57.** Task-13B measured 75/972 (7.7%) permuter-shaped and concluded
+  *"the problem was TARGETING, not a missing transform"*; the fresh recompute says **57 of 1,610
+  (3.5%)**. **Extending the mutation set is confirmed NOT the big lever** — it is a small, real, and
+  now precisely-bounded one.
+  **④ R34 EARNS ITS KEEP AGAIN — 3 of 4 comparable labels DISAGREE with the measurement:**
+  `func_80140D68`, `func_8012A328`, `func_801549F8` were all recorded **schedule** (→ schedule levers)
+  but measure **ADDRESSING** (→ cse levers). **The grinder was being pointed at the wrong levers for
+  these**, which is precisely the `mis-classified` bucket the autopsy exists to find.
+  **⇒ STRATEGIC CONVERGENCE (the answer to "what one thing unlocks the most"):** T0.2's gate probe
+  (8/8 failures PLUMBING, 0 walls) and T0.3b's autopsy (315 integration-class) **independently point
+  at the SAME lever — the declaration/integration reconcile ladder.** It is worth the 224,410-ins FREE
+  pool *and* ~108,959 backlog gain-ins. Two candidate keys were eliminated today (`--fix-def-sig`
+  regresses; `--normalize-self-decls` 0/123); the untried ones are **`canon_sig_reconcile` v3.2** and
+  **`reconcile_decls.py`** (the DATA-symbol analog — and one of T0.2's two failure texts was a DATA
+  symbol, `conflicting types for 'D_800A651C'`, which neither tested flag targets).
