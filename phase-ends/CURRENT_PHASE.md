@@ -4239,3 +4239,26 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 > report about the PROBE**, not a verdict on the draft — prepend `engine_types.h` to a scratch copy
 > and re-run before touching a single lever (cookbook §77).
 > **DO NOT close P29 on ROI** — burn-down floor still undetermined.
+
+---
+
+## 📌 PhaseEnd CARRY ITEMS (Drew, 2026-07-26 — do NOT lose these at close)
+> Deferred deliberately, with Drew's sign-off. The PhaseEnd synthesis must surface each one
+> (either as a Deviation, a Notes-for-Future-Phases entry, or a proposed next-phase task).
+
+1. **The absolute-include PORTABILITY DEFECT — 21 git-tracked files / 23 lines.**
+   `#include "/home/musashi/bfm-decomp/src/shared/engine_types.h"` is hardcoded in 21 overlay region
+   files. **Verified byte-neutral to remove** (all 21 carry `#include "../shared/engine_core.h"` at
+   line 2, which already pulls the guarded `engine_types.h`, so each absolute line is a semantic
+   no-op). **But `cpp` must still FIND the literal path ⇒ those 21 TUs cannot preprocess on any clone
+   not at `/home/musashi/bfm-decomp`** — a direct hit on the project's reproducibility criterion
+   ("a stranger with their own dump can `make extract && make build && make check` green from README
+   alone", PROJECT_CONTEXT "What Success Looks Like"). **Invisible to every byte-gate** because the
+   path exists on this machine — R34's null-oracle shape aimed at portability rather than coverage.
+   **Drew's call (2026-07-26): leave it for now, handle later — note it at PhaseEnd.**
+   Fix: `grep -rln '#include "/home/musashi' src/` → delete the line → full R22. Root cause + the
+   prevention rule are in cookbook §77 ("the CANDIDATE gate and the REAL gate need DIFFERENT
+   preambles" — the types header belongs in a throwaway probe copy, never in the banked draft).
+   *Also worth a line at PhaseEnd: this is the second portability/documents-class defect the
+   byte-gate could not see (the first was Phase-28's `yaml.safe_dump` registry destruction, H5).
+   Both argue the same thing — R34 wants a non-byte oracle for the repo's NON-byte invariants.*
