@@ -6447,3 +6447,70 @@ Two case residuals (6 and 11, 8 and 7 diffs) had been written off as "pure alloc
 the morph/lerp loop walks **copies** of its two input pointers (`pa = msa; pb = msb;`), not the
 originals — and spelling that took both cases to **zero**. **A residual class you assigned on an
 earlier base is a hypothesis, not a verdict** (§80). Re-run the negative list after the base moves.
+
+## §84 — The DERIVED-OFFSET remap bug: a hand-computed literal that encodes the DISTANCE between two per-overlay symbols, and why `match_one` is structurally blind to it (Phase 29 SESSION-20, `func_8013D53C`)
+
+A `family_remap` member draft reached **`match_one` MATCH (240 ins)** and **failed the whole-binary
+gate**. The whole binary differed by **ONE BYTE**.
+
+### The construct
+Cracking the exemplar produced a deliberate matching idiom — reach a symbol *via a different symbol
+plus a literal offset*, so gcc cannot CSE the two `%hi/%lo` pairs into one:
+```c
+/* EXEMPLAR (ov_SC01_077):  0x801DA998 + 0x20 == 0x801DA9B8  ✓ */
+(*(S9 *)&D_801DAA78) = *(S9 *)(&D_801DA998 + 0x20);  /* same addr as &D_801DA9B8;
+                                                        distinct sym defeats cse, keeps %hi/%lo */
+```
+`family_remap` substitutes symbol NAMES correctly — `D_801DA998→D_801A5778`, `D_801DA9B8→D_801A5790`
+— **and leaves the literal `0x20` alone.** But `0x20` is not a constant of the algorithm: it is the
+**distance between two per-overlay symbols**, and that distance is per-overlay.
+```
+exemplar: 0x801DA998 + 0x20 = 0x801DA9B8   ✓
+member:   0x801A5778 + 0x20 = 0x801A5798   ✗   (the real symbol is 0x801A5790)
+member:   0x801A5778 + 0x18 = 0x801A5790   ✓   correct offset is 0x18, not 0x20
+```
+Changing `0x20`→`0x18` **+ running the full `gate_stage` ladder** banked it byte-identical.
+
+### Why it survived every candidate gate
+**`match_one` masks HI16/LO16**, so a wrong `%lo` is invisible to it — it reports a clean MATCH.
+Only the whole-binary gate sees the byte. This is the §81 blindness in its DATA form: §81 is
+`match_one` blind to a jump table; §84 is `match_one` blind to a mis-derived data address.
+**A `match_one` MATCH that fails the whole-binary gate by ONE BYTE is a masked-field bug —
+diff the built image against the payload and read the differing word before assuming plumbing.**
+The diagnostic that found it in one step:
+```
+python3 - <<'PY'   # built vs extracted payload, byte-diff, map file offset -> vram
+a=open('build/<ov>/<ov>','rb').read(); b=open('<target_path>','rb').read()
+d=[i for i in range(min(len(a),len(b))) if a[i]!=b[i]]
+print(len(d), [hex(BASE+i) for i in d[:8]])
+PY
+```
+
+### THE FIX IS MECHANICAL — the tool already holds the answer
+The remap knows both mappings, and the exemplar's own comment even names the aliased symbol (which
+the remap has already substituted: *"same addr as `&D_801A5790`"*). So:
+> **`correct_literal = mapped(aliased_sym) − mapped(base_sym)`**
+Detect `&SYM + LITERAL` where `SYM_exemplar + LITERAL` equals another mapped symbol's exemplar
+address, and recompute the literal from the member's own addresses. **Never carry the exemplar's
+literal through a symbol substitution.**
+
+### Scope, measured (do not over-generalise — §80)
+The idiom is **rare**: only **5 sites** across the whole matched corpus
+(`ov_SC01_077.c` ×1, `ov_SC01_077_jr_8017AE2C.c` ×2, `engine_core.h` ×2). **But one of those five
+gates an entire 123-member family** — 133 staged member drafts all carry the un-recomputed `+ 0x20`
+with different per-overlay base symbols (`D_801F3058`, `D_801A5778`, `D_8018F9B8`, …), so the single
+tool fix is worth ≈ **240 ins × 123 members ≈ 29,520 ins**.
+**It does NOT explain the sibling pool generally:** the other three families probed the same day
+(`func_80144090`, `func_8012CC88`, `func_8014D12C`) have **zero** derived-offset sites and fail for a
+different, still-undiagnosed cause.
+
+### Two ladder lessons banked with it
+1. **Bare `harvest_verify` is the LAST rung, not the ladder.** `gate_stage.py` runs
+   `canon_resident_calls → cast_call_sites → reconcile_tu → ARITY pre-pass → sig_unify →
+   harvest_verify`. A probe that calls `harvest_verify` directly measures the **un-recovered** rate
+   and will report PLUMBING for everything the ladder would have cleared. The byte fix AND the ladder
+   were each individually insufficient here; only together did it bank.
+2. **`reconcile_decls.py` is RETIRED** (Phase 26-A, R33) — superseded by `reconcile_tu.py`, because
+   asking *"what does the FLEET call this symbol?"* is wrong by construction in a loosely-typed
+   engine (548 of its answers conflicted; it was rewriting 60 of 196 live drafts). Reach for
+   `reconcile_tu`, never `reconcile_decls`.
