@@ -630,14 +630,14 @@ DEFINE_func_8012CAE4()  /* dedup: shared engine-core @0x8012CAE4 (src/shared) */
 DEFINE_func_8012CB64()  /* dedup: shared engine-core @0x8012CB64 (src/shared) */
 
 
-extern void func_8012CC88(s32 a, s32 b, s32 c);
+extern s32 func_8012CC88(s32 a, s32 b, s32 c);
 extern u8 D_800D3918[];
 
 void func_8012CBA4(s32 a0) {
     func_8012CC88(a0, 0, (s32)D_800D3918);
 }
 
-extern void func_8012CC88(s32 a, s32 b, s32 c);
+extern s32 func_8012CC88(s32 a, s32 b, s32 c);
 extern u8 D_800D3918[];
 
 void func_8012CBCC(s32 a0) {

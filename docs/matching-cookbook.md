@@ -6514,3 +6514,53 @@ different, still-undiagnosed cause.
    asking *"what does the FLEET call this symbol?"* is wrong by construction in a loosely-typed
    engine (548 of its answers conflicted; it was rewriting 60 of 196 live drafts). Reach for
    `reconcile_tu`, never `reconcile_decls`.
+
+## §85 — The RETURN-axis fleet widen is ALL-OR-NOTHING: widening the shared header alone guarantees a conflict in the source overlay (Phase 29 SESSION-20, `func_8012CC88` / `func_8014D12C`)
+
+§73 says a def-side self-decl conflict has two axes — RETURN (fleet widen, T2/R22) and PARAMS (casts
+at each use, T0). This is the RETURN axis measured end-to-end, including the way it fails.
+
+### The conflict
+A remapped member's byte-true definition needs a return value the fleet declares as `void`:
+```
+draft def :  s32  func_8012CC88(s32, s32, s32)     <- the return keeps a local alive (§30#2)
+fleet decl:  extern void func_8012CC88(s32, s32, s32)
+           -> cc1: conflicting types for `func_8012CC88'
+```
+
+### THE FAILURE MODE — widening only `engine_core.h` is worse than not starting
+Widening the shared header banked the member in the *target* overlay and **broke `ov_SC01_077`**
+(R22 139/140). Reason: **the source overlay carries its OWN local `extern void func_X(...)` decls**
+(they predate the shared macro), so a shared-header-only widen puts the two in direct conflict.
+**The per-binary gate cannot see this** — it passed on `ov_SC01_000` while breaking a binary it never
+built. §63/§61 exactly: a T2 write set is only provable by R22.
+
+### The precondition, and how to check it in one grep
+The widen is byte-neutral **iff no caller consumes the return value** (a call compiled against `void`
+discards it either way, so the emitted code is identical):
+```
+grep -rhoE "[A-Za-z_]\w* *= *func_XXXX\(" src/ | wc -l      # must be 0
+```
+Measured here: **0 for both functions** — then the widen is safe.
+
+### Do the WHOLE axis in one edit, then R22 once
+```
+grep -rl "extern void func_XXXX(" src/ | xargs sed -i 's/extern void func_XXXX(/extern s32 func_XXXX(/g'
+make clean && make extract-all && make check-all        # T2 => R22 MANDATORY
+```
+Measured scale: **3,668 decl sites across 2,688 files** for two functions — and **140/140
+byte-identical**, `tools-health` green, dedup 1886/0. The site count is large because every overlay
+re-declares the callee locally; that is normal, not a smell.
+
+### Reading, for the next person
+- **A half-done axis is a guaranteed break, not a smaller win.** Widen every `extern void` site for
+  that symbol across `src/`, or widen none.
+- **`0 sites remaining` is the completion assertion** — count before and after (R32).
+- The other axis (PARAMS) still uses per-use casts (§17a-1/§73); do not widen params this way.
+
+### ⚠️ A verification trap that cost me a false "BYTE-IDENTICAL" report
+`make build BINARY=X 2>&1 | grep ... | head` then `echo rc=$?` reports the exit status of **`head`**,
+not `make` — it is `0` even when the build failed. The output simply had no `BYTE-IDENTICAL` line,
+which is the thing to check. **Assert on the expected SUCCESS STRING, never on `$?` after a pipe**
+(or use `set -o pipefail`). A green-looking `rc=0` on a failed build is the same class of
+self-deception R32/R35 exist to prevent — the gate was honest; my reading of it was not.

@@ -2112,13 +2112,13 @@
     }
 
 #define DEFINE_func_8012CC1C() \
-    extern void func_8012CC88(s32 a, s32 b, s32 c); \
+    extern s32 func_8012CC88(); \
     void func_8012CC1C(s32 arg0, s32 arg1) { \
         func_8012CC88(arg0, 0, arg1); \
     }
 
 #define DEFINE_func_8012CC40() \
-    extern void func_8012CC88(s32 a, s32 b, s32 c); \
+    extern s32 func_8012CC88(); \
     void func_8012CC40(s32 arg0, s32 arg1) { \
         func_8012CC88(arg0, 1, arg1); \
     }
@@ -3632,7 +3632,7 @@
     }
 
 #define DEFINE_func_8012CC64() \
-    extern void func_8012CC88(s32 a0, s32 a1, s32 a2); \
+    extern s32 func_8012CC88(); \
     void func_8012CC64(s32 a0, s32 a1) { \
         func_8012CC88(a0, 0x11, a1); \
     }
@@ -4819,14 +4819,14 @@
     }
 
 #define DEFINE_func_8012CBA4() \
-    extern void func_8012CC88(s32 a, s32 b, s32 c); \
+    extern s32 func_8012CC88(); \
     extern u8 D_800D3918[]; \
     void func_8012CBA4(s32 a0) { \
         func_8012CC88(a0, 0, (s32)D_800D3918); \
     }
 
 #define DEFINE_func_8012CBCC() \
-    extern void func_8012CC88(s32 a, s32 b, s32 c); \
+    extern s32 func_8012CC88(); \
     extern u8 D_800D3918[]; \
     void func_8012CBCC(s32 a0) { \
         func_8012CC88(a0, 1, (s32)D_800D3918); \
@@ -6646,7 +6646,7 @@
 
 #define DEFINE_func_8012CBF4() \
     extern u8 D_800D3918[]; \
-    extern void func_8012CC88(s32 a, s32 b, s32 c); \
+    extern s32 func_8012CC88(); \
     void func_8012CBF4(s32 a0) { \
         func_8012CC88(a0, 0x11, (s32)D_800D3918); \
     }
@@ -9521,7 +9521,7 @@
 
 #define DEFINE_func_8014D0A4() \
     extern void func_8014D2A0(s32 a0, void *a1, void *a2); \
-    extern void func_8014D12C(s32 a0, void *a1, void *a2); \
+    extern s32 func_8014D12C(); \
     void func_8014D0A4(s32 a0) { \
         s16 buf1[4]; \
         s16 buf2[4]; \

@@ -314,14 +314,14 @@ extern s32 func_8012C750(s32 a0);
 extern s32 func_8012C820(u8 *a0);
 extern u16 D_801274E4[];
 extern s32 func_8012CB64(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
-extern void func_8012CC88();
+extern s32 func_8012CC88();
 extern u8 D_800D3918[];
 extern void func_8012CBA4(s32 a0);
 extern void func_8012CBCC(s32 a0);
 extern void func_8012CBF4(s32 a0);
 extern void func_8012CC1C(s32 arg0, s32 arg1);
 extern void func_8012CC40(s32 arg0, s32 arg1);
-extern void func_8012CC88();
+extern s32 func_8012CC88();
 extern void func_8012CC64(s32 a0, s32 a1);
 extern s32 func_80133784(s32 a0, void *a1, s32 a2);
 extern s32 func_8012CE2C(s32 a0);
@@ -4060,7 +4060,7 @@ INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_80140608", func_8014D04
 // @class: plumbing
 // @stuck: none — MATCH (93/93). BANK NOTE: the in-TU DEFINE_func_8014D0A4() macro
 //   (engine_core.h:9511, instantiated at ov_SC07_006_jr_80140608.c:3607) forward-declares
-//   `extern void func_8014D12C(s32 a0, void *a1, void *a2);` — a `void` return conflicts with
+//   `extern s32 func_8014D12C(s32 a0, void *a1, void *a2);` — a `void` return conflicts with
 //   this def, which MUST return s32 (the target sets $v0 = 0/1: addu v0,zero,zero x2 +
 //   addiu v0,zero,1). Params are already canonical (s32, void*, void*), so the only edit
 //   needed is that one extern's return type: `void` -> `s32` (byte-neutral: the caller

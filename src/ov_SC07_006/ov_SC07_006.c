@@ -1214,7 +1214,7 @@ DEFINE_func_8012CB64()  /* dedup: shared engine-core @0x8012cb64 (src/shared) */
 
 
 // @class: other
-// @stuck: none — MATCH (105 ins). BANK NOTE: engine_core.h declares `extern void func_8012CC88(s32,s32,s32)` at 5 sites; the return value is REAL (void-return probe = 102 ins / 13 mismatch, LENGTH-DRIFT -3), so the HEADER decl must be lifted void->s32 (§63 fix_header_decl.py), not the draft.
+// @stuck: none — MATCH (105 ins). BANK NOTE: engine_core.h declares `extern s32 func_8012CC88(s32,s32,s32)` at 5 sites; the return value is REAL (void-return probe = 102 ins / 13 mismatch, LENGTH-DRIFT -3), so the HEADER decl must be lifted void->s32 (§63 fix_header_decl.py), not the draft.
 #include "common.h"
 
 extern s32 func_8012CEB0(s32 a0, s32 a1, s32 a2);

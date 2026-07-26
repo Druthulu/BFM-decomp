@@ -567,7 +567,7 @@ extern void func_8014CF04(s32 a0, void *a1, void *a2);
 extern void func_8014CD80(s32 a0, void *a1, void *a2);
 extern void func_8014D0A4(s32 a0);
 extern void func_8014D2A0(s32 a0, void *a1, void *a2);
-extern void func_8014D12C(s32 a0, void *a1, void *a2);
+extern s32 func_8014D12C(s32 a0, void *a1, void *a2);
 extern void func_8014D438(s32 a0);
 extern void func_8014D3E0(s32 _arg0);
 extern void func_8014D610(s32 a0, void *a1, void *a2);
