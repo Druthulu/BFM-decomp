@@ -3913,8 +3913,26 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   99% round-1 result as a stall.** Also found a **5th original-source copy-paste artefact** (QUAD
   vertex-1 box-3 y-axis accumulates into `a2v` while its kill branch still says `a3v`).
 
-- **✅/⛔ 2026-07-25 (SESSION-19) — `func_8017C954` (1,194 ins) **MATCHED** but **NOT BANKED**: the
-  blocker is a 3-deep build-infra chain, named exactly, NOT a matching problem.**
+- **🏆 2026-07-25 (SESSION-19) — `func_8017C954` (1,194 ins) MATCHED **AND NOW BANKED** — the 3-deep
+  carve chain CLEARED (§81). Root cause was a one-line tool defect, not config.**
+  **RESOLUTION (each step byte-gated BEFORE the next was built on it):** a one-line fix to
+  `jr_isolate_all._engine_types()` → `jr_isolate_all --only func_8017C954` (2 fns / 1 object, NOT the
+  bare 47-fn resegment) → **byte-identical `b7b0d4ae`** → `jtbl_carve --func func_8017C954` (44-piece
+  carve set + interleave order) → **byte-identical** → `harvest_verify` → **VERIFIED BYTE-IDENTICAL** →
+  **R22 clean-fleet 140/140**, `tools-health` OK. distinct-code → **3,844,100**.
+  **THE DEFECT: a shared type that was PRESENT but INVISIBLE.** `_engine_types()` harvested shared type
+  names with four patterns (`typedef … X;` · `} X;` · forward-decl `struct X;` · fn-ptr typedef); a
+  **tagged definition with a body** — `struct PW8017E6D8 { int w; } __attribute__((packed));` at
+  `engine_types.h:658` — matches **none** of them. **Measured: 77 such tags in `engine_types.h` were
+  invisible to the check.** One added pattern fixed it.
+  **WHY IT COST 20 MINUTES INSTEAD OF A MYSTERY BYTE-DIFF THREE PHASES LATER:** the Phase-26 audit had
+  already converted this predicate's *silent drop* into a **loud refusal**. The original bug dropped
+  **4,040 col-0 decls, 683 of them function PROTOTYPES** — and a dropped prototype is a **silent
+  byte-changer** (C89 implicit `int f()`; return type drives delay-slot fill here). The refusal named
+  the exact symbols AND the remedy. **A loud "I cannot place this" is worth far more than a green
+  build** — the audit paying for itself, live.
+  *(Original entry, for the record: the blocker was a 3-deep build-infra chain, named exactly, NOT a
+  matching problem.)*
   Opus 5 @ xHigh cracked it: `match_one` → **MATCH (1194 ins)**, 100% on every region, progression
   1129 → 1069 → 37 → 28 → MATCH. **I verified it independently.** It is the matched base
   `func_8017CA80` (952) **+ two deltas**: a 14-ins prologue computing two replicated grey colour words
@@ -3936,8 +3954,8 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
      Remedy it names: carry the naming type (`file_scope_types`) or add it to `engine_types.h`.
      **NB `struct PW8017E6D8` IS already in `engine_types.h:658`** — so this looks like a placement-logic
      gap, not a missing type. That is the precise next thing to check.
-  **⇒ BANKING IS A BOUNDED BUILD-INFRA TASK (T2 — config resegment ⇒ full R22), NOT more matching.**
-  Deliberately not started this deep into the session. **The match is preserved and tracked:**
+  **⇒ BANKING WAS A BOUNDED BUILD-INFRA TASK (T2 — config resegment ⇒ full R22), NOT more matching —
+  and Drew directed it be cleared first; it was. Artifacts:**
   `.run/giants/s19_func_8017C954_b1.c` (~160-line dossier) + `s19_c954_report.md` + the harness
   `c954_{cc,probe,probe2,score,sweep,sw}.sh` / `c954_{full,side,reg,alloc,slots,regmap,mk}.py`.
   **AGENT FINDINGS WORTH KEEPING:** **§80(i) confirmed twice more** — `x_e1swap` measured *exactly

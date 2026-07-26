@@ -6247,3 +6247,50 @@ the order for free — §78 reproduced on a second function.
 A 4,763-instruction leaf giant with a findable matched relative: **round 1 = decode + exact length +
 exact frame + 99.06%; round 2 = the last 45.** Two passes, and the second was far cheaper than the
 first. Budget two passes at this size and do not read a 99% round-1 result as a stall.
+
+## §81 — Banking a jr (jump-table) function: the 3-step carve chain, and why `match_one` cannot see the problem (Phase 29 SESSION-19, `func_8017C954`)
+
+`match_one` masks `jal`/HI16/LO16 relocations. A **jr (switch) function** therefore reports a clean
+**MATCH** while the whole-binary gate reports **DIFF** — and the gate is right. Matching the C makes
+gcc emit that function's jump table into `.rodata` (floated to the FRONT by `section_order`) while the
+raw copy still sits in the overlay's data tail ⇒ **duplicate table at the wrong address**. This is the
+§53 carve law, and it is the one case all session where the candidate gate and the real gate disagreed
+about something that was not plumbing.
+
+**Detect it before you spend a gate cycle:** `grep -cE 'jr\s+\$(v0|v1|a0|t[0-9])'` the target `.s`
+(a mid-function `jr` on a non-`$ra` register), and look for a `jtbl_<addr>` in `asm/<ov>/data/*.s`.
+
+**The chain (each step byte-gated on its own, BEFORE building the next on top):**
+```
+1. tools/jr_isolate_all.py <ov> --only <func>   # cut the fn into its own code subseg
+   make extract BINARY=<ov> && make build BINARY=<ov>      -> must be BYTE-IDENTICAL
+2. tools/jtbl_carve.py <ov> --func <func>       # carve its jtbl into a dotted .rodata subseg
+   make extract BINARY=<ov> && make build BINARY=<ov>      -> must be BYTE-IDENTICAL
+3. tools/harvest_verify.py --binary <ov> --drafts <dir> --chunk 1     # now the bank
+   then a FULL R22 (config changed => T2).
+```
+**Use `--only`.** `jr_isolate_all <ov>` bare would have resegmented **47 jr-functions across 21
+objects**; `--only func_8017C954` touched **2 functions in 1 object**. Same result, a fraction of the
+blast radius. (The tool automatically pulls in already-banked jr in the same object so their existing
+carves get repointed — that is why `--only` is safe rather than partial.)
+
+**Step 2 fails loud when the subseg would host NON-CONTIGUOUS `.rodata` carves** — one object can
+contribute at most ONE contiguous `.rodata` run, so two matched jr-functions in the same code subseg
+with a third, unmatched jtbl between them is unsatisfiable. That refusal *is* the instruction to run
+step 1.
+
+### The defect this exposed: a shared type that is present but invisible
+Step 1 refused with *"2 file-scope decls matched `_HOIST_RE` but could not be placed"* for
+`extern struct PW8017E6D8 D_801E1EC4;` — **while `struct PW8017E6D8` sits in `engine_types.h:658`.**
+`_engine_types()` harvested shared type names with four patterns (`typedef … X;`, `} X;`,
+forward-decl `struct X;`, fn-ptr typedef) and a **tagged definition with a body** —
+`struct PW8017E6D8 { int w; } __attribute__((packed));` — matches **none** of them. **Measured: 77
+such tags in `engine_types.h` were invisible to the check.** One added pattern
+(`^\s*(?:struct|union|enum)\s+(\w+)\s*\{`) fixed it.
+
+**Why this cost twenty minutes instead of a mystery byte-diff three phases later:** the Phase-26 audit
+had already converted this predicate's *silent drop* into a **loud refusal**. The original bug dropped
+**4,040 col-0 decls, 683 of them function prototypes** — and a dropped prototype is a **silent
+byte-changer** (C89 implicit `int f()`, and return type drives delay-slot fill in this codebase). The
+refusal named the exact symbols and the exact remedy. **A loud "I cannot place this" is worth far more
+than a green build.**

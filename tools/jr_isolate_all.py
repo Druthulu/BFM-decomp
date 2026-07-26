@@ -377,6 +377,14 @@ def _engine_types():
             names |= set(re.findall(r'\}\s*([A-Za-z_]\w*)\s*;', t))              # typedef struct {...} X;
             names |= set(re.findall(r'^\s*typedef\s+[^;{}]*?\b([A-Za-z_]\w*)\s*;', t, re.M))
             names |= set(re.findall(r'^\s*(?:struct|union|enum)\s+([A-Za-z_]\w*)\s*;', t, re.M))
+            # ...and the same TAGS defined WITH A BODY (`struct PW8017E6D8 { int w; };`). The
+            # forward-decl pattern above only catches `struct X;`, and the `}\s*X;` pattern above
+            # catches `typedef struct {...} X;` — a plain tagged definition matches NEITHER, so its
+            # tag was absent from _ENGINE_TYPES and any `extern struct X D_…;` failed the
+            # carried-type test. Phase 29 SESSION-19: that is what blocked the func_8017C954 carve
+            # (`extern struct PW8017E6D8 D_801E1EC4;`, and PW8017E6D8 sits at engine_types.h:658).
+            # Measured blast radius: 77 such tags in engine_types.h were invisible to this check.
+            names |= set(re.findall(r'^\s*(?:struct|union|enum)\s+([A-Za-z_]\w*)\s*\{', t, re.M))
             # fn-ptr typedefs — the name sits INSIDE the parens (`typedef void (*ActorFn)(void);`), so
             # every name-before-';' pattern above misses it. Measured: exactly the 5 residual drops
             # (ActorFn, FuncPtr, DispatchFn, VoidFn, code_fn). Without this the coverage assertion below
