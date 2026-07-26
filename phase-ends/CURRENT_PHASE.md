@@ -4010,6 +4010,28 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   `s19_c730_report.md` (~40-row do-not-re-buy table) + `c730_{cc,probe,probe2,score,sweep,sw,sw2}.sh` /
   `c730_{reg,side,mk,abl}.py` (**`c730_abl.py` = a new drop-one ablation matrix**).
 
+- **◐ 2026-07-25 (SESSION-19) — `func_8017C730` @ **ov_SC03_013** (the h_seq sibling): standalone
+  **MATCH (1061 ins)** achieved, **NOT banked** — a precise, cheap handoff.**
+  With the ov_SC03_010 exemplar banked, I probed the sibling. `family_remap` alone: **−56 LENGTH-DRIFT**.
+  **§77's own text predicted the cause verbatim** — *"any preamble construct that is not an `extern` —
+  `#define`, a file-scope `typedef`, **a `static` helper**"*. The exemplar uses
+  `static inline void bandsetup(...)` (the §82-oracle-1 inlined helper) and the remap carried **none**
+  of it. Carrying helper + its 5 externs: **−56 → −34**. Carrying the **whole 2,993-line region file**
+  as preamble: **MATCH (1061 ins)**.
+  **BUT THE FULL-FILE CARRY IS WRONG FOR BANKING** and that is my error: it is correct for a standalone
+  `match_one` compile and collides wholesale in the real TU. Gate → **PLUMBING**, reported as
+  `conflicting types for 'memcpy'` — **the §58 red-herring** (a warning from an unrelated TU position;
+  the real cause needs a hand-splice + real cc1 stderr, exactly as SESSION-14 documented).
+  **NAMED NEXT STEP (cheap):** build the **MINIMAL** preamble — the `bandsetup` helper + its 5 externs
+  + the **18 `gte_*` macros** defined in that region file (helper+externs alone left −34, so the gte
+  macros are the likely remainder) — then the **§81 carve chain**, because this sibling is ALSO a jr
+  function (`jr` count = 1). Draft preserved: `.run/giants/s19_func_8017C730_SC03_013_nearmiss.c`.
+  **⇒ §77 GAINS ITS 4th MEASURED VARIANT (`static` helper) and a NEW COROLLARY: the right carry is the
+  MINIMAL closure of what the body references, not the whole file — over-carrying trades a
+  `match_one` failure for an in-TU collision.** My `s19_remap_tu.py`'s walk-back-to-previous-`}`
+  heuristic also breaks on an **isolated region file**, where the preceding construct IS the needed
+  helper (it returned a 1-line preamble).
+
 > **🛑 SESSION-19 CLOSING CHECKPOINT (2026-07-25, Opus 5 @ High) — REFRESHED mid-session; supersedes
 > both the SESSION-18 block and the earlier SESSION-19 block (which was written before the
 > ENGINE_SHB / class-B / dedup_extend-bug work and went stale). Fresh session safe here.**
