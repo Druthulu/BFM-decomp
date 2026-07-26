@@ -3972,7 +3972,19 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 > **🛑 SESSION-19 CLOSING CHECKPOINT (2026-07-25, Opus 5 @ High) — REFRESHED mid-session; supersedes
 > both the SESSION-18 block and the earlier SESSION-19 block (which was written before the
 > ENGINE_SHB / class-B / dedup_extend-bug work and went stale). Fresh session safe here.**
-> **No background job is running.** **FIVE behemoths banked this session** — `func_8017F510`
+> **⚠️ AN OPUS-5 AGENT IS RUNNING (`func_8017C730`, 1,061 ins, ov_SC03_010, effort xHigh):**
+> deliverables `.run/giants/s19_func_8017C730_b1.c` + `s19_c730_report.md`; sandboxed to
+> `.run/giants/` (no `src/`/`config/`/`docs/`, no commits, no `make` targets). **If this session
+> died mid-run, check those two files — its work is NOT committed.**
+> **Strongest starting signal yet:** its shared-symbol set is a **strict SUPERSET** of the matched
+> base `func_8017CA80` — all 6 of its symbols **plus exactly one extra callee `func_8004974C`** —
+> and 1,061 vs 952 ins ⇒ **base + ~109 ins of one feature**, centred on that call site.
+> **FIVE matched family exemplars** now bracket it (952 · 1,194 · 1,511 · 3,338 · 4,763).
+> **⚠️ IT IS A JR FUNCTION** (`jr $v0` @ .s:439) ⇒ **`match_one` MATCH will NOT be the end**:
+> banking needs the **§81 carve chain** (`jr_isolate_all --only` → `jtbl_carve` →
+> `harvest_verify` → full R22), which is MY step, not the agent's. Its switch structure (arm
+> count/order, dead arms) must be exactly right because the emitted table is byte-compared.
+> **FIVE behemoths banked this session** — `func_8017F510`
 > (1,511) · `func_8017F5B4` (1,511, free remap) · `func_8017D960` **+ its 5-member family**
 > (16,690) · `func_8017BF14` (4,763, the largest match in the project) · `func_8017C954`
 > (1,194, via the §81 jr-carve chain). **`func_8017C730` (1,061, 0.86 fingerprint, same
