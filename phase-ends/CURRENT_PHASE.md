@@ -3913,6 +3913,44 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   99% round-1 result as a stall.** Also found a **5th original-source copy-paste artefact** (QUAD
   vertex-1 box-3 y-axis accumulates into `a2v` while its kill branch still says `a3v`).
 
+- **✅/⛔ 2026-07-25 (SESSION-19) — `func_8017C954` (1,194 ins) **MATCHED** but **NOT BANKED**: the
+  blocker is a 3-deep build-infra chain, named exactly, NOT a matching problem.**
+  Opus 5 @ xHigh cracked it: `match_one` → **MATCH (1194 ins)**, 100% on every region, progression
+  1129 → 1069 → 37 → 28 → MATCH. **I verified it independently.** It is the matched base
+  `func_8017CA80` (952) **+ two deltas**: a 14-ins prologue computing two replicated grey colour words
+  from `D_801DCCA0`, and a **fifth switch arm** (`case 2`/`case 3` split, proved against the real jump
+  table) emitting a POLY_FT4 plus a 7-word subtractive overlay.
+  **⛔ THE WHOLE-BINARY GATE SAID `DIFF` — and it is RIGHT.** This is a **jr (jump-table) function**
+  (`jr $v0` at .s:409; its table is `jtbl_801DB70C` in `asm/ov_SC06_029/data/tail21.data.s`). Matching
+  the C makes gcc emit that jtbl into `.rodata` while the raw copy stays in the data tail ⇒ duplicate +
+  wrong address. **`match_one` masks jal/HI16/LO16, so it CANNOT see this** — exactly the §53 carve law.
+  **THE CHAIN, each step failing LOUD with its own remedy (good tooling, R32/R35):**
+  1. `harvest_verify` → **DIFF** (not PLUMBING — a real byte difference).
+  2. `jtbl_carve ov_SC06_029 --func func_8017C954` → refuses: subseg `ov_SC06_029_jr_8017AE2C` would
+     host **NON-CONTIGUOUS** `.rodata` carves (0xb3468 and 0xb35b4) — one object cannot leave a gap for
+     the unmatched jtbl between them. Remedy it names: isolate into its own code subseg first.
+  3. `jr_isolate_all ov_SC06_029 --dry-run` (47 jr in 21 objects) → **REFUSES**: 2 file-scope decls
+     (`extern struct PW8017E6D8 D_801E1EC4;` / `…EC8;`) could not be placed, and it will not emit a
+     region that silently omits them — *"a dropped prototype is a SILENT BYTE-CHANGER"* (in C89 an
+     undeclared function is implicitly `int f()`, and return type drives delay-slot fill here).
+     Remedy it names: carry the naming type (`file_scope_types`) or add it to `engine_types.h`.
+     **NB `struct PW8017E6D8` IS already in `engine_types.h:658`** — so this looks like a placement-logic
+     gap, not a missing type. That is the precise next thing to check.
+  **⇒ BANKING IS A BOUNDED BUILD-INFRA TASK (T2 — config resegment ⇒ full R22), NOT more matching.**
+  Deliberately not started this deep into the session. **The match is preserved and tracked:**
+  `.run/giants/s19_func_8017C954_b1.c` (~160-line dossier) + `s19_c954_report.md` + the harness
+  `c954_{cc,probe,probe2,score,sweep,sw}.sh` / `c954_{full,side,reg,alloc,slots,regmap,mk}.py`.
+  **AGENT FINDINGS WORTH KEEPING:** **§80(i) confirmed twice more** — `x_e1swap` measured *exactly
+  neutral* then later paid −2; the `za` lever measured *worse* and became necessary two levers later.
+  **New diagnostic proposed:** when a residual is "a whole block of registers renamed by ONE SLOT",
+  read the `.greg` `;; N conflicts:` **and** `;; N preferences:` lines for the block's top allocno — a
+  *missing* hard-reg conflict plus a *new* copy preference is the signature of a one-slot slide, one
+  dial away rather than forty bugs. The per-region scorer `c954_reg.py` is the reusable tool.
+  **HONEST CAVEAT FROM THE AGENT:** its lever 1 is a hand-placed byte-free `__asm__` register-clobber
+  dial, not a construct the original author would have typed; 14 natural spellings were tried and
+  measured. The bytes are unaffected but the true source shape is unfound — the report names the exact
+  next probe.
+
 > **🛑 SESSION-19 CLOSING CHECKPOINT (2026-07-25, Opus 5 @ High) — REFRESHED mid-session; supersedes
 > both the SESSION-18 block and the earlier SESSION-19 block (which was written before the
 > ENGINE_SHB / class-B / dedup_extend-bug work and went stale). Fresh session safe here.**
