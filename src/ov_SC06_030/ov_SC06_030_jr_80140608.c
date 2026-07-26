@@ -816,7 +816,7 @@ extern u8 D_801825F0[];
 extern u8 D_801826EC[];
 extern u8 D_8018276C[];
 extern u8 D_80182644[];
-extern void func_8013D53C(void);
+extern void func_8013D53C();
 extern void func_8013DD68(void);
 extern void func_8013D8FC(void);
 extern void func_8013CF68(void);

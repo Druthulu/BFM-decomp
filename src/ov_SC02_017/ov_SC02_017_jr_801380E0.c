@@ -1901,7 +1901,7 @@ extern u8 D_8018AD68[];
 extern u8 D_8018ADE8[];
 extern u8 D_8018ACC0[];
 
-extern void func_8013D53C(void);
+extern void func_8013D53C();
 extern void func_8013DD68(void);
 extern void func_8013D8FC(void);
 extern void func_8013CF68(void);
@@ -1946,7 +1946,138 @@ void func_8013D3D4(int param_1, int param_2)
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_017/nonmatchings/ov_SC02_017_jr_801380E0", func_8013D53C);
+
+   /* 9-byte, align-1 -> unaligned block copy */
+
+
+extern s32 D_801EE550;
+extern s32 D_801EE538;
+
+
+extern u8 D_801EFCC2;
+extern u8 D_801EFD36;
+extern u8 D_801EFBEA;
+extern u8 D_801EFCA4;
+extern u8 D_801EFBC8;
+extern u8 D_801EFBE9;
+
+
+extern s32 D_801EFCA8;
+extern s32 D_801EE54C;
+extern s32 D_801EE548;
+extern s32 D_801EE530;
+extern s32 D_801EE53C;
+extern s32 D_801EE540;
+
+extern void *D_801EE520;
+extern s32 D_801EE558;
+extern void *D_801EE528;
+
+void func_8013D53C(void *arg0v) {
+
+    extern Rec9 D_8018AE04[];
+    extern Rec12 D_8018AE3C[];
+    extern u8 D_80078EAF;
+    extern u8 D_801EFC80;
+    extern s32 D_801EE544;
+    Cmd_8013D53C *arg0 = arg0v;
+
+    extern u8 D_8018AE40[];
+    extern u8 D_8018AE44[];
+    extern unsigned char D_801EFBE0;
+    extern s16 *D_801EE52C;
+    extern s32 D_801EE55C;
+    extern s32 D_801EE560;
+    extern s32 D_801EE564;
+    s32 s0v;
+    s32 t9v;
+    s32 t8v;
+    u8 b0, b1, b2;
+    u8 pad[8];   /* dead BLKmode local: frame 0x10 -> 0x18, zero code */
+
+    if (!(D_801EE550 & 1)) {
+        D_801EE538 = 1;
+    } else {
+        D_801EE538 = D_80078EAF;
+    }
+
+    b0 = ((u8 *)D_8018AE3C)[D_801EE538 * 12];
+    D_801EFCC2 = b0;
+    D_801EFD36 = b0;
+    b1 = D_8018AE40[D_801EE538 * 12];
+    D_801EFBEA = b1;
+    D_801EFCA4 = b1;
+    b2 = D_8018AE44[D_801EE538 * 12];
+    D_801EFBC8 = b2;
+    D_801EFBE9 = b2;
+
+    (*(S9 *)&D_801EFBE0) = ((S9 *)D_8018AE04)[D_801EE538];
+    (*(S9 *)&D_801EFC80) = *(S9 *)(&D_801EFBC8 + 0x18);  /* same addr as (*(S9 *)&D_801EFBE0); distinct sym defeats cse, keeps %hi/%lo */
+
+    D_801EFCA8 = 1;
+    D_801EE54C = -1;
+    D_801EE548 = 0;
+    D_801EE544 = -1;
+    D_801EE530 = 0;
+    D_801EE53C = 0;
+    D_801EE540 = 0;
+
+    if ((D_801EE550 & 2) && (D_801EE538 == 4)) {
+        s0v = (*(s32 * *)&D_801EE520)[18];
+        t9v = (*(s32 * *)&D_801EE520)[19];
+        t8v = (*(s32 * *)&D_801EE520)[20];
+    } else {
+        s32 *p = (s32 *)(D_801EE538 * 12 + (s32) (*(s32 * *)&D_801EE520));  /* block-local: local-alloc ties sum into mul chain */
+        s0v = p[0];
+        t9v = p[1];
+        t8v = p[2];
+    }
+
+    (*(Cmd_8013D53C * *)&D_801EE52C) = arg0;
+    if (arg0 != 0) {
+        if (D_801EE558 != 0) {
+            s32 *p = (s32 *)(D_801EE538 * 12 + (s32) (*(s32 * *)&D_801EE528));
+            D_801EE55C = p[0];
+            D_801EE560 = p[1];
+            D_801EE564 = p[2];
+        } else {
+            while ((arg0->cmd & 0xFFFF) != 0xFF) {
+                if ((arg0->cmd & 0xFFFF) == 9) {
+                    s32 n;
+                    s32 i;
+                    u16 *src;
+                    u16 *dst;
+                    n = arg0->w * arg0->h;
+                    i = 0;
+                    src = arg0->data;
+                    __asm__("" :: "r"(src));  /* +2 refs on src (depth-2): keeps src above i, below the mfhi temp */
+                    dst = src + n;
+                    if (n > 0) {
+                        do {
+                            u16 px;
+                            s32 r, g, b, out;
+                            __asm__("" :: "r"(i));  /* +3 refs on i (depth-3): lifts i over dst in the $t2 race */
+                            px = *src;
+                            r = ((px & 0x1F) * s0v) / 2560;
+                            g = (((px & 0x3E0) * t9v) / 2560) & 0x3E0;
+                            b = (((px & 0x7C00) * t8v) / 2560) & 0x7C00;
+                            out = r | g | b | (px & 0x8000);
+                            if (out == 0 && px != 0) {
+                                out = 0x8000;
+                            }
+                            *dst = out;
+                            dst++;
+                            i++;
+                            src++;
+                        } while (i < n);
+                    }
+                }
+                arg0++;
+            }
+        }
+    }
+}
+
 
 
 

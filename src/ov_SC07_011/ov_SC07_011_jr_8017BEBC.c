@@ -689,7 +689,7 @@ extern s32 func_8013D13C(void);
 extern void func_8013D164(void);
 extern void func_8013D178(void);
 extern void func_8013D330(void);
-extern void func_8013D53C(void);
+extern void func_8013D53C();
 extern void func_8013DD68(void);
 extern void func_8013D8FC(void);
 extern void func_8013CF68(void);
