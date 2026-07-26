@@ -4089,6 +4089,8 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 > without first asking whether the tool could answer the question** — R35 aimed at myself.
 >
 > ## ▶ START HERE NEXT SESSION — the recommended order, with reasons
+> **⚠️ SUPERSEDED BY THE SESSION-20 CHECKPOINT AT THE END OF THIS FILE — item 1 below is DONE
+> (banked 2026-07-26). Items 2–6 stand. Read the SESSION-20 block, not this one, for the next move.**
 > **1. `func_8017C730` @ ov_SC03_013 — FINISH IT FIRST (~30 min, +1,061 ins).** The match ALREADY
 > EXISTS (standalone `match_one` MATCH, 1061/1061). This is pure integration, no drafting, no agent:
 > build the **MINIMAL** preamble — `bandsetup` (the `static inline` helper) + its 5 externs + the
@@ -4160,4 +4162,80 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 > `.run/permuter/<fn>/` · `.run` subdirs are largely untracked (`.run/giants/*.{c,md,sh,py}` ARE
 > allowlisted) · sig names lowercase, splat `.s` UPPERCASE · **never `make clean` while an agent is
 > running — it wipes `asm/`, which agents read on every probe.**
+> **DO NOT close P29 on ROI** — burn-down floor still undetermined.
+
+---
+
+- **✅ 2026-07-26 (SESSION-20) — `func_8017C730` @ ov_SC03_013 BANKED (+1,061 ins). The SESSION-19
+  handoff's item 1, closed exactly as specified — no drafting, no agent, no new levers.**
+  **The chain, each step byte-gated before the next was built on it (§81):**
+  1. **Minimal preamble built** per §77's corollary — the 18 `gte_*` macros + the 5 externs
+     (`ReadRotMatrix`/`PushMatrix`/`PopMatrix`/`func_8004974C`/`ApplyMatrixSV`) + the `bandsetup`
+     `static inline` helper = **519 lines, vs 2,993 for the whole-file carry.**
+     `match_one` → **MATCH (1061 ins)**.
+  2. `jr_isolate_all ov_SC03_013 --only func_8017C730` → 2 fns in 1 object (same blast radius as the
+     exemplar) → `make extract && make build` → **BYTE-IDENTICAL `7042bc71`**.
+  3. `jtbl_carve ov_SC03_013 --func func_8017C730` → single-table carve (the exemplar's `_jr_8017C730`
+     object carries no `JTBL_PADS`, so no `--like` needed), 44-piece interleave →
+     **BYTE-IDENTICAL `7042bc71`**.
+  4. `harvest_verify --binary ov_SC03_013 --drafts .run/drafts-s20-c730 --chunk 1` →
+     **verified 1 / failed 0**, final SHA `7042bc71` **BYTE-IDENTICAL**.
+  5. **R22 clean-fleet from a genuinely clean tree: `make clean` + extract-all (139+main) +
+     `check-all` → 140 passed, 0 failed of 140.** `make tools-health` → **OK**;
+     dedup **1886 validated / 0 failed**, C1 coverage 239,604/239,604; **0 NON_MATCHING** (G4).
+  **FLEET:** instr-weighted 10,587,608 → **10,588,669 / 13,141,652 = 80.6%** · distinct-code
+  3,845,161 → **3,846,222 = 68.3%** (+1,061, i.e. **+0.1pp, all of it distinct** — a behemoth-class
+  bank, not a propagation) · fn-count **89.18%**.
+  **NO §75a class spoke.** SESSION-19 predicted "expect BOTH gates to speak on a jr function"; here the
+  carve chain answered the jump table and the declarations were already clean, because the exemplar's
+  `ApplyMatrixSV(void*,void*,void*)` canon fix (the §82 banking footnote) was carried in the draft.
+  **⇒ §77's ladder is CLOSED with all four rungs measured** (`-56` → `-34` → MATCH-but-uncommittable
+  → **MATCH + BANKED**), and the corollary is now a banked fact rather than a prediction.
+  **NEW (cookbook §77, distilled in-session per R30): the CANDIDATE gate and the REAL gate need
+  DIFFERENT preambles.** `match_one` compiles standalone (`cpp -Iinclude`, no `engine_core.h`), so a
+  shared-type body gives `'PolyFT4' undeclared` + a cascade of `parse error before ')'` — which looks
+  exactly like a broken draft and is not one. The real TU gets those types free via
+  `engine_core.h` → guarded `engine_types.h`. **The types header belongs in a throwaway PROBE COPY,
+  never in the banked draft.**
+  **⚠️ AND THAT SHORTCUT HAS ALREADY LEAKED — A PORTABILITY DEFECT NO BYTE-GATE CAN SEE.**
+  **21 git-tracked source files / 23 lines** hardcode
+  `#include "/home/musashi/bfm-decomp/src/shared/engine_types.h"`. **Verified all 21 are semantically
+  guarded no-ops** (each has `#include "../shared/engine_core.h"` at line 2, which already pulls the
+  guarded header — so deleting them is byte-neutral and R22-provable). **But `cpp` must still FIND that
+  literal path, so those 21 TUs cannot preprocess on any clone not at `/home/musashi/bfm-decomp`** —
+  directly against the project's reproducibility criterion ("a stranger with their own dump can
+  `make extract && make build && make check` green"). Invisible to every gate here because the path
+  exists on this machine: **R34's null-oracle shape, aimed at portability instead of coverage.**
+  **NOT ACTED ON — it is outside this task's approved scope (P5d) and touches 21 files fleet-wide;
+  proposed to Drew as the next task.** File list: `grep -rln '#include "/home/musashi' src/`.
+  *(Housekeeping done in passing: a stale `asm/ov_SC03_013/nonmatchings/ov_SC03_013_jr_8017C730/`
+  dir (74 `.s`, from a reverted earlier experiment, config had no such subseg) was removed before the
+  baseline build — the Phase-20 R22 corollary, a reverted config leaves stale asm behind.)*
+
+> **🛑 SESSION-20 CHECKPOINT (2026-07-26, Opus 5 @ xHigh) — fresh session safe here.**
+> **No background job is running.** Tree: the Phase-29 bank is committed; only the R23 `db.*.gbf`
+> churn is unstaged (never stage it). **R22 clean-fleet 140/140**, `tools-health` **OK**, dedup
+> **1886/0**, **0 NON_MATCHING** (G4), main `143dbb89`, ov_SC03_013 `7042bc71`.
+> **FLEET: 80.6% instr · 68.3% distinct-code · 89.18% fn-count.**
+>
+> ## ▶ START HERE NEXT SESSION
+> **The SESSION-19 handoff's item 1 is DONE.** Its items 2–6 stand unchanged and are still the ranked
+> list — re-read that block for the full reasoning (behemoth economics, the §71-cannot-fire trap, the
+> `--only` rule, the hazards). The order from here:
+> **1. `func_80183814` (5,122 ins, ov_SC07_006)** — the biggest prize left; one Opus 5 agent @ xHigh,
+>    **budget TWO passes**; 0 fingerprint overlap with the renderer family (37 callees, different
+>    subsystem — none of §76–§82's family levers transfer free); it is `jr` ⇒ §81 chain to bank.
+> **2.** `func_8017D2DC` (1,586, ov_SC01_001, 32 callees ⇒ §71 IS usable) and `func_8017DC1C`
+>    (1,518, ov_SC07_006, **0 callees ⇒ §71 CANNOT fire, use §79 DATA-symbol fingerprinting**).
+> **3. NEW — the 21-file absolute-include portability defect** (above). Byte-neutral, R22-provable,
+>    cheap; needs Drew's go-ahead since it touches 21 files. Good "cold-start" task for a fresh
+>    session: `grep -rln '#include "/home/musashi' src/` → delete the line → R22.
+> **4.** Fresh-crack wave (Task 4) — 48 families / 0.62pp cached + the `ov_SC06_018` prefetch (101
+>    uncached substantial stubs). Breadth ⇒ **prompt for `/effort ultracode`** (R26/R27).
+> **5.** Permuter backlog sweep (Task 6) under the tightened §60b rule; fix the 2 Phase-22 grinder
+>    bugs first. **6.** Audit the other `*_revert`-shaped undos for the §61 inverse-transform bug.
+>
+> **METHOD NOTE ADDED THIS SESSION:** a `match_one` CC1-FAIL on a shared-type body is a **preamble
+> report about the PROBE**, not a verdict on the draft — prepend `engine_types.h` to a scratch copy
+> and re-run before touching a single lever (cookbook §77).
 > **DO NOT close P29 on ROI** — burn-down floor still undetermined.

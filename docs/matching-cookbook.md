@@ -6093,6 +6093,34 @@ The correct carry is the **minimal transitive closure of what the body actually 
 still left `-34`). Measured ladder on one function: `-56` (nothing carried) → `-34` (helper + externs)
 → MATCH-but-uncommittable (whole file) → the minimal set is the only bankable point.
 
+**CLOSED AND BANKED (Phase 29 SESSION-20).** The final rung is no longer a prediction: the minimal
+closure — 18 `gte_*` macros + the 5 externs + the `static inline` helper, **519 lines instead of
+2,993** — gave `match_one` **MATCH (1061 ins)** *and* went through the §81 carve chain and the
+whole-binary gate **first try** (`harvest_verify` verified 1 / failed 0, R22 clean-fleet 140/140).
+Full ladder, all four rungs measured on `func_8017C730` @ ov_SC03_013:
+`-56` → `-34` → MATCH-but-uncommittable → **MATCH + BANKED**. Cost: minutes, no drafting, no agent.
+
+### The CANDIDATE gate and the REAL gate need DIFFERENT preambles — keep the difference out of the bank
+`match_one` compiles the draft **standalone** (`cpp -Iinclude`, no `engine_core.h`), so a body using
+shared types (`PolyFT4`, `SVECTOR2`, `MATRIX2`) hits `'PolyFT4' undeclared` + a cascade of
+`parse error before ')'` — which **looks exactly like a broken draft and is not one**. The real TU has
+those types in scope for free: every region file opens `#include "../shared/engine_core.h"`, which
+includes the guarded `engine_types.h`.
+
+**So the types header belongs in a throwaway PROBE COPY, never in the draft you bank:**
+```
+{ echo '#include "common.h"';  echo '#include "../src/shared/engine_types.h"'; \
+  cat .run/drafts-X/<fn>.c; } > $SCRATCH/probe.c        # ../src/… resolves via -Iinclude
+python3 tools/match_one.py <fn> --c $SCRATCH/probe.c --asm-subdir asm/<ov>/nonmatchings/<subseg>
+```
+**Why this matters beyond convenience:** the shortcut of pasting the include into the draft itself has
+already leaked an **absolute path** (`#include "/home/musashi/bfm-decomp/src/shared/engine_types.h"`)
+into **21 git-tracked source files / 23 lines**. Every one is a guarded no-op *semantically* (all 21
+have `engine_core.h` at line 2, verified), so it is byte-neutral — but `cpp` still has to FIND that
+literal path, so **those 21 TUs cannot preprocess on any clone not at `/home/musashi/bfm-decomp`.**
+No byte-gate can ever see this (the path exists on the machine that made it) — R34's null-oracle
+shape again, this time aimed at *portability* rather than coverage.
+
 **Also: the walk-back-to-previous-`}` heuristic breaks on an ISOLATED REGION FILE** (a `_jr_<addr>.c`
 produced by `jr_isolate_all`), where the construct immediately above the function *is* the helper you
 need — the walk stops right after it and returns a 1-line preamble. Any preamble-carry tool needs a
