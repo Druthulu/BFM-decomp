@@ -4463,3 +4463,47 @@ resolves. T0.1/T0.3 only read sigs/configs and write `.run/` + `docs/` ⇒ safe 
   large fraction of that pool converts **for ~0 agent tokens** — the same economics as P28's
   `dedup_extend` (6,174 members, 95.6%, one new mode) and P19's `fix_arity_callers`. **Plumbing
   recovery has out-earned drafting in every phase that measured both.**
+
+- **✅ 2026-07-26 (SESSION-20) — T0.2b `--normalize-self-decls`: CLEAN NEGATIVE, 0/123. The plumbing
+  class blocking the FREE pool is NOT the one that flag fixes.**
+  Ran the full `func_8013D53C` family (the one whose failure text — `conflicting types for
+  'func_8013D53C'` — matches the flag's own documented fix, *"blocked 133/137 of func_801670E4"*):
+  `family_sweep --hseq --only 0x8013d53c --band substantial --no-preclassify --normalize-self-decls`
+  → **BANKED 0 / 123 failed across 123 overlays.** Zero agent tokens; the lever simply does not apply.
+  **⚠️ AND IT LEFT 123 FILES OF VALUELESS CHURN.** The flag's transform (`extern void func_X(void)` →
+  `(void *arg0v)` **+** a compensating call-site cast `((void (*)(void))func_X)()`) is **byte-neutral
+  by construction**, so the tool's non-neutral backstop never fired — and it therefore **left every
+  edit in place after banking nothing**: 123 files / 246 insertions / 246 deletions of dead diff.
+  **Byte-safe but a real hygiene defect** — a `git add -A` after a 0-bank run would commit 123 files of
+  pure noise. **Reverted (`git checkout -- src/` → 0 modified); spot-rebuilt ov_SC01_000 `9052dc0e`
+  and ov_SC07_010 `d7b5875d`, both BYTE-IDENTICAL.** *(Candidate tool fix: on a 0-bank group, restore
+  the snapshot regardless of neutrality — "neutral" is not "wanted". §61's law says undo by snapshot
+  restore; this is the same law applied to the SUCCESS path.)*
+  **⇒ The FREE pool's blocker is a DIFFERENT declaration class** than either `--fix-def-sig` (which
+  regressed it) or `--normalize-self-decls` (which no-ops on it). Two named levers measured and
+  eliminated for ~0 tokens. Next candidates, untested: `canon_sig_reconcile.py` v3.2 (the def-side
+  wall cracker, §41) and `reconcile_decls.py` (the DATA-symbol analog — note one of the two failure
+  texts is `conflicting types for 'D_800A651C'`, a **DATA** symbol, which neither tested flag targets).
+
+- **✅ 2026-07-26 (SESSION-20) — T0.3 BACKLOG TRIAGE. The ledger is CURRENT (0 stale) but 92%
+  UNCLASSIFIED — and its `addr` field is null for 93% of entries.**
+  **1,622 live near-miss entries** (79 `failed`, 1 `near-miss`, 1,621 `near`).
+  **P9 filter: 0 already-banked** — `backlog.py`'s drop-now-matched filter is working; the ledger is
+  not carrying dead weight. *(Verified against a fleet-wide live-stub set of 9,567 distinct addresses
+  derived from `corpus.stubs`.)*
+  **⚠️ LEDGER DEFECT (R32 class, found while triaging): `addr` is `null` for 1,501 of 1,622 entries
+  (93%)** — the address survives only inside `name` (`func_80174CB0`). **Any consumer keying on `addr`
+  silently processes 7% of the ledger.** My first triage pass read 121 entries and reported "0 stale"
+  off a 7% sample; deriving the address from `name` resolves **1,622/1,622 = 100%**. This is precisely
+  the silent-skip shape R32 exists for. **Fix: make `backlog.py log` derive `addr` from `name` when
+  the caller omits it, and add a coverage assertion.** *(Not yet applied — it is a write-path change to
+  a ledger mid-session; flagged for the next tooling pass.)*
+  **LIVE backlog by closeness:** 0 → **333** · 1–4 → **184** · 5–20 → **589** · 21–100 → 431 · 100+ → 85.
+  **LIVE by class — the actionable read: 1,486 of 1,622 (92%) have NO class label**, exactly as
+  `residual_class.py`'s own docstring warns ("91% of the open backlog has NO class label … so the
+  grinder searches UNDIRECTED over almost the whole corpus"). Labelled: schedule 28 · struct 28 ·
+  regalloc-order 27 · plumbing 14 · WAVE 14 · other 6 · PINS 4 · remat 3 · STUB 3 · STRUCT 3 ·
+  loose-typing 2.
+  **⇒ The single highest-value backlog action is to RUN `residual_class.py` over the 1,486 unlabelled
+  entries** (deterministic, LLM-free, reads the bytes) so the 333 close=0 + 184 close-1-4 band can be
+  routed to the right lever instead of grinding undirected. That is a zero-token tooling run.
