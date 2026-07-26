@@ -4026,7 +4026,7 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   + the **18 `gte_*` macros** defined in that region file (helper+externs alone left −34, so the gte
   macros are the likely remainder) — then the **§81 carve chain**, because this sibling is ALSO a jr
   function (`jr` count = 1). Draft preserved: `.run/giants/s19_func_8017C730_SC03_013_nearmiss.c`.
-  **⇒ §77 GAINS ITS 4th MEASURED VARIANT (`static` helper) and a NEW COROLLARY: the right carry is the
+  **⇒ §77 GAINED ITS 5th MEASURED VARIANT (`static` helper — NOW FOLDED INTO THE COOKBOOK, commit `commit:1027`) and a NEW COROLLARY: the right carry is the
   MINIMAL closure of what the body references, not the whole file — over-carrying trades a
   `match_one` failure for an in-TU collision.** My `s19_remap_tu.py`'s walk-back-to-previous-`}`
   heuristic also breaks on an **isolated region file**, where the preceding construct IS the needed
@@ -4068,9 +4068,11 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 > grep that discriminates them · **§75b** extraction lifts `extern`s but NOT `#define`s (signature = a
 > LINK error) · **§75c** class B needs the PAIR, decl **and** call-site cast · **§76** the allocno CLASS
 > is the dominant regalloc lever, reachable ONLY via declaration scope + variable reuse · **§77** every
-> extraction tool carries a NARROW preamble set — 4 measured variants (`#define`, multi-line `typedef`,
-> `extern` above a `#define`, `static` helper) + the corollary: carry the MINIMAL CLOSURE, not the whole
-> file · **§78** a LENGTH/ORDERING diff can be a register grant in disguise; `fold` never leaves a
+> extraction tool carries a NARROW preamble set — **5 measured variants** (`#define` · multi-line
+> `typedef` · `extern` above a `#define` · the exemplar's `#include`s · a **`static` helper**, the only
+> one that gives NO diagnostic — just a negative length drift) + the corollary: carry the **MINIMAL
+> TRANSITIVE CLOSURE** of what the body references, not the whole file (over-carrying trades a
+> `match_one` failure for an in-TU collision, measured) · **§78** a LENGTH/ORDERING diff can be a register grant in disguise; `fold` never leaves a
 > literal first in an `|` chain · **§79** the frame layout is a declaration-order oracle; DATA-symbol
 > fingerprinting when §71 cannot fire · **§80** a do-not-re-buy entry is scoped to its BASE; the pin's
 > unconditional `qty_phys_sugg`; diagnose ranking-vs-identity before a merge · **§81** the 3-step
