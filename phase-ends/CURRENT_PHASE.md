@@ -3972,23 +3972,17 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 > **🛑 SESSION-19 CLOSING CHECKPOINT (2026-07-25, Opus 5 @ High) — REFRESHED mid-session; supersedes
 > both the SESSION-18 block and the earlier SESSION-19 block (which was written before the
 > ENGINE_SHB / class-B / dedup_extend-bug work and went stale). Fresh session safe here.**
-> **⚠️ AN OPUS-5 AGENT IS RUNNING (`func_8017C954`, 1,194 ins, ov_SC06_029, effort xHigh):**
-> deliverables `.run/giants/s19_func_8017C954_b1.c` + `s19_c954_report.md`; sandboxed to
-> `.run/giants/` (no `src/`/`config/`/`docs/`, no commits, no `make` targets). **If this session
-> died mid-run, check those two files — its work is NOT committed.** Drew approved SUCCESSIVE
-> single agents on the behemoths in the recommended order; **`func_8017C730` (1,061, 0.86
-> fingerprint, same family) is queued next.**
-> **Why this target:** its SHARED-symbol fingerprint is **1.00 identical** to the matched
-> renderer base `func_8017CA80` (`D_800A5E60`, `D_800A6610`, `D_800B9A02`, `func_800491EC`,
-> `func_80052E38`), and at 1,194 ins it sits just above that 952-ins base ⇒ likely base+1 feature.
-> **FOUR matched exemplars of the family now bracket it** (952 unlit / 1,511 1-light / 3,338
-> 3-box / 4,763 4-box) — and reading matched relatives beat every clever lever FOUR times today.
+> **No background job is running.** **FIVE behemoths banked this session** — `func_8017F510`
+> (1,511) · `func_8017F5B4` (1,511, free remap) · `func_8017D960` **+ its 5-member family**
+> (16,690) · `func_8017BF14` (4,763, the largest match in the project) · `func_8017C954`
+> (1,194, via the §81 jr-carve chain). **`func_8017C730` (1,061, 0.86 fingerprint, same
+> renderer family) is the approved NEXT target** (Drew: successive single agents).
 > **⚠️ FINGERPRINTING METHOD NOTE (I got this wrong twice before getting it right):** §71's
-> callee set CANNOT fire on a leaf fn; §79 says fall back to DATA symbols — but you must compare
-> **SHARED symbols only** (`< 0x80128158`), because per-overlay `D_801?????` names never match
-> across overlays; AND a MATCHED function has no `nonmatchings/*.s`, so its fingerprint must be
-> read from its **banked C**, not from `asm/`. Both mistakes silently return 0.00 = 'no relative'.
-> **FOUR behemoths banked this session** — `func_8017F510`
+> callee set CANNOT fire on a leaf fn; §79 says fall back to DATA symbols — but compare
+> **SHARED symbols only** (`< 0x80128158`), since per-overlay `D_801?????` names never match
+> across overlays; AND a MATCHED function has no `nonmatchings/*.s`, so read its fingerprint
+> from its **banked C**. Both mistakes silently return 0.00 = 'no relative'.
+ — `func_8017F510`
 > (1,511) · `func_8017F5B4` (1,511, free remap) · `func_8017D960` **+ its 5-member family**
 > (16,690) · **`func_8017BF14` (4,763 — the largest single match in the project)**.
 > Full R22 run after every bank (140/140); `tools-health` OK.
@@ -3996,11 +3990,11 @@ Three behemoths banked this session: `func_8017F510`
 > (1,511, §76 crack), `func_8017F5B4` (1,511, §40 remap), and **`func_8017D960` + its entire
 > 5-member family (5 × 3,338 = 16,690 ins, §78 crack + 4 first-try remaps)**.
 > **Tree clean** (only R23 `db.*.gbf` churn — never staged).
-> **STATE:** HEAD `commit:1017`, **29 commits this session**. **R22 clean-fleet 140/140, run 10×** — the
-> last after the `func_8017BF14` bank. `make tools-health` → **OK**.
+> **STATE:** HEAD `commit:1021`, **33 commits this session**. **R22 clean-fleet 140/140, run 11×** — the
+> last after the `func_8017C954` jr-carve bank. `make tools-health` → **OK**.
 > **0 NON_MATCHING** (G4). dedup **1886 validated / 0 failed**, C1 coverage 239,604/239,604. **Drew pushes** (R6/R20).
-> **FLEET: 80.5% instr** — 10,585,353 / 13,141,652 · **distinct-code 3,842,906 = 68.2%
-> (+29,394 ins this session: 24,475 from FOUR behemoths + 4,919 from the h_norm-remap pool;
+> **FLEET: 80.6% instr** — 10,586,547 / 13,141,652 · **distinct-code 3,844,100 = 68.2%
+> (+30,588 ins this session: 25,669 from FIVE behemoths + 4,919 from the h_norm-remap pool;
 > every PROPAGATION win contributed +0)** · fn-count **89.18%** (session opened 80.0/67.7/89.02).
 >
 > ## BANKED THIS SESSION
@@ -4014,6 +4008,7 @@ Three behemoths banked this session: `func_8017F510`
 > | **`func_8017F5B4`** | **1,511** | **×1 (distinct-code)** | **§40 family_remap off F510 + §77 preamble carry — ~0 agent tokens** |
 > | **`func_8017D960` + family** | **3,338 ×5** | **×1 each (distinct-code)** | **BEHEMOTH #2 — §78 crack (1806→0, pin-free) + 4 first-try §40 remaps = 16,690 ins** |
 > | **`func_8017BF14`** | **4,763** | **×1 (distinct-code)** | **THE LARGEST MATCH IN THE PROJECT — cold start → 45 (round 1) → 0 (round 2), §79 + §80** |
+> | **`func_8017C954`** | **1,194** | **×1 (distinct-code)** | base+2 deltas; banked via the **§81 jr-carve chain** (a shared type was present-but-invisible) |
 > | `func_80174CB0` | 123 | **×135** | §75c the full §17a-1 pair (3 residual = the predicted class-A set) |
 >
 > **+46,433 ins banked with ZERO function drafting** — every gain was carried-declaration plumbing.
