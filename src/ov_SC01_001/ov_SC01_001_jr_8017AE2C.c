@@ -2841,7 +2841,54 @@ s32 func_8017B368(s32 param)
 
 
 
-INCLUDE_ASM("asm/ov_SC01_001/nonmatchings/ov_SC01_001_jr_8017AE2C", func_8017B490);
+
+
+s32 func_8017B490(s32 param)
+{
+    extern void func_8017BA3C(s32 param_1, s32 param_2);
+    extern void func_8012F214(s32 a0, s32 a1, s32 a2);
+    extern SV4_8017B368 D_801ED924;
+    extern SV4_8017B368 D_801ED92C;
+    extern s16 D_801ED97C;
+    extern s16 D_801ED974;
+    extern u16 D_80187198;
+    extern s16 D_801ED904;
+    extern s16 D_801F3150;
+    extern s32 D_80126984;
+    extern s32 D_80126988;
+    extern s32 D_8012698C;
+    extern s32 D_80126990;
+    extern s32 D_80126994;
+    extern s32 D_80126998;
+
+    SV4_8017B368 loc0;
+    SV4_8017B368 loc1;
+    u32 n = (u32)&D_801ED924;
+
+    ((void (*)(void))func_8017BA3C)();
+
+    if (n >= 0xB) {
+        loc0 = *(SV4_8017B368 *)n;
+        loc1 = D_801ED92C;
+    } else {
+        s32 ax = (s32)&((Pair16 *)&D_80187198)[n].x;
+        s32 ay = (s32)&((Pair16 *)&D_80187198)[n].y;
+        func_8012F214(param, ax, (s32)&loc0);
+        func_8012F214(param, ay, (s32)&loc1);
+    }
+
+    (*(SV4_8017B368 *)&D_801ED97C) = loc0;
+    (*(SV4_8017B368 *)&D_801ED974) = loc1;
+    D_801F3150 = 1;
+    D_801ED904 = 0x1E;
+    D_80126990 = (*(SV4_8017B368 *)&D_801ED97C).a;
+    D_80126994 = (*(SV4_8017B368 *)&D_801ED97C).b;
+    D_80126998 = (*(SV4_8017B368 *)&D_801ED97C).c;
+    D_80126984 = (*(SV4_8017B368 *)&D_801ED974).a;
+    D_80126988 = (*(SV4_8017B368 *)&D_801ED974).b;
+    D_8012698C = (*(SV4_8017B368 *)&D_801ED974).c;
+}
+
 
 // @class: regalloc-order + T1 memcpy-builtin→call re-crack
 // @stuck: 0 (iso). Register lever = $16 pin + in-place re-tie on the memcpy-branch src (keeps

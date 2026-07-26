@@ -4425,3 +4425,41 @@ resolves. T0.1/T0.3 only read sigs/configs and write `.run/` + `docs/` ⇒ safe 
   **DECISION: do NOT spend round 2 now.** Per the approved order this is a ~0.04pp lever while **T0.2
   is a measured probe on a 224,410-ins (12.5%) pool** — and T0.2 was blocked only by this agent holding
   `asm/`. Round 2 is queued with its lever named; nothing is lost (§80 table + harness are on disk).
+
+- **✅ 2026-07-26 (SESSION-20) — T0.2 BOUNDED GATE PROBE on the FREE zero-crack pool. THE ANSWER:
+  the pool is NOT wall-blocked — it is DECLARATION-PLUMBING-blocked. 12 attempts, 4 banked, and
+  ALL 8 failures are PLUMBING (zero DIFF, zero compiler walls).**
+  Method (bounded, per R14 — measure, never project): `family_sweep --hseq --only <8 FREE-subset
+  exemplars> --band substantial --no-preclassify --stage-only` → staged **803 member drafts / 664
+  groups**; then `harvest_verify --chunk 1` (one draft per build = clean attribution) on 2 overlays.
+  **RESULT — 12 gate attempts across ov_SC01_000 + ov_SC01_001:**
+  | outcome | n | detail |
+  |---|---|---|
+  | **BANKED** | **4** | `func_8017B490` ×2, `func_801463A0` ×2 — both binaries BYTE-IDENTICAL |
+  | failed **PLUMBING** | **8** | `conflicting types for 'D_800A651C'` (DATA sym) · `conflicting types for 'func_8013D53C'` (the member's OWN def-side decl) |
+  | failed **DIFF** (a real codegen wall) | **0** | — |
+  **⇒ RAW CONVERSION 4/12 = 33%. But 0% of the failures are walls** — every one is the §75a/def-side
+  loose-typing class, which this project has NAMED TOOLS for. **The ceiling is not 33%.**
+  **⚠️ TWO CORRECTIONS TO THE T0.1 POOL MATH (both measured, both lower it):**
+  1. **2 of the 8 top FREE families were refused outright by the §42e pinned-exemplar guard**
+     (`0x80133ab0`, `0x801749c8` = the 270 skips). So the "FREE" classification does **not** imply
+     sweepable — pins are a *third* blocker T0.1's decomposition did not separate. `--allow-pins`
+     exists and SESSION-19 proved some pinned families bank ×134, so this is recoverable, not lost.
+  2. `n_templatable` counts the matched exemplar too, so every T0.1 family figure is ~1 member
+     (~0.7%) high. Immaterial to the decision, recorded for honesty.
+  **NEGATIVE RESULT (§80 — scoped to THIS base): `--fix-def-sig` REGRESSES this class.** Re-staging the
+  4 failing families with it and re-gating the same 8: **0 banked, and 2 PLUMBING turned into
+  CC1-FAIL.** It is the wrong lever here despite targeting the same error text. Do not re-buy it on
+  this base without re-testing.
+  **THE NAMED NEXT LEVER (untested, bounded-run required):** `family_sweep --normalize-self-decls`
+  — its own help text says it fixes *"the `conflicting types for func_X` that blocked 133/137 of
+  func_801670E4"*, i.e. **exactly** the `conflicting types for 'func_8013D53C'` failure here. It is a
+  GATE-phase transform (edits each sibling's own TU, snapshot+revert, byte-gate arbitrates), so it
+  cannot run under `--stage-only`, and `--limit` caps FAMILIES not MEMBERS — so testing it costs a
+  full ~123-member family run. **That is the single highest-value tooling probe outstanding.**
+  **STRATEGIC READ (this is the answer to Drew's "is there a shortcut that cracks tons at once"):**
+  the 224,410-ins FREE pool's blocker is **declaration plumbing, not gcc**. If
+  `--normalize-self-decls` (or a `canon_sig_reconcile`/`reconcile_decls` pass) clears the class, a
+  large fraction of that pool converts **for ~0 agent tokens** — the same economics as P28's
+  `dedup_extend` (6,174 members, 95.6%, one new mode) and P19's `fix_arity_callers`. **Plumbing
+  recovery has out-earned drafting in every phase that measured both.**
