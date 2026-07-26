@@ -381,7 +381,9 @@ def remap_hseq_body(from_addr, from_ov, to_ov, to_addr, body):
     if from_addr != to_addr:
         table[f"func_{from_addr:08X}"] = f"func_{to_addr:08X}"
     table.update(imm_map)
-    return apply_remap(body, table), {"symbol_map": m, "imm_map": imm_map}
+    body, off_notes = fix_derived_offsets(body, table)      # §84, BEFORE the name substitution
+    return apply_remap(body, table), {"symbol_map": m, "imm_map": imm_map,
+                                      "derived_offsets": off_notes}
 
 
 def remap_hseq(from_addr, from_ov, to_ov, to_addr=None):
@@ -415,8 +417,10 @@ def remap_hseq(from_addr, from_ov, to_ov, to_addr=None):
     if from_addr != to_addr:
         table[f"func_{from_addr:08X}"] = f"func_{to_addr:08X}"
     table.update(imm_map)
+    unit, off_notes = fix_derived_offsets(unit, table)      # §84, BEFORE the name substitution
     return apply_remap(unit, table), {"symbol_map": m, "imm_map": imm_map, "unresolved": unresolved,
-                                      "n_externs": len(externs), "cf": cf}
+                                      "n_externs": len(externs), "cf": cf,
+                                      "derived_offsets": off_notes}
 
 
 def symbol_map(addr, from_ov, to_ov, to_addr=None):
@@ -616,6 +620,44 @@ def _macro_unit(addr):
     return None, None
 
 
+_DERIVED_OFF_RE = re.compile(r'&\s*(D_([0-9A-Fa-f]{8}))\s*\+\s*(0[xX][0-9A-Fa-f]+|\d+)')
+
+
+def fix_derived_offsets(unit, table):
+    """§84 — recompute `&D_<ex> + <lit>` literals against the MEMBER's own symbol addresses.
+
+    A crack may reach a symbol via a DIFFERENT symbol plus a literal offset, so gcc cannot CSE the two
+    %hi/%lo pairs into one:
+        (*(S9 *)&D_801DAA78) = *(S9 *)(&D_801DA998 + 0x20);   /* same addr as &D_801DA9B8 */
+    The literal is NOT a constant of the algorithm — it is the DISTANCE BETWEEN TWO PER-OVERLAY
+    SYMBOLS, and that distance differs per overlay. Substituting the NAMES while carrying the literal
+    through emits a wrong %lo, and `match_one` CANNOT SEE IT (it masks HI16/LO16) — only the
+    whole-binary gate does, as a ONE-BYTE diff. Measured: exemplar 0x801DA998+0x20 == 0x801DA9B8, but
+    member 0x801A5778+0x20 == 0x801A5798 while the true member symbol is 0x801A5790 (delta 0x18).
+
+    `unit` is the EXEMPLAR body (pre-substitution) and `table` the exemplar->member symbol map, so both
+    endpoints resolve here. Returns (unit', notes); notes carries (base, old, new) per site, with
+    new=None where an endpoint is NOT a mapped symbol — REPORTED, never silently carried (R32: a
+    silent skip is a defect, and a silent skip is exactly how this survived)."""
+    notes = []
+
+    def repl(m):
+        base_ex, hexs, lit_s = m.group(1), m.group(2), m.group(3)
+        lit = int(lit_s, 16) if lit_s.lower().startswith('0x') else int(lit_s)
+        target_ex = "D_%08X" % (int(hexs, 16) + lit)
+        base_mem, target_mem = table.get(base_ex), table.get(target_ex)
+        if base_mem is None or target_mem is None:
+            notes.append((base_ex, lit, None))       # not a symbol-to-symbol distance -> leave as-is
+            return m.group(0)
+        new_lit = int(target_mem[2:], 16) - int(base_mem[2:], 16)
+        notes.append((base_ex, lit, new_lit))
+        if new_lit == lit:
+            return m.group(0)
+        return m.group(0).replace(lit_s, ("0x%X" % new_lit) if new_lit >= 0 else ("-0x%X" % -new_lit))
+
+    return _DERIVED_OFF_RE.sub(repl, unit), notes
+
+
 def apply_remap(unit, table):
     """single-pass simultaneous substitution of {source_token: replacement} over unit — each source
     token is matched once against the ORIGINAL text, so chained/permuted maps (D_A->D_B, D_B->D_C, or
@@ -647,6 +689,7 @@ def remap(addr, from_ov, to_ov, to_addr=None, imm_map=None):
         table[f"func_{addr:08X}"] = f"func_{to_addr:08X}"
     if imm_map:
         table.update(imm_map)
+    unit, _off_notes = fix_derived_offsets(unit, table)     # §84, BEFORE the name substitution
     unit = apply_remap(unit, table)
     return unit, m
 
