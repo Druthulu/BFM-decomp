@@ -3916,7 +3916,23 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 > **🛑 SESSION-19 CLOSING CHECKPOINT (2026-07-25, Opus 5 @ High) — REFRESHED mid-session; supersedes
 > both the SESSION-18 block and the earlier SESSION-19 block (which was written before the
 > ENGINE_SHB / class-B / dedup_extend-bug work and went stale). Fresh session safe here.**
-> **No background job is running.** **FOUR behemoths banked this session** — `func_8017F510`
+> **⚠️ AN OPUS-5 AGENT IS RUNNING (`func_8017C954`, 1,194 ins, ov_SC06_029, effort xHigh):**
+> deliverables `.run/giants/s19_func_8017C954_b1.c` + `s19_c954_report.md`; sandboxed to
+> `.run/giants/` (no `src/`/`config/`/`docs/`, no commits, no `make` targets). **If this session
+> died mid-run, check those two files — its work is NOT committed.** Drew approved SUCCESSIVE
+> single agents on the behemoths in the recommended order; **`func_8017C730` (1,061, 0.86
+> fingerprint, same family) is queued next.**
+> **Why this target:** its SHARED-symbol fingerprint is **1.00 identical** to the matched
+> renderer base `func_8017CA80` (`D_800A5E60`, `D_800A6610`, `D_800B9A02`, `func_800491EC`,
+> `func_80052E38`), and at 1,194 ins it sits just above that 952-ins base ⇒ likely base+1 feature.
+> **FOUR matched exemplars of the family now bracket it** (952 unlit / 1,511 1-light / 3,338
+> 3-box / 4,763 4-box) — and reading matched relatives beat every clever lever FOUR times today.
+> **⚠️ FINGERPRINTING METHOD NOTE (I got this wrong twice before getting it right):** §71's
+> callee set CANNOT fire on a leaf fn; §79 says fall back to DATA symbols — but you must compare
+> **SHARED symbols only** (`< 0x80128158`), because per-overlay `D_801?????` names never match
+> across overlays; AND a MATCHED function has no `nonmatchings/*.s`, so its fingerprint must be
+> read from its **banked C**, not from `asm/`. Both mistakes silently return 0.00 = 'no relative'.
+> **FOUR behemoths banked this session** — `func_8017F510`
 > (1,511) · `func_8017F5B4` (1,511, free remap) · `func_8017D960` **+ its 5-member family**
 > (16,690) · **`func_8017BF14` (4,763 — the largest single match in the project)**.
 > Full R22 run after every bank (140/140); `tools-health` OK.
