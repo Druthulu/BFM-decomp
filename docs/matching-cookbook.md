@@ -6074,6 +6074,29 @@ onto its sibling with `family_remap`:
 | 2 | **multi-line** `typedef struct {…} T;` | `family_remap` | `'PolyGT4' undeclared` + a cascade of `parse error before ')'` |
 | 3 | file-scope `extern` block sitting **above** a `#define` block | `family_remap` | `'D_801B79E8' undeclared` |
 | 4 | the exemplar's own `#include` lines | `family_remap` | `'PolyFT4' undeclared` (it lives in `engine_types.h`) |
+| 5 | a **`static inline` helper** | `family_remap` | **`LENGTH-DRIFT/-56`** — no compile error at all, just a short body (§82's inlined-helper case, `func_8017C730` @ ov_SC03_013) |
+
+**Variant 5 is the nastiest, and this section PREDICTED it before measuring it** (the closing line
+below named `static` helpers). It is the only variant that produces **no diagnostic whatsoever** — the
+draft compiles clean and is simply ~56 instructions short, which reads as a codegen residual rather
+than a missing construct. **If a mechanically-remapped sibling shows a NEGATIVE length drift and no
+compile error, look for an uncarried `static`/`inline` helper before touching a single lever.**
+
+### ⚠️ COROLLARY (measured, and it cost a bank): carry the MINIMAL CLOSURE, not the whole file
+Fixing variant 5 by carrying the exemplar's **entire region file** as preamble produced a clean
+standalone **`match_one` MATCH** — and then **failed the whole-binary gate on PLUMBING**, because
+2,993 lines of unrelated declarations collide wholesale in the target TU. **Over-carrying does not
+"include a bit extra"; it trades a `match_one` failure for an in-TU collision.**
+
+The correct carry is the **minimal transitive closure of what the body actually references**: here the
+`bandsetup` helper + its 5 externs + the 18 `gte_*` macros of that region file (helper + externs alone
+still left `-34`). Measured ladder on one function: `-56` (nothing carried) → `-34` (helper + externs)
+→ MATCH-but-uncommittable (whole file) → the minimal set is the only bankable point.
+
+**Also: the walk-back-to-previous-`}` heuristic breaks on an ISOLATED REGION FILE** (a `_jr_<addr>.c`
+produced by `jr_isolate_all`), where the construct immediately above the function *is* the helper you
+need — the walk stops right after it and returns a 1-line preamble. Any preamble-carry tool needs a
+reference-closure rule, not a positional one.
 
 **Why #2 and #3 happen, precisely.** `family_remap`'s backward preamble walk accepts a line only if it
 starts with `extern` / `//` / `/*` / `*` / `typedef`. A **multi-line** typedef *ends* with `} PolyGT4;`,
