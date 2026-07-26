@@ -4088,6 +4088,36 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 > §71 *couldn't fire* and the relative was one grep away). **In every case I read a tool's output
 > without first asking whether the tool could answer the question** — R35 aimed at myself.
 >
+> ## ▶ START HERE NEXT SESSION — the recommended order, with reasons
+> **1. `func_8017C730` @ ov_SC03_013 — FINISH IT FIRST (~30 min, +1,061 ins).** The match ALREADY
+> EXISTS (standalone `match_one` MATCH, 1061/1061). This is pure integration, no drafting, no agent:
+> build the **MINIMAL** preamble — `bandsetup` (the `static inline` helper) + its 5 externs + the
+> **18 `gte_*` macros** from `src/ov_SC03_010/ov_SC03_010_jr_8017C730.c` — then run the **§81 carve
+> chain** (`jr_isolate_all ov_SC03_013 --only func_8017C730` → gate → `jtbl_carve` → gate →
+> `harvest_verify` → full R22). Draft: `.run/giants/s19_func_8017C730_SC03_013_nearmiss.c`.
+> **Do NOT re-carry the whole region file** — that gives a standalone MATCH that fails the real gate
+> (§77 corollary, measured).
+>
+> **2. THEN `func_80183814` (5,122 ins, ov_SC07_006) — the biggest prize left, one Opus 5 agent @ xHigh.**
+> **Set expectations honestly: the family bonanza is OVER.** All six behemoths banked this session
+> belonged to ONE renderer family with matched relatives bracketing them — that is why 5 of 9 levers
+> were *readable* rather than *discoverable*. `func_80183814` has **0 fingerprint overlap** with that
+> family and **37 distinct callees**; it is a different subsystem, and none of §76–§82's family levers
+> transfer for free. It is `jr` (⇒ §81 chain to bank) and only *mapped* from a prior session (666
+> drafted, a 35× repeated template found). **Budget TWO passes** — expect the `func_8017BF14` shape
+> (round 1 = decode + length + frame + ~99%; round 2 = the last few), NOT the `func_8017C954`
+> near-one-shot. **A 99% round 1 is on-plan, not a stall.**
+>
+> **3. Then `func_8017D2DC` (1,586, ov_SC01_001, 32 callees, jr) and `func_8017DC1C` (1,518,
+> ov_SC07_006, jr).** ⚠️ **`func_8017DC1C` has ZERO callees — §71 CANNOT fire on it.** Use §79
+> DATA-symbol fingerprinting (SHARED symbols only, `< 0x80128158`; and read a MATCHED relative's
+> fingerprint from its **banked C**, never from `asm/`, which no longer has its `.s`). A 0.00 from §71
+> on a leaf means **"cannot answer"**, not "no relative" — that mistake cost me a whole agent brief
+> this session. `func_8017D2DC`'s 32 callees mean §71 IS usable there; run it before assuming.
+>
+> **If the behemoths stall, the next-best lever is item 4 below (fresh cracks) — but note that
+> behemoths were the ONLY thing that moved distinct-code this session (+26,730 of +31,649).**
+>
 > ## ⚠️ OPEN ACTIONS, ranked
 > 1. **`func_8017C730` @ ov_SC03_013** — standalone **MATCH (1061)** already achieved; banking needs the
 >    **MINIMAL** preamble (the `bandsetup` static-inline helper + its 5 externs + the **18 `gte_*`
