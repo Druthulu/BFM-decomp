@@ -3916,28 +3916,19 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 > **🛑 SESSION-19 CLOSING CHECKPOINT (2026-07-25, Opus 5 @ High) — REFRESHED mid-session; supersedes
 > both the SESSION-18 block and the earlier SESSION-19 block (which was written before the
 > ENGINE_SHB / class-B / dedup_extend-bug work and went stale). Fresh session safe here.**
-> **⚠️ AN OPUS-5 AGENT IS RUNNING (round 2 on `func_8017BF14`, effort xHigh):** closing the last
-> **45/4763**. Deliverables `.run/giants/s19_func_8017BF14_b2.c` + `s19_bf14_report2.md`;
-> sandboxed to `.run/giants/` (no `src/`/`config/`/`docs/`, no commits, no `make` targets).
-> **If this session died mid-run, check those two files — its work is NOT committed.**
-> Briefed with the round-1 map: **(a)** ~8 ins producer-temp tie (fix by MULTI-death named
-> offsets, NOT by removing the `va→$t2` pin — measured to cost 4% elsewhere) · **(b)** ~15 ins
-> `c0`/`c2` grants (direct pinning REFUTED; needs `allocno_compare` reordering) · **(c)** ~20 ins
-> rgb accumulator `$v1` vs `$v0`. **THE #1 MOVE: sweep variable REUSE across `c0..c3`/`a0v..a3v`
-> — declaration SCOPE was swept exhaustively in round 1, REUSE never was**, and that exact merge
-> took `func_8017F510` from 97→10. **Cheapest unrun probe: the §76 attribution primitive
-> (`-fno-schedule-insns`{,2}) on (c)** — never run, and §78 already caught one "scheduling"
-> residual that was really a register grant.
-> The deferred full R22 HAS been run (140/140) and `tools-health` is OK.** Three behemoths banked this session: `func_8017F510`
+> **No background job is running.** **FOUR behemoths banked this session** — `func_8017F510`
+> (1,511) · `func_8017F5B4` (1,511, free remap) · `func_8017D960` **+ its 5-member family**
+> (16,690) · **`func_8017BF14` (4,763 — the largest single match in the project)**.
+> Full R22 run after every bank (140/140); `tools-health` OK.
+Three behemoths banked this session: `func_8017F510`
 > (1,511, §76 crack), `func_8017F5B4` (1,511, §40 remap), and **`func_8017D960` + its entire
 > 5-member family (5 × 3,338 = 16,690 ins, §78 crack + 4 first-try remaps)**.
 > **Tree clean** (only R23 `db.*.gbf` churn — never staged).
-> **STATE:** HEAD (see git log), **26 commits this session**. **R22 clean-fleet 140/140, run 9×** — the
-> last one FULL (`make clean` + extract-all + check-all) AFTER the BF14 agent finished, which
-> discharges the deferral noted in the pool entry. `make tools-health` → **OK**.
+> **STATE:** HEAD `commit:1017`, **29 commits this session**. **R22 clean-fleet 140/140, run 10×** — the
+> last after the `func_8017BF14` bank. `make tools-health` → **OK**.
 > **0 NON_MATCHING** (G4). dedup **1886 validated / 0 failed**, C1 coverage 239,604/239,604. **Drew pushes** (R6/R20).
-> **FLEET: 80.5% instr** — 10,580,590 / 13,141,652 · **distinct-code 3,838,143 = 68.1%
-> (+24,631 ins this session: 19,712 from the three behemoths + 4,919 from the h_norm-remap pool;
+> **FLEET: 80.5% instr** — 10,585,353 / 13,141,652 · **distinct-code 3,842,906 = 68.2%
+> (+29,394 ins this session: 24,475 from FOUR behemoths + 4,919 from the h_norm-remap pool;
 > every PROPAGATION win contributed +0)** · fn-count **89.18%** (session opened 80.0/67.7/89.02).
 >
 > ## BANKED THIS SESSION
@@ -3950,6 +3941,7 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 > | **`func_8017F510`** | **1,511** | **×1 (distinct-code)** | **BEHEMOTH #3 — §76 allocno-class levers, pin-free, xHigh agent** |
 > | **`func_8017F5B4`** | **1,511** | **×1 (distinct-code)** | **§40 family_remap off F510 + §77 preamble carry — ~0 agent tokens** |
 > | **`func_8017D960` + family** | **3,338 ×5** | **×1 each (distinct-code)** | **BEHEMOTH #2 — §78 crack (1806→0, pin-free) + 4 first-try §40 remaps = 16,690 ins** |
+> | **`func_8017BF14`** | **4,763** | **×1 (distinct-code)** | **THE LARGEST MATCH IN THE PROJECT — cold start → 45 (round 1) → 0 (round 2), §79 + §80** |
 > | `func_80174CB0` | 123 | **×135** | §75c the full §17a-1 pair (3 residual = the predicted class-A set) |
 >
 > **+46,433 ins banked with ZERO function drafting** — every gain was carried-declaration plumbing.
@@ -3980,11 +3972,7 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 > ## ⚠️ OPEN ACTIONS, ranked
 > 1. **[DONE] `func_80174CB0` ×135.** Residual = the **3 class-A overlays** (`func_80012ABC`, census
 >    73 `s32` vs 7 `s16`) — worth 3 overlays only; normalize the 7 `s16` decls if trivially cheap.
-> 2. **`func_8017BF14` SECOND PASS — 45/4763 away** (99.06%), three register-grant ties, zero
->    structural divergence. Named next move: **variable REUSE across `c0..c3`/`a0v..a3v`** (the one
->    §76 lever class the cold pass never reached). Draft `.run/giants/s19_func_8017BF14_b1.c`;
->    pin-free 100%-structural fallback at 789/4763. **Its matched relative is `func_8017BEBC`**
->    (found by DATA-symbol fingerprint, §79 — NOT by §71, which cannot fire on a 0-callee fn).
+> 2. **[DONE] `func_8017BF14` CLOSED in round 2 (45→0).** 5 behemoths remain.
 > 3. **BEHEMOTHS — the PROVEN distinct-code lever** (+3,022 ins today vs +0 from all
 >    propagation). **8 untouched:** `func_8017BF14` 4,763 · `func_8017E778` 3,338 ·
 >    `func_8017D2DC` 1,586 · `func_8017DC1C` 1,518 · `func_8017C954` 1,194 · `func_8017C730`
