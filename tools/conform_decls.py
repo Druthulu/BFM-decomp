@@ -155,6 +155,39 @@ def main():
                   + (" …" if len(set(callers)) > 3 else ""), file=sys.stderr)
             return 2
 
+    # ---- THE SCALAR-NARROWING WARNING (Phase 29 SESSION-21, byte-proven) ----
+    # A POINTER type change in a decl is caller-neutral (passing a pointer is passing a pointer —
+    # func_80179B74 conformed 1,600 sites s16*/short* -> u16* and stayed byte-identical fleet-wide).
+    # A SCALAR WIDTH change is NOT: narrowing `s32 a0` -> `u16 param_1` changes argument promotion,
+    # so callers emit different code. Measured on func_80175DA8 — with the decls reverted the gate
+    # says PLUMBING (`conflicting types`), with the conform applied it says **DIFF**. The conform
+    # did not fix the draft; it changed the callers.
+    #
+    # This is NOT a refusal: the draft's signature is still byte-truth for the CALLEE, and the
+    # whole-binary gate is the arbiter. It is a warning that the usual "decls are free" intuition
+    # does not hold here, so a DIFF after this conform means re-examine the CALLERS (the §17a-1
+    # pair — keep the caller decl compatible and cast at the call site) rather than the body.
+    NARROW = {"u8": 1, "s8": 1, "char": 1, "u16": 2, "s16": 2, "short": 2}
+    old_shapes = {strip_names(re.search(rf"\(([^;]*)\)\s*;", f).group(1)) for f in forms
+                  if re.search(rf"\(([^;]*)\)\s*;", f)}
+    new_shape = strip_names(params)
+    narrowing = []
+    for old in old_shapes:
+        for o, n in zip([x.strip() for x in old.split(",")], [x.strip() for x in new_shape.split(",")]):
+            if "*" in o or "*" in n:
+                continue                                  # pointer change: caller-neutral
+            nb = NARROW.get(n.replace("unsigned ", "u").replace("signed ", "s"))
+            if nb and o not in ("", "void") and o != n:
+                narrowing.append(f"{o} -> {n}")
+    if narrowing:
+        print(f"\n⚠  SCALAR-NARROWING in the parameter list ({', '.join(sorted(set(narrowing)))}). "
+              f"Unlike a pointer-type change this is NOT caller-neutral — argument promotion at "
+              f"every call site changes, so callers emit different code (byte-proven on "
+              f"func_80175DA8: PLUMBING before the conform, DIFF after). Applying is still valid — "
+              f"the draft's signature is byte-truth for the CALLEE and the whole-binary gate "
+              f"arbitrates — but if the gate then reports DIFF, examine the CALLERS (§17a-1: keep "
+              f"their decl compatible and cast at the call site), not the body.")
+
     # §85 precondition — only matters when the RETURN type changes.
     ret_changes = any(not re.match(rf"extern\s+{re.escape(ret)}\s", f) for f in forms)
     if ret_changes:
