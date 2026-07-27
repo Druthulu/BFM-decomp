@@ -6701,3 +6701,43 @@ MIPS-REL addend `objdump -r` does not print (§84's trap, in tool form) — agai
 **359/359 `jal` callees, 60/60 internal `j` destinations, 406/406 `%hi/%lo` addresses incl. all 6
 derived-offset sites.** **Promote this to `tools/` — it closes three of the four blindness classes
 before a gate cycle is ever spent.**
+
+## §89 — Two throughput rules the project already had written down and was not following (Phase 29 SESSION-20)
+
+Neither of these is a new capability. Both are cases where the tool or the rule already existed and
+the practice had drifted — which is worth recording precisely because that is the hardest kind of
+waste to notice from inside a session.
+
+### §89a — MEASURE the write set; do not assert its tier (`tools/blast_radius.py`)
+§63's T0/T1/T2 taxonomy has existed since Phase 26 and was never enforced. Both failure directions
+were measured in one session:
+- **Over-verification:** ~13 full clean-fleet R22 runs (~15 min each), most for batches that were
+  provably T1 (`src/<binary>/**` only). Hours of serialised wall-clock proving what the written rule
+  already guaranteed.
+- **Under-verification — the dangerous half:** the §85 return-type widen was *believed* contained to
+  one overlay and broke `ov_SC01_077` (R22 139/140); `gate_stage`'s ARITY pre-pass silently rewrote
+  caller decls in **40 TUs**. In both cases the write set was LARGER than the belief about it.
+**A tier is a CLAIM. `blast_radius.py --expect t1 --binary <b>` turns it into a MEASUREMENT** and
+exits non-zero when the tree disagrees. Negative-controlled on all four cases, including the §85
+shape. Coverage asserted (R32): an unclassified path exits 2 and names itself.
+
+### §89b — the parallel gate farm existed; the family path could not reach it (`tools/sweep_parallel.py`)
+`bulk_harvest` Phase B has been a `ProcessPoolExecutor` over DISTINCT binaries (per-binary flock,
+per-worker result files, `compute_fleet=False`) since Phase 23 — but welded to Phase A's LLM
+drafting. Family sweeps stage their drafts a different way (`family_sweep --stage-only`), so the farm
+was **unreachable from that path**, and SESSION-20 gated 389 + 268 + 104 members **serially**
+(`for ov in …; do gate_stage …; done`) — roughly an 8-16x throughput loss on a 32-thread box, for no
+architectural reason. `sweep_parallel.py` is a thin adapter: same `gate_stage.run_gate`, same
+per-binary lock, no new gate logic.
+**It also filters the phantom-dir bug at the source:** a bare `.run/sweep/*/` glob matches
+`gate_stage`'s own intermediate ladder dirs (`-cn`, `-cn-cast`, `-cn-cast-rc`, `-s2in`, `-s2in-uni`)
+and calls them as binaries — 24 phantom `PARTIAL 0/1` lines that inflated one run's `notbanked` from
+0 to 56. **Require `config/splat.<bin>.yaml` to exist** (R33/R36: derive the binary set, never glob it).
+
+### The standing sequence
+```
+family_sweep --stage-only  →  sweep_parallel.py -j 12  →  blast_radius.py
+     T2? → R22 clean-fleet mandatory        T1? → the per-binary gates already ran; commit
+```
+**Parallelism changes THROUGHPUT, never the verdict** — the whole-binary byte-gate is still the sole
+arbiter (G3/P9) and still reverts a wrong draft in its own binary.
