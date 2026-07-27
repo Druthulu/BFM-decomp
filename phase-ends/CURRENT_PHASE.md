@@ -5615,3 +5615,26 @@ the definition at 71**. The documented path is the §20/§64 type-lift (`lift_ty
 **Still open (3):** `func_8013BD74` (type-lift) · `func_80135260` (genuine DIFF) ·
 `func_8013B83C` (CC1-FAIL, undiagnosed) · `func_801789AC` (its run isolated it into a new subseg and
 banked nothing — retry clean).
+
+## ✅ T11 — `func_80179B74` swept 137/137 (the fourth full-family sweep)
+
+134/134 on the remainder after 3/3 on the probe. R22 clean-fleet 140/140.
+**FLEET: 82.5% instr · 70.6% distinct-code · 89.76% fn-count** (opened 81.7 / 69.3 / 89.52).
+
+**Four full-family sweeps this session, all four unblocked by the same one-line `--like` role
+guard** — 137/137, 136/137, 137/137, 137/137. That single guard is worth more than every agent
+token spent today: the drafting produced the exemplars, but the sweeps produced ~550 of the banks,
+for zero tokens.
+
+## 🛑 PAUSED FOR THE EFFORT TOGGLE (Drew, R26/R27)
+
+The sweep is banked and verified, so the zero-token deterministic vein is spent for now. The next
+lever is **breadth** — resuming the wave for the 9 never-drafted exemplars — which wants Ultracode.
+Per R27 I stop here and WAIT for the actual `/effort ultracode` command rather than launching on an
+assumption.
+
+**Queued for the wave (`resumeFromRunId: wf_6c43d703-ebb`, the 15 completed replay from cache):**
+`func_80176734` (51,198) · `func_80176218` (45,126) · `func_80135EB0` (39,882) ·
+`func_80140958` (35,880) · `func_80175DA8` (31,878) · `func_80175AB8` (25,944) ·
+`func_80177B5C` (20,286) · `func_8017C974` (15,152) · `func_8014D820` (41,952, assembler-stage
+failure still undiagnosed).
