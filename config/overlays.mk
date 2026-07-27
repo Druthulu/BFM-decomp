@@ -142,6 +142,7 @@ build/src/ov_SC01_000/ov_SC01_000_jr_8013F350.o: JTBL_PADS := 0,0  # §8e pads (
 build/src/ov_SC01_000/ov_SC01_000_jr_80154C24.o: JTBL_PADS := 0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x24
 build/src/ov_SC01_000/ov_SC01_000_jr_801588CC.o: JTBL_PADS := 0,4  # §8e pads (jtbl_carve.py) tables=+0x0,+0x28
 build/src/ov_SC01_000/ov_SC01_000_jr_80159C84.o: JTBL_PADS := 0,4  # §8e pads (jtbl_carve.py) tables=+0x0,+0x20
+build/src/ov_SC01_000/ov_SC01_000_jr_8015AE2C.o: JTBL_PADS := 0,4  # §8e pads (jtbl_carve.py) tables=+0x0,+0x20
 ov_SC01_000_CHECK_SHA  := config/check.ov_SC01_000.sha
 ov_SC01_000_SYMBOLS    := config/symbols.ov_SC01_000.txt
 ov_SC01_000_SIG        := .run/sig.ov_SC01_000.jsonl
@@ -170,6 +171,7 @@ build/src/ov_SC01_001/ov_SC01_001_jr_8013F350.o: JTBL_PADS := 0,0  # §8e pads (
 build/src/ov_SC01_001/ov_SC01_001_jr_80154C24.o: JTBL_PADS := 0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x24
 build/src/ov_SC01_001/ov_SC01_001_jr_801588CC.o: JTBL_PADS := 0,4  # §8e pads (jtbl_carve.py) tables=+0x0,+0x28
 build/src/ov_SC01_001/ov_SC01_001_jr_80159C84.o: JTBL_PADS := 0,4  # §8e pads (jtbl_carve.py) tables=+0x0,+0x20
+build/src/ov_SC01_001/ov_SC01_001_jr_8015AE2C.o: JTBL_PADS := 0,4  # §8e pads (jtbl_carve.py) tables=+0x0,+0x20
 ov_SC01_001_CHECK_SHA  := config/check.ov_SC01_001.sha
 ov_SC01_001_SYMBOLS    := config/symbols.ov_SC01_001.txt
 ov_SC01_001_SIG        := .run/sig.ov_SC01_001.jsonl
@@ -478,6 +480,7 @@ build/src/ov_SC01_004/ov_SC01_004_jr_8013F350.o: JTBL_PADS := 0,0  # §8e pads (
 build/src/ov_SC01_004/ov_SC01_004_jr_80154C24.o: JTBL_PADS := 0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x24
 build/src/ov_SC01_004/ov_SC01_004_jr_801588CC.o: JTBL_PADS := 0,4  # §8e pads (jtbl_carve.py) tables=+0x0,+0x28
 build/src/ov_SC01_004/ov_SC01_004_jr_80159C84.o: JTBL_PADS := 0,4  # §8e pads (jtbl_carve.py) tables=+0x0,+0x20
+build/src/ov_SC01_004/ov_SC01_004_jr_8015AE2C.o: JTBL_PADS := 0,4  # §8e pads (jtbl_carve.py) tables=+0x0,+0x20
 ov_SC01_004_CHECK_SHA  := config/check.ov_SC01_004.sha
 ov_SC01_004_SYMBOLS    := config/symbols.ov_SC01_004.txt
 ov_SC01_004_SIG        := .run/sig.ov_SC01_004.jsonl
