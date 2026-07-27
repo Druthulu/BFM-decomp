@@ -1719,7 +1719,96 @@ DEFINE_func_801585AC()  /* dedup: shared engine-core @0x801585AC (src/shared) */
 
 DEFINE_func_801585EC()  /* dedup: shared engine-core @0x801585EC (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC06_033/nonmatchings/ov_SC06_033_jr_80154C24", func_80158638);
+
+// @class: loose-typing
+// @stuck: none — MATCH (87 ins, match_one) + symcheck SYMS-OK (17 symbols agree); same file also
+//         MATCHes verbatim against ov_SC03_099 and ov_SC06_008 (sibling asm bodies are identical)
+
+/* func_80158638 @ 0x80158638 — ov_SC01_077 / ov_SC01_077_jr_80154C24 (87 ins).
+ *
+ * TWO decl-ROBUSTNESS choices in the BODY, deliberate — these are the only two things the gate's
+ * decl ladder (cast_call_sites/reconcile_tu/sig_unify) CANNOT repair, because they change codegen,
+ * not plumbing. Both are load-bearing for templating this exemplar onto its 138 h_seq siblings,
+ * where each overlay TU carries its own spelling of these decls:
+ *
+ *  1) `*(u16 *)&D_80078EB4` — the target loads it with `lhu`. The ov_SC01_077 TU already carries
+ *     `extern s16 D_80078EB4;` (line 504), and a plain `D_80078EB4 != 0` read through an s16 decl
+ *     compiles to `lh` => WIDTH/lh!=lhu, closeness 1. A `(u16)` cast does NOT fix it (gcc-2.7.2
+ *     folds the zero_extend away for a !=0 test and keeps `lh`); the pointer pun does, and it is
+ *     correct under EITHER declared signedness.
+ *  2) `(s16)func_80159464(...)` with the fleet-canonical `extern s32 func_80159464();` decl.
+ *     The target truncates the return to 16 bits at BOTH call sites (`sll 16` + `blez`, then
+ *     `sll 16`/`sra 16`/`slti 6`). Declaring the callee `s16` also matches, but the fleet's carried
+ *     decl layer spells it `extern s32 func_80159464(void);` in 1600 places — if reconcile_tu wins
+ *     that conflict the truncation vanishes and the match dies. The explicit cast makes the body
+ *     independent of which decl survives.
+ *
+ * Symbols verified present in build/ov_SC01_077/undefined_syms_auto.txt:
+ *   D_80078EB4=0x80078EB4  D_800B9A17=0x800B9A17  D_800B9A64=0x800B9A64  D_80110EC0=0x80110EC0
+ */
+
+extern u8 D_800B9A64;
+extern s16 D_80078EB4;
+extern u8 D_800B9A17;
+
+extern s32 func_80159464();
+extern s32 func_8014C98C(void);
+extern int func_800D0F8C(int a0);
+extern void func_801599A4(void *a0);
+extern void func_8016F0E4(void *a0);
+extern void func_80159B3C(void *a0);
+extern void func_80165718(s32 a0);
+extern void func_800D0F4C(s32 a0);
+extern void func_8014BB0C(void);
+extern void func_8014BDC8(void);
+extern void func_8014B2A8(void);
+extern s32 func_8013767C(s32 a0);
+extern void func_80158814(void *a0);
+
+void func_80158638(void *a0) {
+
+    extern u8 D_80110EC0;
+    s32 v1;
+
+    if (D_800B9A64 != 0) {
+        return;
+    }
+    if (*(s32 *)((s32)a0 + 0x44) & 0x10) {
+        return;
+    }
+    if (*(u16 *)((s32)a0 + 0) == 0x1A) {
+        return;
+    }
+    if (*(u16 *)((s32)a0 + 0) == 0x1E) {
+        return;
+    }
+    v1 = *(s32 *)((s32)a0 + 0x1F8);
+    if (v1 != 0 && (v1 & 0x08000000) == 0) {
+        return;
+    }
+    if (*(u16 *)&D_80078EB4 != 0) {
+        return;
+    }
+
+    if (((s16)func_80159464(a0) <= 0 || (s16)func_80159464(a0) >= 6) &&
+        func_8014C98C() == 0 && func_800D0F8C(0xA) != 0) {
+        func_801599A4(a0);
+        func_8016F0E4(a0);
+        func_80159B3C(a0);
+        func_80165718((s32)a0);
+        func_800D0F4C(0xA);
+        func_8014BB0C();
+        func_8014BDC8();
+        func_8014B2A8();
+        *(s32 *)((s32)a0 + 0x198) = func_8013767C((s32)&D_80110EC0);
+        D_800B9A17 = 1;
+    } else {
+        func_801599A4(a0);
+        func_8016F0E4(a0);
+        func_80158814(a0);
+    }
+}
+
 
 DEFINE_func_80158794()  /* dedup: shared engine-core @0x80158794 (src/shared) */
 

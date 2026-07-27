@@ -5232,3 +5232,38 @@ and let the byte-gate arbitrate.** Cheap to do — the bare gate is one build pe
 `func_8014D2A0` (80 ins ×138) · `func_80158638` (87 ×138) · `func_8016B6BC` (94 ×138).
 **`func_8014D820` remains a stub** — after the widen its error moved from `conflicting types` to an
 assembler-stage failure I did not finish diagnosing; recorded as open, not as a wall.
+
+## ✅ T6 — THE ×138 MEMBER SWEEP: 274 members banked from 3 exemplar cracks
+
+The point of cracking an exemplar is the family behind it. Sequence (§55b: commit the verified banks
+BEFORE the expensive propagate — done):
+
+1. **The first sweep returned `0 matched-exemplar families`** — `.run/family_hseq.json` was STALE, so
+   the three just-banked exemplars still read as `draft-ov077`. This is the documented regen step
+   (memory `crack-wave-sweep-map-regen`): bank ×1 → regenerate the family map → sweep. Re-ran
+   `family_hseq.py` (matched-sib families 60 → **63**) and the sweep found them.
+2. **`family_sweep --hseq --only 0x8014d2a0,0x80158638,0x8016b6bc --band all --allow-pins`** →
+   **BANKED 274 member-matches / 137 failed across 137 overlays.**
+
+**The split is per-FAMILY, not per-member — §86 again, cleanly reproduced.** Two of the three
+families templated at ~137/137; the third failed at ~137/137. Not a rate, a bimodality: a family
+either templates or it does not, so **the correct procedure is one probe per family, then sweep or
+skip** — never a blended average over a pool.
+
+**R22 clean-fleet after the sweep: extract-all 139/139, check-all 140 passed / 0 failed.**
+dedup **1886 validated / 0 failed**, C1 coverage 239,604/239,604. 0 NON_MATCHING (G4).
+
+### Fleet movement, and what it does NOT say
+**instr-weighted 81.7% → 81.9% · fn-count 89.52% → 89.60% · distinct-code 69.3% → 69.3% (unchanged).**
+
+The flat distinct-code is *correct and expected*, not a disappointment: these are h_seq **PURE**
+(propagation-class) families, and SESSION-20's routing rule says propagation moves only the DISPLAY
+metric because the members were already counted once via their shared exemplar. **To move
+RE-completeness you must target byte-VARIANT families** (the §84 class, which moved distinct-code
++27,840). This sweep was the right work for the display number and the wrong shape for distinct-code
+— worth stating plainly so the next session picks its targets by which metric it means to move.
+
+### Session totals
+**3 exemplars + 274 members = 277 functions banked**, from 15 completed agent drafts (2.48M+ subagent
+tokens for the drafting; the member sweep cost ~0 agent tokens — the crack-once-stamp-138 economics
+working as designed). 140/140 byte-identical, verified twice from a genuinely clean tree.

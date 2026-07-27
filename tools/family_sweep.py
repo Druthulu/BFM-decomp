@@ -458,7 +458,7 @@ def main():
     ap.add_argument("--allow-jr", action="store_true",
                     help="§53 escape hatch: sweep has_mid_jr families through this carve-less path anyway "
                          "(they normally need tools/jtbl_family_bank.py). The whole-binary byte-gate stays "
-                         "the sole arbiter, but expect ~0% — and do NOT read that 0% as a wall.")
+                         "the sole arbiter, but expect ~0%% — and do NOT read that 0%% as a wall.")
     ap.add_argument("--fix-def-sig", action="store_true",
                     help="T6: rewrite each member draft's DEF signature to the shared-header (engine_core.h) "
                          "canonical decl, so a member forward-declared there with a different sig (e.g. s32* vs "
