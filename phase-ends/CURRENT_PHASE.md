@@ -5571,3 +5571,47 @@ this cannot be repeated by hand.
 - **Roadmap re-baseline owed**; the 39 type-1 modules are in no phase.
 - **The ladder-vs-bare-gate asymmetry** (ladder 0/7 vs bare gate 2/7) — unexplained.
 **DO NOT close P29 on ROI** — burn-down floor still undetermined.
+
+## ✅ T10 — three more exemplars banked + three full family sweeps; and my `grep` was lying
+
+**BANKED:** `func_8015B950` (271 ins) · `func_8016AE5C` (85) · `func_80179B74` (111) — plus
+**`func_8016AE5C` swept 136/137** (one sibling, `ov_SC03_108`, refused and was left a stub rather
+than forced) and **`func_8015B950` swept 137/137**. Three full family sweeps this session, all three
+unblocked by the `--like` role guard, all R22-verified.
+
+**FLEET: 82.4% instr · 70.4% distinct-code · 89.72% fn-count** (opened 81.7 / 69.3 / 89.52).
+**Distinct-code crossed 70%.**
+
+### `tools/conform_decls.py` has now been right in both directions
+- **REFUSED** `func_8015B950` — correctly: applied by hand it broke 138 binaries.
+- **CLEARED** `func_80179B74` — correctly: 1,600 sites / 523 files in three different forms
+  (`s16 *a0` / `short *` / `short *p`), pointer-type-only, no arity change. Banked; R22 140/140.
+- **Then it found its OWN coverage gap.** It required a leading `extern`, so it reported *"no
+  declaration of func_8013BD74 found"* for a TU that declares it on line 23 as
+  `void func_8013BD74(void *a0, s32 a1);`. A silent miss that reads exactly like "nothing to do"
+  (R32). Fixed: `extern` is now optional and PRESERVED where present, so linkage never changes.
+
+### ⚠️ MY `grep` WAS SILENTLY RETURNING NOTHING — instrument failure, mid-session
+`grep -n "func_8013BD74" <file> | head` printed **nothing while exiting rc=0** (i.e. it MATCHED).
+`Read` showed the line plainly. Re-done in Python, the truth is 3 occurrences: a prototype (23), a
+**call at 68**, and the stub (71).
+
+**Consequences, assessed honestly:**
+- It cost me one wrong intermediate claim — *"func_8013BD74 has no `extern` anywhere"* — which
+  `conform_decls` immediately contradicted by finding one. The tool corrected the instrument.
+- **No BANKED result is affected.** Every bank passed the whole-binary byte-gate and a clean-tree
+  R22; neither reads my shell output. This is exactly the value of an incorruptible arbiter: a
+  broken diagnostic can waste my time but cannot manufacture a match.
+- Diagnostics switched to Python for the rest of the session. *This is §90a again — verify the
+  instrument — and this time the instrument was the shell itself.*
+
+### `func_8013BD74`: NOT a wall, needs the type-lift
+Its byte-true definition is `void func_8013BD74(A *a0, s32 a1)` with `A` a draft-LOCAL struct.
+Conforming the prototype to `A *` fails with `parse error before '*'` because `A` is not declared
+that early, and the prototype cannot simply be deleted — **there is a call at line 68 that precedes
+the definition at 71**. The documented path is the §20/§64 type-lift (`lift_types.py` /
+`build_engine_types`) to put `A` in `engine_types.h`. Left as a clean handoff rather than improvised.
+
+**Still open (3):** `func_8013BD74` (type-lift) · `func_80135260` (genuine DIFF) ·
+`func_8013B83C` (CC1-FAIL, undiagnosed) · `func_801789AC` (its run isolated it into a new subseg and
+banked nothing — retry clean).

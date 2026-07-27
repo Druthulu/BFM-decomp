@@ -90,10 +90,20 @@ def main():
     a = ap.parse_args()
 
     ret, params = def_signature(a.draft, a.fn)
-    canon = f"extern {ret} {a.fn}({params});"
+    canon_plain = f"{ret} {a.fn}({params});"
+    canon = "extern " + canon_plain
     print(f"byte-true definition: {ret} {a.fn}({params})")
 
-    decl_re = re.compile(rf"extern\s+[A-Za-z_][\w \t\*]*?\b{a.fn}\s*\([^;]*\);")
+    # `extern` is OPTIONAL: a file-scope prototype without it is equally a declaration, and the
+    # `;` terminator is what separates a declaration from a definition (which ends in `{`).
+    # Requiring `extern` made this tool report "no declaration of func_8013BD74 found" for a TU that
+    # declares it on line 23 as `void func_8013BD74(void *a0, s32 a1);` — a silent miss that reads
+    # exactly like "nothing to do" (R32). The leading `extern` is PRESERVED where present, so the
+    # rewrite never changes a declaration's linkage.
+    decl_re = re.compile(rf"(extern\s+)?[A-Za-z_][\w \t\*]*?\b{a.fn}\s*\([^;]*\);")
+
+    def _canon_for(m):
+        return (m.group(1) or "") + f"{ret} {a.fn}({params});"
     forms, total = {}, 0
     for p in sources():
         try:
@@ -107,7 +117,7 @@ def main():
         sys.exit(f"conform_decls: no `extern` declaration of {a.fn} found — nothing to conform")
     print(f"declaration sites: {total}")
     for f, n in sorted(forms.items(), key=lambda kv: -kv[1]):
-        mark = "  (already canonical)" if f == canon else ""
+        mark = "  (already canonical)" if f in (canon, canon_plain) else ""
         print(f"  {n:>5}  {f}{mark}")
 
     # ---- THE ARITY PRECONDITION (Phase 29 SESSION-21, learned by breaking 138 binaries) ----
@@ -167,7 +177,7 @@ def main():
             txt = open(p, errors="replace").read()
         except OSError:
             continue
-        new, n = decl_re.subn(canon, txt)
+        new, n = decl_re.subn(_canon_for, txt)
         if n and new != txt:
             open(p, "w").write(new)
             changed += n
@@ -179,7 +189,7 @@ def main():
             txt = open(p, errors="replace").read()
         except OSError:
             continue
-        left += sum(1 for m in decl_re.finditer(txt) if m.group(0) != canon)
+        left += sum(1 for m in decl_re.finditer(txt) if m.group(0) != _canon_for(m))
     print(f"rewrote {changed} declaration sites across {touched} files")
     print(f"non-canonical declarations remaining: {left}  "
           f"{'OK (axis complete)' if left == 0 else '*** HALF-AXIS — DO NOT BUILD ***'}")
