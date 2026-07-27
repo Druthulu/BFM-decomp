@@ -5527,3 +5527,47 @@ byte-truth; the `extern` is a stub-era guess), rewrite **every** site, and **ass
 `func_8015B950`'s 0-arg call is in **ONE place — `src/shared/engine_core.h`** (a `DEFINE` macro
 body) — expanded into all 926 TUs. **So that fix is a single cast, not 926 edits.** Named as the
 next step rather than run on tired context.
+
+---
+
+# 🛑 SESSION-21 CLOSING CHECKPOINT (2026-07-27) — FRESH SESSION SAFE HERE
+
+**Nothing running.** Tree clean but for the R23 `db.*.gbf` churn (never stage). HEAD **`commit:1074`**.
+**R22 clean-fleet 140/140** (run 8× this session), dedup **1886/0**, **0 NON_MATCHING** (G4).
+**FLEET: 82.0% instr · 69.5% distinct-code · 89.64% fn-count** (opened 81.7 / 69.3 / 89.52).
+
+## BANKED THIS SESSION — 416 functions
+**5 exemplars** — `func_8014D2A0` · `func_80158638` · `func_8016B6BC` · `func_8012AAAC` ·
+`func_8016AE5C` — **+ 411 family members** (274 propagation-class + `func_8012AAAC`'s full 137/137).
+
+## ▶ START HERE NEXT SESSION
+
+**1. `func_8015B950` — ONE cast, then the axis.** `conform_decls --check` located its only 0-arg
+   call site: **`src/shared/engine_core.h`** (a `DEFINE` macro body), expanded into all 926 TUs. So
+   cast THAT one line to `((s32 (*)(void))func_8015B950)()`, then
+   `conform_decls --fn func_8015B950 --draft … --apply`, gate, **R22**. Worth 37,398 templ ins.
+   Its draft also has 2 callee-decl conflicts (`func_801725A4`, `func_80147078`) → `cast_call_sites`.
+**2. `func_80179B74`** (15,318) — `conform_decls` ALLOWS it (pointer-type-only, 1,600 sites in 3
+   forms, no arity change). Apply → gate → R22.
+**3. The remaining 4 jtbl exemplars:** `func_8013BD74` (no `extern` at all — different conflict) ·
+   `func_80135260` (genuine DIFF) · `func_8013B83C` (CC1-FAIL, undiagnosed) · `func_801789AC`
+   (its run isolated it into a new subseg and banked nothing — retry clean).
+**4. SWEEP the banked exemplars ×137** — `func_8016AE5C` and the 3 earlier ones have not been swept.
+   The `--like` role guard makes this work now (`func_8012AAAC` went 0/3 → 137/137).
+**5. Resume the wave** — 9 targets never drafted; `resumeFromRunId: 'wf_6c43d703-ebb'` replays the 15
+   completed from cache. Top stakes 51,198 / 45,126 / 39,882.
+
+## ⚠️ THE RULE THIS SESSION RE-EARNED THE HARD WAY
+**A decl axis is a T2 write set and is provable ONLY by R22.** I conformed 926 decl sites, gated
+BYTE-IDENTICAL on ov_SC01_077, and broke **138 of 140** binaries. And when the first R22 flagged it,
+an individual rebuild of a "failing" binary said BYTE-IDENTICAL and I nearly filed it as a flake —
+**the second clean R22 reproduced it exactly.** An incremental pass does not refute a clean-tree
+failure. `tools/conform_decls.py` now refuses both hazards (return-consumed, 0-arg call sites) so
+this cannot be repeated by hand.
+
+## ⚠️ CARRIED DEFECTS (unchanged)
+- The **21-file absolute-include portability defect** — PhaseEnd carry item.
+- **`docs/backlog.md` is not a work queue** — 44% misfiled partials (§83).
+- **Roadmap re-baseline owed**; the 39 type-1 modules are in no phase.
+- **The ladder-vs-bare-gate asymmetry** (ladder 0/7 vs bare gate 2/7) — unexplained.
+**DO NOT close P29 on ROI** — burn-down floor still undetermined.
