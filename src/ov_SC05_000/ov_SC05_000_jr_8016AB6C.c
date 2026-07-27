@@ -1193,7 +1193,7 @@ extern s32 func_8015BE74(void);
 extern void func_80161124(void *a0);
 extern s32 func_8015BE94(s32 *a0);
 extern s32 func_8015BEC4(void);
-extern s32 func_8015B950(void);
+extern s32 func_8015B950(s32 arg0);
 extern s32 func_8015BEE4(void);
 extern void func_8015BF04(s32 *a0);
 extern void func_8015C0C4(s32 a0);

@@ -1849,9 +1849,9 @@
     }
 
 #define DEFINE_func_8015BEE4() \
-    extern s32 func_8015B950(void); \
+    extern s32 func_8015B950(s32 arg0); \
     s32 func_8015BEE4(void) { \
-        return func_8015B950(); \
+        return ((s32 (*)(void))func_8015B950)(); \
     }
 
 #define DEFINE_func_8015CCB0() \
