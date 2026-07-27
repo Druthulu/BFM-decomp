@@ -5934,10 +5934,11 @@ distinct **+127** unique fns.
   (it had cried wolf on its own by-design skip).
 
 ## ▶ START HERE NEXT SESSION
-**1. SWEEP the 2 new exemplars ×137** — `func_8014CF04` (136 members, 2 matched) and `func_8015D1B8`
-   (137 members, 1 matched). Standard path: regen the map, then
-   `family_sweep --hseq --only 0x8014CF04,0x8015D1B8 --band substantial --normalize-self-decls`.
-   *(Launched at this checkpoint; if the log `.run/s22_sweep2.log` is absent or partial, just re-run.)*
+**1. ~~SWEEP the 2 new exemplars~~ ✅ DONE — 273/273 banked, 0 failed** (`func_8014CF04` 136 +
+   `func_8015D1B8` 137). R22 clean-fleet **140/140**; dedup 1886/0. Fleet after:
+   **83.4% instr · 72.5% distinct-code · 89.95% fn-count**. NOTE: these swept cleanly across
+   `ov_SC07_006/007/010/011` — the same four overlays that refused the `func_80176218` sweep — which
+   supports treating that refusal as a per-family §59 integration signal, NOT a broken overlay set.
 **2. `func_80135EB0`** (138 members × 289 ins = **39,882** templ ins) — `conform_decls --check` shows
    418 sites in 3 forms, **pointer-type-only, NO narrowing warning**: the `func_80179B74` shape that
    banked 137/137. Highest-value single target on the list.
@@ -5956,3 +5957,19 @@ distinct **+127** unique fns.
 - **Roadmap re-baseline owed**; the 39 type-1 modules are in no phase.
 - **The ladder-vs-bare-gate asymmetry** (ladder 0/7 vs bare gate 2/7) — still unexplained.
 **DO NOT close P29 on ROI** — burn-down floor still undetermined.
+
+## ✅ T16 — both new exemplars swept 273/273 (0 failed)
+
+`family_sweep --hseq --only 0x8014CF04,0x8015D1B8 --band substantial --normalize-self-decls` →
+**BANKED 273 member-matches / 0 failed across 137 overlays.** R22 clean-fleet **140/140**;
+`make report` fail-closed green (dedup 1886/0, C1 coverage complete, 0 NON_MATCHING).
+
+**Measured delta (committed digests):** fn-count 317,898 → **318,171 (+273)** · instr-weighted
+83.2 → **83.4%** (+26,770 ins) · distinct-code 72.3 → **72.5%** (+129 unique fns).
+
+**A useful negative result:** both families swept cleanly across `ov_SC07_006/007/010/011` — the very
+overlays that refused `func_80176218`'s sweep this session. So those four are NOT a broken set; the
+earlier 4/137 refusal is family-specific (the `_jr_8016AE5C.c` carve), exactly the per-sibling
+INTEGRATION signal §59 describes rather than a codegen or overlay-level wall.
+
+**SESSION-22 running total: 3 exemplars + 406 members = 409 functions banked.**

@@ -1421,7 +1421,80 @@ DEFINE_func_8014CD0C()  /* dedup: shared engine-core @0x8014CD0C (src/shared) */
 
 DEFINE_func_8014CD80()  /* dedup: shared engine-core @0x8014CD80 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC03_121/nonmatchings/ov_SC03_121_after", func_8014CF04);
+extern s32 func_8014DD8C(s32 a0, void *a1, void *a2);
+extern s32 func_8014EA4C(void *a0, void *a1, void *a2, s32 a3);
+
+// @class: loop-guard
+// @stuck: none — MATCH (82 ins), symcheck SYMS-OK (4 symbols agree)
+//
+// Keys (template for the 137-member h_seq family):
+//  (1) THE LOOP-BOUND DUALITY. The entry guard is register-relative (`addiu $v0,$s0,0x6480` +
+//      `sltu`) but the BACK EDGE rematerialises the absolute bound (`lui/addiu %hi/%lo(D_80126720)`
+//      + `sltu`). A plain `for (p = D_801202A0; p < D_801202A0 + 0x6480; p += 0x10C)` also reaches
+//      MATCH (82 ins) under relocation masking, but it relocates the back edge against
+//      D_801202A0+0x6480 and symcheck reports `MISSING D_80126720` — i.e. it cannot be trusted to
+//      bank on the symbol set. The split form below (entry guard `p < p + 0x6480`, back edge
+//      `(u32)p < (u32)D_80126720`) yields the same 82 bytes AND the target's symbol set. This is
+//      the func_8014DD8C / engine_core.h split-guard idiom, reused verbatim.
+//  (2) TWO INDUCTION VARIABLES, secondary base +0x75. $s1 = $s0 + 0x75 is the giv gcc combines all
+//      of 0x0A/0x20/0x58/0x5C/0x74/0x75 onto (the two BYTE accesses at 0x74/0x75 force an unaligned
+//      base, so `q` must be u8*, not the s32* of the func_8014EA4C sibling). Written explicitly as
+//      `q = p + 0x75` with negative displacements (-0x6B/-0x55/-0x1D/-0x19/-0x1).
+//  (3) The `!=`-nested if ladder (not `&&`-chained, not `continue`d) reproduces the fall-through-to-
+//      .L8014D00C CFG; the success block returns 1 so both exits merge on the shared epilogue.
+//  (4) `t = *(s32 *)(q - 0x1D)` is loaded ONCE and reused as arg1 of func_80135A4C — that is why
+//      `lw $a1, -0x1D($s1)` sits at the zero-test, not at the call.
+//  (5) `& 0xFF` on the func_8014C918 result is load-bearing: it is the `andi $v1,$v0,0xFF` before
+//      `sh $v1, 0x16E($s2)` (§I2 — sh alone would not mask).
+//  Register fallout is natural, no pins needed: a0->$s2, a2->$s3, a1->$s4 (param_3 outranks param_2
+//  on allocno priority because of its 4 extra uses in the success block).
+
+extern s32 func_80135A4C(s32 a0, s32 a1, s32 *a2, s32 a3);
+extern s32 func_8014C918(s32 a0, s32 a1);
+
+s32 func_8014CF04(s32 a0, s32 a1, void *a2) {
+
+    extern u8 D_801202A0[];
+    extern u8 D_80126720[];
+    u8 *p;
+    u8 *q;
+    s32 t;
+
+    p = D_801202A0;
+    if (p < p + 0x6480) {
+        q = p + 0x75;
+    loop:
+        if (*(u16 *)p != 0) {
+            if ((*(u16 *)(q - 0x19) & 0x400) != 0) {
+                t = *(s32 *)(q - 0x1D);
+                if (t != 0) {
+                    if (p != *(u8 **)(a0 + 0x178)) {
+                        if (p != *(u8 **)(a0 + 0x174)) {
+                            if (*(s16 *)(q - 0x6B) >= *(s16 *)(a0 + 0xA)) {
+                                if (func_80135A4C(*(s32 *)(q - 0x55), t, (s32 *)a1, (s32)a2) != 0) {
+                                    *(u8 **)(a0 + 0x174) = p;
+                                    q[-1] = 1;
+                                    *(u16 *)(a0 + 6) = *(u16 *)a2;
+                                    *(u16 *)(a0 + 0xA) = *(u16 *)((u8 *)a2 + 2);
+                                    *(u16 *)(a0 + 0xE) = *(u16 *)((u8 *)a2 + 4);
+                                    *(u16 *)(a0 + 0x16E) = func_8014C918(a0, q[0]) & 0xFF;
+                                    return 1;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        p += 0x10C;
+        q += 0x10C;
+        if ((u32)p < (u32)D_80126720) {
+            goto loop;
+        }
+    }
+    return 0;
+}
+
 
 
 extern void func_8014D0A4(s32 a0);
