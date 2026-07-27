@@ -137,14 +137,46 @@ def fix(body, tu_path, fn):
     if not plan:
         return body, notes
 
+    # Group the plan by STATEMENT, not by symbol. A declaration statement can declare SEVERAL
+    # symbols — `extern u16 D_80078EB2, D_8011F82A, D_8011F82C, D_80078EB4, D_8011F8C4;` — and only
+    # one of them may conflict. Replacing the LINE with that one symbol's declaration silently
+    # DROPS the other four, and the draft then fails with `D_8011F82A undeclared` several conflicts
+    # later, pointing nowhere near the cause. Measured on func_80176218 (Phase 29 SESSION-21):
+    # 5 declarators in, 1 out, 4 lost. Re-emit every declarator — the TU's version for the ones that
+    # conflict, the draft's own for the rest.
+    by_stmt = {}
+    for _name, (_tu, _d, st) in plan.items():
+        by_stmt.setdefault(st.text, set()).add(_name)
+
     out, done = [], set()
+    dropped_check = [0, 0]                          # (declarators seen, declarators emitted)
     for line in body.split('\n'):
-        hit = next((s for s, (_t, _d, st) in plan.items()
-                    if st.text.split('\n')[0].strip() == line.strip() and s not in done), None)
-        if hit:                                     # the draft's decl line -> the TU's declaration
-            done.add(hit)
+        hit_stmt = next((s for s in by_stmt
+                         if s.split('\n')[0].strip() == line.strip() and s not in done), None)
+        if hit_stmt:                                # the draft's decl line -> conform, preserving siblings
+            done.add(hit_stmt)
             indent = re.match(r'^[ \t]*', line).group(0)
-            out.append(indent + plan[hit][0].declaration())
+            planned = by_stmt[hit_stmt]
+            try:
+                all_ds = [d for d in cdecl.parse(hit_stmt)
+                          if not (d.is_definition or d.kind == 'func' or d.storage == 'typedef')]
+            except cdecl.CDeclError:
+                all_ds = []
+            if all_ds:
+                for d in all_ds:
+                    dropped_check[0] += 1
+                    out.append(indent + (plan[d.name][0].declaration() if d.name in planned
+                                         else d.declaration()))
+                    dropped_check[1] += 1
+                if len(all_ds) > 1:
+                    notes.append(f'multi-declarator statement preserved: '
+                                 f'{len(all_ds)} symbol(s), {len(planned)} conformed')
+            else:                                   # unparseable — emit what we planned, and SAY so
+                notes.append(f'!! could not re-parse a planned decl statement; emitted only the '
+                             f'{len(planned)} conformed symbol(s) — siblings may be lost: '
+                             f'{line.strip()[:70]}')
+                for nm in sorted(planned):
+                    out.append(indent + plan[nm][0].declaration())
             continue
         if re.match(r'\s*(extern|typedef)\b', line):
             out.append(line)                        # never cast inside a declaration line

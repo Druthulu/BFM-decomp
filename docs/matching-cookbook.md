@@ -6958,3 +6958,38 @@ copies. Byte-gate the lift ALONE first (it must be neutral — it was, `d19c9580
 > **Cost of not doing this:** this family sat recorded as a bimodal "doesn't template" case across
 > two sessions. The whole diagnosis, once pointed at one sibling's real stderr, took under an hour
 > and was worth 137 members.
+
+## §95 — `reconcile_tu` dropped the SIBLING declarators of a multi-symbol `extern` line (Phase 29 SESSION-21, `func_80176218`)
+
+`reconcile_tu` conforms a draft's DATA declarations to what the target TU can see — the right
+question (§ the retired `reconcile_decls` asked the fleet, which has no single answer). Its rewrite
+replaced the draft's **declaration LINE** with the TU's declaration of the conflicting symbol. But a
+declaration statement can declare SEVERAL symbols:
+
+```c
+extern u16 D_80078EB2, D_8011F82A, D_8011F82C, D_80078EB4, D_8011F8C4;   /* only EB4 conflicts */
+```
+became
+```c
+extern s16 D_80078EB4;                                                    /* four symbols GONE */
+```
+
+**Why it was hard to see:** the draft does not fail at the declaration. It fails later with
+`D_8011F82A undeclared (first use this function)` — pointing at a USE, several conflicts down a
+peeling chain, nowhere near the cause. I peeled four separate "next conflicts" out of this one draft
+before dumping ALL cc1 errors in a single build and seeing three undeclared symbols that the tool
+itself had removed.
+
+**Fix:** group the plan by STATEMENT rather than by symbol, then re-emit **every** declarator — the
+TU's version for the ones that conflict, the draft's own for the rest — and note when a
+multi-declarator statement is touched. When the statement cannot be re-parsed, say so loudly instead
+of emitting only the planned symbols. After the fix the same draft reconciles **3** symbols rather
+than 2: the dropped declarators had been hiding a further conflict.
+
+> **The law (R32, again):** a transform that REPLACES a syntactic unit must account for everything
+> that unit contained. Line-granular rewriting of C declarations is wrong by construction — the
+> statement, not the line, is the unit, and a statement can hold N declarators.
+>
+> **Diagnostic worth reusing:** when a draft fails in a chain, stop peeling one error per gate cycle.
+> Splice it once and dump EVERY cc1 error — the shape of the whole set names the cause
+> (three `undeclared` symbols that share one original declaration line is not three problems).
