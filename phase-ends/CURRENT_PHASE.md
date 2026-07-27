@@ -4952,3 +4952,89 @@ one session."* The address was never actually missing — `func_80174CB0` states
   logged once each way produced **two** "best" records. Now keyed on the derived address.
 - **Measured:** rows keyable **128/1,701 (7.5%) → 1,701/1,701 (100%)**; coverage assertion PASSES;
   `load_best` → 1,689 open records.
+
+## ⚠️ R14 CORRECTION TO MY OWN T2 ROUTE TABLE (caught within the hour, recorded not silently fixed)
+
+The T2 table above ordered its if-chain with `jr` FIRST, so any family carrying a mid-jr was
+bucketed as "jr → §81 carve chain" **regardless of whether its exemplar needed a crack at all**.
+That conflated two orthogonal axes and under-reported the zero-crack pool by 15 families.
+
+**The corrected split — the primary axis is "does the exemplar need a CRACK?", and the sweep path
+(plain vs §81 carve) is ORTHOGONAL to it:**
+
+| primary | fams | templ ins | share |
+|---|---|---|---|
+| NEEDS A CRACK | 1,280 | 1,039,542 | 80.1% |
+| **ZERO-CRACK (exemplar already matched)** | **60** | **208,499** | **16.1%** |
+| permanent walls | 2 | 50,094 | 3.9% |
+
+| cross-tab (the real work map) | fams | templ ins |
+|---|---|---|
+| draft + cached Ghidra-C, plain sweep | 91 | 371,053 |
+| draft + NO cache, plain sweep | 1,023 | 356,425 |
+| draft + cached Ghidra-C, **jr sweep** | 32 | 251,685 |
+| **matched exemplar, jr sweep** | **15** | **123,482** |
+| **matched exemplar, plain sweep** | **45** | **85,017** |
+| draft + NO cache, jr sweep | 134 | 60,379 |
+
+**⇒ The zero-crack pool is 60 families / 208,499 ins (8.9% of ALL remaining weighted ins), not the
+45 / 85,017 my first table implied.** It needs NO drafting — remap + preamble + gate — and 15 of the
+60 simply need the §81 carve chain that SESSION-20 proved 5×. Queued as the next zero-token lever
+(blocked only because it builds, and the wave holds `asm/`).
+
+*Why this is written down rather than quietly corrected: this is the same shape as SESSION-20's
+"FREE pool" framing error — a classification presented as a route. The lesson that stuck there was
+that the label must name the ACTUAL blocker; here an if-chain's ORDER silently became the label.*
+
+## ▶ THE ZERO-CRACK POOL, ENUMERATED AND HONESTLY DISCOUNTED (`.run/s21_zerocrack.json`)
+
+60 families / 208,499 templ ins, split 45 plain (85,017) + 15 jr (123,482). Value is concentrated —
+the plain top-4 hold 72% of the plain pool, the jr top-3 hold 74% of the jr pool — **and those top
+entries are precisely the ones already known to refuse.** Discounting BEFORE the sweep, not after:
+
+| exemplar | templ ins | status from prior sessions |
+|---|---|---|
+| `0x8013c414` (jr) | 45,073 | **-O0 family** — blocked by the fleet-scale carve's splat `%lo` re-disassembly sensitivity (Arm A proved the members DO bank 9/9 on one overlay; the blocker is build-infra, characterized, deferred on ROI) |
+| `0x80144090` | 20,944 | **LENGTH-DRIFT +13 B / ~3 ins** — SESSION-20 diagnosed this as genuine codegen, explicitly "not mechanical" |
+| `0x80133ab0` | 18,084 | **pinned exemplar** — refused outright by the §42e guard in T0.2; per §86 retry under `--allow-pins` with a ONE-member probe first |
+| `0x8014cf04` | 11,234 | prior attempt close=27 (WAVE) |
+| `0x8014032c` (jr) | 25,071 | untried this phase — the best clean jr candidate |
+| `0x8013c0f8` (jr) | 21,098 | untried this phase |
+| `0x80143d28` | 10,880 | untried this phase — the best clean plain candidate |
+
+**⇒ Do NOT quote 208,499 as the available win.** ~95k of it is already-diagnosed blocked or
+length-drifted. The genuinely untried head is roughly `0x8014032c` + `0x8013c0f8` + `0x80143d28`
+≈ 57k ins, plus a long ×2–×20 tail. Per §86 the procedure is **one-member probe per family, then
+sweep or skip** — never a blanket run (SESSION-20's blanket run spent ~412 futile cycles, 60%, on
+dead families).
+
+## ✅ T3d — ENDGAME-MAP CORRECTION: bucket #2 (main EXE) over-states its remaining work by ~47%
+
+Measuring main to prepare bucket #2 surfaced a conflation in the SESSION-20 endgame map, which
+lists *"main EXE game code — ~59,765 ins / ~1,048 stubs"*. Those two numbers are not the same
+population:
+
+| main | stubs | weighted ins |
+|---|---|---|
+| **game code** (the actual work) | **1,042** | **31,888** measurable + 467 stubs with no sig row |
+| **LINKED PsyQ library** (already byte-identical via the object link, Phase 8) | 960 | 27,877 |
+| total INCLUDE_ASM lines in main | 2,002 | 59,765 |
+
+The stub count (1,048) was game-code-only; the instruction count (59,765) was game code **plus the
+linked libraries**. A LINKED stub is not outstanding work — it builds byte-identically from the real
+PsyQ object (and from the committed asm fallback on a fresh clone). **So bucket #2's real size is
+~31,888 measurable ins + the 467 unmeasured, not 59,765.**
+
+Caveat kept explicit: 467 of the 1,042 game-code stubs have **no sig row** — that is the documented
+main second-oracle gap (`sig_is_independent('main')` is False; `sig_image` cannot yet sign the EXE —
+0x800 header offset, interleaved data islands). So main's true game-code weight is *above* 31,888 and
+is not currently measurable. Bucket #2 should be re-priced when the main second oracle lands, not
+quoted from either number alone.
+
+**A fail-open tool was the reason this was easy to get wrong — now fixed (R32):**
+`progress.linked_subsegs()` is gated on the module global `BINARY` that `set_binary()` assigns.
+Imported as a *library* without that call it returned an **empty set** — "this binary has no linked
+library subsegs", which for `main` is confidently wrong (there are 49), and silently reclassifies
+~960 already-byte-identical library stubs as outstanding game-code work. It now **raises** when
+unconfigured. The CLI path is unaffected (`set_binary` assigns `BINARY` before calling it).
+I hit this defect myself, in the first five minutes of using it — which is the argument for the fix.

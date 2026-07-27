@@ -333,6 +333,17 @@ def linked_subsegs():
     `ifeq ($(BINARY),main)` block (PsyQ library linking is the EXE's layout — Phase 8), so only
     `main` has LINKED subsegs. A second binary (e.g. resident) has none. When a future binary gains
     its own gated integration, parse that gate here instead of the main-only shortcut."""
+    # FAIL-CLOSED on an unconfigured module (R32). This function is gated on the module global
+    # BINARY, which set_binary() assigns; imported as a LIBRARY without that call it used to
+    # return an empty set — i.e. "this binary has no linked library subsegs", which for `main` is a
+    # confidently WRONG answer (there are 49). An importer then classifies ~1,300 already-
+    # byte-identical LINKED library stubs as outstanding game-code work. Silent, and exactly the
+    # shape R32 exists for; caught 2026-07-27 by an importer (mine) that hit it.
+    # set_binary() assigns BINARY before calling this, so the CLI path is unaffected.
+    if BINARY is None:
+        raise RuntimeError(
+            "progress.linked_subsegs(): module not configured — call progress.set_binary(<binary>) "
+            "first. Returning an empty set here would silently claim 'no linked subsegs'.")
     if BINARY != "main":
         return set()
     if not MAKEFILE.exists():
