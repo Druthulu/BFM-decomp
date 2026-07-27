@@ -5038,3 +5038,46 @@ library subsegs", which for `main` is confidently wrong (there are 49), and sile
 ~960 already-byte-identical library stubs as outstanding game-code work. It now **raises** when
 unconfigured. The CLI path is unaffected (`set_binary` assigns `BINARY` before calling it).
 I hit this defect myself, in the first five minutes of using it — which is the argument for the fix.
+
+## ✅ T3e — `tools/reloc_verify.py` PROMOTED (the SESSION-20 carry item), and it took TWO of its own bugs to trust it
+
+SESSION-20 flagged `.run/giants/s21_g21_reloc_verify.py` as *"promote to tools/ — it closes 3 of the
+4 blindness classes before a gate cycle is spent."* Done. It resolves EVERY relocation in a draft —
+`jal` callees, `%hi`/`%lo` data addresses (recovering the implicit REL addend `objdump -r` does not
+print, which IS the §84 trap), and internal `j` destinations — and compares each to what the target
+names at the same instruction index. The base vram is now DERIVED from the target `.s` (R33; it was
+hard-coded to one function) and the parse is coverage-asserted (R32: a target that parses to zero
+instructions refuses to report a verdict instead of reading "ALL RESOLVED").
+
+**It reported 5 false alarms before it reported anything true. Both causes were mine, both were
+found by cross-checking against `masked_diff` (R34 — the second oracle earning its keep again):**
+1. **`objdump -dr` instead of `-drz`.** Without `-z`, objdump ELIDES runs of identical instructions,
+   silently dropping them from the listing. `func_801330E0` read **104** instructions under `-dr`
+   and **110** under `-drz` (6 elided nops) — so every index after the first nop run compared
+   against the WRONG instruction. `masked_diff` has always used `-drz`. **A comparison tool must
+   share its reference oracle's index space exactly**; mine did not, and it manufactured mismatches.
+2. **The `.s` word field is little-endian HEX TEXT**, not the instruction integer. `masked_diff`
+   byte-swaps it (`struct.unpack("<I", …)`); I compared the unswapped value and reported
+   "word differs" on three sites that are byte-IDENTICAL (`3C038000` vs `3C038000`).
+
+**What it says once correct — and this is a real routing signal:** of the drafts checked, the
+`match_one`-MATCH ones split into two groups. `func_8012AAAC`, `func_8013B83C`, `func_8013BD74` are
+**ALL RESOLVED + JTBL** — their `%hi/%lo` names a splat `jtbl_<addr>` and gcc emits its own switch
+table via a LOCAL label, so there is nothing to relocate. That is expected, and it is exactly the
+§81 signal: **those bank through the jtbl carve chain, never a plain `harvest_verify`.** Knowing
+that before the gate is the whole point of the tool. `func_801330E0` is ALL RESOLVED with no jtbl →
+plain gate. `func_8014D820` is ALL RESOLVED but `match_one` DIFF → its residual is pure codegen,
+not symbols.
+
+The tool now classifies rather than alarms: **JTBL** (expected, routes to §81) · **BAKED-LITERAL**
+(the compiler materialised the same constant inline — byte-correct here, but if that symbol is
+per-overlay the exemplar matches and every SIBLING breaks, the §84 shape) · **mismatch** (real).
+
+## ⚠️ §87 STALENESS, OBSERVED LIVE — do not measure a wave's drafts while the wave is running
+
+I cross-checked the landed drafts mid-wave and got a *different* answer for `func_80135260` two
+minutes apart. Cause: the agent rewrote its draft at 00:04:53, twelve seconds before my run. §87
+says a stored draft is *"a claim with a timestamp"*; during a live wave that timestamp is **now**,
+so any pre-completion measurement describes a file that no longer exists. **Draft QA happens after
+the wave returns, never during.** (The tool validation above stands — it was cross-checked against
+`masked_diff` on the same bytes, not against a moving file.)
