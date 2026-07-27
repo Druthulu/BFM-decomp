@@ -3289,7 +3289,86 @@ Lend:
 
 DEFINE_func_80179B28()  /* dedup: shared engine-core @0x80179B28 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC03_024/nonmatchings/ov_SC03_024_jr_80178D40", func_80179B74);
+extern short D_801DA710;
+extern void func_8017A4AC(void);
+
+// @class: schedule
+// @stuck: none — MATCH (111 ins). symcheck: data syms CLEAN (D_801C0D00/D_801C1104, 0 INVENTED); its lone MISSING is jtbl_801D8F9C, the COMPILER-emitted table ($L17 -> .rdata) — banking needs the §8a/§8e rodata-island flip (35 entries, .align 3), not a source-side ref.
+/* func_80179B74 (ov_SC01_077) — command-queue WRITER: copies the opcode + its
+ * operand halfwords from *p into the 0x200-entry ring D_801C0D00 at write index
+ * D_801C1104.  Mirror of the reader func_8017A4AC (same ring, read index D_801DA710).
+ *
+ * Three levers were needed on top of the obvious shape (each byte-proven here):
+ *  1. jtbl SPAN — the target's table is 35 entries (0..0x22) with NO `addiu a0,a0,-1`
+ *     bias and `sltiu v0,a0,0x23`, so the source must contain an empty `case 0:` and
+ *     an empty `case 0x22:`; without them gcc biases by -1 and emits sltiu 0x20.
+ *  2. SCHEDULE — the operand push must route through a NAMED block-scoped temp
+ *     (`{ s16 t = *p++; ring[idx] = t; ... }`).  Written as the anonymous
+ *     `ring[idx] = *p++;` the sched1 pass puts the `lh D_801C1104` ahead of the
+ *     `lhu 0(a1)` in exactly the two blocks that also carry a live `addiu a1,a1,2`
+ *     (cases {1,5} and {0x17,0x1c,0x1d,0x20}) — 6 of the 8 residual mismatches.
+ *     The temp gives the loaded value its own pseudo and flips those two blocks.
+ *  3. FRAME — the target reserves 0x80 with NO saves and NO spills; gcc's own
+ *     (unused) area for this body is 0x58, so +0x28 of address-taken local is
+ *     required: `s32 pad[10]; (void)&pad;` (cookbook §17 phantom-frame INDUCE
+ *     lever).  10 words exactly; 8 -> 0x78 and 12 -> 0x88 both miss.
+ *
+ * Case-block ORDER in the source is the emitted block order: {1,5} then {0x13}
+ * then {2,3,4,6,0x12,0x14,0x1f} then {0x17,0x1c,0x1d,0x20}.  The 3-/2-/1-push
+ * tails are then cross-jump merged (no calls, so §88 does not block it) into the
+ * shared .L80179CE4 / .L80179D08 tail that sits after the last case block.
+ *
+ * Symbols are the splat spellings and match the sibling TU ov_SC01_077_jr_8017A4AC.c
+ * (`extern u16 D_801C0D00[0x200];` / `extern s16 D_801C1104;`) so the whole-binary
+ * link and any one-big-TU build see one consistent type.
+ */
+
+extern u16 D_801C0D00[0x200];
+extern s16 D_801C1104;
+
+void func_80179B74(u16 *p) {
+    s32 pad[10];
+    s16 c;
+
+    (void)&pad;
+    c = *p++;
+    D_801C0D00[D_801C1104] = c;
+    D_801C1104 = (D_801C1104 + 1) & 0x1FF;
+    switch (c) {
+    case 0:
+        break;
+    case 1:
+    case 5:
+        { s16 t = *p++; D_801C0D00[D_801C1104] = t; D_801C1104 = (D_801C1104 + 1) & 0x1FF; }
+        { s16 t = *p++; D_801C0D00[D_801C1104] = t; D_801C1104 = (D_801C1104 + 1) & 0x1FF; }
+        { s16 t = *p++; D_801C0D00[D_801C1104] = t; D_801C1104 = (D_801C1104 + 1) & 0x1FF; }
+        break;
+    case 0x13:
+        { s16 t = *p++; D_801C0D00[D_801C1104] = t; D_801C1104 = (D_801C1104 + 1) & 0x1FF; }
+        { s16 t = *p++; D_801C0D00[D_801C1104] = t; D_801C1104 = (D_801C1104 + 1) & 0x1FF; }
+        break;
+    case 2:
+    case 3:
+    case 4:
+    case 6:
+    case 0x12:
+    case 0x14:
+    case 0x1F:
+        { s16 t = *p++; D_801C0D00[D_801C1104] = t; D_801C1104 = (D_801C1104 + 1) & 0x1FF; }
+        break;
+    case 0x17:
+    case 0x1C:
+    case 0x1D:
+    case 0x20:
+        { s16 t = *p++; D_801C0D00[D_801C1104] = t; D_801C1104 = (D_801C1104 + 1) & 0x1FF; }
+        { s16 t = *p++; D_801C0D00[D_801C1104] = t; D_801C1104 = (D_801C1104 + 1) & 0x1FF; }
+        { s16 t = *p++; D_801C0D00[D_801C1104] = t; D_801C1104 = (D_801C1104 + 1) & 0x1FF; }
+        { s16 t = *p++; D_801C0D00[D_801C1104] = t; D_801C1104 = (D_801C1104 + 1) & 0x1FF; }
+        break;
+    case 0x22:
+        break;
+    }
+}
 
 DEFINE_func_80179D30()  /* dedup: shared engine-core @0x80179D30 (src/shared) */
 
