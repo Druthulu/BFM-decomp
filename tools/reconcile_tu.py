@@ -137,47 +137,66 @@ def fix(body, tu_path, fn):
     if not plan:
         return body, notes
 
+    # Locate each planned declaration by its SOURCE SPAN — never by re-finding its text.
+    # `split_statements` preserves spans precisely because drafts get rewritten, and the text it
+    # hands back is comment-STRIPPED: `extern u8  D_80078E78;` for a line that actually reads
+    # `extern u8  D_80078E78;   /* cur base ($s5) */`. Matching statement-text against line-text
+    # therefore misses EVERY commented declaration — and it misses it in the worst possible way,
+    # SILENTLY: the uses are still cast to the draft's intended view while the declaration stays
+    # unconformed, so cc1 reports `conflicting types` at the very decl the tool believed it had
+    # just fixed, and the tool reports success. (Measured on func_80176218, Phase 29 SESSION-22.)
+    #
     # Group the plan by STATEMENT, not by symbol. A declaration statement can declare SEVERAL
     # symbols — `extern u16 D_80078EB2, D_8011F82A, D_8011F82C, D_80078EB4, D_8011F8C4;` — and only
-    # one of them may conflict. Replacing the LINE with that one symbol's declaration silently
+    # one of them may conflict. Replacing the statement with that one symbol's declaration silently
     # DROPS the other four, and the draft then fails with `D_8011F82A undeclared` several conflicts
     # later, pointing nowhere near the cause. Measured on func_80176218 (Phase 29 SESSION-21):
     # 5 declarators in, 1 out, 4 lost. Re-emit every declarator — the TU's version for the ones that
     # conflict, the draft's own for the rest.
-    by_stmt = {}
+    by_span = {}
     for _name, (_tu, _d, st) in plan.items():
-        by_stmt.setdefault(st.text, set()).add(_name)
+        by_span.setdefault((st.start, st.end), set()).add(_name)
 
-    out, done = [], set()
-    dropped_check = [0, 0]                          # (declarators seen, declarators emitted)
-    for line in body.split('\n'):
-        hit_stmt = next((s for s in by_stmt
-                         if s.split('\n')[0].strip() == line.strip() and s not in done), None)
-        if hit_stmt:                                # the draft's decl line -> conform, preserving siblings
-            done.add(hit_stmt)
-            indent = re.match(r'^[ \t]*', line).group(0)
-            planned = by_stmt[hit_stmt]
-            try:
-                all_ds = [d for d in cdecl.parse(hit_stmt)
-                          if not (d.is_definition or d.kind == 'func' or d.storage == 'typedef')]
-            except cdecl.CDeclError:
-                all_ds = []
-            if all_ds:
-                for d in all_ds:
-                    dropped_check[0] += 1
-                    out.append(indent + (plan[d.name][0].declaration() if d.name in planned
-                                         else d.declaration()))
-                    dropped_check[1] += 1
-                if len(all_ds) > 1:
-                    notes.append(f'multi-declarator statement preserved: '
-                                 f'{len(all_ds)} symbol(s), {len(planned)} conformed')
-            else:                                   # unparseable — emit what we planned, and SAY so
-                notes.append(f'!! could not re-parse a planned decl statement; emitted only the '
-                             f'{len(planned)} conformed symbol(s) — siblings may be lost: '
-                             f'{line.strip()[:70]}')
-                for nm in sorted(planned):
-                    out.append(indent + plan[nm][0].declaration())
-            continue
+    pieces, pos = [], 0
+    seen = emitted = 0                              # declarators IN vs OUT — asserted below (R32)
+    for (a, b) in sorted(by_span):
+        planned, stmt = by_span[(a, b)], body[a:b]
+        ls = body.rfind('\n', 0, a) + 1             # this statement's own indentation
+        indent = body[ls:a] if not body[ls:a].strip() else ''
+        try:
+            all_ds = [d for d in cdecl.parse(stmt)
+                      if not (d.is_definition or d.kind == 'func' or d.storage == 'typedef')]
+        except cdecl.CDeclError:
+            all_ds = []
+        if all_ds:
+            decls = [(plan[d.name][0] if d.name in planned else d).declaration() for d in all_ds]
+            seen += len(all_ds)
+        else:                                       # unparseable — emit what we planned, and SAY so
+            notes.append(f'!! could not re-parse a planned decl statement; emitting only the '
+                         f'{len(planned)} conformed symbol(s) — siblings may be lost: {stmt[:70]}')
+            decls = [plan[nm][0].declaration() for nm in sorted(planned)]
+            seen += len(planned)
+        emitted += len(decls)
+        if len(decls) > 1:
+            notes.append(f'-- multi-declarator statement preserved: {len(decls)} symbol(s), '
+                         f'{len(planned)} conformed')
+        pieces.append(body[pos:a])
+        pieces.append(('\n' + indent).join(decls))
+        pos = b
+    pieces.append(body[pos:])
+    conformed = ''.join(pieces)
+
+    # R32 — ASSERT THE CONFORM LANDED. The bug this replaced was not a crash but a reported success,
+    # so the counter that would have caught it has to be COMPARED, not merely incremented.
+    if emitted < seen:
+        notes.append(f'!! dropped {seen - emitted} declarator(s) while conforming')
+    for nm, (tu, _d, _st) in plan.items():
+        if tu.declaration() not in conformed:
+            notes.append(f'!! {nm}: planned conform to {tu.type!r} did NOT land in the output '
+                         f'(its uses would be cast against a declaration that was never rewritten)')
+
+    out = []
+    for line in conformed.split('\n'):
         if re.match(r'\s*(extern|typedef)\b', line):
             out.append(line)                        # never cast inside a declaration line
             continue
@@ -207,7 +226,7 @@ def main():
         new, notes = fix(open(p).read(), tu_for(a.overlay, fn, override), fn)
         open(os.path.join(REPO, a.outdir, os.path.basename(p)), 'w').write(new)
         drafts += 1
-        n = sum(1 for x in notes if not x.startswith('!!'))
+        n = sum(1 for x in notes if not x.startswith(('!!', '--')))   # '--' = informational, not a symbol
         defects += sum(1 for x in notes if x.startswith('!!'))
         if n:
             touched += 1

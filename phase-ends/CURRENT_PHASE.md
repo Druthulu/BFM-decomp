@@ -5726,3 +5726,55 @@ here, with cookbook §92/§93 written in-session (R30).
 - **My shell `grep` silently returned nothing mid-session** (rc=0, no output, piped). Diagnostics
   moved to Python. No banked result was affected — the byte-gate does not read shell output.
 **DO NOT close P29 on ROI** — burn-down floor still undetermined.
+
+---
+
+# SESSION-22 (2026-07-27)
+
+> **First: closing the checkpoint gap.** Two SESSION-22 commits landed *after* the SESSION-21 FINAL
+> CHECKPOINT and were recorded only in commit messages, leaving this file stale for that stretch
+> (the exact defect Drew caught between T11 and T12):
+> - `commit:1089` — **`func_8016B6BC` 0/137 → 137/137.** Not a wall: a TYPE-CARRY failure. cc1 reported
+>   ordinary locals (`c`, `v`, `off`) undeclared because it aborted the declaration block at an
+>   unknown TYPE. **The lift must be TRANSITIVE** — the real set was four, found by following each
+>   definition's own references: `M8_8016B6BC → Prim_8016B6BC → Vtx_8016B6BC` (named only inside
+>   Prim's body) `→ DVec_8016B6BC`. Cookbook §94. Read the FIRST error, not the loudest.
+> - `commit:1090` — **`reconcile_tu` dropped the sibling declarators** of a multi-symbol `extern` line.
+>   Cookbook §95.
+
+## ✅ T13 — `func_80176218` BANKED (327 ins ×138 = 45,126 templated ins) + the §96 tool fix
+
+The wave-2 remainder that had been failing in a *chain*, one "next conflict" per gate cycle. Applied
+§95's own diagnostic law instead: splice once, dump EVERY cc1 error, read the shape of the whole set.
+**Three errors, two axes** — one data-decl (`D_80078E78`) and two callee-decls
+(`func_80177AD4`, `func_80178298`) — visible together, in one build.
+
+### 🔧 The data error was `reconcile_tu` again, one shape down (cookbook §96)
+`split_statements` returns comment-STRIPPED text **with spans**; the rewrite re-found each planned
+statement by comparing that text to a raw LINE. `extern u8  D_80078E78;   /* cur base ($s5) */`
+therefore never matched — so the decl was left unconformed **while the use-cast pass still fired**,
+producing a draft whose uses are cast for the TU's storage against the draft's own declaration. cc1
+then reports `conflicting types` **at the very declaration the tool just claimed to fix**, exit 0,
+`reconciled: 3 symbols`.
+
+- **Fixed by rewriting by SPAN** — `split_statements` preserves `start`/`end` *precisely because
+  drafts get rewritten*; its docstring says so. The primitive existed; the code re-found the text.
+- **R32 assertion added.** The old code had a `dropped_check` counter incremented in two places and
+  **never compared** — the "loud failure nobody counts" shape in miniature. Now declarators-in vs
+  -out **plus** a per-symbol check that each planned `tu.declaration()` is present in the output,
+  both emitting `!!` notes so `--strict` exits non-zero.
+- Also: informational notes now carry a `--` prefix so they stop inflating the reported symbol count.
+- **Measured:** 3 → **4** data symbols reconciled on the same draft; trailing comments preserved (H5).
+
+### The two callee conflicts were the other axis, not a wall
+`reconcile_tu` skips `kind == 'func'` by construction. `cast_call_sites` (§20) took both:
+`func_80177AD4` (TU `void (int, unsigned int)` vs draft `void (s32, s32)`) and `func_80178298`
+(TU `(u32*, u8*, short, short)` vs draft `(u32*, u8*, s32, s32)`) — decl conformed to the TU,
+call site cast to the draft's intended widths (which is what the draft's bytes were compiled
+against, so it is byte-neutral by construction and the gate arbitrates anyway).
+
+**Gate: verified 1 / failed 0, `d19c9580` BYTE-IDENTICAL.**
+
+**Blast radius (§63/§85):** the bank's write set is `src/ov_SC01_077/ov_SC01_077_jr_801734BC.c`
+alone — **T1 binary-local**, so the per-binary gate is sufficient by the taxonomy. The family sweep
+that follows is the T2 case and takes a full R22.

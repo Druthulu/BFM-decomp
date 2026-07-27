@@ -6993,3 +6993,51 @@ than 2: the dropped declarators had been hiding a further conflict.
 > **Diagnostic worth reusing:** when a draft fails in a chain, stop peeling one error per gate cycle.
 > Splice it once and dump EVERY cc1 error — the shape of the whole set names the cause
 > (three `undeclared` symbols that share one original declaration line is not three problems).
+
+## §96 — The same rewrite, one shape down: `reconcile_tu` matched statements to lines by TEXT, so every COMMENTED declaration was silently skipped (Phase 29 SESSION-22, `func_80176218` banked)
+
+§95 fixed *what* the rewrite emitted (every declarator of the statement, not just the conflicting
+one). It did not fix *how the statement was located*, and that was the second half of the same bug.
+
+`cdecl.split_statements` returns **comment-stripped** text with **spans**:
+
+```python
+Stmt('extern u8  D_80078E78;' @ 4171:4193)      # the line reads
+                                                #   extern u8  D_80078E78;   /* cur base ($s5) */
+```
+
+The rewrite re-found each planned statement by `stmt.text.strip() == line.strip()`. For any
+declaration carrying a trailing comment that test is **false**, so:
+
+- the declaration was **left unconformed**, while
+- the use-cast pass (a separate loop, keyed off the same plan) **still fired**,
+
+producing a draft whose uses are cast for the TU's storage against a declaration that still has the
+draft's — i.e. a guaranteed `conflicting types`, reported by cc1 **at the very declaration the tool
+had just claimed to fix**, with the tool exiting 0 and printing `reconciled: N symbols`.
+
+**Fix:** rewrite by SPAN. `split_statements` preserves `start`/`end` *precisely because drafts get
+rewritten* — its own docstring says so. The primitive was there; the code re-found the text instead.
+
+**And assert it landed (R32).** The old code even had a `dropped_check` counter — incremented in two
+places and **never compared**, which is the R32 "a loud failure nobody counts is exactly as invisible
+as a silent one" shape in miniature. Now: declarators-in vs declarators-out, plus a per-symbol check
+that each planned `tu.declaration()` is actually present in the output, each emitting a `!!` note
+(so `--strict` exits non-zero).
+
+**Measured:** `func_80176218` went 3 → **4** data symbols reconciled and then **banked** whole-binary
+(327 ins, ×138 = 45,126 templated instructions), after two gate cycles that had each reported a
+different "next conflict".
+
+> **The law, sharpened from §95:** locating a syntactic unit and rewriting it are the same
+> obligation. If you have spans, use them — re-finding a unit by its own text silently reintroduces
+> every lexical difference (comments, whitespace, line breaks) as a miss. And when a transform can
+> partially apply (decl not rewritten / uses rewritten), the partial state is worse than no-op,
+> because it manufactures an error at a location the tool believes it already handled.
+>
+> **Corollary for the ladder:** `reconcile_tu` owns DATA declarations only (it skips `kind == 'func'`
+> by construction). Function-decl conflicts in the same draft are `cast_call_sites`' axis (§20), and
+> the two compose cleanly in either order — they touch disjoint symbol classes. `func_80176218`
+> needed both: 4 data symbols conformed, then 2 callees (`func_80177AD4` `void (int, unsigned int)`,
+> `func_80178298` `(u32*, u8*, short, short)`) decl-conformed + call-site-cast to the draft's
+> intended widths.
