@@ -72,7 +72,7 @@ extern void MoveImage(void *a0, s32 a1, s32 a2);
 extern void func_80146074(void);
 extern s32 func_80146128(void);
 extern void func_80146360(void);
-extern void func_801463A0(void);
+extern void func_801463A0();
 extern void func_8014607C(void);
 extern s32 *D_80126B78;
 extern u8 D_80078EC1;
@@ -2841,7 +2841,54 @@ s32 func_8017B368(s32 param)
 
 
 
-INCLUDE_ASM("asm/ov_SC03_103/nonmatchings/ov_SC03_103_jr_8017AE2C", func_8017B490);
+
+
+s32 func_8017B490(s32 param)
+{
+    extern void func_8017BA3C(s32 param_1, s32 param_2);
+    extern void func_8012F214(s32 a0, s32 a1, s32 a2);
+    extern SV4_8017B368 D_801C4A94;
+    extern SV4_8017B368 D_801C4A9C;
+    extern s16 D_801C4AEC;
+    extern s16 D_801C4AE4;
+    extern u16 D_80187A70;
+    extern s16 D_801C4A74;
+    extern s16 D_801C4D60;
+    extern s32 D_80126984;
+    extern s32 D_80126988;
+    extern s32 D_8012698C;
+    extern s32 D_80126990;
+    extern s32 D_80126994;
+    extern s32 D_80126998;
+
+    SV4_8017B368 loc0;
+    SV4_8017B368 loc1;
+    u32 n = (u32)&D_801C4A94;
+
+    ((void (*)(void))func_8017BA3C)();
+
+    if (n >= 0xB) {
+        loc0 = *(SV4_8017B368 *)n;
+        loc1 = D_801C4A9C;
+    } else {
+        s32 ax = (s32)&((Pair16 *)&D_80187A70)[n].x;
+        s32 ay = (s32)&((Pair16 *)&D_80187A70)[n].y;
+        func_8012F214(param, ax, (s32)&loc0);
+        func_8012F214(param, ay, (s32)&loc1);
+    }
+
+    (*(SV4_8017B368 *)&D_801C4AEC) = loc0;
+    (*(SV4_8017B368 *)&D_801C4AE4) = loc1;
+    D_801C4D60 = 1;
+    D_801C4A74 = 0x1E;
+    D_80126990 = (*(SV4_8017B368 *)&D_801C4AEC).a;
+    D_80126994 = (*(SV4_8017B368 *)&D_801C4AEC).b;
+    D_80126998 = (*(SV4_8017B368 *)&D_801C4AEC).c;
+    D_80126984 = (*(SV4_8017B368 *)&D_801C4AE4).a;
+    D_80126988 = (*(SV4_8017B368 *)&D_801C4AE4).b;
+    D_8012698C = (*(SV4_8017B368 *)&D_801C4AE4).c;
+}
+
 
 // @class: regalloc-order + T1 memcpy-builtin→call re-crack
 // @stuck: 0 (iso). Register lever = $16 pin + in-place re-tie on the memcpy-branch src (keeps

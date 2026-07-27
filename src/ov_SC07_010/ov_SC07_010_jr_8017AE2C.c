@@ -426,7 +426,7 @@ extern void MoveImage(void *a0, s32 a1, s32 a2);
 extern void func_80146074(void);
 extern s32 func_80146128(void);
 extern void func_80146360(void);
-extern void func_801463A0(void);
+extern void func_801463A0();
 extern void func_8014607C(void);
 extern s32 *D_80126B78;
 extern u8 D_80078EC1;

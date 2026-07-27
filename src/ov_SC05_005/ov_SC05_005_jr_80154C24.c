@@ -60,7 +60,7 @@ extern void MoveImage(void *a0, s32 a1, s32 a2);
 extern void func_80146074(void);
 extern s32 func_80146128(void);
 extern void func_80146360(void);
-extern void func_801463A0(void);
+extern void func_801463A0();
 extern void func_8014607C(void);
 extern s32 *D_80126B78;
 extern u8 D_80078EC1;
@@ -1219,7 +1219,46 @@ INCLUDE_ASM("asm/ov_SC05_005/nonmatchings/ov_SC05_005_jr_80154C24", func_8015660
 
 DEFINE_func_80156648()  /* dedup: shared engine-core @0x80156648 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC05_005/nonmatchings/ov_SC05_005_jr_80154C24", func_80156670);
+extern void func_80156B74(s32 param_1, u32 param_2, u8 *param_3);
+extern void func_80157158(s32 a0, u16 a1, u16 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7, s32 a8, s32 a9, u16 a10, s32 a11, s32 a12);
+
+void func_80156670(s32 param_1, s32 param_2, s32 param_3, s32 param_4, s32 param_5, u16 param_6)
+{
+
+    extern s32 D_801151E0[];
+    extern s32 D_801150E0[];
+    extern u8 D_8011DAD8[];
+    extern B8 D_80128120[];
+    extern B8 D_80128138[];
+    extern S8 D_80126AF0[];
+    extern u8 D_80126730[];
+    extern u8 D_8011520C[];
+    extern S8 D_801270A8;
+    u32 i;
+
+    func_80156B74(param_1, param_4, (u8 *)(param_1 + 0x1A9));
+    i = 0;
+    do {
+        D_801151E0[i] = 0;
+        if (D_80126AF0[i].d == 0) {
+            D_801151E0[i] = ((s32 (*)(s32, u16, u16, s32, s32, s32, s32, s32, s32,
+                                      s32, u16, s32, s32))func_80157158)(
+                param_1, param_2 & 0xFFFF, param_3 & 0xFFFF,
+                (s32)&D_801270A8,
+                (s32)&D_80126AF0[i],
+                (s32)&D_80128120[i],
+                (s32)&D_80128138[i],
+                (s32)&D_801150E0[i],
+                (s32)&D_8011DAD8[i * 8],
+                param_5,
+                param_6,
+                (s32)&D_8011520C[i],
+                (s32)&D_80126730[i]);
+        }
+        i = i + 1;
+    } while (i < 3);
+}
+
 
 DEFINE_func_801567BC()  /* dedup: shared engine-core @0x801567BC (src/shared) */
 
