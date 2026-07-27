@@ -5778,3 +5778,30 @@ against, so it is byte-neutral by construction and the gate arbitrates anyway).
 **Blast radius (§63/§85):** the bank's write set is `src/ov_SC01_077/ov_SC01_077_jr_801734BC.c`
 alone — **T1 binary-local**, so the per-binary gate is sufficient by the taxonomy. The family sweep
 that follows is the T2 case and takes a full R22.
+
+### ✅ Family swept 133/137 — R22 clean-fleet 140/140
+
+`family_sweep --hseq --only 0x80176218 --band substantial --normalize-self-decls` (map regenerated
+first so the fresh exemplar reads `matched-ov077`, per the crack-wave lesson; body is pin-free with
+no local types, so neither the §42e pin guard nor the §94 type-carry applied).
+
+**BANKED 133 member-matches / 4 failed across 137 overlays.** R22 clean-fleet
+(`make clean && extract-all && check-all`) → **140 passed, 0 failed of 140**. `make report`
+fail-closed green: **dedup-check 1886 validated / 0 failed**, C1 coverage 239,604/239,604,
+**0 NON_MATCHING** in any default build (G4).
+
+**Measured delta for this batch alone** (diff of the committed `docs/progress.fleet.md`, not a
+projection): fn-count 317,762 → **317,896 (+134** = 1 exemplar + 133 members**)** · instr-weighted
+82.9 → **83.2%** (+43,818 ins) · distinct-code 71.5 → **72.3%** (+126 unique fns — so these members
+are genuine byte-VARIANTS that each count distinctly, not free dedup).
+
+### 📌 The 4 failures are a named interaction, not a verdict — carried, not concluded
+All four are `ov_SC07_006/007/010/011`, and all four differ from the other 133 in exactly one way:
+their sibling TU is **`_jr_8016AE5C.c`**, not `_jr_801734BC.c` — i.e. carved under `func_8016AE5C`,
+banked and swept in SESSION-21. **This is the same four overlays and the same carve the SESSION-21
+checkpoint flagged as "worth checking first" for `func_8016B6BC`'s 0/137** — which then turned out
+to be a transitive type-carry (§94), not a wall.
+Each reverted its byte-neutral self-decl edit cleanly ("no dead diff left behind"), so the tree is
+honest. Per **§59** a sweep failure is a per-sibling INTEGRATION signal, not a codegen verdict:
+the next step is to read ONE sibling's real gate result (COMPILE-fail vs byte-DIFF) before
+concluding anything about the class.
