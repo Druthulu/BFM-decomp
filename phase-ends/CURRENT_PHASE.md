@@ -5638,3 +5638,91 @@ assumption.
 `func_80140958` (35,880) · `func_80175DA8` (31,878) · `func_80175AB8` (25,944) ·
 `func_80177B5C` (20,286) · `func_8017C974` (15,152) · `func_8014D820` (41,952, assembler-stage
 failure still undiagnosed).
+
+## ✅ T12 — WAVE 2 (the 9 never-drafted exemplars) + the sweeps of the unswept
+
+**Wave 2, under Ultracode:** 9/9 returned, **5 MATCH / 4 near**, 2.25M subagent tokens.
+Matched stake 184,782 templ ins.
+
+**BANKED: `func_8014D820` (304 ins ×138 = 41,952)** — the one that defeated me earlier, and **its
+agent root-caused the failure I had left open.** It was never an assembler problem: cc1 exit 33,
+`conflicting types for 'Ent'` vs `engine_types.h:434`, surfaced by the recipe's `set -o pipefail`
+and **misattributed to `as` because `as` is the last stage in the pipe**. Fixed by moving V4/Desc/Ent
+to BLOCK scope — byte-neutral and collision-proof across all 138 member TUs. → cookbook **§93**.
+*This vindicates handing it over flagged UNVERIFIED (§88e): had I written "assembler-stage failure"
+into the brief as fact, the agent would have inherited my wrong search space.*
+
+**SWEPT:** `func_8014D820` **137/137, 0 failed** · (earlier: `func_8012AAAC` 137/137,
+`func_8015B950` 137/137, `func_80179B74` 137/137, `func_8016AE5C` 136/137).
+
+### 🔧 A byte-proven hazard in my own new tool — `conform_decls` treated all decl changes alike
+| change | caller-neutral? | evidence |
+|---|---|---|
+| pointer type (`s16*`→`u16*`) | **YES** | `func_80179B74`: 1,600 sites / 523 files, banked, R22 140/140 |
+| scalar WIDTH (`s32`→`u16`) | **NO** | `func_80175DA8`: decls reverted → `PLUMBING`; conform applied → **DIFF** |
+
+Narrowing a parameter changes argument promotion at every call site — **the conform did not fix the
+draft, it changed the callers.** Guard added (warns, does not refuse — the draft's sig is still
+byte-truth for the callee and the gate arbitrates) and verified to discriminate: fires on
+`func_80175DA8`, silent on `func_80179B74`. → cookbook **§92**.
+
+### ⚠️ `func_8016B6BC` — 0/137 REPRODUCIBLY (twice), and NOT accepted as a wall
+The same family that failed the earlier 274-member propagation sweep failed again at 0/137 with the
+`--like` guard in place. Per **§59** a sweep 0/N is a **per-sibling INTEGRATION signal, not a codegen
+verdict** — the named next step is to read ONE sibling's real gate result (COMPILE-fail vs byte-DIFF)
+before concluding anything. Noted: its sibling TU is `ov_SC07_011_jr_8016AE5C.c`, i.e. carved under
+`func_8016AE5C`, which I banked and swept this session — a possible interaction worth checking first.
+Tree verified clean after the failure (0 modified).
+
+### 📌 Wave-2 remainder, diagnosed not banked
+- `func_80176218` (45,126) + `func_80175AB8` (25,944) — **DATA-symbol** conflicts
+  (`D_80078EB4` / `D_8011F7BC`) → `reconcile_decls`.
+- `func_80175DA8` (31,878) + `func_80135EB0` (39,882) — need the **§17a-1 caller pair**, not a bare
+  conform (the scalar-narrowing finding above).
+- 4 near-misses with precise residuals: `func_80176734` 129 (length-drift, −3 ins) ·
+  `func_80140958` 49 (one inverted loop-hoist + 3 knock-ons) · `func_80177B5C` 19 (a sched1 priority
+  tie in the final block) · `func_8017C974` 83 (**routed to the permuter** by its agent — a
+  global_alloc spill-choice inversion, explicitly not a source-shape problem).
+
+## ⚠️ CHECKPOINT HYGIENE — Drew caught a real gap
+Between T11 and T12 I did wave 2, a bank, and a new tool guard, and recorded them **only in commit
+messages**. `CURRENT_PHASE.md` and the cookbook were stale for that stretch. The long quiet periods
+were background sweeps/R22 (~2h each) during which the tree cannot be touched — but that does not
+excuse leaving the durable record behind; a stale checkpoint is worse than an absent one. Closed
+here, with cookbook §92/§93 written in-session (R30).
+
+---
+
+# 🛑 SESSION-21 FINAL CHECKPOINT (2026-07-27) — FRESH SESSION SAFE HERE
+
+**Nothing running.** Tree clean but for the R23 `db.*.gbf` churn (never stage).
+**R22 clean-fleet 140/140** (run 18× this session), dedup validated, **0 NON_MATCHING** (G4).
+**FLEET: 82.8% instr · 71.3% distinct-code · 89.80% fn-count** (opened 81.7 / 69.3 / 89.52).
+
+## BANKED THIS SESSION — 9 exemplars + ~1,096 members
+`func_8014D2A0` · `func_80158638` · `func_8016B6BC` · `func_8012AAAC` · `func_8016AE5C` ·
+`func_8015B950` · `func_80179B74` · `func_8014D820` (+ the 274-member propagation batch).
+**Five full-family sweeps: 137/137 ×4 and 136/137 ×1 — all unblocked by one `--like` role guard.**
+
+## ▶ START HERE NEXT SESSION
+**1. `func_8016B6BC` 0/137 — DIAGNOSE, do not accept.** Reproducible twice. §59: read ONE sibling's
+   real gate result (COMPILE-fail vs byte-DIFF). Its sibling TU is `ov_SC07_011_jr_8016AE5C.c`,
+   carved under a function banked+swept this session — check that interaction first.
+**2. Wave-2 remainder, all diagnosed:** `func_80176218` + `func_80175AB8` → `reconcile_decls`
+   (DATA-symbol conflicts) · `func_80175DA8` + `func_80135EB0` → the §17a-1 caller pair, NOT a bare
+   conform (§92) · `func_8017C974` → the permuter (its agent measured the levers neutral).
+**3. The 4 still-unbanked jtbl exemplars:** `func_8013BD74` (needs the §20/§64 type-lift for its
+   local struct `A`; a call at line 68 precedes the definition so the prototype cannot just go) ·
+   `func_80135260` (genuine DIFF) · `func_8013B83C` (CC1-FAIL — use the §93 stage-isolation) ·
+   `func_801789AC` (its run isolated it into a new subseg and banked nothing — retry clean).
+**4. `func_8016AE5C`'s single refuser** — `ov_SC03_108`, 1 member.
+**5. The 60-family zero-crack pool** (`.run/s21_zerocrack.json`) — ~57k untried head.
+
+## ⚠️ CARRIED DEFECTS
+- The **21-file absolute-include portability defect** — PhaseEnd carry item.
+- **`docs/backlog.md` is not a work queue** — 44% misfiled partials (§83).
+- **Roadmap re-baseline owed**; the 39 type-1 modules are in no phase.
+- **The ladder-vs-bare-gate asymmetry** (ladder 0/7 vs bare gate 2/7) — still unexplained.
+- **My shell `grep` silently returned nothing mid-session** (rc=0, no output, piped). Diagnostics
+  moved to Python. No banked result was affected — the byte-gate does not read shell output.
+**DO NOT close P29 on ROI** — burn-down floor still undetermined.

@@ -6866,3 +6866,59 @@ to local derivation. **Result: 0/3 → 3/3 on the probe, then 134/134 on the rem
 > code identically; overlays differ, so verify per function, not per family. And when a tool
 > deliberately drops an error class it cannot act on, it should still SURFACE it — a bare `gate-fail`
 > repeated 137 times cost far more than printing one line would have.
+
+## §92 — Conforming a DECLARATION: pointer changes are caller-neutral, scalar-WIDTH changes are not (Phase 29 SESSION-21, `tools/conform_decls.py`)
+
+When a draft reaches `match_one` MATCH its signature is **byte-TRUTH** (§58b) and the fleet `extern`
+is a stub-era guess, so `conflicting types for func_X` is fixed by moving the DECLS. That is right,
+and it was the single dominant gate-failure class this session — 7 of 7 plain drafts and most of the
+jtbl drafts. `tools/conform_decls.py` automates it: derive the signature from the draft's
+DEFINITION, rewrite EVERY site, and **assert completion** (R32) because a half-rewritten axis is a
+guaranteed break (§85), not a smaller win.
+
+**But "decls are free" is only true for some changes, and the difference is byte-measurable:**
+
+| change | caller-neutral? | evidence |
+|---|---|---|
+| **pointer type** (`s16*`/`short*` → `u16*`) | **YES** | `func_80179B74`: 1,600 sites / 523 files / 3 distinct forms conformed, banked, **R22 140/140** |
+| **return widen** `void` → `s32` | **only if no caller consumes it** (§85) | `func_8014D2A0`, `func_8012CC88` — precondition checked, then byte-neutral |
+| **scalar WIDTH** (`s32` → `u16`) | **NO** | `func_80175DA8`: decls reverted → gate `PLUMBING`; conform applied → gate **DIFF** |
+| **arity** (`(void)` → takes params) | **NO — breaks every 0-arg CALL** | `func_8015B950` by hand: ov_SC01_077 gated BYTE-IDENTICAL, **138 of 140 binaries broke** |
+
+**The scalar-width case is the subtle one.** Narrowing a parameter changes argument promotion at
+every call site, so the callers emit different code. The conform did not fix the draft — *it changed
+the callers*. A DIFF appearing only AFTER a conform is the signature of this: examine the callers
+(the §17a-1 pair — keep their decl compatible and cast at the call site), never the body.
+
+**The arity case is the expensive one, and the guard now names its price.** `func_8012AAAC` needed
+137 call-site casts to absorb it; `func_8015B950` looked like it needed ~926 and in fact needed
+**ONE** — its only 0-arg call is in an `engine_core.h` `DEFINE` macro body that the preprocessor
+expands into all 926 TUs. *Count the call SITES, not the expansions.*
+
+> **The law:** a declaration edit is a **T2 fleet-shared write set**, provable only by R22 (§63/§85).
+> The per-binary gate authorises the binary you built; it says nothing about the 139 you did not.
+
+## §93 — `set -o pipefail` attributes a pipeline failure to the LAST stage, not the failing one (Phase 29 SESSION-21, `func_8014D820`)
+
+The c-rule is `cpp | cc1 | maspsx | [jtbl_rodata_pads] | as` under `set -o pipefail`. When **cc1**
+exits 33, make reports the failure against the object whose recipe ends in **`as`** — so the error
+reads as an *assembler* problem. I recorded `func_8014D820` as an "assembler-stage failure" on that
+basis and left it undiagnosed for hours. It was `conflicting types for 'Ent'` against
+`engine_types.h:434`, fixed by moving three types to BLOCK scope (byte-neutral, and collision-proof
+across all 138 member TUs).
+
+**The diagnostic, ~2 minutes:** run the stages by hand and print each `rc`.
+```
+cpp … > t.i          ; echo "cpp rc=$?"
+cc1 … < t.i > t.s    ; echo "cc1 rc=$?"     # <- the real failure surfaces here
+maspsx … < t.s       ; echo "maspsx rc=$?"
+as …                 ; echo "as rc=$?"
+```
+Then re-run the failing stage alone with **stderr visible** — cc1 names the file, line and symbol in
+one sentence. This turned an opaque `Error 33` into a one-line fix twice in one session
+(`func_8012AAAC`'s `too few arguments`, and this).
+
+**Corollary (§88e, earned):** when handing a stuck function to another agent, pass the failure as
+what it IS — an *undiagnosed* observation — not as a named cause. I flagged this one explicitly as
+"never diagnosed, re-derive," and the agent found the true cause immediately. Had I written
+"assembler-stage failure" as established fact, it would have inherited my wrong search space.
