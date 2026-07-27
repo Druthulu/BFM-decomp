@@ -727,5 +727,5 @@ void func_8012ACA0(void *arg0) {
     M2C_FIELD(arg0, s32 *, 0x9C) = 0;
     M2C_FIELD(arg0, s16 *, 0x9A) = 0;
     M2C_FIELD(arg0, u16 *, 0x72) = (u16) (M2C_FIELD(arg0, u16 *, 0x72) & 0xF9FF);
-    func_8012AAAC();
+    ((void (*)(void))func_8012AAAC)();
 }
