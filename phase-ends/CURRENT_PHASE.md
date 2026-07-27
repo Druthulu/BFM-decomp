@@ -5391,3 +5391,48 @@ span structure"* — and this exemplar is exactly the case where that premise is
 **State: clean.** Sibling carve reverted, `ov_SC01_000` rebuilds `9052dc0e…` BYTE-IDENTICAL, 0
 modified files. The 137 call-site casts stay (committed, byte-neutral, and correct regardless — they
 remove a conflict every sibling would otherwise hit at bank time).
+
+---
+
+# 🛑 SESSION-21 FINAL CHECKPOINT (2026-07-27) — FRESH SESSION SAFE HERE
+
+**Nothing running.** Tree clean but for the R23 `db.*.gbf` churn (never stage). HEAD **`commit:1069`**.
+**R22 clean-fleet 140/140** (run 4× this session), dedup **1886/0**, **0 NON_MATCHING** (G4).
+**FLEET: 81.9% instr · 69.3% distinct-code · 89.60% fn-count.** Drew pushes (R6/R20).
+
+## BANKED THIS SESSION — 278 functions
+**4 exemplars** — `func_8014D2A0` · `func_80158638` · `func_8016B6BC` · `func_8012AAAC` (the last via
+the full §81 carve chain) — **+ 274 family members ×137**.
+
+## ▶ START HERE NEXT SESSION (in value order)
+
+**1. THE ×137 SWEEP OF `func_8012AAAC` — blocker NAMED, fix is small and local.**
+   `jtbl_rodata_pads: consumed 1 rodata .align(s) but 2 pad spec(s)`. The exemplar's 2-table span is
+   an ARTIFACT of an unrelated neighbouring carve in `ov_SC01_077` only; siblings contribute ONE
+   table. **Derive each sibling's span from its OWN carve instead of inheriting the exemplar's**
+   (`jtbl_family_bank` currently transfers structure; `--like`'s "same family => same span structure"
+   premise is false for this exemplar). Worth 17,250 templatable ins, ~0 agent tokens once fixed.
+**2. THE OTHER 7 JTBL-ROUTED DRAFTS — ready and unspent**, all `match_one` MATCH + `reloc_verify`
+   ALL RESOLVED, drafts in `.run/drafts-s21/`: `func_8013B83C` (37,536) · `func_8015B950` (37,398) ·
+   `func_8013BD74` (27,324) · `func_80135260` (18,768) · `func_80179B74` (15,318) ·
+   `func_801789AC` (12,558) · `func_8016AE5C` (11,730). **The §81 chain is now proven end-to-end on
+   `func_8012AAAC`** — same recipe: carve (byte-gate it ALONE first) → arity axis → cast the in-TU
+   0-arg call → bank → R22.
+**3. RESUME THE WAVE — 9 targets never drafted.** `Workflow({scriptPath:
+   'tools/workflows/family_core_wave.js', resumeFromRunId: 'wf_6c43d703-ebb', args: <same>})`; the 15
+   completed replay from cache free. Top stakes: `func_80176734` (51,198) · `func_80176218` (45,126) ·
+   `func_80135EB0` (39,882) · `func_80140958` (35,880) · `func_80175DA8` (31,878).
+**4. `func_8014D820`** (41,952) — the §85 widen cleared its `conflicting types`; the failure moved to
+   an assembler-stage error. **Use the stage-by-stage isolation** (`cpp | cc1 | maspsx |
+   jtbl_rodata_pads | as`) — that is what turned `func_8012AAAC`'s opaque Error 33 into a one-line fix.
+**5. Try the BARE gate as well as the ladder** — measured: ladder 0/7, bare `harvest_verify` 2/7 on
+   the same drafts. One build per draft to check; unexplained and worth a bounded diagnosis.
+**6. The 60-family zero-crack pool** (`.run/s21_zerocrack.json`) — 208,499 ins nominal, honestly
+   discounted to a ~57k untried head.
+
+## ⚠️ CARRIED DEFECTS
+- The **21-file absolute-include portability defect** — PhaseEnd carry item (Drew: handle later).
+- **`docs/backlog.md` is not a work queue** — 44% misfiled partials (§83).
+- **Roadmap re-baseline owed** — B-buckets predate 4 overlays; the 39 type-1 modules are in no phase.
+- **The ladder-vs-bare-gate asymmetry** (item 5) is unexplained and silently costs banks.
+**DO NOT close P29 on ROI** — burn-down floor still undetermined.
