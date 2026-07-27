@@ -6817,3 +6817,52 @@ unambiguous single-bound pairing. *A warning that fires on ambiguity is noise, n
 > and design the fix from what you can prove. Verified: the split table goes 28 → 50 words, and
 > across **38 jtbls × 6 functions = 228 combinations exactly ONE range changes**. Both halves of
 > that sentence are the deliverable — the fix, and the negative control proving its blast radius.
+
+## §91 — A structure-TRANSFER is only valid where the structure corresponds: the `--like` role trap (Phase 29 SESSION-21, `func_8012AAAC` ×137)
+
+`jtbl_family_bank` sweeps a matched jr exemplar across its family by calling
+`jtbl_carve <sibling> --func <fn> --like <exemplar_ov>`. The `--like` role-transfer copies the
+exemplar's `.rodata` span STRUCTURE (its `tables=` starts) onto the sibling, on the premise
+*"same family => same span structure"*. **That premise is a claim about the OVERLAYS' split layout,
+not about the family — and it fails silently whenever the exemplar has a code-subseg split the
+sibling does not.**
+
+**The measured case.** `func_8012AAAC` lives in `ov_SC01_077_a` (role `_a`) in the exemplar and in
+the MAIN subseg (role ``) in all 137 siblings. Role-transfer keys on the subseg role, so it looked up
+`ov_SC01_077` — an unrelated **seven-table** span owned by entirely different functions — and stamped
+those starts onto a sibling span holding **one** table. `jtbl_rodata_pads` then correctly refused:
+
+> `consumed 1 rodata .align(s) but 2 pad spec(s) given — table-count drift vs the carve`
+
+**Why it presented as a mystery:** `jtbl_family_bank` deliberately excludes the table-count-drift
+error from its auto-isolate retry (it is genuinely not isolate-fixable), and that path discards the
+message — so all 137 siblings reported a bare **`gate-fail`** with no cause attached. The sweep read
+as "this family does not template," which is exactly the verdict this project has had overturned as
+tooling three separate times.
+
+**The fix:** transfer only when the exemplar's subseg *for this function* has the sibling's role;
+otherwise derive the span from the sibling's own carve, which was already computing it correctly.
+**Fail-open is not acceptable here** — a wrong table set corrupts the image — so the guard defaults
+to local derivation. **Result: 0/3 → 3/3 on the probe, then 134/134 on the remainder — the family swept 137/137, zero failures.** `func_8012AAAC` is now stubbed in ZERO overlays.
+
+**And it moved the RE-completeness number, not just the display one:** distinct-code 69.3% → 69.5%. A jtbl family is byte-VARIANT (each overlay's table holds its own addresses), so every member is a genuinely new unique function — the opposite of the h_seq PURE propagation families swept earlier the same session, which added 274 members and moved distinct-code by **+0.0**. That is SESSION-20's routing rule reproduced twice in one session, in both directions: **target byte-VARIANT families to move RE-completeness; high-reach h_exact families move only the decomp.dev display number.**
+
+### The three-hypothesis trail, because two of them were wrong and the wrongness is instructive
+1. **Call-site casts (real, fixed, NOT the blocker).** Every sibling TU has the stub, then
+   `extern void f();`, then a 0-arg call later in the same file — so splicing the definition puts a
+   prototype in scope and gcc rejects the call. 137 TUs, exactly the member count. Cast one site per
+   TU, R22-proven byte-neutral. **Still 0/3.** A real defect that had to be fixed anyway, and fixing
+   it moved nothing — *"the error I can see" is not the same as "the error that is blocking me."*
+2. **My own carve-alone test (a false lead I generated).** §81 step 2 says the carve alone must be
+   byte-identical. For this shape it CANNOT be: the 2-entry spec describes a table the object only
+   emits once the body is banked, and a stub object emits one. The tool splices the body BEFORE
+   building, so **its** path is valid and my simplification was not. *A diagnostic that departs from
+   the tool's real sequence tests a different program.*
+3. **Reading the tool's ACTUAL invocation** — which is where `--like` was visible at all. The fix
+   took ten minutes once the command line was read instead of imagined.
+
+> **The law:** any "same family ⇒ same structure" transfer must state *which* structural fact it
+> assumes and CHECK it against both sides. Role-keyed transfer assumes the two overlays split their
+> code identically; overlays differ, so verify per function, not per family. And when a tool
+> deliberately drops an error class it cannot act on, it should still SURFACE it — a bare `gate-fail`
+> repeated 137 times cost far more than printing one line would have.
