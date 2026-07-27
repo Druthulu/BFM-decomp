@@ -722,7 +722,7 @@ DEFINE_func_8012A988()  /* dedup: shared engine-core @0x8012A988 (src/shared) */
 INCLUDE_ASM("asm/ov_SC05_005/nonmatchings/ov_SC05_005", func_8012AAAC);
 
 
-extern void func_8012AAAC(void);
+extern void func_8012AAAC();
 extern M2C_UNK D_8018276C;
 
 void func_8012ACA0(void *arg0) {

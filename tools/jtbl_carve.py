@@ -538,6 +538,21 @@ def build_carve(ov, funcs):
         starts.update(a for a in overlay_jtbl_addrs(ov) if s_vram <= a < base + e_off)
         if prior is not None and prior[1] is not None and sub in old_span_start:
             starts.update(base + old_span_start[sub] + r for r in prior[1])
+        elif prior is None and sub in old_span_start:
+            # SINGLE-TABLE PREDECESSOR (Phase 29 SESSION-21). A span with no overlays.mk line was a
+            # SINGLE-table carve — "Single-table carves get NO var" — and a single-table carve spans
+            # exactly its one table, so ITS SPAN START *IS* THAT TABLE'S START. Adding a second table
+            # to such a subseg otherwise loses the first one entirely: `new_offs` has only the new
+            # table, `overlay_jtbl_addrs` cannot see the old one (its owner is banked, so extract
+            # PRUNED the stub .s that referenced it), and there is no `tables=` to rebase. The span
+            # then fails its own validator with "first must equal the span start" — which is the
+            # invariant naming the missing entry.
+            #
+            # This is the recoverable half of the documented func_8013F350 lesson: that case was a
+            # pre-§8e MERGED double (two tables, no record, genuinely unrecoverable); a single-table
+            # predecessor needs no record because its start is implied by its span. Inference, not
+            # persistence — so it also works for spans carved before tables= existed.
+            starts.add(base + old_span_start[sub])
         if sub in SPAN_TABLES_OVERRIDE:
             starts.update(SPAN_TABLES_OVERRIDE[sub])
         if LIKE_OV:

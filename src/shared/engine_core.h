@@ -1528,7 +1528,7 @@
     }
 
 #define DEFINE_func_8012A8E8() \
-    extern void func_8012AAAC(void); \
+    extern void func_8012AAAC(); \
     void func_8012A8E8(void) { \
         func_8012AAAC(); \
     }
@@ -7001,7 +7001,7 @@
     }
 
 #define DEFINE_func_8012A8B0() \
-    extern void func_8012AAAC(void); \
+    extern void func_8012AAAC(); \
     void func_8012A8B0(u8 *a0, s32 a1) { \
         u16 v0 = *(u16 *)(a0 + 0x72); \
         *(s32 *)(a0 + 0x90) = a1; \
@@ -14506,7 +14506,7 @@
 
 #define DEFINE_func_8012A860() \
     extern int func_8012ACE0(void *a0); \
-    extern void func_8012AAAC(void); \
+    extern void func_8012AAAC(); \
     void func_8012A860(void *a0, int a1) { \
         int v0; \
         register char *p asm("$4"); \
@@ -15920,7 +15920,7 @@
     }
 
 #define DEFINE_func_8012A828() \
-    extern void func_8012AAAC(void); \
+    extern void func_8012AAAC(); \
     void func_8012A828(s32 a0, void * a1) \
     { \
         *(s32 *)((u8 *)a0 + 0x90) = a1; \
@@ -17206,7 +17206,7 @@
 
 #define DEFINE_func_8012A988() \
     extern s32 func_8012ACE0(void *a0); \
-    extern void func_8012AAAC(void); \
+    extern void func_8012AAAC(); \
     void func_8012A988(u8 *a0) { \
         s32 v0; \
         s16 t; \

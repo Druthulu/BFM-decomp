@@ -237,7 +237,7 @@ extern s16 func_8012A79C(s16 *a0, s16 *a1);
 extern s16 func_8012A758(void);
 extern s32 ratan2(s32 a0, s32 a1);
 extern void func_8012A7D4(void *arg0, void *arg1);
-extern void func_8012AAAC(void);
+extern void func_8012AAAC();
 extern void func_8012A828(s32 a0, void * a1);
 extern int func_8012ACE0(void *a0);
 extern void func_8012A860(void *a0, int a1);

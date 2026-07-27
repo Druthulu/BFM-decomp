@@ -808,9 +808,181 @@ DEFINE_func_8012A908()  /* dedup: shared engine-core @0x8012A908 (src/shared) */
 DEFINE_func_8012A988()  /* dedup: shared engine-core @0x8012A988 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_a", func_8012AAAC);
+// @class: schedule
+// @stuck: none — MATCH (125 ins). Round-3 re-verification 2026-07-27: relocs resolved
+//         mechanically (7/7 jal, 8/8 j, 2/2 hi-lo) and the 50-word jtbl diffed 50/50 against
+//         tail2.data.s; all 3 levers refuted-as-variants. The only residual is the §81 jr/jtbl
+//         BANKING floor (symcheck MISSING jtbl_801D7FB0 is a jr false positive — gcc emits its own
+//         table with a section-relative HI16/LO16, so the splat name can never appear in the draft
+//         object's relocs). Not a body defect. See "BANKING" below.
+/*
+ * ── RE-VERIFICATION (rounds 2 AND 3, independent re-derivations from the .s; §88e discipline) ───
+ *   match_one : MATCH (125 ins).  .text = 0x1F4 = 500 B = 125 ins — the exact target size, so this
+ *               is NOT a §83a length-drift masking a bad count.
+ *   relocs    : ROUND 3 resolved them MECHANICALLY (objcopy the sections, decode the implicit
+ *               MIPS-REL addends — the §84 trap / §88f gate). 7× R_MIPS_26 -> func_8012AAAC, all
+ *               addend 0, at .text +B4/C4/100/124/158/1AC/178 — the target's 7 `jal func_8012AAAC`
+ *               offsets EXACTLY. 8× R_MIPS_26 -> .text, every one resolving to 0x8012AC84, at
+ *               +88/BC/D8/108/12C/164/18C/1B4 — the target's 8 `j .L8012AC84` offsets EXACTLY.
+ *               1× HI16 +1× LO16 -> .rodata at +60/+68 (target's lui/lw), combined addend 0.
+ *   jump tbl  : gcc's own .rodata is 0xC8 = 200 B = 50 words; ROUND 3 decoded all 50 and diffed
+ *               them against asm/ov_SC01_077/data/tail2.data.s word for word —
+ *               [0]=8012AC18, [1..44]=8012AC84 (default ×44), [45]=8012AC40, [46]=8012AB8C,
+ *               [47]=8012ABBC, [48]=8012AB24, [49]=8012AB3C. 50/50 identical.
+ *   ROUND 3 re-tested BOTH inherited levers as live variants (not assumed) and added a THIRD
+ *   refutation, V3 below — the one a naive re-derivation actually lands on.
+ *
+ * Script/animation-command interpreter (recursive). ptr = arg0->0x90 + arg0->0x94*8, an 8-byte
+ * command record; the s16 at +4 is the opcode. opcode >= 0 -> emit (arg0->0x20)->0x20 = ptr->w0
+ * and latch arg0->0x98; opcode < 0 -> a 6-way switch on the negative opcode. Source case ORDER
+ * (-2, -1, -4, -3, -50, -5) is fixed by the target's block layout: gcc-2.7.2 lays switch case
+ * bodies in SOURCE order, and the target's blocks run 0x8012AB24, AB3C, AB8C, ABBC, AC18, AC40.
+ *
+ * TWO BYTE-PROVEN CODEGEN LEVERS (both needed; 16 -> 2 -> 0 mismatches):
+ *  1. case -1 must be spelled `if (link != 0) { <pop-block>; break; } <else-code>` with the shared
+ *     `pop:` label INSIDE the if-body (case -2 jumps into it). The inverse spelling
+ *     (`if (link == 0) { ... break; } pop: ...`) inverts the branch polarity and lays the 0x4000
+ *     tail inline instead of out-of-line.
+ *     RE-TESTED 2026-07-27: the inverse spelling gives DIFF 14 mismatched, OPCODE-MIXED
+ *     (branch,width) — idx 32/38 flip bnez/beqz and the whole pop-block shifts. CONFIRMED.
+ *     (Note the shared `pop:` tail contains a CALL, so per §88a `cross_jump` will NOT factor it for
+ *     you — the explicit `goto` is load-bearing, not cosmetic.)
+ *  2. cookbook §49-variant / sched.md:38 (birthing_insn_p, REG_N_SETS==1 -> max_priority ->
+ *     sunk late by the BACKWARD sched1). The `ptr->w0` load in case -3 must be a *distinct* local
+ *     from the one in case -4: sharing one variable makes REG_N_SETS==2, kills its boost, and the
+ *     two loads `lw $s0,0x90($s1)` / `lw $v1,0x0($a0)` come out transposed. With BOTH single-set,
+ *     they tie at max_priority and the LUID (source-order) tie-break -- `saved` declared/assigned
+ *     FIRST, `next` second -- puts them in target order at zero byte cost.
+ *     RE-TESTED 2026-07-27: folding `next` into `head` gives DIFF 2 mismatched, SCHEDULE-REORDER,
+ *     idx 77/78 exactly the predicted transposition. CONFIRMED — and this is the trap an
+ *     independent re-derivation falls into, since one temp is the obvious spelling.
+ *
+ *  3. NEW, round 3 — the `goto pop` is REQUIRED; do NOT write case -2's tail longhand.
+ *     V3 test: delete the `goto pop` and duplicate the 6-statement pop-block into case -2 (the
+ *     obvious, goto-free spelling any independent re-derivation writes first) => DIFF **126 ins**
+ *     vs 125, LENGTH-DRIFT/1, 81 mismatched. gcc-2.7.2 leaves the duplicate standing because the
+ *     common suffix contains a `jal` — this is §88a reproduced from a second, independent function
+ *     (the §88a evidence was all func_8017D2DC before). ⇒ For this 138-member family the explicit
+ *     `goto` into a call-bearing shared tail is a TEMPLATE INVARIANT, not a stylistic choice.
+ *
+ * ── BANKING (§81 carve chain) — symcheck reports MISSING jtbl_801D7FB0; that is the EXPECTED jr
+ *    floor, not an invented/dropped symbol: gcc emits its own table into .rodata addressed by a
+ *    section-relative HI16/LO16, so the splat name is never referenced. Table content verified
+ *    50/50 above. Banking still needs jr_isolate_all --only + jtbl_carve + harvest_verify.
+ *
+ *    ⚠ MEASURED HAZARD for whoever runs the carve — `jtbl_carve.jtbl_range()` will TRUNCATE this
+ *    table. It computes `end = the next data dlabel` over `all_data_labels()`, which collects BOTH
+ *    `jtbl_` and `D_` labels. splat split this ONE 50-word table across two dlabels in
+ *    asm/ov_SC01_077/data/tail2.data.s:
+ *        dlabel jtbl_801D7FB0   0x801D7FB0..0x801D8020   28 words
+ *        dlabel D_801D8020      0x801D8020..0x801D8078   22 words   (zero xrefs anywhere in tree)
+ *    so jtbl_range() returns end = 0x801D8020 => a 28-word (112 B) carve for an object that supplies
+ *    200 B of .rodata. The trailing-zero trim cannot rescue it (word[27] = 0x8012AC84, non-zero).
+ *
+ *    THE TRUE RANGE is the WHOLE `tail2` data piece: vram 0x801D7FB0..0x801D8078 = file
+ *    0xAFE58..0xAFF20 = 200 B = 50 words, confirmed three independent ways: the function's own
+ *    `sltiu $v0, $v1, 0x32` = 50 entries; gcc's emitted .rodata = 0xC8 = 50 words; and the splat
+ *    config, where `- [0xafe58, data, tail2]` runs exactly up to the already-carved
+ *    `- [0xaff20, .rodata, ov_SC01_077_jr_8012ACE0]`. i.e. tail2 IS this table and nothing else.
+ *
+ *    CONSEQUENCE, and it is the good kind: func_8012AAAC lives in subseg ov_SC01_077_a, which
+ *    ALREADY holds a .rodata carve at `- [0xafe44, .rodata, ov_SC01_077_a]` ending exactly at
+ *    0xafe58. Carved correctly, the two are ADJACENT and same-subseg, so §8a case (a) MERGE applies
+ *    and ov_SC01_077_a keeps ONE contiguous .rodata run 0xAFE44..0xAFF20 — no §81 NON-CONTIGUOUS
+ *    refusal, no jr_isolate_all needed for contiguity. Base 0x801D7FB0 is 8-aligned, so gcc's
+ *    `.rdata .align 3` lands with no pad (JTBL_PADS stays 0).
+ *
+ *    ⇒ Either drop the spurious `D_801D8020` dlabel before running jtbl_carve, or teach
+ *    jtbl_range() to skip a `D_` label that has no xref and whose predecessor jtbl's entry count is
+ *    still short of the function's `sltiu` limit. This is a §84-class blind spot: `match_one` is
+ *    structurally incapable of seeing it, and the symptom would surface as a whole-binary DIFF.
+ */
+#include "common.h"
 
-extern void func_8012AAAC(void);
+extern void func_8012AAAC(void *arg0);
+
+void func_8012AAAC(void *arg0) {
+    void *ptr;
+    s32 link;
+    s32 next;
+    s32 saved;
+    s32 cnt;
+    s32 back;
+    s32 head;
+
+    M2C_FIELD(arg0, u16 *, 0x72) = (u16) (M2C_FIELD(arg0, u16 *, 0x72) & 0xBFFF);
+    ptr = (void *) (M2C_FIELD(arg0, s32 *, 0x90) + (M2C_FIELD(arg0, s32 *, 0x94) * 8));
+    if (M2C_FIELD(ptr, s16 *, 4) < 0) {
+        switch (M2C_FIELD(ptr, s16 *, 4)) {
+        case -2:
+            link = M2C_FIELD(arg0, s32 *, 0x9C);
+            if (link == 0) {
+                M2C_FIELD(arg0, s16 *, 0x98) = 0;
+                break;
+            }
+            goto pop;
+        case -1:
+            link = M2C_FIELD(arg0, s32 *, 0x9C);
+            if (link != 0) {
+pop:
+                back = M2C_FIELD(arg0, s16 *, 0x9A);
+                M2C_FIELD(arg0, s32 *, 0x90) = link;
+                M2C_FIELD(arg0, s32 *, 0x9C) = 0;
+                M2C_FIELD(arg0, s16 *, 0x9A) = 0;
+                M2C_FIELD(arg0, s32 *, 0x94) = back;
+                func_8012AAAC(arg0);
+                break;
+            }
+            M2C_FIELD(arg0, s32 *, 0x94) = 0;
+            func_8012AAAC(arg0);
+            M2C_FIELD(arg0, u16 *, 0x72) = (u16) (M2C_FIELD(arg0, u16 *, 0x72) | 0x4000);
+            break;
+        case -4:
+            head = M2C_FIELD(ptr, s32 *, 0);
+            M2C_FIELD(arg0, s32 *, 0x94) = 0;
+            M2C_FIELD(arg0, s32 *, 0x9C) = 0;
+            M2C_FIELD(arg0, s16 *, 0x9A) = 0;
+            M2C_FIELD(arg0, s32 *, 0x90) = head;
+            M2C_FIELD(arg0, u16 *, 0x72) = (u16) (M2C_FIELD(arg0, u16 *, 0x72) & 0xF9FF);
+            func_8012AAAC(arg0);
+            break;
+        case -3:
+            cnt = M2C_FIELD(arg0, s32 *, 0x94) + 1;
+            M2C_FIELD(arg0, s32 *, 0x94) = cnt;
+            if (M2C_FIELD(arg0, s32 *, 0x9C) != 0) {
+                func_8012AAAC(arg0);
+                break;
+            }
+            saved = M2C_FIELD(arg0, s32 *, 0x90);
+            next = M2C_FIELD(ptr, s32 *, 0);
+            M2C_FIELD(arg0, s32 *, 0x94) = 0;
+            M2C_FIELD(arg0, s32 *, 0x9C) = 0;
+            M2C_FIELD(arg0, s16 *, 0x9A) = 0;
+            M2C_FIELD(arg0, s32 *, 0x90) = next;
+            M2C_FIELD(arg0, u16 *, 0x72) = (u16) (M2C_FIELD(arg0, u16 *, 0x72) & 0xF9FF);
+            func_8012AAAC(arg0);
+            M2C_FIELD(arg0, s32 *, 0x9C) = saved;
+            M2C_FIELD(arg0, s16 *, 0x9A) = (s16) cnt;
+            break;
+        case -50:
+            M2C_FIELD(arg0, s32 *, 0x94) = M2C_FIELD(arg0, s32 *, 0x94) + 1;
+            func_8012AAAC(arg0);
+            M2C_FIELD(arg0, u16 *, 0x72) = (u16) (M2C_FIELD(arg0, u16 *, 0x72) | 0x2000);
+            break;
+        case -5:
+            M2C_FIELD(arg0, u16 *, 0x72) = (u16) (M2C_FIELD(arg0, u16 *, 0x72) | 0x400);
+            M2C_FIELD(arg0, s32 *, 0x94) = M2C_FIELD(arg0, s32 *, 0x94) - 1;
+            func_8012AAAC(arg0);
+            break;
+        }
+    } else {
+        M2C_FIELD(M2C_FIELD(arg0, void **, 0x20), s32 *, 0x20) = M2C_FIELD(ptr, s32 *, 0);
+        M2C_FIELD(arg0, s16 *, 0x98) = M2C_FIELD(ptr, s16 *, 4);
+    }
+}
+
+
+extern void func_8012AAAC();
 extern M2C_UNK D_80186E48;
 
 void func_8012ACA0(void *arg0) {
@@ -819,5 +991,5 @@ void func_8012ACA0(void *arg0) {
     M2C_FIELD(arg0, s32 *, 0x9C) = 0;
     M2C_FIELD(arg0, s16 *, 0x9A) = 0;
     M2C_FIELD(arg0, u16 *, 0x72) = (u16) (M2C_FIELD(arg0, u16 *, 0x72) & 0xF9FF);
-    func_8012AAAC();
+    ((void (*)(void))func_8012AAAC)();
 }
