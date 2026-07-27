@@ -511,6 +511,36 @@ def build_carve(ov, funcs):
     #       persistence (tables=) + the --like transfer are what make sibling sweeps possible
     #       (the func_8013F350 lesson: a pre-§8e Phase-26 merged double had NO recoverable
     #       structure — interval carry mis-defaulted it to [0]).
+    def _like_role_matches(ov_name, sub_name, fns):
+        """Is the `--like` role-transfer VALID for this subseg? (Phase 29 SESSION-21)
+
+        The transfer's premise is "same family => same span structure", and it keys on the SUBSEG
+        ROLE (`ov_SC01_077_a` -> `_a`). That premise silently breaks when the exemplar and the
+        sibling host the function in subsegs with DIFFERENT roles — which happens whenever the
+        exemplar has a split the sibling does not.
+
+        MEASURED (func_8012AAAC): the exemplar hosts it in `ov_SC01_077_a` (role `_a`) while every
+        sibling hosts it in the MAIN subseg (role ``). The transfer therefore looked up
+        `ov_SC01_077` — an unrelated 7-table span belonging to different functions — and stamped
+        those starts onto a sibling span that holds one table. The pad stage then refused with
+        `consumed 1 rodata .align(s) but 2 pad spec(s) given — table-count drift`, and
+        jtbl_family_bank deliberately does NOT treat that error as isolate-fixable, so all 137
+        siblings returned a bare `gate-fail` with no cause attached.
+
+        So: transfer ONLY when the exemplar's subseg for THIS function has the sibling's role.
+        Otherwise derive the span locally, which is what the sibling's own carve already computes
+        correctly. Fail-open is not acceptable here — a wrong table set corrupts the image."""
+        if not LIKE_OV:
+            return False
+        want = role(sub_name, ov_name)
+        for f in fns:
+            try:
+                if role(func_subseg(LIKE_OV, f), LIKE_OV) == want:
+                    return True
+            except SystemExit:
+                continue                       # not present in the exemplar — cannot vouch for it
+        return False
+
     prior_map = current_pads_specs(ov)
     old_span_start = {sub: s for (s, _e, sub) in existing}   # pre-merge span starts (for rebase)
     new_offs = {}                                            # sub -> new table offs added this run
@@ -555,7 +585,7 @@ def build_carve(ov, funcs):
             starts.add(base + old_span_start[sub])
         if sub in SPAN_TABLES_OVERRIDE:
             starts.update(SPAN_TABLES_OVERRIDE[sub])
-        if LIKE_OV:
+        if LIKE_OV and _like_role_matches(ov, sub, funcs):
             lk = like_map.get(LIKE_OV + role(sub, ov))
             if lk is not None and lk[1] is not None:
                 # role-transfer: same family => same span structure; rebase rel offsets on THIS
