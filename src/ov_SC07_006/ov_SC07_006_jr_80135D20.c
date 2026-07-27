@@ -54,7 +54,7 @@ extern void func_8013C98C(void);
 extern void func_80129C40(s32 a0);
 extern void func_800D0630(void);
 extern void func_80145CEC(void);
-extern void func_80144B9C(void);
+extern void func_80144B9C();
 extern u8 D_800B9A17;
 extern u8 D_800B9A10;
 extern void func_80128420(void);
@@ -2194,7 +2194,7 @@ void func_8013D330(void) {
 
 
 extern void func_8013D53C();
-extern void func_8013DD68(void);
+extern void func_8013DD68();
 extern void func_8013D8FC(void);
 extern void func_8013CF68(void);
 
@@ -2581,7 +2581,7 @@ void func_8013D9B0(int param_1)
 //   sites; the merged form emits one slti + unconditional store and diverges.
 
 
-extern void func_8013DD68(void);
+extern void func_8013DD68();
 
 void func_8013DBE4(int param_1)
 {

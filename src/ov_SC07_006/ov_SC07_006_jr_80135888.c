@@ -54,7 +54,7 @@ extern void func_8013C98C(void);
 extern void func_80129C40(s32 a0);
 extern void func_800D0630(void);
 extern void func_80145CEC(void);
-extern void func_80144B9C(void);
+extern void func_80144B9C();
 extern u8 D_800B9A17;
 extern u8 D_800B9A10;
 extern void func_80128420(void);
