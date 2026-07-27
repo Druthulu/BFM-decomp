@@ -5081,3 +5081,60 @@ says a stored draft is *"a claim with a timestamp"*; during a live wave that tim
 so any pre-completion measurement describes a file that no longer exists. **Draft QA happens after
 the wave returns, never during.** (The tool validation above stands — it was cross-checked against
 `masked_diff` on the same bytes, not against a moving file.)
+
+## ✅ T4 — WAVE 1, FIRST HALF: 8/8 `match_one` MATCH, and they all point at ONE blocker
+
+The wave hit the session limit at 8 of 24 agents (16 errored with `session limit · resets 2:10am`,
+zero of them for a technical reason). Drew reset and I resumed from the cached run — the 8 completed
+replay free, the 16 re-run. **Of the 8 that finished: 8 MATCH, 0 near, 0 fail**, self-assessed
+closeness 0, combined stake **210,726 templatable ins**. Cost: 2,480,477 subagent tokens / 665 tool
+calls / ~17 min wall for the whole 24 (the 16 errors spent ~1.4M of that reaching the limit).
+
+**⚠️ These are CANDIDATES, not banks (§58/G3/P9).** `match_one` MATCH is a proxy; the whole-binary
+byte-gate decides, and an earlier 11-core wave had 9/9 match_one MATCHes all gate-fail on
+integration. What makes this wave different is that the agents were *told* to run `symcheck` and
+report the blocker — so instead of 8 opaque MATCHes we have 8 diagnosed ones.
+
+| exemplar | templ ins | symcheck | the named banking prerequisite |
+|---|---|---|---|
+| `func_8014D820` | 41,952 | **CLEAN** | none — ready for a plain gate. (close=9 residual was a pure sched1 permutation, cracked by sweeping 12-statement source order) |
+| `func_8013B83C` | 37,536 | jtbl only | drop `jtbl_801D8254` from `tail7.data.s` so the compiler's own `.rodata` lands at that address (-O0 TU) |
+| `func_8015B950` | 37,398 | jtbl only | §53/§62/§81 carve chain + the cheap T0 PARAMS axis (agent already killed the §73 RETURN axis by shipping `s32 f(s32)`) |
+| `func_8013BD74` | 27,324 | jtbl only | §8/§8b `jtbl_carve` of `jtbl_801D828C` into the `_o0` .rodata **before** the gate, or it fails on data layout, not the body |
+| `func_80135260` | 18,768 | jtbl + a non-symbol | §8e carve **plus** a decl collision: `extern s16 *D_801870AC/B0/B8` is load-bearing but the TU already declares that trio `extern u8` at file scope, and cc1 makes file-scope-first a hard error |
+| `func_8012AAAC` | 17,250 | jtbl only | **blocked by a real tool bug — see below** |
+| `func_80179B74` | 15,318 | jtbl only | §8a/§8e rodata-island flip for `jtbl_801D8F9C` (35 entries, .align 3) |
+| `func_801330E0` | 15,180 | **CLEAN** | drop the duplicate `gte_SetRotMatrix`/`gte_SetTransMatrix` in the TU, add `gte_ldv0/rt/stlvnl/stflg` |
+
+**⇒ SIX OF EIGHT ARE BLOCKED ON THE SAME THING: the jtbl/rodata carve.** Not eight different walls —
+one mechanical lever standing in front of **~153,596 templatable instructions** in this batch alone.
+That is the shape every productive lever in this project has had (`dedup_extend`: 6,174 members from
+one new mode; §85: 272 members from one fleet-wide widen).
+
+**Independent corroboration (R34):** my own `reloc_verify` — written before these results landed and
+knowing nothing about them — flagged exactly the same class on the drafts it could check
+(`func_8012AAAC`, `func_8013B83C`, `func_8013BD74` → *ALL RESOLVED + JTBL*). Two oracles built for
+different reasons agreeing on the blocker is the strongest signal available here.
+
+### 🔧 A REAL `jtbl_carve` BUG, found by an agent and confirmed three ways
+
+`func_8012AAAC`'s agent traced why its carve would corrupt the image: **`jtbl_carve.jtbl_range()`
+computes `end = next data dlabel` over `all_data_labels()`, which collects `D_` labels too** — and
+splat split this ONE 50-word table across two dlabels in `tail2.data.s`: `jtbl_801D7FB0` (28 words)
++ `D_801D8020` (22 words, **zero xrefs anywhere in the tree**). So the carve takes **112 B for an
+object that supplies 200 B of `.rodata`**, and the trailing-zero trim cannot rescue it (word[27] is
+`0x8012AC84`, non-zero). The true range (0x801D7FB0..0x801D8078 = 200 B = 50 words) was confirmed
+three independent ways: the function's own `sltiu $v0,$v1,0x32`, gcc's emitted `.rodata` size 0xC8,
+and the splat config's `[0xafe58, data, tail2]` running exactly to the already-carved boundary.
+**Fix:** drop the spurious `D_801D8020` dlabel, or teach `jtbl_range` to skip an xref-less `D_` label
+while the preceding jtbl is still short of the function's own `sltiu` bound. This is §84-class —
+`match_one` is structurally blind to it and it would surface only as a whole-binary DIFF.
+
+*Two levers were also RE-TESTED rather than inherited (§88e) and both reproduce exactly: inverting
+case −1's polarity → DIFF 14; folding case −3's `next` into case −4's `head` → DIFF 2 (idx 77/78
+transposed). The second is the trap any independent re-derivation falls into, so the family template
+must keep the two `ptr->w0` temps distinct.*
+
+**Hygiene:** `git status` shows the agents touched **zero tracked files** — the wave's write-set
+constraint held. (That also bounds the one agent whose safety-classifier review was unavailable:
+its writes were confined to its own draft, and the byte-gate remains the arbiter regardless.)
