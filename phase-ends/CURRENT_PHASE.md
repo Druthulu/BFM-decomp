@@ -5308,3 +5308,52 @@ Tree clean but for the R23 `db.*.gbf` churn (never stage). HEAD **`commit:1064`*
 - **NEW:** the ladder-vs-bare-gate asymmetry above is unexplained — worth a bounded diagnosis, since
   it silently costs banks on every wave that only runs the ladder.
 **DO NOT close P29 on ROI** — burn-down floor still undetermined.
+
+## ✅ T7 — `func_8012AAAC` BANKED via the §81 carve chain; its ×137 sweep is 0/3 and OPEN
+
+The first jtbl-routed bank, and it exercised every fix made this session:
+
+1. **The split-table repair fired** — `jtbl_801D7FB0` 28 → 50 words (112 → 200 B), authorized by the
+   function's own `sltiu 0x32`.
+2. **A SECOND `jtbl_carve` bug surfaced and was fixed: the single-table predecessor.** Adding a
+   second table to a subseg whose existing carve was single-table **lost the first table's start
+   entirely** — `new_offs` holds only the new table, `overlay_jtbl_addrs` cannot see the old one
+   (its owner is banked, so extract PRUNED the stub `.s` that referenced it), and single-table
+   carves persist no `tables=` to rebase. The span then failed its own validator with *"first must
+   equal the span start"* — the invariant naming exactly what was missing. **A single-table carve
+   spans exactly its one table, so its SPAN START *is* that table's start**: inference, not
+   persistence, so it also repairs spans carved before `tables=` existed. This is the *recoverable*
+   half of the documented `func_8013F350` lesson (that one was a pre-§8e merged DOUBLE — two tables,
+   no record, genuinely unrecoverable). Result: `ov_SC01_077_a JTBL_PADS := 0,0 tables=+0x0,+0x14`.
+3. **§81 step 2 honoured:** the carve ALONE was byte-gated BYTE-IDENTICAL *before* the bank was
+   attempted. That ordering is what made the later failure attributable.
+4. **ARITY axis, all-or-nothing:** 1,244 sites / 1,240 files `(void)` → `()`, R32 completion assertion.
+5. **ONE call-site cast.** The definition lands at line 811 and a 0-arg call sits at 822, so gcc sees
+   the prototype and rejects it: `((void (*)(void))func_8012AAAC)()`. **Only 1 of the 1,386 fleet-wide
+   0-arg call sites needed it** — the rest see only the `extern ()` decl, which permits a 0-arg call.
+
+**The diagnostic that cracked it:** the gate reported `CC1-FAIL … Error 33` and `make` showed only a
+warning. Running the pipeline **stage by stage** (`cpp | cc1 | maspsx | jtbl_rodata_pads | as`) put
+it on **cc1 rc=33**, and cc1's own stderr named it in one line: *"too few arguments to function
+`func_8012AAAC`"* at line 994. **Isolating the stage turned an opaque Error 33 into a one-line fix** —
+worth doing before any guessing, and the second time this session that reading the real stderr beat
+the harness's label (§58).
+
+**R22 clean-fleet after the bank: extract-all 139/139, check-all 140 passed / 0 failed.**
+
+### ⚠️ OPEN — the ×137 member sweep is 0/3, and that is a DIAGNOSIS TASK, not a verdict
+`family_sweep` correctly **refused** this exemplar (§53: a jr-family routes through
+`jtbl_family_bank.py`; *"a 0% from this path would be a TOOL artifact, not a wall"*). Through the
+correct tool, a bounded 3-member probe returned **0/3 gate-fail**. Per §53/§86 and this project's
+repeated experience, **a 0% is a signal to diagnose, not a wall to record** — three separate phases
+have now had a "families don't template" verdict overturned as tooling. Deliberately NOT ground down
+on tired context.
+
+**The tree is provably clean after the failure:** 0 modified files, and `ov_SC01_000` rebuilds
+`9052dc0e…` BYTE-IDENTICAL — `jtbl_family_bank`'s per-sibling revert did exactly what it promises.
+
+**Next step, named:** read ONE sibling's real gate output (COMPILE-fail vs byte-DIFF — §59's law that
+a sweep 0/N is a per-sibling INTEGRATION signal, not a codegen verdict). If it is the arity/cast pair
+this exemplar needed, the sibling TUs need the same two edits — mechanical and scriptable. Also try
+`--raw .run/drafts-s21/func_8012AAAC.c` (the tool's own note: an exemplar that banked *reconciled*
+hands the sweep a TU-polluted template, and the raw crack is the correct source).
