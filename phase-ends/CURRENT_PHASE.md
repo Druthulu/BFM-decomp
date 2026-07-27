@@ -4688,3 +4688,52 @@ resolves. T0.1/T0.3 only read sigs/configs and write `.run/` + `docs/` ⇒ safe 
 >   non-neutral backstop never fires. **Fix: on a 0-bank group restore the snapshot regardless of
 >   neutrality** (§61's law applied to the success path). Both reverted manually this session.
 > **DO NOT close P29 on ROI** — burn-down floor still undetermined.
+
+- **✅ 2026-07-26 (SESSION-20) — T0.5 COMPLETE: pool re-derived + 657 more members banked.
+  SESSION TOTAL ≈ 1,070 members from FIVE root causes, all zero-token.**
+  **Pool re-derived post-harvest** (T0.1's numbers were stale by 395 banked members):
+  zero-crack **76 fams / 347,892 ins → 73 / 290,850**; FREE subset **58 fams / 167,368 ins**.
+  **FREE sweep:** 389 banked; `func_801463A0` / `func_8017B490` / `func_80156670` → **0 stubs**.
+  **`--allow-pins` sweep:** 268 banked; `func_801749C8` / `func_8014C6F4` → **0 stubs (137 each)**.
+  **⇒ §86 — PIN TEMPLATABILITY IS PER-FAMILY, NOT PER-MEMBER.** 2 families 100%, 3 families ~1%.
+  **My reported "37%" was an ARTEFACT** — a 19-member sample straddling families reported their
+  AVERAGE and hid the bimodality. **Sample PER-FAMILY, never per-pool** (counterpart to §80).
+  **The §42e guard is OVER-CONSERVATIVE:** it refused **680 of 1,083 members (63%) before any gate**,
+  yet `--allow-pins` banked 268 with **ZERO cc1 crashes** — the SIGABRT it guards was Phase 27's
+  `extract_unit` macro-drop, not a compiler limit. **New default procedure: probe ONE member per
+  pinned family → sweep or skip.** (The blanket run spent ~412 futile cycles, 60%, on dead families.)
+  **Left UNDIAGNOSED on purpose:** why 2 template and 3 do not — likely caller-saved pins spanning a
+  `jal` (§74) vs local-allocno pins. **Diagnose before extending `--allow-pins` fleet-wide.**
+  **MY SCRIPT BUG (fixed + negative-controlled):** the sweep loop globbed `.run/sweep/*/`, matching
+  `gate_stage`'s own intermediate ladder dirs (`-cn`/`-cast`/`-rc`/`-s2in`/`-uni`) and calling them as
+  binaries → 24 phantom PARTIALs that inflated `notbanked` 0→56. Fixed by requiring
+  `config/splat.<ov>.yaml`. **Ground truth is the STUB COUNT, not the tally.**
+  **Fleet: 81.5% instr · 69.0% distinct-code · 89.49% fn-count** (opened 80.6 / 68.2 / 89.18).
+
+> **🛑 SESSION-20 CLOSING CHECKPOINT (2026-07-26) — FINAL. Fresh session safe here.**
+> **Nothing running.** Tree clean but for R23 `db.*.gbf` churn (never stage). **R22 140/140** (run
+> 11× this session), `tools-health` **OK**, dedup **1886/0**, **0 NON_MATCHING** (G4).
+> HEAD `commit:1047`. **Drew pushes** (R6/R20).
+> **FLEET: 81.5% instr · 69.0% distinct-code · 89.49% fn-count** — session **+0.9 / +0.8 / +0.31 pp**.
+>
+> ## THE SESSION IN ONE LINE
+> **~1,070 members banked from FIVE root causes — and every one was OUR OWN TOOLING, not gcc:**
+> a remap carrying a per-overlay symbol distance as a literal (§84) · a declaration axis applied to
+> half its sites (§85) · a recovery ladder never invoked (T0.2's false "33%") · a pin guard refusing
+> a class it no longer needs to (§86) · a sweep loop globbing its own scratch dirs.
+>
+> ## ▶ START HERE NEXT SESSION
+> **1. Continue the FREE subset** — 58 families / 167,368 ins were mapped; ~5 swept. Re-derive first
+>    (stale by ~657 members), then **1-member probe per family** (§86), then sweep. Route by class:
+>    **variant families move distinct-code; h_exact families move only the display metric.**
+> **2. Diagnose the §86 pin split** (2 template / 3 do not) — one cracked axis unlocks the 412 refused.
+> **3. `func_80144090`** (154×136 ≈ 20,944) — LENGTH-DRIFT, +13 B. Genuine codegen, real work.
+> **4. The 315 integration-class backlog entries** (T0.3b) — re-gate through `gate_stage`, ~108,959 ins.
+> **5. T1.1b `func_80183814` round 2** — 99.3%, lever named (close the +5 to move `max_reg`).
+>
+> ## ⚠️ CARRIED DEFECTS (unfixed, recorded)
+> - The **absolute-include portability defect** (21 files) — PhaseEnd carry item, Drew: handle later.
+> - **Ladder hygiene:** `--normalize-self-decls` + the ARITY pre-pass leave byte-neutral edits after a
+>   0-bank group. **Fix: restore the snapshot regardless of neutrality** (§61 on the success path).
+> - The 707 `redraft` backlog entries are NOT near-misses — route to fresh cracks, never the permuter.
+> **DO NOT close P29 on ROI** — burn-down floor still undetermined.
