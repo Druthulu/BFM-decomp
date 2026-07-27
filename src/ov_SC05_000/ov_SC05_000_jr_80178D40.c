@@ -3319,7 +3319,7 @@ DEFINE_func_80179FEC()  /* dedup: shared engine-core @0x80179FEC (src/shared) */
 DEFINE_func_8017A040()  /* dedup: shared engine-core @0x8017A040 (src/shared) */
 
 
-extern void func_80179B74(s16 *a0);
+extern void func_80179B74(u16 *p);
 extern s32 D_8019AA5C;
 
 void func_8017A094(s32 arg0) {
@@ -3332,7 +3332,7 @@ void func_8017A094(s32 arg0) {
 
 
 
-extern void func_80179B74(s16 *a0);
+extern void func_80179B74(u16 *p);
 extern s32 D_8019AA5C;
 
 void func_8017A0C4(s32 arg0) {
@@ -3350,7 +3350,7 @@ DEFINE_func_8017A11C()  /* dedup: shared engine-core @0x8017A11C (src/shared) */
 
 
 extern s32 D_8019AA84;
-extern void func_80179B74(s16 *a0);
+extern void func_80179B74(u16 *p);
 
 void func_8017A144(s32 a0) {
     s16 sp10;

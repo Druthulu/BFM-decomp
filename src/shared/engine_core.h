@@ -2380,7 +2380,7 @@
     }
 
 #define DEFINE_func_80179DF8() \
-    extern void func_80179B74(s16 *a0); \
+    extern void func_80179B74(u16 *p); \
     void func_80179DF8(void) { \
         s16 local; \
         local = 0; \
@@ -2647,7 +2647,7 @@
     }
 
 #define DEFINE_func_80179F44() \
-    extern void func_80179B74(short *); \
+    extern void func_80179B74(u16 *p); \
     void func_80179F44(void) { \
         short sp10; \
         sp10 = 0x18; \
@@ -2655,7 +2655,7 @@
     }
 
 #define DEFINE_func_8017A0F4() \
-    extern void func_80179B74(short *); \
+    extern void func_80179B74(u16 *p); \
     void func_8017A0F4(void) { \
         short sp10; \
         sp10 = 0x7; \
@@ -2663,7 +2663,7 @@
     }
 
 #define DEFINE_func_8017A11C() \
-    extern void func_80179B74(short *); \
+    extern void func_80179B74(u16 *p); \
     void func_8017A11C(void) { \
         short sp10; \
         sp10 = 0x8; \
@@ -2671,7 +2671,7 @@
     }
 
 #define DEFINE_func_8017A180() \
-    extern void func_80179B74(short *); \
+    extern void func_80179B74(u16 *p); \
     void func_8017A180(void) { \
         short sp10; \
         sp10 = 0x9; \
@@ -2679,7 +2679,7 @@
     }
 
 #define DEFINE_func_8017A1A8() \
-    extern void func_80179B74(short *); \
+    extern void func_80179B74(u16 *p); \
     void func_8017A1A8(void) { \
         short sp10; \
         sp10 = 0xA; \
@@ -2687,7 +2687,7 @@
     }
 
 #define DEFINE_func_8017A1D0() \
-    extern void func_80179B74(short *); \
+    extern void func_80179B74(u16 *p); \
     void func_8017A1D0(void) { \
         short sp10; \
         sp10 = 0xB; \
@@ -2695,7 +2695,7 @@
     }
 
 #define DEFINE_func_8017A1F8() \
-    extern void func_80179B74(short *); \
+    extern void func_80179B74(u16 *p); \
     void func_8017A1F8(void) { \
         short sp10; \
         sp10 = 0xC; \
@@ -2703,7 +2703,7 @@
     }
 
 #define DEFINE_func_8017A298() \
-    extern void func_80179B74(short *); \
+    extern void func_80179B74(u16 *p); \
     void func_8017A298(void) { \
         short sp10; \
         sp10 = 0xE; \
@@ -2711,7 +2711,7 @@
     }
 
 #define DEFINE_func_8017A2C0() \
-    extern void func_80179B74(short *); \
+    extern void func_80179B74(u16 *p); \
     void func_8017A2C0(void) { \
         short sp10; \
         sp10 = 0xF; \
@@ -2719,7 +2719,7 @@
     }
 
 #define DEFINE_func_8017A2E8() \
-    extern void func_80179B74(short *); \
+    extern void func_80179B74(u16 *p); \
     void func_8017A2E8(void) { \
         short sp10; \
         sp10 = 0x10; \
@@ -2727,7 +2727,7 @@
     }
 
 #define DEFINE_func_8017A310() \
-    extern void func_80179B74(short *); \
+    extern void func_80179B74(u16 *p); \
     void func_8017A310(void) { \
         short sp10; \
         sp10 = 0x11; \
@@ -2735,7 +2735,7 @@
     }
 
 #define DEFINE_func_8017A338() \
-    extern void func_80179B74(short *); \
+    extern void func_80179B74(u16 *p); \
     void func_8017A338(void) { \
         short sp10; \
         sp10 = 0x19; \
@@ -2743,7 +2743,7 @@
     }
 
 #define DEFINE_func_8017A360() \
-    extern void func_80179B74(short *); \
+    extern void func_80179B74(u16 *p); \
     void func_8017A360(void) { \
         short sp10; \
         sp10 = 0x1E; \
@@ -2751,7 +2751,7 @@
     }
 
 #define DEFINE_func_8017A388() \
-    extern void func_80179B74(short *); \
+    extern void func_80179B74(u16 *p); \
     void func_8017A388(void) { \
         short sp10; \
         sp10 = 0x1A; \
@@ -2926,7 +2926,7 @@
     }
 
 #define DEFINE_func_80179DCC() \
-    extern void func_80179B74(short *); \
+    extern void func_80179B74(u16 *p); \
     void func_80179DCC(short a0) { \
         short sp10[2]; \
         sp10[1] = a0; \
@@ -2935,7 +2935,7 @@
     }
 
 #define DEFINE_func_80179E1C() \
-    extern void func_80179B74(short *); \
+    extern void func_80179B74(u16 *p); \
     void func_80179E1C(short a0) { \
         short sp10[2]; \
         sp10[1] = a0; \
@@ -2944,7 +2944,7 @@
     }
 
 #define DEFINE_func_80179EE8() \
-    extern void func_80179B74(short *p); \
+    extern void func_80179B74(u16 *p); \
     void func_80179EE8(short a0) { \
         short sp[2]; \
         sp[1] = a0; \
@@ -2953,7 +2953,7 @@
     }
 
 #define DEFINE_func_80179F6C() \
-    extern void func_80179B74(short *p); \
+    extern void func_80179B74(u16 *p); \
     void func_80179F6C(short a0) { \
         short sp[2]; \
         sp[1] = a0; \
@@ -4833,7 +4833,7 @@
     }
 
 #define DEFINE_func_80179E48() \
-    extern void func_80179B74(s16 *a0); \
+    extern void func_80179B74(u16 *p); \
     void func_80179E48(s16 a0) { \
         s16 sp[2]; \
         sp[0] = 0x1F; \
@@ -4842,7 +4842,7 @@
     }
 
 #define DEFINE_func_80179E74() \
-    extern void func_80179B74(s16 *a0); \
+    extern void func_80179B74(u16 *p); \
     void func_80179E74(s16 a0) { \
         s16 sp[2]; \
         sp[0] = 0x4; \
@@ -4967,7 +4967,7 @@
     }
 
 #define DEFINE_func_80179F14() \
-    extern void func_80179B74(s16 *a0); \
+    extern void func_80179B74(u16 *p); \
     void func_80179F14(s16 a0, s16 a1) { \
         s16 sp[3]; \
         sp[0] = 0x13; \
@@ -5606,7 +5606,7 @@
     }
 
 #define DEFINE_func_80179D78() \
-    extern void func_80179B74(s16 *a0); \
+    extern void func_80179B74(u16 *p); \
     void func_80179D78(u16 *a0) { \
         s16 sp[5]; \
         sp[0] = 0x1C; \
@@ -5809,21 +5809,21 @@
     }
 
 #define DEFINE_func_8017A220() \
-    extern void func_80179B74(s16 *a0); \
+    extern void func_80179B74(u16 *p); \
     void func_8017A220(void) { \
         s16 v = 0x21; \
         func_80179B74(&v); \
     }
 
 #define DEFINE_func_8017A248() \
-    extern void func_80179B74(s16 *a0); \
+    extern void func_80179B74(u16 *p); \
     void func_8017A248(void) { \
         s16 v = 0x22; \
         func_80179B74(&v); \
     }
 
 #define DEFINE_func_8017A270() \
-    extern void func_80179B74(s16 *a0); \
+    extern void func_80179B74(u16 *p); \
     void func_8017A270(void) { \
         s16 v = 0xD; \
         func_80179B74(&v); \
@@ -8053,7 +8053,7 @@
     }
 
 #define DEFINE_func_80179D30() \
-    extern void func_80179B74(s16 *a0); \
+    extern void func_80179B74(u16 *p); \
     void func_80179D30(u16 *a0) { \
         s16 buf[4]; \
         buf[0] = 1; \
@@ -8064,7 +8064,7 @@
     }
 
 #define DEFINE_func_80179EA0() \
-    extern void func_80179B74(s16 *a0); \
+    extern void func_80179B74(u16 *p); \
     void func_80179EA0(u16 *a0) { \
         s16 buf[4]; \
         buf[0] = 5; \
@@ -8388,7 +8388,7 @@
     }
 
 #define DEFINE_func_80179F98() \
-    extern void func_80179B74(s16 *a0); \
+    extern void func_80179B74(u16 *p); \
     void func_80179F98(u16 *a0) { \
         s16 sp[5]; \
         sp[0] = 0x17; \
@@ -8400,7 +8400,7 @@
     }
 
 #define DEFINE_func_80179FEC() \
-    extern void func_80179B74(s16 *a0); \
+    extern void func_80179B74(u16 *p); \
     void func_80179FEC(u16 *a0) { \
         s16 sp[5]; \
         sp[0] = 0x20; \
@@ -8412,7 +8412,7 @@
     }
 
 #define DEFINE_func_8017A040() \
-    extern void func_80179B74(s16 *a0); \
+    extern void func_80179B74(u16 *p); \
     void func_8017A040(u16 *a0) { \
         s16 sp[5]; \
         sp[0] = 0x1D; \
