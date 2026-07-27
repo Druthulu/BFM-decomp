@@ -4038,7 +4038,7 @@ s32 func_8014CF04(s32 param_1, void *param_2, void *param_3) {
 INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_80140608", func_8014D04C);
 
 /* de-macroized: per-overlay-local decl for func_8014D12C (byte-true sig); do NOT re-macroize */
-    extern void func_8014D2A0(s32 a0, void *a1, void *a2);
+    extern s32 func_8014D2A0(s32 a0, void *a1, void *a2);
     extern s32 func_8014D12C(s32, void*, void*);
     void func_8014D0A4(s32 a0) {
         s16 buf1[4];

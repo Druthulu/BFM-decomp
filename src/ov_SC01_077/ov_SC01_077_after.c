@@ -1687,7 +1687,54 @@ s32 func_8014D12C(s32 arg0, void *a1, void *a2)
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_after", func_8014D2A0);
+// @class: iv-combine
+// @stuck: none — MATCH (80 ins, symcheck SYMS-OK 4/4). Keys: (1) §31#2 / loop.md L1 — ONE walked
+//   base pointer `p` with every field as a plain `*(T*)(p+k)` byte-offset; a separate `q = p+0x75`
+//   pointer (the Ghidra-C two-pointer read) strength-reduces a SPURIOUS 3rd IV (+ a `*q` bare deref
+//   keeps q alive as its own biv) -> 84 ins, $s5 spilled, frame 0x30 instead of 0x28. (2) The
+//   L1-rule-6 anchor falls out for free: the LAST-emitted DEST_ADDR giv is the `*(u8*)(p+0x75)` lbu
+//   in the func_8014C918 arg list, so combine_givs anchors the single giv at +0x75 and every other
+//   field becomes a negative offset off $s2 (-0x19/-0x1D/-0x6B/-0x55) exactly as the target shows.
+//   (3) `*(u16*)p` stays a BARE deref (mult 1, add 0 -> find_mem_givs excludes it) so the biv $s0
+//   itself does `lhu 0($s0)` and stays live for the two `beq $s0,$v0` identity checks. (4) The entry
+//   guard must be written `p < p + 0x6480` off the VARIABLE (per DEFINE_func_8014DD8C precedent):
+//   two symbol_refs would fold, the variable form emits the target's `addiu $v0,$s0,0x6480; sltu`,
+//   while the do-while bottom test against `D_80126720` materialises the full lui/addiu address.
+//   (5) `t` (the +0x58 field) is a single-use temp -> local-alloc parks it directly in $a1 across
+//   the beqz and into the call, matching `lw $a1,-0x1D($s2)`.
+#include "common.h"
+
+extern u8 D_801202A0[];
+extern u8 D_80126720[];
+extern s32 func_80135A4C(s32 a0, s32 a1, s32 *a2, s32 a3);
+extern s32 func_8014C918(s32 a0, s32 a1);
+
+s32 func_8014D2A0(s32 arg0, void *a1, void *a2)
+{
+    u16 *arg2 = (u16 *)a2;
+    u8 *p;
+    s32 t;
+
+    p = D_801202A0;
+    if (p < p + 0x6480) {
+        do {
+            if ((*(u16 *)p != 0) && ((*(u16 *)(p + 0x5C) & 0x400) != 0) &&
+                ((t = *(s32 *)(p + 0x58)) != 0) &&
+                (p != *(u8 **)(arg0 + 0x178)) && (p != *(u8 **)(arg0 + 0x170)) &&
+                (*(s16 *)(p + 0xA) >= *(s16 *)(arg0 + 0xA)) &&
+                (func_80135A4C(*(s32 *)(p + 0x20), t, (s32 *)a1, (s32)arg2) != 0)) {
+                *(u16 *)(arg0 + 6) = arg2[0];
+                *(u16 *)(arg0 + 0xA) = arg2[1];
+                *(u16 *)(arg0 + 0xE) = arg2[2];
+                *(u16 *)(arg0 + 0x16E) = func_8014C918(arg0, *(u8 *)(p + 0x75)) & 0xFF;
+                return 1;
+            }
+            p += 0x10C;
+        } while (p < D_80126720);
+    }
+    return 0;
+}
+
 
 // @class: other
 // @stuck: none — MATCH (22 ins; handwritten scratchpad-stack-switch trampoline via *(0x1F8003FC); mechanical remap of byte-proven sibling func_8014D04C in this same overlay — same D_801D9618 stash, callee swapped to func_8014D438; omit explicit jal-delay nop, maspsx auto-inserts it)

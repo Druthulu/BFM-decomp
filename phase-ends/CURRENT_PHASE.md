@@ -5175,3 +5175,60 @@ adjacent, its words are all code addresses in the overlay's text, and absorbing 
 **Verified:** the split table goes **28 → 50 words (112 B → 200 B)**, matching the agent's three
 independent confirmations; and across **38 jtbls × 6 functions = 228 combinations, exactly ONE range
 changes** — that table, for its owning function only. No other carve in the overlay moves.
+
+## ✅ T5 — BANKING THE FINISHED AGENTS (Drew: stop the wave, bank what's done, resume later)
+
+Workflow stopped mid-flight. **15 of 24 agents had returned a result, all 15 `status=match`.** Only
+those 15 drafts are trustworthy — the in-flight ones are still being written (§90d), so they were
+excluded rather than gated.
+
+**Pre-gate verification, both oracles, all 15: `match_one` MATCH + `reloc_verify` ALL RESOLVED.**
+Routing: **7 plain-gate** · **8 needing the §81 jtbl carve chain** (`reloc_verify`'s JTBL
+classification, agreeing with what the agents independently reported).
+
+### The blocker, measured: 7 of 7 PLUMBING, 0 DIFF, 0 compiler walls
+The first gate pass banked **0 of 7**. Per §58 the failure LABEL is a red herring, so I spliced
+drafts individually and read real cc1 output:
+
+| draft | real error |
+|---|---|
+| `func_8014D820` | `conflicting types for func_8014D820` (its own def) |
+| `func_8014D2A0` | `conflicting types for func_8014D2A0` |
+| `func_8014CF04` | `conflicting types for func_8014CF04` |
+| `func_8015D1B8` | `conflicting types for func_80149FB0` — a CALLEE, not itself |
+| `func_801330E0` | `prototype declaration` |
+
+**Zero are codegen.** Same shape as SESSION-20's T0.2 (8/8 PLUMBING, 0 walls) — the matching worked;
+declarations are the wall. §58b's law applies: **the draft sig is byte-TRUTH (it MATCHed); the
+header/caller decl is the stale stub-era guess** — so conform the decls, not the draft.
+
+### The §85 RETURN-axis widen, applied
+`func_8014D820`'s residual is genuinely load-bearing: rewriting its def to `void` costs 2
+instructions (302 vs 304, 79 mismatches) — so the `s32` return must stand and the DECLS must move.
+**§85 precondition verified for all three candidates: ZERO callers consume the return** ⇒ byte-neutral
+by construction. Applied **all-or-nothing** (a half-done axis is a guaranteed break, §85):
+**3,471 decl sites across 1,736 files**, with an R32 completion assertion (`old-form decls
+remaining: 0`) rather than a hope.
+
+### ⚠️ MY OWN REPORTING ERROR — I told Drew "0 of 7 banked"; the true number was 3
+The first `gate_stage` pass genuinely banked 0. But my **diagnostic pass printed only lines starting
+with `- func_` (the failures) and therefore hid its own successes** — bare `harvest_verify` banked
+`func_80158638` and `func_8016B6BC` while I was reading it for error text. I reported 0 to Drew and
+it was already 2. Derived from the source afterward (§55b(3): trust the source, never the report):
+**stubs at HEAD 150 → now 147, banked 3, 0 new stubs.**
+
+*A script that prints only failures is a report that cannot tell you it succeeded* — the same
+silent-skip shape as R32, pointed at my own instrumentation. Ground truth is the stub count.
+
+### 📌 AND A REAL FINDING FELL OUT OF THAT MISTAKE: the ladder is NOT monotonically better
+Same drafts, same tree, minutes apart: **`gate_stage`'s full ladder banked 0 of 7; bare
+`harvest_verify` banked 2 of 7.** The ladder REGRESSED two drafts that the bare gate accepts. This
+is the §19 finding ("`sig_unify` regresses already-canonical drafts", which produced the canon-first
+two-stage gate) recurring one level up — and it is the exact mirror of SESSION-20's T0.2, where the
+MISSING ladder produced a false 33%. **Neither "always ladder" nor "never ladder" is right; try both
+and let the byte-gate arbitrate.** Cheap to do — the bare gate is one build per draft.
+
+### Banked this session (whole-binary byte-gate, the sole arbiter)
+`func_8014D2A0` (80 ins ×138) · `func_80158638` (87 ×138) · `func_8016B6BC` (94 ×138).
+**`func_8014D820` remains a stub** — after the widen its error moved from `conflicting types` to an
+assembler-stage failure I did not finish diagnosing; recorded as open, not as a wall.
