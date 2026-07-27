@@ -5904,3 +5904,55 @@ rebuilds. *An incremental pass does not refute a clean-tree failure.* Every step
 the real cc1/ld error after a genuinely clean rebuild. Separately, `corpus.stubs` **refused to run**
 on a stale `asm/` after my revert, naming both files — the documented R22 corollary (a revert needs a
 re-extract), and R32 turning a would-be mystery into one `make extract`.
+
+---
+
+# 🛑 SESSION-22 CHECKPOINT (2026-07-27) — FRESH SESSION SAFE HERE
+
+**Tree clean** but for the R23 `db.*.gbf` churn (never stage). HEAD **`commit:1094`**.
+**R22 clean-fleet 140/140** (run 4× this session), dedup **1886/0**, **0 NON_MATCHING** (G4).
+**FLEET: 83.2% instr · 72.3% distinct-code · 89.87% fn-count** (SESSION-21 close: 82.8 / 71.3 / 89.80).
+
+## BANKED THIS SESSION — 3 exemplars + 133 members = 136 functions
+`func_80176218` (327 ins) **+ its family 133/137** · `func_8014CF04` (82) · `func_8015D1B8` (114).
+Measured delta from the committed digests: fn-count 317,762 → **317,898**; instr **+44,014**;
+distinct **+127** unique fns.
+
+## FOUR TOOL DEFECTS FIXED — every one was manufacturing false verdicts, none touched a bank
+- **§96 `reconcile_tu`**: matched statements to lines by TEXT, so every COMMENTED declaration was
+  silently skipped — decl left unconformed while the use-cast still fired. Now rewrites by SPAN with
+  an R32 completion assertion. (This is what unblocked `func_80176218`.)
+- **§97 `harvest_verify`**: `_ok` ignored → a REFUSED jtbl carve was built anyway into a guaranteed
+  `Error 33` and filed as CC1-FAIL; `attempt()` never restored on failure, so `_jtbl_snapshot()`
+  captured a dirty tree and its undo RE-APPLIED an earlier failed splice (the `final SHA None`
+  mechanism). Now: `CARVE-REFUSED` class, tree-at-baseline invariant, rc-checked recovery, and an
+  R32 assertion that names residue.
+- **§98 `conform_decls`** (three): newline-crossing regex that swallowed a DEFINITION + register pin;
+  substitution inside COMMENTS; and **the real one — it assumed ONE signature fits the fleet**, which
+  the loose-typed engine denies. New rule: **a TU that DEFINES the function owns its own
+  declarations.** Plus PLAN→VALIDATE→WRITE, and the completion assertion scoped to CONSUMING TUs
+  (it had cried wolf on its own by-design skip).
+
+## ▶ START HERE NEXT SESSION
+**1. SWEEP the 2 new exemplars ×137** — `func_8014CF04` (136 members, 2 matched) and `func_8015D1B8`
+   (137 members, 1 matched). Standard path: regen the map, then
+   `family_sweep --hseq --only 0x8014CF04,0x8015D1B8 --band substantial --normalize-self-decls`.
+   *(Launched at this checkpoint; if the log `.run/s22_sweep2.log` is absent or partial, just re-run.)*
+**2. `func_80135EB0`** (138 members × 289 ins = **39,882** templ ins) — `conform_decls --check` shows
+   418 sites in 3 forms, **pointer-type-only, NO narrowing warning**: the `func_80179B74` shape that
+   banked 137/137. Highest-value single target on the list.
+**3. The rest of the measured PLUMBING census** (`.run/s22_gate15.log`, T14) with their real blockers:
+   `func_8016EC0C` (narrowing ×1,617 sites — risky), `func_80175DA8`/`func_80175AB8` (§92: NOT a bare
+   conform — needs the §17a-1 caller pair), `func_8013BD74` (§20/§64 type-lift for local struct `A`),
+   `func_801789AC` (**138 zero-arg call sites must be cast FIRST** — conform_decls refuses, correctly).
+**4. The 4 SC07 sweep refusers** (`ov_SC07_006/007/010/011`, sibling TU `_jr_8016AE5C.c`) — §59 says
+   read ONE sibling's real gate result before concluding. Same 4 overlays flagged in SESSION-21.
+**5. Genuine DIFFs, not plumbing:** `func_80135260`, `func_80177B5C`, `func_80176734`, `func_8017C974`
+   (the last routed to the permuter by its agent — a global_alloc spill-choice inversion).
+
+## ⚠️ CARRIED DEFECTS (unchanged from SESSION-21)
+- The **21-file absolute-include portability defect** — PhaseEnd carry item.
+- **`docs/backlog.md` is not a work queue** — 44% misfiled partials (§83).
+- **Roadmap re-baseline owed**; the 39 type-1 modules are in no phase.
+- **The ladder-vs-bare-gate asymmetry** (ladder 0/7 vs bare gate 2/7) — still unexplained.
+**DO NOT close P29 on ROI** — burn-down floor still undetermined.
