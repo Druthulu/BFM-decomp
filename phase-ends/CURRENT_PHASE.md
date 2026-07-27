@@ -4737,3 +4737,113 @@ resolves. T0.1/T0.3 only read sigs/configs and write `.run/` + `docs/` ⇒ safe 
 >   0-bank group. **Fix: restore the snapshot regardless of neutrality** (§61 on the success path).
 > - The 707 `redraft` backlog entries are NOT near-misses — route to fresh cracks, never the permuter.
 > **DO NOT close P29 on ROI** — burn-down floor still undetermined.
+
+---
+
+# 🛑 SESSION-20 FINAL CHECKPOINT (2026-07-26) — FRESH SESSION STARTS HERE
+
+**Nothing running.** Tree clean but for R23 `db.*.gbf` churn (never stage). HEAD **`commit:1055`**,
+**26 commits this session**. **R22 clean-fleet 140/140** (run 13×), `tools-health` **OK**, dedup
+**1886/0**, **0 NON_MATCHING** (G4). **Drew pushes** (R6/R20).
+
+**FLEET: 81.7% instr · 69.3% distinct-code · 89.52% fn-count · 37,054 stubs.**
+Session opened at 80.6 / 68.2 / 89.18 → **+1.1 / +1.1 / +0.34 pp**.
+
+**🏆 ZERO BEHEMOTHS REMAIN** — no unmatched function >1000 ins exists anywhere in the fleet.
+`func_80183814` (5,122 — the largest in the game) · `func_8017D2DC` (1,586) · `func_8017DC1C` (1,518)
+· `func_8017C730` (1,061). ~1,070 family members also banked.
+
+---
+
+## ▶ THE ENDGAME MAP (iterated repeatedly this session — this is the CURRENT, MEASURED version)
+
+**Remaining: 2,405,364 instr-weighted / 1,732,609 distinct ins / 37,054 stubs.**
+
+| # | bucket | size | state / routing |
+|---|---|---|---|
+| 1 | **Sub-500 mass** | **~37,000 stubs ≈ 94% of ALL remaining** | THE endgame. Untouched. Breadth ⇒ Ultracode waves. **NEXT.** |
+| 2 | **Main EXE game code** | **~59,765 ins @ 0.7%** | Untouched, NOT idiom-blocked. Machinery exists (Phase-7 rodata/jtbl). Single binary ⇒ gating serialises. |
+| 3 | **-O0 cluster** | 2 fams / 66,171 ins | Known blocker: splat `%lo` re-disassembly at fleet scale. Arm A PROVED members bank (9/9). |
+| 4 | **jr families** | 13 fams / 57,311 ins | §81 chain proven 5× today; `jtbl_family_bank.py` exists. Zero-token. |
+| 5 | **FREE families** | ~38 unprobed of 53 | §86 one-member probe FIRST. Top-of-ranking already consumed; expect diminishing returns. |
+| 6 | `func_80144090` | 20,944 gain-ins | **LENGTH-DRIFT** (+13 B) — genuine codegen, real work, not mechanical. |
+| 7 | 707 `redraft` backlog | — | NOT near-misses — partial drafts misfiled. Route to fresh cracks, NEVER the permuter. |
+| 8 | Resident | 14 stubs | Classed dossier: 5 PLUMBING / 4 DIFF / 5 jtbl-deferred. |
+| 9 | 2 permanent giant walls | `func_801412A8` (close=110) · `func_80178004` (close=91) | Model-relative; re-price each phase. |
+| 10 | **39 type-1 modules** | unquantified | Need load-address RE (PCSX-Redux RAM proof) BEFORE they can be built. **IN NO PHASE OF THE ROADMAP.** |
+
+**⚠️ SIZING TRAP (Drew caught me on this):** `nins × members` is **reach-weighted gain-ins**, NOT a
+function size. `func_80144090` is **154 ins × 136 copies**, not a 20,944-ins monster. **Always label
+which one you are quoting.**
+
+### THE ROUTING RULE (measured today — it decides what to attack for WHICH metric)
+- **Byte-VARIANT families move distinct-code** (§84's family: +27,840 distinct) — each member is a
+  new unique function.
+- **Propagation/h_exact families move ONLY the display metric** (§85's 272 members: **+0 distinct**) —
+  already counted once via the shared exemplar.
+**⇒ To move RE-completeness, target variant families. To move the decomp.dev number, target reach.**
+
+---
+
+## THE SESSION'S THROUGH-LINE — FIVE ROOT CAUSES, ALL OUR OWN TOOLING
+1. **§84** a remap carrying a per-overlay symbol DISTANCE through as a literal · 2. **§85** a
+declaration axis applied to half its sites · 3. a recovery ladder never invoked (T0.2's false "33%") ·
+4. **§86** a pin guard refusing 63% of a pool, defending a crash Phase 27 already fixed · 5. a sweep
+loop globbing its own scratch dirs. **Not one was gcc.**
+
+## NEW LAWS — cookbook §84–§89 (all distilled in-session, R30)
+- **§84** derived-offset recompute; `match_one` masks `%lo` so it is BLIND to it (one-byte gate diff).
+- **§85** the RETURN axis is ALL-OR-NOTHING — widening only the shared header GUARANTEES a break
+  (the source overlay carries its own local `extern void` decls). Precondition: 0 callers consume the
+  return. 3,668 sites / 2,688 files, R22-verified byte-neutral.
+- **§86** pin templatability is **PER-FAMILY, not per-member** (2 fams 100%, 3 fams ~1%). **Probe ONE
+  member, then sweep or skip.** A sample straddling families reports their AVERAGE and hides the
+  bimodality. The §42e guard is OVER-CONSERVATIVE (0 cc1 crashes in hundreds of pinned compiles).
+- **§87** **`match_one` COMPILES but never LINKS** ⇒ an unresolvable symbol reads as MATCH; stored
+  drafts also go STALE against the tree. **FOUR blindness classes now catalogued: §81 jtbl · §84
+  masked `%lo` · §87 link · §87 staleness.** A stored MATCH is **a claim with a timestamp**.
+- **§88** `cross_jump` will NOT merge a call-bearing suffix (write those longhand; never hand-factor
+  the call-free tails) · the `slti` literal-position law · **§88c its equality-comparison FALSE
+  POSITIVE** (no `beqi`, so `==` constants are ALWAYS materialised — §78/§88b are scoped to ORDERED
+  comparisons only) · **§88d BANKING ORDER: carve chain BEFORE banking** (banking first let
+  `overlay_src_split` drop all 39 of a draft's externs) · **§88e** an inherited "named lever" is a
+  hypothesis with a citation — round 2 refuted round 1's `max_reg` story three ways; the real cause
+  was a `CODE_LABEL` from a `break`.
+- **§89** the two throughput rules the project already had and was not following.
+
+## NEW TOOLS — the standing sequence
+```
+family_sweep --stage-only → sweep_parallel.py -j 12 → blast_radius.py
+                                    T2? → R22 mandatory   T1? → per-binary gates already ran; commit
+```
+- **`tools/blast_radius.py`** — MEASURES the write set, enforces §63's tier. `--expect t1 --binary X`
+  fails loud when the tree disagrees. Negative-controlled on 4 cases incl. the §85 shape.
+- **`tools/sweep_parallel.py`** — reaches `bulk_harvest`'s per-binary gate farm from the family path
+  (SESSION-20 gated 389+268+104 members SERIALLY for no architectural reason). Filters the phantom
+  ladder-dirs at source.
+- **`.run/giants/s21_g21_reloc_verify.py`** — resolves EVERY relocation (incl. the implicit MIPS-REL
+  addend `objdump -r` omits) against the target. **Promote to `tools/` — it closes 3 of the 4
+  blindness classes before a gate cycle is spent.**
+
+## ▶ NEXT MOVE — THE ULTRACODE MASS WAVE (Drew's call, agreed)
+**Target: the sub-500 mass (~37,000 stubs, 94% of remaining).** Breadth ⇒ **prompt Drew for
+`/effort ultracode`** (R26/R27 — Claude cannot toggle it).
+1. **CALIBRATE ON ~50 FIRST and MEASURE.** Phase-15's mass wave yielded **+0.36% for ~4.1M tokens**
+   while deterministic recovery beat it **~7×**; tonight repeated that pattern (367k tokens → 0 banks
+   from an agent, vs ~1,070 members for ~0 tokens from tooling). **Do not scale on hope.**
+2. Gate via `sweep_parallel -j 12`, tier-check via `blast_radius`, R22 only if T2.
+3. **Flip back to Max** for synthesis / PhaseEnd / hard diagnosis (Ultracode caps depth at xHigh).
+**Zero-token alternative if tokens are precious: the jr families (#4, 57,311 ins), §81 proven 5×.**
+
+## ⚠️ CARRIED DEFECTS (unfixed, all recorded)
+- **21-file absolute-include portability defect** — PhaseEnd carry item (Drew: handle later).
+- **Ladder hygiene:** `--normalize-self-decls` (123 files) and the ARITY pre-pass (40 TUs) both leave
+  byte-neutral edits after a 0-bank run — the backstop only fires on NON-neutral. **Fix: restore the
+  snapshot regardless of neutrality** (§61 on the success path).
+- **Backlog ledger `addr` is null for 93% of entries** — address survives only in `name`. An
+  addr-keyed consumer silently sees 7%. **I fell into this twice in one session.**
+- **`docs/backlog.md` is NOT a work queue** — 44% misfiled partials (§83) + the integration bucket
+  doesn't link (§87). Re-gate a sample before planning against ANY stored-draft pool.
+- **Roadmap re-baseline owed:** B-buckets predate 4 overlays; B7 omits the largest function in the
+  game; the 39 type-1 modules appear in no phase.
+**DO NOT close P29 on ROI** — burn-down floor still undetermined.
