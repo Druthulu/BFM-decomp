@@ -5436,3 +5436,45 @@ the full §81 carve chain) — **+ 274 family members ×137**.
 - **Roadmap re-baseline owed** — B-buckets predate 4 overlays; the 39 type-1 modules are in no phase.
 - **The ladder-vs-bare-gate asymmetry** (item 5) is unexplained and silently costs banks.
 **DO NOT close P29 on ROI** — burn-down floor still undetermined.
+
+## ✅ T8 — THE SPAN-DERIVATION FIX, AND `func_8012AAAC` SWEPT 137/137
+
+**Root cause (found by reading the tool's ACTUAL invocation, not by guessing):**
+`jtbl_family_bank` calls `jtbl_carve <sibling> --func <fn> --like <exemplar_ov>`. The role-transfer
+keys on the SUBSEG ROLE, and its premise — *"same family ⇒ same span structure"* — is a claim about
+how the two **overlays** split their code, not about the family. `func_8012AAAC` lives in
+`ov_SC01_077_a` (role `_a`) in the exemplar and in the **main** subseg (role ``) in all 137 siblings,
+so the transfer looked up `ov_SC01_077` — an unrelated **seven-table** span owned by entirely
+different functions — and stamped those starts onto a sibling span holding one table.
+`jtbl_rodata_pads` refused correctly (`table-count drift`), but `jtbl_family_bank` deliberately
+excludes that error from its auto-isolate retry **and discards the message**, so all 137 siblings
+returned a bare `gate-fail` with no cause. It read as *"this family does not template"* — the exact
+verdict this project has had overturned as tooling three separate times.
+
+**Fix:** transfer only when the exemplar's subseg *for this function* has the sibling's role;
+otherwise derive locally (which the sibling's own carve was already doing correctly). Fail-open is
+not acceptable — a wrong table set corrupts the image — so the guard defaults to local derivation.
+
+**Result: 0/3 → 3/3 on the probe, then 134/134 on the remainder. The family is 137/137, ZERO
+failures; `func_8012AAAC` is stubbed in NO overlay.** R22 clean-fleet 140/140.
+
+**FLEET: 82.0% instr · 69.5% distinct-code · 89.64% fn-count.**
+
+### 📊 The routing rule, reproduced twice in one session — in BOTH directions
+This jtbl family is byte-**VARIANT** (each overlay's table holds its own addresses), so every member
+is a genuinely new unique function and **distinct-code moved 69.3% → 69.5%**. The h_seq **PURE**
+families swept earlier added **274 members and moved distinct-code by +0.0**, because those members
+were already counted via their shared exemplar. SESSION-20's rule is now byte-demonstrated from both
+ends: **target byte-VARIANT families to move RE-completeness; high-reach h_exact families move only
+the decomp.dev display number.** Pick targets by the metric you mean to move.
+
+### Two wrong hypotheses, kept because the wrongness is the lesson
+1. **Sibling call-site casts** — a REAL conflict (137 TUs, exactly the member count), fixed and
+   R22-proven byte-neutral. **Moved nothing.** *"The error I can see" ≠ "the error blocking me."*
+2. **My own carve-alone test** — a false lead I generated. For this shape §81 step 2 cannot hold:
+   the 2-entry spec describes a table the object only emits once the body is banked, and a stub
+   object emits one. The tool splices the body BEFORE building, so its path was valid and my
+   simplification was not. *A diagnostic that departs from the tool's real sequence tests a
+   different program.*
+
+Distilled as **cookbook §91**. Session total: **4 exemplars + 411 members = 415 functions banked.**
