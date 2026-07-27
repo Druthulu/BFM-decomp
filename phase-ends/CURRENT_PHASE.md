@@ -5267,3 +5267,44 @@ RE-completeness you must target byte-VARIANT families** (the §84 class, which m
 **3 exemplars + 274 members = 277 functions banked**, from 15 completed agent drafts (2.48M+ subagent
 tokens for the drafting; the member sweep cost ~0 agent tokens — the crack-once-stamp-138 economics
 working as designed). 140/140 byte-identical, verified twice from a genuinely clean tree.
+
+---
+
+# 🛑 SESSION-21 CHECKPOINT (2026-07-27) — FRESH SESSION SAFE HERE
+
+**Nothing running** (the wave was stopped at Drew's request; 9 of 24 agents never returned).
+Tree clean but for the R23 `db.*.gbf` churn (never stage). HEAD **`commit:1064`**.
+**R22 clean-fleet 140/140** (run twice), `dedup` **1886/0**, **0 NON_MATCHING** (G4).
+**FLEET: 81.9% instr · 69.3% distinct-code · 89.60% fn-count.** Drew pushes (R6/R20).
+
+## BANKED THIS SESSION — 277 functions
+`func_8014D2A0` · `func_80158638` · `func_8016B6BC` (3 exemplars) **+ 274 family members ×137**.
+
+## ▶ START HERE NEXT SESSION
+
+**1. RESUME THE WAVE — 9 targets never drafted.** `Workflow({scriptPath:
+   'tools/workflows/family_core_wave.js', resumeFromRunId: 'wf_6c43d703-ebb', args: <same>})` —
+   the 15 completed replay from cache free. Un-drafted, by stake:
+   `func_80176734` (51,198) · `func_80176218` (45,126) · `func_80135EB0` (39,882) ·
+   `func_8015B950`* · `func_80140958` (35,880) · `func_80175DA8` (31,878) · `func_80175AB8` (25,944) ·
+   `func_80177B5C` (20,286) · `func_8017C974` (15,152).  *(8015B950 returned but is jtbl-routed.)*
+**2. THE 8 JTBL-ROUTED DRAFTS ARE READY AND UNSPENT** — all `match_one` MATCH + `reloc_verify`
+   ALL RESOLVED, blocked only on the §81 carve chain: `func_8012AAAC` · `func_8013B83C` ·
+   `func_8013BD74` · `func_80135260` · `func_80179B74` · `func_8015B950` · `func_801789AC` ·
+   `func_8016AE5C`. **`jtbl_carve`'s split-table bug is FIXED this session**, which unblocks
+   `func_8012AAAC` specifically (its table was carving 112 B for a 200 B object). Drafts are in
+   `.run/drafts-s21/`. This is the single highest-value ready-to-bank pool.
+**3. `func_8014D820`** (41,952 templ ins) — the §85 widen cleared its `conflicting types`, but the
+   failure moved to an ASSEMBLER-stage error I did not finish diagnosing. Open, **not a wall**.
+**4. Try the BARE gate as well as the ladder** — measured this session: `gate_stage`'s ladder banked
+   0/7 where bare `harvest_verify` banked 2/7 on the same drafts. One build per draft to check.
+**5. The 60-family zero-crack pool** (`.run/s21_zerocrack.json`, 208,499 ins nominal — but honestly
+   discounted: ~95k is already-diagnosed refusals; the untried head is ~57k).
+
+## ⚠️ CARRIED DEFECTS (unchanged + one new)
+- The **21-file absolute-include portability defect** — PhaseEnd carry item (Drew: handle later).
+- **`docs/backlog.md` is not a work queue** — 44% misfiled partials (§83).
+- **Roadmap re-baseline owed** — B-buckets predate 4 overlays; the 39 type-1 modules are in no phase.
+- **NEW:** the ladder-vs-bare-gate asymmetry above is unexplained — worth a bounded diagnosis, since
+  it silently costs banks on every wave that only runs the ladder.
+**DO NOT close P29 on ROI** — burn-down floor still undetermined.
