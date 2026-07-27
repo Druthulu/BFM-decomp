@@ -5138,3 +5138,40 @@ must keep the two `ptr->w0` temps distinct.*
 **Hygiene:** `git status` shows the agents touched **zero tracked files** — the wave's write-set
 constraint held. (That also bounds the one agent whose safety-classifier review was unavailable:
 its writes were confined to its own draft, and the byte-gate remains the arbiter regardless.)
+
+## ✅ T4b — THE `jtbl_carve` SPLIT-TABLE BUG, FIXED — and the agent's evidence was wrong (R14)
+
+The wave agent's *conclusion* was right and its *stated evidence* was wrong. Both mattered.
+
+**The bug (real):** `jtbl_range()` ends a carve at the next data dlabel, which assumes every dlabel
+is an object boundary. spimdisasm does not guarantee that — it can **cut one jump table in half**,
+emitting the tail under an invented `D_` label. `func_8012AAAC`'s 50-word table appears as
+`jtbl_801D7FB0` (28 words) + `D_801D8020` (22 words). The carve then reserves **112 B for an object
+that supplies 200 B** of `.rodata`, shifting every later symbol. `match_one` is structurally blind
+to it (§84); it surfaces only as a whole-binary DIFF.
+
+**The evidence (wrong):** the agent reported `D_801D8020` as having *"ZERO xrefs anywhere in the
+tree"* and proposed deleting the label. It has **two** — `.word D_801D8020` and `+ 0x2` in
+`tail.data.s`. They are almost certainly spimdisasm mis-symbolizing packed halfword data (their
+neighbours are unaligned non-addresses like `0x8012801B`), but *"almost certainly"* is not a gate,
+and **acting on the agent's remedy would have deleted a symbol two emitted words reference.**
+I built the xref census first, watched it refuse the absorption, and only then found the reference —
+which is the whole argument for re-deriving an agent's premise instead of implementing its fix.
+
+**The gate I used instead — the function's own `sltiu`.** gcc emits `sltiu $v0, $idx, N` right
+before the indexed load, so **the program itself declares its table length**. `func_8012AAAC` says
+`sltiu 0x32` = 50. No heuristic, no judgement call. A label is absorbed only when it is immediately
+adjacent, its words are all code addresses in the overlay's text, and absorbing it lands on an
+**exact** `sltiu` bound. Three further corrections during the build, each caught by testing:
+- The absorption fired and the **trailing-pad trim immediately undid it** (it re-trimmed against the
+  first dlabel's 28 words). The trim now sees the whole absorbed table.
+- The continuation's end is **its own last `.word`**, not the next dlabel — `D_801D8020` ends at
+  `0x801D8078` while the next dlabel is `0x801D8158`, 224 B further on. Using the next dlabel as the
+  stop is the very assumption the repair exists to correct.
+- `max(sltiu)` was wrong for a **multi-switch** function; it is now the SET of bounds with an exact
+  hit required, and the shortfall warning fires only when the pairing is unambiguous (one bound).
+  Before that guard it fired ~90 times across 38 tables — a warning that fires on ambiguity is noise.
+
+**Verified:** the split table goes **28 → 50 words (112 B → 200 B)**, matching the agent's three
+independent confirmations; and across **38 jtbls × 6 functions = 228 combinations, exactly ONE range
+changes** — that table, for its owning function only. No other carve in the overlay moves.

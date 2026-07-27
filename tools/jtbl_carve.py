@@ -236,7 +236,58 @@ def jtbl_words(ov, jtbl_hex):
     return []
 
 
-def jtbl_range(ov, jtbl_hex, labels, region_end_vram):
+def _label_words(ov, prefix, hex_addr):
+    """The raw `.word` values under `dlabel <prefix><hex>`, in order (generic jtbl_words)."""
+    pat = re.compile(rf"dlabel\s+{prefix}{hex_addr}\b", re.I)
+    for p in glob.glob(os.path.join(REPO, "asm", ov, "data", "*.data.s")):
+        lines = open(p).read().split("\n")
+        for i, ln in enumerate(lines):
+            if pat.search(ln):
+                out = []
+                for ln2 in lines[i + 1:]:
+                    m = re.search(r"\.word\s+(0x[0-9A-Fa-f]+)", ln2)
+                    if m:
+                        out.append(int(m.group(1), 16))
+                        continue
+                    if re.search(r"\b(?:dlabel|glabel|enddlabel)\b", ln2):
+                        break
+                return out
+    return []
+
+
+def _sltiu_bounds(ov, fn, sub):
+    """Every `sltiu $x, $y, N` immediate in <fn>'s disassembly — the switch RANGE CHECKS.
+
+    THE AUTHORITATIVE ORACLE for how many entries a jump table has: gcc emits
+    `sltiu $v0, $idx, N` immediately before the indexed load, so the FUNCTION ITSELF declares
+    its table length. Everything else (the next dlabel, an xref census, the trailing-zero trim)
+    is inference about what spimdisasm chose to emit; this is the program's own statement."""
+    p = os.path.join(REPO, "asm", ov, "nonmatchings", sub, f"{fn}.s")
+    if not os.path.exists(p):
+        return set()
+    out = set()
+    for ln in open(p, errors="replace"):
+        m = re.search(r"\bsltiu\s+\$\w+,\s*\$\w+,\s*(0x[0-9A-Fa-f]+|\d+)", ln)
+        if m:
+            out.add(int(m.group(1), 16) if m.group(1).startswith("0x") else int(m.group(1)))
+    return out
+
+
+def _continuation_words(ov, vram):
+    """The words of the `D_<vram>` label if they all look like jump targets, else None.
+
+    'Look like' = every word is a code address in this overlay's text. That is necessary but NOT
+    sufficient to absorb the label — the caller additionally requires the owning function's own
+    `sltiu` bound to demand those words. See the call site for why an xref census is NOT used."""
+    words = _label_words(ov, "D_", f"{vram:08X}")
+    if not words:
+        return None
+    if not all(0x80100000 <= w < 0x801D0000 for w in words):
+        return None
+    return words
+
+
+def jtbl_range(ov, jtbl_hex, labels, region_end_vram, fn=None, sub=None):
     """(start_vram, end_vram) of a RAW jtbl_<hex>: end = the next data dlabel, MINUS any trailing
     zero words.
 
@@ -262,7 +313,68 @@ def jtbl_range(ov, jtbl_hex, labels, region_end_vram):
                  f"(asm/{ov}/data/*.data.s) — already carved / stale asm? re-extract or --revert first")
     nxt = next((a for a in labels if a > start), None)
     end = nxt if nxt is not None else region_end_vram
-    words = jtbl_words(ov, jtbl_hex)
+
+    # ---- SPLIT-TABLE REPAIR (Phase 29 SESSION-21) -------------------------------------------
+    # "end = the next data dlabel" assumes every dlabel is an object boundary. spimdisasm does not
+    # guarantee that: it can CUT ONE JUMP TABLE IN HALF, emitting the tail under an invented `D_`
+    # label. Measured on func_8012AAAC: its 50-word table appears as jtbl_801D7FB0 (28 words) +
+    # D_801D8020 (22 words, ZERO xrefs anywhere in the tree). Carving to the next dlabel then
+    # reserves 112 B for an object that supplies 200 B of .rodata — under-filling the piece and
+    # shifting every later symbol (the same image-corruption class the trailing-pad trim exists
+    # for, in the opposite direction). match_one is structurally blind to it (§84); it surfaces
+    # only as a whole-binary DIFF, which is the most expensive place to learn it.
+    #
+    # AUTHORIZATION: the owning function's own `sltiu N` range check. A label is absorbed ONLY if
+    # the function demands more entries than the dlabel boundary supplies, the following label is
+    # immediately adjacent, its words are all code addresses, and absorbing it lands EXACTLY on
+    # the entry count the function asked for. Then the extension is the program's own statement,
+    # not a guess.
+    #
+    # An xref census was tried first and REJECTED as the gate. The wave agent that found this bug
+    # reported D_801D8020 as having "ZERO xrefs anywhere in the tree"; it actually has two
+    # (`.word D_801D8020` and `+ 0x2` in tail.data.s). Those two are almost certainly spimdisasm
+    # mis-symbolizing packed halfword data — their neighbours are unaligned non-addresses like
+    # 0x8012801B — but "almost certainly" is not a gate, and acting on the agent's stated remedy
+    # (delete the label) would have removed a symbol two emitted words reference. The sltiu bound
+    # needs no such judgement call. (R14: the agent's CONCLUSION was right and its EVIDENCE was
+    # wrong; only re-deriving from the bytes separates those.)
+    # A function may own SEVERAL switches, so there is no single "the" bound — use the SET and
+    # require an EXACT hit. `max()` would be a guess, and a wrong absorption corrupts the image.
+    bounds = _sltiu_bounds(ov, fn, sub) if fn and sub else set()
+    absorbed = []                      # words pulled in from continuation labels, in order
+    while bounds:
+        have = (end - start) // 4
+        if end is None or end >= region_end_vram or have in bounds:
+            break
+        tail = _continuation_words(ov, end)
+        if tail is None:
+            break
+        # The continuation ends at ITS OWN last `.word`, not at the next dlabel: the label may be
+        # followed by unlabeled data (here D_801D8020 holds 22 words to 0x801D8078 while the next
+        # dlabel is 0x801D8158, 224 B further on). Using the next dlabel as the stop is the very
+        # assumption this repair exists to correct.
+        stop = end + len(tail) * 4
+        n = (stop - start) // 4
+        if n not in bounds:
+            break                      # absorbing this label does not land exactly on a bound
+        print(f"jtbl_carve: jtbl_{jtbl_hex}: absorbing D_{end:08X} ({len(tail)} words) — "
+              f"{fn}'s own `sltiu {n}` demands {n} entries but the dlabel boundary supplies only "
+              f"{have}; spimdisasm split ONE table across two dlabels (SESSION-21 repair)")
+        absorbed.extend(tail)
+        end = stop
+    if len(bounds) == 1 and (end - start) // 4 < next(iter(bounds)):
+        # R32: report a shortfall — but ONLY when the pairing is unambiguous. A multi-switch
+        # function has several bounds and no way to say which one owns THIS table, and a warning
+        # that fires on ambiguity is noise, not a signal (it fired ~90 times across 38 tables
+        # before this guard).
+        want = next(iter(bounds))
+        print(f"jtbl_carve: ⚠ jtbl_{jtbl_hex}: {fn}'s only `sltiu` is {want} but the carve spans "
+              f"{(end - start) // 4} — the object may supply more .rodata than the carve reserves "
+              f"(§84-class image shift). Verify before banking.", file=sys.stderr)
+    # The trailing-pad trim must see the WHOLE table, absorbed continuations included. Trimming
+    # against the first dlabel's words alone re-truncates the range the repair above just widened
+    # (measured: absorb 22 words -> trim 22 straight back off, net zero).
+    words = jtbl_words(ov, jtbl_hex) + absorbed
     if words:
         n = len(words)
         while n > 0 and words[n - 1] == 0:
@@ -348,7 +460,7 @@ def build_carve(ov, funcs):
         if not js:
             sys.exit(f"jtbl_carve: {f} references no jtbl_ (not a jr/switch function?)")
         for jh in js:
-            s_vram, e_vram = jtbl_range(ov, jh, labels, region_end_vram)
+            s_vram, e_vram = jtbl_range(ov, jh, labels, region_end_vram, fn=f, sub=sub)
             s_off, e_off = s_vram - base, e_vram - base
             if s_off in have:
                 continue                       # idempotent: already carved
