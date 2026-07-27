@@ -2445,30 +2445,11 @@ LOOP:
 // running pointer over the 8-byte table rows, and the ((param_4 << 16) >> 14) byte-offset
 // index into D_80189CE0 (sll 16 / sra 14).
 
-typedef struct {
-    short x;   /* +0x0 */
-    short y;   /* +0x2 */
-    short c;   /* +0x4 */
-    short pad; /* +0x6 */
-} Vtx_8016B6BC;
 
-typedef struct {
-    Vtx_8016B6BC v[3];       /* +0x00 +0x08 +0x10 */
-    unsigned long combined;  /* +0x18 */
-    unsigned long z1c;       /* +0x1c */
-    unsigned long z20;       /* +0x20 */
-    unsigned long color;     /* +0x24 */
-} Prim_8016B6BC;             /* 0x28 */
+             /* 0x28 */
 
-typedef struct {
-    short x;
-    short y;
-} DVec_8016B6BC;
 
-typedef struct {
-    int m0;
-    int m1;
-} M8_8016B6BC;               /* the 8-byte D_80189CE0[] row */
+               /* the 8-byte D_80189CE0[] row */
 
 extern int D_80189CE0;
 extern void func_80013CFC(s32 a0, s32 a1, void *a2);

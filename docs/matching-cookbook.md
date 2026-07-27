@@ -6922,3 +6922,39 @@ one sentence. This turned an opaque `Error 33` into a one-line fix twice in one 
 what it IS — an *undiagnosed* observation — not as a named cause. I flagged this one explicitly as
 "never diagnosed, re-derive," and the agent found the true cause immediately. Had I written
 "assembler-stage failure" as established fact, it would have inherited my wrong search space.
+
+## §94 — A family sweep's `0/N` is a TYPE-CARRY failure until proven otherwise: lift the exemplar's local types, ALL of them, transitively (Phase 29 SESSION-21, `func_8016B6BC` 0/137 → 137/137)
+
+`func_8016B6BC` failed its family sweep at **0/137, reproducibly, twice** — once in the 274-member
+propagation batch and again after the §91 `--like` guard landed. It looked exactly like the §86
+bimodal case ("some families template, some do not"). It was nothing of the kind.
+
+**§59(1) says a remap drops the exemplar's LOCAL struct types. It does — and the failure it
+produces names the wrong thing.** cc1 reports:
+```
+`c' undeclared (first use this function)
+`v' undeclared (first use this function)
+`off' undeclared (first use this function)
+```
+Those are ordinary locals and they ARE declared in the remapped body. cc1 says "undeclared" because
+it aborted the declaration block at an unknown TYPE (`Prim_8016B6BC prim;`) and every later
+declaration in that block fell out with it. **Read the first error, not the loudest one** — and if a
+variable you can see declared is reported undeclared, suspect its type, not its declaration.
+
+**The lift must be TRANSITIVE, and one round is not enough.** Lifting the type the body names
+directly (`M8_8016B6BC`) changed nothing: still 0/137. The full set was four, discovered by
+following each definition's own references —
+`M8_8016B6BC` → `Prim_8016B6BC` → **`Vtx_8016B6BC`** (named only inside `Prim`'s body) → `DVec_8016B6BC`.
+`tools/lift_types.py --types A,B,C --apply` lifts them to `engine_types.h` and strips the local
+copies. Byte-gate the lift ALONE first (it must be neutral — it was, `d19c9580…` unchanged), then sweep.
+
+**Result: 0/137 → 137/137, zero failures.** R22 clean-fleet 140/140.
+
+> **The law:** a sweep `0/N` is an INTEGRATION signal (§59), and the cheapest hypothesis is that the
+> exemplar's body references a type only its own TU defines. Diagnose by splicing ONE sibling and
+> reading cc1 directly (§93) — the sweep's own summary tells you nothing about cause. Then lift the
+> **transitive closure** of the local types, not just the one the body mentions.
+>
+> **Cost of not doing this:** this family sat recorded as a bimodal "doesn't template" case across
+> two sessions. The whole diagnosis, once pointed at one sibling's real stderr, took under an hour
+> and was worth 137 members.

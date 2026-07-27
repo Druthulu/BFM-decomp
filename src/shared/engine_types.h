@@ -1257,6 +1257,31 @@ typedef struct {
     u16 *data;      /* 0xC */
 } Cmd_8013D53C;              /* 0x10 */
 
+
+/* --- lift_types.py fleet lift --- */
+typedef struct {
+    int m0;
+    int m1;
+} M8_8016B6BC;
+
+/* --- lift_types.py fleet lift --- */
+typedef struct {
+    short x;
+    short y;
+} DVec_8016B6BC;
+typedef struct {
+    short x;   /* +0x0 */
+    short y;   /* +0x2 */
+    short c;   /* +0x4 */
+    short pad; /* +0x6 */
+} Vtx_8016B6BC;
+typedef struct {
+    Vtx_8016B6BC v[3];       /* +0x00 +0x08 +0x10 */
+    unsigned long combined;  /* +0x18 */
+    unsigned long z1c;       /* +0x1c */
+    unsigned long z20;       /* +0x20 */
+    unsigned long color;     /* +0x24 */
+} Prim_8016B6BC;
 #endif /* BFM_ENGINE_TYPES_H */   /* SESSION-19: moved here — 11 typedefs (the
  * Phase-29 crack-wave lift onward) were sitting OUTSIDE the guard, so any TU that
  * included this header twice re-declared them. gcc-2.7.2 rejects a repeated typedef
