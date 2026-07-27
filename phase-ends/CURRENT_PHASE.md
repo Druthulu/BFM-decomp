@@ -5856,3 +5856,51 @@ The `reconcile_tu` span fix unblocked **`func_80176218` (measured, banked, swept
 PLUMBING are `conflicting types for <the function itself>`**, i.e. the DEF-side self-decl axis that
 `conform_decls` owns (the path that banked `func_80179B74` and `func_8015B950` at 137/137 in
 SESSION-21). That is the next lever, and it is now a measured target list rather than a guess.
+
+## ✅/⚠️ T15 — 2 banked on the `func_8014CF04` decl axis, after R22 caught THREE tool defects (§98)
+
+The measured PLUMBING list from T14 showed **`func_8014CF04` blocking three drafts at once** (itself,
+`func_80135260`, `func_8015D1B8` — all `conflicting types` at `after.c:1644`). `conform_decls --check`
+cleared it (§85: 0 callers consume the return). The other candidates were correctly triaged and
+deferred: `func_80175DA8`/`func_80175AB8` (scalar-narrowing — §92 says a bare conform turns these
+PLUMBING→DIFF), `func_8016EC0C` (narrowing across 1,617 sites), `func_8013BD74` (needs the §20/§64
+type-lift), and **`func_801789AC` — REFUSED correctly**: 138 zero-arg call sites would break 138
+binaries, the guard that already paid for itself on `func_8015B950`.
+
+**BANKED: `func_8014CF04` + `func_8015D1B8`.** `func_80135260` is a genuine **DIFF**, agreeing with
+its independent SESSION-21 diagnosis. **R22 clean-fleet 140/140**; `make report` fail-closed green
+(dedup 1886/0, C1 coverage complete, 0 NON_MATCHING). Measured delta: fn-count 317,896 → **317,898**;
+instr +196; distinct 66,110 → **66,111**.
+
+### ⚠️ R22 CAUGHT WHAT THE PER-BINARY GATE CALLED BYTE-IDENTICAL — 139/140, twice
+The `--check` output's per-form counts read "1", but **applying rewrote 1,752 sites across 1,748
+files**: a fleet-shared **T2** write set, exactly the §63/§85 shape. Three defects (cookbook §98):
+
+1. **The regex crossed newlines** (`[^;]*` matches `\n`), so a match starting at a DEFINITION line ran
+   past the `{` to the first `;` and replaced `s32 func_8014CF04(...) {` **plus the register pin on
+   the next line** with a prototype → `undefined reference`. Fixed to `[^;{\n]*` (a definition is now
+   unmatchable by construction). Negative control: old regex matched the definition+pin as one
+   "declaration", new one matches only the real decl.
+2. **It rewrote inside COMMENTS** (H5, 3 lines). Fixed by scanning `cdecl._mask()` and rewriting by
+   SPAN (R33 — that primitive exists for exactly this).
+3. **THE REAL CAUSE — it assumed one signature fits the fleet.** `ov_SC07_006` carries its OWN banked
+   definition with a **different byte-true signature** (`(s32, s32, void*)` vs ov_SC01_077's
+   `(s32, void*, void*)`), under a decl marked *"per-overlay-local decl (byte-true sig); do NOT
+   re-macroize"*. This is the **Phase-16 loose-typing wall** inside a tool that structurally assumes
+   it away. **New rule: a TU that DEFINES the function owns its own declarations** — a fleet axis is
+   meaningful only for CONSUMING TUs. This grows more common as banking proceeds: every overlay that
+   banks a function becomes an exception.
+
+**Then the R32 assertion cried wolf on its own by-design skip** (`HALF-AXIS — DO NOT BUILD` for a
+complete, correct rewrite). **An assertion must be exact about its DOMAIN, not just its condition.**
+Scoped to consuming TUs → 1,747 sites, 1 excluded by design, axis complete.
+**Also hardened: PLAN → VALIDATE → WRITE** — the refusal path originally aborted *mid-write* while
+claiming nothing was modified, i.e. it created the very half-axis §85 calls a guaranteed break.
+
+### The R22 premise, re-earned (and a wrong expectation of mine, recorded)
+After fixing defect 1 I **expected R22 to pass; it failed again at 139/140** for an unrelated reason.
+An individual `make build` of the failing binary then **succeeded** — reusing objects the clean run
+rebuilds. *An incremental pass does not refute a clean-tree failure.* Every step came from reading
+the real cc1/ld error after a genuinely clean rebuild. Separately, `corpus.stubs` **refused to run**
+on a stale `asm/` after my revert, naming both files — the documented R22 corollary (a revert needs a
+re-extract), and R32 turning a would-be mystery into one `make extract`.

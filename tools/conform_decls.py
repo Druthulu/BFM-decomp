@@ -27,6 +27,18 @@ Usage:
   tools/conform_decls.py --fn func_XXXX --draft <draft.c> [--check] [--apply]
 """
 import argparse, glob, os, re, sys
+import importlib.util as _ilu
+
+
+def _load(mod, rel):
+    _spec = _ilu.spec_from_file_location(mod, os.path.join(
+        os.path.dirname(os.path.dirname(os.path.abspath(__file__))), rel))
+    _m = _ilu.module_from_spec(_spec)
+    _spec.loader.exec_module(_m)
+    return _m
+
+
+cdecl = _load('cdecl', 'tools/cdecl.py')   # for _mask: comments/strings are never rewritten (H5)
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = [os.path.join(REPO, p) for p in ("src",)]
@@ -100,10 +112,28 @@ def main():
     # declares it on line 23 as `void func_8013BD74(void *a0, s32 a1);` — a silent miss that reads
     # exactly like "nothing to do" (R32). The leading `extern` is PRESERVED where present, so the
     # rewrite never changes a declaration's linkage.
-    decl_re = re.compile(rf"(extern\s+)?[A-Za-z_][\w \t\*]*?\b{a.fn}\s*\([^;]*\);")
+    # `[^;{\n]*` — NOT `[^;]*` (Phase 29 SESSION-22, byte-witnessed on ov_SC07_006).
+    # `[^;]*` matches NEWLINES, so a match starting at a DEFINITION line
+    #     s32 func_8014CF04(s32 param_1, void *param_2, void *param_3) {
+    # ran straight past the brace and through the body to the first `;` it found — the register-pin
+    # declaration on the next line — and replaced BOTH with a prototype. The definition was deleted,
+    # the binary failed to link (`undefined reference to func_8014CF04`), and R22 caught it at
+    # 139/140 while the per-binary gate on ov_SC01_077 had said BYTE-IDENTICAL. Excluding `\n` and
+    # `{` makes a definition unmatchable by construction; a multi-line prototype simply is not
+    # matched, and the R32 completion assertion below then reports it rather than mangling it.
+    decl_re = re.compile(rf"(extern\s+)?[A-Za-z_][\w \t\*]*?\b{a.fn}\s*\([^;{{\n]*\);")
+    # A DEFINITION of the target, for the guard below: the same head, followed by `{` not `;`.
+    def_re = re.compile(rf"(?:[A-Za-z_][\w \t\*]*?)\b{a.fn}\s*\([^;{{\n]*\)\s*\{{")
 
     def _canon_for(m):
         return (m.group(1) or "") + f"{ret} {a.fn}({params});"
+
+    def _decl_spans(txt):
+        """Declaration matches, found on MASKED text so a comment or string literal can never be
+        rewritten (H5 — this tool mangled three comment lines before the mask went in), with the
+        spans applied to the ORIGINAL. `cdecl._mask` is length-preserving precisely so that offsets
+        into the mask are valid offsets into the source (R33: reuse it, do not write a third one)."""
+        return [(m.start(), m.end(), _canon_for(m)) for m in decl_re.finditer(cdecl._mask(txt))]
     forms, total = {}, 0
     for p in sources():
         try:
@@ -204,17 +234,56 @@ def main():
         print("\n(dry run — pass --apply to rewrite)")
         return 0
 
-    changed = touched = 0
+    # PLAN -> VALIDATE -> WRITE. Never write as you go: this axis spans ~1,748 files, and aborting
+    # halfway through leaves a HALF-AXIS, which §85 says is a guaranteed break rather than a smaller
+    # win. Planning first means a refusal costs nothing and leaves the tree untouched.
+    plan, changed, defining = [], 0, []
     for p in sources():
         try:
             txt = open(p, errors="replace").read()
         except OSError:
             continue
-        new, n = decl_re.subn(_canon_for, txt)
-        if n and new != txt:
-            open(p, "w").write(new)
-            changed += n
-            touched += 1
+        # A TU THAT DEFINES THE FUNCTION OWNS ITS OWN DECLARATIONS — SKIP THE WHOLE FILE.
+        # (Phase 29 SESSION-22, byte-witnessed on ov_SC07_006; the Phase-16 loose-typing wall.)
+        # This engine gives ONE address DIFFERENT byte-true signatures in different overlays:
+        # ov_SC01_077 needs `(s32, void*, void*)` while ov_SC07_006's own banked definition needs
+        # `(s32, s32, void*)`, and that file carries a local decl explicitly marked
+        #     /* de-macroized: per-overlay-local decl (byte-true sig); do NOT re-macroize */
+        # Conforming it to the fleet-wide canonical produced `conflicting types` against the very
+        # definition below it — the tool overwrote a deliberate, byte-true, per-overlay exception.
+        # A fleet-wide axis is only meaningful for TUs that CONSUME the symbol; a TU that DEFINES it
+        # is byte-truth for itself and must be left entirely alone.
+        if def_re.search(cdecl._mask(txt)):
+            defining.append(os.path.relpath(p, REPO))
+            continue
+        spans = _decl_spans(txt)
+        if not spans:
+            continue
+        new = txt
+        for s, e, rep in reversed(spans):          # right-to-left keeps earlier offsets valid
+            new = new[:s] + rep + new[e:]
+        if new == txt:
+            continue
+        # THE GUARD (R32, and the reason this run exists): a DEFINITION must never be rewritten.
+        # A binary that has already BANKED this function carries its definition, and that definition
+        # is byte-truth there — conforming it away silently turns a matched function back into an
+        # unresolved symbol (`undefined reference`), which only R22 can see.
+        if len(def_re.findall(cdecl._mask(new))) != len(def_re.findall(cdecl._mask(txt))):
+            print(f"\n*** REFUSED: the rewrite would DESTROY a definition of {a.fn} in "
+                  f"{os.path.relpath(p, REPO)}. Nothing has been written — the plan is discarded "
+                  f"whole. This is the ov_SC07_006 class: that binary has already BANKED the "
+                  f"function, so its definition is byte-truth there and must be left alone.",
+                  file=sys.stderr)
+            return 2
+        plan.append((p, new))
+        changed += len(spans)
+    for p, new in plan:                            # validated -> commit the whole axis at once
+        open(p, "w").write(new)
+    touched = len(plan)
+    if defining:
+        print(f"skipped {len(defining)} file(s) that DEFINE {a.fn} — a defining TU owns its own "
+              f"declarations (per-overlay byte-true signatures differ; §16 loose typing): "
+              f"{', '.join(defining[:4])}{' …' if len(defining) > 4 else ''}")
     # R32: the axis is complete or it is a guaranteed break — assert, never assume.
     left = 0
     for p in sources():
@@ -222,7 +291,13 @@ def main():
             txt = open(p, errors="replace").read()
         except OSError:
             continue
-        left += sum(1 for m in decl_re.finditer(txt) if m.group(0) != _canon_for(m))
+        if def_re.search(cdecl._mask(txt)):
+            continue          # a DEFINING TU is a deliberate exception, not a missed site — the
+                              # all-or-nothing invariant (§85) is over the CONSUMING TUs. Counting
+                              # the exception here made the tool report a false HALF-AXIS and refuse
+                              # a complete, correct rewrite. An assertion must be exact about its
+                              # DOMAIN, or it cries wolf on its own by-design behaviour (R32).
+        left += sum(1 for m in decl_re.finditer(cdecl._mask(txt)) if m.group(0) != _canon_for(m))
     print(f"rewrote {changed} declaration sites across {touched} files")
     print(f"non-canonical declarations remaining: {left}  "
           f"{'OK (axis complete)' if left == 0 else '*** HALF-AXIS — DO NOT BUILD ***'}")

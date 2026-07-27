@@ -598,7 +598,7 @@ extern void func_8014D04C(void);
 extern void func_8014CCB4(void);
 extern void func_8014CC28(s32 a0);
 extern void func_8014CD0C(u8 *a0);
-extern void func_8014CF04();
+extern s32 func_8014CF04(s32 a0, s32 a1, void *a2);
 extern void func_8014CD80(s32 a0, void *a1, void *a2);
 extern void func_8014D0A4(s32 a0);
 extern s32 func_8014D2A0(s32 a0, void *a1, void *a2);
@@ -1680,7 +1680,123 @@ void func_8015D104(void *arg0) {
     }
 }
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_8015C32C", func_8015D1B8);
+// @class: other
+// @stuck: none — MATCH (114/114 ins, symcheck 19/19 SYMS-OK)
+//
+// Family exemplar (h_seq family, 138 members). Four non-obvious levers, all pin-free — keep them
+// when mechanically remapping this template to the sibling overlays:
+//
+//  L1 (the +8 frame)     an 8-byte local that is never referenced (`dummy[2]`). gcc-2.7.2 allocates
+//                        a stack slot for a local ARRAY even when it is entirely dead, so the frame
+//                        is 0x38 (saves at 0x28/0x2C/0x30), not 0x30. Without it every prologue /
+//                        epilogue word is off by 8. Do NOT "clean this up".
+//
+//  L2 (the $s0 copy)     `keep = sum;` must sit AFTER the `sh` store, not before it. Written before
+//                        the store, gcc coalesces the two pseudos and emits `addu $s0,$v1,$v0`
+//                        directly (113 ins). Written after, the short-lived add result stays in $v1
+//                        and the cross-block copy `addu $s0,$v1,$zero` survives (114 ins).
+//
+//  L3 (srl, not sra)     `(x & 0xFFF) / 512` compiles to bgez + addiu 0x1FF + **sra** (the signed
+//                        pow2-div correction). The target has **srl**, so the shift is UNSIGNED
+//                        while the guard is SIGNED: spell the division out longhand as an unsigned
+//                        `t` with an explicit `if ((s32)t < 0) t += 0x1FF;`. Writing `(u32)x / 512`
+//                        instead loses the branch entirely and combine folds it to `srl 6 / andi`.
+//                        The `p = &D_801893E0` assignment inside that block is a SCHEDULING lever:
+//                        it puts the `la` before the `srl`/`sll` pair, which is what fixes the
+//                        $v0/$v1 assignment in the whole tail.
+//
+//  L4 (the la CSE)       the store target must go through a POINTER local (`p = &D_801893E0; *p = …`)
+//                        so the symbol address lands in a general register once and 0x801893D8 can
+//                        be reached as `p - 2`. Assigning the global directly (`D_801893E0 = …`)
+//                        emits `(mem (symbol_ref))` and a second independent `la`, and 0x801893D8 is
+//                        NOT a splat label in this overlay so it cannot be named directly (§58-2).
+//
+// Branch polarity: the abs-difference is `if (cur - prev >= 0) d = cur - prev; else d = prev - cur;`
+// — the >= form gives `bltz` + the `j` over the else, and both arms genuinely recompute the
+// subtraction (no CSE across the compare).
+#include "common.h"
+
+extern s32 func_80149FB0(s32);
+extern void func_80147324(s32 a0);
+extern u16  func_80148800(s32 *a0);
+extern void func_80149724(void);
+extern void func_80154274(s32 *a0, s32 a1);
+extern void func_80146E90(s32 *a0, s32 a1);
+extern void func_80146DB8(s32*, s32*);
+extern void func_801477E8(s32 *a0, s32 a1);
+extern void func_8014FA04(s32);
+extern void func_8014E6A0(void);
+extern void func_80147078(s32 *a0, s16 a1);
+extern void func_80159B70(void*);
+extern void func_8015D380(s32);
+extern s32  func_801725F4(u8 *a0);
+
+extern void (*D_801891B8[])(void*);
+extern s32 D_80189398;
+extern s32 D_8018939C;
+extern s32 D_801893E0;
+extern s32 D_800D4C14;
+
+void func_8015D1B8(s32 *a0)
+{
+    s32 sum;
+    s32 keep;
+    s32 obj;
+    s16 cur;
+    s16 prev;
+    s16 d;
+    s32 off;
+    s32 *p;
+    s32 dummy[2]; /* L1: dead, but its stack slot is what makes the frame 0x38 */
+
+    ((void (*)(void))func_80149FB0)();
+    obj = *(s32 *)((u8 *)a0 + 0x20);
+    sum = *(u16 *)(obj + 0x10) + *(u16 *)((u8 *)a0 + 0x236);
+    *(u16 *)(obj + 0x10) = sum & 0xFFF;
+    keep = sum; /* L2: AFTER the store — this is what keeps the $s0 copy alive */
+
+    cur = *(s16 *)(*(s32 *)((u8 *)a0 + 0x20) + 0x10);
+    prev = *(s16 *)((u8 *)a0 + 0x244);
+    if (cur - prev >= 0) {
+        d = cur - prev;
+    } else {
+        d = prev - cur;
+    }
+    if (d > 0x800) {
+        func_80147324(0x5E9);
+    }
+    *(u16 *)((u8 *)a0 + 0x244) = *(u16 *)(*(s32 *)((u8 *)a0 + 0x20) + 0x10);
+
+    if (func_80148800(a0) & 0x40) {
+        ((void (**)(s32*))D_801891B8)[*(u16 *)a0](a0);
+        ((void (*)(s32 *))func_80149724)(a0);
+        func_80154274(a0, (s32)&D_800D4C14);
+        func_80146E90(a0, 0x10);
+        {
+            u32 t = keep & 0xFFF; /* L3: unsigned value, signed guard -> bgez + srl */
+            if ((s32)t < 0) {
+                t += 0x1FF;
+            }
+            p = &D_801893E0; /* L4 + scheduling: the `la` must precede the srl/sll pair */
+            off = (t >> 9) * 8;
+        }
+        *p = *(s32 *)((u8 *)&D_80189398 + off);
+        ((void (*)(s32 *, s32))func_80146DB8)(a0, (s32)(p - 2)); /* 0x801893D8 == &D_801893E0[-2] (no label there) */
+        func_801477E8(a0, *(s32 *)((u8 *)&D_8018939C + off));
+        func_80147324(0x5EA);
+    } else {
+        ((void (*)(s32 *))func_8014FA04)(a0);
+        if (((s32 (*)(s32 *))func_8014E6A0)(a0) == 0) {
+            ((void (**)(s32*))D_801891B8)[*(u16 *)a0](a0);
+            func_80147078(a0, 0);
+            ((void (*)(s32 *))func_80159B70)(a0);
+        } else {
+            ((void (*)(s32 *))func_8015D380)(a0);
+            func_801725F4(a0);
+        }
+    }
+}
+
 
 // @class: regalloc-order
 // @stuck: pinning a0->$s1 and buffer-ptr->$s0; body copy already matches

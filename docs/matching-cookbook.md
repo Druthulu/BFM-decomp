@@ -7088,3 +7088,57 @@ command rather than making the operator go looking.
 > **verdict**, and verdicts are what the backlog and the roadmap are built from. A failure class is
 > evidence about the compiler only once the harness is proven not to be the cause (§53's carve law,
 > generalized from "sweep with the right tool" to "gate from a clean tree").
+
+## §98 — `conform_decls` had three defects, and only the third needed R22 to find (Phase 29 SESSION-22, `func_8014CF04`)
+
+The decl-conform axis banked two drafts and gated BYTE-IDENTICAL on `ov_SC01_077`, then **R22 came
+back 139/140**. Three separate defects, found in order by following the bytes:
+
+**1. The regex crossed newlines** (mechanical).
+```python
+rf"(extern\s+)?[A-Za-z_][\w \t\*]*?\b{fn}\s*\([^;]*\);"     # [^;]* matches '\n'
+```
+Starting at a DEFINITION line it ran past the `{` and through the body to the first `;`, matching
+```
+s32 func_8014CF04(s32 param_1, void *param_2, void *param_3) {\n    register u8 *q __asm__("$17");
+```
+as one "declaration" and replacing both lines with a prototype — deleting the definition (and a
+register pin) and producing `undefined reference`. Fix: `[^;{\n]*`, which makes a definition
+unmatchable by construction. A multi-line prototype is then simply not matched, and the completion
+assertion reports it instead of mangling it.
+
+**2. It rewrote inside COMMENTS** (H5). Same runaway match. Fix: scan `cdecl._mask(txt)` — a
+length-preserving blank-out of comments/strings whose offsets are valid in the original — and rewrite
+by SPAN. (R33: that primitive already existed for exactly this.)
+
+**3. IT ASSUMED ONE SIGNATURE FITS THE FLEET — and this engine is loosely typed.** The real cause,
+and no amount of code-reading would have found it. `ov_SC07_006` carries its OWN banked definition of
+`func_8014CF04` with a **different byte-true signature** — `(s32, s32, void*)` where `ov_SC01_077`
+needs `(s32, void*, void*)` — beneath a local decl explicitly marked
+`/* de-macroized: per-overlay-local decl (byte-true sig); do NOT re-macroize */`. Conforming that TU
+to the fleet canonical produced `conflicting types` against the definition directly below it.
+
+> **The rule: a TU that DEFINES the function owns its own declarations.** A fleet-wide decl axis is
+> meaningful only for TUs that CONSUME the symbol. Skip defining files whole — their definition is
+> byte-truth *there*. This case grows more common as banking proceeds: every overlay that banks a
+> function becomes a defining TU and therefore an exception.
+
+**And the assertion then cried wolf on its own by-design behaviour.** With the defining TU skipped,
+the R32 completion check counted it as a surviving non-canonical decl and reported
+`*** HALF-AXIS — DO NOT BUILD ***` for a rewrite that was complete and correct. **An assertion must
+be exact about its DOMAIN, not just its condition** — the §85 all-or-nothing invariant is over the
+CONSUMING TUs. Scoped it; the axis reports complete at 1,747 sites with 1 file excluded by design.
+
+**Also hardened: PLAN → VALIDATE → WRITE.** The refusal path originally aborted *mid-write* while
+claiming nothing had been modified — which is precisely the HALF-AXIS §85 calls a guaranteed break.
+The plan is now built and validated in full before a single file is written, so a refusal costs
+nothing and leaves the tree untouched.
+
+**Verified:** 1,752 → 1,747 sites (the 5 differences were 1 definition, 3 comment lines, and the
+defining TU's own decl); definition + register pin intact; both drafts re-banked; **R22 140/140**.
+
+> **The meta-lesson (R22's whole premise, re-earned):** after fixing defect 1 I expected R22 to pass.
+> It failed again at 139/140 for an unrelated reason, and an individual `make build` of the failing
+> binary **succeeded** — because it reused objects the clean run rebuilds. *An incremental pass does
+> not refute a clean-tree failure.* Every step of this diagnosis came from reading the real cc1/ld
+> error after a genuinely clean rebuild, never from reasoning about what the tool "should" do.
