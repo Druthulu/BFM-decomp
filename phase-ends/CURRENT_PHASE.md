@@ -5357,3 +5357,37 @@ a sweep 0/N is a per-sibling INTEGRATION signal, not a codegen verdict). If it i
 this exemplar needed, the sibling TUs need the same two edits — mechanical and scriptable. Also try
 `--raw .run/drafts-s21/func_8012AAAC.c` (the tool's own note: an exemplar that banked *reconciled*
 hands the sweep a TU-polluted template, and the raw crack is the correct source).
+
+### 🔎 T7b — the ×137 sweep's real blocker, NAMED (two hypotheses tested, one refuted, one confirmed)
+
+**Hypothesis 1 (refuted by the bytes).** Every sibling TU has the identical shape to the exemplar —
+INCLUDE_ASM stub, then `extern void func_8012AAAC();`, then a 0-arg call later in the same file — so
+splicing the definition puts a prototype in scope and gcc rejects the call. Measured: **137 sibling
+TUs hold both the stub and a 0-arg call, exactly the member count.** Cast one call site per TU
+(`((void (*)(void))func_8012AAAC)()`), left the 137 `extern` DECLARATIONS alone (an early "274 sites"
+count was calls **and** externs — casting an extern is meaningless churn), and **proved byte-neutral
+with a full R22 (140/140) before committing**, which is mandatory here because `jtbl_family_bank`
+reverts each sibling from HEAD — an uncommitted fix would be destroyed by the tool that needs it.
+**Re-probe: still 0/3.** The call-site conflict was real and is now fixed, but it was not the blocker.
+
+**Hypothesis 2 (CONFIRMED).** Applied §81 step 2 to a *sibling* — byte-gate the CARVE ALONE, which
+separates a carve problem from a body problem. `ov_SC01_000` failed there, with a precise message:
+
+> `jtbl_rodata_pads: consumed 1 rodata .align(s) but 2 pad spec(s) given — table-count drift vs the carve`
+
+**The exemplar's span STRUCTURE does not transfer.** `ov_SC01_077_a` had a pre-existing single-table
+carve that MERGED with `func_8012AAAC`'s table → a legitimate **2-table** span (`tables=+0x0,+0x14`).
+The sibling's subseg contributes only **one** table, so a 2-entry pad spec over-specifies it and the
+pad stage refuses. This is precisely the §8e drift the tool is built to catch, and it caught it
+*before* any image corruption — the failure is the tool working, not the tool broken.
+
+**⇒ The fix is per-sibling span derivation, not exemplar transfer.** `jtbl_family_bank` should derive
+each sibling's table set from that sibling's own carve rather than inheriting the exemplar's
+structure (or `--like` should be passed only where the structure genuinely matches). Note the tool
+already has the concept — `jtbl_carve --like <exemplar-ov>` does role-transfer *"same family => same
+span structure"* — and this exemplar is exactly the case where that premise is FALSE, because its
+2-table span is an artifact of an unrelated neighbouring carve in ov_SC01_077 only.
+
+**State: clean.** Sibling carve reverted, `ov_SC01_000` rebuilds `9052dc0e…` BYTE-IDENTICAL, 0
+modified files. The 137 call-site casts stay (committed, byte-neutral, and correct regardless — they
+remove a conflict every sibling would otherwise hit at bank time).
