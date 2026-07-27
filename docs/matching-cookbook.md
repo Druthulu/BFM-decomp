@@ -6649,3 +6649,55 @@ grep -oE 'D_[0-9A-F]{8}' <draft> | sort -u | while read s; do
 done
 ```
 An entry with any UNRESOLVABLE symbol will fail at link no matter how clean the ladder run is.
+
+## §88 — `cross_jump` will not merge a common suffix containing a CALL; and §78 is scoped to ORDERED comparisons only (Phase 29 SESSION-20, the behemoth close-out)
+
+Three behemoths closed the same night (`func_80183814` 5,122 · `func_8017D2DC` 1,586 · `func_8017DC1C`
+1,518), taking the fleet to **zero unmatched functions >1000 ins**. Their durable output:
+
+### §88a — repeated CALL-shaped blocks are left UNMERGED; call-free tails are merged for you
+Measured on `func_8017D2DC`: ~34 byte-identical 6-instruction `jal`-bearing blocks were left
+**unmerged**, and case 66's two byte-identical 12-instruction blocks likewise — while **every**
+call-free tail (`.L8017EB5C/EB64/EB70`, `.L8017E9A0/E9AC/E9B4`, `.L8017E06C`, `.L8017DAF0`,
+`.L8017E804`) **was** merged. ⇒ **Write repeated call-shaped cases LONGHAND; never hand-factor the
+call-free tails** — the compiler does that itself, and pre-factoring them puts you off-target.
+
+### §88b — the `slti` literal-position law (extends §78 to comparisons)
+MIPS `slti` can only carry its constant on the RIGHT, so `mips.c` rewrites `LE/GT vs CONST_INT` into
+`LT(x, K+1)`. Consequence, decidable from bytes alone: **if the target materialises the limit into a
+REGISTER on the LEFT of `slt` (`li K; slt K,x; beqz`), K was NOT a literal in the source.** All eight
+literal spellings were swept (`> K`, `>= K+1`, `K < x`, `!(x<=K)`, `++x > K`, early-return…) and
+**every one** folds to `slti x,K+1`. Only a **block-local variable holding the limit**
+(`s32 lim = K; if (lim < X)`) reproduces it — and per §76 that variable's **block scope** matters: if
+its live range spans a call it takes a callee-saved register and the `li` hoists.
+
+### ⚠️ §88c — THE MIRROR-IMAGE FALSE POSITIVE (this one costs 25 wasted edits)
+`addiu $vX,$zero,1; bne` looks **exactly** like §88b's "the constant was materialised ⇒ it was a
+variable" signature. **It is not.** MIPS has no `beqi`, so **equality** constants are ALWAYS
+materialised. **§78/§88b are scoped to ORDERED comparisons only** — the ones `mips.c` rewrites into
+`slti`. Believing the signature on an `==`/`!=` sends you rewriting perfectly correct literals.
+
+### §88d — BANKING ORDER: run the §81 carve chain BEFORE banking, never after
+Banking `func_8017DC1C` first broke the build. Its draft establishes the canon for **39
+previously-undeclared externs**; `jr_isolate_all`'s re-partition (`overlay_src_split`) then **dropped
+all 39 across the new split boundary** — `D_801C1EB0 undeclared`, present in NEITHER file. That is the
+§77 preamble-drop class in a **third** tool. **The fix is ordering, not patching:** carve chain first
+on a clean tree (each step byte-gated), then bank. Re-sequenced, both banked first try.
+
+### §88e — a wrong diagnosis, refuted properly (the model for how to treat an inherited lever)
+Round 1 handed round 2 "close the +5 length delta to move `max_reg`", citing `cse.c:8340`. Round 2
+**refuted it three ways**: a 15-line reproducer reproduced the case-0/3 CSE exactly (so it cannot be
+`max_reg`-gated); `max_qty` only gates extension ACROSS blocks and both call groups share one block;
+and the target leaves `$s7`/`$fp` **unused**, killing the pressure story. The real discriminator came
+from a second direction — case C01 has the identical two groups over the identical symbols with
+**zero** residual, because a `break` puts a **`CODE_LABEL`** between them. The +5 was a SYMPTOM.
+**Both biggest levers were pure DECLARATION SCOPE (§45/§76), not pins.** ⇒ **An inherited "named
+lever" is a hypothesis with a citation, not a fact. Reproduce it small before spending a round on it.**
+
+### §88f — the missing rung: a RELOCATION gate between `match_one` and the binary
+`match_one` masks `jal`/HI16/LO16 and never links (§81/§84/§87). The behemoth run produced
+`.run/giants/s21_g21_reloc_verify.py`, which **resolves** every relocation — including the implicit
+MIPS-REL addend `objdump -r` does not print (§84's trap, in tool form) — against the target:
+**359/359 `jal` callees, 60/60 internal `j` destinations, 406/406 `%hi/%lo` addresses incl. all 6
+derived-offset sites.** **Promote this to `tools/` — it closes three of the four blindness classes
+before a gate cycle is ever spent.**
