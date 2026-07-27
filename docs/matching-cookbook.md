@@ -6608,3 +6608,44 @@ Not yet diagnosed. The likely axis is whether the pinned registers are *caller-s
 (§74's corrupting form) in the sibling's register pressure, versus pins that only fix a local
 allocno. **Diagnose before extending `--allow-pins` fleet-wide** — the byte-gate makes a wrong guess
 free, but a wrong PROCEDURE costs a sweep.
+
+## §87 — `match_one` COMPILES but never LINKS, so an unresolvable data symbol reads as MATCH; and stored drafts go STALE against the tree (Phase 29 SESSION-20)
+
+The autopsy's **"integration" bucket — 315 entries reported `match_one` MATCH, "byte-correct
+standalone, blocked only on plumbing"** — banked **0 of 27** through the full `gate_stage` ladder.
+Two causes, neither of which is plumbing:
+
+1. **UNDEFINED DATA SYMBOLS.** The gate fails at LINK: `undefined reference to D_801893xx`. That
+   symbol is defined in **no** overlay's symbol file. `match_one` compiles a single TU and never
+   links, so an `extern` that resolves nowhere is **structurally invisible** to it — it reports a
+   clean MATCH. (Checked and refuted the obvious alternative: the drafts were authored for the
+   CORRECT binary, so this is not mis-targeting.)
+2. **STALE AGAINST THE TREE.** `redefinition of struct S80172C50` — the struct has since been lifted
+   into `src/shared/engine_types.h` (§20/§64 type-lift), so the draft's own copy now collides. **A
+   draft stored months ago is scored against TODAY's tree; type-lifts, shared-header growth and
+   canon-sig changes all age it.**
+
+### The blindness ladder, now complete — FOUR classes `match_one` cannot see
+| § | class | what it masks | who catches it |
+|---|---|---|---|
+| §81 | jump tables | the duplicated `.rodata` jtbl | whole-binary gate + carve chain |
+| §84 | mis-derived `%lo` | HI16/LO16 are masked | whole-binary gate (ONE byte) |
+| §87 | unresolvable symbol | it compiles, never links | the LINK step |
+| §87 | stale draft | the tree moved under it | cc1, at re-compile |
+**`match_one` MATCH means "this TU compiles to the right bytes with relocations masked" — nothing
+about linking, nothing about the current tree.** Treat a stored MATCH as a CLAIM WITH A TIMESTAMP.
+
+### Consequence for the backlog ledger
+The autopsy's `integration` bucket is **overstated as ready-to-bank work**. Combined with §83's
+finding that **44% of the ledger (707 `redraft`) are partial drafts misfiled as near-misses**, the
+honest read is: **`docs/backlog.md`'s headline count is not a work queue.** Before planning against
+any stored-draft pool, RE-GATE A SAMPLE — the recompute is one CPU-second per entry
+(`autopsy collect`) and it is strictly better than trusting a stored verdict.
+
+### The cheap discriminator, before spending a sweep
+```
+grep -oE 'D_[0-9A-F]{8}' <draft> | sort -u | while read s; do
+  grep -qF "$s" config/symbols.$OV.txt config/symbols.us*.txt || echo "UNRESOLVABLE $s"
+done
+```
+An entry with any UNRESOLVABLE symbol will fail at link no matter how clean the ladder run is.
