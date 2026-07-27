@@ -6741,3 +6741,79 @@ family_sweep --stage-only  →  sweep_parallel.py -j 12  →  blast_radius.py
 ```
 **Parallelism changes THROUGHPUT, never the verdict** — the whole-binary byte-gate is still the sole
 arbiter (G3/P9) and still reverts a wrong draft in its own binary.
+
+## §90 — Five tool-integrity laws from one session, each of which changed an answer (Phase 29 SESSION-21, 2026-07-27)
+
+SESSION-21 set out to run a mass wave over the family exemplars. Before the wave returned a single
+draft, five tools had produced a confidently wrong answer, and each fix changed the number it gave.
+These are the generalizable laws, not the individual bugs.
+
+### §90a — A comparison tool MUST share its reference oracle's index space, exactly
+`tools/reloc_verify.py` (promoted this session) compares "what the target names at instruction index
+i" against "what my object relocates at index i". It used `objdump -dr`; `masked_diff` has always
+used `-drz`. **Without `-z`, objdump ELIDES runs of identical instructions**, dropping them from the
+listing — `func_801330E0` read **104** instructions under `-dr` and **110** under `-drz` (6 elided
+nops). Every index after the first nop run therefore compared against the wrong instruction, and the
+tool manufactured 2 mismatches on a draft that is clean at those sites.
+
+A second instance in the same tool: the splat `.s` word field is **little-endian hex TEXT**
+(`0080033C`), not the instruction integer. `masked_diff` byte-swaps it (`struct.unpack("<I", …)`);
+the new tool did not, and reported "word differs" on three sites that are byte-IDENTICAL
+(`3C038000` vs `3C038000`).
+
+> **The law:** when you write a tool that compares against an existing oracle, do not re-derive its
+> extraction — *reuse it, or byte-for-byte replicate its flags and encodings*, and cross-check on a
+> known-clean input before trusting a single verdict. Five false alarms preceded the first true one.
+
+### §90b — "Byte-neutral" is not "wanted": undo on the SUCCESS path too
+Two ladder stages (`family_sweep --normalize-self-decls`, `gate_stage`'s ARITY pre-pass) had a
+backstop that restored their snapshot **only when the edit proved NON-neutral**. A run that banked
+nothing therefore left every edit in the tree: `--normalize-self-decls` 0/123 left **123 files /
+246 insertions / 246 deletions** of dead diff, and a `git add -A` would have committed it as noise.
+
+> **The law (§61 applied to the success path):** an edit that bought nothing gets reverted,
+> regardless of whether it was byte-safe. Restore the snapshot on a 0-bank group. It cannot cost a
+> match — there is nothing to preserve — so the only thing at risk is the noise itself.
+
+### §90c — A library-callable function must FAIL CLOSED on an unconfigured module
+`progress.linked_subsegs()` is gated on a module global that `set_binary()` assigns. Imported as a
+library without that call it returned an **empty set** — "this binary has no linked library
+subsegs", which for `main` is wrong by 49 and silently reclassifies ~960 already-byte-identical
+PsyQ-linked stubs as outstanding game-code work. The CLI path always configured first, so the defect
+was invisible for as long as nobody imported it. I hit it within five minutes of importing it.
+
+> **The law:** a function whose correctness depends on module state must raise when that state is
+> absent. An empty result is indistinguishable from a true negative, and that is the R32 silent-skip
+> shape wearing a different hat.
+
+### §90d — Do not measure a live wave's drafts (§87 in real time)
+Cross-checking the wave's landed drafts mid-run gave a *different* verdict for the same function two
+minutes apart — its agent had rewritten the file 12 seconds earlier. §87 says a stored draft is
+"a claim with a timestamp"; during a live wave that timestamp is **now**.
+
+> **The law:** draft QA happens after the wave returns, never during. A measurement of a file that
+> is still being written describes nothing.
+
+### §90e — An agent's CONCLUSION and its EVIDENCE fail independently — re-derive the premise, not the fix
+A wave agent found a genuine `jtbl_carve` bug (spimdisasm splits one jump table across two dlabels,
+so the carve reserves 112 B for an object supplying 200 B — §84-class, invisible to `match_one`).
+Its conclusion was correct and confirmed three ways. **Its stated evidence was not:** it reported the
+continuation label as having *"ZERO xrefs anywhere in the tree"*; the label has two, and the agent's
+proposed remedy — delete it — would have removed a symbol two emitted words reference.
+
+The repair therefore uses a gate that needs no judgement call: **the owning function's own
+`sltiu N` range check**, which gcc emits immediately before the indexed load, so *the program
+declares its own table length*. Absorb a continuation only when it is adjacent, its words are all
+code addresses, and absorbing lands on an **exact** `sltiu` bound — the SET of bounds, never
+`max()`, because a multi-switch function has several and no way to say which owns this table.
+
+Three more errors surfaced only by testing the fix: the absorption fired and the **trailing-pad trim
+immediately undid it** (it re-trimmed against the first dlabel's words); a continuation ends at **its
+own last `.word`**, not the next dlabel (224 B further on here) — which is the very assumption being
+repaired; and the shortfall warning fired **~90 times across 38 tables** until it was scoped to an
+unambiguous single-bound pairing. *A warning that fires on ambiguity is noise, not a signal.*
+
+> **The law:** when an agent hands you a diagnosis AND a fix, re-derive the diagnosis from the bytes
+> and design the fix from what you can prove. Verified: the split table goes 28 → 50 words, and
+> across **38 jtbls × 6 functions = 228 combinations exactly ONE range changes**. Both halves of
+> that sentence are the deliverable — the fix, and the negative control proving its blast radius.
