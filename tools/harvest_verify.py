@@ -272,7 +272,13 @@ def _jtbl_restore(snap):
             os.remove(rf)
         except OSError:
             pass
-    _sh(['make', '--no-print-directory', 'extract', 'BINARY=%s' % a.binary])
+    # R32/§93: CHECK the recovery's own exit status. `_sh` does not raise, so a failed re-extract here
+    # left the generated build inputs describing the abandoned isolation while config/ read clean —
+    # a recovery that silently did not recover, which is strictly worse than not attempting one.
+    if _sh(['make', '--no-print-directory', 'extract', 'BINARY=%s' % a.binary]).returncode:
+        print('  [jtbl] !! RESTORE INCOMPLETE: re-extract FAILED after undoing the carve — the tree '
+              'is NOT back at baseline; stop and `git checkout -- src/ config/` before trusting any '
+              'later verdict in this run')
     _reload_corpus()
 
 
@@ -435,6 +441,22 @@ while i < len(items):
     _jsnap = None
     if len(chunk) == 1:
         _ok, _jsnap = _jtbl_prep_one(chunk[0])
+        if not _ok:
+            # THE CARVE WAS REFUSED — do NOT build this draft (Phase 29 SESSION-22, byte-witnessed).
+            # `_ok` was computed and ignored here, so a table-bearing draft whose carve jtbl_carve
+            # REFUSED (§59(3): a non-contiguous same-subseg table) was spliced and built anyway. It
+            # cannot link without its carve, so the build fails with `Error 33` — and that failure was
+            # then recorded as **CC1-FAIL**, i.e. a codegen-flavoured verdict, for what is purely a
+            # carve-plumbing wall. Worse, the tail of the batch inherited the broken object: one
+            # refused carve produced FOUR CC1-FAILs on the same `ov_SC01_077_o0.o`, three of them
+            # against drafts that were never even diagnosed, and the run ended unable to rebuild the
+            # binary at all (`final SHA None`). Skip it with a NAMED class instead: honest, cheaper by
+            # one build, and it leaves the tree where the next draft can be judged on its own merits.
+            fn = chunk[0]
+            failed.append((fn, 'CARVE-REFUSED'))
+            print('  - %s (%s) [CARVE-REFUSED: jtbl_carve declined the table; §59(3) plumbing, '
+                  'NOT a codegen verdict]' % (fn, drafts[fn]['conf']))
+            continue
         if _jsnap is not None:              # a jtbl carve happened -> reconcile the draft vs the CARVED TU
             _jtbl_reconcile(chunk[0])
     if attempt(chunk):
@@ -443,6 +465,15 @@ while i < len(items):
     elif len(chunk) == 1:
         if _jsnap is not None:
             _jtbl_restore(_jsnap)                 # stranded-carve + truncated-TU undo (R32/§61)
+        # AND PUT THE SPLICE BACK (Phase 29 SESSION-22). `attempt()` writes the candidate render and
+        # does not restore on failure — it relied on the NEXT attempt's render to overwrite it. That
+        # left the tree dirty BETWEEN drafts, and `_jtbl_snapshot()` snapshots the tree AS IT FINDS
+        # IT: a later draft's carve therefore captured an earlier FAILED draft's splice, and its undo
+        # faithfully RE-APPLIED it — after the final `_write(baseline)` had already run. Net effect: a
+        # run that verified nothing still ended with a spliced body on disk and could not rebuild the
+        # binary (`final SHA None`), which reads exactly like a byte regression and is not one.
+        # The invariant is one line: the tree is at `baseline` except while a draft is under test.
+        _write(baseline)
         # ATOMIC CHUNK — do NOT bisect (Phase-28 T6). The old code fell into the loop below and
         # re-ran attempt([fn]) on the SAME single element against the SAME baseline: a byte-identical
         # DUPLICATE build. classify_fail reads _last_sha/_last_err, which the failed attempt(chunk)
@@ -462,6 +493,7 @@ while i < len(items):
                 klass = classify_fail(_last_sha)   # DIFF (real codegen) vs PLUMBING (recoverable) vs CC1-FAIL
                 failed.append((fn, klass))
                 print('  - %s (%s) [%s]' % (fn, drafts[fn]['conf'], klass))
+                _write(baseline)                   # same invariant as the atomic branch above
 
 # restore the accumulated verified state and confirm the binary is byte-identical
 _write(baseline)
@@ -477,6 +509,17 @@ if _klass:
     print('  failed by class:', ' '.join('%s=%d' % (k, n) for k, n in sorted(_klass.items())))
 print('VERIFIED:', ' '.join(verified) or '(none)')
 print('FAILED  :', ' '.join(fn for fn, _ in failed) or '(none)')
+# R32 — assert the gate LEFT THE TREE where it found it (plus whatever it banked). `_write(baseline)`
+# above restores the files render() manages; a carve/isolation can touch files it does not. At 0
+# verified the tracked diff must be EMPTY, and any residue is a failed draft still spliced in — which
+# the next run would silently gate on top of. Name the files; do not make the operator go looking.
+_dirty = [l[3:] for l in _sh(['git', 'status', '--porcelain', '--', 'src/%s' % a.binary,
+                              'config']).stdout.splitlines()]
+if _dirty and not verified:
+    print('  !! TREE NOT CLEAN at 0 verified — residue from a failed draft/carve, NOT a result:')
+    for q in _dirty[:12]:
+        print('       %s' % q)
+    print('     recover with: git checkout -- src/%s config' % a.binary)
 open(a.verified_out, 'w').write('\n'.join(verified) + '\n')
 # failed_out stays NAMES-only (backward-compatible for existing consumers); the class goes to a sidecar
 open(a.failed_out, 'w').write('\n'.join(fn for fn, _ in failed) + '\n')

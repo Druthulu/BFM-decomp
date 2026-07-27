@@ -5805,3 +5805,54 @@ Each reverted its byte-neutral self-decl edit cleanly ("no dead diff left behind
 honest. Per **§59** a sweep failure is a per-sibling INTEGRATION signal, not a codegen verdict:
 the next step is to read ONE sibling's real gate result (COMPILE-fail vs byte-DIFF) before
 concluding anything about the class.
+
+## ⚠️ T14 — the 15-draft batch banked 0, and 3 of its 4 "CC1-FAIL" verdicts were the HARNESS (§97)
+
+Ran the reconcile+cast ladder over all 24 SESSION-21 drafts to measure the §96 fix's **blast radius**
+(a confirmed mechanism proves nothing about consequence). 15 had live stubs, across 9 TUs — the
+reconcile was re-run with the TU **derived per draft** (the first pass had forced one `--src-file`,
+correct only for the 801734BC TU), and `cast_call_sites` was run grouped by TU.
+
+**Prepared:** 4 drafts reconciled / 10 data symbols; 3 drafts cast-recovered / 8 callees.
+**Gated: 0 verified / 15 failed, `final SHA None (*** MISMATCH ***)`.**
+
+### The MISMATCH was a tree-state alarm, not a matching result — checked FIRST
+4 source files were left modified at 0 verified. Reverted to the committed baseline rather than
+reasoning about a half-applied state (the SESSION-21 lesson), then rebuilt: **`d19c9580`
+BYTE-IDENTICAL**. No banked result was ever at risk — every bank this session passed the whole-binary
+gate AND a clean-tree R22.
+
+### Ordering proved the counts were a cascade (R14)
+Items 1–11 are real verdicts (**9 PLUMBING, 2 DIFF**), all recorded BEFORE item 12 — the
+`jtbl_carve` REFUSAL of `func_8013B83C` (§59(3) non-contiguous same-subseg table). Items 13–16 are
+four CC1-FAILs **on the same `ov_SC01_077_o0.o`**. That is ONE refused carve counted four times,
+three of them against drafts never actually diagnosed.
+
+### Three harness defects, each independently justified (cookbook §97)
+1. **`_ok` was computed and ignored** — a refused carve was built anyway into a guaranteed `Error 33`
+   and filed as CC1-FAIL, a codegen-flavoured verdict for pure plumbing. Now a named
+   **`CARVE-REFUSED`** class, skipped (and one build cheaper).
+2. **`attempt()` never restored on failure**, so the tree was dirty BETWEEN drafts — and
+   `_jtbl_snapshot()` snapshots the tree as it finds it, so a later carve captured an EARLIER FAILED
+   DRAFT'S SPLICE and its undo faithfully **re-applied** it, after the final `_write(baseline)`.
+   That is the whole `final SHA None` mechanism. Fixed with the invariant: *the tree is at `baseline`
+   except while a draft is under test* (both the atomic and bisect branches).
+3. **The recovery's own `make extract` return code was unchecked** (`_sh` does not raise — §93's
+   sibling, and the same class already logged in Task 14 stage 1). Now loud.
+4. Plus an **R32 assertion on the cleanup**: at 0 verified, a non-empty `git status --porcelain` is
+   residue, not a result — it names the files and the recovery command. **It fired correctly on its
+   first real run.**
+
+### Measured recovery of the false verdicts (same drafts, clean tree)
+`func_8013B83C` CC1-FAIL → **CARVE-REFUSED** · `func_801789AC` CC1-FAIL → **PLUMBING**
+(`conflicting types for func_801789AC` — actionable) · `func_8017C974` CC1-FAIL → **DIFF**
+(corroborating its agent's `global_alloc` spill-choice diagnosis) · `func_80140958` CC1-FAIL →
+CC1-FAIL (genuinely its own, on a different object).
+**`final SHA None` → `d19c9580` BYTE-IDENTICAL; tracked diff empty.** 3 of 4 corrected.
+
+### The honest blast-radius answer for §96
+The `reconcile_tu` span fix unblocked **`func_80176218` (measured, banked, swept 133/137)** and did
+**not** by itself unblock any of the other 14 — their blockers are a different axis. **7 of the 9
+PLUMBING are `conflicting types for <the function itself>`**, i.e. the DEF-side self-decl axis that
+`conform_decls` owns (the path that banked `func_80179B74` and `func_8015B950` at 137/137 in
+SESSION-21). That is the next lever, and it is now a measured target list rather than a guess.

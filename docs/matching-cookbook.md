@@ -7041,3 +7041,50 @@ different "next conflict".
 > needed both: 4 data symbols conformed, then 2 callees (`func_80177AD4` `void (int, unsigned int)`,
 > `func_80178298` `(u32*, u8*, short, short)`) decl-conformed + call-site-cast to the draft's
 > intended widths.
+
+## §97 — The gate's own tree hygiene: a refused carve, an unchecked recovery, and a snapshot that captured a dirty tree (Phase 29 SESSION-22)
+
+A 15-draft `harvest_verify --chunk 1` batch reported `CC1-FAIL=4` and ended `final SHA None`. Three
+of those four were manufactured by the harness. The chain, in order:
+
+1. **`_ok` was computed and ignored.** `_jtbl_prep_one` returns `(ok, snapshot)`; the caller tested
+   only `snapshot`. When `jtbl_carve` REFUSES a table (§59(3): a non-contiguous same-subseg carve),
+   `ok` is False and `snapshot` is None — so the draft was spliced and built **without its carve**,
+   which cannot link. The resulting `Error 33` was filed as **CC1-FAIL**, a codegen-flavoured verdict
+   for a pure plumbing wall. Now classified `CARVE-REFUSED` and skipped (also one build cheaper).
+2. **`attempt()` does not restore on failure.** It writes the candidate render and relies on the
+   NEXT attempt's render to overwrite it — so the tree is dirty *between* drafts.
+3. **`_jtbl_snapshot()` snapshots the tree as it finds it.** Combined with (2), a later draft's carve
+   captured an EARLIER FAILED DRAFT'S SPLICE, and its undo then faithfully **re-applied** it — after
+   the final `_write(baseline)` had already run. A run that verified nothing therefore ended with a
+   body spliced on disk and unable to rebuild the binary, which reads exactly like a byte regression
+   and is not one.
+4. **The recovery's own `make extract` was unchecked.** `_sh` does not raise (§93's sibling), so a
+   failed re-extract inside `_jtbl_restore` would report nothing — a recovery that silently did not
+   recover, strictly worse than not attempting one.
+
+**The invariant, one line:** *the gate's tree is at `baseline` except while a specific draft is under
+test.* Restore after every failed attempt (atomic branch AND bisect branch), and the snapshot can
+never capture someone else's failure.
+
+**Plus an R32 coverage assertion on the cleanup itself:** at 0 verified, a non-empty
+`git status --porcelain src/<bin> config` is residue, not a result — print the files and the recovery
+command rather than making the operator go looking.
+
+**Measured recovery of the false verdicts** (same 4 drafts, same drafts dir, clean tree):
+
+| draft | contaminated | true |
+|---|---|---|
+| `func_8013B83C` | CC1-FAIL | **CARVE-REFUSED** (§59(3) wall) |
+| `func_801789AC` | CC1-FAIL | **PLUMBING** — `conflicting types for func_801789AC` (actionable) |
+| `func_8017C974` | CC1-FAIL | **DIFF** — corroborates its agent's `global_alloc` spill diagnosis |
+| `func_80140958` | CC1-FAIL | CC1-FAIL (genuinely its own, on a different object) |
+
+`final SHA` went `None` → `d19c9580` BYTE-IDENTICAL; tracked diff empty.
+
+> **The law (R34/R35 again, pointed at the gate itself):** the whole-binary byte-gate is a perfect
+> oracle for *did this draft match* and a NULL oracle for *what state did I leave behind*. It cannot
+> manufacture a match — no banked result in this session was affected — but it can manufacture a
+> **verdict**, and verdicts are what the backlog and the roadmap are built from. A failure class is
+> evidence about the compiler only once the harness is proven not to be the cause (§53's carve law,
+> generalized from "sweep with the right tool" to "gate from a clean tree").
