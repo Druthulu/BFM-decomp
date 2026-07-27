@@ -2114,7 +2114,126 @@ lout:
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_8016AB6C", func_8016AE5C);
+// @class: other
+// @stuck: none — MATCH (85 ins, .text 0x154 = target size exactly). No lever needed; a straight
+//         structural transcription matched on the FIRST derivation. symcheck's lone MISSING
+//         jtbl_801D8BE8 is the §81 jr/jtbl FALSE POSITIVE (gcc emits its own 8-word .rodata table
+//         with section-relative R_MIPS_32s, so the splat name can never appear in the draft's
+//         relocs) — refuted mechanically below: all 8 words decode to the target's addresses.
+/*
+ * func_8016AE5C — ov_SC01_077_jr_8016AB6C, 85 ins, the h_seq family EXEMPLAR (138 members).
+ *
+ * ── §88e DISCIPLINE: the inherited lever was NOT assumed ──────────────────────────────────────
+ * The prior attempt's "regalloc-order" class was treated as a hypothesis with a citation, not a
+ * foundation. This draft was re-derived from the bytes alone. Verdict: THERE IS NO regalloc
+ * residual to steer. The function has exactly one call-crossing value ($s1 = *(s32*)(p+0x20),
+ * read at the top, consumed only in the far else-branch at .L8016AF70) and one frame pointer
+ * ($s0 = the param). Declaring the 0x20 load as the FIRST statement is sufficient — gcc-2.7.2
+ * gives the whole-function param $s0 and the single other global allocno $s1 with no pins.
+ * NO `register __asm__` pin is used or needed; §72/§74 hazards are entirely avoided.
+ *
+ * ── VERIFICATION (the §88f relocation gate, run by hand; three of four §87 blind spots closed) ─
+ *   match_one  : MATCH (85 ins). .text = 0x154 B = 85 ins — the exact target size, so this is not
+ *                an §83a length drift masking a bad count.
+ *   jump table : the draft's own .rodata is 0x20 B = 8 words. Decoded the IMPLICIT MIPS-REL
+ *                addends (§84's trap — objdump -r does not print them) and resolved each against
+ *                func_8016AE5C's base:
+ *                  [0] +0x5C -> 0x8016AEB8   [4] +0xD4 -> 0x8016AF30
+ *                  [1] +0xB8 -> 0x8016AF14   [5] +0xB8 -> 0x8016AF14
+ *                  [2] +0xD4 -> 0x8016AF30   [6] +0xD4 -> 0x8016AF30
+ *                  [3] +0xD4 -> 0x8016AF30   [7] +0xD4 -> 0x8016AF30
+ *                8/8 IDENTICAL to asm/ov_SC01_077/data/tail16.data.s (jtbl_801D8BE8).
+ *   internal j : 3/3 R_MIPS_26 -> .text resolve to 0x8016AF98 (+0x98), 0x8016AF8C (+0xB0),
+ *                0x8016AF84 (+0x10C) — the target's three `j` sites and destinations exactly.
+ *   jal        : 2/2, addend 0 — func_8016B234 at +0x28, func_800D22E4 at +0xB8. Target agrees.
+ *   §87 data   : the draft references ZERO `D_*` symbols, so the unresolvable-data-extern class
+ *                is structurally void here. cc1/cpp/maspsx all emit zero warnings.
+ *
+ * ── FAMILY TEMPLATABILITY (why this exemplar is unusually cheap to roll out) ───────────────────
+ * Diffed this .s against the ov_SC03_006 / ov_SC06_010 / ov_SC07_007 copies: the ONLY per-overlay
+ * variation is the jtbl symbol name (jtbl_801D8BE8 / jtbl_801F5A58 / …), which gcc GENERATES —
+ * it never appears in the C. Both callees (func_8016B234, func_800D22E4) are at the same address
+ * fleet-wide. ⇒ the §40 symbol-remap is a NO-OP for this family; the only per-member work is the
+ * §81/§8e jtbl carve. Members can be templated verbatim.
+ *
+ * ── INTEGRATION (§58/§87 rules 1-3) ───────────────────────────────────────────────────────────
+ * Both externs are already the FLEET-CANONICAL spellings, link-proven by the banked sibling
+ * DEFINE_func_8016AFB0() in src/shared/engine_core.h:12205-12206, which is the very next function
+ * in this TU and declares/calls them identically:
+ *   - `extern void func_8016B234();`  — K&R ON PURPOSE, and this is load-bearing. The target's
+ *     `jal func_8016B234` has a NOP delay slot and no $a0 setup, so the call is ARGUMENT-LESS in
+ *     the source, even though func_8016B234 is defined 17 lines later in this same TU as
+ *     `void func_8016B234(s32 param_1)` and uses param_1 (an original-source quirk that works at
+ *     runtime only because $a0 still holds the param). A prototyped `(s32)` decl would turn the
+ *     0-arg call into a hard "too few arguments" ERROR. Do NOT let sig_unify prototype this one.
+ *   - `extern void func_800D22E4(s32 a0);` — identical to this TU's existing decl at line 1777;
+ *     defined in src/resident/resident.c:2383.
+ *
+ * ── SHAPE NOTES (for the family template) ─────────────────────────────────────────────────────
+ *  - 8 dense cases 0..7 => `sltiu 8` + jump table (well over CASE_VALUES_THRESHOLD=5, §55a).
+ *  - Cases 1 and 5 FALL THROUGH into the 2/3/4/6/7 body; that fallthrough is what produces the
+ *    jtbl aliasing 8016AF14 -> 8016AF30.
+ *  - The `*(s16*)(p+2) += 1` tail is written LONGHAND in both the case-0 and the common path;
+ *    cross_jump merges it for us into .L8016AF8C (§88a: call-free tails are merged for you — do
+ *    NOT hand-factor them). Likewise the `sw ...,0x1C($s0)` at .L8016AF84.
+ *  - Reading `*(s32*)(p+0x1C)` again for the decrement (rather than caching it) is what emits the
+ *    target's TWO `lw 0x1C($s0)`; the intervening `sh 0x0A($s0)` is what keeps them apart.
+ *  - `*(u32*)(p+0x2C) < 6` (unsigned) gives the two `sltiu $v0,$v0,6` guards.
+ */
+
+#include "common.h"
+
+extern void func_8016B234();
+extern void func_800D22E4(s32 a0);
+
+void func_8016AE5C(s32 param_1) {
+    s32 sp;
+
+    sp = *(s32 *)(param_1 + 0x20);
+    if (*(u32 *)(param_1 + 0x2C) < 6) {
+        func_8016B234();
+    }
+    switch (*(u32 *)(param_1 + 0x2C)) {
+    case 0:
+        *(s16 *)(param_1 + 0xA) -= *(s32 *)(param_1 + 0x1C);
+        *(s32 *)(param_1 + 0x1C) = *(s32 *)(param_1 + 0x1C) - 1;
+        if (*(s32 *)(param_1 + 0x1C) != 0) {
+            if ((*(s32 *)(param_1 + 0x1C) & 3) == 1) {
+                *(s16 *)(param_1 + 0x26) += 1;
+            }
+            return;
+        }
+        *(s16 *)(param_1 + 0x24) = 0xFF;
+        *(s32 *)(param_1 + 0x1C) = 8;
+        *(s16 *)(param_1 + 2) += 1;
+        return;
+    case 1:
+    case 5:
+        func_800D22E4(param_1);
+        *(s32 *)(param_1 + 0x14) += 0x18000;
+    case 2:
+    case 3:
+    case 4:
+    case 6:
+    case 7:
+        *(s16 *)(param_1 + 0xA) -= *(s32 *)(param_1 + 0x1C);
+        *(s32 *)(param_1 + 0x1C) = *(s32 *)(param_1 + 0x1C) - 1;
+        if (*(s32 *)(param_1 + 0x1C) == 0) {
+            if (*(u32 *)(param_1 + 0x2C) < 6) {
+                *(s16 *)(param_1 + 0x24) = 0xC0;
+                *(s32 *)(param_1 + 0x1C) = 8;
+            } else {
+                *(u8 *)(sp + 0x26) = 0xC0;
+                *(u8 *)(sp + 0x25) = 0xC0;
+                *(u8 *)(sp + 0x24) = 0xC0;
+                *(s32 *)(param_1 + 0x1C) = 0xC;
+            }
+            *(s16 *)(param_1 + 2) += 1;
+        }
+        break;
+    }
+}
+
 
 DEFINE_func_8016AFB0()  /* dedup: shared engine-core @0x8016AFB0 (src/shared) */
 

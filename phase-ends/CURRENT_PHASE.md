@@ -5478,3 +5478,52 @@ the decomp.dev display number.** Pick targets by the metric you mean to move.
    different program.*
 
 Distilled as **cookbook §91**. Session total: **4 exemplars + 411 members = 415 functions banked.**
+
+## ✅/⚠️ T9 — the 7 remaining jtbl exemplars: 1 banked, and a 138-binary break I caused and R22 caught
+
+**Banked: `func_8016AE5C`** (85 ins ×138, 11,730 templ ins) — straight through `harvest_verify`,
+which ran its own jtbl carve. R22 clean-fleet 140/140.
+
+**The other 6, with their REAL causes** (read from cc1, never from the harness label):
+
+| exemplar | cause |
+|---|---|
+| `func_8015B950` | 2 callee-decl conflicts (§58c) **+** `too few arguments` on its own in-TU call |
+| `func_80179B74` | `conflicting types for func_80179B74` — decl axis, 3 different forms fleet-wide |
+| `func_8013BD74` | `conflicting types` — but it has **no `extern` at all**; a different conflict |
+| `func_80135260` | genuine **DIFF** (its agent flagged a decl collision needing `reconcile_tu`/`jr_isolate`) |
+| `func_8013B83C` | CC1-FAIL, undiagnosed |
+| `func_801789AC` | the run isolated it into a new subseg and banked nothing — needs a clean retry |
+
+### ⚠️ I BROKE 138 OF 140 BINARIES. R22 CAUGHT IT. THE PER-BINARY GATE COULD NOT.
+Conforming `func_8015B950`'s decl from `(void)` to its byte-true `(s32 arg0)` across 926 sites
+gated **BYTE-IDENTICAL on ov_SC01_077** and broke **138 other binaries** with `Error 33`. This is
+the §63/§85 shape exactly: **a T2 write set is provable only by R22**, and the binary the gate
+authorises is not the binary that breaks.
+
+**The mechanism:** conforming a decl to a signature that TAKES parameters makes every existing
+**0-arg CALL SITE** a hard `too few arguments` error the moment a prototype is in scope. It is not a
+declaration-only change. `func_8012AAAC` needed 137 call-site casts to absorb exactly this;
+`func_8015B950` needs its own.
+
+**Two process notes, both mine:**
+- A first R22 reported 138 failures, an individual rebuild of a "failing" binary then said
+  BYTE-IDENTICAL, and I nearly filed it as a flake. **The second clean R22 reproduced it exactly.**
+  The individual build passed only because it reused objects the clean run rebuilds. *An incremental
+  pass does not refute a clean-tree failure — that is R22's whole premise, pointed at me.*
+- Reverted to a known-good baseline rather than reasoning about a half-applied state (a stray
+  `jr_isolate` region file from the `func_801789AC` run was also in the tree), then redid the one
+  good bank cleanly. **R22 140/140.**
+
+### 🔧 `tools/conform_decls.py` — NEW, and it now refuses what I did by hand
+Applying this axis by hand three times in one session is how a half-axis happens, so it is a tool:
+derive the byte-true signature from the DRAFT's definition (§58b — the draft MATCHed, so it is
+byte-truth; the `extern` is a stub-era guess), rewrite **every** site, and **assert completion**
+(R32) rather than hope. It encodes both preconditions:
+- **§85 return axis** — refuses if any caller consumes the return.
+- **NEW arity precondition** — refuses if 0-arg call sites exist, naming them and the cost.
+
+**And the guard immediately paid for itself with a better diagnosis than my hand-fix had:**
+`func_8015B950`'s 0-arg call is in **ONE place — `src/shared/engine_core.h`** (a `DEFINE` macro
+body) — expanded into all 926 TUs. **So that fix is a single cast, not 926 edits.** Named as the
+next step rather than run on tired context.
