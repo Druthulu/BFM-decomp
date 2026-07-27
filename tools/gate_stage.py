@@ -333,8 +333,17 @@ def _run_gate_locked(drafts, binary, src, asm, out, good_sha, propagate, source_
             # entirely in src/shared/; the binary's own TU arity edits are LOCAL + byte-neutral, so
             # leaving an unbanked fn's `(void)->()` there is harmless. (R33 — narrow the undo to its
             # real write scope; §61's law that undo scope must not EXCEED write scope, from below.)
+            #
+            # ZERO-BANK CASE (Phase 29 SESSION-21): when NOTHING banked, the splice hazard above
+            # does not exist — there are no banks in src/<binary>/*.c to preserve — so restore the
+            # binary's own TUs as well. Byte-neutrality is why the old code left them, and that was
+            # the wrong test: a 0-bank run was leaving ~40 TUs of dead diff in the tree, which a
+            # `git add -A` commits as pure noise (measured SESSION-20 alongside the identical
+            # `--normalize-self-decls` defect, 123 files). §61's undo law applied to the SUCCESS
+            # path: "neutral" is not "wanted" — an edit that bought nothing gets reverted.
+            _zero_bank = not verified
             for _f, _txt in _arity_snapshot.items():
-                if os.sep + "shared" + os.sep not in _f:
+                if not _zero_bank and os.sep + "shared" + os.sep not in _f:
                     continue
                 with open(_f, "w") as _fh:
                     _fh.write(_txt)

@@ -47,13 +47,54 @@ FIELDS = ("ts", "addr", "name", "reach", "klass", "nins", "status",
           "residual", "passes_tried")
 
 
+_NAME_ADDR_RE = re.compile(r"^func_([0-9A-Fa-f]{6,8})$")
+
+
+def addr_of(rec):
+    """The record's address, DERIVED from `name` when the caller omitted `addr` (R33).
+
+    WHY (Phase 29 SESSION-20, the ledger defect): `addr` was null for 1,501 of 1,622 live entries
+    (93%) because most callers log only `name`. Every consumer that keys on `addr` therefore
+    silently processed 7% of the ledger and reported a confident answer about the other 93% —
+    the exact silent-skip shape R32 exists for, and I fell into it twice in one session. The
+    address is never actually missing: `func_80174CB0` states it. Derive it, never re-ask.
+    Returns None only when neither field carries an address (a genuinely unusable record)."""
+    a = rec.get("addr")
+    if a:
+        try:
+            return int(str(a).replace("0x", ""), 16)
+        except ValueError:
+            pass
+    m = _NAME_ADDR_RE.match(str(rec.get("name") or ""))
+    return int(m.group(1), 16) if m else None
+
+
+def assert_addr_coverage(records, what="backlog"):
+    """R32: a consumer keying on address must FAIL on the rows it cannot key, not skip them."""
+    blind = [r for r in records if addr_of(r) is None]
+    if blind:
+        raise SystemExit(
+            f"{what}: {len(blind)} record(s) carry NO derivable address (neither `addr` nor a "
+            f"func_<hex> `name`) — keying on address would silently drop them:\n  "
+            + "\n  ".join(json.dumps(r)[:110] for r in blind[:5]))
+    return len(records)
+
+
 def append_record(rec):
-    """Normalize + append one record to .run/backlog.jsonl (adds ts if absent)."""
+    """Normalize + append one record to .run/backlog.jsonl (adds ts if absent).
+
+    Fills BOTH directions of the name<->addr pair so no downstream consumer has to guess: a
+    caller that logs only `name` (the common case) still produces a row an addr-keyed reader
+    can use. See addr_of() for why this was costing 93% of the ledger."""
     r = {k: rec.get(k) for k in FIELDS}
     if not r.get("ts"):
         r["ts"] = time.strftime("%Y-%m-%d %H:%M:%S")
     if r.get("addr") and not r.get("name"):
         r["name"] = "func_" + r["addr"].lower().replace("0x", "").upper()
+    if not r.get("addr"):
+        a = addr_of(r)
+        if a is not None:
+            r["addr"] = "0x%08x" % a
     os.makedirs(os.path.dirname(JSONL), exist_ok=True)
     with open(JSONL, "a") as f:
         f.write(json.dumps(r) + "\n")
@@ -101,7 +142,11 @@ def load_best():
         binary = r.get("binary") or "ov_SC01_077"
         if nm and nm not in _open_stubs(binary):   # banked in ITS binary since logged -> drop (P9)
             continue
-        key = r.get("addr") or nm
+        # Key on the DERIVED address (addr_of), never on `addr or name`: 93% of rows carry only
+        # `name`, so the old key split one function into TWO "best" records whenever it had been
+        # logged both ways — the same silent-skip class as the null-addr defect itself.
+        a = addr_of(r)
+        key = a if a is not None else nm
         cur = best.get(key)
         c = r.get("closeness")
         cscore = c if isinstance(c, int) else 10 ** 9

@@ -417,6 +417,18 @@ def hseq_sweep(a):
             continue
         vpath = os.path.join(REPO, vout)
         nver = len([x for x in open(vpath).read().split() if x]) if os.path.exists(vpath) else 0
+        # ZERO-BANK HYGIENE (Phase 29 SESSION-21): if the group banked NOTHING, restore the
+        # self-decl TU edit even though it was byte-NEUTRAL. The MISMATCH backstop above only fires
+        # on a non-neutral edit, so a 0-bank run left every edit in the tree: SESSION-20's
+        # `--normalize-self-decls 0/123` run left 123 files / 246 insertions / 246 deletions of dead
+        # diff that a `git add -A` would have committed as noise. Byte-safe is not the test —
+        # §61's undo law says an edit that bought nothing gets undone. Nothing banked here, so
+        # there is no splice to preserve and the restore cannot cost a match. No rebuild is needed:
+        # the edit was byte-neutral by construction (had it not been, the branch above already ran).
+        if nver == 0 and src_rel in nsd_snapshots:
+            open(os.path.join(REPO, src_rel), "w").write(nsd_snapshots[src_rel])
+            print(f"  {ov} [{os.path.basename(src_rel)}]: 0 banked — reverted the byte-neutral "
+                  f"self-decl edit (no dead diff left behind)")
         banked[ov] += nver
         failed[ov] += len(fns) - nver
         print(f"  {ov} [{os.path.basename(src_rel)}]: {nver}/{len(fns)} banked")
