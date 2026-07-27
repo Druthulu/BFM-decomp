@@ -6564,3 +6564,47 @@ not `make` — it is `0` even when the build failed. The output simply had no `B
 which is the thing to check. **Assert on the expected SUCCESS STRING, never on `$?` after a pipe**
 (or use `set -o pipefail`). A green-looking `rc=0` on a failed build is the same class of
 self-deception R32/R35 exist to prevent — the gate was honest; my reading of it was not.
+
+## §86 — Pinned-exemplar templatability is a PER-FAMILY property, not a per-member rate; and the §42e pin guard is now over-conservative (Phase 29 SESSION-20)
+
+### The guard refuses a class that largely works
+`family_sweep`'s §42e guard skips any family whose exemplar carries `register __asm__` pins. Measured
+on the zero-crack pool: of **1,083 candidate members in the top 8 FREE families, 680 (63%) were
+refused BEFORE any gate ran.** Re-run with `--allow-pins` (letting the byte-gate arbitrate, G3/P9):
+**268 of 680 banked, and ZERO `cc1` crashes across hundreds of pinned compiles.**
+That confirms the guard's original motivation is gone: the SIGABRT it protects against was
+**Phase 27's `extract_unit` macro-drop**, not a compiler limit (§42e-CORRECTION). **The guard is now
+protecting against a bug that no longer exists.**
+
+### THE LAW: all-or-nothing PER FAMILY
+The headline "37%" from a 19-member sample was an ARTEFACT OF MIXING FAMILIES. The real distribution:
+
+| exemplar | members | banked |
+|---|---|---|
+| `func_801749C8` | 137 | **137 (100%)** |
+| `func_8014C6F4` | 137 | **137 (100%)** |
+| `func_80133AB0` | 136 | 4 |
+| `func_8014CF04` | 137 | 0 |
+| `func_80143D28` | 136 | 0 |
+
+**Two families at 100%, three at ~1%.** Whether a pinned exemplar templates is a property of the
+FAMILY (does its pin set survive symbol substitution into a sibling TU?), not a per-member lottery.
+This matches SESSION-19's `func_8017A4AC`, which banked **×134 with pins** — a whole family, not a
+fraction.
+
+### ⇒ THE PROCEDURE (do this, not a blanket sweep)
+```
+for each pinned family:
+    probe ONE member  ->  banks?  yes: sweep the whole family
+                                  no : SKIP IT ENTIRELY
+```
+**Cost measured:** the blanket sweep spent ~412 futile gate cycles (≈60% of the run) grinding three
+families that were never going to bank. The 1-member probe reduces that to 5 probes + 2 sweeps.
+**A sample that straddles families reports their AVERAGE and hides the bimodality** — sample
+per-family, never per-pool. (Counterpart to §80: a measurement is scoped to what it was taken over.)
+
+### Why the two live families differ from the three dead ones — the open question
+Not yet diagnosed. The likely axis is whether the pinned registers are *caller-saved across a `jal`*
+(§74's corrupting form) in the sibling's register pressure, versus pins that only fix a local
+allocno. **Diagnose before extending `--allow-pins` fleet-wide** — the byte-gate makes a wrong guess
+free, but a wrong PROCEDURE costs a sweep.

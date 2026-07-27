@@ -339,7 +339,7 @@ void func_80146360(void)
 
 typedef struct { char _b[8]; } Blk8_801463A0;   /* size 8, align 1 -> unaligned block move */
 
-extern void func_8014C6F4(u8*);
+extern void func_8014C6F4();
 extern void func_80155150(s32 a0);
 extern void func_801470C0(s32 a0);
 extern void func_80147478(s32 a0);
@@ -1247,7 +1247,89 @@ DEFINE_func_8014C6D0()  /* dedup: shared engine-core @0x8014C6D0 (src/shared) */
 
 DEFINE_func_8014C6E0()  /* dedup: shared engine-core @0x8014C6E0 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_after", func_8014C6F4);
+
+
+// @class: schedule
+// @stuck: none — MATCH (match_one 91/91)
+//
+// Levers used (all byte-gated on ov_SC07_006):
+//  1. §struct  8-byte alignment-1 struct copy `*(M8_8014C6F4*)(a+0x164) = *(M8_8014C6F4*)(p+0x10)`
+//     -> the lwl/lwr,lwl/lwr,swl/swr,swl/swr block (engine_types.h M8_xxx convention).
+//  2. §17 base-pointer cache: `u8 *p = D_80078E78;` (NOT a direct D_80078E78[0x49]) so gcc pins
+//     the base into callee-saved $s1 and hoists the la into the prologue (live across the jal).
+//  3. §17 register pins: the search result `e` MUST be $v0 and the limit `lim` $v1, else
+//     local-alloc swaps the loop IV/limit pair ($v1<->$a0) and coalesces `e` into the IV.
+//  4. DELAY-SLOT lever (new): writing the compare constant as its own pre-loop statement
+//     (`want = 0x22;`) instead of the literal `0x22` inside the loop test. With the literal,
+//     loop.c hoists the `li $a1,0x22` into the loop PREHEADER (after the duplicated entry test),
+//     so reorg.c's guard branch has nothing local to take and instead COPIES the branch-target
+//     insn (`addu $v0,$zero,$zero`) into its delay slot and redirects past it — a +1 shift that
+//     also lets the loop-back branch steal the same insn (nop -> move). Materialising the
+//     constant in the block BEFORE the entry test makes fill_simple_delay_slots take it from
+//     the preceding insns, reproducing `beqz $v0,.L8014C7F4 / addiu $a1,$zero,0x22` and leaving
+//     the loop-back delay slot a nop. `want` needs no pin — gcc lands it in $a1 on its own.
+
+typedef struct { char _b[8]; } M8_8014C6F4;
+
+void func_8014C6F4(u8 *a) {
+    extern u8 D_80078E78[];
+    extern s32 D_8011F9D0;
+    extern s32 func_8016F1AC(void);
+    extern void func_80015978(s32 a0, s32 *a1);
+
+    u8 *p = D_80078E78;
+    register u8 *e __asm__("$2");
+    register u8 *lim __asm__("$3");
+    u8 *q;
+    s32 want;
+    u8 *src;
+
+    if ((*(u32 *)(a + 0x44) & 2) != 0) {
+        a[0x1C3] = 1;
+    }
+    if (((*(u32 *)(a + 0x44) ^ *(u32 *)(a + 0x48)) & *(u32 *)(a + 0x44) & 0x200) != 0) {
+        a[0x1C3] = 0;
+    }
+    *(M8_8014C6F4 *)(a + 0x164) = *(M8_8014C6F4 *)(*(u8 **)(a + 0x20) + 0x10);
+    if (func_8016F1AC() != 0
+        || (((*(u32 *)(a + 0x44) & 0x200) != 0) && a[0x1C3] == 0)) {
+        *(s16 *)(a + 0x162) = 1;
+        goto tail;
+    }
+    if (p[0x49] == 0x17) {
+        want = 0x22;
+        q = (u8 *)&D_8011F9D0;
+        lim = q + 0xC30;
+        for (; q < lim; q += 0x68) {
+            if (*(u16 *)q == want) {
+                e = q;
+                goto found;
+            }
+        }
+        e = 0;
+    found:
+        if (e != 0) {
+            src = e + 4;
+            goto call;
+        }
+    }
+    if (*(u16 *)a == 0x19) {
+        goto done;
+    }
+    src = a + 4;
+call:
+    func_80015978((s32)src, (s32 *)(a + 0x15C));
+done:
+    *(s16 *)(a + 0x162) = 0;
+tail:
+    if (*(s16 *)(a + 0x15A) == 0) {
+        *(u16 *)(a + 0x154) = *(u16 *)(a + 0x6);
+        *(u16 *)(a + 0x156) = *(u16 *)(a + 0xA);
+        *(u16 *)(a + 0x158) = *(u16 *)(a + 0xE);
+    }
+    *(s16 *)(a + 0x15A) = 0;
+}
+
 
 DEFINE_func_8014C860()  /* dedup: shared engine-core @0x8014C860 (src/shared) */
 
