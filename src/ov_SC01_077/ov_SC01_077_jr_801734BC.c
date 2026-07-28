@@ -3152,18 +3152,20 @@ extern u32 *func_8017742C(u32 *a0, s32 a1, s32 a2);
 extern s32 func_8005A600(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4);
 extern void func_800183E0(s32 a0);
 
-typedef struct {
-    u32 tag;    /* 0x00 */
-    u32 code;   /* 0x04 */
-    u16 x;      /* 0x08 */
-    u16 y;      /* 0x0A */
-    u32 uv;     /* 0x0C */
-    u32 wh;     /* 0x10 */
-} Sp_80175DA8;  /* 0x14 */
+  /* 0x14 */
 
 void func_80175DA8(param_1)
     u16 param_1;
 {
+    typedef struct {
+        u32 tag;    /* 0x00 */
+        u32 code;   /* 0x04 */
+        u16 x;      /* 0x08 */
+        u16 y;      /* 0x0A */
+        u32 uv;     /* 0x0C */
+        u32 wh;     /* 0x10 */
+    } Sp_80175DA8;
+
     u8 *base = &D_8011F7F0;
     u8 *s = base - 0x48;
     u16 *src = D_8018A1DC;

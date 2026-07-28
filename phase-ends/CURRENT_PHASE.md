@@ -6192,3 +6192,25 @@ Staged 137, banked 0. Its draft carries a local `typedef … Sp_80175DA8`, which
 templates the BODY of but not the TYPE — the exact shape that took `func_8016B6BC` from 0/137 to
 137/137 earlier today. §94: **the lift must be TRANSITIVE.** Not attempted here (context); it is a
 clean, named next step worth **31,878 templated instructions**.
+
+## ✅ T24 — `--allow-pins` flipped to DEFAULT + `func_80175DA8` 0/137 → 137/137
+
+**(1) The stale guard is gone.** Pinned exemplars now sweep by default; `--allow-pins` kept as an
+accepted no-op (recipes/docs keep working), `--no-pins` restores the old behaviour. Negative-controlled
+BOTH ways: default stages the 4, `--no-pins` still reports `pinned-exemplar: 4`. Rationale + the
+measurement (137 skipped → 133 bank) are in the code comment, not just the commit.
+
+**(2) `func_80175DA8` swept 137/137, 0 failed** — from **moving one typedef into the function body**.
+Its 0/137 was the §94 type-carry signature, but the cheap remedy was visible in the same draft: it
+already carries `S_AF634` at BLOCK scope, which templates fine, because a type declared in the body
+travels WITH the body. `Sp_80175DA8` was at FILE scope and used by that function only (7 mentions, 6
+inside the body, 0 elsewhere) → moved it in. **Byte-neutral, T0, zero blast radius** vs a header
+included by 140 binaries. → cookbook **§100**.
+
+**R22 clean-fleet 140/140.** Measured: fn-count 318,720 → **318,857 (+137)** · instr 84.2 → **84.4%**
+(+31,647) · distinct-code 73.9 → **74.4%** (+129 unique fns).
+
+> **§99 and §100, an hour apart, are the same lesson:** in both cases the cookbook's named remedy was
+> the expensive fleet-wide one (a 524-site decl conform / a shared-header lift) and the correct fix
+> was **draft-local** (K&R definition / block-scope typedef). **Before editing anything shared, ask
+> what the smallest scope is that still travels with the body.**

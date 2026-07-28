@@ -7191,3 +7191,32 @@ once block-scope descent started finding such names. Guard: `(?<![.\w])(?<!->)`.
 > **Process note worth keeping:** (b) was caught because the transform's output was diffed against
 > its input *before* the result was trusted — not by a gate. The byte-gate would have reported
 > PLUMBING and told me nothing about *why*, and the corrupted draft looked plausible.
+
+## §100 — Prefer the DRAFT-LOCAL fix: a type only one function uses belongs in its BODY, not in a shared header (Phase 29 SESSION-22, `func_80175DA8` 0/137 → 137/137)
+
+`func_80175DA8` swept **0/137**. Per §94 that is a **TYPE-CARRY failure until proven otherwise** — and
+it was: the draft defines `typedef struct {…} Sp_80175DA8;` at FILE scope, and `remap_hseq` templates
+the BODY but not the type, so every sibling compiled without it.
+
+§94's remedy is the shared `engine_types.h` lift (correct for `func_8016B6BC`, whose four types were
+transitively referenced). **But the cheap remedy was already visible in the same draft:** it carries
+`typedef struct {…} S_AF634;` at **BLOCK scope**, inside the function body, and that one templates
+fine — because a type declared in the body travels WITH the body. So:
+
+- the type is used by **that function only** (measured: 7 mentions, 6 inside the body, 0 elsewhere)
+- → move it into the function body. **Byte-neutral** (`d19c9580` unchanged), **T0**, zero blast radius
+- → re-sweep: **137/137, 0 failed.**
+
+versus editing a header included by 140 binaries, which then needs `--strip`/uniquify care (§64a),
+a name that cannot collide fleet-wide, and an R22.
+
+> **The law:** scope the fix to the smallest unit that makes it travel. **File scope in a draft is
+> the worst of both worlds** — it does not travel with the templated body, and it pollutes the TU.
+> Lift to `engine_types.h` only when a type is genuinely SHARED across functions or transitively
+> referenced by another lifted type (§94); otherwise put it in the body (§59(1)'s "carry it in the
+> template", which this makes concrete).
+
+**This is the same shape as §99, an hour apart:** in both cases the cookbook's named remedy was the
+expensive fleet-wide one (524-site decl conform / shared-header lift) and the correct fix was
+**draft-local** (K&R definition / block-scope typedef). Two data points, one rule: **before editing
+anything shared, ask what the smallest scope is that still travels with the body.**
