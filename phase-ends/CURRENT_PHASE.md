@@ -7413,3 +7413,96 @@ in A"** — a much sharper starting point than the 13 we began with. Variants pr
 pass (no bank), a wave agent (~2.6M tokens, 217 → 13), a 32-min directed permuter (flat), the
 `reg_renumber` oracle (framing refuted), and this grind (B solved, A regressed). It is the single
 largest prize at **51,198 instructions** and it has resisted five distinct tiers.
+
+## 📌 T50 — `func_80135260` family: 4/137, and the blocker is now EXACTLY located (fleet-wide, mechanical)
+
+The §53 carve path ran twice over the family. **Result: 4 banked (all SC07), 133 gate-fail, tree
+clean after every revert.** The 3,744-site `conform_decls` between the two runs changed **nothing**
+for this family — 99 attempts observed mid-run with 0 banks. It is byte-neutral and axis-complete,
+so it is not harmful, but my inference that this family shared `func_80177DA8`'s blocker was
+**WRONG**: same SC07-only signature, different cause.
+
+### The real blocker, located
+The staged sibling drafts are correctly remapped (`ov_SC01_000` gets `D_8017F198/19C/1A4` for
+ov_SC01_077's `D_801870AC/B0/B8`) — `family_remap` is doing its job. The draft's own note is the
+clue: those symbols **MUST** be declared as 4-byte pointers, because the canonical
+`extern u8` + `(*(u16**)&sym)` form makes gcc CSE `&sym` into two callee-saved regs, costing a 7th
+saved register and **3 extra instructions** — the identical +3 I measured on the exemplar.
+
+And **every sibling host TU carries the same file-scope blocker the exemplar did.** Verified on
+`ov_SC01_000`: its host TU `ov_SC01_000_jr_8012ACE0.c` declares the contested symbols at **file
+scope** (lines 3053-3056, `extern u8 D_8017F19C/198/1A4;`) alongside 18 block-scope occurrences.
+A file-scope decl constrains every LATER function in that TU — exactly the T48 finding.
+
+**So the fix is the T48 lever replicated ×137: scope those file-scope decls into their consumers,
+per sibling TU.** On the exemplar that move was byte-neutral (proven in two steps) and unblocked the
+bank. This is a mechanical, scriptable fleet-wide edit — a TOOL, not a one-liner — and it is worth
+the family's **~18,000 templated instructions**.
+
+**`[gather_externs]`'s warning naming `func_80135D20` is a comment-scanning FALSE POSITIVE** (that
+symbol appears only in the draft's header prose, and is defined in a different split file). It fires
+on all 137 and is not the cause. Same bug class as the Phase-19 `gen_harvest_targets` garbled-hint
+fix — worth fixing so it stops masking real causes.
+
+---
+
+# 🛑 SESSION-23 FINAL CHECKPOINT — REVISED (2026-07-28) — FRESH SESSION SAFE HERE
+> Supersedes the earlier SESSION-23 block above (which was written before T44-T50).
+
+**Nothing running.** Tree clean but for the R23 `db.*.gbf` churn (never stage). HEAD **`commit:1149`**.
+**R22 clean-fleet 140/140** (run **11×** this session), dedup **1886/0**, **0 NON_MATCHING** (G4).
+**FLEET: 85.5% instr · 76.1% distinct · 90.62% fn-count** (opened 84.8 / 74.7 / 90.34).
+
+## SESSION TOTAL — **975 functions banked**
+Reconciled against the metric, not asserted: fn-count **319,549 → 320,524 = +975**, and the
+per-task recount agrees exactly (T32 4 · T33 548 · T39 4 · T40 143 · T41 133 · T43 1+137 · T48 1 ·
+T49 4).
+
+## THE FOUR STRATEGIC CHANGES
+1. **Every codegen-map file is audited against REAL gcc-2.7.2** — 27 corrections upheld across
+   `regalloc`/`sched`/`cse_expr`/`loop`/`t7g`, **20 false refutations caught** by an adversarial
+   second stage before they deleted working levers. `regalloc.md` §H now states the swap oracle's
+   two preconditions.
+2. **`ADDRESSING → permuter` is the wrong route.** Three targets under-delivered; `func_80176734`
+   sat **completely flat** for 32 min. `residual_class._ROUTE` should be corrected.
+3. **The bare gate beats the ladder** (reproduction for the carried defect) — **but it has no
+   snapshot/restore**, so always diff the tree after one.
+4. **A FILE-SCOPE extern in a shared overlay TU is a global constraint on every later function**
+   (T48). When a byte-true draft needs an incompatible type, move the EXISTING decl to its
+   consumers — bending the draft cost +3 instructions, twice, in two independent measurements.
+
+## ▶ START HERE NEXT SESSION (ranked, all measured)
+1. **Build the fleet-wide decl-scoping tool** (T50). Per sibling TU: move the file-scope decls of a
+   contested data symbol into their consumers, exactly as T48 did by hand on `ov_SC01_077`
+   (byte-neutral, proven). Unblocks `func_80135260`'s **133 remaining siblings ≈ 18,000 ins**, and
+   generalises to any family with this signature. **Highest confidence item on the list.**
+2. **Fix `residual_class._ROUTE`** for ADDRESSING (cheap; stops wasted permuter CPU).
+3. **Fix `gather_externs`' comment-scanning false positive** (cheap; it currently fires on every
+   sibling and masks real causes).
+4. `func_8013B83C` — matching draft in hand (`.run/s21_jt7/`), needs `jr_isolate_all` → `jtbl_carve`.
+   Discount its 37,536 headline: it is `_o0`, and `_o0` families sweep ~1/137.
+5. **PARKED: `func_80176734`** (51,198 ins) — five tiers bounced; clusters A and B are provably
+   coupled and must be solved together.
+
+## ⚠️ MY ERRORS THIS SESSION (recorded, not buried)
+- **A form-feed bug in my own checker** made me report "153 NEAR / 12 FABRICATED" against the audit
+  agents. After the fix: **180/180 and 299/299 exact — the agents were right all along.** I then
+  **mis-diagnosed my own bug** by grepping `claim_excerpt` instead of `source_quote`.
+- **Piped a 30-minute background job through `tail`**, which buffers until exit — then reported the
+  resulting empty log as "just started, hasn't reached its first gate". One `ps` would have shown it
+  was 74% through. Drew caught it.
+- **Committed banked work with `git add -A src/`, omitting `config/`** — the exact error THIS FILE
+  already warned about with a written guard I did not run. The tool's precondition caught it.
+- **Three unconditional `echo` conclusions** (`[shared clean]`, `[none = ...]`) that asserted things
+  the command output contradicted.
+- **Counting slip**: wrote 418 for the session total; reconciling against fn-count gave 975.
+- Common thread, every time: **inference from partial output instead of measuring.** Every one was
+  caught by measuring; none by re-reading.
+
+## ⚠️ CARRIED DEFECTS
+- The **21-file absolute-include portability defect** — PhaseEnd carry item.
+- **`docs/backlog.md` is not a work queue** — 44% misfiled partials (§83).
+- **Roadmap re-baseline owed**; the 39 type-1 modules are in no phase.
+- **`gate_stage` ladder destroys good drafts** (reproducible); **bare gate has no snapshot/restore**.
+- **`gather_externs` comment-scanning false positive** (new, T50).
+**DO NOT close P29 on ROI** — +0.7pp instr today is nowhere near a burn-down floor.
