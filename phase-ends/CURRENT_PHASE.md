@@ -6085,3 +6085,54 @@ this function, then `make build BINARY=ov_SC01_077` by hand and read the actual 
 `Error 1` at `Makefile:558` with no cc1 diagnostic points at extract/`ld_interleave`, i.e. the §59(3)
 carve family, not a declaration problem. Worth **27,324 templated instructions**.
 **Tree left clean; nothing committed for this function.**
+
+## ✅ T20 — `func_801789AC` family banked 137/137 (0 failed); fleet crosses 84% instr
+
+`jtbl_family_bank` (carve-aware path — jtbl family). **137/137 BANKED, 0 failed.**
+**R22 clean-fleet 140/140**; report fail-closed green (dedup 1886/0, C1 coverage complete,
+0 NON_MATCHING).
+
+**Measured:** fn-count 318,447 → **318,585 (+138)** · instr 83.9 → **84.0%** (+12,558) ·
+distinct-code 73.2 → **73.4%** (+131 unique fns — byte-VARIANT members, so this one moves the
+distinct number too, unlike `func_801330E0`'s byte-identical family).
+
+This closes the function that had been REFUSED since SESSION-21 — correctly refused, since conforming
+its 660 declarations without first casting its 138 zero-arg call sites would have broken 138 binaries.
+
+## ⏱️ T21 — the sweep-throughput question, MEASURED (Drew asked why we weren't using `-j`)
+
+**Drew was right that parallelism was proven and adopted**, and the record backs him: `Makefile
+JOBS ?= 16` (`xargs -P$(JOBS)` — fleet builds already run 16 binaries wide) and **`tools/
+sweep_parallel.py -j 12`**, built in SESSION-20 after measuring *"roughly an 8-16x throughput loss"*
+from serial family sweeps.
+
+**But neither sweep tool calls it.** `family_sweep` gates SERIALLY in-process via `gate_stage`;
+`jtbl_family_bank` has its own serial loop. The adapter is reachable only through the manual
+`--stage-only` → `sweep_parallel` two-step, so the default path stayed serial — **and three sweeps
+this session (133 + 273 + 137 members) ran serially for no reason.** My error, and the same shape as
+every other defect today: *the fix exists, it just isn't reachable by default.*
+
+**The `-j` theory was WRONG, and measuring said so** (baseline ~18 s/sibling):
+| | |
+|---|--:|
+| `make extract` + `make build`, cold | **~5 s of the 16 s** |
+| one sibling end-to-end, serial | 16 s |
+| one sibling end-to-end, `-j16` | **14 s (12%)** |
+
+Make is not the bottleneck. The per-sibling loop tries **up to FOUR stages** (raw → scoped →
+recovered → reconciled) and **each runs its own `make build`**, plus `jtbl_carve` and
+remap/`canon_sig_reconcile`. `-j16` kept (free, safe, committed) — but it is a 12% win, not 8×.
+
+**The real lever is DESIGNED, NOT BUILT, and blocked on a specific hazard:** cross-sibling
+parallelism is worth ~8-16× (each sibling is an independent binary, and the Makefile already proves
+per-binary parallel builds safe). It is blocked because **`revert()` restores `config/` from git and
+`config/overlays.mk` is SHARED** — a concurrent revert would clobber peers' carve entries, the same
+"revert-from-HEAD eats another worker's state" failure this tool's own precondition warns about. It
+needs line-scoped + locked + atomic edits to `overlays.mk` and a revert that never wholesale-restores
+shared paths.
+
+**⚠️ AND I BROKE `family_sweep` TWICE TRYING TO WIRE THE PARALLEL DEFAULT** (missed import, then a
+closure-scope error) — on the tool that banked 543 members today. **Reverted, not committed.**
+Restructuring a proven tool with blind string replaces at the end of a long session is how a working
+thing gets broken. Left as a specified next-session task; `sweep_parallel.py` already exists and is
+proven, so the work is *wiring*, not invention.
