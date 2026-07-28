@@ -7316,3 +7316,52 @@ with my probe instrument, and the gate was right.)*
 Not recoverable by declaration work. Its residual is now honestly classed **DIFF at 3 instructions
 over** — a codegen problem for the crack tier, not the integration tier. Re-file it as a crack
 target, not an integration one.
+
+## 🔬 T46 — the reg_renumber-swap ORACLE built, validated, and it REFUTES the framing for `func_80176734`
+
+Item 1's remaining half. The oracle is now **mechanized and reusable**
+(`tools/oracle/reg_renumber_swap.sh`): break at `reload` entry (cc1 is unstripped —
+`reg_renumber` @ `0x82d4330`, `reload` @ `0x815d4d7`), swap two hard registers throughout
+`reg_renumber`, finish the compile, and re-score with **`masked_diff` reused, not reimplemented**
+(R33 — the same comparison `match_one` makes).
+
+**NEGATIVE CONTROL FIRST:** a no-op swap (`31↔31`) reproduces **exactly the baseline 13 mismatches**,
+so the harness faithfully reproduces the pinned compile and a swap result is meaningful.
+
+### Result: both contested swaps make it far WORSE
+| swap | pseudos moved | mismatches |
+|---|---|---|
+| control `$31↔$31` | 0 | **13** (baseline ✓) |
+| `$a0(4) ↔ $a2(6)` | 17 | **345** (and +1 insn) |
+| `$v1(3) ↔ $a1(5)` | 31 | **97** |
+
+### WHY — and this REFUTES the "three register 2-swaps = pure allocation" reading
+The contested registers serve **17 and 31 pseudos**, so a blanket swap destroys the many allocations
+that were already correct. But the deeper reason is structural. Reading the `.greg` RTL for
+cluster B's own instruction:
+
+```
+(insn 32 15 35 (set (reg/v:SI 6 a2)            <-- a HARD register, not a pseudo
+        (plus:SI (reg/v:SI 5 a1) (const_int 60))) 3 {addsi3_internal} ...)
+```
+
+**`reg_renumber` only maps PSEUDOS (≥ `FIRST_PSEUDO_REGISTER` = 68). A value already living in a hard
+register at `.greg` time is structurally unreachable by this oracle.** And the draft has **no
+`register __asm__` pins at all** (its header says so, and grep confirms) — so `$a2` is hard because
+it is an **incoming PARAMETER register that local-alloc reused as a destination**.
+
+**VERDICT for `func_80176734` (51,198 ins): the residual is NOT global-allocation 2-colouring.**
+It is the **local-alloc hard-reg reuse / tying class** — `combine_regs` (2.7.2 `local-alloc.c:1722`)
++ `qty_phys_copy_sugg`, i.e. **regalloc.md K8 / RC-4**, whose lever is C-level *lifetime shaping*
+(which value dies where), **not** the permuter and **not** `reg_renumber`. That also explains the
+flat permuter: it was mutating a dial that does not control this residual.
+
+### 🔧 MAP REFINEMENT OWED — §H's oracle has an unstated PRECONDITION
+`regalloc.md` §H presents the swap oracle as the way to "discriminate RC-6 (allocation) from S3
+(scheduling) in ONE gdb run". It only works when **the contested registers are held by PSEUDOS**.
+Check the `.greg` RTL first: if the diff's registers appear as `(reg/v:SI N <name>)` with N < 68,
+they are hard already and the oracle cannot move them — a coarse swap will return a large,
+meaningless number (345 here) that looks like a verdict and is not one.
+
+**Harness preserved at `tools/oracle/reg_renumber_swap.sh`** (R3), with its negative control
+documented. Tree clean; nothing banked, nothing broken.
