@@ -6323,3 +6323,31 @@ order was correct (§61b); the drift is that the pad spec is derived before cc1 
 table. **This is genuine tooling work in `jtbl_carve`/`jtbl_rodata_pads`, NOT a compiler wall and NOT
 a declaration problem** — a real advance over "Error 1, no cc1 text". Worth 27,324 templ ins.
 **Tree restored, `d19c9580` byte-identical, nothing committed for it.**
+
+## 🔎 T26 — item 2 (`func_8013BD74`) root-caused to the documented `--span-tables` archaeology case
+
+The `Error 1` is `jtbl_rodata_pads: more rodata .align directives than pad specs (2)`. Root cause,
+read from the code rather than guessed:
+
+- `jtbl_rodata_pads` consumes **one pad spec per jump table** (`.align 3` is cc1's per-table marker).
+- `jtbl_carve` recomputes a touched span's pads from `starts` = this run's new tables ∪
+  `overlay_jtbl_addrs(ov)` ∪ the prior span's persisted `tables=` record.
+- **`config/overlays.mk` has NO `JTBL_PADS` line for `ov_SC01_077_o0`** → `prior is None`, so the
+  only fallback is the single-table-predecessor inference (jtbl_carve.py:571-585).
+- But `_o0` is the **-O0 cluster** and already holds several BANKED jtbl functions. Their stub `.s`
+  files were PRUNED at extract (they are matched), so `overlay_jtbl_addrs` **cannot see their
+  tables**, and with no `tables=` record there is nothing to rebase. The carve therefore derives
+  **2** starts for an object that compiles **≥3** tables.
+
+That is precisely the case jtbl_carve.py:581-584 calls *"a pre-§8e MERGED double (two tables, no
+record, **genuinely unrecoverable**)"* — i.e. unrecoverable **by inference**. The designed escape is
+**`--span-tables SUB=A1,A2,…`** ("absolute table-start vrams for a span whose owners' stub .s are
+pruned and no persisted `tables=` exists — pre-§8e archaeology").
+
+**NEXT STEP (named):** reconstruct `_o0`'s true table-start vrams from the ORIGINAL payload —
+deterministically scannable, since a jump table is a run of words pointing into the overlay's code
+range — then pass them via `--span-tables`. Everything else for this function is already solved:
+the body **MATCHes** (`rtu_match` 198 ins) and the declaration conflict is gone at T0 cost via §100's
+reshape (`void *` param + compile-time cast, matching the TU's existing prototype).
+**Worth 27,324 templated instructions. Deliberately not started here** — it is archaeology, and I
+have broken a proven tool twice today by starting structural work late in a session.
