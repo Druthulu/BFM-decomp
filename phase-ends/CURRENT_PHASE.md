@@ -7062,3 +7062,36 @@ that region is verbatim the giv benefit test — `if (v->lifetime * threshold * 
 difference `loop.md` flags is in `combine_givs` (2.7.2 plain pair-loop vs 2.8.1 qsort + refined
 benefit), which this verdict does **not** rest on. **The wall stands; no re-derivation owed.**
 A clean negative result on a probe I argued for — recorded rather than quietly dropped.
+
+## ✅/📌 T40 — sweep of the 4 new cores: 143/548 banked; the 405 failures are ONE named class
+
+**`family_sweep --hseq --band all --only <4 cores> -j12` → 143 banked / 405 failed.**
+**R22 clean-fleet → 140 passed, 0 failed of 140.** dedup-check 1886 validated / 0 failed.
+Fleet **85.3 → 85.4% instr · 75.8 → 76.0% distinct · 90.50 → 90.54% fn-count**.
+
+Very different from T33's 548/548, so the failures were diagnosed rather than accepted:
+
+| core | swept | why |
+|---|---|---|
+| `func_80138C60` | **137/137** | clean |
+| `func_80177DA8` | 4/137 | **§99 K&R-vs-prototype** (below) |
+| `func_8013B6A0` | 1/137 | `_o0` — **expected**, Phase-20 byte-proved the -O0 cluster is OVERLAY-LOCAL |
+| `func_8013B598` | 1/137 | same |
+
+### The root cause, and it is the SAME class as item 3
+`func_80177DA8`'s banked def is **K&R** (`void func_80177DA8(p, v, idx) u8 *p; …`) and its own TU
+declares it no-proto. **Non-SC07 overlays declare a PROTOTYPE** (`extern void func_80177DA8(s32,
+s32, s32);`) → remapping the K&R def in produces the conflict → 133 failures. The 4 that succeeded
+are SC07 overlays, which declare it **not at all**.
+**`func_80140D68` (item 3) is the identical shape** — K&R def vs 138 prototype callers.
+**So ONE §99 `conform_decls` pass unlocks both** (`conform_decls` exists precisely for this: "when a
+draft reaches match_one MATCH, the draft's signature is byte-TRUTH; move the DECLS, never the
+draft"). Estimated **~17,000 instructions**. NOT run — it is a fleet-shared 138+-declaration change,
+and this session already tripped one shared-state hazard, so it wants an explicit go-ahead (P5).
+
+### ⚠️ My own error, recorded
+I read a `head -6` list of modified directories as the COMPLETE set and briefly believed the sweep's
+"143 banked" did not reconcile with the tree. It did: measured properly, **143 stubs removed across
+142 files** (137+4+1+1). Same error class as grepping `claim_excerpt` instead of `source_quote`
+earlier today — **truncated output is not exhaustive output.** Both times the fix was to measure
+rather than infer.
