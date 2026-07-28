@@ -29,6 +29,12 @@ SRC = os.path.join(REPO, "tools/reference/gcc-2.7.2")
 WINDOW = 40
 
 
+# NB — LINE NUMBERING: split("\n"), never splitlines(). GNU C sources use FORM FEED (\f) page
+# separators (loop.c has 47, cse.c 36, reload1.c 27), and Python's splitlines() splits on \f while
+# grep/sed/editors do not. Using splitlines() shifts every computed line number after the first \f
+# — by up to 47 in loop.c, which is larger than this file's +/-40 search window, so a REAL quote can
+# be reported FABRICATED. Self-inflicted and caught 2026-07-28 by cross-checking one known value.
+
 def norm(s):
     return re.sub(r"\s+", " ", (s or "")).strip()
 
@@ -75,7 +81,7 @@ def check(f):
     p = os.path.join(SRC, rf.replace("tools/reference/gcc-2.7.2/", "").lstrip("/"))
     if not os.path.exists(p):
         return "BAD-FILE", "no such file: %s" % rf
-    lines = open(p, errors="replace").read().splitlines()
+    lines = open(p, errors="replace").read().split("\n")
     if not (1 <= rl <= len(lines)):
         return "BAD-LINE", "%s has %d lines, cited %d" % (rf, len(lines), rl)
     nq = norm(q)

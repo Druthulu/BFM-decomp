@@ -30,6 +30,12 @@ differences are BEHAVIORAL and bit us immediately:
 > `check_dbra_loop` area returned evidence that quoted THIS FILE rather than the compiler source, so
 > they are **unverified, not confirmed** — the caveat table's own rows are the ones affected. Re-derive
 > them before leaning on a biv-elimination claim.
+> **[A23-CORRECTION, same day]** The sentence above is WITHDRAWN. Those 12 findings are **VERIFIED,
+> not unverified** — the failure was in MY checker, not the agents' evidence: it used Python
+> `splitlines()`, which splits on the FORM FEED (`\f`) page separators GNU C sources are full of
+> (loop.c has 47), so every computed line number after the first `\f` was shifted by up to 47 —
+> beyond the checker's own ±40 window, which turned real quotes into "FABRICATED". Re-run after the
+> fix: **299/299 exact, 0 fabricated.** The agents' line numbers were right all along.
 
 A vanilla 2.7.2 extraction is at `.run/gccmap/gcc-2.7.2-vanilla-src/` (loop.c, unroll.c,
 sched.c, cse.c, rtl.h, config/mips). **Recommend promoting it to `tools/reference/` —

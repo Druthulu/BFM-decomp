@@ -6905,3 +6905,64 @@ as explanation.** A drifted cookbook citation corrupts the *explanation* while t
 works*. Recommended: a **targeted citation sweep**, not a claim-by-claim audit. NOT yet done.
 
 **Docs-only — no `src/`/`config/` touched, R22 not re-run and not claimed.**
+
+## ⚠️ T36 — CORRECTION: the "12 FABRICATED" were MY tool's bug, and so was my diagnosis of it
+
+Drew asked for the cookbook sweep. Building the tool for it surfaced a defect in the tool I had
+already used to validate **both** map audits — so this entry corrects the record before it reports
+the sweep.
+
+### The bug: `splitlines()` vs FORM FEEDS
+GNU C sources use **form-feed (`\f`) page separators** — `loop.c` has 47, `cse.c` 36, `reload1.c` 27,
+`local-alloc.c` 21. **Python's `str.splitlines()` splits on `\f`; `grep`/`sed`/editors do not.** So
+every line number my checker computed after the first `\f` was shifted (by 20 in local-alloc.c, up to
+47 in loop.c) — and 47 is **larger than the checker's own ±40 search window**, which is exactly how a
+real quote gets reported as FABRICATED.
+
+### What that invalidates — all in the agents' favour
+| audit | as I reported it | **after the fix** |
+|---|---|---|
+| T34 regalloc | 27 OK · 153 NEAR · 0 FAB | **180 OK · 0 NEAR · 0 FAB** |
+| T35 four files | 47 OK · 240 NEAR · **12 FAB** | **299 OK · 0 NEAR · 0 FAB** |
+
+**The agents' line numbers were exact all along.** Both the "153 NEAR, off by +2..+19" and the "12
+FABRICATED" were my instrument. I even wrote the false NEAR claim into the T35 agent prompt, telling
+agents to be careful about an error that was mine.
+
+### And my DIAGNOSIS of the 12 was also wrong
+I claimed the agents had pasted map prose into the `source_quote` field, and "verified" it by
+grepping — **but I grepped `claim_excerpt` (which IS map prose, so of course it is absent from the
+`.c`) instead of `source_quote`.** The actual `source_quote` for the exemplar I cited was
+`    record_jump_equiv (insn, 0);` at `cse.c:7511` — a real C line, correctly located. Two errors
+stacked: a broken tool, then a check of the wrong field that appeared to confirm it.
+
+**Corrected:** `loop.md`'s "12 unverified" note is withdrawn in place; both tools now use
+`split("\n")`; `verify_map_findings.py` carries a comment naming the trap so it cannot return.
+**Nothing was deleted on this basis** — the 12 were CONFIRMED-status and never underpinned a
+refutation — so no map content needs revisiting. The T34/T35 upheld/overturned splits are unaffected
+(they came from the adversarial agents, not the checker).
+
+## ✅ T37 — the cookbook citation sweep (the task Drew asked for)
+New tool **`tools/sweep_citations.py`** — the mechanical half of a citation audit as zero-token
+tooling (offline-tooling-first), leaving only judgement to a human: symbol-form cites are compared to
+the symbol's real 2.7.2 definition line (fully determined); file-form cites are localised to the
+function that encloses them.
+
+**`docs/matching-cookbook.md`: 57 resolvable citations, all localisable, 0 out-of-file.**
+Provenance is **MIXED but mostly sound** — far better than the map files. Verified by hand:
+- `loop.c:5556` → `emit_iv_add_mult`, **exact** (the giv-init `emit_move_insn` the prose names).
+- `local-alloc.c:1765/1795/1825` → `combine_regs`; `global.c:906/917/924/1000` → `find_reg`;
+  `local-alloc.c:1021/1064` → `update_equiv_regs`; `global.c:588/594` → `allocno_compare`;
+  `sched.c:820` → `true_dependence`; `expmed.c:556` → `store_fixed_bit_field`;
+  `jump.c:2131` → `duplicate_loop_exit_test` — all land where the prose says.
+- **`expr.c:5535` is a genuine miss** (confirmed by grep, not the tool): that line is `MIN_EXPR`/
+  `MAX_EXPR` optab code, while the `/s` grant sites are **4577** and **4904**.
+
+**Stated limitation, so nobody over-reads this:** "lands in the right function" is weak evidence for
+the giant functions — `expand_expr` (4026→~6300), `jump_optimize` (139→~2200), `try_combine`,
+`block_alloc`, `find_reg`. For those the sweep narrows nothing, and a claim-level check would be
+needed. **This is a citation sweep, not a claim audit** — proportionate, because the cookbook's
+idioms are byte-proven and its citations are explanation (a drifted cite corrupts the *why*, not the
+*lever*). No cookbook idiom was re-litigated and none needs to be.
+
+**Docs+tools only — no `src/`/`config/`; R22 not re-run, not claimed.**
