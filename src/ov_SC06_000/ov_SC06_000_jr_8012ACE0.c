@@ -1904,7 +1904,122 @@ INCLUDE_ASM("asm/ov_SC06_000/nonmatchings/ov_SC06_000_jr_8012ACE0", func_80132F4
 
 DEFINE_func_80133060()  /* dedup: shared engine-core @0x80133060 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC06_000/nonmatchings/ov_SC06_000_jr_8012ACE0", func_801330E0);
+#define gte_SetRotMatrix(r0) __asm__ volatile (         \
+    "lw $12, 0( %0 );"                                   \
+    "lw $13, 4( %0 );"                                   \
+    "ctc2 $12, $0;"                                      \
+    "ctc2 $13, $1;"                                      \
+    "lw $12, 8( %0 );"                                   \
+    "lw $13, 12( %0 );"                                  \
+    "lw $14, 16( %0 );"                                  \
+    "ctc2 $12, $2;"                                      \
+    "ctc2 $13, $3;"                                      \
+    "ctc2 $14, $4"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+#define gte_SetTransMatrix(r0) __asm__ volatile (        \
+    "lw $12, 20( %0 );"                                  \
+    "lw $13, 24( %0 );"                                  \
+    "ctc2 $12, $5;"                                      \
+    "lw $14, 28( %0 );"                                  \
+    "ctc2 $13, $6;"                                      \
+    "ctc2 $14, $7"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+#define gte_SetRotMatrix(r0) __asm__ volatile (         \
+    "lw $12, 0( %0 );"                                   \
+    "lw $13, 4( %0 );"                                   \
+    "ctc2 $12, $0;"                                      \
+    "ctc2 $13, $1;"                                      \
+    "lw $12, 8( %0 );"                                   \
+    "lw $13, 12( %0 );"                                  \
+    "lw $14, 16( %0 );"                                  \
+    "ctc2 $12, $2;"                                      \
+    "ctc2 $13, $3;"                                      \
+    "ctc2 $14, $4"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+#define gte_SetTransMatrix(r0) __asm__ volatile (        \
+    "lw $12, 20( %0 );"                                  \
+    "lw $13, 24( %0 );"                                  \
+    "ctc2 $12, $5;"                                      \
+    "lw $14, 28( %0 );"                                  \
+    "ctc2 $13, $6;"                                      \
+    "ctc2 $14, $7"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+#define gte_ldv0(r0) __asm__ volatile (                  \
+    "lwc2 $0, 0( %0 );"                                  \
+    "lwc2 $1, 4( %0 )"                                   \
+    :                                                    \
+    : "r"( r0 ) )
+#define gte_rtv0tr() __asm__ volatile (                  \
+    "nop;"                                               \
+    "nop;"                                               \
+    "mvmva 1, 0, 0, 0, 0"                                \
+    :                                                    \
+    :                                                    \
+    : "memory" )
+#define gte_stlvnl(r0) __asm__ volatile (                \
+    "swc2 $25, 0( %0 );"                                 \
+    "swc2 $26, 4( %0 );"                                 \
+    "swc2 $27, 8( %0 )"                                  \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "memory" )
+#define gte_stflg(r0) __asm__ volatile (                 \
+    "cfc2 $12, $31;"                                     \
+    "nop;"                                               \
+    "sw $12, 0( %0 )"                                    \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "memory" )
+
+extern void ApplyTransposeMatrixLV(void *a0, void *a1, void *a2);
+
+void func_801330E0(param_1, param_2, param_3)
+    void *param_1;
+    s16 *param_2;
+    s16 param_3;
+{
+
+    extern u8 D_800AF648;
+    s32 *m;
+    s32 sxyz[4];
+    s32 pos[4];
+    s32 flag;
+    s32 z;
+
+    m = (s32 *)&D_800AF648;
+    gte_SetTransMatrix(m);
+    gte_SetRotMatrix(m);
+    gte_ldv0(param_1);
+    gte_rtv0tr();
+    gte_stlvnl(sxyz);
+    gte_stflg(&flag);
+
+    z = sxyz[2];
+    pos[2] = z + param_3;
+    if (z != 0) {
+        pos[0] = sxyz[0] * pos[2] / z;
+        pos[1] = sxyz[1] * pos[2] / z;
+    } else {
+        pos[1] = 0;
+        pos[0] = 0;
+    }
+    pos[0] -= m[5];
+    pos[1] -= m[6];
+    pos[2] -= m[7];
+    ApplyTransposeMatrixLV(m, pos, sxyz);
+    param_2[0] = sxyz[0];
+    param_2[1] = sxyz[1];
+    param_2[2] = sxyz[2];
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_000/nonmatchings/ov_SC06_000_jr_8012ACE0", func_80133298);
 

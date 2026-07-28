@@ -6026,3 +6026,35 @@ canon_sig_reconcile → whole-binary gate, revert-on-fail) → **137/137 BANKED,
 
 **SESSION-22 TOTAL: 5 exemplars + 543 members = 548 functions banked.**
 Fleet across the session: **82.9 → 83.8% instr · 71.5 → 73.2% distinct · 317,762 → 318,309 fn-count.**
+
+## ✅ T18 — `func_801330E0` banked + swept 137/137, via a K&R extension to `conform_decls`
+
+**The blocker was a tool gap, not the compiler.** `conform_decls` could not parse a **K&R
+definition** at all — it exited *"no DEFINITION found, refusing to guess"*. Honest, but **§43**
+(a narrow param declared K&R-style, producing the in-place `sll $a2,$a2,16` tell) is a documented,
+load-bearing idiom here for exactly the narrow-param class, so the tool was silently refusing the
+drafts that most need it: a whole idiom family reading as "nothing to conform" (R32).
+
+**The subtle part is PROMOTION (C89 6.3.2.2).** A K&R definition promotes each narrow parameter, so
+a prototype in scope must declare the **promoted** type or gcc rejects the pair with
+`argument 'param_1' doesn't match prototype`. That is why the fleet's prototype reads `s32 a2` for a
+parameter the definition declares `s16` — and why emitting the *declared* type would have RE-CREATED
+the narrow-param conflict the tool exists to remove. The parser now promotes
+`s8/u8/char/s16/u16/short → s32`, `float → f64`, pointers untouched, and reports any undeclared K&R
+param (R32).
+
+Byte-true signature read as `void func_801330E0(void *, s16 *, s32)`; vs the fleet's **973**
+declarations the only real change was `param_1` `s16 *` → `void *` (pointer shape, caller-neutral).
+973 sites / 973 files, axis complete. Gate 1/0. **R22 140/140.** Then
+`family_sweep --hseq --only 0x801330E0` → **137/137 banked, 0 failed**; **R22 140/140** again.
+
+**Measured:** fn-count 318,309 → **318,447 (+138)** · instr 83.8 → **83.9%** (+15,180) ·
+**fn-count crossed 90.03%**.
+
+**An honest nuance about the metrics:** distinct-code moved only **+1** unique fn here, versus **+126**
+for `func_80176218`'s family. This family's members are byte-IDENTICAL (h_exact) so they collapse to
+one distinct function — big fn-count/instr gain, ~zero distinct gain — while `func_80176218`'s were
+genuine byte-VARIANTS. Both are real work; they just move different metrics, and the 3-metric
+dashboard exists precisely so one number cannot flatter the other.
+
+**SESSION-22 TOTAL: 6 exemplars + 680 members = 686 functions.**
