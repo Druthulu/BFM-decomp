@@ -7247,3 +7247,36 @@ available · **the default never changed** · and the tool reports the skip as a
 **Corollary — how to spot one:** any run reporting a large `skipped {...}` bucket deserves the same
 suspicion as a `0/N` (§59, §94). Both are the tool declining to try, and neither is evidence about
 the compiler.
+
+## §102 — A PLUMBING verdict can MASK a DIFF; and K&R is not always a codegen change (Phase 29 SESSION-22, `func_8016EC0C`)
+
+Applying §99 to `func_8016EC0C` produced three results worth separating:
+
+**1. §99 GENERALISES — it dissolved a 1,617-site narrowing axis.** `conform_decls` flagged
+SCALAR-NARROWING (`s32` → `u8`) across the fleet. Converting the DEFINITION to K&R promotes `u8` →
+`s32`, so the computed canonical became `void func_8016EC0C(s32, s32)` — **the narrowing warning
+disappeared entirely**, leaving only a RETURN change (`s32` → `void`) whose §85 precondition (no
+caller consumes the return) was already satisfied. A caller-hazardous conform became a byte-neutral
+one **because of how the definition was written.**
+
+**2. BUT K&R IS NOT AUTOMATICALLY A CODEGEN CHANGE — measure it, do not assume.** K&R promotes, so
+the CALLEE narrows (§43's in-place `sll`/`andi` tell) where ANSI assumes the caller did. That *can*
+change bytes. Here it did not: `match_one` on both forms returned **identical** results — closeness
+8, 88 ins, same residual. So the K&R rewrite was free. **The rule is not "K&R always matches" nor
+"K&R always differs" — it is: convert, then compare both forms against the target.** (For
+`func_80175AB8`/`func_80175DA8` the K&R form is what banked; here it is byte-equal to ANSI.)
+
+**3. THE REAL FINDING: its "PLUMBING" verdict was HIDING a DIFF.** The T14 census recorded
+`PLUMBING: conflicting types for func_8016EC0C`, which reads as "recoverable, not a compiler wall".
+It is not recoverable: with the decl axis clean the true verdict is **`SCHEDULE-REORDER`, closeness
+8, bucket `permuter`**. cc1 reports the declaration conflict and never reaches the byte comparison,
+so **the plumbing error fires FIRST and the codegen verdict is never produced.**
+
+> **The law:** **PLUMBING is a verdict about the DECLARATIONS, never about the BODY.** A census's
+> PLUMBING bucket is therefore an upper bound on recoverable work, not a count of it — some entries
+> are DIFFs wearing a plumbing costume, and you only learn which by clearing the plumbing and
+> re-gating. Size a PLUMBING pool as "worth diagnosing", never as "worth banking".
+
+**Consequence for the backlog:** `func_8016EC0C` is genuine **permuter fuel** (close=8,
+SCHEDULE-REORDER) — unlike `func_80176734`/`func_8017C974`/`func_80177B5C`/`func_80140958`, which
+measured `structural` and which the grinder's admission rule correctly rejects (§60/§60a).
