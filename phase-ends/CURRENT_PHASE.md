@@ -6966,3 +6966,34 @@ idioms are byte-proven and its citations are explanation (a drifted cite corrupt
 *lever*). No cookbook idiom was re-litigated and none needs to be.
 
 **Docs+tools only — no `src/`/`config/`; R22 not re-run, not claimed.**
+
+## ✅ T38 — the `expr.c:5535` citation FIXED (and a second wrong cite on the same line found)
+
+Drew: "fix the expr.c:5535 citation." Derived the correct lines myself AND had an independent agent
+derive them separately — warranted, not ceremony, given I had made two stacked line-number errors
+earlier in the same session. **Both derivations agreed exactly.**
+
+| cookbook cited | **real gcc-2.7.2** | enclosing |
+|---|---|---|
+| `expr.c:5535` | **4577** (guard **4570-4576**) | `case INDIRECT_REF:` @4540, `expand_expr` @4026 |
+| `expr.c:5891` | **4888** | `case COMPONENT_REF:` @4748 |
+
+**The second cite was wrong too and had not been noticed** — `5891` lands in `case COND_EXPR:`
+(`jumpifnot`/cleanups), nothing to do with COMPONENT_REF.
+
+**Two precisions the independent derivation added, both folded in:**
+- The INDIRECT_REF guard is a **4-way OR**, not a single test: `/s` is also granted for a `SAVE_EXPR`
+  wrapping a PLUS, for an aggregate-typed deref, and for an `ADDR_EXPR`-of-aggregate pointer. So
+  "only when top-level PLUS_EXPR" was **too strong** — the cast-defeats-`/s` rule holds for a
+  **scalar-typed deref through a plain pointer**, which is the case the idiom is about. Recorded as
+  a bound rather than left absolute.
+- There is a **second** `MEM_IN_STRUCT_P (op0) = 1` at **4873** which IS conditional (BLKmode
+  bitfield path, returns early at 4876) — not the one the idiom means. Flagged so the next reader
+  does not cite it.
+
+Old cites struck, not deleted (H5); the top-of-file provenance note corrected (it had named `4904`,
+which is the `OFFSET_REF` grant — a real third site, but not the one this idiom is about).
+**Tool limitation recorded:** `sweep_citations.py` still reports the struck-through numbers because
+it cannot distinguish a live citation from a preserved historical one.
+
+**Docs-only — no `src/`/`config/`; R22 not re-run, not claimed.**
