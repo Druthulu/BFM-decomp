@@ -7272,3 +7272,47 @@ reconciliation is done rather than trusting the running tally.)*
 - **`gate_stage` ladder destroys good drafts** (now reproducible — see finding 3). Root cause open.
 - **The bare gate has no snapshot/restore** (see finding 3).
 **DO NOT close P29 on ROI** — +0.7pp instr today is nowhere near a burn-down floor.
+
+## 🔎 T45 — THE DATA-AXIS PROBE: clean NEGATIVE. 0 of 3 recoverable; the blocker is codegen, not paperwork
+
+Probe-before-investing (the Phase-15 discipline). Cost ~15 min; it settles whether to build on the
+data axis at all.
+
+### First correction: I recommended a RETIRED tool
+I proposed `tools/reconcile_decls.py`. It is **RETIRED (Phase 26-A, R33) — "DO NOT RE-WIRE"**, and
+its own docstring states exactly the caveat I had raised independently:
+> `reconcile_decls` asks *"what does the FLEET call this symbol?"* — C asks *"what does THIS
+> TRANSLATION UNIT declare?"* … a single fleet-wide answer is **wrong for some TU by construction**.
+
+Measured there: the fleet oracle conflicts with the TU's own declaration in **548 of 3,431 cases
+(16%)**, and hands back an actively wrong declaration. The live successor is **`reconcile_tu.py`**,
+which asks the per-TU question. Probe re-run with the correct tool.
+
+### The measurement
+`reconcile_tu --overlay ov_SC01_077` (TU derived per draft) →
+**`drafts: 3; reconciled: 3 draft(s), 5 data symbol(s); coverage defects: 0`.**
+
+Whole-binary gate (bare `harvest_verify`, the path proven better today):
+**`verified 0 / failed 3`, failed by class: DIFF=3.** Tree residue: **0**.
+
+### What the negative actually PROVES (it is not a null result)
+**The failure class MOVED.** Before: `func_80133298`/`func_8012E014` = **PLUMBING**,
+`func_80135260` = DIFF-after-carve. After reconciliation: **all three are DIFF**.
+So `reconcile_tu` genuinely dissolved the declaration conflict — and the drafts still do not
+reproduce the bytes. `func_80135260` is the clearest witness: it went from **CC1-FAIL** to
+**compiling at 139 ins vs the target's 136, 123 mismatched** — i.e. conforming its data types to
+what the TU can see **changed its codegen by 3 instructions**.
+
+**Conclusion: the drafts' data types are BYTE-LOAD-BEARING, and the TU's declarations are
+incompatible with them. That is the def-side loose-typing wall in its DATA form — a genuine wall,
+not paperwork.** Do not invest further in a data-axis conform for these three.
+
+*(Instrument note: my first probe used `rtu_match`, which reported CC1-FAIL `redefinition of 's8'`
+for two drafts. That was a FALSE blocker of my own making — `rtu_match` does not strip the scalar
+typedefs that `common.h` provides, whereas `harvest_verify` does. The authoritative gate disagreed
+with my probe instrument, and the gate was right.)*
+
+### Where that leaves `func_80135260` (18,768 ins)
+Not recoverable by declaration work. Its residual is now honestly classed **DIFF at 3 instructions
+over** — a codegen problem for the crack tier, not the integration tier. Re-file it as a crack
+target, not an integration one.
