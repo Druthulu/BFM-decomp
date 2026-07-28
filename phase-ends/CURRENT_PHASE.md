@@ -7175,3 +7175,96 @@ macro's dependency body-local, **inline the macro at its use sites** too. Applie
 ### Session totals for the §99 arc (T41-T43)
 `func_80177DA8` 133 members + `func_80140D68` 1 exemplar + 137 members = **271 functions**, on top of
 T39/T40's 147. The two blockers Drew green-lit this for are both **closed**.
+
+## 📌 T44 — `func_8013B83C`: a MATCHING draft was already on disk; it is carve-blocked, not crack-blocked
+
+Measured the preserved Session-21 drafts against the right target (it lives in the **`_o0` split**,
+so `--o0` + `asm/ov_SC01_077/nonmatchings/ov_SC01_077_o0` — my first probe used the wrong subdir and
+failed for that reason alone):
+
+| preserved draft | verdict |
+|---|---|
+| `.run/wt_uni/func_8013B83C.c` | compile produced nothing |
+| `.run/wt_drafts/func_8013B83C.c` | compile produced nothing |
+| **`.run/s21_jt7/func_8013B83C/func_8013B83C.c`** | **MATCH (272 ins)** |
+
+**So a byte-matching draft for the 4th-largest family has been sitting unbanked since Session-21.**
+
+**It does not bank — `CARVE-REFUSED`** (`has_mid_jr: true`, so §53 says the carve-less path is the
+wrong tool and its 0% is not evidence). The carve then refused with a precise reason:
+> `subseg 'ov_SC01_077_o0' would host NON-CONTIGUOUS .rodata carves (0xb00fc and 0xb01a4) — a single
+> object can't leave a gap for the unmatched jtbl between them. Isolate one matched jr-function into
+> its own code subseg first (tools/jr_isolate_all.py, the whale _o0b precedent), then re-carve.`
+
+**Tree verified clean — the carve refused BEFORE writing anything.**
+
+### The honest sizing, so the next session does not over-invest
+- The bank is **272 instructions ×1** once the subseg isolation is done.
+- **DISCOUNT the 37,536 headline.** The exemplar is `_o0` while its 138 "members" sit in ordinary
+  `-O2` TUs (`ov_SC03_099_jr_801380E0.c` etc.). Phase 20 byte-proved the -O0 cluster is
+  OVERLAY-LOCAL, and today re-confirmed it: `func_8013B6A0`/`func_8013B598` swept **1/137 each**.
+  So treat the sweep as an open question to MEASURE, not banked value.
+- Path: `jr_isolate_all.py` (own code subseg, whale `_o0b` precedent) → `jtbl_carve` → bank →
+  `jtbl_family_bank.py`. That is build-infra work, deliberately not started at the end of a long
+  session.
+
+---
+
+# 🛑 SESSION-23 FINAL CHECKPOINT (2026-07-28) — FRESH SESSION SAFE HERE
+> Supersedes every earlier SESSION-22 checkpoint block above.
+
+**Nothing running.** Tree clean but for the R23 `db.*.gbf` churn (never stage). HEAD **`commit:1140`**.
+**R22 clean-fleet 140/140** (run **7×** this session), dedup **1886/0**, **0 NON_MATCHING** (G4).
+**FLEET: 85.5% instr · 76.1% distinct · 90.61% fn-count** (opened 84.8 / 74.7 / 90.34).
+
+## SESSION TOTAL — **418 functions banked**
+T32/T33 the NEAR-6 wave: 4 cores + 548 members… *(548 were banked in SESSION-22's tail; this
+session's own banks follow)* — **this session:** 4 cores + 143 members (T39/T40) + 133 members (T41)
++ 1 core + 137 members (T43) = **418**.
+
+## WHAT CHANGED STRATEGICALLY
+1. **Every codegen-map file is now audited against the REAL gcc-2.7.2** (T34/T35). 27 corrections
+   upheld across `regalloc.md`/`sched.md`/`cse_expr.md`/`loop.md`/`t7g`, and **20 false refutations
+   caught** by an adversarial second stage before they deleted working levers.
+2. **The `ADDRESSING → permuter` route is wrong.** Three targets, three under-deliveries
+   (11→7, 10→6, and `func_80176734` **completely flat at 13** over 8 cycles). The §31 map says that
+   class is C-steerable. `residual_class._ROUTE` should be corrected.
+3. **The bare gate beats the ladder.** `gate_stage` FAILED drafts that bare `harvest_verify`
+   VERIFIED, with `rtu_match` confirming a real-TU match — a reproduction for the carried
+   "ladder-vs-bare-gate asymmetry" defect. **But the bare gate has NO snapshot/restore**, so it
+   leaves decl residue: always diff the tree after one.
+4. **`extract_unit`'s carry gap is characterized** (T43): externs and `#define`s carry, **typedefs
+   do NOT**, and neither does a `#define` whose expansion needs a body-local extern. A **0/N sweep
+   with a cleanly-banking exemplar** is the signature; the fix is a self-contained draft.
+
+## ▶ START HERE NEXT SESSION (ranked, all measured)
+1. **The data-axis conform** — the 3 remaining wave22 drafts (`func_80135260` **18,768 ins**,
+   `func_80133298`, `func_8012E014`) all block on the same symbols. `D_801870AC` is declared **5
+   ways across 46 sites**: `u8` (25), `void (*[])(void)` (16), `u8[]` (2), `s16 *` (2), `void *` (1).
+   `tools/reconcile_decls.py` is the data-axis analog. **Caveat: 16 sites call it a function-pointer
+   array — that is a SEMANTIC difference, not a spelling one, so probe, do not promise.**
+2. **`func_8013B83C`** — matching draft in hand (above); needs `jr_isolate_all` → `jtbl_carve`.
+3. **`func_80176734`** (51,198 ins) — the `reg_renumber`-swap gdb oracle. Feasibility CONFIRMED:
+   cc1 is unstripped (`reg_renumber` @ `0x82d4330` B, `reload` @ `0x815d4d7` T) and a working gdb
+   pattern exists at `.run/giants/fable_cd4/ffr.gdb`. Needs a `.greg` pass to pick the pseudos.
+4. **Fix `residual_class._ROUTE`** for ADDRESSING (finding 2) — cheap, and stops wasting permuter CPU.
+
+## ⚠️ MY ERRORS THIS SESSION (recorded, not buried)
+- **A FORM-FEED bug in my own checker** (`splitlines()` splits on `\f`, `grep`/`sed` do not) made me
+  report "153 NEAR" and "12 FABRICATED" against the audit agents. **After the fix: 180/180 and
+  299/299 exact — the agents were right all along.** I had even written the false claim into a
+  later agent prompt.
+- **I then mis-diagnosed my own bug**, "confirming" it by grepping `claim_excerpt` instead of
+  `source_quote`. Two stacked errors.
+- **Twice I read truncated output as exhaustive** (`head -6` of modified dirs; grepping for `error:`
+  when gcc-2.7.2 prints hard errors WITHOUT that prefix).
+- **I tripped a shared-state hazard** — the bare gate left `fix_arity_callers` residue in 17
+  unrelated TUs; caught by diffing the tree, reverted, R22 re-verified.
+
+## ⚠️ CARRIED DEFECTS
+- The **21-file absolute-include portability defect** — PhaseEnd carry item.
+- **`docs/backlog.md` is not a work queue** — 44% misfiled partials (§83).
+- **Roadmap re-baseline owed**; the 39 type-1 modules are in no phase.
+- **`gate_stage` ladder destroys good drafts** (now reproducible — see finding 3). Root cause open.
+- **The bare gate has no snapshot/restore** (see finding 3).
+**DO NOT close P29 on ROI** — +0.7pp instr today is nowhere near a burn-down floor.
