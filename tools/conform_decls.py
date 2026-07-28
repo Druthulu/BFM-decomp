@@ -142,6 +142,8 @@ def main():
     ap.add_argument("--draft", required=True)
     ap.add_argument("--check", action="store_true", help="dry run (default)")
     ap.add_argument("--apply", action="store_true")
+    ap.add_argument("--cast-zero-arg-calls", action="store_true",
+                    help="fix the arity precondition it would otherwise REFUSE on: cast every\n                          0-arg CALL SITE to the 0-arg fn-ptr shape (§17a-1), then exit so the\n                          conform can be re-run. gcc folds the cast of a known symbol to a\n                          direct jal, so the caller's bytes are unchanged; the gate arbitrates.")
     a = ap.parse_args()
 
     ret, params = def_signature(a.draft, a.fn)
@@ -216,6 +218,32 @@ def main():
                 if "extern" in line:
                     continue                      # a declaration, not a call
                 callers.append(os.path.relpath(p, REPO))
+        if callers and a.cast_zero_arg_calls:
+            # THE TOOL THAT DIAGNOSES SHOULD BE ABLE TO FIX (Phase 29 SESSION-22). This is the
+            # documented §17a-1 remedy the refusal message already prescribes; doing it by hand
+            # across 138 files is exactly how a half-axis happens. PLAN -> VALIDATE -> WRITE,
+            # same as the decl axis: a partial cast set is a fleet-wide compile break.
+            rx = re.compile(rf"(?<![\w>.]){a.fn}\(\)")
+            plan2, n2 = [], 0
+            for p in sorted(set(os.path.join(REPO, c) for c in callers)):
+                txt = open(p, errors="replace").read()
+                out, k = [], 0
+                for line in txt.split("\n"):
+                    if rx.search(line) and "extern" not in line:
+                        line = rx.sub(f"(({ret} (*)(void)){a.fn})()", line); k += 1
+                    out.append(line)
+                if k:
+                    plan2.append((p, "\n".join(out))); n2 += k
+            if not a.apply:
+                print(f"\nwould cast {n2} zero-arg call site(s) across {len(plan2)} file(s) "
+                      f"to (({ret} (*)(void)){a.fn})()  — pass --apply to write")
+                return 0
+            for p, new in plan2:
+                open(p, "w").write(new)
+            print(f"cast {n2} zero-arg call site(s) across {len(plan2)} file(s). "
+                  f"Re-run WITHOUT --cast-zero-arg-calls to conform the declarations. "
+                  f"This edits {len(plan2)} binaries — R22 is mandatory before committing.")
+            return 0
         if callers:
             print(f"\n*** REFUSED: the byte-true signature takes parameters, but {len(callers)} "
                   f"0-ARG CALL SITE(s) exist across {len(set(callers))} file(s). Conforming the "

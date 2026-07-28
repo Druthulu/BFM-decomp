@@ -3137,7 +3137,7 @@ DEFINE_func_801788B8()  /* dedup: shared engine-core @0x801788B8 (src/shared) */
 // @class: regalloc-order
 // @stuck: none — MATCH (result pinned to $v0 forces call-result copy to $v1 + delay-slot zero)
 
-extern int func_801789AC(void);
+extern s32 func_801789AC(s32 arg0);
 extern s16 D_801D10F8;
 
 int func_80178970(void)
@@ -3145,7 +3145,7 @@ int func_80178970(void)
     register int r __asm__("$2");
     int v;
 
-    v = func_801789AC();
+    v = ((s32 (*)(void))func_801789AC)();
     r = 0;
     if (v != 0)
         r = D_801D10F8 == 0;

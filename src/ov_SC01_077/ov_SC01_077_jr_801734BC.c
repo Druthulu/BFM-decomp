@@ -3477,7 +3477,7 @@ DEFINE_func_801788B8()  /* dedup: shared engine-core @0x801788B8 (src/shared) */
 // @class: regalloc-order
 // @stuck: none — MATCH (result pinned to $v0 forces call-result copy to $v1 + delay-slot zero)
 
-extern int func_801789AC(void);
+extern s32 func_801789AC(s32 arg0);
 extern s16 D_801DAAB8;
 
 int func_80178970(void)
@@ -3485,128 +3485,9 @@ int func_80178970(void)
     register int r __asm__("$2");
     int v;
 
-    v = func_801789AC();
+    v = ((s32 (*)(void))func_801789AC)();
     r = 0;
     if (v != 0)
         r = D_801DAAB8 == 0;
     return r;
-}
-
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_801734BC", func_801789AC);
-
-// @class: struct
-// @stuck: none — MATCH (pointer var forces &(*(int *)&D_8018A458) into $s0, reused for store + arg-0xC)
-
-
-
-s32 func_80178B18(s32 param_1, s32 param_2)
-{
-    extern void func_80178BF8(void);
-    extern void func_80178CBC(s32 arg0, s32 arg1);
-    extern u16 D_8018A458;
-
-    int *p = &(*(int *)&D_8018A458);
-    *p = ((int)param_2);
-    func_80178BF8();
-    func_801746A4();
-    func_8017435C();
-    ((void (*)(int, void *))func_80178CBC)(((int)param_1), (char *)p - 0xC);
-}
-
-
-// @class: regalloc-order
-// @stuck: none — MATCH (pending verify)
-
-s32 func_80178B70(s32 param_1, s32 param_2)
-{
-    extern void func_80178BF8();
-    extern void func_80178CBC();
-    extern int D_8018A458;
-
-    int *p = &D_8018A458;
-    *p = ((int)param_2);
-    func_80178BF8();
-    func_80178CBC(((int)param_1), p - 3);
-}
-
-
-void func_80178BF8(s32 a0, s32 a1);
-void func_80178CBC(s32 a0, s32 a1);
-
-DEFINE_func_80178BB8()  /* dedup: shared engine-core @0x80178BB8 (src/shared) */
-
-// @class: other
-// @stuck: none — MATCH (49 ins). Key: init loop pointers via &D_SYMBOL (not (T*)0x801da788 raw int, which emits lui+ori instead of lui%hi+addiu%lo).
-
-
-
-void func_80178BF8(s32 _unused0, s32 _unused1)
-{
-    extern void func_8017B1D8(void);
-    extern short D_801DAB2C;
-    extern int D_801DA720;
-    extern short D_801DA730;
-    extern short D_801DA72C;
-    extern short D_801DA728;
-    extern short D_801DA724;
-    extern int D_801DA9B0;
-    extern int D_801DA738;
-    extern s16 D_801DA718;
-    extern short D_801DA710;
-    extern short D_801DA714;
-    extern int D_801DAA88;
-    extern unsigned int D_801DA788;
-    extern unsigned short D_801DA70E;
-
-    unsigned short *puVar1;
-    int iVar2;
-    unsigned int *puVar3;
-
-    iVar2 = 9;
-    puVar3 = &D_801DA788;
-    D_801DAB2C = 0;
-    D_801DA720 = 0;
-    D_801DA730 = 0;
-    D_801DA72C = 0;
-    D_801DA728 = 0;
-    D_801DA724 = 0;
-    D_801DA9B0 = 1;
-    D_801DA738 = 0;
-    (*(short *)&D_801DA718) = 0;
-    do {
-        *puVar3 = 0;
-        iVar2 = iVar2 + -1;
-        puVar3 = puVar3 + -1;
-    } while (-1 < iVar2);
-    iVar2 = 0x1ff;
-    puVar1 = &D_801DA70E;
-    do {
-        *puVar1 = 0;
-        iVar2 = iVar2 + -1;
-        puVar1 = puVar1 + -1;
-    } while (-1 < iVar2);
-    D_801DA710 = 0;
-    D_801DA714 = 0;
-    ((void (*)(int *, int))func_80016714)(&D_801DAA88, 0x14);
-    func_8017B1D8();
-}
-
-
-M2C_UNK func_80178D40(s32, s32);                    /* extern */
-extern s32 D_801DA308;
-extern short D_801DAB2C;
-
-void func_80178CBC(s32 arg0, s32 arg1) {
-    D_801DA308 = arg1;
-    do {
-        func_80178D40(arg0, D_801DA308);
-    } while (D_801DAB2C == 3);
-}
-
-extern short D_801DAB2C;
-extern void func_80174714(void);
-
-void func_80178D18(void) {
-    D_801DAB2C = 0;
-    func_80174714();
 }
