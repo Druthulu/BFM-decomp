@@ -626,7 +626,7 @@ extern s16 func_80135480(void *param_1, s32 param_2, s16 *param_3, s16 *param_4)
 
 
 extern s16 func_80135480(void*, s32, s16*, s16*);
-extern s32 func_80135EB0(s32 a0, s32 a1);
+extern s32 func_80135EB0(void *arg0, s32 arg1_);
 extern int func_80134A74(int, s16, s16, int);
 extern s32 func_80136A94(s32 a0, s32 a1, s32 a2, s32 a3);
 

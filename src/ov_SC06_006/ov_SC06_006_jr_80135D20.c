@@ -656,7 +656,7 @@ extern s32 func_80135A4C(s32 a0, s32 a1, s32 *a2, s32 a3);
  *    `sll/sra` and shortens it by one instruction.
  */
 extern s16 func_80135480(void*, s32, s16*, s16*);
-extern s32 func_80135EB0(s32 *p, s32 flag);
+extern s32 func_80135EB0(void *arg0, s32 arg1_);
 extern s32 func_801345F8(s32 arg);
 extern s32 func_80136A94(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 D_801F6DB4;
