@@ -16924,7 +16924,7 @@
     }
 
 #define DEFINE_func_801303A0() \
-    extern void func_8012E364(void); \
+    extern void func_8012E364(); \
     extern void func_80131CA8(int a0, int a1); \
     void func_801303A0(s32 a0) { \
         if (*(s32 *)(a0 + 0xB4) & 0x2) { \

@@ -6635,3 +6635,86 @@ C-level structural fix, not a scheduling tie-break. Untried.
 Six independent hard functions with precise per-function diagnoses is **breadth-shaped**, and I
 worked them serially in the main loop. That is the shape `breadth-isolated-agents-not-serial` names
 as the expensive one. Prompted Drew at the end of this task rather than continuing to grind.
+
+## ✅ T32 — the NEAR-6 Ultracode crack wave: 4 cores BANKED ×1, a 5th at 13-from-217, R22 140/140
+
+Drew enabled `/effort ultracode` at the T31 hand-off (R26/R27 — prompted, waited for the toggle,
+a system-reminder confirmed it). Fanned out **6 isolated agents, one per NEAR target**, each given
+its byte-measured residual AND T31's disproved routes so nobody re-derived them; then a **distill
+agent per target** that adversarially re-checks the crack claim and extracts the idiom.
+12 agents, 1.70M subagent tokens, 545 tool calls, 51 min wall.
+
+### The result — 5 agent MATCH claims, all 5 independently re-measured BY ME, then gated
+`match_one` MATCH is a candidate, never a bank (G3/P9). I re-ran the oracle myself on every
+deliverable before believing any of it:
+
+| fn | before | agent claim | MY re-measure | whole-binary gate | templated ins |
+|---|---|---|---|---|---|
+| `func_80140958` | 10 | MATCH | **MATCH 260/260** | ✅ BANKED | 35,880 |
+| `func_80177B5C` | 11 (7 post-ILS) | MATCH | **MATCH 147/147** | ✅ BANKED | 20,286 |
+| `func_80132F40` | 6 | MATCH | **MATCH 72/72** | ✅ BANKED | 9,936 |
+| `func_8012E364` | 7 | MATCH | **MATCH 67/67** | ✅ BANKED | 9,246 |
+| `func_80140D68` | 9 | MATCH | **MATCH 65/65** | ⚠️ NEAR whole-binary | 8,970 |
+| `func_80176734` | 217 | IMPROVED | **13** (371/371, count exact) | not banked | 51,198 |
+
+**`gate_stage --no-propagate` (§55b law 1): drafts 5 → banked 4, near 1, failed 0.**
+**R22 clean-fleet `make clean && extract-all && check-all` → 140 passed, 0 failed of 140.**
+Verified by the SOURCE, not the report (§55b trap 4 — the verified-list accumulates and has no
+`--verified-out`; I unlinked it first and then grepped `INCLUDE_ASM` out of `src/`): all four
+stubs are gone and replaced by real definitions; `func_80140D68` is correctly still stubbed.
+`src/shared/engine_core.h` moved by exactly ONE byte-neutral arity fix
+(`extern void func_8012E364(void)` → `()`, the no-proto class) — fleet-shared, hence R22 mandatory
+per §61/§63, and green.
+
+### ⚠️ `func_80140D68` — MATCHes standalone, does NOT bank whole-binary
+The §30a integration class. Its distill agent predicted the exact cause in advance: the draft's
+`#ifndef BFM_ENGINE_TYPES_H` shim collapses once the TU includes `engine_types.h`, but the
+`DEFINE_func_*` caller macro's extern return type must be `u32 *` and not `void` — a discarding
+`void` extern DCEs the return and shrinks the frame. Not chased this task; it is the cheapest
+open item in the set (8,970 ins for a declaration fix).
+
+### `func_80176734` — 217 → 13, and §H's verdict is byte-REFUTED
+The 371-ins top prize (51,198 ins). Instruction count is now EXACT (371/371) and 4 of the 5
+clusters Phase-27's Fable5 pass called permuter-shaped were **steerable from C**. The −1 length
+delta was never a frame-pressure lock: gcc emits `xor/sne/move` for `x = (a != b)` and combine
+merges the last two only when it has a LOG_LINK, which `flow.c` builds solely from a SET to the
+NEXT use in the SAME basic block — so an extra use between the sne and the copy (`__asm__("" ::
+"r"(t))`) removes the link and both insns survive. 111 → 26.
+**So `cse_expr.md` §H's "no bank (5 permuter-shaped clusters)" is superseded: the residual was map
+INCOMPLETENESS, not a compiler wall.** What survives is two coupled ties (a local-vs-global
+allocation tie in regions 2/3, and an entry-block sched2 LUID tie that shares one screw with it).
+
+### 🔧 THE MAP IS CITING THE WRONG COMPILER — verified by me against the pinned source
+The distill agents flagged stale line numbers; I checked them myself rather than swapping one
+unverified citation for another (`tools/reference/gcc-2.7.2/sched.c`):
+
+| symbol | `sched.md` says | ACTUAL 2.7.2 |
+|---|---|---|
+| `birthing_insn_p` | 2498 | **2469** |
+| `adjust_priority` | 2534 | **2507** |
+| `potential_hazard` | 1345 | **1318** |
+| `schedule_select` | 2646 | **2616** |
+
+A consistent ~30-line offset = surviving **gcc-2.8.1 (papermario)** numbers. Phase 23 established
+the reference was 2.8.1 and staged vanilla 2.7.2, but `sched.md`'s citations were never re-derived.
+**And one is load-bearing, not cosmetic:** §1 item 7 and §S12 both claim `birthing_insn_p` requires
+`SET(REG_pseudo, …)`, so a `register __asm__` pin on the dest kills the S2 boost ("Unpin first").
+`sched.c:2477` tests only `GET_CODE (SET_DEST (pat)) == REG` — **there is no
+`>= FIRST_PSEUDO_REGISTER` check anywhere in the function**; the real discriminator is
+`reg_n_sets[i] == 1` (2490). Hard-reg dests ARE boosted. We have been telling agents to drop pins
+for no reason.
+
+### ⚠️ A wave-harness defect I introduced
+I pointed all 6 agents at ONE shared scratch dir (`.run/near6/wave23/`, now 1,452 files). The
+per-function deliverables are uniquely named and verified intact, but short-named scratch
+(`c5a.c`, `n1.c`, …) and helper scripts could collide between siblings in either direction.
+**Next wave: one subdirectory per agent.** Caught by an agent, not by me.
+
+## ▶ NEXT
+1. Regen the family map (`make sig-overlays` + `family_hseq.py`) — the 4 freshly-cracked exemplars
+   are still `draft-ov077` in the stale map — then `family_sweep --hseq --only <family>` per core.
+   **NOT `--reconcile-raw`** (mishandles per-overlay data externs: 0/137 last wave). ~75,348 ins.
+2. `func_80140D68`'s `DEFINE_func_*` return-type fix (8,970 ins, a declaration).
+3. Land the sched.md corrections + the §H supersession.
+4. `func_80176734` at 13: permuter on the delivered draft (it is in the permuter bucket), then the
+   `reg_renumber`-swap gdb oracle (regalloc.md §H) before ANY further C-tier spend.
