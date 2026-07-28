@@ -6394,3 +6394,35 @@ that the four `structural` DIFFs would have been wasted CPU (§60a: `partial` pl
 
 **Honest read: the grinder's fuel is thin** — ~17 admissible of 1,601 classified, mostly reach-1.
 Worth running unattended; **not worth waiting on**, and not the lever for the remaining frontier.
+
+## 🔬 T29 — item 2: the `--span-tables` archaeology WORKS; the wall moved from "won't build" to "layout"
+
+**Reconstructed `_o0`'s true table starts from the ORIGINAL payload** — deterministic, no guessing:
+scan the subseg's file span for runs of words pointing into the overlay's code range
+`[0x80128158, 0x80186AD0)`.
+
+`_o0` rodata span = file `[0xb01a4, 0xb0708)` = vram `[0x801D82FC, 0x801D8860)`, and it contains
+**exactly two tables, 27 entries each**:
+
+| table start | entries | 8-aligned? |
+|---|--:|---|
+| `0x801D82FC` | 27 | **NO** (4 mod 8) |
+| `0x801D836C` | 27 | **NO** (4 mod 8) |
+
+Feeding those in — `jtbl_carve … --span-tables ov_SC01_077_o0=0x801D82FC,0x801D836C` — produced
+`JTBL_PADS['ov_SC01_077_o0'] = [0, 4, 4]` (**3** specs for 3 tables) and **the object COMPILED**.
+The `jtbl_rodata_pads` assertion is gone: **T26's blocker is solved.**
+
+**What remains is LAYOUT, not the body.** The image builds but is 13 bytes LONGER
+(731,620 vs 731,607) with the first diff at `0x88` — a whole-image shift, i.e. the `.rodata` island's
+size/packing is wrong, while the body still `rtu_match`-MATCHes at 198 ins.
+
+**The likely cause is visible in the scan above:** BOTH original tables sit at **4 mod 8**, not
+8-aligned. That is precisely the §8e situation — the ORIGINAL linker packed originally-separate TUs'
+tables TIGHT, while cc1 wants `.align 3` per table — so the derived `[0, 4, 4]` is not reproducing
+the original packing. The pad model needs the real inter-table gaps, not the generic zero-word rule.
+
+**DURABLE ARTIFACT (do not re-derive):** `_o0`'s true table starts are **`0x801D82FC` and
+`0x801D836C`**, 27 entries each. **Next step:** derive the exact pads from the ORIGINAL byte gaps
+between those tables rather than from `spec_from_starts`' rule, and re-run. Worth 27,324 templ ins.
+Tree restored, `d19c9580` byte-identical, nothing committed.
