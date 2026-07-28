@@ -6374,3 +6374,23 @@ entry is not deferred work; it is UNMEASURED work.**
 directions — most of it banked (better than expected), and the remainder is DIFF/carve work (worse).
 Only **1 of the 3** is permuter-shaped; `func_80135260` joins the `structural` group that the
 grinder's admission rule correctly rejects (§60a: `partial` plateaus scored 0/12 in Task 13B).
+
+## ✅ T28 — item 1: the grinder ran; 2 banked ×1, and its TARGETING is the real result
+
+`grinder.py --once --batch 20 --permute-secs 180 -j14 --max-closeness 30`:
+**4 permuter WINS → 2 banked**, 2 blacklisted as **won-but-gate-rejected** (plumbing-bound — a
+permuter win is NOT a bank). It auto-commits per-binary (`commit:1118`, `commit:1117`); **R22 clean-fleet
+140/140**. Both banks are **reach<2** → `dedup_propagate` correctly refused ("nothing to propagate"),
+so this is the reach-1 tail Phase 21 measured as poor fleet-ROI: real matches, ×1 leverage.
+Measured: fn-count 318,857 → **318,859 (+2)**; instr/distinct unchanged at 84.4% / 74.4%.
+
+**The genuinely useful output was its targeting census:**
+```
+1,601 classified; only bucket=permuter is admitted
+skipped 1,584: redraft 706 · structural 519 · integration 302 · unclassified 10 · unknown 3
+```
+Task 13A's classifier earning its keep — and an INDEPENDENT confirmation of this session's finding
+that the four `structural` DIFFs would have been wasted CPU (§60a: `partial` plateaus scored 0/12).
+
+**Honest read: the grinder's fuel is thin** — ~17 admissible of 1,601 classified, mostly reach-1.
+Worth running unattended; **not worth waiting on**, and not the lever for the remaining frontier.
