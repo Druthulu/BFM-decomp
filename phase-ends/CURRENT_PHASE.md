@@ -6718,3 +6718,62 @@ per-function deliverables are uniquely named and verified intact, but short-name
 3. Land the sched.md corrections + the §H supersession.
 4. `func_80176734` at 13: permuter on the delivered draft (it is in the permuter bucket), then the
    `reg_renumber`-swap gdb oracle (regalloc.md §H) before ANY further C-tier spend.
+
+## ✅ T33 — family sweep: 548/548 members banked (0 failed) + the sched.md source-version correction
+
+**`family_sweep --hseq --band all --only 0x80140958,0x80177b5c,0x80132f40,0x8012e364 -j12`
+→ `BANKED 548 member-matches / 0 failed across 137 overlays; skipped {}`.**
+Preconditions checked, not assumed: map regenerated first (`make sig-overlays` + `family_hseq.py`)
+so the 4 exemplars read `matched-ov077` rather than the stale `draft-ov077`; all four families
+confirmed `has_mid_jr: false` (§53 carve law — carve-less `family_sweep` is the right tool) and
+`diff_class: PURE`, 137/137 templatable; `--band all` because two cores are `mid`, not
+`substantial`, and the default band would have silently dropped them. `--reconcile-raw` avoided
+(mishandles per-overlay data externs — 0/137 last wave).
+
+**R22 clean-fleet after the sweep → 140 passed, 0 failed of 140.** `make report`: dedup-check
+**1886 validated / 0 failed**, C1 coverage 239,604/239,604, **0 NON_MATCHING in any default build**.
+
+### Session arc (T31 → T33)
+| metric | session open | now |
+|---|---|---|
+| instr-weighted | 84.8% | **85.3%** |
+| distinct-code | 74.7% | **75.8%** |
+| fn-count | 90.34% | **90.50%** |
+
+**552 functions banked** (4 exemplars + 548 members) ≈ 74,802 templated instructions.
+
+### 🔧 `sched.md` — the source-version correction (verified by me, not taken from the agents)
+The map's line 3 already DECLARES its source as `tools/reference/gcc-papermario/`. Phase 23
+established that tree is **gcc 2.8.1, not 2.7.2**, staged vanilla 2.7.2, and corrected SETUP §5.6 —
+but the map was never re-derived. So the citations are correct *for the wrong compiler*, and every
+behavioural claim taken from that tree is unverified for our build.
+
+**One is byte-refuted and load-bearing.** §1.7 and §S12 both claimed the S2 birthing boost needs
+`SET(REG_pseudo, …)`, so a `register __asm__` pin on the dest kills it → *"Unpin first."*
+Real 2.7.2 `birthing_insn_p` (sched.c:2469) tests only `GET_CODE (SET_DEST (pat)) == REG` — **no
+`>= FIRST_PSEUDO_REGISTER` check exists in the function** — and gates on `reg_n_sets[i] == 1`
+(2490). Hard-reg dests ARE boosted; the real discriminator is the SET COUNT (a `lui`+`ori` constant
+pair is two sets and loses the boost; a single-insn constant keeps it). **We had been telling agents
+to strip pins for no reason.** Both sites corrected; the old text is struck through, not deleted.
+
+Added a SOURCE-VERSION WARNING block at the top with a hand-verified 2.7.2 cross-reference table
+(`insn_cost` 1390→**1363**, `priority` 1452→**1425**, `potential_hazard` 1345→**1318**,
+`rank_for_schedule` 2414/2455→**2385**, `birthing_insn_p` 2498→**2469**, `adjust_priority`
+2534→**2507**, `schedule_insn` 2587→**2557**, `schedule_select` 2646→**2616**).
+
+**⚠️ The drift is NOT uniform — do not rebase mechanically.** ~+27 in `sched.c` but **+103**
+(`combine_regs`), **+377** (`allocate_reload_reg`), **+611** (`choose_reload_regs`) — large enough
+to land inside a *different function*, which is exactly how a behavioural claim gets misread. A
+screening pass counts **~44 drifted citations across `sched.md`, `regalloc.md`, `loop.md`** (a lower
+bound, not a census — the screen disagreed with hand-greps by a few lines).
+**I corrected my own earlier "consistent ~30-line offset" claim to Drew on this point.**
+
+## ▶ NEXT
+1. **Re-derive `regalloc.md` against real 2.7.2** — worst drift (+611) and its RC-* levers steer the
+   hardest matches. Breadth-shaped: one agent per map file. NOT yet done; only `sched.md`'s verified
+   subset is landed.
+2. `func_80140D68` — MATCHes standalone, §30a integration near-1 (`DEFINE_func_*` extern must return
+   `u32 *`, not `void`). 8,970 ins for a declaration fix; then sweep its 138-member family.
+3. `func_80176734` at 13/371 — permuter on the delivered draft (it IS in the permuter bucket), then
+   the `reg_renumber`-swap gdb oracle (regalloc.md §H) before any further C-tier spend. 51,198 ins.
+4. Wave-harness fix: per-agent scratch subdirs (I gave 6 agents one shared dir, 1,452 files).

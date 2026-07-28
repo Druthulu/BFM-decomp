@@ -1577,7 +1577,125 @@ DEFINE_func_8012E28C()  /* dedup: shared engine-core @0x8012e28c (src/shared) */
 DEFINE_func_8012E32C()  /* dedup: shared engine-core @0x8012e32c (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006", func_8012E364);
+
+/* func_8012E364 (ov_SC01_077_jr_8012ACE0) — MATCH, 67/67 ins, 0 mismatched (reloc-masked).
+ *
+ * Verified:
+ *   python3 tools/match_one.py func_8012E364 --c .run/near6/wave23/func_8012E364.c \
+ *       --asm-subdir asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_8012ACE0
+ *   -> MATCH (67 ins)  func_8012E364
+ *
+ * Symbols: sig_hints listed no callees and no data decls for this fn, so the three externs below
+ * are derived from the asm's %hi/%lo pairs:
+ *   D_80126CE0  -> `lh`  (0x8012E370)  => s16
+ *   D_801F4D70  -> `lw`/`sw`           => s32
+ *   D_801F4D74  -> `lw`/`sw`           => s32
+ * D_80126CE0 is already declared `extern s16 D_80126CE0;` inside ov_SC03_099_jr_8016AB6C.c etc.,
+ * so the s16 typing is consistent with the rest of the tree.
+ *
+ * ---------------------------------------------------------------------------------------------
+ * HOW THE LAST 7 SLOTS CAME OFF (wave22 plateaued here at closeness 7; that header's
+ * "genuine regalloc hard tail / not C-expressible" verdict was WRONG on both clusters).
+ *
+ * CLUSTER B - idx 59-62 (`nop`/`negu $v1,$v1` vs `addu $v0,$v1,$zero`/`negu $v0,$v0`): 7 -> 3.
+ *   NOT a delay-slot (dbr) residual at all. `mips.md:1526 abssi2` is a 3-instruction `multi`
+ *   template that emits its OWN branch AND fills its OWN slot:
+ *       REGNO(op0) == REGNO(op1):  "bgez %1,1f%#\n\tsubu %0,%z2,%0\n1:"     (slot -> maspsx nop)
+ *       REGNO(op0) != REGNO(op1):  "%(bgez %1,1f\n\tmove %0,%1\n\tsubu %0,%z2,%0\n1:%)"
+ *   The target IS the second form (`.set noreorder` + `move` in the slot). So the whole residual
+ *   was one question: does the abs DEST get a different hard reg from its SOURCE?
+ *   Two edits, both required:
+ *     (a) spell the abs as `__builtin_abs(v)` so a real `(abs:SI ...)` insn exists. A hand-rolled
+ *         `d = v; if (d<0) d = -d;` is equivalent (cse folds it to the same abs insn - the wave22
+ *         draft was ALREADY going through abssi2, it just hit the dest==src arm), but a
+ *         `(v<0) ? -v : v` ternary does NOT fold here: 68 ins, 19 off.
+ *     (b) PIN the abs result to $2. Unpinned, local-alloc's combine_regs (K8) ties the abs dest
+ *         into its dying input `v` -> REGNO(op0)==REGNO(op1) -> the nop form. Measured: the same
+ *         file with `s32 d;` instead of the pin is 5 off; with the pin, 3 off.
+ *   (Rejected on measurement: `d = v; asm("" :: "r"(v))` dead-read to break the tie = 68 ins/13;
+ *    RC-12 `$0`-add opaque copy = 9; pinning d to $3 = 5.)
+ *
+ * CLUSTER A - idx 43-45 (the D_801F4D74 load vs the 0x20($a2) load, swapped): 3 -> MATCH.
+ *   Pure sched1 rank, and it IS steerable (sched.md S2, the birthing boost). The `.i.sched` dump
+ *   of the wave22 draft says it outright:
+ *       ;; insn[ 104]: priority = 1     (prev = D_801F4D74)
+ *       ;; insn[ 107]: priority = 1     (a    = *(arg0+0x20))
+ *       ;; ready list at T-17: 107 (1) 104 (7f000001), now 104 107
+ *   Equal base priority, but 104 carries the `adjust_priority`/`birthing_insn_p` boost
+ *   (sched.c:2506/2469 - `reg_n_sets[dest] == 1`) and 107 does NOT, because wave22 reused ONE
+ *   variable `a` for four roles (hint value, division result, both tail entity loads) -> 4 sets.
+ *   Backward scheduling means picked-first = placed-LAST, so the boosted 104 got pushed BELOW 107.
+ *   Fix: give each tail entity load its own single-set local (`e1`, `e2`). Now both loads are
+ *   boosted, the rank falls through to `rank_for_schedule`'s LUID tie-break (sched.c:2427,
+ *   "highest LUID first" = ascending source order forward) and the two loads come out in
+ *   statement order = the target order.
+ *   NB the wave22 header's claim "splitting `a` regresses 2 slots" only applies to splitting the
+ *   FIRST two roles (hint value / division result) - those must stay one multi-set cross-block
+ *   variable. Splitting only the TAIL roles is what pays.
+ *
+ * LOAD-BEARING constructs (do not "simplify"):
+ *  1. `spd` - a local holding 0x1000 SET BEFORE the if/else chain, so the constant lives in a
+ *     pseudo across the branch: `addiu $a3,$zero,0x1000` in the `blez` slot at 0x8012E3DC and the
+ *     `sw $a3` / `addu $v1,$v1,$a3` forms at L8012E410.
+ *  2. `a` reused for the D_80126CE0 value AND the division result (multi-set, cross-block) - that
+ *     is what puts the quotient in $a0 (`subu $a0,$v0,$v1`) instead of coalescing into $v0.
+ *  3. `flags` pinned to $2 (dropping it = 13 off) and `prev` pinned to $5 (dropping it = 6 off).
+ *  4. `d` pinned to $2 - see CLUSTER B(b).
+ *  5. `e1`/`e2` must be SEPARATE single-set locals - see CLUSTER A.
+ *  The `arg0` $6 pin is NOT load-bearing any more (verified: still MATCH without it); it is kept
+ *  because it costs nothing and documents the target's `addu $a2,$a0,$zero`.
+ */
+
+void func_8012E364(s32 arg0_)
+{
+
+    extern s16 D_80126CE0;
+    extern s32 D_801F4D70;
+    extern s32 D_801F4D74;
+    register s32 arg0 __asm__("$6");
+    register s32 prev __asm__("$5");
+    register u16 flags __asm__("$2");
+    s32 a;
+    s32 diff;
+    s32 v;
+    register s32 d __asm__("$2");
+    s32 spd;
+    s32 e1;
+    s32 e2;
+
+    arg0 = arg0_;
+    *(s16 *)(arg0 + 0x5C) = 0;
+    a = D_80126CE0;
+    if (a == 0) {
+        D_801F4D70 = 0x1000;
+        D_801F4D74 = 0x1000;
+    }
+    a = ((0x90 - a) << 12) / 0x90;
+    *(s32 *)(arg0 + 0x1C) += 1;
+    spd = 0x1000;
+
+    diff = D_801F4D70 - a;
+    if (diff > 0) {
+        D_801F4D70 -= diff >> 2;
+    } else if (diff < 0) {
+        D_801F4D70 += (-diff) / 4;
+    }
+
+    prev = D_801F4D74;
+    e1 = *(s32 *)(arg0 + 0x20);
+    v = D_801F4D70 - prev + spd;
+    D_801F4D74 = spd;
+    flags = *(u16 *)(e1 + 0x2C);
+    D_801F4D70 = v;
+    *(u16 *)(e1 + 0x2C) = flags | 0x10;
+
+    e2 = *(s32 *)(arg0 + 0x20);
+    d = __builtin_abs(v);
+    *(s16 *)(e2 + 0x1C) = d;
+    *(s16 *)(e2 + 0x18) = d;
+    *(s16 *)(*(s32 *)(arg0 + 0x20) + 0x1A) = 0x1000;
+}
+
 
 DEFINE_func_8012E470()  /* dedup: shared engine-core @0x8012e470 (src/shared) */
 

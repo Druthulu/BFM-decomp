@@ -1,6 +1,41 @@
 # gcc-2.7.2 SCHEDULING + DELAYED-BRANCH pass map — residual → C-lever catalog
 **Pass-group: `sched.c` (sched1 pre-reload / sched2 post-reload) + `reorg.c` (dbr) + the MIPS backend hooks.**
 Source: `tools/reference/gcc-papermario/` (line numbers below are that tree). Pinned triple: `cc1 -quiet -O2 -G0 -mips1 -mcpu=3000 -mgas -msoft-float -fgnu-linker` (both sched passes AND dbr run at -O2).
+
+> ## ⚠️ SOURCE-VERSION WARNING (Phase 29 SESSION-23, 2026-07-28) — READ BEFORE FOLLOWING ANY CITATION
+> **`gcc-papermario` is gcc 2.8.1, NOT 2.7.2** (established Phase 23; vanilla 2.7.2 is staged at
+> `tools/reference/gcc-2.7.2/` and `SETUP.md` §5.6 was corrected). The line numbers in this file are
+> therefore correct **for the wrong compiler**, and every *behavioural* claim derived from that tree is
+> UNVERIFIED for our build until re-derived against `tools/reference/gcc-2.7.2/`.
+>
+> **This is not hypothetical — one claim is already byte-refuted.** §1 item 7 and §S12 both state that
+> the S2 birthing boost requires `SET(REG_pseudo, …)`, and therefore that a `register __asm__` pin on the
+> dest kills the boost ("Unpin first"). In real 2.7.2, `birthing_insn_p` (sched.c:2469) tests only
+> `GET_CODE (SET_DEST (pat)) == REG` — **there is no `>= FIRST_PSEUDO_REGISTER` check anywhere in the
+> function**; the discriminator is `reg_n_sets[i] == 1` (sched.c:2490). **Hard-reg dests ARE boosted.**
+> Both sites are corrected below. We had been advising agents to drop pins for no reason.
+>
+> **Hand-verified 2.7.2 definition lines** (`grep -n '^<sym> ('`), for the symbols this file leans on:
+>
+> | symbol | cited here (2.8.1) | **real 2.7.2** |
+> |---|---|---|
+> | `insn_cost` | 1390 | **1363** |
+> | `priority` | 1452 | **1425** |
+> | `potential_hazard` | 1345 | **1318** |
+> | `rank_for_schedule` | 2414 / 2455 | **2385** (LUID tie-break `return` at **2428**) |
+> | `birthing_insn_p` | 2498 | **2469** (`reg_n_sets` test **2490**) |
+> | `adjust_priority` | 2534 | **2507** |
+> | `schedule_insn` | 2587 | **2557** |
+> | `schedule_select` | 2646 | **2616** |
+> | `schedule_block` | — | **3144** (`ready[0]` pick at **3747**) |
+>
+> **The drift is NOT a uniform offset — do not rebase mechanically.** It is ~+27 in `sched.c` but
+> **+103** (`combine_regs`, local-alloc.c 1825→1722), **+377** (`allocate_reload_reg`, reload1.c
+> 5083→4706) and **+611** (`choose_reload_regs`, reload1.c 5514→4903) elsewhere — large enough that a
+> citation can land inside a *different function*, which is exactly how a behavioural claim gets read off
+> the wrong code. A screening pass counts **~44 drifted citations across `sched.md`, `regalloc.md` and
+> `loop.md`**; that screen is a lower bound, not a precise census. **`regalloc.md` has the worst drift and
+> its levers steer the hardest matches — re-derive it before trusting an RC-* mechanism.**
 Byte-proofs: dump experiments in `.run/gccmap/exp/` (`run.sh <name>` = full pipeline + `-dS -dR -dd` RTL dumps → `<n>.i.sched/.sched2/.dbr`, final `.dis`), and the real exemplar **func_801770E0: 53→49 mismatch, both jal-slot residuals byte-fixed** (`.run/gccmap/exp/e3.c`).
 
 ---
@@ -35,7 +70,7 @@ The scheduler **never moves an insn across a basic-block boundary** (gcc-2.7.2 h
    3. **highest LUID first** (= placed later) → forward order among full ties = **ascending LUID = source order** (sched1) / **= sched1-output order** (sched2). This is the stable tie-break.
 5. **`schedule_select:2646`** (runs because MAX_BLOCKAGE>1 on MIPS): within an equal-priority group, (a) function-unit-blocked insns are queued (`actual_hazard`) — observed: two memory ops back-to-back get spaced when an alternative exists (t1 dump: `;; blocking insn 14 for 1 cycles`); (b) among the rest, **the insn with the largest `potential_hazard:1345` goes first** — memory/imuldiv-unit users beat plain ALU insns *even against the LUID rule* (t4 dump: `;; insn 20 has a greater potential hazard`). This is a 4th rank rule the cookbook §25 summary lacked.
 6. **Launch/queue** (`schedule_insn:2587`): when a pred's last successor is scheduled, it becomes ready — but if the link cost >1 (load feeding the just-scheduled consumer) it is **queued `cost` cycles**: one independent insn gets wedged between a load and its consumer whenever one is ready; if none, they stay adjacent.
-7. **`adjust_priority:2534` — THE BIRTHING BOOST (pre-reload ONLY, `reload_completed==0`)**: on becoming ready, an insn whose pattern is `SET(REG_pseudo, …)` with the dest live and **`REG_N_SETS(dest)==1`** (`birthing_insn_p:2498`) has its priority raised to `max_priority` (≈ the launching insn's) → it wins every tie → **single-set defs sink to just before their first consumer**. Dump tell: `(7f000001)` priorities in the ready list. NB: REG_N_SETS is counted **after cse/flow** — a source-level 2nd assignment that cse copy-propagates or flow dead-store-eliminates does NOT kill the boost (proof: `exp/t5.c`, `exp/t6.c` — both still boosted).
+7. **`adjust_priority:2534` (2.7.2: **2507**) — THE BIRTHING BOOST (pre-reload ONLY, `reload_completed==0`)**: on becoming ready, an insn whose pattern is `SET(REG, …)` — **any REG, pseudo OR hard; CORRECTED 2026-07-28, there is no `>= FIRST_PSEUDO_REGISTER` test in the function** — with the dest live and **`REG_N_SETS(dest)==1`** (`birthing_insn_p:2498`; 2.7.2: **2469**, the `reg_n_sets` test at **2490**) has its priority raised to `max_priority` (≈ the launching insn's) → it wins every tie → **single-set defs sink to just before their first consumer**. Dump tell: `(7f000001)` priorities in the ready list. NB: REG_N_SETS is counted **after cse/flow** — a source-level 2nd assignment that cse copy-propagates or flow dead-store-eliminates does NOT kill the boost (proof: `exp/t5.c`, `exp/t6.c` — both still boosted).
 8. Special pins: **bb0 head-skip** (sched.c:3218-3244): the leading run of `pseudo = hard-arg-reg` param copies is excluded from scheduling (stays first, in arg order). **Tail pin** (3313-3360): trailing JUMP/CALL/USE insns stay at bb end (TAIL_PRIORITY). `SCHED_GROUP_P`: a call + its immediately-preceding `USE argreg` insns move as one unit.
 9. **sched2 differences**: no boost, no head-skip; hard-reg anti/output webs (scratch reuse) now pin most of sched1's order in place; **nop-moves are deleted** (sched.c:4926); RTL prologue/epilogue saves are now in the pool (see S7). sched2's LUID = sched1's output order → **pre-reload placement persists**.
 
@@ -184,9 +219,14 @@ The scheduler **never moves an insn across a basic-block boundary** (gcc-2.7.2 h
   `lhu`+`zext` into the fresh temp and the shared HI var VANISHES (deps gone, batching returns). The reused
   temps must be **s32** (`w0 = p3[0]` zero-extends directly into the var's own SI pseudo; multi-set +
   multi-use survives combine). Byte-proof: `exp/e1b.c` (u16, still batched) vs `exp/e1c.c` (s32, PAIRED).
-- **Pin interaction:** a `register __asm__` pin on the subu DEST is a hard reg → `qty_phys_copy_sugg`
-  pulls a load temp INTO the pinned reg (`lhu s0`) and the dest fails `birthing_insn_p` (needs
-  `SET(REG_pseudo,…)`) → no S2 boost. Unpin first; the fence does the pairing.
+- **Pin interaction (CORRECTED 2026-07-28 — the old text was FALSE for 2.7.2):** a `register __asm__`
+  pin on the subu DEST is a hard reg → `qty_phys_copy_sugg` pulls a load temp INTO the pinned reg
+  (`lhu s0`). ~~and the dest fails `birthing_insn_p` (needs `SET(REG_pseudo,…)`) → no S2 boost. Unpin
+  first;~~ **That reasoning does not hold.** `birthing_insn_p` (2.7.2 sched.c:2469) tests only
+  `GET_CODE (SET_DEST (pat)) == REG` — hard regs qualify — and gates on `reg_n_sets[i] == 1` (2490).
+  A pinned dest is boost-ELIGIBLE; the boost is lost only if the value is SET more than once (e.g. a
+  `lui`+`ori` constant pair, which is two sets, vs a single-insn constant). **So do NOT unpin
+  reflexively** — check `reg_n_sets` instead. The fence still does the pairing.
 
 ### S13 — bb0 head-skip ESCAPE: body-local param copies steer BOTH the schedule and the scratch contest
 - **Mechanism:** assign_parms emits param copies at the function head; sched1's bb0 head-skip (S8) pins them

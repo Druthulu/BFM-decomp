@@ -1106,7 +1106,132 @@ void func_80132EC4(void *a0, s16 a1) {
 DEFINE_func_80132EF4()  /* dedup: shared engine-core @0x80132ef4 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_80131340", func_80132F40);
+
+/* func_80132F40 — ov_SC01_077 (jr_8012ACE0 region), 72 ins, -O2.  *** MATCH ***
+ *
+ * Verified:
+ *   python3 tools/match_one.py func_80132F40 --c .run/near6/wave23/func_80132F40.c \
+ *       --asm-subdir asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_8012ACE0
+ *   -> MATCH (72 ins)
+ *
+ * ---------------------------------------------------------------------------
+ * WHAT THE WAVE-22 SEED GOT WRONG (the 6-mismatch plateau, and why s32 "cost 3")
+ * ---------------------------------------------------------------------------
+ * The seed's note blamed the `addiu $s3,$sp,0x10` hoist on a *whole-function CSE
+ * fork keyed on s16-vs-s32 w/h*, and concluded the s32 world was unreachable.
+ * Both halves of that are wrong, and the real mechanism is a reusable idiom.
+ *
+ * The hoisted register is the block-move source-address pseudo (reg 83 =
+ * `(plus fp 16)`, created by expand for `v[1] = v[0]`).  Whether it survives is
+ * decided by ONE thing: does CSE's *extended basic block* still contain it when
+ * CSE reaches the two `&v[0]` call arguments?
+ *
+ *   cse.c:cse_end_of_basic_block scans `while (p && GET_CODE (p) != CODE_LABEL)`.
+ *   It can walk PAST a conditional jump only via
+ *     - follow_jumps  : target label preceded by a BARRIER, LABEL_NUSES == 1, or
+ *     - skip_blocks   : "branch around a block", no labels inside  (-O2 sets both)
+ *   and it BREAKS EARLY on
+ *     `if (! after_loop && NOTE_LINE_NUMBER (p) == NOTE_INSN_LOOP_END) break;`
+ *
+ * With s16 w the min block stayed a *diamond* (jump.c's `if(..) x=a; else x=b;`
+ * -> `x=b; if(..) x=a;` at jump.c:699 is blocked when the moved insn carries a
+ * REG_EQUAL note — the sign_extend note from the sll/sra pair).  The diamond's
+ * BARRIER + join label ended CSE's block before the calls, so `&v[0]` was
+ * recomputed at each site.  With s32 w the diamond was flattened in jump1, and
+ * skip_blocks then walked CSE straight through to both call sites -> reg 83 was
+ * substituted, went live across a call, and took a 5th callee-saved register.
+ * So the fork was never about the *type* — it was about the CFG shape at CSE.
+ *
+ * ---------------------------------------------------------------------------
+ * THE NEW LEVER  (cookbook candidate: "zero-instruction CSE path cut")
+ * ---------------------------------------------------------------------------
+ * `do { } while (0);` emits NOTE_INSN_LOOP_BEG/CONT/END and ZERO instructions.
+ * A NOTE_INSN_LOOP_END is exactly what cse1 (after_loop == 0) breaks its
+ * extended basic block on.  Dropping one between the struct copy and the call
+ * sites cuts the path, kills the hoist, and costs nothing:  73 ins -> 70 ins.
+ * (Measured: without it this same file is 75 ins / 58 mismatched.)
+ * It is *not* an ordering/pressure hack — 1..8 empty `__asm__ __volatile__("")`
+ * barriers, which lengthen live ranges but emit no LOOP notes, changed the hoist
+ * by exactly nothing, which refutes the global.c allocno-priority explanation.
+ *
+ * ---------------------------------------------------------------------------
+ * THE MIN BLOCK (idx 37..44)
+ * ---------------------------------------------------------------------------
+ *      lh   $v1,8($v0)      w        (both loads are SImode sign_extend -> `lh`)
+ *      lh   $v0,0xA($v0)    h        (reuses the dying pointer's $v0)
+ *      nop                           (load-delay; nothing schedulable)
+ *      addu $a0,$v0,$zero   hh = h   (a REAL source-level carrier)
+ *      slt  $v0,$v0,$v1     c = h<w  (reuses $v0 because hh now carries h)
+ *      beqz $v0,.L80132FF4
+ *       addu $s2,$v1,$zero  m = w    (else-arm, moved by jump.c:699 in jump2)
+ *      addu $s2,$a0,$zero   m = hh
+ *
+ * Three locals legitimately share $v0 back-to-back — p dies at h's load, h dies
+ * at the slt (hh carries its value), c is born there.  That chain is what makes
+ * `slt $v0,$v0,$v1` possible and is why the carrier is mandatory: with h and c
+ * on $2 but NO carrier, gcc emits `addu $s2,$v0,$zero` after the slt has already
+ * clobbered $v0 — silently wrong code.  Do not remove `hh`.
+ *
+ * The carrier must be a *pinned* hard register: as a plain pseudo, cse2 (which
+ * runs with after_loop == 1 and therefore ignores the LOOP_END) canonicalises it
+ * back to h via canon_reg and flow deletes the copy (measured: 71 ins).
+ *
+ * Ablations (each measured with match_one):
+ *   drop the do{}while(0) -> 75 ins / 58     drop `p`  pin -> 71 ins / 40
+ *   drop `h`  pin         -> 71 ins / 33     drop `c`  pin -> 70 ins / 36
+ *   drop `hh` pin         -> 71 ins / 32     drop `q`  pin -> 72 ins / 12
+ *   adding a `w`->$3 pin or an `m`->$18 pin -> still MATCH (so both are omitted)
+ *
+ * Canonical decls (wave22_targets.json sig_hints) verbatim; D_80126BE0 is
+ * declared exactly as the 20+ sibling TUs already declare it.
+ */
+extern void func_8012F038();
+extern void func_8012F14C();
+extern s32 func_80135888(s32, s32, s32, s32);
+
+void func_80132F40(s32 arg0)
+{
+
+    extern u8 D_80126BE0[];
+    typedef struct { u16 vx, vy, vz, pad; } Svec_80132F40;
+
+    Svec_80132F40 v[4];
+    register Svec_80132F40 *q __asm__("$17");
+    register s16 *p __asm__("$2");
+    register s32 h __asm__("$2");
+    register s32 c __asm__("$2");
+    register s32 hh __asm__("$4");
+    s32 w;
+    s32 m;
+
+    q = &v[1];
+    v[0].vx = D_80126B5E;
+    v[0].vy = D_80126B62;
+    v[0].vz = D_80126B66;
+    v[1] = v[0];
+
+    if (func_80135888(*(s32 *)(arg0 + 0x20), *(s32 *)(arg0 + 0x58),
+                      (s32)D_80126BE0, (s32)q) != 0) {
+        /* zero-instruction NOTE_INSN_LOOP_END: cuts cse1's extended basic block
+         * so the block-move address pseudo cannot reach the two &v[0] args. */
+        do { } while (0);
+
+        p = (s16 *)((*(s32 *)(arg0 + 0x58) & 0x0FFFFFFF) | 0x80000000);
+        w = p[4];
+        h = p[5];
+        hh = h;
+        c = (h < w);
+        if (c) { m = hh; } else { m = w; }
+
+        func_8012F038(*(s32 *)(arg0 + 0x20) + 0x34, &v[0], q);
+        v[1].vy = m;
+        func_8012F14C(*(s32 *)(arg0 + 0x20) + 0x34, q, &v[0]);
+        D_80126B5E = v[0].vx;
+        D_80126B62 = v[0].vy;
+        D_80126B66 = v[0].vz;
+    }
+}
+
 
 DEFINE_func_80133060()  /* dedup: shared engine-core @0x80133060 (src/shared) */
 

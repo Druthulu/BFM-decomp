@@ -733,7 +733,125 @@ DEFINE_func_8012E28C()  /* dedup: shared engine-core @0x8012E28C (src/shared) */
 
 DEFINE_func_8012E32C()  /* dedup: shared engine-core @0x8012E32C (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_084/nonmatchings/ov_SC01_084_jr_8012ACE0", func_8012E364);
+
+/* func_8012E364 (ov_SC01_077_jr_8012ACE0) — MATCH, 67/67 ins, 0 mismatched (reloc-masked).
+ *
+ * Verified:
+ *   python3 tools/match_one.py func_8012E364 --c .run/near6/wave23/func_8012E364.c \
+ *       --asm-subdir asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_8012ACE0
+ *   -> MATCH (67 ins)  func_8012E364
+ *
+ * Symbols: sig_hints listed no callees and no data decls for this fn, so the three externs below
+ * are derived from the asm's %hi/%lo pairs:
+ *   D_80126CE0  -> `lh`  (0x8012E370)  => s16
+ *   D_801C61B0  -> `lw`/`sw`           => s32
+ *   D_801C61B4  -> `lw`/`sw`           => s32
+ * D_80126CE0 is already declared `extern s16 D_80126CE0;` inside ov_SC03_099_jr_8016AB6C.c etc.,
+ * so the s16 typing is consistent with the rest of the tree.
+ *
+ * ---------------------------------------------------------------------------------------------
+ * HOW THE LAST 7 SLOTS CAME OFF (wave22 plateaued here at closeness 7; that header's
+ * "genuine regalloc hard tail / not C-expressible" verdict was WRONG on both clusters).
+ *
+ * CLUSTER B - idx 59-62 (`nop`/`negu $v1,$v1` vs `addu $v0,$v1,$zero`/`negu $v0,$v0`): 7 -> 3.
+ *   NOT a delay-slot (dbr) residual at all. `mips.md:1526 abssi2` is a 3-instruction `multi`
+ *   template that emits its OWN branch AND fills its OWN slot:
+ *       REGNO(op0) == REGNO(op1):  "bgez %1,1f%#\n\tsubu %0,%z2,%0\n1:"     (slot -> maspsx nop)
+ *       REGNO(op0) != REGNO(op1):  "%(bgez %1,1f\n\tmove %0,%1\n\tsubu %0,%z2,%0\n1:%)"
+ *   The target IS the second form (`.set noreorder` + `move` in the slot). So the whole residual
+ *   was one question: does the abs DEST get a different hard reg from its SOURCE?
+ *   Two edits, both required:
+ *     (a) spell the abs as `__builtin_abs(v)` so a real `(abs:SI ...)` insn exists. A hand-rolled
+ *         `d = v; if (d<0) d = -d;` is equivalent (cse folds it to the same abs insn - the wave22
+ *         draft was ALREADY going through abssi2, it just hit the dest==src arm), but a
+ *         `(v<0) ? -v : v` ternary does NOT fold here: 68 ins, 19 off.
+ *     (b) PIN the abs result to $2. Unpinned, local-alloc's combine_regs (K8) ties the abs dest
+ *         into its dying input `v` -> REGNO(op0)==REGNO(op1) -> the nop form. Measured: the same
+ *         file with `s32 d;` instead of the pin is 5 off; with the pin, 3 off.
+ *   (Rejected on measurement: `d = v; asm("" :: "r"(v))` dead-read to break the tie = 68 ins/13;
+ *    RC-12 `$0`-add opaque copy = 9; pinning d to $3 = 5.)
+ *
+ * CLUSTER A - idx 43-45 (the D_801C61B4 load vs the 0x20($a2) load, swapped): 3 -> MATCH.
+ *   Pure sched1 rank, and it IS steerable (sched.md S2, the birthing boost). The `.i.sched` dump
+ *   of the wave22 draft says it outright:
+ *       ;; insn[ 104]: priority = 1     (prev = D_801C61B4)
+ *       ;; insn[ 107]: priority = 1     (a    = *(arg0+0x20))
+ *       ;; ready list at T-17: 107 (1) 104 (7f000001), now 104 107
+ *   Equal base priority, but 104 carries the `adjust_priority`/`birthing_insn_p` boost
+ *   (sched.c:2506/2469 - `reg_n_sets[dest] == 1`) and 107 does NOT, because wave22 reused ONE
+ *   variable `a` for four roles (hint value, division result, both tail entity loads) -> 4 sets.
+ *   Backward scheduling means picked-first = placed-LAST, so the boosted 104 got pushed BELOW 107.
+ *   Fix: give each tail entity load its own single-set local (`e1`, `e2`). Now both loads are
+ *   boosted, the rank falls through to `rank_for_schedule`'s LUID tie-break (sched.c:2427,
+ *   "highest LUID first" = ascending source order forward) and the two loads come out in
+ *   statement order = the target order.
+ *   NB the wave22 header's claim "splitting `a` regresses 2 slots" only applies to splitting the
+ *   FIRST two roles (hint value / division result) - those must stay one multi-set cross-block
+ *   variable. Splitting only the TAIL roles is what pays.
+ *
+ * LOAD-BEARING constructs (do not "simplify"):
+ *  1. `spd` - a local holding 0x1000 SET BEFORE the if/else chain, so the constant lives in a
+ *     pseudo across the branch: `addiu $a3,$zero,0x1000` in the `blez` slot at 0x8012E3DC and the
+ *     `sw $a3` / `addu $v1,$v1,$a3` forms at L8012E410.
+ *  2. `a` reused for the D_80126CE0 value AND the division result (multi-set, cross-block) - that
+ *     is what puts the quotient in $a0 (`subu $a0,$v0,$v1`) instead of coalescing into $v0.
+ *  3. `flags` pinned to $2 (dropping it = 13 off) and `prev` pinned to $5 (dropping it = 6 off).
+ *  4. `d` pinned to $2 - see CLUSTER B(b).
+ *  5. `e1`/`e2` must be SEPARATE single-set locals - see CLUSTER A.
+ *  The `arg0` $6 pin is NOT load-bearing any more (verified: still MATCH without it); it is kept
+ *  because it costs nothing and documents the target's `addu $a2,$a0,$zero`.
+ */
+
+void func_8012E364(s32 arg0_)
+{
+
+    extern s16 D_80126CE0;
+    extern s32 D_801C61B0;
+    extern s32 D_801C61B4;
+    register s32 arg0 __asm__("$6");
+    register s32 prev __asm__("$5");
+    register u16 flags __asm__("$2");
+    s32 a;
+    s32 diff;
+    s32 v;
+    register s32 d __asm__("$2");
+    s32 spd;
+    s32 e1;
+    s32 e2;
+
+    arg0 = arg0_;
+    *(s16 *)(arg0 + 0x5C) = 0;
+    a = D_80126CE0;
+    if (a == 0) {
+        D_801C61B0 = 0x1000;
+        D_801C61B4 = 0x1000;
+    }
+    a = ((0x90 - a) << 12) / 0x90;
+    *(s32 *)(arg0 + 0x1C) += 1;
+    spd = 0x1000;
+
+    diff = D_801C61B0 - a;
+    if (diff > 0) {
+        D_801C61B0 -= diff >> 2;
+    } else if (diff < 0) {
+        D_801C61B0 += (-diff) / 4;
+    }
+
+    prev = D_801C61B4;
+    e1 = *(s32 *)(arg0 + 0x20);
+    v = D_801C61B0 - prev + spd;
+    D_801C61B4 = spd;
+    flags = *(u16 *)(e1 + 0x2C);
+    D_801C61B0 = v;
+    *(u16 *)(e1 + 0x2C) = flags | 0x10;
+
+    e2 = *(s32 *)(arg0 + 0x20);
+    d = __builtin_abs(v);
+    *(s16 *)(e2 + 0x1C) = d;
+    *(s16 *)(e2 + 0x18) = d;
+    *(s16 *)(*(s32 *)(arg0 + 0x20) + 0x1A) = 0x1000;
+}
+
 
 DEFINE_func_8012E470()  /* dedup: shared engine-core @0x8012E470 (src/shared) */
 
@@ -1897,7 +2015,132 @@ DEFINE_func_80132EC4()  /* dedup: shared engine-core @0x80132EC4 (src/shared) */
 
 DEFINE_func_80132EF4()  /* dedup: shared engine-core @0x80132EF4 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_084/nonmatchings/ov_SC01_084_jr_8012ACE0", func_80132F40);
+
+/* func_80132F40 — ov_SC01_077 (jr_8012ACE0 region), 72 ins, -O2.  *** MATCH ***
+ *
+ * Verified:
+ *   python3 tools/match_one.py func_80132F40 --c .run/near6/wave23/func_80132F40.c \
+ *       --asm-subdir asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_8012ACE0
+ *   -> MATCH (72 ins)
+ *
+ * ---------------------------------------------------------------------------
+ * WHAT THE WAVE-22 SEED GOT WRONG (the 6-mismatch plateau, and why s32 "cost 3")
+ * ---------------------------------------------------------------------------
+ * The seed's note blamed the `addiu $s3,$sp,0x10` hoist on a *whole-function CSE
+ * fork keyed on s16-vs-s32 w/h*, and concluded the s32 world was unreachable.
+ * Both halves of that are wrong, and the real mechanism is a reusable idiom.
+ *
+ * The hoisted register is the block-move source-address pseudo (reg 83 =
+ * `(plus fp 16)`, created by expand for `v[1] = v[0]`).  Whether it survives is
+ * decided by ONE thing: does CSE's *extended basic block* still contain it when
+ * CSE reaches the two `&v[0]` call arguments?
+ *
+ *   cse.c:cse_end_of_basic_block scans `while (p && GET_CODE (p) != CODE_LABEL)`.
+ *   It can walk PAST a conditional jump only via
+ *     - follow_jumps  : target label preceded by a BARRIER, LABEL_NUSES == 1, or
+ *     - skip_blocks   : "branch around a block", no labels inside  (-O2 sets both)
+ *   and it BREAKS EARLY on
+ *     `if (! after_loop && NOTE_LINE_NUMBER (p) == NOTE_INSN_LOOP_END) break;`
+ *
+ * With s16 w the min block stayed a *diamond* (jump.c's `if(..) x=a; else x=b;`
+ * -> `x=b; if(..) x=a;` at jump.c:699 is blocked when the moved insn carries a
+ * REG_EQUAL note — the sign_extend note from the sll/sra pair).  The diamond's
+ * BARRIER + join label ended CSE's block before the calls, so `&v[0]` was
+ * recomputed at each site.  With s32 w the diamond was flattened in jump1, and
+ * skip_blocks then walked CSE straight through to both call sites -> reg 83 was
+ * substituted, went live across a call, and took a 5th callee-saved register.
+ * So the fork was never about the *type* — it was about the CFG shape at CSE.
+ *
+ * ---------------------------------------------------------------------------
+ * THE NEW LEVER  (cookbook candidate: "zero-instruction CSE path cut")
+ * ---------------------------------------------------------------------------
+ * `do { } while (0);` emits NOTE_INSN_LOOP_BEG/CONT/END and ZERO instructions.
+ * A NOTE_INSN_LOOP_END is exactly what cse1 (after_loop == 0) breaks its
+ * extended basic block on.  Dropping one between the struct copy and the call
+ * sites cuts the path, kills the hoist, and costs nothing:  73 ins -> 70 ins.
+ * (Measured: without it this same file is 75 ins / 58 mismatched.)
+ * It is *not* an ordering/pressure hack — 1..8 empty `__asm__ __volatile__("")`
+ * barriers, which lengthen live ranges but emit no LOOP notes, changed the hoist
+ * by exactly nothing, which refutes the global.c allocno-priority explanation.
+ *
+ * ---------------------------------------------------------------------------
+ * THE MIN BLOCK (idx 37..44)
+ * ---------------------------------------------------------------------------
+ *      lh   $v1,8($v0)      w        (both loads are SImode sign_extend -> `lh`)
+ *      lh   $v0,0xA($v0)    h        (reuses the dying pointer's $v0)
+ *      nop                           (load-delay; nothing schedulable)
+ *      addu $a0,$v0,$zero   hh = h   (a REAL source-level carrier)
+ *      slt  $v0,$v0,$v1     c = h<w  (reuses $v0 because hh now carries h)
+ *      beqz $v0,.L80132FF4
+ *       addu $s2,$v1,$zero  m = w    (else-arm, moved by jump.c:699 in jump2)
+ *      addu $s2,$a0,$zero   m = hh
+ *
+ * Three locals legitimately share $v0 back-to-back — p dies at h's load, h dies
+ * at the slt (hh carries its value), c is born there.  That chain is what makes
+ * `slt $v0,$v0,$v1` possible and is why the carrier is mandatory: with h and c
+ * on $2 but NO carrier, gcc emits `addu $s2,$v0,$zero` after the slt has already
+ * clobbered $v0 — silently wrong code.  Do not remove `hh`.
+ *
+ * The carrier must be a *pinned* hard register: as a plain pseudo, cse2 (which
+ * runs with after_loop == 1 and therefore ignores the LOOP_END) canonicalises it
+ * back to h via canon_reg and flow deletes the copy (measured: 71 ins).
+ *
+ * Ablations (each measured with match_one):
+ *   drop the do{}while(0) -> 75 ins / 58     drop `p`  pin -> 71 ins / 40
+ *   drop `h`  pin         -> 71 ins / 33     drop `c`  pin -> 70 ins / 36
+ *   drop `hh` pin         -> 71 ins / 32     drop `q`  pin -> 72 ins / 12
+ *   adding a `w`->$3 pin or an `m`->$18 pin -> still MATCH (so both are omitted)
+ *
+ * Canonical decls (wave22_targets.json sig_hints) verbatim; D_80126BE0 is
+ * declared exactly as the 20+ sibling TUs already declare it.
+ */
+extern void func_8012F038();
+extern void func_8012F14C();
+extern s32 func_80135888(s32, s32, s32, s32);
+
+void func_80132F40(s32 arg0)
+{
+
+    extern u8 D_80126BE0[];
+    typedef struct { u16 vx, vy, vz, pad; } Svec_80132F40;
+
+    Svec_80132F40 v[4];
+    register Svec_80132F40 *q __asm__("$17");
+    register s16 *p __asm__("$2");
+    register s32 h __asm__("$2");
+    register s32 c __asm__("$2");
+    register s32 hh __asm__("$4");
+    s32 w;
+    s32 m;
+
+    q = &v[1];
+    v[0].vx = D_80126B5E;
+    v[0].vy = D_80126B62;
+    v[0].vz = D_80126B66;
+    v[1] = v[0];
+
+    if (func_80135888(*(s32 *)(arg0 + 0x20), *(s32 *)(arg0 + 0x58),
+                      (s32)D_80126BE0, (s32)q) != 0) {
+        /* zero-instruction NOTE_INSN_LOOP_END: cuts cse1's extended basic block
+         * so the block-move address pseudo cannot reach the two &v[0] args. */
+        do { } while (0);
+
+        p = (s16 *)((*(s32 *)(arg0 + 0x58) & 0x0FFFFFFF) | 0x80000000);
+        w = p[4];
+        h = p[5];
+        hh = h;
+        c = (h < w);
+        if (c) { m = hh; } else { m = w; }
+
+        func_8012F038(*(s32 *)(arg0 + 0x20) + 0x34, &v[0], q);
+        v[1].vy = m;
+        func_8012F14C(*(s32 *)(arg0 + 0x20) + 0x34, q, &v[0]);
+        D_80126B5E = v[0].vx;
+        D_80126B62 = v[0].vy;
+        D_80126B66 = v[0].vz;
+    }
+}
+
 
 DEFINE_func_80133060()  /* dedup: shared engine-core @0x80133060 (src/shared) */
 
