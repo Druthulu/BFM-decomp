@@ -6452,3 +6452,78 @@ each refusing family. `reconcile_tu` will not currently catch it: `cdecl.compati
 identical type STRINGS (`S_AF634 []`) and correctly reports "compatible", because the divergence is
 in type IDENTITY, which a textual type comparison cannot see. **That is the named next step: teach
 the per-sibling reconcile to drop a draft decl whose symbol the TU already declares.**
+
+---
+
+# 🛑 SESSION-22 FINAL CHECKPOINT — WAVE22 (2026-07-28) — FRESH SESSION SAFE HERE
+> Supersedes every earlier SESSION-22 checkpoint block above.
+
+**Nothing running.** Tree clean but for the R23 `db.*.gbf` churn (never stage). HEAD **`commit:1126`**.
+**R22 clean-fleet 140/140** (run **23×** this session), dedup **1886/0**, **0 NON_MATCHING** (G4).
+**FLEET: 84.8% instr · 74.7% distinct-code · 90.34% fn-count** (session opened 82.9 / 71.5 / 89.83).
+
+## SESSION TOTAL — **1,787 functions banked**
+Family/deterministic work **1,095** + grinder **2** + **wave22 690** (5 exemplars + 685 members).
+Reconciled against the metric: fn-count 317,762 → 319,549 = **+1,787**.
+
+## WAVE22 (the Ultracode wave) — 18 targets, ~255k templated instructions
+**Drafting: 12 MATCH / 6 NEAR / 0 FAIL** · 2.59M subagent tokens · 837 tool calls · no agent touched
+the tree (draft-only constraint verified clean).
+**Banked 5 exemplars → swept 685 members → 690 functions.** Every sweep 0 failures:
+`func_80163534`+`func_80148E54`+`func_8014A738`+`func_8012A328` = **548/548**;
+`func_80171B4C` (jr, carve path) = **137/137**.
+
+**The 12→5 integration gap was the story, and it exposed a bug I had introduced earlier today:**
+my `reconcile_tu` block-scope descent fed ordinary STATEMENTS to `cdecl.parse`; some parse without
+raising into a declarator with an EMPTY base type, and that fake row **overwrote the genuine plan
+entry** for the same symbol — so the span rewrite landed on a statement, **and my own R32 assertion
+still passed** because the conformed text appeared somewhere. Byte-witnessed on `D_80126B5C`
+(planned twice: `draft 's32'` and `draft ''`). Fixed: block-scope rows accepted only from a real
+`extern` with a non-empty base type.
+
+**Two banks came from today's own findings** — `--cast-zero-arg-calls` (built this morning for
+func_801789AC's 138 sites; func_8012E014 needed it for 1) and **§99 held a THIRD time**: K&R
+conversion dissolved `func_80163534`'s `s32→u16` narrowing across **1,072** declarations, leaving
+only a caller-neutral pointer change.
+
+**Today's parallel gate proved at scale:** the 4-family sweep reported `gating 411 group(s) across
+distinct binaries, -j12`. When I shipped it I could only smoke-test 4 fail-fast groups and said the
+1.5× measured there was NOT the 8-16× claim; 411 full build-and-gate cycles is the shape it was about.
+
+## ▶ START HERE NEXT SESSION
+**1. The 6 wave NEAR results — permuter/backlog fuel with PRECISE diagnoses, not dead ends:**
+   `func_80176734` close=217 LENGTH-DRIFT (cse const-folds `*(u8*)(st+8)`; every `__asm__` launder
+   fixes one redundancy but wrecks the allocation) · `func_80177B5C` close=11 (2 prologue const
+   placements + a gcc `ior` reassociation that resisted 5 rewrites) · `func_80140958` close=10
+   (gcc const-folds `m == 3`) · `func_80140D68` close=9 SHIFT-DRIFT (0xFFFFFF mask built atomically
+   vs split) · `func_8012E364` close=7 (structure solved 67/67; 2 tie-breaks, ~2500 variants + 400s
+   permuter all plateau) · `func_80132F40` close=6 (§83d CSE fork).
+**2. The 7 wave drafts that MATCHed but did not bank:** 2 CC1-FAIL in `_o0`
+   (`func_8013B6A0`, `func_8013B598`) · 3 DIFF whole-binary = TU-context (`func_80133298`,
+   `func_80135260`, `func_8012E014`) · 1 parse-order (`func_80138C60`: an extern referencing a
+   body-local typedef declared after it) · 1 prototype-vs-K&R (`func_80177DA8`).
+**3. `func_8013BD74`** — carve solved via `--span-tables`; residual is §8e LAYOUT (13 bytes long).
+   True table starts banked: **`0x801D82FC`, `0x801D836C`** (27 entries each, both 4 mod 8).
+**4. The SC07 quartet** — data-identity blocker FIXED (`scope_data_externs` drops a decl the TU
+   already provides); next blocker is a FUNCTION decl (`func_80024054`). §95: splice one sibling and
+   dump EVERY cc1 error rather than peel.
+
+## ⚠️ MY ERRORS THIS SESSION (recorded, not buried)
+- **Committed an incomplete change set TWICE** — omitted `config/`, leaving a jtbl carve uncommitted.
+  Both times caught by `jtbl_family_bank`'s dirty-tree precondition, not by me or any gate.
+  **A scoped `git add` is an unverified assertion about a change set's boundary (R32).** Concrete
+  guard for next session: before committing banked work, `git status --porcelain config/` must be
+  empty or its contents must be in the same commit.
+- **Broke `family_sweep` twice** wiring the parallel default (missed import, closure scope) — reverted,
+  then re-done correctly as a parallel PRE-PASS that leaves post-processing untouched.
+- **Corrupted a draft with my own `reconcile_tu` fix** (descended into struct definitions, rewriting
+  members) — caught by diffing the tool's output against its input, not by a gate.
+- **Introduced the empty-declarator bug above**, which my own assertion failed to catch.
+- **Miscounted the session total** once (said 1,097; it was 1,095) — now reconciled against fn-count.
+
+## ⚠️ CARRIED DEFECTS (unchanged)
+- The **21-file absolute-include portability defect** — PhaseEnd carry item.
+- **`docs/backlog.md` is not a work queue** — 44% misfiled partials (§83).
+- **Roadmap re-baseline owed**; the 39 type-1 modules are in no phase.
+- **The ladder-vs-bare-gate asymmetry** (ladder 0/7 vs bare gate 2/7) — still unexplained.
+**DO NOT close P29 on ROI** — +1.9pp instr today is nowhere near a burn-down floor.
