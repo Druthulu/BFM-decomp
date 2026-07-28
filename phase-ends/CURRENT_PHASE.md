@@ -7217,10 +7217,14 @@ wrong tool and its 0% is not evidence). The carve then refused with a precise re
 **R22 clean-fleet 140/140** (run **7×** this session), dedup **1886/0**, **0 NON_MATCHING** (G4).
 **FLEET: 85.5% instr · 76.1% distinct · 90.61% fn-count** (opened 84.8 / 74.7 / 90.34).
 
-## SESSION TOTAL — **418 functions banked**
-T32/T33 the NEAR-6 wave: 4 cores + 548 members… *(548 were banked in SESSION-22's tail; this
-session's own banks follow)* — **this session:** 4 cores + 143 members (T39/T40) + 133 members (T41)
-+ 1 core + 137 members (T43) = **418**.
+## SESSION TOTAL — **970 functions banked**
+**Reconciled against the metric, not asserted** (fn-count 319,549 at the SESSION-22 close →
+**320,519** now = **+970**), and the per-task recount agrees exactly:
+T32 **4** cores (NEAR-6 wave) + T33 **548** members + T39 **4** cores + T40 **143** members +
+T41 **133** members + T43 **1** core + **137** members = **970**.
+*(I first wrote 418 here by wrongly excluding T32/T33 as if the NEAR-6 wave belonged to SESSION-22.
+It did not — it ran this session. Caught by reconciling against fn-count, which is exactly why that
+reconciliation is done rather than trusting the running tally.)*
 
 ## WHAT CHANGED STRATEGICALLY
 1. **Every codegen-map file is now audited against the REAL gcc-2.7.2** (T34/T35). 27 corrections
