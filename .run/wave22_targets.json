@@ -1,0 +1,351 @@
+[
+ {
+  "fn": "func_80163534",
+  "kind": "fresh",
+  "stub": "src/ov_SC01_077/ov_SC01_077_jr_8015C32C.c",
+  "asm_subdir": "asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_8015C32C",
+  "ghidra_c": ".run/ghidra_c/func_80163534.c",
+  "o0": false,
+  "sig_hints": {
+   "callees": {
+    "func_80163664": "void func_80163664(s32, u16, u16, s32, s32, s32, s32, s32, s32, s32, u16, s32, s32);"
+   },
+   "data": {
+    "D_80115100": "extern s32 D_80115100;",
+    "D_80115200": "extern s32 D_80115200;",
+    "D_80126B18": "extern u16 D_80126B18[];"
+   }
+  },
+  "n_callees": 1,
+  "n_data": 15
+ },
+ {
+  "fn": "func_8012E014",
+  "kind": "fresh",
+  "stub": "src/ov_SC01_077/ov_SC01_077_jr_8012ACE0.c",
+  "asm_subdir": "asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_8012ACE0",
+  "ghidra_c": ".run/ghidra_c/func_8012E014.c",
+  "o0": false,
+  "sig_hints": {
+   "callees": {
+    "func_80049CAC": "extern void func_80049CAC(s32, s32);",
+    "func_8012F0BC": "void func_8012F0BC(s32*, s32*, s32*);",
+    "func_8012F1A4": "void func_8012F1A4(s32*, s32, s32*);"
+   },
+   "data": {
+    "D_80126B5C": "extern u8 D_80126B5C;"
+   }
+  },
+  "n_callees": 3,
+  "n_data": 3
+ },
+ {
+  "fn": "func_80132F40",
+  "kind": "fresh",
+  "stub": "src/ov_SC01_077/ov_SC01_077_jr_8012ACE0.c",
+  "asm_subdir": "asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_8012ACE0",
+  "ghidra_c": ".run/ghidra_c/func_80132F40.c",
+  "o0": false,
+  "sig_hints": {
+   "callees": {
+    "func_8012F038": "extern void func_8012F038();",
+    "func_8012F14C": "extern void func_8012F14C();",
+    "func_80135888": "extern s32 func_80135888(s32, s32, s32, s32);"
+   },
+   "data": {
+    "D_80126B5E": "extern u16 D_80126B5E;",
+    "D_80126B62": "extern u16 D_80126B62;",
+    "D_80126B66": "extern u16 D_80126B66;"
+   }
+  },
+  "n_callees": 3,
+  "n_data": 6
+ },
+ {
+  "fn": "func_80171B4C",
+  "kind": "fresh",
+  "stub": "src/ov_SC01_077/ov_SC01_077_jr_8016AB6C.c",
+  "asm_subdir": "asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_8016AB6C",
+  "ghidra_c": ".run/ghidra_c/func_80171B4C.c",
+  "o0": false,
+  "sig_hints": {
+   "callees": {
+    "func_80146D90": "extern void func_80146D90(s32);",
+    "ratan2": "extern s32 ratan2(s32, s32);"
+   },
+   "data": {
+    "D_801151D4": "extern s32 D_801151D4;"
+   }
+  },
+  "n_callees": 2,
+  "n_data": 2
+ },
+ {
+  "fn": "func_8012E364",
+  "kind": "fresh",
+  "stub": "src/ov_SC01_077/ov_SC01_077_jr_8012ACE0.c",
+  "asm_subdir": "asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_8012ACE0",
+  "ghidra_c": null,
+  "o0": false,
+  "sig_hints": {
+   "callees": {},
+   "data": {}
+  },
+  "n_callees": 0,
+  "n_data": 3
+ },
+ {
+  "fn": "func_8013B6A0",
+  "kind": "fresh",
+  "stub": "src/ov_SC01_077/ov_SC01_077_o0.c",
+  "asm_subdir": "asm/ov_SC01_077/nonmatchings/ov_SC01_077_o0",
+  "ghidra_c": ".run/ghidra_c/func_8013B6A0.c",
+  "o0": true,
+  "sig_hints": {
+   "callees": {},
+   "data": {
+    "D_801DAA08": "extern E_3B7AC D_801DAA08[];"
+   }
+  },
+  "n_callees": 0,
+  "n_data": 5
+ },
+ {
+  "fn": "func_80148E54",
+  "kind": "fresh",
+  "stub": "src/ov_SC01_077/ov_SC01_077_after.c",
+  "asm_subdir": "asm/ov_SC01_077/nonmatchings/ov_SC01_077_after",
+  "ghidra_c": ".run/ghidra_c/func_80148E54.c",
+  "o0": false,
+  "sig_hints": {
+   "callees": {
+    "ratan2": "extern s32 ratan2(s32, s32);"
+   },
+   "data": {
+    "D_801151D4": "extern s32 D_801151D4;"
+   }
+  },
+  "n_callees": 1,
+  "n_data": 2
+ },
+ {
+  "fn": "func_8013B598",
+  "kind": "fresh",
+  "stub": "src/ov_SC01_077/ov_SC01_077_o0.c",
+  "asm_subdir": "asm/ov_SC01_077/nonmatchings/ov_SC01_077_o0",
+  "ghidra_c": ".run/ghidra_c/func_8013B598.c",
+  "o0": true,
+  "sig_hints": {
+   "callees": {},
+   "data": {
+    "D_801DAA08": "extern E_3B7AC D_801DAA08[];"
+   }
+  },
+  "n_callees": 0,
+  "n_data": 5
+ },
+ {
+  "fn": "func_80133298",
+  "kind": "fresh",
+  "stub": "src/ov_SC01_077/ov_SC01_077_jr_8012ACE0.c",
+  "asm_subdir": "asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_8012ACE0",
+  "ghidra_c": ".run/ghidra_c/func_80133298.c",
+  "o0": false,
+  "sig_hints": {
+   "callees": {
+    "func_8012B2CC": "void func_8012B2CC(s32);",
+    "func_8012F0BC": "void func_8012F0BC(s32*, s32*, s32*);",
+    "func_8012F1A4": "void func_8012F1A4(s32*, s32, s32*);",
+    "func_8013339C": "void func_8013339C(short*, short*);"
+   },
+   "data": {
+    "D_80126B5C": "extern u8 D_80126B5C;"
+   }
+  },
+  "n_callees": 4,
+  "n_data": 3
+ },
+ {
+  "fn": "func_80140D68",
+  "kind": "fresh",
+  "stub": "src/ov_SC01_077/ov_SC01_077.c",
+  "asm_subdir": "asm/ov_SC01_077/nonmatchings/ov_SC01_077",
+  "ghidra_c": ".run/ghidra_c/func_80140D68.c",
+  "o0": false,
+  "sig_hints": {
+   "callees": {},
+   "data": {
+    "D_800B9A02": "extern short D_800B9A02;",
+    "D_8011516A": "extern Hw4 D_8011516A[];"
+   }
+  },
+  "n_callees": 0,
+  "n_data": 3
+ },
+ {
+  "fn": "func_80177DA8",
+  "kind": "fresh",
+  "stub": "src/ov_SC01_077/ov_SC01_077_jr_801734BC.c",
+  "asm_subdir": "asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_801734BC",
+  "ghidra_c": ".run/ghidra_c/func_80177DA8.c",
+  "o0": false,
+  "sig_hints": {
+   "callees": {},
+   "data": {}
+  },
+  "n_callees": 0,
+  "n_data": 1
+ },
+ {
+  "fn": "func_80138C60",
+  "kind": "fresh",
+  "stub": "src/ov_SC01_077/ov_SC01_077_jr_801380E0.c",
+  "asm_subdir": "asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_801380E0",
+  "ghidra_c": null,
+  "o0": false,
+  "sig_hints": {
+   "callees": {
+    "func_80139C7C": "void func_80139C7C(u8*);",
+    "func_8013A8FC": "s32 func_8013A8FC(s32);"
+   },
+   "data": {}
+  },
+  "n_callees": 3,
+  "n_data": 2
+ },
+ {
+  "fn": "func_8014A738",
+  "kind": "fresh",
+  "stub": "src/ov_SC01_077/ov_SC01_077_after.c",
+  "asm_subdir": "asm/ov_SC01_077/nonmatchings/ov_SC01_077_after",
+  "ghidra_c": ".run/ghidra_c/func_8014A738.c",
+  "o0": false,
+  "sig_hints": {
+   "callees": {
+    "func_80029178": "extern s32 func_80029178(s32);"
+   },
+   "data": {
+    "D_801202A0": "extern u8 D_801202A0[];"
+   }
+  },
+  "n_callees": 1,
+  "n_data": 1
+ },
+ {
+  "fn": "func_8012A328",
+  "kind": "fresh",
+  "stub": "src/ov_SC01_077/ov_SC01_077_a.c",
+  "asm_subdir": "asm/ov_SC01_077/nonmatchings/ov_SC01_077_a",
+  "ghidra_c": ".run/ghidra_c/func_8012A328.c",
+  "o0": false,
+  "sig_hints": {
+   "callees": {
+    "func_80012F74": "extern s32 func_80012F74(s32, s32, s32, s32);"
+   },
+   "data": {
+    "D_801152C0": "extern s8 D_801152C0;",
+    "D_801152C2": "extern s16 D_801152C2;",
+    "D_80126940": "extern s16 D_80126940;",
+    "D_80126942": "extern s16 D_80126942;",
+    "D_80126944": "extern s16 D_80126944;",
+    "D_80126B58": "extern s32 D_80126B58;",
+    "D_80127080": "extern s16 D_80127080;"
+   }
+  },
+  "n_callees": 1,
+  "n_data": 8
+ },
+ {
+  "fn": "func_80176734",
+  "kind": "redraft",
+  "stub": "src/ov_SC01_077/ov_SC01_077_jr_801734BC.c",
+  "asm_subdir": "asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_801734BC",
+  "ghidra_c": ".run/ghidra_c/func_80176734.c",
+  "o0": false,
+  "sig_hints": {
+   "callees": {
+    "func_800183E0": "extern void func_800183E0(s32);",
+    "func_801619D0": "extern s32 func_801619D0(void*);",
+    "func_80161A00": "extern s32 func_80161A00(s32);",
+    "func_80161A30": "extern s32 func_80161A30(s32);",
+    "func_80161A60": "extern s32 func_80161A60(s32);",
+    "func_801775E0": "void func_801775E0(s32, s32);"
+   },
+   "data": {
+    "D_80078E78": "extern u8 D_80078E78[];",
+    "D_800B9A13": "extern u8 D_800B9A13;",
+    "D_800D43D4": "extern u8 D_800D43D4;",
+    "D_800D4414": "extern u8 D_800D4414;",
+    "D_800D45D4": "extern u8 D_800D45D4;",
+    "D_8011F7A8": "extern u8 D_8011F7A8;",
+    "D_80126B58": "extern s32 D_80126B58;",
+    "D_80126D20": "extern s16 D_80126D20;",
+    "D_8018A238": "extern u16 D_8018A238;",
+    "D_8018A2CC": "extern u8 D_8018A2CC[];",
+    "D_8018A2E4": "extern s32 D_8018A2E4[];"
+   }
+  },
+  "n_callees": 6,
+  "n_data": 17
+ },
+ {
+  "fn": "func_80140958",
+  "kind": "redraft",
+  "stub": "src/ov_SC01_077/ov_SC01_077.c",
+  "asm_subdir": "asm/ov_SC01_077/nonmatchings/ov_SC01_077",
+  "ghidra_c": ".run/ghidra_c/func_80140958.c",
+  "o0": false,
+  "sig_hints": {
+   "callees": {
+    "func_8014168C": "extern s16 func_8014168C(s16);"
+   },
+   "data": {
+    "D_800B9A02": "extern short D_800B9A02;",
+    "D_80115110": "extern u16 D_80115110;",
+    "D_80115140": "extern u8 D_80115140[];",
+    "D_8011514E": "extern s16 D_8011514E;",
+    "D_80115158": "extern u8 D_80115158[];",
+    "D_8011516A": "extern Hw4 D_8011516A[];",
+    "D_8018798C": "extern Prim4 D_8018798C[];",
+    "D_80187A80": "extern Prim4 *D_80187A80[];"
+   }
+  },
+  "n_callees": 2,
+  "n_data": 15
+ },
+ {
+  "fn": "func_80177B5C",
+  "kind": "redraft",
+  "stub": "src/ov_SC01_077/ov_SC01_077_jr_801734BC.c",
+  "asm_subdir": "asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_801734BC",
+  "ghidra_c": ".run/ghidra_c/func_80177B5C.c",
+  "o0": false,
+  "sig_hints": {
+   "callees": {},
+   "data": {}
+  },
+  "n_callees": 0,
+  "n_data": 1
+ },
+ {
+  "fn": "func_80135260",
+  "kind": "redraft",
+  "stub": "src/ov_SC01_077/ov_SC01_077_jr_8012ACE0.c",
+  "asm_subdir": "asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_8012ACE0",
+  "ghidra_c": ".run/ghidra_c/func_80135260.c",
+  "o0": false,
+  "sig_hints": {
+   "callees": {
+    "func_80134A74": "int func_80134A74(int, s16, s16, int);",
+    "func_80135480": "s16 func_80135480(void*, s32, s16*, s16*);"
+   },
+   "data": {
+    "D_801870AC": "extern u8 D_801870AC;",
+    "D_801870B0": "extern u8 D_801870B0;",
+    "D_801870B8": "extern u8 D_801870B8;"
+   }
+  },
+  "n_callees": 4,
+  "n_data": 7
+ }
+]

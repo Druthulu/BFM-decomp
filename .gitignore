@@ -168,3 +168,12 @@ models/
 unsloth_compiled_cache/
 .venv-serve/
 .env
+
+# Phase 29 SESSION-22 — the wave22 UNBANKED drafts. 13 of the 18 (6 NEAR with precise residual
+# diagnoses + 7 that reached match_one MATCH but did not bank whole-binary) are the next session's
+# named fuel and cost ~2.59M subagent tokens. They lived only on disk, i.e. one `git clean -fdx`
+# from gone — the same exposure the .run/giants Fable5 cracks had before Phase 27 curated them.
+!/.run/wave22/
+/.run/wave22/*
+!/.run/wave22/*.c
+!/.run/wave22_targets.json
