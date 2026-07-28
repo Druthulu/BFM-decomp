@@ -6351,3 +6351,26 @@ the body **MATCHes** (`rtu_match` 198 ins) and the declaration conflict is gone 
 reshape (`void *` param + compile-time cast, matching the TU's existing prototype).
 **Worth 27,324 templated instructions. Deliberately not started here** — it is archaeology, and I
 have broken a proven tool twice today by starting structural work late in a session.
+
+## ✅ T27 — item 3: the PLUMBING census RE-VERDICTED. 7 of 10 banked; the rest are now TRUE verdicts.
+
+§102 proved a PLUMBING verdict is a statement about the DECLARATIONS and hides the body's real one,
+so the T14 census needed re-reading rather than trusting. Result — **7 of the 10 entries are now
+BANKED** (`func_80175DA8` · `func_801330E0` · `func_8015D1B8` · `func_80175AB8` · `func_80135EB0` ·
+`func_801789AC` · `func_8014CF04`), and the 3 open ones each have a measured true verdict:
+
+| fn | census said | TRUE verdict | route |
+|---|---|---|---|
+| `func_8016EC0C` | PLUMBING | **SCHEDULE-REORDER, close=8, `permuter`** | grinder fuel |
+| `func_80135260` | PLUMBING (`conflicting types for func_8014CF04`) | **LENGTH-DRIFT +3, close=123, `structural`, `explains: partial`** | REDRAFT |
+| `func_8013BD74` | PLUMBING | body **MATCHes** (rtu 198); blocked in the CARVE | `--span-tables` archaeology |
+
+**`func_80135260` is the cleanest demonstration of §102:** its blocker was
+`conflicting types for func_8014CF04` — a function I conformed and banked hours ago — so the
+plumbing genuinely IS resolved, and the verdict underneath is a real codegen DIFF. **A PLUMBING
+entry is not deferred work; it is UNMEASURED work.**
+
+**Corrected frontier arithmetic:** the census's "9 PLUMBING = recoverable" reading was wrong in both
+directions — most of it banked (better than expected), and the remainder is DIFF/carve work (worse).
+Only **1 of the 3** is permuter-shaped; `func_80135260` joins the `structural` group that the
+grinder's admission rule correctly rejects (§60a: `partial` plateaus scored 0/12 in Task 13B).
