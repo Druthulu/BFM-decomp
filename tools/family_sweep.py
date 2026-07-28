@@ -17,6 +17,8 @@ compile and are logged for the decl-reconcile pass; they are NOT remap failures.
                         [--only 0xADDR,0xADDR]   # sweep just these exemplar addrs (validation)
 """
 import json, glob, re, subprocess, os, sys, shutil, collections, argparse
+import concurrent.futures as _cf
+import threading as _th
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import family_remap as FR
 import family_hseq                     # §53 interlock — the ONE has_mid_jr oracle (R33, shared with dedup_extend)
@@ -28,6 +30,7 @@ REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(REPO, 'tools'))
 import corpus   # the derived corpus oracle (Phase 26-A)
 PY = ".venv/bin/python"
+_OV_LOCKS = __import__("collections").defaultdict(_th.Lock)   # two splits of ONE overlay build the same binary
 SWEEP = ".run/sweep"
 
 
@@ -408,13 +411,47 @@ def hseq_sweep(a):
     # ---- phase 2: gate each group ONCE (unique verified-out per group so multi-split overlays sum right)
     banked = collections.Counter()
     failed = collections.Counter()
-    for gi, ((ov, src_rel, subdir), fns) in enumerate(sorted(groups.items())):
+    _items = sorted(groups.items())
+
+    # PHASE 2a — run the gates in PARALLEL ACROSS DISTINCT BINARIES, then phase 2b consumes the
+    # results in the ORIGINAL serial order. Only the subprocess call moves; every line of the
+    # post-processing below (the MISMATCH backstop, the zero-bank restore, the counters, the prints)
+    # runs exactly as before, in order, so output stays deterministic.
+    #
+    # WHY: SESSION-20 measured serial gating as "roughly an 8-16x throughput loss on a 32-thread box"
+    # and built `tools/sweep_parallel.py` for it — but only reachable via a manual `--stage-only`
+    # two-step, so THIS path stayed serial and three sweeps in SESSION-22 (543 members) ran serially
+    # for no reason (§101, the stale-default class).
+    #
+    # SAFE, and not a new claim: the Makefile already builds binaries concurrently (`check-all`/
+    # `extract-all` run `xargs -P$(JOBS)`, JOBS=16) and bulk_harvest's farm does the same with a
+    # per-binary lock. The hazard §28 records is two makes racing on the SAME artifacts — prevented
+    # here by the per-overlay lock, since two splits of one overlay build the same binary.
+    def _gate(gi, key):
+        ov, src_rel, subdir = key
         good_sha = open(os.path.join(REPO, f"config/check.{ov}.sha")).read().split()[0]
+        with _OV_LOCKS[ov]:
+            return sh([PY, "tools/harvest_verify.py", "--binary", ov, "--src", src_rel,
+                       "--asm-subdir", subdir, "--out", f"build/{ov}/{ov}", "--good-sha", good_sha,
+                       "--drafts", os.path.join(SWEEP, ov), "--chunk", str(a.chunk),
+                       "--verified-out", f".run/hseq_verified.{ov}.{gi}.txt",
+                       "--failed-out", f".run/hseq_failed.{ov}.{gi}.txt"], timeout=3600)
+
+    _res = {}
+    if a.jobs > 1 and len(_items) > 1:
+        print(f"[hseq] gating {len(_items)} group(s) across distinct binaries, -j{a.jobs}")
+        with _cf.ThreadPoolExecutor(max_workers=a.jobs) as _ex:
+            _f = {_ex.submit(_gate, gi, key): gi for gi, (key, _fns) in enumerate(_items)}
+            for _fu in _cf.as_completed(_f):
+                _res[_f[_fu]] = _fu.result()
+    else:
+        for gi, (key, _fns) in enumerate(_items):
+            _res[gi] = _gate(gi, key)
+
+    # ---- phase 2b: consume the results in the original order (unchanged from the serial version)
+    for gi, ((ov, src_rel, subdir), fns) in enumerate(_items):
         vout = f".run/hseq_verified.{ov}.{gi}.txt"
-        r = sh([PY, "tools/harvest_verify.py", "--binary", ov, "--src", src_rel, "--asm-subdir", subdir,
-                "--out", f"build/{ov}/{ov}", "--good-sha", good_sha,
-                "--drafts", os.path.join(SWEEP, ov), "--chunk", str(a.chunk),
-                "--verified-out", vout, "--failed-out", f".run/hseq_failed.{ov}.{gi}.txt"], timeout=3600)
+        r = _res[gi]
         # --normalize-self-decls backstop: a final MISMATCH means a self-decl TU edit was NOT byte-neutral
         # (a transform bug — harvest_verify always reverts a wrong DRAFT, so a wrong draft leaves the binary
         # byte-identical, just unbanked). Restore this group's edited TU from the phase-1 snapshot + rebuild
@@ -460,6 +497,9 @@ def main():
     ap.add_argument("--limit", type=int, default=0, help="cap #exemplars (0 = all)")
     ap.add_argument("--min-sibs", type=int, default=1)
     ap.add_argument("--chunk", type=int, default=8)
+    ap.add_argument("-j", "--jobs", type=int, default=12,
+                    help="gate groups across DISTINCT binaries in parallel (1 = serial). "
+                         "The per-overlay lock keeps two splits of one overlay serialised.")
     ap.add_argument("--commit", action="store_true")
     ap.add_argument("--only", default=None, help="comma-separated exemplar addrs to sweep (validation)")
     ap.add_argument("--allow-pins", action="store_true",
