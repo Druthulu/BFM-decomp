@@ -351,7 +351,17 @@ def hseq_sweep(a):
                     r = info.split(":")[0] if isinstance(info, str) else "skip"
                     skip[r[:24]] += 1; continue
             _code = re.sub(r'//[^\n]*', '', re.sub(r'/\*.*?\*/', '', draft, flags=re.S))
-            if not getattr(a, "allow_pins", False) and re.search(r'__asm__\s*\(\s*"\$', _code):   # hard-reg pin (§42e): ×1-only, cc1-crashes
+            # PINS ARE SWEPT BY DEFAULT (Phase 29 SESSION-22). This guard skipped any exemplar
+            # carrying a `register __asm__("$N")` pin because templating it cc1-CRASHED the sibling
+            # TUs (§42e). **Phase 27 byte-proved that SIGABRT was `extract_unit` dropping the body's
+            # file-scope macros — OUR bug — and fixed it (`_carry_macros`);** its own roadmap delta
+            # then put the PINS class "back on the mechanical-harvest table". The cause was removed
+            # and the default never changed, so the guard kept skipping real work: measured on ONE
+            # family this session, `func_80175AB8` reported `skipped {'pinned-exemplar': 137}` and
+            # then banked **133/137** the moment it was bypassed. A protection whose cause is gone is
+            # not free — it is a silent skip (R32) wearing a safety label. The whole-binary byte-gate
+            # was always the real arbiter here; `--no-pins` restores the old behaviour.
+            if getattr(a, "no_pins", False) and re.search(r'__asm__\s*\(\s*"\$', _code):
                 skip["pinned-exemplar"] += 1; continue          # sibling TUs → skip. Strip comments first: a body
                                                                 # that DOCUMENTS a removed pin ("__asm__(\"$16\") REMOVED")
                                                                 # is pin-free code and must not be false-skipped.
@@ -453,8 +463,12 @@ def main():
     ap.add_argument("--commit", action="store_true")
     ap.add_argument("--only", default=None, help="comma-separated exemplar addrs to sweep (validation)")
     ap.add_argument("--allow-pins", action="store_true",
-                    help="bypass the §42e pinned-exemplar skip: template WITH the register pins and let the "
-                         "whole-binary byte-gate arbitrate (some pinned families bank ×134 per-sibling, e.g. func_8017A4AC).")
+                    help="DEPRECATED / no-op — pinned exemplars are swept BY DEFAULT since SESSION-22 "
+                         "(the §42e cc1 crash was our own extract_unit macro-drop, fixed in Phase 27). "
+                         "Accepted so existing recipes and docs keep working.")
+    ap.add_argument("--no-pins", action="store_true",
+                    help="restore the old §42e behaviour: SKIP any exemplar carrying a register pin. "
+                         "Measured cost of that skip on one family: 137 skipped, 133 of which bank.")
     ap.add_argument("--allow-jr", action="store_true",
                     help="§53 escape hatch: sweep has_mid_jr families through this carve-less path anyway "
                          "(they normally need tools/jtbl_family_bank.py). The whole-binary byte-gate stays "
