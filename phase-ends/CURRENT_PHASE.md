@@ -6058,3 +6058,30 @@ genuine byte-VARIANTS. Both are real work; they just move different metrics, and
 dashboard exists precisely so one number cannot flatter the other.
 
 **SESSION-22 TOTAL: 6 exemplars + 680 members = 686 functions.**
+
+## ⏸️ T19 — `func_8013BD74`: body byte-CORRECT, blocked at the carve. Time-boxed with an exact diagnosis.
+
+**`rtu_match` → MATCH (198 ins)** in the real TU context. The body is not the problem; three
+successive *plumbing* blockers are, and each was measured rather than assumed:
+
+1. **Its local types are too generic to share.** The draft declares `A` and `Pkt` — impossible names
+   for a header used by 140 binaries. Uniquified to `A_8013BD74` / `Pkt_8013BD74` (the
+   `func_8016B6BC` convention). Transitive closure is shallow: neither references another custom type.
+2. **The §20/§64 shared lift is NOT available for this TU.** `ov_SC01_077_o0.c` includes only
+   `common.h` — it never pulls `engine_types.h` (that arrives via `engine_core.h`, which this -O0
+   split does not include). Adding the include **collides**: the TU has its own local `T3Reloc`,
+   which `engine_types.h` also defines. So the types were hoisted **TU-local** instead; that hoist is
+   byte-NEUTRAL alone (`d19c9580` unchanged), as is the shared-header variant.
+3. **The remaining blocker is the CARVE.** `func_8013BD74` is a jtbl function, so the gate carves it.
+   - types in the DRAFT (so they travel) + prototype unconformed → `PLUMBING: ov_SC01_077_o0.c:166:
+     conflicting types for func_8013BD74` (the `void *a0` prototype vs the `A_8013BD74 *` def, same TU)
+   - types hoisted TU-local + prototype conformed → **CC1-FAIL `Error 1`** (a make-level failure, NOT
+     the `Error 33` cc1 signature), and the gate log captures no cc1 text for it.
+   The conform itself is clean (1 site, §85 precondition satisfied) and `rtu_match` MATCHes, so the
+   failure is in the carve/extract interaction, not the C.
+
+**NEXT STEP (named, not guessed):** reproduce the carved build directly — apply `jtbl_carve` for
+this function, then `make build BINARY=ov_SC01_077` by hand and read the actual `Error 1` output.
+`Error 1` at `Makefile:558` with no cc1 diagnostic points at extract/`ld_interleave`, i.e. the §59(3)
+carve family, not a declaration problem. Worth **27,324 templated instructions**.
+**Tree left clean; nothing committed for this function.**
