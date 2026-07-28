@@ -9206,7 +9206,7 @@
     }
 
 #define DEFINE_func_80133060() \
-    extern void func_801330E0(s16 *a0, s16 *a1, s32 a2); \
+    extern void func_801330E0(void * param_1, s16 * param_2, s32 param_3); \
     void func_80133060(u8 *a0, s32 *a1, s32 a2) { \
         s16 tmp[3]; \
         tmp[0] = *(u16 *)(a0 + 2); \

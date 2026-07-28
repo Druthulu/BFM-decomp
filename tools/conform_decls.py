@@ -52,14 +52,57 @@ def sources():
     return out
 
 
+# Default argument promotions (C89 6.3.2.2). A K&R definition promotes each narrow parameter, so a
+# PROTOTYPE in scope must declare the PROMOTED type or gcc rejects the pair with
+# `argument 'x' doesn't match prototype`. This is not a style choice — it is why the fleet's existing
+# prototype for the §43 K&R function func_801330E0 reads `s32 a2` for a parameter the definition
+# declares `s16`, and why emitting the declared (unpromoted) type would RE-CREATE the narrow-param
+# conflict this tool exists to remove.
+_PROMOTE = {"s8": "s32", "u8": "s32", "char": "s32", "s16": "s32", "u16": "s32",
+            "short": "s32", "signed char": "s32", "unsigned char": "s32",
+            "unsigned short": "s32", "float": "f64"}
+
+
+def _promote(ty):
+    ty = re.sub(r"\s+", " ", ty.strip())
+    return ty if "*" in ty else _PROMOTE.get(ty, ty)
+
+
 def def_signature(draft_path, fn):
-    """(return_type, params_text) of the draft's DEFINITION — the byte-true shape."""
+    """(return_type, params_text) of the draft's DEFINITION — the byte-true shape.
+
+    Handles BOTH definition forms. The K&R arm is not optional: §43 (`s16` parameter declared
+    K&R-style, producing the in-place `sll $a2,$a2,16` tell) is a documented, load-bearing idiom in
+    this codebase for exactly the narrow-param class, so a tool that only parses ANSI definitions
+    refuses precisely the drafts that most need it — silently reading as "nothing to conform" for a
+    whole idiom family (R32 coverage, Phase 29 SESSION-22)."""
     txt = open(draft_path, errors="replace").read()
     m = re.search(rf"^([A-Za-z_][\w \t\*]*?)\b{fn}\s*\(([^;{{]*)\)\s*\{{", txt, re.M)
-    if not m:
-        sys.exit(f"conform_decls: no DEFINITION of {fn} in {draft_path} "
-                 f"(a declaration alone is not byte-truth — refusing to guess)")
-    return m.group(1).strip(), m.group(2).strip()
+    if m:
+        return m.group(1).strip(), m.group(2).strip()
+
+    # K&R:  void fn(a, b, c)\n  void *a;\n  s16 *b;\n  s16 c;\n  {
+    m = re.search(rf"^([A-Za-z_][\w \t\*]*?)\b{fn}\s*\(\s*([A-Za-z_]\w*(?:\s*,\s*[A-Za-z_]\w*)*)\s*\)"
+                  rf"\s*((?:[^;{{}}]*;\s*)+)\{{", txt, re.M)
+    if m:
+        names = [n.strip() for n in m.group(2).split(",")]
+        declared = {}
+        for stmt in m.group(3).split(";"):
+            stmt = stmt.strip()
+            if not stmt:
+                continue
+            d = re.match(r"^(.*?)([A-Za-z_]\w*)\s*$", stmt.replace("*", "* "))
+            if d:
+                declared[d.group(2)] = re.sub(r"\s+\*", " *", d.group(1)).strip()
+        missing = [n for n in names if n not in declared]
+        if missing:                      # an undeclared K&R param defaults to int — but say so (R32)
+            print(f"note: K&R parameter(s) {', '.join(missing)} have no declaration; "
+                  f"defaulting to s32 per C89", file=sys.stderr)
+        params = ", ".join(f"{_promote(declared.get(n, 's32'))} {n}" for n in names)
+        return m.group(1).strip(), params
+
+    sys.exit(f"conform_decls: no DEFINITION of {fn} in {draft_path} "
+             f"(a declaration alone is not byte-truth — refusing to guess)")
 
 
 def strip_names(params):

@@ -570,7 +570,7 @@ extern void func_80132DC4(s32 a0, s32 a1, s32 a2);
 extern s32 func_80132E6C(s16 *a0);
 extern void func_80132EC4(void *a0, s16 a1);
 extern s32 func_80132EF4(s32 a0, s32 a1);
-extern void func_801330E0(s16 *a0, s16 *a1, s32 a2);
+extern void func_801330E0(void * param_1, s16 * param_2, s32 param_3);
 extern void func_80133060(u8 *a0, s32 *a1, s32 a2);
 extern void func_8013339C(short *param_1, short *param_2);
 extern s32 func_8013361C(s16 *a0, s16 *a1, s16 *a2, s16 *a3);
