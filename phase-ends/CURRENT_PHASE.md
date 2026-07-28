@@ -6290,3 +6290,36 @@ suppressing them**, and each fix released real matches:
 - **Roadmap re-baseline owed**; the 39 type-1 modules are in no phase.
 - **The ladder-vs-bare-gate asymmetry** (ladder 0/7 vs bare gate 2/7) — still unexplained.
 **DO NOT close P29 on ROI** — burn-down floor still undetermined (+1.5pp instr today says otherwise).
+
+## 🔎 T25 — item 1 (`func_8016EC0C`) and item 2 (`func_8013BD74`): both DIAGNOSED to the exact cause, neither banked
+
+**Item 1 — `func_8016EC0C`: §99 generalises, but its "PLUMBING" was hiding a DIFF (→ cookbook §102).**
+- **§99 worked as a general rule:** converting the def to K&R promoted `u8`→`s32`, so the computed
+  canonical became `void func_8016EC0C(s32, s32)` — **the 1,617-site SCALAR-NARROWING warning vanished
+  entirely**, leaving only a RETURN change (`s32`→`void`) whose §85 precondition was already satisfied.
+  A caller-hazardous conform became byte-neutral *because of how the definition was written*.
+- **K&R is NOT automatically a codegen change — measured, not assumed.** `match_one` on the ANSI and
+  K&R forms returned **identical** results (closeness 8, 88 ins, same residual). The rule is
+  "convert, then compare both against the target", not "K&R always matches".
+- **THE REAL FINDING:** the T14 census recorded this as `PLUMBING: conflicting types` — which reads
+  as *recoverable*. It is not. With the decls clean the true verdict is **`SCHEDULE-REORDER`,
+  closeness 8, bucket `permuter`**. cc1 reports the declaration conflict and **never reaches the byte
+  comparison**, so a PLUMBING verdict is a statement about the DECLARATIONS and says nothing about the
+  BODY. **A census's PLUMBING pool is an upper bound on recoverable work, not a count of it.**
+- **Consequence:** `func_8016EC0C` is genuine **permuter fuel** (close=8) — unlike the four DIFFs
+  measured earlier, which are all `structural` and correctly rejected by the grinder's admission rule.
+
+**Item 2 — `func_8013BD74`: the `Error 1` now has a NAME.**
+Applied §100's principle first (reshape the draft, don't edit shared state): the def was rewritten to
+take `void *` — **matching the TU's existing prototype exactly** — with a compile-time cast to
+`A_8013BD74 *` inside. That **removed the declaration conflict** (no more PLUMBING) at T0 cost, no
+conform, no shared-header lift. What remains is purely the carve:
+```
+jtbl_rodata_pads: more rodata .align directives than pad specs (2) — table-count drift vs the carve
+```
+That is the **§59(3) documented carve wall**: the `_o0` object holds more jump tables than the span's
+derived pad spec (`JTBL_PADS['ov_SC01_077_o0'] = [0, 4]`, i.e. 2 pads) accounts for. Splice-then-carve
+order was correct (§61b); the drift is that the pad spec is derived before cc1 emits the draft's own
+table. **This is genuine tooling work in `jtbl_carve`/`jtbl_rodata_pads`, NOT a compiler wall and NOT
+a declaration problem** — a real advance over "Error 1, no cc1 text". Worth 27,324 templ ins.
+**Tree restored, `d19c9580` byte-identical, nothing committed for it.**
