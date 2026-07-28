@@ -3580,7 +3580,7 @@ s32 func_80149FB0(s32 a0) {
 
 extern u8 func_8014BEF8(void);
 extern void func_8012F14C(s32, s32, s32);
-extern s32 func_80135260(s32, s32, s32, s32);
+extern s32 func_80135260(s32 arg0, s32 arg1, s16 *arg2, s16 *arg3);
 extern void func_8014A1B0(s32 a0, s32 a1);
 
 s32 func_8014A048(s32 param_1) {

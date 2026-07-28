@@ -377,7 +377,7 @@ extern void func_80149FA8(void);
 extern s32 D_80185410[];
 extern u8 D_80078E78[];
 extern s32 func_80149FB0(s32 a0);
-extern s32 func_80135260(s32, s32, s32, s32);
+extern s32 func_80135260(s32 arg0, s32 arg1, s16 *arg2, s16 *arg3);
 extern void func_8014A1B0(s32 a0, s32 a1);
 extern s32 func_8014A048(s32 param_1);
 extern u16 func_80156370(u16 a0);

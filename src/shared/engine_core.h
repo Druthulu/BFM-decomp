@@ -26239,7 +26239,7 @@
 
 #define DEFINE_func_801571C4() \
     extern s32 func_80135004(s32 a0, void *a1, s32 a2); \
-    extern s32 func_80135260(s32 a0, s32 a1, s32 a2, s32 a3); \
+    extern s32 func_80135260(s32 arg0, s32 arg1, s16 *arg2, s16 *arg3); \
     extern s32 func_8014C918(s32 a0, s32 a1); \
     extern void func_8014C4AC(s32 a0, s32 a1, s32 a2, s16 *a3, s32 a4); \
     extern u8 D_801202A0[]; \
@@ -27023,7 +27023,7 @@
 #define DEFINE_func_8014A048() \
     extern u8 func_8014BEF8(void); \
     extern void func_8012F14C(s32); \
-    extern s32 func_80135260(s32, s32, s32, s32); \
+    extern s32 func_80135260(s32 arg0, s32 arg1, s16 *arg2, s16 *arg3); \
     extern void func_8014A1B0(s32 a0, s32 a1); \
     extern u8 D_801202A0[]; \
     s32 func_8014A048(s32 param_1) { \
