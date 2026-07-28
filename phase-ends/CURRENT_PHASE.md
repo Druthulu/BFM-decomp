@@ -6426,3 +6426,29 @@ the original packing. The pad model needs the real inter-table gaps, not the gen
 `0x801D836C`**, 27 entries each. **Next step:** derive the exact pads from the ORIGINAL byte gaps
 between those tables rather than from `spec_from_starts`' rule, and re-run. Worth 27,324 templ ins.
 Tree restored, `d19c9580` byte-identical, nothing committed.
+
+## ✅ T30 — item 4: the SC07 quartet DIAGNOSED (§59 followed: read one sibling's real gate result)
+
+**Not a broken overlay set, not a carve wall, not codegen — a type-IDENTITY collision.**
+
+The correlation held exactly: in `ov_SC07_006` both refusing functions (`func_80176218`,
+`func_80175AB8`) live in **`ov_SC07_006_jr_8016AE5C.c`**, while the families that swept cleanly are
+banked there. The recorded gate result names the cause:
+```
+ov_SC07_006_jr_8016AE5C.c:5667: conflicting types for `D_800AF634'
+```
+**Mechanism (measured, not inferred):**
+- both TUs declare `D_800AF634` as `S_AF634 []` — the **same type NAME**
+- the member draft carries **its own block-scope `typedef struct {…} S_AF634;`** *and* re-declares
+  `extern S_AF634 D_800AF634[];`
+- the sibling TU does **not** define `S_AF634` at file scope — it gets `D_800AF634`'s declaration
+  from a **macro-injected** decl (§8c), carrying a DIFFERENT `S_AF634`
+- ⇒ two **distinct types with the same name** ⇒ the two declarations of `D_800AF634` conflict.
+
+**The fix is to DROP the draft's redundant declaration** — the TU already provides it — rather than
+carry a competing typedef into the sibling. That is the §100 principle again (smallest scope that
+travels), and it is a per-sibling INTEGRATION fix exactly as §59 predicts, worth ~4 members across
+each refusing family. `reconcile_tu` will not currently catch it: `cdecl.compatible` sees two
+identical type STRINGS (`S_AF634 []`) and correctly reports "compatible", because the divergence is
+in type IDENTITY, which a textual type comparison cannot see. **That is the named next step: teach
+the per-sibling reconcile to drop a draft decl whose symbol the TU already declares.**
