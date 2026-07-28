@@ -88,7 +88,7 @@ def revert(ov, cf=None, keep_regions=None, extract=True):
         for f in region_files(ov) - keep_regions:
             os.remove(f)
     if extract:
-        sh(f"make --no-print-directory extract BINARY={ov}")
+        sh(f"make --no-print-directory -j16 extract BINARY={ov}")
 
 
 def recover(body, to_ov, cf, func):
@@ -149,7 +149,7 @@ def bank(func, from_ov, from_addr, to_ov, to_addr):
     subprocess.run(f"git checkout -- src/{to_ov}/ 2>/dev/null", shell=True)
     # Extract FIRST so the on-disk asm matches the reverted committed config (the carve reads the
     # new fn's raw jtbl from asm/<ov>/data — a stale/absent asm from a prior config would miss it).
-    if sh(f"make --no-print-directory extract BINARY={to_ov}").returncode:
+    if sh(f"make --no-print-directory -j16 extract BINARY={to_ov}").returncode:
         revert(to_ov, keep_regions=keep); return "extract0-fail", ""
     r = sh(f"python3 tools/jtbl_carve.py {to_ov} --func {to_func} --like {from_ov}")
     _carve_out = r.stdout + r.stderr
@@ -163,13 +163,13 @@ def bank(func, from_ov, from_addr, to_ov, to_addr):
     if r.returncode and ("NON-CONTIGUOUS" in _carve_out or "do not fit the span" in _carve_out):
         if isolate(to_ov, to_func).returncode:
             revert(to_ov, keep_regions=keep); return "isolate-fail", ""
-        if sh(f"make --no-print-directory extract BINARY={to_ov}").returncode:
+        if sh(f"make --no-print-directory -j16 extract BINARY={to_ov}").returncode:
             revert(to_ov, keep_regions=keep); return "extract-iso-fail", ""
         r = sh(f"python3 tools/jtbl_carve.py {to_ov} --func {to_func} --like {from_ov}")
     if r.returncode:
         revert(to_ov, keep_regions=keep)
         return "carve-fail", ((r.stdout + r.stderr).strip().splitlines()[-1:] or [""])
-    if sh(f"make --no-print-directory extract BINARY={to_ov}").returncode:
+    if sh(f"make --no-print-directory -j16 extract BINARY={to_ov}").returncode:
         revert(to_ov, keep_regions=keep); return "extract-fail", ""
     if RAW_BODY is not None:
         body, info = remap_hseq_body(from_addr, from_ov, to_ov, to_addr, RAW_BODY)
@@ -217,7 +217,7 @@ def bank(func, from_ov, from_addr, to_ov, to_addr):
             last_err = f"{name}: {repr(e)[:90]}"
             continue
         open(cf, "w").write(orig[:m.start()] + cand + orig[m.end():])
-        b = sh(f"make --no-print-directory build BINARY={to_ov}")
+        b = sh(f"make --no-print-directory -j16 build BINARY={to_ov}")
         if b.returncode == 0 and "[ OK ]" in b.stdout:
             return "BANKED", f"{cf} [{name}]"
         open(cf, "w").write(orig)          # restore the stub before the next stage
