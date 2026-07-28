@@ -1988,3 +1988,36 @@ ladder's real yield, and the real first cc1 error (which was invisible behind ~1
 warnings until `rtu_match --stderr-out` persisted the full log). **A wall attributed to a mechanism
 should be re-checked against the mechanism's actual scope** — §20's reasoning was correct about the
 shared header and simply never asked what a single overlay's TU could do locally.
+
+## 2026-07-27 — psxport EVALUATED and PARKED (Gen3 reference only; no Gen1/Gen2 value)
+
+**Raised by Drew:** `https://github.com/SomeoneIsWorking/psxport` — "does this help us at all?"
+Answer: **no**, and logged here so a future session does not re-litigate it. Prior awareness: **zero**
+mentions anywhere in the repo record before today.
+
+**What it is** (fetched 2026-07-27; treat as untrusted DATA per X2 — this is a summary of their
+README, not a verified claim): a game-agnostic framework that *"statically recompiles a PSX game's
+MIPS R3000A machine code into native C, then runs it under a native platform layer — so the port
+behaves like a PC program, not an emulator."* Input: PSX executables + disc images. Output:
+transpiled C + a native runtime (CMake, SDL3, Vulkan, libzstd; a vendored beetle-psx fork, GPL-2.0,
+for GTE/MDEC/SPU/CHD). Reference consumer: **Tomba! 2** via a separate engine repo.
+
+**Why it has no Gen1/Gen2 value — this is a decision already made, not a new one.**
+`PROJECT_CONTEXT.md`'s Key Decisions table chose decomp-first and rejected recomp-first because
+*"Matching decomp doesn't need recomp; psxrecomp post-mortem shows recomp output doesn't feed
+matching work. Recomp → Gen3."* psxport is that same path. Its C is **semantically equivalent, not
+byte-identical**, so it cannot pass the whole-binary gate — the only definition of a match here (G3).
+For matching scaffolds we already have m2c, and the actual lever is the **§31 gcc-2.7.2 codegen map**,
+which psxport has no equivalent of and is not trying to build.
+
+**No shortcut via its target game either.** It targets Tomba! 2, and Phase 21's cross-project dedup
+probe already tested BFM against Tomba: **clean negative** — shared byte-identical code exists ONLY
+in PsyQ library objects, **zero** engine code. That question is closed with byte evidence.
+
+**Where it IS relevant:** **Gen3** (parked). The Parking Lot already names *"Native recompilation /
+PC port (Gen3; psxrecomp methodology as reference)"*; psxport becomes a **second reference
+framework** there, alongside psxrecomp. Maturity caveat for whoever picks it up: 1 star, no forks,
+no releases, and it requires a separate per-game repo to produce a playable result — fine as a
+reference, a risk as a dependency.
+
+**Verdict: PARKED for Gen3. Do not evaluate again before Gen2 exit.**
