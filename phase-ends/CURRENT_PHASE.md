@@ -6214,3 +6214,79 @@ included by 140 binaries. → cookbook **§100**.
 > the expensive fleet-wide one (a 524-site decl conform / a shared-header lift) and the correct fix
 > was **draft-local** (K&R definition / block-scope typedef). **Before editing anything shared, ask
 > what the smallest scope is that still travels with the body.**
+
+---
+
+# 🛑 SESSION-22 FINAL CHECKPOINT (2026-07-27) — FRESH SESSION SAFE HERE
+> **Supersedes the earlier SESSION-22 checkpoint block above (which stopped at 136 functions).**
+
+**Nothing running.** Tree clean but for the R23 `db.*.gbf` churn (never stage).
+**R22 clean-fleet 140/140** (run **17×** this session), dedup **1886/0**, **0 NON_MATCHING** (G4).
+**FLEET: 84.4% instr · 74.4% distinct-code · 90.14% fn-count** (opened 82.9 / 71.5 / 89.83).
+
+## BANKED THIS SESSION — 8 exemplars + 1,087 members = **1,095 functions**
+`func_80176218` (+133) · `func_8014CF04` (+136) · `func_8015D1B8` (+137) · `func_80135EB0` (+137) ·
+`func_801330E0` (+137) · `func_801789AC` (+137) · `func_80175AB8` (+133) · `func_80175DA8` (+137).
+*(Count reconciled against the metric: 318,857 − 317,762 = 1,095. An earlier message in this session
+said "10 exemplars / 1,097" — that was wrong; this is the verified figure.)*
+
+## THE SESSION'S THESIS — almost none of this was new drafting
+Every exemplar above was an EXISTING wave-2 draft, correct but ungateable. **Seven tool defects were
+suppressing them**, and each fix released real matches:
+- **§96 `reconcile_tu`** — matched statements to lines by TEXT → every COMMENTED declaration silently
+  skipped (decl unconformed while the use-cast still fired). Rewrites by SPAN now + R32 assertion.
+- **§97 `harvest_verify`** — ignored `_ok` so a REFUSED carve was built anyway and filed as CC1-FAIL;
+  `attempt()` never restored on failure so `_jtbl_snapshot()` captured a dirty tree and **re-applied
+  an earlier failed splice**. **3 of 4 "compiler" verdicts were fabricated.**
+- **§98 `conform_decls`** ×3 — a newline-crossing regex that swallowed a DEFINITION + register pin;
+  substitution inside COMMENTS; and **the assumption that one signature fits the fleet**, which the
+  loose-typed engine denies (`ov_SC07_006` has its own byte-true sig). Broke 139/140 twice; R22 caught
+  both. New rule: **a TU that DEFINES a function owns its own declarations.**
+- **§99/§100** — twice the cookbook's named remedy was the expensive fleet-wide one and the correct
+  fix was **draft-local**: K&R definition (not a 524-site conform) and a block-scope typedef (not a
+  shared-header lift). **Rule: before editing anything shared, ask what the smallest scope is that
+  still travels with the body.**
+- **§101** — the **STALE DEFAULT** class: three guards defaulting ON whose causes were already fixed
+  (pins 137 skipped/133 bank · serial gating 8-16× · a refusal the tool could have performed).
+
+## ▶ START HERE NEXT SESSION (ranked; all measured, none guessed)
+**1. `func_8016EC0C` — try §99 FIRST (12,144 ins).** `conform_decls` flags scalar-narrowing across
+   **1,617 sites**; §99 says don't conform at all — **make the definition K&R** and the existing wide
+   prototype becomes correct for free. If it works it is T0. *This is the first real test of §99 as a
+   general rule rather than a one-off.*
+**2. `func_8013BD74` (27,324).** Body **MATCHes** (`rtu_match` 198 ins). Blocked in the CARVE, not the
+   C: types-in-draft + unconformed proto → `conflicting types`; types hoisted TU-local + conformed →
+   **`Error 1`** (make-level, no cc1 text). **Named next step:** apply `jtbl_carve` by hand, then
+   `make build BINARY=ov_SC01_077`, and read the real `Error 1`. Note §100 now suggests the types
+   belong in the BODY (they travel), which may dissolve it outright.
+**3. Wire `family_sweep` → `sweep_parallel` (8-16× throughput).** The adapter EXISTS and is proven;
+   only the wiring is missing. **My two attempts broke the tool** (missed import, closure scope) and
+   were reverted — do it fresh, with `--serial` as the escape, and negative-control both ways.
+**4. The SC07 quartet** (`ov_SC07_006/007/010/011`) — refused 3 separate families today, but
+   `func_8014CF04`/`func_8015D1B8`/`func_801789AC` all swept them CLEANLY, so they are NOT broken.
+   Correlates with the sibling TU `_jr_8016AE5C.c` (Phase-27 onboarding, code at PAC entry 1).
+   §59: read ONE sibling's real gate result. ~4 members × several families.
+**5. The genuine DIFFs — NOT permuter fuel** (measured, §60): `func_80176734` (129, LENGTH-DRIFT −3,
+   `partial`), `func_8017C974` (846, +7, `partial`), `func_80177B5C` (19, OPCODE-MIXED),
+   `func_80140958` (won't compile: `incompatible types in assignment`). All bucket **`structural`** =
+   wants a C idiom, and the grinder's admission rule (|Δ|≤2 AND `explains=="tail"`) correctly rejects
+   them. Task 13B already scored `partial` plateaus **0/12**. **These are REDRAFT work, not search.**
+**6. The 129k-instruction undiagnosed pool** (14 families, never drafted) — the genuine **Ultracode**
+   target. Prompt Drew for `/effort ultracode` (R26/R27) and wave it together with (5).
+
+## ⚠️ MY OWN ERRORS THIS SESSION (recorded, not buried)
+- **Committed an incomplete change set** — scoped `git add` to `src/`+`tools/` and omitted `config/`,
+  leaving a jtbl carve's config uncommitted. Caught by `jtbl_family_bank`'s precondition, not by any
+  gate. A scoped `git add` is an unverified assertion about a change set's boundary.
+- **Broke `family_sweep` twice** wiring the parallel default (see 3) — reverted, not committed.
+- **Corrupted a draft with my own `reconcile_tu` fix** (descended into struct definitions, rewriting
+  members). Caught by diffing the tool's output against its input — the gate would only have said
+  PLUMBING. Guard added; a latent member-access bug (`p->code`) was fixed with it.
+- **Miscounted the session total** (said 1,097; it is 1,095, reconciled against fn-count).
+
+## ⚠️ CARRIED DEFECTS (unchanged)
+- The **21-file absolute-include portability defect** — PhaseEnd carry item.
+- **`docs/backlog.md` is not a work queue** — 44% misfiled partials (§83).
+- **Roadmap re-baseline owed**; the 39 type-1 modules are in no phase.
+- **The ladder-vs-bare-gate asymmetry** (ladder 0/7 vs bare gate 2/7) — still unexplained.
+**DO NOT close P29 on ROI** — burn-down floor still undetermined (+1.5pp instr today says otherwise).

@@ -7220,3 +7220,30 @@ a name that cannot collide fleet-wide, and an R22.
 expensive fleet-wide one (524-site decl conform / shared-header lift) and the correct fix was
 **draft-local** (K&R definition / block-scope typedef). Two data points, one rule: **before editing
 anything shared, ask what the smallest scope is that still travels with the body.**
+
+## §101 — The STALE DEFAULT class: a guard whose cause was removed is a silent skip wearing a safety label (Phase 29 SESSION-22, three instances in one session)
+
+Three separate tools were suppressing real, already-correct work — not by being wrong, but by
+**defaulting to a protection whose cause had since been fixed**, opt-out only if you remember a flag:
+
+| tool | the guard | cause, and when it died | measured cost |
+|---|---|---|---|
+| `family_sweep` | skip any **pinned** exemplar (§42e cc1 SIGABRT) | the SIGABRT was `extract_unit` dropping file-scope macros — **our bug, fixed in Phase 27** (`_carry_macros`) | **137 skipped, 133 of them bank** |
+| `family_sweep` | gate **serially**; the parallel farm is opt-in via `--stage-only` → `sweep_parallel` | `sweep_parallel.py` was *built in SESSION-20* after measuring the loss, and never wired to the caller | **~8-16×** throughput; 3 sweeps (543 members) ran serially this session |
+| `conform_decls` | **REFUSE** when 0-arg call sites exist | correct — but it printed the exact remedy and could not perform it | `func_801789AC` blocked **two sessions**; unblocked by `--cast-zero-arg-calls` |
+
+**The shape, every time:** correct when written · the cause was later removed or the remedy became
+available · **the default never changed** · and the tool reports the skip as a clean, quiet number
+(`skipped {'pinned-exemplar': 137}`) that reads exactly like "nothing to do."
+
+> **The law (R32/R35, pointed at defaults):** a guard is a claim about the world. When the thing it
+> guards against is fixed, the guard becomes a **silent skip** — and a skip is invisible in exactly
+> the way R32 warns about, because nobody counts what a protection declined to attempt. **When you
+> fix a wall, grep for the guard that was erected against it and retire it in the same change.**
+> Phase 27's roadmap delta *did* say the PINS class was "back on the mechanical-harvest table" — the
+> knowledge was recorded and the default still wasn't flipped, which is why this needs to be a
+> mechanical habit and not a note.
+
+**Corollary — how to spot one:** any run reporting a large `skipped {...}` bucket deserves the same
+suspicion as a `0/N` (§59, §94). Both are the tool declining to try, and neither is evidence about
+the compiler.
