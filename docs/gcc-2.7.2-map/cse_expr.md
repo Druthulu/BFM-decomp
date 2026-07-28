@@ -1,13 +1,79 @@
 # gcc-2.7.2 residual→C-lever map: CSE + expression emission + `/s` aliasing + stack layout
 **Pass-group:** `cse.c` (8989) + `expr.c` (12077) + `function.c` (6321), with targeted reads of
 `calls.c` / `stmt.c` / `local-alloc.c` / `sched.c` where they consume this group's decisions.
-All source cites are `tools/reference/gcc-papermario/<file>:<line>`. All byte-proofs ran through
+All source cites are `tools/reference/gcc-papermario/<file>:<line>` — **[A23] which is gcc 2.8.1, NOT
+our 2.7.2; see the audit block below before following any line number.** All byte-proofs ran through
 `tools/match_one.py` (pinned triple, relocation-masked byte equality). Proof C files:
 `.run/gccmap/proofs/`. Date: 2026-07-02, Phase 23.
 
 **Headline: the §10/§20 hoist-vs-remat class is STEERABLE (was "CONFIRMED unsteerable" since
 Phase 20). Both canonical stub exemplars now MATCH** (`func_80149374` 23 ins, `func_801493D0`
 23 ins — reach-134 fns, ready for whole-binary integration). Lever = §2 below.
+
+> ## ⚠️ SOURCE-VERSION AUDIT (Phase 29 SESSION-23, 2026-07-28) — THIS FILE HAD THE MOST ERRORS
+> The cites above say `gcc-papermario`, **which is gcc 2.8.1, not our 2.7.2** (vanilla 2.7.2 is at
+> `tools/reference/gcc-2.7.2/`). All 74 claims here were re-derived against the real source by
+> parallel agents, each REFUTED claim then adversarially re-checked by an independent agent told to
+> uphold the map by default. **17 REFUTED raised; the highest error density of any map file.**
+> Line numbers drift −20 to −220 (cse.c), −960 to −1180 (expr.c), −230 to −520 (function.c) — enough
+> to land inside a different function. **`grep -n '^sym ('` before citing.**
+>
+> ### [A23-1] THE 1000-INSN CSE FLUSH DOES NOT EXIST IN gcc 2.7.2 — it is 2.8.1-only
+> `grep -n num_insns tools/reference/gcc-2.7.2/cse.c` → **no hits**; no `flush_hash_table`, no
+> "quadratic", no "Perhaps for 2.9" anywhere in the 8,779-line file. It was added in 2.8.1
+> (`gcc-papermario/cse.c:8621-8644`). **In our compiler a CSE class NEVER expires by instruction
+> count.** This invalidates THREE places below — §1's table row, §6's "long straight-line giant"
+> tell, and §7's "check `num_insns` distance / shift ±insns across the 1000 boundary" bullet — i.e.
+> **a lever aimed at a counter our compiler does not have, in exactly the giants this map is
+> consulted for.** All three are struck inline.
+>
+> ### [A23-2] §2's "kill THE class reg" is SINGULAR AND WRONG — and this is why §2 can fail
+> A CSE class routinely holds **several** registers, and the extra ones have **no C-level name**, so
+> the output-only asm kill can only ever name one of them. Byte-reproduced with the pinned cc1 during
+> the audit: adding one line `v[1] = v[0];` to a working case defeats the recipe completely (working:
+> frame 56 / 2 saved regs / `addiu` remat at site 2 → broken: frame 64 / 3 saved regs / `addu
+> $16,$sp,16` hoist / both sites `move $aN,$16`). **Mechanism:** `config/mips/mips.c:2350-2351`
+> (`expand_block_move`) calls `copy_addr_to_reg` on **BOTH** aggregate addresses, creating
+> `(set (reg:SI 77) (plus:SI (reg:SI 30 $fp) 16))`; cse substitutes reg 77 into the FIRST call's
+> arg-load, so by the time the asm kill fires it invalidates a register **already out of the chain**
+> and reg 77 sails on into `$16`.
+> **Two remedies, both byte-proven in the audit:** (a) spell the aggregate copy **field-by-field**
+> (returns to frame 56 / 2 regs / remat), or (b) force a **real join CODE_LABEL** between the block
+> move and the calls. **Caveat before reaching for (a):** if the TARGET's own bytes contain the
+> unaligned `lwl/lwr…swl/swr` block move, spelling it field-by-field changes bytes you need — in that
+> case the s32/remat route is simply closed and you should keep the narrower-typed draft.
+> *(This is the documented explanation of a live 47→40-mismatch wall hit the same day on
+> `func_80132F40`; ladder preserved at `.run/near6/f132F40_v1..v6.c`.)*
+>
+> ### The other upheld corrections (each struck or annotated at its site)
+> - **§1's "complete list" of class killers is NOT complete** (upheld narrowly — the word "complete"
+>   fails). Notably a **volatile SET's dest is invalidated** via `do_not_record` (`cse.c:7110-7114`),
+>   which is the source line for §2's own lever — as written, §1 says that lever cannot exist.
+> - **§4a: `assign_temp` does not exist in gcc 2.7.2** (added in 2.8; `grep -rn assign_temp` → 0 hits)
+>   and **2.7.2's `assign_stack_temp` does NO `/s` reset**, so a **RECYCLED slot INHERITS `/s` and
+>   `RTX_UNCHANGING_P` from its previous occupant** — the opposite of what §4a claims, and it
+>   interacts directly with §5's own slot-recycling text.
+> - **There is NO `BUILT_IN_MEMSET`/`BZERO` in 2.7.2's `expand_builtin`.** `memset` is always an
+>   ordinary library CALL (which flushes the whole cse memory table), never an inline `/s` BLKmode
+>   block move. The "memcpy/memset/strcpy" trio is really **memcpy/strcpy** sharing one path.
+> - **§6's "recompute right after a join is NORMAL — never a residual" is FALSE at -O2**, where
+>   `flag_cse_follow_jumps` and `flag_cse_skip_blocks` are both set (`toplev.c:3389-3390`) and
+>   `cse_end_of_basic_block` extends the table across a join (TAKEN `cse.c:8118`, AROUND `:8150`).
+>   As written, that row would have blocked §H.1's own antidote.
+> - **§5's "`frame_offset` starts at 0 (= sp+0x10 at runtime)"** — only the parenthetical is wrong.
+>   `STARTING_FRAME_OFFSET` is `current_function_outgoing_args_size`, which is **0 for a leaf with no
+>   calls**, so a leaf's first local sits at **sp+0**, not sp+0x10. The rest of the claim stands.
+> - **§H's "no bank (5 permuter-shaped clusters)" verdict is SUPERSEDED** — byte-refuted the same day:
+>   4 of the 5 clusters proved steerable from C (`func_80176734` 217 → **13**, count exact 371/371).
+>   Only two coupled ties survive. §H's own two mechanisms both CONFIRMED, with one correction: the
+>   diamond antidote's barrier-preceded label is the **ELSE** label, not the merge label (the merge
+>   label works because it is neither followable nor skip-block-able, so `new_basic_block()`
+>   (`cse.c:8430`) clears the table).
+> - **§H's `update_equiv_regs` live-length doubling is exactly ×2 on global priority**
+>   (`local-alloc.c:1064`, and `allocno_live_length` is the DENOMINATOR — `global.c:594-597`); the
+>   rest of the informal "~×4" comes from the `floor_log2(n_refs)*n_refs` numerator. It applies only
+>   to pseudos carrying a REG_EQUIV note, and `CONSTANT_P` (`rtl.h:237-240`) **excludes a bare PLUS**
+>   — so a frame address never qualifies (same correction as `regalloc.md` RC-7).
 
 ---
 
@@ -24,9 +90,11 @@ cd wd && <repo>/tools/bin/gcc-2.7.2-psx/cc1 -quiet -O2 -G0 -mips1 -mcpu=3000 -mg
   -msoft-float -fgnu-linker -da t.i -o t.s
 ```
 
-Reading the dumps: pseudos start ≈ reg 70 (MIPS: 0-31 GPR, 32-63 FPR, 64-66 hi/lo/fpsw,
-67-70 virtuals). `(reg:SI 69)` in `.rtl` = **virtual-stack-vars** (frame base, = first local's
-address). In `.cse` and later, frame addresses appear as `(plus (reg 30 $fp) k)` — `$fp` is
+Reading the dumps: ~~pseudos start ≈ reg 70 (MIPS: 0-31 GPR, 32-63 FPR, 64-66 hi/lo/fpsw,
+67-70 virtuals).~~ **[A23] corrected — `FIRST_PSEUDO_REGISTER` is 68** (`config/mips/mips.h:1179`),
+so the four virtuals are **68-71** and **the first pseudo is 72**, not ~70. (The headline
+`(reg:SI 69)` below is still right: virtual-stack-vars is the 2nd virtual.) `(reg:SI 69)` in `.rtl`
+= **virtual-stack-vars** (frame base, = first local's address). In `.cse` and later, frame addresses appear as `(plus (reg 30 $fp) k)` — `$fp` is
 eliminated to `$sp` only at reload, so grep for `$fp` pre-reload, `sp` post. Triage rule:
 - residual visible in `.cse` → this file, §1-§3 below;
 - appears first in `.lreg/.greg` → regalloc (pins / §30 recipes);
@@ -49,7 +117,7 @@ not reuse that value" reduces to whether the class was still valid at the second
 | CALL_INSN | `invalidate_memory(everything)`: ALL `MEM` entries die (non-const calls) | `cse.c:7409-7415` |
 | memory store | selective MEM-entry kill via `note_mem_written` — see §4 aliasing table | `cse.c:7709`, `1732` |
 | CODE_LABEL | **total flush** (`new_basic_block`) — every class dies at every label | `cse.c:797, 8614` |
-| 1000 insns | **total flush** mid-block ("extreme quadratic behavior" kludge) | `cse.c:8626` |
+| ~~1000 insns~~ | ~~**total flush** mid-block ("extreme quadratic behavior" kludge)~~ **[A23-1] DOES NOT EXIST IN 2.7.2** — 2.8.1-only; no `num_insns` in our `cse.c`. A class never expires by insn count. | ~~`cse.c:8626`~~ |
 | volatile asm | **NOTHING** (no reg-class invalidation; a `"memory"` clobber kills only MEM entries via BLKmode→`all=1`) | `cse.c:6340-6355` |
 
 Consequences you will see in diffs:
@@ -268,7 +336,7 @@ internal offsets AND changes `/s` (stmt.c:3646 gives the array home `/s`) and IV
 | frame ±8, or a local's offset out of decl order | §5 slot recycling / 8-rounding | reproduce/eliminate the compiler temp; reorder decls |
 | every array sits 8-aligned with padding gaps | §5 BLKmode rounding | expected — don't fight it, mimic with decl order |
 | value recomputed right after a branch join/label | §1 label flush | NORMAL — never a residual; don't add CSE-defeating hacks |
-| long straight-line giant: early value suddenly recomputed mid-function | §1 1000-insn flush | expected in giants; position-dependent — see §7 |
+| long straight-line giant: early value suddenly recomputed mid-function | ~~§1 1000-insn flush~~ **[A23-1] NOT the flush (absent in 2.7.2)** — look for a label/join, a volatile, or a call flushing the memory table instead | ~~expected in giants; position-dependent — see §7~~ **re-triage against §1's real killer list** |
 | `lui` above a branch, `ori` duplicated in delay slot + taken path | dbr/reorg territory (delay-slot stealing), NOT cse | route to jump/sched pass-group |
 
 ---
@@ -284,10 +352,14 @@ internal offsets AND changes `/s` (stmt.c:3646 gives the array home `/s`) and IV
 - **§5 layout: STEERABLE** via decl order/typing/temp reproduction; INTRINSIC only in that you
   cannot place two 8-BLKmode objects at 4-mod-8 offsets — that's evidence the original source
   had different object boundaries, not a permuter case.
-- **§1 1000-insn flush: INTRINSIC-ish** — you cannot move the counter from C; if a giant's
+- ~~**§1 1000-insn flush: INTRINSIC-ish** — you cannot move the counter from C; if a giant's
   residual is a reuse/recompute flip exactly once mid-function, check `num_insns` distance;
   restructuring that shifts ±insns across the 1000 boundary is the only (fragile) lever.
-  Document any confirmed case before hand-grinding.
+  Document any confirmed case before hand-grinding.~~
+  **[A23-1] DELETED — the counter does not exist in gcc 2.7.2** (`grep -n num_insns cse.c` → no hits;
+  added in 2.8.1). Do NOT spend a giant's budget measuring distance to a 1000-insn boundary. A
+  once-mid-function reuse/recompute flip in OUR compiler is a label/join (§1 + the -O2
+  follow-jumps/skip-blocks behaviour), a volatile, or a call — all of which ARE steerable.
 - **`func_80132784` (400 ins, `asm/ov_SC01_077/nonmatchings/ov_SC01_077_a/`)** — the draft
   (`.run/backlog_drafts/func_80132784.c`, stuck 240/400) is MULTI-CLASS, in this order:
   (1) §5: single `u8 buf[0xC0]` vs target's separate 8-aligned locals (target arg addresses

@@ -62,7 +62,8 @@ The scheduler **never moves an insn across a basic-block boundary** (gcc-2.7.2 h
 `schedule_block` (sched.c:3172) schedules each bb **BACKWARD** (from the tail): *picked early = placed late*.
 
 1. **Dependences** (`sched_analyze:2190`): true/anti/output on regs; memory via `pending_read/write` lists + `memrefs_conflict_p:627` (same-base different-const-offset stores DON'T conflict → mutually reorderable); every MEM op and every reg dep on a CALL: calls flush the pending lists (`flush_pending_lists:1647`) → **no memory op ever crosses a call**; `MEM_IN_STRUCT_P` (`/s`) enters via `true/anti/output_dependence:829-907` (the §30 store-vs-load flag).
-2. **Latency** (`insn_cost:1390` + `mips.md` function units): load **2** (r3000), xfer 2, store 1, ALU 1, imul **12**, idiv **35**, call result **1** (no unit). `mips.h:3204 ADJUST_COST`: **anti/output dep cost = 0 → clamped to 1 (LINK_COST_FREE)**. A dep INTO a `USE` insn is also cost-free (sched.c:1419 — arg setup overlaps the call).
+2. **Latency** (`insn_cost:1390`→**2.7.2 :1363** + `mips.md` function units): load **2** (r3000), xfer 2, store 1, ALU 1, imul **12**, idiv **35**, call result **1** (no unit). `mips.h:3204 ADJUST_COST`: **anti/output dep cost = 0 → clamped to 1 (LINK_COST_FREE)**. A dep INTO a `USE` insn is also cost-free (sched.c:1419 — arg setup overlaps the call).
+   **[A23] `insn_cost` is DEP-KIND-BLIND in 2.7.2** — it has no `REG_DEP_ANTI` zero-case (added in ≥2.8), so an anti-dep of a latency-2 load still contributes **+1** to priority rather than 0. Consequence for the §4 aliasing levers: **restoring `/s` anti edges is NOT free — it RE-GROUPS downstream stores.** Budget for that before using `/s` to steer.
 3. **Priority** (`priority:1452`) = longest-chain-from-bb-top: `pri(insn) = max over LOG_LINKS preds of (pri(pred) + cost(pred) − 1)`, min 1. So: **all-latency-1 code ties at pri 1**; each load on the path adds **+1**, imul +11, idiv +34; anti/output links propagate the pred's priority unchanged (+0). Priorities can only be RAISED by C edits, never lowered.
 4. **Ready list** = insns whose successors are all scheduled. Sort (`rank_for_schedule:2414`), pick `ready[0]`:
    1. **highest INSN_PRIORITY**;
@@ -72,7 +73,7 @@ The scheduler **never moves an insn across a basic-block boundary** (gcc-2.7.2 h
 6. **Launch/queue** (`schedule_insn:2587`): when a pred's last successor is scheduled, it becomes ready — but if the link cost >1 (load feeding the just-scheduled consumer) it is **queued `cost` cycles**: one independent insn gets wedged between a load and its consumer whenever one is ready; if none, they stay adjacent.
 7. **`adjust_priority:2534` (2.7.2: **2507**) — THE BIRTHING BOOST (pre-reload ONLY, `reload_completed==0`)**: on becoming ready, an insn whose pattern is `SET(REG, …)` — **any REG, pseudo OR hard; CORRECTED 2026-07-28, there is no `>= FIRST_PSEUDO_REGISTER` test in the function** — with the dest live and **`REG_N_SETS(dest)==1`** (`birthing_insn_p:2498`; 2.7.2: **2469**, the `reg_n_sets` test at **2490**) has its priority raised to `max_priority` (≈ the launching insn's) → it wins every tie → **single-set defs sink to just before their first consumer**. Dump tell: `(7f000001)` priorities in the ready list. NB: REG_N_SETS is counted **after cse/flow** — a source-level 2nd assignment that cse copy-propagates or flow dead-store-eliminates does NOT kill the boost (proof: `exp/t5.c`, `exp/t6.c` — both still boosted).
 8. Special pins: **bb0 head-skip** (sched.c:3218-3244): the leading run of `pseudo = hard-arg-reg` param copies is excluded from scheduling (stays first, in arg order). **Tail pin** (3313-3360): trailing JUMP/CALL/USE insns stay at bb end (TAIL_PRIORITY). `SCHED_GROUP_P`: a call + its immediately-preceding `USE argreg` insns move as one unit.
-9. **sched2 differences**: no boost, no head-skip; hard-reg anti/output webs (scratch reuse) now pin most of sched1's order in place; **nop-moves are deleted** (sched.c:4926); RTL prologue/epilogue saves are now in the pool (see S7). sched2's LUID = sched1's output order → **pre-reload placement persists**.
+9. **sched2 differences**: no boost, no head-skip; hard-reg anti/output webs (scratch reuse) now pin most of sched1's order in place; **nop-moves are deleted** (sched.c:4926); RTL prologue ~~/epilogue~~ saves are now in the pool (see S7) — **[A23] PROLOGUE ONLY; the epilogue expander is dead on MIPS in 2.7.2, so epilogue restores never enter sched2's pool.** sched2's LUID = sched1's output order → **pre-reload placement persists**.
 
 ---
 
@@ -116,7 +117,13 @@ The scheduler **never moves an insn across a basic-block boundary** (gcc-2.7.2 h
 ### S6 — "Independent insn separates address-gen from use" / copy placed between ⇒ mechanics of the class rule
 - **Decision point:** `rank_for_schedule:2428-2452` class 3 > class 1. On MIPS anti/output are ALWAYS class 3 (ADJUST_COST) — only true-data-deps through latency>1 (loads, mul/div) are demoted. Explains the recurring "unrelated move sits between `addiu $x` and `lw …($x)`" target shapes. Steer via which independents are available (statement order).
 
-### S7 — Prologue/epilogue save/restore interleave ⇒ sched2 artifact, body-side STEERABLE
+### S7 — Prologue~~/epilogue~~ save~~/restore~~ interleave ⇒ sched2 artifact, body-side STEERABLE
+> **[A23] RE-SCOPED, not deleted (audit 2026-07-28).** The **prologue** half is CONFIRMED: the MIPS
+> prologue really is RTL, so its saves are in sched2's pool. The **epilogue** half is FALSE for our
+> build — `grep -n 'define_expand "epilogue"' config/mips/mips.md` finds only a DEAD entry, and
+> `thread_prologue_and_epilogue_insns` (`function.c:5515`) is split by two independent guards
+> (`HAVE_prologue` / `HAVE_epilogue`), so the epilogue restores are NOT scheduled RTL here.
+> **Do not look for epilogue-restore interleave as a sched2 artifact — it cannot occur.**
 - MIPS prologue is **RTL**: saves emitted `$ra` down to `$s0` (**descending regno**, `save_restore_insns:5077`), sp-adjust first. sched2 weaves body insns among them under the same rank rules (anti-deps: `sw $sN` must precede the first body write of `$sN`).
 - Target tell: `sw $s1` far from `sw $ra/$s5/$s4` (pulled by an early body overwrite of `$s1`); a callee-save `sw` in a branch/call delay slot (dbr backward-fill, exp/t2 f2: `bne…; sw $31,20($sp)`).
 - The saves' RELATIVE order is fixed (descending regno) — if the target shows otherwise it's sched2 weaving, steered by the body insns' priorities/LUIDs, not by any prologue-side lever.

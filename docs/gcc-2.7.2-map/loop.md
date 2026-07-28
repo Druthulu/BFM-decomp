@@ -21,6 +21,16 @@ differences are BEHAVIORAL and bit us immediately:
 | `combine_givs` order | qsort hook + refined benefit bookkeeping | plain linked-list pair loop (anchor rules below) |
 | giv increment placement | AUTO_INC logic (moot on MIPS) | always inserted **immediately before the biv increment insn** |
 
+> **[A23] AUDIT OUTCOME (2026-07-28):** all 96 claims in this file were re-derived against
+> `tools/reference/gcc-2.7.2/` by parallel agents, each REFUTED claim adversarially re-checked.
+> **Only 3 REFUTED were raised — the LOWEST error density of any map file**, which is a direct credit
+> to the caveat table above: it already captured the behavioural 2.8.1-vs-2.7.2 deltas. Two upheld
+> corrections are marked `[A23]` inline (the "no memory load is EVER hoisted" absolute, and the
+> right-to-left call-arg order). **One honest gap:** 12 findings in the biv-elimination /
+> `check_dbra_loop` area returned evidence that quoted THIS FILE rather than the compiler source, so
+> they are **unverified, not confirmed** — the caveat table's own rows are the ones affected. Re-derive
+> them before leaning on a biv-elimination claim.
+
 A vanilla 2.7.2 extraction is at `.run/gccmap/gcc-2.7.2-vanilla-src/` (loop.c, unroll.c,
 sched.c, cse.c, rtl.h, config/mips). **Recommend promoting it to `tools/reference/` —
 line refs below are to that tree.** (2.8.1 refs marked "pm:".)
@@ -78,9 +88,13 @@ exclusion), `record_giv` (:4341), `combine_givs_p`/`express_from` (:5457/:5419),
 6. **Anchor choice**: `bl->giv` is prepend-built during the forward scan, and
    `combine_givs` (2.7.2 loop.c:5494) takes g1 from the list head first (pass 0 =
    replaceable g1 only) → **the LAST-emitted DEST_ADDR giv anchors** and all others
-   become `anchor+delta` offsets. NB call args are expanded right-to-left, so *the
-   first arg's load is emitted last* — that's why banked func_80150528 anchors at
-   +0x20 (first call arg) with 0x38/0x3C offsets off it.
+   become `anchor+delta` offsets. ~~NB call args are expanded right-to-left, so *the
+   first arg's load is emitted last*~~ — **[A23] FALSE: args are emitted LEFT-TO-RIGHT.** The audit's
+   RTL dump shows `$a0` at insn 10, `$a1` at 12, `$a2` at 14 (ascending), so the FIRST arg's load is
+   emitted **first**. The observed fact that banked `func_80150528` anchors at +0x20 (its first call
+   arg) still holds — but it follows from `record_giv`'s prepend + `combine_givs` taking the list
+   HEAD (which makes the last-PREPENDED giv the head), NOT from a right-to-left arg order. Do not
+   reason about arg emission order from this bullet.
 
 **C levers (with proofs):**
 - **Target has biv + ONE derived IV (offset cluster)** → single walked base pointer,
@@ -205,9 +219,18 @@ substitution (:735-770), `combine_movables` (:1239), desirability + emission
   `threshold × savings × lifetime ≥ insn_count` (thresholds L0 — for typical loops
   this is nearly always true; the interesting blockers are the SAFETY conditions).
 - **A CALL anywhere in the loop sets `unknown_address_altered`** (`prescan_loop:2201`)
-  → `invariant_p(MEM) == 0` for every load → **no memory load is EVER hoisted from a
+  → `invariant_p(MEM) == 0` for ~~every~~ **most** loads. ~~**no memory load is EVER hoisted from a
   loop containing a call** (proven expC c3: `lw D_SRC` stays in-loop). Don't fight
-  it with cached locals — match the target's in-loop reloads by NOT caching.
+  it with cached locals — match the target's in-loop reloads by NOT caching.~~
+  **[A23] "EVER" is FALSE — there is a real exception.** `invariant_p`'s `case MEM:` arm
+  (2.7.2 `loop.c:2760-2775`) checks `RTX_UNCHANGING_P (x)` **before** consulting
+  `unknown_address_altered` and `break`s — i.e. **read-only items ARE invariant and DO hoist even
+  with a call in the loop.** Byte-proven during the audit on the pinned cc1:
+  `int t(const int *p,int n){int s=0,i;for(i=0;i<n;i++){s+=*p;f(i);}return s;}` puts
+  `lw $19,0($4)` in the **PREHEADER**, not the loop body.
+  **So the advice "don't fight it with cached locals" is right for ordinary loads and wrong for
+  `const`/`RTX_UNCHANGING_P` ones** — if the TARGET hoists a load out of a call-containing loop,
+  a const-qualified pointer is the lever, not evidence that you mis-read the loop.
 - No-call loops: an invariant global load hoists if no `true_dependence` with any
   `loop_store_mems` entry (`invariant_p:2695`; `/s`/`MEM_IN_STRUCT_P` enters here —
   expr.c agent's domain, cookbook §30/§30a#1) — proven expC c2 (`lw D_SRC` hoisted

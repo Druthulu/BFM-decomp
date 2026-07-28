@@ -6842,3 +6842,66 @@ Struck-through text is preserved, never deleted (H5).
 2. `func_80176734` at 13/371 — permuter, then the `reg_renumber` gdb oracle. 51,198 ins.
    **§H's oracle recipe is now audited**, so it is safe to run.
 3. **`loop.md` is the last un-audited map file** (`scan_loop` drifts +74). Same two-stage recipe.
+
+## ✅ T35 — the remaining 4 map files audited: 20 corrections, 6 false alarms caught, 12 flagged unverified
+
+Drew: "do loop.md too. are there more? do them all if we need to." Enumerated the real scope first
+rather than guessing, then ran one wave over everything left: **`cse_expr.md`, `loop.md`,
+`sched.md` (full pass — T33 had only landed a partial), `t7g-giant-harvest.md`.**
+**35 agents (9 derive + 26 adversarial refute), 2.48M subagent tokens, 25 min.**
+
+**308 findings: 174 CONFIRMED · 99 LINE-DRIFT · 26 REFUTED raised → 20 upheld / 6 overturned · 9 unverifiable.**
+
+| file | findings | REFUTED raised | note |
+|---|---|---|---|
+| `cse_expr.md` | 74 | **17** | highest error density of any map file |
+| `sched.md` | 108 | 4 | full claim-by-claim pass (T33 was partial) |
+| `loop.md` | 96 | 3 | LOWEST density — credit to its pre-existing caveat table |
+| `t7g-giant-harvest.md` | 30 | 2 | MIXED provenance, not uniformly contaminated |
+
+### ⚠️ 12 FABRICATED — diagnosed, and the diagnosis matters
+`tools/verify_map_findings.py` flagged 12 quotes that appear nowhere near their cited line (vs **0**
+in the T34 audit). **Cause is NOT invention: the agents pasted MAP text into the `source_quote`
+field instead of compiler source** — "single fall-through exit." is in `loop.md`, not `loop.c`.
+All 12 are **CONFIRMED**-status and **none underpins an upheld refutation**, so nothing was deleted
+on bad evidence. But they are **unverified, not confirmed**, they all sit in loop.md's
+biv-elimination / `check_dbra_loop` area, and that is recorded in `loop.md` as an open gap rather
+than quietly counted as a pass (R32 — a silent skip is a defect).
+
+### The headline corrections
+- **[cse_expr] THE 1000-INSN CSE FLUSH DOES NOT EXIST IN 2.7.2** — `grep -n num_insns cse.c` → no
+  hits; added in 2.8.1. It appeared in **three** places: §1's killer table, §6's giant tell, and §7's
+  "shift ±insns across the 1000 boundary" lever. **A lever aimed at a counter our compiler does not
+  have, in exactly the giants this map is consulted for.** All three struck.
+- **[cse_expr] §2's "kill THE class reg" is singular and wrong** — a CSE class holds SEVERAL regs and
+  the extras have no C-level name. **The audit byte-reproduced my own T31 wall with the pinned cc1**:
+  `expand_block_move` (`mips.c:2350-2351`) does `copy_addr_to_reg` on BOTH aggregate addresses, and
+  cse substitutes that pseudo into the first call's arg-load, so the kill invalidates a register
+  already out of the chain. Two byte-proven remedies recorded (field-by-field copy; a real join
+  CODE_LABEL) **with the caveat that (a) is closed when the target's own bytes need the block move**
+  — which is precisely `func_80132F40`'s case. An independent audit and a live byte-test converged
+  on the same wrong sentence from opposite directions.
+- **[cse_expr] `assign_temp` does not exist in 2.7.2**, and `assign_stack_temp` does NO `/s` reset —
+  a **recycled slot INHERITS `/s`**, the opposite of §4a. **No `BUILT_IN_MEMSET` either** — memset is
+  always a library call, so the "memcpy/memset/strcpy" trio is really memcpy/strcpy.
+- **[cse_expr] §6's "recompute after a join is NORMAL — never a residual" is false at -O2** (both
+  `flag_cse_follow_jumps` and `flag_cse_skip_blocks` are set) — as written it would have blocked
+  §H's own antidote.
+- **[sched] S7's EPILOGUE half is false** — MIPS has no live `define_expand "epilogue"`, so epilogue
+  restores never enter sched2's pool. Re-scoped, not deleted (the prologue half is correct).
+- **[sched] `insn_cost` is DEP-KIND-BLIND in 2.7.2** (no `REG_DEP_ANTI` zero-case) → restoring `/s`
+  anti edges is NOT free; it re-groups downstream stores.
+- **[loop] "no memory load is EVER hoisted from a loop containing a call" is FALSE** —
+  `invariant_p`'s `case MEM:` checks `RTX_UNCHANGING_P` FIRST and breaks. Byte-proven on the pinned
+  cc1: a `const int *` load lands in the **preheader**. So a const-qualified pointer is a real lever.
+- **[loop] call args are emitted LEFT-to-right**, not right-to-left (RTL dump: `$a0` insn 10, `$a1`
+  12, `$a2` 14). The `func_80150528` anchor observation still holds but for a different reason.
+
+### Scope answer for Drew: one more exists, and it is a DIFFERENT risk profile
+`matching-cookbook.md` carries ~52 source citations and they ARE behavioural. But it is **mixed
+provenance** (`loop.c:5556` is exact in 2.7.2; `expr.c:5535` is wrong — the real `MEM_IN_STRUCT_P`
+sites are 4577/4904) and — the key difference — **its idioms are BYTE-PROVEN, with citations attached
+as explanation.** A drifted cookbook citation corrupts the *explanation* while the *lever still
+works*. Recommended: a **targeted citation sweep**, not a claim-by-claim audit. NOT yet done.
+
+**Docs-only — no `src/`/`config/` touched, R22 not re-run and not claimed.**

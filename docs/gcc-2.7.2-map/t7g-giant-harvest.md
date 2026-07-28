@@ -1,5 +1,12 @@
 # T7 §G — levers harvested this session (formalize into cookbook §36/§31 at batch close, R30)
 
+> **[A23] SOURCE-VERSION AUDIT (2026-07-28).** 30 claims re-derived against `tools/reference/gcc-2.7.2/`;
+> 2 REFUTED raised. **Provenance here is MIXED, not uniformly contaminated** — some cites are already
+> 2.7.2-correct (e.g. `sched.c:2469` = the true `birthing_insn_p` line) while others came from the
+> 2.8.1 `gcc-papermario` tree. So check each citation individually rather than assuming a uniform
+> offset. This is a session harvest log, not a primary reference: where it disagrees with
+> `sched.md` / `regalloc.md` / `cse_expr.md` (all audited the same day), those files win.
+
 ## TOOL FIX (flywheel) — permuter comment-strip (tools/p16_permute.py make_base_c)
 A draft's header comment (long, non-ASCII —/§, prose that trips a prep regex) lost its closing
 `*/` in base.c → `cpp -P -nostdinc` died "unterminated comment" → decomp-permuter no-op'd SILENTLY
