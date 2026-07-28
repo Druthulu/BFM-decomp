@@ -3074,7 +3074,7 @@ extern void  func_80176FF4(s32);
 extern void  func_80177340(s32);
 extern u32   func_801783D0(s32, s32);
 extern void  func_80177F84(s32, s32);
-extern void  func_80177DA8(s32, s32, s32);
+extern void func_80177DA8(u8 * p, u32 v, s32 idx);
 extern void func_80177AD4(int, unsigned int);
 extern s32   func_80024054(u8 *, u8 *);
 extern u32 *func_80178298(u32*, u8*, short, short);
@@ -3476,7 +3476,62 @@ __asm__("" :: "r"(tr), "r"(xr));
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_080/nonmatchings/ov_SC01_080_jr_801734BC", func_80177DA8);
+
+
+void func_80177DA8(p, v, idx)
+u8 *p;
+u32 v;
+s16 idx;
+{
+
+    extern u8 D_80186D3C[];
+    u8 *r;
+    u16 c;
+    u16 flag;
+    u32 n;
+    u8 m;
+    s16 i;
+    u8 t;
+    u32 x;
+    u32 uv;
+    u32 w1;
+    u32 w2;
+
+    flag = 0x100;
+    i = 0;
+    t = D_80186D3C[idx];
+    c = (t << 6) | 0x4016;
+    *(u16 *)(p + 0xE) = c;
+    p += 0x14;
+    *(u16 *)(p + 0xE) = c;
+    p += 0x14;
+    r = p;
+    do {
+        n = (v << 16) >> 28;
+        m = n;
+        if (n != 0 || i == 2 || i == 0xFF) {
+            flag = 0;
+        }
+        v <<= 4;
+        i++;
+        *(s16 *)(r + 0xA) = flag | (*(s16 *)(r + 0xA) & ~0x100);
+        *(u8 *)(r + 0xC) = m * 8 + 8;
+        r += 0x14;
+    } while (i < 3);
+    *(u16 *)(p + 0xE) = c;
+    p += 0x14;
+    *(u16 *)(p + 0xE) = c;
+    p += 0x14;
+    *(u16 *)(p + 0xE) = c;
+    p += 0x14;
+    x = ((t << 6) | 0x4016) << 16;
+    uv = idx << 4;
+    w1 = uv | 0x1000;
+    *(u32 *)(p + 0xC) = x | w1;
+    w2 = uv | 0x1008;
+    *(u32 *)(p + 0x20) = x | w2;
+}
+
 
 
 // @class: regalloc-order

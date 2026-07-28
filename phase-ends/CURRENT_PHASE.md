@@ -7095,3 +7095,46 @@ I read a `head -6` list of modified directories as the COMPLETE set and briefly 
 142 files** (137+4+1+1). Same error class as grepping `claim_excerpt` instead of `source_quote`
 earlier today — **truncated output is not exhaustive output.** Both times the fix was to measure
 rather than infer.
+
+## ✅ T41 — the §99 `conform_decls` pass: `func_80177DA8` 4/137 → 137/137 (0 failed)
+
+Drew green-lit the fleet-shared change. Run one function at a time from a committed-clean baseline,
+dry-run first, R22 after each step — the discipline the T39 shared-state hazard earned.
+
+**`conform_decls --fn func_80177DA8 --apply`:** byte-true def `void func_80177DA8(u8 *p, u32 v,
+s32 idx)`; **268 declaration sites** (267 `(s32,s32,s32)` + 1 no-proto) **rewritten across 268
+files**, tool's own R32 completion assertion **"non-canonical declarations remaining: 0 — axis
+complete"** (§85 all-or-nothing, proven as a count). Nothing under `src/shared`/`config`/`include`.
+**R22 → 140/140** (the declaration axis is byte-neutral).
+
+**Re-sweep → `BANKED 133 / 0 failed`, skipped {not-stub: 4}** — i.e. the family went **4/137 →
+137/137**, exactly reversing T40's failure. **R22 → 140/140.** dedup 1886/0.
+
+**Fleet 85.4 → 85.5% instr · 76.0 → 76.1% distinct · 90.54 → 90.57% fn-count.**
+Diagnosis-to-fix confirmed end to end: T40 root-caused the 133 failures to a K&R-def-vs-prototype-
+decl conflict, and moving the DECLS (never the draft — the draft's signature is byte-truth) closed
+all 133.
+
+## 🔎 T42 — `func_80140D68`: two REAL blockers found, one FIXED, one still open
+The §99 pass **REFUSED** this one, correctly: `*** REFUSED: 414 caller(s) CONSUME the return value,
+so widening the return type is NOT byte-neutral (§85 precondition)`. The guard did its job.
+
+So it was diagnosed in the real TU (`rtu_match`, reading ALL stderr per §95 — gcc-2.7.2 prints hard
+errors WITHOUT an `error:` prefix, so a naive grep for "error" finds nothing):
+1. **`parse error before 'D_800AE7BC'` — a §94 TYPE-CARRY defect, and the draft's own header
+   asserts something FALSE.** It claims both its typedefs "already exist VERBATIM in
+   `src/shared/engine_types.h` (Hw4 @833, Env_800D29F8)". Verified: `Hw4` **1 hit**, `Prim4` **1
+   hit**, **`Env_800D29F8` ZERO hits.** So in the real TU the `#ifndef BFM_ENGINE_TYPES_H` guard is
+   DEFINED, the local typedef vanishes, and nothing defines `Env_800D29F8`.
+   **FIXED** (`.run/near6/d68_typefix.c`): keep `Hw4` guarded (it genuinely is in the shared header,
+   so redefining would conflict), move `Env_800D29F8` OUTSIDE the guard, kept draft-local per §100
+   rather than lifted. Still **MATCH (65 ins)** standalone.
+2. **`conflicting types for func_80140D68`** — the signature axis. Conformed the DRAFT to the fleet's
+   declared return (`u32 *` → `s32 *`, `.run/near6/d68_sigfix.c`); still **MATCH (65 ins)**, and
+   `conform_decls` now reports the byte-true def as `s32 * func_80140D68(s32 *out, s16 *src, s32 idx,
+   s32 dx, s32 ofs)` — note it correctly reports the K&R-PROMOTED param types. **The only remaining
+   decl delta is param 2: byte-true `s16 *` vs declared `Prim4 *`.** `conform_decls` still refuses
+   (its return-axis precondition fires regardless), so the fleet-side rewrite is not available here.
+   **OPEN** — next step is to test whether the real TU tolerates the pointer-type mismatch (a warning,
+   not necessarily an error) via `rtu_match` on `d68_sigfix.c`, before deciding whether the `Prim4 *`
+   vs `s16 *` axis needs a different lever.

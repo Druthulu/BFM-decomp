@@ -2514,7 +2514,7 @@ extern void  func_80176FF4(s32);
 extern void  func_80177340(s32);
 extern u32   func_801783D0(s32, s32);
 extern void  func_80177F84(s32, s32);
-extern void  func_80177DA8(s32, s32, s32);
+extern void func_80177DA8(u8 * p, u32 v, s32 idx);
 extern void func_80177AD4(int, unsigned int);
 extern s32   func_80024054(u8 *, u8 *);
 extern u32 *func_80178298(u32*, u8*, short, short);
