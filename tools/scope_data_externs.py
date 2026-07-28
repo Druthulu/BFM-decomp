@@ -57,6 +57,8 @@ import sys
 # emit and never need to re-place.
 FILE_EXTERN_RE = re.compile(r'^extern\b[^;{}\n]*;', re.M)
 DATA_SYM_RE = re.compile(r'\bD_[0-9A-Fa-f]{6,8}\b')
+# any `extern ...;` on one line, at ANY indentation (file OR block scope)
+ANY_EXTERN_RE = re.compile(r'^\s*extern\b[^;{}\n]*;')
 
 
 def _file_scope_data_syms(text):
@@ -95,23 +97,54 @@ def fix(body, tu_text, insert_pos, func):
     above = _file_scope_data_syms(tu_text[:insert_pos])
 
     demote = []                       # (line_text, sym)
+    dropped = []                      # syms the TU ALREADY declares above us — redundant, see below
     keep_lines = []
     for ln in body.split('\n'):
+        # BLOCK-SCOPE TOO, not just col-0 (Phase 29 SESSION-22). §8d demotes these externs on the way
+        # in, so by the time a sibling draft is STAGED they are already indented — and a col-0-only
+        # scan therefore saw nothing to do on exactly the drafts that needed it. C still requires a
+        # block-scope `extern` to agree with a file-scope declaration in scope, so a redundant
+        # redeclaration conflicts at ANY scope; the drop below must reach both.
+        if ANY_EXTERN_RE.match(ln) and not FILE_EXTERN_RE.match(ln):
+            d = DATA_SYM_RE.search(ln)
+            if d and d.group(0) in above:
+                dropped.append(d.group(0))
+                continue
+            keep_lines.append(ln)
+            continue
         if FILE_EXTERN_RE.match(ln):                  # col-0 extern (match => anchored at col 0)
             d = DATA_SYM_RE.search(ln)
-            if d and d.group(0) not in above:
-                demote.append((ln, d.group(0)))
-                continue                              # drop from the file-scope preamble
+            if d:
+                if d.group(0) not in above:
+                    demote.append((ln, d.group(0)))
+                    continue                          # drop from the file-scope preamble
+                # THE TU ALREADY DECLARES IT ABOVE US -> DROP OURS ENTIRELY (Phase 29 SESSION-22).
+                # Keeping it was the SC07-quartet blocker: `conflicting types for D_800AF634` in
+                # ov_SC07_006/007/010/011, which is a type-IDENTITY collision no type-STRING compare
+                # can see. Both sides read `S_AF634 []` — but the templated body carries its OWN
+                # block-scope `typedef struct {…} S_AF634;` while the TU's declaration comes from a
+                # MACRO-INJECTED one (§8c), so the two `S_AF634`s are DISTINCT TYPES with one name
+                # and cc1 rejects the redeclaration. (This is also why `cdecl.compatible` cannot
+                # catch it and correctly answers "compatible".)
+                #
+                # A redeclaration we do not emit cannot collide — with anything, identity or type —
+                # and the TU's own declaration is in scope and authoritative for the body. Strictly
+                # better than the alternative, which was a hard compile error; the whole-binary
+                # byte-gate remains the arbiter if the TU's type implies a different access.
+                dropped.append(d.group(0))
+                continue
         keep_lines.append(ln)
-    if not demote:
+    if not demote and not dropped:
         return body, []
 
     stripped = '\n'.join(keep_lines)
+    if not demote:                                    # drops only — no block to place
+        return stripped, dropped
     at = _body_open_brace(stripped, func)
     if at is None:                                    # can't place them safely -> leave the body alone
         return body, []
     block = ''.join(f'    {ln}\n' for ln, _ in demote)
-    return stripped[:at] + '\n' + block + stripped[at:], [s for _, s in demote]
+    return stripped[:at] + '\n' + block + stripped[at:], [s for _, s in demote] + dropped
 
 
 def main():
