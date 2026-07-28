@@ -7583,3 +7583,63 @@ inventory row (R21).
    Discount its 37,536 headline: it is `_o0`, and `_o0` families sweep ~1/137.
 5. **PARKED: `func_80176734`** (51,198 ins) — five tiers bounced; clusters A and B are provably
    coupled and must be solved together.
+
+## ✅ T52 — `func_80135260` swept **132/132 (0 failed)**; the family goes 4/137 → **137/137**
+
+T51's payoff, and the measurement that settles whether the pre-pass belongs in the gate.
+
+### THE CONTROLLED RESULT
+The invocation is **identical** to the T49/T50 runs. The only variable is T51's decl scoping:
+
+| run | result |
+|---|---|
+| T49/T50 (pre-T51) | **4 banked / 133 gate-fail** — and all 4 were SC07, i.e. a *different* cause |
+| T52 sample (8) | **8 BANKED / 8**, 52s |
+| T52 rest (124) | **124 BANKED / 124**, 13m04s |
+| **total** | **132 / 132, zero failures** |
+
+So the 133 "gate-fails" were **never a codegen wall** — they were one file-scope declaration in each
+sibling TU. Fifth time this phase that a wall resolved to tooling/plumbing.
+
+### GATES (all green, from a genuinely clean tree)
+- **R22 clean-fleet:** `make clean && extract-all && check-all` → **140 passed, 0 failed of 140**.
+- **`make tools-health` OK** — corpus 0 PHANTOM + 0 TRUNCATED · cdecl · audit-binaries ·
+  report/lint/**dedup 1886 validated / 0 failed**, C1 coverage 239604/239604.
+- **0 NON_MATCHING** in any default build (G4).
+
+### THE METRIC MOVE (reconciled against `make report`, not asserted)
+| | before (T51 close) | after | delta |
+|---|---|---|---|
+| instr-weighted | 85.5% | **85.7%** | 11,240,111 → 11,258,063 = **+17,952 ins** |
+| distinct-code | 76.1% | **76.4%** | +17,000 ins (67,687 → 67,812 unique = +125) |
+| fn-count | 90.62% | **90.65%** | 320,524 → 320,656 = **+132 functions** |
+| INCLUDE_ASM stubs | 33,189 | **33,057** | −132 |
+
++17,952 templated instructions against T50's ~18,000 estimate — the estimate was good.
+(distinct-code gains 125 not 132: seven siblings are byte-identical to code already counted unique.)
+
+### TWO THINGS THIS ALSO SETTLED
+1. **Item 3 is confirmed empirically, not just by inspection.** `[gather_externs]` warned
+   *"func_80135D20 … the sibling will not compile"* on **every one of the 132** — and every one
+   BANKED. It is a comment-scanning false positive with a 100% false-alarm rate on this family, and
+   it is actively masking real causes. `cdecl._mask` is the fix (T51 used exactly that).
+2. **The pre-pass is now worth folding into `jtbl_family_bank`.** T51 deliberately withheld this
+   pending a measured payoff; 4/137 → 137/137 is that measurement. Next task.
+
+### COMMIT SHAPE (the recorded trap, avoided)
+The carve writes **`config/`** (per-overlay `splat.*.yaml` + `overlays.mk`) as well as `src/`. Both
+were staged in both commits — the `git add -A src/` omission this file already warned about.
+The sample landed as its own commit only because `jtbl_family_bank` refuses to start on a dirty
+`config/`/`src/` (its per-sibling revert restores from HEAD, so uncommitted banks would be wiped).
+
+## ▶ NEXT (ranked, all measured)
+1. **Fold the T51 pre-pass into `jtbl_family_bank`** as a stage before `scope_data_fix`, so the
+   next family with this signature needs no hand-driving. Payoff now measured (4/137 → 137/137).
+   Pair it with **item 2** below — both are `cdecl._mask` jobs in the same code path.
+2. **Fix `gather_externs`' comment-scanning false positive** (T50; now byte-confirmed by 132/132
+   banks against a "will not compile" warning). Cheap, and it stops masking real causes.
+3. **Fix `residual_class._ROUTE`** for ADDRESSING (cheap; stops wasted permuter CPU).
+4. `func_8013B83C` — matching draft in hand (`.run/s21_jt7/`), needs `jr_isolate_all` → `jtbl_carve`.
+   Discount its 37,536 headline: it is `_o0`, and `_o0` families sweep ~1/137.
+5. **PARKED: `func_80176734`** (51,198 ins) — five tiers bounced; clusters A and B are provably
+   coupled and must be solved together.
