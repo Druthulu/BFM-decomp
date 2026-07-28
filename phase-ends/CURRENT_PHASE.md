@@ -6158,3 +6158,37 @@ radius, versus a 524-site fleet conform.** → cookbook **§99**.
   have said PLUMBING. Guard: descend only into a function body.
 - **(c)** latent since the tool was written: `_cast_sub` matched bare identifiers, rewriting **member
   accesses** as globals. Only reachable once (a) existed. Guard: `(?<![.\w])(?<!->)`.
+
+## ✅/📌 T23 — `func_80175AB8` swept 133/137 by BYPASSING A STALE GUARD; the SC07 quartet is now a named class
+
+The first sweep of the pair returned **`banked 0 / skipped {'pinned-exemplar': 137}`** — not a
+failure, a **SKIP**. `func_80175AB8` carries 2 `register __asm__` pins, and the §42e guard refuses
+pinned exemplars to avoid a cc1 SIGABRT. **Phase 27 byte-proved that crash was `extract_unit`
+dropping file-scope macros — a TOOL bug, since fixed (`_carry_macros`) — not a compiler limit.**
+Re-run with `--allow-pins` (the byte-gate is the arbiter anyway): **133/137 BANKED.**
+**R22 clean-fleet 140/140.**
+
+**Measured:** fn-count 318,585 → **318,720 (+135)** · instr 84.0 → **84.2%** (+25,423) ·
+distinct-code 73.4 → **73.9%** (+127 unique fns).
+
+> **THE GUARD IS NOW COSTING BANKS — a `sweep_parallel`-shaped defect.** A protection that was
+> correct when written, whose cause was later removed, still defaults to ON and is opt-out only if
+> you remember the flag. Measured cost on ONE family: **137 skipped, 133 of them bank fine.**
+> Phase 27's own roadmap delta already said the PINS class was "back on the mechanical-harvest
+> table" — but nothing changed the default. **NEXT SESSION: flip it** (one line: default
+> `--allow-pins`, keep `--no-pins` as the escape) — deliberately NOT done here, at the end of a long
+> session, because that is exactly how `family_sweep` got broken twice today.
+
+### 📌 The SC07 quartet — THIRD occurrence today, now a named class
+`ov_SC07_006 / 007 / 010 / 011` refused again — the same four that refused `func_80176218`'s sweep.
+They are **not broken**: `func_8014CF04`, `func_8015D1B8` and `func_801789AC` all swept them cleanly.
+The correlation is the **sibling TU**: for the refusing families the SC07 sibling lives in
+`_jr_8016AE5C.c`, a different carve layout (these 4 were onboarded in Phase 27 with code at PAC
+entry 1). Per §59 this is a per-sibling INTEGRATION signal, not a codegen verdict — **read ONE
+sibling's real gate result** before concluding. Worth ~4 members × several families.
+
+### ⏸️ `func_80175DA8` — 0/137, and it is the §94 TYPE-CARRY signature
+Staged 137, banked 0. Its draft carries a local `typedef … Sp_80175DA8`, which `remap_hseq`
+templates the BODY of but not the TYPE — the exact shape that took `func_8016B6BC` from 0/137 to
+137/137 earlier today. §94: **the lift must be TRANSITIVE.** Not attempted here (context); it is a
+clean, named next step worth **31,878 templated instructions**.
