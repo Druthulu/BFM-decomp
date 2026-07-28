@@ -3045,10 +3045,7 @@ s32 func_80135004(s32 arg0, s32 p1, s32 p2)
 // @stuck: none — MATCH (62 ins, relocation-masked)
 
 
-extern u8 D_8018A8DC;
-extern u8 D_8018A8D8;
 extern s16 *D_8018A8E0;
-extern u8 D_8018A8E4;
 extern int D_801B8370;
 extern u16 D_801B8380;
 
@@ -3056,6 +3053,12 @@ extern int func_80134A74(int, s16, s16, int);
 
 int func_80135168(u16 arg0, u16 *p1, u16 *p2)
 {
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §100); the whole-binary byte-gate is the arbiter. */
+    extern u8 D_8018A8D8;
+    extern u8 D_8018A8DC;
+    extern u8 D_8018A8E4;
     register s16 *pb0 __asm__("$8");
     register s16 *pac __asm__("$6");
     register s16 *pb8 __asm__("$7");
@@ -3118,6 +3121,11 @@ INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_8012ACE0", func_8013526
  */
 s16 func_80135480(void *param_1, s32 param_2, s16 *param_3, s16 *param_4)
 {
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §100); the whole-binary byte-gate is the arbiter. */
+    extern u8 D_8018A8D8;
+    extern u8 D_8018A8DC;
         extern void func_80048EAC(void *m0, void *m1);
     extern void func_8004914C(void *m);
     extern void ApplyTransposeMatrixLV(void *m, void *in, void *out);

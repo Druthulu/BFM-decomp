@@ -7506,3 +7506,80 @@ T49 4).
 - **`gate_stage` ladder destroys good drafts** (reproducible); **bare gate has no snapshot/restore**.
 - **`gather_externs` comment-scanning false positive** (new, T50).
 **DO NOT close P29 on ROI** — +0.7pp instr today is nowhere near a burn-down floor.
+
+---
+
+# SESSION-24 (2026-07-28)
+
+## ✅ T51 — the fleet-wide decl-scoping tool: `tools/scope_tu_externs.py`, applied ×132, byte-neutral
+
+Item 1 off the SESSION-23 list. T48 proved the lever by hand on the exemplar; T50 located the same
+blocker in every sibling. This built the tool, measured the population first, applied it fleet-wide,
+and gated it.
+
+### MEASURED BEFORE BUILDING (R35)
+Ran the blocker census over all 132 still-stubbed siblings before writing a line. It is **perfectly
+uniform**, which is the strongest possible signal that one mechanical edit fixes all of them:
+
+| | |
+|---|---|
+| siblings still stubbed | **132** (137 − exemplar − the 4 SC07 banks) |
+| with the file-scope blocker | **132 of 132**, 0 without |
+| contested symbols per TU | **3**, every TU (the remapped `D_801870AC/B0/B8`) |
+| file-scope decl statements per (TU, sym) | **exactly 1** — never ambiguous |
+| file-scope references BELOW the decl | **0** — so the deletion is always safe |
+| block-scope re-declarations needed | **660** (2+2+1 per TU) |
+
+### THE TOOL
+`tools/scope_tu_externs.py` — the **TU-side complement** of `scope_data_externs.py` (§8d). §8d fixes
+the incoming draft; it has a give-up branch that **drops the draft's own decl** when the TU already
+declares the symbol at file scope. That is right when the types agree and fatal when the byte-true
+draft needs a different one — which is exactly how 132 byte-true siblings gate-failed while wearing a
+codegen wall's costume. The tool moves the TU's own file-scope decl down into every later function
+that references the symbol and lacks its own block-scope decl, then deletes the file-scope line.
+
+- **Contested set is DERIVED, never hand-listed (R33):** the remapped draft's block-scope `D_`
+  externs ∩ the TU's file-scope decls above the splice point. `--family` does this per sibling.
+- **Built on `cdecl`, not a 7th regex (R33):** `split_statements` for depth-0 spans (a function
+  definition flushes at its closing `}` — a column-0 test is NOT a file-scope test, m2c emits goto
+  labels at column 0 inside bodies) and `_mask` for length-preserving comment/string blanking. That
+  masking is what kills the comment-scanning false-positive class (item 3, still open).
+- **Refuses loudly, never skips silently (R32):** >1 file-scope decl above the splice point · a
+  file-scope statement below the decl referencing the symbol (an initializer has nowhere to move to)
+  · an unlocatable body brace.
+- **Coverage asserted as a DELTA (R32):** file-scope decls −1, block-scope decls +len(consumers).
+  An absolute "at least one block-scope decl exists" would have passed **vacuously** — these TUs
+  already carry ~18 legitimate block-scope decls of the same symbols.
+
+### VERIFIED IN TWO STEPS (T48's structure — the reason a 132-file edit was safe to make)
+1. **The move alone is byte-neutral.** Applied to `ov_SC01_000` only → `make build` →
+   `9052dc0e…` **BYTE-IDENTICAL**. Reverted. Only then applied fleet-wide.
+2. **R22 clean-fleet after the fleet application:** `make clean && extract-all && check-all` →
+   **140 passed, 0 failed of 140.** `make tools-health` **OK** (corpus 0 PHANTOM + 0 TRUNCATED,
+   cdecl, audit-binaries, report/lint/dedup **1886/0**). Metrics **unchanged** — 85.5% instr / 76.1%
+   distinct / 90.62% fn-count — which is the correct result for a declaration-only change.
+
+The diff is **uniform to the line: all 132 files are +11/−3.** A second `--family` run reports
+**132 nothing-to-do, 0 refused** (idempotent).
+
+### WHAT IT DOES NOT DO
+It **banks nothing** — it removes the blocker. `func_80135260`'s 132 siblings (~18,000 templated
+instructions) are now unblocked but not swept; that is the next task, and the sweep is the thing
+that proves the lever's payoff. The generalisation (auto-running this as a `jtbl_family_bank` stage)
+is deliberately deferred until the sweep measures the payoff — wiring an unproven pre-pass into the
+gate would be building on the same kind of unmeasured premise this phase keeps catching.
+
+Docs: cookbook **§103** (the law + the two-halves table + why `cdecl` not a regex) · SETUP tool
+inventory row (R21).
+
+## ▶ NEXT (ranked, unchanged except item 1)
+1. **Sweep `func_80135260`'s 132 siblings** via the §53 carve path now the decl axis is clear. This
+   is T51's payoff and the measurement that decides whether to fold the pre-pass into
+   `jtbl_family_bank`. ~18,000 templated ins.
+2. **Fix `residual_class._ROUTE`** for ADDRESSING (cheap; stops wasted permuter CPU).
+3. **Fix `gather_externs`' comment-scanning false positive** (cheap; fires on every sibling and
+   masks real causes — `_mask` from `cdecl` is the fix, same as T51 used).
+4. `func_8013B83C` — matching draft in hand (`.run/s21_jt7/`), needs `jr_isolate_all` → `jtbl_carve`.
+   Discount its 37,536 headline: it is `_o0`, and `_o0` families sweep ~1/137.
+5. **PARKED: `func_80176734`** (51,198 ins) — five tiers bounced; clusters A and B are provably
+   coupled and must be solved together.

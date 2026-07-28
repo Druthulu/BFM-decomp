@@ -7294,3 +7294,67 @@ so **the plumbing error fires FIRST and the codegen verdict is never produced.**
 **Consequence for the backlog:** `func_8016EC0C` is genuine **permuter fuel** (close=8,
 SCHEDULE-REORDER) — unlike `func_80176734`/`func_8017C974`/`func_80177B5C`/`func_80140958`, which
 measured `structural` and which the grinder's admission rule correctly rejects (§60/§60a).
+
+---
+
+## §103 — A FILE-scope `extern` in a shared overlay TU is a GLOBAL constraint on every LATER function; move the DECL, not the draft (Phase 29 T48/T51, `func_80135260` — the fleet-wide half)
+
+`func_80135260` needs its three per-location data symbols declared as **4-byte pointers**
+(`extern u16 *D_x;`). The canonical `extern u8 D_x;` + `(*(u16 **)&D_x)` cast makes gcc-2.7.2 CSE
+`&D_x` into two callee-saved registers, which costs a 7th saved register and **+3 instructions** —
+measured twice, two independent ways (`reconcile_tu` conform, and cast-at-use), both 139 ins against
+the target's 136 with 123 mismatched. **The draft could not be bent.** But every host TU already
+carried `extern u8 D_x;` at FILE scope, and a file-scope declaration constrains every later function
+in the TU, so the byte-true block-scope decl was a `conflicting types` error.
+
+The asymmetry is what makes this look like a compiler wall when it is a scope problem:
+
+```
+BLOCK(u16 *) ... then FILE(u8)              ->  warns, builds        (the TU's own pre-existing mix)
+FILE(u8) ... then BLOCK(u16 *) below it     ->  conflicting types    (ERROR — the draft's position)
+```
+
+**The lever: move the TU's OWN declaration down into its consumers.** The engine is loosely typed
+(§16), so per-function views of a symbol legitimately disagree — the file-scope decl is the anomaly,
+not the block-scope one, and the original per-function sources declare these symbols at block scope
+in exactly this way. Moving it is **declaration-only**: every consumer keeps the identical
+declaration text, only its scope changes, so no access can change opcode.
+
+**Verify in two steps, always** (T48's structure, and the reason the fleet application was safe):
+1. the decl move **alone** must rebuild the binary byte-identical — that proves it is declaration-only;
+2. only then splice the byte-true draft and gate it.
+
+**`tools/scope_tu_externs.py`** is the tool — the TU-side complement to `scope_data_externs.py`
+(§8d), which fixes the *incoming* draft. §8d has a documented give-up branch: when the TU already
+declares the symbol at file scope, it **drops the draft's own decl** and lets the TU's type govern.
+That is right when the types agree and fatal when they do not — it is precisely how 132 byte-true
+siblings gate-failed while looking like a codegen wall. The two tools are halves of one lever:
+
+| what collides | tool | move |
+|---|---|---|
+| the DRAFT carries a file-scope decl the TU never had | `scope_data_externs.py` (§8d) | demote the draft's decl into the body |
+| the TU carries a file-scope decl the byte-true draft must contradict | `scope_tu_externs.py` (§103) | move the TU's decl into its consumers |
+
+**Derive the contested set, never hand-list it (R33):** it is the DATA symbols the *remapped* draft
+declares at block scope, intersected with what the target TU declares at file scope above the splice
+point. `--family` does this per sibling in one command.
+
+**Refuse rather than skip (R32).** Three conditions abort a symbol loudly: more than one file-scope
+decl above the splice point; a *file-scope* statement below the decl that references the symbol (an
+initializer has nowhere to move to); an unlocatable body brace. The rewrite then asserts its own
+coverage as a **delta** — file-scope decls `-1`, block-scope decls `+len(consumers)` — because these
+TUs already carry many legitimate block-scope decls of the same symbols, so an absolute
+"at least one exists" check would pass vacuously.
+
+**Use `cdecl`, not a new regex.** `cdecl.split_statements` yields depth-0 statement spans (a function
+definition flushes at its closing `}`, so "ends with `}`" is a reliable is-a-definition test — a
+column-0 test is not, because m2c emits goto labels at column 0 inside bodies), and `cdecl._mask`
+blanks comments and string literals length-preservingly so offsets stay valid. Scanning raw text is
+the false-positive class that made `gather_externs` accuse `func_80135D20` on all 137 siblings and
+garbled `gen_harvest_targets`' hints in Phase 19.
+
+> **The law:** when a byte-true draft and its host TU disagree about a symbol's type, the question is
+> never "which type is right" — the engine has no single right type. It is **"which declaration is
+> in the wrong SCOPE."** A file-scope decl in a shared overlay TU is a fleet-wide constraint that
+> was almost certainly never in the original source; scoping it to its consumers is free, and
+> bending the draft to it costs instructions.
