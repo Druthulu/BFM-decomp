@@ -171,6 +171,16 @@ def fix(body, tu_path, fn):
         for d in ds:
             if d.is_definition or d.kind == 'func' or d.storage == 'typedef':
                 continue
+            # BLOCK SCOPE: only a real `extern` DECLARATION counts (Phase 29 SESSION-22, second cut).
+            # Descending into function bodies also feeds ordinary STATEMENTS to cdecl.parse, and some
+            # of them parse without raising into a declarator with an EMPTY base type and the
+            # statement's symbol as its name. That fake entry then overwrote the genuine plan row for
+            # the same symbol (`plan[d.name] = …`), so the span rewrite landed on a statement instead
+            # of the declaration — and the R32 completion check still passed, because the conformed
+            # text it looks for did appear somewhere. Byte-witnessed: `D_80126B5C` planned twice
+            # ("draft 's32'" and "draft ''"), output unchanged, gate PLUMBING.
+            if inner and not (st.text.lstrip().startswith('extern') and d.base.strip()):
+                continue
             tu = full.get(d.name)
             if tu is None:
                 continue                            # not declared here -> no conflict is possible

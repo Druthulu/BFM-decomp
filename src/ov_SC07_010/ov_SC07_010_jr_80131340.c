@@ -366,7 +366,7 @@ extern s16 D_80126B9A;
 extern u8 D_801152A8[];
 extern void func_8012DFBC(void);
 extern void func_8012DFCC(void);
-extern void func_8012E014(void);
+extern void func_8012E014(s32 arg0);
 extern void func_8012E138(void);
 extern void func_8012DFD4(u8 *a0);
 extern s32 func_8012E27C(void);

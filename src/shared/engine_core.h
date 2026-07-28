@@ -5347,11 +5347,11 @@
     }
 
 #define DEFINE_func_8012DFD4() \
-    extern void func_8012E014(void); \
+    extern void func_8012E014(s32 arg0); \
     extern void func_8012E138(); \
     void func_8012DFD4(u8 *a0) { \
         if (a0[0x74]) { \
-            func_8012E014(); \
+            ((void (*)(void))func_8012E014)(); \
         } else { \
             func_8012E138(); \
         } \
@@ -9170,7 +9170,7 @@
 
 #define DEFINE_func_8016345C() \
     extern u16 func_80156370(u16 a0); \
-    extern void func_80163534(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5); \
+    extern void func_80163534(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, u16 * a5); \
     void func_8016345C(s32 a0, u16 a1, s32 a2, u16 a3, s32 a4) { \
         s32 r; \
         r = func_80156370(a1); \

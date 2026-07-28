@@ -3824,7 +3824,7 @@ DEFINE_func_8016345C()  /* dedup: shared engine-core @0x8016345C (src/shared) */
 extern char D_8019B7A8[8];
 
 extern void *memcpy(void *dst, const void *src, unsigned int n);
-extern void func_80163534(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
+extern void func_80163534(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, u16 * a5);
 
 void func_801634D8(s32 param_1, u16 param_2, u16 param_3, s32 param_4, u16 param_5)
 {
