@@ -7365,3 +7365,51 @@ meaningless number (345 here) that looks like a verdict and is not one.
 
 **Harness preserved at `tools/oracle/reg_renumber_swap.sh`** (R3), with its negative control
 documented. Tree clean; nothing banked, nothing broken.
+
+## 🔬 T47 — `func_80176734` grind: cluster B is PROVABLY fixable, and provably ANTI-CORRELATED with cluster A
+
+Acting on T46's verdict (K8/RC-4 local-alloc tying, lever = C-level lifetime shaping) rather than
+the refuted allocation/permuter framings.
+
+### The lever works — diagnosis CONFIRMED by bytes
+Cluster B is `q = (Trk *)((u8 *)e + 0x3C)` landing in **`$a2`** where the target uses **`$a0`**.
+Cause: `arg0`'s last use (`self = arg0;`) sat BELOW `q`'s birth, so `$a0` was still live and K3
+first-fit pushed `q` to the next free reg. Moving `self = arg0` above `q`'s birth **eliminates
+cluster B entirely** — byte-measured, two placements:
+
+| variant | A | B | C | D | total |
+|---|---|---|---|---|---|
+| baseline (`.run/near6/wave23/`) | 4 | **2** | 2 | 5 | **13** |
+| (a) `self` hoisted to block top (`.run/near6/g734_a.c`) | **7** | **0** | 2 | 5 | 14 |
+| (b) `self` after `e`'s index chain (`.run/near6/g734_b.c`) | **7** | **0** | 2 | 5 | 14 |
+
+**So the K8/RC-4 lifetime lever is REAL and it closes cluster B in both placements.**
+
+### …but it costs 3 positions in cluster A, and that coupling is DOCUMENTED
+The draft's own header already records cluster A as *"a sched2 LUID tie that is COUPLED to lever 3 —
+`st1`'s LUID is pinned by the priority constraint"*, where **lever 3** is: `st1` MUST stay a
+declaration-initializer (moving it into the body forfeits the `update_equiv_regs` live-length
+doubling at `local-alloc.c:1064`, its allocno priority explodes, and the whole callee-saved bank
+rotates — frame 0x40 → 0x48, **measured across 12 permutations**), while `st2`/`ext` MUST be in the
+body after the index chain and the `self = arg0` copy to reproduce the target's save/init
+interleave (that is what took it 23 → 15).
+
+**Moving `self = arg0` is exactly the statement lever 3's interleave is anchored on.** Both
+placements push the index chain from idx 4-6 to 6-8 and invert the `s6`/`s1` save-init grouping,
+turning A from 4 positions into 7. **Net 13 → 14: two clusters trade against each other.**
+
+### Verdict — a THIRD "two knobs, one screw" in this function
+`func_80176734`'s residual is a **coupled system**, not four independent clusters:
+`st1`'s LUID is pinned by an allocno-priority constraint → that pins the save/init interleave (A) →
+which pins where `self = arg0` may sit → which decides whether `q` gets `$a0` (B).
+**Any future attempt must optimise A and B TOGETHER; fixing either alone is provably a wash.**
+
+**Not banked; nothing regressed** (all variants are draft-side only, tree clean). What is genuinely
+new: cluster B has moved from "unexplained register 2-swap" to **"solved, but priced at 3 positions
+in A"** — a much sharper starting point than the 13 we began with. Variants preserved at
+`.run/near6/g734_{a,b}.c` beside the baseline.
+
+**Effort ledger for this function, so the next attempt can price it honestly:** a Phase-27 Fable5
+pass (no bank), a wave agent (~2.6M tokens, 217 → 13), a 32-min directed permuter (flat), the
+`reg_renumber` oracle (framing refuted), and this grind (B solved, A regressed). It is the single
+largest prize at **51,198 instructions** and it has resisted five distinct tiers.
