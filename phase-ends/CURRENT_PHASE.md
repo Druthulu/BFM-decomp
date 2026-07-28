@@ -6997,3 +6997,68 @@ which is the `OFFSET_REF` grant — a real third site, but not the one this idio
 it cannot distinguish a live citation from a preserved historical one.
 
 **Docs-only — no `src/`/`config/`; R22 not re-run, not claimed.**
+
+## ✅/⚠️ T39 — items 1-4 worked in order: 4 banked, 1 wall re-probed and UPHELD, 2 findings
+
+Drew set the order (1 `func_80176734` → 2 the 7 integration drafts → 3 `func_80140D68` → 4 the
+`func_80178004` re-probe) and asked for all four. Effort xHigh, Ultracode off — no fan-out; this was
+deterministic tooling plus source reading.
+
+### ITEM 1 — `func_80176734`: permuter COMPLETELY FLAT at 13
+8 cycles × 240s × -j12 on the `regalloc` profile (chosen over the classifier's `cse` because the
+residual is three register 2-swaps, which is what `perm_reorder_decls`/`perm_reorder_stmts` move).
+**Result: 13 on every cycle — not one improving waypoint in 32 minutes.**
+**This is the THIRD ADDRESSING-bucketed target in a row where the permuter under-delivers** (T31:
+11→7, 10→6 then plateau; now 13→13 flat). The T31 routing finding is now much better evidenced:
+`residual_class` routes ADDRESSING → permuter, and the permuter is the wrong tool for it.
+**Remaining half of item 1: the `reg_renumber`-swap gdb oracle** (regalloc.md §H). Feasibility
+confirmed — `cc1` is NOT stripped (`reg_renumber` @ `0x82d4330` B, `reload` @ `0x815d4d7` T) and a
+working gdb pattern exists at `.run/giants/fable_cd4/ffr.gdb`. Not started: it needs a `.greg` dump
+analysis to identify WHICH pseudos to swap, which is a genuine sub-project, not a spot check.
+
+### ITEM 2 — 4 of the 7 banked, and the BARE GATE was the unlock
+| draft | ladder (`gate_stage`) | **bare `harvest_verify`** |
+|---|---|---|
+| `func_80177DA8` | banked | — |
+| `func_8013B6A0`, `func_8013B598` (`_o0`) | **FAILED 2** | **VERIFIED 2** |
+| `func_80138C60` | FAILED | **VERIFIED** |
+| `func_80133298`, `func_8012E014` | near | PLUMBING |
+| `func_80135260` | near | DIFF (needs a jtbl carve) |
+
+**The carried "ladder-vs-bare-gate asymmetry" defect now has a REPRODUCTION.** The checkpoint listed
+it as "still unexplained"; here `gate_stage` reported `failed: 2` on the `_o0` pair while bare
+`harvest_verify` reported `verified 2 / failed 0` on the same drafts. `rtu_match` independently
+confirms `func_8013B6A0` MATCHes in the real TU — so the ladder is DESTROYING good drafts, not
+diagnosing them. **Prefer the bare gate until this is root-caused.**
+
+**All 4 banks are reach-138 PURE families → 35,604 templatable instructions** (9,246 + 9,108 +
+8,694 + 8,556), `has_mid_jr: false` so the carve-less sweep applies.
+
+### ⚠️ A shared-state hazard I hit, caught, and repaired
+The failed `func_80135260` attempt left `fix_arity_callers --any-proto` edits
+(`extern s32 func_80135260(s32,s32,s32,s32);` → `();`) in **17 TUs that hold none of my banks** —
+the bare gate has no snapshot/restore, unlike the ladder (which grew one after the Task-14
+incident). Caught by reading `git status` rather than trusting the tool's own report. Reverted the
+17 residue-only files, kept the 3 bank-bearing ones, **re-verified R22 clean-fleet → 140/140.**
+Blast radius was bounded: nothing under `src/shared/`, `config/` or `include/` was touched, so this
+was `ov_SC01_077`-local (§63). **Standing lesson: the BARE gate is better at banking and WORSE at
+cleanup — always diff the tree after one.**
+
+### ITEM 3 — `func_80140D68` fails even bare-gated; diagnosis CORRECTED
+It MATCHes standalone (65/65) but fails the whole-binary gate. **The predicted cause was wrong:**
+there is no `DEFINE_func_80140D68` macro at all. The real conflict is §99 K&R-vs-prototype — the
+draft defines `u32 *func_80140D68(out, src, idx, dx, ofs)` (K&R) while **138 callers** declare
+`extern s32 *func_80140D68(s32 *, Prim4 *, s32, s32, s32);` (prototype, different return type AND a
+`Prim4 *` second param). §99 dissolved exactly this shape today at 1,072-declaration scale, so the
+lever exists — but it is a fleet-shared 138-declaration change (R22 mandatory), not a one-liner.
+NOT attempted; scoped.
+
+### ITEM 4 — the `func_80178004` "biv-init wall" RE-PROBED and UPHELD (my hypothesis refuted)
+I proposed this probe on the theory that a *biv* verdict might have been reached against 2.8.1
+behaviour, since `loop.md` documents behavioural biv differences. **The probe says no.** The wall's
+mechanism cites `loop.c:3803/3823` ("benefit→0 ⇒ `emit_iv_add_mult` eliminated"), and in real 2.7.2
+that region is verbatim the giv benefit test — `if (v->lifetime * threshold * benefit < insn_count
+&& ! bl->reversed)` — inside `strength_reduce` (**3214**), exactly as described. The version
+difference `loop.md` flags is in `combine_givs` (2.7.2 plain pair-loop vs 2.8.1 qsort + refined
+benefit), which this verdict does **not** rest on. **The wall stands; no re-derivation owed.**
+A clean negative result on a probe I argued for — recorded rather than quietly dropped.
