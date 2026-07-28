@@ -7142,3 +7142,52 @@ defining TU's own decl); definition + register pin intact; both drafts re-banked
 > binary **succeeded** — because it reused objects the clean run rebuilds. *An incremental pass does
 > not refute a clean-tree failure.* Every step of this diagnosis came from reading the real cc1/ld
 > error after a genuinely clean rebuild, never from reasoning about what the tool "should" do.
+
+## §99 — The narrow-param wall is a DEF-side problem with a ZERO-blast-radius fix: convert the definition to K&R (Phase 29 SESSION-22, `func_80175AB8` + `func_80175DA8`)
+
+**§92 said these two need "the §17a-1 caller pair, NOT a bare conform".** The diagnosis was right —
+conforming the fleet's `void f(s32)` declarations to the byte-true `void f(s16)` narrows the
+parameter, changing argument promotion at **every** call site, so the callers emit different code
+(§92 measured exactly that: PLUMBING before the conform, **DIFF** after). But the prescribed remedy
+was the expensive one. The actual fix touches **no declaration at all**:
+
+```c
+void func_80175AB8(param_1)      /* K&R: the narrow param PROMOTES to int (C89 6.3.2.2), */
+    s16 param_1;                 /* so this is ALREADY compatible with the fleet's `s32` */
+{                                /* prototype — while still emitting the narrow-param codegen. */
+```
+
+That is §43 applied to the **definition** side instead of the declaration side. Cost: a draft-only
+edit (**T0**, zero blast radius) versus a **524-site fleet conform**. Both banked, `d19c9580`,
+R22 140/140 — **57,822 templated instructions for two draft-local rewrites.**
+
+> **The law:** when the byte-true signature has a NARROW scalar parameter and the fleet declares it
+> wide, do NOT move the declarations. Move the DEFINITION to K&R and let C's promotion rule make the
+> existing prototype correct. Conform only when the disagreement is a POINTER shape (caller-neutral,
+> §85) or an arity/return change.
+
+### Two `reconcile_tu` bugs found underneath, one introduced while fixing the other
+
+**(a) It was blind to BLOCK-SCOPE declarations.** `split_statements` is depth-0 **by design**, so for
+a draft whose body is one function definition it returns exactly ONE statement and every declaration
+inside is invisible — and §8d (`scope_data_externs`) *deliberately demotes the data externs to block
+scope*. C still requires a block-scope `extern` to agree with a file-scope declaration in scope, so
+the conflict is real: the tool printed `reconciled: 0 draft(s), 0 data symbol(s); coverage defects: 0`
+for a draft cc1 then rejected with `conflicting types for D_8011F7BC`. Fixed by descending one level.
+
+**(b) DESCENDING INTO ANY `{` CORRUPTS STRUCTS — a bug I introduced with (a) and caught by diffing
+the tool's own output against its input.** Struct MEMBERS parse as declarations and get "conformed":
+```
+-     u32 code;   /* 0x04 */                       ->  typedef void (*code)(unsigned short*);
+-     p->code = *(u32 *)src;                       ->  p->(*(u32 *)&code) = *(u32 *)src;
+```
+Guard: descend only into a FUNCTION body (a parameter list before the brace, and not a
+`typedef|struct|union|enum` head).
+
+**(c) And it exposed a LATENT one:** `_cast_sub`'s regex matched a bare identifier, so it rewrote
+**member accesses** as if they were the global. Broken since the tool was written; only reachable
+once block-scope descent started finding such names. Guard: `(?<![.\w])(?<!->)`.
+
+> **Process note worth keeping:** (b) was caught because the transform's output was diffed against
+> its input *before* the result was trusted — not by a gate. The byte-gate would have reported
+> PLUMBING and told me nothing about *why*, and the corrupted draft looked plausible.

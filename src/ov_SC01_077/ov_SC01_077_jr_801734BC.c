@@ -2998,9 +2998,278 @@ INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_801734BC", func_801758F
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_801734BC", func_801759D8);
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_801734BC", func_80175AB8);
+// @class: regalloc-order
+// @stuck: none — MATCH (188/188), symcheck SYMS-OK (22 symbols)
+//
+// func_80175AB8 — ov_SC01_077 h_seq exemplar (188 ins, ×138 members).
+// Zero file-scope footprint (§28/§43): typedef + every extern is block-scoped so the body
+// lifts as one unit for dedup_propagate / family_sweep.
+//
+// FOUR byte-proven levers found here (all newly measured this session, closeness 15 -> 0):
+//
+//  L1  base-pointer opacity WITHOUT killing the birthing boost (sched.c birthing_insn_p).
+//      $s2 must hold &D_8011F7F0 while `arr = base - 0x48` stays a SEPARATE addiu, so the
+//      symbol must not constant-fold.  The obvious fence `__asm__("" : "=r"(base) : "0"(base))`
+//      works but sets `base` TWICE => reg_n_sets[base]==2 => birthing_insn_p() returns 0 =>
+//      adjust_priority() skips the max_priority boost => the `la` is scheduled at the very top
+//      instead of after `sll $s3,$v0,2`.  Fix: fence a SINGLE-set pseudo —
+//          __asm__("" : "=r"(base) : "0"(&D_8011F7F0));
+//      `base` is now set once (by the asm) and the address temp once (by the `la`), so BOTH keep
+//      the birthing boost and land where the target puts them.  (15 -> 5 mismatches.)
+//
+//  L2  a volatile STORE is a memory barrier that register moves may cross; a
+//      `__asm__ __volatile__("" ::: "memory")` is a FULL barrier that they may not.
+//      sched.c's ASM_OPERANDS case adds a dependence on every reg's last set/use for a volatile
+//      asm, so the memory fence pinned `sw $s1,0x18($s4)` BEFORE the call's `addu $a0,$s1,$zero`.
+//      Writing the store as `*(volatile u32 *)&slot[6] = ...` keeps the store anchored (dropping
+//      the fence entirely let it sink 11 slots) while letting the arg move hoist past it.
+//      (5 -> 3 mismatches.)  The SECOND memory fence (before func_80024054) is still required.
+//
+//  L3  local-alloc.c block_alloc ties operand 0 to the first input operand that DIES
+//      (combine_regs).  `sum = r1 + r2` therefore inherits r1's quantity — and r1 crosses a call,
+//      so the whole quantity is forced call-preserved ($s0) and the `move $5,ext` copy-suggestion
+//      is ignored.  Neither variable reuse nor an extra post-addu use of r1 breaks the tie
+//      (sched1 runs first and re-sinks the use).  A pin whose live range crosses no call does:
+//          register s32 sum __asm__("$5");
+//      (§44-correction: a pin that does not span a `jal` is ×N-safe.)  (3 -> 2 mismatches.)
+//
+//  L4  pinning `sum` to $a1 makes gcc emit it before the $a0 arg move; pinning the $a0 arg too
+//      (`register u32 *a0v __asm__("$4"); a0v = p;`) restores the target order.  (2 -> 0.)
+//
+// Also note the deliberate MIXED addressing of the same objects: (*(u16 *)&D_8011F7BC)/(*(u16 *)&D_8011F7BE) are read
+// absolutely at the 3rd call (lui/lhu) and $s2-relatively (-0x34/-0x32) at the 4th/6th/7th.  That
+// is what the target does; writing either form uniformly breaks it.
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_801734BC", func_80175DA8);
+#include "common.h"
+
+void func_80175AB8(param_1)
+    s16 param_1;
+{
+    typedef struct { s32 g0; s32 pad[2]; } S_AF634;   /* size 0x0C */
+    extern S_AF634 D_800AF634[];
+    extern S_AF634 D_800AF638[];
+
+    extern u8  D_8011F7F0;
+    extern u16 D_8011F7B4;
+    extern u16 D_8011F7B6;
+    extern s16 D_8011F7BC;
+    extern s16 D_8011F7BE;
+    extern s32 D_8011F804;
+    extern u16 D_8011F80A;
+    extern u16 D_8011F824;
+    extern u8  D_8011F832;
+    extern u8  D_8011F83A;
+    extern u8 *D_8018A23C[];
+
+    extern u32 *func_80176D94(void *param_1, u32 param_2, s16 param_3_);
+    extern u32 *func_801770E0(void *param_1, u32 param_2, s16 param_3_);
+    extern u32  func_801783D0(s32 a0, s32 a1);
+    extern u32 *func_80177EA4(u32 *param_1, s32 param_2, u32 param_3, s32 param_4);
+    extern u32 *func_80177B5C(u32 *a0, s32 a1, s32 a2, s32 a3, s32 a4);
+    extern void func_80177940(u32 *p, u32 a_, u32 b_, u32 c_);
+    extern u32 *func_80178298(u32 *param_1, u8 *param_2, short param_3, short param_4);
+    extern s32 func_80024054(u8*, u8*);
+    extern s32  func_8005A600(s32, s32, s32, s32, s32);
+
+    u8 local[24];
+    u8 *base;
+    u8 *arr;
+    u32 *slot;
+    u32 *p;
+    register u32 *a0v __asm__("$4");
+    u32 uv;
+    s32 k;
+    s16 q;
+    s32 r1;
+    s32 a2v;
+    register s32 sum __asm__("$5");
+    s32 r2;
+    s32 idx;
+    s16 sv;
+
+    p = (u32 *)(D_800AF638[param_1].g0 + D_800AF634[param_1].g0 * 4);
+    __asm__("" : "=r"(base) : "0"(&D_8011F7F0));               /* L1 */
+    arr = base - 0x48;
+    slot = (u32 *)(param_1 * 4 + (s32)arr);
+    *(volatile u32 *)&slot[6] = (u32)p;                        /* L2 */
+    p = func_80176D94(p, (s16)(D_8011F7B4 - 0x71), (s16)(D_8011F7B6 + 0x51));
+    p = func_801770E0(p, (s16)(D_8011F7B4 - 0x71), (s16)(D_8011F7B6 + 0x65));
+    p = func_80177EA4(p, func_801783D0(D_8011F804, 0),
+                      (s16)((*(u16 *)&D_8011F7BC) + 0x39), (s16)((*(u16 *)&D_8011F7BE) + 0x51));
+    uv = D_8011F824;
+    k = 0x3E7;
+    if (uv < 1000) {
+        k = uv;
+    }
+    sv = (s16)func_801783D0(k, 4);
+    p = func_80177B5C(p, sv, D_8011F832,
+                      (s16)(*(u16 *)(base - 0x34) + 0x39),
+                      (s16)(*(u16 *)(base - 0x32) + 0x65));
+    q = (s16)D_8011F80A / 15;
+    a2v = (q & 3) * 15;
+    r1 = func_801783D0((s32)(q << 16) >> 18, 8);
+    r2 = func_801783D0(a2v, 0);
+    a0v = p;                                                   /* L4 */
+    sum = r1 + r2;                                             /* L3 */
+    p = ((u32 * (*)(u32 *, s32, s32, s32))func_80177940)(
+            a0v, (s16)sum,
+            (s16)(*(u16 *)(base - 0x34) + 0x76),
+            (s16)(*(u16 *)(base - 0x32) + 0x65));
+    idx = D_8011F83A & 0x7F;
+    D_8011F83A = idx;
+    __asm__ __volatile__("" ::: "memory");
+    ((void (*)(s32, u8 *))func_80024054)(((s32 *)D_8018A23C)[idx], local);
+    p = func_80178298(p, local,
+                      (s16)(*(u16 *)(base - 0x34) + 0x39),
+                      (s16)(*(u16 *)(base - 0x32) + 0x5B));
+    func_8005A600((s32)p, 0, 0, 0x15, 0);
+    *p = (((u32)p - 0x14) & 0xFFFFFF) | 0x2000000;
+    slot[8] = (u32)p;
+    p += 5;
+    D_800AF634[param_1].g0 += ((s32)p - (s32)slot[6]) >> 2;
+}
+
+
+// @class: schedule
+// @stuck: none — MATCH (231 ins)
+#include "common.h"
+
+extern u8  D_8011F7F0;
+extern u8  D_800B9A13;
+typedef struct { s32 g0; s32 pad[2]; } S_AF634;   /* size 0x0C */
+extern S_AF634 D_800AF634[];
+extern S_AF634 D_800AF638[];
+extern u16 D_8018A1DC[];
+extern u16 D_8018A22C[];
+extern u16 D_8018A238;
+extern u8  D_8018A2B8[];
+extern u8  D_8018A2CC[];
+extern s32 D_8018A2E4[];
+extern u8  D_800D43D4;
+extern u8  D_800D4414;
+extern u8  D_800D45D4;
+extern u32 *func_8017742C(u32 *a0, s32 a1, s32 a2);
+extern s32 func_8005A600(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4);
+extern void func_800183E0(s32 a0);
+
+typedef struct {
+    u32 tag;    /* 0x00 */
+    u32 code;   /* 0x04 */
+    u16 x;      /* 0x08 */
+    u16 y;      /* 0x0A */
+    u32 uv;     /* 0x0C */
+    u32 wh;     /* 0x10 */
+} Sp_80175DA8;  /* 0x14 */
+
+void func_80175DA8(param_1)
+    u16 param_1;
+{
+    u8 *base = &D_8011F7F0;
+    u8 *s = base - 0x48;
+    u16 *src = D_8018A1DC;
+    Sp_80175DA8 *p;
+    s16 i;
+    s32 arg;
+    s32 t;
+    s32 fl;
+    u16 v;
+
+    p = (Sp_80175DA8 *)(D_800AF638[(s16)param_1].g0 + D_800AF634[(s16)param_1].g0 * 4);
+    *(Sp_80175DA8 **)(s + (s16)param_1 * 4 + 0x28) = p;
+    i = 0;
+    do {
+        p->tag = ((u32)(p - 1) & 0xFFFFFF) | 0x4000000;
+        p->code = *(u32 *)src;
+        src += 2;
+        if (i < 2) {
+            p->x = *src++ + *(u16 *)(s + 0xC);
+            p->y = *src++ + *(u16 *)(s + 0xE);
+        } else if (i == 2) {
+            p->x = *src++ + *(u16 *)(s + 0x10);
+            p->y = *src++ + *(u16 *)(s + 0x12);
+        } else {
+            p->x = *src++ + *(u16 *)(s + 0x14);
+            p->y = *src++ + *(u16 *)(s + 0x16);
+        }
+        p->uv = *(u32 *)src;
+        src += 2;
+        p->wh = *(u32 *)src;
+        src += 2;
+        p++;
+        i++;
+    } while (i < 5);
+
+    *(u8 *)(s + 7) = D_800B9A13;
+    p = (Sp_80175DA8 *)func_8017742C((u32 *)p,
+                                     (s16)(*(u16 *)(s + 0x10) - 0x98),
+                                     (s16)(*(u16 *)(s + 0x12) + 9));
+    func_8005A600((s32)p, 0, 0, 0x16, 0);
+    p->tag = ((u32)(p - 1) & 0xFFFFFF) | 0x2000000;
+    *(Sp_80175DA8 **)(s + (s16)param_1 * 4 + 0x30) = p;
+    p++;
+    {
+        s32 acc = D_800AF634[(s16)param_1].g0;
+        D_800AF634[(s16)param_1].g0 =
+            acc + (((s32)p - *(s32 *)(s + (s16)param_1 * 4 + 0x28)) >> 2);
+    }
+
+    p = *(Sp_80175DA8 **)(s + (s16)param_1 * 4 + 0x28);
+    if (base[0x48] != 0) {
+        *((u8 *)p + 0xD) = 0;
+    } else {
+        *((u8 *)p + 0xD) = 0xA0;
+    }
+
+    {
+        u8 *q1 = *(u8 **)(s + (s16)param_1 * 4 + 0x28);
+        *(u16 *)(q1 + 0x22) = 0x6CD6;
+        if (base[0x48] & 0x80) {
+            *(u16 *)(q1 + 0x20) = D_8018A238;
+            arg = (s32)&D_800D45D4;
+        } else {
+            u16 *tt = D_8018A22C;
+            s32 k = base[0x48];
+            if (k != 0) {
+                k--;
+                tt += k;
+            }
+            *(u16 *)(q1 + 0x20) = *tt;
+            arg = D_8018A2E4[base[0x48]];
+        }
+    }
+    func_800183E0(arg);
+
+    {
+        u8 *q2 = *(u8 **)(s + (s16)param_1 * 4 + 0x28);
+        t = (s32)(*(u16 *)(base + 0x2E) << 16);
+        if (t != 0) {
+            q2[0x49] = D_8018A2CC[t >> 20];
+        } else {
+            q2[0x49] = 0xA0;
+        }
+    }
+
+    {
+        u8 *q3 = *(u8 **)(s + (s16)param_1 * 4 + 0x28);
+        v = *(u16 *)(base + 0x40);
+        if (v < 100) {
+            q3[0x5D] = D_8018A2B8[v / 5];
+        } else {
+            q3[0x5D] = 0;
+        }
+    }
+
+    fl = *(s16 *)(base + 0x1E) & 0x8000;
+    /* §5a zero-byte sched fence: without it sched1 hoists the `la D_800D43D4`
+       into the lh's load-delay slot, dropping the target's nop (-1 ins). */
+    __asm__("");
+    arg = (s32)&D_800D43D4;
+    if (fl != 0) {
+        arg = (s32)&D_800D4414;
+    }
+    func_800183E0(arg);
+}
+
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_801734BC", func_80176144);
 

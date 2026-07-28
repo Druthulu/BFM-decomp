@@ -6136,3 +6136,25 @@ closure-scope error) — on the tool that banked 543 members today. **Reverted, 
 Restructuring a proven tool with blind string replaces at the end of a long session is how a working
 thing gets broken. Left as a specified next-session task; `sweep_parallel.py` already exists and is
 proven, so the work is *wiring*, not invention.
+
+## ✅ T22 — the caller pair BANKED (57,822 templ ins) with ZERO fleet edits; §92's remedy corrected
+
+**`func_80175AB8` + `func_80175DA8` both banked.** R22 clean-fleet **140/140**.
+
+**§92 prescribed the expensive remedy.** Its diagnosis was right (conforming a narrow param changes
+argument promotion at every call site → DIFF), but the fix needs **no declaration touched**: convert
+the DEFINITION to **K&R**, where the narrow param promotes to `int` and is therefore already
+compatible with the fleet's existing `s32` prototype — §43 applied to the def side. **T0, zero blast
+radius, versus a 524-site fleet conform.** → cookbook **§99**.
+
+**Three `reconcile_tu` bugs surfaced, and ONE WAS MINE:**
+- **(a)** blind to **block-scope** declarations (`split_statements` is depth-0 by design, and §8d
+  *deliberately demotes* data externs into the function body) → reported `0 reconciled / 0 coverage
+  defects` for a draft cc1 rejected with `conflicting types for D_8011F7BC`. Fixed: descend one level.
+- **(b) MY BUG, introduced by (a):** descending into ANY `{` also enters struct definitions, so
+  members parse as declarations and get conformed — it rewrote `u32 code;` into the TU's
+  `typedef void (*code)(...)` INSIDE the struct and mangled `p->code` → `p->(*(u32 *)&code)`.
+  **Caught by diffing the tool's output against its input before trusting it** — the gate would only
+  have said PLUMBING. Guard: descend only into a function body.
+- **(c)** latent since the tool was written: `_cast_sub` matched bare identifiers, rewriting **member
+  accesses** as globals. Only reachable once (a) existed. Guard: `(?<![.\w])(?<!->)`.
