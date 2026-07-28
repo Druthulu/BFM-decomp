@@ -5973,3 +5973,56 @@ earlier 4/137 refusal is family-specific (the `_jr_8016AE5C.c` carve), exactly t
 INTEGRATION signal §59 describes rather than a codegen or overlay-level wall.
 
 **SESSION-22 running total: 3 exemplars + 406 members = 409 functions banked.**
+
+## 📊 THE REMAINING HIGH-VALUE FRONTIER — measured, and 72% already diagnosed
+
+Read-only survey of `.run/family_hseq.json` (unbanked families, reach ≥50, nins ≥60) taken while the
+`func_80135EB0` family bank ran. **This is Task-7 burn-down input: the band is not undiagnosed.**
+
+| | templ ins | ~pp |
+|---|--:|--:|
+| high-value band total | **467,820** | 3.56 |
+| known PERMANENT walls (not addressable) | 50,094 | 0.38 |
+| **addressable** | **417,726** | **3.18** |
+
+**27 families.** Split by the blocker each one is already known to have (from this session's T14
+census + the carried diagnoses):
+
+| blocker | templ ins | targets |
+|---|--:|---|
+| **UNDIAGNOSED** (never drafted) | 129,030 | the only genuinely unknown pool — 14 families |
+| permuter (genuine DIFF) | 90,252 | `0x80176734` · `0x80177b5c` · `0x80135260` |
+| §17a-1 caller pair (§92) | 57,822 | `0x80175da8` · `0x80175ab8` |
+| **none — G4 stub** | 50,094 | `0x801412a8` · `0x80178004` (documented permanent walls) |
+| carve tooling (§59(3)) | 37,536 | `0x8013b83c` — the non-contiguous `.rodata` refusal |
+| diagnose (CC1-FAIL) | 35,880 | `0x80140958` |
+| §20/§64 type-lift | 27,324 | `0x8013bd74` (local struct `A`) |
+| conform/cast | 15,180 | `0x801330e0` |
+| cast sites → conform | 12,558 | `0x801789ac` (138 zero-arg call sites first) |
+| risky conform (narrowing ×1,617) | 12,144 | `0x8016ec0c` |
+
+**Read:** the cheap deterministic levers left in this band (conform/cast + type-lift + cast-then-
+conform) are ~**55k ins ≈ 0.42pp** — real but modest. The big money is the **129k undiagnosed** pool
+and the **90k permuter** pool, i.e. drafting and search, not plumbing. Two families (50k) are
+byte-proven permanent walls and should stay `INCLUDE_ASM` per G4 unless a NEW idiom dissolves them.
+**No sign of a burn-down floor yet** — but the mix has shifted from "plumbing unlocks it" toward
+"drafting/search required", which is the signal Task 7 is watching for.
+
+## ✅ T17 — `func_80135EB0` family banked 137/137 via the CARVE-AWARE path (0 failed)
+
+The largest single family on the census. Two tool REFUSALS shaped this one, both correct:
+- **`family_sweep` refused it** — `has_mid_jr`, and §53's carve law says a carve-less sweep returns
+  "a 0% that is a TOOL artifact, not a wall". Overriding with `--allow-jr` would have produced a
+  0/137 and very plausibly filed the highest-value family on the board as a wall.
+- **`jtbl_family_bank` refused a dirty tree** — its per-sibling revert restores from HEAD, so the
+  uncommitted 414-file decl axis would have been destroyed. H4, enforced in code.
+
+`jtbl_family_bank func_80135EB0 ov_SC01_077 0x80135eb0` (per sibling: carve → extract → remap +
+canon_sig_reconcile → whole-binary gate, revert-on-fail) → **137/137 BANKED, 0 failed**.
+**R22 clean-fleet 140/140**; report fail-closed green (dedup 1886/0, 0 NON_MATCHING).
+
+**Measured delta:** fn-count 318,171 → **318,309 (+138)** · instr-weighted 83.4 → **83.8%**
+(+39,882 ins) · distinct-code 72.5 → **73.2%** (+131 unique fns).
+
+**SESSION-22 TOTAL: 5 exemplars + 543 members = 548 functions banked.**
+Fleet across the session: **82.9 → 83.8% instr · 71.5 → 73.2% distinct · 317,762 → 318,309 fn-count.**
