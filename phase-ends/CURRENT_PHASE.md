@@ -7138,3 +7138,40 @@ errors WITHOUT an `error:` prefix, so a naive grep for "error" finds nothing):
    **OPEN** — next step is to test whether the real TU tolerates the pointer-type mismatch (a warning,
    not necessarily an error) via `rtu_match` on `d68_sigfix.c`, before deciding whether the `Prim4 *`
    vs `s16 *` axis needs a different lever.
+
+## ✅ T43 — `func_80140D68` banked + swept 137/137; the §94 CARRY GAP is now precisely characterized
+
+The §99 pass REFUSED this one (§85 return-axis precondition, 414 consuming callers), so it was
+solved from the DRAFT side instead. Three distinct blockers, each found by measurement, not guessed:
+
+1. **§94 type-carry — and the draft's header asserted something FALSE.** It claimed both typedefs
+   "already exist VERBATIM in engine_types.h". Measured: `Hw4` 1 hit, `Prim4` 1 hit,
+   **`Env_800D29F8` ZERO.** In the real TU the `#ifndef` guard is DEFINED, so the local typedef
+   vanished → `parse error before 'D_800AE7BC'`.
+2. **Signature axis.** Conformed the DRAFT to the fleet's declared `s32 *` return, then param 2
+   (`s16 *` → `Prim4 *`) — byte-neutral because `src` is used EXACTLY once, as `(s32)src`, so the
+   pointer's target type never enters the arithmetic. Error was
+   `argument 'src' doesn't match prototype` — again a HARD error printed with **no `error:` prefix**.
+3. **The sweep still went 0/137 twice** before it went 137/137.
+
+### 🔧 THE FINDING (reusable, byte-proven): what `extract_unit` does and does NOT carry
+A **0/N family sweep whose exemplar banks cleanly** is the signature. Measured on the staged drafts:
+
+| file-scope construct | carried into a remapped sibling? |
+|---|---|
+| `extern` declarations | **YES** (`extern Hw4 D_8011516A[];` appeared in the staged sibling) |
+| `#define` macros | **YES** — but only while its expansion's dependencies stay file-scope |
+| **`typedef`** | **NO** — silently dropped |
+| `#define` whose expansion references a **body-local** extern | **NO** — silently dropped |
+
+**Recipe: make the draft SELF-CONTAINED.** Body-local typedefs survive (`PTag_80140D68` was the
+proof sitting in the same draft all along), so move typedefs into the body — and if that makes a
+macro's dependency body-local, **inline the macro at its use sites** too. Applied here:
+`0/137 → 0/137 → **137/137, 0 failed**` across the three iterations, each step byte-measured.
+
+**R22 → 140 passed, 0 failed of 140.** dedup 1886/0.
+**Fleet 85.5% instr · 76.1% distinct · 90.57 → 90.61% fn-count.**
+
+### Session totals for the §99 arc (T41-T43)
+`func_80177DA8` 133 members + `func_80140D68` 1 exemplar + 137 members = **271 functions**, on top of
+T39/T40's 147. The two blockers Drew green-lit this for are both **closed**.
