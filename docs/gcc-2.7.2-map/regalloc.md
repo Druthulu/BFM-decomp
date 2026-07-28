@@ -256,6 +256,24 @@ A compare/arith result qty whose insn kills a HARD (pinned) input records `qty_p
 Three seed cracks (`.run/giants/{func_8014D820,func_801670E4,func_8016CBC0}.fable.md`) continuing the §F/§G theme — an "RC-6 intrinsic" verdict is usually map-incompleteness. The durable output is one **diagnostic** and two **levers**.
 
 ### THE reg_renumber-SWAP ORACLE — discriminate RC-6 (allocation) from S3 (scheduling) in ONE gdb run
+> **[A23] PRECONDITION — CHECK `.greg` FIRST, or this oracle will hand you a confident wrong answer.**
+> `reg_renumber` maps **PSEUDOS ONLY** (index ≥ `FIRST_PSEUDO_REGISTER`, which is **68** on MIPS —
+> `config/mips/mips.h:1179`). If the diff's contested registers are already **hard** at `.greg` time
+> they are structurally unreachable here, and a swap returns a large number that *looks* like a
+> verdict and is not one.
+> **The check:** grep the `.greg` RTL for the contested instruction. `(reg/v:SI 6 a2)` with `6 < 68`
+> is a HARD register — an incoming parameter reg, a `register __asm__` pin, or a local-alloc reuse —
+> **not** something this oracle can move. Only `(reg:SI 130)`-style operands qualify.
+> **Second precondition — the contest must be NARROW.** The swap is global across `reg_renumber`, so
+> if the two registers serve many pseudos it destroys the allocations that were already right.
+> Count them first; the harness prints the number it moved.
+> **Byte-measured on `func_80176734` (2026-07-28), baseline 13 mismatches:** control swap `$31↔$31`
+> reproduced **13** ✓ · `$a0↔$a2` moved 17 pseudos → **345** · `$v1↔$a1` moved 31 pseudos → **97**.
+> The `.greg` read then showed the destination was `(reg/v:SI 6 a2)` — hard, a reused incoming
+> parameter register — so the true class was **local-alloc tying (K8/RC-4), not RC-6 global
+> allocation**, and the lever is C-level lifetime shaping. Both preconditions failed silently.
+> **Mechanized harness (with its negative control): `tools/oracle/reg_renumber_swap.sh`.**
+
 The single highest-value tool of the wave. When a residual is "register identity AND an instruction reordering" you cannot tell from the diff whether the reorder is a *scheduling* decision (S3, C often can't move it) or a mere *consequence* of the register grant (fix the regs and the schedule follows). Test it directly: break at `reload` entry, patch `reg_renumber` (a `short*`; find its address in the cc1 map) to swap the two contested hard regs, let compilation finish, and diff. **If the block goes byte-exact (schedule included), the residual is 100% ALLOCATION** — the reorder was a consequence, route to the density/lifetime levers, NOT to a scheduling lever or the permuter's schedule mode. (`func_801670E4`: the seed called its dominant residual an S3 `sched.c` priority wall — "C cannot lower a priority"; the swap oracle emitted the store-before-load target byte-exact, proving it was pure register 2-coloring. Generalizable: **store-before-load reordering is often a CONSEQUENCE of register identity, not a scheduling cause — swap-oracle it before invoking S3/S4.**)
 
 ### RC-14 — reused-load-temp SERIALIZATION (the MERGE pole; pin-free, cheap-Opus-applicable)
