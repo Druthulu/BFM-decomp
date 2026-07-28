@@ -5,6 +5,58 @@
 **Prime exemplar:** `func_801571C4` (198 ins, `.run/fable/func_801571C4.c`, baseline 11-off); experiment variants in `.run/gccmap/` (`exp1_slotorder.c`, `exp1c_declorder.c`, `exp2_defmove.c`), RTL dumps in `.run/gccmap/dumps/`.
 **How to use:** read §A once (the 8 knobs), then triage a diff with §C (tells) → apply the §B lever for the matched class. A cheap agent should never need the gcc source again for these classes.
 
+> ## ⚠️ SOURCE-VERSION AUDIT (Phase 29 SESSION-23, 2026-07-28) — READ BEFORE TRUSTING A CITATION
+> **This file was written against `tools/reference/gcc-papermario/`, which is gcc 2.8.1 — NOT our
+> 2.7.2** (established Phase 23; vanilla 2.7.2 is staged at `tools/reference/gcc-2.7.2/`). Line
+> numbers throughout are therefore for the WRONG COMPILER, and the drift is **large and non-uniform**
+> (`combine_regs` +103, `allocate_reload_reg` +377, `choose_reload_regs` +611) — big enough to land
+> *inside a different function*. **Re-derive with `grep -n '^symbol ('` before citing anything here;
+> do NOT rebase mechanically.**
+>
+> **The audit:** all 184 citations and claims were re-derived against the real 2.7.2 source by 5
+> parallel agents; every REFUTED claim then went to an independent agent whose job was to *refute the
+> refutation*, defaulting to upholding the map. Result: **119 CONFIRMED · 40 LINE-DRIFT (mechanism
+> intact, number wrong) · 21 raised as REFUTED, of which 14 were OVERTURNED and only 7 stand · 4
+> unverifiable.** So **the model in this file is overwhelmingly sound — do not delete levers.** The
+> seven real corrections are marked **[A23]** inline below. Two were byte-proven against the real
+> `cc1`, not just read.
+>
+> **The 7 corrections, in descending consequence:**
+> 1. **K4 `flag_caller_saves` is ON, not off** (`toplev.c:3387-3394` sets it at `optimize >= 2`;
+>    proven by compiling with/without `-fno-caller-saves` on the pinned cc1 → different code). A
+>    call-crossing value is NOT restricted to `$s0-$s7`-or-spill. **Diagnostic that was missing:
+>    caller-save slots are 4-BYTE-PACKED (16,20,24,28) while reload spill slots are 8-ROUNDED
+>    (16,24,32) — misreading one for the other sends you to RC-1 and decl reordering, the wrong lever.**
+> 2. **RC-7's premise is false: `&sp_buffer` is NOT a "rematerializable constant".** `CONSTANT_P`
+>    (`rtl.h:237-240`) admits only LABEL_REF/SYMBOL_REF/CONST_INT/CONST_DOUBLE/CONST/HIGH — a frame
+>    address is `(plus (reg vsv) K)`, a PLUS, which never qualifies, so it gets a real slot + `lw`.
+>    Only SYMBOL_REF/CONST_INT equivalences get the no-slot remat. *(Independently corroborated by a
+>    byte-test the same day: the cse_expr.md §2 remat recipe provably fails to dissolve a frame-address
+>    hoist seeded by a struct copy — see `.run/near6/f132F40_v*.c`.)*
+> 3. **The "init MOVED to just before its use" pass does not exist in 2.7.2.** That is 2.8.1-only
+>    (papermario `local-alloc.c:1236-1265`); 2.7.2's `update_equiv_regs` substitutes the equivalence
+>    into the use and **DELETES** the init (`local-alloc.c:1090-1116`). The diagnostic built on it
+>    tests for a pass we do not have.
+> 4. **K2 refs are LOOP-DEPTH-WEIGHTED**, not per-insn-mention: `flow.c` does
+>    `reg_n_refs[regno] += loop_depth`. Hand-computed densities are wrong inside loops — read the
+>    `.lreg` number instead.
+> 5. **K1: qty numbers come from BIRTH order, not regno order.** `alloc_qty`/`next_qty++` run during
+>    the forward block scan (`local-alloc.c:284`). Regno order governs allocnos and spill slots only.
+> 6. **RC-15/K2: `allocno_live_length` is the DENOMINATOR** (`global.c:594-597`) — priority is a
+>    *density* (refs per insn of life), so a LONGER live range LOWERS priority. The map had the sign
+>    of that term wrong.
+> 7. **Pins do NOT kill the sched S2 birthing boost** (see §F below, and the same correction landed in
+>    `sched.md` the same day). `birthing_insn_p` (`sched.c:2469`) tests only
+>    `GET_CODE (SET_DEST (pat)) == REG` — hard regs qualify; the discriminator is `reg_n_sets == 1`
+>    (`:2490`). Decisive: `sched.c:423` in the SAME FILE *does* add
+>    `>= FIRST_PSEUDO_REGISTER` when it wants pseudos only, so the omission at `:2478` is deliberate.
+>
+> **Hand-verified 2.7.2 anchors** (`grep -n '^sym ('`): `allocno_compare` **586** (priority expr
+> 594-597, tie-break `return *v1 - *v2` **609**) · `find_reg` **904** · `global_conflicts` **613** ·
+> `update_equiv_regs` **947** · `block_alloc` **1123** · `combine_regs` **1722** · `alloc_qty` **279**
+> · `find_free_reg` **2072** · `alter_reg` **2309** · `allocate_reload_reg` **4706** ·
+> `choose_reload_regs` **4903** · `validate_equiv_mem` **559**.
+
 ---
 
 ## §A The decision machinery — 8 knobs everything below reduces to
@@ -12,11 +64,13 @@
 Pass order (relevant slice): `flow → combine → sched1 → local_alloc → global_alloc → reload → sched2 → dbr`.
 **sched1 rewrites the life data regalloc consumes** (`sched.c:5067` `REG_LIVE_LENGTH(regno) = sched_reg_live_length[regno]`) — this is the exact channel by which instruction placement flips allocation (K2 below). Any scheduling lever (cookbook §30 birthing-boost, statement order) is therefore ALSO a regalloc lever, and vice versa.
 
-- **K1 — Pseudo creation order.** Params get pseudos first, in PARAMETER-LIST order (`function.c:assign_parms`); then user locals in **DECLARATION order** (pseudo made when the decl is expanded at block entry — **NOT at first assignment**; byte-proven, §B RC-1); compiler temporaries interleave at first need. Creation order (= regno order) is the tie-break for K2, the qty tie-break (`local-alloc.c:1745` `return q1 - q2`), the allocno tie-break (`global.c:616` `return v1 - v2`), and the **spill-slot order** (K7).
+- **K1 — Pseudo creation order.** Params get pseudos first, in PARAMETER-LIST order (`function.c:assign_parms`); then user locals in **DECLARATION order** (pseudo made when the decl is expanded at block entry — **NOT at first assignment**; byte-proven, §B RC-1); compiler temporaries interleave at first need. Creation order is the tie-break for K2, the qty tie-break (`local-alloc.c:1745`→2.7.2 `qty_compare_1`, `return q1 - q2`), the allocno tie-break (`global.c:616`→**2.7.2 :609** `return *v1 - *v2`), and the **spill-slot order** (K7). **[A23] "creation order (= regno order)" is only half right:** qty numbers are handed out by `alloc_qty`/`next_qty++` during `block_alloc`'s FORWARD block scan (`local-alloc.c:284`, scan starts `:1165-1169`) — i.e. **BIRTH order**, which equals regno order only when the pseudos are first touched in declaration order. Regno order genuinely governs allocnos (`global.c:397`) and spill slots (K7).
 - **K2 — Density priority.** Both allocators use the same formula:
-  `pri = (int)(((double)(floor_log2(n_refs) * n_refs) / live_length) * 10000 * size)` — `global.c:594 allocno_compare` (per-allocno, REG_LIVE_LENGTH from flow/sched1) and `local-alloc.c:1727 QTY_CMP_PRI` (per-qty, birth→death insn indices). Higher density allocates FIRST. It is `int`-truncated; exact ties fall back to creation order (K1). **Shrinking a live range raises priority** — refs are per-insn-mention, so moving a def later (or a last use earlier) is the lever.
+  `pri = (int)(((double)(floor_log2(n_refs) * n_refs) / live_length) * 10000 * size)` — `global.c:594 allocno_compare` (per-allocno, REG_LIVE_LENGTH from flow/sched1) and `local-alloc.c:1727 QTY_CMP_PRI` (per-qty, birth→death insn indices). Higher density allocates FIRST. It is `int`-truncated; exact ties fall back to creation order (K1). **Shrinking a live range raises priority** — **[A23] `allocno_live_length` is the DENOMINATOR** (`global.c:594-597`), so priority is a *density* and a LONGER live range LOWERS it; that is why shrinking works. **[A23] refs are LOOP-DEPTH-WEIGHTED, NOT per-insn-mention**: `flow.c` does `reg_n_refs[regno] += loop_depth`, so a mention inside a loop counts for more than one. **Hand-computing a density inside a loop gives the wrong answer — read the `.lreg` `Register N used R times across L insns` line instead.** Moving a def later (or a last use earlier) is still the lever.
 - **K3 — Hard-reg scan order.** MIPS defines **no REG_ALLOC_ORDER** (`config/mips/mips.h`) → every scan is plain regno order: `$v0,$v1,$a0..$a3,$t0..$t7,$s0..$s7,$t8,$t9,$fp`. First fit wins. So: first callee-saved allocno → `$s0`, next → `$s1`, …; local temps → lowest free scratch (`local-alloc.c:2176 find_free_reg`, over the qty's birth–death window `regs_live_at`).
-- **K4 — Call-crossing ⇒ callee-saved only.** `global.c:917-922` / `local-alloc.c:2205-2209`: an allocno/qty with `calls_crossed > 0` excludes ALL of `call_used_reg_set` ($v0–$t9). PSX gcc has `flag_caller_saves` off → no save/restore fallback. Whether a value crosses a call is decided purely by def/last-use placement in the (post-sched1) insn stream.
+- **K4 — Call-crossing ⇒ callee-saved only.** `global.c:917-922` / `local-alloc.c:2205-2209`: an allocno/qty with `calls_crossed > 0` excludes ALL of `call_used_reg_set` ($v0–$t9) **on the first attempt**. ~~PSX gcc has `flag_caller_saves` off → no save/restore fallback.~~ **[A23] FALSE — `flag_caller_saves` is ON for us.** `toplev.c:3387-3394` sets it inside `if (optimize >= 2)` and we build `-O2`; byte-proven on the pinned `cc1` (compiling a pressure-heavy function with vs without `-fno-caller-saves` gives different code; the `-O2` default emits `sw $3/$8/…` immediately before `jal` and matching `lw`s after — artifacts in `.run/regalloc_audit/A-machinery/{cs.c,on.s,off.s}`). So when `CALLER_SAVE_PROFITABLE(REFS,CALLS)` = `4*calls < refs` (`regs.h:165`) holds, `global.c` / `local-alloc.c` **retry with `accept_call_clobbered=1`** and a call-crossing value CAN live in a caller-saved reg with save/restore around the call.
+  **[A23] THE DIAGNOSTIC THIS FILE WAS MISSING — caller-save slots are 4-BYTE-PACKED (0x10,0x14,0x18,0x1C), reload spill slots are 8-ROUNDED (0x10,0x18,0x20).** A packed run of `sw`/`lw` hugging a `jal` is a caller-save, NOT a spill: reading it as RC-1 and starting to reorder declarations pulls entirely the wrong lever.
+  Whether a value crosses a call is still decided purely by def/last-use placement in the (post-sched1) insn stream.
 - **K5 — Two-pass frugality + preferences.** `global.c:900 find_reg`: pass 0 excludes regs not in `regs_used_so_far` ("never allocate a register for the FIRST time in pass 0", `:945-948`) and regs someone else prefers; pass 1 opens fresh regs. ⇒ gcc reuses already-dirty regs before opening a new callee-saved (minimal `.mask`). Copy preferences (`global.c:1538 set_preference`, from moves to/from hard regs — param copies, retval copies, pinned-var copies) can override the scan-order winner within the class (`:1000-1065`). Local-alloc analog: a move touching a hard reg records `qty_phys_copy_sugg` (`local-alloc.c:1905-1945`), and suggested qtys are allocated before all others (`:1593-1625`, fewest-suggestions-first).
 - **K6 — The eviction rules ("something else spills").** `global.c:1105-1160`: an allocno that finds no free reg may KICK OUT everything local-alloc put in some call-clobbered reg, iff `local_reg_n_refs[r]/local_reg_live_length[r] < allocno_n_refs/allocno_live_length` — scanning from the HIGHEST regno down. Reload's version: `reload1.c:3840 order_regs_for_reload` sorts spill candidates by total pseudo refs; the least-referenced reg is confiscated and its pseudos go to `retry_global_alloc`/stack.
 - **K7 — Spill slots.** `reload1.c:779` assigns slots by looping pseudos in **regno order** (= K1 creation order) through `alter_reg` (`:2471`): one fresh slot per spilled pseudo (never shared for `from_reg == -1`), `total_size = MAX(inherent, reg_max_ref_width)`; if a narrow pseudo (HImode u16) is ever referenced via `subreg:SI`, `reg_max_ref_width=4 ≠ 2` → `assign_stack_local(size, -1)` → `function.c:697-700`: align/round to `BIGGEST_ALIGNMENT/8 = 8` (`mips.h:1271`) → the **8-rounded slot** (0x20, 0x28, …). A pseudo with `reg_equiv_constant`/`reg_equiv_memory_loc` gets **no slot** (rematerialized) — see RC-7.
@@ -72,10 +126,12 @@ A pin makes every ref of the variable an explicit HARD reg from RTL-expansion on
 - **Recognize it:** match_one diff where registers/opcodes are all correct but a block of insns is PLACED differently, AND every small C edit changes 20+ instructions instead of 1-3. Two probes = enough; don't grind.
 
 ### RC-7 — Rematerialization vs spill/hoist (per-use `addiu $sp` vs callee-saved base; constant re-`li` vs slot) — **STEERABLE**
-- **Decision points:** `local-alloc.c:1007 update_equiv_regs` + `reload1.c:2471 alter_reg` no-slot path. A single-set pseudo equal to a constant/stable-MEM gets `REG_EQUIV` → if it fails to get a hard reg, reload substitutes the equivalence per-use (**no slot, no lw**: `reg_equiv_constant`/`reg_equiv_memory_loc`). `&sp_buffer` (an `addiu $sp,off` value) is such a constant.
+- **Decision points:** `local-alloc.c:1007 update_equiv_regs` + `reload1.c:2471 alter_reg` no-slot path. A single-set pseudo equal to a constant/stable-MEM gets `REG_EQUIV` → if it fails to get a hard reg, reload substitutes the equivalence per-use (**no slot, no lw**: `reg_equiv_constant`/`reg_equiv_memory_loc`). ~~`&sp_buffer` (an `addiu $sp,off` value) is such a constant.~~
+  **[A23] FALSE, and load-bearing — a FRAME ADDRESS IS NEVER `CONSTANT_P`.** `rtl.h:237-240` admits only `LABEL_REF | SYMBOL_REF | CONST_INT | CONST_DOUBLE | CONST | HIGH`. `&sp_buffer` is `(plus (reg virtual-stack-vars) K)` — a PLUS — so it fails the `CONSTANT_P` gates at `local-alloc.c:1031` and `reload1.c:566`, keeps only a **REG_EQUAL** note (never promoted to REG_EQUIV), and therefore gets a **real slot + `lw`** if it loses its register. Only `SYMBOL_REF`/`CONST_INT` equivalences get the no-slot remat. *(Corroborated by byte-test, same day: `cse_expr.md` §2's remat recipe demonstrably fails to dissolve a frame-address hoist seeded by a struct-copy source address — 47→40 mismatches, never 0, across three kill placements; ladder at `.run/near6/f132F40_v1..v6.c`.)* **Consequence: do not reach for RC-7 to make a frame address remat — that is a different mechanism from the constant case, and the sentence below about decayed arrays is the part that actually works.**
 - **The call killer:** `validate_equiv_mem` (`local-alloc.c:583`) rejects a MEM equivalence if ANY call occurs between the load and the reg's death (non-`RTX_UNCHANGING_P`) → a stack-local's VALUE loaded before a call can't be rematerialized from its home slot; it must hold a reg or spill to a NEW slot. Address-CONSTANTS survive calls; MEM-values don't. This asymmetry explains the whole class.
 - **Lever (byte-proven, cookbook §17, func_8012B4B8 88→52):** pass a stack buffer as a decayed **array** (`T buf[N]`, pass `buf`) — the address stays a rematerializable constant, `addiu $sp` re-emitted per call, no callee-saved consumed. Any address-taken form (`&struct`, `mtx.w`, `*(T*)arr`) forces the address into a pseudo that crosses calls → callee-saved + bigger frame.
-- **Priority side-effect to know:** an equiv-reg's `REG_LIVE_LENGTH` is **doubled** (`local-alloc.c:1153`) — deliberately halving its K2 priority ("reload can always recreate it"). So a single-set address/constant var LOSES callee-saved races on purpose. If the target holds such a value in $sN anyway, your draft must defeat the equiv: give the var a **second set** (`REG_N_SETS != 1` fails the `update_equiv_regs` gate) — the same REG_N_SETS knob as §30's birthing-boost, one pass earlier. Also: a set-once-used-once non-block-local pseudo gets its init MOVED to just before its use (`:1230-1270`, `LIVE_LENGTH=2, calls_crossed=0`) — if the target shows the init far from the use (or vice versa), this pass did/didn't fire; check REG_N_REFS==2.
+- **Priority side-effect to know:** an equiv-reg's `REG_LIVE_LENGTH` is **doubled** (`local-alloc.c:1153`) — deliberately halving its K2 priority ("reload can always recreate it"). So a single-set address/constant var LOSES callee-saved races on purpose. If the target holds such a value in $sN anyway, your draft must defeat the equiv: give the var a **second set** (`REG_N_SETS != 1` fails the `update_equiv_regs` gate) — the same REG_N_SETS knob as §30's birthing-boost, one pass earlier. ~~Also: a set-once-used-once non-block-local pseudo gets its init MOVED to just before its use (`:1230-1270`, `LIVE_LENGTH=2, calls_crossed=0`) — if the target shows the init far from the use (or vice versa), this pass did/didn't fire; check REG_N_REFS==2.~~
+  **[A23] REMOVED — that pass does not exist in gcc 2.7.2.** The cited `:1230-1270` is papermario/**2.8.1** `local-alloc.c:1236-1265`. Vanilla 2.7.2's `update_equiv_regs` (**:947-1117**) substitutes the equivalence into the use and **DELETES the initializing insn** (`:1090-1116`) — it never relocates it. **So "init far from its use" tells you nothing about this pass; do not use it as a diagnostic.**
 - **2-INSTRUCTION CONSTANTS get the second set FOR FREE → they escape the doubling (Phase 24 T7, byte-proven func_8013AF20, gdb-verified):** sched1 pre-reload-splits every insn (`sched.c:4830 try_split`) → mips.md:3208 `large_int` define_split turns `li BIG` into lui + ori = `reg_n_sets==2` → fails the single-set gate (`local-alloc.c:1021`, vanilla line) → **no ×2 penalty**. A lui+ori const (`0x00ffffff`) therefore out-prioritizes every same-ref 1-instruction const (addiu-able or lui-only, whose LL doubled) and allocates FIRST. When a preheader const-register contest looks "impossible by density", check the contenders' instruction counts before anything else (gdb: `((short*)reg_n_sets)[N]` at `update_equiv_regs`). Full chain: cookbook §36.
 
 ### RC-8 — Reload artifacts: reg identity, missing/extra `lw`, missing `sw`, reload order — **DETERMINED (fix upstream, don't chase)**
@@ -162,7 +218,7 @@ Cited proofs from earlier sessions: func_8012B8E4 (§17 pins), func_80128ED8 (§
 after the §31-directed permuter) is **MATCHED and whole-binary BANKED** by composing: the S12 reused-s32-temp
 fence + S13 body-local param copies + the asm-copy + an RC-4b target-scratch-pinned store temp + a two-input
 dead-read fence + s32-with-(s16)-cast-at-def vars. **Rule of thumb going forward:** an "S11/RC-6 intrinsic"
-verdict is trustworthy only after (a) auditing PINS (they kill the S2 boost and add suggestion-ties),
+verdict is trustworthy only after (a) auditing PINS (~~they kill the S2 boost and~~ **[A23] they do NOT kill the S2 boost — `birthing_insn_p`, 2.7.2 `sched.c:2469`, tests only `GET_CODE (SET_DEST (pat)) == REG`, so HARD regs qualify; the real gate is `reg_n_sets == 1` at `:2490`. Decisive: `sched.c:423` in the same file DOES add `>= FIRST_PSEUDO_REGISTER` where it wants pseudos only, so the omission is deliberate. Same correction landed in `sched.md` §1.7/§S12 the same day. Check the SET COUNT, not the pin**) and they add suggestion-ties,
 (b) trying the S12 fence for any load-batching residual, (c) trying S13 for scratch-identity/wedge residuals.
 True RC-6 (every edit explodes 20+ insns) still exists — but the class is SMALLER than Phase-21..23 believed.
 The promoted-HI store-copy law also falls out: `b[0] = (short)dx` with dx a PSEUDO emits copy+sh (the HI temp

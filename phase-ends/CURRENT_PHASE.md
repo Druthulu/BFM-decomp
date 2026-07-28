@@ -6777,3 +6777,68 @@ bound, not a census — the screen disagreed with hand-greps by a few lines).
 3. `func_80176734` at 13/371 — permuter on the delivered draft (it IS in the permuter bucket), then
    the `reg_renumber`-swap gdb oracle (regalloc.md §H) before any further C-tier spend. 51,198 ins.
 4. Wave-harness fix: per-agent scratch subdirs (I gave 6 agents one shared dir, 1,452 files).
+
+## ✅ T34 — `regalloc.md` re-derived against the real gcc-2.7.2: 7 corrections, 14 false alarms caught
+
+Drew directed the re-derivation at the T33 hand-off. Ultracode fan-out: **5 derive agents** (one per
+section group) + **21 adversarial refute agents** = 26 agents, 1.73M subagent tokens, 23 min.
+
+### The design that mattered: an adversarial second stage, and a MECHANICAL fabrication check
+Two guards, because a false REFUTED **deletes a working lever** — strictly worse than a stale line
+number:
+1. Every claim had to carry `real_file` + `real_line` + a **verbatim `source_quote`**. I then
+   re-opened every cited file at every cited line and compared (`.run/verify_regalloc_findings.py`,
+   `NEAR` vs `FABRICATED` distinguished, ±40-line window). **Result: 0 FABRICATED / 184 checked.**
+   27 exact, 153 NEAR (quote real, agent's line arithmetic off by +2..+19), 4 declared unverifiable.
+2. Every REFUTED claim went to an independent agent told to **refute the refutation**, defaulting to
+   upholding the map.
+
+**That second stage earned the whole wave: of 21 REFUTED claims, 14 were OVERTURNED and only 7 stand.**
+Applying the audit's raw output would have deleted **14 correct levers** — including RC-6's verdict,
+the decoy-qty lever, the ≤3-qty creation-order rule and the keepalive-read lever.
+
+**Final tally: 119 CONFIRMED · 40 LINE-DRIFT · 7 REFUTED (upheld) · 4 UNVERIFIABLE.**
+**The model in this file is overwhelmingly sound.** The corrections are marked `[A23]` inline.
+
+### The 7 real corrections (descending consequence)
+1. **K4 `flag_caller_saves` is ON, not off.** `toplev.c:3387-3394` sets it at `optimize>=2`; we build
+   -O2. **Byte-proven on the real `cc1`** (with vs without `-fno-caller-saves` → different code;
+   artifacts `.run/regalloc_audit/A-machinery/{cs.c,on.s,off.s}`). A call-crossing value is NOT
+   confined to `$s0-$s7`-or-spill. **Missing diagnostic added: caller-save slots are 4-BYTE-PACKED,
+   reload spill slots are 8-ROUNDED** — misreading one for the other routes you to RC-1 and
+   declaration reordering, entirely the wrong lever.
+2. **RC-7's premise is false: a frame address is NEVER `CONSTANT_P`.** `rtl.h:237-240` excludes PLUS,
+   so `&sp_buffer` keeps only REG_EQUAL, never REG_EQUIV, and gets a real slot + `lw`.
+   **This explains my own byte-tested failure from T31 earlier today** — the `cse_expr.md` §2 remat
+   recipe could not dissolve `func_80132F40`'s frame-address hoist (47→40, never 0, three
+   placements) because the map promised a remat mechanism that does not apply to frame addresses.
+   Independent evidence and a live byte-test converging on the same wrong sentence.
+3. **The "init MOVED to just before its use" pass does not exist in 2.7.2** — 2.8.1-only
+   (papermario `local-alloc.c:1236-1265`). 2.7.2 substitutes and **DELETES** the init. The
+   diagnostic built on it tested for a pass we do not have.
+4. **K2 refs are LOOP-DEPTH-WEIGHTED** (`reg_n_refs += loop_depth`), not per-insn-mention —
+   hand-computed densities are wrong inside loops.
+5. **K1 qty numbers come from BIRTH order**, not regno order (`alloc_qty`/`next_qty++` in the forward
+   block scan). Regno order governs allocnos and spill slots only.
+6. **RC-15/K2: `allocno_live_length` is the DENOMINATOR** — priority is a density, so a longer live
+   range LOWERS it. The map had that term's sign wrong.
+7. **Pins do NOT kill the S2 birthing boost.** `birthing_insn_p` (`sched.c:2469`) tests only
+   `GET_CODE (SET_DEST (pat)) == REG`. **This independently reproduces yesterday's `sched.md`
+   finding from a different agent in a different section** — and adds the decisive detail:
+   `sched.c:423` in the SAME file *does* add `>= FIRST_PSEUDO_REGISTER` where it wants pseudos only,
+   so the omission at `:2478` is deliberate, not an oversight.
+
+### What I did NOT do, and why
+The 40 LINE-DRIFT corrections are **not** applied wholesale. I derived true lines mechanically from
+the verbatim quotes, but generic quotes (`if (GET_CODE (pat) == SET`) match several places, so
+publishing all 40 would risk replacing 2.8.1 drift with fresh 2.7.2 drift. Instead the header carries
+**12 hand-verified anchors** and an explicit instruction to `grep -n '^sym ('` before citing.
+Struck-through text is preserved, never deleted (H5).
+
+**Docs-only change — no `src/`/`config/` touched, so R22 was not re-run and is not claimed.**
+
+## ▶ NEXT (unchanged, plus one)
+1. `func_80140D68` — §30a integration near-1 (`DEFINE_func_*` extern must return `u32 *`). 8,970 ins.
+2. `func_80176734` at 13/371 — permuter, then the `reg_renumber` gdb oracle. 51,198 ins.
+   **§H's oracle recipe is now audited**, so it is safe to run.
+3. **`loop.md` is the last un-audited map file** (`scan_loop` drifts +74). Same two-stage recipe.
