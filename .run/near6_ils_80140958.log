@@ -1,0 +1,8 @@
+ILS func_80140958: 6 cycles x 180s @ -j10, klass=cse
+  cycle 1: best score = 6  [output-6-1]
+  cycle 2: best score = 6 (unchanged)  [output-6-1]
+  cycle 3: best score = 6 (unchanged)  [output-6-1]
+  cycle 4: best score = 6 (unchanged)  [output-6-1]
+  cycle 5: best score = 6 (unchanged)  [output-6-1]
+  cycle 6: best score = 6 (unchanged)  [output-6-1]
+ILS done: best=6 (no score-0; seed for Fable5 or a longer run)

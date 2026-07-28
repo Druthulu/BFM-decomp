@@ -6527,3 +6527,111 @@ distinct binaries, -j12`. When I shipped it I could only smoke-test 4 fail-fast 
 - **Roadmap re-baseline owed**; the 39 type-1 modules are in no phase.
 - **The ladder-vs-bare-gate asymmetry** (ladder 0/7 vs bare gate 2/7) — still unexplained.
 **DO NOT close P29 on ROI** — +1.9pp instr today is nowhere near a burn-down floor.
+
+---
+
+# SESSION-23 (2026-07-28)
+
+Opened from the WAVE22 final checkpoint at Drew's direction: **item 1, the 6 wave NEAR results.**
+Effort **xHigh** (settled-design execution; confirmed by Drew before starting).
+Preflight: `make tools-health` → **exit 0** (green, fail-closed). HEAD `commit:1128`, tree clean but
+for the R23 `db.*.gbf` churn.
+
+## ✅/⚠️ T31 — the 6 NEAR: all measured, 2 improved, 0 banked. The honest result is a ROUTING finding.
+
+**Nothing banked this task — no draft reached closeness 0.** Recorded as such (P9); what follows is
+what was actually established.
+
+### 1. The checkpoint's six closeness numbers are now BYTE-VERIFIED, not inherited (R14/R35)
+They came from wave-agent summaries. Re-measured through the existing validated path
+(`match_one --json`, which runs `residual_class` over the two instruction streams — R33, never a
+second copy of the pipeline), with `asm_subdir`/`-O0` **derived** from `.run/wave22_targets.json`
+rather than guessed (the two silent-artefact generators `autopsy.py` warns about):
+
+| fn | nins | logged | measured | class | bucket | reach | templated ins |
+|---|---|---|---|---|---|---|---|
+| `func_80176734` | 371 | 217 | **217** | LENGTH-DRIFT (δ=-5, partial) | structural | 138 | 51,198 |
+| `func_80140958` | 260 | 10 | **10** | ADDRESSING | permuter/cse | 138 | 35,880 |
+| `func_80177B5C` | 147 | 11 | **11** | ADDRESSING | permuter/cse | 138 | 20,286 |
+| `func_80132F40` | 72 | 6 | **6** | OPCODE-MIXED (branch,width) | structural | 138 | 9,936 |
+| `func_8012E364` | 67 | 7 | **7** | OPCODE-MIXED | structural | 138 | 9,246 |
+| `func_80140D68` | 65 | 9 | **9** | SHIFT-DRIFT (-1 @3) | structural | 138 | 8,970 |
+
+All six reproduce EXACTLY. All six are reach-138 family cores → **~135,516 templated instructions
+(~1.04pp instr) if all six crack.** Reproducer: `.run/near6_measure.py` → `.run/near6_measure.json`.
+
+### 2. The permuter improved both admitted targets — second-oracle verified — then plateaued
+Only 2 of the 6 are permuter-admissible under the §60a/§60b rule. Ran `permuter_ils` (§31-directed
+`cse` profile, 6 cycles × 180s × -j10) on both:
+- `func_80177B5C` **11 → 7** (solved the idx18-21 cluster: the `lui/ori 0xFFFFFF` pair placement)
+- `func_80140958` **10 → 6**
+
+Both waypoints were converted back to drafts and re-measured with **`match_one`, an oracle
+independent of the permuter's own scorer (R34): 7 and 6 exactly — no disagreement.** Preserved as
+`.run/near6/func_{80177B5C,80140958}_ils.c` (+ `.gitignore` allowlist; CPU-bought, and the wave
+drafts' near-loss to `/.run/*` last session is the precedent).
+
+**Both plateaued after cycle 1** — 5 further warm restarts produced nothing.
+
+### 3. THE FINDING — `residual_class` routes ADDRESSING to the PERMUTER; the §31 map says it is a C-LEVER class
+`residual_class`'s `_ROUTE` sends **ADDRESSING → `cse` profile → `permuter` bucket**. But
+`docs/gcc-2.7.2-map/cse_expr.md` **§2** documents that exact class (`addu/addiu/lui` base-address
+shape = §10/§20 hoist-vs-remat) as **"STEERABLE, byte-proven"** with a deterministic C recipe (the
+output-only `__asm__ __volatile__("" : "=r"(q))` kill), byte-proven on `func_80149374` and
+`func_801493D0`. So the classifier spends CPU on a search for a class the map says has a free
+deterministic fix — and **both ADDRESSING targets plateaued in the permuter, exactly as that
+mismatch predicts.** This is an R35-shaped defect (the instrument routes work to the wrong tool),
+not a compiler wall. NOT yet fixed — see "next session", because the evidence below bounds it.
+
+### 4. ⚠️ NEGATIVE RESULT, byte-tested — the §2 remat recipe does NOT dissolve every hoist
+Tested on `func_80132F40` (the smallest prize, chosen for fast feedback). Its close=6 residual is
+the 6-instruction `min(w,h)` block; the draft's own header claimed declaring `w` as `s32` would fix
+the opcodes but flip a whole-function CSE fork (§83d). **I verified that claim myself rather than
+inheriting it** — 6 variants, each byte-measured:
+
+| variant | change | result |
+|---|---|---|
+| v1 | `w`→`s32`, form-a | 73 ins, **47** mism — frame `-0x40`→`-72`, 5th callee-saved `$s3 = sp+16` |
+| v2 | `w`→`s32`, form-b | 73 ins, **47** — min-block opcodes go RIGHT (`lh`/`lh`), address hoists |
+| v3 | `s16`, form-b | 74 ins, **61** |
+| v4 | v2 + §2 kill after call site 1 | 73 ins, **47** |
+| v5 | v4 + §2 kill after the struct copy | 73 ins, **40** |
+| v6 | v2 + struct-copy kill only | 73 ins, **40** |
+
+The §83d fork is **real and load-bearing** (byte-confirmed, not asserted). With `s32` the min block's
+opcodes become correct, so the *entire* residual collapses to one cause: `&v[0]` cached in `$s3`
+instead of rematerialized. **The §2 kill moves it (47→40) but does not dissolve it in any of three
+placements.** So §2's recipe has a boundary its write-up does not state: it is proven where the
+address's only uses are call arguments; here a **struct-copy source address** seeds the pseudo and
+survives the kill. The `s16` draft at **close=6 remains the best known state** — the agent's
+original conclusion, now independently re-earned. Ladder preserved at `.run/near6/f132F40_v*.c`.
+
+### 5. A new diagnosis that did not exist before this session
+`func_80140958`'s residual AFTER the permuter re-classes **ADDRESSING → OPCODE-MIXED**: mine emits
+`li v0,3` / `li a3,3` / `li t3,12` where the target computes `nop` / `addu $a3,$v1,$zero` /
+`sll $t3,$v1,2`. **My draft constant-folded a loop value the original keeps live at runtime** — a
+C-level structural fix, not a scheduling tie-break. Untried.
+
+### 6. Not spent, deliberately
+- `func_80176734` (the 51,198-ins top prize): **already had a full Fable5 pass** in Phase 27 that
+  banked nothing (`cse_expr.md` §H, `.run/giants/func_80176734.fable.md`). Re-grinding it in the
+  main loop is the worst available use of this session.
+- `func_80140D68`: the draft header records **~200 byte-measured compiles** (126 statement
+  orderings, bitfield layouts, 12 mask positions) concluding the `ori` position is a pre-sched2
+  LUID tie-break. I did not re-run that ground.
+- `func_8012E364`: ~2,500 variants + 400s permuter already plateaued at close=7.
+
+## ▶ NEXT (ranked, all measured)
+1. **Fix the ADDRESSING route** (finding 3) — try §2's C recipe BEFORE the permuter on
+   `func_80177B5C`/`func_80140958`, and if it holds, correct `residual_class._ROUTE` so ADDRESSING
+   lands in `structural` with a §2 pointer. Bound it with finding 4's counter-example.
+2. **`func_80140958` finding 5** — un-fold the constant-folded loop value. Cheapest fresh lead.
+3. `func_80177B5C` clusters B/C — C is a re-association (`cl | (X|0x4000)` → `(cl|0x4000)|X`) the
+   agent already fought with temps/barriers/operand swaps; §H's balanced-if/else-diamond
+   (barrier-preceded label → fresh cse table) is the one documented antidote NOT yet tried on it.
+4. The other three: hard residue, correctly parked with evidence.
+
+## ⚠️ EFFORT/MODEL TRANSITION OWED (R26/R27) — see the report to Drew
+Six independent hard functions with precise per-function diagnoses is **breadth-shaped**, and I
+worked them serially in the main loop. That is the shape `breadth-isolated-agents-not-serial` names
+as the expensive one. Prompted Drew at the end of this task rather than continuing to grind.

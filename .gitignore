@@ -177,3 +177,15 @@ unsloth_compiled_cache/
 /.run/wave22/*
 !/.run/wave22/*.c
 !/.run/wave22_targets.json
+
+# Phase 29 SESSION-23 — the NEAR-6 measurement corpus + the improved ILS seeds. The two
+# permuter waypoints (func_80177B5C 11->7, func_80140958 10->6) are CPU-bought and second-oracle
+# verified; the f132F40_v*.c ladder is the byte-evidence for a NEGATIVE result (the §2 remat
+# recipe does not dissolve this hoist), which is exactly the kind of finding that gets re-derived
+# expensively if it is lost. near6_measure.{py,json} is the reproducer.
+!/.run/near6/
+/.run/near6/*
+!/.run/near6/*.c
+!/.run/near6_measure.py
+!/.run/near6_measure.json
+!/.run/near6_ils_*.log

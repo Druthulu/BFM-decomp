@@ -1,0 +1,137 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+extern u8 D_8018A300[];
+u32 *func_80177B5C(p, bits, tbli, x, y)
+u32 *p;
+u32 bits;
+s32 tbli;
+s32 x;
+s32 y;
+{
+register u32 bb __asm__("$14");
+  u32 *q;
+register u32 v __asm__("$25");
+register u32 cl __asm__("$3");
+register u32 cs __asm__("$5");
+register u32 ca __asm__("$8");
+  s16 i;
+  u32 mk1;
+  u32 cc1;
+  u32 flag;
+  u32 nn;
+register u32 n __asm__("$7");
+register u32 t __asm__("$13");
+  u32 col;
+  u32 uv;
+  u32 tt;
+  u32 nv;
+  u32 x1;
+  u32 x2;
+  u32 w;
+  u32 g;
+  u32 w3;
+register u32 yr __asm__("$16");
+register u32 yt __asm__("$4");
+register u32 tr __asm__("$21");
+register u32 xr __asm__("$17");
+register u32 c3 __asm__("$18");
+register s32 ff __asm__("$19");
+register s32 two __asm__("$20");
+  yt = y;
+  tr = tbli;
+__asm__("" : "=r"(tr) : "0"(tr));
+  xr = x;
+__asm__("" : "=r"(xr) : "0"(xr));
+  mk1 = 0xFFFFFF;
+  cc1 = 0x74808080;
+  bb = bits;
+  t = x + 0xE;
+  flag = 0x1000000;
+  i = 0;
+  two = 2;
+  ff = 255;
+  ;
+  ca = 0x3000000;
+  v = D_8018A300[(s16) tbli];
+  p[0] = (((u32) (p - 5)) & mk1) | ca;
+  x1 = (x - 3) & 0xFFFF;
+  x2 = (x + 5) & 0xFFFF;
+  p[1] = cc1;
+  yr = yt;
+__asm__("" : "=r"(yr) : "0"(yr));
+  yt = (s16) yt;
+  cs = (yt + 1) << 16;
+  w = cs | x1;
+__asm__("" : "=r"(w) : "0"(w));
+  cl = ((v << 6) | 0x4016) << 16;
+  p[2] = w;
+  p[3] = cl | 0x1800;
+  p += 5;
+  p[0] = (((u32) (p - 5)) & mk1) | ca;
+  p[1] = cc1;
+  p[2] = cs | x2;
+  p[3] = cl | 0x1808;
+  p += 5;
+  q = p;
+  yt = yt << 16;
+  {
+    for (; i < 3; i++)
+    {
+      nn = ((bb << 16) >> 18) >> 10;
+      n = nn;
+      if (((nn != 0) || (i == two)) || (i == ff))
+      {
+        flag = 0;
+      }
+      q[0] = (((u32) (q - 5)) & 0xFFFFFF) | 0x3000000;
+      q[2] = (yt | (t & 0xFFFF)) | flag;
+      col = 0x74808080;
+      q[1] = col;
+      q[3] = cl | (((n * 8) + 8) | 0x4000);
+      q += 5;
+      t += 8;
+      bb <<= 4;
+    }
+
+  }
+  p = q;
+__asm__("" : "=r"(v) : "0"(v));
+  g = (((u32) (p - 5)) & 0xFFFFFF) | 0x3000000;
+__asm__ __volatile__("");
+  cs = yr << 16;
+  p[0] = g;
+  w3 = cs | ((xr + 0x2A) & 0xFFFF);
+__asm__ __volatile__("");
+  cl = ((v << 6) | 0x4016) << 16;
+  uv = ((s16) tr) << 4;
+  p[2] = w3;
+  tt = uv | 0x1000;
+  p[1] = col;
+  p[3] = cl | tt;
+  p += 5;
+  p[0] = (((u32) (p - 5)) & 0xFFFFFF) | 0x3000000;
+__asm__ __volatile__("");
+  cs = cs | ((xr + 0x32) & 0xFFFF);
+  uv = uv | 0x1008;
+  cl = cl | uv;
+  p[1] = col;
+  p[2] = cs;
+  p[3] = cl;
+  p += 5;
+__asm__("" :: "r"(tr), "r"(xr));
+  return p;
+}

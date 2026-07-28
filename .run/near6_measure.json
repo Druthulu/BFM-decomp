@@ -1,0 +1,225 @@
+[
+ {
+  "fn": "func_80176734",
+  "logged": 217,
+  "draft": ".run/wave22/func_80176734.c",
+  "asm_subdir": "asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_801734BC",
+  "o0": false,
+  "status": "near",
+  "closeness": 217,
+  "nins": 366,
+  "klass": "LENGTH-DRIFT",
+  "bucket": "structural",
+  "profile": null,
+  "detail": {
+   "delta": -5,
+   "at": 1,
+   "explains": "partial"
+  },
+  "disagree": null
+ },
+ {
+  "fn": "func_80177B5C",
+  "logged": 11,
+  "draft": ".run/wave22/func_80177B5C.c",
+  "asm_subdir": "asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_801734BC",
+  "o0": false,
+  "status": "near",
+  "closeness": 11,
+  "nins": 147,
+  "klass": "ADDRESSING",
+  "bucket": "permuter",
+  "profile": "cse",
+  "detail": {
+   "pairs": [
+    [
+     18,
+     "sw",
+     "lui"
+    ],
+    [
+     19,
+     "lui",
+     "ori"
+    ],
+    [
+     20,
+     "lui",
+     "sw"
+    ],
+    [
+     21,
+     "ori",
+     "lui"
+    ],
+    [
+     24,
+     "lui",
+     "addiu"
+    ],
+    [
+     25,
+     "addiu",
+     "and"
+    ]
+   ],
+   "kinds": {
+    "opcode": 10,
+    "reg": 1
+   }
+  },
+  "disagree": null
+ },
+ {
+  "fn": "func_80140958",
+  "logged": 10,
+  "draft": ".run/wave22/func_80140958.c",
+  "asm_subdir": "asm/ov_SC01_077/nonmatchings/ov_SC01_077",
+  "o0": false,
+  "status": "near",
+  "closeness": 10,
+  "nins": 260,
+  "klass": "ADDRESSING",
+  "bucket": "permuter",
+  "profile": "cse",
+  "detail": {
+   "pairs": [
+    [
+     134,
+     "li",
+     "nop"
+    ],
+    [
+     141,
+     "addiu",
+     "nop"
+    ],
+    [
+     143,
+     "li",
+     "addu"
+    ],
+    [
+     144,
+     "lui",
+     "sll"
+    ],
+    [
+     145,
+     "addiu",
+     "lui"
+    ],
+    [
+     146,
+     "lui",
+     "addiu"
+    ]
+   ],
+   "kinds": {
+    "opcode": 9,
+    "imm": 1
+   }
+  },
+  "disagree": null
+ },
+ {
+  "fn": "func_80140D68",
+  "logged": 9,
+  "draft": ".run/wave22/func_80140D68.c",
+  "asm_subdir": "asm/ov_SC01_077/nonmatchings/ov_SC01_077",
+  "o0": false,
+  "status": "near",
+  "closeness": 9,
+  "nins": 65,
+  "klass": "SHIFT-DRIFT",
+  "bucket": "structural",
+  "profile": null,
+  "detail": {
+   "shift": -1,
+   "at": 3,
+   "realigned": 7,
+   "of": 9
+  },
+  "disagree": null
+ },
+ {
+  "fn": "func_8012E364",
+  "logged": 7,
+  "draft": ".run/wave22/func_8012E364.c",
+  "asm_subdir": "asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_8012ACE0",
+  "o0": false,
+  "status": "near",
+  "closeness": 7,
+  "nins": 67,
+  "klass": "OPCODE-MIXED",
+  "bucket": "structural",
+  "profile": null,
+  "detail": {
+   "pairs": [
+    [
+     43,
+     "lw",
+     "lui"
+    ],
+    [
+     44,
+     "lui",
+     "lw"
+    ],
+    [
+     59,
+     "nop",
+     "addu"
+    ]
+   ],
+   "families": [],
+   "kinds": {
+    "opcode": 3,
+    "reg": 4
+   }
+  },
+  "disagree": null
+ },
+ {
+  "fn": "func_80132F40",
+  "logged": 6,
+  "draft": ".run/wave22/func_80132F40.c",
+  "asm_subdir": "asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_8012ACE0",
+  "o0": false,
+  "status": "near",
+  "closeness": 6,
+  "nins": 72,
+  "klass": "OPCODE-MIXED",
+  "bucket": "structural",
+  "profile": null,
+  "detail": {
+   "pairs": [
+    [
+     37,
+     "lhu",
+     "lh"
+    ],
+    [
+     40,
+     "sra",
+     "addu"
+    ],
+    [
+     42,
+     "bnez",
+     "beqz"
+    ]
+   ],
+   "families": [
+    "branch",
+    "width"
+   ],
+   "kinds": {
+    "opcode": 3,
+    "reg+imm": 1,
+    "reg": 2
+   }
+  },
+  "disagree": null
+ }
+]
