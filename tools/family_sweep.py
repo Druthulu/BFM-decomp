@@ -221,10 +221,15 @@ def _merge_sig(def_line, canon, to_func, body=""):
     if any(('(' in t or '[' in t) for t in ctypes):     # fn-ptr / array param: cannot re-render safely
         return canon
     if not ctypes:
-        # `(void)` and `()` both parse to params==[] — and they are NOT the same declaration
-        # (§99: `()` is the no-prototype form, which changes argument promotion). There are no names
-        # to preserve here anyway, so hand back the canonical string and keep whichever form the
-        # header actually wrote.
+        # `(void)` and `()` both parse to params==[] and are NOT the same declaration (§99: `()` is
+        # the no-prototype form). Distinguish them on the raw text:
+        #   `()`     -> a NO-PROTOTYPE decl constrains nothing. Conforming to it would DELETE the
+        #              definition's parameters and leave the body referencing undeclared names
+        #              (`param_1' undeclared, 137 members — Phase 29 T74, caused by this tool
+        #              meeting the §99 header fix). Refuse: there is nothing to conform to.
+        #   `(void)` -> a real zero-parameter prototype; hand back the canonical verbatim.
+        if re.search(r'\(\s*\)\s*$', canon.strip()):
+            return None
         return canon
     dnames = list(dd.pnames or [])
     cnames = list(cd.pnames or [])

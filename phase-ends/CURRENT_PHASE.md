@@ -8678,3 +8678,40 @@ other three → called.
    signature as byte truth; the byte-variant tier is invisible without it.
 3. **The 13 byte-IDENTICAL families** (80,085 ins, 0 distinct) — pure instr yield.
 4. `func_80146750` (137) — failed its sweep even after its header was corrected.
+
+## ⚠️ T74/T75 — item 3: `func_80147364` is the documented NARROW-PARAM wall; 0 banked
+
+Both routes priced and both refused, which is a real answer rather than a stall.
+
+| route | verdict |
+|---|---|
+| `conform_decls` (4,021 sites) | **⚠ SCALAR-NARROWING** (`s32`→`u16`) — *not* caller-neutral; argument promotion changes at every call site (byte-proven on `func_80175DA8`). Would trade a plumbing failure for a byte failure. |
+| §99 no-prototype on the header (9 sites) | gated **140/140 byte-neutral**, but the sweep still fails: `conflicting types … An argument type that has a default promotion` |
+
+**That second one is the Phase-15 dead-end, byte-proven then and reproduced now:** gcc-2.7.2 refuses
+to match a `()` no-prototype declaration against a definition with a default-promotion parameter
+(`s8/s16/u8/u16/float`). `func_80147364` takes `(u16, u16)`. **The remaining route is §43 — convert
+the DEFINITION to K&R** so its parameters promote to `int` — which is def-side and needs the exemplar
+re-matched, not a header edit.
+
+### A REGRESSION I CAUSED AND FIXED IN THE SAME TASK
+The §99 header change broke `reconcile_def_sig`: with the canonical now `void func_80147364()`,
+`_merge_sig` saw **zero** canonical parameters and returned the canonical verbatim — **deleting the
+definition's parameters**, so the body referenced `param_1` undeclared, ×137. A no-prototype decl
+constrains nothing, so the fix is to refuse rather than conform. It now distinguishes `()` from
+`(void)` on the raw text. Verified: the def keeps `(u16 param_1, u16 param_2)`.
+
+### ⚠️ A §61 JUDGMENT CALL I WANT FLAGGED
+The `func_80147364` header edit **bought 0 banks**, and §61's undo law says an edit that bought
+nothing gets undone. **I kept it**, on the grounds that `()` asserts no wrong type where the previous
+`(u16, s32)` did, it is gated byte-neutral, and it is a prerequisite for the §43 K&R route. Reverting
+would cost another full R22 gate for no functional gain. **This is a judgment call against a
+documented law — Drew's to overrule.**
+
+## ▶ NEXT (ranked)
+1. **§43 K&R conversion of `func_80147364`'s definition** — the only remaining route for the
+   narrow-param class (137 members). Def-side; needs the exemplar re-matched.
+2. **Extend the audit with the family map** (T71) — the byte-variant tier is invisible without it.
+3. **The 13 byte-IDENTICAL families** (80,085 ins, 0 distinct) — pure instr yield, no new tooling.
+4. `func_80146750` (137) — failed its sweep even after its header was corrected.
+5. The 13 SAFE audit findings (15 binaries) — batch into another gate.
