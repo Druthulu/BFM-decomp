@@ -7723,3 +7723,50 @@ sweep is the true end-to-end validation.
    Discount its 37,536 headline: it is `_o0`, and `_o0` families sweep ~1/137.
 4. **PARKED: `func_80176734`** (51,198 ins) — five tiers bounced; clusters A and B are provably
    coupled and must be solved together.
+
+## ✅ T54 — the `ADDRESSING` route corrected, and the reason it was inert fixed underneath it
+
+Item 1 off T53's list. Two changes: the route itself, and the design flaw that would have made
+changing it a no-op.
+
+### THE DEFECT UNDER THE DEFECT (§106)
+`residual_class` answers two different questions in one pass: **`klass`** is a *measurement*
+(expensive, from comparing instruction streams) and **`(profile, bucket)`** is a *policy* (a table
+lookup over it). `autopsy` persisted BOTH and `verdicts()` read BOTH back. So editing `_ROUTE`
+changed nothing until someone re-ran the whole collect, and a weeks-old row could silently
+out-vote the live table with no oracle to report the disagreement. **The corpus on disk is dated
+Jul 21 — it does not even contain the SESSION-23 targets the recommendation cited.**
+
+Fixed by re-deriving the route at read time (`route_for(klass, detail)`; R33 — persist the
+measurement, derive the decision). The subtlety: one route is **magnitude-dependent** —
+`LENGTH-DRIFT` is permuter-shaped only when `|delta| ≤ 2 AND explains == "tail"` (§60b), so a naive
+re-derivation from `klass` alone would have silently demoted those 9 rows. Both inputs are already
+in `detail`, so the override reproduces exactly — **verified 1610/1610 against the stored corpus
+with the table UNCHANGED, before touching it.** Proving the derivation faithful first is what makes
+the subsequent diff interpretable.
+
+### THE ROUTE CHANGE
+`ADDRESSING: ("cse", "permuter") → ("cse", "structural")`. It contradicted `residual_class`' own
+bucket definition — *"structural — local mutation CANNOT introduce it … it wants a C-level idiom."*
+The §10/§20 hoist-vs-remat shape is a multi-instruction change with a documented deterministic
+recipe (`gcc-2.7.2-map/cse_expr.md` §2, byte-proven on `func_80149374`/`func_801493D0`).
+
+| | |
+|---|---|
+| measured corroboration (T31) | both admitted ADDRESSING targets (`func_80140958`, `func_80177B5C`) plateaued under a §31-directed permuter |
+| share of the admission pool | **18 of 56 = 32%** |
+| after the fix | pool **56 → 38**; exactly **18** rows changed, **all** ADDRESSING, nothing else moved |
+| grinder smoke | admits 45; `structural` skip-count 512 → 530 |
+
+### THE BOUND, KEPT WHERE THE NEXT READER HITS IT (R14)
+I checked the T31 record rather than the summary line, and the summary was looser than the evidence.
+T31 finding 4 **byte-tested** the §2 recipe on `func_80132F40` across six variants — it never closed
+(best 40 mismatches). So `structural` here does **not** promise a free fix; it means *"a search over
+local mutations is the wrong tool, try the documented idiom"* — exactly what WIDTH /
+BRANCH-POLARITY / IMM-OFFSET already mean. That caveat is in the `_ROUTE` comment, not just here.
+Also corrected: the checkpoint line cited `func_80176734` as the flat-for-32-min evidence, but that
+function is **not in the corpus at all** — the two targets that actually plateaued are the ones above.
+
+### GATE
+Tooling-only, no `src/`/`config/` change → no bank, no metric move. `parse OK` on both edited tools;
+the effect measured directly through `autopsy.verdicts()` and `grinder.candidates()`.

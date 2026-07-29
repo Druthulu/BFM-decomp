@@ -42,7 +42,8 @@ unclassifiable residual is `UNKNOWN`, COUNTED, never silently bucketed, R32):
   REGALLOC-LOCAL      register-only diffs, no consistent global map            -> regalloc
   WIDTH               load/store WIDTH flip (lw↔lh↔lb, sw↔sh↔sb)               -> structural (idiom)
   STRENGTH            mult/div ↔ shift/add re-association                      -> cse
-  ADDRESSING          addu/addiu/lui base-address shape (§10 hoist-vs-remat)   -> cse
+  ADDRESSING          addu/addiu/lui base-address shape (§10 hoist-vs-remat)   -> structural (idiom:
+                      cse_expr.md §2's remat kill) — NOT permuter fuel, see _ROUTE
   BRANCH-POLARITY     beq↔bne / bgez↔bltz (loop-guard operand order)           -> structural (idiom)
   OPCODE-MIXED        different operations, no single family                   -> structural
   IMM-OFFSET          same ops+regs, immediates differ by a CONSTANT (a frame  -> structural
@@ -154,7 +155,19 @@ _ROUTE = {
     "REGALLOC-LOCAL":   ("regalloc", "permuter"),
     "WIDTH":            (None,       "structural"),
     "STRENGTH":         ("cse",      "structural"),
-    "ADDRESSING":       ("cse",      "permuter"),
+    # ADDRESSING was ("cse", "permuter") and that contradicted this file's OWN bucket definition:
+    # "structural — local mutation CANNOT introduce it ... it wants a C-level idiom". The §10/§20
+    # hoist-vs-remat shape (a base address kept in a callee-saved reg vs recomputed per use) is a
+    # multi-instruction change, not a local mutation, and `gcc-2.7.2-map/cse_expr.md` §2 documents
+    # a deterministic C recipe for it (the output-only `__asm__ __volatile__("" : "=r"(q))` kill),
+    # byte-proven on func_80149374 / func_801493D0. Measured corroboration (Phase 29 T31): BOTH
+    # admitted ADDRESSING targets (func_80140958, func_80177B5C) plateaued under a §31-directed
+    # permuter, and it was 32% of the whole permuter admission pool (18 of 56).
+    # BOUNDED, and the bound is byte-tested (T31 finding 4): the §2 recipe does NOT dissolve every
+    # hoist — func_80132F40 took 6 variants to 40 mismatches and never closed. So `structural` here
+    # does not promise a free fix; it means "a search over local mutations is the wrong tool, try the
+    # documented idiom" — exactly what WIDTH / BRANCH-POLARITY / IMM-OFFSET already mean.
+    "ADDRESSING":       ("cse",      "structural"),
     "BRANCH-POLARITY":  (None,       "structural"),
     "OPCODE-MIXED":     (None,       "structural"),
     "IMM-OFFSET":       (None,       "structural"),
@@ -455,6 +468,29 @@ def _drift_route(d, explains="partial"):
     the permuter spends CPU that can never pay (the same waste Task-13A's targeting reclaimed —
     this is the second, finer cut of the same knife)."""
     return {"profile": "length", "bucket": "permuter"} if (abs(d) <= 2 and explains == "tail") else {}
+
+
+def route_for(klass, detail=None):
+    """The CURRENT route for a stored verdict — `(profile, bucket)` derived from `klass` + `detail`.
+
+    THE ROUTE IS A POLICY, NOT A MEASUREMENT (R33). `klass` is the expensive part: it comes from
+    comparing two instruction streams. The route is a table lookup over it. Persisting the lookup's
+    OUTPUT (as `.run/autopsy/residuals.jsonl` did) makes a stale corpus authoritative for a decision
+    the table owns — so correcting `_ROUTE` was inert until someone re-ran the whole collect, and a
+    stored row could silently contradict the live table. Consumers now re-derive at read time
+    (`autopsy.verdicts`), so a route correction takes effect immediately and cannot be out-voted by
+    a file written weeks ago.
+
+    Faithful to the magnitude-dependent override: LENGTH-DRIFT's route depends on `delta`/`explains`,
+    and both are persisted in `detail`, so this reproduces `_drift_route` exactly rather than
+    approximating it. Verified against the stored corpus at 1601/1601 before `_ROUTE` was edited."""
+    prof, bkt = _ROUTE[klass]
+    d = detail or {}
+    if klass == "LENGTH-DRIFT" and "delta" in d:
+        ov = _drift_route(d["delta"], d.get("explains", "partial"))
+        if ov:
+            prof, bkt = ov["profile"], ov["bucket"]
+    return prof, bkt
 
 
 def _v(klass, closeness, nm, nt, detail, sig=None, profile=_KEEP, bucket=_KEEP):

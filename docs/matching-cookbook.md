@@ -7457,3 +7457,46 @@ Negative-control proven: the same crashing invocation now reports `{'exception':
 > through it. Same family as §97 (the gate's own tree hygiene), and the reason it matters more in a
 > sweep than in a one-off: a one-off's residue is visible in the next `git status`; a sweep's residue
 > is consumed by the next iteration first.
+
+---
+
+## §106 — Persist the MEASUREMENT, derive the POLICY: a stored route let a stale file out-vote the live table (Phase 29 T54, `residual_class._ROUTE`)
+
+`residual_class` answers two different questions in one pass. **`klass`** is a *measurement* — it comes
+from comparing two instruction streams and is expensive. **`(profile, bucket)`** is a *policy* — a table
+lookup over `klass` that says which tool should work on it. `autopsy` persisted both to
+`.run/autopsy/residuals.jsonl`, and `verdicts()` read both back.
+
+That made the corpus authoritative for a decision the table owns, with two consequences:
+
+* **a route correction was inert.** Editing `_ROUTE` changed nothing until someone re-ran the whole
+  collect — so the fix and its effect were separated by an expensive step that is easy to skip.
+* **a weeks-old row could silently contradict the live table**, and nothing would ever report the
+  disagreement (there is no oracle comparing a stored policy against the current one — R34's blind spot).
+
+**The fix: re-derive the route at read time from the stored `klass` + `detail`.** The measurement stays
+persisted; the policy is looked up fresh on every read.
+
+The subtlety that makes this a technique rather than a one-liner: **one route is magnitude-dependent.**
+`LENGTH-DRIFT` is permuter-shaped only when `|delta| <= 2 AND explains == "tail"` (§60b). A naive
+re-derivation from `klass` alone would silently demote those rows. Both inputs are already in `detail`,
+so `route_for(klass, detail)` reproduces the override exactly — **verified at 1610/1610 against the
+stored corpus with the table UNCHANGED, before the table was edited.** Prove the derivation is faithful
+first, then change the policy; otherwise a bug in the derivation is indistinguishable from the intended
+change.
+
+**The route change itself (the reason this came up):** `ADDRESSING` was routed to the permuter, which
+contradicted `residual_class`' own bucket definition — *"structural — local mutation CANNOT introduce
+it … it wants a C-level idiom."* The §10/§20 hoist-vs-remat shape is a multi-instruction change with a
+documented deterministic recipe (`gcc-2.7.2-map/cse_expr.md` §2). Measured: both admitted ADDRESSING
+targets plateaued under a §31-directed permuter, and the class was **32% of the entire admission pool
+(18 of 56)**. After the fix: **56 → 38**, exactly 18 rows changed, all ADDRESSING, nothing else moved.
+
+**And the bound, kept in the comment where the next reader will hit it:** T31's finding 4 byte-tested
+the §2 recipe on `func_80132F40` across six variants and it never closed. `structural` here does not
+promise a free fix — it means *"a search over local mutations is the wrong tool; try the documented
+idiom"*, exactly what WIDTH / BRANCH-POLARITY / IMM-OFFSET already mean.
+
+> **The law:** persist what was *measured*; derive what was *decided*. If a stored field can be
+> recomputed from other stored fields plus a table, storing it converts a future correction into a
+> silent no-op — and the staler the file, the more confidently it lies.

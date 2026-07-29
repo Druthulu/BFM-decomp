@@ -189,7 +189,15 @@ def verdicts():
 
     The consumer-facing accessor (tools/grinder.py). Returns {} rather than raising so a missing
     corpus degrades to the previous undirected behaviour instead of breaking the daemon — but the
-    caller must SAY which mode it is in (R32: a filter that silently does nothing is the defect)."""
+    caller must SAY which mode it is in (R32: a filter that silently does nothing is the defect).
+
+    THE ROUTE IS RE-DERIVED HERE, NEVER READ FROM THE FILE (R33, Phase 29 T54). `klass` is the
+    measurement and is trusted; `profile`/`bucket` are a policy lookup over it, and a stored lookup
+    output makes a weeks-old file authoritative for a decision `residual_class._ROUTE` owns — a
+    route correction would be inert until someone re-ran the whole collect, and the stale row would
+    silently out-vote the live table. `route_for` reproduces the stored routes exactly under an
+    unchanged table (verified 1610/1610), so this is a no-op except where the table has since been
+    corrected — which is precisely when it must not be a no-op."""
     p = os.path.join(REPO, OUT)
     if not os.path.exists(p):
         return {}
@@ -198,6 +206,7 @@ def verdicts():
         if line.strip():
             r = json.loads(line)
             if r.get("name") and r.get("klass"):
+                r["profile"], r["bucket"] = residual_class.route_for(r["klass"], r.get("detail"))
                 out[r["name"]] = r
     return out
 
