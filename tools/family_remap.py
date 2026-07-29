@@ -358,6 +358,16 @@ def gather_externs(from_ov, from_addr, unit):
     stmts = [(tu_mask[s.start():s.end()], tu[s.start():s.end()])
              for s in _EXTERN_STMT.finditer(tu_mask)]
     unit_stmts = [unit_mask[s.start():s.end()] for s in _EXTERN_STMT.finditer(unit_mask)]
+    # FILE-SCOPE DECLS FIRST (Phase 29 T61). This function's contract is "file-scope `extern` decls
+    # from the exemplar TU", but `^[ \t]*extern` also matches an INDENTED one — a block-scope decl
+    # living inside some OTHER function's body, which is not even in scope at the exemplar's own
+    # definition. Carrying it and re-emitting it at FILE scope in the sibling is how
+    # `extern void func_80155FF8(void *, u8);` (ov_SC01_077 L1213, inside another function) landed
+    # above the sibling's `DEFINE_func_80155FF8()` macro definition and collided with it —
+    # 137 members booked as a compile failure.
+    # Ordered, not filtered: a col-0 decl wins, and an indented one is still available as the
+    # fallback it always was, so a symbol declared ONLY block-scope keeps working exactly as before.
+    stmts.sort(key=lambda so: 0 if so[0].startswith('extern') else 1)
 
     for sym in sorted(refs):
         if any(re.search(rf'\b{sym}\b', s) for s in unit_stmts):

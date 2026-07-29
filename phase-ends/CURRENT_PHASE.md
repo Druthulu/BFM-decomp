@@ -8180,3 +8180,63 @@ and reporting the total.
    type when a caller consumes it, instead of emitting code that cannot compile.
 5. `0x80143d28` (136) `ApplyMatrixSV`; `0x801457a4` (137) the original DIFF; the distinct-code +0
    probe; ~50 more families (regenerate the map; select with `corpus.stubs`).
+
+## 🔧 T61/T62 — items 1–4 worked; **all three families converge on ONE root cause**, and I broke one myself
+
+**0 banked.** Four tool fixes landed, one byte-neutral header correction landed, and the three
+families resolved to a **single** root problem — plus a self-inflicted defect I caught by measuring.
+
+### FOUR TOOL FIXES (all verified by a verdict MOVING, never by assertion)
+1. **`gather_externs` now prefers FILE-scope decls** (§107a). Its contract says "file-scope `extern`
+   decls", but `^[ \t]*extern` also matches an **indented** one — a block-scope decl inside some
+   *other* function, not even in scope at the exemplar's own definition. Carried to file scope in the
+   sibling, `extern void func_80155FF8(void *, u8);` (ov_SC01_077 L1213) landed above that sibling's
+   `DEFINE_func_80155FF8()` macro and collided with it. **Ordered, not filtered** — an indented decl
+   is still the fallback it always was, so a symbol declared only block-scope is unaffected.
+2. **`reconcile_def_sig` keeps the BODY's param names** (§109) — the T60 fix.
+3. **§85 return-axis precondition** — refuses when callers consume the return (reuses
+   `conform_decls.consumers`, R33).
+4. **Param-use guard** — refuses to retype a parameter the body indexes/dereferences. `func_8014D610`'s
+   header says `void *a2` where the byte truth is `u16 *param_3`, and the body does `param_3[0]`.
+
+### ONE BYTE-NEUTRAL HEADER CORRECTION, LANDED
+`engine_core.h` `DEFINE_func_80155FF8` declared `extern int func_80156044` where the exemplar's own
+`@stuck` note (L1349-1350) asked for `void`. §85 sized first: **0 consumers ⇒ byte-neutral**. Verified
+in two steps — the header change ALONE, no src change, **R22 clean-fleet 140/140** — then committed.
+
+### ⚠️ A DEFECT I INTRODUCED, CAUGHT BY MEASURING
+`func_8016163C` read as a clean **DIFF** after T60 and I reported it as "genuine codegen". It is not.
+`match_one` says **`SIZE-MISMATCH`: draft 58 ins vs target 78** (Δ−20, ratio 0.74, bucket `redraft`).
+Both overlays are 78 ins and `extract_unit` is fine — **`--fix-def-sig` demoted the return `s32` →
+`void`, and gcc deleted the computation feeding it as dead.** My §85 check only asked whether
+*callers* consume the return; it never asked whether the **body returns a value**. So the tool
+manufactured a different-sized function and the verdict blamed the draft. Guard added (refuse a
+`void` demotion when the body has `return <expr>;`). **A "clean DIFF" that appears right after a
+transform is a suspect, not a result.**
+
+### THE CONVERGENCE — one root cause, three families
+| family | header says | byte truth | verdict |
+|---|---|---|---|
+| `func_80156044` | `int` (now **`void`** ✔) | `void` | header FIXED; blocker moved on |
+| `func_8016163C` | `void` | `s32` | header wrong — demoting truncates the fn |
+| `func_8014D610` | `void (s32, void*, void*)` | `s32 (s32, s32, u16*)` | header wrong — retyping breaks the body |
+
+**`engine_core.h` declares all three with types that contradict the byte truth.** The fix is to
+correct the header — proven byte-neutral and landed for one of them — not to bend the drafts. Both
+remaining flips measure **0 §85 consumers**, so the return axis is byte-neutral for both.
+
+### AND ONE MORE LAYER UNDER `func_80156044`
+With its header fixed, its verdict moved to **`redefinition of func_80155FF8`**: `extract_unit`
+lifted a unit spanning **two** definitions (the handwritten wrapper *and* the target), and the
+sibling already defines the wrapper via the shared macro. That is a **unit-boundary** defect, a
+fourth distinct cause. Three fixes peeled three layers off one family.
+
+## ▶ NEXT (ranked, all measured)
+1. **Correct `engine_core.h` for `func_8016163C`** (`void` → `s32`) — 0 consumers, byte-neutral by
+   §85, same shape as the flip already landed. Then re-sweep: **137 members**.
+2. **Correct `engine_core.h` for `func_8014D610`** (`void` → `s32`, and `void*,void*` → `s32,u16*`).
+   The param half is not a §85 question; gate it separately.
+3. **`extract_unit` unit-boundary** — it lifted two definitions for `func_80156044`. Needs a
+   one-definition-per-unit assertion (R32); until then that family cannot template.
+4. `0x80143d28` (`ApplyMatrixSV`) · `0x801457a4` (the original DIFF) · the distinct-code +0 probe ·
+   ~50 more families (regenerate the map; select with `corpus.stubs`, **never** a name-grep).

@@ -108,7 +108,56 @@ def reconcile_def_sig(draft, to_func, smap):
     m = pat.search(draft)
     if not m:
         return draft
-    return draft[:m.start()] + m.group(1) + _merge_sig(m.group(0), canon, to_func) + " {" + draft[m.end():]
+    sig = _merge_sig(m.group(0), canon, to_func, body=draft[m.end():])
+    if sig is None:                       # a precondition failed — leave the draft's own signature alone
+        return draft
+    return draft[:m.start()] + m.group(1) + sig + " {" + draft[m.end():]
+
+
+_RET_WARNED = set()
+
+
+def _return_axis_safe(to_func, draft_ret, canon_ret, body=""):
+    """§85, applied to the DEFINITION side. Changing a function's return type is byte-neutral only if
+    NO caller consumes the return — a consumed return changes the CALLER's codegen. `conform_decls`
+    already enforces this for declaration rewrites and REFUSES when it fails; the same rule binds
+    here, and nothing was checking it (Phase 29 T60).
+
+    When it fails, the header is the artifact that disagrees with the byte truth, not the draft:
+    `engine_core.h` declares `func_8014D610` returning `void` while its callers use the value, so
+    conforming the definition to `void` emitted `void value not ignored as it ought to be` — an
+    uncompilable draft, booked family-wide as a compile failure. Refusing here keeps the draft
+    honest and names the real fix (correct the header, which is fleet-shared blast radius §61/§63).
+
+    Reuses conform_decls.consumers (R33 — one implementation of the precondition, not two)."""
+    if draft_ret == canon_ret:
+        return True
+    # DEMOTING TO `void` ALSO CHANGES THE CALLEE'S OWN CODEGEN, and the caller-side test above is
+    # blind to it: if the body says `return <expr>;`, making the function `void` lets gcc delete the
+    # whole computation feeding it as dead. Byte-measured (Phase 29 T62): func_8016163C demoted
+    # s32 -> void compiled to 58 instructions against a 78-instruction target — a SIZE-MISMATCH the
+    # classifier routes to `redraft`, i.e. the tool manufactured a "different function" and then the
+    # verdict blamed the draft. The §85 note records the same hazard in the other direction (a
+    # void->s32 promotion costs one instruction on a body with no return).
+    if canon_ret.strip() == 'void' and re.search(r'\breturn\s+[^;\s]', body):
+        if to_func not in _RET_WARNED:
+            _RET_WARNED.add(to_func)
+            print(f"  [fix-def-sig] {to_func}: REFUSED the return-axis change "
+                  f"{draft_ret!r} -> 'void' — the BODY returns a value, so demoting deletes the "
+                  f"computation feeding it. The shared header disagrees with the byte truth.",
+                  flush=True)
+        return False
+    import conform_decls
+    cs = conform_decls.consumers(to_func)
+    if not cs:
+        return True
+    if to_func not in _RET_WARNED:        # once per function, not once per member (x137)
+        _RET_WARNED.add(to_func)
+        print(f"  [fix-def-sig] {to_func}: REFUSED the return-axis change "
+              f"{draft_ret!r} -> {canon_ret!r} — {len(cs)} caller(s) CONSUME the return (§85). "
+              f"The shared header disagrees with the byte truth; correcting it is the real fix.",
+              flush=True)
+    return False
 
 
 def _render_param(ctype, name):
@@ -118,7 +167,42 @@ def _render_param(ctype, name):
     return f"{ctype.rstrip('*')} {'*' * stars}{name}" if name else ctype
 
 
-def _merge_sig(def_line, canon, to_func):
+_USE_WARNED = set()
+
+
+def _param_use_safe(to_func, dnames, dtypes, ctypes, body):
+    """Retyping a parameter is only safe if the BODY does not depend on its type.
+
+    Conforming the TYPES has the same failure mode the name bug had, one level down: the canonical
+    decl is what cc1 compares, but the body was written against the DRAFT's types. `func_8014D610`'s
+    header says `void *a2` where the byte-true definition takes `u16 *param_3`, and the body does
+    `param_3[0]` — retyped to `void *` that is `void value not ignored as it ought to be`, i.e. an
+    uncompilable draft booked family-wide as a compile failure (Phase 29 T61).
+
+    The test is not "are the types compatible" (the tool's whole PURPOSE is pointer-type param
+    diffs, per header_sig_map's docstring — those are usually byte-neutral) but **"does the body USE
+    this parameter in a way its type governs"**: an index, a dereference, or a `->`. A parameter
+    merely passed through or cast at use is retype-safe; one that is indexed is not."""
+    for i, ct in enumerate(ctypes):
+        if i >= len(dtypes) or ct == dtypes[i]:
+            continue
+        nm = dnames[i] if i < len(dnames) and dnames[i] else None
+        if not nm:
+            continue
+        if re.search(rf'\b{re.escape(nm)}\s*\[', body) or \
+           re.search(rf'\*\s*{re.escape(nm)}\b', body) or \
+           re.search(rf'\b{re.escape(nm)}\s*->', body):
+            if to_func not in _USE_WARNED:
+                _USE_WARNED.add(to_func)
+                print(f"  [fix-def-sig] {to_func}: REFUSED the param-type change "
+                      f"{dtypes[i]!r} -> {ct!r} for {nm!r} — the body indexes/dereferences it, so "
+                      f"retyping breaks it. The shared header disagrees with the byte truth; "
+                      f"correcting the header is the real fix.", flush=True)
+            return False
+    return True
+
+
+def _merge_sig(def_line, canon, to_func, body=""):
     """Canonical TYPES + the definition's own parameter NAMES -> a signature string (no trailing brace).
 
     Positional: name[i] comes from the draft where it has one, else from the canonical decl. An arity
@@ -131,6 +215,8 @@ def _merge_sig(def_line, canon, to_func):
         dd = cdecl.parse(def_line.strip().lstrip('\n').rstrip('{ \t\n') + ';')[0]
     except Exception:
         return canon
+    if not _return_axis_safe(to_func, dd.base, cd.base, body):
+        return None                       # refuse: the caller leaves the draft's own signature alone
     ctypes = cd.params or []
     if any(('(' in t or '[' in t) for t in ctypes):     # fn-ptr / array param: cannot re-render safely
         return canon
@@ -142,6 +228,8 @@ def _merge_sig(def_line, canon, to_func):
         return canon
     dnames = list(dd.pnames or [])
     cnames = list(cd.pnames or [])
+    if not _param_use_safe(to_func, dnames, dd.params or [], ctypes, body):
+        return None
     out = []
     for i, t in enumerate(ctypes):
         nm = (dnames[i] if i < len(dnames) and dnames[i] else
