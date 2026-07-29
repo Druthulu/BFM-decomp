@@ -2439,7 +2439,7 @@
     }
 
 #define DEFINE_func_80144AEC() \
-    extern void func_80144B14(void); \
+    extern int func_80144B14(int param_1); \
     void func_80144AEC(s32 *a0) { \
         s32 old; \
         old = *(s32 *)((s32)a0 + 0xDC); \
