@@ -7954,3 +7954,41 @@ not about the code.**
 **This sharpens the T56 anomaly rather than resolving it:** 132 banked here moved distinct-code
 **+125**, and T52's 132 also moved it **+125** — but T56's 136 moved it **+0**. Three PURE families,
 two behave one way and one the other. Still unexplained, still not guessed at.
+
+## ✅/📌 T58 — 8-family batch: **1 of 6 banked** (`func_8012A1BC` 137/137, +10,686 ins). Yield is now per-family.
+
+Ran the batch with the T57 recipe (`--band all --normalize-self-decls`, live stubs derived from
+`src/` not the stale map). **6 of 8 selected** (two still filtered — selection line read this time).
+
+| | |
+|---|---|
+| candidate members | 821 across 6 families |
+| **banked** | **137** — `func_8012A1BC` (78 ins), **137/137** |
+| failed | 684 — the other **5 families banked 0 each** |
+
+Attribution taken from `git diff` (`137 × func_8012A1BC`), not from the per-group log lines, whose
+split-name field my first aggregation mangled.
+
+### THE SHAPE OF THE REMAINING FRONTIER — this is the finding
+Across T56→T58 the per-family outcome is **binary and near-total**: a family banks ~137/137 or
+~0/137. Nothing lands in between. Combined with T55/T57, each `0/N` so far has had its **own
+distinct** cause — DATA decl scope (T56), FUNCTION decl scope (T57), jtbl table-count drift
+(`func_8014032C`), and now five more undiagnosed. **The mechanical lever is done pulling by itself:
+from here each family costs one diagnosis.** That is a different economics from T52–T57 and should
+be planned as such — a batch is now a *diagnosis queue*, not a harvest.
+
+### GATES
+**R22 clean-fleet 140 passed, 0 failed of 140** · `tools-health` **OK** (corpus 0 PHANTOM +
+0 TRUNCATED · cdecl · audit-binaries · dedup **1886 / 0**) · **0 NON_MATCHING** (G4).
+
+### METRICS
+| | before | after | delta |
+|---|---|---|---|
+| instr-weighted | 86.0% | **86.0%** | 11,297,091 → 11,307,777 = **+10,686 ins** |
+| fn-count | 90.73% | **90.77%** | 320,924 → 321,061 = **+137** |
+| distinct-code | 76.7% | 76.7% | **+0** |
+
+**The distinct-code anomaly now has four data points and still no explanation:** T52 (+125),
+T57 (+125), T56 (**+0**), T58 (**+0**). All four families are classed PURE; the exemplar overlay
+does not separate them either (T56 and T57 both templated from `ov_SC01_077` and disagree). Two
+behaviours, no identified variable. **Still not guessed at** — it stays the queued probe.
