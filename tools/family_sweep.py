@@ -30,6 +30,7 @@ import scope_tu_externs as STU         # §103 — the TU-side decl-scope lever 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(REPO, 'tools'))
 import corpus   # the derived corpus oracle (Phase 26-A)
+import cdecl    # the coverage-asserting C-declaration parser (Phase 26-A) — used by _merge_sig
 PY = ".venv/bin/python"
 _OV_LOCKS = __import__("collections").defaultdict(_th.Lock)   # two splits of ONE overlay build the same binary
 SWEEP = ".run/sweep"
@@ -80,10 +81,25 @@ def header_sig_map():
 
 def reconcile_def_sig(draft, to_func, smap):
     """If `to_func` is forward-declared in a shared header, rewrite the draft's DEFINITION signature
-    (return type + param list) to that canonical decl, so the member TU stops seeing conflicting types.
-    Body param names come from the header decl (auto-generated a0/a1/... on both sides, so they align in
-    the common case; a rare name mismatch makes the body reference an undeclared name → the gate rejects
-    it, never a false bank). Returns the draft unchanged if the fn isn't in a header or no def is found."""
+    to the canonical TYPES while KEEPING THE BODY'S PARAMETER NAMES, so the member TU stops seeing
+    conflicting types without the body losing the identifiers it references.
+
+    THE NAME BUG THIS FIXES (Phase 29 T59/T60). The first cut substituted the canonical decl string
+    WHOLESALE — types AND names. Its docstring called a name mismatch "rare", and said the gate would
+    reject it. Both were wrong in the way that matters: an exemplar drafted with the `param_N`
+    convention hits it EVERY time, and the result is not a rejected match but a whole family booking
+    as a compile failure — indistinguishable from a compiler wall:
+
+        canonical : void func_8014D610(s32 a0, void *a1, void *a2)
+        draft body: ... param_1 ...            ->  `param_1' undeclared (first use this function)
+
+    Three families / 411 members sat at 0/N on exactly this. The types are what cc1 compares; the
+    names are the body's own business, and both are in hand right here.
+
+    Parsed with `cdecl`, not a regex (R33): `base` is the return type, `params` the types, `pnames`
+    the names. Falls back to the wholesale canonical string when a canonical param type is one this
+    cannot safely re-render (a function-pointer or array parameter) — honest, and no worse than before.
+    Returns the draft unchanged if the fn isn't in a header or no def is found."""
     canon = smap.get(to_func)
     if not canon:
         return draft
@@ -92,7 +108,46 @@ def reconcile_def_sig(draft, to_func, smap):
     m = pat.search(draft)
     if not m:
         return draft
-    return draft[:m.start()] + m.group(1) + canon + " {" + draft[m.end():]
+    return draft[:m.start()] + m.group(1) + _merge_sig(m.group(0), canon, to_func) + " {" + draft[m.end():]
+
+
+def _render_param(ctype, name):
+    """`void*` + `a1` -> `void *a1`;  `s32` + `a0` -> `s32 a0`. cdecl renders a param type with its
+    stars glued on, which is not how a declarator is written."""
+    stars = len(ctype) - len(ctype.rstrip('*'))
+    return f"{ctype.rstrip('*')} {'*' * stars}{name}" if name else ctype
+
+
+def _merge_sig(def_line, canon, to_func):
+    """Canonical TYPES + the definition's own parameter NAMES -> a signature string (no trailing brace).
+
+    Positional: name[i] comes from the draft where it has one, else from the canonical decl. An arity
+    mismatch is not smoothed over — the canonical arity governs the declaration (it is what callers
+    see), and if the draft had MORE parameters its extra names simply are not declared, so the body
+    references an undeclared identifier and the byte-gate rejects it. That is the correct outcome for
+    a genuinely disagreeing signature; it must not be papered into a false bank (G3/P9)."""
+    try:
+        cd = cdecl.parse(canon.rstrip('; ') + ';')[0]
+        dd = cdecl.parse(def_line.strip().lstrip('\n').rstrip('{ \t\n') + ';')[0]
+    except Exception:
+        return canon
+    ctypes = cd.params or []
+    if any(('(' in t or '[' in t) for t in ctypes):     # fn-ptr / array param: cannot re-render safely
+        return canon
+    if not ctypes:
+        # `(void)` and `()` both parse to params==[] — and they are NOT the same declaration
+        # (§99: `()` is the no-prototype form, which changes argument promotion). There are no names
+        # to preserve here anyway, so hand back the canonical string and keep whichever form the
+        # header actually wrote.
+        return canon
+    dnames = list(dd.pnames or [])
+    cnames = list(cd.pnames or [])
+    out = []
+    for i, t in enumerate(ctypes):
+        nm = (dnames[i] if i < len(dnames) and dnames[i] else
+              (cnames[i] if i < len(cnames) and cnames[i] else f"a{i}"))
+        out.append(_render_param(t, nm))
+    return f"{cd.base} {to_func}({', '.join(out)})"
 
 
 def draft_def_ref(draft, to_func):

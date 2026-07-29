@@ -8130,3 +8130,53 @@ T56 a lever unreachable from the sweep path · T57 a lever off by default · T59
 4. **Probe the distinct-code +0 anomaly** (4 data points, no identified variable).
 5. **~50 more eligible families** — regenerate `family_hseq.py` first (the map predates T56–T58), and
    select exemplars with **`corpus.stubs`**, not a name-grep.
+
+## 🔧 T60 — `reconcile_def_sig`'s name bug FIXED (verified by moved verdicts); **0 banked**, three causes separated
+
+Tool fix + a sharper diagnosis. **No banks** — the three "header-conflict" families turned out to
+share a *symptom*, not a cause.
+
+### THE FIX (§109)
+`reconcile_def_sig` now conforms the canonical **TYPES** and keeps the **BODY's parameter names**,
+parsed with `cdecl` (`base`/`params`/`pnames`, R33 — not a regex). Two re-render traps handled:
+`void*` + `a1` → `void *a1` (cdecl glues stars to the type), and an **empty parameter list is handed
+back verbatim** because `(void)` and `()` both parse to `params == []` and are *different*
+declarations (§99 no-prototype). Unit-tested across 6 shapes incl. both void forms and an arity
+mismatch; falls back to the wholesale canonical string for fn-ptr/array params it cannot re-render.
+
+### THE FIX IS REAL — AND THE PROOF IS THAT THE VERDICTS MOVED
+| family | before | after | what is actually left |
+|---|---|---|---|
+| `func_8016163C` | `param_1 undeclared` | **DIFF** | plumbing fully cleared — genuine codegen |
+| `func_8014D610` | `param_1 undeclared` | `void value not ignored as it ought to be` | **the header is wrong** |
+| `func_80156044` | *unchanged* | `conflicting types for func_80155FF8` | **wrong lever** — a CALLEE conflict |
+
+### THE TWO FINDINGS UNDER THAT
+1. **The §85 return-axis precondition applies to `reconcile_def_sig`, and nothing checks it.**
+   Conforming a def's return type to the canonical `void` is only safe when **no caller consumes the
+   return**. `func_8014D610`'s callers do — so `engine_core.h`'s `void` contradicts the byte truth,
+   and conforming to it yields `void value not ignored`. **The header is the wrong artifact here**,
+   and correcting it is fleet-shared blast radius (§61/§63) — not a sweep-time fix.
+2. **`func_80156044` was never the def-signature class.** Its conflict is on the CALLEE
+   `func_80155FF8` (decl 2 lines above the splice). `--fix-def-sig` cannot touch it; that is
+   `cast_call_sites` / `canon_sig_reconcile` territory.
+
+### HONEST ACCOUNTING
+Re-swept all three with the fix: **0/411**, tree clean throughout. The lever is now correct — it no
+longer manufactures a false compile failure — but it was **one of three causes, not the cause**. My
+T59 write-up grouped them as a single 30,000-instruction block; that grouping was **wrong**, and the
+thing that disproved it was re-reading each verdict after the fix rather than re-running the batch
+and reporting the total.
+
+## ▶ NEXT (ranked, all measured)
+1. **`func_80156044`** (137) — a CALLEE decl conflict (`func_80155FF8`); route to `cast_call_sites` /
+   `canon_sig_reconcile`, not `--fix-def-sig`. Cheapest of the three.
+2. **`func_8016163C`** (137) — now a clean **DIFF**: measure closeness and route per §31. Likely the
+   `s32`→`void` return demotion costing an instruction (§85) — if so, it needs the header corrected,
+   which merges it with item 3.
+3. **`func_8014D610`** (137) — `engine_core.h` declares it `void` but callers consume the return.
+   Correcting the header is fleet-shared (§61/§63, R22-mandatory); size the blast radius first.
+4. **Add the §85 return precondition to `reconcile_def_sig`** — it should refuse to demote a return
+   type when a caller consumes it, instead of emitting code that cannot compile.
+5. `0x80143d28` (136) `ApplyMatrixSV`; `0x801457a4` (137) the original DIFF; the distinct-code +0
+   probe; ~50 more families (regenerate the map; select with `corpus.stubs`).

@@ -7587,3 +7587,43 @@ both are already in hand at the call site.
 > (§107), off by default, or subtly broken — never the compiler. **Before diagnosing a family as
 > hard, enumerate the levers the invocation actually enabled, then read one member's real cc1
 > output.** A sweep's `0/N` is a statement about the harness.
+
+---
+
+## §109 — Conforming a definition to a shared header: fix the NAMES, then check the RETURN precondition (Phase 29 T60)
+
+`reconcile_def_sig` substituted the canonical header decl **wholesale — types AND parameter names** —
+while the body kept the exemplar's names. Its docstring called this a "rare name mismatch" the gate
+would reject; both halves were wrong. An exemplar drafted with the `param_N` convention hits it
+**every time**, and the outcome is not a rejected match but the **whole family booking as a compile
+failure**, indistinguishable from a compiler wall:
+
+```
+canonical : void func_8014D610(s32 a0, void *a1, void *a2)
+draft body: ... param_1 ...            ->  `param_1' undeclared (first use this function)
+```
+
+**Fix: conform the TYPES, keep the BODY's names** — both are in hand at the call site. Parse with
+`cdecl` (`base` = return type, `params` = types, `pnames` = names), not a regex. Two traps in the
+re-render: `void*` + `a1` must become `void *a1` (cdecl glues the stars to the type), and an **empty
+parameter list must be handed back verbatim** — `(void)` and `()` both parse to `params == []`, and
+they are different declarations (§99: `()` is the no-prototype form).
+
+**The fix is real but it is not sufficient, and the proof is that the verdicts MOVED:**
+
+| family | before | after | what is left |
+|---|---|---|---|
+| `func_8016163C` | `param_1 undeclared` | **DIFF** | plumbing fully cleared; genuine codegen |
+| `func_8014D610` | `param_1 undeclared` | `void value not ignored as it ought to be` | **the header is wrong** |
+| `func_80156044` | *unchanged* | `conflicting types for func_80155FF8` | **wrong lever** — a CALLEE conflict |
+
+> **The §85 return-axis precondition applies here too, and nothing checks it.** Conforming a
+> definition's return type to the canonical `void` is only safe when **no caller consumes the
+> return**. `func_8014D610`'s callers do — so the header's `void` contradicts the byte truth, and
+> conforming to it produces `void value not ignored`. The header is the thing that is wrong; changing
+> it is fleet-shared blast radius. `reconcile_def_sig` should test that precondition before promoting
+> or demoting a return type, exactly as §85 requires of `conform_decls`.
+
+> **And a verdict that changes is the signal to re-route, not to push harder.** One of these three
+> is now a codegen question, one is a header-correctness question, and one was never the def
+> signature at all. They shared a symptom, not a cause — three families, three levers.
