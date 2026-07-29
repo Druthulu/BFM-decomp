@@ -22,7 +22,10 @@ Phase-26 extends this to the looser h_seq family key (mnemonic skeleton, immedia
 
   tools/family_remap.py --addr 0xADDR --from ov_SC01_077 --to ov_SC01_000 [--to-addr 0xADDR2] [--out draft.c]
 """
-import struct, json, glob, re, sys, argparse, collections
+import struct, json, glob, re, sys, argparse, collections, os
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import cdecl                                                    # noqa: E402
 
 VRAM = 0x80128158
 # lo-type ops whose rs is a hi-base (loads/stores incl. unaligned, addiu, ori)
@@ -320,10 +323,23 @@ def gather_externs(from_ov, from_addr, unit):
     externs; a per-location body that indexes a global (`(*D_x[..])()`) references symbols declared once
     at file scope elsewhere — templated into a sibling TU that never declared them, they're `undeclared`
     at the gate. Carrying them (they get remapped downstream) fixes the decl class. Excludes the self
-    name. Duplicate-identical externs are legal C; a type-conflict is the §41 reconcile class (rare)."""
+    name. Duplicate-identical externs are legal C; a type-conflict is the §41 reconcile class (rare).
+
+    COMMENT-MASKED (Phase 29 T53). Every scan below runs over `cdecl._mask`ed text — comments and
+    string literals blanked, length-preserving, so offsets still index the original. Two same-class
+    defects this closes, both the §96 disease (matching by raw TEXT):
+      * a symbol named only in the body's PROSE counted as a reference. `func_80135260`'s header
+        comment mentions its sibling `func_80135D20` twice, so the scan demanded a decl for it and
+        printed "the sibling will not compile" on all 137 members — a 100%-false-alarm warning that
+        masked real causes for two tasks. T52 settled it empirically: all 132 banked anyway.
+      * a COMMENTED-OUT `extern` in the exemplar TU could be selected as the carried declaration and
+        spliced into the sibling as live code. Not yet observed; closed by construction.
+    The emitted text is sliced from the ORIGINAL by span — a masked decl is all blanks."""
     self_sym = f"func_{from_addr:08X}"
-    refs = set(re.findall(r'\b(?:func_[0-9A-Fa-f]{8}|D_[0-9A-Fa-f]{8})\b', unit)) - {self_sym}
+    unit_mask = cdecl._mask(unit)
+    refs = set(re.findall(r'\b(?:func_[0-9A-Fa-f]{8}|D_[0-9A-Fa-f]{8})\b', unit_mask)) - {self_sym}
     tu = _tu_text(from_ov)
+    tu_mask = cdecl._mask(tu)
     lines, seen, unresolved = [], set(), []
 
     # STATEMENT-oriented, not line-oriented (Phase 26-A audit).
@@ -338,15 +354,17 @@ def gather_externs(from_ov, from_addr, unit):
     # (`D_801DAA7D undeclared`), and — because the gate chunks by (overlay, split) — bisect-stormed the
     # whole group with it. Booked as a compile failure, i.e. invisible.
     _EXTERN_STMT = re.compile(r'^[ \t]*extern\b[^;{}]*?;', re.M | re.S)
-    stmts = [s.group(0) for s in _EXTERN_STMT.finditer(tu)]
-    unit_stmts = [s.group(0) for s in _EXTERN_STMT.finditer(unit)]
+    # (masked_text, original_text) per statement: MATCH on the mask, EMIT from the original.
+    stmts = [(tu_mask[s.start():s.end()], tu[s.start():s.end()])
+             for s in _EXTERN_STMT.finditer(tu_mask)]
+    unit_stmts = [unit_mask[s.start():s.end()] for s in _EXTERN_STMT.finditer(unit_mask)]
 
     for sym in sorted(refs):
         if any(re.search(rf'\b{sym}\b', s) for s in unit_stmts):
             continue                                         # already declared inside the unit
         if sym in seen:
             continue
-        hit = next((s for s in stmts if re.search(rf'\b{sym}\b', s)), None)
+        hit = next((orig for masked, orig in stmts if re.search(rf'\b{sym}\b', masked)), None)
         if hit is None:
             unresolved.append(sym)                           # REPORTED, never silently dropped (R32)
             continue

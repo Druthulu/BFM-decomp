@@ -31,6 +31,7 @@ REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 from family_remap import remap_hseq, remap_hseq_body   # noqa: E402
 from canon_sig_reconcile import reconcile     # noqa: E402
 from scope_data_externs import fix as scope_data_fix   # noqa: E402
+from scope_tu_externs import contested, scope as scope_tu, ScopeRefused   # noqa: E402
 
 
 def sh(cmd):
@@ -137,6 +138,24 @@ RAW_BODY = None      # set by main() from --raw; templates via remap_hseq_body i
 
 
 def bank(func, from_ov, from_addr, to_ov, to_addr):
+    """Revert-guaranteed wrapper around `_bank`. EVERY exit path must leave the overlay at its
+    committed state — including an EXCEPTION.
+
+    Found during T53's own testing (Phase 29): a bad exemplar/address made `remap_hseq` raise, the
+    exception propagated straight out of `_bank`, and the revert never ran — stranding a `jr_isolate`
+    region file (untracked, so `git checkout -- src/` does not remove it) plus a rewritten carve
+    config. In a 132-member sweep that residue silently rides into the next member's build. The
+    stage loop already handles a stage that *raises*; nothing handled the stages never being reached.
+    Same class as §97 (the gate's own tree hygiene)."""
+    keep = region_files(to_ov)
+    try:
+        return _bank(func, from_ov, from_addr, to_ov, to_addr)
+    except Exception as e:                                   # noqa: BLE001 — deliberate catch-all
+        revert(to_ov, keep_regions=keep)
+        return "exception", repr(e)[:140]
+
+
+def _bank(func, from_ov, from_addr, to_ov, to_addr):
     # CROSS-ADDRESS families: the sibling hosts the same function at a DIFFERENT vram, so its symbol
     # is func_<to_addr>, not the exemplar's name. Everything on the sibling side (carve, isolation,
     # stub lookup, reconcile) must use the sibling's name; `remap_hseq` already self-renames the body
@@ -200,13 +219,42 @@ def bank(func, from_ov, from_addr, to_ov, to_addr):
     # Strictly never worse than raw, so it also becomes the base the later recovery stages build on.
     scoped, moved = scope_data_fix(body, orig, m.start(), to_func)
     base = scoped if moved else body
-    stages = [("raw", lambda: body)]
+    stages = [("raw", orig, lambda: body)]
     if moved:
-        stages.append(("scoped", lambda: scoped))
-    stages += [("recovered", lambda: recover(base, to_ov, cf, to_func) or base),
-               ("reconciled", lambda: reconcile(to_func, base, tu_path=cf))]
+        stages.append(("scoped", orig, lambda: scoped))
+
+    # TU-SCOPED — the OTHER half of the §8d lever (Phase 29 T51/T53, cookbook §103). scope_data_fix
+    # above fixes the incoming DRAFT, and it has a give-up branch: when the TU ALREADY declares a
+    # symbol at file scope it DROPS the draft's own decl and lets the TU's type govern. Right when
+    # the two agree; fatal when the byte-true draft needs a different one — a file-scope extern is a
+    # GLOBAL constraint on every later function in the TU. That is not a codegen wall even though it
+    # gate-fails like one: it cost func_80135260 133 of 137 siblings until the TU's decl was moved
+    # (then 132/132 banked, T52). So try moving the TU's decl into its consumers and re-running the
+    # draft-side fix against the scoped TU — composition-correct, because the contested symbols no
+    # longer have a file-scope decl to be dropped against while every OTHER symbol is still handled.
+    #
+    # Declaration-only ⇒ byte-neutral (proven fleet-wide at T51: 132 TUs, R22 140/140), and it is
+    # ordered AFTER the two non-invasive stages because it edits the TU outside the spliced body.
+    # It is ordered BEFORE recovered/reconciled deliberately: those bend the DRAFT, and T48 measured
+    # both of them at +3 instructions for exactly this class — they cannot succeed here.
+    try:
+        tu_syms = contested(body, orig, m.start())
+        if tu_syms:
+            tu_base, tu_report = scope_tu(orig, tu_syms, m.start())
+            if tu_report["moved"]:
+                mm = re.search(rf'INCLUDE_ASM\("[^"]*",\s*{to_func}\);', tu_base)
+                if mm:
+                    tu_body, _ = scope_data_fix(body, tu_base, mm.start(), to_func)
+                    stages.append(("tu-scoped", tu_base, lambda: tu_body))
+    except ScopeRefused as e:
+        # Loud, never fatal: an un-scopable TU simply does not get the stage. Printed rather than
+        # swallowed, because a refusal is exactly the diagnostic the next person needs (R32).
+        print(f"    [tu-scope] {to_ov} {to_func}: {e}", flush=True)
+
+    stages += [("recovered", orig, lambda: recover(base, to_ov, cf, to_func) or base),
+               ("reconciled", orig, lambda: reconcile(to_func, base, tu_path=cf))]
     last_err = ""
-    for name, make in stages:
+    for name, file_base, make in stages:
         try:
             cand = make()
         except Exception as e:
@@ -216,11 +264,17 @@ def bank(func, from_ov, from_addr, to_ov, to_addr):
             # must not abort the bank.)
             last_err = f"{name}: {repr(e)[:90]}"
             continue
-        open(cf, "w").write(orig[:m.start()] + cand + orig[m.end():])
+        # The stub span is re-found per stage: tu-scoped's base is a REWRITTEN TU, so `m` (an offset
+        # into `orig`) does not index it. Using the stale offset would splice at the wrong place.
+        mm = re.search(rf'INCLUDE_ASM\("[^"]*",\s*{to_func}\);', file_base)
+        if not mm:
+            last_err = f"{name}: stub vanished from the stage base"
+            continue
+        open(cf, "w").write(file_base[:mm.start()] + cand + file_base[mm.end():])
         b = sh(f"make --no-print-directory -j16 build BINARY={to_ov}")
         if b.returncode == 0 and "[ OK ]" in b.stdout:
             return "BANKED", f"{cf} [{name}]"
-        open(cf, "w").write(orig)          # restore the stub before the next stage
+        open(cf, "w").write(orig)          # restore the ORIGINAL TU (undoing any tu-scope edit too)
     revert(to_ov, cf, keep_regions=keep)
     return "gate-fail", last_err
 

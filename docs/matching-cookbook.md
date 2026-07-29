@@ -7353,8 +7353,107 @@ blanks comments and string literals length-preservingly so offsets stay valid. S
 the false-positive class that made `gather_externs` accuse `func_80135D20` on all 137 siblings and
 garbled `gen_harvest_targets`' hints in Phase 19.
 
+**AUTOMATED (T53).** The lever is now a `jtbl_family_bank` stage, ordered
+`raw → scoped → **tu-scoped** → recovered → reconciled`. After the two non-invasive stages (it edits
+the TU outside the spliced body) and *before* the two recovery stages **deliberately**: those bend
+the DRAFT, and T48 measured both at +3 instructions for exactly this class, so they cannot succeed
+here. The stage re-runs `scope_data_fix` against the **scoped** TU rather than reusing the raw body —
+composition-correct, because the contested symbols no longer have a file-scope decl to be dropped
+against while every *other* symbol is still handled normally.
+
+The counterfactual, byte-gated on a reproduced blocker (`ov_SC01_000`, pre-T51 TU restored):
+
+| stage | result |
+|---|---|
+| `raw` | **compile error** — `conflicting types` |
+| `scoped` | compiles, **fails the byte check** — §8d dropped the draft's decl, so the `u8` form's CSE costs the +3 |
+| `tu-scoped` | **BANKED** |
+
+That is the whole 133-sibling "wall", reproduced and dissolved in one build cycle.
+
+> **Corollary — a stage that edits outside the spliced body must re-find the splice point.** The
+> stub offset is an index into the ORIGINAL TU; `tu-scoped`'s base is a *rewritten* TU, so reusing
+> it splices at the wrong place. Each stage now carries its own base and re-searches. The
+> pre-existing stages all pass `orig`, where the re-search returns the identical span — so they are
+> the same operation as before the refactor, by construction.
+
 > **The law:** when a byte-true draft and its host TU disagree about a symbol's type, the question is
 > never "which type is right" — the engine has no single right type. It is **"which declaration is
 > in the wrong SCOPE."** A file-scope decl in a shared overlay TU is a fleet-wide constraint that
 > was almost certainly never in the original source; scoping it to its consumers is free, and
 > bending the draft to it costs instructions.
+
+---
+
+## §104 — Two silent-skip defects in one scan: match on MASKED text, emit from the ORIGINAL (Phase 29 T53, `gather_externs`)
+
+`family_remap.gather_externs` decides which of the exemplar TU's file-scope `extern`s to carry into a
+templated sibling. It scanned **raw** text, which gave it two defects of the §96 class (matching by
+TEXT rather than by what the compiler sees):
+
+1. **A symbol named only in PROSE counted as a reference.** `func_80135260`'s header comment mentions
+   its sibling `func_80135D20` twice, so the scan demanded a declaration for it, found none, and
+   printed *"1 referenced symbol(s) have NO file-scope decl … the sibling will not compile"* on **all
+   137 members**. It was wrong every time — T52 banked 132/132 against that warning. Two tasks read it
+   as a possible cause before it was measured.
+2. **A commented-out `extern` could be selected as the carried declaration** and spliced into the
+   sibling as live code. Not observed in the corpus; closed by construction.
+
+**The fix is a two-text discipline, not a smarter regex: MATCH on `cdecl._mask`ed text, EMIT by span
+from the original.** `_mask` is length-preserving, so offsets index both. A masked declaration is all
+blanks — emitting from the mask would splice whitespace, which is why "just mask it" is a bug and
+"mask for the search, slice the original" is the fix.
+
+```python
+stmts = [(mask[s.start():s.end()], orig[s.start():s.end()])   # (what you search, what you emit)
+         for s in EXTERN_STMT.finditer(mask)]
+hit = next((emit for searchable, emit in stmts if word.search(searchable)), None)
+```
+
+Verified as a **no-op on output**: 20 (exemplar, sibling) draft pairs across 4 families, old code vs
+new, **20 identical / 0 differing**. The only behavioural change is that a false warning stopped
+firing.
+
+> **The law:** a warning with a high false-alarm rate is worse than no warning — it *trains you to
+> ignore the channel that reports real causes*. This one fired on 137/137 and was right 0 times. When
+> a diagnostic disagrees with a measurement, fix the diagnostic in the same session (R30), or the
+> next reader pays the same tax.
+
+---
+
+## §105 — A gate's revert must survive an EXCEPTION, not just a failure (Phase 29 T53, `jtbl_family_bank`)
+
+`jtbl_family_bank.bank()` was carefully revert-on-fail: every `return` path restored the overlay, and
+the stage loop even caught a stage that *raises* while producing a candidate. Nothing covered the
+stages never being reached. A wrong exemplar made `remap_hseq` raise **after** the carve had rewritten
+`config/splat.<ov>.yaml` + `overlays.mk` and `jr_isolate` had created a region file — the exception
+propagated out, the revert never ran, and the tree was left with:
+
+* a rewritten carve config (recoverable by `git checkout`), and
+* an **untracked** region file, which `git checkout -- src/` does **not** remove.
+
+In a 132-member sweep that residue rides silently into the next member's build. Found by being bitten
+by it while testing something else.
+
+**The fix is a wrapper, not a bigger `try` inside:** snapshot the region set, call the real body,
+and on ANY exception revert and return a per-member `exception` status. Loud (it appears in the
+tally), non-fatal (the sweep continues), and the tree is provably clean afterwards.
+
+```python
+def bank(...):
+    keep = region_files(to_ov)
+    try:
+        return _bank(...)
+    except Exception as e:
+        revert(to_ov, keep_regions=keep)
+        return "exception", repr(e)[:140]
+```
+
+Negative-control proven: the same crashing invocation now reports `{'exception': 2}` and leaves
+`git status -- config/ src/` at **0**.
+
+> **The law:** "revert on failure" is not the same property as "revert on every exit". Enumerate the
+> exits — success, gate-fail, refusal, **and the throw** — and put the restore where all four pass
+> through it. Same family as §97 (the gate's own tree hygiene), and the reason it matters more in a
+> sweep than in a one-off: a one-off's residue is visible in the next `git status`; a sweep's residue
+> is consumed by the next iteration first.

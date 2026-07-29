@@ -7643,3 +7643,83 @@ The sample landed as its own commit only because `jtbl_family_bank` refuses to s
    Discount its 37,536 headline: it is `_o0`, and `_o0` families sweep ~1/137.
 5. **PARKED: `func_80176734`** (51,198 ins) — five tiers bounced; clusters A and B are provably
    coupled and must be solved together.
+
+## ✅ T53 — the T51 lever folded into the gate · `gather_externs`' false positive killed · a revert gap closed
+
+Items 1 and 2 off T52's list, plus a third defect found by T53's own testing. **Tooling only — banks
+nothing**; metrics are unchanged by design (85.7% instr / 76.4% distinct / 90.65% fn-count).
+
+### 1. THE T51 PRE-PASS IS NOW A `jtbl_family_bank` STAGE
+Order: `raw → scoped → **tu-scoped** → recovered → reconciled`. After the two non-invasive stages
+(it edits the TU outside the spliced body) and **before** the recovery stages deliberately — those
+bend the DRAFT, and T48 measured both at +3 instructions for exactly this class, so they *cannot*
+succeed here. The stage re-runs `scope_data_fix` against the **scoped** TU rather than reusing the
+raw body: composition-correct, because the contested symbols no longer have a file-scope decl to be
+dropped against, while every other symbol is still handled normally.
+
+**Counterfactual, byte-gated on a reproduced blocker** (`ov_SC01_000` restored to its pre-T51 TU):
+
+| stage | result |
+|---|---|
+| `raw` | **compile error** — `conflicting types` |
+| `scoped` | compiles, **fails the byte check** — §8d dropped the draft's decl → the `u8` CSE costs +3 |
+| `tu-scoped` | **BANKED** |
+
+The whole 133-sibling "wall", reproduced and dissolved in one build cycle. That is the evidence the
+stage does the work — not the T52 sweep, which ran on TUs T51 had already scoped by hand.
+
+### 2. `gather_externs`' COMMENT-SCANNING FALSE POSITIVE — FIXED (§104)
+It scanned **raw** text, so a symbol named only in the draft's PROSE counted as referenced. That is
+the `func_80135D20` warning that fired on **137/137** members and was right **0** times. Fixed with a
+two-text discipline: **match on `cdecl._mask`ed text, emit by span from the original** (a masked decl
+is all blanks, so "just mask it" would splice whitespace — the emit side must read the original).
+Same change closes a second, unobserved defect of the class: a **commented-out** `extern` could have
+been selected as the carried declaration and spliced in as live code.
+
+**Measured as a no-op on output (R14), not argued:** 20 (exemplar, sibling) draft pairs across 4
+families, old code vs new → **20 identical / 0 differing.** The only behavioural change is that a
+false warning stopped firing.
+
+### 3. UNPLANNED — A GATE REVERT THAT DID NOT SURVIVE AN EXCEPTION (§105)
+Found by being bitten by it: a wrong exemplar made `remap_hseq` raise **after** the carve had
+rewritten `config/` and `jr_isolate` had created a region file. The exception propagated out of
+`bank()`, **the revert never ran**, and the tree kept a rewritten carve config plus an **untracked**
+region file — which `git checkout -- src/` does not remove. In a 132-member sweep that residue rides
+silently into the next member's build.
+
+`bank()` is now a revert-guaranteed wrapper around `_bank()`. Negative-control proven: the same
+crashing invocation reports `{'exception': 2}` and leaves `git status -- config/ src/` at **0**.
+"Revert on failure" and "revert on every exit" are different properties; the exits are success,
+gate-fail, refusal, **and the throw**.
+
+### GATES
+- **R22 clean-fleet:** `make clean && extract-all && check-all` → **140 passed, 0 failed of 140**.
+- **`make tools-health` OK** — corpus 0 PHANTOM + 0 TRUNCATED · cdecl · audit-binaries ·
+  report/lint/**dedup 1886 / 0**. **0 NON_MATCHING** (G4).
+
+### HONEST COVERAGE GAP (stated, not papered over)
+There is **no live end-to-end BANK through the refactored stage loop**: all three big families are
+137/137, and the only family with live stubs (`0x80191c50`) has no banked exemplar to template from,
+so it refuses. What IS covered: the counterfactual byte-gated the exact splice expression on all
+three candidates; the 2-member run exercised stage construction, refusal, revert and tally; and every
+**pre-existing** stage passes `orig` as its base, where the re-search returns the identical span — so
+those stages are the same operation as before the refactor, by construction. The next real family
+sweep is the true end-to-end validation.
+
+### MY ERRORS THIS TASK (recorded, not buried)
+- **Invoked the sweep with a wrong exemplar and address** (`ov_SC01_077 @0x80191C50` for a
+  cross-address SC06 family). That is what surfaced the revert gap — a useful accident, but it was
+  an unmeasured guess about a members file I had not read.
+- **Deleted `last_err`'s initializer** while refactoring the stage loop, which would have raised
+  `NameError` on the first clean gate-fail. Caught by re-reading the diff before running, not by a test.
+
+## ▶ NEXT (ranked, all measured)
+1. **Fix `residual_class._ROUTE`** for ADDRESSING (cheap; stops wasted permuter CPU — T31/T47
+   measured three targets under-delivering and `func_80176734` sitting flat for 32 min).
+2. **Find the next `h_seq` family with a banked exemplar and live stubs** and sweep it — this is both
+   real yield and the missing end-to-end validation of T53's stage. Re-run `family_hseq` /
+   `family_manifest` first: the T52 banks (+132) changed the frontier.
+3. `func_8013B83C` — matching draft in hand (`.run/s21_jt7/`), needs `jr_isolate_all` → `jtbl_carve`.
+   Discount its 37,536 headline: it is `_o0`, and `_o0` families sweep ~1/137.
+4. **PARKED: `func_80176734`** (51,198 ins) — five tiers bounced; clusters A and B are provably
+   coupled and must be solved together.
