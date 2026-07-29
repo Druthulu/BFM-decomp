@@ -8337,3 +8337,49 @@ the answer every time).
 - **`.run/autopsy/residuals.jsonl` is dated Jul 21** — `route_for` protects the ROUTE from staleness
   (T54) but the `klass` measurements are old; a re-collect is owed before trusting the grinder.
 **DO NOT close P29 on ROI** — +0.8pp instr today and item 5 is an un-mined systematic lever.
+
+## ✅ T66 — item 4: the distinct-code anomaly is **modelled and closed** (it was never a bug)
+
+Seven sweeps had moved `distinct-code` by +125/+125/+129 and **+0 four times**, and I had logged it
+four times as "unexplained, still not guessed at". Modelled in one pass:
+
+> **Δdistinct = (distinct `h_exact` classes in the family) − (classes already matched)**
+
+`weighted_metrics` counts distinct `h_exact` classes with ≥1 matched instance. **Exact on all 7, no
+residual:** `func_80135260` 131−6=125 ✓ · `func_80133AB0` 131−6=125 ✓ · `func_80156044` 130−1=129 ✓ ·
+the four `+0` families have **exactly 1 class** across all 138 overlays (every member byte-identical),
+already matched via the exemplar ✓.
+
+**It is a real signal, not noise.** A byte-IDENTICAL family is ONE piece of distinct code — the
+exemplar's crack already reconstructed it, so the other 137 banks pay `fleet`/instr in full (each
+binary now builds from source) but add **no new RE**. A byte-VARIANT family is ~130 genuinely
+different functions and pays both. **The two headline metrics therefore rank the same work
+differently**, and both are now predictable *before* spending a sweep.
+
+### THE REMAINING FRONTIER, PRICED BOTH WAYS (49 eligible non-jr families)
+| | families | instructions | distinct classes |
+|---|---|---|---|
+| byte-**identical** | 13 | 80,085 | **0** |
+| byte-**variant** | 36 | 114,331 | **2,962** |
+| **total** | **49** | **194,416** (~**1.48 pp** instr) | **2,962** |
+
+### ⚠️ MY OWN BUG, CAUGHT BY VERIFYING (R14)
+My first ranking table reported **all 49 families as byte-identical / 0 distinct yield**. That was a
+defect in my probe: I wrote `int(x,16)` on the member address in one comprehension and **forgot it in
+the next**, so every sig lookup missed and every family collapsed to one class. I only caught it by
+spot-checking two entries against a direct count — `func_80143D28` is **130** classes, not 1. Had I
+reported it, the conclusion "the entire remaining harvest is worthless for distinct-code" would have
+been exactly backwards for 36 of 49 families.
+
+Recorded as cookbook **§111**, with the §106 rule applied: the ranking is two lines over the sigs, so
+it is derivable on demand and deliberately NOT committed as a table that rots.
+
+## ▶ NEXT (ranked, all measured — unchanged except the new pricing)
+1. **`0x80143d28`** (136 members · 10,880 ins · **128 distinct**) — also the last un-diagnosed of the
+   original five (`ApplyMatrixSV` conflict). Highest combined value on the board.
+2. **`0x801457a4`** (137 · 10,823 ins · **129 distinct**) — re-measure with `match_one` before routing
+   as codegen (T62: a "clean DIFF" can be tool-manufactured).
+3. **Sweep the 36 byte-VARIANT families** (114,331 ins · 2,962 distinct) ahead of the 13
+   byte-identical ones (80,085 ins · 0 distinct) — same tooling, strictly better on the honest metric.
+4. **Audit `engine_core.h` for decls contradicting byte truth** — three found this session, each
+   unblocking 137 members. Still the likeliest systematic lever.

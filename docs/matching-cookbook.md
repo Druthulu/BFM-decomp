@@ -7668,3 +7668,52 @@ all five here extracted byte-identically before and after.
 > nothing, because its output looks plausible and the failure surfaces N members later wearing the
 > compiler's clothes. Assert the shape you require; and when the assertion is about "is this a
 > definition", remember C lets a line be two declarations and a definition at once.
+
+---
+
+## §111 — The distinct-code metric is not noisy: a family pays it only if its members are byte-VARIANT (Phase 29 T66)
+
+Seven family sweeps moved `distinct-code` by +125, +125, +129, and **+0 four times**. It read as a
+metric bug for four tasks. It is not — it is the metric reporting something the instruction-weighted
+number cannot.
+
+`weighted_metrics` counts `dedup_fns = len(matched_cls)`, where a class is **one distinct `h_exact`**
+and is marked matched if **ANY** binary has it matched. So:
+
+> **Δdistinct = (distinct `h_exact` classes in the family) − (classes already matched)**
+
+Exact on all seven, with no residual:
+
+| family | classes | already matched | predicted | observed |
+|---|---|---|---|---|
+| `func_80135260` | 131 | 6 | +125 | **+125** |
+| `func_80133AB0` | 131 | 6 | +125 | **+125** |
+| `func_80156044` | 130 | 1 | +129 | **+129** |
+| four others | **1** | 1 | +0 | **+0** |
+
+**The meaning.** A family whose 138 members are byte-IDENTICAL is ONE piece of distinct code. The
+exemplar's crack already reconstructed it; the other 137 banks are real (each binary now builds that
+function from source instead of pasted asm, so `fleet`/instr-weighted pays in full) but they add
+**no new reverse-engineering**. A byte-VARIANT family is ~130 genuinely different functions and pays
+both.
+
+**So the two headline metrics rank the same work differently**, and you can predict both before
+spending a sweep — count the family's distinct `h_exact` across overlays:
+
+```python
+cls = collections.Counter(sig[ov][addr] for ov in sigs if addr in sig[ov])
+instr_yield    = live_members * nins
+distinct_yield = len(cls) - len(classes_already_matched)
+```
+
+Measured over the 49 currently-eligible non-jr families: **194,416 instructions (~1.48 pp)** total,
+of which **13 families / 80,085 ins are byte-identical and pay ZERO distinct-code**, and 36 families
+/ 114,331 ins pay **2,962** distinct classes. Pick by which number you are trying to move.
+
+> **The law:** before calling a metric noisy, model it. Two behaviours with no identified variable is
+> not noise — it is a variable you have not found. This one took a `Counter` and ten minutes, after
+> four tasks of writing "still unexplained, still not guessed at" in the log. Logging the anomaly
+> honestly was right; leaving it unmodelled that long was not.
+
+*(And the derived-not-persisted rule from §106 applies to the table above: it is two lines of code
+over the sigs, so regenerate it — do not commit a ranking that rots the moment a family banks.)*
