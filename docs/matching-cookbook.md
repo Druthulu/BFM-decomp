@@ -7763,3 +7763,35 @@ that failed the gate (`func_80147364`) → **272**. Perfect discrimination, and 
 > is wrong — and it will read as prudence forever unless you test it against known-good cases. Every
 > gate you write deserves a control: run it against something that *passed* and something that
 > *failed*, and require it to separate them.
+
+---
+
+## §113 — An ARITY blocker only exists if the macro CALLS the function; an address-taken use has no call site (Phase 29 T72)
+
+`audit_header_sigs.py`'s ARITY precondition (§112) refuses to correct a header decl whose arity
+differs from the definition's, on the grounds that **the macro's own call site passes the header's
+arity** and would break with "too few arguments". True — when there is a call site.
+
+`func_80144B14` is declared `void func_80144B14(void)` and defined `int func_80144B14(int param_1)`,
+so the precondition blocked it. But the macro body does not call it:
+
+```c
+*(s32 *)((s32)a0 + 0xDC) = (s32)&func_80144B14;    /* address-taken, never called here */
+```
+
+**No call site ⇒ no arity constraint ⇒ the FULL correction is available**, not the §99 no-prototype
+workaround. Applied: `extern int func_80144B14(int param_1);` — R22 clean-fleet **140/140**
+byte-neutral, then the family swept **137/137 with zero failures**.
+
+**So the precondition must ask what the macro DOES with the symbol, not merely that both appear:**
+
+| use in the macro body | arity constraint? | correction available |
+|---|---|---|
+| `func_X(a, b)` — called | **yes**, the call passes the header's arity | §99 no-prototype `()` |
+| `&func_X` / `(s32)&func_X` — address taken | **no** | full retype |
+| declared but unused | no | full retype |
+
+> **The law:** a precondition derived from one usage shape will over-fire on every other shape. When
+> a gate blocks something, check *why the reason applies here* before accepting it — "the call site
+> would break" is not a fact about the declaration, it is a fact about a call site that may not
+> exist. This one had 137 members behind it.

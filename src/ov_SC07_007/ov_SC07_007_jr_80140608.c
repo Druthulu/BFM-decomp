@@ -154,9 +154,6 @@ extern void func_8012A018(s32 a, s32 b);
 extern void func_80129FF4(void);
 extern void func_8012A048(void *a0, s32 a1, u8 a2);
 extern void func_8012A018(s32 a0, s32 a1);
-extern u16 D_80126B5E;
-extern u16 D_80126B62;
-extern u16 D_80126B66;
 extern s16 D_80126940;
 extern s16 D_80126942;
 extern s16 D_80126944;
@@ -2422,7 +2419,37 @@ DEFINE_func_80144A98()  /* dedup: shared engine-core @0x80144a98 (src/shared) */
 DEFINE_func_80144AEC()  /* dedup: shared engine-core @0x80144aec (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC07_007/nonmatchings/ov_SC07_007_jr_80140608", func_80144B14);
+
+
+// @class: struct
+// @stuck: none — MATCH
+
+extern int func_80013294(void *a0, void *a1);
+
+typedef struct { short vx, vy, vz, pad; } Vec;
+
+int func_80144B14(int param_1) {
+
+    extern unsigned short D_80126B5E;
+    extern unsigned short D_80126B62;
+    extern unsigned short D_80126B66;
+    int r;
+    Vec a;
+    Vec b;
+
+    a.vx = *(unsigned short *)(param_1 + 6);
+    a.vy = *(unsigned short *)(param_1 + 0xa);
+    a.vz = *(unsigned short *)(param_1 + 0xe);
+    b.vx = D_80126B5E;
+    b.vy = D_80126B62;
+    b.vz = D_80126B66;
+    r = func_80013294(&a, &b);
+    if (r < *(short *)(param_1 + 0xfc)) {
+        return *(int *)(param_1 + 0xcc);
+    }
+    return 0;
+}
+
 
 INCLUDE_ASM("asm/ov_SC07_007/nonmatchings/ov_SC07_007_jr_80140608", func_80144B9C);
 

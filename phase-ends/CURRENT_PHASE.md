@@ -8595,3 +8595,44 @@ extension makes the blocker *visible and named*, not automatically fixable.
 4. **`func_80146750`** (137) — failed its sweep even after its header was corrected.
 5. **The 13 byte-IDENTICAL families** (80,085 ins, 0 distinct) — the highest-confidence sweep left
    (they bank 137/137); pure instr yield while the distinct-code tier is unblocked.
+
+## ✅ T72 — the ARITY probe: **137/137**, and most of the class was never an arity problem (§113)
+
+Probe target switched from `func_8013BD34` **on measured evidence**: its definition lives in
+`ov_SC07_010_o0.c`, and `_o0` families sweep ~1/137 — a poor test of an unproven technique.
+`func_80144B14` is the same class, 137 stubs, **not** -O0, a real 34×137 family, and it tests both
+axes (`void(void)` → `int(int)`).
+
+### THE PROBE FOUND THE PRECONDITION ITSELF WAS OVER-FIRING
+The ARITY blocker exists because *the macro's own call site passes the header's arity*. But
+`DEFINE_func_*` does not **call** `func_80144B14` — it takes its **address**:
+```c
+*(s32 *)((s32)a0 + 0xDC) = (s32)&func_80144B14;
+```
+**No call site ⇒ no arity constraint ⇒ the FULL correction is available**, not the §99 workaround.
+
+| result | |
+|---|---|
+| header `extern int func_80144B14(int param_1);` alone | **R22 140/140 byte-neutral** |
+| family sweep | **137/137, 0 failed** |
+| metrics | instr **86.6%** (+4,658 ins) · fn-count 91.12% → **91.15%** (+137) · distinct +0 |
+
+### THE REFINEMENT THE AUDIT NEEDS (§113)
+The precondition must ask **what the macro DOES with the symbol**: a call constrains arity, an
+address-taken or unused declaration does not. Blocking on "both names appear" over-fires — and it had
+**137 members** behind it here. The remaining ARITY findings (`func_8013BD34` 136, `func_8014358C`
+134, + 4 zero-stub) should each be re-checked for call-vs-address before assuming §99 is needed.
+
+### GATES
+R22 clean-fleet **140 passed, 0 failed of 140** (after the header alone, and after the banks) ·
+`tools-health` OK · dedup **1886/0** · **0 NON_MATCHING** (G4).
+
+## ▶ NEXT (ranked, all measured)
+1. **Re-check the remaining ARITY findings for call-vs-address-taken** (§113) — `func_8014358C`
+   (134 stubs, not -O0) first; `func_8013BD34` (136) is -O0 so its header fix is valid but its sweep
+   yield is ~1/137. Cheap: one `grep` of the macro body each.
+2. **Teach `audit_header_sigs.py` the §113 distinction** so the ARITY class stops over-blocking.
+3. **`func_80147364`** (137) — `conform_decls` over the 272 colliding TUs, then the header fix.
+4. **Extend the audit with the family map** (T71) — cross-address members inherit the exemplar's
+   signature as byte truth; the byte-variant tier is invisible to the audit without it.
+5. **`func_80146750`** (137) · the 13 byte-IDENTICAL families (80,085 ins, 0 distinct).
