@@ -121,7 +121,6 @@ extern void func_801466F0(s32 a0, s32 a1, s32 a2, s32 a3, s32 sp5, s32 sp6, s32 
 extern s32 D_8011F9D0;
 extern s32 func_80146608(s32 a0, s32 a1, s32 a2, s32 a3, s16 arg9, s32 arg10, s32 arg11, s32 arg12, s32 arg13);
 extern void func_801466B4(u16 a0, s32 a1, s32 a2, s32 a3, s32 arg5);
-extern s32 D_8011F750;
 extern s32 D_8011F754;
 extern u8 * func_801468C8(s32 arg0, u8 arg1);
 extern s32 D_8011D030;
@@ -3857,7 +3856,42 @@ void func_80162760(void)
 
 DEFINE_func_801627C0()  /* dedup: shared engine-core @0x801627C0 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_004/nonmatchings/ov_SC01_004_jr_8015C32C", func_801627E8);
+
+// @class: struct
+// @stuck: none — MATCH (19 ins, relocation-masked)
+//
+// Tiny dispatcher: byte count at D_8011F750 (offset 0 of a 0x58-byte ctl struct;
+// cf. func_801627C0 which calls func_80016714(&D_8011F750, 0x58)). If nonzero,
+// call D_80181DC0[count - 1]() through a word-stride fn-pointer table.
+//
+// Two idioms combined to match gcc-2.7.2 -O2:
+//  1. The target MATERIALIZES &D_8011F750 (lui;addiu %lo) into $a0 before the lbu
+//     instead of folding %lo into the load. A direct global byte read always
+//     %lo-folds (lui;lbu %lo), so force the full-address materialization with the
+//     §21 re-tie barrier __asm__ __volatile__("":"=r"(p):"0"(p)) and pin the
+//     pointer to $a0 with register __asm__("$4") to get the exact register.
+//  2. Writing `idx = idx - 1;` as its OWN statement (not inline D_80181DC0[count-1])
+//     keeps the array index/decrement separate so %lo(D_80181DC0) folds into the
+//     dispatch load (lw %lo(...)($at)) — the inline form instead constant-folds the
+//     -1*4 into a -4 load offset and drops the %lo fold (1 ins short, schedule off).
+
+
+void func_801627E8(void)
+{
+
+    extern s32 D_8011F750;               /* canonical: engine_core.h `extern s32 D_8011F750;` (read here as a byte) */
+    extern void (*D_80181DC0[])(void);   /* word-stride table of dispatch fn pointers */
+    register u8 *p __asm__("$4") = (u8 *)&D_8011F750;
+    s32 idx;
+
+    __asm__ __volatile__("" : "=r"(p) : "0"(p));   /* materialize &D_8011F750 into $a0 (defeat %lo-fold of the lbu) */
+    idx = *p;
+    if (idx != 0) {
+        idx = idx - 1;
+        D_80181DC0[idx]();
+    }
+}
+
 
 
 extern void (*D_80181DC4[])(void);

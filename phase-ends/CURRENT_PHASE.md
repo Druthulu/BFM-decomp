@@ -8440,3 +8440,57 @@ banks · `tools-health` OK (corpus 0 PHANTOM + 0 TRUNCATED · cdecl · audit-bin
 4. **`func_80146750`** (137) — the one family that failed after its header was corrected; diagnose.
 5. **The 36 byte-VARIANT families** (114,331 ins · **2,962 distinct**) — the only lever left that
    moves distinct-code. Sweep these ahead of the 13 byte-identical ones.
+
+## ✅/📌 T69/T70 — the audit precondition validated; byte-VARIANT families sweep FAR worse (1 of 10)
+
+### T69 (item 1) — the precondition now COMPUTES the safe subset, and it took two wrong models
+`audit_header_sigs.py` gained the ARITY and VISIBLE-COLLISION preconditions (§112). The second one
+was wrong twice before it was right:
+1. *"any disagreeing decl in `src/`"* — compares type **spellings**, so `s32` vs `int` counts.
+   Fixed with `cdecl.compatible` (type identity): findings **61 → 32**.
+2. *"any INCOMPATIBLE decl"* — still wrong, and it **blocked all six corrections that had just
+   gated 140/140 and banked 685 members**. `func_80161774` has **1,063** TUs carrying the old
+   spelling and correcting it was byte-clean.
+
+**The right model measures the INTERSECTION, not the population:** a macro-body decl is only visible
+where the macro is **instantiated**, so a collision needs a TU that does *both*.
+**Validated against known outcomes** — the six that gated clean → **0** colliding TUs each; the one
+that failed the gate (`func_80147364`) → **272**. Perfect discrimination.
+
+**Honest result: 13 SAFE, worth only 15 stubbed binaries.** The high-value targets are all blocked
+(`func_80147364` 137 needs `conform_decls`; the arity trio ~410 needs §99). **The cheap header lever
+is spent.**
+
+### T70 (item 5) — byte-VARIANT families are a different economics
+Swept 10 byte-variant, non-jr, non-O0 families (42,235 ins · 1,552 distinct projected):
+**138 banked / 1,346 failed — one family of ten** (`func_801627E8` 137/137), plus 152 members skipped
+as "unresolved immediates (T2a)".
+
+**That is a ~10× worse rate than the byte-identical families**, which banked 137/137 apiece all
+session. It follows from what §111 established: a byte-variant member differs in more than
+relocations, so the template has to adapt immediates too — and `family_remap`'s T2a immediate engine
+refuses what it cannot resolve. **The distinct-code lever is real but it is NOT the same cheap sweep**,
+and the projected "2,962 distinct across 36 families" should be discounted accordingly until the
+immediate-resolution rate is measured.
+
+**§111 passed a second predictive test:** it projected +129 distinct for `func_801627E8`; observed
+**+130** (the extra from an unrelated 2-member bank).
+
+### GATES
+R22 clean-fleet **140 passed, 0 failed of 140** · `tools-health` OK · **0 NON_MATCHING** (G4).
+
+### METRICS
+| | before | after | delta |
+|---|---|---|---|
+| instr-weighted | 86.5% | **86.6%** | +2,618 ins |
+| fn-count | 91.08% | **91.12%** | +138 |
+| distinct-code | 76.9% | **76.9%** | 68,066 → 68,196 = **+130** (first real distinct movement) |
+
+## ▶ NEXT (ranked, re-measured)
+1. **Measure the T2a immediate-resolution rate** on the 9 failed byte-variant families before
+   sweeping the other 26 — the 2,962-distinct projection assumes a bank rate the one data point
+   (1/10) contradicts. One diagnosis decides whether that lever is worth 26 more sweeps.
+2. **`func_80147364`** (137) — `conform_decls` over 272 colliding TUs, then the header fix.
+3. **The arity trio** (`func_80144B14`/`func_8013BD34`/`func_8014358C`, ~410 members) — §99.
+4. **`func_80146750`** (137) — the family that failed after its header was corrected.
+5. The 13 SAFE audit findings (15 binaries) — cheap, low value; batch them into some other gate.
