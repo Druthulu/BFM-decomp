@@ -8553,3 +8553,45 @@ member's real cc1 output (`make -j1` the single object, filter out `warning:`).
   `klass` measurements are stale; a re-collect is owed before trusting the grinder.
 **DO NOT close P29 on ROI** — +1.1pp instr today; items 1-3 are un-mined and item 6 is a
 known-137/137 sweep worth 80k instructions.
+
+## 🔎 T71 — why the byte-variant sweep stalls: an audit gap, not an immediate-engine limit
+
+The next-list item was "measure the T2a immediate-resolution rate". **The log already refutes that
+framing:** of T70's 10 families, only **152** members were refused at remap time for unresolved
+immediates — **1,346 failed the GATE**. So the immediate engine is not the bottleneck.
+
+Diagnosed the largest failed family (`0x80131eec`, 15 ins × 289 members, class=IMM, cross-address):
+
+- member `ov_SC01_000 @ func_80151944`, imm_map entries **0** (nothing to resolve)
+- verdict **PLUMBING** — `conflicting types for func_80151944`
+- my §85 guard fired correctly and refused to bend the draft
+
+**The same header-vs-byte-truth class as T63/T64/T68 — but `audit_header_sigs.py` never flagged it:**
+
+| | |
+|---|---|
+| `func_80151944` definitions in `src/` | **0** (a stub in all 138) |
+| declarations | 2,022 |
+| `engine_core.h` says | `s32 func_80151944(void)` |
+| byte truth (the family exemplar `func_80131EEC`) | `void func_80131EEC(void *a0)` |
+
+**THE GAP:** the audit compares a header decl against definitions **of the same NAME**, and skips a
+function that has none ("never defined → nothing to compare"). For a **cross-address family member**
+the byte truth is the **exemplar's definition, under a different name at a different address**. So
+every such member is invisible to the audit while being blocked by exactly the defect the audit
+exists to find. That is why item 5 keeps hitting header conflicts the audit said were not there.
+
+**The extension:** feed `.run/family_hseq.json` in — an undefined member inherits its exemplar's
+definition signature (remapped) as its byte truth. Note this particular one would then be classed
+**ARITY** (`(void)` vs `(void *a0)`), so it needs §99 treatment rather than a retype — i.e. the
+extension makes the blocker *visible and named*, not automatically fixable.
+
+## ▶ NEXT (ranked, re-measured — item 1 replaced by what the bytes showed)
+1. **Extend `audit_header_sigs.py` with the family map** so cross-address members inherit the
+   exemplar's signature as byte truth. This is the blocker for the byte-variant tier (T70's 1,346
+   gate-failures), and it is invisible to the audit today. **Do this before sweeping the other 26.**
+2. **`func_80147364`** (137) — `conform_decls` over the 272 colliding TUs, then the header fix.
+3. **The arity trio** + whatever item 1 adds to it — §99 no-prototype treatment.
+4. **`func_80146750`** (137) — failed its sweep even after its header was corrected.
+5. **The 13 byte-IDENTICAL families** (80,085 ins, 0 distinct) — the highest-confidence sweep left
+   (they bank 137/137); pure instr yield while the distinct-code tier is unblocked.
