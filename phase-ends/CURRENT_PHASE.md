@@ -7992,3 +7992,80 @@ be planned as such — a batch is now a *diagnosis queue*, not a harvest.
 T57 (+125), T56 (**+0**), T58 (**+0**). All four families are classed PURE; the exemplar overlay
 does not separate them either (T56 and T57 both templated from `ov_SC01_077` and disagree). Two
 behaviours, no identified variable. **Still not guessed at** — it stays the queued probe.
+
+---
+
+# 🛑 SESSION-24 FINAL CHECKPOINT (2026-07-28) — FRESH SESSION SAFE HERE
+
+**Nothing running.** Tree clean but for the R23 `db.*.gbf` churn (never stage). HEAD **`commit:1159`**.
+**R22 clean-fleet 140/140** (run **5×** this session), `tools-health` OK, dedup **1886/0**,
+**0 NON_MATCHING** (G4).
+**FLEET: 86.0% instr · 76.7% distinct · 90.77% fn-count** (opened 85.5 / 76.1 / 90.62).
+
+## SESSION TOTAL — **537 functions banked**
+Reconciled against the metric, not asserted: fn-count **320,524 → 321,061 = +537**, and the per-task
+recount agrees exactly (T52 132 · T56 136 · T57 132 · T58 137). **+67,666 instructions**
+(11,240,111 → 11,307,777).
+
+| task | result |
+|---|---|
+| T51 | `scope_tu_externs` built, applied ×132 TUs, byte-neutral (140/140) |
+| T52 | `func_80135260` **132/132** — family 4/137 → **137/137**, +17,952 ins |
+| T53 | lever folded into `jtbl_family_bank`; `gather_externs` false positive killed; a revert gap closed |
+| T54 | `ADDRESSING` route fixed **+ the design flaw that made changing it inert** |
+| T55 | frontier re-mapped (64 families with fuel); 2 swept, **0 banked**, both diagnosed |
+| T56 | lever wired into `family_sweep`; `func_80144090` **0/136 → 136/136**, +20,944 ins |
+| T57 | `func_80133AB0` **132/132**, +18,084 ins; found a **second** opt-in lever |
+| T58 | 8-family batch: **1 of 6** banked (`func_8012A1BC` 137/137), +10,686 ins |
+
+## THE THREE STRATEGIC CHANGES
+1. **A `0/N` from a sweep is a statement about which levers were ENABLED, not about the code.**
+   Three times running: the DATA decl lever was unreachable from the sweep path (T56), the FUNCTION
+   decl lever was reachable but **off by default** (T57), and both presented as a flat 0/N
+   indistinguishable from a compiler wall. Before diagnosing a family as hard, enumerate the levers
+   the invocation actually enabled.
+2. **Persist the MEASUREMENT, derive the POLICY** (§106). A stored route let a Jul-21 file out-vote
+   the live table, so correcting `_ROUTE` was a silent no-op. Now re-derived at read time.
+3. **The economics changed at T58.** Per-family outcomes are binary (~137/137 or ~0/137) and each
+   `0/N` has its own distinct cause. **A batch is now a diagnosis queue, not a harvest.**
+
+## ▶ START HERE NEXT SESSION (ranked, all measured)
+1. **Diagnose the five T58 zero families, one sibling each** (`0x80175820` 276 members/IMM,
+   `0x8016ec0c`, `0x80143d28`, `0x801457a4`, `0x8016163c` — plus `0x80156044`/`0x8014d610` unrun).
+   The recipe that works: splice one member, `make -j1 <the .o>`, and read the **non-warning**
+   diagnostics — the `-j16` interleave and the §58 `memcpy`/`type mismatch` warnings hide the real
+   line every time. Each diagnosis either unlocks ~137 members or names a genuine wall.
+2. **Probe the distinct-code +0 anomaly** — four data points (T52 +125, T57 +125, T56 **+0**,
+   T58 **+0**), all PURE families, exemplar overlay does NOT separate them. Cheap, and it protects a
+   headline number before it is quoted again.
+3. **~50 more eligible families remain** (58 eligible at T58 selection, minus those swept). The
+   ranked list regenerates with `family_hseq.py` — **regenerate it first**, the current
+   `.run/family_hseq.json` predates T56–T58 and its matched/unmatched split is stale (membership is
+   stable; only `n_matched` rots — derive live stubs from `src/`).
+4. `func_8014032C` (~25,000 ins) needs **carve** work (jtbl table-count drift, §91), not decl work.
+5. **PARKED: `func_80176734`** (51,198 ins) — five tiers bounced; clusters A and B provably coupled.
+
+## ⚠️ MY ERRORS THIS SESSION (recorded, not buried)
+- **Three of five T57 targets never ran** — `--band` defaults to `substantial` (nins ≥ 80) and I
+  picked three at 79/78/78. The tool printed `2 matched-exemplar families`; I nearly read that as
+  "5 attempted, 3 refused". **Read the selection line, not your intent.**
+- **Swept against a stale map** — `.run/family_hseq.json` predated T56, so it offered a family that
+  was already complete. Membership is stable; the matched split is not.
+- **Deleted `last_err`'s initializer** while refactoring `jtbl_family_bank` (T53) — would have raised
+  `NameError` on the first clean gate-fail. Caught re-reading the diff, not by a test.
+- **Invoked a sweep with a wrong exemplar+address** for a cross-address family (T53) — an unmeasured
+  guess about a members file I had not opened. It did surface the revert gap, but by accident.
+- **Assumed the 3 duplicate decls of `D_800B9A02` were identical** (T56). They are 3 decls in **2
+  different forms** — the refusal was right. Measured before acting on it; the assumption was wrong.
+- Common thread: **the tool's own output answers the question faster than my inference does.**
+
+## ⚠️ CARRIED DEFECTS
+- The **21-file absolute-include portability defect** — PhaseEnd carry item.
+- **`docs/backlog.md` is not a work queue** — 44% misfiled partials (§83).
+- **Roadmap re-baseline owed**; the 39 type-1 modules are in no phase.
+- **`gate_stage` ladder destroys good drafts** (reproducible); **bare gate has no snapshot/restore**.
+- **`.run/autopsy/residuals.jsonl` is dated Jul 21** — the grinder's targeting corpus predates every
+  SESSION-23/24 target. `route_for` now protects the ROUTE from staleness (T54), but the `klass`
+  measurements themselves are still old; a re-collect is owed before the grinder is trusted again.
+**DO NOT close P29 on ROI** — +0.5pp instr today, and item 1 is a diagnosis queue with ~50 families
+behind it, not a burn-down floor.
