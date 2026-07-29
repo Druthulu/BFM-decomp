@@ -3372,7 +3372,7 @@
 
 #define DEFINE_func_80161418() \
     extern s32 func_801615C4(void *a0, s32 a1); \
-    extern void func_8016163C(void *a0, s32 a1); \
+    extern s32 func_8016163C(s32 a0, u32 a1); \
     void func_80161418(void *a0) { \
         func_8016163C(a0, func_801615C4(a0, 0)); \
     }
@@ -3400,7 +3400,7 @@
 
 #define DEFINE_func_80161554() \
     extern s32 func_801615C4(void *a0, s32 a1); \
-    extern void func_8016163C(void *a0, s32 a1); \
+    extern s32 func_8016163C(s32 a0, u32 a1); \
     void func_80161554(void *a0) { \
         func_8016163C(a0, func_801615C4(a0, 1)); \
     }
