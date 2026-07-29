@@ -9539,7 +9539,7 @@
     }
 
 #define DEFINE_func_8014D438() \
-    extern void func_8014D610(s32 a0, void *a1, void *a2); \
+    extern s32 func_8014D610(s32 a0, s32 a1, u16 *a2); \
     extern s32 func_8014D4C0(s32 a0, void *a1, void *a2); \
     void func_8014D438(s32 a0) { \
         s16 buf1[4]; \
