@@ -7770,3 +7770,71 @@ function is **not in the corpus at all** — the two targets that actually plate
 ### GATE
 Tooling-only, no `src/`/`config/` change → no bank, no metric move. `parse OK` on both edited tools;
 the effect measured directly through `autopsy.verdicts()` and `grinder.candidates()`.
+
+## ⚠️ T55 — frontier re-mapped, 2 families swept, **0 banked** — and both blockers are the SAME class
+
+Honest result: no yield. What it produced instead is a re-measured frontier, one real fix to my own
+T53 work, and both failures diagnosed to the exact line.
+
+### THE FRONTIER, RE-MAPPED (T52's +132 moved it)
+`family_hseq` regenerated: **2,647 target families · 513 substantial · 64 with a banked exemplar AND
+live stubs.** That last set is the mechanical fuel; it is ranked in `.run/family_hseq.json`.
+**Caveat recorded:** the top two by byte-weight (`0x8013c414` 180 KB, `0x8013c0f8` 84 KB) are **-O0**
+(`ov_SC01_077_o0.c`) and the phase already measured `_o0` families at ~1/137 — do not be drawn by
+their weight.
+
+### FAMILY 1 — `func_8014032C` (183 ins × 136 stubs ≈ 25,000 ins): TWO causes, one of them mine
+Sample 8 → **0/8**, `last_err` empty (every stage produced a candidate; all failed the gate). Read
+one sibling's real gate result rather than concluding (§53/§59) — the `-j16` interleave and the §58
+`memcpy` red herring both had to be stepped past to get it:
+1. **`conflicting types for D_80115128`** — the T48/T51 class, which `tu-scoped` should have caught.
+   **It did not, and that was a defect in my T53 wiring** (below).
+2. **`jtbl_rodata_pads: more rodata .align directives than pad specs — table-count drift vs the
+   carve`** — a DISTINCT class `jtbl_family_bank`'s own comment documents as **not** isolate-fixable
+   (the §91 `--like` role trap: the sibling's jtbl layout does not correspond to ov_SC01_077's).
+After fixing cause 1: still **0/8**. Cause 2 is the live blocker; this family needs carve work, not
+decl work. **Not ground further — it is a documented wall, and grinding it is what this phase keeps
+telling itself not to do.**
+
+### THE T53 DEFECT I FOUND AND FIXED — `contested()` was blind to the majority form
+`contested()` scanned only the draft's **BLOCK-scope** externs, because in T51's motivating family
+the byte-true decls had been hand-written inside the function body. But `gather_externs` carries an
+exemplar's decls in at **FILE scope**, and those are exactly the ones `scope_data_externs.fix`
+**DROPS** when the TU already declares the symbol — its documented give-up branch, and the fatal
+case the whole lever exists for. Measured: on `func_8014032C`, `scope_data_fix` dropped **3** symbols
+while `contested()` returned **`[]`**. So the tu-scoped stage never fired on precisely its own class.
+
+Fixed (scope-independent now) and **regression-checked against T51's original case using the pre-T51
+TU from git: old `['D_8017F198','D_8017F19C','D_8017F1A4']` == new, added `[]`.** On the T55 target
+it now correctly finds `D_80115128`.
+
+### FAMILY 2 — `func_80144090` (154 ins × 136 stubs ≈ 21,000 ins): the SAME decl class, in a tool that lacks the lever
+Swept via `family_sweep --hseq` (chosen because `has_mid_jr=False` avoids the carve entirely, so
+cause 2 cannot recur). **0/136.** Diagnosed one sibling: **`conflicting types for D_800A651C`**
+(line 2210 vs 379) — the T48/T51 class again. `family_sweep` gates via **plain `harvest_verify`** by
+design (§T3: gate_stage's transforms perturb a correct remapped draft), so **it never sees the
+tu-scoped lever, which lives only in `jtbl_family_bank`.**
+
+Probed the lever against it: it would move `D_800A651C` + `D_800AF648` (deletion-only, 0 consumers)
+and **refuses `D_800B9A02` — "3 file-scope decls above the splice point (ambiguous)"**. That refusal
+is **over-conservative**: duplicate-*identical* externs are legal C, so N identical decls are not
+ambiguous, they are one decl written N times.
+
+### THE FINDING
+**The same decl-scope collision class gates the frontier's mechanical families** — it is what cost
+T52's family 133 of 137 siblings, and it is what blocks both families probed here. The lever exists
+and is byte-proven; it is simply not reachable from the sweep path that most families use.
+
+### GATE
+No `src/`/`config/` change → no bank, no metric move, tree clean after every probe (T53's revert
+guard held through two crashes-by-design and four aborted stagings).
+
+## ▶ NEXT (ranked, all measured — the first two are one job)
+1. **Wire the tu-scoped lever into `family_sweep`'s staging** (it only exists in `jtbl_family_bank`).
+   Directly unblocks `func_80144090` ≈ **21,000 ins**, and applies to the other non-jr families.
+2. **Relax `scope_tu_externs`' duplicate-decl refusal**: if the N file-scope decls of a symbol are
+   textually identical they are unambiguous — delete all N. Currently refuses (`D_800B9A02`).
+   Keep refusing when they genuinely differ.
+3. **Re-sweep `func_80144090`, then work down the 64-family list** (skip the two -O0 leaders).
+4. `func_8014032C` needs **carve** work (table-count drift, §91), not decl work — separate, harder.
+5. **PARKED: `func_80176734`** (51,198 ins) — five tiers bounced; clusters A and B provably coupled.

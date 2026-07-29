@@ -253,12 +253,24 @@ def stub_pos(tu_text, func, tu_path=''):
 
 
 def contested(draft_body, tu_text, above):
-    """The DATA symbols a staged draft declares at BLOCK scope that the target TU also declares at
-    FILE scope above the splice point — i.e. exactly the symbols whose two declarations collide.
-    Derived from the draft, never hand-listed (R33)."""
+    """The DATA symbols a staged draft declares — at EITHER scope — that the target TU also declares
+    at FILE scope above the splice point. That intersection is exactly the set whose two declarations
+    collide. Derived from the draft, never hand-listed (R33).
+
+    BOTH SCOPES, and the first cut got this wrong (Phase 29 T55). It scanned only the draft's
+    BLOCK-scope externs, because in T51's motivating family the byte-true decls had been written
+    inside the function body by hand. But `family_remap.gather_externs` carries an exemplar's decls
+    in at FILE scope (column 0), and those are the ones `scope_data_externs.fix` DROPS when the
+    target TU already declares the symbol — its documented give-up branch, and the fatal case this
+    whole lever exists for. So the scan was blind to the majority form: on `func_8014032C`
+    `scope_data_fix` dropped three symbols while `contested` returned `[]`, and the tu-scoped stage
+    never fired on precisely the class it was built for (`conflicting types for D_80115128`).
+
+    The rule is scope-independent: a draft decl and a TU file-scope decl of the same symbol collide
+    wherever the draft's sits."""
     draft_syms, seen = [], set()
     for ln in cdecl._mask(draft_body).split('\n'):
-        if not ANY_EXTERN_RE.match(ln) or ln.startswith('extern'):
+        if not ANY_EXTERN_RE.match(ln):
             continue
         d = re.search(r'\bD_[0-9A-Fa-f]{6,8}\b', ln)
         if d and d.group(0) not in seen:
