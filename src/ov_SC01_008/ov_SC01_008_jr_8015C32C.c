@@ -389,8 +389,6 @@ extern s32 func_8014C2B0(void *a0, void *a1, s32 a2);
 extern s32 func_8014A238(s32 arg0);
 extern s32 func_8014A2E4(s32 a0);
 extern void func_8014A380(s32 a0, s32 a1);
-extern s16 D_801152B0;
-extern s16 D_801152B4;
 extern s32 func_8014A3E0(struct S_8014A3E0 *a0);
 extern s32 func_8014A454(s32 a0);
 extern s32 func_8014A4B4(void *a0);
@@ -3282,7 +3280,58 @@ DEFINE_func_8016158C()  /* dedup: shared engine-core @0x8016158C (src/shared) */
 
 DEFINE_func_801615C4()  /* dedup: shared engine-core @0x801615C4 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_008/nonmatchings/ov_SC01_008_jr_8015C32C", func_8016163C);
+
+
+// @class: other
+// @stuck: first draft — plain if-chain over the flag bits
+extern void func_801599A4(void *a0);
+extern void func_80159B3C(void *a0);
+extern void func_8015BF48(s32 *a0);
+extern void func_8015F2F0(s32 *a0);
+extern void func_8014C010(s32 a0, s32 a1);
+extern void func_80161D20(s32 a0, s32 a1);
+extern s32 func_8014A6C4(s32 a0);
+extern s32 ratan2(s32 a0, s32 a1);
+
+s32 func_8016163C(s32 arg0, u32 arg1) {
+
+    extern s16 D_801152B0;
+    extern s16 D_801152B4;
+    if (arg1 & 1) {
+        func_801599A4((void *)arg0);
+        func_80159B3C((void *)arg0);
+        func_8014C010(arg0, 1);
+        func_80161D20(arg0, *(u16 *)(arg0 + 0x16E));
+        return 1;
+    }
+    if (arg1 & 0x4000) {
+        func_801599A4((void *)arg0);
+        func_8015BF48((s32 *)arg0);
+        func_8014C010(arg0, 1);
+        func_80161D20(arg0, *(u16 *)(arg0 + 0x16E));
+        return 2;
+    }
+    if (arg1 & 0x2000) {
+        func_801599A4((void *)arg0);
+        func_80159B3C((void *)arg0);
+        func_8014C010(arg0, 1);
+        func_80161D20(arg0, *(u16 *)(arg0 + 0x16E));
+        return 4;
+    }
+    if (arg1 & 0x8000) {
+        if (*(u16 *)(arg0 + 0x16C) != 0x15) {
+            return 0;
+        }
+        if (func_8014A6C4(arg0) != 0) {
+            func_801599A4((void *)arg0);
+            func_8015F2F0((s32 *)arg0);
+            *(s16 *)(*(s32 *)(arg0 + 0x20) + 0x12) = ratan2(D_801152B0, D_801152B4);
+            return 8;
+        }
+    }
+    return 0;
+}
+
 
 INCLUDE_ASM("asm/ov_SC01_008/nonmatchings/ov_SC01_008_jr_8015C32C", func_80161774);
 
