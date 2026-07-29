@@ -8240,3 +8240,100 @@ fourth distinct cause. Three fixes peeled three layers off one family.
    one-definition-per-unit assertion (R32); until then that family cannot template.
 4. `0x80143d28` (`ApplyMatrixSV`) · `0x801457a4` (the original DIFF) · the distinct-code +0 probe ·
    ~50 more families (regenerate the map; select with `corpus.stubs`, **never** a name-grep).
+
+## ✅ T63/T64/T65 — items 1–3: **all three families banked 137/137**, +30,962 ins
+
+The T61/T62 diagnosis held: every one of the three was the *harness*, not the compiler. Fleet
+**86.0% → 86.3% instr**.
+
+| item | family | fix | result |
+|---|---|---|---|
+| 1 | `func_8016163C` | `engine_core.h` decl → `s32(s32,u32)` (was `void(void*,s32)`) | **137/137**, +10,686 ins |
+| 2 | `func_8014D610` | `engine_core.h` decl → `s32(s32,s32,u16*)` (was `void(s32,void*,void*)`) | **137/137**, +10,138 ins |
+| 3 | `func_80156044` | `extract_unit` definition-detection (§110) | **137/137**, +10,138 ins |
+
+**Both header flips were byte-neutral, each proven in two steps** (T48 discipline): the header change
+ALONE, no src change, R22 clean-fleet **140/140** — *then* the sweep. §85 sized first in both cases
+(0 consumers). After each, the family swept with **zero** failures and **no draft change at all**.
+
+### ITEM 3 — the last one was the subtlest (§110)
+`extract_unit` found a definition by "matches `<type> func_<addr>(` and does not end in `;`". One
+line held **both a declaration and a definition** — the handwritten wrapper form
+`extern void func_80156044(int, int); int func_80155FF8(int, int) { __asm__ … }` — so
+`func_80156044`, appearing there only in the *declaration*, was taken as a definition head and the
+neighbouring wrapper was lifted instead of the real definition seven lines below. Every sibling
+already defines that wrapper via its shared macro → `redefinition`, ×137, wearing a compiler wall's
+clothes. Fixed by asking **what follows the parameter list**, plus an R32 assertion that a unit
+defines exactly one function.
+
+**Two traps hit writing that assertion, both caught by regression-checking against families known to
+bank:** `_def_head_at` alone **over**-fires (a call whose arguments wrap has nothing after its `(`,
+which "end-of-line ⇒ definition" misreads — it refused three families that had just banked 137/137),
+and the type-prefix test alone **under**-fires (it is what missed the wrapper originally). Both are
+needed. All five known-banking families extract byte-identically before and after.
+
+### GATES (each step)
+R22 clean-fleet **140 passed, 0 failed of 140** after every bank and after both header flips ·
+`tools-health` OK (corpus 0 PHANTOM + 0 TRUNCATED · cdecl · audit-binaries · dedup **1886/0**) ·
+**0 NON_MATCHING** (G4).
+
+---
+
+# 🛑 SESSION-24 FINAL CHECKPOINT — REVISED (2026-07-28) — FRESH SESSION SAFE HERE
+> Supersedes the earlier SESSION-24 block (written before T59–T65).
+
+**Nothing running.** Tree clean but for the R23 `db.*.gbf` churn (never stage). HEAD **`commit:1169`**.
+**R22 clean-fleet 140/140** (run **11×** this session), `tools-health` OK, dedup **1886/0**,
+**0 NON_MATCHING** (G4).
+**FLEET: 86.3% instr · 76.9% distinct · 90.88% fn-count** (opened 85.5 / 76.1 / 90.62).
+
+## SESSION TOTAL — **948 functions banked · +98,628 instructions**
+Reconciled against the metric, not asserted: fn-count **320,524 → 321,472 = +948**; instr
+**11,240,111 → 11,338,739**. Per-task recount agrees (T52 132 · T56 136 · T57 132 · T58 137 ·
+T63 137 · T64 137 · T65 137).
+
+## THE ONE LESSON, EARNED SEVEN TIMES
+**A family-wide `0/N` is a statement about the HARNESS, not the code.** Every single one this session
+resolved to tooling: a lever unreachable from the sweep path (T56) · a lever off by default (T57) ·
+a lever with a param-name bug (T60) · a shared header contradicting byte truth (T63, T64) ·
+an extraction taking the wrong function (T65). **Zero** were the compiler. Before calling a family
+hard: enumerate the levers the invocation enabled, then read ONE member's real cc1 output
+(`make -j1` the single object; filter out `warning:` — the §58 noise and the `-j16` interleave hide
+the answer every time).
+
+## ▶ START HERE NEXT SESSION (ranked, all measured)
+1. **`0x80143d28`** (136 members) — `conflicting types for ApplyMatrixSV`, a PsyQ library symbol. The
+   only un-diagnosed one of the original five; likely the same carried-decl shape one level out.
+2. **`0x801457a4`** (137) — the original **DIFF**. Now that T62 showed a "clean DIFF" can be
+   tool-manufactured, re-measure it with `match_one` BEFORE routing it as codegen.
+3. **~50 more eligible families** — regenerate `family_hseq.py` first (the map predates T56–T65),
+   select exemplars with **`corpus.stubs`**, never a name-grep, and sweep with
+   `--band all --normalize-self-decls --fix-def-sig`.
+4. **The distinct-code anomaly, now SEVEN data points** (T52 +125, T57 +125, T63 +0, T64 +0, T65
+   +129, T56 +0, T58 +0). No identified variable; all families PURE. Cheap probe, protects a headline.
+5. **Audit `engine_core.h` for more decls that contradict byte truth** — three found and fixed this
+   session, each unblocking 137 members. A systematic sweep (compare every `extern func_X` against
+   the banked definition) is likely the highest-yield lever left.
+
+## ⚠️ MY ERRORS THIS SESSION (recorded, not buried)
+- **Reported `func_8016163C` as "genuine codegen"** — it was my own `--fix-def-sig` demoting the
+  return and deleting a fifth of the function (58 ins vs 78). A "clean DIFF" right after a transform
+  is a suspect, not a result.
+- **Grouped three families as one 30,000-ins block** on a shared error message (T59). They had three
+  unrelated causes.
+- **Claimed 7 families had banked exemplars** (T58) — 2 had none. My check name-grepped a TU instead
+  of using `corpus.stubs`; the map was right and said so.
+- **`--band` defaults to `substantial`**, so 3 of 5 targets silently never ran. I read past the
+  tool's own `2 matched-exemplar families` line.
+- **Swept against a stale map** that predated the previous task's banks.
+- **Deleted `last_err`'s initializer** mid-refactor; **invoked a sweep with a wrong exemplar+address**.
+- Common thread: **the tool's own output answers the question faster than my inference does.**
+
+## ⚠️ CARRIED DEFECTS
+- The **21-file absolute-include portability defect** — PhaseEnd carry item.
+- **`docs/backlog.md` is not a work queue** — 44% misfiled partials (§83).
+- **Roadmap re-baseline owed**; the 39 type-1 modules are in no phase.
+- **`gate_stage` ladder destroys good drafts**; **bare gate has no snapshot/restore**.
+- **`.run/autopsy/residuals.jsonl` is dated Jul 21** — `route_for` protects the ROUTE from staleness
+  (T54) but the `klass` measurements are old; a re-collect is owed before trusting the grinder.
+**DO NOT close P29 on ROI** — +0.8pp instr today and item 5 is an un-mined systematic lever.
