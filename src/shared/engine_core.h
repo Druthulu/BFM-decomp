@@ -8097,7 +8097,7 @@
     }
 
 #define DEFINE_func_80155FF8() \
-    extern int func_80156044(int arg, int a1); \
+    extern void func_80156044(int arg, int a1); \
     int func_80155FF8(int arg, int a1) { \
         __asm__ __volatile__( \
             ".set noreorder\n" \
