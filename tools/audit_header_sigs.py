@@ -51,6 +51,41 @@ FN_RE = re.compile(r'\bfunc_[0-9A-Fa-f]{8}\b')
 DECL_RE = re.compile(r'extern\s+([A-Za-z_][\w \*]*?)\s*(func_[0-9A-Fa-f]{8})\s*\(([^)]*)\)\s*;')
 
 
+def macro_owners():
+    """{fn: {DEFINE_func_M, ...}} — which macro bodies declare each function.
+
+    THE DECL IS ONLY VISIBLE WHERE ITS MACRO IS INSTANTIATED (Phase 29 T69). This is the fact that
+    makes the "other in-scope decls" precondition tractable. A `DEFINE_func_M()` macro body contains
+    `extern <sig> func_X(...);`, so correcting that decl can only collide inside a TU that BOTH
+    instantiates `DEFINE_func_M()` AND carries its own incompatible declaration of func_X.
+
+    Without this, the precondition compares against every decl in the corpus and blocks everything:
+    `func_80161774` has 1,063 TUs carrying the old spelling, none of which instantiate its macro —
+    and correcting it gated 140/140 and banked 137 members. Measuring the intersection instead of the
+    population is the whole difference between a usable gate and a useless one."""
+    owners = collections.defaultdict(set)
+    for h in HEADERS:
+        p = os.path.join(REPO, h)
+        if not os.path.exists(p):
+            continue
+        cur = None
+        for ln in open(p):
+            m = re.match(r'\s*#define\s+(DEFINE_func_[0-9A-Fa-f]+)\s*\(', ln)
+            if m:
+                cur = m.group(1)
+            elif cur and not ln.rstrip().endswith("\\"):
+                d = DECL_RE.search(ln)
+                if d:
+                    owners[d.group(2)].add(cur)
+                cur = None
+                continue
+            if cur:
+                d = DECL_RE.search(ln)
+                if d:
+                    owners[d.group(2)].add(cur)
+    return owners
+
+
 def header_decls():
     """{fn: [(sig_text, header, lineno)]} — every extern decl of a func_ in the shared headers.
 
@@ -69,13 +104,17 @@ def header_decls():
     return out
 
 
-def definitions(wanted):
-    """{fn: [(sig_text, path, lineno)]} for every DEFINITION of a wanted func_ in src/**/*.c.
+def scan_corpus(wanted):
+    """One pass over src/**/*.c returning ({fn: [defs]}, {fn: [decls]}).
 
-    One pass over the corpus. A definition head is decided by §110's `_def_head_at` (what follows the
-    parameter list), not by "the line ends in `;`" — the test that let a declaration sharing a line
-    with a definition be mistaken for one."""
-    out = collections.defaultdict(list)
+    DEFINITIONS decide the byte truth. DECLARATIONS are the second precondition (below): a header
+    correction is only safe when nothing ELSE in scope disagrees.
+
+    A definition head is decided by §110's `_def_head_at` (what follows the parameter list), not by
+    "the line ends in `;`" — the test that let a declaration sharing a line with a definition be
+    mistaken for one."""
+    defs = collections.defaultdict(list)
+    decls = collections.defaultdict(list)      # fn -> [(sig, path, line, {macros this TU uses})]
     for path in glob.glob(os.path.join(REPO, "src/**/*.c"), recursive=True):
         try:
             text = open(path, errors="replace").read()
@@ -83,6 +122,8 @@ def definitions(wanted):
             continue
         if not FN_RE.search(text):
             continue
+        rel = os.path.relpath(path, REPO)
+        used = set(re.findall(r'\b(DEFINE_func_[0-9A-Fa-f]+)\s*\(', text))
         for i, ln in enumerate(text.split("\n"), 1):
             for m in FN_RE.finditer(ln):
                 fn = m.group(0)
@@ -93,21 +134,39 @@ def definitions(wanted):
                     continue
                 pre_tail = ln[:m.start()].rsplit(";", 1)[-1]
                 if not re.fullmatch(r'\s*[A-Za-z_][\w \*]*', pre_tail):
-                    continue                                  # a call site, not a definition head
-                if not _def_head_at(ln, par):
-                    continue                                  # a declaration
+                    continue                                  # a call site
                 sig = ln[ln.rfind(";", 0, m.start()) + 1:].strip().rstrip("{").strip()
-                out[fn].append((sig, os.path.relpath(path, REPO), i))
-    return out
+                if _def_head_at(ln, par):
+                    defs[fn].append((sig, rel, i))
+                elif "extern" in pre_tail:
+                    decls[fn].append((sig.rstrip(";").strip(), rel, i, used))
+    return defs, decls
 
 
 def parse_sig(s):
-    """(return_type, [param_types]) or None."""
+    """The cdecl Declarator for a signature string, or None.
+
+    Returns the DECLARATOR, not a (ret, params) tuple, because every comparison in this tool must be
+    `cdecl.compatible` — TYPE IDENTITY, not type SPELLING (Phase 29 T69). The first cut compared the
+    rendered strings, so `s32` vs `int` and `u32` vs `unsigned int` counted as disagreements. That
+    made the "other in-scope decls" precondition block ALL SIX corrections that had just gated
+    140/140 and banked 685 members — a precondition that would have prevented the work it was written
+    to protect. The genuine incompatibility (func_80147364: `s32` vs `u16` parameter) survives
+    `compatible`; the spelling noise does not."""
     try:
-        d = cdecl.parse(s.rstrip("; ") + ";")[0]
-        return d.base, list(d.params or [])
+        return cdecl.parse(s.rstrip("; ") + ";")[0]
     except Exception:
         return None
+
+
+def same(a, b):
+    """Type-identity comparison of two Declarators (None-safe)."""
+    if a is None or b is None:
+        return False
+    try:
+        return bool(cdecl.compatible(a, b))
+    except Exception:
+        return False
 
 
 def consumers_of(fn):
@@ -143,7 +202,8 @@ def main():
     decls = header_decls()
     print(f"header decls: {sum(len(v) for v in decls.values())} across {len(decls)} functions",
           flush=True)
-    defs = definitions(set(decls))
+    defs, dcl = scan_corpus(set(decls))
+    mowners = macro_owners()
     print(f"definitions found for {len(defs)} of them", flush=True)
 
     findings = []
@@ -162,34 +222,71 @@ def main():
         parsed = [x for x in parsed if x[0]]
         if not parsed:
             continue
-        if any(x[0] == hp for x in parsed):
+        if any(same(x[0], hp) for x in parsed):
             continue                                          # some definition agrees -> not a defect
-        ret_diff = all(x[0][0] != hp[0] for x in parsed)
-        par_diff = all(x[0][1] != hp[1] for x in parsed)
+        ret_diff = all(x[0].base != hp.base for x in parsed)
+        par_diff = all(list(x[0].params or []) != list(hp.params or []) for x in parsed)
         if not (ret_diff or par_diff):
             continue
         kind = "BOTH" if (ret_diff and par_diff) else ("RETURN" if ret_diff else "PARAMS")
+        truth = parsed[0][0]
+
+        # ---- PRECONDITION 1: ARITY (Phase 29 T67, found by gating). A header decl of `(void)` for a
+        # function DEFINED with a parameter cannot simply be retyped: the DEFINE_ macro's own call
+        # site passes the header's arity, so correcting the decl breaks it with "too few arguments".
+        # Those need the §99 no-prototype treatment, not a retype.
+        arity_ok = len(truth.params or []) == len(hp.params or [])
+
+        # ---- PRECONDITION 2: NO DISAGREEING IN-SCOPE DECL (Phase 29 T67, found by a FAILED gate).
+        # A first batch of 7 corrections failed 2/140 with `conflicting types for func_80147364` —
+        # 9 header sites rewritten, but the overlays' own TUs still declared it the old way. Correct
+        # the header alone and those become conflicts. Such a function needs a conform_decls pass
+        # first, so it is reported UNSAFE with the count of sites that would have to move.
+        # Only a TU that INSTANTIATES one of the macros carrying this decl can collide with it.
+        owners = mowners.get(fn, set())
+        bad_decls = []
+        for s, p, l, used in dcl.get(fn, []):
+            if not (used & owners):               # the corrected decl is not visible in this TU
+                continue
+            q = parse_sig(s)
+            if q and not same(q, truth):          # INCOMPATIBLE, not merely spelled differently
+                bad_decls.append(f"{p}:{l}")
+
         findings.append(dict(fn=fn, kind=kind, header=hsig, header_sites=len(ds),
                              defs=sorted({x[1] for x in parsed}),
-                             def_where=f"{parsed[0][2]}:{parsed[0][3]}"))
+                             def_where=f"{parsed[0][2]}:{parsed[0][3]}",
+                             arity_ok=arity_ok, bad_decls=len(bad_decls),
+                             bad_decl_where=bad_decls[:3],
+                             safe=bool(arity_ok and not bad_decls)))
 
     for f in findings:
         f["live_stubs"] = live_stubs(f["fn"])
         f["consumers"] = consumers_of(f["fn"]) if f["kind"] in ("RETURN", "BOTH") else 0
-    findings.sort(key=lambda f: (-f["live_stubs"], f["fn"]))
+        if f["consumers"] > 0:                     # §85: a consumed return is not byte-neutral
+            f["safe"] = False
+            f["blocker"] = f"§85: {f['consumers']} caller(s) consume the return"
+        elif not f["arity_ok"]:
+            f["blocker"] = "ARITY: header/def arity differ — the macro call site would break (§99)"
+        elif f["bad_decls"]:
+            f["blocker"] = f"DECLS: {f['bad_decls']} disagreeing decl(s) in src/ — conform_decls first"
+        else:
+            f["blocker"] = ""
+    findings.sort(key=lambda f: (not f["safe"], -f["live_stubs"], f["fn"]))
+    safe = [f for f in findings if f["safe"]]
 
     print(f"\n=== {len(findings)} header decl(s) contradict every known definition ===")
-    print(f"{'function':<16}{'kind':<8}{'stubs':>6}{'§85':>5}  header  ->  definition")
+    print(f"    {len(safe)} SAFE to correct now · {len(findings) - len(safe)} blocked\n")
+    print(f"{'function':<16}{'kind':<8}{'stubs':>6}  {'status':<52} header -> definition")
     shown = findings if a.all else findings[:a.top]
     for f in shown:
-        c = "n/a" if f["kind"] == "PARAMS" else ("OK" if f["consumers"] == 0 else str(f["consumers"]))
-        print(f"{f['fn']:<16}{f['kind']:<8}{f['live_stubs']:>6}{c:>5}  {f['header']}")
-        print(f"{'':<35}  -> {f['defs'][0]}   ({f['def_where']})")
+        st = "SAFE" if f["safe"] else f["blocker"]
+        print(f"{f['fn']:<16}{f['kind']:<8}{f['live_stubs']:>6}  {st:<52} {f['header']}")
+        print(f"{'':<84}-> {f['defs'][0]}")
     if not a.all and len(findings) > a.top:
         print(f"... {len(findings) - a.top} more (--all)")
-    tot = sum(f["live_stubs"] for f in findings)
-    print(f"\nunblock potential: {tot} stubbed binaries across {len(findings)} functions")
-    print("§85 column: 0 consumers => a RETURN-axis correction is byte-neutral; nonzero => it is NOT.")
+    print(f"\nSAFE subset: {len(safe)} function(s), {sum(f['live_stubs'] for f in safe)} stubbed binaries")
+    print("Preconditions enforced: §85 (no caller consumes a changed return) · ARITY (header==def, or")
+    print("the macro's own call site breaks) · DECLS (nothing else in src/ declares it differently).")
     print("Correcting a shared header is fleet-shared (§61/§63): R22 mandatory, two steps —")
     print("  header change ALONE must rebuild 140/140, THEN sweep.")
     if a.json:

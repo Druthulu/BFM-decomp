@@ -7717,3 +7717,49 @@ of which **13 families / 80,085 ins are byte-identical and pay ZERO distinct-cod
 
 *(And the derived-not-persisted rule from §106 applies to the table above: it is two lines of code
 over the sigs, so regenerate it — do not commit a ranking that rots the moment a family banks.)*
+
+---
+
+## §112 — A macro-scoped declaration only collides where the macro is INSTANTIATED (Phase 29 T67/T69, `audit_header_sigs.py`)
+
+`src/shared/engine_core.h` declares, inside each `DEFINE_func_M()` macro body, the functions that
+body calls. When such a decl disagrees with the byte-true definition, every family templating that
+function fails `conflicting types` — ×137 members, wearing a compiler wall's clothes. Three were
+found one at a time in Phase 29, each worth ~137 members. `tools/audit_header_sigs.py` finds them all
+in one pass: parse every header decl, find every DEFINITION in `src/**/*.c` (via §110's
+`_def_head_at`), and report only where **NO** definition agrees — one overlay disagreeing is loose
+typing (§16/T49); all of them disagreeing means the header is the outlier.
+
+**Three preconditions decide whether a correction is safe, and two of them were learned by failing:**
+
+| precondition | why | how it was found |
+|---|---|---|
+| **§85 return axis** | a consumed return makes the change non-neutral | already known |
+| **ARITY** | the macro's OWN call site passes the header's arity — correcting a `(void)` decl for a 1-param definition breaks it with "too few arguments" | measured before the batch |
+| **VISIBLE COLLISION** | a TU that carries its own incompatible decl AND instantiates the macro | **a failed gate, 2/140** |
+
+**The third one is the subtle one, and getting it right took two wrong models:**
+
+1. *"Any disagreeing decl in `src/` blocks it"* — compares type SPELLINGS, so `s32` vs `int` and
+   `u32` vs `unsigned int` count as disagreements. Use `cdecl.compatible` (type IDENTITY), not `==`.
+2. *"Any INCOMPATIBLE decl in `src/` blocks it"* — still wrong, and it blocked **all six corrections
+   that had just gated 140/140 and banked 685 members**. `func_80161774` has **1,063** TUs carrying
+   the old spelling; correcting it was still byte-clean.
+
+**The fix is to measure the INTERSECTION, not the population.** A macro-body decl is only visible
+where the macro is instantiated, so a collision needs a TU that does **both**:
+
+```python
+colliding = [tu for tu in decls_of(fn)
+             if (tu.macros_instantiated & macros_declaring(fn))
+             and not cdecl.compatible(tu.decl, byte_truth)]
+```
+
+Validated against the known outcomes: the six that gated clean → **0 colliding TUs each**; the one
+that failed the gate (`func_80147364`) → **272**. Perfect discrimination, and the finding count drops
+**61 → 32** once spelling noise is removed.
+
+> **The law:** a precondition that blocks work you have already proven safe is not conservative, it
+> is wrong — and it will read as prudence forever unless you test it against known-good cases. Every
+> gate you write deserves a control: run it against something that *passed* and something that
+> *failed*, and require it to separate them.
