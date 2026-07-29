@@ -639,7 +639,6 @@ extern void func_80139DC8(void);
 extern s16 D_8012752E;
 extern void func_801379D8(void);
 extern void func_801379EC(void);
-extern s32 D_80127548[];
 extern int D_8018C088;
 extern int D_801269F0;
 extern void func_80138BE0(int p);
@@ -713,7 +712,7 @@ s32 func_801380E0(s32 arg0) {
     extern void func_80138AB4(s32, s32);
     extern s32 func_80138C60(s32, s32);
     extern void func_80138D58(s32, s32);
-    extern s32 func_80138DE0(s32, s32, s32);
+    extern s32 func_80138DE0(u8 *arg0, u8 arg1, s32 arg2);
     extern void func_801391F0(s32, s32);
     extern void func_80139220(s32, s32);
     extern void func_80139788(s32);
@@ -759,7 +758,7 @@ s32 func_801380E0(s32 arg0) {
         sub = *(u8 *)(pc + base + 1);
 
         if (cmd >= 0x20) {
-            cont = func_80138DE0(arg0, cmd, sub);
+            cont = ((s32 (*)(s32, s32, s32))func_80138DE0)(arg0, cmd, sub);
             if (!(*(s32 *)(arg0 + 8) & 0x80220)) {
                 cont = 0;
             }
@@ -1103,7 +1102,45 @@ DEFINE_func_80138D58()  /* dedup: shared engine-core @0x80138D58 (src/shared) */
 
 DEFINE_func_80138DB8()  /* dedup: shared engine-core @0x80138DB8 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC03_090/nonmatchings/ov_SC03_090_jr_801380E0", func_80138DE0);
+
+extern s32 func_80138ED0(u8 *param_1, u32 param_2, u8 *param_3);
+
+s32 func_80138DE0(u8 *arg0, u8 arg1, s32 arg2) {
+
+    extern s32 D_80127548[];
+    extern u8 D_800D3AB4[];
+    u16 *p;
+
+    if (D_80127548[0] == 0) {
+        return 0;
+    }
+    p = (u16 *)(arg0 + 0x44);
+    if ((*(u32 *)(arg0 + 8) & 0x400) == 0) {
+        p = (u16 *)(arg0 + 0x10);
+        if (*(s16 *)(arg0 + 4) == 8) {
+            p = (u16 *)(arg0 + 0x44);
+        }
+    }
+    if (arg1 >= 0xE0) {
+        arg2 = func_80138ED0(arg0, 0x1F, D_800D3AB4);
+        if (arg2 != 0) {
+            return 0;
+        }
+        *p = *p + 2;
+    } else if (arg1 >= 0x20) {
+        arg2 = func_80138ED0(arg0, (u16)(arg1 - 0x20), D_800D3AB4);
+        if (arg2 != 0) {
+            return 0;
+        }
+        *p = *p + 1;
+    }
+    if (arg2 != 0) {
+        return 0;
+    }
+    D_80127548[0] = D_80127548[0] - 1;
+    return D_80127548[0];
+}
+
 
 DEFINE_func_80138ED0()  /* dedup: shared engine-core @0x80138ED0 (src/shared) */
 

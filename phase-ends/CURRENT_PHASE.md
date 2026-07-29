@@ -8383,3 +8383,60 @@ it is derivable on demand and deliberately NOT committed as a table that rots.
    byte-identical ones (80,085 ins · 0 distinct) — same tooling, strictly better on the honest metric.
 4. **Audit `engine_core.h` for decls contradicting byte truth** — three found this session, each
    unblocking 137 members. Still the likeliest systematic lever.
+
+## ✅ T67/T68 — the `engine_core.h` audit: **61 defects found, 6 corrected, 685 members banked**
+
+The audit was the right precondition: **three of the six corrected functions were families already
+queued for the item-3 sweep** — they would each have failed 0/137 exactly the way five families did
+earlier today. Fleet **86.3% → 86.5% instr**, fn-count **90.88% → 91.08%**.
+
+### THE TOOL — `tools/audit_header_sigs.py` (§112)
+Parse every `extern func_X(...)` in `src/shared/*.h`; find every DEFINITION in `src/**/*.c` (via
+§110's `_def_head_at`, not "ends in `;`"); compare with `cdecl`; report only where **NO** definition
+agrees — one overlay disagreeing is loose typing (§16/T49), *all* of them disagreeing means the
+header is the outlier. **3,043 decls / 1,023 functions → 265 have definitions → 61 contradict every
+one.** The top 10 are full-fleet families (**1,366 live stubs**), all with an unambiguous byte truth.
+
+### TWO PRECONDITIONS THE AUDIT DOES NOT CHECK — both found by GATING, not by reasoning
+1. **ARITY.** `func_80144B14`/`func_8013BD34`/`func_8014358C` declare `(void)` but are DEFINED with
+   one parameter. Correcting the header breaks the macro's **own call site** (too few arguments).
+   Excluded before the batch, by measurement — they need the §99 no-prototype treatment.
+2. **OTHER IN-SCOPE DECLS.** The first batch of 7 **failed the gate 2/140**: `conflicting types for
+   func_80147364` — 9 header sites rewritten, but the overlays' own TUs declare it the old way
+   (`src/ov_*/…:347`). **A header correction is only safe when no other in-scope declaration
+   disagrees**; that one additionally needs a `conform_decls` pass. Excluded → the other 6 gated
+   **140/140** clean.
+
+The culprit was found by reading **one object's real cc1 output**, not by a 7-way bisect (7 fleet
+gates ≈ 2.5 h; one serial compile ≈ seconds).
+
+### THE SWEEP
+6 corrected functions → all 6 are non-jr families with 137 live stubs each.
+**685 banked / 137 failed** — five families landed **137/137**; `func_80146750` failed (its own
+residual, undiagnosed).
+
+### GATES
+R22 clean-fleet **140 passed, 0 failed of 140** — after the header batch alone, and again after the
+banks · `tools-health` OK (corpus 0 PHANTOM + 0 TRUNCATED · cdecl · audit-binaries · dedup
+**1886/0**) · **0 NON_MATCHING** (G4).
+
+### METRICS
+| | before | after | delta |
+|---|---|---|---|
+| instr-weighted | 86.3% | **86.5%** | 11,338,739 → 11,372,304 = **+33,565 ins** |
+| fn-count | 90.88% | **91.08%** | 321,472 → 322,157 = **+685** |
+| distinct-code | 76.9% | 76.9% | **+0** — all six families are byte-identical (§111 predicted this exactly) |
+
+**§111 got its first predictive test and passed:** every one of these six families has a single
+`h_exact` class, so the model said +0 distinct before the sweep ran, and +0 is what happened.
+
+## ▶ NEXT (ranked, all measured)
+1. **The remaining 55 audit findings** — `.run/header_audit.json`. Add the two preconditions to
+   `audit_header_sigs.py` (arity match; no disagreeing in-scope decl) so the safe subset is computed
+   rather than discovered by a failed gate.
+2. **`func_80147364`** (137) — needs `conform_decls` for the overlay-local decls, then the header fix.
+3. **The 3 arity-mismatch functions** (`func_80144B14`/`func_8013BD34`/`func_8014358C`, ~410 members)
+   — §99 no-prototype treatment.
+4. **`func_80146750`** (137) — the one family that failed after its header was corrected; diagnose.
+5. **The 36 byte-VARIANT families** (114,331 ins · **2,962 distinct**) — the only lever left that
+   moves distinct-code. Sweep these ahead of the 13 byte-identical ones.
