@@ -2418,7 +2418,85 @@ after:
 
 
 
-INCLUDE_ASM("asm/ov_SC03_023/nonmatchings/ov_SC03_023_jr_8012ACE0", func_80133AB0);
+
+
+s32 func_80133AB0(s16 flag, s16 x, s16 y, s32 arg3)
+{
+    extern u8 D_8017F47C;
+    extern u8 D_8017F478;
+    extern u8 D_8017F484;
+    extern u16 D_80197958;
+    extern s16 D_80197954;
+    extern s32 func_80133CD4();
+
+    Map_80133AB0 *map = (Map_80133AB0 *)arg3;
+    u16 *pA = (*(u16 * *)&D_8017F47C);
+    u16 *pB = (*(u16 * *)&D_8017F478);
+    u16 *pC = (*(u16 * *)&D_8017F484);
+    register int zr __asm__("$0");
+    u32 X, Y, cell, Xc, Yc;
+    u16 k, off;
+    int cnt;
+    u16 *cp, *lst;
+    u8 *s0;
+    u16 raw;
+    u32 hib;
+    register int harg __asm__("$4");
+    s32 ret;
+    void *p0C, *p10;
+    u8 *p14, *p18, *p1C;
+    u16 *cells;
+
+    pC[0] = pA[0] - pB[0];
+    pC[1] = pA[1] - pB[1];
+    pC[2] = pA[2] - pB[2];
+
+    X = ((((u16)x + 0x8000) >> 7) & 0x1ff) - map->ox;
+    __asm__("addu %0,%1,$zero" : "=r"(Xc) : "r"(X));
+    if (!((X & 0xffff) < map->w))
+        return 0;
+    Y = ((((u16)y + 0x8000) >> 7) & 0x1ff) - map->oy;
+    __asm__("addu %0,%1,$zero" : "=r"(Yc) : "r"(Y));
+    if (!((Y & 0xffff) < map->h))
+        return 0;
+
+    cell = (Yc & 0xffff) * map->w + (Xc & 0xffff);
+    cells = map->cells;
+    p14 = map->p14;
+    p0C = map->p0C;
+    p10 = map->p10;
+    p18 = map->p18;
+    p1C = map->p1C;
+    k = cell * 2;
+    cp = (u16 *)(k * 2 + (u32)cells);
+    off = cp[0];
+    cnt = cp[1];
+    lst = (u16 *)(p14 + off);
+
+    while (((cnt-- + zr) & 0xffff) != 0) {
+        raw = *lst;
+        hib = raw & 0x8000;
+        harg = hib + zr;
+        if (hib == 0) {
+            s0 = p18 + raw * 18;
+        } else {
+            s0 = p1C + (raw & 0x7fff) * 22;
+        }
+        ret = (s16)func_80133CD4((s16)(harg | flag), s0, p10, p0C);
+        if (ret != 0) {
+            if (ret > 0)
+                D_80197958 = *(u16 *)s0;
+            return 1;
+        }
+        lst++;
+        if (D_80197954 != 0) {
+            D_80197958 = *(u16 *)s0;
+            return 0;
+        }
+    }
+    return 0;
+}
+
 
 
 s32 func_80133CD4(arg0, cmd, base, arr)
@@ -2603,7 +2681,7 @@ DEFINE_func_8013435C()  /* dedup: shared engine-core @0x8013435C (src/shared) */
 
 s32 func_801343C4(s32 angle, s32 p1, s32 p2)
 {
-    extern int func_80133AB0(int, s16, s16, int);
+    extern s32 func_80133AB0(s16 flag, s16 x, s16 y, s32 arg3);
     extern s16 * D_8017F478;
     extern s16 * D_8017F47C;
     extern u16 D_80197958;
@@ -2630,7 +2708,7 @@ s32 func_801343C4(s32 angle, s32 p1, s32 p2)
     __asm__ __volatile__("" ::: "memory");
     D_80197958 = 0;
     D_80197954 = 0;
-    if (func_80133AB0(sangle, a1v, a2v, d94)) {
+    if (((int (*)(int, s16, s16, int))func_80133AB0)(sangle, a1v, a2v, d94)) {
     setdst:
         pb0u = (u16 *)D_8017F47C;
         ((u16 *)p2)[0] = pb0u[0];
@@ -2647,7 +2725,7 @@ s32 func_801343C4(s32 angle, s32 p1, s32 p2)
         (pacs[2] & 0xFF80) == (pb0s[2] & 0xFF80)) {
         return 0;
     }
-    if (func_80133AB0(sangle, b0, pb0s[2], D_80197948)) {
+    if (((int (*)(int, s16, s16, int))func_80133AB0)(sangle, b0, pb0s[2], D_80197948)) {
         goto setdst;
     }
     return 0;

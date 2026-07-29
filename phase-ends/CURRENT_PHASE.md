@@ -7905,3 +7905,52 @@ distinct-code metric, and it is worth one probe before that number is quoted aga
 3. `func_8014032C` needs **carve** work (jtbl table-count drift, §91), not decl work — separate,
    harder, ~25,000 ins.
 4. **PARKED: `func_80176734`** (51,198 ins) — five tiers bounced; clusters A and B provably coupled.
+
+## ✅/📌 T57 — first batch off the 64-family list: `func_80133AB0` **132/132**; and a SECOND opt-in lever found
+
+**+18,084 instructions.** Fleet crosses **86.0% instr**.
+
+### TWO OF MY OWN ERRORS, BOTH CAUGHT BY MEASURING
+1. **Three of my five targets never ran.** `--band` defaults to `substantial` (nins ≥ 80) and I picked
+   `0x801457a4` (79), `0x8016163c` (78), `0x8012a1bc` (78) without accounting for it. The tool said
+   `2 matched-exemplar families` and I nearly read that as "5 attempted, 3 refused". **Read the
+   selection line, not the intent.**
+2. **The stale map.** `.run/family_hseq.json` was regenerated in T55, *before* T56 banked
+   `func_80144090` — so it still listed 134 live stubs for a family that is now complete. Membership
+   is stable (h_seq over original bytes); only the matched/unmatched split rots. Filter live stubs
+   from `src/`, never from the map's `n_matched`.
+
+### THE FIRST RUN: 0/268 — AND IT WAS A SECOND OPT-IN LEVER, NOT A WALL
+Diagnosed one sibling past the `-j16` interleave and the §58 warning noise:
+**`conflicting types for func_80133AB0`** (the spliced def at 2688 vs a decl at 2429) — the
+**FUNCTION** decl-conflict class, not the DATA one T56 fixed. That is exactly what
+`--normalize-self-decls` exists for (the sibling's OWN caller declares the member in a different C
+form than the exemplar's caller, which used a fn-ptr cast) — **and it is opt-in, so it never ran.**
+
+Re-ran the identical two families with `--normalize-self-decls`: **0 → 132 banked.**
+
+| family | split | result |
+|---|---|---|
+| `0x80133ab0` (137 ins) | `jr_8012ACE0.c` | **132 / 132 banked** |
+| `0x80143d28` (80 ins) | `jr_80140608.c` | **0 / 136** — a different, undiagnosed blocker |
+
+### THE PATTERN, NOW TWICE IN A ROW
+T56: the DATA decl lever existed but was unreachable from the sweep path. T57: the FUNCTION decl
+lever exists, is reachable, and is **off by default**. Both presented as a flat `0/N` that reads
+exactly like a compiler wall. **A `0/N` from a sweep is a statement about which levers were enabled,
+not about the code.**
+
+### GATES
+- **R22 clean-fleet:** **140 passed, 0 failed of 140**. **`tools-health` OK** (corpus 0 PHANTOM +
+  0 TRUNCATED · cdecl · audit-binaries · dedup **1886 / 0**). **0 NON_MATCHING** (G4).
+
+### METRICS
+| | before | after | delta |
+|---|---|---|---|
+| instr-weighted | 85.8% | **86.0%** | 11,279,007 → 11,297,091 = **+18,084 ins** |
+| fn-count | 90.69% | **90.73%** | 320,792 → 320,924 = **+132** |
+| distinct-code | 76.4% | **76.7%** | 67,812 → 67,937 = **+125** |
+
+**This sharpens the T56 anomaly rather than resolving it:** 132 banked here moved distinct-code
+**+125**, and T52's 132 also moved it **+125** — but T56's 136 moved it **+0**. Three PURE families,
+two behave one way and one the other. Still unexplained, still not guessed at.
