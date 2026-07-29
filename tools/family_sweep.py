@@ -25,6 +25,7 @@ import family_hseq                     # §53 interlock — the ONE has_mid_jr o
 import canon_sig_reconcile as CSR      # v3.2 (Phase-25 T7-M2 per-sibling re-reconcile, Q5-proven)
 from scope_data_externs import fix as scope_data_fix   # §8d (Phase-26 session 8)
 import normalize_self_decls as NSD     # the same-function decl-normalize (Phase-29, §17a-1 3rd direction)
+import scope_tu_externs as STU         # §103 — the TU-side decl-scope lever (Phase-29 T51/T56)
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(REPO, 'tools'))
@@ -334,7 +335,9 @@ def hseq_sweep(a):
     groups = collections.defaultdict(list)                     # (ov, src_rel, subdir) -> [fn]
     skip = collections.Counter()
     hdrmap = header_sig_map() if getattr(a, "fix_def_sig", False) else {}
-    nsd_snapshots = {}                                          # src_rel -> pre-edit text (§17a-1 backstop)
+    tu_snapshots = {}          # src_rel -> pre-edit TEXT. Shared backstop for BOTH staging-time TU
+                               # edits: --normalize-self-decls (§17a-1) and tu-scope (§103). Reverted
+                               # on MISMATCH (non-neutral) or on a zero-bank group (§61 undo law).
     for f in fams:
         exov, exaddr = f["exemplar"]["ov"], int(f["exemplar"]["addr"], 16)
         for ov, addr_s in f["members"]:
@@ -385,13 +388,38 @@ def hseq_sweep(a):
                 # invisible in the exemplar whose caller used a fn-ptr cast). Drop each divergent decl +
                 # cast its in-scope calls (byte-neutral §17a-1). This edits the TU FILE (harvest_verify's
                 # baseline); snapshot it so the phase-2 MISMATCH backstop can revert a non-neutral edit.
-                if src_rel not in nsd_snapshots:
-                    nsd_snapshots[src_rel] = open(tu_path).read()
+                if src_rel not in tu_snapshots:
+                    tu_snapshots[src_rel] = open(tu_path).read()
                 new_tu, nfix, _notes = NSD.fix(open(tu_path).read(), to_func, draft_def_ref(draft, to_func))
                 if nfix:
                     open(tu_path, "w").write(new_tu)
             tu = open(tu_path).read()
             mstub = re.search(rf'INCLUDE_ASM\("[^"]*",\s*{to_func}\);', tu)
+            if mstub and not getattr(a, "no_tu_scope", False):
+                # TU-SCOPED (§103, Phase-29 T56) — must run BEFORE scope_data_fix, because it is what
+                # makes scope_data_fix's give-up branch unnecessary. §8d DROPS the draft's own decl of a
+                # symbol the TU already declares at FILE scope, letting the TU's type govern the body:
+                # right when they agree, fatal when the byte-true draft needs a different one (a
+                # file-scope extern constrains every LATER function in the TU). That is not a codegen
+                # wall even though it gate-fails like one — it cost func_80135260 133 of 137 siblings
+                # until the TU's decl was moved, and it is what blocked func_80144090 at 0/136 (T55:
+                # `conflicting types for D_800A651C`). Moving the TU's decl into its consumers is
+                # declaration-only, so it does NOT violate this sweep's plain-harvest_verify rule —
+                # that rule is about not perturbing a correct DRAFT, and this never touches the draft.
+                # Byte-neutral by construction, and the two backstops below undo it if it was not
+                # neutral or bought nothing.
+                try:
+                    _syms = STU.contested(draft, tu, mstub.start())
+                    if _syms:
+                        _new_tu, _rep = STU.scope(tu, _syms, mstub.start())
+                        if _rep["moved"]:
+                            if src_rel not in tu_snapshots:
+                                tu_snapshots[src_rel] = tu
+                            open(tu_path, "w").write(_new_tu)
+                            tu = _new_tu
+                            mstub = re.search(rf'INCLUDE_ASM\("[^"]*",\s*{to_func}\);', tu)
+                except STU.ScopeRefused as e:
+                    print(f"  [tu-scope] {ov} {to_func}: {e}", flush=True)   # loud, never fatal (R32)
             if mstub:
                 draft, _moved = scope_data_fix(draft, tu, mstub.start(), to_func)
             d = os.path.join(REPO, SWEEP, ov)
@@ -456,8 +484,8 @@ def hseq_sweep(a):
         # (a transform bug — harvest_verify always reverts a wrong DRAFT, so a wrong draft leaves the binary
         # byte-identical, just unbanked). Restore this group's edited TU from the phase-1 snapshot + rebuild
         # so byte-identity is recovered; count the members failed. The whole-binary gate stays the arbiter.
-        if "MISMATCH" in (r.stdout or "") and src_rel in nsd_snapshots:
-            open(os.path.join(REPO, src_rel), "w").write(nsd_snapshots[src_rel])
+        if "MISMATCH" in (r.stdout or "") and src_rel in tu_snapshots:
+            open(os.path.join(REPO, src_rel), "w").write(tu_snapshots[src_rel])
             sh(["make", "build", f"BINARY={ov}"], timeout=1200)
             print(f"  {ov} [{os.path.basename(src_rel)}]: ⚠ self-decl edit NON-NEUTRAL — reverted TU, 0/{len(fns)} banked")
             failed[ov] += len(fns)
@@ -472,8 +500,8 @@ def hseq_sweep(a):
         # §61's undo law says an edit that bought nothing gets undone. Nothing banked here, so
         # there is no splice to preserve and the restore cannot cost a match. No rebuild is needed:
         # the edit was byte-neutral by construction (had it not been, the branch above already ran).
-        if nver == 0 and src_rel in nsd_snapshots:
-            open(os.path.join(REPO, src_rel), "w").write(nsd_snapshots[src_rel])
+        if nver == 0 and src_rel in tu_snapshots:
+            open(os.path.join(REPO, src_rel), "w").write(tu_snapshots[src_rel])
             print(f"  {ov} [{os.path.basename(src_rel)}]: 0 banked — reverted the byte-neutral "
                   f"self-decl edit (no dead diff left behind)")
         banked[ov] += nver
@@ -544,6 +572,14 @@ def main():
                     help="--hseq §41c: template reconcile-class cracks — per sibling, h_seq-remap the RAW "
                          "crack draft in RAWDIR (func_<EXEMPLAR>.c) then canon_sig_reconcile against the "
                          "sibling TU. For type-heavy exemplars whose reconciled body is TU-specific.")
+    ap.add_argument("--no-tu-scope", action="store_true",
+                    help="--hseq: DISABLE the §103 tu-scope pre-pass (Phase-29 T56). It is ON by "
+                         "default because it is byte-neutral by construction (a declaration move), "
+                         "a no-op when nothing collides, and auto-reverted by the same two backstops "
+                         "as --normalize-self-decls if it is not neutral or the group banks nothing. "
+                         "It moves the SIBLING TU's own file-scope decl of a contested D_ symbol into "
+                         "its consumers, so scope_data_fix stops dropping the draft's byte-true decl "
+                         "and letting the TU's type govern the body. Use this flag to A/B it.")
     ap.add_argument("--normalize-self-decls", action="store_true",
                     help="--hseq (Phase-29, §17a-1 3rd direction): before gating, drop each divergent "
                          "block/file-scope decl of the templated member IN ITS OWN SIBLING TU (left by that "

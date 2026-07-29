@@ -140,14 +140,23 @@ def plan(tu_text, syms, above=None):
         if not decls:
             report['skipped'][sym] = 'no file-scope decl above the splice point'
             continue
-        if len(decls) > 1:
-            report['skipped'][sym] = f'{len(decls)} file-scope decls above the splice point (ambiguous)'
+        # N file-scope decls are only ambiguous if they DISAGREE. Duplicate-IDENTICAL externs are
+        # legal C — N identical decls are one declaration written N times, and deleting all N is as
+        # unambiguous as deleting one. The first cut refused on count alone, which cost a real bank
+        # (`D_800B9A02`, 3 identical decls, Phase 29 T55). Compare on whitespace-collapsed text, the
+        # same normalisation `gather_externs` uses when it carries a wrapped decl across.
+        forms = {' '.join(stmts[i].text.split()) for i in decls}
+        if len(forms) > 1:
+            report['skipped'][sym] = (f'{len(decls)} file-scope decls above the splice point in '
+                                      f'{len(forms)} DIFFERENT forms — genuinely ambiguous')
             continue
-        di = decls[0]
-        decl_line = stmts[di].text.strip()
+        di = decls[0]                       # scan from the FIRST: a consumer below any of them
+        decl_line = stmts[di].text.strip()  # relied on the first one in scope
 
         consumers, refused = [], None
         for j, s in enumerate(stmts[di + 1:], start=di + 1):
+            if j in decls:                  # the sibling duplicates are being deleted, not consumed
+                continue
             body_mask = cdecl._mask(s.text)
             if not word.search(body_mask):
                 continue
@@ -167,8 +176,9 @@ def plan(tu_text, syms, above=None):
             report['skipped'][sym] = refused
             continue
 
-        deletions.append((stmts[di].start, stmts[di].end))
-        report['deleted'][sym] = (stmts[di].start, stmts[di].end)
+        for i in decls:                     # ALL of them: they are one declaration written N times
+            deletions.append((stmts[i].start, stmts[i].end))
+        report['deleted'][sym] = [(stmts[i].start, stmts[i].end) for i in decls]
         for j in consumers:
             insertions.setdefault(j, []).append(decl_line)
         report['moved'][sym] = [_fn_name(stmts[j].text) for j in consumers]
@@ -217,8 +227,10 @@ def scope(tu_text, syms, above=None):
     for sym, fns in report['moved'].items():
         f_before, b_before = before[sym]
         f_after, b_after = _counts(new, sym)
-        if f_after != f_before - 1:
-            raise ScopeRefused(f'coverage: {sym} file-scope decls {f_before} -> {f_after}, expected -1')
+        n_del = len(report['deleted'][sym])      # N duplicate-identical decls are ALL deleted
+        if f_after != f_before - n_del:
+            raise ScopeRefused(f'coverage: {sym} file-scope decls {f_before} -> {f_after}, '
+                               f'expected -{n_del}')
         if b_after != b_before + len(fns):
             raise ScopeRefused(f'coverage: {sym} block-scope decls {b_before} -> {b_after}, '
                                f'expected +{len(fns)}')

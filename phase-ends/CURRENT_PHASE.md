@@ -7838,3 +7838,70 @@ guard held through two crashes-by-design and four aborted stagings).
 3. **Re-sweep `func_80144090`, then work down the 64-family list** (skip the two -O0 leaders).
 4. `func_8014032C` needs **carve** work (table-count drift, §91), not decl work — separate, harder.
 5. **PARKED: `func_80176734`** (51,198 ins) — five tiers bounced; clusters A and B provably coupled.
+
+## ✅ T56 — the tu-scope lever wired into `family_sweep`; `func_80144090` **0/136 → 136/136**
+
+T55's two-part next step, done as one job. **+20,944 instructions banked.**
+
+### 1. THE LEVER WAS UNREACHABLE FROM THE PATH MOST FAMILIES USE (§107)
+§103 was wired into `jtbl_family_bank` only (T53) — and that tool runs for `has_mid_jr` families.
+Everything else sweeps through `family_sweep`, which gates via *plain* `harvest_verify` by design.
+So the lever existed, was byte-proven, and **most families could not reach it**; the symptom was
+indistinguishable from a compiler wall.
+
+**Why it does not violate the plain-`harvest_verify` rule:** that rule exists because `gate_stage`'s
+transforms *perturb a correct draft* (§19/T3). The tu-scope never touches the draft — it moves a
+**declaration in the target TU**. The test is not "is it a transform" but **"does it change the
+draft?"**
+
+**Reused the existing undo rather than inventing one:** `family_sweep` already snapshots TUs it edits
+at staging time (`--normalize-self-decls`) and reverts on a final MISMATCH (not byte-neutral) *and*
+on a zero-bank group (§61's undo law — no dead diff). The tu-scope shares that dict, so it inherits
+both backstops. Renamed `nsd_snapshots` → `tu_snapshots` since it now covers two edit kinds.
+**Default ON** with `--no-tu-scope` to A/B it (the T24 `--allow-pins` precedent): byte-neutral by
+construction, a no-op when nothing collides, auto-reverted when it buys nothing.
+
+### 2. THE DUPLICATE-DECL REFUSAL, RELAXED — AND IT DID NOT MATTER
+`scope_tu_externs` refused N>1 file-scope decls as "ambiguous". Duplicate-*identical* externs are
+legal C, so N identical decls are one decl written N times — now compares whitespace-collapsed forms
+and refuses only on genuine disagreement.
+**Measured, and my hypothesis was wrong:** `D_800B9A02` is **3 decls in 2 DIFFERENT forms**, so it
+was correctly refused all along. The relaxation is right in principle and bought nothing here — and
+the family banked 136/136 without it, so the blocker was never that symbol. Worth having measured
+instead of asserting "they're probably identical".
+
+### THE RESULT
+| | |
+|---|---|
+| `func_80144090` before | **0 / 136** (`conflicting types for D_800A651C`) |
+| after | **136 / 136, 0 failed** |
+| drafts changed | **none** — the fix is entirely TU-side |
+
+### GATES
+- **R22 clean-fleet:** `make clean && extract-all && check-all` → **140 passed, 0 failed of 140**.
+- **`make tools-health` OK** — corpus 0 PHANTOM + 0 TRUNCATED · cdecl · audit-binaries ·
+  report/lint/**dedup 1886 / 0**. **0 NON_MATCHING** (G4).
+
+### METRICS (reconciled against `make report`)
+| | before | after | delta |
+|---|---|---|---|
+| instr-weighted | 85.7% | **85.8%** | 11,258,063 → 11,279,007 = **+20,944 ins** |
+| fn-count | 90.65% | **90.69%** | 320,656 → 320,792 = **+136** |
+| distinct-code | 76.4% | 76.4% | **+0** (67,812 unique, unchanged) |
+
+**Flagging the third row rather than explaining it away:** 136 banked functions moved distinct-code
+by **zero**, where T52's 132 moved it by +125. Both families are classed PURE, so a
+relocation-masked unique-count *should* behave the same way for both. I do not have a verified
+cause and am not going to invent one — it is either a real property of this family or a gap in the
+distinct-code metric, and it is worth one probe before that number is quoted again.
+
+## ▶ NEXT (ranked, all measured)
+1. **Work down the 64-family list with the now-complete sweep** (skip the two -O0 leaders; the
+   ranked list is in `.run/family_hseq.json`). T56 removed what blocked the non-jr families, so this
+   is the live yield lever — next targets `0x80133ab0` (137 ins × 126), `0x80143d28`, `0x801457a4`,
+   then the ov_SC07_006-exemplar set.
+2. **Probe the distinct-code +0** (above) — one family, one metric question; cheap, and it protects a
+   headline number.
+3. `func_8014032C` needs **carve** work (jtbl table-count drift, §91), not decl work — separate,
+   harder, ~25,000 ins.
+4. **PARKED: `func_80176734`** (51,198 ins) — five tiers bounced; clusters A and B provably coupled.

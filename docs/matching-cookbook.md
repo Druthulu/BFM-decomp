@@ -7500,3 +7500,41 @@ idiom"*, exactly what WIDTH / BRANCH-POLARITY / IMM-OFFSET already mean.
 > **The law:** persist what was *measured*; derive what was *decided*. If a stored field can be
 > recomputed from other stored fields plus a table, storing it converts a future correction into a
 > silent no-op — and the staler the file, the more confidently it lies.
+
+---
+
+## §107 — A lever wired into ONE gate path is a lever most families cannot reach (Phase 29 T56, `func_80144090` 0/136 → 136/136)
+
+The §103 tu-scope lever was wired into `jtbl_family_bank` (T53) and nowhere else. But that tool only
+runs for `has_mid_jr` families; **every other family sweeps through `family_sweep`**, which gates via
+*plain* `harvest_verify` by design. So the lever was unreachable from the path most families use, and
+the symptom was indistinguishable from a compiler wall: `func_80144090` swept **0/136** with
+`conflicting types for D_800A651C`.
+
+Wired into `family_sweep`'s staging, the same family banked **136/136, 0 failed** — **+20,944
+instructions** — with no change to the drafts at all.
+
+**Why this does not violate the sweep's plain-`harvest_verify` rule.** That rule exists because
+`gate_stage`'s transforms *perturb a correct draft* (the §19/T3 finding). The tu-scope never touches
+the draft — it moves a **declaration in the target TU**. Different object, different risk. The test
+for "may this run inside the sweep?" is not "is it a transform" but **"does it change the draft?"**
+
+**Reuse the existing undo, do not invent one.** `family_sweep` already snapshots TUs it edits at
+staging time (`--normalize-self-decls`) and reverts them on two conditions: a final MISMATCH (the edit
+was not byte-neutral) and a **zero-bank group** (§61's undo law — an edit that bought nothing gets
+undone, or a `git add -A` commits dead diff). The tu-scope shares that dict, so it inherits both
+backstops for free. A staging-time TU edit without those two reverts is how a sweep leaves residue.
+
+**Default ON, with an opt-out.** It is byte-neutral by construction, a no-op when nothing collides,
+and auto-reverted when it buys nothing — so gating it behind a flag only means most runs silently
+miss it (the T24 `--allow-pins` precedent). `--no-tu-scope` exists to A/B it.
+
+> **The law:** when a lever fixes a class, ask *which gate paths can reach it* before declaring the
+> class handled. A class is only handled on the paths that can apply the fix — and the paths that
+> cannot will keep reporting it as a wall, in language identical to a real one.
+
+**Related, from the same task:** `scope_tu_externs` refused N>1 file-scope decls of a symbol as
+"ambiguous". Duplicate-**identical** externs are legal C, so N identical decls are one declaration
+written N times — delete all N. Now it compares whitespace-collapsed forms and refuses only on a
+genuine disagreement. (Measured on `D_800B9A02`: 3 decls in **2 different forms** — so that one was
+correctly refused, and the relaxation did not paper over a real conflict.)
