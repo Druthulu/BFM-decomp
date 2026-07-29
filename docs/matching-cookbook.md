@@ -7627,3 +7627,44 @@ they are different declarations (§99: `()` is the no-prototype form).
 > **And a verdict that changes is the signal to re-route, not to push harder.** One of these three
 > is now a codegen question, one is a header-correctness question, and one was never the def
 > signature at all. They shared a symptom, not a cause — three families, three levers.
+
+---
+
+## §110 — A unit must define exactly ONE function, and "ends in `;`" does not tell you which line defines it (Phase 29 T65)
+
+`extract_unit` located a definition with "the line matches `<type> func_<addr>(` and does not end in
+`;`". That is wrong whenever **one line holds both a declaration and a definition** — which the
+handwritten inline-asm wrappers do:
+
+```c
+extern void func_80156044(int, int); int func_80155FF8(int, int) { __asm__ … }
+```
+
+The line does not end in `;`, so `func_80156044` — which appears there only in the **declaration** —
+was taken as a definition head. `extract_unit` lifted the neighbouring *wrapper* instead of the real
+definition seven lines below, every sibling already defines that wrapper via its shared `DEFINE_`
+macro, and all 137 members failed with `redefinition of func_80155FF8`. Read as a compiler wall.
+
+**Ask what follows the parameter list, not what ends the line.** `;` after the closing paren is a
+declaration; `{`, or end-of-line (the brace-on-its-own-line form), is a definition.
+
+**Then assert it (R32): a unit that defines a function other than its target cannot template** — the
+sibling already has that function, so splicing can only produce `redefinition of …`. Refuse loudly
+instead of handing the sweep a unit that fails N times.
+
+**Two traps in writing that assertion, both hit on the way:**
+1. **`_def_head_at` alone over-fires.** A *call* whose arguments wrap (`iVar4 = func_X(a,` / newline
+   `b);`) has nothing after the `(` on its line, which the "end of line ⇒ definition" rule reads as a
+   definition. It refused three families that had just banked 137/137.
+2. **The type-prefix test alone under-fires** — it is what missed the wrapper in the first place,
+   because the text before the name is a whole preceding declaration.
+
+The predicate needs BOTH: split the prefix on its last `;` and require the remainder to look like a
+return type (this excludes call sites *and* admits the shared-line form), then check what follows the
+parameter list. Regression-check any such assertion against families that are **known to bank** —
+all five here extracted byte-identically before and after.
+
+> **The law:** an extraction that silently takes the *wrong* thing is worse than one that takes
+> nothing, because its output looks plausible and the failure surfaces N members later wearing the
+> compiler's clothes. Assert the shape you require; and when the assertion is about "is this a
+> definition", remember C lets a line be two declarations and a definition at once.

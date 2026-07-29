@@ -526,6 +526,65 @@ def _carry_macros(lines, start, end, unit_text):
     return carried
 
 
+def _def_head_at(ln, paren_idx):
+    """Does the `func_…(` occurrence whose '(' is at `paren_idx` head a DEFINITION on this line?
+
+    The old test was "the line does not end in `;`", which is wrong whenever a line holds BOTH a
+    declaration and a definition (Phase 29 T65). ov_SC01_077_jr_80154C24.c:1346 is
+
+        extern void func_80156044(int, int); int func_80155FF8(int, int) { __asm__ … }
+
+    and the line does not end in `;`, so `func_80156044` — which appears only in the DECLARATION —
+    was taken as a definition head. extract_unit therefore lifted the neighbouring wrapper instead of
+    the real definition seven lines below, and every sibling got `redefinition of func_80155FF8`.
+
+    The correct question is what follows the parameter list: `;` is a declaration, `{` (or end of
+    line, i.e. the brace-on-its-own-line form) is a definition."""
+    depth = 0
+    for i in range(paren_idx, len(ln)):
+        if ln[i] == '(':
+            depth += 1
+        elif ln[i] == ')':
+            depth -= 1
+            if depth == 0:
+                rest = ln[i + 1:].strip()
+                rest = re.sub(r'^(/\*.*?\*/|//.*)\s*', '', rest)
+                if rest == '' or rest.startswith('{'):
+                    return True
+                if rest.startswith(';'):
+                    return False
+                return '{' in rest
+    return True                      # param list continues past this line -> an ANSI definition
+
+
+def _foreign_defs(unit_text, addr):
+    """Every `func_XXXXXXXX` this unit DEFINES other than its target (Phase 29 T65, §110).
+
+    Definition vs declaration is the same test extract_unit uses on the way in: a declaration ends in
+    `;` once trailing comments are stripped. `DEFINE_func_X()` macro instantiations are not matched —
+    there is no word boundary before `func_` inside `DEFINE_func_`, which is exactly what we want,
+    since a macro instantiation defines nothing the sibling does not already have."""
+    self_sym = f"func_{addr:08X}".lower()
+    out = []
+    for ln in cdecl._mask(unit_text).split("\n"):
+        for m in re.finditer(r'\bfunc_[0-9A-Fa-f]{8}\s*\(', ln):
+            name = m.group(0).split("(")[0].strip()
+            if name.lower() == self_sym:
+                continue
+            # The text before the name must look like a DECLARATION HEAD (a return type), which
+            # excludes call sites (`iVar4 = func_X(` / a bare `func_X(a);` statement). Split on the
+            # last `;` first, so a definition sharing its line with a preceding declaration — the
+            # wrapper form that caused this whole bug — is still seen.
+            pre_tail = ln[:m.start()].rsplit(';', 1)[-1]
+            if not re.fullmatch(r'\s*[A-Za-z_][\w \*]*', pre_tail):
+                continue
+            if not _def_head_at(ln, ln.index('(', m.start())):          # a declaration, not a def
+                continue
+            if name not in out:
+                out.append(name)
+    return out
+
+
 def extract_unit(ov, addr):
     """the matched inline def + its contiguous preceding extern/blank/comment lines, from the overlay src.
     func_<addr> names are UPPERCASE-hex in src (func_8013DBE4); match case-insensitively to be safe."""
@@ -542,7 +601,9 @@ def extract_unit(ov, addr):
             # build per sibling on them and any extract_unit-based readiness analysis was wrong.
             # Strip trailing comments before the `;` test. (Phase 26 session 8, R14.)
             code = re.sub(r'(/\*.*?\*/|//.*)\s*$', '', ln).rstrip()
-            if pat.search(ln) and "INCLUDE_ASM" not in ln and not code.endswith(";"):
+            _m = pat.search(ln)
+            if _m and "INCLUDE_ASM" not in ln and not code.endswith(";") \
+                    and _def_head_at(ln, ln.index('(', _m.end() - 1)):
                 j = i - 1
                 # Grab the fn's own preceding decls: externs, comments, AND single-line typedefs
                 # (Phase-26 §8: jr-function bodies define local `typedef struct {…} Foo_<addr>;` that
@@ -557,6 +618,17 @@ def extract_unit(ov, addr):
                                   lines[j].lstrip().startswith(("extern", "//", "/*", "*", "typedef"))):
                     if _DECL_LAYER_END.search(lines[j]):
                         break
+                    # A LINE THAT STARTS WITH `extern` CAN STILL HOLD A DEFINITION (Phase 29 T65).
+                    # ov_SC01_077_jr_80154C24.c:1346 is
+                    #     extern void func_80156044(int, int); int func_80155FF8(int, int) { __asm__ … }
+                    # — a declaration AND a complete handwritten inline-asm function on ONE line. The
+                    # scan absorbed it as a "preceding decl", so the unit for func_80156044 carried a
+                    # SECOND function definition, and every sibling that already defines that function
+                    # via its shared DEFINE_ macro got `redefinition of func_80155FF8`. 137 members,
+                    # booked as a compile failure. A pure declaration never contains `{`; a single-line
+                    # `typedef struct {…} Foo;` legitimately does, and is still carried.
+                    if "{" in lines[j] and not lines[j].lstrip().startswith("typedef"):
+                        break
                     j -= 1
                 start = j + 1
                 depth, started, end = 0, False, i
@@ -568,6 +640,15 @@ def extract_unit(ov, addr):
                         end = k
                         break
                 unit_text = "\n".join(lines[start:end + 1])
+                extra = _foreign_defs(unit_text, addr)
+                if extra:
+                    # R32: a unit that defines a function OTHER than its target cannot be templated —
+                    # the sibling already has that function (inline, or via its shared DEFINE_ macro),
+                    # so splicing produces `redefinition of …`. Refuse LOUDLY rather than hand the
+                    # sweep a unit that will fail 137 times and read as a compiler wall.
+                    print(f"[extract_unit] func_{addr:08X} in {ov}: unit also DEFINES {extra} — "
+                          f"refusing (a multi-definition unit cannot template; §110)")
+                    return None, None
                 macros = _carry_macros(lines, start, end, unit_text)   # gte_* etc. the body needs (T5)
                 if macros:
                     unit_text = "\n".join(macros) + "\n" + unit_text
