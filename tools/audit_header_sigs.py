@@ -1,0 +1,201 @@
+#!/usr/bin/env python3
+"""audit_header_sigs.py — find `src/shared/*.h` declarations that contradict the banked DEFINITION
+(Phase 29 T67, cookbook §112).
+
+WHY THIS EXISTS
+---------------
+A `DEFINE_func_*()` macro forward-declares the functions its body calls. That declaration is visible
+in EVERY overlay that instantiates the macro — so when it disagrees with the function's byte-true
+definition, the whole family becomes untemplatable and the failure wears a compiler wall's clothes:
+
+    engine_core.h : void func_8014D610(s32 a0, void *a1, void *a2)
+    byte truth    : s32  func_8014D610(s32 p1, s32 p2, u16 *p3)
+    -> `conflicting types`, x137 members, booked as a compile failure
+
+Three of these were found ONE AT A TIME in Phase 29 (func_80156044 int-vs-void, func_8016163C
+void-vs-s32, func_8014D610 both axes). Each was worth ~137 members once corrected, and each cost a
+diagnose/fix/re-sweep cycle to find. This audits all of them in one pass instead.
+
+WHAT IS AND IS NOT A DEFECT
+---------------------------
+Per-overlay byte-true signatures legitimately DIFFER under the engine's loose typing (§16) — a
+defining TU owns its own declarations (T49). So a header decl disagreeing with ONE overlay's
+definition proves nothing. What this reports is the header decl compared against the definitions that
+actually exist, with the disagreement CLASSIFIED and the §85 return-axis precondition measured, so a
+human decides which to correct.
+
+CORRECTING A HEADER DECL IS FLEET-SHARED BLAST RADIUS (§61/§63): R22 is mandatory, and the proven
+discipline is two steps — the header change ALONE must rebuild 140/140 byte-identical, and only then
+the sweep (T48/T63/T64).
+
+Usage:
+    tools/audit_header_sigs.py                 # rank by unblock value (live stubs)
+    tools/audit_header_sigs.py --all           # every disagreement, not just the ranked head
+    tools/audit_header_sigs.py --json out.json
+"""
+import argparse
+import collections
+import glob
+import json
+import os
+import re
+import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import cdecl                                                    # noqa: E402
+from family_remap import _def_head_at                           # noqa: E402  (the §110 predicate)
+
+REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+HEADERS = ("src/shared/engine_core.h", "src/shared/engine_types.h")
+FN_RE = re.compile(r'\bfunc_[0-9A-Fa-f]{8}\b')
+DECL_RE = re.compile(r'extern\s+([A-Za-z_][\w \*]*?)\s*(func_[0-9A-Fa-f]{8})\s*\(([^)]*)\)\s*;')
+
+
+def header_decls():
+    """{fn: [(sig_text, header, lineno)]} — every extern decl of a func_ in the shared headers.
+
+    ALL occurrences, not the first: a function can be declared by several DEFINE_ macros, and they
+    are allowed to disagree with each other (that is itself worth seeing)."""
+    out = collections.defaultdict(list)
+    for h in HEADERS:
+        p = os.path.join(REPO, h)
+        if not os.path.exists(p):
+            continue
+        text = open(p).read()
+        for m in DECL_RE.finditer(text):
+            ret, fn, params = m.group(1).strip(), m.group(2), " ".join(m.group(3).split())
+            line = text.count("\n", 0, m.start()) + 1
+            out[fn].append((f"{ret} {fn}({params})", h, line))
+    return out
+
+
+def definitions(wanted):
+    """{fn: [(sig_text, path, lineno)]} for every DEFINITION of a wanted func_ in src/**/*.c.
+
+    One pass over the corpus. A definition head is decided by §110's `_def_head_at` (what follows the
+    parameter list), not by "the line ends in `;`" — the test that let a declaration sharing a line
+    with a definition be mistaken for one."""
+    out = collections.defaultdict(list)
+    for path in glob.glob(os.path.join(REPO, "src/**/*.c"), recursive=True):
+        try:
+            text = open(path, errors="replace").read()
+        except OSError:
+            continue
+        if not FN_RE.search(text):
+            continue
+        for i, ln in enumerate(text.split("\n"), 1):
+            for m in FN_RE.finditer(ln):
+                fn = m.group(0)
+                if fn not in wanted:
+                    continue
+                par = ln.find("(", m.end())
+                if par < 0:
+                    continue
+                pre_tail = ln[:m.start()].rsplit(";", 1)[-1]
+                if not re.fullmatch(r'\s*[A-Za-z_][\w \*]*', pre_tail):
+                    continue                                  # a call site, not a definition head
+                if not _def_head_at(ln, par):
+                    continue                                  # a declaration
+                sig = ln[ln.rfind(";", 0, m.start()) + 1:].strip().rstrip("{").strip()
+                out[fn].append((sig, os.path.relpath(path, REPO), i))
+    return out
+
+
+def parse_sig(s):
+    """(return_type, [param_types]) or None."""
+    try:
+        d = cdecl.parse(s.rstrip("; ") + ";")[0]
+        return d.base, list(d.params or [])
+    except Exception:
+        return None
+
+
+def consumers_of(fn):
+    import conform_decls
+    try:
+        return len(conform_decls.consumers(fn))
+    except Exception:
+        return -1
+
+
+def live_stubs(fn):
+    """How many binaries still carry this fn as an INCLUDE_ASM stub — the unblock value."""
+    pat = re.compile(rf'INCLUDE_ASM\("[^"]*",\s*{fn}\);')
+    n = 0
+    for ov in sorted(os.listdir(os.path.join(REPO, "src"))):
+        d = os.path.join(REPO, "src", ov)
+        if not os.path.isdir(d):
+            continue
+        if any(pat.search(open(c, errors="replace").read())
+               for c in glob.glob(os.path.join(d, "*.c"))):
+            n += 1
+    return n
+
+
+def main():
+    ap = argparse.ArgumentParser(description=__doc__,
+                                 formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--all", action="store_true", help="list every disagreement, not just the head")
+    ap.add_argument("--json")
+    ap.add_argument("--top", type=int, default=25)
+    a = ap.parse_args()
+
+    decls = header_decls()
+    print(f"header decls: {sum(len(v) for v in decls.values())} across {len(decls)} functions",
+          flush=True)
+    defs = definitions(set(decls))
+    print(f"definitions found for {len(defs)} of them", flush=True)
+
+    findings = []
+    for fn, ds in sorted(decls.items()):
+        dfs = defs.get(fn)
+        if not dfs:
+            continue                                          # never defined -> nothing to compare
+        hsig = ds[0][0]
+        hp = parse_sig(hsig)
+        if not hp:
+            continue
+        # A function is only interesting if EVERY definition disagrees with the header the same way.
+        # One overlay disagreeing is loose typing (§16, T49); all of them disagreeing means the
+        # header is the outlier.
+        parsed = [(parse_sig(s), s, p, l) for s, p, l in dfs]
+        parsed = [x for x in parsed if x[0]]
+        if not parsed:
+            continue
+        if any(x[0] == hp for x in parsed):
+            continue                                          # some definition agrees -> not a defect
+        ret_diff = all(x[0][0] != hp[0] for x in parsed)
+        par_diff = all(x[0][1] != hp[1] for x in parsed)
+        if not (ret_diff or par_diff):
+            continue
+        kind = "BOTH" if (ret_diff and par_diff) else ("RETURN" if ret_diff else "PARAMS")
+        findings.append(dict(fn=fn, kind=kind, header=hsig, header_sites=len(ds),
+                             defs=sorted({x[1] for x in parsed}),
+                             def_where=f"{parsed[0][2]}:{parsed[0][3]}"))
+
+    for f in findings:
+        f["live_stubs"] = live_stubs(f["fn"])
+        f["consumers"] = consumers_of(f["fn"]) if f["kind"] in ("RETURN", "BOTH") else 0
+    findings.sort(key=lambda f: (-f["live_stubs"], f["fn"]))
+
+    print(f"\n=== {len(findings)} header decl(s) contradict every known definition ===")
+    print(f"{'function':<16}{'kind':<8}{'stubs':>6}{'§85':>5}  header  ->  definition")
+    shown = findings if a.all else findings[:a.top]
+    for f in shown:
+        c = "n/a" if f["kind"] == "PARAMS" else ("OK" if f["consumers"] == 0 else str(f["consumers"]))
+        print(f"{f['fn']:<16}{f['kind']:<8}{f['live_stubs']:>6}{c:>5}  {f['header']}")
+        print(f"{'':<35}  -> {f['defs'][0]}   ({f['def_where']})")
+    if not a.all and len(findings) > a.top:
+        print(f"... {len(findings) - a.top} more (--all)")
+    tot = sum(f["live_stubs"] for f in findings)
+    print(f"\nunblock potential: {tot} stubbed binaries across {len(findings)} functions")
+    print("§85 column: 0 consumers => a RETURN-axis correction is byte-neutral; nonzero => it is NOT.")
+    print("Correcting a shared header is fleet-shared (§61/§63): R22 mandatory, two steps —")
+    print("  header change ALONE must rebuild 140/140, THEN sweep.")
+    if a.json:
+        json.dump(findings, open(a.json, "w"), indent=1)
+        print(f"wrote {a.json}")
+
+
+if __name__ == "__main__":
+    main()
