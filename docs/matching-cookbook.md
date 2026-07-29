@@ -7538,3 +7538,52 @@ miss it (the T24 `--allow-pins` precedent). `--no-tu-scope` exists to A/B it.
 written N times — delete all N. Now it compares whitespace-collapsed forms and refuses only on a
 genuine disagreement. (Measured on `D_800B9A02`: 3 decls in **2 different forms** — so that one was
 correctly refused, and the relaxation did not paper over a real conflict.)
+
+---
+
+## §108 — Diagnosing a family `0/N`: the four causes, and the third opt-in lever (Phase 29 T59)
+
+A family sweep's `0/N` says nothing about the code until you splice ONE member and read the compiler.
+Do it like this — the shape of the output actively hides the answer:
+
+```
+make -j1 build/<the one .o> BINARY=<ov>     # -j16 interleaves the real error out of reach
+# then filter: '.c:' in line AND 'warning:' not in line
+```
+The `memcpy` / `type mismatch with previous external decl` warnings (§58) are noise from unrelated
+TU positions and will dominate any naive tail. And `set -o pipefail` (§93) attributes the failure to
+the last pipeline stage, so "Error 1"/"Error 33" names the wrong stage — read cc1's own lines.
+
+**The verdict split that matters is PLUMBING vs DIFF**: a compile error is a declaration problem
+(recoverable, and each has a named lever); a clean compile with differing bytes is codegen. Five
+families diagnosed this way resolved to **four distinct causes**, only one of which is a wall:
+
+| cause | signature | lever |
+|---|---|---|
+| shared-header signature conflict | `conflicting types for func_X`, "previous declaration" points at a **`DEFINE_func_*()` macro line** | `--fix-def-sig` (see the bug below) |
+| PsyQ/library symbol conflict | `conflicting types for ApplyMatrixSV` | unresolved — the draft's carried decl vs the TU's |
+| genuine codegen | compiles clean, bytes differ | permuter / §31 lookup |
+| no matched exemplar | `remap: no matched unit` | not a blocker — the family has no fuel |
+
+**Read the "previous declaration" line number before theorising.** For `func_8014D610` it pointed at
+line 1727, which is not a declaration at all — it is `DEFINE_func_8014D438()`, a shared-macro
+instantiation whose expansion forward-declares the templated function with the canonical
+`engine_core.h` signature. cc1 reports the conflict at the macro's line. That one line identifies the
+whole class.
+
+**THE `--fix-def-sig` BUG (why the lever did not fire).** `reconcile_def_sig` rewrites the draft's
+definition to the canonical header decl **wholesale — types AND parameter names**:
+
+```
+canonical : void func_8014D610(s32 a0, void *a1, void *a2)
+draft body: ... param_1 ... param_2 ...          ->  `param_1' undeclared
+```
+Its docstring calls this a "rare name mismatch" that "the gate rejects, never a false bank". It is
+**not rare** — an exemplar drafted with the `param_N` convention hits it every time, and the whole
+family books as a compile failure. **The fix is to conform the TYPES and keep the BODY's names**;
+both are already in hand at the call site.
+
+> **The law:** three times in one session a family-wide `0/N` was a lever that was unreachable
+> (§107), off by default, or subtly broken — never the compiler. **Before diagnosing a family as
+> hard, enumerate the levers the invocation actually enabled, then read one member's real cc1
+> output.** A sweep's `0/N` is a statement about the harness.

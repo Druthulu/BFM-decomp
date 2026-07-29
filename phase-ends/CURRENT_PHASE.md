@@ -8069,3 +8069,64 @@ recount agrees exactly (T52 132 · T56 136 · T57 132 · T58 137). **+67,666 ins
   measurements themselves are still old; a re-collect is owed before the grinder is trusted again.
 **DO NOT close P29 on ROI** — +0.5pp instr today, and item 1 is a diagnosis queue with ~50 families
 behind it, not a burn-down floor.
+
+## 🔎 T59 — the five T58 zero families diagnosed: **four distinct causes, only one is a wall**
+
+Deliverable is the diagnosis, not banks. Method: splice ONE member, `make -j1` the single object,
+read the **non-warning** cc1 lines (the `-j16` interleave and the §58 `memcpy`/`type mismatch`
+warnings hide the real line every time; §93 pipefail names the wrong stage). Tree verified clean
+after every probe.
+
+### FIRST, A CORRECTION TO MY OWN T58 REPORT (R14)
+I said "7 remaining families all have banked exemplars". **Wrong — there were 5.** `0x80175820`
+(276 members) and `0x8016ec0c` (138) have **no matched exemplar anywhere**: both are INCLUDE_ASM
+stubs in all 138 overlays. My T58 batch-selection test picked the first TU *containing the name* — a
+declaration — and, seeing no stub in that file, called it banked. **The family map was right all
+along** (`kind: 'draft-ov077'`, `matched_members: []`) and `family_sweep` correctly excluded them
+("6 matched-exemplar families", a line I read past). The oracle to use is `corpus.stubs(ov)`, never
+a name-grep. Their claimed weight (60,720 + 48,576 bytes) was never real fuel.
+
+### THE FIVE VERDICTS
+| family | members | verdict | cause |
+|---|---|---|---|
+| `0x8014d610` | 137 | PLUMBING | shared-header signature conflict |
+| `0x8016163c` | 137 | PLUMBING | shared-header signature conflict |
+| `0x80156044` | 137 | PLUMBING | shared-header signature conflict |
+| `0x80143d28` | 136 | PLUMBING | `conflicting types for **ApplyMatrixSV**` — a PsyQ library symbol |
+| `0x801457a4` | 137 | **DIFF** | compiles clean, bytes differ — **the only genuine codegen wall** |
+
+### THE HEADER-CONFLICT CLASS (3 families / 411 members ≈ 30,000 ins) — AND A THIRD OPT-IN LEVER
+The "previous declaration" line was the tell: for `func_8014D610` it pointed at line 1727, which is
+**not a declaration** — it is `DEFINE_func_8014D438()`, a shared-macro instantiation whose expansion
+forward-declares the templated function with the canonical `engine_core.h` signature. Verified all
+four are header-declared with a signature that disagrees with the exemplar's def; the two non-header
+families are exactly the two with different verdicts.
+
+`--fix-def-sig` is the lever for this — **a third opt-in one** (after T56's unreachable and T57's
+off-by-default). Tested it: **0/411, and the verdict did NOT move to DIFF** — it moved to a
+different, precise compile error:
+```
+canonical : void func_8014D610(s32 a0, void *a1, void *a2)
+draft body: ... param_1 ...            ->  `param_1' undeclared (first use this function)
+```
+**`reconcile_def_sig` adopts the canonical signature wholesale — types AND parameter names — while
+the body keeps the exemplar's `param_N` names.** Its docstring calls this a "rare name mismatch";
+it is not rare — an exemplar drafted with the `param_N` convention hits it every time and the whole
+family books as a compile failure. **Fix: conform the TYPES, keep the BODY's names** (both are in
+hand at the call site).
+
+### THE PATTERN, THREE TIMES IN ONE SESSION
+T56 a lever unreachable from the sweep path · T57 a lever off by default · T59 a lever subtly broken.
+**Every family-wide `0/N` so far has been a statement about the harness, not the code.** Cookbook
+**§108** records the diagnosis recipe + the four causes so this is a lookup next time.
+
+## ▶ NEXT (ranked, all measured)
+1. **Fix `reconcile_def_sig`'s param-name bug** (conform types, keep body names) and re-sweep the 3
+   header-conflict families — **411 members ≈ 30,000 ins**, the largest measured, best-understood
+   block on the board.
+2. **`0x80143d28`** (136) — `ApplyMatrixSV` conflict: the draft's carried decl of a PsyQ symbol vs
+   the TU's. Likely the same shape one level out; one probe.
+3. **`0x801457a4`** (137) — the only true DIFF; measure closeness and route per §31.
+4. **Probe the distinct-code +0 anomaly** (4 data points, no identified variable).
+5. **~50 more eligible families** — regenerate `family_hseq.py` first (the map predates T56–T58), and
+   select exemplars with **`corpus.stubs`**, not a name-grep.
