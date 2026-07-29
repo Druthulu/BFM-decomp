@@ -86,6 +86,29 @@ def macro_owners():
     return owners
 
 
+def called_in_headers():
+    """{fn} — functions the shared-header macro bodies actually CALL.
+
+    THE ARITY PRECONDITION ONLY APPLIES TO A CALL (Phase 29 T72, cookbook §113). It exists because
+    the macro's own call site passes the header's arity, so correcting a `(void)` decl for a 1-param
+    definition breaks it. But a macro that only takes the ADDRESS of a function has no call site and
+    no arity constraint — the FULL retype is available. `func_80144B14` was blocked on that reasoning
+    and its macro does `*(s32 *)((s32)a0 + 0xDC) = (s32)&func_80144B14;`. Correcting it fully gated
+    140/140 and banked 137 members.
+
+    Declarations are stripped first: `extern void func_X(void);` is not a call, and a scan that
+    counts it as one classifies EVERY declared function as called (measured — it did)."""
+    called = set()
+    for h in HEADERS:
+        p = os.path.join(REPO, h)
+        if not os.path.exists(p):
+            continue
+        uses = re.sub(r'extern\b[^;]*;', ' ', open(p).read())
+        for m in re.finditer(r'(?<![&\w])(func_[0-9A-Fa-f]{8})\s*\(', uses):
+            called.add(m.group(1))
+    return called
+
+
 def header_decls():
     """{fn: [(sig_text, header, lineno)]} — every extern decl of a func_ in the shared headers.
 
@@ -204,6 +227,7 @@ def main():
           flush=True)
     defs, dcl = scan_corpus(set(decls))
     mowners = macro_owners()
+    hcalled = called_in_headers()
     print(f"definitions found for {len(defs)} of them", flush=True)
 
     findings = []
@@ -235,7 +259,9 @@ def main():
         # function DEFINED with a parameter cannot simply be retyped: the DEFINE_ macro's own call
         # site passes the header's arity, so correcting the decl breaks it with "too few arguments".
         # Those need the §99 no-prototype treatment, not a retype.
-        arity_ok = len(truth.params or []) == len(hp.params or [])
+        # §113: an arity difference only blocks when the macro CALLS the function.
+        arity_ok = (len(truth.params or []) == len(hp.params or [])
+                    or fn not in hcalled)
 
         # ---- PRECONDITION 2: NO DISAGREEING IN-SCOPE DECL (Phase 29 T67, found by a FAILED gate).
         # A first batch of 7 corrections failed 2/140 with `conflicting types for func_80147364` —
@@ -266,7 +292,7 @@ def main():
             f["safe"] = False
             f["blocker"] = f"§85: {f['consumers']} caller(s) consume the return"
         elif not f["arity_ok"]:
-            f["blocker"] = "ARITY: header/def arity differ — the macro call site would break (§99)"
+            f["blocker"] = "ARITY: header/def arity differ AND the macro CALLS it — §99 no-prototype"
         elif f["bad_decls"]:
             f["blocker"] = f"DECLS: {f['bad_decls']} disagreeing decl(s) in src/ — conform_decls first"
         else:

@@ -8636,3 +8636,45 @@ R22 clean-fleet **140 passed, 0 failed of 140** (after the header alone, and aft
 4. **Extend the audit with the family map** (T71) — cross-address members inherit the exemplar's
    signature as byte truth; the byte-variant tier is invisible to the audit without it.
 5. **`func_80146750`** (137) · the 13 byte-IDENTICAL families (80,085 ins, 0 distinct).
+
+## ✅ T73 — items 1+2: the ARITY class resolved; DECLS is now the only blocker with value
+
+### ITEM 1 — the call-vs-address re-check (§113)
+My first detector was wrong (it counted the **declarations** as calls, so every function looked
+"called"). Stripping `extern …;` first gives the real answer:
+
+| | |
+|---|---|
+| `func_80144B14` | **address-taken only** → full retype (done, T72, **137/137**) |
+| `func_8013BD34` · `func_8014358C` · `func_8017D808` | genuinely **CALLED** → §99 no-prototype |
+
+**§99 applied to all three, R22 clean-fleet 140/140 byte-neutral.** `extern void func_X();` accepts
+the macro's fixed-arity call AND the definition's differing arity.
+
+**Sweep yield: 0.** `func_8013BD34`'s family swept **0/136** — *exactly as predicted* when I switched
+the T72 probe target off it (its def is in `ov_SC07_010_o0.c`, and `_o0` families sweep ~1/137).
+`func_8014358C` has no family as an exemplar; `func_8017D808`'s family is 1 member with an unbanked
+exemplar. **The §99 fixes are correct and byte-neutral but unblock nothing today** — they remove a
+future blocker, no more. Recorded as such rather than as a win.
+
+### ITEM 2 — the audit now knows the distinction
+`called_in_headers()` strips declarations, then treats `fn(` as a call and `&fn` as not. `arity_ok`
+is now *arity matches **OR** the macro never calls it*. Verified: `func_80144B14` → not called; the
+other three → called.
+
+### THE AUDIT AFTER BOTH (28 findings, down from 61)
+| blocker | fns | stubbed binaries |
+|---|---|---|
+| **DECLS** | 9 | **141** |
+| SAFE | 13 | 15 |
+| ARITY | 3 | **0** |
+| §85 | 3 | 0 |
+
+**DECLS is now the only blocker class with value left**, and `func_80147364` is 137 of its 141.
+
+## ▶ NEXT
+1. **`func_80147364`** (137) — `conform_decls` over the 272 colliding TUs, then the header fix.
+2. **Extend the audit with the family map** (T71) — cross-address members inherit the exemplar's
+   signature as byte truth; the byte-variant tier is invisible without it.
+3. **The 13 byte-IDENTICAL families** (80,085 ins, 0 distinct) — pure instr yield.
+4. `func_80146750` (137) — failed its sweep even after its header was corrected.
