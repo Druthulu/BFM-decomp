@@ -8494,3 +8494,62 @@ R22 clean-fleet **140 passed, 0 failed of 140** · `tools-health` OK · **0 NON_
 3. **The arity trio** (`func_80144B14`/`func_8013BD34`/`func_8014358C`, ~410 members) — §99.
 4. **`func_80146750`** (137) — the family that failed after its header was corrected.
 5. The 13 SAFE audit findings (15 binaries) — cheap, low value; batch them into some other gate.
+
+---
+
+# 🛑 SESSION-24 FINAL CHECKPOINT — REVISED 2 (2026-07-28) — FRESH SESSION SAFE HERE
+> Supersedes both earlier SESSION-24 blocks (written before T59 and before T67).
+
+**Nothing running.** Tree clean but for the R23 `db.*.gbf` churn (never stage). HEAD **`commit:1175`**.
+**R22 clean-fleet 140/140** (run **17×** this session), `tools-health` OK, dedup **1886/0**,
+**0 NON_MATCHING** (G4).
+**FLEET: 86.6% instr · 76.9% distinct · 91.12% fn-count** (opened 85.5 / 76.1 / 90.62).
+
+## SESSION TOTAL — **1,771 functions banked · +134,811 instructions**
+Reconciled against the metric: fn-count **320,524 → 322,295 = +1,771**; instr **11,240,111 →
+11,374,922**. Per-task: T52 132 · T56 136 · T57 132 · T58 137 · T63 137 · T64 137 · T65 137 ·
+T68 685 · T70 138.
+
+## THE ONE LESSON, EARNED NINE TIMES
+**A family-wide `0/N` is a statement about the HARNESS, not the code.** Nine separate causes this
+session, **none** of them the compiler: a lever unreachable from the sweep path · a lever off by
+default · a param-name bug · a shared header contradicting byte truth (×4, found one at a time then
+systematically) · an extraction taking the wrong function · a `--band` default silently dropping
+targets. Before calling a family hard: enumerate the levers the invocation enabled, then read ONE
+member's real cc1 output (`make -j1` the single object, filter out `warning:`).
+
+## ▶ START HERE NEXT SESSION (ranked, all measured)
+1. **Measure the T2a immediate-resolution rate** on the 9 failed byte-variant families (T70) BEFORE
+   sweeping the other 26. The 2,962-distinct projection assumes a bank rate the one data point
+   (1/10) contradicts. One diagnosis decides whether that lever is worth 26 sweeps.
+2. **`func_80147364`** (137) — `conform_decls` over the 272 colliding TUs, then the header fix.
+3. **The arity trio** (`func_80144B14`/`func_8013BD34`/`func_8014358C`, ~410 members) — §99
+   no-prototype treatment (correcting their headers breaks the macro's own call site).
+4. **`func_80146750`** (137) — failed its sweep even after its header was corrected; diagnose.
+5. **The 13 SAFE audit findings** (`.run/header_audit3.json`) — only 15 binaries; batch them.
+6. **The 13 byte-IDENTICAL families** (80,085 ins, 0 distinct) — cheap instr-only yield, still the
+   highest-confidence sweep available (they bank 137/137).
+
+## ⚠️ MY ERRORS THIS SESSION (recorded, not buried)
+- **Wrote a precondition that blocked all six corrections I had just proven safe** — twice, on two
+  different wrong models (type spelling, then population instead of intersection). Caught only by
+  running it against known-good AND known-bad controls. **Every gate deserves that control.**
+- **Reported `func_8016163C` as "genuine codegen"** — it was my own `--fix-def-sig` deleting a fifth
+  of the function. A "clean DIFF" right after a transform is a suspect, not a result.
+- **Grouped three families as one 30,000-ins block** on a shared error message; three unrelated causes.
+- **Claimed 7 families had banked exemplars**; 2 had none (name-grep instead of `corpus.stubs`).
+- **`int(x,16)` in one comprehension, forgotten in the next** — made every family look byte-identical
+  and would have inverted the T66 conclusion for 36 of 49 families.
+- **`--band` defaults to `substantial`** — 3 of 5 targets silently never ran; I read past the tool's
+  own selection line.
+- Common thread: **the tool's own output answers the question faster than my inference does.**
+
+## ⚠️ CARRIED DEFECTS
+- The **21-file absolute-include portability defect** — PhaseEnd carry item.
+- **`docs/backlog.md` is not a work queue** — 44% misfiled partials (§83).
+- **Roadmap re-baseline owed**; the 39 type-1 modules are in no phase.
+- **`gate_stage` ladder destroys good drafts**; **bare gate has no snapshot/restore**.
+- **`.run/autopsy/residuals.jsonl` dated Jul 21** — `route_for` protects the ROUTE (T54) but the
+  `klass` measurements are stale; a re-collect is owed before trusting the grinder.
+**DO NOT close P29 on ROI** — +1.1pp instr today; items 1-3 are un-mined and item 6 is a
+known-137/137 sweep worth 80k instructions.
