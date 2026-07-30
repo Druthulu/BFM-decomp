@@ -142,8 +142,10 @@ def main():
         if rc != 0 and not p.startswith(("SLUS", "sep8", "aug31")) and p != "resident":
             # program likely missing -> import on demand, retry once. NEVER -overwrite an
             # existing program; ghidra_import_raw stages under the alias only when absent.
-            tail = open(log, errors="replace").read()[-400:]
-            if "not exist" in tail or "NOT_FOUND" in tail or "Unable to locate" in tail:
+            tail = open(log, errors="replace").read()[-600:]
+            # Ghidra's actual phrase: "Requested project program file(s) not found: <name>"
+            if ("not found" in tail or "not exist" in tail or "NOT_FOUND" in tail
+                    or "Unable to locate" in tail):
                 if import_overlay(p, log) == 0:
                     rc = run_decompile(p, addrfile, log)
         got = len(cached()) - before

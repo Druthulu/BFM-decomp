@@ -84,6 +84,19 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 
 ## Per-task log
 
+### T0.5 ▶ launched + probed (2026-07-30)
+`tools/prefetch_fleet.py` (committed `commit:1220`): 126 programs / 7,966 uncached representatives.
+**Probe 1 (main):** +1,525/2,002 cached in <1 min — the decompile leg is CHEAP; **477 main addrs
+have no defined function in the program** (main's 06-14 auto-analysis gap) → follow-up: a
+`DefineFunctions.java` completion pass over main from splat entries (the Phase-10 mechanism), then
+re-run (resumable). **Probe 2 (import leg): FAILED then FIXED** — my missing-program matcher
+checked "not exist"/"NOT_FOUND"; Ghidra's actual phrase is "Requested project program file(s)
+**not found**" → the self-healing import never fired (+0/371, +0/315). One-line trigger broadening;
+re-probe running. T1a (deterministic recovery sweep, 108 fns / 50 binaries, driver-committed banks,
+no-propagate — reach≥2 winners ride T3 Lane A) launched concurrently; commit-scope interaction
+VERIFIED safe (driver delegates to gate_stage's scoped `git add -u src/` — ghidra/ churn cannot
+leak into bank commits).
+
 ### T0(e2)+(f) ✅ — autopsy refreshed; frontier regenerated + the three populations PINNED (2026-07-30)
 - **Autopsy** (`collect -j12` + `report`): 1,349 rows — **1,178 near / 63 nobuild / 108
   match_one-MATCH** (T1's stranded-draft fuel, 3× the S16 sample), 0 classifier errors,
