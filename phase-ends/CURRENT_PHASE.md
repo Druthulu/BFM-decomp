@@ -9880,3 +9880,44 @@ bare gate has no snapshot/restore · `.run/autopsy/residuals.jsonl` stale (Jul 2
 *`.c`*) · **§117** (spell the sibling's symbol from the sibling's address; a masked oracle will MATCH
 a wrong symbol) · **§118** (ordinal immediates; exclude compiler-synthesised uses from the count) ·
 **§119** (two levers on one axis in opposite directions — test the off-diagonal).
+
+## ✅ T93/T94 — `func_801759D8` **137/137** (§120) — and T92's recipe was WRONG
+
+### ⚠️ FIRST, TWO CORRECTIONS TO T92 (R14/P9)
+T92 recorded (a) that the fix is **strip-if-ambient** and (b) that a **second stacked blocker**
+(`D_800AF634 used prior to declaration`) sat behind it. **Both are wrong, and both were artifacts of
+my own bad fix:**
+- Stripping the draft's duplicate typedef breaks the `extern S_AF634 D_800AF634[];` that **uses** it —
+  the TU's own copy sits *below* the spliced function, so the type is undeclared at that point. The
+  "second blocker" was the first fix misfiring, not a real one.
+- The right move is **rename, not remove**. `rtu_match`: **CC1 FAIL -> MATCH (56 ins)** with a rename
+  alone.
+
+### AND WHY T91's WIRING "DIDN'T WORK" — it never ran
+`family_sweep` has **three** staging sites sharing the identical two lines
+(`d = os.path.join(REPO, SWEEP, ov)` / `os.makedirs(...)`): edit-remap, hseq, and the plain h_norm
+sweep. I patched by `rindex` **twice**, which lands on the **plain** site — so an `--hseq` run staged
+the draft **unchanged** and the lever looked ineffective. Re-anchored on the hseq site's unique write
+(`func_{to_addr:08X}.c`, the cross-address form) and the staged draft came out renamed
+(`S_AF634_801759D8`).
+
+**So T91's "reverted it because it did not fix its own motivating case" was the right call on wrong
+evidence** — the revert was correct discipline, but the premise (the lever failed) was false; my patch
+had never executed. → cookbook **§120**: *before concluding a lever does not work, prove it RAN —
+diff the staged artifact for the change it is supposed to make.*
+
+### THE RESULT
+`_uniquify_draft_types` wired into the **hseq** staging path (byte-neutral: C type names never reach
+codegen). `func_801759D8` — one of the three long-standing byte-identical stragglers — **0 → 137/137,
+0 failed.** **Blast radius 0**: 74 further still-zero families re-swept, none moved. Like §118 and
+unlike §117, a **targeted** lever (a path-reachability gap, not a logic defect).
+
+### GATES
+R22 clean-fleet **140 passed, 0 failed of 140** · dedup **1886/0** · **0 NON_MATCHING** (G4).
+
+### METRICS
+| | before | after | delta |
+|---|---|---|---|
+| fn-count | 91.88% | **91.92%** | 325,006 → 325,143 = **+137** (exact) |
+| instr-weighted | 87.3% | **87.4%** | +7,672 ins |
+| distinct-code | 78.0% | **78.0%** | 69,744 → 69,744 = **+0** (byte-identical family — §111 predicted exactly this) |

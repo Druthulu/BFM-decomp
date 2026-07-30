@@ -8015,3 +8015,38 @@ the 2x2 (both on, both off) and never the off-diagonal.
 
 **Measured:** `0x80161c98` 0 -> **138/138** (130 distinct); +23 across the remaining still-zero
 families. Corollary to §118's caution: a per-family blocker can be a *flag combination*, not a defect.
+
+## §120 — Uniquify draft-defined TYPE names; and check which of N staging sites you actually patched (Phase 29 T93)
+
+A remapped draft may define a local `typedef struct {...} S_AF634;` whose auto-generated name **also
+names a type at file scope in the sibling's TU**. gcc-2.7.2 rejects the redefinition (C89 has no
+"compatible redeclaration" escape for typedef names) and cc1 dies **before codegen**, so the family
+reads as a wall.
+
+`canon_sig_reconcile._uniquify_draft_types` is exactly this lever and lived only on the
+`--reconcile-raw` path — the 5th "lever unreachable from THIS path" of the phase. Wired into the hseq
+staging path: `func_801759D8` **CC1 FAIL -> MATCH (56 ins) -> 137/137 banked.**
+
+### Do NOT "strip the duplicate typedef" — it breaks the extern that uses it
+The obvious fix is to delete the draft's typedef since the TU already has one. **That fails**: the
+TU's copy sits *below* the spliced function, so `extern S_AF634 D_800AF634[];` inside the draft no
+longer parses and you get `D_800AF634 undeclared / used prior to declaration` — which looks like a
+*second, deeper* blocker and is really the first fix misfiring. **Rename, don't remove.**
+
+### The wiring trap that cost two attempts
+`family_sweep` has **three** staging sites (`edit-remap`, `hseq`, plain `h_norm`) that share the
+identical two lines:
+```python
+d = os.path.join(REPO, SWEEP, ov)
+os.makedirs(d, exist_ok=True)
+```
+Patching by `rindex` lands on the **plain** sweep, so an hseq run shows the draft **unchanged** and the
+lever reads as ineffective. Anchor on something unique to the path — the hseq site's write is
+`func_{to_addr:08X}.c` (cross-address), the others use `func_{addr:08X}.c`.
+
+> **The law:** before concluding a lever does not work, prove it *ran* — diff the staged artifact for
+> the change the lever is supposed to make. A patch applied to a sibling code path is
+> indistinguishable from a lever that does nothing.
+
+**Blast radius: 0** beyond this family (74 further families re-swept, none moved). Like §118 and unlike
+§117, this is a **targeted** lever — a path-reachability gap, not a logic defect.

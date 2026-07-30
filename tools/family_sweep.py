@@ -590,6 +590,18 @@ def hseq_sweep(a):
                     draft, _ncast = CCS.transform(draft, to_func, _canon)
                 except Exception as e:
                     print(f"  [cast-callees] {ov} {to_func}: {repr(e)[:90]}", flush=True)
+            # TYPE-NAME COLLISION (§120, Phase-29 T93) — a draft may define a local struct/typedef
+            # whose auto-generated name (`S_AF634`) ALSO names a type at file scope in this sibling's
+            # TU, so cc1 dies with `conflicting types` before codegen. Renaming a DRAFT-defined type
+            # is byte-neutral (C type names never reach codegen), and
+            # canon_sig_reconcile._uniquify_draft_types is exactly this lever — it lived only on the
+            # --reconcile-raw path (the 5th "lever unreachable from THIS path" this phase).
+            # Byte-verified on func_801759D8: rtu_match CC1 FAIL -> MATCH (56 ins) with this alone.
+            try:
+                draft = CSR._uniquify_draft_types(
+                    draft, CSR.tu_ambient(tu_path).get("typedefs", {}), to_func)
+            except Exception as e:
+                print(f"  [uniquify-types] {ov} {to_func}: {repr(e)[:90]}", flush=True)
             d = os.path.join(REPO, SWEEP, ov)
             os.makedirs(d, exist_ok=True)
             open(os.path.join(d, f"func_{to_addr:08X}.c"), "w").write(draft + "\n")
