@@ -10037,3 +10037,46 @@ sibling's address; a masked oracle will MATCH a wrong symbol) · **§118** (ordi
 compiler-synthesised uses) · **§119** (two levers on one axis, opposite directions — test the
 off-diagonal) · **§120** (uniquify draft TYPE names; and prove your patch ran) · **§121** (synthesise
 externs for macro-DEFINED callees from the macro's own definition head).
+
+## ✅ T97 — `func_80151944` **138/138**: the "three-edit job" was ONE edit
+
+The last big named blocker, carried since T71 and costed across four checkpoints as *§112 header
+correction + §20 call-site cast + a scripted §99 no-prototype pass over 2,022 overlay-local decls*.
+**Probing first (the §119 lesson) showed two of the three were unnecessary.**
+
+The probe put the conflict on one screen — `DEFINE_func_80151924()` at assembled line 2973 expands to
+`extern s32 func_80151944(void);`, our byte-true definition `void func_80151944(void *a0)` lands at
+2977, four lines apart. Nothing else in the TU was involved, so **the 2,022 overlay-local decls never
+entered it**: they live in other TUs and only matter where a definition shares their TU.
+
+**The edit** (both halves in one place, `engine_core.h`):
+```c
+-    extern s32 func_80151944(void); \          /* contradicts byte truth */
+-        return func_80151944(); \
++    extern void func_80151944(void *a0); \     /* §112: byte-true */
++        return ((s32 (*)(void))func_80151944)(); \   /* §20: caller's codegen unchanged */
+```
+`rtu_match`: `conflicting types` -> **MATCH (15 ins)**. Sweep: **138/138, 0 failed.**
+
+**Family `0x80131eec` is now fully closed** — 149 (T87) + 138 (T97) + 1 immediate-refusal = all 288.
+
+### THE SHARED-HEADER RISK, VERIFIED NOT ARGUED
+`engine_core.h` is included by all 138 overlays, so the cast-folding argument (§20: gcc folds the cast
+of a known symbol to a direct `jal`) is a *hypothesis*, not a proof. The per-binary gates passing
+138/138 is necessary but not sufficient for a shared-header change — the fleet-wide check is the one
+that counts, and it is green: **R22 clean-fleet 140/140**, `make tools-health` **RC=0** (corpus 0
+PHANTOM + 0 TRUNCATED, cdecl, audit-binaries, dedup **1886/0**, C1 239,604/239,604).
+
+### METRICS
+| | before | after | delta |
+|---|---|---|---|
+| fn-count | 91.96% | **92.00%** | 325,279 → 325,417 = **+138** (exact) |
+| instr-weighted | 87.4% | **87.5%** | +2,070 ins |
+| distinct-code | 78.0% | **78.0%** | 69,744 → 69,816 = **+72 unique fns** |
+
+### ⚠️ THE COSTING LESSON
+This item sat on the ranked list for four checkpoints priced as a multi-part job over 2,022 decls —
+work nobody wanted to start. **It was one 4-line edit.** The estimate came from reading the symptom
+(*2,022 decls of this name exist*) rather than probing the failure (*which decl actually conflicts?*).
+A one-member `rtu_match` probe would have priced it correctly at any point. **Probe before costing,
+not just before scaling.**

@@ -2974,7 +2974,14 @@ DEFINE_func_801518D8()  /* dedup: shared engine-core @0x801518D8 (src/shared) */
 
 DEFINE_func_80151924()  /* dedup: shared engine-core @0x80151924 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_after", func_80151944);
+
+
+void func_80151944(void *a0) {
+
+    extern void (*D_8018E2F0[])(void);
+    D_8018E2F0[*(u16 *)((s32)a0 + 0x2)]();
+}
+
 
 DEFINE_func_80151980()  /* dedup: shared engine-core @0x80151980 (src/shared) */
 

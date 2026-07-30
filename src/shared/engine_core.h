@@ -1811,10 +1811,15 @@
         return func_80151184(a0, a1, 0xA); \
     }
 
+/* §112+§20 (Phase-29 T97): the decl below used to read `extern s32 func_80151944(void);`, which
+ * contradicts byte truth — func_80151944 is `void f(void *a0)` (its family exemplar func_80131EEC
+ * proves it), and that conflict blocked all 138 members of the family from ever compiling. The decl
+ * is now byte-true and the call site carries the cast, so THIS caller's codegen is unchanged
+ * (gcc folds the cast of a known symbol to a direct jal); the whole-binary gate arbitrates. */
 #define DEFINE_func_80151924() \
-    extern s32 func_80151944(void); \
+    extern void func_80151944(void *a0); \
     s32 func_80151924(void) { \
-        return func_80151944(); \
+        return ((s32 (*)(void))func_80151944)(); \
     }
 
 #define DEFINE_func_80153C9C() \
