@@ -7885,13 +7885,33 @@ the same class as the Phase-29 Task-1 swing verdict (`0x8013c964`/`0x8013c938` c
 sweep and masked-MATCHing only at `-O0`) — that one was diagnosed at the *compile-flag* level; this
 one shows the flag is really a **file-placement** question.
 
-**The fix is usually to move the STUB, not the definition.** A carved `-O0` object whose `.text` ends
-exactly at the target function's vram can absorb that function by appending it — so relocating the
-member's `INCLUDE_ASM(...)` line from the `-O2` file into the `-O0` file is byte-neutral by
-construction (the linker places it at the same address) and makes the *existing* sweep stage into an
-`-O0` TU with no config change. Prefer that over re-carving: a splat re-carve is the Arm-A wall
-(`+0x20` data-symbol shift on 3 of 4 sampled overlays), and moving a stub line never touches splat.
+### The fix moves the DEFINITION, not the stub — and here is why the obvious shortcut fails
+
+A carved `-O0` object whose `.text` ends exactly at the target function's vram can absorb that
+function by appending it, so the *linker* places it at the same address either way. That makes
+"just move the member's `INCLUDE_ASM(...)` line into the `-O0` file" look byte-neutral by
+construction. **It is not even buildable, and the reason is splat, not the linker:**
+
+> `INCLUDE_ASM("asm/<ov>/nonmatchings/<ov>_after", func_X)` resolves to a `.s` file that **splat
+> only emits while `func_X` is `INCLUDE_ASM`'d in that segment's own `.c`.** Delete the line from
+> `<ov>_after.c` and the next `make extract` stops generating
+> `asm/<ov>/nonmatchings/<ov>_after/func_X.s` — so the relocated reference in `<ov>_o0b.c` fails
+> assembly with `can't open … func_X.s`. Verified across all 133 overlays at once (Phase 29 T80).
+
+`asm/` layout follows the **segment**; object membership follows the **`.c` file**. Moving a stub
+line changes the second while silently invalidating the first. `ov_SC01_077` gets away with the
+`_o0b` placement only because it holds a real **definition** there — nothing references a `.s`.
+
+So the rollout is: stage the remapped **body** into `<ov>_o0b.c` *and* drop the `INCLUDE_ASM` from
+`<ov>_after.c` **in the same edit**, then gate. That is a two-file atomic substitution, which
+`harvest_verify`/`family_sweep` do not do (they substitute a draft for the stub *in the stub's own
+file*), so this class needs its own small driver. Still prefer it over a splat re-carve — a re-carve
+is the Arm-A wall (`+0x20` data-symbol shift on 3 of 4 sampled overlays).
 
 > **The law:** a family-wide `0/N` whose exemplar lives in a flag-overridden object is a **build-graph
 > statement**, not a codegen one. Check the object's flags and the members' stub homes before routing
 > it to the permuter or logging it as intrinsic.
+>
+> **The corollary, learned the hard way:** "byte-neutral by construction" is a claim about the
+> *linker*. The build graph has other stages, and splat's asm generation is keyed to a different
+> partition (segment) than the one you are editing (object). Build it before you call it neutral.
