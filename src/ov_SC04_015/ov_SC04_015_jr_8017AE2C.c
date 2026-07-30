@@ -3905,13 +3905,44 @@ INCLUDE_ASM("asm/ov_SC04_015/nonmatchings/ov_SC04_015_jr_8017AE2C", func_8018025
 
 INCLUDE_ASM("asm/ov_SC04_015/nonmatchings/ov_SC04_015_jr_8017AE2C", func_80180290);
 
-extern s32 func_8018030C(void);
+extern void func_8018030C(void);
     void func_801802EC(void) {
-        func_8018030C();
+        ((s32 (*)(void))func_8018030C)();
     }
 
 
-INCLUDE_ASM("asm/ov_SC04_015/nonmatchings/ov_SC04_015_jr_8017AE2C", func_8018030C);
+
+// @class: regalloc-order
+// @stuck: none — MATCH
+
+
+extern void func_800183E0(s32 a0);
+
+void func_8018030C(void)
+{
+
+    extern u32 D_801C8FE8;
+    extern u16 D_80188B84[];
+    extern u16 D_801C8FEC[];
+    extern s32 D_80188BA4;
+    u32 i;
+    u16 *p;
+    u32 base;
+    u16 *tbl;
+
+    i = 0;
+    tbl = D_80188B84;
+    base = D_801C8FE8 >> 8;
+    p = D_801C8FEC;
+    do {
+        *p = tbl[(base + i) & 0xF] | 0x8000;
+        i = i + 1;
+        p = p + 1;
+    } while (i < 0x10);
+    func_800183E0((s32)&D_80188BA4);
+    D_801C8FE8 = D_801C8FE8 + 0x100;
+}
+
 
 
 extern void (*D_80188C10[])(void);

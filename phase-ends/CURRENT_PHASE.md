@@ -9554,3 +9554,46 @@ masked-MATCH backlog (8 eligible, 0 banked — spent) · `func_801457A4` 133/133
 membership follows the *`.c`*) · **§117** (spell the sibling's symbol from the sibling's address; a
 masked oracle will MATCH a wrong symbol) · **§118** (ordinal immediate resolution; a safety check
 counting asm uses against source tokens must exclude compiler-synthesised uses).
+
+## ✅ T89/T90 — `0x80161c98` **138/138** via the flag OFF-DIAGONAL (§119) — and a T84 correction
+
+### ⚠️ FIRST, A CORRECTION TO T84 (R14/P9) — I mis-attributed 137 banks
+T84 reported "137 banked (all of `0x80161c98`)". **That was wrong and it is committed wrong**
+(`commit:1193`). The 137 banks were **`func_80146750`** — one of the three known byte-identical
+stragglers — banked 1-per-overlay in `<ov>_after.c`. `0x80161c98`'s members live in
+`_jr_8015C32C.c` and were **still stubs**; I checked `func_80161D20` in `ov_SC01_000` and it was
+still `INCLUDE_ASM`.
+
+**What actually happened:** I diagnosed `0x80161c98`'s signedness problem correctly (compile +
+objdump), then re-swept 92 families without `--fix-def-sig`, saw 137, and **assigned the count to the
+family I had just been looking at without measuring it**. The `--fix-def-sig`-is-harmful finding is
+still true and still valuable — it unblocked `func_80146750` x137. Only the attribution was false.
+**Third instance today of asserting a count's composition without deriving it** (after item 6's
+"126", and the `new_distinct` over-projection).
+
+### THE ACTUAL BLOCKER: a flag OFF-DIAGONAL, not a defect (§119)
+`0x80161c98`'s byte truth is `(int, u32)` -> `sltiu`; `engine_core.h` says `(s32, s32)`; and a decl
+inside the member TU disagrees with the def. The two levers pull opposite ways:
+
+| sweep | flags | result |
+|---|---|---|
+| T79 | both | `--fix-def-sig` rewrote the def to `s32` -> `slti` -> byte DIFF. **0/138** |
+| T84/T88 | neither | correct `sltiu`, but `conflicting types for func_80161D20` -> won't compile. **0/138** |
+| **T89** | **`--normalize-self-decls` only** | def stays byte-true; the divergent decl is dropped, its calls cast. **138/138** |
+
+Three sweeps across three sessions all tested the **diagonal** of the 2x2 and never the off-diagonal.
+-> cookbook **§119**: *when two levers act on the same axis in opposite directions, "with the flags"
+and "without" cover HALF the matrix.*
+
+**T90 blast radius: 23** more across the remaining still-zero families (NSD-only). Another targeted
+lever, not a general one — recorded so it is not over-projected.
+
+### GATES
+R22 clean-fleet **140 passed, 0 failed of 140** · dedup **1886/0** · **0 NON_MATCHING** (G4).
+
+### METRICS
+| | before | after | delta |
+|---|---|---|---|
+| fn-count | 91.84% | **91.88%** | 324,845 -> 325,006 = **+161** (exact) |
+| distinct-code | 78.0% | **78.0%** | 69,593 -> 69,744 = **+151 unique fns** |
+| instr-weighted | 87.3% | **87.3%** | +2,539 ins |

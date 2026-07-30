@@ -3382,7 +3382,7 @@ void func_8017B1D8(void) {
 
 
 extern void func_8012A018(s32 a, s32 b);
-extern void func_8017B614(void *, s32);
+extern s32 func_8017B614(s32 param_1, s32 param_2);
 
 // @class: regalloc-order — simplified sibling of matched func_8017B614.
 // @stuck: none. Block-moves are align-1 struct-assigns (u8[8]) -> emit_block_move
@@ -3523,7 +3523,83 @@ s32 func_8017B490(s32 param)
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_007/nonmatchings/ov_SC07_007_jr_8017AE2C", func_8017B614);
+extern void func_8012A018(s32 a, s32 b);
+
+// @class: regalloc-order + T1 memcpy-builtin→call re-crack
+// @stuck: 0 (iso). Register lever = $16 pin + in-place re-tie on the memcpy-branch src (keeps
+// param_2 in $a1 until the branch, then $s0 for the loads). Block-moves are align-1 struct-assigns
+// (u8[8]) so they lower via emit_block_move (movstrsi/move_by_pieces) with ZERO memcpy-symbol
+// reference — TU-independent, so the sibling TU's `extern memcpy` (which disables the builtin and
+// turned the old inlined block-move into a CALL) can no longer drift this.
+
+
+
+
+s32 func_8017B614(s32 param_1, s32 param_2)
+{
+
+    extern s32 D_80126990;
+    extern s32 D_80126994;
+    extern s16 D_801C775C;
+    extern s16 D_801C7AC0;
+    extern void func_8012F214(s32 a0, s32 a1, s32 a2);
+    extern void func_80129CF8(void);
+    extern void func_8017BE60(void*);
+    extern u8 D_80186870[];
+    extern s16 D_801C77D4;
+    extern s16 D_801C77D6;
+    extern s16 D_801C77D8;
+    extern s16 D_801C77CC;
+    extern s16 D_801C77CE;
+    extern s16 D_801C77D0;
+    extern u8 D_8012694C;
+    extern s32 D_80126998;
+    extern s32 D_80126984;
+    extern s32 D_80126988;
+    extern s32 D_8012698C;
+
+    u8 buf[16];
+
+    if (((u32)param_2) >= 0xB) {
+        register u8 *src __asm__("$16");
+        __asm__ __volatile__("" : "=r"(src) : "0"((u8 *)((u32)param_2)));
+        *(Blk8_8017B614 *)&buf[0] = *(Blk8_8017B614 *)src;
+        *(Blk8_8017B614 *)&buf[8] = *(Blk8_8017B614 *)(src + 8);
+    } else {
+        s32 a1addr = (s32)&D_80186870[((u32)param_2) * 0x10];
+        s32 a2addr = (s32)&D_80186870[((u32)param_2) * 0x10 + 8];
+        func_8012F214(param_1, a1addr, (s32)&buf[0]);
+        func_8012F214(param_1, a2addr, (s32)&buf[8]);
+    }
+    {
+        s16 *p794 = &D_801C77D4;
+        s16 *p78C = &D_801C77CC;
+        *(Blk8_8017B614 *)p794 = *(Blk8_8017B614 *)&buf[0];
+        *(Blk8_8017B614 *)p78C = *(Blk8_8017B614 *)&buf[8];
+        func_8012A018((s32)func_8017BE60, 0);
+        {
+            s32 v794, v796, v798, v78C, v78E, v790;
+            D_8012694C = 0;
+            v794 = *p794;
+            v796 = D_801C77D6;
+            v798 = D_801C77D8;
+            v78C = *p78C;
+            v78E = D_801C77CE;
+            v790 = D_801C77D0;
+            __asm__ __volatile__("");
+            D_801C7AC0 = 1;
+            D_801C775C = 0x1E;
+            D_80126990 = v794;
+            D_80126994 = v796;
+            D_80126998 = v798;
+            D_80126984 = v78C;
+            D_80126988 = v78E;
+            D_8012698C = v790;
+        }
+        func_80129CF8();
+    }
+}
+
 
 
 

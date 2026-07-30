@@ -1007,7 +1007,7 @@ extern void func_80154A74(int, int);
 extern unsigned char D_800D5178;
 extern unsigned char D_801822F8;
 extern void func_8015795C(int param_1);
-extern void func_80161D20(s32 a0, s32 a1);
+extern void func_80161D20(int param_1, u32 param_2);
 extern void func_80157A8C(s32 a0);
 extern void func_8016706C(s32 a0);
 extern u8 D_800D51AC[];
@@ -3316,7 +3316,7 @@ extern void func_80159B3C(void *a0);
 extern void func_8015BF48(s32 *a0);
 extern void func_8015F2F0(s32 *a0);
 extern void func_8014C010(s32 a0, s32 a1);
-extern void func_80161D20(s32 a0, s32 a1);
+extern void func_80161D20(int param_1, u32 param_2);
 extern s32 func_8014A6C4(s32 a0);
 extern s32 ratan2(s32 a0, s32 a1);
 
@@ -3328,21 +3328,21 @@ s32 func_8016163C(s32 arg0, u32 arg1) {
         func_801599A4((void *)arg0);
         func_80159B3C((void *)arg0);
         func_8014C010(arg0, 1);
-        func_80161D20(arg0, *(u16 *)(arg0 + 0x16E));
+        ((void (*)(s32, s32))func_80161D20)(arg0, *(u16 *)(arg0 + 0x16E));
         return 1;
     }
     if (arg1 & 0x4000) {
         func_801599A4((void *)arg0);
         func_8015BF48((s32 *)arg0);
         func_8014C010(arg0, 1);
-        func_80161D20(arg0, *(u16 *)(arg0 + 0x16E));
+        ((void (*)(s32, s32))func_80161D20)(arg0, *(u16 *)(arg0 + 0x16E));
         return 2;
     }
     if (arg1 & 0x2000) {
         func_801599A4((void *)arg0);
         func_80159B3C((void *)arg0);
         func_8014C010(arg0, 1);
-        func_80161D20(arg0, *(u16 *)(arg0 + 0x16E));
+        ((void (*)(s32, s32))func_80161D20)(arg0, *(u16 *)(arg0 + 0x16E));
         return 4;
     }
     if (arg1 & 0x8000) {
@@ -3362,7 +3362,7 @@ s32 func_8016163C(s32 arg0, u32 arg1) {
 
 
 extern void func_8014C010(s32 a0, s32 a1);
-extern void func_80161D20(s32 a0, s32 a1);
+extern void func_80161D20(int param_1, u32 param_2);
 extern void func_801599A4(void *a0);
 extern void func_8015BF48(s32 *a0);
 extern s32 func_8014A6C4(s32 a0);
@@ -3376,19 +3376,19 @@ s32 func_80161774(int param_1, u32 param_2) {
 
     if ((param_2 & 1) != 0) {
         func_8014C010(param_1, 1);
-        func_80161D20(param_1, *(unsigned short *)(param_1 + 0x16e));
+        ((void (*)(s32, s32))func_80161D20)(param_1, *(unsigned short *)(param_1 + 0x16e));
         return 1;
     }
     if ((param_2 & 0x4000) != 0) {
         ((void (*)(int))func_801599A4)(param_1);
         ((void (*)(int))func_8015BF48)(param_1);
         func_8014C010(param_1, 1);
-        func_80161D20(param_1, *(unsigned short *)(param_1 + 0x16e));
+        ((void (*)(s32, s32))func_80161D20)(param_1, *(unsigned short *)(param_1 + 0x16e));
         return 2;
     }
     if ((param_2 & 0x2000) != 0) {
         func_8014C010(param_1, 1);
-        func_80161D20(param_1, *(unsigned short *)(param_1 + 0x16e));
+        ((void (*)(s32, s32))func_80161D20)(param_1, *(unsigned short *)(param_1 + 0x16e));
         return 4;
     }
     if ((param_2 & 0x8000) != 0) {
@@ -3411,7 +3411,7 @@ s32 func_80161774(int param_1, u32 param_2) {
 // @stuck: none — MATCH
 
 extern void func_8014C010(int a0, int a1);
-extern void func_80161D20(s32, s32);
+extern void func_80161D20(int param_1, u32 param_2);
 
 int func_80161888(int param_1, unsigned int param_2) {
     if (param_2 & 1) {
@@ -3475,7 +3475,22 @@ void func_80161C98(int param_1, u32 param_2)
 
 INCLUDE_ASM("asm/ov_SC04_016/nonmatchings/ov_SC04_016_jr_8015C32C", func_80161CD0);
 
-INCLUDE_ASM("asm/ov_SC04_016/nonmatchings/ov_SC04_016_jr_8015C32C", func_80161D20);
+
+// @class: struct
+// @stuck: none — MATCH (indexed-global %lo-fold via extern u16 array, §18)
+
+extern void func_80147324(s32 arg0);
+
+void func_80161D20(int param_1, u32 param_2)
+{
+
+    extern u16 D_80182AF4[];
+    if (param_2 < 8) {
+        func_80147324(D_80182AF4[param_2]);
+    }
+    return;
+}
+
 
 DEFINE_func_80161D58()  /* dedup: shared engine-core @0x80161D58 (src/shared) */
 

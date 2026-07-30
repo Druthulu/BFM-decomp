@@ -2417,7 +2417,7 @@ void func_80157788(int param_1)
 // @stuck: none — MATCH expected (scalar global store + two sequential calls, param_1 saved across)
 
 extern void func_80147078(s32 *a0, s16 a1);
-extern void func_80157808(s32 a0);
+extern void func_80157808(void *param_1);
 
 void func_801577C8(int param_1)
 {
@@ -2425,11 +2425,30 @@ void func_801577C8(int param_1)
     extern int D_801C6690;
     D_801C6690 = 300;
     ((void (*)(int, int))func_80147078)(param_1, 7);
-    func_80157808(param_1);
+    ((void (*)(s32))func_80157808)(param_1);
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_007/nonmatchings/ov_SC07_007_jr_80154C24", func_80157808);
+
+// @class: struct
+// @stuck: none — MATCH expected (fnptr-table %lo-fold via extern array + global counter decrement + two saved-param calls)
+
+extern void func_801599A4(void *a0);
+extern void func_80159B3C(void *a0);
+
+void func_80157808(void *param_1)
+{
+
+    extern void (*D_8018523C[])(void);
+    extern int D_801C6690;
+    D_8018523C[*(unsigned short *)((char *)param_1 + 2)]();
+    D_801C6690 = D_801C6690 - 1;
+    if (D_801C6690 == -1) {
+        func_801599A4(param_1);
+        func_80159B3C(param_1);
+    }
+}
+
 
 DEFINE_func_80157880()  /* dedup: shared engine-core @0x80157880 (src/shared) */
 

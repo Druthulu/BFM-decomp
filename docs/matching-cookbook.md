@@ -7986,3 +7986,32 @@ targeted lever, not a second §117 — the remaining still-zero families are blo
 > **The law:** when a safety check counts *asm* occurrences against *source* occurrences, it must
 > exclude the ones the compiler synthesises — otherwise the check is unsatisfiable by construction and
 > reads as an unresolvable member forever.
+
+## §119 — Two levers on the SAME axis, opposite directions: test the off-diagonal (Phase 29 T89)
+
+`family_sweep` carries two declaration-axis levers that pull **opposite ways**:
+
+| flag | bends | correct when |
+|---|---|---|
+| `--fix-def-sig` | the **definition** -> the shared-header decl | the header is right and the draft's def is wrong |
+| `--normalize-self-decls` | the in-TU **declarations** -> the definition | the **definition is byte-true** and a decl disagrees |
+
+`0x80161c98` needed exactly one of each: its byte-true def is `(int, u32)` (target emits `sltiu`), while
+`engine_core.h` says `(s32, s32)` and a TU decl disagreed. So:
+
+- **both flags** (T79): `--fix-def-sig` rewrote the def to `s32` -> `slti` -> byte DIFF. **0/138.**
+- **neither flag** (T84/T88): correct `sltiu` codegen, but `conflicting types for func_80161D20`
+  from the in-TU decl -> will not compile. **0/138.**
+- **`--normalize-self-decls` only**: def stays byte-true, the divergent decl is dropped and its calls
+  cast. **138/138.**
+
+Three sweeps across three sessions read as a compiler wall because all three tested the **diagonal** of
+the 2x2 (both on, both off) and never the off-diagonal.
+
+> **The law:** when two levers act on the same axis in opposite directions, "tried it with the flags"
+> and "tried it without" cover **half** the matrix. Enumerate the off-diagonal before calling the
+> family blocked — especially when one lever's own docstring says it *rewrites* what the other
+> *preserves*.
+
+**Measured:** `0x80161c98` 0 -> **138/138** (130 distinct); +23 across the remaining still-zero
+families. Corollary to §118's caution: a per-family blocker can be a *flag combination*, not a defect.

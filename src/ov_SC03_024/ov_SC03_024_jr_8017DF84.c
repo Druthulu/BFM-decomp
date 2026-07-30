@@ -3360,14 +3360,21 @@ void func_80180830(void) {
 }
 
 extern void func_80174684(void *);
-    extern s32 func_80180860(s32);
+    extern void func_80180860(void *a0);
     s32 func_80180838(void)
 {
         func_80174684((void *)func_80180860);
     }
 
 
-INCLUDE_ASM("asm/ov_SC03_024/nonmatchings/ov_SC03_024_jr_8017DF84", func_80180860);
+
+
+void func_80180860(void *a0) {
+
+    extern void (*D_8018B050[])(void);
+    D_8018B050[*(u8 *)((s32)a0 + 0x214)]();
+}
+
 
 extern void func_8014706C(void *a0);
 extern void func_80154274(s32 *a0, s32 a1);
