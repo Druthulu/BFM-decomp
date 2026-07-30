@@ -461,6 +461,16 @@ def _run_gate_locked(drafts, binary, src, asm, out, good_sha, propagate, source_
         #      the same-named split — the Phase-29 §-lesson (a filename glob silently omitted 4
         #      R22-verified banks from a commit). `-u` cannot miss a modified tracked file.
         sh(["git", "add", "-u", "src/"])
+        # P30 T3 pre-work: `-u` cannot stage NEW files — a jr bank's jtbl prep CREATES
+        # src/<binary>/<binary>_jr_XXXX.c and edits config/overlays.mk + the binary's splat yaml,
+        # all of which the old scope silently omitted (a clone of such a bank commit failed to
+        # build; found via T1a's zero-jr-bank runs leaving exactly this residue). Add them
+        # binary-scoped. KNOWN BOUNDED HAZARD: a FAILED jr attempt's prep residue in the same run
+        # would ride along — the wave runner's post-batch §61 residue sweep (orphan carve = a
+        # carve file whose fns are all still stubs) is the guard until harvest_verify's per-draft
+        # undo covers config+carve-file restore on reject.
+        sh(["git", "add", f"src/{binary}/"])
+        sh(["git", "add", "config/overlays.mk", f"config/splat.{binary}.yaml"])
         sh(["git", "add", DEDUP_YAML] + ([src] if src else []))
         sh(["git", "commit", "-q", "-m",
             f"feat({os.environ.get('GATE_PHASE', 'decomp')}): {source_tag} gate — +{len(verified)} fns x{propagated} propagated (fleet {fp}%)"])
