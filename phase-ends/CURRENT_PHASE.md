@@ -8715,3 +8715,48 @@ documented law — Drew's to overrule.**
 3. **The 13 byte-IDENTICAL families** (80,085 ins, 0 distinct) — pure instr yield, no new tooling.
 4. `func_80146750` (137) — failed its sweep even after its header was corrected.
 5. The 13 SAFE audit findings (15 binaries) — batch into another gate.
+
+## ❌ T76 — the byte-IDENTICAL families: **0 of 682**. My recommendation was wrong.
+
+I told Drew this was "the only remaining item with **yield** rather than findings … pure instr yield,
+no new tooling." It banked **nothing**. Recording that plainly because the reasoning error is
+instructive and it was mine.
+
+### WHERE THE REASONING FAILED
+"Byte-identical families bank 137/137" was true of T63/T64/T65/T68/T72 — **but every one of those had
+a specific blocker cleared first** (a header correction, an extraction fix). Byte-identity predicts
+that the template will be **exact if it compiles**; it says nothing about whether it compiles. The
+families still unswept are precisely the ones that have **never been unblocked**, so the property
+selects *for* being blocked.
+
+**I had already written that caveat** two turns earlier — *"'they bank 137/137' is only true after each
+family's blocker is cleared; T58 swept 6 byte-identical families and banked 1"* — and then ignored it
+when recommending. Stating a caveat and then reasoning as though it did not exist is worse than not
+noticing it.
+
+### THE BATCH (the 13 had already been drawn down to 6 by today's work)
+Swept 5 (skipping `func_80147364`, proven the narrow-param wall in T75): **0 banked / 682 failed.**
+
+Diagnosed two, and they are **two different causes, neither the family's own function**:
+| family | blocker |
+|---|---|
+| `func_80173A60` | `conflicting types for **func_80173B4C**` — a *callee* |
+| `func_8012F40C` | `conflicting types for **RotTransPers**` — a **PsyQ library** symbol |
+
+Same shape as `0x80143d28`'s `ApplyMatrixSV`: the draft carries a decl of a *callee* that disagrees
+with the target TU's. That is a **third** distinct decl-axis (not the def's, not the shared header's)
+and nothing in the pipeline currently reconciles it.
+
+### THE HONEST STATE OF THE FAMILY LEVER
+Every cheap variant is now measured: h_exact cores ×N (spent) · byte-identical families (**0/682**) ·
+byte-variant families (**1/10**) · `-O0` families (**~1/137**). **The mechanical family sweep is
+exhausted at 86.6% instr** unless the callee-decl axis is addressed.
+
+## ▶ NEXT (ranked — reordered by what T76 showed)
+1. **The CALLEE-decl axis** — `func_80173B4C`, `RotTransPers`, `ApplyMatrixSV`. Three families
+   (~410 members) blocked on a draft carrying a callee decl the target TU contradicts. `cast_call_sites`
+   (§17a-1/§20) is the existing lever for exactly this and is **not** in `family_sweep`'s pipeline —
+   the same "lever unreachable from this path" shape as T56. **Highest confidence remaining.**
+2. **§43 K&R conversion** for `func_80147364` (137) — the narrow-param route.
+3. **Extend the audit with the family map** (T71).
+4. `func_80146750` (137) — still undiagnosed after its header correction.
