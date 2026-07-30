@@ -9713,7 +9713,7 @@ Fleet unchanged from T90: **87.3% instr · 78.0% distinct · 91.88% fn-count**.
 
 ---
 
-# 🛑 SESSION-25 FINAL CHECKPOINT v5 (2026-07-30) — FRESH SESSION SAFE HERE
+# (superseded) SESSION-25 checkpoint v5 — written before T92
 > Supersedes every earlier SESSION-25 block and SESSION-24 REVISED-3.
 
 **Nothing running.** Tree clean but for the R23 `db.*.gbf` churn + the pre-existing
@@ -9815,3 +9815,68 @@ re-wires it, gate it against this exact function** — it is now a known, reprod
 No banks -> nothing to verify. Tree clean; the T91 wiring stays reverted; the probe ran entirely in
 `.run/` and a scratch copy (`src/` untouched). Fleet unchanged: **87.3% instr · 78.0% distinct ·
 91.88% fn-count**.
+
+---
+
+# 🛑 SESSION-25 FINAL CHECKPOINT v6 (2026-07-30) — FRESH SESSION SAFE HERE
+> Supersedes every earlier SESSION-25 block and SESSION-24 REVISED-3.
+
+**Nothing running.** Tree clean but for the R23 `db.*.gbf` churn + the pre-existing
+`.run/backlog.jsonl` edit. HEAD **`commit:1202`**. **R22 clean-fleet 140/140** (10x this session),
+dedup **1886/0**, **0 NON_MATCHING** (G4).
+**FLEET: 87.3% instr · 78.0% distinct · 91.88% fn-count** (opened 86.7 / 76.9 / 91.23).
+
+## SESSION TOTAL — **2,302 banked · +86,206 ins · +1,548 unique fns** (instr +0.6pp, distinct +1.1pp)
+T79 641 · T82 251 · T83 821 · T84 137 · T85 133 · T87 149 · T88 9 · T89 138 · T90 23.
+
+## ▶ START HERE NEXT SESSION — a 3-step recipe, not a search (T92)
+`func_801759D8` (137 members / ~130 distinct) is **two stacked blockers**, both identified by
+experiment against the assembled TU:
+1. **Strip draft file-scope typedefs whose NAME is already in `tu_ambient(tu)['typedefs'].`**
+   The draft's `typedef … S_AF634;` duplicates the TU's own, character-identical, and gcc-2.7.2
+   rejects a typedef redefinition regardless. **Byte-neutral** (type names never reach codegen).
+   **Proven to clear blocker #1.**
+2. **Then fix the §8d demotion for this shape:** `extern S_AF634 D_800AF634[];` lands at block scope
+   **below its first use** -> `used prior to declaration`. Hoist it above first use, or keep it at file
+   scope when the TU has no conflicting decl of that symbol.
+3. **Re-probe** `rtu_match func_801759D8 --split ov_SC01_000_jr_801734BC --source ov_SC01_000`,
+   **then** sweep. The auto-named `S_*` typedefs recur across the byte-identical stragglers, so step 1
+   alone may unblock siblings.
+> `_uniquify_draft_types` is the existing lever for step 1 and lives only on `--reconcile-raw`.
+> I wired it into the hseq path, it did NOT fix this case, and **I reverted it**. `tu_ambient` does
+> scan the whole file, so why it missed is unresolved — **gate any re-wiring against this function.**
+
+**Then, in order:** the `func_80151944` three-edit decl job (138 members: §112 header + §20 call-site
+cast in `DEFINE_func_80151924()`'s own body + a scripted §99 pass over 2,022 overlay-local decls;
+param is `void *`, so T75 does not apply) · the ~82-family still-zero residue (~200 distinct,
+long-tailed — **the §119 flag 2x2 is EXHAUSTED on it, diagnose, do not re-permute**; 34
+immediate-refusals + 86 STRUCT remain) · the `-O0` cluster stays **WALLED** (Arm-A splat, not yield).
+
+**Closed, do not re-open:** `func_801457A4` 133/133 · `0x80174784` 251/251 · `func_801599A4` 137/137 ·
+`0x80161c98` 138/138 · `func_80146750` 137/137 · STRUCT residue (0.02pp) · pre-§117 masked-MATCH
+backlog (8 eligible, 0) · the §119 flag matrix.
+
+## ⚠️ MY ERRORS THIS SESSION (recorded, not buried)
+- **§116 written with the wrong fix, tool built before testing** — the build refuted it in 56s.
+- **Predicted `func_801599A4` would bank** from its correct header decl while `diff_class: IMM` sat in
+  a table I printed myself — the T76 shape, in the session where I cited T76.
+- **Promoted the backlog item as "126 entries"; it was 8** — a raw count without the still-a-stub filter.
+- **Mis-attributed T84's 137 banks to `0x80161c98`; they were `func_80146750`** — committed wrong in
+  `commit:1193`, corrected in `commit:1198`.
+- **`new_distinct` over-projects ~2x** (priced 259, measured 125).
+- **Four of five are ONE habit: asserting the composition of a number I did not derive.**
+  Standing fix: *derive attribution from `corpus.stubs` before/after — never from what I was looking at.*
+- Done right and worth keeping: wired a lever, it failed its own motivating case, **reverted it**
+  rather than leave an unvalidated default-ON change in a shared path (T91).
+
+## ⚠️ CARRIED DEFECTS
+21-file absolute-include portability defect · **`docs/backlog.md` is not a work queue** (§83) ·
+roadmap re-baseline owed (39 type-1 modules in no phase) · `gate_stage` ladder destroys good drafts;
+bare gate has no snapshot/restore · `.run/autopsy/residuals.jsonl` stale (Jul 21) ·
+**`--fix-def-sig` is a REPAIR, not a default** (T84/§119).
+
+## 📓 NEW COOKBOOK ENTRIES THIS SESSION
+**§116** (opt level is a property of the FILE; `asm/` follows the *segment*, object membership the
+*`.c`*) · **§117** (spell the sibling's symbol from the sibling's address; a masked oracle will MATCH
+a wrong symbol) · **§118** (ordinal immediates; exclude compiler-synthesised uses from the count) ·
+**§119** (two levers on one axis in opposite directions — test the off-diagonal).
