@@ -4,35 +4,35 @@
 
 > A verdict here is a **candidate**, never a bank: the whole-binary byte-gate remains the sole arbiter (G3/P9).
 
-**Corpus:** 1699 record(s) · 1610 classified · status {'near': 1295, 'nobuild': 89, 'match': 315}
+**Corpus:** 1349 record(s) · 1286 classified · status {'near': 1178, 'nobuild': 63, 'match': 108}
 
 
 ## Buckets — what tool each failure actually wants
 
 | bucket | fns | reach-weighted | meaning |
 |--------|----:|---------------:|---------|
-| redraft | 707 | 1638 | the stored draft is NOT this function — un-attempted work misfiled as a near-miss; route to a fresh crack, not to a wall |
-| structural | 528 | 5067 | local mutation CANNOT introduce it — wants a C-level idiom, not CPU |
-| integration | 315 | 2454 | byte-correct standalone; blocked on plumbing (§58/§59 reconcile ladder) |
-| permuter | 57 | 855 | local mutation CAN reach it — permuter fuel (a plateau here is a **missing-transform** candidate) |
-| unknown | 3 | 140 | the residue the LLM tier is for |
+| redraft | 669 | 1068 | the stored draft is NOT this function — un-attempted work misfiled as a near-miss; route to a fresh crack, not to a wall |
+| structural | 483 | 3551 | local mutation CANNOT introduce it — wants a C-level idiom, not CPU |
+| integration | 108 | 1446 | byte-correct standalone; blocked on plumbing (§58/§59 reconcile ladder) |
+| permuter | 24 | 157 | local mutation CAN reach it — permuter fuel (a plateau here is a **missing-transform** candidate) |
+| unknown | 2 | 2 | the residue the LLM tier is for |
 
 ## Classes
 
 | class | fns | reach-weighted | bucket | permuter profile |
 |-------|----:|---------------:|--------|------------------|
-| SIZE-MISMATCH | 707 | 1638 | redraft | — |
-| LENGTH-DRIFT | 353 | 4223 | structural | — |
-| MATCH | 315 | 2454 | integration | — |
-| OPCODE-MIXED | 79 | 478 | structural | — |
-| WIDTH | 46 | 449 | structural | — |
-| IMM-OFFSET | 38 | 38 | structural | — |
-| BRANCH-POLARITY | 21 | 21 | structural | — |
-| ADDRESSING | 19 | 418 | permuter | cse |
-| DELAY-SLOT | 18 | 284 | permuter | schedule |
-| REGALLOC-PERM | 7 | 7 | permuter | regalloc |
+| SIZE-MISMATCH | 669 | 1068 | redraft | — |
+| LENGTH-DRIFT | 307 | 2843 | structural | — |
+| MATCH | 108 | 1446 | integration | — |
+| OPCODE-MIXED | 70 | 336 | structural | — |
+| WIDTH | 39 | 305 | structural | — |
+| IMM-OFFSET | 36 | 36 | structural | — |
+| BRANCH-POLARITY | 18 | 18 | structural | — |
+| ADDRESSING | 15 | 15 | structural | cse |
+| DELAY-SLOT | 12 | 145 | permuter | schedule |
+| REGALLOC-PERM | 6 | 6 | permuter | regalloc |
 | IMM-VALUE | 4 | 4 | permuter | cse |
-| MIXED | 3 | 140 | unknown | — |
+| MIXED | 2 | 2 | unknown | — |
 
 ## Top clusters (the batch-autopsy work items)
 
@@ -40,35 +40,35 @@ One representative per signature diagnoses the whole cluster — that is what ma
 
 | # | signature | fns | reach-weighted | example |
 |--:|-----------|----:|---------------:|---------|
-| 1 | `SIZE-MISMATCH/short` | 614 | 1545 | func_8017FF90 (close=4, 2 ins) |
-| 2 | `MATCH` | 315 | 2454 | func_80168B70 (close=0, 27 ins) |
-| 3 | `LENGTH-DRIFT/-1?` | 112 | 1047 | func_8018312C (close=5, 7 ins) |
-| 4 | `SIZE-MISMATCH/long` | 93 | 93 | func_8017E06C (close=6, 9 ins) |
-| 5 | `LENGTH-DRIFT/-2?` | 70 | 1272 | func_80190480 (close=3, 4 ins) |
-| 6 | `OPCODE-MIXED` | 67 | 466 | func_80161D20 (close=1, 14 ins) |
-| 7 | `LENGTH-DRIFT/1?` | 62 | 461 | func_80187074 (close=4, 7 ins) |
-| 8 | `LENGTH-DRIFT/2?` | 50 | 316 | func_80181B8C (close=5, 11 ins) |
+| 1 | `SIZE-MISMATCH/short` | 594 | 993 | func_8017FF90 (close=4, 2 ins) |
+| 2 | `LENGTH-DRIFT/-1?` | 108 | 777 | func_8018312C (close=5, 7 ins) |
+| 3 | `MATCH` | 108 | 1446 | func_80168B70 (close=0, 27 ins) |
+| 4 | `SIZE-MISMATCH/long` | 75 | 75 | func_8017E06C (close=6, 9 ins) |
+| 5 | `OPCODE-MIXED` | 61 | 327 | func_80161C24 (close=1, 29 ins) |
+| 6 | `LENGTH-DRIFT/-2?` | 57 | 856 | func_80190480 (close=3, 4 ins) |
+| 7 | `LENGTH-DRIFT/1?` | 55 | 454 | func_80187074 (close=4, 7 ins) |
+| 8 | `LENGTH-DRIFT/2?` | 42 | 308 | func_80181B8C (close=5, 11 ins) |
 | 9 | `LENGTH-DRIFT/-7` | 32 | 32 | func_80184590 (close=9, 2 ins) |
 | 10 | `IMM-OFFSET/1` | 17 | 17 | func_801827C4 (close=1, 13 ins) |
-| 11 | `DELAY-SLOT/1` | 10 | 143 | func_8016BA68 (close=1, 29 ins) |
-| 12 | `BRANCH-POLARITY/bnez!=beqz` | 10 | 10 | func_80185E38 (close=1, 12 ins) |
-| 13 | `WIDTH/lhu!=lh` | 9 | 9 | func_80142A10 (close=1, 28 ins) |
-| 14 | `BRANCH-POLARITY/beqz!=bnez` | 8 | 8 | func_8017FDB0 (close=1, 12 ins) |
-| 15 | `OPCODE-MIXED/addressing,width` | 6 | 6 | func_8017F114 (close=5, 75 ins) |
-| 16 | `DELAY-SLOT/2` | 6 | 139 | func_80158638 (close=2, 87 ins) |
-| 17 | `ADDRESSING/lui!=addiu` | 6 | 139 | func_8012A328 (close=3, 60 ins) |
-| 18 | `WIDTH/sh!=lw` | 5 | 5 | func_8018AFDC (close=3, 8 ins) |
-| 19 | `WIDTH/lw!=lhu` | 4 | 270 | func_8015FBE0 (close=1, 58 ins) |
-| 20 | `LENGTH-DRIFT/+1` | 4 | 4 | func_8017DCE4 (close=3, 8 ins) |
+| 11 | `WIDTH/lhu!=lh` | 9 | 9 | func_80142A10 (close=1, 28 ins) |
+| 12 | `DELAY-SLOT/1` | 9 | 142 | func_8016BA68 (close=1, 29 ins) |
+| 13 | `BRANCH-POLARITY/beqz!=bnez` | 8 | 8 | func_8017FDB0 (close=1, 12 ins) |
+| 14 | `BRANCH-POLARITY/bnez!=beqz` | 7 | 7 | func_80185E38 (close=1, 12 ins) |
+| 15 | `OPCODE-MIXED/addressing,width` | 5 | 5 | func_8017F114 (close=5, 75 ins) |
+| 16 | `ADDRESSING/lui!=addiu` | 5 | 5 | func_8017D468 (close=3, 13 ins) |
+| 17 | `WIDTH/sh!=lw` | 5 | 5 | func_8018AFDC (close=3, 8 ins) |
+| 18 | `WIDTH/lw!=lhu` | 4 | 270 | func_8015FBE0 (close=1, 58 ins) |
+| 19 | `IMM-VALUE` | 4 | 4 | func_801879B0 (close=2, 10 ins) |
+| 20 | `WIDTH/sw!=sh` | 4 | 4 | func_80185000 (close=2, 12 ins) |
+| 21 | `REGALLOC-PERM/$a0>$a1` | 3 | 3 | func_801863D4 (close=1, 8 ins) |
+| 22 | `IMM-OFFSET/-3` | 3 | 3 | func_80182A8C (close=1, 13 ins) |
+| 23 | `WIDTH/sw!=addiu` | 2 | 2 | func_8017F474 (close=8, 14 ins) |
+| 24 | `LENGTH-DRIFT/-4?` | 2 | 135 | func_80161A90 (close=26, 30 ins) |
+| 25 | `IMM-OFFSET/-48` | 2 | 2 | func_801807D8 (close=1, 4 ins) |
 
 ## Second oracle — deterministic verdict vs the recorded label
 
 The recorded `klass` is what a wave agent typed months ago; the verdict is derived from today's bytes. Neither is authoritative — **the disagreement is the finding**, and it is exactly the `mis-classified` bucket (a wrongly-labelled residual sends the directed search at the wrong levers, so it plateaus and then reads as a wall).
 
-- labelled records comparable: **4** · agree **1** · disagree **3**
+- labelled records comparable: **1** · agree **1** · disagree **0**
 
-| fn | recorded label | label routes to | measured class | measured routes to |
-|----|----------------|-----------------|----------------|--------------------|
-| func_80140D68 | `schedule` | schedule | ADDRESSING | cse |
-| func_8012A328 | `schedule` | schedule | ADDRESSING | cse |
-| func_801549F8 | `schedule` | schedule | ADDRESSING | cse |

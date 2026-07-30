@@ -42,7 +42,8 @@ proceeds; the first P30 commit waits on it.
 
 ## Task checklist (current-task pointer = ▶)
 
-- [ ] ▶ **T0 — Frontier regen + instrument repair [Max]** — one commit per lettered repair:
+- [x] **T0 — Frontier regen + instrument repair [Max]** ✅ (all six letters; see per-task log; frontier
+      report = `docs/frontier-p30.md`, report point #1):
       (a) `gate_stage.py` snapshot/restore (the ladder destroys good drafts) ·
       (b) `rtu_match.py` surface the real cc1 error in the verdict ·
       (c) reconcile the family_hseq↔progress instance gap (R32) ·
@@ -82,6 +83,22 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 - (none) — precondition noted above (Drew's milestone-close commit before the first P30 commit).
 
 ## Per-task log
+
+### T0(e2)+(f) ✅ — autopsy refreshed; frontier regenerated + the three populations PINNED (2026-07-30)
+- **Autopsy** (`collect -j12` + `report`): 1,349 rows — **1,178 near / 63 nobuild / 108
+  match_one-MATCH** (T1's stranded-draft fuel, 3× the S16 sample), 0 classifier errors,
+  second-oracle agree. `docs/autopsy.md` regenerated.
+- **Worklist/manifest regen:** 101 live stubs / 261,789 gain-ins (stale 160/583k gone); R14 checks
+  inside the manifest: 28/28 giants verified reach-138.
+- **THE `-O0` PIN (headline):** 18 families / **2,192 open members — 2,131 o0b-route-eligible /
+  61 SC07-no-o0b**; **15/18 exemplar-matched**. The "WALLED ~1,287" framing dissolves: the bulk
+  never needs the Arm-A splat fix — T2 = generalize the proven `rollout_801457a4_o0.py` (130/130).
+  Composites flagged: `0x8013c414`/`0x8013c0f8` are jr+o0 (carve inside the o0b TU — probe ×1 first).
+- **Zero-crack roster:** 114 families / 3,166 open members / ~204k weighted ins (28 substantial);
+  its head IS the -O0 set (T2 and Lane A open together).
+- **Concentration:** top-20 = 24.0% / top-100 = 44.8% of open family weight (head consumed vs S13's
+  53% — expected post-campaign flattening).
+- **Report point #1: `docs/frontier-p30.md`** (all numbers same-tree at one HEAD, post-repair — R35).
 
 ### T0(e) — part 1 ✅: the 21-file absolute-include defect fixed (2026-07-30)
 All 21 carriers were jr-carve split files including `engine_types.h` by absolute path
