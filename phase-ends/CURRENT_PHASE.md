@@ -9490,7 +9490,7 @@ R22 clean-fleet **140 passed, 0 failed of 140** · dedup **1886/0** · **0 NON_M
 
 ---
 
-# 🛑 SESSION-25 FINAL CHECKPOINT v3 (2026-07-30) — FRESH SESSION SAFE HERE
+# (superseded) SESSION-25 checkpoint v3 — written before T89/T90
 > Supersedes every earlier SESSION-25 block and SESSION-24 REVISED-3.
 
 **Nothing running.** Tree clean but for the R23 `db.*.gbf` churn + the pre-existing
@@ -9597,3 +9597,66 @@ R22 clean-fleet **140 passed, 0 failed of 140** · dedup **1886/0** · **0 NON_M
 | fn-count | 91.84% | **91.88%** | 324,845 -> 325,006 = **+161** (exact) |
 | distinct-code | 78.0% | **78.0%** | 69,593 -> 69,744 = **+151 unique fns** |
 | instr-weighted | 87.3% | **87.3%** | +2,539 ins |
+
+---
+
+# 🛑 SESSION-25 FINAL CHECKPOINT v4 (2026-07-30) — FRESH SESSION SAFE HERE
+> Supersedes every earlier SESSION-25 block and SESSION-24 REVISED-3.
+
+**Nothing running.** Tree clean but for the R23 `db.*.gbf` churn + the pre-existing
+`.run/backlog.jsonl` edit (neither mine; never stage the db churn). HEAD **`commit:1198`**.
+**R22 clean-fleet 140/140** (run 10x this session), dedup **1886/0**, **0 NON_MATCHING** (G4).
+**FLEET: 87.3% instr · 78.0% distinct · 91.88% fn-count** (opened 86.7 / 76.9 / 91.23).
+
+## SESSION TOTAL — **2,302 functions banked · +86,206 instructions · +1,548 unique fns**
+fn-count 322,704 -> 325,006, reconciled at every step (T79 641 · T82 251 · T83 821 · T84 137 ·
+T85 133 · T87 149 · T88 9 · T89 138 · T90 23). **instr +0.6pp · distinct-code +1.1pp.**
+
+## THREE ENGINE-LEVEL FINDINGS, VERY DIFFERENT BLAST RADII
+| # | finding | members | kind |
+|---|---|---|---|
+| **§117** | `symbol_map` spelled the sibling's symbol from the *exemplar's* kind | **1,209** (138 families zero->complete) | general defect |
+| **§118** | the immediate ambiguity check counted C tokens against *every* asm use, incl. compiler-synthesised ones | **158** | targeted defect |
+| **§119** | `--fix-def-sig` and `--normalize-self-decls` pull the same axis in OPPOSITE directions; 3 sweeps tested only the diagonal of the 2x2 | **161** | not a defect at all — a flag combination |
+**All three looked identical before measuring.** Measure the blast radius; never infer it.
+
+## ▶ START HERE NEXT SESSION (ranked, all measured)
+1. **The remaining still-zero families — enumerate the flag 2x2 FIRST (§119), then probe.** ~85
+   families / ~1,240 members / ~200 distinct, long-tailed. Cheapest possible next step: re-sweep them
+   under the two untested corners (`--fix-def-sig` only; and each corner x `--no-tu-scope`) before
+   spending any per-family diagnosis. Remaining skips: **34 immediate-refusals, 86 STRUCT**.
+2. **`func_80151944` three-edit decl job** — 138 members, the last big NAMED blocker. §112 header
+   correction + a §20 call-site cast inside `DEFINE_func_80151924()`'s own body + a scripted §99
+   no-prototype pass over 2,022 overlay-local decls. Param is `void *`, not default-promotable, so the
+   T75 narrow-param refusal does NOT apply. **Try the §119 matrix on it first — it may be free.**
+3. **`-O0` cluster stays WALLED** (10 families, ~1,287 raw distinct) — Arm-A splat `%lo` +0x20 shift.
+
+**Closed this session, do not re-open:** STRUCT residue (0.02pp) · pre-§117 masked-MATCH backlog
+(8 eligible, 0 banked) · `func_801457A4` 133/133 · `0x80174784` 251/251 · `func_801599A4` 137/137 ·
+`0x80161c98` 138/138 · `func_80146750` 137/137.
+
+## ⚠️ MY ERRORS THIS SESSION (recorded, not buried)
+- **Cookbook §116 written with the wrong fix, tool built before testing.** The build refuted it in 56s
+  across 133 overlays. Corrected in place.
+- **Predicted `func_801599A4` would bank from its correct header decl** while `diff_class: IMM` sat in
+  a table I had printed myself — the T76 shape, in the session where I cited T76.
+- **Promoted the backlog item as "126 entries / reach 2,983"; the real figure was 8** — a raw logged
+  count quoted without the still-a-stub filter.
+- **Mis-attributed T84's 137 banks to `0x80161c98`; they were `func_80146750`** — and that one is
+  committed wrong in `commit:1193`, corrected in `commit:1198`.
+- **`new_distinct` estimator over-projects ~2x** (priced 259, measured 125).
+- **The through-line: four of five are the SAME error — asserting the composition of a number I did
+  not derive.** The fix is mechanical and I should apply it by default: *derive the attribution from
+  `corpus.stubs` before/after, never from which thing I was looking at when the number appeared.*
+
+## ⚠️ CARRIED DEFECTS
+- 21-file absolute-include portability defect · **`docs/backlog.md` is not a work queue** (§83) ·
+  roadmap re-baseline owed (39 type-1 modules in no phase) · `gate_stage` ladder destroys good drafts;
+  bare gate has no snapshot/restore · `.run/autopsy/residuals.jsonl` stale (Jul 21) ·
+  **`--fix-def-sig` is a REPAIR, not a default** (T84/§119) — it breaks drafts whose def is byte-true.
+
+## 📓 NEW COOKBOOK ENTRIES THIS SESSION
+**§116** (opt level is a property of the FILE; `asm/` follows the *segment*, object membership the
+*`.c`*) · **§117** (spell the sibling's symbol from the sibling's address; a masked oracle will MATCH a
+wrong symbol) · **§118** (ordinal immediates; exclude compiler-synthesised uses from the safety count) ·
+**§119** (two levers on one axis in opposite directions — test the off-diagonal).
