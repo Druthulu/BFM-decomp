@@ -3282,9 +3282,21 @@ INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005_jr_8017C340", func_8017D55
 DEFINE_func_8017D5CC()  /* dedup: shared engine-core @0x8017D5CC (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005_jr_8017C340", func_8017D5D4);
+extern void func_8016EE40(s32 a0, s32 a1, s32 a2);
+void func_8017D5D4(void) {
 
-INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005_jr_8017C340", func_8017D5FC);
+    extern s32 D_80185ED8(void *a0);
+    ((void (*)(void *, s32))func_8016EE40)((void *)D_80185ED8, 0x1000000);
+}
+
+
+extern void func_8016EE40(s32 a0, s32 a1, s32 a2);
+void func_8017D5FC(void) {
+
+    extern s32 D_80185EE4(void *a0);
+    ((void (*)(void *, s32))func_8016EE40)((void *)D_80185EE4, 0x1000000);
+}
+
 
 INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005_jr_8017C340", func_8017D624);
 

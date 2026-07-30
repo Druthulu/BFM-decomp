@@ -9156,3 +9156,45 @@ metric to date, and the metric this tier exists to move.
 **§116** — optimization level is a property of the FILE, not the function; read a family `0/N` against
 the member's stub HOME, and note that `asm/` follows the *segment* while object membership follows the
 *`.c` file* (so a stub-line move is not neutral, it is unbuildable).
+
+## ✅ T82 — `0x80174784`: **2/255 → 251/251**. A symbol-KIND defect, not a wall (§117)
+
+The biggest single item on the board, and it was the harness — the 14th time this phase.
+
+**The path there, including the wrong turn.** The T79 log showed 45 groups printing "0 banked —
+reverted the byte-neutral self-decl edit", so I suspected `--normalize-self-decls`. Re-swept without
+it: **still 0/251.** Refuted, cheaply. What that left was the disagreement between the two oracles:
+`rtu_match` reported a clean **`MATCH (10 ins)`** on a member the fleet gate refused.
+
+**Cause.** `family_remap.symbol_map` zips the exemplar's and sibling's relocation slots positionally
+and spelled the **sibling's** symbol from the **exemplar's kind**. Same-address families always agree,
+so it was invisible; cross-address families need not:
+
+| | exemplar `func_80174784` | member `func_8017CFD4` |
+|---|---|---|
+| callback slot | `0x801747CC` — a **function** | `0x80182688` — **data** |
+| emitted | `func_801747CC` | **`func_80182688`** ✗ (target asm says `%hi/%lo(D_80182688)`) |
+
+Phase 26-A had already established the right rule — *"name the symbol by what the address IS, not how
+it was loaded"* — and applied it only to the exemplar side. **Fixed the target side** using the same
+sig-set oracle `nins_of` already trusts (R33, memoized).
+
+**Why it survived 20+ phases:** `rtu_match`/`match_one` **mask** HI16/LO16, so a wrong `%hi/%lo`
+symbol still reports MATCH. Masked-MATCH + whole-binary DIFF is the exact signature of a compiler
+wall. → cookbook **§117**, with the law: *when a masked oracle says MATCH and the fleet gate says
+DIFF, suspect a SYMBOL before codegen — masking is what hides a wrong relocation target.*
+
+### GATES
+R22 clean-fleet **140 passed, 0 failed of 140** · dedup **1886/0** · **0 NON_MATCHING** (G4).
+
+### METRICS
+| | before | after | delta |
+|---|---|---|---|
+| fn-count | 91.41% | **91.48%** | 323,345 → 323,596 = **+251** (exact) |
+| distinct-code | 77.4% | **77.4%** | 68,782 → **69,024 = +242 unique fns** (projected 246) |
+| instr-weighted | 86.9% | **86.9%** | +2,510 ins (10-instruction thunks) |
+
+**The fix is in the SHARED path** (`symbol_map` serves every family sweep), so the blast radius is
+unmeasured: 229 further eligible non-jr families / 2,575 members have never been swept with a correct
+target spelling — **including the byte-identical families T76 measured at 0/682**, whose failure mode
+(a draft carrying a symbol the TU contradicts) is the same shape.

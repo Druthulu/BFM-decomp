@@ -3181,7 +3181,13 @@ INCLUDE_ASM("asm/ov_SC03_117/nonmatchings/ov_SC03_117_jr_8017BEBC", func_8017CE9
 void func_8017CEF4(void) {
 }
 
-INCLUDE_ASM("asm/ov_SC03_117/nonmatchings/ov_SC03_117_jr_8017BEBC", func_8017CEFC);
+extern void func_8016EE40(s32 a0, s32 a1, s32 a2);
+void func_8017CEFC(void) {
+
+    extern s32 D_80188350(void *a0);
+    ((void (*)(void *, s32))func_8016EE40)((void *)D_80188350, 0x1000000);
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_117/nonmatchings/ov_SC03_117_jr_8017BEBC", func_8017CF24);
 
@@ -3393,7 +3399,13 @@ void func_8017DF44(void *a0) {
 
 INCLUDE_ASM("asm/ov_SC03_117/nonmatchings/ov_SC03_117_jr_8017BEBC", func_8017DF80);
 
-INCLUDE_ASM("asm/ov_SC03_117/nonmatchings/ov_SC03_117_jr_8017BEBC", func_8017DFC0);
+extern void func_8016EE40(s32 a0, s32 a1, s32 a2);
+void func_8017DFC0(void) {
+
+    extern s32 D_801884B0(void *a0);
+    ((void (*)(void *, s32))func_8016EE40)((void *)D_801884B0, 0x1000000);
+}
+
 
 
 extern void (*D_801884C4[])(void);
@@ -3407,11 +3419,29 @@ INCLUDE_ASM("asm/ov_SC03_117/nonmatchings/ov_SC03_117_jr_8017BEBC", func_8017E02
 
 INCLUDE_ASM("asm/ov_SC03_117/nonmatchings/ov_SC03_117_jr_8017BEBC", func_8017E058);
 
-INCLUDE_ASM("asm/ov_SC03_117/nonmatchings/ov_SC03_117_jr_8017BEBC", func_8017E0A0);
+extern void func_8016EE40(s32 a0, s32 a1, s32 a2);
+void func_8017E0A0(void) {
 
-INCLUDE_ASM("asm/ov_SC03_117/nonmatchings/ov_SC03_117_jr_8017BEBC", func_8017E0C8);
+    extern s32 D_801884BC(void *a0);
+    ((void (*)(void *, s32))func_8016EE40)((void *)D_801884BC, 0x1000000);
+}
 
-INCLUDE_ASM("asm/ov_SC03_117/nonmatchings/ov_SC03_117_jr_8017BEBC", func_8017E0F0);
+
+extern void func_8016EE40(s32 a0, s32 a1, s32 a2);
+void func_8017E0C8(void) {
+
+    extern s32 D_801884CC(void *a0);
+    ((void (*)(void *, s32))func_8016EE40)((void *)D_801884CC, 0x1000000);
+}
+
+
+extern void func_8016EE40(s32 a0, s32 a1, s32 a2);
+void func_8017E0F0(void) {
+
+    extern s32 D_801884E0(void *a0);
+    ((void (*)(void *, s32))func_8016EE40)((void *)D_801884E0, 0x1000000);
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_117/nonmatchings/ov_SC03_117_jr_8017BEBC", func_8017E118);
 

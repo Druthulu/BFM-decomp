@@ -22,7 +22,7 @@ Phase-26 extends this to the looser h_seq family key (mnemonic skeleton, immedia
 
   tools/family_remap.py --addr 0xADDR --from ov_SC01_077 --to ov_SC01_000 [--to-addr 0xADDR2] [--out draft.c]
 """
-import struct, json, glob, re, sys, argparse, collections, os
+import struct, json, glob, re, sys, argparse, collections, functools, os
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import cdecl                                                    # noqa: E402
@@ -74,6 +74,13 @@ def nins_of(ov, addr):
         if int(d["addr"], 16) == addr:
             return d["nins"]
     return None
+
+
+@functools.lru_cache(maxsize=None)
+def fn_addrs(ov):
+    """The FUNCTION start addresses in <ov> — the same sig set `nins_of` treats as the boundary
+    oracle (R33: one oracle, cached because symbol_map asks per reloc slot per member)."""
+    return frozenset(int(json.loads(l)["addr"], 16) for l in open(f".run/sig.{ov}.jsonl"))
 
 
 def reloc_targets(ov, addr, data=None):
@@ -479,11 +486,24 @@ def symbol_map(addr, from_ov, to_ov, to_addr=None):
             # Belt-and-braces: for a data-kind reloc emit BOTH keys. Addresses are unique and
             # apply_remap is a single simultaneous pass, so only the token that actually appears in the
             # C can ever match — the extra key is free and cannot mis-substitute.
+            # ...and that rule has to govern the TARGET side too (Phase 29 T82). The block below
+            # used to spell the sibling's symbol from the EXEMPLAR's kind — `func_` if the exemplar's
+            # slot was a function, `D_` if data. For a CROSS-ADDRESS family the two sides need not
+            # agree: `func_80174784`'s callback slot is the FUNCTION `func_801747CC`, while member
+            # `func_8017CFD4`'s same slot is the DATA symbol `D_80182688`. The map emitted
+            # `func_80182688` — a name for an address that is not a function — so the body
+            # materialized the wrong symbol and the whole-binary gate rejected all 251 members.
+            #
+            # It reads as a compiler wall because the two oracles disagree in the most misleading
+            # possible way: `rtu_match` MASKS HI16/LO16, so a wrong %hi/%lo symbol still reports
+            # MATCH (measured: `MATCH (10 ins)` on a member the fleet gate refused). Spell the
+            # target by what the target address IS in the SIBLING's overlay.
+            tgt = f"func_{at:08X}" if at in fn_addrs(to_ov) else f"D_{at:08X}"
             if ke == "call":
-                m[f"func_{ae:08X}"] = f"func_{at:08X}"
+                m[f"func_{ae:08X}"] = tgt
             else:
-                m[f"D_{ae:08X}"] = f"D_{at:08X}"
-                m[f"func_{ae:08X}"] = f"func_{at:08X}"
+                m[f"D_{ae:08X}"] = tgt
+                m[f"func_{ae:08X}"] = tgt
     return m, None
 
 

@@ -7915,3 +7915,40 @@ is the Arm-A wall (`+0x20` data-symbol shift on 3 of 4 sampled overlays).
 > **The corollary, learned the hard way:** "byte-neutral by construction" is a claim about the
 > *linker*. The build graph has other stages, and splat's asm generation is keyed to a different
 > partition (segment) than the one you are editing (object). Build it before you call it neutral.
+
+## §117 — Spell the sibling's symbol from the SIBLING's address, not the exemplar's kind (Phase 29 T82)
+
+`family_remap.symbol_map` builds `{exemplar_symbol → sibling_symbol}` by zipping the two functions'
+relocation slots positionally. Phase 26-A had already fixed the *exemplar* side ("name the symbol by
+what the address IS, not how it was loaded" — an address-taken function loads via `lui/%lo` and so
+looks like data). The **target** side kept copying the exemplar's kind:
+
+```python
+if ke == "call": m[f"func_{ae:08X}"] = f"func_{at:08X}"
+else:            m[f"D_{ae:08X}"]    = f"D_{at:08X}"
+                 m[f"func_{ae:08X}"] = f"func_{at:08X}"     # <- target spelled from the EXEMPLAR
+```
+
+For a **same-address** family the two sides always agree, so this was invisible for 20+ phases. It
+only bites **cross-address** families, where the same slot can be a function in the exemplar and data
+in the member:
+
+| | exemplar `func_80174784` | member `func_8017CFD4` (ov_SC01_000) |
+|---|---|---|
+| callback slot | `0x801747CC` — a **function** | `0x80182688` — **data** (`D_80182688`) |
+| map emitted | `func_801747CC` | **`func_80182688`** ✗ |
+
+The body then materialized a name for an address that is not a function, and the whole-binary gate
+refused **all 251 members**. Fix: spell the target by what the target address is *in the sibling's
+overlay* — `func_` iff it is in that overlay's sig set (the same boundary oracle `nins_of` trusts,
+R33). Result: `0x80174784` **2/255 → 251/251**, +242 distinct classes.
+
+### Why it survived so long: a MASKED oracle will MATCH a wrong symbol
+`rtu_match`/`match_one` mask `jal`/HI16/LO16 so relocation noise does not drown the diff. A body
+pointing at the **wrong symbol** therefore reports a clean **`MATCH (10 ins)`** while the fleet gate
+rejects it. That combination — masked-MATCH + whole-binary DIFF — is the exact signature of a
+compiler wall, which is how this was booked for so long.
+
+> **The law:** when a masked oracle says MATCH and the whole-binary gate says DIFF, suspect a
+> **symbol** before suspecting codegen — masking is precisely what hides a wrong relocation target.
+> And any positional exemplar→sibling map must derive each side's *kind* from its own side.
