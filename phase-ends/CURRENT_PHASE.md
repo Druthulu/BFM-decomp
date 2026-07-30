@@ -9352,3 +9352,44 @@ I priced these two families at 130 + 129 = **259** new distinct; the measured ga
 estimator counts a family's h_exact classes that have no matched instance *at the time it runs*, so
 classes another sweep claims in between are double-counted. **Do not plan off those projections at
 face value** — they rank families correctly (relative order held) but overstate absolute yield.
+
+## 📌 T86 — items 3, 5, 6 of the ranked list: state at session end
+
+**Item 3 (T2a immediates) — DIAGNOSED, not fixed.** All refused members report the identical reason:
+`unresolved immediates (Tier-2): [(2, 'asm-ambiguous')]`. In `family_remap`, `asm-ambiguous` means the
+differing immediate's **value also occurs at a position that does NOT differ** between exemplar and
+sibling. The engine substitutes immediates **by value across the whole body**, so it cannot tell the
+two occurrences of the literal apart and correctly refuses rather than corrupt the fixed one.
+**The fix is positional/ordinal substitution** (map the differing *instruction index* to a specific C
+token) rather than value substitution — real work in the remap engine, not a flag.
+**Size:** `func_801599A4` 137 members (~110 distinct, discounted per the estimator caveat below) + 67
+further immediate-refusals skipped by T83 + 77 by T84.
+
+**Item 5 (`func_80151944` three-edit decl job) — NOT STARTED.** Unchanged and still costed: §112
+header correction + a §20 call-site cast inside `DEFINE_func_80151924()`'s own body + a scripted §99
+no-prototype pass over **2,022** overlay-local decls in 138 overlays. Param is `void *`, not
+default-promotable, so the T75 narrow-param refusal does not apply.
+
+**Item 6 (re-gate the pre-§117 masked-MATCH backlog) — MEASURED, run in flight at session end.**
+**126 entries at `closeness==0`** (masked-MATCH that the fleet gate refused), **all logged before the
+§117 fix**, total reach **2,983**, all 126 with their `best_draft` still on disk, across 52 binaries.
+That is precisely the §117 signature, so a re-gate is a yield lever rather than hygiene. Driver:
+group by binary → `harvest_verify --binary <b> --drafts <dir> --chunk 1`, skipping any entry whose
+function is no longer a stub (P9). **If the run did not complete, nothing is lost — the drafts are on
+disk and the recipe is two lines.**
+
+**Item 4 was priced and DROPPED** (34 families / 166 members / 0.02pp).
+
+### ⚠️ ITEM 6 RESULT — **8 eligible, 0 banked**, and my promotion of it was WRONG
+The run completed: of the 126 `closeness==0` entries, only **8** survive the drop-now-matched filter
+(P9) — the rest are **already banked**, many of them by this very session. All 8 re-gated **FAILED**.
+
+**I promoted item 6 mid-session as "126 entries / reach 2,983 — bigger than I ranked it."** That was a
+**raw logged count quoted as if it were an actionable queue**, without applying the
+still-a-stub filter that `backlog.py` itself implements. The correct number was 8. This is the same
+class as the standing carried defect *"`docs/backlog.md` is not a work queue — 44% misfiled partials
+(§83)"* — I hit the defect I had already written down twice today.
+
+**Consequence for the plan:** the pre-§117 masked-MATCH backlog is **spent**, not a lever. The §117
+suspicion about masked verdicts remains correct in principle; it simply has almost no unbanked
+surface left to apply to.
