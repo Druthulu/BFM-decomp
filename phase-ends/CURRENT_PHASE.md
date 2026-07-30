@@ -9771,3 +9771,47 @@ bare gate has no snapshot/restore · `.run/autopsy/residuals.jsonl` stale (Jul 2
 *`.c`*) · **§117** (spell the sibling's symbol from the sibling's address; a masked oracle will MATCH a
 wrong symbol) · **§118** (ordinal immediates; exclude compiler-synthesised uses from the safety count) ·
 **§119** (two levers on one axis in opposite directions — test the off-diagonal).
+
+## 📌 T92 — the typedef blocker CONFIRMED by experiment, and a SECOND blocker behind it
+
+Read the two colliding decls out of the **assembled** TU (`.run/crack3/rtu/func_801759D8/t.c`) — the
+step T91 named, and it paid off immediately:
+
+| line | origin |
+|---|---|
+| 2885 | the **spliced draft's** file-scope `typedef struct { s32 g0; s32 pad[2]; } S_AF634;` |
+| 3016 | the **TU's own** file-scope `S_AF634`, belonging to a later function in the same split |
+
+Both file scope, character-identical, and the draft lands **above** the TU's copy. Confirmed by
+experiment: stripping the draft's duplicate typedef (name already in the TU's file-scope set)
+**clears `conflicting types for 'S_AF634'` entirely.**
+
+### THE SECOND BLOCKER (revealed only once the first is removed)
+```
+t.c:2919: `D_800AF634' undeclared (first use this function)
+t.c:2930: `D_800AF634' used prior to declaration
+```
+The draft's `extern S_AF634 D_800AF634[];` is at **block scope BELOW its first use** — the §8d
+data-extern demotion placing it after the statement that needs it. So `func_801759D8` is **two stacked
+blockers**, and any fix that only strips the typedef will still gate-fail. Worth knowing before
+anyone bills the typedef strip as the family's answer.
+
+### WHY `_uniquify_draft_types` DID NOT DO THIS (T91's reverted wiring)
+`tu_ambient` scans the **whole** file (`_file_scope_statements`), so the TU's `S_AF634` *is* in its
+typedef set — the lever should have stripped or renamed it and did not. Unresolved; I did not spend
+further budget reconstructing why a patch I had already reverted misbehaved. **If the next session
+re-wires it, gate it against this exact function** — it is now a known, reproducible test case.
+
+### ▶ THE ORDERED RECIPE FOR NEXT SESSION
+1. Strip draft file-scope typedefs whose **name** is already in `tu_ambient(tu)['typedefs']`
+   (byte-neutral: type names never reach codegen). Proven to clear blocker #1.
+2. Then fix the §8d demotion for this shape: hoist the data extern **above first use** (or keep it at
+   file scope when the TU has no conflicting declaration of that symbol).
+3. Re-probe with `rtu_match func_801759D8 --split ov_SC01_000_jr_801734BC --source ov_SC01_000`;
+   only then sweep. **137 members / ~130 distinct**, and the auto-named `S_*` typedefs recur across the
+   byte-identical stragglers, so step 1 alone may unblock siblings.
+
+### GATES
+No banks -> nothing to verify. Tree clean; the T91 wiring stays reverted; the probe ran entirely in
+`.run/` and a scratch copy (`src/` untouched). Fleet unchanged: **87.3% instr · 78.0% distinct ·
+91.88% fn-count**.
