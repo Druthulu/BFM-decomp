@@ -8802,3 +8802,39 @@ R22 clean-fleet **140 passed, 0 failed of 140** · `tools-health` OK · dedup **
 2. Diagnose the remaining three (`func_801759D8`, `func_80146750`, `func_80142B2C`).
 3. **§43 K&R conversion** for `func_80147364` (137).
 4. **Extend the audit with the family map** (T71).
+
+## ✅ T78 — the PsyQ-symbol widening: `func_8012F40C` **0/137 → 137/137** (three places, not one)
+
+I called this "a one-line predicate widening". **It was three**, and fixing the first two changed
+nothing — the sweep still reported 0/547 (§115):
+
+| # | place | assumption |
+|---|---|---|
+| 1 | `canonical_map` | `func_` fullmatch + keyed by parsed **address** |
+| 2 | `DECL_LINE_RE` | `(func_[0-9A-Fa-f]+)` name group |
+| 3 | `split_sig_string` | `\bfunc_[0-9A-Fa-f]+\s*\(` |
+
+Each is a **silent skip indistinguishable from "no conflict found"**. With 1+2 done the symbol reached
+3 and died there; only tracing `transform` (`callees cast: 0` while the map plainly held
+`s32 RotTransPers(s32, s32, s32*, s32*)`) found it. **That is the trap worth remembering: a partial
+fix to a name-form assumption produces the exact symptom of no fix at all**, so a correct hypothesis
+looks refuted.
+
+### RESULT
+| | |
+|---|---|
+| `func_8012F40C` | **0/137 → 137/137** (the `RotTransPers` block) |
+| the other three (`801759D8`, `80146750`, `80142B2C`) | still fail — different causes |
+| metrics | instr **86.7%** (+4,932 ins) · fn-count 91.19% → **91.23%** (+137) · distinct +0 |
+
+R22 clean-fleet **140 passed, 0 failed of 140** · `tools-health` OK · dedup **1886/0** ·
+**0 NON_MATCHING** (G4).
+
+## ▶ NEXT (ranked)
+1. **Diagnose the remaining three** (`func_801759D8`, `func_80146750`, `func_80142B2C`, ~410 members).
+   Two decl axes are now wired into the sweep; whatever blocks these is a fourth thing, and one probe
+   each names it.
+2. **Re-sweep the byte-VARIANT tier** (T70 banked 1/10 *before* the callee axis existed) — 26 families
+   unswept and the two levers added since (§114 callee, §115 named symbols) never touched them.
+3. **§43 K&R conversion** for `func_80147364` (137).
+4. **Extend the audit with the family map** (T71).

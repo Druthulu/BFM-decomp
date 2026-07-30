@@ -80,7 +80,10 @@ def tu_for(overlay, fn, override=None):
 # a type, func_X, a param list, `;`, optional trailing /* comment */. Matches both the
 # `extern void func_X(int,int);` form and the bare `s32 func_X(s32,void*,s32);` m2c form.
 DECL_LINE_RE = re.compile(
-    r'^([ \t]*)(extern\s+)?([A-Za-z_][\w \t\*]*?)\b(func_[0-9A-Fa-f]+)\s*\(([^;{]*)\)\s*;'
+    # The callee NAME is any identifier, not just `func_XXXXXXXX` (Phase 29 T78). A named PsyQ
+    # symbol (`RotTransPers`, `ApplyMatrixSV`) is a callee like any other, and keying on the func_
+    # form made every one of them structurally invisible to this tool — see canonical_map.
+    r'^([ \t]*)(extern\s+)?([A-Za-z_][\w \t\*]*?)\b([A-Za-z_]\w*)\s*\(([^;{]*)\)\s*;'
     r'[ \t]*(?:/\*[^\n]*\*/)?[ \t]*$')
 
 
@@ -132,19 +135,37 @@ def canonical_map(overlay, src_file=None):
         `if addr not in canon: continue   # pure stub callee -> no conflict, leave it`
     branch — on a premise that was simply false — and the draft died with `conflicting types`,
     which reads downstream as an intrinsic compiler wall. cpp answers it exactly, in 54 ms.
+
+    NAMED SYMBOLS TOO, AND THE KEY IS THE NAME (Phase 29 T78). This used to require
+    `re.fullmatch(r'func_[0-9A-Fa-f]{8}', name)` and key by the parsed address, so every CURATED or
+    PsyQ-library callee was invisible: `func_8012F40C`'s family failed 138x on
+    `conflicting types for RotTransPers` and this tool — the one lever for exactly that class — could
+    not see the symbol at all. Curated naming is something this project does MORE of as RE quality
+    improves, so a func_-only predicate rots by design (the same shape as `stub_map`'s, Phase 26-A).
     """
     c_path = src_file or os.path.join(REPO, f'src/{overlay}/{overlay}.c')
     sigs = {}
     for name, d in _cdecl.tu_scope(c_path).items():
-        if d.kind != 'func' or not re.fullmatch(r'func_[0-9A-Fa-f]{8}', name):
+        if d.kind != 'func':
             continue
-        sigs[int(name[5:], 16)] = d.declaration(storage='').rstrip(';').strip()
+        sigs[name] = d.declaration(storage='').rstrip(';').strip()
     return sigs, c_path
 
 
-def split_sig_string(s):
-    """'void func_X(s16 a0, s16 a1)' -> ('void', 's16 a0, s16 a1')  (no extern / no ;)."""
-    m = re.match(r'(.*?)\bfunc_[0-9A-Fa-f]+\s*\((.*)\)\s*$', s.strip(), re.S)
+def split_sig_string(s, fn=None):
+    """'void func_X(s16 a0, s16 a1)' -> ('void', 's16 a0, s16 a1')  (no extern / no ;).
+
+    ANY identifier, not just `func_XXXXXXXX` (Phase 29 T78). This was the THIRD place keyed on the
+    func_ name form, and the one that survived the first two fixes: with `canonical_map` and
+    `transform` widened, `RotTransPers` reached this function and got `None`, so `transform` took its
+    `if not csig: continue` branch and cast nothing — a silent skip that looked exactly like "no
+    conflict found". Pass `fn` to anchor on the known callee; otherwise the last identifier before
+    the parameter list is used."""
+    s = s.strip()
+    if fn:
+        m = re.match(rf'(.*?)\b{re.escape(fn)}\s*\((.*)\)\s*$', s, re.S)
+    else:
+        m = re.match(r'(.*?)\b[A-Za-z_]\w*\s*\((.*)\)\s*$', s, re.S)
     if not m:
         return None
     return m.group(1).strip(), m.group(2).strip()
@@ -191,18 +212,17 @@ def transform(text, self_fn, canon):
         indent, _extern, ret, fn, params = m.group(1), m.group(2), m.group(3), m.group(4), m.group(5)
         if fn == self_fn:
             continue
-        addr = int(fn[5:], 16)
-        if addr not in canon:                       # pure stub callee: draft's decl is the only
+        if fn not in canon:                         # pure stub callee: draft's decl is the only
             continue                                # one -> no conflict, leave it (don't cast)
         dret, dptypes = parse_sig(ret, params)
-        csig = split_sig_string(canon[addr])
+        csig = split_sig_string(canon[fn], fn)
         if not csig:
             continue
         cret, cptypes = parse_sig(*csig)
-        if _no_conflict(canon[addr], ln, fn):
+        if _no_conflict(canon[fn], ln, fn):
             continue                                # cc1 accepts both -> no rewrite, no cast
         to_cast[fn] = cast_type(dret, dptypes)
-        canon_decl[fn] = f'{indent}extern {canon[addr]};'
+        canon_decl[fn] = f'{indent}extern {canon[fn]};'
         decl_line_idx.setdefault(fn, set()).add(i)
 
     if not to_cast:

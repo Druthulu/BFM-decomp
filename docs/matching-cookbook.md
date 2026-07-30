@@ -7837,3 +7837,32 @@ Two details that matter when wiring it:
 > amount of work on the definition's signature or the shared header will help, and both will look
 > like plausible next steps. Three diagnoses named a callee before anyone checked whether the
 > pipeline could act on one.
+
+---
+
+## §115 — A `func_XXXXXXXX` predicate rots by design: the same name-form assumption in THREE places (Phase 29 T78)
+
+`cast_call_sites` is the lever for the callee-conflict axis (§114). It could not see a **named** callee
+at all — `RotTransPers`, `ApplyMatrixSV`, any curated symbol — because three separate places assumed
+the `func_XXXXXXXX` form, and **fixing two of them changed nothing**:
+
+| # | place | assumption | symptom when wrong |
+|---|---|---|---|
+| 1 | `canonical_map` | `re.fullmatch(r'func_[0-9A-Fa-f]{8}')`, keyed by parsed **address** | the callee is absent from the map → `if fn not in canon: continue` |
+| 2 | `DECL_LINE_RE` | `(func_[0-9A-Fa-f]+)` as the name group | the draft's decl line does not match → never considered |
+| 3 | `split_sig_string` | `\bfunc_[0-9A-Fa-f]+\s*\(` | returns `None` → `if not csig: continue` |
+
+All three are **silent skips that look identical to "no conflict found"**. With 1 and 2 fixed, the
+symbol reached 3 and was dropped there — the sweep still reported 0/547, and only a trace of
+`transform`'s internals (`callees cast: 0` while the canonical map clearly held
+`s32 RotTransPers(s32, s32, s32*, s32*)`) located it. After all three: `func_8012F40C` **0/137 →
+137/137**.
+
+**Curated naming is something this project does MORE of as RE quality improves**, so any
+`func_`-only predicate is a rot-by-design defect — the same shape as `stub_map`'s (Phase 26-A), where
+a curated stub name read as "already matched".
+
+> **The law:** when a name-form assumption is wrong, grep for **every** place that encodes it before
+> testing. A partial fix produces the identical symptom as no fix, so the negative result reads as
+> "the hypothesis was wrong" rather than "the fix is incomplete" — and that is how a correct
+> hypothesis gets abandoned.
