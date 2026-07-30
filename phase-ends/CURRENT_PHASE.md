@@ -9237,7 +9237,7 @@ them.
 
 ---
 
-# 🛑 SESSION-25 FINAL CHECKPOINT (2026-07-29) — FRESH SESSION SAFE HERE
+# (superseded) SESSION-25 checkpoint — written before T84/T85/T86
 > Supersedes the mid-session SESSION-25 block above (written before T82/T83) and SESSION-24 REVISED-3.
 
 **Nothing running.** Tree clean but for the R23 `db.*.gbf` churn and the pre-existing
@@ -9393,3 +9393,68 @@ class as the standing carried defect *"`docs/backlog.md` is not a work queue —
 **Consequence for the plan:** the pre-§117 masked-MATCH backlog is **spent**, not a lever. The §117
 suspicion about masked verdicts remains correct in principle; it simply has almost no unbanked
 surface left to apply to.
+
+---
+
+# 🛑 SESSION-25 FINAL CHECKPOINT v2 (2026-07-30) — FRESH SESSION SAFE HERE
+> Supersedes every earlier SESSION-25 block and SESSION-24 REVISED-3.
+
+**Nothing running.** Tree clean but for the R23 `db.*.gbf` churn + the pre-existing
+`.run/backlog.jsonl` edit (neither mine; never stage the db churn). HEAD **`commit:1194`**.
+**R22 clean-fleet 140/140** (run 6× this session), dedup **1886/0**, **0 NON_MATCHING** (G4).
+**FLEET: 87.3% instr · 77.9% distinct · 91.79% fn-count** (opened 86.7 / 76.9 / 91.23).
+
+## SESSION TOTAL — **1,983 functions banked · +81,331 instructions · +1,254 unique fns**
+fn-count 322,704 → 324,687 = **+1,983**, reconciled at every step (T79 641 · T82 251 · T83 821 ·
+T84 137 · T85 133). **instr +0.6pp · distinct-code +1.0pp.**
+
+## THE FINDING (§117) — one defect, 1,209 members
+`family_remap.symbol_map` zips exemplar↔sibling relocation slots positionally and spelled the
+**sibling's** symbol from the **exemplar's kind**. Same-address families always agree, so it hid for
+20+ phases; **cross-address** families need not. **Why it read as a compiler wall:**
+`rtu_match`/`match_one` **mask** HI16/LO16, so a body pointing at the *wrong symbol* reports a clean
+`MATCH`. → §117: *when a masked oracle says MATCH and the fleet gate says DIFF, suspect a SYMBOL
+before codegen.* Payout: `0x80174784` 2/255 → 251/251, then **138 families zero → complete**.
+
+## ▶ START HERE NEXT SESSION (ranked, all measured)
+1. **T2a immediate engine — positional substitution** (the one real lever left in the family tier).
+   Refusals are all `(N, 'asm-ambiguous')`: the differing immediate's value **also occurs at a
+   non-differing position**, and the engine substitutes **by value across the body**, so it refuses.
+   Fix = map the differing *instruction index* to its C token (ordinal/positional), not value-match.
+   **Surface:** `func_801599A4` 137 members + 67 (T83) + 77 (T84) refusals.
+2. **The 91 still-zero families** — 205 distinct total, long-tailed (top is ~21). Probe 2–3 for a
+   *shared* cause before spending per-family effort; the last two probes each generalized.
+3. **`func_80151944` three-edit decl job** — 138 members. §112 header + §20 call-site cast inside
+   `DEFINE_func_80151924()`'s own body + a scripted §99 pass over 2,022 overlay-local decls.
+   Param is `void *`, not default-promotable → the T75 narrow-param refusal does NOT apply.
+4. **`-O0` cluster stays WALLED** (10 families, ~1,287 raw distinct) — Arm-A splat `%lo` +0x20 shift.
+   **Do not bill as sweep yield.**
+
+**Closed this session, do not re-open:** STRUCT residue (0.02pp, priced+dropped) · the pre-§117
+masked-MATCH backlog (**8 eligible after the still-a-stub filter, 0 banked — spent**) ·
+`func_801457A4` (133/133) · `0x80161c98` (137/138) · `0x80174784` (251/251).
+
+## ⚠️ MY ERRORS THIS SESSION (recorded, not buried)
+- **Cookbook §116 written with the wrong fix, and I built the tool before testing it.**
+  "Byte-neutral by construction" was a claim about the *linker*; splat keys asm emission to the
+  *segment*. Refuted by the build in 56s across 133 overlays. Corrected in place.
+- **Predicted `func_801599A4` would bank from its correct header decl** while `diff_class: IMM` sat in
+  a table I had printed myself — the T76 shape, in the session where I cited T76.
+- **Promoted item 6 as "126 entries / reach 2,983, bigger than I ranked it."** The real figure was
+  **8** — I quoted a raw logged count without the still-a-stub filter `backlog.py` implements, i.e. I
+  walked into the carried defect *"backlog.md is not a work queue"* that I had re-read the same day.
+- **My `new_distinct` estimator over-projects ~2×** (priced 259, measured 125): it counts classes
+  unmatched *at run time*, so concurrent sweeps double-count. Ranks correctly, overstates absolutely.
+- Common thread: **counts I derive myself need the same filter discipline I apply to the tools'.**
+
+## ⚠️ CARRIED DEFECTS
+- 21-file absolute-include portability defect (PhaseEnd carry) · **`docs/backlog.md` is not a work
+  queue** (§83 — bit me again today) · roadmap re-baseline owed (39 type-1 modules in no phase) ·
+  `gate_stage` ladder destroys good drafts; bare gate has no snapshot/restore ·
+  `.run/autopsy/residuals.jsonl` stale (Jul 21) · **`--fix-def-sig` BREAKS drafts whose def is right
+  and whose header decl is signedness-wrong (T84)** — it is a repair, not a default.
+
+## 📓 NEW COOKBOOK ENTRIES THIS SESSION
+**§116** (optimization level is a property of the FILE; `asm/` follows the *segment* while object
+membership follows the *`.c`*, so a stub-line move is unbuildable) · **§117** (spell the sibling's
+symbol from the sibling's address; a masked oracle will MATCH a wrong symbol).
