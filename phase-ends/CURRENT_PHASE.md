@@ -9396,7 +9396,7 @@ surface left to apply to.
 
 ---
 
-# 🛑 SESSION-25 FINAL CHECKPOINT v2 (2026-07-30) — FRESH SESSION SAFE HERE
+# (superseded) SESSION-25 checkpoint v2 — written before T87/T88
 > Supersedes every earlier SESSION-25 block and SESSION-24 REVISED-3.
 
 **Nothing running.** Tree clean but for the R23 `db.*.gbf` churn + the pre-existing
@@ -9487,3 +9487,70 @@ R22 clean-fleet **140 passed, 0 failed of 140** · dedup **1886/0** · **0 NON_M
 | fn-count | 91.79% | **91.84%** | 324,687 -> 324,845 = **+158** (exact) |
 | distinct-code | 77.9% | **78.0%** | 69,450 -> 69,593 = **+143 unique fns** |
 | instr-weighted | 87.3% | **87.3%** | +2,336 ins |
+
+---
+
+# 🛑 SESSION-25 FINAL CHECKPOINT v3 (2026-07-30) — FRESH SESSION SAFE HERE
+> Supersedes every earlier SESSION-25 block and SESSION-24 REVISED-3.
+
+**Nothing running.** Tree clean but for the R23 `db.*.gbf` churn + the pre-existing
+`.run/backlog.jsonl` edit (neither mine; never stage the db churn). HEAD **`commit:1196`**.
+**R22 clean-fleet 140/140** (run 8x this session), dedup **1886/0**, **0 NON_MATCHING** (G4).
+**FLEET: 87.3% instr · 78.0% distinct · 91.84% fn-count** (opened 86.7 / 76.9 / 91.23).
+
+## SESSION TOTAL — **2,141 functions banked · +83,667 instructions · +1,397 unique fns**
+fn-count 322,704 -> 324,845, reconciled at every step (T79 641 · T82 251 · T83 821 · T84 137 ·
+T85 133 · T87 149 · T88 9). **instr +0.6pp · distinct-code +1.1pp.**
+
+## TWO ENGINE FIXES, VERY DIFFERENT BLAST RADII — the reusable lesson
+- **§117 symbol-KIND** (`symbol_map` spelled the sibling's symbol from the *exemplar's* kind):
+  **1,209 members**, 138 families zero -> complete. A general defect.
+- **§118 ordinal immediates** (the ambiguity check compared C tokens against *every* asm use,
+  including compiler-synthesised ones no token names): **158 members**, almost all in one family.
+  A targeted lever.
+Both looked identical before measuring — "an engine defect that unblocks a whole class". **Measure the
+blast radius; do not infer it from the fix's depth.**
+
+## ▶ START HERE NEXT SESSION (ranked, all measured)
+1. **The 91 still-zero families — probe 2-3 for a SHARED cause.** ~205 distinct total, long-tailed
+   (top ~21). Every lever this phase built has now been applied to them (§114 callee, §115
+   named-symbol, §117 symbol-kind, §118 ordinal immediates, def-sig, self-decl), and **34 immediate
+   refusals + 86 STRUCT skips remain**. So whatever blocks them is unnamed — which this phase says is
+   the most likely place to find the next multiplier. Recipe: splice one member, `make -j1` the single
+   object, filter `warning:` (§58 noise).
+2. **`func_80151944` three-edit decl job** — 138 members, the last big *named* blocker. §112 header
+   correction + a §20 call-site cast inside `DEFINE_func_80151924()`'s own body + a scripted §99
+   no-prototype pass over 2,022 overlay-local decls in 138 overlays. Param is `void *`, not
+   default-promotable, so the T75 narrow-param refusal does NOT apply.
+3. **`-O0` cluster stays WALLED** (10 families, ~1,287 raw distinct) — Arm-A splat `%lo` +0x20 shift.
+   **Do not bill as sweep yield.**
+
+**Closed this session, do not re-open:** STRUCT residue (0.02pp, priced+dropped) · pre-§117
+masked-MATCH backlog (8 eligible, 0 banked — spent) · `func_801457A4` 133/133 · `0x80161c98` 137/138 ·
+`0x80174784` 251/251 · `func_801599A4` 137/137.
+
+## ⚠️ MY ERRORS THIS SESSION (recorded, not buried)
+- **Cookbook §116 written with the wrong fix, tool built before testing.** "Byte-neutral by
+  construction" was a claim about the *linker*; splat keys asm emission to the *segment*. Build
+  refuted it in 56s across 133 overlays. Corrected in place.
+- **Predicted `func_801599A4` would bank from its correct header decl** while `diff_class: IMM` sat in
+  a table I had printed myself — the T76 shape, in the session where I cited T76.
+- **Promoted item 6 as "126 entries / reach 2,983".** Real figure **8** — I quoted a raw logged count
+  without the still-a-stub filter, walking into the carried defect *"backlog.md is not a work queue"*
+  that I had re-read the same day.
+- **`new_distinct` estimator over-projects ~2x** (priced 259, measured 125): it counts classes
+  unmatched *at run time*, so concurrent sweeps double-count. Ranks correctly, overstates absolutely.
+- Common thread: **counts I derive myself need the same filter discipline I apply to the tools'.**
+
+## ⚠️ CARRIED DEFECTS
+- 21-file absolute-include portability defect (PhaseEnd carry) · **`docs/backlog.md` is not a work
+  queue** (§83 — bit me again today) · roadmap re-baseline owed (39 type-1 modules in no phase) ·
+  `gate_stage` ladder destroys good drafts; bare gate has no snapshot/restore ·
+  `.run/autopsy/residuals.jsonl` stale (Jul 21) · **`--fix-def-sig` BREAKS drafts whose def is right
+  and whose header decl is signedness-wrong (T84)** — it is a repair, not a default.
+
+## 📓 NEW COOKBOOK ENTRIES THIS SESSION
+**§116** (optimization level is a property of the FILE; `asm/` follows the *segment* while object
+membership follows the *`.c`*) · **§117** (spell the sibling's symbol from the sibling's address; a
+masked oracle will MATCH a wrong symbol) · **§118** (ordinal immediate resolution; a safety check
+counting asm uses against source tokens must exclude compiler-synthesised uses).
