@@ -83,6 +83,19 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 
 ## Per-task log
 
+### T0(c) ✅ — family_hseq↔progress gap: ZERO definitional gap; stamped against recurrence (2026-07-30)
+Same-tree regeneration of BOTH digests: family_hseq (overlays) **27,248 instances** == progress fleet
+stubs 28,296 − main 1,034 − resident 14 = **27,248 — EXACT**. The carried "29,961 vs 28,296" was a
+**cross-date, cross-scope misread**: the 07-29 map snapshot was SESSION-25's *open* state, and
+29,961 − 27,248 = **2,713 = exactly the session's banked total**. The tools were never in
+disagreement — both already derive from `corpus.stubs` (the Phase 26-A conversion, family_hseq:42).
+Hardening: the family-hseq digest header now **stamps scope ("138 OVERLAYS only") + generation
+HEAD + the shared-oracle note** ("compare digests only at the same HEAD") — a stale or
+scope-mismatched comparison is now self-announcing. Roadmap v2 D-bucket corrected.
+**Fresh frontier readings from the regen** (full pinning still at T0(f)): 478 substantial families /
+678,404 templatable ins · **28 zero-crack** (was 61 on 07-29 — S25 consumed 33) · 3,626 PURE / 40
+IMM / 6 STRUCT · overlays 27,248 instances / 17,629 distinct / 1,587,311 ins.
+
 ### T0(b) ✅ — rtu_match surfaces the real cc1 error in the verdict (2026-07-30)
 `_diagnostics()` filter (the SESSION-25 recipe, in-tool): drop `warning:`/`In function`/`At top
 level`/`###`/blank lines from the failing stage's stderr and print the FIRST 15 survivors — gcc-2.7.2
