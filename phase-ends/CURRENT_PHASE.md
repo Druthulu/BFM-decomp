@@ -109,6 +109,24 @@ the T2 log entries; check both background tasks' outcomes first (`git log` for t
 
 ## Per-task log
 
+### T1a ✅ — the deterministic recovery sweep: +18 banked; the stored-draft question CLOSED (report point #2)
+Population: the 108 fresh autopsy-MATCH strandeds (+ the 012 abort re-run, 0/3) across 50 binaries,
+47 min, 17 driver commits. **Metric truth (R14, derived): fn-count +18 instances / distinct +12
+unique fns** (commit messages summed 19 — gate-report double-list; the metric wins). **R22
+clean-fleet 140/140** after the sweep + residue revert. Fleet: 87.5 / 78.0 / 92.00 (+384 w-ins).
+**The honest read:** the S16 "39%" prior did NOT generalize — it was measured on FRESH same-wave
+drafts; this stored-backlog population is the class decision-log **A10** already byte-proved
+non-bankable by plain re-gate (0/958). The driver's reconcile/demacroize lifted **18 of ~111
+(≈16%)** over A10's 0% — a real but bounded delta. **The stored-draft recovery question is now
+CLOSED both ways:** cheap wins taken; the ~90 not-banked stay match_one-MATCH but their drafts are
+integration-decayed — they route to T3's REDRAFT lanes (A10's "fresh re-drafts only"), not another
+recovery pass. §61 residue class found + reverted (2 orphan carve .c + overlays.mk/yaml edits from
+FAILED jr attempts). **Two live gaps for T3 pre-work:** (1) `gate_stage --commit` add-scope cannot
+stage NEW carve files / overlays.mk / yaml — moot at 0 jr banks here, live the moment a T3 wave
+banks a jr fn through it; (2) my own checkpoint edit mid-sweep tripped the driver's blast-radius
+assert (012's abort) — tracked-file writes and a tree-writing campaign cannot share a repo; queue
+docs until the campaign exits.
+
 ### T2 finding 2 — the Arm-A reproduction target has MOVED: the fleet is jr-carved now (2026-07-30)
 `rollout_o0_cluster.py ov_SC07_007` → SKIP ("cluster fns not in base .c"): since Arm A (07-16),
 the P29 jr campaign carved every overlay (007 now: 16 `_jr_*.c` splits) and **the -O0 range
