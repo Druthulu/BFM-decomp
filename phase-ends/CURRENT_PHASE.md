@@ -9921,3 +9921,45 @@ R22 clean-fleet **140 passed, 0 failed of 140** · dedup **1886/0** · **0 NON_M
 | fn-count | 91.88% | **91.92%** | 325,006 → 325,143 = **+137** (exact) |
 | instr-weighted | 87.3% | **87.4%** | +7,672 ins |
 | distinct-code | 78.0% | **78.0%** | 69,744 → 69,744 = **+0** (byte-identical family — §111 predicted exactly this) |
+
+## ✅ T95/T96 — `func_80142B2C` **136/136** (§121): the last byte-identical straggler
+
+Same recipe as T93, different gap. The draft calls `((void(*)(void))func_80142C84)()` but nothing
+declares that symbol above the splice: it is **defined by `DEFINE_func_80142C84()`** in
+`engine_core.h`, so there is no `extern` line for `gather_externs` to harvest, and the member TU
+instantiates the macro **below** our function.
+
+**The wrong guess was the useful step.** Adding a no-prototype `extern s32 func_80142C84();` turned
+`undeclared` into `conflicting types` — a *different* error, which proved the diagnosis right and the
+*type* wrong. Synthesised from the macro's own definition head (`void func_80142C84(s32 a0)`):
+`rtu_match` **MATCH (34 ins)**, then **136/136 banked, 0 failed**.
+
+New `macro_def_sig_map()` (**1,878 signatures**) is the complement of `header_sig_map()` — the latter
+reads the `extern`s a macro emits *for its callees*, the former the signature a macro *defines*.
+→ cookbook **§121**. **Blast radius 0** (74 further families re-swept, none moved).
+
+### 🏁 ALL THREE BYTE-IDENTICAL STRAGGLERS ARE NOW CLOSED
+Carried since the SESSION-24 checkpoint as "diagnose the 3 remaining byte-identical families":
+`func_80146750` **137/137** (T84) · `func_801759D8` **137/137** (T93) · `func_80142B2C` **136/136**
+(T95). **410 members**, and not one was a compiler wall — a signedness-wrong header decl, a type-name
+collision, and a missing extern for a macro-defined callee.
+
+### GATES
+R22 clean-fleet **140 passed, 0 failed of 140** · dedup **1886/0** · **0 NON_MATCHING** (G4).
+
+### METRICS
+| | before T93 | after T95 | delta |
+|---|---|---|---|
+| fn-count | 91.88% | **91.96%** | 325,006 → 325,279 = **+273** (exact) |
+| instr-weighted | 87.3% | **87.4%** | +12,296 ins |
+| distinct-code | 78.0% | **78.0%** | **+0** — both families are byte-identical (§111 predicted it) |
+
+### THE BLAST-RADIUS PATTERN, NOW FOUR DATA POINTS
+| lever | members | kind |
+|---|---|---|
+| **§117** symbol-kind | **1,209** | wrong LOGIC — applied fleet-wide |
+| §118 ordinal immediates | 158 | targeted |
+| §120 type-uniquify | 137 | targeted (path-reachability) |
+| §121 macro-defined callee extern | 136 | targeted (path-reachability) |
+**Only the logic defect generalised.** The three path-reachability gaps were each worth ~one family.
+Useful prior for pricing the next fix *before* building it.

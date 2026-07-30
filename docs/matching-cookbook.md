@@ -8050,3 +8050,26 @@ lever reads as ineffective. Anchor on something unique to the path — the hseq 
 
 **Blast radius: 0** beyond this family (74 further families re-swept, none moved). Like §118 and unlike
 §117, this is a **targeted** lever — a path-reachability gap, not a logic defect.
+
+## §121 — Synthesise externs for macro-DEFINED callees from the macro's own definition head (Phase 29 T95)
+
+`gather_externs` carries a referenced symbol's declaration by copying a file-scope `extern` line out
+of the exemplar TU. A shared engine function **defined by a `DEFINE_func_X()` macro** has no such
+line anywhere — the macro *defines* it. The member TU instantiates that macro too, but frequently
+**below** the splice point, so a draft that uses the symbol as a **value** (a cast call site,
+`((void(*)(void))func_80142C84)()`) fails with `undeclared (first use this function)`.
+
+**Guessing the type is worse than not declaring it.** A no-prototype `extern s32 func_80142C84();`
+turns the error into `conflicting types` against the macro's real `void func_80142C84(s32 a0)` — a
+*different* error, which is the useful signal that the guess (not the diagnosis) was wrong.
+
+**The fix:** `macro_def_sig_map()` parses the `#define DEFINE_func_X() \ <ret> func_X(<params>) {`
+heads in `engine_core.h` (**1,878 signatures**) and the sweep prepends
+`extern <ret> func_X(<params>);` for any referenced macro-defined callee the draft does not already
+declare. Byte-verified on `func_80142B2C`: `undeclared` -> (bad guess) `conflicting types` ->
+**MATCH (34 ins)** -> **136/136 banked.**
+
+Note this is the complement of `header_sig_map()`, which reads the `extern` decls a macro emits *for
+its own callees*. Two different macro-derived signature sources; a symbol in neither is a real gap.
+
+**Blast radius: 0** beyond this family — like §118 and §120, and unlike §117, a **targeted** lever.

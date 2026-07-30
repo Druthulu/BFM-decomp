@@ -55,6 +55,39 @@ def load_sigs():
 
 
 _HDR_SIG_CACHE = None
+_MACRO_DEF_SIG_CACHE = None
+
+
+def macro_def_sig_map():
+    """{func_name: 'ret func(params)'} from the DEFINE_func_X() macros in engine_core.h that DEFINE
+    the function (`void func_80142C84(s32 a0) { ... }`), as opposed to `header_sig_map()` which reads
+    the `extern` decls a macro emits for its callees.
+
+    §121 (Phase-29 T95): a draft that references such a function has nothing to harvest — `gather_externs`
+    copies file-scope `extern` lines out of the exemplar TU, and a macro-DEFINED shared function has no
+    extern anywhere. The member TU instantiates the macro too, but often BELOW the splice point, so the
+    symbol is `undeclared (first use)` when our body uses it as a value (a cast call site). Guessing the
+    type is worse than useless — a no-prototype `extern s32 f();` then collides with the macro's real
+    `void f(s32)`. Byte-verified on func_80142B2C: undeclared -> (wrong guess) conflicting types ->
+    MATCH (34 ins) once the extern is synthesised from the macro's OWN definition head."""
+    global _MACRO_DEF_SIG_CACHE
+    if _MACRO_DEF_SIG_CACHE is not None:
+        return _MACRO_DEF_SIG_CACHE
+    smap = {}
+    path = os.path.join(REPO, "src/shared/engine_core.h")
+    if os.path.exists(path):
+        txt = open(path).read()
+        for m in re.finditer(r'#define\s+DEFINE_(func_[0-9A-Fa-f]+)\(\)\s*\\\n((?:.*\\\n)*?.*?)\{',
+                             txt):
+            fn, body = m.group(1), m.group(2)
+            d = re.search(rf'([A-Za-z_][\w \*]*?)\s*\b{fn}\s*\(([^)]*)\)\s*$',
+                          body.replace("\\\n", "\n").strip().split("\n")[-1])
+            if d and d.group(1).strip():
+                smap[fn] = f"{d.group(1).strip()} {fn}({d.group(2).strip()})"
+    _MACRO_DEF_SIG_CACHE = smap
+    return smap
+
+
 def header_sig_map():
     """{func_name: 'ret func(params)'} from the `extern <ret> func_X(<params>);` decls a DEFINE_func
     macro emits in src/shared/engine_core.h (a shared engine fn that CALLS the member forward-declares
@@ -602,6 +635,21 @@ def hseq_sweep(a):
                     draft, CSR.tu_ambient(tu_path).get("typedefs", {}), to_func)
             except Exception as e:
                 print(f"  [uniquify-types] {ov} {to_func}: {repr(e)[:90]}", flush=True)
+            # §121 — declare macro-DEFINED callees the draft references but nothing declares
+            # ABOVE it (the member TU instantiates DEFINE_func_X() below our splice point).
+            try:
+                _mds = macro_def_sig_map()
+                _need = []
+                for _fn in sorted(set(re.findall(r'\bfunc_[0-9A-Fa-f]{8}\b', draft))):
+                    if _fn == to_func or _fn not in _mds:
+                        continue
+                    if re.search(rf'\b(?:extern|void|s32|u32|int|char|short|float)\b[^;\n]*\b{_fn}\s*\(', draft):
+                        continue                       # already declared/defined in the draft
+                    _need.append(f"extern {_mds[_fn]};")
+                if _need:
+                    draft = "\n".join(_need) + "\n" + draft
+            except Exception as e:
+                print(f"  [macro-extern] {ov} {to_func}: {repr(e)[:90]}", flush=True)
             d = os.path.join(REPO, SWEEP, ov)
             os.makedirs(d, exist_ok=True)
             open(os.path.join(d, f"func_{to_addr:08X}.c"), "w").write(draft + "\n")
