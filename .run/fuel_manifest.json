@@ -234,8 +234,6 @@
    }
   ],
   "o0_overlay_local": [
-   "func_8013B598",
-   "func_8013B6A0",
    "func_8013B83C",
    "func_8013BD74"
   ],
@@ -243,14 +241,6 @@
    "func_8013C08C"
   ],
   "o0_cluster": [
-   {
-    "name": "func_8013B598",
-    "verified_reach": 1
-   },
-   {
-    "name": "func_8013B6A0",
-    "verified_reach": 1
-   },
    {
     "name": "func_8013B83C",
     "verified_reach": 1
@@ -266,22 +256,22 @@
   ]
  },
  "summary": {
-  "total_stubs": 160,
+  "total_stubs": 101,
   "by_class": {
    "GIANT": 2,
-   "WAVE": 91,
-   "STUB": 6,
-   "STRUCT": 36,
-   "PINS": 19,
+   "WAVE": 49,
+   "PINS": 18,
    "O1": 1,
-   "O0": 5
+   "STUB": 3,
+   "O0": 3,
+   "STRUCT": 25
   },
-  "cached": 154,
-  "uncached": 6,
+  "cached": 97,
+  "uncached": 4,
   "reach_buckets": {
-   "134": 76,
-   "1": 82,
-   "2-133": 2
+   "134": 44,
+   "1": 56,
+   "2-133": 1
   },
   "ghidra_c_cache_total": 983,
   "named_stubs_skipped": []
@@ -325,244 +315,6 @@
    "leverage": 22770
   },
   {
-   "addr": "0x80174cb0",
-   "name": "func_80174CB0",
-   "nins": 123,
-   "ncalls": 13,
-   "reach": 138,
-   "reach_134": true,
-   "class": "WAVE",
-   "lever": "WAVE",
-   "bucket": "MCOMPILE_stack-var",
-   "cached": true,
-   "region": "jr_801734BC",
-   "leverage": 16974
-  },
-  {
-   "addr": "0x801330e0",
-   "name": "func_801330E0",
-   "nins": 110,
-   "ncalls": 1,
-   "reach": 138,
-   "reach_134": true,
-   "class": "STUB",
-   "lever": "STUB",
-   "bucket": "NONFAITHFUL_DEFER",
-   "cached": true,
-   "region": "jr_8012ACE0",
-   "leverage": 15180
-  },
-  {
-   "addr": "0x8012cc88",
-   "name": "func_8012CC88",
-   "nins": 105,
-   "ncalls": 1,
-   "reach": 138,
-   "reach_134": true,
-   "class": "WAVE",
-   "lever": "WAVE",
-   "bucket": "STRUCTURAL_MISS",
-   "cached": true,
-   "region": "jr_8012ACE0",
-   "leverage": 14490
-  },
-  {
-   "addr": "0x80169228",
-   "name": "func_80169228",
-   "nins": 105,
-   "ncalls": 4,
-   "reach": 138,
-   "reach_134": true,
-   "class": "WAVE",
-   "lever": "WAVE",
-   "bucket": "STRUCTURAL_MISS",
-   "cached": true,
-   "region": "jr_8015C32C",
-   "leverage": 14490
-  },
-  {
-   "addr": "0x801463a0",
-   "name": "func_801463A0",
-   "nins": 101,
-   "ncalls": 9,
-   "reach": 138,
-   "reach_134": true,
-   "class": "WAVE",
-   "lever": "WAVE",
-   "bucket": "STRUCTURAL_MISS",
-   "cached": true,
-   "region": "after",
-   "leverage": 13938
-  },
-  {
-   "addr": "0x8014d12c",
-   "name": "func_8014D12C",
-   "nins": 93,
-   "ncalls": 2,
-   "reach": 138,
-   "reach_134": true,
-   "class": "WAVE",
-   "lever": "WAVE",
-   "bucket": "STRUCTURAL_MISS",
-   "cached": true,
-   "region": "after",
-   "leverage": 12834
-  },
-  {
-   "addr": "0x8014c6f4",
-   "name": "func_8014C6F4",
-   "nins": 91,
-   "ncalls": 2,
-   "reach": 138,
-   "reach_134": true,
-   "class": "WAVE",
-   "lever": "WAVE",
-   "bucket": "STRUCTURAL_MISS",
-   "cached": true,
-   "region": "after",
-   "leverage": 12558
-  },
-  {
-   "addr": "0x80158638",
-   "name": "func_80158638",
-   "nins": 87,
-   "ncalls": 16,
-   "reach": 138,
-   "reach_134": true,
-   "class": "STUB",
-   "lever": "STUB",
-   "bucket": "ARITY_WALL",
-   "cached": true,
-   "region": "jr_80154C24",
-   "leverage": 12006
-  },
-  {
-   "addr": "0x8012b4b8",
-   "name": "func_8012B4B8",
-   "nins": 84,
-   "ncalls": 3,
-   "reach": 138,
-   "reach_134": true,
-   "class": "WAVE",
-   "lever": "WAVE",
-   "bucket": "STRUCTURAL_MISS",
-   "cached": true,
-   "region": "jr_8012ACE0",
-   "leverage": 11592
-  },
-  {
-   "addr": "0x8014d4c0",
-   "name": "func_8014D4C0",
-   "nins": 84,
-   "ncalls": 2,
-   "reach": 138,
-   "reach_134": true,
-   "class": "WAVE",
-   "lever": "WAVE",
-   "bucket": "STRUCTURAL_MISS",
-   "cached": true,
-   "region": "after",
-   "leverage": 11592
-  },
-  {
-   "addr": "0x80156670",
-   "name": "func_80156670",
-   "nins": 83,
-   "ncalls": 2,
-   "reach": 138,
-   "reach_134": true,
-   "class": "WAVE",
-   "lever": "WAVE",
-   "bucket": "STRUCTURAL_MISS",
-   "cached": true,
-   "region": "jr_80154C24",
-   "leverage": 11454
-  },
-  {
-   "addr": "0x8014cf04",
-   "name": "func_8014CF04",
-   "nins": 82,
-   "ncalls": 2,
-   "reach": 138,
-   "reach_134": true,
-   "class": "WAVE",
-   "lever": "WAVE",
-   "bucket": "STRUCTURAL_MISS",
-   "cached": true,
-   "region": "after",
-   "leverage": 11316
-  },
-  {
-   "addr": "0x8014d2a0",
-   "name": "func_8014D2A0",
-   "nins": 80,
-   "ncalls": 2,
-   "reach": 138,
-   "reach_134": true,
-   "class": "WAVE",
-   "lever": "WAVE",
-   "bucket": "STRUCTURAL_MISS",
-   "cached": true,
-   "region": "after",
-   "leverage": 11040
-  },
-  {
-   "addr": "0x8012a1bc",
-   "name": "func_8012A1BC",
-   "nins": 78,
-   "ncalls": 0,
-   "reach": 138,
-   "reach_134": true,
-   "class": "WAVE",
-   "lever": "WAVE",
-   "bucket": "STRUCTURAL_MISS",
-   "cached": true,
-   "region": "a",
-   "leverage": 10764
-  },
-  {
-   "addr": "0x8016163c",
-   "name": "func_8016163C",
-   "nins": 78,
-   "ncalls": 16,
-   "reach": 138,
-   "reach_134": true,
-   "class": "WAVE",
-   "lever": "WAVE",
-   "bucket": "MCOMPILE_arg-arity",
-   "cached": true,
-   "region": "jr_8015C32C",
-   "leverage": 10764
-  },
-  {
-   "addr": "0x80163534",
-   "name": "func_80163534",
-   "nins": 76,
-   "ncalls": 1,
-   "reach": 138,
-   "reach_134": true,
-   "class": "WAVE",
-   "lever": "WAVE",
-   "bucket": "STRUCTURAL_MISS",
-   "cached": true,
-   "region": "jr_8015C32C",
-   "leverage": 10488
-  },
-  {
-   "addr": "0x8014d610",
-   "name": "func_8014D610",
-   "nins": 74,
-   "ncalls": 2,
-   "reach": 138,
-   "reach_134": true,
-   "class": "WAVE",
-   "lever": "WAVE",
-   "bucket": "STRUCTURAL_MISS",
-   "cached": true,
-   "region": "after",
-   "leverage": 10212
-  },
-  {
    "addr": "0x8012e014",
    "name": "func_8012E014",
    "nins": 73,
@@ -575,34 +327,6 @@
    "cached": true,
    "region": "jr_8012ACE0",
    "leverage": 10074
-  },
-  {
-   "addr": "0x80132f40",
-   "name": "func_80132F40",
-   "nins": 72,
-   "ncalls": 3,
-   "reach": 138,
-   "reach_134": true,
-   "class": "STRUCT",
-   "lever": "STRUCT",
-   "bucket": "MCOMPILE_bad-deref",
-   "cached": true,
-   "region": "jr_8012ACE0",
-   "leverage": 9936
-  },
-  {
-   "addr": "0x80161774",
-   "name": "func_80161774",
-   "nins": 69,
-   "ncalls": 12,
-   "reach": 138,
-   "reach_134": true,
-   "class": "WAVE",
-   "lever": "WAVE",
-   "bucket": "MCOMPILE_arg-arity",
-   "cached": true,
-   "region": "jr_8015C32C",
-   "leverage": 9522
   },
   {
    "addr": "0x80133298",
@@ -619,62 +343,6 @@
    "leverage": 8970
   },
   {
-   "addr": "0x80140d68",
-   "name": "func_80140D68",
-   "nins": 65,
-   "ncalls": 0,
-   "reach": 138,
-   "reach_134": true,
-   "class": "WAVE",
-   "lever": "WAVE",
-   "bucket": "STRUCTURAL_MISS",
-   "cached": true,
-   "region": "main",
-   "leverage": 8970
-  },
-  {
-   "addr": "0x8014a738",
-   "name": "func_8014A738",
-   "nins": 62,
-   "ncalls": 1,
-   "reach": 138,
-   "reach_134": true,
-   "class": "WAVE",
-   "lever": "WAVE",
-   "bucket": "MCOMPILE_m2c-incomplete-arg",
-   "cached": true,
-   "region": "after",
-   "leverage": 8556
-  },
-  {
-   "addr": "0x8012a328",
-   "name": "func_8012A328",
-   "nins": 60,
-   "ncalls": 1,
-   "reach": 138,
-   "reach_134": true,
-   "class": "WAVE",
-   "lever": "WAVE",
-   "bucket": "STRUCTURAL_MISS",
-   "cached": true,
-   "region": "a",
-   "leverage": 8280
-  },
-  {
-   "addr": "0x80138de0",
-   "name": "func_80138DE0",
-   "nins": 60,
-   "ncalls": 2,
-   "reach": 138,
-   "reach_134": true,
-   "class": "WAVE",
-   "lever": "WAVE",
-   "bucket": "STRUCTURAL_MISS",
-   "cached": true,
-   "region": "jr_801380E0",
-   "leverage": 8280
-  },
-  {
    "addr": "0x8014e5b4",
    "name": "func_8014E5B4",
    "nins": 59,
@@ -686,20 +354,6 @@
    "bucket": "PERMUTER_CLASS",
    "cached": true,
    "region": "after",
-   "leverage": 8142
-  },
-  {
-   "addr": "0x801777bc",
-   "name": "func_801777BC",
-   "nins": 59,
-   "ncalls": 0,
-   "reach": 138,
-   "reach_134": true,
-   "class": "WAVE",
-   "lever": "WAVE",
-   "bucket": "MCOMPILE_other",
-   "cached": true,
-   "region": "jr_801734BC",
    "leverage": 8142
   },
   {
@@ -715,20 +369,6 @@
    "cached": true,
    "region": "jr_8012ACE0",
    "leverage": 8004
-  },
-  {
-   "addr": "0x801759d8",
-   "name": "func_801759D8",
-   "nins": 56,
-   "ncalls": 0,
-   "reach": 138,
-   "reach_134": true,
-   "class": "WAVE",
-   "lever": "WAVE",
-   "bucket": "STRUCTURAL_MISS",
-   "cached": true,
-   "region": "jr_801734BC",
-   "leverage": 7728
   },
   {
    "addr": "0x80175820",
@@ -815,20 +455,6 @@
    "leverage": 7038
   },
   {
-   "addr": "0x80146750",
-   "name": "func_80146750",
-   "nins": 47,
-   "ncalls": 0,
-   "reach": 138,
-   "reach_134": true,
-   "class": "WAVE",
-   "lever": "WAVE",
-   "bucket": "STRUCTURAL_MISS",
-   "cached": true,
-   "region": "after",
-   "leverage": 6486
-  },
-  {
    "addr": "0x8014c4ac",
    "name": "func_8014C4AC",
    "nins": 47,
@@ -871,20 +497,6 @@
    "leverage": 5796
   },
   {
-   "addr": "0x80161374",
-   "name": "func_80161374",
-   "nins": 41,
-   "ncalls": 5,
-   "reach": 138,
-   "reach_134": true,
-   "class": "WAVE",
-   "lever": "WAVE",
-   "bucket": "SIG_FIXABLE_KR",
-   "cached": true,
-   "region": "jr_8015C32C",
-   "leverage": 5658
-  },
-  {
    "addr": "0x80146afc",
    "name": "func_80146AFC",
    "nins": 40,
@@ -897,20 +509,6 @@
    "cached": true,
    "region": "after",
    "leverage": 5520
-  },
-  {
-   "addr": "0x801778a8",
-   "name": "func_801778A8",
-   "nins": 38,
-   "ncalls": 0,
-   "reach": 138,
-   "reach_134": true,
-   "class": "WAVE",
-   "lever": "WAVE",
-   "bucket": "STRUCTURAL_MISS",
-   "cached": true,
-   "region": "jr_801734BC",
-   "leverage": 5244
   },
   {
    "addr": "0x80131a34",
@@ -927,34 +525,6 @@
    "leverage": 5106
   },
   {
-   "addr": "0x80161888",
-   "name": "func_80161888",
-   "nins": 37,
-   "ncalls": 6,
-   "reach": 138,
-   "reach_134": true,
-   "class": "WAVE",
-   "lever": "WAVE",
-   "bucket": "MCOMPILE_arg-arity",
-   "cached": true,
-   "region": "jr_8015C32C",
-   "leverage": 5106
-  },
-  {
-   "addr": "0x8012f40c",
-   "name": "func_8012F40C",
-   "nins": 36,
-   "ncalls": 3,
-   "reach": 138,
-   "reach_134": true,
-   "class": "WAVE",
-   "lever": "WAVE",
-   "bucket": "STRUCTURAL_MISS",
-   "cached": true,
-   "region": "jr_8012ACE0",
-   "leverage": 4968
-  },
-  {
    "addr": "0x80151664",
    "name": "func_80151664",
    "nins": 35,
@@ -967,20 +537,6 @@
    "cached": true,
    "region": "after",
    "leverage": 4830
-  },
-  {
-   "addr": "0x80144b14",
-   "name": "func_80144B14",
-   "nins": 34,
-   "ncalls": 1,
-   "reach": 138,
-   "reach_134": true,
-   "class": "WAVE",
-   "lever": "WAVE",
-   "bucket": "STRUCTURAL_MISS",
-   "cached": true,
-   "region": "main",
-   "leverage": 4692
   },
   {
    "addr": "0x80161a90",
@@ -1008,20 +564,6 @@
    "bucket": "NONFAITHFUL_DEFER",
    "cached": true,
    "region": "jr_8012ACE0",
-   "leverage": 4416
-  },
-  {
-   "addr": "0x8014f3e8",
-   "name": "func_8014F3E8",
-   "nins": 32,
-   "ncalls": 2,
-   "reach": 138,
-   "reach_134": true,
-   "class": "WAVE",
-   "lever": "WAVE",
-   "bucket": "SIG_FIXABLE_KR",
-   "cached": true,
-   "region": "after",
    "leverage": 4416
   },
   {
@@ -1203,7 +745,7 @@
    "lever": "PINS",
    "bucket": "PERMUTER_CLASS",
    "cached": true,
-   "region": "jr_8016AB6C",
+   "region": "jr_80171B4C",
    "leverage": 3450
   },
   {
@@ -1417,20 +959,6 @@
    "leverage": 371
   },
   {
-   "addr": "0x80176218",
-   "name": "func_80176218",
-   "nins": 327,
-   "ncalls": 12,
-   "reach": 1,
-   "reach_134": false,
-   "class": "WAVE",
-   "lever": "WAVE",
-   "bucket": "STRUCTURAL_MISS",
-   "cached": true,
-   "region": "jr_801734BC",
-   "leverage": 327
-  },
-  {
    "addr": "0x80183324",
    "name": "func_80183324",
    "nins": 324,
@@ -1443,34 +971,6 @@
    "cached": true,
    "region": "jr_80182268",
    "leverage": 324
-  },
-  {
-   "addr": "0x8014d820",
-   "name": "func_8014D820",
-   "nins": 304,
-   "ncalls": 11,
-   "reach": 1,
-   "reach_134": false,
-   "class": "WAVE",
-   "lever": "WAVE",
-   "bucket": "MCOMPILE_arg-arity",
-   "cached": true,
-   "region": "after",
-   "leverage": 304
-  },
-  {
-   "addr": "0x80135eb0",
-   "name": "func_80135EB0",
-   "nins": 289,
-   "ncalls": 11,
-   "reach": 1,
-   "reach_134": false,
-   "class": "STRUCT",
-   "lever": "STRUCT",
-   "bucket": "M2C_DECOMP_FAIL",
-   "cached": true,
-   "region": "jr_80135D20",
-   "leverage": 289
   },
   {
    "addr": "0x8013b83c",
@@ -1487,34 +987,6 @@
    "leverage": 272
   },
   {
-   "addr": "0x8015b950",
-   "name": "func_8015B950",
-   "nins": 271,
-   "ncalls": 35,
-   "reach": 1,
-   "reach_134": false,
-   "class": "STRUCT",
-   "lever": "STRUCT",
-   "bucket": "M2C_DECOMP_FAIL",
-   "cached": true,
-   "region": "jr_8015AE2C",
-   "leverage": 271
-  },
-  {
-   "addr": "0x80140958",
-   "name": "func_80140958",
-   "nins": 260,
-   "ncalls": 3,
-   "reach": 1,
-   "reach_134": false,
-   "class": "WAVE",
-   "lever": "WAVE",
-   "bucket": "MCOMPILE_m2c-incomplete-arg",
-   "cached": true,
-   "region": "main",
-   "leverage": 260
-  },
-  {
    "addr": "0x8017fd14",
    "name": "func_8017FD14",
    "nins": 249,
@@ -1527,20 +999,6 @@
    "cached": true,
    "region": "jr_8017AE2C",
    "leverage": 249
-  },
-  {
-   "addr": "0x80175da8",
-   "name": "func_80175DA8",
-   "nins": 231,
-   "ncalls": 4,
-   "reach": 1,
-   "reach_134": false,
-   "class": "WAVE",
-   "lever": "WAVE",
-   "bucket": "MCOMPILE_other",
-   "cached": true,
-   "region": "jr_801734BC",
-   "leverage": 231
   },
   {
    "addr": "0x80181be4",
@@ -1569,20 +1027,6 @@
    "cached": true,
    "region": "o0",
    "leverage": 198
-  },
-  {
-   "addr": "0x80175ab8",
-   "name": "func_80175AB8",
-   "nins": 188,
-   "ncalls": 12,
-   "reach": 1,
-   "reach_134": false,
-   "class": "WAVE",
-   "lever": "WAVE",
-   "bucket": "STRUCTURAL_MISS",
-   "cached": true,
-   "region": "jr_801734BC",
-   "leverage": 188
   },
   {
    "addr": "0x8017f7e8",
@@ -1669,34 +1113,6 @@
    "leverage": 154
   },
   {
-   "addr": "0x80177b5c",
-   "name": "func_80177B5C",
-   "nins": 147,
-   "ncalls": 0,
-   "reach": 1,
-   "reach_134": false,
-   "class": "WAVE",
-   "lever": "WAVE",
-   "bucket": "MCOMPILE_other",
-   "cached": true,
-   "region": "jr_801734BC",
-   "leverage": 147
-  },
-  {
-   "addr": "0x80135260",
-   "name": "func_80135260",
-   "nins": 136,
-   "ncalls": 6,
-   "reach": 1,
-   "reach_134": false,
-   "class": "STRUCT",
-   "lever": "STRUCT",
-   "bucket": "M2C_DECOMP_FAIL",
-   "cached": true,
-   "region": "jr_8012ACE0",
-   "leverage": 136
-  },
-  {
    "addr": "0x80183834",
    "name": "func_80183834",
    "nins": 135,
@@ -1739,48 +1155,6 @@
    "leverage": 132
   },
   {
-   "addr": "0x8015c128",
-   "name": "func_8015C128",
-   "nins": 129,
-   "ncalls": 20,
-   "reach": 1,
-   "reach_134": false,
-   "class": "WAVE",
-   "lever": "WAVE",
-   "bucket": "MCOMPILE_stack-var",
-   "cached": true,
-   "region": "jr_8015AE2C",
-   "leverage": 129
-  },
-  {
-   "addr": "0x8015cd20",
-   "name": "func_8015CD20",
-   "nins": 129,
-   "ncalls": 23,
-   "reach": 1,
-   "reach_134": false,
-   "class": "STRUCT",
-   "lever": "STRUCT",
-   "bucket": "MCOMPILE_fnptr-call",
-   "cached": true,
-   "region": "jr_8015C32C",
-   "leverage": 129
-  },
-  {
-   "addr": "0x8012aaac",
-   "name": "func_8012AAAC",
-   "nins": 125,
-   "ncalls": 7,
-   "reach": 1,
-   "reach_134": false,
-   "class": "STRUCT",
-   "lever": "STRUCT",
-   "bucket": "M2C_DECOMP_FAIL",
-   "cached": true,
-   "region": "a",
-   "leverage": 125
-  },
-  {
    "addr": "0x801865ec",
    "name": "func_801865EC",
    "nins": 125,
@@ -1809,20 +1183,6 @@
    "leverage": 117
   },
   {
-   "addr": "0x8015d1b8",
-   "name": "func_8015D1B8",
-   "nins": 114,
-   "ncalls": 15,
-   "reach": 1,
-   "reach_134": false,
-   "class": "WAVE",
-   "lever": "WAVE",
-   "bucket": "MCOMPILE_arg-arity",
-   "cached": true,
-   "region": "jr_8015C32C",
-   "leverage": 114
-  },
-  {
    "addr": "0x8017daec",
    "name": "func_8017DAEC",
    "nins": 113,
@@ -1835,20 +1195,6 @@
    "cached": true,
    "region": "jr_8017AE2C",
    "leverage": 113
-  },
-  {
-   "addr": "0x80179b74",
-   "name": "func_80179B74",
-   "nins": 111,
-   "ncalls": 0,
-   "reach": 1,
-   "reach_134": false,
-   "class": "STRUCT",
-   "lever": "STRUCT",
-   "bucket": "M2C_DECOMP_FAIL",
-   "cached": true,
-   "region": "jr_80178D40",
-   "leverage": 111
   },
   {
    "addr": "0x80182c9c",
@@ -1893,20 +1239,6 @@
    "leverage": 98
   },
   {
-   "addr": "0x8016b6bc",
-   "name": "func_8016B6BC",
-   "nins": 94,
-   "ncalls": 5,
-   "reach": 1,
-   "reach_134": false,
-   "class": "WAVE",
-   "lever": "WAVE",
-   "bucket": "MCOMPILE_stack-var",
-   "cached": true,
-   "region": "jr_8016AB6C",
-   "leverage": 94
-  },
-  {
    "addr": "0x801820dc",
    "name": "func_801820DC",
    "nins": 94,
@@ -1919,20 +1251,6 @@
    "cached": true,
    "region": "jr_8017AE2C",
    "leverage": 94
-  },
-  {
-   "addr": "0x801789ac",
-   "name": "func_801789AC",
-   "nins": 91,
-   "ncalls": 6,
-   "reach": 1,
-   "reach_134": false,
-   "class": "STRUCT",
-   "lever": "STRUCT",
-   "bucket": "M2C_DECOMP_FAIL",
-   "cached": true,
-   "region": "jr_801734BC",
-   "leverage": 91
   },
   {
    "addr": "0x80183de0",
@@ -1961,20 +1279,6 @@
    "cached": true,
    "region": "jr_8016AB6C",
    "leverage": 88
-  },
-  {
-   "addr": "0x8016ae5c",
-   "name": "func_8016AE5C",
-   "nins": 85,
-   "ncalls": 2,
-   "reach": 1,
-   "reach_134": false,
-   "class": "STRUCT",
-   "lever": "STRUCT",
-   "bucket": "M2C_DECOMP_FAIL",
-   "cached": true,
-   "region": "jr_8016AB6C",
-   "leverage": 85
   },
   {
    "addr": "0x80182e7c",
@@ -2033,104 +1337,6 @@
    "leverage": 75
   },
   {
-   "addr": "0x80171b4c",
-   "name": "func_80171B4C",
-   "nins": 70,
-   "ncalls": 2,
-   "reach": 1,
-   "reach_134": false,
-   "class": "STRUCT",
-   "lever": "STRUCT",
-   "bucket": "M2C_DECOMP_FAIL",
-   "cached": true,
-   "region": "jr_8016AB6C",
-   "leverage": 70
-  },
-  {
-   "addr": "0x8012e364",
-   "name": "func_8012E364",
-   "nins": 67,
-   "ncalls": 0,
-   "reach": 1,
-   "reach_134": false,
-   "class": "WAVE",
-   "lever": "WAVE",
-   "bucket": "STRUCTURAL_MISS",
-   "cached": false,
-   "region": "jr_8012ACE0",
-   "leverage": 67
-  },
-  {
-   "addr": "0x8013b6a0",
-   "name": "func_8013B6A0",
-   "nins": 67,
-   "ncalls": 0,
-   "reach": 1,
-   "reach_134": false,
-   "class": "O0",
-   "lever": "WAVE",
-   "bucket": "STRUCTURAL_MISS",
-   "cached": true,
-   "region": "o0",
-   "leverage": 67
-  },
-  {
-   "addr": "0x80148e54",
-   "name": "func_80148E54",
-   "nins": 67,
-   "ncalls": 2,
-   "reach": 1,
-   "reach_134": false,
-   "class": "WAVE",
-   "lever": "WAVE",
-   "bucket": "MCOMPILE_arg-arity",
-   "cached": true,
-   "region": "after",
-   "leverage": 67
-  },
-  {
-   "addr": "0x8013b598",
-   "name": "func_8013B598",
-   "nins": 66,
-   "ncalls": 0,
-   "reach": 1,
-   "reach_134": false,
-   "class": "O0",
-   "lever": "WAVE",
-   "bucket": "STRUCTURAL_MISS",
-   "cached": true,
-   "region": "o0",
-   "leverage": 66
-  },
-  {
-   "addr": "0x80177da8",
-   "name": "func_80177DA8",
-   "nins": 63,
-   "ncalls": 0,
-   "reach": 1,
-   "reach_134": false,
-   "class": "WAVE",
-   "lever": "WAVE",
-   "bucket": "STRUCTURAL_MISS",
-   "cached": true,
-   "region": "jr_801734BC",
-   "leverage": 63
-  },
-  {
-   "addr": "0x80138c60",
-   "name": "func_80138C60",
-   "nins": 62,
-   "ncalls": 3,
-   "reach": 1,
-   "reach_134": false,
-   "class": "STUB",
-   "lever": "STUB",
-   "bucket": "NONFAITHFUL_DEFER",
-   "cached": false,
-   "region": "jr_801380E0",
-   "leverage": 62
-  },
-  {
    "addr": "0x801842c8",
    "name": "func_801842C8",
    "nins": 62,
@@ -2143,20 +1349,6 @@
    "cached": true,
    "region": "jr_80182268",
    "leverage": 62
-  },
-  {
-   "addr": "0x80151944",
-   "name": "func_80151944",
-   "nins": 15,
-   "ncalls": 0,
-   "reach": 4,
-   "reach_134": false,
-   "class": "STRUCT",
-   "lever": "STRUCT",
-   "bucket": "MCOMPILE_fnptr-call",
-   "cached": true,
-   "region": "after",
-   "leverage": 60
   },
   {
    "addr": "0x801378f0",
@@ -2297,20 +1489,6 @@
    "cached": false,
    "region": "jr_8012ACE0",
    "leverage": 46
-  },
-  {
-   "addr": "0x8014358c",
-   "name": "func_8014358C",
-   "nins": 45,
-   "ncalls": 1,
-   "reach": 1,
-   "reach_134": false,
-   "class": "WAVE",
-   "lever": "WAVE",
-   "bucket": "STRUCTURAL_MISS",
-   "cached": true,
-   "region": "main",
-   "leverage": 45
   },
   {
    "addr": "0x80183bac",
@@ -2521,20 +1699,6 @@
    "cached": true,
    "region": "jr_8015C32C",
    "leverage": 20
-  },
-  {
-   "addr": "0x80161d20",
-   "name": "func_80161D20",
-   "nins": 14,
-   "ncalls": 1,
-   "reach": 1,
-   "reach_134": false,
-   "class": "PINS",
-   "lever": "PINS",
-   "bucket": "PERMUTER_CLASS",
-   "cached": true,
-   "region": "jr_8015C32C",
-   "leverage": 14
   }
  ]
 }
