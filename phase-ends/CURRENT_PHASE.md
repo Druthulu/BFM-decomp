@@ -10252,3 +10252,65 @@ bare gate has no snapshot/restore · `.run/autopsy/residuals.jsonl` stale (Jul 2
 
 ## 📓 NEW COOKBOOK ENTRIES THIS SESSION
 **§116** · **§117** · **§118** · **§119** · **§120** · **§121** (see the entries for each).
+
+---
+
+# 📉 T99 — Task 7: the burn-down + velocity close-out (2026-07-30, Fable 5 / Max)
+
+> The "burn-down tracker" is **derived, not built** (R33): `docs/progress.fleet.md` is regenerated and
+> committed at every banked batch, so its **git history IS the tracker** — last digest commit per day,
+> three FLEET lines extracted from each snapshot. No new scanner; reproduce with:
+> `git log --follow --format="%H %cs" -- docs/progress.fleet.md | awk '!seen[$2]++' | sort` + `git show <sha>:docs/progress.fleet.md | grep ^FLEET`.
+
+## The Phase-29 daily burn-down (last committed digest per day)
+
+| date | instr | distinct | fn-count | Δinstr/day |
+|---|---:|---:|---:|---:|
+| **open** (PhaseEnd_Phase28, 07-16) | **68.9** | **49.5** | **83.94** | — |
+| 07-16 | 71.0 | 53.3 | 86.30 | +2.1 |
+| 07-17 | 72.1 | 54.0 | 86.57 | +1.1 |
+| 07-18 | 75.2 | 60.6 | 87.04 | +3.1 |
+| 07-19 | 76.3 | 62.8 | 87.47 | +1.1 |
+| 07-20 | 78.0 | 66.5 | 87.90 | +1.7 |
+| 07-21 | 78.0 | 66.5 | 87.95 | +0.0 |
+| 07-22 † | 78.6 | 67.6 | 88.22 | +0.6 |
+| 07-23 | 79.4 | 67.7 | 88.65 | +0.8 |
+| 07-24 | 79.9 | 67.7 | 88.98 | +0.5 |
+| 07-25 | 80.6 | 68.2 | 89.18 | +0.7 |
+| 07-26 | 81.7 | 69.3 | 89.52 | +1.1 |
+| 07-27 | 84.4 | 74.4 | 90.14 | +2.7 |
+| 07-28 | 86.6 | 76.9 | 91.12 | +2.2 |
+| 07-29 | 87.2 | 77.8 | 91.72 | +0.6 |
+| **07-30 (close)** | **87.5** | **78.0** | **92.00** | **+0.3** |
+
+† 07-22: the **main EXE entered the weighted denominators** (roadmap §1 metrics contract) — the digest
+label changes from "resident+138 overlays" to "main + resident + 138 overlays"; pre/post-07-22 instr
+deltas are not perfectly comparable (main's ~60k mostly-unmatched game-code ins joined the denominator).
+
+## Phase totals (the flip-timing checkpoint numbers, roadmap §1)
+
+- **instr-weighted 68.9% → 87.5% (+18.6pp)** · **distinct-code 49.5% → 78.0% (+28.5pp; +16,288 unique
+  fns, 53,528 → 69,816)** · **fn-count 83.94% → 92.00% (+8.06pp)** — over 15 calendar days / 25 sessions
+  ≈ **+0.74pp instr/session mean**.
+- **140/140 byte-identical (R22) at every banked batch** (14× in SESSION-25 alone) · 0 NON_MATCHING
+  linked · dedup 1886/0 · tools-health RC=0 throughout.
+
+## The ROI verdict the data supports (the gate-2 question)
+
+The final four days decayed **+2.7 → +2.2 → +0.6 → +0.3pp/day with every lever this phase built
+applied** — and T98 characterised the residue as **80 families / 960 members / 173 distinct** (29
+all-STRUCT refused by design + 51 gate-failing at ~3 distinct per independent diagnosis), against 2,713
+members banked in the final session. **The mechanical family engine is spent — measured, not felt.**
+Recommendation: **close Phase 29 here**; the open remainders (Task 4 grinder warm-start + 2 Phase-22
+grinder bugs · Task 5 tail Ghidra-C prefetch · Task 6 permuter backlog sweep · the W4 residue) carry
+into the re-baselined roadmap explicitly, not silently.
+
+## The honest frontier hand-off
+
+The full re-measured frontier (buckets W1–W5 / M / R / T / B / D with sources and levers) is
+**`docs/roadmap-to-100.md` v2 §2** (rewritten this session — the owed re-baseline). Headlines:
+17,643 distinct fns / ~1.24M distinct ins remain; the three biggest un-spent levers are the
+**stranded byte-correct drafts** (measured 39% recovery), the **`-O0` Arm-A splat wall** (~1,287
+distinct behind an *instrument* defect), and the **fresh-crack concentration head** (top-100 families
+= 53% of remaining instr; 61 zero-crack). Main EXE 0.7% / resident 14 stubs / 39 type-1 modules
+un-onboarded are the P31 flag-plant arc.
