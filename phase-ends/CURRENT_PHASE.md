@@ -9660,3 +9660,53 @@ T85 133 · T87 149 · T88 9 · T89 138 · T90 23). **instr +0.6pp · distinct-co
 *`.c`*) · **§117** (spell the sibling's symbol from the sibling's address; a masked oracle will MATCH a
 wrong symbol) · **§118** (ordinal immediates; exclude compiler-synthesised uses from the safety count) ·
 **§119** (two levers on one axis in opposite directions — test the off-diagonal).
+
+## 📌 T91 — the §119 matrix is EXHAUSTED; the still-zero blocker is a typedef redefinition
+
+**The 2x2 is now fully enumerated** for the still-zero population (82 families / 1,233 members):
+
+| flags | banked |
+|---|---|
+| both | 0 (T79) |
+| neither | 9 (T88) |
+| `--normalize-self-decls` only | 23 (T90) + the 138 of `0x80161c98` (T89) |
+| **`--fix-def-sig` only** | **0** (T91 — the last untested corner) |
+
+So §119 is **spent** on this population: no flag combination reaches the remaining ~82 families. That
+is a clean negative for one sweep's cost, and it means the rest need real diagnosis.
+
+### THE PROBE (`func_801759D8`, 137 members, byte-identical, PURE)
+`rtu_match` -> **CC1 FAIL**, `conflicting types for 'S_AF634'`. The target TU already carries that
+typedef at **file scope**, and separately at block scope inside a function:
+```
+2888:     typedef struct { s32 g0; s32 pad[2]; } S_AF634;   /* block scope */
+2974: typedef struct { s32 g0; s32 pad[2]; } S_AF634;       /* file scope  */
+```
+The draft carries it too, and **gcc-2.7.2 rejects a typedef redefinition even when the two are
+character-identical** (C89 has no "compatible redeclaration" escape for typedef names). So this class
+needs **strip-if-ambient**, not rename-if-colliding.
+
+### ⚠️ A CHANGE I MADE AND THEN REVERTED, DELIBERATELY
+`canon_sig_reconcile._uniquify_draft_types` is exactly this lever (its docstring: *strip typedefs
+IDENTICAL to the ambient set; uniquify every other*) and it lives **only** on the `--reconcile-raw`
+path — the 5th "lever unreachable from THIS path" of the phase. I wired it into the hseq staging path
+(3 lines + an import) and re-probed: **the error was unchanged.** Either `tu_ambient` does not see
+that file-scope typedef, or the collision is between two TU-internal decls rather than the draft's.
+
+I **reverted the wiring** rather than leave it in. It is a default-ON change to the shared staging
+path that every family flows through, it did not fix the case it was added for, and I do not have the
+budget to validate it against a known-good family. Leaving an unvalidated behaviour change in a shared
+path is exactly the T80/§61 failure mode. The knowledge is here; the 3-line diff is trivial to redo
+once someone can gate it.
+
+### ▶ THE NAMED NEXT STEP
+Determine which two declarations actually collide (compile the TU with `-E` and read the assembled
+`t.c` around the reported lines — the line numbers in the error are *assembled* offsets, not source
+ones, which is why they did not map to the split). Then either (a) make `tu_ambient` see file-scope
+typedefs and strip-if-identical, or (b) drop the draft's typedef when the TU declares the same name at
+file scope. **137 members / ~130 distinct on this family alone**, and `S_AF634`-style auto-named types
+are shared across the byte-identical stragglers, so it plausibly covers several.
+
+### GATES
+No banks this task -> nothing to verify; tree clean (the wiring reverted, `family_sweep.py` restored).
+Fleet unchanged from T90: **87.3% instr · 78.0% distinct · 91.88% fn-count**.
