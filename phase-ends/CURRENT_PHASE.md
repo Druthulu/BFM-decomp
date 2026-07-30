@@ -9818,7 +9818,7 @@ No banks -> nothing to verify. Tree clean; the T91 wiring stays reverted; the pr
 
 ---
 
-# 🛑 SESSION-25 FINAL CHECKPOINT v6 (2026-07-30) — FRESH SESSION SAFE HERE
+# (superseded) SESSION-25 checkpoint v6 — written before T93-T96
 > Supersedes every earlier SESSION-25 block and SESSION-24 REVISED-3.
 
 **Nothing running.** Tree clean but for the R23 `db.*.gbf` churn + the pre-existing
@@ -9963,3 +9963,77 @@ R22 clean-fleet **140 passed, 0 failed of 140** · dedup **1886/0** · **0 NON_M
 | §121 macro-defined callee extern | 136 | targeted (path-reachability) |
 **Only the logic defect generalised.** The three path-reachability gaps were each worth ~one family.
 Useful prior for pricing the next fix *before* building it.
+
+---
+
+# 🛑 SESSION-25 FINAL CHECKPOINT v7 (2026-07-30) — FRESH SESSION SAFE HERE
+> Supersedes every earlier SESSION-25 block and SESSION-24 REVISED-3.
+
+**Nothing running.** Tree clean but for the R23 `db.*.gbf` churn + the pre-existing
+`.run/backlog.jsonl` edit. HEAD **`commit:1205`**. **R22 clean-fleet 140/140** (13x this session),
+dedup **1886/0**, **0 NON_MATCHING** (G4).
+**FLEET: 87.4% instr · 78.0% distinct · 91.96% fn-count** (opened 86.7 / 76.9 / 91.23).
+
+## SESSION TOTAL — **2,575 banked · +98,502 ins · +1,548 unique fns** (instr +0.7pp, distinct +1.1pp)
+T79 641 · T82 251 · T83 821 · T84 137 · T85 133 · T87 149 · T88 9 · T89 138 · T90 23 · T93 137 · T95 136.
+
+## 🏁 ALL THREE BYTE-IDENTICAL STRAGGLERS CLOSED (410 members)
+Carried since SESSION-24 as "diagnose the 3 remaining byte-identical families":
+`func_80146750` 137/137 (T84) · `func_801759D8` 137/137 (T93) · `func_80142B2C` 136/136 (T95).
+**Not one was a compiler wall** — a signedness-wrong header decl, a type-name collision, and a
+missing extern for a macro-defined callee.
+
+## THE BLAST-RADIUS PRIOR (four measured levers — use it to PRICE the next fix)
+| lever | members | kind |
+|---|---|---|
+| **§117** symbol-kind (sibling spelled from the exemplar's kind) | **1,209** | wrong LOGIC -> fleet-wide |
+| §118 ordinal immediates | 158 | targeted |
+| §120 type-uniquify | 137 | targeted (path-reachability) |
+| §121 macro-defined-callee extern | 136 | targeted (path-reachability) |
+**Only the logic defect generalised.** A "lever exists but this path can't reach it" fix is worth
+~one family; budget accordingly and measure rather than project.
+
+## ▶ START HERE NEXT SESSION (ranked, all measured)
+1. **`func_80151944` three-edit decl job — 138 members, the last big NAMED blocker.** §112 header
+   correction + a §20 call-site cast inside `DEFINE_func_80151924()`'s own body + a scripted §99
+   no-prototype pass over **2,022** overlay-local decls in 138 overlays. Param is `void *`, not
+   default-promotable, so the T75 narrow-param refusal does NOT apply.
+2. **The still-zero residue — ~74 families / ~800 members / ~200 distinct**, long-tailed. Every lever
+   built this phase has now been applied (§114/§115/§117/§118/§119 matrix/§120/§121) and the last
+   three blast sweeps returned **0**. Remaining skips: **34 immediate-refusals, 86 STRUCT**.
+   **Probe individually; expect a NEW cause each time (that has been true every time this phase).**
+3. **`-O0` cluster stays WALLED** — Arm-A splat `%lo` +0x20 shift. Not sweep yield.
+
+**Closed, do not re-open:** all 3 byte-identical stragglers · `func_801457A4` 133/133 ·
+`0x80174784` 251/251 · `func_801599A4` 137/137 · `0x80161c98` 138/138 · STRUCT residue (0.02pp) ·
+pre-§117 masked-MATCH backlog (8 eligible, 0) · the §119 flag matrix (all 4 corners run).
+
+## ⚠️ MY ERRORS THIS SESSION (recorded, not buried)
+- **§116 written with the wrong fix, tool built before testing** — build refuted it in 56s.
+- **Predicted `func_801599A4` would bank** from its correct header decl while `diff_class: IMM` sat in
+  a table I printed myself (the T76 shape, in the session where I cited T76).
+- **Promoted the backlog item as "126 entries"; it was 8** — raw count, no still-a-stub filter.
+- **Mis-attributed T84's 137 banks to `0x80161c98`; they were `func_80146750`** — committed wrong in
+  `commit:1193`, corrected in `commit:1198`.
+- **T92 recorded a WRONG recipe** ("strip-if-ambient") and a **phantom second blocker** — both
+  artifacts of my own bad fix; corrected in `commit:1204` (rename, don't remove).
+- **Patched the wrong one of THREE identical staging sites, twice** (`rindex`), then concluded from a
+  patch that never ran that the lever was ineffective. → §120's law: *prove the lever RAN — diff the
+  staged artifact — before concluding it does not work.*
+- **`new_distinct` over-projects ~2x** (priced 259, measured 125).
+- **The habit behind most of these: asserting the composition of a number, or the effect of a change,
+  that I did not derive.** Standing fix: derive attribution from `corpus.stubs` before/after, and diff
+  the artifact to prove an edit took effect.
+
+## ⚠️ CARRIED DEFECTS
+21-file absolute-include portability defect · **`docs/backlog.md` is not a work queue** (§83) ·
+roadmap re-baseline owed (39 type-1 modules in no phase) · `gate_stage` ladder destroys good drafts;
+bare gate has no snapshot/restore · `.run/autopsy/residuals.jsonl` stale (Jul 21) ·
+**`--fix-def-sig` is a REPAIR, not a default** (T84/§119).
+
+## 📓 NEW COOKBOOK ENTRIES THIS SESSION
+**§116** (opt level is a property of the FILE) · **§117** (spell the sibling's symbol from the
+sibling's address; a masked oracle will MATCH a wrong symbol) · **§118** (ordinal immediates; exclude
+compiler-synthesised uses) · **§119** (two levers on one axis, opposite directions — test the
+off-diagonal) · **§120** (uniquify draft TYPE names; and prove your patch ran) · **§121** (synthesise
+externs for macro-DEFINED callees from the macro's own definition head).
