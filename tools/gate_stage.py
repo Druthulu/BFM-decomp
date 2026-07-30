@@ -219,6 +219,33 @@ def _run_gate_locked(drafts, binary, src, asm, out, good_sha, propagate, source_
         print(f"[gate] WARNING: 0/{len(draft_fns)} drafts are INCLUDE_ASM stubs in {binary} — "
               f"binary/src mismatch (drafts for a different binary?); banking will be 0", file=sys.stderr)
 
+    # STAGE 0 — gate the RAW drafts before ANY transform touches them (P30 T0a). The SESSION-22
+    # reproduction of the carried "ladder destroys good drafts" defect: on one draft set the ladder
+    # FAILED func_8013B6A0 + func_8013B598 (_o0) and func_80138C60 (jr split) while bare
+    # harvest_verify VERIFIED all three, rtu_match confirming real-TU MATCHes — every casualty lives
+    # in a SPLIT TU while the plain-TU draft banked fine. Root-cause hypothesis (open): the
+    # transforms take ONE batch-wide --src-file while the gate derives each draft's home TU
+    # per-draft (Phase 26-A) — a mixed-TU batch gets its decls reconciled against the wrong TU.
+    # Stage 0 makes the failure mode impossible by construction regardless: a byte-correct draft
+    # banks before any transform can regress it, and the ladder becomes what it was always meant to
+    # be — RECOVERY for drafts that don't bank as written. Escape hatch: GATE_NO_STAGE0.
+    verified = []
+    remaining_fns = list(draft_fns)
+    d_stage1_in = drafts
+    if not os.environ.get("GATE_NO_STAGE0"):
+        verified = _gate1(binary, src, asm, out, good_sha, drafts, verified_out, failed_out)
+        remaining_fns = [f for f in draft_fns if f not in verified]
+        if remaining_fns and len(remaining_fns) != len(draft_fns):
+            # hand the ladder ONLY the stage-0 failures (an input set that silently widens or
+            # narrows is the R32 defect class — see _xform's own history)
+            d_stage1_in = drafts + "-s1in"
+            abs_s1 = os.path.join(REPO, d_stage1_in)
+            shutil.rmtree(abs_s1, ignore_errors=True); os.makedirs(abs_s1)
+            for f in remaining_fns:
+                p = os.path.join(REPO, drafts, f + ".c")
+                if os.path.exists(p):
+                    shutil.copy(p, os.path.join(abs_s1, f + ".c"))
+
     # Recovery is CANON-FIRST, sig_unify FALLBACK (§19/§25): sig_unify can REGRESS an already-byte-
     # correct draft (e.g. a hand-pinned crack — it rewrites the def-sig to a banked caller's wrong
     # canonical). So gate canon+cast FIRST (stage 1: already-correct drafts bank), then sig_unify
@@ -226,8 +253,8 @@ def _run_gate_locked(drafts, binary, src, asm, out, good_sha, propagate, source_
     # winners. --src-file makes cast/sig_unify read the SPLIT .c (_a/_o0) so those drafts aren't
     # dropped. Each transform is a no-op-safe draft rewrite; the byte-gate is the sole arbiter (G3/P9).
     cast_extra = (["--src-file", src_file] if src_file else None)
-    d1 = _xform("canon_resident_calls.py", binary, drafts, "-cn")
-    d1 = _xform("cast_call_sites.py", binary, d1, "-cast", extra=cast_extra)
+    d1 = _xform("canon_resident_calls.py", binary, d_stage1_in, "-cn") if remaining_fns else d_stage1_in
+    d1 = _xform("cast_call_sites.py", binary, d1, "-cast", extra=cast_extra) if remaining_fns else d1
     # data-symbol analog of cast_call_sites: rewrite each loose D_XXXX extern -> canonical + a
     # byte-neutral access cast (§33, T7b). No-op/idempotent without a data-decl conflict; the
     # byte-gate is still the sole arbiter.
@@ -244,7 +271,7 @@ def _run_gate_locked(drafts, binary, src, asm, out, good_sha, propagate, source_
     # which is why it SUPERSEDES reconcile_decls rather than patching it: teaching the old parser to
     # see `extern void (*D_x[])(void);` would ARM its fn-ptr-blind data_access_subs to rewrite a
     # call-through `D_x[i]()` into `((u8 *)D_x)[i]()`.
-    d1 = _xform("reconcile_tu.py", binary, d1, "-rc", extra=cast_extra)
+    d1 = _xform("reconcile_tu.py", binary, d1, "-rc", extra=cast_extra) if remaining_fns else d1
 
     # ARITY PRE-PASS (Phase-29 Task-14). The three transforms above all rewrite the DRAFT. The
     # dominant residual blocker does not live in the draft at all: an already-banked SHARED caller
@@ -285,17 +312,19 @@ def _run_gate_locked(drafts, binary, src, asm, out, good_sha, propagate, source_
     # mechanism, snapshots the full source set, and undoes per function.
 
     _arity_rc = None
-    _arity_snapshot = {}
-    if draft_fns and not os.environ.get("GATE_NO_ARITY"):
-        # snapshot every file the pre-pass may touch, so the undo is a restore, not a re-derivation
-        for _f in ([os.path.join(REPO, "src/shared/engine_core.h")]
-                   + glob.glob(os.path.join(REPO, f"src/{binary}/{binary}*.c"))):
-            try:
-                _arity_snapshot[_f] = open(_f).read()
-            except OSError:
-                pass
-        _arity = [PY, "tools/fix_arity_callers.py", "--apply", "--funcs", ",".join(draft_fns),
-                  "--drafts", d1, "--binary", binary, "--any-proto"]
+    _arity_journal = f".run/arity_journal.{os.getpid()}.json"
+    if remaining_fns and not os.environ.get("GATE_NO_ARITY"):
+        # P30 T0a: the whole-file snapshot is replaced by fix_arity_callers' own per-decl JOURNAL
+        # (--journal / --undo-journal). The snapshot needed two measured special cases — restore
+        # ONLY src/shared/ on a partial bank (a full restore reverted 4 fresh banks, Phase-29
+        # non-jtbl wave) and restore EVERYTHING on a zero-bank run (§61: "neutral" is not "wanted",
+        # ~40 TUs of dead diff otherwise) — because a file-level restore cannot distinguish the
+        # pre-pass's edits from the gate's own splices. A per-decl undo can: it round-trips each
+        # journaled substitution's literal text, keeps the banked set, and reports (never skips) a
+        # decl someone else edited since (R32). One mechanism, shared with every BARE-gate workflow
+        # (the other half of the carried defect: arity residue in 17 unrelated TUs, SESSION-22).
+        _arity = [PY, "tools/fix_arity_callers.py", "--apply", "--funcs", ",".join(remaining_fns),
+                  "--drafts", d1, "--binary", binary, "--any-proto", "--journal", _arity_journal]
         try:
             _r = sh(_arity, timeout=600)
             _arity_rc = _r.returncode
@@ -305,57 +334,12 @@ def _run_gate_locked(drafts, binary, src, asm, out, good_sha, propagate, source_
         except Exception as e:                               # never let the pre-pass sink the gate
             print(f"[gate] arity pre-pass skipped: {e}", file=sys.stderr)
 
-    verified = _gate1(binary, src, asm, out, good_sha, d1, verified_out, failed_out)
-
-    # UNDO for the drafts that did NOT bank — by SNAPSHOT RESTORE, never by `--revert`.
-    #
-    # `--revert` rewrites `()` -> `(void)`. That is the exact inverse of a PLAIN apply (which only
-    # relaxes `(void)`), but NOT of `--any-proto`, which relaxes ANY prototype. Round-tripping an
-    # unbanked function whose real decl was `extern void func_801708B0(void *a0);` therefore wrote
-    # back `(void)` — a DIFFERENT signature, in a header all 138 overlays include.
-    #
-    # Byte-cost, measured 2026-07-21: ov_SC01_077 gated byte-identical and 138 of 140 binaries then
-    # FAILED check-all. The single-binary gate cannot see this, because the edit is fleet-wide and
-    # the gate verifies one binary — so a lossy undo here is invisible until the full R22 sweep.
-    # Restoring the pre-pass snapshot and re-applying ONLY for the functions that banked is exact by
-    # construction and cannot invent a signature.
-    _unbanked = [f for f in draft_fns if f not in verified]
-
-    if _unbanked and _arity_snapshot:
-        try:
-            # RESTORE ONLY src/shared/ (the fleet-shared header). The snapshot also captured
-            # src/<binary>/*.c, but _gate1 SPLICES each banked draft into those files AFTER the
-            # snapshot was taken — so restoring them REVERTS the banks that just landed (and the
-            # re-apply below only re-does arity, not the splice). Bug measured 2026-07-22 (Phase-29
-            # non-jtbl wave): a 9-draft run banked 4, and the 5 unbanked triggered this restore,
-            # silently reverting all 4 back to INCLUDE_ASM. The fleet hazard the snapshot exists for
-            # (a fix_arity edit lingering in engine_core.h for an unbanked fn, all 138 overlays) is
-            # entirely in src/shared/; the binary's own TU arity edits are LOCAL + byte-neutral, so
-            # leaving an unbanked fn's `(void)->()` there is harmless. (R33 — narrow the undo to its
-            # real write scope; §61's law that undo scope must not EXCEED write scope, from below.)
-            #
-            # ZERO-BANK CASE (Phase 29 SESSION-21): when NOTHING banked, the splice hazard above
-            # does not exist — there are no banks in src/<binary>/*.c to preserve — so restore the
-            # binary's own TUs as well. Byte-neutrality is why the old code left them, and that was
-            # the wrong test: a 0-bank run was leaving ~40 TUs of dead diff in the tree, which a
-            # `git add -A` commits as pure noise (measured SESSION-20 alongside the identical
-            # `--normalize-self-decls` defect, 123 files). §61's undo law applied to the SUCCESS
-            # path: "neutral" is not "wanted" — an edit that bought nothing gets reverted.
-            _zero_bank = not verified
-            for _f, _txt in _arity_snapshot.items():
-                if not _zero_bank and os.sep + "shared" + os.sep not in _f:
-                    continue
-                with open(_f, "w") as _fh:
-                    _fh.write(_txt)
-            if verified:
-                sh([PY, "tools/fix_arity_callers.py", "--apply", "--funcs", ",".join(verified),
-                    "--drafts", d1, "--binary", binary, "--any-proto"], timeout=600)
-        except Exception as e:
-            print(f"[gate] arity snapshot-restore failed: {e}", file=sys.stderr)
+    if remaining_fns:
+        verified += _gate1(binary, src, asm, out, good_sha, d1, verified_out, failed_out)
 
     d = d1
     fails1 = [f for f in draft_fns if f not in verified]
-    if fails1:                                       # stage 2: sig_unify the stage-1 failures, re-gate
+    if fails1 and remaining_fns:                     # stage 2: sig_unify the stage-1 failures, re-gate
         s2in = drafts + "-s2in"
         abs_s2in = os.path.join(REPO, s2in)
         shutil.rmtree(abs_s2in, ignore_errors=True); os.makedirs(abs_s2in)
@@ -365,6 +349,25 @@ def _run_gate_locked(drafts, binary, src, asm, out, good_sha, propagate, source_
                 shutil.copy(p, os.path.join(abs_s2in, f + ".c"))
         d = _xform("sig_unify.py", binary, s2in, "-uni", extra=cast_extra)
         verified += _gate1(binary, src, asm, out, good_sha, d, verified_out, failed_out)
+
+    # UNDO the arity edits for everything that did NOT bank — per-decl journal restore, keeping the
+    # banked set. Never `--revert`: it inverts a PLAIN apply but not `--any-proto`, and once
+    # round-tripped an unbanked fn's real signature into an invented `(void)` in the fleet-shared
+    # header — 138 of 140 binaries failed check-all (measured 2026-07-21; invisible to the
+    # single-binary gate, caught only by the full R22 sweep). Running AFTER stage 2 (not between the
+    # stages, where the old snapshot-restore ran) also closes a latent parity gap: a stage-2 bank
+    # that needed its arity edit used to have it reverted before its own gate attempt.
+    # (_arity_rc is not None) ⇔ the pre-pass ran THIS invocation — a stale same-pid journal from a
+    # crashed earlier run must not be replayed against today's tree.
+    if _arity_rc is not None and os.path.exists(os.path.join(REPO, _arity_journal)):
+        try:
+            _u = sh([PY, "tools/fix_arity_callers.py", "--undo-journal", _arity_journal]
+                    + (["--keep", ",".join(verified)] if verified else []), timeout=300)
+            if _u.returncode != 0:
+                print(f"[gate] arity undo-journal reported missing decls rc={_u.returncode}: "
+                      f"{(_u.stderr or _u.stdout).strip()[:300]}", file=sys.stderr)
+        except Exception as e:
+            print(f"[gate] arity undo-journal failed: {e}", file=sys.stderr)
 
     # 5 propagate the banked matches fleet-wide
     propagated = 0

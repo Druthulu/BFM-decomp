@@ -8073,3 +8073,35 @@ Note this is the complement of `header_sig_map()`, which reads the `extern` decl
 its own callees*. Two different macro-derived signature sources; a symbol in neither is a real gap.
 
 **Blast radius: 0** beyond this family — like §118 and §120, and unlike §117, a **targeted** lever.
+
+## §122 — GATE RAW BEFORE TRANSFORMING; the undo belongs to the WRITER, as a per-edit journal (P30 T0a, 2026-07-30)
+
+**The defect pair this closes** (carried from SESSION-22, reproducible): (1) the `gate_stage` ladder
+FAILED drafts that bare `harvest_verify` VERIFIED — `func_8013B6A0`/`func_8013B598` (`_o0`) and
+`func_80138C60` (jr split), `rtu_match` confirming real-TU MATCHes. Every casualty lives in a
+**split TU**; the plain-TU draft banked through the same run. Root-cause hypothesis (still open, now
+harmless): the transforms take ONE batch-wide `--src-file` while the gate derives each draft's home
+TU per-draft (Phase 26-A) — a mixed-TU batch gets decls reconciled against the wrong TU.
+(2) A bare-gate workflow left `fix_arity_callers --any-proto` residue in **17 unrelated TUs** — the
+ladder's snapshot/undo existed only inside the ladder.
+
+**Law 1 — stage 0: gate the RAW drafts before ANY transform.** A recovery ladder's transforms are
+for drafts that FAIL as written; running them on everything lets a "recovery" regress a byte-correct
+draft, and the gate then reports the regression as the draft's failure. With stage 0, the
+destroyed-good-draft mode is impossible *by construction* — no root-cause required first (the
+right sequencing under R35: neutralize, then diagnose). `GATE_NO_STAGE0` restores the old order.
+
+**Law 2 — undo is the WRITER'S job, recorded per edit, not the orchestrator's file snapshot.**
+The snapshot needed two measured special cases (restore-shared-only on a partial bank because a full
+restore reverts fresh splices, Task-14; restore-everything on a zero-bank run, §61) because a
+file-level restore cannot tell the pre-pass's edits from the gate's splices. A per-edit journal
+(`fix_arity_callers --journal` / `--undo-journal --keep <banked>`) round-trips each substitution's
+literal text: exact by construction, immune to interleaved splices, uniform for shared+local files,
+and available to EVERY workflow — ladder or bare. A decl someone else edited since is reported
+MISSING loudly (R32), never silently skipped. Negative-control-proven: apply→undo → byte-identical
+tree; `--keep` retains exactly the banked set. Bonus closed: the undo now runs AFTER stage 2, so a
+stage-2 bank no longer loses its arity edit before its own gate attempt (the old latent parity gap).
+
+**Generalizes to:** any pipeline where deterministic "fixers" precede a truth gate — the gate goes
+first on untouched input, fixers touch only failures, and every shared-state fixer journals its own
+writes. (Same family as §19/§25 canon-first and the §61 undo law; this entry is their composition.)
