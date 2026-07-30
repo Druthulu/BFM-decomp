@@ -3606,7 +3606,7 @@ INCLUDE_ASM("asm/ov_SC02_031/nonmatchings/ov_SC02_031_jr_8017AE2C", func_8017F53
 INCLUDE_ASM("asm/ov_SC02_031/nonmatchings/ov_SC02_031_jr_8017AE2C", func_8017F590);
 
 #include "common.h"
-#include "/home/musashi/bfm-decomp/src/shared/engine_types.h"
+#include "../shared/engine_types.h"
 
 #define gte_ldv0(r0) __asm__ volatile (          \
     "lwc2 $0, 0( %0 );"                          \

@@ -3699,7 +3699,7 @@ void func_80180E88(s32 param_1) {
 
 
 #include "common.h"
-#include "/home/musashi/bfm-decomp/src/shared/engine_types.h"
+#include "../shared/engine_types.h"
 
 
 

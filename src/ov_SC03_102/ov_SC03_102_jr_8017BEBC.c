@@ -3172,7 +3172,7 @@ void func_8017BEBC(s32 arg0)
 
 
 #include "common.h"
-#include "/home/musashi/bfm-decomp/src/shared/engine_types.h"
+#include "../shared/engine_types.h"
 
 /* ===========================================================================
  * func_8017D960 -- 3,338 ins, ov_SC03_090 (behemoth #2).   *** MATCHED ***

@@ -3426,7 +3426,7 @@ INCLUDE_ASM("asm/ov_SC06_008/nonmatchings/ov_SC06_008_jr_8017C294", func_8017E69
 INCLUDE_ASM("asm/ov_SC06_008/nonmatchings/ov_SC06_008_jr_8017C294", func_8017E6F0);
 
 #include "common.h"
-#include "/home/musashi/bfm-decomp/src/shared/engine_types.h"
+#include "../shared/engine_types.h"
 
 
 
@@ -4530,7 +4530,7 @@ void func_801843B8(s32 param_1) {
 
 
 #include "common.h"
-#include "/home/musashi/bfm-decomp/src/shared/engine_types.h"
+#include "../shared/engine_types.h"
 
 
 

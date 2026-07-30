@@ -3642,7 +3642,7 @@ extern void func_8017F510(s32 arg0, s32 arg1, s32 arg2);
 
 
 #include "common.h"
-#include "/home/musashi/bfm-decomp/src/shared/engine_types.h"
+#include "../shared/engine_types.h"
 
 /* ===========================================================================
  * func_8017F510 -- 1,511 ins, ov_SC03_006 (behemoth #3).  ***MATCH***

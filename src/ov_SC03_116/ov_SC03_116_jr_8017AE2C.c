@@ -3324,7 +3324,7 @@ DEFINE_func_8017BEB4()  /* dedup: shared engine-core @0x8017BEB4 (src/shared) */
 INCLUDE_ASM("asm/ov_SC03_116/nonmatchings/ov_SC03_116_jr_8017AE2C", func_8017BEBC);
 
 #include "common.h"
-#include "/home/musashi/bfm-decomp/src/shared/engine_types.h"
+#include "../shared/engine_types.h"
 
 /* ===========================================================================
  * func_8017BF14 -- 4,763 ins, ov_SC03_116 (behemoth #4).   *** MATCH ***

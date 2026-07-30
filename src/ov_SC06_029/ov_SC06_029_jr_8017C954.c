@@ -2679,7 +2679,7 @@ extern void func_8017C8D0(void);
 /* ==== end §8b carried decl layer ==== */
 
 #include "common.h"
-#include "/home/musashi/bfm-decomp/src/shared/engine_types.h"
+#include "../shared/engine_types.h"
 
 /* ===========================================================================
  * func_8017C954 -- 1,194 ins, ov_SC06_029 (behemoth #5).   *** MATCH ***
@@ -4383,7 +4383,7 @@ void func_8018B8F8(s32 param_1) {
 
 
 #include "common.h"
-#include "/home/musashi/bfm-decomp/src/shared/engine_types.h"
+#include "../shared/engine_types.h"
 
 
 

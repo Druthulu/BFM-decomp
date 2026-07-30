@@ -3517,7 +3517,7 @@ void func_8017DD68(s32 param_1) {
 
 
 #include "common.h"
-#include "/home/musashi/bfm-decomp/src/shared/engine_types.h"
+#include "../shared/engine_types.h"
 
 
 

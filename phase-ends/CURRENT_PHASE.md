@@ -83,6 +83,13 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 
 ## Per-task log
 
+### T0(e) — part 1 ✅: the 21-file absolute-include defect fixed (2026-07-30)
+All 21 carriers were jr-carve split files including `engine_types.h` by absolute path
+(`/home/musashi/bfm-decomp/...`, some twice); swapped to the house-relative
+`#include "../shared/engine_types.h"`. `grep -rln /home/musashi src/ include/` → **0**.
+**R22 clean-fleet from a genuinely clean tree: 140 passed, 0 failed of 140.** Part 2 (autopsy
+refresh) next.
+
 ### T0(d) ✅ — backlog ledger: already clean; the scanner deleted (R33) (2026-07-30)
 Findings, byte-verified: (1) the still-a-stub filter **already existed** (`load_best` drop +
 `prune`, built 07-24) and the tracked jsonl was **already compacted** — the tree's pre-existing
