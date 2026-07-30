@@ -83,6 +83,19 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 
 ## Per-task log
 
+### T0(d) ✅ — backlog ledger: already clean; the scanner deleted (R33) (2026-07-30)
+Findings, byte-verified: (1) the still-a-stub filter **already existed** (`load_best` drop +
+`prune`, built 07-24) and the tracked jsonl was **already compacted** — the tree's pre-existing
+uncommitted `.run/backlog.jsonl` edit was late-S25's un-committed prune output; `prune` today:
+1350 → 1350, dropped 0. (2) The stale rows I'd flagged (`func_80151944` etc.) live in **worklist.md**
+(regen at T0(f)), not backlog. (3) `_open_stubs` (private regex) vs `corpus.stubs` (the oracle):
+**0 divergence across all 131 ledger binaries** — after fixing MY probe, which compared names
+against int vram addrs (R35 pointed at my own instrument). Hardening: `_open_stubs` now **derives
+from corpus.stubs** (STUB_RE deleted — R33's "best outcome is a deleted scanner"); hex-case
+canonicalized on both sides of the membership test (a lower-hex record can't silently drop, R32);
+count parity proven post-change (load_best 1350 == 1350). §83's doctrinal caveat (backlog ≠ work
+queue; worklist is the queue) STANDS — that's classification quality, not staleness.
+
 ### T0(c) ✅ — family_hseq↔progress gap: ZERO definitional gap; stamped against recurrence (2026-07-30)
 Same-tree regeneration of BOTH digests: family_hseq (overlays) **27,248 instances** == progress fleet
 stubs 28,296 − main 1,034 − resident 14 = **27,248 — EXACT**. The carried "29,961 vs 28,296" was a

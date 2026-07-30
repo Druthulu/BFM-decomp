@@ -35,7 +35,7 @@ JSONL = os.path.join(REPO, ".run/backlog.jsonl")
 MD = os.path.join(REPO, "docs/backlog.md")
 DRAFTS = os.path.join(REPO, ".run/backlog_drafts")
 SRC_GLOB = os.path.join(REPO, "src/ov_SC01_077/ov_SC01_077*.c")
-STUB_RE = re.compile(r"INCLUDE_ASM\([^,]+,\s*(\w+)\)")
+# (STUB_RE deleted P30 T0d — _open_stubs derives from corpus.stubs; R33: no parallel scanner)
 FIELDS = ("ts", "addr", "name", "reach", "klass", "nins", "status",
           "closeness", "where_stuck", "best_draft", "binary", "source",
           # Phase-29 Task-12: structured failure telemetry for the permuter-autopsy loop.
@@ -115,12 +115,16 @@ _STUB_CACHE = {}
 def _open_stubs(binary):
     """INCLUDE_ASM stub names still OPEN in <binary>'s source (main + any _a/_o0 split). Fleet-aware:
     a fn matched in ov_SC01_077 but propagation-stuck stays OPEN in the other overlays (the Phase-19/20
-    cap), so the grinder must judge open-ness against the record's OWN binary, not just 077."""
+    cap), so the grinder must judge open-ness against the record's OWN binary, not just 077.
+
+    P30 T0d (R33 — delete the scanner): DERIVED from corpus.stubs, the audited oracle, instead of a
+    private STUB_RE re-scan of the same files. The two implementations were byte-verified in exact
+    agreement across all 131 ledger binaries on 2026-07-30 (normalized: corpus returns int vram
+    addrs -> func_%08X); one implementation cannot drift from itself."""
     if binary not in _STUB_CACHE:
-        s = set()
-        for p in glob.glob(os.path.join(REPO, f"src/{binary}/{binary}*.c")):
-            s |= set(STUB_RE.findall(open(p).read()))
-        _STUB_CACHE[binary] = s
+        import corpus
+        _STUB_CACHE[binary] = {("func_%08X" % x) if isinstance(x, int) else str(x)
+                               for x in corpus.stubs(binary)}
     return _STUB_CACHE[binary]
 
 
@@ -140,7 +144,9 @@ def load_best():
         r = json.loads(line)
         nm = r.get("name")
         binary = r.get("binary") or "ov_SC01_077"
-        if nm and nm not in _open_stubs(binary):   # banked in ITS binary since logged -> drop (P9)
+        # banked in ITS binary since logged -> drop (P9). Hex-case-canonical on BOTH sides (T0d):
+        # corpus-derived names are upper-hex; a lower-hex record name must not silently drop (R32).
+        if nm and nm.upper().replace("FUNC_", "func_") not in _open_stubs(binary):
             continue
         # Key on the DERIVED address (addr_of), never on `addr or name`: 93% of rows carry only
         # `name`, so the old key split one function into TWO "best" records whenever it had been
