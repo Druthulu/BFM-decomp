@@ -10151,3 +10151,36 @@ bare gate has no snapshot/restore · `.run/autopsy/residuals.jsonl` stale (Jul 2
 sibling's address; a masked oracle will MATCH a wrong symbol) · **§118** (ordinal immediates) ·
 **§119** (two levers on one axis, opposite directions — test the off-diagonal) · **§120** (uniquify
 draft TYPE names; prove your patch ran) · **§121** (synthesise externs for macro-DEFINED callees).
+
+## 📌 T98 — the residue, characterised: it splits cleanly and neither half is cheap
+
+Re-ranked after T97. **80 families / 960 members / 173 new distinct** — and the top family is worth
+**20**. The long tail is now the whole tail.
+
+Probed the top one (`0x8017d840`, 21 members, 20 distinct): it stages **0 drafts** —
+`skipped {'member class STRUCT': 21}`. Every member is register-drift class, which `remap_hseq`
+refuses **for a real structural reason**, not a harness gap. That is the first still-zero family this
+session whose blocker is *not* our tooling.
+
+**The split, measured:**
+| | families | members | note |
+|---|---|---|---|
+| **all-STRUCT** | **29** | 86 | refused at remap — register drift; genuinely not templatable |
+| **no-STRUCT** | **51** | 874 | stage fine, fail the whole-binary gate — each needs its own probe |
+| some-STRUCT | 0 | 0 | (the split is clean — no mixed families) |
+
+### THE HONEST ROI READ
+- The 29 all-STRUCT families are **86 members** and are refused by design. Cracking them means
+  per-member drafting, not templating — the expensive path, for ~3% of the residue's members.
+- The 51 remaining families are **874 members / ~150 distinct**, but the last **three** blast sweeps
+  over them returned **0**, and every lever this phase built has been applied. So they are ~51
+  independent diagnoses at roughly **3 distinct each**.
+- For scale: **2,713 members banked today**. The residue is **173 distinct** total.
+
+**The mechanical family engine is spent.** Not "slowing" — the four levers built today each returned
+0 on this population, and the top family is refused for a structural reason. This is the ROI
+conversation SESSION-24 deferred, and the data now supports having it (Drew's gate-2 call).
+
+### GATES
+No banks -> nothing to verify. Tree clean (staging reverted; `src/` untouched).
+Fleet unchanged from T97: **87.5% instr · 78.0% distinct · 92.00% fn-count**.
