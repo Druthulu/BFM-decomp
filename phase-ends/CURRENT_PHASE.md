@@ -84,6 +84,18 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 
 ## Per-task log
 
+### T2 ▶ driver generalized; ×1 probe REFUTED the append route for the remaining cluster (2026-07-30)
+`tools/rollout_o0.py` (generalizes T85's `rollout_801457a4_o0.py`): map-derived members
+(cross-address-safe), stub located in any non-`_o0` split, jr+o0 composites routed out loudly,
+atomic two-file + per-binary SHA gate + restore-both. **×1 probe (`0x8013b6a0`@ov_SC01_000):
+gate-reject — and the diagnosis corrects the frontier report (R14 on my own doc):** T85's family
+banked by APPEND because `0x801457A4` abuts the o0b object's END; the remaining 18 families
+(`0x8013Bxxx–0x8013Cxxx`, below the whale) mis-place on append by construction, and per-fn
+isolation IS the Arm-A re-carve. o0b-*bearing* ≠ o0b-*adjacent* — my "the wall never has to fall"
+inference was wrong; caught at 1 build instead of 2,131. **T2's real substance = the Arm-A `+0x20`
+defect.** First probe: identify WHICH symbol shifts on a failing overlay's re-carve; hypothesis:
+splat re-GUESSES a data-symbol boundary the carve moves → pin it in config symbols and re-probe.
+
 ### T0.5 ▶ launched + probed (2026-07-30)
 `tools/prefetch_fleet.py` (committed `commit:1220`): 126 programs / 7,966 uncached representatives.
 **Probe 1 (main):** +1,525/2,002 cached in <1 min — the decompile leg is CHEAP; **477 main addrs
