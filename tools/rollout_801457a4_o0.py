@@ -1,74 +1,131 @@
 #!/usr/bin/env python3
-"""Move func_801457A4's INCLUDE_ASM stub from <ov>_after.c (-O2) into <ov>_o0b.c (-O0).
+"""Bank func_801457A4 across the fleet by moving its DEFINITION into <ov>_o0b.c (the -O0 object).
 
 §116: `func_801457A4` is an -O0 function. In ov_SC01_077 its definition lives in
 ov_SC01_077_o0b.c, which the Makefile's WHALE_O0B_OBJS wildcard compiles -O0. In every other
 overlay the same function's stub sits in <ov>_after.c, which is -O2 — so `family_sweep --hseq`
 templated the -O0-matched body into an -O2 TU and the byte-gate correctly rejected all 137.
 
-The whale object's .text spans 0x80144B9C..0x801457A4, i.e. it ENDS exactly where this function
-begins, so appending the function to that object places it at the same vram. The move is therefore
-byte-neutral by construction and needs NO splat change — deliberately avoiding the Phase-29 Arm-A
-re-carve wall (+0x20 data-symbol shift on 3 of 4 sampled overlays).
+WHY THIS TOOL EXISTS AND family_sweep CANNOT DO IT (Phase 29 T80, the refuted shortcut):
+the obvious move is to relocate the member's `INCLUDE_ASM(...)` line into <ov>_o0b.c and let the
+existing sweep stage there. That is NOT byte-neutral — it is unbuildable. splat emits
+`asm/<ov>/nonmatchings/<seg>/<fn>.s` for EXACTLY the functions the segment's own .c marks with
+INCLUDE_ASM (measured: 12 lines <-> 12 .s files, identical sets). Delete the line from
+<ov>_after.c and the .s stops being generated, so the relocated reference cannot assemble.
+`asm/` follows the SEGMENT; object membership follows the .c FILE.
 
-Byte-neutrality is not assumed: run R22 clean-fleet (140/140) on the move ALONE before sweeping.
+So the substitution has to be ATOMIC ACROSS TWO FILES — append the remapped body to <ov>_o0b.c
+AND drop the INCLUDE_ASM from <ov>_after.c in one edit — which `harvest_verify`/`family_sweep`
+do not do (they substitute a draft for a stub *in the stub's own file*). Hence this driver.
+Deliberately no splat change: a re-carve is the Phase-29 Arm-A wall (+0x20 data-symbol shift on
+3 of 4 sampled overlays).
 
-  tools/rollout_801457a4_o0.py [--apply]     # default is a dry run
+The whole-binary byte-gate stays the sole arbiter (G3/P9): per overlay, build and compare against
+config/check.<ov>.sha; on any mismatch BOTH files are restored from their snapshots.
+
+  tools/rollout_801457a4_o0.py [--apply] [--limit N] [--jobs N]
 
 Out of scope: ov_SC07_{006,007,010,011} have no _o0b.c (onboarded in Phase 27, never whale-carved).
 """
 import argparse
+import concurrent.futures as futures
 import glob
+import hashlib
 import os
 import re
+import subprocess
 import sys
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-FN = "func_801457A4"
-STUB_RE = re.compile(rf'^INCLUDE_ASM\("([^"]+)",\s*{FN}\);\s*$')
+sys.path.insert(0, os.path.join(REPO, "tools"))
+import family_remap as FR  # noqa: E402
 
-NOTE = (f"/* {FN} (@0x801457A4) is an -O0 function; its stub was moved to {{o0b}} (the -O0 whale\n"
-        f" * object, whose .text ends exactly at this address) so it compiles at -O0. See there.\n"
-        f" * Placement mirrors ov_SC01_077; byte-neutral (same vram). Cookbook §116. */")
+FN = "func_801457A4"
+ADDR = 0x801457A4
+EX_OV = "ov_SC01_077"
+STUB_RE = re.compile(rf'^INCLUDE_ASM\("([^"]+)",\s*{FN}\);\s*$', re.M)
+
+NOTE = (f"/* {FN} (@0x{ADDR:08X}) is an -O0 function; its definition lives in {{o0b}} (the -O0\n"
+        f" * whale object, whose .text ends exactly at this address). Mirrors ov_SC01_077. §116 */")
+
+
+def sha1(p):
+    h = hashlib.sha1()
+    with open(p, "rb") as fh:
+        for b in iter(lambda: fh.read(1 << 20), b""):
+            h.update(b)
+    return h.hexdigest()
+
+
+def good_sha(ov):
+    return open(os.path.join(REPO, f"config/check.{ov}.sha")).read().split()[0]
+
+
+def build_ok(ov):
+    r = subprocess.run(["make", "build", f"BINARY={ov}"], cwd=REPO,
+                       stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    out = os.path.join(REPO, f"build/{ov}/{ov}")
+    return r.returncode == 0 and os.path.exists(out) and sha1(out) == good_sha(ov)
+
+
+def candidates():
+    out = []
+    for after in sorted(glob.glob(os.path.join(REPO, "src/ov_*/ov_*_after.c"))):
+        ov = os.path.basename(os.path.dirname(after))
+        o0b = os.path.join(REPO, f"src/{ov}/{ov}_o0b.c")
+        if not os.path.exists(o0b):
+            continue                                   # never whale-carved (the 4 SC07 tail overlays)
+        if not STUB_RE.search(open(after).read()):
+            continue                                   # already banked, or no stub here
+        out.append((ov, after, o0b))
+    return out
+
+
+def attempt(ov, after, o0b, apply):
+    draft, info = FR.remap_hseq(ADDR, EX_OV, ov, ADDR)
+    if draft is None:
+        return ov, "remap-refused", str(info)[:60]
+    a_txt, b_txt = open(after).read(), open(o0b).read()
+    m = STUB_RE.search(a_txt)
+    new_after = a_txt[:m.start()] + NOTE.format(o0b=os.path.basename(o0b)) + a_txt[m.end():]
+    new_o0b = b_txt.rstrip("\n") + "\n\n" + draft.rstrip("\n") + "\n"
+    if not apply:
+        return ov, "would-try", ""
+    open(after, "w").write(new_after)
+    open(o0b, "w").write(new_o0b)
+    if build_ok(ov):
+        return ov, "BANKED", ""
+    open(after, "w").write(a_txt)                       # restore BOTH, always (§61)
+    open(o0b, "w").write(b_txt)
+    return ov, "gate-reject", ""
 
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--apply", action="store_true", help="write the changes (default: dry run)")
+    ap.add_argument("--apply", action="store_true", help="write + gate (default: dry run)")
+    ap.add_argument("--limit", type=int, default=0)
+    ap.add_argument("--jobs", type=int, default=1, help="overlays gated in parallel (distinct binaries)")
     a = ap.parse_args()
 
-    moved, skipped = [], []
-    for after in sorted(glob.glob(os.path.join(REPO, "src/ov_*/ov_*_after.c"))):
-        ov = os.path.basename(os.path.dirname(after))
-        o0b = os.path.join(REPO, f"src/{ov}/{ov}_o0b.c")
-        text = open(after).read()
-        lines = text.split("\n")
-        hit = [i for i, ln in enumerate(lines) if STUB_RE.match(ln)]
-        if not hit:
-            continue
-        if not os.path.exists(o0b):
-            skipped.append((ov, "no _o0b.c (never whale-carved)"))
-            continue
-        if len(hit) != 1:
-            skipped.append((ov, f"{len(hit)} stub lines, expected 1"))
-            continue
-        i = hit[0]
-        stub = lines[i]
-        lines[i] = NOTE.format(o0b=os.path.basename(o0b))
-        body = open(o0b).read()
-        if FN in body:
-            skipped.append((ov, "_o0b.c already mentions the function"))
-            continue
-        if a.apply:
-            open(after, "w").write("\n".join(lines))
-            open(o0b, "w").write(body.rstrip("\n") + "\n\n" + stub + "\n")
-        moved.append(ov)
+    cands = candidates()
+    if a.limit:
+        cands = cands[:a.limit]
+    print(f"in scope: {len(cands)} overlays", flush=True)
 
-    print(f"{'MOVED' if a.apply else 'WOULD MOVE'}: {len(moved)} overlays")
-    for ov, why in skipped:
-        print(f"  SKIP {ov}: {why}")
-    if not a.apply:
-        print("\n(dry run — pass --apply, then R22 clean-fleet BEFORE sweeping)")
+    res = []
+    if a.jobs > 1 and a.apply:
+        with futures.ThreadPoolExecutor(max_workers=a.jobs) as ex:
+            for r in ex.map(lambda c: attempt(*c, a.apply), cands):
+                res.append(r)
+                print(f"  {r[0]}: {r[1]} {r[2]}", flush=True)
+    else:
+        for c in cands:
+            r = attempt(*c, a.apply)
+            res.append(r)
+            print(f"  {r[0]}: {r[1]} {r[2]}", flush=True)
+
+    from collections import Counter
+    print(Counter(r[1] for r in res))
     return 0
 
 

@@ -2,8 +2,8 @@
 #include "../shared/engine_core.h"
 
 
-INCLUDE_ASM("asm/ov_SC03_104/nonmatchings/ov_SC03_104_after", func_801457A4);
-
+/* func_801457A4 (@0x801457A4) is an -O0 function; its definition lives in ov_SC03_104_o0b.c (the -O0
+ * whale object, whose .text ends exactly at this address). Mirrors ov_SC01_077. §116 */
 DEFINE_func_801458E0()  /* dedup: shared engine-core @0x801458E0 (src/shared) */
 
 DEFINE_func_801458E8()  /* dedup: shared engine-core @0x801458E8 (src/shared) */
@@ -326,10 +326,13 @@ DEFINE_func_80146128()  /* dedup: shared engine-core @0x80146128 (src/shared) */
 // @stuck: none — MATCH (fnptr-table idiom: D_8018C7B0[u8 idx](&arg))
 extern void (*D_8018C7B0[])(void *);
 extern u8 D_80126BA4;
-extern s32 D_80126B58;
 
 void func_80146360(void)
 {
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern s32 D_80126B58;
     D_8018C7B0[D_80126BA4](&D_80126B58);
 }
 
@@ -349,10 +352,13 @@ extern short func_801508F8(s32 a0);
 extern void func_8014B5B0(s32 *a0);
 extern void func_80161D88(s32 a0);
 
-extern s32 D_80126B58;
 
 void func_801463A0(void)
 {
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern s32 D_80126B58;
 
     extern s32 *D_80126B78;
     extern u16 D_80126B5E;
@@ -422,7 +428,44 @@ DEFINE_func_801466B4()  /* dedup: shared engine-core @0x801466B4 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC03_104/nonmatchings/ov_SC03_104_after", func_801466F0);
 
-INCLUDE_ASM("asm/ov_SC03_104/nonmatchings/ov_SC03_104_after", func_80146750);
+
+
+u16 *func_80146750(u16 *param_1) {
+
+    extern u16 D_8011FD10;
+    extern int D_8011FA1C;
+    extern u16 D_8011F9D6;
+    extern u16 D_8011F9DA;
+    extern u16 D_8011F9DE;
+    extern int D_8011FA20;
+    extern int D_8011FA24;
+    s32 iVar1;
+    s32 iVar2;
+    u16 *psVar3;
+    register u16 *psVar4 __asm__("$7"); /* $a3: pin so &sym loads here, copy -> psVar3($v1) */
+
+    iVar2 = 8;
+    psVar4 = &D_8011FD10;
+    psVar3 = psVar4;
+    iVar1 = 0x340;
+    for (; iVar2 < 0x14; iVar2++) {
+        if (*psVar3 == 0) {
+            *(u32 *)((char *)&(*(u32 *)&D_8011FA1C) + iVar1) = *(u32 *)((char *)param_1 + 8);
+            *psVar3 = *param_1;
+            *(u16 *)((char *)&D_8011F9D6 + iVar1) = param_1[1];
+            *(u16 *)((char *)&D_8011F9DA + iVar1) = param_1[2];
+            *(u16 *)((char *)&D_8011F9DE + iVar1) = param_1[3];
+            *(u32 *)((char *)&(*(u32 *)&D_8011FA20) + iVar1) = *(u32 *)((char *)param_1 + 0xC);
+            *(u32 *)((char *)&(*(u32 *)&D_8011FA24) + iVar1) = *(u32 *)((char *)param_1 + 0x10);
+            return psVar4;
+        }
+        psVar4 = psVar4 + 0x34;
+        psVar3 = psVar3 + 0x34;
+        iVar1 = iVar1 + 0x68;
+    }
+    return (u16 *)0x0;
+}
+
 
 DEFINE_func_8014680C()  /* dedup: shared engine-core @0x8014680C (src/shared) */
 

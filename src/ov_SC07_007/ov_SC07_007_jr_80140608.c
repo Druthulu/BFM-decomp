@@ -3001,7 +3001,44 @@ DEFINE_func_801466B4()  /* dedup: shared engine-core @0x801466b4 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC07_007/nonmatchings/ov_SC07_007_jr_80140608", func_801466F0);
 
-INCLUDE_ASM("asm/ov_SC07_007/nonmatchings/ov_SC07_007_jr_80140608", func_80146750);
+
+
+u16 *func_80146750(u16 *param_1) {
+
+    extern u16 D_8011FD10;
+    extern int D_8011FA1C;
+    extern u16 D_8011F9D6;
+    extern u16 D_8011F9DA;
+    extern u16 D_8011F9DE;
+    extern int D_8011FA20;
+    extern int D_8011FA24;
+    s32 iVar1;
+    s32 iVar2;
+    u16 *psVar3;
+    register u16 *psVar4 __asm__("$7"); /* $a3: pin so &sym loads here, copy -> psVar3($v1) */
+
+    iVar2 = 8;
+    psVar4 = &D_8011FD10;
+    psVar3 = psVar4;
+    iVar1 = 0x340;
+    for (; iVar2 < 0x14; iVar2++) {
+        if (*psVar3 == 0) {
+            *(u32 *)((char *)&(*(u32 *)&D_8011FA1C) + iVar1) = *(u32 *)((char *)param_1 + 8);
+            *psVar3 = *param_1;
+            *(u16 *)((char *)&D_8011F9D6 + iVar1) = param_1[1];
+            *(u16 *)((char *)&D_8011F9DA + iVar1) = param_1[2];
+            *(u16 *)((char *)&D_8011F9DE + iVar1) = param_1[3];
+            *(u32 *)((char *)&(*(u32 *)&D_8011FA20) + iVar1) = *(u32 *)((char *)param_1 + 0xC);
+            *(u32 *)((char *)&(*(u32 *)&D_8011FA24) + iVar1) = *(u32 *)((char *)param_1 + 0x10);
+            return psVar4;
+        }
+        psVar4 = psVar4 + 0x34;
+        psVar3 = psVar3 + 0x34;
+        iVar1 = iVar1 + 0x68;
+    }
+    return (u16 *)0x0;
+}
+
 
 DEFINE_func_8014680C()  /* dedup: shared engine-core @0x8014680C (src/shared) */
 

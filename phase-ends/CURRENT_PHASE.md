@@ -9315,3 +9315,40 @@ Payout: `0x80174784` **2/255 → 251/251**, then **138 further families zero →
 *segment* while object membership follows the *`.c` file*, so a stub-line move is unbuildable, not
 neutral. **§117** — spell the sibling's symbol from the sibling's address, not the exemplar's kind;
 and a masked oracle will MATCH a wrong symbol.
+
+## ✅ T84/T85 — items 1+2 of the ranked list: **270 more members**
+
+**T84 — `0x80161c98` 137/138 (item 1).** Probed the top still-zero family: it compiles clean, and the
+whole diff is ONE instruction — produced `slti` (signed) vs target `sltiu` (unsigned). The exemplar's
+own def is `void func_80161C98(int, u32 param_2)`; **`--fix-def-sig` was rewriting the member draft's
+def to `engine_core.h`'s `extern void func_80161D20(s32 a0, s32 a1)`** — a signedness-wrong header
+decl — and turning a byte-correct draft into a DIFF. Re-swept the 92 still-zero families **without
+the flag**: **137 banked** (all of `0x80161c98`), the other 91 unmoved. So this defect is
+**family-specific, not a second §117** — recorded that way rather than as a general lever.
+> The standing recipe says to always pass `--fix-def-sig`. It is a *repair* for drafts whose def
+> contradicts the header, and a *breaker* for drafts whose def is right and the header is wrong.
+
+**T85 — `func_801457A4` 133/133 (item 2).** Built the two-file atomic driver §116 called for
+(`tools/rollout_801457a4_o0.py`, rewritten from the refuted stub-mover): per overlay, remap the body,
+append it to `<ov>_o0b.c` **and** drop the `INCLUDE_ASM` from `<ov>_after.c` in one edit, then build
+and compare against `config/check.<ov>.sha`, restoring **both** files on any mismatch (§61).
+Validated on 3, then 130/130. No splat change, so the Arm-A wall was never touched.
+
+**Item 4 priced and DROPPED:** STRUCT-bearing eligible families with live stubs = 34 families / 166
+members / 2,191 ins = **0.02pp**. Not worth working; removed from the queue rather than left ranked.
+
+### GATES
+R22 clean-fleet **140 passed, 0 failed of 140** · dedup **1886/0** · **0 NON_MATCHING** (G4).
+
+### METRICS
+| | before | after | delta |
+|---|---|---|---|
+| fn-count | 91.72% | **91.79%** | 324,417 → 324,687 = **+270** (= 137 + 133, exact) |
+| instr-weighted | 87.2% | **87.3%** | +16,946 ins |
+| distinct-code | 77.8% | **77.9%** | 69,325 → 69,450 = **+125 unique fns** |
+
+### ⚠️ MY `new_distinct` ESTIMATOR OVER-PROJECTS ~2× (R14)
+I priced these two families at 130 + 129 = **259** new distinct; the measured gain is **125**. The
+estimator counts a family's h_exact classes that have no matched instance *at the time it runs*, so
+classes another sweep claims in between are double-counted. **Do not plan off those projections at
+face value** — they rank families correctly (relative order held) but overstate absolute yield.
