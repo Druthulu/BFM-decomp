@@ -2094,7 +2094,43 @@ void func_80143458(s32 param_1)
 
 DEFINE_func_8014350C()  /* dedup: shared engine-core @0x8014350C (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC03_010/nonmatchings/ov_SC03_010_jr_80140608", func_8014358C);
+
+// @class: plumbing
+// @stuck: none — MATCH (pending gate)
+
+
+extern void func_80128EA8(s32 a0, s32 a1, s32 a2);
+
+void func_8014358C(s32 param_1)
+{
+
+    extern u8 D_80181704[];
+    extern u32 D_80181800[];
+    s32 p;
+    u16 v;
+
+    *(u32 *)(*(s32 *)(param_1 + 0x20) + 0x20) = (u32)&D_80181704;
+
+    p = *(s32 *)(param_1 + 0x20);
+    if (*(s32 *)(p + 4) == 0) {
+        *(s32 *)(p + 4) = 0x50000000;
+    }
+
+    *(u8 *)(*(s32 *)(param_1 + 0x20) + 0x27) = 0x90;
+
+    v = *(u16 *)(param_1 + 0x34) & 0x7fff;
+    if (v != 0) {
+        p = *(s32 *)(param_1 + 0x20);
+        *(u16 *)(p + 0x1a) = v;
+        *(u16 *)(p + 0x18) = v;
+    }
+
+    func_80128EA8(*(u32 *)(param_1 + 0x20), param_1 + 0x24,
+                  D_80181800[*(u16 *)(param_1 + 0x34) & 3]);
+
+    *(u16 *)(param_1 + 2) = *(u16 *)(param_1 + 2) + 1;
+}
+
 
 DEFINE_func_80143640()  /* dedup: shared engine-core @0x80143640 (src/shared) */
 
@@ -2140,7 +2176,55 @@ void func_80143C98(void *a0) {
 
 DEFINE_func_80143CD4()  /* dedup: shared engine-core @0x80143CD4 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC03_010/nonmatchings/ov_SC03_010_jr_80140608", func_80143D28);
+
+// @class: regalloc-order
+// @stuck: none — MATCH (80 ins, relocation-masked). iVar2/iVar3 pinned $s1/$s2; sVar4 is an
+//   int set BEFORE the call so it naturally takes callee-saved $s3; chained assignment
+//   a=b=c=sVar4 materializes the value once (the addu $v0,$s3,$zero move) + delay-slot store.
+
+     /* size 0x0c */
+
+extern void ApplyMatrixSV(void*, Svec_801372B0*, Svec_801372B0*);
+extern s32 func_8012BEE8(s32 a0);
+extern void func_8012C218(void *a0);
+
+void func_80143D28(s32 param_1) {
+
+    extern MatEntry D_80181854[];
+    register s32 iVar3 __asm__("$18") = *(s32 *)(param_1 + 0x20); /* $s2 */
+    register s32 iVar2 __asm__("$17") = *(s32 *)(param_1 + 0x64); /* $s1 */
+    MatEntry *p = &D_80181854[*(s16 *)(param_1 + 0x70)];
+    s32 sVar4;
+    s32 iVar1;
+
+    *(s16 *)(iVar3 + 0x14) = p->f8;
+    *(u16 *)(iVar3 + 0x12) = *(u16 *)(iVar3 + 0x12) + p->fa;
+    sVar4 = 0x1000;
+    ((void (*)(void *, void *, void *))ApplyMatrixSV)((void *)(*(s32 *)(param_1 + 0x20) + 0x34), p, (void *)(param_1 + 0x50));
+
+    if (*(s16 *)(param_1 + 0xfe) == 0 &&
+        (iVar2 == 0 || *(s16 *)(iVar2 + 0x36) != *(s16 *)(param_1 + 0xfc) ||
+         *(u8 *)(iVar2 + 0xc1) != 6)) {
+        if (0x10 < *(s32 *)(param_1 + 0x1c)) {
+            *(s32 *)(param_1 + 0x1c) = 0x10;
+        }
+        *(s16 *)(param_1 + 0xfe) = 1;
+    }
+
+    iVar1 = *(s32 *)(param_1 + 0x1c);
+    if (iVar1 < 0x11) {
+        sVar4 = iVar1 << 8;
+    }
+    if (0x73 < iVar1) {
+        sVar4 = (0x78 - iVar1) << 10;
+    }
+    *(s16 *)(iVar3 + 0x18) = *(s16 *)(iVar3 + 0x1a) = *(s16 *)(iVar3 + 0x1c) = sVar4;
+
+    if (func_8012BEE8(param_1)) {
+        func_8012C218((void *)param_1);
+    }
+}
+
 
 
 extern void (*D_80181878[])(void);

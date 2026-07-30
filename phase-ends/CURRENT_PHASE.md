@@ -8924,3 +8924,84 @@ path) · §108 (diagnosing a family 0/N: the four causes) · §109 (conform type
 §110 (one definition per unit) · §111 (byte-variant vs byte-identical predicts distinct-code) ·
 §112 (a macro-scoped decl collides only where instantiated) · §113 (ARITY needs a call, not a mention) ·
 §114 (the third decl axis: the callee) · §115 (a name-form assumption in three places).
+
+---
+
+## ✅ T79 — the byte-VARIANT re-sweep: **641 banked ×N**, and T70's "1 of 10" was a pre-lever measurement
+
+The REVISED-3 item 1 said the byte-variant measurement was "stale IN OUR FAVOUR". It was. T70 swept 10
+families and banked 1; the same tier swept with the two axes that did not exist then (§114 callee-cast,
+§115 named-symbol) banks **5 families outright + 1 partial of 9**.
+
+**Validation first (one family, not the batch).** `0x80143d28` was T66's #1 target and T76's diagnosis
+(`ApplyMatrixSV` — a *callee* decl the target TU contradicts, the same shape as `func_80173A60` and
+`RotTransPers`). It banked **136/136**. Only then did the batch run.
+
+| exemplar | live→now | banked | new distinct | verdict |
+|---|---|---|---|---|
+| `0x80143d28` | 136→0 | **136** | 128 | §114/§115 dissolved the `ApplyMatrixSV` conflict |
+| `0x80143458` | 134→0 | **134** | 126 | clean |
+| `0x801681fc` | 132→0 | **132** | 124 | clean |
+| `0x80168430` | 132→0 | **132** | 124 | clean |
+| `0x801902c8` | 61→0 | **61** | 38 | clean |
+| `0x8014ccb4` | 52→8 | **44** | 44 | partial |
+| `0x801457a4` | 137→137 | 0 | — | **§116 — `-O0` file-placement, diagnosed** |
+| `0x80161c98` | 138→138 | 0 | — | undiagnosed |
+| `0x80174784` | 255→253 | 2 | — | undiagnosed (IMM, macro-backed exemplar) |
+
+**Attribution is derived, not parsed from the log** — live stubs recomputed per family from
+`corpus.stubs` before and after (R33). `641` reconciles exactly against the metric: fn-count
+322,704 → **323,345 = +641**.
+
+### THE 0/N THAT DIAGNOSED ITSELF (§116) — the 13th time it was the harness
+`0x801457a4` is `-O0`. Its exemplar lives in `ov_SC01_077_o0b.c`, which the Makefile's
+`WHALE_O0B_OBJS` wildcard compiles `-O0`. In **all 137 other overlays the same function's stub sits in
+`<ov>_after.c`, which is `-O2`.** Same C, same remap, wrong flag — the sweep, the remap and the gate
+are all individually correct and none of them can see it.
+
+The fix does **not** need a splat change: `<ov>_o0b`'s `.text` ends exactly at `0x801457A4`, so moving
+the member's `INCLUDE_ASM` line from `<ov>_after.c` into `<ov>_o0b.c` places the function at the same
+address (byte-neutral by construction — `ov_SC01_077` already ships this shape) and the existing sweep
+then stages into an `-O0` TU. **That deliberately avoids the Arm-A splat wall** (a re-carve byte-shifts
+3 of 4 sampled overlays); moving a stub line never touches splat. → **cookbook §116**, task queued.
+
+### ⚠️ A CORRECTION TO THE HANDOFF'S ARITHMETIC (R14)
+REVISED-3 item 1 projected "114,331 ins · 2,962 distinct" over 36 families. Re-derived on fresh sigs +
+`corpus.stubs` the tier is **123 families / 121,264 ins / 3,100 distinct** — but **1,287 of that
+distinct sits in the 10-family `-O0` cluster** (`0x8013B568..0x8013C98C`), which this sweep **cannot**
+address: Phase-29 Task 2 Arm A already proved those members bank (9/9 on `ov_SC07_010`) and that the
+blocker is the splat `%lo` re-disassembly wall (+0x20 data-symbol shift on 3 of 4 overlays). Billing
+that 1,287 as sweep yield would have repeated the T76 error exactly.
+
+**Honest addressable tier: 113 families / 85,360 ins / 1,813 distinct.** This batch took 1,097 of that
+distinct; **716 remain**, of which `0x80131eec` alone is 214 and the other 104 families average <5 each.
+
+### GATES
+R22 clean-fleet **140 passed, 0 failed of 140** from `make clean && make extract-all && make check-all` ·
+`make tools-health` **RC=0** (corpus 0 PHANTOM + 0 TRUNCATED · cdecl · audit-binaries · dedup **1886/0**
+· C1 coverage 239,604/239,604) · `make report` **RC=0** · **0 NON_MATCHING** in any default build (G4).
+
+### METRICS
+| | before (REVISED-3) | after | delta |
+|---|---|---|---|
+| instr-weighted | 86.7% | **86.9%** | 11,392,477 → 11,420,682 = **+28,205 ins** |
+| distinct-code | 76.9% | **77.4%** | 68,196 → **68,782 unique fns** |
+| fn-count | 91.23% | **91.41%** | 322,704 → 323,345 = **+641** |
+
+**distinct-code +0.5pp is the point** — this tier is the only lever that moves the RE-completeness
+metric, and it moved more this task than in any prior single sweep (§111 pricing held).
+
+## ▶ NEXT (ranked, all measured)
+1. **`func_801457A4` ×137** (§116) — move the stub line into each `<ov>_o0b.c`, R22 the move alone for
+   byte-neutrality, then re-run `family_sweep --only 0x801457a4`. **129 distinct, no splat change.**
+2. **Diagnose `0x80161c98` (138) and `0x80174784` (253)** — one spliced member each, `make -j1` the
+   single object, filter `warning:` (the §58 noise hides the answer every time). `0x80174784`'s
+   exemplar is macro-backed, so it routes through `family_remap._macro_unit` — verify that path.
+3. **`0x80131eec`** (288 members, **214 distinct** — the biggest single item left). Diagnosed, not
+   blocked-unknown: `engine_core.h`'s `DEFINE_func_80151924()` declares the callee
+   `extern s32 func_80151944(void)` and calls it with 0 args, while byte truth is
+   `void func_80131EEC(void *a0)`. Needs three coordinated edits — §112 header correction + a §20
+   call-site cast inside the caller macro's own body + a scripted §99 no-prototype pass over **2,022**
+   overlay-local decls in 138 overlays. Param is `void *`, **not** a default-promotion type, so the
+   T75 narrow-param refusal does **not** apply here.
+4. **The 104-family long tail** (716 distinct, <5 each) — cheap per family, batch them large.

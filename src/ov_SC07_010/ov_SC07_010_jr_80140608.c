@@ -3609,7 +3609,34 @@ s32 func_8014CF04(s32 a0, s32 a1, void *a2) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_010/nonmatchings/ov_SC07_010_jr_80140608", func_8014D04C);
+
+extern void func_8014D0A4(s32);
+
+void func_8014D04C(void) {
+    __asm__ __volatile__(
+        ".set noreorder\n"
+        "addiu $sp, $sp, -24\n"
+        "lui   $v1, 0x1f80\n"
+        "ori   $v1, $v1, 0x03fc\n"
+        "sw    $ra, 16($sp)\n"
+        "addu  $t0, $v1, $zero\n"
+        "lw    $t1, 0($t0)\n"
+        "nop\n"
+        "sw    $sp, 0($t1)\n"
+        "addiu $t1, $t1, -4\n"
+        "addu  $sp, $t1, $zero\n"
+        "jal   func_8014D0A4\n"
+        "lui   $at, %%hi(D_801A6B50)\n"
+        "sw    $v0, %%lo(D_801A6B50)($at)\n"
+        "addiu $sp, $sp, 4\n"
+        "lw    $sp, 0($sp)\n"
+        "lui   $v0, %%hi(D_801A6B50)\n"
+        "lw    $v0, %%lo(D_801A6B50)($v0)\n"
+        "lw    $ra, 16($sp)\n"
+        "addiu $sp, $sp, 24\n"
+        : : : "memory");
+}
+
 
 DEFINE_func_8014D0A4()  /* dedup: shared engine-core @0x8014d0a4 (src/shared) */
 
@@ -3688,7 +3715,34 @@ s32 func_8014D2A0(s32 arg0, void *a1, void *a2)
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_010/nonmatchings/ov_SC07_010_jr_80140608", func_8014D3E0);
+
+extern void func_8014D438(s32);
+
+void func_8014D3E0(s32 a0) {
+    __asm__ __volatile__(
+        ".set noreorder\n"
+        "addiu $sp, $sp, -24\n"
+        "lui   $v1, 0x1f80\n"
+        "ori   $v1, $v1, 0x03fc\n"
+        "sw    $ra, 16($sp)\n"
+        "addu  $t0, $v1, $zero\n"
+        "lw    $t1, 0($t0)\n"
+        "nop\n"
+        "sw    $sp, 0($t1)\n"
+        "addiu $t1, $t1, -4\n"
+        "addu  $sp, $t1, $zero\n"
+        "jal   func_8014D438\n"
+        "lui   $at, %%hi(D_801A6B50)\n"
+        "sw    $v0, %%lo(D_801A6B50)($at)\n"
+        "addiu $sp, $sp, 4\n"
+        "lw    $sp, 0($sp)\n"
+        "lui   $v0, %%hi(D_801A6B50)\n"
+        "lw    $v0, %%lo(D_801A6B50)($v0)\n"
+        "lw    $ra, 16($sp)\n"
+        "addiu $sp, $sp, 24\n"
+        : : : "memory");
+}
+
 
 DEFINE_func_8014D438()  /* dedup: shared engine-core @0x8014d438 (src/shared) */
 
@@ -3728,7 +3782,35 @@ s32 func_8014D610(s32 param_1, s32 param_2, u16 *param_3) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_010/nonmatchings/ov_SC07_010_jr_80140608", func_8014D738);
+
+extern void func_8014D790(s32);
+
+void func_8014D738(void)
+{
+    __asm__ __volatile__(
+        ".set noreorder\n"
+        "addiu $sp, $sp, -24\n"
+        "lui   $v1, 0x1f80\n"
+        "ori   $v1, $v1, 0x03fc\n"
+        "sw    $ra, 16($sp)\n"
+        "addu  $t0, $v1, $zero\n"
+        "lw    $t1, 0($t0)\n"
+        "nop\n"
+        "sw    $sp, 0($t1)\n"
+        "addiu $t1, $t1, -4\n"
+        "addu  $sp, $t1, $zero\n"
+        "jal   func_8014D790\n"
+        "lui   $at, %%hi(D_801A6B50)\n"
+        "sw    $v0, %%lo(D_801A6B50)($at)\n"
+        "addiu $sp, $sp, 4\n"
+        "lw    $sp, 0($sp)\n"
+        "lui   $v0, %%hi(D_801A6B50)\n"
+        "lw    $v0, %%lo(D_801A6B50)($v0)\n"
+        "lw    $ra, 16($sp)\n"
+        "addiu $sp, $sp, 24\n"
+        : : : "memory");
+}
+
 
 DEFINE_func_8014D790()  /* dedup: shared engine-core @0x8014d790 (src/shared) */
 
@@ -4066,7 +4148,35 @@ DEFINE_func_8014DCE0()  /* dedup: shared engine-core @0x8014dce0 (src/shared) */
 DEFINE_func_8014DD8C()  /* dedup: shared engine-core @0x8014dd8c (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC07_010/nonmatchings/ov_SC07_010_jr_80140608", func_8014DF3C);
+
+extern void func_8014DF94(s32);
+
+void func_8014DF3C(void)
+{
+    __asm__ __volatile__(
+        ".set noreorder\n"
+        "addiu $sp, $sp, -24\n"
+        "lui   $v1, 0x1f80\n"
+        "ori   $v1, $v1, 0x03fc\n"
+        "sw    $ra, 16($sp)\n"
+        "addu  $t0, $v1, $zero\n"
+        "lw    $t1, 0($t0)\n"
+        "nop\n"
+        "sw    $sp, 0($t1)\n"
+        "addiu $t1, $t1, -4\n"
+        "addu  $sp, $t1, $zero\n"
+        "jal   func_8014DF94\n"
+        "lui   $at, %%hi(D_801A6B50)\n"
+        "sw    $v0, %%lo(D_801A6B50)($at)\n"
+        "addiu $sp, $sp, 4\n"
+        "lw    $sp, 0($sp)\n"
+        "lui   $v0, %%hi(D_801A6B50)\n"
+        "lw    $v0, %%lo(D_801A6B50)($v0)\n"
+        "lw    $ra, 16($sp)\n"
+        "addiu $sp, $sp, 24\n"
+        : : : "memory");
+}
+
 
 DEFINE_func_8014DF94()  /* dedup: shared engine-core @0x8014df94 (src/shared) */
 
@@ -4076,7 +4186,35 @@ DEFINE_func_8014E048()  /* dedup: shared engine-core @0x8014e048 (src/shared) */
 
 DEFINE_func_8014E284()  /* dedup: shared engine-core @0x8014E284 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC07_010/nonmatchings/ov_SC07_010_jr_80140608", func_8014E434);
+
+extern void func_8014E48C(s32);
+
+void func_8014E434(void)
+{
+    __asm__ __volatile__(
+        ".set noreorder\n"
+        "addiu $sp, $sp, -24\n"
+        "lui   $v1, 0x1f80\n"
+        "ori   $v1, $v1, 0x03fc\n"
+        "sw    $ra, 16($sp)\n"
+        "addu  $t0, $v1, $zero\n"
+        "lw    $t1, 0($t0)\n"
+        "nop\n"
+        "sw    $sp, 0($t1)\n"
+        "addiu $t1, $t1, -4\n"
+        "addu  $sp, $t1, $zero\n"
+        "jal   func_8014E48C\n"
+        "lui   $at, %%hi(D_801A6B50)\n"
+        "sw    $v0, %%lo(D_801A6B50)($at)\n"
+        "addiu $sp, $sp, 4\n"
+        "lw    $sp, 0($sp)\n"
+        "lui   $v0, %%hi(D_801A6B50)\n"
+        "lw    $v0, %%lo(D_801A6B50)($v0)\n"
+        "lw    $ra, 16($sp)\n"
+        "addiu $sp, $sp, 24\n"
+        : : : "memory");
+}
+
 
 DEFINE_func_8014E48C()  /* dedup: shared engine-core @0x8014e48c (src/shared) */
 
@@ -4086,7 +4224,35 @@ DEFINE_func_8014E514()  /* dedup: shared engine-core @0x8014e514 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC07_010/nonmatchings/ov_SC07_010_jr_80140608", func_8014E5B4);
 
-INCLUDE_ASM("asm/ov_SC07_010/nonmatchings/ov_SC07_010_jr_80140608", func_8014E6A0);
+
+extern void func_8014E6F8(struct SubE6F8*);
+
+void func_8014E6A0(void)
+{
+    __asm__ __volatile__(
+        ".set noreorder\n"
+        "addiu $sp, $sp, -24\n"
+        "lui   $v1, 0x1f80\n"
+        "ori   $v1, $v1, 0x03fc\n"
+        "sw    $ra, 16($sp)\n"
+        "addu  $t0, $v1, $zero\n"
+        "lw    $t1, 0($t0)\n"
+        "nop\n"
+        "sw    $sp, 0($t1)\n"
+        "addiu $t1, $t1, -4\n"
+        "addu  $sp, $t1, $zero\n"
+        "jal   func_8014E6F8\n"
+        "lui   $at, %%hi(D_801A6B50)\n"
+        "sw    $v0, %%lo(D_801A6B50)($at)\n"
+        "addiu $sp, $sp, 4\n"
+        "lw    $sp, 0($sp)\n"
+        "lui   $v0, %%hi(D_801A6B50)\n"
+        "lw    $v0, %%lo(D_801A6B50)($v0)\n"
+        "lw    $ra, 16($sp)\n"
+        "addiu $sp, $sp, 24\n"
+        : : : "memory");
+}
+
 
 DEFINE_func_8014E6F8()  /* dedup: shared engine-core @0x8014e6f8 (src/shared) */
 
@@ -4097,7 +4263,34 @@ DEFINE_func_8014E790()  /* dedup: shared engine-core @0x8014e790 (src/shared) */
 DEFINE_func_8014E83C()  /* dedup: shared engine-core @0x8014e83c (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC07_010/nonmatchings/ov_SC07_010_jr_80140608", func_8014E934);
+
+extern s32 func_8014E98C(void*);
+
+void func_8014E934(s32 a0) {
+    __asm__ __volatile__(
+        ".set noreorder\n"
+        "addiu $sp, $sp, -24\n"
+        "lui   $v1, 0x1f80\n"
+        "ori   $v1, $v1, 0x03fc\n"
+        "sw    $ra, 16($sp)\n"
+        "addu  $t0, $v1, $zero\n"
+        "lw    $t1, 0($t0)\n"
+        "nop\n"
+        "sw    $sp, 0($t1)\n"
+        "addiu $t1, $t1, -4\n"
+        "addu  $sp, $t1, $zero\n"
+        "jal   func_8014E98C\n"
+        "lui   $at, %%hi(D_801A6B50)\n"
+        "sw    $v0, %%lo(D_801A6B50)($at)\n"
+        "addiu $sp, $sp, 4\n"
+        "lw    $sp, 0($sp)\n"
+        "lui   $v0, %%hi(D_801A6B50)\n"
+        "lw    $v0, %%lo(D_801A6B50)($v0)\n"
+        "lw    $ra, 16($sp)\n"
+        "addiu $sp, $sp, 24\n"
+        : : : "memory");
+}
+
 
 DEFINE_func_8014E98C()  /* dedup: shared engine-core @0x8014e98c (src/shared) */
 
@@ -4105,7 +4298,34 @@ DEFINE_func_8014E98C()  /* dedup: shared engine-core @0x8014e98c (src/shared) */
 DEFINE_func_8014EA4C()  /* dedup: shared engine-core @0x8014ea4c (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC07_010/nonmatchings/ov_SC07_010_jr_80140608", func_8014ED28);
+
+extern s32 func_8014ED80(struct SubED80*);
+
+void func_8014ED28(s32 a0) {
+    __asm__ __volatile__(
+        ".set noreorder\n"
+        "addiu $sp, $sp, -24\n"
+        "lui   $v1, 0x1f80\n"
+        "ori   $v1, $v1, 0x03fc\n"
+        "sw    $ra, 16($sp)\n"
+        "addu  $t0, $v1, $zero\n"
+        "lw    $t1, 0($t0)\n"
+        "nop\n"
+        "sw    $sp, 0($t1)\n"
+        "addiu $t1, $t1, -4\n"
+        "addu  $sp, $t1, $zero\n"
+        "jal   func_8014ED80\n"
+        "lui   $at, %%hi(D_801A6B50)\n"
+        "sw    $v0, %%lo(D_801A6B50)($at)\n"
+        "addiu $sp, $sp, 4\n"
+        "lw    $sp, 0($sp)\n"
+        "lui   $v0, %%hi(D_801A6B50)\n"
+        "lw    $v0, %%lo(D_801A6B50)($v0)\n"
+        "lw    $ra, 16($sp)\n"
+        "addiu $sp, $sp, 24\n"
+        : : : "memory");
+}
+
 
 DEFINE_func_8014ED80()  /* dedup: shared engine-core @0x8014ed80 (src/shared) */
 
@@ -4113,7 +4333,35 @@ DEFINE_func_8014ED80()  /* dedup: shared engine-core @0x8014ed80 (src/shared) */
 DEFINE_func_8014EE14()  /* dedup: shared engine-core @0x8014ee14 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC07_010/nonmatchings/ov_SC07_010_jr_80140608", func_8014F1F4);
+
+extern s32 func_8014F24C(struct SubF24C*);
+
+void func_8014F1F4(void)
+{
+    __asm__ __volatile__(
+        ".set noreorder\n"
+        "addiu $sp, $sp, -24\n"
+        "lui   $v1, 0x1f80\n"
+        "ori   $v1, $v1, 0x03fc\n"
+        "sw    $ra, 16($sp)\n"
+        "addu  $t0, $v1, $zero\n"
+        "lw    $t1, 0($t0)\n"
+        "nop\n"
+        "sw    $sp, 0($t1)\n"
+        "addiu $t1, $t1, -4\n"
+        "addu  $sp, $t1, $zero\n"
+        "jal   func_8014F24C\n"
+        "lui   $at, %%hi(D_801A6B50)\n"
+        "sw    $v0, %%lo(D_801A6B50)($at)\n"
+        "addiu $sp, $sp, 4\n"
+        "lw    $sp, 0($sp)\n"
+        "lui   $v0, %%hi(D_801A6B50)\n"
+        "lw    $v0, %%lo(D_801A6B50)($v0)\n"
+        "lw    $ra, 16($sp)\n"
+        "addiu $sp, $sp, 24\n"
+        : : : "memory");
+}
+
 
 DEFINE_func_8014F24C()  /* dedup: shared engine-core @0x8014f24c (src/shared) */
 
@@ -4206,12 +4454,68 @@ void func_8014FA04(s32 a0)
 DEFINE_func_8014FA70()  /* dedup: shared engine-core @0x8014fa70 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC07_010/nonmatchings/ov_SC07_010_jr_80140608", func_8014FBC0);
+
+extern s32 func_8014FC18(u8*);
+
+void func_8014FBC0(void)
+{
+    __asm__ __volatile__(
+        ".set noreorder\n"
+        "addiu $sp, $sp, -24\n"
+        "lui   $v1, 0x1f80\n"
+        "ori   $v1, $v1, 0x03fc\n"
+        "sw    $ra, 16($sp)\n"
+        "addu  $t0, $v1, $zero\n"
+        "lw    $t1, 0($t0)\n"
+        "nop\n"
+        "sw    $sp, 0($t1)\n"
+        "addiu $t1, $t1, -4\n"
+        "addu  $sp, $t1, $zero\n"
+        "jal   func_8014FC18\n"
+        "lui   $at, %%hi(D_801A6B54)\n"
+        "sw    $v0, %%lo(D_801A6B54)($at)\n"
+        "addiu $sp, $sp, 4\n"
+        "lw    $sp, 0($sp)\n"
+        "lui   $v0, %%hi(D_801A6B54)\n"
+        "lw    $v0, %%lo(D_801A6B54)($v0)\n"
+        "lw    $ra, 16($sp)\n"
+        "addiu $sp, $sp, 24\n"
+        : : : "memory");
+}
+
 
 DEFINE_func_8014FC18()  /* dedup: shared engine-core @0x8014fc18 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC07_010/nonmatchings/ov_SC07_010_jr_80140608", func_8014FCFC);
+
+extern int func_8014FD54(int);
+
+void func_8014FCFC(void)
+{
+    __asm__ __volatile__(
+        ".set noreorder\n"
+        "addiu $sp, $sp, -24\n"
+        "lui   $v1, 0x1f80\n"
+        "ori   $v1, $v1, 0x03fc\n"
+        "sw    $ra, 16($sp)\n"
+        "addu  $t0, $v1, $zero\n"
+        "lw    $t1, 0($t0)\n"
+        "nop\n"
+        "sw    $sp, 0($t1)\n"
+        "addiu $t1, $t1, -4\n"
+        "addu  $sp, $t1, $zero\n"
+        "jal   func_8014FD54\n"
+        "lui   $at, %%hi(D_801A6B50)\n"
+        "sw    $v0, %%lo(D_801A6B50)($at)\n"
+        "addiu $sp, $sp, 4\n"
+        "lw    $sp, 0($sp)\n"
+        "lui   $v0, %%hi(D_801A6B50)\n"
+        "lw    $v0, %%lo(D_801A6B50)($v0)\n"
+        "lw    $ra, 16($sp)\n"
+        "addiu $sp, $sp, 24\n"
+        : : : "memory");
+}
+
 
 DEFINE_func_8014FD54()  /* dedup: shared engine-core @0x8014fd54 (src/shared) */
 

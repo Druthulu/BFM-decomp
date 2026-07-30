@@ -3400,7 +3400,43 @@ void func_80143458(s32 param_1)
 struct vec;
 DEFINE_func_8014350C()  /* dedup: shared engine-core @0x8014350C (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077", func_8014358C);
+
+// @class: plumbing
+// @stuck: none — MATCH (pending gate)
+
+
+extern void func_80128EA8(s32 a0, s32 a1, s32 a2);
+
+void func_8014358C(s32 param_1)
+{
+
+    extern u8 D_80188328[];
+    extern u32 D_80188424[];
+    s32 p;
+    u16 v;
+
+    *(u32 *)(*(s32 *)(param_1 + 0x20) + 0x20) = (u32)&D_80188328;
+
+    p = *(s32 *)(param_1 + 0x20);
+    if (*(s32 *)(p + 4) == 0) {
+        *(s32 *)(p + 4) = 0x50000000;
+    }
+
+    *(u8 *)(*(s32 *)(param_1 + 0x20) + 0x27) = 0x90;
+
+    v = *(u16 *)(param_1 + 0x34) & 0x7fff;
+    if (v != 0) {
+        p = *(s32 *)(param_1 + 0x20);
+        *(u16 *)(p + 0x1a) = v;
+        *(u16 *)(p + 0x18) = v;
+    }
+
+    func_80128EA8(*(u32 *)(param_1 + 0x20), param_1 + 0x24,
+                  D_80188424[*(u16 *)(param_1 + 0x34) & 3]);
+
+    *(u16 *)(param_1 + 2) = *(u16 *)(param_1 + 2) + 1;
+}
+
 
 DEFINE_func_80143640()  /* dedup: shared engine-core @0x80143640 (src/shared) */
 

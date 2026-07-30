@@ -5569,7 +5569,29 @@ s32 func_80167DBC(s32 arg0, s32 arg1, s32 arg2) {
 
 DEFINE_func_80168070()  /* dedup: shared engine-core @0x80168070 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC03_089/nonmatchings/ov_SC03_089_jr_8015C32C", func_801681FC);
+
+extern s32 func_80029178(s32 arg);
+extern s32 func_80166F58(s32, s32, s32, s32);
+
+void func_801681FC(s32 param_1) {
+
+    extern u8 D_8018C5F8[];
+    extern u8 D_8018C5C8[];
+    extern u8 D_8018C5C9[];
+    s32 iVar3;
+    s32 a3;
+
+    *(s16 *)(param_1 + 0x28) = func_80029178(0x81) & 0xFF;
+    *(s32 *)(param_1 + 0x30) = D_8018C5F8[*(s32 *)(param_1 + 0x2C)];
+    iVar3 = (*(s32 *)(param_1 + 0x2C) << 0x11) >> 0x10;
+    *(s16 *)(param_1 + 0x2A) = D_8018C5C8[iVar3];
+    *(s32 *)(param_1 + 0x1C) = D_8018C5C9[iVar3];
+    a3 = *(s32 *)(param_1 + 0x2C) & 1;
+    *(s32 *)(param_1 + 0x2C) = a3;
+    ((void (*)(s32, s32, s32, s32))func_80166F58)(param_1, 4, 4, a3);
+    *(s16 *)(param_1 + 2) = *(s16 *)(param_1 + 2) + 1;
+}
+
 
 DEFINE_func_8016829C()  /* dedup: shared engine-core @0x8016829C (src/shared) */
 
@@ -5577,7 +5599,24 @@ DEFINE_func_80168328()  /* dedup: shared engine-core @0x80168328 (src/shared) */
 
 DEFINE_func_801683D8()  /* dedup: shared engine-core @0x801683D8 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC03_089/nonmatchings/ov_SC03_089_jr_8015C32C", func_80168430);
+
+extern s32 func_80166F58(s32, s32, s32, s32);
+
+void func_80168430(s32 param_1) {
+
+    extern u8 D_8018C604[];
+    extern u8 D_8018C5DC[];
+    extern u8 D_8018C5DD[];
+    s32 iVar1;
+
+    *(s32 *)(param_1 + 0x30) = D_8018C604[*(s32 *)(param_1 + 0x2C)];
+    iVar1 = (*(s32 *)(param_1 + 0x2C) << 0x11) >> 0x10;
+    *(s16 *)(param_1 + 0x2A) = D_8018C5DC[iVar1];
+    *(s32 *)(param_1 + 0x1C) = D_8018C5DD[iVar1];
+    ((void (*)(s32, s32, s32, s32))func_80166F58)(param_1, 5, 0x3B, 2);
+    *(s16 *)(param_1 + 2) = *(s16 *)(param_1 + 2) + 1;
+}
+
 
 DEFINE_func_801684B4()  /* dedup: shared engine-core @0x801684B4 (src/shared) */
 

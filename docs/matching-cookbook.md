@@ -7866,3 +7866,32 @@ a curated stub name read as "already matched".
 > testing. A partial fix produces the identical symptom as no fix, so the negative result reads as
 > "the hypothesis was wrong" rather than "the fix is incomplete" — and that is how a correct
 > hypothesis gets abandoned.
+
+## §116 — Optimization level is a property of the FILE, not the function: read a family 0/N against the member's stub HOME (Phase 29 T79)
+
+`family_sweep --hseq` templates the exemplar's C into each member's stub file. `-O0`-ness is applied
+by the Makefile **per object** (`WHALE_O0B_OBJS`, `O0_CLUSTER_OBJS`, `build/src/boot.o`, …), so a
+family whose exemplar was matched at `-O0` banks only where **the member's stub happens to live in an
+`-O0` object too**. Nothing in the sweep, the remap, or the byte-gate reports the mismatch: the draft
+compiles fine, and the gate correctly rejects 137 subtly-wrong bodies.
+
+`0x801457a4` swept **0/137** on exactly this. In `ov_SC01_077` the definition sits in
+`ov_SC01_077_o0b.c` (the whale `-O0` object); in all 137 other overlays the same function's stub sits
+in `<ov>_after.c`, which is `-O2`. Same C, same remap, wrong flag.
+
+**The tell, before spending a sweep:** find the exemplar's home file and ask whether the Makefile
+gives that object a non-default `CC1FLAGS`. If it does, check where the members' stubs live. This is
+the same class as the Phase-29 Task-1 swing verdict (`0x8013c964`/`0x8013c938` compiled `-O2` by the
+sweep and masked-MATCHing only at `-O0`) — that one was diagnosed at the *compile-flag* level; this
+one shows the flag is really a **file-placement** question.
+
+**The fix is usually to move the STUB, not the definition.** A carved `-O0` object whose `.text` ends
+exactly at the target function's vram can absorb that function by appending it — so relocating the
+member's `INCLUDE_ASM(...)` line from the `-O2` file into the `-O0` file is byte-neutral by
+construction (the linker places it at the same address) and makes the *existing* sweep stage into an
+`-O0` TU with no config change. Prefer that over re-carving: a splat re-carve is the Arm-A wall
+(`+0x20` data-symbol shift on 3 of 4 sampled overlays), and moving a stub line never touches splat.
+
+> **The law:** a family-wide `0/N` whose exemplar lives in a flag-overridden object is a **build-graph
+> statement**, not a codegen one. Check the object's flags and the members' stub homes before routing
+> it to the permuter or logging it as intrinsic.
