@@ -80,9 +80,48 @@ proceeds; the first P30 commit waits on it.
 stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical throughout.
 
 ## Blockers
-- (none) — precondition noted above (Drew's milestone-close commit before the first P30 commit).
+- (none) — the precondition (Drew's milestone-close commit) landed at `commit:1213`.
+
+---
+
+# 🛑 SESSION CHECKPOINT (2026-07-30, in-flight) — safe to open a FRESH session here
+> Written while two background campaigns run; REFRESH before any pause (the stale-checkpoint trap).
+
+**Running in background:** (1) **T0.5 full prefetch batch** (`prefetch_fleet.py`, 126 programs —
+imports ~3 min each + define+decompile; cache was 3,680 at launch; task `baw61zyz6`; resumable —
+re-run the same command if interrupted). (2) **T1a recovery sweep** (`.run/recover/t1a_runner.py`
+→ `.run/recover/t1a.log`; 108 autopsy-MATCH fns / 50 binaries; driver commits banks per binary via
+gate_stage's scoped add; **OWED AFTER IT LANDS:** a config sweep-up commit — jr-bank preps edit
+`config/overlays.mk` + splat yamls which `gate_stage --commit` does NOT stage — then R22 clean-fleet
++ report point #2).
+
+**HEAD at checkpoint:** `commit:1223`. **Fleet:** 87.5 / 78.0 / 92.00 (pre-T1a-banks). Tree: T1a's
+in-flight src/config edits (theirs); `.run/` artifacts.
+
+**T0 ✅ (6 commits) · T0.5 ▶ (batch running; main+3 overlays done: +2,241 cached) · T1a ▶ ·
+T2 ▶ (two probes done, arc re-scoped — see log; NEXT session opener: sub-split carve + shift-diff
++ symbol-pin probe on ov_SC07_007) · T3/T4/T5 pending.**
+
+**If resuming fresh:** read `docs/frontier-p30.md` (report point #1, with the T2 R14 correction) +
+the T2 log entries; check both background tasks' outcomes first (`git log` for t6-recover commits;
+`ls .run/ghidra_c | wc -l`); the Ultracode prompt for T3's first wave is still OWED to Drew
+(R26/R27) — T1b agent-residue wave folds into it.
 
 ## Per-task log
+
+### T2 finding 2 — the Arm-A reproduction target has MOVED: the fleet is jr-carved now (2026-07-30)
+`rollout_o0_cluster.py ov_SC07_007` → SKIP ("cluster fns not in base .c"): since Arm A (07-16),
+the P29 jr campaign carved every overlay (007 now: 16 `_jr_*.c` splits) and **the -O0 range
+(0x8013B568..) sits INSIDE `<ov>_jr_80135D20.c`** (23 stubs there in 007). The Arm-A tool's
+single-file premise is stale fleet-wide — the rollout is now the predicted **carve-within-a-carve**:
+sub-split `_jr_80135D20.c` (pre / o0 / post) per overlay + the Makefile -O0 wildcard for the new
+class + the +0x20 shift-diff at the NEW seam. Next concrete steps (deep arc, next session's opener):
+(1) extend the carve tool to sub-split jr files; (2) probe on **ov_SC07_007** (zero T1a collision;
+baseline `%lo/%hi` inventory saved: `.run/t2_007_baseline_syms.txt`, 951 operands); (3) on shift:
+diff the generated asm symbol inventory → **pin the drifted `D_` symbols at pre-carve addresses in
+the overlay symbol file** → re-extract → per-binary sha (the config-only fix hypothesis); (4) the
+R31 whale-shape hypothesis (no INCLUDE_ASM in the -O0 split) as fallback. ov_SC07_010's carve is
+still in-tree + byte-neutral (the Arm-A keeper) — the 010-vs-007 asm diff is a free shift oracle.
 
 ### T2 ▶ driver generalized; ×1 probe REFUTED the append route for the remaining cluster (2026-07-30)
 `tools/rollout_o0.py` (generalizes T85's `rollout_801457a4_o0.py`): map-derived members
