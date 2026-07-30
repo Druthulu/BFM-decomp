@@ -4693,7 +4693,111 @@ INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_8017C24C", func_801857C
 
 INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_8017C24C", func_80185944);
 
-INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_8017C24C", func_8018598C);
+// @class: regalloc-order
+// @stuck: none — MATCH (168/168). $s4/$s5 pins for base+&local28; s32 sVar1 for single lh;
+//          inverted if for bnez; sp20[3] array so 3 stores survive DSE; fresh-pseudo c=coord in
+//          the else so gcc keeps s2v as the commutative addu's first operand (§10 A1 via pseudo order).
+
+#include "common.h"
+
+typedef struct {
+    u8  pad0[6];
+    u16 f6;         /* 0x06 -> D_80126B5E */
+    u8  pad8[2];
+    u16 fa;         /* 0x0A -> D_80126B62 */
+    u8  padc[2];
+    u16 fe;         /* 0x0E -> D_80126B66 */
+} StructB58;
+
+extern s32 D_80126B58;
+extern s32 *D_80126B78;   /* holds a pointer value */
+extern u16       D_800B99DA;
+extern u8        D_801B5184;
+
+extern int  rand(void);
+extern s32  func_8012BEE8(s32 a0);
+extern void func_8012B0B4(unsigned int *p, int a1, int a2);
+extern s32  func_8012B744(void *a0, void *a1);
+extern s32  func_8012B608(s32 a0, s32 a1, s32 a2);
+extern void func_8012B178(s32 a0, s32 a1);
+extern s32  func_8018765C(s32 a0);
+extern void func_801877E4(s32 a0);
+extern void func_8012F14C(s32 a0);
+extern void func_80189380(s32, void*, void*, s32);
+extern void func_8018931C(s32, void*, s32, s32, s32, s32);
+extern s32  func_80013478(s32 a0, s32 a1);
+
+void func_8018598C(s32 param_1) {
+    u8  auStack_38[8];
+    s16 sp20[3];
+    u8  auStack_28[8];
+    register StructB58 *b58 __asm__("$20") = &(*(StructB58 *)&D_80126B58);   /* $s4 */
+    short *psVar7 = (short *)(param_1 + 0xec);
+    s32 sVar1;
+    s32 r_b608;
+
+    if (func_8012BEE8(param_1) != 0) {
+        register unsigned int *p28 __asm__("$21") = (unsigned int *)auStack_28; /* $s5 */
+        s32 r0 = rand();
+        s32 coord;
+        s32 s2v;
+        s32 r3;
+        s32 tmp;
+
+        coord = r0 % 0x400;
+        sVar1 = *(s16 *)((*(s32 *)&(*(s32 *)&D_80126B78)) + 0x12);
+        s2v   = sVar1 + 0x800;
+        if ((rand() & 1) == 0) {
+            coord = s2v - coord;
+        } else {
+            s32 c = coord;   /* fresh pseudo so gcc keeps s2v first in the addu (§10 A1) */
+            coord = s2v + c;
+        }
+
+        func_8012B0B4(p28, coord, rand() % 0x200 + 0x200);
+
+        tmp = *(s32 *)auStack_28;
+        psVar7[0] = b58->f6 + tmp;
+        psVar7[1] = b58->fa;
+        psVar7[2] = b58->fe + (tmp >> 16);
+
+        r3 = rand();
+        *(s32 *)(param_1 + 0x1c) = 0x80;
+        *(s16 *)(param_1 + 0x100) = r3 % 9 + 8;
+    }
+
+    if ((*(u32 *)(param_1 + 0xe0) & 0x40) == 0) {
+        *(u32 *)(param_1 + 0xe8) = func_8012B744((void *)(param_1 + 4), psVar7);
+    }
+
+    r_b608 = func_8012B608((s32)*(s16 *)(*(s32 *)(param_1 + 0x20) + 0x12),
+                           *(s32 *)(param_1 + 0xe8),
+                           (s32)*(s16 *)(param_1 + 0x100));
+    *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x12) =
+        *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x12) + r_b608;
+    func_8012B178(param_1, 0xfffa0000);
+
+    *(u32 *)(param_1 + 0xe0) &= 0xffffffbf;
+    if (func_8018765C(param_1) == 0) {
+        func_801877E4(param_1);
+        sp20[1] = 0;
+        sp20[0] = 0;
+        sp20[2] = -0x100;
+        ((void (*)(s32, s32, s32))func_8012F14C)(*(s32 *)(param_1 + 0x20) + 0x34,
+                                                 (s32)sp20, (s32)psVar7);
+    }
+
+    if (((u32)D_800B99DA % 0x28 == 0) && ((*(u32 *)(param_1 + 0xe0) & 0x80) == 0)) {
+        ((void (*)(s32, s32, s32, s32))func_80189380)(param_1, (s32)&D_801B5184, (s32)auStack_38, 0xb);
+        ((void (*)(s32, s32, s32, s32, s32, s32))func_8018931C)(param_1, (s32)auStack_38, 0x282, 1, 0, 0);
+        *(u32 *)(param_1 + 0xe0) |= 0x80;
+    }
+
+    if (func_80013478(param_1 + 4, (s32)psVar7) < 0x400) {
+        *(s32 *)(param_1 + 0x1c) = 0;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_8017C24C", func_80185C2C);
 
