@@ -100,6 +100,19 @@ def run_decompile(program, addrfile, log):
         return subprocess.run(cmd, stdout=lf, stderr=subprocess.STDOUT, cwd=REPO).returncode
 
 
+def run_define(program, addrs, log):
+    """DefineFunctions.java completion pass (the Phase-10 mechanism): raw-blob auto-analysis only
+    finds the REACHABLE subset; splat's linear sweep found them all, so seed the program with the
+    still-missing stub addrs (probe evidence: main 477/2002, fresh imports ~60% defined) and let
+    the decompile retry pick them up. Reads .run/<prog>_funcs.txt implicitly (0xADDR per line)."""
+    fl = os.path.join(REPO, ".run", f"{program}_funcs.txt")
+    open(fl, "w").write("\n".join("0x%08X" % a for a in addrs) + "\n")
+    cmd = [HEADLESS, PROJ_DIR, PROJ, "-process", program, "-noanalysis",
+           "-scriptPath", SCRIPTS, "-postScript", "DefineFunctions.java"]
+    with open(log, "a") as lf:
+        return subprocess.run(cmd, stdout=lf, stderr=subprocess.STDOUT, cwd=REPO).returncode
+
+
 def import_overlay(ov, log):
     blob = family_remap.img_path(ov)
     vram = vram_of(ov)
@@ -148,12 +161,20 @@ def main():
                     or "Unable to locate" in tail):
                 if import_overlay(p, log) == 0:
                     rc = run_decompile(p, addrfile, log)
+        # completion pass: define the still-missing addrs, then re-decompile (resumable delta)
+        have = cached()
+        missing = [x for x in addrs if fname(x) not in have]
+        if rc == 0 and missing:
+            if run_define(p, missing, log) == 0:
+                rc = run_decompile(p, addrfile, log)
         got = len(cached()) - before
+        have = cached()
+        missing = [x for x in addrs if fname(x) not in have]
         state = "OK" if rc == 0 else f"RC={rc}"
         print(f"[{i}/{len(order)}] {p:16} +{got}/{len(addrs)}  {state}  "
               f"({(time.time()-t0)/60:.0f} min elapsed)", flush=True)
-        if rc != 0 or got < len(addrs):
-            failed[p] = (rc, len(addrs) - got)
+        if rc != 0 or missing:
+            failed[p] = (rc, len(missing))
     print(f"[prefetch] DONE: cache {len(cached())} files; "
           f"{len(failed)} programs with residue: "
           + (", ".join(f"{p}(rc={rc},missing={m})" for p, (rc, m) in sorted(failed.items())[:20]) or "none"))
