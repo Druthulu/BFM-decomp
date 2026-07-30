@@ -9084,7 +9084,7 @@ apart from docs). Fleet unchanged from T79: **86.9% instr · 77.4% distinct · 9
 
 ---
 
-# 🛑 SESSION-25 CHECKPOINT (2026-07-29) — FRESH SESSION SAFE HERE
+# (superseded) SESSION-25 checkpoint — written mid-session, before T82/T83
 > Supersedes the SESSION-24 REVISED-3 block for "what to do next"; that block's history stands.
 
 **Nothing running.** Tree clean but for the R23 `db.*.gbf` churn and the pre-existing
@@ -9234,3 +9234,84 @@ swept with every lever this phase built (callee axis §114, named-symbol §115, 
 def-sig, self-decl normalization). They are the correct starting population for the next diagnosis
 round, and unlike every previous "residue" this phase, none of the known harness defects applies to
 them.
+
+---
+
+# 🛑 SESSION-25 FINAL CHECKPOINT (2026-07-29) — FRESH SESSION SAFE HERE
+> Supersedes the mid-session SESSION-25 block above (written before T82/T83) and SESSION-24 REVISED-3.
+
+**Nothing running.** Tree clean but for the R23 `db.*.gbf` churn and the pre-existing
+`.run/backlog.jsonl` edit (neither mine; never stage the db churn). HEAD **`commit:1191`**.
+**R22 clean-fleet 140/140** (run 4× this session), dedup **1886/0**, **0 NON_MATCHING** (G4).
+**FLEET: 87.2% instr · 77.8% distinct · 91.72% fn-count** (opened 86.7 / 76.9 / 91.23).
+
+## SESSION TOTAL — **1,713 functions banked · +64,385 instructions · +1,129 unique fns**
+Reconciled against the metric at every step, never asserted: fn-count 322,704 → 324,417 = **+1,713**;
+per-task derived attribution agrees exactly (T79 641 · T82 251 · T83 821).
+**distinct-code +0.9pp in one session** — the metric the byte-variant tier exists to move.
+
+## THE ONE FINDING THAT MATTERS (§117)
+`family_remap.symbol_map` zips exemplar↔sibling relocation slots positionally and spelled the
+**sibling's** symbol from the **exemplar's kind**. Same-address families always agree, so it hid for
+20+ phases; **cross-address** families need not agree — an exemplar slot that is a *function* can be
+*data* in the member. Phase 26-A had already written the correct rule ("name the symbol by what the
+address IS") and applied it to one side only.
+
+**Why it read as a compiler wall for so long:** `rtu_match`/`match_one` **mask** HI16/LO16, so a body
+pointing at the *wrong symbol* reports a clean `MATCH`. Masked-MATCH + whole-binary DIFF is exactly
+what a codegen residual looks like. → **the law in §117: when a masked oracle says MATCH and the fleet
+gate says DIFF, suspect a SYMBOL before codegen.**
+
+Payout: `0x80174784` **2/255 → 251/251**, then **138 further families zero → complete** (821 members).
+
+## ▶ START HERE NEXT SESSION (ranked, all measured)
+1. **Diagnose the 92 still-zero families** — the honest residue. They have now been swept with every
+   lever this phase built (§114 callee, §115 named-symbol, §117 symbol-kind, `--fix-def-sig`,
+   self-decl normalization), so for the first time this phase **no known harness defect applies**.
+   Recipe per family: splice one member, `make -j1` the single object, filter `warning:` (§58 noise
+   hides the answer every time). Expect a *new* cause — that has been true 14 times running.
+2. **`func_801457A4` ×137 (129 distinct)** — needs the two-file atomic driver (remapped body →
+   `<ov>_o0b.c` AND drop the `INCLUDE_ASM` from `<ov>_after.c` in one edit, then gate per overlay).
+   **Do NOT move the stub line** — T80 proved splat then stops emitting the `.s` (§116). 133 in
+   scope; 4 SC07 overlays lack `_o0b.c` entirely.
+3. **The T2a immediate engine** — `func_801599A4` (137 members, ~110 distinct) plus the 77
+   immediate-refusals T83 skipped. T71's "the immediate engine is not the bottleneck" is true of
+   T70's families and **false** here. One probe: are the unresolved immediates per-location constants
+   resolvable positionally, or genuinely opaque?
+4. **The 139 STRUCT-class members** T83 skipped (`member class STRUCT (not templatable)`) — never
+   costed; size them before assuming.
+5. **The `func_80151944` three-edit decl job** (138 members) — §112 header + §20 call-site cast + a
+   scripted §99 pass over 2,022 overlay-local decls. Param is `void *`, not default-promotable, so
+   the T75 narrow-param refusal does not apply. Costed, not started.
+6. **`-O0` cluster (10 families, 1,287 distinct) stays WALLED** — Arm-A splat `%lo` re-disassembly,
+   +0x20 shift on 3 of 4 sampled overlays. **Do not bill it as sweep yield.**
+
+## ⚠️ MY ERRORS THIS SESSION (recorded, not buried)
+- **Wrote cookbook §116 with the wrong fix and built the tool before testing it.** "Byte-neutral by
+  construction" was a claim about the *linker*; splat keys asm emission to the *segment*. The build
+  refuted it in 56 seconds across 133 overlays. Corrected in place.
+- **Predicted `func_801599A4` would bank with no new tooling** from its correct header decl, while
+  the disqualifying field (`diff_class: IMM`) sat in a table I had printed myself an hour earlier —
+  the T76 error shape, in the session where I cited T76 as the reason to validate before batching.
+- **Suspected `--normalize-self-decls` for `0x80174784`** on a log line that was an *effect* (the §61
+  undo), not a cause. Refuted by re-sweeping without it; cheap, but it was a guess dressed as a lead.
+- Common thread, unchanged from SESSION-24: **the tool's own output answers the question faster than
+  my inference does.** All three were cheap only because the gate runs before the belief does.
+
+## ⚠️ CARRIED DEFECTS
+- The **21-file absolute-include portability defect** — PhaseEnd carry item.
+- **`docs/backlog.md` is not a work queue** — 44% misfiled partials (§83).
+- **Roadmap re-baseline owed**; the 39 type-1 modules are in no phase.
+- **`gate_stage` ladder destroys good drafts**; **bare gate has no snapshot/restore**.
+- **`.run/autopsy/residuals.jsonl` dated Jul 21** — stale `klass`; re-collect before trusting the grinder.
+- **`tools/rollout_801457a4_o0.py` is committed but its approach is REFUTED** — keep only as the
+  inventory pass (it correctly identifies the 133 in-scope overlays). **Do not `--apply` it.**
+- **Every masked-oracle verdict recorded before T82 is suspect** (§117): a `match_one`/`rtu_match`
+  MATCH that the fleet gate refused may be a wrong *symbol*, not codegen. The backlog's "closest
+  achieved" entries predate the fix.
+
+## 📓 NEW COOKBOOK ENTRIES THIS SESSION
+**§116** — optimization level is a property of the FILE, not the function; `asm/` follows the
+*segment* while object membership follows the *`.c` file*, so a stub-line move is unbuildable, not
+neutral. **§117** — spell the sibling's symbol from the sibling's address, not the exemplar's kind;
+and a masked oracle will MATCH a wrong symbol.
