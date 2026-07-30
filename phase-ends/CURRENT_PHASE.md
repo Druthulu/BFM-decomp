@@ -9600,7 +9600,7 @@ R22 clean-fleet **140 passed, 0 failed of 140** · dedup **1886/0** · **0 NON_M
 
 ---
 
-# 🛑 SESSION-25 FINAL CHECKPOINT v4 (2026-07-30) — FRESH SESSION SAFE HERE
+# (superseded) SESSION-25 checkpoint v4 — written before T91
 > Supersedes every earlier SESSION-25 block and SESSION-24 REVISED-3.
 
 **Nothing running.** Tree clean but for the R23 `db.*.gbf` churn + the pre-existing
@@ -9710,3 +9710,64 @@ are shared across the byte-identical stragglers, so it plausibly covers several.
 ### GATES
 No banks this task -> nothing to verify; tree clean (the wiring reverted, `family_sweep.py` restored).
 Fleet unchanged from T90: **87.3% instr · 78.0% distinct · 91.88% fn-count**.
+
+---
+
+# 🛑 SESSION-25 FINAL CHECKPOINT v5 (2026-07-30) — FRESH SESSION SAFE HERE
+> Supersedes every earlier SESSION-25 block and SESSION-24 REVISED-3.
+
+**Nothing running.** Tree clean but for the R23 `db.*.gbf` churn + the pre-existing
+`.run/backlog.jsonl` edit. HEAD **`commit:1200`**. **R22 clean-fleet 140/140** (10x this session),
+dedup **1886/0**, **0 NON_MATCHING** (G4).
+**FLEET: 87.3% instr · 78.0% distinct · 91.88% fn-count** (opened 86.7 / 76.9 / 91.23).
+
+## SESSION TOTAL — **2,302 banked · +86,206 ins · +1,548 unique fns** (instr +0.6pp, distinct +1.1pp)
+T79 641 · T82 251 · T83 821 · T84 137 · T85 133 · T87 149 · T88 9 · T89 138 · T90 23.
+
+## ▶ START HERE NEXT SESSION (ranked, all measured)
+1. **The typedef-redefinition blocker (T91)** — `func_801759D8` and the byte-identical stragglers die
+   at `conflicting types for 'S_AF634'`; gcc-2.7.2 rejects a typedef redefinition **even when
+   character-identical**, so the fix is **strip-if-ambient**, not uniquify. **First move:** the error's
+   line numbers are *assembled* offsets — preprocess the TU and read around them to identify which two
+   decls actually collide, then teach `tu_ambient` to see file-scope typedefs (or drop the draft's).
+   `_uniquify_draft_types` is the existing lever and lives only on `--reconcile-raw`; wiring it into
+   the hseq path is a 3-line diff (**I did it, it did NOT fix this case, and I reverted it** — redo
+   only with a gate). **137 members / ~130 distinct on this family; the auto-named `S_*` types recur
+   across the stragglers.**
+2. **`func_80151944` three-edit decl job** — 138 members, the last big NAMED blocker. §112 header +
+   §20 call-site cast in `DEFINE_func_80151924()`'s own body + a scripted §99 pass over 2,022
+   overlay-local decls. Param is `void *`, not default-promotable (T75 does not apply).
+3. **Remaining still-zero residue** — ~82 families / ~1,233 members / ~200 distinct, long-tailed.
+   **The §119 flag 2x2 is EXHAUSTED on them (T91: all four corners run).** Do not re-permute flags;
+   diagnose. Remaining skips: **34 immediate-refusals, 86 STRUCT**.
+4. **`-O0` cluster stays WALLED** — Arm-A splat `%lo` +0x20 shift. Not sweep yield.
+
+**Closed, do not re-open:** STRUCT residue (0.02pp) · pre-§117 masked-MATCH backlog (8 eligible, 0) ·
+`func_801457A4` 133/133 · `0x80174784` 251/251 · `func_801599A4` 137/137 · `0x80161c98` 138/138 ·
+`func_80146750` 137/137 · the §119 flag matrix.
+
+## ⚠️ MY ERRORS THIS SESSION (recorded, not buried)
+- **§116 written with the wrong fix, tool built before testing** — build refuted it in 56s.
+- **Predicted `func_801599A4` would bank** from its correct header decl while `diff_class: IMM` sat in
+  a table I printed myself (the T76 shape, cited T76 the same session).
+- **Promoted the backlog item as "126 entries"; it was 8** — raw count, no still-a-stub filter.
+- **Mis-attributed T84's 137 banks to `0x80161c98`; they were `func_80146750`** — committed wrong in
+  `commit:1193`, corrected in `commit:1198`.
+- **`new_distinct` over-projects ~2x** (priced 259, measured 125).
+- **Four of five are ONE habit: asserting the composition of a number I did not derive.** Standing fix:
+  *derive attribution from `corpus.stubs` before/after — never from whatever I was looking at.*
+- Also this session, done RIGHT and worth keeping: I wired a lever, it failed its own motivating case,
+  and I **reverted it instead of leaving it in** (T91). Unvalidated default-ON changes to shared paths
+  are the T80/§61 failure mode.
+
+## ⚠️ CARRIED DEFECTS
+21-file absolute-include portability defect · **`docs/backlog.md` is not a work queue** (§83) ·
+roadmap re-baseline owed (39 type-1 modules in no phase) · `gate_stage` ladder destroys good drafts;
+bare gate has no snapshot/restore · `.run/autopsy/residuals.jsonl` stale (Jul 21) ·
+**`--fix-def-sig` is a REPAIR, not a default** (T84/§119).
+
+## 📓 NEW COOKBOOK ENTRIES THIS SESSION
+**§116** (opt level is a property of the FILE; `asm/` follows the *segment*, object membership the
+*`.c`*) · **§117** (spell the sibling's symbol from the sibling's address; a masked oracle will MATCH a
+wrong symbol) · **§118** (ordinal immediates; exclude compiler-synthesised uses from the safety count) ·
+**§119** (two levers on one axis in opposite directions — test the off-diagonal).
