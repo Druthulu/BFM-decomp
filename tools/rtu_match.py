@@ -17,9 +17,10 @@ than match_one's. STILL finish on the real `make build` whole-binary SHA gate (G
   #   the replacement may be MULTI-LINE: a literal backslash-n in new_text becomes a newline
   #   (needed to expand a DEFINE_func_* macro instantiation in place -- the §63 per-overlay-local
   #   decl override).  Use \\n in the directive if you want a literal backslash-n.
-  # --stderr-out PATH persists the FULL stderr of every stage.  The inline prints are tail-truncated,
-  # and these TUs emit hundreds of benign `type mismatch with previous external decl' warnings, so a
-  # truncated tail can hide the real first error entirely (the §58 red-herring, one level down).
+  # --stderr-out PATH persists the FULL stderr of every stage.  Since P30 T0b the FAIL verdict
+  # itself prints the NON-warning diagnostic lines (first 15; gcc-2.7.2 hard errors carry no
+  # `error:` prefix, and these TUs emit hundreds of benign `type mismatch` warnings that drowned
+  # the one real line — it cost three probes in SESSION-25). --stderr-out remains the full dump.
 """
 import subprocess, re, sys, os, argparse, atexit
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -106,15 +107,41 @@ def pipe(stage, cmd, data=None):
     p = subprocess.run(cmd, input=data, capture_output=True)
     _errlog.append((stage, p.stderr.decode('utf-8', 'replace')))
     return p
+
+
+def _diagnostics(raw, tail):
+    """The real errors, IN the verdict output (P30 T0b — cost three probes in SESSION-25).
+
+    A raw tail is all warnings on a big TU: gcc-2.7.2 warns for the whole split, and its HARD errors
+    carry no `error:` prefix (the S22 lesson) — so `[-2000:]` printed 2 KB of warnings while the one
+    line that killed cc1 sat mid-stream, reachable only via --stderr-out + a hand grep. This applies
+    that exact working recipe in-tool: drop warning/context/progress lines; what survives IS the
+    error set (2.7.2 hard errors are bare `file:line: message`; ICE/signal lines also survive).
+    Falls back to the raw tail if the filter leaves nothing — never print LESS than before."""
+    keep = [l for l in raw.splitlines()
+            if l.strip()
+            and 'warning:' not in l
+            and not re.search(r'In function|At top level|^###', l)]
+    if not keep:
+        return raw[-tail:]
+    head = keep[:15]
+    more = '' if len(keep) <= 15 else '\n  ... +%d more non-warning lines (--stderr-out for all)' % (len(keep) - 15)
+    return '\n'.join(head) + more
+
+
+def _fail(stage, p, tail):
+    print('%s FAIL\n%s' % (stage, _diagnostics(p.stderr.decode('utf-8', 'replace'), tail)))
+    _flush_errlog()
+    sys.exit(1)
 # -Isrc/<source> so the split's relative `#include "../shared/..."` resolves from the temp dir
 p = pipe('CPP', [CPP]+CPPFLAGS+['-Isrc/%s'%a.source, '-DINCLUDE_ASM(a,b)=', '%s/t.c'%wd])
-if p.returncode: print('CPP FAIL\n'+p.stderr.decode()[-1500:]); sys.exit(1)
+if p.returncode: _fail('CPP', p, 1500)
 p = pipe('CC1', [CC1]+CC1FLAGS, p.stdout)
-if p.returncode: print('CC1 FAIL\n'+p.stderr.decode()[-2000:]); sys.exit(1)
+if p.returncode: _fail('CC1', p, 2000)
 p = pipe('MASPSX', [PY, MASPSX, '--aspsx-version=2.56', '--expand-div'], p.stdout)
-if p.returncode: print('MASPSX FAIL\n'+p.stderr.decode()[-1500:]); sys.exit(1)
+if p.returncode: _fail('MASPSX', p, 1500)
 p = pipe('AS', [AS]+ASFLAGS+['-o', '%s/t.o'%wd], p.stdout)
-if p.returncode: print('AS FAIL\n'+p.stderr.decode()[-1500:]); sys.exit(1)
+if p.returncode: _fail('AS', p, 1500)
 
 mine = masked_diff.insns_from_object('%s/t.o'%wd, a.fn)
 tgt = masked_diff.insns_from_s('%s/%s.s' % (ASM_SUBDIR, a.fn))

@@ -83,6 +83,15 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 
 ## Per-task log
 
+### T0(b) ✅ — rtu_match surfaces the real cc1 error in the verdict (2026-07-30)
+`_diagnostics()` filter (the SESSION-25 recipe, in-tool): drop `warning:`/`In function`/`At top
+level`/`###`/blank lines from the failing stage's stderr and print the FIRST 15 survivors — gcc-2.7.2
+hard errors carry no `error:` prefix and the old `[-2000:]` tail was all warnings. Raw-tail fallback
+if the filter empties (ICE/signal formats) — never prints less than before. Applied to all four
+stages (CPP/CC1/MASPSX/AS). Verified on a real deliberate CC1 failure: the verdict now leads with
+`t.c:3116: 'nonexistent_var' undeclared` instead of a 2 KB warning tail. `--stderr-out` unchanged
+(full dump). Docstring updated.
+
 ### T0(a) ✅ — gate_stage stage-0 + fix_arity_callers journal undo (2026-07-30)
 The carried defect pair closed structurally, not by root-causing:
 - **`gate_stage.py`**: **stage 0 gates the RAW drafts before any transform** (`GATE_NO_STAGE0` to
