@@ -3400,7 +3400,11 @@ INCLUDE_ASM("asm/ov_SC05_005/nonmatchings/ov_SC05_005_jr_8017D898", func_80180DF
 
 INCLUDE_ASM("asm/ov_SC05_005/nonmatchings/ov_SC05_005_jr_8017D898", func_80180E78);
 
-INCLUDE_ASM("asm/ov_SC05_005/nonmatchings/ov_SC05_005_jr_8017D898", func_80180F3C);
+extern void ApplyMatrixSV(void*, void*, void*);
+    void func_80180F3C(void * arg0) {
+        ((void (*)(s32 *))ApplyMatrixSV)(*(void **)((char *)arg0 + 0x20) + 0x34);
+    }
+
 
 INCLUDE_ASM("asm/ov_SC05_005/nonmatchings/ov_SC05_005_jr_8017D898", func_80180F60);
 
