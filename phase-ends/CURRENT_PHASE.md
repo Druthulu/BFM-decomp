@@ -8838,3 +8838,89 @@ R22 clean-fleet **140 passed, 0 failed of 140** · `tools-health` OK · dedup **
    unswept and the two levers added since (§114 callee, §115 named symbols) never touched them.
 3. **§43 K&R conversion** for `func_80147364` (137).
 4. **Extend the audit with the family map** (T71).
+
+---
+
+# 🛑 SESSION-24 FINAL CHECKPOINT — REVISED 3 (2026-07-29) — FRESH SESSION SAFE HERE
+> Supersedes all three earlier SESSION-24 blocks (written before T59, T67, and T76).
+
+**Nothing running.** Tree clean but for the R23 `db.*.gbf` churn and a pre-existing
+`.run/backlog.jsonl` edit (neither mine; never stage the db churn). HEAD **`commit:1186`**.
+**R22 clean-fleet 140/140** (run **24×** this session), `tools-health` OK, dedup **1886/0**,
+**0 NON_MATCHING** (G4).
+**FLEET: 86.7% instr · 76.9% distinct · 91.23% fn-count** (opened 85.5 / 76.1 / 90.62).
+
+## SESSION TOTAL — **2,180 functions banked · +152,366 instructions**
+Reconciled against the metric, not asserted: fn-count **320,524 → 322,704 = +2,180**; instr
+**11,240,111 → 11,392,477**. Per-task recount agrees exactly: T52 132 · T56 136 · T57 132 · T58 137 ·
+T63 137 · T64 137 · T65 137 · T68 685 · T70 138 · T72 137 · T77 135 · T78 137.
+
+## THE ONE LESSON, EARNED ~12 TIMES
+**A family-wide `0/N` is a statement about the HARNESS, not the code. Not once this session was it the
+compiler.** Every cause, in order found:
+lever unreachable from the sweep path (T56 data-decl · T77 callee) · lever **off by default** (T57) ·
+lever with a **param-name** bug (T60) · shared header contradicting byte truth (T63 · T64 · T68 ×6 ·
+T72) · extraction taking the **wrong function** (T65) · a `--band` default silently dropping targets
+(T57) · a name-form assumption in **three** places (T78).
+
+**The corollary that cost the most:** a *partial* fix to a name-form assumption produces the **exact
+symptom of no fix at all**, so a correct hypothesis reads as refuted (§115). Grep for every place an
+assumption is encoded before testing it.
+
+## ▶ START HERE NEXT SESSION (ranked, all measured)
+1. **Re-sweep the byte-VARIANT tier — the measurement is stale IN OUR FAVOUR.** T70 banked 1/10, but
+   that was *before* the callee axis (§114) and named-symbol support (§115) existed, and **26 of the
+   36 families were never swept at all**. Projected 114,331 ins · 2,962 **distinct** — still the only
+   lever that moves the distinct-code metric. Batch ~10, `--band all --normalize-self-decls
+   --fix-def-sig` (both new levers are default-ON).
+2. **Diagnose the 3 remaining byte-identical families** (`func_801759D8`, `func_80146750`,
+   `func_80142B2C`, ~410 members). Two decl axes are wired in now, so whatever blocks these is a
+   fourth thing; one probe each names it. Recipe: splice one member, `make -j1` the single object,
+   filter out `warning:` (the `-j16` interleave and §58 noise hide the answer every time).
+3. **§43 K&R conversion** for `func_80147364` (137) — the narrow-param wall; `()` is byte-proven
+   refused by the default-promotion rule (T75), so the fix must be def-side.
+4. **Extend `audit_header_sigs.py` with the family map** (T71) — a cross-address member has no
+   definition of its own, so the audit is structurally blind to it; the byte truth is its exemplar's
+   definition under a different name.
+5. **The 13 SAFE audit findings** (`.run/header_audit4.json`) — only 15 binaries; batch into any gate.
+
+## ⚠️ MY ERRORS THIS SESSION (recorded, not buried)
+- **Recommended the byte-identical families as "yield, not findings"; they banked 0 of 682.** I had
+  written the disqualifying caveat two turns earlier and then reasoned as though it did not exist.
+  Byte-identity predicts the template is exact *if it compiles* — the unswept ones are precisely
+  those never unblocked, so the property **selects for being blocked**.
+- **Wrote a precondition that blocked six corrections I had just proven safe** — twice, on two wrong
+  models (type spelling, then population instead of intersection). Caught only by running it against
+  known-good AND known-bad controls. **Every gate deserves that control.**
+- **Called a three-place fix "one line"** (§115) and nearly abandoned a correct hypothesis when the
+  partial fix changed nothing.
+- **Reported `func_8016163C` as "genuine codegen"** — it was my own `--fix-def-sig` deleting a fifth
+  of the function. A "clean DIFF" right after a transform is a suspect, not a result.
+- **Grouped three families as one 30,000-ins block** on a shared error message; three unrelated causes.
+- **Claimed 7 families had banked exemplars**; 2 had none (name-grep instead of `corpus.stubs`).
+- **`int(x,16)` in one comprehension, forgotten in the next** — would have inverted the T66 conclusion
+  for 36 of 49 families.
+- **Broke `reconcile_def_sig` with my own §99 header change** (canonical `()` → deleted the
+  definition's parameters, ×137); found and fixed in the same task.
+- Common thread: **the tool's own output answers the question faster than my inference does.**
+
+## ⚠️ CARRIED DEFECTS
+- The **21-file absolute-include portability defect** — PhaseEnd carry item.
+- **`docs/backlog.md` is not a work queue** — 44% misfiled partials (§83).
+- **Roadmap re-baseline owed**; the 39 type-1 modules are in no phase.
+- **`gate_stage` ladder destroys good drafts**; **bare gate has no snapshot/restore**.
+- **`.run/autopsy/residuals.jsonl` dated Jul 21** — `route_for` protects the ROUTE (T54) but the
+  `klass` measurements are stale; a re-collect is owed before trusting the grinder.
+- **§61 judgment call, Drew's to overrule (T75):** `func_80147364`'s header edit bought 0 banks and
+  §61 says undo it. I kept it — `()` asserts no wrong type where `(u16, s32)` did, it is gated
+  byte-neutral, and it is a prerequisite for the §43 route.
+**DO NOT close P29 on ROI** — +1.2pp instr this session and item 1 is a stale-in-our-favour
+measurement over 26 unswept families.
+
+## 📓 NEW COOKBOOK ENTRIES THIS SESSION
+§103 (TU-side decl scoping) · §104 (mask to match, slice to emit) · §105 (revert must survive an
+exception) · §106 (persist the measurement, derive the policy) · §107 (a lever wired into one gate
+path) · §108 (diagnosing a family 0/N: the four causes) · §109 (conform types, keep body names) ·
+§110 (one definition per unit) · §111 (byte-variant vs byte-identical predicts distinct-code) ·
+§112 (a macro-scoped decl collides only where instantiated) · §113 (ARITY needs a call, not a mention) ·
+§114 (the third decl axis: the callee) · §115 (a name-form assumption in three places).
