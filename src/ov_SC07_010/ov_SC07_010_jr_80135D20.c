@@ -1673,7 +1673,54 @@ DEFINE_func_8013AA24()  /* dedup: shared engine-core @0x8013aa24 (src/shared) */
 DEFINE_func_8013AB54()  /* dedup: shared engine-core @0x8013ab54 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC07_010/nonmatchings/ov_SC07_010_jr_80135D20", func_8013AD38);
+#define gte_ldv0(r0)  __asm__ __volatile__( \
+    "lwc2 $0, 0(%0)\n" \
+    "lwc2 $1, 4(%0)\n" \
+    : : "r"(r0) : "memory")
+#define gte_mvmva0()  __asm__ __volatile__( \
+    "nop\n" \
+    "nop\n" \
+    "mvmva 1, 0, 0, 0, 0\n" \
+    : : : "memory")
+#define gte_stlvnl(r0)  __asm__ __volatile__( \
+    "swc2 $25, 0(%0)\n" \
+    "swc2 $26, 4(%0)\n" \
+    "swc2 $27, 8(%0)\n" \
+    : : "r"(r0) : "memory")
+
+void func_8013AD38(void *flag, s32 a1, void *out2, void *out3) {
+
+    extern s16 D_800D45F4[];
+    extern u8 D_80182690[];
+    extern s16 D_800D466C[];
+    extern u8 D_801826CC[];
+
+    u8 *tbl;
+    s16 vec[4];
+    s32 res[3];
+    s32 i;
+
+    tbl = D_801826CC;
+    if (((s16)a1) < 0xC00) {
+        tbl = D_80182690;
+    }
+
+    for (i = 0; i < 30; i++) {
+        vec[0] = D_800D45F4[2 * i]     + (((D_800D466C[2 * i]     - D_800D45F4[2 * i])     * ((s16)a1)) >> 12);
+        vec[1] = D_800D45F4[2 * i + 1] + (((D_800D466C[2 * i + 1] - D_800D45F4[2 * i + 1]) * ((s16)a1)) >> 12);
+        gte_ldv0(vec);
+        gte_mvmva0();
+        gte_stlvnl(res);
+        ((Pair *)out2)[i].x = res[0];
+        ((Pair *)out2)[i].y = res[1];
+        if (((s16 *)flag)[0] < 0) ((s8 *)out3)[2 * i]     = -tbl[2 * i];     else ((s8 *)out3)[2 * i]     = tbl[2 * i];
+        if (((s16 *)flag)[1] < 0) ((s8 *)out3)[2 * i + 1] = -tbl[2 * i + 1]; else ((s8 *)out3)[2 * i + 1] = tbl[2 * i + 1];
+    }
+    ((Pair *)out2)[i] = ((Pair *)out2)[0];
+    if (((s16 *)flag)[0] < 0) ((s8 *)out3)[2 * i]     = -tbl[0]; else ((s8 *)out3)[2 * i]     = tbl[0];
+    if (((s16 *)flag)[1] < 0) ((s8 *)out3)[2 * i + 1] = -tbl[1]; else ((s8 *)out3)[2 * i + 1] = tbl[1];
+}
+
 
 DEFINE_func_8013AF20()  /* dedup: shared engine-core @0x8013af20 (src/shared) */
 

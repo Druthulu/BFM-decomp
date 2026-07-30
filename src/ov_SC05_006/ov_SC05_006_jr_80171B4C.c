@@ -2422,7 +2422,15 @@ DEFINE_func_80172BC8()  /* dedup: shared engine-core @0x80172BC8 (src/shared) */
 
 DEFINE_func_80172C48()  /* dedup: shared engine-core @0x80172C48 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC05_006/nonmatchings/ov_SC05_006_jr_80171B4C", func_80172C50);
+extern void func_80174684(void *);
+extern void func_80172CA0(void*);
+void func_80172C50(void *a0) {
+
+    extern s16 D_80126B30;
+    *(struct S8_80172780 *)&D_80126B30 = *(struct S8_80172780 *)a0;
+    func_80174684((void *)func_80172CA0);
+}
+
 
 
 extern void (*D_80182A14[])(void);

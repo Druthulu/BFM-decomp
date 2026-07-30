@@ -3264,7 +3264,22 @@ INCLUDE_ASM("asm/ov_SC03_108/nonmatchings/ov_SC03_108_jr_8017BEBC", func_8017D6A
 
 INCLUDE_ASM("asm/ov_SC03_108/nonmatchings/ov_SC03_108_jr_8017BEBC", func_8017D764);
 
-INCLUDE_ASM("asm/ov_SC03_108/nonmatchings/ov_SC03_108_jr_8017BEBC", func_8017D898);
+
+// @class: struct
+// @stuck: none — MATCH (fn-ptr table %lo-fold via extern array of code ptrs)
+
+
+extern void func_8012B2CC(s32);
+
+void func_8017D898(int param_1)
+{
+
+    extern code_fn D_801847A8[];
+    D_801847A8[*(unsigned short *)(param_1 + 2)]();
+    ((void (*)(int))func_8012B2CC)(param_1);
+    return;
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_108/nonmatchings/ov_SC03_108_jr_8017BEBC", func_8017D8E8);
 

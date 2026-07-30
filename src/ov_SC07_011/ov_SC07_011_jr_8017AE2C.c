@@ -3384,7 +3384,52 @@ void func_8017B1D8(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_011/nonmatchings/ov_SC07_011_jr_8017AE2C", func_8017B238);
+extern void func_8012A018(s32 a, s32 b);
+
+// @class: regalloc-order — simplified sibling of matched func_8017B614.
+// @stuck: none. Block-moves are align-1 struct-assigns (u8[8]) -> emit_block_move
+// (unaligned lwl/lwr/swl/swr), ZERO memcpy-symbol reference, so the TU's `extern memcpy`
+// (which turned the old draft's memcpy into a CALL -> DIFF 64) can't drift this.
+// $16 pin + in-place re-tie keeps param_2 in $a1 until the >=0xB branch, then $s0 for loads.
+
+
+s32 func_8017B238(s32 param_1, s32 param_2)
+{
+
+    extern s16 D_801902EC;
+    extern s16 D_80190488;
+    extern void func_8012F214(s32 a0, s32 a1, s32 a2);
+    extern void func_8017BE60(void*);
+    extern u8 D_80181FC0[];
+    extern s16 D_80190364;
+    extern s16 D_8019035C;
+    extern u8 D_8012694C;
+
+    u8 buf[16];
+
+    if (((u32)param_2) >= 0xB) {
+        register u8 *src __asm__("$16");
+        __asm__ __volatile__("" : "=r"(src) : "0"((u8 *)((u32)param_2)));
+        *(Blk8_8017B238 *)&buf[0] = *(Blk8_8017B238 *)src;
+        *(Blk8_8017B238 *)&buf[8] = *(Blk8_8017B238 *)(src + 8);
+    } else {
+        s32 a1addr = (s32)&D_80181FC0[((u32)param_2) * 0x10];
+        s32 a2addr = (s32)&D_80181FC0[((u32)param_2) * 0x10 + 8];
+        func_8012F214(param_1, a1addr, (s32)&buf[0]);
+        func_8012F214(param_1, a2addr, (s32)&buf[8]);
+    }
+    {
+        s16 *p794 = &D_80190364;
+        s16 *p78C = &D_8019035C;
+        *(Blk8_8017B238 *)p794 = *(Blk8_8017B238 *)&buf[0];
+        *(Blk8_8017B238 *)p78C = *(Blk8_8017B238 *)&buf[8];
+        func_8012A018((s32)func_8017BE60, 0);
+        D_8012694C = 0;
+        D_80190488 = 1;
+        D_801902EC = 0;
+    }
+}
+
 
 
 // @class: struct
@@ -3708,7 +3753,55 @@ void func_8017B940(void)
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_011/nonmatchings/ov_SC07_011_jr_8017AE2C", func_8017BA3C);
+
+
+// @class: struct
+// @stuck: none — MATCH (62 ins)
+
+extern void func_8012F214(s32 a0, s32 a1, s32 a2);
+extern void func_80049CAC(s32 a0, s32 a1);
+extern void func_8004914C(void *a0);
+extern void func_800491AC(void *a0);
+extern void RotTransSV(s32, s32, void*);
+
+/* short-only (align 2) struct -> the 8-byte struct copy emits lwl/lwr/swl/swr */
+
+/* PSX MATRIX_c2: 3x3 short rotation + pad + 3 long translation (offset 0x14) */
+
+
+void func_8017BA3C(s32 param_1, s32 param_2)
+{
+
+    extern SV4 D_8019030C;
+    extern SV4 D_80190314;
+    SV4 v0;            /* sp+0x10 : func_80049CAC arg0 */
+    MTX mtx;           /* sp+0x18 : MATRIX_c2, t[] at sp+0x2c */
+    SV4 v1;            /* sp+0x38 : RotTransSV arg0 */
+    SV4 svec;          /* sp+0x40 : func_8012F214 out */
+    SV4 buf1;          /* sp+0x48 : RotTransSV arg1 (-> D_80190314) */
+    SV4 buf2;          /* sp+0x50 : RotTransSV arg2 */
+
+    func_8012F214(param_1, param_2, (s32)&svec);
+    D_8019030C = svec;
+
+    v0.a = -*(s16 *)(param_2 + 0xc);
+    v0.b = *(u16 *)(param_2 + 8);
+    v0.c = 0;
+    v1.a = 0;
+    v1.b = 0;
+    v1.c = -*(s16 *)(param_2 + 0xa);
+    ((void (*)(void *, void *))func_80049CAC)(&v0, &mtx);
+
+    mtx.t[0] = (s32)svec.a;
+    mtx.t[1] = (s32)svec.b;
+    mtx.t[2] = (s32)svec.c;
+    func_8004914C(&mtx);
+    func_800491AC(&mtx);
+
+    ((void (*)(void *, void *, void *))RotTransSV)(&v1, &buf1, &buf2);
+    D_80190314 = buf1;
+}
+
 
 extern void func_8004914C(void *a0);
 extern void func_800491AC(void *a0);

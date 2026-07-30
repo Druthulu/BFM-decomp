@@ -3590,7 +3590,20 @@ extern s32 func_8017EFEC(void);
     }
 
 
-INCLUDE_ASM("asm/ov_SC03_003/nonmatchings/ov_SC03_003_jr_8017AE2C", func_8017EFB8);
+
+
+
+extern s32 func_8017EFEC(void);
+
+void func_8017EFB8(void) {
+
+    extern s16 D_80126942;
+    extern s16 D_80126944;
+    D_80126942 = -0xC1;
+    D_80126944 = 0;
+    ((void (*)(void))func_8017EFEC)();
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_003/nonmatchings/ov_SC03_003_jr_8017AE2C", func_8017EFEC);
 

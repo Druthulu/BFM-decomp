@@ -598,7 +598,7 @@ extern s32 func_8014E284(s32 a0, s16 *a1, s16 *a2);
 extern s32 func_8014E048(s32 a0, u16 *a1, u16 *a2); /* u16*: def lhu semantics (T5b reconcile; ptr param type codegen-neutral for the caller) */
 extern s32 func_80135A4C(s32 a0, s32 a1, s32 *a2, s32 a3);
 extern s32 func_80133784(s32 a0, void *a1, s32 a2);
-extern u8 D_801152A8[];   /* canonical TU type (engine_core) — read via *(u16*) cast */
+/* canonical TU type (engine_core) — read via *(u16*) cast */
 extern s16 D_801152AC;
 extern s32 func_8014E048(s32 param_1, u16 * param_2, u16 * param_3);
 extern void func_8014E48C(s32 a0);
@@ -634,7 +634,6 @@ extern s32 func_8014F468(void);
 extern int func_8014F74C();
 extern int func_8014F6F4(void);
 extern u8 D_800D3918[];
-extern u8 D_801152A8[];
 extern s32 D_801152BC;
 extern int func_8014F74C(s32 arg0);
 extern s32 func_8014FA70(s32 a0);
@@ -3554,7 +3553,39 @@ INCLUDE_ASM("asm/ov_SC06_024/nonmatchings/ov_SC06_024_jr_8017BEBC", func_8018150
 
 INCLUDE_ASM("asm/ov_SC06_024/nonmatchings/ov_SC06_024_jr_8017BEBC", func_80181658);
 
-INCLUDE_ASM("asm/ov_SC06_024/nonmatchings/ov_SC06_024_jr_8017BEBC", func_801816D0);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+extern void func_80146C3C(void);
+void func_801816D0(s32 *param_1)
+{
+
+    extern s8 D_801E1160;
+  int new_var;
+register s32 p __asm__("$4");
+register s32 r __asm__("$3");
+  p = (s32) (&D_801E1160);
+  r = param_1[0x2c / 4];
+  new_var = r;
+  p += new_var;
+  *((s8 *) p) = 0;
+  ((void (*)(void)) func_80146C3C)();
+}
+
 
 
 void func_80181700(void *a0) {
@@ -4198,18 +4229,215 @@ INCLUDE_ASM("asm/ov_SC06_024/nonmatchings/ov_SC06_024_jr_8017BEBC", func_8018A57
 INCLUDE_ASM("asm/ov_SC06_024/nonmatchings/ov_SC06_024_jr_8017BEBC", func_8018A624);
 
 
-extern s32 D_801E17F0;
 extern s32 func_8012C588(s32 a0, s32 a1);
 
 s32 func_8018A6DC(s32 a0, s32 a1) {
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern s32 D_801E17F0;
     D_801E17F0 = a1;
     return func_8012C588(0x85, a0);
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_024/nonmatchings/ov_SC06_024_jr_8017BEBC", func_8018A70C);
+extern s32 func_80017DC4(void *a0, void *a1);
+extern void func_80017E68(void *a0, void *a1);
+extern void func_800D20C0(void *a0, void *a1, s32 a2);
+extern void func_800D23D0(void *a0);
+extern void func_8012A828(s32 a0, void *a1);
+extern void func_8012C218(s32);
+extern void func_8012F14C(s32);
+extern s32 func_80134510(s32 arg);
 
-INCLUDE_ASM("asm/ov_SC06_024/nonmatchings/ov_SC06_024_jr_8017BEBC", func_8018A950);
+// @class: regalloc-order
+// @stuck: none — MATCH (145/145 ins, match_one confirmed)
+
+
+
+
+s32 func_8018A70C(s32 param_1) {
+
+    extern u8 D_801152A8[];
+    extern M2C_UNK D_8018FB1C;
+    extern s32 D_801E17F0;
+    extern s32 func_8012C354(s32, void*);
+    extern void RotMatrixZ(s32, void *);
+    extern void MulMatrix0(s32, void *, s32);
+    extern s32 D_801D4450;
+    extern char * D_801D4484;
+    extern char D_801E17D0[];
+
+    S8_80184F08 s60;
+    SVECTOR_80184F08 sStack_58;
+    S8_80184F08 s50;
+    int auStack_48[8];
+    s32 iVar5, iVar8;
+    char *puVar2, *puVar4;
+    u16 uVar3;
+
+    if (((s32 (*)(s32, void *))func_8012C354)(param_1, &D_801D4450) == 0) {
+        ((void (*)(s32))func_8012C218)(param_1);
+    }
+    ((void(*)(s32, void *))func_8012A828)(param_1, &(*(s32 *)&D_8018FB1C));
+    iVar5 = *(s32 *)(param_1 + 0x20);
+    *(s16 *)(param_1 + 0x70) = 0x80;
+    *(s32 *)(iVar5 + 4) |= 0x50000040;
+    *(u16 *)(iVar5 + 0x2c) |= 1;
+    iVar8 = *(s32 *)(*(s32 *)(param_1 + 0x64) + 0x20) + 0x34;
+    ((void (*)(s32, s32, void *))func_8012F14C)(iVar8, D_801E17F0, &s60);
+    s50 = s60;
+    sStack_58.vz = 0x1800;
+    sStack_58.vy = 0x1800;
+    sStack_58.vx = 0x1800;
+    ((void (*)(void *, void *))func_80017DC4)(&sStack_58, auStack_48);
+    RotMatrixZ(rand() & 0xfff, auStack_48);
+    MulMatrix0(iVar8, auStack_48, iVar5 + 0x34);
+    ((void (*)(void *, s32))func_80017E68)(&s50, iVar5 + 0x34);
+
+    /* pool-alloc: gcc routes the loaded pointer through a caller-saved reg ($v0)
+       before the callee-saved home ($s1) — pin it to reproduce the extra move. */
+    {
+        register char *tmp __asm__("$2");
+        tmp = D_801D4484;
+        puVar2 = tmp;
+    }
+    puVar4 = puVar2 + 0x20;
+    D_801D4484 = puVar4;
+    *(char **)(param_1 + 0xcc) = puVar2;
+    if (D_801E17D0 < puVar4) {
+        D_801D4484 = D_801E17D0 - 0x120;
+    }
+    func_800D20C0(&s60, &sStack_58, 7);
+    func_800D23D0(&sStack_58);
+    ((void(*)(void *, void *))RotMatrixYXZ)(&sStack_58, puVar2);
+    ((void (*)(void *, s32))func_80017E68)(&s60, (s32)puVar2);
+
+    uVar3 = *(u16 *)((char *)&s50 + 2);
+    if (((s32 (*)(void *))func_80134510)(&s50) != 0 &&
+        (s32)(s16)uVar3 - (s32)*(s16 *)((char *)&s50 + 2) < 0x80) {
+        *(s16 *)((char *)&s50 + 2) = *(s16 *)((char *)&s50 + 2) - 4;
+        {
+            register char *tmp __asm__("$3");
+            tmp = D_801D4484;
+            puVar2 = tmp;
+        }
+        puVar4 = puVar2 + 0x20;
+        D_801D4484 = puVar4;
+        *(char **)(param_1 + 0xd0) = puVar2;
+        if (D_801E17D0 < puVar4) {
+            D_801D4484 = D_801E17D0 - 0x120;
+        }
+        func_800D23D0(&(*(s32 *)&D_801152A8));
+        ((void(*)(void *, void *))RotMatrixYXZ)(&(*(s32 *)&D_801152A8), puVar2);
+        ((void (*)(void *, s32))func_80017E68)(&s50, (s32)puVar2);
+    }
+    *(s16 *)(param_1 + 2) = *(s16 *)(param_1 + 2) + 1;
+}
+
+
+extern s32 func_80017758(void *a0, void *a1);
+extern void func_8012C218(s32);
+//   (3) counter is `short i` do-while (keeps the `addu $s2,$v0,$0` raw-copy + sll16/sra16 compare);
+//   (4) gcc-2.7.2 loads s8/s16 via lbu/lhu+shift-extend (not lb/lh) so `signed char *p; *(s16*)buf=*p++`
+//   emits lbu;sll24;sra24;sh; (5) else-branch zero-byte asm barrier forces `addu $a0,$s1,$0` (else gcc
+//   reuses the still-live incoming $a0 with a nop delay slot).
+
+s32 func_8018A950(s32 param_1) {
+
+    extern signed char D_801D443C[];
+    register int self __asm__("$17") = ((int)param_1);
+    int iVar6;
+    int iVar1;
+    unsigned char buf[0x34];
+    signed char *p;
+    short i;
+    int dest;
+    int td;
+    unsigned short t;
+
+    iVar1 = *(int *)(self + 0x1c);
+    iVar6 = *(int *)(self + 0x20);
+    *(int *)(self + 0x1c) = iVar1 + 1;
+    if (iVar1 < 2) {
+        p = D_801D443C;
+        i = 0;
+        dest = *(int *)(self + 0xcc);
+        t = *(unsigned short *)(self + 0x70);
+        *(short *)(buf + 0x0c) = 0;
+        *(short *)(buf + 0x0a) = 0;
+        *(short *)(buf + 0x08) = 0;
+        *(short *)(buf + 0x1c) = 0;
+        *(short *)(buf + 0x14) = 0;
+        *(short *)(buf + 0x04) = 0;
+        buf[0x22] = 0;
+        buf[0x21] = 0;
+        buf[0x20] = 0;
+        buf[0x2a] = 0;
+        buf[0x29] = 0;
+        buf[0x28] = 0;
+        buf[0x2e] = 0;
+        buf[0x2d] = 0;
+        buf[0x2c] = 0;
+        *(int *)(buf + 0x30) = 0x50000000;
+        buf[0x25] = t;
+        buf[0x26] = t;
+        buf[0x24] = t;
+        do {
+            *(short *)(buf + 0x00) = *p++;
+            *(short *)(buf + 0x02) = *p++;
+            *(short *)(buf + 0x10) = *p++;
+            *(short *)(buf + 0x12) = *p++;
+            *(short *)(buf + 0x18) = *p++;
+            *(short *)(buf + 0x1a) = *p--;
+            func_80017758(buf, (void *)dest);
+            i++;
+        } while (i < 4);
+
+        td = *(int *)(self + 0xd0);
+        if (td != 0) {
+            dest = td;
+            p = D_801D443C;
+            i = 0;
+            t = *(unsigned short *)(self + 0x70);
+            *(short *)(buf + 0x0c) = 0;
+            *(short *)(buf + 0x0a) = 0;
+            *(short *)(buf + 0x08) = 0;
+            *(short *)(buf + 0x1c) = 0;
+            *(short *)(buf + 0x14) = 0;
+            *(short *)(buf + 0x04) = 0;
+            buf[0x22] = 0;
+            buf[0x21] = 0;
+            buf[0x20] = 0;
+            buf[0x2a] = 0;
+            buf[0x29] = 0;
+            buf[0x28] = 0;
+            buf[0x2e] = 0;
+            buf[0x2d] = 0;
+            buf[0x2c] = 0;
+            *(int *)(buf + 0x30) = 0x50000000;
+            buf[0x25] = t;
+            buf[0x26] = t;
+            buf[0x24] = t;
+            do {
+                *(short *)(buf + 0x00) = *p++;
+                *(short *)(buf + 0x02) = *p++;
+                *(short *)(buf + 0x10) = *p++;
+                *(short *)(buf + 0x12) = *p++;
+                *(short *)(buf + 0x18) = *p++;
+                *(short *)(buf + 0x1a) = *p--;
+                func_80017758(buf, (void *)dest);
+                i++;
+            } while (i < 4);
+        }
+        *(short *)(self + 0x70) = *(short *)(self + 0x70) >> 1;
+        *(unsigned short *)(iVar6 + 0x2c) |= 1;
+    } else {
+        __asm__ __volatile__("" : "=r"(self) : "0"(self));
+        ((void (*)(void *))func_8012C218)((void *)self);
+    }
+}
+
 
 
 extern void (*D_801D4488[])(void);
@@ -4219,7 +4447,61 @@ void func_8018ABF0(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_024/nonmatchings/ov_SC06_024_jr_8017BEBC", func_8018AC2C);
+
+
+// @class: schedule
+// @stuck: none — MATCH (132 ins, match_one). Levers: (1) block2 statement order — compute sv1.vz (with the *(p+0xe) load) right after the 2nd call so gcc hoists that load into $v1, forcing the sv2.vx=sv1.vx copy through $a3, which globally pushes every `func*param>>12` product from $a3 to $t0; (2) sv2 store order vx-before-vy; (3) SHARED return-0 join via gotos placed BEFORE the copy block (ret0: before docopy:) — this blocks gcc's conditional-jump-over-jump inversion + return-threading, so the copy block falls through to the epilogue with v0=1 preset in the beqz delay slot (drops the extra `li v0,1`).
+
+
+extern int func_8004787C(int);
+extern int func_80047948(int);
+extern s32 func_80133784(s32, void*, s32);
+
+int func_8018AC2C(int param_1, short param_2)
+{
+    int iVar1;
+    unsigned int uVar2;
+    int iVar3;
+    SVECTOR sv1;
+    SVECTOR sv2;
+
+    if (*(int *)(param_1 + 0xdc) != 0) goto ret0;
+    sv1.vx = *(short *)(param_1 + 6);
+    sv1.vy = *(short *)(param_1 + 0xa) + -0x20;
+    sv1.vz = *(short *)(param_1 + 0xe);
+    iVar1 = func_8004787C(*(unsigned short *)(*(int *)(param_1 + 0x20) + 0x12) & 0xfff);
+    iVar3 = (int)param_2;
+    sv2.vy = sv1.vy;
+    sv2.vx = sv1.vx - (short)(iVar1 * iVar3 >> 0xc);
+    iVar1 = func_80047948(*(unsigned short *)(*(int *)(param_1 + 0x20) + 0x12) & 0xfff);
+    sv2.vz = sv1.vz - (short)(iVar1 * iVar3 >> 0xc);
+    uVar2 = ((int (*)(int, SVECTOR *, SVECTOR *))func_80133784)(1, &sv1, &sv2);
+    if ((uVar2 & 0x8000) != 0) {
+        iVar1 = func_8004787C(*(unsigned short *)(*(int *)(param_1 + 0x20) + 0x12) & 0xfff);
+        *(short *)(param_1 + 6) = sv2.vx + (short)(iVar1 * iVar3 >> 0xc);
+        iVar1 = func_80047948(*(unsigned short *)(*(int *)(param_1 + 0x20) + 0x12) & 0xfff);
+        *(short *)(param_1 + 0xe) = sv2.vz + (short)(iVar1 * iVar3 >> 0xc);
+        return 1;
+    }
+    iVar1 = func_8004787C(*(unsigned short *)(*(int *)(param_1 + 0x20) + 0x12) & 0xfff);
+    sv1.vx = *(short *)(param_1 + 6) - (short)(iVar1 * iVar3 >> 0xc);
+    sv1.vy = *(short *)(param_1 + 0xa) + -0x10;
+    iVar1 = func_80047948(*(unsigned short *)(*(int *)(param_1 + 0x20) + 0x12) & 0xfff);
+    sv1.vz = *(short *)(param_1 + 0xe) - (short)(iVar1 * iVar3 >> 0xc);
+    sv2.vx = sv1.vx;
+    sv2.vy = sv1.vy + 0x20;
+    sv2.vz = sv1.vz;
+    uVar2 = ((int (*)(int, SVECTOR *, SVECTOR *))func_80133784)(1, &sv1, &sv2);
+    if ((uVar2 & 0x6000) == 0) goto docopy;
+ret0:
+    return 0;
+docopy:
+    *(int *)(param_1 + 4) = *(int *)(param_1 + 0x38);
+    *(int *)(param_1 + 8) = *(int *)(param_1 + 0x3c);
+    *(int *)(param_1 + 0xc) = *(int *)(param_1 + 0x40);
+    return 1;
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_024/nonmatchings/ov_SC06_024_jr_8017BEBC", func_8018AE3C);
 
@@ -4610,7 +4892,32 @@ INCLUDE_ASM("asm/ov_SC06_024/nonmatchings/ov_SC06_024_jr_8017BEBC", func_8018D67
 
 INCLUDE_ASM("asm/ov_SC06_024/nonmatchings/ov_SC06_024_jr_8017BEBC", func_8018D734);
 
-INCLUDE_ASM("asm/ov_SC06_024/nonmatchings/ov_SC06_024_jr_8017BEBC", func_8018D7CC);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void func_8018D7CC(void *a0)
+{
+  s32 v0 = *((s32 *) (((s32) a0) + 0x64));
+  *((s16 *) (v0 + 0x5C)) = 0;
+  ;
+  *((s16 *) ((*((s32 *) ((*((s32 *) (((s32) a0) + 0x64))) + 0xD0))) + 0x5C)) = 0;
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_024/nonmatchings/ov_SC06_024_jr_8017BEBC", func_8018D7EC);
 

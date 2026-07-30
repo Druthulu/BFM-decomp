@@ -360,7 +360,6 @@ extern s32 func_801498E0(s32 *a0);
 extern s32 func_8012E5CC(s32 a0, s32 a1, s32 a2);
 extern void func_80147364(u16 a0, s32 a1);
 extern s32 func_800CCF28(s32 a0);
-extern u8 D_80126B5C;
 extern s32 func_80149954(s32 s0);
 extern s32 func_80149A64(s32 *a0);
 extern void func_8015DAC4(s32 *a0);
@@ -598,7 +597,7 @@ extern s32 func_8014E284(s32 a0, s16 *a1, s16 *a2);
 extern s32 func_8014E048(s32 a0, u16 *a1, u16 *a2); /* u16*: def lhu semantics (T5b reconcile; ptr param type codegen-neutral for the caller) */
 extern s32 func_80135A4C(s32 a0, s32 a1, s32 *a2, s32 a3);
 extern s32 func_80133784(s32 a0, void *a1, s32 a2);
-extern u8 D_801152A8[];   /* canonical TU type (engine_core) — read via *(u16*) cast */
+/* canonical TU type (engine_core) — read via *(u16*) cast */
 extern s16 D_801152AC;
 extern s32 func_8014E048(s32 param_1, u16 * param_2, u16 * param_3);
 extern void func_8014E48C(s32 a0);
@@ -634,7 +633,6 @@ extern s32 func_8014F468(void);
 extern int func_8014F74C();
 extern int func_8014F6F4(void);
 extern u8 D_800D3918[];
-extern u8 D_801152A8[];
 extern s32 D_801152BC;
 extern int func_8014F74C(s32 arg0);
 extern s32 func_8014FA70(s32 a0);
@@ -3419,7 +3417,16 @@ INCLUDE_ASM("asm/ov_SC02_016/nonmatchings/ov_SC02_016_jr_8017DC70", func_8018072
 
 INCLUDE_ASM("asm/ov_SC02_016/nonmatchings/ov_SC02_016_jr_8017DC70", func_80180828);
 
-INCLUDE_ASM("asm/ov_SC02_016/nonmatchings/ov_SC02_016_jr_8017DC70", func_8018096C);
+
+
+extern void func_8012A828(s32, s32);
+    extern short D_801AF9CC;
+    void func_8018096C(short *a0) {
+        *(short *)((char *)a0 + 0x2) = 0x2;
+        *(short *)((char *)a0 + 0x34) = 0;
+        ((void (*)(s32 *, s32))func_8012A828)((s32 *)a0, (s32)&D_801AF9CC);
+    }
+
 
 INCLUDE_ASM("asm/ov_SC02_016/nonmatchings/ov_SC02_016_jr_8017DC70", func_8018099C);
 
@@ -3530,7 +3537,58 @@ void func_801824F0(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_016/nonmatchings/ov_SC02_016_jr_8017DC70", func_8018252C);
+
+
+// @class: regalloc-order
+// @stuck: none — MATCH (83 ins). $s3 is a dual-copy of iVar3 used only in the ==0 tail block; natural C coalesces to one $s0, so pin iVar3=$s0 and iVar3b=$s3 (different hard regs prevent gcc coalescing the copy). Also: outer+inner branch polarity inverted (if!=0 / if!=0 puts both short blocks at the tail as beqz targets); base = (int)D_801B42EC + idx*0x40 (materialize form, arg to callees).
+
+extern void func_801465C0(void);
+extern void func_8001CD9C(int, void*);
+extern void func_800233CC(void*, unsigned short);
+extern void func_80182720(void*);
+extern void func_801826F0(s32*);
+extern int rand(void);
+
+void func_8018252C(int param_1)
+{
+
+    extern unsigned char D_801B42EC[];
+    register int iVar3 __asm__("$16");
+    register int iVar3b __asm__("$19");
+    int iVar5;
+    short sVar2;
+
+    iVar5 = (int)D_801B42EC + *(int *)(param_1 + 0x2c) * 0x40;
+    iVar3 = ((int (*)(void))func_801465C0)();
+    *(int *)(param_1 + 0x20) = iVar3;
+    iVar3b = iVar3;
+    if (iVar3 != 0) {
+        ((void (*)(int, int))func_8001CD9C)(iVar3, iVar5);
+        ((void (*)(int, int))func_800233CC)(iVar5, 0x10);
+        ((void (*)(int))func_80182720)(iVar5);
+        *(unsigned int *)(iVar3 + 4) = *(unsigned int *)(iVar3 + 4) | 0x50000000;
+        if (*(int *)(param_1 + 0x2c) != 0) {
+            sVar2 = (rand() & 3) * 0x800 + 0x1000;
+            *(short *)(iVar3 + 0x1a) = sVar2;
+            *(short *)(iVar3 + 0x18) = sVar2;
+            *(unsigned short *)(param_1 + 0x12) = (rand() & 0xf) + 3;
+            if ((rand() & 1) != 0) {
+                *(short *)(param_1 + 0x12) = -*(short *)(param_1 + 0x12);
+            }
+            *(unsigned short *)(param_1 + 0x1a) = (rand() & 0xf) + 3;
+            if ((rand() & 1) != 0) {
+                *(short *)(param_1 + 0x1a) = -*(short *)(param_1 + 0x1a);
+            }
+        } else {
+            *(short *)(iVar3b + 0x1a) = 0x4000;
+            *(short *)(iVar3b + 0x18) = 0x4000;
+        }
+        *(short *)(param_1 + 2) = *(short *)(param_1 + 2) + 1;
+    } else {
+        ((void (*)(int))func_801826F0)(param_1);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC02_016/nonmatchings/ov_SC02_016_jr_8017DC70", func_80182678);
 
@@ -3874,7 +3932,82 @@ INCLUDE_ASM("asm/ov_SC02_016/nonmatchings/ov_SC02_016_jr_8017DC70", func_8018393
 
 INCLUDE_ASM("asm/ov_SC02_016/nonmatchings/ov_SC02_016_jr_8017DC70", func_801839A0);
 
-INCLUDE_ASM("asm/ov_SC02_016/nonmatchings/ov_SC02_016_jr_8017DC70", func_80183A98);
+
+// @class: struct
+// @stuck: none — MATCH (94 ins). Keys: (1) cache out[0] in a local `o` before the switch so gcc
+//   holds it in $a0 across the case stores (else it reloads/`lh` per case, +3 ins); (2) declare the
+//   `in` struct BEFORE `out[2]` so in@sp+0x10 / out@sp+0x20; (3) the 0x14 word is written via
+//   `*(s32*)&in.lo = D_80126B60` then the high short RMW'd `in.hi -= 0x20` (memory lhu/sh, not reg);
+//   (4) order the three global assigns B60,B5C,B64 (B60 first → v0/v1/a2 alloc); (5) explicit
+//   `case 2: break;` after case 3 so gcc emits the `beq $v1,2` test with case1 falling into case3.
+
+extern void func_8012C1B8(void);
+extern void func_8012CAE4(void *a0);
+extern void func_8001C214(s32 a0, s32 a1);
+extern void func_8002D4C8(s32, s32);
+extern void func_8012A828(s32, s32);
+extern void func_8012B77C(void *, s32, void *);
+extern void func_8012B2CC(s32);
+extern s32 func_8012C588(s32 a0, s32 a1);
+
+
+void func_80183A98(s32 param_1) {
+
+    extern M2C_UNK D_801B08E4;
+    extern u8   D_801B06BC;
+    extern u8 D_80126B5C;
+    extern s32  D_80126B60;
+    extern s32  D_80126B64;
+    s32 iVar1;
+    struct In in;
+    s32 out[2];
+    s32 t;
+    s32 o;
+
+    iVar1 = ((s32 (*)(void))func_8012C1B8)();
+    *(s32 *)(param_1 + 0x20) = iVar1;
+    if (iVar1 == 0) {
+        ((void (*)(s32))func_8012CAE4)(param_1);
+        return;
+    }
+    ((void (*)(s32, void *))func_8001C214)(iVar1, &(*(u8 *)&D_801B08E4));
+    if ((*(u16 *)(param_1 + 0x70) & 0x1000) == 0) {
+        func_8002D4C8(0x43A, 0);
+    } else {
+        func_8002D4C8(0x6D6, 0);
+    }
+    ((void (*)(s32, void *))func_8012A828)(param_1, &D_801B06BC);
+    *(s16 *)(param_1 + 2) = 1;
+    *(s32 *)(param_1 + 0x1C) = 100;
+
+    *(s32 *)&in.lo = D_80126B60;
+    in.hi -= 0x20;
+    in.w0 = (*(s32 *)&D_80126B5C);
+    in.w2 = D_80126B64;
+    func_8012B77C(out, param_1 + 4, &in);
+
+    o = out[0];
+    t = *(u16 *)(param_1 + 0x70) & 0xF;
+    switch (t) {
+    case 0:
+        *(s16 *)(*(s32 *)(param_1 + 0x20) + 0x10) = (s16)o;
+        break;
+    case 1:
+        *(s16 *)(*(s32 *)(param_1 + 0x20) + 0x10) = (s16)o;
+    case 3:
+        *(s16 *)(*(s32 *)(param_1 + 0x20) + 0x12) = (s16)(o >> 16);
+        break;
+    case 2:
+        break;
+    }
+
+    if (*(u16 *)(param_1 + 0x70) & 0x1000) {
+        *(s32 *)(param_1 + 0x1C) = *(s32 *)(param_1 + 0x1C) << 1;
+    }
+    func_8012B2CC(param_1);
+    ((void (*)(s32, s32))func_8012C588)(0xBC, param_1);
+}
+
 
 
 extern void (*D_801B0758[])(void);
@@ -4006,16 +4139,112 @@ void func_80183E84(int param_1)
 
 
 
-extern s32 D_801B4960;
 extern s32 func_8012C588(s32 a0, s32 a1);
 
 s32 func_80183EE0(s32 a0, s32 a1) {
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern s32 D_801B4960;
     D_801B4960 = a1;
     return func_8012C588(0x85, a0);
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_016/nonmatchings/ov_SC02_016_jr_8017DC70", func_80183F10);
+extern s32 func_80017DC4(void *a0, void *a1);
+extern void func_80017E68(void *a0, void *a1);
+extern void func_800D20C0(void *a0, void *a1, s32 a2);
+extern void func_800D23D0(void *a0);
+extern void func_8012A828(s32, s32);
+extern void func_8012C218(void *a0);
+extern void func_8012F14C(s32);
+extern s32 func_80134510(s32 arg);
+
+// @class: regalloc-order
+// @stuck: none — MATCH (145/145 ins, match_one confirmed)
+
+
+
+
+s32 func_80183F10(s32 param_1) {
+
+    extern u8 D_801152A8[];
+    extern M2C_UNK D_801847A8;
+    extern s32 D_801B4960;
+    extern s32 func_8012C354(s32 a0, s32 a1);
+    extern void RotMatrixZ(s32, void *);
+    extern void MulMatrix0(s32, void *, s32);
+    extern s32 D_801B0A30;
+    extern char * D_801B0A64;
+    extern char D_801B4940[];
+
+    S8_80184F08 s60;
+    SVECTOR_80184F08 sStack_58;
+    S8_80184F08 s50;
+    int auStack_48[8];
+    s32 iVar5, iVar8;
+    char *puVar2, *puVar4;
+    u16 uVar3;
+
+    if (((s32 (*)(s32, void *))func_8012C354)(param_1, &D_801B0A30) == 0) {
+        ((void (*)(s32))func_8012C218)(param_1);
+    }
+    ((void(*)(s32, void *))func_8012A828)(param_1, &(*(s32 *)&D_801847A8));
+    iVar5 = *(s32 *)(param_1 + 0x20);
+    *(s16 *)(param_1 + 0x70) = 0x80;
+    *(s32 *)(iVar5 + 4) |= 0x50000040;
+    *(u16 *)(iVar5 + 0x2c) |= 1;
+    iVar8 = *(s32 *)(*(s32 *)(param_1 + 0x64) + 0x20) + 0x34;
+    ((void (*)(s32, s32, void *))func_8012F14C)(iVar8, D_801B4960, &s60);
+    s50 = s60;
+    sStack_58.vz = 0x1800;
+    sStack_58.vy = 0x1800;
+    sStack_58.vx = 0x1800;
+    ((void (*)(void *, void *))func_80017DC4)(&sStack_58, auStack_48);
+    RotMatrixZ(rand() & 0xfff, auStack_48);
+    MulMatrix0(iVar8, auStack_48, iVar5 + 0x34);
+    ((void (*)(void *, s32))func_80017E68)(&s50, iVar5 + 0x34);
+
+    /* pool-alloc: gcc routes the loaded pointer through a caller-saved reg ($v0)
+       before the callee-saved home ($s1) — pin it to reproduce the extra move. */
+    {
+        register char *tmp __asm__("$2");
+        tmp = D_801B0A64;
+        puVar2 = tmp;
+    }
+    puVar4 = puVar2 + 0x20;
+    D_801B0A64 = puVar4;
+    *(char **)(param_1 + 0xcc) = puVar2;
+    if (D_801B4940 < puVar4) {
+        D_801B0A64 = D_801B4940 - 0x120;
+    }
+    func_800D20C0(&s60, &sStack_58, 7);
+    func_800D23D0(&sStack_58);
+    ((void(*)(void *, void *))RotMatrixYXZ)(&sStack_58, puVar2);
+    ((void (*)(void *, s32))func_80017E68)(&s60, (s32)puVar2);
+
+    uVar3 = *(u16 *)((char *)&s50 + 2);
+    if (((s32 (*)(void *))func_80134510)(&s50) != 0 &&
+        (s32)(s16)uVar3 - (s32)*(s16 *)((char *)&s50 + 2) < 0x80) {
+        *(s16 *)((char *)&s50 + 2) = *(s16 *)((char *)&s50 + 2) - 4;
+        {
+            register char *tmp __asm__("$3");
+            tmp = D_801B0A64;
+            puVar2 = tmp;
+        }
+        puVar4 = puVar2 + 0x20;
+        D_801B0A64 = puVar4;
+        *(char **)(param_1 + 0xd0) = puVar2;
+        if (D_801B4940 < puVar4) {
+            D_801B0A64 = D_801B4940 - 0x120;
+        }
+        func_800D23D0(&(*(s32 *)&D_801152A8));
+        ((void(*)(void *, void *))RotMatrixYXZ)(&(*(s32 *)&D_801152A8), puVar2);
+        ((void (*)(void *, s32))func_80017E68)(&s50, (s32)puVar2);
+    }
+    *(s16 *)(param_1 + 2) = *(s16 *)(param_1 + 2) + 1;
+}
+
 
 extern s32 func_80017758(void *a0, void *a1);
 extern void func_8012C218(void *a0);

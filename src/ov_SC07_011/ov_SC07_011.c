@@ -195,7 +195,72 @@ void func_80128714(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_011/nonmatchings/ov_SC07_011", func_801287B8);
+
+
+// @class: remat
+// @stuck: none — MATCH (62 ins). D_80190490 read needed the address REMATERIALIZED
+//   (lui;addiu;lw 0(reg), not the folded lui;lw %lo) AND pinned to $a0. volatile forces the
+//   remat; register __asm__("$4") forces the a0 allocation (gcc otherwise picks v0). Both levers
+//   required — pin-alone folds, volatile-alone lands in v0.
+
+
+extern void func_80129CF8(void);
+extern void func_8017849C(void);
+extern void func_8014FDF4(struct S8014FDF4 *a0);
+extern s32 func_801505FC(s32 a0);
+extern void func_801508B4(void *a0);
+extern void func_80165E90(void);
+extern void func_801627E8(void);
+extern void func_80162B1C(void);
+extern void func_80165CA0(void);
+extern void func_80129010(void);
+extern void func_8013CA14(void);
+extern void func_800190AC(void);
+extern void func_8012956C(void);
+extern void func_8016E95C(void);
+extern void func_801754A8(void);
+extern void func_8013BC7C(void);
+extern void func_8013BCDC(void);
+extern void func_801379FC(void);
+extern void func_8001212C(void);
+
+void func_801287B8(void) {
+
+    extern s32 D_80126B58;
+    extern s32 D_80190490;
+    extern u16 D_800B99DA;
+    extern u8 D_800B9A64;
+    func_80129CF8();
+    func_8017849C();
+    ((void (*)(void *))func_8014FDF4)(&D_80126B58);
+    ((void (*)(void *))func_801505FC)(&D_80126B58);
+    func_801508B4(&D_80126B58);
+    func_80165E90();
+    func_801627E8();
+    func_80162B1C();
+    func_80165CA0();
+    func_80129010();
+    func_8013CA14();
+    func_800190AC();
+    func_8012956C();
+    func_8016E95C();
+    func_801754A8();
+    {
+        /* D_80190490 read: the target materializes &sym into $a0 then lw 0($a0) (not the folded
+         * lui;lw %lo). volatile forces the rematerialize; the $4 pin forces the a0 allocation. */
+        register volatile s32 *p __asm__("$4") = &D_80190490;
+        if (*p == 0) {
+            func_8013BC7C();
+        }
+    }
+    func_8013BCDC();
+    func_801379FC();
+    D_800B99DA++;
+    if (D_800B9A64 != 0) {
+        func_8001212C();
+    }
+}
+
 
 
 
@@ -1358,7 +1423,35 @@ s32 func_8012DB84(void)
 DEFINE_func_8012DBD0()  /* dedup: shared engine-core @0x8012dbd0 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC07_011/nonmatchings/ov_SC07_011", func_8012DDA4);
+
+
+// @class: regalloc-order
+// @stuck: none — MATCH
+
+
+
+
+s32 func_8012DDA4(void) {
+
+    extern u8 D_80126720[];
+    extern Entry_8012DDA4 * D_8018F074;
+    extern Entry_8012DDA4 * D_8018F070;
+
+    Entry_8012DDA4 *p;
+    Entry_8012DDA4 *end = ((Entry_8012DDA4 *)D_80126720);
+
+    while (D_8018F074 != end) {
+        p = D_8018F074;
+        if (p->active != 0 && p != D_8018F070) {
+            D_8018F074 = p + 1;
+            return p;
+        }
+        D_8018F074++;
+    }
+    D_8018F074 = 0;
+    return 0;
+}
+
 
 
 
@@ -1627,7 +1720,46 @@ DEFINE_func_8012E8C4()  /* dedup: shared engine-core @0x8012e8c4 (src/shared) */
 DEFINE_func_8012E8E0()  /* dedup: shared engine-core @0x8012e8e0 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC07_011/nonmatchings/ov_SC07_011", func_8012E9C0);
+
+
+// @class: other
+// @stuck: none — MATCH (branch-polarity invert: `0x78 != 0` puts compute block as fall-through)
+
+extern void func_8016AA50(int, int);
+extern void func_8016B428(int);
+extern void func_80019064(void *);
+
+void func_8012E9C0(int param_1)
+{
+
+    extern int D_8017E9D4;
+    int iVar1;
+
+    if (*(short *)(param_1 + 0x60) != 0) {
+        if (*(unsigned char *)(param_1 + 0x5e) == 0x1d) {
+            *(short *)(param_1 + 0x82) = 0;
+            *(short *)(param_1 + 0x7c) = *(unsigned short *)(param_1 + 6);
+            *(short *)(param_1 + 0x7e) = *(unsigned short *)(param_1 + 0xa);
+            *(short *)(param_1 + 0x80) = *(unsigned short *)(param_1 + 0xe);
+        }
+        if (*(int *)(param_1 + 0x78) != 0) {
+            iVar1 = *(short *)(param_1 + 0x60) *
+                        *(short *)(*(int *)(param_1 + 0x78) + 0x30) >> 0xc;
+            if (iVar1 < 1) {
+                iVar1 = 1;
+            }
+        } else {
+            iVar1 = *(short *)(param_1 + 0x60);
+        }
+        func_8016AA50(param_1, iVar1);
+        if ((*(unsigned short *)(param_1 + 0x82) & 1) != 0) {
+            func_8016B428(param_1);
+            func_80019064(&D_8017E9D4);
+        }
+    }
+    return;
+}
+
 
 
 

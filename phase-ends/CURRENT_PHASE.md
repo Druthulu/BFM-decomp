@@ -9198,3 +9198,39 @@ R22 clean-fleet **140 passed, 0 failed of 140** · dedup **1886/0** · **0 NON_M
 unmeasured: 229 further eligible non-jr families / 2,575 members have never been swept with a correct
 target spelling — **including the byte-identical families T76 measured at 0/682**, whose failure mode
 (a draft carrying a symbol the TU contradicts) is the same shape.
+
+## ✅ T83 — the §117 blast radius: **821 more members, 138 families zero → complete**
+
+`symbol_map` serves every family sweep, so T82's fix was re-run across the 229 eligible non-jr
+families that had never been swept with a correct target spelling (2,575 candidate members).
+
+**821 banked / 1,538 failed** · skipped: 77 unresolved-immediate, 139 member-class STRUCT.
+
+| | families | members |
+|---|---|---|
+| zero → **complete** | **138** | 732 |
+| partial | 14 | 89 |
+| still zero | 92 | — |
+
+Top: `0x80172780` +135 · `0x80128158` +31 · `0x80187318` +28 · `0x8016f540` +27 · `0x8017bef8` +20.
+
+**Every one of those 138 families had been swept before and booked as a failure.** None was a
+compiler problem; all were downstream of one positional map spelling the sibling's symbol from the
+exemplar's side. That is the §117 law paying out at scale, and it is the strongest evidence yet for
+this phase's recurring lesson — *a family-wide `0/N` is a statement about the harness.*
+
+### GATES
+R22 clean-fleet **140 passed, 0 failed of 140** · dedup **1886/0** · **0 NON_MATCHING** (G4).
+
+### METRICS
+| | before T83 | after | delta |
+|---|---|---|---|
+| fn-count | 91.48% | **91.72%** | 323,596 → 324,417 = **+821** (exact) |
+| instr-weighted | 86.9% | **87.2%** | +33,670 ins |
+| distinct-code | 77.4% | **77.8%** | 69,024 → **69,325 = +301 unique fns** |
+
+**The 92 still-zero families are now the honest residue** of the mechanical sweep — they have been
+swept with every lever this phase built (callee axis §114, named-symbol §115, symbol-kind §117,
+def-sig, self-decl normalization). They are the correct starting population for the next diagnosis
+round, and unlike every previous "residue" this phase, none of the known harness defects applies to
+them.

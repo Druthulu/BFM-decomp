@@ -1390,7 +1390,23 @@ void func_80143458(s32 param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_010/nonmatchings/ov_SC07_010_jr_80140608", func_8014350C);
+extern void func_8014358C();
+extern void func_8012931C(struct vec *a0);
+extern s32 func_80128ED8(void *a0, void *a1);
+extern void func_801292C8(u8 *a0);
+void func_8014350C(s32 *a0) {
+    if (*(u16 *)((u8 *)a0 + 2) == 0) {
+        func_8014358C();
+        return;
+    }
+    func_8012931C((struct vec *)a0);
+    if (func_80128ED8((void *)a0[0x20 / 4], (void *)((u8 *)a0 + 0x24)) != 0) {
+        func_801292C8((u8 *)a0);
+        return;
+    }
+    *(u8 *)(a0[0x20 / 4] + 0x27) = *(u8 *)((u8 *)a0 + 0x28) - 0x70;
+}
+
 
 
 // @class: plumbing
@@ -1702,7 +1718,40 @@ void func_80144364(int param_1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_010/nonmatchings/ov_SC07_010_jr_80140608", func_80144458);
+
+extern void func_80016714(void *a0, s32 a1);
+extern s32 func_8004787C(s32 a0);
+extern s32 func_80047948(s32 a0);
+extern s32 func_80128ED8(void *a0, void *a1);
+extern void func_8012AD80(s32 a0);
+extern void func_8012C218(void *a0);
+
+void func_80144458(void *arg0) {
+
+    extern s32 D_801838EC;
+    s32 temp_s0;
+    void *temp_s2;
+    void *temp_v0;
+
+    temp_s2 = M2C_FIELD(arg0, void **, 0xCC);
+    if (M2C_FIELD(arg0, s16 *, 0x70) == 0) {
+        temp_v0 = M2C_FIELD(M2C_FIELD(arg0, void **, 0x64), void **, 0x20);
+        if (temp_v0 != NULL) {
+            temp_s0 = (M2C_FIELD(temp_v0, s16 *, 0x12) - 0x400) & 0xFFF;
+            M2C_FIELD(arg0, s32 *, 0x10) = (s32) (func_80047948(temp_s0) * D_801838EC * 0x10);
+            M2C_FIELD(arg0, s32 *, 0x18) = (s32) (func_8004787C(temp_s0) * -D_801838EC * 0x10);
+            func_8012AD80(arg0);
+        }
+    }
+    M2C_FIELD(temp_s2, u16 *, 8) = (u16) M2C_FIELD(arg0, u16 *, 6);
+    M2C_FIELD(temp_s2, u16 *, 0xA) = (u16) M2C_FIELD(arg0, u16 *, 0xA);
+    M2C_FIELD(temp_s2, u16 *, 0xC) = (u16) M2C_FIELD(arg0, u16 *, 0xE);
+    if (func_80128ED8(temp_s2, arg0 + 0xD0) != 0) {
+        func_80016714(temp_s2, 0x38);
+        func_8012C218(arg0);
+    }
+}
+
 
 DEFINE_func_80144558()  /* dedup: shared engine-core @0x80144558 (src/shared) */
 
@@ -2816,7 +2865,52 @@ DEFINE_func_80149544()  /* dedup: shared engine-core @0x80149544 (src/shared) */
 DEFINE_func_80149584()  /* dedup: shared engine-core @0x80149584 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC07_010/nonmatchings/ov_SC07_010_jr_80140608", func_801495C4);
+
+/* func_801495C4  (ov_SC01_077, 34 ins) — clone of the banked sibling func_8014964C.
+ *
+ * REGISTER-PIN-FREE byte-match (close=0). The sibling's engine_core.h macro pins
+ * `register s32 p2 __asm__("$16")` to force a1->$s0; that pin is REMOVED here — once
+ * the &buf CSE-hoist is broken, natural density allocation puts a1 in $s0 by itself
+ * (a1: 7 refs / 21 insns crosses 2 calls; &buf pseudo out-densities it otherwise).
+ *
+ * Wall (pure-C, zero-asm): gcc-2.7.2 CSE commons the two identical stack-address
+ * computations `&buf` (sp+0x20, passed to both calls) into ONE call-crossing pseudo,
+ * which then wins $s0 over a1 (RC-2/K2 density) and spills a1 to $s1 (frame 0x30->0x38).
+ * v1 (buf declared first, buf@sp+0x10) rematerializes &buf and matches everything but
+ * the in/buf slot offsets; but correct slots REQUIRE `in,result,buf` decl order, which
+ * puts buf@sp+0x20 and triggers the hoist. Every zero-asm CSE-break tried (2 pointer
+ * vars, single ptr 2-set, struct, (char*)result+8, buf[z-z], a1&0, volatile ptr) is
+ * folded/re-commoned by gcc. The two `m1/m2` reg-tie barriers below make the two &buf
+ * opaque so each is materialized fresh (as the target does); `pin`/`mtx` barriers fix
+ * the call-1 arg-materialization schedule order. These are __asm__ value-barriers, NOT
+ * `register __asm__("$N")` pins.
+ */
+extern void func_8012F14C(s32);
+extern void func_8012EF70(s32, s32);
+
+void func_801495C4(s32 a0, s32 a1) {
+    s16 in[4];
+    s16 result[4];
+    s16 buf[4];
+    s16 *pin;
+    s16 *m1;
+    s16 *m2;
+    s32 mtx;
+
+    in[0] = *(u16 *)(a1 + 0x2);
+    in[1] = *(u16 *)(a1 + 0x6);
+    in[2] = *(u16 *)(a1 + 0xA);
+    pin = in;                  __asm__ __volatile__("" : "=r"(pin) : "0"(pin));
+    mtx = *(s32 *)(a0 + 0x20); __asm__ __volatile__("" : "=r"(mtx) : "0"(mtx));
+    m1 = buf;                  __asm__ __volatile__("" : "=r"(m1) : "0"(m1));
+    ((void (*)(s32, void *, void *))func_8012F14C)(mtx + 0x34, pin, m1);
+    m2 = buf;                  __asm__ __volatile__("" : "=r"(m2) : "0"(m2));
+    ((void (*)(void *, void *))func_8012EF70)(m2, result);
+    *(s16 *)(a1 + 0x2) = result[0];
+    *(s16 *)(a1 + 0x6) = result[1];
+    *(s16 *)(a1 + 0xA) = result[2];
+}
+
 
 DEFINE_func_8014964C()  /* dedup: shared engine-core @0x8014964c (src/shared) */
 
@@ -2898,7 +2992,25 @@ DEFINE_func_80149DD8()  /* dedup: shared engine-core @0x80149dd8 (src/shared) */
 DEFINE_func_80149E94()  /* dedup: shared engine-core @0x80149e94 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC07_010/nonmatchings/ov_SC07_010_jr_80140608", func_80149F2C);
+extern void func_80144A04(s32*);
+extern void func_801599A4(void *a0);
+extern void func_80159B3C(void *a0);
+extern void func_8016EDEC(s32 a0, s32 a1);
+s32 func_80149F2C(s32 a0, s32 a1) {
+    void *s1 = a0;
+    s32 *s0;
+    if (*(u16 *)a1 == 0x83 || *(u16 *)a1 == 0x61) {
+        s0 = (s32 *)((s32 (*)(s32 *))func_80144A04)((s32 *)a1);
+        if (s0 != 0) {
+            func_801599A4(s1);
+            func_80159B3C(s1);
+            func_8016EDEC((s32)s0, 0x1000000);
+            return 1;
+        }
+    }
+    return 0;
+}
+
 
 void func_80149FA8(void) {
 }
@@ -4523,7 +4635,60 @@ DEFINE_func_8014FD54()  /* dedup: shared engine-core @0x8014fd54 (src/shared) */
 DEFINE_func_8014FDF4()  /* dedup: shared engine-core @0x8014fdf4 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC07_010/nonmatchings/ov_SC07_010_jr_80140608", func_8014FE60);
+
+s32 func_8014FE60(void *e) {
+
+    extern u8 D_801152A8[];
+    extern s32 func_8014FFDC(s32 e, void *a1, void *a2);
+    extern s32 func_80150150(s32 e, s32 a1);
+
+    u8 a[8];
+    u8 b[8];
+    u8 out[8];
+    s32 r5;
+    s32 r6;
+
+    *(s16 *)(a + 0) = *(s16 *)(b + 0) = *(u16 *)(((s32)e) + 6);
+    *(s16 *)(a + 2) = *(s16 *)(b + 2) = *(u16 *)(((s32)e) + 0xA) - 0x10;
+    *(s16 *)(a + 4) = *(s16 *)(b + 4) = *(u16 *)(((s32)e) + 0xE);
+
+    r5 = func_8014FFDC(((s32)e), a, out);
+    r6 = func_80150150(((s32)e), (s32)b);
+
+    if (r6 == 0) {
+        *(s16 *)(b + 2) = 0x7fff;
+    }
+    if ((r5 | r6) != 0) {
+        if (*(s16 *)(a + 2) < *(s16 *)(b + 2)) {
+            __asm__ __volatile__("" ::: "memory");
+            *(s16 *)(((s32)e) + 0x78) = *(u16 *)(a + 0);
+            *(s16 *)(((s32)e) + 0x7a) = *(u16 *)(a + 2);
+            *(s16 *)(((s32)e) + 0x7c) = *(u16 *)(a + 4);
+            __builtin_memcpy((void *)(((s32)e) + 0x80), out, 8);
+        } else {
+            __asm__ __volatile__("" ::: "memory");
+            *(s16 *)(((s32)e) + 0x78) = *(u16 *)(b + 0);
+            *(s16 *)(((s32)e) + 0x7a) = *(u16 *)(b + 2);
+            *(s16 *)(((s32)e) + 0x7c) = *(u16 *)(b + 4);
+            __builtin_memcpy((void *)(((s32)e) + 0x80), D_801152A8, 8);
+        }
+        *(u16 *)(((s32)e) + 0x7e) &= 0xfffe;
+        return 1;
+    }
+    {
+        register s32 c __asm__("$3"); /* $v1 */
+        register s32 t __asm__("$4"); /* $a0 */
+        t = *(u16 *)(a + 0);
+        c = 0x7fff;
+        *(s16 *)(((s32)e) + 0x7a) = c;
+        *(s16 *)(((s32)e) + 0x78) = t;
+        t = *(u16 *)(a + 4);
+        *(s16 *)(((s32)e) + 0x7c) = t;
+        *(u16 *)(((s32)e) + 0x7e) |= 1;
+    }
+    return 0;
+}
+
 
 
 DEFINE_func_8014FFDC()  /* dedup: shared engine-core @0x8014FFDC (src/shared) */

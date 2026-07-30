@@ -2433,8 +2433,6 @@ extern void func_80174BF4(void * arg0);
 extern s32 func_80174CB0(s32, s32);
 extern s32 func_80174C60(s32 a0);
 extern void func_80174C80(s32 a0);
-extern s32 D_8012697C;
-extern u16 D_80126980;
 extern s32 func_80174F28(void *a0);
 extern void func_80174E9C(s32 a0);
 extern void func_80174EF0(s32 a0, s16 a1);
@@ -3432,7 +3430,11 @@ extern s32 func_8018034C(void);
     }
 
 
-INCLUDE_ASM("asm/ov_SC06_006/nonmatchings/ov_SC06_006_jr_8017BEBC", func_80180464);
+extern s32 func_8018034C(void);
+void func_80180464(void) {
+    ((void (*)(void))func_8018034C)();
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_006/nonmatchings/ov_SC06_006_jr_8017BEBC", func_80180484);
 
@@ -3452,7 +3454,11 @@ extern s32 func_8018034C(void);
 
 INCLUDE_ASM("asm/ov_SC06_006/nonmatchings/ov_SC06_006_jr_8017BEBC", func_80180644);
 
-INCLUDE_ASM("asm/ov_SC06_006/nonmatchings/ov_SC06_006_jr_8017BEBC", func_801806B4);
+extern s32 func_8018034C(void);
+void func_801806B4(void) {
+    ((void (*)(void))func_8018034C)();
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_006/nonmatchings/ov_SC06_006_jr_8017BEBC", func_801806D4);
 
@@ -3581,13 +3587,26 @@ void func_80180E4C(void *a0) {
 
 INCLUDE_ASM("asm/ov_SC06_006/nonmatchings/ov_SC06_006_jr_8017BEBC", func_80180E68);
 
-extern u16 D_80126980;
 s32 func_80180EA8(void) {
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern u16 D_80126980;
     return (s16)(D_80126980 & 0x8000);
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_006/nonmatchings/ov_SC06_006_jr_8017BEBC", func_80180EC4);
+extern void func_8012A018(s32 a, s32 b);
+extern void func_80180EFC(void*);
+void func_80180EC4(s32 a0, s16 a1) {
+
+    extern s32 D_8012697C;
+    extern u16 D_80126980;
+    D_8012697C = a0;
+    D_80126980 = a1;
+    func_8012A018((s32)func_80180EFC, 1);
+}
+
 
 
 extern void (*D_8018646C[])(void);

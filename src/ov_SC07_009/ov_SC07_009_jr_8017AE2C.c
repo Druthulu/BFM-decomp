@@ -3331,7 +3331,32 @@ void func_8017CD9C(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_009/nonmatchings/ov_SC07_009_jr_8017AE2C", func_8017CDD8);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+extern void func_8017D150(void);
+s32 func_8017CDD8(s32 arg0)
+{
+  s32 temp_v0;
+ do { func_8017D150(); temp_v0 = (*((u8 *) (arg0 + 0x15))) + 1; *((u8 *) (arg0 + 0x15)) = temp_v0; } while (temp_v0 = 0);
+  return temp_v0;
+}
+
 
 s32 func_8017CE14(void) {
         return 1;

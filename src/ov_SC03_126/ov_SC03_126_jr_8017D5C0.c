@@ -3365,7 +3365,20 @@ extern s32 func_8017EFA0(void);
     }
 
 
-INCLUDE_ASM("asm/ov_SC03_126/nonmatchings/ov_SC03_126_jr_8017D5C0", func_8017EF6C);
+
+
+
+extern s32 func_8017EFA0(void);
+
+void func_8017EF6C(void) {
+
+    extern s16 D_80126942;
+    extern s16 D_80126944;
+    D_80126942 = -0xC1;
+    D_80126944 = 0;
+    ((void (*)(void))func_8017EFA0)();
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_126/nonmatchings/ov_SC03_126_jr_8017D5C0", func_8017EFA0);
 

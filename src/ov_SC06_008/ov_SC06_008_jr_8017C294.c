@@ -3613,7 +3613,15 @@ extern void func_8017EF54(void);
     }
 
 
-INCLUDE_ASM("asm/ov_SC06_008/nonmatchings/ov_SC06_008_jr_8017C294", func_8017FDA8);
+
+
+extern void func_8017EF54(void);
+    void func_8017FDA8(s32 arg0) {
+        s32 temp_v1 = *(s32 *)(arg0 + 0x20);
+        *(s16 *)(temp_v1 + 0x10) += 0x20;
+        ((void (*)(void))func_8017EF54)();
+    }
+
 
 INCLUDE_ASM("asm/ov_SC06_008/nonmatchings/ov_SC06_008_jr_8017C294", func_8017FDDC);
 
@@ -3873,7 +3881,61 @@ void func_80180A5C(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_008/nonmatchings/ov_SC06_008_jr_8017C294", func_80180A98);
+
+
+// @class: schedule
+// @stuck: none — MATCH (132 ins, match_one). Levers: (1) block2 statement order — compute sv1.vz (with the *(p+0xe) load) right after the 2nd call so gcc hoists that load into $v1, forcing the sv2.vx=sv1.vx copy through $a3, which globally pushes every `func*param>>12` product from $a3 to $t0; (2) sv2 store order vx-before-vy; (3) SHARED return-0 join via gotos placed BEFORE the copy block (ret0: before docopy:) — this blocks gcc's conditional-jump-over-jump inversion + return-threading, so the copy block falls through to the epilogue with v0=1 preset in the beqz delay slot (drops the extra `li v0,1`).
+
+
+extern int func_8004787C(int);
+extern int func_80047948(int);
+extern s32 func_80133784(s32, void*, s32);
+
+int func_80180A98(int param_1, short param_2)
+{
+    int iVar1;
+    unsigned int uVar2;
+    int iVar3;
+    SVECTOR sv1;
+    SVECTOR sv2;
+
+    if (*(int *)(param_1 + 0xdc) != 0) goto ret0;
+    sv1.vx = *(short *)(param_1 + 6);
+    sv1.vy = *(short *)(param_1 + 0xa) + -0x20;
+    sv1.vz = *(short *)(param_1 + 0xe);
+    iVar1 = func_8004787C(*(unsigned short *)(*(int *)(param_1 + 0x20) + 0x12) & 0xfff);
+    iVar3 = (int)param_2;
+    sv2.vy = sv1.vy;
+    sv2.vx = sv1.vx - (short)(iVar1 * iVar3 >> 0xc);
+    iVar1 = func_80047948(*(unsigned short *)(*(int *)(param_1 + 0x20) + 0x12) & 0xfff);
+    sv2.vz = sv1.vz - (short)(iVar1 * iVar3 >> 0xc);
+    uVar2 = ((int (*)(int, SVECTOR *, SVECTOR *))func_80133784)(1, &sv1, &sv2);
+    if ((uVar2 & 0x8000) != 0) {
+        iVar1 = func_8004787C(*(unsigned short *)(*(int *)(param_1 + 0x20) + 0x12) & 0xfff);
+        *(short *)(param_1 + 6) = sv2.vx + (short)(iVar1 * iVar3 >> 0xc);
+        iVar1 = func_80047948(*(unsigned short *)(*(int *)(param_1 + 0x20) + 0x12) & 0xfff);
+        *(short *)(param_1 + 0xe) = sv2.vz + (short)(iVar1 * iVar3 >> 0xc);
+        return 1;
+    }
+    iVar1 = func_8004787C(*(unsigned short *)(*(int *)(param_1 + 0x20) + 0x12) & 0xfff);
+    sv1.vx = *(short *)(param_1 + 6) - (short)(iVar1 * iVar3 >> 0xc);
+    sv1.vy = *(short *)(param_1 + 0xa) + -0x10;
+    iVar1 = func_80047948(*(unsigned short *)(*(int *)(param_1 + 0x20) + 0x12) & 0xfff);
+    sv1.vz = *(short *)(param_1 + 0xe) - (short)(iVar1 * iVar3 >> 0xc);
+    sv2.vx = sv1.vx;
+    sv2.vy = sv1.vy + 0x20;
+    sv2.vz = sv1.vz;
+    uVar2 = ((int (*)(int, SVECTOR *, SVECTOR *))func_80133784)(1, &sv1, &sv2);
+    if ((uVar2 & 0x6000) == 0) goto docopy;
+ret0:
+    return 0;
+docopy:
+    *(int *)(param_1 + 4) = *(int *)(param_1 + 0x38);
+    *(int *)(param_1 + 8) = *(int *)(param_1 + 0x3c);
+    *(int *)(param_1 + 0xc) = *(int *)(param_1 + 0x40);
+    return 1;
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_008/nonmatchings/ov_SC06_008_jr_8017C294", func_80180CA8);
 
@@ -4264,7 +4326,32 @@ INCLUDE_ASM("asm/ov_SC06_008/nonmatchings/ov_SC06_008_jr_8017C294", func_801834E
 
 INCLUDE_ASM("asm/ov_SC06_008/nonmatchings/ov_SC06_008_jr_8017C294", func_801835A0);
 
-INCLUDE_ASM("asm/ov_SC06_008/nonmatchings/ov_SC06_008_jr_8017C294", func_80183638);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void func_80183638(void *a0)
+{
+  s32 v0 = *((s32 *) (((s32) a0) + 0x64));
+  *((s16 *) (v0 + 0x5C)) = 0;
+  ;
+  *((s16 *) ((*((s32 *) ((*((s32 *) (((s32) a0) + 0x64))) + 0xD0))) + 0x5C)) = 0;
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_008/nonmatchings/ov_SC06_008_jr_8017C294", func_80183658);
 
@@ -4348,7 +4435,39 @@ INCLUDE_ASM("asm/ov_SC06_008/nonmatchings/ov_SC06_008_jr_8017C294", func_8018407
 
 INCLUDE_ASM("asm/ov_SC06_008/nonmatchings/ov_SC06_008_jr_8017C294", func_801841BC);
 
-INCLUDE_ASM("asm/ov_SC06_008/nonmatchings/ov_SC06_008_jr_8017C294", func_80184234);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+extern void func_80146C3C(void);
+void func_80184234(s32 *param_1)
+{
+
+    extern s8 D_801AA180;
+  int new_var;
+register s32 p __asm__("$4");
+register s32 r __asm__("$3");
+  p = (s32) (&D_801AA180);
+  r = param_1[0x2c / 4];
+  new_var = r;
+  p += new_var;
+  *((s8 *) p) = 0;
+  ((void (*)(void)) func_80146C3C)();
+}
+
 
 void func_80184264(void *a0) {
         *(s32 *)((s32)a0 + 0x0) = 0xF0F0F0;

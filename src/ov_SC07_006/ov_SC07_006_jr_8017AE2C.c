@@ -3675,7 +3675,55 @@ void func_8017B940(void)
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_8017AE2C", func_8017BA3C);
+
+
+// @class: struct
+// @stuck: none — MATCH (62 ins)
+
+extern void func_8012F214(s32 a0, s32 a1, s32 a2);
+extern void func_80049CAC(s32 a0, s32 a1);
+extern void func_8004914C(void *a0);
+extern void func_800491AC(void *a0);
+extern void RotTransSV(s32, s32, void*);
+
+/* short-only (align 2) struct -> the 8-byte struct copy emits lwl/lwr/swl/swr */
+
+/* PSX MATRIX_c2: 3x3 short rotation + pad + 3 long translation (offset 0x14) */
+
+
+void func_8017BA3C(s32 param_1, s32 param_2)
+{
+
+    extern SV4 D_801F6014;
+    extern SV4 D_801F601C;
+    SV4 v0;            /* sp+0x10 : func_80049CAC arg0 */
+    MTX mtx;           /* sp+0x18 : MATRIX_c2, t[] at sp+0x2c */
+    SV4 v1;            /* sp+0x38 : RotTransSV arg0 */
+    SV4 svec;          /* sp+0x40 : func_8012F214 out */
+    SV4 buf1;          /* sp+0x48 : RotTransSV arg1 (-> D_801F601C) */
+    SV4 buf2;          /* sp+0x50 : RotTransSV arg2 */
+
+    func_8012F214(param_1, param_2, (s32)&svec);
+    D_801F6014 = svec;
+
+    v0.a = -*(s16 *)(param_2 + 0xc);
+    v0.b = *(u16 *)(param_2 + 8);
+    v0.c = 0;
+    v1.a = 0;
+    v1.b = 0;
+    v1.c = -*(s16 *)(param_2 + 0xa);
+    ((void (*)(void *, void *))func_80049CAC)(&v0, &mtx);
+
+    mtx.t[0] = (s32)svec.a;
+    mtx.t[1] = (s32)svec.b;
+    mtx.t[2] = (s32)svec.c;
+    func_8004914C(&mtx);
+    func_800491AC(&mtx);
+
+    ((void (*)(void *, void *, void *))RotTransSV)(&v1, &buf1, &buf2);
+    D_801F601C = buf1;
+}
+
 
 extern void func_8004914C(void *a0);
 extern void func_800491AC(void *a0);

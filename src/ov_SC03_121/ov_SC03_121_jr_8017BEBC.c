@@ -598,7 +598,7 @@ extern s32 func_8014E284(s32 a0, s16 *a1, s16 *a2);
 extern s32 func_8014E048(s32 a0, u16 *a1, u16 *a2); /* u16*: def lhu semantics (T5b reconcile; ptr param type codegen-neutral for the caller) */
 extern s32 func_80135A4C(s32 a0, s32 a1, s32 *a2, s32 a3);
 extern s32 func_80133784(s32 a0, void *a1, s32 a2);
-extern u8 D_801152A8[];   /* canonical TU type (engine_core) — read via *(u16*) cast */
+/* canonical TU type (engine_core) — read via *(u16*) cast */
 extern s16 D_801152AC;
 extern s32 func_8014E048(s32 param_1, u16 * param_2, u16 * param_3);
 extern void func_8014E48C(s32 a0);
@@ -634,7 +634,6 @@ extern s32 func_8014F468(void);
 extern int func_8014F74C();
 extern int func_8014F6F4(void);
 extern u8 D_800D3918[];
-extern u8 D_801152A8[];
 extern s32 D_801152BC;
 extern int func_8014F74C(s32 arg0);
 extern s32 func_8014FA70(s32 a0);
@@ -3555,16 +3554,112 @@ INCLUDE_ASM("asm/ov_SC03_121/nonmatchings/ov_SC03_121_jr_8017BEBC", func_80181AA
 INCLUDE_ASM("asm/ov_SC03_121/nonmatchings/ov_SC03_121_jr_8017BEBC", func_80181B34);
 
 
-extern s32 D_801AEE38;
 extern s32 func_8012C588(s32 a0, s32 a1);
 
 s32 func_80181BE8(s32 a0, s32 a1) {
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern s32 D_801AEE38;
     D_801AEE38 = a1;
     return func_8012C588(0x85, a0);
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_121/nonmatchings/ov_SC03_121_jr_8017BEBC", func_80181C18);
+extern s32 func_80017DC4(void *a0, void *a1);
+extern void func_80017E68(void *a0, void *a1);
+extern void func_800D20C0(void *a0, void *a1, s32 a2);
+extern void func_800D23D0(void *a0);
+extern void func_8012A828(s32, s32);
+extern void func_8012C218(void *a0);
+extern void func_8012F14C(s32);
+extern s32 func_80134510(s32 arg);
+
+// @class: regalloc-order
+// @stuck: none — MATCH (145/145 ins, match_one confirmed)
+
+
+
+
+s32 func_80181C18(s32 param_1) {
+
+    extern u8 D_801152A8[];
+    extern M2C_UNK D_801824B0;
+    extern s32 D_801AEE38;
+    extern s32 func_8012C354(s32 a0, s32 a1);
+    extern void RotMatrixZ(s32, void *);
+    extern void MulMatrix0(s32, void *, s32);
+    extern s32 D_801ABC80;
+    extern char * D_801ABCB4;
+    extern char D_801AEE18[];
+
+    S8_80184F08 s60;
+    SVECTOR_80184F08 sStack_58;
+    S8_80184F08 s50;
+    int auStack_48[8];
+    s32 iVar5, iVar8;
+    char *puVar2, *puVar4;
+    u16 uVar3;
+
+    if (((s32 (*)(s32, void *))func_8012C354)(param_1, &D_801ABC80) == 0) {
+        ((void (*)(s32))func_8012C218)(param_1);
+    }
+    ((void(*)(s32, void *))func_8012A828)(param_1, &(*(s32 *)&D_801824B0));
+    iVar5 = *(s32 *)(param_1 + 0x20);
+    *(s16 *)(param_1 + 0x70) = 0x80;
+    *(s32 *)(iVar5 + 4) |= 0x50000040;
+    *(u16 *)(iVar5 + 0x2c) |= 1;
+    iVar8 = *(s32 *)(*(s32 *)(param_1 + 0x64) + 0x20) + 0x34;
+    ((void (*)(s32, s32, void *))func_8012F14C)(iVar8, D_801AEE38, &s60);
+    s50 = s60;
+    sStack_58.vz = 0x1800;
+    sStack_58.vy = 0x1800;
+    sStack_58.vx = 0x1800;
+    ((void (*)(void *, void *))func_80017DC4)(&sStack_58, auStack_48);
+    RotMatrixZ(rand() & 0xfff, auStack_48);
+    MulMatrix0(iVar8, auStack_48, iVar5 + 0x34);
+    ((void (*)(void *, s32))func_80017E68)(&s50, iVar5 + 0x34);
+
+    /* pool-alloc: gcc routes the loaded pointer through a caller-saved reg ($v0)
+       before the callee-saved home ($s1) — pin it to reproduce the extra move. */
+    {
+        register char *tmp __asm__("$2");
+        tmp = D_801ABCB4;
+        puVar2 = tmp;
+    }
+    puVar4 = puVar2 + 0x20;
+    D_801ABCB4 = puVar4;
+    *(char **)(param_1 + 0xcc) = puVar2;
+    if (D_801AEE18 < puVar4) {
+        D_801ABCB4 = D_801AEE18 - 0x120;
+    }
+    func_800D20C0(&s60, &sStack_58, 7);
+    func_800D23D0(&sStack_58);
+    ((void(*)(void *, void *))RotMatrixYXZ)(&sStack_58, puVar2);
+    ((void (*)(void *, s32))func_80017E68)(&s60, (s32)puVar2);
+
+    uVar3 = *(u16 *)((char *)&s50 + 2);
+    if (((s32 (*)(void *))func_80134510)(&s50) != 0 &&
+        (s32)(s16)uVar3 - (s32)*(s16 *)((char *)&s50 + 2) < 0x80) {
+        *(s16 *)((char *)&s50 + 2) = *(s16 *)((char *)&s50 + 2) - 4;
+        {
+            register char *tmp __asm__("$3");
+            tmp = D_801ABCB4;
+            puVar2 = tmp;
+        }
+        puVar4 = puVar2 + 0x20;
+        D_801ABCB4 = puVar4;
+        *(char **)(param_1 + 0xd0) = puVar2;
+        if (D_801AEE18 < puVar4) {
+            D_801ABCB4 = D_801AEE18 - 0x120;
+        }
+        func_800D23D0(&(*(s32 *)&D_801152A8));
+        ((void(*)(void *, void *))RotMatrixYXZ)(&(*(s32 *)&D_801152A8), puVar2);
+        ((void (*)(void *, s32))func_80017E68)(&s50, (s32)puVar2);
+    }
+    *(s16 *)(param_1 + 2) = *(s16 *)(param_1 + 2) + 1;
+}
+
 
 extern s32 func_80017758(void *a0, void *a1);
 extern void func_8012C218(void *a0);

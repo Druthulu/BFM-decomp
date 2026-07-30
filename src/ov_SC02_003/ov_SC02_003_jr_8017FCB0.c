@@ -360,7 +360,6 @@ extern s32 func_801498E0(s32 *a0);
 extern s32 func_8012E5CC(s32 a0, s32 a1, s32 a2);
 extern void func_80147364(u16 a0, s32 a1);
 extern s32 func_800CCF28(s32 a0);
-extern u8 D_80126B5C;
 extern s32 func_80149954(s32 s0);
 extern s32 func_80149A64(s32 *a0);
 extern void func_8015DAC4(s32 *a0);
@@ -3626,7 +3625,15 @@ INCLUDE_ASM("asm/ov_SC02_003/nonmatchings/ov_SC02_003_jr_8017FCB0", func_8018825
 
 INCLUDE_ASM("asm/ov_SC02_003/nonmatchings/ov_SC02_003_jr_8017FCB0", func_80188414);
 
-INCLUDE_ASM("asm/ov_SC02_003/nonmatchings/ov_SC02_003_jr_8017FCB0", func_80188484);
+
+extern void func_8012C218(void*);
+    s32 func_80188484(s32 arg0) {
+        *(s32 *)(arg0 + 0xdc) -= 1;
+        if (*(s32 *)(arg0 + 0xdc) == 0) {
+            ((void (*)(void))func_8012C218)();
+        }
+    }
+
 
 INCLUDE_ASM("asm/ov_SC02_003/nonmatchings/ov_SC02_003_jr_8017FCB0", func_801884B8);
 
@@ -3733,7 +3740,14 @@ void func_80188C9C(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_003/nonmatchings/ov_SC02_003_jr_8017FCB0", func_80188CD8);
+extern s32 func_80128ED8(void *a0, void *a1);
+extern void func_801292C8(u8*);
+void func_80188CD8(s32 a0) {
+    if (func_80128ED8((void *)*(s32 *)(a0 + 0x20), (void *)(a0 + 0x24)) != 0) {
+        ((void (*)(s32))func_801292C8)(a0);
+    }
+}
+
 
 
 extern void (*D_8018F5BC[])(void);
@@ -3839,7 +3853,82 @@ INCLUDE_ASM("asm/ov_SC02_003/nonmatchings/ov_SC02_003_jr_8017FCB0", func_80189D1
 
 INCLUDE_ASM("asm/ov_SC02_003/nonmatchings/ov_SC02_003_jr_8017FCB0", func_80189DB8);
 
-INCLUDE_ASM("asm/ov_SC02_003/nonmatchings/ov_SC02_003_jr_8017FCB0", func_80189E58);
+
+// @class: struct
+// @stuck: none — MATCH (94 ins). Keys: (1) cache out[0] in a local `o` before the switch so gcc
+//   holds it in $a0 across the case stores (else it reloads/`lh` per case, +3 ins); (2) declare the
+//   `in` struct BEFORE `out[2]` so in@sp+0x10 / out@sp+0x20; (3) the 0x14 word is written via
+//   `*(s32*)&in.lo = D_80126B60` then the high short RMW'd `in.hi -= 0x20` (memory lhu/sh, not reg);
+//   (4) order the three global assigns B60,B5C,B64 (B60 first → v0/v1/a2 alloc); (5) explicit
+//   `case 2: break;` after case 3 so gcc emits the `beq $v1,2` test with case1 falling into case3.
+
+extern void func_8012C1B8(void);
+extern void func_8012CAE4(void *a0);
+extern void func_8001C214(s32 a0, s32 a1);
+extern void func_8002D4C8(s32, s32);
+extern void func_8012A828(s32, void *);
+extern void func_8012B77C(void *, s32, void *);
+extern void func_8012B2CC(s32);
+extern s32 func_8012C588(s32 a0, s32 a1);
+
+
+void func_80189E58(s32 param_1) {
+
+    extern M2C_UNK D_801A79A4;
+    extern u8   D_801A777C;
+    extern u8 D_80126B5C;
+    extern s32  D_80126B60;
+    extern s32  D_80126B64;
+    s32 iVar1;
+    struct In in;
+    s32 out[2];
+    s32 t;
+    s32 o;
+
+    iVar1 = ((s32 (*)(void))func_8012C1B8)();
+    *(s32 *)(param_1 + 0x20) = iVar1;
+    if (iVar1 == 0) {
+        ((void (*)(s32))func_8012CAE4)(param_1);
+        return;
+    }
+    ((void (*)(s32, void *))func_8001C214)(iVar1, &(*(u8 *)&D_801A79A4));
+    if ((*(u16 *)(param_1 + 0x70) & 0x1000) == 0) {
+        func_8002D4C8(0x43A, 0);
+    } else {
+        func_8002D4C8(0x6D6, 0);
+    }
+    func_8012A828(param_1, &D_801A777C);
+    *(s16 *)(param_1 + 2) = 1;
+    *(s32 *)(param_1 + 0x1C) = 100;
+
+    *(s32 *)&in.lo = D_80126B60;
+    in.hi -= 0x20;
+    in.w0 = (*(s32 *)&D_80126B5C);
+    in.w2 = D_80126B64;
+    func_8012B77C(out, param_1 + 4, &in);
+
+    o = out[0];
+    t = *(u16 *)(param_1 + 0x70) & 0xF;
+    switch (t) {
+    case 0:
+        *(s16 *)(*(s32 *)(param_1 + 0x20) + 0x10) = (s16)o;
+        break;
+    case 1:
+        *(s16 *)(*(s32 *)(param_1 + 0x20) + 0x10) = (s16)o;
+    case 3:
+        *(s16 *)(*(s32 *)(param_1 + 0x20) + 0x12) = (s16)(o >> 16);
+        break;
+    case 2:
+        break;
+    }
+
+    if (*(u16 *)(param_1 + 0x70) & 0x1000) {
+        *(s32 *)(param_1 + 0x1C) = *(s32 *)(param_1 + 0x1C) << 1;
+    }
+    func_8012B2CC(param_1);
+    ((void (*)(s32, s32))func_8012C588)(0xBC, param_1);
+}
+
 
 
 extern void (*D_801A7818[])(void);

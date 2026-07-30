@@ -146,7 +146,7 @@ extern s32 D_80126F04[];
 extern u8 D_80126948[];          /* canonical (sibling): u8[] — cast (s32*) at use */
 extern s32 D_80126FA8[];
 extern struct BigCopy D_80126DB8;/* canonical (engine_core macro): struct BigCopy — (s32*)& at use */
-extern u8 D_800AF630[];          /* canonical (sibling): u8[] — cast (s32*) at use */
+/* canonical (sibling): u8[] — cast (s32*) at use */
 extern s32 D_800AE688[];
 extern s32 D_801151D4;           /* canonical (10 siblings): scalar s32 — store (s32)ptr */
 extern void func_80129CF8(void);
@@ -1735,7 +1735,54 @@ s32 func_8013AB54(s32 a0, s32 a1, s32 a2, s32 a3) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_011/nonmatchings/ov_SC07_011_jr_80135D20", func_8013AD38);
+#define gte_ldv0(r0)  __asm__ __volatile__( \
+    "lwc2 $0, 0(%0)\n" \
+    "lwc2 $1, 4(%0)\n" \
+    : : "r"(r0) : "memory")
+#define gte_mvmva0()  __asm__ __volatile__( \
+    "nop\n" \
+    "nop\n" \
+    "mvmva 1, 0, 0, 0, 0\n" \
+    : : : "memory")
+#define gte_stlvnl(r0)  __asm__ __volatile__( \
+    "swc2 $25, 0(%0)\n" \
+    "swc2 $26, 4(%0)\n" \
+    "swc2 $27, 8(%0)\n" \
+    : : "r"(r0) : "memory")
+
+void func_8013AD38(void *flag, s32 a1, void *out2, void *out3) {
+
+    extern s16 D_800D45F4[];
+    extern u8 D_8017ED50[];
+    extern s16 D_800D466C[];
+    extern u8 D_8017ED8C[];
+
+    u8 *tbl;
+    s16 vec[4];
+    s32 res[3];
+    s32 i;
+
+    tbl = D_8017ED8C;
+    if (((s16)a1) < 0xC00) {
+        tbl = D_8017ED50;
+    }
+
+    for (i = 0; i < 30; i++) {
+        vec[0] = D_800D45F4[2 * i]     + (((D_800D466C[2 * i]     - D_800D45F4[2 * i])     * ((s16)a1)) >> 12);
+        vec[1] = D_800D45F4[2 * i + 1] + (((D_800D466C[2 * i + 1] - D_800D45F4[2 * i + 1]) * ((s16)a1)) >> 12);
+        gte_ldv0(vec);
+        gte_mvmva0();
+        gte_stlvnl(res);
+        ((Pair *)out2)[i].x = res[0];
+        ((Pair *)out2)[i].y = res[1];
+        if (((s16 *)flag)[0] < 0) ((s8 *)out3)[2 * i]     = -tbl[2 * i];     else ((s8 *)out3)[2 * i]     = tbl[2 * i];
+        if (((s16 *)flag)[1] < 0) ((s8 *)out3)[2 * i + 1] = -tbl[2 * i + 1]; else ((s8 *)out3)[2 * i + 1] = tbl[2 * i + 1];
+    }
+    ((Pair *)out2)[i] = ((Pair *)out2)[0];
+    if (((s16 *)flag)[0] < 0) ((s8 *)out3)[2 * i]     = -tbl[0]; else ((s8 *)out3)[2 * i]     = tbl[0];
+    if (((s16 *)flag)[1] < 0) ((s8 *)out3)[2 * i + 1] = -tbl[1]; else ((s8 *)out3)[2 * i + 1] = tbl[1];
+}
+
 
 DEFINE_func_8013AF20()  /* dedup: shared engine-core @0x8013af20 (src/shared) */
 
@@ -2800,7 +2847,32 @@ DEFINE_func_8013E410()  /* dedup: shared engine-core @0x8013e410 (src/shared) */
 DEFINE_func_8013E448()  /* dedup: shared engine-core @0x8013e448 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC07_011/nonmatchings/ov_SC07_011_jr_80135D20", func_8013E4B4);
+extern s32 func_8012C750(s32);
+void func_8013E4B4(void) {
+
+    extern u8 *D_801274C8;
+    extern void *D_801274CC;
+    u8 *s0;
+    Ent *p;
+    s32 i;
+    s0 = D_801274C8;
+    if (s0 != 0) {
+        if (*(u16 *)(s0 + 6) != 0) {
+            do {
+                ((void (*)(void *))func_8012C750)(s0);
+                s0 += 0x14;
+            } while (*(u16 *)(s0 + 6) != 0);
+        }
+    }
+    s0 = (u8 *)D_801274CC;
+    if (s0 != 0) {
+        p = (Ent *)(s0 + 6);
+        for (i = 0; p[i].guard != 0; i++) {
+            p[i].field &= 0x7FFF;
+        }
+    }
+}
+
 
 DEFINE_func_8013E558()  /* dedup: shared engine-core @0x8013e558 (src/shared) */
 

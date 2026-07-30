@@ -363,7 +363,6 @@ extern s32 func_8012DDA4(void);
 extern s32 func_8012DBD0(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern s32 func_8012DF34(s32 a0, s32 a1, s32 a2);
 extern s16 D_80126B9A;
-extern u8 D_801152A8[];
 extern void func_8012DFBC(void);
 extern void func_8012DFCC(void);
 extern void func_8012E014(s32 arg0);
@@ -1831,7 +1830,53 @@ s32 func_801343C4(s32 angle, s32 p1, s32 p2)
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_010/nonmatchings/ov_SC07_010_jr_80131340", func_80134510);
+
+
+// @class: schedule
+
+
+s32 func_80134510(s32 param) {
+    extern s32 func_801345F8(s32);
+    extern Foo_80134510 * D_80182550;
+    extern Foo_80134510 * D_80182554;
+    extern Foo_80134510 * D_80182558;
+    extern s32 D_801A6A28;
+    extern u16 D_801A6A38;
+
+    s32 ret = 0;
+    Foo_80134510 *b0 = D_80182554;
+    Foo_80134510 *ac = D_80182550;
+    u16 t0 = ((Foo_80134510 *)param)->f0;
+    u16 t2, t4;
+
+    ((Foo_80134510 *)param)->f6 = 0;
+    ac->f0 = t0;
+    b0->f0 = t0;
+    t2 = ((Foo_80134510 *)param)->f2;
+    ac->f2 = t2 - 4;
+    b0->f2 = t2 + 0x2FC;
+    t4 = ((Foo_80134510 *)param)->f4;
+    ac->f4 = t4;
+    b0->f4 = t4;
+
+    if (func_801345F8(D_801A6A28) != 0) {
+        s16 x;
+        ((Foo_80134510 *)param)->f2 = D_80182558->f2 - 2;
+        x = D_80182550->f6;
+        if (x >= -3019) {
+            if (x < -1400) {
+                ret = 0x4000;
+            } else {
+                ret = 0x8000;
+            }
+        } else {
+            ret = 0x2000;
+        }
+        D_80182550->f6 = D_801A6A38;
+    }
+    return ret;
+}
+
 
 
 // @class: regalloc-order
@@ -1890,7 +1935,65 @@ s32 func_801345F8(s32 arg)
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_010/nonmatchings/ov_SC07_010_jr_80131340", func_801347A0);
+
+
+
+
+
+
+s32 func_801347A0(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
+
+    extern u8 D_801152A8[];
+    extern s32 func_80134A28(s32 a0, s32 a1, s32 a2);
+    extern s16 * D_80182554;
+    extern SVec * D_80182550;
+    extern SVec * D_80182558;
+
+    Elem *pElem;
+    s32 val;
+    register s32 iv __asm__("$4");
+    s32 q;
+    s32 dvsr;
+
+    pElem = &((Elem *)arg2)[((S0 *)arg1)->f2];
+    val = ((s32 *)arg3)[((S0 *)arg1)->f4];
+    if (func_80134A28((s32)pElem, (s32)D_80182554, val) >= 0) {
+        return 0;
+    }
+    iv = func_80134A28((s32)pElem, (s32)D_80182550, val);
+    if (iv < 0) {
+        return 0;
+    }
+    iv = -iv;
+    dvsr = pElem->f2 * 48;
+    q = (iv * 48) / dvsr;
+    D_80182558->f0 = D_80182550->f0;
+    D_80182558->f2 = D_80182550->f2 + q;
+    D_80182558->f4 = D_80182550->f4;
+    if (func_80134A28((s32)&((Elem *)arg2)[((S0 *)arg1)->f6], (s32)D_80182558, ((s32 *)arg3)[((S0 *)arg1)->f8]) < -0x2F00) {
+        return 0;
+    }
+    if (func_80134A28((s32)&((Elem *)arg2)[((S0 *)arg1)->fa], (s32)D_80182558, ((s32 *)arg3)[((S0 *)arg1)->fc]) < -0x2F00) {
+        return 0;
+    }
+    if (func_80134A28((s32)&((Elem *)arg2)[((S0 *)arg1)->fe], (s32)D_80182558, ((s32 *)arg3)[((S0 *)arg1)->f10]) < -0x2F00) {
+        return 0;
+    }
+    if ((s16)arg0) {
+        if (func_80134A28((s32)&((Elem *)arg2)[((S0 *)arg1)->f12], (s32)D_80182558, ((s32 *)arg3)[((S0 *)arg1)->f14]) < -0x2F00) {
+            return 0;
+        }
+    }
+    if ((((S0 *)arg1)->f0 & 0x300) != 0) {
+        return 0;
+    }
+    D_80182558->f0 = D_80182550->f0;
+    D_80182558->f4 = D_80182550->f4;
+    (*(Elem*)D_801152A8) = *pElem;
+    D_80182550->f6 = pElem->f2;
+    return 1;
+}
+
 
 DEFINE_func_80134A28()  /* dedup: shared engine-core @0x80134a28 (src/shared) */
 
@@ -2053,7 +2156,68 @@ block_14:
 DEFINE_func_80134FB8()  /* dedup: shared engine-core @0x80134fb8 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC07_010/nonmatchings/ov_SC07_010_jr_80131340", func_80135004);
+
+// @class: plumbing
+// @stuck: MATCH (89 ins). To BANK: retype D_80182554 + D_80182550 (u8 -> s16*) in sibling func_80135168's externs (src/ov_SC01_077/ov_SC01_077_a.c ~L1879); they hold pointers double-referenced across a call, so only a 4-byte/pointer decl folds %lo (u8 &-cast CSE's the address into a saved reg). Retype is byte-NEUTRAL for the sibling (verified: identical objdump bytes u8 vs s16*).
+
+
+
+
+s32 func_80135004(s32 arg0, void *p1, s32 p2) {
+
+    extern s32 D_801A6A28;
+    extern int func_80134A74(int, s16, s16, int);
+    extern s16 * D_80182554;
+    extern s16 * D_80182550;
+    extern u8 D_8018255C;
+    extern s16 *D_80182558;
+    extern u16 D_801A6A38;
+
+    register s16 *pb0 __asm__("$9");   /* D_80182554 -> $t1 */
+    register s16 *pac __asm__("$6");   /* D_80182550 -> $a2 */
+    register s16 *pb8 __asm__("$8");   /* D_8018255C -> $t0 */
+    u16 *pb4;
+    u16 a, b;
+    int id;
+    int a1v, a2v, d94;
+
+    pb0 = D_80182554;
+    __asm__ __volatile__("" : : "r"(pb0));
+
+    a = ((u16 *)p2)[0]; pac = D_80182550; pb0[0] = a; b = ((u16 *)p1)[0]; pb8 = (*(s16 * *)&D_8018255C); pac[0] = b; pb8[0] = a - b;
+    a = ((u16 *)p2)[1]; pb0[1] = a; b = ((u16 *)p1)[1]; pac[1] = b; pb8[1] = a - b;
+    a = ((u16 *)p2)[2]; pb0[2] = a; b = ((u16 *)p1)[2]; pac[2] = b; pb8[2] = a - b;
+
+    id = ((int)arg0) & 0xFFFF;
+    a1v = pac[0]; a2v = pac[2]; d94 = D_801A6A28;
+    __asm__ __volatile__("" ::: "memory");
+    D_801A6A38 = 0;
+
+    if (func_80134A74(id, a1v, a2v, d94)) {
+    found:
+        pb4 = (*(u16 * *)&D_80182558);
+        ((u16 *)p2)[0] = pb4[0];
+        ((u16 *)p2)[1] = pb4[1];
+        ((u16 *)p2)[2] = pb4[2];
+        ((u16 *)p2)[3] = D_801A6A38;
+        return 1;
+    }
+    {
+        register u16 *qb __asm__("$4");   /* D_80182550 -> $a0 (reloaded) */
+        register int qa0 __asm__("$5");   /* D_80182554[0], kept in $a1 for the 2nd-call arg */
+        register u16 *qa __asm__("$6");   /* D_80182554 -> $a2 (reloaded) */
+        qb = (u16 *)D_80182550;
+        qa = (u16 *)D_80182554;
+        qa0 = qa[0];
+        if (((qb[0] & 0xFF80) == (qa0 & 0xFF80)) &&
+            ((qb[2] & 0xFF80) == (qa[2] & 0xFF80)))
+            return 0;
+        if (func_80134A74(id, (s16)qa0, (s16)qa[2], D_801A6A28))
+            goto found;
+        return 0;
+    }
+}
+
 
 
 
