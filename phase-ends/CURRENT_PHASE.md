@@ -10083,7 +10083,7 @@ not just before scaling.**
 
 ---
 
-# 🛑 SESSION-25 FINAL CHECKPOINT v8 (2026-07-30) — FRESH SESSION SAFE HERE
+# (superseded) SESSION-25 checkpoint v8 — written before T98
 > Supersedes every earlier SESSION-25 block and SESSION-24 REVISED-3.
 
 **Nothing running.** Tree clean but for the R23 `db.*.gbf` churn + the pre-existing
@@ -10184,3 +10184,71 @@ conversation SESSION-24 deferred, and the data now supports having it (Drew's ga
 ### GATES
 No banks -> nothing to verify. Tree clean (staging reverted; `src/` untouched).
 Fleet unchanged from T97: **87.5% instr · 78.0% distinct · 92.00% fn-count**.
+
+---
+
+# 🛑 SESSION-25 FINAL CHECKPOINT v9 (2026-07-30) — FRESH SESSION SAFE HERE
+> Supersedes every earlier SESSION-25 block and SESSION-24 REVISED-3.
+
+**Nothing running.** Tree clean but for the R23 `db.*.gbf` churn + the pre-existing
+`.run/backlog.jsonl` edit. HEAD **`commit:1209`**. **R22 clean-fleet 140/140** (14x), `tools-health`
+**RC=0**, dedup **1886/0**, **0 NON_MATCHING** (G4).
+**FLEET: 87.5% instr · 78.0% distinct · 92.00% fn-count** (opened 86.7 / 76.9 / 91.23).
+
+## SESSION TOTAL — **2,713 banked · +100,572 ins · +1,620 unique fns**
+T79 641 · T82 251 · T83 821 · T84 137 · T85 133 · T87 149 · T88 9 · T89 138 · T90 23 · T93 137 ·
+T95 136 · T97 138. Reconciled against `make report` at every step.
+
+## 🏁 EVERY NAMED BLOCKER IS CLOSED — none was a compiler wall
+3 byte-identical stragglers (410) · `func_80151944` 138 (family `0x80131eec` fully closed, 288) ·
+`func_801457A4` 133 · `0x80174784` 251 · `0x80161c98` 138 · `func_801599A4` 137.
+Causes: a symbol spelled from the wrong side · a signedness-wrong header decl · a type-name collision ·
+a missing extern for a macro-defined callee · a flag combination · a file placement.
+
+## ▶ THE DECISION THAT COMES FIRST (Drew's gate-2 call)
+**The mechanical family engine is spent — measured, not felt.** Residue = **80 families / 960 members
+/ 173 distinct**, and it splits cleanly:
+- **29 all-STRUCT families / 86 members** — refused at remap **by design** (register drift). Only
+  per-member drafting cracks them.
+- **51 no-STRUCT families / 874 members / ~150 distinct** — stage fine, fail the gate; **the last three
+  blast sweeps returned 0** with every lever this phase built applied. ~51 independent diagnoses at
+  **~3 distinct each**.
+For scale: **2,713 banked today vs 173 distinct left.** SESSION-24 said "do not close P29 on ROI" and
+was right then; the data now supports asking. Unphased work that is real: the **39 un-onboarded type-1
+modules** (in no phase) and the **owed roadmap re-baseline**.
+
+**If P29 continues instead:** probe the 51 individually (one `rtu_match` per family, recipe below),
+expecting a new cause each time; the `-O0` cluster stays **WALLED** (Arm-A splat `%lo` +0x20).
+
+## 🔧 TOOL NOTE (cost three probes today)
+`rtu_match` prints `CC1 FAIL` but **its stdout does not contain the error**; warnings drown it. Use:
+```
+python3 tools/rtu_match.py <fn> --split <split> --c <draft> --source <ov> --stderr-out /tmp/e.txt
+grep -v "warning:" /tmp/e.txt | grep -vE "In function|At top level|^###|^\s*$"
+```
+
+## ⚠️ MY ERRORS THIS SESSION (recorded, not buried)
+- **§116 written with the wrong fix, tool built before testing** — refuted in 56s.
+- **Predicted `func_801599A4` would bank** while the disqualifying `diff_class: IMM` sat in a table I
+  printed myself (the T76 shape, in the session where I cited T76).
+- **Promoted a backlog item as "126 entries"; it was 8** — no still-a-stub filter.
+- **Mis-attributed T84's 137 banks** (`0x80161c98` → really `func_80146750`); committed wrong in
+  `commit:1193`, corrected in `commit:1198`.
+- **T92 recorded a wrong recipe + a phantom second blocker** — artifacts of my own bad fix
+  (corrected in `commit:1204`).
+- **Patched the wrong one of three identical staging sites, twice**, then judged a lever ineffective
+  from a patch that never ran (§120: prove it RAN).
+- **Costed T97 as a 3-part job over 2,022 decls; it was one 4-line edit** — read the symptom instead
+  of probing the failure.
+- Behind nearly all of them: **asserting the composition of a number, or the effect of a change, that
+  I did not derive.** Standing fixes: derive attribution from `corpus.stubs` before/after · diff the
+  artifact to prove an edit took effect · **probe one member before COSTING a job**.
+
+## ⚠️ CARRIED DEFECTS
+21-file absolute-include portability defect · **`docs/backlog.md` is not a work queue** (§83) ·
+roadmap re-baseline owed (39 type-1 modules in no phase) · `gate_stage` ladder destroys good drafts;
+bare gate has no snapshot/restore · `.run/autopsy/residuals.jsonl` stale (Jul 21) ·
+**`--fix-def-sig` is a REPAIR, not a default** (T84/§119).
+
+## 📓 NEW COOKBOOK ENTRIES THIS SESSION
+**§116** · **§117** · **§118** · **§119** · **§120** · **§121** (see the entries for each).
