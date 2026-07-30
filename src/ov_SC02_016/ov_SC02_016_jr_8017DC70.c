@@ -3356,7 +3356,38 @@ void func_8017FB2C(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_016/nonmatchings/ov_SC02_016_jr_8017DC70", func_8017FB54);
+
+// @class: regalloc-order
+// @stuck: none — MATCH
+
+
+extern void func_800183E0(s32 a0);
+
+void func_8017FB54(void)
+{
+
+    extern u32 D_801B4288;
+    extern u16 D_80188144[];
+    extern u16 D_801B428C[];
+    extern s32 D_80188184;
+    u32 i;
+    u16 *p;
+    u32 base;
+    u16 *tbl;
+
+    i = 0;
+    tbl = D_80188144;
+    base = D_801B4288 >> 8;
+    p = D_801B428C;
+    do {
+        *p = tbl[(base + i) & 0xF] | 0x8000;
+        i = i + 1;
+        p = p + 1;
+    } while (i < 0x20);
+    func_800183E0((s32)&D_80188184);
+    D_801B4288 = D_801B4288 + 0x100;
+}
+
 
 
 extern void (*D_801884B0[])(void);

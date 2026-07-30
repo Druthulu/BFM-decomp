@@ -7952,3 +7952,37 @@ compiler wall, which is how this was booked for so long.
 > **The law:** when a masked oracle says MATCH and the whole-binary gate says DIFF, suspect a
 > **symbol** before suspecting codegen — masking is precisely what hides a wrong relocation target.
 > And any positional exemplar→sibling map must derive each side's *kind* from its own side.
+
+## §118 — Ordinal (positional) immediate resolution: compare C tokens to the DIFFERING asm uses (Phase 29 T87)
+
+`family_remap.imm_map_tier1` substitutes a member's immediates **by value** over the whole body, so it
+refuses (`asm-ambiguous`) when the exemplar uses the same literal at a position that differs AND at one
+that does not — a by-value swap would corrupt the fixed one. **The refusal is correct; the safety test
+was too strict.**
+
+It compared the C literal's occurrences against **every** asm use of that value. But gcc synthesises
+uses that **no C token names**, so that comparison can never balance. The canonical case is an array
+index:
+
+```c
+D_80187044[*(u16 *)((s32)a0 + 0x2)]();   /* one C literal `0x2` */
+```
+emits **two** uses of the value 2 — the `0x2` member offset (per-member) **and** a fixed `sll ..,2`
+for the 4-byte stride. One C token, two asm uses => permanently unresolvable.
+
+**The fix** pairs C occurrences with asm positions in order, accepting either balance:
+- `len(spans) == len(asm_pos)` — every asm use has a C token; pair 1:1, rewrite only those in `diff_idx`.
+- `len(spans) == len(diff_pos)` — the extras are **implicit** (compiler-synthesised); pair the C tokens
+  against the *differing* uses only. A swap cannot corrupt what no token names.
+
+Anything else still refuses. The order assumption (C literal order ~ emitted immediate order) is a
+heuristic, so the whole-binary byte-gate stays the sole arbiter (G3/P9) — a wrong pairing is rejected,
+never banked.
+
+**Measured:** `func_801599A4` 0 -> **137 drafts, 137 banked** (family `0x80131eec`, +12 singletons =
+149). **Blast radius is small:** only **9** of the other 144 immediate-refusals converted, so this is a
+targeted lever, not a second §117 — the remaining still-zero families are blocked by something else.
+
+> **The law:** when a safety check counts *asm* occurrences against *source* occurrences, it must
+> exclude the ones the compiler synthesises — otherwise the check is unsatisfiable by construction and
+> reads as an unresolvable member forever.

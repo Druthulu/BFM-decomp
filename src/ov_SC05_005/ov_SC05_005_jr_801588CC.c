@@ -1510,7 +1510,14 @@ void func_80159968(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_005/nonmatchings/ov_SC05_005_jr_801588CC", func_801599A4);
+
+
+void func_801599A4(void *a0) {
+
+    extern void (*D_80184ADC[])(void);
+    D_80184ADC[*(u16 *)((s32)a0 + 0x0)]();
+}
+
 
 DEFINE_func_801599E0()  /* dedup: shared engine-core @0x801599E0 (src/shared) */
 

@@ -9458,3 +9458,32 @@ masked-MATCH backlog (**8 eligible after the still-a-stub filter, 0 banked — s
 **§116** (optimization level is a property of the FILE; `asm/` follows the *segment* while object
 membership follows the *`.c`*, so a stub-line move is unbuildable) · **§117** (spell the sibling's
 symbol from the sibling's address; a masked oracle will MATCH a wrong symbol).
+
+## ✅ T87/T88 — the ordinal immediate engine: **158 banked** (§118)
+
+**T87 — `0x80131eec` 149 banked.** The T86 diagnosis (`asm-ambiguous` = the differing immediate's value
+also occurs at a non-differing position) was right, and the refusal itself was **correct** — a by-value
+swap would corrupt the fixed occurrence. What was wrong was the safety test's *denominator*: it
+compared the C literal's occurrences against **every** asm use of the value, and gcc synthesises uses
+no C token names. The exemplar `D_80187044[*(u16 *)((s32)a0 + 0x2)]()` has **one** C literal `0x2` but
+**two** asm uses of the value 2 — the member offset (per-member) and a fixed `sll ..,2` for the 4-byte
+stride — so the check was unsatisfiable by construction.
+
+Added `_ordinal_edits` (§118): pair C occurrences to asm positions in order, accepting either
+`len(spans)==len(asm_pos)` (every use named) or `len(spans)==len(diff_pos)` (the extras are implicit).
+`func_801599A4` **0 -> 137 drafts, 137 banked**, +12 scattered singletons = **149**. The remaining 138
+failures are the `func_80151944` decl-conflict half — unchanged and still costed.
+
+**T88 — blast radius: 9.** Re-swept the 91 still-zero families; immediate-refusals fell 67 -> 34, but
+only **9** more banked. **This is a targeted lever, not a second §117** — recorded that way so the next
+session does not over-project it. The still-zero families are blocked by something else, unnamed.
+
+### GATES
+R22 clean-fleet **140 passed, 0 failed of 140** · dedup **1886/0** · **0 NON_MATCHING** (G4).
+
+### METRICS
+| | before | after | delta |
+|---|---|---|---|
+| fn-count | 91.79% | **91.84%** | 324,687 -> 324,845 = **+158** (exact) |
+| distinct-code | 77.9% | **78.0%** | 69,450 -> 69,593 = **+143 unique fns** |
+| instr-weighted | 87.3% | **87.3%** | +2,336 ins |

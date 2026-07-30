@@ -283,9 +283,64 @@ def _c_literal_swap(unit, exv, sibv):
     return None, None
 
 
+def _fmt_like(tok, v):
+    """render v in the same style (hex/dec, case, sign) as the literal token `tok`."""
+    if "x" in tok.lower():
+        up = any(c.isalpha() and c.isupper() for c in tok.lstrip("-")[2:])
+        return ("-" if v < 0 else "") + "0x" + (f"{abs(v):X}" if up else f"{abs(v):x}")
+    return str(v)
+
+
+def _ordinal_edits(unit, exv, valpos, diff_idx, sib_words):
+    """ORDINAL (positional) resolution for an `asm-ambiguous` value — Phase 29 T87.
+
+    The value substitution in `imm_map_tier1` is BY VALUE over the whole body, so when the exemplar
+    uses the same literal at a position that differs AND at one that does not, it cannot tell the two
+    apart and (correctly) refuses rather than corrupt the fixed one. But the asm knows exactly which
+    occurrence moved: zip the value's asm positions against the C literal's occurrences IN ORDER and
+    rewrite only the occurrences whose instruction is in `diff_idx`.
+
+    Only fires when the two counts agree, which is the check that makes the order assumption safe
+    enough to try; gcc may still reorder, so the whole-binary byte-gate remains the sole arbiter
+    (G3/P9) — a wrong pairing is rejected, never banked.
+
+    Returns [(start, end, replacement)] on the ORIGINAL unit, or None if it cannot be resolved."""
+    asm_pos = [k for k, v in enumerate(valpos) if v == exv]
+    if not any(k in diff_idx for k in asm_pos):
+        return None
+    forms = ([f"0x{exv:x}", f"0x{exv:X}", str(exv)] if exv >= 0
+             else [f"-0x{-exv:x}", f"-0x{-exv:X}", str(exv)])
+    for t in forms:
+        spans = [mm.span() for mm in re.finditer(r'(?<!\w)' + re.escape(t) + r'\b', unit)]
+        if not spans:
+            continue
+        diff_pos = [k for k in asm_pos if k in diff_idx]
+        if len(spans) == len(asm_pos):
+            pairing = list(zip(spans, asm_pos))                  # every asm use has a C token
+        elif len(spans) == len(diff_pos):
+            # FEWER C tokens than asm uses, and exactly as many as the DIFFERING uses: the extra asm
+            # occurrences are IMPLICIT — gcc synthesised them, so no C literal names them and a swap
+            # cannot corrupt them. The canonical case is an array index: `D_x[*(u16 *)(a0 + 0x2)]()`
+            # emits BOTH the `0x2` offset (per-member) and a fixed `sll ..,2` for the 4-byte stride.
+            # Pairing against ALL uses would never match and the member would refuse forever.
+            pairing = list(zip(spans, diff_pos))
+        else:
+            return None                                          # counts disagree -> not safely pairable
+        edits = []
+        for (s, e), k in pairing:
+            if k in diff_idx:
+                sv = imm_value(sib_words[k], False)
+                if sv is None:
+                    return None
+                edits.append((s, e, _fmt_like(t, sv)))
+        return edits or None
+    return None
+
+
 def imm_map_tier1(unit, ex_words, sib_words):
     """Tier 1: {c_literal_token: replacement} for the unambiguous immediate diffs; plus the list of
-    UNRESOLVED (value, reason) that need the Tier-2 probe. Returns (imm_map, unresolved)."""
+    UNRESOLVED (value, reason) that need the Tier-2 probe, and the unit with any ORDINAL edits
+    (§T87) already applied. Returns (imm_map, unresolved, unit)."""
     rel = reloc_indices(ex_words)
     valpos = [imm_value(w, k in rel) for k, w in enumerate(ex_words)]
     diff_idx = {k for k in range(len(ex_words)) if ex_words[k] != sib_words[k]}
@@ -302,17 +357,26 @@ def imm_map_tier1(unit, ex_words, sib_words):
         by_val[ev].add(imm_value(sib_words[k], False))
         handled.add(k)
     imm_map = {}
+    ord_edits = []
     for exv, sibvs in by_val.items():
         if len(sibvs) != 1 or None in sibvs:
             unresolved.append((exv, "multi-target")); continue
         sibv = next(iter(sibvs))
         if any(valpos[k] == exv for k in range(len(ex_words)) if k not in diff_idx and valpos[k] is not None):
-            unresolved.append((exv, "asm-ambiguous")); continue  # value also used at a fixed position
+            # value also used at a FIXED position -> a by-value swap would corrupt it. Try the
+            # ORDINAL resolution (T87) before giving up; it pairs asm positions to C occurrences.
+            e = _ordinal_edits(unit, exv, valpos, diff_idx, sib_words)
+            if e:
+                ord_edits.extend(e); continue
+            unresolved.append((exv, "asm-ambiguous")); continue
         tok, rep = _c_literal_swap(unit, exv, sibv)
         if tok is None:
             unresolved.append((exv, "not-in-C")); continue
         imm_map[tok] = rep
-    return imm_map, unresolved
+    if ord_edits:                                                # apply right-to-left: spans are on
+        for s, e_, rep in sorted(ord_edits, key=lambda x: -x[0]):  # the ORIGINAL unit
+            unit = unit[:s] + rep + unit[e_:]
+    return imm_map, unresolved, unit
 
 
 _TU_CACHE = {}
@@ -409,7 +473,7 @@ def remap_hseq_body(from_addr, from_ov, to_ov, to_addr, body):
         return None, err
     imm_map, unresolved = ({}, [])
     if cls == "IMM":
-        imm_map, unresolved = imm_map_tier1(body, ex_words, sib_words)
+        imm_map, unresolved, body = imm_map_tier1(body, ex_words, sib_words)
         if unresolved:
             return None, f"unresolved immediates: {unresolved}"
     table = dict(m)
@@ -442,7 +506,7 @@ def remap_hseq(from_addr, from_ov, to_ov, to_addr=None):
         return None, err
     imm_map, unresolved = ({}, [])
     if cls == "IMM":
-        imm_map, unresolved = imm_map_tier1(unit, ex_words, sib_words)
+        imm_map, unresolved, unit = imm_map_tier1(unit, ex_words, sib_words)
         if unresolved:
             return None, f"unresolved immediates (Tier-2): {unresolved}"
     externs = gather_externs(from_ov, from_addr, unit)
