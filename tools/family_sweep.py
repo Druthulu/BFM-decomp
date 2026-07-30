@@ -26,6 +26,7 @@ import canon_sig_reconcile as CSR      # v3.2 (Phase-25 T7-M2 per-sibling re-rec
 from scope_data_externs import fix as scope_data_fix   # §8d (Phase-26 session 8)
 import normalize_self_decls as NSD     # the same-function decl-normalize (Phase-29, §17a-1 3rd direction)
 import scope_tu_externs as STU         # §103 — the TU-side decl-scope lever (Phase-29 T51/T56)
+import cast_call_sites as CCS          # §17a-1/§20 — the CALLEE-conflict lever (Phase-29 T77)
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(REPO, 'tools'))
@@ -570,6 +571,25 @@ def hseq_sweep(a):
                     print(f"  [tu-scope] {ov} {to_func}: {e}", flush=True)   # loud, never fatal (R32)
             if mstub:
                 draft, _moved = scope_data_fix(draft, tu, mstub.start(), to_func)
+            # CALLEE-CONFLICT (§17a-1/§20, Phase-29 T77) — the THIRD decl axis, and the one nothing in
+            # this pipeline reconciled. scope_data_fix handles DATA externs; reconcile_def_sig handles
+            # the draft's OWN signature; neither touches a CALLEE the draft declares differently from
+            # the target TU. That is what blocked every byte-identical family measured in T76:
+            #   func_80173A60 -> `conflicting types for func_80173B4C`   (a callee)
+            #   func_8012F40C -> `conflicting types for RotTransPers`    (a PsyQ library symbol)
+            #   0x80143d28    -> `conflicting types for ApplyMatrixSV`
+            # cast_call_sites already solves exactly this (rewrite the decl to the TU's canonical,
+            # cast each call site back to the draft's intended sig — gcc folds the cast of a known
+            # symbol to a direct jal, so it is codegen-neutral). It lived only in gate_stage, which
+            # this sweep deliberately does not use — the same "lever unreachable from this path" shape
+            # as T56. The canonical map is derived from the TU by cpp (cdecl.tu_scope), so it sees
+            # macro-injected declarations, and it is read AFTER the tu-scope edit is on disk.
+            if mstub and not getattr(a, "no_cast_callees", False):
+                try:
+                    _canon, _ = CCS.canonical_map(ov, src_file=tu_path)
+                    draft, _ncast = CCS.transform(draft, to_func, _canon)
+                except Exception as e:
+                    print(f"  [cast-callees] {ov} {to_func}: {repr(e)[:90]}", flush=True)
             d = os.path.join(REPO, SWEEP, ov)
             os.makedirs(d, exist_ok=True)
             open(os.path.join(d, f"func_{to_addr:08X}.c"), "w").write(draft + "\n")
@@ -720,6 +740,12 @@ def main():
                     help="--hseq §41c: template reconcile-class cracks — per sibling, h_seq-remap the RAW "
                          "crack draft in RAWDIR (func_<EXEMPLAR>.c) then canon_sig_reconcile against the "
                          "sibling TU. For type-heavy exemplars whose reconciled body is TU-specific.")
+    ap.add_argument("--no-cast-callees", action="store_true",
+                    help="--hseq: DISABLE the §17a-1 callee-conflict cast (Phase-29 T77). ON by "
+                         "default: it only fires when a callee's canonical TU signature conflicts "
+                         "with the draft's, it is codegen-neutral (gcc folds the cast of a known "
+                         "symbol to a direct jal), and the whole-binary gate arbitrates. Use this "
+                         "flag to A/B it.")
     ap.add_argument("--no-tu-scope", action="store_true",
                     help="--hseq: DISABLE the §103 tu-scope pre-pass (Phase-29 T56). It is ON by "
                          "default because it is byte-neutral by construction (a declaration move), "

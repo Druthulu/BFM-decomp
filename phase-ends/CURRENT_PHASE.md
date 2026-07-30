@@ -8760,3 +8760,45 @@ exhausted at 86.6% instr** unless the callee-decl axis is addressed.
 2. **§43 K&R conversion** for `func_80147364` (137) — the narrow-param route.
 3. **Extend the audit with the family map** (T71).
 4. `func_80146750` (137) — still undiagnosed after its header correction.
+
+## ✅ T77 — the callee-decl axis wired in: `func_80173A60` **0/135 → 135/135**
+
+The T76 diagnosis was right and the fix was a lever we already owned. `cast_call_sites` (§17a-1/§20)
+handles the callee-conflict class and lived **only in `gate_stage`**, which the family sweep
+deliberately does not use — the third instance this session of *a lever unreachable from the path
+that needs it* (T56 data-decl, T57 function-decl-by-default, now T77 callee).
+
+| | before | after |
+|---|---|---|
+| the 5 byte-identical families | **0 / 682** | **135 / 682** |
+| `func_80173A60` specifically | 0/135 | **135/135** |
+
+Wired after `scope_data_fix` (orthogonal axes: data vs callee), default ON with `--no-cast-callees`,
+canonical map built from the **target sibling's TU via cpp** so it sees macro-injected declarations
+(§51g LAW 7 — a raw-text scan returns nothing for exactly the conflicting callees) and read **after**
+the tu-scope edit is on disk.
+
+**The other four families still fail — different causes.** `func_8012F40C`'s blocker is
+`RotTransPers`, a **PsyQ library** symbol, which is a callee conflict the cast should have handled;
+that it did not means the library-symbol sub-case needs its own look.
+
+### GATES
+R22 clean-fleet **140 passed, 0 failed of 140** · `tools-health` OK · dedup **1886/0** ·
+**0 NON_MATCHING** (G4).
+
+### METRICS
+| | before | after | delta |
+|---|---|---|---|
+| instr-weighted | 86.6% | **86.7%** | 11,379,580 → 11,387,545 = **+7,965 ins** |
+| fn-count | 91.15% | **91.19%** | 322,432 → 322,567 = **+135** |
+| distinct-code | 76.9% | 76.9% | +0 (byte-identical family — §111 predicted it) |
+
+## ▶ NEXT (ranked)
+1. **Why the cast did NOT fix the PsyQ-library sub-case** (`RotTransPers` in `func_8012F40C`;
+   `ApplyMatrixSV` in `0x80143d28`) — a library symbol has no `func_XXXXXXXX` form, and
+   `cast_call_sites`' canonical map keys on `re.fullmatch(r'func_[0-9A-Fa-f]{8}')`, so **named PsyQ
+   callees are structurally invisible to it**. That is a one-line predicate widening, and ~270
+   members sit behind it.
+2. Diagnose the remaining three (`func_801759D8`, `func_80146750`, `func_80142B2C`).
+3. **§43 K&R conversion** for `func_80147364` (137).
+4. **Extend the audit with the family map** (T71).

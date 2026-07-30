@@ -7795,3 +7795,45 @@ byte-neutral, then the family swept **137/137 with zero failures**.
 > a gate blocks something, check *why the reason applies here* before accepting it — "the call site
 > would break" is not a fact about the declaration, it is a fact about a call site that may not
 > exist. This one had 137 members behind it.
+
+---
+
+## §114 — The THIRD decl axis: a CALLEE the draft declares differently from the target TU (Phase 29 T76/T77)
+
+Three axes can make a templated family draft fail `conflicting types`, and the sweep pipeline handled
+only two of them:
+
+| axis | whose signature | lever |
+|---|---|---|
+| the draft's **own** definition | `func_X` itself vs the shared header | `reconcile_def_sig` (§109) |
+| **DATA** externs | `D_XXXX` | `scope_data_externs` (§8d) + `scope_tu_externs` (§103) |
+| **a CALLEE** | `func_Y` that the draft calls | **`cast_call_sites` (§17a-1/§20) — was not in the pipeline** |
+
+The third axis was the whole reason the byte-identical family tier measured **0 of 682** (T76). Three
+independent diagnoses had already named it and none of them was the family's own function:
+
+```
+func_80173A60 -> conflicting types for func_80173B4C    (a callee)
+func_8012F40C -> conflicting types for RotTransPers     (a PsyQ LIBRARY symbol)
+0x80143d28    -> conflicting types for ApplyMatrixSV    (likewise)
+```
+
+`cast_call_sites` already solves exactly this — rewrite the callee's decl to the TU's canonical
+signature (killing the in-TU conflict while keeping the symbol in scope) and cast each call site back
+to the draft's intended signature; gcc folds the cast of a known symbol to a direct `jal`, so it is
+codegen-neutral. It lived only in `gate_stage`, which the family sweep deliberately does not use
+(§T3: gate_stage's transforms perturb a correct remapped draft). **Wiring it into the sweep took
+`func_80173A60` from 0/135 to 135/135.**
+
+Two details that matter when wiring it:
+- **Build the canonical map from the TARGET sibling's TU, via cpp** (`canonical_map(ov, src_file=tu)`
+  → `cdecl.tu_scope`). A raw-text scan cannot see a **macro-injected** declaration, and
+  `engine_core.h` is ~23.5k continuation lines inside ~1,800 macros — so the map would return nothing
+  for exactly the callees that conflict (§51g LAW 7).
+- **Read the TU after any TU-side edit is on disk**, so the map reflects the environment the draft
+  will actually meet.
+
+> **The law:** `conflicting types for X` — *read X*. When X is not the function being templated, no
+> amount of work on the definition's signature or the shared header will help, and both will look
+> like plausible next steps. Three diagnoses named a callee before anyone checked whether the
+> pipeline could act on one.
