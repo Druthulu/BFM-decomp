@@ -2754,9 +2754,63 @@ extern void func_80184440(void);
 /* ==== end §8b carried decl layer ==== */
 
 
-INCLUDE_ASM("asm/ov_SC03_014/nonmatchings/ov_SC03_014_o0d", func_80184474);
+#include "common.h"
 
-INCLUDE_ASM("asm/ov_SC03_014/nonmatchings/ov_SC03_014_o0d", func_80184538);
+extern s32 D_801EAC64;
+extern s32 D_801EAC68;
+extern u8 D_8018F8A4[];
+extern void func_80184538(s32 a0);
+
+void func_80184474(void) {
+    s32 unused; /* -O0 frame padding: original had a dead local (0x20 frame, not 0x18) */
+
+    --D_801EAC64;
+    if (D_801EAC64 == 0) {
+        func_80184538(D_801EAC68);
+        D_801EAC64 = D_8018F8A4[D_801EAC68] * 2;
+        if (++D_801EAC68 >= 30) {
+            D_801EAC68 = 0;
+        }
+    }
+}
+
+
+#include "common.h"
+
+typedef struct {
+    s32 unk00;  /* 0x00 */
+    s32 unk04;  /* 0x04 */
+    u16 unk08;  /* 0x08 */
+    u16 unk0A;  /* 0x0A */
+    u16 unk0C;  /* 0x0C */
+    u16 unk0E;  /* 0x0E */
+    u16 unk10;  /* 0x10 */
+    u16 unk12;  /* 0x12 */
+} Unk8018F8C4; /* sizeof == 0x14 */
+
+extern Unk8018F8C4 D_8018F8C4[];
+
+extern void MoveImage(void *a0, s32 a1, s32 a2);
+extern void func_800183E0(s32 a0);
+
+void func_80184538(s32 arg0) {
+    s16 rect[4];
+    s32 x;
+    s32 y;
+
+    if (D_8018F8C4[arg0].unk00 == 0) {
+        rect[0] = D_8018F8C4[arg0].unk08;
+        rect[1] = D_8018F8C4[arg0].unk0A;
+        rect[2] = D_8018F8C4[arg0].unk0C;
+        rect[3] = D_8018F8C4[arg0].unk0E;
+        x = D_8018F8C4[arg0].unk10;
+        y = D_8018F8C4[arg0].unk12;
+        MoveImage(rect, x, y);
+    } else {
+        func_800183E0(D_8018F8C4[arg0].unk04);
+    }
+}
+
 
 extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
 extern u8 D_800AEE50;
@@ -2791,6 +2845,34 @@ s32 func_80184794(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_014/nonmatchings/ov_SC03_014_o0d", func_801847EC);
+extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
+extern s32 D_800C7C60;
+extern s32 *D_800C7C64;
+extern s32 D_800A2E20;
+extern u8 D_800AEE40;
 
-INCLUDE_ASM("asm/ov_SC03_014/nonmatchings/ov_SC03_014_o0d", func_80184868);
+s32 func_801847EC(void) {
+    s32 ret;
+
+    D_800C7C60 = 0x41;
+    D_800C7C64 = &D_800A2E20;
+    ret = func_8001ABBC(0, 0, &D_800AEE40, 0, (s32)&D_800C7C60);
+    return ret;
+}
+
+
+extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
+extern u8 D_800AEE48;
+extern s32 D_800C7C60;
+extern s32 *D_800C7C64;
+extern s32 D_800A2E20;
+
+s32 func_80184868(void) {
+    s32 ret;
+
+    D_800C7C60 = 0x39;
+    D_800C7C64 = &D_800A2E20;
+    ret = func_8001ABBC(0, 0, &D_800AEE48, 0, (s32)&D_800C7C60);
+    return ret;
+}
+
