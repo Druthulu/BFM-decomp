@@ -109,6 +109,38 @@ the T2 log entries; check both background tasks' outcomes first (`git log` for t
 
 ## Per-task log
 
+### T3 wave 1 (Ultracode, 14 agents, 1.20M tok) — 14/14 match_one MATCH → **8/14 BANKED**; the gate's propagation TIMEOUT left the fleet half-written (caught, reverted, tool fixed)
+**The wave:** 14 fresh reach-138 cores in ov_SC01_077 (117,162 gain-ins in play), one agent each,
+drafting against the §31 map + cookbook with `match_one`/`rtu_match` self-verification. **All 14
+returned closeness 0**, most cross-verified in the real TU. **Whole-binary gate (the arbiter,
+§52b): 8 banked** — `func_80175820` (×276!) · `func_8012E014` · `func_80133298` · `func_8015FBE0` ·
+`func_8016E9EC` · `func_80151C54` · `func_8012F49C` · `func_80151B98`. Bank truth derived from
+source (INCLUDE_ASM presence), never the gate report (§55b trap 4). 57% conversion = the §52b law
+holding exactly; the 6 rejects are all declaration/integration work their agents had already named.
+
+**THE INCIDENT (recorded, not buried).** `gate_stage` hardcoded `timeout=3600` on
+`dedup_propagate`. Ample for one bank; with EIGHT (each rewriting ~138 overlays) it blew, and
+`TimeoutExpired` propagated out and **killed the driver mid-write**: 313 files modified
+(alphabetically ov_SC01_000..ov_SC03_013 — it died partway through the fleet),
+`config/dedup.us.yaml` never updated, `engine_core.h` half-edited. **`check-all` 124/140.**
+Caught by running the oracle before trusting the state; **`git checkout -- src/` reverted all of
+it** (§61 — and note a KILLED process performs no undo at all, so the driver's own restore logic
+was never reached). Nothing was committed at any point; zero contamination.
+**Fix shipped:** timeout now SCALES with bank count (`1800 + 1800×banks`, capped 6h) AND is
+CAUGHT — on expiry the driver reports `TREE DIRTY, REVERT REQUIRED` and returns cleanly instead of
+dying with the fleet open. **Recovery path (also the new standing practice for multi-bank waves):
+re-gate `--no-propagate`, then propagate PER FUNCTION via `dedup_propagate --addr` — bounded,
+resumable, verifiable between steps — rather than one monolithic fleet write.**
+
+**Three byte-grounded idioms to distill (R16/R30, owed):** (1) **`void`→`s32` return is NOT
+byte-neutral** — an s32 return keeps `$v0` live-out and stops dbr stealing an `addiu` into the
+loop-back delay slot; this CORRECTS cookbook §3a-1's neutrality claim (`func_8016EC0C`).
+(2) **The asm-label alias** `extern s32 SYM_w __asm__("SYM")` — reads a `u8`-declared shared global
+as a word WITHOUT `*(s32*)&SYM`, which force_regs the address and drags 3 extra `la` pseudos across
+calls; found independently by two agents; a general unblock for the u8-vs-s32 loose-typing
+collisions (`func_8012E014`, `func_80133298`). (3) **Zero-byte `__asm__("")` as a delay-slot
+fence** — `reorg.c stop_search_p` halts the eager filler on an asm insn (`func_8015FBE0`).
+
 ### T1a ✅ — the deterministic recovery sweep: +18 banked; the stored-draft question CLOSED (report point #2)
 Population: the 108 fresh autopsy-MATCH strandeds (+ the 012 abort re-run, 0/3) across 50 binaries,
 47 min, 17 driver commits. **Metric truth (R14, derived): fn-count +18 instances / distinct +12

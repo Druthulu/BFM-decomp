@@ -374,8 +374,26 @@ def _run_gate_locked(drafts, binary, src, asm, out, good_sha, propagate, source_
     prop_error = None
     if verified and propagate:
         before = _dedup_group_count()
-        pr = sh([PY, "tools/dedup_propagate.py", "--auto-from", binary, "--min-reach", "2",
-                 "--recover"], timeout=3600)
+        # TIMEOUT SCALES WITH THE BANK COUNT, and a timeout must never kill this process mid-write
+        # (P30 wave-1, measured): a fixed 3600s is ample for ONE bank and far too short for EIGHT —
+        # `dedup_propagate` rewrites every one of ~138 overlays per banked fn. When it blew, the
+        # TimeoutExpired propagated out of run_gate and killed the driver **with the fleet half
+        # rewritten**: 313 files touched, alphabetically ov_SC01_000..ov_SC03_013, `dedup.us.yaml`
+        # never updated — `check-all` 124/140. A raised timeout is not a fix on its own; the
+        # combination that matters is (a) scale it, (b) CATCH it, (c) report the tree as DIRTY so
+        # the operator reverts instead of building on a half-propagated fleet (§61: undo scope must
+        # cover write scope, and a killed process performs no undo at all).
+        _budget = min(6 * 3600, 1800 + 1800 * len(verified))
+        try:
+            pr = sh([PY, "tools/dedup_propagate.py", "--auto-from", binary, "--min-reach", "2",
+                     "--recover"], timeout=_budget)
+        except subprocess.TimeoutExpired:
+            print(f"[gate] FATAL: dedup_propagate exceeded {_budget}s with {len(verified)} banks — "
+                  f"the fleet is HALF-PROPAGATED and the tree is DIRTY. Revert (`git checkout -- src/`), "
+                  f"then re-gate with --no-propagate and propagate separately.", file=sys.stderr)
+            return {"drafts": len(draft_fns), "banked": len(verified), "propagated": 0,
+                    "near": 0, "failed": 0, "fleet_pct": None, "verified": verified,
+                    "prop_error": ["TIMEOUT — TREE DIRTY, REVERT REQUIRED"], "commit": None}
         propagated = max(0, _dedup_group_count() - before)
         # Surface a REAL failure: dedup_propagate exits non-zero on a byte-gate revert (a false-reach
         # straggler poisoned the all-or-nothing batch) — distinct from the benign "nothing to propagate"
