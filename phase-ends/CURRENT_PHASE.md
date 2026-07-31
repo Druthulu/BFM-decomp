@@ -109,6 +109,29 @@ the T2 log entries; check both background tasks' outcomes first (`git log` for t
 
 ## Per-task log
 
+### ⚠️ INCIDENT 2 (mine) — a POLL is not a MUTEX: concurrent tree writers broke 63/140; reverted clean
+**What I did.** Wave-3 gated 8 binaries in parallel (correct — the byte-gate IS per-binary) while
+wave-2's propagation loop was still running, then I ran `make clean` (deleting `asm/`) on top of
+both. `check-all` → **77/140**, and the corpus denominator itself moved (353,720 → 353,691), so the
+apparent "91.4% instr" was an artifact of a half-written tree, not a gain.
+
+**Root cause — the guard was structurally unsound, not merely unlucky.** My gate waited on
+`while pgrep -f dedup_propagate; do sleep; done`. But a CAMPAIGN is a **loop of short-lived
+processes** — 15 sequential `dedup_propagate` invocations — so between every pair there is a window
+with no matching process. The poll sampled one of those gaps, read "clear", and started. Presence-
+of-a-process is a sampling test on a gappy signal; it cannot express "a campaign owns the tree."
+
+**Recovery (clean, nothing lost that mattered).** Killed the writers; `git checkout -- src/ config/`
+back to `commit:1245` (the last R22-verified 140/140 commit); all 58 drafts survive untouched in
+`.run/` because agents never write the tree — the discipline that made this cheap. Re-verifying
+baseline, then re-gating and re-propagating serially under the lock.
+
+**Fix shipped: `tools/treelock.sh`** — an flock(1) mutex held for the WHOLE campaign, released by
+the kernel on exit or kill, with `--status`. Both drivers now refuse to run unlocked.
+**The general law (worth a rule at close): guard the CAMPAIGN, not the process.**
+Corollary, the second time this session a killed writer hurt: **a killed process performs no undo**,
+so a fleet-tier write needs a lock ABOVE it, not cleanup inside it.
+
 ### T3 BEHEMOTH WAVE (10 agents, 3.23M tok) — **7/10 CONFIRMED byte-matches at 700–970 ins**, 0 disputed
 Drew asked for up to 10 agents on the behemoths; grouping analysis first showed the ≥700-ins band is
 **structured, not 29 singletons**: one 16-member family @947, one 14-member @884, a 5-member @793, a
