@@ -4155,7 +4155,84 @@ void func_80185670(s32 *a0) {
     }
 
 
-INCLUDE_ASM("asm/ov_SC02_017/nonmatchings/ov_SC02_017_jr_8017DF34", func_80185680);
+#include "common.h"
+
+// @class: regalloc (WIDTH/li!=addu -> MATCH)
+// @stuck: none — MATCH (58 ins), match_one + rtu_match. PIN-FREE (no register __asm__).
+// Three levers, in the order they mattered:
+//
+//  1) The join block indexes every field off $a0, not $s0: the target COPIES the entity into $a0
+//     at the TOP of the join block (`addu $a0,$s0,$zero`) and reads 0x5C/0x5E/0x60/0x62/0x20 off
+//     that copy.  A naive `e = param_1;` at the join is deleted — cse.c's make_regs_eqv keeps the
+//     PARAMETER as qty_first_reg, so canon_reg rewrites every use of `e` back to param_1 and the
+//     copy dies.  Writing the copy at the end of the ARMS instead is worse (2 mismatches worse):
+//     gcc hoists it above the inner `if` into the beqz delay slot and the arms then read off $a0.
+//
+//  2) THE LEVER: make the copy's variable ALSO the 0x20 pointer of the /4 arm.  make_regs_eqv only
+//     lets the new pseudo take over the quantity when its live range escapes the cse basic block
+//     AND outlives the param's last use.  Reusing `a` in the /4 arm (which sits *after* the join in
+//     the insn stream, and whose last mention `sh $v0,0x18($a0)` comes after param_1's last mention
+//     `lh $v0,0x100($s0)`) satisfies both clauses at once, so `a` becomes canonical, the copy
+//     survives, and the block addresses off it.  The same reuse is what puts `lw $a0,0x20($s0)` /
+//     `lh $v1,0x18($a0)` in the /4 arm in the target's register order — two separate locals there
+//     give the mirrored $v1/$a0 pair (6 extra mismatches; verified).  The reuse must be paired with
+//     the join-top copy: `a` shared but copied in the arm instead makes it a plain global allocno,
+//     global.c hands it a callee-saved reg and the function grows an $s1 save/restore (60 ins).
+//     A `register s32 a __asm__("$4")` pin also reaches 0 here (canon_reg bails on hard regs), but
+//     the pin is unnecessary and would trip the §42e/§86 pin guard on the ×6 family remap.
+//
+//  3) Tail statement order is 0x5C, 0x60, 0x62, 0x5E — the 0x5E store must be LAST.  sched2 works
+//     the ready list LIFO, so a 0x5E written third floats to the front of the block as
+//     `li $v0,1 / sh $v0,0x5E` and steals $v0 from the 0x5C load-modify-store (9 mismatches).
+//     Written last it sinks past `lhu $v0,0x12($v1)`, reuses the now-dead $v1 for its constant and
+//     lands where the target has it.  (All 24 orderings byte-swept: only 5C-60-62-5E and
+//     60-5C-62-5E reach 0.)
+//
+//  Widths: 0x100 is read at TWO widths on purpose — `u16` in the flag arm (target `lhu`) and `s16`
+//  in the /4 arm (target `lh`); combine folds the extend into the load, so the cast at the use site
+//  picks the opcode.  Ditto `|= 1` on the s16 0x5C field giving `lhu`.  §3-T4: both `beqz`es mean
+//  the NON-zero arm falls through, i.e. `func_8012BEE8(..) != 0` and `flags & 0x80` are the
+//  fall-through arms (Ghidra's seed for this address was a different function entirely).
+
+extern s32 func_8012BEE8(s32 a0);
+extern void func_80131E00();
+
+void func_80185680(s32 param_1) {
+    s32 a;
+    s32 p;
+    s32 q;
+    s32 x;
+    s32 t;
+    u16 h;
+
+    if (func_8012BEE8(param_1) != 0) {
+        if (*(s32 *)(param_1 + 0xDC) & 0x80) {
+            p = *(s32 *)(param_1 + 0x20);
+            *(s16 *)(p + 0x1C) = 0x1000;
+            *(s16 *)(p + 0x18) = 0x1000;
+            *(s32 *)(param_1 + 0xDC) &= ~0x80;
+        } else {
+            p = *(s32 *)(param_1 + 0x20);
+            h = *(u16 *)(param_1 + 0x100);
+            *(s16 *)(p + 0x1C) = h;
+            *(s16 *)(p + 0x18) = h;
+        }
+        a = param_1;
+        *(s16 *)(a + 0x5C) |= 1;
+        *(s16 *)(a + 0x60) = 0;
+        q = *(s32 *)(a + 0x20);
+        *(s16 *)(a + 0x62) = *(u16 *)(q + 0x12) + 0x800;
+        *(s16 *)(a + 0x5E) = 1;
+        ((void (*)(s32, s32))func_80131E00)(a, 1);
+    } else {
+        a = *(s32 *)(param_1 + 0x20);
+        x = *(s16 *)(a + 0x18);
+        t = x + (*(s16 *)(param_1 + 0x100) - x) / 4;
+        *(s16 *)(a + 0x1C) = t;
+        *(s16 *)(a + 0x18) = t;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC02_017/nonmatchings/ov_SC02_017_jr_8017DF34", func_80185768);
 

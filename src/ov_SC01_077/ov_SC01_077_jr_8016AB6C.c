@@ -4524,19 +4524,7 @@ DEFINE_func_80171884()  /* dedup: shared engine-core @0x80171884 (src/shared) */
 
 #include "common.h"
 
-extern s32 D_80126B58;
-extern s32 D_80126D50;
-extern s32 D_80126D54;
-extern u8 D_80126D6C;
-
-extern void func_80171A1C(u8 *a0);
-
-void func_801718AC(void *arg0) {
-    D_80126D54 = (s32)arg0;
-    D_80126D6C = 0;
-    D_80126D50 = *(s32 *)arg0 | (D_80126D50 & 0x7F000000);
-    func_80171A1C((u8 *)&D_80126B58);
-}
+DEFINE_func_801718AC()  /* dedup: shared engine-core @0x801718AC (src/shared) */
 
 
 DEFINE_func_80171904()  /* dedup: shared engine-core @0x80171904 (src/shared) */

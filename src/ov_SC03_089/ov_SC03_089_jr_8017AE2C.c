@@ -3332,7 +3332,7 @@ void func_8017BEF8(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_089/nonmatchings/ov_SC03_089_jr_8017AE2C", func_8017BF34);
+DEFINE_func_8017BF34()  /* dedup: shared engine-core @0x8017BF34 (src/shared) */
 
 
 // @class: plumbing
@@ -3361,7 +3361,7 @@ INCLUDE_ASM("asm/ov_SC03_089/nonmatchings/ov_SC03_089_jr_8017AE2C", func_8017BFE
 
 INCLUDE_ASM("asm/ov_SC03_089/nonmatchings/ov_SC03_089_jr_8017AE2C", func_8017C064);
 
-INCLUDE_ASM("asm/ov_SC03_089/nonmatchings/ov_SC03_089_jr_8017AE2C", func_8017C1CC);
+DEFINE_func_8017C1CC()  /* dedup: shared engine-core @0x8017C1CC (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC03_089/nonmatchings/ov_SC03_089_jr_8017AE2C", func_8017C218);
 
@@ -3373,7 +3373,7 @@ void func_8017C524(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_089/nonmatchings/ov_SC03_089_jr_8017AE2C", func_8017C560);
+DEFINE_func_8017C560()  /* dedup: shared engine-core @0x8017C560 (src/shared) */
 
 
 /* func_8017C5A0 — a state-tick: bump the frame counter at 0x1C; while it is
@@ -3475,7 +3475,7 @@ void func_8017C69C(void *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_089/nonmatchings/ov_SC03_089_jr_8017AE2C", func_8017C770);
+DEFINE_func_8017C770()  /* dedup: shared engine-core @0x8017C770 (src/shared) */
 
 
 extern void (*D_8018D0A4[])(void);
@@ -3487,7 +3487,7 @@ void func_8017C7C4(void *a0) {
 
 INCLUDE_ASM("asm/ov_SC03_089/nonmatchings/ov_SC03_089_jr_8017AE2C", func_8017C800);
 
-INCLUDE_ASM("asm/ov_SC03_089/nonmatchings/ov_SC03_089_jr_8017AE2C", func_8017C8B4);
+DEFINE_func_8017C8B4()  /* dedup: shared engine-core @0x8017C8B4 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC03_089/nonmatchings/ov_SC03_089_jr_8017AE2C", func_8017C910);
 

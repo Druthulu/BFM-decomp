@@ -3462,7 +3462,67 @@ INCLUDE_ASM("asm/ov_SC03_014/nonmatchings/ov_SC03_014_jr_8017AE2C", func_8017D80
 
 INCLUDE_ASM("asm/ov_SC03_014/nonmatchings/ov_SC03_014_jr_8017AE2C", func_8017D890);
 
-INCLUDE_ASM("asm/ov_SC03_014/nonmatchings/ov_SC03_014_jr_8017AE2C", func_8017D900);
+#include "common.h"
+
+/* func_8017D900 — fade the 4-byte colour quad at D_801EA880 one step toward 0
+ * (func_80012F74 = "step a value toward a target"), splat the byte over the
+ * three sibling bytes, mirror the whole quad into the three following quads,
+ * then tear the entity down once the byte reaches 0.
+ *
+ * §71 sibling-first: DEFINE_func_801685EC() (engine_core.h L8520) is the same
+ * `if (<call result> == 0) ((void (*)(s32))func_80146C3C)(arg0);` teardown tail.
+ * In-TU sibling func_8017D678 shows D_801EA881/D_801EA882 are SEPARATE u8
+ * globals (each gets its own lui/%lo sb) while D_801EA880's address lives in a
+ * callee-saved register.
+ *
+ * @class: schedule (LENGTH-DRIFT/-1)
+ * @stuck: none — MATCH 50/50 (match_one AND rtu_match), iteration 2.
+ * THE CRACK (one edit): the TRAILING reload `if (*p == 0)` was being hoisted by
+ * sched2 up past the third block move, where the swl/swr pair covered its load
+ * delay — costing exactly the one `nop` the target keeps (49 vs 50 ins,
+ * LENGTH-DRIFT/-1). A second zero-byte `__asm__("")` fence between the last
+ * struct assignment and the `if` pins the lbu after the copies and the load-delay
+ * nop reappears. Lesson: an inline block move (swl/swr) is a fat delay-slot
+ * SPONGE — any following narrow load will be sucked up into it unless fenced.
+ * The first fence (after the chained byte stores) is what keeps the block moves
+ * from being interleaved with them.
+ * Other levers already in this draft, all load-bearing:
+ *  - `u8 *p = &D_801EA880;` (§20) — one address register ($s0, callee-saved
+ *    across the jal) serves the lbu, the sb and all three block-move sources.
+ *  - chained assignment `D_801EA881 = D_801EA882 = *p = f(...)` gives the
+ *    target's store order 880, 882, 881 (right-to-left after the *p store).
+ *  - the 4×u8 struct (align 1) is what makes the assignment expand to inline
+ *    lwl/lwr + swl/swr instead of a `jal memcpy` (cf. §38).
+ */
+
+typedef struct {
+    u8 b0, b1, b2, b3;
+} Quad_801EA880; /* align 1 => movstrsi expands to lwl/lwr + swl/swr */
+
+extern u8 D_801EA880;
+extern u8 D_801EA881;
+extern u8 D_801EA882;
+extern u8 D_801EA884;
+extern u8 D_801EA888;
+extern u8 D_801EA88C;
+
+extern s32 func_80012F74(s32 a0, s32 a1, s32 a2, s32 a3);
+extern void func_80146C3C(void);
+
+void func_8017D900(s32 arg0) {
+    u8 *p = &D_801EA880;
+
+    D_801EA881 = D_801EA882 = *p = func_80012F74(*p, 0, 10, 1);
+    __asm__("");
+    *(Quad_801EA880 *)&D_801EA884 = *(Quad_801EA880 *)p;
+    *(Quad_801EA880 *)&D_801EA888 = *(Quad_801EA880 *)p;
+    *(Quad_801EA880 *)&D_801EA88C = *(Quad_801EA880 *)p;
+    __asm__("");
+    if (*p == 0) {
+        ((void (*)(s32))func_80146C3C)(arg0);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_014/nonmatchings/ov_SC03_014_jr_8017AE2C", func_8017D9C8);
 

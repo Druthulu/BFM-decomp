@@ -3352,15 +3352,7 @@ void func_8017BEF8(void *a0) {
  * §3-T4: target is `bnez $v0, .L` => source condition is `== 0`.
  */
 
-extern void func_80147324(s32 arg0);
-
-void func_8017BF34(void *a0)
-{
-    if (*(s32 *)((s32)a0 + 0x30) == 0) {
-        func_80147324(*(u16 *)((s32)a0 + 0x2E));
-    }
-    *(u16 *)((s32)a0 + 0x2) = *(u16 *)((s32)a0 + 0x2) + 1;
-}
+DEFINE_func_8017BF34()  /* dedup: shared engine-core @0x8017BF34 (src/shared) */
 
 
 // @class: plumbing
@@ -3439,21 +3431,7 @@ INCLUDE_ASM("asm/ov_SC01_084/nonmatchings/ov_SC01_084_jr_8017AE2C", func_8017C06
  *   0x12 u16  countdown / angle-ish field (lhu / sh), tested SIGNED as s16
  */
 
-extern void func_8017C218(int);
-extern void func_80146C3C(void);
-
-void func_8017C1CC(int param_1)
-{
-    unsigned short uVar1;
-
-    uVar1 = *(unsigned short *)(param_1 + 0x12) - 0x100;
-    *(unsigned short *)(param_1 + 0x12) = uVar1;
-    if ((short)uVar1 > 0) {
-        func_8017C218(param_1);
-    } else {
-        ((void (*)(int))func_80146C3C)(param_1);
-    }
-}
+DEFINE_func_8017C1CC()  /* dedup: shared engine-core @0x8017C1CC (src/shared) */
 
 
 INCLUDE_ASM("asm/ov_SC01_084/nonmatchings/ov_SC01_084_jr_8017AE2C", func_8017C218);
@@ -3477,13 +3455,7 @@ void func_8017C524(void *a0) {
  * pointer survives the jal in $s0, which is just the natural allocation for a
  * parameter live across a call. */
 
-extern void func_80147324(s32 arg0);
-
-void func_8017C560(void *a0)
-{
-    func_80147324(*(u16 *)((s32)a0 + 0x2E));
-    *(u16 *)((s32)a0 + 0x2) = *(u16 *)((s32)a0 + 0x2) + 1;
-}
+DEFINE_func_8017C560()  /* dedup: shared engine-core @0x8017C560 (src/shared) */
 
 
 #include "common.h"
@@ -3604,26 +3576,7 @@ void func_8017C69C(void *a0)
  * §71 sibling-first: same shape as func_8017C610 / func_8017C69C in this TU.
  * §3-T4: target is `sll $v0,16 ; blez -> else` => `if (v > 0) { advance }`. */
 
-extern void func_8017C218(int);
-extern void func_80146C3C(void);
-
-void func_8017C770(void *a0)
-{
-    void *obj;
-    s16 v;
-
-    v = *(u16 *)((s32)a0 + 0x12) - 0x100;
-    obj = *(void **)((s32)a0 + 0x34);
-    *(s16 *)((s32)a0 + 0x12) = v;
-    if (v > 0) {
-        ((void (*)(void *))func_8017C218)(a0);
-    } else {
-        *(s16 *)((s32)obj + 0x64) = 0x1000;
-        *(s16 *)((s32)obj + 0x62) = 0x1000;
-        *(s16 *)((s32)obj + 0x60) = 0x1000;
-        func_80146C3C();
-    }
-}
+DEFINE_func_8017C770()  /* dedup: shared engine-core @0x8017C770 (src/shared) */
 
 
 
@@ -3720,23 +3673,7 @@ void func_8017C800(void *a0)
  * carried decl layer in this TU prototypes them as `(s32 a0)` / `(void)`.
  */
 
-extern void func_800D22E4(s32 a0);
-extern void func_80146C3C(void);
-extern void func_8017C910(void *a0);
-
-void func_8017C8B4(void *a0)
-{
-    s32 t;
-
-    t = *(s32 *)((s32)a0 + 0x1C);
-    *(s32 *)((s32)a0 + 0x1C) = t + 1;
-    if (t < 0xA) {
-        ((void (*)(void))func_800D22E4)();
-        func_8017C910(a0);
-    } else {
-        ((void (*)(void *))func_80146C3C)(a0);
-    }
-}
+DEFINE_func_8017C8B4()  /* dedup: shared engine-core @0x8017C8B4 (src/shared) */
 
 
 INCLUDE_ASM("asm/ov_SC01_084/nonmatchings/ov_SC01_084_jr_8017AE2C", func_8017C910);

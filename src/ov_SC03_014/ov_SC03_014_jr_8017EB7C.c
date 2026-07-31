@@ -3706,17 +3706,7 @@ void func_801805BC(void *a0) {
 
 #include "common.h"
 
-extern u8 D_8018F450;
-
-extern void func_8014706C(void *a0);
-extern void func_80154274(s32 *a0, s32 a1);
-extern s32 func_80171990(u8 *a0);
-
-void func_801805F8(s32 a0) {
-    func_8014706C((void *)a0);
-    func_80154274((s32 *)a0, (s32)&D_8018F450);
-    func_80171990((u8 *)a0);
-}
+DEFINE_func_801805F8()  /* dedup: shared engine-core @0x801805F8 (src/shared) */
 
 
 INCLUDE_ASM("asm/ov_SC03_014/nonmatchings/ov_SC03_014_jr_8017EB7C", func_80180638);
@@ -3778,34 +3768,7 @@ INCLUDE_ASM("asm/ov_SC03_014/nonmatchings/ov_SC03_014_jr_8017EB7C", func_80180AC
 
 INCLUDE_ASM("asm/ov_SC03_014/nonmatchings/ov_SC03_014_jr_8017EB7C", func_80180B20);
 
-extern void func_8014659C(void);
-extern void func_8001C810(s32 a0, s32 a1);
-extern void func_80146CA0(void *a0);
-extern void func_80162CCC(void);
-
-extern u16 D_800DF2E0;
-extern s32 D_8018F510;
-extern s32 D_8018F56C[];
-
-void func_80180B84(int param_1) {
-    s32 iVar1;
-
-    iVar1 = ((s32 (*)(void))func_8014659C)();
-    *(s32 *)(param_1 + 0x20) = iVar1;
-    if (iVar1 != 0) {
-        ((void (*)(s32, void *))func_8001C810)(iVar1, &D_800DF2E0);
-        *(s32 **)(iVar1 + 0x80) = &D_8018F510;
-        *(u32 *)(iVar1 + 4) = *(u32 *)(iVar1 + 4) | 0x50000000;
-        *(u16 *)(iVar1 + 0x2c) = *(u16 *)(iVar1 + 0x2c) | 0xb0;
-        *(s32 *)(param_1 + 0x58) = (s32)&D_8018F56C[*(s32 *)(param_1 + 0x50) * 2];
-        *(u16 *)(iVar1 + 0x1c) = 0;
-        *(u16 *)(iVar1 + 0x1a) = 0;
-        *(u16 *)(iVar1 + 0x18) = 0;
-        ((void (*)(s32))func_80146CA0)(param_1);
-    } else {
-        ((void (*)(s32))func_80162CCC)(param_1);
-    }
-}
+DEFINE_func_80180B84()  /* dedup: shared engine-core @0x80180B84 (src/shared) */
 
 
 #include "common.h"
@@ -4811,48 +4774,7 @@ INCLUDE_ASM("asm/ov_SC03_014/nonmatchings/ov_SC03_014_jr_8017EB7C", func_8018982
 
 #include "common.h"
 
-extern u8 D_801EAC94;
-extern u8 D_801EAC95;
-extern u8 D_801EAC96;
-
-// @class: plumbing
-// @stuck: none — MATCH (45 ins), iteration 3; rtu_match MATCH too.
-// Notes for the family (this shape repeats across 6 overlays):
-//  * The target's 0x10 frame with NO saves/spills is NOT a phantom frame that
-//    needs inducing: at this toolchain a `void f(void*)` leaf already emits
-//    `addiu $sp,-0x10` / `+0x10` as the BASE frame. Adding the cookbook-§5
-//    `s32 frame_pad[N]` INDUCE local OVERSHOOTS (N=2 -> 0x18, N=4 -> 0x20);
-//    write no local at all. gcc schedules that stack-adjust down into the
-//    first `bnez`'s delay slot on its own — no fence needed.
-//  * `slti $v0,$v0,0x801` + `bnez`-skip is `if (x > 0x800)` (§3-T4: read the
-//    sense off the opcode; Ghidra's `0x800 < x` happens to agree here).
-//  * The `andi $v1,$v0,0xFF` after the if/else join is the u8 local `v`: the
-//    QI pseudo is zero-extended once at its first int use and CSE shares that
-//    masked copy with the second (`v*12` then `v*4`, `v*4` re-used for 0x96).
-//    An `s32 v` would drop the andi (sb truncates anyway).
-void func_801898BC(void *a0) {
-    s16 *p;
-    s32 t;
-    u8 v;
-
-    p = *(s16 **)((s32)a0 + 0x20);
-    if (*(s16 *)((s32)p + 0x18) > 0x800) {
-        *(s16 *)((s32)p + 0x18) = *(s16 *)((s32)p + 0x18) - 0x200;
-    }
-    if (*(s16 *)((s32)p + 0x1A) > 0x800) {
-        *(s16 *)((s32)p + 0x1A) = *(s16 *)((s32)p + 0x1A) - 0x200;
-    }
-    t = *(s32 *)((s32)a0 + 0x1C) + 1;
-    *(s32 *)((s32)a0 + 0x1C) = t;
-    if (t & 0x10) {
-        v = ((t & 0xF) >> 1) + 9;
-    } else {
-        v = 0x10 - ((t & 0xF) >> 1);
-    }
-    D_801EAC94 = v * 12;
-    D_801EAC95 = v * 4;
-    D_801EAC96 = v * 4;
-}
+DEFINE_func_801898BC()  /* dedup: shared engine-core @0x801898BC (src/shared) */
 
 
 

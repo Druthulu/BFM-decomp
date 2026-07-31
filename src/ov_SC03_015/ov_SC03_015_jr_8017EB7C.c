@@ -3628,7 +3628,7 @@ void func_801805BC(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_015/nonmatchings/ov_SC03_015_jr_8017EB7C", func_801805F8);
+DEFINE_func_801805F8()  /* dedup: shared engine-core @0x801805F8 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC03_015/nonmatchings/ov_SC03_015_jr_8017EB7C", func_80180638);
 
@@ -3691,7 +3691,7 @@ INCLUDE_ASM("asm/ov_SC03_015/nonmatchings/ov_SC03_015_jr_8017EB7C", func_80180AC
 
 INCLUDE_ASM("asm/ov_SC03_015/nonmatchings/ov_SC03_015_jr_8017EB7C", func_80180B20);
 
-INCLUDE_ASM("asm/ov_SC03_015/nonmatchings/ov_SC03_015_jr_8017EB7C", func_80180B84);
+DEFINE_func_80180B84()  /* dedup: shared engine-core @0x80180B84 (src/shared) */
 
 
 /* func_80180C34 — per-frame spin + clamp handler (ov_SC03_014, reach x8).
@@ -4682,7 +4682,7 @@ INCLUDE_ASM("asm/ov_SC03_015/nonmatchings/ov_SC03_015_jr_8017EB7C", func_801897C
 
 INCLUDE_ASM("asm/ov_SC03_015/nonmatchings/ov_SC03_015_jr_8017EB7C", func_80189824);
 
-INCLUDE_ASM("asm/ov_SC03_015/nonmatchings/ov_SC03_015_jr_8017EB7C", func_801898BC);
+DEFINE_func_801898BC()  /* dedup: shared engine-core @0x801898BC (src/shared) */
 
 
 extern void (*D_80191C0C[])(void);

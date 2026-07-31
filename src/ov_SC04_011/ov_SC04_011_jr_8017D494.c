@@ -3940,7 +3940,52 @@ INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_801876A
 
 INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_8018778C);
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_80187940);
+#include "common.h"
+
+/* func_80187940 — ov_SC04_011 (split ov_SC04_011_jr_8017D494), 49 ins, MATCH.
+ *
+ * Two byte-load-bearing levers (both cookbook-indexed):
+ *   1. PARAM WIDTH (§43/§3-T3): arg3 must be a PROTOTYPED `s16`.  An `s32` param with an
+ *      explicit `(s16)` cast at the use site gives the same sll/sra but LOSES the
+ *      `addu $s1,$s2,$zero` copy that the target fills the func_80135888 delay slot with
+ *      (48 ins vs 49).  The declared-narrow param makes gcc keep the incoming SImode arg
+ *      ($s2, sign-extended at the int use) AND a separate HImode variable pseudo ($s1,
+ *      stored with `sh`) — two live pseudos, hence the copy.
+ *   2. RET-0 PLACEMENT (§3-T4 / the shared-ret0 note): `if (c != 0) { body; return 1; }
+ *      return 0;` puts the return-0 block FIRST (bnez-to-body + `j` epilogue with
+ *      `move v0,zero` in the delay slot).  The early-return form `if (c == 0) return 0;
+ *      body; return 1;` is NOT equivalent here — gcc sinks the ret-0 block to the tail and
+ *      emits `beqz` instead.  Byte-measured: `== 0` early-return = 13 mismatches, `!= 0`
+ *      with a trailing `return 0` = MATCH.  (`goto ret0;` + trailing `ret0: return 0;`
+ *      also matches.)
+ */
+
+typedef struct { u16 x, y, z, w; } Pt_80187940;   /* 8-byte out-param scratch */
+
+extern void func_8012F14C(s32);   /* TU-canonical decl; called through a cast (fleet house style) */
+extern void func_8012F568();
+extern s32  func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
+extern s32 *D_80126B78;
+extern s32 *D_80126B90;
+extern s16  D_80126B9A;
+extern u8   D_801152A8[];
+
+s32 func_80187940(s32 arg0, s32 arg1, s32 arg2, s16 arg3)
+{
+    Pt_80187940 a;
+    Pt_80187940 b;
+
+    ((void (*)(s32, s32, void *))func_8012F14C)(*(s32 *)(arg0 + 0x20) + 0x54, arg1, &a);
+    ((void (*)(s32, s32, void *))func_8012F14C)(*(s32 *)(arg0 + 0x20) + 0x54, arg2, &b);
+
+    if (func_80135888((s32)D_80126B78, (s32)D_80126B90, (s32)&a, (s32)&b) != 0) {
+        func_8012F568(1, 0x4017, arg3, 0x78, &b, D_801152A8);
+        D_80126B9A = arg3;
+        return 1;
+    }
+    return 0;
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_80187A04);
 
@@ -3964,7 +4009,29 @@ void func_80188524(void *a0) {
 
 INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_80188560);
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_801885C0);
+#include "common.h"
+
+extern void func_8004914C(void *a0);
+extern void func_800491AC(void *a0);
+extern void RotTransSV(void *a0, void *a1, void *a2);
+
+void func_801885C0(s32 param_1)
+{
+    s16 v[4];
+    u16 out[4];
+    s32 p = *(s32 *)(param_1 + 0x34);
+
+    v[0] = 0;
+    v[1] = 0x40;
+    v[2] = -0x28;
+    func_8004914C((void *)(*(s32 *)(p + 0x20) + 0x34));
+    func_800491AC((void *)(*(s32 *)(p + 0x20) + 0x34));
+    RotTransSV(v, v, out);
+    *(s16 *)(param_1 + 6) = v[0];
+    *(s16 *)(param_1 + 0xA) = v[1];
+    *(s16 *)(param_1 + 0xE) = v[2];
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_80188650);
 

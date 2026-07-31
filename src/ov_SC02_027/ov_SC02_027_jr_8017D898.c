@@ -4333,7 +4333,90 @@ void func_8018A090(void *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_027/nonmatchings/ov_SC02_027_jr_8017D898", func_8018A150);
+#include "common.h"
+
+/* func_8018A150 — per-frame entity tick: decay the sound-handle envelope at
+ * +0x20, ramp the s16 pair at +0xFE/+0x106 up to a 0x6000 ceiling, then ramp
+ * the pair at +0xFC/+0x104 down; when the +0xFC accumulator goes negative the
+ * entity releases its D_801DA8C8 slot and hands off to func_8012C218,
+ * otherwise it continues in func_8018A21C.
+ *
+ * §71 sibling-first: func_8018A090 (same TU, 0xC0 bytes earlier) is the
+ * initialiser for exactly these fields (+0xFC/+0xFE/+0x100/+0x104/+0x106, the
+ * +0x20 handle and the +0xDC slot index) and pins the widths/casts used here.
+ * D_801DA8C8[] is the 5-entry slot table func_80189FD8 (same TU) claims from.
+ *
+ * Levers (all three were needed; each is byte-verified by removal):
+ *  1. §3-T4 branch polarity — the 0x6000 guard is written `>= 0x6000` with the
+ *     CLAMP as the then-arm, which is what puts `slti/bnez` + the `j` over the
+ *     ramp arm in the target order. Writing it `< 0x6000` gives `beqz` and the
+ *     arms swapped.
+ *  2. Zero-byte `__asm__ __volatile__("" : : : "memory")` at the head of the
+ *     ramp arm (§34 toolkit). Without it cse.c relates the guard's
+ *     `lh 0xFE` to the ramp's `lhu 0xFE` — same MEM, sign- vs zero-extend —
+ *     and rewrites the second as `move`+`andi 0xffff`. That also lands both
+ *     arms' final store in $v0, which lets the post-reload jump pass CROSS-JUMP
+ *     the two `sh 0xFE` tails (§5a) and eats the `j .L8018A1C4`. The clobber
+ *     invalidates the MEM in the hash table so the real second load survives,
+ *     the arms end in different registers, and the cross-jump cannot fire.
+ *  3. The +0x104 store is SUNK to immediately after the subtract, before the
+ *     +0xFC accumulate. Both tail quantities are otherwise born in the same
+ *     block, and local-alloc's QTY_CMP_PRI (n_refs*log2(n_refs)/live_length)
+ *     then ranks the accumulator ABOVE the delta, handing it $v0 and swapping
+ *     the whole block's register pair. Storing the delta early kills its live
+ *     range at insn 3, which flips the priority back so the delta takes $v0.
+ *     Purely a scheduling/priority dial — the emitted order is unchanged
+ *     because reorg pulls `sh 0x104` back into the `bgez` delay slot.
+ * Also note the two tail blocks are BLOCK-SCOPED: sharing one function-scope
+ * pair across the 0xFE and 0xFC ramps makes them global allocnos (§76), which
+ * costs $a1 for the deltas and an extra 8 bytes of frame (0x20 vs 0x18).
+ */
+
+extern u8 D_801DA8C8[];
+extern void func_8012C218(void *a0);
+extern void func_8018A21C(void *a0);
+
+void func_8018A150(void *a0)
+{
+    s32 p;
+    s32 v;
+
+    p = *(s32 *)((s32)a0 + 0x20);
+    if (p != 0) {
+        v = *(u16 *)(p + 0x1A) - 0x100;
+        *(s16 *)(p + 0x1A) = v;
+        *(s16 *)(p + 0x18) = v;
+        if (*(s16 *)(p + 0x1A) < 0) {
+            *(s16 *)(p + 0x1A) = 0;
+            *(s16 *)(p + 0x18) = 0;
+        }
+    }
+    if (*(s16 *)((s32)a0 + 0xFE) >= 0x6000) {
+        *(s16 *)((s32)a0 + 0xFE) = 0x6000;
+    } else {
+        s32 dv, sv;
+        __asm__ __volatile__("" : : : "memory");
+        dv = *(u16 *)((s32)a0 + 0x106) + 0x400;
+        sv = *(u16 *)((s32)a0 + 0xFE) + dv;
+        *(s16 *)((s32)a0 + 0x106) = dv;
+        *(s16 *)((s32)a0 + 0xFE) = sv;
+    }
+    {
+        s32 d = *(u16 *)((s32)a0 + 0x104) - 0x80;
+        s16 s;
+
+        *(s16 *)((s32)a0 + 0x104) = d;
+        s = *(u16 *)((s32)a0 + 0xFC) + d;
+        *(s16 *)((s32)a0 + 0xFC) = s;
+        if (s < 0) {
+            D_801DA8C8[*(s16 *)((s32)a0 + 0xDC)] = 0;
+            func_8012C218(a0);
+        } else {
+            func_8018A21C(a0);
+        }
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC02_027/nonmatchings/ov_SC02_027_jr_8017D898", func_8018A21C);
 

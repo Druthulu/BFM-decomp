@@ -3153,18 +3153,7 @@ void func_80182154(void *a0) {
 
 #include "common.h"
 
-extern void func_8016EDEC(s32 a0, s32 a1, s32 a2);
-extern void func_800167B8(s32 a0);
-extern void func_801824E0(void *a0);
-extern s32 D_801E8770;
-
-s32 func_80182190(s32 param_1) {
-    D_801E8770 = 0;
-    ((void (*)(void *, s32))func_8016EDEC)((void *)func_801824E0, 0x1000000);
-    func_800167B8(0);
-    *(u8 *)(param_1 + 0x15) = *(u8 *)(param_1 + 0x15) + 1;
-    return 0;
-}
+DEFINE_func_80182190()  /* dedup: shared engine-core @0x80182190 (src/shared) */
 
 
 INCLUDE_ASM("asm/ov_SC02_000/nonmatchings/ov_SC02_000_jr_8017FCB0", func_801821E8);
@@ -3383,39 +3372,7 @@ DEFINE_func_80183A78()  /* dedup: shared engine-core @0x80183A78 (src/shared) */
 
 #include "common.h"
 
-extern s16 D_8018EDD0[];
-extern u8 D_801A7CB0;
-extern s32 func_8013767C(s32 a0);
-extern void func_80147324(s32 a0);
-
-void func_80183A80(s32 a0) {
-    s16 v;
-    s16 d;
-
-    v = D_8018EDD0[*(u8 *)(a0 + 0x20C)];
-    if (v != 0) {
-        d = v - *(u16 *)(a0 + 0xE);
-        v = d;
-        if (d < 0) {
-            v = -d;
-        }
-        if (v < 0x180) {
-            *(s32 *)(a0 + 0x198) = func_8013767C((s32)&D_801A7CB0);
-            switch (*(u8 *)(a0 + 0x20C)) {
-            case 0:
-                func_80147324(0x5A1);
-                break;
-            case 1:
-                func_80147324(0x5F1);
-                break;
-            case 2:
-                func_80147324(0x5F2);
-                break;
-            }
-            *(u8 *)(a0 + 0x20C) += 1;
-        }
-    }
-}
+DEFINE_func_80183A80()  /* dedup: shared engine-core @0x80183A80 (src/shared) */
 
 
 INCLUDE_ASM("asm/ov_SC02_000/nonmatchings/ov_SC02_000_jr_8017FCB0", func_80183B64);
@@ -3613,47 +3570,12 @@ INCLUDE_ASM("asm/ov_SC02_000/nonmatchings/ov_SC02_000_jr_8017FCB0", func_80186F4
 
 #include "common.h"
 
-extern void func_8012CBCC(s32 a0);
-extern s32 func_80143B6C(s32 a0, s32 a1);
-
-s32 func_80186FDC(s32 param_1) {
-    s32 p;
-
-    p = *(s32 *)(param_1 + 0x20);
-    *(s16 *)(p + 0x12) = *(u16 *)(p + 0x12) + 0x100;
-    if (((s32 (*)(void))func_8012CBCC)() != 0) {
-        *(s32 *)(param_1 + 0x18) = 0xFFE80000;
-        *(s32 *)(param_1 + 0x14) = 0xFFC80000;
-        *(s32 *)(param_1 + 0x44) = 0;
-        *(s32 *)(param_1 + 0x48) = 0x80000;
-        *(s32 *)(param_1 + 0x4C) = 0;
-        func_80143B6C(param_1, 0);
-        *(s16 *)(param_1 + 0xFC) = 0x40;
-        *(s16 *)(param_1 + 0x2) = *(u16 *)(param_1 + 0x2) + 1;
-    }
-}
+DEFINE_func_80186FDC()  /* dedup: shared engine-core @0x80186FDC (src/shared) */
 
 
 #include "common.h"
 
-extern void func_8012AD80(s32 a0);
-extern void func_8012C218(void *a0);
-
-void func_80187060(int param_1) {
-    short v;
-
-    *(short *)(*(int *)(param_1 + 0x20) + 0x12) =
-        *(short *)(*(int *)(param_1 + 0x20) + 0x12) + 0x100;
-    *(short *)(*(int *)(param_1 + 0x20) + 0x14) =
-        *(short *)(*(int *)(param_1 + 0x20) + 0x14) + 0x20;
-    v = *(unsigned short *)(param_1 + 0xFC) - 1;
-    *(short *)(param_1 + 0xFC) = v;
-    if (v == 0) {
-        ((void (*)(void))func_8012C218)();
-    } else {
-        ((void (*)(void))func_8012AD80)();
-    }
-}
+DEFINE_func_80187060()  /* dedup: shared engine-core @0x80187060 (src/shared) */
 
 
 
