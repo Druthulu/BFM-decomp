@@ -872,7 +872,31 @@ void func_8013BD34(s32 a0) {
 
 INCLUDE_ASM("asm/ov_SC02_035/nonmatchings/ov_SC02_035_o0c", func_8013BD74);
 
-INCLUDE_ASM("asm/ov_SC02_035/nonmatchings/ov_SC02_035_o0c", func_8013C08C);
+
+extern void func_8013C0F8(s32 a0);
+
+void func_8013C08C(void *a0, void *a1) {
+    /* SS100 DRAFT-LOCAL type: only this function uses E_13C08C_8013C08C, so it lives in the BODY, not at
+     * file scope. At file scope extract_unit's preceding-decl backscan cannot carry it: the scan
+     * walks back over extern/comment/blank/typedef lines, and a MULTI-LINE typedef presents its
+     * CLOSING line first, which matches none of those prefixes. Every templated sibling therefore
+     * got the body without the type and the family swept 0/137 (SS94: a family 0/N is a type-carry
+     * failure until proven otherwise). Declared here, it is part of the unit by construction.
+     * NB no brace characters in this comment on purpose - extract_unit's forward brace-scan does
+     * not strip comments, so a brace in a comment truncates the extracted unit. */
+    typedef struct {
+        u8   pad0[8];
+        void *f8;
+        void *fC;
+    } E_13C08C_8013C08C;
+
+    void *p = a1;
+
+    ((E_13C08C_8013C08C *)a0)->f8 = a1;
+    ((E_13C08C_8013C08C *)a0)->fC = (u8 *)p + 0x14;
+    func_8013C0F8((s32)a1);
+}
+
 
 
 void func_8013C0F8(int param_1) {
