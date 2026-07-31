@@ -32,7 +32,6 @@ build/src/ov_SC01_077/ov_SC01_077_jr_80159C84.o: JTBL_PADS := 0,4  # §8e pads (
 build/src/ov_SC01_077/ov_SC01_077_jr_8015AE2C.o: JTBL_PADS := 0,4  # §8e pads (jtbl_carve.py) tables=+0x0,+0x20
 build/src/ov_SC01_077/ov_SC01_077_jr_8016AB6C.o: JTBL_PADS := 0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x20
 build/src/ov_SC01_077/ov_SC01_077_jr_80178D40.o: JTBL_PADS := 0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x178
-build/src/ov_SC01_077/ov_SC01_077_o0.o: JTBL_PADS := 0,4  # §8e pads (jtbl_carve.py) tables=+0x0,+0x70
 ov_SC01_077_CHECK_SHA  := config/check.ov_SC01_077.sha
 ov_SC01_077_SYMBOLS    := config/symbols.ov_SC01_077.txt
 ov_SC01_077_SIG        := .run/sig.ov_SC01_077.jsonl
