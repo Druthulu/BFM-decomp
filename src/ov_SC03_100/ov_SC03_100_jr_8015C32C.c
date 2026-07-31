@@ -3467,7 +3467,59 @@ int func_80161888(int param_1, unsigned int param_2) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_100/nonmatchings/ov_SC03_100_jr_8015C32C", func_8016191C);
+extern void func_8016151C(void *a0);
+
+
+// @class: sibling-copy (§71) + asm-label alias on the DEFINITION (§37 / §73 return-axis dodge)
+// @stuck: none — match_one MATCH (24 ins) AND rtu_match MATCH (24 ins), real TU, zero fleet edits.
+//
+// DERIVATION (§71 sibling-first, iteration 1):
+//   func_80161888 @ src/ov_SC01_077/ov_SC01_077_jr_8015C32C.c:3640 is an already-MATCHED sibling
+//   with the identical flag-dispatch skeleton (1 / 0x4000 / 0x2000 -> 1 / 2 / 4, else 0); this
+//   target is that function minus the func_80161D20 consumer call.  Body copied verbatim, call
+//   dropped.  int/unsigned int spelling kept from the sibling.  MATCH first try.
+//
+// WHY THE ASM-LABEL ALIAS (this is the only non-obvious part):
+//   The fleet canon declares this function inside a shared macro —
+//     src/shared/engine_core.h:3567, DEFINE_func_8016151C():
+//       extern void func_8016191C(void *a0, s32 a1);
+//   but the byte-true body RETURNS s32 ($v0 = 1/2/4/0), so a plain `int func_8016191C(...)`
+//   definition dies with `conflicting types for 'func_8016191C'` in the real TU (rtu CC1 FAIL).
+//   That is §73's RETURN axis; a `void` def would DCE the $v0 constants outright.
+//   §73's prescribed fix is the fleet widen `extern void`->`extern s32` (T2 / R22) — exactly the
+//   edit already applied to the three banked siblings in this same macro block
+//   (engine_core.h:3546 func_8016163C -> s32, :3553 func_80161774 -> s32, :3560 func_80161888 -> int).
+//   The alias reaches the same place at T0 (draft-only, no tracked file touched): the C identifier
+//   is aF8016191C so no decl conflicts, while the emitted SYMBOL is func_8016191C.  The macro's
+//   caller func_8016151C keeps calling the `extern void` spelling and is byte-unaffected (it
+//   discards the return).  Verified by rtu_match, which extracts by symbol name.
+//
+//   IF the orchestrator prefers house style over zero-touch: widen engine_core.h:3567 to
+//     extern s32 func_8016191C(void *a0, s32 a1);
+//   (batch it with any other pending §73 widens, one R22) and then the alias line can be deleted
+//   and the definition renamed back to `int func_8016191C(int, unsigned int)`.  Byte-identical
+//   either way — confirmed: the same body under the plain name is match_one MATCH in isolation.
+
+extern void func_8014C010(int a0, int a1);
+
+int aF8016191C(int param_1, unsigned int param_2) __asm__("func_8016191C");
+
+int aF8016191C(int param_1, unsigned int param_2) {
+    if (param_2 & 1) {
+        func_8014C010(param_1, 1);
+        return 1;
+    }
+    if (param_2 & 0x4000) {
+        func_8014C010(param_1, 1);
+        return 2;
+    }
+    if (param_2 & 0x2000) {
+        func_8014C010(param_1, 1);
+        return 4;
+    }
+    return 0;
+}
+
 
 DEFINE_func_8016197C()  /* dedup: shared engine-core @0x8016197C (src/shared) */
 
