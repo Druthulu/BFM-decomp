@@ -31,8 +31,13 @@ OUT = os.path.join(REPO, "docs/cookbook-index.md")
 # section matches owns it in the "primary" listing, but a section is listed under EVERY bucket it
 # matches (an idiom that fixes two symptoms should be findable from both).
 BUCKETS = [
+    # P30 wave-2 FEEDBACK: agents reported which symptoms the index failed to surface. Their
+    # findings are folded in as explicit symptom lines below (SYMPTOM_HINTS) AND as widened
+    # vocabulary here — e.g. `match_one` prints the class literally as "BRANCH-POLARITY" while
+    # this bucket matched only §5a, so two agents re-derived §3-T4 from scratch.
     ("delay slots & branches",
-     r"delay[- ]slot|branch|bne|beq|bgez|reorg|dbr|jump.?to|nop\b|cross-?jump|tail-?merge"),
+     r"delay[- ]slot|branch|polarit|invert|bne|beq|bgez|beqz|reorg|dbr|jump.?to|nop\b|"
+     r"cross-?jump|tail-?merge|early[- ]exit|return 0|shared[- ]ret|arms? swap|if/else|diamond"),
     ("instruction scheduling",
      r"schedul|sched\d?|hoist|sink|fence|barrier|order of|reorder|LUID"),
     ("register allocation & pins",
@@ -67,23 +72,75 @@ BUCKETS = [
 # An index missing its own most-cited entries is worse than no index: it converts "I could not
 # find it" into "it is not there." Caught by asserting coverage against an over-approximating
 # candidate set (R32) — the same discipline the scanners had to learn.
-HDR = re.compile(r"^(#{2,4})\s*(§[0-9a-zA-Z.\-]+)\s*(?:[—–:-]\s*)?(.+?)\s*$")
-ANY_SECTION = re.compile(r"^#{2,4}\s*§")
+# Curated symptom -> section pointers. Keyword matching over TITLES cannot surface an entry whose
+# title never names the symptom; every line here is one an agent hit and could not find (P30 wave 2).
+# Keep it short — it is the "read this first" list, not a second index.
+SYMPTOM_HINTS = [
+    ("wrong branch sense / arms swapped / `beq` where the target has `bne` "
+     "(match_one prints this class as **BRANCH-POLARITY**)",
+     "**§3-T4** (invert the source condition) + **§32**.2; for a trailing `return 0` vs an early "
+     "return see the shared-ret0 note (cookbook L1344)"),
+    ("`conflicting types` on YOUR OWN function's definition, where the fleet canon is `(void)`",
+     "**§73** (the PARAMS axis) + **§42** — keep the `(void)` signature and read the incoming arg "
+     "via `register s32 a0v __asm__(\"$4\")`; §42 is otherwise indexed only under regalloc"),
+    ("a shared global declared at a conflicting type (u8 vs s32, signedness) blocking your draft",
+     "**§37** asm-label alias `extern T X __asm__(\"D_x\")` — beats `*(T*)&X`, whose address-of "
+     "perturbs regalloc. Works for FUNCTION definitions too (P30 wave 2)"),
+    ("target reuses ONE address register across two different offsets of the same global",
+     "**§20** (the pointer-var-to-the-global bullet, cookbook L1907-1918) — take `T *p = &D_x;` and "
+     "index off `p`, never the bare symbol twice"),
+    ("an extra `la` / the address hoisted into a callee-saved register across calls",
+     "**§20** + `gcc-2.7.2-map/cse_expr.md` §H — `*(T*)&sym` force_regs the address; the asm-label "
+     "alias (§37) keeps the direct `%lo` mem form"),
+    ("`andi $x,0xFF` folded away in your output but present in the target",
+     "**§1/I2** + **§12** name the family; if the prescribed `& 0xff` at the use folds, hold the "
+     "masked byte in a **u16** local so only a QI->HI extend survives (P30 wave 2, byte-tested)"),
+    ("`slti` where the target has `sltiu` (or vice versa)",
+     "**§35** — a separate SIGNED int copy of an unsigned load keeps `slti`; chained bounds get "
+     "range-folded, so write each bound as its own `if`/`goto` (**§21**)"),
+    ("you are about to hand-derive a body that some overlay already matched",
+     "**§71** — grep the callees/globals for an already-matched SIBLING first; in wave 2 this alone "
+     "produced iteration-1 MATCHes on 4 of 19 targets"),
+    ("gcc stole an instruction into a branch delay slot that the target leaves as `nop`",
+     "**§5a** + the zero-byte `__asm__(\"\")` fence (**§34** toolkit) — `reorg.c stop_search_p` halts "
+     "the eager filler on an asm insn"),
+    ("`void` vs `s32` return — is promoting it byte-neutral?",
+     "**NO, not always: §41d** (byte-proven; a `void` body with no `return` gains an instruction). "
+     "P30 adds a second mechanism: an `s32` return keeps `$v0` live-out and blocks dbr from filling "
+     "a loop-back delay slot"),
+]
+
+# Two header shapes exist and BOTH are content: `## §N — title` (the numbered sections) and the
+# unnumbered `### T4 — Branch polarity...` / `### I2 — Byte mask...` sub-entries inside §1/§2/§3.
+# The second shape is where the most-cited idioms live — §3-T4 is the BRANCH-POLARITY fix that
+# match_one names by class, and two P30 wave-2 agents re-derived it because it was not indexed.
+HDR = re.compile(r"^(#{2,4})\s+(§?[0-9A-Za-z][0-9A-Za-z.\-]*)\s*(?:[—–:-]\s*)?(.*?)\s*$")
+# The candidate set must OVER-approximate (R32's own rule, which the first version of this file
+# broke): count EVERY h2-h4 header, not just the §-prefixed ones. Asserting §-parsed == §-candidates
+# was a tautology that hid 111 unnumbered headers — the same "assert against a set you already
+# narrowed" defect the scanners had, reproduced in the tool written to prevent it.
+ANY_HEADER = re.compile(r"^#{2,4}\s+\S")
+# Prose scaffolding, not idiom content — excluded explicitly (never silently).
+SKIP_TITLES = re.compile(r"^(how to use|contents|index|overview|scope|status|see also|note)\b", re.I)
 
 
 def sections():
-    out, candidates = [], 0
+    out, candidates, skipped = [], 0, []
     for i, line in enumerate(open(SRC, errors="replace"), 1):
         line = line.rstrip("\n")
-        if ANY_SECTION.match(line):
-            candidates += 1
+        if not ANY_HEADER.match(line):
+            continue
+        candidates += 1
         m = HDR.match(line)
-        if m:
-            out.append({"ref": m.group(2), "title": m.group(3), "line": i})
-    # R32: compare what we extracted against the over-approximating candidate set and FAIL on a gap.
-    if len(out) != candidates:
-        sys.exit(f"cookbook_index: parsed {len(out)} of {candidates} '§' headers — "
-                 f"{candidates - len(out)} silently dropped; fix HDR before trusting this index (R32)")
+        title = (m.group(3) or m.group(2)) if m else ""
+        if m and not SKIP_TITLES.match(title.strip()):
+            ref = m.group(2)
+            out.append({"ref": ref if ref.startswith("§") else "§3-" + ref if len(ref) <= 3 else ref,
+                        "title": m.group(3) or m.group(2), "line": i})
+        else:
+            skipped.append((i, line[:80]))
+    if len(out) + len(skipped) != candidates:
+        sys.exit(f"cookbook_index: accounted {len(out)}+{len(skipped)} of {candidates} headers (R32)")
     return out
 
 
@@ -99,6 +156,13 @@ def render(secs):
     L.append("**How to use:** name what you SEE in the diff (a stolen delay slot, an extra `la`, a "
              "swapped register pair, a `conflicting types` error), find that symptom below, read those "
              "sections first. If nothing fits, THEN grind — and add a section when you win.\n")
+
+    L.append("\n## Start here — the symptoms that come up most, with the section that fixes them\n")
+    L.append("> Hand-curated from what agents actually hit and, in several cases, RE-DERIVED because "
+             "keyword matching alone did not surface the entry (P30 wave-2 feedback). If your symptom "
+             "is here, read the named section before anything else.\n")
+    for sym, secs_ in SYMPTOM_HINTS:
+        L.append(f"- **{sym}** → {secs_}")
 
     L.append("\n## By symptom\n")
     for name, pat in BUCKETS:
