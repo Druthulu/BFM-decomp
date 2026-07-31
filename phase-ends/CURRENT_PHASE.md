@@ -86,8 +86,17 @@ proceeds; the first P30 commit waits on it.
       diagnoses + permuter backlog via the T4-fixed grinder.
       Per-session checkpoint + velocity + 3 metrics. **ROI floor: 2 consecutive sessions < +0.3pp
       instr each with all lanes exercised.**
-- [ ] **T4 — Carried-tool resolution [xHigh]** — grinder warm-start + the 2 Phase-22 grinder bugs;
-      verify `--fix-def-sig` is nowhere a default (§119).
+- [x] **T4 — Carried-tool resolution [xHigh]** ✅ (S28, `commit:1279`). The 2 "Phase-22 grinder bugs"
+      were struck as STALE in S27 (already fixed). This session: **`--fix-def-sig` posture audited
+      clean** (defaults False, one consumer, no caller passes it) — and the audit found the live
+      hazard the earlier pass missed: `docs/decision-log.md` still recommended making it
+      **default-on**, which T84/§119 byte-refuted; struck in place with a superseding note (R31).
+      **Grinder ILS warm-restart WIRED** — `permuter_ils.py` had sat unused beside `grinder.py`
+      since Phase 24, so every grind was a COLD search; now `--cycles` (default 4) warm-restarts
+      from the best byte-waypoint, `--cycles 1` = old behaviour. Justified by measurement before
+      building (the lane looked dead: 0 banks since Phase 21) — **665 open near-misses in the
+      permuter-tractable band, 157 at close 1–4, incl. `func_8016BA68` close=1 reach=134**.
+      ⚠️ **Yield UNPROVEN on this backlog** — wiring only; the ILS evidence is one Phase-24 fn.
 - [ ] **T5 — Phase close [Max]** — burn-down from digest history; P7 milestone walk; Roadmap delta;
       gate 2; PhaseEnd_Phase30.
 
@@ -101,7 +110,7 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 
 # 🛑 SESSION-28 CHECKPOINT (2026-07-31 08:1x) — FRESH SESSION SAFE HERE
 > Supersedes SESSION-27 below. **Nothing is running. Tree lock FREE. Tree clean** but for the R23
-> `db.*.gbf` churn (never stage). **HEAD `commit:1276`** (+ this doc commit).
+> `db.*.gbf` churn (never stage). **HEAD `commit:1279`** (+ this doc commit).
 > Effort: opened **xHigh** → **Max** for the jr re-measurement and the T2 probe ladder → back to
 > **xHigh** for the driver + sweep. `make tools-health` RC=0 at session open.
 > **R22 clean-fleet run FIVE times this session, 140/140 every time.**
