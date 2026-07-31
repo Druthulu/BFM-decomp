@@ -8426,3 +8426,52 @@ the artifact it is validating can introduce the exact defect it exists to detect
 convincing the control, the more dangerous the restore. Corollary, learned the same minute: a
 verification pipeline ending in `grep -c PATTERN` **exits 1 when the count is 0**, so the SUCCESS
 case reports failure. Read the output; an exit status is not the oracle (§125's rule 1, again).
+
+## §129 — Post-carve, `rtu_match`/`match_one` COUNT THE JUMP TABLE AS INSTRUCTIONS; and a carve must never be committed without its owner (P30 S28, `func_8013BD74`)
+
+Two independent traps, both hit banking one reach-138 jr function. Neither is a compiler wall.
+
+### §129a — the target instruction count is INFLATED after a carve
+`jtbl_carve` moves the function's jump table into a dotted `.rodata` subseg, and splat then emits the
+function's `.s` with a **leading `.rodata` section** holding the table, followed by `.text`:
+```
+.section .rodata
+dlabel jtbl_801D828C     <- 28 entries
+enddlabel jtbl_801D828C
+.section .text
+glabel func_8013BD74     <- the actual 198 instructions
+```
+`rtu_match` reported **`mine=198 ins, target=226 ins, 206 mismatched`** — a catastrophic-looking DIFF.
+`226 − 198 = 28`, exactly the table's entry count: **the tool counted the data words as
+instructions** and diffed the body against them.
+
+**So a post-carve verdict from `rtu_match`/`match_one` is meaningless.** A draft that verified
+cleanly *before* the carve will read as a total mismatch *after* it, and the number will look like
+evidence of a deep codegen problem. Verify the body pre-carve; after the carve, let the
+**whole-binary byte-gate** arbitrate (it always was the arbiter — §52b). This is §81's warning one
+step further on: §81 says `match_one` masks relocations so a jr fn's MATCH is not a bank; §129a says
+that after the carve its *DIFF* is not a diff either.
+
+### §129b — never commit a carve whose owner is still a stub (it strands the carve)
+`harvest_verify` refuses to run on a dirty tree (§97), and the carve necessarily dirties `config/`.
+The tempting resolution — commit the carve, then bank on a clean tree — **creates a stranded carve**:
+a `.rodata` carve piece with no matched owner. `jr_inventory` refuses immediately (R32):
+```
+committed .rodata carve ownership is not 1:1 (R32/R33) — a stranded/duplicated carve: [('UNOWNED', '0x801d828c')]
+```
+That is a coverage oracle correctly rejecting a state the commit created, and it blocks every later
+jr operation on that overlay until reverted.
+
+**The route for a jr function is the INTEGRATED one:** `tools/jtbl_family_bank.py`, which does
+carve → extract → remap → whole-binary gate **per sibling inside one uncommitted transaction** and
+reverts on failure. The §81 hand-chain is for diagnosis; it is not a banking path, because its two
+constraints (carve-before-bank, clean-tree-to-bank) pull in opposite directions.
+
+### The real blocker underneath, for the record
+With the carve applied, splicing the draft fails cc1 with
+`jtbl_rodata_pads: more rodata .align directives than pad specs (2) — table-count drift vs the carve`
+— §8e's pad-spec filter failing **loud**, as designed: the object's committed spec
+(`0,4  tables=+0x0,+0x70`) does not account for the table the newly-matched function emits. That is
+genuine §8e work (re-derive the multi-table pad spec including the new owner), not a wall — and it
+was only reachable after §129a stopped the phantom 206-instruction "diff" from misdirecting the
+diagnosis.

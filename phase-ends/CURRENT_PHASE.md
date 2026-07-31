@@ -110,7 +110,7 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 
 # 🛑 SESSION-28 CHECKPOINT (2026-07-31 08:1x) — FRESH SESSION SAFE HERE
 > Supersedes SESSION-27 below. **Nothing is running. Tree lock FREE. Tree clean** but for the R23
-> `db.*.gbf` churn (never stage). **HEAD `commit:1284`** (+ this doc commit).
+> `db.*.gbf` churn (never stage). **HEAD `commit:1286`+** (+ this doc commit).
 > Effort: opened **xHigh** → **Max** for the jr re-measurement and the T2 probe ladder → back to
 > **xHigh** for the driver + sweep. `make tools-health` RC=0 at session open.
 > **R22 clean-fleet run FIVE times this session, 140/140 every time.**
@@ -248,6 +248,32 @@ lower: in the tool everyone reaches for first.
 **My error, recorded (§128a):** the negative control corrupted the REAL tracked file and its restore
 left `'\\0'` (a multi-char constant) — R22 caught it at 139/140 before any commit. **A negative
 control must mutate a scratch copy under `.run/`, never the artifact it validates.**
+
+## 🎯 THE THREE REACH-138 TARGETS — 1 banked, 2 ledgered with precise blockers
+The wave's real leverage was three ×138 functions. Worked all three:
+
+**✅ `func_8013C08C` — 0/137 → 137/137** (`commit:1286`). §94 was right: a TYPE-CARRY failure.
+`E_13C08C` was a **multi-line typedef at FILE scope**, and `extract_unit`'s backscan walks back over
+extern/comment/blank/typedef lines — a multi-line typedef presents its CLOSING line first, matching
+none of them. Fix = **§100 draft-local**: the type moved into the body, where it is part of the unit
+by construction. Byte-neutral, R22 140/140.
+*The diagnosis was redone from scratch (R35): the first pass ran on grep searches that were silently
+skipping the file (§128), so none of it was trustworthy — it happened to point the right way.*
+*Fresh trap found while fixing: my comment contained a literal `}` and `extract_unit`'s brace-scan
+does not strip comments → it TRUNCATED the unit. Caught only by verifying, not assuming.*
+
+**⛔ `func_8013BD74` (198 ins ×138) — ledgered `JTBL-PAD-SPEC-DRIFT`.** Carve applies byte-identical;
+splicing the draft then fails cc1 with `jtbl_rodata_pads: more rodata .align directives than pad
+specs (2) — table-count drift vs the carve` (§8e's filter failing LOUD, by design). Real §8e work.
+**Two tooling traps found en route → §129:** (a) post-carve, `rtu_match` counts the jtbl's 28 data
+words as INSTRUCTIONS (`target=226` for a 198-ins fn) so its DIFF is meaningless — let the
+whole-binary gate arbitrate; (b) **never commit a carve whose owner is still a stub** — I did, it
+stranded the carve, `jr_inventory` refused (R32, `UNOWNED 0x801d828c`), reverted, R22 140/140. The
+route for a jr fn is the INTEGRATED `jtbl_family_bank` (one uncommitted transaction), not the §81
+hand-chain, whose two constraints (carve-before-bank vs clean-tree-to-bank) contradict.
+
+**⛔ `func_8013B83C` (272 ins ×138) — ledgered `CC1-FAIL-UNREAD`.** The cc1 diagnostic has NOT been
+read yet. Read it first (§125 rule 1); do not infer.
 
 ## ▶ RESUME HERE (nothing blocked except where noted)
 0. **[T3, breadth] DRAFT the 2,200 newly-`-O0`-routed stubs** — 16 distinct addresses × ~137
