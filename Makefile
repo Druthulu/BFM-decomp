@@ -203,7 +203,10 @@ tools-health:
 	$(MAKE) --no-print-directory audit-cdecl
 	$(MAKE) --no-print-directory audit-binaries
 	$(MAKE) --no-print-directory report BINARY=main
-	echo "tools-health: OK — sigs fresh; corpus(+resident) + cdecl + binaries + report(lint+dedup) all green."
+	# The cookbook index is DERIVED (R33) and self-asserts its coverage (R32). Stale = agents can't
+	# find documented idioms and re-derive them at full token cost (measured, P30 wave 1).
+	$(VENV_PY) tools/cookbook_index.py --check
+	echo "tools-health: OK — sigs fresh; corpus(+resident) + cdecl + binaries + report(lint+dedup) + cookbook-index all green."
 
 report:
 	$(VENV_PY) tools/progress.py --binary $(BINARY) --audit
