@@ -8306,3 +8306,35 @@ instantiations, in address order), never from an asm-file scan.** `corpus.stubs`
 Probe 2 changed the name *and* the flag and was therefore uninterpretable. Probe 3 — same name as the
 proven-neutral probe 1, flag only — is what produced the answer. **One variable per probe**, and keep
 the previous probe's proven-neutral configuration as the control.
+
+### §126a — a bare `except: continue` around a coverage-asserting oracle re-creates the silent skip (P30 S28)
+
+Sizing this cluster, I reported **"275 open stubs across 18 overlays"**. The true figure is
+**2,184 across 138** — an 8× under-count that would have mis-scoped the whole task.
+
+The scan was:
+```python
+for ov in overlays:
+    try: st = corpus.stubs(ov)
+    except Exception: continue          # <-- the defect
+```
+and it ran **while `make extract-all` was rebuilding in the background**, so `corpus.stubs()` hit its
+R32 coverage assertion ("N stub(s) have NO .s on disk — the tree and the source disagree") for most
+overlays. The bare `except` turned every one of those loud refusals into a silent skip, and the loop
+happily reported a total over the ~18 overlays that happened to be re-extracted already.
+
+**Two rules, both already ours, both violated at once:**
+1. *A measurement taken during a rebuild is not a measurement.* Earlier the same session the same
+   mistake was caught **because** `corpus.py` refused — the assertion worked. Here I wrapped the
+   assertion in `except: continue` and threw its answer away.
+2. **R32 lives in the CALLER too.** A coverage-asserting oracle only asserts coverage if the caller
+   lets it raise. `except Exception: continue` around it is precisely the silent-skip class R32 exists
+   to delete — reintroduced one level up, where no audit looks.
+
+**Practice:** in any scan that will SCOPE work, let the oracle raise. If some binaries legitimately
+have no data, filter them by an explicit predicate you can state, and print the count you skipped and
+why. A total is only trustworthy if the denominator was asserted.
+
+*(It also cost credibility in the other direction: I used the bad number to call the T0(f) pin of
+"2,192 open members" STALE. The pin was right. Re-derivation is only worth more than a carried number
+if the re-derivation is sound — R35 applies to the re-measurement as much as the original.)*

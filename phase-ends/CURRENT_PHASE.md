@@ -96,10 +96,10 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 
 # 🛑 SESSION-28 CHECKPOINT (2026-07-31 08:1x) — FRESH SESSION SAFE HERE
 > Supersedes SESSION-27 below. **Nothing is running. Tree lock FREE. Tree clean** but for the R23
-> `db.*.gbf` churn (never stage). **HEAD `commit:1268`** (+ this doc commit).
+> `db.*.gbf` churn (never stage). **HEAD `commit:1270`** (+ this doc commit).
 > Effort: opened **xHigh** → **Max** for the jr re-measurement and the T2 probe ladder → back to
 > **xHigh** for the driver + sweep. `make tools-health` RC=0 at session open.
-> **R22 clean-fleet run FOUR times this session, 140/140 every time.**
+> **R22 clean-fleet run FIVE times this session, 140/140 every time.**
 
 ## FLEET — R22 clean-fleet **140 passed / 0 failed** (verified this session, genuinely clean tree)
 **92.71% fn-count · 88.3% instr-weighted · 78.7% distinct-code** (70,594 / 87,459 unique fns) ·
@@ -157,15 +157,24 @@ artifact, §116; `corpus.o0_sources()` re-verified, 137 sources) · **6 fns bank
 ov_SC03_015 ×3 each; globals derived from each overlay's OWN asm, 6/6 `--o0` MATCH, 6/6 gated).
 The tool reproduced the hand-derived structure **first try** on the untouched sibling overlay.
 
-**WHAT IT UNBLOCKS (measured now, not the stale T0 pin):** the pinned `-O0` cluster
-`0x8013B568..0x8013C98C` currently has **275 open stub instances across 18 overlays**, homed in
-`<ov>_jr_801380E0.c` — an `-O2` jr split, i.e. exactly this tool's case. *(The T0(f) pin of "2,192
-open members" is stale — S27's waves consumed most of it. Re-derive before costing, R37.)*
-Plus 24 more draftable stubs in the 4th region. **These were un-bankable at any effort before.**
+**THE SWEEP IS DONE — the cluster is ROUTED FLEET-WIDE** (`commit:1270`): `o0_subsplit` applied to
+**135/135** overlays, 0 refusals; 140 new `-O0` region files; `corpus.o0_sources()` 137 → **277**;
+**0** of them invisible to the `-O0` oracle (checked explicitly — a silent `-O0` miss is §126's exact
+failure mode); **2,200 open stubs now sit in a genuinely `-O0` TU**, having been un-bankable at any
+effort before. R22 140/140; `tools-health` OK (corpus 0/0 · cdecl green · audit-binaries 140/140
+citizens · dedup 1904/0 · C1 240359/240359). Gated by ONE clean-fleet R22 after a single-overlay
+probe, since the transform is byte-neutral by construction.
+
+⚠️ **POPULATION CORRECTION (mine, R14):** I first reported this cluster as "275 stubs / 18 overlays".
+**Wrong by 8×.** That scan ran while `extract-all` was rebuilding AND wrapped `corpus.stubs()` in a
+bare `except: continue`, swallowing the R32 coverage assertion. True: **2,184 stubs / 138 overlays** —
+which **vindicates the T0(f) "2,192 open members" pin I had called stale**. Cookbook **§126a**.
 
 ## ▶ RESUME HERE (nothing blocked except where noted)
-0. **[T2 continuation, xHigh] Run `o0_subsplit` across the 18 overlays of the `0x8013B568` cluster**,
-   gate each, then draft the 275. The route is proven; this is execution.
+0. **[T3, breadth] DRAFT the 2,200 newly-`-O0`-routed stubs** — 16 distinct addresses × ~137
+   overlays, cached Ghidra-C seeds confirmed present, `match_one --o0` is the per-fn check. Crack one
+   exemplar per address then template. **This is the largest single draftable population in the
+   phase.** Breadth ⇒ prompt Drew for `/effort ultracode` and WAIT (R26/R27).
 1. **[REAL, and now correctly scoped] `jtbl_carve` diverges on ov_SC06_018 after a neutral isolate**
    — the ONE confirmed instrument failure (blocks the 710-ins `func_80191C50`). Compare against
    `ov_SC05_010`, whose full chain succeeded this session; §8e's interior-pad law + `JTBL_PADS` and
