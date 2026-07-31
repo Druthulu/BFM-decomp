@@ -109,6 +109,27 @@ the T2 log entries; check both background tasks' outcomes first (`git log` for t
 
 ## Per-task log
 
+### ✅ REDO UNDER LOCK — 52 cores + 911 members banked; R22 140/140; the "cliff" was an artifact
+Re-ran the whole banking sequence serially under `treelock.sh`: parallel 8-binary gate → non-jr
+behemoth gate → **sig+map regen** (a bank invalidates the map) → tier-routed propagation (§123) →
+one R22 over everything.
+- **Wave 3: 48/48 banked** through 8 PARALLEL per-binary gates (the throughput unlock, proven).
+- **Wave 2: 15/19.  Behemoths: 4 non-jr confirmed** (incl. `func_8017E120` 884 ins ×14).
+- **`family_sweep --hseq`: 911 members banked / 401 failed across 137 overlays**, 49 families.
+- **Fleet: 92.59% fn-count · 88.2% instr · 78.7% distinct (70,506 unique fns) · R22 140/140.**
+
+**R14 CORRECTION, on my own earlier claim.** I reported a "per-binary bank-rate cliff" (SC03_014
+1/6, SC04_018 1/6, SC06_018 2/6) and theorised a cause — canonical-decl maturity per binary. It was
+an **artifact**: those gates ran against a tree that propagation was concurrently rewriting. Re-gated
+clean, every binary banked **6/6**. *A measurement taken during corruption is not a measurement*,
+and I theorised before re-running. Same failure shape as the phantom 91.4% in the same incident.
+
+**Carried, honestly:** the h_seq sweep's 401 failures split as 137 "no matched unit for func"
+(the exemplar banked in a DIFFERENT binary than the sweep expects — a routing gap, likely cheap),
+22 unresolved-immediates, 10 STRUCT (refused by design). One `dedup_propagate` run stopped the
+h_exact leg early (`0x801466F0` rc=1) — the loop halted as designed rather than risking a partial
+write; the h_exact leg is unfinished and owed.
+
 ### ⚠️ INCIDENT 2 (mine) — a POLL is not a MUTEX: concurrent tree writers broke 63/140; reverted clean
 **What I did.** Wave-3 gated 8 binaries in parallel (correct — the byte-gate IS per-binary) while
 wave-2's propagation loop was still running, then I ran `make clean` (deleting `asm/`) on top of
