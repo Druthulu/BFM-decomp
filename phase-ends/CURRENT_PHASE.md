@@ -100,25 +100,37 @@ dedup 1904/0 · 0 NON_MATCHING linked. Phase opened at 92.00 / 87.5 / 78.0.
   `func_80181CDC` (769 ins) banked via the §81 chain, R22 140/140.
 - **Resume item 1 RE-SCOPED (not banked)** — see below; it is T2 work, and now T2's best ×1 probe.
 
-## 🔧 THE ONE INSTRUMENT TICKET THIS SESSION OPENED (the highest-value carry)
-**`jtbl_carve` breaks bytes on a subset of overlays** — proven by a body-free diagnostic (§125):
-carve ALONE on `ov_SC04_004`, nothing spliced → build NOT byte-identical. That single finding
-explains **two** targets that looked like unrelated walls:
-- group B `func_8017BEBC` — 13 open members (103 banked earlier), **3 probes / 0 banks** (default
-  AND `--raw`; cross-address `ov_SC02_015` AND same-address `ov_SC04_004`). Every probe was
-  spending a build on a body that never got a fair test.
-- behemoth `func_80191C50` / `ov_SC06_018` — isolate clean, **post-carve** not identical.
-A THIRD target fails at a *different* stage and must not be grouped with them:
-- behemoth `func_8018057C` / `ov_SC01_009` — **`jr_isolate_all`** (step 1) reported success but the
-  post-isolate build was not identical.
-**Both tools reported success on every failing target; only the whole-binary gate refused.**
-Ledgered as `JTBL-CARVE-BREAKS-BYTES` / `JR-ISOLATE-BREAKS-BYTES` (the STAGE, not the function), so a
-carve fix auto-reopens every target it should. **None is diagnosed ⇒ none is called a compiler wall.**
+## ⚠️ THE JR RESIDUE — RE-MEASURED AND LARGELY RETRACTED (Max pass; read this, not the first version)
+I first ledgered all three jr refusals as tooling walls off a body-free carve probe. **Re-measured by
+SHA vs `config/check.<ov>.sha` from a clean tree, two of the three verdicts were FALSE.** Verified:
+
+| target | `jr_isolate_all` | `jtbl_carve` | true verdict |
+|---|---|---|---|
+| `func_8018057C` / ov_SC01_009 (897) | **NEUTRAL** | not reached | "isolate breaks bytes" was **FALSE**; original failure NOT reproducible |
+| `func_80191C50` / ov_SC06_018 (710) | NEUTRAL | **DIVERGED** (1b1667ea vs cbbc4f44) | **REAL** — the one true instrument failure |
+| `func_8017BEBC` / ov_SC04_004 (group B ×13) | n/a | **NEUTRAL** | carve fine ⇒ failure is the **BODY**, the OPPOSITE of my first claim |
+
+**Root cause of my false verdicts (mine, not the tools'):** a grep-of-the-build-log gate inside a
+driver that did not revert on abort. `config/overlays.mk` is SHARED, so target 1's half-applied
+isolate was still in the tree when target 3 was measured. Also reproduced the §42b stale-object trap
+directly: `git checkout -- config/` WITHOUT a re-extract turned a byte-identical overlay into
+`[FAIL] got 8f28aa77 / want 38a3d919`. **The tidy "two walls are one tooling problem" story was wrong
+— they are two different problems and the third has no demonstrated problem at all.**
+§125 rewritten with the instrument rules (SHA not grep · re-extract after every change AND every
+revert · revert-on-abort · verify the baseline against canonical too). Ledger classes corrected to
+`UNREPRODUCIBLE-RETEST-NEUTRAL` / `JTBL-CARVE-BREAKS-BYTES` / `BODY-TEMPLATE-GATE-FAIL`.
 
 ## ▶ RESUME HERE (nothing blocked except where noted)
-1. **[INSTRUMENT, highest ROI] Diagnose `jtbl_carve`'s byte-break** (§125 + the two ledger classes).
-   It gates group B's 13 members AND a 710-ins behemoth today, and every future jr family routes
-   through it. R35 says fix the instrument before spending more probes against it.
+1. **[REAL, and now correctly scoped] `jtbl_carve` diverges on ov_SC06_018 after a neutral isolate**
+   — the ONE confirmed instrument failure (blocks the 710-ins `func_80191C50`). Compare against
+   `ov_SC05_010`, whose full chain succeeded this session; §8e's interior-pad law + `JTBL_PADS` and
+   the `--order` interleave are the suspects. Note a carve run WITHOUT the isolate refuses loudly
+   (non-contiguous `.rodata` 0xab9f4/0xaba4c) — that is the documented §81/§8b step-1 instruction,
+   not a divergence.
+1b. **group B `func_8017BEBC` ×13 is a BODY problem** — diff the remapped body against the sibling
+   TU; stop re-probing the carve. 4 gate-fails incl. one from a verified-clean tree.
+1c. **`func_8018057C` / ov_SC01_009** — just re-run the full isolate→carve→bank chain under the §125
+   instrument rules; its blocker was never demonstrated.
 2. **T2 `-O0` carve-within-a-carve.** Open with the **×1 probe on the 4th region** (below) — smaller
    blast radius than the planned `ov_SC07_007` and it is the Arm-A `%lo +0x20` shift oracle.
 3. **Next wave**: 3,873 fresh cached cores across 119 binaries (`.run/p30w4_pool.json`), dealt ACROSS

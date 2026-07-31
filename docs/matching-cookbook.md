@@ -8196,41 +8196,60 @@ defect waiting to be measured.
 shape as §53 (the missing carve) and §116 (the wrong opt level): a 0 from the wrong invocation is not
 evidence. Check the band the family map assigned before you spend a probe on the residual.
 
-## §125 — Split the CARVE from the BODY before you call a jr family a wall (P30 SESSION-28)
+## §125 — Split the CARVE from the BODY before calling a jr residue a wall — and measure it by SHA from a CLEAN tree (P30 SESSION-28; **this section's first draft was WRONG and the method caught it**)
 
-Three targets refused the whole-binary gate this session in the jr/jtbl path. Two of them looked like
-separate walls and were the **same tooling failure**; the third is a different stage entirely. The
-diagnostic that separated them is one build long, and it should run before any jr residue is ledgered.
+Three jr targets refused the whole-binary gate. I ledgered all three as tooling walls on the strength
+of a body-free "carve-only" probe. **Re-measured properly, two of the three verdicts were false and the
+third had a different cause than I recorded.** The method below is sound; my instrument was not. Both
+halves are the lesson.
 
-**The diagnostic.** Run `jtbl_carve` on the sibling **with no body spliced at all**, then
-`make extract && make build`:
-
+### The method (keep this)
+Run the carve on a sibling with **no body spliced at all**, then rebuild:
 ```bash
-make extract BINARY=$OV && make build BINARY=$OV        # baseline must be BYTE-IDENTICAL
-tools/jtbl_carve.py $OV --func $FN                      # carve ONLY — no draft, no remap
+tools/jtbl_carve.py $OV --func $FN          # carve ONLY — no draft, no remap
 make extract BINARY=$OV && make build BINARY=$OV
-#   byte-identical  -> the carve is neutral; the failure is the TEMPLATED BODY
-#   NOT identical   -> the failure is the CARVE; the body was never even tested
+#   byte-identical -> carve is neutral; the failure is the TEMPLATED BODY
+#   diverged       -> the failure is the CARVE; the body was never fairly tested
 ```
+It separates two failures that present identically at the gate, and it costs one build.
 
-**Measured (P30 S28).** `func_8017BEBC` group B (13 open members, 103 banked in an earlier phase) had
-gate-failed **3 probes in a row** — default mode *and* `--raw`, a cross-address member *and* a
-same-address one. Every one of those probes was spending a build on a body that never got a fair
-test: carve-only on `ov_SC04_004` broke the bytes with **nothing spliced**. The same stage had already
-refused behemoth `func_80191C50` on `ov_SC06_018` (isolate clean, post-carve NOT identical). One
-tooling problem, two targets that looked unrelated.
+### The instrument rules that make its answer trustworthy (this is where I failed)
+1. **Compare the built SHA against `config/check.<ov>.sha`.** Do NOT grep the build log for `[ OK ]`.
+   A log-grep cannot distinguish "wrong bytes" from "the build did not get that far", and it silently
+   inherits whatever stale state the tree is in.
+2. **Re-extract after EVERY config change AND after every revert.** `git checkout -- config/` alone
+   leaves `build/` holding objects from the *carved* config — the next build then links a mixture and
+   reports a divergence that is purely your own. (Phase-20's R22 corollary; §42b's stale-object trap.
+   I reproduced it exactly: a reverted config with no re-extract turned a byte-identical overlay into
+   `[FAIL] got 8f28aa77 / want 38a3d919`.)
+3. **A driver that aborts a target MUST revert that target before the next one.** v1 of my chain
+   `continue`d without reverting; `config/overlays.mk` is SHARED, so target 1's half-applied isolate
+   was still in the tree while target 3 was measured. Every verdict after the first abort is suspect.
+4. **Verify the baseline against the canonical SHA too**, not just "it built". "Identical to the
+   previous build" is worthless if the previous build was already wrong.
 
-By contrast `func_8018057C` on `ov_SC01_009` failed at **step 1** (`jr_isolate_all` reported success —
-2 jr in 1 `-O2` object → 2 region `.c` — but the post-isolate build was not identical). Different
-stage, different bug, and grouping it with the other two would have hidden that.
+### The corrected results (each SHA-verified, from a clean tree, restore re-verified)
+| target | `jr_isolate_all` | `jtbl_carve` | true verdict |
+|---|---|---|---|
+| `func_8018057C` / ov_SC01_009 (897 ins) | **NEUTRAL** | not reached | my "isolate breaks bytes" was **FALSE**; the original failure is not reproducible |
+| `func_80191C50` / ov_SC06_018 (710 ins) | NEUTRAL | **DIVERGED** | **REAL** — the carve genuinely breaks bytes here, *after* a neutral isolate |
+| `func_8017BEBC` / ov_SC04_004 (group B, 13 members) | n/a | **NEUTRAL** | carve is fine ⇒ the failure is the **BODY/template**, the OPPOSITE of my first claim |
 
-**Why this matters more than the three functions.** A jr residue is the single easiest place to
-manufacture a false wall: `match_one` masks the relocations (§81), so the candidate gate says MATCH,
-the real gate says DIFF, and the natural reading is "the compiler beat us." §53 is the standing
-warning that a 0% from the wrong tool steered two phases of strategy. **The carve-vs-body split makes
-the ambiguity cheap to resolve** — and note that BOTH tools *reported success* on every failing
-target. A tool's own exit code is not the oracle; the whole-binary gate is (G3/P9).
+So the tidy story I wrote first — *"two apparent walls are one tooling problem"* — was wrong. They are
+**two different problems**, and the third target has no demonstrated problem at all.
 
-**Ledger the STAGE, not the function.** `JTBL-CARVE-BREAKS-BYTES` and `JR-ISOLATE-BREAKS-BYTES` are
-actionable instrument-repair tickets; "func_X is hard" is not. If a later fix lands on the carve, the
-ledger already names every target it should re-open.
+### Two further notes worth keeping
+- `jtbl_carve` on ov_SC06_018 **refuses loudly** when run without the isolate: *"subseg would host
+  NON-CONTIGUOUS .rodata carves (0xab9f4 and 0xaba4c) — a single object can't leave a gap for the
+  unmatched jtbl between them."* That refusal is the documented §81/§8b instruction to run step 1
+  first — it is the tool working, not failing. Do not confuse a loud refusal with a byte divergence.
+- **Ledger the STAGE, not the function** (`JTBL-CARVE-BREAKS-BYTES`), so one instrument fix reopens
+  every target it covers — but only after the stage is verified by rule 1–4 above. A ledger full of
+  misattributed classes is worse than no ledger: it schedules the wrong repair.
+
+### The meta-lesson
+§53 warns that a 0% from the wrong tool manufactured a doctrine that steered two phases. This is the
+same failure one level up: **a verdict from the wrong *measurement* manufactures a wall just as
+efficiently.** R35 says fix the instrument before trusting its measurement — and *my own diagnostic
+script is an instrument*, subject to the same rule as the tools it audits. The saving grace is that
+the method in this section is what refuted the section's own first conclusion, one build at a time.
