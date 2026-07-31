@@ -877,7 +877,10 @@ DEFINE_func_8012DFCC()  /* dedup: shared engine-core @0x8012DFCC (src/shared) */
 
 DEFINE_func_8012DFD4()  /* dedup: shared engine-core @0x8012DFD4 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_8012ACE0", func_8012E014);
+#include "common.h"
+
+DEFINE_func_8012E014()  /* dedup: shared engine-core @0x8012E014 (src/shared) */
+
 
 DEFINE_func_8012E138()  /* dedup: shared engine-core @0x8012E138 (src/shared) */
 
@@ -1220,7 +1223,16 @@ s32 *func_8012F40C(s32 *param_1, s32 param_2) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_8012ACE0", func_8012F49C);
+#include "common.h"
+
+/* func_8012F49C — the 3-arg superset of the byte-proven near-twin
+ * func_8012F40C (src/ov_SC01_077/ov_SC01_077_jr_8012ACE0.c:1202): same
+ * $a0-pinned &D_800AF648 remat pair + RotTransPers/flag guard tail, with an
+ * extra head that runs func_8004914C/func_800491AC on (param_2->0x20 + 0x34)
+ * and a RotTransSV into a local SVECTOR. */
+
+DEFINE_func_8012F49C()  /* dedup: shared engine-core @0x8012F49C (src/shared) */
+
 
 // @class: schedule
 // @stuck: none — MATCH (35 ins). Two unaligned 8-byte memcpy to globals then sh a1/a2/a3 + lhu/or/sh RMW on D_80126B94. KEY: an `__asm__ __volatile__("":::"memory")` barrier between the 2nd memcpy and the halfword section pins the D_80126B94 RMW *read* AFTER both memcpys (without it gcc hoists the lhu between the two memcpy blocks; volatile globals over-anchors it to the END).
@@ -2549,7 +2561,44 @@ void func_801330E0(param_1, param_2, param_3)
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_8012ACE0", func_80133298);
+#include "common.h"
+
+/* 32-byte opaque block: drives gcc's movstrsi block-move (4x lw / 4x sw, cookbook
+ * struct-fold) instead of 8 serial lw/sw pairs. Locally named (engine_types.h's
+ * identical `Blk32` is an anonymous-tag typedef -> a same-name redefinition here
+ * is a C89 error in the real TU). */
+typedef struct { s32 w[8]; } Blk32L;
+
+extern u8 D_80126B5C; /* canonical decl (engine_core.h DEFINE_func_8012BD14) */
+extern s32 D_80126B5C_w __asm__("D_80126B5C"); /* same symbol, s32 view */
+extern s32 D_80126B60;
+extern s32 D_80126B64;
+
+extern void func_8012F0BC(s32 *a0, s32 *a1, s32 *a2);
+extern void func_8012B2CC(s32 a0);
+extern void func_8013339C(s16 *a0, s16 *a1);
+extern void func_8012F1A4(s32 *a0, s32 a1, s32 *a2);
+
+void func_80133298(s32 *a0)
+{
+    s32 in[3];
+    s32 out[3];
+    s32 tmp[3];
+    Blk32L m;
+
+    in[0] = D_80126B5C_w;
+    in[1] = D_80126B60;
+    in[2] = D_80126B64;
+    func_8012F0BC((s32 *)(a0[8] + 0x34), in, tmp);
+    func_8012B2CC((s32)a0);
+    m = *(Blk32L *)(a0[8] + 0x34);
+    func_8013339C((s16 *)&m, (s16 *)(a0[8] + 0x18));
+    func_8012F1A4((s32 *)&m, (s32)tmp, out);
+    D_80126B5C_w = out[0];
+    D_80126B60 = out[1];
+    D_80126B64 = out[2];
+}
+
 
 // @class: schedule
 // @stuck: none — MATCH

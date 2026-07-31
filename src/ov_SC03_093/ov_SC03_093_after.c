@@ -2989,9 +2989,9 @@ DEFINE_func_801519C8()  /* dedup: shared engine-core @0x801519C8 (src/shared) */
 
 DEFINE_func_80151AE4()  /* dedup: shared engine-core @0x80151AE4 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC03_093/nonmatchings/ov_SC03_093_after", func_80151B98);
+DEFINE_func_80151B98()  /* dedup: shared engine-core @0x80151B98 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC03_093/nonmatchings/ov_SC03_093_after", func_80151C54);
+DEFINE_func_80151C54()  /* dedup: shared engine-core @0x80151C54 (src/shared) */
 
 
 extern void (*D_80187BF8[])(void);

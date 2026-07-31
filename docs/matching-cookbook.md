@@ -8105,3 +8105,40 @@ stage-2 bank no longer loses its arity edit before its own gate attempt (the old
 **Generalizes to:** any pipeline where deterministic "fixers" precede a truth gate — the gate goes
 first on untouched input, fixers touch only failures, and every shared-state fixer journals its own
 writes. (Same family as §19/§25 canon-first and the §61 undo law; this entry is their composition.)
+
+## §123 — PROPAGATE A FAMILY WITH THE TOOL ITS TIER NEEDS: `dedup_propagate` is h_exact-only; its refusals are statements about the TOOL (P30 wave 1, 2026-07-30)
+
+**The trap, walked into and caught.** Wave 1 banked 8 fresh cores in `ov_SC01_077`. Propagating each
+via `dedup_propagate --addr`, four landed and four refused:
+
+  0x80133298  [skip] not self-contained — missing file-scope extern (CARRY-FIXABLE): Blk32L,m
+  0x80175820  [skip] not self-contained — missing file-scope extern (CARRY-FIXABLE): D_800AE7BC,D_800AF634
+  0x8015FBE0  [skip] 1 reach<2
+  0x8016E9EC  [skip] 1 reach<2
+
+Read naively that is "two need an extern carry fix, two aren't shared." Both readings are WRONG, and
+the second is absurd on its face — the family map says 138 members each. **The actual fact:
+`dedup_propagate` defaults to `--tier h_exact` — byte-IDENTICAL bodies.** All four families are
+`diff_class` PURE/IMM: members differing by relocations/immediates (h_seq). For an h_seq family the
+h_exact reach genuinely IS <2, and the liftability check genuinely does fail — because the tool is
+answering a question about a tier these functions do not belong to. The right tool is
+`family_sweep --hseq` (remap per member). The four that DID propagate had byte-identical siblings.
+
+**The law (the §53 carve-law, generalized from the CARVE axis to the TIER axis):** a propagation
+refusal is evidence about the *tool's tier*, never about the function — check `diff_class` in
+`.run/family_hseq.json` BEFORE routing, and never let a refusal message's vocabulary
+("not shared", "not self-contained") name the function's property. §53 said *sweep a family with the
+tool its exemplar needed*; this says *propagate a family with the tool its TIER needs*. Same failure
+shape, different stage, and it is the shape that manufactured the "families bank ~0%" doctrine.
+
+**Routing table (memorize this, it is the whole entry):**
+| family `diff_class` | tool |
+|---|---|
+| byte-identical members (h_exact) | `dedup_propagate --addr` |
+| PURE / IMM (reloc/immediate drift) | `family_sweep --hseq` |
+| `has_mid_jr: true` | `jtbl_family_bank.py` (§53 carve) |
+| exemplar in an -O0 TU | the -O0 rollout path (§116), not either sweep |
+
+**Corollary on the CARRY-FIXABLE label:** it is real for h_exact bodies (hoist the externs/typedef to
+file scope above the def and it lifts), but seeing it on an h_seq family means you asked the wrong
+tool first — fix the routing before fixing the externs.

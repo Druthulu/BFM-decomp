@@ -3413,9 +3413,23 @@ DEFINE_func_801519C8()  /* dedup: shared engine-core @0x801519C8 (src/shared) */
 
 DEFINE_func_80151AE4()  /* dedup: shared engine-core @0x80151AE4 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_after", func_80151B98);
+#include "common.h"
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_after", func_80151C54);
+/* func_80151B98 — modelled on the byte-proven near-twin DEFINE_func_80152500()
+ * in src/shared/engine_core.h: same lhu(+0xB8)==0x8000 head and the identical
+ * explicit-goto switch tail (case bodies sunk out-of-line in target memory
+ * order, case 1 ending in `j` to the shared 8014C010 tail). */
+
+DEFINE_func_80151B98()  /* dedup: shared engine-core @0x80151B98 (src/shared) */
+
+
+#include "common.h"
+
+/* Signatures follow the shared engine-core convention (cf. DEFINE_func_80152790,
+ * the near-identical sibling): func_80153C18 keeps the K&R empty prototype because
+ * every engine-core caller passes it an argument the real definition ignores. */
+DEFINE_func_80151C54()  /* dedup: shared engine-core @0x80151C54 (src/shared) */
+
 
 extern void (*D_8018883C[])(void *);
 

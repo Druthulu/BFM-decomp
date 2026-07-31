@@ -2917,7 +2917,58 @@ void func_8015FAE8(void *arg0) {
     }
 }
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_8015C32C", func_8015FBE0);
+// @class: schedule
+// @stuck: none — MATCH (58/58).
+// Two levers:
+//  (1) fn-ptr-table dispatch takes NO argument: ((void (**)())D_801891B8)[*(u16 *)param_1]()
+//      (target's jalr delay slot is a nop and no $a0 is staged for it).
+// Signature is s32* (NOT u16*) to agree with the TU's carried decl `extern void
+// func_8015FBE0(s32 *a0);`, and func_80146A6C uses the TU's canonical `s32 (s32, void*, x5)`
+// spelling — both were real rtu_match conflicts that match_one is blind to. rtu_match: MATCH.
+//  (2) reorg.c `stop_search_p` — a zero-byte `__asm__ __volatile__("")` at the HEAD of the else
+//      arm stops fill_eager_delay_slots from stealing that arm's leading `addu $a0,$s0,$zero`
+//      into the `bgez` delay slot. Without it gcc predicts the bgez taken (mostly_true_jump:
+//      GE vs const0 => 1), steals the move, and the target's `nop` slot + the else arm's leading
+//      `addu $a0,$s0,$zero` both vanish (57 ins, off-by-one drift for the whole tail).
+
+#include "common.h"
+
+extern void (*D_801891B8[])(void *);
+extern void func_80147078(s32 *a0, s16 a1);
+extern void func_80159B70(void *a0);
+extern void func_80154150(s32 a0, s32 a1);
+extern void func_80154A74(s32 a0, s32 a1);
+extern s32 func_80146A6C(s32, void*, s32, s32, s32, s32, s32);
+extern void func_80147324(s32 a0);
+extern void func_801553A8(s32 *a0);
+extern void func_801553C0(s32 a0);
+extern void func_80146CA0(void *a0);
+
+extern u8 D_80078EC1;
+extern u16 D_801270C0;
+extern u8 D_800B9A17;
+
+void func_8015FBE0(s32 *param_1)
+{
+    if (param_1[0x61] < 0) {
+        ((void (**)())D_801891B8)[*(u16 *)param_1]();
+        ((void (*)(s32 *, s16))func_80147078)(param_1, 0);
+        ((void (*)(s32 *))func_80159B70)(param_1);
+    } else {
+        __asm__ __volatile__("");
+        D_80078EC1 = 0;
+        ((void (*)(s32 *, s32))func_80154150)(param_1, 0x20);
+        ((void (*)(s32 *, s32))func_80154A74)(param_1, 0x18);
+        ((void (*)(s32, s32 *, s32, s32, s32, s32, s32))func_80146A6C)(0x16, param_1, 0, 0, 0, 0, 0);
+        func_80147324(0x44F);
+        ((void (*)(s32 *))func_801553A8)(param_1);
+        ((void (*)(s32 *))func_801553C0)(param_1);
+        D_801270C0 = 2;
+        D_800B9A17 = 0;
+        ((void (*)(s32 *))func_80146CA0)(param_1);
+    }
+}
+
 
 // @class: struct
 // @stuck: none — MATCH (indexed fn-ptr table call + byte-offset struct stores; mirrors sibling func_801599A4 idiom)

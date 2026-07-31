@@ -1645,7 +1645,7 @@ void func_8012DFCC(void) {
 DEFINE_func_8012DFD4()  /* dedup: shared engine-core @0x8012dfd4 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006", func_8012E014);
+DEFINE_func_8012E014()  /* dedup: shared engine-core @0x8012E014 (src/shared) */
 
 // @class: regalloc-order
 // @stuck: none — MATCH (81/81). Key lever: post-80049CAC pointer reload uses a SEPARATE local (mm) from the pre-call/branch pointer (m) -> gcc allocates $a0 for mm not $a1; decl order cam,bufB,bufA -> slots 0x10/0x18/0x20; u16 field reads for lhu; short s -> (int)s sign-extend = sll/sra.

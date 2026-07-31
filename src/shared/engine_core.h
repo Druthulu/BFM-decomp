@@ -18,6 +18,157 @@
  * Volatile form: that is what the 3 banked members compile with today. */
 #ifndef ENGINE_SHB
 #define ENGINE_SHB(x) __asm__ __volatile__("" : "=r"(x) : "0"(x))
+#define DEFINE_func_8012E014() \
+    extern void func_8012F0BC(s32 *a0, s32 *a1, s32 *a2); \
+    extern void func_8012F1A4(s32 *a0, s32 a1, s32 *a2); \
+    extern void func_80049CAC(s32 a0, s32 a1); \
+    void func_8012E014(s32 a0) { \
+        /* asm-label alias (cookbook § "BANKING PATTERNS": `extern u16 X __asm__("D_x")`). \
+         * The TU already carries `extern u8 D_80126B5C;` from DEFINE_func_8012BD14()/ \
+         * DEFINE_func_80149954(), so a plain `extern s32 D_80126B5C;` is a conflicting-types \
+         * hard error, and the `*(s32 *)&D_80126B5C` cast-at-use form makes gcc force_reg the \
+         * constant address (memory_address(), explow.c) -> 3 CSE'd `la` pseudos pinned in \
+         * $s2/$s3/$s4 across the calls = +6 ins. The alias gives a real s32 object at the \
+         * same assembler symbol, so each access stays a direct `lw/sw sym` MEM. */ \
+        extern s32 gVecX __asm__("D_80126B5C"); \
+        extern s32 gVecY __asm__("D_80126B60"); \
+        extern s32 gVecZ __asm__("D_80126B64"); \
+        s32 in[4]; \
+        s32 out[4]; \
+        s32 tmp[4]; \
+        s32 v; \
+        s32 w; \
+        s16 t; \
+        in[0] = gVecX; \
+        in[1] = gVecY; \
+        in[2] = gVecZ; \
+        func_8012F0BC((s32 *)(*(s32 *)(a0 + 0x20) + 0x34), in, tmp); \
+        v = *(s32 *)(a0 + 0x20); \
+        if (v != 0) { \
+            func_80049CAC(v + 0x10, v + 0x34); \
+            w = *(s32 *)(a0 + 0x20); \
+            t = *(u16 *)(a0 + 0x6) + *(u16 *)(a0 + 0x50); \
+            *(s16 *)(w + 0x8) = t; \
+            *(s32 *)(w + 0x48) = t; \
+            t = *(u16 *)(a0 + 0xA) + *(u16 *)(a0 + 0x52); \
+            *(s16 *)(w + 0xA) = t; \
+            *(s32 *)(w + 0x4C) = t; \
+            t = *(u16 *)(a0 + 0xE) + *(u16 *)(a0 + 0x54); \
+            *(s16 *)(w + 0xC) = t; \
+            *(u16 *)(w + 0x2C) |= 1; \
+            *(s32 *)(w + 0x50) = t; \
+        } \
+        func_8012F1A4((s32 *)(*(s32 *)(a0 + 0x20) + 0x34), (s32)tmp, out); \
+        gVecX = out[0]; \
+        gVecY = out[1]; \
+        gVecZ = out[2]; \
+    }
+
+#define DEFINE_func_80151C54() \
+    extern void func_8014BC44(s32 a0, s32 a1); \
+    extern void func_8014BD60(s32 a0, s32 a1); \
+    extern void func_80154A74(s32 a0, s32 a1); \
+    extern void func_801553C0(s32 a0); \
+    extern void func_801470AC(s32 *a0); \
+    extern void func_801472B4(void *a0); \
+    extern void func_801477E8(s32 *a0, s32 a1); \
+    extern void func_80153C18(); \
+    void func_80151C54(s32 a0) \
+    { \
+        s32 s0 = a0; \
+        /* `!= 1 && == 0x11` (not the simplified `== 0x11`) is load-bearing: it is what \
+         * emits the beq-1 / bne-0x11 pair, with the 0x11 constant in the beq delay slot. */ \
+        if (*(u8 *)(s0 + 0xDD) != 1 && *(u8 *)(s0 + 0xDD) == 0x11) { \
+            func_8014BD60(s0, *(s16 *)(s0 + 0xF2)); \
+        } else { \
+            func_8014BC44(s0, *(s16 *)(s0 + 0xF2)); \
+        } \
+        *(s8 *)(s0 + 0xA8) = 0x20; \
+        func_80154A74(s0, 0x11); \
+        func_801553C0(s0); \
+        func_801470AC((s32 *)s0); \
+        func_801472B4((void *)s0); \
+        *(s16 *)(s0 + 0x3E) = 0; \
+        *(s16 *)(s0 + 0x40) = 0; \
+        *(s16 *)(s0 + 0x42) = 0; \
+        *(s8 *)(s0 + 0xDD) = 0; \
+        *(s16 *)(s0 + 0x3C) = *(u16 *)(s0 + 0x3C) & 0xFFFE; \
+        *(s16 *)(*(s32 *)(s0 + 0x20) + 0x10) = 0; \
+        *(s16 *)(s0 + 0x60) = 0x1000; \
+        *(s16 *)(s0 + 0x62) = 0x1000; \
+        *(s16 *)(s0 + 0x64) = 0x1000; \
+        func_801477E8((s32 *)s0, 0); \
+        func_80153C18(s0); \
+    }
+
+#define DEFINE_func_8012F49C() \
+    extern void func_8004914C(); \
+    extern void func_800491AC(); \
+    extern void RotTransSV(s32 a0, s32 a1, void *a2); \
+    extern s32 RotTransPers(s32, s32, s32 *, s32 *); \
+    s32 *func_8012F49C(s32 *param_1, s32 param_2, s32 param_3) { \
+        extern u8 D_800AF648; \
+        s16 sv[4]; \
+        s32 out[2]; \
+        s32 sxy, p, flag; \
+        s32 m; \
+        void *pv; \
+        m = *(s32 *)(param_2 + 0x20) + 0x34; \
+        ((void (*)(s32))func_8004914C)(m); \
+        ((void (*)(s32))func_800491AC)(m); \
+        pv = (void *)sv; \
+        ((void (*)(s32, void *, s32 *))RotTransSV)(param_3, pv, &out[0]); \
+        sxy = 0; \
+        /* $a0-pinned scopes force the &D_800AF648 constant to be rematerialized \
+           (lui/addiu) before each call instead of CSE-hoisting it. */ \
+        { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); } \
+        { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_800491AC(r4); } \
+        ((s32 (*)(void *, s32 *, s32 *, s32 *))RotTransPers)(pv, &sxy, &p, &flag); \
+        if (flag < 0) { \
+            out[0] = sxy = 0; \
+        } else { \
+            out[0] = sxy; \
+        } \
+        *param_1 = out[0]; \
+        return param_1; \
+    }
+
+#define DEFINE_func_80151B98() \
+    extern void func_80149020(s32 *a0); \
+    extern void func_80151C54(s32 a0); \
+    extern void func_80159B3C(void *a0); \
+    extern s32 func_801535F4(void *arg0); \
+    extern void func_8015BF48(s32 *a0); \
+    extern void func_8014C010(s32 a0, s32 a1); \
+    extern void func_80165718(s32 a0); \
+    void func_80151B98(int param_1) \
+    { \
+        int iVar1; \
+        ((int (*)(int))func_80149020)(param_1); \
+        if (*(unsigned short *)(param_1 + 0xb8) == 0x8000) { \
+            func_80151C54(param_1); \
+            ((void (*)(int))func_80159B3C)(param_1); \
+            goto LAB_80151c38; \
+        } \
+        iVar1 = ((int (*)(int))func_801535F4)(param_1); \
+        if (iVar1 == 1) goto LAB_80151c04; \
+        if (iVar1 < 2) return; \
+        if (iVar1 == 2) goto LAB_80151c1c; \
+        return; \
+    LAB_80151c04: \
+        func_80151C54(param_1); \
+        ((void (*)(int))func_80159B3C)(param_1); \
+        goto LAB_80151c30; \
+    LAB_80151c1c: \
+        func_80151C54(param_1); \
+        ((void (*)(int))func_8015BF48)(param_1); \
+    LAB_80151c30: \
+        func_8014C010(param_1, 1); \
+    LAB_80151c38: \
+        func_80165718(param_1); \
+        return; \
+    }
+
 #endif
 
 #define DEFINE_func_80128EA8() \
@@ -29328,6 +29479,157 @@
             } \
         } \
         return 0; \
+    }
+
+#define DEFINE_func_8012E014() \
+    extern void func_8012F0BC(s32 *a0, s32 *a1, s32 *a2); \
+    extern void func_8012F1A4(s32 *a0, s32 a1, s32 *a2); \
+    extern void func_80049CAC(s32 a0, s32 a1); \
+    void func_8012E014(s32 a0) { \
+        /* asm-label alias (cookbook § "BANKING PATTERNS": `extern u16 X __asm__("D_x")`). \
+         * The TU already carries `extern u8 D_80126B5C;` from DEFINE_func_8012BD14()/ \
+         * DEFINE_func_80149954(), so a plain `extern s32 D_80126B5C;` is a conflicting-types \
+         * hard error, and the `*(s32 *)&D_80126B5C` cast-at-use form makes gcc force_reg the \
+         * constant address (memory_address(), explow.c) -> 3 CSE'd `la` pseudos pinned in \
+         * $s2/$s3/$s4 across the calls = +6 ins. The alias gives a real s32 object at the \
+         * same assembler symbol, so each access stays a direct `lw/sw sym` MEM. */ \
+        extern s32 gVecX __asm__("D_80126B5C"); \
+        extern s32 gVecY __asm__("D_80126B60"); \
+        extern s32 gVecZ __asm__("D_80126B64"); \
+        s32 in[4]; \
+        s32 out[4]; \
+        s32 tmp[4]; \
+        s32 v; \
+        s32 w; \
+        s16 t; \
+        in[0] = gVecX; \
+        in[1] = gVecY; \
+        in[2] = gVecZ; \
+        func_8012F0BC((s32 *)(*(s32 *)(a0 + 0x20) + 0x34), in, tmp); \
+        v = *(s32 *)(a0 + 0x20); \
+        if (v != 0) { \
+            func_80049CAC(v + 0x10, v + 0x34); \
+            w = *(s32 *)(a0 + 0x20); \
+            t = *(u16 *)(a0 + 0x6) + *(u16 *)(a0 + 0x50); \
+            *(s16 *)(w + 0x8) = t; \
+            *(s32 *)(w + 0x48) = t; \
+            t = *(u16 *)(a0 + 0xA) + *(u16 *)(a0 + 0x52); \
+            *(s16 *)(w + 0xA) = t; \
+            *(s32 *)(w + 0x4C) = t; \
+            t = *(u16 *)(a0 + 0xE) + *(u16 *)(a0 + 0x54); \
+            *(s16 *)(w + 0xC) = t; \
+            *(u16 *)(w + 0x2C) |= 1; \
+            *(s32 *)(w + 0x50) = t; \
+        } \
+        func_8012F1A4((s32 *)(*(s32 *)(a0 + 0x20) + 0x34), (s32)tmp, out); \
+        gVecX = out[0]; \
+        gVecY = out[1]; \
+        gVecZ = out[2]; \
+    }
+
+#define DEFINE_func_80151C54() \
+    extern void func_8014BC44(s32 a0, s32 a1); \
+    extern void func_8014BD60(s32 a0, s32 a1); \
+    extern void func_80154A74(s32 a0, s32 a1); \
+    extern void func_801553C0(s32 a0); \
+    extern void func_801470AC(s32 *a0); \
+    extern void func_801472B4(void *a0); \
+    extern void func_801477E8(s32 *a0, s32 a1); \
+    extern void func_80153C18(); \
+    void func_80151C54(s32 a0) \
+    { \
+        s32 s0 = a0; \
+        /* `!= 1 && == 0x11` (not the simplified `== 0x11`) is load-bearing: it is what \
+         * emits the beq-1 / bne-0x11 pair, with the 0x11 constant in the beq delay slot. */ \
+        if (*(u8 *)(s0 + 0xDD) != 1 && *(u8 *)(s0 + 0xDD) == 0x11) { \
+            func_8014BD60(s0, *(s16 *)(s0 + 0xF2)); \
+        } else { \
+            func_8014BC44(s0, *(s16 *)(s0 + 0xF2)); \
+        } \
+        *(s8 *)(s0 + 0xA8) = 0x20; \
+        func_80154A74(s0, 0x11); \
+        func_801553C0(s0); \
+        func_801470AC((s32 *)s0); \
+        func_801472B4((void *)s0); \
+        *(s16 *)(s0 + 0x3E) = 0; \
+        *(s16 *)(s0 + 0x40) = 0; \
+        *(s16 *)(s0 + 0x42) = 0; \
+        *(s8 *)(s0 + 0xDD) = 0; \
+        *(s16 *)(s0 + 0x3C) = *(u16 *)(s0 + 0x3C) & 0xFFFE; \
+        *(s16 *)(*(s32 *)(s0 + 0x20) + 0x10) = 0; \
+        *(s16 *)(s0 + 0x60) = 0x1000; \
+        *(s16 *)(s0 + 0x62) = 0x1000; \
+        *(s16 *)(s0 + 0x64) = 0x1000; \
+        func_801477E8((s32 *)s0, 0); \
+        func_80153C18(s0); \
+    }
+
+#define DEFINE_func_8012F49C() \
+    extern void func_8004914C(); \
+    extern void func_800491AC(); \
+    extern void RotTransSV(s32 a0, s32 a1, void *a2); \
+    extern s32 RotTransPers(s32, s32, s32 *, s32 *); \
+    s32 *func_8012F49C(s32 *param_1, s32 param_2, s32 param_3) { \
+        extern u8 D_800AF648; \
+        s16 sv[4]; \
+        s32 out[2]; \
+        s32 sxy, p, flag; \
+        s32 m; \
+        void *pv; \
+        m = *(s32 *)(param_2 + 0x20) + 0x34; \
+        ((void (*)(s32))func_8004914C)(m); \
+        ((void (*)(s32))func_800491AC)(m); \
+        pv = (void *)sv; \
+        ((void (*)(s32, void *, s32 *))RotTransSV)(param_3, pv, &out[0]); \
+        sxy = 0; \
+        /* $a0-pinned scopes force the &D_800AF648 constant to be rematerialized \
+           (lui/addiu) before each call instead of CSE-hoisting it. */ \
+        { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); } \
+        { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_800491AC(r4); } \
+        ((s32 (*)(void *, s32 *, s32 *, s32 *))RotTransPers)(pv, &sxy, &p, &flag); \
+        if (flag < 0) { \
+            out[0] = sxy = 0; \
+        } else { \
+            out[0] = sxy; \
+        } \
+        *param_1 = out[0]; \
+        return param_1; \
+    }
+
+#define DEFINE_func_80151B98() \
+    extern void func_80149020(s32 *a0); \
+    extern void func_80151C54(s32 a0); \
+    extern void func_80159B3C(void *a0); \
+    extern s32 func_801535F4(void *arg0); \
+    extern void func_8015BF48(s32 *a0); \
+    extern void func_8014C010(s32 a0, s32 a1); \
+    extern void func_80165718(s32 a0); \
+    void func_80151B98(int param_1) \
+    { \
+        int iVar1; \
+        ((int (*)(int))func_80149020)(param_1); \
+        if (*(unsigned short *)(param_1 + 0xb8) == 0x8000) { \
+            func_80151C54(param_1); \
+            ((void (*)(int))func_80159B3C)(param_1); \
+            goto LAB_80151c38; \
+        } \
+        iVar1 = ((int (*)(int))func_801535F4)(param_1); \
+        if (iVar1 == 1) goto LAB_80151c04; \
+        if (iVar1 < 2) return; \
+        if (iVar1 == 2) goto LAB_80151c1c; \
+        return; \
+    LAB_80151c04: \
+        func_80151C54(param_1); \
+        ((void (*)(int))func_80159B3C)(param_1); \
+        goto LAB_80151c30; \
+    LAB_80151c1c: \
+        func_80151C54(param_1); \
+        ((void (*)(int))func_8015BF48)(param_1); \
+    LAB_80151c30: \
+        func_8014C010(param_1, 1); \
+    LAB_80151c38: \
+        func_80165718(param_1); \
+        return; \
     }
 
 #endif
