@@ -84,7 +84,63 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 
 ---
 
-# 🛑 SESSION CHECKPOINT (2026-07-30, in-flight) — safe to open a FRESH session here
+# 🛑 SESSION-26 CHECKPOINT (2026-07-30 23:05) — FRESH SESSION SAFE HERE
+> Supersedes the in-flight block below. Paused for the 5h usage limit; **a one-shot cron is set for
+> 00:47 (2026-07-31)** to resume — but cron is SESSION-ONLY and dies with this session, so if the
+> session ended, just follow "RESUME HERE" manually.
+
+**HEAD `commit:1254`.** Fleet at last verified point: **92.59% fn-count · 88.2% instr · 78.7%
+distinct · R22 140/140** (commit `commit:1252`).
+
+## ⏳ RUNNING AT PAUSE (check these FIRST)
+- **`w4-gate`** under `tools/treelock.sh` (pid at pause 1313761): gating wave-4's **68 drafts across
+  14 binaries** in parallel, then sig+map regen, then R22. Log: `.run/w4gate_run.log` +
+  `.run/w4gate/<binary>.log`. If it did not finish: `tools/treelock.sh w4-gate bash .run/p30w4_gate.sh`.
+  **Nothing from it is committed yet** — commit only after R22 shows 140/140.
+- Tree carries **Lane A's 15 banks** (sweep finished: 15 banked / 712 failed / 910 already-not-stub —
+  the population was largely consumed by the earlier sweep, so Lane A is now nearly spent).
+
+## ▶ RESUME HERE (in order)
+1. Finish/verify the w4-gate → R22 140/140 → commit.
+2. **RESUME THE 12 UNFINISHED AGENTS** (`.run/p30w4_remaining.json`) — Drew's explicit instruction,
+   cron `799f00d8` set for **00:49 on 2026-07-31**. Wave 4 launched 70, **58 returned (ALL 58
+   match_one MATCH)**, 12 were killed mid-run:
+   `func_8017EA1C`(SC02_041) · `func_8018A150`(SC02_027) · `func_80185680`(SC02_017) ·
+   `func_8017D900`,`func_801846E4`(SC03_014) · `func_80187940`,`func_80185B5C`,`func_801885C0`(SC04_011) ·
+   `func_801832D4`,`func_80183CBC`,`func_80183258`,`func_8017D7A4`(SC02_035).
+   Workflow scriptPath
+   `/tmp/claude-1000/-home-musashi-bfm-decomp/f1a9b030-5924-4b17-b102-3de2ca684a6f/scratchpad/p30w4.js`,
+   args = the 12 targets **as an ARRAY** (a JSON string breaks `pipeline()`).
+   ⚠️ 10 of the 12 have a **PARTIAL draft** on disk from the killed run — a starting point, NOT a
+   verified result; re-verify with `match_one` before any MATCH claim.
+   *(Counting note, R14: my first count said "2 remaining" because I measured draft-FILE existence.
+   An agent writes its draft early and then iterates, so a file proves nothing about completion —
+   the journal's `result` records are the truth. Drew's "12" was right and my measure was wrong.)*
+3. The **h_exact propagation leg** that halted at `0x801466F0` (rc=1, stopped by design).
+4. The **137 "no matched unit for func"** sweep-routing gap — the exemplar banked in a DIFFERENT
+   binary than `family_sweep` looks in. Likely cheap and worth ~137 members.
+5. **3 jr behemoths** (`func_80191C50`, `func_8018057C`, `func_80181CDC`, staged in
+   `.run/beh-gate/<binary>/`) + **group B's carve** (13-member IMM/jr family @952, 103 already
+   matched → `jtbl_family_bank`). Both run `make extract` — run them ALONE under the lock.
+6. **T2's `-O0` carve-within-a-carve** (13 families / 1,746 members walled) — the deep arc.
+
+## ⚠️ THE TWO LAWS THIS SESSION COST US (both self-inflicted, both now mechanised)
+- **Guard the CAMPAIGN, not the process** (`tools/treelock.sh`). A `pgrep` poll cannot see a campaign
+  made of sequential processes; mine started in a gap and 63/140 binaries broke.
+- **Gate with `--no-propagate`, then propagate PER FUNCTION, routed by tier (§123).** A fixed 3600s
+  propagation timeout killed the driver mid-fleet-write; a killed process performs no undo.
+- Corollary proven twice: **agents must only ever write `.run/`** — that is why both incidents cost
+  build cycles and zero work.
+
+## 📓 NEW THIS SESSION
+Cookbook **§122** (gate raw before transforming; undo belongs to the writer as a per-edit journal),
+**§123** (propagate a family with the tool its TIER needs + routing table), **`docs/cookbook-index.md`**
+(226→324 sections, symptom-keyed, in `tools-health`), `tools/treelock.sh`, `tools/prefetch_fleet.py`,
+`tools/cookbook_index.py`.
+
+---
+
+# 🛑 (superseded) SESSION CHECKPOINT (2026-07-30, in-flight)
 > Written while two background campaigns run; REFRESH before any pause (the stale-checkpoint trap).
 
 **Running in background:** (1) **T0.5 full prefetch batch** (`prefetch_fleet.py`, 126 programs —
