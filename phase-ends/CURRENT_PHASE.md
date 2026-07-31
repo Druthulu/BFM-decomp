@@ -101,14 +101,29 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 
 # 🛑 SESSION-28 CHECKPOINT (2026-07-31 08:1x) — FRESH SESSION SAFE HERE
 > Supersedes SESSION-27 below. **Nothing is running. Tree lock FREE. Tree clean** but for the R23
-> `db.*.gbf` churn (never stage). **HEAD `commit:1270`** (+ this doc commit).
+> `db.*.gbf` churn (never stage). **HEAD `commit:1273`** (+ this doc commit).
 > Effort: opened **xHigh** → **Max** for the jr re-measurement and the T2 probe ladder → back to
 > **xHigh** for the driver + sweep. `make tools-health` RC=0 at session open.
 > **R22 clean-fleet run FIVE times this session, 140/140 every time.**
 
-## FLEET — R22 clean-fleet **140 passed / 0 failed** (verified this session, genuinely clean tree)
-**92.71% fn-count · 88.3% instr-weighted · 78.7% distinct-code** (70,594 / 87,459 unique fns) ·
-dedup 1904/0 · 0 NON_MATCHING linked. Phase opened at 92.00 / 87.5 / 78.0.
+## FLEET — R22 clean-fleet **140 passed / 0 failed** (verified SIX times this session)
+**93.09% fn-count · 88.6% instr-weighted · 79.3% distinct-code** (71,756 / 87,459 unique fns) ·
+dedup 1905/0 · C1 240496/240496 · 0 NON_MATCHING linked. Phase opened at 92.00 / 87.5 / 78.0
+⇒ **+1.09pp fn-count, +1.1pp instr, +1.3pp distinct this phase.**
+
+## 🎯 THE `-O0` HARVEST (the session's largest result, ZERO agent tokens)
+Routing the cluster to `-O0` unlocked functions **already cracked in ov_SC01_077** that could not
+be banked anywhere else because every destination file compiled `-O2`:
+- `dedup_propagate --recover 0x8013C360` (h_exact ×138) → **137 overlays byte-identical**
+- `family_sweep --hseq`, 10 variant families → **1,227 banked / 133 failed (90%)**
+- ⇒ **1,364 new banks**, +1,162 unique fns.
+**`--recover` was load-bearing (§75):** without it the tool takes its all-or-nothing branch — one
+failing overlay (the SOURCE) drops the whole function and it prints `all candidates dropped`, which
+reads exactly like a wall. Read the exclusion code, don't believe the message.
+**Still queued in the cluster:** the 2 `has_mid_jr` families (`0x8013C0F8` 154 ins, `0x8013C414`
+329 ins, ~137 members each ≈ **466 members**) — refused BY DESIGN (§53) pending the jtbl carve path;
+the 133 sweep failures; and 3 addresses never cracked anywhere (`0x8013B83C`, `0x8013BD74`,
+`0x8013C08C`) — genuine drafting, now possible at last since their TU is `-O0`.
 
 ## WHAT LANDED THIS SESSION
 - **Resume item 2 CLOSED — the "137 no matched unit" class: 137/137 banked, 0 failed** (`commit:1261`),
