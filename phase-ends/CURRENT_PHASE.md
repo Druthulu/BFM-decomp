@@ -84,7 +84,64 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 
 ---
 
-# 🛑 SESSION-26 CHECKPOINT (2026-07-30 23:05) — FRESH SESSION SAFE HERE
+# 🛑 SESSION-27 CHECKPOINT (2026-07-31 01:25) — FRESH SESSION SAFE HERE
+> Supersedes SESSION-26 below. **Nothing is running. Tree lock FREE. Tree clean** but for the R23
+> `db.*.gbf` churn (never stage). **HEAD `commit:1258`.**
+
+## FLEET — R22 clean-fleet **140 passed / 0 failed** (verified at HEAD)
+**92.67% fn-count · 88.3% instr-weighted · 78.7% distinct-code** (70,590 / 87,459 unique fns).
+Phase opened at 87.5 / 78.0 / 92.00 → **+0.8pp instr, +0.7pp distinct, +0.67pp fn-count** so far.
+
+## WHAT LANDED THIS SESSION (all committed, all R22-verified)
+- **T0 instrument repair (a–f)**, 6 commits — incl. `gate_stage` stage-0 (§122) and the
+  `fix_arity_callers` per-edit journal undo.
+- **T0.5 fleet Ghidra-C prefetch COMPLETE** — 124/124 programs, **7,716 files**, 335 min unattended.
+  **95.2% of the 6,070 crack-needing families are seeded; main 2,001/2,002; resident 14/14.**
+- **T3 waves 1–4 + behemoths:** wave1 8/14 · wave2 15/19 · wave3 **48/48** · wave4 **69/70 banked**
+  (70/70 drafted) · **7 behemoths CONFIRMED** at 700–970 ins (4 banked; 3 jr deferred).
+- **Propagation:** 548 + 911 members via `family_sweep --hseq`; h_exact leg 14 propagated / 42
+  benign skips / 0 failures.
+- **New instruments:** `tools/treelock.sh` · `tools/prefetch_fleet.py` · `tools/cookbook_index.py`
+  + **`docs/cookbook-index.md` (324 sections, symptom-keyed, in `tools-health`)**.
+- **Cookbook §122, §123.**
+
+## ▶ RESUME HERE (nothing blocked, nothing in flight)
+1. **`func_801846E4`** (ov_SC03_014) — the 1 of 10 resumed drafts that did NOT bank (agent reported
+   MATCH; gate refused). Draft at `.run/drafts-p30w4/ov_SC03_014/func_801846E4.c`. Its agent flagged
+   it as the **-O0** class (SIZE-MISMATCH/short + frame-pointer prologue) — likely needs `--o0`.
+2. **The 137 "no matched unit for func"** sweep-routing gap — `family_sweep` looks for the exemplar's
+   banked unit in the wrong binary. Cheap, worth ~137 members.
+3. **3 jr behemoths** (`func_80191C50`, `func_8018057C`, `func_80181CDC`; staged in
+   `.run/beh-gate/<binary>/`) **+ group B's carve** (13-member IMM/jr @952, 103 already matched →
+   `jtbl_family_bank.py`). **Both run `make extract` — run ALONE under `tools/treelock.sh`.**
+4. **T2 `-O0` carve-within-a-carve** (13 families / 1,746 members). Newly cheaper: wave-4 agents
+   documented the `match_one --o0` flag AND found a **4th -O0 region** beyond the 3 known ones.
+5. **Next wave:** 3,873 fresh cached cores across 119 binaries remain (`.run/p30w4_pool.json`);
+   deal them ACROSS binaries so the gate fans out.
+
+## 🔁 THE LOOP THAT WORKS (proven 4 waves running)
+draft (agents, `.run/` only) → **`--no-propagate` gate, per-binary IN PARALLEL** → sig+map regen →
+**propagate per-function, routed by tier (§123)** → **one R22** → commit. Wrap every tree-writing
+campaign in `tools/treelock.sh`.
+
+## ⚠️ THE THREE LAWS THIS SESSION COST US (all mine, all now mechanised)
+1. **Guard the CAMPAIGN, not the process** — a `pgrep` poll cannot see a campaign made of sequential
+   processes; mine started in a gap → 63/140 broke. → `treelock.sh`.
+2. **A killed process performs no undo** — a fixed 3600s propagation timeout killed the driver
+   mid-fleet-write. → timeout scales with bank count AND is caught.
+3. **A measurement taken during corruption is not a measurement** — I reported a "per-binary bank-rate
+   cliff" and theorised a cause; re-gated clean it was 6/6 everywhere.
+*Both incidents cost build cycles and ZERO work, because agents only ever write `.run/`.*
+
+## 📊 THE MEASURED FINDING WORTH KEEPING
+Bank rate by wave: **57% (no index) → 79% → 100% → 99%** (index-first). Same models, same gate. The
+bottleneck was **discoverability of our own knowledge**, not the compiler. Agents also self-report
+`index_hit`/`index_gap`, and their gap reports are now curated symptom lines — the flywheel is
+closing on itself.
+
+---
+
+# 🛑 (superseded) SESSION-26 CHECKPOINT (2026-07-30 23:05)
 > Supersedes the in-flight block below. Paused for the 5h usage limit; **a one-shot cron is set for
 > 00:47 (2026-07-31)** to resume — but cron is SESSION-ONLY and dies with this session, so if the
 > session ended, just follow "RESUME HERE" manually.
