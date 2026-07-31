@@ -109,6 +109,35 @@ the T2 log entries; check both background tasks' outcomes first (`git log` for t
 
 ## Per-task log
 
+### T3 BEHEMOTH WAVE (10 agents, 3.23M tok) — **7/10 CONFIRMED byte-matches at 700–970 ins**, 0 disputed
+Drew asked for up to 10 agents on the behemoths; grouping analysis first showed the ≥700-ins band is
+**structured, not 29 singletons**: one 16-member family @947, one 14-member @884, a 5-member @793, a
+3-member @710, a 2-member @728, 5 true singletons — plus two groups that are TOOL jobs, not agent
+jobs (the 13-member IMM/jr @952 with **103 already matched** → `jtbl_family_bank` carve; two
+134-matched families with 4 stragglers each → sweep). All 10 agents therefore went to genuinely
+uncracked families/singletons, and each MATCH claim was adversarially re-verified by a second agent.
+
+**CONFIRMED (7):** `func_8017E120` 884×**14** · `func_80191C50` 710×3 · `func_8017FA5C` 728×2 ·
+`func_8018057C` 897 · `func_80181CDC` 769 · `func_8017CAD4` 755 · `func_8017E35C` 719.
+**NEAR (3), all with byte-grounded residuals:** `func_8017EF68` 969 ins at **closeness 2** — two
+transposed instructions, sched2 `rank_for_schedule` LUID tie-break, everything else (frame 0x228,
+spill map, every register) byte-exact · `func_8017D174` 793 at 82 (allocno tie + pin damage, length
+EXACT) · `func_8017C974` 947×16 at 812 (a pure regalloc cascade from ONE extra reserved reload reg;
+598/957 regions already exact, no shape errors) — the last is the biggest family left and now has a
+full structural map + the exact gcc mechanism written down.
+
+**MY ERROR (recorded):** I hand-typed the `asm` paths into the workflow args instead of passing the
+ones I had already DERIVED from `corpus.asm_path` in the same session — so several task cards named
+a split that does not exist (`_jr_8017AE2C` where the truth was `_jr_8017C8D0` / `_jr_8017C294`).
+The agents located the real paths themselves and reported the discrepancy. Deriving then discarding
+the derivation is worse than never deriving it: it looks authoritative. Pass the artifact, never a
+retyped copy of it.
+
+**Gating plan (the jr/non-jr split matters):** 4 confirmed are non-jr → gate freely. 3 are jr →
+their jtbl carve runs `make extract`, which rewrites `asm/` under the 48 running wave-3 agents, so
+they are DEFERRED until wave 3 lands. Staged per-binary in `.run/beh-gate/<binary>/` for parallel
+gating (7 distinct binaries).
+
 ### T4 (partial) ✅ — the two "Phase-22 grinder bugs" are STALE carry items; the real fixes were elsewhere
 Verified against the code, not the list (R14 on our own defect ledger):
 - **"split-file-blind lookup" — ALREADY FIXED.** `asm_subdir_for` globs `nonmatchings/*/` which
