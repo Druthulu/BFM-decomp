@@ -2825,7 +2825,53 @@ DEFINE_func_801757A0()  /* dedup: shared engine-core @0x801757A0 (src/shared) */
 
 DEFINE_func_801757E0()  /* dedup: shared engine-core @0x801757E0 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_009/nonmatchings/ov_SC01_009_jr_801734BC", func_80175820);
+
+/* func_80175820 — twin of the byte-matched func_801759D8 / func_801758FC in this same TU
+ * (ov_SC01_077_jr_801734BC).  Same three-part body, different slot:
+ *   part 1 tag word = ptr[2]        (0x8 vs 0x4 / 0xC)
+ *   part 2 head ptr = D_8011F7A8+0x18 (== D_8011F7C0)
+ *   part 3 tail ptr = D_8011F7A8+0x20 (== D_8011F7C8)
+ * The two __asm__ memory fences are what keep the three parts from CSE-ing their
+ * base addresses together (parts 1/2 stay absolute lui/%lo + idx*4; part 3 keeps the
+ * shared `la $v1,D_8011F7A8` + 0x18/0x20 displacements).
+ */
+
+typedef struct { u32 *f0; s32 pad[4]; } S_AE7BC_80175820_80175820;   /* size 0x14 */
+typedef struct { s32 g0; s32 pad[2]; } S_AF634_80175820_80175820;    /* size 0x0C */
+
+s32 func_80175820(void)
+{
+    extern s16 D_800B9A02;
+    extern S_AE7BC_80175820_80175820 D_800AE7BC[];
+    extern S_AF634_80175820_80175820 D_800AF634[];
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern u8 D_8011F7A8;
+    u8 *p = (u8 *)&D_8011F7A8;
+    u16 *q;
+    u32 *ptr;
+    u32 old;
+    u32 *p2;
+
+    q = (u16 *)&(*(u16 *)&D_800B9A02);
+
+    ptr = D_800AE7BC[*q].f0;
+    old = ptr[2];
+    ptr[2] = (old & 0xff000000) | (*(u32 *)(p + *q * 4 + 0x20) & 0xffffff);
+    __asm__("" ::: "memory");
+
+    p2 = *(u32 **)(p + *q * 4 + 0x18);
+    *p2 = (*p2 & 0xff000000) | (old & 0xffffff);
+    __asm__("" ::: "memory");
+
+    {
+        s32 acc = D_800AF634[*q].g0;
+        s32 t = *(s32 *)(p + *q * 4 + 0x18) - 0x14;
+        D_800AF634[*q].g0 = acc + ((*(s32 *)(p + *q * 4 + 0x20) - t) >> 2);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC01_009/nonmatchings/ov_SC01_009_jr_801734BC", func_801758FC);
 

@@ -3618,7 +3618,77 @@ s32 func_8016E95C() {
 
 
 
-INCLUDE_ASM("asm/ov_SC07_009/nonmatchings/ov_SC07_009_jr_8016AB6C", func_8016E9EC);
+
+/* @class: regalloc (non-coalescing delay-slot copy) + sched (load-temp hoist)
+ * @stuck: none — MATCH (53/53 ins, match_one AND rtu_match in the real TU).
+ *
+ * Two levers, both from the cookbook:
+ *
+ * 1. §52a "non-coalescing delay-slot copy" + §17 zero-reg-copy (the load-bearing one).
+ *    The target holds `p[0]-1` in TWO callee-saved regs: $s0 (the array index, later
+ *    destroyed in place by `sll $s0,$s0,1`) and $s4 (the value stored to p[3]), created
+ *    by `addu $s4,$s0,$zero` sitting in the DELAY SLOT of `jal func_800D2CA8`. A plain
+ *    C `c = i;` is destroyed by cse.c canon_reg head-promotion (measured: 50 ins, -3),
+ *    and every #APP-asm spelling of the copy is INELIGIBLE for a delay slot (measured:
+ *    51 ins, -2 — tried `__asm__("":"=r"(c):"0"(i))`, a real-opcode
+ *    `__asm__("addu %0,%1,$0")`, and the §52b RC-7 post-copy second-set barrier
+ *    `c=i; __asm__("":"=r"(c):"0"(c))`; all three collapse or lose the slot).
+ *    Only the `$0`-add — `register u32 zr __asm__("$0"); c = i + zr;` — emits a bare
+ *    `addu` with no asm insn, so reorg can sink it into the call's delay slot.
+ *    NOTE for ×138 propagation: this is a ZERO-REGISTER pin, not an allocation pin —
+ *    it constrains no real value. family_sweep's §42e "skip pinned exemplar" guard is
+ *    documented over-conservative (§86; the SIGABRT was our own extract_unit macro-drop,
+ *    fixed in Phase 27), so this exemplar should still sweep.
+ *
+ * 2. Free-floating load temp for a scheduler hoist (§52a-adjacent, idiom 7).
+ *    With the p+6 store written as one statement the sched2 list scheduler hoists
+ *    `lbu $v0,1($a0)` ahead of `sb $s4,3($a0)` and sinks the D_8018115C lui/addu/lhu
+ *    chain (8 mismatched, same 53-ins multiset). Splitting the load into its own
+ *    statement `h = D_8018115C[i];` placed BEFORE `p[2] = 0` (exactly what the Ghidra
+ *    seed showed) puts the lhu chain right after `sh $v0,4($a0)` → 0.
+ *
+ * Data typing: D_80181140 is a WORD array (`sll $v0,$s0,2`; its element is dereferenced
+ * as a buffer by func_80024054) => u8 *[]. D_80181158 is byte-indexed (`lbu`, no shift)
+ * => u8[]. D_8018115C is halfword-indexed (`sll $s0,$s0,1` + `lhu`) => u16[].
+ * `*(s16 *)(p + 4) = -0xD7` emits `addiu $v0,$zero,-0xD7`; 0xFF29 as a u16 would not.
+ */
+
+
+extern s32 func_800D2CA8(s32 a0, s32 a1);
+extern void func_800D2D10(s32 a0, s32 a1, void *a2, s32 a3);
+extern s32 func_80024054(void *a0, void *a1);
+extern s32 func_8016EC0C(s32 a0, s32 a1);
+
+void func_8016E9EC(u8 *p)
+{
+
+    extern u8 *D_80181140[];
+    extern u8 D_80181158[];
+    extern u16 D_8018115C[];
+    register u32 zr __asm__("$0");
+    int i;
+    int c;
+    u8 *buf;
+    u8 off;
+    u16 h;
+    s32 r;
+
+    i = p[0] - 1;
+    off = D_80181158[i];
+    buf = D_80181140[i];
+    c = i + zr;
+    r = func_800D2CA8(p[3], 0x1C);
+    func_800D2D10(r, 1, buf + off, 0);
+    func_80024054(buf, p + 8);
+    p[3] = c;
+    *(s16 *)(p + 4) = -0xD7;
+    h = D_8018115C[i];
+    p[2] = 0;
+    *(u16 *)(p + 6) = h;
+    p[1] = p[1] + 1;
+    ((void (*)(u8 *, s32))func_8016EC0C)(p, 0x80);
+}
+
 
 
 // @class: struct

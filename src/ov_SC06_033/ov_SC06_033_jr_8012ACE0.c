@@ -2290,7 +2290,44 @@ void func_801330E0(param_1, param_2, param_3)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_033/nonmatchings/ov_SC06_033_jr_8012ACE0", func_80133298);
+
+/* 32-byte opaque block: drives gcc's movstrsi block-move (4x lw / 4x sw, cookbook
+ * struct-fold) instead of 8 serial lw/sw pairs. Locally named (engine_types.h's
+ * identical `Blk32` is an anonymous-tag typedef -> a same-name redefinition here
+ * is a C89 error in the real TU). */
+typedef struct { s32 w[8]; } Blk32L_80133298;
+
+
+extern void func_8012F0BC(s32 *a0, s32 *a1, s32 *a2);
+extern void func_8012B2CC(s32 a0);
+extern void func_8013339C(s16 *a0, s16 *a1);
+extern void func_8012F1A4(s32 *a0, s32 a1, s32 *a2);
+
+void func_80133298(s32 *a0)
+{
+
+    extern u8 D_80126B5C; /* canonical decl (engine_core.h DEFINE_func_8012BD14) */
+    extern s32 D_80126B5C_w __asm__("D_80126B5C"); /* same symbol, s32 view */
+    extern s32 D_80126B60;
+    extern s32 D_80126B64;
+    s32 in[3];
+    s32 out[3];
+    s32 tmp[3];
+    Blk32L_80133298 m;
+
+    in[0] = D_80126B5C_w;
+    in[1] = D_80126B60;
+    in[2] = D_80126B64;
+    func_8012F0BC((s32 *)(a0[8] + 0x34), in, tmp);
+    func_8012B2CC((s32)a0);
+    m = *(Blk32L_80133298 *)(a0[8] + 0x34);
+    func_8013339C((s16 *)&m, (s16 *)(a0[8] + 0x18));
+    func_8012F1A4((s32 *)&m, (s32)tmp, out);
+    D_80126B5C_w = out[0];
+    D_80126B60 = out[1];
+    D_80126B64 = out[2];
+}
+
 
 DEFINE_func_8013339C()  /* dedup: shared engine-core @0x8013339C (src/shared) */
 

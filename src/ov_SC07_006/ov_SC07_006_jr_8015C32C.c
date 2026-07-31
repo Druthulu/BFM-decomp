@@ -55,7 +55,6 @@ extern void func_80129C40(s32 a0);
 extern void func_800D0630(void);
 extern void func_80145CEC(void);
 extern void func_80144B9C();
-extern u8 D_800B9A17;
 extern u8 D_800B9A10;
 extern void func_80128420(void);
 extern s32 func_800D0588(void);
@@ -209,7 +208,6 @@ extern void func_8012A860(void *a0, int a1);
 extern void func_8012A8B0(u8 *a0, s32 a1);
 extern void func_8012A8E8(void);
 extern u8 D_801202A0[];
-extern u16 D_801270C0;
 extern void func_8012A988(u8 *a0);
 extern void func_8012A908(void);
 extern s32 func_8012ACE0(void *a0);
@@ -1022,7 +1020,6 @@ extern void MoveImage(void *a0, s32 a1, s32 a2);
 extern s32 func_80146128(void);
 extern void func_80146360(void);
 extern void func_801463A0();
-extern u8 D_80078EC1;
 extern s32 D_80078EC8;
 extern s32 D_80126B9C;
 extern s32 D_8011F730;
@@ -3722,7 +3719,44 @@ void func_8015FAE8(void *arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_8015C32C", func_8015FBE0);
+
+extern void func_80147078(s32 *a0, s16 a1);
+extern void func_80159B70(void *a0);
+extern void func_80154150(s32 a0, s32 a1);
+extern void func_80154A74(s32 a0, s32 a1);
+extern s32 func_80146A6C(s32, void*, s32, s32, s32, s32, s32);
+extern void func_80147324(s32 a0);
+extern void func_801553A8(s32 *a0);
+extern void func_801553C0(s32 a0);
+extern void func_80146CA0(void *a0);
+
+
+void func_8015FBE0(s32 *param_1)
+{
+
+    extern void (*D_8018CAA8[])(void *);
+    extern u8 D_80078EC1;
+    extern u16 D_801270C0;
+    extern u8 D_800B9A17;
+    if (param_1[0x61] < 0) {
+        ((void (**)())D_8018CAA8)[*(u16 *)param_1]();
+        ((void (*)(s32 *, s16))func_80147078)(param_1, 0);
+        ((void (*)(s32 *))func_80159B70)(param_1);
+    } else {
+        __asm__ __volatile__("");
+        D_80078EC1 = 0;
+        ((void (*)(s32 *, s32))func_80154150)(param_1, 0x20);
+        ((void (*)(s32 *, s32))func_80154A74)(param_1, 0x18);
+        ((void (*)(s32, s32 *, s32, s32, s32, s32, s32))func_80146A6C)(0x16, param_1, 0, 0, 0, 0, 0);
+        func_80147324(0x44F);
+        ((void (*)(s32 *))func_801553A8)(param_1);
+        ((void (*)(s32 *))func_801553C0)(param_1);
+        D_801270C0 = 2;
+        D_800B9A17 = 0;
+        ((void (*)(s32 *))func_80146CA0)(param_1);
+    }
+}
+
 
 extern void func_801599A4(void *a0);
 
