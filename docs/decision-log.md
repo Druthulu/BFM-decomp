@@ -1350,9 +1350,21 @@ hand-verified byte-identical first.
 build step the member's own bank requires — the §53 carve, the -O0 flag (Task 1), AND now the member's
 CANONICAL DECLARATION when a shared header forward-declares it. The plain sweep's premise ("remapped drafts
 are self-contained") is false whenever `engine_core.h` already declares the member with a caller-derived
-signature. `--fix-def-sig` should likely be default-on for the h_seq path. And the meta-lesson, hammered
+signature. ~~`--fix-def-sig` should likely be default-on for the h_seq path.~~ And the meta-lesson, hammered
 three times in one task: **a masked/intermediate MATCH is a candidate, never a diagnosis — reproduce the
 real build and read the real error before naming the cause (R35).**
+
+> **⛔ SUPERSEDED (P30 T4 audit, 2026-07-31) — do NOT act on the struck sentence.** Making
+> `--fix-def-sig` default-on was byte-refuted by **T84 / §119**: the flag is a **REPAIR, not a default**.
+> It rewrites a member draft's def signature to the shared-header canonical, which is right when the
+> draft contradicts a *correct* header and **destructive when the draft is right and the header is
+> wrong** — on `0x80161c98` it imposed a signedness-wrong `s32 a1` over the true `u32`, turned a
+> byte-correct draft into a 1-instruction DIFF (`slti` vs `sltiu`), and **held 137 members at 0 until
+> the flag was DROPPED**. Verified this session: the flag defaults OFF (`action="store_true"`, single
+> consumer via `getattr(a,"fix_def_sig",False)`) and **no caller anywhere passes it**. The posture is
+> correct; only this recommendation was stale. Left struck-through rather than deleted so the original
+> reasoning stays legible (R31) — but a forward-looking "should be default-on" in a doc a fresh session
+> reads for direction is a live hazard, not a historical note.
 
 ### 2026-07-18 — P29 jtbl 8-align wall: the half-pin was INVERTED (vacuous probes), the fix is a pad-spec filter (§8e)
 

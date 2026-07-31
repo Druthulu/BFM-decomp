@@ -21,6 +21,41 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import p16_permute, gate_stage, backlog, autopsy, corpus
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+
+def permute_ils(pd, secs, j, cycles, fn, log):
+    """Iterated-local-search permute: `cycles` timeboxed runs, each WARM-RESTARTED from the best
+    byte-waypoint of the previous one. Returns the winning output-0 path, or None.
+
+    WHY (Phase-24 §G, and the P30 T4 reason this replaced the single cold call): a COLD
+    `run_permuter` plateaus at the base score — the big drops come from FRESH restarts seeded at the
+    best waypoint, not from letting one plateaued run continue (proven on func_80148094: 72 -> 36
+    over ~8 restarts). The grinder had `permuter_ils.py` sitting beside it since Phase 24 and never
+    used it, so every grind was a cold search: it burned the full time box re-descending ground the
+    previous cycle had already covered.
+
+    `cycles=1` reproduces exactly the old cold behaviour, so the change is opt-out.
+    The winner is still only a CANDIDATE — the whole-binary byte-gate remains the sole arbiter
+    (G3/P9); intermediate waypoints can be semantically divergent (the permuter rewrites stores for
+    byte-proximity), which is precisely why a waypoint is never banked, only re-seeded."""
+    import permuter_ils
+    prev = None
+    for cyc in range(1, max(1, cycles) + 1):
+        win = p16_permute.run_permuter(pd, secs, j)
+        if win:
+            return win
+        bw = permuter_ils.best_waypoint(pd)
+        if bw is None:
+            log(f"  {fn}: ILS cycle {cyc}/{cycles} — no waypoint yet")
+            continue
+        score, d = bw
+        if prev is not None and score >= prev:
+            log(f"  {fn}: ILS cycle {cyc}/{cycles} — best {score} (no gain; stopping early)")
+            break
+        log(f"  {fn}: ILS cycle {cyc}/{cycles} — best {score}, warm-restarting")
+        shutil.copy(os.path.join(d, "source.c"), f"{pd}/base.c")
+        prev = score
+    return None
 AUTODIR = ".run/auto"
 STOP = f"{AUTODIR}/STOP"
 HB = f"{AUTODIR}/grinder_heartbeat.json"
@@ -171,7 +206,12 @@ def candidates(max_nins, max_close, tried, attempts, blacklist, verdicts=None, s
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--permute-secs", type=int, default=120)
+    ap.add_argument("--permute-secs", type=int, default=120,
+                    help="per-CYCLE time box (see --cycles)")
+    ap.add_argument("--cycles", type=int, default=4,
+                    help="ILS warm-restart cycles per function (P30 T4). Each cycle re-seeds base.c "
+                         "from the previous cycle's best byte-waypoint; stops early on no gain. "
+                         "--cycles 1 = the old single cold search.")
     ap.add_argument("-j", type=int, default=14)
     ap.add_argument("--batch", type=int, default=10)
     ap.add_argument("--max-nins", type=int, default=220)
@@ -273,7 +313,7 @@ def main():
                                        where=r.get("where_stuck") or "")
                 if not pd:
                     continue
-                win = p16_permute.run_permuter(pd, a.permute_secs, a.j)
+                win = permute_ils(pd, a.permute_secs, a.j, a.cycles, fn, log)
                 if win:
                     _wtext = p16_permute.winner_to_draft(open(win).read())
                     open(os.path.join(REPO, DRAFTS, fn + ".c"), "w").write(_wtext)
