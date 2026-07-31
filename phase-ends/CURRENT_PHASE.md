@@ -90,7 +90,7 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 > Effort **xHigh** (Drew, session start). `make tools-health` RC=0 at session open.
 
 ## FLEET — R22 clean-fleet **140 passed / 0 failed** (verified this session, genuinely clean tree)
-**92.70% fn-count · 88.3% instr-weighted · 78.7% distinct-code** (70,590 / 87,459 unique fns) ·
+**92.71% fn-count · 88.3% instr-weighted · 78.7% distinct-code** (70,594 / 87,459 unique fns) ·
 dedup 1904/0 · 0 NON_MATCHING linked. Phase opened at 92.00 / 87.5 / 78.0.
 
 ## WHAT LANDED THIS SESSION
@@ -120,7 +120,40 @@ directly: `git checkout -- config/` WITHOUT a re-extract turned a byte-identical
 revert · revert-on-abort · verify the baseline against canonical too). Ledger classes corrected to
 `UNREPRODUCIBLE-RETEST-NEUTRAL` / `JTBL-CARVE-BREAKS-BYTES` / `BODY-TEMPLATE-GATE-FAIL`.
 
+## ✅ T2 — THE CARVE-WITHIN-A-CARVE IS PROVEN AND TOOLED (Max pass; the phase's biggest unblock)
+The roadmap called T2 blocked on the **Arm-A splat `%lo +0x20`** defect. **It is not.** Four probes,
+one variable each, SHA vs canonical from a clean tree:
+| probe | isolated | result |
+|---|---|---|
+| 1 | sub-split a jr object at arbitrary addrs, pure `-O2` | **BYTE-NEUTRAL — Arm-A does not bite** |
+| 2 | same split, middle region → `-O0` | diverged (2 vars — inconclusive) |
+| 3 | probe-1's *name*, `-O0` flag only | diverged ⇒ **the FLAG, not the name** |
+| 4 | `-O0` regions cut to EXCLUDE matched bodies | **BYTE-IDENTICAL — route proven** |
+
+**THE LAW (cookbook §126): an address range is not an optimization region.** A range selected by
+address contains already-**MATCHED** bodies (`DEFINE_func_*()` from `engine_core.h`, compiled `-O2`);
+flipping the FILE recompiles them and they stop matching. Bound = *(range) MINUS (matched bodies)*;
+K interleaved matched fns ⇒ K+1 `-O0` sub-regions.
+**My own earlier "15 contiguous `-O0` fns, clean cut" was an UNDER-COUNT** — I derived it by scanning
+`asm/**/*.s` for the fp-prologue, and a matched fn emits no `.s`, so the scan was blind to exactly
+the bodies that break the flip (§124's shape, again).
+
+**Shipped:** `tools/o0_subsplit.py` (derives bounds from SOURCE anchors, K+1 regions, `_o0<letter>`
+naming, one-carve-per-region law, reuses `jr_isolate_all` verbatim) · Makefile `-O0` glob widened
+`_o0b`→`_o0?` (a missed rule is SILENT — the region would compile `-O2` and every residual be a pure
+artifact, §116; `corpus.o0_sources()` re-verified, 137 sources) · **6 fns banked** (ov_SC03_014 +
+ov_SC03_015 ×3 each; globals derived from each overlay's OWN asm, 6/6 `--o0` MATCH, 6/6 gated).
+The tool reproduced the hand-derived structure **first try** on the untouched sibling overlay.
+
+**WHAT IT UNBLOCKS (measured now, not the stale T0 pin):** the pinned `-O0` cluster
+`0x8013B568..0x8013C98C` currently has **275 open stub instances across 18 overlays**, homed in
+`<ov>_jr_801380E0.c` — an `-O2` jr split, i.e. exactly this tool's case. *(The T0(f) pin of "2,192
+open members" is stale — S27's waves consumed most of it. Re-derive before costing, R37.)*
+Plus 24 more draftable stubs in the 4th region. **These were un-bankable at any effort before.**
+
 ## ▶ RESUME HERE (nothing blocked except where noted)
+0. **[T2 continuation, xHigh] Run `o0_subsplit` across the 18 overlays of the `0x8013B568` cluster**,
+   gate each, then draft the 275. The route is proven; this is execution.
 1. **[REAL, and now correctly scoped] `jtbl_carve` diverges on ov_SC06_018 after a neutral isolate**
    — the ONE confirmed instrument failure (blocks the 710-ins `func_80191C50`). Compare against
    `ov_SC05_010`, whose full chain succeeded this session; §8e's interior-pad law + `JTBL_PADS` and
