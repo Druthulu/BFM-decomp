@@ -110,7 +110,7 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 
 # 🛑 SESSION-28 CHECKPOINT (2026-07-31 08:1x) — FRESH SESSION SAFE HERE
 > Supersedes SESSION-27 below. **Nothing is running. Tree lock FREE. Tree clean** but for the R23
-> `db.*.gbf` churn (never stage). **HEAD `commit:1281`** (+ this doc commit).
+> `db.*.gbf` churn (never stage). **HEAD `commit:1284`** (+ this doc commit).
 > Effort: opened **xHigh** → **Max** for the jr re-measurement and the T2 probe ladder → back to
 > **xHigh** for the driver + sweep. `make tools-health` RC=0 at session open.
 > **R22 clean-fleet run FIVE times this session, 140/140 every time.**
@@ -233,6 +233,21 @@ re-derived the same undocumented idiom, and two found their decisive levers in a
 CONSTANT-OFFSET FOLD `p->f`→`lbu 3(r)` vs `p[i]`→`addiu;lw 0(r)`; spills are real named locals;
 write plain C), **§127a** (§71 sibling-first is the strongest `-O0` lever — read the banked fns in
 the target's own `_o0*` file first), **§127b** (promote levers out of source comments).
+
+## 🔎 §128 — 137 SOURCES WERE INVISIBLE TO GREP (found by accident; the session's sharpest catch)
+`grep -rn func_8013C08C src/` returned **nothing** for a function defined right there. The file held
+a **raw NUL inside a char literal** (`== '<NUL>'` instead of `== '\0'`). It COMPILES — the fleet was
+byte-identical — but `file(1)` calls it `data` and **grep treats it as BINARY and prints nothing,
+silently**. The file vanishes from every grep-based audit and hand search.
+**Scope: 137 files — every `_o0c`/`_o0e` region created THIS session.** A templated body carried the
+NUL, so one defective source propagated it fleet-wide in an afternoon. All fixed; **R22 140/140**.
+**New oracle:** `tools/audit_text_sources.py` + `make audit-text-sources`, in `tools-health`,
+coverage-asserted over all 3,887 tracked `.c`/`.h` (R32). The byte-gate is structurally blind to this
+(R34 — the bytes are *correct*), so it needed its own oracle. Same family as §124/§126a, one layer
+lower: in the tool everyone reaches for first.
+**My error, recorded (§128a):** the negative control corrupted the REAL tracked file and its restore
+left `'\\0'` (a multi-char constant) — R22 caught it at 139/140 before any commit. **A negative
+control must mutate a scratch copy under `.run/`, never the artifact it validates.**
 
 ## ▶ RESUME HERE (nothing blocked except where noted)
 0. **[T3, breadth] DRAFT the 2,200 newly-`-O0`-routed stubs** — 16 distinct addresses × ~137

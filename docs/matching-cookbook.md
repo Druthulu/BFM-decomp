@@ -8382,3 +8382,47 @@ Two agents reported their decisive levers came from the header comment at the to
 where only someone already editing that file will find it. **When a lever is discovered in a source
 comment, promote it to the cookbook and leave a pointer** — otherwise every future agent pays to
 rediscover it, which is exactly what happened here across 12 of 15 targets.
+
+## §128 — A raw NUL in C source makes grep SILENTLY SKIP the file (P30 S28, 137 files)
+
+**Symptom.** `grep -rn func_XXXXXXXX src/` returns **nothing** for a function that is plainly defined
+in `src/`. `corpus.stubs` says it is not a stub (so: matched). The build is byte-identical. Every
+statement is true and they look contradictory.
+
+**Cause.** The file contains a **raw NUL byte**, almost always a control character written straight
+into a character literal — the source reads `== '<NUL>'` where it should read `== '\0'`:
+```c
+if (*(char *)(p + 4) == '\0') { ... }     /* correct */
+if (*(char *)(p + 4) == '<NUL>') { ... }  /* compiles the same; file is now BINARY */
+```
+`file(1)` reports `data` instead of `C source`, and **grep treats any file containing NUL as binary
+and prints nothing** — no warning, no error, exit 0. The file disappears from every grep-based audit
+and every hand search, invisibly.
+
+**Why no existing gate catches it.** The byte-gate is structurally blind here (**R34**): the compiled
+bytes are *correct*, so it has nothing to say. `cc1` accepts the literal. `check-all` stays green.
+The defect lives entirely in the *readability* of the source to tooling — a dimension no byte oracle
+measures. Same family as **§124** (a scanner that cannot see something reports it is not there) and
+**§126a** (a bare `except` swallowing a coverage assertion), one layer lower: in the tool everyone
+reaches for first.
+
+**Scope when it was found: 137 files.** Every `_o0c`/`_o0e` region created in one session — a
+templated body carried the NUL, so a single defective source propagated it fleet-wide in an
+afternoon. A defect that is invisible to grep is also invisible to the review that would have caught
+it spreading.
+
+**The oracle:** `tools/audit_text_sources.py` / `make audit-text-sources`, in `tools-health`,
+coverage-asserted over every tracked `.c`/`.h` (R32). Fix is `'<NUL>'` → `'\0'`, then re-gate to
+prove byte-neutrality (it is, but prove it).
+
+### §128a — a negative control must corrupt a SCRATCH COPY, never the tracked file
+Proving the new guard fires, I injected a NUL into the **real** tracked file and restored it through
+nested shell escaping. The restore left `'\\0'` — an escaped backslash, a *multi-character constant*,
+not a NUL. That IS a semantic change, and R22 duly failed 139/140. Repaired and re-verified 140/140;
+nothing was ever committed.
+
+**The rule: test a guard against a throwaway copy under `.run/`.** A negative control that mutates
+the artifact it is validating can introduce the exact defect it exists to detect — and the more
+convincing the control, the more dangerous the restore. Corollary, learned the same minute: a
+verification pipeline ending in `grep -c PATTERN` **exits 1 when the count is 0**, so the SUCCESS
+case reports failure. Read the output; an exit status is not the oracle (§125's rule 1, again).
