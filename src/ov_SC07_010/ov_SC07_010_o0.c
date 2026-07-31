@@ -134,15 +134,7 @@ INCLUDE_ASM("asm/ov_SC07_010/nonmatchings/ov_SC07_010_o0", func_8013C08C);
 INCLUDE_ASM("asm/ov_SC07_010/nonmatchings/ov_SC07_010_o0", func_8013C0F8);
 
 
-void func_8013C360(s32 a0) {
-    s32 *p;
-    u32 i;
-    p = (s32 *)(a0 + 0x10);
-    for (i = 0; i < *(u32 *)(a0 + 8); i++) {
-        *(s32 *)(*(s32 *)p) = *(s32 *)((s32)p + 4);
-        p = (s32 *)((s32)p + 0xC);
-    }
-}
+DEFINE_func_8013C360()  /* dedup: shared engine-core @0x8013C360 (src/shared) */
 
 
 INCLUDE_ASM("asm/ov_SC07_010/nonmatchings/ov_SC07_010_o0", func_8013C414);

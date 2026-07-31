@@ -84,7 +84,6 @@ extern s32 D_8019C924;
 extern void func_80029444(void);
 extern void func_800D1754(void);
 extern s32 D_80126B58;
-extern s32 D_8019DD60;
 extern u16 D_800B99DA;
 extern void func_80129CF8(void);
 extern void func_8017849C(void);
@@ -750,23 +749,123 @@ extern u16 D_800D45F6;
 /* ==== end §8b carried decl layer ==== */
 
 
-INCLUDE_ASM("asm/ov_SC04_006/nonmatchings/ov_SC04_006_o0c", func_8013B568);
 
-INCLUDE_ASM("asm/ov_SC04_006/nonmatchings/ov_SC04_006_o0c", func_8013B598);
+void func_8013B568(s32 arg0) {
 
-INCLUDE_ASM("asm/ov_SC04_006/nonmatchings/ov_SC04_006_o0c", func_8013B6A0);
+    extern s32 D_80180328;
+    D_80180328 = arg0;
+}
 
-INCLUDE_ASM("asm/ov_SC04_006/nonmatchings/ov_SC04_006_o0c", func_8013B7AC);
 
-INCLUDE_ASM("asm/ov_SC04_006/nonmatchings/ov_SC04_006_o0c", func_8013B7F4);
+
+/* func_8013B598 (ov_SC01_077_o0, -O0): fills entry a0 of the 0x1C-stride table at
+ * D_8019DCA8 from a 3-halfword source record.
+ *
+ * -O0 CONSTANT-OFFSET FOLD (the quirk that stalled this -O0 cluster in Phase 19):
+ * at -O0 gcc-2.7.2 folds a constant offset into the memory operand ONLY through a
+ * COMPONENT_REF / a real ARRAY_REF on an array-typed DECL:
+ *     D_8019DCA8[a0].f4 = ...   ->  lui $at,%hi(sym); addu $at,$at,idx; sh %lo(sym+4)($at)
+ * A CAST base defeats it (NOP_EXPR over the ADDR_EXPR), and so does pointer indexing:
+ *     ((S *)D_8019DCA8)[a0].f4  ->  lui;addiu;addu;sh 4(reg)      (+2 ins per store)
+ *     a1[1]                     ->  addiu $v1,$a0,2; lhu 0($v1)   (+1 ins per load)
+ * So the table extern must carry the FULL struct type (not the pad-only canonical
+ * E_3B7AC), and the source record must be read as ->field, not as a[i]. Casting the
+ * incoming POINTER is harmless (a NOP on a register), only the base decl's type matters.
+ *
+ * Both types are body-scoped (cookbook §100) and the extern is declared inside the body,
+ * matching the established -O0 sibling pattern in src/ov_SC07_010/ov_SC07_010_o0.c
+ * (func_8013B7AC: `extern E_3B7AC D_801A9420[];` in-body). NOTE FOR BANKING: the canonical
+ * sig-layer decl `extern E_3B7AC D_8019DCA8[];` (f0 + pad only) CANNOT be used here — it has
+ * no f4/f6/f8/fC members. The in-body decl below must be the one that survives; do not also
+ * emit a file-scope E_3B7AC decl for D_8019DCA8 (conflicting types).
+ *
+ * 66/66 instructions byte-identical (match_one --o0).
+ */
+void func_8013B598(s32 a0, u16 *a1) {
+    typedef struct { u16 f0; u16 f2; u16 f4; } Src_8013B598_8013B598;
+    typedef struct { s32 f0; u16 f4; u16 f6; u16 f8; u16 fA; s32 fC; u8 pad[0xC]; } Spr_8013B598_8013B598;
+    extern Spr_8013B598_8013B598 D_8019DCA8[];
+
+    D_8019DCA8[a0].f0 = 1;
+    D_8019DCA8[a0].f4 = ((Src_8013B598_8013B598 *)a1)->f0;
+    D_8019DCA8[a0].f6 = ((Src_8013B598_8013B598 *)a1)->f2;
+    D_8019DCA8[a0].f8 = ((Src_8013B598_8013B598 *)a1)->f4;
+    D_8019DCA8[a0].fC = 0x100;
+}
+
+
+
+
+void func_8013B6A0(s32 idx, u16 *src, s32 val)
+{
+    typedef struct {
+        s32 f0;
+        u16 f4;
+        u16 f6;
+        u16 f8;
+        u16 fA;
+        s32 fC;
+        u8  pad[0xC];
+    } Ent_8013B6A0_8013B6A0;
+    typedef struct {
+        u16 f0;
+        u16 f2;
+        u16 f4;
+    } Src_8013B6A0_8013B6A0;
+    extern Ent_8013B6A0_8013B6A0 D_8019DCA8[];
+
+    D_8019DCA8[idx].f0 = 1;
+    D_8019DCA8[idx].f4 = ((Src_8013B6A0_8013B6A0 *)src)->f0;
+    D_8019DCA8[idx].f6 = ((Src_8013B6A0_8013B6A0 *)src)->f2;
+    D_8019DCA8[idx].f8 = ((Src_8013B6A0_8013B6A0 *)src)->f4;
+    D_8019DCA8[idx].fC = val;
+}
+
+
+typedef struct { s32 f0; u8 pad[0x18]; } E_3B7AC_8013B7AC;   /* sizeof 0x1C stride */
+void func_8013B7AC(int a0) {
+    extern E_3B7AC_8013B7AC D_8019DCA8[];
+ D_8019DCA8[a0].f0 = 0; }
+
+
+
+
+void func_8013B7F4(s32 a0, s32 a1) {
+
+    extern s32 D_8019DDC4;
+    func_8013B83C(a0, a1, D_8019DDC4);
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_006/nonmatchings/ov_SC04_006_o0c", func_8013B83C);
 
 INCLUDE_ASM("asm/ov_SC04_006/nonmatchings/ov_SC04_006_o0c", func_8013BC7C);
 
-INCLUDE_ASM("asm/ov_SC04_006/nonmatchings/ov_SC04_006_o0c", func_8013BCDC);
 
-INCLUDE_ASM("asm/ov_SC04_006/nonmatchings/ov_SC04_006_o0c", func_8013BD34);
+/* func_8013BCDC (ov_SC01_077_o0, -O0): guarded indirect call through D_80180328.
+ * D_80180328 is declared `extern s32` in the TU (canonical-sig layer) and holds a
+ * function pointer; read it as an s32, test non-null, cast to fn-ptr and call.
+ * Frame residual: target frame is 0x30 (saves $ra/$fp/$s0 at 0x28/0x24/0x20) — 16
+ * bytes of var_size above the minimal 0x20. At -O0 (no DCE) an unused 16-byte local
+ * reserves exactly that var region (cookbook §42 lever 3, frame-pad induction) with
+ * zero body instructions. 22/22 byte-identical via rtu_match. */
+void func_8013BCDC(void) {
+
+    extern s32 D_80180328;
+    s32 pad[4];
+    if (D_80180328 != 0) {
+        ((void (*)(void))D_80180328)();
+    }
+}
+
+
+
+void func_8013BD34(s32 a0) {
+
+    extern s32 D_8019DD60;
+    func_8013BD74(&D_8019DD60, a0);
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_006/nonmatchings/ov_SC04_006_o0c", func_8013BD74);
 
@@ -774,10 +873,23 @@ INCLUDE_ASM("asm/ov_SC04_006/nonmatchings/ov_SC04_006_o0c", func_8013C08C);
 
 INCLUDE_ASM("asm/ov_SC04_006/nonmatchings/ov_SC04_006_o0c", func_8013C0F8);
 
-INCLUDE_ASM("asm/ov_SC04_006/nonmatchings/ov_SC04_006_o0c", func_8013C360);
+DEFINE_func_8013C360()  /* dedup: shared engine-core @0x8013C360 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC04_006/nonmatchings/ov_SC04_006_o0c", func_8013C414);
 
-INCLUDE_ASM("asm/ov_SC04_006/nonmatchings/ov_SC04_006_o0c", func_8013C938);
 
-INCLUDE_ASM("asm/ov_SC04_006/nonmatchings/ov_SC04_006_o0c", func_8013C964);
+
+void func_8013C938(void) {
+
+    extern s32 D_8019DD60;
+    D_8019DD60 = 1;
+}
+
+
+
+void func_8013C964(void) {
+
+    extern s32 D_8019DD60;
+    D_8019DD60 = 0;
+}
+
