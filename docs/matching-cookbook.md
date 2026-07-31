@@ -8195,3 +8195,42 @@ defect waiting to be measured.
 "nothing to do here." **Pass `--band all` (or the family's band) before concluding anything.** Same
 shape as §53 (the missing carve) and §116 (the wrong opt level): a 0 from the wrong invocation is not
 evidence. Check the band the family map assigned before you spend a probe on the residual.
+
+## §125 — Split the CARVE from the BODY before you call a jr family a wall (P30 SESSION-28)
+
+Three targets refused the whole-binary gate this session in the jr/jtbl path. Two of them looked like
+separate walls and were the **same tooling failure**; the third is a different stage entirely. The
+diagnostic that separated them is one build long, and it should run before any jr residue is ledgered.
+
+**The diagnostic.** Run `jtbl_carve` on the sibling **with no body spliced at all**, then
+`make extract && make build`:
+
+```bash
+make extract BINARY=$OV && make build BINARY=$OV        # baseline must be BYTE-IDENTICAL
+tools/jtbl_carve.py $OV --func $FN                      # carve ONLY — no draft, no remap
+make extract BINARY=$OV && make build BINARY=$OV
+#   byte-identical  -> the carve is neutral; the failure is the TEMPLATED BODY
+#   NOT identical   -> the failure is the CARVE; the body was never even tested
+```
+
+**Measured (P30 S28).** `func_8017BEBC` group B (13 open members, 103 banked in an earlier phase) had
+gate-failed **3 probes in a row** — default mode *and* `--raw`, a cross-address member *and* a
+same-address one. Every one of those probes was spending a build on a body that never got a fair
+test: carve-only on `ov_SC04_004` broke the bytes with **nothing spliced**. The same stage had already
+refused behemoth `func_80191C50` on `ov_SC06_018` (isolate clean, post-carve NOT identical). One
+tooling problem, two targets that looked unrelated.
+
+By contrast `func_8018057C` on `ov_SC01_009` failed at **step 1** (`jr_isolate_all` reported success —
+2 jr in 1 `-O2` object → 2 region `.c` — but the post-isolate build was not identical). Different
+stage, different bug, and grouping it with the other two would have hidden that.
+
+**Why this matters more than the three functions.** A jr residue is the single easiest place to
+manufacture a false wall: `match_one` masks the relocations (§81), so the candidate gate says MATCH,
+the real gate says DIFF, and the natural reading is "the compiler beat us." §53 is the standing
+warning that a 0% from the wrong tool steered two phases of strategy. **The carve-vs-body split makes
+the ambiguity cheap to resolve** — and note that BOTH tools *reported success* on every failing
+target. A tool's own exit code is not the oracle; the whole-binary gate is (G3/P9).
+
+**Ledger the STAGE, not the function.** `JTBL-CARVE-BREAKS-BYTES` and `JR-ISOLATE-BREAKS-BYTES` are
+actionable instrument-repair tickets; "func_X is hard" is not. If a later fix lands on the carve, the
+ledger already names every target it should re-open.

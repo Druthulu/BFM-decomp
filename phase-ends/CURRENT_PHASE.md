@@ -96,13 +96,29 @@ dedup 1904/0 · 0 NON_MATCHING linked. Phase opened at 92.00 / 87.5 / 78.0.
 ## WHAT LANDED THIS SESSION
 - **Resume item 2 CLOSED — the "137 no matched unit" class: 137/137 banked, 0 failed** (`commit:1261`),
   behind a one-line-class tool fix (`commit:1260`). R22 140/140. Cookbook **§124/§124a**.
+- **Resume item 3 CLOSED as 1-of-3 + group B 0/13, all ledgered with evidence** (`commit:1263`):
+  `func_80181CDC` (769 ins) banked via the §81 chain, R22 140/140.
 - **Resume item 1 RE-SCOPED (not banked)** — see below; it is T2 work, and now T2's best ×1 probe.
 
+## 🔧 THE ONE INSTRUMENT TICKET THIS SESSION OPENED (the highest-value carry)
+**`jtbl_carve` breaks bytes on a subset of overlays** — proven by a body-free diagnostic (§125):
+carve ALONE on `ov_SC04_004`, nothing spliced → build NOT byte-identical. That single finding
+explains **two** targets that looked like unrelated walls:
+- group B `func_8017BEBC` — 13 open members (103 banked earlier), **3 probes / 0 banks** (default
+  AND `--raw`; cross-address `ov_SC02_015` AND same-address `ov_SC04_004`). Every probe was
+  spending a build on a body that never got a fair test.
+- behemoth `func_80191C50` / `ov_SC06_018` — isolate clean, **post-carve** not identical.
+A THIRD target fails at a *different* stage and must not be grouped with them:
+- behemoth `func_8018057C` / `ov_SC01_009` — **`jr_isolate_all`** (step 1) reported success but the
+  post-isolate build was not identical.
+**Both tools reported success on every failing target; only the whole-binary gate refused.**
+Ledgered as `JTBL-CARVE-BREAKS-BYTES` / `JR-ISOLATE-BREAKS-BYTES` (the STAGE, not the function), so a
+carve fix auto-reopens every target it should. **None is diagnosed ⇒ none is called a compiler wall.**
+
 ## ▶ RESUME HERE (nothing blocked except where noted)
-1. **The 3 jr behemoths + group B's carve** (staged `.run/beh-gate/<binary>/`; member list
-   `.run/jtbl_members_0x80191c50.json`). **Both run `make extract` — run ALONE under
-   `tools/treelock.sh`.** ⚠️ Re-derive which of the 7 staged fns are still stubs FIRST — 4 were
-   banked in SESSION-27 and the staging dir still holds all 7.
+1. **[INSTRUMENT, highest ROI] Diagnose `jtbl_carve`'s byte-break** (§125 + the two ledger classes).
+   It gates group B's 13 members AND a 710-ins behemoth today, and every future jr family routes
+   through it. R35 says fix the instrument before spending more probes against it.
 2. **T2 `-O0` carve-within-a-carve.** Open with the **×1 probe on the 4th region** (below) — smaller
    blast radius than the planned `ov_SC07_007` and it is the Arm-A `%lo +0x20` shift oracle.
 3. **Next wave**: 3,873 fresh cached cores across 119 binaries (`.run/p30w4_pool.json`), dealt ACROSS
