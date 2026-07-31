@@ -8253,3 +8253,56 @@ same failure one level up: **a verdict from the wrong *measurement* manufactures
 efficiently.** R35 says fix the instrument before trusting its measurement — and *my own diagnostic
 script is an instrument*, subject to the same rule as the tools it audits. The saving grace is that
 the method in this section is what refuted the section's own first conclusion, one build at a time.
+
+## §126 — The carve-within-a-carve: an ADDRESS RANGE is not an OPTIMIZATION REGION (P30 T2, byte-proven end-to-end)
+
+A 4th `-O0` region was found *inside* an `-O2` jr split (`0x80183CF0..0x80184920`, ov_SC03_014 +
+ov_SC03_015). Banking it needs the containing object sub-split into pre/`-O0`/post — the
+"carve within a carve" the roadmap had flagged as blocked on the Arm-A splat `%lo +0x20` defect.
+**It is not blocked.** Four probes, each isolating exactly one variable, SHA vs `config/check.<ov>.sha`
+from a clean tree:
+
+| probe | isolated | result |
+|---|---|---|
+| 1 | sub-split at arbitrary addresses, everything still `-O2` | **BYTE-NEUTRAL** — the re-carve does not shift `%lo`; Arm-A does not bite |
+| 2 | same split, middle region routed `-O0` | diverged (two variables changed at once — inconclusive) |
+| 3 | probe-1's *name*, only the `-O0` flag added | diverged ⇒ **the FLAG, not the subseg name** |
+| 4 | `-O0` regions cut to EXCLUDE matched bodies | **BYTE-IDENTICAL — route proven** |
+
+### The finding: opt level is per FILE, so the file's contents must be opt-HOMOGENEOUS
+§116 says opt level is a property of the FILE. The corollary nobody had needed until now: when you
+select a region **by address range**, you get everything in that range — including functions that are
+already **MATCHED**, whose bodies expand from `engine_core.h` as `DEFINE_func_*()` instantiations and
+are compiled `-O2`. Flipping the file recompiles them, and they stop matching. Here two matched bodies
+(`func_80184440`, `func_801848E4`) sat *interleaved* among the 15 `-O0` stubs. Cut around them —
+`[lo..matched)`, matched stays `-O2`, `[after..hi)` — and the image is byte-identical.
+
+**So the region bound is: (address range) MINUS (already-matched bodies)**, and a range with K
+interleaved matched functions needs K+1 `-O0` sub-regions, not one.
+
+### The instrument trap that hid it (and it is §124's shape again)
+I first derived "15 contiguous `-O0` functions, clean cut" by scanning `asm/<ov>/nonmatchings/**/*.s`
+for the frame-pointer prologue (`addu $fp,$sp,$zero` / `21F0A003`). **A MATCHED function emits no
+`.s`** — splat writes none, because its `.c` carries real C. So that scan is structurally blind to
+precisely the bodies that break the flip, and it reported a clean run where the range was mixed.
+**Derive the region's contents from the SOURCE anchors (`INCLUDE_ASM` stubs *and* `DEFINE_func_*()`
+instantiations, in address order), never from an asm-file scan.** `corpus.stubs` gives the stubs; the
+`DEFINE_func_` instantiations in the region `.c` give the matched ones.
+
+### The mechanics
+- **Cuts:** `jr_isolate_all`'s `plan()` / `build_new_config()` already accept arbitrary cut vrams —
+  region naming is purely positional, so nothing new is needed for the split itself. Inject the cut
+  list and reuse its source-repartition, carve-repoint and ascending/unique validation verbatim.
+- **The one-carve-per-region law still applies:** every already-banked jr in the object must ALSO be
+  a cut, or two carve owners share one object and its single contiguous `.rodata` must host both.
+- **Naming + the Makefile:** name each `-O0` sub-region `<ov>_o0<letter>` and let ONE widened rule
+  select them — the glob is now `$(wildcard src/ov_*/ov_*_o0?.c)` (was `_o0b`). **A missed `-O0` rule
+  is SILENT:** the region compiles `-O2` and every residual it produces is a pure artifact (§116).
+  `corpus.o0_sources()` parses this rule and resolves `?` via glob, so the `-O0` oracle stays honest.
+- **Verify the routing, don't assume it:** `corpus.is_o0("src/<ov>/<ov>_o0c.c")` must return True
+  before you read a single residual from that region.
+
+### Method note
+Probe 2 changed the name *and* the flag and was therefore uninterpretable. Probe 3 — same name as the
+proven-neutral probe 1, flag only — is what produced the answer. **One variable per probe**, and keep
+the previous probe's proven-neutral configuration as the control.
