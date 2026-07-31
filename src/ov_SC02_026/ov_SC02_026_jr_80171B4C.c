@@ -2546,7 +2546,20 @@ DEFINE_func_801733A4()  /* dedup: shared engine-core @0x801733A4 (src/shared) */
 
 DEFINE_func_801733CC()  /* dedup: shared engine-core @0x801733CC (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC02_026/nonmatchings/ov_SC02_026_jr_80171B4C", func_801733FC);
+
+extern void func_801734BC(s32 a0, s32 a1);
+
+void func_801733FC(s32 a0, s32 a1) {
+
+    extern struct S80126B38 D_80126B38;
+    extern s16 D_80126B3E;
+    extern s16 D_80126B40;
+    func_801734BC(a0, a1);
+    D_80126B38 = *(struct S80126B38 *)a1;
+    D_80126B3E = 1;
+    D_80126B40 = 1;
+}
+
 
 DEFINE_func_80173460()  /* dedup: shared engine-core @0x80173460 (src/shared) */
 

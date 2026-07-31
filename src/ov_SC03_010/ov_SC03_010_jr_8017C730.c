@@ -3660,15 +3660,130 @@ s32 func_8017F1A8(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_010/nonmatchings/ov_SC03_010_jr_8017C730", func_8017F1B0);
+
+/* func_8017F1B0 — tiny matrix wrapper.
+ * 0x20-byte local scratch matrix at sp+0x10 (frame 0x40 = 0x10 outgoing args
+ * + 0x20 matrix + 0x10 for $s0/$s1/$s2/$ra).
+ *   func_80013F3C(&m);            identity/init
+ *   func_8017F214((s16)a0, &m);   rotate by a *sign-extended halfword* angle
+ *   ApplyMatrixSV(&m, a1, a2);
+ * The `sll/sra 16` pair lands AFTER the first call (a0 lives in $s0 across it),
+ * which is the cast-at-use-site form: an s32 parameter narrowed at the call.
+ */
+
+extern void func_80013F3C(s32 a0);
+extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
+extern void func_8017F214();
+
+void func_8017F1B0(s32 a0, void *a1, void *a2) {
+    s32 m[8];
+
+    ((void (*)(void *))func_80013F3C)((void *)m);
+    ((void (*)(s32, void *))func_8017F214)((s16)a0, (void *)m);
+    ApplyMatrixSV((void *)m, a1, a2);
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_010/nonmatchings/ov_SC03_010_jr_8017C730", func_8017F214);
 
 INCLUDE_ASM("asm/ov_SC03_010/nonmatchings/ov_SC03_010_jr_8017C730", func_8017F374);
 
-INCLUDE_ASM("asm/ov_SC03_010/nonmatchings/ov_SC03_010_jr_8017C730", func_8017F558);
 
-INCLUDE_ASM("asm/ov_SC03_010/nonmatchings/ov_SC03_010_jr_8017C730", func_8017F614);
+/* func_8017F558 — quadrant-folded sine lookup over a 0x400-entry u16 table.
+ *
+ * asm evidence:
+ *   Q0 (a<0x400)          : lh   tbl[a]
+ *   Q1 (a-0x400 < 0x400)  : lh   tbl[0x7FF - a]
+ *   Q2 (a-0x800 < 0x400)  : lhu  tbl[a - 0x800], negu, sll/sra 16
+ *   Q3 (a-0xC00 < 0x400)  : lhu  tbl[0xFFF - a],  negu, sll/sra 16
+ *   else                  : NO value is produced at all (see below)
+ *
+ * The `lhu` + `negu` + 16-bit sign-extend in Q2/Q3 pins BOTH types:
+ *   - the table element is UNSIGNED (zero-extending load feeding the negate), and
+ *   - the result is truncated back to 16 bits => the function returns s16.
+ * (An s16 table would give `lh`; an s32 return would drop the sll/sra pair.)
+ *
+ * Q2's base is D_8019AFD0 == D_8019BFD0 - 0x1000: gcc folded the `- 0x800`
+ * element offset into the symbol addend and indexes with the raw parameter
+ * (`sll $v0, $a0, 1`). Writing `tbl[a0 - 0x800]` reproduces that exactly.
+ *
+ * LOAD-BEARING: there is deliberately NO trailing `return 0;`.  The original
+ * falls off the end of a non-void function, so the out-of-range path returns
+ * whatever `$v0` happens to hold — which is the failing `sltiu` result, i.e. 0.
+ * That is why the target's last test is `beqz $v0, .L8018BA04` + a bare `nop`
+ * delay slot (gcc may not clobber $v0 on the taken edge) with no `move $v0,
+ * $zero` anywhere.  Adding `return 0;` costs 2 instructions AND lets
+ * find_cross_jump tail-merge the Q2/Q3 `negu; sll; sra` tails (cookbook §5a):
+ * 45 ins / 19 mismatched instead of MATCH.
+ */
+
+
+s16 func_8017F558(u32 a0)
+{
+
+    extern u16 D_8019BFD0[];
+    if (a0 < 0x400) {
+        return D_8019BFD0[a0];
+    }
+    if (a0 - 0x400 < 0x400) {
+        return D_8019BFD0[0x7FF - a0];
+    }
+    if (a0 - 0x800 < 0x400) {
+        return -D_8019BFD0[a0 - 0x800];
+    }
+    if (a0 - 0xC00 < 0x400) {
+        return -D_8019BFD0[0xFFF - a0];
+    }
+}
+
+
+
+/* func_8017F614 — quarter-table cosine lookup (sibling of func_8018B950, the sine).
+ *
+ * The four `lui/addu/l[h|hu] %lo(...)` bases in the target are all the SAME 0x400-entry
+ * signed s16 quarter table at ((s16 *)D_8019BFD0); gcc folds the per-quadrant constant index
+ * offset into the symbol:
+ *   ((s16 *)D_8019BFD0)[a - 0x400]  ->  base ((s16 *)D_8019BFD0)-0x800 = D_8019B7D0, index a*2
+ *   ((s16 *)D_8019BFD0)[a - 0xC00]  ->  base ((s16 *)D_8019BFD0)-0x1800 = D_8019A7D0, index a*2
+ * so no extra externs are needed for D_8019B7D0 / D_8019A7D0.
+ *
+ * Types: the positive quadrants return the `lh` value straight through (already
+ * sign-extended, no sll/sra); the negative quadrants take an explicit (s16) cast on
+ * the negation, which forces the truncate -> the return's sign-extend becomes the
+ * `sll 16 / sra 16` pair, and combine downgrades those loads to `lhu`.  Writing the
+ * arms as four flat `return`s (not one shared s16 local) keeps the extension OFF the
+ * positive quadrants; cross-jump then merges the two `sll/sra` tails.
+ *
+ * The tail has NO `return 0`.  A trailing `return 0` costs an extra `move $v0,$zero`
+ * block AND lets dbr steal `sll $v0,$a0,1` into the final beqz delay slot (target has
+ * a `nop` there).  Falling off the end keeps `expand_function_end`'s `(use $v0)` live
+ * over the epilogue, so the delay slot stays empty and the branch lands straight on
+ * the shared `jr $ra` with the `sltiu` zero already in $v0 — which IS the 0 the
+ * caller observes.  Same shape as the sibling func_8018B950.
+ */
+
+
+s32 func_8017F614(u32 a0v)
+{
+
+    extern u16 D_8019BFD0[];
+    if (a0v < 0x400) {
+        return ((s16 *)D_8019BFD0)[0x3FF - a0v];
+    }
+    if (a0v - 0x400 < 0x400) {
+        return (s16)-((s16 *)D_8019BFD0)[a0v - 0x400];
+    }
+    if (a0v - 0x800 < 0x400) {
+        return (s16)-((s16 *)D_8019BFD0)[0xBFF - a0v];
+    }
+    if (a0v - 0xC00 < 0x400) {
+        return ((s16 *)D_8019BFD0)[a0v - 0xC00];
+    }
+    /* no trailing `return 0`: gcc's end-of-function (use $v0) keeps the return
+     * register live over the epilogue, so dbr cannot steal `sll $v0,$a0,1` into
+     * the beqz delay slot, and the 0 the caller sees is the sltiu result. */
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_010/nonmatchings/ov_SC03_010_jr_8017C730", func_8017F6C0);
 

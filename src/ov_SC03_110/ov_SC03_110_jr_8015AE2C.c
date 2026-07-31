@@ -1806,7 +1806,31 @@ void func_8015BFF4(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_110/nonmatchings/ov_SC03_110_jr_8015AE2C", func_8015C030);
+
+/* §71 sibling-first: this is DEFINE_func_8015C0C4 (src/shared/engine_core.h L8919)
+ * with the two globals replaced by the second parameter and <<6 -> <<7.
+ * The explicit temporary `t` keeps the first lh ahead of the 0x238 store.
+ *
+ * Signature is the fleet canon `(s32 *a0, s32 a1)` declared by
+ * DEFINE_func_8015BFB0 (engine_core.h L16218) — a private `(s32, s16 *)`
+ * definition also match_one-MATCHes but breaks the real TU with
+ * `conflicting types`.  The s16 reads are cast at the use site. */
+
+extern void func_80154150(s32 a0, s32 a1);
+extern void func_801553A8(s32 *a0);
+extern void func_80146CA0(void *a0);
+
+void func_8015C030(s32 *a0, s32 a1)
+{
+    s32 t = *(s16 *)a1 << 7;
+    *(s32 *)((s32)a0 + 0x238) = 0x80000;
+    *(s32 *)((s32)a0 + 0x234) = t;
+    *(s32 *)((s32)a0 + 0x23C) = *(s16 *)(a1 + 4) << 7;
+    func_80154150((s32)a0, 0x11);
+    func_801553A8(a0);
+    func_80146CA0((void *)a0);
+}
+
 
 DEFINE_func_8015C08C()  /* dedup: shared engine-core @0x8015C08C (src/shared) */
 

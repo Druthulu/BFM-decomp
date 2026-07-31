@@ -2673,7 +2673,32 @@ void func_801733CC(s32 a0) {
     func_80174650(a0);
 }
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_80171B4C", func_801733FC);
+// @class: sibling-copy (§71)
+// @sibling: DEFINE_func_80173460() @ src/shared/engine_core.h:13352 (banked macro)
+//           identical skeleton — same jal func_801734BC(a0,a1), same packed 8-byte
+//           struct assignment into D_80126B38 (lwl/lwr + swl/swr pair), same
+//           D_80126B3E = 1.  This function adds one trailing D_80126B40 = 1,
+//           which shares the `addiu $v0,$zero,1` constant with the first store.
+
+#include "common.h"
+
+#ifndef BFM_ENGINE_TYPES_H
+/* standalone (match_one) only — the real TU gets this from src/shared/engine_types.h:310 */
+struct S80126B38 { s32 a; s32 b; } __attribute__((packed));
+#endif
+
+extern void func_801734BC(s32 a0, s32 a1);
+extern struct S80126B38 D_80126B38;
+extern s16 D_80126B3E;
+extern s16 D_80126B40;
+
+void func_801733FC(s32 a0, s32 a1) {
+    func_801734BC(a0, a1);
+    D_80126B38 = *(struct S80126B38 *)a1;
+    D_80126B3E = 1;
+    D_80126B40 = 1;
+}
+
 
 DEFINE_func_80173460()  /* dedup: shared engine-core @0x80173460 (src/shared) */
 

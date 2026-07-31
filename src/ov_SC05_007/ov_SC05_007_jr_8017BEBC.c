@@ -3509,7 +3509,53 @@ INCLUDE_ASM("asm/ov_SC05_007/nonmatchings/ov_SC05_007_jr_8017BEBC", func_8017E9E
 
 INCLUDE_ASM("asm/ov_SC05_007/nonmatchings/ov_SC05_007_jr_8017BEBC", func_8017EAD8);
 
-INCLUDE_ASM("asm/ov_SC05_007/nonmatchings/ov_SC05_007_jr_8017BEBC", func_8017EB30);
+
+// @class: structural (STRENGTH/mflo!=lw -> MATCH)
+// @stuck: none - MATCH (41 ins), match_one + rtu_match.
+// Three levers, in the order they mattered:
+//  1) The `mult` sitting in BOTH branch arms is a dbr DELAY-SLOT STEAL from the
+//     join block, not two multiplies in the source. The C selects the
+//     MULTIPLICAND in the arms (`m`), and multiplies ONCE after the join.
+//     That also makes the product a LOCAL allocno, so local-alloc coalesces
+//     expand_divmod's `copy_to_mode_reg` temp away -> no `move v0,a0`, and the
+//     bgez/addiu/shift all run in-place on $v0 (this was the whole 8-22 residual).
+//  2) `srl` (not `sra`) for the /0x1000: the quotient's ONLY use must be a
+//     narrowing store, i.e. hold it in an `s16 t`. combine's force_to_mode then
+//     rewrites ASHIFTRT->LSHIFTRT because the high bits are discarded. Storing
+//     `v / 0x1000` inline (2 SImode uses) keeps `sra`.
+//  3) `m` must be `s32`, not `s16` - a narrow local costs lhu+sll+sra (loose
+//     typing); the s32 local keeps the plain `lh`.
+//  4) `p` and `q` are two SEPARATE variables so the reloaded 0x20 pointer lands
+//     in $a0 rather than re-using $v1.
+
+extern s32 func_8004787C(s32 a0);
+
+void func_8017EB30(s32 param_1) {
+
+    extern s16 D_80126CE0;
+    s32 v;
+    s32 p;
+    s32 q;
+    s32 m;
+    s16 t;
+
+    v = func_8004787C(0x400 - (D_80126CE0 * 8));
+    if (*(s16 *)(param_1 + 0xAA) == 0) {
+        m = *(s16 *)(param_1 + 0x100);
+    } else {
+        m = *(s16 *)(param_1 + 0x104);
+    }
+    p = *(s32 *)(param_1 + 0x20);
+    t = (v * m) / 0x1000;
+    *(s16 *)(p + 0x1C) = t;
+    *(s16 *)(p + 0x18) = t;
+    q = *(s32 *)(param_1 + 0x20);
+    if (*(s16 *)(q + 0x18) <= 0) {
+        *(s16 *)(q + 0x1C) = 1;
+        *(s16 *)(q + 0x18) = 1;
+    }
+}
+
 
 
 void func_8017EBD4(s32 *a0) {
@@ -3617,7 +3663,25 @@ INCLUDE_ASM("asm/ov_SC05_007/nonmatchings/ov_SC05_007_jr_8017BEBC", func_8018070
 
 INCLUDE_ASM("asm/ov_SC05_007/nonmatchings/ov_SC05_007_jr_8017BEBC", func_80180898);
 
-INCLUDE_ASM("asm/ov_SC05_007/nonmatchings/ov_SC05_007_jr_8017BEBC", func_801808F0);
+
+extern void func_8012EC04(s32 param_1, s32 param_2, s32 *param_3);
+extern void func_8012F14C(s32);
+
+void func_801808F0(s32 arg0) {
+    s32 buf[8];
+    u16 out[4];
+    s32 p;
+
+    p = *(s32 *)(arg0 + 0x64);
+    if (*(s16 *)(p + 0x36) == *(s16 *)(arg0 + 0x10A)) {
+        func_8012EC04(p, *(s16 *)(arg0 + 0xFC), buf);
+        ((void (*)(s32 *, s32, u16 *))func_8012F14C)(buf, arg0 + 0x88, out);
+        *(u16 *)(arg0 + 0x6) = out[0];
+        *(u16 *)(arg0 + 0xA) = out[1];
+        *(u16 *)(arg0 + 0xE) = out[2];
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC05_007/nonmatchings/ov_SC05_007_jr_8017BEBC", func_8018096C);
 

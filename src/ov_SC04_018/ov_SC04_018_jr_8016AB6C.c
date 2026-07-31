@@ -2551,7 +2551,26 @@ s32 func_8016BEA0(s32 param_1)
 
 DEFINE_func_8016BF34()  /* dedup: shared engine-core @0x8016BF34 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC04_018/nonmatchings/ov_SC04_018_jr_8016AB6C", func_8016BF50);
+
+/* §71 sibling-first: this is the head of the already-matched func_8016C2C4
+ * (src/ov_SC03_099/ov_SC03_099_jr_8016AB6C.c L2707) lifted into its own leaf. */
+
+extern void func_80149350(s32 arg0);
+extern void func_80015954(s32 a0, s32 a1);
+
+s32 func_8016BF50(s32 param)
+{
+    u16 buf[3];
+    s32 arg;
+
+    arg = *(s32 *)(param + 0x34);
+    buf[0] = *(u16 *)(param + 0x12);
+    buf[1] = *(u16 *)(param + 0x16);
+    buf[2] = *(u16 *)(param + 0x1a);
+    ((void (*)(s32, void *, void *))func_80149350)(arg, buf, buf);
+    ((void (*)(void *, s32))func_80015954)(buf, param + 4);
+}
+
 
 
 extern void func_8016BFD0(s32 a0, s32 a1, s32 a2, s32 a3, void *a4);

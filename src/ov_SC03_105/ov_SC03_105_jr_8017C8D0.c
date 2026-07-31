@@ -3799,7 +3799,40 @@ INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_8017C8D0", func_80188B6
 
 INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_8017C8D0", func_80188BA8);
 
-INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_8017C8D0", func_80188C34);
+
+/* ---- externs ------------------------------------------------------------ */
+extern void func_8001CD50(s32 a0, s32 a1);
+extern void func_800233CC(void *a0, unsigned short a1);
+
+
+/* align-1 4-byte block: lowers via emit_block_move (unaligned lwl/lwr + swl/swr)
+ * with ZERO memcpy-symbol reference, so the TU's `extern memcpy` cannot turn
+ * this into a CALL.  (house idiom, cf. func_8017B238 / func_8017B614) */
+typedef struct { u8 b[4]; } Blk4_8018CE04_80188C34;
+
+void func_80188C34(s32 param_1)
+{
+
+    extern u8 D_801BCA08;
+    extern u8 D_801BCA0C;
+    extern u8 D_801B82E0;
+    extern u8 D_801B82E4;
+    func_8001CD50(*(s32 *)(param_1 + 0x20), (s32)&D_801BCA08);
+
+    *(u16 *)(param_1 + 0xA) -= 0x100;
+    *(u32 *)(*(s32 *)(param_1 + 0x20) + 4) |= 0x50000000;
+    *(s16 *)(*(s32 *)(param_1 + 0x20) + 0x10) = 0x400;
+    *(s16 *)(param_1 + 0x2C) = 0x10;
+
+    func_800233CC(&D_801BCA08, 0x10);
+
+    *(Blk4_8018CE04_80188C34 *)&D_801BCA08 = *(Blk4_8018CE04_80188C34 *)&D_801B82E0;
+    *(Blk4_8018CE04_80188C34 *)&D_801BCA0C = *(Blk4_8018CE04_80188C34 *)&D_801B82E4;
+
+    *(s16 *)(*(s32 *)(param_1 + 0x20) + 0x1E) = 0xC00;
+    *(u16 *)(param_1 + 2) += 1;
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_8017C8D0", func_80188D10);
 

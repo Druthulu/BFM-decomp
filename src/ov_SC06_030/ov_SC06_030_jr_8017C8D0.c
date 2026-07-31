@@ -3312,7 +3312,375 @@ INCLUDE_ASM("asm/ov_SC06_030/nonmatchings/ov_SC06_030_jr_8017C8D0", func_8017DE0
 
 INCLUDE_ASM("asm/ov_SC06_030/nonmatchings/ov_SC06_030_jr_8017C8D0", func_8017DF70);
 
-INCLUDE_ASM("asm/ov_SC06_030/nonmatchings/ov_SC06_030_jr_8017C8D0", func_8017E120);
+/* func_8017E120 -- ov_SC06_030 / ov_SC06_030_jr_8017C8D0, 884 ins, 14-member PURE/nojr family.
+ *
+ * ============================ CONTROL-FLOW MAP (from asm) ============================
+ * Actor state machine.  $s0 = actor (param), $s2 = p = *(s32*)(actor+0xCC) (a render/GPU
+ * object loaded ONCE at entry and written by the shared epilogue).
+ *
+ *   sltiu $v0,$v1,8 ; beqz -> .L8017EE10 (epilogue)   switch (*(u16*)(a+0x34)) 0..7
+ *   jtbl_801B8A90 (8 entries; carved at bank time)
+ *
+ *   case 0  @8017E164  anim(D_8019F454); p->4 &= 0x7FFFFFFF; p->0x20=D_8019F75C[..];
+ *                      a->0x34=1; RTP+sound(0x942); a->0x84 = 0x1E
+ *   case 1  @8017E2B4  COUNTER-BLOCK #1 (tail .L8017E3D0, NOT a suffix => not merged)
+ *                      then if (a->0x94==0xE) { a->0x34=2; ratan2/rand aim; 7 field writes }
+ *                      else p->0x20 = D_8019F75C[a->0x94]
+ *   case 2  @8017E4C8  func_8012B608 turn; a->0xFE -= 0x40; if (<=0) { state 3, rand()&3 * 20 }
+ *                      TRIPLE-RCOS position block; p->0x20=D_8019F89C[..];
+ *                      COUNTER-BLOCK #2  (suffix -> CROSS-JUMPED, see below)
+ *   case 3  @8017E5F8  a->0xFE += 0x20; a->0x100 += 0x20; rsin/rcos*0x160>>12 (UNSIGNED >>);
+ *                      a->0xE0 += 0x80 &0xFFF; p->0x20=D_8019FAD4[..];
+ *                      COUNTER-BLOCK #3 (tail .L8017E7BC, not a suffix);
+ *                      if (a->0xFE >= a->0x102) { a->0x94 = 0xB; a->0x102 += 0xD7; }
+ *                      if (a->0x94 == 0x10) { spawn 0x30B; place from D_80185B6C/B18/B1A;
+ *                                             a->0xEC++; if (a->0x102>=0x1000) state 4 }
+ *   case 4  @8017E90C  a->8 += a->0x14; a->0x14 += a->0x48; if (a->0xA < -0x3FF) state 5,
+ *                      a->0x1C = 0x8E; p->0x20=D_8019F89C[..]; COUNTER-BLOCK #2' (merged)
+ *   case 5  @8017E974  if (--a->0x1C == 0) { state 6; ratan2(D_80126B66,D_80126B5E);
+ *                      4-way quadrant -> L.pos.x/z; 7 field writes }
+ *                      p->0x20=D_8019F89C[..]; COUNTER-BLOCK #2'' (merged, owns .L8017EA70/EA7C)
+ *   case 6  @8017EB84  func_8012BA10 turn; a->0xFE += 0x20; p->0x20=D_8019F89C[..];
+ *                      COUNTER-BLOCK #4 (tail .L8017ECEC); if (a->0xFE==0x5C0) anim(D_8019F644);
+ *                      if (a->0xFE >= 0x800) state 7; TRIPLE-RCOS position block
+ *   case 7  @8017EDA4  if (a->0x98 == 0) { a->2=2; p->4 |= 0x80000000; a->0x1C=0x1E;
+ *                      a->0xFC=1; anim(D_8019EC8C) } else p->0x20 = D_8019F9C4[..]
+ *
+ *   .L8017EE10 epilogue: p->8/A/C from a->6/A/E; p->A += 0x10; p->0x10/12/14 from a->0x20;
+ *                      a->0x104 = (s16)(a->0x104+0x20) % 160; func_800599B8(&D_80185AA8,
+ *                      &D_80185928[that]).
+ *
+ * COUNTER-BLOCK = `if (a->0x84) a->0x84--; else { a->0x84=0xF; <RTP+sound 0x944> }`.
+ * It appears FOUR times.  Copies #2/#2'/#2'' are function-SUFFIXES (all end at the epilogue)
+ * and gcc cross-jumps all three onto .L8017EA70/.L8017EA7C -- cookbook §88a refined: a
+ * call-bearing common SUFFIX *is* merged; §88a's unmerged blocks were mid-block, not suffixes.
+ * Copies #1 and #4 are followed by more case code so they stay longhand.  => write all four
+ * LONGHAND and let the compiler merge (never hand-factor).
+ *
+ * ============================ THE SIX LEVERS THAT CLOSED IT =========================
+ * Structure was right on the first compile (880/884 ins).  684 -> 0 came from six edits,
+ * every one of which MOVED the count:
+ *  1. $a0-PIN ON &D_800AF648 (684 -> 427, and it re-seats EVERY register).  Plain
+ *     `func_8004914C(&D_800AF648); func_800491AC(&D_800AF648);` lets CSE hoist the address
+ *     into a pseudo that is live across the first call, so it takes a CALLEE-SAVED reg --
+ *     $s0 -- and shoves the actor to $s1, mis-naming every register in the function.  The
+ *     repo already had the byte-proven cure (ov_SC03_099_jr_8012ACE0.c:1036, func_8012F40C,
+ *     "@stuck: none -- MATCH"): wrap each call in an $a0-pinned scope so the constant is
+ *     REMATERIALISED (lui/addiu) per call.  Cost/benefit is free: same instruction count.
+ *  2. CHAINED ASSIGNMENT `*(s16*)(obj+6) = *(s16*)(obj+0x88) = L.pos[0];` (the +6 length
+ *     delta).  Two separate statements make gcc RELOAD L.pos[i] after the first store
+ *     (a store through a pointer kills memory CSE); the chain loads once, stores twice.
+ *     Inner lvalue is stored FIRST, so the inner one is the 0x88/0x8A/0x8C field.
+ *  3. SIGNED local `s16 pos[3]` (not u16): a negative constant assigned to a u16 lvalue is
+ *     converted to its 16-bit UNSIGNED value and comes out `ori rt,$zero,0xFEC0` instead of
+ *     `addiu rt,$zero,-0x140`.  Reads that feed int arithmetic then need an explicit (u16)
+ *     cast to stay `lhu`.  Same class: `-0x200 - *(s16*)(a0+0xA)` (a *(u16*) operand there
+ *     lets force_to_mode mask the CONSTANT to 0xFE00 instead of the LOAD).
+ *  4. COMPARISON OPERAND ORDER: the target loads 0x102 before 0xFE, so the source is
+ *     `if (a->0x102 <= a->0xFE)`, not `if (a->0xFE >= a->0x102)`.  Same `slt`, different
+ *     load order.
+ *  5. FRAME PADDING: 8 unused bytes of locals (see the struct).  vars must be 0x60, not 0x58.
+ *  6. $v1-PIN + SPLIT MASK on `(ang - 0x200) + (rand() & 0x3FF)` (the last 4).  gcc's
+ *     fold/split_tree RE-ASSOCIATES the literal onto the other operand
+ *     (`ang + ((rand&0x3FF) - 0x200)`) no matter how the expression is spelled -- seven
+ *     spellings were swept (temp var, both operand orders, (u32) casts, `|0`) and every one
+ *     stayed at 3-4.  Only a HARD-REGISTER pin on the intermediate survives fold, and the
+ *     final `& 0xFFF` must be its OWN statement or the `addu` lands in $v1 instead of $s1.
+ * ====================================================================================
+ */
+
+#include "common.h"
+
+extern void func_8012A828(s32 a0, void *a1);
+extern void func_8004914C(void *a0);
+extern void func_800491AC(void *a0);
+extern s32  RotTransPers(s32 a0, s32 a1, s32 *a2, s32 *a3);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern s32  ratan2(s32 a0, s32 a1);
+extern s32  rand(void);
+extern s32  func_8004787C(s32 a0);
+extern s32  func_80047948(s32 a0);
+extern s32  func_8012B608(s32 a0, s32 a1, s32 a2);
+extern s32  func_8012C588(s32 a0, s32 a1);
+extern void func_8012F214(s32 a0, s32 a1, s32 a2);
+extern s32  func_8012BA10(s32 a0, s32 a1);
+extern void func_800599B8(s32 a0, s32 a1);
+
+extern u8  D_800AF648;
+extern u8  D_8019F454;
+extern u8  D_8019F51C;
+extern u8  D_8019F32C;
+extern u8  D_8019F644;
+extern u8  D_8019EC8C;
+extern u8  D_80185D70;
+extern u8  D_80185AA8;
+extern u8  D_80185928[];
+extern s32 D_8019F75C[];
+extern s32 D_8019F89C[];
+extern s32 D_8019FAD4[];
+extern s32 D_8019F9C4[];
+extern s16 D_80185B6C[];
+extern s16 D_80185B18[];
+extern s16 D_80185B1A[];
+/* §103: the TU already declares these u16 fleet-wide; conform the DECL and
+   cast at the use site (the target's loads are `lh`, i.e. signed). */
+extern u16 D_80126B66;
+extern u16 D_80126B5E;
+
+/* the repeated RTP + positional-sound block (cookbook §88a: LONGHAND, never factored) */
+#define RTP_SND(sndid)                                                        \
+    L.v[0] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x48);                            \
+    L.v[1] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x4C);                            \
+    L.v[2] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x50);                            \
+    { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); } \
+    { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_800491AC(r4); } \
+    RotTransPers((s32)L.v, (s32)L.sxy, &L.z, &L.flag);                        \
+    if (L.flag >= 0 && (u32)((L.sxy[0] + 0x9F) & 0xFFFF) < 0x13F              \
+                    && (u32)((L.sxy[1] + 0x77) & 0xFFFF) < 0xEF) {            \
+        s32 vol = ((s16)L.sxy[0] * 0x80 + 0x5000) / 320;                      \
+        if (vol < 0) {                                                        \
+            vol = 0;                                                          \
+        }                                                                     \
+        if (vol >= 0x80) {                                                    \
+            vol = 0x7F;                                                       \
+        }                                                                     \
+        func_8002D4C8(sndid, (vol | 0x2000) & 0xFFFF);                        \
+    }
+
+void func_8017E120(s32 a0) {
+    s32 p;
+    s32 ang;
+    s32 obj;
+    s32 t;
+    s32 t2;
+    struct {
+        s16 pos[3];   /* sp+0x10 */
+        u16 pad0;     /* sp+0x16 */
+        s16 v[3];     /* sp+0x18 */
+        s16 pad1;     /* sp+0x1E */
+        u16 sxy[2];   /* sp+0x20 */
+        s32 z;        /* sp+0x24 */
+        s32 flag;     /* sp+0x28 */
+        /* 8 unused bytes at sp+0x2C..0x33: the target's frame is 0x80 (vars=0x60),
+           i.e. its local block is 8 bytes larger than the fields this function
+           actually references.  Byte-neutral, but required for the frame size. */
+        s16 unused[4];
+    } L;
+
+    p = *(s32 *)(a0 + 0xCC);
+
+    switch (*(u16 *)(a0 + 0x34)) {
+    case 0:
+        func_8012A828(a0, &D_8019F454);
+        *(s32 *)(p + 4) = *(s32 *)(p + 4) & 0x7FFFFFFF;
+        *(s32 *)(p + 0x20) = D_8019F75C[*(s32 *)(a0 + 0x94) * 2];
+        *(s16 *)(a0 + 0x34) = 1;
+        RTP_SND(0x942)
+        *(s16 *)(a0 + 0x84) = 0x1E;
+        break;
+
+    case 1:
+        if (*(s16 *)(a0 + 0x84) != 0) {
+            *(s16 *)(a0 + 0x84) = *(s16 *)(a0 + 0x84) - 1;
+        } else {
+            *(s16 *)(a0 + 0x84) = 0xF;
+            RTP_SND(0x944)
+        }
+        if (*(s32 *)(a0 + 0x94) == 0xE) {
+            *(s16 *)(a0 + 0x34) = 2;
+            ang = (ratan2(-*(s16 *)(a0 + 0xE), *(s16 *)(a0 + 6)) - 0x400) & 0xFFF;
+            t2 = rand();
+            { register s32 v1 __asm__("$3"); v1 = ang - 0x200;
+              ang = v1 + (t2 & 0x3FF);
+              ang = ang & 0xFFF; }
+            *(s16 *)(a0 + 0xFE) = 0x800;
+            *(s16 *)(a0 + 0xDC) = *(u16 *)(a0 + 6);
+            *(s16 *)(a0 + 0xDE) = -((func_8004787C(ang) * 0x160) >> 12) - *(u16 *)(a0 + 6);
+            *(s16 *)(a0 + 0xE0) = *(u16 *)(a0 + 0xA);
+            *(s16 *)(a0 + 0xE2) = -0x200 - *(s16 *)(a0 + 0xA);
+            *(s16 *)(a0 + 0xE4) = *(u16 *)(a0 + 0xE);
+            *(s16 *)(a0 + 0xE6) = -((func_80047948(ang) * 0x160) >> 12) - *(u16 *)(a0 + 0xE);
+            *(s16 *)(a0 + 0x100) = (ang + 0x800) & 0xFFF;
+        } else {
+            *(s32 *)(p + 0x20) = D_8019F75C[*(s32 *)(a0 + 0x94) * 2];
+        }
+        break;
+
+    case 2:
+        *(s16 *)(*(s32 *)(a0 + 0x20) + 0x12) =
+            *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12)
+            + func_8012B608(*(s16 *)(*(s32 *)(a0 + 0x20) + 0x12),
+                            *(s16 *)(a0 + 0x100), 0x10);
+        *(s16 *)(a0 + 0xFE) = *(u16 *)(a0 + 0xFE) - 0x40;
+        if (*(s16 *)(a0 + 0xFE) <= 0) {
+            *(s16 *)(a0 + 0x34) = 3;
+            *(s16 *)(a0 + 0xFE) = 0;
+            *(s16 *)(a0 + 0x102) = 0;
+            func_8012A828(a0, &D_8019F51C);
+            *(s32 *)(a0 + 0xEC) = (rand() & 3) * 20;
+        }
+        *(s16 *)(a0 + 6) = *(u16 *)(a0 + 0xDC)
+            + (((func_80047948(*(s16 *)(a0 + 0xFE)) + 0x1000) * *(s16 *)(a0 + 0xDE)) >> 13);
+        *(s16 *)(a0 + 0xA) = *(u16 *)(a0 + 0xE0)
+            + (((func_80047948(*(s16 *)(a0 + 0xFE)) + 0x1000) * *(s16 *)(a0 + 0xE2)) >> 13);
+        *(s16 *)(a0 + 0xE) = *(u16 *)(a0 + 0xE4)
+            + (((func_80047948(*(s16 *)(a0 + 0xFE)) + 0x1000) * *(s16 *)(a0 + 0xE6)) >> 13);
+        *(s32 *)(p + 0x20) = D_8019F89C[*(s32 *)(a0 + 0x94) * 2];
+        if (*(s16 *)(a0 + 0x84) != 0) {
+            *(s16 *)(a0 + 0x84) = *(s16 *)(a0 + 0x84) - 1;
+        } else {
+            *(s16 *)(a0 + 0x84) = 0xF;
+            RTP_SND(0x944)
+        }
+        break;
+
+    case 3:
+        *(s16 *)(a0 + 0xFE) = *(u16 *)(a0 + 0xFE) + 0x20;
+        *(s16 *)(a0 + 0x100) = *(u16 *)(a0 + 0x100) + 0x20;
+        *(s16 *)(*(s32 *)(a0 + 0x20) + 0x12) = *(u16 *)(a0 + 0x100);
+        *(s16 *)(a0 + 6) =
+            (u32)(func_8004787C(*(s16 *)(a0 + 0x100)) * 0x160) >> 12;
+        *(s16 *)(a0 + 0xE) =
+            (u32)(func_80047948(*(s16 *)(a0 + 0x100)) * 0x160) >> 12;
+        *(s16 *)(a0 + 0xE0) = (*(u16 *)(a0 + 0xE0) + 0x80) & 0xFFF;
+        *(s16 *)(a0 + 0xA) =
+            ((func_8004787C(*(s16 *)(a0 + 0xE0)) * 0x20) >> 12) - 0x200;
+        *(s32 *)(p + 0x20) = D_8019FAD4[*(s32 *)(a0 + 0x94) * 2];
+        if (*(s16 *)(a0 + 0x84) != 0) {
+            *(s16 *)(a0 + 0x84) = *(s16 *)(a0 + 0x84) - 1;
+        } else {
+            *(s16 *)(a0 + 0x84) = 0xF;
+            RTP_SND(0x944)
+        }
+        if (*(s16 *)(a0 + 0x102) <= *(s16 *)(a0 + 0xFE)) {
+            *(s32 *)(a0 + 0x94) = 0xB;
+            *(s16 *)(a0 + 0x102) = *(u16 *)(a0 + 0x102) + 0xD7;
+        }
+        if (*(s32 *)(a0 + 0x94) == 0x10) {
+            obj = func_8012C588(0x30B, a0);
+            if (obj != 0) {
+                func_8012F214(a0, (s32)&D_80185D70, (s32)L.pos);
+                *(s16 *)(obj + 6) = *(s16 *)(obj + 0x88) = L.pos[0];
+                *(s16 *)(obj + 0xA) = *(s16 *)(obj + 0x8A) = L.pos[1];
+                *(s16 *)(obj + 0xE) = *(s16 *)(obj + 0x8C) = L.pos[2];
+                *(s32 *)(obj + 0x10) =
+                    (D_80185B18[D_80185B6C[*(s32 *)(a0 + 0xEC)]] - *(s16 *)(obj + 6)) << 11;
+                *(s32 *)(obj + 0x14) = (-0x182 - *(s16 *)(obj + 0xA)) << 11;
+                *(s32 *)(obj + 0x18) =
+                    (D_80185B1A[D_80185B6C[*(s32 *)(a0 + 0xEC)]] - *(s16 *)(obj + 0xE)) << 11;
+                func_8002D4C8(0x943, 0);
+            }
+            *(s32 *)(a0 + 0xEC) = *(s32 *)(a0 + 0xEC) + 1;
+            if (*(s16 *)(a0 + 0x102) >= 0x1000) {
+                *(s16 *)(a0 + 0x34) = 4;
+                *(s32 *)(a0 + 0x14) = 0;
+                func_8012A828(a0, &D_8019F32C);
+            }
+        }
+        break;
+
+    case 4:
+        *(s32 *)(a0 + 8) = *(s32 *)(a0 + 8) + *(s32 *)(a0 + 0x14);
+        *(s32 *)(a0 + 0x14) = *(s32 *)(a0 + 0x14) + *(s32 *)(a0 + 0x48);
+        if (*(s16 *)(a0 + 0xA) < -0x3FF) {
+            *(s16 *)(a0 + 0x34) = 5;
+            *(s32 *)(a0 + 0x1C) = 0x8E;
+        }
+        *(s32 *)(p + 0x20) = D_8019F89C[*(s32 *)(a0 + 0x94) * 2];
+        if (*(s16 *)(a0 + 0x84) != 0) {
+            *(s16 *)(a0 + 0x84) = *(s16 *)(a0 + 0x84) - 1;
+        } else {
+            *(s16 *)(a0 + 0x84) = 0xF;
+            RTP_SND(0x944)
+        }
+        break;
+
+    case 5:
+        *(s32 *)(a0 + 0x1C) = *(s32 *)(a0 + 0x1C) - 1;
+        if (*(s32 *)(a0 + 0x1C) == 0) {
+            *(s16 *)(a0 + 0x34) = 6;
+            ang = (ratan2(-(s16)D_80126B66, (s16)D_80126B5E) - 0x200) & 0xFFF;
+            if (ang < 0x400) {
+                L.pos[0] = 0;
+                L.pos[2] = 0x140;
+            } else if (ang < 0x800) {
+                L.pos[0] = 0x160;
+                L.pos[2] = 0;
+            } else if (ang < 0xC00) {
+                L.pos[0] = 0;
+                L.pos[2] = -0x140;
+            } else {
+                L.pos[0] = -0x160;
+                L.pos[2] = 0;
+            }
+            *(s16 *)(a0 + 0xFE) = 0;
+            *(s16 *)(a0 + 0xDC) = L.pos[0];
+            *(s16 *)(a0 + 0xDE) = *(u16 *)(a0 + 6) - (u16)L.pos[0];
+            *(s16 *)(a0 + 0xE0) = -0x182;
+            *(s16 *)(a0 + 0xE2) = *(u16 *)(a0 + 0xA) + 0x182;
+            *(s16 *)(a0 + 0xE4) = L.pos[2];
+            *(s16 *)(a0 + 0xE6) = *(u16 *)(a0 + 0xE) - (u16)L.pos[2];
+        }
+        *(s32 *)(p + 0x20) = D_8019F89C[*(s32 *)(a0 + 0x94) * 2];
+        if (*(s16 *)(a0 + 0x84) != 0) {
+            *(s16 *)(a0 + 0x84) = *(s16 *)(a0 + 0x84) - 1;
+        } else {
+            *(s16 *)(a0 + 0x84) = 0xF;
+            RTP_SND(0x944)
+        }
+        break;
+
+    case 6:
+        *(s16 *)(*(s32 *)(a0 + 0x20) + 0x12) =
+            *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) + func_8012BA10(a0, 8);
+        *(s16 *)(a0 + 0xFE) = *(u16 *)(a0 + 0xFE) + 0x20;
+        *(s32 *)(p + 0x20) = D_8019F89C[*(s32 *)(a0 + 0x94) * 2];
+        if (*(s16 *)(a0 + 0x84) != 0) {
+            *(s16 *)(a0 + 0x84) = *(s16 *)(a0 + 0x84) - 1;
+        } else {
+            *(s16 *)(a0 + 0x84) = 0xF;
+            RTP_SND(0x944)
+        }
+        if (*(s16 *)(a0 + 0xFE) == 0x5C0) {
+            func_8012A828(a0, &D_8019F644);
+        }
+        if (*(s16 *)(a0 + 0xFE) >= 0x800) {
+            *(s16 *)(a0 + 0x34) = 7;
+        }
+        *(s16 *)(a0 + 6) = *(u16 *)(a0 + 0xDC)
+            + (((func_80047948(*(s16 *)(a0 + 0xFE)) + 0x1000) * *(s16 *)(a0 + 0xDE)) >> 13);
+        *(s16 *)(a0 + 0xA) = *(u16 *)(a0 + 0xE0)
+            + (((func_80047948(*(s16 *)(a0 + 0xFE)) + 0x1000) * *(s16 *)(a0 + 0xE2)) >> 13);
+        *(s16 *)(a0 + 0xE) = *(u16 *)(a0 + 0xE4)
+            + (((func_80047948(*(s16 *)(a0 + 0xFE)) + 0x1000) * *(s16 *)(a0 + 0xE6)) >> 13);
+        break;
+
+    case 7:
+        if (*(s16 *)(a0 + 0x98) == 0) {
+            *(s16 *)(a0 + 2) = 2;
+            *(s32 *)(p + 4) = *(s32 *)(p + 4) | 0x80000000;
+            *(s32 *)(a0 + 0x1C) = 0x1E;
+            *(s16 *)(a0 + 0xFC) = 1;
+            func_8012A828(a0, &D_8019EC8C);
+        } else {
+            *(s32 *)(p + 0x20) = D_8019F9C4[*(s32 *)(a0 + 0x94) * 2];
+        }
+        break;
+    }
+
+    *(s16 *)(p + 8) = *(u16 *)(a0 + 6);
+    *(s16 *)(p + 0xA) = *(u16 *)(a0 + 0xA);
+    *(s16 *)(p + 0xC) = *(u16 *)(a0 + 0xE);
+    *(s16 *)(p + 0xA) = *(u16 *)(p + 0xA) + 0x10;
+    *(s16 *)(p + 0x10) = *(u16 *)(*(s32 *)(a0 + 0x20) + 0x10);
+    *(s16 *)(p + 0x12) = *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12);
+    *(s16 *)(p + 0x14) = *(u16 *)(*(s32 *)(a0 + 0x20) + 0x14);
+    t = (s16)(*(u16 *)(a0 + 0x104) + 0x20);
+    t = t - (t / 160) * 160;
+    *(s16 *)(a0 + 0x104) = t;
+    func_800599B8((s32)&D_80185AA8, (s32)&D_80185928[(s16)t]);
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_030/nonmatchings/ov_SC06_030_jr_8017C8D0", func_8017EEF0);
 

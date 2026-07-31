@@ -612,7 +612,6 @@ extern s32 func_8014E83C(s32 arg0, s16 * arg1, s16 * arg2);
 extern void func_8014E934(s32 _arg0);
 extern s32 func_8014EA4C(void *a0, void *a1, void *a2, s32 a3);
 extern s32 func_8014E98C(void *a0);
-extern u16 D_800B99DA;
 extern s32 D_801150D8;
 extern s16 D_801152AA;
 extern u8 D_80126720[];
@@ -2229,7 +2228,6 @@ extern s32 func_80172760(s32 a0);
 extern s32 func_80174650(s32);
 extern void (*D_80127088)(void);
 extern s32 D_801270BC;
-extern s16 D_80126B0C;
 extern void func_801726D0(void * _arg0);
 extern void func_80172710(void);
 extern void func_80174684(void *);
@@ -3482,7 +3480,28 @@ void func_8017D0E8(void *a0) {
 
 INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_8017D124);
 
-INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_8017D174);
+
+// @class: plumbing
+// @stuck: none — signed s32 counter at 0x1C, delay-slot store is the unconditional bump
+
+extern void func_8017D408(int);
+
+void func_8017D174(int param_1)
+{
+    int iVar1;
+
+    iVar1 = *(int *)(param_1 + 0x1c);
+    *(int *)(param_1 + 0x1c) = iVar1 + 1;
+    if (iVar1 < 0xc) {
+        *(unsigned short *)(param_1 + 0x12) = *(unsigned short *)(param_1 + 0x12) + 0xe0;
+    } else {
+        *(int *)(param_1 + 0x1c) = 0;
+        *(unsigned short *)(param_1 + 2) = *(unsigned short *)(param_1 + 2) + 1;
+    }
+    func_8017D408(param_1);
+    return;
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_8017D1D0);
 
@@ -3502,11 +3521,105 @@ void func_8017D714(void *a0) {
 
 INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_8017D750);
 
-INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_8017D790);
 
-INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_8017D800);
+/* func_8017D790 — a state-tick: bump the frame counter at 0x1C; while it is
+ * below 0xC spin the angle at 0x12 by 0xE0, otherwise reset the counter, zero
+ * the vector at *(0x34)+0x60/0x64, set +0x62 to 0x3000 and advance the state
+ * word at 0x02.  Falls through to ((void (*)(void *))func_8017D408)(a0) on both arms (the target
+ * leaves $a0 untouched, so the call needs no move).
+ *
+ * §71 sibling-first: func_8017C560 (same TU, 4 bytes earlier) is the same
+ * `*(u16 *)(a0 + 2) += 1` idiom, and func_8017D408's own prologue reads
+ * `lw $s1, 0x34($s2)` / `lhu $v0, 0x12($s2)` — same record, same widths.
+ */
 
-INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_8017D88C);
+extern void func_8017D408(int);
+
+void func_8017D790(void *a0) {
+    s32 t;
+    s32 p;
+
+    t = *(s32 *)((s32)a0 + 0x1C);
+    *(s32 *)((s32)a0 + 0x1C) = t + 1;
+    p = *(s32 *)((s32)a0 + 0x34);
+    if (t < 0xC) {
+        *(u16 *)((s32)a0 + 0x12) += 0xE0;
+    } else {
+        *(s16 *)(p + 0x64) = 0;
+        *(s16 *)(p + 0x60) = 0;
+        *(s16 *)(p + 0x62) = 0x3000;
+        *(s32 *)((s32)a0 + 0x1C) = 0;
+        *(u16 *)((s32)a0 + 0x2) += 1;
+    }
+    ((void (*)(void *))func_8017D408)(a0);
+}
+
+
+
+/* func_8017D800 — small entity tick:
+ *   read counter @0x1C and the sub-object pointer @0x34 up-front, bump the
+ *   counter unconditionally (gcc puts that store in the beqz delay slot),
+ *   then either slide @0x2A down by 0x10 or run the 3-call teardown. */
+
+extern void func_80147324(s32 arg0);
+extern void func_80147084(s32 *a0);
+extern void func_801472B4(void *a0);
+extern void func_8017D408(int);
+
+void func_8017D800(void *a0)
+{
+    s32 t;
+    s32 *sub;
+
+    t = *(s32 *)((s32)a0 + 0x1C);
+    sub = *(s32 **)((s32)a0 + 0x34);
+    *(s32 *)((s32)a0 + 0x1C) = t + 1;
+    if (t < 0x20) {
+        *(u16 *)((s32)a0 + 0x2A) = *(u16 *)((s32)a0 + 0x2A) - 0x10;
+    } else {
+        func_80147324(*(u16 *)((s32)a0 + 0x2C));
+        func_80147084(sub);
+        func_801472B4(sub);
+        *(s32 *)((s32)a0 + 0x1C) = 0;
+        *(u16 *)((s32)a0 + 0x2) = *(u16 *)((s32)a0 + 0x2) + 1;
+    }
+    ((void (*)(void *))func_8017D408)(a0);
+}
+
+
+
+extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+extern void func_8017D408(int);
+
+void func_8017D88C(void *a0)
+{
+    void *obj;
+    s32 t;
+    s16 i;
+    u16 v;
+    u16 w;
+
+    t = *(s32 *)((s32)a0 + 0x1C);
+    obj = *(void **)((s32)a0 + 0x34);
+    *(s32 *)((s32)a0 + 0x1C) = t + 1;
+    if (t < 0x20) {
+        v = *(u16 *)((s32)obj + 0x64) + 0x80;
+        w = *(u16 *)((s32)obj + 0x62) - 0x100;
+        *(s16 *)((s32)obj + 0x64) = v;
+        *(s16 *)((s32)obj + 0x60) = v;
+        *(s16 *)((s32)obj + 0x62) = w;
+        i = 0;
+        do {
+            func_80146A6C(0x1B, obj, 0, 0, 0, 1, 0);
+            i++;
+        } while (i < 3);
+    } else {
+        *(s32 *)((s32)a0 + 0x1C) = 0;
+        *(s16 *)((s32)a0 + 2) = *(u16 *)((s32)a0 + 2) + 1;
+    }
+    ((void (*)(void *))func_8017D408)(a0);
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_8017D960);
 
@@ -3607,8 +3720,11 @@ s32 func_8017EDE0(void)
  do { } while (new_var2); do { } while (0);
 }
 
-extern s16 D_80126B0C;
     s32 func_8017EDFC(void) {
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern s16 D_80126B0C;
         return D_80126B0C;
     }
 
@@ -3627,7 +3743,64 @@ INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_8017F1B
 
 INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_8017F220);
 
-INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_8017F2D0);
+
+/* func_8017F2D0 — per-frame spin + clamp handler (ov_SC03_014, reach x8).
+ *
+ * Byte-proven shape notes:
+ *  - obj->0x1C/0x1A are read u16 / written s16 (this file's house idiom), so
+ *    "+= 0x800" is lhu+addiu+sh and the compare re-derives the s16 (sll/sra).
+ *  - each clamp needs TWO pseudos: `limN` (s32, the compare operand — it must be
+ *    SINGLE-BLOCK so local-alloc TIES the `slt` dest into it, giving the target's
+ *    `slt $v1,$v1,$v0`) and `lvN` (s16, the store value — it crosses the branch,
+ *    so it is a GLOBAL allocno, global.c never coalesces, and the target's
+ *    `addu $aN,$v1,$zero` copy survives).  Sharing one variable per role across
+ *    the two blocks makes both global, kills the tie and loses both copies
+ *    (regalloc map K8).  `lvN` must be s16: an s32 copy folds away (-2 ins).
+ *  - `o` (9 refs / 28 insns, density 9642) out-prioritises lv1 (3 refs / 7,
+ *    4285) in global.c's allocno_compare and grabs $a0 first; the target has
+ *    $a0 = lv, $a1 = o.  The zero-byte read-modify-write asm below gives lv1 two
+ *    extra refs (5 refs / 8 insns -> 12500) so it allocates first and takes $a0,
+ *    pushing `o` to $a1.  It emits nothing.  (Byte-identical alternatives:
+ *    `register s32 o __asm__("$5");`, or pinning lv1/lv2 to "$4".)
+ *    NB gcc-2.7.2 rejects "+r" constraints — use "=r"(x) : "0"(x).
+ *  - the 0x10 phantom frame slot is an address-taken pad (cookbook S17/S36#3).
+ */
+
+extern void func_80146E90(s32 *a0, s32 a1);
+extern void func_80146CA0(void *a0);
+
+void func_8017F2D0(s32 p) {
+
+    extern s16 D_80126B0C;
+    s32 o;
+    s32 lim1, lim2;
+    s16 t1, t2, lv1, lv2;
+    s32 pad[3];
+
+    (void)&pad;
+    o = *(s32 *)(p + 0x20);
+    t1 = *(u16 *)(o + 0x1C) + 0x800;
+    *(s16 *)(o + 0x1C) = t1;
+    *(s16 *)(o + 0x18) = t1;
+    lim1 = **(s16 **)(p + 0x58);
+    lv1 = lim1;
+    __asm__("" : "=r"(lv1) : "0"(lv1));
+    if (lim1 < t1) {
+        *(s16 *)(o + 0x1C) = lv1;
+        *(s16 *)(o + 0x18) = lv1;
+        D_80126B0C = 1;
+    }
+    t2 = *(u16 *)(o + 0x1A) + 0x800;
+    *(s16 *)(o + 0x1A) = t2;
+    lim2 = *(s16 *)(*(s32 *)(p + 0x58) + 2);
+    lv2 = lim2;
+    if (lim2 < t2) {
+        *(s16 *)(o + 0x1A) = lv2;
+        func_80146E90((s32 *)p, *(s16 *)(*(s32 *)(p + 0x58) + 4));
+        func_80146CA0((void *)p);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_8017F394);
 
@@ -4536,9 +4709,31 @@ INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_801823B
 
 INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_801826EC);
 
-INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_80182740);
 
-INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_80182794);
+extern void func_800183E0(s32 a0);
+
+void func_80182740(s32 param_1) {
+
+    extern u16 D_800B99DA;
+    extern u8 D_80190BF4[];
+    extern u8 D_801E867C[];
+    *(u8 *)(*(s32 *)(param_1 + 0xCC) + 0x27) = 0x8A;
+    func_800183E0((s32)&D_801E867C[D_80190BF4[D_800B99DA & 0x1F] * 16]);
+}
+
+
+
+extern void func_800183E0(s32 a0);
+
+void func_80182794(s32 param_1) {
+
+    extern u16 D_800B99DA;
+    extern u8 D_80190BF4[];
+    extern u8 D_801E857C[];
+    *(u8 *)(*(s32 *)(param_1 + 0xD0) + 0x27) = 0x8B;
+    func_800183E0((s32)&D_801E857C[D_80190BF4[D_800B99DA & 0x1F] * 16]);
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_801827E8);
 
@@ -4721,7 +4916,53 @@ INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_80183D1
 
 INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_80183DD4);
 
-INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_80183E3C);
+
+// @class: structural (STRENGTH/mflo!=lw -> MATCH)
+// @stuck: none - MATCH (41 ins), match_one + rtu_match.
+// Three levers, in the order they mattered:
+//  1) The `mult` sitting in BOTH branch arms is a dbr DELAY-SLOT STEAL from the
+//     join block, not two multiplies in the source. The C selects the
+//     MULTIPLICAND in the arms (`m`), and multiplies ONCE after the join.
+//     That also makes the product a LOCAL allocno, so local-alloc coalesces
+//     expand_divmod's `copy_to_mode_reg` temp away -> no `move v0,a0`, and the
+//     bgez/addiu/shift all run in-place on $v0 (this was the whole 8-22 residual).
+//  2) `srl` (not `sra`) for the /0x1000: the quotient's ONLY use must be a
+//     narrowing store, i.e. hold it in an `s16 t`. combine's force_to_mode then
+//     rewrites ASHIFTRT->LSHIFTRT because the high bits are discarded. Storing
+//     `v / 0x1000` inline (2 SImode uses) keeps `sra`.
+//  3) `m` must be `s32`, not `s16` - a narrow local costs lhu+sll+sra (loose
+//     typing); the s32 local keeps the plain `lh`.
+//  4) `p` and `q` are two SEPARATE variables so the reloaded 0x20 pointer lands
+//     in $a0 rather than re-using $v1.
+
+extern s32 func_8004787C(s32 a0);
+
+void func_80183E3C(s32 param_1) {
+
+    extern s16 D_80126CE0;
+    s32 v;
+    s32 p;
+    s32 q;
+    s32 m;
+    s16 t;
+
+    v = func_8004787C(0x400 - (D_80126CE0 * 8));
+    if (*(s16 *)(param_1 + 0xAA) == 0) {
+        m = *(s16 *)(param_1 + 0x100);
+    } else {
+        m = *(s16 *)(param_1 + 0x104);
+    }
+    p = *(s32 *)(param_1 + 0x20);
+    t = (v * m) / 0x1000;
+    *(s16 *)(p + 0x1C) = t;
+    *(s16 *)(p + 0x18) = t;
+    q = *(s32 *)(param_1 + 0x20);
+    if (*(s16 *)(q + 0x18) <= 0) {
+        *(s16 *)(q + 0x1C) = 1;
+        *(s16 *)(q + 0x18) = 1;
+    }
+}
+
 
 void func_80183EE0(s32 *a0) {
         *(s32 *)((s32)a0 + 0x1C) = 6;
@@ -4992,7 +5233,34 @@ INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_8018730
 
 INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_8018738C);
 
-INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_8018744C);
+
+/* func_8018744C — guarded state-kick: if the s16 at 0x98 is clear, set the
+ * state word at 0x02 to 1, hand the entity to func_8012A828 with one of two
+ * script tables selected by the s16 flag at 0xFE (== 1 -> D_801C9E7C, else
+ * D_801C9C5C), then clear that flag.
+ *
+ * §71 sibling-first: func_8018A06C (same TU, 0x148 bytes earlier) is the same
+ * two-arm `func_8012A828(entity, D_801C9E7C / D_801C9C5C)` selector and pins
+ * the widths: `lh` at 0x98/0xFE, `sh` at 0x02.
+ */
+
+extern void func_8012A828(s32 a0, void *a1);
+
+void func_8018744C(void *a0) {
+
+    extern u8 D_801C9E7C[];
+    extern u8 D_801C9C5C[];
+    if (*(s16 *)((s32)a0 + 0x98) == 0) {
+        *(s16 *)((s32)a0 + 0x2) = 1;
+        if (*(s16 *)((s32)a0 + 0xFE) == 1) {
+            func_8012A828((s32)a0, D_801C9E7C);
+        } else {
+            func_8012A828((s32)a0, D_801C9C5C);
+        }
+        *(s16 *)((s32)a0 + 0xFE) = 0;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_801874BC);
 
@@ -5185,7 +5453,53 @@ INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_8018960
 
 INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_801896EC);
 
-INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_80189744);
+
+// @class: structural (STRENGTH/mflo!=lw -> MATCH)
+// @stuck: none - MATCH (41 ins), match_one + rtu_match.
+// Three levers, in the order they mattered:
+//  1) The `mult` sitting in BOTH branch arms is a dbr DELAY-SLOT STEAL from the
+//     join block, not two multiplies in the source. The C selects the
+//     MULTIPLICAND in the arms (`m`), and multiplies ONCE after the join.
+//     That also makes the product a LOCAL allocno, so local-alloc coalesces
+//     expand_divmod's `copy_to_mode_reg` temp away -> no `move v0,a0`, and the
+//     bgez/addiu/shift all run in-place on $v0 (this was the whole 8-22 residual).
+//  2) `srl` (not `sra`) for the /0x1000: the quotient's ONLY use must be a
+//     narrowing store, i.e. hold it in an `s16 t`. combine's force_to_mode then
+//     rewrites ASHIFTRT->LSHIFTRT because the high bits are discarded. Storing
+//     `v / 0x1000` inline (2 SImode uses) keeps `sra`.
+//  3) `m` must be `s32`, not `s16` - a narrow local costs lhu+sll+sra (loose
+//     typing); the s32 local keeps the plain `lh`.
+//  4) `p` and `q` are two SEPARATE variables so the reloaded 0x20 pointer lands
+//     in $a0 rather than re-using $v1.
+
+extern s32 func_8004787C(s32 a0);
+
+void func_80189744(s32 param_1) {
+
+    extern s16 D_80126CE0;
+    s32 v;
+    s32 p;
+    s32 q;
+    s32 m;
+    s16 t;
+
+    v = func_8004787C(0x400 - (D_80126CE0 * 8));
+    if (*(s16 *)(param_1 + 0xAA) == 0) {
+        m = *(s16 *)(param_1 + 0x100);
+    } else {
+        m = *(s16 *)(param_1 + 0x104);
+    }
+    p = *(s32 *)(param_1 + 0x20);
+    t = (v * m) / 0x1000;
+    *(s16 *)(p + 0x1C) = t;
+    *(s16 *)(p + 0x18) = t;
+    q = *(s32 *)(param_1 + 0x20);
+    if (*(s16 *)(q + 0x18) <= 0) {
+        *(s16 *)(q + 0x1C) = 1;
+        *(s16 *)(q + 0x18) = 1;
+    }
+}
+
 
 void func_801897E8(s32 *a0) {
         *(s32 *)((s32)a0 + 0x1C) = 6;
@@ -5296,7 +5610,53 @@ INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_8018AE0
 
 INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_8018AE90);
 
-INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_8018AED4);
+
+// @class: structural (STRENGTH/mflo!=lw -> MATCH)
+// @stuck: none - MATCH (41 ins), match_one + rtu_match.
+// Three levers, in the order they mattered:
+//  1) The `mult` sitting in BOTH branch arms is a dbr DELAY-SLOT STEAL from the
+//     join block, not two multiplies in the source. The C selects the
+//     MULTIPLICAND in the arms (`m`), and multiplies ONCE after the join.
+//     That also makes the product a LOCAL allocno, so local-alloc coalesces
+//     expand_divmod's `copy_to_mode_reg` temp away -> no `move v0,a0`, and the
+//     bgez/addiu/shift all run in-place on $v0 (this was the whole 8-22 residual).
+//  2) `srl` (not `sra`) for the /0x1000: the quotient's ONLY use must be a
+//     narrowing store, i.e. hold it in an `s16 t`. combine's force_to_mode then
+//     rewrites ASHIFTRT->LSHIFTRT because the high bits are discarded. Storing
+//     `v / 0x1000` inline (2 SImode uses) keeps `sra`.
+//  3) `m` must be `s32`, not `s16` - a narrow local costs lhu+sll+sra (loose
+//     typing); the s32 local keeps the plain `lh`.
+//  4) `p` and `q` are two SEPARATE variables so the reloaded 0x20 pointer lands
+//     in $a0 rather than re-using $v1.
+
+extern s32 func_8004787C(s32 a0);
+
+void func_8018AED4(s32 param_1) {
+
+    extern s16 D_80126CE0;
+    s32 v;
+    s32 p;
+    s32 q;
+    s32 m;
+    s16 t;
+
+    v = func_8004787C(0x400 - (D_80126CE0 * 8));
+    if (*(s16 *)(param_1 + 0xAA) == 0) {
+        m = *(s16 *)(param_1 + 0x100);
+    } else {
+        m = *(s16 *)(param_1 + 0x102);
+    }
+    p = *(s32 *)(param_1 + 0x20);
+    t = (v * m) / 0x1000;
+    *(s16 *)(p + 0x1C) = t;
+    *(s16 *)(p + 0x18) = t;
+    q = *(s32 *)(param_1 + 0x20);
+    if (*(s16 *)(q + 0x18) <= 0) {
+        *(s16 *)(q + 0x1C) = 1;
+        *(s16 *)(q + 0x18) = 1;
+    }
+}
+
 
 
 void func_8018AF78(s32 *a0) {
@@ -5503,7 +5863,25 @@ INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_8018BDE
 
 INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_8018BF78);
 
-INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_8018BFD0);
+
+extern void func_8012EC04(s32 param_1, s32 param_2, s32 *param_3);
+extern void func_8012F14C(s32);
+
+void func_8018BFD0(s32 arg0) {
+    s32 buf[8];
+    u16 out[4];
+    s32 p;
+
+    p = *(s32 *)(arg0 + 0x64);
+    if (*(s16 *)(p + 0x36) == *(s16 *)(arg0 + 0x10A)) {
+        func_8012EC04(p, *(s16 *)(arg0 + 0xFC), buf);
+        ((void (*)(s32 *, s32, u16 *))func_8012F14C)(buf, arg0 + 0x88, out);
+        *(u16 *)(arg0 + 0x6) = out[0];
+        *(u16 *)(arg0 + 0xA) = out[1];
+        *(u16 *)(arg0 + 0xE) = out[2];
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_8018C04C);
 

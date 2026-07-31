@@ -664,7 +664,6 @@ extern short func_801508F8(s32 a0);
 extern s32 D_8018EE50;
 extern s32 D_80126990;
 extern s32 D_80126994;
-extern u8 D_80126948[];
 extern s32 func_80021174(s32 a0, s32 a1);
 extern s32 func_8015094C(s32 param_1);
 extern void func_80150B9C(void);
@@ -2411,15 +2410,6 @@ extern void func_801748C4(s32 a0);
 extern void func_801748E4(void);
 extern void func_8012A018(s32 a, s32 b);
 extern s32 func_8017496C(void *a0);
-extern s32 D_80126954;
-extern s32 D_80126950;
-extern s32 D_8012695C;
-extern s16 D_80126968;
-extern s16 D_8012696A;
-extern s16 D_8012696C;
-extern s16 D_80126976;
-extern s16 D_80126978;
-extern s16 D_8012697A;
 extern void func_801748EC(void);
 extern s32 func_801749C8();
 extern s32 func_801749A8(s32 a0);
@@ -3708,7 +3698,44 @@ extern void func_8016F0E4(void);
     }
 
 
-INCLUDE_ASM("asm/ov_SC05_017/nonmatchings/ov_SC05_017_jr_8017AE2C", func_8017E148);
+
+extern void func_8012A018(s32 a, s32 b);
+extern void func_8012A094(s32 a0);
+extern void func_8017E20C(void *a0);
+
+
+void func_8017E148(void) {
+
+    extern u8  D_80126948[];
+    extern s32 D_80126950;
+    extern s32 D_80126954;
+    extern s32 D_8012695C;
+    extern s16 D_80126968;
+    extern s16 D_8012696A;
+    extern s16 D_8012696C;
+    extern s16 D_80126976;
+    extern s16 D_80126978;
+    extern s16 D_8012697A;
+    extern u8  D_801269E8;
+    u8 tmp = D_801269E8;
+
+    D_80126954 = 0x1F4;
+    D_80126950 = 0x1F4;
+    D_8012695C = 0x4B0;
+    D_80126968 = 0x238;
+    D_8012696A = 0;
+    D_8012696C = 0;
+    D_80126976 = 0;
+    D_80126978 = 0;
+    D_8012697A = 0;
+    func_8012A018((s32)func_8017E20C, 0);
+    D_801269E8 = tmp;
+    func_8012A094((s32)D_80126948);
+    func_8017E20C(D_80126948);
+    func_8012A094((s32)D_80126948);
+    func_8017E20C(D_80126948);
+}
+
 
 
 extern void (*D_8019100C[])(void);
@@ -3890,7 +3917,72 @@ INCLUDE_ASM("asm/ov_SC05_017/nonmatchings/ov_SC05_017_jr_8017AE2C", func_8017FA5
 
 INCLUDE_ASM("asm/ov_SC05_017/nonmatchings/ov_SC05_017_jr_8017AE2C", func_8017FA98);
 
-INCLUDE_ASM("asm/ov_SC05_017/nonmatchings/ov_SC05_017_jr_8017AE2C", func_8017FB10);
+
+/* func_8017FB10 — state-machine callback registered by func_80180A08.
+ *
+ * Shape (read off the target, not off Ghidra — the Ghidra seed is for a
+ * different address entirely):
+ *   - guard call func_8012BD14(a0->0x64), bail if result > 0x4000
+ *   - switch on the u16 at +2 of a0->0x64, cases 3 / 2 / 4 (gcc balances the
+ *     tree on the middle case 3, hence `slti $v0,$v1,4` for "index > node->high")
+ *   - the comparison constants for the case-2/case-4 sub-tests ride in the
+ *     dispatch branch delay slots (§3-T4: read the constant off the delay slot,
+ *     not off the branch line) — case 2 tests +0x34 == 1, case 4 tests +0x34 == 0
+ *   - the two adjacent globals get their own `lui $at` each => two separate
+ *     symbols, NOT one array (§20 pointer-var rule does not apply here)
+ *   - +0x34 is reloaded after the D_801ECE68 store, and 0x64 is reloaded too:
+ *     gcc-2.7.2 CSE invalidates memory on the global store, so re-express both
+ */
+
+extern s32 func_8012BD14(s32 a0);
+extern s32 func_80178BF8();   /* TU-canonical (ov_SC04_018_jr_8017AE2C.c L2541) */
+extern void func_80172710(void);
+
+s32 func_8017FB10(void *a0)
+{
+
+    extern s16 D_801ECE68;
+    extern s16 D_801ECE6A;
+    void *p;
+    u16 st;
+
+    if (func_8012BD14(*(s32 *)((s32)a0 + 0x64)) > 0x4000) {
+        /* LOAD-BEARING zero-byte cross-jump barrier (cookbook §5a).
+         * Without it gcc's find_cross_jump merges this `move v0,0; j epi`
+         * tail with the identical case-2 failure tail -> 58 ins instead of
+         * 60, and the case-2 `beq` then loses its delay-slot fill. */
+        __asm__ __volatile__("");
+        return 0;
+    }
+
+    p = *(void **)((s32)a0 + 0x64);
+    st = *(u16 *)((s32)p + 0x2);
+    switch (st) {
+    case 3:
+        *(s16 *)((s32)p + 0x2) = 8;
+        break;
+    case 2:
+        if (*(u16 *)((s32)p + 0x34) != 1) {
+            return 0;
+        }
+        goto hit;
+    case 4:
+        if (*(u16 *)((s32)p + 0x34) != 0) {
+            return 0;
+        }
+    hit:
+        D_801ECE68 = st;
+        D_801ECE6A = *(u16 *)((s32)p + 0x34);
+        *(s16 *)(*(s32 *)((s32)a0 + 0x64) + 0x2) = 10;
+        break;
+    default:
+        return 0;
+    }
+
+    func_80178BF8();
+    return (s32)func_80172710;
+}
+
 
 INCLUDE_ASM("asm/ov_SC05_017/nonmatchings/ov_SC05_017_jr_8017AE2C", func_8017FC00);
 
@@ -3970,17 +4062,59 @@ INCLUDE_ASM("asm/ov_SC05_017/nonmatchings/ov_SC05_017_jr_8017AE2C", func_8018066
 
 INCLUDE_ASM("asm/ov_SC05_017/nonmatchings/ov_SC05_017_jr_8017AE2C", func_801806BC);
 
-INCLUDE_ASM("asm/ov_SC05_017/nonmatchings/ov_SC05_017_jr_8017AE2C", func_80180748);
+
+/* func_80180748 — guarded dispatch: ask func_801848AC(9, 0xF); if it answers
+ * zero, run func_80180124 on the incoming entity.  The entity pointer is live
+ * across the jal, so it lands in $s0 and comes back out as $a0.
+ * §3-T4: target branch is `bnez $v0, ret` => the C condition is `== 0`. */
+
+extern s32 func_801848AC(s32 arg0, s32 arg1);
+extern void func_80180124(void *arg0);
+
+void func_80180748(void *arg0) {
+    if (func_801848AC(9, 0xF) == 0) {
+        func_80180124(arg0);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC05_017/nonmatchings/ov_SC05_017_jr_8017AE2C", func_80180788);
 
 INCLUDE_ASM("asm/ov_SC05_017/nonmatchings/ov_SC05_017_jr_8017AE2C", func_80180808);
 
-INCLUDE_ASM("asm/ov_SC05_017/nonmatchings/ov_SC05_017_jr_8017AE2C", func_80180894);
+
+/* func_80180894 — guarded dispatch: ask func_801848AC(15, 0x11); if it answers
+ * zero, run func_801801B4 on the incoming entity.  The entity pointer is live
+ * across the jal, so it lands in $s0 and comes back out as $a0.
+ * §3-T4: target branch is `bnez $v0, ret` => the C condition is `== 0`. */
+
+extern s32 func_801848AC(s32 arg0, s32 arg1);
+extern void func_801801B4(void *arg0);
+
+void func_80180894(void *arg0) {
+    if (func_801848AC(15, 0x11) == 0) {
+        func_801801B4(arg0);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC05_017/nonmatchings/ov_SC05_017_jr_8017AE2C", func_801808D4);
 
-INCLUDE_ASM("asm/ov_SC05_017/nonmatchings/ov_SC05_017_jr_8017AE2C", func_801809E0);
+
+/* func_801809E0 — guarded dispatch: ask func_801848AC(17, 0x12); if it answers
+ * zero, run func_8018026C on the incoming entity.  The entity pointer is live
+ * across the jal, so it lands in $s0 and comes back out as $a0.
+ * §3-T4: target branch is `bnez $v0, ret` => the C condition is `== 0`. */
+
+extern s32 func_801848AC(s32 arg0, s32 arg1);
+extern void func_8018026C(void *arg0);
+
+void func_801809E0(void *arg0) {
+    if (func_801848AC(17, 0x12) == 0) {
+        func_8018026C(arg0);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC05_017/nonmatchings/ov_SC05_017_jr_8017AE2C", func_80180A20);
 
@@ -4022,7 +4156,72 @@ INCLUDE_ASM("asm/ov_SC05_017/nonmatchings/ov_SC05_017_jr_8017AE2C", func_80180EF
 
 INCLUDE_ASM("asm/ov_SC05_017/nonmatchings/ov_SC05_017_jr_8017AE2C", func_80180F3C);
 
-INCLUDE_ASM("asm/ov_SC05_017/nonmatchings/ov_SC05_017_jr_8017AE2C", func_80180FB4);
+
+/* func_80180FB4 — state-machine callback registered by func_80180A08.
+ *
+ * Shape (read off the target, not off Ghidra — the Ghidra seed is for a
+ * different address entirely):
+ *   - guard call func_8012BD14(a0->0x64), bail if result > 0x4000
+ *   - switch on the u16 at +2 of a0->0x64, cases 3 / 2 / 4 (gcc balances the
+ *     tree on the middle case 3, hence `slti $v0,$v1,4` for "index > node->high")
+ *   - the comparison constants for the case-2/case-4 sub-tests ride in the
+ *     dispatch branch delay slots (§3-T4: read the constant off the delay slot,
+ *     not off the branch line) — case 2 tests +0x34 == 1, case 4 tests +0x34 == 0
+ *   - the two adjacent globals get their own `lui $at` each => two separate
+ *     symbols, NOT one array (§20 pointer-var rule does not apply here)
+ *   - +0x34 is reloaded after the D_801ECE78 store, and 0x64 is reloaded too:
+ *     gcc-2.7.2 CSE invalidates memory on the global store, so re-express both
+ */
+
+extern s32 func_8012BD14(s32 a0);
+extern s32 func_80178BF8();   /* TU-canonical (ov_SC04_018_jr_8017AE2C.c L2541) */
+extern void func_80172710(void);
+
+s32 func_80180FB4(void *a0)
+{
+
+    extern s16 D_801ECE78;
+    extern s16 D_801ECE7A;
+    void *p;
+    u16 st;
+
+    if (func_8012BD14(*(s32 *)((s32)a0 + 0x64)) > 0x4000) {
+        /* LOAD-BEARING zero-byte cross-jump barrier (cookbook §5a).
+         * Without it gcc's find_cross_jump merges this `move v0,0; j epi`
+         * tail with the identical case-2 failure tail -> 58 ins instead of
+         * 60, and the case-2 `beq` then loses its delay-slot fill. */
+        __asm__ __volatile__("");
+        return 0;
+    }
+
+    p = *(void **)((s32)a0 + 0x64);
+    st = *(u16 *)((s32)p + 0x2);
+    switch (st) {
+    case 3:
+        *(s16 *)((s32)p + 0x2) = 8;
+        break;
+    case 2:
+        if (*(u16 *)((s32)p + 0x34) != 1) {
+            return 0;
+        }
+        goto hit;
+    case 4:
+        if (*(u16 *)((s32)p + 0x34) != 0) {
+            return 0;
+        }
+    hit:
+        D_801ECE78 = st;
+        D_801ECE7A = *(u16 *)((s32)p + 0x34);
+        *(s16 *)(*(s32 *)((s32)a0 + 0x64) + 0x2) = 10;
+        break;
+    default:
+        return 0;
+    }
+
+    func_80178BF8();
+    return (s32)func_80172710;
+}
+
 
 INCLUDE_ASM("asm/ov_SC05_017/nonmatchings/ov_SC05_017_jr_8017AE2C", func_801810A4);
 
@@ -4083,7 +4282,21 @@ INCLUDE_ASM("asm/ov_SC05_017/nonmatchings/ov_SC05_017_jr_8017AE2C", func_8018171
 
 INCLUDE_ASM("asm/ov_SC05_017/nonmatchings/ov_SC05_017_jr_8017AE2C", func_80181758);
 
-INCLUDE_ASM("asm/ov_SC05_017/nonmatchings/ov_SC05_017_jr_8017AE2C", func_801817F0);
+
+/* func_801817F0 — guarded dispatch: ask func_801848AC(7, 0xE); if it answers
+ * zero, run func_801815BC on the incoming entity.  The entity pointer is live
+ * across the jal, so it lands in $s0 and comes back out as $a0.
+ * §3-T4: target branch is `bnez $v0, ret` => the C condition is `== 0`. */
+
+extern s32 func_801848AC(s32 arg0, s32 arg1);
+extern void func_801815BC(void *arg0);
+
+void func_801817F0(void *arg0) {
+    if (func_801848AC(7, 0xE) == 0) {
+        func_801815BC(arg0);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC05_017/nonmatchings/ov_SC05_017_jr_8017AE2C", func_80181830);
 
@@ -4708,7 +4921,36 @@ extern s32 func_80185BEC(void);
     }
 
 
-INCLUDE_ASM("asm/ov_SC05_017/nonmatchings/ov_SC05_017_jr_8017AE2C", func_801854CC);
+
+extern s32 func_80184E6C(s32 a0);
+extern void func_8018559C(s32 a0);
+extern s32 func_8012BEE8(s32 a0);
+extern void func_8012E688(s32 param_1, u16 param_2, u16 param_3);
+extern s32 func_80185BEC(void);
+
+void func_801854CC(s32 a0) {
+    if (func_80184E6C(a0) == 2) {
+        func_8018559C(a0);
+    }
+    if (*(u16 *)(a0 + 0x34) == 0) {
+        if (func_8012BEE8(a0) == 0) {
+            return;
+        }
+        *(u16 *)(a0 + 0x34) = 1;
+    }
+    *(u16 *)(a0 + 0x100) = *(u16 *)(a0 + 0x100) + *(u16 *)(a0 + 0x102);
+    if (*(s16 *)(a0 + 0x100) >= 0x50) {
+        *(u16 *)(a0 + 0x100) = 0x50;
+    }
+    *(u16 *)(a0 + 0xFE) = *(u16 *)(a0 + 0xFE) - *(u16 *)(a0 + 0x100);
+    if (*(s16 *)(a0 + 0xFE) <= 0) {
+        func_8012E688(a0, 0x515, 0);
+        func_8018559C(a0);
+    } else {
+        ((void (*)(s32))func_80185BEC)(a0);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC05_017/nonmatchings/ov_SC05_017_jr_8017AE2C", func_8018559C);
 
@@ -4730,7 +4972,37 @@ INCLUDE_ASM("asm/ov_SC05_017/nonmatchings/ov_SC05_017_jr_8017AE2C", func_801858A
 
 INCLUDE_ASM("asm/ov_SC05_017/nonmatchings/ov_SC05_017_jr_8017AE2C", func_801858E0);
 
-INCLUDE_ASM("asm/ov_SC05_017/nonmatchings/ov_SC05_017_jr_8017AE2C", func_8018596C);
+
+extern s16 currentLocationId;
+extern s32 func_80185A10(void *a0);
+extern s32 func_80185FA8(void *a0);
+extern s32 func_80178BF8();
+extern void func_80172710(void);
+
+void *func_8018596C(void *a0) {
+    if (currentLocationId == 0x3069) {
+        return 0;
+    }
+    if (*(u16 *)((s32)a0 + 0x2) != 2) {
+        return 0;
+    }
+    if (*(u16 *)((s32)a0 + 0x34) != 0) {
+        return 0;
+    }
+    if (*(s16 *)((s32)a0 + 0x10A) != 0) {
+        return 0;
+    }
+    if (func_80185A10(a0) == 0) {
+        return 0;
+    }
+    if (func_80185FA8(a0) != 0) {
+        return 0;
+    }
+    *(s16 *)((s32)a0 + 0x34) = 1;
+    func_80178BF8();
+    return (void *)func_80172710;
+}
+
 
 INCLUDE_ASM("asm/ov_SC05_017/nonmatchings/ov_SC05_017_jr_8017AE2C", func_80185A10);
 

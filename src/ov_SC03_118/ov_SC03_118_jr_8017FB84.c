@@ -614,7 +614,6 @@ extern s32 func_8014E83C(s32 arg0, s16 * arg1, s16 * arg2);
 extern void func_8014E934(s32 _arg0);
 extern s32 func_8014EA4C(void *a0, void *a1, void *a2, s32 a3);
 extern s32 func_8014E98C(void *a0);
-extern u16 D_800B99DA;
 extern s32 D_801150D8;
 extern s16 D_801152AA;
 extern u8 D_80126720[];
@@ -3536,9 +3535,37 @@ INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_jr_8017FB84", func_80183D6
 void func_80184164(void) {
 }
 
-INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_jr_8017FB84", func_8018416C);
 
-INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_jr_8017FB84", func_801841C0);
+extern void func_800183E0(s32 a0);
+
+void func_8018416C(s32 param_1) {
+
+    extern u8 D_801C6DF8[];
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern u16 D_800B99DA;
+    extern u8 D_8018EBA8[];
+    *(u8 *)(*(s32 *)(param_1 + 0xCC) + 0x27) = 0x8A;
+    func_800183E0((s32)&D_801C6DF8[D_8018EBA8[D_800B99DA & 0x1F] * 16]);
+}
+
+
+
+extern void func_800183E0(s32 a0);
+
+void func_801841C0(s32 param_1) {
+
+    extern u8 D_801C6CF8[];
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern u16 D_800B99DA;
+    extern u8 D_8018EBA8[];
+    *(u8 *)(*(s32 *)(param_1 + 0xD0) + 0x27) = 0x8B;
+    func_800183E0((s32)&D_801C6CF8[D_8018EBA8[D_800B99DA & 0x1F] * 16]);
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_jr_8017FB84", func_80184214);
 
@@ -3811,7 +3838,25 @@ INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_jr_8017FB84", func_80185C2
 
 INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_jr_8017FB84", func_80185C54);
 
-INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_jr_8017FB84", func_80185CDC);
+
+extern void func_80185D48(void *a0, void *a1, s16 a2);
+extern void func_80185E7C(s32 a0, s16 a1, u16 a2);
+
+void func_80185CDC(void *arg0, void *arg1, s32 arg2, s32 arg3) {
+    /* The target frame is 0x30: 0x10 outgoing-arg area + 0x10 var_size +
+     * 0x10 saved regs (s0/s1/s2/ra at 0x20..0x2C).  gcc-2.7.2 allocates a
+     * declared aggregate even when it is never referenced, so this 16-byte
+     * local reproduces the original's var_size exactly. */
+    s32 unused[4];
+    s32 i;
+    s32 j;
+
+    func_80185D48(arg0, arg1, arg2);
+    for (i = 0, j = 0; i < 0x10; i++, j += 0x100) {
+        func_80185E7C(i, j, arg3);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_jr_8017FB84", func_80185D48);
 
@@ -4025,7 +4070,34 @@ INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_jr_8017FB84", func_8018966
 
 INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_jr_8017FB84", func_801896F4);
 
-INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_jr_8017FB84", func_801897B4);
+
+/* func_801897B4 — guarded state-kick: if the s16 at 0x98 is clear, set the
+ * state word at 0x02 to 1, hand the entity to func_8012A828 with one of two
+ * script tables selected by the s16 flag at 0xFE (== 1 -> D_801D1758, else
+ * D_801D1538), then clear that flag.
+ *
+ * §71 sibling-first: func_8018A06C (same TU, 0x148 bytes earlier) is the same
+ * two-arm `((void (*)(s32, void *))func_8012A828)(entity, D_801D1758 / D_801D1538)` selector and pins
+ * the widths: `lh` at 0x98/0xFE, `sh` at 0x02.
+ */
+
+extern s32 func_8012A828(void*, void*);
+
+void func_801897B4(void *a0) {
+
+    extern u8 D_801D1758[];
+    extern u8 D_801D1538[];
+    if (*(s16 *)((s32)a0 + 0x98) == 0) {
+        *(s16 *)((s32)a0 + 0x2) = 1;
+        if (*(s16 *)((s32)a0 + 0xFE) == 1) {
+            ((void (*)(s32, void *))func_8012A828)((s32)a0, D_801D1758);
+        } else {
+            ((void (*)(s32, void *))func_8012A828)((s32)a0, D_801D1538);
+        }
+        *(s16 *)((s32)a0 + 0xFE) = 0;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_jr_8017FB84", func_80189824);
 

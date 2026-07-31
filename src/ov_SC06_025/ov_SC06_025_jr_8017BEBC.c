@@ -3788,7 +3788,34 @@ INCLUDE_ASM("asm/ov_SC06_025/nonmatchings/ov_SC06_025_jr_8017BEBC", func_8018393
 
 INCLUDE_ASM("asm/ov_SC06_025/nonmatchings/ov_SC06_025_jr_8017BEBC", func_80183988);
 
-INCLUDE_ASM("asm/ov_SC06_025/nonmatchings/ov_SC06_025_jr_8017BEBC", func_801839AC);
+
+
+s32 func_801839AC(void)
+{
+
+    extern u8 D_801B1BD0[];
+    s32 i;
+    u8 v;
+    u8 *p;
+    s32 ret;
+
+    i = 0;
+    v = 1;
+    p = D_801B1BD0;
+    do {
+        if (*p == 0) {
+            *p = v;
+            ret = i;
+            goto done;
+        }
+        i++;
+        p++;
+    } while (i < 20);
+    ret = -1;
+done:
+    return ret;
+}
+
 
 
 extern void (*D_801ADA18[])(void);
@@ -4129,7 +4156,34 @@ INCLUDE_ASM("asm/ov_SC06_025/nonmatchings/ov_SC06_025_jr_8017BEBC", func_8018499
 
 INCLUDE_ASM("asm/ov_SC06_025/nonmatchings/ov_SC06_025_jr_8017BEBC", func_80184A20);
 
-INCLUDE_ASM("asm/ov_SC06_025/nonmatchings/ov_SC06_025_jr_8017BEBC", func_80184AE0);
+
+/* func_80184AE0 — guarded state-kick: if the s16 at 0x98 is clear, set the
+ * state word at 0x02 to 1, hand the entity to func_8012A828 with one of two
+ * script tables selected by the s16 flag at 0xFE (== 1 -> D_801AE870, else
+ * D_801AE650), then clear that flag.
+ *
+ * §71 sibling-first: func_8018A06C (same TU, 0x148 bytes earlier) is the same
+ * two-arm `func_8012A828(entity, D_801AE870 / D_801AE650)` selector and pins
+ * the widths: `lh` at 0x98/0xFE, `sh` at 0x02.
+ */
+
+extern void func_8012A828(s32 a0, void *a1);
+
+void func_80184AE0(void *a0) {
+
+    extern u8 D_801AE870[];
+    extern u8 D_801AE650[];
+    if (*(s16 *)((s32)a0 + 0x98) == 0) {
+        *(s16 *)((s32)a0 + 0x2) = 1;
+        if (*(s16 *)((s32)a0 + 0xFE) == 1) {
+            func_8012A828((s32)a0, D_801AE870);
+        } else {
+            func_8012A828((s32)a0, D_801AE650);
+        }
+        *(s16 *)((s32)a0 + 0xFE) = 0;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_025/nonmatchings/ov_SC06_025_jr_8017BEBC", func_80184B50);
 

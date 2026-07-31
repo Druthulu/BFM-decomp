@@ -2229,7 +2229,6 @@ extern s32 func_80172760(s32 a0);
 extern s32 func_80174650(s32);
 extern void (*D_80127088)(void);
 extern s32 D_801270BC;
-extern s16 D_80126B0C;
 extern void func_801726D0(void * _arg0);
 extern void func_80172710(void);
 extern void func_80174684(void *);
@@ -3220,8 +3219,11 @@ s32 func_8017CF24(void)
 }
 
 
-extern s16 D_80126B0C;
 s16 func_8017CF40(void) {
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern s16 D_80126B0C;
     return D_80126B0C;
 }
 
@@ -3240,7 +3242,64 @@ INCLUDE_ASM("asm/ov_SC03_117/nonmatchings/ov_SC03_117_jr_8017BEBC", func_8017D30
 
 INCLUDE_ASM("asm/ov_SC03_117/nonmatchings/ov_SC03_117_jr_8017BEBC", func_8017D364);
 
-INCLUDE_ASM("asm/ov_SC03_117/nonmatchings/ov_SC03_117_jr_8017BEBC", func_8017D414);
+
+/* func_8017D414 — per-frame spin + clamp handler (ov_SC03_014, reach x8).
+ *
+ * Byte-proven shape notes:
+ *  - obj->0x1C/0x1A are read u16 / written s16 (this file's house idiom), so
+ *    "+= 0x800" is lhu+addiu+sh and the compare re-derives the s16 (sll/sra).
+ *  - each clamp needs TWO pseudos: `limN` (s32, the compare operand — it must be
+ *    SINGLE-BLOCK so local-alloc TIES the `slt` dest into it, giving the target's
+ *    `slt $v1,$v1,$v0`) and `lvN` (s16, the store value — it crosses the branch,
+ *    so it is a GLOBAL allocno, global.c never coalesces, and the target's
+ *    `addu $aN,$v1,$zero` copy survives).  Sharing one variable per role across
+ *    the two blocks makes both global, kills the tie and loses both copies
+ *    (regalloc map K8).  `lvN` must be s16: an s32 copy folds away (-2 ins).
+ *  - `o` (9 refs / 28 insns, density 9642) out-prioritises lv1 (3 refs / 7,
+ *    4285) in global.c's allocno_compare and grabs $a0 first; the target has
+ *    $a0 = lv, $a1 = o.  The zero-byte read-modify-write asm below gives lv1 two
+ *    extra refs (5 refs / 8 insns -> 12500) so it allocates first and takes $a0,
+ *    pushing `o` to $a1.  It emits nothing.  (Byte-identical alternatives:
+ *    `register s32 o __asm__("$5");`, or pinning lv1/lv2 to "$4".)
+ *    NB gcc-2.7.2 rejects "+r" constraints — use "=r"(x) : "0"(x).
+ *  - the 0x10 phantom frame slot is an address-taken pad (cookbook S17/S36#3).
+ */
+
+extern void func_80146E90(s32 *a0, s32 a1);
+extern void func_80146CA0(void *a0);
+
+void func_8017D414(s32 p) {
+
+    extern s16 D_80126B0C;
+    s32 o;
+    s32 lim1, lim2;
+    s16 t1, t2, lv1, lv2;
+    s32 pad[3];
+
+    (void)&pad;
+    o = *(s32 *)(p + 0x20);
+    t1 = *(u16 *)(o + 0x1C) + 0x800;
+    *(s16 *)(o + 0x1C) = t1;
+    *(s16 *)(o + 0x18) = t1;
+    lim1 = **(s16 **)(p + 0x58);
+    lv1 = lim1;
+    __asm__("" : "=r"(lv1) : "0"(lv1));
+    if (lim1 < t1) {
+        *(s16 *)(o + 0x1C) = lv1;
+        *(s16 *)(o + 0x18) = lv1;
+        D_80126B0C = 1;
+    }
+    t2 = *(u16 *)(o + 0x1A) + 0x800;
+    *(s16 *)(o + 0x1A) = t2;
+    lim2 = *(s16 *)(*(s32 *)(p + 0x58) + 2);
+    lv2 = lim2;
+    if (lim2 < t2) {
+        *(s16 *)(o + 0x1A) = lv2;
+        func_80146E90((s32 *)p, *(s16 *)(*(s32 *)(p + 0x58) + 4));
+        func_80146CA0((void *)p);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_117/nonmatchings/ov_SC03_117_jr_8017BEBC", func_8017D4D8);
 
@@ -4053,7 +4112,34 @@ INCLUDE_ASM("asm/ov_SC03_117/nonmatchings/ov_SC03_117_jr_8017BEBC", func_801845C
 
 INCLUDE_ASM("asm/ov_SC03_117/nonmatchings/ov_SC03_117_jr_8017BEBC", func_80184648);
 
-INCLUDE_ASM("asm/ov_SC03_117/nonmatchings/ov_SC03_117_jr_8017BEBC", func_80184708);
+
+/* func_80184708 — guarded state-kick: if the s16 at 0x98 is clear, set the
+ * state word at 0x02 to 1, hand the entity to func_8012A828 with one of two
+ * script tables selected by the s16 flag at 0xFE (== 1 -> D_801CB80C, else
+ * D_801CB5EC), then clear that flag.
+ *
+ * §71 sibling-first: func_8018A06C (same TU, 0x148 bytes earlier) is the same
+ * two-arm `((void (*)(s32, void *))func_8012A828)(entity, D_801CB80C / D_801CB5EC)` selector and pins
+ * the widths: `lh` at 0x98/0xFE, `sh` at 0x02.
+ */
+
+extern void func_8012A828(s32, s32);
+
+void func_80184708(void *a0) {
+
+    extern u8 D_801CB80C[];
+    extern u8 D_801CB5EC[];
+    if (*(s16 *)((s32)a0 + 0x98) == 0) {
+        *(s16 *)((s32)a0 + 0x2) = 1;
+        if (*(s16 *)((s32)a0 + 0xFE) == 1) {
+            ((void (*)(s32, void *))func_8012A828)((s32)a0, D_801CB80C);
+        } else {
+            ((void (*)(s32, void *))func_8012A828)((s32)a0, D_801CB5EC);
+        }
+        *(s16 *)((s32)a0 + 0xFE) = 0;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_117/nonmatchings/ov_SC03_117_jr_8017BEBC", func_80184778);
 

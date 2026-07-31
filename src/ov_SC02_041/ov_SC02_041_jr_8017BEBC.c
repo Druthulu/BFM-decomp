@@ -3471,7 +3471,34 @@ INCLUDE_ASM("asm/ov_SC02_041/nonmatchings/ov_SC02_041_jr_8017BEBC", func_8017ED7
 
 INCLUDE_ASM("asm/ov_SC02_041/nonmatchings/ov_SC02_041_jr_8017BEBC", func_8017EDC4);
 
-INCLUDE_ASM("asm/ov_SC02_041/nonmatchings/ov_SC02_041_jr_8017BEBC", func_8017EDE8);
+
+
+s32 func_8017EDE8(void)
+{
+
+    extern u8 D_801B9000[];
+    s32 i;
+    u8 v;
+    u8 *p;
+    s32 ret;
+
+    i = 0;
+    v = 1;
+    p = D_801B9000;
+    do {
+        if (*p == 0) {
+            *p = v;
+            ret = i;
+            goto done;
+        }
+        i++;
+        p++;
+    } while (i < 20);
+    ret = -1;
+done:
+    return ret;
+}
+
 
 
 extern void (*D_8019ABBC[])(void);
@@ -4004,7 +4031,34 @@ INCLUDE_ASM("asm/ov_SC02_041/nonmatchings/ov_SC02_041_jr_8017BEBC", func_8018185
 
 INCLUDE_ASM("asm/ov_SC02_041/nonmatchings/ov_SC02_041_jr_8017BEBC", func_801818DC);
 
-INCLUDE_ASM("asm/ov_SC02_041/nonmatchings/ov_SC02_041_jr_8017BEBC", func_8018199C);
+
+/* func_8018199C — guarded state-kick: if the s16 at 0x98 is clear, set the
+ * state word at 0x02 to 1, hand the entity to func_8012A828 with one of two
+ * script tables selected by the s16 flag at 0xFE (== 1 -> D_801AD154, else
+ * D_801ACF34), then clear that flag.
+ *
+ * §71 sibling-first: func_8018A06C (same TU, 0x148 bytes earlier) is the same
+ * two-arm `func_8012A828(entity, D_801AD154 / D_801ACF34)` selector and pins
+ * the widths: `lh` at 0x98/0xFE, `sh` at 0x02.
+ */
+
+extern void func_8012A828(s32 a0, void *a1);
+
+void func_8018199C(void *a0) {
+
+    extern u8 D_801AD154[];
+    extern u8 D_801ACF34[];
+    if (*(s16 *)((s32)a0 + 0x98) == 0) {
+        *(s16 *)((s32)a0 + 0x2) = 1;
+        if (*(s16 *)((s32)a0 + 0xFE) == 1) {
+            func_8012A828((s32)a0, D_801AD154);
+        } else {
+            func_8012A828((s32)a0, D_801ACF34);
+        }
+        *(s16 *)((s32)a0 + 0xFE) = 0;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC02_041/nonmatchings/ov_SC02_041_jr_8017BEBC", func_80181A0C);
 
@@ -4166,7 +4220,26 @@ void func_801845B4(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_041/nonmatchings/ov_SC02_041_jr_8017BEBC", func_801845F0);
+
+
+extern void func_80128EA8(s32 a0, s32 a1, s32 a2);
+
+void func_801845F0(s32 param_1)
+{
+
+    extern u8 D_801AD398[];
+    extern u8 D_801AD3A4[];
+    *(u32 *)(*(s32 *)(param_1 + 0x20) + 0x20) = (u32)&D_801AD398;
+
+    *(u32 *)(*(s32 *)(param_1 + 0x20) + 4) |= 0x50000000;
+
+    *(u8 *)(*(s32 *)(param_1 + 0x20) + 0x27) = 0x5b;
+
+    func_80128EA8(*(u32 *)(param_1 + 0x20), param_1 + 0x24, (s32)&D_801AD3A4);
+
+    *(u16 *)(param_1 + 2) = *(u16 *)(param_1 + 2) + 1;
+}
+
 
 extern s32 func_80128ED8(void *a0, void *a1);
 extern void func_801292C8(void);
@@ -4193,7 +4266,25 @@ INCLUDE_ASM("asm/ov_SC02_041/nonmatchings/ov_SC02_041_jr_8017BEBC", func_80184A7
 
 INCLUDE_ASM("asm/ov_SC02_041/nonmatchings/ov_SC02_041_jr_8017BEBC", func_80184C08);
 
-INCLUDE_ASM("asm/ov_SC02_041/nonmatchings/ov_SC02_041_jr_8017BEBC", func_80184C60);
+
+extern void func_8012EC04(s32 param_1, s32 param_2, s32 *param_3);
+extern void func_8012F14C(s32);
+
+void func_80184C60(s32 arg0) {
+    s32 buf[8];
+    u16 out[4];
+    s32 p;
+
+    p = *(s32 *)(arg0 + 0x64);
+    if (*(s16 *)(p + 0x36) == *(s16 *)(arg0 + 0x10A)) {
+        func_8012EC04(p, *(s16 *)(arg0 + 0xFC), buf);
+        ((void (*)(s32 *, s32, u16 *))func_8012F14C)(buf, arg0 + 0x88, out);
+        *(u16 *)(arg0 + 0x6) = out[0];
+        *(u16 *)(arg0 + 0xA) = out[1];
+        *(u16 *)(arg0 + 0xE) = out[2];
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC02_041/nonmatchings/ov_SC02_041_jr_8017BEBC", func_80184CDC);
 

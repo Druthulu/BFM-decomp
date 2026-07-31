@@ -3724,7 +3724,25 @@ INCLUDE_ASM("asm/ov_SC07_000/nonmatchings/ov_SC07_000_jr_8017BEBC", func_80181E9
 
 INCLUDE_ASM("asm/ov_SC07_000/nonmatchings/ov_SC07_000_jr_8017BEBC", func_80181EB8);
 
-INCLUDE_ASM("asm/ov_SC07_000/nonmatchings/ov_SC07_000_jr_8017BEBC", func_80181F40);
+
+extern void func_80181FAC(void *a0, void *a1, s16 a2);
+extern void func_801820E0(s32 a0, s16 a1, u16 a2);
+
+void func_80181F40(void *arg0, void *arg1, s32 arg2, s32 arg3) {
+    /* The target frame is 0x30: 0x10 outgoing-arg area + 0x10 var_size +
+     * 0x10 saved regs (s0/s1/s2/ra at 0x20..0x2C).  gcc-2.7.2 allocates a
+     * declared aggregate even when it is never referenced, so this 16-byte
+     * local reproduces the original's var_size exactly. */
+    s32 unused[4];
+    s32 i;
+    s32 j;
+
+    func_80181FAC(arg0, arg1, arg2);
+    for (i = 0, j = 0; i < 0x10; i++, j += 0x100) {
+        func_801820E0(i, j, arg3);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC07_000/nonmatchings/ov_SC07_000_jr_8017BEBC", func_80181FAC);
 

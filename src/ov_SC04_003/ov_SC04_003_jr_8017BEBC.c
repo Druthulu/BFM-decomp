@@ -3499,7 +3499,35 @@ INCLUDE_ASM("asm/ov_SC04_003/nonmatchings/ov_SC04_003_jr_8017BEBC", func_8017FDD
 
 INCLUDE_ASM("asm/ov_SC04_003/nonmatchings/ov_SC04_003_jr_8017BEBC", func_8017FE90);
 
-INCLUDE_ASM("asm/ov_SC04_003/nonmatchings/ov_SC04_003_jr_8017BEBC", func_8017FF18);
+
+void func_8017FF18(s32 target, u16 *cur, s32 step)
+{
+    s32 t;
+    s32 diff;
+    s32 mag;
+
+    t = (target - *cur) & 0xFFF;
+    if (t < 0x800) {
+        diff = t;
+    } else {
+        diff = t | 0xF000;
+    }
+    mag = diff;
+    if ((s16)diff < 0) {
+        mag = -diff;
+    }
+    __asm__ __volatile__("" : "=r"(diff) : "0"(diff) : "memory");
+    if ((s16)mag > (u16)step) {
+        if ((s16)diff < 0) {
+            *cur = *cur - step;
+        } else {
+            *cur = *cur + step;
+        }
+    } else {
+        *cur = target;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_003/nonmatchings/ov_SC04_003_jr_8017BEBC", func_8017FF9C);
 
@@ -3870,7 +3898,34 @@ INCLUDE_ASM("asm/ov_SC04_003/nonmatchings/ov_SC04_003_jr_8017BEBC", func_80181E9
 
 INCLUDE_ASM("asm/ov_SC04_003/nonmatchings/ov_SC04_003_jr_8017BEBC", func_80181F18);
 
-INCLUDE_ASM("asm/ov_SC04_003/nonmatchings/ov_SC04_003_jr_8017BEBC", func_80181FD8);
+
+/* func_80181FD8 — guarded state-kick: if the s16 at 0x98 is clear, set the
+ * state word at 0x02 to 1, hand the entity to func_8012A828 with one of two
+ * script tables selected by the s16 flag at 0xFE (== 1 -> D_80198F4C, else
+ * D_80198D2C), then clear that flag.
+ *
+ * §71 sibling-first: func_8018A06C (same TU, 0x148 bytes earlier) is the same
+ * two-arm `func_8012A828(entity, D_80198F4C / D_80198D2C)` selector and pins
+ * the widths: `lh` at 0x98/0xFE, `sh` at 0x02.
+ */
+
+extern void func_8012A828(s32 a0, void *a1);
+
+void func_80181FD8(void *a0) {
+
+    extern u8 D_80198F4C[];
+    extern u8 D_80198D2C[];
+    if (*(s16 *)((s32)a0 + 0x98) == 0) {
+        *(s16 *)((s32)a0 + 0x2) = 1;
+        if (*(s16 *)((s32)a0 + 0xFE) == 1) {
+            func_8012A828((s32)a0, D_80198F4C);
+        } else {
+            func_8012A828((s32)a0, D_80198D2C);
+        }
+        *(s16 *)((s32)a0 + 0xFE) = 0;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_003/nonmatchings/ov_SC04_003_jr_8017BEBC", func_80182048);
 

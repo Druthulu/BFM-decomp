@@ -459,7 +459,59 @@ extern void func_801466F0(s32 a0, s32 a1, s32 a2, s32 a3,
 
 DEFINE_func_801466B4()  /* dedup: shared engine-core @0x801466B4 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_after", func_801466F0);
+#include "common.h"
+
+/* func_801466F0 — packs its 7 by-value args into a 0x14-byte stack record and hands
+ * the record to one of two "insert into the 8-slot table" routines.
+ *
+ * The record layout is READ OFF the already-matched callee DEFINE_func_8014680C()
+ * (src/shared/engine_core.h): it takes `short *param_1` and touches
+ *   *param_1 (0x00), param_1[1] (0x02), param_1[2] (0x04), param_1[3] (0x06),
+ *   *(int*)(param_1+4) (0x08), *(int*)(param_1+6) (0x0C), *(int*)(param_1+8) (0x10).
+ * => { u16, u16, u16, u16, s32, s32, s32 }  (§71 sibling-first)
+ *
+ * Store order in the target is exactly PARAMETER order (0x10, 0x18, 0x12, 0x14,
+ * 0x16, 0x1C, 0x20), so the body assigns the fields in the order the args arrive.
+ * sp5 is loaded with `lhu` => it is an unsigned short ANSI param (a K&R decl would
+ * promote to int and give `lw`, §43).
+ */
+
+typedef struct Rec801466F0 {
+    /* 0x00 */ u16 unk0;
+    /* 0x02 */ u16 unk2;
+    /* 0x04 */ u16 unk4;
+    /* 0x06 */ u16 unk6;
+    /* 0x08 */ s32 unk8;
+    /* 0x0C */ s32 unkC;
+    /* 0x10 */ s32 unk10;
+} Rec801466F0;
+
+extern u16 *func_80146750(u16 *param_1);
+extern u16 *func_8014680C(short *param_1);
+
+/* The TU already carries a canonical-sig stub `extern void func_801466F0(s32 x8)`, which
+ * conflicts with the real narrow-param signature. §37 asm-label alias: define under a
+ * private C name that assembles to the real symbol, so both live in one TU. */
+extern void aF801466F0(u16 a0, s32 a1, u16 a2, u16 a3, u16 sp5, s32 sp6, s32 sp7,
+                       s32 sp8) __asm__("func_801466F0");
+
+void aF801466F0(u16 a0, s32 a1, u16 a2, u16 a3, u16 sp5, s32 sp6, s32 sp7, s32 sp8) {
+    Rec801466F0 rec;
+
+    rec.unk0 = a0;
+    rec.unk8 = a1;
+    rec.unk2 = a2;
+    rec.unk4 = a3;
+    rec.unk6 = sp5;
+    rec.unkC = sp6;
+    rec.unk10 = sp7;
+    if (sp8 != 0) {
+        func_80146750((u16 *)&rec);
+    } else {
+        func_8014680C((short *)&rec);
+    }
+}
+
 
 
 

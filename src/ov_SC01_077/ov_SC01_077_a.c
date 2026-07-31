@@ -863,7 +863,35 @@ DEFINE_func_8012A4BC()  /* dedup: shared engine-core @0x8012A4BC (src/shared) */
 
 DEFINE_func_8012A568()  /* dedup: shared engine-core @0x8012A568 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_a", func_8012A598);
+#include "common.h"
+
+/* §71 sibling-first: this is DEFINE_func_8012A4BC (src/shared/engine_core.h L15896)
+ * minus the write-back line, i.e. DEFINE_func_8012A62C (L23877) with the tail
+ * constant folded to 0x30.  164-byte struct assignment => gcc-2.7.2 -O2 emits the
+ * 16-byte-unrolled block-move loop (10 iters, 0xA0) + a 4-byte remainder.
+ *
+ * §37 asm-label alias: the canonical `struct BigCopy` lives in src/shared/engine_types.h
+ * (L312, `{ s32 words[41]; }`), which match_one's `-Iinclude` cannot see.  Declaring a
+ * private tag + an asm-label alias keeps the draft self-contained AND avoids redefining
+ * `struct BigCopy` when this body is spliced into the real TU (which already includes
+ * engine_core.h -> engine_types.h and declares `extern struct BigCopy D_80126DB8;`). */
+
+struct BigCopy164 { s32 words[41]; };
+
+extern s32 D_801151D4;           /* canonical (10 siblings): scalar s32 — cast at use */
+extern struct BigCopy164 D_80126DB8_a __asm__("D_80126DB8");
+extern u8 D_80127504;
+
+/* §73 PARAMS axis (T0, draft-only): the fleet canon is
+ * `extern void func_8012A598(void *a0);` (src/shared/engine_core.h L199). Keep the
+ * canonical param in the signature — the target never reads $a0, so the unused arg
+ * is byte-neutral and no fleet edit (R22) is needed. */
+void func_8012A598(void *a0)
+{
+    D_80126DB8_a = *(struct BigCopy164 *)D_801151D4;
+    D_80127504 = 0x30;
+}
+
 
 DEFINE_func_8012A5F8()  /* dedup: shared engine-core @0x8012A5F8 (src/shared) */
 

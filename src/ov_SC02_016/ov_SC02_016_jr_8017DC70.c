@@ -3558,7 +3558,34 @@ INCLUDE_ASM("asm/ov_SC02_016/nonmatchings/ov_SC02_016_jr_8017DC70", func_8018243
 
 INCLUDE_ASM("asm/ov_SC02_016/nonmatchings/ov_SC02_016_jr_8017DC70", func_80182488);
 
-INCLUDE_ASM("asm/ov_SC02_016/nonmatchings/ov_SC02_016_jr_8017DC70", func_801824AC);
+
+
+s32 func_801824AC(void)
+{
+
+    extern u8 D_801B42D8[];
+    s32 i;
+    u8 v;
+    u8 *p;
+    s32 ret;
+
+    i = 0;
+    v = 1;
+    p = D_801B42D8;
+    do {
+        if (*p == 0) {
+            *p = v;
+            ret = i;
+            goto done;
+        }
+        i++;
+        p++;
+    } while (i < 20);
+    ret = -1;
+done:
+    return ret;
+}
+
 
 
 extern void (*D_801886F0[])(void);
@@ -3959,7 +3986,34 @@ INCLUDE_ASM("asm/ov_SC02_016/nonmatchings/ov_SC02_016_jr_8017DC70", func_801837E
 
 INCLUDE_ASM("asm/ov_SC02_016/nonmatchings/ov_SC02_016_jr_8017DC70", func_80183870);
 
-INCLUDE_ASM("asm/ov_SC02_016/nonmatchings/ov_SC02_016_jr_8017DC70", func_80183930);
+
+/* func_80183930 — guarded state-kick: if the s16 at 0x98 is clear, set the
+ * state word at 0x02 to 1, hand the entity to func_8012A828 with one of two
+ * script tables selected by the s16 flag at 0xFE (== 1 -> D_801A4BFC, else
+ * D_801A49DC), then clear that flag.
+ *
+ * §71 sibling-first: func_8018A06C (same TU, 0x148 bytes earlier) is the same
+ * two-arm `((void (*)(s32, void *))func_8012A828)(entity, D_801A4BFC / D_801A49DC)` selector and pins
+ * the widths: `lh` at 0x98/0xFE, `sh` at 0x02.
+ */
+
+extern void func_8012A828(s32, s32);
+
+void func_80183930(void *a0) {
+
+    extern u8 D_801A4BFC[];
+    extern u8 D_801A49DC[];
+    if (*(s16 *)((s32)a0 + 0x98) == 0) {
+        *(s16 *)((s32)a0 + 0x2) = 1;
+        if (*(s16 *)((s32)a0 + 0xFE) == 1) {
+            ((void (*)(s32, void *))func_8012A828)((s32)a0, D_801A4BFC);
+        } else {
+            ((void (*)(s32, void *))func_8012A828)((s32)a0, D_801A49DC);
+        }
+        *(s16 *)((s32)a0 + 0xFE) = 0;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC02_016/nonmatchings/ov_SC02_016_jr_8017DC70", func_801839A0);
 

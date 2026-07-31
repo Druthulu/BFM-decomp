@@ -4421,7 +4421,34 @@ INCLUDE_ASM("asm/ov_SC06_008/nonmatchings/ov_SC06_008_jr_8017C294", func_80183F7
 
 INCLUDE_ASM("asm/ov_SC06_008/nonmatchings/ov_SC06_008_jr_8017C294", func_80183FCC);
 
-INCLUDE_ASM("asm/ov_SC06_008/nonmatchings/ov_SC06_008_jr_8017C294", func_80183FF0);
+
+
+s32 func_80183FF0(void)
+{
+
+    extern u8 D_801AA180[];
+    s32 i;
+    u8 v;
+    u8 *p;
+    s32 ret;
+
+    i = 0;
+    v = 1;
+    p = D_801AA180;
+    do {
+        if (*p == 0) {
+            *p = v;
+            ret = i;
+            goto done;
+        }
+        i++;
+        p++;
+    } while (i < 20);
+    ret = -1;
+done:
+    return ret;
+}
+
 
 
 extern void (*D_801A6970[])(void);
@@ -4681,7 +4708,41 @@ void func_80184B5C(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_008/nonmatchings/ov_SC06_008_jr_8017C294", func_80184B98);
+
+extern s32 func_8012C354(s32 a0, s32 a1);
+extern s32 func_8012C658(s32 arg0, s32 arg1, s32 arg2);
+extern void func_8012CAE4(void *a0);
+extern s32 func_801788B8(s32 arg0, s32 arg1);
+extern void func_8012A828(s32, void *);
+extern void func_80184E94(void);
+
+
+void func_80184B98(s32 param_1) {
+
+    extern u8 D_801A6AB0[];
+    extern u8 D_801A7070[];
+    s32 v;
+
+    if (((s32 (*)(s32, void *))func_8012C354)(
+            param_1, &D_801A6AB0[(*(u16 *)(param_1 + 0x70) & 0xF) * 0x34]) != 0) {
+        if ((*(u16 *)(param_1 + 0x70) & 1) == 0) {
+            v = func_8012C658(0x1E3, 1, param_1);
+            *(s32 *)(param_1 + 0x6C) = v;
+            if (v == 0) {
+                ((void (*)(s32))func_8012CAE4)(param_1);
+            } else {
+                *(s16 *)(param_1 + 0x2) = 1;
+                *(s32 *)(param_1 + 0xCC) =
+                    ((s32 (*)(s32, void *))func_801788B8)(param_1, func_80184E94);
+            }
+        } else {
+            *(s16 *)(param_1 + 0x2) = 5;
+            *(u16 *)(param_1 + 0x100) = *(u16 *)(*(s32 *)(param_1 + 0x64) + 0x36);
+            func_8012A828(param_1, D_801A7070);
+        }
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_008/nonmatchings/ov_SC06_008_jr_8017C294", func_80184C70);
 
@@ -4791,7 +4852,34 @@ INCLUDE_ASM("asm/ov_SC06_008/nonmatchings/ov_SC06_008_jr_8017C294", func_8018551
 
 INCLUDE_ASM("asm/ov_SC06_008/nonmatchings/ov_SC06_008_jr_8017C294", func_801855A0);
 
-INCLUDE_ASM("asm/ov_SC06_008/nonmatchings/ov_SC06_008_jr_8017C294", func_80185660);
+
+/* func_80185660 — guarded state-kick: if the s16 at 0x98 is clear, set the
+ * state word at 0x02 to 1, hand the entity to func_8012A828 with one of two
+ * script tables selected by the s16 flag at 0xFE (== 1 -> D_801A7290, else
+ * D_801A7070), then clear that flag.
+ *
+ * §71 sibling-first: func_8018A06C (same TU, 0x148 bytes earlier) is the same
+ * two-arm `func_8012A828(entity, D_801A7290 / D_801A7070)` selector and pins
+ * the widths: `lh` at 0x98/0xFE, `sh` at 0x02.
+ */
+
+extern void func_8012A828(s32 a0, void *a1);
+
+void func_80185660(void *a0) {
+
+    extern u8 D_801A7290[];
+    extern u8 D_801A7070[];
+    if (*(s16 *)((s32)a0 + 0x98) == 0) {
+        *(s16 *)((s32)a0 + 0x2) = 1;
+        if (*(s16 *)((s32)a0 + 0xFE) == 1) {
+            func_8012A828((s32)a0, D_801A7290);
+        } else {
+            func_8012A828((s32)a0, D_801A7070);
+        }
+        *(s16 *)((s32)a0 + 0xFE) = 0;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_008/nonmatchings/ov_SC06_008_jr_8017C294", func_801856D0);
 
