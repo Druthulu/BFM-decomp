@@ -132,7 +132,7 @@ CC1_SMOKE_FLAGS := -quiet -O2 -G0 -mips1 -mcpu=3000 -mgas -msoft-float -fgnu-lin
 BINUTILS_WARN_MAJOR := 2
 BINUTILS_WARN_MINOR := 38
 
-.PHONY: help check-env extract build check expected clean report sig-refresh sig-overlays sig-resident build-all check-all audit-corpus audit-cdecl audit-binaries tools-health
+.PHONY: help check-env extract build check expected clean report sig-refresh sig-overlays sig-resident build-all check-all audit-corpus audit-cdecl audit-binaries audit-text-sources tools-health
 
 # -----------------------------------------------------------------------------
 help:
@@ -185,6 +185,15 @@ audit-cdecl:
 audit-binaries:
 	$(VENV_PY) tools/audit_binaries.py
 
+# P30 S28: every tracked C source must be TEXT. A raw NUL inside a char literal (`'<NUL>'` instead
+# of `'\0'`) COMPILES — the fleet stayed byte-identical — but grep treats the file as BINARY and
+# reports nothing, silently, so the file vanishes from every grep-based audit and hand-search. The
+# byte-gate is structurally blind to it (R34: correct bytes, nothing to say). Found when a
+# `grep -rn func_8013C08C src/` came back empty for a function defined right there; a templated body
+# had then carried the NUL into 137 overlays in this same session. Its own oracle, fail-closed.
+audit-text-sources:
+	$(VENV_PY) tools/audit_text_sources.py
+
 # The tool-health ritual (Phase-27 T2). Before the 26-A audit the two oracles above had NO dependent
 # — nothing invoked them, so "run the audits" was a manual habit, and a habit nobody automates is a
 # gate nobody counts (R32). This is that dependent: `make tools-health` runs both derived oracles and
@@ -202,6 +211,7 @@ tools-health:
 	$(MAKE) --no-print-directory audit-corpus
 	$(MAKE) --no-print-directory audit-cdecl
 	$(MAKE) --no-print-directory audit-binaries
+	$(MAKE) --no-print-directory audit-text-sources
 	$(MAKE) --no-print-directory report BINARY=main
 	# The cookbook index is DERIVED (R33) and self-asserts its coverage (R32). Stale = agents can't
 	# find documented idioms and re-derive them at full token cost (measured, P30 wave 1).
