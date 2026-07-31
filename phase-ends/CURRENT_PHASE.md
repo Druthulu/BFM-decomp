@@ -110,7 +110,7 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 
 # 🛑 SESSION-28 CHECKPOINT (2026-07-31 08:1x) — FRESH SESSION SAFE HERE
 > Supersedes SESSION-27 below. **Nothing is running. Tree lock FREE. Tree clean** but for the R23
-> `db.*.gbf` churn (never stage). **HEAD `commit:1279`** (+ this doc commit).
+> `db.*.gbf` churn (never stage). **HEAD `commit:1281`** (+ this doc commit).
 > Effort: opened **xHigh** → **Max** for the jr re-measurement and the T2 probe ladder → back to
 > **xHigh** for the driver + sweep. `make tools-health` RC=0 at session open.
 > **R22 clean-fleet run FIVE times this session, 140/140 every time.**
@@ -205,6 +205,34 @@ probe, since the transform is byte-neutral by construction.
 **Wrong by 8×.** That scan ran while `extract-all` was rebuilding AND wrapped `corpus.stubs()` in a
 bare `except: continue`, swallowing the R32 coverage assertion. True: **2,184 stubs / 138 overlays** —
 which **vindicates the T0(f) "2,192 open members" pin I had called stale**. Cookbook **§126a**.
+
+## 🌊 T3 WAVE 1 (Ultracode, 30 agents, 1.33M tok) — 15 drafted / 15 rtu-confirmed / **12 BANKED**
+Target: the population the `-O0` routing made draftable. Every drafter self-checked with
+`match_one --o0` + `rtu_match --o0`; every MATCH was then re-run by an independent skeptic told to
+default to REFUTED ⇒ 15/15 confirmed, 0 disputed. **Whole-binary gate: 12/15** — textbook §52b.
+The 3 failures are NAMED INTEGRATION classes, none a compiler wall:
+`func_8013BD74` **CARVE-REFUSED** (it is a jr fn — needs the §81 carve chain; **reach 138**) ·
+`func_8013B83C` **CC1-FAIL** (real-TU compile, error not yet read; **reach 138**) ·
+`func_80184058` **PLUMBING**.
+
+⚠️ **`func_8013C08C` (reach 138) IS BANKED BUT NOT PROPAGATED.** First sweep said "0 families" —
+the map still listed it as a stub; regenerated per the `crack-wave-sweep-map-regen` path, then the
+sweep found 137 candidates and banked **0/137**. Per **§94 a family 0/N is a TYPE-CARRY failure
+until proven otherwise**, and this body carries a §100 body-scoped typedef ⇒ lift its local types
+transitively and re-sweep. **Open, NOT a wall.**
+
+📉 **ROI, honestly:** 1.33M tokens bought 12 banks and **+0.00pp headline** (93.17/89.1/80.4
+unchanged at displayed precision; distinct 72,016→72,028). The wave's real value is contingent —
+it rests on the three **reach-138** functions, and all three are currently unpropagated or
+gate-failed. **Fix the propagation before running wave 2**: drafting more ×2-reach targets is not
+where the leverage is.
+
+📓 **Flywheel (R16), the uncomfortable number: the index fired on only 3/15.** Agents independently
+re-derived the same undocumented idiom, and two found their decisive levers in a SOURCE COMMENT in
+`ov_SC01_077_o0.c` rather than in `docs/`. Distilled as **§127** (the `-O0` regime: the
+CONSTANT-OFFSET FOLD `p->f`→`lbu 3(r)` vs `p[i]`→`addiu;lw 0(r)`; spills are real named locals;
+write plain C), **§127a** (§71 sibling-first is the strongest `-O0` lever — read the banked fns in
+the target's own `_o0*` file first), **§127b** (promote levers out of source comments).
 
 ## ▶ RESUME HERE (nothing blocked except where noted)
 0. **[T3, breadth] DRAFT the 2,200 newly-`-O0`-routed stubs** — 16 distinct addresses × ~137

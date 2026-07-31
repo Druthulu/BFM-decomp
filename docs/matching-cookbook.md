@@ -8338,3 +8338,47 @@ why. A total is only trustworthy if the denominator was asserted.
 *(It also cost credibility in the other direction: I used the bad number to call the T0(f) pin of
 "2,192 open members" STALE. The pin was right. Re-derivation is only worth more than a carried number
 if the re-derivation is sound — R35 applies to the re-measurement as much as the original.)*
+
+## §127 — The `-O0` regime: the CONSTANT-OFFSET FOLD, and why `-O0` needs its own idiom set (P30 T3 wave, 15 targets)
+
+The `-O0` population is now large (the P30 T2 routing put **2,200+ open stubs** into `-O0` TUs), and
+a 15-target wave against it showed the cookbook is written almost entirely for `-O2`. **The index
+fired on only 3 of 15 targets**, and multiple agents INDEPENDENTLY re-derived the same idiom — the
+signature that a body of knowledge has a hole (§124's lesson applied to the index itself).
+
+### The idiom they kept re-deriving: the constant-offset fold
+At `-O0`, gcc-2.7.2 folds a **constant** struct offset into the load's displacement but will NOT fold
+an **indexed** one:
+```c
+p->f      /* -> lbu  $v0, 3($s0)          — offset folded into the load */
+p[i]      /* -> addiu $v0,$s0,..; lw 0($v0) — address computed FIRST, then a 0-displacement load */
+```
+So when the target shows `lbu 3(reg)` you must write the **member access**; when it shows
+`addiu` + a 0-displacement load you must write the **indexed** form. At `-O2` these converge and the
+distinction is invisible — which is why nothing in §1–§126 covers it.
+
+### The rest of the `-O0` regime (write PLAIN C, and mean it)
+- Frame-pointer prologue `addu $fp,$sp,$zero` (`21F0A003`) is the detector (§6/§116); **every** check
+  needs `--o0` or you chase a phantom SIZE-MISMATCH.
+- Every local is spilled to the frame and reloaded at each use. A `0x18($fp)` spill/reload pair is a
+  **real named local**, not a compiler temp — declare it.
+- Load-delay `nop`s and redundant `addu rd,rs,$zero` copies are normal; do not "clean" them.
+- Do **not** hand-optimize, do not add temporaries to help the compiler. At `-O0` the C maps almost
+  1:1 to the asm; the usual `-O2` steering levers (pins, live-length dials, statement reordering) are
+  mostly inert and mostly a distraction.
+
+### §127a — §71 (sibling-first) is the strongest `-O0` lever, and it beats the index
+Several targets fell immediately to an **already-banked sibling in the same TU**. `func_80184868`
+matched off the exact shape banked hours earlier in the same `_o0d` file:
+```c
+s32 ret;  ret = func_8001ABBC(0, 0, &D_xxxxxxxx, 0, 0);  return ret;
+```
+**Before drafting an `-O0` function, read the banked functions in its own `_o0*` file.** An `-O0` TU
+is a near-uniform code regime, so a sibling's shape transfers far more reliably than at `-O2`.
+
+### §127b — the knowledge was in a SOURCE COMMENT, not the cookbook
+Two agents reported their decisive levers came from the header comment at the top of
+`src/ov_SC01_077/ov_SC01_077_o0.c`, not from `docs/`. That comment is real, hard-won knowledge sitting
+where only someone already editing that file will find it. **When a lever is discovered in a source
+comment, promote it to the cookbook and leave a pointer** — otherwise every future agent pays to
+rediscover it, which is exactly what happened here across 12 of 15 targets.
