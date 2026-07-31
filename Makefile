@@ -579,7 +579,15 @@ build/src/ov_SC01_077/ov_SC01_077_o0.o: CC1FLAGS := -quiet -O0 -G0 -mips1 -mcpu=
 # overlay (reach-134), carved into its own object <ov>_o0b by each overlay's splat config; the
 # struct-assign memcpy matches only at -O0. One wildcard rule -O0-compiles all overlays' _o0b.o
 # (the ×134 rollout; tools/rollout_whale_o0.py). All share src/shared/func_80144B9C.h.
-WHALE_O0B_OBJS := $(patsubst src/%.c,build/src/%.o,$(wildcard src/ov_*/ov_*_o0b.c))
+#
+# P30 T2: the glob is `_o0?` (was `_o0b`) so ANY lettered -O0 sub-split is covered by this one rule.
+# A 4th -O0 region was found inside an -O2 jr split (0x80183CF0..0x80184920, 15 contiguous fns in
+# ov_SC03_014 + ov_SC03_015) — the "carve within a carve": the containing object is sub-split into
+# pre/-O0/post and the middle region named <ov>_o0c. Without the widened glob each new region would
+# need its own hand-added rule, and a MISSED rule is silent: the region compiles at -O2 and every
+# residual it produces is a pure artifact (§116 — opt level is a property of the FILE).
+# corpus.o0_sources() parses this rule and resolves `?` via glob, so the -O0 oracle stays correct.
+WHALE_O0B_OBJS := $(patsubst src/%.c,build/src/%.o,$(wildcard src/ov_*/ov_*_o0?.c))
 $(WHALE_O0B_OBJS): CC1FLAGS := -quiet -O0 -G0 -mips1 -mcpu=3000 -mgas -msoft-float -fgnu-linker
 
 # Phase-29 T2 Arm A: the -O0 cluster (0x8013B568..0x8013C98C) carved per single-file overlay into
@@ -751,3 +759,4 @@ clean:
 	@rm -rf build expected asm assets undefined_syms_auto.txt undefined_funcs_auto.txt
 	@rm -f include/include_asm.h include/macro.inc include/labels.inc include/gte_macros.inc
 	@echo "clean: removed build/, expected/, and the regenerated splat tree (asm/, assets/, include macros, undefined_*_auto.txt)."
+
