@@ -669,13 +669,52 @@ def _foreign_defs(unit_text, addr):
     return out
 
 
+def _alias_decl_for(lines, addr):
+    """(alias_ident, decl_line_index) when the function is defined under the §37/§73 ASM-LABEL ALIAS
+    form, else (None, None).
+
+    A body whose byte-true signature conflicts with the fleet-canonical decl (BOTH §73 axes at once —
+    return AND params) is banked zero-touch by giving the definition a different C identifier and
+    binding the emitted SYMBOL with a GNU asm label:
+
+        extern void func_8016191C(void *a0, s32 a1);            <- the fleet canon, in engine_core.h
+        int aF8016191C(int param_1, unsigned int param_2) __asm__("func_8016191C");
+        int aF8016191C(int param_1, unsigned int param_2) { ... }
+
+    `extract_unit` matched only a definition head literally NAMED func_<ADDR>, so it was structurally
+    blind to this form and returned None — which every caller reads as "not matched". MEASURED
+    (Phase 30): that blindness was the WHOLE of the h_seq sweep's 137 "no matched unit" skips — one
+    exemplar (func_8016191C @ ov_SC01_077) × 137 same-address members, 3,288 ins, every member still
+    an INCLUDE_ASM stub and otherwise sweep-ready. The tool, not the compiler (R35).
+
+    The alias DECLARATION must travel with the unit: without it the sibling TU emits the symbol
+    `aF8016191C` and the function never lands at func_<ADDR>."""
+    rx = re.compile(rf'^\s*[A-Za-z_][\w \*]*?\b([A-Za-z_]\w*)\s*\([^;]*\)\s*'
+                    rf'__asm__\s*\(\s*"func_{addr:08X}"\s*\)\s*;', re.I)
+    for j, ln in enumerate(lines):
+        m = rx.match(ln)
+        if m and m.group(1).lower() != f"func_{addr:08x}":
+            return m.group(1), j
+    return None, None
+
+
 def extract_unit(ov, addr):
     """the matched inline def + its contiguous preceding extern/blank/comment lines, from the overlay src.
-    func_<addr> names are UPPERCASE-hex in src (func_8013DBE4); match case-insensitively to be safe."""
-    pat = re.compile(rf'^\s*[A-Za-z_][\w \*]*\bfunc_{addr:08X}\s*\(', re.I)
+    func_<addr> names are UPPERCASE-hex in src (func_8013DBE4); match case-insensitively to be safe.
+
+    Also resolves the §37/§73 ASM-LABEL ALIAS definition form (see `_alias_decl_for`): the accepted
+    definition name becomes the alias identifier, and the alias declaration line is carried into the
+    unit so the sibling still emits the func_<ADDR> symbol."""
+    plain = re.compile(rf'^\s*[A-Za-z_][\w \*]*\bfunc_{addr:08X}\s*\(', re.I)
     for cf in sorted(glob.glob(f"src/{ov}/{ov}*.c")):
         lines = open(cf).read().split("\n")
+        alias_ident, alias_ln = _alias_decl_for(lines, addr)
+        # RE-DERIVE per file: `pat` must never leak an earlier file's alias into a later one.
+        pat = (re.compile(rf'^\s*[A-Za-z_][\w \*]*\b{re.escape(alias_ident)}\s*\(', re.I)
+               if alias_ident else plain)
         for i, ln in enumerate(lines):
+            if alias_ident and i == alias_ln:
+                continue                       # the alias DECLARATION is not the definition
             # A DECLARATION ends in `;` — but m2c writes them with a trailing comment
             # (`M2C_UNK func_80178D40(s32, s32);   /* extern */`), so the raw line ends in `*/` and the
             # old `endswith(";")` guard let it through as a DEFINITION. The forward brace-scan then ran
@@ -698,7 +737,7 @@ def extract_unit(ov, addr):
                 # those belong to the FILE, not to the first function under them. Absorbing one makes
                 # the unit drag ~140 unrelated externs into every sibling — several naming types the
                 # sibling's TU lacks — and the whole family gate-fails (Phase 26 session 6).
-                while j >= 0 and (lines[j].strip() == "" or
+                while j >= 0 and (lines[j].strip() == "" or j == alias_ln or
                                   lines[j].lstrip().startswith(("extern", "//", "/*", "*", "typedef"))):
                     if _DECL_LAYER_END.search(lines[j]):
                         break
@@ -724,6 +763,12 @@ def extract_unit(ov, addr):
                         end = k
                         break
                 unit_text = "\n".join(lines[start:end + 1])
+                if alias_ident and not (start <= alias_ln <= end):
+                    # The backscan walks PAST the alias line (so the fn's own preceding externs are
+                    # carried, exactly as for a plain definition) and normally sweeps it into
+                    # [start:end]. If some layout kept it out, carry it explicitly and FIRST — the asm
+                    # label is what binds this body to the func_<ADDR> symbol in the sibling TU.
+                    unit_text = lines[alias_ln].strip() + "\n" + unit_text
                 extra = _foreign_defs(unit_text, addr)
                 if extra:
                     # R32: a unit that defines a function OTHER than its target cannot be templated —
@@ -737,6 +782,13 @@ def extract_unit(ov, addr):
                 if macros:
                     unit_text = "\n".join(macros) + "\n" + unit_text
                 return unit_text, cf
+        if alias_ident:
+            # R32: we PROVED the function is defined here (the asm label binds the symbol) but could
+            # not find the alias identifier's definition. Falling through to _macro_unit would report
+            # "not matched" — the silent skip this whole fix exists to delete. Refuse loudly instead.
+            print(f"[extract_unit] func_{addr:08X} in {ov}: {cf} declares the asm-label alias "
+                  f"`{alias_ident}` but no definition of it was found — refusing (R32).")
+            return None, None
     return _macro_unit(addr)
 
 
