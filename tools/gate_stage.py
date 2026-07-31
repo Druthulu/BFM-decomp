@@ -514,6 +514,16 @@ def main():
                          "Use with --src/--asm-subdir pointing at the split.")
     ap.add_argument("--no-propagate", action="store_true")
     ap.add_argument("--commit", action="store_true")
+    # PARALLEL-SAFETY (P30 wave 3). run_gate() has always taken per-worker result paths, but the CLI
+    # never exposed them, so every CLI invocation used the SHARED `.run/harvest_{verified,failed}.txt`.
+    # Two CLI gates running at once (one per binary — which is safe on every OTHER axis, since the
+    # byte-gate is per-binary) would read each other's results and mis-attribute banks: the §55b
+    # trap-4 shared-scratch defect that bit match_one in Phase 28, one level up. Default to a
+    # PER-BINARY path so parallel gating is safe by construction rather than by remembering a flag.
+    ap.add_argument("--verified-out", default=None,
+                    help="where harvest_verify writes the verified list (default: per-binary, "
+                         ".run/harvest_verified.<binary>.txt — do not share across concurrent gates)")
+    ap.add_argument("--failed-out", default=None)
     a = ap.parse_args()
     b = a.binary
     # `src` RESTRICTS the byte-gate to ONE TU. Defaulting it to the main .c silently pinned the gate
@@ -536,7 +546,9 @@ def main():
                        # — which is why the grinder could bank in ov_SC03_014 while the CLI could not.)
                        good_sha=a.good_sha,
                        propagate=not a.no_propagate, source_tag=a.source_tag, commit=a.commit,
-                       src_file=a.src_file)
+                       src_file=a.src_file,
+                       verified_out=a.verified_out or f".run/harvest_verified.{b}.txt",
+                       failed_out=a.failed_out or f".run/harvest_failed.{b}.txt")
     print(json.dumps(summary))
 
 
