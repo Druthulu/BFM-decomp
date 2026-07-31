@@ -109,6 +109,19 @@ the T2 log entries; check both background tasks' outcomes first (`git log` for t
 
 ## Per-task log
 
+### ✅ T0.5 COMPLETE — the fleet Ghidra-C prefetch: 124/124 programs, 7,716 files, 335 min, unattended
+Zero-token, headless, resumable; imported ~120 overlay programs on demand and ran the
+`DefineFunctions` completion pass per program (raw-blob auto-analysis only finds the reachable
+subset — the Phase-10 finding, now automated). **Coverage measured, not assumed:**
+- **5,777 of 6,070 families needing a fresh crack (95.2%) have a cached seed**
+- **main 2,001/2,002 (100%)** · **resident 14/14 (100%)** · 1 residue (one main addr with no fn)
+
+**What this changes:** the drafting surface is now fully fueled with NO MCP dependency, so waves can
+run unattended against any part of the fleet — the precondition Drew asked about. It also un-blocks
+P31's main-EXE campaign early (its 1,034 game-code stubs are all cached), though that stays P31
+scope. `tools/prefetch_fleet.py` is committed and re-runnable; the Ghidra programs are
+script-reproducible, so only the tool is tracked, not the DB bulk.
+
 ### ✅ REDO UNDER LOCK — 52 cores + 911 members banked; R22 140/140; the "cliff" was an artifact
 Re-ran the whole banking sequence serially under `treelock.sh`: parallel 8-binary gate → non-jr
 behemoth gate → **sig+map regen** (a bank invalidates the map) → tier-routed propagation (§123) →
