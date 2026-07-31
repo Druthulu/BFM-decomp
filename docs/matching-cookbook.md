@@ -8142,3 +8142,56 @@ shape, different stage, and it is the shape that manufactured the "families bank
 **Corollary on the CARRY-FIXABLE label:** it is real for h_exact bodies (hoist the externs/typedef to
 file scope above the def and it lifts), but seeing it on an h_seq family means you asked the wrong
 tool first — fix the routing before fixing the externs.
+
+## §124 — A "not matched" verdict can mean the definition is there under a DIFFERENT C NAME: the asm-label alias blind spot (P30 SESSION-28, `func_8016191C` ×137)
+
+**Symptom.** A family sweep reports `no matched unit for func_XXXXXXXX in <ov>` and skips every member —
+even though `corpus.stubs` says the exemplar is *not* a stub (i.e. the invariant says it IS matched).
+The two statements look contradictory; they are both true.
+
+**Cause.** `family_remap.extract_unit` looked for a definition head literally *named* `func_<ADDR>`.
+But a body whose byte-true signature conflicts with the fleet-canonical declaration on **both** §73 axes
+at once (return AND params) is banked zero-touch by the §37 asm-label alias — the C identifier differs
+and a GNU asm label binds the emitted symbol:
+
+```c
+extern void func_8016191C(void *a0, s32 a1);                 /* the fleet canon, in engine_core.h */
+int aF8016191C(int param_1, unsigned int param_2) __asm__("func_8016191C");
+int aF8016191C(int param_1, unsigned int param_2) { ... }
+```
+
+`extract_unit` matched nothing, returned `None`, and **every caller reads `None` as "not matched."**
+
+**Measured (P30).** That single blind spot was the ENTIRE `no matched unit` skip class: **one exemplar ×
+137 same-address members**, 24 ins each = 3,288 ins, every member still an `INCLUDE_ASM` stub and
+otherwise sweep-ready. After the fix: `137 banked / 0 failed`, R22 140/140. Fourth consecutive time a
+"structural" residual resolved to our own tooling (R35).
+
+**The fix, and the two traps inside it.**
+1. Resolve `<ident>(...) __asm__("func_<ADDR>");` → `<ident>` and accept *that* as the definition head.
+   **Re-derive the pattern PER FILE** — one file's alias must never leak into the next file's scan.
+2. **Carry the alias DECLARATION into the unit.** Without it the sibling TU emits the symbol
+   `aF8016191C` and the body never lands at `func_<ADDR>` — it would link, build, and be wrong.
+   Let the preceding-decl backscan walk *past* the alias line (so the function's own externs are
+   carried exactly as for a plain definition), then guard `start <= alias_ln <= end` against
+   double-emitting it.
+3. R32: an alias declaration with **no findable definition** must refuse LOUDLY. Falling through to
+   `_macro_unit` re-reports "not matched" — the exact silent skip the fix exists to delete.
+
+**Do NOT "fix" this at the source.** The tempting alternative is to widen the shared header
+(`extern void` → `extern s32`), delete the alias, and rename the definition back. That addresses only
+§73's RETURN axis while the decl and body also disagree on PARAMS, so it still conflicts — and it is a
+**T2 fleet-shared** edit where the alias is **T0 draft-only**. Fix the reader, not the source.
+
+**The general law.** `corpus.stubs` (the invariant) and a source scanner can disagree, and when they do
+**the scanner is wrong** — the invariant is derived from the build, the scanner is a text model of it
+(R33). Any place that turns "I could not find the text" into "it is not matched" is a silent-skip
+defect waiting to be measured.
+
+### §124a — a family sweep's `0 matched-exemplar families` may be a FILTER, not a wall
+
+`family_sweep --hseq` defaults to `--band substantial`. A `mid`/`tiny` family therefore returns
+`[hseq] 0 matched-exemplar families (band=substantial); 0 candidate members` — which reads exactly like
+"nothing to do here." **Pass `--band all` (or the family's band) before concluding anything.** Same
+shape as §53 (the missing carve) and §116 (the wrong opt level): a 0 from the wrong invocation is not
+evidence. Check the band the family map assigned before you spend a probe on the residual.

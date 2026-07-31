@@ -84,7 +84,63 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 
 ---
 
-# 🛑 SESSION-27 CHECKPOINT (2026-07-31 01:25) — FRESH SESSION SAFE HERE
+# 🛑 SESSION-28 CHECKPOINT (2026-07-31 08:1x) — FRESH SESSION SAFE HERE
+> Supersedes SESSION-27 below. **Nothing is running. Tree lock FREE. Tree clean** but for the R23
+> `db.*.gbf` churn (never stage). **HEAD `commit:1261`** (+ this doc commit).
+> Effort **xHigh** (Drew, session start). `make tools-health` RC=0 at session open.
+
+## FLEET — R22 clean-fleet **140 passed / 0 failed** (verified this session, genuinely clean tree)
+**92.70% fn-count · 88.3% instr-weighted · 78.7% distinct-code** (70,590 / 87,459 unique fns) ·
+dedup 1904/0 · 0 NON_MATCHING linked. Phase opened at 92.00 / 87.5 / 78.0.
+
+## WHAT LANDED THIS SESSION
+- **Resume item 2 CLOSED — the "137 no matched unit" class: 137/137 banked, 0 failed** (`commit:1261`),
+  behind a one-line-class tool fix (`commit:1260`). R22 140/140. Cookbook **§124/§124a**.
+- **Resume item 1 RE-SCOPED (not banked)** — see below; it is T2 work, and now T2's best ×1 probe.
+
+## ▶ RESUME HERE (nothing blocked except where noted)
+1. **The 3 jr behemoths + group B's carve** (staged `.run/beh-gate/<binary>/`; member list
+   `.run/jtbl_members_0x80191c50.json`). **Both run `make extract` — run ALONE under
+   `tools/treelock.sh`.** ⚠️ Re-derive which of the 7 staged fns are still stubs FIRST — 4 were
+   banked in SESSION-27 and the staging dir still holds all 7.
+2. **T2 `-O0` carve-within-a-carve.** Open with the **×1 probe on the 4th region** (below) — smaller
+   blast radius than the planned `ov_SC07_007` and it is the Arm-A `%lo +0x20` shift oracle.
+3. **Next wave**: 3,873 fresh cached cores across 119 binaries (`.run/p30w4_pool.json`), dealt ACROSS
+   binaries so the gate fans out. **Breadth ⇒ prompt Drew for `/effort ultracode` and WAIT** (R26/R27).
+4. T1 remainder (10 named S16 drafts + route the ~90 to REDRAFT lanes), T4, T5.
+
+## 📌 THE 4th `-O0` REGION — verified, sized, and correctly BLOCKED (do not re-litigate)
+My own byte scan (not the agent's claim — R14/R37) over all 156 fns of `ov_SC03_014_jr_8017EB7C`:
+the `-O0` frame-pointer prologue covers **exactly** the contiguous run `0x80183CF0..0x80184868`
+(15 fns), with `-O2` neighbours `0x80183A54` below and `0x80184920` above — a clean cut.
+**Prize: 30 fn-instances / 1,504 ins** — the region is h_exact-identical in **ov_SC03_014 +
+ov_SC03_015 ONLY**; the 3 other overlays holding a `func_801846E4` (SC03_090, SC04_005, SC05_018)
+are DIFFERENT code at the same VA (overlays share VAs — the §-index warning, live).
+**Blocked structurally:** all 15 live in an `-O2` split (`corpus.o0_sources` confirms), and the
+append-to-`_o0b` route fails BY CONSTRUCTION (the existing `_o0b` covers the whale at file
+`0x1CA44..0x1D64C`; this region is far above it, so appended bytes land at the wrong VA — the same
+reasoning that killed the T2 ×1 append probe). ⇒ needs the re-carve; it IS T2.
+
+## ⚠️ TWO CORRECTIONS TO THE SESSION-27 CHECKPOINT (mine, R14)
+1. **The 137 were SKIPS, not failures.** S27 folded them into the 401 gate-failures;
+   `137+22+10 = 169 ≠ 401`. They are a separate `skipped{}` bucket.
+2. **The cause was NOT "the exemplar banked in a different binary."** It is banked in
+   `ov_SC01_077` under the §37/§73 **asm-label alias** (`int aF8016191C(...) __asm__("func_8016191C")`),
+   and `extract_unit` only matched a head literally named `func_<ADDR>`. One exemplar × 137
+   same-address members — a tool lookup miss, the 4th consecutive "structural" residual to resolve
+   to our own tooling (R35). Fixed T0-only; the alternative (widen `engine_core.h`, drop the alias)
+   was REJECTED — it fixes only §73's RETURN axis while the decl/body also disagree on PARAMS, and
+   it is a T2 fleet-shared edit. §124.
+
+## 🧪 A METHOD NOTE WORTH KEEPING (cost me one probe this session)
+I ran a `corpus.stubs` probe **while `make extract-all` was mid-flight** and got 4 binaries' worth of
+garbage. `corpus.py`'s R32 coverage assertion caught it and refused to answer instead of returning a
+wrong stub set — the assertion earning its keep. *A measurement taken during a rebuild is not a
+measurement* (SESSION-27's law, re-earned). Re-derive after the campaign exits.
+
+---
+
+# 🛑 (superseded) SESSION-27 CHECKPOINT (2026-07-31 01:25)
 > Supersedes SESSION-26 below. **Nothing is running. Tree lock FREE. Tree clean** but for the R23
 > `db.*.gbf` churn (never stage). **HEAD `commit:1258`.**
 
