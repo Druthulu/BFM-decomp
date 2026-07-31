@@ -52,17 +52,27 @@ proceeds; the first P30 commit waits on it.
       (f) regenerate the frontier (report / family_hseq / worklist / fuel manifest) + **pin the three
       contested populations** → the one-page frontier report (**report point #1**).
       Verify: tools-health green; digests committed; velocity derives from digest git history (R33).
-- [ ] **T0.5 — Fleet Ghidra-C prefetch batch [background]** — `ImportOverlay.java` (~130 missing
+- [x] **T0.5 — Fleet Ghidra-C prefetch batch [background]** ✅ (SESSION-27: 124/124 programs, 7,716
+      files, 335 min unattended; 95.2% of crack-needing families seeded, main 2,001/2,002, resident
+      14/14. *Was left unticked through S27 — corrected S28.*) — `ImportOverlay.java` (~130 missing
       programs) + `DecompileFunctions.java` over every remaining distinct stub (overlay tail + main's
       1,034; skip LINKED) → `.run/ghidra_c/`. **R23 lock discipline** (stop the hook-launched MCP
       server first or route through it). Verify via `build_fuel_manifest.py` counters + 5 spot-reads.
 - [ ] **T1 — Integration-recovery sweep [Ultracode — prompt at launch]** — all close=0 stranded
       drafts through `recover_integration.py` tiers + §65b de-macroize + the snapshot-safe ladder;
       the 10 named SESSION-16 blocked drafts. Prior: 39% recovery. **Report point #2.** R22 per batch.
-- [ ] **T2 — The `-O0` cluster [Max, deep]** — PRIMARY: build the two-file atomic substitution
-      driver (stage remapped body into `<ov>_o0b.c` AND drop the stub's INCLUDE_ASM from
-      `<ov>_after.c` in one edit, gate) and sweep the T0-pinned families. FALLBACK: R17 research on
-      the Arm-A splat `%lo +0x20`. Resistant residue → wall ledger with evidence. **Report point #3.**
+- [~] **T2 — The `-O0` cluster [Max, deep]** — **ROUTE PROVEN + TOOLED (S28); the sweep remains.**
+      DEVIATION from the phase-start plan, byte-justified: the PRIMARY "two-file atomic o0b
+      substitution driver" was **refuted** (append mis-places by construction unless the target
+      abuts the o0b object's END — the T2 ×1 probe), and the FALLBACK premise was **also wrong** —
+      the Arm-A splat `%lo +0x20` **does not bite**: a pure `-O2` sub-split of a jr object is
+      byte-neutral (probe 1). The real constraint is §126: *an address range is not an optimization
+      region* — it contains already-matched `-O2` bodies, so the bound is (range MINUS matched) and
+      K islands ⇒ K+1 regions (probes 3–4). **Shipped:** `tools/o0_subsplit.py`, Makefile `-O0` glob
+      `_o0b`→`_o0?`, 6 fns banked (ov_SC03_014 + ov_SC03_015). **Remaining:** run the tool over the
+      18 overlays of the `0x8013B568..0x8013C98C` cluster (**275 open stubs, re-derived S28** — the
+      T0(f) "2,192" pin is stale), gate each, then draft. Resistant residue → wall ledger.
+      **Report point #3.**
 - [ ] **T3 — The standing crack-wave loop [Ultracode waves; Max between]** — lanes interleaved,
       propagate behind every crack same-session:
       A zero-crack (~61, propagation-only) · B top-mass fresh families (no size cap; jr via
@@ -86,8 +96,10 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 
 # 🛑 SESSION-28 CHECKPOINT (2026-07-31 08:1x) — FRESH SESSION SAFE HERE
 > Supersedes SESSION-27 below. **Nothing is running. Tree lock FREE. Tree clean** but for the R23
-> `db.*.gbf` churn (never stage). **HEAD `commit:1261`** (+ this doc commit).
-> Effort **xHigh** (Drew, session start). `make tools-health` RC=0 at session open.
+> `db.*.gbf` churn (never stage). **HEAD `commit:1268`** (+ this doc commit).
+> Effort: opened **xHigh** → **Max** for the jr re-measurement and the T2 probe ladder → back to
+> **xHigh** for the driver + sweep. `make tools-health` RC=0 at session open.
+> **R22 clean-fleet run FOUR times this session, 140/140 every time.**
 
 ## FLEET — R22 clean-fleet **140 passed / 0 failed** (verified this session, genuinely clean tree)
 **92.71% fn-count · 88.3% instr-weighted · 78.7% distinct-code** (70,594 / 87,459 unique fns) ·
