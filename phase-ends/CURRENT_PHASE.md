@@ -109,6 +109,23 @@ the T2 log entries; check both background tasks' outcomes first (`git log` for t
 
 ## Per-task log
 
+### T4 (partial) ✅ — the two "Phase-22 grinder bugs" are STALE carry items; the real fixes were elsewhere
+Verified against the code, not the list (R14 on our own defect ledger):
+- **"split-file-blind lookup" — ALREADY FIXED.** `asm_subdir_for` globs `nonmatchings/*/` which
+  matches every split; verified on a `_jr_` fn, an `_o0` fn, and an absent fn. Struck.
+- **"churn-without-blacklist" — ALREADY FIXED.** The blind `tried.clear()` was replaced by
+  input-signature gating in the T5 targeting work (re-open only fns whose draft mtime/closeness
+  changed), and the blacklist exists. Struck.
+- **Real fix taken instead (R33):** `asm_subdir_for` was a PARALLEL implementation of
+  `corpus.asm_path` that silently took `g[0]` on multiple matches — now derived from the oracle.
+- **`--fix-def-sig` posture:** flag correctly defaults OFF, but its help still advertised
+  "Byte-neutral; gate arbitrates" — the exact claim T84 refuted (it imposed a signedness-wrong
+  header decl over a byte-correct draft, `slti`/`sltiu`, and held 137 members at 0 until DROPPED).
+  Help now carries the §119 warning. **The posture was right; the documentation was the defect.**
+**Lesson for the phase close:** the carried-defect list had 2 of its entries already fixed. A
+defect ledger nobody re-verifies decays into busywork — verify before scheduling (R35's sequencing
+applied to the backlog of *our own* bugs).
+
 ### T3 wave 1 (Ultracode, 14 agents, 1.20M tok) — 14/14 match_one MATCH → **8/14 BANKED**; the gate's propagation TIMEOUT left the fleet half-written (caught, reverted, tool fixed)
 **The wave:** 14 fresh reach-138 cores in ov_SC01_077 (117,162 gain-ins in play), one agent each,
 drafting against the §31 map + cookbook with `match_one`/`rtu_match` self-verification. **All 14

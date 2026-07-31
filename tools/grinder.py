@@ -18,7 +18,7 @@ Usage: grinder.py [--permute-secs 120] [-j 14] [--batch 10] [--max-nins 220]
 """
 import argparse, glob, json, os, shutil, subprocess, sys, time
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-import p16_permute, gate_stage, backlog, autopsy
+import p16_permute, gate_stage, backlog, autopsy, corpus
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 AUTODIR = ".run/auto"
@@ -74,9 +74,14 @@ def log(m):
 
 
 def asm_subdir_for(binary, fn):
-    """the asm subdir holding binary's <fn>.s (main or _a/_o0 split); None if absent."""
-    g = glob.glob(os.path.join(REPO, f"asm/{binary}/nonmatchings/*/{fn}.s"))
-    return os.path.dirname(os.path.relpath(g[0], REPO)) if g else None
+    """the asm subdir holding binary's <fn>.s (main or any _a/_o0/_jr split); None if absent.
+
+    DERIVED from corpus.asm_path (R33) instead of a second glob implementation. The glob was not
+    split-BLIND (the `*` matches every subdir — the Phase-22 'split-file-blind lookup' carry item is
+    STALE, verified P30 T4), but it was a parallel oracle that silently took g[0] when several
+    matched, and a parallel oracle is the defect class corpus.py exists to retire."""
+    p = corpus.asm_path(binary, fn)
+    return os.path.dirname(os.path.relpath(p, REPO)) if p and os.path.exists(p) else None
 
 
 def heartbeat(state, current=None, banked=0, fp=None):

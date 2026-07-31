@@ -770,9 +770,14 @@ def main():
                          "(they normally need tools/jtbl_family_bank.py). The whole-binary byte-gate stays "
                          "the sole arbiter, but expect ~0%% — and do NOT read that 0%% as a wall.")
     ap.add_argument("--fix-def-sig", action="store_true",
-                    help="T6: rewrite each member draft's DEF signature to the shared-header (engine_core.h) "
-                         "canonical decl, so a member forward-declared there with a different sig (e.g. s32* vs "
-                         "void*) stops throwing `conflicting types` and compiles. Byte-neutral; gate arbitrates.")
+                    help="A REPAIR, NOT A DEFAULT (§119, T84 — do not pass it routinely). Rewrites each member "
+                         "draft's DEF signature to the shared-header (engine_core.h) canonical decl, so a member "
+                         "forward-declared there with a DIFFERENT sig (e.g. s32* vs void*) stops throwing "
+                         "`conflicting types`. It is a repair for drafts whose def contradicts a CORRECT header, "
+                         "and a BREAKER for drafts whose def is right and the header is wrong: on 0x80161c98 it "
+                         "imposed a signedness-wrong `s32 a1` over the true `u32`, turning a byte-correct draft "
+                         "into a 1-instruction DIFF (slti vs sltiu) and holding 137 members at 0 until the flag "
+                         "was DROPPED. Use only after a member fails on a def-vs-header conflict you have read.")
     ap.add_argument("--reconcile", default=None, metavar="RAWDIR",
                     help="M2 def-side-wall path: per (exemplar,sibling), symbol-remap the RAW draft in RAWDIR "
                          "then canon_sig_reconcile against the sibling TU (Q5-proven). Implies --no-preclassify.")
