@@ -61,18 +61,23 @@ proceeds; the first P30 commit waits on it.
 - [ ] **T1 — Integration-recovery sweep [Ultracode — prompt at launch]** — all close=0 stranded
       drafts through `recover_integration.py` tiers + §65b de-macroize + the snapshot-safe ladder;
       the 10 named SESSION-16 blocked drafts. Prior: 39% recovery. **Report point #2.** R22 per batch.
-- [~] **T2 — The `-O0` cluster [Max, deep]** — **ROUTE PROVEN + TOOLED (S28); the sweep remains.**
-      DEVIATION from the phase-start plan, byte-justified: the PRIMARY "two-file atomic o0b
-      substitution driver" was **refuted** (append mis-places by construction unless the target
-      abuts the o0b object's END — the T2 ×1 probe), and the FALLBACK premise was **also wrong** —
-      the Arm-A splat `%lo +0x20` **does not bite**: a pure `-O2` sub-split of a jr object is
-      byte-neutral (probe 1). The real constraint is §126: *an address range is not an optimization
-      region* — it contains already-matched `-O2` bodies, so the bound is (range MINUS matched) and
-      K islands ⇒ K+1 regions (probes 3–4). **Shipped:** `tools/o0_subsplit.py`, Makefile `-O0` glob
-      `_o0b`→`_o0?`, 6 fns banked (ov_SC03_014 + ov_SC03_015). **Remaining:** run the tool over the
-      18 overlays of the `0x8013B568..0x8013C98C` cluster (**275 open stubs, re-derived S28** — the
-      T0(f) "2,192" pin is stale), gate each, then draft. Resistant residue → wall ledger.
-      **Report point #3.**
+- [x] **T2 — The `-O0` cluster [Max, deep]** ✅ **ROUTE PROVEN, TOOLED, AND SWEPT FLEET-WIDE (S28).**
+      **Report point #3 = this entry.**
+      DEVIATION from the phase-start plan, byte-justified — **BOTH named routes were refuted:**
+      the PRIMARY "two-file atomic o0b substitution driver" mis-places by construction unless the
+      target abuts the o0b object's END (the ×1 probe), and the FALLBACK premise was also wrong —
+      the Arm-A splat `%lo +0x20` **does not bite** (a pure `-O2` sub-split of a jr object is
+      byte-neutral, probe 1). The real constraint is **§126**: *an address range is not an
+      optimization region* — it contains already-matched `-O2` bodies, so the bound is
+      (range MINUS matched) and K islands ⇒ K+1 regions (probes 3–4).
+      **Shipped:** `tools/o0_subsplit.py` · Makefile `-O0` glob `_o0b`→`_o0?` · cookbook §126/§126a.
+      **Swept:** 135/135 overlays, 0 refusals; 140 new `-O0` region files; `o0_sources()` 137→277;
+      0 invisible to the oracle; **2,200 open stubs now in a genuinely `-O0` TU**. 6 fns banked
+      (ov_SC03_014/015). R22 140/140; tools-health OK.
+      **Population correction (R14):** my "275 stubs / 18 overlays" was an 8× under-count from a
+      bare `except` swallowing R32 during a rebuild; truth **2,184 / 138**, which **vindicates the
+      T0(f) "2,192" pin** I had wrongly called stale (§126a).
+      **Handoff → T3:** drafting the 2,200 is crack-wave work; seeds cached; `match_one --o0`.
 - [ ] **T3 — The standing crack-wave loop [Ultracode waves; Max between]** — lanes interleaved,
       propagate behind every crack same-session:
       A zero-crack (~61, propagation-only) · B top-mass fresh families (no size cap; jr via
