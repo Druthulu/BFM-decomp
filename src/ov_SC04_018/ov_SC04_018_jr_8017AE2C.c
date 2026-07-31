@@ -4175,7 +4175,32 @@ INCLUDE_ASM("asm/ov_SC04_018/nonmatchings/ov_SC04_018_jr_8017AE2C", func_801801E
 
 INCLUDE_ASM("asm/ov_SC04_018/nonmatchings/ov_SC04_018_jr_8017AE2C", func_80180284);
 
-INCLUDE_ASM("asm/ov_SC04_018/nonmatchings/ov_SC04_018_jr_8017AE2C", func_8018034C);
+#include "common.h"
+
+/* func_8018034C — state-entry init (family exemplar, reach x11).
+ * Sets the actor's state id (halfword @ +0x2) then runs the fixed
+ * five-call entry chain. Sibling style copied from func_80180164
+ * in the same TU (cookbook §71). */
+
+extern void func_8012E8E0(s32, s32);
+extern void func_8012E88C(s32);
+extern void func_8012A828(s32 *a0, s32 a1);  /* fleet-canonical sig (TU L3775) */
+extern void func_80184C90(s32);
+extern void func_80184ED4(s32, s32, s32, s32);
+
+extern short D_801918F4;
+extern short D_801B9DF8;
+extern short D_801B65B8;
+
+void func_8018034C(void *arg0) {
+    *(short *)((char *)arg0 + 0x2) = 2;
+    func_8012E8E0((s32)arg0, (s32)&D_801918F4);
+    func_8012E88C((s32)arg0);
+    func_8012A828((s32 *)arg0, (s32)&D_801B9DF8);
+    func_80184C90((s32)arg0);
+    func_80184ED4((s32)arg0, (s32)&D_801B65B8, 0, 0x60);
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_018/nonmatchings/ov_SC04_018_jr_8017AE2C", func_801803BC);
 
@@ -4204,7 +4229,24 @@ extern s32 func_80029178(s32 arg);
     }
 
 
-INCLUDE_ASM("asm/ov_SC04_018/nonmatchings/ov_SC04_018_jr_8017AE2C", func_80180580);
+#include "common.h"
+
+/* func_80180580 — guarded dispatch: ask func_80184BAC(9, 0x11); if it answers
+ * NON-zero, run func_8018034C on the incoming entity.  The entity pointer is
+ * live across the jal, so it lands in $s0 and comes back out as $a0.
+ * §71 sibling: func_80181B34 in this same TU is the identical shape.
+ * §3-T4: target branch is `beqz $v0, ret` => the C condition is `!= 0`
+ * (the sibling's is `bnez` => `== 0`; polarity is read off the opcode). */
+
+extern s32 func_80184BAC(s32 arg0, s32 arg1);
+extern void func_8018034C(void *arg0);
+
+void func_80180580(void *arg0) {
+    if (func_80184BAC(9, 0x11) != 0) {
+        func_8018034C(arg0);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_018/nonmatchings/ov_SC04_018_jr_8017AE2C", func_801805C0);
 
@@ -4326,7 +4368,34 @@ s32 func_80180D38(void *a0)
 
 INCLUDE_ASM("asm/ov_SC04_018/nonmatchings/ov_SC04_018_jr_8017AE2C", func_80180E28);
 
-INCLUDE_ASM("asm/ov_SC04_018/nonmatchings/ov_SC04_018_jr_8017AE2C", func_80180EE8);
+#include "common.h"
+
+extern s32 func_80185BE0(s32 a0);
+extern s32 func_80184FA4(s32 a0);
+extern void func_80184ED4(s32, s32, s32, s32);
+extern void func_801808FC(void *a0);
+extern u8 D_801B6620[];
+
+void func_80180EE8(void *a0)
+{
+    if (*(u16 *)((s32)a0 + 0x34) == 0) {
+        if (func_80185BE0(6) == 0) {
+            return;
+        }
+        if (func_80184FA4((s32)a0) == 0) {
+            return;
+        }
+        ((void (*)(void *, void *, s32, s32))func_80184ED4)(a0, D_801B6620, 0, 0x40);
+        *(s16 *)((s32)a0 + 0x34) = 1;
+        return;
+    }
+
+    *(s32 *)(*(s32 *)((s32)a0 + 0xCC) + 0xB0) = 2;
+    if (func_80184FA4((s32)a0) != 0) {
+        func_801808FC(a0);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_018/nonmatchings/ov_SC04_018_jr_8017AE2C", func_80180F7C);
 
@@ -4460,7 +4529,27 @@ void func_80181B34(void *arg0) {
 
 INCLUDE_ASM("asm/ov_SC04_018/nonmatchings/ov_SC04_018_jr_8017AE2C", func_80181B74);
 
-INCLUDE_ASM("asm/ov_SC04_018/nonmatchings/ov_SC04_018_jr_8017AE2C", func_80181BEC);
+#include "common.h"
+
+extern s32 func_80184FA4(s32 a0);
+extern void func_80184ED4(s32 a0, s32 a1, s32 a2, s32 a3);
+extern s32 func_80185BE0(s32 a0);
+extern void func_8018170C(void *a0);
+extern u8 D_801B662C[];
+
+void func_80181BEC(void *arg0) {
+    if (*(u16 *)((char *)arg0 + 0x34) == 0) {
+        if (((s32 (*)(void))func_80184FA4)() != 0) {
+            func_80184ED4((s32)arg0, (s32)&D_801B662C[0], 1, 0x80);
+            *(s16 *)((char *)arg0 + 0x34) = 1;
+        }
+    } else if (func_80185BE0(3) != 0) {
+        if (func_80184FA4((s32)arg0) != 0) {
+            func_8018170C(arg0);
+        }
+    }
+}
+
 
 
 /* func_80181C78 — guarded dispatch: ask func_80184BAC(15, 0x11); if it answers
@@ -5176,7 +5265,23 @@ INCLUDE_ASM("asm/ov_SC04_018/nonmatchings/ov_SC04_018_jr_8017AE2C", func_8018589
 
 INCLUDE_ASM("asm/ov_SC04_018/nonmatchings/ov_SC04_018_jr_8017AE2C", func_80185904);
 
-INCLUDE_ASM("asm/ov_SC04_018/nonmatchings/ov_SC04_018_jr_8017AE2C", func_80185978);
+#include "common.h"
+
+extern s16 D_801B8788[];
+extern s32 D_801B8748[][2];
+
+void func_80185978(s32 a0) {
+    *(s16 *)(a0 + 0x2) = 3;
+    *(s16 *)(a0 + 0x34) = 0;
+    *(s16 *)(a0 + 0xFE) = 0;
+    *(s16 *)(a0 + 0x100) = 0;
+    *(s16 *)(a0 + 0x102) = 2;
+    *(s32 *)(*(s32 *)(a0 + 0x20) + 0x24) = D_801B8748[D_801B8788[*(s16 *)(a0 + 0x70)]][0];
+    *(s16 *)(a0 + 0x84) = 0;
+    *(s16 *)(a0 + 0x5C) = 0x800;
+    *(s32 *)(a0 + 0xB0) = 0;
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_018/nonmatchings/ov_SC04_018_jr_8017AE2C", func_801859D8);
 

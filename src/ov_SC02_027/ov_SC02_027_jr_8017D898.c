@@ -3183,7 +3183,21 @@ void func_8017D898(s32 arg0)
 
 INCLUDE_ASM("asm/ov_SC02_027/nonmatchings/ov_SC02_027_jr_8017D898", func_8017E778);
 
-INCLUDE_ASM("asm/ov_SC02_027/nonmatchings/ov_SC02_027_jr_8017D898", func_8017E7B8);
+#include "common.h"
+
+extern u8 D_8018F8F0[];
+extern u8 D_8018F990[];
+extern u8 *D_801274C8;
+extern void *D_801274CC;
+extern int func_8017FAB0(int param_1);
+
+void func_8017E7B8(void)
+{
+    D_801274C8 = D_8018F8F0;
+    D_801274CC = D_8018F990;
+    func_8017FAB0(1);
+}
+
 
 INCLUDE_ASM("asm/ov_SC02_027/nonmatchings/ov_SC02_027_jr_8017D898", func_8017E7F8);
 
@@ -3496,7 +3510,33 @@ INCLUDE_ASM("asm/ov_SC02_027/nonmatchings/ov_SC02_027_jr_8017D898", func_801812C
 
 INCLUDE_ASM("asm/ov_SC02_027/nonmatchings/ov_SC02_027_jr_8017D898", func_80181328);
 
-INCLUDE_ASM("asm/ov_SC02_027/nonmatchings/ov_SC02_027_jr_8017D898", func_8018152C);
+#include "common.h"
+
+extern s32 func_8012B6D4(s16 *a0, s16 *a1);
+extern u8 D_80126B5C;
+extern s32 *D_80126B78;
+
+// @class: branch-polarity
+// @stuck: none — MATCH (32 ins), iteration 2. §3-T4: gcc-2.7.2 lays this out as
+// "branch TO the then-arm, fall through to the else", so the source condition is
+// `d < 0x800` (the bnez sense read off the target opcode), NOT Ghidra's inverted
+// arm order. The wrong polarity also cost one instruction (match_one printed
+// LENGTH-DRIFT/-1): with the arms swapped, the `sll $v0,$s0,16` of the s16 param
+// lands in the branch delay slot and is SHARED by both arms; the correct polarity
+// puts `addiu $v1,$zero,0x1000` there and each arm gets its own sll/sra.
+// a1 is an ANSI s16 param (sign-extended at each use, once per arm) — not K&R §43.
+s32 func_8018152C(s32 a0, s16 a1) {
+    s32 d;
+
+    d = (func_8012B6D4((s16 *)&D_80126B5C, (s16 *)(a0 + 4)) -
+         *(s16 *)((s32)D_80126B78 + 0x12)) & 0xFFF;
+    if (d < 0x800) {
+        return d < a1;
+    } else {
+        return (0x1000 - d) < a1;
+    }
+}
+
 
 
 extern void (*D_8018F450[])(void);
@@ -4230,9 +4270,68 @@ INCLUDE_ASM("asm/ov_SC02_027/nonmatchings/ov_SC02_027_jr_8017D898", func_80189EB
 
 INCLUDE_ASM("asm/ov_SC02_027/nonmatchings/ov_SC02_027_jr_8017D898", func_80189F28);
 
-INCLUDE_ASM("asm/ov_SC02_027/nonmatchings/ov_SC02_027_jr_8017D898", func_80189FD8);
+#include "common.h"
 
-INCLUDE_ASM("asm/ov_SC02_027/nonmatchings/ov_SC02_027_jr_8017D898", func_8018A090);
+extern u16 D_800AF7BC;
+extern u16 D_800AF7BE;
+extern u8 D_801DA8C8[];
+
+extern s32 func_8012E778(int param_1, int param_2);
+extern s32 func_8012C51C(int a0, int a1);
+
+void func_80189FD8(int param_1, int param_2)
+{
+    s32 i;
+
+    i = 0;
+    if (func_8012E778(param_1, ((s32)(D_800AF7BE >> 1) << 16) | (D_800AF7BC >> 1)) != 0) {
+        do {
+            if (D_801DA8C8[i] == 0) {
+                D_801DA8C8[i] = 1;
+                *(s32 *)(param_2 + 0x10) = i | 0x80000000;
+                *(u16 *)(param_2 + 8) = *(u16 *)(param_1 + 0x70);
+                func_8012C51C(param_2, param_1);
+                return;
+            }
+            i++;
+        } while (i < 5);
+    }
+}
+
+
+#include "common.h"
+
+extern s32 func_8012C194(void);
+extern void func_8001CD50(s32 a0, s32 a1);
+extern void func_800233CC(void *, unsigned short);
+extern void func_8018A41C(s32 a0);
+extern u32 D_801DA788;
+
+void func_8018A090(void *a0)
+{
+    s32 iVar2;
+    u32 *puVar3;
+
+    *(s16 *)((s32)a0 + 0xFC) = 0x7000;
+    *(s16 *)((s32)a0 + 0x100) = 0;
+    *(s16 *)((s32)a0 + 0xFE) = 0;
+    *(s16 *)((s32)a0 + 0x104) = 0;
+    *(s16 *)((s32)a0 + 0x106) = 0;
+    puVar3 = (u32 *)((u8 *)&D_801DA788 + (*(s16 *)((s32)a0 + 0xDC) * 0x40));
+    iVar2 = func_8012C194();
+    *(s32 *)((s32)a0 + 0x20) = iVar2;
+    if (iVar2 != 0) {
+        func_8001CD50(iVar2, (s32)puVar3);
+        *(s16 *)(iVar2 + 0x10) = 0x400;
+        *(u32 *)(iVar2 + 4) = *(u32 *)(iVar2 + 4) | 0x60000000;
+        func_800233CC(puVar3, 0x40);
+        puVar3[0] = 0x808080;
+        puVar3[1] = 0x808080;
+        func_8018A41C((s32)a0);
+        *(s16 *)((s32)a0 + 2) = 3;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC02_027/nonmatchings/ov_SC02_027_jr_8017D898", func_8018A150);
 

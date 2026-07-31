@@ -3340,7 +3340,28 @@ void func_8017BEF8(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_084/nonmatchings/ov_SC01_084_jr_8017AE2C", func_8017BF34);
+#include "common.h"
+
+/* func_8017BF34 — tiny entity tick (20 ins).
+ *   +0x30 s32  suppress flag (lw / bnez)
+ *   +0x2E u16  sound id passed to func_80147324 (lhu)
+ *   +0x02 u16  state word, bumped unconditionally (lhu / addiu / sh)
+ *
+ * §71 sibling-first: same TU's func_8017BFE0 has the identical
+ * `if (f30 == 0) func_80147324(fXX);` + `f02 += 1` pair.
+ * §3-T4: target is `bnez $v0, .L` => source condition is `== 0`.
+ */
+
+extern void func_80147324(s32 arg0);
+
+void func_8017BF34(void *a0)
+{
+    if (*(s32 *)((s32)a0 + 0x30) == 0) {
+        func_80147324(*(u16 *)((s32)a0 + 0x2E));
+    }
+    *(u16 *)((s32)a0 + 0x2) = *(u16 *)((s32)a0 + 0x2) + 1;
+}
+
 
 // @class: plumbing
 // @stuck: none — signed s32 counter at 0x1C, delay-slot store is the unconditional bump
@@ -3409,7 +3430,31 @@ void func_8017BFE0(Ent_8017BFE0 *param_1)
 
 INCLUDE_ASM("asm/ov_SC01_084/nonmatchings/ov_SC01_084_jr_8017AE2C", func_8017C064);
 
-INCLUDE_ASM("asm/ov_SC01_084/nonmatchings/ov_SC01_084_jr_8017AE2C", func_8017C1CC);
+#include "common.h"
+
+/* func_8017C1CC — countdown tick on the u16 at 0x12.
+ * Subtract 0x100; while the (signed) result is still positive keep running the
+ * per-frame handler at 8017C218, otherwise hand off to the engine-core
+ * despawn/next-state routine at 80146C3C.
+ *   0x12 u16  countdown / angle-ish field (lhu / sh), tested SIGNED as s16
+ */
+
+extern void func_8017C218(int);
+extern void func_80146C3C(void);
+
+void func_8017C1CC(int param_1)
+{
+    unsigned short uVar1;
+
+    uVar1 = *(unsigned short *)(param_1 + 0x12) - 0x100;
+    *(unsigned short *)(param_1 + 0x12) = uVar1;
+    if ((short)uVar1 > 0) {
+        func_8017C218(param_1);
+    } else {
+        ((void (*)(int))func_80146C3C)(param_1);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC01_084/nonmatchings/ov_SC01_084_jr_8017AE2C", func_8017C218);
 
@@ -3421,7 +3466,25 @@ void func_8017C524(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_084/nonmatchings/ov_SC01_084_jr_8017AE2C", func_8017C560);
+#include "common.h"
+
+/* func_8017C560 — the minimal state-advance tick: play the sound id held at
+ * +0x2E, then bump the state word at +0x02.
+ *
+ * §71 sibling-first: same entity record as func_8017C610 / func_8017C69C /
+ * func_8017C5A0 in this TU — u16 sound id passed to func_80147324 (lhu, no
+ * extend), u16 state word at +0x02 read with lhu and stored with sh.  The
+ * pointer survives the jal in $s0, which is just the natural allocation for a
+ * parameter live across a call. */
+
+extern void func_80147324(s32 arg0);
+
+void func_8017C560(void *a0)
+{
+    func_80147324(*(u16 *)((s32)a0 + 0x2E));
+    *(u16 *)((s32)a0 + 0x2) = *(u16 *)((s32)a0 + 0x2) + 1;
+}
+
 
 #include "common.h"
 
@@ -3532,7 +3595,36 @@ void func_8017C69C(void *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_084/nonmatchings/ov_SC01_084_jr_8017AE2C", func_8017C770);
+#include "common.h"
+
+/* func_8017C770 — entity tick: decay the u16 timer @0x12 by 0x100, read the
+ * sub-object pointer @0x34 up-front, then either advance (func_8017C218) while
+ * the timer is still positive, or reset the three scale halfwords @0x60/0x62/0x64
+ * to 0x1000 and run the teardown helper.
+ * §71 sibling-first: same shape as func_8017C610 / func_8017C69C in this TU.
+ * §3-T4: target is `sll $v0,16 ; blez -> else` => `if (v > 0) { advance }`. */
+
+extern void func_8017C218(int);
+extern void func_80146C3C(void);
+
+void func_8017C770(void *a0)
+{
+    void *obj;
+    s16 v;
+
+    v = *(u16 *)((s32)a0 + 0x12) - 0x100;
+    obj = *(void **)((s32)a0 + 0x34);
+    *(s16 *)((s32)a0 + 0x12) = v;
+    if (v > 0) {
+        ((void (*)(void *))func_8017C218)(a0);
+    } else {
+        *(s16 *)((s32)obj + 0x64) = 0x1000;
+        *(s16 *)((s32)obj + 0x62) = 0x1000;
+        *(s16 *)((s32)obj + 0x60) = 0x1000;
+        func_80146C3C();
+    }
+}
+
 
 
 extern void (*D_8018A28C[])(void);
@@ -3610,7 +3702,42 @@ void func_8017C800(void *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_084/nonmatchings/ov_SC01_084_jr_8017AE2C", func_8017C8B4);
+#include "common.h"
+
+/* func_8017C8B4 — frame-counter tick with a 10-frame window: read the counter at
+ * +0x1C, store counter+1, and branch on the OLD value.  While t < 10 it pokes the
+ * engine-global helper func_800D22E4 (NO argument — the target leaves the jal delay
+ * slot as a `nop`, so this call takes zero args) and then runs the per-entity update
+ * func_8017C910; once the window expires it hands the entity to the shared
+ * engine-core teardown func_80146C3C.
+ *
+ * §71 sibling-first: identical shape to func_8017C69C / func_8017C610 in this TU —
+ * `void *a0` entity pointer that survives every jal in $s0, counter at +0x1C read
+ * into a local BEFORE the store of counter+1.
+ * §3-T4: target is `slti $v0,$v0,0xA ; beqz $v0,else` => `if (t < 0xA) { then }`,
+ * i.e. the `beqz` arm is the ELSE, not the then.
+ * Cast-at-use-site (house convention) for the two engine-core callees, whose
+ * carried decl layer in this TU prototypes them as `(s32 a0)` / `(void)`.
+ */
+
+extern void func_800D22E4(s32 a0);
+extern void func_80146C3C(void);
+extern void func_8017C910(void *a0);
+
+void func_8017C8B4(void *a0)
+{
+    s32 t;
+
+    t = *(s32 *)((s32)a0 + 0x1C);
+    *(s32 *)((s32)a0 + 0x1C) = t + 1;
+    if (t < 0xA) {
+        ((void (*)(void))func_800D22E4)();
+        func_8017C910(a0);
+    } else {
+        ((void (*)(void *))func_80146C3C)(a0);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC01_084/nonmatchings/ov_SC01_084_jr_8017AE2C", func_8017C910);
 

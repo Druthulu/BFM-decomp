@@ -3741,7 +3741,60 @@ void func_80180B04(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_002/nonmatchings/ov_SC04_002_jr_8017BEBC", func_80180B40);
+
+
+
+
+// @class: regalloc-order
+// @stuck: none — MATCH (83 ins). $s3 is a dual-copy of iVar3 used only in the ==0 tail block; natural C coalesces to one $s0, so pin iVar3=$s0 and iVar3b=$s3 (different hard regs prevent gcc coalescing the copy). Also: outer+inner branch polarity inverted (if!=0 / if!=0 puts both short blocks at the tail as beqz targets); base = (int)D_801C100C + idx*0x40 (materialize form, arg to callees).
+
+extern void func_801465C0(void);
+extern void func_8001CD9C(int, void*);
+extern void func_800233CC(void*, unsigned short);
+extern void func_80180D34(void*);
+extern void func_80180D04(s32*);
+extern int rand(void);
+
+void func_80180B40(int param_1)
+{
+
+    extern unsigned char D_801C100C[];
+    register int iVar3 __asm__("$16");
+    register int iVar3b __asm__("$19");
+    int iVar5;
+    short sVar2;
+
+    iVar5 = (int)D_801C100C + *(int *)(param_1 + 0x2c) * 0x40;
+    iVar3 = ((int (*)(void))func_801465C0)();
+    *(int *)(param_1 + 0x20) = iVar3;
+    iVar3b = iVar3;
+    if (iVar3 != 0) {
+        ((void (*)(int, int))func_8001CD9C)(iVar3, iVar5);
+        ((void (*)(int, int))func_800233CC)(iVar5, 0x10);
+        ((void (*)(int))func_80180D34)(iVar5);
+        *(unsigned int *)(iVar3 + 4) = *(unsigned int *)(iVar3 + 4) | 0x50000000;
+        if (*(int *)(param_1 + 0x2c) != 0) {
+            sVar2 = (rand() & 3) * 0x800 + 0x1000;
+            *(short *)(iVar3 + 0x1a) = sVar2;
+            *(short *)(iVar3 + 0x18) = sVar2;
+            *(unsigned short *)(param_1 + 0x12) = (rand() & 0xf) + 3;
+            if ((rand() & 1) != 0) {
+                *(short *)(param_1 + 0x12) = -*(short *)(param_1 + 0x12);
+            }
+            *(unsigned short *)(param_1 + 0x1a) = (rand() & 0xf) + 3;
+            if ((rand() & 1) != 0) {
+                *(short *)(param_1 + 0x1a) = -*(short *)(param_1 + 0x1a);
+            }
+        } else {
+            *(short *)(iVar3b + 0x1a) = 0x4000;
+            *(short *)(iVar3b + 0x18) = 0x4000;
+        }
+        *(short *)(param_1 + 2) = *(short *)(param_1 + 2) + 1;
+    } else {
+        ((void (*)(int))func_80180D04)(param_1);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_002/nonmatchings/ov_SC04_002_jr_8017BEBC", func_80180C8C);
 

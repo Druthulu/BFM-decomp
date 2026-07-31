@@ -4029,7 +4029,50 @@ INCLUDE_ASM("asm/ov_SC02_011/nonmatchings/ov_SC02_011_jr_8017AE2C", func_80181EF
 
 INCLUDE_ASM("asm/ov_SC02_011/nonmatchings/ov_SC02_011_jr_8017AE2C", func_80181F6C);
 
-INCLUDE_ASM("asm/ov_SC02_011/nonmatchings/ov_SC02_011_jr_8017AE2C", func_80181FA0);
+#include "common.h"
+
+// func_80181FA0 — MATCH (60 ins), match_one + rtu_match. Two levers:
+//  1) §20 pointer-var-to-the-global: `u16 *p = &D_800B99DA;` and read `*p`
+//     twice. The bare global would fold %lo into each access independently
+//     (two lui/lhu pairs, no $s1); the pointer var force_regs the address so
+//     CSE hoists it into the callee-saved $s1 across both calls.
+//  2) SEPARATE temps `t` and `u` for the two call results (NOT one reused
+//     `t`). gcc-2.7.2 expand_divmod emits `move temp,op0; bgez temp; temp+=d-1`
+//     for a signed /2^k; cse.c make_regs_eqv only makes `temp` the canonical
+//     reg of the quantity when temp's REGNO_LAST_UID outlives op0's. Reusing
+//     one `t` across both calls stretches op0's last-use past temp's, so op0
+//     stays canonical and cse rewrites the pair to `bgez $v0` + `addiu
+//     $v1,$v0,3` — the copy then fills the delay slot and the function comes
+//     out 1 instruction short. Split temps ⇒ op0 dies immediately ⇒ target's
+//     `addu $v1,$v0,$zero; bgez $v1; nop; addiu $v1,$v1,3`.
+// (The 2nd division still coalesces temp/u into $v0, matching `bgez $v0`.)
+
+extern u16 D_800B99DA;
+extern s32 func_80012F74(s32 a0, s32 a1, s32 a2, s32 a3);
+extern s32 func_80047948(s32 a0);
+extern s32 func_8004787C(s32 a0);
+
+void func_80181FA0(s32 param_1) {
+    u16 *p = &D_800B99DA;
+    s32 t;
+    s32 u;
+
+    *(s16 *)(param_1 + 0x20E) = func_80012F74(*(s16 *)(param_1 + 0x20E), 0, 10, 1);
+    *(s16 *)(param_1 + 0x12E) = 1;
+    t = func_8004787C((*p & 0x3F) << 6);
+    *(s16 *)(param_1 + 0x128) = *(s16 *)(param_1 + 0x20E) + t / 4;
+    u = func_80047948((*p & 0x3F) << 6);
+    *(s16 *)(param_1 + 0x12C) = u / 8;
+    if (*(s16 *)(param_1 + 0x13A) != 0) {
+        *(s16 *)(param_1 + 0x13A) += *(s8 *)(param_1 + 0x20D);
+        *(s16 *)(param_1 + 0x20C) -= 0xE0;
+        if (*(s16 *)(param_1 + 0x13A) < 0) {
+            *(s16 *)(param_1 + 0x13A) = 0;
+            *(s16 *)(param_1 + 0x20C) = 0;
+        }
+    }
+}
+
 
 extern void func_8016EE40(s32 a0, s32 a1, s32 a2);
 extern M2C_UNK D_80194FF4;
@@ -5147,7 +5190,35 @@ extern void func_8012C098(void);
 
 INCLUDE_ASM("asm/ov_SC02_011/nonmatchings/ov_SC02_011_jr_8017AE2C", func_8018BAD8);
 
-INCLUDE_ASM("asm/ov_SC02_011/nonmatchings/ov_SC02_011_jr_8017AE2C", func_8018BB44);
+#include "common.h"
+
+/* func_8018BB44 — light/colour ramp-up on the entity's attached prim block.
+ *
+ * If the s16 flag at 0xFE is set, bump the three u16 colour words at
+ * 0x18/0x1A/0x1C of the block pointed to by the word at 0x20 by 0x40 each,
+ * then clamp all three to 0x1800 once the first one reaches it.
+ *
+ * Widths pinned off the target: `lh` at 0xFE and at 0x18 (the signed compare),
+ * `lhu` for the three read-modify-writes, `sh` for every store.  The pointer at
+ * 0x20 is re-loaded before each RMW (the `sh` stores may alias it), which is
+ * exactly what writing the deref inline gives.
+ */
+void func_8018BB44(int param_1) {
+    int v1;
+
+    if (*(short *)(param_1 + 0xfe) != 0) {
+        *(unsigned short *)(*(int *)(param_1 + 0x20) + 0x18) += 0x40;
+        *(unsigned short *)(*(int *)(param_1 + 0x20) + 0x1a) += 0x40;
+        *(unsigned short *)(*(int *)(param_1 + 0x20) + 0x1c) += 0x40;
+        v1 = *(int *)(param_1 + 0x20);
+        if (*(short *)(v1 + 0x18) >= 0x1800) {
+            *(short *)(v1 + 0x1c) = 0x1800;
+            *(short *)(v1 + 0x1a) = 0x1800;
+            *(short *)(v1 + 0x18) = 0x1800;
+        }
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC02_011/nonmatchings/ov_SC02_011_jr_8017AE2C", func_8018BBCC);
 
@@ -6185,7 +6256,32 @@ INCLUDE_ASM("asm/ov_SC02_011/nonmatchings/ov_SC02_011_jr_8017AE2C", func_8019074
 
 INCLUDE_ASM("asm/ov_SC02_011/nonmatchings/ov_SC02_011_jr_8017AE2C", func_801909D8);
 
-INCLUDE_ASM("asm/ov_SC02_011/nonmatchings/ov_SC02_011_jr_8017AE2C", func_80190B6C);
+#include "common.h"
+
+/* func_80190B6C — "is another entity of type 0x35C sharing my 0x64 owner?"
+ *
+ * Walks the 0x60-entry entity table at D_801202A0 (stride 0x10C) with an int
+ * counter (the target keeps the count in $a2 and `slti ...,0x60`, so it is a
+ * counted loop, NOT the D_80126720 pointer-bound idiom the sibling walkers
+ * use).  Returns 1 for the first entry whose u16 kind == 0x35C, whose word at
+ * 0x64 equals the caller's word at 0x64, and which is not the caller itself.
+ */
+s32 func_80190B6C(s32 arg0) {
+    extern u8 D_801202A0[];
+    u8 *p;
+    s32 i;
+
+    p = D_801202A0;
+    for (i = 0; i < 0x60; i++) {
+        if (*(u16 *)p == 0x35C && *(s32 *)(arg0 + 0x64) == *(s32 *)(p + 0x64) &&
+            arg0 != (s32)p) {
+            return 1;
+        }
+        p += 0x10C;
+    }
+    return 0;
+}
+
 
 #include "common.h"
 
@@ -6208,9 +6304,53 @@ void func_80190BC4(s32 arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_011/nonmatchings/ov_SC02_011_jr_8017AE2C", func_80190C40);
+#include "common.h"
 
-INCLUDE_ASM("asm/ov_SC02_011/nonmatchings/ov_SC02_011_jr_8017AE2C", func_80190C84);
+/* func_80190C40 — guard-then-free tail (cookbook §71 sibling shape:
+ * src/ov_SC02_011/ov_SC02_011_jr_8017AE2C.c func_80144458 tail, and
+ * src/ov_SC03_099/ov_SC03_099_jr_80140608.c:2432 func_80016714(x, 0x38)). */
+
+extern void func_80016714(void *a0, s32 a1);
+extern void func_8012C218(void *a0);
+
+void func_80190C40(void *arg0) {
+    void *temp_a0;
+
+    temp_a0 = *(void **)((char *)arg0 + 0xCC);
+    if (temp_a0 != NULL) {
+        func_80016714(temp_a0, 0x38);
+    }
+    func_8012C218(arg0);
+}
+
+
+#include "common.h"
+
+/* Sibling shape: DEFINE_func_80143BDC() in src/shared/engine_core.h (cookbook §71) */
+
+extern s32 func_8012C51C(void *a0, s32 a1);
+
+struct S80190C84 {
+    s16 f0, f2, f4, f6, f8, fA, fC, fE;
+    s32 f10;
+};
+
+void func_80190C84(s32 a0, u16 *a1, s16 a2) {
+    struct S80190C84 sp;
+    u16 t;
+    sp.f0 = a1[0];
+    sp.f2 = a1[1];
+    t = a1[2];
+    sp.f6 = 0x35C;
+    sp.fA = 0;
+    sp.f8 = 0;
+    sp.fE = a2;
+    sp.f10 = 0;
+    sp.fC = 0x7FFF;
+    sp.f4 = t;
+    func_8012C51C(&sp, a0);
+}
+
 
 
 

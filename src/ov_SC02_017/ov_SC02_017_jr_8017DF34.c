@@ -3403,7 +3403,18 @@ s32 func_8017FAF8(void) {
     }
 
 
-INCLUDE_ASM("asm/ov_SC02_017/nonmatchings/ov_SC02_017_jr_8017DF34", func_8017FB00);
+#include "common.h"
+
+extern void (*D_8018E234[])(void);
+extern void func_8017FCFC(void *a0);
+
+void func_8017FB00(void *a0) {
+    D_8018E234[*(u16 *)((s32)a0 + 0x2)]();
+    if (*(u16 *)a0 != 0) {
+        func_8017FCFC(a0);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC02_017/nonmatchings/ov_SC02_017_jr_8017DF34", func_8017FB60);
 
@@ -3930,7 +3941,58 @@ extern void func_8012A828(s32, void*);
     }
 
 
-INCLUDE_ASM("asm/ov_SC02_017/nonmatchings/ov_SC02_017_jr_8017DF34", func_80184C58);
+#include "common.h"
+
+extern s32 func_8012BCCC(s32 a0);
+extern void func_8001C924(s32 a0, void *a1);
+extern void func_8012A828(s32 a0, void *a1);
+extern s32 func_8012B8E4(s32 a0, s32 a1);
+extern s32 func_8012BEE8(s32 a0);
+extern u8 D_801D29A8;
+extern u8 D_801D5AD4[];
+
+// @class: straight-derive
+// @stuck: none — MATCH (52 ins) on iteration 1, confirmed by rtu_match.
+//
+// Two things that could have been mis-read off the target asm:
+//
+// 1. RELOAD_CSE DELETES A REDUNDANT ARG MOVE — do not read "no arg setup" as
+//    "zero-arg call". `jal func_8012BCCC` at 0x80184C7C has a bare `nop` delay
+//    slot and NO `addu $a0,$s0,$zero` before it, which looks like `f()`. It is
+//    `f(a0)`: the incoming param is still live in $a0 in that fall-through
+//    block, so gcc-2.7.2's reload_cse_regs (reload1.c) deletes the redundant
+//    `move $a0,$s0`. The SAME move survives at .L80184CD0 (0x80184CD0) because
+//    reload_cse's value tracking resets at a CODE_LABEL. So: an arg move that
+//    is present on the labelled arm and absent on the fall-through arm is ONE
+//    source-level call shape, not two.
+//
+// 2. `lui $v1,1 / slt $v1,$v1,$v0` is `ret <= 0x10000`, not `ret < 0x10001`.
+//    gcc lowers `a <= C` to `!(C < a)` and puts the CONSTANT in the first slt
+//    operand; writing `< 0x10001` would have materialised 0x10001 instead.
+//
+// Statement order in the then-arm is the Ghidra order (0x1C store, then the
+// 0x34 increment): memrefs_conflict_p disambiguates `+0x1C`/4 from `+0x34`/2
+// off the same base, so sched2 legally hoists the `lhu 0x34` above the `sw`
+// to cover its load delay — which is exactly the target's interleave.
+void func_80184C58(s32 a0) {
+    s32 v;
+
+    if (*(u16 *)(a0 + 0x34) == 0) {
+        if (func_8012BCCC(a0) <= 0x10000) {
+            func_8001C924(*(s32 *)(a0 + 0x20), (void *)&D_801D29A8);
+            func_8012A828(a0, (void *)&(*(u8 *)D_801D5AD4));
+            *(s32 *)(a0 + 0x1C) = 0x1E;
+            *(u16 *)(a0 + 0x34) += 1;
+        }
+    } else {
+        v = func_8012B8E4(a0, 0xA);
+        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) += v;
+        if (func_8012BEE8(a0) != 0 || v == 0) {
+            *(s16 *)(a0 + 0x2) = 5;
+        }
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC02_017/nonmatchings/ov_SC02_017_jr_8017DF34", func_80184D28);
 
@@ -3952,7 +4014,48 @@ INCLUDE_ASM("asm/ov_SC02_017/nonmatchings/ov_SC02_017_jr_8017DF34", func_8018501
 
 INCLUDE_ASM("asm/ov_SC02_017/nonmatchings/ov_SC02_017_jr_8017DF34", func_80185064);
 
-INCLUDE_ASM("asm/ov_SC02_017/nonmatchings/ov_SC02_017_jr_8017DF34", func_8018518C);
+#include "common.h"
+
+/* func_8018518C — entity state-kick #0xB.
+ * Sets the state word at 0x02 to 0xB, hands the entity to the script runner
+ * func_8012A828 with table D_801D5AD4, clears bit 3 of the flag word at 0xDC,
+ * then picks the timer at 0x1C: a fixed 30 when bit 6 was set (also clearing
+ * bit 6), otherwise rand() % 16 + 15. Finally, if func_8012BD3C(e,0x400,0x8000)
+ * returns 0, bit 3 at 0xDC is set again.
+ *
+ * §71 sibling-first: func_80184D28 (same TU, same D_801D5AD4 script table) is
+ * the same `sh 0x2 / jal func_8012A828 / jal rand / sw 0x1C` skeleton and pins
+ * the widths: `sh` at 0x02, `sw` at 0x1C/0xDC, and the s16 store scheduled into
+ * the jal delay slot.
+ */
+
+extern void func_8012A828(s32 a0, void *a1);
+extern s32 func_8012BD3C(s32 a0, s32 a1, s32 a2);
+extern s32 rand(void);
+extern u8 D_801D5AD4[];
+
+void func_8018518C(void *a0) {
+    s32 flags;
+    s32 cleared;
+    s32 timer;
+
+    *(s16 *)((s32)a0 + 0x2) = 0xB;
+    func_8012A828((s32)a0, D_801D5AD4);
+    flags = *(s32 *)((s32)a0 + 0xDC);
+    cleared = flags & ~8;
+    *(s32 *)((s32)a0 + 0xDC) = cleared;
+    if (flags & 0x40) {
+        *(s32 *)((s32)a0 + 0xDC) = cleared & ~0x40;
+        timer = 30;
+    } else {
+        timer = rand() % 16 + 15;
+    }
+    *(s32 *)((s32)a0 + 0x1C) = timer;
+    if (func_8012BD3C((s32)a0, 0x400, 0x8000) == 0) {
+        *(s32 *)((s32)a0 + 0xDC) |= 8;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC02_017/nonmatchings/ov_SC02_017_jr_8017DF34", func_80185244);
 
@@ -4058,7 +4161,53 @@ INCLUDE_ASM("asm/ov_SC02_017/nonmatchings/ov_SC02_017_jr_8017DF34", func_8018576
 
 INCLUDE_ASM("asm/ov_SC02_017/nonmatchings/ov_SC02_017_jr_8017DF34", func_801857C4);
 
-INCLUDE_ASM("asm/ov_SC02_017/nonmatchings/ov_SC02_017_jr_8017DF34", func_8018583C);
+#include "common.h"
+
+// @class: plumbing
+// @stuck: none — MATCH (52 ins), iteration 1. Keys: (1) §3-T4 — Ghidra inverted the arms; the
+//   target's `beqz $v0,.L8018589C` means the (flags&2)!=0 arm FALLS THROUGH, so write
+//   `if (*(s32*)(p+0xDC) & 2) {A} else {B}`; (2) the 0x5C zero-store is unconditional (it sits in
+//   the beqz delay slot), so it is the FIRST statement, above the if; (3) both `*(s32*)(p+0x20)`
+//   reads in arm A are written as separate expressions — the intervening `sh` to 0x10 blocks CSE,
+//   which is why the target reloads 0x20 twice; (4) the tail compare is `iVar1 <= 0x8FFF`, NOT
+//   Ghidra's `< 0x9000`: 0x9000 does not fit the signed 16-bit `slti` immediate, so gcc
+//   materialises the bound with `ori $v1,$zero,0x8FFF` and emits the operand-reversed
+//   `slt $v1,$v1,$v0` + `bnez` over the 0x51F assignment (write the constant as 0x8FFF).
+extern void func_8012A828(s32 a0, void *a1);
+extern void func_8001C924(s32 a0, void *a1);
+extern s32 func_8012BCCC(s32 a0);
+extern void func_8002D4C8(s32 a0, s32 a1);
+
+extern u8 D_801D609C;
+extern u8 D_801D4358;
+extern u8 D_801D5FBC;
+
+void func_8018583C(s32 param_1) {
+    s32 iVar1;
+    s32 uVar2;
+
+    *(s16 *)(param_1 + 0x5C) = 0;
+    if (*(s32 *)(param_1 + 0xDC) & 2) {
+        *(s32 *)(param_1 + 0x1C) = 0x2D;
+        func_8012A828(param_1, &D_801D609C);
+        *(s16 *)(*(s32 *)(param_1 + 0x20) + 0x10) = 0;
+        *(s16 *)(*(s32 *)(param_1 + 0x20) + 0x12) =
+            (*(u16 *)(param_1 + 0x62) + 0x800) & 0xFFF;
+        *(s16 *)(param_1 + 0x52) = 0;
+    } else {
+        *(s32 *)(param_1 + 0x1C) = 0x37;
+        func_8001C924(*(s32 *)(param_1 + 0x20), &D_801D4358);
+        func_8012A828(param_1, &D_801D5FBC);
+        *(s16 *)(*(s32 *)(param_1 + 0x20) + 0x12) = *(u16 *)(param_1 + 0x62);
+    }
+    iVar1 = func_8012BCCC(param_1);
+    uVar2 = 0x520;
+    if (iVar1 <= 0x8FFF) {
+        uVar2 = 0x51F;
+    }
+    func_8002D4C8(uVar2, 0);
+}
+
 
 INCLUDE_ASM("asm/ov_SC02_017/nonmatchings/ov_SC02_017_jr_8017DF34", func_8018590C);
 

@@ -4892,7 +4892,24 @@ INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_8017AE2C", func_8018A30
 
 INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_8017AE2C", func_8018A3B4);
 
-INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_8017AE2C", func_8018A47C);
+#include "common.h"
+
+/* 8-byte, alignment-1 blob: the target copies it with lwl/lwr + swl/swr,
+ * which is gcc's emit_block_move for align < 4. */
+typedef struct {
+    char b[8];
+} Blob8_8018A47C;
+
+extern Blob8_8018A47C D_801E2F28;
+extern void func_8018A6A0(s32 a0, Blob8_8018A47C *a1);
+
+void func_8018A47C(s32 a0) {
+    Blob8_8018A47C tmp;
+
+    tmp = D_801E2F28;
+    func_8018A6A0(a0, &tmp);
+}
+
 
 INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_8017AE2C", func_8018A4C4);
 
@@ -5117,7 +5134,49 @@ void func_8018C274(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_8017AE2C", func_8018C2B0);
+#include "common.h"
+
+// @stuck: none — MATCH (42 ins), iteration 1, rtu_match clean.
+// Saturating add of a 3-byte RGB triple by a signed delta.
+// Idioms: (1) `s8` by-value param => entry `sll/sra 24` for the sign test only;
+//   combine folds the extension back out of `~a1`/`-a1`/`a0[i]+a1` because every
+//   consumer is 8-bit (andi 0xFF / sb), so $a1 is used RAW after the test.
+// (2) branch sense read off the target `sltu` operand ORDER (§3-T4): positive arm
+//   `sltu lim,p[i]` => store when `p[i] <= lim`; negative arm `sltu p[i],lim`
+//   => store when `p[i] >= lim`.
+// (3) the third `if` written out in BOTH arms; jump.c cross-jumps the identical
+//   tails into the shared `j .L8018C344` (§5a) — do not hoist it after the if/else.
+void func_8018C2B0(u8 *a0, s8 a1) {
+    u8 lim;
+
+    if (a1 == 0) {
+        return;
+    }
+    if (a1 > 0) {
+        lim = ~a1;
+        if (a0[0] <= lim) {
+            a0[0] = a0[0] + a1;
+        }
+        if (a0[1] <= lim) {
+            a0[1] = a0[1] + a1;
+        }
+        if (a0[2] <= lim) {
+            a0[2] = a0[2] + a1;
+        }
+    } else {
+        lim = -a1;
+        if (a0[0] >= lim) {
+            a0[0] = a0[0] + a1;
+        }
+        if (a0[1] >= lim) {
+            a0[1] = a0[1] + a1;
+        }
+        if (a0[2] >= lim) {
+            a0[2] = a0[2] + a1;
+        }
+    }
+}
+
 
 
 extern void (*D_80196B98[])(void);
@@ -5364,7 +5423,27 @@ void func_8018ECB8(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_8017AE2C", func_8018ECF4);
+#include "common.h"
+
+extern s32 func_8001CC3C(s32 a0, s32 a1, s32 a2, s32 a3);
+extern u8 D_800D387C[];
+
+void func_8018ECF4(s32 arg0) {
+    s32 iVar1;
+
+    iVar1 = *(s32 *)(arg0 + 0x20);
+    ((void (*)(s32, s32, s32, s32))func_8001CC3C)(iVar1, (s32)&D_800D387C, 0x270, 0x120);
+    *(u8 *)(iVar1 + 0x27) = 0x9C;
+    *(u16 *)(iVar1 + 0x1A) = 0x7000;
+    *(u16 *)(iVar1 + 0x18) = 0x7000;
+    *(u8 *)(iVar1 + 0x26) = 0x90;
+    *(u8 *)(iVar1 + 0x25) = 0x90;
+    *(u8 *)(iVar1 + 0x24) = 0x90;
+    *(u32 *)(iVar1 + 4) = *(u32 *)(iVar1 + 4) | 0x50000000;
+    *(s16 *)(arg0 + 0x2C) = 0x46;
+    *(s16 *)(arg0 + 0x2) += 1;
+}
+
 
 INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_8017AE2C", func_8018ED84);
 
@@ -5643,7 +5722,27 @@ extern void func_80146C3C(void);
     }
 
 
-INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_8017AE2C", func_80190384);
+#include "common.h"
+
+extern void func_80017254(void *a0);
+extern void func_800176F0(void *a0);
+extern u8 D_80196DAC[];
+extern u8 D_80196DD4[];
+
+void func_80190384(void) {
+    u8 *p;
+    s32 i;
+
+    func_80017254(D_80196DAC);
+    i = 0;
+    p = D_80196DD4;
+    do {
+        func_800176F0(p);
+        i++;
+        p += 0x34;
+    } while (i < 4);
+}
+
 
 extern s32 func_80146994(s32 a0, s32 a1, s32 a2, s32 a3);
     void func_801903DC(void *arg0) {
@@ -5651,7 +5750,20 @@ extern s32 func_80146994(s32 a0, s32 a1, s32 a2, s32 a3);
     }
 
 
-INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_8017AE2C", func_80190408);
+#include "common.h"
+
+extern s32 D_80126B58;
+extern s32 func_8014C050(s32 a0, s32 a1);
+
+void func_80190408(void) {
+    s32 t;
+
+    t = func_8014C050((s32)&D_80126B58, 0x28);
+    if (t != 0) {
+        *(u16 *)(t + 2) += 1;
+    }
+}
+
 
 
 extern void (*D_80196F00[])(void);

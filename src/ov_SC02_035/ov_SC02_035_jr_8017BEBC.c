@@ -3254,7 +3254,32 @@ void func_8017D0F4(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_035/nonmatchings/ov_SC02_035_jr_8017BEBC", func_8017D130);
+#include "common.h"
+
+/* 8 bytes, align 2 -> lwl/lwr/swl/swr copy (cookbook §48-C2) */
+typedef struct {
+    s16 v[4];
+} Blk8_80126940;
+
+extern s32 D_80126B58;
+extern u16 func_80148800(s32 *a0);
+extern s16 D_80187F38[];
+extern Blk8_80126940 D_80126940;
+extern void func_8017D1D0(s32 param_1, s16 *param_2);
+
+void func_8017D130(s32 a0) {
+    Blk8_80126940 sp10;
+    u8 t;
+
+    if (func_80148800(&D_80126B58) & 3) {
+        t = (*(u8 *)(a0 + 5) + 1) & 1;
+        *(u8 *)(a0 + 5) = t;
+        *(s32 *)(a0 + 0x14) = D_80187F38[t];
+    }
+    sp10 = D_80126940;
+    func_8017D1D0(a0, sp10.v);
+}
+
 
 
 // @class: schedule
@@ -3800,7 +3825,21 @@ extern void func_8012CBCC(s32 a0);
 
 INCLUDE_ASM("asm/ov_SC02_035/nonmatchings/ov_SC02_035_jr_8017BEBC", func_801831EC);
 
-INCLUDE_ASM("asm/ov_SC02_035/nonmatchings/ov_SC02_035_jr_8017BEBC", func_80183258);
+#include "common.h"
+
+extern void (*D_801B977C[])(void);
+extern void func_80183F2C(void *a0);
+
+void func_80183258(void *a0) {
+    D_801B977C[*(u16 *)((s32)a0 + 0x2)]();
+    if (*(u16 *)((s32)a0 + 0x0) != 0) {
+        *(s32 *)((s32)a0 + 0xE8) = *(s32 *)((s32)a0 + 0xE8) + 1;
+        if ((*(s32 *)((s32)a0 + 0xE8) & 0xF) == 0) {
+            func_80183F2C(a0);
+        }
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC02_035/nonmatchings/ov_SC02_035_jr_8017BEBC", func_801832D4);
 

@@ -4522,7 +4522,22 @@ void func_80171854(void *a0) {
 
 DEFINE_func_80171884()  /* dedup: shared engine-core @0x80171884 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_8016AB6C", func_801718AC);
+#include "common.h"
+
+extern s32 D_80126B58;
+extern s32 D_80126D50;
+extern s32 D_80126D54;
+extern u8 D_80126D6C;
+
+extern void func_80171A1C(u8 *a0);
+
+void func_801718AC(void *arg0) {
+    D_80126D54 = (s32)arg0;
+    D_80126D6C = 0;
+    D_80126D50 = *(s32 *)arg0 | (D_80126D50 & 0x7F000000);
+    func_80171A1C((u8 *)&D_80126B58);
+}
+
 
 DEFINE_func_80171904()  /* dedup: shared engine-core @0x80171904 (src/shared) */
 

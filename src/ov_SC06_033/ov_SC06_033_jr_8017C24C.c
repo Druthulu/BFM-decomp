@@ -52,7 +52,6 @@ extern s32 func_80165A50(s32);
 extern void func_80029514(s32);
 extern u8 D_800AF630[];
 extern u8 D_80078EC0;
-extern s32 D_80126B58;
 extern s32 func_80028FBC(void);
 extern s32 func_80029000(void);
 extern s32 func_80028D9C(void);
@@ -76,7 +75,6 @@ extern s32 func_80146128(void);
 extern void func_80146360(void);
 extern void func_801463A0();
 extern void func_8014607C(void);
-extern s32 *D_80126B78;
 extern u8 D_80078EC1;
 extern s32 D_80078EC8;
 extern s32 D_8011F730;
@@ -613,7 +611,6 @@ extern s32 func_8014E83C(s32 arg0, s16 * arg1, s16 * arg2);
 extern void func_8014E934(s32 _arg0);
 extern s32 func_8014EA4C(void *a0, void *a1, void *a2, s32 a3);
 extern s32 func_8014E98C(void *a0);
-extern u16 D_800B99DA;
 extern s32 D_801150D8;
 extern s16 D_801152AA;
 extern u8 D_80126720[];
@@ -3438,7 +3435,60 @@ void func_8017EAC8(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_033/nonmatchings/ov_SC06_033_jr_8017C24C", func_8017EB04);
+
+
+
+
+// @class: regalloc-order
+// @stuck: none — MATCH (83 ins). $s3 is a dual-copy of iVar3 used only in the ==0 tail block; natural C coalesces to one $s0, so pin iVar3=$s0 and iVar3b=$s3 (different hard regs prevent gcc coalescing the copy). Also: outer+inner branch polarity inverted (if!=0 / if!=0 puts both short blocks at the tail as beqz targets); base = (int)D_801D05BC + idx*0x40 (materialize form, arg to callees).
+
+extern void func_801465C0(void);
+extern void func_8001CD9C(int, void*);
+extern void func_800233CC(void*, unsigned short);
+extern void func_8017ECF8(void*);
+extern void func_8017ECC8(s32*);
+extern int rand(void);
+
+void func_8017EB04(int param_1)
+{
+
+    extern unsigned char D_801D05BC[];
+    register int iVar3 __asm__("$16");
+    register int iVar3b __asm__("$19");
+    int iVar5;
+    short sVar2;
+
+    iVar5 = (int)D_801D05BC + *(int *)(param_1 + 0x2c) * 0x40;
+    iVar3 = ((int (*)(void))func_801465C0)();
+    *(int *)(param_1 + 0x20) = iVar3;
+    iVar3b = iVar3;
+    if (iVar3 != 0) {
+        ((void (*)(int, int))func_8001CD9C)(iVar3, iVar5);
+        ((void (*)(int, int))func_800233CC)(iVar5, 0x10);
+        ((void (*)(int))func_8017ECF8)(iVar5);
+        *(unsigned int *)(iVar3 + 4) = *(unsigned int *)(iVar3 + 4) | 0x50000000;
+        if (*(int *)(param_1 + 0x2c) != 0) {
+            sVar2 = (rand() & 3) * 0x800 + 0x1000;
+            *(short *)(iVar3 + 0x1a) = sVar2;
+            *(short *)(iVar3 + 0x18) = sVar2;
+            *(unsigned short *)(param_1 + 0x12) = (rand() & 0xf) + 3;
+            if ((rand() & 1) != 0) {
+                *(short *)(param_1 + 0x12) = -*(short *)(param_1 + 0x12);
+            }
+            *(unsigned short *)(param_1 + 0x1a) = (rand() & 0xf) + 3;
+            if ((rand() & 1) != 0) {
+                *(short *)(param_1 + 0x1a) = -*(short *)(param_1 + 0x1a);
+            }
+        } else {
+            *(short *)(iVar3b + 0x1a) = 0x4000;
+            *(short *)(iVar3b + 0x18) = 0x4000;
+        }
+        *(short *)(param_1 + 2) = *(short *)(param_1 + 2) + 1;
+    } else {
+        ((void (*)(int))func_8017ECC8)(param_1);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_033/nonmatchings/ov_SC06_033_jr_8017C24C", func_8017EC50);
 
