@@ -174,6 +174,27 @@ def spec_from_starts(ov, base, s_off, e_off, tables):
     Needs no entry counts — derived from {table starts} + the payload (R33)."""
     s_vram, e_vram = base + s_off, base + e_off
     tables = sorted(set(tables))
+    # R32 COVERAGE — the given starts must EXPLAIN the span, not merely fit inside it (P30 S29,
+    # §132). Every zero word INSIDE the span is an original `.align 3` pad (same axiom this
+    # function's pad rule already rests on: a zero can never be an ENTRY), so the word after it
+    # STARTS a table. The caller's union can silently miss an interior table when the span is a
+    # pre-§8e MERGED DOUBLE: no persisted `tables=`, and the extra owner is already MATCHED so
+    # `make extract` pruned the stub .s that named its table. The old code then inferred
+    # "single-table predecessor", emitted a spec one table SHORT, and jtbl_rodata_pads refused
+    # mid-stream at build time — correctly, but the truncated object it left behind (no
+    # .DELETE_ON_ERROR, now fixed) surfaced one build later as `undefined reference to $L105`.
+    # Recover those starts here, from the payload, at the single choke point (R33).
+    # HONEST LIMIT: this recovers only PAD-SEPARATED boundaries. A tight (0-pad) interior boundary
+    # is indistinguishable from a continuing table in the payload, so it stays unrecovered — but it
+    # then makes the spec SHORT, which the filter's table-count guard rejects LOUDLY at build time.
+    # The failure mode is therefore never silent in either branch.
+    recovered = sorted({base + o + 4 for o in range(s_off, e_off, 4)
+                        if payload_word(ov, o) == 0 and o + 4 < e_off} - set(tables))
+    if recovered:
+        print("jtbl_carve: span 0x%x..0x%x: RECOVERED %d interior table start(s) from the payload "
+              "zero-word rule (pre-§8e span with no persisted tables=): %s"
+              % (s_off, e_off, len(recovered), ", ".join("0x%x" % r for r in recovered)))
+        tables = sorted(set(tables) | set(recovered))
     if not tables or tables[0] != s_vram or tables[-1] >= e_vram:
         sys.exit(f"jtbl_carve: span 0x{s_off:x}..0x{e_off:x}: table starts "
                  f"{['0x%x' % t for t in tables]} do not fit the span (first must equal the "

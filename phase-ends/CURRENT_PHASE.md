@@ -155,8 +155,11 @@ code subseg so each object owns exactly one table.** Drafts preserved at `.run/s
    immediates changed. Fixed with an `sltiu`-authorized clamp (refuses loudly if a surplus word looks
    like a real entry). **`func_80191C50` (710 ins) BANKED**, R22 140/140. Cookbook **§131**.
    ⇒ the `JTBL-CARVE-BREAKS-BYTES` class is RETIRED — it was a real bug, now fixed.
-4. **[Max, xHigh-able] `JR-PAIR-IN-ONE-O0-OBJECT`** — try §81 step 1 (isolate one of the pair into its
-   own code subseg) so each object owns exactly one table. Worth 2 × 138.
+4. ~~**[Max, xHigh-able] `JR-PAIR-IN-ONE-O0-OBJECT`** — try §81 step 1~~ ✅ **SOLVED + BANKED (S29).**
+   The class is RETIRED and the §81-isolate escape was never needed: it was TWO instrument defects
+   (a merged-double span `jtbl_carve` could not see + no `.DELETE_ON_ERROR`, so a truncated `.o`
+   survived its own loud compile error and the NEXT build linked it). Both fns banked, R22 140/140.
+   Cookbook **§132**. Sibling sweep (2 × 137) unblocked — see the S29 log entry.
 5. **[T5, Max] Phase close.** ⚠️ **Milestone reality: 89.2% instr vs a ≥95% bar.** The remaining
    overlay volume is small; the bulk is main's 1,034 stubs + the 39 type-1 modules, both **P31 scope**.
    P30 realistically closes on the milestone's **ledger branch** ("every remaining overlay stub on a
@@ -347,6 +350,43 @@ the T2 log entries; check both background tasks' outcomes first (`git log` for t
 (R26/R27) — T1b agent-residue wave folds into it.
 
 ## Per-task log
+
+### ✅ S29 — `JR-PAIR-IN-ONE-O0-OBJECT` RETIRED: two instrument defects, both fixed; the pair banked (2026-07-31)
+The S28 ledger class and its recorded escape (§81 step 1, isolate one fn into its own code subseg)
+are **both refuted**. Neither function needed isolation; neither is on a compiler wall.
+
+**Root cause 1 — `jtbl_carve` could not see a 4th table.** `ov_SC01_077_o0`'s carve at `0xb01a4`
+predates the §8e `tables=` persistence and is a **merged double** (`func_8013C0F8` `$L75` +
+`func_8013C414` `$L105`); the second owner is MATCHED, so `make extract` pruned the stub `.s` that
+named its table. The tool's "single-table predecessor" inference therefore derived 3 starts where the
+object emits **4 tables**, wrote `JTBL_PADS := 0,4,4`, and `jtbl_rodata_pads` refused mid-stream —
+correctly, with the exact message.
+**Root cause 2 — the refusal left a corpse.** `as` reads a pipeline, so it had already written a
+TRUNCATED `.o` (12 of 16 `T func_`; undefined `$L57/$L59/$L63/$L75/$L76`). `make` reported Error 1 and
+**left the object on disk, newer than its `.c`** — no `.DELETE_ON_ERROR`. The next build linked the
+corpse: that IS S28's `undefined reference to $L105` + `func_8013C938`, one build downstream of a
+loud, correct compile error.
+
+**Fixes (both byte-gated).** (a) `Makefile`: **`.DELETE_ON_ERROR:`** — negative-control-proven
+(`make: *** Deleting file …`), scratch invocation, tracked files untouched. (b)
+`tools/jtbl_carve.py` `spec_from_starts`: a **R32 coverage assertion + payload recovery** at the
+single choke point — every zero word inside a span is an original `.align 3` pad (the tool's own
+axiom), so the word after it starts a table; recovered starts are logged. No-op where the structure is
+already known (the 134 sibling `_o0c` spans DO carry `tables=+0x0,+0x70`), so committed-green spans are
+untouched. Honest limit: only pad-separated boundaries are recoverable; a tight boundary still fails
+LOUD (short spec → filter refusal), never silently.
+
+**Byte proof.** 4 tables at `0x801D8254 / 0x801D828C / 0x801D82FC / 0x801D836C` (13/27/27/27 entries,
+each preceded by a zero pad); span `0xb00fc..0xb0280` = 388 B = 52+4+108+4+108+4+108 — closes exactly;
+derived spec `0,4,4,4  tables=+0x0,+0x38,+0xa8,+0x118`. **`func_8013B83C` (272 ins) + `func_8013BD74`
+(198 ins) banked**, ov_SC01_077 `d19c9580`, **R22 clean-fleet 140/140** (`make clean` + extract-all +
+check-all — the incremental result was NOT trusted, §130). Fleet **93.25% fn-count / 89.2% instr /
+80.5% distinct**; dedup 1905/0; 0 NON_MATCHING. Cookbook **§132** (incl. the reusable ladder: compile
+the ONE TU standalone and let `.section .rodata` + the nearest preceding `.ent` name every table owner
+— it found the 4th owner and attributed `$L105` in one command, before any build or carve).
+
+**Next:** the 2 × 137 sibling sweep (`jtbl_family_bank`, members at the SAME vram in 137 overlays;
+each sibling's `_o0c` has exactly these 2 open stubs, so the sweep completes that `-O0` cluster).
 
 ### ✅ T0.5 COMPLETE — the fleet Ghidra-C prefetch: 124/124 programs, 7,716 files, 335 min, unattended
 Zero-token, headless, resumable; imported ~120 overlay programs on demand and ran the

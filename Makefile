@@ -15,6 +15,14 @@ SHELL := /bin/bash
 # 26-A audit exists to kill: a loud failure nobody counts is as invisible as a silent one (R32).
 # `-e` makes every recipe line load-bearing. Deliberate opt-out: `check-env` (see its recipe).
 .SHELLFLAGS := -ec
+# DELETE A FAILED TARGET (Phase-30 S29). `as` reads a pipeline stream, so when an upstream stage
+# dies mid-stream (e.g. jtbl_rodata_pads' fail-loud table-count guard) `as` has already written a
+# TRUNCATED .o. make reports the error correctly — and then leaves the corpse on disk, newer than
+# its .c. The NEXT build considers it up to date and LINKS it, turning a loud, attributable compile
+# error into `undefined reference to $L105` / `func_8013C938` one build later. That is precisely how
+# the `JR-PAIR-IN-ONE-O0-OBJECT` "wall" was manufactured (§132). Same family as the §42b/§130
+# stale-object traps: an artifact that outlives the command that failed to produce it.
+.DELETE_ON_ERROR:
 .DEFAULT_GOAL := help
 
 # --- paths & tooling ---------------------------------------------------------

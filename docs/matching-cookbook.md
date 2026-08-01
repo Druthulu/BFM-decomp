@@ -8559,3 +8559,68 @@ statement, never on a guess.
 the one case where "the tool is broken" was actually true. It blocked a 710-instruction behemoth and,
 because a carve is per-overlay, it would have blocked every future jr family whose table happens to
 be followed by non-zero data. One clamp, byte-identical, behemoth banked.
+
+## §132 — The `JR-PAIR-IN-ONE-O0-OBJECT` "wall" was TWO instrument defects: a merged-double span the carve could not see, and a truncated object no rule deleted (P30 S29, `func_8013B83C` + `func_8013BD74`)
+
+S28 ledgered a new residual class: two jr functions matched in ONE `-O0` object produced
+`undefined reference to $L105` + `undefined reference to func_8013C938` from a CLEAN build, while an
+incremental build reported BYTE-IDENTICAL (§130). The escape recorded was §81 step 1 (isolate one into
+its own code subseg). **Both the class and the escape are REFUTED.** Neither function is on a compiler
+wall; both banked from a clean fleet with no isolation at all. **Class RETIRED** — the fourth
+consecutive "structural wall" to resolve to our own tooling (§124/§125/§126/§131 are the others).
+
+### Defect 1 — a pre-§8e MERGED DOUBLE is not a single-table predecessor
+`jtbl_carve` reconstructs a touched span's table starts from the union {new fn's `.s`, surviving stub
+`.s`, the committed `tables=`, `--span-tables`, `--like`}. When a span has **no `JTBL_PADS` line**, the
+tool infers "SINGLE-table predecessor, so the span start IS the table start" (§8e-2, correct for the
+case it was written for). `ov_SC01_077_o0`'s carve at `0xb01a4` predates the `tables=` persistence and
+is a **merged double** — `func_8013C0F8` (`$L75`) *and* `func_8013C414` (`$L105`), the second invisible
+because a matched owner's stub `.s` is pruned by `make extract`. So the tool derived 3 starts where the
+object emits **4 tables**, wrote `JTBL_PADS := 0,4,4`, and `jtbl_rodata_pads` refused mid-stream —
+*correctly*, with the exact message ("more rodata .align directives than pad specs").
+
+**Fix (single choke point, `spec_from_starts`):** assert the starts EXPLAIN the span, and recover what
+is missing from the payload — every zero word INSIDE the span is an original `.align 3` pad (the same
+axiom the pad rule already rests on: a zero can never be an ENTRY), so the word after it STARTS a
+table. Recovery is a no-op wherever the structure is already known, so committed-green spans are
+untouched. **Honest limit:** only PAD-SEPARATED boundaries are recoverable; a tight (0-pad) interior
+boundary is indistinguishable from a continuing table in the payload — but it then makes the spec
+SHORT, which the filter rejects loudly at build time. Never silent in either branch.
+
+### Defect 2 — `as` writes a corpse and nothing deletes it
+`as` consumes a PIPELINE. When an upstream stage dies mid-stream, `as` has already assembled the
+prefix and written a **truncated `.o`** (its only complaint is `Warning: missing .end at end of
+assembly`). `make` reports `Error 1` correctly — and then leaves that object on disk, NEWER than its
+`.c`. **The next build considers it up to date and links it.** Measured here: 12 of 16 `T func_`
+symbols, and undefined `$L57/$L59/$L63/$L75/$L76`. That is the entire mystery: the link error is one
+build DOWNSTREAM of a loud, correct, attributable compile error. Fix: **`.DELETE_ON_ERROR:`** in the
+Makefile (negative-control-proven: `make: *** Deleting file ...`). Same family as §42b/§130 — an
+artifact that outlives the command that failed to produce it.
+
+### The fingerprint, and the 30-second ladder that found it
+**An undefined `$L<n>` in a LINK error is never codegen.** `$L` labels are gcc-local: the assembler
+resolves them within the object, so one can only be *undefined* if the stream that defined it was cut.
+Read it as "an object is truncated", not "a function is wrong".
+
+The ladder — compile the ONE TU standalone through the real pipeline and let it name the owners:
+```
+cpp … | cc1 -O0 … | maspsx … > t.s          # no filter, no carve: one variable
+grep -n '^\.section \.rodata' t.s            # how many tables does the object ACTUALLY emit?
+# for each hit, the nearest preceding `.ent` is that table's OWNER; `$L<n>:` is its label
+```
+Four blocks (13/27/27/27 entries) against a 3-start derivation, and `$L105` attributed to
+`func_8013C414`, in one command — before any build, carve or isolation. Then confirm against the
+ORIGINAL payload: table starts `0x801D8254 / 0x801D828C / 0x801D82FC / 0x801D836C`, each preceded by a
+zero pad word, span `0xb00fc..0xb0280` = 388 B = 52+4+108+4+108+4+108 — the arithmetic closes exactly,
+so the C-side table count and the payload agree and the spec is `0,4,4,4`.
+
+**Result:** `func_8013B83C` (272 ins) + `func_8013BD74` (198 ins) banked in `ov_SC01_077`
+(`d19c9580`), **R22 clean-fleet 140/140**, with the 137-sibling sweep unblocked (their `_o0c` spans DO
+carry `tables=+0x0,+0x70`, so the recovery is a no-op there — the blindness was ov_SC01_077-only).
+
+### The transferable rule
+**A fail-loud guard is only as trustworthy as the artifact hygiene around it.** A guard that refuses
+correctly but leaves a partial artifact behind converts its own honest error into a lie one build
+later — and the lie is *more* convincing than the truth, because it points at a different subsystem.
+When a loud refusal and a mystifying downstream failure appear in the same session, suspect they are
+the SAME event, one build apart.
