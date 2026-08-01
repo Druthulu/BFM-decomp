@@ -4391,7 +4391,69 @@ DEFINE_func_80163664()  /* dedup: shared engine-core @0x80163664 (src/shared) */
 
 DEFINE_func_801636D0()  /* dedup: shared engine-core @0x801636D0 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_8015C32C", func_80163764);
+// @class: table-scan
+// @stuck: none — MATCH (42 ins), match_one AND rtu_match (real TU).
+//
+// Scans the 0x60-entry actor table at D_801202A0 (stride 0x10C) for a live entry
+// (`[0] != 0`) whose flag word at +0x5C has bit 0x100 set, then range-tests it against
+// the caller's actor via func_8014C278(self, ent, 0x40). First hit -> func_801506A4 with
+// the caller's sub-object at +0x4C, return 1; no hit -> return 0.
+//
+// Levers (all first-shot, cookbook §31 map + the sibling idiom bank):
+//   - counter/pointer SPLIT loop, exactly DEFINE_func_8014C168's shape: a separate
+//     `u32 i` bounded `i < 0x60` (UNSIGNED -> `sltiu $v0,$s1,0x60`; an `s32` counter
+//     would emit `slt`) with the cursor advanced independently. The pointer-compare
+//     form used by the neighbouring DEFINE_func_80163950
+//     (`for (p = D_801202A0; p < D_801202A0 + 0x6480; p += 0x10C)`) emits an `sltu`
+//     against a materialised end pointer and can NOT produce this function's bytes.
+//   - `u16 *p` so `*p` / `p[0x2E]` are `lhu` at +0x0 / +0x5C; cursor bumped through a
+//     `u8 *` cast to keep the 0x10C byte stride.
+//   - `*(s32 *)(a0 + 0x4C)` hoisted ABOVE the loop -> the $s3 live range and the
+//     `lw $s3,0x4C($s2)` placed after the `sw $s3` in the prologue schedule.
+//   - short-circuit `&&` chain (not nested ifs) -> the three `beqz`s share the single
+//     .L801637D8 continue target, and gcc fills their delay slots with the $a0/$a1/$a2
+//     argument setup for the two calls.
+//
+// BANKING BLOCKER (def-side, NOT a byte issue) — cookbook §63 / tools/fix_header_decl.py.
+// engine_core.h forward-declares this fn with a caller-derived `void` return in two shared
+// caller macros, so splicing the byte-true `s32` def into any overlay TU throws
+// `conflicting types for func_80163764`:
+//     src/shared/engine_core.h:9322   (DEFINE_func_801642AC, file-scope)
+//     src/shared/engine_core.h:23646  (DEFINE_func_80163C2C,  block-scope)
+// Fix (both classified SAFE, byte-neutral — neither caller reads $v0):
+//     .venv/bin/python tools/fix_header_decl.py --fn func_80163764 \
+//         --draft .run/drafts-p30w1/func_80163764.c --apply
+// VERIFIED: with those two decls widened `void`->`s32` in a private header copy,
+// rtu_match on ov_SC01_077_jr_8015C32C returns MATCH (42 ins). Fleet-shared edit -> R22.
+//
+// Externs are BLOCK-scope on purpose so the body lifts as one self-contained unit into a
+// shared DEFINE_func_80163764() for the x138 propagation (§32 "recover_giant" rule:
+// file-scope externs are excluded from the lifted body -> false "not self-contained" skip).
+
+#include "common.h"
+
+s32 func_80163764(s32 a0)
+{
+    extern u8 D_801202A0[];
+    extern s32 func_8014C278(s32 a0, s32 a1, s32 a2);
+    extern s32 func_801506A4(s32 a0, s32 a1);
+    u32 i;
+    u16 *p;
+    s32 v;
+
+    i = 0;
+    p = (u16 *)D_801202A0;
+    v = *(s32 *)(a0 + 0x4C);
+    for (; i < 0x60; i++) {
+        if (*p != 0 && (p[0x2E] & 0x100) != 0 && func_8014C278(a0, (s32)p, 0x40) != 0) {
+            func_801506A4(v, (s32)p);
+            return 1;
+        }
+        p = (u16 *)((u8 *)p + 0x10C);
+    }
+    return 0;
+}
+
 
 DEFINE_func_8016380C()  /* dedup: shared engine-core @0x8016380C (src/shared) */
 
