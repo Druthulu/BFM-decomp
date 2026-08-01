@@ -8475,3 +8475,50 @@ With the carve applied, splicing the draft fails cc1 with
 genuine §8e work (re-derive the multi-table pad spec including the new owner), not a wall — and it
 was only reachable after §129a stopped the phantom 206-instruction "diff" from misdirecting the
 diagnosis.
+
+## §130 — An INCREMENTAL build can report BYTE-IDENTICAL for a change the CLEAN build cannot even LINK (P30 S28, the jr pair)
+
+R22 has always said "verify from a clean rebuild." This is the sharpest instance yet of *why*, and it
+cost two cycles because I used a fast in-loop gate that skipped `make clean`.
+
+**The setup.** Two jr/switch functions, `func_8013B83C` (jtbl_801D8254) and `func_8013BD74`
+(jtbl_801D828C), both in the SAME `-O0` object `ov_SC01_077_o0`. Both bodies are byte-correct —
+`match_one --o0` and `rtu_match --o0` each report MATCH (272 and 198 ins).
+
+**What the incremental gate said.** Carve both tables in one `jtbl_carve` call (correct — it is
+additive and re-derives the full span; the object's pad spec becomes `[0,4,4]`), splice both drafts,
+`make extract && make build` → **BYTE-IDENTICAL**. I reported both banked.
+
+**What `make clean` said.**
+```
+ov_SC01_077_o0.c:(.text+0x10f8): undefined reference to `$L105'
+ov_SC01_077_jr_801588CC.o: in function `func_801596F0':
+        undefined reference to `func_8013C938'
+```
+It does not link **at all** — and note the second error: a *previously matched* cluster function
+becomes undefined. An incremental build reused objects that still satisfied those references; a clean
+one has nothing to reuse and the real state surfaces.
+
+**The rule, sharpened.** A byte-gate result from an incremental build is not weak evidence — it can
+be **actively false**, and false in the most convincing direction (a green SHA). §42b named the
+stale-object trap for a FALSE FAIL; this is its mirror, a **FALSE PASS on a change that is not even
+linkable**. Anything that touches `config/` (a carve, a resegment, a split) MUST be gated by
+`make clean && make extract-all && make check-all` before it is believed, let alone reported.
+
+**The residual class this exposes: two jr functions matched in ONE object.** §8b already warns that a
+single object contributes at most one contiguous `.rodata` run; the pad-spec machinery (§8e) handles
+a multi-table span in principle, but matching *both* owners in the same `-O0` object produced
+unresolved local labels (`$L105`) from the C-emitted tables plus a collateral undefined symbol. The
+integrated per-sibling path (`jtbl_family_bank`) banks ONE jr function per object per transaction and
+has never hit this. **Ledger class: `JR-PAIR-IN-ONE-O0-OBJECT`.** The escape, untested, is §81 step 1:
+isolate one of the two into its own code subseg first so each object owns exactly one table.
+
+### The diagnostic ladder that finally located it (reusable)
+The function-level tools all said MATCH, so the signal had to come from the image:
+1. Build with the splice, build without, **diff the two binaries**.
+2. Compare each differing byte's vram against the function's own `[lo, lo+4*nins)` range.
+   Here: **3,749 of 3,791 diffs were OUTSIDE the function**, first diff near the overlay's START, and
+   the image was **57 bytes LONGER** — the §8 signature of `.rodata` floating to the front, i.e. "this
+   function emits a jump table", not "this function's code is wrong."
+That size-and-location fingerprint distinguishes a codegen residual from an integration/layout effect
+in one build, and it is what redirected the diagnosis away from three wrong guesses.
