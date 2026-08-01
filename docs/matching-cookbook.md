@@ -8649,3 +8649,54 @@ sibling, not noise** — probe it rather than ledger it: here it cost one probe 
 plus a real tool defect. And note the near-miss: had ov_SC07_010 been named `_o0c` like its 136
 peers, the defect would have stayed invisible until some later family whose exemplar shares a role
 name with a recorded sibling — a silent wrong spec instead of a loud refusal.
+
+### §132b — When the span's already-matched owner is ITSELF multi-switch: `--span-rel` (P30 S1, `func_8014032C`)
+
+§132's payload zero-word recovery closes the *pad-separated* case. Here is the case it cannot see, met
+head-on while sweeping the zero-crack tier's largest family (183 ins × 137).
+
+The sibling gate-failed. The §132 ladder named it in one command: the object emits **four** tables
+because **both** functions in it are multi-switch (8+5 entries each), while the carve derived **three**
+starts. The missing start belongs to the already-matched `func_8013FFD8`, and *neither* oracle can
+reach it — `make extract` prunes a matched owner's stub `.s`, and its second table abuts its first
+with **no pad** (8 entries = 32 B ≡ 0 mod 8, so `.align 3` emits nothing).
+
+Note what is NOT wrong: the true pads `[0,0,4,0]` are exactly what natural alignment produces. The
+build breaks **only** because a short spec gets written and then enforced.
+
+**The lever: `jtbl_family_bank --span-rel d0,d1,…`** — table offsets relative to the FIRST NEW table,
+which `func_jtbls` reads from the sibling's own `.s`. The family's layout is invariant (same code,
+same entry counts; only the base moves), so one measured offset list serves every sibling. **Verify
+that invariance on ≥2 siblings before trusting it** — one command, and it is the whole premise.
+
+**It is a per-family FLAG, not a default, and the failure is symmetric.** The same sweep needed it ON
+for 127 siblings and OFF for 10: where the span holds only the new tables, forcing the extra starts
+over-specifies and the carve refuses ("table starts … do not fit the span"). Two passes — sweep with
+it, re-run the residue without — banked 137/137. A residue that fails the *opposite* way from the
+majority is a signal to flip the flag, not to add another lever.
+
+## §133 — The DEFAULT-FILTER class: three times in one session, a tool silently answered a narrower question than the one asked (P30 S1–S3)
+
+Not one of these was a broken tool. Each was correct for its own purpose, and each **silently scoped
+down** a question that was asked more broadly — which is the same defect class as §124/§126/§132, one
+level up: not a wrong measurement, a **mis-scoped** one.
+
+1. **My own analysis filter.** Sizing the remaining ×138 work I required `nins >= 80` ("substantial"),
+   reported "only 2 crackable fleet-wide families remain — the ×138 era ends", and wrote it into the
+   phase plan as a *structural signal*. Re-run without the size cut: **33 families / 238,478
+   templatable ins**, of which 30 (137,186 ins) were below my line. The conclusion was an artifact of
+   a threshold I chose and then forgot I had chosen.
+2. **`worklist.md` prices by `h_exact` reach.** A per-location PURE family shares only `h_seq`, so the
+   worklist prices its head at **×1**. Byte-proof: the day's banked pair was priced 272 and 198 ins and
+   delivered **37,536 + 27,324**; `func_80176734`, the single largest item in the frontier, sits at
+   rank ~50 there. **Rank family work by `.run/family_hseq.json` templatable weight; the worklist is
+   correct only for genuinely h_exact-reach functions.**
+3. **`family_sweep --hseq` defaults to `--band substantial`.** A propagation run over nine freshly
+   banked heads — all under 80 ins — reported `0 matched-exemplar families` and banked nothing. The
+   sweep was right; the band was the question it had been asked. `--band all` is the fix.
+
+**The practice.** When a scan returns "nothing" or "far less than expected", the FIRST hypothesis is
+your own filter, not the world. State the filter out loud in the same breath as the number ("33
+families **with ≥100 members, any size**"), and re-run once with it removed before any conclusion is
+allowed to shape a plan. A number that scoped a phase deserves the same instrument-check R35 demands
+of a probe.
