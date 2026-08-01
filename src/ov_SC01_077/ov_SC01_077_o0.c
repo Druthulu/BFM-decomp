@@ -236,20 +236,22 @@ extern s16 D_801DA9A2;
 extern s16 D_801DA9A4;
 extern s16 D_801DA9A6;
 
-typedef struct {
-    u8    pad0[8];
-    void *f8;
-    void *fC;
-} E_13BD74;
-
-typedef struct {
-    u8  pad0[3];
-    u8  code;
-    s32 f4;
-    s32 f8;
-} P_13BD74;
-
 void func_8013BD74(void *a0, s32 a1) {
+    /* §100 draft-LOCAL types: file-scope typedefs are NOT carried by extract_unit/remap_hseq, so a
+       file-scope E_13BD74 banks the exemplar and then fails every sibling with `E_13BD74'
+       undeclared (the §94 type-carry class, measured on ov_SC01_000). Block scope travels with the
+       body and is byte-neutral (a type emits no code). */
+    typedef struct {
+        u8    pad0[8];
+        void *f8;
+        void *fC;
+    } E_13BD74;
+    typedef struct {
+        u8  pad0[3];
+        u8  code;
+        s32 f4;
+        s32 f8;
+    } P_13BD74;
     s32 *q;
     s32 *p;
     s32 i;

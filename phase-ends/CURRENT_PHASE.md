@@ -385,8 +385,19 @@ check-all — the incremental result was NOT trusted, §130). Fleet **93.25% fn-
 the ONE TU standalone and let `.section .rodata` + the nearest preceding `.ent` name every table owner
 — it found the 4th owner and attributed `$L105` in one command, before any build or carve).
 
+**Sweep prep — the §94/§100 type-carry class, caught by probing ONE sibling (R37).** The first
+sibling gate-failed. The §132 ladder named it in one command: the sibling object emitted only
+`func_8013C0F8` + `func_8013C414` tables — BD74's body never compiled (`E_13BD74' undeclared`).
+Cause: BD74's draft declared `E_13BD74`/`P_13BD74` at **FILE scope**, and `extract_unit`/`remap_hseq`
+carry only the BODY — the exact class that held `func_8013C08C` at 0/137 earlier this phase. Fix =
+**§100 draft-local types** (moved both typedefs inside the function body; byte-neutral, exemplar
+re-gated `d19c9580`). B83C's draft was already draft-local, hence unaffected. *A file-scope type in a
+draft is an exemplar-only bank: it passes the gate and silently cannot travel.*
+
 **Next:** the 2 × 137 sibling sweep (`jtbl_family_bank`, members at the SAME vram in 137 overlays;
 each sibling's `_o0c` has exactly these 2 open stubs, so the sweep completes that `-O0` cluster).
+Order matters: **BD74 first, then B83C** — B83C's table sits BELOW BD74's, so carving it while BD74 is
+still raw leaves the unmatched table inside the span (`NON-CONTIGUOUS`, byte-observed on the exemplar).
 
 ### ✅ T0.5 COMPLETE — the fleet Ghidra-C prefetch: 124/124 programs, 7,716 files, 335 min, unattended
 Zero-token, headless, resumable; imported ~120 overlay programs on demand and ran the
