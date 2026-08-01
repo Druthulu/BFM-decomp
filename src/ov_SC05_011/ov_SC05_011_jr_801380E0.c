@@ -1249,7 +1249,55 @@ DEFINE_func_80139A8C()  /* dedup: shared engine-core @0x80139A8C (src/shared) */
 
 DEFINE_func_80139B18()  /* dedup: shared engine-core @0x80139B18 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC05_011/nonmatchings/ov_SC05_011_jr_801380E0", func_80139BE0);
+
+/* func_80139BE0 — ov_SC01_077 / ov_SC01_077_jr_801380E0, 39 ins, MATCH.
+ *
+ * REDRAFT of the decayed backlog draft: the stored draft was -1 instruction
+ * (LENGTH-DRIFT) because the target keeps a QI->SI zero-extend of the masked
+ * byte (`andi $a1,$v0,0xFF` after `andi $v0,$v0,0x60`) that gcc-2.7.2 folds
+ * away: combine proves nonzero_bits(x & 0x60) <= 0xff and simplifies the
+ * extend to nothing.  No pure-C spelling survives that fold when the def and
+ * the extend sit in the SAME basic block (verified: u8 local, (u8) cast at
+ * the use, `& 0xff` at the use, u8-via-int, u16 hold, hard-register pins) —
+ * a cross-BB def keeps it but lands the andi in the wrong block.
+ * The opacity idiom (already used in src/ov_SC03_099) makes the value's range
+ * unprovable in place, so the extend survives at its original position.
+ * cookbook §1/I2 ("masked andi survives only if the value's range is
+ * unprovable"), §17 (pins/barriers).
+ */
+
+s32 func_80139BE0(int param_1)
+{
+
+    extern unsigned char D_8017E2E4[];
+    int v;
+
+    if ((*(unsigned int *)(param_1 + 8) & 0x2000) == 0) {
+        int t = *(unsigned char *)(param_1 + 0x22) & 0x60;
+        int h = *(unsigned short *)(param_1 + 0x18);
+        unsigned int idx;
+
+        __asm__("" : "=r"(t) : "0"(t));
+        idx = (unsigned char)t;
+        if (h < 7) {
+            if (h >= 2) {
+                v = D_8017E2E4[idx >> 5];
+            } else {
+                v = D_8017E2E4[0];
+            }
+        } else {
+            v = D_8017E2E4[0];
+        }
+        *(short *)(param_1 + 0x2e) = 3;
+        *(short *)(param_1 + 0x2c) = v;
+    }
+    *(short *)(param_1 + 0x34) = *(short *)(param_1 + 0x2c) * 6;
+    {
+        int x = *(short *)(param_1 + 0x2e);
+        *(short *)(param_1 + 0x36) = x * 12 + (x - 1) * 2;
+    }
+}
+
 
 DEFINE_func_80139C7C()  /* dedup: shared engine-core @0x80139C7C (src/shared) */
 

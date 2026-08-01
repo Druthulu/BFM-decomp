@@ -1357,7 +1357,45 @@ DEFINE_func_8014C3D0()  /* dedup: shared engine-core @0x8014C3D0 (src/shared) */
 
 DEFINE_func_8014C43C()  /* dedup: shared engine-core @0x8014C43C (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC04_015/nonmatchings/ov_SC04_015_after", func_8014C4AC);
+
+/* §37/§73/§124 asm-label alias: the fleet canon declares this `extern void` (engine_core.h, inside 8
+ * DEFINE_func_* macros); the byte-true body must return s32.  Aliasing the C name sidesteps the
+ * RETURN-axis conflict with no header edit.  This line MUST travel with the body. */
+s32 aF8014C4AC(s32 a0, s32 a1, s32 a2, s16 *a3, s32 a4) __asm__("func_8014C4AC");
+
+s32 aF8014C4AC(a0, a1, a2, a3, a4)
+s32 a0;
+s32 a1;
+s32 a2;
+s16 *a3;
+u16 a4;
+{
+    typedef struct { u16 a, b, c, d; } V4U_8014C4AC;   /* block-scope: no file-scope conflict (§100) */
+    extern s32 D_80126CD0;
+    extern u16 D_8012693A;
+    extern u16 D_801152B8;
+    u16 t;
+
+    if (a0 == 0) {
+        return 0;
+    }
+    if (*(u16 *)a0 == 0) {
+        return 0;
+    }
+    if (a1 == 9 || a1 == 0x11 || a1 == 0x29 || a1 == 0xA || D_80126CD0 != a0) {
+        t = *(u16 *)(a0 + 0x5C);
+        *(u16 *)(a0 + 0x5E) = a1;
+        *(u16 *)(a0 + 0x62) = a4;
+        *(u16 *)(a0 + 0x60) = a2;
+        *(u16 *)(a0 + 0x5C) = t | 1;
+        *(V4U_8014C4AC *)(a0 + 0x7C) = *(V4U_8014C4AC *)a3;
+        *(u8 *)(a0 + 0xC9) = D_8012693A;
+        *(u8 *)(a0 + 0xC8) = D_801152B8;
+        return a0;
+    }
+    return 0;
+}
+
 
 
 DEFINE_func_8014C568()  /* dedup: shared engine-core @0x8014C568 (src/shared) */

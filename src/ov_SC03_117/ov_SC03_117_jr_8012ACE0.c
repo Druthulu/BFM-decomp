@@ -1787,7 +1787,43 @@ void func_80131340(s32 a0)
 
 DEFINE_func_801319E0()  /* dedup: shared engine-core @0x801319E0 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC03_117/nonmatchings/ov_SC03_117_jr_8012ACE0", func_80131A34);
+
+
+/* func_80131A34 — MATCH (37/37).
+ * Keys:
+ *  - func_80131CF4 is the TU's 2-arg canonical `(int,int)` and the SECOND arg is the
+ *    incoming `a1` (kind). $a1 already holds it, so the call costs no arg-setup insn --
+ *    but the extra arg ref is what breaks the sched2 prologue save-order tie so
+ *    `sw $s0` schedules before `sw $ra` (cookbook §52a RC-3 / sched.md S7). Without it
+ *    the pair comes out ra-then-s0 (2 mismatches); the `const`-load form of RC-3 fixes
+ *    the tie but OVER-frees (the `lw $a0` hoists above both saves, 3 mismatches).
+ *  - Declaration is BLOCK-SCOPE on purpose, mirroring func_801312D0 (TU L1619) and
+ *    func_80131340 (TU L1822): the later DEFINE_func_80131AC8() re-declares
+ *    func_80131CF4 with the stale 1-arg engine_core canonical, so a file-scope 2-arg
+ *    decl here is a hard `conflicting types` (cc1 rc=33).
+ *  - func_8012A828 is the TU's file-scope canonical (L280) `(s32, void *)`; `p` rides in
+ *    $a1 from the return of func_80131CF4, so no move is emitted.
+ */
+extern void func_8012A828(s32 a0, void *a1);
+
+s32 func_80131A34(s32 a0, s32 a1)
+{
+    extern s32 func_80131CF4(s32);
+    void *p;
+
+    p = (void *)((int (*)(int, int))func_80131CF4)(*(s32 *)(a0 + 0xBC), a1);
+    if (p != 0) {
+        if (a1 == 0xB || a1 == 8 || a1 == 0x20) {
+            *(s32 *)(a0 + 0xC4) |= 4;
+        } else {
+            *(s32 *)(a0 + 0xC4) &= -5;
+        }
+        func_8012A828(a0, p);
+        return 1;
+    }
+    return 0;
+}
+
 
 DEFINE_func_80131AC8()  /* dedup: shared engine-core @0x80131AC8 (src/shared) */
 

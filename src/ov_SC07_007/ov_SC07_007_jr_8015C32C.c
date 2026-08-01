@@ -207,7 +207,6 @@ extern int func_8012ACE0(void *a0);
 extern void func_8012A860(void *a0, int a1);
 extern void func_8012A8B0(u8 *a0, s32 a1);
 extern void func_8012A8E8(void);
-extern u8 D_801202A0[];
 extern void func_8012A988(u8 *a0);
 extern void func_8012A908(void);
 extern s32 func_8012ACE0(void *a0);
@@ -1011,7 +1010,6 @@ extern void func_80162120(void);
 extern void func_80029124(s32, s32);
 extern s32 func_80165A50(s32);
 extern void func_80029514(s32);
-extern u8 D_80078EC0;
 extern void func_80145BF8(void);
 extern void func_80145C54(void);
 extern void func_80146014(s32 a0);
@@ -1343,7 +1341,6 @@ extern void func_80146AFC(void *a0);
 extern void func_8014ADA8(s32 a0, s32 a1);
 extern void func_8014AD7C(s32 a0);
 extern s32 D_80078E8C;
-extern u8 D_80078E78[];
 extern s32 func_8016F1C4(void);
 extern s32 func_8014B154(s32 *a0);
 extern void func_8014BD24(s32 a0, s32 a1);
@@ -2798,9 +2795,12 @@ extern void func_80159B70(void *);
 extern void func_8015C714(void *);
 extern void func_801483E8(void);
 
-extern u8 D_80078E78[];
 
 void func_8015D738(void *arg0) {
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern u8 D_80078E78[];
 
     extern void (*D_801855CC[])(void *);
     extern u8 D_80185810[];
@@ -4533,7 +4533,46 @@ DEFINE_func_80161A30()  /* dedup: shared engine-core @0x80161a30 (src/shared) */
 DEFINE_func_80161A60()  /* dedup: shared engine-core @0x80161a60 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC07_007/nonmatchings/ov_SC07_007_jr_8015C32C", func_80161A90);
+
+extern void func_8014AC10();
+
+void func_80161A90(s32 a0)
+{
+
+    extern u8 D_80078E78[];
+    extern u8 D_80078EC0;
+    u8 *p = D_80078E78;
+    s32 t;
+
+    /* INVERTED diamond: the `t = 0` arm must be the THEN arm.
+     * (a) the balanced if/else puts `t = 0` AFTER the branch at regalloc time, so t
+     *     does not conflict with the entry `lh` temp and both land in $v0 (an
+     *     unconditional `s32 t = 0;` before the if costs $v0 -> $a1, 3 mismatches);
+     * (b) with the zero-arm as the THEN arm, reorg steals it into the beqz delay slot
+     *     and relax_delay_slots drops the `j` -> 34 ins. The other polarity
+     *     (`if (x != 0) t = cmp; else t = 0;`) leaves the `j` + an unfilled slot, +2. */
+    if (*(s16 *)(a0 + 0x1C8) == 0) {
+        t = 0;
+    } else {
+        t = ((D_80078EC0 & 0x7F) == 6);
+    }
+    if (t != 0) {
+        /* forces the `lhu 0x1C8($a0)` reload: without it cse reuses the entry `lh`
+         * value across the join and folds the reload away. */
+        __asm__ __volatile__("" ::: "memory");
+        *(u16 *)(a0 + 0x1C8) -= 1;
+        /* zero-byte 2nd set of p: kills p's qty-const in cse's skipped-block walk, so
+         * `p[0x48]` stays `lbu 0x48($v1)` off the hoisted lui/addiu instead of being
+         * folded back into a fresh %hi/%lo pair (cse_expr §H find_best_addr). */
+        __asm__("" : "=r"(p) : "0"(p));
+    }
+    if ((p[0x48] & 0x7F) == 6) {
+        if (*(s16 *)(a0 + 0x1C8) == 0) {
+            func_8014AC10(0x3B);
+        }
+    }
+}
+
 
 DEFINE_func_80161B18()  /* dedup: shared engine-core @0x80161b18 (src/shared) */
 
@@ -5198,7 +5237,29 @@ DEFINE_func_80163664()  /* dedup: shared engine-core @0x80163664 (src/shared) */
 DEFINE_func_801636D0()  /* dedup: shared engine-core @0x801636d0 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC07_007/nonmatchings/ov_SC07_007_jr_8015C32C", func_80163764);
+
+s32 func_80163764(s32 a0)
+{
+    extern u8 D_801202A0[];
+    extern s32 func_8014C278(s32 a0, s32 a1, s32 a2);
+    extern s32 func_801506A4(s32 a0, s32 a1);
+    u32 i;
+    u16 *p;
+    s32 v;
+
+    i = 0;
+    p = (u16 *)D_801202A0;
+    v = *(s32 *)(a0 + 0x4C);
+    for (; i < 0x60; i++) {
+        if (*p != 0 && (p[0x2E] & 0x100) != 0 && func_8014C278(a0, (s32)p, 0x40) != 0) {
+            func_801506A4(v, (s32)p);
+            return 1;
+        }
+        p = (u16 *)((u8 *)p + 0x10C);
+    }
+    return 0;
+}
+
 
 DEFINE_func_8016380C()  /* dedup: shared engine-core @0x8016380c (src/shared) */
 
@@ -6463,7 +6524,28 @@ void func_80166F58(s32 param_1, s32 param_2, s32 param_3, s32 param_4)
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_007/nonmatchings/ov_SC07_007_jr_8015C32C", func_8016706C);
+
+
+extern void func_80146C3C(u8*);
+
+void func_8016706C(s32 param_1)
+{
+
+    extern s32 D_8011D030;
+    unsigned short *puVar1;
+    short iVar2;
+
+    iVar2 = 0;
+    puVar1 = ((unsigned short *)&D_8011D030);
+    do {
+        if ((unsigned int)*puVar1 == ((short)param_1)) {
+            ((void(*)(unsigned short *))func_80146C3C)(puVar1);
+        }
+        iVar2 = iVar2 + 1;
+        puVar1 = puVar1 + 0x2c;
+    } while (iVar2 < 0x1e);
+}
+
 
 
 // @class: schedule
