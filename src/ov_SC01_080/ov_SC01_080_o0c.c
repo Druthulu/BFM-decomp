@@ -100,7 +100,7 @@ extern void func_800190AC(void);
 extern void func_8012956C(void);
 extern void func_8016E95C(void);
 extern void func_801754A8(void);
-extern void func_8013BC7C(void);
+extern void func_8013BC7C(void *arg0);
 extern void func_8013BCDC(void);
 extern void func_801379FC(void);
 extern void func_8001212C(void);
@@ -842,7 +842,16 @@ void func_8013B7F4(s32 a0, s32 a1) {
 
 INCLUDE_ASM("asm/ov_SC01_080/nonmatchings/ov_SC01_080_o0c", func_8013B83C);
 
-INCLUDE_ASM("asm/ov_SC01_080/nonmatchings/ov_SC01_080_o0c", func_8013BC7C);
+
+typedef struct { char pad_8013BC7C[0x68]; s32 f68; } S_8013BC7C_8013BC7C;
+
+
+void func_8013BC7C(void *arg0) {
+
+    extern void (*D_80183510[])(void *);
+    D_80183510[((S_8013BC7C_8013BC7C *)arg0)->f68](arg0);
+}
+
 
 
 /* func_8013BCDC (ov_SC01_077_o0, -O0): guarded indirect call through D_80183CAC.
