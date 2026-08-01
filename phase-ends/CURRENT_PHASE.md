@@ -425,6 +425,30 @@ the T2 log entries; check both background tasks' outcomes first (`git log` for t
 
 ## Per-task log
 
+### ✅ S3 — the close=0 stored-draft DIAGNOSTIC pass: measured, classified, and correctly NOT scaled (2026-08-01)
+Chartered as "classify, and only build a fix if ≥3 share a named class". Ran exactly that; the answer
+is that no cheap shared class exists, so nothing was scaled. **The population is bigger than the plan
+thought and worth less than it looks:**
+- **30 ×138 family heads carry a stored draft = 182,850 templatable ins** (the plan said ~12 drafts).
+- **Only 7 of 30 still verify** (`match_one` MATCH). **23 have DECAYED** — mostly `LENGTH-DRIFT`, a few
+  `SIZE-MISMATCH`/`WIDTH`/`ADDRESSING`. ⇒ **a stored draft's recorded closeness is not a current fact:
+  77% of this backlog no longer matches.** Re-verify before valuing a draft (extends A10/T1a).
+- Of the 7 survivors: **1 banked clean** (`func_801754A8`, 37 ins ×138 = 5,106). The other 6 failed
+  `conflicting types` — and `gate_stage`'s ladder recovered **0/6**.
+- Those 6 split into: **1 §30#2 return-widen** (`func_8014C4AC`) and **5 PARAMETER-signature
+  conflicts** (the Phase-16 def-side loose-typing wall, unchanged).
+
+**The §30#2 attempt, and why it was reverted (R14 + the anti-bulk-header law).** `func_8014C4AC`'s
+draft documents its own fix (`extern void`→`s32` in `engine_core.h`, measured byte-neutral there) —
+but the note's claim that no split `.c` carries its own decl is **wrong**: the gate named
+`_jr_80154C24.c`, then `_jr_80182268.c`. A `sed` over every matching decl touched **2,046 files** and
+STILL did not go green. That is precisely the "bulk header edits BREAK builds" pattern (§29 doctrine:
+call-site casts are the integration spine). **Reverted; exemplar re-verified `d19c9580`.** A fleet-wide
+decl reconcile needs a gated TOOL, not a sed — logged, not attempted.
+
+**Ledger:** 23 decayed drafts → redraft lanes (they are not "nearly done"); 5 param-conflict → the
+def-side wall; 1 widen → needs the gated decl-reconcile tool. S3 is CLOSED as a measurement.
+
 ### ✅ S29 — `JR-PAIR-IN-ONE-O0-OBJECT` RETIRED: two instrument defects, both fixed; the pair banked (2026-07-31)
 The S28 ledger class and its recorded escape (§81 step 1, isolate one fn into its own code subseg)
 are **both refuted**. Neither function needed isolation; neither is on a compiler wall.
