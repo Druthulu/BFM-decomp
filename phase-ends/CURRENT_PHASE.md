@@ -194,11 +194,41 @@ Session start (S28 close) was 93.25 / 89.2 / 80.5 ⇒ **+1.18 / +2.2 / +3.5pp to
 6. **Cookbook §132 · §132a · §133** (the DEFAULT-FILTER class — three times in one session a tool
    silently answered a narrower question than the one asked).
 
+## 📊 THE POST-WAVE FRONTIER (re-derived at HEAD after the 2,192-member propagation — R35)
+Overlays: **94.7% fn / 91.8% instr / 85.0% distinct**; unmatched **18,635 instances / 1,069,466 ins /
+13,658 distinct classes** → 2,378 families + 3,767 singletons.
+
+| lever | scale | cost | verdict |
+|---|---|---|---|
+| **Zero-crack propagation (source-agnostic)** | **190 families / 129,997 ins** | **~0 agent tokens** | **DO FIRST (S6)** |
+| ×10-99 fresh-crack band | 243 families / 239,058 ins | agent waves | next (S5) |
+| STRUCT class (ov077 surface) | 29 fns / 39,892 ins | agent waves | after S5 |
+| GIANT | 4 fns / 100,188 ins | 2 are the known walls (close=110/91) | P32's track |
+| ×2-9 fresh-crack | 1,941 families / 410,671 ins | biggest mass, worst multiplier | deprioritised |
+| ×1 singletons | 3,767 / 230,367 ins | ×1 | deprioritised |
+| ~~S4 PINS~~ | **101 ins** (not 44,279) | — | **RETIRED, see below** |
+
+**TWO PRICING CORRECTIONS (both §133, in OPPOSITE directions — this is why the table is re-derived):**
+1. **S4 PINS is retired on measurement.** The plan priced it at **44,279 ins** from `worklist.md`,
+   which prices by **h_exact reach** (×138/fn). Re-priced against the family map after the waves, the
+   PINS functions' families are almost all already matched/propagated: **24 fns / 101 templatable ins**.
+   Running the planned wave would have bought ~0.001pp. The same mis-pricing that once *under*-valued
+   the frontier head by 138× *over*-valued this by ~440×.
+2. **106 of the 190 zero-crack families have exemplars OUTSIDE `ov_SC01_077`** (ov_SC03_014 17,
+   ov_SC06_018 10, ov_SC01_084 9, ov_SC02_027 7, ov_SC02_011 7, …). **Every sweep this project has run
+   passed `--source ov_SC01_077`**, so those families were structurally unreachable — not hard, not
+   walled, just never addressed. Probe-confirmed: `func_8012B77C` is DEFINED in ov_SC07_006 and still
+   an `INCLUDE_ASM` stub in ov_SC01_000.
+
 ## ▶ RESUME HERE (T6: S1–S3 done, both UC waves done; nothing blocked, nothing running)
 - **The ×138 redraft band is now CONSUMED.** All 33 fresh-crack ≥100-member families are banked
   except the 2 GIANT walls (`func_801412A8` close=110, `func_80178004` close=91 — P32's track).
-- **S4 PINS** (14 fns / 44,279 ins) — the pin-crash wall dissolved in P27, several already close=0.
-- **S5** the ×10-133 mid-multiplicity band (142,527 ins) — the next mass, at a lower multiplier.
+- **S6 (NEW, highest ROI): source-agnostic zero-crack propagation** — 190 families / 129,997 ins,
+  ~0 agent tokens. Drive each family from ITS OWN exemplar overlay, not always ov_SC01_077; route by
+  tier (§123) and pass **`--band all`** (the S1 trap). Probe one sibling per family first.
+- **S5: the ×10-99 band** — 243 families / 239,058 ins, the proven 3-lane workflow. Expect the ROI
+  floor here: the multiplier is 10-99, not 138.
+- ~~S4 PINS~~ **RETIRED on measurement** (101 ins, not 44,279 — see the pricing corrections above).
 - **The 411 stage-but-DIFF propagation residue** — per-overlay variants whose remapped bodies do not
   reproduce; individually gate-rejected, ledger material not a lever.
 - **Reusable machinery from today** (all committed): the 3-lane workflow scripts under
