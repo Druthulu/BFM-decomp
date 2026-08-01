@@ -124,7 +124,42 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 
 ---
 
-# 🛑 SESSION-28 CHECKPOINT (2026-07-31 08:1x) — FRESH SESSION SAFE HERE
+# 🛑 SESSION-29 CHECKPOINT (2026-08-01 ~00:40) — FRESH SESSION SAFE HERE · AT GATE 2
+> Supersedes SESSION-28 below. **Nothing is running. Tree lock FREE. Tree clean** but for the R23
+> `db.*.gbf` churn (never stage). **HEAD `commit:1303`.** Effort: **Max** all session.
+> `make tools-health` **RC=0** at close; **R22 clean-fleet run TWICE this session, 140/140 both times.**
+
+## FLEET — R22 clean-fleet **140 passed / 0 failed**
+**93.33% fn-count · 89.6% instr-weighted · 81.6% distinct-code** (72,416 unique fns) · dedup 1905/0 ·
+C1 240496/240496 · 0 NON_MATCHING. Overlays-only: 93.6% fn / **90.1% instr** / 82.5% distinct.
+Phase opened 92.00 / 87.5 / 78.0 ⇒ **+1.33pp fn-count, +2.1pp instr, +3.6pp distinct this phase.**
+
+## WHAT S29 DID (all committed, all R22-verified)
+1. **`JR-PAIR-IN-ONE-O0-OBJECT` RETIRED** — the S28 class and its §81-isolate escape are BOTH refuted.
+   Two instrument defects: `jtbl_carve`'s merged-double blindness + no `.DELETE_ON_ERROR` (a truncated
+   `.o` outliving its own loud compile error). Both fixed; cookbook **§132**.
+2. **The jr pair banked ×138 each — 276 function-instances.** Frontier families **#3 and #4** by
+   templatable weight (37,536 + 27,324 ins). The `-O0` cluster is now COMPLETE fleet-wide.
+3. **§132a** — the `--like` role-name over-transfer (`ov_SC07_010`), guard shipped.
+4. **§100 type-locality** — a file-scope typedef in a draft is an *exemplar-only bank*: it passes the
+   gate and silently cannot travel. Caught by probing ONE sibling before 137 builds (R37).
+5. **T1/T3 closed with measured per-lane verdicts** (see the checklist), tools-health + fresh frontier.
+
+## ▶ RESUME HERE — **AT GATE 2, AWAITING DREW**
+The phase is at its **second gate**. Nothing further should be executed until Drew:
+(a) **decides the milestone branch** — the approved milestone is an explicit either/or, and the
+    **≥95% instr branch is NOT met (89.6%)**; the **ledger branch IS met** (every unmatched overlay
+    function is in the h_seq partition: 15,029 distinct classes → 2,414 families + 3,767 singletons,
+    class- and reach-tagged; the exemplar surface is R32 partition-asserted, 79 rows, PARTITION OK);
+(b) **confirms the milestone** (P8 gate 2), after which PhaseEnd_Phase30.md is written (**Tier-1,
+    Max**) and `CURRENT_PHASE.md` is archived to `phase-ends/logs/Phase30.md` (R19), both left
+    UNCOMMITTED for Drew's milestone-close commit (R6).
+If Drew instead wants more work first, the live fuel is: Lane B top-mass families (Lane C is at the
+measured floor), the 29 zero-crack families (propagation-only), and the 2 permanent giant walls.
+
+---
+
+# 🛑 (superseded) SESSION-28 CHECKPOINT (2026-07-31 08:1x)
 > Supersedes SESSION-27 below. **Nothing is running. Tree lock FREE. Tree clean** but for the R23
 > `db.*.gbf` churn (never stage). **HEAD `commit:1293`** (+ this doc commit).
 > Effort: opened **xHigh** → **Max** for the jr re-measurement and the T2 probe ladder → back to
