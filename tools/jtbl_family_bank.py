@@ -34,6 +34,9 @@ from scope_data_externs import fix as scope_data_fix   # noqa: E402
 from scope_tu_externs import contested, scope as scope_tu, ScopeRefused   # noqa: E402
 
 
+SPAN_REL = []          # --span-rel: span table offsets relative to the first NEW table (§132b)
+
+
 def sh(cmd):
     return subprocess.run(cmd, shell=True, capture_output=True, text=True)
 
@@ -78,6 +81,29 @@ def like_arg(from_ov, to_ov, to_func):
                          mk, re.M):
         return ""
     return f" --like {from_ov}"
+
+
+def span_tables_arg(to_ov, to_func):
+    """`--span-tables` for a span whose ALREADY-MATCHED owner is itself multi-switch (P30 S1, §132b).
+
+    `spec_from_starts` recovers a missing interior table start from the payload zero-word rule, but
+    only where the boundary carries a pad. A matched owner's SECOND table can abut its first with NO
+    pad (8 entries = 32 B ≡ 0 mod 8 ⇒ `.align 3` emits nothing), and its `.s` is pruned, so neither
+    oracle sees it: the spec comes out one table SHORT and the filter refuses at build time.
+
+    SPAN_REL closes it with the one thing that IS family-invariant: the span's table offsets relative
+    to the FIRST NEW table, which `func_jtbls` reads from the sibling's own `.s`. Byte-verified
+    constant across siblings before use (the exemplar's layout is the family's layout — same code,
+    same entry counts, only the base moves). Empty ⇒ no override, so every other family is untouched.
+    """
+    if not SPAN_REL:
+        return ""
+    from jtbl_carve import func_jtbls
+    sub, tbls = func_jtbls(to_ov, to_func)
+    if not tbls:
+        return ""
+    first = min(int(t, 16) for t in tbls)
+    return " --span-tables %s=%s" % (sub, ",".join("0x%x" % (first + d) for d in SPAN_REL))
 
 
 def revert(ov, cf=None, keep_regions=None, extract=True):
@@ -193,7 +219,7 @@ def _bank(func, from_ov, from_addr, to_ov, to_addr):
     # new fn's raw jtbl from asm/<ov>/data — a stale/absent asm from a prior config would miss it).
     if sh(f"make --no-print-directory -j16 extract BINARY={to_ov}").returncode:
         revert(to_ov, keep_regions=keep); return "extract0-fail", ""
-    r = sh(f"python3 tools/jtbl_carve.py {to_ov} --func {to_func}{like_arg(from_ov, to_ov, to_func)}")
+    r = sh(f"python3 tools/jtbl_carve.py {to_ov} --func {to_func}{like_arg(from_ov, to_ov, to_func)}{span_tables_arg(to_ov, to_func)}")
     _carve_out = r.stdout + r.stderr
     # Auto-isolate on EITHER §8b same-subseg wall: the NON-CONTIGUOUS collision, OR the span-fit wall
     # ("do not fit the span" — the --like structure transfer's merged span doesn't match this sibling's
@@ -207,7 +233,7 @@ def _bank(func, from_ov, from_addr, to_ov, to_addr):
             revert(to_ov, keep_regions=keep); return "isolate-fail", ""
         if sh(f"make --no-print-directory -j16 extract BINARY={to_ov}").returncode:
             revert(to_ov, keep_regions=keep); return "extract-iso-fail", ""
-        r = sh(f"python3 tools/jtbl_carve.py {to_ov} --func {to_func}{like_arg(from_ov, to_ov, to_func)}")
+        r = sh(f"python3 tools/jtbl_carve.py {to_ov} --func {to_func}{like_arg(from_ov, to_ov, to_func)}{span_tables_arg(to_ov, to_func)}")
     if r.returncode:
         revert(to_ov, keep_regions=keep)
         return "carve-fail", ((r.stdout + r.stderr).strip().splitlines()[-1:] or [""])
@@ -303,8 +329,12 @@ def _bank(func, from_ov, from_addr, to_ov, to_addr):
 
 
 def main():
-    global RAW_BODY
+    global RAW_BODY, SPAN_REL
     args = sys.argv[1:]
+    if "--span-rel" in args:
+        i = args.index("--span-rel")
+        SPAN_REL[:] = [int(x, 0) for x in args[i + 1].split(",")]
+        del args[i:i + 2]
     if "--raw" in args:
         i = args.index("--raw")
         RAW_BODY = open(args[i + 1]).read()
