@@ -2988,7 +2988,30 @@ DEFINE_func_80175454()  /* dedup: shared engine-core @0x80175454 (src/shared) */
 
 DEFINE_func_80175494()  /* dedup: shared engine-core @0x80175494 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_801734BC", func_801754A8);
+// @class: regalloc-order
+// @stuck: none — MATCH (37 ins, relocation-masked proxy)
+
+
+
+extern s32 func_80029504(void);
+extern u8 D_8011F7A8;
+extern unsigned char D_800B9A13;
+extern s32 D_80126B9C;
+extern DispatchFn D_8018A308[];
+
+void func_801754A8(void) {
+    u8 *p = &D_8011F7A8;
+    s32 r = func_80029504();
+    s32 flag = 0;
+
+    if (((D_800B9A13 == 0) && ((D_80126B9C & 0x80) == 0)) ||
+        (0x4AF < (u32)(r - 10))) {
+        flag = 1;
+    }
+    p[9] = flag;
+    D_8018A308[p[0]]((void *)p);
+}
+
 
 // @class: struct
 // @stuck: none — MATCH expected. fn-ptr-table dispatch: byte at param+1 indexes D_8018A314[] declared extern void(*[])() so %lo folds into the lw of the fn-ptr; dispatched call takes no args (no $a0 setup before jalr), then three plain jal tail calls.
