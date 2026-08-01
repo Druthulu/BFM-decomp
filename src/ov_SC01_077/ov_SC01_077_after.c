@@ -1582,7 +1582,108 @@ DEFINE_func_8014C3D0()  /* dedup: shared engine-core @0x8014C3D0 (src/shared) */
 
 DEFINE_func_8014C43C()  /* dedup: shared engine-core @0x8014C43C (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_after", func_8014C4AC);
+/* func_8014C4AC @0x8014C4AC — 47 ins, reach x138 (134 *_after.c + 4 *_jr_80140608.c)
+ *
+ * STATUS: match_one MATCH (47/47) — and MATCH *with the fleet-canonical declaration present in the
+ *         same TU*, which is what the previous draft could not do.
+ *
+ * ==== INTEGRATION — SOLVED T0, NO HEADER EDIT (cookbook §37/§73/§124 asm-label alias) ===========
+ * The blocker was the §73 RETURN axis: the byte-true def MUST return a value ($v0 is written on every
+ * path — `addu $v0,$zero,$zero` x3 and `addu $v0,$t0,$zero`, and the final `sb $v1,0xC8($v0)` is based
+ * on the RETURN pseudo), but `src/shared/engine_core.h` declares
+ *     extern void func_8014C4AC(s32 a0, s32 a1, s32 a2, s16 *a3, s32 a4);
+ * inside 8 DEFINE_func_* macros (8014A380 / 8015E714 / 8014A1B0 / 8014C43C / 8015E5B0 / 8015DD74 /
+ * 8014A850 / 801571C4).  FOUR of them are instantiated at FILE scope in ov_SC01_077_after.c itself
+ * (lines 1254 / 1262 / 1368 / 1583) — all ABOVE the INCLUDE_ASM stub at 1585 — so the def collides:
+ * `conflicting types for func_8014C4AC`.
+ *
+ * MEASURED, not assumed (probes kept in .run/uc/):
+ *   - p_void_naive.c  : conform the def to `void` -> compiles CLEAN (so the PARAM axis is already
+ *                       canonical — the conflict is purely the return type) but 45 ins vs 47, 13
+ *                       mismatched, class LENGTH-DRIFT.  The two `addu $v0,$zero,$zero` delay-slot
+ *                       copies, the `addu $v0,$t0,$zero` and the `j .L8014C560` all vanish.  A void
+ *                       def CANNOT carry this body.
+ *   - p_v1.c          : void + `register s32 rv __asm__("$2")` used as the base of the last store —
+ *                       byte-identical to the naive void output; the pin is a preference and gcc
+ *                       coalesced rv into $t0 (§72), and the dead `rv = 0` sets are DCE'd.
+ *   - p_v2.c          : ...+ `volatile` on the pinned reg — forces a stack frame (`addiu $sp,-8`),
+ *                       47 ins / 45 mismatched.  Worse.
+ *   => the RETURN axis here is NOT dissolvable from the def side by casts or by pins.
+ *
+ * THE FIX (zero blast radius, T0, travels to all 138 siblings): the §37/§73 ASM-LABEL ALIAS — the same
+ * form already banked for func_8016191C x137 and explicitly supported by family_remap's
+ * `_alias_decl_for` (§124).  The definition takes a DIFFERENT C identifier — so it never binds against
+ * the canonical `extern void func_8014C4AC` — and a GNU asm label binds the emitted SYMBOL:
+ *
+ *     s32 aF8014C4AC(...) __asm__("func_8014C4AC");
+ *
+ * Verified: `nm t.o` => `00000000 T func_8014C4AC` (global, correct name; no `aF8014C4AC` symbol).
+ * Verified compilable ALONGSIDE the conflict: .run/uc/p_alias4.c carries FOUR copies of the canonical
+ * `extern void func_8014C4AC(...)` AND a caller that calls it through that prototype, above the def —
+ * MATCH (47 ins).  Verified sweep-readable: `family_remap._alias_decl_for` resolves this file to
+ * ('aF8014C4AC', line 2) and `_def_head_at` accepts the K&R head, so the ×138 propagation path is the
+ * standard one.  §30 #2's fleet `void`->`s32` widen of engine_core.h is therefore NOT needed and is
+ * NOT proposed (it would be a T2/R22 edit; this is T0).  Per §124: "Fix the reader, not the source."
+ * ================================================================================================
+ *
+ * Body levers (unchanged from the isolation-MATCH draft — all C-level, no pins, no permuter):
+ *  1. §48-C2 block copy: the lwl/lwr+swl/swr 8-byte move == a plain struct assign of a 2-byte-aligned
+ *     4x u16 struct.  BLOCK scope so it cannot collide with engine_types.h (§100/§102, rule D).
+ *  2. THE CRACK (2 -> 0): NO local pointer variable — use the s32 param with a cast at every use.  A
+ *     local `u8 *p = (u8 *)a0;` makes gcc coalesce the a0 PARM copy away and emit the body insn AFTER
+ *     the a4 stack-parm CONVERSION insn that assign_parms appends via `conversion_insns` — giving
+ *     `lhu $v1,0x10($sp)` BEFORE `addu $t0,$a0,$zero`, i.e. the first two instructions swapped.  Not a
+ *     scheduling residual — assign_parms emission order.
+ *  3. `u16 a4` in a K&R parameter list (§43/§99): gives the narrow `lhu $v1,0x10($sp)` stack read while
+ *     default-promoting to int, so it stays compatible with the ambient `s32 a4` prototype.
+ *  4. Body inside the positive `||` arm with the bare `return 0;` LAST: that is what puts the shared
+ *     zero-return block AFTER the body (.L8014C55C) so reorg can copy `addu $v0,$zero,$zero` into the
+ *     two branch delay slots and retarget them to .L8014C560.  The inverted `&&` + early-`return 0`
+ *     form puts the zero block BEFORE the body -> closeness 2.
+ *  5. Global types: `lw` D_80126CD0 => s32; `lhu`-then-`sb` D_8012693A / D_801152B8 => u16 (identical
+ *     to engine_core.h's own macro-local decls at 19666/19667, so no conflict either way).  Declared
+ *     at BLOCK scope so the unit carries no file-scope decl into any of the 138 sibling TUs.
+ */
+#include "common.h"
+
+/* §37/§73/§124 asm-label alias: the fleet canon declares this `extern void` (engine_core.h, inside 8
+ * DEFINE_func_* macros); the byte-true body must return s32.  Aliasing the C name sidesteps the
+ * RETURN-axis conflict with no header edit.  This line MUST travel with the body. */
+s32 aF8014C4AC(s32 a0, s32 a1, s32 a2, s16 *a3, s32 a4) __asm__("func_8014C4AC");
+
+s32 aF8014C4AC(a0, a1, a2, a3, a4)
+s32 a0;
+s32 a1;
+s32 a2;
+s16 *a3;
+u16 a4;
+{
+    typedef struct { u16 a, b, c, d; } V4U;   /* block-scope: no file-scope conflict (§100) */
+    extern s32 D_80126CD0;
+    extern u16 D_8012693A;
+    extern u16 D_801152B8;
+    u16 t;
+
+    if (a0 == 0) {
+        return 0;
+    }
+    if (*(u16 *)a0 == 0) {
+        return 0;
+    }
+    if (a1 == 9 || a1 == 0x11 || a1 == 0x29 || a1 == 0xA || D_80126CD0 != a0) {
+        t = *(u16 *)(a0 + 0x5C);
+        *(u16 *)(a0 + 0x5E) = a1;
+        *(u16 *)(a0 + 0x62) = a4;
+        *(u16 *)(a0 + 0x60) = a2;
+        *(u16 *)(a0 + 0x5C) = t | 1;
+        *(V4U *)(a0 + 0x7C) = *(V4U *)a3;
+        *(u8 *)(a0 + 0xC9) = D_8012693A;
+        *(u8 *)(a0 + 0xC8) = D_801152B8;
+        return a0;
+    }
+    return 0;
+}
+
 
 DEFINE_func_8014C568()  /* dedup: shared engine-core @0x8014C568 (src/shared) */
 
