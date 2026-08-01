@@ -3770,7 +3770,7 @@
     }
 
 #define DEFINE_func_801599E0() \
-    extern void func_80159A20(void *a0); \
+    extern void func_80159A20(); \
     void func_801599E0(void *a0) { \
         func_80159A20(a0); \
         *(u8 *)((s32)a0 + 0x4D) += 1; \

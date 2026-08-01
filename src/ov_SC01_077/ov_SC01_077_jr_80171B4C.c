@@ -1184,7 +1184,7 @@ extern void func_80159968(void *a0);
 extern void func_801598E0(u8 *a0);
 extern void (*D_801891AC[])(void *);
 extern void (*D_801891B8[])(void *);
-extern void func_80159A20(void *a0);
+extern void func_80159A20();
 extern void func_801599E0(void *a0);
 extern void func_80159A18(void);
 extern void func_80159BE4(s32);
