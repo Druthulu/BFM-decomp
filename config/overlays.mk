@@ -503,7 +503,7 @@ ov_SC06_000_JTBL_INTERLEAVE := --order tail.data.o,ov_SC06_000.o,ov_SC06_000_jr_
 build/src/ov_SC06_000/ov_SC06_000.o: JTBL_PADS := 0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x14
 build/src/ov_SC06_000/ov_SC06_000_jr_8012ACE0.o: JTBL_PADS := 0,0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0xcc,+0xe0
 build/src/ov_SC06_000/ov_SC06_000_jr_80135D20.o: JTBL_PADS := 0,4  # §8e pads (jtbl_carve.py) tables=+0x0,+0x18
-build/src/ov_SC06_000/ov_SC06_000_jr_8013F350.o: JTBL_PADS := 0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x20
+build/src/ov_SC06_000/ov_SC06_000_jr_8013F350.o: JTBL_PADS := 0,0,4,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x20,+0x38,+0x58
 build/src/ov_SC06_000/ov_SC06_000_jr_8014032C.o: JTBL_PADS := 0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x20
 build/src/ov_SC06_000/ov_SC06_000_jr_80154C24.o: JTBL_PADS := 0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x24
 build/src/ov_SC06_000/ov_SC06_000_jr_801588CC.o: JTBL_PADS := 0,4  # §8e pads (jtbl_carve.py) tables=+0x0,+0x28
@@ -1354,7 +1354,7 @@ ov_SC03_011_JTBL_INTERLEAVE := --order tail.data.o,ov_SC03_011.o,ov_SC03_011_jr_
 build/src/ov_SC03_011/ov_SC03_011.o: JTBL_PADS := 0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x14
 build/src/ov_SC03_011/ov_SC03_011_jr_8012ACE0.o: JTBL_PADS := 0,0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0xcc,+0xe0
 build/src/ov_SC03_011/ov_SC03_011_jr_80135D20.o: JTBL_PADS := 0,4  # §8e pads (jtbl_carve.py) tables=+0x0,+0x18
-build/src/ov_SC03_011/ov_SC03_011_jr_8013F350.o: JTBL_PADS := 0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x20
+build/src/ov_SC03_011/ov_SC03_011_jr_8013F350.o: JTBL_PADS := 0,0,4,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x20,+0x38,+0x58
 build/src/ov_SC03_011/ov_SC03_011_jr_8014032C.o: JTBL_PADS := 0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x20
 build/src/ov_SC03_011/ov_SC03_011_jr_80154C24.o: JTBL_PADS := 0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x24
 build/src/ov_SC03_011/ov_SC03_011_jr_801588CC.o: JTBL_PADS := 0,4  # §8e pads (jtbl_carve.py) tables=+0x0,+0x28
@@ -1660,7 +1660,7 @@ ov_SC03_030_JTBL_INTERLEAVE := --order tail.data.o,ov_SC03_030.o,ov_SC03_030_jr_
 build/src/ov_SC03_030/ov_SC03_030.o: JTBL_PADS := 0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x14
 build/src/ov_SC03_030/ov_SC03_030_jr_8012ACE0.o: JTBL_PADS := 0,0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0xcc,+0xe0
 build/src/ov_SC03_030/ov_SC03_030_jr_80135D20.o: JTBL_PADS := 0,4  # §8e pads (jtbl_carve.py) tables=+0x0,+0x18
-build/src/ov_SC03_030/ov_SC03_030_jr_8013F350.o: JTBL_PADS := 0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x20
+build/src/ov_SC03_030/ov_SC03_030_jr_8013F350.o: JTBL_PADS := 0,0,4,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x20,+0x38,+0x58
 build/src/ov_SC03_030/ov_SC03_030_jr_8014032C.o: JTBL_PADS := 0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x20
 build/src/ov_SC03_030/ov_SC03_030_jr_80154C24.o: JTBL_PADS := 0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x24
 build/src/ov_SC03_030/ov_SC03_030_jr_801588CC.o: JTBL_PADS := 0,4  # §8e pads (jtbl_carve.py) tables=+0x0,+0x28
@@ -2204,7 +2204,7 @@ ov_SC03_103_JTBL_INTERLEAVE := --order tail.data.o,ov_SC03_103.o,ov_SC03_103_jr_
 build/src/ov_SC03_103/ov_SC03_103.o: JTBL_PADS := 0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x14
 build/src/ov_SC03_103/ov_SC03_103_jr_8012ACE0.o: JTBL_PADS := 0,0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0xcc,+0xe0
 build/src/ov_SC03_103/ov_SC03_103_jr_80135D20.o: JTBL_PADS := 0,4  # §8e pads (jtbl_carve.py) tables=+0x0,+0x18
-build/src/ov_SC03_103/ov_SC03_103_jr_8013F350.o: JTBL_PADS := 0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x20
+build/src/ov_SC03_103/ov_SC03_103_jr_8013F350.o: JTBL_PADS := 0,0,4,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x20,+0x38,+0x58
 build/src/ov_SC03_103/ov_SC03_103_jr_8014032C.o: JTBL_PADS := 0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x20
 build/src/ov_SC03_103/ov_SC03_103_jr_80154C24.o: JTBL_PADS := 0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x24
 build/src/ov_SC03_103/ov_SC03_103_jr_801588CC.o: JTBL_PADS := 0,4  # §8e pads (jtbl_carve.py) tables=+0x0,+0x28
@@ -3466,7 +3466,7 @@ ov_SC05_004_JTBL_INTERLEAVE := --order tail.data.o,ov_SC05_004.o,ov_SC05_004_jr_
 build/src/ov_SC05_004/ov_SC05_004.o: JTBL_PADS := 0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x14
 build/src/ov_SC05_004/ov_SC05_004_jr_8012ACE0.o: JTBL_PADS := 0,0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0xcc,+0xe0
 build/src/ov_SC05_004/ov_SC05_004_jr_80135D20.o: JTBL_PADS := 0,4  # §8e pads (jtbl_carve.py) tables=+0x0,+0x18
-build/src/ov_SC05_004/ov_SC05_004_jr_8013F350.o: JTBL_PADS := 0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x20
+build/src/ov_SC05_004/ov_SC05_004_jr_8013F350.o: JTBL_PADS := 0,0,4,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x20,+0x38,+0x58
 build/src/ov_SC05_004/ov_SC05_004_jr_8014032C.o: JTBL_PADS := 0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x20
 build/src/ov_SC05_004/ov_SC05_004_jr_80154C24.o: JTBL_PADS := 0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x24
 build/src/ov_SC05_004/ov_SC05_004_jr_801588CC.o: JTBL_PADS := 0,4  # §8e pads (jtbl_carve.py) tables=+0x0,+0x28
@@ -3910,7 +3910,7 @@ ov_SC06_010_JTBL_INTERLEAVE := --order tail.data.o,ov_SC06_010.o,ov_SC06_010_jr_
 build/src/ov_SC06_010/ov_SC06_010.o: JTBL_PADS := 0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x14
 build/src/ov_SC06_010/ov_SC06_010_jr_8012ACE0.o: JTBL_PADS := 0,0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0xcc,+0xe0
 build/src/ov_SC06_010/ov_SC06_010_jr_80135D20.o: JTBL_PADS := 0,4  # §8e pads (jtbl_carve.py) tables=+0x0,+0x18
-build/src/ov_SC06_010/ov_SC06_010_jr_8013F350.o: JTBL_PADS := 0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x20
+build/src/ov_SC06_010/ov_SC06_010_jr_8013F350.o: JTBL_PADS := 0,0,4,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x20,+0x38,+0x58
 build/src/ov_SC06_010/ov_SC06_010_jr_8014032C.o: JTBL_PADS := 0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x20
 build/src/ov_SC06_010/ov_SC06_010_jr_80154C24.o: JTBL_PADS := 0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x24
 build/src/ov_SC06_010/ov_SC06_010_jr_801588CC.o: JTBL_PADS := 0,4  # §8e pads (jtbl_carve.py) tables=+0x0,+0x28
@@ -4592,7 +4592,7 @@ ov_SC07_006_JTBL_INTERLEAVE := --order tail.data.o,ov_SC07_006.o,tail2.data.o,ov
 build/src/ov_SC07_006/ov_SC07_006.o: JTBL_PADS := 0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x14
 build/src/ov_SC07_006/ov_SC07_006_jr_80131340.o: JTBL_PADS := 0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x14
 build/src/ov_SC07_006/ov_SC07_006_jr_80135D20.o: JTBL_PADS := 0,4  # §8e pads (jtbl_carve.py) tables=+0x0,+0x18
-build/src/ov_SC07_006/ov_SC07_006_jr_8013F350.o: JTBL_PADS := 0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x20
+build/src/ov_SC07_006/ov_SC07_006_jr_8013F350.o: JTBL_PADS := 0,0,4,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x20,+0x38,+0x58
 build/src/ov_SC07_006/ov_SC07_006_jr_8014032C.o: JTBL_PADS := 0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x20
 build/src/ov_SC07_006/ov_SC07_006_jr_80154C24.o: JTBL_PADS := 0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x24
 build/src/ov_SC07_006/ov_SC07_006_jr_801588CC.o: JTBL_PADS := 0,4  # §8e pads (jtbl_carve.py) tables=+0x0,+0x28
@@ -4624,7 +4624,7 @@ ov_SC07_007_JTBL_INTERLEAVE := --order tail.data.o,ov_SC07_007.o,tail2.data.o,ov
 build/src/ov_SC07_007/ov_SC07_007.o: JTBL_PADS := 0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x14
 build/src/ov_SC07_007/ov_SC07_007_jr_80131340.o: JTBL_PADS := 0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x14
 build/src/ov_SC07_007/ov_SC07_007_jr_80135D20.o: JTBL_PADS := 0,4  # §8e pads (jtbl_carve.py) tables=+0x0,+0x18
-build/src/ov_SC07_007/ov_SC07_007_jr_8013F350.o: JTBL_PADS := 0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x20
+build/src/ov_SC07_007/ov_SC07_007_jr_8013F350.o: JTBL_PADS := 0,0,4,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x20,+0x38,+0x58
 build/src/ov_SC07_007/ov_SC07_007_jr_8014032C.o: JTBL_PADS := 0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x20
 build/src/ov_SC07_007/ov_SC07_007_jr_80154C24.o: JTBL_PADS := 0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x24
 build/src/ov_SC07_007/ov_SC07_007_jr_801588CC.o: JTBL_PADS := 0,4  # §8e pads (jtbl_carve.py) tables=+0x0,+0x28
@@ -4687,7 +4687,7 @@ ov_SC07_011_JTBL_INTERLEAVE := --order tail.data.o,ov_SC07_011.o,tail2.data.o,ov
 build/src/ov_SC07_011/ov_SC07_011.o: JTBL_PADS := 0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x14
 build/src/ov_SC07_011/ov_SC07_011_jr_80131340.o: JTBL_PADS := 0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x14
 build/src/ov_SC07_011/ov_SC07_011_jr_80135D20.o: JTBL_PADS := 0,4  # §8e pads (jtbl_carve.py) tables=+0x0,+0x18
-build/src/ov_SC07_011/ov_SC07_011_jr_8013F350.o: JTBL_PADS := 0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x20
+build/src/ov_SC07_011/ov_SC07_011_jr_8013F350.o: JTBL_PADS := 0,0,4,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x20,+0x38,+0x58
 build/src/ov_SC07_011/ov_SC07_011_jr_8014032C.o: JTBL_PADS := 0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x20
 build/src/ov_SC07_011/ov_SC07_011_jr_80154C24.o: JTBL_PADS := 0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x24
 build/src/ov_SC07_011/ov_SC07_011_jr_801588CC.o: JTBL_PADS := 0,4  # §8e pads (jtbl_carve.py) tables=+0x0,+0x28
