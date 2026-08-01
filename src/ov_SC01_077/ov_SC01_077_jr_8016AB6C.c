@@ -4050,7 +4050,63 @@ s32 func_8016F0AC()
     ((void (*)(void *))func_80165770)(&D_80126B58);
 }
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_8016AB6C", func_8016F0E4);
+#include "common.h"
+
+/* RECONCILE NOTE (uc3) — the body is byte-unchanged from uc2; only the declaration
+ * environment moved.  The gate error was
+ *     jr_8016AB6C.c:4183 conflicting types for func_8016F0E4 || :4089 previous declaration
+ * :4089 was THIS definition; :4183 is the `extern void func_8016F0E4(void);` carried inside
+ * DEFINE_func_8016F4C4() (src/shared/engine_core.h:22579), which the host TU instantiates at
+ * ov_SC01_077_jr_8016AB6C.c:4136 — i.e. AFTER the definition, so it is a hard error, not the
+ * mere warning produced by the earlier block-scope decl in func_8016F0AC (TU:4047).
+ * Byte-true signature is `void (u8 *)`; the fleet canon is `void (void)` — a PARAM/ARITY
+ * disagreement on func_8016F0E4 ITSELF.
+ *
+ * ESCAPE TAKEN: §37/§124 ASM-LABEL ALIAS (escape 2, T0 draft-only, zero tracked-file edits).
+ * The C identifier is aF8016F0E4 so this TU declares func_8016F0E4 exactly once (the macro's
+ * own `extern void`), while the emitted SYMBOL is func_8016F0E4.  Both existing callers already
+ * launder through a cast or take no args, so neither is perturbed:
+ *   - func_8016F0AC (TU:4047-4049) casts:  ((void (*)(void *))func_8016F0E4)(&D_80126B58);
+ *   - DEFINE_func_8016F4C4 calls func_8016F0E4() with 0 args against its own (void) prototype.
+ * cc1-proven: preprocess+compile of the real TU with this body spliced in is free of any
+ * func_8016F0E4 diagnostic (the pre-existing unrelated warnings in the TU are unchanged).
+ *
+ * This SUPERSEDES uc2's //@EDIT de-macroize plan (§65b) and its T2 engine_core.h alternative
+ * (§75c) — neither is needed; nothing outside this unit changes, so the bank travels to the
+ * 137 siblings as a plain unit (carry the alias DECLARATION line with it — §124 trap 2).
+ */
+
+extern void func_8017196C(s32 *a0, s8 a1);   /* == DEFINE_func_8017196C's own signature */
+extern void func_80147060(u8 *a0);
+extern void func_801511A8(u8 *a0);
+extern void func_80148634(void *a0);
+extern s16 D_80078EB4;                       /* fleet-canonical spelling; see the &-cast below */
+extern u8 D_800B9A17;
+
+// @class: plumbing
+// @stuck: none — MATCH (26 ins).
+//   Levers: (1) §42b read-global &-cast — the TU declares D_80078EB4 as s16 but the target
+//   loads it with `lhu`; the bare `D_80078EB4 != 0` gives `lh` (probed: closeness 1, WIDTH
+//   lh!=lhu), so read it as *(u16 *)&D_80078EB4.  (2) both 0x1F8/0x1FC stores are s32 `sw`,
+//   emitted before the first jal (the 0x1FC one lands in the delay slot by sched2 — free).
+//   (3) the param needs no laundering: it is copied to $s0 at entry and the first call's
+//   `move $a0,$s0` is deleted because $a0 already holds it — plain `u8 *p` reproduces this.
+//   (4) §37/§124 asm-label alias — see the RECONCILE NOTE above; codegen-neutral (symbol only).
+
+void aF8016F0E4(u8 *p) __asm__("func_8016F0E4");
+
+void aF8016F0E4(u8 *p) {
+    *(s32 *)(p + 0x1F8) = 0;
+    *(s32 *)(p + 0x1FC) = 0;
+    func_8017196C((s32 *)p, 0);
+    func_80147060(p);
+    func_801511A8(p);
+    if (*(u16 *)&D_80078EB4 != 0) {
+        D_800B9A17 = 1;
+    }
+    func_80148634(p);
+}
+
 
 /* func_8016F14C — read a packed fn-ptr+flags word at a0+0x1F8; mask off the high byte
  * (0x80FFFFFF) to recover the fn ptr (computed BEFORE the null check so gcc hoists the
