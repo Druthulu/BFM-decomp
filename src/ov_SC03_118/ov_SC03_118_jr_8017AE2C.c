@@ -1547,7 +1547,6 @@ extern void func_80164744(s32 param_1);
 extern void func_8001C810(s32 a0, s32 a1);
 extern void func_80164A74(s32 *a0);
 extern void func_80164930(s32 a);
-extern u16 D_800DF2E0;
 extern s32 D_8018C534;
 extern s16 D_8018C568;
 extern s16 D_8018C566;
@@ -3741,7 +3740,17 @@ void func_8017F344(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_jr_8017AE2C", func_8017F380);
+extern void func_8014706C(void *a0);
+extern void func_80154274(s32 *a0, s32 a1);
+extern s32 func_80171990(u8 *a0);
+void func_8017F380(s32 a0) {
+
+    extern u8 D_8018D96C;
+    func_8014706C((void *)a0);
+    func_80154274((s32 *)a0, (s32)&D_8018D96C);
+    func_80171990((u8 *)a0);
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_jr_8017AE2C", func_8017F3C0);
 
@@ -3805,7 +3814,33 @@ INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_jr_8017AE2C", func_8017F84
 
 INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_jr_8017AE2C", func_8017F8A8);
 
-INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_jr_8017AE2C", func_8017F90C);
+extern void func_8014659C(void);
+extern void func_8001C810(s32 a0, s32 a1);
+extern void func_80146CA0(void *a0);
+extern void func_80162CCC(void);
+void func_8017F90C(int param_1) {
+
+    extern u16 D_800DF2E0;
+    extern s32 D_8018DA2C;
+    extern s32 D_8018DA88[];
+    s32 iVar1;
+    iVar1 = ((s32 (*)(void))func_8014659C)();
+    *(s32 *)(param_1 + 0x20) = iVar1;
+    if (iVar1 != 0) {
+        ((void (*)(s32, void *))func_8001C810)(iVar1, &D_800DF2E0);
+        *(s32 **)(iVar1 + 0x80) = &D_8018DA2C;
+        *(u32 *)(iVar1 + 4) = *(u32 *)(iVar1 + 4) | 0x50000000;
+        *(u16 *)(iVar1 + 0x2c) = *(u16 *)(iVar1 + 0x2c) | 0xb0;
+        *(s32 *)(param_1 + 0x58) = (s32)&D_8018DA88[*(s32 *)(param_1 + 0x50) * 2];
+        *(u16 *)(iVar1 + 0x1c) = 0;
+        *(u16 *)(iVar1 + 0x1a) = 0;
+        *(u16 *)(iVar1 + 0x18) = 0;
+        ((void (*)(s32))func_80146CA0)(param_1);
+    } else {
+        ((void (*)(s32))func_80162CCC)(param_1);
+    }
+}
+
 
 
 /* func_8017F9BC — per-frame spin + clamp handler (ov_SC03_014, reach x8).

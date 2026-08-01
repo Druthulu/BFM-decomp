@@ -4167,7 +4167,38 @@ INCLUDE_ASM("asm/ov_SC03_102/nonmatchings/ov_SC03_102_jr_8017BEBC", func_8018281
 
 INCLUDE_ASM("asm/ov_SC03_102/nonmatchings/ov_SC03_102_jr_8017BEBC", func_80182840);
 
-INCLUDE_ASM("asm/ov_SC03_102/nonmatchings/ov_SC03_102_jr_8017BEBC", func_801828C4);
+
+extern s32 func_8012BCCC(s32 a0);
+extern s32 func_8012B864(s32 a0);
+extern s32 func_8012B608(s32 a0, s32 a1, s32 a2);
+extern void func_8012B1B4(s32 a0, s32 a1);
+extern void func_8012CBCC(s32 a0);
+extern void func_8012E688(void*, s32, s32);
+
+void func_801828C4(s32 a0) {
+
+    extern u8 D_80197810[];
+    extern s16 D_80126CB6;
+    s32 r;
+
+    if (func_8012BCCC(a0) > 0x63FFF) {
+        *(u16 *)(a0 + 0x2) = 5;
+    } else {
+        r = func_8012B608(*(s16 *)(*(s32 *)(a0 + 0x20) + 0x12),
+                          func_8012B864(a0), 0x10);
+        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) =
+            *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) + r;
+        func_8012B1B4(a0, (s32)D_80197810);
+        *(s32 *)(a0 + 0x14) =
+            *(s32 *)(a0 + 0x14) +
+            ((D_80126CB6 - *(s16 *)(a0 + 0xA)) << 8);
+        if (((s32 (*)(s32))func_8012CBCC)(a0)) {
+            *(s16 *)(a0 + 0x16) = -0x18;
+            ((void (*)(s32, s32, s32))func_8012E688)(a0, 0xBA2, 0);
+        }
+    }
+}
+
 
 
 extern void func_8012E688(void *a0, s32 a1, s32 a2);
@@ -4236,9 +4267,70 @@ void func_80182AD8(s32 a0) {
 void func_80182BB4(void) {
 }
 
-INCLUDE_ASM("asm/ov_SC03_102/nonmatchings/ov_SC03_102_jr_8017BEBC", func_80182BBC);
 
-INCLUDE_ASM("asm/ov_SC03_102/nonmatchings/ov_SC03_102_jr_8017BEBC", func_80182C74);
+/* func_80182BBC — per-frame entity tick:
+ *  - decrement the timer at 0x1C if non-zero
+ *  - fade the two u16 colour/alpha words at +0x18 / +0x1A of the display record
+ *    hanging off 0x20 by 0x100 each
+ *  - once the second one drops to <= 0x80, tear the entity down
+ *
+ * §71 sibling-first: DEFINE_func_801319E0() (engine_core.h L17451) is the same
+ * `func_8002A04C(arg0); func_8012C218((void *)arg0);` teardown tail with arg0
+ * living in $s0 across the calls — signature and casts copied from it.
+ */
+
+extern void func_8002A04C(s32 a0);
+extern void func_8012C218(void *a0);
+
+void func_80182BBC(s32 arg0) {
+    if (*(s32 *)(arg0 + 0x1C) != 0) {
+        *(s32 *)(arg0 + 0x1C) -= 1;
+    }
+    *(u16 *)(*(s32 *)(arg0 + 0x20) + 0x18) -= 0x100;
+    *(u16 *)(*(s32 *)(arg0 + 0x20) + 0x1A) -= 0x100;
+    if (*(s16 *)(*(s32 *)(arg0 + 0x20) + 0x1A) < 0x81) {
+        if (*(s16 *)(arg0 + 0x70) == 1) {
+            /* LOAD-BEARING: hoisting the argument load into its own local
+             * emits `lw $a0,0xCC($s0)` ABOVE the guard branch and leaves the
+             * beqz delay slot a nop. Inlining it at the call site instead
+             * gives beqz/nop/lw -> 3 mismatches (class DELAY-SLOT). A/B-tested. */
+            void *temp = *(void **)(arg0 + 0xCC);
+            if (arg0 != 0) {
+                func_8012C218(temp);
+            }
+        }
+        func_8002A04C(arg0);
+        func_8012C218((void *)arg0);
+    }
+}
+
+
+
+extern s32 func_8012C354(s32 a0, s32 a1);
+extern void func_8012A828(s32 a0, s32 a1);
+extern s32 func_8012C588(s32 a0, s32 a1);
+
+
+void func_80182C74(s32 a0) {
+
+    extern u8 D_801978D8[];
+    extern u8 D_801864AC[];
+    extern u16 D_8019790C[];
+    extern u16 D_8019790E[];
+    extern u16 D_80197910[];
+    extern s16 D_80197912[];
+    if (func_8012C354(a0, (s32)D_801978D8) != 0) {
+        func_8012A828(a0, (s32)D_801864AC);
+        *(s16 *)(a0 + 0x2) = 1;
+        *(u8 *)(a0 + 0x75) = 0;
+        *(u16 *)(a0 + 0x12) = D_8019790C[*(s16 *)(a0 + 0xFC) * 4];
+        *(u16 *)(a0 + 0x16) = D_8019790E[*(s16 *)(a0 + 0xFC) * 4];
+        *(u16 *)(a0 + 0x1A) = D_80197910[*(s16 *)(a0 + 0xFC) * 4];
+        *(s32 *)(a0 + 0x1C) = D_80197912[*(s16 *)(a0 + 0xFC) * 4];
+        func_8012C588(0x1C4, a0);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_102/nonmatchings/ov_SC03_102_jr_8017BEBC", func_80182D38);
 
@@ -4283,7 +4375,29 @@ void func_80182E08(s32 param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_102/nonmatchings/ov_SC03_102_jr_8017BEBC", func_80182EEC);
+
+extern s32 rand(void);
+extern s32 func_8004787C(s32 a0);
+
+void func_80182EEC(s32 a0) {
+    s32 t;
+
+    if (*(s32 *)(a0 + 0x1C) == 0) {
+        *(s32 *)(*(s32 *)(a0 + 0x20) + 0x4) &= 0x7FFFFFFF;
+        *(s16 *)(a0 + 0xFE) += 0x40;
+        if (*(s16 *)(a0 + 0xFE) >= 0x800) {
+            *(s16 *)(a0 + 0xFE) = 0;
+            *(s32 *)(a0 + 0x1C) = rand() & 0x1F;
+            *(s32 *)(*(s32 *)(a0 + 0x20) + 0x4) |= 0x80000000;
+        }
+        t = (*(s16 *)(a0 + 0x70) * func_8004787C(*(s16 *)(a0 + 0xFE))) >> 12;
+        *(s16 *)(*(s32 *)(a0 + 0x20) + 0x18) =
+            *(s16 *)(*(s32 *)(a0 + 0x20) + 0x1A) = t + 0x800;
+    } else {
+        *(s32 *)(a0 + 0x1C) -= 1;
+    }
+}
+
 
 
 extern s32 rand(void);
@@ -4462,11 +4576,153 @@ INCLUDE_ASM("asm/ov_SC03_102/nonmatchings/ov_SC03_102_jr_8017BEBC", func_80185AB
 
 INCLUDE_ASM("asm/ov_SC03_102/nonmatchings/ov_SC03_102_jr_8017BEBC", func_80185B34);
 
-INCLUDE_ASM("asm/ov_SC03_102/nonmatchings/ov_SC03_102_jr_8017BEBC", func_80185BE4);
 
-INCLUDE_ASM("asm/ov_SC03_102/nonmatchings/ov_SC03_102_jr_8017BEBC", func_80185C9C);
 
-INCLUDE_ASM("asm/ov_SC03_102/nonmatchings/ov_SC03_102_jr_8017BEBC", func_80185D5C);
+extern s32 func_8012E778(int param_1, int param_2);
+extern s32 func_8012C51C(int a0, int a1);
+
+void func_80185BE4(int param_1, int param_2)
+{
+
+    extern u16 D_800AF7BC;
+    extern u16 D_800AF7BE;
+    extern u8 D_801B9AB0[];
+    s32 i;
+
+    i = 0;
+    if (func_8012E778(param_1, ((s32)(D_800AF7BE >> 1) << 16) | (D_800AF7BC >> 1)) != 0) {
+        do {
+            if (D_801B9AB0[i] == 0) {
+                D_801B9AB0[i] = 1;
+                *(s32 *)(param_2 + 0x10) = i | 0x80000000;
+                *(u16 *)(param_2 + 8) = *(u16 *)(param_1 + 0x70);
+                func_8012C51C(param_2, param_1);
+                return;
+            }
+            i++;
+        } while (i < 5);
+    }
+}
+
+
+
+extern s32 func_8012C194(void);
+extern void func_8001CD50(s32 a0, s32 a1);
+extern void func_800233CC(void *, unsigned short);
+extern void func_80186028(s32 a0);
+
+void func_80185C9C(void *a0)
+{
+
+    extern u32 D_801B9970;
+    s32 iVar2;
+    u32 *puVar3;
+
+    *(s16 *)((s32)a0 + 0xFC) = 0x7000;
+    *(s16 *)((s32)a0 + 0x100) = 0;
+    *(s16 *)((s32)a0 + 0xFE) = 0;
+    *(s16 *)((s32)a0 + 0x104) = 0;
+    *(s16 *)((s32)a0 + 0x106) = 0;
+    puVar3 = (u32 *)((u8 *)&D_801B9970 + (*(s16 *)((s32)a0 + 0xDC) * 0x40));
+    iVar2 = func_8012C194();
+    *(s32 *)((s32)a0 + 0x20) = iVar2;
+    if (iVar2 != 0) {
+        func_8001CD50(iVar2, (s32)puVar3);
+        *(s16 *)(iVar2 + 0x10) = 0x400;
+        *(u32 *)(iVar2 + 4) = *(u32 *)(iVar2 + 4) | 0x60000000;
+        func_800233CC(puVar3, 0x40);
+        puVar3[0] = 0x808080;
+        puVar3[1] = 0x808080;
+        func_80186028((s32)a0);
+        *(s16 *)((s32)a0 + 2) = 3;
+    }
+}
+
+
+
+/* func_80185D5C — per-frame entity tick: decay the sound-handle envelope at
+ * +0x20, ramp the s16 pair at +0xFE/+0x106 up to a 0x6000 ceiling, then ramp
+ * the pair at +0xFC/+0x104 down; when the +0xFC accumulator goes negative the
+ * entity releases its D_801B9AB0 slot and hands off to func_8012C218,
+ * otherwise it continues in func_80185E28.
+ *
+ * §71 sibling-first: func_8018A090 (same TU, 0xC0 bytes earlier) is the
+ * initialiser for exactly these fields (+0xFC/+0xFE/+0x100/+0x104/+0x106, the
+ * +0x20 handle and the +0xDC slot index) and pins the widths/casts used here.
+ * D_801B9AB0[] is the 5-entry slot table func_80189FD8 (same TU) claims from.
+ *
+ * Levers (all three were needed; each is byte-verified by removal):
+ *  1. §3-T4 branch polarity — the 0x6000 guard is written `>= 0x6000` with the
+ *     CLAMP as the then-arm, which is what puts `slti/bnez` + the `j` over the
+ *     ramp arm in the target order. Writing it `< 0x6000` gives `beqz` and the
+ *     arms swapped.
+ *  2. Zero-byte `__asm__ __volatile__("" : : : "memory")` at the head of the
+ *     ramp arm (§34 toolkit). Without it cse.c relates the guard's
+ *     `lh 0xFE` to the ramp's `lhu 0xFE` — same MEM, sign- vs zero-extend —
+ *     and rewrites the second as `move`+`andi 0xffff`. That also lands both
+ *     arms' final store in $v0, which lets the post-reload jump pass CROSS-JUMP
+ *     the two `sh 0xFE` tails (§5a) and eats the `j .L8018A1C4`. The clobber
+ *     invalidates the MEM in the hash table so the real second load survives,
+ *     the arms end in different registers, and the cross-jump cannot fire.
+ *  3. The +0x104 store is SUNK to immediately after the subtract, before the
+ *     +0xFC accumulate. Both tail quantities are otherwise born in the same
+ *     block, and local-alloc's QTY_CMP_PRI (n_refs*log2(n_refs)/live_length)
+ *     then ranks the accumulator ABOVE the delta, handing it $v0 and swapping
+ *     the whole block's register pair. Storing the delta early kills its live
+ *     range at insn 3, which flips the priority back so the delta takes $v0.
+ *     Purely a scheduling/priority dial — the emitted order is unchanged
+ *     because reorg pulls `sh 0x104` back into the `bgez` delay slot.
+ * Also note the two tail blocks are BLOCK-SCOPED: sharing one function-scope
+ * pair across the 0xFE and 0xFC ramps makes them global allocnos (§76), which
+ * costs $a1 for the deltas and an extra 8 bytes of frame (0x20 vs 0x18).
+ */
+
+extern void func_8012C218(void *a0);
+extern void func_80185E28(void *a0);
+
+void func_80185D5C(void *a0)
+{
+
+    extern u8 D_801B9AB0[];
+    s32 p;
+    s32 v;
+
+    p = *(s32 *)((s32)a0 + 0x20);
+    if (p != 0) {
+        v = *(u16 *)(p + 0x1A) - 0x100;
+        *(s16 *)(p + 0x1A) = v;
+        *(s16 *)(p + 0x18) = v;
+        if (*(s16 *)(p + 0x1A) < 0) {
+            *(s16 *)(p + 0x1A) = 0;
+            *(s16 *)(p + 0x18) = 0;
+        }
+    }
+    if (*(s16 *)((s32)a0 + 0xFE) >= 0x6000) {
+        *(s16 *)((s32)a0 + 0xFE) = 0x6000;
+    } else {
+        s32 dv, sv;
+        __asm__ __volatile__("" : : : "memory");
+        dv = *(u16 *)((s32)a0 + 0x106) + 0x400;
+        sv = *(u16 *)((s32)a0 + 0xFE) + dv;
+        *(s16 *)((s32)a0 + 0x106) = dv;
+        *(s16 *)((s32)a0 + 0xFE) = sv;
+    }
+    {
+        s32 d = *(u16 *)((s32)a0 + 0x104) - 0x80;
+        s16 s;
+
+        *(s16 *)((s32)a0 + 0x104) = d;
+        s = *(u16 *)((s32)a0 + 0xFC) + d;
+        *(s16 *)((s32)a0 + 0xFC) = s;
+        if (s < 0) {
+            D_801B9AB0[*(s16 *)((s32)a0 + 0xDC)] = 0;
+            func_8012C218(a0);
+        } else {
+            func_80185E28(a0);
+        }
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_102/nonmatchings/ov_SC03_102_jr_8017BEBC", func_80185E28);
 

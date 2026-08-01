@@ -52,7 +52,6 @@ extern s32 func_80165A50(s32);
 extern void func_80029514(s32);
 extern u8 D_800AF630[];
 extern u8 D_80078EC0;
-extern s32 D_80126B58;
 extern s32 func_80028FBC(void);
 extern s32 func_80029000(void);
 extern s32 func_80028D9C(void);
@@ -3656,7 +3655,17 @@ INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_8017C8D0", func_8018676
 
 INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_8017C8D0", func_801867D0);
 
-INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_8017C8D0", func_80186AE8);
+
+extern s32 func_80178B18(s32, s32);
+
+void func_80186AE8(void *arg0) {
+
+    extern M2C_UNK D_8018EFBC;
+    ((void (*)(void *, void *))func_80178B18)(arg0, &D_8018EFBC);
+    *(s16 *)((s32)arg0 + 0x2) = 0x7;
+    *(s16 *)((s32)arg0 + 0x34) = 0;
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_8017C8D0", func_80186B24);
 
@@ -3750,7 +3759,48 @@ INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_8017C8D0", func_8018807
 
 INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_8017C8D0", func_80188114);
 
-INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_8017C8D0", func_8018842C);
+
+// @stuck: none — MATCH (42 ins), iteration 1, rtu_match clean.
+// Saturating add of a 3-byte RGB triple by a signed delta.
+// Idioms: (1) `s8` by-value param => entry `sll/sra 24` for the sign test only;
+//   combine folds the extension back out of `~a1`/`-a1`/`a0[i]+a1` because every
+//   consumer is 8-bit (andi 0xFF / sb), so $a1 is used RAW after the test.
+// (2) branch sense read off the target `sltu` operand ORDER (§3-T4): positive arm
+//   `sltu lim,p[i]` => store when `p[i] <= lim`; negative arm `sltu p[i],lim`
+//   => store when `p[i] >= lim`.
+// (3) the third `if` written out in BOTH arms; jump.c cross-jumps the identical
+//   tails into the shared `j .L8018C344` (§5a) — do not hoist it after the if/else.
+void func_8018842C(u8 *a0, s8 a1) {
+    u8 lim;
+
+    if (a1 == 0) {
+        return;
+    }
+    if (a1 > 0) {
+        lim = ~a1;
+        if (a0[0] <= lim) {
+            a0[0] = a0[0] + a1;
+        }
+        if (a0[1] <= lim) {
+            a0[1] = a0[1] + a1;
+        }
+        if (a0[2] <= lim) {
+            a0[2] = a0[2] + a1;
+        }
+    } else {
+        lim = -a1;
+        if (a0[0] >= lim) {
+            a0[0] = a0[0] + a1;
+        }
+        if (a0[1] >= lim) {
+            a0[1] = a0[1] + a1;
+        }
+        if (a0[2] >= lim) {
+            a0[2] = a0[2] + a1;
+        }
+    }
+}
+
 
 
 extern void (*D_8018F1A4[])(void);
@@ -3957,7 +4007,20 @@ INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_8017C8D0", func_8018969
 
 INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_8017C8D0", func_801896EC);
 
-INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_8017C8D0", func_80189718);
+
+extern s32 func_8014C050(s32 a0, s32 a1);
+
+void func_80189718(void) {
+
+    extern s32 D_80126B58;
+    s32 t;
+
+    t = func_8014C050((s32)&D_80126B58, 0x28);
+    if (t != 0) {
+        *(u16 *)(t + 2) += 1;
+    }
+}
+
 
 
 extern void (*D_801B68D0[])(void);
@@ -3992,11 +4055,153 @@ INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_8017C8D0", func_80189C8
 
 INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_8017C8D0", func_80189CFC);
 
-INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_8017C8D0", func_80189DAC);
 
-INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_8017C8D0", func_80189E64);
 
-INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_8017C8D0", func_80189F24);
+extern s32 func_8012E778(int param_1, int param_2);
+extern s32 func_8012C51C(int a0, int a1);
+
+void func_80189DAC(int param_1, int param_2)
+{
+
+    extern u16 D_800AF7BC;
+    extern u16 D_800AF7BE;
+    extern u8 D_801BCBA0[];
+    s32 i;
+
+    i = 0;
+    if (func_8012E778(param_1, ((s32)(D_800AF7BE >> 1) << 16) | (D_800AF7BC >> 1)) != 0) {
+        do {
+            if (D_801BCBA0[i] == 0) {
+                D_801BCBA0[i] = 1;
+                *(s32 *)(param_2 + 0x10) = i | 0x80000000;
+                *(u16 *)(param_2 + 8) = *(u16 *)(param_1 + 0x70);
+                func_8012C51C(param_2, param_1);
+                return;
+            }
+            i++;
+        } while (i < 5);
+    }
+}
+
+
+
+extern s32 func_8012C194(void);
+extern void func_8001CD50(s32 a0, s32 a1);
+extern void func_800233CC(void *, unsigned short);
+extern void func_8018A1F0(s32 a0);
+
+void func_80189E64(void *a0)
+{
+
+    extern u32 D_801BCA60;
+    s32 iVar2;
+    u32 *puVar3;
+
+    *(s16 *)((s32)a0 + 0xFC) = 0x7000;
+    *(s16 *)((s32)a0 + 0x100) = 0;
+    *(s16 *)((s32)a0 + 0xFE) = 0;
+    *(s16 *)((s32)a0 + 0x104) = 0;
+    *(s16 *)((s32)a0 + 0x106) = 0;
+    puVar3 = (u32 *)((u8 *)&D_801BCA60 + (*(s16 *)((s32)a0 + 0xDC) * 0x40));
+    iVar2 = func_8012C194();
+    *(s32 *)((s32)a0 + 0x20) = iVar2;
+    if (iVar2 != 0) {
+        func_8001CD50(iVar2, (s32)puVar3);
+        *(s16 *)(iVar2 + 0x10) = 0x400;
+        *(u32 *)(iVar2 + 4) = *(u32 *)(iVar2 + 4) | 0x60000000;
+        func_800233CC(puVar3, 0x40);
+        puVar3[0] = 0x808080;
+        puVar3[1] = 0x808080;
+        func_8018A1F0((s32)a0);
+        *(s16 *)((s32)a0 + 2) = 3;
+    }
+}
+
+
+
+/* func_80189F24 — per-frame entity tick: decay the sound-handle envelope at
+ * +0x20, ramp the s16 pair at +0xFE/+0x106 up to a 0x6000 ceiling, then ramp
+ * the pair at +0xFC/+0x104 down; when the +0xFC accumulator goes negative the
+ * entity releases its D_801BCBA0 slot and hands off to func_8012C218,
+ * otherwise it continues in func_80189FF0.
+ *
+ * §71 sibling-first: func_8018A090 (same TU, 0xC0 bytes earlier) is the
+ * initialiser for exactly these fields (+0xFC/+0xFE/+0x100/+0x104/+0x106, the
+ * +0x20 handle and the +0xDC slot index) and pins the widths/casts used here.
+ * D_801BCBA0[] is the 5-entry slot table func_80189FD8 (same TU) claims from.
+ *
+ * Levers (all three were needed; each is byte-verified by removal):
+ *  1. §3-T4 branch polarity — the 0x6000 guard is written `>= 0x6000` with the
+ *     CLAMP as the then-arm, which is what puts `slti/bnez` + the `j` over the
+ *     ramp arm in the target order. Writing it `< 0x6000` gives `beqz` and the
+ *     arms swapped.
+ *  2. Zero-byte `__asm__ __volatile__("" : : : "memory")` at the head of the
+ *     ramp arm (§34 toolkit). Without it cse.c relates the guard's
+ *     `lh 0xFE` to the ramp's `lhu 0xFE` — same MEM, sign- vs zero-extend —
+ *     and rewrites the second as `move`+`andi 0xffff`. That also lands both
+ *     arms' final store in $v0, which lets the post-reload jump pass CROSS-JUMP
+ *     the two `sh 0xFE` tails (§5a) and eats the `j .L8018A1C4`. The clobber
+ *     invalidates the MEM in the hash table so the real second load survives,
+ *     the arms end in different registers, and the cross-jump cannot fire.
+ *  3. The +0x104 store is SUNK to immediately after the subtract, before the
+ *     +0xFC accumulate. Both tail quantities are otherwise born in the same
+ *     block, and local-alloc's QTY_CMP_PRI (n_refs*log2(n_refs)/live_length)
+ *     then ranks the accumulator ABOVE the delta, handing it $v0 and swapping
+ *     the whole block's register pair. Storing the delta early kills its live
+ *     range at insn 3, which flips the priority back so the delta takes $v0.
+ *     Purely a scheduling/priority dial — the emitted order is unchanged
+ *     because reorg pulls `sh 0x104` back into the `bgez` delay slot.
+ * Also note the two tail blocks are BLOCK-SCOPED: sharing one function-scope
+ * pair across the 0xFE and 0xFC ramps makes them global allocnos (§76), which
+ * costs $a1 for the deltas and an extra 8 bytes of frame (0x20 vs 0x18).
+ */
+
+extern void func_8012C218(void *a0);
+extern void func_80189FF0(void *a0);
+
+void func_80189F24(void *a0)
+{
+
+    extern u8 D_801BCBA0[];
+    s32 p;
+    s32 v;
+
+    p = *(s32 *)((s32)a0 + 0x20);
+    if (p != 0) {
+        v = *(u16 *)(p + 0x1A) - 0x100;
+        *(s16 *)(p + 0x1A) = v;
+        *(s16 *)(p + 0x18) = v;
+        if (*(s16 *)(p + 0x1A) < 0) {
+            *(s16 *)(p + 0x1A) = 0;
+            *(s16 *)(p + 0x18) = 0;
+        }
+    }
+    if (*(s16 *)((s32)a0 + 0xFE) >= 0x6000) {
+        *(s16 *)((s32)a0 + 0xFE) = 0x6000;
+    } else {
+        s32 dv, sv;
+        __asm__ __volatile__("" : : : "memory");
+        dv = *(u16 *)((s32)a0 + 0x106) + 0x400;
+        sv = *(u16 *)((s32)a0 + 0xFE) + dv;
+        *(s16 *)((s32)a0 + 0x106) = dv;
+        *(s16 *)((s32)a0 + 0xFE) = sv;
+    }
+    {
+        s32 d = *(u16 *)((s32)a0 + 0x104) - 0x80;
+        s16 s;
+
+        *(s16 *)((s32)a0 + 0x104) = d;
+        s = *(u16 *)((s32)a0 + 0xFC) + d;
+        *(s16 *)((s32)a0 + 0xFC) = s;
+        if (s < 0) {
+            D_801BCBA0[*(s16 *)((s32)a0 + 0xDC)] = 0;
+            func_8012C218(a0);
+        } else {
+            func_80189FF0(a0);
+        }
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_8017C8D0", func_80189FF0);
 

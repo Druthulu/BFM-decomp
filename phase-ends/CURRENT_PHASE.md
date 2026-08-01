@@ -518,6 +518,47 @@ the T2 log entries; check both background tasks' outcomes first (`git log` for t
 
 ## Per-task log
 
+### ▶ S6a — the source-agnostic zero-crack sweep: 842 banked, and the residue is OUR TOOLING again (2026-08-01)
+**Setup, measured before running anything (R37 — probe before costing).** The 190 zero-crack families
+(129,997 templatable ins) were decomposed with **zero builds** by remapping each family's exemplar onto one
+member and type-checking the resulting draft statically:
+· **117 families / 92,368 ins / 2,735 member-slots** — draft self-contained ⇒ sweepable now.
+· **17 / 24,332 ins** — the §94/§100 class: the body uses a **file-scope MULTI-LINE typedef**, which
+  `extract_unit` cannot carry (it carries single-line ones only). Head prizes `0x8012b77c` (ov_SC07_006,
+  139 members, `Ang2_8012B77C`) and `0x80128c98` (ov_SC01_077_a, **275 members**, `CdFileLoc`) = 14,937 ins.
+· **9 / 9,364 ins** — `has_mid_jr` ⇒ the §53 carve path, not this sweep.
+· **47 / 3,933 ins** — `remap_hseq` REFUSES (mostly unresolved immediates). Genuine, small.
+
+**⚠ PREMISE CORRECTION (R14) — the checkpoint's stated mechanism was wrong.** The post-wave frontier says
+these families were unreachable because "every sweep this project has run passed `--source ov_SC01_077`".
+It is not the mechanism: `--source ov_SC01_077` is the **default**, and `hseq_sweep`'s override block only
+fires when `source != EX_OV`, so the manifest's own non-ov077 exemplar was already being used. The real gate
+is **`--band substantial`** (the default): of the 181 non-jr zero-crack families only **13 are substantial**
+— 114 `mid`, 54 `tiny`. **`--band all` is the unlock**, exactly as the S1 trap note warned. (The 106
+non-ov077 exemplars are real and interesting; they were not what blocked the sweep.)
+
+**Result:** `family_sweep --hseq --band all -j12 --only <117 addrs>` staged **2,735 drafts / 1,239 groups,
+0 skips** → **BANKED 842 / 1,893 failed**. **R22 clean-fleet `make clean` + extract-all + check-all → 140
+passed, 0 failed of 140.** Fleet **94.43→94.67% fn-count · 91.4→91.6% instr · 84.0→84.5% distinct**.
+
+**The residue is bimodal, and that is the finding: 57 families banked ALL members, 52 banked ZERO, 8
+partial.** A per-member compiler wall does not produce that shape; one per-family blocker does. Eight
+zero-banked families were probed with a new generic blocker-capture (`.run/s6_diag.py` — the any-overlay
+sibling of S29's ov077-only `.run/uc_capture.py`: remap → splice → build THAT overlay → read the compiler's
+own error → revert; **one build per family, not 137**). **Seven of eight are declaration/carry plumbing;
+one is a genuine byte DIFF.** Two are proven defects in `tools/family_remap.py`, both located at source:
+- **D1 — the preamble backscan's `{`-guard does not exempt comment lines.** The guard is a real T65 fix
+  (`extern void f(int); int g(){…}` on one line), but it fires on any *documentation* line that merely
+  mentions a brace, so the carry stops mid-comment and the sibling receives a dangling ` * …` fragment →
+  `parse error before 'the'` (`0x80176144`, `0x80146afc`).
+- **D2 — `_def_head_at` returns `True` on "param list continues past this line ⇒ ANSI definition".** False
+  for a **wrapped multi-line DECLARATION** (`extern void func_801466F0(s32 a0, …,\n  s32 sp8);`), so
+  `extract_unit` accepts line 457 of `ov_SC01_077_after.c` as a definition head and returns a **16-line
+  fragment that contains no function body at all** (`DEFINE_func_801466B4()` + `#include "common.h"` + a
+  comment), terminated by a brace pair *inside* that comment. Verified directly:
+  `_def_head_at('extern void func_801466F0(s32 a0, s32 a1, s32 a2, s32 a3,', idx) -> True`.
+  This is the §110/R35 class again — a silent 0/137 wearing a compiler wall's clothes.
+
 ### ✅ S3 — the close=0 stored-draft DIAGNOSTIC pass: measured, classified, and correctly NOT scaled (2026-08-01)
 Chartered as "classify, and only build a fix if ≥3 share a named class". Ran exactly that; the answer
 is that no cheap shared class exists, so nothing was scaled. **The population is bigger than the plan

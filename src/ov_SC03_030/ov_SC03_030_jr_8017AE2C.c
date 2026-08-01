@@ -612,7 +612,6 @@ extern s32 func_8014E83C(s32 arg0, s16 * arg1, s16 * arg2);
 extern void func_8014E934(s32 _arg0);
 extern s32 func_8014EA4C(void *a0, void *a1, void *a2, s32 a3);
 extern s32 func_8014E98C(void *a0);
-extern u16 D_800B99DA;
 extern s32 D_801150D8;
 extern s16 D_801152AA;
 extern u8 D_80126720[];
@@ -3547,7 +3546,50 @@ INCLUDE_ASM("asm/ov_SC03_030/nonmatchings/ov_SC03_030_jr_8017AE2C", func_8017DF1
 
 INCLUDE_ASM("asm/ov_SC03_030/nonmatchings/ov_SC03_030_jr_8017AE2C", func_8017DF54);
 
-INCLUDE_ASM("asm/ov_SC03_030/nonmatchings/ov_SC03_030_jr_8017AE2C", func_8017DFA0);
+
+// func_8017DFA0 — MATCH (60 ins), match_one + rtu_match. Two levers:
+//  1) §20 pointer-var-to-the-global: `u16 *p = &D_800B99DA;` and read `*p`
+//     twice. The bare global would fold %lo into each access independently
+//     (two lui/lhu pairs, no $s1); the pointer var force_regs the address so
+//     CSE hoists it into the callee-saved $s1 across both calls.
+//  2) SEPARATE temps `t` and `u` for the two call results (NOT one reused
+//     `t`). gcc-2.7.2 expand_divmod emits `move temp,op0; bgez temp; temp+=d-1`
+//     for a signed /2^k; cse.c make_regs_eqv only makes `temp` the canonical
+//     reg of the quantity when temp's REGNO_LAST_UID outlives op0's. Reusing
+//     one `t` across both calls stretches op0's last-use past temp's, so op0
+//     stays canonical and cse rewrites the pair to `bgez $v0` + `addiu
+//     $v1,$v0,3` — the copy then fills the delay slot and the function comes
+//     out 1 instruction short. Split temps ⇒ op0 dies immediately ⇒ target's
+//     `addu $v1,$v0,$zero; bgez $v1; nop; addiu $v1,$v1,3`.
+// (The 2nd division still coalesces temp/u into $v0, matching `bgez $v0`.)
+
+extern s32 func_80012F74(s32 a0, s32 a1, s32 a2, s32 a3);
+extern s32 func_80047948(s32 a0);
+extern s32 func_8004787C(s32 a0);
+
+void func_8017DFA0(s32 param_1) {
+
+    extern u16 D_800B99DA;
+    u16 *p = &D_800B99DA;
+    s32 t;
+    s32 u;
+
+    *(s16 *)(param_1 + 0x20E) = func_80012F74(*(s16 *)(param_1 + 0x20E), 0, 10, 1);
+    *(s16 *)(param_1 + 0x12E) = 1;
+    t = func_8004787C((*p & 0x3F) << 6);
+    *(s16 *)(param_1 + 0x128) = *(s16 *)(param_1 + 0x20E) + t / 4;
+    u = func_80047948((*p & 0x3F) << 6);
+    *(s16 *)(param_1 + 0x12C) = u / 8;
+    if (*(s16 *)(param_1 + 0x13A) != 0) {
+        *(s16 *)(param_1 + 0x13A) += *(s8 *)(param_1 + 0x20D);
+        *(s16 *)(param_1 + 0x20C) -= 0xE0;
+        if (*(s16 *)(param_1 + 0x13A) < 0) {
+            *(s16 *)(param_1 + 0x13A) = 0;
+            *(s16 *)(param_1 + 0x20C) = 0;
+        }
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_030/nonmatchings/ov_SC03_030_jr_8017AE2C", func_8017E090);
 
@@ -3750,7 +3792,18 @@ INCLUDE_ASM("asm/ov_SC03_030/nonmatchings/ov_SC03_030_jr_8017AE2C", func_8018049
 
 INCLUDE_ASM("asm/ov_SC03_030/nonmatchings/ov_SC03_030_jr_8017AE2C", func_801804F4);
 
-INCLUDE_ASM("asm/ov_SC03_030/nonmatchings/ov_SC03_030_jr_8017AE2C", func_8018055C);
+
+extern s32 func_8012C0EC(s32);
+
+void func_8018055C(void *a0) {
+
+    extern void (*D_8018689C[])(void);
+    D_8018689C[*(u16 *)((s32)a0 + 0x2)]();
+    if (*(u16 *)a0 != 0) {
+        ((void (*)(void *))func_8012C0EC)(a0);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_030/nonmatchings/ov_SC03_030_jr_8017AE2C", func_801805BC);
 
@@ -3769,7 +3822,18 @@ INCLUDE_ASM("asm/ov_SC03_030/nonmatchings/ov_SC03_030_jr_8017AE2C", func_801806A
 
 INCLUDE_ASM("asm/ov_SC03_030/nonmatchings/ov_SC03_030_jr_8017AE2C", func_80180714);
 
-INCLUDE_ASM("asm/ov_SC03_030/nonmatchings/ov_SC03_030_jr_8017AE2C", func_801807A0);
+
+extern s32 func_8012C0EC(s32);
+
+void func_801807A0(void *a0) {
+
+    extern void (*D_80186934[])(void);
+    D_80186934[*(u16 *)((s32)a0 + 0x2)]();
+    if (*(u16 *)a0 != 0) {
+        ((void (*)(void *))func_8012C0EC)(a0);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_030/nonmatchings/ov_SC03_030_jr_8017AE2C", func_80180800);
 
@@ -3816,13 +3880,35 @@ void func_80180D6C(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_030/nonmatchings/ov_SC03_030_jr_8017AE2C", func_80180DAC);
+
+extern s32 func_8012C0EC(s32);
+
+void func_80180DAC(void *a0) {
+
+    extern void (*D_801869C4[])(void);
+    D_801869C4[*(u16 *)((s32)a0 + 0x2)]();
+    if (*(u16 *)a0 != 0) {
+        ((void (*)(void *))func_8012C0EC)(a0);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_030/nonmatchings/ov_SC03_030_jr_8017AE2C", func_80180E0C);
 
 INCLUDE_ASM("asm/ov_SC03_030/nonmatchings/ov_SC03_030_jr_8017AE2C", func_80180F14);
 
-INCLUDE_ASM("asm/ov_SC03_030/nonmatchings/ov_SC03_030_jr_8017AE2C", func_8018101C);
+
+extern s32 func_8012C0EC(s32);
+
+void func_8018101C(void *a0) {
+
+    extern void (*D_801869CC[])(void);
+    D_801869CC[*(u16 *)((s32)a0 + 0x2)]();
+    if (*(u16 *)a0 != 0) {
+        ((void (*)(void *))func_8012C0EC)(a0);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_030/nonmatchings/ov_SC03_030_jr_8017AE2C", func_8018107C);
 

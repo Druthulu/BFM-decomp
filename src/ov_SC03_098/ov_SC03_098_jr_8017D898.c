@@ -3183,7 +3183,24 @@ void func_8017D898(s32 arg0)
 
 INCLUDE_ASM("asm/ov_SC03_098/nonmatchings/ov_SC03_098_jr_8017D898", func_8017E778);
 
-INCLUDE_ASM("asm/ov_SC03_098/nonmatchings/ov_SC03_098_jr_8017D898", func_8017E7B8);
+
+extern int func_8017EEF8(int param_1);
+
+void func_8017E7B8(void)
+{
+
+    extern u8 D_80189340[];
+    extern u8 D_801894BC[];
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern u8 *D_801274C8;
+    extern void *D_801274CC;
+    D_801274C8 = D_80189340;
+    D_801274CC = D_801894BC;
+    func_8017EEF8(1);
+}
+
 
 
 extern void (*D_80188F44[])(void);
@@ -3374,9 +3391,81 @@ INCLUDE_ASM("asm/ov_SC03_098/nonmatchings/ov_SC03_098_jr_8017D898", func_8017F1A
 
 INCLUDE_ASM("asm/ov_SC03_098/nonmatchings/ov_SC03_098_jr_8017D898", func_8017F2A0);
 
-INCLUDE_ASM("asm/ov_SC03_098/nonmatchings/ov_SC03_098_jr_8017D898", func_8017F334);
 
-INCLUDE_ASM("asm/ov_SC03_098/nonmatchings/ov_SC03_098_jr_8017D898", func_8017F3EC);
+extern s32 func_8004787C(s32 a0);
+extern s32 func_80047948(s32 a0);
+
+// @class: none — MATCH (46 ins), iteration 1. rtu_match MATCH too.
+// @stuck: none.
+// Derivation was pure OPCODE-WIDTH reading (no cookbook section needed beyond
+// §3-T4 for the two branch senses):
+//   * 0x108 `lh`/`sh`      -> s16 counter.
+//   * 0x106,0xFE `lhu`+`addu`+`sh` -> u16 += u16 (a signed s16 pair would have
+//     loaded `lh`). The `sll 16/sra 16` immediately after is NOT part of the
+//     add — it is the `(s16)` cast of the just-stored u16 being handed to
+//     func_8004787C, which CSE serves out of the store's register instead of
+//     re-loading. Writing the arg as `*(s16 *)(a0 + 0x106)` after the store
+//     reproduces it exactly; the SECOND call re-loads with `lh` on its own
+//     because $v0/$a0 died across the first jal.
+//   * 0x104 `lh` -> s16 multiplicand; mult/mflo/`sra 12` == plain int `>> 12`.
+//   * 0x8C,0x8A `lhu` -> u16 bases; 0xE,0xA `sh`.
+//   * §3-T4 both branches: `beqz` at the top => source condition is `!= 0` with
+//     an early return; `bnez` at the bottom => source condition is `== 0`.
+// The shared `sh $v0,0x108($s0)` tail is gcc's own cross-jump merge of the
+// `- 1` arm and the `= 0xF` arm — do NOT hand-write it as a merged tail.
+void func_8017F334(s32 a0) {
+    if (*(s16 *)(a0 + 0x108) != 0) {
+        *(s16 *)(a0 + 0x108) = *(s16 *)(a0 + 0x108) - 1;
+        return;
+    }
+    *(u16 *)(a0 + 0x106) = *(u16 *)(a0 + 0x106) + *(u16 *)(a0 + 0xFE);
+    *(s16 *)(a0 + 0xE) = *(u16 *)(a0 + 0x8C) +
+        ((func_8004787C(*(s16 *)(a0 + 0x106)) * *(s16 *)(a0 + 0x104)) >> 12);
+    *(s16 *)(a0 + 0xA) = *(u16 *)(a0 + 0x8A) +
+        ((func_80047948(*(s16 *)(a0 + 0x106)) * *(s16 *)(a0 + 0x104)) >> 12);
+    if ((*(u16 *)(a0 + 0x106) & 0x7FF) == 0) {
+        *(s16 *)(a0 + 0x108) = 0xF;
+    }
+}
+
+
+
+extern s32 func_8004787C(s32 a0);
+extern s32 func_80047948(s32 a0);
+
+// @class: none — MATCH (46 ins), iteration 1. rtu_match MATCH too.
+// @stuck: none.
+// Derivation was pure OPCODE-WIDTH reading (no cookbook section needed beyond
+// §3-T4 for the two branch senses):
+//   * 0x108 `lh`/`sh`      -> s16 counter.
+//   * 0x106,0xFE `lhu`+`addu`+`sh` -> u16 += u16 (a signed s16 pair would have
+//     loaded `lh`). The `sll 16/sra 16` immediately after is NOT part of the
+//     add — it is the `(s16)` cast of the just-stored u16 being handed to
+//     func_8004787C, which CSE serves out of the store's register instead of
+//     re-loading. Writing the arg as `*(s16 *)(a0 + 0x106)` after the store
+//     reproduces it exactly; the SECOND call re-loads with `lh` on its own
+//     because $v0/$a0 died across the first jal.
+//   * 0x104 `lh` -> s16 multiplicand; mult/mflo/`sra 12` == plain int `>> 12`.
+//   * 0x88,0x8A `lhu` -> u16 bases; 0x6,0xA `sh`.
+//   * §3-T4 both branches: `beqz` at the top => source condition is `!= 0` with
+//     an early return; `bnez` at the bottom => source condition is `== 0`.
+// The shared `sh $v0,0x108($s0)` tail is gcc's own cross-jump merge of the
+// `- 1` arm and the `= 0xF` arm — do NOT hand-write it as a merged tail.
+void func_8017F3EC(s32 a0) {
+    if (*(s16 *)(a0 + 0x108) != 0) {
+        *(s16 *)(a0 + 0x108) = *(s16 *)(a0 + 0x108) - 1;
+        return;
+    }
+    *(u16 *)(a0 + 0x106) = *(u16 *)(a0 + 0x106) + *(u16 *)(a0 + 0xFE);
+    *(s16 *)(a0 + 0x6) = *(u16 *)(a0 + 0x88) +
+        ((func_8004787C(*(s16 *)(a0 + 0x106)) * *(s16 *)(a0 + 0x104)) >> 12);
+    *(s16 *)(a0 + 0xA) = *(u16 *)(a0 + 0x8A) +
+        ((func_80047948(*(s16 *)(a0 + 0x106)) * *(s16 *)(a0 + 0x104)) >> 12);
+    if ((*(u16 *)(a0 + 0x106) & 0x7FF) == 0) {
+        *(s16 *)(a0 + 0x108) = 0xF;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_098/nonmatchings/ov_SC03_098_jr_8017D898", func_8017F4A4);
 
@@ -3462,7 +3551,38 @@ INCLUDE_ASM("asm/ov_SC03_098/nonmatchings/ov_SC03_098_jr_8017D898", func_801805B
 
 INCLUDE_ASM("asm/ov_SC03_098/nonmatchings/ov_SC03_098_jr_8017D898", func_801805E0);
 
-INCLUDE_ASM("asm/ov_SC03_098/nonmatchings/ov_SC03_098_jr_8017D898", func_80180664);
+
+extern s32 func_8012BCCC(s32 a0);
+extern s32 func_8012B864(s32 a0);
+extern s32 func_8012B608(s32 a0, s32 a1, s32 a2);
+extern void func_8012B1B4(s32 a0, s32 a1);
+extern void func_8012CBCC(s32 a0);
+extern void func_8012E688(void*, s32, s32);
+
+void func_80180664(s32 a0) {
+
+    extern u8 D_8019C074[];
+    extern s16 D_80126CB6;
+    s32 r;
+
+    if (func_8012BCCC(a0) > 0x63FFF) {
+        *(u16 *)(a0 + 0x2) = 5;
+    } else {
+        r = func_8012B608(*(s16 *)(*(s32 *)(a0 + 0x20) + 0x12),
+                          func_8012B864(a0), 0x10);
+        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) =
+            *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) + r;
+        func_8012B1B4(a0, (s32)D_8019C074);
+        *(s32 *)(a0 + 0x14) =
+            *(s32 *)(a0 + 0x14) +
+            ((D_80126CB6 - *(s16 *)(a0 + 0xA)) << 8);
+        if (((s32 (*)(s32))func_8012CBCC)(a0)) {
+            *(s16 *)(a0 + 0x16) = -0x18;
+            ((void (*)(s32, s32, s32))func_8012E688)(a0, 0xBA2, 0);
+        }
+    }
+}
+
 
 
 extern void func_8012E688(void *a0, s32 a1, s32 a2);
@@ -3531,9 +3651,70 @@ void func_80180878(s32 a0) {
 void func_80180954(void) {
 }
 
-INCLUDE_ASM("asm/ov_SC03_098/nonmatchings/ov_SC03_098_jr_8017D898", func_8018095C);
 
-INCLUDE_ASM("asm/ov_SC03_098/nonmatchings/ov_SC03_098_jr_8017D898", func_80180A14);
+/* func_8018095C — per-frame entity tick:
+ *  - decrement the timer at 0x1C if non-zero
+ *  - fade the two u16 colour/alpha words at +0x18 / +0x1A of the display record
+ *    hanging off 0x20 by 0x100 each
+ *  - once the second one drops to <= 0x80, tear the entity down
+ *
+ * §71 sibling-first: DEFINE_func_801319E0() (engine_core.h L17451) is the same
+ * `func_8002A04C(arg0); ((void (*)(void *))func_8012C218)((void *)arg0);` teardown tail with arg0
+ * living in $s0 across the calls — signature and casts copied from it.
+ */
+
+extern void func_8002A04C(s32 a0);
+extern void func_8012C218(void);
+
+void func_8018095C(s32 arg0) {
+    if (*(s32 *)(arg0 + 0x1C) != 0) {
+        *(s32 *)(arg0 + 0x1C) -= 1;
+    }
+    *(u16 *)(*(s32 *)(arg0 + 0x20) + 0x18) -= 0x100;
+    *(u16 *)(*(s32 *)(arg0 + 0x20) + 0x1A) -= 0x100;
+    if (*(s16 *)(*(s32 *)(arg0 + 0x20) + 0x1A) < 0x81) {
+        if (*(s16 *)(arg0 + 0x70) == 1) {
+            /* LOAD-BEARING: hoisting the argument load into its own local
+             * emits `lw $a0,0xCC($s0)` ABOVE the guard branch and leaves the
+             * beqz delay slot a nop. Inlining it at the call site instead
+             * gives beqz/nop/lw -> 3 mismatches (class DELAY-SLOT). A/B-tested. */
+            void *temp = *(void **)(arg0 + 0xCC);
+            if (arg0 != 0) {
+                ((void (*)(void *))func_8012C218)(temp);
+            }
+        }
+        func_8002A04C(arg0);
+        ((void (*)(void *))func_8012C218)((void *)arg0);
+    }
+}
+
+
+
+extern s32 func_8012C354(s32 a0, s32 a1);
+extern void func_8012A828(s32 a0, s32 a1);
+extern s32 func_8012C588(s32 a0, s32 a1);
+
+
+void func_80180A14(s32 a0) {
+
+    extern u8 D_8019C13C[];
+    extern u8 D_8018564C[];
+    extern u16 D_8019C170[];
+    extern u16 D_8019C172[];
+    extern u16 D_8019C174[];
+    extern s16 D_8019C176[];
+    if (func_8012C354(a0, (s32)D_8019C13C) != 0) {
+        func_8012A828(a0, (s32)D_8018564C);
+        *(s16 *)(a0 + 0x2) = 1;
+        *(u8 *)(a0 + 0x75) = 0;
+        *(u16 *)(a0 + 0x12) = D_8019C170[*(s16 *)(a0 + 0xFC) * 4];
+        *(u16 *)(a0 + 0x16) = D_8019C172[*(s16 *)(a0 + 0xFC) * 4];
+        *(u16 *)(a0 + 0x1A) = D_8019C174[*(s16 *)(a0 + 0xFC) * 4];
+        *(s32 *)(a0 + 0x1C) = D_8019C176[*(s16 *)(a0 + 0xFC) * 4];
+        func_8012C588(0x1C4, a0);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_098/nonmatchings/ov_SC03_098_jr_8017D898", func_80180AD8);
 
@@ -3578,7 +3759,29 @@ void func_80180BA8(s32 param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_098/nonmatchings/ov_SC03_098_jr_8017D898", func_80180C8C);
+
+extern s32 rand(void);
+extern s32 func_8004787C(s32 a0);
+
+void func_80180C8C(s32 a0) {
+    s32 t;
+
+    if (*(s32 *)(a0 + 0x1C) == 0) {
+        *(s32 *)(*(s32 *)(a0 + 0x20) + 0x4) &= 0x7FFFFFFF;
+        *(s16 *)(a0 + 0xFE) += 0x40;
+        if (*(s16 *)(a0 + 0xFE) >= 0x800) {
+            *(s16 *)(a0 + 0xFE) = 0;
+            *(s32 *)(a0 + 0x1C) = rand() & 0x1F;
+            *(s32 *)(*(s32 *)(a0 + 0x20) + 0x4) |= 0x80000000;
+        }
+        t = (*(s16 *)(a0 + 0x70) * func_8004787C(*(s16 *)(a0 + 0xFE))) >> 12;
+        *(s16 *)(*(s32 *)(a0 + 0x20) + 0x18) =
+            *(s16 *)(*(s32 *)(a0 + 0x20) + 0x1A) = t + 0x800;
+    } else {
+        *(s32 *)(a0 + 0x1C) -= 1;
+    }
+}
+
 
 
 extern s32 rand(void);

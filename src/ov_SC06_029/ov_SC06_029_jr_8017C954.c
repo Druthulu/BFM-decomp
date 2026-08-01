@@ -45,7 +45,6 @@ extern s32 func_80165A50(s32);
 extern void func_80029514(s32);
 extern u8 D_800AF630[];
 extern u8 D_80078EC0;
-extern s32 D_80126B58;
 extern s32 func_80028FBC(void);
 extern s32 func_80029000(void);
 extern s32 func_80028D9C(void);
@@ -3514,11 +3513,14 @@ INCLUDE_ASM("asm/ov_SC06_029/nonmatchings/ov_SC06_029_jr_8017C954", func_8017E58
 
 INCLUDE_ASM("asm/ov_SC06_029/nonmatchings/ov_SC06_029_jr_8017C954", func_8017E610);
 
-extern s32 D_80126B58;
 extern s16 D_80126B30;
 extern void func_8017303C(void *);
 extern s32 func_80174650(s32);
 void func_8017E640(void) {
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern s32 D_80126B58;
 
     extern u8 D_801900B4[];
     func_8017303C((void *)D_801900B4);
@@ -4397,13 +4399,43 @@ extern void func_80146C3C(void);
     }
 
 
-INCLUDE_ASM("asm/ov_SC06_029/nonmatchings/ov_SC06_029_jr_8017C954", func_8018B188);
+
+extern void func_80017254(void *a0);
+extern void func_800176F0(void *a0);
+
+void func_8018B188(void) {
+
+    extern u8 D_801D7190[];
+    extern u8 D_801D71B8[];
+    u8 *p;
+    s32 i;
+
+    func_80017254(D_801D7190);
+    i = 0;
+    p = D_801D71B8;
+    do {
+        func_800176F0(p);
+        i++;
+        p += 0x34;
+    } while (i < 4);
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_029/nonmatchings/ov_SC06_029_jr_8017C954", func_8018B1E0);
 
 INCLUDE_ASM("asm/ov_SC06_029/nonmatchings/ov_SC06_029_jr_8017C954", func_8018B20C);
 
-INCLUDE_ASM("asm/ov_SC06_029/nonmatchings/ov_SC06_029_jr_8017C954", func_8018B250);
+
+extern void func_80019064(void *a0);
+
+void func_8018B250(void *a0) {
+
+    extern u8 D_801D7294;
+    extern void (*D_801D72BC[])(void *);
+    func_80019064(&D_801D7294);
+    D_801D72BC[*(u16 *)((s32)a0 + 0x2)](a0);
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_029/nonmatchings/ov_SC06_029_jr_8017C954", func_8018B2A8);
 

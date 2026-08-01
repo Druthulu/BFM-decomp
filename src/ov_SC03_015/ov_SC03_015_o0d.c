@@ -2747,12 +2747,29 @@ extern void (*D_8018F850[])(void);
 extern void func_80183A18(void *a0);
 extern s32 func_80012ABC(s32 a0, s32 a1, s32 a2);
 extern void func_80183B58(s32 param_1, s16 *param_2);
-extern s32 D_801EAC64;
-extern s32 D_801EAC68;
 extern void func_80184440(void);
 /* ==== end §8b carried decl layer ==== */
 
-INCLUDE_ASM("asm/ov_SC03_015/nonmatchings/ov_SC03_015_o0d", func_80184474);
+
+extern void func_80184538(s32 a0);
+
+void func_80184474(void) {
+
+    extern s32 D_801EAC64;
+    extern s32 D_801EAC68;
+    extern u8 D_8018F8A4[];
+    s32 unused; /* -O0 frame padding: original had a dead local (0x20 frame, not 0x18) */
+
+    --D_801EAC64;
+    if (D_801EAC64 == 0) {
+        func_80184538(D_801EAC68);
+        D_801EAC64 = D_8018F8A4[D_801EAC68] * 2;
+        if (++D_801EAC68 >= 30) {
+            D_801EAC68 = 0;
+        }
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_015/nonmatchings/ov_SC03_015_o0d", func_80184538);
 
@@ -2789,6 +2806,40 @@ s32 func_80184794(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_015/nonmatchings/ov_SC03_015_o0d", func_801847EC);
 
-INCLUDE_ASM("asm/ov_SC03_015/nonmatchings/ov_SC03_015_o0d", func_80184868);
+
+extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
+
+s32 func_801847EC(void) {
+
+    extern s32 D_800C7C60;
+    extern s32 *D_800C7C64;
+    extern s32 D_800A2E20;
+    extern u8 D_800AEE40;
+    s32 ret;
+
+    D_800C7C60 = 0x41;
+    D_800C7C64 = &D_800A2E20;
+    ret = func_8001ABBC(0, 0, &D_800AEE40, 0, (s32)&D_800C7C60);
+    return ret;
+}
+
+
+
+
+extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
+
+s32 func_80184868(void) {
+
+    extern s32 D_800C7C60;
+    extern s32 *D_800C7C64;
+    extern s32 D_800A2E20;
+    extern u8 D_800AEE48;
+    s32 ret;
+
+    D_800C7C60 = 0x39;
+    D_800C7C64 = &D_800A2E20;
+    ret = func_8001ABBC(0, 0, &D_800AEE48, 0, (s32)&D_800C7C60);
+    return ret;
+}
+

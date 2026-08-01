@@ -383,7 +383,6 @@ extern s32 func_80149D10(s32 a0);
 extern s32 func_80149E94(s32 a0);
 extern s32 func_80149DD8(s32 a0);
 extern s32 func_80149D9C(s32 a0);
-extern u8 D_801202A0[];
 extern s32 func_80149F2C(s32 a0, s32 a1);
 extern s32 func_80149E94(s32 arg0);
 extern void func_80149FA8(void);
@@ -3459,7 +3458,58 @@ extern void func_8012A828(s32 *a0, s32 a1);
     }
 
 
-INCLUDE_ASM("asm/ov_SC05_007/nonmatchings/ov_SC05_007_jr_8017BEBC", func_8017E124);
+
+extern s32 func_8012BCCC(s32 a0);
+extern void func_8001C924(s32 a0, void *a1);
+extern void func_8012A828(s32*, s32);
+extern s32 func_8012B8E4(s32 a0, s32 a1);
+extern s32 func_8012BEE8(s32 a0);
+
+// @class: straight-derive
+// @stuck: none — MATCH (52 ins) on iteration 1, confirmed by rtu_match.
+//
+// Two things that could have been mis-read off the target asm:
+//
+// 1. RELOAD_CSE DELETES A REDUNDANT ARG MOVE — do not read "no arg setup" as
+//    "zero-arg call". `jal func_8012BCCC` at 0x80184C7C has a bare `nop` delay
+//    slot and NO `addu $a0,$s0,$zero` before it, which looks like `f()`. It is
+//    `f(a0)`: the incoming param is still live in $a0 in that fall-through
+//    block, so gcc-2.7.2's reload_cse_regs (reload1.c) deletes the redundant
+//    `move $a0,$s0`. The SAME move survives at .L80184CD0 (0x80184CD0) because
+//    reload_cse's value tracking resets at a CODE_LABEL. So: an arg move that
+//    is present on the labelled arm and absent on the fall-through arm is ONE
+//    source-level call shape, not two.
+//
+// 2. `lui $v1,1 / slt $v1,$v1,$v0` is `ret <= 0x10000`, not `ret < 0x10001`.
+//    gcc lowers `a <= C` to `!(C < a)` and puts the CONSTANT in the first slt
+//    operand; writing `< 0x10001` would have materialised 0x10001 instead.
+//
+// Statement order in the then-arm is the Ghidra order (0x1C store, then the
+// 0x34 increment): memrefs_conflict_p disambiguates `+0x1C`/4 from `+0x34`/2
+// off the same base, so sched2 legally hoists the `lhu 0x34` above the `sw`
+// to cover its load delay — which is exactly the target's interleave.
+void func_8017E124(s32 a0) {
+
+    extern u8 D_80194554;
+    extern u8 D_80197680[];
+    s32 v;
+
+    if (*(u16 *)(a0 + 0x34) == 0) {
+        if (func_8012BCCC(a0) <= 0x10000) {
+            func_8001C924(*(s32 *)(a0 + 0x20), (void *)&D_80194554);
+            ((void (*)(s32, void *))func_8012A828)(a0, (void *)&(*(u8 *)D_80197680));
+            *(s32 *)(a0 + 0x1C) = 0x1E;
+            *(u16 *)(a0 + 0x34) += 1;
+        }
+    } else {
+        v = func_8012B8E4(a0, 0xA);
+        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) += v;
+        if (func_8012BEE8(a0) != 0 || v == 0) {
+            *(s16 *)(a0 + 0x2) = 5;
+        }
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC05_007/nonmatchings/ov_SC05_007_jr_8017BEBC", func_8017E1F4);
 
@@ -3481,7 +3531,48 @@ INCLUDE_ASM("asm/ov_SC05_007/nonmatchings/ov_SC05_007_jr_8017BEBC", func_8017E51
 
 INCLUDE_ASM("asm/ov_SC05_007/nonmatchings/ov_SC05_007_jr_8017BEBC", func_8017E560);
 
-INCLUDE_ASM("asm/ov_SC05_007/nonmatchings/ov_SC05_007_jr_8017BEBC", func_8017E688);
+
+/* func_8017E688 — entity state-kick #0xB.
+ * Sets the state word at 0x02 to 0xB, hands the entity to the script runner
+ * func_8012A828 with table D_80197680, clears bit 3 of the flag word at 0xDC,
+ * then picks the timer at 0x1C: a fixed 30 when bit 6 was set (also clearing
+ * bit 6), otherwise rand() % 16 + 15. Finally, if func_8012BD3C(e,0x400,0x8000)
+ * returns 0, bit 3 at 0xDC is set again.
+ *
+ * §71 sibling-first: func_80184D28 (same TU, same D_80197680 script table) is
+ * the same `sh 0x2 / jal func_8012A828 / jal rand / sw 0x1C` skeleton and pins
+ * the widths: `sh` at 0x02, `sw` at 0x1C/0xDC, and the s16 store scheduled into
+ * the jal delay slot.
+ */
+
+extern void func_8012A828(s32*, s32);
+extern s32 func_8012BD3C(s32 a0, s32 a1, s32 a2);
+extern s32 rand(void);
+
+void func_8017E688(void *a0) {
+
+    extern u8 D_80197680[];
+    s32 flags;
+    s32 cleared;
+    s32 timer;
+
+    *(s16 *)((s32)a0 + 0x2) = 0xB;
+    ((void (*)(s32, void *))func_8012A828)((s32)a0, D_80197680);
+    flags = *(s32 *)((s32)a0 + 0xDC);
+    cleared = flags & ~8;
+    *(s32 *)((s32)a0 + 0xDC) = cleared;
+    if (flags & 0x40) {
+        *(s32 *)((s32)a0 + 0xDC) = cleared & ~0x40;
+        timer = 30;
+    } else {
+        timer = rand() % 16 + 15;
+    }
+    *(s32 *)((s32)a0 + 0x1C) = timer;
+    if (func_8012BD3C((s32)a0, 0x400, 0x8000) == 0) {
+        *(s32 *)((s32)a0 + 0xDC) |= 8;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC05_007/nonmatchings/ov_SC05_007_jr_8017BEBC", func_8017E740);
 
@@ -3564,13 +3655,130 @@ void func_8017EBD4(s32 *a0) {
     }
 
 
-INCLUDE_ASM("asm/ov_SC05_007/nonmatchings/ov_SC05_007_jr_8017BEBC", func_8017EBE4);
+
+// @class: regalloc (WIDTH/li!=addu -> MATCH)
+// @stuck: none — MATCH (58 ins), match_one + rtu_match. PIN-FREE (no register __asm__).
+// Three levers, in the order they mattered:
+//
+//  1) The join block indexes every field off $a0, not $s0: the target COPIES the entity into $a0
+//     at the TOP of the join block (`addu $a0,$s0,$zero`) and reads 0x5C/0x5E/0x60/0x62/0x20 off
+//     that copy.  A naive `e = param_1;` at the join is deleted — cse.c's make_regs_eqv keeps the
+//     PARAMETER as qty_first_reg, so canon_reg rewrites every use of `e` back to param_1 and the
+//     copy dies.  Writing the copy at the end of the ARMS instead is worse (2 mismatches worse):
+//     gcc hoists it above the inner `if` into the beqz delay slot and the arms then read off $a0.
+//
+//  2) THE LEVER: make the copy's variable ALSO the 0x20 pointer of the /4 arm.  make_regs_eqv only
+//     lets the new pseudo take over the quantity when its live range escapes the cse basic block
+//     AND outlives the param's last use.  Reusing `a` in the /4 arm (which sits *after* the join in
+//     the insn stream, and whose last mention `sh $v0,0x18($a0)` comes after param_1's last mention
+//     `lh $v0,0x100($s0)`) satisfies both clauses at once, so `a` becomes canonical, the copy
+//     survives, and the block addresses off it.  The same reuse is what puts `lw $a0,0x20($s0)` /
+//     `lh $v1,0x18($a0)` in the /4 arm in the target's register order — two separate locals there
+//     give the mirrored $v1/$a0 pair (6 extra mismatches; verified).  The reuse must be paired with
+//     the join-top copy: `a` shared but copied in the arm instead makes it a plain global allocno,
+//     global.c hands it a callee-saved reg and the function grows an $s1 save/restore (60 ins).
+//     A `register s32 a __asm__("$4")` pin also reaches 0 here (canon_reg bails on hard regs), but
+//     the pin is unnecessary and would trip the §42e/§86 pin guard on the ×6 family remap.
+//
+//  3) Tail statement order is 0x5C, 0x60, 0x62, 0x5E — the 0x5E store must be LAST.  sched2 works
+//     the ready list LIFO, so a 0x5E written third floats to the front of the block as
+//     `li $v0,1 / sh $v0,0x5E` and steals $v0 from the 0x5C load-modify-store (9 mismatches).
+//     Written last it sinks past `lhu $v0,0x12($v1)`, reuses the now-dead $v1 for its constant and
+//     lands where the target has it.  (All 24 orderings byte-swept: only 5C-60-62-5E and
+//     60-5C-62-5E reach 0.)
+//
+//  Widths: 0x100 is read at TWO widths on purpose — `u16` in the flag arm (target `lhu`) and `s16`
+//  in the /4 arm (target `lh`); combine folds the extend into the load, so the cast at the use site
+//  picks the opcode.  Ditto `|= 1` on the s16 0x5C field giving `lhu`.  §3-T4: both `beqz`es mean
+//  the NON-zero arm falls through, i.e. `func_8012BEE8(..) != 0` and `flags & 0x80` are the
+//  fall-through arms (Ghidra's seed for this address was a different function entirely).
+
+extern s32 func_8012BEE8(s32 a0);
+extern void func_80131E00();
+
+void func_8017EBE4(s32 param_1) {
+    s32 a;
+    s32 p;
+    s32 q;
+    s32 x;
+    s32 t;
+    u16 h;
+
+    if (func_8012BEE8(param_1) != 0) {
+        if (*(s32 *)(param_1 + 0xDC) & 0x80) {
+            p = *(s32 *)(param_1 + 0x20);
+            *(s16 *)(p + 0x1C) = 0x1000;
+            *(s16 *)(p + 0x18) = 0x1000;
+            *(s32 *)(param_1 + 0xDC) &= ~0x80;
+        } else {
+            p = *(s32 *)(param_1 + 0x20);
+            h = *(u16 *)(param_1 + 0x100);
+            *(s16 *)(p + 0x1C) = h;
+            *(s16 *)(p + 0x18) = h;
+        }
+        a = param_1;
+        *(s16 *)(a + 0x5C) |= 1;
+        *(s16 *)(a + 0x60) = 0;
+        q = *(s32 *)(a + 0x20);
+        *(s16 *)(a + 0x62) = *(u16 *)(q + 0x12) + 0x800;
+        *(s16 *)(a + 0x5E) = 1;
+        ((void (*)(s32, s32))func_80131E00)(a, 1);
+    } else {
+        a = *(s32 *)(param_1 + 0x20);
+        x = *(s16 *)(a + 0x18);
+        t = x + (*(s16 *)(param_1 + 0x100) - x) / 4;
+        *(s16 *)(a + 0x1C) = t;
+        *(s16 *)(a + 0x18) = t;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC05_007/nonmatchings/ov_SC05_007_jr_8017BEBC", func_8017ECCC);
 
 INCLUDE_ASM("asm/ov_SC05_007/nonmatchings/ov_SC05_007_jr_8017BEBC", func_8017ED28);
 
-INCLUDE_ASM("asm/ov_SC05_007/nonmatchings/ov_SC05_007_jr_8017BEBC", func_8017EDB0);
+//   the beqz delay slot), so it is the FIRST statement, above the if; (3) both `*(s32*)(p+0x20)`
+//   reads in arm A are written as separate expressions — the intervening `sh` to 0x10 blocks CSE,
+//   which is why the target reloads 0x20 twice; (4) the tail compare is `iVar1 <= 0x8FFF`, NOT
+//   Ghidra's `< 0x9000`: 0x9000 does not fit the signed 16-bit `slti` immediate, so gcc
+//   materialises the bound with `ori $v1,$zero,0x8FFF` and emits the operand-reversed
+//   `slt $v1,$v1,$v0` + `bnez` over the 0x51F assignment (write the constant as 0x8FFF).
+extern void func_8012A828(s32*, s32);
+extern void func_8001C924(s32 a0, void *a1);
+extern s32 func_8012BCCC(s32 a0);
+extern void func_8002D4C8(s32 a0, s32 a1);
+
+
+void func_8017EDB0(s32 param_1) {
+
+    extern u8 D_80197C48;
+    extern u8 D_80195F04;
+    extern u8 D_80197B68;
+    s32 iVar1;
+    s32 uVar2;
+
+    *(s16 *)(param_1 + 0x5C) = 0;
+    if (*(s32 *)(param_1 + 0xDC) & 2) {
+        *(s32 *)(param_1 + 0x1C) = 0x2D;
+        ((void (*)(s32, void *))func_8012A828)(param_1, &D_80197C48);
+        *(s16 *)(*(s32 *)(param_1 + 0x20) + 0x10) = 0;
+        *(s16 *)(*(s32 *)(param_1 + 0x20) + 0x12) =
+            (*(u16 *)(param_1 + 0x62) + 0x800) & 0xFFF;
+        *(s16 *)(param_1 + 0x52) = 0;
+    } else {
+        *(s32 *)(param_1 + 0x1C) = 0x37;
+        func_8001C924(*(s32 *)(param_1 + 0x20), &D_80195F04);
+        ((void (*)(s32, void *))func_8012A828)(param_1, &D_80197B68);
+        *(s16 *)(*(s32 *)(param_1 + 0x20) + 0x12) = *(u16 *)(param_1 + 0x62);
+    }
+    iVar1 = func_8012BCCC(param_1);
+    uVar2 = 0x520;
+    if (iVar1 <= 0x8FFF) {
+        uVar2 = 0x51F;
+    }
+    func_8002D4C8(uVar2, 0);
+}
+
 
 INCLUDE_ASM("asm/ov_SC05_007/nonmatchings/ov_SC05_007_jr_8017BEBC", func_8017EE80);
 
@@ -3599,9 +3807,54 @@ INCLUDE_ASM("asm/ov_SC05_007/nonmatchings/ov_SC05_007_jr_8017BEBC", func_8017F42
 
 INCLUDE_ASM("asm/ov_SC05_007/nonmatchings/ov_SC05_007_jr_8017BEBC", func_8017F568);
 
-INCLUDE_ASM("asm/ov_SC05_007/nonmatchings/ov_SC05_007_jr_8017BEBC", func_8017F5FC);
 
-INCLUDE_ASM("asm/ov_SC05_007/nonmatchings/ov_SC05_007_jr_8017BEBC", func_8017F678);
+extern void func_801802D0(void *a0);
+
+void func_8017F5FC(void *a0) {
+
+    extern void (*D_80197CD4[])(void);
+    D_80197CD4[*(u16 *)((s32)a0 + 0x2)]();
+    if (*(u16 *)((s32)a0 + 0x0) != 0) {
+        *(s32 *)((s32)a0 + 0xE8) = *(s32 *)((s32)a0 + 0xE8) + 1;
+        if ((*(s32 *)((s32)a0 + 0xE8) & 0xF) == 0) {
+            func_801802D0(a0);
+        }
+    }
+}
+
+
+
+extern s32 rand(void);
+extern s32 func_8012C354(s32 *a0, s32 a1);
+extern void func_8012A828(s32 *a0, s32 a1);
+extern void func_80143994(s32 *a0, s32 a1);
+
+
+void func_8017F678(void *arg0) {
+
+    extern s32 D_80197C68;
+    extern s32 D_80197CAC;
+    extern s32 D_8019A1C4;
+    s32 t;
+
+    if (func_8012C354(arg0, &D_80197C68)) {
+        *(u8 *)((char *)arg0 + 0xC0) = 1;
+        *(s32 *)((char *)arg0 + 0xB4) = -1;
+        *(s32 **)((char *)arg0 + 0xBC) = &D_80197CAC;
+        *(u32 *)((char *)arg0 + 0xC4) |= 1;
+        *(s32 *)((char *)arg0 + 0xE4) = -((rand() % 8 + 0xC) << 16);
+        func_8012A828(arg0, &D_8019A1C4);
+        func_80143994(arg0, 0x1000);
+        t = *(u16 *)((char *)arg0 + 0x70) & 0x10;
+        if (t != 0) {
+            t = 3;
+        } else {
+            t = 1;
+        }
+        *(s16 *)((char *)arg0 + 0x2) = t;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC05_007/nonmatchings/ov_SC05_007_jr_8017BEBC", func_8017F738);
 
@@ -3616,7 +3869,36 @@ INCLUDE_ASM("asm/ov_SC05_007/nonmatchings/ov_SC05_007_jr_8017BEBC", func_8017FDB
 INCLUDE_ASM("asm/ov_SC05_007/nonmatchings/ov_SC05_007_jr_8017BEBC", func_8017FEC4);
 
 
-INCLUDE_ASM("asm/ov_SC05_007/nonmatchings/ov_SC05_007_jr_8017BEBC", func_80180060);
+
+extern s32 func_8012BEE8(s32 a0);
+extern s32 func_8012E778(s32 a0, s32 a1);
+extern void func_8012E88C(s32 a0);
+extern void func_8012A828(s32 *a0, s32 a1);
+
+void func_80180060(void *arg0) {
+
+    extern s32 D_8019A1C4;
+    if (func_8012BEE8((s32)arg0)) {
+        if (!func_8012E778((s32)arg0, 0xA000C8)) {
+            {
+                s32 t;
+                t = *(u16 *)((char *)arg0 + 0x70) & 0x10;
+                *(s16 *)((char *)arg0 + 0x2) = (t == 0) ? 1 : 3;
+            }
+            *(s16 *)((char *)arg0 + 0x5C) =
+                *(u16 *)(*(s32 *)((char *)arg0 + 0x78) + 0x2);
+            *(s16 *)((char *)arg0 + 0x76) =
+                *(u16 *)(*(s32 *)((char *)arg0 + 0x78));
+            *(s16 *)(*(s32 *)((char *)arg0 + 0x20) + 0x18) =
+                *(s16 *)(*(s32 *)((char *)arg0 + 0x20) + 0x1A) =
+                *(s16 *)(*(s32 *)((char *)arg0 + 0x20) + 0x1C) = 0x1000;
+            *(u16 *)(*(s32 *)((char *)arg0 + 0x20) + 0x2C) &= 0x10;
+            func_8012E88C((s32)arg0);
+            func_8012A828(arg0, &D_8019A1C4);
+        }
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC05_007/nonmatchings/ov_SC05_007_jr_8017BEBC", func_8018011C);
 
@@ -3661,7 +3943,31 @@ INCLUDE_ASM("asm/ov_SC05_007/nonmatchings/ov_SC05_007_jr_8017BEBC", func_8018047
 
 INCLUDE_ASM("asm/ov_SC05_007/nonmatchings/ov_SC05_007_jr_8017BEBC", func_80180704);
 
-INCLUDE_ASM("asm/ov_SC05_007/nonmatchings/ov_SC05_007_jr_8017BEBC", func_80180898);
+
+/* func_80180898 — "is another entity of type 0x35C sharing my 0x64 owner?"
+ *
+ * Walks the 0x60-entry entity table at D_801202A0 (stride 0x10C) with an int
+ * counter (the target keeps the count in $a2 and `slti ...,0x60`, so it is a
+ * counted loop, NOT the D_80126720 pointer-bound idiom the sibling walkers
+ * use).  Returns 1 for the first entry whose u16 kind == 0x35C, whose word at
+ * 0x64 equals the caller's word at 0x64, and which is not the caller itself.
+ */
+s32 func_80180898(s32 arg0) {
+    extern u8 D_801202A0[];
+    u8 *p;
+    s32 i;
+
+    p = D_801202A0;
+    for (i = 0; i < 0x60; i++) {
+        if (*(u16 *)p == 0x35C && *(s32 *)(arg0 + 0x64) == *(s32 *)(p + 0x64) &&
+            arg0 != (s32)p) {
+            return 1;
+        }
+        p += 0x10C;
+    }
+    return 0;
+}
+
 
 
 extern void func_8012EC04(s32 param_1, s32 param_2, s32 *param_3);
@@ -3683,7 +3989,24 @@ void func_801808F0(s32 arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_007/nonmatchings/ov_SC05_007_jr_8017BEBC", func_8018096C);
+
+/* func_8018096C — guard-then-free tail (cookbook §71 sibling shape:
+ * src/ov_SC02_011/ov_SC02_011_jr_8017AE2C.c func_80144458 tail, and
+ * src/ov_SC03_099/ov_SC03_099_jr_80140608.c:2432 func_80016714(x, 0x38)). */
+
+extern void func_80016714(void *a0, s32 a1);
+extern void func_8012C218(void *a0);
+
+void func_8018096C(void *arg0) {
+    void *temp_a0;
+
+    temp_a0 = *(void **)((char *)arg0 + 0xCC);
+    if (temp_a0 != NULL) {
+        func_80016714(temp_a0, 0x38);
+    }
+    func_8012C218(arg0);
+}
+
 
 INCLUDE_ASM("asm/ov_SC05_007/nonmatchings/ov_SC05_007_jr_8017BEBC", func_801809B0);
 

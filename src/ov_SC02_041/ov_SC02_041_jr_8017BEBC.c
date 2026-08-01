@@ -384,7 +384,6 @@ extern s32 func_80149D10(s32 a0);
 extern s32 func_80149E94(s32 a0);
 extern s32 func_80149DD8(s32 a0);
 extern s32 func_80149D9C(s32 a0);
-extern u8 D_801202A0[];
 extern s32 func_80149F2C(s32 a0, s32 a1);
 extern s32 func_80149E94(s32 arg0);
 extern void func_80149FA8(void);
@@ -3207,7 +3206,17 @@ extern void func_80151664(void);
     }
 
 
-INCLUDE_ASM("asm/ov_SC02_041/nonmatchings/ov_SC02_041_jr_8017BEBC", func_8017D0B8);
+
+extern void func_80019064(void *a0);
+
+void func_8017D0B8(void *a0) {
+
+    extern u8 D_8018885C;
+    extern void (*D_80188880[])(void *);
+    func_80019064(&D_8018885C);
+    D_80188880[*(u16 *)((s32)a0 + 0x2)](a0);
+}
+
 
 extern void func_8014E934(s32 a0);
 extern void func_8014CC28(s32 a0);
@@ -3460,10 +3469,13 @@ extern void func_8012F214(s32 a0, s32 a1, s32 a2);
 extern s32 func_8012E544(s32 a0);
 extern u8 *func_801290DC(s32 a0, u8 *a1);
 extern s32 D_80126B58;
-extern u8 D_801202A0[];
 extern u8 D_80188C98[];
 
 void func_8017E7A4(void *a0) {
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern u8 D_801202A0[];
     s32 t;
     u8 *r;
     u8 *p;
@@ -3617,7 +3629,17 @@ void func_8017EA1C(int param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_041/nonmatchings/ov_SC02_041_jr_8017BEBC", func_8017EB08);
+
+extern void func_80019064(void *a0);
+
+void func_8017EB08(void *a0) {
+
+    extern u8 D_8019AB88;
+    extern void (*D_8019ABB0[])(void *);
+    func_80019064(&D_8019AB88);
+    D_8019ABB0[*(u16 *)((s32)a0 + 0x2)](a0);
+}
+
 
 INCLUDE_ASM("asm/ov_SC02_041/nonmatchings/ov_SC02_041_jr_8017BEBC", func_8017EB60);
 
@@ -4497,7 +4519,31 @@ INCLUDE_ASM("asm/ov_SC02_041/nonmatchings/ov_SC02_041_jr_8017BEBC", func_801847E
 
 INCLUDE_ASM("asm/ov_SC02_041/nonmatchings/ov_SC02_041_jr_8017BEBC", func_80184A74);
 
-INCLUDE_ASM("asm/ov_SC02_041/nonmatchings/ov_SC02_041_jr_8017BEBC", func_80184C08);
+
+/* func_80184C08 — "is another entity of type 0x35C sharing my 0x64 owner?"
+ *
+ * Walks the 0x60-entry entity table at D_801202A0 (stride 0x10C) with an int
+ * counter (the target keeps the count in $a2 and `slti ...,0x60`, so it is a
+ * counted loop, NOT the D_80126720 pointer-bound idiom the sibling walkers
+ * use).  Returns 1 for the first entry whose u16 kind == 0x35C, whose word at
+ * 0x64 equals the caller's word at 0x64, and which is not the caller itself.
+ */
+s32 func_80184C08(s32 arg0) {
+    extern u8 D_801202A0[];
+    u8 *p;
+    s32 i;
+
+    p = D_801202A0;
+    for (i = 0; i < 0x60; i++) {
+        if (*(u16 *)p == 0x35C && *(s32 *)(arg0 + 0x64) == *(s32 *)(p + 0x64) &&
+            arg0 != (s32)p) {
+            return 1;
+        }
+        p += 0x10C;
+    }
+    return 0;
+}
+
 
 
 extern void func_8012EC04(s32 param_1, s32 param_2, s32 *param_3);
@@ -4519,7 +4565,24 @@ void func_80184C60(s32 arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_041/nonmatchings/ov_SC02_041_jr_8017BEBC", func_80184CDC);
+
+/* func_80184CDC — guard-then-free tail (cookbook §71 sibling shape:
+ * src/ov_SC02_011/ov_SC02_011_jr_8017AE2C.c func_80144458 tail, and
+ * src/ov_SC03_099/ov_SC03_099_jr_80140608.c:2432 func_80016714(x, 0x38)). */
+
+extern void func_80016714(void *a0, s32 a1);
+extern void func_8012C218(void *a0);
+
+void func_80184CDC(void *arg0) {
+    void *temp_a0;
+
+    temp_a0 = *(void **)((char *)arg0 + 0xCC);
+    if (temp_a0 != NULL) {
+        func_80016714(temp_a0, 0x38);
+    }
+    func_8012C218(arg0);
+}
+
 
 INCLUDE_ASM("asm/ov_SC02_041/nonmatchings/ov_SC02_041_jr_8017BEBC", func_80184D20);
 

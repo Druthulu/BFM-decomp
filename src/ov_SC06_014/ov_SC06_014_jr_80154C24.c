@@ -1674,7 +1674,50 @@ DEFINE_func_80157BC8()  /* dedup: shared engine-core @0x80157BC8 (src/shared) */
 
 DEFINE_func_80157CCC()  /* dedup: shared engine-core @0x80157CCC (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC06_014/nonmatchings/ov_SC06_014_jr_80154C24", func_80157D20);
+
+/* func_80157D20 — 21-ins plumbing shim (×138 overlays).
+ *
+ * §71 sibling-first: the immediate neighbour func_801578C0 in this very TU
+ * (src/ov_SC01_077/ov_SC01_077_jr_80154C24.c L1592) already matches with
+ * `((void (*)(void))func_80156648)();` — the zero-argument call form.  The
+ * target likewise sets up NO argument registers before `jal func_80156648`
+ * ($a0/$a1 still carry this function's own incoming args), so the call is
+ * argument-less here too.
+ *
+ * The `lhu %lo(D_8018226C)($at)` with `sll $s0,$s0,1` => a plain u16 array
+ * indexed by the second parameter, NOT hoisted into a pointer (§20: a pointer
+ * var would keep one address register live across the call; the target rebuilds
+ * the %hi/%lo pair inline after the call returns).
+ *
+ * §73 PARAMS axis / §42 lever 6 — the fleet canon for this symbol is
+ * `extern void func_80157D20(void);` (this TU's carried decl layer, L399, and
+ * every sibling overlay's).  A 2-param definition hard-errors with
+ * `conflicting types` in the real TU (rtu_match, byte-verified), and the canon
+ * cannot be widened from a draft (that is an R22 fleet edit).  So keep the
+ * `(void)` signature and capture $a0/$a1 with register pins copied into NORMAL
+ * pseudos — the copies are live across `jal func_80156648`, so they get the
+ * callee-saved homes the target uses ($s1 = a0, $s0 = a1).  A direct
+ * `register` use would leave the values in call-clobbered $a0/$a1.
+ */
+
+extern void func_80156648(s32 *a0);
+extern void func_80147078(s32 *a0, s16 a1);
+extern void func_80157D74(u16 *a0);
+
+void func_80157D20(void)
+{
+
+    extern u16 D_8018226C[];
+    register void *a0v __asm__("$4");
+    register s32 a1v __asm__("$5");
+    void *param_1 = a0v;
+    s32 param_2 = a1v;
+
+    ((void (*)(void))func_80156648)();
+    ((void (*)(void *, s32))func_80147078)(param_1, D_8018226C[param_2]);
+    ((void (*)(void *))func_80157D74)(param_1);
+}
+
 
 DEFINE_func_80157D74()  /* dedup: shared engine-core @0x80157D74 (src/shared) */
 

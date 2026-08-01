@@ -384,7 +384,6 @@ extern s32 func_80149D10(s32 a0);
 extern s32 func_80149E94(s32 a0);
 extern s32 func_80149DD8(s32 a0);
 extern s32 func_80149D9C(s32 a0);
-extern u8 D_801202A0[];
 extern s32 func_80149F2C(s32 a0, s32 a1);
 extern s32 func_80149E94(s32 arg0);
 extern void func_80149FA8(void);
@@ -3304,7 +3303,51 @@ void func_8017D67C(s32 *a0) {
 
 INCLUDE_ASM("asm/ov_SC04_006/nonmatchings/ov_SC04_006_jr_8017BEBC", func_8017D6B0);
 
-INCLUDE_ASM("asm/ov_SC04_006/nonmatchings/ov_SC04_006_jr_8017BEBC", func_8017D800);
+
+extern void func_80149350(s32 arg0);
+extern void func_8012F214(s32 a0, s32 a1, s32 a2);
+extern s32 func_8012E544(s32 a0);
+extern u8 *func_801290DC(s32 a0, u8 *a1);
+
+void func_8017D800(void *a0) {
+
+    extern u8 D_801202A0[];
+    extern u8 D_80183710[];
+    s32 t;
+    u8 *r;
+    u8 *p;
+    s32 i;
+    s32 o;
+    s16 out[4];
+
+    t = *(s16 *)((s32)a0 + 0x70);
+    r = &D_80183710[t * 8];
+    switch (t) {
+    case 0:
+        ((void (*)(void *, void *, void *))func_80149350)(&D_80126B58, r, out);
+        func_801290DC(0x56, (u8 *)out);
+        break;
+    case 1:
+        o = func_8012E544(0x245);
+        if (o == 0) {
+            return;
+        }
+        ((void (*)(void *, void *, void *))func_8012F214)((void *)o, r, out);
+        func_801290DC(0x56, (u8 *)out);
+        break;
+    default:
+        p = D_801202A0;
+        for (i = 0; i < 0x60; i++) {
+            if (*(u16 *)p == *(s16 *)(r + 6)) {
+                ((void (*)(void *, void *, void *))func_8012F214)(p, r, out);
+                func_801290DC(0x56, (u8 *)out);
+            }
+            p += 0x10C;
+        }
+        break;
+    }
+}
+
 
 
 extern void (*D_80183744[])(void);
@@ -3314,7 +3357,43 @@ void func_8017D8EC(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_006/nonmatchings/ov_SC04_006_jr_8017BEBC", func_8017D928);
+
+/* func_8017D928 — state entry: init the sub-object at +4/+0x10, bind the
+ * primitive at +0x20 to the command list D_80183738 (0x270 / 0x100), paint
+ * its RGB (0x40,0x40,0x40) + code 0x9C, OR 0xD0000000 into its tag word,
+ * clear the counter at +0x2C, then seed three random fields and bump the
+ * state word at +2.
+ */
+
+extern void func_800159E4(s32 a0, s32 a1);
+extern s32 func_8001CC3C(s32 a0, s32 a1, s32 a2, s32 a3);
+extern void func_80146E90(s32 *a0, s32 a1);
+extern int rand(void);
+
+void func_8017D928(int param_1)
+{
+    extern unsigned char D_80183738[];
+    int p;
+    int r1;
+    int r2;
+
+    p = *(int *)(param_1 + 0x20);
+    ((void (*)(int, int))func_800159E4)(param_1 + 4, param_1 + 0x10);
+    ((void (*)(int, int, int, int))func_8001CC3C)(p, (int)D_80183738, 0x270, 0x100);
+    *(unsigned char *)(p + 0x27) = 0x9c;
+    *(unsigned char *)(p + 0x26) = 0x40;
+    *(unsigned char *)(p + 0x25) = 0x40;
+    *(unsigned char *)(p + 0x24) = 0x40;
+    *(unsigned int *)(p + 4) = *(unsigned int *)(p + 4) | 0xd0000000;
+    *(int *)(param_1 + 0x2c) = 0;
+    *(unsigned short *)(param_1 + 0x30) = (rand() & 3) + 1;
+    r1 = rand();
+    r2 = rand();
+    *(unsigned short *)(p + 0x12) = (r1 & 3) * 0x400 + (r2 & 0xf) * 0x44;
+    ((void (*)(int, int))func_80146E90)(param_1, rand() & 0xf);
+    *(unsigned short *)(param_1 + 2) = *(unsigned short *)(param_1 + 2) + 1;
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_006/nonmatchings/ov_SC04_006_jr_8017BEBC", func_8017DA0C);
 
@@ -3624,7 +3703,31 @@ INCLUDE_ASM("asm/ov_SC04_006/nonmatchings/ov_SC04_006_jr_8017BEBC", func_8017F5E
 
 INCLUDE_ASM("asm/ov_SC04_006/nonmatchings/ov_SC04_006_jr_8017BEBC", func_8017F87C);
 
-INCLUDE_ASM("asm/ov_SC04_006/nonmatchings/ov_SC04_006_jr_8017BEBC", func_8017FA10);
+
+/* func_8017FA10 — "is another entity of type 0x35C sharing my 0x64 owner?"
+ *
+ * Walks the 0x60-entry entity table at D_801202A0 (stride 0x10C) with an int
+ * counter (the target keeps the count in $a2 and `slti ...,0x60`, so it is a
+ * counted loop, NOT the D_80126720 pointer-bound idiom the sibling walkers
+ * use).  Returns 1 for the first entry whose u16 kind == 0x35C, whose word at
+ * 0x64 equals the caller's word at 0x64, and which is not the caller itself.
+ */
+s32 func_8017FA10(s32 arg0) {
+    extern u8 D_801202A0[];
+    u8 *p;
+    s32 i;
+
+    p = D_801202A0;
+    for (i = 0; i < 0x60; i++) {
+        if (*(u16 *)p == 0x35C && *(s32 *)(arg0 + 0x64) == *(s32 *)(p + 0x64) &&
+            arg0 != (s32)p) {
+            return 1;
+        }
+        p += 0x10C;
+    }
+    return 0;
+}
+
 
 
 extern void func_8012EC04(s32 param_1, s32 param_2, s32 *param_3);
@@ -3646,7 +3749,24 @@ void func_8017FA68(s32 arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_006/nonmatchings/ov_SC04_006_jr_8017BEBC", func_8017FAE4);
+
+/* func_8017FAE4 — guard-then-free tail (cookbook §71 sibling shape:
+ * src/ov_SC02_011/ov_SC02_011_jr_8017AE2C.c func_80144458 tail, and
+ * src/ov_SC03_099/ov_SC03_099_jr_80140608.c:2432 func_80016714(x, 0x38)). */
+
+extern void func_80016714(void *a0, s32 a1);
+extern void func_8012C218(void *a0);
+
+void func_8017FAE4(void *arg0) {
+    void *temp_a0;
+
+    temp_a0 = *(void **)((char *)arg0 + 0xCC);
+    if (temp_a0 != NULL) {
+        func_80016714(temp_a0, 0x38);
+    }
+    func_8012C218(arg0);
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_006/nonmatchings/ov_SC04_006_jr_8017BEBC", func_8017FB28);
 

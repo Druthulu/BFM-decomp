@@ -383,7 +383,6 @@ extern s32 func_80149D10(s32 a0);
 extern s32 func_80149E94(s32 a0);
 extern s32 func_80149DD8(s32 a0);
 extern s32 func_80149D9C(s32 a0);
-extern u8 D_801202A0[];
 extern s32 func_80149F2C(s32 a0, s32 a1);
 extern s32 func_80149E94(s32 arg0);
 extern void func_80149FA8(void);
@@ -3373,7 +3372,51 @@ void func_8017D738(s32 *a0) {
 
 INCLUDE_ASM("asm/ov_SC04_003/nonmatchings/ov_SC04_003_jr_8017BEBC", func_8017D76C);
 
-INCLUDE_ASM("asm/ov_SC04_003/nonmatchings/ov_SC04_003_jr_8017BEBC", func_8017D8BC);
+
+extern void func_80149350(s32 arg0);
+extern void func_8012F214(s32 a0, s32 a1, s32 a2);
+extern s32 func_8012E544(s32 a0);
+extern u8 *func_801290DC(s32 a0, u8 *a1);
+
+void func_8017D8BC(void *a0) {
+
+    extern u8 D_801202A0[];
+    extern u8 D_80185CD4[];
+    s32 t;
+    u8 *r;
+    u8 *p;
+    s32 i;
+    s32 o;
+    s16 out[4];
+
+    t = *(s16 *)((s32)a0 + 0x70);
+    r = &D_80185CD4[t * 8];
+    switch (t) {
+    case 0:
+        ((void (*)(void *, void *, void *))func_80149350)(&D_80126B58, r, out);
+        func_801290DC(0x56, (u8 *)out);
+        break;
+    case 1:
+        o = func_8012E544(0x245);
+        if (o == 0) {
+            return;
+        }
+        ((void (*)(void *, void *, void *))func_8012F214)((void *)o, r, out);
+        func_801290DC(0x56, (u8 *)out);
+        break;
+    default:
+        p = D_801202A0;
+        for (i = 0; i < 0x60; i++) {
+            if (*(u16 *)p == *(s16 *)(r + 6)) {
+                ((void (*)(void *, void *, void *))func_8012F214)(p, r, out);
+                func_801290DC(0x56, (u8 *)out);
+            }
+            p += 0x10C;
+        }
+        break;
+    }
+}
+
 
 
 extern void (*D_80185D08[])(void);
@@ -3383,7 +3426,43 @@ void func_8017D9A8(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_003/nonmatchings/ov_SC04_003_jr_8017BEBC", func_8017D9E4);
+
+/* func_8017D9E4 — state entry: init the sub-object at +4/+0x10, bind the
+ * primitive at +0x20 to the command list D_80185CFC (0x270 / 0x100), paint
+ * its RGB (0x40,0x40,0x40) + code 0x9C, OR 0xD0000000 into its tag word,
+ * clear the counter at +0x2C, then seed three random fields and bump the
+ * state word at +2.
+ */
+
+extern void func_800159E4(s32 a0, s32 a1);
+extern s32 func_8001CC3C(s32 a0, s32 a1, s32 a2, s32 a3);
+extern void func_80146E90(s32 *a0, s32 a1);
+extern int rand(void);
+
+void func_8017D9E4(int param_1)
+{
+    extern unsigned char D_80185CFC[];
+    int p;
+    int r1;
+    int r2;
+
+    p = *(int *)(param_1 + 0x20);
+    ((void (*)(int, int))func_800159E4)(param_1 + 4, param_1 + 0x10);
+    ((void (*)(int, int, int, int))func_8001CC3C)(p, (int)D_80185CFC, 0x270, 0x100);
+    *(unsigned char *)(p + 0x27) = 0x9c;
+    *(unsigned char *)(p + 0x26) = 0x40;
+    *(unsigned char *)(p + 0x25) = 0x40;
+    *(unsigned char *)(p + 0x24) = 0x40;
+    *(unsigned int *)(p + 4) = *(unsigned int *)(p + 4) | 0xd0000000;
+    *(int *)(param_1 + 0x2c) = 0;
+    *(unsigned short *)(param_1 + 0x30) = (rand() & 3) + 1;
+    r1 = rand();
+    r2 = rand();
+    *(unsigned short *)(p + 0x12) = (r1 & 3) * 0x400 + (r2 & 0xf) * 0x44;
+    ((void (*)(int, int))func_80146E90)(param_1, rand() & 0xf);
+    *(unsigned short *)(param_1 + 2) = *(unsigned short *)(param_1 + 2) + 1;
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_003/nonmatchings/ov_SC04_003_jr_8017BEBC", func_8017DAC8);
 

@@ -1674,7 +1674,6 @@ extern void func_8016634C(void *a0);
 extern void func_801663A4(void *a0);
 extern void (*D_80186234[])(void);
 extern void func_801663FC(void *a0);
-extern u8 D_800D387C[];
 extern u8 D_800D3888[];
 extern s32 func_800D21C4(s32 a0, void *a1, s32 a2);
 extern void func_800D1FC8(s32 a0, s32 a1);
@@ -3418,7 +3417,27 @@ void func_8017FC30(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_020/nonmatchings/ov_SC04_020_jr_8017D604", func_8017FC6C);
+
+extern s32 func_8001CC3C(s32 a0, s32 a1, s32 a2, s32 a3);
+
+void func_8017FC6C(s32 arg0) {
+
+    extern u8 D_800D387C[];
+    s32 iVar1;
+
+    iVar1 = *(s32 *)(arg0 + 0x20);
+    ((void (*)(s32, s32, s32, s32))func_8001CC3C)(iVar1, (s32)&D_800D387C, 0x270, 0x120);
+    *(u8 *)(iVar1 + 0x27) = 0x9C;
+    *(u16 *)(iVar1 + 0x1A) = 0x7000;
+    *(u16 *)(iVar1 + 0x18) = 0x7000;
+    *(u8 *)(iVar1 + 0x26) = 0x90;
+    *(u8 *)(iVar1 + 0x25) = 0x90;
+    *(u8 *)(iVar1 + 0x24) = 0x90;
+    *(u32 *)(iVar1 + 4) = *(u32 *)(iVar1 + 4) | 0x50000000;
+    *(s16 *)(arg0 + 0x2C) = 0x20;
+    *(s16 *)(arg0 + 0x2) += 1;
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_020/nonmatchings/ov_SC04_020_jr_8017D604", func_8017FCFC);
 
@@ -3490,7 +3509,23 @@ INCLUDE_ASM("asm/ov_SC04_020/nonmatchings/ov_SC04_020_jr_8017D604", func_8018091
 
 INCLUDE_ASM("asm/ov_SC04_020/nonmatchings/ov_SC04_020_jr_8017D604", func_80180978);
 
-INCLUDE_ASM("asm/ov_SC04_020/nonmatchings/ov_SC04_020_jr_8017D604", func_801809EC);
+
+/* func_801809EC — guarded dispatch: ask func_80181388(9, 0x12); if it answers
+ * NON-zero, run func_801805E0 on the incoming entity.  The entity pointer is
+ * live across the jal, so it lands in $s0 and comes back out as $a0.
+ * §71 sibling: func_80181B34 in this same TU is the identical shape.
+ * §3-T4: target branch is `beqz $v0, ret` => the C condition is `!= 0`
+ * (the sibling's is `bnez` => `== 0`; polarity is read off the opcode). */
+
+extern s32 func_80181388(s32 arg0, s32 arg1);
+extern void func_801805E0(void *arg0);
+
+void func_801809EC(void *arg0) {
+    if (func_80181388(9, 0x12) != 0) {
+        func_801805E0(arg0);
+    }
+}
+
 
 
 /* func_80180A2C — guarded dispatch: ask func_80181388(9, 0x12); if it answers
@@ -3789,7 +3824,21 @@ INCLUDE_ASM("asm/ov_SC04_020/nonmatchings/ov_SC04_020_jr_8017D604", func_8018207
 
 INCLUDE_ASM("asm/ov_SC04_020/nonmatchings/ov_SC04_020_jr_8017D604", func_801820E0);
 
-INCLUDE_ASM("asm/ov_SC04_020/nonmatchings/ov_SC04_020_jr_8017D604", func_80182154);
+void func_80182154(s32 a0) {
+
+    extern s16 D_801B5EFC[];
+    extern s32 D_801B5EBC[][2];
+    *(s16 *)(a0 + 0x2) = 3;
+    *(s16 *)(a0 + 0x34) = 0;
+    *(s16 *)(a0 + 0xFE) = 0;
+    *(s16 *)(a0 + 0x100) = 0;
+    *(s16 *)(a0 + 0x102) = 2;
+    *(s32 *)(*(s32 *)(a0 + 0x20) + 0x24) = D_801B5EBC[D_801B5EFC[*(s16 *)(a0 + 0x70)]][0];
+    *(s16 *)(a0 + 0x84) = 0;
+    *(s16 *)(a0 + 0x5C) = 0x800;
+    *(s32 *)(a0 + 0xB0) = 0;
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_020/nonmatchings/ov_SC04_020_jr_8017D604", func_801821B4);
 

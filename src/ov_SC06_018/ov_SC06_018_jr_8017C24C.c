@@ -76,7 +76,6 @@ extern s32 func_80146128(void);
 extern void func_80146360(void);
 extern void func_801463A0();
 extern void func_8014607C(void);
-extern s32 *D_80126B78;
 extern u8 D_80078EC1;
 extern s32 D_80078EC8;
 extern s32 D_80126B9C;
@@ -360,7 +359,6 @@ extern s32 func_801498E0(s32 *a0);
 extern s32 func_8012E5CC(s32 a0, s32 a1, s32 a2);
 extern void func_80147364(u16 a0, s32 a1);
 extern s32 func_800CCF28(s32 a0);
-extern u8 D_80126B5C;
 extern s32 func_80149954(s32 s0);
 extern s32 func_80149A64(s32 *a0);
 extern void func_8015DAC4(s32 *a0);
@@ -3338,7 +3336,18 @@ s32 func_8017DC58(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_8017C24C", func_8017DC60);
+
+extern void func_8012DFD4(void *a0);
+
+void func_8017DC60(void *a0) {
+
+    extern void (*D_80197108[])(void);
+    D_80197108[*(u16 *)((s32)a0 + 0x2)]();
+    if (*(u16 *)a0 != 0) {
+        func_8012DFD4(a0);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_8017C24C", func_8017DCC0);
 
@@ -3350,7 +3359,17 @@ INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_8017C24C", func_8017DE6
 
 DEFINE_func_8017DEA4()  /* dedup: shared engine-core @0x8017DEA4 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_8017C24C", func_8017DEAC);
+
+extern void func_80019064(void *a0);
+
+void func_8017DEAC(void *a0) {
+
+    extern u8 D_80197118;
+    extern void (*D_80197140[])(void *);
+    func_80019064(&D_80197118);
+    D_80197140[*(u16 *)((s32)a0 + 0x2)](a0);
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_8017C24C", func_8017DF04);
 
@@ -4875,7 +4894,7 @@ typedef struct {
 } StructB58;
 
 extern s32 D_80126B58;
-extern s32 *D_80126B78;   /* holds a pointer value */
+/* holds a pointer value */
 extern u16       D_800B99DA;
 extern u8        D_801B5184;
 
@@ -4893,6 +4912,10 @@ extern void func_8018931C(s32, void*, s32, s32, s32, s32);
 extern s32  func_80013478(s32 a0, s32 a1);
 
 void func_8018598C(s32 param_1) {
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern s32 *D_80126B78;
     u8  auStack_38[8];
     s16 sp20[3];
     u8  auStack_28[8];

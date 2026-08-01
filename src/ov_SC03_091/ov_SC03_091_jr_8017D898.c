@@ -3889,13 +3889,81 @@ void func_8017E778(s32 arg0)
 
 INCLUDE_ASM("asm/ov_SC03_091/nonmatchings/ov_SC03_091_jr_8017D898", func_80181BA0);
 
-INCLUDE_ASM("asm/ov_SC03_091/nonmatchings/ov_SC03_091_jr_8017D898", func_80181BE0);
 
-INCLUDE_ASM("asm/ov_SC03_091/nonmatchings/ov_SC03_091_jr_8017D898", func_80181C20);
+extern int func_80182CE8(int param_1);
 
-INCLUDE_ASM("asm/ov_SC03_091/nonmatchings/ov_SC03_091_jr_8017D898", func_80181C60);
+void func_80181BE0(void)
+{
 
-INCLUDE_ASM("asm/ov_SC03_091/nonmatchings/ov_SC03_091_jr_8017D898", func_80181CA0);
+    extern u8 D_80190A5C[];
+    extern u8 D_80190B4C[];
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern u8 *D_801274C8;
+    extern void *D_801274CC;
+    D_801274C8 = D_80190A5C;
+    D_801274CC = D_80190B4C;
+    func_80182CE8(1);
+}
+
+
+
+extern int func_80182CE8(int param_1);
+
+void func_80181C20(void)
+{
+
+    extern u8 D_80190B60[];
+    extern u8 D_80190C00[];
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern u8 *D_801274C8;
+    extern void *D_801274CC;
+    D_801274C8 = D_80190B60;
+    D_801274CC = D_80190C00;
+    func_80182CE8(2);
+}
+
+
+
+extern int func_80182CE8(int param_1);
+
+void func_80181C60(void)
+{
+
+    extern u8 D_80190C14[];
+    extern u8 D_80190D54[];
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern u8 *D_801274C8;
+    extern void *D_801274CC;
+    D_801274C8 = D_80190C14;
+    D_801274CC = D_80190D54;
+    func_80182CE8(3);
+}
+
+
+
+extern int func_80182CE8(int param_1);
+
+void func_80181CA0(void)
+{
+
+    extern u8 D_80190D68[];
+    extern u8 D_80190E6C[];
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern u8 *D_801274C8;
+    extern void *D_801274CC;
+    D_801274C8 = D_80190D68;
+    D_801274CC = D_80190E6C;
+    func_80182CE8(4);
+}
+
 
 
 extern void (*D_8019068C[])(void);

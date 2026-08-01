@@ -50,7 +50,6 @@ extern s32 func_80165A50(s32);
 extern void func_80029514(s32);
 extern u8 D_800AF630[];
 extern u8 D_80078EC0;
-extern s32 D_80126B58;
 extern s32 func_80028FBC(void);
 extern s32 func_80029000(void);
 extern s32 func_80028D9C(void);
@@ -3929,7 +3928,48 @@ void func_801860BC(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_028/nonmatchings/ov_SC03_028_jr_8017AE2C", func_801860F8);
+
+// @stuck: none — MATCH (42 ins), iteration 1, rtu_match clean.
+// Saturating add of a 3-byte RGB triple by a signed delta.
+// Idioms: (1) `s8` by-value param => entry `sll/sra 24` for the sign test only;
+//   combine folds the extension back out of `~a1`/`-a1`/`a0[i]+a1` because every
+//   consumer is 8-bit (andi 0xFF / sb), so $a1 is used RAW after the test.
+// (2) branch sense read off the target `sltu` operand ORDER (§3-T4): positive arm
+//   `sltu lim,p[i]` => store when `p[i] <= lim`; negative arm `sltu p[i],lim`
+//   => store when `p[i] >= lim`.
+// (3) the third `if` written out in BOTH arms; jump.c cross-jumps the identical
+//   tails into the shared `j .L8018C344` (§5a) — do not hoist it after the if/else.
+void func_801860F8(u8 *a0, s8 a1) {
+    u8 lim;
+
+    if (a1 == 0) {
+        return;
+    }
+    if (a1 > 0) {
+        lim = ~a1;
+        if (a0[0] <= lim) {
+            a0[0] = a0[0] + a1;
+        }
+        if (a0[1] <= lim) {
+            a0[1] = a0[1] + a1;
+        }
+        if (a0[2] <= lim) {
+            a0[2] = a0[2] + a1;
+        }
+    } else {
+        lim = -a1;
+        if (a0[0] >= lim) {
+            a0[0] = a0[0] + a1;
+        }
+        if (a0[1] >= lim) {
+            a0[1] = a0[1] + a1;
+        }
+        if (a0[2] >= lim) {
+            a0[2] = a0[2] + a1;
+        }
+    }
+}
+
 
 
 extern void (*D_80190BF4[])(void);
@@ -4352,7 +4392,20 @@ INCLUDE_ASM("asm/ov_SC03_028/nonmatchings/ov_SC03_028_jr_8017AE2C", func_8018B1D
 
 INCLUDE_ASM("asm/ov_SC03_028/nonmatchings/ov_SC03_028_jr_8017AE2C", func_8018B234);
 
-INCLUDE_ASM("asm/ov_SC03_028/nonmatchings/ov_SC03_028_jr_8017AE2C", func_8018B260);
+
+extern s32 func_8014C050(s32 a0, s32 a1);
+
+void func_8018B260(void) {
+
+    extern s32 D_80126B58;
+    s32 t;
+
+    t = func_8014C050((s32)&D_80126B58, 0x28);
+    if (t != 0) {
+        *(u16 *)(t + 2) += 1;
+    }
+}
+
 
 
 extern void (*D_80190E8C[])(void);

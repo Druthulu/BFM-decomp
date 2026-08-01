@@ -4869,7 +4869,34 @@ s32 func_80182058(void *a0)
 
 INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001_jr_8017AE2C", func_80182148);
 
-INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001_jr_8017AE2C", func_801821C0);
+
+extern s32 func_801886A0(s32 a0);
+extern s32 func_80187A64(s32 a0);
+extern void func_80187994(s32, s32, s32, s32);
+extern void func_80181CAC(void *a0);
+
+void func_801821C0(void *a0)
+{
+
+    extern u8 D_801B9354[];
+    if (*(u16 *)((s32)a0 + 0x34) == 0) {
+        if (func_801886A0(6) == 0) {
+            return;
+        }
+        if (func_80187A64((s32)a0) == 0) {
+            return;
+        }
+        ((void (*)(void *, void *, s32, s32))func_80187994)(a0, D_801B9354, 0, 0x40);
+        *(s16 *)((s32)a0 + 0x34) = 1;
+        return;
+    }
+
+    *(s32 *)(*(s32 *)((s32)a0 + 0xCC) + 0xB0) = 2;
+    if (func_80187A64((s32)a0) != 0) {
+        func_80181CAC(a0);
+    }
+}
+
 
 
 /* func_80182254 — guarded dispatch: ask func_8018766C(10, 0x10); if it answers
@@ -4964,7 +4991,23 @@ INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001_jr_8017AE2C", func_801828C
 
 INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001_jr_8017AE2C", func_80182928);
 
-INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001_jr_8017AE2C", func_80182968);
+
+/* func_80182968 — guarded dispatch: ask func_8018766C(9, 0x12); if it answers
+ * NON-zero, run func_801824DC on the incoming entity.  The entity pointer is
+ * live across the jal, so it lands in $s0 and comes back out as $a0.
+ * §71 sibling: func_80181B34 in this same TU is the identical shape.
+ * §3-T4: target branch is `beqz $v0, ret` => the C condition is `!= 0`
+ * (the sibling's is `bnez` => `== 0`; polarity is read off the opcode). */
+
+extern s32 func_8018766C(s32 arg0, s32 arg1);
+extern void func_801824DC(void *arg0);
+
+void func_80182968(void *arg0) {
+    if (func_8018766C(9, 0x12) != 0) {
+        func_801824DC(arg0);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001_jr_8017AE2C", func_801829A8);
 
@@ -4986,7 +5029,27 @@ void func_80182A34(void *arg0) {
 
 INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001_jr_8017AE2C", func_80182A74);
 
-INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001_jr_8017AE2C", func_80182AEC);
+
+extern s32 func_80187A64(s32 a0);
+extern void func_80187994(s32 a0, s32 a1, s32 a2, s32 a3);
+extern s32 func_801886A0(s32 a0);
+extern void func_8018260C(short*);
+
+void func_80182AEC(void *arg0) {
+
+    extern u8 D_801B9360[];
+    if (*(u16 *)((char *)arg0 + 0x34) == 0) {
+        if (((s32 (*)(void))func_80187A64)() != 0) {
+            func_80187994((s32)arg0, (s32)&D_801B9360[0], 1, 0x80);
+            *(s16 *)((char *)arg0 + 0x34) = 1;
+        }
+    } else if (func_801886A0(3) != 0) {
+        if (func_80187A64((s32)arg0) != 0) {
+            ((void (*)(void *))func_8018260C)(arg0);
+        }
+    }
+}
+
 
 
 /* func_80182B78 — guarded dispatch: ask func_8018766C(15, 0x11); if it answers
@@ -5135,13 +5198,60 @@ s32 func_801834C0(void *a0)
 
 INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001_jr_8017AE2C", func_801835B0);
 
-INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001_jr_8017AE2C", func_80183628);
+
+extern s32 func_801886A0(s32 a0);
+extern s32 func_80187A64(s32 a0);
+extern void func_80187994(s32, s32, s32, s32);
+extern void func_80182EE4(void *a0);
+
+void func_80183628(void *a0)
+{
+
+    extern u8 D_801B940C[];
+    if (*(u16 *)((s32)a0 + 0x34) == 0) {
+        if (func_801886A0(3) == 0) {
+            return;
+        }
+        if (func_80187A64((s32)a0) == 0) {
+            return;
+        }
+        ((void (*)(void *, void *, s32, s32))func_80187994)(a0, D_801B940C, 0, 0x40);
+        *(s16 *)((s32)a0 + 0x34) = 1;
+        return;
+    }
+
+    *(s32 *)(*(s32 *)((s32)a0 + 0xCC) + 0xB0) = 2;
+    if (func_80187A64((s32)a0) != 0) {
+        func_80182EE4(a0);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001_jr_8017AE2C", func_801836BC);
 
 INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001_jr_8017AE2C", func_80183708);
 
-INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001_jr_8017AE2C", func_80183778);
+
+extern s32 func_80187A64(s32 a0);
+extern void func_80187994(s32 a0, s32 a1, s32 a2, s32 a3);
+extern s32 func_801886A0(s32 a0);
+extern void func_801831F0(short*);
+
+void func_80183778(void *arg0) {
+
+    extern u8 D_801B9400[];
+    if (*(u16 *)((char *)arg0 + 0x34) == 0) {
+        if (((s32 (*)(void))func_80187A64)() != 0) {
+            func_80187994((s32)arg0, (s32)&D_801B9400[0], 1, 0x40);
+            *(s16 *)((char *)arg0 + 0x34) = 1;
+        }
+    } else if (func_801886A0(3) != 0) {
+        if (func_80187A64((s32)arg0) != 0) {
+            ((void (*)(void *))func_801831F0)(arg0);
+        }
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001_jr_8017AE2C", func_80183804);
 
@@ -5198,7 +5308,23 @@ extern s32 func_80029178(s32 arg);
     }
 
 
-INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001_jr_8017AE2C", func_80183BF0);
+
+/* func_80183BF0 — guarded dispatch: ask func_8018766C(7, 0xe); if it answers
+ * NON-zero, run func_80183948 on the incoming entity.  The entity pointer is
+ * live across the jal, so it lands in $s0 and comes back out as $a0.
+ * §71 sibling: func_80181B34 in this same TU is the identical shape.
+ * §3-T4: target branch is `beqz $v0, ret` => the C condition is `!= 0`
+ * (the sibling's is `bnez` => `== 0`; polarity is read off the opcode). */
+
+extern s32 func_8018766C(s32 arg0, s32 arg1);
+extern void func_80183948(void *arg0);
+
+void func_80183BF0(void *arg0) {
+    if (func_8018766C(7, 0xe) != 0) {
+        func_80183948(arg0);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001_jr_8017AE2C", func_80183C30);
 
@@ -5329,7 +5455,32 @@ void func_80184784(void *a0) {
 
 INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001_jr_8017AE2C", func_80184794);
 
-INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001_jr_8017AE2C", func_801847D0);
+
+/* func_801847D0 — state-entry init (family exemplar, reach x11).
+ * Sets the actor's state id (halfword @ +0x2) then runs the fixed
+ * five-call entry chain. Sibling style copied from func_80180164
+ * in the same TU (cookbook §71). */
+
+extern void func_8012E8E0(s32, s32);
+extern void func_8012E88C(s32);
+extern void func_8012A828(s32, s32);
+extern void func_80187750(s32);
+extern void func_80187994(s32, s32, s32, s32);
+
+
+void func_801847D0(void *arg0) {
+
+    extern short D_8019254C;
+    extern short D_801C3990;
+    extern short D_801B94FC;
+    *(short *)((char *)arg0 + 0x2) = 2;
+    func_8012E8E0((s32)arg0, (s32)&D_8019254C);
+    func_8012E88C((s32)arg0);
+    ((void (*)(s32 *, s32))func_8012A828)((s32 *)arg0, (s32)&D_801C3990);
+    func_80187750((s32)arg0);
+    func_80187994((s32)arg0, (s32)&D_801B94FC, 0, 0x60);
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001_jr_8017AE2C", func_80184840);
 
@@ -5663,7 +5814,23 @@ extern void func_80178CBC(s32*, s32);
 
 INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001_jr_8017AE2C", func_8018631C);
 
-INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001_jr_8017AE2C", func_8018640C);
+
+/* func_8018640C — guarded dispatch: ask func_8018766C(8, 0x14); if it answers
+ * NON-zero, run func_80186288 on the incoming entity.  The entity pointer is
+ * live across the jal, so it lands in $s0 and comes back out as $a0.
+ * §71 sibling: func_80181B34 in this same TU is the identical shape.
+ * §3-T4: target branch is `beqz $v0, ret` => the C condition is `!= 0`
+ * (the sibling's is `bnez` => `== 0`; polarity is read off the opcode). */
+
+extern s32 func_8018766C(s32 arg0, s32 arg1);
+extern void func_80186288(short*);
+
+void func_8018640C(void *arg0) {
+    if (func_8018766C(8, 0x14) != 0) {
+        ((void (*)(void *))func_80186288)(arg0);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001_jr_8017AE2C", func_8018644C);
 
@@ -6055,7 +6222,21 @@ INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001_jr_8017AE2C", func_8018835
 
 INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001_jr_8017AE2C", func_801883C4);
 
-INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001_jr_8017AE2C", func_80188438);
+void func_80188438(s32 a0) {
+
+    extern s16 D_801C0B68[];
+    extern s32 D_801C0B28[][2];
+    *(s16 *)(a0 + 0x2) = 3;
+    *(s16 *)(a0 + 0x34) = 0;
+    *(s16 *)(a0 + 0xFE) = 0;
+    *(s16 *)(a0 + 0x100) = 0;
+    *(s16 *)(a0 + 0x102) = 2;
+    *(s32 *)(*(s32 *)(a0 + 0x20) + 0x24) = D_801C0B28[D_801C0B68[*(s16 *)(a0 + 0x70)]][0];
+    *(s16 *)(a0 + 0x84) = 0;
+    *(s16 *)(a0 + 0x5C) = 0x800;
+    *(s32 *)(a0 + 0xB0) = 0;
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001_jr_8017AE2C", func_80188498);
 
