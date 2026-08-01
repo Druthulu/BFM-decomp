@@ -8522,3 +8522,40 @@ The function-level tools all said MATCH, so the signal had to come from the imag
    function emits a jump table", not "this function's code is wrong."
 That size-and-location fingerprint distinguishes a codegen residual from an integration/layout effect
 in one build, and it is what redirected the diagnosis away from three wrong guesses.
+
+## §131 — The jtbl OVER-SPAN: `sltiu N` is ground truth in BOTH directions, and the zero-word rule only guards one (P30 S28, `func_80191C50`)
+
+The carve had a symmetric blind spot. `jtbl_range` computes `end = the next data dlabel`, then:
+* **extends** the span when the owning function's `sltiu N` demands more entries than the dlabel
+  supplies (§SPLIT-TABLE REPAIR — spimdisasm can cut one table in half);
+* **trims** trailing words that are **zero**, on the axiom "`0x00000000` cannot be a jump target";
+* **warns** when the span is shorter than an unambiguous `sltiu` bound.
+
+Nothing handled a span that is **too LONG for a non-zero reason**. spimdisasm attributes to a dlabel
+everything up to the *next* dlabel, and that remainder is not always zero — it can be ordinary data.
+Then no trim fires, the carve reserves more words than the table has, the object supplies only the
+real entries, and the `.rodata` piece **under-fills**.
+
+**The fingerprint (this is the reusable part).** Under-fill does not look like a codegen bug:
+```
+image size:      −4 (×N tables), often masked to −3 by the end-align TRIM
+differing bytes: hundreds, in hundreds of 1-byte runs, spread over most of the overlay
+position:        ~95% at byte 0 (mod 4) — the LOW BYTE of a 16-bit immediate
+value:           every one changes by exactly −4
+```
+That is not "the function is wrong", it is **every `%lo` in the image pointing 4 bytes low** because a
+data symbol moved. Bucket the differing bytes by `offset % 4` and decode a few words: if the deltas
+are uniform and small and land in the immediate field, you are looking at a **layout/under-fill**
+problem, not codegen. (Measured here: 812 of 853 at `pos 0 mod 4`, all `−4`.)
+
+**The fix, and its authorization.** Clamp `end` down to `start + 4*N` when the `sltiu` bound is
+**unambiguous** (exactly one — a multi-switch function cannot say which table owns which bound) AND
+the surplus words are **not plausible code addresses**. If any surplus word is in the overlay's text
+range, **REFUSE and say so**: it might be a real entry, and silently dropping one corrupts the image
+in the opposite direction. Same standard as the extension path — act only on the program's own
+statement, never on a guess.
+
+**Why it mattered:** this was the single instrument failure that survived §125's retraction round —
+the one case where "the tool is broken" was actually true. It blocked a 710-instruction behemoth and,
+because a carve is per-overlay, it would have blocked every future jr family whose table happens to
+be followed by non-zero data. One clamp, byte-identical, behemoth banked.

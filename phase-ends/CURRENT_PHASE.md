@@ -110,14 +110,14 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 
 # 🛑 SESSION-28 CHECKPOINT (2026-07-31 08:1x) — FRESH SESSION SAFE HERE
 > Supersedes SESSION-27 below. **Nothing is running. Tree lock FREE. Tree clean** but for the R23
-> `db.*.gbf` churn (never stage). **HEAD `commit:1291`** (+ this doc commit).
+> `db.*.gbf` churn (never stage). **HEAD `commit:1293`** (+ this doc commit).
 > Effort: opened **xHigh** → **Max** for the jr re-measurement and the T2 probe ladder → back to
 > **xHigh** for the driver + sweep. `make tools-health` RC=0 at session open.
 > **R22 clean-fleet run THIRTEEN times this session, 140/140 every time** (one 139/140 and one
 > 137-file false-pass, both MINE, both caught and reverted — see the honesty ledger).
 
 ## FLEET — R22 clean-fleet **140 passed / 0 failed** (verified THIRTEEN times this session)
-**93.25% fn-count · 89.2% instr-weighted · 80.5% distinct-code** (72,153 / 87,459 unique fns) ·
+**93.25% fn-count · 89.2% instr-weighted · 80.5% distinct-code** (72,154 / 87,459 unique fns) ·
 dedup 1905/0 · C1 240496/240496 · 0 NON_MATCHING. Phase opened 92.00 / 87.5 / 78.0
 ⇒ **+1.25pp fn-count, +1.7pp instr, +2.5pp distinct this phase.**
 
@@ -148,9 +148,13 @@ code subseg so each object owns exactly one table.** Drafts preserved at `.run/s
    (`.run/p30w4_pool.json`). ⚠️ **S28 ROI evidence: a 15-target wave cost 1.33M tokens for 12 banks
    and +0.00pp headline.** Only worth resuming against HIGH-REACH targets; ×2-reach drafting is not
    where the leverage is. Deal ACROSS binaries so the gate fans out.
-3. **[Max] #9 — `jtbl_carve` diverges on ov_SC06_018** after a byte-neutral isolate (got `1b1667ea`,
-   want `cbbc4f44`, SHA-verified from a clean tree). The ONE confirmed instrument failure; blocks the
-   710-ins `func_80191C50`. Compare against `ov_SC05_010`, whose full chain succeeded S28.
+3. ~~**[Max] #9 — `jtbl_carve` diverges on ov_SC06_018**~~ ✅ **SOLVED + BANKED (S28, `commit:1293`).**
+   Root cause: a jtbl **OVER-SPAN**. `sltiu 0xC` names 12 entries, the object emits 12 words, the carve
+   reserved 13 — the 13th being ordinary NON-ZERO data spimdisasm ran into the dlabel, which the
+   zero-word trim cannot see. The piece under-filled ⇒ every later symbol slid −4 ⇒ 812 `%lo`
+   immediates changed. Fixed with an `sltiu`-authorized clamp (refuses loudly if a surplus word looks
+   like a real entry). **`func_80191C50` (710 ins) BANKED**, R22 140/140. Cookbook **§131**.
+   ⇒ the `JTBL-CARVE-BREAKS-BYTES` class is RETIRED — it was a real bug, now fixed.
 4. **[Max, xHigh-able] `JR-PAIR-IN-ONE-O0-OBJECT`** — try §81 step 1 (isolate one of the pair into its
    own code subseg) so each object owns exactly one table. Worth 2 × 138.
 5. **[T5, Max] Phase close.** ⚠️ **Milestone reality: 89.2% instr vs a ≥95% bar.** The remaining
