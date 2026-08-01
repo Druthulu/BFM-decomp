@@ -3663,7 +3663,346 @@ L63C:
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_801734BC", func_80176734);
+// @class: regalloc-order + schedule
+// @stuck: none — MATCH (371/371 ins, match_one MATCH)
+//
+// func_80176734 — ov_SC01_077 HUD-state pump, 371 ins.  Direct sibling of the already-matched
+// func_80176218 in the same TU: same base quartet
+//     $s3 = st   = &D_8011F7A8          (int base, NOT u8* — see 80176218's note)
+//     $s1 = cach = st + 0x48            (the cached/displayed copy)
+//     $s2 = flag = st + 0xE0            (the per-field "changed" flags)
+//     $s4 = cur  = &D_80078E78          (the live gameplay struct)
+// and the same OFFSET-FIRST index idiom `((param<<16)>>14) + st + 0x28`
+// (a u8* base emits `addu rd,st,off`; the target wants `addu rd,off,st`).
+//
+// CONTROL-FLOW SKELETON (byte-derived from the .s; no loops, one switch, 8 straight-line blocks):
+//   A  p = st.ptr[param];  q = p+0x3C
+//      if (D_801152BA) { triangle-wave pulse byte -> q[4] and p[4]; st[8] += D_80115214 }
+//      else            { p[0x40] = p[4] = 0x80 }
+//   B  if (flag[0x48]) { p->[0xD] = anim[flag48]; if (flag48<4) flag48++ else {draw + advance} }
+//   C  else if (cach[0x48] != cur[0x48]) { seed flag48 (5 or 0); cach48 = cur48; draw; flag48++ }
+//   D  0x2E sync (equality-first if/else) + the 0x49 gauge byte
+//   E  0x1E sign-bit flip -> one of two func_800183E0 calls
+//   F  D_800B9A13 mode byte -> chg
+//   G  switch (cur[0x48]) { 3,4,5 -> amp=0xFF on hit; 6 -> amp=0xBA } (gcc decision tree, no jtbl)
+//   H  if (amp) { flag[0x47]=1; cach[0x4B]=cur48|0xF0; cach[0x47]=(D_80126D20<<7)/amp; goto tail }
+//   I  else derive tgt/chg2 from D_80126CE0 or cur[0x47]
+//   J  if (!chg2 && !chg && !flag[0x47]) goto tail;  chg==0 -> flag[0x47]=0 (out-of-line else)
+//   K  else slew cach[0x47] toward tgt (-3 / -8, clamp, flag[0x47]=1)
+//   L  tail: st.ptr[param][0x32] = st[0x12]+m+5 ; func_801775E0(ptr+0x64, st[0x12]+m+9)
+//   Frame 0x40, $ra at 0x3C, $s0-$s6 saved at 0x20..0x38.
+//
+// LEVERS THAT CLOSED IT (335 -> 206 -> 96 -> 57 -> 36 -> 19 -> 15 -> 5 -> 0):
+//
+//  L1  `u8 b` + `u8 v` in block A is what produces the target's `andi $v0,$v1,0xFF`.
+//      With `s32 v` combine folds the QI zero_extend straight into the `sltiu` (no andi);
+//      with a QImode *result* the arithmetic arms go through force_to_mode (mask dropped ->
+//      `addiu $v0,$v1,-0x80` / `nor;addiu` on the RAW lbu reg) while the comparison keeps its
+//      zero_extend as a real `andi`.  Same idiom for `u8 k` in block C and `u8 m` in block F.
+//
+//  L2  `q = p + 0x3C` must be computed in the ENTRY block (before the D_801152BA branch).
+//      combine's LOG_LINKS are per-basic-block, so a cross-BB `q` cannot be folded back into
+//      `sb v,0x40(p)` — which is exactly why the target keeps a separate `addiu $a0,$a1,0x3C`.
+//
+//  L3  THE COPY-TEMP FAMILY (5 of the 7 missing instructions were `move` insns gcc had deleted).
+//      `t = (a != b); x = t;` normally collapses to one `sltu x,...`.  Two ways to keep the copy:
+//        (a) give `t` a second use AND a `register __asm__` pin  (block F: `register s32 t $2`);
+//        (b) a zero-byte single-set fence `__asm__("" : "=r"(t) : "0"(t));` between the compute
+//            and the copy — the copy then links to the asm, which combine cannot substitute.
+//      (b) is used for `av = amp` (switch merge), `chg2 = t` (block I) and `c = chg` (block J).
+//      The block-J fence does double duty: it re-defines `c` so cse's record_jump_equiv loses
+//      `c == 0` on the fall-through path and the target's *second* `beqz $v1` survives.
+//
+//  L4  Block K: the store must be DUPLICATED into both arms (`= c-3` / `= c-8`), not written once
+//      after a phi.  cse runs before cross_jump, so with two stores the following
+//      `c = *(u8*)(cach+0x47)` sits in a fresh extended basic block and stays a REAL `lbu`;
+//      write it once and cse forwards the stored value into an `andi` (-1 ins).  cross_jump then
+//      merges the two `sb`s back into the single one at .L80176C3C.  (Same lever as 80176218 L1.)
+//
+//  L5  `u8 dum[8]` — the target's `.frame` has vars=8 (frame 0x40 vs 0x38 with no stack locals and
+//      no spill anywhere in the body).  gcc allocates frame space for an aggregate local in
+//      expand_decl whether or not it is ever read, so the original had a dead local here.
+//
+//  L6  `pv` (a plain copy of the parameter) is what splits the parameter's live range the way the
+//      target does: block A indexes off `param_1` (whose pseudo dies in the entry block -> $a0, so
+//      `sll $v0,$a0,16` can be scheduled before the save) while blocks B..L index off `pv` -> $s6.
+//      `ix` is hoisted out of block A so the `pv = param_1` copy lands after the index chain and
+//      before cach/flag/cur — that is the target's prologue interleave (s3, index, s6, s1, s2, s4).
+//
+//  L7  Pins that only fix first-fit order (none spans a `jal`, so all are x N-safe per §44):
+//      chg=$s5($21), chg2=$s0($16), tgt=$a1($5), p=$a1($5) in block A, pp=$a1($5) in blocks B/C.
+//      `p`/`pp` on $a1 is the one that cascades: it frees $a0 for `q` and for the block-B base,
+//      and it is what lets reorg steal `sll $a0,$s6,16` into the .L80176C8C delay slot.
+//
+//  L8  Block I else-arm: cache cach[0x47] in a `u32 cv` local.  Reading it twice through the
+//      pointer makes gcc re-mask (`andi $v1,$v1,0xff`, +1 ins); the local keeps both compares on
+//      the raw lbu reg like the target.  Block K: hoist `sv = (s16)tgt` so the `!= 0` test reuses
+//      the sign-extended $a0 instead of emitting `andi $a1,0xffff`.
+//
+// Declaration environment: every extern is block-scoped (§28/§43 zero file-scope footprint).
+// The types match the decls already at file scope in ov_SC01_077_jr_801734BC.c
+// (D_8011F7A8 u8, D_80078E78 u8[], D_8018A238 u16, D_8018A2CC u8[], D_8018A2E4 s32[],
+//  D_800D43D4/4414/45D4 u8, D_800B9A13 u8, D_80126D20 s16, D_80126B58 s32,
+//  func_800183E0(s32), func_801619D0(void*), func_80161A00/30/60(s32)); func_801775E0 is the
+// shared engine-core DEFINE later in the same TU, so it needs the forward decl below.
+
+#include "common.h"
+
+void func_80176734(s32 param_1)
+{
+    extern u8  D_8011F7A8;      /* st base  ($s3) */
+    extern u8  D_80078E78[];    /* cur base ($s4) */
+    extern s16 D_801152BA;
+    extern u8  D_8011F7B0;      /* == *(u8 *)(st + 8), read absolutely (mixed addressing) */
+    extern u8  D_80115214;
+    extern u8  D_8018A2D8[];
+    extern u16 D_8018A22A[];
+    extern u16 D_8018A238;
+    extern u8  D_8018A2CC[];
+    extern s32 D_8018A2E4[];
+    extern u8  D_800D43D4;
+    extern u8  D_800D4414;
+    extern u8  D_800D45D4;
+    extern u8  D_800B9A13;
+    extern s16 D_80126CE0;
+    extern s16 D_80126D20;
+    extern s32 D_80126B58;
+    extern void func_800183E0(s32 a0);
+    extern s32  func_801619D0(void *a0);
+    extern s32  func_80161A00(s32 a0);
+    extern s32  func_80161A30(s32 a0);
+    extern s32  func_80161A60(s32 a0);
+    extern void func_801775E0(s32 param_1, s32 param_2);
+
+    s32 st, cach, flag, cur;
+    register s32 chg  __asm__("$21");        /* L7 */
+    register s32 chg2 __asm__("$16");        /* L7 */
+    s32 amp;                                 /* $s0, disjoint from chg2 */
+    register u16 tgt __asm__("$5");          /* L7 */
+    s32 pv;                                  /* L6: the param copy that owns $s6 */
+    s32 ix;                                  /* L6: block A's index, hoisted out of the block */
+    u8  dum[8];                              /* L5: dead frame slot (target .frame vars=8) */
+
+    st  = (s32)&D_8011F7A8;
+    ix  = ((param_1 << 16) >> 14) + st;
+    pv  = param_1;
+    cach = st + 0x48;
+    flag = st + 0xE0;
+    cur  = (s32)&(*(u8 *)D_80078E78);
+
+    /* ---- block A: pulse byte ---- */
+    {
+        register s32 p __asm__("$5");        /* L7 */
+        u8 *q;
+        p = *(s32 *)(ix + 0x28);
+        q = (u8 *)(p + 0x3C);                /* L2: must live in the entry BB */
+        if (D_801152BA != 0) {
+            u8 b = D_8011F7B0;               /* L1 */
+            u8 v;
+            if (b < 0x80) v = b - 0x80;
+            else          v = ~b - 0x80;
+            q[4] = v;
+            *(u8 *)(p + 4) = v;
+            *(u8 *)(st + 8) = *(u8 *)(st + 8) + D_80115214;
+        } else {
+            *(u8 *)(p + 0x40) = 0x80;
+            *(u8 *)(p + 4) = 0x80;
+        }
+    }
+
+    /* ---- block B: 0x48 animation already running ---- */
+    if (*(u8 *)(flag + 0x48) != 0) {
+        register s32 pp __asm__("$5");       /* L7 */
+        pp = *(s32 *)(((pv << 16) >> 14) + st + 0x28);
+        *(u8 *)(pp + 0xD) = D_8018A2D8[*(u8 *)(flag + 0x48)];
+        if (*(u8 *)(flag + 0x48) < 4) {
+            *(u8 *)(flag + 0x48) = *(u8 *)(flag + 0x48) + 1;
+        } else {
+            u8 c = *(u8 *)(cach + 0x48);
+            s32 q = *(s32 *)(((pv << 16) >> 14) + st + 0x28);
+            s32 arg;
+            if (c & 0x80) {
+                *(u16 *)(q + 0x20) = D_8018A238;
+                arg = (s32)&D_800D45D4;
+            } else if (c != 0) {
+                *(u16 *)(q + 0x20) = D_8018A22A[c];
+                arg = D_8018A2E4[*(u8 *)(cach + 0x48)];
+            } else {
+                goto Lskip;
+            }
+            func_800183E0(arg);
+        Lskip:
+            if (*(u8 *)(flag + 0x48) == 5) {
+                if (*(u8 *)(cach + 0x48) == 0) *(u8 *)(flag + 0x48) = 0;
+                else *(u8 *)(flag + 0x48) = *(u8 *)(flag + 0x48) + 1;
+            } else if (*(u8 *)(flag + 0x48) == 10) {
+                *(u8 *)(flag + 0x48) = 0;
+            } else {
+                *(u8 *)(flag + 0x48) = *(u8 *)(flag + 0x48) + 1;
+            }
+        }
+    /* ---- block C: 0x48 changed -> start the animation ---- */
+    } else if (*(u8 *)(cach + 0x48) != *(u8 *)(cur + 0x48)) {
+        register s32 pp __asm__("$5");       /* L7 */
+        u8 k;                                /* L1: gives the `andi $v1,$v1,0xFF` index mask */
+        if (*(u8 *)(cach + 0x48) == 0 && *(u8 *)(cur + 0x48) != 0)
+            *(u8 *)(flag + 0x48) = 5;
+        else
+            *(u8 *)(flag + 0x48) = 0;
+        *(u8 *)(cach + 0x48) = *(u8 *)(cur + 0x48);
+        pp = *(s32 *)(((pv << 16) >> 14) + st + 0x28);
+        k = *(u8 *)(flag + 0x48);
+        *(u8 *)(flag + 0x48) = k + 1;
+        *(u8 *)(pp + 0xD) = D_8018A2D8[k];
+    }
+
+    /* ---- block D: field 0x2E (equality-first: the ne-arm must be out of line) ---- */
+    if (*(s16 *)(cach + 0x2E) == *(s16 *)(cur + 0x2E)) {
+        if (*(s16 *)(flag + 0x2E) == 0) goto L9C0;
+        *(s16 *)(flag + 0x2E) = 0;
+    } else {
+        *(s16 *)(cach + 0x2E) = *(s16 *)(cur + 0x2E);
+        *(s16 *)(flag + 0x2E) = 1;
+    }
+    {
+        s32 pp = *(s32 *)(((pv << 16) >> 14) + st + 0x28);
+        s32 t = (s32)(*(u16 *)(cach + 0x2E) << 16);
+        if (t != 0) *(u8 *)(pp + 0x49) = D_8018A2CC[t >> 20];
+        else        *(u8 *)(pp + 0x49) = 0xA0;
+    }
+L9C0:
+
+    /* ---- block E: field 0x1E sign flip ---- */
+    {
+        s32 fa = *(s16 *)(cach + 0x1E) & 0x8000;
+        s32 fb = *(s16 *)(cur + 0x1E) & 0x8000;
+        if (fa != fb) {
+            s32 arg;
+            if (fa != 0) {
+                *(s16 *)(cach + 0x1E) = 0;
+                arg = (s32)&D_800D43D4;
+            } else {
+                *(s16 *)(cach + 0x1E) = -0x8000;
+                arg = (s32)&D_800D4414;
+            }
+            func_800183E0(arg);
+        }
+    }
+
+    /* ---- block F: mode byte -> chg ---- */
+    {
+        u8 m = D_800B9A13;                   /* L1 */
+        if (m != 3) {                        /* inverted: `chg = 0` belongs out of line */
+            register s32 t __asm__("$2");    /* L3a: pin + 2 uses keeps `chg = t` alive */
+            t = (*(u8 *)(st + 7) != m);
+            chg = t;
+            if (t != 0) *(u8 *)(st + 7) = m;
+        } else {
+            chg = 0;
+        }
+    }
+
+    /* ---- block G: switch on cur[0x48] (cases 3/4/5 cross-jump onto one tail) ---- */
+    amp = 0;
+    switch (*(u8 *)(cur + 0x48)) {
+    case 3:
+        if (func_801619D0(&D_80126B58) != 0) amp = 0xFF;
+        break;
+    case 4:
+        if (func_80161A00((s32)&D_80126B58) != 0) amp = 0xFF;
+        break;
+    case 5:
+        if (func_80161A30((s32)&D_80126B58) != 0) amp = 0xFF;
+        break;
+    case 6:
+        if (func_80161A60((s32)&D_80126B58) != 0) amp = 0xBA;
+        break;
+    }
+
+    /* ---- block H: amp != 0 short-circuit ---- */
+    {
+        s32 av;
+        av = amp;
+        __asm__("" : "=r"(av) : "0"(av));    /* L3b: keeps the `move $v0,$s0` at the merge */
+        if (av != 0) {
+            *(u8 *)(flag + 0x47) = 1;
+            *(u8 *)(cach + 0x4B) = *(u8 *)(cur + 0x48) | 0xF0;
+            *(u8 *)(cach + 0x47) = ((s32)D_80126D20 << 7) / av;
+            goto Ltail;
+        }
+    }
+
+    if (*(u8 *)(cach + 0x4B) >= 0xF0) *(u8 *)(cach + 0x4B) = 0;
+
+    /* ---- block I: target level + change flag.  The lhu is unconditional (target loads
+       both the signed and the unsigned view of D_80126CE0 up front). ---- */
+    tgt = *(u16 *)&D_80126CE0;
+    if (D_80126CE0 != 0) {
+        u16 v;                               /* dies at the mask -> destructive `andi $v1,$v1` */
+        register s32 t __asm__("$2");
+        v = tgt;
+        *(u8 *)(cach + 0x4B) = v;
+        t = (*(u8 *)(cach + 0x47) != (v & 0xFF));
+        __asm__("" : "=r"(t) : "0"(t));      /* L3b */
+        chg2 = t;
+    } else {
+        u32 cv = *(u8 *)(cach + 0x47);       /* L8: one load, two compares, no re-mask */
+        tgt = *(u8 *)(cur + 0x47);
+        chg2 = 0;
+        if (cv != tgt || cv == 0x80) chg2 = 1;
+        if (*(u8 *)(cur + 0x47) != 0 && *(u8 *)(cach + 0x4B) != 0) {
+            *(u8 *)(cach + 0x4B) = 0;
+            *(u8 *)(cach + 0x47) = *(u8 *)(cur + 0x47);
+        }
+    }
+
+    /* ---- block J: nothing-changed fast path.  The target re-tests chg after the flag load;
+       the fence below is what stops cse from folding that second test away. ---- */
+    {
+    register s32 c __asm__("$3");
+    c = chg;
+    if (chg2 != 0) goto Lbig;
+    if (c != 0) goto Lbig;
+    if (*(u8 *)(flag + 0x47) == 0) goto Ltail;
+    __asm__("" : "=r"(c) : "0"(c));          /* L3b */
+    if (c == 0) goto Lzero;
+    }
+Lbig:
+    /* ---- block K: slew cach[0x47] toward tgt ---- */
+    {
+        u32 c = *(u8 *)(cach + 0x47);
+        s32 sv = (s16)tgt;                   /* L8 */
+        if ((s32)c < sv) {
+            *(u8 *)(cach + 0x47) = tgt;
+        } else {
+            if (sv != 0) *(u8 *)(cach + 0x47) = c - 3;   /* L4: store in BOTH arms */
+            else         *(u8 *)(cach + 0x47) = c - 8;
+            c = *(u8 *)(cach + 0x47);        /* stays a real lbu because of L4 */
+            if (c == 0 || c > 0x80) {
+                *(u8 *)(cach + 0x47) = 0;
+                *(u8 *)(cach + 0x4B) = 0;
+            } else if ((s32)c < (s16)tgt) {  /* fresh EBB -> the sll/sra is recomputed */
+                *(u8 *)(cach + 0x47) = tgt;
+            }
+        }
+        *(u8 *)(flag + 0x47) = 1;
+    }
+    goto Ltail;
+Lzero:
+    *(u8 *)(flag + 0x47) = 0;
+Ltail:
+
+    /* ---- block L: tail.  m+5 / m+9 are separate temps: `lhu + (m+5)`, not `(lhu + m) + 5`. ---- */
+    {
+        s32 b = ((pv << 16) >> 14) + st;
+        s32 m = (*(u8 *)(st + 7) != 0) << 8;
+        s32 m5 = m + 5;
+        s32 m9 = m + 9;
+        *(u16 *)(*(s32 *)(b + 0x28) + 0x32) = *(u16 *)(st + 0x12) + m5;
+        func_801775E0(*(s32 *)(b + 0x28) + 0x64, (s16)(*(u16 *)(st + 0x12) + m9));
+    }
+}
+
 
 DEFINE_func_80176D00()  /* dedup: shared engine-core @0x80176D00 (src/shared) */
 
