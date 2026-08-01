@@ -152,10 +152,29 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 > OPEN** and approved the T6 continuation). **Nothing is running. Tree lock FREE. Tree clean** but
 > for the R23 `db.*.gbf` churn (never stage). **HEAD `commit:1335`.** Effort: Max → **xHigh** (Drew).
 
-## FLEET — R22 clean-fleet **140 passed / 0 failed** (run 5× this session, 140/140 every time)
-**93.81% fn-count · 90.9% instr-weighted · 83.9% distinct-code** (73,381 unique fns) · dedup 1905/0 ·
-0 NON_MATCHING. Phase opened 92.00 / 87.5 / 78.0 ⇒ **+1.81pp fn, +3.4pp instr, +5.9pp distinct.**
-Session start (S28 close) was 93.25 / 89.2 / 80.5 ⇒ **+0.56 / +1.7 / +3.4pp today.**
+## FLEET — R22 clean-fleet **140 passed / 0 failed** (run 7× this session, 140/140 every time)
+**94.43% fn-count · 91.4% instr-weighted · 84.0% distinct-code** (73,787 unique fns) · dedup 1905/0 ·
+0 NON_MATCHING. Phase opened 92.00 / 87.5 / 78.0 ⇒ **+2.43pp fn, +3.9pp instr, +6.0pp distinct.**
+Session start (S28 close) was 93.25 / 89.2 / 80.5 ⇒ **+1.18 / +2.2 / +3.5pp today.**
+
+## THE UC WAVES (Drew opted in mid-session) — 33 heads banked, ~3,560 members propagated
+- **Wave 1** (14 agents, 2 lanes): 14/14 `match_one` MATCH → **8 heads banked** by three mechanisms
+  (plain gate · a NEW targeted decl reconcile that edits ONLY the line the compiler names · the
+  `gate_stage` ladder) → **1,370 members** propagated, 0 failed.
+- **Wave 2 + 3** (19 + 11 agents): **19/19 heads banked** — the best conversion of the phase →
+  **2,192 members** / 411 stage-but-DIFF residue.
+- **THE RECONCILE LANE IS THE RESULT WORTH KEEPING.** 17 of 19 wave-2 heads needed a declaration fix
+  and **not one needed a header edit**. Two escapes did all of it: the **§37/§124 asm-label alias**
+  (`<ret> aF<ADDR>(...) __asm__("func_<ADDR>")`) when the conflict is on the function ITSELF
+  (return-type or arity), and **conform-the-decl + cast-at-use** when it is on a DIFFERENT symbol the
+  draft declares (`func_80142A80`, `RotTransSV`, `func_80146C3C`, `D_8011D030`, `D_800AF634`).
+  This is the direct answer to the morning's failure: the documented fix for that class was a
+  fleet-wide decl widen, which touched **2,046 files and still did not build**. The alias sidesteps
+  the collision at ZERO blast radius.
+- **Agents cannot run the gate**, so a blocker-capture pass (splice→build→revert) had to precede each
+  reconcile fan-out and embed the exact compiler error per agent. Without it they are blind on the one
+  axis that matters. *(R14 on my own capture: the `note:` lines I passed through were pre-existing SHB
+  macro-redefinition NOISE — four agents independently called it and worked the real error.)*
 
 ## WHAT S29 DID
 1. **`JR-PAIR-IN-ONE-O0-OBJECT` RETIRED** — two instrument defects (§132), not a compiler wall:
@@ -175,16 +194,19 @@ Session start (S28 close) was 93.25 / 89.2 / 80.5 ⇒ **+0.56 / +1.7 / +3.4pp to
 6. **Cookbook §132 · §132a · §133** (the DEFAULT-FILTER class — three times in one session a tool
    silently answered a narrower question than the one asked).
 
-## ▶ RESUME HERE (T6 order, S1–S3 done; nothing blocked)
-- **UC wave 2** — the remaining 13 ×138 redraft heads (~46k templatable ins). Same workflow script:
-  `.claude/…/workflows/scripts/p30-uc-wave1-*.js` (args as an array OR a JSON string — patched).
-  Targets: `.run/uc_targets.json` rows 15+.
-- **The 6 wave-1 non-banked** (`func_80176144`, `func_8014E5B4`, `func_80146AFC`, `func_801376E8`,
-  `func_80151664`, `func_8012EFB8`): all `match_one` MATCH, blocked on conflicts in OTHER symbols
-  (`D_800AF634`, `D_8011D030`, `func_80153C18`) = the data/callee reconcile class. Drafts in `.run/uc/`.
-- **S4 PINS** (14 fns / 44,279 ins) · **S5** the ×10-133 band (142,527 ins).
-- **T5 close** fires on the measured ROI floor — note the ×138 band is NOT exhausted (§133): 33
-  fresh-crack families / 238,478 ins existed at wave-1 start; wave 1 consumed ~81k of it.
+## ▶ RESUME HERE (T6: S1–S3 done, both UC waves done; nothing blocked, nothing running)
+- **The ×138 redraft band is now CONSUMED.** All 33 fresh-crack ≥100-member families are banked
+  except the 2 GIANT walls (`func_801412A8` close=110, `func_80178004` close=91 — P32's track).
+- **S4 PINS** (14 fns / 44,279 ins) — the pin-crash wall dissolved in P27, several already close=0.
+- **S5** the ×10-133 mid-multiplicity band (142,527 ins) — the next mass, at a lower multiplier.
+- **The 411 stage-but-DIFF propagation residue** — per-overlay variants whose remapped bodies do not
+  reproduce; individually gate-rejected, ledger material not a lever.
+- **Reusable machinery from today** (all committed): the 3-lane workflow scripts under
+  `.claude/…/workflows/scripts/p30-uc-wave{1,2,3}-*.js` · `.run/uc_capture.py` (blocker capture, the
+  precondition for any reconcile fan-out) · `.run/uc_reconcile.py` (compiler-named decl edits only) ·
+  `tools/jtbl_family_bank.py --span-rel` (§132b) and its `like_arg` guard (§132a).
+- **T5 close** fires on the measured ROI floor. The ×138 lever is spent; S4/S5 are the remaining
+  in-phase levers, and their multiplier is materially lower — that is the honest floor signal.
 
 ---
 
