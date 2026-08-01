@@ -113,8 +113,31 @@ proceeds; the first P30 commit waits on it.
       building (the lane looked dead: 0 banks since Phase 21) — **665 open near-misses in the
       permuter-tractable band, 157 at close 1–4, incl. `func_8016BA68` close=1 reach=134**.
       ⚠️ **Yield UNPROVEN on this backlog** — wiring only; the ILS evidence is one Phase-24 fn.
-- [ ] **T5 — Phase close [Max]** — burn-down from digest history; P7 milestone walk; Roadmap delta;
-      gate 2; PhaseEnd_Phase30.
+- [ ] **T6 — The measured-frontier continuation [approved by Drew 2026-08-01, in-phase re-plan
+      (P5d)]** — P30 stays OPEN. Order derived from the S29 frontier regen, ranked by the family
+      map's TEMPLATABLE weight (see the pricing finding below), NOT by `worklist.md`:
+      **S1** zero-crack propagation sweep — 29 families / **67,470 ins**, ~0 agent tokens
+        (head `0x8014032C` 183×137 = 25,071 jr · `0x8017BEBC` 12,376 · ~8 ×4-straggler families) ·
+      **S2** the LAST two reach-138 fresh cracks — `func_80176734` (371×138 = **51,198**, no jr,
+        cached) + `func_8016EC0C` (88×138 = 12,144) ·
+      **S3** the close=0 stored drafts as a **diagnostic** pass (§132 ladder per draft), not a
+        blind re-sweep (T1a's ladder measured 16%; S29 resolved 2 of 2 "gate refuses" to tooling) ·
+      **S4** PINS bounded wave (14 fns / 44,279 ins; the pin-crash wall dissolved in P27) ·
+      **S5** the ×10-133 mid-multiplicity families (142,527 ins).
+      **Deliberately excluded:** the 2 GIANT walls (close=110/91 — P32's track), the ×2-9 mass
+      (339,742 ins, worst multiplier), the singleton/non-substantial residue (635,805 ins, ×1).
+      **⚠ THE PRICING FINDING (R14/R35):** `worklist.md` ranks by **h_exact** reach, so a
+      per-location PURE family is priced ×1 — it under-prices the frontier head by up to **138×**.
+      Byte-proof: S29's pair was priced 272 and 198 ins and delivered **37,536 + 27,324**.
+      `func_80176734` sits at rank ~50 in `worklist.md` and is the single largest item on the board.
+      **Rank by `.run/family_hseq.json` templatable weight for family work; the worklist is correct
+      only for genuinely h_exact-reach functions.**
+      **⚠ THE STRUCTURAL SIGNAL:** after S2 the **×138 era ENDS** — those are the last two crackable
+      fleet-wide families; everything after is ≤133 members and mostly ≤9. That rise in
+      cost-per-point, not a session count, is P30's honest ROI floor and the trigger for T5.
+- [ ] **T5 — Phase close [Max]** — burn-down from digest history; P7 milestone walk; Roadmap delta
+      (**including the v2 gap this analysis exposed: bucket W3's remainder has NO owner phase after
+      P30 — P31 is T/M/R, P32 is walls/behemoths**); gate 2; PhaseEnd_Phase30.
 
 **Milestone:** overlays at their measured ceiling — **≥95% instr fleet, or every remaining overlay
 stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical throughout.
@@ -145,17 +168,17 @@ Phase opened 92.00 / 87.5 / 78.0 ⇒ **+1.33pp fn-count, +2.1pp instr, +3.6pp di
    gate and silently cannot travel. Caught by probing ONE sibling before 137 builds (R37).
 5. **T1/T3 closed with measured per-lane verdicts** (see the checklist), tools-health + fresh frontier.
 
-## ▶ RESUME HERE — **AT GATE 2, AWAITING DREW**
-The phase is at its **second gate**. Nothing further should be executed until Drew:
-(a) **decides the milestone branch** — the approved milestone is an explicit either/or, and the
-    **≥95% instr branch is NOT met (89.6%)**; the **ledger branch IS met** (every unmatched overlay
-    function is in the h_seq partition: 15,029 distinct classes → 2,414 families + 3,767 singletons,
-    class- and reach-tagged; the exemplar surface is R32 partition-asserted, 79 rows, PARTITION OK);
-(b) **confirms the milestone** (P8 gate 2), after which PhaseEnd_Phase30.md is written (**Tier-1,
-    Max**) and `CURRENT_PHASE.md` is archived to `phase-ends/logs/Phase30.md` (R19), both left
-    UNCOMMITTED for Drew's milestone-close commit (R6).
-If Drew instead wants more work first, the live fuel is: Lane B top-mass families (Lane C is at the
-measured floor), the 29 zero-crack families (propagation-only), and the 2 permanent giant walls.
+## ▶ RESUME HERE — **P30 STAYS OPEN; T6 approved (Drew, 2026-08-01)**
+Gate 2 was reached and **deliberately not taken**: the ≥95% branch is out of reach (89.6%) and the
+ledger branch IS met, but closing now would strand roadmap-v2 bucket **W3** (the overlay family mass)
+with **no owner phase** — P31 is scope-complete/main/resident, P32 is walls/behemoths. So P30
+continues on the **T6** order in the checklist above (S1 → S2 → S3 → S4 → S5), and T5 fires on the
+measured ROI floor (the end of the ×138 era after S2), not on a session count.
+
+**Start here:** S1's head — `0x8014032C` (183 ins ×137, jr, per-location, exemplar matched in
+ov_SC01_077) via `jtbl_family_bank`, **probing ONE sibling first** (the S29 discipline: 1 build
+instead of 137). Then `0x8017BEBC`, then the ×4-straggler families.
+Frontier data: `.run/family_hseq.json` (regenerated at HEAD `commit:1303`, same-tree as the digests).
 
 ---
 
