@@ -9,7 +9,7 @@
  * read-before-write $a0-$a3 (agree on all 14 cached; 6 stubs call-site-validated). LOCAL to
  * this TU on purpose (reach-1 names like func_801809BC differ across overlays, so NOT in the
  * shared engine_core.h). Whole-binary harvest_verify byte-gate remains the sole arbiter (G3/P9). */
-extern s32 func_8016EC0C(s32 a0, s32 a1);                /* match-first, arity 2 */
+extern void func_8016EC0C(s32 a0, s32 a1);                /* match-first, arity 2 */
 extern s32 func_8012B4B8();                        /* match-first, arity 1 */
 extern s32 func_801670E4(s32 a0, s32 a1, s32 a2, s32 a3); /* derive-decl, arity 4 */
 extern s32 func_80169A4C(s32 a0, s32 a1);                /* match-first, arity 2 */
@@ -3822,7 +3822,7 @@ extern u16 D_80189ED4[];
 extern s32 func_800D2CA8(s32 a0, s32 a1);
 extern void func_800D2D10(s32 a0, s32 a1, void *a2, s32 a3);
 extern s32 func_80024054(void *a0, void *a1);
-extern s32 func_8016EC0C(s32 a0, s32 a1);
+extern void func_8016EC0C(s32 a0, s32 a1);
 
 void func_8016E9EC(u8 *p)
 {
@@ -3855,7 +3855,7 @@ void func_8016E9EC(u8 *p)
 // @stuck: none — MATCH (31/31 ins, match_one verified)
 
 extern u16 D_80189EDC[];
-extern s32 func_8016EC0C(s32 a0, s32 a1);
+extern void func_8016EC0C(s32 a0, s32 a1);
 
 void func_8016EAC0(Wave *param_1)
 {
@@ -3875,7 +3875,7 @@ void func_8016EAC0(Wave *param_1)
 // @stuck: none — MATCH (u8 v + 0xFF emits addiu 0xFF; v-1 would emit -1/0xffff)
 
 extern u8 D_80189ECC[];
-extern s32 func_8016EC0C(s32 a0, s32 a1);
+extern void func_8016EC0C(s32 a0, s32 a1);
 
 void func_8016EB3C(s32 p) {
     u8 v;
@@ -3895,7 +3895,7 @@ void func_8016EB3C(s32 p) {
 
 extern u16 D_80189EDC[];
 
-extern s32 func_8016EC0C(s32 a0, s32 a1);
+extern void func_8016EC0C(s32 a0, s32 a1);
 
 void func_8016EBA8(u8 *param_1)
 {
@@ -3911,7 +3911,110 @@ void func_8016EBA8(u8 *param_1)
     }
 }
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_8016AB6C", func_8016EC0C);
+// @class: loop-structure + sched2-LUID
+// @stuck: none — MATCH (88/88, match_one AND rtu_match on ov_SC01_077_jr_8016AB6C)
+//
+// INTEGRATION NOTE: the definition MUST be `void`-returning, so the four in-TU canonical-sig
+// decls `extern s32 func_8016EC0C(s32 a0, s32 a1);` (line 12 + the §8b carried decls at ~3768,
+// ~3788, ~3808) must flip to `void` — that is what the four //@EDIT lines above do. No caller
+// is affected: every call site already casts the fn pointer (`((void (*)(u8*,int))func_...)`).
+//
+// KEY LEVERS (byte-gated, all five needed):
+//  0. `void` RETURN, NOT the canonical `s32` (this is the ONE place §3a-1's "void->s32 is
+//     byte-neutral" is FALSE). An s32 return keeps $v0 live-out at the epilogue, so dbr refuses
+//     to steal the loop-top `addiu $v0,$zero,0x1858` into the loop-back `bne` delay slot
+//     (.L8016ED40) -> `nop` + a branch target one insn early = 2 mismatches. void -> steal -> MATCH.
+//  1. LOOP SHAPE = `while (*p != 0xFFFF) { v = *p; ... }` — the exit test reads MEMORY and the
+//     switch value is a SECOND read at the loop TOP. gcc's loop rotation copies the test insns
+//     (load included) to a guard before the loop, where cse folds p to its initial value
+//     (`lhu $v1,8($s0)`), while the body's own `v = *p` sits at a >1-pred label so cse cannot
+//     fold it away -> the target's THREE loads (dead guard @8($s0), live preheader @0($s2),
+//     live latch @0($s2)). Writing `while ((v = *p) != 0xFFFF)` (one read) collapses guard and
+//     preheader into one load: 87 ins, 1 short. §46-L2 (cse resets at a multi-pred label).
+//  2. `case 0x3872: ... continue;` — a `continue` in a while-loop lands on the latch reload
+//     (.L8016ED38), which is exactly the target's `j` target for that case.
+//  3. SWITCH VALUE IS int-WIDE (`s32 v`, fed by a u16 load). A `u16 v` adds `andi v1,x,0xffff`
+//     before every compare; the promoted-int form gives the bare `slti $v0,$v1,0x1859` tree.
+//  4. `p = (u16 *)(a0 + 8);` MUST BE WRITTEN **AFTER** THE FIRST CALL. p-init and the call's
+//     `addiu $a0,$sp,0x10` both tie at sched priority 1, so sched2 orders them by LUID
+//     (rank_for_schedule: highest LUID picked first in the BACKWARD pass = placed LAST).
+//     Written before the call, p-init has the lower LUID -> lands at slot 4 (dragging
+//     `sw $s2` up with it) and the arg-setup at slot 27; written after, they swap into the
+//     target's order. This one statement move is the whole 6-mismatch residual. (sched.md §1.4.iii)
+//
+// Also: `s.r = s.g = s.b = c;` (chained, rightmost first) gives the target's DESCENDING
+// sb 0x22/0x21/0x20 order; the ascending spelling is `s.b = s.g = s.r = c;`.
+
+#include "common.h"
+
+extern void func_80017B98(void *a0);
+extern u8 D_80189EC8[];
+
+typedef struct {
+    /* 0x00 */ s16 x;
+    /* 0x02 */ s16 y;
+    /* 0x04 */ s32 u04;
+    /* 0x08 */ s16 u08;
+    /* 0x0A */ s16 u0A;
+    /* 0x0C */ s16 u0C;
+    /* 0x0E */ s16 u0E;
+    /* 0x10 */ u8 r;
+    /* 0x11 */ u8 g;
+    /* 0x12 */ u8 b;
+    /* 0x13 */ u8 pad13;
+    /* 0x14 */ s32 u14;
+    /* 0x18 */ u8 u18;
+    /* 0x19 */ u8 pad19[3];
+} T8016EC0C; /* 0x1C */
+
+void func_8016EC0C(s32 a0, s32 a1)
+{
+    T8016EC0C s;
+    u16 *p;
+    s32 x;
+    s32 y;
+    s32 v;
+
+    s.r = s.g = s.b = a1;
+    s.u18 = D_80189EC8[*(u8 *)(a0 + 3)];
+    s.u0C = 0x640;
+    s.u0E = 0x1C8;
+    s.u14 = 0;
+    s.u08 = 0x28;
+    s.u0A = 8;
+    x = *(u16 *)(a0 + 4);
+    s.x = x + 0x10;
+    y = *(u16 *)(a0 + 6);
+    s.u04 = 0x10;
+    s.y = y;
+    func_80017B98(&s);
+    s.u08 = 8;
+    y += 0xA;
+    p = (u16 *)(a0 + 8);
+    while (*p != 0xFFFF) {
+        v = *p;
+        switch (v) {
+        case 0x1850:
+        case 0x1858:
+            s.x = x + 4;
+            s.y = y - 7;
+            break;
+        case 0x3872:
+            x += 2;
+            p++;
+            continue;
+        default:
+            s.x = x;
+            s.y = y;
+            x += 8;
+            break;
+        }
+        s.u0C = *(u8 *)p + 0x500;
+        s.u0E = (*p >> 8) + 0x100;
+        p++;
+        func_80017B98(&s);
+    }
+}
 
 DEFINE_func_8016ED6C()  /* dedup: shared engine-core @0x8016ED6C (src/shared) */
 
