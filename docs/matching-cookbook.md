@@ -8624,3 +8624,28 @@ correctly but leaves a partial artifact behind converts its own honest error int
 later — and the lie is *more* convincing than the truth, because it points at a different subsystem.
 When a loud refusal and a mystifying downstream failure appear in the same session, suspect they are
 the SAME event, one build apart.
+
+### §132a — `--like` is for a sibling with NO record; against one that HAS a record it over-derives (P30 S29, `ov_SC07_010`)
+
+The 2×137 sweep banked 136/137 twice and failed on the SAME overlay both times
+(`consumed 3 rodata .align(s) but 6 pad spec(s) given`). Cause: `jtbl_carve --like <exemplar>`
+transfers the exemplar span's table structure and matches donor→recipient by the subseg's **ROLE
+NAME** (the name with the overlay prefix stripped). `ov_SC07_010`'s `-O0` region is named `_o0` —
+the same role as the exemplar's, and the **only** other overlay so named; the other 136 are `_o0c`,
+whose role never matched, **which is the only reason the sweep worked at all**. The exemplar had
+just banked two more owners than this sibling has, so the transfer unioned its rebased 4 offsets
+with the sibling's real 2 plus the new table: six starts for three emitted tables.
+
+**The rule:** a sibling's own committed `tables=` is AUTHORITATIVE; `--like` exists for a span with
+no record. Suppress the transfer when a record exists (`jtbl_family_bank.like_arg`, deriving the
+subseg via `jtbl_carve.func_subseg` — the same derivation the carve uses, R33). The
+incomplete-record case that `--like` used to paper over is now covered honestly by §132's payload
+zero-word recovery, so nothing is lost by preferring the local record.
+
+**The shape worth remembering:** the transfer was wrong for 2 of 138 overlays and *inert* for the
+other 136 — so a sweep can be 99% green and still be running a defective rule. **A per-sibling
+failure that repeats on exactly the same sibling across two independent sweeps is a property of that
+sibling, not noise** — probe it rather than ledger it: here it cost one probe and returned 2 banks
+plus a real tool defect. And note the near-miss: had ov_SC07_010 been named `_o0c` like its 136
+peers, the defect would have stayed invisible until some later family whose exemplar shares a role
+name with a recorded sibling — a silent wrong spec instead of a loud refusal.

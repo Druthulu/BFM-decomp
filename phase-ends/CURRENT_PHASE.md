@@ -394,10 +394,24 @@ carry only the BODY — the exact class that held `func_8013C08C` at 0/137 earli
 re-gated `d19c9580`). B83C's draft was already draft-local, hence unaffected. *A file-scope type in a
 draft is an exemplar-only bank: it passes the gate and silently cannot travel.*
 
-**Next:** the 2 × 137 sibling sweep (`jtbl_family_bank`, members at the SAME vram in 137 overlays;
-each sibling's `_o0c` has exactly these 2 open stubs, so the sweep completes that `-O0` cluster).
-Order matters: **BD74 first, then B83C** — B83C's table sits BELOW BD74's, so carving it while BD74 is
-still raw leaves the unmatched table inside the span (`NON-CONTIGUOUS`, byte-observed on the exemplar).
+**THE SWEEP — 137/137 both, i.e. 2 × 138 = 276 function-instances banked.** `jtbl_family_bank`,
+BD74 first then B83C (order is load-bearing: B83C's table sits BELOW BD74's, so carving it while
+BD74 is still raw leaves an unmatched table inside the span — `NON-CONTIGUOUS`, byte-observed on the
+exemplar). ~8.5 s/sibling, zero-token. Both sweeps failed on the SAME single overlay, `ov_SC07_010`
+— **which is a property of that sibling, not noise, so I probed it instead of ledgering it** and it
+returned 2 banks plus a real tool defect (**§132a**): `jtbl_carve --like` matches donor→recipient by
+the subseg's ROLE NAME; `ov_SC07_010`'s `-O0` region is named `_o0`, the same role as the exemplar's
+and the ONLY other overlay so named (the other 136 are `_o0c`, whose role never matched — **the only
+reason the sweep worked at all**). The exemplar had just banked 2 more owners than the sibling has,
+so the transfer derived SIX starts for THREE emitted tables. Guard shipped
+(`jtbl_family_bank.like_arg`: a sibling's own committed `tables=` is authoritative; `--like` is for a
+span with NO record — inert for all 136 already-banked siblings, fixes exactly the broken one).
+
+**Fleet after the sweep (R22 clean-fleet 140/140, `make clean` + extract-all + check-all):**
+**93.33% fn-count · 89.6% instr-weighted · 81.6% distinct-code** (72,416 unique fns, **+260**);
+dedup 1905/0; 0 NON_MATCHING. Phase arc so far: 92.00→93.33 fn / 87.5→89.6 instr / 78.0→81.6 distinct.
+That `-O0` cluster is now COMPLETE across the fleet — the two functions were the last open stubs in
+every overlay's `_o0*` region.
 
 ### ✅ T0.5 COMPLETE — the fleet Ghidra-C prefetch: 124/124 programs, 7,716 files, 335 min, unattended
 Zero-token, headless, resumable; imported ~120 overlay programs on demand and ran the
