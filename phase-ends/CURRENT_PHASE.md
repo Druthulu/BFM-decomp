@@ -58,9 +58,15 @@ proceeds; the first P30 commit waits on it.
       programs) + `DecompileFunctions.java` over every remaining distinct stub (overlay tail + main's
       1,034; skip LINKED) → `.run/ghidra_c/`. **R23 lock discipline** (stop the hook-launched MCP
       server first or route through it). Verify via `build_fuel_manifest.py` counters + 5 spot-reads.
-- [ ] **T1 — Integration-recovery sweep [Ultracode — prompt at launch]** — all close=0 stranded
-      drafts through `recover_integration.py` tiers + §65b de-macroize + the snapshot-safe ladder;
-      the 10 named SESSION-16 blocked drafts. Prior: 39% recovery. **Report point #2.** R22 per batch.
+- [x] **T1 — Integration-recovery sweep** ✅ **DELIVERED as T1a (report point #2), then CLOSED both
+      ways.** 108 fresh autopsy-MATCH strandeds / 50 binaries through the tiered driver → **+18
+      banked** (derived: fn-count +18 / distinct +12; the commit-message sum of 19 was a gate-report
+      double-list — the metric wins), R22 140/140. **The measured verdict:** the S16 "39%" prior did
+      NOT generalize (it was measured on FRESH same-wave drafts); on this stored-backlog population —
+      the class decision-log **A10** had already byte-proved non-bankable by plain re-gate (0/958) —
+      the driver's reconcile/de-macroize lifted **18 of ~111 ≈ 16%**, a real but bounded delta. The
+      ~90 that did not bank stay `match_one`-MATCH but are integration-DECAYED: they route to T3's
+      REDRAFT lanes, not another recovery pass. No Ultracode was needed (the lever was deterministic).
 - [x] **T2 — The `-O0` cluster [Max, deep]** ✅ **ROUTE PROVEN, TOOLED, AND SWEPT FLEET-WIDE (S28).**
       **Report point #3 = this entry.**
       DEVIATION from the phase-start plan, byte-justified — **BOTH named routes were refuted:**
@@ -78,7 +84,17 @@ proceeds; the first P30 commit waits on it.
       bare `except` swallowing R32 during a rebuild; truth **2,184 / 138**, which **vindicates the
       T0(f) "2,192" pin** I had wrongly called stale (§126a).
       **Handoff → T3:** drafting the 2,200 is crack-wave work; seeds cached; `match_one --o0`.
-- [ ] **T3 — The standing crack-wave loop [Ultracode waves; Max between]** — lanes interleaved,
+- [x] **T3 — The standing crack-wave loop** ✅ **RAN across S26–S29, all four lanes exercised, with a
+      measured per-lane verdict** (the ROI floor is a LANE property, not a phase property):
+      · **Lane B (top-mass fresh families) PAYS and is not exhausted** — S27 waves 1–4 (8/14 · 15/19 ·
+        48/48 · 69/70) + 7 confirmed behemoths at 700–970 ins; S28 the jtbl OVER-SPAN fix + the 710-ins
+        `func_80191C50`; S29 the jr-pair = frontier families #3 and #4 by templatable weight, banked
+        ×138 each for ~0 agent tokens after the instrument repair.
+      · **Lane C (tail mass, ×2-reach cached band) is AT the floor** — S28 measured 1.33M tokens →
+        12 banks → **+0.00pp headline**. That, not the phase, is what the ROI floor names.
+      · Lane A (zero-crack propagation) + Lane D (PINS/W4/permuter) exercised; 29 zero-crack families
+        remain as propagation-only fuel behind matched exemplars.
+      *(Original text:)* — lanes interleaved,
       propagate behind every crack same-session:
       A zero-crack (~61, propagation-only) · B top-mass fresh families (no size cap; jr via
       `jtbl_family_bank`; `gate_stage` call-site-casts, never bulk header edits) · C tail mass on
