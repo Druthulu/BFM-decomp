@@ -384,6 +384,42 @@ def jtbl_range(ov, jtbl_hex, labels, region_end_vram, fn=None, sub=None):
             print(f"jtbl_carve: jtbl_{jtbl_hex}: trimmed {(end - trimmed) // 4} trailing .align pad "
                   f"word(s) — {n} real entries")
             end = trimmed
+
+    # ---- OVER-SPAN CLAMP (P30 S28) ----------------------------------------------------------
+    # The trim above only removes ZERO words, because its axiom is "0x00000000 cannot be a jump
+    # target". But spimdisasm attributes to a dlabel everything up to the NEXT dlabel, and that
+    # trailing remainder is not always zero — it can be ordinary NON-ZERO data. Then nothing trims,
+    # the carve reserves more words than the table has, the object supplies only the real entries,
+    # and the `.rodata` piece UNDER-FILLS: every later symbol shifts down and every `%lo` that
+    # references one changes. That is the exact §84-class image shift this function's docstring
+    # warns about, arriving through the one door the zero-word rule does not cover.
+    #
+    # MEASURED (ov_SC06_018 / func_80191C50, the P30 "jtbl_carve diverges" instrument failure):
+    # `sltiu 0xC` = 12 entries; the emitted .rodata has 12 words; the carve reserved 13 (the 13th
+    # word is 0x3038200A — real data, non-zero, so untrimmed). Result: −4 bytes, 812 `%lo`
+    # immediates changed, whole-binary DIFF. Isolate alone was byte-neutral; only the carve broke.
+    #
+    # AUTHORIZATION is the same as the SPLIT-TABLE REPAIR above and no weaker: the owning
+    # function's OWN `sltiu N`, used only when it is UNAMBIGUOUS (exactly one bound — a
+    # multi-switch function cannot say which table owns which bound), and only when the surplus
+    # words are NOT plausible jump targets. A word inside this overlay's text range might be a real
+    # entry, so if any surplus word looks like a code address we REFUSE to clamp and fall through
+    # to the existing loud shortfall/So-verify path rather than silently dropping a live entry.
+    if len(bounds) == 1 and words:
+        want = next(iter(bounds))
+        have = (end - start) // 4
+        if have > want:
+            surplus = words[want:have]
+            if any(0x80100000 <= w < 0x801D0000 for w in surplus):
+                print(f"jtbl_carve: ⚠ jtbl_{jtbl_hex}: span {have} exceeds {fn}'s `sltiu {want}`, "
+                      f"but {sum(1 for w in surplus if 0x80100000 <= w < 0x801D0000)} surplus "
+                      f"word(s) look like code addresses — REFUSING to clamp (a real entry may be "
+                      f"at stake). Verify by hand before banking.", file=sys.stderr)
+            else:
+                print(f"jtbl_carve: jtbl_{jtbl_hex}: clamped {have - want} trailing NON-ZERO "
+                      f"word(s) — {fn}'s own `sltiu {want}` names {want} entries and the surplus is "
+                      f"not code (spimdisasm ran the dlabel into the following data)")
+                end = start + want * 4
     return start, end
 
 
