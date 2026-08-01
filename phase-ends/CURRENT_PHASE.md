@@ -147,7 +147,48 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 
 ---
 
-# 🛑 SESSION-29 CHECKPOINT (2026-08-01 ~00:40) — FRESH SESSION SAFE HERE · AT GATE 2
+# 🛑 SESSION-29 CHECKPOINT (2026-08-01, refreshed ~11:2x) — FRESH SESSION SAFE HERE
+> Supersedes the earlier S29 block below (which said "AT GATE 2"; Drew then directed **P30 stays
+> OPEN** and approved the T6 continuation). **Nothing is running. Tree lock FREE. Tree clean** but
+> for the R23 `db.*.gbf` churn (never stage). **HEAD `commit:1335`.** Effort: Max → **xHigh** (Drew).
+
+## FLEET — R22 clean-fleet **140 passed / 0 failed** (run 5× this session, 140/140 every time)
+**93.81% fn-count · 90.9% instr-weighted · 83.9% distinct-code** (73,381 unique fns) · dedup 1905/0 ·
+0 NON_MATCHING. Phase opened 92.00 / 87.5 / 78.0 ⇒ **+1.81pp fn, +3.4pp instr, +5.9pp distinct.**
+Session start (S28 close) was 93.25 / 89.2 / 80.5 ⇒ **+0.56 / +1.7 / +3.4pp today.**
+
+## WHAT S29 DID
+1. **`JR-PAIR-IN-ONE-O0-OBJECT` RETIRED** — two instrument defects (§132), not a compiler wall:
+   `jtbl_carve` blind to a merged-double span + no `.DELETE_ON_ERROR` (a truncated `.o` outlived its
+   own loud compile error and the NEXT build linked it). Pair banked ×138 = 276 instances.
+2. **S1 zero-crack tier — 186 members** (head `func_8014032C` 137/137 = 25,071 ins via the new
+   `--span-rel`, §132b; `func_8017BEBC` 13/13; + jr tier). My routing error recorded: 13 of 28
+   families are not jr and carve-failed by construction (§123's own law).
+3. **S2 — both remaining reach-138 heads cracked.** `func_8016EC0C` (void-return delay-slot idiom)
+   ×138; **`func_80176734` (371 ins — the largest single item in the frontier) banked first try** and
+   propagated. TWO agents reached byte-identical solutions independently via different lever sets.
+4. **S3 measured, not scaled** — 77% of stored drafts have DECAYED (7/30 still verify); the survivors
+   are def-side-walled. A fleet `sed` over decls touched 2,046 files and failed ⇒ reverted (§29 law).
+5. **UC wave 1 (14 agents): 14/14 match_one MATCH → 8 banked heads** by three different mechanisms
+   (plain gate · a NEW targeted decl reconcile that edits only the line the compiler names · the
+   `gate_stage` ladder). **1,370 member instances propagated, 0 failed.**
+6. **Cookbook §132 · §132a · §133** (the DEFAULT-FILTER class — three times in one session a tool
+   silently answered a narrower question than the one asked).
+
+## ▶ RESUME HERE (T6 order, S1–S3 done; nothing blocked)
+- **UC wave 2** — the remaining 13 ×138 redraft heads (~46k templatable ins). Same workflow script:
+  `.claude/…/workflows/scripts/p30-uc-wave1-*.js` (args as an array OR a JSON string — patched).
+  Targets: `.run/uc_targets.json` rows 15+.
+- **The 6 wave-1 non-banked** (`func_80176144`, `func_8014E5B4`, `func_80146AFC`, `func_801376E8`,
+  `func_80151664`, `func_8012EFB8`): all `match_one` MATCH, blocked on conflicts in OTHER symbols
+  (`D_800AF634`, `D_8011D030`, `func_80153C18`) = the data/callee reconcile class. Drafts in `.run/uc/`.
+- **S4 PINS** (14 fns / 44,279 ins) · **S5** the ×10-133 band (142,527 ins).
+- **T5 close** fires on the measured ROI floor — note the ×138 band is NOT exhausted (§133): 33
+  fresh-crack families / 238,478 ins existed at wave-1 start; wave 1 consumed ~81k of it.
+
+---
+
+# 🛑 (superseded) SESSION-29 CHECKPOINT (2026-08-01 ~00:40) — AT GATE 2
 > Supersedes SESSION-28 below. **Nothing is running. Tree lock FREE. Tree clean** but for the R23
 > `db.*.gbf` churn (never stage). **HEAD `commit:1303`.** Effort: **Max** all session.
 > `make tools-health` **RC=0** at close; **R22 clean-fleet run TWICE this session, 140/140 both times.**
