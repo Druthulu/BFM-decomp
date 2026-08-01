@@ -839,7 +839,107 @@ void func_8013B7F4(s32 a0, s32 a1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_000/nonmatchings/ov_SC05_000_o0c", func_8013B83C);
+extern s32 D_8019ABE8;
+extern s32 D_8019AC4C;
+
+void func_8013B83C(s32 a0, s32 a1, s32 a2) {
+    typedef struct {
+        s32 f0;
+        u16 f4;
+        u16 f6;
+        u16 f8;
+        u16 fA;
+        s32 fC;
+        u8  pad[8];
+        s32 f18;
+    } Ent_8013B83C;                       /* sizeof 0x1C */
+    extern Ent_8013B83C D_801DAA08_e[] __asm__("D_8019AB30");
+    extern s32 D_8019ABCC;
+    extern s32 D_8019ABD0;
+    extern s32 D_8019ABD4;
+    extern s32 D_8019ABF8;
+    extern s32 D_8019AC48;
+    extern s32 D_8019AC50;
+    extern s16 D_800B9A0E;
+    extern void func_80052D90(s32 a0, void *a1);
+    extern void func_8013C08C(void *a0, s32 a1);
+    s32 i;
+
+    D_8019ABE8 = 0;
+    D_8019ABD4 = 0;
+    D_8019ABD0 = 0;
+    D_8019ABCC = 0;
+    func_80052D90(0, &D_8019ABF8);
+    if (a0 == 0) {
+        return;
+    }
+    D_8019AC48 = a2 + 500;
+    D_8019AC4C = a2;
+    for (i = 0; i < 4; i++) {
+        D_801DAA08_e[i].f0 = 0;
+        D_801DAA08_e[i].f4 = D_801DAA08_e[i].f6 = D_801DAA08_e[i].f8 = 0x6000;
+        D_801DAA08_e[i].fC = 0x100;
+        D_801DAA08_e[i].f18 = 0;
+    }
+    switch (*(u8 *)a0) {
+    case 0x42:
+        if (D_800B9A0E == 0) {
+            func_8013BD74(&D_8019ABE8, a0);
+        } else {
+            func_8013BD74(&D_8019ABE8, a1);
+        }
+        D_8019AC50 = 0;
+        break;
+    case 0x43:
+        func_8013C08C(&D_8019ABE8, a0);
+        D_8019AC50 = 1;
+        break;
+    case 0x44:
+        func_8013C08C(&D_8019ABE8, a0);
+        D_8019AC50 = 2;
+        break;
+    case 0x45:
+        func_8013C08C(&D_8019ABE8, a0);
+        D_8019AC50 = 3;
+        break;
+    case 0x46:
+        func_8013C08C(&D_8019ABE8, a0);
+        D_8019AC50 = 4;
+        break;
+    case 0x47:
+        func_8013C08C(&D_8019ABE8, a0);
+        D_8019AC50 = 5;
+        break;
+    case 0x48:
+        func_8013C08C(&D_8019ABE8, a0);
+        D_8019AC50 = 6;
+        break;
+    case 0x49:
+        func_8013C08C(&D_8019ABE8, a0);
+        D_8019AC50 = 9;
+        break;
+    case 0x4A:
+        func_8013C08C(&D_8019ABE8, a0);
+        D_8019AC50 = 0xC;
+        break;
+    case 0x4B:
+        func_8013C08C(&D_8019ABE8, a0);
+        D_8019AC50 = 0xD;
+        break;
+    case 0x4C:
+        func_8013C08C(&D_8019ABE8, a0);
+        D_8019AC50 = 0xE;
+        break;
+    case 0x4D:
+        func_8013C08C(&D_8019ABE8, a0);
+        D_8019AC50 = 0xF;
+        break;
+    case 0x4E:
+        func_8013C08C(&D_8019ABE8, a0);
+        D_8019AC50 = 0x10;
+        break;
+    }
+}
 
 
 typedef struct { char pad_8013BC7C[0x68]; s32 f68; } S_8013BC7C_8013BC7C;
