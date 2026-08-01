@@ -4432,7 +4432,26 @@ void func_8017084C(s32 a0) {
     func_801708B0((void *)a0);
 }
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_8016AB6C", func_801708B0);
+extern void func_801484B0(s32 a0, s32 a1);
+extern void func_80149350(s32 arg0);
+extern s32 func_8014C168(s32*, s32);
+extern void func_80171928(void *a0);
+extern void *D_8011F738;
+
+void func_801708B0(void* a0)
+{
+    u16 sp10[4];
+    u16 sp18[4];
+    short *r;
+    func_801484B0((s32)&sp10, (s32)&sp18);
+    ((void (*)(s32, void *, void *))func_80149350)((s32)a0, &sp10, &sp10);
+    r = (short *)((s32 (*)(s32, s32))func_8014C168)((s32)a0, (*(s32 *)&D_8011F738));
+    r[3] = sp10[0];
+    r[5] = sp10[1];
+    r[7] = sp10[2];
+    func_80171928((void *)a0);
+}
+
 
 DEFINE_func_80170928()  /* dedup: shared engine-core @0x80170928 (src/shared) */
 
@@ -4488,7 +4507,38 @@ void func_80170C74(void *a0) {
 
 DEFINE_func_80170CB0()  /* dedup: shared engine-core @0x80170CB0 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_8016AB6C", func_80170CF0);
+extern void func_801718AC(void *a0);
+extern void *D_8011F738;
+extern s32 D_8011F73C;
+extern s32 D_8011F740;
+
+void func_80170CF0(void* a0)
+{
+    s32 v1;
+    void *p;
+    ((void (*)(s32))D_8011F738)(a0);
+    v1 = *(u8 *)(a0 + 0x217);
+    if (v1 == 1) {
+        goto case_1;
+    }
+    if (v1 <= 1) {
+        goto done;
+    }
+    if (v1 == 2) {
+        goto case_2;
+    }
+    goto done;
+case_1:
+    p = (*(void * *)&D_8011F73C);
+    goto call;
+case_2:
+    p = (*(void * *)&D_8011F740);
+call:
+    func_801718AC(p);
+done:
+    ;
+}
+
 
 extern void (*D_8018A04C[])(void *);
 

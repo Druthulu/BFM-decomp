@@ -1367,7 +1367,70 @@ DEFINE_func_8013767C()  /* dedup: shared engine-core @0x8013767C (src/shared) */
 
 DEFINE_func_801376C8()  /* dedup: shared engine-core @0x801376C8 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_80135D20", func_801376E8);
+#include "common.h"
+
+/* @class: plumbing (globals-around-two-calls)
+ * @stuck: none — MATCH (51 ins).
+ *
+ * RECONCILE (§37/§124 ASM-LABEL ALIAS) — no TU / header edit required.
+ *   Gate error: ov_SC01_077_jr_80135D20.c:1415: conflicting types for `func_801376E8'
+ *               || previous declaration at :1368
+ *   :1368 is DEFINE_func_801376C8(), the shared engine-core macro that carries
+ *   `extern void func_801376E8(int a0, int a1);` — a VOID return. The target's last
+ *   pre-epilogue instruction is `addu $v0, $s1, $zero`, i.e. it RETURNS &D_801269F0,
+ *   so the definition MUST be non-void; a `void` definition makes gcc-2.7.2 merely warn
+ *   and DROP the returned value, killing that instruction (LENGTH-DRIFT/-1, 50 ins).
+ *   The conflict is on func_801376E8 ITSELF and is a pure RETURN-type disagreement
+ *   (params already agree: int,int), so the §37/§124 alias applies verbatim:
+ *   define under the C name aF801376E8 with __asm__("func_801376E8") so the C-level
+ *   declaration never collides, while the emitted symbol is still func_801376E8.
+ *   Codegen is untouched — an asm label renames the symbol, nothing else.
+ *   (The earlier draft's `//@EDIT` widening of the shared extern to `void *` is a
+ *   T2 fleet-shared edit; the alias is T0 draft-only. Cookbook §124: fix the reader,
+ *   not the source.)
+ *
+ * Byte levers (unchanged from the passing draft):
+ *  - `obj` local holding (s32)&D_801269F0: the address is CSEd ONCE into $s1 and reused
+ *    for both jal args and the return (same idiom as the neighbouring func_80137B80).
+ *  - D_80126A24 is s16 (`lh`) but D_80126A26 is u16 (`lhu`) with an explicit (s16) cast
+ *    at the use site: gcc combines the cast's `sll 16; sra 16` with the `>>1` into
+ *    `sll 16; sra 17`, which is exactly what the target emits. A plain s16 D_80126A26
+ *    would give `lh; sra 1` instead.
+ *  - D_80126A14 as u16[2] (`lhu` loads, `%lo(D_80126A14 + 0x2)` for element 1).
+ */
+
+extern s32 D_801269F0;
+extern u8 D_801269FD;
+extern u16 D_80126A14[];
+extern s16 D_80126A1C;
+extern s16 D_80126A20;
+extern s16 D_80126A22;
+extern s16 D_80126A24;
+extern u16 D_80126A26;
+
+extern void func_801377B4(s32 a0, s32 a1, s32 a2);
+extern void func_80139BE0(s32 a0);
+
+void *aF801376E8(int a0, int a1) __asm__("func_801376E8");
+
+void *aF801376E8(int a0, int a1)
+{
+    u16 *p = (u16 *)a1;
+    s32 obj = (s32)&D_801269F0;
+
+    func_801377B4(a0, 0x6200, obj);
+    D_80126A1C = 0x1C;
+    D_801269FD = 0;
+    if (p != 0) {
+        D_80126A14[0] = p[0];
+        D_80126A14[1] = p[1];
+    }
+    func_80139BE0(obj);
+    D_80126A20 = (D_80126A14[0] + 0x28) - ((D_80126A24 + 0x28) >> 1);
+    D_80126A22 = D_80126A14[1] - ((s16)D_80126A26 >> 1);
+    return (void *)obj;
+}
+
 
 DEFINE_func_801377B4()  /* dedup: shared engine-core @0x801377B4 (src/shared) */
 

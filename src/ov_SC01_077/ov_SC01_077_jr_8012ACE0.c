@@ -1168,7 +1168,88 @@ DEFINE_func_8012EF34()  /* dedup: shared engine-core @0x8012EF34 (src/shared) */
 
 DEFINE_func_8012EF70()  /* dedup: shared engine-core @0x8012EF70 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_8012ACE0", func_8012EFB8);
+/* func_8012EFB8 — "Handwritten function" (GTE): RotTrans of one SVECTOR.
+ * Verbatim PsyQ inline_c.h macro bodies (same set already byte-proven in
+ * ov_SC03_099_jr_8012ACE0.c func_801330E0). SetRotMatrix + SetTransMatrix both
+ * take the same &D_800AF648 -> gcc CSEs the address into $v0. `flag` has its
+ * address taken by a "memory"-clobbering asm, so it lives at 0($sp) and the
+ * `return flag` reloads it -> lw $v0, 0($sp) in the epilogue. */
+
+#define gte_SetRotMatrix(r0) __asm__ volatile (          \
+    "lw $12, 0( %0 );"                                   \
+    "lw $13, 4( %0 );"                                   \
+    "ctc2 $12, $0;"                                      \
+    "ctc2 $13, $1;"                                      \
+    "lw $12, 8( %0 );"                                   \
+    "lw $13, 12( %0 );"                                  \
+    "lw $14, 16( %0 );"                                  \
+    "ctc2 $12, $2;"                                      \
+    "ctc2 $13, $3;"                                      \
+    "ctc2 $14, $4"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+
+#define gte_SetTransMatrix(r0) __asm__ volatile (        \
+    "lw $12, 20( %0 );"                                  \
+    "lw $13, 24( %0 );"                                  \
+    "ctc2 $12, $5;"                                      \
+    "lw $14, 28( %0 );"                                  \
+    "ctc2 $13, $6;"                                      \
+    "ctc2 $14, $7"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+
+#define gte_ldv0(r0) __asm__ volatile (                  \
+    "lwc2 $0, 0( %0 );"                                  \
+    "lwc2 $1, 4( %0 )"                                   \
+    :                                                    \
+    : "r"( r0 ) )
+
+#define gte_rtps() __asm__ volatile ("nop;nop;rtps")
+
+#define gte_stsxy(r0) __asm__ volatile (                 \
+    "swc2 $14, 0( %0 )"                                  \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "memory" )
+
+#define gte_stflg(r0) __asm__ volatile (                 \
+    "cfc2 $12, $31;"                                     \
+    "nop;"                                               \
+    "sw $12, 0( %0 )"                                    \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "memory" )
+
+/* §37/§124 asm-label alias: the fleet canon declares this `extern void
+ * func_8012EFB8(s32 a0);` inside the DEFINE_func_* macros in
+ * src/shared/engine_core.h (the one at src/ov_SC01_077/ov_SC01_077_jr_8012ACE0.c:1169
+ * comes from DEFINE_func_8012EF70()).  The byte-true body returns s32 and takes
+ * TWO pointers, so it conflicts on BOTH the return axis and the arity axis.
+ * Aliasing the C name sidesteps both with no header edit and no codegen change.
+ * This declaration MUST travel with the body. */
+s32 aF8012EFB8(void *param_1, void *param_2) __asm__("func_8012EFB8");
+
+s32 aF8012EFB8(param_1, param_2)
+    void *param_1;
+    void *param_2;
+{
+    extern u8 D_800AF648;
+    s32 *m;
+    s32 flag;
+
+    m = (s32 *)&D_800AF648;
+    gte_SetRotMatrix(m);
+    gte_SetTransMatrix(m);
+    gte_ldv0(param_1);
+    gte_rtps();
+    gte_stsxy(param_2);
+    gte_stflg(&flag);
+    return flag;
+}
+
 
 // @class: other
 // @stuck: none — MATCH (33 ins, match_one verified)

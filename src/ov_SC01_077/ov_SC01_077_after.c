@@ -567,7 +567,81 @@ INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_after", func_80146A6C);
 
 DEFINE_func_80146AB4()  /* dedup: shared engine-core @0x80146AB4 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_after", func_80146AFC);
+/* func_80146AFC — ASCENDING twin of the byte-proven DEFINE_func_80146B9C()
+ * in src/shared/engine_core.h (cookbook §71: find the already-matched sibling first).
+ * Same 0x58-stride slot table (base D_8011D030), same 7-store copy body in the same
+ * order, same $a2/$a1 giv pair. 80146B9C walks DOWN; this one walks UP, so the guard
+ * is `p < end`, end = p + 0xA50 (30 slots x 0x58).
+ *
+ * DECAY ROOT CAUSE (this redraft): the stored backlog draft had been rewritten to
+ * `void func_80146AFC(...)`, which drops BOTH `return 0` paths' `addu $v0,$zero,$zero`
+ * and the hit path's `j .L80146B94` => LENGTH-DRIFT -2 (38 vs 40) plus $v0/$v1 regalloc
+ * drift on the final lw/sw pair. Restoring the s32 return type (the fleet spelling the
+ * banked sibling func_80146B9C already uses) restores MATCH at 40/40.
+ *
+ * RECONCILE (2026-08-01) — the whole-binary gate failed with
+ *   ov_SC01_077_after.c:592: conflicting types for `D_8011D030' (previous decl :564)
+ * TWO file-scope collisions were present; both are fixed HERE, with NO edit to
+ * src/shared/engine_core.h and NO change to the generated code (re-verified MATCH
+ * after each step):
+ *
+ *   1. D_8011D030 (the reported one). DEFINE_func_801469C8() emits
+ *      `extern s32 D_8011D030;` at FILE scope (engine_core.h:10811, above the
+ *      `s32 func_801469C8(...) {` line), and this TU expands that macro at :564 —
+ *      i.e. before the splice point :570. The draft's `extern u16` therefore
+ *      redeclared it incompatibly at :592. Conformed to the TU's `extern s32`.
+ *      Codegen-neutral: the sole use is `(u8 *)&D_8011D030`, an address-of, so the
+ *      declared object type never reaches a load/store width (cookbook §20).
+ *
+ *   2. func_80146AFC ITSELF (latent, would have surfaced next). DEFINE_func_8014C010()
+ *      (:13510) and DEFINE_func_8014AD30() (:13524) each emit a file-scope
+ *      `extern void func_80146AFC(void *a0);`, and this TU expands them at :1386 and
+ *      :1541 — after the splice — so an `s32 func_80146AFC` definition collides on the
+ *      RETURN axis. Fixed with the §37/§124 ASM-LABEL ALIAS: the C identifier is
+ *      aF80146AFC, the emitted label is func_80146AFC, so the canonical void decl and
+ *      this s32 definition never share a namespace. Callers discard the result, so the
+ *      void-typed call sites stay codegen-identical.
+ *
+ * Both were reproduced and then cleared against the real cpp+cc1-2.7.2 pair using a
+ * synthetic copy of this TU's declaration environment (.run/uc2/_recon_probe_80146AFC.c):
+ * the pre-reconcile spelling emits exactly the gate's error pair; the spelling below
+ * compiles clean.
+ *
+ * ORACLE: tools/match_one.py func_80146AFC --c .run/uc2/func_80146AFC.c
+ *         --asm-subdir asm/ov_SC01_077/nonmatchings/ov_SC01_077_after  -> MATCH (40 ins)
+ */
+
+extern s32 D_8011D030;
+
+s32 aF80146AFC(void *arg0) __asm__("func_80146AFC");
+
+s32 aF80146AFC(void *arg0)
+{
+    register u8 *p __asm__("$6");
+    register u8 *q __asm__("$5");
+    u8 *end;
+    p = (u8 *)&D_8011D030;
+    end = p + 0xA50;
+    if ((u32)p < (u32)end) {
+        q = p + 0x30;
+        do {
+            if (*(u16 *)p == 0) {
+                *(s32 *)(q + 0x4) = *(s32 *)((u8 *)arg0 + 0x8);
+                *(s16 *)p = *(u16 *)((u8 *)arg0 + 0x0);
+                *(s16 *)(q - 0x2A) = *(u16 *)((u8 *)arg0 + 0x2);
+                *(s16 *)(q - 0x26) = *(u16 *)((u8 *)arg0 + 0x4);
+                *(s16 *)(q - 0x22) = *(u16 *)((u8 *)arg0 + 0x6);
+                *(s32 *)(q - 0x4) = *(s32 *)((u8 *)arg0 + 0xC);
+                *(s32 *)(q + 0x0) = *(s32 *)((u8 *)arg0 + 0x10);
+                return (s32)p;
+            }
+            p += 0x58;
+            q += 0x58;
+        } while ((u32)p < (u32)end);
+    }
+    return 0;
+}
+
 
 DEFINE_func_80146B9C()  /* dedup: shared engine-core @0x80146B9C (src/shared) */
 
@@ -2645,7 +2719,119 @@ DEFINE_func_8014E48C()  /* dedup: shared engine-core @0x8014E48C (src/shared) */
 
 DEFINE_func_8014E514()  /* dedup: shared engine-core @0x8014E514 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_after", func_8014E5B4);
+#include "common.h"
+
+// @class: loop-guard  (h_norm family exemplar, reach x138)
+// @stuck: none — MATCH (59 ins) under match_one. Sibling/template: func_8014CF04 in
+//         ov_SC03_099_after.c:1592.
+//
+// RECONCILE FIX (2026-08-01, RECONCILE lane): the whole-binary gate died with
+//     src/ov_SC01_077/ov_SC01_077_after.c:2717: conflicting types for `func_8014E5B4'
+//     || previous declaration at :2644
+// Line 2644 is `DEFINE_func_8014E48C()`, whose macro body (src/shared/engine_core.h:13392)
+// expands a file-scope `extern void func_8014E5B4(s32 a0, void *a1, void *a2);` eight lines
+// above where this definition splices in. The conflict is on func_8014E5B4 ITSELF and it is
+// purely the RETURN axis (params are already spelled canonically: s32/void*/void*).
+//
+// The return type is LOAD-BEARING here (see DECAY note below), so `void` is not an option.
+// Fix = the §37/§124 ASM-LABEL ALIAS, the same lever that banked func_8014C4AC today
+// (.run/sweep/*/func_8014C4AC.c): define the body under the C name aF8014E5B4 carrying
+// __asm__("func_8014E5B4"). The emitted symbol is unchanged, the C identifier never collides
+// with the macro's extern, and NO tracked header edit is needed — the engine_core.h:13392
+// §85 return-axis widen described in the old banking note is now UNNECESSARY.
+// Byte-checked: match_one MATCH (0 mismatches) before and after the rename.
+// The alias line MUST travel with the body to every sibling overlay.
+//
+// DECAY FIX (2026-08-01, REDRAFT lane) — why the return type cannot be `void`: with `void`,
+// gcc-2.7.2 drops the value axis entirely: no `addiu $v0,$zero,0x1`, no `addu $v0,$zero,$zero`
+// at .L8014E674, and the `j .L8014E678` merge disappears (the taken path falls straight into
+// the shared epilogue), which also frees $v0 so the last `lhu` lands in $v0 instead of the
+// target's $v1. `s32` fixes all 23 mismatches at once.
+//
+// Keys (same D_801202A0 96-entry / stride-0x10C sweep as the func_8014CF04 and func_8014D2A0
+// siblings, so most of it is the already-banked idiom):
+//
+//  (1) LOOP-BOUND DUALITY, register-relative BOTH ends (differs from func_8014CF04!). The
+//      target computes `addiu $v1,$s1,0x6480` for the ENTRY guard and then a separate
+//      `addu $s5,$v1,$zero` AFTER the guard branch for the loop-carried bound. That extra
+//      copy is 1 whole instruction: the plain `e = p + 0x6480; if (p < e)` spelling folds it
+//      away and compiles to 58 ins. The spelling that reproduces it is
+//        `if (p < p + 0x6480) { e = p + 0x6480; ... }`
+//      — the guard makes $v1, CSE turns the in-body `e = p + 0x6480` into a copy of it, and
+//      regalloc does not coalesce (gcc-2.7.2 has no coalescing, regalloc.md K8). The back edge
+//      then uses the register ($s5), NOT a rematerialised %hi/%lo(D_80126720) as in
+//      func_8014CF04 — so do NOT reuse that sibling's absolute-bound half here.
+//
+//  (2) TWO INDUCTION VARIABLES, secondary base +0xE. `q = p + 0xE` carries every access except
+//      the two that use the entry pointer itself (`*(u16 *)p` and `*(u8 **)(a0+0x17C) = p`):
+//      offsets -0x8 / 0x0 / 0x12 / 0x4A / 0x4E off q  ==  0x6 / 0xE / 0x20 / 0x58 / 0x5C off p.
+//      A single-pointer spelling is NOT equivalent: gcc emits ONE base and the function comes
+//      out 56 ins (verified). The negative displacement is the tell that the second pointer is
+//      in the source, not a compiler-made giv.
+//
+//  (3) REGISTER PINS ($16/$17) — the one non-obvious lever, and it is a genuine density
+//      knife-edge (regalloc.md K2 / §RC-15). Unpinned, the .lreg reads
+//        p:  9 refs / 24 insns -> floor_log2(9)*9/24 = 1.125
+//        q:  8 refs / 22 insns -> floor_log2(8)*8/22 = 1.091
+//      so p wins $s0 by ~3% and the whole function comes out with p/q SWAPPED (17 mismatches,
+//      every one of them a bare $s0<->$s1 rename). The target wants q in $s0. Decl-order swap
+//      does nothing (ties are not what decides it — p genuinely out-scores q). Rather than
+//      hunt a +1-ref anchor (§RC-11 `#APP` would sit next to three delay slots that maspsx
+//      fills: the `beqz $a1` slot, the `jal` slot and the `bnez` slot), pin both:
+//        register u8 *p __asm__("$17");  register u8 *q __asm__("$16");
+//      Both are callee-saved, so the live-across-`jal` range is §42e/§74-safe by construction
+//      (the ov_SC03_099 func_8014D820 caveat only applies to caller-saved pins). Everything
+//      else falls out naturally: a0->$s2, a1->$s3, a2->$s4, e->$s5.
+//
+//  (4) `t = *(s32 *)(q + 0x4A)` is loaded ONCE and reused as arg1 of func_80135888 — that is
+//      why `lw $a1, 0x4A($s0)` sits at the zero-test rather than at the call.
+//
+// The func_80135888 decl below is byte-compatible with the one this TU already carries at
+// ov_SC01_077_after.c:2303, so it is not a second conflict axis.
+
+extern s32 func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
+
+/* §37/§124 asm-label alias: the fleet canon declares this `extern void` (engine_core.h:13392,
+ * inside DEFINE_func_8014E48C()); the byte-true body must return s32. Aliasing the C name
+ * sidesteps the RETURN-axis conflict with no header edit. This line MUST travel with the body. */
+s32 aF8014E5B4(s32 a0, void *a1, void *a2) __asm__("func_8014E5B4");
+
+s32 aF8014E5B4(s32 a0, void *a1, void *a2)
+{
+
+    extern u8 D_801202A0[];
+    register u8 *p __asm__("$17");
+    register u8 *q __asm__("$16");
+    u8 *e;
+    s32 t;
+
+    p = D_801202A0;
+    if (p < p + 0x6480) {
+        e = p + 0x6480;
+        q = p + 0xE;
+    loop:
+        if (*(u16 *)p != 0) {
+            if ((*(u16 *)(q + 0x4E) & 0x40) != 0) {
+                t = *(s32 *)(q + 0x4A);
+                if (t != 0) {
+                    if (func_80135888(*(s32 *)(q + 0x12), t, (s32)a1, (s32)a2) != 0) {
+                        *(u8 **)(a0 + 0x17C) = p;
+                        *(u16 *)(a0 + 6) = *(u16 *)(q - 8);
+                        *(u16 *)(a0 + 0xE) = *(u16 *)q;
+                        return 1;
+                    }
+                }
+            }
+        }
+        p += 0x10C;
+        q += 0x10C;
+        if (p < e) {
+            goto loop;
+        }
+    }
+    return 0;
+}
+
 
 // @class: other
 // @stuck: none — MATCH (handwritten scratchpad-stack-switch; exact sibling of byte-proven func_8014CCB4, only the jal callee differs)
@@ -3522,7 +3708,48 @@ DEFINE_func_80151238()  /* dedup: shared engine-core @0x80151238 (src/shared) */
 
 DEFINE_func_8015126C()  /* dedup: shared engine-core @0x8015126C (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_after", func_80151664);
+/* func_80151664 — INTEGRATE lane.
+ * Fleet canon (src/shared/engine_core.h:2924, inside DEFINE_func_8015410C()) declares
+ *   extern void func_80151664(void);
+ * so a `void func_80151664(s32 a0)` definition is `conflicting types` in every TU that
+ * expands that macro (ov_SC01_077_after.c:3910 does).  Cookbook §73 PARAMS axis / §42:
+ * keep the canonical (void) signature and read the incoming argument through a $a0 pin.
+ * The decl below is reproduced verbatim so this file compiles the real conflict. */
+extern void func_80151664(void);
+
+extern void func_80154A74(s32 a0, s32 a1);
+extern void func_801553C0(s32 a0);
+extern void func_801470AC(s32 *a0);
+extern void func_801472B4(void *a0);
+extern void func_801477E8(s32 *a0, s32 a1);
+extern void func_80153C18();  /* fleet canon: K&R empty prototype (engine_core.h:75, :1682 defines it (void));
+                                 * a prototyped (s32) decl is `conflicting types` in this TU. Arg still
+                                 * passes in $a0 under default promotions -> codegen unchanged. */
+
+void func_80151664(void) {
+    register s32 a0v __asm__("$4");
+    s32 s0;
+    s32 v1;
+
+    s0 = a0v;
+    func_80154A74(s0, 0x11);
+    func_801553C0(s0);
+    func_801470AC((s32 *)s0);
+    func_801472B4((void *)s0);
+    v1 = *(s32 *)(s0 + 0x20);
+    *(s16 *)(s0 + 0x3E) = 0;
+    *(s16 *)(s0 + 0x40) = 0;
+    *(s16 *)(s0 + 0x42) = 0;
+    *(s8 *)(s0 + 0xDD) = 0;
+    *(s16 *)(s0 + 0x3C) = *(u16 *)(s0 + 0x3C) & 0xFFFE;
+    *(s16 *)(v1 + 0x10) = 0;
+    *(s16 *)(s0 + 0x60) = 0x1000;
+    *(s16 *)(s0 + 0x62) = 0x1000;
+    *(s16 *)(s0 + 0x64) = 0x1000;
+    func_801477E8((s32 *)s0, 0);
+    func_80153C18(s0);
+}
+
 
 DEFINE_func_801516F0()  /* dedup: shared engine-core @0x801516F0 (src/shared) */
 
