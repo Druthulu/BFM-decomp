@@ -1287,13 +1287,138 @@ DEFINE_func_801372B0()  /* dedup: shared engine-core @0x801372B0 (src/shared) */
 
 DEFINE_func_801375EC()  /* dedup: shared engine-core @0x801375EC (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC06_027/nonmatchings/ov_SC06_027_jr_80135D20", func_80137614);
+extern void func_801375EC(s32 a0, s16 a1);
+
+// @class: schedule (arg-copy placement) — PIN-FREE
+// match_one: MATCH (26 ins).  rtu: MATCH (26 ins) with NO //@EDIT and NO header edit.
+//
+// ---- RECONCILE 2026-08-01 (uc2 -> uc3) ---------------------------------------------------
+// GATE ERROR was:
+//   jr_80135D20.c:1412 conflicting types for func_80137614 || :1362 previous declaration
+// :1362 is `DEFINE_func_801375EC()`, whose expansion (src/shared/engine_core.h:2819) carries
+//   extern void func_80137614(s32 a0, s32 a1, s32 a2);
+// and it is instantiated two lines ABOVE this function's INCLUDE_ASM splice point (:1364).
+// :1412 is this draft's own definition.  So the conflicting symbol is func_80137614 ITSELF
+// and the axis is the §73 RETURN type: the shared header says `void`, the target ends
+// `addu $v0, $s0, $zero` and callers in other overlays consume the result
+// (ov_SC03_099_jr_80178D40.c already declares it `extern s32 func_80137614(s32,s32,s32)`),
+// so the definition MUST stay s32.  Re-voiding the definition is the decay loop: gcc-2.7.2
+// silently drops the $v0 set and you get 25/26 ins, class LENGTH-DRIFT/-1.
+//
+// ESCAPE USED: §37/§124 ASM-LABEL ALIAS (escape #2).  The definition is given a distinct C
+// identifier `aF80137614` with __asm__("func_80137614"), so it never collides with the
+// header's `extern void func_80137614` while still emitting the canonical symbol.  Zero
+// header edits, zero TU edits, blast radius 0 — this replaces uc2's //@EDIT §65b de-macroize
+// of DEFINE_func_801375EC, which would have had to be repeated at all 138 sweep sites.
+// The TU already uses this exact idiom 60-odd lines below
+// (`void *aF801376E8(int a0, int a1) __asm__("func_801376E8");`), so it travels to siblings.
+// The in-TU call from func_801375EC still binds to the header's extern declaration and
+// resolves to the same symbol at link time; func_801375EC's own 10 instructions are unchanged.
+//
+// ---- CODEGEN (unchanged from uc2 — do not touch) -----------------------------------------
+// Residual before the lever: 4 mismatched, the (sw $sN / addu $sN,$aX) prologue PAIRS mirrored —
+// target births $s2<-a2 then $s3<-a1; the naive draft births $s3<-a1 then $s2<-a2 (parm order),
+// and drags `sw $s3` above `sw $s2` with it.  Register ASSIGNMENT was already right in both, so
+// this is NOT a regalloc problem.  Measured INERT: body statement order, extra plain locals,
+// K&R parm-declaration order (incl. declaring a2 before a1 in the K&R decl block).
+//
+// LEVER — cookbook §67 (arg-copy PLACEMENT).  One zero-instruction launder of the a1 parameter
+// pins WHERE its entry copy materialises; a2's copy then takes the earlier slot and the register
+// saves fall back into ascending order.  DIRECTION MATTERS and is the opposite of the intuition:
+// laundering a2 (the copy that must move EARLIER) is inert — launder the copy that must land
+// LATER.  §67 rule 1 respected: the laundered local is NOT pinned.  A pinned variant
+// (register s32 __asm__("$18") / __asm__("$19") on a2/a1) also MATCHes, but pins are strictly
+// worse for the ×138 family sweep (§42e/§86 pin guard), so the pin-free single launder is banked.
+//
+// Shape copied from the matched next-door sibling DEFINE_func_8013767C() (engine_core.h),
+// which is this function minus the 0xD8 mask and the +0x1C halfword store.
+
+extern s32 func_801399A8(void);
+extern void func_801377B4(s32 a0, s32 a1, s32 a2);
+
+s32 aF80137614(s32 a0, s32 a1, s32 a2) __asm__("func_80137614");
+
+s32 aF80137614(s32 a0, s32 a1, s32 a2)
+{
+    s32 v1, s0;
+    __asm__("" : "=r"(v1) : "0"(a1));
+    s0 = func_801399A8();
+    if (s0 != 0) {
+        func_801377B4(a0, a2 & 0xD8, s0);
+        *(s16 *)(s0 + 0x1C) = v1;
+    }
+    return s0;
+}
+
 
 DEFINE_func_8013767C()  /* dedup: shared engine-core @0x8013767C (src/shared) */
 
 DEFINE_func_801376C8()  /* dedup: shared engine-core @0x801376C8 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC06_027/nonmatchings/ov_SC06_027_jr_80135D20", func_801376E8);
+
+/* @class: plumbing (globals-around-two-calls)
+ * @stuck: none — MATCH (51 ins).
+ *
+ * RECONCILE (§37/§124 ASM-LABEL ALIAS) — no TU / header edit required.
+ *   Gate error: ov_SC01_077_jr_80135D20.c:1415: conflicting types for `func_801376E8'
+ *               || previous declaration at :1368
+ *   :1368 is DEFINE_func_801376C8(), the shared engine-core macro that carries
+ *   `extern void func_801376E8(int a0, int a1);` — a VOID return. The target's last
+ *   pre-epilogue instruction is `addu $v0, $s1, $zero`, i.e. it RETURNS &D_801269F0,
+ *   so the definition MUST be non-void; a `void` definition makes gcc-2.7.2 merely warn
+ *   and DROP the returned value, killing that instruction (LENGTH-DRIFT/-1, 50 ins).
+ *   The conflict is on func_801376E8 ITSELF and is a pure RETURN-type disagreement
+ *   (params already agree: int,int), so the §37/§124 alias applies verbatim:
+ *   define under the C name aF801376E8 with __asm__("func_801376E8") so the C-level
+ *   declaration never collides, while the emitted symbol is still func_801376E8.
+ *   Codegen is untouched — an asm label renames the symbol, nothing else.
+ *   (The earlier draft's `//@EDIT` widening of the shared extern to `void *` is a
+ *   T2 fleet-shared edit; the alias is T0 draft-only. Cookbook §124: fix the reader,
+ *   not the source.)
+ *
+ * Byte levers (unchanged from the passing draft):
+ *  - `obj` local holding (s32)&D_801269F0: the address is CSEd ONCE into $s1 and reused
+ *    for both jal args and the return (same idiom as the neighbouring func_80137B80).
+ *  - D_80126A24 is s16 (`lh`) but D_80126A26 is u16 (`lhu`) with an explicit (s16) cast
+ *    at the use site: gcc combines the cast's `sll 16; sra 16` with the `>>1` into
+ *    `sll 16; sra 17`, which is exactly what the target emits. A plain s16 D_80126A26
+ *    would give `lh; sra 1` instead.
+ *  - D_80126A14 as u16[2] (`lhu` loads, `%lo(D_80126A14 + 0x2)` for element 1).
+ */
+
+
+extern void func_801377B4(s32 a0, s32 a1, s32 a2);
+extern void func_80139BE0(s32 a0);
+
+void *aF801376E8(int a0, int a1) __asm__("func_801376E8");
+
+void *aF801376E8(int a0, int a1)
+{
+
+    extern s32 D_801269F0;
+    extern u8 D_801269FD;
+    extern u16 D_80126A14[];
+    extern s16 D_80126A1C;
+    extern s16 D_80126A20;
+    extern s16 D_80126A22;
+    extern s16 D_80126A24;
+    extern u16 D_80126A26;
+    u16 *p = (u16 *)a1;
+    s32 obj = (s32)&D_801269F0;
+
+    func_801377B4(a0, 0x6200, obj);
+    D_80126A1C = 0x1C;
+    D_801269FD = 0;
+    if (p != 0) {
+        D_80126A14[0] = p[0];
+        D_80126A14[1] = p[1];
+    }
+    func_80139BE0(obj);
+    D_80126A20 = (D_80126A14[0] + 0x28) - ((D_80126A24 + 0x28) >> 1);
+    D_80126A22 = D_80126A14[1] - ((s16)D_80126A26 >> 1);
+    return (void *)obj;
+}
+
 
 DEFINE_func_801377B4()  /* dedup: shared engine-core @0x801377B4 (src/shared) */
 

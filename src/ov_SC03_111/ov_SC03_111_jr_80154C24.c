@@ -1343,7 +1343,62 @@ DEFINE_func_801564B0()  /* dedup: shared engine-core @0x801564B0 (src/shared) */
 
 DEFINE_func_801565C0()  /* dedup: shared engine-core @0x801565C0 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC03_111/nonmatchings/ov_SC03_111_jr_80154C24", func_80156600);
+
+// @class: MATCH (18 ins) — match_one, asm-subdir asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_80154C24
+//
+// RECONCILE (uc2 -> uc3).  The body is UNCHANGED and still MATCHes; only the declaration
+// environment moved.
+//
+// Gate error: `conflicting types for func_80156600 || previous declaration`.  The conflicting
+// symbol is func_80156600 ITSELF.  ov_SC01_077_jr_80154C24.c:1747 instantiates
+// DEFINE_func_80157EA4(), whose macro body (src/shared/engine_core.h:11395) carries
+//     extern s32 func_80156600(void *a0);
+// and calls it at engine_core.h:11409 as `v1 = (s32 *)func_80156600(a0);`.
+// The byte-true body is NULLARY — the target zeroes $a0 at entry and uses it as the loop
+// counter — so `s32 (void)` vs the header's `s32 (void *)` is a PARAM/ARITY disagreement on
+// our own definition.  Neither declaration can be changed: the header decl is fleet-shared
+// (137 siblings instantiate the same macro), and adding a phantom `void *` parameter to the
+// definition perturbs the $a0 allocation.
+//
+// Escape: §37/§124 ASM-LABEL ALIAS.  The definition is given the private C name aF80156600
+// and the assembler label "func_80156600", so it never collides with the canonical
+// declaration while still emitting the required symbol for the macro's call site.  Zero
+// header edits, zero codegen change (verified: cc1 on the real spliced TU is diagnostic-free,
+// and match_one still prints MATCH).  This declaration MUST travel with the body.
+//
+// Everything else is as in uc2: externs at BLOCK scope (rule D — keeps the bank travellable to
+// the 137 siblings; the sibling func_80156670 declares the same two symbols at function scope
+// in the same TU at :1427/:1432), and D_80126AF0 typed as plain u8[] because the body only
+// ever does pointer arithmetic on it (+8/entry) — the file-scope `extern S8 D_80126AF0[];`
+// form needs engine_types.h, which common.h does not pull in.
+//
+// Codegen shape: a counter in $a0, a byte cursor $a1 walking D_80126AF0 by 8, a word cursor
+// $v1 walking D_801151E0 by 4; the `addu $v0,$a1,$zero` return value sits in the bnez delay
+// slot, and the loop fallthrough re-zeroes $v0 for the not-found return.
+s32 aF80156600(void) __asm__("func_80156600");
+
+s32 aF80156600(void)
+{
+    extern u8 D_80126AF0[];
+    extern s32 D_801151E0[];
+    s32 i;
+    u8 *p;
+    s32 *q;
+
+    i = 0;
+    p = &D_80126AF0[0];
+    q = &D_801151E0[0];
+    do {
+        if (*q & 1) {
+            return (s32)p;
+        }
+        p += 8;
+        i += 1;
+        q += 1;
+    } while ((u32)i < 3);
+    return 0;
+}
+
 
 DEFINE_func_80156648()  /* dedup: shared engine-core @0x80156648 (src/shared) */
 

@@ -3288,7 +3288,58 @@ DEFINE_func_80161278()  /* dedup: shared engine-core @0x80161278 (src/shared) */
 
 DEFINE_func_801612B8()  /* dedup: shared engine-core @0x801612B8 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC05_002/nonmatchings/ov_SC05_002_jr_8015C32C", func_8016130C);
+extern void func_80161240(void *a0);
+extern s32 func_801612B8(void * a0, s32 a1);
+#define SHB(x) __asm__ __volatile__("" : "=r"(x) : "0"(x))
+#define SHB(x) __asm__("" : "=r"(x) : "0"(x))
+
+extern void func_801599A4(void*);
+extern void func_8015BDD0(s32*);
+extern void func_8015BF48(s32*);
+
+/* REDRAFT (decay axis: RETURN TYPE). The stored draft had been flipped to
+ * `void` to fit the fleet header decl in src/shared/engine_core.h, while the
+ * body still `return 1; / return 0;`. gcc-2.7.2 silently drops the $v0 sets in
+ * that situation, costing the three `addiu $v0, $zero, 1` / `addu $v0,$zero,$zero`
+ * instructions the ASM plainly has. Restored to s32 (§109/§85 — the single call
+ * site `func_8016130C(a0, func_801612B8(a0, 1));` discards the result, so the
+ * void->s32 widen is caller-neutral and must be fixed on the HEADER side). */
+
+/* RECONCILE (§37/§124 asm-label alias — zero header touch).
+ * Gate error: jr_8015C32C.c:3501 conflicting types for `func_8016130C'
+ *             :3479 previous declaration.
+ * TU line 3479 is `DEFINE_func_80161240()`, whose expansion (engine_core.h:3781)
+ * declares `extern void func_8016130C(void *a0, s32 a1);` — a RETURN-TYPE
+ * disagreement with this draft's required `s32`.  The third line the gate quoted
+ * (:5228 "location of previous definition") is unrelated noise: it is the
+ * pre-existing `#define SHB(x)` redefinition *warning* between TU lines 5227 and
+ * 5538, present with or without this draft.
+ * Fix: the C identifier becomes aF8016130C, so it never collides with the
+ * canonical `void func_8016130C` declaration, while the GNU asm label makes the
+ * EMITTED symbol `func_8016130C`.  The macro's caller func_80161240 keeps calling
+ * the `extern void` spelling and is byte-unaffected (it discards the return).
+ * Codegen for this function is untouched — match_one still MATCH.
+ * (Alternative, house style, NOT taken here per the no-header-edit rule: widen
+ * src/shared/engine_core.h:3781 to `extern s32 func_8016130C(void *a0, s32 a1);`
+ * and rename back to the plain name — byte-identical either way.) */
+
+s32 aF8016130C(void *a0, s32 a1) __asm__("func_8016130C");
+
+s32 aF8016130C(void *a0, s32 a1)
+{
+    if ((a1 == 0) || (a1 == 0x8000)) {
+        func_801599A4(a0);
+        ((void (*)(void *))func_8015BDD0)(a0);
+        return 1;
+    }
+    if ((a1 & 0x4000) != 0) {
+        func_801599A4(a0);
+        ((void (*)(void *))func_8015BF48)(a0);
+        return 1;
+    }
+    return 0;
+}
+
 
 
 // @class: schedule
@@ -3574,7 +3625,30 @@ DEFINE_func_80161B84()  /* dedup: shared engine-core @0x80161B84 (src/shared) */
 
 DEFINE_func_80161BE0()  /* dedup: shared engine-core @0x80161BE0 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC05_002/nonmatchings/ov_SC05_002_jr_8015C32C", func_80161C24);
+
+extern void func_80147324();
+
+/* RECONCILE (§17a-1/§20): the TU already declares
+ *   extern void func_80161C24(s32, s32);   (jr_8015C32C.c:1474 / :1417)
+ * so the definition must use (int, int); the unsigned semantics of param_2
+ * are restored by a cast at each use (codegen-neutral: sltiu + index math). */
+void func_80161C24(int param_1, int param_2)
+{
+
+    extern unsigned short D_80182CE0[];
+    extern unsigned short D_80182CE2[];
+
+    if ((unsigned int)param_2 < 8) {
+        if (*(u8 *)(param_1 + 0xDA) != 0) {
+            func_80147324(D_80182CE0[(unsigned int)param_2 * 2]);
+            *(u8 *)(param_1 + 0xDA) = 0;
+        } else {
+            func_80147324(D_80182CE2[(unsigned int)param_2 * 2]);
+            *(u8 *)(param_1 + 0xDA) = 1;
+        }
+    }
+}
+
 
 
 // @class: struct
@@ -3592,7 +3666,58 @@ void func_80161C98(int param_1, u32 param_2)
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_002/nonmatchings/ov_SC05_002_jr_8015C32C", func_80161CD0);
+
+// @class: plumbing
+// @stuck: none — MATCH (20 ins)
+// DECAY AXIS: return type. The stored draft declared `s32 func_80161CD0(...)` with no
+// return statement. That kept $v0 live-out at the epilogue, so gcc-2.7.2's delayed-branch
+// pass refused to speculatively fill the second `beqz $v0` delay slot from the fall-through
+// with `sll $v0, $s0, 1` — costing one extra nop (21 vs 20 ins) and shifting both branch
+// displacements. Declaring the function `void` makes $v0 dead at the return and the fill
+// happens. Same return-type axis as the wave, opposite direction (s32 -> void).
+// param_2 must be UNSIGNED: the guard assembles as `sltiu $v0, $s0, 0x8`.
+//
+// RECONCILE (§37/§124 asm-label alias) — the ONLY change vs the uc2 draft; the body is
+// byte-identical and untouched.
+//   The real TU src/ov_SC01_077/ov_SC01_077_jr_8015C32C.c already carries the m2c canonical
+//   declaration
+//       :23   extern s32 func_80161CD0(s32 a0, s32 a1);   /* match-first, arity 2 */
+//       :1207 extern s32 func_80161CD0(s32 a0, s32 a1);
+//   so a plain `void func_80161CD0(int, unsigned int)` definition dies with
+//       conflicting types for `func_80161CD0' / previous declaration ... (rtu_match CC1 FAIL).
+//   This is the RETURN axis (s32 vs void) plus the param-2 signedness axis, and BOTH spellings
+//   are load-bearing for the 20-instruction codegen — conforming the definition to the
+//   declaration (escape #1) would perturb bytes, so it is not available here.
+//   The alias fixes it at T0: the C identifier is aF80161CD0 (no declaration to collide with)
+//   while the EMITTED SYMBOL is func_80161CD0. In-TU callers keep using the `extern s32`
+//   spelling and are byte-unaffected (they discard the return). Zero tracked files touched;
+//   no header edit is even possible/needed — grep shows func_80161CD0 has NO declaration in
+//   include/ or src/shared/, the conflict is purely TU-local m2c boilerplate.
+//   Exactly the pattern already banked at src/ov_SC03_099/ov_SC03_099_jr_8015C32C.c:3503
+//   for the sibling func_8016191C.
+//
+//   NOTE on the third gate diagnostic (`:5223 note: location of previous definition`): that is
+//   a RED HERRING, unrelated to this function. It is the pre-existing CPP note paired with
+//   `:5533 warning: "SHB" redefined` — the TU defines the SHB scheduling-barrier macro twice
+//   (post-splice :5222 with __volatile__, :5533 without). It is a warning, present with or
+//   without this draft, and it does not fail cc1.
+
+extern int func_800CF8B4();
+extern void func_80147324(int arg0);
+
+void aF80161CD0(int param_1, unsigned int param_2) __asm__("func_80161CD0");
+
+void aF80161CD0(int param_1, unsigned int param_2)
+{
+
+    extern unsigned short D_80182D10;
+    if (param_2 < 8) {
+        if (func_800CF8B4() != 0) {
+            func_80147324((&D_80182D10)[param_2]);
+        }
+    }
+}
+
 
 
 // @class: struct
@@ -5927,7 +6052,22 @@ void func_80168AA8(void *a0) {
 
 DEFINE_func_80168AE4()  /* dedup: shared engine-core @0x80168AE4 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC05_002/nonmatchings/ov_SC05_002_jr_8015C32C", func_80168B70);
+
+extern void func_80168BDC(s32 a0, s32 a1, s32 a2, s32 a3);
+/* Conform to the TU's canonical decl (jr_8015C32C.c:5546 `extern void func_80146C3C(void);`)
+ * and cast at the use site — same escape the TU already uses at :6388. Codegen-neutral. */
+extern void func_80146C3C(void);
+
+void func_80168B70(s32 a0) {
+    s32 *p = (s32 *)a0;
+    if (--p[0x1C / 4] != -1) {
+        func_80168BDC(a0, 9, 3, 1);
+    } else {
+        func_80168BDC(a0, 9, 2, 1);
+        ((void (*)(s32))func_80146C3C)(a0);
+    }
+}
+
 
 DEFINE_func_80168BDC()  /* dedup: shared engine-core @0x80168BDC (src/shared) */
 

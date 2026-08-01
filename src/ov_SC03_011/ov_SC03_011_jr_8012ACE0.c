@@ -988,7 +988,142 @@ DEFINE_func_8012EF34()  /* dedup: shared engine-core @0x8012EF34 (src/shared) */
 
 DEFINE_func_8012EF70()  /* dedup: shared engine-core @0x8012EF70 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC03_011/nonmatchings/ov_SC03_011_jr_8012ACE0", func_8012EFB8);
+#define gte_SetRotMatrix(r0) __asm__ volatile (         \
+    "lw $12, 0( %0 );"                                   \
+    "lw $13, 4( %0 );"                                   \
+    "ctc2 $12, $0;"                                      \
+    "ctc2 $13, $1;"                                      \
+    "lw $12, 8( %0 );"                                   \
+    "lw $13, 12( %0 );"                                  \
+    "lw $14, 16( %0 );"                                  \
+    "ctc2 $12, $2;"                                      \
+    "ctc2 $13, $3;"                                      \
+    "ctc2 $14, $4"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+#define gte_SetTransMatrix(r0) __asm__ volatile (        \
+    "lw $12, 20( %0 );"                                  \
+    "lw $13, 24( %0 );"                                  \
+    "ctc2 $12, $5;"                                      \
+    "lw $14, 28( %0 );"                                  \
+    "ctc2 $13, $6;"                                      \
+    "ctc2 $14, $7"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+#define gte_rtps() __asm__ volatile ("nop;nop;rtps")
+#define gte_stsxy(r0) __asm__ volatile (                 \
+    "swc2 $14, 0( %0 )"                                  \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "memory" )
+#define gte_SetRotMatrix(r0) __asm__ volatile (          \
+    "lw $12, 0( %0 );"                                   \
+    "lw $13, 4( %0 );"                                   \
+    "ctc2 $12, $0;"                                      \
+    "ctc2 $13, $1;"                                      \
+    "lw $12, 8( %0 );"                                   \
+    "lw $13, 12( %0 );"                                  \
+    "lw $14, 16( %0 );"                                  \
+    "ctc2 $12, $2;"                                      \
+    "ctc2 $13, $3;"                                      \
+    "ctc2 $14, $4"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+#define gte_SetTransMatrix(r0) __asm__ volatile (        \
+    "lw $12, 20( %0 );"                                  \
+    "lw $13, 24( %0 );"                                  \
+    "ctc2 $12, $5;"                                      \
+    "lw $14, 28( %0 );"                                  \
+    "ctc2 $13, $6;"                                      \
+    "ctc2 $14, $7"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+#define gte_ldv0(r0) __asm__ volatile (                  \
+    "lwc2 $0, 0( %0 );"                                  \
+    "lwc2 $1, 4( %0 )"                                   \
+    :                                                    \
+    : "r"( r0 ) )
+#define gte_rtps() __asm__ volatile ("nop;nop;rtps")
+#define gte_stsxy(r0) __asm__ volatile (                 \
+    "swc2 $14, 0( %0 )"                                  \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "memory" )
+#define gte_stflg(r0) __asm__ volatile (                 \
+    "cfc2 $12, $31;"                                     \
+    "nop;"                                               \
+    "sw $12, 0( %0 )"                                    \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "memory" )
+#define gte_SetRotMatrix(r0) __asm__ volatile (         \
+    "lw $12, 0( %0 );"                                   \
+    "lw $13, 4( %0 );"                                   \
+    "ctc2 $12, $0;"                                      \
+    "ctc2 $13, $1;"                                      \
+    "lw $12, 8( %0 );"                                   \
+    "lw $13, 12( %0 );"                                  \
+    "lw $14, 16( %0 );"                                  \
+    "ctc2 $12, $2;"                                      \
+    "ctc2 $13, $3;"                                      \
+    "ctc2 $14, $4"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+#define gte_SetTransMatrix(r0) __asm__ volatile (        \
+    "lw $12, 20( %0 );"                                  \
+    "lw $13, 24( %0 );"                                  \
+    "ctc2 $12, $5;"                                      \
+    "lw $14, 28( %0 );"                                  \
+    "ctc2 $13, $6;"                                      \
+    "ctc2 $14, $7"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+#define gte_ldv0(r0) __asm__ volatile (                  \
+    "lwc2 $0, 0( %0 );"                                  \
+    "lwc2 $1, 4( %0 )"                                   \
+    :                                                    \
+    : "r"( r0 ) )
+#define gte_stflg(r0) __asm__ volatile (                 \
+    "cfc2 $12, $31;"                                     \
+    "nop;"                                               \
+    "sw $12, 0( %0 )"                                    \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "memory" )
+
+/* §37/§124 asm-label alias: the fleet canon declares this `extern void
+ * func_8012EFB8(s32 a0);` inside the DEFINE_func_* macros in
+ * src/shared/engine_core.h (the one at src/ov_SC01_077/ov_SC01_077_jr_8012ACE0.c:1169
+ * comes from DEFINE_func_8012EF70()).  The byte-true body returns s32 and takes
+ * TWO pointers, so it conflicts on BOTH the return axis and the arity axis.
+ * Aliasing the C name sidesteps both with no header edit and no codegen change.
+ * This declaration MUST travel with the body. */
+s32 aF8012EFB8(void *param_1, void *param_2) __asm__("func_8012EFB8");
+
+s32 aF8012EFB8(param_1, param_2)
+    void *param_1;
+    void *param_2;
+{
+    extern u8 D_800AF648;
+    s32 *m;
+    s32 flag;
+
+    m = (s32 *)&D_800AF648;
+    gte_SetRotMatrix(m);
+    gte_SetTransMatrix(m);
+    gte_ldv0(param_1);
+    gte_rtps();
+    gte_stsxy(param_2);
+    gte_stflg(&flag);
+    return flag;
+}
+
 
 
 // @class: other
@@ -1898,9 +2033,105 @@ void func_80131B14() {
 
 DEFINE_func_80131C78()  /* dedup: shared engine-core @0x80131C78 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC03_011/nonmatchings/ov_SC03_011_jr_8012ACE0", func_80131CA8);
 
-INCLUDE_ASM("asm/ov_SC03_011/nonmatchings/ov_SC03_011_jr_8012ACE0", func_80131CF4);
+/* func_80131CA8 — RECONCILE (§37/§124 asm-label alias)
+ *
+ * Declaration-environment conflict, NOT a body problem:
+ *   The TU's DEFINE_func_80131C78() expansion (jr_8012ACE0.c L2232) and the later
+ *   DEFINE_func_80131D68() expansion (L2250) each emit the canonical
+ *       extern void func_80131CA8(int a0, int a1);
+ *   (src/shared/engine_core.h, e.g. L1961/L4131). The byte-correct body is
+ *   `s32 f(int)` — it disagrees on BOTH the return axis (s32 vs void) and the
+ *   arity axis (1 vs 2), so it collides with the macro-emitted declaration on
+ *   either side of the slot. Escape 1 (conform + cast at use) cannot apply: the
+ *   conflict is on the DEFINED symbol itself.
+ *
+ * Fix: define under the C name aF80131CA8 with __asm__("func_80131CA8") so the
+ * C-level name never meets the canonical declaration, while the emitted symbol
+ * is unchanged. Codegen-neutral — match_one still prints MATCH (19/19).
+ * This declaration MUST travel with the body.
+ *
+ * func_80131CF4 is declared here 1-arg s32, matching the engine_core canonical
+ * at engine_core.h L6563; it does not collide anywhere in this TU (verified by
+ * a full preprocess+cc1 of the spliced TU: diagnostic-free apart from
+ * pre-existing warnings).
+ */
+extern s32 func_80131CF4(s32 a0);
+
+s32 aF80131CA8(int a0) __asm__("func_80131CA8");
+
+s32 aF80131CA8(int a0)
+{
+    s32 (*fp)(int) = (s32 (*)(int))func_80131CF4(*(s32 *)((u8 *)a0 + 0xBC));
+    if (fp != 0) {
+        fp(a0);
+        return 1;
+    }
+    return 0;
+}
+
+
+
+
+/* func_80131CF4 — table lookup: walk (key, value) pairs; key 0xD chains to the
+ * next table via value; key == wanted returns value; key 0 terminates.
+ *
+ * The __asm__ inside the body is a matching pin, not logic. It does two things
+ * gcc-2.7.2 -O2 needs in order to reproduce the target's preheader exactly:
+ *   1. "0"(0xD) forces the 0xD compare constant to be materialised HERE
+ *      (`addiu $v1,$zero,0xD`) instead of being loop-hoisted, which places it
+ *      AFTER the preheader load and drops the load-delay nop at the loop head.
+ *   2. the "memory" clobber stops CSE folding the preheader re-read of a0[0]
+ *      into the guard's read (that CSE costs the second `lw $v0,0x0($a0)`).
+ * The asm body is empty, so it emits no instruction of its own.
+ *
+ * RECONCILE (§37/§124 asm-label alias) — the gate error was
+ *   jr_8012ACE0.c:2248 conflicting types for func_80131CF4 || :2164 previous declaration
+ * :2164 is `DEFINE_func_80131AC8()`, whose expansion (src/shared/engine_core.h:6563)
+ * carries the STALE 1-arg engine-core canonical `extern s32 func_80131CF4(s32 a0);`.
+ * That prototype is wrong for this function (the TU's own call sites at L1780/L1903/
+ * L2147 all declare and call the real 2-arg form `int func_80131CF4(int, int)`), but
+ * it is file-visible before the splice point, so a file-scope definition with the true
+ * signature is a hard `conflicting types` (arity AND param type). Conforming the
+ * definition to the 1-arg prototype is impossible without changing codegen, and the
+ * §42 `register s32 a1 __asm__("$5")` route would still leave the param-type mismatch
+ * on a0 (s32 vs s32*). So the definition is given a different C identifier and pinned
+ * to the real symbol with an asm label: no declaration ever collides, the emitted
+ * label is still `func_80131CF4`, and the callers' `jal func_80131CF4` binds to it.
+ * Zero header edits; body byte-identical (match_one: MATCH, 29 ins).
+ */
+s32 aF80131CF4(s32 *a0, s32 a1) __asm__("func_80131CF4");
+
+s32 aF80131CF4(s32 *a0, s32 a1) {
+    s32 v0;
+    s32 k;
+
+    if (a0 == 0) {
+        return 0;
+    }
+    goto enter;
+found:
+    return a0[1];
+enter:
+    if (a0[0] == 0) {
+        return 0;
+    }
+    __asm__ __volatile__("" : "=r"(k) : "0"(0xD) : "memory");
+    v0 = a0[0];
+    do {
+        if (v0 == k) {
+            a0 = (s32 *)a0[1];
+        } else {
+            if (v0 == a1) {
+                goto found;
+            }
+            a0 = (s32 *)((u8 *)a0 + 8);
+        }
+        v0 = a0[0];
+    } while (v0 != 0);
+    return 0;
+}
+
 
 DEFINE_func_80131D68()  /* dedup: shared engine-core @0x80131D68 (src/shared) */
 

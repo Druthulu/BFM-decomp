@@ -1809,7 +1809,28 @@ void func_801429C4(int param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_096/nonmatchings/ov_SC03_096_jr_80140608", func_80142A10);
+
+// @class: struct
+// @stuck: none — MATCH (array-of-fnptr %lo-fold + signed-halfword guard)
+// @reconcile: func_80142A80 is DEFINED later in this TU as `void func_80142A80(void)`.
+//   The uc2 draft declared it `extern void func_80142A80(int)` -> conflicting types.
+//   Escape §17a-1/§20: conform the declaration to the TU's, cast at the use site
+//   (codegen-neutral: the argument still lands in $a0).
+
+extern void func_80142A80(void);
+
+void func_80142A10(int param_1)
+{
+
+    extern void (*D_801821B0[])();
+    if (*(s16 *)&D_801270C0 != 3) {
+        D_801821B0[*(u16 *)(param_1 + 2)]();
+        if (*(s16 *)(param_1 + 0xFC) != 0) {
+            ((void (*)(int))func_80142A80)(param_1);
+        }
+    }
+}
+
 
 
 // @class: struct
