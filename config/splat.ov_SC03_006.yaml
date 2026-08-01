@@ -142,27 +142,26 @@ segments:
       - [0xcd64c, .rodata, ov_SC03_006_jr_8015444C]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
       - [0xcd728, .rodata, ov_SC03_006_jr_80154C24]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
       - [0xcd76c, .rodata, ov_SC03_006_jr_801588CC]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0xcd7b4, data, tail10]
       - [0xcd814, .rodata, ov_SC03_006_jr_80159C84]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0xcd848, data, tail11]
+      - [0xcd848, data, tail10]
       - [0xcd84c, .rodata, ov_SC03_006_jr_8015A3C8]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0xcd868, data, tail12]
+      - [0xcd868, data, tail11]
       - [0xcd86c, .rodata, ov_SC03_006_jr_8015AE2C]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0xcd8a8, data, tail13]
+      - [0xcd8a8, data, tail12]
       - [0xcd8ac, .rodata, ov_SC03_006_jr_8015C32C]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0xcd8c8, data, tail14]
+      - [0xcd8c8, data, tail13]
       - [0xcd8e0, .rodata, ov_SC03_006_jr_8016AB6C]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0xcd920, data, tail15]
+      - [0xcd920, data, tail14]
       - [0xcd960, .rodata, ov_SC03_006_jr_80171B4C]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
       - [0xcd980, .rodata, ov_SC03_006_jr_801734BC]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0xcd994, data, tail16]
+      - [0xcd994, data, tail15]
       - [0xcdb24, .rodata, ov_SC03_006_jr_801789AC]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
       - [0xcdb3c, .rodata, ov_SC03_006_jr_80178D40]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0xcdd40, data, tail17]
+      - [0xcdd40, data, tail16]
       - [0xcdd44, .rodata, ov_SC03_006_jr_8017A4AC]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0xcddd0, data, tail18]
+      - [0xcddd0, data, tail17]
       - [0xcddd4, .rodata, ov_SC03_006_jr_8017AE2C]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0xcdde8, data, tail19]
+      - [0xcdde8, data, tail18]
       - [0xCF75C, bin, trailing]    # final 3 bytes (EOF not 4-aligned; spimdisasm drops a partial word)
   - [0xCF75F]   # EOF marker = the 0.4.dec byte length
 # @TRAILING@ (above) is replaced by tools/new_overlay.sh: for a non-4-aligned overlay it becomes

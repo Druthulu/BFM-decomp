@@ -1524,7 +1524,63 @@ DEFINE_func_801599E0()  /* dedup: shared engine-core @0x801599E0 (src/shared) */
 
 DEFINE_func_80159A18()  /* dedup: shared engine-core @0x80159A18 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC03_097/nonmatchings/ov_SC03_097_jr_801588CC", func_80159A20);
+
+// @class: struct
+// Redraft of the DECAYED backlog draft. The stored seed took `void *param_1` and then
+// dereferenced it (`param_1[0xdd]`) — gcc-2.7.2 rejects that ("void value not ignored
+// as it ought to be"), so the seed no longer compiles at all. Fix: retype the parameter
+// as `unsigned char *`, which keeps every pointer offset byte-scaled (as void* arith did)
+// while making the byte load legal.
+// Structure preserved from the seed: the two return-tests are kept STRUCTURALLY
+// DIFFERENT (positive `if(==) goto mask;` per branch, not `if(!=) return;`) so gcc's
+// cross-jump pass cannot tail-merge them; and the outer test is inverted (`if(d != 1)`)
+// so the ==4/return path is the inline fall-through and the d==1 / p[2] path becomes the
+// forward beq-target block — matching the target block order.
+// Typedefs are BLOCK-SCOPE so the match travels to the sibling overlays.
+
+extern void (*D_801885D4[])(unsigned char *);
+
+extern void func_80150B28(int param_1);
+extern void func_80158638(unsigned char *);
+extern void func_8015126C(unsigned short *);
+extern void func_8014900C(int *a0);
+
+void func_80159A20(unsigned char *param_1)
+{
+    typedef unsigned short u16;
+    typedef unsigned int u32;
+    typedef int s32;
+    typedef unsigned char u8;
+
+    ((s32 (*)(void))func_80150B28)();
+    func_80158638(param_1);
+    ((void (*)(u8 *))func_8015126C)(param_1);
+    ((void (*)(u8 *))func_8014900C)(param_1);
+    D_801885D4[*(u16 *)param_1 & 0x7fff](param_1);
+    *(u32 *)(param_1 + 0x44) |= 0x8000000;
+    switch (*(u16 *)param_1) {
+    case 2:
+    case 3:
+    case 0xb:
+    case 0xc:
+        goto mask;
+    default:
+        return;
+    case 0x19:
+        if (param_1[0xdd] != 1) {
+            if (param_1[0xdd] == 4) {
+                goto mask;
+            }
+            return;
+        }
+        if (*(u16 *)(param_1 + 2) == 3) {
+            goto mask;
+        }
+        return;
+    }
+mask:
+    *(u32 *)(param_1 + 0x44) &= 0xf7ffffff;
+}
 
 DEFINE_func_80159B08()  /* dedup: shared engine-core @0x80159B08 (src/shared) */
 

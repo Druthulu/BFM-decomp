@@ -137,25 +137,24 @@ segments:
       - [0x7e074, .rodata, ov_SC07_010_jr_8015444C]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
       - [0x7e150, .rodata, ov_SC07_010_jr_80154C24]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
       - [0x7e194, .rodata, ov_SC07_010_jr_801588CC]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0x7e1dc, data, tail11]
       - [0x7e23c, .rodata, ov_SC07_010_jr_80159C84]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0x7e270, data, tail12]
+      - [0x7e270, data, tail11]
       - [0x7e274, .rodata, ov_SC07_010_jr_8015A3C8]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0x7e2b0, data, tail13]
+      - [0x7e2b0, data, tail12]
       - [0x7e2b4, .rodata, ov_SC07_010_jr_8015B950]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0x7e2d0, data, tail14]
+      - [0x7e2d0, data, tail13]
       - [0x7e2d4, .rodata, ov_SC07_010_jr_8015C32C]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0x7e2f0, data, tail15]
+      - [0x7e2f0, data, tail14]
       - [0x7e328, .rodata, ov_SC07_010_jr_8016AE5C]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0x7e348, data, tail16]
+      - [0x7e348, data, tail15]
       - [0x7e388, .rodata, ov_SC07_010_jr_80171B4C]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0x7e3a8, data, tail17]
+      - [0x7e3a8, data, tail16]
       - [0x7e54c, .rodata, ov_SC07_010_jr_801789AC]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0x7e564, data, tail18]
+      - [0x7e564, data, tail17]
       - [0x7e6dc, .rodata, ov_SC07_010_jr_80179B74]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0x7e7f8, data, tail19]
+      - [0x7e7f8, data, tail18]
       - [0x7e7fc, .rodata, ov_SC07_010_jr_8017AE2C]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0x7e810, data, tail20]
+      - [0x7e810, data, tail19]
       - [0x813EC, bin, trailing]    # final 3 bytes (EOF not 4-aligned; spimdisasm drops a partial word)
   - [0x813EF]   # EOF marker = the 0.4.dec byte length
 # @TRAILING@ (above) is replaced by tools/new_overlay.sh: for a non-4-aligned overlay it becomes
