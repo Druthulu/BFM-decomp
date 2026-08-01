@@ -110,191 +110,70 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 
 # 🛑 SESSION-28 CHECKPOINT (2026-07-31 08:1x) — FRESH SESSION SAFE HERE
 > Supersedes SESSION-27 below. **Nothing is running. Tree lock FREE. Tree clean** but for the R23
-> `db.*.gbf` churn (never stage). **HEAD `commit:1286`+** (+ this doc commit).
+> `db.*.gbf` churn (never stage). **HEAD `commit:1291`** (+ this doc commit).
 > Effort: opened **xHigh** → **Max** for the jr re-measurement and the T2 probe ladder → back to
 > **xHigh** for the driver + sweep. `make tools-health` RC=0 at session open.
-> **R22 clean-fleet run FIVE times this session, 140/140 every time.**
+> **R22 clean-fleet run THIRTEEN times this session, 140/140 every time** (one 139/140 and one
+> 137-file false-pass, both MINE, both caught and reverted — see the honesty ledger).
 
-## FLEET — R22 clean-fleet **140 passed / 0 failed** (verified EIGHT times this session)
-**93.17% fn-count · 89.1% instr-weighted · 80.4% distinct-code** (72,016 / 87,459 unique fns) ·
-dedup 1905/0 · C1 240496/240496 · 0 NON_MATCHING linked. Phase opened at 92.00 / 87.5 / 78.0
-⇒ **+1.17pp fn-count, +1.6pp instr, +2.4pp distinct this phase.**
-**Distinct-code crossed 80%.**
+## FLEET — R22 clean-fleet **140 passed / 0 failed** (verified THIRTEEN times this session)
+**93.25% fn-count · 89.2% instr-weighted · 80.5% distinct-code** (72,153 / 87,459 unique fns) ·
+dedup 1905/0 · C1 240496/240496 · 0 NON_MATCHING. Phase opened 92.00 / 87.5 / 78.0
+⇒ **+1.25pp fn-count, +1.7pp instr, +2.5pp distinct this phase.**
 
-## 🎯 THE `-O0` HARVEST (the session's largest result, ZERO agent tokens)
-Routing the cluster to `-O0` unlocked functions **already cracked in ov_SC01_077** that could not
-be banked anywhere else because every destination file compiled `-O2`:
-- `dedup_propagate --recover 0x8013C360` (h_exact ×138) → **137 overlays byte-identical**
-- `family_sweep --hseq`, 10 variant families → **1,227 banked / 133 failed (90%)**
-- ⇒ **1,364 new banks**, +1,162 unique fns.
-**`--recover` was load-bearing (§75):** without it the tool takes its all-or-nothing branch — one
-failing overlay (the SOURCE) drops the whole function and it prints `all candidates dropped`, which
-reads exactly like a wall. Read the exclusion code, don't believe the message.
-**The 2 `has_mid_jr` families are now DONE too** — routed through `jtbl_family_bank` (the §81 carve
-chain per sibling, ~7s each): `func_8013C0F8` **137/137** and `func_8013C414` **137/137**, 0 failures,
-274 members / ~66k ins. Neither was bankable before the `-O0` routing.
-⇒ **the cluster harvest totals 1,638 banks for ZERO agent tokens.**
-**Independent corroboration of §125:** `jtbl_family_bank` is the SAME tool that returned `gate-fail`
-on every group-B (`func_8017BEBC`) probe. 137/137 here vs 0/4 there, same jr machinery ⇒ group B's
-failure really is its BODY, not the carve — which is what the body-free diagnostic said after I had
-first (wrongly) blamed the carve.
-**Still queued in the cluster:** the 133 sweep failures, and 3 addresses never cracked anywhere
-(`0x8013B83C`, `0x8013BD74`, `0x8013C08C`) — genuine drafting, now possible since their TU is `-O0`.
+## 🎯 THE THREE REACH-138 TARGETS + THE SWEEP RESIDUE — 270 members banked, 1 wall
+**✅ `func_8013C08C` 0/137 → 137/137** (`commit:1286`) — §94 type-carry; `E_13C08C` was a MULTI-LINE
+typedef at FILE scope and `extract_unit`'s backscan cannot carry one (it presents its CLOSING line
+first). Fix = §100 draft-local. Byte-neutral.
+**✅ `0x8013BC7C` 133/133** (`commit:1291`) — the sweep residue. My hypothesis (split tracks the `-O0`
+file) was REFUTED (SC07_006/007/011 were sub-split today and banked anyway), so I staged one member
+and READ the error: (1) a typedef textually identical to `engine_types.h`'s, which C89 still rejects
+— already handled by `harvest_verify`'s `cdecl.strip_provided_typedefs`; (2) §57 self-decl divergence
+⇒ **`--normalize-self-decls`**. One flag, 133/133.
+**⛔ `func_8013B83C` + `func_8013BD74` — NOT BANKED, class `JR-PAIR-IN-ONE-O0-OBJECT`.** Both bodies
+byte-correct (`--o0` MATCH, 272/198 ins). Two jr fns sharing one `-O0` object: carving both gives a
+valid span (pads `[0,4,4]`) and an INCREMENTAL build says BYTE-IDENTICAL, but the CLEAN build **cannot
+link** — `undefined reference to $L105` (local label from the C-emitted jtbl) + `undefined reference
+to func_8013C938` (a previously-MATCHED fn). **Untested escape: §81 step 1 — isolate one into its own
+code subseg so each object owns exactly one table.** Drafts preserved at `.run/s28w/`.
 
-## WHAT LANDED THIS SESSION
-- **Resume item 2 CLOSED — the "137 no matched unit" class: 137/137 banked, 0 failed** (`commit:1261`),
-  behind a one-line-class tool fix (`commit:1260`). R22 140/140. Cookbook **§124/§124a**.
-- **Resume item 3 CLOSED as 1-of-3 + group B 0/13, all ledgered with evidence** (`commit:1263`):
-  `func_80181CDC` (769 ins) banked via the §81 chain, R22 140/140.
-- **Resume item 1 RE-SCOPED (not banked)** — see below; it is T2 work, and now T2's best ×1 probe.
+## ▶ RESUME HERE — FRESH SESSION SAFE. Nothing running, tree clean, lock FREE.
+**Drew's directive at the S28 close:** items 1–3 done; **item 6 wants Max** (prompted, not started);
+**items 4–5 are for a FRESH SESSION** (this checkpoint is that handoff).
 
-## ⚠️ THE JR RESIDUE — RE-MEASURED AND LARGELY RETRACTED (Max pass; read this, not the first version)
-I first ledgered all three jr refusals as tooling walls off a body-free carve probe. **Re-measured by
-SHA vs `config/check.<ov>.sha` from a clean tree, two of the three verdicts were FALSE.** Verified:
+1. **[T1, Ultracode] Integration-recovery sweep** — the ~90 stored drafts that are `match_one`-MATCH
+   but integration-decayed, + the 10 named SESSION-16 blockers. Prior measured recovery 39%.
+   **Report point #2.** Prompt for `/effort ultracode` and WAIT (R26/R27).
+2. **[T3, Ultracode] More crack waves** — 3,873 fresh cached cores across 119 binaries
+   (`.run/p30w4_pool.json`). ⚠️ **S28 ROI evidence: a 15-target wave cost 1.33M tokens for 12 banks
+   and +0.00pp headline.** Only worth resuming against HIGH-REACH targets; ×2-reach drafting is not
+   where the leverage is. Deal ACROSS binaries so the gate fans out.
+3. **[Max] #9 — `jtbl_carve` diverges on ov_SC06_018** after a byte-neutral isolate (got `1b1667ea`,
+   want `cbbc4f44`, SHA-verified from a clean tree). The ONE confirmed instrument failure; blocks the
+   710-ins `func_80191C50`. Compare against `ov_SC05_010`, whose full chain succeeded S28.
+4. **[Max, xHigh-able] `JR-PAIR-IN-ONE-O0-OBJECT`** — try §81 step 1 (isolate one of the pair into its
+   own code subseg) so each object owns exactly one table. Worth 2 × 138.
+5. **[T5, Max] Phase close.** ⚠️ **Milestone reality: 89.2% instr vs a ≥95% bar.** The remaining
+   overlay volume is small; the bulk is main's 1,034 stubs + the 39 type-1 modules, both **P31 scope**.
+   P30 realistically closes on the milestone's **ledger branch** ("every remaining overlay stub on a
+   named wall/behemoth/queue ledger"), which is an explicit either/or in the approved milestone —
+   **Drew's call, to be made deliberately at T5, not discovered.**
 
-| target | `jr_isolate_all` | `jtbl_carve` | true verdict |
-|---|---|---|---|
-| `func_8018057C` / ov_SC01_009 (897) | **NEUTRAL** | not reached | "isolate breaks bytes" was **FALSE**; original failure NOT reproducible |
-| `func_80191C50` / ov_SC06_018 (710) | NEUTRAL | **DIVERGED** (1b1667ea vs cbbc4f44) | **REAL** — the one true instrument failure |
-| `func_8017BEBC` / ov_SC04_004 (group B ×13) | n/a | **NEUTRAL** | carve fine ⇒ failure is the **BODY**, the OPPOSITE of my first claim |
-
-**Root cause of my false verdicts (mine, not the tools'):** a grep-of-the-build-log gate inside a
-driver that did not revert on abort. `config/overlays.mk` is SHARED, so target 1's half-applied
-isolate was still in the tree when target 3 was measured. Also reproduced the §42b stale-object trap
-directly: `git checkout -- config/` WITHOUT a re-extract turned a byte-identical overlay into
-`[FAIL] got 8f28aa77 / want 38a3d919`. **The tidy "two walls are one tooling problem" story was wrong
-— they are two different problems and the third has no demonstrated problem at all.**
-§125 rewritten with the instrument rules (SHA not grep · re-extract after every change AND every
-revert · revert-on-abort · verify the baseline against canonical too). Ledger classes corrected to
-`UNREPRODUCIBLE-RETEST-NEUTRAL` / `JTBL-CARVE-BREAKS-BYTES` / `BODY-TEMPLATE-GATE-FAIL`.
-
-## ✅ T2 — THE CARVE-WITHIN-A-CARVE IS PROVEN AND TOOLED (Max pass; the phase's biggest unblock)
-The roadmap called T2 blocked on the **Arm-A splat `%lo +0x20`** defect. **It is not.** Four probes,
-one variable each, SHA vs canonical from a clean tree:
-| probe | isolated | result |
-|---|---|---|
-| 1 | sub-split a jr object at arbitrary addrs, pure `-O2` | **BYTE-NEUTRAL — Arm-A does not bite** |
-| 2 | same split, middle region → `-O0` | diverged (2 vars — inconclusive) |
-| 3 | probe-1's *name*, `-O0` flag only | diverged ⇒ **the FLAG, not the name** |
-| 4 | `-O0` regions cut to EXCLUDE matched bodies | **BYTE-IDENTICAL — route proven** |
-
-**THE LAW (cookbook §126): an address range is not an optimization region.** A range selected by
-address contains already-**MATCHED** bodies (`DEFINE_func_*()` from `engine_core.h`, compiled `-O2`);
-flipping the FILE recompiles them and they stop matching. Bound = *(range) MINUS (matched bodies)*;
-K interleaved matched fns ⇒ K+1 `-O0` sub-regions.
-**My own earlier "15 contiguous `-O0` fns, clean cut" was an UNDER-COUNT** — I derived it by scanning
-`asm/**/*.s` for the fp-prologue, and a matched fn emits no `.s`, so the scan was blind to exactly
-the bodies that break the flip (§124's shape, again).
-
-**Shipped:** `tools/o0_subsplit.py` (derives bounds from SOURCE anchors, K+1 regions, `_o0<letter>`
-naming, one-carve-per-region law, reuses `jr_isolate_all` verbatim) · Makefile `-O0` glob widened
-`_o0b`→`_o0?` (a missed rule is SILENT — the region would compile `-O2` and every residual be a pure
-artifact, §116; `corpus.o0_sources()` re-verified, 137 sources) · **6 fns banked** (ov_SC03_014 +
-ov_SC03_015 ×3 each; globals derived from each overlay's OWN asm, 6/6 `--o0` MATCH, 6/6 gated).
-The tool reproduced the hand-derived structure **first try** on the untouched sibling overlay.
-
-**THE SWEEP IS DONE — the cluster is ROUTED FLEET-WIDE** (`commit:1270`): `o0_subsplit` applied to
-**135/135** overlays, 0 refusals; 140 new `-O0` region files; `corpus.o0_sources()` 137 → **277**;
-**0** of them invisible to the `-O0` oracle (checked explicitly — a silent `-O0` miss is §126's exact
-failure mode); **2,200 open stubs now sit in a genuinely `-O0` TU**, having been un-bankable at any
-effort before. R22 140/140; `tools-health` OK (corpus 0/0 · cdecl green · audit-binaries 140/140
-citizens · dedup 1904/0 · C1 240359/240359). Gated by ONE clean-fleet R22 after a single-overlay
-probe, since the transform is byte-neutral by construction.
-
-⚠️ **POPULATION CORRECTION (mine, R14):** I first reported this cluster as "275 stubs / 18 overlays".
-**Wrong by 8×.** That scan ran while `extract-all` was rebuilding AND wrapped `corpus.stubs()` in a
-bare `except: continue`, swallowing the R32 coverage assertion. True: **2,184 stubs / 138 overlays** —
-which **vindicates the T0(f) "2,192 open members" pin I had called stale**. Cookbook **§126a**.
-
-## 🌊 T3 WAVE 1 (Ultracode, 30 agents, 1.33M tok) — 15 drafted / 15 rtu-confirmed / **12 BANKED**
-Target: the population the `-O0` routing made draftable. Every drafter self-checked with
-`match_one --o0` + `rtu_match --o0`; every MATCH was then re-run by an independent skeptic told to
-default to REFUTED ⇒ 15/15 confirmed, 0 disputed. **Whole-binary gate: 12/15** — textbook §52b.
-The 3 failures are NAMED INTEGRATION classes, none a compiler wall:
-`func_8013BD74` **CARVE-REFUSED** (it is a jr fn — needs the §81 carve chain; **reach 138**) ·
-`func_8013B83C` **CC1-FAIL** (real-TU compile, error not yet read; **reach 138**) ·
-`func_80184058` **PLUMBING**.
-
-⚠️ **`func_8013C08C` (reach 138) IS BANKED BUT NOT PROPAGATED.** First sweep said "0 families" —
-the map still listed it as a stub; regenerated per the `crack-wave-sweep-map-regen` path, then the
-sweep found 137 candidates and banked **0/137**. Per **§94 a family 0/N is a TYPE-CARRY failure
-until proven otherwise**, and this body carries a §100 body-scoped typedef ⇒ lift its local types
-transitively and re-sweep. **Open, NOT a wall.**
-
-📉 **ROI, honestly:** 1.33M tokens bought 12 banks and **+0.00pp headline** (93.17/89.1/80.4
-unchanged at displayed precision; distinct 72,016→72,028). The wave's real value is contingent —
-it rests on the three **reach-138** functions, and all three are currently unpropagated or
-gate-failed. **Fix the propagation before running wave 2**: drafting more ×2-reach targets is not
-where the leverage is.
-
-📓 **Flywheel (R16), the uncomfortable number: the index fired on only 3/15.** Agents independently
-re-derived the same undocumented idiom, and two found their decisive levers in a SOURCE COMMENT in
-`ov_SC01_077_o0.c` rather than in `docs/`. Distilled as **§127** (the `-O0` regime: the
-CONSTANT-OFFSET FOLD `p->f`→`lbu 3(r)` vs `p[i]`→`addiu;lw 0(r)`; spills are real named locals;
-write plain C), **§127a** (§71 sibling-first is the strongest `-O0` lever — read the banked fns in
-the target's own `_o0*` file first), **§127b** (promote levers out of source comments).
-
-## 🔎 §128 — 137 SOURCES WERE INVISIBLE TO GREP (found by accident; the session's sharpest catch)
-`grep -rn func_8013C08C src/` returned **nothing** for a function defined right there. The file held
-a **raw NUL inside a char literal** (`== '<NUL>'` instead of `== '\0'`). It COMPILES — the fleet was
-byte-identical — but `file(1)` calls it `data` and **grep treats it as BINARY and prints nothing,
-silently**. The file vanishes from every grep-based audit and hand search.
-**Scope: 137 files — every `_o0c`/`_o0e` region created THIS session.** A templated body carried the
-NUL, so one defective source propagated it fleet-wide in an afternoon. All fixed; **R22 140/140**.
-**New oracle:** `tools/audit_text_sources.py` + `make audit-text-sources`, in `tools-health`,
-coverage-asserted over all 3,887 tracked `.c`/`.h` (R32). The byte-gate is structurally blind to this
-(R34 — the bytes are *correct*), so it needed its own oracle. Same family as §124/§126a, one layer
-lower: in the tool everyone reaches for first.
-**My error, recorded (§128a):** the negative control corrupted the REAL tracked file and its restore
-left `'\\0'` (a multi-char constant) — R22 caught it at 139/140 before any commit. **A negative
-control must mutate a scratch copy under `.run/`, never the artifact it validates.**
-
-## 🎯 THE THREE REACH-138 TARGETS — 1 banked, 2 ledgered with precise blockers
-The wave's real leverage was three ×138 functions. Worked all three:
-
-**✅ `func_8013C08C` — 0/137 → 137/137** (`commit:1286`). §94 was right: a TYPE-CARRY failure.
-`E_13C08C` was a **multi-line typedef at FILE scope**, and `extract_unit`'s backscan walks back over
-extern/comment/blank/typedef lines — a multi-line typedef presents its CLOSING line first, matching
-none of them. Fix = **§100 draft-local**: the type moved into the body, where it is part of the unit
-by construction. Byte-neutral, R22 140/140.
-*The diagnosis was redone from scratch (R35): the first pass ran on grep searches that were silently
-skipping the file (§128), so none of it was trustworthy — it happened to point the right way.*
-*Fresh trap found while fixing: my comment contained a literal `}` and `extract_unit`'s brace-scan
-does not strip comments → it TRUNCATED the unit. Caught only by verifying, not assuming.*
-
-**⛔ `func_8013BD74` (198 ins ×138) — ledgered `JTBL-PAD-SPEC-DRIFT`.** Carve applies byte-identical;
-splicing the draft then fails cc1 with `jtbl_rodata_pads: more rodata .align directives than pad
-specs (2) — table-count drift vs the carve` (§8e's filter failing LOUD, by design). Real §8e work.
-**Two tooling traps found en route → §129:** (a) post-carve, `rtu_match` counts the jtbl's 28 data
-words as INSTRUCTIONS (`target=226` for a 198-ins fn) so its DIFF is meaningless — let the
-whole-binary gate arbitrate; (b) **never commit a carve whose owner is still a stub** — I did, it
-stranded the carve, `jr_inventory` refused (R32, `UNOWNED 0x801d828c`), reverted, R22 140/140. The
-route for a jr fn is the INTEGRATED `jtbl_family_bank` (one uncommitted transaction), not the §81
-hand-chain, whose two constraints (carve-before-bank vs clean-tree-to-bank) contradict.
-
-**⛔ `func_8013B83C` (272 ins ×138) — ledgered `CC1-FAIL-UNREAD`.** The cc1 diagnostic has NOT been
-read yet. Read it first (§125 rule 1); do not infer.
-
-## ▶ RESUME HERE (nothing blocked except where noted)
-0. **[T3, breadth] DRAFT the 2,200 newly-`-O0`-routed stubs** — 16 distinct addresses × ~137
-   overlays, cached Ghidra-C seeds confirmed present, `match_one --o0` is the per-fn check. Crack one
-   exemplar per address then template. **This is the largest single draftable population in the
-   phase.** Breadth ⇒ prompt Drew for `/effort ultracode` and WAIT (R26/R27).
-1. **[REAL, and now correctly scoped] `jtbl_carve` diverges on ov_SC06_018 after a neutral isolate**
-   — the ONE confirmed instrument failure (blocks the 710-ins `func_80191C50`). Compare against
-   `ov_SC05_010`, whose full chain succeeded this session; §8e's interior-pad law + `JTBL_PADS` and
-   the `--order` interleave are the suspects. Note a carve run WITHOUT the isolate refuses loudly
-   (non-contiguous `.rodata` 0xab9f4/0xaba4c) — that is the documented §81/§8b step-1 instruction,
-   not a divergence.
-1b. **group B `func_8017BEBC` ×13 is a BODY problem** — diff the remapped body against the sibling
-   TU; stop re-probing the carve. 4 gate-fails incl. one from a verified-clean tree.
-1c. **`func_8018057C` / ov_SC01_009** — just re-run the full isolate→carve→bank chain under the §125
-   instrument rules; its blocker was never demonstrated.
-2. **T2 `-O0` carve-within-a-carve.** Open with the **×1 probe on the 4th region** (below) — smaller
-   blast radius than the planned `ov_SC07_007` and it is the Arm-A `%lo +0x20` shift oracle.
-3. **Next wave**: 3,873 fresh cached cores across 119 binaries (`.run/p30w4_pool.json`), dealt ACROSS
-   binaries so the gate fans out. **Breadth ⇒ prompt Drew for `/effort ultracode` and WAIT** (R26/R27).
-4. T1 remainder (10 named S16 drafts + route the ~90 to REDRAFT lanes), T4, T5.
+## ⚠️ S28 HONESTY LEDGER (read before trusting any S28 conclusion)
+Five wrong calls, every one caught by an oracle, none committed:
+1. **Two of three jr "wall" verdicts RETRACTED** — a grep-of-the-build-log gate in a driver with no
+   revert-on-abort contaminated its own measurements (§125).
+2. **An 8× population under-count** (275 vs 2,184) — a bare `except: continue` swallowed R32's
+   coverage assertion during a rebuild; it also made me wrongly call a good T0 pin "stale" (§126a).
+3. **"15 contiguous -O0 fns"** — an under-count from scanning `asm/**/*.s`, which cannot see matched
+   functions (§126).
+4. **Broke the fleet gate to 139/140** — a negative control that corrupted the REAL tracked file and
+   restored it with tangled escaping (§128a). *A negative control must mutate a scratch copy.*
+5. **Reported "BOTH BANKED — BYTE-IDENTICAL" from an INCREMENTAL build** that the clean build cannot
+   even LINK (§130). **The sharpest lesson of the session: an incremental byte-gate result can be
+   actively FALSE, in the most convincing direction.**
+Standing consequence: **only `make clean && make extract-all && make check-all` counts**, and a
+tool's exit status is never the oracle — read the output.
 
 ## 📌 THE 4th `-O0` REGION — verified, sized, and correctly BLOCKED (do not re-litigate)
 My own byte scan (not the agent's claim — R14/R37) over all 156 fns of `ov_SC03_014_jr_8017EB7C`:
