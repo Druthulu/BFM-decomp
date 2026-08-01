@@ -57,6 +57,29 @@ def region_files(ov):
     return set(glob.glob(f"src/{ov}/{ov}_jr_*.c"))
 
 
+def like_arg(from_ov, to_ov, to_func):
+    """`--like <exemplar>` transfers the exemplar span's table STRUCTURE to a sibling — for a sibling
+    that has NO record of its own. When the sibling DOES carry a committed `tables=`, the transfer is
+    not just redundant, it is WRONG whenever the two spans no longer host the same set of matched
+    owners: the exemplar's rebased offsets are unioned with the sibling's real ones and the spec comes
+    out too LONG. Byte-witnessed (P30 S29, §132a): ov_SC07_010's `-O0` region shares ov_SC01_077's
+    role name `_o0` (only these two overlays use it; the other 136 are `_o0c`, whose role never
+    matched, which is the only reason the sweep worked at all) — the exemplar had just banked 2 more
+    owners than the sibling has, so the transfer derived SIX starts for THREE emitted tables and
+    `jtbl_rodata_pads` refused. Suppressing the transfer where a record already exists is inert for
+    every sibling the sweep currently banks and fixes exactly the broken one."""
+    try:
+        from jtbl_carve import func_subseg          # the SAME derivation the carve uses (R33)
+        sub = func_subseg(to_ov, to_func)
+        mk = open(os.path.join(REPO, "config/overlays.mk")).read()
+    except Exception:                                # noqa: BLE001 — never block a bank on the guard
+        return f" --like {from_ov}"
+    if sub and re.search(rf"^build/src/{to_ov}/{re.escape(sub)}\.o: JTBL_PADS := .*tables=",
+                         mk, re.M):
+        return ""
+    return f" --like {from_ov}"
+
+
 def revert(ov, cf=None, keep_regions=None, extract=True):
     """Restore the overlay to its committed state. `keep_regions` = the region files that existed
     BEFORE this bank attempt (a previously-banked core's, possibly still uncommitted) — only the
@@ -170,7 +193,7 @@ def _bank(func, from_ov, from_addr, to_ov, to_addr):
     # new fn's raw jtbl from asm/<ov>/data — a stale/absent asm from a prior config would miss it).
     if sh(f"make --no-print-directory -j16 extract BINARY={to_ov}").returncode:
         revert(to_ov, keep_regions=keep); return "extract0-fail", ""
-    r = sh(f"python3 tools/jtbl_carve.py {to_ov} --func {to_func} --like {from_ov}")
+    r = sh(f"python3 tools/jtbl_carve.py {to_ov} --func {to_func}{like_arg(from_ov, to_ov, to_func)}")
     _carve_out = r.stdout + r.stderr
     # Auto-isolate on EITHER §8b same-subseg wall: the NON-CONTIGUOUS collision, OR the span-fit wall
     # ("do not fit the span" — the --like structure transfer's merged span doesn't match this sibling's
@@ -184,7 +207,7 @@ def _bank(func, from_ov, from_addr, to_ov, to_addr):
             revert(to_ov, keep_regions=keep); return "isolate-fail", ""
         if sh(f"make --no-print-directory -j16 extract BINARY={to_ov}").returncode:
             revert(to_ov, keep_regions=keep); return "extract-iso-fail", ""
-        r = sh(f"python3 tools/jtbl_carve.py {to_ov} --func {to_func} --like {from_ov}")
+        r = sh(f"python3 tools/jtbl_carve.py {to_ov} --func {to_func}{like_arg(from_ov, to_ov, to_func)}")
     if r.returncode:
         revert(to_ov, keep_regions=keep)
         return "carve-fail", ((r.stdout + r.stderr).strip().splitlines()[-1:] or [""])
