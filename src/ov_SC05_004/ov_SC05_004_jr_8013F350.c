@@ -1352,5 +1352,3 @@ void func_8013FAF8(s16 arg0, s16 arg1) {
 
 
 INCLUDE_ASM("asm/ov_SC05_004/nonmatchings/ov_SC05_004_jr_8013F350", func_8013FFD8);
-
-INCLUDE_ASM("asm/ov_SC05_004/nonmatchings/ov_SC05_004_jr_8013F350", func_8014032C);
