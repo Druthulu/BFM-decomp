@@ -1047,4 +1047,113 @@ s32 func_8013FFD8(s16 arg0, s32 arg1, s32 *arg2) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_014/nonmatchings/ov_SC06_014_jr_8013FFD8", func_8014032C);
+extern short D_80115128;
+extern u8 D_80180FCC[];
+extern u8 D_80180FE4[];
+extern s32 func_80029178(s32 arg);
+extern s32 func_800291B4(s32 arg);
+
+
+
+
+/* indexed data arrays (overlay) */
+
+
+/* address-return symbols (main RAM) */
+
+s32 func_8014032C(s32 param_1, s32 param_2) {
+    extern int (*D_80181314[])(void);
+    extern int (*D_80181304[])(void);
+    extern void * D_80181020[];
+    extern void * D_80181050[];
+    extern void * D_80181060[];
+    extern void * D_80181038[];
+    extern u8 D_80180FF0[];
+    extern void * D_80181078[];
+    extern void * D_80181090[];
+    extern void * D_801810A4[];
+    extern u8 D_80180FF7[];
+    extern u8 * D_801A028C;
+    extern u8 D_801117EC[];
+    extern u8 D_801117B4[];
+    extern u8 D_80112BC8[];
+    extern u8 D_80112B58[];
+    extern u8 D_80112BA8[];
+    extern u8 D_80112B90[];
+
+
+    int cVar1;
+    unsigned int uVar3;
+    void *result;
+
+    result = D_801117EC;
+    switch (((short)param_1)) {
+    case 0:
+        if (((s32(*)(s32))func_80029178)(D_80180FCC[((short)param_2)]) & 0xFF) {
+            result = D_80181020[((short)param_2)];
+        }
+        break;
+    case 1:
+        result = D_80181050[((short)param_2)];
+        break;
+    case 2:
+        switch ((*(s16*)&D_80115128)) {
+        case 0:
+            if (D_80181314[((short)param_2)]() == 0) {
+                ((short)param_2) = 5;
+            } else if (D_80181304[((short)param_2)]() != 0) {
+                ((short)param_2) = 4;
+            }
+            result = D_80181060[((short)param_2)];
+            break;
+        case 1:
+            goto case5;
+        case 2:
+            if (((s32(*)(s32))func_80029178)(D_801A028C[((short)param_2)]) & 0xFF) {
+                if (((short)param_2) == 5 && (((s32(*)(s32))func_80029178)(0x1C) & 0xFF)) {
+                    result = D_801117B4;
+                } else {
+                    result = D_80181038[((short)param_2)];
+                }
+            }
+            break;
+        case 3:
+            if (((s32(*)(s32))func_80029178)(D_80180FF0[((short)param_2)]) & 0xFF) {
+                result = D_80181078[((short)param_2)];
+            }
+            break;
+        case 4:
+            result = D_80181090[((short)param_2)];
+            break;
+        }
+        break;
+    case 5:
+    case5:
+        uVar3 = ((s32(*)(s32))func_800291B4)(D_80180FE4[((short)param_2)]) & 0xFF;
+        if (uVar3 != 0) {
+            result = D_801810A4[uVar3];
+        }
+        break;
+    case 3:
+        if (((short)param_2) != 0) {
+            cVar1 = ((s32(*)(s32))func_800291B4)(D_80180FF7[((short)param_2)]) & 0xFF;
+            if (cVar1 == 0) {
+                result = D_80112B58;
+            } else {
+                result = D_80112BA8;
+                if (cVar1 == 1) {
+                    result = D_80112B90;
+                }
+            }
+        } else {
+            result = D_80112BC8;
+        }
+        break;
+    case 6:
+    case 7:
+    default:
+        result = 0;
+        break;
+    }
+    return result;
+}
