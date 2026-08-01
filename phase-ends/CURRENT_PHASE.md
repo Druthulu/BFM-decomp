@@ -559,6 +559,41 @@ one is a genuine byte DIFF.** Two are proven defects in `tools/family_remap.py`,
   `_def_head_at('extern void func_801466F0(s32 a0, s32 a1, s32 a2, s32 a3,', idx) -> True`.
   This is the §110/R35 class again — a silent 0/137 wearing a compiler wall's clothes.
 
+**S6b — the fix belongs in the TOOL, not in 17 exemplars (R33).** The plan was to hand-move each
+MISSING-TYPE exemplar's typedef into its function body (§100, byte-neutral, 17 edits + 17 verifications).
+Probing the class first showed it is the SAME root cause as D1/D2 — a multi-line construct read one line
+at a time — so it was fixed once, in `family_remap`, for every future family instead:
+- **D5 — `_typedef_block_start()`**: on a `} T;` closing line, walk up to the matching `typedef` (both
+  the `typedef struct {` and brace-on-its-own-line forms) and carry the WHOLE block. Only blocks that
+  literally begin with `typedef` are carried (a struct VARIABLE closes identically but would be a
+  duplicate global in the sibling); safe because `harvest_verify` already strips a typedef the sibling
+  TU provides. The old code comment claimed these functions "route through the engine_types.h lift" —
+  measured, they routed **nowhere**: 17 families / 24,332 ins were simply dropped.
+- **D4 — the wrapped asm-label alias** (`_alias_decl_for` is a single-line `rx.match`) was MEASURED
+  (1 exemplar, `0x801466f0`, 137 members / 3,288 ins, with a second blocker behind it) and deliberately
+  **left unfixed**. It now returns `None`, so the sweep reports `skipped {'no matched unit for func'}`
+  instead of failing 137 times. **A known gap that announces itself is not the same defect as a silent
+  one** (R32).
+- Also hardened: the forward body scan now counts braces in `cdecl._mask`ed text (R33 — one masking
+  oracle), so a brace inside a comment or string can never close a function body.
+
+**Blast radius verified, not assumed (R14):** `extract_unit` output diffed against the pre-S6 tool over
+all 181 zero-crack exemplars — **157 byte-IDENTICAL**, 24 changed, every change in the intended
+direction (more preamble carried; one → `None`, the D4 case that previously produced garbage).
+
+**Measured payoff of the repairs, one sweep each:**
+· D1+D2 → **+323 members** recovered from families that had banked **zero**.
+· D5 → **+417 members**, including `func_8012B77C` **139/139** (8,062 ins — the head prize) and
+  `func_80128C98` 137/275; `func_80146AFC` 135/137, `func_80176144` 99/137.
+· **S6 total: 1,582 member-matches.** The pre-fix tool scored this same population at 842.
+**R22 clean-fleet `make clean` + extract-all + check-all → 140 passed, 0 failed of 140.**
+Fleet **94.43→94.88% fn-count · 91.4→91.9% instr · 84.0→84.6% distinct**; phase arc from open
+(92.00 / 87.5 / 78.0) = **+2.88pp fn · +4.4pp instr · +6.6pp distinct**.
+
+**Family state now: 70 ALL-banked · 17 partial · 94 zero-banked; 64,050 templatable ins still open.**
+Distilled to **cookbook §134** (the MULTI-LINE BLINDNESS class + the bimodality tell: 57/52/8 is a
+tooling signature, not a codegen one — read ONE compiler error before believing the compiler).
+
 ### ✅ S3 — the close=0 stored-draft DIAGNOSTIC pass: measured, classified, and correctly NOT scaled (2026-08-01)
 Chartered as "classify, and only build a fix if ≥3 share a named class". Ran exactly that; the answer
 is that no cheap shared class exists, so nothing was scaled. **The population is bigger than the plan

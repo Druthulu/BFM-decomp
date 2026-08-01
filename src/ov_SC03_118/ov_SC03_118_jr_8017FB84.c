@@ -3785,7 +3785,53 @@ void func_8018552C(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_jr_8017FB84", func_80185550);
+
+/* func_80185550 — cookbook §71 (sibling-first).
+ * func_801855F0 is ALREADY MATCHED in the same TU
+ * (src/ov_SC03_014/ov_SC03_014_jr_8017EB7C.c L4221) as a 3-arg
+ * `void func_801855F0(s32, s32, s32)`, so the untouched $a3 at the first
+ * jal is just the incoming arg3 living on, not a 4th argument.
+ * func_8018570C (asm, same TU) reads its 2nd arg as lhu+0 / lhu+2 / lh+4 /
+ * lh+6 => the sp+0x10 local is a 4 x s16 record.
+ *
+ * Two levers took it 32 -> 2 -> 0 (match_one MATCH, rtu_match MATCH):
+ *  1. LENGTH-DRIFT (-2, cookbook §78): writing `sp10.unk2 = i * 0x100`
+ *     leaves gcc-2.7.2 recomputing `sll v0,s1,8` instead of building the
+ *     strength-reduced giv, so only s0..s3 get saved and the frame is two
+ *     instructions short.  An EXPLICIT accumulator (`ang += 0x100`) forces
+ *     the second callee-saved register ($s2) and restores sw/lw $s4.
+ *  2. REGALLOC-PERM $s1>$s2 (cookbook §3-T2, source order drives emission):
+ *     `ang = 0;` on its own line before the loop emits the $s2 zero-init
+ *     FIRST.  Folding it into the for-init (`for (i = 0, ang = 0; ...)`)
+ *     puts $s1's zero-init first, which is the target order.
+ */
+
+typedef struct {
+    s16 unk0;
+    s16 unk2;
+    s16 unk4;
+    s16 unk6;
+} Rec_8018A6A4_80185550;
+
+extern void func_801855F0(s32 arg0, s32 arg1, s32 arg2);
+extern void func_8018570C(s32 arg0, Rec_8018A6A4_80185550 *arg1, s32 arg2, s32 arg3);
+
+void func_80185550(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
+    Rec_8018A6A4_80185550 sp10;
+    s32 i;
+    s32 ang;
+
+    func_801855F0(arg0, 0x1000, 0);
+    sp10.unk0 = *(u16 *)(arg3 + 0x0);
+    sp10.unk4 = *(u16 *)(arg3 + 0x2);
+    sp10.unk6 = 1;
+    for (i = 0, ang = 0; i < 16; i++) {
+        sp10.unk2 = ang;
+        func_8018570C(i, &sp10, arg1, arg2);
+        ang += 0x100;
+    }
+}
+
 
 
 extern s16 D_801D446C;
@@ -3817,7 +3863,57 @@ INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_jr_8017FB84", func_801857E
 
 INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_jr_8017FB84", func_8018581C);
 
-INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_jr_8017FB84", func_80185868);
+
+/* func_80185868 — 16-entry table walk, stride 0xE, over D_801D4474.
+ * §71 sibling: func_8018A680 (same TU, L4199) already matched the
+ * `extern s16 D_801D4474; s16 *p = &D_801D4474; p = (s16*)((s32)p+0xe)`
+ * shape over the very same array — copy that walker verbatim.
+ *
+ * Two induction registers in the target ($s1 = base+0, $s0 = base+4) are NOT
+ * two source pointers: $s1 is the user pointer (the biv, used for the +0
+ * accesses) and $s0 is loop.c's single COMBINED address giv for the
+ * {+4, +9, +13} group (offsets 0/5/9 off $s0). Declaring a second pointer
+ * splits that group and costs a third register (iter 1: 53 mismatches).
+ */
+
+extern void func_80185944(s32 arg0);
+
+void func_80185868(void) {
+
+    extern s16 D_801D4474;
+    s16 *p = &D_801D4474;
+    s32 i = 0;
+    s16 t;
+
+    do {
+        if (*(u16 *)p != 0) {
+            func_80185944(i);
+            switch (*(u8 *)((s32)p + 9)) {
+            case 1:
+                if (*(s16 *)((s32)p + 4) < *(u8 *)((s32)p + 13)) {
+                    *(s16 *)((s32)p + 4) = *(s16 *)((s32)p + 4) + 8;
+                } else {
+                    *(u8 *)((s32)p + 9) = 0;
+                }
+                break;
+            case 2:
+                t = *(s16 *)((s32)p + 4);
+                if (t != 0) {
+                    t -= 0x10;
+                    *(s16 *)((s32)p + 4) = t;
+                    if (t > 0) {
+                        break;
+                    }
+                }
+                *p = 0;
+                break;
+            }
+        }
+        i++;
+        p = (s16 *)((s32)p + 0xe);
+    } while (i < 0x10);
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_jr_8017FB84", func_80185944);
 

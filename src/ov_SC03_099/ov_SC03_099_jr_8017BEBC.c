@@ -52,7 +52,6 @@ extern s32 func_80165A50(s32);
 extern void func_80029514(s32);
 extern u8 D_800AF630[];
 extern u8 D_80078EC0;
-extern s32 D_80126B58;
 extern s32 func_80028FBC(void);
 extern s32 func_80029000(void);
 extern s32 func_80028D9C(void);
@@ -3275,7 +3274,32 @@ void func_8017D1D0(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_099/nonmatchings/ov_SC03_099_jr_8017BEBC", func_8017D20C);
+
+/* 8 bytes, align 2 -> lwl/lwr/swl/swr copy (cookbook §48-C2) */
+typedef struct {
+    s16 v[4];
+} Blk8_80126940_8017D20C;
+
+extern u16 func_80148800(s32 *a0);
+extern void func_8017D364(s32 param_1, s16 *param_2);
+
+void func_8017D20C(s32 a0) {
+
+    extern s32 D_80126B58;
+    extern s16 D_80186EDC[];
+    extern Blk8_80126940_8017D20C D_80126940;
+    Blk8_80126940_8017D20C sp10;
+    u8 t;
+
+    if (func_80148800(&D_80126B58) & 3) {
+        t = (*(u8 *)(a0 + 5) + 1) & 1;
+        *(u8 *)(a0 + 5) = t;
+        *(s32 *)(a0 + 0x14) = D_80186EDC[t];
+    }
+    sp10 = D_80126940;
+    func_8017D364(a0, sp10.v);
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_099/nonmatchings/ov_SC03_099_jr_8017BEBC", func_8017D2AC);
 
@@ -3817,7 +3841,38 @@ void func_8017F5F0(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_099/nonmatchings/ov_SC03_099_jr_8017BEBC", func_8017F66C);
+
+extern s32 rand(void);
+extern s32 func_8012C354(s32, s32);
+extern void func_8012A828(s32 *a0, s32 a1);
+extern void func_80143994(s32 *a0, s32 a1);
+
+
+void func_8017F66C(void *arg0) {
+
+    extern s32 D_8019CA0C;
+    extern s32 D_8019CA50;
+    extern s32 D_8019EF68;
+    s32 t;
+
+    if (((s32 (*)(s32 *, s32))func_8012C354)(arg0, &D_8019CA0C)) {
+        *(u8 *)((char *)arg0 + 0xC0) = 1;
+        *(s32 *)((char *)arg0 + 0xB4) = -1;
+        *(s32 **)((char *)arg0 + 0xBC) = &D_8019CA50;
+        *(u32 *)((char *)arg0 + 0xC4) |= 1;
+        *(s32 *)((char *)arg0 + 0xE4) = -((rand() % 8 + 0xC) << 16);
+        func_8012A828(arg0, &D_8019EF68);
+        func_80143994(arg0, 0x1000);
+        t = *(u16 *)((char *)arg0 + 0x70) & 0x10;
+        if (t != 0) {
+            t = 3;
+        } else {
+            t = 1;
+        }
+        *(s16 *)((char *)arg0 + 0x2) = t;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_099/nonmatchings/ov_SC03_099_jr_8017BEBC", func_8017F72C);
 

@@ -4164,7 +4164,67 @@ INCLUDE_ASM("asm/ov_SC02_003/nonmatchings/ov_SC02_003_jr_8017FCB0", func_8018A3F
 
 INCLUDE_ASM("asm/ov_SC02_003/nonmatchings/ov_SC02_003_jr_8017FCB0", func_8018A440);
 
-INCLUDE_ASM("asm/ov_SC02_003/nonmatchings/ov_SC02_003_jr_8017FCB0", func_8018A550);
+
+extern void func_8001D074(s32 a0, s32 a1);
+extern void func_8001CD04(s32 a0, s32 a1);
+
+typedef struct Obj_8018A550_8018A550 {
+    s32 f0;      /* 0x00 */
+    u32 f4;      /* 0x04 */
+    s32 f8;      /* 0x08 */
+    s32 fC;      /* 0x0C */
+    s32 f10;     /* 0x10 */
+    s32 f14;     /* 0x14 */
+    s16 f18;     /* 0x18 */
+    s16 f1A;     /* 0x1A */
+    s16 f1C;     /* 0x1C */
+    s16 f1E;     /* 0x1E */
+} Obj_8018A550_8018A550;
+
+typedef struct Rec_8018A550_8018A550 {
+    u16 f0;      /* 0x00 */
+    u16 f2;      /* 0x02 */
+    s16 f4;      /* 0x04 */
+    s16 f6;      /* 0x06 */
+    s32 f8;      /* 0x08 */
+    s32 fC;      /* 0x0C */
+} Rec_8018A550_8018A550;
+
+typedef struct Ctl_8018A550_8018A550 {
+    s32 f0;              /* 0x00 */
+    s16 ids[8];          /* 0x04 */
+    Obj_8018A550_8018A550 *slots[8]; /* 0x14 */
+} Ctl_8018A550_8018A550;
+
+void func_8018A550(Ctl_8018A550_8018A550 *ctl, Rec_8018A550_8018A550 *rec)
+{
+    s32 i;
+    Obj_8018A550_8018A550 *m;
+    s16 v;
+    u16 t;
+
+    do {
+        for (i = 0; i < 8; i++) {
+            if (ctl->slots[i] == 0) {
+                break;
+            }
+        }
+        m = (Obj_8018A550_8018A550 *)((s32 (*)(s32, s32))func_8001D074)(0x7E, 0x100);
+        if (m != 0) {
+            ((void (*)(Obj_8018A550_8018A550 *, s32))func_8001CD04)(m, rec->fC);
+            m->f4 |= 0xF0000000;
+            v = rec->f6;
+            m->f1C = v;
+            m->f1A = v;
+            m->f18 = v;
+            ctl->slots[i] = m;
+            ctl->ids[i] = rec->f4;
+        }
+        t = rec->f0;
+        rec++;
+    } while (t != 0xFF);
+}
+
 
 
 

@@ -382,7 +382,6 @@ extern s32 func_80149F2C(s32 a0, s32 a1);
 extern s32 func_80149E94(s32 arg0);
 extern void func_80149FA8(void);
 extern s32 D_8018D124[];
-extern u8 D_80078E78[];
 extern s32 func_80149FB0(s32 a0);
 extern s32 func_80135260(s32 arg0, s32 arg1, s16 *arg2, s16 *arg3);
 extern void func_8014A1B0(s32 a0, s32 a1);
@@ -2750,11 +2749,116 @@ extern void func_80183B58(s32 param_1, s16 *param_2);
 /* ==== end §8b carried decl layer ==== */
 
 
-INCLUDE_ASM("asm/ov_SC03_015/nonmatchings/ov_SC03_015_o0c", func_80183CF0);
 
-INCLUDE_ASM("asm/ov_SC03_015/nonmatchings/ov_SC03_015_o0c", func_80183D50);
+typedef struct Ent_80183CF0_80183CF0 {
+    u8  unk0[2];   /* 0x00 */
+    u16 unk2;      /* 0x02 */
+} Ent_80183CF0_80183CF0;
 
-INCLUDE_ASM("asm/ov_SC03_015/nonmatchings/ov_SC03_015_o0c", func_80183F28);
+
+void func_80183CF0(Ent_80183CF0_80183CF0 *arg) {
+
+    extern void (*D_8018FB30[])(Ent_80183CF0_80183CF0 *);
+    D_8018FB30[arg->unk2](arg);
+}
+
+
+
+typedef struct Ent_80183D50_80183D50 {
+    u8  unk0[2];        /* 0x00 */
+    u16 unk2;           /* 0x02 */
+    u8  unk4[0xD8];     /* 0x04 */
+    s16 unkDC;          /* 0xDC */
+    u8  unkDE[4];       /* 0xDE */
+    s16 unkE2;          /* 0xE2 */
+    s16 unkE4;          /* 0xE4 */
+    u8  unkE6[2];       /* 0xE6 */
+    s16 unkE8;          /* 0xE8 */
+    s16 unkEA;          /* 0xEA */
+} Ent_80183D50_80183D50;
+
+typedef struct Gs_80078E78_80183D50 {
+    u8  pad0[0x37];     /* 0x00 */
+    u8  unk37;          /* 0x37 */
+} Gs_80078E78_80183D50;
+
+extern void func_8013C0F8(u8 *a0);
+extern void func_80184440(void);
+extern s32 func_80029178(s32 arg);
+extern void func_8013373C(s32 a0);
+
+void func_80183D50(Ent_80183D50_80183D50 *arg) {
+
+    extern u8 D_80078E78[];
+    extern u8 D_801B5864[];
+    extern u8 D_801B5E30[];
+    extern u8 D_801B75CC[];
+    Gs_80078E78_80183D50 *p = (Gs_80078E78_80183D50 *)D_80078E78;
+
+    func_8013C0F8(D_801B5864);
+    func_8013C0F8(D_801B5E30);
+    func_8013C0F8(D_801B75CC);
+    arg->unkDC = 0;
+    arg->unkE4 = 0;
+    arg->unkE8 = 1;
+    arg->unkEA = 0x3C;
+    arg->unkE2 = -0x3C0;
+    func_80184440();
+    arg->unk2++;
+    if (func_80029178(0xB9) & 0xFF) {
+        func_8013373C(1);
+        arg->unkE2 = -0x68;
+        arg->unkE2 = 0;
+        arg->unkE4 = 0;
+        arg->unk2 = 3;
+    } else if (p->unk37 == 0 || p->unk37 == 3 || p->unk37 == 4) {
+        arg->unkE2 = -0x3C0;
+        arg->unkE2 = 0;
+        arg->unkE4 = 2;
+    } else {
+        func_8013373C(0);
+        arg->unkE2 = -0x2C9;
+        arg->unkE2 = 0;
+        arg->unkE4 = 1;
+    }
+}
+
+
+
+typedef struct Ent80183F28_80183F28 {
+    /* 0x00 */ s16 unk00;
+    /* 0x02 */ s16 unk02;
+    /* 0x04 */ u8  pad04[0xD8];
+    /* 0xDC */ s16 unkDC;
+    /* 0xDE */ s16 unkDE;
+    /* 0xE0 */ s16 unkE0;
+    /* 0xE2 */ s16 unkE2;
+    /* 0xE4 */ s16 unkE4;
+    /* 0xE6 */ s16 unkE6;
+    /* 0xE8 */ s16 unkE8;
+    /* 0xEA */ s16 unkEA;
+} Ent80183F28_80183F28;
+
+extern void func_8017DF84(void *a0, s32 a1, s32 a2, s32 a3);
+extern s32 func_80029178(s32 a0);
+extern void func_80184354(void);
+
+void func_80183F28(Ent80183F28_80183F28 *arg0) {
+
+    extern s32 D_801270C8;
+    extern s32 D_801EAFD0;
+    extern s32 D_8018F858[];
+    func_8017DF84(&D_801EAFD0, D_8018F858[arg0->unkE4], arg0->unkDC, arg0->unkE2);
+    arg0->unkDC += 8;
+    if ((func_80029178(0xB9) & 0xFF) == 0) {
+        if (D_801270C8 != 0) {
+            ++arg0->unk02;
+        }
+        arg0->unkEA = 0x3C;
+        func_80184354();
+    }
+}
+
 
 
 
@@ -2768,7 +2872,24 @@ s32 func_80184028(void) {
 
 INCLUDE_ASM("asm/ov_SC03_015/nonmatchings/ov_SC03_015_o0c", func_80184058);
 
-INCLUDE_ASM("asm/ov_SC03_015/nonmatchings/ov_SC03_015_o0c", func_80184264);
+
+extern void func_8017FA5C(s32 arg0, s32 arg1, s32 arg2);
+extern void func_80184474(void);
+
+typedef struct Ent_80184264_80184264 {
+    u8 pad0[0xE2];
+    s16 unkE2;
+    s16 unkE4;
+} Ent_80184264_80184264;
+
+void func_80184264(Ent_80184264_80184264 *param_1) {
+
+    extern s32 D_801EAFD0;
+    extern s32 D_8018F858[];
+    func_8017FA5C((s32)&D_801EAFD0, D_8018F858[param_1->unkE4], param_1->unkE2);
+    func_80184474();
+}
+
 
 
 

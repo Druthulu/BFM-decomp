@@ -4603,7 +4603,72 @@ void func_8018D318(int param_1)
 
 INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_8018D3FC);
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_8018D468);
+
+/* func_8018D468 — per-frame update for the effect entity that func_8017E8CC
+ * initialises (its GPU primitive lives at +0x20).  Advance the spin angle at
+ * +0x2C by 0x40, take rsin(angle)/256 as the Z component of a stack vector,
+ * rotate that vector by the primitive's own angle at p+0x12, then re-derive
+ * the draw position words at +6/+0xA/+0xE, grow the size counter at +0x2E
+ * (mirrored into the primitive's w/h at p+0x18/p+0x1A), fade the RGB triple
+ * at p+0x24..0x26 by 4 per frame, and retire the entity via func_801292C8
+ * once the shared lifetime check func_80146E98 reports done.
+ *
+ * Matching notes (cookbook §S1/§S4 in gcc-2.7.2-map/sched.md): the three
+ * position statements and the +0x2E statement all tie at sched priority 1,
+ * so their SOURCE ORDER is the schedule.  The target's order is
+ * 0x6, 0xE, 0xA, 0x2E — writing them in field order (0x6, 0xA, 0xE, 0x2E)
+ * costs 12 mismatches because the 0x30 load, not the 0x2E load, wins the
+ * load-delay filler slot after the first group.  `siz` must be an explicit
+ * temporary (a re-read of +0x2E in the p+0x1A statement re-groups the whole
+ * block, 26+ mismatches).
+ */
+
+typedef struct {
+    unsigned short vx, vy, vz, pad;
+} UVec_8017EA1C_8018D468;
+
+extern s32 func_8004787C(s32 a0);
+extern void func_800139C8(s32 a0, void *a1, void *a2);
+extern s32 func_80146E98(s32 a0);
+extern void func_801292C8(u8*);
+
+void func_8018D468(int param_1)
+{
+    UVec_8017EA1C_8018D468 v;
+    int p;
+    short ang;
+    int siz;
+    int wid;
+    int col;
+
+    p = *(int *)(param_1 + 0x20);
+    ang = *(unsigned short *)(param_1 + 0x2c) + 0x40;
+    *(unsigned short *)(param_1 + 0x2c) = ang;
+    v.vz = func_8004787C(ang) / 256;
+    v.vy = 0;
+    v.vx = 0;
+    func_800139C8(*(short *)(p + 0x12), &v, &v);
+
+    *(unsigned short *)(param_1 + 6) = *(unsigned short *)(param_1 + 0x12) + v.vx;
+    *(unsigned short *)(param_1 + 0xe) = *(unsigned short *)(param_1 + 0x1a) + v.vz;
+    *(unsigned short *)(param_1 + 0xa) = *(unsigned short *)(param_1 + 0xa) - *(unsigned short *)(param_1 + 0x30);
+    siz = *(unsigned short *)(param_1 + 0x2e) + 0x10;
+    *(unsigned short *)(param_1 + 0x2e) = siz;
+
+    wid = *(unsigned short *)(p + 0x1a) + siz;
+    *(unsigned short *)(p + 0x1a) = wid;
+    *(unsigned short *)(p + 0x18) = wid;
+
+    col = *(unsigned char *)(p + 0x26) - 4;
+    *(unsigned char *)(p + 0x26) = col;
+    *(unsigned char *)(p + 0x25) = col;
+    *(unsigned char *)(p + 0x24) = col;
+
+    if (func_80146E98(param_1) != 0) {
+        ((void (*)(int))func_801292C8)(param_1);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_8018D554);
 
@@ -4658,7 +4723,53 @@ void func_8018E010(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_8018E034);
+
+/* func_8018E034 — cookbook §71 (sibling-first).
+ * func_8018E0D4 is ALREADY MATCHED in the same TU
+ * (src/ov_SC03_014/ov_SC03_014_jr_8017EB7C.c L4221) as a 3-arg
+ * `void func_8018E0D4(s32, s32, s32)`, so the untouched $a3 at the first
+ * jal is just the incoming arg3 living on, not a 4th argument.
+ * func_8018E1F0 (asm, same TU) reads its 2nd arg as lhu+0 / lhu+2 / lh+4 /
+ * lh+6 => the sp+0x10 local is a 4 x s16 record.
+ *
+ * Two levers took it 32 -> 2 -> 0 (match_one MATCH, rtu_match MATCH):
+ *  1. LENGTH-DRIFT (-2, cookbook §78): writing `sp10.unk2 = i * 0x100`
+ *     leaves gcc-2.7.2 recomputing `sll v0,s1,8` instead of building the
+ *     strength-reduced giv, so only s0..s3 get saved and the frame is two
+ *     instructions short.  An EXPLICIT accumulator (`ang += 0x100`) forces
+ *     the second callee-saved register ($s2) and restores sw/lw $s4.
+ *  2. REGALLOC-PERM $s1>$s2 (cookbook §3-T2, source order drives emission):
+ *     `ang = 0;` on its own line before the loop emits the $s2 zero-init
+ *     FIRST.  Folding it into the for-init (`for (i = 0, ang = 0; ...)`)
+ *     puts $s1's zero-init first, which is the target order.
+ */
+
+typedef struct {
+    s16 unk0;
+    s16 unk2;
+    s16 unk4;
+    s16 unk6;
+} Rec_8018A6A4_8018E034;
+
+extern void func_8018E0D4(s32 arg0, s32 arg1, s32 arg2);
+extern void func_8018E1F0(s32 arg0, Rec_8018A6A4_8018E034 *arg1, s32 arg2, s32 arg3);
+
+void func_8018E034(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
+    Rec_8018A6A4_8018E034 sp10;
+    s32 i;
+    s32 ang;
+
+    func_8018E0D4(arg0, 0x1000, 0);
+    sp10.unk0 = *(u16 *)(arg3 + 0x0);
+    sp10.unk4 = *(u16 *)(arg3 + 0x2);
+    sp10.unk6 = 1;
+    for (i = 0, ang = 0; i < 16; i++) {
+        sp10.unk2 = ang;
+        func_8018E1F0(i, &sp10, arg1, arg2);
+        ang += 0x100;
+    }
+}
+
 
 
 extern s16 D_801F1414;
@@ -4690,7 +4801,57 @@ INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_8018E2C
 
 INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_8018E300);
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_8018E34C);
+
+/* func_8018E34C — 16-entry table walk, stride 0xE, over D_801F141C.
+ * §71 sibling: func_8018A680 (same TU, L4199) already matched the
+ * `extern s16 D_801F141C; s16 *p = &D_801F141C; p = (s16*)((s32)p+0xe)`
+ * shape over the very same array — copy that walker verbatim.
+ *
+ * Two induction registers in the target ($s1 = base+0, $s0 = base+4) are NOT
+ * two source pointers: $s1 is the user pointer (the biv, used for the +0
+ * accesses) and $s0 is loop.c's single COMBINED address giv for the
+ * {+4, +9, +13} group (offsets 0/5/9 off $s0). Declaring a second pointer
+ * splits that group and costs a third register (iter 1: 53 mismatches).
+ */
+
+extern void func_8018E428(s32 arg0);
+
+void func_8018E34C(void) {
+
+    extern s16 D_801F141C;
+    s16 *p = &D_801F141C;
+    s32 i = 0;
+    s16 t;
+
+    do {
+        if (*(u16 *)p != 0) {
+            func_8018E428(i);
+            switch (*(u8 *)((s32)p + 9)) {
+            case 1:
+                if (*(s16 *)((s32)p + 4) < *(u8 *)((s32)p + 13)) {
+                    *(s16 *)((s32)p + 4) = *(s16 *)((s32)p + 4) + 8;
+                } else {
+                    *(u8 *)((s32)p + 9) = 0;
+                }
+                break;
+            case 2:
+                t = *(s16 *)((s32)p + 4);
+                if (t != 0) {
+                    t -= 0x10;
+                    *(s16 *)((s32)p + 4) = t;
+                    if (t > 0) {
+                        break;
+                    }
+                }
+                *p = 0;
+                break;
+            }
+        }
+        i++;
+        p = (s16 *)((s32)p + 0xe);
+    } while (i < 0x10);
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_8018E428);
 

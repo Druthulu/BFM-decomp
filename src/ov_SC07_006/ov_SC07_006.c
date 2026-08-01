@@ -411,7 +411,28 @@ void func_80128AF4(void) {
 DEFINE_func_80128C14()  /* dedup: shared engine-core @0x80128c14 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006", func_80128C98);
+
+typedef struct {
+    s32 word0;
+    s32 word4;
+} CdFileLoc_80128C98;
+
+extern CdFileLoc_80128C98 cdFileLocTable[];
+extern void func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 a4);
+
+s32 func_80128C98(s32 arg0) {
+
+    extern s16 D_8018A6BC[];
+    extern s32 D_801F3B6C;
+    s16 idx = D_8018A6BC[arg0];
+
+    if (idx >= 0) {
+        func_8001ABBC(0, 0, (u8 *)&cdFileLocTable[idx], D_801F3B6C, 0);
+    } else {
+        return 1;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006", func_80128CFC);
 

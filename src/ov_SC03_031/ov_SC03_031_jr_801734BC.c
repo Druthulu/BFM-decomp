@@ -3173,7 +3173,80 @@ void func_80175DA8(param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_031/nonmatchings/ov_SC03_031_jr_801734BC", func_80176144);
+
+/* func_80176144 — RECONCILED variant of .run/uc/func_80176144.c
+ *
+ * GATE BLOCKER (whole-binary build, NOT match_one):
+ *   src/ov_SC01_077/ov_SC01_077_jr_801734BC.c:3476: conflicting types for `D_800AF634'
+ *   || previous declaration at :3296
+ *
+ * ROOT CAUSE — a HOISTED file-scope typedef, not a bad signature:
+ *   That TU hoists, at FILE scope, for func_80175DA8:
+ *       :3295  typedef struct { s32 g0; s32 pad[2]; } S_AF634_80176144;
+ *       :3296  extern S_AF634_80176144 D_800AF634[];
+ *       :3297  extern S_AF634_80176144 D_800AF638[];
+ *   The stored draft re-declares the SAME struct shape as a BLOCK-scope typedef
+ *   (rule D — it must travel to the 137 sibling overlays, which have no such
+ *   preamble).  A block-scope `typedef struct {...} S_AF634_80176144;` is a DISTINCT type
+ *   from the file-scope one (C has no structural typing), so the block-scope
+ *   `extern S_AF634_80176144 D_800AF634[];` re-declares the symbol incompatibly with the
+ *   in-scope file-scope decl -> hard error.
+ *   Note the earlier block-scope copies in the same TU (:3080 func_80175820,
+ *   :3123 func_801759D8) do NOT error: they precede :3296, so no file-scope decl
+ *   of D_800AF634 is in scope there.  Anything AFTER :3296 collides.  Our
+ *   definition lands at :3476.  That is why only this one fired.
+ *
+ * FIX — §37/§124 ASM-LABEL ALIAS applied to the DATA symbols (cookbook §2516:
+ *   "asm-label alias for sibling-decl signedness/proto conflicts ... beats
+ *   reconcile's *(u16*)&D_x cast whose address-of PERTURBS regalloc"):
+ *   the two objects are reached through PRIVATE C identifiers aAF634 / aAF638
+ *   carrying __asm__("D_800AF634") / __asm__("D_800AF638").  The emitted
+ *   %hi/%lo relocations are against the same symbols, so codegen is unchanged,
+ *   while the C names can never collide with ANY sibling TU's declaration —
+ *   whether hoisted, block-scope, or absent.  No header edit; no src/ edit.
+ *   Strictly better than deleting the local decls (which would bind this
+ *   exemplar to the one TU that happens to hoist them).
+ *
+ * The s32 parameter + explicit (s16) narrowing is retained from the stored draft
+ * (canonical decl in engine_core.h:18985/:4587 is `void func_80176144(s32)`;
+ * the K&R short param would itself be a conflicting-types error).  The (s16)
+ * narrowing IS the entry `sll $s0,$a0,16 / sra $s0,$s0,16` pair.
+ *
+ * Verified: python3 tools/match_one.py func_80176144 --c .run/uc2/func_80176144.c
+ *           --asm-subdir ov_SC01_077/nonmatchings/ov_SC01_077_jr_801734BC -> MATCH (53 ins)
+ */
+
+void func_80176144(s32 a0)
+{
+    typedef struct { s32 g0; s32 pad[2]; } S_AF634_80176144;   /* size 0x0C */
+    /* §37 asm-label alias: private C names, canonical relocations. */
+    extern S_AF634_80176144 aAF634[] __asm__("D_800AF634");
+    extern S_AF634_80176144 aAF638[] __asm__("D_800AF638");
+
+    extern u8  D_8011F7A8;
+    extern s16 D_8011F7BC;
+    extern s16 D_8011F7BE;
+
+    extern s32 func_80178004(s32 a0, s32 a1, s32 a2);
+
+    u32 *slot;
+    u32 *p;
+    s16 param_1 = (s16)a0;
+
+    p = (u32 *)(aAF638[param_1].g0 + aAF634[param_1].g0 * 4);
+    slot = (u32 *)(param_1 * 4 + (s32)&D_8011F7A8);
+    slot[14] = (u32)p;
+    /* §5a zero-byte sched fence: without it sched1 hoists the two %hi/lhu global
+       argument loads above the `sw` of slot[14] (16 mismatches, 0 length drift). */
+    __asm__("");
+    p = (u32 *)func_80178004((s32)p,
+                             (s16)((*(u16 *)&D_8011F7BC) - 0x17),
+                             (s16)((*(u16 *)&D_8011F7BE) + 0x65));
+    slot[16] = (u32)p - 0x14;
+    p += 5;
+    aAF634[param_1].g0 += ((s32)p - (s32)slot[14]) >> 2;
+}
+
 
 
 // @class: regalloc-order

@@ -159,7 +159,6 @@ extern void func_8012A018(s32 a0, s32 a1);
 extern u16 D_80126B5E;
 extern u16 D_80126B62;
 extern u16 D_80126B66;
-extern s16 D_80126940;
 extern s16 D_80126942;
 extern s16 D_80126944;
 extern void *memcpy(void *, const void *, unsigned int);
@@ -4018,7 +4017,24 @@ void func_8017D930(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_011/nonmatchings/ov_SC07_011_jr_8017BEBC", func_8017D96C);
+
+/* 8-byte, alignment-1 blob: the target copies it with lwl/lwr + swl/swr,
+ * which is gcc's emit_block_move for align < 4. */
+typedef struct {
+    char b[8];
+} Blob8_8018A47C_8017D96C;
+
+extern void func_8017D9B4(s32, s16*);
+
+void func_8017D96C(s32 a0) {
+
+    extern Blob8_8018A47C_8017D96C D_80126940;
+    Blob8_8018A47C_8017D96C tmp;
+
+    tmp = D_80126940;
+    ((void (*)(s32, Blob8_8018A47C_8017D96C *))func_8017D9B4)(a0, &tmp);
+}
+
 
 
 

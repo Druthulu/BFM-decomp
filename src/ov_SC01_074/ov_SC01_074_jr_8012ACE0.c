@@ -327,7 +327,55 @@ DEFINE_func_8012B70C()  /* dedup: shared engine-core @0x8012B70C (src/shared) */
 
 DEFINE_func_8012B744()  /* dedup: shared engine-core @0x8012B744 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_074/nonmatchings/ov_SC01_074_jr_8012ACE0", func_8012B77C);
+
+extern s32 ratan2(s32 a0, s32 a1);
+extern s32 func_80047948(s32 a0); /* rsin-like: angle (0..0xFFF) -> 1.12 fixed */
+extern s32 func_8004787C(s32 a0); /* rcos-like: angle (0..0xFFF) -> 1.12 fixed */
+
+/* The 4-byte destination is a PACKED PAIR of angles held entirely in ONE saved register
+ * ($s4) across all three calls — that is what produces the target's
+ *   andi $s4,$s4,0xFFFF   (read of the still-uninitialized local, hoisted into the prologue)
+ *   ... or  $s4,$s4,ang<<16      -> t.hi = yaw
+ *   ... and $s4,$s4,0xFFFF0000 / or $s4,$s4,ang&0xFFFF  -> t.lo = pitch
+ * A `struct { s16 lo, hi; }` has align 2 -> BLKmode-ish handling: gcc spills it to the stack
+ * and stores it with lwl/lwr + swl/swr (54 ins, 53 mismatched). Two 16-bit BITFIELDS in a
+ * u32 container give the SImode, align-4 struct gcc keeps in a register. */
+typedef struct {
+    u32 lo : 16;
+    u32 hi : 16;
+} Ang2_8012B77C_8012B77C;
+
+/* a0 = destination packed-angle word, a1 = "from" entity, a2 = "to" entity.
+ * Both entities carry 16.16 fixed-point x/y/z at +0/+4/+8; the s16 reads at +2/+6/+0xA are
+ * the integer halves. Returns the destination pointer — the return value is REAL: without it
+ * gcc stores with `sw $s4,0($s3)` (57 ins) instead of the target's
+ *   addu $v0,$s3,$zero ; sw $s4,0($v0)   (the return-value copy that the store's base coalesces onto).
+ * The flattened `dz` reuse at the end is also load-bearing: making the (dz*sin + dx*cos)>>12
+ * temp its OWN variable gives it $a1 for the whole chain; reusing `dz` extends that allocno so
+ * it lands in $s5 exactly as the target does (`sra $s5,$v0,12` / `negu $a1,$s5`), and it also
+ * demotes dz's priority so the saved-reg order comes out $s3=out, $s4=t, $s5=dz. */
+s32 func_8012B77C(s32 out, s32 from, s32 to) {
+    Ang2_8012B77C_8012B77C t;
+    s32 dx, dy, dz;
+    s32 ang;
+    s32 r1, r2;
+
+    dz = *(s16 *)(to + 0xA) - *(s16 *)(from + 0xA);
+    dx = *(s16 *)(to + 0x2) - *(s16 *)(from + 0x2);
+    dy = *(s16 *)(to + 0x6) - *(s16 *)(from + 0x6);
+
+    ang = (ratan2(-dz, dx) - 0x400) & 0xFFF;
+    t.hi = ang;
+
+    r1 = func_80047948(ang);
+    r2 = func_8004787C(ang);
+    dz = (dz * r1 + dx * r2) >> 12;
+    t.lo = ratan2(dy, -dz);
+
+    *(Ang2_8012B77C_8012B77C *)out = t;
+    return out;
+}
+
 
 DEFINE_func_8012B864()  /* dedup: shared engine-core @0x8012B864 (src/shared) */
 

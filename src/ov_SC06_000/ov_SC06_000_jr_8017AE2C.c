@@ -3467,7 +3467,67 @@ INCLUDE_ASM("asm/ov_SC06_000/nonmatchings/ov_SC06_000_jr_8017AE2C", func_8017D80
 
 INCLUDE_ASM("asm/ov_SC06_000/nonmatchings/ov_SC06_000_jr_8017AE2C", func_8017D890);
 
-INCLUDE_ASM("asm/ov_SC06_000/nonmatchings/ov_SC06_000_jr_8017AE2C", func_8017D900);
+
+/* func_8017D900 — fade the 4-byte colour quad at D_801AE668 one step toward 0
+ * (func_80012F74 = "step a value toward a target"), splat the byte over the
+ * three sibling bytes, mirror the whole quad into the three following quads,
+ * then tear the entity down once the byte reaches 0.
+ *
+ * §71 sibling-first: DEFINE_func_801685EC() (engine_core.h L8520) is the same
+ * `if (<call result> == 0) ((void (*)(s32))func_80146C3C)(arg0);` teardown tail.
+ * In-TU sibling func_8017D678 shows D_801AE669/D_801AE66A are SEPARATE u8
+ * globals (each gets its own lui/%lo sb) while D_801AE668's address lives in a
+ * callee-saved register.
+ *
+ * @class: schedule (LENGTH-DRIFT/-1)
+ * @stuck: none — MATCH 50/50 (match_one AND rtu_match), iteration 2.
+ * THE CRACK (one edit): the TRAILING reload `if (*p == 0)` was being hoisted by
+ * sched2 up past the third block move, where the swl/swr pair covered its load
+ * delay — costing exactly the one `nop` the target keeps (49 vs 50 ins,
+ * LENGTH-DRIFT/-1). A second zero-byte `__asm__("")` fence between the last
+ * struct assignment and the `if` pins the lbu after the copies and the load-delay
+ * nop reappears. Lesson: an inline block move (swl/swr) is a fat delay-slot
+ * SPONGE — any following narrow load will be sucked up into it unless fenced.
+ * The first fence (after the chained byte stores) is what keeps the block moves
+ * from being interleaved with them.
+ * Other levers already in this draft, all load-bearing:
+ *  - `u8 *p = &D_801AE668;` (§20) — one address register ($s0, callee-saved
+ *    across the jal) serves the lbu, the sb and all three block-move sources.
+ *  - chained assignment `D_801AE669 = D_801AE66A = *p = f(...)` gives the
+ *    target's store order 880, 882, 881 (right-to-left after the *p store).
+ *  - the 4×u8 struct (align 1) is what makes the assignment expand to inline
+ *    lwl/lwr + swl/swr instead of a `jal memcpy` (cf. §38).
+ */
+
+typedef struct {
+    u8 b0, b1, b2, b3;
+} Quad_801EA880_8017D900; /* align 1 => movstrsi expands to lwl/lwr + swl/swr */
+
+
+extern s32 func_80012F74(s32 a0, s32 a1, s32 a2, s32 a3);
+extern void func_80146C3C(void);
+
+void func_8017D900(s32 arg0) {
+
+    extern u8 D_801AE668;
+    extern u8 D_801AE669;
+    extern u8 D_801AE66A;
+    extern u8 D_801AE66C;
+    extern u8 D_801AE670;
+    extern u8 D_801AE674;
+    u8 *p = &D_801AE668;
+
+    D_801AE669 = D_801AE66A = *p = func_80012F74(*p, 0, 10, 1);
+    __asm__("");
+    *(Quad_801EA880_8017D900 *)&D_801AE66C = *(Quad_801EA880_8017D900 *)p;
+    *(Quad_801EA880_8017D900 *)&D_801AE670 = *(Quad_801EA880_8017D900 *)p;
+    *(Quad_801EA880_8017D900 *)&D_801AE674 = *(Quad_801EA880_8017D900 *)p;
+    __asm__("");
+    if (*p == 0) {
+        ((void (*)(s32))func_80146C3C)(arg0);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_000/nonmatchings/ov_SC06_000_jr_8017AE2C", func_8017D9C8);
 
@@ -4233,7 +4293,47 @@ void func_8017FF54(int param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_000/nonmatchings/ov_SC06_000_jr_8017AE2C", func_8017FFB0);
+
+/* Entity record touched by func_8017FFB0 (offsets read straight off the asm):
+ *   0x02 u16   frame/state counter (lhu / sh)
+ *   0x1C s32   tick counter (lw / sw), signed compare against 0x20
+ *   0x2A u16   y-ish delta, decremented by 0x10 (lhu / sh)
+ *   0x2C u16   sound id passed to func_80147324 (lhu)
+ *   0x30 s32   suppress flag
+ */
+typedef struct Ent_8017BFE0_8017FFB0 {
+    u8  pad00[2];   /* 0x00 */
+    u16 f02;        /* 0x02 */
+    u8  pad04[0x18];/* 0x04 */
+    s32 f1c;        /* 0x1C */
+    u8  pad20[0xA]; /* 0x20 */
+    u16 f2a;        /* 0x2A */
+    u16 f2c;        /* 0x2C */
+    u8  pad2e[2];   /* 0x2E */
+    s32 f30;        /* 0x30 */
+} Ent_8017BFE0_8017FFB0;
+
+extern void func_80147324(s32 arg0);
+extern void func_801801E8(int);
+
+void func_8017FFB0(Ent_8017BFE0_8017FFB0 *param_1)
+{
+    s32 t;
+
+    t = param_1->f1c;
+    param_1->f1c = t + 1;
+    if (t < 0x20) {
+        param_1->f2a = param_1->f2a - 0x10;
+    } else {
+        if (param_1->f30 == 0) {
+            func_80147324(param_1->f2c);
+        }
+        param_1->f1c = 0;
+        param_1->f02 = param_1->f02 + 1;
+    }
+    ((void (*)(Ent_8017BFE0_8017FFB0 *))func_801801E8)(param_1);
+}
+
 
 
 INCLUDE_ASM("asm/ov_SC06_000/nonmatchings/ov_SC06_000_jr_8017AE2C", func_80180034);
@@ -4399,7 +4499,72 @@ void func_80180794(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_000/nonmatchings/ov_SC06_000_jr_8017AE2C", func_801807D0);
+
+/* func_801807D0 — spawn/scatter tick for the +0x34 sub-object (state word @0x2).
+ * MATCH (45 ins), match_one + rtu_match. Four levers, in the order they were found:
+ *
+ * 1. §71 sibling-first — same entity shape as func_8017C610 / func_8017C69C in this
+ *    TU: sub-object pointer @0x34 read BEFORE the call (it lives in $s1 across the
+ *    jal), state word @0x2 bumped last. §3-T4: `beqz $v1,else` => `if (p->f2C) {..}`.
+ *    ONE rand() feeds three fields; the raw low 6 bits use a bare `andi` (no extend)
+ *    while the >>12 / >>6 uses share one `sll $x,16` — that shared sign-extend is
+ *    what forces `r` to be a `short` local rather than an int.
+ *
+ * 2. §5a CROSS-JUMP — both arms end in `sh ?,0xA($s0)`; gcc tail-merged them (23 off).
+ *    They only stay separate because the loaded halfword lands in a DIFFERENT hard
+ *    reg per arm, which needs (a) the load to be its own statement at the TOP of each
+ *    arm and (b) a SEPARATE temp per arm (t / t2) — one shared temp is one pseudo,
+ *    gets one register in both arms, and re-merges. 23 -> 10 -> 6.
+ *
+ * 3. +0x16 is SIGNED: the target materialises -0x20 as `addiu $v0,$zero,-0x20`, not
+ *    `ori 0xffe0`, so that store must go through an s16.
+ *
+ * 4. §49 BIRTHING BOOST (the last 6 -> 2 -> 0). Residual was two ALU insns swapped
+ *    with identical registers; source statement order does NOT flip it, because
+ *    sched1's `adjust_priority`/`birthing_insn_p` hands every SET(REG,..) whose dest
+ *    has REG_N_SETS==1 a 0x7f000001 priority, so it sinks to just before its consumer
+ *    and fixes the .greg LUID order that sched2's tie-break then reads.
+ *    THE DIAL: give the offending insn's dest a SECOND set so it loses the boost —
+ *    here one `u16 d` reused by both tail statements. It must be a THIRD temp, not
+ *    `c` itself: writing `c = c + 1;` also un-boosts c's LOAD, which then starves to
+ *    the front of the block and swaps the two `lhu`s instead. Boost the loads, starve
+ *    the arithmetic. */
+
+extern int rand(void);
+
+void func_801807D0(void *a0)
+{
+    s32 p;
+    s32 obj;
+    short r;
+    u16 t;
+    u16 t2;
+    u16 e;
+    u16 c;
+    u16 d;
+
+    p = (s32)a0;
+    obj = *(s32 *)(p + 0x34);
+    r = rand();
+    *(u16 *)(p + 0x06) = *(u16 *)(obj + 0x06) + ((r & 0x3F) - 0x20);
+    if (*(s32 *)(p + 0x2C) != 0) {
+        t = *(u16 *)(obj + 0x0A);
+        *(s16 *)(p + 0x16) = 0x20;
+        *(u16 *)(p + 0x0A) = t - 0x140;
+    } else {
+        t2 = *(u16 *)(obj + 0x0A);
+        *(s16 *)(p + 0x16) = -0x20;
+        *(u16 *)(p + 0x0A) = t2;
+    }
+    e = *(u16 *)(obj + 0x0E);
+    c = *(u16 *)(p + 0x02);
+    *(s32 *)(p + 0x30) = (r >> 12) & 3;
+    d = ((r >> 6) & 0x3F) - 0x20;
+    *(u16 *)(p + 0x0E) = e + d;
+    d = c + 1;
+    *(u16 *)(p + 0x02) = d;
+}
+
 
 extern void func_800D22E4(s32 a0);
 extern void func_80146C3C(void);
@@ -5387,7 +5552,53 @@ void func_80186758(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_000/nonmatchings/ov_SC06_000_jr_8017AE2C", func_8018677C);
+
+/* func_8018677C — cookbook §71 (sibling-first).
+ * func_8018681C is ALREADY MATCHED in the same TU
+ * (src/ov_SC03_014/ov_SC03_014_jr_8017EB7C.c L4221) as a 3-arg
+ * `void func_8018681C(s32, s32, s32)`, so the untouched $a3 at the first
+ * jal is just the incoming arg3 living on, not a 4th argument.
+ * func_80186938 (asm, same TU) reads its 2nd arg as lhu+0 / lhu+2 / lh+4 /
+ * lh+6 => the sp+0x10 local is a 4 x s16 record.
+ *
+ * Two levers took it 32 -> 2 -> 0 (match_one MATCH, rtu_match MATCH):
+ *  1. LENGTH-DRIFT (-2, cookbook §78): writing `sp10.unk2 = i * 0x100`
+ *     leaves gcc-2.7.2 recomputing `sll v0,s1,8` instead of building the
+ *     strength-reduced giv, so only s0..s3 get saved and the frame is two
+ *     instructions short.  An EXPLICIT accumulator (`ang += 0x100`) forces
+ *     the second callee-saved register ($s2) and restores sw/lw $s4.
+ *  2. REGALLOC-PERM $s1>$s2 (cookbook §3-T2, source order drives emission):
+ *     `ang = 0;` on its own line before the loop emits the $s2 zero-init
+ *     FIRST.  Folding it into the for-init (`for (i = 0, ang = 0; ...)`)
+ *     puts $s1's zero-init first, which is the target order.
+ */
+
+typedef struct {
+    s16 unk0;
+    s16 unk2;
+    s16 unk4;
+    s16 unk6;
+} Rec_8018A6A4_8018677C;
+
+extern void func_8018681C(s32 arg0, s32 arg1, s32 arg2);
+extern void func_80186938(s32 arg0, Rec_8018A6A4_8018677C *arg1, s32 arg2, s32 arg3);
+
+void func_8018677C(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
+    Rec_8018A6A4_8018677C sp10;
+    s32 i;
+    s32 ang;
+
+    func_8018681C(arg0, 0x1000, 0);
+    sp10.unk0 = *(u16 *)(arg3 + 0x0);
+    sp10.unk4 = *(u16 *)(arg3 + 0x2);
+    sp10.unk6 = 1;
+    for (i = 0, ang = 0; i < 16; i++) {
+        sp10.unk2 = ang;
+        func_80186938(i, &sp10, arg1, arg2);
+        ang += 0x100;
+    }
+}
+
 
 
 extern s16 D_801B1EF4;
@@ -5420,7 +5631,57 @@ INCLUDE_ASM("asm/ov_SC06_000/nonmatchings/ov_SC06_000_jr_8017AE2C", func_80186A0
 
 INCLUDE_ASM("asm/ov_SC06_000/nonmatchings/ov_SC06_000_jr_8017AE2C", func_80186A48);
 
-INCLUDE_ASM("asm/ov_SC06_000/nonmatchings/ov_SC06_000_jr_8017AE2C", func_80186A94);
+
+/* func_80186A94 — 16-entry table walk, stride 0xE, over D_801B1EFC.
+ * §71 sibling: func_8018A680 (same TU, L4199) already matched the
+ * `extern s16 D_801B1EFC; s16 *p = &D_801B1EFC; p = (s16*)((s32)p+0xe)`
+ * shape over the very same array — copy that walker verbatim.
+ *
+ * Two induction registers in the target ($s1 = base+0, $s0 = base+4) are NOT
+ * two source pointers: $s1 is the user pointer (the biv, used for the +0
+ * accesses) and $s0 is loop.c's single COMBINED address giv for the
+ * {+4, +9, +13} group (offsets 0/5/9 off $s0). Declaring a second pointer
+ * splits that group and costs a third register (iter 1: 53 mismatches).
+ */
+
+extern void func_80186B70(s32 arg0);
+
+void func_80186A94(void) {
+
+    extern s16 D_801B1EFC;
+    s16 *p = &D_801B1EFC;
+    s32 i = 0;
+    s16 t;
+
+    do {
+        if (*(u16 *)p != 0) {
+            func_80186B70(i);
+            switch (*(u8 *)((s32)p + 9)) {
+            case 1:
+                if (*(s16 *)((s32)p + 4) < *(u8 *)((s32)p + 13)) {
+                    *(s16 *)((s32)p + 4) = *(s16 *)((s32)p + 4) + 8;
+                } else {
+                    *(u8 *)((s32)p + 9) = 0;
+                }
+                break;
+            case 2:
+                t = *(s16 *)((s32)p + 4);
+                if (t != 0) {
+                    t -= 0x10;
+                    *(s16 *)((s32)p + 4) = t;
+                    if (t > 0) {
+                        break;
+                    }
+                }
+                *p = 0;
+                break;
+            }
+        }
+        i++;
+        p = (s16 *)((s32)p + 0xe);
+    } while (i < 0x10);
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_000/nonmatchings/ov_SC06_000_jr_8017AE2C", func_80186B70);
 
@@ -5483,7 +5744,67 @@ INCLUDE_ASM("asm/ov_SC06_000/nonmatchings/ov_SC06_000_jr_8017AE2C", func_8018775
 
 INCLUDE_ASM("asm/ov_SC06_000/nonmatchings/ov_SC06_000_jr_8017AE2C", func_80187798);
 
-INCLUDE_ASM("asm/ov_SC06_000/nonmatchings/ov_SC06_000_jr_8017AE2C", func_801878A8);
+
+extern void func_8001D074(s32 a0, s32 a1);
+extern void func_8001CD04(s32 a0, s32 a1);
+
+typedef struct Obj_8018A550_801878A8 {
+    s32 f0;      /* 0x00 */
+    u32 f4;      /* 0x04 */
+    s32 f8;      /* 0x08 */
+    s32 fC;      /* 0x0C */
+    s32 f10;     /* 0x10 */
+    s32 f14;     /* 0x14 */
+    s16 f18;     /* 0x18 */
+    s16 f1A;     /* 0x1A */
+    s16 f1C;     /* 0x1C */
+    s16 f1E;     /* 0x1E */
+} Obj_8018A550_801878A8;
+
+typedef struct Rec_8018A550_801878A8 {
+    u16 f0;      /* 0x00 */
+    u16 f2;      /* 0x02 */
+    s16 f4;      /* 0x04 */
+    s16 f6;      /* 0x06 */
+    s32 f8;      /* 0x08 */
+    s32 fC;      /* 0x0C */
+} Rec_8018A550_801878A8;
+
+typedef struct Ctl_8018A550_801878A8 {
+    s32 f0;              /* 0x00 */
+    s16 ids[8];          /* 0x04 */
+    Obj_8018A550_801878A8 *slots[8]; /* 0x14 */
+} Ctl_8018A550_801878A8;
+
+void func_801878A8(Ctl_8018A550_801878A8 *ctl, Rec_8018A550_801878A8 *rec)
+{
+    s32 i;
+    Obj_8018A550_801878A8 *m;
+    s16 v;
+    u16 t;
+
+    do {
+        for (i = 0; i < 8; i++) {
+            if (ctl->slots[i] == 0) {
+                break;
+            }
+        }
+        m = (Obj_8018A550_801878A8 *)((s32 (*)(s32, s32))func_8001D074)(0x7E, 0x100);
+        if (m != 0) {
+            ((void (*)(Obj_8018A550_801878A8 *, s32))func_8001CD04)(m, rec->fC);
+            m->f4 |= 0xF0000000;
+            v = rec->f6;
+            m->f1C = v;
+            m->f1A = v;
+            m->f18 = v;
+            ctl->slots[i] = m;
+            ctl->ids[i] = rec->f4;
+        }
+        t = rec->f0;
+        rec++;
+    } while (t != 0xFF);
+}
+
 
 
 

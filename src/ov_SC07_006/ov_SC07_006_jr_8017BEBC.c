@@ -159,7 +159,6 @@ extern void func_8012A018(s32 a0, s32 a1);
 extern u16 D_80126B5E;
 extern u16 D_80126B62;
 extern u16 D_80126B66;
-extern s16 D_80126940;
 extern s16 D_80126942;
 extern s16 D_80126944;
 extern void *memcpy(void *, const void *, unsigned int);
@@ -227,7 +226,6 @@ extern void func_8012AD80(s32 a0);
 extern void func_8012ADE4(u8 *a0);
 extern s32 *D_80126B78;
 extern s32 *D_80126B90;
-extern s32 D_80126B58;
 extern s32 func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 func_80013478(s32 a0, s32 a1);
 extern s32 func_8012AE00(s32 a0);
@@ -3768,7 +3766,32 @@ void func_8017D0F4(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_8017BEBC", func_8017D130);
+
+/* 8 bytes, align 2 -> lwl/lwr/swl/swr copy (cookbook §48-C2) */
+typedef struct {
+    s16 v[4];
+} Blk8_80126940_8017D130;
+
+extern u16 func_80148800(s32 *a0);
+extern void func_8017D4E4(s32 param_1, s16 *param_2);
+
+void func_8017D130(s32 a0) {
+
+    extern s32 D_80126B58;
+    extern s16 D_8018DF0C[];
+    extern Blk8_80126940_8017D130 D_80126940;
+    Blk8_80126940_8017D130 sp10;
+    u8 t;
+
+    if (func_80148800(&D_80126B58) & 3) {
+        t = (*(u8 *)(a0 + 5) + 1) & 1;
+        *(u8 *)(a0 + 5) = t;
+        *(s32 *)(a0 + 0x14) = D_8018DF0C[t];
+    }
+    sp10 = D_80126940;
+    func_8017D4E4(a0, sp10.v);
+}
+
 
 INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_8017BEBC", func_8017D1D0);
 

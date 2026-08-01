@@ -4392,7 +4392,61 @@ void func_8016E728(u8 *a0) {
 DEFINE_func_8016E778()  /* dedup: shared engine-core @0x8016e778 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC07_007/nonmatchings/ov_SC07_007_jr_8016AE5C", func_8016E7C8);
+extern s32 func_80017DC4(void *a0, void *a1);
+
+// @class: regalloc-order
+// @stuck: none — MATCH (74 ins); register pin $s2 forces &prim into a saved reg (§17)
+
+                 /* 0x08 */
+     /* 0x20 */
+
+typedef struct {
+    SVECTOR v[4];               /* 0x00 */
+    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
+    u8  f6;                     /* 0x38 */
+    u8  pad[7];                 /* -> 0x40 */
+} Prim_8016E7C8_8016E7C8;
+
+
+void func_8016E7C8(int param_1, short *param_2, unsigned int *param_3)
+{
+    extern void func_8004914C(void *a0);
+    extern void func_800491AC(void *a0);
+    extern void RotTransSV(s32, s32, void*);
+    extern void func_80016ED4(void *a0);
+    extern SVECTOR D_8018627C[4];
+    extern s32 D_8018629C;
+    extern s32 D_801862A4;
+    extern s32 D_801862AC;
+    extern s32 D_801862B4;
+
+    Prim_8016E7C8_8016E7C8 prim;
+    MATRIX_c2 m;
+    SVECTOR tmp;
+    register Prim_8016E7C8_8016E7C8 *pp __asm__("$18");   /* $s2 — force &prim into a saved reg */
+
+    ((void (*)(void *, void *))func_80017DC4)(param_2, &m);
+    m.t[0] = *(short *)(param_1 + 6);
+    m.t[1] = *(short *)(param_1 + 10);
+    m.t[2] = *(short *)(param_1 + 14);
+    func_8004914C(&m);
+    func_800491AC(&m);
+    pp = &prim;
+    ((void (*)(void *, void *, void *))RotTransSV)(&D_8018627C[0], pp, &tmp);
+    ((void (*)(void *, void *, void *))RotTransSV)(&D_8018627C[1], &prim.v[1], &tmp);
+    ((void (*)(void *, void *, void *))RotTransSV)(&D_8018627C[2], &prim.v[2], &tmp);
+    ((void (*)(void *, void *, void *))RotTransSV)(&D_8018627C[3], &prim.v[3], &tmp);
+    prim.v[0].vz = 3;
+    prim.f5 = 0x50000000;
+    prim.f0 = D_8018629C;
+    prim.f1 = D_801862A4;
+    prim.f2 = D_801862AC;
+    prim.f3 = D_801862B4;
+    prim.f4 = *param_3;
+    prim.f6 = 0x27;
+    func_80016ED4(pp);
+}
+
 
 DEFINE_func_8016E8F0()  /* dedup: shared engine-core @0x8016e8f0 (src/shared) */
 

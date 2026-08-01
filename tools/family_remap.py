@@ -610,7 +610,41 @@ def _carry_macros(lines, start, end, unit_text):
     return carried
 
 
-def _def_head_at(ln, paren_idx):
+_TD_CLOSE = re.compile(r'^\}\s*[A-Za-z_]\w*\s*(?:\[[^\]]*\])?\s*;')
+
+
+def _typedef_block_start(lines, j, limit=400):
+    """Index of the `typedef` line OPENING the multi-line typedef whose CLOSING line is `lines[j]`
+    (`} Ang2_8012B77C;`), else None — Phase-30 S6b, defect D5.
+
+    extract_unit's preamble backscan reads one line at a time, so a multi-line typedef presents its
+    CLOSING line first: `}` is not one of the accepted prefixes, the walk stops, and the type never
+    travels. The sibling then gets `Ang2_8012B77C undeclared` — MEASURED as 17 zero-crack families /
+    24,332 templatable ins, including the 275-member `func_80128C98` (`CdFileLoc`). The old note here
+    said such functions "route through the engine_types.h lift"; that lift is a separate, heavier
+    mechanism (a fleet-shared header edit, blast-radius T2) and it was never run for these, so in
+    practice the class was simply dropped. Carrying the block is blast-radius T0 (draft-only) and
+    `harvest_verify` already removes a typedef the sibling TU also provides
+    (`cdecl.strip_provided_typedefs`), so a duplicate cannot break the sibling.
+
+    Only a block that literally BEGINS with `typedef` is carried: a plain struct VARIABLE (`struct
+    {…} someGlobal;`) closes identically but defining it in the sibling would be a duplicate global."""
+    if not _TD_CLOSE.match(lines[j].lstrip()):
+        return None
+    depth = 0
+    for k in range(j, max(-1, j - limit), -1):
+        depth += lines[k].count('}') - lines[k].count('{')
+        if depth == 0:
+            if re.match(r'^\s*typedef\b', lines[k]):
+                return k
+            # brace-on-its-own-line form: `typedef struct` / `{` / … / `} Foo;`
+            if lines[k].strip() == '{' and k and re.match(r'^\s*typedef\b', lines[k - 1]):
+                return k - 1
+            return None
+    return None
+
+
+def _def_head_at(ln, paren_idx, more=()):
     """Does the `func_…(` occurrence whose '(' is at `paren_idx` head a DEFINITION on this line?
 
     The old test was "the line does not end in `;`", which is wrong whenever a line holds BOTH a
@@ -623,22 +657,39 @@ def _def_head_at(ln, paren_idx):
     the real definition seven lines below, and every sibling got `redefinition of func_80155FF8`.
 
     The correct question is what follows the parameter list: `;` is a declaration, `{` (or end of
-    line, i.e. the brace-on-its-own-line form) is a definition."""
+    line, i.e. the brace-on-its-own-line form) is a definition.
+
+    `more` = the following source lines, so the question can still be answered when the parameter list
+    WRAPS. The old fallback answered "param list continues past this line -> an ANSI definition", which
+    is false for a wrapped multi-line DECLARATION (Phase-30 S6a, defect D2):
+
+        extern void func_801466F0(s32 a0, s32 a1, s32 a2, s32 a3,
+                                  s32 sp5, s32 sp6, s32 sp7, s32 sp8);
+
+    ov_SC01_077_after.c:457 is exactly that, and it was accepted as a definition head — so extract_unit
+    returned a 16-line fragment containing NO function body (a neighbouring `DEFINE_func_*()`, an
+    `#include`, and a comment whose `{ u16, … }` example closed the forward brace scan). Every sibling
+    of that family failed, and the family read as a 0/137 compiler wall (§110/R35). With `more`, the
+    list closes on the continuation line and the same `;` vs `{` test gives the right answer."""
     depth = 0
-    for i in range(paren_idx, len(ln)):
-        if ln[i] == '(':
-            depth += 1
-        elif ln[i] == ')':
-            depth -= 1
-            if depth == 0:
-                rest = ln[i + 1:].strip()
-                rest = re.sub(r'^(/\*.*?\*/|//.*)\s*', '', rest)
-                if rest == '' or rest.startswith('{'):
-                    return True
-                if rest.startswith(';'):
-                    return False
-                return '{' in rest
-    return True                      # param list continues past this line -> an ANSI definition
+    for seg in (ln[paren_idx:],) + tuple(more):
+        for i, ch in enumerate(seg):
+            if ch == '(':
+                depth += 1
+            elif ch == ')':
+                depth -= 1
+                if depth == 0:
+                    rest = seg[i + 1:].strip()
+                    rest = re.sub(r'^(/\*.*?\*/|//.*)\s*', '', rest)
+                    if rest == '' or rest.startswith('{'):
+                        return True
+                    if rest.startswith(';'):
+                        return False
+                    return '{' in rest
+    # The parameter list never closed. Given lookahead that means malformed/unknown input, and
+    # "unknown" must not be reported as a definition (D2). With no lookahead we genuinely cannot
+    # tell, so keep the historical answer for any caller not yet passing `more`.
+    return not more
 
 
 def _foreign_defs(unit_text, addr):
@@ -650,7 +701,8 @@ def _foreign_defs(unit_text, addr):
     since a macro instantiation defines nothing the sibling does not already have."""
     self_sym = f"func_{addr:08X}".lower()
     out = []
-    for ln in cdecl._mask(unit_text).split("\n"):
+    _mlines = cdecl._mask(unit_text).split("\n")
+    for _li, ln in enumerate(_mlines):
         for m in re.finditer(r'\bfunc_[0-9A-Fa-f]{8}\s*\(', ln):
             name = m.group(0).split("(")[0].strip()
             if name.lower() == self_sym:
@@ -662,8 +714,10 @@ def _foreign_defs(unit_text, addr):
             pre_tail = ln[:m.start()].rsplit(';', 1)[-1]
             if not re.fullmatch(r'\s*[A-Za-z_][\w \*]*', pre_tail):
                 continue
-            if not _def_head_at(ln, ln.index('(', m.start())):          # a declaration, not a def
-                continue
+            # Lookahead (D2): a WRAPPED declaration continues past its line, so without `more` this
+            # test used to answer "definition" and _foreign_defs would refuse a perfectly good unit.
+            if not _def_head_at(ln, ln.index('(', m.start()), _mlines[_li + 1:_li + 9]):
+                continue                                                # a declaration, not a def
             if name not in out:
                 out.append(name)
     return out
@@ -707,7 +761,12 @@ def extract_unit(ov, addr):
     unit so the sibling still emits the func_<ADDR> symbol."""
     plain = re.compile(rf'^\s*[A-Za-z_][\w \*]*\bfunc_{addr:08X}\s*\(', re.I)
     for cf in sorted(glob.glob(f"src/{ov}/{ov}*.c")):
-        lines = open(cf).read().split("\n")
+        _raw = open(cf).read()
+        lines = _raw.split("\n")
+        # Length- AND line-preserving comment/string blank-out (R33: cdecl._mask is the ONE masking
+        # oracle). Used for the forward brace scan below, so a `{ u16, … }` inside a documentation
+        # comment can never close a function body (Phase-30 S6a, the D2 post-mortem).
+        masked = cdecl._mask(_raw).split("\n")
         alias_ident, alias_ln = _alias_decl_for(lines, addr)
         # RE-DERIVE per file: `pat` must never leak an earlier file's alias into a later one.
         pat = (re.compile(rf'^\s*[A-Za-z_][\w \*]*\b{re.escape(alias_ident)}\s*\(', re.I)
@@ -726,21 +785,30 @@ def extract_unit(ov, addr):
             code = re.sub(r'(/\*.*?\*/|//.*)\s*$', '', ln).rstrip()
             _m = pat.search(ln)
             if _m and "INCLUDE_ASM" not in ln and not code.endswith(";") \
-                    and _def_head_at(ln, ln.index('(', _m.end() - 1)):
+                    and _def_head_at(ln, ln.index('(', _m.end() - 1), lines[i + 1:i + 9]):
                 j = i - 1
-                # Grab the fn's own preceding decls: externs, comments, AND single-line typedefs
+                # Grab the fn's own preceding decls: externs, comments, single-line typedefs
                 # (Phase-26 §8: jr-function bodies define local `typedef struct {…} Foo_<addr>;` that
-                # must template with the body, else the sibling sees `Foo undeclared`. Multi-line
-                # typedefs aren't carried — those functions route through the engine_types.h lift).
+                # must template with the body, else the sibling sees `Foo undeclared`) — AND, since
+                # Phase-30 S6b (D5), MULTI-LINE typedefs, via `_typedef_block_start` (the old note
+                # here said they "route through the engine_types.h lift"; measured, they routed
+                # nowhere — 17 families / 24,332 ins were simply dropped).
                 # STOP at a machine-generated FILE-SCOPE decl layer (the §8b carried layer that
                 # jr_isolate_all prepends to an isolated region, or the Phase-17 canonical-sig layer):
                 # those belong to the FILE, not to the first function under them. Absorbing one makes
                 # the unit drag ~140 unrelated externs into every sibling — several naming types the
                 # sibling's TU lacks — and the whole family gate-fails (Phase 26 session 6).
                 while j >= 0 and (lines[j].strip() == "" or j == alias_ln or
-                                  lines[j].lstrip().startswith(("extern", "//", "/*", "*", "typedef"))):
+                                  lines[j].lstrip().startswith(("extern", "//", "/*", "*", "typedef")) or
+                                  _typedef_block_start(lines, j) is not None):
                     if _DECL_LAYER_END.search(lines[j]):
                         break
+                    # D5: a multi-line typedef closes with `} Foo;`. Jump to its `typedef` line so the
+                    # WHOLE block is carried, then keep walking above it.
+                    _tds = _typedef_block_start(lines, j)
+                    if _tds is not None:
+                        j = _tds - 1
+                        continue
                     # A LINE THAT STARTS WITH `extern` CAN STILL HOLD A DEFINITION (Phase 29 T65).
                     # ov_SC01_077_jr_80154C24.c:1346 is
                     #     extern void func_80156044(int, int); int func_80155FF8(int, int) { __asm__ … }
@@ -750,14 +818,34 @@ def extract_unit(ov, addr):
                     # via its shared DEFINE_ macro got `redefinition of func_80155FF8`. 137 members,
                     # booked as a compile failure. A pure declaration never contains `{`; a single-line
                     # `typedef struct {…} Foo;` legitimately does, and is still carried.
-                    if "{" in lines[j] and not lines[j].lstrip().startswith("typedef"):
+                    #
+                    # …AND NEITHER DOES A COMMENT (Phase-30 S6a, defect D1). The guard fired on any
+                    # DOCUMENTATION line that merely mentions a brace — `* => { u16, u16, s32 }` — so
+                    # the carry stopped in the MIDDLE of a block comment and the sibling received a
+                    # dangling ` * …` fragment plus an unmatched `*/`: `parse error before 'the'`.
+                    # Comment text cannot hold a definition, so exempt it. (A `/*…*/ int f() {` line
+                    # is code with a leading comment, so only an UNCLOSED `/*` counts as comment-only.)
+                    _ls = lines[j].lstrip()
+                    _comment_only = _ls.startswith(("*", "//")) or (_ls.startswith("/*") and "*/" not in lines[j])
+                    if "{" in lines[j] and not _ls.startswith("typedef") and not _comment_only:
                         break
                     j -= 1
                 start = j + 1
+                # R32 BACKSTOP for D1: never hand a sibling a DANGLING comment fragment. If the carried
+                # preamble opens inside a block comment (a `*/` with no `/*` before it) the backscan was
+                # truncated by something we have not accounted for — drop the fragment and say so, rather
+                # than emit ` * …` lines as code and let 137 siblings fail as a phantom "wall".
+                _pre = "\n".join(lines[start:i])
+                _close = _pre.find("*/")
+                if _close != -1 and (_pre.find("/*") == -1 or _pre.find("/*") > _close):
+                    _drop = _pre[:_close + 2].count("\n") + 1
+                    print(f"[extract_unit] func_{addr:08X} in {ov}: carried preamble opened INSIDE a "
+                          f"block comment — dropping {_drop} dangling line(s) (D1 backstop)")
+                    start = min(start + _drop, i)
                 depth, started, end = 0, False, i
                 for k in range(i, len(lines)):
-                    depth += lines[k].count("{") - lines[k].count("}")
-                    if "{" in lines[k]:
+                    depth += masked[k].count("{") - masked[k].count("}")
+                    if "{" in masked[k]:
                         started = True
                     if started and depth <= 0:
                         end = k

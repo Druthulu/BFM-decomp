@@ -3403,7 +3403,47 @@ void func_8017CD9C(int param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_100/nonmatchings/ov_SC03_100_jr_8017AE2C", func_8017CDF8);
+
+/* Entity record touched by func_8017CDF8 (offsets read straight off the asm):
+ *   0x02 u16   frame/state counter (lhu / sh)
+ *   0x1C s32   tick counter (lw / sw), signed compare against 0x20
+ *   0x2A u16   y-ish delta, decremented by 0x10 (lhu / sh)
+ *   0x2C u16   sound id passed to func_80147324 (lhu)
+ *   0x30 s32   suppress flag
+ */
+typedef struct Ent_8017BFE0_8017CDF8 {
+    u8  pad00[2];   /* 0x00 */
+    u16 f02;        /* 0x02 */
+    u8  pad04[0x18];/* 0x04 */
+    s32 f1c;        /* 0x1C */
+    u8  pad20[0xA]; /* 0x20 */
+    u16 f2a;        /* 0x2A */
+    u16 f2c;        /* 0x2C */
+    u8  pad2e[2];   /* 0x2E */
+    s32 f30;        /* 0x30 */
+} Ent_8017BFE0_8017CDF8;
+
+extern void func_80147324(s32 arg0);
+extern void func_8017D030(int);
+
+void func_8017CDF8(Ent_8017BFE0_8017CDF8 *param_1)
+{
+    s32 t;
+
+    t = param_1->f1c;
+    param_1->f1c = t + 1;
+    if (t < 0x20) {
+        param_1->f2a = param_1->f2a - 0x10;
+    } else {
+        if (param_1->f30 == 0) {
+            func_80147324(param_1->f2c);
+        }
+        param_1->f1c = 0;
+        param_1->f02 = param_1->f02 + 1;
+    }
+    ((void (*)(Ent_8017BFE0_8017CDF8 *))func_8017D030)(param_1);
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_100/nonmatchings/ov_SC03_100_jr_8017AE2C", func_8017CE7C);
 
@@ -3568,7 +3608,72 @@ void func_8017D5DC(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_100/nonmatchings/ov_SC03_100_jr_8017AE2C", func_8017D618);
+
+/* func_8017D618 — spawn/scatter tick for the +0x34 sub-object (state word @0x2).
+ * MATCH (45 ins), match_one + rtu_match. Four levers, in the order they were found:
+ *
+ * 1. §71 sibling-first — same entity shape as func_8017C610 / func_8017C69C in this
+ *    TU: sub-object pointer @0x34 read BEFORE the call (it lives in $s1 across the
+ *    jal), state word @0x2 bumped last. §3-T4: `beqz $v1,else` => `if (p->f2C) {..}`.
+ *    ONE rand() feeds three fields; the raw low 6 bits use a bare `andi` (no extend)
+ *    while the >>12 / >>6 uses share one `sll $x,16` — that shared sign-extend is
+ *    what forces `r` to be a `short` local rather than an int.
+ *
+ * 2. §5a CROSS-JUMP — both arms end in `sh ?,0xA($s0)`; gcc tail-merged them (23 off).
+ *    They only stay separate because the loaded halfword lands in a DIFFERENT hard
+ *    reg per arm, which needs (a) the load to be its own statement at the TOP of each
+ *    arm and (b) a SEPARATE temp per arm (t / t2) — one shared temp is one pseudo,
+ *    gets one register in both arms, and re-merges. 23 -> 10 -> 6.
+ *
+ * 3. +0x16 is SIGNED: the target materialises -0x20 as `addiu $v0,$zero,-0x20`, not
+ *    `ori 0xffe0`, so that store must go through an s16.
+ *
+ * 4. §49 BIRTHING BOOST (the last 6 -> 2 -> 0). Residual was two ALU insns swapped
+ *    with identical registers; source statement order does NOT flip it, because
+ *    sched1's `adjust_priority`/`birthing_insn_p` hands every SET(REG,..) whose dest
+ *    has REG_N_SETS==1 a 0x7f000001 priority, so it sinks to just before its consumer
+ *    and fixes the .greg LUID order that sched2's tie-break then reads.
+ *    THE DIAL: give the offending insn's dest a SECOND set so it loses the boost —
+ *    here one `u16 d` reused by both tail statements. It must be a THIRD temp, not
+ *    `c` itself: writing `c = c + 1;` also un-boosts c's LOAD, which then starves to
+ *    the front of the block and swaps the two `lhu`s instead. Boost the loads, starve
+ *    the arithmetic. */
+
+extern int rand(void);
+
+void func_8017D618(void *a0)
+{
+    s32 p;
+    s32 obj;
+    short r;
+    u16 t;
+    u16 t2;
+    u16 e;
+    u16 c;
+    u16 d;
+
+    p = (s32)a0;
+    obj = *(s32 *)(p + 0x34);
+    r = rand();
+    *(u16 *)(p + 0x06) = *(u16 *)(obj + 0x06) + ((r & 0x3F) - 0x20);
+    if (*(s32 *)(p + 0x2C) != 0) {
+        t = *(u16 *)(obj + 0x0A);
+        *(s16 *)(p + 0x16) = 0x20;
+        *(u16 *)(p + 0x0A) = t - 0x140;
+    } else {
+        t2 = *(u16 *)(obj + 0x0A);
+        *(s16 *)(p + 0x16) = -0x20;
+        *(u16 *)(p + 0x0A) = t2;
+    }
+    e = *(u16 *)(obj + 0x0E);
+    c = *(u16 *)(p + 0x02);
+    *(s32 *)(p + 0x30) = (r >> 12) & 3;
+    d = ((r >> 6) & 0x3F) - 0x20;
+    *(u16 *)(p + 0x0E) = e + d;
+    d = c + 1;
+    *(u16 *)(p + 0x02) = d;
+}
+
 
 extern void func_800D22E4(s32 a0);
 extern void func_80146C3C(void);

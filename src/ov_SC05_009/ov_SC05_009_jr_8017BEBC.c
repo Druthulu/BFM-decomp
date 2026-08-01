@@ -3273,11 +3273,69 @@ void func_8017D1D4(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_009/nonmatchings/ov_SC05_009_jr_8017BEBC", func_8017D210);
 
-INCLUDE_ASM("asm/ov_SC05_009/nonmatchings/ov_SC05_009_jr_8017BEBC", func_8017D2B0);
+/* 8 bytes, align 2 -> lwl/lwr/swl/swr copy (cookbook §48-C2) */
+typedef struct {
+    s16 v[4];
+} Blk8_80126940_8017D210;
 
-INCLUDE_ASM("asm/ov_SC05_009/nonmatchings/ov_SC05_009_jr_8017BEBC", func_8017D2F8);
+extern u16 func_80148800(s32 *a0);
+extern void func_8017D340(s32 param_1, s16 *param_2);
+
+void func_8017D210(s32 a0) {
+
+    extern s16 D_80182550[];
+    extern Blk8_80126940_8017D210 D_80126940;
+    Blk8_80126940_8017D210 sp10;
+    u8 t;
+
+    if (func_80148800(&D_80126B58) & 3) {
+        t = (*(u8 *)(a0 + 5) + 1) & 1;
+        *(u8 *)(a0 + 5) = t;
+        *(s32 *)(a0 + 0x14) = D_80182550[t];
+    }
+    sp10 = D_80126940;
+    func_8017D340(a0, sp10.v);
+}
+
+
+
+/* 8-byte, alignment-1 blob: the target copies it with lwl/lwr + swl/swr,
+ * which is gcc's emit_block_move for align < 4. */
+typedef struct {
+    char b[8];
+} Blob8_8018A47C_8017D2B0;
+
+extern void func_8017D340(s32, s16*);
+
+void func_8017D2B0(s32 a0) {
+
+    extern Blob8_8018A47C_8017D2B0 D_80126940;
+    Blob8_8018A47C_8017D2B0 tmp;
+
+    tmp = D_80126940;
+    ((void (*)(s32, Blob8_8018A47C_8017D2B0 *))func_8017D340)(a0, &tmp);
+}
+
+
+
+/* 8-byte, alignment-1 blob: the target copies it with lwl/lwr + swl/swr,
+ * which is gcc's emit_block_move for align < 4. */
+typedef struct {
+    char b[8];
+} Blob8_8018A47C_8017D2F8;
+
+extern void func_8017D4D8(s32, s16*);
+
+void func_8017D2F8(s32 a0) {
+
+    extern Blob8_8018A47C_8017D2F8 D_80126940;
+    Blob8_8018A47C_8017D2F8 tmp;
+
+    tmp = D_80126940;
+    ((void (*)(s32, Blob8_8018A47C_8017D2F8 *))func_8017D4D8)(a0, &tmp);
+}
+
 
 
 // @class: schedule

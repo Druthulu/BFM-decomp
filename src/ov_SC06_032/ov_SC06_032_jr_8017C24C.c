@@ -3964,7 +3964,110 @@ INCLUDE_ASM("asm/ov_SC06_032/nonmatchings/ov_SC06_032_jr_8017C24C", func_8018057
 
 INCLUDE_ASM("asm/ov_SC06_032/nonmatchings/ov_SC06_032_jr_8017C24C", func_801806E8);
 
-INCLUDE_ASM("asm/ov_SC06_032/nonmatchings/ov_SC06_032_jr_8017C24C", func_80180730);
+
+typedef struct {
+    u8  pad0[6];
+    u16 f6;         /* 0x06 -> D_80126B5E */
+    u8  pad8[2];
+    u16 fa;         /* 0x0A -> D_80126B62 */
+    u8  padc[2];
+    u16 fe;         /* 0x0E -> D_80126B66 */
+} StructB58_80180730;
+
+/* holds a pointer value */
+
+extern int  rand(void);
+extern s32  func_8012BEE8(s32 a0);
+extern void func_8012B0B4(unsigned int *p, int a1, int a2);
+extern s32  func_8012B744(void *a0, void *a1);
+extern s32  func_8012B608(s32 a0, s32 a1, s32 a2);
+extern void func_8012B178(s32 a0, s32 a1);
+extern s32  func_80182400(s32 a0);
+extern void func_80182588(s32 a0);
+extern void func_8012F14C(s32 a0);
+extern void func_80184124(s32, void*, void*, s32);
+extern void func_801840C0(s32, void*, s32, s32, s32, s32);
+extern s32  func_80013478(s32 a0, s32 a1);
+
+void func_80180730(s32 param_1) {
+
+    extern s32 D_80126B58;
+    extern u16       D_800B99DA;
+    extern u8        D_801A6614;
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern s32 *D_80126B78;
+    u8  auStack_38[8];
+    s16 sp20[3];
+    u8  auStack_28[8];
+    register StructB58_80180730 *b58 __asm__("$20") = &(*(StructB58_80180730 *)&D_80126B58);   /* $s4 */
+    short *psVar7 = (short *)(param_1 + 0xec);
+    s32 sVar1;
+    s32 r_b608;
+
+    if (func_8012BEE8(param_1) != 0) {
+        register unsigned int *p28 __asm__("$21") = (unsigned int *)auStack_28; /* $s5 */
+        s32 r0 = rand();
+        s32 coord;
+        s32 s2v;
+        s32 r3;
+        s32 tmp;
+
+        coord = r0 % 0x400;
+        sVar1 = *(s16 *)((*(s32 *)&(*(s32 *)&D_80126B78)) + 0x12);
+        s2v   = sVar1 + 0x800;
+        if ((rand() & 1) == 0) {
+            coord = s2v - coord;
+        } else {
+            s32 c = coord;   /* fresh pseudo so gcc keeps s2v first in the addu (§10 A1) */
+            coord = s2v + c;
+        }
+
+        func_8012B0B4(p28, coord, rand() % 0x200 + 0x200);
+
+        tmp = *(s32 *)auStack_28;
+        psVar7[0] = b58->f6 + tmp;
+        psVar7[1] = b58->fa;
+        psVar7[2] = b58->fe + (tmp >> 16);
+
+        r3 = rand();
+        *(s32 *)(param_1 + 0x1c) = 0x80;
+        *(s16 *)(param_1 + 0x100) = r3 % 9 + 8;
+    }
+
+    if ((*(u32 *)(param_1 + 0xe0) & 0x40) == 0) {
+        *(u32 *)(param_1 + 0xe8) = func_8012B744((void *)(param_1 + 4), psVar7);
+    }
+
+    r_b608 = func_8012B608((s32)*(s16 *)(*(s32 *)(param_1 + 0x20) + 0x12),
+                           *(s32 *)(param_1 + 0xe8),
+                           (s32)*(s16 *)(param_1 + 0x100));
+    *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x12) =
+        *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x12) + r_b608;
+    func_8012B178(param_1, 0xfffa0000);
+
+    *(u32 *)(param_1 + 0xe0) &= 0xffffffbf;
+    if (func_80182400(param_1) == 0) {
+        func_80182588(param_1);
+        sp20[1] = 0;
+        sp20[0] = 0;
+        sp20[2] = -0x100;
+        ((void (*)(s32, s32, s32))func_8012F14C)(*(s32 *)(param_1 + 0x20) + 0x34,
+                                                 (s32)sp20, (s32)psVar7);
+    }
+
+    if (((u32)D_800B99DA % 0x28 == 0) && ((*(u32 *)(param_1 + 0xe0) & 0x80) == 0)) {
+        ((void (*)(s32, s32, s32, s32))func_80184124)(param_1, (s32)&D_801A6614, (s32)auStack_38, 0xb);
+        ((void (*)(s32, s32, s32, s32, s32, s32))func_801840C0)(param_1, (s32)auStack_38, 0x282, 1, 0, 0);
+        *(u32 *)(param_1 + 0xe0) |= 0x80;
+    }
+
+    if (func_80013478(param_1 + 4, (s32)psVar7) < 0x400) {
+        *(s32 *)(param_1 + 0x1c) = 0;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_032/nonmatchings/ov_SC06_032_jr_8017C24C", func_801809D0);
 
@@ -4698,7 +4801,55 @@ INCLUDE_ASM("asm/ov_SC06_032/nonmatchings/ov_SC06_032_jr_8017C24C", func_80186E1
 
 INCLUDE_ASM("asm/ov_SC06_032/nonmatchings/ov_SC06_032_jr_8017C24C", func_80186E9C);
 
-INCLUDE_ASM("asm/ov_SC06_032/nonmatchings/ov_SC06_032_jr_8017C24C", func_80187180);
+
+extern s32 ratan2(s32 a0, s32 a1);
+extern s32 func_80047948(s32 a0); /* rsin-like: angle (0..0xFFF) -> 1.12 fixed */
+extern s32 func_8004787C(s32 a0); /* rcos-like: angle (0..0xFFF) -> 1.12 fixed */
+
+/* The 4-byte destination is a PACKED PAIR of angles held entirely in ONE saved register
+ * ($s4) across all three calls — that is what produces the target's
+ *   andi $s4,$s4,0xFFFF   (read of the still-uninitialized local, hoisted into the prologue)
+ *   ... or  $s4,$s4,ang<<16      -> t.hi = yaw
+ *   ... and $s4,$s4,0xFFFF0000 / or $s4,$s4,ang&0xFFFF  -> t.lo = pitch
+ * A `struct { s16 lo, hi; }` has align 2 -> BLKmode-ish handling: gcc spills it to the stack
+ * and stores it with lwl/lwr + swl/swr (54 ins, 53 mismatched). Two 16-bit BITFIELDS in a
+ * u32 container give the SImode, align-4 struct gcc keeps in a register. */
+typedef struct {
+    u32 lo : 16;
+    u32 hi : 16;
+} Ang2_8012B77C_80187180;
+
+/* a0 = destination packed-angle word, a1 = "from" entity, a2 = "to" entity.
+ * Both entities carry 16.16 fixed-point x/y/z at +0/+4/+8; the s16 reads at +2/+6/+0x4 are
+ * the integer halves. Returns the destination pointer — the return value is REAL: without it
+ * gcc stores with `sw $s4,0($s3)` (57 ins) instead of the target's
+ *   addu $v0,$s3,$zero ; sw $s4,0($v0)   (the return-value copy that the store's base coalesces onto).
+ * The flattened `dz` reuse at the end is also load-bearing: making the (dz*sin + dx*cos)>>12
+ * temp its OWN variable gives it $a1 for the whole chain; reusing `dz` extends that allocno so
+ * it lands in $s5 exactly as the target does (`sra $s5,$v0,12` / `negu $a1,$s5`), and it also
+ * demotes dz's priority so the saved-reg order comes out $s3=out, $s4=t, $s5=dz. */
+s32 func_80187180(s32 out, s32 from, s32 to) {
+    Ang2_8012B77C_80187180 t;
+    s32 dx, dy, dz;
+    s32 ang;
+    s32 r1, r2;
+
+    dz = *(s16 *)(to + 0x4) - *(s16 *)(from + 0x4);
+    dx = *(s16 *)(to + 0x0) - *(s16 *)(from + 0x0);
+    dy = *(s16 *)(to + 0x2) - *(s16 *)(from + 0x2);
+
+    ang = (ratan2(-dz, dx) - 0x400) & 0xFFF;
+    t.hi = ang;
+
+    r1 = func_80047948(ang);
+    r2 = func_8004787C(ang);
+    dz = (dz * r1 + dx * r2) >> 12;
+    t.lo = ratan2(dy, -dz);
+
+    *(Ang2_8012B77C_80187180 *)out = t;
+    return out;
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_032/nonmatchings/ov_SC06_032_jr_8017C24C", func_80187268);
 

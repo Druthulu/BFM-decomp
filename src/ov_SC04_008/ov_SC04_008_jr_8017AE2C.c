@@ -4115,7 +4115,72 @@ void func_8017E158(int param_1)
 
 INCLUDE_ASM("asm/ov_SC04_008/nonmatchings/ov_SC04_008_jr_8017AE2C", func_8017E23C);
 
-INCLUDE_ASM("asm/ov_SC04_008/nonmatchings/ov_SC04_008_jr_8017AE2C", func_8017E2A8);
+
+/* func_8017E2A8 — per-frame update for the effect entity that func_8017E8CC
+ * initialises (its GPU primitive lives at +0x20).  Advance the spin angle at
+ * +0x2C by 0x40, take rsin(angle)/256 as the Z component of a stack vector,
+ * rotate that vector by the primitive's own angle at p+0x12, then re-derive
+ * the draw position words at +6/+0xA/+0xE, grow the size counter at +0x2E
+ * (mirrored into the primitive's w/h at p+0x18/p+0x1A), fade the RGB triple
+ * at p+0x24..0x26 by 4 per frame, and retire the entity via func_801292C8
+ * once the shared lifetime check func_80146E98 reports done.
+ *
+ * Matching notes (cookbook §S1/§S4 in gcc-2.7.2-map/sched.md): the three
+ * position statements and the +0x2E statement all tie at sched priority 1,
+ * so their SOURCE ORDER is the schedule.  The target's order is
+ * 0x6, 0xE, 0xA, 0x2E — writing them in field order (0x6, 0xA, 0xE, 0x2E)
+ * costs 12 mismatches because the 0x30 load, not the 0x2E load, wins the
+ * load-delay filler slot after the first group.  `siz` must be an explicit
+ * temporary (a re-read of +0x2E in the p+0x1A statement re-groups the whole
+ * block, 26+ mismatches).
+ */
+
+typedef struct {
+    unsigned short vx, vy, vz, pad;
+} UVec_8017EA1C_8017E2A8;
+
+extern s32 func_8004787C(s32 a0);
+extern void func_800139C8(s32 a0, void *a1, void *a2);
+extern s32 func_80146E98(s32 a0);
+extern void func_801292C8(void);
+
+void func_8017E2A8(int param_1)
+{
+    UVec_8017EA1C_8017E2A8 v;
+    int p;
+    short ang;
+    int siz;
+    int wid;
+    int col;
+
+    p = *(int *)(param_1 + 0x20);
+    ang = *(unsigned short *)(param_1 + 0x2c) + 0x40;
+    *(unsigned short *)(param_1 + 0x2c) = ang;
+    v.vz = func_8004787C(ang) / 256;
+    v.vy = 0;
+    v.vx = 0;
+    func_800139C8(*(short *)(p + 0x12), &v, &v);
+
+    *(unsigned short *)(param_1 + 6) = *(unsigned short *)(param_1 + 0x12) + v.vx;
+    *(unsigned short *)(param_1 + 0xe) = *(unsigned short *)(param_1 + 0x1a) + v.vz;
+    *(unsigned short *)(param_1 + 0xa) = *(unsigned short *)(param_1 + 0xa) - *(unsigned short *)(param_1 + 0x30);
+    siz = *(unsigned short *)(param_1 + 0x2e) + 0x10;
+    *(unsigned short *)(param_1 + 0x2e) = siz;
+
+    wid = *(unsigned short *)(p + 0x1a) + siz;
+    *(unsigned short *)(p + 0x1a) = wid;
+    *(unsigned short *)(p + 0x18) = wid;
+
+    col = *(unsigned char *)(p + 0x26) - 4;
+    *(unsigned char *)(p + 0x26) = col;
+    *(unsigned char *)(p + 0x25) = col;
+    *(unsigned char *)(p + 0x24) = col;
+
+    if (func_80146E98(param_1) != 0) {
+        ((void (*)(int))func_801292C8)(param_1);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_008/nonmatchings/ov_SC04_008_jr_8017AE2C", func_8017E394);
 

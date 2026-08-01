@@ -52,7 +52,6 @@ extern s32 func_80165A50(s32);
 extern void func_80029514(s32);
 extern u8 D_800AF630[];
 extern u8 D_80078EC0;
-extern s32 D_80126B58;
 extern s32 func_80028FBC(void);
 extern s32 func_80029000(void);
 extern s32 func_80028D9C(void);
@@ -3223,7 +3222,32 @@ void func_8017D060(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_001/nonmatchings/ov_SC01_001_jr_8017BEBC", func_8017D09C);
+
+/* 8 bytes, align 2 -> lwl/lwr/swl/swr copy (cookbook §48-C2) */
+typedef struct {
+    s16 v[4];
+} Blk8_80126940_8017D09C;
+
+extern u16 func_80148800(s32 *a0);
+extern void func_8017D13C(s32 param_1, s16 *param_2);
+
+void func_8017D09C(s32 a0) {
+
+    extern s32 D_80126B58;
+    extern s16 D_801872BC[];
+    extern Blk8_80126940_8017D09C D_80126940;
+    Blk8_80126940_8017D09C sp10;
+    u8 t;
+
+    if (func_80148800(&D_80126B58) & 3) {
+        t = (*(u8 *)(a0 + 5) + 1) & 1;
+        *(u8 *)(a0 + 5) = t;
+        *(s32 *)(a0 + 0x14) = D_801872BC[t];
+    }
+    sp10 = D_80126940;
+    func_8017D13C(a0, sp10.v);
+}
+
 
 
 // @class: schedule

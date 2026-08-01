@@ -8700,3 +8700,57 @@ your own filter, not the world. State the filter out loud in the same breath as 
 families **with ≥100 members, any size**"), and re-run once with it removed before any conclusion is
 allowed to shape a plan. A number that scoped a phase deserves the same instrument-check R35 demands
 of a probe.
+
+## §134 — MULTI-LINE BLINDNESS: one root cause, four faces, in `family_remap`'s preamble scanner (P30 S6, 190 zero-crack families)
+
+`extract_unit` builds a templatable unit by walking UP from a definition line, accepting lines that
+"look like" preamble (`extern` / `//` / `/*` / `*` / `typedef` / blank). That scanner is **line-at-a-time
+over a language whose constructs span lines**, and every construct that wraps was misread. Four faces,
+all found in one session by probing eight zero-banked families with ONE build each (`.run/s6_diag.py`
+— remap → splice → build that overlay → read the compiler's own error → revert):
+
+| face | the construct | what the scanner concluded | the symptom, in the sibling |
+|---|---|---|---|
+| **D1** | a block comment containing `{` — e.g. `* => { u16, u16, s32 }` | the `{`-guard (a real T65 fix for `extern void f(int); int g(){…}` on one line) fired on *documentation* | carry stops MID-comment; the draft opens with ` * …` and an unmatched `*/` → **`parse error before 'the'`** |
+| **D2** | a wrapped DECLARATION — `extern void func_801466F0(s32 a0, …,`⏎`  s32 sp8);` | `_def_head_at`'s fallback: "param list continues past this line ⇒ ANSI definition" | line 457 accepted as a definition head → unit is a **16-line fragment with no body** (a neighbouring `DEFINE_func_*()`, an `#include`, a comment), closed by the `{ u16, … }` *inside that comment* → **0/137, reads as a compiler wall** |
+| **D4** | a wrapped asm-label alias — `extern void aF…(…,`⏎`  s32 sp8) __asm__("func_801466F0");` | `_alias_decl_for` is a single-line `rx.match` | the definition is invisible → "no matched unit" |
+| **D5** | a multi-line `typedef struct {…} T;` | the backscan meets the CLOSING line `} T;` first; `}` is not an accepted prefix, so it stops | the type never travels → **`T undeclared`**, measured at **17 families / 24,332 templatable ins** |
+
+**Why it matters more than four bugs.** D2 and D5 produce a *silent, uniform, whole-family* failure —
+exactly the shape a compiler wall produces. The tell is **bimodality**: S6's first sweep banked
+842/2,735, and the residue split **57 families all-banked / 52 zero / 8 partial**. Per-member codegen
+residuals do not cluster like that; one per-family blocker does. **Bimodal bank rates are a
+tooling signature — probe one member before writing the family off** (R35, and the fifth consecutive
+"structural wall" in this project to resolve to our own instrument after §53/§124/§126/§132).
+
+**The fixes** (all in `tools/family_remap.py`, all blast-radius-verified against the pre-fix tool by
+diffing `extract_unit` output over every affected exemplar — **157 of 181 byte-identical**, the rest
+changed only in the intended direction):
+- `_def_head_at(ln, paren_idx, more=())` — the caller passes the following lines, so a wrapped list
+  closes and the same `;`-vs-`{` test answers correctly. With lookahead supplied and no close, it
+  returns **False** ("unknown" is not "definition"); with no lookahead it keeps the historical answer,
+  so un-updated callers cannot silently change behaviour.
+- the `{`-guard exempts comment-only lines (`*`, `//`, or an unclosed `/*`), plus an **R32 backstop**
+  that drops-and-announces a preamble that still opens inside a comment.
+- the forward body scan counts braces in **`cdecl._mask`ed** text (R33: one masking oracle), so a
+  brace inside a comment or string can never close a function body.
+- `_typedef_block_start()` — on a `} T;` closing line, walk up to the matching `typedef` (both the
+  `typedef struct {` and brace-on-its-own-line forms) and carry the WHOLE block. Only blocks that
+  literally begin with `typedef` are carried: a struct VARIABLE (`struct {…} g;`) closes identically
+  and defining it in the sibling would be a duplicate global. Safe because `harvest_verify` already
+  strips a typedef the sibling TU provides (`cdecl.strip_provided_typedefs`), so a duplicate cannot
+  break the sibling — and the whole-binary gate remains the sole arbiter (G3/P9).
+
+**Measured payoff, one command each:** D1+D2 recovered **+323 members** from families that had banked
+**zero**; D5 then banked the 139-member `func_8012B77C` family **139/139** (8,062 ins) and took
+`func_80128C98` to 137/275. S6 total: **1,582 members** off a population that the pre-fix tool scored
+at 842. D4 was measured (1 exemplar / 3,288 ins, with a second blocker behind it) and deliberately left
+UNFIXED — but it now returns `None`, so the sweep reports it as `skipped {'no matched unit for func'}`
+rather than failing 137 times. **A known gap that announces itself is not the same defect as a silent
+one** (R32).
+
+**The general practice.** Any scanner that classifies C by reading one line at a time is wrong on
+wrapped declarations, wrapped attributes/asm-labels, multi-line typedefs, and comments containing
+braces — and its failures will look like walls, not bugs. Give it lookahead, mask comments/strings
+before counting delimiters, and when a family banks 0/N with every member failing identically, **read
+one compiler error before believing the compiler.**

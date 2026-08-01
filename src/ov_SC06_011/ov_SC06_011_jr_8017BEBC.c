@@ -52,7 +52,6 @@ extern s32 func_80165A50(s32);
 extern void func_80029514(s32);
 extern u8 D_800AF630[];
 extern u8 D_80078EC0;
-extern s32 D_80126B58;
 extern s32 func_80028FBC(void);
 extern s32 func_80029000(void);
 extern s32 func_80028D9C(void);
@@ -3289,15 +3288,140 @@ void func_8017D594(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_011/nonmatchings/ov_SC06_011_jr_8017BEBC", func_8017D5D0);
 
-INCLUDE_ASM("asm/ov_SC06_011/nonmatchings/ov_SC06_011_jr_8017BEBC", func_8017D670);
+/* 8 bytes, align 2 -> lwl/lwr/swl/swr copy (cookbook §48-C2) */
+typedef struct {
+    s16 v[4];
+} Blk8_80126940_8017D5D0;
 
-INCLUDE_ASM("asm/ov_SC06_011/nonmatchings/ov_SC06_011_jr_8017BEBC", func_8017D710);
+extern u16 func_80148800(s32 *a0);
+extern void func_8017D8F0(s32 param_1, s16 *param_2);
 
-INCLUDE_ASM("asm/ov_SC06_011/nonmatchings/ov_SC06_011_jr_8017BEBC", func_8017D7B0);
+void func_8017D5D0(s32 a0) {
 
-INCLUDE_ASM("asm/ov_SC06_011/nonmatchings/ov_SC06_011_jr_8017BEBC", func_8017D850);
+    extern s32 D_80126B58;
+    extern s16 D_80184104[];
+    extern Blk8_80126940_8017D5D0 D_80126940;
+    Blk8_80126940_8017D5D0 sp10;
+    u8 t;
+
+    if (func_80148800(&D_80126B58) & 3) {
+        t = (*(u8 *)(a0 + 5) + 1) & 1;
+        *(u8 *)(a0 + 5) = t;
+        *(s32 *)(a0 + 0x14) = D_80184104[t];
+    }
+    sp10 = D_80126940;
+    func_8017D8F0(a0, sp10.v);
+}
+
+
+
+/* 8 bytes, align 2 -> lwl/lwr/swl/swr copy (cookbook §48-C2) */
+typedef struct {
+    s16 v[4];
+} Blk8_80126940_8017D670;
+
+extern u16 func_80148800(s32 *a0);
+extern void func_8017D8F0(s32 param_1, s16 *param_2);
+
+void func_8017D670(s32 a0) {
+
+    extern s32 D_80126B58;
+    extern s16 D_80184108[];
+    extern Blk8_80126940_8017D670 D_80126940;
+    Blk8_80126940_8017D670 sp10;
+    u8 t;
+
+    if (func_80148800(&D_80126B58) & 3) {
+        t = (*(u8 *)(a0 + 5) + 1) & 1;
+        *(u8 *)(a0 + 5) = t;
+        *(s32 *)(a0 + 0x14) = D_80184108[t];
+    }
+    sp10 = D_80126940;
+    func_8017D8F0(a0, sp10.v);
+}
+
+
+
+/* 8 bytes, align 2 -> lwl/lwr/swl/swr copy (cookbook §48-C2) */
+typedef struct {
+    s16 v[4];
+} Blk8_80126940_8017D710;
+
+extern u16 func_80148800(s32 *a0);
+extern void func_8017D8F0(s32 param_1, s16 *param_2);
+
+void func_8017D710(s32 a0) {
+
+    extern s32 D_80126B58;
+    extern s16 D_8018410C[];
+    extern Blk8_80126940_8017D710 D_80126940;
+    Blk8_80126940_8017D710 sp10;
+    u8 t;
+
+    if (func_80148800(&D_80126B58) & 3) {
+        t = (*(u8 *)(a0 + 5) + 1) & 1;
+        *(u8 *)(a0 + 5) = t;
+        *(s32 *)(a0 + 0x14) = D_8018410C[t];
+    }
+    sp10 = D_80126940;
+    func_8017D8F0(a0, sp10.v);
+}
+
+
+
+/* 8 bytes, align 2 -> lwl/lwr/swl/swr copy (cookbook §48-C2) */
+typedef struct {
+    s16 v[4];
+} Blk8_80126940_8017D7B0;
+
+extern u16 func_80148800(s32 *a0);
+extern void func_8017D8F0(s32 param_1, s16 *param_2);
+
+void func_8017D7B0(s32 a0) {
+
+    extern s32 D_80126B58;
+    extern s16 D_80184110[];
+    extern Blk8_80126940_8017D7B0 D_80126940;
+    Blk8_80126940_8017D7B0 sp10;
+    u8 t;
+
+    if (func_80148800(&D_80126B58) & 3) {
+        t = (*(u8 *)(a0 + 5) + 1) & 1;
+        *(u8 *)(a0 + 5) = t;
+        *(s32 *)(a0 + 0x14) = D_80184110[t];
+    }
+    sp10 = D_80126940;
+    func_8017D8F0(a0, sp10.v);
+}
+
+
+
+/* 8 bytes, align 2 -> lwl/lwr/swl/swr copy (cookbook §48-C2) */
+typedef struct {
+    s16 v[4];
+} Blk8_80126940_8017D850;
+
+extern u16 func_80148800(s32 *a0);
+extern void func_8017D8F0(s32 param_1, s16 *param_2);
+
+void func_8017D850(s32 a0) {
+
+    extern s32 D_80126B58;
+    extern s16 D_80184114[];
+    extern Blk8_80126940_8017D850 D_80126940;
+    Blk8_80126940_8017D850 sp10;
+    u8 t;
+
+    if (func_80148800(&D_80126B58) & 3) {
+        t = (*(u8 *)(a0 + 5) + 1) & 1;
+        *(u8 *)(a0 + 5) = t;
+        *(s32 *)(a0 + 0x14) = D_80184114[t];
+    }
+    sp10 = D_80126940;
+    func_8017D8F0(a0, sp10.v);
+}
+
 
 
 // @class: schedule

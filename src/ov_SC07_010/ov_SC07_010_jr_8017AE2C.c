@@ -3651,7 +3651,24 @@ void func_8017DE68(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_010/nonmatchings/ov_SC07_010_jr_8017AE2C", func_8017DEA4);
+
+/* 8-byte, alignment-1 blob: the target copies it with lwl/lwr + swl/swr,
+ * which is gcc's emit_block_move for align < 4. */
+typedef struct {
+    char b[8];
+} Blob8_8018A47C_8017DEA4;
+
+extern void func_8017DEEC(s32, s16*);
+
+void func_8017DEA4(s32 a0) {
+
+    extern Blob8_8018A47C_8017DEA4 D_801274E8;
+    Blob8_8018A47C_8017DEA4 tmp;
+
+    tmp = D_801274E8;
+    ((void (*)(s32, Blob8_8018A47C_8017DEA4 *))func_8017DEEC)(a0, &tmp);
+}
+
 
 
 // @class: schedule

@@ -3283,7 +3283,31 @@ void func_8017EBA8(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_100/nonmatchings/ov_SC03_100_jr_8017D898", func_8017EBE4);
+
+/* 8 bytes, align 2 -> lwl/lwr/swl/swr copy (cookbook §48-C2) */
+typedef struct {
+    s16 v[4];
+} Blk8_80126940_8017EBE4;
+
+extern u16 func_80148800(s32 *a0);
+extern void func_8017ED90(s32 param_1, s16 *param_2);
+
+void func_8017EBE4(s32 a0) {
+
+    extern s16 D_80188540[];
+    extern Blk8_80126940_8017EBE4 D_80126940;
+    Blk8_80126940_8017EBE4 sp10;
+    u8 t;
+
+    if (func_80148800(&D_80126B58) & 3) {
+        t = (*(u8 *)(a0 + 5) + 1) & 1;
+        *(u8 *)(a0 + 5) = t;
+        *(s32 *)(a0 + 0x14) = D_80188540[t];
+    }
+    sp10 = D_80126940;
+    func_8017ED90(a0, sp10.v);
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_100/nonmatchings/ov_SC03_100_jr_8017D898", func_8017EC84);
 

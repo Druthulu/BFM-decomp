@@ -2771,7 +2771,42 @@ void func_80184474(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_015/nonmatchings/ov_SC03_015_o0d", func_80184538);
+
+typedef struct {
+    s32 unk00;  /* 0x00 */
+    s32 unk04;  /* 0x04 */
+    u16 unk08;  /* 0x08 */
+    u16 unk0A;  /* 0x0A */
+    u16 unk0C;  /* 0x0C */
+    u16 unk0E;  /* 0x0E */
+    u16 unk10;  /* 0x10 */
+    u16 unk12;  /* 0x12 */
+} Unk8018F8C4_80184538; /* sizeof == 0x14 */
+
+
+extern void MoveImage(void *a0, s32 a1, s32 a2);
+extern void func_800183E0(s32 a0);
+
+void func_80184538(s32 arg0) {
+
+    extern Unk8018F8C4_80184538 D_8018F8C4[];
+    s16 rect[4];
+    s32 x;
+    s32 y;
+
+    if (D_8018F8C4[arg0].unk00 == 0) {
+        rect[0] = D_8018F8C4[arg0].unk08;
+        rect[1] = D_8018F8C4[arg0].unk0A;
+        rect[2] = D_8018F8C4[arg0].unk0C;
+        rect[3] = D_8018F8C4[arg0].unk0E;
+        x = D_8018F8C4[arg0].unk10;
+        y = D_8018F8C4[arg0].unk12;
+        MoveImage(rect, x, y);
+    } else {
+        func_800183E0(D_8018F8C4[arg0].unk04);
+    }
+}
+
 
 extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
 extern u8 D_800AEE50;

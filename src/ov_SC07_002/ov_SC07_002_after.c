@@ -481,7 +481,84 @@ INCLUDE_ASM("asm/ov_SC07_002/nonmatchings/ov_SC07_002_after", func_80146A6C);
 
 DEFINE_func_80146AB4()  /* dedup: shared engine-core @0x80146AB4 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC07_002/nonmatchings/ov_SC07_002_after", func_80146AFC);
+extern s32 func_80146B9C(void * arg0);
+
+/* func_80146AFC — ASCENDING twin of the byte-proven DEFINE_func_80146B9C()
+ * in src/shared/engine_core.h (cookbook §71: find the already-matched sibling first).
+ * Same 0x58-stride slot table (base D_8011D030), same 7-store copy body in the same
+ * order, same $a2/$a1 giv pair. 80146B9C walks DOWN; this one walks UP, so the guard
+ * is `p < end`, end = p + 0xA50 (30 slots x 0x58).
+ *
+ * DECAY ROOT CAUSE (this redraft): the stored backlog draft had been rewritten to
+ * `void func_80146AFC(...)`, which drops BOTH `return 0` paths' `addu $v0,$zero,$zero`
+ * and the hit path's `j .L80146B94` => LENGTH-DRIFT -2 (38 vs 40) plus $v0/$v1 regalloc
+ * drift on the final lw/sw pair. Restoring the s32 return type (the fleet spelling the
+ * banked sibling func_80146B9C already uses) restores MATCH at 40/40.
+ *
+ * RECONCILE (2026-08-01) — the whole-binary gate failed with
+ *   ov_SC01_077_after.c:592: conflicting types for `D_8011D030' (previous decl :564)
+ * TWO file-scope collisions were present; both are fixed HERE, with NO edit to
+ * src/shared/engine_core.h and NO change to the generated code (re-verified MATCH
+ * after each step):
+ *
+ *   1. D_8011D030 (the reported one). DEFINE_func_801469C8() emits
+ *      `extern s32 D_8011D030;` at FILE scope (engine_core.h:10811, above the
+ *      `s32 func_801469C8(...) {` line), and this TU expands that macro at :564 —
+
+    extern s32 D_8011D030;
+ *      i.e. before the splice point :570. The draft's `extern u16` therefore
+ *      redeclared it incompatibly at :592. Conformed to the TU's `extern s32`.
+ *      Codegen-neutral: the sole use is `(u8 *)&D_8011D030`, an address-of, so the
+ *      declared object type never reaches a load/store width (cookbook §20).
+ *
+ *   2. func_80146AFC ITSELF (latent, would have surfaced next). DEFINE_func_8014C010()
+ *      (:13510) and DEFINE_func_8014AD30() (:13524) each emit a file-scope
+ *      `extern void func_80146AFC(void *a0);`, and this TU expands them at :1386 and
+ *      :1541 — after the splice — so an `s32 func_80146AFC` definition collides on the
+ *      RETURN axis. Fixed with the §37/§124 ASM-LABEL ALIAS: the C identifier is
+ *      aF80146AFC, the emitted label is func_80146AFC, so the canonical void decl and
+ *      this s32 definition never share a namespace. Callers discard the result, so the
+ *      void-typed call sites stay codegen-identical.
+ *
+ * Both were reproduced and then cleared against the real cpp+cc1-2.7.2 pair using a
+ * synthetic copy of this TU's declaration environment (.run/uc2/_recon_probe_80146AFC.c):
+ * the pre-reconcile spelling emits exactly the gate's error pair; the spelling below
+ * compiles clean.
+ *
+ * ORACLE: tools/match_one.py func_80146AFC --c .run/uc2/func_80146AFC.c
+ *         --asm-subdir asm/ov_SC01_077/nonmatchings/ov_SC01_077_after  -> MATCH (40 ins)
+ */
+
+
+s32 aF80146AFC(void *arg0) __asm__("func_80146AFC");
+
+s32 aF80146AFC(void *arg0)
+{
+    register u8 *p __asm__("$6");
+    register u8 *q __asm__("$5");
+    u8 *end;
+    p = (u8 *)&D_8011D030;
+    end = p + 0xA50;
+    if ((u32)p < (u32)end) {
+        q = p + 0x30;
+        do {
+            if (*(u16 *)p == 0) {
+                *(s32 *)(q + 0x4) = *(s32 *)((u8 *)arg0 + 0x8);
+                *(s16 *)p = *(u16 *)((u8 *)arg0 + 0x0);
+                *(s16 *)(q - 0x2A) = *(u16 *)((u8 *)arg0 + 0x2);
+                *(s16 *)(q - 0x26) = *(u16 *)((u8 *)arg0 + 0x4);
+                *(s16 *)(q - 0x22) = *(u16 *)((u8 *)arg0 + 0x6);
+                *(s32 *)(q - 0x4) = *(s32 *)((u8 *)arg0 + 0xC);
+                *(s32 *)(q + 0x0) = *(s32 *)((u8 *)arg0 + 0x10);
+                return (s32)p;
+            }
+            p += 0x58;
+            q += 0x58;
+        } while ((u32)p < (u32)end);
+    }
+    return 0;
+}
+
 
 DEFINE_func_80146B9C()  /* dedup: shared engine-core @0x80146B9C (src/shared) */
 
