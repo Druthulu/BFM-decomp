@@ -8754,3 +8754,75 @@ wrapped declarations, wrapped attributes/asm-labels, multi-line typedefs, and co
 braces — and its failures will look like walls, not bugs. Give it lookahead, mask comments/strings
 before counting delimiters, and when a family banks 0/N with every member failing identically, **read
 one compiler error before believing the compiler.**
+
+## §135 — Six byte-verified gcc-2.7.2 idioms from the P30 S6f-h waves (and the two-lane wave shape that found them)
+
+Distilled from ~100 agent-drafted functions gated whole-binary across three waves. Each idiom below
+CLOSED a specific residual — none is a hypothesis.
+
+### The codegen idioms
+
+1. **UNSIGNED switch index ⇒ pure equality chain (no range test).** `switch (*(s32 *)(p+0x30))` over
+   cases {0,1,2,3} emits a balanced tree with an `slti` range split; `switch (*(u32 *)(p+0x30))` emits
+   `beq 1 / beqz / beq 2 / beq 3` with **no comparison at all**. For an unsigned index the case-0 leaf
+   satisfies `node_has_low_bound` (0 == TYPE_MIN), so `emit_case_nodes` drops the bound test. If the
+   target's switch has no range check, read the index UNSIGNED. (`func_8017C910`, 92 ins.)
+
+2. **`ARRAY_REF` vs `INDIRECT_REF` changes ALIASING, therefore scheduling.** Writing a field read as
+   `a0[0x46]` makes it an ARRAY_REF, which sets `MEM_IN_STRUCT_P`; gcc-2.7.2's `true_dependence()`
+   then DROPS the dependence between an in-struct varying load and a not-in-struct constant-address
+   store, and the load hoists. Writing the same read as `*(s16 *)((s32)a0 + 0x8C)` keeps it a plain
+   INDIRECT_REF and restores the dependence. **A 4-instruction "scheduling residual" that is really a
+   type-form choice.** (`func_8017CFE0`.)
+
+3. **A constant store whose top bit is set in the STORED width needs an UNSIGNED destination.**
+   `*(u16 *)p = 0x8C00` emits `ori` (via `force_fit_type`, the value stays positive);
+   `*(s16 *)p = 0x8C00` folds to sign-extended −29696 and `li` emits `addiu`. If the target
+   materializes the constant with `ori`, the destination is unsigned. (`func_8018A0F4`.)
+
+4. **The list scheduler PRESERVES the relative order of disambiguable stores.** A store written late
+   in source SINKS to the end of the block rather than hoisting into load-delay slots. Two field-zero
+   stores had to be written ABOVE a three-halfword copy to land at the target's indices — 9 mismatches
+   → 0, **no permuter**. When a store lands too late, move it earlier in SOURCE. (`func_8017CAB4`.)
+
+5. **A `short` loop counter blocks strength reduction on array indexing.** `for (s16 i…) p[i].f0`
+   emits a sign-extend + multiply chain; walking explicit pointers (`p++`, `q++`) reproduces the
+   original's biv/giv set. The 1998 source walked pointers. (`func_8017C738`, 96 ins.)
+
+6. **Frame size off by a constant ⇒ DEAD LOCALS, not a codegen bug.** A draft that is structurally
+   exact but yields a `0x40` frame against the target's `0x50` shows every `sp` displacement off by
+   exactly `0x10` — the original declared locals ahead of the live ones. Add the padding declaration.
+   The tell is that ALL diffs are `sp`-relative immediates of one constant delta. (`func_8017FD58`.)
+
+### The integration idioms (these decide whether a byte-correct draft BANKS)
+
+7. **`match_one` MATCH ≠ a bank.** It compiles standalone and cannot see the TU's other declarations.
+   Measured across the three waves: **83% → 93% → 71%(+reconcile to 89%)** of agent MATCHes survived
+   the whole-binary gate. **Always finish on the whole-binary gate (G3/P9).**
+8. **cc1 reports only the FIRST conflict**, so a draft can look one edit away and hold three more.
+   One draft had invented prototypes for **six** symbols the TU declares, two BELOW the splice point.
+   **grep the whole TU for every symbol the draft names, in one pass.**
+9. **An interior address has no symbol.** `D_801DA0F0` does not exist — it is offset `0x6C` into
+   `D_801DA084`. A `lui/addiu` pair can build an INTERIOR pointer; declaring the interior address as
+   its own extern gives `undefined reference` at LINK, not a compile error. Find the containing symbol
+   in the data `.s` and index into it. (`func_8017C5F0`.)
+10. **Never redeclare a C-library name.** A draft's own `memcpy` prototype collided with the TU's —
+    which declares `memcpy` **three times** with incompatible signatures. (`func_8018A860`.)
+
+### The wave shape that produced these
+
+**Two lanes, and the reconcile lane is the reliable one (12/12 across two waves).**
+- **Draft lane:** cheap tier (Haiku ≡ Opus at ≤~50 ins, ~4.8× cheaper — `cheap-tier-ab-validated`),
+  Opus direct ≥90 ins, Opus escalation in between. 17 of wave-1's 20 banks were Haiku.
+- **Reconcile lane:** for every gate failure, the orchestrator **captures the compiler error first**
+  and embeds it. Agents cannot run the gate, so without the error a declaration conflict reads to them
+  as a codegen wall — S29's law, re-confirmed. With it: 12/12.
+- **Between waves, do all three:** paste args from a DERIVED manifest (never typed — a hand-transcribed
+  path list cost wave 1 three agents' time); capture blockers; and **promote wave-N's Opus discoveries
+  into wave-N+1's cheap-tier prompt.** Bank rate 83% → 93% on that alone.
+- **Concurrency hazard:** if N reconcile targets share ONE TU, FORBID agent builds — concurrent
+  splice-builds clobber a tracked file. Allow the single permitted splice-build only when targets are
+  spread across TUs. (Guard the campaign, not the process — §the S27 law.)
+- **An agent that rejects your premise is working correctly.** Told a draft was byte-correct and only
+  declaration-blocked, one agent re-ran `match_one` first, found a real 1-instruction DIFF, and fixed
+  both. Hand agents the evidence, not the conclusion.
