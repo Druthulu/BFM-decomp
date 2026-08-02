@@ -147,72 +147,68 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 
 ---
 
-# 🛑 SESSION-30 CHECKPOINT (2026-08-01, S6 complete through wave 2) — FRESH SESSION SAFE HERE
-> Supersedes the SESSION-29 block below. **Nothing is running. Tree lock FREE. Tree clean** but for
-> the R23 `db.*.gbf` churn (never stage). **HEAD `commit:1349`.** Effort: xHigh → **ultracode** (Drew
-> enabled mid-session for the waves). `make tools-health` was green at session open.
+# 🛑 SESSION-30 CHECKPOINT (2026-08-01, S6 complete through wave 3) — FRESH SESSION SAFE HERE
+> **Nothing is running. Tree lock FREE. Tree CLEAN** (0 non-ghidra entries; the `db.*.gbf` churn is
+> R23 restart-noise — never stage). **HEAD `commit:1352`.** Effort: xHigh → **ultracode** (Drew enabled
+> mid-session for the waves). `make tools-health` green at session open; frontier REGENERATED at HEAD
+> after the last bank, so every number below is current (not carried forward).
 
-## FLEET — R22 clean-fleet **140 passed / 0 failed** (run 6× this session, 140/140 every time)
-**95.23% fn-count · 92.1% instr-weighted · 85.0% distinct-code** (75,406 unique fns) · dedup 1905/0 ·
-0 NON_MATCHING. Phase opened 92.00 / 87.5 / 78.0 ⇒ **+3.23pp fn, +4.6pp instr, +7.0pp distinct.**
+## FLEET — R22 clean-fleet **140 passed / 0 failed** (run 9× this session, 140/140 every time)
+**95.42% fn-count · 92.4% instr-weighted · 85.5% distinct-code** (75,926 unique fns) · dedup 1905/0 ·
+0 NON_MATCHING. Phase opened 92.00 / 87.5 / 78.0 ⇒ **+3.42pp fn, +4.9pp instr, +7.5pp distinct.**
 
-## WHAT S6 DID — ~2,800 member-matches banked, in 7 commits
+## WHAT S6 DID — ~3,500 member-matches in 11 commits
 `commit:1343` S6a 842 · `commit:1344` S6b +740 · `commit:1345` S6e fix · `commit:1346` B +268 ·
-`commit:1347` S6f calib +65 · `commit:1348` S6f wave-1 +544 · `commit:1349` S6g wave-2 +342.
+`commit:1347` S6f calib +65 · `commit:1348` S6f wave-1 +544 · `commit:1349` S6g wave-2 +342 ·
+`commit:1351` S6h wave-3 +673 · `commit:1352` cookbook §135 (+ 2 checkpoint/doc commits).
 
-**The through-line: S6 was scoped as a harvest and delivered as a TOOLING REPAIR.** The pre-fix tool
-scored the zero-crack population at 842 members; the same population with three scanner fixes scored
-1,582. **Six defects found, five fixed** — every one a *multi-line C construct read one line at a
-time*, or a guard firing on a condition it never verified:
-· **D1** comment containing `{` truncated the preamble carry → `parse error` — FIXED
-· **D2** `_def_head_at` accepted a WRAPPED DECLARATION as a definition head → body-less unit → a
-  phantom 0/137 that reads exactly like a compiler wall — FIXED
-· **D5** multi-line `typedef` never travelled → `T undeclared` across 17 families — FIXED
-· **D6** `family_sweep` snapshotted TUs it never edited → 909/909 groups falsely reverted — FIXED
-· **D4** wrapped `__asm__` alias invisible to a single-line regex — MEASURED (1 exemplar / 3,288 ins,
-  second blocker behind it), deliberately left as a **visible** skip, not fixed
-· plus a corrected premise: `--band substantial` (not `--source ov_SC01_077`) was what hid the pool.
-Distilled to **cookbook §134** with the reusable tell: **bimodal per-family bank rates (57 all / 52
-zero / 8 partial) are a TOOLING signature, not codegen. Read one compiler error before believing the
-compiler.**
+**Two distinct engines ran, and BOTH paid:**
+1. **Tooling repair (deterministic, ~0 agent tokens).** The pre-fix tools scored the zero-crack
+   population at 842 members; with three scanner fixes the SAME population scored 1,582. Six defects
+   found, five fixed — all one root cause: **a multi-line C construct read one line at a time**, or a
+   guard firing on a condition it never verified. → **cookbook §134**.
+2. **Agent waves (two-lane: cheap drafts + Opus reconciles).** Bank rate **83% → 93% → 89%**;
+   the **reconcile lane is 12/12**. → **cookbook §135** (6 codegen idioms + 4 integration rules).
 
-## ⚠️ THE FINDING THAT SHOULD BLOCK T5 (read before closing this phase)
-The T6 checklist's structural signal — *"after S2 the ×138 era ENDS; that rise in cost-per-point is
-P30's honest ROI floor and the trigger for T5"* — **is wrong, and was wrong twice today**:
-· `0x8017cdd8` (17 ins **×142**) and `0x8017ce7c` (16 ins **×126**) were open the whole time — both
-  `kind=modal`, so no sweep could reach them, and neither exemplar in `ov_SC01_077`. 33 instructions
-  of C → **266 members**.
-· behind them sat a **36-family / 28,829-ins pool** of the same shape, entirely unexamined.
-**Three §133-class misses in a row now share one mechanism: a conclusion drawn from a view that
-silently excluded the thing being looked for.** Any "the cheap levers are exhausted" claim in this
-phase must be RE-DERIVED from a freshly regenerated `family_hseq` before it closes anything.
+## ⚠️ TWO THINGS A FRESH SESSION MUST NOT INHERIT UNCHECKED
+1. **The T6 ROI-floor trigger is REFUTED. Do not close P30 on it.** The checklist says T5 fires when
+   "the ×138 era ENDS after S2". That was wrong twice today: two ≥126-member families were open
+   (33 ins of C → 266 members), and a 36-family / 28,829-ins pool of the same shape sat unexamined
+   behind them. **Three §133-class misses now share one mechanism — a conclusion drawn from a view
+   that silently excluded the thing being looked for.** Re-derive from a freshly regenerated
+   `family_hseq` before any close.
+2. **Token economics, measured today (re-check before scaling wave 4):** deterministic sweeps ≈ **0
+   tokens for +0.5pp instr**; wave-1 ≈ 2.0M for +0.1pp; wave-3 ≈ 4.1M for +0.3pp. The agent lane is
+   still paying, but the **tooling lane paid better** — the same finding Phase 15 recorded. Probe the
+   cheap lever before funding the expensive one.
 
-## 📊 THE VEIN, RE-DERIVED AT HEAD (this is the live work queue)
-The B-shape = fresh-crack (`kind=modal`, nothing matched anywhere) · non-jr · high member count · small.
-| slice | families | templ ins | status |
+## 📊 THE LIVE QUEUE — re-derived at HEAD after the final bank
+| lever | families | templ ins | note |
 |---|---|---|---|
-| ≥20 members, ≤60 ins | **1** | 390 | **EXHAUSTED** (was 36 / 28,829) |
-| 10-19 members, ≤60 ins | **133** | **48,689** | next wave — half the multiplier, same recipe |
-| ≥20 members, 61-120 ins | **11** | **25,742** | next wave — better multiplier, bigger fns |
-| zero-crack non-jr residue | 106→ | ~58k | S6 worked it; bimodal residue diagnosed |
-| `has_mid_jr` zero-crack | 9 | 9,364 | **S6c, untouched** — needs `jtbl_family_bank`, 26 slots |
+| B-shape ≥20 memb, ≤60 ins | **0** | 0 | **EXHAUSTED** (was 36 / 28,829) |
+| B-shape ≥10 memb, **61-120 ins** | **33** | **34,895** | best per-target value; Opus ≥90 ins |
+| B-shape 10-19 memb, ≤60 ins | **111** | **33,554** | volume lane, Haiku |
+| zero-crack non-jr residue | 116 | 61,230 | S6-diagnosed; bimodal residue |
+| zero-crack `has_mid_jr` (**S6c, untouched**) | 9 | 9,364 | needs `jtbl_family_bank`, 26 slots, ~0 tokens |
+| fresh ×2-9 | 1,877 | 363,873 | worst multiplier — deprioritised |
+| fresh ×1 singletons | 3,642 | 207,945 | ×1 — deprioritised |
+Unmatched fleet-wide: **15,161 instances / 935,927 ins**.
 
-## 🔁 THE WAVE RECIPE THAT WORKS (bank rate 83% → 93% across two waves)
-Haiku drafts (validated ≡ Opus at ≤~50 ins, ~4.8× cheaper) + Opus escalation; **17 of 20 wave-1 banks
-were Haiku**. Per target: read the `.s` as ground truth (a cached Ghidra-C seed was measured this
-session decompiling a DIFFERENT body) → **conform every callee decl to the TU verbatim** → `match_one`
-→ orchestrator gates whole-binary → `family_sweep --hseq --band all --only <addrs>` to propagate.
-**Between waves, do all three:** (1) paste args from the DERIVED manifest, never type them;
-(2) capture each gate-failure's compiler error and embed it (agents cannot run the gate); (3) promote
-wave-N's Opus discoveries into wave-N+1's cheap-tier instructions.
-Drivers: `.run/s6f_gate.py <glob>` (derives every TU/split from `corpus.stubs`), `.run/s6g_targets.json`.
+## 🔁 THE WAVE RECIPE (cookbook §135 has the full version)
+Manifest **derived** from `corpus.stubs` + `family_hseq`, paths verified on disk, **pasted from the
+file — never typed** (a hand-transcribed list cost wave 1 three agents' time). Draft lane: Haiku ≤89
+ins (≡ Opus at ≤~50, ~4.8× cheaper), Opus direct ≥90, Opus escalation between. Then: gate whole-binary
+via `.run/s6f_gate.py '<glob>'` (derives every TU/split; agents' `match_one` MATCH is NOT a bank) →
+**capture each failure's compiler error** → Opus reconcile lane → gate → `family_sweep --hseq
+--band all --only <addrs>` → R22 → commit. **If N reconcile targets share ONE TU, forbid agent builds.**
 
 ## ▶ RESUME HERE
-1. **Wave 3** over the two slices above (144 families / 74,431 ins) — same recipe, same tiers.
-2. **S6c** — the 9 jr zero-crack families (9,364 ins) via `jtbl_family_bank`, probing ONE sibling first.
-3. `func_80189C4C` (wave-2's lone gate failure — its agent returned no structured result) and
-   `func_8017CC80`-class carry-overs.
-4. **T5 close** only after re-deriving the frontier; the checklist's ROI-floor trigger is refuted.
+1. **Wave 4** over the two B-shape slices (144 families / 68,449 ins) — recipe above, §135 in prompt.
+2. **S6c** — the 9 jr zero-crack families (9,364 ins, ~0 agent tokens) via `jtbl_family_bank`,
+   probing ONE sibling first (the S29 discipline: 1 build, not 137).
+3. **The 4 carried failures:** `func_80184A94` (reconciled to `match_one` MATCH, still gate-refused)
+   + 3 genuine byte-DIFFs `func_801845B0`, `func_8017BEBC`@ov_SC02_026, `func_8018480C`.
+4. **T5 close** — only after re-deriving; see the refuted trigger above.
 
 ---
 
