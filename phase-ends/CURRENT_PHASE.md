@@ -594,6 +594,34 @@ Fleet **94.43→94.88% fn-count · 91.4→91.9% instr · 84.0→84.6% distinct**
 Distilled to **cookbook §134** (the MULTI-LINE BLINDNESS class + the bimodality tell: 57/52/8 is a
 tooling signature, not a codegen one — read ONE compiler error before believing the compiler).
 
+### ✅ S6e — `--normalize-self-decls` measured to ZERO, but only after fixing the guard that made the measurement impossible (2026-08-01)
+The S6a blocker probe found `conflicting types for func_X` on the SELF axis, which is exactly what
+`family_sweep --normalize-self-decls` targets (drop the sibling's divergent decl of the function being
+defined, cast its in-scope calls). It is OFF by default, so it was the obvious next zero-token lever.
+
+**Run 1: 0 banked / 1,622 failed — and 909 of 909 groups reported `⚠ self-decl edit NON-NEUTRAL`.**
+A 100% rate is a statement about the mechanism, not about 1,622 different functions (the §134 tell,
+one day old). The three earlier sweeps over the SAME population reported **0** NON-NEUTRAL.
+
+**The defect (D6, `family_sweep.hseq_sweep`):** the TU snapshot was taken **unconditionally**, one line
+before the `if nfix:` that decides whether to edit at all — so a TU that NSD merely INSPECTED still
+landed in `tu_snapshots`, and the phase-2 MISMATCH backstop then attributed ANY group failure to a
+"self-decl edit" that was never made, reverting the TU and reporting `0/N banked`. Measured directly:
+**NSD fires on ~25% of members (3 of 12 probed)**, so ~75% of those reverts were attributing a failure
+to an edit that did not exist. The §103 tu-scope path immediately below has always snapshotted inside
+its own `if _rep["moved"]:`; NSD was the odd one out. Fixed to match.
+
+**Run 2 (fixed): NON-NEUTRAL 909 → 303** (~33%, consistent with the measured fire rate) — the fix is
+confirmed — **and still 0 banked**. The 606 groups that now took the NORMAL path banked nothing, so
+**the verdict is real: this residue is not self-decl-conflict-bound.** Lever measured, closed, zero.
+
+**One open item, deliberately not chased (it is no longer decision-relevant).** I byte-measured a
+firing case myself rather than trusting the backstop (R14): `func_80162CCC` in `ov_SC01_000` builds to
+`9052dc0e…` **with and without** the NSD edit — i.e. **byte-NEUTRAL**, so the surviving 303 verdicts are
+wrong too. Most likely the sweep applies NSD to several members of the SAME TU and the backstop
+attributes an accumulated-state mismatch to "the edit". Left as a named open item because the lever
+yields 0 either way; it would matter only if a future population makes NSD worth re-testing.
+
 ### ✅ S3 — the close=0 stored-draft DIAGNOSTIC pass: measured, classified, and correctly NOT scaled (2026-08-01)
 Chartered as "classify, and only build a fix if ≥3 share a named class". Ran exactly that; the answer
 is that no cheap shared class exists, so nothing was scaled. **The population is bigger than the plan

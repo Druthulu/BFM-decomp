@@ -570,10 +570,20 @@ def hseq_sweep(a):
                 # invisible in the exemplar whose caller used a fn-ptr cast). Drop each divergent decl +
                 # cast its in-scope calls (byte-neutral §17a-1). This edits the TU FILE (harvest_verify's
                 # baseline); snapshot it so the phase-2 MISMATCH backstop can revert a non-neutral edit.
-                if src_rel not in tu_snapshots:
-                    tu_snapshots[src_rel] = open(tu_path).read()
-                new_tu, nfix, _notes = NSD.fix(open(tu_path).read(), to_func, draft_def_ref(draft, to_func))
+                # SNAPSHOT ONLY WHEN WE ACTUALLY EDIT (Phase-30 S6e). The snapshot used to be taken
+                # unconditionally, one line before the `if nfix:` that decides whether to edit at all —
+                # so a TU that NSD merely INSPECTED still landed in `tu_snapshots`, and the phase-2
+                # MISMATCH backstop then attributed ANY group failure to a "self-decl edit" that was
+                # never made: it reverted the TU and reported `0/N banked`. MEASURED: **909 of 909
+                # groups** took that branch in one run, while NSD actually fired on ~25% of members
+                # (3 of 12 probed) — so the flag could not bank anything, and its 0/1,622 was a TOOL
+                # artifact, not a verdict on the lever. The §103 tu-scope path below has always
+                # snapshotted inside its own `if _rep["moved"]:`; this now matches it.
+                _cur = open(tu_path).read()
+                new_tu, nfix, _notes = NSD.fix(_cur, to_func, draft_def_ref(draft, to_func))
                 if nfix:
+                    if src_rel not in tu_snapshots:
+                        tu_snapshots[src_rel] = _cur
                     open(tu_path, "w").write(new_tu)
             tu = open(tu_path).read()
             mstub = re.search(rf'INCLUDE_ASM\("[^"]*",\s*{to_func}\);', tu)
