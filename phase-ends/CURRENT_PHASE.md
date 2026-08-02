@@ -594,6 +594,34 @@ Fleet **94.43→94.88% fn-count · 91.4→91.9% instr · 84.0→84.6% distinct**
 Distilled to **cookbook §134** (the MULTI-LINE BLINDNESS class + the bimodality tell: 57/52/8 is a
 tooling signature, not a codegen one — read ONE compiler error before believing the compiler).
 
+### ✅ A + B — the ×138 era was NOT over: two 16-ins cracks bought 266 members (2026-08-01)
+**A (frontier regen at HEAD, R35).** Sigs + `family_hseq` regenerated after S6's banks — required before
+pricing anything, and doubly so because `.run/hseq_verified.*.txt` has accumulated **22,841 files across
+every sweep ever run**, so any per-family analysis that globs them over-counts. The regenerated map
+derives state from sigs + `corpus.stubs` (R33), which is the authority. Overlay-only frontier at HEAD:
+**95.2% fn / 92.3% instr / 85.5% distinct**; zero-crack residue **106 families / 58,657 ins** (was
+181 / 120,633 at S6 open).
+
+**B — and the finding that matters.** The S29 checkpoint's structural signal said *"after S2 the ×138 era
+ENDS — those are the last two crackable fleet-wide families"*, and made that the trigger for T5/phase
+close. **It is wrong, and this is the THIRD §133-class miss in a row.** Re-derived from the family map,
+two fresh-crack families with ≥126 members were open the whole time:
+· `0x8017cdd8` ov_SC02_039 — **17 ins × 142 members** = 2,414 templatable ins, PURE
+· `0x8017ce7c` ov_SC03_114 — **16 ins × 126 members** = 2,016 templatable ins, IMM
+Both are `kind=modal` — **no member matched anywhere**, so no sweep could reach them, and neither
+exemplar is in `ov_SC01_077`. They are invisible to exactly the two habits this phase already corrected.
+
+**Both hand-drafted off the `.s`, `match_one` MATCH on the FIRST try, ~0 agent tokens.** Then:
+- **First gate attempt FAILED, class PLUMBING (not DIFF)** — my draft declared `extern void
+  func_8017CFCC(s32 a0);` while the TU **defines** `void func_8017CFCC(void)`. The target passes `$a0`
+  anyway (the caller's incoming argument simply still sits in the register — loose typing, §16), so the
+  byte-true C calls it with **no argument** and declares it exactly as the TU defines it. Re-verified
+  MATCH, then gated byte-identical in both overlays.
+- **Propagated: 266 member-matches / 0 failed across 118 overlays** — from 33 instructions of C.
+- **R14 on the seed:** the cached Ghidra-C for `func_8017CE7C` decompiled an entirely DIFFERENT body
+  (three calls that do not exist in the asm). Reading the `.s` is what made it one-shot; a drafter
+  trusting the seed would have burned the target and possibly ledgered it as hard.
+
 ### ✅ S6e — `--normalize-self-decls` measured to ZERO, but only after fixing the guard that made the measurement impossible (2026-08-01)
 The S6a blocker probe found `conflicting types for func_X` on the SELF axis, which is exactly what
 `family_sweep --normalize-self-decls` targets (drop the sibling's divergent decl of the function being

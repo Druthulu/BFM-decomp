@@ -3170,12 +3170,33 @@ void func_8017CD7C(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_009/nonmatchings/ov_SC01_009_jr_8017BE9C", func_8017CDB8);
+
+
+extern void func_8017CFAC(void);
+extern void func_800167B8(s32 a0);
+
+s32 func_8017CDB8(s32 a0) {
+    func_8017CFAC();
+    func_800167B8(0);
+    *(u8 *)(a0 + 0x15) += 1;
+    return 0;
+}
+
 
 DEFINE_func_8017CDFC()  /* dedup: shared engine-core @0x8017CDFC (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC01_009/nonmatchings/ov_SC01_009_jr_8017BE9C", func_8017CE20);
+
+
+extern void func_8017CFD4(void);
+
+s32 func_8017CE20(s32 a0) {
+    func_8017CFD4();
+    *(s32 *)(a0 + 0x28) = 10;
+    *(u8 *)(a0 + 0x15) += 1;
+    return 0;
+}
+
 
 
 extern void func_8002D4C8(s32 a0, s32 a1);
