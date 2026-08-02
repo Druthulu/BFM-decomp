@@ -50,7 +50,6 @@ extern s32 func_80165A50(s32);
 extern void func_80029514(s32);
 extern u8 D_800AF630[];
 extern u8 D_80078EC0;
-extern s32 D_80126B58;
 extern s32 func_80028FBC(void);
 extern s32 func_80029000(void);
 extern s32 func_80028D9C(void);
@@ -3887,9 +3886,12 @@ INCLUDE_ASM("asm/ov_SC05_008/nonmatchings/ov_SC05_008_jr_8017AE2C", func_8017D60
 INCLUDE_ASM("asm/ov_SC05_008/nonmatchings/ov_SC05_008_jr_8017AE2C", func_8017D668);
 
 extern s32 func_80171990(u8 *a0);
-extern s32 D_80126B58;
 
 void func_8017D78C(void) {
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern s32 D_80126B58;
     ((void (*)(void *))func_80171990)(&D_80126B58);
 }
 
@@ -4104,7 +4106,27 @@ INCLUDE_ASM("asm/ov_SC05_008/nonmatchings/ov_SC05_008_jr_8017AE2C", func_8017FD9
 
 INCLUDE_ASM("asm/ov_SC05_008/nonmatchings/ov_SC05_008_jr_8017AE2C", func_8017FDE4);
 
-INCLUDE_ASM("asm/ov_SC05_008/nonmatchings/ov_SC05_008_jr_8017AE2C", func_8017FE64);
+extern void (*D_80186658[])(void);
+extern s32 func_80013328(s32 a0, s32 a1);
+
+void func_8017FE64(s32 *p) {
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern s32 D_80126B58;
+    register s32 *q __asm__("$17");
+
+    D_80186658[*(u16 *)((s32)p + 0x2)]();
+    q = &D_80126B58;
+    if (p[8] != 0) {
+        if (func_80013328((s32)p + 4, (s32)(q + 1)) >= 0xA01) {
+            *(s32 *)(p[8] + 4) |= 0x80000000;
+        } else {
+            *(s32 *)(p[8] + 4) &= 0x7FFFFFFF;
+        }
+    }
+}
+
 
 extern s32 func_8012AD50(void *a0);
     void func_8017FF10(s32 *a0) {
@@ -4118,7 +4140,26 @@ INCLUDE_ASM("asm/ov_SC05_008/nonmatchings/ov_SC05_008_jr_8017AE2C", func_8017FF3
 INCLUDE_ASM("asm/ov_SC05_008/nonmatchings/ov_SC05_008_jr_8017AE2C", func_8017FF80);
 
 
-INCLUDE_ASM("asm/ov_SC05_008/nonmatchings/ov_SC05_008_jr_8017AE2C", func_8018000C);
+
+extern s32 func_80013328(s32 a0, s32 a1);
+
+void func_8018000C(s32 *p) {
+
+    extern void (*D_80186664[])(void);
+    extern s32 D_80126B58;
+    register s32 *q __asm__("$17");
+
+    D_80186664[*(u16 *)((s32)p + 0x2)]();
+    q = &D_80126B58;
+    if (p[8] != 0) {
+        if (func_80013328((s32)p + 4, (s32)(q + 1)) >= 0xA01) {
+            *(s32 *)(p[8] + 4) |= 0x80000000;
+        } else {
+            *(s32 *)(p[8] + 4) &= 0x7FFFFFFF;
+        }
+    }
+}
+
 
 
 extern s32 func_8012AD50(void *a0);
@@ -4141,7 +4182,29 @@ extern s32 func_80182334(void);
     }
 
 
-INCLUDE_ASM("asm/ov_SC05_008/nonmatchings/ov_SC05_008_jr_8017AE2C", func_80180164);
+
+extern s32 func_80013328(s32 a0, s32 a1);
+
+void func_80180164(s32 *p) {
+
+    extern void (*D_80186670[])(void);
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern s32 D_80126B58;
+    register s32 *q __asm__("$17");
+
+    D_80186670[*(u16 *)((s32)p + 0x2)]();
+    q = &D_80126B58;
+    if (p[8] != 0) {
+        if (func_80013328((s32)p + 4, (s32)(q + 1)) >= 0xA01) {
+            *(s32 *)(p[8] + 4) |= 0x80000000;
+        } else {
+            *(s32 *)(p[8] + 4) &= 0x7FFFFFFF;
+        }
+    }
+}
+
 
 extern s32 func_8012AD50(void *a0);
     void func_80180210(s32 *a0) {
@@ -4154,7 +4217,29 @@ INCLUDE_ASM("asm/ov_SC05_008/nonmatchings/ov_SC05_008_jr_8017AE2C", func_8018023
 
 INCLUDE_ASM("asm/ov_SC05_008/nonmatchings/ov_SC05_008_jr_8017AE2C", func_801802EC);
 
-INCLUDE_ASM("asm/ov_SC05_008/nonmatchings/ov_SC05_008_jr_8017AE2C", func_801803B8);
+
+extern s32 func_80013328(s32 a0, s32 a1);
+
+void func_801803B8(s32 *p) {
+
+    extern void (*D_8018667C[])(void);
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern s32 D_80126B58;
+    register s32 *q __asm__("$17");
+
+    D_8018667C[*(u16 *)((s32)p + 0x2)]();
+    q = &D_80126B58;
+    if (p[8] != 0) {
+        if (func_80013328((s32)p + 4, (s32)(q + 1)) >= 0xA01) {
+            *(s32 *)(p[8] + 4) |= 0x80000000;
+        } else {
+            *(s32 *)(p[8] + 4) &= 0x7FFFFFFF;
+        }
+    }
+}
+
 
 extern s32 func_8012AD50(void *a0);
     void func_80180464(s32 *a0) {
@@ -4174,7 +4259,29 @@ extern s32 func_80182334(void);
     }
 
 
-INCLUDE_ASM("asm/ov_SC05_008/nonmatchings/ov_SC05_008_jr_8017AE2C", func_80180510);
+
+extern s32 func_80013328(s32 a0, s32 a1);
+
+void func_80180510(s32 *p) {
+
+    extern void (*D_80186688[])(void);
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern s32 D_80126B58;
+    register s32 *q __asm__("$17");
+
+    D_80186688[*(u16 *)((s32)p + 0x2)]();
+    q = &D_80126B58;
+    if (p[8] != 0) {
+        if (func_80013328((s32)p + 4, (s32)(q + 1)) >= 0xA01) {
+            *(s32 *)(p[8] + 4) |= 0x80000000;
+        } else {
+            *(s32 *)(p[8] + 4) &= 0x7FFFFFFF;
+        }
+    }
+}
+
 
 extern s32 func_8012AD50(void *a0);
     void func_801805BC(s32 *a0) {
@@ -4187,7 +4294,29 @@ INCLUDE_ASM("asm/ov_SC05_008/nonmatchings/ov_SC05_008_jr_8017AE2C", func_801805D
 
 INCLUDE_ASM("asm/ov_SC05_008/nonmatchings/ov_SC05_008_jr_8017AE2C", func_80180698);
 
-INCLUDE_ASM("asm/ov_SC05_008/nonmatchings/ov_SC05_008_jr_8017AE2C", func_80180764);
+
+extern s32 func_80013328(s32 a0, s32 a1);
+
+void func_80180764(s32 *p) {
+
+    extern void (*D_80186694[])(void);
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern s32 D_80126B58;
+    register s32 *q __asm__("$17");
+
+    D_80186694[*(u16 *)((s32)p + 0x2)]();
+    q = &D_80126B58;
+    if (p[8] != 0) {
+        if (func_80013328((s32)p + 4, (s32)(q + 1)) >= 0xA01) {
+            *(s32 *)(p[8] + 4) |= 0x80000000;
+        } else {
+            *(s32 *)(p[8] + 4) &= 0x7FFFFFFF;
+        }
+    }
+}
+
 
 extern s32 func_8012AD50(void *a0);
     void func_80180810(s32 *a0) {
@@ -4207,7 +4336,29 @@ extern s32 func_80182334(void);
     }
 
 
-INCLUDE_ASM("asm/ov_SC05_008/nonmatchings/ov_SC05_008_jr_8017AE2C", func_801808BC);
+
+extern s32 func_80013328(s32 a0, s32 a1);
+
+void func_801808BC(s32 *p) {
+
+    extern void (*D_801866A0[])(void);
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern s32 D_80126B58;
+    register s32 *q __asm__("$17");
+
+    D_801866A0[*(u16 *)((s32)p + 0x2)]();
+    q = &D_80126B58;
+    if (p[8] != 0) {
+        if (func_80013328((s32)p + 4, (s32)(q + 1)) >= 0xA01) {
+            *(s32 *)(p[8] + 4) |= 0x80000000;
+        } else {
+            *(s32 *)(p[8] + 4) &= 0x7FFFFFFF;
+        }
+    }
+}
+
 
 
 extern s32 func_8012AD50(void *a0);
@@ -4230,7 +4381,29 @@ extern s32 func_80182334(void);
     }
 
 
-INCLUDE_ASM("asm/ov_SC05_008/nonmatchings/ov_SC05_008_jr_8017AE2C", func_80180A14);
+
+extern s32 func_80013328(s32 a0, s32 a1);
+
+void func_80180A14(s32 *p) {
+
+    extern void (*D_801866AC[])(void);
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern s32 D_80126B58;
+    register s32 *q __asm__("$17");
+
+    D_801866AC[*(u16 *)((s32)p + 0x2)]();
+    q = &D_80126B58;
+    if (p[8] != 0) {
+        if (func_80013328((s32)p + 4, (s32)(q + 1)) >= 0xA01) {
+            *(s32 *)(p[8] + 4) |= 0x80000000;
+        } else {
+            *(s32 *)(p[8] + 4) &= 0x7FFFFFFF;
+        }
+    }
+}
+
 
 extern s32 func_8012AD50(void *a0);
     void func_80180AC0(s32 *a0) {
@@ -4271,7 +4444,29 @@ extern s32 func_8012AD50(void *a0);
 
 INCLUDE_ASM("asm/ov_SC05_008/nonmatchings/ov_SC05_008_jr_8017AE2C", func_80180BD0);
 
-INCLUDE_ASM("asm/ov_SC05_008/nonmatchings/ov_SC05_008_jr_8017AE2C", func_80180CDC);
+
+extern s32 func_80013328(s32 a0, s32 a1);
+
+void func_80180CDC(s32 *p) {
+
+    extern void (*D_80186778[])(void);
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern s32 D_80126B58;
+    register s32 *q __asm__("$17");
+
+    D_80186778[*(u16 *)((s32)p + 0x2)]();
+    q = &D_80126B58;
+    if (p[8] != 0) {
+        if (func_80013328((s32)p + 4, (s32)(q + 1)) >= 0xA01) {
+            *(s32 *)(p[8] + 4) |= 0x80000000;
+        } else {
+            *(s32 *)(p[8] + 4) &= 0x7FFFFFFF;
+        }
+    }
+}
+
 
 extern s32 func_8012AD50(void *a0);
     void func_80180D88(s32 *a0) {
@@ -4286,7 +4481,29 @@ INCLUDE_ASM("asm/ov_SC05_008/nonmatchings/ov_SC05_008_jr_8017AE2C", func_80180E3
 
 INCLUDE_ASM("asm/ov_SC05_008/nonmatchings/ov_SC05_008_jr_8017AE2C", func_80180E84);
 
-INCLUDE_ASM("asm/ov_SC05_008/nonmatchings/ov_SC05_008_jr_8017AE2C", func_80180F84);
+
+extern s32 func_80013328(s32 a0, s32 a1);
+
+void func_80180F84(s32 *p) {
+
+    extern void (*D_80186788[])(void);
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern s32 D_80126B58;
+    register s32 *q __asm__("$17");
+
+    D_80186788[*(u16 *)((s32)p + 0x2)]();
+    q = &D_80126B58;
+    if (p[8] != 0) {
+        if (func_80013328((s32)p + 4, (s32)(q + 1)) >= 0xA01) {
+            *(s32 *)(p[8] + 4) |= 0x80000000;
+        } else {
+            *(s32 *)(p[8] + 4) &= 0x7FFFFFFF;
+        }
+    }
+}
+
 
 extern s32 func_8012AD50(void *a0);
     void func_80181030(s32 *a0) {
@@ -4301,7 +4518,29 @@ INCLUDE_ASM("asm/ov_SC05_008/nonmatchings/ov_SC05_008_jr_8017AE2C", func_801810D
 
 INCLUDE_ASM("asm/ov_SC05_008/nonmatchings/ov_SC05_008_jr_8017AE2C", func_8018112C);
 
-INCLUDE_ASM("asm/ov_SC05_008/nonmatchings/ov_SC05_008_jr_8017AE2C", func_8018122C);
+
+extern s32 func_80013328(s32 a0, s32 a1);
+
+void func_8018122C(s32 *p) {
+
+    extern void (*D_80186798[])(void);
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern s32 D_80126B58;
+    register s32 *q __asm__("$17");
+
+    D_80186798[*(u16 *)((s32)p + 0x2)]();
+    q = &D_80126B58;
+    if (p[8] != 0) {
+        if (func_80013328((s32)p + 4, (s32)(q + 1)) >= 0xA01) {
+            *(s32 *)(p[8] + 4) |= 0x80000000;
+        } else {
+            *(s32 *)(p[8] + 4) &= 0x7FFFFFFF;
+        }
+    }
+}
+
 
 extern s32 func_8012AD50(void *a0);
     void func_801812D8(s32 *a0) {
@@ -4316,7 +4555,29 @@ INCLUDE_ASM("asm/ov_SC05_008/nonmatchings/ov_SC05_008_jr_8017AE2C", func_8018138
 
 INCLUDE_ASM("asm/ov_SC05_008/nonmatchings/ov_SC05_008_jr_8017AE2C", func_801813D4);
 
-INCLUDE_ASM("asm/ov_SC05_008/nonmatchings/ov_SC05_008_jr_8017AE2C", func_801814D4);
+
+extern s32 func_80013328(s32 a0, s32 a1);
+
+void func_801814D4(s32 *p) {
+
+    extern void (*D_801867A8[])(void);
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern s32 D_80126B58;
+    register s32 *q __asm__("$17");
+
+    D_801867A8[*(u16 *)((s32)p + 0x2)]();
+    q = &D_80126B58;
+    if (p[8] != 0) {
+        if (func_80013328((s32)p + 4, (s32)(q + 1)) >= 0xA01) {
+            *(s32 *)(p[8] + 4) |= 0x80000000;
+        } else {
+            *(s32 *)(p[8] + 4) &= 0x7FFFFFFF;
+        }
+    }
+}
+
 
 extern s32 func_8012AD50(void *a0);
     void func_80181580(s32 *a0) {
@@ -4331,7 +4592,29 @@ INCLUDE_ASM("asm/ov_SC05_008/nonmatchings/ov_SC05_008_jr_8017AE2C", func_8018162
 
 INCLUDE_ASM("asm/ov_SC05_008/nonmatchings/ov_SC05_008_jr_8017AE2C", func_8018167C);
 
-INCLUDE_ASM("asm/ov_SC05_008/nonmatchings/ov_SC05_008_jr_8017AE2C", func_8018177C);
+
+extern s32 func_80013328(s32 a0, s32 a1);
+
+void func_8018177C(s32 *p) {
+
+    extern void (*D_801867B8[])(void);
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern s32 D_80126B58;
+    register s32 *q __asm__("$17");
+
+    D_801867B8[*(u16 *)((s32)p + 0x2)]();
+    q = &D_80126B58;
+    if (p[8] != 0) {
+        if (func_80013328((s32)p + 4, (s32)(q + 1)) >= 0xA01) {
+            *(s32 *)(p[8] + 4) |= 0x80000000;
+        } else {
+            *(s32 *)(p[8] + 4) &= 0x7FFFFFFF;
+        }
+    }
+}
+
 
 extern s32 func_8012AD50(void *a0);
     void func_80181828(s32 *a0) {
@@ -4346,7 +4629,29 @@ INCLUDE_ASM("asm/ov_SC05_008/nonmatchings/ov_SC05_008_jr_8017AE2C", func_801818D
 
 INCLUDE_ASM("asm/ov_SC05_008/nonmatchings/ov_SC05_008_jr_8017AE2C", func_80181928);
 
-INCLUDE_ASM("asm/ov_SC05_008/nonmatchings/ov_SC05_008_jr_8017AE2C", func_801819D8);
+
+extern s32 func_80013328(s32 a0, s32 a1);
+
+void func_801819D8(s32 *p) {
+
+    extern void (*D_801867C8[])(void);
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern s32 D_80126B58;
+    register s32 *q __asm__("$17");
+
+    D_801867C8[*(u16 *)((s32)p + 0x2)]();
+    q = &D_80126B58;
+    if (p[8] != 0) {
+        if (func_80013328((s32)p + 4, (s32)(q + 1)) >= 0xA01) {
+            *(s32 *)(p[8] + 4) |= 0x80000000;
+        } else {
+            *(s32 *)(p[8] + 4) &= 0x7FFFFFFF;
+        }
+    }
+}
+
 
 extern s32 func_8012AD50(void *a0);
     void func_80181A84(s32 *a0) {
@@ -4361,7 +4666,29 @@ INCLUDE_ASM("asm/ov_SC05_008/nonmatchings/ov_SC05_008_jr_8017AE2C", func_80181B3
 
 INCLUDE_ASM("asm/ov_SC05_008/nonmatchings/ov_SC05_008_jr_8017AE2C", func_80181B84);
 
-INCLUDE_ASM("asm/ov_SC05_008/nonmatchings/ov_SC05_008_jr_8017AE2C", func_80181C38);
+
+extern s32 func_80013328(s32 a0, s32 a1);
+
+void func_80181C38(s32 *p) {
+
+    extern void (*D_801867D8[])(void);
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern s32 D_80126B58;
+    register s32 *q __asm__("$17");
+
+    D_801867D8[*(u16 *)((s32)p + 0x2)]();
+    q = &D_80126B58;
+    if (p[8] != 0) {
+        if (func_80013328((s32)p + 4, (s32)(q + 1)) >= 0xA01) {
+            *(s32 *)(p[8] + 4) |= 0x80000000;
+        } else {
+            *(s32 *)(p[8] + 4) &= 0x7FFFFFFF;
+        }
+    }
+}
+
 
 
 extern s32 func_8012AD50(void *a0);
@@ -4375,7 +4702,29 @@ INCLUDE_ASM("asm/ov_SC05_008/nonmatchings/ov_SC05_008_jr_8017AE2C", func_80181D0
 
 INCLUDE_ASM("asm/ov_SC05_008/nonmatchings/ov_SC05_008_jr_8017AE2C", func_80181D4C);
 
-INCLUDE_ASM("asm/ov_SC05_008/nonmatchings/ov_SC05_008_jr_8017AE2C", func_80181DBC);
+
+extern s32 func_80013328(s32 a0, s32 a1);
+
+void func_80181DBC(s32 *p) {
+
+    extern void (*D_801867E4[])(void);
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern s32 D_80126B58;
+    register s32 *q __asm__("$17");
+
+    D_801867E4[*(u16 *)((s32)p + 0x2)]();
+    q = &D_80126B58;
+    if (p[8] != 0) {
+        if (func_80013328((s32)p + 4, (s32)(q + 1)) >= 0xA01) {
+            *(s32 *)(p[8] + 4) |= 0x80000000;
+        } else {
+            *(s32 *)(p[8] + 4) &= 0x7FFFFFFF;
+        }
+    }
+}
+
 
 extern s32 func_8012AD50(void *a0);
     void func_80181E68(s32 *a0) {
@@ -4388,7 +4737,29 @@ INCLUDE_ASM("asm/ov_SC05_008/nonmatchings/ov_SC05_008_jr_8017AE2C", func_80181E8
 
 INCLUDE_ASM("asm/ov_SC05_008/nonmatchings/ov_SC05_008_jr_8017AE2C", func_80181ED0);
 
-INCLUDE_ASM("asm/ov_SC05_008/nonmatchings/ov_SC05_008_jr_8017AE2C", func_80181F40);
+
+extern s32 func_80013328(s32 a0, s32 a1);
+
+void func_80181F40(s32 *p) {
+
+    extern void (*D_801867F0[])(void);
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern s32 D_80126B58;
+    register s32 *q __asm__("$17");
+
+    D_801867F0[*(u16 *)((s32)p + 0x2)]();
+    q = &D_80126B58;
+    if (p[8] != 0) {
+        if (func_80013328((s32)p + 4, (s32)(q + 1)) >= 0xA01) {
+            *(s32 *)(p[8] + 4) |= 0x80000000;
+        } else {
+            *(s32 *)(p[8] + 4) &= 0x7FFFFFFF;
+        }
+    }
+}
+
 
 extern s32 func_8012AD50(void *a0);
     void func_80181FEC(s32 *a0) {
@@ -4401,7 +4772,29 @@ INCLUDE_ASM("asm/ov_SC05_008/nonmatchings/ov_SC05_008_jr_8017AE2C", func_8018200
 
 INCLUDE_ASM("asm/ov_SC05_008/nonmatchings/ov_SC05_008_jr_8017AE2C", func_80182054);
 
-INCLUDE_ASM("asm/ov_SC05_008/nonmatchings/ov_SC05_008_jr_8017AE2C", func_801820C0);
+
+extern s32 func_80013328(s32 a0, s32 a1);
+
+void func_801820C0(s32 *p) {
+
+    extern void (*D_801867FC[])(void);
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern s32 D_80126B58;
+    register s32 *q __asm__("$17");
+
+    D_801867FC[*(u16 *)((s32)p + 0x2)]();
+    q = &D_80126B58;
+    if (p[8] != 0) {
+        if (func_80013328((s32)p + 4, (s32)(q + 1)) >= 0xA01) {
+            *(s32 *)(p[8] + 4) |= 0x80000000;
+        } else {
+            *(s32 *)(p[8] + 4) &= 0x7FFFFFFF;
+        }
+    }
+}
+
 
 extern s32 func_8012AD50(void *a0);
     void func_8018216C(s32 *a0) {

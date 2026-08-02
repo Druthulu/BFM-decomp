@@ -3404,7 +3404,72 @@ void func_8017BFE0(Ent_8017BFE0_8017BFE0 *param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_104/nonmatchings/ov_SC03_104_jr_8017AE2C", func_8017C064);
+
+
+/* func_8017C064 — entity tick with a two-mode "hit/shake" arm.
+ *   +0x1C s32  frame counter (lw / sw), signed compare against 0x20
+ *   +0x34 ptr  sub-object read up-front (lives in $s0 across the jals)
+ *   +0x30 s32  mode flag (0 = direct sub-object, else the +0x20 sub-sub-object)
+ *   +0x02 u16  state word bumped in the timeout arm
+ *
+ * §71 sibling-first: func_8017C69C in this same TU is the identical shape —
+ * counter @0x1C, sub-object @0x34, the 0x60/0x62/0x64 halfword triple and the
+ * `do { func_80146A6C(0x1B, obj, ...); } while (++i < 3);` s16 loop.
+ */
+
+extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+extern void func_8014708C(void *arg0);
+extern s32 func_801472C8(struct S *a0);
+extern void func_8017C218(int);
+
+void func_8017C064(void *a0)
+{
+    void *obj;
+    s32 t;
+    s32 r;
+    s16 i;
+    u16 v;
+    u16 w;
+    u16 d;
+
+    t = *(s32 *)((s32)a0 + 0x1C);
+    obj = *(void **)((s32)a0 + 0x34);
+    *(s32 *)((s32)a0 + 0x1C) = t + 1;
+    if (t < 0x20) {
+        if (*(s32 *)((s32)a0 + 0x30) == 0) {
+            v = *(u16 *)((s32)obj + 0x64) - 0x80;
+            w = *(u16 *)((s32)obj + 0x62) + 0x100;
+            *(s16 *)((s32)obj + 0x64) = v;
+            *(s16 *)((s32)obj + 0x60) = v;
+            *(s16 *)((s32)obj + 0x62) = w;
+        } else {
+            r = *(s32 *)((s32)obj + 0x20);
+            *(u16 *)(r + 0x2C) |= 0x10;
+            r = *(s32 *)((s32)obj + 0x20);
+            d = *(u16 *)(r + 0x1C) - 0x80;
+            *(s16 *)(r + 0x1C) = d;
+            *(s16 *)(r + 0x18) = d;
+            r = *(s32 *)((s32)obj + 0x20);
+            *(u16 *)(r + 0x1A) += 0x100;
+        }
+        i = 0;
+        do {
+            func_80146A6C(0x1B, obj, 0, 0, 0, 0, 0);
+            i++;
+        } while (i < 3);
+    } else {
+        if (*(s32 *)((s32)a0 + 0x30) == 0) {
+            func_8014708C(obj);
+            func_801472C8((struct S *)obj);
+        } else {
+            *(s32 *)(*(s32 *)((s32)obj + 0x20) + 0x4) |= 0x80000000;
+        }
+        *(s32 *)((s32)a0 + 0x1C) = 0;
+        *(s16 *)((s32)a0 + 2) = *(u16 *)((s32)a0 + 2) + 1;
+    }
+    ((void (*)(void *))func_8017C218)(a0);
+}
+
 
 DEFINE_func_8017C1CC()  /* dedup: shared engine-core @0x8017C1CC (src/shared) */
 
@@ -3599,5 +3664,60 @@ void func_8017C800(void *a0)
 
 DEFINE_func_8017C8B4()  /* dedup: shared engine-core @0x8017C8B4 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC03_104/nonmatchings/ov_SC03_104_jr_8017AE2C", func_8017C910);
+
+
+void func_8017C910(void *a0)
+{
+    typedef struct { s16 x; s16 y; s16 z; s16 pad; } SVec_8017C910_8017C910;
+    typedef struct { u8 r; u8 g; u8 b; u8 pad; } Clr_8017C910_8017C910;
+    typedef struct { SVec_8017C910_8017C910 v[2]; Clr_8017C910_8017C910 col[2]; s32 tag; s32 pad; } Prim_8017C910_8017C910;
+    typedef struct { s32 w[8]; } Mtx8_8017C910_8017C910;
+    extern Mtx8_8017C910_8017C910 aD800AE620 __asm__("D_800AE620");
+    extern void aFunc80016A5C(void *arg0, void *arg1) __asm__("func_80016A5C");
+    Prim_8017C910_8017C910 prim;
+    Mtx8_8017C910_8017C910 mtx;
+    s32 p;
+
+    p = (s32)a0;
+    if (*(s32 *)(p + 0x2C) != 0) {
+        prim.v[0].y = *(u16 *)(p + 0xA) - 0x20;
+        prim.v[1].y = *(u16 *)(p + 0xA) + 0x20;
+    } else {
+        prim.v[0].y = *(u16 *)(p + 0xA) + 0x20;
+        prim.v[1].y = *(u16 *)(p + 0xA) - 0x20;
+    }
+    prim.v[0].x = *(u16 *)(p + 0x6);
+    prim.v[0].z = *(u16 *)(p + 0xE);
+    prim.v[1].x = *(u16 *)(p + 0x6);
+    prim.v[1].z = *(u16 *)(p + 0xE);
+    prim.col[0].b = 0;
+    prim.col[0].g = 0;
+    prim.col[0].r = 0;
+    switch (*(u32 *)(p + 0x30)) {
+    case 0:
+        prim.col[1].r = 0xFF;
+        prim.col[1].b = 0;
+        prim.col[1].g = 0;
+        break;
+    case 1:
+        prim.col[1].g = 0xFF;
+        prim.col[1].b = 0;
+        prim.col[1].r = 0;
+        break;
+    case 2:
+        prim.col[1].b = 0xFF;
+        prim.col[1].g = 0;
+        prim.col[1].r = 0;
+        break;
+    case 3:
+        prim.col[1].b = 0xFF;
+        prim.col[1].g = 0xFF;
+        prim.col[1].r = 0xFF;
+        break;
+    }
+    mtx = aD800AE620;
+    prim.tag = 0x50000000;
+    aFunc80016A5C(&prim, &mtx);
+}
+
 

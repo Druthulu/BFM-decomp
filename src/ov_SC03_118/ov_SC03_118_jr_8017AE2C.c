@@ -357,7 +357,6 @@ extern s32 func_801498E0(s32 *a0);
 extern s32 func_8012E5CC(s32 a0, s32 a1, s32 a2);
 extern void func_80147364(u16 a0, s32 a1);
 extern s32 func_800CCF28(s32 a0);
-extern u8 D_80126B5C;
 extern s32 func_80149954(s32 s0);
 extern s32 func_80149A64(s32 *a0);
 extern void func_8015DAC4(s32 *a0);
@@ -3655,13 +3654,136 @@ void func_8017E898(void *a0) {
 
 INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_jr_8017AE2C", func_8017E8D4);
 
-INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_jr_8017AE2C", func_8017E948);
+extern s32 func_8012B6D4(s16 *a0, s16 *a1);
+
+void func_8017E948(s16 *a0) {
+
+    extern u8 D_80126B5C;
+    extern s16 D_801D42E0;
+    extern s32 D_801D42EC;
+    extern s32 D_801D42F4;
+    extern u8 D_8018D84C[];
+    extern s16 D_8018D86C[];
+    extern s16 D_8018D86E[];
+    /* The target frame is 0x28 with only $s0/$s1/$ra saved at 0x18/0x1C/0x20, i.e. 8 bytes
+       of locals sit below the register save area and are never touched. The original source
+       declared a local it no longer uses; the same fossil is visible in the neighbours
+       (func_8017C594 carries 16 such bytes). gcc-2.7.2 still reserves the slot. */
+    s32 sp10[2];
+    s32 a, b, t, r, off, x, y;
+
+    a = (func_8012B6D4((s16 *)&D_80126B5C, &D_801D42E0) >> 7) & 0x18;
+    b = func_8012B6D4(a0 + 2, &D_801D42E0);
+    t = a | ((b >> 9) & 7);
+    off = D_8018D84C[t] << 2;
+    r = rand();
+
+    /* The struct reads are plain INDIRECT_REFs, not ARRAY_REFs: an `a0[0x46]` here sets
+       MEM_IN_STRUCT_P, which lets gcc-2.7.2's true_dependence() drop the dependence against
+       the constant-address store and hoist the second `lh` above `sw D_801D42EC`. */
+    x = *(s16 *)((s32)a0 + 0x88) + *(s16 *)((u8 *)D_8018D86C + off) - 0x100;
+    x += (r & 0x7F) << 2;
+    D_801D42EC = x << 16;
+
+    y = *(s16 *)((s32)a0 + 0x8C) + *(s16 *)((u8 *)D_8018D86E + off) - 0x100;
+    y += (unsigned)(r & 0x7F00) >> 6;
+    D_801D42F4 = y << 16;
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_jr_8017AE2C", func_8017EA24);
 
-INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_jr_8017AE2C", func_8017EC38);
 
-INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_jr_8017AE2C", func_8017ED0C);
+extern int func_80178970(void);
+extern s32 func_8012C658(s32 arg0, s32 arg1, s32 arg2);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern void func_8012A828(s32 a0, void * a1);
+extern void func_8012B14C(s32 a0, s32 a1);
+
+void func_8017EC38(s32 a0) {
+
+    extern u8 D_8018D73C[];
+    s32 p;
+    u16 v;
+    s32 sp10[3];
+
+    func_80178970();
+
+    v = *(u16 *)(a0 + 0x5E);
+    if ((v == 0x9) | (v == 0x11)) {
+        p = func_8012C658(0x30, 2, a0);
+        if (p == 0) {
+            return;
+        }
+        *(u16 *)(p + 0xA) -= 0x20;
+        *(u16 *)(p + 0x16) -= 0x10;
+        func_8002D4C8(0x829, 0);
+
+        *(s16 *)(a0 + 0x5E) = 0;
+        func_8012A828(a0, D_8018D73C);
+
+        sp10[0] = 0;
+        sp10[1] = 0xFFF20000;
+        sp10[2] = 0x70000;
+        func_8012B14C(a0, (s32)sp10);
+
+        *(s32 *)(a0 + 0x48) = 0x10000;
+        *(s32 *)(a0 + 0x1C) = 0x40;
+        *(s16 *)(a0 + 0x108) = 0;
+        *(s16 *)(a0 + 0x2) = 4;
+    }
+}
+
+
+
+
+extern int func_80178970(void);
+extern s32 func_8012CBCC(s32 a0);
+extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+extern void func_8012A828(s32 a0, void *a1);
+extern void func_8012B2CC(s32 a0);
+extern void func_8012B14C(s32 a0, s32 a1);
+
+void func_8017ED0C(s32 a0) {
+
+    extern void (*D_8018D6D4[])(void);
+    s32 v0, v1;
+    s32 stack[3];
+
+    func_80178970();
+
+    v0 = *(s32*)((s32)a0 + 0x1C);
+    v1 = -1;
+    v0 = v0 - 1;
+    *(s32*)((s32)a0 + 0x1C) = v0;
+
+    if (v0 != v1) {
+        v0 = func_8012CBCC(a0);
+        if ((v0 & 0x2000) == 0) {
+            return;
+        }
+    }
+
+    func_80146A6C(2, (void*)a0, 0, 0, 0, 0, 0);
+    func_8012A828(a0, (void*)&D_8018D6D4);
+
+    v1 = *(s32*)((s32)a0 + 0x20);
+    v0 = *(u16*)((s32)v1 + 0x12);
+    v0 = v0 + 0xB00;
+    *(u16*)((s32)v1 + 0x12) = v0;
+
+    stack[0] = 0;
+    stack[1] = 0;
+    stack[2] = 0xFFF40000;
+
+    func_8012B2CC(a0);
+    func_8012B14C(a0, (s32)stack);
+
+    *(u16*)((s32)a0 + 0xFE) = 1;
+    *(s32*)((s32)a0 + 0x1C) = 0x40;
+    *(u16*)((s32)a0 + 0x2) = 5;
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_jr_8017AE2C", func_8017EDDC);
 

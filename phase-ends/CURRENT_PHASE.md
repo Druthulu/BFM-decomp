@@ -663,6 +663,36 @@ Fleet **94.43→94.88% fn-count · 91.4→91.9% instr · 84.0→84.6% distinct**
 Distilled to **cookbook §134** (the MULTI-LINE BLINDNESS class + the bimodality tell: 57/52/8 is a
 tooling signature, not a codegen one — read ONE compiler error before believing the compiler).
 
+### ✅ S6h — wave 3 (38 targets, size-routed) + an 8/8 reconcile lane (2026-08-01)
+38 targets / 44,297 templatable ins — the 11 high-multiplier families at 61-120 ins plus the top 26 of
+the 10-19-member band, model-routed (Haiku ≤89 with Opus escalation, **Opus direct ≥90**).
+**52 agents, ~4.1M tokens, 30 min → gate banked 27/38 (71%).** All 11 failures were captured and
+classified: **8 declaration/link plumbing · 3 genuine byte-DIFF**. An 8-agent Opus reconcile wave then
+fixed **8/8** (7 banked; 1 re-failed) → **wave-3 total 34/38 = 89%**, propagation **+639 members /
+1 failed / 83 overlays**. **R22 clean-fleet 140/140.** Fleet **95.23 → 95.42% fn · 92.1 → 92.4% instr ·
+85.0 → 85.5% distinct**.
+
+**The reconcile lane is now 12/12 across two waves** and is the most reliable stage in the pipeline.
+**Design note (S27 law, applied BEFORE it bit):** six of the eight reconcile targets share ONE TU, so
+this wave **forbade agents any build** — six concurrent splice-builds would have clobbered a tracked
+file. Wave 2's reconciles were allowed one build each because they were spread across TUs.
+
+**The agents out-diagnosed the blockers I handed them — three findings worth keeping:**
+· **`func_801848B0`: an agent REJECTED MY PREMISE.** I told it the draft was byte-correct and only
+  declaration-blocked; it ran `match_one` first, found a real 1-instruction DIFF, and fixed both.
+  R14 coming back at me from a subagent, correctly.
+· **`func_8017C5F0`: the "invented symbol" was an INTERIOR ADDRESS.** `D_801DA0F0` has no symbol
+  because it is offset `0x6C` into `D_801DA084` (which spans `0x801DA084..0x801DA103`,
+  `asm/ov_SC02_027/data/tail18.data.s`). The lui/addiu pair builds an interior pointer — a class the
+  drafters will hit again.
+· **`func_8018A860`: the TU declares `memcpy` THREE times** with incompatible signatures (L81, L1518
+  builtin-compatible, L1524), and a latent byte bug sat behind it. A TU that declares one symbol three
+  ways is a defect waiting for the next draft that touches it.
+
+**Carried (4):** `func_80184A94` (reconciled to `match_one` MATCH, still gate-refused) + the 3 genuine
+byte-DIFFs `func_801845B0`, `func_8017BEBC`(ov_SC02_026), `func_8018480C` — real codegen residuals,
+ledger material.
+
 ### ✅ S6g — wave 2: 83% → 93% bank rate from ONE batch of learning (2026-08-01)
 15 targets (11 fresh Haiku + **4 gate-failed reconciles on Opus**), 15 agents, ~0.74M tokens.
 **Gate banked 14/15 (93%)** — up from wave 1's 20/24 (83%) — **and all 4 reconciles banked**.

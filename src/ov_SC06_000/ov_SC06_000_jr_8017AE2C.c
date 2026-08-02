@@ -4373,7 +4373,72 @@ void func_8017FFB0(Ent_8017BFE0_8017FFB0 *param_1)
 
 
 
-INCLUDE_ASM("asm/ov_SC06_000/nonmatchings/ov_SC06_000_jr_8017AE2C", func_80180034);
+
+
+/* func_80180034 — entity tick with a two-mode "hit/shake" arm.
+ *   +0x1C s32  frame counter (lw / sw), signed compare against 0x20
+ *   +0x34 ptr  sub-object read up-front (lives in $s0 across the jals)
+ *   +0x30 s32  mode flag (0 = direct sub-object, else the +0x20 sub-sub-object)
+ *   +0x02 u16  state word bumped in the timeout arm
+ *
+ * §71 sibling-first: func_8017C69C in this same TU is the identical shape —
+ * counter @0x1C, sub-object @0x34, the 0x60/0x62/0x64 halfword triple and the
+ * `do { func_80146A6C(0x1B, obj, ...); } while (++i < 3);` s16 loop.
+ */
+
+extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+extern void func_8014708C(void *arg0);
+extern s32 func_801472C8(struct S *a0);
+extern void func_801801E8(int);
+
+void func_80180034(void *a0)
+{
+    void *obj;
+    s32 t;
+    s32 r;
+    s16 i;
+    u16 v;
+    u16 w;
+    u16 d;
+
+    t = *(s32 *)((s32)a0 + 0x1C);
+    obj = *(void **)((s32)a0 + 0x34);
+    *(s32 *)((s32)a0 + 0x1C) = t + 1;
+    if (t < 0x20) {
+        if (*(s32 *)((s32)a0 + 0x30) == 0) {
+            v = *(u16 *)((s32)obj + 0x64) - 0x80;
+            w = *(u16 *)((s32)obj + 0x62) + 0x100;
+            *(s16 *)((s32)obj + 0x64) = v;
+            *(s16 *)((s32)obj + 0x60) = v;
+            *(s16 *)((s32)obj + 0x62) = w;
+        } else {
+            r = *(s32 *)((s32)obj + 0x20);
+            *(u16 *)(r + 0x2C) |= 0x10;
+            r = *(s32 *)((s32)obj + 0x20);
+            d = *(u16 *)(r + 0x1C) - 0x80;
+            *(s16 *)(r + 0x1C) = d;
+            *(s16 *)(r + 0x18) = d;
+            r = *(s32 *)((s32)obj + 0x20);
+            *(u16 *)(r + 0x1A) += 0x100;
+        }
+        i = 0;
+        do {
+            func_80146A6C(0x1B, obj, 0, 0, 0, 0, 0);
+            i++;
+        } while (i < 3);
+    } else {
+        if (*(s32 *)((s32)a0 + 0x30) == 0) {
+            func_8014708C(obj);
+            func_801472C8((struct S *)obj);
+        } else {
+            *(s32 *)(*(s32 *)((s32)obj + 0x20) + 0x4) |= 0x80000000;
+        }
+        *(s32 *)((s32)a0 + 0x1C) = 0;
+        *(s16 *)((s32)a0 + 2) = *(u16 *)((s32)a0 + 2) + 1;
+    }
+    ((void (*)(void *))func_801801E8)(a0);
+}
+
 
 extern void func_801801E8(int);
 extern void func_80146C3C(void);
@@ -4620,7 +4685,62 @@ void func_80180884(void *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_000/nonmatchings/ov_SC06_000_jr_8017AE2C", func_801808E0);
+
+
+void func_801808E0(void *a0)
+{
+    typedef struct { s16 x; s16 y; s16 z; s16 pad; } SVec_8017C910_801808E0;
+    typedef struct { u8 r; u8 g; u8 b; u8 pad; } Clr_8017C910_801808E0;
+    typedef struct { SVec_8017C910_801808E0 v[2]; Clr_8017C910_801808E0 col[2]; s32 tag; s32 pad; } Prim_8017C910_801808E0;
+    typedef struct { s32 w[8]; } Mtx8_8017C910_801808E0;
+    extern Mtx8_8017C910_801808E0 aD800AE620 __asm__("D_800AE620");
+    extern void aFunc80016A5C(void *arg0, void *arg1) __asm__("func_80016A5C");
+    Prim_8017C910_801808E0 prim;
+    Mtx8_8017C910_801808E0 mtx;
+    s32 p;
+
+    p = (s32)a0;
+    if (*(s32 *)(p + 0x2C) != 0) {
+        prim.v[0].y = *(u16 *)(p + 0xA) - 0x20;
+        prim.v[1].y = *(u16 *)(p + 0xA) + 0x20;
+    } else {
+        prim.v[0].y = *(u16 *)(p + 0xA) + 0x20;
+        prim.v[1].y = *(u16 *)(p + 0xA) - 0x20;
+    }
+    prim.v[0].x = *(u16 *)(p + 0x6);
+    prim.v[0].z = *(u16 *)(p + 0xE);
+    prim.v[1].x = *(u16 *)(p + 0x6);
+    prim.v[1].z = *(u16 *)(p + 0xE);
+    prim.col[0].b = 0;
+    prim.col[0].g = 0;
+    prim.col[0].r = 0;
+    switch (*(u32 *)(p + 0x30)) {
+    case 0:
+        prim.col[1].r = 0xFF;
+        prim.col[1].b = 0;
+        prim.col[1].g = 0;
+        break;
+    case 1:
+        prim.col[1].g = 0xFF;
+        prim.col[1].b = 0;
+        prim.col[1].r = 0;
+        break;
+    case 2:
+        prim.col[1].b = 0xFF;
+        prim.col[1].g = 0;
+        prim.col[1].r = 0;
+        break;
+    case 3:
+        prim.col[1].b = 0xFF;
+        prim.col[1].g = 0xFF;
+        prim.col[1].r = 0xFF;
+        break;
+    }
+    mtx = aD800AE620;
+    prim.tag = 0x50000000;
+    aFunc80016A5C(&prim, &mtx);
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_000/nonmatchings/ov_SC06_000_jr_8017AE2C", func_80180A50);
 
@@ -5712,7 +5832,88 @@ void func_801868C4(u16 a0) {
 
 INCLUDE_ASM("asm/ov_SC06_000/nonmatchings/ov_SC06_000_jr_8017AE2C", func_801868E0);
 
-INCLUDE_ASM("asm/ov_SC06_000/nonmatchings/ov_SC06_000_jr_8017AE2C", func_80186938);
+
+/* func_80186938 — SPLICE RECONCILE (bytes unchanged from the s6h draft).
+ *
+ * THREE in-TU collisions, all fixed without touching an emitted instruction
+ * (src/ov_SC03_014/ov_SC03_014_jr_801848E4.c):
+ *
+ * (1) memcpy — cookbook §2959 / the sibling note at TU L3742.  The TU declares
+ *     memcpy THREE times: L81 + L1518 with the builtin-compatible signature
+ *     (void*, const void*, unsigned) and then L1524 as
+ *     `extern void *memcpy(void *dst, void *src, s32 n);`.  L1524 disagrees with
+ *     gcc's built-in, so duplicate_decls "throws away the built-in" (warning only,
+ *     because the old decl was still DECL_BUILT_IN) and installs a PLAIN function
+ *     decl.  Two consequences at the splice point (L3635):
+ *       a. my own builtin-shaped redeclaration now conflicts with a plain decl —
+ *          hard error ("conflicting types for `memcpy'", :3637 vs :1524);
+ *       b. even if it compiled, the identifier `memcpy` is no longer a builtin
+ *          here, so both copies would lower to `jal memcpy` — but the TARGET
+ *          bytes are the INLINE block move (lwl 3 / lwr 0 / swl / swr, no jal).
+ *     Fix = do not name memcpy at all: a 4-byte STRUCT ASSIGN through an
+ *     ALIGN-1 struct (u8 x4).  That is exactly the sibling func_8018ADA8 lever
+ *     in this same TU (TU L3736-3744, cookbook §48-C2): align 1 routes
+ *     mips.c expand_block_move, which copy_addr_to_reg's the source into one
+ *     held register -> the identical lwl/lwr + swl/swr pair, zero memcpy ref.
+ *     The typedef is BLOCK-scoped so it cannot collide with the TU's own
+ *     block-scoped `V4` at L3758.
+ *
+ * (2) func_80186938 itself — the TU prototypes it at L3570 as
+ *     `extern void func_80186938(s32, Rec_8018A6A4 *, s32, s32);` (used by the
+ *     matched caller func_8018A6A4 at L3583).  Rec_8018A6A4 is a TU-local
+ *     typedef I cannot restate (C89 forbids the redefinition), and the last two
+ *     args are really pointers, so defining the name directly is "conflicting
+ *     types".  Fix = §37/§124 ASM-LABEL ALIAS: define aF8018A860 with an
+ *     __asm__("func_80186938") label.  Emits the identical symbol, leaves the
+ *     TU's declaration untouched, zero blast radius, zero byte change.
+ *
+ * (3) D_801B1EFC / rand — declared VERBATIM as the TU already has them
+ *     (D_801B1EFC: TU L3637 + L3671; rand: TU L951), so both are exact
+ *     re-declarations and merge silently.
+ */
+extern s32 rand(void);      /* TU L951, verbatim */
+
+void aF8018A860(s32 a0, s16 *a1, u8 *a2, u8 *a3) __asm__("func_80186938");
+
+void aF8018A860(s32 a0, s16 *a1, u8 *a2, u8 *a3)
+{
+
+    extern s16 D_801B1EFC;      /* TU L3637 / L3671, verbatim */
+    typedef struct { u8 b0, b1, b2, b3; } B4_80186938;   /* align 1 — §48-C2 */
+    s16 *s1;
+    u16 temp_u16;
+    s16 temp_s16;
+    s32 temp_s32, v0;
+
+    s1 = (s16 *)((a0 * 14) + (s32)&D_801B1EFC);
+
+    *(u16 *)s1 = *(u16 *)a1;
+
+    *(B4_80186938 *)((u8 *)s1 + 6) = *(B4_80186938 *)a2;
+    *(u8 *)((u8 *)s1 + 9) = 0;
+
+    *(B4_80186938 *)((u8 *)s1 + 10) = *(B4_80186938 *)a3;
+    *(u8 *)((u8 *)s1 + 13) = 0;
+
+    v0 = rand() & 0x3f;
+    temp_u16 = *(u16 *)((u8 *)a1 + 2);
+    *(u16 *)((u8 *)s1 + 2) = temp_u16 + v0 - 0x20;
+
+    v0 = rand() & 0x7f0;
+    temp_s16 = *(s16 *)((u8 *)a1 + 4);
+    temp_s32 = temp_s16 * (v0 + 0xc00);
+    v0 = (s32)(temp_s32 >> 12);
+    *(s16 *)((u8 *)s1 + 4) = (s16)v0;
+
+    v0 = *(s16 *)((u8 *)a1 + 6);
+    if (v0 != 0) {
+        u16 v1 = *(u16 *)((u8 *)s1 + 4);
+        *(u8 *)((u8 *)s1 + 9) = 1;
+        *(u16 *)((u8 *)s1 + 4) = 0;
+        *(u8 *)((u8 *)s1 + 13) = (u8)v1;
+    }
+}
+
 
 
 
@@ -5805,7 +6006,52 @@ void func_80186E34(void) {
 
 INCLUDE_ASM("asm/ov_SC06_000/nonmatchings/ov_SC06_000_jr_8017AE2C", func_80186E58);
 
-INCLUDE_ASM("asm/ov_SC06_000/nonmatchings/ov_SC06_000_jr_8017AE2C", func_80186E80);
+
+/* func_80186E80 — §71 sibling of func_8018A774 / func_8018AF0C (same TU): the
+ * RotTransPers wrapper family.  Here the SVECTOR comes in as the parameter
+ * instead of being produced by func_80015978, so pv[0..1] is free and carries
+ * the 4-byte word copied out of D_801AD2E0 instead.
+ *
+ * Frame proof (0x38 = 0x10 outgoing + 0x18 var + 0x10 saved s0/s1/ra):
+ *   sp+0x10  u16 sxy[4]  (8 bytes)  -> RotTransPers a1, func_80186F08 arg0
+ *   sp+0x18  s32 pv[4]   (16 bytes) -> pv[0] = copy dest, &pv[2]/&pv[3] = 0x20/0x24
+ *
+ * The lwl 0x3 / lwr 0x0 / swl 0x1B / swr 0x18 block move: a 4-byte struct assign
+ * whose type has ALIGNMENT 1 (cookbook §48-C2).  Align 1 (not 2) is load-bearing —
+ * it is what pushes the copy off the move_by_pieces path (which keeps the SYMBOL
+ * in the address and emits a fresh `lui $at,%hi` per reference) onto mips.c
+ * expand_block_move, which copy_addr_to_reg's the source address into ONE held
+ * register first -> `lui $a1,%hi; addiu $a1,$a1,%lo; lwl 3($a1); lwr 0($a1)`.
+ * A {u16,u16} (align 2) struct compiles to the same opcode sequence but with the
+ * folded-symbol addressing: 4 mismatches.  Struct assign, NOT memcpy (memcpy
+ * byte-matches in isolation but lowers to `jal memcpy` in any TU that declares
+ * it — §2959).
+ *
+ * All four callee prototypes are copied VERBATIM from this TU (func_8004914C /
+ * func_800491AC / RotTransPers at file scope L3484-3486; func_80186F08 from its
+ * own definition at L3612).  D_800AF648 is block-scoped `extern u8` exactly as
+ * the two matched siblings do it.  D_801AD2E0 appears nowhere else in the TU.
+ */
+
+extern void func_8004914C(void *a0);
+extern void func_800491AC(void *a0);
+extern s32 RotTransPers(s32 a0, s32 a1, s32 *a2, s32 *a3);
+extern void func_80186F08(void *arg0, void *arg1, s32 arg2, s32 arg3);
+
+void func_80186E80(s32 a0) {
+    typedef struct { u8 a, b, c, d; } V4_80186E80;
+    extern u8 D_800AF648;
+    extern V4_80186E80 D_801AD2E0;
+    u16 sxy[4];
+    s32 pv[4];
+
+    *(V4_80186E80 *)pv = D_801AD2E0;
+    func_8004914C(&D_800AF648);
+    func_800491AC(&D_800AF648);
+    RotTransPers(a0, (s32)sxy, &pv[2], &pv[3]);
+    func_80186F08(sxy, pv, 0x10, 0x18);
+}
+
 
 
 extern void func_80186F74(void *a0, void *a1, s16 a2);

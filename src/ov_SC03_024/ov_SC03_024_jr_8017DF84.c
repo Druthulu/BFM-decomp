@@ -359,7 +359,6 @@ extern s32 func_801498E0(s32 *a0);
 extern s32 func_8012E5CC(s32 a0, s32 a1, s32 a2);
 extern void func_80147364(u16 a0, s32 a1);
 extern s32 func_800CCF28(s32 a0);
-extern u8 D_80126B5C;
 extern s32 func_80149954(s32 s0);
 extern s32 func_80149A64(s32 *a0);
 extern void func_8015DAC4(s32 *a0);
@@ -3215,13 +3214,136 @@ void func_8017FA3C(void *a0) {
 
 INCLUDE_ASM("asm/ov_SC03_024/nonmatchings/ov_SC03_024_jr_8017DF84", func_8017FA78);
 
-INCLUDE_ASM("asm/ov_SC03_024/nonmatchings/ov_SC03_024_jr_8017DF84", func_8017FAEC);
+extern s32 func_8012B6D4(s16 *a0, s16 *a1);
+
+void func_8017FAEC(s16 *a0) {
+
+    extern u8 D_80126B5C;
+    extern s16 D_801C1268;
+    extern s32 D_801C1274;
+    extern s32 D_801C127C;
+    extern u8 D_8018AE04[];
+    extern s16 D_8018AE24[];
+    extern s16 D_8018AE26[];
+    /* The target frame is 0x28 with only $s0/$s1/$ra saved at 0x18/0x1C/0x20, i.e. 8 bytes
+       of locals sit below the register save area and are never touched. The original source
+       declared a local it no longer uses; the same fossil is visible in the neighbours
+       (func_8017C594 carries 16 such bytes). gcc-2.7.2 still reserves the slot. */
+    s32 sp10[2];
+    s32 a, b, t, r, off, x, y;
+
+    a = (func_8012B6D4((s16 *)&D_80126B5C, &D_801C1268) >> 7) & 0x18;
+    b = func_8012B6D4(a0 + 2, &D_801C1268);
+    t = a | ((b >> 9) & 7);
+    off = D_8018AE04[t] << 2;
+    r = rand();
+
+    /* The struct reads are plain INDIRECT_REFs, not ARRAY_REFs: an `a0[0x46]` here sets
+       MEM_IN_STRUCT_P, which lets gcc-2.7.2's true_dependence() drop the dependence against
+       the constant-address store and hoist the second `lh` above `sw D_801C1274`. */
+    x = *(s16 *)((s32)a0 + 0x88) + *(s16 *)((u8 *)D_8018AE24 + off) - 0x100;
+    x += (r & 0x7F) << 2;
+    D_801C1274 = x << 16;
+
+    y = *(s16 *)((s32)a0 + 0x8C) + *(s16 *)((u8 *)D_8018AE26 + off) - 0x100;
+    y += (unsigned)(r & 0x7F00) >> 6;
+    D_801C127C = y << 16;
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_024/nonmatchings/ov_SC03_024_jr_8017DF84", func_8017FBC8);
 
-INCLUDE_ASM("asm/ov_SC03_024/nonmatchings/ov_SC03_024_jr_8017DF84", func_8017FDDC);
 
-INCLUDE_ASM("asm/ov_SC03_024/nonmatchings/ov_SC03_024_jr_8017DF84", func_8017FEB0);
+extern int func_80178970(void);
+extern s32 func_8012C658(s32 arg0, s32 arg1, s32 arg2);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern void func_8012A828(s32 a0, void * a1);
+extern void func_8012B14C(s32 a0, s32 a1);
+
+void func_8017FDDC(s32 a0) {
+
+    extern u8 D_8018ACF4[];
+    s32 p;
+    u16 v;
+    s32 sp10[3];
+
+    func_80178970();
+
+    v = *(u16 *)(a0 + 0x5E);
+    if ((v == 0x9) | (v == 0x11)) {
+        p = func_8012C658(0x30, 2, a0);
+        if (p == 0) {
+            return;
+        }
+        *(u16 *)(p + 0xA) -= 0x20;
+        *(u16 *)(p + 0x16) -= 0x10;
+        func_8002D4C8(0x829, 0);
+
+        *(s16 *)(a0 + 0x5E) = 0;
+        func_8012A828(a0, D_8018ACF4);
+
+        sp10[0] = 0;
+        sp10[1] = 0xFFF20000;
+        sp10[2] = 0x70000;
+        func_8012B14C(a0, (s32)sp10);
+
+        *(s32 *)(a0 + 0x48) = 0x10000;
+        *(s32 *)(a0 + 0x1C) = 0x40;
+        *(s16 *)(a0 + 0x108) = 0;
+        *(s16 *)(a0 + 0x2) = 4;
+    }
+}
+
+
+
+
+extern int func_80178970(void);
+extern s32 func_8012CBCC(s32 a0);
+extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+extern void func_8012A828(s32 a0, void *a1);
+extern void func_8012B2CC(s32 a0);
+extern void func_8012B14C(s32 a0, s32 a1);
+
+void func_8017FEB0(s32 a0) {
+
+    extern void (*D_8018AC8C[])(void);
+    s32 v0, v1;
+    s32 stack[3];
+
+    func_80178970();
+
+    v0 = *(s32*)((s32)a0 + 0x1C);
+    v1 = -1;
+    v0 = v0 - 1;
+    *(s32*)((s32)a0 + 0x1C) = v0;
+
+    if (v0 != v1) {
+        v0 = func_8012CBCC(a0);
+        if ((v0 & 0x2000) == 0) {
+            return;
+        }
+    }
+
+    func_80146A6C(2, (void*)a0, 0, 0, 0, 0, 0);
+    func_8012A828(a0, (void*)&D_8018AC8C);
+
+    v1 = *(s32*)((s32)a0 + 0x20);
+    v0 = *(u16*)((s32)v1 + 0x12);
+    v0 = v0 + 0xB00;
+    *(u16*)((s32)v1 + 0x12) = v0;
+
+    stack[0] = 0;
+    stack[1] = 0;
+    stack[2] = 0xFFF40000;
+
+    func_8012B2CC(a0);
+    func_8012B14C(a0, (s32)stack);
+
+    *(u16*)((s32)a0 + 0xFE) = 1;
+    *(s32*)((s32)a0 + 0x1C) = 0x40;
+    *(u16*)((s32)a0 + 0x2) = 5;
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_024/nonmatchings/ov_SC03_024_jr_8017DF84", func_8017FF80);
 
@@ -3749,7 +3871,37 @@ INCLUDE_ASM("asm/ov_SC03_024/nonmatchings/ov_SC03_024_jr_8017DF84", func_8018191
 
 INCLUDE_ASM("asm/ov_SC03_024/nonmatchings/ov_SC03_024_jr_8017DF84", func_80181B50);
 
-INCLUDE_ASM("asm/ov_SC03_024/nonmatchings/ov_SC03_024_jr_8017DF84", func_80181BA0);
+
+extern s32 rand(void);
+
+void func_80181BA0(void *arg0) {
+
+    extern void (*D_8018B0C4[])(void);
+    s32 base = (s32)arg0;
+    s32 r1;
+    s32 r2;
+    s32 h;
+    s32 t;
+
+    *(s32 *)(base + 0x0) = (s32)D_8018B0C4;
+    *(s32 *)(base + 0x4) = 0;
+    *(s32 *)(base + 0x8) = 0;
+    *(s16 *)(base + 0xC) = 0;
+    *(s16 *)(base + 0xE) = 0;
+    *(s16 *)(base + 0x10) = 0;
+
+    r1 = rand();
+    r2 = rand();
+    h = *(s16 *)(base + 0x16) * 80;
+    t = (r1 & 7) * 5 - 0xA0;
+    *(s16 *)(base + 0x12) = h + t + (r2 & 0xF);
+
+    *(s16 *)(base + 0x14) = -((rand() & 0xF) * 2);
+    *(s32 *)(base + 0x1C) = 0;
+    *(s32 *)(base + 0x20) = 0;
+    *(s32 *)(base + 0x18) = (*(u16 *)(base + 0x16) & 2) * 30;
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_024/nonmatchings/ov_SC03_024_jr_8017DF84", func_80181C5C);
 
@@ -4039,7 +4191,84 @@ INCLUDE_ASM("asm/ov_SC03_024/nonmatchings/ov_SC03_024_jr_8017DF84", func_80184A7
 
 INCLUDE_ASM("asm/ov_SC03_024/nonmatchings/ov_SC03_024_jr_8017DF84", func_80184B00);
 
-INCLUDE_ASM("asm/ov_SC03_024/nonmatchings/ov_SC03_024_jr_8017DF84", func_80184B80);
+
+/* func_80184B80 — ov_SC02_027_jr_8017AE2C (76 ins)
+ * Decls copied VERBATIM from the TU:
+ *   src/ov_SC02_027/ov_SC02_027_jr_8017AE2C.c:168  ApplyMatrixSV
+ *   src/ov_SC02_027/ov_SC02_027_jr_8017AE2C.c:1698 RotMatrixYXZ
+ * D_801C13A8..D_801C13D0 are NOT declared anywhere in the TU (grepped whole file).
+ */
+extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
+extern void RotMatrixYXZ(void *a0, void *a1);
+
+
+void func_80184B80(s32 param_1, s32 param_2)
+{
+
+    extern s32 D_801C13A8;
+    extern s32 D_801C13AC;
+    extern s32 D_801C13B0;
+    extern s32 D_801C13B8;
+    extern s32 D_801C13BC;
+    extern s32 D_801C13C0;
+    extern s32 D_801C13C8;
+    extern s32 D_801C13CC;
+    extern s32 D_801C13D0;
+    /* 8-byte short-only vector (SVECTOR); 32-byte MATRIX_L48 (t[] at +0x14) */
+    typedef struct { s16 a, b, c, d; } SV4_L_80184B80;
+    typedef struct { s16 m[3][3]; s16 pad; s32 t[3]; } MTX_L_80184B80;
+
+    SV4_L_80184B80 vec;                              /* sp+0x10 */
+    MTX_L_80184B80 mtx;                              /* sp+0x18 */
+    s32 obj = *(s32 *)(param_1 + 0xCC);
+    s32 prim = *(s32 *)(param_1 + 0x20);
+    s32 mode;
+    s32 val;
+    s32 hi;
+    s32 code;
+    s32 t;
+
+    if ((s16)param_2 != 0) {
+        mode = 0x40000000;
+        val = 0x1000;
+    } else {
+        mode = 0x50000000;
+        val = 0x1333;
+    }
+    code = *(s32 *)(prim + 4) & 0xCFFFFFFF;
+    hi = 0x40000000;
+    *(s32 *)(prim + 4) = code | (mode | hi);
+
+    if (*(u16 *)(*(s32 *)(param_1 + 0xCC)) != 0) {
+        *(s16 *)(obj + 0x1A) = val;
+        *(s16 *)(obj + 0x18) = val;
+    }
+
+    t = *(u16 *)(param_1 + 0xFC) + 0x80;
+    *(u16 *)(param_1 + 0xFC) = t;
+    vec.a = t;
+    t = *(u16 *)(param_1 + 0xFE) + 0x100;
+    *(u16 *)(param_1 + 0xFE) = t;
+    vec.b = t;
+    vec.c = 0;
+    RotMatrixYXZ(&vec, &mtx);
+
+    vec.b = 0;
+    vec.a = 0;
+    vec.c = 0x100;
+    ApplyMatrixSV(&mtx, &vec, &vec);
+
+    D_801C13C8 = vec.a;
+    D_801C13B8 = vec.a;
+    D_801C13A8 = vec.a;
+    D_801C13CC = vec.b;
+    D_801C13BC = vec.b;
+    D_801C13AC = vec.b;
+    D_801C13D0 = vec.c;
+    D_801C13C0 = vec.c;
+    D_801C13B0 = vec.c;
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_024/nonmatchings/ov_SC03_024_jr_8017DF84", func_80184CB0);
 
@@ -4244,7 +4473,88 @@ extern s16 D_801C15FA;
 
 INCLUDE_ASM("asm/ov_SC03_024/nonmatchings/ov_SC03_024_jr_8017DF84", func_80185BA8);
 
-INCLUDE_ASM("asm/ov_SC03_024/nonmatchings/ov_SC03_024_jr_8017DF84", func_80185C00);
+
+/* func_80185C00 — SPLICE RECONCILE (bytes unchanged from the s6h draft).
+ *
+ * THREE in-TU collisions, all fixed without touching an emitted instruction
+ * (src/ov_SC03_014/ov_SC03_014_jr_801848E4.c):
+ *
+ * (1) memcpy — cookbook §2959 / the sibling note at TU L3742.  The TU declares
+ *     memcpy THREE times: L81 + L1518 with the builtin-compatible signature
+ *     (void*, const void*, unsigned) and then L1524 as
+ *     `extern void *memcpy(void *dst, void *src, s32 n);`.  L1524 disagrees with
+ *     gcc's built-in, so duplicate_decls "throws away the built-in" (warning only,
+ *     because the old decl was still DECL_BUILT_IN) and installs a PLAIN function
+ *     decl.  Two consequences at the splice point (L3635):
+ *       a. my own builtin-shaped redeclaration now conflicts with a plain decl —
+ *          hard error ("conflicting types for `memcpy'", :3637 vs :1524);
+ *       b. even if it compiled, the identifier `memcpy` is no longer a builtin
+ *          here, so both copies would lower to `jal memcpy` — but the TARGET
+ *          bytes are the INLINE block move (lwl 3 / lwr 0 / swl / swr, no jal).
+ *     Fix = do not name memcpy at all: a 4-byte STRUCT ASSIGN through an
+ *     ALIGN-1 struct (u8 x4).  That is exactly the sibling func_8018ADA8 lever
+ *     in this same TU (TU L3736-3744, cookbook §48-C2): align 1 routes
+ *     mips.c expand_block_move, which copy_addr_to_reg's the source into one
+ *     held register -> the identical lwl/lwr + swl/swr pair, zero memcpy ref.
+ *     The typedef is BLOCK-scoped so it cannot collide with the TU's own
+ *     block-scoped `V4` at L3758.
+ *
+ * (2) func_80185C00 itself — the TU prototypes it at L3570 as
+ *     `extern void func_80185C00(s32, Rec_8018A6A4 *, s32, s32);` (used by the
+ *     matched caller func_8018A6A4 at L3583).  Rec_8018A6A4 is a TU-local
+ *     typedef I cannot restate (C89 forbids the redefinition), and the last two
+ *     args are really pointers, so defining the name directly is "conflicting
+ *     types".  Fix = §37/§124 ASM-LABEL ALIAS: define aF8018A860 with an
+ *     __asm__("func_80185C00") label.  Emits the identical symbol, leaves the
+ *     TU's declaration untouched, zero blast radius, zero byte change.
+ *
+ * (3) D_801C15FC / rand — declared VERBATIM as the TU already has them
+ *     (D_801C15FC: TU L3637 + L3671; rand: TU L951), so both are exact
+ *     re-declarations and merge silently.
+ */
+extern s32 rand(void);      /* TU L951, verbatim */
+
+void aF8018A860(s32 a0, s16 *a1, u8 *a2, u8 *a3) __asm__("func_80185C00");
+
+void aF8018A860(s32 a0, s16 *a1, u8 *a2, u8 *a3)
+{
+
+    extern s16 D_801C15FC;      /* TU L3637 / L3671, verbatim */
+    typedef struct { u8 b0, b1, b2, b3; } B4_80185C00;   /* align 1 — §48-C2 */
+    s16 *s1;
+    u16 temp_u16;
+    s16 temp_s16;
+    s32 temp_s32, v0;
+
+    s1 = (s16 *)((a0 * 14) + (s32)&D_801C15FC);
+
+    *(u16 *)s1 = *(u16 *)a1;
+
+    *(B4_80185C00 *)((u8 *)s1 + 6) = *(B4_80185C00 *)a2;
+    *(u8 *)((u8 *)s1 + 9) = 0;
+
+    *(B4_80185C00 *)((u8 *)s1 + 10) = *(B4_80185C00 *)a3;
+    *(u8 *)((u8 *)s1 + 13) = 0;
+
+    v0 = rand() & 0x3f;
+    temp_u16 = *(u16 *)((u8 *)a1 + 2);
+    *(u16 *)((u8 *)s1 + 2) = temp_u16 + v0 - 0x20;
+
+    v0 = rand() & 0x7f0;
+    temp_s16 = *(s16 *)((u8 *)a1 + 4);
+    temp_s32 = temp_s16 * (v0 + 0xc00);
+    v0 = (s32)(temp_s32 >> 12);
+    *(s16 *)((u8 *)s1 + 4) = (s16)v0;
+
+    v0 = *(s16 *)((u8 *)a1 + 6);
+    if (v0 != 0) {
+        u16 v1 = *(u16 *)((u8 *)s1 + 4);
+        *(u8 *)((u8 *)s1 + 9) = 1;
+        *(u16 *)((u8 *)s1 + 4) = 0;
+        *(u8 *)((u8 *)s1 + 13) = (u8)v1;
+    }
+}
+
 
 
 
@@ -4337,7 +4647,52 @@ void func_801860FC(void) {
 
 INCLUDE_ASM("asm/ov_SC03_024/nonmatchings/ov_SC03_024_jr_8017DF84", func_80186120);
 
-INCLUDE_ASM("asm/ov_SC03_024/nonmatchings/ov_SC03_024_jr_8017DF84", func_80186148);
+
+/* func_80186148 — §71 sibling of func_8018A774 / func_8018AF0C (same TU): the
+ * RotTransPers wrapper family.  Here the SVECTOR comes in as the parameter
+ * instead of being produced by func_80015978, so pv[0..1] is free and carries
+ * the 4-byte word copied out of D_801BFE6C instead.
+ *
+ * Frame proof (0x38 = 0x10 outgoing + 0x18 var + 0x10 saved s0/s1/ra):
+ *   sp+0x10  u16 sxy[4]  (8 bytes)  -> RotTransPers a1, func_801861D0 arg0
+ *   sp+0x18  s32 pv[4]   (16 bytes) -> pv[0] = copy dest, &pv[2]/&pv[3] = 0x20/0x24
+ *
+ * The lwl 0x3 / lwr 0x0 / swl 0x1B / swr 0x18 block move: a 4-byte struct assign
+ * whose type has ALIGNMENT 1 (cookbook §48-C2).  Align 1 (not 2) is load-bearing —
+ * it is what pushes the copy off the move_by_pieces path (which keeps the SYMBOL
+ * in the address and emits a fresh `lui $at,%hi` per reference) onto mips.c
+ * expand_block_move, which copy_addr_to_reg's the source address into ONE held
+ * register first -> `lui $a1,%hi; addiu $a1,$a1,%lo; lwl 3($a1); lwr 0($a1)`.
+ * A {u16,u16} (align 2) struct compiles to the same opcode sequence but with the
+ * folded-symbol addressing: 4 mismatches.  Struct assign, NOT memcpy (memcpy
+ * byte-matches in isolation but lowers to `jal memcpy` in any TU that declares
+ * it — §2959).
+ *
+ * All four callee prototypes are copied VERBATIM from this TU (func_8004914C /
+ * func_800491AC / RotTransPers at file scope L3484-3486; func_801861D0 from its
+ * own definition at L3612).  D_800AF648 is block-scoped `extern u8` exactly as
+ * the two matched siblings do it.  D_801BFE6C appears nowhere else in the TU.
+ */
+
+extern void func_8004914C(void *a0);
+extern void func_800491AC(void *a0);
+extern s32 RotTransPers(s32 a0, s32 a1, s32 *a2, s32 *a3);
+extern void func_801861D0(void *arg0, void *arg1, s32 arg2, s32 arg3);
+
+void func_80186148(s32 a0) {
+    typedef struct { u8 a, b, c, d; } V4_80186148;
+    extern u8 D_800AF648;
+    extern V4_80186148 D_801BFE6C;
+    u16 sxy[4];
+    s32 pv[4];
+
+    *(V4_80186148 *)pv = D_801BFE6C;
+    func_8004914C(&D_800AF648);
+    func_800491AC(&D_800AF648);
+    RotTransPers(a0, (s32)sxy, &pv[2], &pv[3]);
+    func_801861D0(sxy, pv, 0x10, 0x18);
+}
+
 
 
 extern void func_8018623C(void *a0, void *a1, s16 a2);

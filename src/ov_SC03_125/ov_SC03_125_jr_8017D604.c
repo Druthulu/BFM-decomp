@@ -3582,7 +3582,37 @@ INCLUDE_ASM("asm/ov_SC03_125/nonmatchings/ov_SC03_125_jr_8017D604", func_8018085
 
 INCLUDE_ASM("asm/ov_SC03_125/nonmatchings/ov_SC03_125_jr_8017D604", func_80180A8C);
 
-INCLUDE_ASM("asm/ov_SC03_125/nonmatchings/ov_SC03_125_jr_8017D604", func_80180ADC);
+
+extern s32 rand(void);
+
+void func_80180ADC(void *arg0) {
+
+    extern void (*D_80188214[])(void);
+    s32 base = (s32)arg0;
+    s32 r1;
+    s32 r2;
+    s32 h;
+    s32 t;
+
+    *(s32 *)(base + 0x0) = (s32)D_80188214;
+    *(s32 *)(base + 0x4) = 0;
+    *(s32 *)(base + 0x8) = 0;
+    *(s16 *)(base + 0xC) = 0;
+    *(s16 *)(base + 0xE) = 0;
+    *(s16 *)(base + 0x10) = 0;
+
+    r1 = rand();
+    r2 = rand();
+    h = *(s16 *)(base + 0x16) * 80;
+    t = (r1 & 7) * 5 - 0xA0;
+    *(s16 *)(base + 0x12) = h + t + (r2 & 0xF);
+
+    *(s16 *)(base + 0x14) = -((rand() & 0xF) * 2);
+    *(s32 *)(base + 0x1C) = 0;
+    *(s32 *)(base + 0x20) = 0;
+    *(s32 *)(base + 0x18) = (*(u16 *)(base + 0x16) & 2) * 30;
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_125/nonmatchings/ov_SC03_125_jr_8017D604", func_80180B98);
 
@@ -3876,7 +3906,48 @@ void func_80181CD0(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_125/nonmatchings/ov_SC03_125_jr_8017D604", func_80181D04);
+
+
+extern s32 func_8012B744(void *a0, void *a1);
+extern void func_8012B200(u8 *a0);
+
+void func_80181D04(s32 a0, s32 a1, s32 a2, s32 a3) {
+    s32 idx;
+    s32 base;
+    u16 vals[3];
+    s32 result;
+    s32 *v1;
+
+    *(u8*)(a0 + 0x108) = a2;
+    a2 = a2 & 0xFF;
+    *(s32*)(a0 + 0xE8) = a1;
+    *(u8*)(a0 + 0x109) = a3;
+
+    idx = *(s16*)a1;
+
+    if (a2 == 0) {
+        *(u16*)(a0 + 0x106) = 2;
+        *(u16*)(a0 + 0x6) = *(u16*)(a1 + 4);
+        *(u16*)(a0 + 0xE) = *(u16*)(a1 + 6);
+        vals[0] = *(u16*)(a1 + 8);
+        vals[2] = *(u16*)(a1 + 10);
+    } else {
+        base = idx;
+        base = base * 4 + a1;
+        *(u16*)(a0 + 0x106) = (u16)(idx - 1);
+        *(u16*)(a0 + 0x6) = *(u16*)(base);
+        *(u16*)(a0 + 0xE) = *(u16*)(base + 2);
+        vals[0] = *(u16*)(base - 4);
+        vals[2] = *(u16*)(base - 2);
+    }
+
+    result = func_8012B744((void*)(a0 + 4), vals);
+
+    v1 = (s32*)(a0 + 0x20);
+    *(u16*)(*v1 + 0x12) = (u16)result;
+    func_8012B200((u8*)a0);
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_125/nonmatchings/ov_SC03_125_jr_8017D604", func_80181DD4);
 
