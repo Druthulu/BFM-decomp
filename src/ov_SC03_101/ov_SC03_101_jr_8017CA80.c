@@ -665,7 +665,6 @@ extern short func_801508F8(s32 a0);
 extern s32 D_80185540;
 extern s32 D_80126990;
 extern s32 D_80126994;
-extern u8 D_80126948[];
 extern s32 func_80021174(s32 a0, s32 a1);
 extern s32 func_8015094C(s32 param_1);
 extern void func_80150B9C(void);
@@ -2413,15 +2412,7 @@ extern void func_801748C4(s32 a0);
 extern void func_801748E4(void);
 extern void func_8012A018(s32 a, s32 b);
 extern s32 func_8017496C(void *a0);
-extern s32 D_80126954;
 extern s32 D_80126950;
-extern s32 D_8012695C;
-extern s16 D_80126968;
-extern s16 D_8012696A;
-extern s16 D_8012696C;
-extern s16 D_80126976;
-extern s16 D_80126978;
-extern s16 D_8012697A;
 extern void func_801748EC(void);
 extern s32 func_801749C8();
 extern s32 func_801749A8(s32 a0);
@@ -3367,7 +3358,36 @@ void func_8017DE88(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_101/nonmatchings/ov_SC03_101_jr_8017CA80", func_8017DEB0);
+
+
+extern void func_8012A018(s32 a0, s32 a1);
+extern void func_8012A094(s32 a0);
+extern void func_8017DFE0(void *a0);
+
+void func_8017DEB0(void) {
+
+    extern s32 D_80126954;
+    extern s32 D_8012695C;
+    extern s16 D_80126968;
+    extern s16 D_8012696A;
+    extern s16 D_8012696C;
+    extern s16 D_80126976;
+    extern s16 D_80126978;
+    extern s16 D_8012697A;
+    extern u8 D_80126948[];
+    D_80126954 = 0x1F4;
+    D_8012695C = 0x4b0;
+    D_80126968 = 0x2aa;
+    D_8012696A = 0x600;
+    D_8012696C = 0;
+    D_80126976 = 0;
+    D_80126978 = 0;
+    D_8012697A = 0;
+    func_8012A018((s32)func_8017DFE0, 0);
+    func_8012A094((s32)D_80126948);
+    func_8017DFE0(D_80126948);
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_101/nonmatchings/ov_SC03_101_jr_8017CA80", func_8017DF48);
 
@@ -3555,13 +3575,56 @@ void func_8017F548(void *a0) {
     }
 
 
-INCLUDE_ASM("asm/ov_SC03_101/nonmatchings/ov_SC03_101_jr_8017CA80", func_8017F564);
+
+
+extern s32 func_8012C354(s32 a0, s32 a1);
+extern void func_8012A828(s32 a0, s32 a1);
+
+void func_8017F564(void *a0) {
+
+    extern u8 D_80183BF4[];
+    extern u8 D_80196538[];
+    extern u8 D_80196454[];
+    if (func_8012C354((s32)a0, (s32)D_80196538) != 0) {
+        void *a2 = *(void **)((char *)a0 + 0x20);
+
+        *(s32 *)((char *)a2 + 0x4) |= 0x80000000;
+        *(u8 *)((char *)a0 + 0xC0) = 1;
+
+        *(s32 *)((char *)a0 + 0xBC) = (s32)D_80196454;
+        *(s32 *)((char *)a0 + 0xC4) |= 0x2;
+
+        func_8012A828((s32)a0, (s32)D_80183BF4);
+
+        *(u16 *)((char *)a0 + 0x2) = 1;
+        *(u8 *)((char *)a0 + 0x75) = 0;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_101/nonmatchings/ov_SC03_101_jr_8017CA80", func_8017F5E8);
 
 INCLUDE_ASM("asm/ov_SC03_101/nonmatchings/ov_SC03_101_jr_8017CA80", func_8017F624);
 
-INCLUDE_ASM("asm/ov_SC03_101/nonmatchings/ov_SC03_101_jr_8017CA80", func_8017F654);
+
+extern void func_8012CBCC(s32 a0);
+extern void func_8012E688(void*, s32, s32);
+
+void func_8017F654(s32 a0) {
+    if (((s32 (*)(s32))func_8012CBCC)(a0) & 0x2000) {
+        s16 v = *(s16 *)(a0 + 0x70);
+        if (v != 0) {
+            *(s16 *)(a0 + 0x2) = 2;
+            ((void (*)(void*, s32, s32))func_8012E688)((void *)a0, 0xBA2, 0);
+        } else {
+            void *p = *(void **)(a0 + 0x20);
+            *(s16 *)(a0 + 0x2) = 3;
+            *(s32 *)(p + 0x4) |= 0x80000000;
+            *(s32 *)(a0 + 0x1C) = 0x1E;
+        }
+    }
+}
+
 
 
 extern s32 func_8012BCCC(s32 a0);
@@ -3623,7 +3686,24 @@ void func_8017F79C(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_101/nonmatchings/ov_SC03_101_jr_8017CA80", func_8017F87C);
+
+
+extern s32 func_8012BD14(s32 a0);
+extern void func_80143970(void *a0);
+extern void func_8012E688(void *a0, s32 a1, s32 a2);
+
+void func_8017F87C(s32 a0) {
+    s32 ret = func_8012BD14(a0);
+    if (ret <= 0x64000) {
+        typedef struct { s32 f0; s32 f1; } Struct_8017F87C;
+        Struct_8017F87C *ptr = *(Struct_8017F87C **)(a0 + 0x20);
+        *(s16 *)(a0 + 0x2) = 1;
+        ptr->f1 = ptr->f1 & 0x7FFFFFFF;
+        func_80143970((void *)a0);
+        func_8012E688((void *)a0, 0xBA2, 0);
+    }
+}
+
 
 
 extern s32 func_8012BCCC(s32 a0);
@@ -3730,7 +3810,28 @@ void func_8017FA88(s32 a0) {
 
 INCLUDE_ASM("asm/ov_SC03_101/nonmatchings/ov_SC03_101_jr_8017CA80", func_8017FB4C);
 
-INCLUDE_ASM("asm/ov_SC03_101/nonmatchings/ov_SC03_101_jr_8017CA80", func_8017FBA0);
+
+extern s32 func_8012DFD4(s32);
+
+void func_8017FBA0(s32 a0) {
+
+    extern s16 D_80196906[];
+    s32 a1 = a0;
+    s32 t = *(s32 *)(a1 + 0x1C) - 1;
+    *(s32 *)(a1 + 0x1C) = t;
+    if (t == 0) {
+        s16 idx = *(s16 *)(a1 + 0xFC);
+        s32 val = D_80196906[idx * 4];
+
+        *(s16 *)(a1 + 0x12) = -*(u16 *)(a1 + 0x12);
+        *(s16 *)(a1 + 0x16) = -*(u16 *)(a1 + 0x16);
+        *(s16 *)(a1 + 0x1A) = -*(u16 *)(a1 + 0x1A);
+        *(s16 *)(a1 + 0x2) = 1;
+        *(s32 *)(a1 + 0x1C) = val;
+    }
+    ((void (*)(u8 *))func_8012DFD4)((u8 *)a0);
+}
+
 
 
 extern void func_8012C1B8(void);
@@ -4096,11 +4197,14 @@ void func_80181E60(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
 
 
 
-extern s16 D_8019DE84;
     extern s16 D_8019DE86;
     extern s16 D_8019DE88;
     extern s16 D_8019DE8A;
     void func_80181F00(s32 arg0, s32 arg1, s32 arg2) {
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern s16 D_8019DE84;
         D_8019DE84 = *(u16 *)((s32)arg0 + 0x0);
         D_8019DE86 = *(u16 *)((s32)arg0 + 0x2);
         D_8019DE88 = arg1;
@@ -4108,7 +4212,33 @@ extern s16 D_8019DE84;
     }
 
 
-INCLUDE_ASM("asm/ov_SC03_101/nonmatchings/ov_SC03_101_jr_8017CA80", func_80181F30);
+
+
+extern void func_80015978(s32 a0, s32 *a1);
+extern void func_8004914C(void *a0);
+extern void func_800491AC(void *a0);
+extern s32 RotTransPers(s32 a0, s32 a1, s32 *a2, s32 *a3);
+
+void func_80181F30(s32 a0) {
+
+    extern s16 D_8019DE84;
+    extern s16 D_8019DE86;
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern u8 D_800AF648;
+    u16 sxy[2];
+    s32 pv[4];
+
+    func_80015978(a0, pv);
+    func_8004914C(&D_800AF648);
+    func_800491AC(&D_800AF648);
+    RotTransPers((s32)pv, (s32)sxy, &pv[2], &pv[3]);
+
+    D_8019DE84 = sxy[0];
+    D_8019DE86 = sxy[1];
+}
+
 
 extern s16 D_8019DE8A;
     void func_80181FA8(s32 arg0) {
@@ -4217,7 +4347,33 @@ void func_801825EC(void *arg0, void *arg1, s32 arg2, s32 arg3) {
 
 INCLUDE_ASM("asm/ov_SC03_101/nonmatchings/ov_SC03_101_jr_8017CA80", func_80182658);
 
-INCLUDE_ASM("asm/ov_SC03_101/nonmatchings/ov_SC03_101_jr_8017CA80", func_801826C8);
+
+
+extern void func_80015978(s32 a0, s32 *a1);
+extern void func_8004914C(void *a0);
+extern void func_800491AC(void *a0);
+extern s32 RotTransPers(s32 a0, s32 a1, s32 *a2, s32 *a3);
+
+void func_801826C8(s32 a0) {
+
+    extern s16 D_8019DD78;
+    extern s16 D_8019DD7A;
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern u8 D_800AF648;
+    u16 sxy[2];
+    s32 pv[4];
+
+    func_80015978(a0, pv);
+    func_8004914C(&D_800AF648);
+    func_800491AC(&D_800AF648);
+    RotTransPers((s32)pv, (s32)sxy, &pv[2], &pv[3]);
+
+    D_8019DD78 = sxy[0];
+    D_8019DD7A = sxy[1];
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_101/nonmatchings/ov_SC03_101_jr_8017CA80", func_80182740);
 

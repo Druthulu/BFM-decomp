@@ -3794,11 +3794,14 @@ void func_801845B8(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
 
 
 
-extern s16 D_8019FE7C;
     extern s16 D_8019FE7E;
     extern s16 D_8019FE80;
     extern s16 D_8019FE82;
     void func_80184658(s32 arg0, s32 arg1, s32 arg2) {
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern s16 D_8019FE7C;
         D_8019FE7C = *(u16 *)((s32)arg0 + 0x0);
         D_8019FE7E = *(u16 *)((s32)arg0 + 0x2);
         D_8019FE80 = arg1;
@@ -3806,7 +3809,33 @@ extern s16 D_8019FE7C;
     }
 
 
-INCLUDE_ASM("asm/ov_SC07_002/nonmatchings/ov_SC07_002_jr_8017C8D0", func_80184688);
+
+
+extern void func_80015978(s32 a0, s32 *a1);
+extern void func_8004914C(void *a0);
+extern void func_800491AC(void *a0);
+extern s32 RotTransPers(s32 a0, s32 a1, s32 *a2, s32 *a3);
+
+void func_80184688(s32 a0) {
+
+    extern s16 D_8019FE7C;
+    extern s16 D_8019FE7E;
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern u8 D_800AF648;
+    u16 sxy[2];
+    s32 pv[4];
+
+    func_80015978(a0, pv);
+    func_8004914C(&D_800AF648);
+    func_800491AC(&D_800AF648);
+    RotTransPers((s32)pv, (s32)sxy, &pv[2], &pv[3]);
+
+    D_8019FE7C = sxy[0];
+    D_8019FE7E = sxy[1];
+}
+
 
 extern s16 D_8019FE82;
     void func_80184700(s32 arg0) {
@@ -3915,7 +3944,33 @@ void func_80184D44(void *arg0, void *arg1, s32 arg2, s32 arg3) {
 
 INCLUDE_ASM("asm/ov_SC07_002/nonmatchings/ov_SC07_002_jr_8017C8D0", func_80184DB0);
 
-INCLUDE_ASM("asm/ov_SC07_002/nonmatchings/ov_SC07_002_jr_8017C8D0", func_80184E20);
+
+
+extern void func_80015978(s32 a0, s32 *a1);
+extern void func_8004914C(void *a0);
+extern void func_800491AC(void *a0);
+extern s32 RotTransPers(s32 a0, s32 a1, s32 *a2, s32 *a3);
+
+void func_80184E20(s32 a0) {
+
+    extern s16 D_8019FD70;
+    extern s16 D_8019FD72;
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern u8 D_800AF648;
+    u16 sxy[2];
+    s32 pv[4];
+
+    func_80015978(a0, pv);
+    func_8004914C(&D_800AF648);
+    func_800491AC(&D_800AF648);
+    RotTransPers((s32)pv, (s32)sxy, &pv[2], &pv[3]);
+
+    D_8019FD70 = sxy[0];
+    D_8019FD72 = sxy[1];
+}
+
 
 INCLUDE_ASM("asm/ov_SC07_002/nonmatchings/ov_SC07_002_jr_8017C8D0", func_80184E98);
 

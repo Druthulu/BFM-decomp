@@ -594,6 +594,44 @@ Fleet **94.43→94.88% fn-count · 91.4→91.9% instr · 84.0→84.6% distinct**
 Distilled to **cookbook §134** (the MULTI-LINE BLINDNESS class + the bimodality tell: 57/52/8 is a
 tooling signature, not a codegen one — read ONE compiler error before believing the compiler).
 
+### ✅ S6f — the B-shaped wave: Haiku drafts, Opus closes, the gate arbitrates (2026-08-01)
+**The pool.** Derived from the regenerated map: **36 families / 28,829 templatable ins** that are
+`kind=modal` (no member matched ANYWHERE, so no sweep could reach them), ≥20 members, ≤60 ins, non-jr,
+and **not one exemplar in `ov_SC01_077`**. Calibrated by hand first (Phase-15/18 discipline): **3/3
+one-shot** — `func_8017CDD8` (17 ins ×142), `func_8017CE7C` (16 ins ×126), `func_8017E934` (29 ins ×65)
+= **330 members from 62 instructions of C, ~0 agent tokens.**
+
+**The wave (Drew enabled Ultracode; Haiku drafters + Opus escalation, 24 targets).** Haiku was the
+right tier by the `cheap-tier-ab-validated` measurement (≡ Opus at ≤~50 ins, ~4.8× cheaper); this pool
+is 16-53 ins. **31 agents, 0 errors, ~2.0M tokens, 12.5 min.**
+· agents claimed **24/24 MATCH** · whole-binary gate banked **20/24 (83%)** · propagation
+**+524 members / 0 failed / 91 overlays**. **17 of the 20 banks were Haiku, 3 Opus.**
+**R22 clean-fleet 140/140.** Fleet **94.97 → 95.13% fn · 91.9 → 92.0% instr · 84.7 → 84.9% distinct**.
+
+**What Opus actually bought** (it earned its slot on exactly the cases the A/B predicted):
+· a `sh` of a constant whose stored-width top bit is set needs a **u16 destination** — through `s16`
+  gcc-2.7.2 folds it sign-extended and `li` emits `addiu`; through `u16`, `force_fit_type` keeps it
+  positive and `li` emits `ori` (`func_8018A0F4`).
+· a **schedule-reorder closed by STATEMENT ORDER, not the permuter**: gcc's list scheduler preserves
+  relative order of disambiguable stores, so two field-zero stores had to be written ABOVE a
+  three-halfword copy to sink correctly — 9 mismatches → 0 (`func_8017CAB4`).
+· three separate **loose-typing fn-ptr casts** (`((void(*)(s32))func_80178D18)(a0)`) where the TU
+  declares `(void)` but the asm passes `$a0` — a cheap drafter had misread all three as delay-slot /
+  permuter-class residuals (`func_8017EAAC`, `func_8017CBD4`, `func_8017D5C4`).
+
+**⚠ MY ERROR, recorded (R37/R14).** I generated the wave manifest to `.run/s6f_wave_targets.json` and
+then **hand-transcribed the args into the Workflow call instead of pasting the generated file**,
+pattern-filling `_jr_8017BEBC` across overlays where no such split exists (`ov_SC02_027`,
+`ov_SC04_018`, `ov_SC03_002` — `corpus.stubs` says `_jr_8017AE2C`). Three agents lost time
+rediscovering the real paths and reported SPEC ERRATA. Cost: tokens, not correctness. The gate driver
+written afterwards (`.run/s6f_gate.py`) **derives** every TU/split from `corpus.stubs` per draft and
+asserts nothing — which is what the manifest should have done. *Assert nothing you can derive.*
+
+**The 24→20 gap is the known `match_one`→gate gap, not new:** `match_one` compiles standalone and
+cannot see a TU-level declaration conflict (Phase-19 measured 88-92% match_one → 60-71% banking).
+4 carried: `func_8018584C`, `func_80180A4C` (ov_SC02_026), `func_8017CC80` (ov_SC02_027),
+`func_80189B78` (ov_SC03_014).
+
 ### ✅ A + B — the ×138 era was NOT over: two 16-ins cracks bought 266 members (2026-08-01)
 **A (frontier regen at HEAD, R35).** Sigs + `family_hseq` regenerated after S6's banks — required before
 pricing anything, and doubly so because `.run/hseq_verified.*.txt` has accumulated **22,841 files across
