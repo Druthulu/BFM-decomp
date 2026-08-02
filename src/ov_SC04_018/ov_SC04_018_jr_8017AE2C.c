@@ -4347,7 +4347,15 @@ extern void func_80178CBC(s32*, s32);
     }
 
 
-INCLUDE_ASM("asm/ov_SC04_018/nonmatchings/ov_SC04_018_jr_8017AE2C", func_8017F0C0);
+
+s32 func_8017F0C0(void) {
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern s32 D_801E79A0;
+    return !(D_801E79A0 ^ 1);
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_018/nonmatchings/ov_SC04_018_jr_8017AE2C", func_8017F0D8);
 
@@ -4652,7 +4660,15 @@ INCLUDE_ASM("asm/ov_SC04_018/nonmatchings/ov_SC04_018_jr_8017AE2C", func_8018001
 
 DEFINE_func_801800E0()  /* dedup: shared engine-core @0x801800E0 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC04_018/nonmatchings/ov_SC04_018_jr_8017AE2C", func_8018011C);
+
+
+
+s32 func_8018011C(void) {
+
+    extern s32 D_801E79A0;
+    return !(D_801E79A0 ^ 1);
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_018/nonmatchings/ov_SC04_018_jr_8017AE2C", func_80180134);
 
@@ -5904,7 +5920,24 @@ DEFINE_func_80184CB0()  /* dedup: shared engine-core @0x80184CB0 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC04_018/nonmatchings/ov_SC04_018_jr_8017AE2C", func_80184CB8);
 
-INCLUDE_ASM("asm/ov_SC04_018/nonmatchings/ov_SC04_018_jr_8017AE2C", func_80184D00);
+s32 func_80184D00(void) {
+    s32 v1 = func_80029504();
+
+    if (v1 < 0x14) {
+        return 0;
+    }
+    if (v1 < 0x46) {
+        return 1;
+    }
+    if (v1 < 0x64) {
+        return 2;
+    }
+    if (v1 < 0x82) {
+        return 3;
+    }
+    return 4;
+}
+
 
 extern s32 func_80029504(void);
 
@@ -5923,7 +5956,26 @@ s32 func_80184D5C(void) {
 
 INCLUDE_ASM("asm/ov_SC04_018/nonmatchings/ov_SC04_018_jr_8017AE2C", func_80184DD0);
 
-INCLUDE_ASM("asm/ov_SC04_018/nonmatchings/ov_SC04_018_jr_8017AE2C", func_80184E44);
+extern s32 func_80029504(void);
+
+s32 func_80184E44(void) {
+    s32 v1 = func_80029504();
+
+    if (v1 < 0x3b6) {
+        return 0;
+    }
+    if (v1 < 0x3e8) {
+        return 1;
+    }
+    if (v1 < 0x44c) {
+        return 2;
+    }
+    if (v1 < 0x4b0) {
+        return 3;
+    }
+    return 4;
+}
+
 
 
 extern s32 func_80029504(void);
@@ -6619,7 +6671,17 @@ INCLUDE_ASM("asm/ov_SC04_018/nonmatchings/ov_SC04_018_jr_8017AE2C", func_8018CB1
 
 INCLUDE_ASM("asm/ov_SC04_018/nonmatchings/ov_SC04_018_jr_8017AE2C", func_8018CB94);
 
-INCLUDE_ASM("asm/ov_SC04_018/nonmatchings/ov_SC04_018_jr_8017AE2C", func_8018CC04);
+
+
+
+s32 func_8018CC04(void) {
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern s32 D_801E79A0;
+    return !(D_801E79A0 ^ 2);
+}
+
 
 extern void func_8002D4C8(s32, s32);
 void func_8018CC1C(void) {

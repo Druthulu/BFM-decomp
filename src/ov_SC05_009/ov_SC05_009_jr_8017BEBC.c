@@ -3645,7 +3645,17 @@ void func_8017E848(void *a0) {
     }
 
 
-INCLUDE_ASM("asm/ov_SC05_009/nonmatchings/ov_SC05_009_jr_8017BEBC", func_8017E858);
+
+
+
+s32 func_8017E858(void) {
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern s32 D_80196AEC;
+    return !(D_80196AEC ^ 1);
+}
+
 
 extern void func_800296F8(void);
     s32 func_8017E870(s32 arg0) {

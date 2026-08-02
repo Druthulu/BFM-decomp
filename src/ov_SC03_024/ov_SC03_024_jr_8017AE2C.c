@@ -3372,7 +3372,15 @@ INCLUDE_ASM("asm/ov_SC03_024/nonmatchings/ov_SC03_024_jr_8017AE2C", func_8017C03
 
 DEFINE_func_8017C07C()  /* dedup: shared engine-core @0x8017C07C (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC03_024/nonmatchings/ov_SC03_024_jr_8017AE2C", func_8017C084);
+extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+
+void func_8017C084(void *a0, s32 a1, s32 a2) {
+    s16 t0 = *(s16 *)(a0 + 0x6);
+    s16 t1 = *(s16 *)(a0 + 0xA);
+    s16 t2 = *(s16 *)(a0 + 0xE);
+    func_80146A6C(0x2B, a0, t0, t1, t2, a1, a2);
+}
+
 
 
 extern void (*D_8018A9C4[])(void);
@@ -3418,7 +3426,15 @@ INCLUDE_ASM("asm/ov_SC03_024/nonmatchings/ov_SC03_024_jr_8017AE2C", func_8017CCC
 
 INCLUDE_ASM("asm/ov_SC03_024/nonmatchings/ov_SC03_024_jr_8017AE2C", func_8017CD10);
 
-INCLUDE_ASM("asm/ov_SC03_024/nonmatchings/ov_SC03_024_jr_8017AE2C", func_8017CE10);
+extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+
+void func_8017CE10(void *a0, s32 a1, s32 a2) {
+    s16 t0 = *(s16 *)(a0 + 0x6);
+    s16 t1 = *(s16 *)(a0 + 0xA);
+    s16 t2 = *(s16 *)(a0 + 0xE);
+    func_80146A6C(0x2D, a0, t0, t1, t2, a1, a2);
+}
+
 
 
 extern void (*D_8018AA24[])(void);
@@ -3432,7 +3448,15 @@ INCLUDE_ASM("asm/ov_SC03_024/nonmatchings/ov_SC03_024_jr_8017AE2C", func_8017CE9
 
 INCLUDE_ASM("asm/ov_SC03_024/nonmatchings/ov_SC03_024_jr_8017AE2C", func_8017CFBC);
 
-INCLUDE_ASM("asm/ov_SC03_024/nonmatchings/ov_SC03_024_jr_8017AE2C", func_8017D098);
+extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+
+void func_8017D098(void *a0, s32 a1, s32 a2) {
+    s16 t0 = *(s16 *)(a0 + 0x6);
+    s16 t1 = *(s16 *)(a0 + 0xA);
+    s16 t2 = *(s16 *)(a0 + 0xE);
+    func_80146A6C(0x2E, a0, t0, t1, t2, a1, a2);
+}
+
 
 
 extern void (*D_8018AA34[])(void);
@@ -3450,7 +3474,15 @@ INCLUDE_ASM("asm/ov_SC03_024/nonmatchings/ov_SC03_024_jr_8017AE2C", func_8017D1E
 
 INCLUDE_ASM("asm/ov_SC03_024/nonmatchings/ov_SC03_024_jr_8017AE2C", func_8017D318);
 
-INCLUDE_ASM("asm/ov_SC03_024/nonmatchings/ov_SC03_024_jr_8017AE2C", func_8017D5F8);
+extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+
+void func_8017D5F8(void *a0, s32 a1, s32 a2) {
+    s16 t0 = *(s16 *)(a0 + 0x6);
+    s16 t1 = *(s16 *)(a0 + 0xA);
+    s16 t2 = *(s16 *)(a0 + 0xE);
+    func_80146A6C(0x2F, a0, t0, t1, t2, a1, a2);
+}
+
 
 
 extern void (*D_8018AA40[])(void);

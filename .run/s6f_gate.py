@@ -15,7 +15,7 @@ shutil.rmtree(STAGE, ignore_errors=True)
 groups = collections.defaultdict(list)
 skipped = []
 
-for d in sorted(glob.glob('.run/s6f/*/*.c')):
+for d in sorted(glob.glob(sys.argv[1] if len(sys.argv)>1 else '.run/s6f/*/*.c')):
     ov = os.path.basename(os.path.dirname(d))
     fn = os.path.basename(d)[:-2]
     addr = int(fn.split('_')[1], 16)

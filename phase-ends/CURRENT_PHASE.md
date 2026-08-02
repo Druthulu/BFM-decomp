@@ -594,6 +594,36 @@ Fleet **94.43→94.88% fn-count · 91.4→91.9% instr · 84.0→84.6% distinct**
 Distilled to **cookbook §134** (the MULTI-LINE BLINDNESS class + the bimodality tell: 57/52/8 is a
 tooling signature, not a codegen one — read ONE compiler error before believing the compiler).
 
+### ✅ S6g — wave 2: 83% → 93% bank rate from ONE batch of learning (2026-08-01)
+15 targets (11 fresh Haiku + **4 gate-failed reconciles on Opus**), 15 agents, ~0.74M tokens.
+**Gate banked 14/15 (93%)** — up from wave 1's 20/24 (83%) — **and all 4 reconciles banked**.
+Propagation **+328 members / 0 failed / 76 overlays**. **R22 clean-fleet 140/140.** Fleet
+**95.13 → 95.23% fn · 92.0 → 92.1% instr · 84.9 → 85.0% distinct**.
+
+**Three changes between the waves, each fixing a wave-1 failure — this is the S27 finding reproducing
+(57→79→100% there, 83→93% here):**
+1. **Args pasted from the DERIVED manifest, not typed.** All 30 paths verified present on disk before
+   launch (`asm 15/15, tu 15/15`).
+2. **Blocker-capture before the reconcile fan-out** (the S29 law: agents cannot run the gate, so a
+   `match_one`-MATCH draft that dies on `conflicting types for D_800A5E88` looks like a codegen
+   problem to them). Each reconcile agent got the exact symbol + line, plus the two byte-neutral
+   levers (conform-and-cast-at-use; the §37/§124 asm-label alias).
+3. **Wave-1's Opus DISCOVERIES became wave-2's Haiku INSTRUCTIONS** (the `ori`-vs-`addiu` unsigned
+   destination rule; the store-sinking scheduler rule). The flywheel closing on itself.
+
+**The reconciles produced better root causes than my captured blocker did** — worth keeping:
+· `func_80189B78`: my capture named ONE conflicting symbol; the agent found the draft had invented
+  prototypes for **six** the TU already declares, **two of them AFTER the splice point** where cc1
+  had not yet reached. Fixed by copying all six from the TU verbatim and pushing every type
+  disagreement to a **cast at the call site** — zero bytes changed.
+· `func_8018584C`: lever (A) was *blocked in both directions* — the draft cannot use the TU's tag
+  (it must also compile standalone for `match_one`) and cannot redefine it. Closed with the **data**
+  form of the asm-label alias: `extern struct B16_8018584C aD800A5E88 __asm__("D_800A5E88");`
+  (in-tree precedent at ov_SC06_008_jr_80135D20.c:1434).
+· `func_80180A4C`: the draft declared `extern s32 D_801A9DA0[]`, the TU says `extern u8 D_801A9DA0[]`
+  eleven lines *after* the splice point — conform to `u8`, the use site already casts. One character
+  class, byte-neutral.
+
 ### ✅ S6f — the B-shaped wave: Haiku drafts, Opus closes, the gate arbitrates (2026-08-01)
 **The pool.** Derived from the regenerated map: **36 families / 28,829 templatable ins** that are
 `kind=modal` (no member matched ANYWHERE, so no sweep could reach them), ≥20 members, ≤60 ins, non-jr,
