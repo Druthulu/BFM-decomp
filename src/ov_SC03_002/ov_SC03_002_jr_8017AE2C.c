@@ -3783,9 +3783,325 @@ void func_8017C61C(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_002/nonmatchings/ov_SC03_002_jr_8017AE2C", func_8017C7B8);
+#include "common.h"
 
-INCLUDE_ASM("asm/ov_SC03_002/nonmatchings/ov_SC03_002_jr_8017AE2C", func_8017C9BC);
+/* func_8017C7B8 -- ov_SC03_002 / ov_SC03_002_jr_8017AE2C */
+
+/* --- forms taken VERBATIM from the TU (src/ov_SC03_002/ov_SC03_002_jr_8017AE2C.c) --- */
+extern void func_8012A828(s32 a0, void *a1);                                        /* TU line 3653 */
+extern void (*D_80189030[])(void);                                                  /* TU line 4029 */
+extern s32  rand(void);                                                             /* TU line 956  */
+extern s16  D_801CB908;                                                             /* TU line 3947 */
+extern s32  D_801CB914;                                                             /* TU line 3948 */
+extern s32  D_801CB91C;                                                             /* TU line 3949 */
+extern s32  func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);/* TU line 142  */
+/* Defined LATER in this same TU (lines 3918 / 3954); these forward decls are identical
+   to those definitions, so no conflict. */
+extern void func_8017CF6C(s32 a0, s16 a1, s16 a2);
+extern void func_8017CFE0(s16 *a0);
+/* --- project-standard engine-core prototypes (src/shared/engine_core.h
+       DEFINE_func_8012BB3C / DEFINE_func_8012B8E4); neither symbol is declared
+       anywhere in this TU, so no conflict. --- */
+extern s32 func_8012BB3C(s32 arg0, s32 arg1, u32 arg2, s32 arg3);
+extern s32 func_8012B8E4(s32 arg0, s32 arg1);
+
+/*
+ * §136 note (the lever that closed this one): the copy-loop counter and the 8/2
+ * selector passed as func_8012BB3C's 4th argument are ONE `short` local, not two.
+ *   - As two locals, combine's set_nonzero_bits_and_sign_copies sees the selector
+ *     pseudo set only to 8 and 2, proves num_sign_bit_copies >= 17, and DELETES the
+ *     `sll/sra 16` argument sign-extension  =>  LENGTH-DRIFT -2.
+ *   - Sharing the pseudo with the loop's `i = i + 1` makes the union of sets
+ *     unprovable, so the extension survives -- and the merged (longer) live range is
+ *     what takes $a3 while the two loop-invariant base addresses take $a1/$a2.
+ */
+void func_8017C7B8(s32 a0) {
+    s32 v0;
+    s32 v1;
+
+    v0 = *(s32 *)(a0 + 0x1C);
+    v1 = -1;
+    v0 = v0 - 1;
+    *(s32 *)(a0 + 0x1C) = v0;
+
+    if (v0 == v1) {
+        s32 t;
+        s16 i;
+        s32 ret;
+        s32 ang;
+
+        func_8012A828(a0, (void *)&D_80189030);
+
+        t = *(u16 *)(a0 + 0x10A) + 1;
+        *(u16 *)(a0 + 0x10A) = t;
+
+        if ((t & 3) != 0) {
+            if (*(s16 *)(a0 + 0x104) == 0) {
+                s32 r = rand();
+                s32 x;
+                s32 y;
+
+                x = *(s16 *)(a0 + 0x88) - 0x200;
+                x += (r & 0x7F) << 3;
+                D_801CB914 = x << 16;
+
+                y = *(s16 *)(a0 + 0x8C) - 0x200;
+                y += (u32)(r & 0x7F00) >> 5;
+                D_801CB91C = y << 16;
+            } else {
+                func_8017CFE0((s16 *)a0);
+                *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) =
+                    *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) + 0xC00;
+            }
+        } else {
+            for (i = 0; i < 2; i++) {
+                ((s32 *)&D_801CB914)[i] = ((s32 *)&D_801CB908)[i];
+            }
+        }
+
+        i = 8;
+        if (*(s16 *)(a0 + 0x108) >= 0xD) {
+            i = 2;
+        }
+
+        ret = func_8012BB3C(a0 + 4, (s32)&D_801CB914,
+                            *(s16 *)(*(s32 *)(a0 + 0x20) + 0x12), i);
+        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) =
+            *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) + ret;
+
+        ang = -3 - *(u16 *)(a0 + 0x104);
+        func_8017CF6C(a0, ang, 0x50);
+
+        if (*(s16 *)(a0 + 0x104) != 0) {
+            func_80146A6C(2, (void *)a0, 0, 0, 0, 2, 0);
+        }
+
+        *(s16 *)(a0 + 0x108) = 0;
+        *(u16 *)(a0 + 2) = *(u16 *)(a0 + 2) + 1;
+    } else {
+        s16 d = *(s16 *)(a0 + 0x102);
+
+        if (d != 0) {
+            s32 r2 = func_8012B8E4(a0, d);
+
+            *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) =
+                *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) + r2;
+        }
+    }
+}
+
+
+/* func_8017C9BC -- ov_SC03_002 / ov_SC03_002_jr_8017AE2C */
+
+/* --- forms taken VERBATIM from the TU (src/ov_SC03_002/ov_SC03_002_jr_8017AE2C.c) --- */
+extern s32  func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6); /* TU 142  */
+extern s32  func_8016F1AC(void);                                                     /* TU 349  */
+extern s32  func_80178B70(s32 param_1, s32 param_2);                                 /* TU 2538 */
+extern void func_8012A828(s32 a0, void * a1);                                        /* TU 3444 */
+extern u8   D_80188FA8[];                                                            /* TU 3736 */
+extern s32  D_801CB914;                                                              /* TU 3948 */
+
+/* --- project-canonical engine-core prototypes (src/shared/engine_core.h); none of these
+       are declared at file scope in this TU, so no conflict.  The `void`-returning ones
+       whose result is used go through a cast at the USE SITE (idiom 9). --- */
+extern void func_8012CBA4(s32 a0);   /* also declared at TU 3809, identical */
+extern void func_8012B200(u8 *a0);   /* also declared at TU 3811, identical */
+extern void func_8012ADE4(u8 *a0);
+extern void func_8012BD14(s32 a0);
+extern s32  func_8012BDBC(s32 a0, s32 a1);
+extern s32  func_8012B864(s32 a0);
+extern s32  func_8012BC60(void *a0, void *a1);
+extern s32  func_8012BB3C(s32 arg0, s32 arg1, u32 arg2, s32 arg3);
+
+/* --- overlay-local; func_8017CF6C / func_8017CFE0 are DEFINED lower in this TU
+       (lines 3918 / 3954) -- these forward decls copy those definitions verbatim. --- */
+extern void func_8017D0BC(s32 a0);
+extern void func_8017CF6C(s32 a0, s16 a1, s16 a2);
+extern void func_8017CFE0(s16 *a0);
+extern s32  D_80189210;
+
+void func_8017C9BC(s32 a0) {
+    /* §135-6 dead locals: the target frame is 0x50 = args(0x20, func_80146A6C takes 7)
+       + var(0x20) + gp(0x10).  Only 0x10 of that 0x20 is claimed by real spills, so the
+       original carried 16 bytes of locals it no longer uses.  Without this the frame
+       lands at 0x40 and every sp-relative immediate drifts by the same constant. */
+    s32 dead[4];
+    s32 flags;
+    s32 v;
+    s32 s0;
+    s32 ret;
+    s16 spd;
+    s32 m;
+    s32 raw;
+
+    s0 = a0;
+    ret = 0;
+    /* §21 zero-byte re-tie.  The target reads the RAW return register for the first test
+       (`andi $v0,$v0,0x6000`) while the saved copy lives in $s1 -- i.e. gcc-2.7.2 kept TWO
+       pseudos: a local one that dies at the `andi` and a global one that survives the calls.
+       Every source form of `flags = call(); if (flags & ...)` collapses them (cse canon_reg
+       substitutes one for the other, so the surviving allocno is the GLOBAL and the `andi`
+       reads $s1).  Re-tying the *global* after the copy makes the pair opaque to cse; `raw`
+       stays local and takes $v0, which also flips the $v0/$v1 pair on the following
+       compare constant.  8 no-barrier variants tested (temp var, `register` pin on either
+       side, inverted test, subtract-form compare): all land on the identical 3-insn
+       permutation. */
+    raw = ((s32 (*)(s32))func_8012CBA4)(a0);
+    flags = raw;
+    __asm__ __volatile__("" : "=r"(flags) : "0"(flags));
+
+    /* `m` blocks fold_truthop from merging the two bitfield tests below into a single
+       `andi $v1,$s1,0xe000` -- the target keeps `& 0x8000` and `& 0x6000` separate. */
+    if ((raw & 0x6000) != 0x2000) {
+        func_8012ADE4((u8 *)s0);
+        func_8017D0BC(s0);
+        if (*(s32 *)(s0 + 0x1C) >= 9) {
+            *(s32 *)(s0 + 0x1C) = *(s32 *)(s0 + 0x1C) - 8;
+        }
+    }
+
+    m = flags & 0x8000;
+    if (m != 0 || (flags & 0x6000) != 0x2000) {
+        if (*(s16 *)(s0 + 0x106) == 0) {
+            *(s16 *)(s0 + 0x106) = 0x111;
+        }
+        if (*(s32 *)(s0 + 0x1C) >= 5) {
+            *(s32 *)(s0 + 0x1C) = *(s32 *)(s0 + 0x1C) - 4;
+        }
+        *(u16 *)(s0 + 0x108) = *(u16 *)(s0 + 0x108) + 1;
+    } else {
+        *(s16 *)(s0 + 0x106) = 0;
+    }
+
+    v = *(s32 *)(s0 + 0x1C) - 1;
+    *(s32 *)(s0 + 0x1C) = v;
+    if (v != 0) {
+        if ((v & 3) == 0) {
+            if (func_8012BC60((void *)(s0 + 4), (void *)&D_801CB914) < 0x900) {
+                *(s32 *)(s0 + 0x1C) = 1;
+            }
+        }
+        /* The func_8017CF6C call is written in BOTH arms on purpose: gcc-2.7.2's sched1
+           interleaves the $a0/$a2 arg setup into each arm's load-delay slots, and only
+           then does cross-jumping merge the common tail (it stops at the differing `sh`).
+           A single call after the if/else leaves those slots as nops (+2 ins, -1 length)
+           and forces the arm pointer into $a0, wrecking the whole block's allocation.
+           `ang0`/`ang1` are per-arm locals (§136 L1): one shared local becomes a GLOBAL
+           allocno (2 deaths) and loses $a1.  Both must be s32 -- writing the expression
+           inline lets convert_to_integer narrow it to UNSIGNED HImode (the u16 operand),
+           which emits `ori $a1,$zero,0xfffd` instead of `addiu $a1,$zero,-0x3` + sll/sra. */
+        if (*(s16 *)(s0 + 0x106) == 0) {
+            s32 r = func_8012BB3C(s0 + 4, (s32)&D_801CB914,
+                                  *(s16 *)(*(s32 *)(s0 + 0x20) + 0x12), 8);
+            s32 p = *(s32 *)(s0 + 0x20);
+            s32 ang0;
+            *(s16 *)(p + 0x12) = *(u16 *)(p + 0x12) + r;
+            ang0 = -3 - *(u16 *)(s0 + 0x104);
+            func_8017CF6C(s0, ang0, 0);
+        } else {
+            s32 q = *(s32 *)(s0 + 0x20);
+            s32 ang1;
+            *(s16 *)(q + 0x12) = *(u16 *)(q + 0x12) + *(s16 *)(s0 + 0x106);
+            ang1 = -3 - *(u16 *)(s0 + 0x104);
+            func_8017CF6C(s0, ang1, 0);
+        }
+        if (*(s16 *)(s0 + 0x104) != 0) {
+            if ((u32)*(s32 *)(s0 + 0x94) < 0xB) {
+                *(s32 *)(s0 + 0x94) = *(s32 *)(s0 + 0x94) + 1;
+            }
+            if ((*(s32 *)(s0 + 0x1C) & 7) == 0) {
+                ret = 1;
+            }
+        }
+    } else {
+        s16 t;
+
+        func_8012B200((u8 *)s0);
+        func_8012A828(s0, D_80188FA8);
+        *(s32 *)(s0 + 0x1C) = 0x14 - (*(s16 *)(s0 + 0x104) << 1);
+        if (((s32 (*)(s32))func_8012BD14)(s0) <= 0x23FFF) {
+            *(s16 *)(s0 + 0x102) = 0xA - *(u16 *)(s0 + 0x104);
+        } else {
+            *(s16 *)(s0 + 0x102) = 0;
+        }
+        t = *(s16 *)(s0 + 0x104);
+        if (t != 0) {
+            t = t - 4;
+            *(s16 *)(s0 + 0x104) = t;
+            if (t < 0) {
+                *(s16 *)(s0 + 0x104) = 0;
+            }
+        }
+        *(s16 *)(s0 + 0x2) = 1;
+    }
+
+    if (*(s16 *)(s0 + 0xFC) != 0) {
+        if (func_8016F1AC() != 0) {
+            /* §17/idiom-7: 0x801891F4 is INTERIOR to D_801891D8 and has no symbol, but the
+               target does NOT build it with its own %hi/%lo -- it derives it from the
+               D_80189210 base already in $a2 (`addiu $a1,$a2,-0x1C`).  Caching the base in
+               a POINTER LOCAL reproduces that; `(s32)&D_80189210 - 0x1C` folds into a
+               second lui/addiu pair and splits the store into lui+sw($at). */
+            s32 *tbl = &D_80189210;
+
+            *(s16 *)(s0 + 0x10A) = 0;
+            *tbl = *(u16 *)(s0 + 0x88) | (*(s16 *)(s0 + 0x8C) << 16);
+            func_80178B70(s0, (s32)tbl - 0x1C);
+            *(s16 *)(s0 + 0x98) = 0;
+            *(s32 *)(s0 + 0x1C) = 0x14;
+            func_8012B200((u8 *)s0);
+            *(s16 *)(s0 + 0x2) = 3;
+        }
+        return;
+    }
+
+    if (*(u16 *)(s0 + 0x5E) != 0) {
+        *(s16 *)(*(s32 *)(s0 + 0x20) + 0x12) = *(u16 *)(s0 + 0x62);
+        func_8017CF6C(s0, -0xF, 0);
+        func_8017CFE0((s16 *)s0);
+        *(s16 *)(s0 + 0x5E) = 0;
+        *(s16 *)(s0 + 0x104) = 0xA;
+        ret = 1;
+    } else {
+        s32 d = ((s32 (*)(s32))func_8012BD14)(s0);
+
+        if (d <= 0xFFFF) {
+            spd = 0;
+            if (d >= 0x4000) {
+                spd = (func_8012BDBC(s0, 0x500) != 0) << 2;
+            } else if (d >= 0x1000) {
+                if (func_8012BDBC(s0, 0x680) != 0) {
+                    spd = 7;
+                }
+            } else {
+                spd = 9;
+            }
+            if (spd != 0) {
+                func_8017CFE0((s16 *)s0);
+                if (*(s16 *)(s0 + 0x104) == 0) {
+                    *(s16 *)(*(s32 *)(s0 + 0x20) + 0x12) = func_8012B864(s0) - 0x800;
+                    ret = 1;
+                }
+                *(s16 *)(s0 + 0x104) = spd;
+                func_8017CF6C(s0, -7 - spd, 0);
+            }
+        }
+    }
+
+    /* Same §21 re-tie as the prologue, mirrored: the target evaluates the flag through a
+       LOCAL copy (`addu $v0,$s2,$zero`, which reorg then duplicates into the two branch
+       delay slots) rather than testing $s2 directly.  A plain `fire = ret` is copy-
+       propagated away; re-tying the global keeps the pair distinct.  Without it the three
+       copies vanish and everything from .L8017CD18 on drifts by 2 instructions. */
+    {
+        s32 fire = ret;
+        __asm__ __volatile__("" : "=r"(ret) : "0"(ret));
+        if (fire != 0) {
+            func_80146A6C(2, (void *)s0, 0, 0, 0, 2, 0);
+        }
+    }
+}
+
 
 /* func_8017CDB0 -- ov_SC03_002 / ov_SC03_002_jr_8017AE2C */
 
@@ -3978,7 +4294,92 @@ void func_8017CFE0(s16 *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_002/nonmatchings/ov_SC03_002_jr_8017AE2C", func_8017D0BC);
+/* func_8017D0BC -- ov_SC03_002 / ov_SC03_002_jr_8017AE2C   [MATCH, 133 ins]
+ *
+ * Entity "turn toward the target, then step" tick.
+ *   in[]  (sp+0x10)  -- SVECTOR probe source
+ *   out[] (sp+0x18)  -- SVECTOR probe result / motion delta
+ *   m     (sp+0x20)  -- 8-word matrix copied from D_800AE620
+ * §136 L5: local stack slots are assigned in DECLARATION order from 0x10, so the
+ * declaration order in/out/m IS the 0x10/0x18/0x20 layout.  The u8[8] + `*(s16 *)`
+ * access form is taken from the byte-proven twin DEFINE_func_8014FA70 (engine_core.h
+ * 15801): it is what produces `lhu` reads and `sh` writes on the same slots.
+ *
+ * §136 L1/RC-5 note on the ONE pin.  `ang` (the second ratan2 result) is a GLOBAL
+ * allocno -- it spans the +/-0x480 arms -- while the `ang - base` compare temp is a
+ * LOCAL allocno inside the same block.  local_alloc runs BEFORE global_alloc and hands
+ * the local temp the lowest free scratch, so unpinned gcc always gives the temp $v0 and
+ * pushes `ang` to $v1 (REGALLOC-PERM/$v0>$v1>$v0, 7 mismatches; density levers L1-L5,
+ * a re-tie barrier, ternary/arm-splitting and declaration reordering were all tried and
+ * none can outrank a local allocno).  Pinning `ang` to $v0 fixes that, but per RC-5 the
+ * pin also keeps $v0 reserved where `ang` is already dead, which stole the `in[0]`
+ * scratch (2 mismatches).  Reusing the dead `ang` AS that scratch releases it -- hence
+ * the `ang = *(u16 *)(a0 + 0x6);` line.  `arg` must be an s16 local assigned right after
+ * the arms (not an inline cast at the call) so the sign-extension lands in $a0.
+ */
+
+/* 8-word matrix block. Uniquely named so it can never collide with the TU's own types;
+   identical layout to engine_types.h's Blk20 / Mtx8_8016CBC0. */
+typedef struct { s32 w[8]; } Mtx8_8017D0BC;
+
+/* --- forms taken VERBATIM from the TU (src/ov_SC03_002/ov_SC03_002_jr_8017AE2C.c) --- */
+extern void ApplyMatrixSV(void *a0, void *a1, void *a2);   /* TU 168 / 3365 */
+extern s32  ratan2(s32 a0, s32 a1);                        /* TU 245 (== DEFINE_func_8012B6D4) */
+extern s16  D_801152B0;                                    /* TU 403 */
+extern s16  D_801152B4;                                    /* TU 404 */
+extern s32  func_80133784(s32 a0, void *a1, s32 a2);       /* TU 597 / 854 */
+
+/* --- not declared at file scope in this TU, nor by any DEFINE_func_* it instantiates
+       (8012B6D4 / 8012C750 / 8017BE9C / 8017BEA4 / 8017BEAC / 8017BEB4 -- audited);
+       project-canonical forms --- */
+extern s32  func_8012CEB0(s32 a0, s32 a1, s32 a2);
+extern void RotMatrixY(s32 a0, void *a1);
+extern Mtx8_8017D0BC D_800AE620;
+
+void func_8017D0BC(s32 a0) {
+    u8 in[8];
+    u8 out[8];
+    Mtx8_8017D0BC m;
+    s32 base;
+    register s32 ang __asm__("$2");
+    s16 arg;
+
+    *(s16 *)(in + 0) = *(u16 *)(a0 + 0x6) + *(u16 *)(a0 + 0x12);
+    *(s16 *)(in + 2) = *(u16 *)(a0 + 0xA) + 8;
+    *(s16 *)(in + 4) = *(u16 *)(a0 + 0xE) + *(u16 *)(a0 + 0x1A);
+    *(s16 *)(out + 0) = *(u16 *)(a0 + 0x6);
+    *(s16 *)(out + 2) = *(u16 *)(a0 + 0xA) + 8;
+    *(s16 *)(out + 4) = *(u16 *)(a0 + 0xE);
+    if ((func_80133784(1, &in[0], (s32)&out[0]) & 0xC000) != 0) {
+        base = ratan2(D_801152B0, D_801152B4) & 0xFFF;
+        ang = ratan2(*(s32 *)(a0 + 0x10), *(s32 *)(a0 + 0x18)) & 0xFFF;
+        if ((s16)(ang - base) < 0) {
+            ang += 0x480;
+        } else {
+            ang -= 0x480;
+        }
+        arg = base - ang;
+        ang = *(u16 *)(a0 + 0x6);
+        *(s16 *)(in + 0) = ang;
+        *(s16 *)(in + 2) = *(u16 *)(a0 + 0xA);
+        *(s16 *)(in + 4) = *(u16 *)(a0 + 0xE);
+        m = D_800AE620;
+        RotMatrixY(arg, &m);
+        *(s16 *)(out + 0) = *(u16 *)(a0 + 0x12);
+        *(s16 *)(out + 2) = *(u16 *)(a0 + 0x16);
+        *(s16 *)(out + 4) = *(u16 *)(a0 + 0x1A);
+        ApplyMatrixSV(&m, &out[0], &out[0]);
+        *(s16 *)(out + 0) = *(u16 *)(a0 + 0x6) + ((s16)*(u16 *)(out + 0) >> 1);
+        *(s16 *)(out + 2) = *(u16 *)(a0 + 0xA) + ((s16)*(u16 *)(out + 2) >> 1);
+        *(s16 *)(out + 4) = *(u16 *)(a0 + 0xE) + ((s16)*(u16 *)(out + 4) >> 1);
+        if ((func_8012CEB0((s32)&in[0], (s32)&out[0], 0) & 0x2000) != 0) {
+            *(s16 *)(a0 + 0x6) = *(u16 *)(out + 0);
+            *(s16 *)(a0 + 0xA) = *(u16 *)(out + 2);
+            *(s16 *)(a0 + 0xE) = *(u16 *)(out + 4);
+        }
+    }
+}
+
 
 extern int func_80178970(void);
 extern s32 func_8012C658(s32 arg0, s32 arg1, s32 arg2);

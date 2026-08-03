@@ -1788,7 +1788,6 @@ extern s32 func_8016A73C(s32 arg0);
 extern s32 func_8016A8FC(s32 a0);
 extern void func_8016A890(s32 arg0);
 extern u16 D_80126B5E;
-extern u16 D_80126B62;
 extern u16 D_80126B66;
 extern void func_8016AA50(s32 param_1, s32 param_2);
 extern void (*D_80189000[])(void);
@@ -3954,8 +3953,11 @@ void func_801819D0(s32 a0) {
 }
 
 
-extern s32 D_801AAC72;
     void func_80181A48(s32 arg0) {
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern s32 D_801AAC72;
         register s32 * p __asm__("$3");
         register s32 v __asm__("$2");
         p = &D_801AAC72;
@@ -4146,7 +4148,207 @@ void func_80181C18(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_097/nonmatchings/ov_SC03_097_jr_8017D898", func_80181CF4);
+
+/* func_80181CF4 — draws one entry of the 16-slot D_801AAC74 particle table:
+ * bump-allocates a 0x1C-byte GPU packet out of D_800A5E60, fills it from the
+ * table entry, runs two RotMatrixZ/ApplyMatrixSV passes to place the two
+ * endpoints, then link-ins the packet into the current double-buffer's OT
+ * (the PSY-Q `addPrim` macro pair) and calls func_80016638.
+ *
+ * STATUS: byte-MATCH, 177/177 instructions (match_one standalone AND spliced
+ * into the real TU — the in-TU compile adds ZERO new cc1 diagnostics over the
+ * unmodified TU baseline).
+ *
+ * ---------------------------------------------------------------------------
+ * LEVERS (each byte-checked against asm/.../func_80181CF4.s)
+ *
+ *  §48  STRUCT ASSIGN, not a hand-rolled temp copy.  `m = D_800AE620;` on a
+ *       32-byte aggregate routes expr.c move_by_pieces, which emits the exact
+ *       lw/lw/lw + sw/sw/sw (x2) + lw/lw + sw/sw grouping AND picks the
+ *       target's registers ($a2 = source address, $v0/$v1/$a1 = carriers), and
+ *       keeps the arg0*14 allocator chain OUT of the copy.  The manual
+ *       three-temp form (DEFINE_func_8012B4B8, engine_core.h L29487) emits the
+ *       same instruction MIX but a different allocation (+60 mismatches).
+ *
+ *  §21/T6  The double-buffer index D_800B9A02 is read at ALL THREE use sites
+ *       (three `lhu`s off ONE materialised `la`).  A PLAIN read is CSEd down to
+ *       two AND keeps -G0 symbol addressing (lui+lhu per read, +1 insn); a
+ *       POINTER local gives the `la` but lets cse fold the third read.  The
+ *       `volatile u16 *` pointer local reproduces BOTH properties and leaves
+ *       the TU's own `extern s16 D_800B9A02;` untouched.
+ *
+ *  T6   The OT base is bound to an s32 local (`ot`) so the tag read/write keep
+ *       the `0x40($v1)` displacement form instead of folding into the pointer.
+ *
+ *  L4   `mp`, a pointer local bound to &m, is what puts the matrix address in a
+ *       callee-saved register ($s2) and turns each argument setup into a move;
+ *       passing the array directly re-materialises `addiu $aN,$sp,0x10` at
+ *       every call site and drops $s6 from the frame entirely.
+ *
+ *  S1   `t = *(u16 *)ent;` is hoisted ABOVE the two `sh $zero` stores — the
+ *       sp-relative stores are not disambiguated from the $s0-based load, so
+ *       only SOURCE ORDER moves it (4 mismatches).
+ *
+ *  T-form  `u16 bx/by` (not s32) is what makes `addu $v0,$s3,$v0` come out with
+ *       the accumulator first; through s32 locals combine canonicalises the
+ *       zero_extend into operand 0 and both adds emit reversed.
+ *
+ *  §83c-inverse  FRAME: 0x70 = 16 args + 56 declared vars + 32 saved regs + an
+ *       8-byte COMPILER TEMP that gcc allocates for the two `symbol+register`
+ *       memory references (both D_800A651C).  So the DECLARED locals must total
+ *       56, not 60: m(32)@0x10, sv(8)@0x30, out(8)@0x38, v(8)@0x40 — the third
+ *       word of the vector handed to func_8004901C (sp+0x48) lands INSIDE that
+ *       compiler temp.  `s32 v[3]` gives a 0x78 frame and 19 extra mismatches.
+ *       Do NOT invent a dead local to reach the frame size.
+ *
+ * ---------------------------------------------------------------------------
+ * THE TWO RESIDUAL CLUSTERS AND WHAT ACTUALLY CLOSED THEM
+ * (both are gcc-2.7.2-map/sched.md §1 rule 7 "BIRTHING BOOST" + rule 5(b)
+ *  "potential hazard"; diagnosed from the cc1 `-dS` ready-list trace, which
+ *  names the decision verbatim: `;; insn 245 has a greater potential hazard`.)
+ *
+ *  (a) The three symbol loads before the first RotMatrixZ came out E4,EA,E6
+ *      instead of EA,E4,E6.  `lh $a0,D_801AAC72` is a single-set SET(REG,…) —
+ *      the sched1 birthing boost sinks it to just before its consumer (the
+ *      jal), i.e. one slot too late.  Statement order CANNOT fix this: written
+ *      as a plain local the load is combined into the call's arg setup, so its
+ *      LUID is the call's either way (verified: two source orders, identical
+ *      bytes).  `register s32 ang __asm__("$4")` keeps the load a separate insn
+ *      AT its source position — zero extra instructions, +0 bytes.
+ *
+ *  (b) The tail's `lw $v1,0($s1)` (`*(u32 *)p`) belongs in the load-delay slot
+ *      of `lhu $a0,0($a2)`; ours landed 7 insns later with `lui $a0,0xff00`
+ *      taking the slot.  sched1 trace: at T-27 the ready list is
+ *      `247 (7f000001) 245 (7f000001)` — BOTH boosted — and the tie goes to the
+ *      LOAD via `potential_hazard` (memory-unit users beat ALU insns), so the
+ *      load is picked first = placed LAST.  TWO edits are needed and neither
+ *      works alone:
+ *        1. KILL the boost on the load's destination — `pv` gets a second SET
+ *           from a zero-byte dead `__asm__ __volatile__("" : "=r"(pv));` at the
+ *           end of the function (sched.md S2: a plain C reassignment does not
+ *           work, cse/flow removes it; reusing one local across BOTH addPrim
+ *           halves does kill the boost but makes `pv` a 2-death GLOBAL allocno
+ *           that loses $v1, §136).  With the boost dead, sched1 emits the
+ *           target order exactly (proved with -fno-schedule-insns2).
+ *        2. PIN `pv` to $v1 (`register u32 pv __asm__("$3")`).  Without it,
+ *           local-alloc gives $v1 to the shorter, denser index quantity and
+ *           `pv` lands in $a1/$t0; sched2 then re-applies rule 5(b) and undoes
+ *           sched1's order.  With `pv` in $v1 the index is pushed to $a0, the
+ *           0xFF000000 constant reuses $a0, and its output-dependence on the
+ *           index's `sll/addu` FREEZES it after them — which is precisely the
+ *           target's shape, and what makes sched2 leave sched1's order alone.
+ *
+ *      Pin-trim log (all re-scored): dropping the $a2 `bidx` pin — MATCH;
+ *      dropping the $a3 0xFFFFFF pin — MATCH; dropping `ang` — 4 mismatches
+ *      (a dead-volatile boost-kill on `ang` does NOT substitute); dropping
+ *      `pv` — 11; dropping the dead `pv` asm — 11.  Two pins are the minimum
+ *      found.
+ *
+ * ---------------------------------------------------------------------------
+ * DECLARATIONS: ApplyMatrixSV, D_800B9A02 and D_801AAC6C/E6/EA/EC are declared
+ * VERBATIM as the TU already has them at file scope (L163, L2460/2462,
+ * L3689/3705/3706, L3726, L3879), so they merge silently.  D_800AE620,
+ * D_800A5E60, D_800A651C, D_800A6518, D_801AAC70, RotMatrixZ, func_8004901C and
+ * func_80016638 have NO file-scope declaration anywhere in the TU and none in
+ * include/ (checked in one pass, D2), so each is block-scoped here to keep the
+ * blast radius on the rest of the TU at zero (§103/T51).  Verified by splicing
+ * this body over the INCLUDE_ASM at TU L3917 and compiling the whole TU: same
+ * 7 stderr lines as the untouched TU, and func_80181CF4 is byte-identical.
+ */
+
+void func_80181CF4(s32 arg0)
+{
+    typedef struct { s32 w[8]; } Blk32_8018AA98_80181CF4;   /* 32 bytes, align 4 */
+
+    extern Blk32_8018AA98_80181CF4 D_800AE620;
+    extern s32 D_800A5E60;
+    extern s32 D_800A651C;
+    extern u8 D_800A6518[];
+    extern s16 D_801AAC6C;
+    extern s16 D_801AAC6E;
+    extern s16 D_801AAC70;
+    extern s16 D_801AAC72;
+    extern s16 D_801AAC74;
+    extern void RotMatrixZ(s32 a0, void *a1);
+    extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
+    extern void func_8004901C(void *a0, void *a1);
+    extern void func_80016638(void *a0, s32 a1, s32 a2);
+
+    Blk32_8018AA98_80181CF4 m;                    /* sp+0x10 */
+    s16 sv[4];                           /* sp+0x30 */
+    s16 out[4];                          /* sp+0x38 */
+    s32 v[2];                            /* sp+0x40 — 3rd word lives in the temp area */
+    void *mp;
+    u8 *p;
+    u8 *ent;
+    s32 ot;
+    u16 bx;
+    u16 by;
+    register s32 ang __asm__("$4");      /* §17 pin — see residual (a) */
+    volatile u16 *bidx;
+    s32 t;
+    register u32 pv __asm__("$3");       /* §17 pin — see residual (b) */
+
+    m = D_800AE620;
+    mp = &m;
+
+    ent = (u8 *)((arg0 * 14) + (s32)&D_801AAC74);
+    p = (u8 *)D_800A5E60;
+    D_800A5E60 = (s32)p + 0x1C;
+
+    p[3] = 6;
+    p[7] = 0x32;
+    p[4] = ent[6];
+    p[5] = ent[7];
+    p[6] = ent[8];
+    p[0xC] = ent[0xA];
+    p[0xD] = ent[0xB];
+    p[0xE] = ent[0xC];
+    p[0x14] = ent[0xA];
+    p[0x15] = ent[0xB];
+    p[0x16] = ent[0xC];
+
+    ang = D_801AAC72;
+    bx = (u16)D_801AAC6C;
+    by = (u16)D_801AAC6E;
+    RotMatrixZ(ang, mp);
+
+    *(s32 *)((u8 *)v + 8) = D_801AAC70;
+    v[1] = *(s32 *)((u8 *)v + 8);
+    v[0] = v[1];
+    func_8004901C(mp, v);
+
+    t = *(u16 *)ent;
+    sv[2] = 0;
+    sv[1] = 0;
+    sv[0] = t;
+    *(s16 *)(p + 8) = bx;
+    *(s16 *)(p + 0xA) = by;
+
+    RotMatrixZ(*(s16 *)(ent + 2) - (((s32)*(u16 *)(ent + 4) << 16) >> 17), mp);
+    ApplyMatrixSV(mp, sv, out);
+    *(s16 *)(p + 0x10) = bx + (u16)out[0];
+    *(s16 *)(p + 0x12) = by + (u16)out[1];
+
+    RotMatrixZ(*(s16 *)(ent + 4), mp);
+    ApplyMatrixSV(mp, sv, out);
+    bx += (u16)out[0];
+    *(s16 *)(p + 0x18) = bx;
+    by += (u16)out[1];
+    *(s16 *)(p + 0x1A) = by;
+
+    /* addPrim(otp, p) == setaddr(p, getaddr(otp)), setaddr(otp, p) */
+    bidx = (volatile u16 *)&D_800B9A02;
+    pv = *(u32 *)p;
+    *(u32 *)p = (pv & 0xFF000000) |
+                (*(u32 *)(*(s32 *)((u8 *)&D_800A651C +
+                                   (*bidx * 20)) + 0x40) & 0xFFFFFF);
+    ot = *(s32 *)((u8 *)&D_800A651C + (*bidx * 20));
+    *(u32 *)(ot + 0x40) = (*(u32 *)(ot + 0x40) & 0xFF000000) | ((u32)p & 0xFFFFFF);
+    func_80016638(&D_800A6518[*bidx * 20], 0x10, 1);
+    __asm__ __volatile__("" : "=r"(pv));   /* zero-byte 2nd SET: kills the sched1 birthing boost */
+}
+
 
 void func_80181FB8(void) {
 
@@ -4467,9 +4669,255 @@ void func_80182384(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_097/nonmatchings/ov_SC03_097_jr_8017D898", func_80182498);
 
-INCLUDE_ASM("asm/ov_SC03_097/nonmatchings/ov_SC03_097_jr_8017D898", func_8018277C);
+/* func_80182498 — spawns one 0x14-byte GPU packet from D_800A5E60, rotates /
+ * scales a matrix copy of D_800AE620 by the D_801AAB6C[a0] record, projects the
+ * four corner offsets into the packet, then links the packet into the OT.
+ *
+ * Byte-verified levers (all three were needed; each is worth 8-31 insns):
+ *
+ *  A. THE OT LINK IS THE libgpu P_TAG BITFIELD, NOT HAND-MASKING.  Writing
+ *     `*(u32*)q = (*(u32*)q & 0xFF000000) | (ot & 0xFFFFFF)` is byte-correct
+ *     arithmetic but gives the WRONG register assignment (16 mismatches: the
+ *     0xFFFFFF / 0xFF000000 / &D_800B9A02 pseudos land in a0/a2/a3 permuted,
+ *     and the `lw $v1,0($s3)` gets serialised behind the index load).  The
+ *     `unsigned addr:24; unsigned len:8` bitfield insert reproduces both the
+ *     allocation and the schedule exactly.  This is just `addPrim(ot, q)`.
+ *
+ *  B. THE OT TABLE MUST BE AN ARRAY_REF (`D_800A651C[i].a`), NOT
+ *     `*(s32*)((u8*)&D_800A651C + i*20)`.  With the pointer-arith spelling gcc
+ *     allocates a phantom 8-byte stack temp that is never referenced, pushing
+ *     the frame from 0x68 to 0x70 (cookbook D6 in reverse: the frame is too
+ *     BIG).  The temp only appears when the SAME lookup expression occurs in
+ *     two statements; the ARRAY_REF form (engine_core.h `OtBlk`) kills it.
+ *
+ *  C. THE LAST ApplyMatrixSV RECOMPUTES THE MATRIX ADDRESS.  The first four
+ *     matrix arguments come out of $s4 (`addu $aX,$s4,$zero`), but the fifth is
+ *     `addiu $a0,$sp,0x10`.  cse.c cannot be talked out of folding a fifth
+ *     `&m` into the existing pseudo: the conditional above it is a
+ *     "branch around a block", so cse_end_of_basic_block EXTENDS the basic
+ *     block through the join label (status AROUND) and the equivalence class
+ *     for (plus fp 16) is still live.  Every source-level attempt to break it
+ *     (pointer local, `mp = m` in the skipped arm, a §21 zero-byte re-tie,
+ *     do{}while(0) loop notes) either changed nothing or cost 3 insns by
+ *     turning the pointer into a two-def global allocno.  Pinning a reader to
+ *     $sp makes the expression `(plus (reg 29) 16)` — a different rtx from
+ *     `(plus (reg fp) 16)`, so cse never looks it up, and the single-use pseudo
+ *     is folded by combine into the one `addiu` the target has.
+ *
+ *  The svp/outp block around the FIRST ApplyMatrixSV is load-bearing too:
+ *  removing it costs 6 insns and two extra callee-saved registers.
+ */
+
+extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
+extern void RotMatrixZ(s32 a0, void *a1);
+extern void func_8004901C(void *a0, void *a1);
+extern void func_80016638(void *a0, s32 a1, s32 a2);
+
+
+/* 0x10-byte-stride record table at D_801AAB6C (same table as func_8018AD5C) */
+typedef struct {
+    u16 f0;  /* 0x00 */
+    s16 f2;  /* 0x02 */
+    s16 f4;  /* 0x04 */
+    s16 f6;  /* 0x06 */
+    s16 f8;  /* 0x08 */
+    u16 fA;  /* 0x0A */
+    s16 fC;  /* 0x0C */
+    u16 fE;  /* 0x0E */
+} Rec_8018B23C_80182498;
+
+typedef struct { s32 w[8]; } Mat32_8018B23C_80182498;      /* the 0x20-byte matrix */
+typedef struct { s32 a; s32 b[4]; } Ot_8018B23C_80182498;  /* == engine_types.h OtBlk */
+typedef struct { u16 f; } Bidx_8018B23C_80182498;          /* the D_800B9A02 buffer index */
+typedef struct { u32 addr:24; u32 len:8; } PTag_8018B23C_80182498; /* libgpu P_TAG */
+
+void func_80182498(s32 a0) {
+
+    extern s16 D_801AAB60;
+    extern s16 D_801AAB62;
+    extern u8 D_801AAB68;
+    extern u8 D_801AAB69;
+    extern u8 D_801AAB6A;
+
+    extern s16 D_801AAB6C;
+    extern u8 *D_800A5E60;
+    extern s32 D_800AE620;
+    extern u8 D_800A6518[];
+    extern Ot_8018B23C_80182498 D_800A651C[];
+
+    s32 m[8];       /* sp+0x10 */
+    u8 sv[8];       /* sp+0x30 */
+    u16 out[4];     /* sp+0x38 */
+    s32 scale[4];   /* sp+0x40 */
+
+    u8 *q;
+    Rec_8018B23C_80182498 *p;
+    s32 x;
+    s32 y;
+    s32 ang;
+
+    q = D_800A5E60;
+
+    *(Mat32_8018B23C_80182498 *)m = *(Mat32_8018B23C_80182498 *)&D_800AE620;
+
+    D_800A5E60 = q + 0x14;
+    *(u8 *)(q + 3) = 4;
+    *(u8 *)(q + 7) = 0x22;
+    *(u8 *)(q + 4) = D_801AAB68;
+    *(u8 *)(q + 5) = D_801AAB69;
+    *(u8 *)(q + 6) = D_801AAB6A;
+
+    p = (Rec_8018B23C_80182498 *)((s32)&D_801AAB6C + (a0 << 4));
+    x = p->fA + (u16)D_801AAB60;
+    y = p->fE + (u16)D_801AAB62;
+    RotMatrixZ(p->f6, m);
+
+    scale[0] = *(s16 *)((s32)p + 2);
+    scale[1] = *(s16 *)((s32)p + 2);
+    scale[2] = *(s16 *)((s32)p + 2);
+    func_8004901C(m, scale);
+
+    *(s16 *)(sv + 4) = 0;
+    *(s16 *)(sv + 2) = 0;
+    *(s16 *)(sv + 0) = p->f0;
+    {
+        void *svp = sv;
+        void *outp = out;
+        ApplyMatrixSV(m, svp, outp);
+        __asm__ __volatile__("" : "=r"(svp));
+        __asm__ __volatile__("" : "=r"(outp));
+    }
+
+    *(s16 *)(q + 0x8) = x + ((s16)out[0] >> 1) * 3;
+    *(s16 *)(q + 0xA) = y + ((s16)out[1] >> 1) * 3;
+    *(s16 *)(q + 0xC) = x - ((s16)out[0] >> 1);
+    *(s16 *)(q + 0xE) = y - ((s16)out[1] >> 1);
+    x = x + out[0];
+    *(s16 *)(q + 0x10) = x;
+    y = y + out[1];
+    *(s16 *)(q + 0x12) = y;
+
+    ang = -0x400;
+    if (p->f0 & 1) {
+        ang = 0x400;
+    }
+    RotMatrixZ(ang, m);
+
+    *(s16 *)(sv + 0) = 2;
+    {
+        /* lever C: sp+0x10 IS &m, but spelled so cse cannot fold it to $s4 */
+        register u8 *spr __asm__("$29");
+        ApplyMatrixSV(spr + 0x10, sv, out);
+    }
+
+    *(s16 *)(q + 0x10) = *(u16 *)(q + 0x10) + out[0];
+    *(s16 *)(q + 0x12) = *(u16 *)(q + 0x12) + out[1];
+
+    {
+        Bidx_8018B23C_80182498 *bp = (Bidx_8018B23C_80182498 *)&D_800B9A02;
+
+        /* addPrim(&D_800A651C[bp->f].a[0x10], q) */
+        ((PTag_8018B23C_80182498 *)q)->addr =
+            ((PTag_8018B23C_80182498 *)(D_800A651C[bp->f].a + 0x40))->addr;
+        ((PTag_8018B23C_80182498 *)(D_800A651C[bp->f].a + 0x40))->addr = (u32)q;
+        func_80016638(&D_800A6518[bp->f * 20], 0x10, 1);
+    }
+}
+
+
+
+/* Declarations copied VERBATIM from the TU (ov_SC02_026_jr_8017C180.c):
+ *   D_80126B62     TU:1793/4533  `extern u16` -> cast to s16* at the use site (`lh`)
+ *   D_80126B96     TU:3758/4695/5189/5269  `extern u16`
+ *   func_8012DEB8  TU:5081/5147/5266/5315  `s32 (s32,s32,s32)`
+ *   func_8012BD14  TU:3986                 `s32 (s32)`
+ * D_8019C590 / D_8019C5B8 / D_8019C5E0 are 20-entry `.short` tables in
+ * asm/ov_SC02_026/data/tail.data.s:40884/40909/40934 (loads are `lhu` -> u16).
+ * D_8019C608 is the 2-entry fn-ptr table right after them (func_80180A4C /
+ * func_80180AF0); same `void (*[])(...)` form as D_801A9EB8 (TU:3653).
+ * func_8002D59C is declared nowhere in this TU. */
+
+extern s32 func_8012DEB8(s32 a0, s32 a1, s32 a2);
+extern s32 func_8012BD14(s32 a0);
+extern void func_8002D59C(s32 a0, u16 a1, s32 a2);
+
+void func_8018277C(s32 a0) {
+
+    extern u16 D_80126B62;
+    extern u16 D_80126B96;
+    extern u16 D_8019C590[];
+    extern u16 D_8019C5B8[];
+    extern u16 D_8019C5E0[];
+    extern void (*D_8019C608[])(s32);
+    typedef struct {
+        u16 x; /* 0x00 */
+        u16 y; /* 0x02 */
+        u16 z; /* 0x04 */
+        u16 w; /* 0x06 */
+    } V4_8017FAC0_8018277C; /* 8 bytes */
+
+    V4_8017FAC0_8018277C p1;
+    V4_8017FAC0_8018277C p2;
+    s32 i;
+    s32 t;
+    s32 y;
+    s32 ret;
+
+    t = *(s16 *)(a0 + 0xA) + 0x20;
+    y = *(s16 *)&D_80126B62 - t;
+    if (y < -0x110) {
+        y = -0x110;
+    } else if (y > 0) {
+        y = 0;
+    }
+    p1.y = y;
+    p2.y = y;
+
+    for (i = 0; i < 20; i += 4) {
+        p1.x = D_8019C590[i];
+        p1.z = D_8019C590[i + 1];
+        p2.x = D_8019C590[i + 2];
+        p2.z = D_8019C590[i + 3];
+        if (func_8012DEB8(a0, (s32)&p1, (s32)&p2) == 1) {
+            D_80126B96 = 0x4004;
+        }
+    }
+    for (i = 0; i < 20; i += 4) {
+        p1.x = D_8019C5B8[i];
+        p1.z = D_8019C5B8[i + 1];
+        p2.x = D_8019C5B8[i + 2];
+        p2.z = D_8019C5B8[i + 3];
+        if (func_8012DEB8(a0, (s32)&p1, (s32)&p2) == 1) {
+            D_80126B96 = 0x4004;
+        }
+    }
+    for (i = 0; i < 20; i += 4) {
+        p1.x = D_8019C5E0[i];
+        p1.z = D_8019C5E0[i + 1];
+        p2.x = D_8019C5E0[i + 2];
+        p2.z = D_8019C5E0[i + 3];
+        if (func_8012DEB8(a0, (s32)&p1, (s32)&p2) == 1) {
+            D_80126B96 = 0x4004;
+        }
+    }
+
+    D_8019C608[*(u16 *)(a0 + 0x2)](a0);
+
+    ret = func_8012BD14(a0);
+    if (ret > 0x3FFFF) {
+        *(s16 *)(a0 + 0xFE) = 1;
+        func_8002D59C(4, 0x609, *(u16 *)(a0 + 0x70));
+    } else {
+        *(s16 *)(a0 + 0xFE) = *(u16 *)(a0 + 0xFE) - 1;
+        if (*(s16 *)(a0 + 0xFE) == 0) {
+            *(s16 *)(a0 + 0xFE) = 4;
+            func_8002D59C(0x609, ((0x40000 - ret) * 127) / 0x40000 | 0x1000,
+                          *(u16 *)(a0 + 0x70));
+        }
+    }
+}
+
 
 
 /* func_80182A14 -- ov_SC02_026 / ov_SC02_026_jr_8017C180
@@ -4588,7 +5036,140 @@ void func_80183048(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_097/nonmatchings/ov_SC03_097_jr_8017D898", func_801831DC);
+extern void func_8012C218(void *a0);
+extern s32 func_80143B6C(s32 a0, s32 a1);
+#define gte_SetRotMatrix(r0) __asm__ volatile (         \
+    "lw $12, 0( %0 );"                                   \
+    "lw $13, 4( %0 );"                                   \
+    "ctc2 $12, $0;"                                      \
+    "ctc2 $13, $1;"                                      \
+    "lw $12, 8( %0 );"                                   \
+    "lw $13, 12( %0 );"                                  \
+    "lw $14, 16( %0 );"                                  \
+    "ctc2 $12, $2;"                                      \
+    "ctc2 $13, $3;"                                      \
+    "ctc2 $14, $4"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+#define gte_SetTransMatrix(r0) __asm__ volatile (        \
+    "lw $12, 20( %0 );"                                  \
+    "lw $13, 24( %0 );"                                  \
+    "ctc2 $12, $5;"                                      \
+    "lw $14, 28( %0 );"                                  \
+    "ctc2 $13, $6;"                                      \
+    "ctc2 $14, $7"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+#define gte_SetRotMatrix(r0) __asm__ volatile (         \
+    "lw $12, 0( %0 );"                                   \
+    "lw $13, 4( %0 );"                                   \
+    "ctc2 $12, $0;"                                      \
+    "ctc2 $13, $1;"                                      \
+    "lw $12, 8( %0 );"                                   \
+    "lw $13, 12( %0 );"                                  \
+    "lw $14, 16( %0 );"                                  \
+    "ctc2 $12, $2;"                                      \
+    "ctc2 $13, $3;"                                      \
+    "ctc2 $14, $4"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+#define gte_SetTransMatrix(r0) __asm__ volatile (        \
+    "lw $12, 20( %0 );"                                  \
+    "lw $13, 24( %0 );"                                  \
+    "ctc2 $12, $5;"                                      \
+    "lw $14, 28( %0 );"                                  \
+    "ctc2 $13, $6;"                                      \
+    "ctc2 $14, $7"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+
+void func_801831DC(void *a0)
+{
+    u16 sv0[4];
+    u16 sv1[4];
+    s32 flag[4];
+    s32 cnt;
+    s32 tmp;
+    s32 m;
+
+    if (*(s16 *)((s32)a0 + 0xFE) == *(s16 *)(*(s32 *)((s32)a0 + 0x64) + 0x36)) {
+        if ((*(u16 *)(*(s32 *)((s32)a0 + 0x64) + 0x100) & 0x4000) == 0) {
+            goto low;
+        }
+        *(s16 *)(*(s32 *)((s32)a0 + 0x20) + 0x18) =
+            *(u16 *)(*(s32 *)((s32)a0 + 0x20) + 0x18) - 0x200;
+        *(s16 *)(*(s32 *)((s32)a0 + 0x20) + 0x1A) =
+            *(u16 *)(*(s32 *)((s32)a0 + 0x20) + 0x1A) - 0x200;
+        if (*(s16 *)(*(s32 *)((s32)a0 + 0x20) + 0x18) >= 0x200) {
+            goto tail;
+        }
+        func_80143B6C((s32)a0, 0);
+    }
+    func_8012C218(a0);
+    return;
+
+low:
+    cnt = *(u16 *)((s32)a0 + 0x100) - 1;
+    *(s16 *)((s32)a0 + 0x100) = cnt;
+    if ((s16)cnt < 9) {
+        *(s16 *)((s32)a0 + 0x100) = 0x18;
+        if (*(s16 *)(*(s32 *)((s32)a0 + 0x64) + 0x70) == 5) {
+            *(s16 *)((s32)a0 + 0x12) = rand() % 56 - 0x1C;
+            *(s16 *)((s32)a0 + 0x16) = rand() % 96 - 0x60;
+            *(s16 *)((s32)a0 + 0x1A) = rand() % 56 - 0x2C;
+        } else if (*(s16 *)(*(s32 *)((s32)a0 + 0x64) + 0x70) == 6) {
+            *(s16 *)((s32)a0 + 0x12) = rand() % 56 - 0x1C;
+            *(s16 *)((s32)a0 + 0x16) = rand() % 32 - 0x20;
+            *(s16 *)((s32)a0 + 0x1A) = rand() % 128 - 0x60;
+        }
+    }
+    tmp = *(s16 *)((s32)a0 + 0x100);
+    if (tmp < 0x10) {
+        s32 g1;                       /* per-arm local: §5a cross-jump barrier, see header */
+        g1 = *(s32 *)((s32)a0 + 0x20);
+        *(s16 *)(g1 + 0x1A) = tmp * 0x300;
+        *(s16 *)(g1 + 0x18) = tmp * 0x300;
+    } else {
+        s32 g2;                       /* per-arm local: §5a cross-jump barrier, see header */
+        g2 = *(s32 *)((s32)a0 + 0x20);
+        *(s16 *)(g2 + 0x1A) = (0x20 - tmp) * 0x300;
+        *(s16 *)(g2 + 0x18) = (0x20 - tmp) * 0x300;
+    }
+
+tail:
+    {
+        s32 msk;
+        msk = 0x80000000;             /* HOISTED OUT OF THE ARM ON PURPOSE — see header (3) */
+        if (*(s32 *)(*(s32 *)(*(s32 *)((s32)a0 + 0x64) + 0x20) + 0x4) < 0) {
+            *(s32 *)(*(s32 *)((s32)a0 + 0x20) + 0x4) |= msk;
+        } else {
+            *(s32 *)(*(s32 *)((s32)a0 + 0x20) + 0x4) &= 0x7FFFFFFF;
+        }
+    }
+
+    *(s32 *)((s32)a0 + 0x4) = *(s32 *)(*(s32 *)((s32)a0 + 0x64) + 0x4);
+    *(s32 *)((s32)a0 + 0x8) = *(s32 *)(*(s32 *)((s32)a0 + 0x64) + 0x8);
+    *(s32 *)((s32)a0 + 0xC) = *(s32 *)(*(s32 *)((s32)a0 + 0x64) + 0xC);
+
+    sv0[0] = *(u16 *)((s32)a0 + 0x12);
+    sv0[1] = *(u16 *)((s32)a0 + 0x16);
+    sv0[2] = *(u16 *)((s32)a0 + 0x1A);
+
+    m = *(s32 *)(*(s32 *)((s32)a0 + 0x64) + 0x20) + 0x34;
+    gte_SetRotMatrix(m);
+    gte_SetTransMatrix(m);
+
+    RotTransSV(sv0, sv1, flag);
+
+    *(s16 *)((s32)a0 + 0x6) = sv1[0];
+    *(s16 *)((s32)a0 + 0xA) = sv1[1];
+    *(s16 *)((s32)a0 + 0xE) = sv1[2];
+}
+
 
 
 extern s32 func_8012D624(void *a0, s32 a1, s32 a2);

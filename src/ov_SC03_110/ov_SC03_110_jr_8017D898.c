@@ -1791,7 +1791,6 @@ extern s32 func_8016A73C(s32 arg0);
 extern s32 func_8016A8FC(s32 a0);
 extern void func_8016A890(s32 arg0);
 extern u16 D_80126B5E;
-extern u16 D_80126B62;
 extern u16 D_80126B66;
 extern void func_8016AA50(s32 param_1, s32 param_2);
 extern void (*D_80184ED8[])(void);
@@ -3628,7 +3627,70 @@ void func_801813B4(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_110/nonmatchings/ov_SC03_110_jr_8017D898", func_80181548);
+
+extern s32 func_8012B77C(s32 out, s32 from, s32 to);
+extern s32 func_8012B608(s32 a0, s32 a1, s32 a2);
+extern void func_8012B178(s32 a0, s32 a1);
+extern void func_8012CBF4(s32 a0);
+extern s32 func_8012BEE8(s32 a0);
+extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
+extern s32 rand(void);
+
+void func_80181548(s32 a0) {
+
+    extern u16 D_80126B62;
+    s32 sp10[6];
+    u8 sp28[8];
+    s16 q;
+    s32 t;
+    s32 r;
+
+    *(s16 *)((s32)sp10 + 0x2) = *(u16 *)(a0 + 0x102);
+    *(s16 *)((s32)sp10 + 0xA) = *(u16 *)(a0 + 0x106);
+    q = *(u16 *)(a0 + 0x104);
+    *(s16 *)((s32)sp10 + 0x6) = q;
+    if ((*(u16 *)(a0 + 0x70) & 0x20) == 0) {
+        *(s16 *)((s32)sp10 + 0x6) = q + D_80126B62;
+    } else {
+        *(s16 *)((s32)sp10 + 0x6) = q + *(u16 *)(a0 + 0x8A);
+    }
+
+    func_8012B77C((s32)sp28, a0 + 4, (s32)sp10);
+    t = *(s32 *)sp28;
+    *(s16 *)(*(s32 *)(a0 + 0x20) + 0x10) = t;
+    r = func_8012B608(*(s16 *)(*(s32 *)(a0 + 0x20) + 0x12), t >> 16,
+                      *(s16 *)(a0 + 0xFE));
+    *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) =
+        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) + r;
+    func_8012B178(a0, *(s32 *)(a0 + 0xE4));
+    func_8012CBF4(a0);
+    if (func_8012BEE8(a0)) {
+        s32 base;
+        s32 off;
+        s32 val;
+
+        *(s32 *)(a0 + 0x1C) = rand() % 128 + 0x80;
+        *(s16 *)(a0 + 0xFE) = rand() % 32 + 10;
+        func_8012B0B4((unsigned int *)sp28, rand() % 0x1000,
+                      rand() % *(s32 *)(a0 + 0xDC));
+        t = *(s32 *)sp28;
+        *(s16 *)(a0 + 0x102) = *(u16 *)(a0 + 0x88) + t;
+        *(s16 *)(a0 + 0x106) = *(u16 *)(a0 + 0x8C) + (t >> 16);
+        if (*(u16 *)(a0 + 0x70) & 0x20) {
+            off = rand() % 256;
+            base = *(s16 *)(a0 + 0xFC);
+            if (rand() & 1) {
+                val = base + off;
+            } else {
+                val = base - off;
+            }
+            *(s16 *)(a0 + 0x104) = val;
+        } else {
+            *(s16 *)(a0 + 0x104) = *(u16 *)(a0 + 0xFC) - rand() % 256;
+        }
+    }
+}
+
 
 
 extern s32 rand(void);

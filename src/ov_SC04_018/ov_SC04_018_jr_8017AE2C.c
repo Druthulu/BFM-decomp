@@ -4237,7 +4237,110 @@ void func_8017D6EC(void *arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_018/nonmatchings/ov_SC04_018_jr_8017AE2C", func_8017D77C);
+#include "common.h"
+
+/* SPLICE NOTE (src/ov_SC04_018/ov_SC04_018_jr_8017AE2C.c, replaces the INCLUDE_ASM at line 4240).
+ * Whole-TU grep done in one pass; the only HARD conflict is the typedef.
+ *
+ *   MUST DROP on splice (C89 forbids typedef redefinition):
+ *       typedef struct {...} Ent_8017D6EC;      -- already defined at TU line 4212-4218
+ *   MAY DROP (exact repeats of decls the TU already carries; harmless if kept, the TU
+ *   already repeats D_80078EB1 five times):
+ *       D_80078EB1 (1460/4207/...), D_80078E78[] (388/6903), D_800AF630[] (50),
+ *       func_8004787C (2202), D_801E6F58 (4220/4248)
+ *   MUST KEEP:
+ *       func_8012AD44 -- NOT declared anywhere in this TU; form copied verbatim from the
+ *                        10 sibling TUs that declare it (e.g. ov_SC06_008_jr_80135888.c:254)
+ *       func_8017D9B8 / func_8017DAC4 -- both DEFINED later in the TU (4250 / 4334); these are
+ *                        forward decls, compatible with those definitions.
+ *
+ * func_8017D9B8 is declared `void (void)` but the target passes $a0 -> called through a cast
+ * (idiom 9); do NOT change its definition.                                                  */
+extern u8 D_80078EB1;
+extern u8 D_80078E78[];
+extern u8 D_800AF630[];
+extern s32 func_8004787C(s32 a0);
+extern void func_8012AD44(s32 *a0, s16 a1);
+extern void func_8017D9B8(void);
+extern void func_8017DAC4(void *arg0);
+
+
+
+extern Ent_8017D6EC D_801E6F58[];
+
+void func_8017D77C(s32 *arg0)
+{
+    u8 *m = D_800AF630;
+    u8 *q = D_80078E78;
+    Ent_8017D6EC *p;
+    Ent_8017D6EC *r;
+    s32 i;
+    s32 j;
+    s32 n;
+    s32 h;
+    s32 c;
+    s32 e;
+
+    if (D_80078EB1 >= 9) {
+        n = 0;
+        for (j = 0; j < 4; j++) {
+            r = &D_801E6F58[j];
+            if (r->unk1C == 0) {
+                n++;
+            }
+        }
+        if (n == 0) {
+            func_8012AD44(arg0, 0);
+            return;
+        }
+    }
+
+    i = 0;
+    do {
+        p = (Ent_8017D6EC *)((s32)D_801E6F58 + i * 0x24);
+        if (p->unk1C == 0) {
+            if (*(s16 *)((s32)p + 0xC) > 0x400) {
+                if (*(s32 *)((s32)p + 0x18) != 0) {
+                    *(s32 *)((s32)p + 0x18) = *(s32 *)((s32)p + 0x18) - 1;
+                } else {
+                    *(s16 *)((s32)p + 0xC) = *(s16 *)((s32)p + 0xC) + 11;
+                }
+            } else {
+                *(s16 *)((s32)p + 0xC) = *(s16 *)((s32)p + 0xC) + 11;
+            }
+            if (*(s16 *)((s32)p + 0xC) > 0x800) {
+                *(s16 *)((s32)p + 0xC) = 0;
+            }
+            c = (func_8004787C(*(s16 *)((s32)p + 0xC)) / 64) & 0xFF;
+            c = c | ((c << 16) | (c << 8));
+            *(s32 *)((s32)p + 0x4) = c;
+            c = (func_8004787C(*(s16 *)((s32)p + 0xC)) / 256) & 0xFF;
+            c = c | ((c << 16) | (c << 8));
+            *(s32 *)((s32)p + 0x8) = c;
+            if ((*(u16 *)(m + 0xA3AA) & 1) == 0) {
+                e = *(u16 *)((s32)p + 0xE) + 1;
+                *(u16 *)((s32)p + 0xE) = e;
+                if ((s16)e >= 0x40) {
+                    *(s16 *)((s32)p + 0xE) = 0;
+                }
+            }
+            h = *(s16 *)((s32)p + 0xC);
+            if (h == 0) {
+                p->unk1C = 1;
+            } else if (h > 0x555) {
+                if (*(s32 *)((s32)p + 0x20) == 0) {
+                    *(s32 *)((s32)p + 0x20) = 1;
+                    if (q[0x39] < 9) {
+                        ((void (*)(void *))func_8017D9B8)(p);
+                    }
+                }
+            }
+            func_8017DAC4(p);
+        }
+        i++;
+    } while (i < 4);
+}
+
 
 /* func_8017D9B8 - iterate through 4-entry array, call func_8017DA08 if any unk1C is non-zero */
 

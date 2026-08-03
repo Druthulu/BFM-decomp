@@ -9288,3 +9288,114 @@ arbiter**, so a weaker drafter is a throughput risk, never a correctness risk (G
 Treat ~50 and ~120 as **current best estimates, not constants** — re-measure the boundaries whenever
 a wave gives a clean per-tier signal (derive the split per-function from the journal + the gate, not
 from the workflow's `by_tier`, which counts claims — §136).
+
+### §136j — The failure MIX flips with function size (measured across four bands, one session)
+
+Blocker-capture classifications from P30 S7/S8, same tooling, same gate, four size bands:
+
+| band | drafted | PLUMBING (declaration) | DIFF (genuine codegen) |
+|---|---|---|---|
+| ≤60 ins (volume lane) | 111 | majority | few |
+| 60–120 ins | 33 | **7 of 10 failures** | 3 |
+| ≤120 aggregate, second round | — | **5 of 6** | 1 |
+| **121–328 ins** | 23 | **1 of 7** | **6 of 7 (86%)** |
+
+**Small functions fail on paperwork; big functions fail on the compiler.** The mix inverts almost
+completely across the range. Two operational consequences:
+
+1. **Budget the lanes by band.** Below ~120 ins, expect the **reconcile** lane to be the workhorse
+   (it ran 15/15 lifetime and costs ~13× less than drafting). Above ~120 ins, expect the **redraft**
+   lane and real gcc-source work — reconcile will have little to bite on.
+2. **Do not read a low bank-rate on a big-function wave as a tooling problem.** 16/23 (70%) on the
+   121–328 band with 86% of the failures being genuine byte-DIFFs is the *expected* shape, not a
+   sign the pipeline is broken. The equivalent 70% on a ≤120 wave WOULD have been a tooling signal,
+   because there the failures should be declarations.
+
+This also re-frames §136a's correction: "a PLUMBING verdict says nothing about the body" is true
+everywhere, but the *prior probability* that a failure is paperwork at all is strongly size-dependent.
+
+**§136f addendum — the collider is often an ALREADY-BANKED SIBLING below the splice, and you can
+locate it by arithmetic.** `func_801832A8`'s draft audit scanned only *above* its `INCLUDE_ASM` at
+TU:4680 and concluded two callees "appear nowhere in the TU". They were declared at TU:4846-4847 —
+**inside the already-banked sibling `func_8018389C`, below the splice**. The proof is arithmetic, and
+it is worth doing before hunting: **the draft grows the file by N lines, so a pre-splice TU line L
+appears at L+N in the error output.** Here N=184, and 4846+184 = 5030, 4847+184 = 5031 — exactly the
+two `conflicting types` lines cc1 reported. If the reported line number exceeds the splice point,
+subtract the growth and look there.
+
+**And a self-verification an agent can run WITHOUT the gate (stronger than `match_one`):** splice into
+a scratch copy of the real TU, run the Makefile chain `cpp → cc1 → maspsx → as`, then `objdump` the
+function out of the resulting object and compare word-by-word against the target `.s`. The words that
+differ should be **exactly** the unlinked relocation slots — set-compare the differing indices against
+`objdump -r`, and require the differing-but-not-relocated set to be **empty**. That proves both the
+declaration surface AND the codegen in real TU context (`func_801832A8`: 237 words, 25 differing,
+all 25 relocations). It is the closest an agent can get to the whole-binary gate on its own.
+
+## §137 — REGALLOC-PERM is a TWO-COMPILE ARITHMETIC PROBLEM, not a permuter job
+
+**Symptom key:** `match_one` reports `REGALLOC-PERM` — a **clean swap of two registers**, everything
+else byte-identical (`$t8`/`$t9`, `$s0`/`$s1`, …). Historically this class went to the permuter or was
+ledgered "unsteerable". It is neither: gcc-2.7.2 decides it by an arithmetic priority you can **read
+out of the compiler's own dumps and then target deliberately**.
+
+**The mechanism.** `global.c:allocno_compare` ranks by
+```
+pri = (int)( floor_log2(R) * R / L * 1e4 * size )
+```
+where **R = times the register is used** and **L = the live-range length in insns**. Both come out of
+cc1's own dumps:
+```
+cc1 -dl -dg …          # t.i.lreg : "Register N used R times across L insns"
+                       # t.i.greg : ";; Register dispositions"
+```
+
+**The method (measured on `func_801833F0`, 328 ins):**
+1. Compile with `-dl -dg` and read **R and L for BOTH contenders and their ranked neighbours**.
+2. Evaluate `pri` for each ⇒ you get the exact **admissible priority WINDOW** that flips the pair.
+   Here the two contenders were **ONE unit apart** — `vtx` 1297 vs the giv 1296 — with window
+   **(1228, 1296)**.
+3. **R and L are both forced by the emitted code**, so source reordering does not move them
+   (measured twice: moving a load's source position changed nothing, because `L` is recomputed
+   post-`sched1`). **This is why source-level levers are a dead end for this class.**
+4. Place a zero-byte `__asm__ __volatile__("" :: "r"(v))` (§17/§21 primitive) at the source point that
+   makes `L` land inside the window. Five probed placements gave L = 190/194/196/219/233/258; only
+   **L=219 → pri 1232** worked.
+
+**Why this matters:** it converts a class we have been routing to the permuter (a random search that
+this session banked **0** from) into a **deterministic two-compile calculation**. Try it before the
+permuter on any clean 2-register swap.
+
+*(Companion finding, same wave, `func_8017BFEC`: a 5-instruction head rotation that was **invariant
+across every legal statement permutation** — 8 head orderings × 2 store forms all identical — is the
+diagnostic signature of **priority / birthing-boost**, not LUID order. Fix: make the pseudo
+**single-set** by splitting a variable reused in two blocks into two locals (`sched.md` §1.7/§S2,
+`sched.c:2469/2490`). An earlier agent had ledgered this exact function DIFF/7 "not steerable from
+this decomposition" after ~70 source variants — refuted. **Invariance under source permutation is
+information: it says the lever is not in the source order.**)*
+
+### §137a — A gate verdict has a TIMESTAMP; re-check it against the draft's mtime
+
+A redraft agent this wave found its handed-over "genuine byte-DIFF" was **stale by 28 minutes**: the
+gate ran at 14:53, the draft was rewritten at 15:22 by an earlier lane whose result had been cached,
+and it was never re-gated. The agent ran `match_one` on the file **as it stood** (D3), got MATCH, and
+spent its budget proving the file would BANK instead of re-deriving a function that was already done.
+
+**The rule:** before acting on any failure verdict — yours or a prior wave's — compare the verdict's
+time against the draft file's mtime. If the file is newer, **re-verify before redrafting.** This is
+the same family as the Phase-29 finding that 77% of stored drafts had decayed, but the opposite
+direction: a stored verdict can be stale because the draft got *better*, not just worse.
+
+**Two offline oracles that agent built, both worth reusing** (they close the gap `match_one`'s
+relocation mask leaves open, without running `make`):
+1. **Full relocation RESOLVE** — resolve your `.o`'s relocations against the target `.s` (`D_<addr>`
+   / `func_<addr>` symbol values, HI16/LO16 paired addends) and compare all words. This sees the
+   class the mask hides: **a wrong `jal` target or a wrong `%hi/%lo` symbol or addend.** Result there:
+   0/227 diffs including every relocation.
+2. **Collateral check** — objdump the whole TU with and without the splice and require every OTHER
+   function to emit identical words, allowing only `.text`-relative `j` addends shifted by exactly
+   your function's size (0x38C there). That catches file-scope declaration damage the target
+   function's own bytes cannot show.
+
+Symptom line for the index: **"`match_one`/`rtu_match` say MATCH but the whole-overlay SHA still
+DIFFs"** has exactly three causes — a stale verdict, a wrong `jal`/`%hi`/`%lo` target the mask hides,
+or collateral from file-scope decls — and the two oracles above discriminate all three offline.

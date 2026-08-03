@@ -3808,7 +3808,40 @@ void func_8017DBC8(s32 param_1, s32 *param_2)
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_006/nonmatchings/ov_SC04_006_jr_8017BEBC", func_8017DD28);
+
+void func_8017DD28(u16 *r, s16 *m) {
+    s16 cx;
+    s16 sx;
+    s16 cy;
+    s16 sy;
+    s16 cz;
+    s16 sz;
+    s32 sxsy;
+    s32 cxcz;
+    s32 cxsz;
+
+    cx = func_8017DFC8(r[0] & 0xFFF);
+    sx = func_8017DF0C(r[0] & 0xFFF);
+    cy = func_8017DFC8(r[1] & 0xFFF);
+    sy = func_8017DF0C(r[1] & 0xFFF);
+    cz = func_8017DFC8(r[2] & 0xFFF);
+    sz = func_8017DF0C(r[2] & 0xFFF);
+
+    cxsz = (cx * sz) >> 15;
+    cxcz = (cx * cz) >> 15;
+    sxsy = (sx * sy) >> 15;
+
+    m[0] = (cz * cy) >> 15;
+    m[1] = ((sxsy * cz) >> 15) - cxsz;
+    m[2] = ((cxcz * sy) >> 15) + ((sx * sz) >> 15);
+    m[3] = (sz * cy) >> 15;
+    m[4] = ((sxsy * sz) >> 15) + cxcz;
+    m[5] = ((cxsz * sy) >> 15) - ((sx * cz) >> 15);
+    m[6] = -sy;
+    m[7] = (cy * sx) >> 15;
+    m[8] = (cy * cx) >> 15;
+}
+
 
 
 /* func_8017DF0C — quadrant-folded sine lookup over a 0x400-entry u16 table.
@@ -4455,7 +4488,82 @@ void func_8017F4F0(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_006/nonmatchings/ov_SC04_006_jr_8017BEBC", func_8017F5EC);
+
+
+extern s32 rand(void);
+extern s32 func_80128ED8(void *a0, void *a1);
+extern s32 func_80132EF4(s32 a0, s32 a1);
+extern s32 func_8012BEE8(s32 a0);
+extern void func_8017FA68(s32 arg0);
+extern void func_8017FAE4(void *arg0);
+
+void func_8017F5EC(s32 arg0) {
+    s32 p;
+    s32 q;
+    s32 r;
+    s32 t0;
+    s32 u0;
+    s32 t1;
+    s32 u1;
+    s32 t2;
+    s32 t3;
+    s32 t4;
+    u16 v;
+    u16 w;
+
+    p = *(s32 *)(arg0 + 0x64);
+    if (*(s16 *)(arg0 + 0x10A) == *(s16 *)(p + 0x36) && *(s16 *)(p + 0x76) > 0) {
+        if (*(s32 *)(arg0 + 0x1C) == (*(s32 *)(arg0 + 0x1C) / 0x30) * 0x30 &&
+            *(u8 *)(p + 0xC1) == 0) {
+            *(s16 *)(p + 0x60) = 0xA;
+            *(u16 *)(p + 0x5C) |= 1;
+            v = *(u16 *)(*(s32 *)(p + 0x20) + 0x12);
+            *(s16 *)(p + 0x5E) = 1;
+            *(u16 *)(p + 0x62) = v + 0x800;
+            *(u16 *)(p + 0x7C) = *(u16 *)(arg0 + 0x6);
+            *(u16 *)(p + 0x7E) = *(u16 *)(arg0 + 0xA);
+            *(u16 *)(p + 0x80) = *(u16 *)(arg0 + 0xE);
+        }
+        if ((*(s32 *)(arg0 + 0x1C) & 7) == 0) {
+            q = func_80132EF4(arg0, 0x22);
+            if (q != 0) {
+                t0 = rand();
+                u0 = *(u16 *)(q + 0x6) - 0x10;
+                *(u16 *)(q + 0x6) = u0 + (t0 & 0x1F);
+                t1 = rand();
+                u1 = *(u16 *)(q + 0xE) - 0x10;
+                *(u16 *)(q + 0xE) = u1 + (t1 & 0x1F);
+                *(u16 *)(q + 0xA) -= 0x20;
+                t2 = rand();
+                *(s32 *)(q + 0x14) = -0x40000 - ((t2 % 3) << 16);
+                t3 = rand();
+                t4 = rand();
+                *(s16 *)(q + 0x34) = ((t3 % 0x1800 + 0x1000) & ~0xF) | (t4 & 1);
+                *(u16 *)(*(s32 *)(q + 0x20) + 0x2C) = 0xC010;
+                *(s32 *)(*(s32 *)(q + 0x20) + 0x4) |= 0x40000000;
+            }
+        }
+        r = *(s32 *)(arg0 + 0xCC);
+        if (r != 0) {
+            func_80128ED8((void *)r, (void *)(arg0 + 0xDC));
+            func_8017FA68(arg0);
+            *(u16 *)(r + 0x8) = *(u16 *)(arg0 + 0x6);
+            *(u16 *)(r + 0xA) = *(u16 *)(arg0 + 0xA);
+            w = *(u16 *)(arg0 + 0xE);
+            *(u16 *)(r + 0x18) += 0x15;
+            *(u16 *)(r + 0x1A) += 0x15;
+            *(u16 *)(r + 0xC) = w;
+        }
+        if (*(u16 *)(p + 0x5E) == 0x23) {
+            *(u16 *)(arg0 + 0x2) += 1;
+        }
+        if (func_8012BEE8(arg0) == 0) {
+            return;
+        }
+    }
+    func_8017FAE4((void *)arg0);
+}
+
 
 
 

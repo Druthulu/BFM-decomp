@@ -611,7 +611,6 @@ extern s32 func_8014E83C(s32 arg0, s16 * arg1, s16 * arg2);
 extern void func_8014E934(s32 _arg0);
 extern s32 func_8014EA4C(void *a0, void *a1, void *a2, s32 a3);
 extern s32 func_8014E98C(void *a0);
-extern u16 D_800B99DA;
 extern s32 D_801150D8;
 extern s16 D_801152AA;
 extern u8 D_80126720[];
@@ -3471,7 +3470,119 @@ void func_8017C064(void *a0)
 
 DEFINE_func_8017C1CC()  /* dedup: shared engine-core @0x8017C1CC (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017AE2C", func_8017C218);
+
+
+/* func_8017C218 — 4-point primitive sweep driven by the 44-byte curve table
+ * D_80193E18.  Builds a rotation matrix from the entity's angle @0x12, then a
+ * translation from the sub-object @0x34, then walks the table three times
+ * (10 x stride-4, 20 x stride-2, 20 x stride-2 guarded by the s16 @0x2A).
+ */
+
+typedef struct {
+    s16 vx, vy, vz, pad;
+} SVec8_8017C218_8017C218;
+
+typedef struct {
+    u8 r, g, b, cd;
+} CVec4_8017C218_8017C218;
+
+typedef struct {
+    SVec8_8017C218_8017C218 v[4];   /* 0x00 */
+    CVec4_8017C218_8017C218 c[4];   /* 0x20 */
+    s32   code;   /* 0x30 */
+} Prim_8017C218_8017C218;           /* 0x34 */
+
+typedef struct {
+    s16 m[3][3];
+    s32 t[3];
+} Mtx_8017C218_8017C218;            /* 0x20 */
+
+extern s32 func_80017758(void *a0, void *a1);
+extern s32 func_80017DC4(void *a0, void *a1);
+extern void func_80017E68(void *a0, void *a1);
+
+void func_8017C218(int param_1)
+{
+
+    extern u16 D_800B99DA;
+    extern u8  D_80193E18[];
+    SVec8_8017C218_8017C218 rot;
+    s32   pad0[2];
+    Prim_8017C218_8017C218  prim;
+    s32   pad1[1];
+    Mtx_8017C218_8017C218   mtx;
+    s32   pad2[8];
+    s32   obj;
+    u8   *p;
+    s16   i;
+    s32   c;
+
+    obj = *(s32 *)(param_1 + 0x34);
+    rot.vx = rot.vy = rot.vz = *(u16 *)(param_1 + 0x12);
+    func_80017DC4(&rot, &mtx);
+
+    prim.v[1].vx = prim.v[1].vy = prim.v[1].vz = 0;
+    prim.v[0].vy = prim.v[2].vy = prim.v[3].vy = 0;
+    prim.c[1].r = prim.c[1].g = prim.c[1].b = 0;
+
+    c = ((s32)(s16)*(u16 *)(param_1 + 0x12) >> 5) + 0x20;
+    prim.c[0].r = prim.c[0].g = prim.c[0].b =
+    prim.c[2].r = prim.c[2].g = prim.c[2].b =
+    prim.c[3].r = prim.c[3].g = prim.c[3].b = c;
+    if (D_800B99DA & 1) {
+        prim.c[0].r = prim.c[2].r = prim.c[3].r = prim.c[3].r >> 1;
+    }
+
+    prim.code = 0x50000000;
+    rot.vx = *(u16 *)(obj + 0x6);
+    rot.vy = *(u16 *)(obj + 0xA) - 8;
+    rot.vz = *(u16 *)(obj + 0xE);
+    func_80017E68(&rot, &mtx);
+
+    p = D_80193E18;
+    i = 0;
+    do {
+        prim.v[0].vx = (s8)*p++;
+        prim.v[0].vz = (s8)*p++;
+        prim.v[2].vx = (s8)*p++;
+        prim.v[2].vz = (s8)*p++;
+        prim.v[3].vx = (s8)*p++;
+        prim.v[3].vz = (s8)*p--;
+        func_80017758(&prim, &mtx);
+        i++;
+    } while (i < 10);
+
+    prim.c[0].r = prim.c[0].g = prim.c[0].b = 0;
+    p = D_80193E18;
+    i = 0;
+    do {
+        prim.v[2].vx = (s8)*p++;
+        prim.v[0].vx = prim.v[2].vx << 1;
+        prim.v[2].vz = (s8)*p++;
+        prim.v[0].vz = prim.v[2].vz << 1;
+        prim.v[3].vx = (s8)*p++;
+        prim.v[1].vx = prim.v[3].vx << 1;
+        prim.v[3].vz = (s8)*p--;
+        prim.v[1].vz = prim.v[3].vz << 1;
+        func_80017758(&prim, &mtx);
+        i++;
+    } while (i < 0x14);
+
+    if (*(s16 *)(param_1 + 0x2A) != 0) {
+        p = D_80193E18;
+        i = 0;
+        do {
+            prim.v[0].vx = prim.v[2].vx = (s8)*p++;
+            prim.v[0].vz = prim.v[2].vz = (s8)*p++;
+            prim.v[1].vx = prim.v[3].vx = (s8)*p++;
+            prim.v[1].vz = prim.v[3].vz = (s8)*p--;
+            prim.v[0].vy = prim.v[1].vy = *(u16 *)(param_1 + 0x2A);
+            func_80017758(&prim, &mtx);
+            i++;
+        } while (i < 0x14);
+    }
+}
+
 
 
 extern void (*D_80193E58[])(void);
@@ -3846,7 +3957,373 @@ void func_8017CCD8(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017AE2C", func_8017CD14);
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017AE2C", func_8017D000);
+
+/* func_8017CD14 — spawn + arm the SC03_028 HUD gauge prim bank.
+ *
+ * Clears the three s16 mode flags, lazily allocates the entity's +0xD0 child
+ * object through func_8012C194 (bailing out of the WHOLE function if the pool
+ * is empty), then re-points the D_801EB5xx prim bank at the owner's +0x6/+0xA
+ * screen coordinates.  Every %lo() address the target touches is its own
+ * dlabel in asm/ov_SC03_028/data/tail18.data.s, so each store is a plain
+ * global — none of them is an interior offset (idiom 7 does not apply).
+ *
+ * Levers that closed this one (5 needed, applied in the prescribed order):
+ *
+ *  1. §136 L1 — every reload group gets its own BLOCK-SCOPED temp.  The three
+ *     `lhu 0xA($s2)` reloads are real: a store to a global and a load through
+ *     a pointer parameter are not disambiguated by memrefs_conflict_p, so the
+ *     load is redone in each group.
+ *
+ *  2. §136 L1 (obj init) — `*(u16 *)(a0+0xA)` is hoisted into its OWN local
+ *     `y` declared BEFORE the +0x2C/+0x27 constant stores.  A load cannot move
+ *     above those stores (different base registers => conservative alias), so
+ *     the target's `lhu $v1,0xA($s2)` sitting three insns early is a SOURCE
+ *     position, not a schedule.  Inline it and the whole block re-orders.
+ *
+ *  3. TYPE FORM, new — `s16 u = t + 7;`  This is the lever that decides
+ *     whether the add issues BEFORE or AFTER the two `t` stores.  With
+ *     `s32 u` the pre-reload scheduler (-fschedule-insns, *not* sched2 —
+ *     verified by -fno-schedule-insns2 changing nothing and
+ *     -fno-schedule-insns reproducing the target) SINKS the add to just
+ *     before its first consumer, reuses $v0 and loses the two load-delay
+ *     nops (LENGTH-DRIFT/-2).  Narrowing `u` to HImode pins the add
+ *     immediately after the load and forces the $v0/$v1 pair.  Equivalent
+ *     fixes that also worked: a non-volatile `__asm__("" : "=r"(u) : "0"(u))`
+ *     re-tie, or `register s32 u __asm__("$3")` — the s16 form is the one
+ *     with no artefact in the source.
+ *
+ *  4. Group 4 needs the OPPOSITE of the sink: `u = t + 2` and `w = t - 2` as
+ *     two named locals keep both addiu's ahead of the stores, because there
+ *     is no store of `t` itself for the scheduler to fill with.
+ *
+ *  5. STATEMENT ORDER for the constant 2 (§136 idiom 4, refined).  The
+ *     constant is CSE'd into one pseudo whose `addiu $v1,$zero,2` is hoisted
+ *     by the scheduler in proportion to how early its first consumer sits in
+ *     the RTL.  Writing `D_801EED60/514 = 2` AFTER the four zero byte stores
+ *     but BEFORE `D_801EED94 = 4` is what puts the `li 2` right behind the
+ *     `li 0x40` (24 insns ahead of its use) while leaving the emitted store
+ *     order at 572/56E/56A/566, 548, 514, 57C.  Putting it any earlier drags
+ *     the stores with it; any later leaves the `li` one slot low
+ *     (SHIFT-DRIFT/+1).
+ *
+ * Also: idiom 3 — the 0xFF byte constants need UNSIGNED (u8) destinations so
+ * gcc emits `addiu $v0,$zero,0xFF`; through `s8` it folds to -1.  And idiom 9
+ * — func_8012C194 is declared void-returning everywhere in the tree
+ * (src/shared/engine_core.h), so it is called through a cast rather than
+ * redeclared.
+ */
+
+void func_8017CD14(void *a0) {
+
+    extern void func_8012C194(void);
+    extern void func_80024054(void *a0, void *a1);
+    extern void func_8001CE28(void *a0, void *a1);
+
+    extern s16 D_80193E94;
+    extern s16 D_80193E88;
+    extern s16 D_80193E7C;
+
+    extern u8  D_801EED00[];
+
+    extern s16 D_801EED28;
+    extern s16 D_801EED2A;
+    extern s16 D_801EED2C;
+    extern s16 D_801EED32;
+    extern s16 D_801EED38;
+    extern s16 D_801EED3A;
+    extern s16 D_801EED42;
+    extern u8  D_801EED48;
+    extern u8  D_801EED49;
+    extern u8  D_801EED4A;
+    extern u8  D_801EED4C;
+    extern u8  D_801EED4E;
+    extern u8  D_801EED50;
+    extern u8  D_801EED51;
+    extern u8  D_801EED52;
+    extern u8  D_801EED54;
+    extern u8  D_801EED56;
+    extern u32 D_801EED58;
+    extern s16 D_801EED5E;
+    extern s16 D_801EED60;
+    extern s16 D_801EED66;
+    extern s16 D_801EED6E;
+    extern s16 D_801EED76;
+    extern u8  D_801EED7C;
+    extern u8  D_801EED7D;
+    extern u8  D_801EED7E;
+    extern u8  D_801EED81;
+    extern u8  D_801EED82;
+    extern u8  D_801EED84;
+    extern u8  D_801EED85;
+    extern u8  D_801EED86;
+    extern u8  D_801EED89;
+    extern u8  D_801EED8A;
+    extern u32 D_801EED8C;
+    extern s16 D_801EED90;
+    extern s16 D_801EED92;
+    extern s16 D_801EED94;
+    extern s16 D_801EED9A;
+    extern s16 D_801EEDA0;
+    extern s16 D_801EEDA2;
+    extern s16 D_801EEDAA;
+    extern u8  D_801EEDB0;
+    extern u8  D_801EEDB1;
+    extern u8  D_801EEDB2;
+    extern u8  D_801EEDB4;
+    extern u8  D_801EEDB5;
+    extern u8  D_801EEDB6;
+    extern u8  D_801EEDB8;
+    extern u8  D_801EEDB9;
+    extern u8  D_801EEDBA;
+    extern u8  D_801EEDBC;
+    extern u8  D_801EEDBD;
+    extern u8  D_801EEDBE;
+    extern u32 D_801EEDC0;
+
+    s32 obj;
+    void *bank;
+
+    D_80193E94 = 0;
+    D_80193E88 = 0;
+    D_80193E7C = 0;
+
+    if (*(s32 *)((s32)a0 + 0xD0) == 0) {
+        obj = ((s32 (*)(void))func_8012C194)();
+        if (obj == 0) {
+            return;
+        }
+        bank = D_801EED00;
+        func_80024054(*(void **)((s32)a0 + 0xDC), bank);
+        func_8001CE28((void *)obj, bank);
+        *(s16 *)(obj + 0x8) = *(u16 *)((s32)a0 + 0x6) + 6;
+        {
+            s32 y = *(u16 *)((s32)a0 + 0xA);
+            *(s16 *)(obj + 0x2C) = 3;
+            *(u8 *)(obj + 0x27) = 1;
+            *(s16 *)(obj + 0xA) = y + 9;
+        }
+        *(s32 *)((s32)a0 + 0xD0) = obj;
+    }
+
+    {
+        s32 t = *(u16 *)((s32)a0 + 0x6);
+        D_801EED28 = t;
+        D_801EED38 = t - 4;
+    }
+    {
+        s32 t = *(u16 *)((s32)a0 + 0xA);
+        s16 u = t + 7;
+        D_801EED32 = t;
+        D_801EED2A = t;
+        D_801EED42 = u;
+        D_801EED3A = u;
+    }
+    {
+        s32 t = *(u16 *)((s32)a0 + 0xA);
+        s16 u = t + 7;
+        D_801EED66 = t;
+        D_801EED5E = t;
+        D_801EED76 = u;
+        D_801EED6E = u;
+    }
+    {
+        s32 t = *(u16 *)((s32)a0 + 0x6);
+        s32 u = t + 2;
+        s32 w = t - 2;
+        D_801EED90 = u;
+        D_801EEDA0 = w;
+    }
+    {
+        s32 t = *(u16 *)((s32)a0 + 0xA);
+        D_801EED50 = 0xFF;
+        D_801EED48 = 0xFF;
+        D_801EED54 = 0xFF;
+        D_801EED4C = 0xFF;
+        D_801EED51 = 0;
+        D_801EED49 = 0;
+        D_801EED56 = 0;
+        D_801EED52 = 0;
+        D_801EED4E = 0;
+        D_801EED4A = 0;
+        D_801EED84 = 0xFF;
+        D_801EED7C = 0xFF;
+        D_801EED9A = t + 4;
+        D_801EED92 = t + 4;
+        D_801EEDAA = t + 0xB;
+        D_801EEDA2 = t + 0xB;
+        D_801EED85 = 0xFF;
+        D_801EED7D = 0xFF;
+        D_801EED89 = 0xFF;
+        D_801EED81 = 0xFF;
+    }
+
+    D_801EEDBC = 0x40;
+    D_801EEDB8 = 0x40;
+    D_801EEDB4 = 0x40;
+    D_801EEDB0 = 0x40;
+    D_801EEDBD = 0x40;
+    D_801EEDB9 = 0x40;
+    D_801EEDB5 = 0x40;
+    D_801EEDB1 = 0x40;
+    D_801EEDBE = 0x40;
+    D_801EEDBA = 0x40;
+    D_801EEDB6 = 0x40;
+    D_801EEDB2 = 0x40;
+    D_801EED8A = 0;
+    D_801EED86 = 0;
+    D_801EED82 = 0;
+    D_801EED7E = 0;
+    D_801EED60 = 2;
+    D_801EED2C = 2;
+    D_801EED94 = 4;
+    D_801EED8C = 0;
+    D_801EED58 = 0;
+    D_801EEDC0 = 0x60000000;
+
+    if (*(s16 *)((s32)a0 + 0x70) == 0) {
+        *(s16 *)((s32)a0 + 0x70) = 0x100;
+    }
+    D_80193E94 = 2;
+    *(s16 *)((s32)a0 + 0x2) = *(u16 *)((s32)a0 + 0x2) + 1;
+}
+
+
+
+
+extern void func_800176F0(void *a0);
+
+void func_8017D000(void *a0) {
+
+    extern s16 D_80193E7C;
+    extern s16 D_80193E88;
+    extern s16 D_80193E94;
+    extern s16 D_801EED28;
+    extern s16 D_801EED30;
+    extern s16 D_801EED40;
+    extern u8  D_801EED49;
+    extern u8  D_801EED4A;
+    extern u8  D_801EED4D;
+    extern u8  D_801EED4E;
+    extern u8  D_801EED51;
+    extern u8  D_801EED52;
+    extern u8  D_801EED55;
+    extern u8  D_801EED56;
+    extern s16 D_801EED64;
+    extern s16 D_801EED6C;
+    extern s16 D_801EED74;
+    extern u8  D_801EED7E;
+    extern u8  D_801EED80;
+    extern u8  D_801EED82;
+    extern u8  D_801EED86;
+    extern u8  D_801EED88;
+    extern u8  D_801EED8A;
+    extern s16 D_801EED98;
+    extern s16 D_801EEDA8;
+
+    s16 cur = *(s16 *)((s32)a0 + 0x108);
+    s32 lo = **(s16 **)((s32)a0 + 0xD4);
+    s32 hi = **(s16 **)((s32)a0 + 0xD8);
+    s32 hw;
+    s16 h;
+    s16 c;
+    s32 t;
+
+    s16 *p;
+    void *w;
+
+    if (cur != lo) {
+        if (lo < cur) {
+            s32 d;
+            s16 *r;
+            *(s16 *)((s32)a0 + 0x108) = cur - hi * 3 / *(s16 *)((s32)a0 + 0x70);
+            if (*(s16 *)((s32)a0 + 0x108) < lo) {
+                *(s16 *)((s32)a0 + 0x108) = lo;
+            }
+            d = *(s16 *)((s32)a0 + 0x108) * *(s16 *)((s32)a0 + 0x70) / hi;
+            r = &D_80193E7C;
+            *r = d;
+            if (*r == 0) {
+                if (lo != 0) {
+                    *r = 1;
+                }
+            }
+        } else if (cur < *(s16 *)((s32)a0 + 0x10A)) {
+            *(s16 *)((s32)a0 + 0x108) = cur + hi * 3 / *(s16 *)((s32)a0 + 0x70);
+            if (lo < *(s16 *)((s32)a0 + 0x108)) {
+                *(s16 *)((s32)a0 + 0x108) = hi;
+            }
+            D_80193E7C = *(s16 *)((s32)a0 + 0x108) * *(s16 *)((s32)a0 + 0x70) / hi;
+        } else if (*(s16 *)((s32)a0 + 0x10A) < hi) {
+            *(s16 *)((s32)a0 + 0x10A) =
+                *(s16 *)((s32)a0 + 0x10A) + hi * 3 / *(s16 *)((s32)a0 + 0x70);
+            if (hi < *(s16 *)((s32)a0 + 0x10A)) {
+                *(s16 *)((s32)a0 + 0x10A) = hi;
+            }
+            D_80193E88 = *(s16 *)((s32)a0 + 0x10A) * *(s16 *)((s32)a0 + 0x70) / hi;
+            D_80193E94 = D_80193E88 + 2;
+        }
+    }
+
+    if (*(s16 *)((s32)a0 + 0xFC) == 0xB) {
+        s32 f = *(s32 *)((s32)a0 + 0x1C);
+        s32 v = -(f & 1) & 0xC0;
+        __asm__("" : "=r"(v) : "0"(v));
+        f = f + 1;
+        *(s32 *)((s32)a0 + 0x1C) = f;
+        D_801EED51 = v;
+        D_801EED49 = v;
+        D_801EED8A = v;
+        D_801EED86 = v;
+        D_801EED82 = v;
+        D_801EED7E = v;
+        D_801EED56 = v;
+        D_801EED52 = v;
+        D_801EED4E = v;
+        D_801EED4A = v;
+    }
+
+    hw = (s16) * (u16 *)((s32)a0 + 0x70) >> 1;
+    h = hw;
+    c = D_80193E7C;
+    if (c < h) {
+        D_801EED30 = (u16)D_801EED28 + c;
+        D_801EED40 = (u16)D_801EED28 + c - 4;
+        D_801EED55 = c * 255 / h;
+        D_801EED4D = c * 255 / h;
+    } else {
+        register u8 *q __asm__("$6");
+        u16 bs;
+        s32 x;
+        s16 y;
+        t = (c - h) * 255 / h;
+        q = &D_801EED4D;
+        __asm__("" : "=r"(q) : "0"(q));
+        bs = (u16)D_801EED28;
+        x = bs + hw;
+        __asm__("" :: "r"(hw));
+        y = x - 4;
+        D_801EED55 = 0xFF;
+        *q = 0xFF;
+        *(s16 *)(q + 0xF) = x;
+        D_801EED64 = bs + c;
+        D_801EED30 = x;
+        D_801EED6C = y;
+        D_801EED40 = y;
+        D_801EED74 = bs + c - 4;
+        D_801EED88 = -t;
+        D_801EED80 = -t;
+        func_800176F0(q + 0xF);
+    }
+
+    p = &D_801EEDA8;
+    __asm__("" : "=r"(p) : "0"(p));
+    D_801EED98 = *(u16 *)((s32)p - 0x18) + (u16)D_80193E88;
+    *p = D_801EED98 - 4;
+    w = (void *)((s32)p - 0x80);
+    p = (s16 *)((s32)p - 0x18);
+    func_800176F0(w);
+    func_800176F0(p);
+}
+
 

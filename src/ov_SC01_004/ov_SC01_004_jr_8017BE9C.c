@@ -3511,7 +3511,218 @@ INCLUDE_ASM("asm/ov_SC01_004/nonmatchings/ov_SC01_004_jr_8017BE9C", func_8017E3A
 
 INCLUDE_ASM("asm/ov_SC01_004/nonmatchings/ov_SC01_004_jr_8017BE9C", func_8017E5B8);
 
-INCLUDE_ASM("asm/ov_SC01_004/nonmatchings/ov_SC01_004_jr_8017BE9C", func_8017E804);
+
+/* func_8017E804 — HUD "gauge box" primitive emitter (203 ins, frame 0x28).
+ *
+ * STATUS: MATCH (203/203 ins) — verified
+ *   .venv/bin/python tools/match_one.py func_8017E804 \
+ *       --c .run/s8/ov_SC01_005/func_8017E804.c \
+ *       --asm-subdir asm/ov_SC01_005/nonmatchings/ov_SC01_005_jr_8017C340
+ *
+ * Structural twin (byte-matched, same author) — supplied every expression form
+ * and both of the closing levers:
+ *   src/ov_SC03_099/ov_SC03_099_jr_80140608.c  func_80140958  (the j<2 loop, [L2])
+ *
+ * ---------------------------------------------------------------------------
+ * THE TWO LEVERS THAT CLOSED THE LAST 30 MISMATCHES (both byte-measured)
+ *
+ * [A] 30 -> 12.  ALLOCNO-PRICING (cookbook §48-A / global.c:594).  The whole
+ *     residual was one global allocno out of order: `pb` had to be granted a
+ *     register BEFORE the loop's `k` and `j`, otherwise k took $a2 and pb was
+ *     pushed to $t0, rotating six registers.  Measured off the `-dl -dg` dumps:
+ *         pri = floor_log2(n_refs) * n_refs / live_length * 10000
+ *         pb  4 refs / 74 ins = 1081   k  7/73 = 1917   j  7/74 = 1891
+ *     floor_log2 is a STEP function, so 5/6/7 refs are all still < k; only
+ *     n_refs >= 8 (floor_log2 -> 3) clears it: 24/75 = 3200 > 1917.
+ *     The twin's [L2] dial supplies the refs with zero bytes — but note a
+ *     5-operand asm buys only +4 refs, not +5 (one operand does not count):
+ *         __asm__ volatile("" :: "r"(pb) x5);   -- takes 4 refs to 8
+ *     PLACEMENT IS LOAD-BEARING (all three were measured):
+ *       - after `pb2 = ...` and before `m24 = ...`  -> 18  (pb2 gains a ref and
+ *         overtakes mhi, swapping $t1/$t2)
+ *       - after `eight = 8;`, i.e. BEFORE `pb2 = ...` -> 12  <-- correct
+ *         (a volatile asm is a full sched barrier, sched.c:1957, so it must sit
+ *          where the target's preheader order is already the source order; and
+ *          it must be before pb2's def so pb2's ref count is untouched, yet
+ *          inside pb's live range so pb's refs rise)
+ *       - out in the OT-link block                  -> 13
+ *
+ * [B] 12 -> MATCH.  `register u32 c0 __asm__("$3")` for the `ot[0]` read.
+ *     Residual was slots 60/67 transposed (`lui 0xFF000000` vs `lw 0(ot)`) plus
+ *     the three block-3 local-alloc grants that FOLLOW from it (§76 trap 1: a
+ *     scheduling diff that is a register grant in disguise).  The `-dS` trace
+ *     showed both insns at INSN_PRIORITY 1 with the same birthing boost
+ *     (0x7f000001), so no source-level dial reaches them:
+ *       - inverting their LUID (const into a named local assigned first) leaves
+ *         the sched1 output BIT-IDENTICAL — measured on the .combine dump, the
+ *         pair swapped position 42/43 and the schedule did not move.  §49's LUID
+ *         dial does NOT apply to a pair that ties on the *arrival cycle*.
+ *       - killing the load's birthing boost (`__asm__("" : "=r"(c0) : "0"(c0))`,
+ *         reg_n_sets 2) starves it and floats it to the block head, idx 44 (23).
+ *     Pinning the ot[0] value to $v1 instead makes local-alloc's `regs_live_at`
+ *     hold $v1 across [59,62), which forces the `*pb` temp off $v1 onto $a0 —
+ *     and $a0 is then free again at 67 for the 0xFF000000 constant, which is the
+ *     only assignment consistent with the target schedule.  Registers and
+ *     schedule fall out together.
+ *     ($3 is shared with `tv` below; the two live ranges are disjoint.)
+ *
+ * ---------------------------------------------------------------------------
+ * Levers that closed the earlier residuals (124 -> 30; do not re-derive):
+ *  1. q = (u8*)ot + 0x14 (NOT +0x12).  loop.c picks the LAST giv in insn order
+ *     as the address-class representative; with q=+0x12 the last giv is
+ *     ot+0x10 and gcc keeps a 2nd biv for the `0(q)` store (LENGTH-DRIFT +1).
+ *  2. `__asm__("" ::: "memory")` after the `y` store keeps it at the join label.
+ *  3. `idx2 = idx + zr;` with `register s32 zr __asm__("$0")` (RC-12 opaque
+ *     copy) reproduces `sll $v0,$a2,16` reading the PARAM hard reg with
+ *     `addu $s4,$a2,$zero` sunk to insn 25.
+ *  4. `register s32 tv __asm__("$3")` for the 5th (stack) arg — without it the
+ *     `lw $v1,0x38($sp)` hoists to insn 8; the target has it at 17.  (Still
+ *     required at the final base: removing it re-opens 22 mismatches.)
+ *  5. `register u32 *op __asm__("$4")` (twin's pin) for the loop's env pointer.
+ *  6. p = (u16*)(t*2 + (s32)a1p) — operand order gives `addu $v1,$v1,$s2`.
+ *
+ * Levers TRIED and byte-REFUTED (do not re-spend):
+ *   pins on pb/j/k (length drops 199-202); pb2 = pb / pb + zr / pb[0]; pb
+ *   declared first/last/top-of-fn; pb copy hoisted between the two guards;
+ *   mask literals -> named locals in both orders; boost-kill re-ties on the
+ *   masks; loop masks/eight as literals; all 56 loop declaration-order
+ *   permutations; volatile pb; the `u32 addr:24` PTag bitfield form for the
+ *   OT link (198 ins, -5); swapping the IOR operands (27); temps for the env
+ *   value or for `ot[0] & mask` (12-29, no movement).
+ *
+ * TU declaration surface (checked in one pass against
+ * src/ov_SC01_005/ov_SC01_005_jr_8017C340.c + src/shared/engine_core.h):
+ *   - prototype at TU:3472 is `extern s32 *func_8017E804(s32*,void*,s32,void*,s32)`
+ *     — the definition below matches it exactly.
+ *   - D_800B9A02 is already file-scope in the TU (`extern short` :2471 and
+ *     `extern s16` :2473, plus 52 hits in engine_core.h); `extern s16` here is
+ *     compatible and the unsigned access is forced at the USE (§8d sub-class b).
+ *   - D_80115116 / D_8011511A are file-scope `extern u16` at TU:3379 / :3466 —
+ *     same spelling used here.
+ *   - D_80115148 / D_80115158 / func_8014168C come from DEFINE_func_8014168C()
+ *     in engine_core.h:4008 (`extern u8 …[]`, `s16 func_8014168C(s16)`); that
+ *     macro is NOT invoked in this TU, so these externs are the only decls and
+ *     they use the canonical types.  s8 access to D_80115158 is cast at use.
+ *   - D_80115138 / D_80115140 / D_8018BE9A / D_8018BEAE / D_800AE7BC have no
+ *     other declaration in this TU; D_80115140 matches ov_SC03_099's spelling.
+ *   - D_800AE7BC keeps its function-local typedef + extern (twin's shape), so
+ *     it cannot collide at file scope.
+ */
+
+extern s16 func_8014168C(s16 a0);
+
+s32 *func_8017E804(s32 *ot, void *a1p, s32 idx, void *a3p, s32 tag) {
+
+    extern u8  D_80115138[];
+    extern u8  D_80115140[];
+    extern u8  D_80115148[];
+    extern u8  D_80115158[];
+    extern u16 D_80115116;
+    extern u16 D_8011511A;
+    extern u16 D_8018BE9A;
+    extern u16 D_8018BEAE;
+    typedef struct {
+        u32 *ot;      /* 0x00 */
+        u32 pad[4];   /* 0x04..0x13 */
+    } Env_8017EFA8_8017E804;   /* 0x14 stride */
+    extern Env_8017EFA8_8017E804 D_800AE7BC[];
+
+    register s32 zr __asm__("$0");
+    u16 *pb;
+    u16 *p;
+    s32  c;
+    register s32 tv __asm__("$3");
+    s32  idx2;
+    s16  t;
+    register u32 c0 __asm__("$3");
+
+    c = D_80115138[(s16)idx];
+    *(u32 *)ot = 0x4000000;
+    tv = tag;
+    *((u8 *)ot + 0xC) = 0x30;
+    *((u8 *)ot + 0xD) = 0x48;
+    ot[1] = tv | 0x64000000;
+    *(s16 *)((u8 *)ot + 0xE) = 0x4056;
+    idx2 = idx + zr;
+
+    if (c < 6) {
+        t = ((s32 (*)(s32))func_8014168C)((s16)idx) * 2;
+    } else {
+        t = (D_80115148[(s16)idx * 2] - D_80115140[(s16)idx]) * 2;
+    }
+
+    p = (u16 *)(t * 2 + (s32)a1p);
+    *(s16 *)((u8 *)ot + 0x8) = p[0] - 8;
+    *(s16 *)((u8 *)ot + 0xA) = p[1];
+    *(s16 *)((u8 *)ot + 0x12) = 8;
+    *(s16 *)((u8 *)ot + 0x10) = 8;
+
+    pb = (u16 *)&D_800B9A02;
+    c0 = ot[0];
+    ot[0] = (c0 & 0xFF000000) | (D_800AE7BC[*pb].ot[2] & 0xFFFFFF);
+    D_800AE7BC[*pb].ot[2] =
+        (D_800AE7BC[*pb].ot[2] & 0xFF000000) | (((u32)ot) & 0xFFFFFF);
+
+    ot += 5;
+
+    if (c >= 6) {
+        s32 m = D_8011511A;
+        if ((m == (s16)idx2) && ((D_80115116 & 8) != 0)) {
+            s16 j;
+            s32 k;
+            u8 *q;
+            s16 y;
+            u16 *pb2;
+            u32 m24;
+            u32 mhi;
+            s32 eight;
+
+            j = 0;
+            k = m;
+            eight = 8;
+            __asm__ volatile("" :: "r"(pb), "r"(pb), "r"(pb), "r"(pb), "r"(pb));
+            pb2 = (u16 *)&D_800B9A02;
+            m24 = 0xFFFFFF;
+            mhi = 0xFF000000;
+            q = (u8 *)ot + 0x14;
+            for (; j < 2; j++) {
+                if (j == 0) {
+                    if (D_80115140[k] == 0) {
+                        continue;
+                    }
+                    q[-7] = 0x30;
+                    y = D_8018BE9A - 2;
+                } else {
+                    s32 k2 = k * 2;
+                    if ((((s8 *)D_80115158)[k2] - ((s8 *)D_80115140)[k]) < 7) {
+                        continue;
+                    }
+                    q[-7] = 0x38;
+                    y = D_8018BEAE + 1;
+                }
+                *(s16 *)(q - 10) = y;
+                __asm__("" ::: "memory");
+                *((u32 *)ot) = 0x4000000;
+                q[-8] = 0x78;
+                *((u32 *)(q - 0x10)) = 0x64808080;
+                *(s16 *)(q - 6) = 0x4056;
+                *(s16 *)(q - 0xC) = ((s32 *)a3p)[2] + ((s32 *)a3p)[3] - 0xD;
+                *(s16 *)(q - 4) = eight;
+                *(s16 *)(q - 2) = eight;
+                *((u32 *)ot) = ((*(u32 *)ot) & mhi) | (D_800AE7BC[*pb2].ot[2] & m24);
+                {
+                    register u32 *op __asm__("$4");
+                    op = D_800AE7BC[*pb2].ot;
+                    op[2] = (op[2] & mhi) | (((u32)ot) & m24);
+                }
+                q += 0x14;
+                ot += 5;
+            }
+        }
+    }
+    return ot;
+}
+
 
 INCLUDE_ASM("asm/ov_SC01_004/nonmatchings/ov_SC01_004_jr_8017BE9C", func_8017EB30);
 
