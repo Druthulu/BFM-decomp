@@ -9256,3 +9256,35 @@ prediction; the gate is the fact.**
 very session that was correcting R37 violations elsewhere. The byte-gate cost was ~1,780 build
 cycles and zero tokens, and nothing wrong entered the tree; the loss was wall-clock and a wrong line
 in a checkpoint that a fresh session would have acted on.)*
+
+### §136i — The drafter model LADDER: Haiku → **Sonnet** → Opus → Fable5 (Drew, 2026-08-03)
+
+The two-tier rule from the 2026-06-29 A/B (cheap drafter ≤~50 ins, Opus for the 90+ tail) left the
+**~50–120-ins band unassigned**, and every wave since defaulted it to Haiku-with-Opus-escalation.
+P30 S7 measured what that costs:
+
+| tier that produced the FINAL draft | banked / attempted |
+|---|---|
+| Haiku direct (≤89 ins as routed) | **3 / 8** |
+| Opus escalation after a Haiku miss | **10 / 11** |
+
+Haiku on that band was **expensive triage** — a wasted draft plus a full Opus redraft — not a cheap
+drafter. The original A/B only proved parity **≤52 ins**; everything above was extrapolation.
+
+**Route drafters by size:**
+
+| band | `model:` |
+|---|---|
+| ≤ ~50 ins | `haiku` (measured ≡ Opus, ~4.8× cheaper) |
+| **~50–120 ins** | **`sonnet`** ← the rung this section adds |
+| ≥ ~120 ins, or escalation after any lower rung returns non-MATCH | `opus` |
+| a genuinely NEW wall class nothing else cracks | `fable` (discovery only — never for applying known idioms) |
+
+**Never route Haiku → Opus directly**, and never default a whole wave to Opus because the band
+"looks hard" — that is the same extrapolation in the other direction. Escalation is unchanged: any
+rung returning non-MATCH escalates one step up. The **whole-binary byte-gate remains the sole
+arbiter**, so a weaker drafter is a throughput risk, never a correctness risk (G3/P9).
+
+Treat ~50 and ~120 as **current best estimates, not constants** — re-measure the boundaries whenever
+a wave gives a clean per-tier signal (derive the split per-function from the journal + the gate, not
+from the workflow's `by_tier`, which counts claims — §136).
