@@ -317,7 +317,6 @@ extern s32 func_80012B04(s32 a0, s32 a1, s32 a2);
 extern void func_801490F8(s32 a0, s32 a1);
 extern s32 func_801491C4(s32 a0);
 extern s32 func_80149184(s32 a0);
-extern s32 D_801151D4;
 extern void func_80149204(s32 *a0);
 extern void func_80149210(s32 a0, s32 a1);
 extern s32 func_80149284(s32 *a0, s32 a1);
@@ -384,7 +383,6 @@ extern s32 func_80149F2C(s32 a0, s32 a1);
 extern s32 func_80149E94(s32 arg0);
 extern void func_80149FA8(void);
 extern s32 D_8018EDCC[];
-extern u8 D_80078E78[];
 extern s32 func_80149FB0(s32 a0);
 extern s32 func_80135260(s32 arg0, s32 arg1, s16 *arg2, s16 *arg3);
 extern void func_8014A1B0(s32 a0, s32 a1);
@@ -437,7 +435,6 @@ extern void func_8014B00C(s32 arg0);
 extern void func_8014B084(void);
 extern s16 D_80078E90;
 extern void func_8014B034(s32 a0);
-extern u16 D_80078EAC;
 extern u8 D_80078EBA;
 extern void func_800D10EC(void);
 extern void func_8002AC98(void);
@@ -1783,8 +1780,6 @@ extern void func_8016A700(void *a0);
 extern s32 func_8016A73C(s32 arg0);
 extern s32 func_8016A8FC(s32 a0);
 extern void func_8016A890(s32 arg0);
-extern u16 D_80126B5E;
-extern u16 D_80126B66;
 extern void func_8016AA50(s32 param_1, s32 param_2);
 extern void (*D_80190380[])(void);
 extern void func_8016AB30(void *a0);
@@ -2720,8 +2715,6 @@ void func_8017B0E4(int param_1, int param_2)
 
 
 
-extern u16 D_80126B5E;
-extern u16 D_80126B66;
 extern s16 D_801E6CAC;
 extern u16 D_801E6D2C;
 extern u16 D_801E6D2E;
@@ -2729,6 +2722,11 @@ extern u16 D_801E6D30;
 extern s16 D_801E7AB0;
 
 void func_8017B1D8(void) {
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern u16 D_80126B5E;
+    extern u16 D_80126B66;
     /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
        LATER function in this TU, which blocks a byte-true decl of a different type.
        Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
@@ -2984,7 +2982,6 @@ void func_8017B7A8(void)
 
 
 
-extern s32 D_801151D4;
 extern s16 D_801E6D3C;
 extern s16 D_801E6D3E;
 extern s16 D_801E6D40;
@@ -2993,6 +2990,10 @@ extern s16 D_801E6D46;
 extern s16 D_801E6D48;
 
 void func_8017B824(void) {
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern s32 D_801151D4;
     D_801E6D3C = (s16) M2C_FIELD(D_801151D4, s32 *, 0x48);
     D_801E6D3E = (s16) M2C_FIELD(D_801151D4, s32 *, 0x4C);
     D_801E6D40 = (s16) M2C_FIELD(D_801151D4, s32 *, 0x50);
@@ -3051,8 +3052,6 @@ s32 func_8017B8E8(s32 src) {
 // @class: struct
 // @stuck: none — MATCH (63 ins)
 
-extern u16 D_80126B5E;
-extern u16 D_80126B66;
 extern u16 D_801E6D2C;
 extern u16 D_801E6D2E;
 extern u16 D_801E6D30;
@@ -3078,6 +3077,11 @@ extern s16 D_801E6D20;
 
 void func_8017B940(void)
 {
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern u16 D_80126B5E;
+    extern u16 D_80126B66;
     /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
        LATER function in this TU, which blocks a byte-true decl of a different type.
        Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
@@ -3413,7 +3417,26 @@ void func_8017BF50(s32 a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_8017C094);
+
+
+extern void func_800D23D0(void *a0);
+
+void func_8017C094(void) {
+
+    extern s32 D_801151D4;
+    extern s16 D_801E6F50;
+    s16 diffs[3];
+    s32 *ptr = (s32 *)D_801151D4;
+
+    diffs[0] = (s16)(*(s32 *)((u8 *)ptr + 0x68) - *(s32 *)((u8 *)ptr + 0x5C));
+    diffs[1] = (s16)(*(s32 *)((u8 *)ptr + 0x6C) - *(s32 *)((u8 *)ptr + 0x60));
+    diffs[2] = (s16)(*(s32 *)((u8 *)ptr + 0x70) - *(s32 *)((u8 *)ptr + 0x64));
+
+    func_800D23D0(diffs);
+
+    D_801E6F50 = (u16)diffs[1];
+}
+
 
 
 extern void func_8001CB6C(u8 *a0, s32 a1, s32 a2, s32 a3);
@@ -4395,7 +4418,21 @@ extern void func_800D1EBC(void);
     }
 
 
-INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_8017DE4C);
+
+extern void func_800D1E28(void);
+
+s32 func_8017DE4C(void *a0) {
+    s32 *p = (s32 *)((u8 *)a0 + 0x28);
+    *p = *p - 1;
+
+    if (*p == -1) {
+        func_800D1E28();
+        (*(u8 *)((u8 *)a0 + 0x15))++;
+    }
+
+    return 0;
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_8017DEA0);
 
@@ -5165,9 +5202,52 @@ s32 func_80180814(void *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_80180888);
 
-INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_801808FC);
+
+extern void func_8012E8E0(s32, s32);
+extern void func_8012E88C(s32);
+extern void func_8012A828(s32 *a0, s32 a1);
+extern void func_80184C90(s32);
+extern void func_80184ED4(s32, s32, s32, s32);
+
+
+void func_80180888(void *arg0) {
+
+    extern short D_801919E0;
+    extern short D_801B6614;
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern short D_801B9AA8;
+    *(short *)((char *)arg0 + 0x2) = 2;
+    func_8012E8E0((s32)arg0, (s32)&D_801919E0);
+    func_8012E88C((s32)arg0);
+    func_8012A828((s32 *)arg0, (s32)&D_801B9AA8);
+    func_80184C90((s32)arg0);
+    *(short *)((char *)arg0 + 0x34) = 0;
+    func_80184ED4((s32)arg0, (s32)&D_801B6614, 0, 0x60);
+}
+
+
+
+
+extern void func_8012E8E0(s32 a0, s32 a1);
+extern void func_8012E88C(s32 a0);
+extern void func_8012A828(s32 *a0, s32 a1);
+extern void func_80184C90(s32 a0);
+
+
+void func_801808FC(void *a0) {
+
+    extern short D_801919E8;
+    extern short D_801B9B50;
+    *(short *)((char *)a0 + 0x2) = 3;
+    func_8012E8E0((s32)a0, (s32)&D_801919E8);
+    func_8012E88C((s32)a0);
+    func_8012A828((s32 *)a0, (s32)&D_801B9B50);
+    func_80184C90((s32)a0);
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_80180954);
 
@@ -5509,7 +5589,28 @@ DEFINE_func_80181998()  /* dedup: shared engine-core @0x80181998 (src/shared) */
 
 DEFINE_func_801819B0()  /* dedup: shared engine-core @0x801819B0 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_801819C8);
+
+
+extern void func_8012E8E0(s32, s32);
+extern void func_8012E88C(s32);
+extern void func_8012A828(s32 *, s32);
+extern void func_80178CBC(s32, s32);
+
+void func_801819C8(void *arg0) {
+
+    extern s32 D_80191B3C;
+    extern s32 D_80191B74;
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern s32 D_801B9A50;
+    *(short *)((char *)arg0 + 0x2) = 5;
+    func_8012E8E0((s32)arg0, (s32)&D_80191B3C);
+    func_8012E88C((s32)arg0);
+    func_8012A828((s32 *)arg0, (s32)&D_801B9A50);
+    ((void (*)(s32 *, s32))func_80178CBC)((s32 *)arg0, (s32)&D_80191B74);
+}
+
 
 
 extern s32 func_80184DD0(s32 a0);
@@ -5651,9 +5752,52 @@ s32 func_80181EFC(void *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_80181F70);
 
-INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_80181FE4);
+
+extern void func_8012E8E0(s32, s32);
+extern void func_8012E88C(s32);
+extern void func_8012A828(s32 *a0, s32 a1);
+extern void func_80184C90(s32);
+extern void func_80184ED4(s32, s32, s32, s32);
+
+
+void func_80181F70(void *arg0) {
+
+    extern short D_80191C08;
+    extern short D_801B66CC;
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern short D_801B9AA8;
+    *(short *)((char *)arg0 + 0x2) = 2;
+    func_8012E8E0((s32)arg0, (s32)&D_80191C08);
+    func_8012E88C((s32)arg0);
+    func_8012A828((s32 *)arg0, (s32)&D_801B9AA8);
+    func_80184C90((s32)arg0);
+    *(short *)((char *)arg0 + 0x34) = 0;
+    func_80184ED4((s32)arg0, (s32)&D_801B66CC, 0, 0x40);
+}
+
+
+
+
+extern void func_8012E8E0(s32 a0, s32 a1);
+extern void func_8012E88C(s32 a0);
+extern void func_8012A828(s32 *a0, s32 a1);
+extern void func_80184C90(s32 a0);
+
+
+void func_80181FE4(void *a0) {
+
+    extern short D_80191C10;
+    extern short D_801B9B50;
+    *(short *)((char *)a0 + 0x2) = 3;
+    func_8012E8E0((s32)a0, (s32)&D_80191C10);
+    func_8012E88C((s32)a0);
+    func_8012A828((s32 *)a0, (s32)&D_801B9B50);
+    func_80184C90((s32)a0);
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_8018203C);
 
@@ -5879,9 +6023,52 @@ extern void func_80178CBC(s32 a0, s32 a1);
 
 INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_80182AF8);
 
-INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_80182B58);
 
-INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_80182BCC);
+
+extern void func_8012E8E0(s32, s32);
+extern void func_8012E88C(s32);
+extern void func_8012A828(s32 *a0, s32 a1);
+extern void func_80184C90(s32);
+extern void func_80184ED4(s32, s32, s32, s32);
+
+
+void func_80182B58(void *arg0) {
+
+    extern short D_80191F14;
+    extern short D_801B6700;
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern short D_801B99A8;
+    *(short *)((char *)arg0 + 0x2) = 2;
+    func_8012E8E0((s32)arg0, (s32)&D_80191F14);
+    func_8012E88C((s32)arg0);
+    func_8012A828((s32 *)arg0, (s32)&D_801B99A8);
+    func_80184C90((s32)arg0);
+    *(short *)((char *)arg0 + 0x34) = 0;
+    func_80184ED4((s32)arg0, (s32)&D_801B6700, 0, 0x60);
+}
+
+
+
+
+extern void func_8012E8E0(s32 a0, s32 a1);
+extern void func_8012E88C(s32 a0);
+extern void func_8012A828(s32 *a0, s32 a1);
+extern void func_80184C90(s32 a0);
+
+
+void func_80182BCC(void *a0) {
+
+    extern short D_80191F1C;
+    extern short D_801C0D40;
+    *(short *)((char *)a0 + 0x2) = 3;
+    func_8012E8E0((s32)a0, (s32)&D_80191F1C);
+    func_8012E88C((s32)a0);
+    func_8012A828((s32 *)a0, (s32)&D_801C0D40);
+    func_80184C90((s32)a0);
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_80182C24);
 
@@ -5902,7 +6089,28 @@ extern s32 D_801D7E84;
     }
 
 
-INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_80182D24);
+
+
+extern void func_8012E8E0(s32, s32);
+extern void func_8012E88C(s32);
+extern void func_8012A828(s32 *, s32);
+extern void func_80178CBC(s32, s32);
+
+void func_80182D24(void *arg0) {
+
+    extern s32 D_80191F1C;
+    extern s32 D_80191F94;
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern s32 D_801B9A50;
+    *(short *)((char *)arg0 + 0x2) = 5;
+    func_8012E8E0((s32)arg0, (s32)&D_80191F1C);
+    func_8012E88C((s32)arg0);
+    func_8012A828((s32 *)arg0, (s32)&D_801B9A50);
+    ((void (*)(s32 *, s32))func_80178CBC)((s32 *)arg0, (s32)&D_80191F94);
+}
+
 
 
 extern s32 func_80184DD0(s32 a0);
@@ -6079,7 +6287,18 @@ INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_8018360
 
 INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_80183674);
 
-INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_801836C0);
+
+extern s32 func_80184BAC(s32 arg0, s32 arg1);
+extern void func_801831D8(s32 *a0);
+
+void func_801836C0(s32 *a0) {
+    *(s32 *)((s32)a0[0x33] + 0xB0) = 2;
+    if (func_80184BAC(7, 10) != 0) {
+        return;
+    }
+    func_801831D8(a0);
+}
+
 
 
 extern int func_80178970(void);
@@ -6361,11 +6580,33 @@ void func_801842F8(void *arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_80184328);
+
+extern s32 func_80184BAC(s32 arg0, s32 arg1);
+extern void func_80183FA8(s32 *a0);
+
+void func_80184328(s32 *a0) {
+    *(s32 *)((s32)a0[0x33] + 0xB0) = 2;
+    if (func_80184BAC(7, 16) != 0) {
+        return;
+    }
+    func_80183FA8(a0);
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_80184374);
 
-INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_801843C4);
+
+extern s32 func_80184BAC(s32 arg0, s32 arg1);
+extern void func_80183DF4(void*);
+
+void func_801843C4(s32 *a0) {
+    *(s32 *)((s32)a0[0x33] + 0xB0) = 2;
+    if (func_80184BAC(16, 20) != 0) {
+        return;
+    }
+    ((void (*)(s32 *))func_80183DF4)(a0);
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_80184410);
 
@@ -6506,7 +6747,57 @@ void func_801848B0(void *a0)
 
 INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_801848DC);
 
-INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_80184960);
+
+/* func_80184960 — 76 instructions */
+
+extern s32 func_80184B04(s32 arg0);
+
+s32 func_80184960(s32 a0) {
+
+    extern u8 D_80078E78[];
+    extern u8 D_80078EB1;
+    extern u16 D_80078EAC;
+    extern s32 D_801E7998;
+    extern s16 D_801B86BC[];
+    extern s16 D_801B86F0[];
+    extern s32 D_801B85BC[][8];
+    u8 *p;
+    s32 s0;
+    s32 t;
+    s32 q;
+    s32 r;
+    s32 b;
+    s32 c;
+    s32 idx;
+
+    p = D_80078E78;
+    s0 = D_801B86BC[*(s16 *)(*(s32 *)(a0 + 0xD0) + 0x10)];
+    if (s0 == -1) {
+        D_801E7998 = 0;
+        return 0;
+    }
+
+    t = func_80184B04(a0);
+    q = t / 24;
+    r = t % 24;
+    b = D_80078EB1;
+    c = D_80078EAC;
+
+    if (t == 0) {
+        idx = D_801B86F0[b] - 1;
+    } else if (c - q >= 5) {
+        idx = 7;
+    } else if (c == q && b - r >= 2) {
+        idx = 6;
+    } else {
+        idx = p[0x39];
+        idx = D_801B86F0[idx] - 1;
+    }
+
+    ((struct { s32 w; } *)&D_801E7998)->w = 1;
+    return D_801B85BC[idx][s0];
+}
+
 
 extern s32 func_80184960(s32 arg);
     extern void func_80184AC4(void *a0);
@@ -6540,7 +6831,32 @@ INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_80184BA
 
 INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_80184BD0);
 
-INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_80184C28);
+
+extern void func_8012F214(s32 a0, s32 a1, s32 a2);
+extern s32 func_8012CEB0(s32 a0, s32 a1, s32 a2);
+
+typedef struct {
+    s16 f0, f1, f2, f3;
+} Vec4s_80184C28;
+
+void func_80184C28(void *a0, s32 a1)
+{
+    Vec4s_80184C28 loc_10;
+    Vec4s_80184C28 loc_18;
+    Vec4s_80184C28 loc_20;
+
+    loc_10.f0 = *(s16 *)((u8 *)a0 + 0x6);
+    loc_10.f1 = *(s16 *)((u8 *)a0 + 0xA);
+    loc_10.f2 = *(s16 *)((u8 *)a0 + 0xE);
+
+    loc_18.f0 = 0;
+    loc_18.f1 = 0;
+    loc_18.f2 = (s16)(-a1);
+
+    ((void(*)(s32, s32, s32))func_8012F214)((s32)a0, (s32)&loc_18, (s32)&loc_20);
+    func_8012CEB0((s32)&loc_10, (s32)&loc_20, 0);
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_80184C90);
 
@@ -6688,7 +7004,41 @@ INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_8018521
 
 DEFINE_func_8018525C()  /* dedup: shared engine-core @0x8018525C (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_80185264);
+
+/* §37 lever (A): conform to the TU's existing decl verbatim (TU lines 6430 /
+ * 6862 both say `void`); the s32 return is recovered by a cast at the call
+ * site below. Decl-only change => zero bytes move. */
+extern void func_8012C1B8(void);
+extern void func_8012CAE4(void *a0);
+extern void func_8001C214(s32, s32);
+extern void func_8001D0E8(s32 arg0, s32 arg1, s32 arg2);
+extern void func_8012E8E0(s32 a0, s32 a1);
+
+
+void func_80185264(s32 a0) {
+
+    extern s32 D_801C03D8[];
+    extern s32 D_801B8738[];
+    s32 v0;
+    s32 result;
+
+    v0 = ((s32 (*)(void))func_8012C1B8)();
+    *(s32 *)(a0 + 0x20) = v0;
+    if (v0 == 0) {
+        func_8012CAE4((void *)a0);
+        return;
+    }
+
+    func_8001C214(v0, (s32)D_801C03D8);
+    func_8001D0E8(*(s32 *)(a0 + 0x20), 0x7FFF, 0x7FFF);
+
+    result = *(s32 *)(a0 + 0x20);
+    *(s32 *)(result + 0x4) |= 0x40;
+    func_8012E8E0(a0, (s32)D_801B8738);
+
+    *(s16 *)(a0 + 0x2) = 1;
+}
+
 
 
 extern void func_80185978(s32 a0);
@@ -6812,7 +7162,29 @@ void func_801854C4(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_80185664);
+
+
+extern void func_80185D70(void *a0);
+extern int func_80178970(void);
+extern void func_80178D18(void);
+
+void func_80185664(void *a0) {
+    switch (*(u16 *)((s32)a0 + 0x34)) {
+    case 0:
+        break;
+    case 1:
+        func_80185D70(a0);
+        *(s16 *)((s32)a0 + 0x34) = 2;
+        break;
+    case 2:
+        if (((s32 (*)(s32))func_80178970)((s32)a0) != 0) {
+            ((void (*)(s32))func_80178D18)((s32)a0);
+            *(s16 *)((s32)a0 + 0x34) = 0;
+        }
+        break;
+    }
+}
+
 
 
 extern s32 func_8018516C(s32 a0);
@@ -6897,13 +7269,47 @@ void func_801857CC(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_8018589C);
+
+extern void func_80185EEC(void);
+
+void func_8018589C(s32 a0) {
+
+    extern s32 D_801B8748[][2];
+    extern s16 D_801B8788[];
+    *(s16 *)(a0 + 0x2) = 2;
+    *(s16 *)(a0 + 0x34) = 0;
+    *(s16 *)(a0 + 0xFE) = 0;
+    *(s32 *)(*(s32 *)(a0 + 0x20) + 0x24) =
+        D_801B8748[D_801B8788[*(s16 *)(a0 + 0x70)]][1];
+    *(s16 *)(a0 + 0x5C) = 0x800;
+    *(s32 *)(a0 + 0xB0) = 0;
+    ((void (*)(s32))func_80185EEC)(a0);
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_80185904);
 
 DEFINE_func_80185978()  /* dedup: shared engine-core @0x80185978 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_801859D8);
+
+extern void func_80185EEC(void);
+
+void func_801859D8(s32 a0) {
+
+    extern s16 D_801B8788[];
+    extern s32 D_801B8748[][2];
+    *(s16 *)(a0 + 0x2) = 1;
+    *(s32 *)(a0 + 0x1C) = 8;
+    *(s16 *)(a0 + 0xFE) = 0x600;
+    *(s16 *)(a0 + 0x34) = 0;
+    *(s16 *)(a0 + 0x100) = 0;
+    *(s16 *)(a0 + 0x102) = 2;
+    *(s32 *)(*(s32 *)(a0 + 0x20) + 0x24) = D_801B8748[D_801B8788[*(s16 *)(a0 + 0x70)]][0];
+    *(s16 *)(a0 + 0x5C) = 0x800;
+    *(s32 *)(a0 + 0xB0) = 0;
+    ((s32 (*)(void))func_80185EEC)();
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_80185A58);
 
@@ -6915,7 +7321,28 @@ INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_80185B5
 
 INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_80185BA8);
 
-INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_80185BE0);
+extern s32 func_8012E57C(s32 a0, s32 a1);
+s32 func_80185BE0(s32 a0) {
+    void *p;
+
+    p = (void *)func_8012E57C(0x61, (s16)a0);
+    if (p == 0) {
+        return 1;
+    }
+    switch (*(u16 *)((char *)p + 2)) {
+    case 1:
+    case 2:
+        *(s16 *)((char *)p + 0x108) = 1;
+        return 0;
+    case 3:
+        *(s16 *)((char *)p + 0x108) = 1;
+        return 0;
+    case 4:
+        *(s16 *)((char *)p + 0x108) = 1;
+        return 1;
+    }
+}
+
 
 
 extern s16 currentLocationId;
@@ -6957,16 +7384,83 @@ INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_80185EE
 
 INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_80185F20);
 
-INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_80185F54);
 
-INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_80185FB8);
+extern s32 func_8012E57C(s32 a0, s32 a1);
+
+void func_80185F54(void *a0, s32 a1, s32 a2) {
+    s32 v1 = func_8012E57C(0x61, (s32)(s16)a1);
+    if (v1 != 0) {
+        s32 v0 = *(s32 *)((char *)v1 + 0xCC);
+        if (v0 == 0) {
+            *(s32 *)((char *)v1 + 0xCC) = a2;
+            *(s32 *)((char *)v1 + 0xD0) = (s32)a0;
+        }
+    }
+}
+
+
+
+
+extern s32 func_8012E57C(s32 a0, s32 a1);
+
+void func_80185FB8(s32 a0, s32 a1, s32 a2) {
+    s32 s1;
+    s32 s0;
+    s32 v1;
+    s32 shift_temp;
+
+    s1 = a0;
+    s0 = a2;
+    shift_temp = ((a1 << 16) >> 16);
+    v1 = func_8012E57C(0x61, shift_temp);
+    if (v1 == 0) {
+        return;
+    }
+    if (*(s32 *)((char *)v1 + 0xCC) != s0) {
+        return;
+    }
+    if (*(s32 *)((char *)v1 + 0xD0) != s1) {
+        return;
+    }
+    *(s32 *)((char *)v1 + 0xCC) = 0;
+    *(s32 *)((char *)v1 + 0xD0) = 0;
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_8018602C);
 
 DEFINE_func_80186084()  /* dedup: shared engine-core @0x80186084 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_801860C0);
+
+extern void func_8012C1B8(void);
+extern void func_8012CAE4(void *a0);
+extern void func_8001C214(s32, s32);
+
+void func_801860C0(void *a0)
+{
+
+    extern s32 D_801B8A2C;
+    s32 v0;
+    u16 v0_2;
+
+    v0 = ((s32 (*)(void))func_8012C1B8)();
+    *(s32 *)((u8 *)a0 + 0x20) = v0;
+
+    if (v0 == 0) {
+        ((void (*)(void *))func_8012CAE4)(a0);
+    } else {
+        ((void (*)(s32, s32))func_8001C214)(v0, 0);
+
+        *(s32 *)((u8 *)a0 + 0x58) = (s32)&D_801B8A2C | 0x40000000;
+        v0_2 = *(u16 *)((u8 *)a0 + 0x2);
+        *(u16 *)((u8 *)a0 + 0x34) = 0;
+        *(s32 *)((u8 *)a0 + 0x1C) = 0;
+        *(u16 *)((u8 *)a0 + 0x5C) = 0x800;
+        *(u16 *)((u8 *)a0 + 0x2) = v0_2 + 1;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_8018613C);
 
@@ -7054,7 +7548,25 @@ s16 func_80186450(void) {
 
 INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_80186460);
 
-INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_801864AC);
+
+extern void func_80029444(void);
+extern void func_801754A8(void);
+extern void func_80141C04(void);
+
+void func_801864AC(void) {
+
+    extern u16 D_80115112;
+    extern u16 D_80115116;
+    extern void (*D_801B94B0[])(void);
+    u16 i;
+    func_80029444();
+    func_801754A8();
+    i = D_80115112;
+    D_801B94B0[i]();
+    func_80141C04();
+    D_80115116++;
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_8018651C);
 
@@ -7072,7 +7584,113 @@ INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_8018842
 
 INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_80188778);
 
-INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_801889B8);
+
+/* func_801889B8 — "draw one HUD panel" (family exemplar), 115 ins, frame 0x88.
+ *
+ * Re-derived from the .s (the earlier DIFF verdict was on a different draft shape).
+ * Banked structural sibling (same author, expanded form):
+ *   src/ov_SC06_008/ov_SC06_008_jr_8013F350.c  func_8013FAF8
+ *     u8 sp18[72]; s32 sp60[2];  ->  sp18 @0x18, sp60 @0x60, frame 0x88
+ *     flag != 0 ? 0x585858 : 0x808080   /   sp60[0] += -0x282828
+ *     func_800D29F8(flagN, func_800D27DC(flagN != 0, ...), ...)
+ *
+ * Three levers were needed; all three are byte-verified by tools/match_one.py:
+ *
+ *  1. The flag is BRANCHLESS here (xor/sltu/negu/andi), unlike the sibling's
+ *     if/else — that is `-(a != b) & 0xFF`, i.e. store_flag normalized to -1
+ *     then truncated to u8.
+ *
+ *  2. RC-12 ($0-ADD OPAQUE COPY, docs/gcc-2.7.2-map/regalloc.md).  The target
+ *     keeps the flag in TWO live regs — `beqz $s0` (ternary 1) reads the andi's
+ *     own dest while `$s4` (the copy) feeds everything after it.  A plain
+ *     `flag2 = flag;` is destroyed by cse.c make_regs_eqv head-promotion: the
+ *     longer-lived copy becomes canonical and canon_reg rewrites ternary 1 to
+ *     read $s4 (the single residual instruction in every plain-C spelling).
+ *     `flag2 = flag + zr;` with `register s32 zr __asm__("$0")` is a (plus rA
+ *     (reg 0)) — not a reg-reg set, so no qty merge and no canon — and
+ *     assembles to the byte-identical `addu $s4, $s0, $zero`.  The same lever
+ *     materializes the tail copy `addu $s0, $s4, $zero`.
+ *
+ *  3. `w` must be pinned to $18: unpinned, global.c's density order hands $s1
+ *     to `w` and $s2 to `ot` (the target's grant is the other way round).  The
+ *     pin lands on a LOCAL fed from the parameter, never on the parameter
+ *     itself (S3).  Pin-free spellings (plain local, $0-add copy, routing `ot`
+ *     through a local instead) were all tried and all leave the 22-diff swap.
+ */
+
+typedef struct Prim4_8017E978_801889B8 {
+    s16 f0;                  /* 0x00 */
+    s16 f2;                  /* 0x02 */
+} Prim4_8017E978_801889B8;
+
+typedef struct Panel_8017E978_801889B8 {
+    s16 f0;                  /* 0x00 */
+    s16 f2;                  /* 0x02 */
+    void *f4;                /* 0x04 */
+    void *f8;                /* 0x08 */
+    s16 fC;                  /* 0x0C */
+    s16 fE;                  /* 0x0E */
+    s16 f10;                 /* 0x10 */
+    s16 f12;                 /* 0x12 */
+    void *f14;               /* 0x14 */
+    Prim4_8017E978_801889B8 *f18;     /* 0x18 */
+    void *f1C;               /* 0x1C */
+} Panel_8017E978_801889B8;
+
+
+extern void  func_80024054(void *a0, void *a1);
+extern s32  *func_800D2650(s32 *, void *, s32, s32, s32, s32);
+extern s32   func_800D27DC(s32, s32 *, void *, s32, s32);
+extern s32  *func_800D29F8(s32, s32, void *, s32, s32);
+extern s32  *func_80189214(s32 *, void *, s32, void *, s32);
+extern s32   func_80188B84(void *, s32, s32, s32, s32 *);
+
+s32 *func_801889B8(s32 *ot, Panel_8017E978_801889B8 *w0, s16 idx) {
+
+    extern u16 D_8011511A;
+    register Panel_8017E978_801889B8 *w __asm__("$18");
+    u8 sp18[72];
+    s32 sp60[2];
+    register s32 zr __asm__("$0");
+    s32 flag;
+    s32 flag2;
+    s32 flag3;
+    s32 flag4;
+    s16 i;
+    Prim4_8017E978_801889B8 *p;
+    s32 r;
+
+    w = w0;
+    flag = -(D_8011511A != idx) & 0xFF;
+    func_80024054(w->f14, sp18);
+    flag2 = flag + zr;
+    ot = func_800D2650(ot, sp18, w->f10, w->f12, 1,
+                       flag != 0 ? 0x585858 : 0x808080);
+    ot = func_80189214(ot, w->f18, idx, w->f8,
+                       flag2 != 0 ? 0x585858 : 0x808080);
+    i = 0;
+    flag3 = flag2;
+    p = w->f18;
+    for (;;) {
+        r = func_80188B84(w->f1C, w->f0, idx, i++, sp60);
+        if (r == 0) {
+            break;
+        }
+        if (r < 0) {
+            func_80024054((void *)r, sp18);
+            if (flag3 != 0) {
+                sp60[0] += -0x282828;
+            }
+            ot = func_800D2650(ot, sp18, p->f0, p->f2, 1, sp60[0]);
+        }
+        p++;
+    }
+    flag4 = flag2 + zr;
+    return func_800D29F8(flag4,
+                         func_800D27DC(flag4 != 0, ot, w->f4, w->fC, 0),
+                         w->f8, w->fE, 0);
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_80188B84);
 
@@ -7500,7 +8118,46 @@ void func_8018C5FC(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_8018C638);
+
+
+/* Declarations conformed to the TU (ov_SC04_018_jr_8017AE2C.c) — lever (A):
+ *   func_8012A828 : TU declares `extern void func_8012A828(s32*, s32);`
+ *                   at L3460 / L4615 / L5083 / L5372 / L5859 / L6004 / L6155 /
+ *                   L6479 / L6504 / L6529.  The draft's `(s32, s32)` form caused
+ *                   the 7697-vs-6529 conflict.  Conformed here; the type
+ *                   disagreement is pushed to a cast at the call site.
+ *   D_8018D540    : TU declares `extern u8 D_8018D540[];` (block scope, L3467).
+ *                   Conformed; `(s32)D_8018D540` == `(s32)&D_8018D540`.
+ *   func_801788B8 : verbatim from TU L2532 / L7756 (below the splice point).
+ *   func_8012C354, D_801E39E0, func_8018C730, func_8018C638 : no other
+ *                   declaration anywhere in the TU (func_8018C730 / func_8018C638
+ *                   appear only as INCLUDE_ASM, which emits no C declaration).
+ *
+ * Body: the original draft was NOT byte-correct.  `*(u16 *)(x + 2) = 1;` must be
+ * sequenced BEFORE the func_8012A828 call, not after it — with it after, gcc
+ * coalesces the store base onto $a0 (`sh v0,2(a0)`) and re-emits the arg copy,
+ * giving a 6-instruction ADDRESSING/cse diff.  Moved above the call; both stores
+ * now retire off $s0 and the sh lands in the jal delay slot, as in the target. */
+
+extern s32 func_8012C354(s32 a0, s32 a1);
+extern void func_8012A828(s32*, s32);
+extern s32 func_801788B8(s32 arg0, s32 arg1);
+
+extern void func_8018C730(void);
+
+void func_8018C638(s32 a0) {
+
+    extern M2C_UNK D_801E39E0;
+    extern u8 D_8018D540[];
+    s32 s0 = a0;
+    if (func_8012C354(a0, (s32)&D_801E39E0)) {
+        *(u8 *)(s0 + 0xC0) = 1;
+        *(u16 *)(s0 + 0x2) = 1;
+        func_8012A828((s32 *)s0, (s32)D_8018D540);
+        func_801788B8(s0, (s32)func_8018C730);
+    }
+}
+
 
 DEFINE_func_8018C69C()  /* dedup: shared engine-core @0x8018C69C (src/shared) */
 
@@ -7532,7 +8189,36 @@ INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_8018C7C
 
 INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_8018C7F0);
 
-INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_8018C8A8);
+
+
+s32 func_8018C8A8(void)
+{
+
+    extern u16 D_80126B5E;
+    extern u16 D_80126B66;
+    extern u16 D_80126B62;
+    s16 v1;
+    s32 result;
+
+    v1 = *(s16 *)&D_80126B5E;
+    if (v1 < 0x400) {
+        result = 0;
+    } else if (v1 >= 0x501) {
+        result = 0;
+    } else {
+        v1 = *(s16 *)&D_80126B66;
+        if (v1 < 0x580) {
+            result = 0;
+        } else if (v1 >= 0x601) {
+            result = 0;
+        } else {
+            v1 = *(s16 *)&D_80126B62;
+            result = (v1 >= -0x200);
+        }
+    }
+    return result;
+}
+
 
 extern void func_8012B2CC(s32 arg);
     void func_8018C90C(void *a0) {
@@ -7615,9 +8301,77 @@ void func_8018CADC(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_8018CB18);
 
-INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_8018CB94);
+
+/* func_8018CB18 — state-2 gate for the SC04_018 actor state machine.
+ *
+ * Reads the actor's linked object (a0->0x64), requires its state word (+0x2) == 1
+ * and the actor's own +0x34 flag clear, then asks func_8018C8A8() for permission;
+ * on success it stamps 1 into the linked object's +0x34, pokes func_80178BF8() and
+ * returns the address of the next callback (func_80172710).
+ *
+ * DECL SURFACE (§73 / §37): the TU already carries a fleet-canonical forward decl
+ *   `extern void func_8018CB18(void);`   (ov_SC04_018_jr_8017AE2C.c L7759)
+ * used only to take the function's ADDRESS at L7786.  The byte-true signature
+ * disagrees on BOTH §73 axes (return void->s32 AND params void->void*), so neither
+ * the fleet widen nor a cast-at-use fixes it.  Instead the definition is emitted
+ * under the C identifier `aF8018CB18` with an __asm__("func_8018CB18") label
+ * (§37 asm-label alias, the proven function-definition form — cf.
+ * src/ov_SC03_099/ov_SC03_099_after.c L533).  The C-level name never collides with
+ * the canonical decl, the emitted symbol is unchanged, and codegen is byte-identical
+ * (verified: match_one MATCH 31/31 with and without the alias).
+ *
+ * ORACLE: .venv/bin/python tools/match_one.py func_8018CB18 \
+ *           --c .run/s7/ov_SC04_018/func_8018CB18.c \
+ *           --asm-subdir asm/ov_SC04_018/nonmatchings/ov_SC04_018_jr_8017AE2C  -> MATCH (31 ins)
+ */
+
+extern s32 func_8018C8A8(void);
+extern s32 func_80178BF8();      /* TU-canonical (ov_SC04_018_jr_8017AE2C.c L2539) */
+extern void func_80172710(void); /* TU-canonical (ov_SC04_018_jr_8017AE2C.c L2231) */
+
+s32 aF8018CB18(void *a0) __asm__("func_8018CB18");
+
+s32 aF8018CB18(void *a0)
+{
+    if (*(u16 *)(*(s32 *)((s32)a0 + 0x64) + 0x2) != 1) {
+        return 0;
+    }
+    if (*(u16 *)((s32)a0 + 0x34) != 0) {
+        return 0;
+    }
+    if (func_8018C8A8() == 0) {
+        return 0;
+    }
+    *(s16 *)(*(s32 *)((s32)a0 + 0x64) + 0x34) = 1;
+    func_80178BF8();
+    return (s32)func_80172710;
+}
+
+
+extern void func_80029124(s32, s32);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern void func_800D0F4C(s32 a0);
+extern s32 func_8012E57C(s32 a0, s32 a1);
+
+
+void func_8018CB94(void *a0)
+{
+    s32 result;
+
+    *(u16 *)((s32)a0 + 0x34) = *(u16 *)((s32)a0 + 0x34) + 1;
+
+    func_8002D4C8(0x7A0, 0);
+    func_80029124(0xF6, 1);
+    func_800D0F4C(0x59);
+
+    result = func_8012E57C(0x1F2, 1);
+
+    if (result) {
+        *(u16 *)(result + 0x34) = *(u16 *)(result + 0x34) + 1;
+    }
+}
+
 
 
 
@@ -7639,7 +8393,30 @@ extern void func_8002D4C8(s32 arg0, s32 arg1);
 
 INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_8018CC40);
 
-INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_8018CD74);
+
+extern s32 func_8012BEE8(s32 a0);
+extern void func_8018C93C(void *a0);
+
+void func_8018CD74(void *a0) {
+    u16 v1;
+
+    v1 = *(u16 *)((char *)a0 + 0x34);
+    if (v1 == 0) {
+        return;
+    }
+    if (v1 != 1) {
+        return;
+    }
+    {
+        u16 *p = (u16 *)*(s32 *)((char *)a0 + 0x20);
+
+        *(u16 *)((char *)p + 0x12) = *(u16 *)((char *)p + 0x12) + 0x20;
+        if (((s32 (*)(void))func_8012BEE8)()) {
+            func_8018C93C(a0);
+        }
+    }
+}
+
 
 DEFINE_func_8018CDDC()  /* dedup: shared engine-core @0x8018CDDC (src/shared) */
 

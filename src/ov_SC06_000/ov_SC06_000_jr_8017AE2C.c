@@ -5103,7 +5103,32 @@ INCLUDE_ASM("asm/ov_SC06_000/nonmatchings/ov_SC06_000_jr_8017AE2C", func_801827C
 
 INCLUDE_ASM("asm/ov_SC06_000/nonmatchings/ov_SC06_000_jr_8017AE2C", func_801827F4);
 
-INCLUDE_ASM("asm/ov_SC06_000/nonmatchings/ov_SC06_000_jr_8017AE2C", func_80182828);
+
+void func_80182828(void *a0, s32 a1)
+{
+    register s32 offset __asm__("$2");
+    s16 buf[4];
+    u16 t0, t1, t2, t3;
+    u16 *ptr;
+
+    offset = a1 << 1;
+    ptr = (u16 *)((s32)offset + (s32)a0);
+
+    t0 = ptr[0];
+    buf[0] = t0;
+
+    t1 = ptr[1];
+    buf[1] = t1;
+
+    t2 = ptr[2];
+    buf[2] = t2;
+
+    t3 = ptr[3];
+    buf[3] = t3;
+
+    MoveImage(buf, ptr[4], ptr[5]);
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_000/nonmatchings/ov_SC06_000_jr_8017AE2C", func_80182888);
 
@@ -6029,7 +6054,29 @@ s32 func_80186A0C(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_000/nonmatchings/ov_SC06_000_jr_8017AE2C", func_80186A48);
+
+
+
+void func_80186A48(s32 a0, s32 a1) {
+
+    extern s16 D_801B1EFC;
+    s16 *s1;
+    u16 val;
+
+    if (a0 >= 0x10) return;
+
+    s1 = (s16 *)((a0 * 14) + (s32)&D_801B1EFC);
+    val = *(u16 *)s1;
+
+    if (val == 0) return;
+
+    if (a1 == 0) {
+        *(u16 *)s1 = 0;
+    } else {
+        *(u8 *)((u8 *)s1 + 9) = 2;
+    }
+}
+
 
 
 /* func_80186A94 — 16-entry table walk, stride 0xE, over D_801B1EFC.
@@ -6221,7 +6268,19 @@ void func_80186FE4(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_000/nonmatchings/ov_SC06_000_jr_8017AE2C", func_8018705C);
+
+
+extern s32 func_801871C4(void);
+extern void func_801870A8(s32 a0, s16 a1, u16 a2);
+
+void func_8018705C(s32 a0, s32 a1) {
+    s32 result = func_801871C4();
+    if (result >= 0) {
+        s16 ext_a0 = (s16)a0;
+        func_801870A8(result, ext_a0, (u16)a1);
+    }
+}
+
 
 
 /* func_801870A8 — particle/ripple spawner for slot `a0` of the 16-entry,

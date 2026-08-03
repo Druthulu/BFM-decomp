@@ -3167,7 +3167,20 @@ void func_8017D898(s32 arg0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_097/nonmatchings/ov_SC03_097_jr_8017D898", func_8017E778);
+
+extern int func_8017F6D4(int param_1);
+
+void func_8017E778(void) {
+
+    extern const void D_80189E9C;
+    extern const void D_8018A068;
+    extern u8 *D_801274C8;
+    extern void *D_801274CC;
+    D_801274C8 = (u8 *)&D_80189E9C;
+    D_801274CC = (void *)&D_8018A068;
+    func_8017F6D4(0);
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_097/nonmatchings/ov_SC03_097_jr_8017D898", func_8017E7B8);
 
@@ -4047,7 +4060,29 @@ s32 func_80181B90(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_097/nonmatchings/ov_SC03_097_jr_8017D898", func_80181BCC);
+
+
+
+void func_80181BCC(s32 a0, s32 a1) {
+
+    extern s16 D_801AAC74;
+    s16 *s1;
+    u16 val;
+
+    if (a0 >= 0x10) return;
+
+    s1 = (s16 *)((a0 * 14) + (s32)&D_801AAC74);
+    val = *(u16 *)s1;
+
+    if (val == 0) return;
+
+    if (a1 == 0) {
+        *(u16 *)s1 = 0;
+    } else {
+        *(u8 *)((u8 *)s1 + 9) = 2;
+    }
+}
+
 
 
 /* func_80181C18 — 16-entry table walk, stride 0xE, over D_801AAC74.
@@ -4239,7 +4274,19 @@ void func_80182168(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_097/nonmatchings/ov_SC03_097_jr_8017D898", func_801821E0);
+
+
+extern s32 func_80182348(void);
+extern void func_8018222C(s32 a0, s16 a1, u16 a2);
+
+void func_801821E0(s32 a0, s32 a1) {
+    s32 result = func_80182348();
+    if (result >= 0) {
+        s16 ext_a0 = (s16)a0;
+        func_8018222C(result, ext_a0, (u16)a1);
+    }
+}
+
 
 
 /* func_8018222C — particle/ripple spawner for slot `a0` of the 16-entry,

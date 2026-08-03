@@ -3188,7 +3188,20 @@ INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_8017C8D0", func_8017D99
 
 INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_8017C8D0", func_8017DB28);
 
-INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_8017C8D0", func_8017DDE0);
+
+extern void func_801890C8(s32);
+
+void func_8017DDE0(void) {
+
+    extern const void D_8018F71C;
+    extern const void D_8018F7F8;
+    extern u8 *D_801274C8;
+    extern void *D_801274CC;
+    D_801274C8 = (u8 *)&D_8018F71C;
+    D_801274CC = (void *)&D_8018F7F8;
+    ((int (*)(int))func_801890C8)(0);
+}
+
 
 
 extern void (*D_8018DE2C[])(void);
@@ -3932,7 +3945,32 @@ void func_801890F8(void) {
 
 INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_8017C8D0", func_80189118);
 
-INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_8017C8D0", func_80189254);
+
+void func_80189254(void *a0, s32 a1)
+{
+    register s32 offset __asm__("$2");
+    s16 buf[4];
+    u16 t0, t1, t2, t3;
+    u16 *ptr;
+
+    offset = a1 << 1;
+    ptr = (u16 *)((s32)offset + (s32)a0);
+
+    t0 = ptr[0];
+    buf[0] = t0;
+
+    t1 = ptr[1];
+    buf[1] = t1;
+
+    t2 = ptr[2];
+    buf[2] = t2;
+
+    t3 = ptr[3];
+    buf[3] = t3;
+
+    MoveImage(buf, ptr[4], ptr[5]);
+}
+
 
 
 

@@ -3887,7 +3887,20 @@ void func_8017E778(s32 arg0)
 
 
 
-INCLUDE_ASM("asm/ov_SC03_091/nonmatchings/ov_SC03_091_jr_8017D898", func_80181BA0);
+
+extern int func_80182CE8(int param_1);
+
+void func_80181BA0(void) {
+
+    extern const void D_80190944;
+    extern const void D_80190A48;
+    extern u8 *D_801274C8;
+    extern void *D_801274CC;
+    D_801274C8 = (u8 *)&D_80190944;
+    D_801274CC = (void *)&D_80190A48;
+    func_80182CE8(0);
+}
+
 
 
 extern int func_80182CE8(int param_1);

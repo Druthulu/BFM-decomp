@@ -5050,7 +5050,29 @@ s32 func_8018E2C4(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_8018E300);
+
+
+
+void func_8018E300(s32 a0, s32 a1) {
+
+    extern s16 D_801F141C;
+    s16 *s1;
+    u16 val;
+
+    if (a0 >= 0x10) return;
+
+    s1 = (s16 *)((a0 * 14) + (s32)&D_801F141C);
+    val = *(u16 *)s1;
+
+    if (val == 0) return;
+
+    if (a1 == 0) {
+        *(u16 *)s1 = 0;
+    } else {
+        *(u8 *)((u8 *)s1 + 9) = 2;
+    }
+}
+
 
 
 /* func_8018E34C — 16-entry table walk, stride 0xE, over D_801F141C.
@@ -5242,7 +5264,19 @@ void func_8018E89C(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_8018E914);
+
+
+extern s32 func_8018EA7C(void);
+extern void func_8018E960(s32 a0, s16 a1, u16 a2);
+
+void func_8018E914(s32 a0, s32 a1) {
+    s32 result = func_8018EA7C();
+    if (result >= 0) {
+        s16 ext_a0 = (s16)a0;
+        func_8018E960(result, ext_a0, (u16)a1);
+    }
+}
+
 
 
 /* func_8018E960 — particle/ripple spawner for slot `a0` of the 16-entry,

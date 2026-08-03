@@ -3166,7 +3166,20 @@ void func_8017CA80(s32 arg0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_101/nonmatchings/ov_SC03_101_jr_8017CA80", func_8017D960);
+
+extern int func_8017E30C(int param_1);
+
+void func_8017D960(void) {
+
+    extern const void D_80187574;
+    extern const void D_8018781C;
+    extern u8 *D_801274C8;
+    extern void *D_801274CC;
+    D_801274C8 = (u8 *)&D_80187574;
+    D_801274CC = (void *)&D_8018781C;
+    func_8017E30C(0);
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_101/nonmatchings/ov_SC03_101_jr_8017CA80", func_8017D9A0);
 
@@ -3496,7 +3509,32 @@ extern s32 func_8017E35C(void);
 
 INCLUDE_ASM("asm/ov_SC03_101/nonmatchings/ov_SC03_101_jr_8017CA80", func_8017E35C);
 
-INCLUDE_ASM("asm/ov_SC03_101/nonmatchings/ov_SC03_101_jr_8017CA80", func_8017E498);
+
+void func_8017E498(void *a0, s32 a1)
+{
+    register s32 offset __asm__("$2");
+    s16 buf[4];
+    u16 t0, t1, t2, t3;
+    u16 *ptr;
+
+    offset = a1 << 1;
+    ptr = (u16 *)((s32)offset + (s32)a0);
+
+    t0 = ptr[0];
+    buf[0] = t0;
+
+    t1 = ptr[1];
+    buf[1] = t1;
+
+    t2 = ptr[2];
+    buf[2] = t2;
+
+    t3 = ptr[3];
+    buf[3] = t3;
+
+    MoveImage(buf, ptr[4], ptr[5]);
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_101/nonmatchings/ov_SC03_101_jr_8017CA80", func_8017E4F8);
 
@@ -4545,7 +4583,29 @@ s32 func_801820F0(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_101/nonmatchings/ov_SC03_101_jr_8017CA80", func_8018212C);
+
+
+
+void func_8018212C(s32 a0, s32 a1) {
+
+    extern s16 D_8019DE8C;
+    s16 *s1;
+    u16 val;
+
+    if (a0 >= 0x10) return;
+
+    s1 = (s16 *)((a0 * 14) + (s32)&D_8019DE8C);
+    val = *(u16 *)s1;
+
+    if (val == 0) return;
+
+    if (a1 == 0) {
+        *(u16 *)s1 = 0;
+    } else {
+        *(u8 *)((u8 *)s1 + 9) = 2;
+    }
+}
+
 
 
 /* func_80182178 — 16-entry table walk, stride 0xE, over D_8019DE8C.
@@ -4737,7 +4797,19 @@ void func_801826C8(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_101/nonmatchings/ov_SC03_101_jr_8017CA80", func_80182740);
+
+
+extern s32 func_801828A8(void);
+extern void func_8018278C(s32 a0, s16 a1, u16 a2);
+
+void func_80182740(s32 a0, s32 a1) {
+    s32 result = func_801828A8();
+    if (result >= 0) {
+        s16 ext_a0 = (s16)a0;
+        func_8018278C(result, ext_a0, (u16)a1);
+    }
+}
+
 
 
 /* func_8018278C — particle/ripple spawner for slot `a0` of the 16-entry,

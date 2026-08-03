@@ -4795,7 +4795,24 @@ void func_8017F124(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_031/nonmatchings/ov_SC02_031_jr_8017AE2C", func_8017F1F4);
+
+extern int func_80178970(void);
+extern void func_80178D18(void);
+extern void func_80029124(s32 a0, s32 a1);
+extern void func_8012C218(void*);
+
+void func_8017F1F4(s32 a0)
+{
+
+    extern u8 D_80188C14[];
+    if (func_80178970() == 0) return;
+
+    ((void (*)(s32))func_80178D18)(a0);
+
+    func_80029124((s32)D_80188C14[*(s16 *)((s32)a0 + 0x70)], 1);
+    ((void (*)(s32))func_8012C218)(a0);
+}
+
 
 
 extern s32 func_80178B18(s32 param_1, s32 param_2);
@@ -5874,7 +5891,46 @@ void func_80184238(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_031/nonmatchings/ov_SC02_031_jr_8017AE2C", func_80184274);
+
+
+/* Declarations conformed to the TU (ov_SC04_018_jr_8017AE2C.c) — lever (A):
+ *   func_8012A828 : TU declares `extern void ((void (*)(s32*, s32))func_8012A828)(s32*, s32);`
+ *                   at L3460 / L4615 / L5083 / L5372 / L5859 / L6004 / L6155 /
+ *                   L6479 / L6504 / L6529.  The draft's `(s32, s32)` form caused
+ *                   the 7697-vs-6529 conflict.  Conformed here; the type
+ *                   disagreement is pushed to a cast at the call site.
+ *   D_80184F9C    : TU declares `extern u8 D_80184F9C[];` (block scope, L3467).
+ *                   Conformed; `(s32)D_80184F9C` == `(s32)&D_80184F9C`.
+ *   func_801788B8 : verbatim from TU L2532 / L7756 (below the splice point).
+ *   func_8012C354, D_80189450, func_80184358, func_80184274 : no other
+ *                   declaration anywhere in the TU (func_80184358 / func_80184274
+ *                   appear only as INCLUDE_ASM, which emits no C declaration).
+ *
+ * Body: the original draft was NOT byte-correct.  `*(u16 *)(x + 2) = 1;` must be
+ * sequenced BEFORE the func_8012A828 call, not after it — with it after, gcc
+ * coalesces the store base onto $a0 (`sh v0,2(a0)`) and re-emits the arg copy,
+ * giving a 6-instruction ADDRESSING/cse diff.  Moved above the call; both stores
+ * now retire off $s0 and the sh lands in the jal delay slot, as in the target. */
+
+extern s32 func_8012C354(s32 a0, s32 a1);
+extern void func_8012A828(s32, void*);
+extern s32 func_801788B8(s32 arg0, s32 arg1);
+
+extern void func_80184358(void);
+
+void func_80184274(s32 a0) {
+
+    extern M2C_UNK D_80189450;
+    extern u8 D_80184F9C[];
+    s32 s0 = a0;
+    if (func_8012C354(a0, (s32)&D_80189450)) {
+        *(u8 *)(s0 + 0xC0) = 1;
+        *(u16 *)(s0 + 0x2) = 1;
+        ((void (*)(s32*, s32))func_8012A828)((s32 *)s0, (s32)D_80184F9C);
+        func_801788B8(s0, (s32)func_80184358);
+    }
+}
+
 
 void func_801842D8(void) {
 }

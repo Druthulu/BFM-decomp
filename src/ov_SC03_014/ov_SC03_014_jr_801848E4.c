@@ -3707,7 +3707,18 @@ extern s16 D_801EADEA;
     }
 
 
-INCLUDE_ASM("asm/ov_SC03_014/nonmatchings/ov_SC03_014_jr_801848E4", func_8018A808);
+
+
+s32 func_8018A934(void);
+extern void func_8018A860(s32 arg0, Rec_8018A6A4 *arg1, s32 arg2, s32 arg3);
+
+void func_8018A808(s32 a0, s32 a1, s32 a2) {
+    s32 v0 = func_8018A934();
+    if (v0 >= 0) {
+        func_8018A860(v0, (Rec_8018A6A4 *)a0, a1, a2);
+    }
+}
+
 
 /* func_8018A860 — SPLICE RECONCILE (bytes unchanged from the s6h draft).
  *
@@ -3808,7 +3819,26 @@ s32 func_8018A934(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_014/nonmatchings/ov_SC03_014_jr_801848E4", func_8018A970);
+extern s16 D_801EADEC;
+
+void func_8018A970(s32 a0, s32 a1) {
+    s16 *s1;
+    u16 val;
+
+    if (a0 >= 0x10) return;
+
+    s1 = (s16 *)((a0 * 14) + (s32)&D_801EADEC);
+    val = *(u16 *)s1;
+
+    if (val == 0) return;
+
+    if (a1 == 0) {
+        *(u16 *)s1 = 0;
+    } else {
+        *(u8 *)((u8 *)s1 + 9) = 2;
+    }
+}
+
 
 #include "common.h"
 
@@ -3992,7 +4022,17 @@ void func_8018AF0C(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_014/nonmatchings/ov_SC03_014_jr_801848E4", func_8018AF84);
+extern s32 func_8018B0EC(void);
+extern void func_8018AFD0(s32 a0, s16 a1, u16 a2);
+
+void func_8018AF84(s32 a0, s32 a1) {
+    s32 result = func_8018B0EC();
+    if (result >= 0) {
+        s16 ext_a0 = (s16)a0;
+        func_8018AFD0(result, ext_a0, (u16)a1);
+    }
+}
+
 
 #include "common.h"
 

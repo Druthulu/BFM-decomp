@@ -8983,9 +8983,24 @@ Note the filter must exclude `warning:` lines: the same `conflicting types for �
 *warning* for built-ins (`memcpy`) and for benign external-decl mismatches, and those do NOT block
 the bank. Only the hard-error form does.
 
-Measured on wave 4a's 10 gate failures: **7 PLUMBING / 3 DIFF** — i.e. **70% of "the gate refused"
-was declaration paperwork, not codegen.** That ratio is why the capture step is worth its ~10 builds
-before any reconcile fan-out.
+Measured on wave 4a's 10 gate failures: **7 PLUMBING / 3 DIFF**. That ratio is why the capture step
+is worth its ~10 builds before any reconcile fan-out.
+
+> **⚠️ CORRECTION (earned the hard way — do not repeat my error).** I first wrote that this meant
+> "70% of the refusals were paperwork, not codegen." **That is wrong, and a reconcile agent refuted
+> it against the bytes.** A PLUMBING verdict means only that **a declaration conflict EXISTS** — the
+> conflict *aborts the compile*, so the byte question is never reached and the capture says NOTHING
+> about whether the body is correct. Two of the three second-round PLUMBING drafts had a **real
+> codegen residual hiding behind the declaration conflict**: `func_80188694` was `DIFF/4
+> SCHEDULE-REORDER` on the untouched draft (closed with a §21 zero-byte re-tie barrier after six
+> other variants failed), and `func_8018C638` was `DIFF/6 ADDRESSING/cse` (closed by hoisting a store
+> above a call). Both agents ran `match_one` on the unmodified draft FIRST, found the body defect,
+> and said so instead of accepting my premise.
+>
+> **So: PLUMBING ⇏ byte-correct. Route it to the reconcile lane, but tell the agent to re-verify the
+> BODY before assuming only declarations are wrong** — the wave-4b reconcile prompt's "do not rewrite
+> the body unless you prove it is actually wrong" is the right instruction precisely because it
+> leaves that door open. An agent that rejects your premise is working correctly (§135).
 
 **The classification was EXACTLY predictive, which is the point:** all 7 PLUMBING banked through the
 reconcile lane; all 3 DIFF stayed stubs. Wave 4a therefore closed at **30/33 = 91%** (23 first-pass
@@ -9006,6 +9021,11 @@ process-unique scratch path** (`$$`/pid-suffixed) and must never suggest a fixed
 shared scratch path does not produce an error; it produces a CONFIDENT WRONG VERDICT.
 
 ### §136b — A prior wave's "genuine byte-DIFF" verdict is NOT reliable evidence (4 of 4 refuted)
+
+**FINAL TALLY: 8 of 8 DIFF-ledgered functions banked on redraft** — wave 3's four, plus the three
+*I* classified DIFF from wave 4a's capture, plus one from wave 4b. The classifier is not wrong about
+what it measures ("this draft compiles clean and produces different bytes" is true and useful); it is
+wrong to read that as "this function resists matching." **A DIFF verdict is a fact about one draft.**
 
 Phase-30 wave 3 ledgered four functions as *genuine byte-DIFF* — the class we treat as "real codegen
 residual, redraft is unlikely to help." Wave 4b re-drafted all four with fresh agents. **All four
@@ -9035,3 +9055,72 @@ function's matchability. It is a statement about one attempt by one agent at one
 4. Corollary for the backlog generally: `docs/backlog.md` entries carrying an old closeness/class are
    **stale by construction** (Phase-29 measured 77% of stored drafts had decayed). Re-verify before
    valuing one.
+
+### §136c — SIBLING-FIRST is a DERIVATION shortcut, not just a conflict fix (the fastest route in a family wave)
+
+§71/§D1 are written as remedies for `conflicting types`. Wave-4b agents found their far higher-value
+use: **before deriving anything from the `.s`, grep `src/shared/engine_core.h`'s `DEFINE_func_*`
+macro bodies — and the target's own TU — for a byte-verified NEAR-TWIN.** In a family wave the
+twin usually exists, because that is what a family IS.
+
+Measured instances this wave:
+- `func_801859D8` — `DEFINE_func_80185978()` in `engine_core.h` is a near-twin: identical `a0`
+  layout, identical `D_801B8748[D_801B8788[*(s16*)(a0+0x70)]][0]` chain, differing only in three
+  store values and a trailing call. Reusing its **expression forms verbatim** reproduced the
+  schedule with no intervention — **first-draft MATCH**, and the same twin generalizes to the whole
+  10-member family.
+- `func_80184A94` — copying an already-banked family sibling's *declaration forms* verbatim
+  (`extern u8 D_x[]` used as `(s32)D_x`; the `__asm__` data alias) is what made it bank after a
+  prior wave had ledgered it a genuine byte-DIFF.
+- `func_8018CB18` — `func_80180CC0`/`func_80185C6C` in the same TU fixed the whole tail shape and
+  the u16-compare form *before a line was written* → first-attempt MATCH.
+
+**The rule:** a byte-verified sibling is stronger evidence than the decompiler seed AND cheaper than
+deriving from the `.s`, because its expression forms are already proven to produce the gcc-2.7.2
+schedule and register assignment you need. Search order for a family target:
+`engine_core.h DEFINE_* near-twin` → `same-TU banked sibling` → the `.s` → the Ghidra seed (last:
+this session it was byte-proven to be an entirely different body twice).
+
+### §136d — Four gcc-2.7.2 levers the redraft lane found (each closed a residual no other lever moved)
+
+These came from re-deriving four functions that had been ledgered "genuine byte-DIFF" (§136b). Each
+is byte-gated and none was reachable from the symptom index at the time.
+
+1. **RC-12, the `$0`-add OPAQUE COPY — for a copy-pair whose COMPARE reads the wrong register.**
+   Symptom: `REGALLOC-PERM`, one register, on a copy pair — the target's `beqz` reads the SOURCE's
+   register while every plain-C `b = a;` spelling makes the compare read the COPY's. Cause:
+   `cse.c make_regs_eqv` promotes the longer-lived copy to canonical and `canon_reg` rewrites every
+   use. Lever: `register s32 zr __asm__("$0"); b = a + zr;` — an opaque copy CSE cannot see through.
+   **Do NOT pin the copy's source or dest to a real hard register:** pinning the source perturbs the
+   prologue's sign-extend temp, pinning the dest lets gcc propagate the hard reg forward and delete
+   the copy — both cost 2 instructions elsewhere. (`func_8017E978`, the last 1-instruction residual.)
+
+2. **gcc-2.7.2 `jump.c` COLLAPSES an if-then-else into a conditional overwrite.**
+   `if (c) t = A; else t = B;` — both arms single SETs of the SAME pseudo — becomes `t = B; if (c) t = A;`,
+   hoisting the else-arm's `%hi/%lo` pair ABOVE the `beqz` and shifting the whole tail
+   (`LENGTH-DRIFT -3`, 20 mismatches). Symptom to look for: **one arm's `%hi/%lo` pair appears BEFORE
+   the branch, and the target's `j`-over-arm shape is missing.** Lever: write the selector as **TWO
+   SEPARATE CALLS**, not a ternary/select feeding one call — a call is not a simple SET so the
+   transform cannot fire, and post-reload `cross_jump` then merges only the common
+   `[move $a0,$s0; jal]` tail, which IS the target shape. Corollary: **a branch-delay slot holding
+   `move $a0,$s0` that sits BEFORE the two arms is the fingerprint of cross_jump tail-merging**, not
+   of a hoisted argument. (`func_80184494`.)
+
+3. **When a load hoists above a CONSTANT-ADDRESS store of a `D_` global, fix the STORE, not the load.**
+   `true_dependence` drops the edge between a `/s` varying-address load and a non-`/s` fixed-address
+   store. Force `/s` onto the STORE via a COMPONENT_REF:
+   `((struct { s32 w; } *)&D_801E7998)->w = 1;` — unconditional `MEM_IN_STRUCT_P`, address stays
+   constant, identical `lui $at` / `sw %lo($at)` codegen. **REFUTED axis, recorded so nobody repeats
+   it:** §135-2's "reshape the LOAD to an INDIRECT_REF" is the wrong half of the lattice here —
+   `*(a[i] + j)` still earns `/s` (a top-level `PLUS_EXPR` grants it) and merely re-folds the symbol
+   into the load's `%lo`, going 2 → 32 mismatched. (`func_80184960`.)
+
+4. **A branchless flag is `-(a != b) & 0xFF`, never a ternary.** `xor / sltu $zero,x / negu /
+   andi 0xFF` is `store_flag` normalised to −1 followed by a u8 truncation. A `cond ? 0xFF : 0`
+   ternary emits a BRANCH and can never reach that shape. (`func_8017E978`.)
+
+**Also confirmed here (§76's inverse, previously unindexed):** when a narrow load lands in `$v0` but
+the target uses a mid scratch register, **reuse an EXISTING global allocno as the destination** —
+but reuse one whose live range ALREADY spans the arm. Extending a SHORT allocno into the arm
+lengthens its live range, drops its `global.c:594 allocno_compare` rank, and swaps two grants
+instead of fixing one.

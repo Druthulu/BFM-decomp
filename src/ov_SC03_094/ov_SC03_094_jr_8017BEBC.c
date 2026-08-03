@@ -3154,7 +3154,20 @@ void func_8017BEBC(s32 arg0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_094/nonmatchings/ov_SC03_094_jr_8017BEBC", func_8017CD9C);
+
+extern int func_8017D868(int param_1);
+
+void func_8017CD9C(void) {
+
+    extern const void D_8018B7DC;
+    extern const void D_8018BB60;
+    extern u8 *D_801274C8;
+    extern void *D_801274CC;
+    D_801274C8 = (u8 *)&D_8018B7DC;
+    D_801274CC = (void *)&D_8018BB60;
+    func_8017D868(0);
+}
+
 
 
 extern int func_8017D868(int param_1);
@@ -5399,7 +5412,95 @@ void func_80186344(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_094/nonmatchings/ov_SC03_094_jr_8017BEBC", func_8018642C);
+
+
+/* func_8018642C — "ground-collision probe, then either bounce-off or pick a state script"
+ * (jr_8017C180 family; byte-verified MATCH, 71 ins).
+ *
+ * Declaration provenance (whole-TU grep in one pass, cookbook §135-8 / D2 — every symbol below
+ * checked BOTH above and below the splice point at ov_SC02_026_jr_8017C180.c:4748):
+ *   func_8012CEB0(s32,s32,s32)  — TU decls at 4365 (file scope) / 4704 / 4851, identical form
+ *   func_8012A828(s32,s32)      — 23 TU decls, all this form (or the unnamed-param twin)
+ *   func_80131E00(void*,s32)    — TU fn-scope decls at 4706 / 4853, identical form
+ *   D_801C05A8                  — declared BELOW the splice point at 5158 as `extern u8 D_801C05A8[]`;
+ *                                 that exact type is reused here so the two cannot conflict
+ *   D_801BECE0 / D_801BEEE8 / D_801BFAA0 — real dlabels in asm/ov_SC02_026/data/tail.data.s,
+ *                                 declared nowhere else in this TU (D_801BFAA0's `void (*[])(void)`
+ *                                 decl lives in a DIFFERENT TU, ov_SC03_125, so it is not a conflict)
+ *
+ * Codegen notes:
+ *  - The buf[8] halfword-pair setup + the three $2/$3/$6 pins are the byte-verified twin of
+ *    func_801843AC in THIS TU (line 4703). The doubled buf[1]/buf[5] stores are real: the ±8
+ *    adjust is a SECOND store to the same slot, and §135-4 (the list scheduler preserves the
+ *    relative order of disambiguable stores) is what emits sh/sh then sh/sh off one lhu of a0+0xA.
+ *  - 0x5C takes `ori $v0,$zero,0xAA10`, so the destination must be UNSIGNED (§135-3): through a
+ *    s16 the constant folds negative and gcc emits `addiu` instead.
+ *  - The 0x100 |= 0x8000 arm needs the plain `x = x | 0x8000` read-modify-write; gcc allocates the
+ *    address pseudo to $a0 (the pending call arg) on its own, which is why the lhu/sh are
+ *    $a0-based while everything else is $s0-based.
+ *  - THE RESIDUAL THAT DECIDED THIS FUNCTION: the D_801C05A8/D_801BFAA0 selector must be TWO
+ *    SEPARATE CALLS, not a `tbl = cond ? A : B;` select feeding one call. With a select, both
+ *    arms are single sets of the same pseudo, and gcc-2.7.2's jump.c rewrites
+ *    `if (c) t=A; else t=B;` into `t=B; if (c) t=A;` — the D_801BFAA0 lui/addiu hoists ABOVE the
+ *    beqz and the whole tail shifts (-3 ins, LENGTH-DRIFT, 20 mismatches). Two calls are not
+ *    simple sets, so the transform cannot fire; cross_jump then merges only the common
+ *    [move $a0,$s0; jal] tail, which is exactly the target's j-over-arm shape.
+ */
+
+extern s32 func_8012CEB0(s32 a0, s32 a1, s32 a2);
+extern void func_8012A828(s32 a0, s32 a1);
+extern void func_80131E00(void *a0, s32 a1);
+
+void func_8018642C(void *a0) {
+
+    extern u8 D_801BECE0[];
+    extern u8 D_801BEEE8[];
+    extern u8 D_801BFAA0[];
+    extern u8 D_801C05A8[];
+    u16 buf[8];
+    register u16 v0 __asm__("$2");
+    register u16 v1 __asm__("$3");
+    register u16 a2 __asm__("$6");
+
+    v0 = *(u16 *)((s32)a0 + 0x6);
+    buf[0] = v0;
+    buf[4] = v0;
+
+    v1 = *(u16 *)((s32)a0 + 0xA);
+    v0 = v1 - 8;
+    buf[1] = v1;
+    buf[5] = v1;
+
+    a2 = *(u16 *)((s32)a0 + 0xE);
+    v1 = v1 + 8;
+    buf[1] = v0;
+    buf[5] = v1;
+    buf[2] = a2;
+    buf[6] = a2;
+
+    if ((func_8012CEB0((s32)&buf[0], (s32)&buf[4], 0) & 0x1F) != 0) {
+        *(u16 *)((s32)a0 + 0x100) = *(u16 *)((s32)a0 + 0x100) | 0x8000;
+        func_80131E00(a0, 6);
+    } else {
+        if (*(s32 *)((s32)a0 + 0x90) == (s32)&D_801BEEE8) {
+            func_8012A828((s32)a0, (s32)&D_801BECE0);
+            *(u16 *)((s32)a0 + 0x2) = 0x14;
+            *(u16 *)((s32)a0 + 0x34) = 1;
+            *(s16 *)((s32)a0 + 0xFE) = 0;
+            *(s32 *)((s32)a0 + 0xCC) = (s32)&D_801BFAA0;
+        } else {
+            if (*(s16 *)((s32)a0 + 0xFE) != 0) {
+                func_8012A828((s32)a0, (s32)&D_801C05A8);
+            } else {
+                func_8012A828((s32)a0, (s32)&D_801BFAA0);
+            }
+            *(u16 *)((s32)a0 + 0x2) = 1;
+        }
+        *(s16 *)((s32)a0 + 0xFC) = 0;
+        *(u16 *)((s32)a0 + 0x5C) = (u16)0xAA10;
+    }
+}
+
 
 extern void func_8002A04C(s32 a0);
 extern void func_8012B2CC(s32 a0);
@@ -5828,7 +5929,20 @@ void func_80186D3C(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_094/nonmatchings/ov_SC03_094_jr_8017BEBC", func_80186DD8);
+
+
+extern void func_8012CBCC(s32 a0);
+
+void func_80186DD8(s32 a0) {
+    s16 v = *(s16 *)(a0 + 0xFC);
+
+    if (v != 0) {
+        *(s16 *)(a0 + 0xFC) = v - 1;
+    } else if (((s32 (*)(s32))func_8012CBCC)(a0) & 0x6000) {
+        *(s16 *)(a0 + 0x2) = 1;
+    }
+}
+
 
 void func_80186E30(void) {
 }
@@ -5865,7 +5979,26 @@ void func_80186E38(s32 entity) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_094/nonmatchings/ov_SC03_094_jr_8017BEBC", func_80186ED8);
+
+
+extern s32 func_80153BD8(s32 a0);
+extern void func_8012A828(s32 a0, s32 a1);
+
+void func_80186ED8(s32 a0) {
+
+    extern u8 D_801C05A8[];
+    s32 result;
+
+    result = func_80153BD8(a0);
+    if (result == 0) {
+        func_8012A828(a0, (s32)&D_801C05A8);
+        *(s16 *)(a0 + 0x2) = 3;
+        *(s16 *)(a0 + 0xFC) = 0;
+    } else {
+        *(s16 *)(a0 + 0x2) = 4;
+    }
+}
+
 
 
 void func_80186F2C(s32 a0) {
@@ -5897,7 +6030,27 @@ void func_80186F2C(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_094/nonmatchings/ov_SC03_094_jr_8017BEBC", func_80186FC0);
+
+
+extern s32 func_80153BD8(s32);
+extern void func_8012A828(s32, s32);
+
+void func_80186FC0(s32 a0)
+{
+
+    extern s32 aD801BC890 __asm__("D_801C0298");
+    s32 v0;
+
+    v0 = func_80153BD8(a0);
+    if (v0 != 0) {
+        v0 = 0x8;
+    } else {
+        func_8012A828(a0, (s32)&aD801BC890);
+        v0 = 0x6;
+    }
+    *(s16 *)(a0 + 0x2) = v0;
+}
+
 
 
 extern s32 func_8012BEE8(s32 a0);
@@ -5914,7 +6067,18 @@ void func_80187008(int param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_094/nonmatchings/ov_SC03_094_jr_8017BEBC", func_80187030);
+
+
+extern void func_8012A828(s32 a0, s32 a1);
+
+void func_80187030(s32 a0)
+{
+    if (((*(u16 *)(a0 + 0x72) & 0x4000) != 0) || (*(s16 *)(a0 + 0x98) == 0)) {
+        *(s16 *)(a0 + 0x2) = *(u16 *)(a0 + 0x34);
+        func_8012A828(a0, *(s32 *)(a0 + 0xCC));
+    }
+}
+
 
 
 extern void func_8012C1B8(void);

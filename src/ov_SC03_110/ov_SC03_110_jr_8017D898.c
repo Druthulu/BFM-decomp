@@ -3361,7 +3361,32 @@ extern s32 func_8017F2F8(void);
 
 INCLUDE_ASM("asm/ov_SC03_110/nonmatchings/ov_SC03_110_jr_8017D898", func_8017F2F8);
 
-INCLUDE_ASM("asm/ov_SC03_110/nonmatchings/ov_SC03_110_jr_8017D898", func_8017F3D4);
+
+void func_8017F3D4(void *a0, s32 a1)
+{
+    register s32 offset __asm__("$2");
+    s16 buf[4];
+    u16 t0, t1, t2, t3;
+    u16 *ptr;
+
+    offset = a1 << 1;
+    ptr = (u16 *)((s32)offset + (s32)a0);
+
+    t0 = ptr[0];
+    buf[0] = t0;
+
+    t1 = ptr[1];
+    buf[1] = t1;
+
+    t2 = ptr[2];
+    buf[2] = t2;
+
+    t3 = ptr[3];
+    buf[3] = t3;
+
+    MoveImage(buf, ptr[4], ptr[5]);
+}
+
 
 
 s32 func_8017F434(void) {

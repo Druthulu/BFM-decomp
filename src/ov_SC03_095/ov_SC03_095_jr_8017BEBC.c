@@ -3158,7 +3158,20 @@ void func_8017BEBC(s32 arg0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_095/nonmatchings/ov_SC03_095_jr_8017BEBC", func_8017CD9C);
+
+extern int func_8017D528(int param_1);
+
+void func_8017CD9C(void) {
+
+    extern const void D_80184B44;
+    extern const void D_80184C34;
+    extern u8 *D_801274C8;
+    extern void *D_801274CC;
+    D_801274C8 = (u8 *)&D_80184B44;
+    D_801274CC = (void *)&D_80184C34;
+    func_8017D528(0);
+}
+
 
 
 extern int func_8017D528(int param_1);

@@ -4328,7 +4328,46 @@ void func_8017EEFC(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_007/nonmatchings/ov_SC04_007_jr_8017BEBC", func_8017EF38);
+
+
+/* Declarations conformed to the TU (ov_SC04_018_jr_8017AE2C.c) — lever (A):
+ *   func_8012A828 : TU declares `extern void ((void (*)(s32*, s32))func_8012A828)(s32*, s32);`
+ *                   at L3460 / L4615 / L5083 / L5372 / L5859 / L6004 / L6155 /
+ *                   L6479 / L6504 / L6529.  The draft's `(s32, s32)` form caused
+ *                   the 7697-vs-6529 conflict.  Conformed here; the type
+ *                   disagreement is pushed to a cast at the call site.
+ *   D_80185EB8    : TU declares `extern u8 D_80185EB8[];` (block scope, L3467).
+ *                   Conformed; `(s32)D_80185EB8` == `(s32)&D_80185EB8`.
+ *   func_801788B8 : verbatim from TU L2532 / L7756 (below the splice point).
+ *   func_8012C354, D_80189804, func_8017F01C, func_8017EF38 : no other
+ *                   declaration anywhere in the TU (func_8017F01C / func_8017EF38
+ *                   appear only as INCLUDE_ASM, which emits no C declaration).
+ *
+ * Body: the original draft was NOT byte-correct.  `*(u16 *)(x + 2) = 1;` must be
+ * sequenced BEFORE the func_8012A828 call, not after it — with it after, gcc
+ * coalesces the store base onto $a0 (`sh v0,2(a0)`) and re-emits the arg copy,
+ * giving a 6-instruction ADDRESSING/cse diff.  Moved above the call; both stores
+ * now retire off $s0 and the sh lands in the jal delay slot, as in the target. */
+
+extern s32 func_8012C354(s32 a0, s32 a1);
+extern void func_8012A828(s32, s32);
+extern s32 func_801788B8(s32 arg0, s32 arg1);
+
+extern void func_8017F01C(void);
+
+void func_8017EF38(s32 a0) {
+
+    extern M2C_UNK D_80189804;
+    extern u8 D_80185EB8[];
+    s32 s0 = a0;
+    if (func_8012C354(a0, (s32)&D_80189804)) {
+        *(u8 *)(s0 + 0xC0) = 1;
+        *(u16 *)(s0 + 0x2) = 1;
+        ((void (*)(s32*, s32))func_8012A828)((s32 *)s0, (s32)D_80185EB8);
+        func_801788B8(s0, (s32)func_8017F01C);
+    }
+}
+
 
 void func_8017EF9C(void) {
 }
@@ -5417,13 +5456,79 @@ void func_80184FB8(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_007/nonmatchings/ov_SC04_007_jr_8017BEBC", func_80185010);
+extern void func_80146CA0(void *a0);
+extern void func_80147324(s32 a0);
+extern void func_8014CC28(s32 a0);
+extern void func_8014E934(s32 _arg0);
+extern s32 func_8014F3E8(s32 a0);
+
+
+void func_80185010(s32 a0)
+{
+    s32 s0 = a0;
+    func_8014E934(a0);
+    func_8014CC28(s0);
+    func_8014F3E8(s0);
+    func_80185060(s0);
+    func_80147324(0x92F);
+    func_80146CA0((void *)s0);
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_007/nonmatchings/ov_SC04_007_jr_8017BEBC", func_80185060);
 
 INCLUDE_ASM("asm/ov_SC04_007/nonmatchings/ov_SC04_007_jr_8017BEBC", func_801850CC);
 
-INCLUDE_ASM("asm/ov_SC04_007/nonmatchings/ov_SC04_007_jr_8017BEBC", func_80185220);
+extern void func_80147324(s32 a0);
+extern void func_80147364(u16, s32);
+extern void func_8014BC44(s32 a0, s32 a1);
+
+/* func_80185220 — actor "enter state 0x92F/0x930" stub: two sound/state pokes,
+ * the standard `func_8014BC44(actor, actor->0xF2)` animation kick, set 0xA8 = 0x20,
+ * then hand the actor to func_80151664.
+ *
+ * Two load-bearing derivations (both byte-verified against the .s):
+ *
+ *  1. The final call TAKES THE ACTOR. The .s sets `addu $a0,$s0,$zero` immediately
+ *     before `jal func_80151664`, but the whole fleet declares
+ *         extern void func_80151664(void);
+ *     (16 TUs + engine_core.h:2924; ov_SC02_016_after.c:3151 records that a
+ *     `void func_80151664(s32)` definition is `conflicting types` everywhere).
+ *     So: cookbook idiom 9 — cast at the CALL SITE, never touch the decl:
+ *         ((void (*)(s32))func_80151664)(a0)
+ *     The .run/ghidra_c seed shows `FUN_80151664()` with no argument and is WRONG
+ *     here; the .s wins. This is the single instruction the previous draft missed.
+ *
+ *  2. `sb $v0, 0xA8($a0)` uses $a0 — NOT $s0 — as its base, and lands in the jal's
+ *     delay slot. That needs no local-variable lever (no `s32 s0 = a0;` as the
+ *     sibling DEFINE_func_80152790 template uses): the arg copy into $a0 is emitted
+ *     ahead of the store, so the store simply addresses off the live copy, and
+ *     reorg.c then lifts the last pre-jal insn into the delay slot. Writing a
+ *     separate pointer local here would only add a pseudo.
+ *
+ * Declaration surface (D2 pass over the whole TU, one grep):
+ *   func_80147364  -> ov_SC02_016_jr_8017DC70.c:194,360  extern void (u16, s32)
+ *   func_80147324  -> :196,777                           extern void (s32)
+ *   func_8014BC44  -> :486                                extern void (s32, s32)
+ *   func_80151664  -> :880                                extern void (void)  [re-declared
+ *                     identically below, which is a legal duplicate declaration]
+ *   func_80185220  -> only the INCLUDE_ASM at :3587; no prior prototype anywhere in
+ *                     ov_SC02_016 or include/. (The ov_SC03_09x definitions of this
+ *                     name are other overlays sharing the VA — different binaries.)
+ * Recompiled with those four prototypes prepended: still MATCH (21 ins).
+ */
+
+extern void func_80151664(void);
+
+void func_80185220(s32 a0)
+{
+    func_80147364(4, 0x92F);
+    func_80147324(0x930);
+    func_8014BC44(a0, *(s16 *)(a0 + 0xF2));
+    *(u8 *)(a0 + 0xA8) = 0x20;
+    ((void (*)(s32))func_80151664)(a0);
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_007/nonmatchings/ov_SC04_007_jr_8017BEBC", func_80185274);
 
@@ -5640,9 +5745,31 @@ void func_80185588(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_007/nonmatchings/ov_SC04_007_jr_8017BEBC", func_801855C4);
+extern void func_80146E90(s32 *a0, s32 a1);
 
-INCLUDE_ASM("asm/ov_SC04_007/nonmatchings/ov_SC04_007_jr_8017BEBC", func_80185610);
+void func_801855C4(s32 param_1)
+{
+    u8 pad[0x28];
+    func_801495C4(*(s32 *)(param_1 + 0x34), param_1 + 0x4);
+    func_80146E90((s32 *)param_1, 3);
+    *(u16 *)(param_1 + 0x2) = *(u16 *)(param_1 + 0x2) + 1;
+}
+
+
+
+
+extern s32 func_80146E98(s32 a0);
+extern void func_80146C3C();
+extern void func_80185660(s32 param_1);
+
+void func_80185610(s32 param) {
+    if (func_80146E98(param) != 0) {
+        ((void (*)(s32))func_80146C3C)(param);
+    } else {
+        func_80185660(param);
+    }
+}
+
 
 void func_80185658(void) {
 }

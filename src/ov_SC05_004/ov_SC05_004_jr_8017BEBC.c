@@ -3597,7 +3597,24 @@ void func_8017DDE8(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_004/nonmatchings/ov_SC05_004_jr_8017BEBC", func_8017DEB8);
+
+extern int func_80178970(void);
+extern void func_80178D18(void);
+extern void func_80029124(s32 a0, s32 a1);
+extern void func_8012C218(void*);
+
+void func_8017DEB8(s32 a0)
+{
+
+    extern u8 D_80185330[];
+    if (func_80178970() == 0) return;
+
+    ((void (*)(s32))func_80178D18)(a0);
+
+    func_80029124((s32)D_80185330[*(s16 *)((s32)a0 + 0x70)], 1);
+    ((void (*)(s32))func_8012C218)(a0);
+}
+
 
 
 extern s32 func_80178B18(s32 param_1, s32 param_2);
@@ -3916,7 +3933,46 @@ void func_8017E9DC(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_004/nonmatchings/ov_SC05_004_jr_8017BEBC", func_8017EA18);
+
+
+/* Declarations conformed to the TU (ov_SC04_018_jr_8017AE2C.c) — lever (A):
+ *   func_8012A828 : TU declares `extern void ((void (*)(s32*, s32))func_8012A828)(s32*, s32);`
+ *                   at L3460 / L4615 / L5083 / L5372 / L5859 / L6004 / L6155 /
+ *                   L6479 / L6504 / L6529.  The draft's `(s32, s32)` form caused
+ *                   the 7697-vs-6529 conflict.  Conformed here; the type
+ *                   disagreement is pushed to a cast at the call site.
+ *   D_80181998    : TU declares `extern u8 D_80181998[];` (block scope, L3467).
+ *                   Conformed; `(s32)D_80181998` == `(s32)&D_80181998`.
+ *   func_801788B8 : verbatim from TU L2532 / L7756 (below the splice point).
+ *   func_8012C354, D_801854AC, func_8017EAFC, func_8017EA18 : no other
+ *                   declaration anywhere in the TU (func_8017EAFC / func_8017EA18
+ *                   appear only as INCLUDE_ASM, which emits no C declaration).
+ *
+ * Body: the original draft was NOT byte-correct.  `*(u16 *)(x + 2) = 1;` must be
+ * sequenced BEFORE the func_8012A828 call, not after it — with it after, gcc
+ * coalesces the store base onto $a0 (`sh v0,2(a0)`) and re-emits the arg copy,
+ * giving a 6-instruction ADDRESSING/cse diff.  Moved above the call; both stores
+ * now retire off $s0 and the sh lands in the jal delay slot, as in the target. */
+
+extern s32 func_8012C354(s32 a0, s32 a1);
+extern void func_8012A828(s32, void*);
+extern s32 func_801788B8(s32 arg0, s32 arg1);
+
+extern void func_8017EAFC(void);
+
+void func_8017EA18(s32 a0) {
+
+    extern M2C_UNK D_801854AC;
+    extern u8 D_80181998[];
+    s32 s0 = a0;
+    if (func_8012C354(a0, (s32)&D_801854AC)) {
+        *(u8 *)(s0 + 0xC0) = 1;
+        *(u16 *)(s0 + 0x2) = 1;
+        ((void (*)(s32*, s32))func_8012A828)((s32 *)s0, (s32)D_80181998);
+        func_801788B8(s0, (s32)func_8017EAFC);
+    }
+}
+
 
 void func_8017EA7C(void) {
 }
@@ -4150,7 +4206,75 @@ void func_80181414(void *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_004/nonmatchings/ov_SC05_004_jr_8017BEBC", func_801814D8);
+
+
+/* Declaration reconciliation with src/ov_SC03_118/ov_SC03_118_jr_8017FB84.c:
+ *  - D_8019F0B8: the TU already declares it at line 4526 as `extern u8 D_8019F0B8[];`
+ *    (used by the banked func_801885D0 just above the splice point). The draft had
+ *    `extern s32 D_8019F0B8[]` -> "conflicting types". Lever (A): conform the decl
+ *    VERBATIM and keep the disagreement at the use site, which already casts the
+ *    decayed pointer to s32. Zero bytes change.
+ *  - func_801292C8: not declared anywhere in this TU, but src/shared/engine_core.h
+ *    declares it as `extern void func_801292C8(u8 *a0);` inside four DEFINE_ macros
+ *    (6304/8491/13623/13794). None of those macros is expanded in this TU today, but
+ *    conforming to that shape now makes the splice conflict-proof if one ever is.
+ *    $a0 already holds the incoming pointer, so passing it costs no instruction
+ *    (jal + nop delay slot, exactly as in the target).
+ */
+
+extern void func_801292C8(u8 *a0);
+
+void func_801814D8(void *a0) {
+
+    extern u8 D_8019F0B8[];
+    s32 v0;
+    s32 v1;
+    s32 a1;
+    s32 a2;
+    u8 *v1ptr;
+
+    v0 = *(s32 *)((s32)a0 + 0x1C);
+    v1 = *(s32 *)((s32)a0 + 0x2C);
+    a1 = v0 - 1;
+    /* §21 zero-byte re-tie barrier: without it gcc's scheduler hoists the 0x2C load
+     * (and its sll) ahead of the 0x1C load + addiu pair -- the 4-slot SCHEDULE-REORDER
+     * residual. Folding the shift into the address expression fixes the order but then
+     * swaps $v0/$v1 across the sll/lui pair (REGALLOC-PERM). The re-tie keeps the
+     * in-place `v1 <<= 6` form (so the shift stays in $v1) AND anchors it after the
+     * two loads. Emits no code. */
+    __asm__ __volatile__("" : "=r"(v1) : "0"(v1));
+    v1 = v1 << 6;
+    a2 = (s32)D_8019F0B8 + v1;
+    v1ptr = *(u8 **)((s32)a0 + 0x20);
+
+    *(s32 *)((s32)a0 + 0x1C) = a1;
+
+    if (!(a1 == -1)) {
+        v0 = 0x10 - a1;
+        *(u16 *)((s32)v1ptr + 0x1A) = v0 << 8;
+        *(u16 *)((s32)v1ptr + 0x18) = v0 << 8;
+
+        v1 = *(s32 *)((s32)a0 + 0x1C);
+        v0 = (v1 << 8) - v1;
+        if (v0 < 0) {
+            v0 = v0 + 0xF;
+        }
+        v0 = (u32)v0 >> 4;
+
+        *(u8 *)(a2 + 0x2) = v0;
+        *(u8 *)(a2 + 0x1) = v0;
+        *(u8 *)(a2 + 0x0) = v0;
+
+        v0 = *(s32 *)((s32)a0 + 0x1C) << 2;
+        *(u8 *)(a2 + 0x5) = v0;
+        *(u8 *)(a2 + 0x4) = v0;
+
+        *(u8 *)(a2 + 0x6) = *(s32 *)((s32)a0 + 0x1C) << 3;
+    } else {
+        func_801292C8((u8 *)a0);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC05_004/nonmatchings/ov_SC05_004_jr_8017BEBC", func_8018158C);
 

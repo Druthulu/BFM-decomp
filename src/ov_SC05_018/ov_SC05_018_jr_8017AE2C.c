@@ -319,7 +319,6 @@ extern s32 func_80012B04(s32 a0, s32 a1, s32 a2);
 extern void func_801490F8(s32 a0, s32 a1);
 extern s32 func_801491C4(s32 a0);
 extern s32 func_80149184(s32 a0);
-extern s32 D_801151D4;
 extern void func_80149204(s32 *a0);
 extern void func_80149210(s32 a0, s32 a1);
 extern s32 func_80149284(s32 *a0, s32 a1);
@@ -2996,7 +2995,6 @@ void func_8017B7A8(void)
 
 
 
-extern s32 D_801151D4;
 extern s16 D_801E62D4;
 extern s16 D_801E62D6;
 extern s16 D_801E62D8;
@@ -3005,6 +3003,10 @@ extern s16 D_801E62DE;
 extern s16 D_801E62E0;
 
 void func_8017B824(void) {
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern s32 D_801151D4;
     D_801E62D4 = (s16) M2C_FIELD(D_801151D4, s32 *, 0x48);
     D_801E62D6 = (s16) M2C_FIELD(D_801151D4, s32 *, 0x4C);
     D_801E62D8 = (s16) M2C_FIELD(D_801151D4, s32 *, 0x50);
@@ -3538,7 +3540,26 @@ void func_8017C234(s32 a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_018/nonmatchings/ov_SC05_018_jr_8017AE2C", func_8017C378);
+
+
+extern void func_800D23D0(void *a0);
+
+void func_8017C378(void) {
+
+    extern s32 D_801151D4;
+    extern s16 D_801E64E8;
+    s16 diffs[3];
+    s32 *ptr = (s32 *)D_801151D4;
+
+    diffs[0] = (s16)(*(s32 *)((u8 *)ptr + 0x68) - *(s32 *)((u8 *)ptr + 0x5C));
+    diffs[1] = (s16)(*(s32 *)((u8 *)ptr + 0x6C) - *(s32 *)((u8 *)ptr + 0x60));
+    diffs[2] = (s16)(*(s32 *)((u8 *)ptr + 0x70) - *(s32 *)((u8 *)ptr + 0x64));
+
+    func_800D23D0(diffs);
+
+    D_801E64E8 = (u16)diffs[1];
+}
+
 
 
 extern void func_8001CB6C(u8 *a0, s32 a1, s32 a2, s32 a3);
@@ -3968,7 +3989,24 @@ void func_8017D3A4(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_018/nonmatchings/ov_SC05_018_jr_8017AE2C", func_8017D474);
+
+extern int func_80178970(void);
+extern void func_80178D18(void);
+extern void func_80029124(s32 a0, s32 a1);
+extern void func_8012C218(s32 a0);
+
+void func_8017D474(s32 a0)
+{
+
+    extern u8 D_8018A6A4[];
+    if (func_80178970() == 0) return;
+
+    ((void (*)(s32))func_80178D18)(a0);
+
+    func_80029124((s32)D_8018A6A4[*(s16 *)((s32)a0 + 0x70)], 1);
+    func_8012C218(a0);
+}
+
 
 
 extern s32 func_80178B18(s32 param_1, s32 param_2);

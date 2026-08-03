@@ -3372,7 +3372,23 @@ INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005_jr_8017C340", func_8017DAA
 
 INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005_jr_8017C340", func_8017DB00);
 
-INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005_jr_8017C340", func_8017DB50);
+extern void func_80029444(void);
+extern void func_801754A8(void);
+extern void func_80141C04(void);
+extern u16 D_80115112;
+extern u16 D_80115116;
+extern void (*D_801BBA40[])(void);
+
+void func_8017DB50(void) {
+    u16 i;
+    func_80029444();
+    func_801754A8();
+    i = D_80115112;
+    D_801BBA40[i]();
+    func_80141C04();
+    D_80115116++;
+}
+
 
 INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005_jr_8017C340", func_8017DBC0);
 
@@ -3393,7 +3409,113 @@ INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005_jr_8017C340", func_8017E3D
 
 INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005_jr_8017C340", func_8017E6BC);
 
-INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005_jr_8017C340", func_8017E978);
+#include "common.h"
+
+/* func_8017E978 — "draw one HUD panel" (family exemplar), 115 ins, frame 0x88.
+ *
+ * Re-derived from the .s (the earlier DIFF verdict was on a different draft shape).
+ * Banked structural sibling (same author, expanded form):
+ *   src/ov_SC06_008/ov_SC06_008_jr_8013F350.c  func_8013FAF8
+ *     u8 sp18[72]; s32 sp60[2];  ->  sp18 @0x18, sp60 @0x60, frame 0x88
+ *     flag != 0 ? 0x585858 : 0x808080   /   sp60[0] += -0x282828
+ *     func_800D29F8(flagN, func_800D27DC(flagN != 0, ...), ...)
+ *
+ * Three levers were needed; all three are byte-verified by tools/match_one.py:
+ *
+ *  1. The flag is BRANCHLESS here (xor/sltu/negu/andi), unlike the sibling's
+ *     if/else — that is `-(a != b) & 0xFF`, i.e. store_flag normalized to -1
+ *     then truncated to u8.
+ *
+ *  2. RC-12 ($0-ADD OPAQUE COPY, docs/gcc-2.7.2-map/regalloc.md).  The target
+ *     keeps the flag in TWO live regs — `beqz $s0` (ternary 1) reads the andi's
+ *     own dest while `$s4` (the copy) feeds everything after it.  A plain
+ *     `flag2 = flag;` is destroyed by cse.c make_regs_eqv head-promotion: the
+ *     longer-lived copy becomes canonical and canon_reg rewrites ternary 1 to
+ *     read $s4 (the single residual instruction in every plain-C spelling).
+ *     `flag2 = flag + zr;` with `register s32 zr __asm__("$0")` is a (plus rA
+ *     (reg 0)) — not a reg-reg set, so no qty merge and no canon — and
+ *     assembles to the byte-identical `addu $s4, $s0, $zero`.  The same lever
+ *     materializes the tail copy `addu $s0, $s4, $zero`.
+ *
+ *  3. `w` must be pinned to $18: unpinned, global.c's density order hands $s1
+ *     to `w` and $s2 to `ot` (the target's grant is the other way round).  The
+ *     pin lands on a LOCAL fed from the parameter, never on the parameter
+ *     itself (S3).  Pin-free spellings (plain local, $0-add copy, routing `ot`
+ *     through a local instead) were all tried and all leave the 22-diff swap.
+ */
+
+typedef struct Prim4_8017E978 {
+    s16 f0;                  /* 0x00 */
+    s16 f2;                  /* 0x02 */
+} Prim4_8017E978;
+
+typedef struct Panel_8017E978 {
+    s16 f0;                  /* 0x00 */
+    s16 f2;                  /* 0x02 */
+    void *f4;                /* 0x04 */
+    void *f8;                /* 0x08 */
+    s16 fC;                  /* 0x0C */
+    s16 fE;                  /* 0x0E */
+    s16 f10;                 /* 0x10 */
+    s16 f12;                 /* 0x12 */
+    void *f14;               /* 0x14 */
+    Prim4_8017E978 *f18;     /* 0x18 */
+    void *f1C;               /* 0x1C */
+} Panel_8017E978;
+
+extern u16 D_8011511A;
+
+extern void  func_80024054(void *a0, void *a1);
+extern s32  *func_800D2650(s32 *, void *, s32, s32, s32, s32);
+extern s32   func_800D27DC(s32, s32 *, void *, s32, s32);
+extern s32  *func_800D29F8(s32, s32, void *, s32, s32);
+extern s32  *func_8017EFA8(s32 *, void *, s32, void *, s32);
+extern s32   func_8017EB44(void *, s32, s32, s32, s32 *);
+
+s32 *func_8017E978(s32 *ot, Panel_8017E978 *w0, s16 idx) {
+    register Panel_8017E978 *w __asm__("$18");
+    u8 sp18[72];
+    s32 sp60[2];
+    register s32 zr __asm__("$0");
+    s32 flag;
+    s32 flag2;
+    s32 flag3;
+    s32 flag4;
+    s16 i;
+    Prim4_8017E978 *p;
+    s32 r;
+
+    w = w0;
+    flag = -(D_8011511A != idx) & 0xFF;
+    func_80024054(w->f14, sp18);
+    flag2 = flag + zr;
+    ot = func_800D2650(ot, sp18, w->f10, w->f12, 1,
+                       flag != 0 ? 0x585858 : 0x808080);
+    ot = func_8017EFA8(ot, w->f18, idx, w->f8,
+                       flag2 != 0 ? 0x585858 : 0x808080);
+    i = 0;
+    flag3 = flag2;
+    p = w->f18;
+    for (;;) {
+        r = func_8017EB44(w->f1C, w->f0, idx, i++, sp60);
+        if (r == 0) {
+            break;
+        }
+        if (r < 0) {
+            func_80024054((void *)r, sp18);
+            if (flag3 != 0) {
+                sp60[0] += -0x282828;
+            }
+            ot = func_800D2650(ot, sp18, p->f0, p->f2, 1, sp60[0]);
+        }
+        p++;
+    }
+    flag4 = flag2 + zr;
+    return func_800D29F8(flag4,
+                         func_800D27DC(flag4 != 0, ot, w->f4, w->fC, 0),
+                         w->f8, w->fE, 0);
+}
+
 
 INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005_jr_8017C340", func_8017EB44);
 
