@@ -147,57 +147,49 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 
 ---
 
-# 🛑 SESSION-31 CHECKPOINT (2026-08-03) — **THE B-SHAPE QUEUE IS CLOSED: 144/144 BANKED**
-> Supersedes SESSION-30 below. **Nothing is running. Tree lock FREE. Tree CLEAN** but for the R23
-> `db.*.gbf` churn — never stage it. Effort: **ultracode**. `make tools-health` RC=0 at session open.
-> **R22 clean-fleet run SEVEN times this session, 140/140 every time.** HEAD `commit:1368`.
+# 🛑 SESSION-31 CHECKPOINT (2026-08-03) — **167/167 DRAFTED TARGETS BANKED; x10-99 BAND CLOSED**
+> Supersedes SESSION-30 below. **Nothing running. Tree lock FREE. Tree CLEAN** but for the R23
+> `db.*.gbf` churn — never stage it. Effort: **ultracode**. **R22 clean-fleet run NINE times this
+> session, 140/140 every time.** HEAD `commit:1372`.
 
 ## FLEET — R22 clean-fleet **140 passed / 0 failed of 140**
-**95.88% fn-count · 92.9% instr-weighted · 86.5% distinct-code** (77,106 / 87,459 unique fns) ·
-dedup **1905/0** · C1 240496/240496 · **0 NON_MATCHING** in any default build (G4).
-Phase opened 92.00 / 87.5 / 78.0 ⇒ **+3.88pp fn, +5.4pp instr, +8.5pp distinct this phase.**
-*(`.run/family_hseq.json` reads ~0.3–1.0pp higher — OVERLAY-ONLY denominator, not a disagreement.)*
+**95.97% fn-count · 93.4% instr-weighted · 87.5% distinct-code** (77,404 / 87,459 unique fns) ·
+dedup **1905/0** · C1 240496/240496 · **0 NON_MATCHING** (G4).
+Phase opened 92.00 / 87.5 / 78.0 ⇒ **+3.97pp fn, +5.9pp instr, +9.5pp distinct this phase.**
 
-## WHAT S7 DID — **144 of 144 drafted targets banked (100%)** + ~1,400 members propagated
-| lane | targets | banked | tokens |
+## WHAT S7+S8 DID — **167 of 167 drafted targets banked (100%)** + ~1,900 members propagated
+| campaign | band | targets | banked |
 |---|---|---|---|
-| wave 4a draft | 33 | 23 | 4.44M |
-| wave 4a reconcile | 7 | 7 | 0.33M |
-| S6c jr families (deterministic) | 9 fams | 12 members | ~0 |
-| wave 4b b1 | 37 | 32 | 4.35M |
-| wave 4b b2 | 37 | 35 | 3.44M |
-| reconcile ×2 + redraft ×2 | 13 | 13 | ~0.87M |
-| wave 4b b3 | 37 | 35 | 2.75M |
-| final reconcile ×5 + redraft ×1 | 6 | 6 | 0.34M |
+| wave 4a | 60-120 ins | 33 | **33** |
+| wave 4b b1/b2/b3 | <=60 ins | 111 | **111** |
+| S8-3 x10-99 | **121-328 ins** | 23 | **23** |
+| S6c jr families (deterministic) | — | 9 fams | 12 members |
 
-**LANE RECORDS (the economics that held all session):** drafting banks 70–95% at ~3–4M tok/wave ·
-**reconcile 15/15 lifetime at ~13× lower cost** · **redraft 9/9** · deterministic sweeps banked
-~1,400 members for ~0 tokens. **The cheap lanes consistently out-earned the expensive one.**
+**Not first-pass — first-pass was 70-95%.** The **capture -> reconcile -> redraft** ladder closed the
+remainder EVERY time. **A first-pass gate failure is a ROUTING DECISION, not a wall.**
+Lane records: **reconcile 16/16 lifetime** (~13x cheaper than drafting) · **redraft 15/15** ·
+**§136b closed 15/15** (no "genuine byte-DIFF" verdict survived a redraft).
 
-## 📊 THE FRONTIER, re-derived at HEAD from a REGENERATED map (R35 — not a carried number)
-**All three B-shape lanes are at ZERO — genuinely exhausted:**
-| lever | families | templ ins | note |
+## ⚠️ TWO MEASUREMENTS THAT CORRECT EARLIER STRATEGY — DO NOT RE-DERIVE THEM THE HARD WAY
+1. **§136h — the zero-crack pool is RESIDUE, not a lever.** I scoped a 141-family sweep at "70,924
+   ins, ~0 tokens, best lever on the board" from `byte_weight_templatable`. **It banked 1 of 1,781.**
+   The top families compile clean and byte-DIFF. That column counts what COULD template if the bodies
+   reproduced — the very thing in question. **Price by probing ONE member per family.** (My R37
+   violation; cost ~1,780 build cycles, zero tokens, no bad bytes.)
+2. **§136j — the failure mix FLIPS with size.** <=120 ins fails ~70% on declarations; 121-328 ins
+   fails **86% on genuine codegen**. Budget reconcile for the small band, redraft for the big one.
+
+## 📊 THE FRONTIER (re-derive before scoping — R35)
+| tier | families | ins | verdict |
 |---|---|---|---|
-| B-shape ≥20 memb ≤60 ins | **0** | 0 | exhausted |
-| B-shape ≥10 memb 61-120 ins | **0** | 0 | **exhausted this session** |
-| B-shape 10-19 memb ≤60 ins | **0** | 0 | **exhausted this session** |
-| **zero-crack (propagation-only)** | **147** | **70,924** | **best next lever, ~0 agent tokens** |
-| fresh ×10-99 | 23 | 69,310 | agent waves |
-| fresh ×2-9 | 1,872 | 362,591 | worst multiplier — deprioritised |
-| ×1 singletons | 3,804 | 231,327 | ×1 — deprioritised |
-Unmatched fleet-wide: **13,577 instances / 867,808 ins**.
+| B-shape lanes (all three) | **0** | 0 | exhausted |
+| fresh x10-99 | **0** | 0 | **exhausted this session** |
+| fresh x2-9 | 1,872 | 362,591 | biggest mass, worst multiplier |
+| x1 singletons | 3,804 | 231,327 | x1 leverage |
+| zero-crack residue | ~147 | ~70,924 | **LEDGER MATERIAL (§136h)** |
 
-**⚠️ CORRECTED — DO NOT ACT ON THE EARLIER "zero-crack refills itself" LINE (§136h).** I recorded
-that the pool growing 120 → 147 families / 70,924 ins was a compounding cheap lever and said to sweep
-it first. **Measured: the sweep banked 1 of 1,781.** The top families compile clean and produce a
-**byte DIFF** (one fails at link) — the remapped body does not reproduce in the sibling. The pool
-grows because **members that already failed accumulate**, and because a fresh crack's members are
-harvested at crack time (we propagate behind every crack), so what accrues afterwards is the fraction
-that REFUSED. **A growing zero-crack count is a RESIDUE signal, not an opportunity signal.** Price it
-by probing one member per family — never by summing `byte_weight_templatable`, which counts what
-*could* template if the bodies reproduced, i.e. the very thing in question (§133 recurring on a new
-column). My R37 violation, in the scoping step; cost was ~1,780 build cycles, zero tokens, no bad
-bytes. **The remaining zero-crack pool is LEDGER MATERIAL, not a lever.**
+**Every high-multiplier lane is now spent.** What remains is x2-9 and x1 work. That, not a session
+count, is the honest ROI floor — and it makes **T5 (phase close) the real next decision.**
 
 ## 🔑 THE FOUR FINDINGS THIS SESSION PRODUCED (cookbook §136 · §136a · §136b · §136c · §136d)
 1. **§136 — the LOCAL-VARIABLE lever.** In the 60–120-ins band most "regalloc residuals" are decided
