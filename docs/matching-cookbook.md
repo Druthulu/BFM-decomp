@@ -8985,6 +8985,22 @@ the bank. Only the hard-error form does.
 
 Measured on wave 4a's 10 gate failures: **7 PLUMBING / 3 DIFF** — i.e. **70% of "the gate refused"
 was declaration paperwork, not codegen.** That ratio is why the capture step is worth its ~10 builds
-before any reconcile fan-out. Tool: `.run/s7_capture.py` (any overlay, any draft dir; the
+before any reconcile fan-out.
+
+**The classification was EXACTLY predictive, which is the point:** all 7 PLUMBING banked through the
+reconcile lane; all 3 DIFF stayed stubs. Wave 4a therefore closed at **30/33 = 91%** (23 first-pass
++ 7 reconciled), and the reconcile lane is now **19/19 across three waves** at ~13× lower token cost
+than drafting (329 K for 7 fixes vs 4.44 M for the wave). **Every agent found the reported conflict
+PLUS a hidden second one cc1 never reached** — which is the mechanical reason the "grep the whole TU
+in one pass" instruction (§135-8) has to be in the reconcile prompt, not just the drafting prompt. Tool: `.run/s7_capture.py` (any overlay, any draft dir; the
 ov_SC01_077-only `.run/uc_capture.py` is its ancestor). It reverts the TU in a `finally:` — a killed
 process performs no undo (the S27 law).
+
+**Corollary — mandate a PRIVATE scratch path in the agent prompt.** A wave-4a reconcile agent chose
+`.run/s7/scratch/spliced.c` on its own initiative; a concurrent agent in the same wave overwrote it
+mid-run, so its first verification compiled *another agent's TU* and returned a meaningless `rc=0`.
+It caught the swap only because the emitted `.s` did not contain its own function. This is the
+Phase-28 `match_one` fake-isolation defect recurring one level up — at the AGENT layer, where no
+tool fix reaches it. **Any parallel wave whose agents may compile must tell them to use a
+process-unique scratch path** (`$$`/pid-suffixed) and must never suggest a fixed shared one. A
+shared scratch path does not produce an error; it produces a CONFIDENT WRONG VERDICT.

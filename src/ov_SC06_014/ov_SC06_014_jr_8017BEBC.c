@@ -3661,7 +3661,43 @@ INCLUDE_ASM("asm/ov_SC06_014/nonmatchings/ov_SC06_014_jr_8017BEBC", func_8017E32
 
 INCLUDE_ASM("asm/ov_SC06_014/nonmatchings/ov_SC06_014_jr_8017BEBC", func_8017E3B8);
 
-INCLUDE_ASM("asm/ov_SC06_014/nonmatchings/ov_SC06_014_jr_8017BEBC", func_8017E4B4);
+
+extern s32 rand(void);
+extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
+/* Declarations conformed VERBATIM to the TU's existing ones
+ * (ov_SC02_035_jr_8017BEBC.c:5139 and :5117) — type disagreements are
+ * pushed to casts at the use sites below. Zero codegen change. */
+extern void func_8017E8D8(s32 *a0, s32 a1, s32 a2);
+extern void func_8012B200(void *a0);
+extern void func_8012B370(s32 a0);
+extern void func_8012B178(s32 a0, s32 a1);
+
+void func_8017E4B4(s32 a0) {
+    s16 sp10[4];
+    s32 sp18[2];
+    s16 r;
+    s32 t;
+    s32 u;
+
+    r = rand();
+    func_8012B0B4((unsigned int *)sp18, (s16)(r % 4095), (s16)(r % 128) + 0xC0);
+
+    t = sp18[0];
+    sp10[1] = -0x30;
+    sp10[0] = t;
+    sp10[2] = t >> 16;
+    func_8017E8D8(sp18, a0, (s32)sp10);
+
+    u = sp18[0];
+    *(s16 *)(*(s32 *)(a0 + 0x20) + 0x10) = u;
+    *(s16 *)(*(s32 *)(a0 + 0x20) + 0x12) = u >> 16;
+    func_8012B200((void *)a0);
+    func_8012B370(a0);
+    func_8012B178(a0, *(s32 *)(a0 + 0xE4) + 0xFFFE0000);
+    *(s16 *)(a0 + 0x2) = 4;
+    *(s16 *)(a0 + 0x34) = 0;
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_014/nonmatchings/ov_SC06_014_jr_8017BEBC", func_8017E5C0);
 

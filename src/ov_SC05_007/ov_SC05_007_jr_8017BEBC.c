@@ -3970,13 +3970,147 @@ void func_8017F860(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_007/nonmatchings/ov_SC05_007_jr_8017BEBC", func_8017F9D0);
+
+extern s32 rand(void);
+extern void func_8012B200(void *a0);
+extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
+
+void func_8017F9D0(s32 a0) {
+    u8 auStack_18[8];
+    s32 tmp;
+    s32 base;
+    s32 off;
+    s32 val;
+
+    func_8012B200((void *)a0);
+    *(s32 *)(a0 + 0x1C) = rand() % 128 + 0x80;
+    *(s16 *)(a0 + 0xFE) = rand() % 32 + 10;
+    func_8012B0B4((unsigned int *)auStack_18, rand() % 0x1000,
+                  rand() % *(s32 *)(a0 + 0xDC));
+    tmp = *(s32 *)auStack_18;
+    *(s16 *)(a0 + 0x102) = *(u16 *)(a0 + 0x88) + tmp;
+    *(s16 *)(a0 + 0x106) = *(u16 *)(a0 + 0x8C) + (tmp >> 16);
+    if (*(u16 *)(a0 + 0x70) & 0x20) {
+        off = rand() % 256;
+        base = *(s16 *)(a0 + 0xFC);
+        if (rand() & 1) {
+            val = base + off;
+        } else {
+            val = base - off;
+        }
+        *(s16 *)(a0 + 0x104) = val;
+    } else {
+        *(s16 *)(a0 + 0x104) = *(u16 *)(a0 + 0xFC) - rand() % 256;
+    }
+    *(s16 *)(a0 + 0x2) = 4;
+}
+
 
 INCLUDE_ASM("asm/ov_SC05_007/nonmatchings/ov_SC05_007_jr_8017BEBC", func_8017FB64);
 
-INCLUDE_ASM("asm/ov_SC05_007/nonmatchings/ov_SC05_007_jr_8017BEBC", func_8017FDB8);
 
-INCLUDE_ASM("asm/ov_SC05_007/nonmatchings/ov_SC05_007_jr_8017BEBC", func_8017FEC4);
+extern s32 rand(void);
+extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
+/* Declarations conformed VERBATIM to the TU's existing ones
+ * (ov_SC02_035_jr_8017BEBC.c:5139 and :5117) — type disagreements are
+ * pushed to casts at the use sites below. Zero codegen change. */
+extern void func_8018020C(s32 *a0, s32 a1, s32 a2);
+extern void func_8012B200(void *a0);
+extern void func_8012B2CC(s32 a0);
+extern void func_8012B178(s32 a0, s32 a1);
+
+void func_8017FDB8(s32 a0) {
+    s16 sp10[4];
+    s32 sp18[2];
+    s16 r;
+    s32 t;
+    s32 u;
+
+    r = rand();
+    func_8012B0B4((unsigned int *)sp18, (s16)(r % 4095), (s16)(r % 128) + 0xC0);
+
+    t = sp18[0];
+    sp10[1] = -0x30;
+    sp10[0] = t;
+    sp10[2] = t >> 16;
+    func_8018020C(sp18, a0, (s32)sp10);
+
+    u = sp18[0];
+    *(s16 *)(*(s32 *)(a0 + 0x20) + 0x10) = u;
+    *(s16 *)(*(s32 *)(a0 + 0x20) + 0x12) = u >> 16;
+    func_8012B200((void *)a0);
+    func_8012B2CC(a0);
+    func_8012B178(a0, *(s32 *)(a0 + 0xE4) + 0xFFFE0000);
+    *(s16 *)(a0 + 0x2) = 6;
+    *(s16 *)(a0 + 0x34) = 0;
+}
+
+
+
+extern void func_8018020C(s32 *a0, s32 a1, s32 a2);
+extern s32 func_8012B8E4(s32 a0, s32 a1);
+extern s32 func_8012BEE8(s32 a0);
+extern void func_8012CBF4(s32 a0);
+extern void func_8012B200(void *a0);
+extern void func_8012B178(s32 a0, s32 a1);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern s32 func_801801E0(s32 a0);
+extern s32 rand(void);
+
+void func_8017FEC4(s32 a0) {
+
+    extern u8 D_80197CA4[];
+    s32 sp10[2];
+    s32 t;
+    s32 u;
+
+    switch (*(u16 *)(a0 + 0x34)) {
+    case 0:
+        if (((s32 (*)(s32))func_8012CBF4)(a0)) {
+            *(s32 *)(a0 + 0x1C) = 0x1E;
+            *(s16 *)(*(s32 *)(a0 + 0x20) + 0x10) = 0;
+            *(s16 *)(a0 + 0x34) = *(u16 *)(a0 + 0x34) + 1;
+        } else if (*(s16 *)(a0 + 0x100) < *(s16 *)(a0 + 0xA)) {
+            *(s16 *)(a0 + 0xA) = *(s16 *)(a0 + 0x100);
+            *(s32 *)(a0 + 0x1C) = 0x1E;
+            *(s16 *)(*(s32 *)(a0 + 0x20) + 0x10) = 0;
+            *(s16 *)(a0 + 0x34) = *(u16 *)(a0 + 0x34) + 1;
+        }
+        break;
+    case 1:
+        t = func_8012B8E4(a0, 6);
+        *(s16 *)(*(s32 *)(a0 + 0x20) + 0x12) =
+            *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) + t;
+        if (func_8012BEE8(a0)) {
+            if (rand() & 1) {
+                *(s16 *)(a0 + 0x2) = 1;
+            } else {
+                *(s16 *)(a0 + 0x34) = *(u16 *)(a0 + 0x34) + 1;
+                func_8012B200((void *)a0);
+                *(s32 *)(a0 + 0x1C) = 0x20;
+                func_8002D4C8(0x6FF, 0);
+            }
+        }
+        break;
+    case 2:
+        func_8018020C(sp10, a0, (s32)D_80197CA4);
+        u = sp10[0];
+        *(s16 *)(*(s32 *)(a0 + 0x20) + 0x10) = u;
+        *(s16 *)(*(s32 *)(a0 + 0x20) + 0x12) = u >> 16;
+        func_8012B178(a0, *(s32 *)(a0 + 0xE4) + 0xFFF80000);
+        func_8012CBF4(a0);
+        if (func_801801E0(a0) == 1) {
+            *(s16 *)(a0 + 0x2) = 1;
+        } else if (func_8012BEE8(a0)) {
+            *(s16 *)(a0 + 0x2) = 1;
+        }
+        break;
+    default:
+        *(s16 *)(a0 + 0x2) = 1;
+        break;
+    }
+}
+
 
 
 

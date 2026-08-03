@@ -75,7 +75,6 @@ extern s32 func_80146128(void);
 extern void func_80146360(void);
 extern void func_801463A0();
 extern void func_8014607C(void);
-extern s32 *D_80126B78;
 extern u8 D_80078EC1;
 extern s32 D_80078EC8;
 extern s32 D_80126B9C;
@@ -4081,13 +4080,16 @@ typedef struct { u16 x, y, z, w; } Pt_80187940;   /* 8-byte out-param scratch */
 extern void func_8012F14C(s32);   /* TU-canonical decl; called through a cast (fleet house style) */
 extern void func_8012F568();
 extern s32  func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
-extern s32 *D_80126B78;
 extern s32 *D_80126B90;
 extern s16  D_80126B9A;
 extern u8   D_801152A8[];
 
 s32 func_80187940(s32 arg0, s32 arg1, s32 arg2, s16 arg3)
 {
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern s32 *D_80126B78;
     Pt_80187940 a;
     Pt_80187940 b;
 
@@ -4536,7 +4538,77 @@ extern void func_8012BF4C(s32 *a0, s32 a1);
     }
 
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_8018D0A0);
+extern void func_8012BEE8(u8*);
+extern s32 func_8017267C(s32 *a0);
+extern void func_8012BF4C(s32*, s32);
+extern s32 rand(void);
+
+void func_8018D0A0(void *a0)
+{
+
+    extern s32 *D_80126B78;
+    extern s32 D_80126B58;
+    s16 v1;
+    s32 v0;
+    s32 s0;
+
+    v0 = ((s32 (*)(void))func_8012BEE8)();
+    if (v0 == 0)
+        return;
+
+    v1 = *(s16 *)((s32)a0 + 0x70);
+
+    if (v1 != 0) {
+        if (v1 != 1) {
+            goto default_case;
+        }
+    } else {
+        v0 = D_80126B78[1];
+        if (v0 < 0)
+            goto end_func;
+        if (func_8017267C(&D_80126B58) != 0)
+            goto end_func;
+    }
+
+    func_8018D1F0(a0);
+    s0 = 0;
+    do {
+        v0 = rand() & 0x1;
+        if (v0 == 0) {
+            func_8018D1F0(a0);
+        }
+
+        v0 = rand() & 0x3;
+        if (v0 == 0) {
+            func_8018D1F0(a0);
+        }
+
+        s0 = s0 + 1;
+    } while (s0 < 3);
+    goto end_func;
+
+default_case:
+    func_8018D1F0(a0);
+    s0 = 0;
+    do {
+        v0 = rand() & 0x1;
+        if (v0 == 0) {
+            func_8018D1F0(a0);
+        }
+
+        v0 = rand() & 0x3;
+        if (v0 == 0) {
+            func_8018D1F0(a0);
+        }
+
+        s0 = s0 + 1;
+    } while (s0 <= 0);
+
+end_func:
+    v0 = rand();
+    ((void (*)(s32, s32))func_8012BF4C)((s32)a0, (v0 & 0x1F) | 0x20);
+}
+
 
 
 extern void func_80149350(s32 arg0);

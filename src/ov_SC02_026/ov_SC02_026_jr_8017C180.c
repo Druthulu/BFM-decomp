@@ -5093,7 +5093,63 @@ void func_801850E4(s32 param_1)
 
 INCLUDE_ASM("asm/ov_SC02_026/nonmatchings/ov_SC02_026_jr_8017C180", func_801851D0);
 
-INCLUDE_ASM("asm/ov_SC02_026/nonmatchings/ov_SC02_026_jr_8017C180", func_80185254);
+/* Decls conformed VERBATIM to the TU's own file-scope decl block
+ * (src/ov_SC02_026/ov_SC02_026_jr_8017C180.c:5052-5060, the block that feeds the
+ * banked sibling func_801850E4). Two of them disagreed with this draft:
+ *   func_8012C1B8 -> TU says `void` return, draft wanted s32  (the reported conflict)
+ *   func_8012B23C -> TU says `void *` param,  draft wanted s32 (hidden behind it)
+ * Both disagreements are pushed to casts at the USE site (§37 lever A) — zero bytes
+ * change; the same cast idiom is already used by func_801850E4 above. */
+extern void func_8012C1B8(void);
+extern void func_8012CAE4(void *a0);
+extern void func_8001CA1C(s32 a0, s32 a1);
+extern void func_8012A828(s32 a0, s32 a1);
+extern s32 rand(void);
+extern void func_8012B23C(void *a0);
+extern void func_8012B2CC(s32 a0);
+extern void func_8012B14C(s32 a0, s32 a1);
+extern s32 func_8004787C(s32 a0);
+extern s32 func_80047948(s32 a0);
+extern s32 D_801AFA10;
+extern s32 D_801AFAD0;
+extern s32 D_801AFB58;
+
+void func_80185254(s32 a0)
+{
+    s32 v0;
+
+    v0 = ((s32 (*)(void))func_8012C1B8)();
+    *(s32 *)(a0 + 0x20) = v0;
+
+    if (v0 == 0) {
+        func_8012CAE4((void *)a0);
+    } else {
+        func_8001CA1C(v0, (s32)&D_801AFA10);
+        func_8012A828(a0, (s32)&D_801AFAD0);
+        v0 = rand();
+        *(u32 *)(a0 + 0x94) = v0 & 0xF;
+
+        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) =
+            *(u16 *)(*(s32 *)(*(s32 *)(a0 + 0x64) + 0x20) + 0x12);
+
+        func_8012B23C((void *)a0);
+        func_8012B2CC(a0);
+        func_8012B14C(a0, (s32)&D_801AFB58);
+
+        *(u16 *)(a0 + 0x2) = 1;
+
+        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x2C) |= 0x10;
+
+        *(s16 *)(a0 + 0xA) -= 0x90;
+
+        v0 = func_8004787C(*(s16 *)(*(s32 *)(a0 + 0x20) + 0x12));
+        *(s16 *)(a0 + 0x6) -= (s16)(v0 >> 8);
+
+        v0 = func_80047948(*(s16 *)(*(s32 *)(a0 + 0x20) + 0x12));
+        *(s16 *)(a0 + 0xE) -= (s16)(v0 >> 8);
+    }
+}
+
 
 extern void func_8012CBCC(s32 a0);
     void func_80185360(void *a0) {

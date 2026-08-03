@@ -3325,7 +3325,90 @@ void func_8017BF14(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_8017BF50);
+
+
+/* Decl layer conformed to the TU (ov_SC03_001_jr_8017AE2C.c):
+ *  - func_8012913C: the TU already declares `extern u8 *func_8012913C(s32 a0);`
+ *    at line 7121 -- BELOW this splice point (3327), which is why cc1 reported the
+ *    conflict at 7181. Copied verbatim; the s32 use is pushed to a cast at the call
+ *    site, matching the idiom the TU itself uses at line 7145. Byte-neutral.
+ *  - func_8012C750: not declared in this TU; conformed anyway to the canonical
+ *    engine_core.h form (`s32 func_8012C750(s32 a0)`, DEFINE_func_8012C750) with the
+ *    pointer arg cast at the call site, so a future macro expansion cannot collide.
+ */
+extern u8 *func_8012913C(s32 a0);
+extern s32 func_8012C750(s32 a0);
+
+typedef struct {
+    s16 unk00;
+    s16 unk02;
+    s16 unk04;
+    s16 unk06;
+    s16 unk08;
+    s16 unk0A;
+    s16 unk0C;
+    s16 unk0E;
+    s32 unk10;
+} Buf8017BF50_8017BF50;
+
+/* $16-$19 are pinned: without them gcc's strength reduction splits the `s1` store
+ * base into TWO induction variables (base+0x18 with offsets -4/0, plus base+0x1C),
+ * burning an extra callee-saved reg and growing the frame to 0x48. s4 must stay
+ * UNPINNED -- a pin collapses `$v0 = $s4 + 1; $s4 = $v0` into `addiu $s4,$s4,1` and
+ * then sign-extends from $s4, losing the target's `addu $s4,$v0,$zero` + sll/sra on
+ * $v0 at the loop join. It still lands in $20 naturally once $16-$19 are taken.
+ */
+void func_8017BF50(s32 a0)
+{
+
+    extern u8 D_801E6D50[];
+    register s32 s3 asm("$19");
+    register s16 *s0 asm("$16");
+    register s32 *s1 asm("$17");
+    register u8 *s2 asm("$18");
+    s16 s4;
+    Buf8017BF50_8017BF50 buf;
+
+    s3 = a0;
+    s0 = *(s16 **)(s3 + 0xDC);
+    if (s0 != 0) {
+        s2 = D_801E6D50;
+        s4 = 0;
+        s1 = (s32 *)(D_801E6D50 + 0x1C);
+        buf.unk06 = 0x158;
+        buf.unk0A = 0;
+        buf.unk08 = 0;
+        buf.unk0E = 0;
+        buf.unk10 = 0;
+        do {
+            u16 v1;
+
+            v1 = (u16)*s0;
+            if ((v1 & 0xFFFF) == 0x8000) break;
+
+            if (*(s16 *)(s3 + 0x70) != 0) {
+                buf.unk00 = *s0++;
+                buf.unk02 = *s0++;
+                buf.unk04 = *s0++;
+                if (((s32 (*)(void *))func_8012C750)(&buf) == 0) break;
+            } else {
+                s32 v3;
+
+                v3 = ((s32 (*)(s32))func_8012913C)(0x11);
+                if (v3 == 0) break;
+                s1[-2] = *s0++;
+                s1[-1] = *s0++;
+                s1[0] = *s0++;
+                s1 += 8;
+                *(u8 **)(v3 + 0x30) = s2;
+                s2 += 0x20;
+            }
+            s4++;
+        } while (s4 < 0x10);
+    }
+    *(u16 *)(s3 + 2) += 1;
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_8017C094);
 

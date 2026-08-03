@@ -4271,13 +4271,147 @@ void func_8017F854(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_099/nonmatchings/ov_SC03_099_jr_8017BEBC", func_8017F9C4);
+
+extern s32 rand(void);
+extern void func_8012B200(void *a0);
+extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
+
+void func_8017F9C4(s32 a0) {
+    u8 auStack_18[8];
+    s32 tmp;
+    s32 base;
+    s32 off;
+    s32 val;
+
+    func_8012B200((void *)a0);
+    *(s32 *)(a0 + 0x1C) = rand() % 128 + 0x80;
+    *(s16 *)(a0 + 0xFE) = rand() % 32 + 10;
+    func_8012B0B4((unsigned int *)auStack_18, rand() % 0x1000,
+                  rand() % *(s32 *)(a0 + 0xDC));
+    tmp = *(s32 *)auStack_18;
+    *(s16 *)(a0 + 0x102) = *(u16 *)(a0 + 0x88) + tmp;
+    *(s16 *)(a0 + 0x106) = *(u16 *)(a0 + 0x8C) + (tmp >> 16);
+    if (*(u16 *)(a0 + 0x70) & 0x20) {
+        off = rand() % 256;
+        base = *(s16 *)(a0 + 0xFC);
+        if (rand() & 1) {
+            val = base + off;
+        } else {
+            val = base - off;
+        }
+        *(s16 *)(a0 + 0x104) = val;
+    } else {
+        *(s16 *)(a0 + 0x104) = *(u16 *)(a0 + 0xFC) - rand() % 256;
+    }
+    *(s16 *)(a0 + 0x2) = 4;
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_099/nonmatchings/ov_SC03_099_jr_8017BEBC", func_8017FB58);
 
-INCLUDE_ASM("asm/ov_SC03_099/nonmatchings/ov_SC03_099_jr_8017BEBC", func_8017FDAC);
 
-INCLUDE_ASM("asm/ov_SC03_099/nonmatchings/ov_SC03_099_jr_8017BEBC", func_8017FEB8);
+extern s32 rand(void);
+extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
+/* Declarations conformed VERBATIM to the TU's existing ones
+ * (ov_SC02_035_jr_8017BEBC.c:5139 and :5117) — type disagreements are
+ * pushed to casts at the use sites below. Zero codegen change. */
+extern void func_80180200(s32 *a0, s32 a1, s32 a2);
+extern void func_8012B200(void *a0);
+extern void func_8012B2CC(s32 a0);
+extern void func_8012B178(s32 a0, s32 a1);
+
+void func_8017FDAC(s32 a0) {
+    s16 sp10[4];
+    s32 sp18[2];
+    s16 r;
+    s32 t;
+    s32 u;
+
+    r = rand();
+    func_8012B0B4((unsigned int *)sp18, (s16)(r % 4095), (s16)(r % 128) + 0xC0);
+
+    t = sp18[0];
+    sp10[1] = -0x30;
+    sp10[0] = t;
+    sp10[2] = t >> 16;
+    func_80180200(sp18, a0, (s32)sp10);
+
+    u = sp18[0];
+    *(s16 *)(*(s32 *)(a0 + 0x20) + 0x10) = u;
+    *(s16 *)(*(s32 *)(a0 + 0x20) + 0x12) = u >> 16;
+    func_8012B200((void *)a0);
+    func_8012B2CC(a0);
+    func_8012B178(a0, *(s32 *)(a0 + 0xE4) + 0xFFFE0000);
+    *(s16 *)(a0 + 0x2) = 6;
+    *(s16 *)(a0 + 0x34) = 0;
+}
+
+
+
+extern void func_80180200(s32 *a0, s32 a1, s32 a2);
+extern s32 func_8012B8E4(s32 a0, s32 a1);
+extern s32 func_8012BEE8(s32 a0);
+extern void func_8012CBF4(s32 a0);
+extern void func_8012B200(void *a0);
+extern void func_8012B178(s32 a0, s32 a1);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern s32 func_801801D4(s32 a0);
+extern s32 rand(void);
+
+void func_8017FEB8(s32 a0) {
+
+    extern u8 D_8019CA48[];
+    s32 sp10[2];
+    s32 t;
+    s32 u;
+
+    switch (*(u16 *)(a0 + 0x34)) {
+    case 0:
+        if (((s32 (*)(s32))func_8012CBF4)(a0)) {
+            *(s32 *)(a0 + 0x1C) = 0x1E;
+            *(s16 *)(*(s32 *)(a0 + 0x20) + 0x10) = 0;
+            *(s16 *)(a0 + 0x34) = *(u16 *)(a0 + 0x34) + 1;
+        } else if (*(s16 *)(a0 + 0x100) < *(s16 *)(a0 + 0xA)) {
+            *(s16 *)(a0 + 0xA) = *(s16 *)(a0 + 0x100);
+            *(s32 *)(a0 + 0x1C) = 0x1E;
+            *(s16 *)(*(s32 *)(a0 + 0x20) + 0x10) = 0;
+            *(s16 *)(a0 + 0x34) = *(u16 *)(a0 + 0x34) + 1;
+        }
+        break;
+    case 1:
+        t = func_8012B8E4(a0, 6);
+        *(s16 *)(*(s32 *)(a0 + 0x20) + 0x12) =
+            *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) + t;
+        if (func_8012BEE8(a0)) {
+            if (rand() & 1) {
+                *(s16 *)(a0 + 0x2) = 1;
+            } else {
+                *(s16 *)(a0 + 0x34) = *(u16 *)(a0 + 0x34) + 1;
+                func_8012B200((void *)a0);
+                *(s32 *)(a0 + 0x1C) = 0x20;
+                func_8002D4C8(0x6FF, 0);
+            }
+        }
+        break;
+    case 2:
+        func_80180200(sp10, a0, (s32)D_8019CA48);
+        u = sp10[0];
+        *(s16 *)(*(s32 *)(a0 + 0x20) + 0x10) = u;
+        *(s16 *)(*(s32 *)(a0 + 0x20) + 0x12) = u >> 16;
+        func_8012B178(a0, *(s32 *)(a0 + 0xE4) + 0xFFF80000);
+        func_8012CBF4(a0);
+        if (func_801801D4(a0) == 1) {
+            *(s16 *)(a0 + 0x2) = 1;
+        } else if (func_8012BEE8(a0)) {
+            *(s16 *)(a0 + 0x2) = 1;
+        }
+        break;
+    default:
+        *(s16 *)(a0 + 0x2) = 1;
+        break;
+    }
+}
+
 
 
 
@@ -5166,7 +5300,65 @@ void func_80182514(s32 param_1)
 
 INCLUDE_ASM("asm/ov_SC03_099/nonmatchings/ov_SC03_099_jr_8017BEBC", func_80182600);
 
-INCLUDE_ASM("asm/ov_SC03_099/nonmatchings/ov_SC03_099_jr_8017BEBC", func_80182684);
+
+/* Decls conformed VERBATIM to the TU's own file-scope decl block
+ * (src/ov_SC02_026/ov_SC02_026_jr_8017C180.c:5052-5060, the block that feeds the
+ * banked sibling func_801850E4). Two of them disagreed with this draft:
+ *   func_8012C1B8 -> TU says `void` return, draft wanted s32  (the reported conflict)
+ *   func_8012B23C -> TU says `void *` param,  draft wanted s32 (hidden behind it)
+ * Both disagreements are pushed to casts at the USE site (§37 lever A) — zero bytes
+ * change; the same cast idiom is already used by func_801850E4 above. */
+extern void func_8012C1B8(void);
+extern void func_8012CAE4(void *a0);
+extern void func_8001CA1C(s32 a0, s32 a1);
+extern void func_8012A828(s32*, s32);
+extern s32 rand(void);
+extern void func_8012B23C(void *a0);
+extern void func_8012B2CC(s32 a0);
+extern void func_8012B14C(s32 a0, s32 a1);
+extern s32 func_8004787C(s32 a0);
+extern s32 func_80047948(s32 a0);
+
+void func_80182684(s32 a0)
+{
+
+    extern s32 D_8019F45C;
+    extern s32 D_8019F51C;
+    extern s32 D_8019F5A4;
+    s32 v0;
+
+    v0 = ((s32 (*)(void))func_8012C1B8)();
+    *(s32 *)(a0 + 0x20) = v0;
+
+    if (v0 == 0) {
+        func_8012CAE4((void *)a0);
+    } else {
+        func_8001CA1C(v0, (s32)&D_8019F45C);
+        ((void (*)(s32, s32))func_8012A828)(a0, (s32)&D_8019F51C);
+        v0 = rand();
+        *(u32 *)(a0 + 0x94) = v0 & 0xF;
+
+        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) =
+            *(u16 *)(*(s32 *)(*(s32 *)(a0 + 0x64) + 0x20) + 0x12);
+
+        func_8012B23C((void *)a0);
+        func_8012B2CC(a0);
+        func_8012B14C(a0, (s32)&D_8019F5A4);
+
+        *(u16 *)(a0 + 0x2) = 1;
+
+        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x2C) |= 0x10;
+
+        *(s16 *)(a0 + 0xA) -= 0x90;
+
+        v0 = func_8004787C(*(s16 *)(*(s32 *)(a0 + 0x20) + 0x12));
+        *(s16 *)(a0 + 0x6) -= (s16)(v0 >> 8);
+
+        v0 = func_80047948(*(s16 *)(*(s32 *)(a0 + 0x20) + 0x12));
+        *(s16 *)(a0 + 0xE) -= (s16)(v0 >> 8);
+    }
+}
+
 
 extern void func_8012CBCC(s32 a0);
     void func_80182790(void *a0) {
