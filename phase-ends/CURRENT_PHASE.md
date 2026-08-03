@@ -147,25 +147,37 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 
 ---
 
-# 🛑 SESSION-31 CHECKPOINT (2026-08-03, wave 4a + S6c banked) — FRESH SESSION SAFE HERE
-> Supersedes SESSION-30 below. **Nothing is running. Tree lock FREE. Tree CLEAN** but for the R23
-> `db.*.gbf` churn — never stage it. Effort: **ultracode** (Drew enabled at session start).
-> `make tools-health` **RC=0 at session open**. **R22 clean-fleet run TWICE this session, 140/140
-> both times** (after wave 4a, and after the S6c series).
+# 🛑 SESSION-31 CHECKPOINT (2026-08-03) — wave 4a + S6c + wave 4b b1/b2 + reconcile + redraft
+> Supersedes SESSION-30 below. Effort: **ultracode** (Drew enabled at session start; re-enabled
+> after a mid-session usage-limit stop that Drew cleared). `make tools-health` **RC=0 at session
+> open**. **R22 clean-fleet run FIVE times this session, 140/140 every time.** HEAD `commit:1365`.
+> ⚠️ **Wave 4b BATCH 3 was in flight at this write** (37 targets, `.run/s7_wave4b_b3.js`, run
+> `wf_c7555629-640`) — if the session ended mid-flight, its drafts are in `.run/s7/<ov>/` and are
+> UNGATED. Gate with `.venv/bin/python .run/s6f_gate.py '.run/s7/*/func_*.c'` (it skips already-
+> banked automatically), then propagate → R22 → commit. Nothing else is running.
 
 ## FLEET — R22 clean-fleet **140 passed / 0 failed of 140** (`make clean` + extract-all + check-all)
-**95.50% fn-count · 92.6% instr-weighted · 86.0% distinct-code** (76,192 / 87,459 unique fns) ·
+**95.77% fn-count · 92.9% instr-weighted · 86.4% distinct-code** (76,824 / 87,459 unique fns) ·
 dedup **1905/0** · C1 240496/240496 · **0 NON_MATCHING** in any default build (G4).
-Phase opened 92.00 / 87.5 / 78.0 ⇒ **+3.50pp fn, +5.1pp instr, +8.0pp distinct this phase.**
+Phase opened 92.00 / 87.5 / 78.0 ⇒ **+3.77pp fn, +5.4pp instr, +8.4pp distinct this phase.**
 *(`.run/family_hseq.json`'s metrics read ~0.3–1.0pp higher — that is the OVERLAY-ONLY denominator,
 not a disagreement. `make report` is the authoritative fleet number.)*
 
-## WHAT S7 DID — 286 function-instances, two lanes
-**Lane 1 — wave 4a (agents): 274 instances from 33 drafted targets.**
-**Lane 2 — S6c (deterministic, ~0 agent tokens): 12 sibling banks.**
-`commit:1355` — 33 targets / 46 agents / **4.44M tokens** / 29 min → 29 claimed `match_one` MATCH →
-whole-binary gate **BANKED 23/33 (70%)** → `family_sweep --hseq --band all` propagated
-**251 member-matches across 69 overlays** (13 failed, 4 STRUCT skipped by design).
+## WHAT S7 DID — ~1,238 function-instances; **103 of 107 drafts banked (96%)**
+| round | heads | members | commit |
+|---|---|---|---|
+| wave 4a draft (33 targets, 46 agents, 4.44M tok) | 23 | 251 | `commit:1355` |
+| S6c jr families (deterministic, ~0 tokens) | — | 12 | 5 per-family commits |
+| wave 4a reconcile (7 PLUMBING) | 7 | 76 | `commit:1363` |
+| wave 4b batch 1 (37 targets, 50 agents, 4.35M tok) | 32 | 365 | `commit:1364` |
+| batch 2 + reconcile ×3 + **redraft ×4** | 41 | 431 | `commit:1365` |
+
+**Per-lane economics, measured:** drafting banks 70–86% at ~4M tokens/wave · the **reconcile lane is
+10/10 lifetime at ~13× lower cost** (329K for 7 fixes) · the **redraft lane is 4/4** · deterministic
+sweeps banked 443 members for ~0 tokens. *The cheap lanes keep out-earning the expensive one.*
+
+*(wave 4a detail, retained:)* 29 claimed `match_one` MATCH → gate **23/33 (70%)** → 251 members
+across 69 overlays (13 failed, 4 STRUCT skipped by design).
 
 **Bank rate by the tier that produced the FINAL draft** (derived per-function; the workflow's
 `by_tier` counts CLAIMED matches and sums to 29, not 23 — do not read it as banks):
@@ -244,19 +256,37 @@ not the compiler, is the drafting bottleneck.* The 31 gap reports are worth more
 | fresh ×1 singletons | 3,800 | 231,284 | ×1 — deprioritised |
 Unmatched fleet-wide: **14,887 instances / 912,037 ins**.
 
-## ▶ RESUME HERE (nothing blocked, nothing running; the agent limit resets 4:20am America/Denver)
-1. **The reconcile lane on the 7 PLUMBING failures** — blockers already captured in
-   `.run/s7_blockers.json`; hand each agent ITS line verbatim. **`func_80183A14` + `func_80183B20`
-   share one TU ⇒ forbid agent builds for those two** (§135's concurrency hazard). This lane has run
-   **12/12** across waves 2–3 and is the most reliable stage in the pipeline.
-2. **Wave 4b** — 3 batches of 37, args at `.run/s7_wave4b_{1,2,3}.json`, script
-   `.run/s7_wave4b.js` (takes `{targets, extra}`; **`extra` is where §136's idioms go** — that
-   promotion is the 83%→93% law). Batch 1 carries the 4 wave-3 retries with pointers to their prior
-   drafts. Both wave scripts now parse args-as-string and assert `Array.isArray`, so the roadmap's
-   "args must be an array" gotcha cannot silently kill a launch again (it killed wave 4a's first).
-3. **The 3 DIFF failures** → redraft lane, not reconcile (their C is wrong, byte-proven).
-4. **T5 close** — only after re-deriving from a freshly regenerated `family_hseq`; the checklist's
-   ROI-floor trigger is REFUTED and must not be used to close the phase.
+## 🔑 THE FOUR FINDINGS THIS SESSION PRODUCED (cookbook §136 · §136a · §136b · §136c · §136d)
+1. **§136 — the LOCAL-VARIABLE lever.** In the 60–120-ins band most "regalloc residuals" are decided
+   by **how many C locals you declare and at what scope**, not by register pins (`local-alloc.c:472`
+   promotes any pseudo with `REG_N_DEATHS > 1` to a global allocno, which loses the low register).
+   One case explicitly REFUTES the pin as the lever for a redundant copy.
+2. **§136b — a "genuine byte-DIFF" verdict is a fact about ONE DRAFT, closed at 8/8.** Every
+   DIFF-ledgered function banked on redraft: wave 3's four, the **three I classified myself**, and
+   one from batch 1. **Never retire a target on a DIFF verdict; route it to REDRAFT.** And
+   re-GATING an unchanged draft is not a retry (that is why wave 4a's 3 DIFFs survived one gate).
+3. **§136a CORRECTED, by an agent, against the bytes.** I wrote "70% of gate refusals are paperwork,
+   not codegen." **Wrong** — a declaration conflict ABORTS the compile, so a PLUMBING verdict says
+   NOTHING about the body. 2 of 3 second-round PLUMBING drafts had a real codegen residual behind
+   the conflict. Also: classify on the build's OUTPUT, never its exit status (`make build` runs
+   `check`, so a clean-compiling byte-DIFF also exits non-zero).
+4. **§136c — SIBLING-FIRST is a DERIVATION shortcut**, not just a conflict fix. Search order:
+   `engine_core.h DEFINE_* near-twin` → same-TU banked sibling → the `.s` → **the Ghidra seed LAST**
+   (byte-proven an entirely different body twice this session). Produced first-draft matches.
+   §136d adds four new levers, each with its **refuted axis** recorded.
+
+## ▶ RESUME HERE
+1. **Gate batch 3** if it was in flight (see the header) → propagate → R22 → commit.
+2. **The 4 remaining stubs of 107**: `func_8017C120`(SC02_026 — classified **UNKNOWN**, neither a
+   compiler error nor a SHA mismatch; **owes a direct look at its build output**, not a guess) ·
+   `func_8017CD9C`(SC04_003) · `func_801848DC` + `func_80185904`(SC04_018). Capture then route —
+   **and per §136b none of these is a wall on one attempt.**
+3. **The wave-4b remainder**: batch 3 was the last of the 111-family volume lane. After it, the
+   B-shape lanes are spent — re-derive the queue from a freshly regenerated `family_hseq` before
+   scoping anything new (the ×138 era already ended; the next tiers are ×10-99 and the zero-crack
+   non-jr residue at 120 families / 65,946 ins).
+4. **T5 close** — only after re-deriving; the checklist's ROI-floor trigger is REFUTED and must not
+   be used to close the phase.
 
 ---
 
