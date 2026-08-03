@@ -4626,7 +4626,19 @@ void func_8018B4B8(s32 a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_029/nonmatchings/ov_SC06_029_jr_8017C954", func_8018B50C);
+
+void func_8018B50C(void)
+{
+    extern u8 D_801E19A3;
+    s32 i = 19;
+    u8 *p = &D_801E19A3;
+    do {
+        *p = 0;
+        i--;
+        p--;
+    } while (i >= 0);
+}
+
 
 
 

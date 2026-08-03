@@ -3568,7 +3568,28 @@ DEFINE_func_80183AF8()  /* dedup: shared engine-core @0x80183AF8 (src/shared) */
 DEFINE_func_80183B00()  /* dedup: shared engine-core @0x80183B00 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC03_119/nonmatchings/ov_SC03_119_jr_8017FB84", func_80183B3C);
+
+
+s32 func_80183B3C(void *a0, s32 *p) {
+    s32 cur = *(s32 *)((s32)a0 + 0xDC);
+
+    if (p[0] != cur) {
+        p += 2;
+        for (;;) {
+            s32 t = p[0];
+            if (t == 0) {
+                return cur;
+            }
+            p += 2;
+            if (t == cur) {
+                break;
+            }
+        }
+        p -= 2;
+    }
+    return p[1];
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_119/nonmatchings/ov_SC03_119_jr_8017FB84", func_80183B84);
 
@@ -4115,7 +4136,17 @@ void func_80185C08(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_119/nonmatchings/ov_SC03_119_jr_8017FB84", func_80185C2C);
+
+
+extern void func_80015978(s32 a0, s32 *a1);
+extern void func_80185C54(s32 a0);
+
+void func_80185C2C(s32 a0) {
+    s32 pv[2];
+    func_80015978(a0, pv);
+    func_80185C54((s32)pv);
+}
+
 
 
 /* func_80185C54 — §71 sibling of func_8018A774 / func_8018AF0C (same TU): the

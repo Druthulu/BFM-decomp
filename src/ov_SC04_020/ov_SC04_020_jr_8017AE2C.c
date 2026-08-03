@@ -3586,7 +3586,26 @@ void func_8017C3E4(s32 param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_020/nonmatchings/ov_SC04_020_jr_8017AE2C", func_8017C490);
+
+extern void RotMatrixYXZ(void *a0, void *a1);
+
+
+void func_8017C490(s32 param_1)
+{
+
+    extern s16 D_801BC560;
+    SV4 sv4;
+    s32 s0;
+    s32 a1;
+
+    s0 = *(s32 *)(param_1 + 0x20);
+    sv4.a = -0x20;
+    sv4.c = 0;
+    sv4.b = D_801BC560;
+    a1 = *(s32 *)(s0 + 0x34);
+    RotMatrixYXZ(&sv4, a1);
+}
+
 
 
 extern void func_8012C1B8(void);

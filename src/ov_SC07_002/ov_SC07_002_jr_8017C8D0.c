@@ -4039,7 +4039,17 @@ void func_80184C70(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_002/nonmatchings/ov_SC07_002_jr_8017C8D0", func_80184C94);
+
+
+extern void func_80015978(s32 a0, s32 *a1);
+extern void func_80184CBC(s32 a0);
+
+void func_80184C94(s32 a0) {
+    s32 pv[2];
+    func_80015978(a0, pv);
+    func_80184CBC((s32)pv);
+}
+
 
 
 /* func_80184CBC — §71 sibling of func_8018A774 / func_8018AF0C (same TU): the

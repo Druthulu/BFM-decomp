@@ -4310,7 +4310,17 @@ void func_80183FF4(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_028/nonmatchings/ov_SC02_028_jr_8017D898", func_80184018);
+
+
+extern void func_80015978(s32 a0, s32 *a1);
+extern void func_80184040(s32 a0);
+
+void func_80184018(s32 a0) {
+    s32 pv[2];
+    func_80015978(a0, pv);
+    func_80184040((s32)pv);
+}
+
 
 
 /* func_80184040 — §71 sibling of func_8018A774 / func_8018AF0C (same TU): the
@@ -6069,7 +6079,18 @@ void func_80189D04(s32 *s0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_028/nonmatchings/ov_SC02_028_jr_8017D898", func_80189DC4);
+
+
+extern void func_8012B14C(s32 a0, s32 a1);
+
+void func_80189DC4(s32 a0)
+{
+
+    extern u8 D_801AF458[];
+    *(s32 *)(a0 + 0xC4) = *(s32 *)(a0 + 0xC4) & -5;
+    func_8012B14C(a0, (s32)D_801AF458);
+}
+
 
 extern s32 func_80153BD8(s32 a0);
 extern s32 func_80153BF0(s32 a0);

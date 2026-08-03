@@ -3358,7 +3358,24 @@ void func_8017BF14(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_8017AE2C", func_8017BF9C);
+
+
+void func_8017BF9C(s32 a0, s32 a1) {
+    extern u8 D_801202A0[];
+    u8 *p;
+    s16 i;
+
+    p = D_801202A0;
+    for (i = 0; i < 0x60; i++) {
+        if (*(u16 *)p == 0x6B) {
+            *(s32 *)(p + 0xD4) = a0;
+            *(s32 *)(p + 0xD8) = a1;
+            return;
+        }
+        p += 0x10C;
+    }
+}
+
 
 
 void func_8017BFF0(s32 a0, s32 a1, s32 a2) {
@@ -5107,7 +5124,18 @@ INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_8017AE2C", func_8018B05
 
 INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_8017AE2C", func_8018B16C);
 
-INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_8017AE2C", func_8018B2DC);
+void func_8018B2DC(void)
+{
+    extern u8 D_801E44F7;
+    s32 i = 7;
+    u8 *p = &D_801E44F7;
+    do {
+        *p = 0;
+        i--;
+        p--;
+    } while (i >= 0);
+}
+
 
 #include "common.h"
 

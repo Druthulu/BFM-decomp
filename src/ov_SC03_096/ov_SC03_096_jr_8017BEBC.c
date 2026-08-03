@@ -3387,7 +3387,17 @@ int func_8017D3D0(int param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_096/nonmatchings/ov_SC03_096_jr_8017BEBC", func_8017D400);
+
+
+s32 func_8017D400(void) {
+
+    extern s32 D_8012704C;
+    if (D_8012704C == 0) {
+        return 0x38;
+    }
+    return 0x44;
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_096/nonmatchings/ov_SC03_096_jr_8017BEBC", func_8017D420);
 

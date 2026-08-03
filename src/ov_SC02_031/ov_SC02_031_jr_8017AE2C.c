@@ -5679,7 +5679,28 @@ void func_80181F20(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_031/nonmatchings/ov_SC02_031_jr_8017AE2C", func_80181F5C);
+
+
+s32 func_80181F5C(void *a0, s32 *p) {
+    s32 cur = *(s32 *)((s32)a0 + 0xDC);
+
+    if (p[0] != cur) {
+        p += 2;
+        for (;;) {
+            s32 t = p[0];
+            if (t == 0) {
+                return cur;
+            }
+            p += 2;
+            if (t == cur) {
+                break;
+            }
+        }
+        p -= 2;
+    }
+    return p[1];
+}
+
 
 INCLUDE_ASM("asm/ov_SC02_031/nonmatchings/ov_SC02_031_jr_8017AE2C", func_80181FA4);
 

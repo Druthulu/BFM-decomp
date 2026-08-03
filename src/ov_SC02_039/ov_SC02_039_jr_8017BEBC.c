@@ -3334,7 +3334,75 @@ void func_8017D2B8(s32 param_1, s32 param_2, s16 *param_3) {
 
 INCLUDE_ASM("asm/ov_SC02_039/nonmatchings/ov_SC02_039_jr_8017BEBC", func_8017D484);
 
-INCLUDE_ASM("asm/ov_SC02_039/nonmatchings/ov_SC02_039_jr_8017BEBC", func_8017D5F4);
+/* func_8017D5F4 — ov_SC02_039 / ov_SC02_039_jr_8017BEBC   (46 ins, MATCH)
+ *
+ * 2D bounding-box reject on the segment (param_1 -> param_2) against the query
+ * point param_3 (x at [0], y at [2]), then a GTE cross-product sign test:
+ * func_800495EC is the handwritten `mtc2 SXY0/SXY1/SXY2` NCLIP wrapper at
+ * 0x800495EC, so each argument is a packed (u16)x | (y << 16) screen point.
+ * Returns 1 when the point is on the "reject" side of a bbox edge, 0 when it is
+ * outside the span, else the sign of the NCLIP result (~r >> 31 == r >= 0).
+ *
+ * LOAD-BEARING CONSTRUCTS — do not "clean up" without re-running match_one:
+ *  - s16 locals assigned from the s16 loads: store_expr into a PROMOTE_MODE
+ *    pseudo emits `lh <temp>` + `addu <var>,<temp>,$zero`; the compares use the
+ *    temp, the packing uses the copy. That copy pair is 6 of the 46 insns.
+ *  - `(u16)ay << 16` (not `(s32)ay << 16`): the unsigned conversion of a signed
+ *    promoted short forces the widening copy for the y terms too; the signed
+ *    form lets combine fold it into the sll and loses 3 insns.
+ *  - `do { ... } while (0)` around the tail: the loop note bumps loop_depth, so
+ *    flow.c's `reg_n_refs += loop_depth` reweights the K2 density priorities.
+ *    A bare `{ ... }` block instead permutes $t1..$t4 (11 mismatches).
+ *  - the two zero-byte `__asm__` re-ties (cookbook §30 / gcc-2.7.2-map regalloc):
+ *    the first makes the pinned $t0/$a3/$v1 conflict with the cx load temp
+ *    (pushing it to $t1); the second keeps the ax/bx/cx copies live past their
+ *    own `andi` so the mask does not reuse the dying source register.
+ *    They emit no instructions; they only move the allocation.
+ *  - the $8/$7/$3 pins on la/lb/lc (cookbook §17): local-alloc otherwise hands
+ *    the three masks $v0/$v1/$a3 and the whole global assignment shifts down.
+ *  - `s32 pad[2]`: dead locals for the target's 0x50 frame (vars=56).
+ */
+
+extern s32 func_800495EC(s32 a0, s32 a1, s32 a2);
+
+u32 func_8017D5F4(s16 *param_1, s16 *param_2, s16 *param_3) {
+    s16 ax, ay, bx, by, cx, cy;
+    register s32 la __asm__("$8");
+    register s32 lb __asm__("$7");
+    register s32 lc __asm__("$3");
+    u32 r;
+    s32 pad[2];
+
+    ax = param_1[0];
+    cx = param_3[0];
+    if (cx < ax) {
+        return 0;
+    }
+    __asm__ __volatile__("" : : "r"(la), "r"(lb), "r"(lc));
+    bx = param_2[0];
+    if (bx < cx) {
+        return 1;
+    }
+    by = param_2[1];
+    do {
+        cy = param_3[2];
+        if (cy < by) {
+            return 0;
+        }
+        ay = param_1[1];
+        if (ay >= cy) {
+            la = (u16)ax;
+            lb = (u16)bx;
+            lc = (u16)cx;
+            __asm__ __volatile__("" : : "r"(ax), "r"(bx), "r"(cx));
+            r = func_800495EC(la | ((u16)ay << 16), lb | ((u16)by << 16),
+                              lc | ((u16)cy << 16));
+            return ~r >> 31;
+        }
+        return 1;
+    } while (0);
+}
+
 
 INCLUDE_ASM("asm/ov_SC02_039/nonmatchings/ov_SC02_039_jr_8017BEBC", func_8017D6AC);
 

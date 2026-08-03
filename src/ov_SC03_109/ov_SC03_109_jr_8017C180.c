@@ -3490,7 +3490,21 @@ void func_8017DD20(s32 a0) {
 void func_8017DD84(void) {
 }
 
-INCLUDE_ASM("asm/ov_SC03_109/nonmatchings/ov_SC03_109_jr_8017C180", func_8017DD8C);
+
+extern void func_80178CBC(s32, s32);
+
+void func_8017DD8C(s32 *a0)
+{
+
+    extern signed char D_80181F10[];
+    s32 v0;
+
+    v0 = *(s16 *)((s32)a0 + 0x70);
+    v0 = v0 * 4;
+    ((void (*)(s32 *, s32))func_80178CBC)(a0, *(s32 *)((s32)D_80181F10 + v0));
+    *(s16 *)((s32)a0 + 0x2) = 0x3;
+}
+
 
 
 extern int func_80178970(void);

@@ -5530,7 +5530,19 @@ void func_80185220(s32 a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_007/nonmatchings/ov_SC04_007_jr_8017BEBC", func_80185274);
+
+void func_80185274(void)
+{
+    extern u8 D_801B54EB;
+    s32 i = 19;
+    u8 *p = &D_801B54EB;
+    do {
+        *p = 0;
+        i--;
+        p--;
+    } while (i >= 0);
+}
+
 
 
 

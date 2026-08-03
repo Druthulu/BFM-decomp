@@ -5297,29 +5297,89 @@ void func_80189B04(void *a0) {
 
 INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_80183814", func_80189B40);
 
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_80183814", func_80189C00);
 
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_80183814", func_80189C14);
 
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_80183814", func_80189C28);
+s32 func_80189C00(void *a0) {
+    return ((*(u16 *)((u8 *)a0 + 0x34) < 3) ^ 1);
+}
 
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_80183814", func_80189C3C);
 
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_80183814", func_80189C50);
 
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_80183814", func_80189C64);
 
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_80183814", func_80189C78);
+s32 func_80189C14(void *a0) {
+    return ((*(u16 *)((u8 *)a0 + 0x34) < 6) ^ 1);
+}
 
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_80183814", func_80189C8C);
 
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_80183814", func_80189CA0);
 
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_80183814", func_80189CB4);
 
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_80183814", func_80189CC8);
+s32 func_80189C28(void *a0) {
+    return ((*(u16 *)((u8 *)a0 + 0x34) < 8) ^ 1);
+}
 
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_80183814", func_80189CDC);
+
+
+
+s32 func_80189C3C(void *a0) {
+    return ((*(u16 *)((u8 *)a0 + 0x34) < 11) ^ 1);
+}
+
+
+
+
+s32 func_80189C50(void *a0) {
+    return ((*(u16 *)((u8 *)a0 + 0x34) < 13) ^ 1);
+}
+
+
+
+
+s32 func_80189C64(void *a0) {
+    return ((*(u16 *)((u8 *)a0 + 0x34) < 15) ^ 1);
+}
+
+
+
+
+s32 func_80189C78(void *a0) {
+    return ((*(u16 *)((u8 *)a0 + 0x34) < 17) ^ 1);
+}
+
+
+
+
+s32 func_80189C8C(void *a0) {
+    return ((*(u16 *)((u8 *)a0 + 0x34) < 19) ^ 1);
+}
+
+
+
+
+s32 func_80189CA0(void *a0) {
+    return ((*(u16 *)((u8 *)a0 + 0x34) < 20) ^ 1);
+}
+
+
+
+
+s32 func_80189CB4(void *a0) {
+    return ((*(u16 *)((u8 *)a0 + 0x2) < 2) ^ 1);
+}
+
+
+
+
+s32 func_80189CC8(void *a0) {
+    return ((*(u16 *)((u8 *)a0 + 0x34) < 4) ^ 1);
+}
+
+
+
+
+s32 func_80189CDC(void *a0) {
+    return ((*(u16 *)((u8 *)a0 + 0x34) < 5) ^ 1);
+}
+
 
 INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_80183814", func_80189CF0);
 

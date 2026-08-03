@@ -9124,3 +9124,32 @@ the target uses a mid scratch register, **reuse an EXISTING global allocno as th
 but reuse one whose live range ALREADY spans the arm. Extending a SHORT allocno into the arm
 lengthens its live range, drops its `global.c:594 allocno_compare` rank, and swaps two grants
 instead of fixing one.
+
+### §136e — §136c's PRECONDITION, and two more symptom keys (wave 4b batch 3)
+
+**Sibling-first has a precondition, and an agent hit it honestly:** `func_801899AC`'s family has
+**all 13 members still unmatched** and no `DEFINE_func_801899AC` in `engine_core.h` — so there IS no
+byte-verified twin, and the search is a pure cost. **Check that a banked sibling exists before
+spending the greps**; in an all-`nonmatchings` family, go straight to the `.s`. §136c is the fastest
+route *when the family has already been opened*, which in a family wave is usually but not always.
+
+Two symptom keys that had no index entry:
+
+1. **`LENGTH-DRIFT -2`, where MINE returns via a bare branch to the epilogue but the TARGET emits
+   `j` + `addu $vX,$vY,$zero`** ⇒ this is **§136-L1 on the RETURN axis**. An over-scoped
+   function-level temp became a global allocno and swapped `$v0`/`$v1` with the returned local, so
+   the return no longer needed a move. Scope the temp inside the loop. (`func_801899AC`.)
+
+2. **A loop increment sitting in the loop-back DELAY SLOT plus a compensating negative `addiu` on
+   the fall-through** is a SOURCE SHAPE, not a `reorg` artefact — **MIPS1 has no annulling, so
+   `reorg` cannot invent the compensation.** Write it as `p += 2; if (t == cur) break; … p -= 2;`.
+   `combine`'s `reg_n_sets == 1` guard is what stops the `addiu -8` folding into the following
+   `lw 4($a1)`. The index's delay-slot entries point at `reorg`, which is a dead end for this one.
+
+**Also demonstrated (composition, `func_8017D5F4`, 46 ins):** flat early-returns instead of nested
+`if`s to get the cross-jump layout → `s32 pad[2]` dead locals to sweep the frame size → `s16` locals
+so each load emits its `lh`+`addu` copy pair → mask-first `or` operand order → three `register
+__asm__` pins on the mask temps (local-alloc otherwise takes `$v0/$v1/$a3` and shifts the whole
+global assignment) → two zero-byte `__asm__` re-ties from the §30 toolkit → and finally
+`tools/permuter/run_masked.py` on a pin-carrying base for the last 2. **The toolkit composes; the
+permuter is the LAST step on an already-pinned base, not the first.**

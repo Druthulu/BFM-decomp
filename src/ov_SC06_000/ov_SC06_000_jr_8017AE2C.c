@@ -6145,7 +6145,17 @@ void func_80186E34(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_000/nonmatchings/ov_SC06_000_jr_8017AE2C", func_80186E58);
+
+
+extern void func_80015978(s32 a0, s32 *a1);
+extern void func_80186E80(s32 a0);
+
+void func_80186E58(s32 a0) {
+    s32 pv[2];
+    func_80015978(a0, pv);
+    func_80186E80((s32)pv);
+}
+
 
 
 /* func_80186E80 — §71 sibling of func_8018A774 / func_8018AF0C (same TU): the
