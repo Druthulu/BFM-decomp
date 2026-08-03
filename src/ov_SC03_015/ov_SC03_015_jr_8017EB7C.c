@@ -383,7 +383,6 @@ extern s32 func_80149D10(s32 a0);
 extern s32 func_80149E94(s32 a0);
 extern s32 func_80149DD8(s32 a0);
 extern s32 func_80149D9C(s32 a0);
-extern u8 D_801202A0[];
 extern s32 func_80149F2C(s32 a0, s32 a1);
 extern s32 func_80149E94(s32 arg0);
 extern void func_80149FA8(void);
@@ -4789,13 +4788,73 @@ extern void func_80182C28(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
     }
 
 
-INCLUDE_ASM("asm/ov_SC03_015/nonmatchings/ov_SC03_015_jr_8017EB7C", func_80182C28);
+
+extern s32 func_8012C750(s32 a0);
+
+typedef struct {
+    s16 unk00;
+    s16 unk02;
+    s16 unk04;
+    s16 unk06;
+    s16 unk08;
+    s16 unk0A;
+    s16 unk0C;
+    s16 unk0E;
+    s32 unk10;
+} Buf8017BF34_80182C28;
+
+void func_80182C28(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
+
+    extern s32 D_8018F77C[];
+    Buf8017BF34_80182C28 buf;
+    s32 v0;
+
+    buf.unk06 = 0x6B;
+    buf.unk00 = -0x94;
+    buf.unk02 = -0x68;
+    buf.unk04 = 0;
+    buf.unk08 = arg3;
+    buf.unk0A = 0;
+    buf.unk0E = arg2;
+    buf.unk10 = D_8018F77C[(s16)arg2];
+
+    v0 = ((s32 (*)(void *))func_8012C750)(&buf);
+    if (v0 != 0) {
+        *(s32 *)(v0 + 0xD4) = arg0;
+        *(s32 *)(v0 + 0xD8) = arg1;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_015/nonmatchings/ov_SC03_015_jr_8017EB7C", func_80182CB0);
 
 INCLUDE_ASM("asm/ov_SC03_015/nonmatchings/ov_SC03_015_jr_8017EB7C", func_80182D04);
 
-INCLUDE_ASM("asm/ov_SC03_015/nonmatchings/ov_SC03_015_jr_8017EB7C", func_80182D5C);
+
+void func_80182D5C(void) {
+
+    extern u8 D_801202A0[];
+    extern void func_80016714(void *a0, s32 a1);
+    extern void func_8012C218(void *a0);
+    u8 *p;
+    short i;
+
+    p = D_801202A0;
+    for (i = 0; i < 0x60; i++) {
+        if (*(u16 *)p == 0x6B) {
+            if (*(s32 *)(p + 0xCC) != 0) {
+                func_80016714(*(void **)(p + 0xCC), 0x38);
+            }
+            if (*(s32 *)(p + 0xD0) != 0) {
+                func_80016714(*(void **)(p + 0xD0), 0x38);
+            }
+            func_8012C218(p);
+            return;
+        }
+        p += 0x10C;
+    }
+}
+
 
 
 extern void (*D_8018F7AC[])(void);

@@ -666,7 +666,6 @@ extern short func_801508F8(s32 a0);
 extern s32 D_8017FF04;
 extern s32 D_80126990;
 extern s32 D_80126994;
-extern u8 D_80126948[];
 extern s32 func_80021174(s32 a0, s32 a1);
 extern s32 func_8015094C(s32 param_1);
 extern void func_80150B9C(void);
@@ -2411,15 +2410,6 @@ extern void func_801748C4(s32 a0);
 extern void func_801748E4(void);
 extern void func_8012A018(s32 a, s32 b);
 extern s32 func_8017496C(void *a0);
-extern s32 D_80126954;
-extern s32 D_80126950;
-extern s32 D_8012695C;
-extern s16 D_80126968;
-extern s16 D_8012696A;
-extern s16 D_8012696C;
-extern s16 D_80126976;
-extern s16 D_80126978;
-extern s16 D_8012697A;
 extern void func_801748EC(void);
 extern s32 func_801749C8();
 extern s32 func_801749A8(s32 a0);
@@ -3168,7 +3158,32 @@ void func_8017BEBC(s32 arg0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_000/nonmatchings/ov_SC05_000_jr_8017BEBC", func_8017CD9C);
+
+extern void func_8012F14C(s32);
+extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+
+void func_8017CD9C(s32 a0, s16 *a1, s16 a2) {
+    s16 v[3];
+    short i;
+
+    v[0] = a1[0];
+    v[1] = a1[1] - 0x14;
+    v[2] = a1[2];
+    ((void (*)(s32, void *, void *))func_8012F14C)(*(s32 *)(a0 + 0x20) + 0x34, v, v);
+    i = 0;
+    do {
+        short t;
+
+        if (a2 == 0) {
+            t = i;
+        } else {
+            t = 1;
+        }
+        func_80146A6C(0x25, (void *)a0, v[0], v[1], v[2], t, 0);
+        i = i + 1;
+    } while (i < 2);
+}
+
 
 
 extern s32 func_800D21C4(s32 a0, void *a1, s32 a2);
@@ -3395,7 +3410,38 @@ void func_8017D398(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_000/nonmatchings/ov_SC05_000_jr_8017BEBC", func_8017D3C0);
+
+
+extern void func_8012A018(s32 a, s32 b);
+extern void func_8012A094(s32 a0);
+extern void func_8017D464(void *a0);
+
+void func_8017D3C0(void) {
+
+    extern s32 D_80126954;
+    extern s32 D_80126950;
+    extern s32 D_8012695C;
+    extern s16 D_80126968;
+    extern s16 D_8012696A;
+    extern s16 D_8012696C;
+    extern s16 D_80126976;
+    extern s16 D_80126978;
+    extern s16 D_8012697A;
+    extern u8 D_80126948[];
+    D_80126954 = 0x190;
+    D_80126950 = 0x190;
+    D_8012695C = 0x320;
+    D_80126968 = 0xE3;
+    D_8012696A = 0x800;
+    D_8012696C = 0;
+    D_80126976 = 0;
+    D_80126978 = -0x20;
+    D_8012697A = 0;
+    func_8012A018((s32)func_8017D464, 0);
+    func_8012A094((s32)D_80126948);
+    func_8017D464((void *)D_80126948);
+}
+
 
 
 extern void (*D_80181DCC[])(void);

@@ -3339,7 +3339,32 @@ INCLUDE_ASM("asm/ov_SC03_117/nonmatchings/ov_SC03_117_jr_8017BEBC", func_8017D4D
 
 INCLUDE_ASM("asm/ov_SC03_117/nonmatchings/ov_SC03_117_jr_8017BEBC", func_8017D598);
 
-INCLUDE_ASM("asm/ov_SC03_117/nonmatchings/ov_SC03_117_jr_8017BEBC", func_8017D5DC);
+
+extern void func_8012F14C(s32);
+extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+
+void func_8017D5DC(s32 a0, s16 *a1, s16 a2) {
+    s16 v[3];
+    short i;
+
+    v[0] = a1[0];
+    v[1] = a1[1] - 0x14;
+    v[2] = a1[2];
+    ((void (*)(s32, void *, void *))func_8012F14C)(*(s32 *)(a0 + 0x20) + 0x34, v, v);
+    i = 0;
+    do {
+        short t;
+
+        if (a2 == 0) {
+            t = i;
+        } else {
+            t = 1;
+        }
+        func_80146A6C(0x25, (void *)a0, v[0], v[1], v[2], t, 0);
+        i = i + 1;
+    } while (i < 2);
+}
+
 
 
 extern s32 func_800D21C4(s32 a0, void *a1, s32 a2);
@@ -4314,7 +4339,33 @@ void func_80181754(void *arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_117/nonmatchings/ov_SC03_117_jr_8017BEBC", func_80181810);
+extern void func_8002A04C(s32 a0);
+extern void func_8012C218(void *a0);
+
+
+extern void func_8012E8A8(u8 *a0);
+
+void func_80181810(void *arg0) {
+    func_8002A04C((s32)arg0);
+
+    if ((*(s16 *)((char *)arg0 + 0x70) & 0x8000) != 0) {
+        s32 v1 = *(s32 *)((char *)arg0 + 0x20);
+        *(s16 *)((char *)arg0 + 0x2) = 0x7;
+        *(s8 *)((char *)arg0 + 0xC1) = 0;
+        *(s32 *)((char *)arg0 + 0x1C) = 0x40;
+        *(s16 *)((char *)arg0 + 0x5E) = 0;
+        *(s16 *)((char *)arg0 + 0x5C) = 0;
+        *(s16 *)((char *)v1 + 0x12) = 0;
+        *(s16 *)((char *)v1 + 0x10) = 0;
+        func_8012E8A8((u8 *)arg0);
+        *(s16 *)((char *)arg0 + 0x6) = *(u16 *)((char *)arg0 + 0x88);
+        *(s16 *)((char *)arg0 + 0xA) = *(u16 *)((char *)arg0 + 0x8A);
+        *(s16 *)((char *)arg0 + 0xE) = *(u16 *)((char *)arg0 + 0x8C);
+    } else {
+        func_8012C218(arg0);
+    }
+}
+
 
 extern void func_8012A828(s32 a0, s32 a1);
     extern s32 D_801C348C;
@@ -4333,7 +4384,61 @@ extern s32 func_8012D5E4(s32 a0, s32 a1, s32 a2, s32 a3);
     }
 
 
-INCLUDE_ASM("asm/ov_SC03_117/nonmatchings/ov_SC03_117_jr_8017BEBC", func_80181900);
+
+
+/* func_80181900 — MATCH (43 ins). Family of 10 / 430 templatable ins.
+ * Keys:
+ * (1) `la $v1,D_80126CBA` + `lh 0($v1)` + `addiu $a0,$v1,-6` is ONE POINTER LOCAL
+ *     (`s16 *q = &D_80126CBA;` then `q - 3`), NOT two externs. A plain `D_80126CBA`
+ *     read folds %lo into the load (`lui %hi / lh %lo(sym)($r)`) and `&D_80126CB4`
+ *     would emit its own second lui — 2 extra ins. The full-address materialisation
+ *     is the tell that the C bound the address to a variable.
+ * (2) `s32 sp10[4]; s32 sp20;` in THAT declaration order => sp+0x10 / sp+0x20; the
+ *     3 halfword fields are written `*(s16 *)((s32)sp10 + 0x2/0x6/0xA)` — same form
+ *     as the matched siblings (src/ov_SC03_099/ov_SC03_099_jr_8017BEBC.c:4779).
+ * (3) The TU declares `extern void func_80181900(s32 *, s32, s32);` at file scope
+ *     3x (:5197 :5285 :5319), so an `s32 *` return is a HARD cc1 `conflicting types`
+ *     error. The trailing `addu $v0,$s0,$zero` therefore comes from a $2-pinned temp.
+ * (4) The pin is load-bearing twice: pinning the POST-CALL temp to $v0 is what stops
+ *     sched2 hoisting the return copy into the load-delay slot (unpinned => `lw $v1 /
+ *     move $v0,$s0 / sw $v1,0($v0)`, 42 ins, LENGTH-DRIFT -1). Tried and rejected:
+ *     `s32 sp20[2]`, `a0[0] =`, a named s32 temp, a cast-return — all identical DIFF.
+ * (5) `rv = (s32)a0;` alone is DELETED by flow ($2 is dead at the end of a void fn).
+ *     The empty volatile asm keeps it live and emits zero bytes (#APP/#NO_APP only).
+ * Verified: spliced into the real TU, cc1 emits the identical instruction stream and
+ * exactly the same 10 diagnostics as the unmodified TU (zero new). */
+extern s32 func_8012B77C(s32 out, s32 from, s32 to);
+
+void func_80181900(s32 *a0, s32 a1, s32 a2) {
+
+    extern s16 D_80126CBA;
+    s32 sp10[4];
+    s32 sp20;
+    s16 *q;
+    u16 *p;
+    s16 t;
+    register s32 rv __asm__("$2");
+
+    q = &D_80126CBA;
+    if (*q == 0) {
+        p = (u16 *)(q - 3);
+        *(s32 *)(a1 + 0xE0) = 0;
+    } else {
+        p = (u16 *)(a1 + 0x88);
+        *(s32 *)(a1 + 0xE0) = 1;
+    }
+    *(s16 *)((s32)sp10 + 0x2) = p[0] + *(u16 *)a2;
+    t = p[1] + *(u16 *)(a2 + 2);
+    *(s16 *)((s32)sp10 + 0x6) = t;
+    *(s16 *)(a1 + 0x100) = t;
+    *(s16 *)((s32)sp10 + 0xA) = p[2] + *(u16 *)(a2 + 4);
+    func_8012B77C((s32)&sp20, a1 + 4, (s32)sp10);
+    rv = sp20;
+    *a0 = rv;
+    rv = (s32)a0;
+    __asm__ __volatile__("" : : "r" (rv));
+}
+
 
 
 extern u8 D_80078EC1;
@@ -4342,7 +4447,32 @@ extern u8 D_80078EC1;
     }
 
 
-INCLUDE_ASM("asm/ov_SC03_117/nonmatchings/ov_SC03_117_jr_8017BEBC", func_801819C4);
+
+extern s32 func_8012BD14(s32 a0);
+extern void func_8002D4C8(s32 a0, s32 a1);
+
+/* The `register ... __asm__("$4")` pin on the FIRST call argument is load-bearing.
+ * The target sets $a0 = 0x6FE in the ENTRY block (dbr steals it into the `bnez`
+ * delay slot -- sched.md D1 backward fill), but a plain `s32 id = 0x6FE;` local is
+ * rematerialised at the use site (single-set constant pseudo -> REG_EQUIV), so the
+ * `li` sinks past the label into the join block and dbr fills the slot with the
+ * if-body's `lui` instead (SHIFT-DRIFT/+1). Pinning the local to $a0 makes the `li`
+ * a hard-reg set that stays where it is written, and the call's arg move degenerates
+ * to a deleted `(set (reg 4) (reg 4))`. */
+void func_801819C4(void *a0) {
+    register s32 id __asm__("$4");
+    s32 vol;
+    s32 t;
+
+    vol = 0x7F;
+    t = func_8012BD14((s32)a0);
+    id = 0x6FE;
+    if (t > 0x1000) {
+        vol -= (t - 0x1000) / 0x2700;
+    }
+    func_8002D4C8(id, (vol | 0x1000) & 0xFFFF);
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_117/nonmatchings/ov_SC03_117_jr_8017BEBC", func_80181A30);
 
@@ -4455,7 +4585,36 @@ register s32 v1 __asm__("$3");
 
 INCLUDE_ASM("asm/ov_SC03_117/nonmatchings/ov_SC03_117_jr_8017BEBC", func_80183D9C);
 
-INCLUDE_ASM("asm/ov_SC03_117/nonmatchings/ov_SC03_117_jr_8017BEBC", func_80183E84);
+
+extern void func_8001CD50(s32 a0, s32 a1);
+extern void func_800233CC(void *, unsigned short);
+
+void func_80183E84(void *a0)
+{
+
+    extern u8 D_801CE6D8[];
+    s32 s1;
+    u8 *p;
+
+    s1 = *(s32 *)((s32)a0 + 0x20);
+    p = D_801CE6D8 + *(s32 *)((s32)a0 + 0x2C) * 0x40;
+    func_8001CD50(s1, (s32)p);
+    *(s16 *)(s1 + 0x1E) = 0xCCC;
+    *(s16 *)(s1 + 0x10) = 0x400;
+    *(s16 *)(s1 + 0x1A) = 0;
+    *(s16 *)(s1 + 0x18) = 0;
+    *(s32 *)(s1 + 4) = *(s32 *)(s1 + 4) | 0x50000000;
+    func_800233CC(p, 0x80);
+    p[2] = 0xFF;
+    p[1] = 0xFF;
+    p[0] = 0xFF;
+    p[5] = 0x40;
+    p[4] = 0x40;
+    p[6] = 0x80;
+    *(s32 *)((s32)a0 + 0x1C) = 0x10;
+    *(u16 *)((s32)a0 + 2) = *(u16 *)((s32)a0 + 2) + 1;
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_117/nonmatchings/ov_SC03_117_jr_8017BEBC", func_80183F48);
 

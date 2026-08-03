@@ -9004,3 +9004,34 @@ Phase-28 `match_one` fake-isolation defect recurring one level up — at the AGE
 tool fix reaches it. **Any parallel wave whose agents may compile must tell them to use a
 process-unique scratch path** (`$$`/pid-suffixed) and must never suggest a fixed shared one. A
 shared scratch path does not produce an error; it produces a CONFIDENT WRONG VERDICT.
+
+### §136b — A prior wave's "genuine byte-DIFF" verdict is NOT reliable evidence (4 of 4 refuted)
+
+Phase-30 wave 3 ledgered four functions as *genuine byte-DIFF* — the class we treat as "real codegen
+residual, redraft is unlikely to help." Wave 4b re-drafted all four with fresh agents. **All four
+banked.** The recorded causes were not codegen at all:
+
+- `func_801845B0` — the prior draft read `beqz $v0, .L8018467C` as an inner early-exit when
+  `.L8018467C` is the **epilogue**, so it hoisted the whole tail out of the enclosing `if`. A
+  control-flow misread. **Resolve every branch TARGET LABEL to its actual instruction before
+  trusting a prior draft's nesting: a branch to the label that begins `lw $ra,K($sp)` is a RETURN,
+  not a join.**
+- `func_80184A94` — a D2 declaration conflict (`D_801BBB78` declared scalar in the draft, array in
+  the TU at a line **below** the splice point). Fixed by copying an already-banked family sibling's
+  declaration forms verbatim (§71 sibling-first).
+- `func_8017BEBC` — the cached Ghidra seed was an **entirely different body**; the prior draft had
+  followed it. The `.s` was the only usable source.
+- `func_8018480C` — likewise re-derived clean.
+
+**The rule this establishes:** a DIFF verdict describes *the draft that was attempted*, never the
+function's matchability. It is a statement about one attempt by one agent at one moment. So:
+
+1. **Never retire a target on a DIFF verdict.** Route it to the REDRAFT lane, not to a wall ledger.
+2. **A RETRY note must be handed to the agent as a data point, explicitly labelled as one** — the
+   wave-4b prompt said "treat that as a data point, not a verdict; re-derive from the .s", and every
+   retry agent did exactly that and refuted it.
+3. **Re-GATING an unchanged draft is not a retry.** Wave 4a's three DIFFs stayed stubs through a
+   second gate purely because the same bytes were resubmitted; they still owe a redraft.
+4. Corollary for the backlog generally: `docs/backlog.md` entries carrying an old closeness/class are
+   **stale by construction** (Phase-29 measured 77% of stored drafts had decayed). Re-verify before
+   valuing one.

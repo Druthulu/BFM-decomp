@@ -3497,10 +3497,13 @@ extern void func_800233CC(void*, unsigned short);
 extern void func_8017E420(void*);
 extern void func_8017E3F0(int);
 extern int rand(void);
-extern unsigned char D_801D4F2C[];
 
 void func_8017E22C(int param_1)
 {
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern unsigned char D_801D4F2C[];
     register int iVar3 __asm__("$16");
     register int iVar3b __asm__("$19");
     int iVar5;
@@ -3538,7 +3541,33 @@ void func_8017E22C(int param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_8017C24C", func_8017E378);
+
+
+extern s32 func_8017E434(s32 *a0, s32 a1);
+extern void func_8017E3F0(int);
+
+void func_8017E378(s32 *a0)
+{
+
+    extern unsigned char D_801D4F2C[];
+    s32 param;
+    s32 table_base;
+
+    param = *(s32 *)((s32)a0 + 0x2c);
+    table_base = (s32)D_801D4F2C + param * 0x40;
+
+    if (param != 0) {
+        *(s16 *)((s32)a0 + 0x6) += *(s16 *)((s32)a0 + 0x12);
+        *(s16 *)((s32)a0 + 0xE) += *(s16 *)((s32)a0 + 0x1A);
+
+        if (func_8017E434(a0, table_base) == 0) {
+            return;
+        }
+    }
+
+    ((void (*)(s32 *))func_8017E3F0)(a0);
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_8017C24C", func_8017E3F0);
 
@@ -3549,7 +3578,51 @@ void func_8017E420(void *a0) {
     }
 
 
-INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_8017C24C", func_8017E434);
+
+
+/* func_8017E434 — scroll/advance one "text-ish" byte pair and pack it into a
+ * 24-bit-ish word. Returns 1 when the decoded value is <= 0 (nothing written),
+ * else stores the packed word through a1 and returns 0.
+ *
+ * Signature matches the in-TU forward declaration emitted by the func_80182678
+ * draft: extern s32 func_8017E434(s32 *a0, s32 a1);
+ *
+ * Two derivations that mattered (both byte-verified against the .s):
+ *  - Both `-0x20` subtractions and the `sll $v0,$a2,16` in the bnez delay slot
+ *    are reorg.c fill-from-target duplicates, NOT source duplication: one
+ *    `t -= 0x20` after the if reproduces them exactly.
+ *  - `(t << 8) | (t | 0xFF0000)` written as ONE expression is reassociated by
+ *    fold()'s associate/split_tree step into `t | ((t<<8) | 0xFF0000)`, which
+ *    swaps $v0/$v1 on the two temps. Splitting it into three statements gives
+ *    fold nothing to reassociate and reproduces the target's temp lifetimes
+ *    (local-alloc's qty_compare gives the SHORT-lived temps the lower reg, so
+ *    the long-lived `x` correctly lands in $v1 and the pair in $v0).
+ */
+s32 func_8017E434(s32 *a0, s32 a1) {
+    s32 t;
+    s32 ret;
+
+    if (*(s32 *)((s32)a0 + 0x30) == 0) {
+        t = *(u8 *)(a1 + 1);
+    } else {
+        t = *(u8 *)(a1 + 2);
+    }
+    t -= 0x20;
+    ret = 1;
+    if (t > 0) {
+        if (*(s32 *)((s32)a0 + 0x30) == 0) {
+            s32 x = t << 8;
+            s32 y = t | 0xFF0000;
+            t = x | y;
+        } else {
+            t = (t << 16) | 0xFFFF;
+        }
+        *(s32 *)a1 = t;
+        ret = 0;
+    }
+    return ret;
+}
+
 
 
 extern void (*D_80197184[])(void);

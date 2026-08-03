@@ -4703,7 +4703,28 @@ void func_8018D318(int param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_8018D3FC);
+extern void func_80146E90(s32 *a0, s32 a1);
+extern s32 func_80146E98(s32 a0);
+
+
+void func_8018D3FC(s32 *a0) {
+    s32 *s1 = *(s32 **)((s32)a0 + 0x20);
+    register s32 v0 asm("$2");
+    register s32 v1 asm("$3");
+
+    if (func_80146E98((s32)a0) != 0) {
+        v1 = 0x7FFFFFFF;
+        v0 = *(s32 *)((s32)s1 + 0x4);
+        v0 = v0 & v1;
+        *(s32 *)((s32)s1 + 0x4) = v0;
+        func_80146E90(a0, 0x10);
+
+        v0 = *(u16 *)((s32)a0 + 0x2);
+        v0 = v0 + 1;
+        *(u16 *)((s32)a0 + 0x2) = v0;
+    }
+}
+
 
 
 /* func_8018D468 — per-frame update for the effect entity that func_8017E8CC
@@ -5167,7 +5188,31 @@ void func_8018E7C0(void *arg0, void *arg1, s32 arg2, s32 arg3) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_8018E82C);
+
+
+
+void func_8018E82C(void *a0, void *a1, s16 a2) {
+
+    extern s16 D_801F1308;
+    extern s16 D_801F130A;
+    extern u8 D_801F1310;
+    extern u8 D_801F1311;
+    extern u8 D_801F1312;
+    extern u32 D_801F130C;
+    if (a0 != NULL) {
+        D_801F1308 = *(u16 *)a0;
+        D_801F130A = *(u16 *)((s32)a0 + 2);
+    } else {
+        D_801F1308 = 0;
+        D_801F130A = 0;
+    }
+
+    D_801F1310 = *(u8 *)a1;
+    D_801F1311 = *(u8 *)((s32)a1 + 1);
+    D_801F1312 = *(u8 *)((s32)a1 + 2);
+    D_801F130C = (u32)a2 << 16;
+}
+
 
 
 

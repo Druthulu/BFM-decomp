@@ -4683,7 +4683,31 @@ void func_801825EC(void *arg0, void *arg1, s32 arg2, s32 arg3) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_101/nonmatchings/ov_SC03_101_jr_8017CA80", func_80182658);
+
+
+
+void func_80182658(void *a0, void *a1, s16 a2) {
+
+    extern s16 D_8019DD78;
+    extern s16 D_8019DD7A;
+    extern u8 D_8019DD80;
+    extern u8 D_8019DD81;
+    extern u8 D_8019DD82;
+    extern u32 D_8019DD7C;
+    if (a0 != NULL) {
+        D_8019DD78 = *(u16 *)a0;
+        D_8019DD7A = *(u16 *)((s32)a0 + 2);
+    } else {
+        D_8019DD78 = 0;
+        D_8019DD7A = 0;
+    }
+
+    D_8019DD80 = *(u8 *)a1;
+    D_8019DD81 = *(u8 *)((s32)a1 + 1);
+    D_8019DD82 = *(u8 *)((s32)a1 + 2);
+    D_8019DD7C = (u32)a2 << 16;
+}
+
 
 
 

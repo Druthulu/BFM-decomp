@@ -3580,7 +3580,28 @@ void func_8017DF14(int param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_010/nonmatchings/ov_SC04_010_jr_8017BEBC", func_8017DFF8);
+extern void func_80146E90(s32 *a0, s32 a1);
+extern s32 func_80146E98(s32 a0);
+
+
+void func_8017DFF8(s32 *a0) {
+    s32 *s1 = *(s32 **)((s32)a0 + 0x20);
+    register s32 v0 asm("$2");
+    register s32 v1 asm("$3");
+
+    if (func_80146E98((s32)a0) != 0) {
+        v1 = 0x7FFFFFFF;
+        v0 = *(s32 *)((s32)s1 + 0x4);
+        v0 = v0 & v1;
+        *(s32 *)((s32)s1 + 0x4) = v0;
+        func_80146E90(a0, 0x10);
+
+        v0 = *(u16 *)((s32)a0 + 0x2);
+        v0 = v0 + 1;
+        *(u16 *)((s32)a0 + 0x2) = v0;
+    }
+}
+
 
 
 /* func_8017E064 — per-frame update for the effect entity that func_8017E8CC

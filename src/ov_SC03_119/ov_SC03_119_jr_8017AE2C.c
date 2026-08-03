@@ -3774,7 +3774,63 @@ void func_8017E898(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_119/nonmatchings/ov_SC03_119_jr_8017AE2C", func_8017E8D4);
+
+
+/* func_8017E8D4 -- ov_SC03_002 / ov_SC03_002_jr_8017AE2C
+ *
+ * func_8012B0B4 (the polar->cartesian helper) is NOT declared anywhere in this TU
+ * (grep of the WHOLE file: 0 hits for "8012B0B4", including below the splice point),
+ * so the project-canonical engine-core prototype is used VERBATIM and no conflict
+ * is possible.  It writes ONE packed u32 (lo half = x, hi half = z) through param_1.
+ *
+ * Three non-obvious shape choices, all byte-forced:
+ *
+ *  1. `u32 buf[4]` (16 bytes of locals) -- NOT the 8-byte scratch the sibling
+ *     func_8012B0B4 callers use.  frame = args(0x10) + var(0x10) + gp(0xC) = 0x2C
+ *     -> rounded 0x30, putting $s0/$s1/$ra at 0x20/0x24/0x28 exactly as the target.
+ *     An 8-byte buffer gives 0x28 (§135-6, the dead-locals/frame-padding lever).
+ *
+ *  2. The two reads of buf must be TWO DISTINCT memory refs (`*(s16*)buf` and
+ *     `*(s32*)buf`) AND the store to a0+0x10 must sit BETWEEN the SImode load and
+ *     its `>> 16` in SOURCE order.  gcc-2.7.2's combine narrows `(mem:SI >> 16)`
+ *     into a sign-extending `lh` at +2 (that is §135-11 / T5 seen from the other
+ *     side); can_combine_p refuses to sink the load across the intervening store,
+ *     which is what keeps the target's `lw 0x10($sp)` + `sra 16`.  Every ordering
+ *     that puts the two shifts adjacent to their loads collapses to 28 ins.
+ *
+ *  3. The `$2` pin on `hi`.  Post-sched1 the block is
+ *        lh(lo) lw(hi) sll(lo) sw(0x10) sra(hi) sll(hi) sw(0x18)
+ *     so local-alloc's qty densities (local-alloc.c:1579 qty_compare,
+ *     floor_log2(refs)*refs/(death-birth)) are lo = 2*4/5 = 16000 vs
+ *     hi = 2*6/9 = 13333 -> lo allocates FIRST and takes $v0, the mirror image of
+ *     the target.  sched1 normalises every statement permutation to the same
+ *     stream, so the §136 local-variable lever is inert here (8 no-pin variants
+ *     tested -- decl order, scope, split temps, s16/u16 lo, `* 0x1000`, an early
+ *     `t = a2`: all land on the identical 7-insn $v0<->$v1 permutation).  Pinning
+ *     the SImode load to $v0 short-circuits the density contest (RC-3): its init
+ *     is `pinned = expr`, so it computes directly into the hard reg with NO extra
+ *     move, $v0 is live across lo's whole range so lo is pushed to $v1, and the
+ *     shift results are born after $v0 dies and reclaim it.
+ */
+
+extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
+
+void func_8017E8D4(s32 a0, s16 a1, s16 a2) {
+    u32 buf[4];
+    register s32 hi __asm__("$2");
+    s32 lo;
+
+    func_8012B0B4(buf, *(s16 *)(*(s32 *)(a0 + 0x20) + 0x12), a1 << 4);
+
+    lo = *(s16 *)buf;
+    hi = *(s32 *)buf;
+    *(s32 *)(a0 + 0x10) = lo << 12;
+    *(s32 *)(a0 + 0x18) = (hi >> 16) << 12;
+    if (a2 != 0) {
+        *(s32 *)(a0 + 0x1C) = a2;
+    }
+}
+
 
 extern s32 func_8012B6D4(s16 *a0, s16 *a1);
 

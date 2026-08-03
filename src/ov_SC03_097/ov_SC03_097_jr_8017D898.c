@@ -3585,7 +3585,33 @@ INCLUDE_ASM("asm/ov_SC03_097/nonmatchings/ov_SC03_097_jr_8017D898", func_8017F30
 
 INCLUDE_ASM("asm/ov_SC03_097/nonmatchings/ov_SC03_097_jr_8017D898", func_8017F3D4);
 
-INCLUDE_ASM("asm/ov_SC03_097/nonmatchings/ov_SC03_097_jr_8017D898", func_8017F48C);
+
+/* 8 bytes, align 2 -> lwl/lwr/swl/swr copy (cookbook §48-C2) */
+typedef struct {
+    s16 v[4];
+} Blk8_80126940_8017D6D0_8017F48C;
+
+extern u16 func_80148800(s32 *a0);
+extern void func_8017F53C(s32 param_1, s16 *param_2);
+
+void func_8017F48C(s32 a0) {
+
+    extern s16 D_80189BC8[];
+    extern Blk8_80126940_8017D6D0_8017F48C D_80126940;
+    Blk8_80126940_8017D6D0_8017F48C sp10;
+    u8 t;
+
+    if (func_80148800(&D_80126B58) & 3) {
+        t = (*(u8 *)(a0 + 5) + 1) & 1;
+        *(u8 *)(a0 + 5) = t;
+        *(s32 *)(a0 + 0x14) = D_80189BC8[t];
+    }
+    sp10 = D_80126940;
+    sp10.v[0] = -0x1280;
+    sp10.v[2] = 0x11A0;
+    func_8017F53C(a0, sp10.v);
+}
+
 
 
 // @class: schedule
@@ -4159,7 +4185,31 @@ void func_8018208C(void *arg0, void *arg1, s32 arg2, s32 arg3) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_097/nonmatchings/ov_SC03_097_jr_8017D898", func_801820F8);
+
+
+
+void func_801820F8(void *a0, void *a1, s16 a2) {
+
+    extern s16 D_801AAB60;
+    extern s16 D_801AAB62;
+    extern u8 D_801AAB68;
+    extern u8 D_801AAB69;
+    extern u8 D_801AAB6A;
+    extern u32 D_801AAB64;
+    if (a0 != NULL) {
+        D_801AAB60 = *(u16 *)a0;
+        D_801AAB62 = *(u16 *)((s32)a0 + 2);
+    } else {
+        D_801AAB60 = 0;
+        D_801AAB62 = 0;
+    }
+
+    D_801AAB68 = *(u8 *)a1;
+    D_801AAB69 = *(u8 *)((s32)a1 + 1);
+    D_801AAB6A = *(u8 *)((s32)a1 + 2);
+    D_801AAB64 = (u32)a2 << 16;
+}
+
 
 
 
