@@ -147,114 +147,51 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 
 ---
 
-# 🛑 SESSION-31 CHECKPOINT (2026-08-03) — wave 4a + S6c + wave 4b b1/b2 + reconcile + redraft
-> Supersedes SESSION-30 below. Effort: **ultracode** (Drew enabled at session start; re-enabled
-> after a mid-session usage-limit stop that Drew cleared). `make tools-health` **RC=0 at session
-> open**. **R22 clean-fleet run FIVE times this session, 140/140 every time.** HEAD `commit:1365`.
-> ⚠️ **Wave 4b BATCH 3 was in flight at this write** (37 targets, `.run/s7_wave4b_b3.js`, run
-> `wf_c7555629-640`) — if the session ended mid-flight, its drafts are in `.run/s7/<ov>/` and are
-> UNGATED. Gate with `.venv/bin/python .run/s6f_gate.py '.run/s7/*/func_*.c'` (it skips already-
-> banked automatically), then propagate → R22 → commit. Nothing else is running.
+# 🛑 SESSION-31 CHECKPOINT (2026-08-03) — **THE B-SHAPE QUEUE IS CLOSED: 144/144 BANKED**
+> Supersedes SESSION-30 below. **Nothing is running. Tree lock FREE. Tree CLEAN** but for the R23
+> `db.*.gbf` churn — never stage it. Effort: **ultracode**. `make tools-health` RC=0 at session open.
+> **R22 clean-fleet run SEVEN times this session, 140/140 every time.** HEAD `commit:1368`.
 
-## FLEET — R22 clean-fleet **140 passed / 0 failed of 140** (`make clean` + extract-all + check-all)
-**95.77% fn-count · 92.9% instr-weighted · 86.4% distinct-code** (76,824 / 87,459 unique fns) ·
+## FLEET — R22 clean-fleet **140 passed / 0 failed of 140**
+**95.88% fn-count · 92.9% instr-weighted · 86.5% distinct-code** (77,106 / 87,459 unique fns) ·
 dedup **1905/0** · C1 240496/240496 · **0 NON_MATCHING** in any default build (G4).
-Phase opened 92.00 / 87.5 / 78.0 ⇒ **+3.77pp fn, +5.4pp instr, +8.4pp distinct this phase.**
-*(`.run/family_hseq.json`'s metrics read ~0.3–1.0pp higher — that is the OVERLAY-ONLY denominator,
-not a disagreement. `make report` is the authoritative fleet number.)*
+Phase opened 92.00 / 87.5 / 78.0 ⇒ **+3.88pp fn, +5.4pp instr, +8.5pp distinct this phase.**
+*(`.run/family_hseq.json` reads ~0.3–1.0pp higher — OVERLAY-ONLY denominator, not a disagreement.)*
 
-## WHAT S7 DID — ~1,238 function-instances; **103 of 107 drafts banked (96%)**
-| round | heads | members | commit |
+## WHAT S7 DID — **144 of 144 drafted targets banked (100%)** + ~1,400 members propagated
+| lane | targets | banked | tokens |
 |---|---|---|---|
-| wave 4a draft (33 targets, 46 agents, 4.44M tok) | 23 | 251 | `commit:1355` |
-| S6c jr families (deterministic, ~0 tokens) | — | 12 | 5 per-family commits |
-| wave 4a reconcile (7 PLUMBING) | 7 | 76 | `commit:1363` |
-| wave 4b batch 1 (37 targets, 50 agents, 4.35M tok) | 32 | 365 | `commit:1364` |
-| batch 2 + reconcile ×3 + **redraft ×4** | 41 | 431 | `commit:1365` |
+| wave 4a draft | 33 | 23 | 4.44M |
+| wave 4a reconcile | 7 | 7 | 0.33M |
+| S6c jr families (deterministic) | 9 fams | 12 members | ~0 |
+| wave 4b b1 | 37 | 32 | 4.35M |
+| wave 4b b2 | 37 | 35 | 3.44M |
+| reconcile ×2 + redraft ×2 | 13 | 13 | ~0.87M |
+| wave 4b b3 | 37 | 35 | 2.75M |
+| final reconcile ×5 + redraft ×1 | 6 | 6 | 0.34M |
 
-**Per-lane economics, measured:** drafting banks 70–86% at ~4M tokens/wave · the **reconcile lane is
-10/10 lifetime at ~13× lower cost** (329K for 7 fixes) · the **redraft lane is 4/4** · deterministic
-sweeps banked 443 members for ~0 tokens. *The cheap lanes keep out-earning the expensive one.*
+**LANE RECORDS (the economics that held all session):** drafting banks 70–95% at ~3–4M tok/wave ·
+**reconcile 15/15 lifetime at ~13× lower cost** · **redraft 9/9** · deterministic sweeps banked
+~1,400 members for ~0 tokens. **The cheap lanes consistently out-earned the expensive one.**
 
-*(wave 4a detail, retained:)* 29 claimed `match_one` MATCH → gate **23/33 (70%)** → 251 members
-across 69 overlays (13 failed, 4 STRUCT skipped by design).
-
-**Bank rate by the tier that produced the FINAL draft** (derived per-function; the workflow's
-`by_tier` counts CLAIMED matches and sums to 29, not 23 — do not read it as banks):
-| tier | banked / attempted |
-|---|---|
-| Opus direct (≥90 ins) | 10 / 14 |
-| Haiku direct (≤89 ins) | **3 / 8** |
-| Opus escalation after a Haiku miss | **10 / 11** |
-⇒ on the 60–120-ins band the cheap tier is **triage, not a substitute** (it is ≡ Opus only at
-≤~50 ins). The two-lane shape still pays *because the escalation almost never fails.*
-
-## S6c — the 9 jr zero-crack families: 12 banked, 6 families ledgered, ALL banks in the SC07 quartet
-Probe-one-sibling-per-family first (R37) — it spared ~20 builds each on six families:
-| family | ins | slots | outcome |
-|---|---|---|---|
-| `func_80178D40` | 890 | 4 | **4/4 BANKED** |
-| `func_801734BC` | 34 | 4 | **4/4 BANKED** |
-| `func_8012ACE0` | 25 | 4 | **4/4 BANKED** |
-| `func_801380E0` · `func_80191C50` · `func_8019059C` · `func_8013FFD8` · `func_8016AE5C` | 438/710/673/213/85 | 10 | **gate-fail — genuine byte DIFF** |
-| `func_8016AB6C` | 188 | 4 | **carve-fail** — span table starts do not fit the span |
-
-**Every one of the 12 banks landed in `ov_SC07_006/007/010/011`** — the four overlays P27 discovered
-and P28 made citizens (R36). P28 drained their **h_exact** backlog via `dedup_extend`; the **jr/h_seq
-propagation lane was still owed**, and this was it. ⚠️ **But do NOT over-read that:** the SC07 quartet
-are the top four overlays by remaining zero-crack residue (2,190–2,355 ins each vs 500–870 typical,
-~3–4×) yet hold only **7% of the 2,114 remaining slots**. It is a per-overlay priority signal, NOT a
-bulk lever — the non-jr zero-crack residue is genuinely fleet-wide (120 families / 65,946 ins).
-
-## 🎯 THE 10 WAVE-4a GATE FAILURES ARE CAPTURED AND CLASSIFIED → `.run/s7_blockers.json`
-**7 PLUMBING / 3 genuine byte-DIFF** — i.e. **70% of "the gate refused" is declaration paperwork.**
-- **PLUMBING (→ reconcile lane, feed each agent its line VERBATIM):** `func_80185254`(SC02_026,
-  `conflicting types for func_8012C1B8`) · `func_8018362C`(SC02_035, `func_8012B200`) ·
-  `func_80183A14` + `func_80183B20`(SC02_035, both `func_80183E68` — ONE shared TU, so **forbid agent
-  builds**, §135) · `func_8017E654`(SC02_041, `func_8012BF4C`) · `func_8017BF50`(SC03_001,
-  `func_8012913C`) · `func_8017CDB0`(SC03_002, `func_801439C0`).
-- **DIFF (→ redraft, the C is wrong, not the declarations):** `func_8017E978`(SC01_005) ·
-  `func_80184494`(SC02_026) · `func_80184960`(SC04_018). *(`func_8017E978`'s original agent died on
-  the session limit, so it is effectively undrafted.)*
-- Tool: **`.run/s7_capture.py`** — any overlay, any draft dir (the ov_SC01_077-only
-  `.run/uc_capture.py` is its ancestor); reverts the TU in a `finally:`.
-
-## 📓 COOKBOOK §136 + §136a — the phase's largest single-wave idiom yield (R30, written in-session)
-19 byte-verified idioms from 25 banked functions' `index_gap` reports. The finding:
-**in the 60–120-ins band most "regalloc residuals" are decided by HOW MANY C LOCALS YOU DECLARE AND
-AT WHAT SCOPE, not by register pins** — `local-alloc.c:472` refuses a local allocno with
-`REG_N_DEATHS > 1`, promoting it to a global allocno that loses the low register. One case
-explicitly **refutes the pin** as the lever for a redundant copy (source position is the lever).
-**§136a** adds the capture law: **classify on the build's OUTPUT, never its exit status** —
-`make build` runs `check`, so a draft that compiles perfectly and merely differs in bytes ALSO exits
-non-zero; an `rc == 0 ⇒ DIFF` branch is unreachable and files every real byte-DIFF under "unknown"
-(my own defect this session, caught and fixed). Index regenerated **364 → 371** sections, green.
-⚠️ Agents self-reported `index_hit` **13 true / 18 false** — *discoverability of our own knowledge,
-not the compiler, is the drafting bottleneck.* The 31 gap reports are worth more than the matches.
-
-## ⚠️ THREE THINGS A FRESH SESSION MUST NOT INHERIT UNCHECKED
-1. **The T6 ROI-floor trigger stays REFUTED** (S30's finding, re-confirmed): the ×138-era-ends
-   trigger was wrong. Re-derive from a freshly regenerated `family_hseq` before any close.
-2. **My S6c probe first reported 1/9 — it was 1 bank + 8 CORRECT REFUSALS, not 8 failures.**
-   `jtbl_family_bank` refuses on a dirty `config/`+`src/` (its per-sibling revert restores from
-   HEAD, so an uncommitted prior bank would be destroyed). My driver did not commit between
-   families. **A uniform failure across N different functions is a statement about the mechanism,
-   not the functions** (§134). Fixed: `.run/s7_s6c.py` now commits between families.
-3. **The session hit the agent limit mid-wave** (3 agents died on it; resets 4:20am America/Denver).
-   Agent capacity is NOT assumable — and the measured economics favour the deterministic lanes
-   anyway (S30: sweeps ≈0 tokens for +0.5pp; wave-3 ≈4.1M for +0.3pp).
-
-## 📊 THE LIVE QUEUE — re-derived at HEAD from the regenerated map (overlay-only ins)
+## 📊 THE FRONTIER, re-derived at HEAD from a REGENERATED map (R35 — not a carried number)
+**All three B-shape lanes are at ZERO — genuinely exhausted:**
 | lever | families | templ ins | note |
 |---|---|---|---|
-| B-shape ≥20 memb, ≤60 ins | **0** | 0 | exhausted (was 36 at S30 open) |
-| B-shape ≥10 memb, **61-120 ins** | **10** | **10,003** | wave 4a consumed 23 of the 33 |
-| B-shape 10-19 memb, ≤60 ins | **111** | **33,554** | **wave 4b, staged in 3 batches of 37** |
-| zero-crack `has_mid_jr` (S6c) | 6 | ~5,600 | **DONE** — 12 banked; the 6 left are gate/carve-fail, ledger material |
-| zero-crack non-jr residue | 120 | 65,946 | fleet-wide (2,114 slots); SC07 quartet = top 4 but only 7% |
+| B-shape ≥20 memb ≤60 ins | **0** | 0 | exhausted |
+| B-shape ≥10 memb 61-120 ins | **0** | 0 | **exhausted this session** |
+| B-shape 10-19 memb ≤60 ins | **0** | 0 | **exhausted this session** |
+| **zero-crack (propagation-only)** | **147** | **70,924** | **best next lever, ~0 agent tokens** |
+| fresh ×10-99 | 23 | 69,310 | agent waves |
 | fresh ×2-9 | 1,872 | 362,591 | worst multiplier — deprioritised |
-| fresh ×1 singletons | 3,800 | 231,284 | ×1 — deprioritised |
-Unmatched fleet-wide: **14,887 instances / 912,037 ins**.
+| ×1 singletons | 3,804 | 231,327 | ×1 — deprioritised |
+Unmatched fleet-wide: **13,577 instances / 867,808 ins**.
+
+**⚠️ THE FINDING THAT SHAPES THE NEXT SESSION: the zero-crack pool REFILLS ITSELF.** It went
+**120 → 147 families (62,232 → 70,924 ins) even though this session propagated ~1,400 members
+through it** — because every fresh crack turns its family's unmatched members into propagation-only
+work. "Propagate behind every crack" is not just hygiene; it is a compounding lever, and the cheapest
+one on the board. **Run the zero-crack sweep FIRST next session, then re-derive again.**
 
 ## 🔑 THE FOUR FINDINGS THIS SESSION PRODUCED (cookbook §136 · §136a · §136b · §136c · §136d)
 1. **§136 — the LOCAL-VARIABLE lever.** In the 60–120-ins band most "regalloc residuals" are decided
