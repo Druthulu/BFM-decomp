@@ -4734,6 +4734,7 @@ build/src/ov_SC07_006/ov_SC07_006_jr_80154C24.o: JTBL_PADS := 0,0  # §8e pads (
 build/src/ov_SC07_006/ov_SC07_006_jr_801588CC.o: JTBL_PADS := 0,4,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x28,+0x48
 build/src/ov_SC07_006/ov_SC07_006_jr_80159C84.o: JTBL_PADS := 0,4  # §8e pads (jtbl_carve.py) tables=+0x0,+0x20
 build/src/ov_SC07_006/ov_SC07_006_jr_8015A3C8.o: JTBL_PADS := 0,4  # §8e pads (jtbl_carve.py) tables=+0x0,+0x20
+build/src/ov_SC07_006/ov_SC07_006_jr_80171B4C.o: JTBL_PADS := 0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x20
 build/src/ov_SC07_006/ov_SC07_006_jr_801789AC.o: JTBL_PADS := 0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x18
 build/src/ov_SC07_006/ov_SC07_006_jr_80179B74.o: JTBL_PADS := 0,4  # §8e pads (jtbl_carve.py) tables=+0x0,+0x90
 build/src/ov_SC07_006/ov_SC07_006_o0c.o: JTBL_PADS := 0,4,4,4  # §8e pads (jtbl_carve.py) tables=+0x0,+0x38,+0xa8,+0x118
