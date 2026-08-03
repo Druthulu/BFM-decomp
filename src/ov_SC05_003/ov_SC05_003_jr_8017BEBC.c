@@ -613,7 +613,6 @@ extern s32 func_8014E83C(s32 arg0, s16 * arg1, s16 * arg2);
 extern void func_8014E934(s32 _arg0);
 extern s32 func_8014EA4C(void *a0, void *a1, void *a2, s32 a3);
 extern s32 func_8014E98C(void *a0);
-extern u16 D_800B99DA;
 extern s32 D_801150D8;
 extern s16 D_801152AA;
 extern u8 D_80126720[];
@@ -3804,11 +3803,104 @@ void func_80181E40(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_003/nonmatchings/ov_SC05_003_jr_8017BEBC", func_80181E7C);
+
+
+extern s32 func_8018239C(s32 arg0);
+extern void func_8012C194(void);
+extern void func_8012CAE4(void *a0);
+extern s32 func_8001CC3C(s32 a0, s32 a1, s32 a2, s32 a3);
+extern void func_80128EA8(s32 a0, s32 a1, s32 a2);
+extern void func_801823F4(s32 arg0);
+extern void func_8002D4C8(s32 a0, s32 a1);
+
+void func_80181E7C(s32 a0) {
+    extern u8 D_801A9F10[];
+    extern u8 D_801A9F1C[];
+    s32 s0;
+    u16 t;
+    u16 u;
+    u16 v;
+
+    s0 = func_8018239C(a0);
+    if ((s0 == 1) || (s0 = ((s32 (*)(void))func_8012C194)(), s0 == 0)) {
+        ((void (*)(s32))func_8012CAE4)(a0);
+    } else {
+        *(s32 *)(a0 + 0xCC) = s0;
+        func_8001CC3C(s0, (s32)D_801A9F10, 0x214, 0x168);
+        *(s32 *)(s0 + 0x4) = 0x50000000;
+        *(u8 *)(s0 + 0x27) = 0x24;
+        func_80128EA8(s0, a0 + 0xDC, (s32)D_801A9F1C);
+        func_801823F4(a0);
+        *(u16 *)(s0 + 0x8) = *(u16 *)(a0 + 0x6);
+        *(u16 *)(s0 + 0xA) = *(u16 *)(a0 + 0xA);
+        t = *(u16 *)(a0 + 0xE);
+        *(u16 *)(s0 + 0x1A) = 0x2000;
+        *(u16 *)(s0 + 0x18) = 0x2000;
+        *(u16 *)(s0 + 0x2C) = 0xC010;
+        *(u16 *)(s0 + 0xC) = t;
+        v = *(u16 *)(a0 + 0x2) + 1;
+        u = *(u16 *)(*(s32 *)(a0 + 0x64) + 0x36);
+        *(s32 *)(a0 + 0x1C) = 0x180;
+        *(u16 *)(a0 + 0x2) = v;
+        *(u16 *)(a0 + 0x10A) = u;
+        func_8002D4C8(0xAA0, 0);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC05_003/nonmatchings/ov_SC05_003_jr_8017BEBC", func_80181F78);
 
-INCLUDE_ASM("asm/ov_SC05_003/nonmatchings/ov_SC05_003_jr_8017BEBC", func_80182208);
+
+
+extern s32 rand(void);
+extern s32 func_80128ED8(void *a0, void *a1);
+extern s32 func_80132EF4(s32 a0, s32 a1);
+extern void func_801823F4(s32 arg0);
+extern void func_80182470(void *arg0);
+
+void func_80182208(s32 arg0) {
+
+    extern u16 D_800B99DA;
+    s32 p;
+    s32 q;
+    s32 t0;
+    s32 u0;
+    s32 t1;
+    s32 u1;
+    s32 t2;
+
+    p = *(s32 *)(arg0 + 0xCC);
+    if (p != 0) {
+        func_80128ED8((void *)p, (void *)(arg0 + 0xDC));
+        func_801823F4(arg0);
+        *(u16 *)(p + 0x8) = *(u16 *)(arg0 + 0x6);
+        *(u16 *)(p + 0xA) = *(u16 *)(arg0 + 0xA);
+        *(u16 *)(p + 0xC) = *(u16 *)(arg0 + 0xE);
+        *(u16 *)(p + 0x18) -= 0x200;
+        *(u16 *)(p + 0x1A) -= 0x200;
+        if (*(s16 *)(p + 0x18) >= 0) {
+            if (D_800B99DA % 5 == 0) {
+                q = func_80132EF4(arg0, 0x22);
+                if (q != 0) {
+                    t0 = rand();
+                    u0 = *(u16 *)(q + 0x6) - 0x10;
+                    *(u16 *)(q + 0x6) = u0 + (t0 & 0x1F);
+                    t1 = rand();
+                    u1 = *(u16 *)(q + 0xE) - 0x10;
+                    *(u16 *)(q + 0xE) = u1 + (t1 & 0x1F);
+                    *(u16 *)(q + 0xA) -= 0x20;
+                    t2 = rand();
+                    *(s32 *)(q + 0x14) = -0x40000 - ((t2 % 4) << 16);
+                    *(s16 *)(q + 0x34) = rand() % 0x1800 + 0x2000;
+                    *(u16 *)(*(s32 *)(q + 0x20) + 0x2C) = 0xC010;
+                }
+            }
+            return;
+        }
+    }
+    func_80182470((void *)arg0);
+}
+
 
 
 /* func_8018239C — "is another entity of type 0x35C sharing my 0x64 owner?"

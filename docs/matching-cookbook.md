@@ -8826,3 +8826,139 @@ CLOSED a specific residual — none is a hypothesis.
 - **An agent that rejects your premise is working correctly.** Told a draft was byte-correct and only
   declaration-blocked, one agent re-ran `match_one` first, found a real 1-instruction DIFF, and fixed
   both. Hand agents the evidence, not the conclusion.
+
+## §136 — The LOCAL-VARIABLE lever: how many C locals, at what scope (P30 wave 4a, 25 byte-verified banks)
+
+Distilled from the wave-4a index-gap reports (33 drafted, 23 banked whole-binary first pass). The
+wave's dominant finding, and the reason this section exists as a *class* rather than a list:
+
+> **In the 60–120-instruction band, most "regalloc/scheduling residuals" are decided by HOW MANY C
+> LOCALS YOU DECLARE AND AT WHAT SCOPE — not by register pins.** gcc-2.7.2 allocates one pseudo per
+> C local; `local-alloc.c:472` refuses a *local* allocno whose `REG_N_DEATHS > 1`, promoting it to a
+> *global* allocno that is ranked by density and loses the low register. So splitting one reused
+> local into two, or merging two into one, moves whole register assignments — deterministically, at
+> zero blast radius. **Reach for the local-count lever BEFORE `register __asm__` pins.**
+
+One report makes the anti-case explicit: for a redundant `move $sN,$sM` the pin is the *wrong* lever
+— it acquires the register but lets gcc reuse it destructively as the sign-extension scratch. The
+right lever was hoisting the assignment above the call (`func_80183394`).
+
+### The splitting/merging rules (each closed a residual, byte-gated)
+
+1. **One local reused across N arms/repetitions ⇒ SPLIT it per arm.** A function-scope pointer used
+   in 3 if/else arms dies in 3 places, fails the local-alloc gate, becomes a global allocno and loses
+   the low reg to a block-local constant. Per-arm block-scoped locals fix it in one edit. Symptom:
+   the same `$v0`/`$v1` pair swapped in ONE arm only, siblings byte-correct. (`func_8018C96C`;
+   same mechanism `func_801909D8`, `func_80183A14`.)
+2. **A compound initializer holding two values ⇒ SPLIT into two statements** when you have one
+   callee-saved register too many. `x = *(u8*)p << k;` makes a load pseudo *and* a shift pseudo, both
+   live across the call ⇒ two `$s` regs; `x = *(u8*)p; x = x << k;` reuses one ⇒ one. Symptom: an
+   extra `sw $sN` in the prologue, frame size otherwise identical. (`func_80184FA4`.)
+3. **Two variables where you wrote one ⇒ the target keeps a copy you cannot reproduce.** An extra
+   `addu $vX,$v0,$zero` right after a `jal` *plus* a later copy of the same value = the source had
+   `v1 = f(); rnd = v1;` with `v1` **pinned**. An unpinned pseudo always coalesces the pair away —
+   verified: removing the pin merged them and cost 27 instructions of drift. (`func_8017BF88`.)
+4. **A local's address in a callee-saved base register ⇒ write a POINTER local**, assigned before the
+   loop and used only inside it. Writing `local.field` everywhere addresses `$sp`-relative, allocates
+   no register and shrinks the frame. Symptom: `LENGTH-DRIFT` short by an `addiu $sN,$sp,K` plus one
+   save/restore pair. (`func_8017DAC4`.)
+5. **A symbol read at a constant offset, but built into `$s1` by `lui/addiu` ⇒ cache it in a pointer
+   local** (`u8 *p = D_80078E78;`). A direct `D_xxx[0x1A]` folds `%lo` per use, loses the pin and
+   shrinks the frame 0x20→0x18. (`func_8017C61C`; extends §17.)
+6. **Local stack slots are assigned in DECLARATION order**, ascending from the outgoing-arg area
+   (0x10) — independent of use order. Frame-offset drift with correct code is a declaration-ORDER
+   problem. (`func_8017D2B8`; complements §135-6, where the delta is a dead local.)
+
+### The type-form rules
+
+7. **A real `mult $rX,$rY` with a small constant ⇒ the multiplier is a NON-CONST LOCAL, not a
+   literal.** A literal `x * K` always goes through `synth_mult` (sll/addu/subu chain). Assign
+   `s32 r = K;` as its own statement before the first multiply: `expand_mult` then sees a REG, and
+   CSE cannot fold it back because `mulsi3` has no immediate form. Bonus — the `li` lands in
+   whichever basic block the assignment is in, so its position in the `.s` tells you where to put the
+   statement. (`func_80183B04`. The inverse of the existing synth_mult entry.)
+8. **A negative addend on a narrow field coming out as `li $sN,0xfff0` + `addu`** (target:
+   `addiu $vN,$vN,-0x10`) ⇒ gcc narrowed the whole expression to HImode, where the negative constant
+   is its 16-bit unsigned image and no longer fits `addiu`. Fix: hoist the call to its own statement
+   and put the load+subtract in a **block-scoped** `s32` temp. A signed `*(s16*)` load does NOT fix
+   it (it reassociates); a function-scope temp does NOT fix it either. (`func_801840FC`.)
+9. **`lhu` + `sll 16` + `sra 16+N` on a stack local an out-param call wrote ⇒ the local is `u16`,
+   read as `(s16)x >> N`** — the combiner folds the sign-extending `sra 16` into the user shift.
+   Through a PsyQ `SVECTOR` (`short vx`) you get `lh` + `sra N` instead. **A scratch vector read back
+   sign-extended-then-shifted must be `u16 v[4]`, NOT `SVECTOR`.** (`func_8017D2B8`.)
+10. **An unexplained `addu $vX,$aY,$zero` before a conditional branch, with the two feeding `lh`
+    loads in the wrong order ⇒ the value is an `s16` LOCAL, not `s32`.** `LOAD_EXTEND_OP` folds the
+    sign-extend of an already-`lh`-loaded HImode pseudo into a plain move, giving a second pseudo for
+    the arithmetic while the comparison keeps the original. (`func_80183EF8`.)
+11. **`LENGTH-DRIFT +1` with a narrow load of the SAME stack slot** (`lh 0x12($sp)` beside
+    `lw 0x10($sp)`) ⇒ gcc-2.7.2 narrowed a memory-operand `local >> 16` into a sign-extending
+    halfword load at +2. Bind the local to an `s32` temp used twice to force one `lw` + `sra`.
+    (`func_801834BC`.)
+12. **`andi $vN,0xffff` right after a `jal` that the target lacks ⇒ the TU declares the callee
+    `u16`/`s16`-returning** and gcc re-extends the return value. Do NOT change the declaration —
+    call through a cast. This is §135-9 applied to the RETURN axis, not the arguments.
+    (`func_8017E26C`.)
+
+### The scheduling rules (refining §135-2 and §135-4)
+
+13. **§135-2's `MEM_IN_STRUCT_P` lever does NOT apply when the blocking store has a VARYING address.**
+    `true_dependence()` only drops the edge for a *non-varying* (constant-address) store. If the load
+    must hoist above stores through a different register base, the only lever is **source order** —
+    assign the load to a temp ABOVE the stores. This is the load-side dual of §135-4. Tell: one extra
+    `nop` in a load-delay slot plus constants landing in `$v0` instead of `$v1`. (`func_80182F00`.)
+14. **`memrefs_conflict_p` treats `$sp`-based and register-based MEMs as CONFLICTING**, so a register
+    load cannot hoist past an `$sp` store — but two `$sp` stores at different constant offsets ARE
+    disambiguable and reorder freely. Reading store order as literal source order will send you down
+    a wrong path; the load/store base-class asymmetry is the discriminator. (`func_80183B04`.)
+15. **An unfilled load-delay `nop` where the target fills it with a trailing call's argument setup ⇒
+    hoist a LOAD, don't chase the arg setup.** Split a read-modify-write (`*p = *p + 1`) into
+    `v = *p + 1; … *p = v;` so its load rises above an intervening pointer chase; the chase's `lw`
+    then fills the slot and the freed arg-setup instructions cascade into the earlier nops. Store
+    order is unchanged, so it is byte-safe. (`func_8019064C`.)
+16. **Prologue `sw $sN` stores in REGNO order where the target has DEF order** ⇒ the saves are
+    anti-dependent on each register's first def, so emission order tracks def order. A
+    `register __asm__` pin on the *incoming parameter* turns its `move` into a schedulable body
+    instruction that loses priority to the `%hi` address chain and reshuffles the whole prologue.
+    **Pin loop variables; NEVER pin the incoming parameter.** (`func_8018613C`.)
+17. **An extra induction register (3 IVs where the target has 2) ⇒ do NOT write the second pointer.**
+    Write ONE pointer and address every field as `p + const`; `combine_givs` manufactures the
+    representative itself. And when the preheader `addiu rIV,rBASE,K` builds the WRONG K, that is the
+    combined-giv ANCHOR choice: `record_giv` prepends and `combine_givs` takes the list head, so the
+    **last-emitted** reference in the body anchors — move the statement whose final reference sits at
+    the target's K to the END of the body. (`func_801862A8`, `func_8018B128`; §3-Giv/§70 keyed by
+    symptom rather than by the word "induction".)
+
+### The declaration surface (integration, not codegen)
+
+18. **`conflicting types` for a `D_` symbol whose declaration you cannot find in the split `.c` ⇒ it
+    lives inside a `DEFINE_func_*()` macro body in `src/shared/engine_core.h`.** Grep the macro
+    bodies for every `D_` symbol your draft names and reuse the canonical type verbatim. In
+    particular an 8-byte-stride table declared there as `s32 D_x[][2]` must be indexed `[i][0]`/
+    `[i][1]` — do NOT declare splat's interior label (`D_x+4`) as its own extern; that both conflicts
+    and duplicates. Extends §135-7 to the shared-header declaration surface. (`func_801854C4`.)
+19. **A `lui`+`ori` pair whose halves are both small (e.g. `0x8000A8`) and which resolves to no
+    symbol is a PACKED COORDINATE LITERAL, not an address.** Confirm against a sibling TU's call.
+    (`func_8017CDB0`.)
+
+### Wave economics (measured, for the next batch's sizing)
+
+33 targets · 46 agents · 4.44 M tokens · 29 min → **29 claimed MATCH, 23 banked whole-binary (70%)**.
+
+**Bank rate by the tier that produced the FINAL draft** (derived per-function from the journal + the
+gate, NOT read off the workflow's `by_tier`, which counts *claimed* matches and therefore sums to 29
+rather than 23 — R37):
+
+| tier | banked / attempted |
+|---|---|
+| Opus direct (≥90 ins) | **10 / 14** |
+| Haiku direct (≤89 ins) | **3 / 8** |
+| Opus escalation after a Haiku miss | **10 / 11** |
+
+The operative number is the **escalation rescue rate: 10 of 11.** On a 60–120-instruction pool the
+cheap tier closes outright only ~3/8, so Haiku here is a *triage* stage, not a substitute — it is ≡
+Opus at ≤~50 ins (`cheap-tier-ab-validated`), and this band is above that line. The two-lane shape
+still pays because the escalation almost never fails; **route ≤50 ins to Haiku and expect to pay for
+an Opus pass on most of the 60–120 band.**
+
+`index_hit` was **13 true / 18 false** — the index is now the bottleneck the cookbook itself was in
+wave 1, which is why the 31 gap reports above are worth more than the matches.

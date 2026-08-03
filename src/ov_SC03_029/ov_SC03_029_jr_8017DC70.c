@@ -4586,7 +4586,101 @@ void func_801872B4(s32 a0, void *a1, void *a2) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_029/nonmatchings/ov_SC03_029_jr_8017DC70", func_80187318);
+
+void func_80187318(s32 param_1, s32 *param_2)
+{
+    s32 s0;
+    s32 s1;
+    s32 cos_val;
+    s16 sin_val;
+    s32 v1;
+    s16 matrix_stack[16];
+
+    s1 = (s32)param_2;
+    s0 = param_1 & 0xFFF;
+
+    cos_val = func_80187718(s0);
+    sin_val = func_8018765C(s0);
+
+    /* Build rotation matrix on stack */
+    v1 = 0x7FF8;
+    *(short *)((s32)matrix_stack + 0x04) = sin_val;
+    *(short *)((s32)matrix_stack + 0x00) = cos_val;
+    *(short *)((s32)matrix_stack + 0x02) = 0;
+    *(short *)((s32)matrix_stack + 0x06) = 0;
+    *(short *)((s32)matrix_stack + 0x08) = v1;
+    *(short *)((s32)matrix_stack + 0x0A) = 0;
+    *(short *)((s32)matrix_stack + 0x0C) = -sin_val;
+    *(short *)((s32)matrix_stack + 0x0E) = 0;
+    *(short *)((s32)matrix_stack + 0x10) = cos_val;
+
+    __asm__ volatile (
+        "lw $12, 0(%0);"
+        "lw $13, 4(%0);"
+        "ctc2 $12, $0;"
+        "ctc2 $13, $1;"
+        "lw $12, 8(%0);"
+        "lw $13, 12(%0);"
+        "lw $14, 16(%0);"
+        "ctc2 $12, $2;"
+        "ctc2 $13, $3;"
+        "ctc2 $14, $4;"
+        "addiu $2, $sp, 0x10;"
+        "lhu $12, 0($2);"
+        "lhu $13, 6($2);"
+        "lhu $14, 12($2);"
+        "mtc2 $12, $9;"
+        "mtc2 $13, $10;"
+        "mtc2 $14, $11;"
+        "nop;"
+        "nop;"
+        "mvmva 1, 0, 3, 3, 0;"
+        "mfc2 $12, $9;"
+        "mfc2 $13, $10;"
+        "mfc2 $14, $11;"
+        "sh $12, 0(%0);"
+        "sh $13, 6(%0);"
+        "sh $14, 12(%0);"
+        "addiu $2, $sp, 0x12;"
+        "lhu $12, 0($2);"
+        "lhu $13, 6($2);"
+        "lhu $14, 12($2);"
+        "mtc2 $12, $9;"
+        "mtc2 $13, $10;"
+        "mtc2 $14, $11;"
+        "nop;"
+        "nop;"
+        "mvmva 1, 0, 3, 3, 0;"
+        "addiu $2, %0, 0x2;"
+        "mfc2 $12, $9;"
+        "mfc2 $13, $10;"
+        "mfc2 $14, $11;"
+        "sh $12, 0($2);"
+        "sh $13, 6($2);"
+        "sh $14, 12($2);"
+        "addiu $2, $sp, 0x14;"
+        "lhu $12, 0($2);"
+        "lhu $13, 6($2);"
+        "lhu $14, 12($2);"
+        "mtc2 $12, $9;"
+        "mtc2 $13, $10;"
+        "mtc2 $14, $11;"
+        "nop;"
+        "nop;"
+        "mvmva 1, 0, 3, 3, 0;"
+        "addiu %0, %0, 4;"
+        "mfc2 $12, $9;"
+        "mfc2 $13, $10;"
+        "mfc2 $14, $11;"
+        "sh $12, 0(%0);"
+        "sh $13, 6(%0);"
+        "sh $14, 12(%0)"
+        : "=r"(s1)
+        : "0"(s1)
+        : "$12", "$13", "$14", "$2"
+    );
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_029/nonmatchings/ov_SC03_029_jr_8017DC70", func_80187478);
 

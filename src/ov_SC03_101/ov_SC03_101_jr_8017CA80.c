@@ -4715,7 +4715,75 @@ void func_801826C8(s32 a0) {
 
 INCLUDE_ASM("asm/ov_SC03_101/nonmatchings/ov_SC03_101_jr_8017CA80", func_80182740);
 
-INCLUDE_ASM("asm/ov_SC03_101/nonmatchings/ov_SC03_101_jr_8017CA80", func_8018278C);
+
+/* func_8018278C — particle/ripple spawner for slot `a0` of the 16-entry,
+ * 0x10-byte-stride table at D_8019DD84.
+ *
+ * Declaration notes (the TU already carries all of these — nothing is invented):
+ *   - rand / func_80047948 / func_8004787C : verbatim re-declarations of the
+ *     TU's own file-scope prototypes (L951, L2197, L2198) -> merge silently.
+ *   - D_8019DD84 : block-scope `extern s16` exactly as func_8018AD5C (L3869)
+ *     and func_8018B0EC (L3982) declare it.
+ *   - D_8019DD7E : its own dlabel in asm/ov_SC03_014/data/tail19.data.s:5868;
+ *     undeclared anywhere in the TU, so a block-scope extern is conflict-free.
+ *     It is declared as an ARRAY on purpose: the ARRAY_REF sets MEM_IN_STRUCT_P,
+ *     which restores the true_dependence() edge against the in-struct `p->f2`
+ *     store and stops sched2 from hoisting the load above it (cookbook §135/2).
+ *   - The TU's own prototype for this function is
+ *       extern void func_8018278C(s32 a0, s16 a1, u16 a2);   (L3929)
+ *     but the body byte-proves the params are plain s32 (no `sll/sra` on $a1 and
+ *     a single `andi` at the use, not the promoted-var `move`+`andi` pair). So the
+ *     definition uses the §37/§124 ASM-LABEL ALIAS — exactly what this same TU
+ *     already does for `aF8018A860` — leaving the TU's declaration untouched.
+ */
+
+extern s32 rand(void);
+extern s32 func_80047948(s32 a0);
+extern s32 func_8004787C(s32 a0);
+
+void aF8018AFD0(s32 a0, s32 a1, s32 a2) __asm__("func_8018278C");
+
+void aF8018AFD0(s32 a0, s32 a1, s32 a2)
+{
+    typedef struct {
+        s16 f0;     /* 0x00 */
+        s16 f2;     /* 0x02 */
+        s16 f4;     /* 0x04 */
+        s16 f6;     /* 0x06 */
+        s32 f8;     /* 0x08 */
+        s32 fC;     /* 0x0C */
+    } P_8018278C;
+
+    extern s16 D_8019DD84;
+    extern s16 D_8019DD7E[];
+
+    s32 unused[4];      /* dead locals — reproduces var_size 0x10 (frame 0x38) */
+    P_8018278C *p;
+    u16 rad;
+    s32 m;
+    s32 ang;
+    s32 t8;
+    s16 tC;
+
+    p = (P_8018278C *)((s32)&D_8019DD84 + (a0 << 4));
+
+    rad = a2;
+    rad = a2 + (rand() % (rad >> 2) - (rad >> 3));
+
+    ang = a1 + (rand() & 0x3f) - 0x20;
+    p->f6 = ang;
+
+    m = rad;
+    t8 = (func_80047948(p->f6) * m) >> 12;
+    tC = (func_8004787C(p->f6) * m) >> 12;
+    p->f8 = t8 << 16;
+    p->fC = tC << 16;
+
+    p->f0 = (rand() & 0xf) + 0x10;
+    p->f2 = m << 6;
+    p->f4 = (s32)D_8019DD7E[0] * 64;
+}
+
 
 
 
@@ -4737,7 +4805,74 @@ s32 func_801828A8(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_101/nonmatchings/ov_SC03_101_jr_8017CA80", func_801828E4);
+
+
+/* func_801828E4 — the 16-slot particle/effect stepper over D_8019DD84[16]
+ * (0x10-byte records; slot 0 = the `active` u16 that func_8018AD5C clears and
+ * func_8018B0EC scans).  Layout used here, all as byte-offsets off ONE walked
+ * base pointer:
+ *   +0x0 u16 active   +0x2 s16 angle   +0x4 u16 dangle
+ *   +0x6 s16 dir      +0x8 s32 x       +0xC s32 z
+ *
+ * IV shape (cookbook §3-Giv / gcc-map L1): the target has ONE biv (the walked
+ * base, kept alive by the bare +0x0 accesses, which find_mem_givs excludes from
+ * giv formation) plus ONE combined DEST_ADDR giv anchored at base+2
+ * (`addiu $s1, $s2, 0x2`).  combine_givs takes g1 from the list HEAD and
+ * record_giv PREPENDS, so *the last-emitted offset reference anchors*: the
+ * `+= dangle` statement (which ends on a +0x2 store) must therefore come LAST
+ * in the body.  Written before the two s32 updates it anchors at base+0xC
+ * instead -> 14 mismatched immediates.
+ *
+ * Both rsin/rcos products are computed BEFORE any store because gcc-2.7.2's
+ * sched.c makes every mem ref depend on last_function_call — a store emitted
+ * between the two `jal`s could not have floated below the second one.
+ *
+ * `i++` precedes the pointer bump in the for-increment: that emission order is
+ * what puts `addiu $s4,$s4,1` ahead of the giv's `addiu $s1,$s1,0x10` (the
+ * biv's own bump then fills the branch delay slot).
+ *
+ * func_80047948 / func_8004787C keep this TU's file-scope prototypes verbatim
+ * (L2197-2198, `s32` param) — the s16 field is sign-extended at the call site
+ * by the `lh`, so the narrower m2c-style `s16` prototype is not needed (§17a-1).
+ * D_8019DD84 uses the TU's existing block-scope `extern s16` spelling
+ * (func_8018AD5C L3869, func_8018B0EC L3982).
+ */
+
+extern s32 func_80047948(s32 a0);
+extern s32 func_8004787C(s32 a0);
+
+void func_801828E4(void) {
+
+    extern s16 D_8019DD7E;
+    extern s16 D_8019DD84;
+    extern void func_801829F8(s32);
+
+    s16 *p;
+    s32 i;
+    s16 ang;
+    s32 vx;
+    s32 vz;
+
+    ang = D_8019DD7E;
+    p = &D_8019DD84;
+
+    for (i = 0; i < 0x10; i++, p = (s16 *)((s32)p + 0x10)) {
+        if (*(u16 *)p != 0) {
+            if ((ang > 0 && *(s16 *)((s32)p + 2) > 0x4000) ||
+                (ang < 0 && *(s16 *)((s32)p + 2) <= 0)) {
+                *p = 0;
+            } else {
+                func_801829F8(i);
+                vx = func_80047948(*(s16 *)((s32)p + 6)) * ang * 0x10;
+                vz = func_8004787C(*(s16 *)((s32)p + 6)) * ang * 0x10;
+                *(s32 *)((s32)p + 8) += vx;
+                *(s32 *)((s32)p + 12) += vz;
+                *(u16 *)((s32)p + 2) += *(u16 *)((s32)p + 4);
+            }
+        }
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_101/nonmatchings/ov_SC03_101_jr_8017CA80", func_801829F8);
 
