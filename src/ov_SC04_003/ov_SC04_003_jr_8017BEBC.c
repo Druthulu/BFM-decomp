@@ -3167,7 +3167,29 @@ void func_8017BEBC(s32 arg0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_003/nonmatchings/ov_SC04_003_jr_8017BEBC", func_8017CD9C);
+extern s32 D_8011F9C4;
+extern void func_80029124(s32, s32);
+extern void func_800291F0(s32, s32);
+extern void func_8002D4C8(s32, s32);
+/* NOTE: func_8017D540 is DEFINED later in this TU as `int func_8017D540(int)`.
+ * Conform to that signature (byte-neutral: return value unused, $a0 = 0). */
+extern int func_8017D540(int);
+extern s32 D_80185E50;
+extern s32 D_80185EF0;
+extern u8 *D_801274C8;
+extern void *D_801274CC;
+
+void func_8017CD9C(void)
+{
+    D_8011F9C4 = 1;
+    func_80029124(0xCA, 1);
+    func_800291F0(4, 0xCA);
+    func_8002D4C8(6, 0);
+    D_801274C8 = (u8 *)&D_80185E50;
+    D_801274CC = (void *)&D_80185EF0;
+    func_8017D540(0);
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_003/nonmatchings/ov_SC04_003_jr_8017BEBC", func_8017CE0C);
 

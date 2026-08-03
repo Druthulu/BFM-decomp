@@ -9153,3 +9153,76 @@ __asm__` pins on the mask temps (local-alloc otherwise takes `$v0/$v1/$a3` and s
 global assignment) → two zero-byte `__asm__` re-ties from the §30 toolkit → and finally
 `tools/permuter/run_masked.py` on a pin-carrying base for the last 2. **The toolkit composes; the
 permuter is the LAST step on an already-pinned base, not the first.**
+
+**Second correction to the capture classifier — DERIVE the class, do not pattern-match error prose.**
+The output-based rule above was still wrong in a third way: it decided PLUMBING by matching a regex
+against cc1's diagnostic text, and cc1's vocabulary is open-ended. `too many arguments to function
+'func_80146C3C'` — a plain arity conflict — matched none of `error|conflicting|undefined|previous
+declaration|redeclar`, so a trivially reconcilable function sat classified **UNKNOWN** through two
+gate rounds. The closed, true fact is **whether the compile produced an object**:
+
+```python
+compile_failed = bool(re.search(r'^make: \*\*\* \[.*\] Error \d+', txt, re.M)
+                      and 'Deleting file' in txt)      # .DELETE_ON_ERROR, added Phase 30 S29
+```
+
+Decide the class from that; keep the diagnostic lines only to hand the agent verbatim. Re-running the
+fixed tool over six stubs moved the population from `5 PLUMBING / 1 UNKNOWN` to **`5 PLUMBING /
+1 DIFF`** with no other change. That is three defects in one small tool in one session — an exit-status
+branch that was unreachable, a regex that missed a common phrasing, and the prose-matching design
+that made both possible — and each one *silently mis-routed real work*. **R33 in one line: if an
+invariant answers the question, never re-parse the output.**
+
+### §136f — Two declaration sub-cases the reconcile lane surfaced (lane now 15/15 lifetime)
+
+1. **A symbol you are calling may be DEFINED — not merely declared — below your splice point.**
+   `func_8017CD9C`'s draft forward-declared `extern void func_8017D540(s32);`, guessed from the asm
+   (a bare `jal` with `$a0 = 0` and an unused `$v0` is consistent with several signatures). But
+   `func_8017D540` is **defined in the same TU ~275 lines BELOW the splice**, as `int func_8017D540(int)`.
+   cc1 took the draft's prototype first and rejected the later definition. **D2's "grep the whole TU
+   below the splice point" must look for DEFINITIONS, not just `extern` lines.** The fix was to copy
+   the definition's own signature; it was byte-neutral because the argument is a literal `0` and the
+   return is discarded.
+
+2. **An ARITY clash on the symbol you are DEFINING cannot be fixed by a cast — use lever (B).**
+   `func_801848DC` is forward-declared `extern s32 func_801848DC(void);` at three places above the
+   splice, each used by a banked caller invoking it with no arguments, while the byte-true signature
+   takes a pointer in `$a0`. Cast-at-use fixes a *callee's* type; it cannot change how your own
+   definition is declared. The §37/§124 **asm-label alias** is the lever:
+   `s32 aF801848DC(void *a0) __asm__("func_801848DC");` — define under the alias identifier, emit
+   under the real symbol, zero blast radius, no shared header touched. In-TU precedent for this
+   exact TU at `ov_SC04_018_jr_8017AE2C.c:8872` (`aF8018CB18`). Verify the alias is byte-neutral by
+   gating with and without it.
+
+**Lane record: 15/15 across five waves.** The reconcile lane remains the most reliable stage in the
+pipeline *and* the cheapest per bank — but see §136a: it is not purely paperwork, and several of
+those 15 also carried a real codegen residual behind the declaration conflict.
+
+### §136g — When the index points at the WRONG lever: two byte-refuted routings (func_801863B4)
+
+The last redraft of the session is the clearest case yet of *why an agent must byte-test the index's
+suggestion rather than trust it*. It read the real `tools/reference/gcc-2.7.2` source and refuted two
+entries that the index confidently routes:
+
+**1. `BRANCH-POLARITY` where the `return K` block RELOCATES to the function tail.**
+The index routes `BRANCH-POLARITY` to §3-T4 ("invert the source condition") and §34 (the zero-byte
+`__asm__("")` fence). **Both were tried and byte-refuted here.** The actual transform is
+`jump.c:1806` — `/* Look for if (foo) bar; else break; */` — which SWAPS `range1`/`range2` and
+inverts. It runs **long before `reorg`, so a fence instruction cannot block it.** Its real
+precondition is `label2 = next_label(label1)` being the RETURN label with
+`JUMP_LABEL(range1end) == label2`. **C lever: put ANY label between the if-join and the return
+label** — wrap the loop inside the guard, `if (…) { loop }` with ONE trailing `return 0`, instead of
+an early-`return 0` guard. The if-join label disarms the swap. (Closed the last 8 instructions.)
+
+**2. `lh` AND `lhu` of the SAME address, feeding an `sll 16`/`sra 16` pair — not a weird cast.**
+MIPS `LOAD_EXTEND_OP == ZERO_EXTEND` (`mips.h:1163`), so a plain HImode local load emits `lhu` and
+its later `int` use costs `sll`/`sra`, while an SImode use of the *same lvalue* (`*p == -1`) emits
+`lh`. Source form: `s16 v = *p;` **plus** a separate `*p == -1` test. **`combine` collapses the pair
+back into ONE `lh` unless the HImode pseudo has TWO reaching defs** — so the shape only survives with
+a hand-rotated guard (`v = *p; if (*p != -1) { … do { …; v = *p; } while (*p != -1); }`), which is
+what makes both loads appear in the guard AND the loop-bottom block.
+
+**The generalizable point:** the index is a *starting* hypothesis, not an answer. This agent tried
+both indexed levers, measured them at zero, went to the compiler source, and found the transform in
+a pass earlier than the one the index named. **Record the refuted routing next to the correct one** —
+otherwise the next agent re-runs the same two dead ends. (§136b tally: **9 for 9**.)

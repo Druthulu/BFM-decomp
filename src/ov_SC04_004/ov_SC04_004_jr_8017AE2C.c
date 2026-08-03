@@ -1156,7 +1156,6 @@ extern s32 func_80172608(u8 *a0);
 extern void func_8015A2D8(s32 param_1);
 extern u8 D_800D48DC;
 extern s32 func_8015AB7C(s32 a0);
-extern s32 D_8011F9C4;
 extern s32 func_8015ABD4(s32 a0, s32 a1, s32 a2);
 extern s32 func_80161CD0(s32 a0, s32 a1);
 extern M2C_UNK D_80186CF0;
@@ -4635,7 +4634,32 @@ void func_8017E608(void *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_004/nonmatchings/ov_SC04_004_jr_8017AE2C", func_8017E778);
+
+
+extern void func_80029124(s32, s32);
+extern void func_800291F0(s32, s32);
+extern void func_8002D4C8(s32, s32);
+/* NOTE: func_8017EF1C is DEFINED later in this TU as `int func_8017EF1C(int)`.
+ * Conform to that signature (byte-neutral: return value unused, $a0 = 0). */
+extern int func_8017EF1C(int);
+
+void func_8017E778(void)
+{
+
+    extern s32 D_8011F9C4;
+    extern s32 D_801888A8;
+    extern s32 D_80188970;
+    extern u8 *D_801274C8;
+    extern void *D_801274CC;
+    D_8011F9C4 = 1;
+    func_80029124(0xCC, 1);
+    func_800291F0(4, 0xCC);
+    func_8002D4C8(6, 0);
+    D_801274C8 = (u8 *)&D_801888A8;
+    D_801274CC = (void *)&D_80188970;
+    func_8017EF1C(0);
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_004/nonmatchings/ov_SC04_004_jr_8017AE2C", func_8017E7E8);
 

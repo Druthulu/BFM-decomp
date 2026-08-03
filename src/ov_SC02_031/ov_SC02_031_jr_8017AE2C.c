@@ -3420,7 +3420,43 @@ void func_8017C0E4(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_031/nonmatchings/ov_SC02_031_jr_8017AE2C", func_8017C120);
+
+
+/* Decl reconciliation (lever A, cookbook §37/§124):
+ * The TU declares both callees with signatures that disagree with this draft's
+ * natural call shape:
+ *     src/ov_SC02_026/ov_SC02_026_jr_8017AE2C.c:1683/1701/3352
+ *         extern void func_80146C3C(void);      <- 0-arity  => "too many arguments"
+ *     src/ov_SC02_026/ov_SC02_026_jr_8017AE2C.c:1686
+ *         extern void func_800D22E4(s32 a0);    <- s32, not void *
+ * We do NOT invent a competing prototype and we touch no shared header. The two
+ * decls below are copied VERBATIM from the TU, so at the splice point they are
+ * identical redeclarations (legal, zero conflict, zero blast radius); they are
+ * carried in the draft only so the ISOLATED match_one context can resolve
+ * func_80146C3C as a *value* -- implicit declaration covers a plain call but not
+ * a func-ptr cast, so without it match_one alone fails "undeclared".
+ * Every type disagreement is then pushed to a cast at the use site; the TU
+ * already uses exactly this func-ptr-cast form for func_80146C3C at line 3374.
+ * Casts emit no code -- both calls remain direct `jal`. Byte-neutral. */
+extern void func_80146C3C(void);
+extern void func_800D22E4(s32 a0);
+
+void func_8017C120(void *a0)
+{
+    s32 val;
+
+    val = *(s32 *)((s32)a0 + 0x1C);
+    val--;
+    *(s32 *)((s32)a0 + 0x1C) = val;
+
+    if (val != -1) {
+        func_800D22E4((s32)a0);
+        *(s32 *)((s32)a0 + 0x14) += 0x1A000;
+    } else {
+        ((void (*)(s32))func_80146C3C)((s32)a0);
+    }
+}
+
 
 
 /* func_8017C180 — ov_SC02_027_jr_8017AE2C (76 ins)

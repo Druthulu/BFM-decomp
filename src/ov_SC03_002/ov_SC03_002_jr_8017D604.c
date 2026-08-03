@@ -4867,7 +4867,31 @@ void func_80183D78(s32 a0) {
 
 INCLUDE_ASM("asm/ov_SC03_002/nonmatchings/ov_SC03_002_jr_8017D604", func_80183E48);
 
-INCLUDE_ASM("asm/ov_SC03_002/nonmatchings/ov_SC03_002_jr_8017D604", func_80183EB0);
+
+
+extern void func_80184498(void);
+
+void func_80183EB0(s32 a0) {
+
+    extern s32 D_801A84CC[][2];
+    extern s16 D_801A850C[];
+    s32 idx_val, ptr_val, data_val;
+
+    *(s16 *)(a0 + 0x2) = 0x4;
+    *(s16 *)(a0 + 0x34) = 0;
+    *(s16 *)(a0 + 0xFE) = 0x600;
+    *(s16 *)(a0 + 0x100) = 0;
+    *(s16 *)(a0 + 0x102) = 0;
+    idx_val = D_801A850C[*(s16 *)(a0 + 0x70)];
+    ptr_val = *(s32 *)(a0 + 0x20);
+    data_val = D_801A84CC[idx_val][0];
+    *(s32 *)(ptr_val + 0x24) = data_val;
+    *(s16 *)(a0 + 0x84) = 0;
+    *(s16 *)(a0 + 0x5C) = 0;
+    *(s32 *)(a0 + 0xB0) = 0;
+    ((s32 (*)(void))func_80184498)();
+}
+
 
 void func_80183F24(s32 a0) {
 
@@ -5050,7 +5074,53 @@ INCLUDE_ASM("asm/ov_SC03_002/nonmatchings/ov_SC03_002_jr_8017D604", func_801842B
 
 INCLUDE_ASM("asm/ov_SC03_002/nonmatchings/ov_SC03_002_jr_8017D604", func_8018431C);
 
-INCLUDE_ASM("asm/ov_SC03_002/nonmatchings/ov_SC03_002_jr_8017D604", func_80184498);
+
+/*
+ * Declaration reconciliation (byte-neutral) — these notes MUST travel with the body.
+ *
+ * 1. func_80184498 (the function being defined).  This TU already carries the
+ *    canonical declaration
+ *        extern s32 func_80184498(void);
+ *    FIVE times above the splice point (L7450, L7492, L7504, L7534, L7559), and
+ *    its banked callers reach it through `((void (*)(s32))func_80184498)(x)`
+ *    casts.  The real function takes one argument and returns void, so defining
+ *    it under its own C name collides:
+ *        7740: conflicting types for `func_80184498'
+ *        7559: previous declaration of `func_80184498'
+ *    Fix = the §37/§124 asm-label alias: define under the C name aF80185EEC
+ *    carrying __asm__("func_80184498").  The emitted symbol is unchanged, the
+ *    C-level name never meets the canonical declaration, blast radius is zero.
+ *
+ * 2. func_801844CC (a callee).  The TU DEFINES it BELOW the splice point
+ *    (pre-splice L7740) as
+ *        void func_801844CC(void *a0)
+ *    so the invented prototype `extern void func_801844CC(s32 a0);` conflicted
+ *    with that later definition:
+ *        7753: conflicting types for `func_801844CC'
+ *        7738: previous declaration of `func_801844CC'
+ *    Fix = conform the prototype to the TU's own signature and push the type
+ *    disagreement to a cast at the call site.  Casting an s32 to void * emits
+ *    no instruction, so this is byte-neutral.
+ *
+ * match_one.py still reports MATCH (13/13) after both changes.
+ */
+
+extern void func_801844CC(void *a0);
+
+void aF80185EEC(s32 a0) __asm__("func_80184498");
+
+void aF80185EEC(s32 a0) {
+    u16 v0;
+    s32 v1;
+
+    v0 = *(u16 *)(a0 + 0xFE);
+    v1 = *(s32 *)(a0 + 0x20);
+    v0 = -v0;
+    *(s16 *)(a0 + 0xF4) = v0;
+    *(s32 *)(v1 + 0x20) = a0 + 0xEC;
+    func_801844CC((void *)a0);
+}
+
 
 
 void func_801844CC(void *a0) {
@@ -5232,7 +5302,31 @@ s32 func_80184854(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_002/nonmatchings/ov_SC03_002_jr_8017D604", func_80184960);
+
+
+
+s32 func_80184960(s32 a0) {
+
+    extern s16 D_801A87C8[];
+    s16 *p;
+    s16 v;
+    s32 x;
+
+    p = D_801A87C8;
+    v = *p;
+    if (*p != -1) {
+        x = *(u16 *)a0;
+        do {
+            if (x == v) {
+                return 1;
+            }
+            p++;
+            v = *p;
+        } while (*p != -1);
+    }
+    return 0;
+}
+
 
 
 extern void func_8012F214(s32 arg0, s32 arg1, s32 arg2);
