@@ -187,11 +187,17 @@ Phase opened 92.00 / 87.5 / 78.0 ⇒ **+3.88pp fn, +5.4pp instr, +8.5pp distinct
 | ×1 singletons | 3,804 | 231,327 | ×1 — deprioritised |
 Unmatched fleet-wide: **13,577 instances / 867,808 ins**.
 
-**⚠️ THE FINDING THAT SHAPES THE NEXT SESSION: the zero-crack pool REFILLS ITSELF.** It went
-**120 → 147 families (62,232 → 70,924 ins) even though this session propagated ~1,400 members
-through it** — because every fresh crack turns its family's unmatched members into propagation-only
-work. "Propagate behind every crack" is not just hygiene; it is a compounding lever, and the cheapest
-one on the board. **Run the zero-crack sweep FIRST next session, then re-derive again.**
+**⚠️ CORRECTED — DO NOT ACT ON THE EARLIER "zero-crack refills itself" LINE (§136h).** I recorded
+that the pool growing 120 → 147 families / 70,924 ins was a compounding cheap lever and said to sweep
+it first. **Measured: the sweep banked 1 of 1,781.** The top families compile clean and produce a
+**byte DIFF** (one fails at link) — the remapped body does not reproduce in the sibling. The pool
+grows because **members that already failed accumulate**, and because a fresh crack's members are
+harvested at crack time (we propagate behind every crack), so what accrues afterwards is the fraction
+that REFUSED. **A growing zero-crack count is a RESIDUE signal, not an opportunity signal.** Price it
+by probing one member per family — never by summing `byte_weight_templatable`, which counts what
+*could* template if the bodies reproduced, i.e. the very thing in question (§133 recurring on a new
+column). My R37 violation, in the scoping step; cost was ~1,780 build cycles, zero tokens, no bad
+bytes. **The remaining zero-crack pool is LEDGER MATERIAL, not a lever.**
 
 ## 🔑 THE FOUR FINDINGS THIS SESSION PRODUCED (cookbook §136 · §136a · §136b · §136c · §136d)
 1. **§136 — the LOCAL-VARIABLE lever.** In the 60–120-ins band most "regalloc residuals" are decided

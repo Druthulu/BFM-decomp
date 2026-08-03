@@ -9226,3 +9226,33 @@ what makes both loads appear in the guard AND the loop-bottom block.
 both indexed levers, measured them at zero, went to the compiler source, and found the transform in
 a pass earlier than the one the index named. **Record the refuted routing next to the correct one** —
 otherwise the next agent re-runs the same two dead ends. (§136b tally: **9 for 9**.)
+
+### §136h — CORRECTION: the zero-crack pool does NOT "refill with cheap work" (my error, byte-measured)
+
+At the S7 close I recorded that the zero-crack (propagation-only) pool **grew 120 → 147 families /
+62,232 → 70,924 templatable ins even after ~1,400 members were propagated through it**, and framed
+that as a compounding cheap lever — "run the zero-crack sweep FIRST next session." I priced it off
+the family map's `byte_weight_templatable` and **did not probe a single member first.**
+
+**Measured: the sweep banked 1 of 1,781.** Diagnosing the top families (`.run/s6_diag.py`): two
+compile clean and produce a **byte DIFF**, one fails at link (`undefined reference to
+tail_8012F274`). These are genuine per-member residuals — **the remapped exemplar body does not
+reproduce in the sibling.**
+
+**Why the pool grows, correctly stated:**
+- It accumulates **members that already failed** earlier sweeps (S6a/S6b banked 1,582 out of this
+  same population and left the rest).
+- A fresh crack adds its family's members to the pool — but **if you propagate behind every crack
+  (which you should), those members are harvested at crack time.** What accrues afterwards is the
+  fraction that *refused* to propagate.
+
+⇒ **A growing zero-crack count is a residue signal, not an opportunity signal.** Price this pool by
+**probing one member per family**, never by summing `byte_weight_templatable` — that column counts
+what *could* template if the bodies reproduced, which is exactly the thing in question. This is the
+S28 `worklist.md` mis-pricing (§133) recurring on a different column: **a weight column is a
+prediction; the gate is the fact.**
+
+*(Recorded against myself: this is R37 — probe before costing — violated in the scoping step of the
+very session that was correcting R37 violations elsewhere. The byte-gate cost was ~1,780 build
+cycles and zero tokens, and nothing wrong entered the tree; the loss was wall-clock and a wrong line
+in a checkpoint that a fresh session would have acted on.)*
