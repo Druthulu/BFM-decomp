@@ -8962,3 +8962,29 @@ an Opus pass on most of the 60–120 band.**
 
 `index_hit` was **13 true / 18 false** — the index is now the bottleneck the cookbook itself was in
 wave 1, which is why the 31 gap reports above are worth more than the matches.
+
+### §136a — Blocker capture: classify on the OUTPUT, never on the exit status
+
+The reconcile lane only runs 12/12 because each agent is handed the compiler's own error line
+(§135, the S29 law). Capturing those lines needs one care point, learned the hard way this session:
+
+**`make build` runs `check`, so a draft that COMPILES PERFECTLY and merely produces different bytes
+also exits non-zero.** A capture tool that branches on `returncode == 0` to mean "compiled fine ⇒
+byte DIFF" therefore has an **unreachable branch**, and silently files every genuine byte-DIFF under
+"unknown". Classify on what the build PRINTED:
+
+| what the output shows | class | route |
+|---|---|---|
+| a non-`warning` line matching `error` / `conflicting types` / `undefined` | **PLUMBING** | reconcile lane — hand the agent the line verbatim |
+| no compiler error, but `[FAIL] / got <sha> / want <sha>` | **DIFF** | redraft lane — the C is wrong, not the declarations |
+| neither | UNKNOWN | investigate; do not route |
+
+Note the filter must exclude `warning:` lines: the same `conflicting types for …` text appears as a
+*warning* for built-ins (`memcpy`) and for benign external-decl mismatches, and those do NOT block
+the bank. Only the hard-error form does.
+
+Measured on wave 4a's 10 gate failures: **7 PLUMBING / 3 DIFF** — i.e. **70% of "the gate refused"
+was declaration paperwork, not codegen.** That ratio is why the capture step is worth its ~10 builds
+before any reconcile fan-out. Tool: `.run/s7_capture.py` (any overlay, any draft dir; the
+ov_SC01_077-only `.run/uc_capture.py` is its ancestor). It reverts the TU in a `finally:` — a killed
+process performs no undo (the S27 law).

@@ -147,7 +147,120 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 
 ---
 
-# 🛑 SESSION-30 CHECKPOINT (2026-08-01, S6 complete through wave 3) — FRESH SESSION SAFE HERE
+# 🛑 SESSION-31 CHECKPOINT (2026-08-03, wave 4a + S6c banked) — FRESH SESSION SAFE HERE
+> Supersedes SESSION-30 below. **Nothing is running. Tree lock FREE. Tree CLEAN** but for the R23
+> `db.*.gbf` churn — never stage it. Effort: **ultracode** (Drew enabled at session start).
+> `make tools-health` **RC=0 at session open**. **R22 clean-fleet run TWICE this session, 140/140
+> both times** (after wave 4a, and after the S6c series).
+
+## FLEET — R22 clean-fleet **140 passed / 0 failed of 140** (`make clean` + extract-all + check-all)
+**95.50% fn-count · 92.6% instr-weighted · 86.0% distinct-code** (76,192 / 87,459 unique fns) ·
+dedup **1905/0** · C1 240496/240496 · **0 NON_MATCHING** in any default build (G4).
+Phase opened 92.00 / 87.5 / 78.0 ⇒ **+3.50pp fn, +5.1pp instr, +8.0pp distinct this phase.**
+*(`.run/family_hseq.json`'s metrics read ~0.3–1.0pp higher — that is the OVERLAY-ONLY denominator,
+not a disagreement. `make report` is the authoritative fleet number.)*
+
+## WHAT S7 DID — 286 function-instances, two lanes
+**Lane 1 — wave 4a (agents): 274 instances from 33 drafted targets.**
+**Lane 2 — S6c (deterministic, ~0 agent tokens): 12 sibling banks.**
+`commit:1355` — 33 targets / 46 agents / **4.44M tokens** / 29 min → 29 claimed `match_one` MATCH →
+whole-binary gate **BANKED 23/33 (70%)** → `family_sweep --hseq --band all` propagated
+**251 member-matches across 69 overlays** (13 failed, 4 STRUCT skipped by design).
+
+**Bank rate by the tier that produced the FINAL draft** (derived per-function; the workflow's
+`by_tier` counts CLAIMED matches and sums to 29, not 23 — do not read it as banks):
+| tier | banked / attempted |
+|---|---|
+| Opus direct (≥90 ins) | 10 / 14 |
+| Haiku direct (≤89 ins) | **3 / 8** |
+| Opus escalation after a Haiku miss | **10 / 11** |
+⇒ on the 60–120-ins band the cheap tier is **triage, not a substitute** (it is ≡ Opus only at
+≤~50 ins). The two-lane shape still pays *because the escalation almost never fails.*
+
+## S6c — the 9 jr zero-crack families: 12 banked, 6 families ledgered, ALL banks in the SC07 quartet
+Probe-one-sibling-per-family first (R37) — it spared ~20 builds each on six families:
+| family | ins | slots | outcome |
+|---|---|---|---|
+| `func_80178D40` | 890 | 4 | **4/4 BANKED** |
+| `func_801734BC` | 34 | 4 | **4/4 BANKED** |
+| `func_8012ACE0` | 25 | 4 | **4/4 BANKED** |
+| `func_801380E0` · `func_80191C50` · `func_8019059C` · `func_8013FFD8` · `func_8016AE5C` | 438/710/673/213/85 | 10 | **gate-fail — genuine byte DIFF** |
+| `func_8016AB6C` | 188 | 4 | **carve-fail** — span table starts do not fit the span |
+
+**Every one of the 12 banks landed in `ov_SC07_006/007/010/011`** — the four overlays P27 discovered
+and P28 made citizens (R36). P28 drained their **h_exact** backlog via `dedup_extend`; the **jr/h_seq
+propagation lane was still owed**, and this was it. ⚠️ **But do NOT over-read that:** the SC07 quartet
+are the top four overlays by remaining zero-crack residue (2,190–2,355 ins each vs 500–870 typical,
+~3–4×) yet hold only **7% of the 2,114 remaining slots**. It is a per-overlay priority signal, NOT a
+bulk lever — the non-jr zero-crack residue is genuinely fleet-wide (120 families / 65,946 ins).
+
+## 🎯 THE 10 WAVE-4a GATE FAILURES ARE CAPTURED AND CLASSIFIED → `.run/s7_blockers.json`
+**7 PLUMBING / 3 genuine byte-DIFF** — i.e. **70% of "the gate refused" is declaration paperwork.**
+- **PLUMBING (→ reconcile lane, feed each agent its line VERBATIM):** `func_80185254`(SC02_026,
+  `conflicting types for func_8012C1B8`) · `func_8018362C`(SC02_035, `func_8012B200`) ·
+  `func_80183A14` + `func_80183B20`(SC02_035, both `func_80183E68` — ONE shared TU, so **forbid agent
+  builds**, §135) · `func_8017E654`(SC02_041, `func_8012BF4C`) · `func_8017BF50`(SC03_001,
+  `func_8012913C`) · `func_8017CDB0`(SC03_002, `func_801439C0`).
+- **DIFF (→ redraft, the C is wrong, not the declarations):** `func_8017E978`(SC01_005) ·
+  `func_80184494`(SC02_026) · `func_80184960`(SC04_018). *(`func_8017E978`'s original agent died on
+  the session limit, so it is effectively undrafted.)*
+- Tool: **`.run/s7_capture.py`** — any overlay, any draft dir (the ov_SC01_077-only
+  `.run/uc_capture.py` is its ancestor); reverts the TU in a `finally:`.
+
+## 📓 COOKBOOK §136 + §136a — the phase's largest single-wave idiom yield (R30, written in-session)
+19 byte-verified idioms from 25 banked functions' `index_gap` reports. The finding:
+**in the 60–120-ins band most "regalloc residuals" are decided by HOW MANY C LOCALS YOU DECLARE AND
+AT WHAT SCOPE, not by register pins** — `local-alloc.c:472` refuses a local allocno with
+`REG_N_DEATHS > 1`, promoting it to a global allocno that loses the low register. One case
+explicitly **refutes the pin** as the lever for a redundant copy (source position is the lever).
+**§136a** adds the capture law: **classify on the build's OUTPUT, never its exit status** —
+`make build` runs `check`, so a draft that compiles perfectly and merely differs in bytes ALSO exits
+non-zero; an `rc == 0 ⇒ DIFF` branch is unreachable and files every real byte-DIFF under "unknown"
+(my own defect this session, caught and fixed). Index regenerated **364 → 371** sections, green.
+⚠️ Agents self-reported `index_hit` **13 true / 18 false** — *discoverability of our own knowledge,
+not the compiler, is the drafting bottleneck.* The 31 gap reports are worth more than the matches.
+
+## ⚠️ THREE THINGS A FRESH SESSION MUST NOT INHERIT UNCHECKED
+1. **The T6 ROI-floor trigger stays REFUTED** (S30's finding, re-confirmed): the ×138-era-ends
+   trigger was wrong. Re-derive from a freshly regenerated `family_hseq` before any close.
+2. **My S6c probe first reported 1/9 — it was 1 bank + 8 CORRECT REFUSALS, not 8 failures.**
+   `jtbl_family_bank` refuses on a dirty `config/`+`src/` (its per-sibling revert restores from
+   HEAD, so an uncommitted prior bank would be destroyed). My driver did not commit between
+   families. **A uniform failure across N different functions is a statement about the mechanism,
+   not the functions** (§134). Fixed: `.run/s7_s6c.py` now commits between families.
+3. **The session hit the agent limit mid-wave** (3 agents died on it; resets 4:20am America/Denver).
+   Agent capacity is NOT assumable — and the measured economics favour the deterministic lanes
+   anyway (S30: sweeps ≈0 tokens for +0.5pp; wave-3 ≈4.1M for +0.3pp).
+
+## 📊 THE LIVE QUEUE — re-derived at HEAD from the regenerated map (overlay-only ins)
+| lever | families | templ ins | note |
+|---|---|---|---|
+| B-shape ≥20 memb, ≤60 ins | **0** | 0 | exhausted (was 36 at S30 open) |
+| B-shape ≥10 memb, **61-120 ins** | **10** | **10,003** | wave 4a consumed 23 of the 33 |
+| B-shape 10-19 memb, ≤60 ins | **111** | **33,554** | **wave 4b, staged in 3 batches of 37** |
+| zero-crack `has_mid_jr` (S6c) | 6 | ~5,600 | **DONE** — 12 banked; the 6 left are gate/carve-fail, ledger material |
+| zero-crack non-jr residue | 120 | 65,946 | fleet-wide (2,114 slots); SC07 quartet = top 4 but only 7% |
+| fresh ×2-9 | 1,872 | 362,591 | worst multiplier — deprioritised |
+| fresh ×1 singletons | 3,800 | 231,284 | ×1 — deprioritised |
+Unmatched fleet-wide: **14,887 instances / 912,037 ins**.
+
+## ▶ RESUME HERE (nothing blocked, nothing running; the agent limit resets 4:20am America/Denver)
+1. **The reconcile lane on the 7 PLUMBING failures** — blockers already captured in
+   `.run/s7_blockers.json`; hand each agent ITS line verbatim. **`func_80183A14` + `func_80183B20`
+   share one TU ⇒ forbid agent builds for those two** (§135's concurrency hazard). This lane has run
+   **12/12** across waves 2–3 and is the most reliable stage in the pipeline.
+2. **Wave 4b** — 3 batches of 37, args at `.run/s7_wave4b_{1,2,3}.json`, script
+   `.run/s7_wave4b.js` (takes `{targets, extra}`; **`extra` is where §136's idioms go** — that
+   promotion is the 83%→93% law). Batch 1 carries the 4 wave-3 retries with pointers to their prior
+   drafts. Both wave scripts now parse args-as-string and assert `Array.isArray`, so the roadmap's
+   "args must be an array" gotcha cannot silently kill a launch again (it killed wave 4a's first).
+3. **The 3 DIFF failures** → redraft lane, not reconcile (their C is wrong, byte-proven).
+4. **T5 close** — only after re-deriving from a freshly regenerated `family_hseq`; the checklist's
+   ROI-floor trigger is REFUTED and must not be used to close the phase.
+
+---
+
+# 🛑 (superseded) SESSION-30 CHECKPOINT (2026-08-01, S6 complete through wave 3)
 > **Nothing is running. Tree lock FREE. Tree CLEAN** (0 non-ghidra entries; the `db.*.gbf` churn is
 > R23 restart-noise — never stage). **HEAD `commit:1352`.** Effort: xHigh → **ultracode** (Drew enabled
 > mid-session for the waves). `make tools-health` green at session open; frontier REGENERATED at HEAD
