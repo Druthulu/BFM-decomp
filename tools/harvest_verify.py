@@ -87,6 +87,18 @@ def build():
     return _last_sha
 
 
+def _squeeze(ln, n=170, head=58):
+    """Shorten a compiler/linker diagnostic WITHOUT losing its payload.
+
+    `<path>:<pos>: <message>` — the message names the symbol, so keep the tail; keep a short head
+    so the file is still identifiable. Left-truncation threw the symbol away (see the note in
+    classify_fail)."""
+    ln = ln.strip()
+    if len(ln) <= n:
+        return ln
+    return ln[:head].rstrip() + ' … ' + ln[-(n - head - 3):].lstrip()
+
+
 def classify_fail(got_sha):
     """Why did this single draft fail? Only meaningful right after a 1-draft attempt().
       * no build ran (stub already spliced)            -> SKIP
@@ -97,6 +109,14 @@ def classify_fail(got_sha):
         return 'SKIP'
     if got_sha is not None:
         return 'DIFF'
+    # TRUNCATE FROM THE MIDDLE, NEVER FROM THE LEFT (P30 S38). These diagnostics are
+    # `<long path>:<position>: <message>`, and the MESSAGE names the symbol — which is the whole
+    # routing value of the label. A left-truncating `[:90]` spent its budget on the path and cut the
+    # payload mid-token: a real failure was labelled
+    #     PLUMBING: src/ov_SC03_001/ov_SC03_001_jr_8017AE2C.c:(.text+0xc090): undefined reference to `func_801
+    # — the symbol name, the one thing that picks the lever, severed at four hex digits. Keeping
+    # both ends costs nothing and makes the class actionable. (Same family as §58 below and §136a:
+    # a label that cannot distinguish its inputs carries no information.)
     # §58 RED-HERRING GUARD (2026-07-22). The build log is full of BENIGN WARNINGS — chiefly
     # `warning: conflicting types for built-in function 'memcpy'`, which fires from an unrelated
     # TU position on essentially every overlay build. The old code searched the whole stderr and
@@ -110,10 +130,10 @@ def classify_fail(got_sha):
     lines = [ln for ln in _last_err.splitlines() if 'warning:' not in ln]
     for ln in lines:
         if _PLUMBING.search(ln):
-            return 'PLUMBING: ' + ln.strip()[:90]
+            return 'PLUMBING: ' + _squeeze(ln)
     errs = [ln for ln in lines if re.search(r'\berror\b|\bError \d', ln)]
     if errs:
-        return 'CC1-FAIL: ' + errs[-1].strip()[:90]
+        return 'CC1-FAIL: ' + _squeeze(errs[-1])
     return 'CC1-FAIL'
 
 
