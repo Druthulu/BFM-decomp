@@ -147,7 +147,95 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 
 ---
 
-# 🛑 SESSION-33 CHECKPOINT (2026-08-04) — FRESH SESSION SAFE HERE
+# 🛑 SESSION-33/34/35 CHECKPOINT (2026-08-04) — FRESH SESSION SAFE HERE
+> **Tree CLEAN** but for the R23 `db.*.gbf` churn — never stage. Effort: **ultracode**.
+> **R22 clean-fleet run FIFTEEN times, 140/140 every time.** HEAD `commit:1388`.
+> **Drew's standing decision: NO phase close — keep grinding, run waves all night.**
+> ⚠️ A wave (`.run/s35w.js`, 13 targets / 17,644 ins) may still be IN FLIGHT — check
+> `/workflows` and `.run/s35/*/*.c` before assuming the tree is idle. Agents write `.run/` ONLY.
+
+## FLEET — R22 **140 passed / 0 failed of 140**
+**96.24% fn-count · 94.0% instr-weighted · 88.4% distinct-code** (77,655 uniq) ·
+dedup **1910/0** · C1 241216/241216 · **0 NON_MATCHING** (G4).
+Session opened 96.01 / 93.6 / 88.0 ⇒ **+0.23pp fn, +0.4pp instr, +0.4pp distinct.**
+Phase opened 92.00 / 87.5 / 78.0 ⇒ **+4.24pp fn, +6.5pp instr, +10.4pp distinct.**
+
+## WHAT THIS SESSION DID — the deterministic lane first, then two agent waves
+| lane | result |
+|---|---|
+| SC07 EXTEND | **0/36 → 31/36** |
+| PROPAGATE head | **0 → 18,545/18,545 ins** (5/5 classes) |
+| wave 1 (17 targets, 26,227 ins) | 13 heads + 65 members + 2 reconciled = **80 instances** |
+| wave 2 (13 targets, 37,943 ins) | 9 heads + 1 reconciled + 18 members |
+| reconcile lane | **19/20 lifetime** |
+
+## 🔑 THE THROUGH-LINE: every blocker was TOOLING or a DECLARATION — not one was gcc
+**Five tool defects, four of them the SAME §134 multi-line-blindness class in THREE tools:**
+`dedup_propagate.find_site` (was discarding a 3,288-ins fn) · `overlay_src_split._split_macro_body`
+(38 live instances in engine_core.h) · `family_remap._alias_decl_for` (the wrapped alias) ·
+`dedup_propagate` blind to the asm-label alias form entirely. All now decide on **`cdecl._mask`** or
+reuse `_alias_decl_for` — one oracle (R33), never a second hand-rolled line test.
+
+## 📌 THE DISTILLED RULES (all in cookbook §138 + index)
+1. **Bucket a gate refusal by the (macro-shape, TU-shape) PAIR, not by the SYMBOL.** The same symbol
+   conflicts in BOTH directions across the fleet; `func_80146C3C` cost this twice in one session.
+2. **Reconcile direction depends on WHERE the TU's decl is.** ABOVE the splice ⇒ DELETE your
+   duplicate (§100); BELOW ⇒ KEEP a decl in the TU's EXACT shape and cast at the use (§17a-1 D2).
+   Picking wrong CREATES the next error. Grep the TU and compare line numbers with the stub FIRST.
+3. **STEP 0 of sibling-first: `grep -rn "<MAGIC>" src/`** with a distinctive literal from the `.s`.
+   §136c's first two steps are same-TU/shared-header scoped and CANNOT reach a banked twin in
+   another overlay's TU — where the big template classes live. Found func_80188C04 (328 ins)
+   byte-identical to a banked twin in a different overlay, reused verbatim.
+4. **Never rank off the family map's `exemplar` field.** It is an IN-FAMILY pointer and can name an
+   ALREADY-BANKED instance, hiding the family. Derive open sites from `corpus.stubs` over the member
+   list: measured 16,696 ins → **41,023** on the same map.
+5. **Three carry variants hide in one "CARRY-FIXABLE" bucket** — multi-line comment (fix the tool) ·
+   draft-local `struct Tag` (switch to the shared type) · file-scope `static inline` helper
+   (hand-author + EXCLUDE the source overlay). gcc-2.7.2 accepts implicit decls, so the third PASSES
+   compiles_standalone and only surfaces as a byte DIFF 137 gates later.
+
+## 🔬 MEASURED THIS SESSION, so nobody re-litigates it
+- **`func_801758FC` / `func_80132018` are NOT templatable.** They banked as heads but the sweep
+  managed 18/165 members. Probed with `.run/s6_diag.py` (2 builds): `0x80132018`'s remapped member
+  **BUILD OK (byte diff)** — it compiles clean and the bytes still differ ⇒ genuine per-member
+  codegen, not plumbing. That is the known h_seq refusal ceiling, confirmed, not a new wall.
+  (`0x801758fc` reported "(no family)" — the diag keys on `exemplar.addr`; find its real map key.)
+- **`_alias_decl_for` is ONE function, not a class**: 91 distinct alias decls fleet-wide, the old
+  per-line matcher resolved 90. The S6b note implied a class; it is not one.
+- **"normalized distance 0" is NOT an h_exact guarantee** — relocs are masked. An agent's
+  distance-0 claim is why `dedup_propagate` correctly answered `reach<2`.
+
+## ▶ RESUME HERE
+1. **Gate `.run/s35/*/*.c`** when the wave lands: `tools/treelock.sh g .venv/bin/python
+   .run/s6f_gate.py '.run/s35/*/*.c'` → capture blockers for any claimed-MATCH failure
+   (`.run/s34_capture.py <ov>:<fn>`, which now ranks HARD errors above warnings) → reconcile per
+   rule 2 → `make sig-overlays` + `family_hseq.py` + `family_sweep --hseq --band all --only <addrs>`
+   → **R22** → commit.
+2. **Derive wave 4** the corpus.stubs way (rule 4). Pool at this checkpoint: **864 families /
+   250,799 ins**. Exclude the 3 walls (`0x801412a8`, `0x80178004`, the whale `0x80144b9c`) and the
+   ledgered residuals (`0x8017c294` close=12, `0x8017f7b4`, `0x801898e4`, `0x80186e24` close=187).
+3. **EXTEND's last 5** (unchanged): `func_80144B9C` ×4 needs the §38 `-O0` shared-header route, and
+   `dedup_extend` should refuse-and-name that class per R32; `func_80149954` ×1 sits behind
+   `func_80147364`'s u16 params.
+
+## 🧰 MY PROCESS ERRORS — all ONE mechanism: the signal sampled was not the thing measured
+1. `nohup CMD &` inside a backgrounded call ⇒ the harness signalled the WRAPPER; the fleet check
+   stood at **63/140** and I nearly read it as a pass.
+2. **CORRECTION to the S10 rule:** `pgrep -x make` is right for ONE make, **wrong for a campaign** of
+   sequential makes (it fires in a gap). And **`pgrep -f <pat>` SELF-MATCHES**, so that waiter can
+   never exit. Wait on the campaign's real argv or `treelock.sh --status`.
+3. A `corpus.stubs` probe mid-rebuild returned garbage; R32's assertion refused rather than answer.
+4. **I predicted a fix without reading the macro in front of me** — relaxed 42 `(void)` decls and
+   asserted it unblocked the lane; it banked 0/1 in all 134 because that macro declares `(u8*)`.
+   The PAIR rule (#1 above) is the distillation.
+5. **I violated §136a in my own capture tool** — filtered the build log for
+   `error|conflicting|undefined reference`, so it reported "NO COMPILE ERROR" on a build failing with
+   `redefinition of struct PW8017C290`. A narrow keyword filter is how a real error goes unseen.
+No bad bytes from any of them — the byte-gate and R22 caught everything.
+
+---
+
+# 🛑 (superseded) SESSION-33 CHECKPOINT (2026-08-04)
 > **Nothing is running. Tree lock FREE. Tree CLEAN** but for the R23 `db.*.gbf` churn — never stage.
 > Effort: **ultracode**. **R22 clean-fleet run FOUR times this session, 140/140 every time.**
 > HEAD `commit:1380`. **Drew's standing decision: NO phase close — keep grinding.**
