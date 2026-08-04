@@ -147,7 +147,114 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 
 ---
 
-# 🛑 SESSION-33/34/35 CHECKPOINT (2026-08-04) — FRESH SESSION SAFE HERE
+# 🛑 SESSION-33..37 CHECKPOINT (2026-08-04) — FRESH SESSION SAFE · PAUSED FOR A WINDOWS RESTART
+> **NOTHING IS RUNNING. Tree lock FREE. Tree CLEAN** but for the R23 `db.*.gbf` churn — never stage.
+> Effort: **ultracode**. **R22 clean-fleet run NINETEEN times this session, 140/140 every time.**
+> Drew paused here to restart Windows. **Drew's standing decision: NO phase close — keep grinding.**
+
+## ⚠️ THE ONE THING THAT IS OWED: 16 UNGATED WAVE-5 DRAFTS
+`.run/s37/*/func_*.c` — **16 drafts, all claiming MATCH, NONE gated, NONE banked.** They are
+**force-added to git** (`.run/` is otherwise gitignored) because they cost ~2.7M agent tokens and
+the Workflow `resumeFromRunId` cache is SAME-SESSION-ONLY, so it does not survive the restart.
+**Resume by gating them — do not re-run the wave:**
+```
+tools/treelock.sh g .venv/bin/python .run/s6f_gate.py '.run/s37/*/func_*.c'
+```
+then: capture any failure (`.venv/bin/python .run/s36_capture.py <ov>:<fn>` — it ranks HARD errors
+above warnings) → reconcile per the §138 direction rule → `make sig-overlays` +
+`tools/family_hseq.py` + `family_sweep --hseq --band all --only <banked addrs>` → **R22** → commit.
+Manifest: `.run/s37_wave.json` (16 targets / 16,884 templatable ins). Script: `.run/s37w.js`.
+
+## FLEET (at the last commit, before the ungated drafts)
+**96.27% fn-count · 94.1% instr-weighted · 88.6% distinct-code** (77,723 uniq) · dedup **1910/0** ·
+C1 241216/241216 · **0 NON_MATCHING** (G4). HEAD `commit:1391` + this checkpoint.
+Session opened 96.01 / 93.6 / 88.0. Phase opened 92.00 / 87.5 / 78.0 ⇒ **+4.27 / +6.6 / +10.6pp.**
+
+## WHAT THIS SESSION DID
+| lane | result |
+|---|---|
+| SC07 EXTEND | **0/36 → 31/36** |
+| PROPAGATE head | **0 → 18,545/18,545 ins** (5/5 classes) |
+| wave 1 (17 tgt) | 13 heads + 65 members + 2 reconciled |
+| wave 2 (13 tgt) | 9 heads + 1 reconciled + 18 members |
+| wave 3 (13 tgt) | **13/13** + 21 members |
+| wave 4 (14 tgt) | **14/14** + 26 members |
+| wave 5 (16 tgt) | **16/16 claimed — UNGATED, see above** |
+| reconcile lane | **21/22 lifetime** |
+
+## 🔑 THE RESULT WORTH KEEPING: the wave prompt is the lever, and agents write it
+Bank rate, **same models and same gate — the prompt was the only variable**:
+**76% → 77% → 100% → 100%** (wave 5 pending its gate).
+The jump came from **STEP 0: `grep -rn "<MAGIC>" src/`** with a distinctive literal from the target
+`.s`, placed AHEAD of `engine_core.h` in §136c's search order. §136c's first two steps are
+same-TU/shared-header scoped and structurally CANNOT reach a banked twin in another overlay's TU —
+where the big template classes live. **That step came from a wave-2 agent's `index_gap` report.**
+By wave 4 most agents cited it by name and reported `index_gap: none`. → memory
+`wave-prompt-seed-step0-and-gaps`; cookbook §138.
+
+## ⚡ THE `pipeline()` FIX — measured, not assumed (Drew asked why waves were slow)
+The two-batch `parallel()` design was a **hard barrier**: batch 2 could not start until batch 1's
+slowest agent finished.
+| | wave 4 `parallel()` | wave 5 `pipeline()` |
+|---|---|---|
+| targets | 14 | **16** |
+| wall-clock | 136 min | **82 min** |
+| parallelism | 2.5× | **3.8×** |
+| median agent | 14 min | 9 min |
+**40% faster on 14% more targets.** `.run/s37w.js` is the pipeline version — copy its execution
+block for every future wave. (Slowest single agent is still ~50 min; that is real `match_one`
+iteration, 200-300 turns, and is the irreducible floor now.)
+
+## 📌 THE DISTILLED RULES (cookbook §138 + index; all measured this session)
+1. **Bucket a gate refusal by the (macro-shape, TU-shape) PAIR, not the SYMBOL** — the same symbol
+   conflicts in BOTH directions across the fleet.
+2. **Reconcile direction depends on WHERE the TU's decl is.** ABOVE the splice ⇒ DELETE your
+   duplicate (§100); BELOW ⇒ KEEP a decl in the TU's EXACT shape and cast at the use (§17a-1 D2).
+   Picking wrong CREATES the next error. **A wave can manufacture this for itself**: two targets in
+   one TU means the first to bank puts its type tags in the second's way (wave 4's only failure).
+3. **STEP 0 magic-literal grep** (above).
+4. **Never rank off the family map's `exemplar` field** — it is IN-FAMILY and can name an
+   ALREADY-BANKED instance. Derive open sites from `corpus.stubs`: 16,696 ins → **41,023** on the
+   same map.
+5. **Three carry variants hide in one "CARRY-FIXABLE" bucket** — multi-line comment (fix the tool) ·
+   draft-local `struct Tag` (use the shared type) · file-scope `static inline` helper (hand-author +
+   EXCLUDE the source overlay; gcc-2.7.2 accepts implicit decls so it passes `compiles_standalone`
+   and only fails 137 gates later).
+
+## 🔬 SETTLED — do not re-litigate
+- **`func_801758FC` / `func_80132018` are NOT templatable.** Probed with `.run/s6_diag.py` (2 builds):
+  the remapped member is **BUILD OK + byte diff** ⇒ genuine per-member codegen. The h_seq refusal
+  ceiling, confirmed. Same for `func_8018A808`'s family (0/14).
+- **`_alias_decl_for` was ONE function, not a class** (91 alias decls fleet-wide, 90 already matched).
+- **"normalized distance 0" is NOT an h_exact guarantee** — relocs are masked.
+
+## ▶ RESUME ORDER
+1. **Gate `.run/s37/*/func_*.c`** (above) → reconcile → propagate → R22 → commit.
+2. **Wave 6**: derive the corpus.stubs way (rule 4) from a REGENERATED map. Pool at pause: **852
+   families / 225,217 ins**. Exclude the 3 walls (`0x801412a8`, `0x80178004`, whale `0x80144b9c`)
+   and the ledgered residuals (`0x8017c294` close=12, `0x8017f7b4`, `0x801898e4`, `0x80186e24`
+   close=187, `0x801758fc`, `0x80132018`, `0x8018a808`). Use `.run/s37w.js`'s pipeline block.
+3. **EXTEND's last 5**: `func_80144B9C` ×4 needs the §38 `-O0` shared-header route (and
+   `dedup_extend` should refuse-and-name that class per R32); `func_80149954` ×1 sits behind
+   `func_80147364`'s u16 params.
+
+## 🧰 MY PROCESS ERRORS — one mechanism: the signal sampled was not the thing measured
+1. `nohup CMD &` inside a backgrounded call ⇒ the harness signalled the WRAPPER; the fleet check
+   stood at **63/140** and I nearly read it as a pass.
+2. **`pgrep -x make` is right for ONE make, WRONG for a campaign** of sequential makes (fires in a
+   gap); **`pgrep -f <pat>` SELF-MATCHES** so that waiter never exits. Use the campaign's real argv
+   or `treelock.sh --status`.
+3. A `corpus.stubs` probe mid-rebuild returned garbage; R32's assertion refused to answer.
+4. **I predicted a fix without reading the macro in front of me** — relaxed 42 `(void)` decls and
+   asserted it unblocked the lane; it banked 0/1 in all 134 because that macro declares `(u8*)`.
+   → the PAIR rule.
+5. **I violated §136a in my own capture tool** — a narrow keyword filter reported "NO COMPILE ERROR"
+   on a build failing with `redefinition of struct PW8017C290`.
+No bad bytes from any of them — the byte-gate and R22 caught everything.
+
+---
+
+# 🛑 (superseded) SESSION-33/34/35 CHECKPOINT (2026-08-04)
 > **Tree CLEAN** but for the R23 `db.*.gbf` churn — never stage. Effort: **ultracode**.
 > **R22 clean-fleet run FIFTEEN times, 140/140 every time.** HEAD `commit:1388`.
 > **Drew's standing decision: NO phase close — keep grinding, run waves all night.**

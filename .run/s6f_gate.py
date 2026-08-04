@@ -6,7 +6,7 @@ caught it). So this driver never trusts a recorded path: for every draft on disk
 where that function's INCLUDE_ASM actually lives, groups by (binary, split), and runs the whole-binary
 byte-gate once per group. The gate is the sole arbiter (G3/P9).
 """
-import sys, os, glob, subprocess, collections, shutil
+import sys, os, re, glob, subprocess, collections, shutil
 sys.path.insert(0, 'tools')
 import corpus
 
@@ -18,7 +18,14 @@ skipped = []
 for d in sorted(glob.glob(sys.argv[1] if len(sys.argv)>1 else '.run/s6f/*/*.c')):
     ov = os.path.basename(os.path.dirname(d))
     fn = os.path.basename(d)[:-2]
-    addr = int(fn.split('_')[1], 16)
+    # S35: an agent left scratch files (test_licm*.c) in the drafts dir and this line died on
+    # int('full', 16), taking the whole gate with it. A drafts dir is agent-writable, so treat a
+    # non-conforming name as a NAMED, COUNTED skip — never a crash (R32).
+    m_ = re.fullmatch(r'func_([0-9A-Fa-f]{8})', fn)
+    if not m_:
+        skipped.append((ov, fn, 'not a func_<ADDR>.c deliverable — agent scratch?'))
+        continue
+    addr = int(m_.group(1), 16)
     st = corpus.stubs(ov)
     if addr not in st:
         skipped.append((ov, fn, 'not a live stub (already banked?)'))

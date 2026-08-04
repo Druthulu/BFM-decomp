@@ -1,0 +1,156 @@
+[
+ {
+  "fn": "func_8018BED0",
+  "ov": "ov_SC03_091",
+  "sub": "asm/ov_SC03_091/nonmatchings/ov_SC03_091_jr_80182268",
+  "tu": "src/ov_SC03_091/ov_SC03_091_jr_80182268.c",
+  "n": 328,
+  "m": 8,
+  "ti": 2624,
+  "model": "sonnet",
+  "seed": 0
+ },
+ {
+  "fn": "func_8018BAB4",
+  "ov": "ov_SC03_091",
+  "sub": "asm/ov_SC03_091/nonmatchings/ov_SC03_091_jr_80182268",
+  "tu": "src/ov_SC03_091/ov_SC03_091_jr_80182268.c",
+  "n": 263,
+  "m": 8,
+  "ti": 2104,
+  "model": "sonnet",
+  "seed": 0
+ },
+ {
+  "fn": "func_8018A808",
+  "ov": "ov_SC02_027",
+  "sub": "asm/ov_SC02_027/nonmatchings/ov_SC02_027_jr_8017D898",
+  "tu": "src/ov_SC02_027/ov_SC02_027_jr_8017D898.c",
+  "n": 44,
+  "m": 41,
+  "ti": 1804,
+  "model": "sonnet",
+  "seed": 0
+ },
+ {
+  "fn": "func_80181D38",
+  "ov": "ov_SC03_006",
+  "sub": "asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C",
+  "tu": "src/ov_SC03_006/ov_SC03_006_jr_8017AE2C.c",
+  "n": 143,
+  "m": 9,
+  "ti": 1287,
+  "model": "sonnet",
+  "seed": 1
+ },
+ {
+  "fn": "func_8017ED54",
+  "ov": "ov_SC06_014",
+  "sub": "asm/ov_SC06_014/nonmatchings/ov_SC06_014_jr_8017BEBC",
+  "tu": "src/ov_SC06_014/ov_SC06_014_jr_8017BEBC.c",
+  "n": 265,
+  "m": 4,
+  "ti": 1060,
+  "model": "sonnet",
+  "seed": 0
+ },
+ {
+  "fn": "func_8017C290",
+  "ov": "ov_SC03_024",
+  "sub": "asm/ov_SC03_024/nonmatchings/ov_SC03_024_jr_8017AE2C",
+  "tu": "src/ov_SC03_024/ov_SC03_024_jr_8017AE2C.c",
+  "n": 229,
+  "m": 4,
+  "ti": 916,
+  "model": "sonnet",
+  "seed": 0
+ },
+ {
+  "fn": "func_80182A78",
+  "ov": "ov_SC03_002",
+  "sub": "asm/ov_SC03_002/nonmatchings/ov_SC03_002_jr_8017D604",
+  "tu": "src/ov_SC03_002/ov_SC03_002_jr_8017D604.c",
+  "n": 180,
+  "m": 5,
+  "ti": 900,
+  "model": "sonnet",
+  "seed": 1
+ },
+ {
+  "fn": "func_801803E0",
+  "ov": "ov_SC03_108",
+  "sub": "asm/ov_SC03_108/nonmatchings/ov_SC03_108_jr_8017BEBC",
+  "tu": "src/ov_SC03_108/ov_SC03_108_jr_8017BEBC.c",
+  "n": 225,
+  "m": 4,
+  "ti": 900,
+  "model": "sonnet",
+  "seed": 1
+ },
+ {
+  "fn": "func_8018829C",
+  "ov": "ov_SC06_018",
+  "sub": "asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_8017C24C",
+  "tu": "src/ov_SC06_018/ov_SC06_018_jr_8017C24C.c",
+  "n": 150,
+  "m": 6,
+  "ti": 900,
+  "model": "sonnet",
+  "seed": 1
+ },
+ {
+  "fn": "func_8018B29C",
+  "ov": "ov_SC02_028",
+  "sub": "asm/ov_SC02_028/nonmatchings/ov_SC02_028_jr_8017D898",
+  "tu": "src/ov_SC02_028/ov_SC02_028_jr_8017D898.c",
+  "n": 44,
+  "m": 20,
+  "ti": 880,
+  "model": "sonnet",
+  "seed": 0
+ },
+ {
+  "fn": "func_8017DF18",
+  "ov": "ov_SC01_004",
+  "sub": "asm/ov_SC01_004/nonmatchings/ov_SC01_004_jr_8017BE9C",
+  "tu": "src/ov_SC01_004/ov_SC01_004_jr_8017BE9C.c",
+  "n": 175,
+  "m": 5,
+  "ti": 875,
+  "model": "sonnet",
+  "seed": 1
+ },
+ {
+  "fn": "func_80181CF0",
+  "ov": "ov_SC06_008",
+  "sub": "asm/ov_SC06_008/nonmatchings/ov_SC06_008_jr_8017C294",
+  "tu": "src/ov_SC06_008/ov_SC06_008_jr_8017C294.c",
+  "n": 124,
+  "m": 7,
+  "ti": 868,
+  "model": "sonnet",
+  "seed": 1
+ },
+ {
+  "fn": "func_8017D4A4",
+  "ov": "ov_SC01_004",
+  "sub": "asm/ov_SC01_004/nonmatchings/ov_SC01_004_jr_8017BE9C",
+  "tu": "src/ov_SC01_004/ov_SC01_004_jr_8017BE9C.c",
+  "n": 173,
+  "m": 5,
+  "ti": 865,
+  "model": "sonnet",
+  "seed": 1
+ },
+ {
+  "fn": "func_8018A970",
+  "ov": "ov_SC02_027",
+  "sub": "asm/ov_SC02_027/nonmatchings/ov_SC02_027_jr_8017D898",
+  "tu": "src/ov_SC02_027/ov_SC02_027_jr_8017D898.c",
+  "n": 41,
+  "m": 21,
+  "ti": 861,
+  "model": "sonnet",
+  "seed": 0
+ }
+]
