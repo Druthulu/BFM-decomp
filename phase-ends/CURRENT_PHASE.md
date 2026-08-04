@@ -191,6 +191,34 @@ the `func_8012A598` exemplar off its draft-local `struct BigCopy164` to the shar
 (engine_types.h L312, already used identically at engine_core.h:16158). **Either fix alone leaves
 the function written off.**
 
+## 🔬 S33b — the PROPAGATE remainder DIAGNOSED: it is `func_80146C3C` again
+Ran the one probe the checkpoint asked for, in the order §138 prescribes:
+1. **Originals byte-identical** across ov_SC07_006 / ov_SC06_025 / ov_SC01_000 / ov_SC01_077 /
+   ov_SC03_001 for BOTH `0x8016BA68` and `0x8012F274` (one command, no build) ⇒ the registry is
+   sound, the cause is TU context.
+2. **One build in an excluded overlay named it:** `conflicting types for func_80146C3C` — the SAME
+   symbol as the EXTEND lane, the same `(void)`-vs-`(u8*)` shape, the same one-token lever.
+⇒ **Relaxed all 42 remaining `extern void func_80146C3C(void);` in engine_core.h to `()`.**
+Measured safe before editing: every fleet decl of that symbol is `(void)/()/(u8*)/(u8 *a0)` (no
+default-promotion param anywhere, so gcc-2.7.2's `()` rule cannot bite), and every use in the header
+is either a no-arg call or already cast ⇒ codegen-neutral.
+**`dedup_propagate` cannot finish this one** — the 4 SC07 members are now `macro` sites, so
+`find_site` never returns a `def` and the auto-source scan errors. **`dedup_extend` is the tool for
+an already-macro-ized group.** Probe: exactly **1** extendable group per ordinary overlay (so the
+fleet has no hidden wiring backlog beyond this) ⇒ run it across the 134 non-SC07 overlays.
+
+## 🧹 THE §134 SCANNER SWEEP — sized, one clear target
+Hand-rolled comment tests still outside the `cdecl._mask` oracle:
+· **`tools/overlay_src_split.py:345`** (`_split_macro_body`) — **the IDENTICAL single-line-only
+  form** I just fixed in `dedup_propagate` (`not s or s.startswith("//") or (s.startswith("/*") and
+  s.endswith("*/"))`); it decides where a macro body's file-scope externs END, so a multi-line
+  comment there silently truncates the extern set. Same defect, same consequence. **Highest value.**
+· `tools/overlay_src_split.py` 239/242/520/523 — same file, other scanners (these DO track a
+  block-comment state; lower risk).
+· `tools/split_src_region.py:71-73` and `family_remap.py:829` already handle the multi-line form.
+Already on the oracle: conform_decls · normalize_self_decls · reconcile_tu · scope_tu_externs ·
+dedup_propagate · family_remap.
+
 ## ▶ RESUME HERE — three named items, none diagnosed against a build yet
 1. **The PROPAGATE head remainder — 11,147 ins.** `func_8012f274` (3,973, **dropped**),
    `func_8016ba68` (3,886, **4 of 138**), `func_801466f0` (3,288, **no source found** — the S6b
