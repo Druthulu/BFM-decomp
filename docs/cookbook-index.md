@@ -472,7 +472,7 @@
 - **§3-The** — splitting/merging rules (each closed a residual, byte-gated)  <sub>L8846</sub>
 - **§137a** — A gate verdict has a TIMESTAMP; re-check it against the draft's mtime  <sub>L9376</sub>
 - **§138** — The propagation lanes: a gate refusal is a DECLARATION, and which lever you owe depends on blast radius  <sub>L9405</sub>
-- **§134** — again, in a second tool — and the waiter rule corrected  <sub>L9504</sub>
+- **§134** — again, in a second tool — and the waiter rule corrected  <sub>L9516</sub>
 
 ### process, measurement & doctrine  (53)
 
@@ -1032,4 +1032,4 @@
 - **§3-The** — DEFINITION-side alias is the only escape when the fleet canon disagrees on a promoting param  <sub>L9463</sub>
 - **Rank** — the lane by measured concentration, not by class count  <sub>L9471</sub>
 - **THREE** — carry variants hide in one "CARRY-FIXABLE" bucket — and they need different fixes  <sub>L9480</sub>
-- **§134** — again, in a second tool — and the waiter rule corrected  <sub>L9504</sub>
+- **§134** — again, in a second tool — and the waiter rule corrected  <sub>L9516</sub>

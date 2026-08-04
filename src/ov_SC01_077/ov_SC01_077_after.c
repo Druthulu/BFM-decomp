@@ -476,41 +476,9 @@ DEFINE_func_801466B4()  /* dedup: shared engine-core @0x801466B4 (src/shared) */
  * promote to int and give `lw`, §43).
  */
 
-typedef struct Rec801466F0 {
-    /* 0x00 */ u16 unk0;
-    /* 0x02 */ u16 unk2;
-    /* 0x04 */ u16 unk4;
-    /* 0x06 */ u16 unk6;
-    /* 0x08 */ s32 unk8;
-    /* 0x0C */ s32 unkC;
-    /* 0x10 */ s32 unk10;
-} Rec801466F0;
+/* S33: Rec801466F0 lifted to src/shared/engine_types.h so this body can propagate (§100). */
 
-extern u16 *func_80146750(u16 *param_1);
-extern u16 *func_8014680C(short *param_1);
-
-/* The TU already carries a canonical-sig stub `extern void func_801466F0(s32 x8)`, which
- * conflicts with the real narrow-param signature. §37 asm-label alias: define under a
- * private C name that assembles to the real symbol, so both live in one TU. */
-extern void aF801466F0(u16 a0, s32 a1, u16 a2, u16 a3, u16 sp5, s32 sp6, s32 sp7,
-                       s32 sp8) __asm__("func_801466F0");
-
-void aF801466F0(u16 a0, s32 a1, u16 a2, u16 a3, u16 sp5, s32 sp6, s32 sp7, s32 sp8) {
-    Rec801466F0 rec;
-
-    rec.unk0 = a0;
-    rec.unk8 = a1;
-    rec.unk2 = a2;
-    rec.unk4 = a3;
-    rec.unk6 = sp5;
-    rec.unkC = sp6;
-    rec.unk10 = sp7;
-    if (sp8 != 0) {
-        func_80146750((u16 *)&rec);
-    } else {
-        func_8014680C((short *)&rec);
-    }
-}
+DEFINE_func_801466F0()  /* dedup: shared engine-core @0x801466F0 (src/shared) */
 
 
 

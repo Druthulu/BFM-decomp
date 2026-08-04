@@ -154,7 +154,21 @@ def find_site(text, ov, addr):
     # '=') followed by the name and an open paren — so `if (func_X(...))`, `x = func_X(...);` and a
     # bare `func_X(a);` call can never match. Deliberately NOT anchored on the line ENDING in ')':
     # that anchor silently dropped every MULTI-LINE signature (Phase 26-A audit).
-    defhead = re.compile(rf"^\s*[A-Za-z_][\w \*]*\b{s}\s*\(")
+    # S33: a function defined under the §37/§73 ASM-LABEL ALIAS is named `aF<ADDR>` in C and only
+    # BINDS the real symbol via `__asm__("func_<ADDR>")`. A head regex anchored on the literal
+    # `func_<ADDR>` is structurally blind to it, so find_site returned None and every caller read
+    # "not matched" — func_801466F0 (137 members / 3,288 ins) sat unreachable behind exactly this.
+    # family_remap._alias_decl_for already resolves the form (and, since S33, its WRAPPED variant);
+    # reuse it rather than write a second matcher (R33 — one oracle).
+    names = [s]
+    try:
+        import family_remap as _FR
+        _alias, _ = _FR._alias_decl_for(lines, addr)
+        if _alias and _alias.lower() != s.lower():
+            names.append(_alias)
+    except Exception:
+        pass
+    defhead = re.compile(r"^\s*[A-Za-z_][\w \*]*\b(?:" + "|".join(re.escape(n) for n in names) + r")\s*\(")
     # A K&R parameter declaration, e.g. `s32 arg0;` / `struct S *p[4];`
     kr_param = re.compile(r"^\s*[A-Za-z_][\w \t\*]*\b\w+\s*(\[[^\]]*\])?\s*;\s*$")
     for i, l in enumerate(lines):

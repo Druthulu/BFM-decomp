@@ -743,12 +743,23 @@ def _alias_decl_for(lines, addr):
 
     The alias DECLARATION must travel with the unit: without it the sibling TU emits the symbol
     `aF8016191C` and the function never lands at func_<ADDR>."""
-    rx = re.compile(rf'^\s*[A-Za-z_][\w \*]*?\b([A-Za-z_]\w*)\s*\([^;]*\)\s*'
-                    rf'__asm__\s*\(\s*"func_{addr:08X}"\s*\)\s*;', re.I)
-    for j, ln in enumerate(lines):
-        m = rx.match(ln)
-        if m and m.group(1).lower() != f"func_{addr:08x}":
-            return m.group(1), j
+    # S33: the matcher used to be `rx.match(ln)` PER LINE, so it was blind to a WRAPPED alias
+    # declaration — the §134 multi-line class, the third tool it has surfaced in. Measured before
+    # fixing (R37): 91 asm-label alias decls exist fleet-wide, the per-line form matched 90, and the
+    # single miss was func_801466F0 (137 members / 3,288 ins written off as "no matched unit"). So
+    # this is a ONE-FUNCTION fix, not the class the S6b note implied — recorded so a future session
+    # does not scope against it. Match over the JOINED text and map the offset back to a line index;
+    # the RETURNED index must stay the DECL's FIRST line, because extract_unit carries from there.
+    rx = re.compile(rf'(?:^|\n)([ \t]*[A-Za-z_][\w \*]*?\b([A-Za-z_]\w*)\s*\([^;]*?\)\s*'
+                    rf'__asm__\s*\(\s*"func_{addr:08X}"\s*\)\s*;)', re.I | re.S)
+    text = "\n".join(lines)
+    for m in rx.finditer(text):
+        ident = m.group(2)
+        if ident.lower() == f"func_{addr:08x}":
+            continue
+        # offset -> 0-based index of the line the DECLARATION STARTS on
+        j = text.count("\n", 0, m.start(1))
+        return ident, j
     return None, None
 
 

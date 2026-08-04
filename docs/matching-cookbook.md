@@ -9495,6 +9495,18 @@ a whole-binary byte DIFF 137 gates later. And the macro cannot be instantiated i
 shape is `--source-overlay X --binaries <all-but-X>`; passing `--binaries` alone removes the source
 from the scan pool and errors with "no source overlay has it matched".
 
+**A function defined under an asm-label alias is invisible to a name-anchored head regex.** The def
+is named `aF<ADDR>` in C and only BINDS the real symbol via `__asm__("func_<ADDR>")`, so any matcher
+anchored on the literal `func_<ADDR>` returns None and every caller reads that as *not matched*.
+`family_remap._alias_decl_for` resolves the form; make other tools **reuse it** rather than grow a
+second matcher (R33). Two live consequences found together: `dedup_propagate.find_site` was blind to
+the form entirely, and `_alias_decl_for` itself was blind to the **wrapped** (multi-line) declaration
+— the §134 shape again. Measured before fixing (R37): 91 distinct alias decls fleet-wide, the
+per-line matcher resolved 90, and the single miss was `func_801466F0`. **That one function then took
+all THREE fixes plus a type-lift** — alias-aware `find_site`, wrapped-alias matching, and hoisting
+its record typedef to `engine_types.h` — which is exactly why it survived four phases of being
+written off: each blocker on its own looked sufficient to explain the failure.
+
 **Tool boundary worth knowing:** once a group's members are `DEFINE_func_*()` sites,
 `dedup_propagate` can no longer extend it — `find_site` never returns a `def`, so the auto-source
 scan errors. **`dedup_extend` is the tool for an already-macro-ized group.** (And running

@@ -1282,6 +1282,18 @@ typedef struct {
     unsigned long z20;       /* +0x20 */
     unsigned long color;     /* +0x24 */
 } Prim_8016B6BC;
+/* S33: lifted from ov_SC01_077_after.c so func_801466F0 can propagate (the §100 draft-local-type
+ * blocker). Layout read off the already-matched callee DEFINE_func_8014680C (§71 sibling-first):
+ * it takes `short *` and touches +0x00/02/04/06 as halfwords and +0x08/0C/10 as words. */
+typedef struct Rec801466F0 {
+    u16 unk0;    /* +0x00 */
+    u16 unk2;    /* +0x02 */
+    u16 unk4;    /* +0x04 */
+    u16 unk6;    /* +0x06 */
+    s32 unk8;    /* +0x08 */
+    s32 unkC;    /* +0x0C */
+    s32 unk10;   /* +0x10 */
+} Rec801466F0;
 #endif /* BFM_ENGINE_TYPES_H */   /* SESSION-19: moved here — 11 typedefs (the
  * Phase-29 crack-wave lift onward) were sitting OUTSIDE the guard, so any TU that
  * included this header twice re-declared them. gcc-2.7.2 rejects a repeated typedef
