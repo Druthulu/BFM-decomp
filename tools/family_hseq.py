@@ -216,7 +216,14 @@ def main():
                  f"{f['byte_weight_templatable']//4:,} |")
     open("docs/family-hseq.md", "w").write("\n".join(L) + "\n")
 
-    print(f"fleet: {metrics['fn_count_matched_pct']}% fn / {metrics['instr_weighted_matched_pct']}% instr / "
+    # OVERLAYS-ONLY, and say so ON STDOUT. load() globs .run/sig.ov_*.jsonl — main and the resident
+    # are NOT in these denominators, so every number here runs ~0.3-1.0pp ABOVE the authoritative
+    # `make report` / docs/progress.fleet.md fleet numbers. docs/family-hseq.md has always carried
+    # the "(overlays)" qualifier; this print did not — and stdout is the channel a session actually
+    # reads and transcribes into a checkpoint, which is how a wrong-labelled right number spreads
+    # (R35: the measurement was fine, the instrument's LABEL was the defect).
+    print(f"fleet (OVERLAYS ONLY — not comparable to `make report`; excludes main + resident): "
+          f"{metrics['fn_count_matched_pct']}% fn / {metrics['instr_weighted_matched_pct']}% instr / "
           f"{metrics['distinct_matched_pct']}% distinct")
     print(f"tailcheck: {tailcheck['hseq_families_ge2']} families ≥2, {tailcheck['substantial_families']} "
           f"substantial / {tailcheck['substantial_ins']:,} ins"
