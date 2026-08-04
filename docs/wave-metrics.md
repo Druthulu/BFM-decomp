@@ -65,15 +65,6 @@ genuine `match_one` iteration (one agent tested 470+ statement orderings on a 79
 function). Wall-clock cannot go below the slowest chain, so the lever there is target *selection*,
 not concurrency.
 
-## Finding 4 — a perfect gate is a signal that the prompt rules landed
-
-Wave 5 is the first **16/16 banked with ZERO reconcile**. Waves 1–4 each needed 1–2 declaration
-reconciles after the gate; wave 5 needed none. The difference is that by then the prompt carried
-both §138 rules (the *(macro-shape, TU-shape)* pair, and the reconcile-direction line-number check)
-plus the wave-4 lesson that two targets sharing a TU can create each other's conflicts. **The
-reconcile lane is the fallback, not the plan — when it goes quiet, the prompt is doing its job.**
-Lifetime reconcile record across the session: **21/22**.
-
 ## Finding 3 — economics
 
 Roughly 170k–300k tokens per banked head across waves 3–5 (the stable regime). But a head is not the
@@ -82,6 +73,15 @@ of the FAMILY, not the wave — wave 3 swept 21/21 while wave 2 swept 18/165, be
 families are per-location variants that do not template (settled by probe: remapped member is BUILD
 OK **and** byte-different ⇒ genuine per-member codegen). **Rank targets by open templatable
 instructions derived from `corpus.stubs`, and expect the sweep yield to be bimodal, not average.**
+
+## Finding 4 — a perfect gate is a signal that the prompt rules landed
+
+Wave 5 is the first **16/16 banked with ZERO reconcile**. Waves 1–4 each needed 1–2 declaration
+reconciles after the gate; wave 5 needed none. The difference is that by then the prompt carried
+both §138 rules (the *(macro-shape, TU-shape)* pair, and the reconcile-direction line-number check)
+plus the wave-4 lesson that two targets sharing a TU can create each other's conflicts. **The
+reconcile lane is the fallback, not the plan — when it goes quiet, the prompt is doing its job.**
+Lifetime reconcile record across the session: **21/22**.
 
 ## How to add a row
 
