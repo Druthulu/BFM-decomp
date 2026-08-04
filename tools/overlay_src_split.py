@@ -33,6 +33,8 @@ The whole-binary SHA1 byte-gate remains the sole correctness arbiter (G3/P9).
 import os
 import re
 import sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import cdecl    # the ONE comment/string masking oracle (Phase 26-A) — see _split_macro_body
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -338,11 +340,23 @@ _MACRO_TABLE = None
 
 def _split_macro_body(body):
     """(leading_externs, def_lines) — a macro body's FILE-SCOPE extern lines (everything
-    before the definition header) and the definition itself."""
+    before the definition header) and the definition itself.
+
+    S33: the skip test used to be `startswith("//") or (startswith("/*") and endswith("*/"))`,
+    which sees a SINGLE-LINE comment and is blind to a MULTI-LINE block one — its opening line
+    does not end `*/` and its middle lines start `*`. The loop then treats that comment line as
+    the definition header and returns a TRUNCATED extern set. Measured at the time of the fix:
+    38 such lines live in engine_core.h macro bodies (the levers document themselves in block
+    comments). Same §134 class fixed in family_remap (S6b D1/D2/D5) and dedup_propagate.find_site
+    (S33). Decide on `cdecl._mask` — one oracle (R33), every comment form, immune to a `/*`
+    inside a string — with the length-preservation invariant asserted, not assumed (R32)."""
+    mbody = cdecl._mask("\n".join(body)).split("\n")
+    if len(mbody) != len(body):
+        mbody = body
     out = []
     for k, ln in enumerate(body):
         s = ln.strip()
-        if not s or s.startswith("//") or (s.startswith("/*") and s.endswith("*/")):
+        if mbody[k].strip() == "":
             continue
         if s.startswith("extern"):
             out.append(s)

@@ -9432,6 +9432,14 @@ bought 8 of 36 for one token.
 says nothing about what is behind it (the S29 law). Fixing `func_8012E5CC` immediately revealed
 `func_80147364` at the same site. Re-run after every fix; do not price the lane off the first error.
 
+**Bucket by the (macro-shape, TU-shape) PAIR — NOT by the symbol.** The same symbol conflicts in
+BOTH directions across the fleet, and the lever differs. `func_80146C3C` cost this lesson twice in
+one session: in the EXTEND lane the macro said `(void)` and the TU `(u8*)`; in the PROPAGATE lane
+the *mirror* — macro `(u8*)`, TU `(void)`. Relaxing only the `(void)` form (42 decls, byte-neutral,
+R22-clean) fixed the first and did **nothing** for the second, which then banked 0/1 in all 134
+overlays. One `awk` over the macro you are ACTUALLY fixing — not its sibling — shows the pair before
+you spend a 134-build run. *Read the declaration of the macro in front of you.*
+
 ### `volatile` in the host TU is a SCHEDULING BARRIER — and it looks exactly like a codegen wall
 
 The four "undiagnosed DIFF"s in `dedup_extend`'s own header were this. Its correctness argument says

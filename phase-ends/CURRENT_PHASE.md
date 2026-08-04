@@ -207,6 +207,26 @@ is either a no-arg call or already cast ⇒ codegen-neutral.
 an already-macro-ized group.** Probe: exactly **1** extendable group per ordinary overlay (so the
 fleet has no hidden wiring backlog beyond this) ⇒ run it across the 134 non-SC07 overlays.
 
+## ⚠️ MY WRONG PREDICTION, CORRECTED BY THE BYTES (R14/R37) — and it refines §138
+Commit `commit:1382` relaxed 42 `extern void func_80146C3C(void);` decls and its message implies that
+unblocked the PROPAGATE remainder. **It did not.** The re-run banked **0/1 in every one of the 134
+overlays**, with the same error — because **`DEFINE_func_8016BA68` declares that symbol
+`(u8*)`, not `(void)`**, and the TU declares it `(void)`. That is the **MIRROR** of the EXTEND-lane
+pair, and my relax only touched one direction.
+
+**Root cause (the R37 shape, again): I bucketed by SYMBOL and stopped there.** §138 says "bucket by
+which symbol is named" — that is not sufficient. **The lever is determined by the (macro-shape,
+TU-shape) PAIR**, and the same symbol conflicts in BOTH directions across the fleet:
+· EXTEND lane: macro `(void)` vs TU `(u8*)` → relax the MACRO decl.
+· PROPAGATE lane: macro `(u8*)` vs TU `(void)` → relax the MACRO decl *of the other form*.
+One `awk` over the specific macro's own body — which I ran for the EXTEND macros and NOT for this
+one — would have shown it before the 134-build run. **Read the decl of the macro you are actually
+fixing, not of its sibling.**
+
+The 42-decl relax is still **byte-neutral and still useful** (it removes a real conflict class and
+R22 proved it 140/140) — it simply did not do the thing I predicted. Relaxing the remaining **2**
+`(u8*)` decls is the actual fix for this lane. §138 to be amended with the PAIR rule.
+
 ## 🧹 THE §134 SCANNER SWEEP — sized, one clear target
 Hand-rolled comment tests still outside the `cdecl._mask` oracle:
 · **`tools/overlay_src_split.py:345`** (`_split_macro_body`) — **the IDENTICAL single-line-only

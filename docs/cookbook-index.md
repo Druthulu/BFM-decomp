@@ -138,7 +138,7 @@
 - **§3-The** — three-hypothesis trail, because two of them were wrong and the wrongness is instructive  <sub>L6864</sub>
 - **§129** — Post-carve, `rtu_match`/`match_one` COUNT THE JUMP TABLE AS INSTRUCTIONS; and a carve must never be committed without its owner (P30 S28, `func_8013BD74`)  <sub>L8430</sub>
 - **§129a** — the target instruction count is INFLATED after a carve  <sub>L8434</sub>
-- **§3-The** — DEFINITION-side alias is the only escape when the fleet canon disagrees on a promoting param  <sub>L9455</sub>
+- **§3-The** — DEFINITION-side alias is the only escape when the fleet canon disagrees on a promoting param  <sub>L9463</sub>
 
 ### types, signedness & load/store width  (29)
 
@@ -472,7 +472,7 @@
 - **§3-The** — splitting/merging rules (each closed a residual, byte-gated)  <sub>L8846</sub>
 - **§137a** — A gate verdict has a TIMESTAMP; re-check it against the draft's mtime  <sub>L9376</sub>
 - **§138** — The propagation lanes: a gate refusal is a DECLARATION, and which lever you owe depends on blast radius  <sub>L9405</sub>
-- **§134** — again, in a second tool — and the waiter rule corrected  <sub>L9472</sub>
+- **§134** — again, in a second tool — and the waiter rule corrected  <sub>L9480</sub>
 
 ### process, measurement & doctrine  (53)
 
@@ -528,7 +528,7 @@
 - **§136g** — When the index points at the WRONG lever: two byte-refuted routings (func_801863B4)  <sub>L9201</sub>
 - **§136h** — CORRECTION: the zero-crack pool does NOT "refill with cheap work" (my error, byte-measured)  <sub>L9230</sub>
 - **§136j** — The failure MIX flips with function size (measured across four bands, one session)  <sub>L9292</sub>
-- **Rank** — the lane by measured concentration, not by class count  <sub>L9463</sub>
+- **Rank** — the lane by measured concentration, not by class count  <sub>L9471</sub>
 
 ### (unbucketed — title matched no symptom vocabulary)  (108)
 
@@ -1028,6 +1028,6 @@
 - **§137a** — A gate verdict has a TIMESTAMP; re-check it against the draft's mtime  <sub>L9376</sub>
 - **§138** — The propagation lanes: a gate refusal is a DECLARATION, and which lever you owe depends on blast radius  <sub>L9405</sub>
 - **§3-The** — triage, cheapest first  <sub>L9411</sub>
-- **§3-The** — DEFINITION-side alias is the only escape when the fleet canon disagrees on a promoting param  <sub>L9455</sub>
-- **Rank** — the lane by measured concentration, not by class count  <sub>L9463</sub>
-- **§134** — again, in a second tool — and the waiter rule corrected  <sub>L9472</sub>
+- **§3-The** — DEFINITION-side alias is the only escape when the fleet canon disagrees on a promoting param  <sub>L9463</sub>
+- **Rank** — the lane by measured concentration, not by class count  <sub>L9471</sub>
+- **§134** — again, in a second tool — and the waiter rule corrected  <sub>L9480</sub>
