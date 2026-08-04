@@ -3141,7 +3141,39 @@ INCLUDE_ASM("asm/ov_SC02_000/nonmatchings/ov_SC02_000_jr_8017FCB0", func_80181DE
 
 INCLUDE_ASM("asm/ov_SC02_000/nonmatchings/ov_SC02_000_jr_8017FCB0", func_80181E70);
 
-INCLUDE_ASM("asm/ov_SC02_000/nonmatchings/ov_SC02_000_jr_8017FCB0", func_80182058);
+#include "common.h"
+
+extern s32 func_80013200(s32 *a0, s32 *a1);
+extern s32 ratan2(s32 a0, s32 a1);
+extern s16 D_800B9AB8[];
+extern s16 D_800B9ABA[];
+
+void func_80182058(s32 param_1) {
+    s32 v1[3];
+    s32 v2[3];
+    s32 dist;
+    s32 angle;
+    s32 v0;
+
+    v1[0] = *(s32 *)(param_1 + 0x48);
+    v1[1] = 0;
+    v1[2] = *(s32 *)(param_1 + 0x50);
+    v2[0] = *(s32 *)(param_1 + 0x3C);
+    v2[1] = 0;
+    v2[2] = *(s32 *)(param_1 + 0x44);
+    dist = func_80013200(v1, v2);
+    angle = ratan2(*(s32 *)(param_1 + 0x4C) - *(s32 *)(param_1 + 0x40), dist);
+    if (angle >= 0x801) {
+        angle = 0x1000 - angle;
+    }
+    v0 = angle * 360 / 1024 + 0xA0;
+    D_800B9ABA[0] = (s16)v0;
+
+    angle = ratan2(v1[0] - v2[0], v1[2] - v2[2]);
+    v0 = angle * 640 / 4096 + 0x50;
+    D_800B9AB8[0] = (s16)v0;
+}
+
 
 
 extern void (*D_8018EAC4[])(void);
@@ -3365,7 +3397,30 @@ INCLUDE_ASM("asm/ov_SC02_000/nonmatchings/ov_SC02_000_jr_8017FCB0", func_8018375
 
 INCLUDE_ASM("asm/ov_SC02_000/nonmatchings/ov_SC02_000_jr_8017FCB0", func_80183814);
 
-INCLUDE_ASM("asm/ov_SC02_000/nonmatchings/ov_SC02_000_jr_8017FCB0", func_801839C4);
+void func_801839C4(void *a0) {
+    s32 bVar1;
+
+    *(u32 *)((s32)a0 + 0x1F8) = *(u32 *)((s32)a0 + 0x1F8) & 0xFEFFFFFF;
+    *(u16 *)((s32)a0 + 0xAA) = *(u16 *)((s32)a0 + 0xAA) & 0xFF40;
+    bVar1 = *(u8 *)((s32)a0 + 0xA9);
+    *(u16 *)((s32)a0 + 0xAC) = *(u16 *)((s32)a0 + 0xAC) & 0xFF40;
+
+    __asm__ __volatile__("" ::: "memory");
+
+    switch (bVar1) {
+    case 0x41:
+        *(u16 *)((s32)a0 + 0xAA) = *(u16 *)((s32)a0 + 0xAA) & 0xAFFF;
+        *(u16 *)((s32)a0 + 0xAC) = *(u16 *)((s32)a0 + 0xAC) & 0xAFFF;
+        *(u16 *)((s32)a0 + 0xAA) = *(u16 *)((s32)a0 + 0xAA) | 0x4000;
+        *(u16 *)((s32)a0 + 0xAC) = *(u16 *)((s32)a0 + 0xAC) | 0x4000;
+        break;
+    case 0x53:
+    case 0x73:
+        *(u16 *)((s32)a0 + 0xAE) = *(u8 *)((s32)a0 + 0xAE) | 0xFF00;
+        break;
+    }
+}
+
 
 DEFINE_func_80183A78()  /* dedup: shared engine-core @0x80183A78 (src/shared) */
 

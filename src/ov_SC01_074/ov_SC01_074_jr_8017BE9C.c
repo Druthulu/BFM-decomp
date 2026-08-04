@@ -3490,7 +3490,34 @@ INCLUDE_ASM("asm/ov_SC01_074/nonmatchings/ov_SC01_074_jr_8017BE9C", func_8017E07
 
 INCLUDE_ASM("asm/ov_SC01_074/nonmatchings/ov_SC01_074_jr_8017BE9C", func_8017E158);
 
-INCLUDE_ASM("asm/ov_SC01_074/nonmatchings/ov_SC01_074_jr_8017BE9C", func_8017E3E0);
+
+
+
+
+void func_8017E3E0(void *a0, void *a1, void *a2, void *a3)
+{
+    extern void func_80016ED4(void *a0);
+    extern s32 D_80182244;
+    extern s32 D_80182248;
+    extern s32 D_8018224C;
+    extern s32 D_80182250;
+
+    Prim_8016E7C8 prim;
+
+    prim.v[0] = *(SVECTOR_8016E7C8 *)a0;
+    prim.v[1] = *(SVECTOR_8016E7C8 *)a1;
+    prim.v[2] = *(SVECTOR_8016E7C8 *)a2;
+    prim.v[3] = *(SVECTOR_8016E7C8 *)a3;
+    prim.f0 = D_80182244;
+    prim.f1 = D_80182248;
+    prim.f2 = D_8018224C;
+    prim.f3 = D_80182250;
+    prim.f4 = 0x808080;
+    prim.f5 = 0;
+    prim.f6 = 0x50;
+    func_80016ED4(&prim);
+}
+
 
 
 extern void (*D_80182254[])(void);

@@ -4940,7 +4940,176 @@ void func_80183DC8(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_028/nonmatchings/ov_SC03_028_jr_8017AE2C", func_80183E04);
+#include "common.h"
+
+/* ---- decls already present at file scope in the TU (reused verbatim) ---- */
+extern s32  D_80126950;
+extern s16  D_800B9A02;
+extern void func_8004914C(void *a0);
+extern void func_800491AC(void *a0);
+extern void RotTransSV(void *a0, void *a1, void *a2);
+extern s32  RotTransPers(s32 a0, s32 a1, s32 *a2, s32 *a3);
+
+/* ---- new decls (canonical forms from src/shared/engine_core.h) ---- */
+extern s32  D_800A651C;
+extern u8   D_800AF648;
+extern u8   D_8018F968[];
+extern u32  D_801902C8[];
+extern u8   D_801902D4[];
+extern u8   D_801902D5[];
+extern u8   D_801902D6[];
+extern u8   D_801902D7[];
+extern u8   D_801902E4[];
+extern u8   D_801902E5[];
+extern u8   D_801902E6[];
+extern u8   D_801902E7[];
+extern u8   D_801902F4[];
+extern u8   D_801902F5[];
+extern u8   D_801902F6[];
+extern u8   D_801902F7[];
+extern void *func_80010A08(s32);
+extern s32  func_8005A600(s32, s32, s32, s32, s32);
+extern s32  GetTPage(s32, s32, s32, s32);
+extern s32  AddPrim(s32, void *);
+
+#define gte_SetRotMatrix(r0) __asm__ volatile (          \
+    "lw $12, 0( %0 );"                                   \
+    "lw $13, 4( %0 );"                                   \
+    "ctc2 $12, $0;"                                      \
+    "ctc2 $13, $1;"                                      \
+    "lw $12, 8( %0 );"                                   \
+    "lw $13, 12( %0 );"                                  \
+    "lw $14, 16( %0 );"                                  \
+    "ctc2 $12, $2;"                                      \
+    "ctc2 $13, $3;"                                      \
+    "ctc2 $14, $4"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+#define gte_SetTransMatrix(r0) __asm__ volatile (        \
+    "lw $12, 20( %0 );"                                  \
+    "lw $13, 24( %0 );"                                  \
+    "ctc2 $12, $5;"                                      \
+    "lw $14, 28( %0 );"                                  \
+    "ctc2 $13, $6;"                                      \
+    "ctc2 $14, $7"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+
+
+/* Byte-verified levers (match_one MATCH, 265 ins):
+ *  - L5/frame: locals start at sp+0x18 (5-arg out-arg area). tags/sv/xs/ys are arrays and take
+ *    slots in DECLARATION order; flag/sxy/pz must be ONE struct — as separate address-taken
+ *    scalars gcc packs them after the arrays with a 4-byte hole (flag landed at 0x58, not 0x50).
+ *  - The 14 primitive stores are written off the SINGLE pointer biv `pp` (prim+0xC). loop.c
+ *    combines their address givs into one register based at the LAST ref (pp+0x22 = prim+0x2E,
+ *    $s0), and keeps `pp` itself ($s3) for AddPrim's value use. Adding a second explicit cursor
+ *    (`q = prim+0x2E`) costs an EXTRA giv register and breaks the frame.
+ *  - L3: `tags[0] = (s32)(prim + 0xC)` is written as its OWN expression (not `= (s32)pp`); CSE
+ *    then emits `addiu $v0,$s4,0xC` + `addu $s3,$v0,$zero` — the copy the target has.
+ *  - Loop counter is k = 0..3 with i = k*4 as a GIV, not a biv stepping 4. Both give the same
+ *    `slti $s1,0x10` compare, but only the giv form puts the address-giv init BEFORE the index
+ *    init in the preheader. `pp += 0x24` must come AFTER `k += 1` so pp's iv class is recorded
+ *    last (loop_iv_list is prepend-ordered) and therefore emits its giv init FIRST.
+ *  - tags[1..3] are genuinely DEAD stores in the original; they must be kept.
+ */
+void func_80183E04(void *a0)
+{
+    s32 tags[4];      /* sp+0x18 */
+    s16 sv[4];        /* sp+0x28 */
+    s16 xs[8];        /* sp+0x30 */
+    s16 ys[8];        /* sp+0x40 */
+    struct {
+        s32 flag;     /* sp+0x50 */
+        u16 sxy[2];   /* sp+0x54 */
+        s32 pz;       /* sp+0x58 */
+    } o;
+
+    s32 m;
+    void *pv;
+    s32 *pflag;
+    s32 ret;
+    s32 d;
+    s32 e;
+    s32 x;
+    s32 y;
+    s32 ot;
+    u8 *prim;
+    u8 *pp;
+    u8 *base;
+    u32 *pal;
+    s32 i;
+    s32 k;
+
+    m = *(s32 *)((s32)a0 + 0x20) + 0x34;
+    gte_SetRotMatrix(m);
+    gte_SetTransMatrix(m);
+
+    pv = (void *)sv;
+    pflag = &o.flag;
+    RotTransSV(D_8018F968, pv, pflag);
+    func_8004914C(&D_800AF648);
+    func_800491AC(&D_800AF648);
+    ret = RotTransPers((s32)pv, (s32)o.sxy, &o.pz, pflag);
+    if ((ret > 0) && (o.flag >= 0)) {
+        ret = ret * 4;
+        d = ((D_80126950 + 0x1F4) * 24) / ret;
+        x = o.sxy[0];
+        y = o.sxy[1];
+        ot = *(s32 *)((s8 *)&D_800A651C + ((u16)D_800B9A02 * 0x14)) + ret;
+        e = (d * 179) >> 8;
+
+        xs[2] = x;
+        ys[2] = y;
+        xs[0] = x - d;
+        xs[1] = x - e;
+        xs[3] = x + e;
+        xs[4] = x + d;
+        ys[0] = y - d;
+        ys[1] = y - e;
+        ys[3] = y + e;
+        ys[4] = y + d;
+
+        prim = (u8 *)func_80010A08(0x9C);
+        if (prim != 0) {
+            s32 tp;
+            tp = GetTPage(0, 1, 0, 0);
+            func_8005A600((s32)prim, 0, 0, (u16)tp, 0);
+
+            tags[0] = (s32)(prim + 0xC);
+            pp = prim + 0xC;
+            pal = D_801902C8;
+            base = (u8 *)tags;
+            k = 0;
+            tags[1] = (s32)(prim + 0x30);
+            tags[2] = (s32)(prim + 0x54);
+            tags[3] = (s32)(prim + 0x78);
+            do {
+                i = k * 4;
+                *(u32 *)(pp + 0x04) = pal[D_801902F4[i]];
+                *(u32 *)(pp + 0x0C) = pal[D_801902F5[i]];
+                *(u32 *)(pp + 0x14) = pal[D_801902F6[i]];
+                *(u32 *)(pp + 0x1C) = pal[D_801902F7[i]];
+                *(u8  *)(pp + 0x03) = 8;
+                *(u8  *)(pp + 0x07) = 0x3A;
+                *(u16 *)(pp + 0x08) = *(u16 *)(base + 0x18 + D_801902D4[i] * 2);
+                *(u16 *)(pp + 0x10) = *(u16 *)(base + 0x18 + D_801902D5[i] * 2);
+                *(u16 *)(pp + 0x18) = *(u16 *)(base + 0x18 + D_801902D6[i] * 2);
+                *(u16 *)(pp + 0x20) = *(u16 *)(base + 0x18 + D_801902D7[i] * 2);
+                *(u16 *)(pp + 0x0A) = *(u16 *)(base + 0x28 + D_801902E4[i] * 2);
+                *(u16 *)(pp + 0x12) = *(u16 *)(base + 0x28 + D_801902E5[i] * 2);
+                *(u16 *)(pp + 0x1A) = *(u16 *)(base + 0x28 + D_801902E6[i] * 2);
+                *(u16 *)(pp + 0x22) = *(u16 *)(base + 0x28 + D_801902E7[i] * 2);
+                AddPrim(ot, pp);
+                k += 1;
+                pp += 0x24;
+            } while (k < 4);
+            AddPrim(ot, prim);
+        }
+    }
+}
+
 
 void func_80184228(void) {
 }

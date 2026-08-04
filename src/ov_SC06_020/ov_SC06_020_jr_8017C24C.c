@@ -4115,7 +4115,167 @@ INCLUDE_ASM("asm/ov_SC06_020/nonmatchings/ov_SC06_020_jr_8017C24C", func_801826C
 
 INCLUDE_ASM("asm/ov_SC06_020/nonmatchings/ov_SC06_020_jr_8017C24C", func_801827FC);
 
-INCLUDE_ASM("asm/ov_SC06_020/nonmatchings/ov_SC06_020_jr_8017C24C", func_80182820);
+
+// @class: struct
+// @stuck: none — MATCH (276 ins, relocation-masked). Verified BOTH standalone (match_one) and
+//          spliced into src/ov_SC06_018/ov_SC06_018_jr_8017C24C.c (whole-TU cc1 -O2 clean,
+//          masked structured_diff 0/276).
+// Keys: (1) the first func_8012C218 call gets a NOP delay slot because reload_cse_regs deletes the
+//           redundant `move a0,s1` -- $a0 still holds the incoming param on the fall-through path
+//           (no CODE_LABEL between the prologue and the jal). The second call site is behind a
+//           label, so the move survives. Source is the natural `func_8012C218((void *)param_1)` at
+//           BOTH sites -- do NOT write a zero-arg call (it also breaks in-TU: the composite type
+//           from the earlier file-scope `extern void func_8012C218(void *a0);` rejects 0 args).
+//       (2) case 0's guard is an `||` with an early return -- that is what puts `beqz -> fail` then
+//           `beq -> ok` (an `&&` would emit `bne -> fail`).
+//       (3) `register s32 sVar2 __asm__("$2")` holds the p+0x34 reload in cases 1/2 so the two arms
+//           cross-jump into the shared .L80188928 tail.
+//       (4) `__asm__ __volatile__("")` after the func_8012C658 arm forces the `lw v1,0x1C(s1)`
+//           reload before the cross-jumped `li v0,9` (§21 zero-byte re-tie).
+//       (5) `-((iVar3 << 0x10) / 0x22)` reproduces the 0x78787879/sra-4 magic-divide by 34 + negu.
+//       (6) `*p * 0xc` then `>>4` with the manual `if (x<0) x+=0xf` is the /16 rounding form.
+
+extern void func_8012C218(void *a0);
+extern void func_801834F0(s32, void*, void*, s32);
+extern s32  func_80013328(s32 a0, s32 a1);
+extern void func_8012B14C(s32 a0, s32 a1);
+extern void func_8012CC64(s32 a0, s32 a1);   /* fleet-canonical: void; $v0 used -> cast at use */
+extern s32 func_8012C658(s32, s32, s32);
+extern s32  func_80143B6C(s32 a0, s32 a1);   /* fleet-canonical */
+extern s32  func_8012BEE8(s32 a0);
+extern void func_80016714(void*, s32);
+extern void func_80183170(s32 a0, s32 a1);
+
+
+void func_80182820(s32 param_1) {
+
+    extern u8 D_801B6AA8;
+    extern u8 D_8019ED1C;
+    extern u8 D_8019ED24;
+    extern u8 D_8019ED14;
+    extern u8 D_80126B5C;
+    u16 uVar1;
+    register s32 sVar2 __asm__("$2");
+    s32 iVar3;
+    s32 iVar4;
+    s32 iVar5;
+    u32 uVar4;
+    s32 psVar5;
+    u16 buf[8];
+    s32 vec[3];
+
+    if (0xf < *(s16 *)(param_1 + 0xA)) {
+        func_8012C218((void *)param_1);
+        return;
+    }
+    uVar1 = *(u16 *)(param_1 + 0x34);
+    switch (uVar1) {
+    case 0:
+        psVar5 = *(s32 *)(param_1 + 0x64);
+        if ((*(u16 *)psVar5 == 0) ||
+            (*(s32 *)(psVar5 + 0x90) != (s32)&D_801B6AA8)) {
+            func_8012C218((void *)param_1);
+            return;
+        }
+        if (*(s32 *)(psVar5 + 0x94) < 0x11) {
+            ((void (*)(void *, void *, void *, s32))func_801834F0)((void *)psVar5, (void *)&D_8019ED1C, buf, 5);
+            *(s16 *)(param_1 + 6) = buf[0];
+            *(s16 *)(param_1 + 0xA) = buf[1];
+            *(s16 *)(param_1 + 0xE) = buf[2];
+            return;
+        }
+        ((void (*)(void *, void *, void *, s32))func_801834F0)((void *)psVar5, (void *)&D_8019ED24, buf, 4);
+        ((void (*)(void *, void *, void *, s32))func_801834F0)((void *)psVar5, (void *)&D_8019ED24, &buf[4], 5);
+        *(s16 *)(param_1 + 6) =
+            (s16)((*(s16 *)&buf[0] + *(s16 *)&buf[4]) >> 1);
+        *(s16 *)(param_1 + 0xA) =
+            (s16)((*(s16 *)&buf[1] + *(s16 *)&buf[5]) >> 1);
+        *(s16 *)(param_1 + 0xE) =
+            (s16)((*(s16 *)&buf[2] + *(s16 *)&buf[6]) >> 1);
+        if (*(s32 *)(psVar5 + 0x94) != 0x19) {
+            return;
+        }
+        *(u16 *)(param_1 + 0x34) = *(u16 *)(param_1 + 0x34) + 1;
+        vec[0] = 0;
+        vec[1] = 0xfff40000;
+        iVar3 = func_80013328((s32)&D_80126B5C, param_1 + 4);
+        vec[2] = -((iVar3 << 0x10) / 0x22);
+        func_8012B14C(param_1, (s32)vec);
+        *(s32 *)(param_1 + 0x48) = 0xc000;
+        return;
+    case 1:
+        *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x10) =
+            *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x10) + 0x80;
+        iVar3 = ((s32 (*)(s32, s32))func_8012CC64)(param_1, (s32)&D_8019ED14);
+        if (iVar3 == 0) {
+            return;
+        }
+        sVar2 = *(u16 *)(param_1 + 0x34);
+        *(s32 *)(param_1 + 0x1c) = 0;
+        *(u16 *)(param_1 + 0x34) = sVar2 + 1;
+        return;
+    case 2:
+        *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x10) =
+            *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x10) + 0x40;
+        uVar4 = ((s32 (*)(s32, s32))func_8012CC64)(param_1, (s32)&D_8019ED14);
+        if ((uVar4 & 0x2000) == 0) {
+            return;
+        }
+        iVar4 = *(s32 *)(param_1 + 0x1c) + 1;
+        *(s32 *)(param_1 + 0x1c) = iVar4;
+        if (iVar4 >= 4) {
+            sVar2 = *(u16 *)(param_1 + 0x34);
+            *(s32 *)(param_1 + 0x1c) = 0x1e;
+            *(u16 *)(param_1 + 0x34) = sVar2 + 1;
+            return;
+        }
+        iVar3 = *(s32 *)(param_1 + 0x10) * 0xc;
+        if (iVar3 < 0) {
+            iVar3 = iVar3 + 0xf;
+        }
+        *(s32 *)(param_1 + 0x10) = iVar3 >> 4;
+        iVar5 = *(s32 *)(param_1 + 0x18) * 0xc;
+        if (iVar5 < 0) {
+            iVar5 = iVar5 + 0xf;
+        }
+        *(s32 *)(param_1 + 0x18) = iVar5 >> 4;
+        *(s32 *)(param_1 + 0x14) = -(0x80000 / *(s32 *)(param_1 + 0x1c));
+        func_80143B6C(param_1, 1);
+        return;
+    case 3:
+        uVar4 = *(u32 *)(param_1 + 0x1c);
+        if ((uVar4 - 0xe < 0xb) && ((uVar4 & 1) == 0)) {
+            ((void (*)(s32, s32, s32))func_8012C658)(0x2a8, (s32)*(s16 *)(param_1 + 0x104), param_1);
+            *(u16 *)(param_1 + 0x104) = *(u16 *)(param_1 + 0x104) + 1;
+            __asm__ __volatile__("");
+            uVar4 = *(u32 *)(param_1 + 0x1c);
+        }
+        if (uVar4 == 9) {
+            *(u32 *)(*(s32 *)(param_1 + 0xcc) + 4) =
+                *(u32 *)(*(s32 *)(param_1 + 0xcc) + 4) & 0x7fffffff;
+            *(s16 *)(*(s32 *)(param_1 + 0xcc) + 8) = *(u16 *)(param_1 + 6);
+            *(s16 *)(*(s32 *)(param_1 + 0xcc) + 0xa) =
+                *(u16 *)(param_1 + 0xa) - 0x24;
+            *(s16 *)(*(s32 *)(param_1 + 0xcc) + 0xc) = *(u16 *)(param_1 + 0xe);
+        }
+        if (*(s32 *)(param_1 + 0x1c) - 4U < 6) {
+            *(s16 *)(*(s32 *)(param_1 + 0xcc) + 0x18) =
+                *(u16 *)(*(s32 *)(param_1 + 0xcc) + 0x18) + 0x200;
+            *(s16 *)(*(s32 *)(param_1 + 0xcc) + 0x1a) =
+                *(u16 *)(*(s32 *)(param_1 + 0xcc) + 0x1a) + 0x200;
+        }
+        iVar3 = func_8012BEE8(param_1);
+        if (iVar3 != 1) {
+            return;
+        }
+        ((void (*)(s32, s32))func_80016714)(*(s32 *)(param_1 + 0xcc), 0x38);
+        *(s16 *)(param_1 + 2) = 9;
+        func_80183170(param_1, 0);
+        return;
+    }
+    return;
+}
+
 
 
 extern void func_80049CAC(s32, s32);
@@ -4173,7 +4333,136 @@ void func_80183624(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_020/nonmatchings/ov_SC06_020_jr_8017C24C", func_80183660);
+
+
+extern s32 rand(void);
+extern void func_8012C1B8(void);
+extern void func_8012CAE4(void*);
+extern void func_8001C214(s32 a0, s32 a1);
+extern void func_8012B2CC(s32 a0);
+extern void func_8012B178(s32 a0, s32 a1);
+
+void func_80183660(s32 param_1) {
+
+    extern u8 D_8019EDB8[];
+    s32 unused[2]; /* dead 8-byte local — frame padding (cookbook idiom 6) */
+    s32 obj;
+    s16 raw;
+    s32 r;
+    s32 sgn;
+    s32 v;
+    u8 *tbl;
+    s16 *p;
+    s32 q;
+    s32 w;
+
+    obj = ((s32 (*)(void))func_8012C1B8)();
+    if (obj == 0) {
+        ((void (*)(s32))func_8012CAE4)(param_1);
+        return;
+    }
+    *(s32 *)(param_1 + 0x20) = obj;
+    func_8001C214(obj, 0);
+
+    raw = rand();
+    r = raw;
+    *(u16 *)(obj + 0x2C) = *(u16 *)(obj + 0x2C) | 0x10;
+    v = r % 384 + 0x400;
+    *(s16 *)(obj + 0x1C) = v;
+    *(s16 *)(obj + 0x1A) = v;
+    *(s16 *)(obj + 0x18) = v;
+    sgn = -1;
+    if (raw & 1) {
+        sgn = 1;
+    }
+    *(s16 *)(obj + 0x10) = sgn * (r % 128) - 0x300;
+    *(s16 *)(obj + 0x12) = r % 4096;
+    *(s32 *)(param_1 + 0x48) = 0xC000;
+    *(u16 *)(param_1 + 0xA) = *(u16 *)(param_1 + 0xA) - 0x19;
+    func_8012B2CC(param_1);
+    func_8012B178(param_1, -0xC0000 - ((r % 8) << 16));
+    *(s32 *)(param_1 + 0x1C) = 0x3C;
+    *(s16 *)(param_1 + 0xFE) = rand() & 0xF0;
+    *(s16 *)(param_1 + 0x100) = rand() & 0x1F0;
+    *(s16 *)(param_1 + 0x102) = rand() & 0x30;
+    tbl = &D_8019EDB8[(*(u16 *)(param_1 + 0x70) & 0xF) * 4];
+
+    p = (s16 *)(param_1 + 0xDC);
+
+    q = rand() % 12;
+    if ((rand() & 1) == 0) {
+        w = -q - 0x18;
+    } else {
+        w = q - 0x18;
+    }
+    p[0] = w;
+    p[1] = 0;
+
+    q = rand() % 12;
+    if ((rand() & 1) == 0) {
+        w = -q - 0x18;
+    } else {
+        w = q - 0x18;
+    }
+    p[2] = w;
+
+    q = rand() % 12;
+    if ((rand() & 1) == 0) {
+        w = -q + 0x18;
+    } else {
+        w = q + 0x18;
+    }
+    p[4] = w;
+    p[5] = 0;
+
+    q = rand() % 12;
+    if ((rand() & 1) == 0) {
+        w = -q - 0x18;
+    } else {
+        w = q - 0x18;
+    }
+    p[6] = w;
+
+    q = rand() % 12;
+    if ((rand() & 1) == 0) {
+        w = -q - 0x18;
+    } else {
+        w = q - 0x18;
+    }
+    p[8] = w;
+    p[9] = 0;
+
+    q = rand() % 12;
+    if ((rand() & 1) == 0) {
+        w = -q + 0x18;
+    } else {
+        w = q + 0x18;
+    }
+    p[10] = w;
+
+    q = rand() % 12;
+    if ((rand() & 1) == 0) {
+        w = -q + 0x18;
+    } else {
+        w = q + 0x18;
+    }
+    p[12] = w;
+    p[13] = 0;
+
+    q = rand() % 12;
+    if ((rand() & 1) == 0) {
+        w = -q + 0x18;
+    } else {
+        w = q + 0x18;
+    }
+    p[14] = w;
+
+    *((u8 *)p + 0x20) = tbl[0];
+    *((u8 *)p + 0x21) = tbl[1];
+    *((u8 *)p + 0x22) = tbl[2];
+    *(u16 *)(param_1 + 2) = *(u16 *)(param_1 + 2) + 1;
+}
+
 
 
 extern s32  func_8012CBF4(s32 a0);
