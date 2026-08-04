@@ -6495,7 +6495,171 @@ INCLUDE_ASM("asm/ov_SC04_015/nonmatchings/ov_SC04_015_jr_8017AE2C", func_80182E1
 
 INCLUDE_ASM("asm/ov_SC04_015/nonmatchings/ov_SC04_015_jr_8017AE2C", func_80182E70);
 
-INCLUDE_ASM("asm/ov_SC04_015/nonmatchings/ov_SC04_015_jr_8017AE2C", func_80182F2C);
+
+/* func_80182F2C (ov_SC04_018, ov_SC04_018_jr_8017AE2C) — MATCH (250 ins)
+ *
+ * Shadow/marker quad renderer: builds an outer quad (D_801C4040 offset table)
+ * through RotNclip4, rejects it on OTZ, builds the inner quad (D_801C40C0)
+ * through RotTransPers4, then emits 4 semi-transparent POLY_G4 (0x24 each) +
+ * one semi-transparent POLY_F4 (0x18) out of one 0xA8 packet allocation.
+ *
+ * Levers that closed the residual (all byte-verified against the .s):
+ *  - frame 0xE0 with locals starting at 0x30: STARTING_FRAME_OFFSET ==
+ *    outgoing-args size (RotNclip4 takes 11 args -> 0x2C -> 0x30).  `pad0[16]`
+ *    is the DEAD 0x20-byte first local (§136 idiom 6) that puts va at sp+0x50.
+ *  - `sxy[8]` is ONE array: RotNclip4 fills [0..3], RotTransPers4 fills [4..7],
+ *    and the loop indexes the whole thing (idx values run 0..7).
+ *  - `register u16 *dst __asm__("$4")`: a HARD-reg dst is not a biv, so loop.c
+ *    cannot strength-reduce its +2/+4 accesses into a second IV.  That is what
+ *    gives ONE register with offsets 0/2/4 (unpinned -> 254 ins, extra IV).
+ *  - `p2 = p1 + 2` (two walked source pointers): `p1[0]` is a bare deref
+ *    (excluded from givs, loop-map L1 rule 4) so p1 stays the biv used at
+ *    offset 0, and p2 is the second IV carrying the -2/0 offset cluster.
+ *  - `while` loops with `i++` written BEFORE the pointer bumps: the increment
+ *    LUID order decides which bump fills the first load-delay slot.
+ *  - `s16 idx[4]` as a real ARRAY (ARRAY_REF => MEM_IN_STRUCT_P): that makes
+ *    the varying-address packet store conflict with the stack slots, so CSE
+ *    cannot forward idx[1..3] and gcc re-loads them with `lh` (an
+ *    INDIRECT_REF `*(s16*)(buf+0x82)` forwards them and loses the reloads).
+ *  - `D_800A651C[][5]` / `D_801E01Dx[][4]` two-dimensional externs: the 1-D
+ *    `sym + byte_offset` spelling makes gcc materialise `&D_800A651C` into a
+ *    hoisted callee-saved register ($s5, +4 ins); the 2-D array-ref keeps the
+ *    symbol folded in the MEM address (gas `lw $2,sym($1)` macro) and makes the
+ *    table index a REDUCED GIV, whose preheader init lands AFTER the hoisted
+ *    `addiu $s3,$sp,0x30` movable (target order s3 -> s2 -> s0).
+ *  - `type2 = type + zr` ($zero pin): the target keeps TWO pseudos for
+ *    (attr & 0xFF) — $a0 for the pre-call use and $s1 for the post-call one —
+ *    so a plain second variable would be propagated away by CSE.
+ *  - `pk[7] = 0x3A` written AFTER the 0x1C colour store: it only conflicts with
+ *    the 0x04 store, so the scheduler sinks it into the `lh 0xB6($sp)` delay
+ *    slot exactly as in the target (§135 idiom 4, source order sets the sink).
+ */
+
+extern void func_8012E32C(void);
+extern void func_80183314(void *, s32);
+extern s32 RotNclip4(s32, s32, s32, s32, s32 *, s32 *, s32 *, s32 *, s32 *, s32 *, s32 *);
+extern s32 RotTransPers4(s32, s32, s32, s32, s32 *, s32 *, s32 *, s32 *, s32 *, s32 *);
+extern void *func_80010A08(s32);
+extern s32 AddPrim(s32, void *);
+extern void func_8012E28C(s32, s32);
+
+void func_80182F2C(u16 *a0, s32 a1)
+{
+
+    extern s32 D_800A651C[][5];
+    extern u16 D_801C4040[];
+    extern u16 D_801C40C0[];
+    extern u16 D_801C4160[][4];
+    extern u16 D_801C4162[][4];
+    extern u16 D_801C4164[][4];
+    extern u16 D_801C4166[][4];
+    register s32 zr __asm__("$0");
+
+    u16 pad0[16];   /* dead: locals begin at sp+0x30, va must land at sp+0x50 */
+    u16 va[16];     /* sp+0x50 — outer quad, 4 x SVECTOR */
+    u16 vb[16];     /* sp+0x70 — inner quad, 4 x SVECTOR */
+    s32 sxy[8];     /* sp+0x90 — [0..3] RotNclip4, [4..7] RotTransPers4 */
+    s16 idx[4];     /* sp+0xB0 */
+    s32 p;          /* sp+0xB8 */
+    s32 otz;        /* sp+0xBC */
+    s32 flag;       /* sp+0xC0 */
+
+    u16 attr;
+    s32 type;
+    s32 type2;
+    u16 *p1;
+    u16 *p2;
+    register u16 *dst __asm__("$4");
+    s32 i;
+    u8 *pk;
+    s32 j;
+
+    func_8012E32C();
+
+    attr = a0[3];
+    type = attr & 0xFF;
+    type2 = type + zr;
+    if ((attr & 0xF00) == 0x200) {
+        func_80183314(a0, a1);
+        return;
+    }
+
+    p1 = (u16 *)((u8 *)D_801C4040 + type * 0x20);
+    i = 0;
+    p2 = p1 + 2;
+    dst = va;
+    while (i < 4) {
+        dst[0] = a0[0] + p1[0];
+        dst[1] = a0[1] + p2[-1];
+        dst[2] = a0[2] + p2[0];
+        i++;
+        p1 += 4;
+        p2 += 4;
+        dst += 4;
+    }
+
+    if (RotNclip4((s32)&va[0], (s32)&va[4], (s32)&va[8], (s32)&va[12],
+                  &sxy[0], &sxy[1], &sxy[2], &sxy[3], &p, &otz, &flag) <= 0) {
+        return;
+    }
+
+    otz -= 0x10;
+    if (otz < 0) {
+        return;
+    }
+    if (otz >= 0x1000) {
+        return;
+    }
+
+    p1 = (u16 *)((u8 *)D_801C40C0 + type2 * 0x20);
+    i = 0;
+    p2 = p1 + 2;
+    dst = vb;
+    while (i < 4) {
+        dst[0] = a0[0] + p1[0];
+        dst[1] = a0[1] + p2[-1];
+        dst[2] = a0[2] + p2[0];
+        i++;
+        p1 += 4;
+        p2 += 4;
+        dst += 4;
+    }
+
+    RotTransPers4((s32)&vb[0], (s32)&vb[4], (s32)&vb[8], (s32)&vb[12],
+                  &sxy[4], &sxy[5], &sxy[6], &sxy[7], &p, &flag);
+
+    pk = func_80010A08(0xA8);
+
+    for (j = 0; j < 4; j++) {
+        idx[0] = D_801C4160[j][0];
+        idx[1] = D_801C4162[j][0];
+        idx[2] = D_801C4164[j][0];
+        idx[3] = D_801C4166[j][0];
+        *(s32 *)(pk + 0x4) = a1 & -(idx[0] < 4);
+        *(s32 *)(pk + 0xC) = a1 & -(idx[1] < 4);
+        *(s32 *)(pk + 0x14) = a1 & -(idx[2] < 4);
+        *(s32 *)(pk + 0x1C) = a1 & -(idx[3] < 4);
+        pk[7] = 0x3A;
+        *(u32 *)(pk + 0x0) = 0x08000000;
+        *(s32 *)(pk + 0x8) = sxy[idx[0]];
+        *(s32 *)(pk + 0x10) = sxy[idx[1]];
+        *(s32 *)(pk + 0x18) = sxy[idx[2]];
+        *(s32 *)(pk + 0x20) = sxy[idx[3]];
+        AddPrim(D_800A651C[(u16)D_800B9A02][0] + (otz * 4), pk);
+        pk += 0x24;
+    }
+
+    *(s32 *)(pk + 0x4) = a1;
+    pk[7] = 0x2A;
+    *(u32 *)(pk + 0x0) = 0x05000000;
+    *(s32 *)(pk + 0x8) = sxy[0];
+    *(s32 *)(pk + 0xC) = sxy[1];
+    *(s32 *)(pk + 0x10) = sxy[2];
+    *(s32 *)(pk + 0x14) = sxy[3];
+    AddPrim(D_800A651C[(u16)D_800B9A02][0] + (otz * 4), pk);
+    func_8012E28C(otz, 1);
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_015/nonmatchings/ov_SC04_015_jr_8017AE2C", func_80183314);
 

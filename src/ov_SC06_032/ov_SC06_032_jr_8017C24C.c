@@ -4746,7 +4746,80 @@ INCLUDE_ASM("asm/ov_SC06_032/nonmatchings/ov_SC06_032_jr_8017C24C", func_80183B3
 
 INCLUDE_ASM("asm/ov_SC06_032/nonmatchings/ov_SC06_032_jr_8017C24C", func_80183BB4);
 
-INCLUDE_ASM("asm/ov_SC06_032/nonmatchings/ov_SC06_032_jr_8017C24C", func_80183DA4);
+
+extern s32 func_80132EF4(s32 a0, s32 a1);
+extern void func_8012B0B4(unsigned int *p, int a1, int a2);
+extern void func_80049CAC(s32, s32);
+extern void func_800484EC(s32, s32, s32);
+extern s32 func_8012C658(s32, s32, s32);
+extern void func_80184C04(s32 a0, s32 a1);
+extern s32 rand(void);
+
+void func_80183DA4(s32 a0, s32 a1) {
+    s32 buf10[8];    /* sp+0x10 (0x20) - func_80049CAC out / func_800484EC in */
+    s32 g40[4];      /* sp+0x30, only [0..2] used - func_800484EC vec3 arg */
+    u16 g30[4];      /* sp+0x40, only [0..2] used - func_80049CAC vec3 arg */
+    unsigned int buf48[2]; /* sp+0x48 (8) - func_8012B0B4 output */
+    unsigned int *p48;
+    s32 i;
+    s32 baseY;
+    s32 e;
+    u32 uVar;
+    s32 scratch;
+    s32 tmp;
+
+    i = 0;
+    p48 = buf48;
+    baseY = 0x100;
+    do {
+        e = func_80132EF4(a0, 0x23);
+        if (e != 0) {
+            *(s16 *)(e + 0x34) = rand() % 0x4000 + 0x1000;
+            *(u16 *)(*(s32 *)(e + 0x20) + 0x2c) = 0xc008;
+
+            func_8012B0B4(p48, rand() % 0x1000, rand() % 0x58);
+
+            tmp = *(s32 *)buf48;
+            *(s16 *)(e + 6) = *(s16 *)(e + 6) + (s16)tmp;
+            *(s16 *)(e + 0xe) = *(s16 *)(e + 0xe) + (s16)(tmp >> 16);
+
+            tmp = rand();
+            scratch = tmp % 0x80;
+            uVar = rand();
+            g30[0] = (uVar & 1) == 0 ? -scratch + 0x400 : scratch + 0x400;
+
+            scratch = rand() % 0xc0;
+            uVar = rand();
+            g30[1] = (uVar & 1) != 0 ? baseY + scratch : baseY - scratch;
+
+            g30[2] = 0;
+            g40[1] = 0;
+            g40[0] = 0;
+            g40[2] = (rand() % 4 + 3) << 16;
+
+            ((void (*)(void *, void *))func_80049CAC)(g30, buf10);
+            ((void (*)(void *, void *, s32))func_800484EC)(buf10, g40, e + 0x10);
+        }
+        i++;
+        baseY += 0x200;
+    } while (i < 8);
+
+    e = func_80132EF4(a0, 0x23);
+    if (e != 0) {
+        *(u16 *)(e + 0x34) = 0x7ff1;
+        *(u16 *)(*(s32 *)(e + 0x20) + 0x2c) = 0xc004;
+        *(s32 *)(e + 0x14) = 0xfffb0000;
+    }
+
+    i = 0;
+    do {
+        func_8012C658(0x29d, (u16)a1, a0);
+        i++;
+    } while (i < 4);
+
+    func_80184C04(a0, 0x95e);
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_032/nonmatchings/ov_SC06_032_jr_8017C24C", func_80184028);
 
@@ -6856,7 +6929,228 @@ INCLUDE_ASM("asm/ov_SC06_032/nonmatchings/ov_SC06_032_jr_8017C24C", func_8018D26
 
 INCLUDE_ASM("asm/ov_SC06_032/nonmatchings/ov_SC06_032_jr_8017C24C", func_8018D3A4);
 
-INCLUDE_ASM("asm/ov_SC06_032/nonmatchings/ov_SC06_032_jr_8017C24C", func_8018D5C0);
+
+// func_8018D5C0 — ov_SC06_018 / ov_SC06_018_jr_8017C24C
+// Sibling of func_8018E188 (same TU, banked MATCH) — shares the entry decrement block,
+// the 0x82&1 finisher, the C8/C9 pokes, the two 8-iteration spawn loops (0x281 / 0x23),
+// and the three-field (0xCC/0xD0/0xD4) particle-reseed block VERBATIM. This function adds
+// a THIRD leading func_8012C658 triple-spawn (not present in E188) and a FOURTH field
+// (0xD8) that repeats the two 8-iteration spawn loops against a second base pointer before
+// the two unconditional func_8012C218 tail calls.
+
+extern s32 rand(void);
+extern void func_8016AA50(s32, s32);
+extern s32 func_8016B428(s32);
+extern void func_80019064(void *);
+extern void func_8002A520(int);
+extern void func_8002A790(int);
+extern void func_8002D4C8(s32, s32);
+extern s32 func_8012C658(s32, s32, s32);
+extern s32 func_8012C588(s32, s32);
+extern u8 *func_8012913C(s32);
+extern void func_8012B23C(void *);
+extern void func_8012B1B4(void *, void *);
+extern void func_8012A828(s32, void *);
+extern void func_8012C218(void *);
+
+void func_8018D5C0(void *arg) {
+
+    extern u8 D_801CC7E4;
+    extern u8 D_801CC7D4;
+    extern u8 D_801CC7B0;
+    register u8 *p __asm__("$18");   /* $s2 */
+    s32 e;
+    s32 i;
+    s32 iv;
+    s32 d8;
+
+    p = (u8 *)arg;
+    e = *(u8 *)(p + 0x5E);
+
+    if (*(s16 *)(p + 0x60) != 0) {
+        if (e == 0x1D) {
+            *(u16 *)(p + 0x82) = 0;
+            *(u16 *)(p + 0x7C) = *(u16 *)(p + 0x06);
+            *(u16 *)(p + 0x7E) = *(u16 *)(p + 0x0A);
+            *(u16 *)(p + 0x80) = *(u16 *)(p + 0x0E);
+        }
+        {
+            s32 dec;
+            s32 q = *(s32 *)(p + 0x78);
+            if (q != 0 && *(s16 *)(p + 0x60) != 0) {
+                dec = ((s32)*(s16 *)(p + 0x60) * (s32)*(s16 *)(q + 0x30)) >> 12;
+                if (dec < 1) dec = 1;
+            } else {
+                dec = *(s16 *)(p + 0x60);
+            }
+            *(u16 *)(p + 0x76) = *(u16 *)(p + 0x76) - dec;
+            ((void (*)(void *, s32))func_8016AA50)(p, dec);
+        }
+        if (*(u16 *)(p + 0x82) & 1) {
+            ((void (*)(void *))func_8016B428)(p);
+            func_80019064(&D_801CC7E4);
+        }
+    }
+
+    if (e != 0x1D) {
+        if (*(u8 *)(p + 0xC8)) func_8002A520((s32)p);
+        if (*(u8 *)(p + 0xC9)) func_8002A790((s32)p);
+    }
+
+    if (*(s16 *)(p + 0x76) < 0) {
+        func_8002D4C8(0xAE0, 0);
+
+        {
+            s32 t = func_8012C658(0x33, 3, (s32)p);
+            if (t != 0) {
+                *(s16 *)(t + 0x16) = -0x10;
+                *(u16 *)(t + 0x12) = 0;
+                *(s16 *)(t + 0x1A) = -4;
+            }
+        }
+        {
+            s32 t = func_8012C658(0x33, 2, (s32)p);
+            if (t != 0) {
+                *(u16 *)(t + 0x12) = 5;
+                *(s16 *)(t + 0x16) = -0x10;
+                *(u16 *)(t + 0x1A) = 4;
+            }
+        }
+        {
+            s32 t = func_8012C658(0x32, 2, (s32)p);
+            if (t != 0) {
+                *(s16 *)(t + 0x12) = -5;
+                *(s16 *)(t + 0x16) = -0x10;
+                *(u16 *)(t + 0x1A) = 4;
+            }
+        }
+
+        i = 0;
+        do {
+            iv = ((s32 (*)(s32, void *))func_8012C588)(0x281, p);
+            if (iv != 0) {
+                *(s32 *)(iv + 0x1C) = 2;
+                *(u16 *)(iv + 0x12) = (rand() & 0x1F) - 0x10;
+                *(u16 *)(iv + 0x16) = -((rand() & 0x0F) + 0x10);
+                *(u16 *)(iv + 0x1A) = (rand() & 0x1F) - 0x10;
+            }
+            i++;
+        } while (i < 8);
+        i = 0;
+        do {
+            iv = (s32)func_8012913C(0x23);
+            if (iv != 0) {
+                s32 r;
+                s32 sv;
+                r = rand();
+                *(u16 *)(iv + 0x06) = *(u16 *)(p + 0x06) + (r & 0x3F) - 0x20;
+                r = rand();
+                *(u16 *)(iv + 0x0A) = *(u16 *)(p + 0x0A) - (r & 0x3F) - 0x20;
+                r = rand();
+                sv = *(u16 *)(p + 0x0E);
+                *(s32 *)(iv + 0x18) = 0;
+                *(s32 *)(iv + 0x14) = 0;
+                *(s32 *)(iv + 0x10) = 0;
+                *(u16 *)(iv + 0x0E) = sv + (r & 0x3F) - 0x20;
+                r = rand();
+                *(u16 *)(iv + 0x34) = (r & 0x17FF) + 0x1800;
+            }
+            i++;
+        } while (i < 8);
+
+        iv = *(s32 *)(p + 0xCC);
+        if (iv != 0) {
+            *(u16 *)(iv + 0x02) = 5;
+            *(u16 *)(iv + 0x34) = 0;
+            func_8012B23C((void *)iv);
+            func_8012B1B4((void *)iv, &D_801CC7D4);
+            *(u16 *)(iv + 0x16) = (rand() & 3) - 0x1B;
+            ((void (*)(void *, void *))func_8012A828)((void *)iv, &D_801CC7B0);
+            *(u16 *)(iv + 0x0A) = *(u16 *)(iv + 0x0A) - 0x38;
+            *(u16 *)(iv + 0xFC) = (rand() & 0xFF) - 0x80;
+            *(u16 *)(iv + 0xFE) = (rand() & 0xFF) - 0x80;
+            *(u16 *)(iv + 0x100) = (rand() & 0xFF) - 0x80;
+            *(s32 *)(iv + 0x1C) = 0x3C;
+        }
+        iv = *(s32 *)(p + 0xD0);
+        if (iv != 0) {
+            *(u16 *)(iv + 0x02) = 5;
+            *(u16 *)(iv + 0x34) = 0;
+            func_8012B23C((void *)iv);
+            func_8012B1B4((void *)iv, &D_801CC7D4);
+            *(u16 *)(iv + 0x16) = (rand() & 3) - 0x1B;
+            ((void (*)(void *, void *))func_8012A828)((void *)iv, &D_801CC7B0);
+            *(u16 *)(iv + 0x0A) = *(u16 *)(iv + 0x0A) - 0x38;
+            *(u16 *)(iv + 0xFC) = (rand() & 0xFF) - 0x80;
+            *(u16 *)(iv + 0xFE) = (rand() & 0xFF) - 0x80;
+            *(u16 *)(iv + 0x100) = (rand() & 0xFF) - 0x80;
+            *(s32 *)(iv + 0x1C) = 0x3C;
+        }
+        iv = *(s32 *)(p + 0xD4);
+        if (iv != 0) {
+            *(u16 *)(iv + 0x02) = 5;
+            *(u16 *)(iv + 0x34) = 0;
+            func_8012B23C((void *)iv);
+            func_8012B1B4((void *)iv, &D_801CC7D4);
+            *(u16 *)(iv + 0x16) = (rand() & 3) - 0x1B;
+            ((void (*)(void *, void *))func_8012A828)((void *)iv, &D_801CC7B0);
+            *(u16 *)(iv + 0x0A) = *(u16 *)(iv + 0x0A) - 0x38;
+            *(u16 *)(iv + 0xFC) = (rand() & 0xFF) - 0x80;
+            *(u16 *)(iv + 0xFE) = (rand() & 0xFF) - 0x80;
+            *(u16 *)(iv + 0x100) = (rand() & 0xFF) - 0x80;
+            *(s32 *)(iv + 0x1C) = 0x3C;
+        }
+
+        {
+        register s32 t __asm__("$4");
+        t = *(s32 *)(p + 0xD8);
+        d8 = t;
+        if (t != 0) {
+            i = 0;
+            do {
+                iv = func_8012C588(0x281, d8);
+                if (iv != 0) {
+                    *(s32 *)(iv + 0x1C) = 2;
+                    *(u16 *)(iv + 0x12) = (rand() & 0x1F) - 0x10;
+                    *(u16 *)(iv + 0x16) = -((rand() & 0x0F) + 0x10);
+                    *(u16 *)(iv + 0x1A) = (rand() & 0x1F) - 0x10;
+                }
+                i++;
+            } while (i < 8);
+            i = 0;
+            do {
+                iv = (s32)func_8012913C(0x23);
+                if (iv != 0) {
+                    s32 r;
+                    s32 sv;
+                    r = rand();
+                    *(u16 *)(iv + 0x06) = *(u16 *)(d8 + 0x06) + (r & 0x3F) - 0x20;
+                    r = rand();
+                    *(u16 *)(iv + 0x0A) = *(u16 *)(d8 + 0x0A) - (r & 0x3F) - 0x20;
+                    r = rand();
+                    sv = *(u16 *)(d8 + 0x0E);
+                    *(s32 *)(iv + 0x18) = 0;
+                    *(s32 *)(iv + 0x14) = 0;
+                    *(s32 *)(iv + 0x10) = 0;
+                    *(u16 *)(iv + 0x0E) = sv + (r & 0x3F) - 0x20;
+                    r = rand();
+                    *(u16 *)(iv + 0x34) = (r & 0x17FF) + 0x1800;
+                }
+                i++;
+            } while (i < 8);
+            func_8012C218((void *)d8);
+        }
+        }
+        func_8012C218((void *)p);
+    } else {
+        func_8002D4C8(0x9B7, 0);
+        *(u16 *)(p + 0x5C) = 0x8800;
+        *(u16 *)(p + 0x60) = 0;
+        *(u8 *)(p + 0xC1) = 0;
+        *(u8 *)(p + 0xC2) = 0x10;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_032/nonmatchings/ov_SC06_032_jr_8017C24C", func_8018DBB0);
 

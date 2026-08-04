@@ -50,7 +50,6 @@ extern void func_80162120(void);
 extern void func_80029124(s32, s32);
 extern s32 func_80165A50(s32);
 extern void func_80029514(s32);
-extern u8 D_800AF630[];
 extern u8 D_80078EC0;
 extern s32 func_80028FBC(void);
 extern s32 func_80029000(void);
@@ -4005,7 +4004,168 @@ void func_80186404(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_091/nonmatchings/ov_SC03_091_jr_80182268", func_80186440);
+
+
+/* Sibling-first template: src/ov_SC06_032/ov_SC06_032_jr_8017C24C.c:4778 func_80184294
+ * (banked/matched — same family, same struct-offset chain: func_8012C1B8 -> obj,
+ * store obj to param_1+0x20, func_8001C214(obj,0), raw=rand() truncated to s16,
+ * r=(s32)raw, flags|=0x10, v=r%384+0x400 written to obj+0x1c/0x1a/0x18, sgn=+-1
+ * chosen from raw&1, obj+0x10 = sgn*(r%128)-0x300, obj+0x12 = r%4096, tail calls
+ * func_8012B2CC/func_8012B178, then a repeated rand()%N +- C spread into a p[]
+ * array at param_1+0xDC with p[1]/p[5]/p[9]/p[13] zeroed). This instance differs
+ * only in: an extra obj+0x14=0 store, TWO tail helper calls (func_8012B2CC AND
+ * func_8012B23C) instead of one, mod-8 (not mod-12) spread with +-0x10 (not
+ * +-0x18), and a longer tail (0xFC/0xFD/0xFE bytes + 0x100 flag word).
+ *
+ * Declarations conformed to this TU's own canonical externs (grepped in one pass,
+ * D2): func_8012C1B8/func_8012CAE4/func_8012B23C/func_8012B2CC at
+ * src/ov_SC03_089/ov_SC03_089_jr_8017CA80.c:5114-5115,4924,2523 and
+ * func_8001C214 at :5425. func_8012B178 is not yet declared in this TU; its
+ * canonical extern form is copied verbatim from sibling TUs (e.g.
+ * src/ov_SC03_099/ov_SC03_099_jr_80135A4C.c:273).
+ *
+ * Per-field +-0x10 sign derived directly from the target .s (bnez-taken/not-taken
+ * addiu operands at each block, asm/ov_SC03_089/nonmatchings/.../func_80186440.s):
+ *   0xDC:-0x10  0xE0:-0x10  0xE4:+0x10  0xE8:-0x10  0xEC:-0x10  0xF0:+0x10
+ *   0xF4:+0x10  0xF8:+0x10
+ * — the same alternating pattern (-,-,+,-,-,+,+,+) as the sibling's mod-12/0x18
+ * block, just re-keyed to mod-8/0x10.
+ */
+
+extern s32 rand(void);
+extern void func_8012C1B8(void);
+extern void func_8012CAE4(void *a0);
+extern void func_8001C214(s32 a0, s32 a1);
+extern void func_8012B2CC(s32 a0);
+extern void func_8012B23C(void *a0);
+extern void func_8012B178(s32 a0, s32 a1);
+
+void func_80186440(s32 param_1) {
+
+    s32 unused[2]; /* dead 8-byte local — frame padding (cookbook idiom 6) */
+    s32 obj;
+    s16 raw;
+    s32 r;
+    s32 sgn;
+    s32 v;
+    s32 q;
+    s32 w;
+    /* The `register ... __asm__("$4")` pin on the tail's +2-field counter is
+     * load-bearing (matching-cookbook idiom 9 / L-lever family): unpinned, gcc
+     * puts the 0x50000000 OR-mask constant in $a0 and the field value in $v1
+     * (register-swapped vs. the target) and schedules the field's `lhu` right
+     * before the `or` instead of hoisting it ahead of the 0xFC/FD/FE `sb`
+     * stores. Pinning $4/$a0 to this value AND folding the `+1` into the same
+     * statement as the load (`cnt = *(u16*)(param_1+2) + 1;`, store separate)
+     * reproduces both the register choice and the exact schedule position. */
+    register s32 cnt __asm__("$4");
+
+    obj = ((s32 (*)(void))func_8012C1B8)();
+    if (obj == 0) {
+        func_8012CAE4((void *)param_1);
+        return;
+    }
+    *(s32 *)(param_1 + 0x20) = obj;
+    func_8001C214(obj, 0);
+
+    raw = rand();
+    r = raw;
+    *(u16 *)(obj + 0x2C) = *(u16 *)(obj + 0x2C) | 0x10;
+    v = r % 384 + 0x400;
+    *(s16 *)(obj + 0x1C) = v;
+    *(s16 *)(obj + 0x1A) = v;
+    *(s16 *)(obj + 0x18) = v;
+    sgn = -1;
+    if (raw & 1) {
+        sgn = 1;
+    }
+    *(s16 *)(obj + 0x10) = sgn * (r % 128) - 0x300;
+    *(s16 *)(obj + 0x12) = r % 4096;
+    *(u16 *)(obj + 0x14) = 0;
+
+    *(u16 *)(param_1 + 0xA) = *(u16 *)(param_1 + 0xA) - 0x19;
+    func_8012B2CC(param_1);
+    func_8012B23C((void *)param_1);
+    func_8012B178(param_1, -0xC0000 - ((r % 8) << 16));
+
+    *(s32 *)(param_1 + 0x1C) = 0x5A;
+
+    q = rand() % 8;
+    if ((rand() & 1) == 0) {
+        w = -q - 0x10;
+    } else {
+        w = q - 0x10;
+    }
+    *(s16 *)(param_1 + 0xDC) = w;
+    *(s16 *)(param_1 + 0xDE) = 0;
+
+    q = rand() % 8;
+    if ((rand() & 1) == 0) {
+        w = -q - 0x10;
+    } else {
+        w = q - 0x10;
+    }
+    *(s16 *)(param_1 + 0xE0) = w;
+
+    q = rand() % 8;
+    if ((rand() & 1) == 0) {
+        w = -q + 0x10;
+    } else {
+        w = q + 0x10;
+    }
+    *(s16 *)(param_1 + 0xE4) = w;
+    *(s16 *)(param_1 + 0xE6) = 0;
+
+    q = rand() % 8;
+    if ((rand() & 1) == 0) {
+        w = -q - 0x10;
+    } else {
+        w = q - 0x10;
+    }
+    *(s16 *)(param_1 + 0xE8) = w;
+
+    q = rand() % 8;
+    if ((rand() & 1) == 0) {
+        w = -q - 0x10;
+    } else {
+        w = q - 0x10;
+    }
+    *(s16 *)(param_1 + 0xEC) = w;
+    *(s16 *)(param_1 + 0xEE) = 0;
+
+    q = rand() % 8;
+    if ((rand() & 1) == 0) {
+        w = -q + 0x10;
+    } else {
+        w = q + 0x10;
+    }
+    *(s16 *)(param_1 + 0xF0) = w;
+
+    q = rand() % 8;
+    if ((rand() & 1) == 0) {
+        w = -q + 0x10;
+    } else {
+        w = q + 0x10;
+    }
+    *(s16 *)(param_1 + 0xF4) = w;
+    *(s16 *)(param_1 + 0xF6) = 0;
+
+    q = rand() % 8;
+    if ((rand() & 1) == 0) {
+        w = -q + 0x10;
+    } else {
+        w = q + 0x10;
+    }
+    *(s16 *)(param_1 + 0xF8) = w;
+
+    cnt = *(u16 *)(param_1 + 2) + 1;
+    *(u8 *)(param_1 + 0xFC) = 0x80;
+    *(u8 *)(param_1 + 0xFD) = 0x80;
+    *(u8 *)(param_1 + 0xFE) = 0x80;
+    *(u32 *)(param_1 + 0x100) = *(u32 *)(param_1 + 0x100) | 0x50000000;
+    *(u16 *)(param_1 + 2) = cnt;
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_091/nonmatchings/ov_SC03_091_jr_80182268", func_801867DC);
 
@@ -4015,7 +4175,212 @@ INCLUDE_ASM("asm/ov_SC03_091/nonmatchings/ov_SC03_091_jr_80182268", func_801868D
 
 INCLUDE_ASM("asm/ov_SC03_091/nonmatchings/ov_SC03_091_jr_80182268", func_80186A48);
 
-INCLUDE_ASM("asm/ov_SC03_091/nonmatchings/ov_SC03_091_jr_80182268", func_80186A8C);
+
+/* func_80186A8C — ov_SC02_026 / ov_SC02_026_jr_8017C180.c   MATCH (230 ins)
+ * Family exemplar: 6 members / 1380 templatable instructions (all 6 were in
+ * nonmatchings, §136e — no twin existed, so this was derived from the .s).
+ *
+ * DERIVATION NOTES (each item moved the count):
+ *
+ *  1. `u8 *m = D_800AF630;` AS THE FIRST LOCAL (form copied verbatim from the
+ *     banked sibling func_8017D77C, src/ov_SC04_018/ov_SC04_018_jr_8017AE2C.c:4273,
+ *     and from GameModeDispatch in src/boot.c).  The target builds the base in a
+ *     register (`lui/addiu $s2` then `lui $at,1 / addu / lhu -0x5C56($at)`), NOT
+ *     `%hi(D_800AF630+0xA3AA)` — that split only happens for a REGISTER base, i.e.
+ *     a pointer local.  Declaring it first makes it live across the func_8004787C
+ *     call, which is what puts it in a callee-saved reg; global-alloc's density
+ *     sort then hands out $s0=a0, $s1=ang, $s2=m exactly as the target has them.
+ *
+ *  2. FRAME PADDING (idiom 6).  All 14 initial mismatches were sp-relative
+ *     immediates off by a uniform 0x10: 16 bytes of DEAD locals sit at sp+0x10
+ *     (frame 0x30, saves at 0x20..0x2C).  It must be an AGGREGATE — a scalar
+ *     becomes a pseudo and vanishes.  `s32 pad[4]` closed 10 of 14.
+ *
+ *  3. THE $a1 PIN ON THE func_8012B178 ARGUMENT (§40; same lever, same register,
+ *     as the banked sibling func_8018389C at TU:5062).  Target emits
+ *         addiu $a1,$v0,-0x4000 / jal func_8012B178 / addu $a0,$s0,$zero
+ *     i.e. the a1 setup FIRST and the a0 move stolen into the call's delay slot.
+ *     Written as `func_8012B178(a0, t - 0x4000)` combine folds the subtract into
+ *     the a1 arg-MOVE, which is emitted AFTER the a0 move, so the two swap
+ *     (SCHEDULE-REORDER/4, both in case 0 and case 1).  Hoisting the subtract to
+ *     its own statement does NOT help (combine still merges it into the move —
+ *     A/B tested), and a §21 zero-byte re-tie on `t` does not either.  A local
+ *     pinned to $5 makes the addiu a BODY insn at the join, so the a0 move is the
+ *     last insn before the jal and dbr steals it.  This is not a parameter pin
+ *     (S3), it is the arg-value pin.
+ *
+ *  4. `r` IS A LOCAL IN case 0 BUT INLINED IN case 1 (§136 L1/L3).  case 0 tests
+ *     func_8012CBA4's result twice, so the pseudo outlives $v0 and lands in $v1
+ *     (`addu $v1,$v0,$zero` + two `andi` off $v1); case 1 tests it once and the
+ *     target has `andi $v0,$v0,0x2000` with no copy — so it must NOT be a local
+ *     there.
+ *
+ *  5. BRANCH POLARITY on the ±offset pick (§3-T4 / T7).  The target is
+ *         bnez $v0,L / addu $v0,$s2,$s1 (DELAY SLOT) / subu $v0,$s2,$s1 / L:
+ *     The delay-slot insn is the ELSE arm, moved (not copied) by
+ *     fill_slots_from_thread because the label is own_thread.  That requires the
+ *     THEN arm to be the subtract, i.e. `if ((rand() & 1) == 0) v = base - off;
+ *     else v = base + off;`.  The natural spelling `if (rand() & 1) v = base+off;`
+ *     puts the subtract in the slot instead.  The single trailing `sw` also
+ *     requires the store to be AFTER the if/else on a local `v`, not duplicated
+ *     into both arms.
+ *
+ *  6. THE 3x DUPLICATED "go to state 2" TAIL IS REAL SOURCE DUPLICATION.  jump.c's
+ *     cross-jumping (2nd jump_optimize, post-reload) merges the three identical
+ *     copies into the one block at 0x801818F4 and redirects case 0's two arms into
+ *     it — case 0's `&0x8000` arm to 0x801818F4 and its `!&0x2000` arm to the
+ *     func_8012ADE4 head at 0x801818EC.
+ *
+ * DECLARATION SURFACE (whole-TU one-pass grep, D2 — above AND below the splice at
+ * TU:4477; the spliced TU was compiled end-to-end and its codegen for this
+ * function is identical to the standalone compile modulo $L numbering):
+ *   copied VERBATIM from the TU's existing spelling —
+ *     D_800AF630    (TU:53, file scope)      func_8004787C (TU:2206)
+ *     func_8012B8E4 (TU:4901)                func_8012CBA4 (TU:4343/4768, `void`
+ *                                              -> return taken through a cast, idiom 9)
+ *     func_8012B608 (TU:4163/5051)           func_8012BEE8 (TU:6145)
+ *     func_8012B030 (TU:4480, `u8 *`)        rand          (TU:957; TU:1092 has the
+ *                                              equivalent `int` form — never redeclared)
+ *   NOT declared anywhere in the TU or in common.h/engine_core.h, so the canonical
+ *   fleet form is used —
+ *     func_8012B178 / func_8012ADE4 : the engine_core.h DEFINE_func_* bodies
+ *       (L4288 / L1724) and the 10 sibling TUs all use exactly these two forms.
+ *     func_801877EC / func_8018771C : only INCLUDE_ASM lines (TU:4504/4506), which
+ *       declare nothing.
+ *     D_801A8C0C : real dlabel in asm/ov_SC02_026/data/tail.data.s:43706; the
+ *       0x70&0xF index runs past its 2 words into the following dlabels, so it must
+ *       be an unsized `s32 []`.
+ */
+
+extern s32 func_8004787C(s32 a0);
+extern s32 func_8012B8E4(s32 a0, s32 a1);
+extern void func_8012B178(s32 a0, s32 a1);
+extern void func_8012CBA4(s32 a0);
+extern void func_8012ADE4(u8 *a0);
+extern s32 func_8012B608(s32 a0, s32 a1, s32 a2);
+extern s32 func_8012BEE8(s32 a0);
+extern s32 func_8012B030(u8 *a0);
+extern s32 rand(void);
+extern void func_801877EC(s32 a0);
+extern void func_8018771C(s32 a0, s32 a1);
+
+void func_80186A8C(s32 a0) {
+
+    extern u8 D_800AF630[];
+    extern s32 D_801A8C0C[];
+    s32 pad[4];   /* idiom 6: 16 bytes of dead locals at sp+0x10 => frame 0x30 */
+    u8 *m = D_800AF630;
+    s32 ang;
+    s32 off;
+    s32 base;
+
+    ang = func_8004787C(*(s32 *)(a0 + 0xE4));
+    if (*(s16 *)(a0 + 0xAA) == 0) {
+        *(s16 *)(*(s32 *)(a0 + 0x20) + 0x18) = (ang >> 2) + 0x1000;
+        *(s16 *)(*(s32 *)(a0 + 0x20) + 0x1A) = 0x1000 - (ang >> 1);
+        *(s16 *)(*(s32 *)(a0 + 0x20) + 0x1C) = (ang >> 1) + 0x1000;
+    } else {
+        *(s16 *)(*(s32 *)(a0 + 0x20) + 0x18) = (ang >> 3) + 0x700;
+        *(s16 *)(*(s32 *)(a0 + 0x20) + 0x1A) = 0x700 - (ang >> 2);
+        *(s16 *)(*(s32 *)(a0 + 0x20) + 0x1C) = (ang >> 2) + 0x700;
+    }
+
+    if (*(u16 *)(m + 0xA3AA) % *(s16 *)(a0 + 0xFE) == 0) {
+        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) =
+            *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) + func_8012B8E4(a0, 0x20);
+    }
+
+    switch (*(u16 *)(a0 + 0x34)) {
+    case 0: {
+        s32 t;
+        s32 r;
+        if (ang >= 0) {
+            t = -(ang << 4);
+        } else {
+            t = ang << 4;
+        }
+        {
+            register s32 av __asm__("$5");
+            av = t - 0x4000;
+            func_8012B178(a0, av);
+        }
+        r = ((s32 (*)(s32))func_8012CBA4)(a0);
+        if (r & 0x8000) {
+            *(u16 *)(a0 + 0x34) = 2;
+            *(s32 *)(a0 + 0xE0) = *(s16 *)(*(s32 *)(a0 + 0x20) + 0x12) + 0x800;
+            *(s32 *)(a0 + 0x1C) = rand() % 10 + 0x14;
+        } else if ((r & 0x2000) == 0) {
+            func_8012ADE4((u8 *)a0);
+            *(u16 *)(a0 + 0x34) = 2;
+            *(s32 *)(a0 + 0xE0) = *(s16 *)(*(s32 *)(a0 + 0x20) + 0x12) + 0x800;
+            *(s32 *)(a0 + 0x1C) = rand() % 10 + 0x14;
+        } else if (--*(s32 *)(a0 + 0xE8) == 0) {
+            if (rand() & 1) {
+                s32 v;
+                *(u16 *)(a0 + 0x34) = 1;
+                *(s32 *)(a0 + 0x1C) = 0x20;
+                off = rand() % 1024;
+                base = *(s16 *)(*(s32 *)(a0 + 0x20) + 0x12);
+                if ((rand() & 1) == 0) {
+                    v = base - off;
+                } else {
+                    v = base + off;
+                }
+                *(s32 *)(a0 + 0xE0) = v;
+            } else {
+                *(s32 *)(a0 + 0xE8) = 0x40;
+            }
+        }
+        break;
+    }
+    case 1: {
+        s32 t;
+        s32 d = func_8012B608(*(s16 *)(*(s32 *)(a0 + 0x20) + 0x12),
+                              *(s32 *)(a0 + 0xE0), 0x14);
+        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) =
+            *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) + d;
+        if (ang >= 0) {
+            t = -(ang << 4);
+        } else {
+            t = ang << 4;
+        }
+        {
+            register s32 av __asm__("$5");
+            av = t - 0x4000;
+            func_8012B178(a0, av);
+        }
+        if ((((s32 (*)(s32))func_8012CBA4)(a0) & 0x2000) == 0) {
+            func_8012ADE4((u8 *)a0);
+            *(u16 *)(a0 + 0x34) = 2;
+            *(s32 *)(a0 + 0xE0) = *(s16 *)(*(s32 *)(a0 + 0x20) + 0x12) + 0x800;
+            *(s32 *)(a0 + 0x1C) = rand() % 10 + 0x14;
+        } else if (func_8012BEE8(a0) != 0) {
+            *(u16 *)(a0 + 0x34) = 0;
+            *(s32 *)(a0 + 0xE8) = 0x40;
+        }
+        break;
+    }
+    case 2: {
+        s32 d = func_8012B608(*(s16 *)(*(s32 *)(a0 + 0x20) + 0x12),
+                              *(s32 *)(a0 + 0xE0), 0x14);
+        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) =
+            *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) + d;
+        if (func_8012BEE8(a0) != 0) {
+            *(u16 *)(a0 + 0x34) = 0;
+            func_8012B030((u8 *)a0);
+        }
+        break;
+    }
+    }
+
+    func_801877EC(a0);
+    func_8018771C(a0, D_801A8C0C[*(u16 *)(a0 + 0x70) & 0xF]);
+    *(s32 *)(a0 + 0xE4) = (*(s32 *)(a0 + 0xE4) + 0x40) & 0x7FF;
+    if (*(s32 *)(a0 + 0x14) > 0x100000) {
+        *(s32 *)(a0 + 0x14) = 0x100000;
+    }
+}
+
 
 
 extern s32 func_8012B030(u8 *a0);

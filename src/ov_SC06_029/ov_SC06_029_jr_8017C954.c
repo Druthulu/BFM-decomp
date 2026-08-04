@@ -3423,7 +3423,108 @@ INCLUDE_ASM("asm/ov_SC06_029/nonmatchings/ov_SC06_029_jr_8017C954", func_8017DC3
 
 INCLUDE_ASM("asm/ov_SC06_029/nonmatchings/ov_SC06_029_jr_8017C954", func_8017DDE0);
 
-INCLUDE_ASM("asm/ov_SC06_029/nonmatchings/ov_SC06_029_jr_8017C954", func_8017DF74);
+
+extern void func_80015978(s32 a0, s32 *a1);
+extern void func_800139C8(s32 a0, void *a1, void *a2);
+extern void func_8012EFB8(s32 a0);
+extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
+extern s32 func_80017DC4(void *a0, void *a1);
+extern s32 func_80017E30(void *a0, void *a1);
+extern void func_80016ED4(void *a0);
+
+typedef struct { short vx, vy, vz, pad; } SVECTOR_8017F40C_8017DF74;
+
+
+typedef struct {
+    SVECTOR_8017F40C_8017DF74 v[4];      /* 0x00 */
+    s16 k30, k32, k34, k36, k38, k3a, k3c, k3e;  /* 0x20 */
+    u32 bcast;                  /* 0x30 */
+    s32 tag;                    /* 0x34 */
+    u8 code;                    /* 0x38 */
+    u8 pad39[7];                /* -> 0x40 */
+} Prim_8017F40C_8017DF74;
+
+void func_8017DF74(s32 a0, s32 a1) {
+
+    extern SVECTOR_8017F40C_8017DF74 D_8018FFB8[4];
+    Prim_8017F40C_8017DF74 prim;
+    u8 matBuf[0x20];
+    SVECTOR_8017F40C_8017DF74 vecB;
+    SVECTOR_8017F40C_8017DF74 angBuf;
+    SVECTOR_8017F40C_8017DF74 sinOut;
+    SVECTOR_8017F40C_8017DF74 sv1, sv2, sv3, sv4;
+    u32 mask;
+    s32 rowPtr;
+    SVECTOR_8017F40C_8017DF74 *ap;
+    void *mp;
+    SVECTOR_8017F40C_8017DF74 *dv;
+
+    func_80015978(a0 + 4, (s32 *)&vecB);
+    angBuf.vx = 0;
+    angBuf.vy = 0;
+    angBuf.vz = *(u16 *)(a1 + 0xe);
+    func_800139C8((s32) *(s16 *)(a1 + 2), &angBuf, &angBuf);
+    mask = ((u32(*)(void *, void *))func_8012EFB8)(&vecB, &vecB);
+    if ((mask & 0xffffefff) == 0) {
+        Prim_8017F40C_8017DF74 *pp = &prim;
+        s32 off;
+        s32 cnt;
+        cnt = 0;
+        ap = &angBuf;
+        mp = matBuf;
+        dv = D_8018FFB8;
+        off = 0x10;
+        pp->v[0].vz = 3;
+        pp->code = 0x12;
+        pp->tag = 0x50000000;
+        pp->k30 = 0x870;
+        pp->k32 = 0x1a8;
+        pp->k34 = 0x88f;
+        pp->k36 = 0x1a8;
+        pp->k38 = 0x870;
+        pp->k3a = 0x1c7;
+        pp->k3c = 0x88f;
+        pp->k3e = 0x1c7;
+        vecB.vx = vecB.vx + angBuf.vx;
+        vecB.vy = vecB.vy + angBuf.vy;
+        vecB.vz = vecB.vz + angBuf.vz;
+        do {
+            rowPtr = a1 + off;
+            {
+                u32 c = *(u32 *)(rowPtr + 0x18);
+                pp->bcast = c | ((c << 0x10) | (c << 8));
+            }
+            angBuf.vx = angBuf.vy = angBuf.vz = *(u16 *)(rowPtr + 4);
+            func_80017DC4(ap, mp);
+            angBuf.vx = 0;
+            angBuf.vy = 0;
+            angBuf.vz = *(u16 *)(rowPtr + 0xa);
+            func_80017E30(ap, mp);
+            ApplyMatrixSV(mp, &dv[0], &sv1);
+            ApplyMatrixSV(mp, &dv[1], &sv2);
+            ApplyMatrixSV(mp, &dv[2], &sv3);
+            ApplyMatrixSV(mp, &dv[3], &sv4);
+            angBuf.vx = 0;
+            angBuf.vy = 0;
+            angBuf.vz = *(u16 *)(rowPtr + 0x16);
+            func_800139C8((s32) *(s16 *)(rowPtr + 8), ap, &sinOut);
+            sinOut.vx = sinOut.vx + vecB.vx;
+            sinOut.vz = sinOut.vz + vecB.vy;
+            pp->v[0].vx = sinOut.vx + sv1.vx;
+            pp->v[0].vy = sinOut.vz + sv1.vy;
+            pp->v[1].vx = sinOut.vx + sv2.vx;
+            pp->v[1].vy = sinOut.vz + sv2.vy;
+            pp->v[2].vx = sinOut.vx + sv3.vx;
+            off = off + 0x1c;
+            pp->v[2].vy = sinOut.vz + sv3.vy;
+            cnt = cnt + 1;
+            pp->v[3].vx = sinOut.vx + sv4.vx;
+            pp->v[3].vy = sinOut.vz + sv4.vy;
+            func_80016ED4(pp);
+        } while (cnt < 0x10);
+    }
+}
+
 
 extern void func_8002931C(void);
     void func_8017E22C(void) {

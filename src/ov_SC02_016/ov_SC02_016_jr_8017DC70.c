@@ -3419,7 +3419,96 @@ void func_8017FBE0(void *a0) {
 
 INCLUDE_ASM("asm/ov_SC02_016/nonmatchings/ov_SC02_016_jr_8017DC70", func_8017FC1C);
 
-INCLUDE_ASM("asm/ov_SC02_016/nonmatchings/ov_SC02_016_jr_8017DC70", func_8017FCD0);
+
+extern s32 func_8001CC3C(s32 a0, s32 a1, s32 a2, s32 a3);
+extern void func_80128EA8(s32 a0, s32 a1, s32 a2);
+extern s32 rand(void);
+
+
+typedef struct {
+    s32 f0, f1, f2, f3;
+} Quad_8018797C_8017FCD0;
+
+void func_8017FCD0(s32 a0) {
+
+    extern u8 D_801881A4[];
+    extern s32 D_80188450[];
+    s32 effect;
+    s32 count;
+    s32 idx;
+    s32 *entry;
+    Quad_8018797C_8017FCD0 tmp;
+    s32 off[3];
+    u16 reload;
+
+    effect = *(s32 *)(a0 + 0x20);
+    count = *(s32 *)(a0 + 0x1c) - 1;
+    *(s32 *)(a0 + 0x1c) = count;
+    if (count == -1) {
+        func_8001CC3C(effect, (s32)D_801881A4, 0, 0);
+        *(u8 *)(effect + 0x27) = 0x88;
+        *(u16 *)(effect + 0x1a) = 0x4000;
+        *(u16 *)(effect + 0x18) = 0x4000;
+        *(u32 *)(effect + 4) = *(u32 *)(effect + 4) | 0x50000040;
+
+        idx = *(s32 *)(a0 + 0x2c);
+        entry = &D_80188450[idx * 3];
+        func_80128EA8(effect, a0 + 0x24, entry[0]);
+
+        {
+            s32 rnd;
+            u32 sign;
+            tmp = *(Quad_8018797C_8017FCD0 *)(entry[2] + 0x10);
+            rnd = rand();
+            off[0] = rnd % (tmp.f0 + 1);
+            sign = rnd & 1;
+            if (sign != 0) {
+                off[0] = -off[0];
+            }
+            off[1] = rnd % (tmp.f1 + 1);
+            if (sign != 0) {
+                off[1] = -off[1];
+            }
+            off[2] = rnd % (tmp.f2 + 1);
+            if (sign != 0) {
+                off[2] = -off[2];
+            }
+        }
+
+        *(s32 *)(a0 + 0x10) = *(s32 *)(entry[2] + 0) + off[0];
+        *(s32 *)(a0 + 0x14) = *(s32 *)(entry[2] + 4) + off[1];
+        *(s32 *)(a0 + 0x18) = *(s32 *)(entry[2] + 8) + off[2];
+
+        {
+            s32 rnd;
+            u32 sign;
+            tmp = *(Quad_8018797C_8017FCD0 *)(entry[2] + 0x30);
+            rnd = rand();
+            off[0] = rnd % (tmp.f0 + 1);
+            sign = rnd & 1;
+            if (sign != 0) {
+                off[0] = -off[0];
+            }
+            off[1] = rnd % (tmp.f1 + 1);
+            if (sign != 0) {
+                off[1] = -off[1];
+            }
+            off[2] = rnd % (tmp.f2 + 1);
+            if (sign != 0) {
+                off[2] = -off[2];
+            }
+        }
+
+        *(s32 *)(a0 + 0x2c) = *(s32 *)(entry[2] + 0x20) + off[0];
+        *(s32 *)(a0 + 0x30) = *(s32 *)(entry[2] + 0x24) + off[1];
+        *(s32 *)(a0 + 0x34) = *(s32 *)(entry[2] + 0x28) + off[2];
+
+        reload = *(u16 *)((s32)entry + 4);
+        *(u16 *)(a0 + 2) = *(u16 *)(a0 + 2) + 1;
+        *(u32 *)(a0 + 0x1c) = reload;
+    }
+}
+
 
 
 INCLUDE_ASM("asm/ov_SC02_016/nonmatchings/ov_SC02_016_jr_8017DC70", func_8018003C);
