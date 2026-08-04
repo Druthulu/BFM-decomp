@@ -39,7 +39,7 @@ print(f"[gate] {sum(len(v) for v in groups.values())} drafts / {len(groups)} gro
 for s in skipped:
     print("   skip:", s)
 
-banked, failed = [], []
+banked, failed, unaccounted = [], [], []
 for (ov, tu, subdir), items in sorted(groups.items()):
     gdir = os.path.join(STAGE, ov)
     os.makedirs(gdir, exist_ok=True)
@@ -53,14 +53,40 @@ for (ov, tu, subdir), items in sorted(groups.items()):
     out = r.stdout + r.stderr
     ver = [l for l in out.splitlines() if l.startswith('VERIFIED:')]
     fal = [l for l in out.splitlines() if l.startswith('FAILED  :')]
-    v = ver[0][9:].split() if ver else []
+    v = [x for x in (ver[0][9:].split() if ver else []) if x != '(none)']
     f = [x for x in (fal[0][9:].split() if fal else []) if x != '(none)']
-    banked += [(ov, x) for x in v if x != '(none)']
+    banked += [(ov, x) for x in v]
     failed += [(ov, x) for x in f]
-    print(f"  {ov:<14} [{os.path.basename(tu)}] {len(v)}/{len(items)} banked"
-          + (f"  FAILED: {' '.join(f)}" if f else ''))
+
+    # R32 COVERAGE ASSERTION — the defect this gate shipped with (P30 S38).
+    # It used to grep stdout for two line-prefixes and report whatever it found. When
+    # harvest_verify CRASHED (a post-carve KeyError, uncaught, which also stranded the carve in
+    # config/ + src/), there was no VERIFIED and no FAILED line — so the draft was booked as
+    # NOTHING, and the run printed a clean-looking tally. Wave 6 lost 10 of 16 drafts that way,
+    # 9 of them claiming MATCH, while every later group ran against the mutated tree.
+    # A verdict is now MANDATORY per draft: anything unaccounted for is reported LOUDLY, with the
+    # child's returncode and the tail of its output, because "no verdict" is a DEFECT, not a no.
+    seen = set(v) | set(f)
+    miss = [fn for fn, _ in items if fn not in seen]
+    if miss or r.returncode:
+        unaccounted += [(ov, fn) for fn in miss]
+        print(f"  {ov:<14} [{os.path.basename(tu)}] !! NO VERDICT for {len(miss)} draft(s) "
+              f"(harvest_verify rc={r.returncode}): {' '.join(miss)}")
+        for line in out.strip().splitlines()[-12:]:
+            print(f"        | {line}")
+    else:
+        print(f"  {ov:<14} [{os.path.basename(tu)}] {len(v)}/{len(items)} banked"
+              + (f"  FAILED: {' '.join(f)}" if f else ''))
     shutil.rmtree(gdir, ignore_errors=True)
 
-print(f"\n[gate] BANKED {len(banked)} / FAILED {len(failed)}")
+total = sum(len(x) for x in groups.values())
+print(f"\n[gate] BANKED {len(banked)} / FAILED {len(failed)} / NO-VERDICT {len(unaccounted)}"
+      f"  (of {total} drafts, {len(skipped)} skipped pre-flight)")
 for ov, fn in failed:
     print("   fail:", ov, fn)
+for ov, fn in unaccounted:
+    print("   NO VERDICT:", ov, fn)
+assert len(banked) + len(failed) + len(unaccounted) == total, (
+    f"gate accounting is not 1:1 — {len(banked)}+{len(failed)}+{len(unaccounted)} != {total}")
+if unaccounted:
+    sys.exit(1)   # a crashed child may have STRANDED A CARVE; never let this look like success

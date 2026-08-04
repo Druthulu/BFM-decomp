@@ -206,14 +206,37 @@ def _fn_has_jtbl(fn):
 
 
 def _reload_corpus():
-    """Re-derive the stub map + baseline after an isolation moved a stub to a new TU."""
+    """Re-derive the stub map + baseline after an isolation moved a stub to a new TU.
+
+    THE `--src` FILTER MUST NOT APPLY TO THE WORKING SET HERE (P30 S38, byte-witnessed).
+    Following a carved stub to its NEW TU is this function's entire stated purpose — and the old
+    code then re-applied `--src` (`x.path == a.src`) to the reloaded map, which DELETED exactly the
+    function just carved. The consequences chained all the way out to a false wall:
+        _stubs loses fn  ->  render() raises KeyError(fn)  ->  the exception is UNCAUGHT, so
+        _jtbl_restore(snap) never runs  ->  the carve is STRANDED in config/ + src/  ->  and the
+        caller (s6f_gate.py) greps stdout for VERIFIED:/FAILED: lines, finds neither, and books a
+        SILENT SKIP.
+    Net effect: 10 of wave 6's 16 drafts — 9 of them claiming MATCH — reported as nothing at all,
+    while every later group in the same gate ran against a tree the earlier crashes had mutated.
+    Line 136 already labels `--src` "an optional filter, not a location oracle"; this is the place
+    that was treating it as one.
+
+    So: keep the filter for the ambient stub map (it is what makes `len(_stubs)` mean "stubs in the
+    TU under test"), but NEVER let it drop a draft we are actively verifying, wherever it now lives.
+    That also repairs `_touched`/`baseline`, which are derived from this map — a carved fn missing
+    from `_stubs` left its new TU unbaselined, so the revert path could not restore it either."""
     global _stubs, baseline, _touched
     for f in (corpus.stubs, corpus.sig, corpus.symbols, corpus.src_files):
         if hasattr(f, 'cache_clear'):
             f.cache_clear()
     _stubs = {x.symbol: x for x in corpus.stubs(a.binary).values()}
     if a.src:
-        _stubs = {n: x for n, x in _stubs.items() if x.path == a.src}
+        working = set(drafts)
+        _stubs = {n: x for n, x in _stubs.items() if x.path == a.src or n in working}
+    missing = [fn for fn in items if fn not in _stubs]
+    if missing:                                   # R32: a vanished working stub is a DEFECT, loudly
+        print('  [reload] !! %d working stub(s) not in the corpus after reload: %s'
+              % (len(missing), ' '.join(missing[:6])))
     _touched = sorted({_stubs[fn].path for fn in items if fn in _stubs})
     baseline = {q: open(q).read() for q in _touched}
 
