@@ -3723,7 +3723,124 @@ INCLUDE_ASM("asm/ov_SC03_014/nonmatchings/ov_SC03_014_jr_8017AE2C", func_8017D19
 
 INCLUDE_ASM("asm/ov_SC03_014/nonmatchings/ov_SC03_014_jr_8017AE2C", func_8017D1E0);
 
-INCLUDE_ASM("asm/ov_SC03_014/nonmatchings/ov_SC03_014_jr_8017AE2C", func_8017D318);
+/* func_8017D318 -- ov_SC03_014, TU ov_SC03_014_jr_8017AE2C.c
+ *
+ * §136c sibling-first: near-twin is the already-banked func_8017C290 in the SAME TU
+ * (src/ov_SC03_014/ov_SC03_014_jr_8017AE2C.c). Reused verbatim from it: the
+ * MATRIX_8017C290 / SVECTOR_8017C290 / PW8017C290 (packed align-1, 4 byte) type
+ * trio, the gte_ldv0/gte_rt/gte_stsv inline-asm macros, and the extern decls for
+ * func_80013F3C / RotMatrixZ / func_8004914C / func_800491AC / func_80017714 and
+ * the D_801EA8C0 / D_801EA8E0 / D_801EA8E4 / D_801EA8E8..EE / D_801EA8F0 globals
+ * (all already declared at file scope ahead of func_8017C290 in the real TU --
+ * kept identical here so the two are drop-in compatible on integration). Only new
+ * symbols: D_8018EF98 / D_8018EFAC (two more per-index style tables, same packed
+ * 4-byte element shape as the twin's D_8018EF70).
+ *
+ * The whole body is dead straight-line code (0 branches in the target .s, matches
+ * the "Handwritten function" tag's 0x2E0-byte non-branching GTE cascade): unlike
+ * the twin there's no `if (flags == 0)` guard around the E0/E4/E8/EC table copies,
+ * and no separate s16* header param -- a0's own offsets 0x6/0xA/0xE feed m.t[0],
+ * m.t[1], and the vz field (mirrors the twin's b[0]/b[1]/b[2]).
+ */
+
+/* provided by the TU (§100): typedef struct { s16 m[3][3]; s16 pad; s32 t[3]; } MATRIX_8017C290; */
+/* provided by the TU (§100): typedef struct { u16 vx, vy, vz, pad; } SVECTOR_8017C290; */
+/* provided by the TU (§100) at L3414: struct PW8017C290 { int w; } packed */
+
+extern void func_80013F3C(s32 a0);
+extern void RotMatrixZ(s32, void *);
+extern void func_8004914C(void *a0);
+extern void func_800491AC(void *a0);
+extern void func_80017714(void *);
+
+/* provided by the TU (§100): extern SVECTOR_8017C290 D_801EA8C0[4]; */
+/* provided by the TU (§100) at L3424: extern struct PW8017C290 D_801EA8E0; */
+/* provided by the TU (§100) at L3425: extern struct PW8017C290 D_801EA8E4; */
+extern u8 D_801EA8E8, D_801EA8E9, D_801EA8EA, D_801EA8EC, D_801EA8ED, D_801EA8EE;
+extern int D_801EA8F0;
+extern struct PW8017C290 D_8018EF98[];
+extern struct PW8017C290 D_8018EFAC[];
+
+#define gte_ldv0(r0)  __asm__ __volatile__( \
+    "lwc2 $0, 0(%0)\n" \
+    "lwc2 $1, 4(%0)\n" \
+    : : "r"(r0) : "memory")
+
+#define gte_rt()  __asm__ __volatile__( \
+    "nop\n" \
+    "nop\n" \
+    "mvmva 1, 0, 0, 0, 0\n" \
+    : : : "memory")
+
+#define gte_stsv(r0)  __asm__ __volatile__( \
+    "mfc2 $12, $9\n" \
+    "mfc2 $13, $10\n" \
+    "mfc2 $14, $11\n" \
+    "sh $12, 0(%0)\n" \
+    "sh $13, 2(%0)\n" \
+    "sh $14, 4(%0)\n" \
+    : : "r"(r0) : "$12", "$13", "$14", "memory")
+
+void func_8017D318(int a0, SVECTOR_8017C290 *a1, SVECTOR_8017C290 *a2, s32 a3)
+{
+    MATRIX_8017C290 m;
+    SVECTOR_8017C290 *r0_00;
+    SVECTOR_8017C290 *r0;
+    SVECTOR_8017C290 *pSVar6;
+
+    D_801EA8F0 = 0x50000000;
+    D_801EA8E0 = D_8018EF98[*(s32 *)(a0 + 0x2C)];
+    D_801EA8E4 = D_8018EFAC[*(s32 *)(a0 + 0x2C)];
+    *(struct PW8017C290 *)&D_801EA8E8 = D_8018EF98[*(s32 *)(a0 + 0x2C)];
+    *(struct PW8017C290 *)&D_801EA8EC = D_8018EFAC[*(s32 *)(a0 + 0x2C)];
+
+    func_80013F3C((s32)&m);
+    RotMatrixZ((s16)a3, &m);
+    m.t[0] = *(s16 *)(a0 + 0x6);
+    m.t[1] = *(s16 *)(a0 + 0xA);
+    m.t[2] = 0;
+    func_8004914C(&m);
+    func_800491AC(&m);
+
+    r0_00 = &D_801EA8C0[0];
+
+    gte_ldv0(a1);
+    gte_rt();
+    gte_stsv(r0_00);
+
+    gte_ldv0(a2);
+    gte_rt();
+    gte_stsv(r0_00 + 1);
+
+    a1->vx = a1->vx - 2;
+    gte_ldv0(a1);
+    gte_rt();
+    r0 = r0_00 + 2;
+    gte_stsv(r0);
+
+    a2->vx = a2->vx - 2;
+    gte_ldv0(a2);
+    gte_rt();
+    pSVar6 = r0_00 + 3;
+    gte_stsv(pSVar6);
+
+    r0_00->vz = *(u16 *)(a0 + 0xE);
+    func_80017714(r0_00);
+
+    a1->vx = a1->vx + 4;
+    gte_ldv0(a1);
+    gte_rt();
+    gte_stsv(r0);
+
+    a2->vx = a2->vx + 4;
+    gte_ldv0(a2);
+    gte_rt();
+    gte_stsv(pSVar6);
+
+    r0_00->vz = *(u16 *)(a0 + 0xE);
+    func_80017714(r0_00);
+}
+
 
 extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 

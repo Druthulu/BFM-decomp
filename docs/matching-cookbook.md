@@ -9533,6 +9533,29 @@ on **`tools/treelock.sh --status`**, which is a statement of intent spanning the
 wrap a campaign in `nohup … &` inside a backgrounded call: the harness then signals completion of the
 *wrapper* — a fleet check "finished" at 63/140.
 
+### Reconciling a gate-refused draft: which way you edit depends on WHERE the TU's decl is
+
+A draft that `match_one`-MATCHes but the whole-binary gate refuses is declaration plumbing (the
+agents cannot run the gate, so a TU-level conflict is invisible to them). Two opposite fixes, and
+picking the wrong one *creates* the next error:
+
+| the TU's decl is… | symptom | fix |
+|---|---|---|
+| **ABOVE** the splice point | `redefinition of struct X` / `conflicting types` for a TYPE | DELETE the draft's duplicate — the TU already provides it (§100) |
+| **BELOW** the splice point | `'X' undeclared (first use…)` after you deleted yours | KEEP a decl, in the TU's **exact** shape, and cast at the use (§17a-1 D2) |
+
+Measured both in one session: `func_8017D318` needed the *deletions* (the TU defines the type trio
+above it — and a `struct PW` tag that a first pass missed, so it took two rounds), while
+`func_80181EE0` needed the *opposite* — I removed its decl, and the TU's own turned out to be ~180
+lines BELOW the splice, leaving the identifier undeclared. **Grep the TU for the symbol and compare
+line numbers with the stub line before editing either way.**
+
+**And apply §136a to your own capture tooling.** My blocker-capture filtered the build log for
+`error|conflicting|undefined reference` and so reported "no compile error" on a build that was
+failing with `redefinition of struct PW8017C290` and `'func_80143C74' undeclared` — neither phrase
+matched. *A narrow keyword filter is exactly how a real error goes unseen.* Keep any line naming a
+source position (`\.[ch]:\d+`), minus the known SHB macro noise.
+
 Symptom line for the index: **"a propagation/extend lane plans N and banks 0"** — read each failure's
 compiler error, bucket by named symbol, and apply the lowest-radius byte-neutral alias; a `volatile`
 in the host TU and a fleet decl carrying a promoting param are the two that masquerade as codegen.
