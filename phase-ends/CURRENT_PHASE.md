@@ -150,7 +150,12 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 # 🛑 SESSION-33..37 CHECKPOINT (2026-08-04, wave 5 BANKED) — FRESH SESSION SAFE HERE
 > **NOTHING IS RUNNING. Tree lock FREE. Tree CLEAN** but for the R23 `db.*.gbf` churn — never stage.
 > Effort: **ultracode**. **R22 clean-fleet run TWENTY times this session, 140/140 every time.**
-> HEAD `commit:1393`. **Drew's standing decision: NO phase close — keep grinding.**
+> Last CODE commit `commit:1393` (wave-5 bank); this checkpoint commits on top of it.
+> **Drew's standing decision: NO phase close — keep grinding.**
+> **VERIFY THIS BLOCK IS CURRENT BEFORE TRUSTING IT** (it goes stale, and stale is worse than
+> absent): `git log --oneline -3` should show this checkpoint at or near HEAD, and
+> `grep -E 'FLEET (fn-count|instr|distinct)' docs/progress.fleet.md` must agree with the FLEET
+> line below. If they disagree, the digest wins — re-derive before scoping anything (R35).
 > **Nothing is owed.** The 16 wave-5 drafts flagged in the previous checkpoint are BANKED.
 
 ## FLEET — R22 **140 passed / 0 failed of 140**
