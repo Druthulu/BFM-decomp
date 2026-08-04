@@ -3346,7 +3346,119 @@ void func_8017F5F8(void *arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_002/nonmatchings/ov_SC03_002_jr_8017D604", func_8017F688);
+/* func_8017F688 — byte-verified twin of func_8017D77C (src/ov_SC04_018/ov_SC04_018_jr_8017AE2C.c:4271),
+ * found via §136e/S34 magic-word grep on the `AAA32294` instruction bytes (the
+ * D_800AF630+0xA3AA far-offset lhu). This is one of the 10 members of the family
+ * (all 0x23C bytes / 143 ins; grep the AAA32294 bytes across asm/ to enumerate them) --
+ * func_8017D77C is the only one already banked; all others (incl. this one) were
+ * still nonmatching, so this body was derived by remapping func_8017D77C's symbols:
+ *   func_8017D77C -> func_8017F688      D_801E6F58   -> D_801CB920
+ *   func_8017D9B8 -> func_8017F8C4      func_8017DAC4 -> func_8017F9D0
+ *   Ent_8017D6EC  -> Ent_8017F688 (own function-suffixed typedef -- same 0x24-stride
+ *                     shape as the TU's Ent_8017D6EC_8017F5F8 at TU:3319-3325, but
+ *                     given a fresh name/no shared tag so splicing this in below that
+ *                     file-scope typedef can't hit the C89 duplicate-typedef error, S33).
+ * func_8017F9D0 is already banked in THIS TU (TU:3426) as `void (void *arg0)`,
+ * matching the direct call below with no cast needed. func_8017F8C4 has no
+ * declaration anywhere but INCLUDE_ASM stubs, so it is declared directly as
+ * `void (void *)` (no idiom-9 cast needed, unlike the twin's func_8017D9B8
+ * which was `void (void)`).
+ */
+
+extern u8 D_80078EB1;
+extern u8 D_80078E78[];
+extern u8 D_800AF630[];
+extern s32 func_8004787C(s32 a0);
+extern void func_8012AD44(s32 *a0, s16 a1);
+extern void func_8017F8C4(void *arg0);
+extern void func_8017F9D0(void *arg0);
+
+/* same shape as the TU's own Ent_8017D6EC_8017F5F8 (TU:3319-3325), own name to avoid
+ * the C89 duplicate-typedef clash (S33); match_one compiles this file standalone (no
+ * TU context), so the typedef must be repeated here regardless. */
+typedef struct {
+    u8  unk00[0x16];
+    s16 unk16;
+    u8  unk18[4];
+    s32 unk1C;
+    u8  unk20[4];
+} Ent_8017F688;
+
+extern Ent_8017F688 D_801CB920[];
+
+void func_8017F688(s32 *arg0)
+{
+    u8 *m = D_800AF630;
+    u8 *q = D_80078E78;
+    Ent_8017F688 *p;
+    Ent_8017F688 *r;
+    s32 i;
+    s32 j;
+    s32 n;
+    s32 h;
+    s32 c;
+    s32 e;
+
+    if (D_80078EB1 >= 9) {
+        n = 0;
+        for (j = 0; j < 4; j++) {
+            r = &D_801CB920[j];
+            if (r->unk1C == 0) {
+                n++;
+            }
+        }
+        if (n == 0) {
+            func_8012AD44(arg0, 0);
+            return;
+        }
+    }
+
+    i = 0;
+    do {
+        p = (Ent_8017F688 *)((s32)D_801CB920 + i * 0x24);
+        if (p->unk1C == 0) {
+            if (*(s16 *)((s32)p + 0xC) > 0x400) {
+                if (*(s32 *)((s32)p + 0x18) != 0) {
+                    *(s32 *)((s32)p + 0x18) = *(s32 *)((s32)p + 0x18) - 1;
+                } else {
+                    *(s16 *)((s32)p + 0xC) = *(s16 *)((s32)p + 0xC) + 11;
+                }
+            } else {
+                *(s16 *)((s32)p + 0xC) = *(s16 *)((s32)p + 0xC) + 11;
+            }
+            if (*(s16 *)((s32)p + 0xC) > 0x800) {
+                *(s16 *)((s32)p + 0xC) = 0;
+            }
+            c = (func_8004787C(*(s16 *)((s32)p + 0xC)) / 64) & 0xFF;
+            c = c | ((c << 16) | (c << 8));
+            *(s32 *)((s32)p + 0x4) = c;
+            c = (func_8004787C(*(s16 *)((s32)p + 0xC)) / 256) & 0xFF;
+            c = c | ((c << 16) | (c << 8));
+            *(s32 *)((s32)p + 0x8) = c;
+            if ((*(u16 *)(m + 0xA3AA) & 1) == 0) {
+                e = *(u16 *)((s32)p + 0xE) + 1;
+                *(u16 *)((s32)p + 0xE) = e;
+                if ((s16)e >= 0x40) {
+                    *(s16 *)((s32)p + 0xE) = 0;
+                }
+            }
+            h = *(s16 *)((s32)p + 0xC);
+            if (h == 0) {
+                p->unk1C = 1;
+            } else if (h > 0x555) {
+                if (*(s32 *)((s32)p + 0x20) == 0) {
+                    *(s32 *)((s32)p + 0x20) = 1;
+                    if (q[0x39] < 9) {
+                        func_8017F8C4(p);
+                    }
+                }
+            }
+            func_8017F9D0(p);
+        }
+        i++;
+    } while (i < 4);
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_002/nonmatchings/ov_SC03_002_jr_8017D604", func_8017F8C4);
 

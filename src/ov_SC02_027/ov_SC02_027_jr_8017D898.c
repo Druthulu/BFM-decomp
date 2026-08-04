@@ -7092,11 +7092,45 @@ void func_8018A528(void *a0) {
 
 INCLUDE_ASM("asm/ov_SC02_027/nonmatchings/ov_SC02_027_jr_8017D898", func_8018A564);
 
-INCLUDE_ASM("asm/ov_SC02_027/nonmatchings/ov_SC02_027_jr_8017D898", func_8018A758);
+/* §71 sibling-first: func_80185634 (ov_SC02_026, same-shape family member, already MATCHed) is the
+ * exact template. Deltas: record source D_801D6964 (this overlay's own record) instead of
+ * D_801CCBF8; same *10/4096-5 formula, same offset 0xFE, same slot 2. */
+
+struct B16_8018A758 { s32 w[4]; };
+
+extern struct B16_8018A758 D_800A5EA8;
+extern struct B16_8018A758 D_801D6964;
+extern s32 D_800A5EB0;
+extern s32 func_8004787C(s32 a0);
+extern void func_80028620(s32 a0, void *a1);
+
+void func_8018A758(void *a0) {
+    D_800A5EA8 = D_801D6964;
+    D_800A5EB0 = func_8004787C(*(s16 *)((s32)a0 + 0xFE)) * 10 / 4096 - 5;
+    *(u16 *)((s32)a0 + 0xFE) = (*(u16 *)((s32)a0 + 0xFE) + 0x71) & 0xFFF;
+    func_80028620(2, &D_800A5EA8);
+}
+
 
 INCLUDE_ASM("asm/ov_SC02_027/nonmatchings/ov_SC02_027_jr_8017D898", func_8018A808);
 
-INCLUDE_ASM("asm/ov_SC02_027/nonmatchings/ov_SC02_027_jr_8017D898", func_8018A8B8);
+typedef struct { s32 w[4]; } Blk16_8018A8B8;
+
+extern s32 func_8004787C(s32 a0);
+extern void func_80028620(s32, void *);
+extern s32 D_800A5E90;
+extern Blk16_8018A8B8 D_800A5E88;
+extern Blk16_8018A8B8 D_801D69B4;
+
+void func_8018A8B8(s32 a0) {
+    Blk16_8018A8B8 *s1 = &D_800A5E88;
+
+    *s1 = D_801D69B4;
+    D_800A5E90 = func_8004787C(*(s16 *)(a0 + 0xFE)) * 20 / 4096 - 10;
+    *(s16 *)(a0 + 0xFE) = (*(u16 *)(a0 + 0xFE) + 0x71) & 0xFFF;
+    func_80028620(0, s1);
+}
+
 
 void func_8018A968(void) {
 }

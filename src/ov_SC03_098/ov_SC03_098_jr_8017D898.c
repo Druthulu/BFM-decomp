@@ -4692,11 +4692,162 @@ INCLUDE_ASM("asm/ov_SC03_098/nonmatchings/ov_SC03_098_jr_8017D898", func_801814F
 
 INCLUDE_ASM("asm/ov_SC03_098/nonmatchings/ov_SC03_098_jr_8017D898", func_801816AC);
 
-INCLUDE_ASM("asm/ov_SC03_098/nonmatchings/ov_SC03_098_jr_8017D898", func_80181778);
+
+extern s32 func_80047948(s32 a0);
+extern void func_8012CBA4(s32 a0);
+extern void func_8012CBF4(s32 a0);
+extern void func_8012B23C(void *a0);
+extern s32 func_8012BEE8(s32 a0);
+extern s32 func_80143B6C(s32 a0, s32 a1);
+extern void func_80131C78(s32 a0);
+extern void func_80131E00(void *a0, s32 a1);
+
+void func_80181778(s32 a0) {
+    s32 delta;
+    s32 ret;
+
+    switch (*(u16 *)(a0 + 0x34)) {
+    case 0:
+        delta = func_80047948((*(s32 *)(a0 + 0x1C) - 1) << 6) -
+                func_80047948(*(s32 *)(a0 + 0x1C) << 6);
+        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x18) =
+            *(u16 *)(*(s32 *)(a0 + 0x20) + 0x18) + delta;
+        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x1A) =
+            *(u16 *)(*(s32 *)(a0 + 0x20) + 0x1A) - (delta >> 3);
+        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x1C) =
+            *(u16 *)(*(s32 *)(a0 + 0x20) + 0x1C) + delta;
+        ret = ((s32(*)(s32))func_8012CBA4)(a0);
+        if (ret & 0x1000) {
+            func_80131E00((void *)a0, 0x12);
+            break;
+        }
+        if ((ret & 0x2000) == 0) {
+            func_8012B23C((void *)a0);
+            *(u16 *)(a0 + 0x34) = 2;
+            *(s32 *)(a0 + 0x1C) = 0x3C;
+            break;
+        }
+        if (*(s32 *)(a0 + 0x1C) % 3 == 0) {
+            func_80143B6C(a0, 1);
+        }
+        if (func_8012BEE8(a0) != 0) {
+            *(u16 *)(a0 + 0x34) = 1;
+        }
+        break;
+    case 1:
+        delta = func_80047948((*(s32 *)(a0 + 0x1C) + 1) << 6) -
+                func_80047948(*(s32 *)(a0 + 0x1C) << 6);
+        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x18) =
+            *(u16 *)(*(s32 *)(a0 + 0x20) + 0x18) + delta;
+        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x1A) =
+            *(u16 *)(*(s32 *)(a0 + 0x20) + 0x1A) - (delta >> 3);
+        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x1C) =
+            *(u16 *)(*(s32 *)(a0 + 0x20) + 0x1C) + delta;
+        *(s32 *)(a0 + 0x1C) = *(s32 *)(a0 + 0x1C) + 1;
+        if (*(s32 *)(a0 + 0x1C) >= 0x10) {
+            func_80131C78(a0);
+        }
+        break;
+    case 2:
+        ret = ((s32(*)(s32))func_8012CBF4)(a0);
+        if (ret & 0xFF) {
+            func_80181C50(a0);
+        } else if (ret & 0x2000) {
+            func_80131C78(a0);
+        } else if (func_8012BEE8(a0) != 0) {
+            func_80131E00((void *)a0, 0xD);
+        }
+        break;
+    }
+
+    if (*(s32 *)(a0 + 0x14) > 0x100000) {
+        *(s32 *)(a0 + 0x14) = 0x100000;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_098/nonmatchings/ov_SC03_098_jr_8017D898", func_801819DC);
 
-INCLUDE_ASM("asm/ov_SC03_098/nonmatchings/ov_SC03_098_jr_8017D898", func_801819F0);
+
+extern s32 rand(void);
+extern s32 func_80181F88(void *a0, s32 a1, s32 a2, s32 a3);
+extern void func_8012E8A8(u8 *a0);
+extern void func_8002D4C8(s32 a0, s32 a1);
+
+void func_801819F0(s32 a0) {
+    u16 buf[3];
+    register s32 angle1 __asm__("$23");
+    register s32 angle2 __asm__("$22");
+    s32 maskraw;
+    s32 flags;
+    register s32 head1 __asm__("$18");
+    register s32 head2 __asm__("$17");
+    register s32 i __asm__("$19");
+    s32 ret1;
+    s32 ret2;
+
+    buf[0] = *(u16 *)(a0 + 0x6);
+    buf[1] = *(u16 *)(a0 + 0xA);
+    buf[2] = *(u16 *)(a0 + 0xE);
+    head1 = 0;
+    head2 = 0;
+    {
+        register s32 fieldval __asm__("$3") = *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12);
+        angle1 = fieldval + 0x400;
+        flags = *(u16 *)(a0 + 0x70);
+        maskraw = flags & 0xF;
+        angle2 = fieldval - 0x400;
+    }
+
+    if ((flags & 1) == 0) {
+        register s32 mask __asm__("$16");
+        register s32 negoffset __asm__("$17");
+        i = 0;
+        negoffset = -0x60000;
+        mask = maskraw;
+        while (i < 4) {
+            __asm__ __volatile__("" : "=r"(angle1) : "0"(angle1));
+            func_80181F88(buf, angle1 * 0x10000 >> 0x10, rand() % 4 * -0x10000 + negoffset, mask);
+            __asm__ __volatile__("" : "=r"(angle2) : "0"(angle2));
+            func_80181F88(buf, angle2 * 0x10000 >> 0x10, rand() % 4 * -0x10000 + negoffset, mask);
+            i++;
+        }
+    } else {
+        s32 mask;
+        i = 0;
+        mask = maskraw;
+        for (; i < 4; i++) {
+            __asm__ __volatile__("" : "=r"(angle1) : "0"(angle1));
+            __asm__ __volatile__("" : "=r"(angle2) : "0"(angle2));
+            ret1 = func_80181F88(buf, angle1 * 0x10000 >> 0x10, rand() % 4 * -0x10000 + -0x60000, mask);
+            ret2 = func_80181F88(buf, angle2 * 0x10000 >> 0x10, rand() % 4 * -0x10000 + -0x60000, mask);
+            if (ret1 != 0) {
+                if (head1 != 0) {
+                    *(s32 *)(ret1 + 0x2C) = head1;
+                    *(s32 *)(head1 + 0x30) = *(s32 *)(head1 + 0x30) + 1;
+                } else {
+                    *(s32 *)(ret1 + 0x2C) = -1;
+                    *(s32 *)(ret1 + 0x24) = a0;
+                    head1 = ret1;
+                }
+            }
+            if (ret2 != 0) {
+                if (head2 != 0) {
+                    *(s32 *)(ret2 + 0x2C) = head2;
+                    *(s32 *)(head2 + 0x30) = *(s32 *)(head2 + 0x30) + 1;
+                } else {
+                    *(s32 *)(ret2 + 0x2C) = -1;
+                    *(s32 *)(ret2 + 0x24) = a0;
+                    head2 = ret2;
+                }
+            }
+        }
+    }
+
+    func_8012E8A8((u8 *)a0);
+    func_8002D4C8(0xA65, 0);
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_098/nonmatchings/ov_SC03_098_jr_8017D898", func_80181C50);
 

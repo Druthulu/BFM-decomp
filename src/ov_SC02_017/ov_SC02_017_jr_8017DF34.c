@@ -5952,7 +5952,38 @@ void func_80189908(s32 param_1, s32 *param_2)
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_017/nonmatchings/ov_SC02_017_jr_8017DF34", func_80189A68);
+extern s32 func_80189D08(u32 a0v);
+extern s16 func_80189C4C(u32 a0);
+
+void func_80189A68(void *a0, void *a1)
+{
+    u16 *rot = (u16 *)a0;
+    s16 *m = (s16 *)a1;
+    s16 cx, sx, cy, sy, cz, sz;
+    s32 sxsy, cxcz, cxsz;
+
+    cx = func_80189D08(rot[0] & 0xFFF);
+    sx = func_80189C4C(rot[0] & 0xFFF);
+    cy = func_80189D08(rot[1] & 0xFFF);
+    sy = func_80189C4C(rot[1] & 0xFFF);
+    cz = func_80189D08(rot[2] & 0xFFF);
+    sz = func_80189C4C(rot[2] & 0xFFF);
+
+    cxsz = ((s32)cx * (s32)sz) >> 15;
+    cxcz = ((s32)cx * (s32)cz) >> 15;
+    sxsy = ((s32)sx * (s32)sy) >> 15;
+
+    m[0] = ((s32)cz * (s32)cy) >> 15;
+    m[1] = (((s32)sxsy * (s32)cz) >> 15) - cxsz;
+    m[2] = ((cxcz * (s32)sy) >> 15) + (((s32)sx * (s32)sz) >> 15);
+    m[3] = ((s32)sz * (s32)cy) >> 15;
+    m[4] = ((sxsy * (s32)sz) >> 15) + cxcz;
+    m[5] = ((cxsz * (s32)sy) >> 15) - (((s32)sx * (s32)cz) >> 15);
+    m[6] = -sy;
+    m[7] = ((s32)cy * (s32)sx) >> 15;
+    m[8] = ((s32)cy * (s32)cx) >> 15;
+}
+
 
 
 /* func_80189C4C — quadrant-folded sine lookup over a 0x400-entry u16 table.
