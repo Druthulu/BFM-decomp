@@ -8089,9 +8089,11 @@ void func_8016A020(void *a0) {
 DEFINE_func_8016A05C()  /* dedup: shared engine-core @0x8016a05c (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC07_011/nonmatchings/ov_SC07_011_jr_8015C32C", func_8016A08C);
+DEFINE_func_8016A08C()  /* dedup: shared engine-core @0x8016a08c (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC07_011/nonmatchings/ov_SC07_011_jr_8015C32C", func_8016A1CC);
+
+DEFINE_func_8016A1CC()  /* dedup: shared engine-core @0x8016a1cc (src/shared) */
+
 
 extern u16 D_800B99DA;
 extern s32 func_80017758(void *a0, void *a1);

@@ -10736,9 +10736,9 @@
     }
 
 #define DEFINE_func_80163194() \
-    extern s32 D_80127090; \
-    extern s32 D_80127094; \
-    extern s32 D_80127098; \
+    extern s32 aD_80127090 __asm__("D_80127090"); \
+    extern s32 aD_80127094 __asm__("D_80127094"); \
+    extern s32 aD_80127098 __asm__("D_80127098"); \
     extern void func_80162F60(s32 arg0, s32 arg1); \
     extern void func_80162F80(s32 arg0, s32 arg1); \
     extern void func_80162FA0(s32 arg0, s32 arg1); \
@@ -10752,9 +10752,9 @@
         func_80162F80(a0, a2); \
         func_80162FA0(a0, a3); \
         func_800484EC(arg4, a0 + 0x24, (s32)out); \
-        D_80127090 = out[0]; \
-        D_80127094 = out[1]; \
-        D_80127098 = out[2]; \
+        aD_80127090 = out[0]; \
+        aD_80127094 = out[1]; \
+        aD_80127098 = out[2]; \
         func_80146D30(a0); \
     }
 
@@ -11551,9 +11551,9 @@
     extern void func_800123F0(s32 a0, s32 a1); \
     extern void func_800484EC(s32 a0, s32 a1, s32 a2); \
     extern void func_80146D30(s32 a0); \
-    extern s32 D_80127090; \
-    extern s32 D_80127094; \
-    extern s32 D_80127098; \
+    extern s32 aD_80127090 __asm__("D_80127090"); \
+    extern s32 aD_80127094 __asm__("D_80127094"); \
+    extern s32 aD_80127098 __asm__("D_80127098"); \
     void func_80162FF4(s32 a0, s32 a1, s32 a2, s32 a3) { \
         s32 sp[16]; \
         s32 s2 = a0; \
@@ -11570,9 +11570,9 @@
         func_80012558((s32)q, *(s16 *)(s1 + 0x12)); \
         func_800123F0((s32)q, *(s16 *)(s1 + 0x14)); \
         func_800484EC((s32)q, s2 + 0x24, (s32)&sp[4]); \
-        D_80127090 = sp[4]; \
-        D_80127094 = sp[5]; \
-        D_80127098 = sp[6]; \
+        aD_80127090 = sp[4]; \
+        aD_80127094 = sp[5]; \
+        aD_80127098 = sp[6]; \
         func_80146D30(s2); \
     }
 
@@ -11586,9 +11586,9 @@
     extern void func_800123F0(s32 a0, s32 a1); \
     extern void func_800484EC(s32 a0, s32 a1, s32 a2); \
     extern void func_80146D30(s32 a0); \
-    extern s32 D_80127090; \
-    extern s32 D_80127094; \
-    extern s32 D_80127098; \
+    extern s32 aD_80127090 __asm__("D_80127090"); \
+    extern s32 aD_80127094 __asm__("D_80127094"); \
+    extern s32 aD_80127098 __asm__("D_80127098"); \
     void func_801630C4(s32 a0, s32 a1, s32 a2, s32 a3) { \
         s32 sp[16]; \
         s32 s2 = a0; \
@@ -11605,9 +11605,9 @@
         func_800126C4((s32)q, *(s16 *)(s1 + 0x10)); \
         func_800123F0((s32)q, *(s16 *)(s1 + 0x14)); \
         func_800484EC((s32)q, s2 + 0x24, (s32)&sp[4]); \
-        D_80127090 = sp[4]; \
-        D_80127094 = sp[5]; \
-        D_80127098 = sp[6]; \
+        aD_80127090 = sp[4]; \
+        aD_80127094 = sp[5]; \
+        aD_80127098 = sp[6]; \
         func_80146D30(s2); \
     }
 
@@ -15429,16 +15429,16 @@
     extern void func_80162F80(s32 arg0, s32 arg1); \
     extern void func_80162FA0(s32 arg0, s32 arg1); \
     extern void func_80146D30(s32 a0); \
-    extern s32 D_80127090; \
-    extern s32 D_80127094; \
-    extern s32 D_80127098; \
+    extern s32 aD_80127090 __asm__("D_80127090"); \
+    extern s32 aD_80127094 __asm__("D_80127094"); \
+    extern s32 aD_80127098 __asm__("D_80127098"); \
     void func_8016325C(s32 a0, s32 a1, s32 a2, s32 a3) { \
         func_80162F60(a0, a1); \
         func_80162F80(a0, a2); \
         func_80162FA0(a0, a3); \
-        D_80127090 = *(s32 *)(a0 + 0x24); \
-        D_80127094 = *(s32 *)(a0 + 0x28); \
-        D_80127098 = *(s32 *)(a0 + 0x2C); \
+        aD_80127090 = *(s32 *)(a0 + 0x24); \
+        aD_80127094 = *(s32 *)(a0 + 0x28); \
+        aD_80127098 = *(s32 *)(a0 + 0x2C); \
         func_80146D30(a0); \
     }
 
