@@ -207,6 +207,32 @@ is either a no-arg call or already cast ⇒ codegen-neutral.
 an already-macro-ized group.** Probe: exactly **1** extendable group per ordinary overlay (so the
 fleet has no hidden wiring backlog beyond this) ⇒ run it across the 134 non-SC07 overlays.
 
+## ✅ S33b RESULT — the PROPAGATE head is 15,257 of 18,545 ins banked (82%)
+| class | ins | outcome |
+|---|---|---|
+| `func_80147364` | 4,110 | ×137 — definition-side asm-label alias |
+| `func_8016BA68` | 3,886 | **×134 via `dedup_extend`** (not dedup_propagate — see the tool boundary) |
+| `func_8012F274` | 3,973 | ×136 — hand-authored macro, source overlay excluded |
+| `func_8012A598` | 3,288 | ×138 — the `cdecl._mask` backscan fix + the shared-type switch |
+| `func_801466F0` | 3,288 | **OPEN** — the wrapped-alias regex, measured as exactly ONE function |
+
+**THREE DISTINCT CARRY VARIANTS, each needing a different response** (they were all filed as one
+"CARRY-FIXABLE" bucket before):
+| variant | what `extract_unit` cannot carry | response |
+|---|---|---|
+| a MULTI-LINE comment halts the backscan | the externs above it | **fix the tool** (`cdecl._mask`) |
+| a draft-local `struct Tag {…}` in the preamble | the type | switch the exemplar to the **shared** type |
+| a file-scope `static inline` helper | the helper | hand-author the macro **and exclude the source overlay** |
+The third is the sneakiest: **gcc-2.7.2 accepts implicit function declarations**, so the extracted
+body PASSED `compiles_standalone` with the helper undeclared and the miss surfaced only as a
+whole-binary byte DIFF, 137 gates later. And instantiating that macro in the SOURCE overlay is a
+duplicate definition (its file-scope helper is still there) — `--source-overlay X --binaries
+<all-but-X>` is the shape; `--binaries` alone removes the source from the scan pool and errors.
+
+**`_alias_decl_for` measured, NOT assumed (R37):** 91 asm-label alias decls exist fleet-wide, the
+current single-line regex matches **90**, and the one miss is `func_801466F0`. The S6b note implied a
+class; it is one function worth 3,288 ins. Fix the regex (join-and-map, the §134 shape) or hand-author.
+
 ## ⚠️ MY WRONG PREDICTION, CORRECTED BY THE BYTES (R14/R37) — and it refines §138
 Commit `commit:1382` relaxed 42 `extern void func_80146C3C(void);` decls and its message implies that
 unblocked the PROPAGATE remainder. **It did not.** The re-run banked **0/1 in every one of the 134

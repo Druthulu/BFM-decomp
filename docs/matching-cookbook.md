@@ -9477,6 +9477,30 @@ lane average predicts nothing. **`--recover` is not a retry:** the caller-extern
 16/16 lifetime *on drafts* banked 4 of 138 on a *propagation*. Probe one excluded member's build
 output before re-running any lever that already returned a bad number.
 
+### THREE carry variants hide in one "CARRY-FIXABLE" bucket — and they need different fixes
+
+`dedup_propagate` reports `missing file-scope extern (CARRY-FIXABLE)` for all of them, but the
+response differs and two are NOT tool bugs:
+
+| variant | what `extract_unit` cannot carry | response |
+|---|---|---|
+| a **multi-line comment** halts the preamble backscan | the externs above it | **fix the tool** (`cdecl._mask`) |
+| a **draft-local `struct Tag {…}`** in the preamble | the type (refused by design: two macros defining one tag redefine it in a TU) | switch the exemplar to the **shared** `engine_types.h` type if the layout already exists there — byte-neutral |
+| a file-scope **`static inline` helper** | the helper | hand-author the macro with the helper inlined, and **exclude the source overlay** |
+
+The third is the sneakiest, because **gcc-2.7.2 accepts implicit function declarations**: the
+extracted body *passes* `compiles_standalone` with the helper undeclared, so nothing complains until
+a whole-binary byte DIFF 137 gates later. And the macro cannot be instantiated in the SOURCE overlay
+— its file-scope helper is still there, so the macro's copy is a duplicate definition. The invocation
+shape is `--source-overlay X --binaries <all-but-X>`; passing `--binaries` alone removes the source
+from the scan pool and errors with "no source overlay has it matched".
+
+**Tool boundary worth knowing:** once a group's members are `DEFINE_func_*()` sites,
+`dedup_propagate` can no longer extend it — `find_site` never returns a `def`, so the auto-source
+scan errors. **`dedup_extend` is the tool for an already-macro-ized group.** (And running
+`dedup_extend --check-only` across ordinary overlays is a cheap census of how much wiring is
+outstanding fleet-wide: measured here as exactly 1 group per overlay, i.e. no hidden backlog.)
+
 ### §134 again, in a second tool — and the waiter rule corrected
 
 `dedup_propagate.find_site`'s preamble backscan had the SESSION-18 fix for blank / `//` /

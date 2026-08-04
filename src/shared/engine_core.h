@@ -30219,4 +30219,37 @@
         D_80127504 = 0x30; \
     }
 
+
+/* PROPAGATE-lane: func_8012F274 (29 ins, matched in ov_SC01_077_jr_8012ACE0, stub in 137 overlays).
+   dedup_propagate DROPPED this one, and the cause is a THIRD carry variant, distinct from the
+   multi-line-comment class: the body calls a file-scope `static inline tail_8012F274` helper, and
+   extract_unit's backscan carries only `extern …;` lines — so the extracted 9-line body referenced
+   the helper (and three callees) UNDECLARED. gcc-2.7.2 accepts implicit declarations, so
+   compiles_standalone PASSED and the miss only surfaced as a whole-binary byte DIFF. Hand-authored
+   here with the helper inlined into the macro; its name is address-unique so exactly one
+   instantiation per TU can define it. RotTransSV/func_80015954 decls are byte-identical to the
+   canonical ones the TU already gets from engine_core.h, with the pointer shape cast at use
+   (§17a-1/§20/§8d — codegen-neutral: same argument registers, same widths). */
+#define DEFINE_func_8012F274() \
+    extern void func_80015978(s32 a0, s32 *a1); \
+    extern void func_8004914C(void *a0); \
+    extern void func_800491AC(void *a0); \
+    extern void RotTransSV(s32 a0, s32 a1, void *a2); \
+    extern void func_80015954(s32 a0, s32 a1); \
+    static inline void tail_8012F274(s32 *in, s32 e) { \
+        s32 out[2]; \
+        s32 flag[2]; \
+        ((void (*)(s32 *, s32 *, s32 *))RotTransSV)(in, out, flag); \
+        ((void (*)(s32 *, s32))func_80015954)(out, e); \
+    } \
+    void func_8012F274(s32 a0, s32 a1) { \
+        s32 v[2]; \
+        s32 p; \
+        func_80015978(a1, v); \
+        p = *(s32 *)(a0 + 0x20) + 0x34; \
+        func_8004914C((void *)p); \
+        func_800491AC((void *)p); \
+        tail_8012F274(v, a1); \
+    }
+
 #endif

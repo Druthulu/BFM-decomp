@@ -2027,7 +2027,7 @@ DEFINE_func_8012F1A4()  /* dedup: shared engine-core @0x8012f1a4 (src/shared) */
 DEFINE_func_8012F214()  /* dedup: shared engine-core @0x8012f214 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC07_011/nonmatchings/ov_SC07_011", func_8012F274);
+DEFINE_func_8012F274()  /* dedup: shared engine-core @0x8012F274 (src/shared) */
 
 DEFINE_func_8012F2E8()  /* dedup: shared engine-core @0x8012f2e8 (src/shared) */
 

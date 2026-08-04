@@ -2393,7 +2393,8 @@ s32 func_8016B9F8(s32 param_1)
 
 DEFINE_func_8016BA48()  /* dedup: shared engine-core @0x8016BA48 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC03_091/nonmatchings/ov_SC03_091_jr_8016AB6C", func_8016BA68);
+DEFINE_func_8016BA68()  /* dedup: shared engine-core @0x8016ba68 (src/shared) */
+
 
 DEFINE_func_8016BADC()  /* dedup: shared engine-core @0x8016BADC (src/shared) */
 
