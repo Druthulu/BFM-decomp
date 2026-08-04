@@ -7112,7 +7112,29 @@ void func_8018A758(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_027/nonmatchings/ov_SC02_027_jr_8017D898", func_8018A808);
+/* §71 sibling-first: func_8018A758 (this same TU, banked) is the exact template — same struct
+ * shape, same D_800A5EA8/D_800A5EB0 targets, same offset 0xFE, same slot 2. Deltas: record source
+ * D_801D699C (this overlay's own record) instead of D_801D6964, and the *6/4096-3 formula instead
+ * of *10/4096-5. */
+
+/* S36: the TU already defines `struct B16_8018A758` ABOVE this splice point —
+   its sibling func_8018A758 banked into this same TU earlier in THIS wave. A repeated
+   struct tag is a C89 error even when identical (§138 reconcile direction: decl ABOVE
+   => DELETE the duplicate, do not rename). Use the TU's tag. */
+
+extern struct B16_8018A758 D_800A5EA8;
+extern struct B16_8018A758 D_801D699C;
+extern s32 D_800A5EB0;
+extern s32 func_8004787C(s32 a0);
+extern void func_80028620(s32 a0, void *a1);
+
+void func_8018A808(void *a0) {
+    D_800A5EA8 = D_801D699C;
+    D_800A5EB0 = func_8004787C(*(s16 *)((s32)a0 + 0xFE)) * 6 / 4096 - 3;
+    *(u16 *)((s32)a0 + 0xFE) = (*(u16 *)((s32)a0 + 0xFE) + 0x71) & 0xFFF;
+    func_80028620(2, &D_800A5EA8);
+}
+
 
 typedef struct { s32 w[4]; } Blk16_8018A8B8;
 
@@ -7135,7 +7157,25 @@ void func_8018A8B8(s32 a0) {
 void func_8018A968(void) {
 }
 
-INCLUDE_ASM("asm/ov_SC02_027/nonmatchings/ov_SC02_027_jr_8017D898", func_8018A970);
+#include "common.h"
+
+
+
+extern s32 func_8004787C(s32 a0);
+extern void func_80028620(s32, void *);
+extern s32 D_800A5E90;
+extern Blk16_8018A8B8 D_800A5E88;
+extern Blk16_8018A8B8 D_801D69EC;
+
+void func_8018A970(s32 a0) {
+    Blk16_8018A8B8 *s1 = &D_800A5E88;
+
+    *s1 = D_801D69EC;
+    D_800A5E90 = func_8004787C(*(s16 *)(a0 + 0xFE)) / 512 + 8;
+    *(s16 *)(a0 + 0xFE) = (*(u16 *)(a0 + 0xFE) + 0x71) & 0xFFF;
+    func_80028620(0, s1);
+}
+
 
 
 extern void (*D_801D6D64[])(void);

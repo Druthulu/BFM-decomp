@@ -5176,7 +5176,98 @@ void func_80180844(void) {
 
 INCLUDE_ASM("asm/ov_SC04_007/nonmatchings/ov_SC04_007_jr_8017BEBC", func_8018084C);
 
-INCLUDE_ASM("asm/ov_SC04_007/nonmatchings/ov_SC04_007_jr_8017BEBC", func_80180894);
+
+typedef struct { s32 a; s32 b[4]; } Ot_80182A78_80180894;
+
+extern s32 func_8004787C(s32 a0);
+
+void func_80180894(s32 param_1, s32 param_2)
+{
+    extern void func_8012E32C(void);
+    extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
+    extern void *func_80010A08(s32);
+    extern s32 RotTransPers(s32 a0, s32 a1, s32 *a2, s32 *a3);
+    extern s32 AddPrim(s32 a0, void *a1);
+    extern void func_8012E28C(s32 arg0, s32 arg1);
+    extern s32 D_80198008[];
+    extern Ot_80182A78_80180894 D_800A651C[];
+
+    s16 quad[4][4];
+    u32 buf[2];
+    s32 p, flag;
+    s32 iVar1;
+    s32 iVar2;
+    u32 *bufPtr;
+    s32 fp;
+    s32 ang;
+    s32 ang2;
+    s32 packed0;
+    s32 packed1;
+    s32 y0;
+    s32 y1;
+    s32 otz;
+    s32 c0;
+    s32 c1;
+    u8 *prim;
+
+    if ((u32)(param_2 - 1) < 29) {
+        func_8012E32C();
+        fp = 0;
+        iVar1 = func_8004787C((param_2 << 11) / 30);
+        iVar2 = (iVar1 << 8) >> 12;
+        ang = param_2 << 4;
+        bufPtr = buf;
+
+        for (; fp < 6; ) {
+            func_8012B0B4(bufPtr, ang, 0x20);
+            packed0 = buf[0];
+
+            quad[0][0] = *(u16 *)(param_1 + 0) + packed0;
+            y0 = packed0 >> 16;
+            quad[0][1] = *(u16 *)(param_1 + 2);
+            quad[0][2] = *(u16 *)(param_1 + 4) + y0;
+
+            quad[2][0] = *(u16 *)(param_1 + 0) + (((s16)packed0 * (iVar1 * 3 + 0x1000)) >> 12);
+            quad[2][1] = *(u16 *)(param_1 + 2) - iVar2;
+            quad[2][2] = *(u16 *)(param_1 + 4) + ((y0 * (iVar1 * 3 + 0x1000)) >> 12);
+
+            ang2 = ang + 0x2AA;
+            func_8012B0B4(bufPtr, ang2, 0x20);
+
+            packed1 = buf[0];
+
+            quad[1][0] = *(u16 *)(param_1 + 0) + packed1;
+            y1 = packed1 >> 16;
+            quad[1][1] = *(u16 *)(param_1 + 2);
+            quad[1][2] = *(u16 *)(param_1 + 4) + y1;
+
+            quad[3][0] = *(u16 *)(param_1 + 0) + (((s16)packed1 * (iVar1 * 3 + 0x1000)) >> 12);
+            quad[3][1] = *(u16 *)(param_1 + 2) - iVar2;
+            quad[3][2] = *(u16 *)(param_1 + 4) + ((y1 * (iVar1 * 3 + 0x1000)) >> 12);
+
+            prim = (u8 *)func_80010A08(0x24);
+            c0 = D_80198008[fp];
+            *(s32 *)(prim + 4) = c0;
+            c1 = D_80198008[fp + 1];
+            *(u8 *)(prim + 7) = 0x3A;
+            *(s32 *)(prim + 0x1C) = 0;
+            *(s32 *)(prim + 0x14) = 0;
+            *(s32 *)prim = 0x8000000;
+            *(s32 *)(prim + 0xC) = c1;
+            otz = RotTransPers((s32)&quad[0], (s32)(prim + 8), &p, &flag);
+
+            RotTransPers((s32)&quad[1], (s32)(prim + 0x10), &p, &flag);
+            RotTransPers((s32)&quad[2], (s32)(prim + 0x18), &p, &flag);
+            RotTransPers((s32)&quad[3], (s32)(prim + 0x20), &p, &flag);
+
+            AddPrim(D_800A651C[(u16)D_800B9A02].a + (otz * 4), prim);
+            func_8012E28C(otz, 1);
+            fp++;
+            ang = ang2;
+        }
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_007/nonmatchings/ov_SC04_007_jr_8017BEBC", func_80180B64);
 

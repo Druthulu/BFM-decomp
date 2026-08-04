@@ -6698,7 +6698,101 @@ void func_80181C50(int param_1)
 
 INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_80181C9C);
 
-INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_80181D38);
+extern u8 D_80078EB1;
+extern u8 D_800AF630[];
+extern u8 D_80078E78[];
+
+/* 0x24-stride record at D_801F7618 (4 entries; asm/ov_SC03_006/data/tail18.data.s).
+ * Byte-proven twin layout: cookbook sibling func_8017D77C (ov_SC04_018_jr_8017AE2C.c,
+ * same jr TU family) uses this exact shape for its D_801E6F58 table; only the fields this
+ * function actually names differ (unk1C is the only member accessed via `.`, everything
+ * else goes through raw casts, matching the sibling verbatim). */
+typedef struct {
+    u8  unk00[0x1C];
+    s32 unk1C;
+    u8  unk20[4];
+} Ent_801F7618;
+
+extern Ent_801F7618 D_801F7618[];
+
+extern void func_8012AD44(s32 *a0, s16 a1);
+extern s32 func_8004787C(s32 a0);
+extern void func_80181F74(void *a0);
+extern void func_80182080(void *a0);
+
+void func_80181D38(s32 *arg0)
+{
+    u8 *m = D_800AF630;
+    u8 *q = D_80078E78;
+    Ent_801F7618 *p;
+    Ent_801F7618 *r;
+    s32 i;
+    s32 j;
+    s32 n;
+    s32 h;
+    s32 c;
+    s32 e;
+
+    if (D_80078EB1 >= 9) {
+        n = 0;
+        for (j = 0; j < 4; j++) {
+            r = &D_801F7618[j];
+            if (r->unk1C == 0) {
+                n++;
+            }
+        }
+        if (n == 0) {
+            func_8012AD44(arg0, 0);
+            return;
+        }
+    }
+
+    i = 0;
+    do {
+        p = (Ent_801F7618 *)((s32)D_801F7618 + i * 0x24);
+        if (p->unk1C == 0) {
+            if (*(s16 *)((s32)p + 0xC) > 0x400) {
+                if (*(s32 *)((s32)p + 0x18) != 0) {
+                    *(s32 *)((s32)p + 0x18) = *(s32 *)((s32)p + 0x18) - 1;
+                } else {
+                    *(s16 *)((s32)p + 0xC) = *(s16 *)((s32)p + 0xC) + 11;
+                }
+            } else {
+                *(s16 *)((s32)p + 0xC) = *(s16 *)((s32)p + 0xC) + 11;
+            }
+            if (*(s16 *)((s32)p + 0xC) > 0x800) {
+                *(s16 *)((s32)p + 0xC) = 0;
+            }
+            c = (func_8004787C(*(s16 *)((s32)p + 0xC)) / 64) & 0xFF;
+            c = c | ((c << 16) | (c << 8));
+            *(s32 *)((s32)p + 0x4) = c;
+            c = (func_8004787C(*(s16 *)((s32)p + 0xC)) / 256) & 0xFF;
+            c = c | ((c << 16) | (c << 8));
+            *(s32 *)((s32)p + 0x8) = c;
+            if ((*(u16 *)(m + 0xA3AA) & 1) == 0) {
+                e = *(u16 *)((s32)p + 0xE) + 1;
+                *(u16 *)((s32)p + 0xE) = e;
+                if ((s16)e >= 0x40) {
+                    *(s16 *)((s32)p + 0xE) = 0;
+                }
+            }
+            h = *(s16 *)((s32)p + 0xC);
+            if (h == 0) {
+                p->unk1C = 1;
+            } else if (h > 0x555) {
+                if (*(s32 *)((s32)p + 0x20) == 0) {
+                    *(s32 *)((s32)p + 0x20) = 1;
+                    if (q[0x39] < 9) {
+                        func_80181F74(p);
+                    }
+                }
+            }
+            func_80182080(p);
+        }
+        i++;
+    } while (i < 4);
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_80181F74);
 

@@ -3401,7 +3401,149 @@ DEFINE_func_8017C14C()  /* dedup: shared engine-core @0x8017C14C (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC03_024/nonmatchings/ov_SC03_024_jr_8017AE2C", func_8017C154);
 
-INCLUDE_ASM("asm/ov_SC03_024/nonmatchings/ov_SC03_024_jr_8017AE2C", func_8017C290);
+#include "common.h"
+
+/* func_8017C290 -- ov_SC03_024, TU ov_SC03_024_jr_8017AE2C.c
+ *
+ * S34 cross-overlay sibling-first: byte-identical twin already banked as
+ * func_8017C290 in src/ov_SC03_014/ov_SC03_014_jr_8017AE2C.c and
+ * src/ov_SC03_015/ov_SC03_015_jr_8017AE2C.c (same TU suffix jr_8017AE2C --
+ * these overlays share the same runtime load address, so the data symbols
+ * D_801C1230/D_801C1260/D_801C1250/D_801C1254/D_801C1258..125E and
+ * D_8018A910 are the literal addresses used in THIS overlay). Body reused
+ * verbatim: the MATRIX_8017C290 / SVECTOR_8017C290 / PW8017C290 (packed,
+ * align-1, 4 byte) type trio, the gte_ldv0/gte_rt/gte_stsv inline-asm
+ * macros, and the 7-parameter shape (a, b, c, d, e, f, g) with the same
+ * register roles (a0=a, a1=b, a2=c, a3=d, stack0x10=e, stack0x14=f,
+ * stack0x18=g) confirmed instruction-by-instruction against the target .s.
+ */
+
+/* MATRIX 0x20: 3x3 short rotation + pad, t[] at 0x14 */
+typedef struct { s16 m[3][3]; s16 pad; s32 t[3]; } MATRIX_8017C290;
+/* 8, align 2 -> lwl/lwr/swl/swr struct copy */
+typedef struct { u16 vx, vy, vz, pad; } SVECTOR_8017C290;
+/* 4, align 1 -> lwl/lwr/swl/swr */
+struct PW8017C290 { int w; } __attribute__((packed, aligned(1)));
+
+extern void func_80013F3C(s32 a0);
+extern void RotMatrixZ(s32, void *);
+extern void func_8004914C(void *a0);
+extern void func_800491AC(void *a0);
+extern int rand(void);
+extern void func_80017714(void *);
+
+extern SVECTOR_8017C290 D_801C1230[4];
+extern struct PW8017C290 D_801C1250;
+extern struct PW8017C290 D_801C1254;
+extern u8 D_801C1258, D_801C1259, D_801C125A, D_801C125C, D_801C125D, D_801C125E;
+extern int D_801C1260;
+extern struct PW8017C290 D_8018A910[];
+
+#define gte_ldv0(r0)  __asm__ __volatile__( \
+    "lwc2 $0, 0(%0)\n" \
+    "lwc2 $1, 4(%0)\n" \
+    : : "r"(r0) : "memory")
+
+#define gte_rt()  __asm__ __volatile__( \
+    "nop\n" \
+    "nop\n" \
+    "mvmva 1, 0, 0, 0, 0\n" \
+    : : : "memory")
+
+#define gte_stsv(r0)  __asm__ __volatile__( \
+    "mfc2 $12, $9\n" \
+    "mfc2 $13, $10\n" \
+    "mfc2 $14, $11\n" \
+    "sh $12, 0(%0)\n" \
+    "sh $13, 2(%0)\n" \
+    "sh $14, 4(%0)\n" \
+    : : "r"(r0) : "$12", "$13", "$14", "memory")
+
+void func_8017C290(int a, s16 *b, SVECTOR_8017C290 *c, SVECTOR_8017C290 *d,
+                   SVECTOR_8017C290 *e, SVECTOR_8017C290 *f, s16 *g)
+{
+    MATRIX_8017C290 m;
+    SVECTOR_8017C290 *r0_00;
+    SVECTOR_8017C290 *pSVar6;
+    SVECTOR_8017C290 *r0;
+    int r;
+    int mask;
+
+    func_80013F3C((s32)&m);
+    RotMatrixZ(g[0], &m);
+    m.t[0] = b[0];
+    m.t[1] = b[1];
+    m.t[2] = 0;
+    func_8004914C(&m);
+    func_800491AC(&m);
+
+    r0_00 = &D_801C1230[0];
+    if (*(s16 *)(a + 0x12) == 0) {
+        D_801C1260 = 0x50000000;
+        D_801C1250 = D_8018A910[*(s32 *)(a + 0x2C)];
+        D_801C1254 = D_8018A910[*(s32 *)(a + 0x2C)];
+        D_801C1258 = 0;
+        D_801C1259 = 0;
+        D_801C125A = 0;
+        D_801C125C = 0;
+        D_801C125D = 0;
+        D_801C125E = 0;
+    }
+
+    f->vx = f->vx + c->vx;
+    f->vy = f->vy + c->vy;
+    r = rand();
+    mask = f->pad & r;
+    if (*(u16 *)(a + 0x12) & 1)
+        f->vx = f->vx + mask;
+    else
+        f->vx = f->vx - mask;
+    r = rand();
+    { int t = f->vy - 0x10; f->vy = t + (r & 0x1f); }
+
+    gte_ldv0(c);
+    gte_rt();
+    gte_stsv(r0_00);
+
+    gte_ldv0(f);
+    gte_rt();
+    gte_stsv(r0_00 + 1);
+
+    gte_ldv0(d);
+    gte_rt();
+    r0 = r0_00 + 2;
+    gte_stsv(r0);
+
+    *d = *f;
+    r = rand();
+    d->vx = d->vx - (f->pad & r);
+
+    gte_ldv0(d);
+    gte_rt();
+    pSVar6 = r0_00 + 3;
+    gte_stsv(pSVar6);
+
+    r0_00->vz = ((u16 *)b)[2];
+    func_80017714(r0_00);
+
+    gte_ldv0(e);
+    gte_rt();
+    gte_stsv(r0);
+
+    *e = *f;
+    r = rand();
+    e->vx = e->vx + (f->pad & r);
+
+    gte_ldv0(e);
+    gte_rt();
+    gte_stsv(pSVar6);
+
+    r0_00->vz = ((u16 *)b)[2];
+    func_80017714(r0_00);
+
+    *c = *f;
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_024/nonmatchings/ov_SC03_024_jr_8017AE2C", func_8017C624);
 
