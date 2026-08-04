@@ -147,7 +147,83 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 
 ---
 
-# 🛑 SESSION-31/32 CHECKPOINT (2026-08-03) — FRESH SESSION SAFE HERE
+# 🛑 SESSION-33 CHECKPOINT (2026-08-04) — FRESH SESSION SAFE HERE
+> **Nothing is running. Tree lock FREE. Tree CLEAN** but for the R23 `db.*.gbf` churn — never stage.
+> Effort: **ultracode**. **R22 clean-fleet run FOUR times this session, 140/140 every time.**
+> HEAD `commit:1380`. **Drew's standing decision: NO phase close — keep grinding.**
+
+## FLEET — R22 **140 passed / 0 failed of 140**
+**96.10% fn-count · 93.7% instr-weighted · 88.0% distinct-code** · dedup **1908/0** ·
+C1 240807/240807 · **0 NON_MATCHING** (G4).
+Phase opened 92.00 / 87.5 / 78.0 ⇒ **+4.10pp fn, +6.2pp instr, +10.0pp distinct.**
+
+## WHAT S33 DID — lane 2 of the S10 checkpoint (the propagation lag), taken FIRST on the
+standing "probe the cheap lever before funding the expensive one" doctrine. **~0 agent tokens.**
+- **SC07 EXTEND: 0/36 → 31/36.** Commits `commit:1377` · `commit:1378`.
+- **PROPAGATE head: 7,398 of 18,545 ins banked** — `func_80147364` ×137 (4,110) + `func_8012A598`
+  ×138 (3,288). Commits `commit:1379` · `commit:1380`.
+- **Distilled to cookbook §138** (+ index regenerated) — the full triage is there, not here.
+
+## 🔑 THE FINDING: a gate refusal in these lanes is a DECLARATION, not codegen
+**Not one of the 36 EXTEND blockers was compiler codegen.** Nine failures per binary reduced to
+**4 distinct symbols** repeated across all four. Two masqueraded as walls:
+1. **The 4 "undiagnosed DIFF"s in `dedup_extend`'s own header are a `volatile`.** Its correctness
+   argument says an h_exact match makes a DIFF impossible — and the contract HELD (original bytes
+   sha1-identical across the failing and working overlay, `af1aceb2…`, *checked in one command with
+   no build*). The host TU declared `extern volatile s32 D_80127090/94/98` at FILE scope, which no
+   working overlay's copy does ⇒ the macro's three stores became a scheduling barrier ⇒ `addu`
+   could not sink into the `jal` delay slot ⇒ built body emitted it early **plus a `nop`**, one
+   instruction longer. **Tell: a positional shift with a `nop` at a delay slot is an ORDERING
+   constraint, not a wrong body.** Fixed by the §37/§124 DATA asm-label alias. 16/16 on retry.
+2. **`func_80147364`: definition `(u16,u16)` vs 4,046 fleet decls `(u16,s32)`.** u16 promotes, so
+   the `()` escape is ILLEGAL. The **DEFINITION-side** asm-label alias is the only zero-radius
+   escape (1,725 in-tree precedents). Banked ×137 first try.
+**Before relaxing a decl to `()`, grep the fleet's decl shapes for that symbol** — `()` is illegal
+only against a *default-promotion* param. 4,020 decls of `func_80146C3C` were all `(void)/()/(u8*)`
+⇒ safe ⇒ 8 of 36 for ONE token.
+
+## 🧰 TOOL FIX — §134 multi-line blindness, now in a SECOND tool
+`dedup_propagate.find_site`'s preamble backscan had the SESSION-18 fix for blank/`//`/single-line
+comments and still halted on a **multi-line block comment**. Same class S6b fixed 3× in
+`family_remap`. Now decides on **`cdecl._mask`** (one oracle, R33) with an R32 length-preservation
+assertion. Monotone + byte-gate-fed ⇒ can fail to bank, never falsely bank. Paired with switching
+the `func_8012A598` exemplar off its draft-local `struct BigCopy164` to the shared `struct BigCopy`
+(engine_types.h L312, already used identically at engine_core.h:16158). **Either fix alone leaves
+the function written off.**
+
+## ▶ RESUME HERE — three named items, none diagnosed against a build yet
+1. **The PROPAGATE head remainder — 11,147 ins.** `func_8012f274` (3,973, **dropped**),
+   `func_8016ba68` (3,886, **4 of 138**), `func_801466f0` (3,288, **no source found** — the S6b
+   **D4** gap: its def at `ov_SC01_077_after.c:495` carries a *wrapped* `__asm__` alias decl that
+   `_alias_decl_for`'s single-line `rx.match` cannot see, with a file-scope `typedef struct
+   Rec801466F0` behind it, §100). **`--recover` is NOT a retry** — it banked 4 of 138 here, and the
+   reconcile lane that is 16/16 lifetime *on drafts* does not transfer to *propagation*. **Probe
+   ONE excluded overlay's build output (§136a) before re-running any lever.**
+2. **The 41-class PROPAGATE tail** — 2,316 ins total. Low value; batch it or ledger it.
+3. **EXTEND's last 5:** `func_80144B9C` ×4 — the whale's registry `func` field is a bare name, not
+   a `DEFINE_` macro, so `write_drafts` emits a CALL (hence "undefined reference" in ov_SC07_010);
+   it needs the §38 `-O0` shared-header route, **and `dedup_extend` should refuse-and-name the
+   class per R32** rather than feed the gate a draft that cannot pass. Plus `func_80149954` ×1,
+   blocked behind `func_80147364`'s u16 params.
+Then: **lane 1** (S10's 17 unbanked targets, 26,227 templ ins, Sonnet at ~12-16 concurrency — the
+manifest `.run/s10.json` / script `.run/s10.js` are still valid) and **lane 3** (the ×2-9 grind).
+
+## 🧰 MY PROCESS ERRORS THIS SESSION — all ONE mechanism, all now in §138
+**The signal I sampled was not the thing I was waiting for**, three times:
+1. `nohup CMD &` inside a backgrounded call ⇒ the harness signalled the **wrapper**'s exit; the
+   fleet check stood at **63/140** and I nearly read it as a pass.
+2. **CORRECTION to the S10 checkpoint's own rule.** It says use `pgrep -x make`. Right for ONE
+   make, **wrong for a campaign** of sequential makes — it fired in a gap and called a live
+   campaign done. And **`pgrep -f <pattern>` SELF-MATCHES**, so that waiter can never exit (two
+   spinning shells, killed). **Wait on the campaign's real argv or on `treelock.sh --status`.**
+3. A `corpus.stubs` probe run mid-rebuild returned garbage — R32's coverage assertion refused to
+   answer rather than hand me a wrong stub set. *A measurement taken during a rebuild is not a
+   measurement* (S27's law, re-earned).
+No bad bytes from any of them — the byte-gate and R22 caught everything.
+
+---
+
+# 🛑 (superseded) SESSION-31/32 CHECKPOINT (2026-08-03)
 > **Nothing is running. Tree lock FREE. Tree CLEAN** but for the R23 `db.*.gbf` churn — never stage.
 > Effort: **ultracode**. **R22 clean-fleet run TWELVE times, 140/140 every time.** HEAD `commit:1375`.
 > **Drew's standing decision: NO phase close — keep grinding** (task #15).

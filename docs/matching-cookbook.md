@@ -9399,3 +9399,96 @@ relocation mask leaves open, without running `make`):
 Symptom line for the index: **"`match_one`/`rtu_match` say MATCH but the whole-overlay SHA still
 DIFFs"** has exactly three causes — a stale verdict, a wrong `jal`/`%hi`/`%lo` target the mask hides,
 or collateral from file-scope decls — and the two oracles above discriminate all three offline.
+
+---
+
+## §138 — The propagation lanes: a gate refusal is a DECLARATION, and which lever you owe depends on blast radius
+
+**Symptom key:** `dedup_extend` or `dedup_propagate` plans N members and banks **0**, or reports
+`PLUMBING: conflicting types for X` / an undiagnosed `DIFF`. Measured this session: a 0/36 lane went
+to **31/36**, and every single blocker was a declaration — not one was compiler codegen.
+
+### The triage, cheapest first
+
+Capture each failure's **own compiler error** (§136a — classify on the build's OUTPUT, never its exit
+status) and bucket by which symbol is named. The named symbols repeat: 9 failures per binary reduced
+to **4 distinct symbols** shared across all four binaries. Then pick the *lowest-blast-radius* lever
+that is byte-neutral **by construction**:
+
+| conflict | lever | radius |
+|---|---|---|
+| macro declares `(void)`, TU declares `(ptr)`, **use is cast** | relax the macro decl to `()` | T2, 1 token |
+| TU decl is unused boilerplate (**zero uncast uses**) | conform the TU decl to the fleet canon | T1 |
+| TU declares the symbol `volatile`, or any type the macro can't match | **asm-label alias on the DATA** | T2 |
+| the fn's own signature (return/arity/param) | **asm-label alias on the DEFINITION** | T2 |
+
+**Before relaxing to `()`, MEASURE the whole fleet's decl shapes for that symbol.** `()` is illegal
+against a prototype carrying a *default-promotion* param (`s8/s16/u8/u16/char/short/float`) — the
+documented gcc-2.7.2 dead-end. It is legal against pointers and `s32`. One `grep -rhoE` over `src/`
+answers it; 4,020 decls of `func_80146C3C` were all `(void)/()/(u8*)`, so the relax was safe and
+bought 8 of 36 for one token.
+
+**One conflict HIDES the next.** A declaration conflict *aborts the compile*, so the error you see
+says nothing about what is behind it (the S29 law). Fixing `func_8012E5CC` immediately revealed
+`func_80147364` at the same site. Re-run after every fix; do not price the lane off the first error.
+
+### `volatile` in the host TU is a SCHEDULING BARRIER — and it looks exactly like a codegen wall
+
+The four "undiagnosed DIFF"s in `dedup_extend`'s own header were this. Its correctness argument says
+an `h_exact` match guarantees byte-identity *including relocs*, so a DIFF should be impossible.
+Both halves resolved against the bytes:
+
+1. **The contract HELD** — `func_80162FF4`'s original bytes are sha1-identical in the failing and the
+   working overlay (`af1aceb2…`). *Check this first: it splits "the registry is lying" from "the TU
+   is different" in one command, with no build.*
+2. **The TU differed** — the host TU declared `extern volatile s32 D_80127090/94/98` at FILE scope,
+   which no working overlay's copy of that TU does. Volatile makes the macro's three stores a
+   barrier, so `addu $a0,$s2,$zero` could not sink into the `jal`'s delay slot: the build emitted it
+   early **plus a `nop`**, one instruction longer.
+
+**The tell:** a diff that is a *positional shift with a `nop` appearing at a delay slot* is an
+ordering constraint, not a wrong body. Look for a qualifier (`volatile`, `const`) on a symbol the
+body touches before reaching for a codegen idiom. The fix is the **data asm-label alias**
+(`extern s32 aD_80127090 __asm__("D_80127090")`): a distinct C identifier is immune to any TU's
+declaration of that symbol, and is byte-neutral wherever the macro already worked.
+
+### The DEFINITION-side alias is the only escape when the fleet canon disagrees on a promoting param
+
+`func_80147364`'s byte-true definition is `(u16, u16)`; **4,046 fleet decls say `(u16, s32)`**. `()`
+is illegal (u16 promotes) and conforming the decls would change caller codegen. Author the macro as
+`void aF80147364(u16, u16) __asm__("func_80147364");` + a definition of the aliased name: the real
+symbol is emitted, every caller keeps its own declaration, blast radius is zero. In-tree precedent:
+**1,725 files** already use this form. Banked ×137 first try.
+
+### Rank the lane by measured concentration, not by class count
+
+A "45 classes / 20,837 ins" queue was really **5 classes carrying 89% of it**. Re-split the ledger by
+`nins × n_stub` before scheduling anything — and note the per-class outcomes diverge wildly
+(4,110 banked ×137 · 3,288 banked ×138 · 3,973 dropped · 3,886 at 4/138 · 3,288 tool-gapped), so a
+lane average predicts nothing. **`--recover` is not a retry:** the caller-extern reconcile that is
+16/16 lifetime *on drafts* banked 4 of 138 on a *propagation*. Probe one excluded member's build
+output before re-running any lever that already returned a bad number.
+
+### §134 again, in a second tool — and the waiter rule corrected
+
+`dedup_propagate.find_site`'s preamble backscan had the SESSION-18 fix for blank / `//` /
+**single-line** `/* … */` lines, and still halted on a **multi-line block comment** (middle lines
+start `*`; the last ends `*/` without starting `/*`). Same class S6b fixed three times in
+`family_remap`. **Decide skippability on `cdecl._mask`, not on line syntax** — one oracle (R33),
+every comment form, immune to a `/*` inside a string, with an R32 assertion that the mask is
+length-preserving. Also: a body declaring a draft-local `struct Tag {…}` is unextractable by design;
+if the identical layout already exists in `src/shared/engine_types.h`, switching the exemplar to the
+shared tag is byte-neutral and unblocks propagation.
+
+**Waiter rule, corrected (three failures, one mechanism — the signal sampled is not the thing waited
+for):** `pgrep -x make` is right for ONE make and **wrong for a campaign** — `dedup_propagate` runs a
+*sequence* of `make build BINARY=<ov>`, so a poll lands in the gap between two and reports a live
+campaign finished. And `pgrep -f <pattern>` **self-matches** its own command line, so that waiter can
+never exit. Wait on the campaign process by its real argv (`ps -eo args | grep 'python3 tools/…'`) or
+on **`tools/treelock.sh --status`**, which is a statement of intent spanning the gaps. Likewise never
+wrap a campaign in `nohup … &` inside a backgrounded call: the harness then signals completion of the
+*wrapper* — a fleet check "finished" at 63/140.
+
+Symptom line for the index: **"a propagation/extend lane plans N and banks 0"** — read each failure's
+compiler error, bucket by named symbol, and apply the lowest-radius byte-neutral alias; a `volatile`
+in the host TU and a fleet decl carrying a promoting param are the two that masquerade as codegen.
