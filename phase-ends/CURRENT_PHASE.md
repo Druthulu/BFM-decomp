@@ -696,6 +696,81 @@ the T2 log entries; check both background tasks' outcomes first (`git log` for t
 
 ## Per-task log
 
+### ▶ S11 — the propagation lag: EXTEND 0/36 -> 31/36, and every blocker was a DECLARATION (2026-08-03/04)
+Lane 2 of the S10 checkpoint ("26,006 ins, ~0 agent tokens, PARTLY BLOCKED"), taken first on the
+standing doctrine that the cheap deterministic lever is probed before the expensive agent one.
+
+**EXTEND shape — 31 of 36 banked (was 0).** Every failure was captured from the compiler's own
+output (§136a) rather than guessed, and the 9-per-binary failure set reduced to **4 distinct
+symbols repeated across all four SC07 binaries** plus the 4 "DIFF"s:
+- **`func_80146C3C` (8 of 36) — one token.** Two macros declared it `(void)`; the SC07 TUs declare
+  `(u8 *a0)`. Both macros already CAST at the call site, so the prototype is codegen-irrelevant ->
+  relaxed to `()`. Measured BEFORE editing: all 4,020 fleet decls are `(void)/()/(u8*)/(u8 *a0)` —
+  **no default-promotion param anywhere**, so gcc-2.7.2's `()` dead-end (which needs a promoting
+  param) cannot bite. T2 but 2 lines.
+- **`func_8014F4C0` (self-axis, 4), `D_80126CC4` (3), `func_8012E5CC` (1) — T1, binary-local.**
+  Conformed the SC07 decls to the fleet-canonical form. Each has **zero uncast uses** in its TU
+  (verified per file), so they were splat boilerplate with no codegen effect.
+- One conflict **hid another**: fixing `func_8012E5CC` revealed `func_80147364` behind it — the S29
+  law that a declaration conflict ABORTS the compile, so one error says nothing about the next.
+
+**The 4 "DIFF"s are a `volatile` declaration, not a codegen wall.** `dedup_extend`'s own header
+records them as UNDIAGNOSED while its correctness argument says an h_exact match makes a DIFF
+impossible. Both halves resolved against the bytes:
+1. The contract HOLDS — `func_80162FF4`'s original bytes are sha1-identical in ov_SC07_006 and
+   ov_SC01_000 (`af1aceb2…`).
+2. The cause is TU CONTEXT — the SC07 host TU (`_jr_8015C32C.c:1177`) declares
+   `extern volatile s32 D_80127090/94/98` at FILE scope; **none of the 134 working overlays' copy of
+   that TU does**. Volatile makes the macro's three stores a scheduling barrier, so
+   `addu $a0,$s2,$zero` cannot sink into the `jal func_80146D30` delay slot — the built body emits
+   it early plus a `nop`, one instruction longer. Measured word-for-word:
+   built `+0x090 addu / lui,sw x3 / jal / NOP` vs ref `+0x090 lui,sw x3 / jal / addu-in-delay-slot`.
+   All 4 macros touch exactly those 3 symbols, which is why all 4 fail in all 4 binaries and nowhere
+   else. **Fix: the §37/§124 DATA asm-label alias** inside the 4 macros — a distinct C identifier is
+   immune to any TU's declaration and byte-neutral in the other 134. **16/16 banked on the retry.**
+
+**Still open in this lane (both NAMED, neither a wall):** `func_80144B9C` x4 — the whale's registry
+`func` field is a bare name, not a `DEFINE_` macro, so `write_drafts` emits a CALL (hence
+"undefined reference" in ov_SC07_010); it needs the §38 `-O0` shared-header route, and
+`dedup_extend` should refuse-and-name the class per R32. And `func_80149954` x1, blocked behind
+`func_80147364`'s u16 params.
+
+**PROPAGATE shape — the head is 5 classes, not 45.** `.run/s8_lag.json` re-split: EXTEND 13 classes
+/ 45 stubs / 5,145 ins; PROPAGATE 46 / 783 / 20,861 — but **5 classes carry 18,545 ins (89%)** and
+the other 41 carry 2,316. Ranked: `func_80147364` 30x137=4,110 · `func_8012f274` 29x137=3,973 ·
+`func_8016ba68` 29x134=3,886 · `func_8012a598` 24x137=3,288 · `func_801466f0` 24x137=3,288.
+
+**`func_80147364` banked x137 (4,110 ins) via the DEFINITION-SIDE asm-label alias.** Its byte-true
+definition is `(u16, u16)` while the fleet declares it `(u16, s32)` in 4,046 places — u16 is a
+default-promotion type, so the `()` escape is ILLEGAL and a decl conform would change caller
+codegen. The alias gives the definition a distinct C identifier while emitting the real symbol:
+zero blast radius on every caller. **Probed on ONE member first (1 build, not 137 — the S29
+discipline): byte-identical `9052dc0e…` first try**, then the full run: 137 overlays byte-identical.
+In-tree precedent for the form: 1,725 files already use it.
+
+**Named + sized, not yet banked:** `0x8012a598` skipped `missing file-scope extern (CARRY-FIXABLE):
+D_801151D4, D_80126DB8_a, D_80127504`. `0x801466F0` reports "no source overlay has it matched" —
+the S6b **D4** case, still unfixed: its def in `ov_SC01_077_after.c:495` carries a **wrapped**
+`__asm__` alias decl and `_alias_decl_for` is a single-line `rx.match` (the §134 multi-line-blindness
+class), plus a file-scope `typedef struct Rec801466F0` that a macro body cannot travel with (§100).
+
+**My process errors this block, recorded:** (1) I wrapped the first R22 in `nohup … &` inside a
+backgrounded call, so the harness signalled completion of the WRAPPER while the fleet check stood at
+**63/140** — I nearly read that as a pass. Wait on `pgrep -x make`, never on a wrapper's exit.
+(2) I ran a `corpus.stubs` probe while `make extract-all` was mid-flight and got garbage; R32's
+coverage assertion refused to answer instead of returning a wrong stub set. *A measurement taken
+during a rebuild is not a measurement* — S27's law, re-earned.
+(3) **CORRECTION to the S10 checkpoint's own waiter rule.** It says "use `pgrep -x make` (exact
+process name)". That is right for a single `make`, and **wrong for a CAMPAIGN**: `dedup_propagate`
+runs a SEQUENCE of `make build BINARY=<ov>` calls, so between any two there is a window with no
+`make` process — my waiter fired in one and reported "done" on a live campaign whose log had one
+line. This is the identical structure `tools/treelock.sh`'s own docstring warns about ("guard the
+CAMPAIGN, not the process"; a `pgrep` poll is a sampling test on a gappy signal). **Wait on the
+campaign itself — `pgrep -f dedup_propagate` / `family_sweep` — or on `tools/treelock.sh --status`,
+which is a statement of intent that spans the gaps.** Three waiter failures now share one mechanism:
+the signal being sampled is not the thing being waited for.
+
+
 ### ▶ S6a — the source-agnostic zero-crack sweep: 842 banked, and the residue is OUR TOOLING again (2026-08-01)
 **Setup, measured before running anything (R37 — probe before costing).** The 190 zero-crack families
 (129,997 templatable ins) were decomposed with **zero builds** by remapping each family's exemplar onto one

@@ -3363,22 +3363,7 @@ DEFINE_func_801472F0()  /* dedup: shared engine-core @0x801472f0 (src/shared) */
 // @stuck: none — MATCH
 #include "common.h"
 
-extern s16 currentLocationId;
-extern s32 D_80126B58;
-extern void func_80015978(s32, s32*);
-extern s32 func_8012E5CC(s32, s32, s32);
-extern void func_8002D4C8(s32 a0, s32 a1);
-
-void func_80147364(u16 param_1, u16 param_2) {
-    s32 sp10[2];
-    s32 *p = &D_80126B58;
-    if (currentLocationId == 0x308d) {
-        ((void (*)(void *, void *))func_80015978)(p + 1, sp10);
-        ((void (*)(void *, s32, s32))func_8012E5CC)(sp10, param_1, param_2);
-    } else {
-        func_8002D4C8(param_1, param_2);
-    }
-}
+DEFINE_func_80147364()  /* dedup: shared engine-core @0x80147364 (src/shared) */
 
 
 DEFINE_func_801473DC()  /* dedup: shared engine-core @0x801473dc (src/shared) */

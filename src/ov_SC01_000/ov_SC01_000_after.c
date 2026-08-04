@@ -634,7 +634,7 @@ DEFINE_func_80147300()  /* dedup: shared engine-core @0x80147300 (src/shared) */
 
 DEFINE_func_80147324()  /* dedup: shared engine-core @0x80147324 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_000/nonmatchings/ov_SC01_000_after", func_80147364);
+DEFINE_func_80147364()  /* PROPAGATE probe */
 
 DEFINE_func_801473DC()  /* dedup: shared engine-core @0x801473DC (src/shared) */
 

@@ -426,6 +426,20 @@
         } \
     }
 
+#define DEFINE_func_8016BA68() \
+    extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6); \
+    extern s32 func_8014C050(s32 a0, s32 a1); \
+    extern void func_80146C3C(u8*); \
+    s32 func_8016BA68(s32 arg0, s32 arg1) { \
+        extern s32 D_80126B58; \
+        s32 temp_v0; \
+        temp_v0 = func_8014C050(&D_80126B58, 0x56); \
+        if (temp_v0 != 0) { \
+            ((void (*)(void *))func_80146C3C)(temp_v0); \
+        } \
+        func_80146A6C(0x56, arg0, M2C_FIELD(arg0, s16 *, 0x7C), M2C_FIELD(arg0, s16 *, 0x7E), (s32) M2C_FIELD(arg0, s16 *, 0x80), arg1, 0); \
+    }
+
 #endif
 
 #define DEFINE_func_80128EA8() \
@@ -30144,6 +30158,46 @@
             *(s32 *)(*(s32 *)p) = *(s32 *)((s32)p + 4); \
             p = (s32 *)((s32)p + 0xC); \
         } \
+    }
+
+
+/* PROPAGATE-lane probe: func_80147364 (30 ins, matched in ov_SC07_006, stub in 137 overlays).
+   DEFINITION-SIDE asm-label alias (§37/§124): the fleet declares this fn `(u16, s32)` in 4,046
+   places while its byte-true definition is `(u16, u16)`. u16 is a default-promotion type, so the
+   `()` no-prototype escape is ILLEGAL here (the documented gcc-2.7.2 dead-end) and a decl conform
+   would change caller codegen. The alias gives the definition a distinct C identifier while
+   emitting the real symbol -- zero blast radius on every caller. func_8012E5CC is aliased for the
+   same reason (3 incompatible shapes fleet-wide); its use is cast, so both are codegen-neutral. */
+#define DEFINE_func_80147364() \
+    extern s16 currentLocationId; \
+    extern s32 D_80126B58; \
+    extern void func_80015978(s32, s32*); \
+    extern s32 aF8012E5CC(s32, s32, s32) __asm__("func_8012E5CC"); \
+    extern void func_8002D4C8(s32 a0, s32 a1); \
+    void aF80147364(u16 param_1, u16 param_2) __asm__("func_80147364"); \
+    void aF80147364(u16 param_1, u16 param_2) { \
+        s32 sp10[2]; \
+        s32 *p = &D_80126B58; \
+        if (currentLocationId == 0x308d) { \
+            ((void (*)(void *, void *))func_80015978)(p + 1, sp10); \
+            ((void (*)(void *, s32, s32))aF8012E5CC)(sp10, param_1, param_2); \
+        } else { \
+            func_8002D4C8(param_1, param_2); \
+        } \
+    }
+
+#define DEFINE_func_8016BA68() \
+    extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6); \
+    extern s32 func_8014C050(s32 a0, s32 a1); \
+    extern void func_80146C3C(u8*); \
+    s32 func_8016BA68(s32 arg0, s32 arg1) { \
+        extern s32 D_80126B58; \
+        s32 temp_v0; \
+        temp_v0 = func_8014C050(&D_80126B58, 0x56); \
+        if (temp_v0 != 0) { \
+            ((void (*)(void *))func_80146C3C)(temp_v0); \
+        } \
+        func_80146A6C(0x56, arg0, M2C_FIELD(arg0, s16 *, 0x7C), M2C_FIELD(arg0, s16 *, 0x7E), (s32) M2C_FIELD(arg0, s16 *, 0x80), arg1, 0); \
     }
 
 #endif
