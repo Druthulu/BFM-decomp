@@ -30200,4 +30200,23 @@
         func_80146A6C(0x56, arg0, M2C_FIELD(arg0, s16 *, 0x7C), M2C_FIELD(arg0, s16 *, 0x7E), (s32) M2C_FIELD(arg0, s16 *, 0x80), arg1, 0); \
     }
 
+
+/* PROPAGATE-lane: func_8012A598 (2 statements, matched in ov_SC01_077_a, stub in 137 overlays).
+   dedup_propagate SKIPPED this as `missing file-scope extern (CARRY-FIXABLE)` — its preamble
+   backscan stops at a standalone comment line, so the three externs above the body were dropped
+   (the SESSION-18 class). Hand-authored here with the SHARED `struct BigCopy` (engine_types.h
+   L312) instead of the exemplar's draft-local `BigCopy164` tag + asm-label alias: the shared type
+   is identical (`s32 words[41]`) and already used this exact way at engine_core.h:16158, so no
+   local type travels and no alias is needed. The fleet canon decl is `void func_8012A598(void*)`,
+   which the definition matches — no self-axis conflict. */
+#define DEFINE_func_8012A598() \
+    extern s32 D_801151D4; \
+    extern struct BigCopy D_80126DB8; \
+    extern u8 D_80127504; \
+    void func_8012A598(void *a0) \
+    { \
+        D_80126DB8 = *(struct BigCopy *)D_801151D4; \
+        D_80127504 = 0x30; \
+    }
+
 #endif

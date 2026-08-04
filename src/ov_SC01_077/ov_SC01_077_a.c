@@ -897,21 +897,12 @@ DEFINE_func_8012A568()  /* dedup: shared engine-core @0x8012A568 (src/shared) */
  * `struct BigCopy` when this body is spliced into the real TU (which already includes
  * engine_core.h -> engine_types.h and declares `extern struct BigCopy D_80126DB8;`). */
 
-struct BigCopy164 { s32 words[41]; };
-
-extern s32 D_801151D4;           /* canonical (10 siblings): scalar s32 — cast at use */
-extern struct BigCopy164 D_80126DB8_a __asm__("D_80126DB8");
-extern u8 D_80127504;
-
-/* §73 PARAMS axis (T0, draft-only): the fleet canon is
- * `extern void func_8012A598(void *a0);` (src/shared/engine_core.h L199). Keep the
- * canonical param in the signature — the target never reads $a0, so the unused arg
- * is byte-neutral and no fleet edit (R22) is needed. */
-void func_8012A598(void *a0)
-{
-    D_80126DB8_a = *(struct BigCopy164 *)D_801151D4;
-    D_80127504 = 0x30;
-}
+/* S11: was a draft-local `struct BigCopy164` tag + an asm-label alias, which made this body
+ * UNEXTRACTABLE (dedup_propagate refuses any body declaring an inline named struct, since two
+ * macros defining the same tag would redefine it in one TU). The SHARED `struct BigCopy`
+ * (src/shared/engine_types.h L312) is the identical layout and is already used this exact way at
+ * engine_core.h:16158, so using it is byte-neutral and lets the fn propagate x137. */
+DEFINE_func_8012A598()  /* dedup: shared engine-core @0x8012A598 (src/shared) */
 
 
 DEFINE_func_8012A5F8()  /* dedup: shared engine-core @0x8012A5F8 (src/shared) */

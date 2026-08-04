@@ -735,6 +735,24 @@ impossible. Both halves resolved against the bytes:
 `dedup_extend` should refuse-and-name the class per R32. And `func_80149954` x1, blocked behind
 `func_80147364`'s u16 params.
 
+**`func_8012A598` banked x138 (3,288 ins) — and it took TWO fixes, either alone insufficient.**
+The tool skipped it as `missing file-scope extern (CARRY-FIXABLE): D_801151D4, D_80126DB8_a,
+D_80127504`.
+1. **TOOL (R33):** `find_site`'s preamble backscan had the SESSION-18 fix for blank / `//` /
+   SINGLE-LINE `/* … */` lines, but a **MULTI-LINE block comment** still halted it — its middle
+   lines start with `*` and its last line ends `*/` without starting `/*`. The §134
+   multi-line-blindness class, which S6b already fixed three times in `family_remap`. Replaced the
+   line-syntax test with a decision on **`cdecl._mask`** (the project's ONE masking oracle) — it
+   subsumes every comment form and cannot be fooled by a `/*` inside a string — plus an R32
+   assertion on the length-preservation invariant it rests on. Strictly monotone: it can only carry
+   MORE preamble, and dedup_propagate is a byte-gate feeder (a bug here can fail to bank, never
+   falsely bank).
+2. **EXEMPLAR:** the body also declared a draft-local `struct BigCopy164` tag, which the tool
+   refuses by design (two macros defining one tag redefine it in a TU). The shared
+   `struct BigCopy` (engine_types.h L312) is the identical layout and is **already used this exact
+   way at engine_core.h:16158**, so switching the exemplar to it is byte-neutral. Probed on ONE
+   member first: byte-identical `9052dc0e…`; then **138 overlays byte-identical**.
+
 **PROPAGATE shape — the head is 5 classes, not 45.** `.run/s8_lag.json` re-split: EXTEND 13 classes
 / 45 stubs / 5,145 ins; PROPAGATE 46 / 783 / 20,861 — but **5 classes carry 18,545 ins (89%)** and
 the other 41 carry 2,316. Ranked: `func_80147364` 30x137=4,110 · `func_8012f274` 29x137=3,973 ·

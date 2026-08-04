@@ -32,6 +32,9 @@ Options:
   --no-gate                           skip the per-overlay build gate (CI / batch re-gate later)
 """
 import argparse, collections, json, pathlib, re, subprocess, sys
+import os as _os
+sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__)))
+import cdecl    # the comment/string masking oracle (Phase 26-A) — see _skippable below
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 
@@ -128,6 +131,11 @@ def find_site(text, ov, addr):
        kind 'macro'  -> already a DEFINE_func_<ADDR>() instantiation (already propagated)
        None          -> not present / matched in some other form."""
     lines = text.splitlines()
+    # Comments blanked ONCE by the project's single masking oracle (R33). Length-preserving, so
+    # index i into mlines is index i into lines. This is what makes _skippable MULTI-LINE aware.
+    mlines = cdecl._mask(text).splitlines()
+    if len(mlines) != len(lines):        # R32: the invariant this rests on, asserted not assumed
+        mlines = lines
     s = sym(addr)
     stub = stub_line(ov, addr)
     for i, l in enumerate(lines):
@@ -219,19 +227,25 @@ def find_site(text, ov, addr):
             # (T6.4 had already fixed the TRAILING-comment case, `extern u8 D_x[]; /* note */`; this
             # is the standalone-LINE case it did not reach.) Skip comment-only lines exactly like
             # blanks, and drop them from the emitted body so make_macro never sees a `//`.
-            def _skippable(ln):
-                t = ln.strip()
-                return t == "" or t.startswith("//") or (t.startswith("/*") and t.endswith("*/"))
+            # S11: the SESSION-18 fix handled BLANK, `//`, and SINGLE-LINE `/* … */` lines, but a
+            # MULTI-LINE block comment still halted the walk — its middle lines start with `*` and
+            # its last line ends `*/` without starting `/*`. That is the §134 multi-line-blindness
+            # class (S6b fixed the same shape three times in family_remap). Deciding on the MASK
+            # instead of on line syntax subsumes every comment form in one oracle and cannot be
+            # fooled by a `/*` inside a string. Byte-measured: this is the whole CARRY-FIXABLE
+            # bucket for func_8012A598 (3,288 templatable ins that were being written off).
+            def _skippable(idx):
+                return mlines[idx].strip() == ""
             start = i
             k = i - 1
-            while k >= 0 and _skippable(lines[k]):
+            while k >= 0 and _skippable(k):
                 k -= 1
             while k >= 0 and re.match(r"^\s*extern\b.*;\s*(/\*.*\*/\s*)?$", lines[k]):
                 start = k
                 k -= 1
-                while k >= 0 and _skippable(lines[k]):
+                while k >= 0 and _skippable(k):
                     k -= 1
-            body = [ln for ln in lines[start:end + 1] if not _skippable(ln)]
+            body = [lines[j] for j in range(start, end + 1) if not _skippable(j)]
             return ("def", start, end, body)
     return None
 

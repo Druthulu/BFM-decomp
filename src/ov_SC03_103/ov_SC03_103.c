@@ -803,7 +803,7 @@ void func_8012A568(void (*a0)(void)) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_103/nonmatchings/ov_SC03_103", func_8012A598);
+DEFINE_func_8012A598()  /* dedup: shared engine-core @0x8012A598 (src/shared) */
 
 DEFINE_func_8012A5F8()  /* dedup: shared engine-core @0x8012A5F8 (src/shared) */
 

@@ -804,7 +804,7 @@ extern void func_8012A598(void *a0);
     }
 
 
-INCLUDE_ASM("asm/ov_SC02_028/nonmatchings/ov_SC02_028", func_8012A598);
+DEFINE_func_8012A598()  /* dedup: shared engine-core @0x8012A598 (src/shared) */
 
 DEFINE_func_8012A5F8()  /* dedup: shared engine-core @0x8012A5F8 (src/shared) */
 
