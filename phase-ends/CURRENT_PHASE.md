@@ -147,6 +147,38 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 
 ---
 
+# ⏳ SESSION-38 IN FLIGHT (2026-08-04) — WAVE 6 IS RUNNING, DO NOT `make clean`
+> **A wave is IN FLIGHT.** Workflow `wf_4eabc086-c4c` (`.run/w6.js`, 16 targets / **50,596 open
+> templatable ins** — 3× wave 5). Agents write **`.run/w6/<ov>/func_*.c` ONLY**; they read `src/`,
+> `asm/` and run `match_one`. **The tree lock is FREE and must stay that way until the wave lands** —
+> a `make clean`/`extract` under a running wave is the S-era 63/140 incident.
+> Check `/workflows` before assuming idle. Effort: **ultracode** (Drew enabled, regular high).
+>
+> **If this session dies mid-wave:** the drafts on disk are the asset. `.run/` is gitignored, so
+> `git add -f .run/w6/` them before anything else (the wave-5 precedent), then resume by GATING —
+> never by re-running the wave (`resumeFromRunId` is same-session-only).
+>
+> **Resume/land sequence (unchanged from the ▶ block below):**
+> `tools/treelock.sh g .venv/bin/python .run/s6f_gate.py '.run/w6/*/func_*.c'` → capture any failure
+> (`.run/s36_capture.py <ov>:<fn>`) → reconcile per the §138 direction rule → `make sig-overlays` +
+> `tools/family_hseq.py` + `family_sweep --hseq --band all --only <banked addrs>` → **R22** →
+> commit → **append a row to `docs/wave-metrics.md`**.
+>
+> **New this session (both reusable, both committed with the wave):**
+> - **`.run/w6_pool.py`** — the pool derivation, finally a SCRIPT instead of inline python. Ranks by
+>   **open** templatable weight (`corpus.stubs` over the member list, §138 rule 4), carries the
+>   walls/ledgered-residual exclusion set, drops families whose address was attempted-and-still-open
+>   in any prior wave (83 addrs), and enforces **one target per (overlay, TU)** so a wave cannot
+>   manufacture its own §138-rule-2 conflict. Pool: **2,928 fresh families / 476,611 open templ ins**.
+> - **Two derive-don't-assert fixes to the manifest itself (R37):** `model` is routed by measured
+>   band (Sonnet is measured 81–100% over 125–793 ins; `func_8017C974` at **947** is outside it →
+>   Opus directly, rather than paying a sonnet chain *plus* an escalation chain on the wave's biggest
+>   target), and **`seed` is now derived from `.run/ghidra_c/` existing on disk** — it was being
+>   carried as an arbitrary `i % 2` alternation, i.e. the prompt was telling ~half the agents a
+>   cached Ghidra seed existed **without checking**. 9 of 16 actually have one.
+
+---
+
 # 🛑 SESSION-33..37 CHECKPOINT (2026-08-04, wave 5 BANKED) — FRESH SESSION SAFE HERE
 > **NOTHING IS RUNNING. Tree lock FREE. Tree CLEAN** but for the R23 `db.*.gbf` churn — never stage.
 > Effort: **ultracode**. **R22 clean-fleet run TWENTY times this session, 140/140 every time.**
