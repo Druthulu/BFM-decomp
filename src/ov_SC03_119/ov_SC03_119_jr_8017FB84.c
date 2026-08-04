@@ -4194,7 +4194,108 @@ INCLUDE_ASM("asm/ov_SC03_119/nonmatchings/ov_SC03_119_jr_8017FB84", func_8018517
 
 INCLUDE_ASM("asm/ov_SC03_119/nonmatchings/ov_SC03_119_jr_8017FB84", func_801851C8);
 
-INCLUDE_ASM("asm/ov_SC03_119/nonmatchings/ov_SC03_119_jr_8017FB84", func_8018523C);
+
+/* func_8018523C — allocates a GTE-projection slot, seeds a random spread
+ * vector from a per-index table, rotates it by the model's Y angle, applies
+ * it to the object's matrix, adds it to the object's position, and seeds
+ * three random spin fields.  MATCH (136/136 ins), match_one standalone.
+ *
+ * Declarations: func_8012B23C / func_8012AD50 / D_801C5894 / D_801C591C are
+ * NOT declared anywhere else in this TU (whole-TU grep, D2) so they're fresh
+ * here; func_8012C1B8 / func_8012CAE4 / func_8001C214 / ApplyMatrixSV ARE
+ * already file-scope in the TU (L163, L3160-3162) with these EXACT
+ * signatures, so re-declaring them identically merges silently (D3).
+ *
+ * §48 STRUCT ASSIGN: `m = D_800AE620;` on the 32-byte, 4-aligned matrix
+ * routes move_by_pieces to the plain lw/lw/lw+sw/sw/sw grouping (no lwl/lwr).
+ *
+ * §48-C2: `sv = D_801C5894[idx];` on the 8-byte, 2-aligned (u16 x,y,z; s16 w)
+ * record struct falls through move_by_pieces' align>=4 test and emits the
+ * lwl/lwr+swl/swr unaligned block-move pair instead — matches the target's
+ * four unaligned loads/stores exactly.
+ *
+ * REGALLOC LEVER (new, byte-verified this session — candidate for the
+ * cookbook): a redundant `void *s1 = a0;` local (never reassigned, used only
+ * as an alias for the parameter) made gcc-2.7.2 split the parameter pseudo
+ * into TWO allocnos — one for its pre-call uses (landing in $s0) and a
+ * SEPARATE one (bridged by an extra `move`) for its post-call/cross-branch
+ * uses (landing in $s1) — even though the target uses ONE register ($s1)
+ * uniformly from the second prologue instruction on. Referencing the
+ * parameter `a0` directly everywhere (no alias local) collapses this back to
+ * a single allocno and fixed 6 of the 11 mismatches outright.
+ *
+ * The remaining 5 (an `addu $a0,$v0,zero` copy scheduled too EARLY, and the
+ * alloc-check branch/store testing `$a0` instead of `$v0` directly) were a
+ * v0-pseudo/call-arg-copy coalescing difference: gcc folded the store, the
+ * branch test, AND the func_8012C1B8 return value into one $a0-homed pseudo.
+ * Folding the store and the compare into ONE C expression —
+ * `if ((*(s32*)(a0+0x20) = v0 = func_8012C1B8()) == 0)` — instead of two
+ * separate statements (assign-then-test) made cc1 keep the store/test on the
+ * call's native $v0 and defer the $a0 copy to just before its actual
+ * consumer (func_8001C214), matching the target's schedule exactly. No
+ * register pins, no permuter, no zero-byte asm barriers needed for either
+ * residual — both C-lever-closeable (§136-class local-variable/expression-
+ * shape levers).
+ */
+void func_8018523C(void *a0)
+{
+    typedef struct { s32 w[8]; } Mat32_8018A390_8018523C;          /* 32B, align 4 */
+    typedef struct { u16 x; u16 y; u16 z; s16 w; } Rec8_8018A390_8018523C; /* 8B, align 2 */
+
+    extern Mat32_8018A390_8018523C D_800AE620;
+    extern Rec8_8018A390_8018523C D_801C5894[];
+    extern s32 D_801C591C[];
+
+    extern void func_8012C1B8(void);
+    extern void func_8012CAE4(void *a0);
+    extern void func_8001C214(s32 a0, s32 a1);
+    extern void RotMatrixY(s32 a0, void *a1);
+    extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
+    extern void func_8012B23C(s32 a0);
+    extern s32 func_8012AD50(void *a0);
+    extern s32 rand(void);
+
+    Mat32_8018A390_8018523C m;               /* sp+0x10 */
+    Rec8_8018A390_8018523C sv;               /* sp+0x30 */
+    void *mp;
+    void *svp;
+    s32 v0;
+    s16 w;
+
+    m = D_800AE620;
+    sv = D_801C5894[*(s16 *)((s32)a0 + 0x70)];
+
+    mp = &m;
+    svp = &sv;
+
+    if ((*(s32 *)((s32)a0 + 0x20) = v0 = ((s32 (*)(void))func_8012C1B8)()) == 0) {
+        func_8012CAE4(a0);
+        return;
+    }
+
+    w = sv.w;
+    func_8001C214(v0, D_801C591C[w]);
+
+    RotMatrixY(*(s16 *)(*(s32 *)(*(s32 *)((s32)a0 + 0x64) + 0x20) + 0x12), mp);
+
+    ApplyMatrixSV(mp, svp, svp);
+
+    *(u16 *)((s32)a0 + 0x6) += sv.x;
+    *(u16 *)((s32)a0 + 0xA) += sv.y;
+    *(u16 *)((s32)a0 + 0xE) += sv.z;
+    func_8012B23C((s32)a0);
+
+    *(s16 *)((s32)a0 + 0x12) = (s16)sv.x >> 3;
+    *(s16 *)((s32)a0 + 0x16) = (s16)sv.y >> 3;
+    *(s16 *)((s32)a0 + 0x1A) = (s16)sv.z >> 3;
+
+    *(s16 *)((s32)a0 + 0xFC) = (s16)((rand() & 0x7FF) - 0x400) >> w;
+    *(s16 *)((s32)a0 + 0xFE) = (s16)((rand() & 0x7FF) - 0x400) >> w;
+    *(s16 *)((s32)a0 + 0x100) = (s16)((rand() & 0x7FF) - 0x400) >> w;
+
+    func_8012AD50(a0);
+}
+
 
 
 extern void (*D_801C5928[])(void);

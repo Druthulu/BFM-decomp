@@ -3913,9 +3913,269 @@ INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_8017C24C", func_8017ED6
 
 INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_8017C24C", func_8017EF0C);
 
-INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_8017C24C", func_8017F0F4);
 
-INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_8017C24C", func_8017F430);
+extern void func_8012B1B4(void*, void*);
+extern void func_8012CBCC(s32 a0);
+extern void func_8012BE98(s32 a0, u16 *a1);
+extern void func_8012BE54(s32 a0);
+extern s32 func_8012B744(void *a0, void *a1);
+extern s32 func_8012B608(s32 a0, s32 a1, s32 a2);
+extern s32 func_8017EA54(s32 a0, s32 a1);
+
+void func_8017F0F4(s32 a0)
+{
+    s16 hi;
+    s16 pos;
+    s32 sp10[3];
+    u16 state;
+
+    hi = *(s16 *)(a0 + 0x8A);
+    pos = *(s16 *)(a0 + 0xA);
+
+    if (pos >= hi - 8) {
+        if (*(s32 *)(a0 + 0x48) >= 0) {
+            *(s32 *)(a0 + 0x48) = -0x8000;
+            *(s32 *)(a0 + 0x14) = *(s32 *)(a0 + 0x14) >> 1;
+        }
+    } else {
+        if (hi + 8 >= pos) {
+            if (*(s32 *)(a0 + 0x48) <= 0) {
+                *(s32 *)(a0 + 0x48) = 0x8000;
+                *(s32 *)(a0 + 0x14) = *(s32 *)(a0 + 0x14) >> 1;
+            }
+        }
+    }
+
+    if (*(s32 *)(a0 + 0xDC) < -0x40000) {
+        *(s32 *)(a0 + 0xDC) = -0x40000;
+    }
+
+    sp10[0] = 0;
+    sp10[1] = 0;
+    sp10[2] = *(s32 *)(a0 + 0xDC);
+    ((void (*)(s32, s32))func_8012B1B4)(a0, (s32)sp10);
+    func_8012CBCC(a0);
+
+    state = *(u16 *)(a0 + 0x34);
+    switch (state) {
+    case 0: {
+        register s32 s0v __asm__("$16");
+        s32 ret;
+        s32 p744;
+        s32 v1p;
+        s16 snd;
+        s32 b608;
+        register s32 p20 __asm__("$4");
+
+        s0v = a0 + 0x88;
+        ret = ((s32 (*)(s32, u16 *))func_8012BE98)(a0, (u16 *)s0v);
+        if (ret <= 0x3FFFF) {
+            if (func_8017EA54(a0, 0x51) == 0) {
+                goto set_state1;
+            }
+        }
+        p744 = func_8012B744((void *)(a0 + 4), (void *)s0v);
+        v1p = *(s32 *)(a0 + 0x20);
+        snd = *(s16 *)(v1p + 0x12);
+        b608 = func_8012B608(snd, p744, 8);
+        p20 = *(s32 *)(a0 + 0x20);
+        *(u16 *)(p20 + 0x12) = *(u16 *)(p20 + 0x12) + b608;
+        v1p = *(s32 *)(a0 + 0x20);
+        *(u16 *)(v1p + 0x12) = *(u16 *)(v1p + 0x12) & 0xFFF;
+        ((void (*)(s32, s32))func_8012B1B4)(a0, (s32)sp10);
+        break;
+    }
+    case 1: {
+        s32 ret;
+
+        *(s32 *)(a0 + 0xDC) = *(s32 *)(a0 + 0xDC) << 1;
+        ret = ((s32 (*)(s32, u16 *))func_8012BE98)(a0, (u16 *)(a0 + 0x88));
+        if (ret > 0x3FFFF) {
+            goto rand_tail;
+        }
+        if (func_8017EA54(a0, 0x51) == 0) {
+            goto end_switch;
+        }
+        goto rand_tail;
+    }
+    case 2: {
+        s32 p744;
+        s32 v1p;
+        s16 snd;
+        s32 b608;
+        s32 p20;
+
+        p744 = func_8012B744((void *)(a0 + 4), (void *)(a0 + 0x88));
+        v1p = *(s32 *)(a0 + 0x20);
+        snd = *(s16 *)(v1p + 0x12);
+        b608 = func_8012B608(snd, p744, 0x10);
+        p20 = *(s32 *)(a0 + 0x20);
+        *(u16 *)(p20 + 0x12) = *(u16 *)(p20 + 0x12) + b608;
+        v1p = *(s32 *)(a0 + 0x20);
+        *(u16 *)(v1p + 0x12) = *(u16 *)(v1p + 0x12) & 0xFFF;
+        *(s32 *)(a0 + 0xDC) = *(s32 *)(a0 + 0xDC) >> 1;
+        func_8017EA54(a0, 0x51);
+        if (*(s16 *)(a0 + 0x102) == 0) {
+            *(u16 *)(a0 + 0x34) = 3;
+        } else {
+            *(s16 *)(a0 + 0x102) = *(s16 *)(a0 + 0x102) - 1;
+        }
+        break;
+    }
+    case 3: {
+        register s32 s2v __asm__("$18");
+        s32 ret;
+        s32 p744;
+        s32 v1p;
+        s16 snd;
+        s32 b608;
+
+        s2v = a0 + 0x88;
+        ret = ((s32 (*)(s32, u16 *))func_8012BE98)(a0, (u16 *)s2v);
+        *(s32 *)(a0 + 0xDC) = *(s32 *)(a0 + 0xDC) << 1;
+        if (func_8017EA54(a0, 0x51) != 0) {
+            goto rand_tail;
+        }
+        if (ret <= 0x40000) {
+            goto set_state1;
+        }
+        p744 = func_8012B744((void *)(a0 + 4), (void *)s2v);
+        v1p = *(s32 *)(a0 + 0x20);
+        snd = *(s16 *)(v1p + 0x12);
+        b608 = func_8012B608(snd, p744, 1);
+        if ((u32)(b608 + 0xFF) < 0x1FF) {
+            goto end_switch;
+        }
+        goto rand_tail;
+    }
+    }
+    goto end_switch;
+
+rand_tail:
+    *(u16 *)(a0 + 0x34) = 2;
+    {
+        s32 r = rand();
+        *(s16 *)(a0 + 0x102) = (r & 7) + 8;
+    }
+    goto end_switch;
+
+set_state1:
+    *(u16 *)(a0 + 0x34) = 1;
+
+end_switch:
+    if (*(s16 *)(a0 + 0x100) != 0) {
+        *(s16 *)(a0 + 0x100) = *(s16 *)(a0 + 0x100) - 1;
+    } else {
+        s32 ret3;
+
+        ret3 = ((s32 (*)(s32))func_8012BE54)(a0);
+        if (ret3 <= 0x24000) {
+            *(s16 *)(a0 + 0x2) = 2;
+            *(s16 *)(a0 + 0x100) = 0x3C;
+        }
+    }
+}
+
+
+
+
+extern void func_80180354(s32, s32);
+extern s32 func_8012C588(s32 a0, s32 a1);
+extern void func_8012F14C(s32);
+extern void func_8012B370(int a0);
+extern s32 func_8012C658(s32 arg0, s32 arg1, s32 arg2);
+extern void func_8004914C(void *a0);
+extern void func_800491AC(void *a0);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern s32 RotTransPers(s32 a0, s32 a1, s32 *a2, s32 *a3);
+
+
+void func_8017F430(s32 param_1)
+{
+
+    extern u8 D_801AAF24;
+    extern u8 D_801AAF2C;
+    extern u8 D_801AAF34;
+    extern u8 D_800AF648;
+    /* L5: slot offsets are exact only through ONE struct — copied verbatim
+       from the banked RTP_SND sibling func_80180CA8 (same TU) so the
+       sp+0x10.."0x2B layout reproduces byte-for-byte. */
+    struct {
+        u16 nv[4];   /* sp+0x10 */
+        s16 rv[4];   /* sp+0x18 */
+        u16 sxy[2];  /* sp+0x20 */
+        s32 z;       /* sp+0x24 */
+        s32 flag;    /* sp+0x28 */
+    } L;
+
+    s16 sVar1;
+    s32 s0;
+
+    if (*(s32 *)(param_1 + 0x1c) == 0) {
+        sVar1 = *(s16 *)(param_1 + 0x100) - 1;
+        *(s16 *)(param_1 + 0x100) = sVar1;
+        if (sVar1 == 0) {
+            *(s16 *)(param_1 + 2) = 1;
+            *(s16 *)(param_1 + 0x100) = 0x3c;
+            *(s16 *)(param_1 + 0x8a) = *(s16 *)(param_1 + 0xa) - 0x140;
+        } else {
+            *(s32 *)(param_1 + 0x1c) = (sVar1 == 1) ? 0x3c : 3;
+
+            ((s32 (*)(s32, s32))func_80180354)(param_1, (s32)&D_801AAF24);
+
+            s0 = func_8012C588(0x260, param_1);
+            if (s0 != 0) {
+                ((void (*)(s32, s32, s32))func_8012F14C)(*(s32 *)(param_1 + 0x20) + 0x34, (s32)&D_801AAF2C, (s32)L.nv);
+                *(s16 *)(s0 + 6)  = L.nv[0];
+                *(s16 *)(s0 + 0xA) = L.nv[1];
+                *(s16 *)(s0 + 0xE) = L.nv[2];
+                func_8012B370(s0);
+                func_8012C658(0x261, 0, s0);
+            }
+
+            s0 = func_8012C588(0x260, param_1);
+            if (s0 != 0) {
+                ((void (*)(s32, s32, s32))func_8012F14C)(*(s32 *)(param_1 + 0x20) + 0x34, (s32)&D_801AAF34, (s32)L.nv);
+                *(s16 *)(s0 + 6)  = L.nv[0];
+                *(s16 *)(s0 + 0xA) = L.nv[1];
+                *(s16 *)(s0 + 0xE) = L.nv[2];
+                func_8012B370(s0);
+                func_8012C658(0x261, 1, s0);
+            }
+
+            L.rv[0] = *(s32 *)(*(s32 *)(param_1 + 0x20) + 0x48);
+            L.rv[1] = *(s32 *)(*(s32 *)(param_1 + 0x20) + 0x4C);
+            L.rv[2] = *(s32 *)(*(s32 *)(param_1 + 0x20) + 0x50);
+            { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }
+            { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_800491AC(r4); }
+            RotTransPers((s32)L.rv, (s32)L.sxy, &L.z, &L.flag);
+            if (L.flag >= 0 && (u32)((L.sxy[0] + 0xEF) & 0xFFFF) < 0x1DF
+                          && (u32)((L.sxy[1] + 0xB3) & 0xFFFF) < 0x167) {
+                s32 x = (s16)L.sxy[0];
+                s32 ax;
+
+                ax = x;
+                if (x < 0) {
+                    ax = -x;
+                }
+                ax = ((0xF0 - ax) * 0x7F) / 0xF0;
+                __asm__("" : "=r"(ax) : "0"(ax));
+                x = (x + 0xF0) / 0x1E;
+                if (x == 0x10) {
+                    x = 0xF;
+                }
+                x = x << 8;
+                {
+                    s32 flg = 0x3000;
+                    func_8002D4C8(0x84A, ((ax | flg) | x) & 0xFFFF);
+                }
+            }
+        }
+    } else {
+        *(s32 *)(param_1 + 0x1c) = *(s32 *)(param_1 + 0x1c) - 1;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_8017C24C", func_8017F6D8);
 
@@ -4514,7 +4774,156 @@ big:
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_8017C24C", func_801811DC);
+
+/* func_801811DC — ov_SC06_008 / ov_SC06_008_jr_8017C294.  MATCH 163/163.
+ * Family of 7 (ov_SC06_008/010/018/022/024/032/033, all 163 ins, all still in
+ * nonmatchings) — §136e applies: no twin existed, so this is derived from the .s.
+ * The byte-proven accumulate head (b744 nested inside b608, then two RE-LOADS of
+ * *(s32*)(a0+0x20)) is copied verbatim from src/ov_SC03_099/..._jr_8017BEBC.c:5424.
+ *
+ * Four levers, each measured against match_one:
+ *
+ * 1. NO frame padding.  args_size already fills sp+0x00..0x1F, so the four saved
+ *    regs land at 0x20..0x2F and the frame is 0x30 with ZERO locals.  A 16-byte
+ *    dead aggregate (idiom 6, added on the first draft from a mis-derived
+ *    args_size=0x10) made it 0x40 — idiom 6 only applies when the reg-save area
+ *    does NOT start at args_size.
+ *
+ * 2. BRANCH POLARITY / BLOCK LAYOUT (§3-T4, T7).  `if (C) goto X;` followed by a
+ *    `break` is REWRITTEN by jump.c's jump-around-jump inversion into
+ *    `if (!C) goto break_target;` — which is the wrong polarity here.  The target
+ *    wants the true arm to FALL THROUGH.  Two rewrites, both worth +0 instructions
+ *    but different bytes:
+ *      case 1: `if (A||B) goto st2; break;`  ->  `if (!A && !B) break; goto st2;`
+ *              (TRUTH_ANDIF gives reversed branches to `next`, and the trailing
+ *               `j st2` is the fall-through — exactly `beqz L600 / j L5E0`.)
+ *      case 3: same shape, plus the range test written as the POSITIVE
+ *              `if (r >= -0xFF && r <= 0xFF) break;` so fold_range_test's
+ *              `sltiu (r+0xFF),0x1FF` branches on TRUE to the switch end and case 3
+ *              falls through into st2 (saves the `j`+`nop`, 165 -> 163 ins).
+ *    Case 0 keeps the plain `if (A||B) {..} else {..}` — there jump.c's inversion
+ *    IS what the target has.
+ *
+ * 3. THE SHARED STORE BLOCK.  L801815F8/L801815FC (`li v0,1` / `sh v0,0x34`) sit
+ *    AFTER st2 in the target, so they are NOT inline `else` arms (cross-jumping
+ *    keeps the LAST copy, which would put them BEFORE st2).  They are explicit
+ *    trailing labels inside the switch with an `ns` join variable; case 2 enters at
+ *    `setstate` with ns=3, cases 0 and 3 enter at `set1`.
+ *
+ * 4. REGALLOC-PERM -> the $16 pin (see below).
+ */
+
+extern s32 rand(void);
+extern void func_8012B1B4(void*, void*);
+extern void func_8012CBCC(s32 a0);
+extern void func_8012BE98(s32 a0, u16 *a1);
+extern s32 func_8012B744(void *a0, void *a1);
+extern s32 func_8012B608(s32 a0, s32 a1, s32 a2);
+extern void func_8012BE54(s32 a0);
+extern int func_801808A4(int param_1, short param_2);
+
+void func_801811DC(s32 a0) {
+
+    extern u8 D_801AD4D0[];
+
+    /* §137/K3+K5: unpinned, the a0-copy allocno (R=37/L=137, pri 13503) is
+     * ranked first and first-fits $s0, pushing `tbl` to $s1 — a clean 2-reg
+     * perm no source reordering can flip (pri(tbl) = 394). Pinning `tbl` to
+     * $16 makes $s0 "already dirty" in find_reg pass 0: the a0 copy conflicts
+     * with it and opens $s1, and case 3's `d` (which does NOT conflict with
+     * `tbl`) grabs $s0 in pass 0 — exactly the target's assignment. */
+    register s32 tbl __asm__("$16");
+    s32 ns;
+
+    tbl = (s32)D_801AD4D0;
+    ((void (*)(s32, s32))func_8012B1B4)(a0, tbl);
+    func_8012CBCC(a0);
+
+    switch (*(u16 *)(a0 + 0x34)) {
+    case 0:
+        if (func_801808A4(a0, 0x48) != 0 ||
+            ((s32(*)(s32, u16 *))func_8012BE98)(a0, (u16 *)(a0 + 0x88)) >
+                0x3FFFF) {
+            s32 r = func_8012B608(
+                *(s16 *)(*(s32 *)(a0 + 0x20) + 0x12),
+                func_8012B744((void *)(a0 + 4), (void *)(a0 + 0x88)), 8);
+            *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) =
+                *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) + r;
+            *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) =
+                *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) & 0xFFF;
+            ((void (*)(s32, s32))func_8012B1B4)(a0, tbl);
+        } else {
+            goto set1;
+        }
+        break;
+
+    case 1:
+        if (func_801808A4(a0, 0x48) == 0 &&
+            ((s32(*)(s32, u16 *))func_8012BE98)(a0, (u16 *)(a0 + 0x88)) <=
+                0x3FFFF) {
+            break;
+        }
+        goto st2;
+
+    case 2: {
+        s32 r = func_8012B608(
+            *(s16 *)(*(s32 *)(a0 + 0x20) + 0x12),
+            func_8012B744((void *)(a0 + 4), (void *)(a0 + 0x88)), 0x10);
+        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) =
+            *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) + r;
+        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) =
+            *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) & 0xFFF;
+    }
+        func_801808A4(a0, 0x48);
+        {
+            s16 c = *(s16 *)(a0 + 0x102);
+            if (c == 0) {
+                ns = 3;
+                goto setstate;
+            }
+            *(s16 *)(a0 + 0x102) = c - 1;
+        }
+        break;
+
+    case 3: {
+        void *p88 = (void *)(a0 + 0x88);
+        s32 d = ((s32(*)(s32, u16 *))func_8012BE98)(a0, (u16 *)p88);
+        if (func_801808A4(a0, 0x48) == 0) {
+            if (d > 0x40000) {
+                s32 r = func_8012B608(*(s16 *)(*(s32 *)(a0 + 0x20) + 0x12),
+                                      func_8012B744((void *)(a0 + 4), p88), 1);
+                if (r >= -0xFF && r <= 0xFF) {
+                    break;
+                }
+            } else {
+                goto set1;
+            }
+        }
+    }
+        /* fall through into st2 */
+    st2:
+        *(u16 *)(a0 + 0x34) = 2;
+        *(u16 *)(a0 + 0x102) = (rand() & 7) + 8;
+        break;
+
+    set1:
+        ns = 1;
+    setstate:
+        *(u16 *)(a0 + 0x34) = ns;
+        break;
+    }
+
+    {
+        s16 t = *(s16 *)(a0 + 0x100);
+        if (t != 0) {
+            *(s16 *)(a0 + 0x100) = t - 1;
+        } else if (((s32(*)(s32))func_8012BE54)(a0) <= 0x24000) {
+            *(s16 *)(a0 + 0x2) = 5;
+            *(s16 *)(a0 + 0x100) = 0x3C;
+        }
+    }
+}
+
 
 extern void func_8002D4C8(s32 a0, s32 a1);
 extern s32 func_8004787C(s32 a0);
@@ -5560,7 +5969,102 @@ INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_8017C24C", func_801844C
 
 INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_8017C24C", func_80184500);
 
-INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_8017C24C", func_8018457C);
+extern void func_8012C218(void *a0);
+extern void func_8001C924(s32 a0, void *a1);
+extern void func_8012A828(s32 a0, void *a1);
+extern s32  func_8012BEE8();
+extern s32  func_8012B6D4(s16 *a0, s16 *a1);
+extern s32  func_8012B608(s32 a0, s32 a1, s32 a2);
+extern void func_8012B178(s32 a0, s32 a1);
+extern s32  func_8018765C(s32 a0);
+extern void func_80013350(s32 a0, void *a1);
+
+extern u8 D_801BB67C;
+extern u8 D_801B7EB8;
+extern u8 D_801CC1E8[];
+extern u8 D_801CD0E8[];
+
+void func_8018457C(s32 p)
+{
+    u16 uVar1;
+    s32 s1;
+    s32 r;
+
+    uVar1 = *(u16 *)(p + 0x34);
+    switch (uVar1) {
+    case 0:
+        s1 = *(s32 *)(p + 0xCC);
+        if (s1 == 0 || *(s16 *)(s1 + 0x36) != *(s16 *)(p + 0xEC) ||
+            func_8012BEE8(p) != 0) {
+            *(u16 *)(p + 2) = 0x23;
+            *(u32 *)(p + 0xE0) |= 0x800;
+            return;
+        }
+        goto call_b6d4;
+    case 1:
+        if (*(s16 *)(p + 0x98) != 0) {
+            return;
+        }
+        func_8012C218((void *)*(s32 *)(p + 0xCC));
+        *(s32 *)(p + 0xCC) = 0;
+        func_8001C924(*(s32 *)(p + 0x20), &D_801BB67C);
+        func_8012A828(p, D_801CC1E8);
+        {
+            register u16 ns __asm__("$4");
+            ns = *(u16 *)(p + 0x34);
+            *(s32 *)(p + 0x1C) = 0x200;
+            ns = ns + 1;
+            *(u32 *)(p + 0xE0) &= 0xFFFFFFFB;
+            *(u16 *)(p + 0x34) = ns;
+        }
+        return;
+    case 2:
+        s1 = *(s32 *)(p + 0xD0);
+        if (s1 == 0 || *(s16 *)(s1 + 0x36) != *(s16 *)(p + 0xEE) ||
+            func_8012BEE8(p) != 0) {
+            *(u16 *)(p + 2) = 4;
+            *(u32 *)(p + 0xE0) &= 0xFFFFFFFE;
+            return;
+        }
+    call_b6d4:
+        r = func_8012B6D4((s16 *)(p + 4), (s16 *)(s1 + 4));
+        *(s32 *)(p + 0xE8) = r;
+        goto LAB_80184738;
+    case 3:
+        func_8012C218((void *)*(s32 *)(p + 0xD0));
+        *(s32 *)(p + 0xD0) = 0;
+        func_8001C924(*(s32 *)(p + 0x20), &D_801B7EB8);
+        func_8012A828(p, D_801CC1E8);
+        *(s32 *)(p + 0x48) = 0x4650;
+        *(u16 *)(p + 2) = 5;
+        *(u32 *)(p + 0xE0) |= 1;
+        return;
+    default:
+        goto LAB_80184738;
+    }
+
+LAB_80184738:
+    r = func_8012B608(*(s16 *)(*(s32 *)(p + 0x20) + 0x12), *(s32 *)(p + 0xE8), 8);
+    *(u16 *)(*(s32 *)(p + 0x20) + 0x12) =
+        *(u16 *)(*(s32 *)(p + 0x20) + 0x12) + r;
+
+    if (*(u16 *)(p + 0x34) == 0) {
+        func_8012B178(p, 0xFFF8D000);
+    } else {
+        func_8012B178(p, 0xFFF90000);
+    }
+
+    func_8018765C(p);
+
+    r = ((s32(*)(s32, s32))func_80013350)(p + 4, s1 + 4);
+    if (r < 0x900) {
+        if (*(u16 *)(p + 0x34) == 0) {
+            func_8012A828(p, D_801CD0E8);
+        }
+        *(u16 *)(p + 0x34) = *(u16 *)(p + 0x34) + 1;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_8017C24C", func_801847FC);
 
@@ -6116,7 +6620,115 @@ INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_8017C24C", func_8018796
 
 INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_8017C24C", func_80187AEC);
 
-INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_8017C24C", func_80187DD0);
+#include "common.h"
+
+extern void func_8012C218(void *a0);
+extern void func_8012E8A8(u8 *a0);
+
+/* §48-C2: lwl/lwr/swl/swr block copy == a plain struct assign of a 2-byte-aligned struct */
+typedef struct { u16 a, b, c, d, e, f; } UAlign12;
+typedef struct { u16 a, b, c, d; } UAlign8;
+
+void func_80187DD0(s32 param_1)
+{
+    s32 t1 = *(s32 *)(param_1 + 0x64);
+    s32 pad[2];
+
+    if (*(s16 *)(t1 + 0x36) != *(s16 *)(param_1 + 0x10A)) {
+        func_8012C218((void *)param_1);
+        return;
+    }
+    {
+        if ((*(u32 *)(t1 + 0xE0) & 4) != 0) {
+            func_8012E8A8((u8 *)param_1);
+            return;
+        }
+        {
+            s32 a2 = *(s32 *)(*(s32 *)(t1 + 0x20) + 0x20);
+            s32 a3 = param_1 + 0xFC;
+
+            if (a2 != 0) {
+                if ((a2 & 0x1000000) != 0) {
+                    s32 a1 = a2 & 0xFEFFFFFF;
+                    register u32 v0 __asm__("$2");
+                    u32 a0;
+                    u32 v1a;
+                    u32 v1b;
+                    u32 v0b;
+                    u32 v1;
+
+                    *(u16 *)(param_1 + 0x102) = *(u16 *)(a1 + 0x66);
+
+                    v0 = *(u32 *)(a1 + 0x60);
+                    a0 = *(u8 *)(a1 + 0x61);
+                    v1a = (v0 & 0xF) << 8;
+                    a0 = a0 | v1a;
+                    v1b = ((s32)v0 >> 16) & 0xFF;
+                    v0b = (v0 & 0xF0) << 4;
+                    v1 = v1b | v0b;
+                    *(u16 *)(param_1 + 0x104) = (u16)a0;
+                    *(u16 *)(param_1 + 0x106) = (u16)v1;
+
+                    *(s16 *)(param_1 + 0xFC) = (s8)*(u8 *)(a1 + 0x63);
+                    *(s16 *)(param_1 + 0xFE) = (s8)*(u8 *)(a1 + 0x64);
+                    *(s16 *)(param_1 + 0x100) = (s8)*(u8 *)(a1 + 0x65);
+                } else {
+                    *(UAlign12 *)(param_1 + 0xFC) = *(UAlign12 *)(a2 + 0x90);
+                }
+                *(s32 *)(*(s32 *)(param_1 + 0x20) + 0x20) = a3;
+            }
+
+            if ((*(u32 *)(t1 + 0xE0) & 0x80) != 0) {
+                if (*(u16 *)(param_1 + 0x34) == 0) {
+                    s16 sVar2 = *(u16 *)(param_1 + 0x108) + 0x40;
+                    *(s16 *)(param_1 + 0x108) = sVar2;
+                    if (sVar2 > 0x200) {
+                        *(u16 *)(param_1 + 0x108) = 0x200;
+                        *(s16 *)(param_1 + 0x34) = *(s16 *)(param_1 + 0x34) + 1;
+                    }
+                } else {
+                    u16 uVar3 = *(u16 *)(param_1 + 0x108) - 0x80;
+                    *(u16 *)(param_1 + 0x108) = uVar3;
+                    if ((s16)uVar3 < 0) {
+                        *(u16 *)(param_1 + 0x108) = 0;
+                        *(u16 *)(param_1 + 0x34) = 0;
+                        *(u32 *)(t1 + 0xE0) = *(u32 *)(t1 + 0xE0) & ~0x80;
+                    }
+                }
+            }
+
+            *(u16 *)(a3 + 6) = *(u16 *)(a3 + 6) + *(u16 *)(param_1 + 0x108);
+
+            *(u32 *)(param_1 + 4) = *(u32 *)(t1 + 4);
+            *(u32 *)(param_1 + 8) = *(u32 *)(t1 + 8);
+            *(u32 *)(param_1 + 0xC) = *(u32 *)(t1 + 0xC);
+
+            *(UAlign8 *)(param_1 + 0x50) = *(UAlign8 *)(t1 + 0x50);
+
+            {
+                s32 dst = *(s32 *)(param_1 + 0x20);
+                s32 src = *(s32 *)(t1 + 0x20);
+                *(UAlign8 *)(dst + 0x10) = *(UAlign8 *)(src + 0x10);
+            }
+            {
+                s32 dst = *(s32 *)(param_1 + 0x20);
+                s32 src = *(s32 *)(t1 + 0x20);
+                *(UAlign8 *)(dst + 0x18) = *(UAlign8 *)(src + 0x18);
+            }
+            {
+                s32 src = *(s32 *)(t1 + 0x20);
+                s32 dst = *(s32 *)(param_1 + 0x20);
+                *(u32 *)(dst + 4) = *(u32 *)(src + 4);
+            }
+            {
+                s32 src = *(s32 *)(t1 + 0x20);
+                s32 dst = *(s32 *)(param_1 + 0x20);
+                *(u16 *)(dst + 0x2C) = *(u16 *)(src + 0x2C);
+            }
+        }
+    }
+}
+
 
 
 extern void (*D_801B554C[])(void);
@@ -7355,7 +7967,189 @@ INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_8017C24C", func_8018E9B
 
 INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_8017C24C", func_8018EDB8);
 
-INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_8017C24C", func_8018F060);
+// @class: none
+// @stuck: none — MATCH (397/397 ins, match_one + rtu_match).
+//
+// Three residuals closed this session (the prior draft sat at 15/397 and was ledgered
+// "coupled ties / permuter territory"; all three turned out to be deterministic C levers):
+//
+// (a) `addiu $a0,$s0,0x18` x2 vs `move $a0,$s0` x2 — the matrix arg.  The target keeps the BASE
+//     `&D_800AF630` in $s0 and re-adds 0x18 at BOTH call sites.  Two things block that:
+//       1. cse folds `(plus (reg-holding-symbol) 24)` back into `la sym+24` (one lui/addiu).
+//          Killed by making the base OPAQUE with a §21 re-tie `asm("":"=r"(mb):"0"(mb))`.
+//       2. with ONE re-tie, cse then unifies the two identical `mb+0x18` into one pseudo
+//          (+1 insn).  Killed by a SECOND re-tie between the calls: it mints a fresh pseudo
+//          (tied to the same hard reg by the "0" constraint) so the two adds are distinct
+//          expressions.  Cost: zero bytes.
+//     THE RE-TIES MUST BE NON-VOLATILE.  `__volatile__` gives the asm a sched dependence on
+//     every insn already emitted, which drags the `&pkt[0]` pseudo (created earlier, by the
+//     struct copies) ABOVE the two jals; it then conflicts with the base, loses $s0, and needs
+//     a `move` to reach the pinned $16.  Non-volatile => the pseudo sinks back after the calls
+//     and both values share $s0, exactly as the target does.  (400 ins -> 397.)
+//
+// (b) `addiu $v0,$sp,0xA0` vs `$v1` for the &otz store — a §137 REGALLOC-PERM, solved as
+//     ARITHMETIC, not by search.  Splitting otz off `pfl` is structurally required (target has
+//     &flag1 in $v1 and &otz in a $v0 temp), but it drops pfl's priority and permutes
+//     p1/p2/pfl through a 3-cycle (a0,v1,a1) instead of (a1,a0,v1).  From `cc1 -dl -dg`:
+//         pri = floor_log2(R)*R/L*1e4   (global.c:allocno_compare)
+//         p0  R=9 L=15 -> 18000     p2  R=9 L=24 -> 11250     pfl R=6 L=15 -> 8000
+//     pfl must land in the WINDOW (11250, 18000) to be allocated right after p0 and take $v1.
+//     Source reordering only moves L (measured: L=12 -> 10000, still short; L=9 -> 13333 works
+//     but emits the addiu in the wrong place).  The lever that moves R: one zero-byte
+//     `asm volatile("" :: "r"(pfl))` after the stflg — R 6->9, L 15->18 => pri 15000, inside
+//     the window, and it ties p0 (15000) which breaks by allocno number in p0's favour.
+//     Result: p0=$v0, pfl=$v1, p2=$a0, p1=$a1, p3=$a2 — the target's assignment exactly.
+//
+// (c) prologue `sw $a3,0xD4($sp)` scheduled BEFORE `lw $a0,0x20($s1)` instead of after.  This
+//     is a real memory dependence, not a priority: gcc-2.7.2 true_dependence() only drops the
+//     store->load edge when the LOAD is MEM_IN_STRUCT_P *and* varying while the STORE is not
+//     in-struct and non-varying (the arg-home slot already qualifies).  `*(s32*)(p + 0x20)` is
+//     an INDIRECT_REF of a CAST => MEM_IN_STRUCT_P is 0; `((s32*)p)[8]` is an INDIRECT_REF of a
+//     PLUS_EXPR => expand_expr sets MEM_IN_STRUCT_P (idiom 2).  Second half: the old draft's
+//     `asm volatile("":"=m"(dead))` frame-padding barrier re-created the same ordering through
+//     itself (191 -> 16 -> 19 in the dep chain).  It is NOT needed — gcc-2.7.2 allocates a
+//     stack slot for an unreferenced local anyway, so `dead[0x20]` alone holds the frame at
+//     0xC8.  Both halves together, and only together, sink the store.
+//
+// DECLARATION SURFACE (checked with a whole-TU one-pass grep, D2):
+//   * SVEC / SVECTOR / B4 / B8 are ALL already typedef'd in src/shared/engine_types.h, which
+//     this TU pulls in through ../shared/engine_core.h — a local copy of any of those names is
+//     a C89 redefinition error.  The four types here therefore carry the per-function suffix
+//     (the same convention engine_types.h itself uses for SVECTOR_8016E7C8 / B8_8018F060), so
+//     the file compiles BOTH standalone (match_one) and spliced (rtu_match).
+//   * D_800AF630 is `extern u8 D_800AF630[]` at TU file scope (line 53) — same spelling here.
+//   * D_800B9A02 is `short` at TU file scope (2457/2459).  Do NOT redeclare it u16; the `lhu`
+//     is forced at the USE with the TU's own canonical `*(u16 *)&D_800B9A02` spelling
+//     (§8d sub-class (b), the form already used at TU lines 2848 and 7416).
+//   * func_8004914C / func_800491AC / RotTransSV keep the TU's file-scope prototypes verbatim.
+//   * D_801D1228 / D_800A651C / D_800AE610 / func_80017254 appear nowhere else in the TU.
+//   * func_8018F060 has NO caller anywhere in src/, so its signature is unconstrained.
+
+#include "common.h"
+
+typedef struct { u16 vx, vy, vz, pad; } SVEC_8018F060;       /* u16 source vec -> lhu */
+typedef struct { s16 vx, vy, vz, pad; } SVECTOR_8018F060;    /* 8 bytes, align 2 */
+typedef struct { u8 d[8]; } __attribute__((packed, aligned(1))) B8_8018F060;
+typedef struct { u8 d[4]; } __attribute__((packed, aligned(1))) B4_8018F060;
+
+extern void func_8004914C(void *a0);
+extern void func_800491AC(void *a0);
+extern void RotTransSV(void *a0, void *a1, void *a2);
+extern void func_80017254(void *a0);
+extern SVEC_8018F060 D_801D1228[];
+extern short D_800B9A02;
+extern u8 D_800A651C[];
+extern u8 D_800AE610[];
+extern u8 D_800AF630[];
+
+#define gte_ldv0(r0) __asm__ volatile ( \
+    "lwc2 $0, 0( %0 );" "lwc2 $1, 4( %0 )" : : "r"( r0 ) )
+#define gte_ldv3(r0, r1, r2) __asm__ volatile ( \
+    "lwc2 $0, 0( %0 );" "lwc2 $1, 4( %0 );" "lwc2 $2, 0( %1 );" \
+    "lwc2 $3, 4( %1 );" "lwc2 $4, 0( %2 );" "lwc2 $5, 4( %2 )" \
+    : : "r"( r0 ), "r"( r1 ), "r"( r2 ) )
+#define gte_rtps() __asm__ volatile ("nop;nop;rtps")
+#define gte_rtpt() __asm__ volatile ("nop;nop;rtpt")
+#define gte_stsxy(r0) __asm__ volatile ( \
+    "swc2 $14, 0( %0 )" : : "r"( r0 ) : "memory" )
+#define gte_stsxy3(r0, r1, r2) __asm__ volatile ( \
+    "swc2 $12, 0( %0 );" "swc2 $13, 0( %1 );" "swc2 $14, 0( %2 )" \
+    : : "r"( r0 ), "r"( r1 ), "r"( r2 ) : "memory" )
+#define gte_avsz4() __asm__ volatile ("nop;nop;avsz4")
+#define gte_stotz(r0) __asm__ volatile ( \
+    "swc2 $7, 0( %0 )" : : "r"( r0 ) : "memory" )
+#define gte_stflg(r0) __asm__ volatile ( \
+    "cfc2 $12, $31;" "nop;" "sw $12, 0( %0 )" : : "r"( r0 ) : "$12", "memory" )
+
+#define DRAW() \
+    mb = (u8 *)&D_800AF630; \
+    __asm__("" : "=r"(mb) : "0"(mb)); \
+    func_8004914C(mb + 0x18); \
+    __asm__("" : "=r"(mb) : "0"(mb)); \
+    func_800491AC(mb + 0x18); \
+    pc = (long *)&pkt[0]; \
+    p1 = (long *)&pkt[2]; \
+    p2 = (long *)&pkt[4]; \
+    p3 = (long *)&pkt[6]; \
+    pfl = &flag1; \
+    p0 = pc; \
+    gte_ldv3(p0, p1, p2); \
+    gte_rtpt(); \
+    gte_stflg(pfl); \
+    __asm__ __volatile__("" :: "r"(pfl)); \
+    gte_stsxy3(p0, p1, p2); \
+    gte_ldv0(p3); \
+    gte_rtps(); \
+    gte_stflg(&flag2); \
+    flag1 |= flag2; \
+    gte_stsxy(p3); \
+    gte_avsz4(); \
+    gte_stotz(&otz); \
+    oz = otz; \
+    *(s16 *)((u8 *)pkt + 4) = (s16)oz; \
+    if (oz > 0 && flag1 >= 0 && \
+        !((u32)&D_800AE610 < (u32)(*(s32 *)((u8 *)&D_800A651C \
+            + (*(u16 *)&D_800B9A02) * 0x14) + oz * 4))) { \
+        func_80017254(pc); \
+    }
+
+void func_8018F060(s32 param_1, u32 param_2, u16 *param_3, u32 param_4) {
+    u8      dead[0x20];   /* 0x10 : reserved, never referenced (holds the frame at 0xC8) */
+    SVECTOR_8018F060 scratch;      /* 0x30 */
+    B8_8018F060 out[6];   /* 0x38 */
+    u32     pkt[10];      /* 0x68 : v0..v3 + color(0x88) + code(0x8C) */
+    SVECTOR_8018F060 rtflag;       /* 0x90 (8 bytes -> 0x94 gap) */
+    s32     flag1;        /* 0x98 */
+    s32     flag2;        /* 0x9C */
+    s32     otz;          /* 0xA0 */
+    SVEC_8018F060 *src;
+    s32 i, oz;
+    long *p0, *p1, *p2, *p3, *pfl;
+    u8 *mb;
+    register long *pc __asm__("$16");
+
+    func_8004914C((void *)(((s32 *)param_1)[8] + 0x34));
+    func_800491AC((void *)(((s32 *)param_1)[8] + 0x34));
+
+    src = &D_801D1228[(param_2 & 1) * 3];
+    for (i = 0; i < 3; i++) {
+        scratch.vx = src[i].vx;
+        scratch.vy = src[i].vy;
+        scratch.vz = -param_3[0];
+        RotTransSV(&scratch, &out[i], &rtflag);
+    }
+    for (i = 0; i < 3; i++) {
+        scratch.vx = src[i].vx;
+        scratch.vy = src[i].vy;
+        scratch.vz = -param_3[1];
+        RotTransSV(&scratch, &out[3 + i], &rtflag);
+    }
+
+    *(B4_8018F060 *)&pkt[8] = *(B4_8018F060 *)&param_4;
+    pkt[9] = 0x50000000;
+
+    /* face 0: verts 0,1,3,4 */
+    *(B8_8018F060 *)&pkt[0] = out[0];
+    *(B8_8018F060 *)&pkt[2] = out[1];
+    *(B8_8018F060 *)&pkt[4] = out[3];
+    *(B8_8018F060 *)&pkt[6] = out[4];
+    DRAW();
+
+    /* face 1: verts 1,2,4,5 */
+    *(B8_8018F060 *)&pkt[0] = out[1];
+    *(B8_8018F060 *)&pkt[2] = out[2];
+    *(B8_8018F060 *)&pkt[4] = out[4];
+    *(B8_8018F060 *)&pkt[6] = out[5];
+    DRAW();
+
+    /* face 2: verts 2,0,5,3 */
+    *(B8_8018F060 *)&pkt[0] = out[2];
+    *(B8_8018F060 *)&pkt[2] = out[0];
+    *(B8_8018F060 *)&pkt[4] = out[5];
+    *(B8_8018F060 *)&pkt[6] = out[3];
+    DRAW();
+}
+
 
 // @class: other
 // @stuck: none — MATCH (478 ins, relocation-masked byte-identical)

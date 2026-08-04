@@ -6257,7 +6257,88 @@ void func_80190108(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_8017AE2C", func_80190144);
+#include "common.h"
+
+typedef struct {
+    u8 b0;
+    u8 b1;
+    u8 b2;
+    u8 b3;
+} EffectSlot4;
+
+extern void func_801465C0(void);
+extern void func_80146C3C(void);
+
+extern void func_8001CBDC(s32 a0, s32 a1, s32 a2, s32 a3);
+
+extern s16 D_80196D30[][2];
+extern u8 D_80196D5C[];
+extern EffectSlot4 D_80196D68[];
+extern u8 D_80196D94[];
+
+extern EffectSlot4 D_80196DCC;
+extern EffectSlot4 D_80196DF4;
+extern EffectSlot4 D_80196DF8;
+extern EffectSlot4 D_80196E28;
+extern EffectSlot4 D_80196E2C;
+extern EffectSlot4 D_80196E5C;
+extern EffectSlot4 D_80196E60;
+extern EffectSlot4 D_80196E90;
+extern EffectSlot4 D_80196E94;
+
+void func_80190144(void *a0) {
+    register void *s0 __asm__("$16");
+    register void *s1 __asm__("$17");
+
+    s0 = a0;
+    s1 = ((void *(*)(void))func_801465C0)();
+    if (s1 != 0) {
+        s32 idx;
+        u8 uVar1;
+
+        *(s32 *)((s32)s0 + 0x20) = (s32)s1;
+        idx = *(s32 *)((s32)s0 + 0x2C);
+        func_8001CBDC((s32)s1, (s32)D_80196D94, D_80196D30[idx][0], D_80196D30[idx][1]);
+        uVar1 = D_80196D5C[*(s32 *)((s32)s0 + 0x2C)];
+        *(s16 *)((s32)s1 + 0x2C) = 3;
+        *(u8 *)((s32)s1 + 0x27) = uVar1;
+        *(s16 *)((s32)s0 + 0x6) = 0;
+        *(s16 *)((s32)s0 + 0xA) = 0x50;
+
+        /* The shift chain below needs a BASIC-BLOCK BOUNDARY before every copy
+           except the first: gcc-2.7.2 CSE is per-extended-BB, and inside one BB
+           it reuses the previous copy's DESTINATION address register as the next
+           copy's SOURCE address (costing the lui/addiu pair the target emits).
+           `if (c) X else X` supplies the boundary and is cross-jumped away by
+           jump2 AFTER regalloc, so it costs 0 instructions (128/128).
+
+           The FIRST copy must stay in block 1 with the `lw 0x2C` / `li 0x50`
+           pair, or the index pseudo crosses a block and becomes a GLOBAL allocno
+           (regalloc map K8) -- local-alloc then hands $v0 to the 0x50 constant
+           and global-alloc is left with $v1 (the REGALLOC-PERM $v0<->$v1 swap).
+           Both must be LOCAL qtys in the same block for the target's assignment.
+           Its destination is therefore spelled as an INTERIOR ADDRESS of the
+           neighbouring symbol (idiom 7): `&D_80196E90 + 4 == &D_80196E94`, a
+           CSE-distinct rtx, so the next copy still recomputes its source
+           address. Both spellings relocate to 0x80196E94. */
+#define COND (*(s32 *)((s32)s0 + 0x2C) > 0)
+        *(EffectSlot4 *)((s32)&D_80196E90 + 4) = D_80196D68[*(s32 *)((s32)s0 + 0x2C)];
+        if (COND) { D_80196E90 = D_80196E94; } else { D_80196E90 = D_80196E94; }
+        if (COND) { D_80196E60 = D_80196E90; } else { D_80196E60 = D_80196E90; }
+        if (COND) { D_80196E5C = D_80196E60; } else { D_80196E5C = D_80196E60; }
+        if (COND) { D_80196E2C = D_80196E5C; } else { D_80196E2C = D_80196E5C; }
+        if (COND) { D_80196E28 = D_80196E2C; } else { D_80196E28 = D_80196E2C; }
+        if (COND) { D_80196DF8 = D_80196E28; } else { D_80196DF8 = D_80196E28; }
+#undef COND
+        D_80196DF4 = D_80196DF8;
+        D_80196DCC = D_80196DF4;
+
+        *(s16 *)((s32)s0 + 0x2) = *(s16 *)((s32)s0 + 0x2) + 1;
+    } else {
+        ((void (*)(void *))func_80146C3C)(s0);
+    }
+}
+
 
 extern void func_80190384(void);
     void func_80190344(void) {

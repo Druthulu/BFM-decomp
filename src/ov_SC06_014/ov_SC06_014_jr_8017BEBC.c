@@ -1790,8 +1790,6 @@ extern s32 func_8016A73C(s32 arg0);
 extern s32 func_8016A8FC(s32 a0);
 extern void func_8016A890(s32 arg0);
 extern u16 D_80126B5E;
-extern u16 D_80126B62;
-extern u16 D_80126B66;
 extern void func_8016AA50(s32 param_1, s32 param_2);
 extern void (*D_8018309C[])(void);
 extern void func_8016AB30(void *a0);
@@ -3787,7 +3785,96 @@ s32 func_8017ED4C(void) {
 
 INCLUDE_ASM("asm/ov_SC06_014/nonmatchings/ov_SC06_014_jr_8017BEBC", func_8017ED54);
 
-INCLUDE_ASM("asm/ov_SC06_014/nonmatchings/ov_SC06_014_jr_8017BEBC", func_8017F178);
+
+
+extern s32 rand(void);
+extern s32 func_800CF8B4();
+extern s32 func_8014CB8C(void);
+extern s32 func_801726C4(s32 *a0);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern s32 func_80143C74(s32 a0, s32 a1);
+
+void func_8017F178(s32 param_1)
+{
+
+    extern u16 D_80126B62;
+    extern u16 D_80126B66;
+    s32 diff;
+    s32 obj;
+    s32 quotient;
+    s16 sVar1;
+    u16 uVar2;
+
+    *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x14) =
+        *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x14) + *(u16 *)(param_1 + 0xFC);
+
+    obj = (s32)&D_80126B62;
+    /* §137 zero-byte barrier: closes the $s2<->$s3 REGALLOC-PERM. global.c:allocno_compare
+     * ranks pri = floor_log2(R)*R/L*1e4*size; without this, diff (R=7,L=46) = 3043 outranks
+     * obj (R=11,L=109) = 3027 and takes $s2. This adds ONE reference to obj (R 11->12,
+     * L 109->110 => 3272) with no emitted bytes, so obj wins $s2 and diff falls to $s3. */
+    __asm__ __volatile__("" :: "r"(obj));
+    if (*(s16 *)obj < -0x4E0) {
+        diff = (s32)(s16)D_80126B66 - *(s16 *)(param_1 + 0xE);
+        if (diff < 0x140) {
+            uVar2 = *(u16 *)(param_1 + 0xFC) - 0x10;
+            *(u16 *)(param_1 + 0xFC) = uVar2;
+            if ((s16)uVar2 < 0) {
+                *(u16 *)(param_1 + 0xFC) = 0;
+            }
+        } else {
+            sVar1 = *(u16 *)(param_1 + 0xFC) + 0x10;
+            *(u16 *)(param_1 + 0xFC) = sVar1;
+            if (sVar1 > 0x300) {
+                *(u16 *)(param_1 + 0xFC) = 0x300;
+            }
+            if ((diff < 0x900) && (func_800CF8B4() != 0) && (func_8014CB8C() == 0)) {
+                quotient = (*(s16 *)(param_1 + 0xFC) * 0xD) / 0x300;
+                quotient = (quotient * (0x900 - diff)) / 0x900;
+                if (func_801726C4((s32 *)(obj - 0xA)) != 0) {
+                    quotient = quotient * 2;
+                }
+                D_80126B66 = D_80126B66 + quotient;
+                func_8002D4C8(0x978, ((quotient * 0x7F / 0xD) | 0x1000) & 0xFFFF);
+                *(u16 *)(param_1 + 0xFE) = 1;
+            }
+        }
+    } else {
+        sVar1 = *(u16 *)(param_1 + 0xFC) + 0x10;
+        *(u16 *)(param_1 + 0xFC) = sVar1;
+        if (sVar1 > 0x300) {
+            *(u16 *)(param_1 + 0xFC) = 0x300;
+        }
+    }
+
+    if (*(s32 *)(param_1 + 0x1C) != 0) {
+        *(s32 *)(param_1 + 0x1C) = *(s32 *)(param_1 + 0x1C) - 1;
+    } else {
+        if (*(s16 *)(param_1 + 0xFC) > 0x40) {
+            *(s32 *)(param_1 + 0x1C) = 3;
+            obj = func_80143C74(param_1, 0);
+            if (obj != 0) {
+                *(s16 *)(obj + 6) = rand() % 0x120 - 0xE0;
+                *(u16 *)(obj + 0xA) = -(rand() & 0x3F) - 0x502;
+                diff = rand() % 0x560 + 0x140;
+                *(u16 *)(obj + 0xE) = *(u16 *)(obj + 0xE) + diff;
+                quotient = (*(s16 *)(param_1 + 0xFC) * 0xD) / 0x300;
+                quotient = (quotient * (0x800 - diff)) / 0x800;
+                *(s16 *)(obj + 0x1A) = quotient * 2;
+                *(s32 *)(obj + 0x48) = -((rand() & 0x1FF) << 7);
+            }
+        }
+    }
+
+    if (*(s16 *)(param_1 + 0xFE) == 2) {
+        *(u16 *)(param_1 + 0xFE) = 0;
+        func_8002D4C8(4, 0x978);
+    }
+    if (*(s16 *)(param_1 + 0xFE) == 1) {
+        *(u16 *)(param_1 + 0xFE) = 2;
+    }
+}
+
 
 
 extern void (*D_80199EB4[])(void);

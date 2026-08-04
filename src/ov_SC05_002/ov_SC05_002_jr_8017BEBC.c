@@ -3168,7 +3168,444 @@ void func_8017BEBC(s32 arg0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_002/nonmatchings/ov_SC05_002_jr_8017BEBC", func_8017CD9C);
+#define gte_ldv0(r0) __asm__ volatile (          \
+    "lwc2 $0, 0( %0 );"                          \
+    "lwc2 $1, 4( %0 )"                           \
+    :                                            \
+    : "r"( r0 ) )
+#define gte_ldv3c(r0) __asm__ volatile (         \
+    "lwc2 $0, 0( %0 );"                          \
+    "lwc2 $1, 4( %0 );"                          \
+    "lwc2 $2, 8( %0 );"                          \
+    "lwc2 $3, 12( %0 );"                         \
+    "lwc2 $4, 16( %0 );"                         \
+    "lwc2 $5, 20( %0 )"                          \
+    :                                            \
+    : "r"( r0 ) )
+#define gte_rtps() __asm__ volatile ("nop;nop;rtps")
+#define gte_rtpt() __asm__ volatile ("nop;nop;rtpt")
+#define gte_nclip() __asm__ volatile ("nop;nop;nclip")
+#define gte_stsxy(r0) __asm__ volatile (         \
+    "swc2 $14, 0( %0 )"                          \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "memory" )
+#define gte_stsxy3(r0, r1, r2) __asm__ volatile ( \
+    "swc2 $12, 0( %0 );"                         \
+    "swc2 $13, 0( %1 );"                         \
+    "swc2 $14, 0( %2 )"                          \
+    :                                            \
+    : "r"( r0 ), "r"( r1 ), "r"( r2 )            \
+    : "memory" )
+#define gte_stsxy3c(r0) __asm__ volatile (       \
+    "swc2 $12, 0( %0 );"                         \
+    "swc2 $13, 4( %0 );"                         \
+    "swc2 $14, 8( %0 )"                          \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "memory" )
+#define gte_stsxy3_ft3(r0) __asm__ volatile (    \
+    "swc2 $12, 8( %0 );"                         \
+    "swc2 $13, 16( %0 );"                        \
+    "swc2 $14, 24( %0 )"                         \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "memory" )
+#define gte_stsz3(r0, r1, r2) __asm__ volatile ( \
+    "swc2 $17, 0( %0 );"                         \
+    "swc2 $18, 0( %1 );"                         \
+    "swc2 $19, 0( %2 )"                          \
+    :                                            \
+    : "r"( r0 ), "r"( r1 ), "r"( r2 )            \
+    : "memory" )
+#define gte_stsz4(r0, r1, r2, r3) __asm__ volatile ( \
+    "swc2 $16, 0( %0 );"                         \
+    "swc2 $17, 0( %1 );"                         \
+    "swc2 $18, 0( %2 );"                         \
+    "swc2 $19, 0( %3 )"                          \
+    :                                            \
+    : "r"( r0 ), "r"( r1 ), "r"( r2 ), "r"( r3 ) \
+    : "memory" )
+#define gte_stszotz(r0) __asm__ volatile (       \
+    "mfc2 $12, $19;"                             \
+    "nop;"                                       \
+    "sra $12, $12, 2;"                           \
+    "sw $12, 0( %0 )"                            \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "$12", "memory" )
+#define gte_stflg(r0) __asm__ volatile (         \
+    "cfc2 $12, $31;"                             \
+    "nop;"                                       \
+    "sw $12, 0( %0 )"                            \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "$12", "memory" )
+#define gte_stopz(r0) __asm__ volatile (         \
+    "swc2 $24, 0( %0 )"                          \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "memory" )
+#define gte_ldv0(r0) __asm__ volatile (          \
+    "lwc2 $0, 0( %0 );"                          \
+    "lwc2 $1, 4( %0 )"                           \
+    :                                            \
+    : "r"( r0 ) )
+#define gte_ldv3c(r0) __asm__ volatile (         \
+    "lwc2 $0, 0( %0 );"                          \
+    "lwc2 $1, 4( %0 );"                          \
+    "lwc2 $2, 8( %0 );"                          \
+    "lwc2 $3, 12( %0 );"                         \
+    "lwc2 $4, 16( %0 );"                         \
+    "lwc2 $5, 20( %0 )"                          \
+    :                                            \
+    : "r"( r0 ) )
+#define gte_rtps() __asm__ volatile ("nop;nop;rtps")
+#define gte_rtpt() __asm__ volatile ("nop;nop;rtpt")
+#define gte_nclip() __asm__ volatile ("nop;nop;nclip")
+#define gte_stsxy(r0) __asm__ volatile (         \
+    "swc2 $14, 0( %0 )"                          \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "memory" )
+#define gte_stsxy3(r0, r1, r2) __asm__ volatile ( \
+    "swc2 $12, 0( %0 );"                         \
+    "swc2 $13, 0( %1 );"                         \
+    "swc2 $14, 0( %2 )"                          \
+    :                                            \
+    : "r"( r0 ), "r"( r1 ), "r"( r2 )            \
+    : "memory" )
+#define gte_stsxy3c(r0) __asm__ volatile (       \
+    "swc2 $12, 0( %0 );"                         \
+    "swc2 $13, 4( %0 );"                         \
+    "swc2 $14, 8( %0 )"                          \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "memory" )
+#define gte_stsxy3_ft3(r0) __asm__ volatile (    \
+    "swc2 $12, 8( %0 );"                         \
+    "swc2 $13, 16( %0 );"                        \
+    "swc2 $14, 24( %0 )"                         \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "memory" )
+#define gte_stsz3(r0, r1, r2) __asm__ volatile ( \
+    "swc2 $17, 0( %0 );"                         \
+    "swc2 $18, 0( %1 );"                         \
+    "swc2 $19, 0( %2 )"                          \
+    :                                            \
+    : "r"( r0 ), "r"( r1 ), "r"( r2 )            \
+    : "memory" )
+#define gte_stsz4(r0, r1, r2, r3) __asm__ volatile ( \
+    "swc2 $16, 0( %0 );"                         \
+    "swc2 $17, 0( %1 );"                         \
+    "swc2 $18, 0( %2 );"                         \
+    "swc2 $19, 0( %3 )"                          \
+    :                                            \
+    : "r"( r0 ), "r"( r1 ), "r"( r2 ), "r"( r3 ) )
+#define gte_stszotz(r0) __asm__ volatile (       \
+    "mfc2 $12, $19;"                             \
+    "nop;"                                       \
+    "sra $12, $12, 2;"                           \
+    "sw $12, 0( %0 )"                            \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "$12", "memory" )
+#define gte_stflg(r0) __asm__ volatile (         \
+    "cfc2 $12, $31;"                             \
+    "nop;"                                       \
+    "sw $12, 0( %0 )"                            \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "$12", "memory" )
+#define gte_stopz(r0) __asm__ volatile (         \
+    "swc2 $24, 0( %0 )"                          \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "memory" )
+
+void func_8017CD9C(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
+{
+    typedef struct { u32 w0, w1, w2; } Prim_8017CD9C;
+
+    extern s32 func_800491EC(void);
+    extern void func_800547D8(s32, MATRIX2 *);
+    extern void func_80052E38(MATRIX2 *);
+    extern u8 *D_800A5E60;
+    extern u8 D_800A6610[];
+    extern u16 D_80183C14[];
+
+    DVECTOR2 tmpxy[4];
+    SVECTOR2 box[8];
+    SVECTOR2 sxy[8];
+    SVECTOR2 vv[4];
+    MATRIX2 mtx;
+    struct { long otz, flag, opz, sz0, sz1, sz2, sz3; } g;
+
+    s32 lim;
+    s32 dy;
+    u32 ot;
+    s32 nparts;
+    Part *part;
+    s32 j;
+    u32 nprim;
+    u32 i;
+    Prim_8017CD9C *prim;
+    u8 *pkt;
+    u8 *vtx;
+    u8 *vd;
+    u32 w;
+    s32 code;
+    s32 ang, half;
+    u32 wx, wy, wz, wv;
+    u8 *va, *vb, *vc;
+    s32 xa32, xb32, t32;
+    s32 xmn1, xmx1, xmn2, xmx2;
+    s32 mnc, mxc;
+    s16 my, mny, mx, mn;
+
+    if (*(s32 *)arg0 != 0) return;
+
+    lim = func_800491EC() + *(s32 *)(arg0 + 0x64);
+    func_800547D8(arg0 + 0x10, &mtx);
+    func_80052E38(&mtx);
+
+    pkt = D_800A5E60;
+    part = (Part *)(arg1 + 0x14);
+    nparts = *(s32 *)(arg1 + 8);
+    vtx = *(u8 **)(arg1 + 0x10);
+    ot = (u32)&D_800A6610[(*(u16 *)&D_800B9A02) << 14];
+    ang = arg2;
+    half = ang / 2;
+    dy = arg3;
+
+    for (j = 0; j < nparts; j++, part++) {
+        wx = part->xx;
+        mn = wx;
+        mx = wx >> 16;
+        wz = part->zz;
+        wv = wz >> 16;
+        wy = part->yy;
+        mny = wy + dy;
+        __asm__ ("" : "=r"(wz) : "0"(wz));   /* zero-byte re-tie #2 — see (2) in the header */
+        my = (wy >> 16) + dy;
+        box[0].vz = wz;
+        box[1].vz = wz;
+        box[2].vz = wv;
+        box[3].vz = wv;
+        box[0].vx = mn; box[0].vy = mny;
+        box[1].vx = mx; box[1].vy = mny;
+        box[2].vx = mn; box[2].vy = mny;
+        box[3].vx = mx; box[3].vy = mny;
+
+        gte_ldv3c(&box[0]);
+        gte_rtpt();
+        gte_stsxy3(&sxy[0], &sxy[1], &sxy[2]);
+        gte_ldv0(&box[3]);
+        gte_rtps();
+        __asm__ ("" : "=r"(wz) : "0"(wz));   /* zero-byte re-tie #1 — see (2) in the header */
+        box[4].vx = mn; box[4].vy = my; box[4].vz = wz;
+        box[5].vx = mx; box[5].vy = my; box[5].vz = wz;
+        box[6].vx = mn; box[6].vy = my; box[6].vz = wv;
+        box[7].vx = mx; box[7].vy = my; box[7].vz = wv;
+        gte_stsxy(&sxy[3]);
+        gte_ldv3c(&box[4]);
+        gte_rtpt();
+        gte_stsxy3(&sxy[4], &sxy[5], &sxy[6]);
+        gte_ldv0(&box[7]);
+        gte_rtps();
+        gte_stsxy(&sxy[7]);
+        gte_stszotz(&g.otz);
+
+        if (lim >= g.otz) {
+            __asm__ volatile ("");   /* live-length sliders — see (1) in the header. */
+            __asm__ volatile ("");   /* Deliberately in THIS block, not the loop head. */
+            xa32 = sxy[0].vx;
+            xb32 = sxy[1].vx;
+            if (xb32 < xa32) { xmx1 = xa32; xmn1 = xb32; } else { xmn1 = xa32; xmx1 = xb32; }
+            t32 = sxy[2].vx;
+            if (xmx1 < t32) xmx1 = t32; else if (t32 < xmn1) xmn1 = t32;
+            t32 = sxy[3].vx;
+            if (xmx1 < t32) xmx1 = t32; else if (t32 < xmn1) xmn1 = t32;
+            xa32 = sxy[4].vx;
+            xb32 = sxy[5].vx;
+            if (xb32 < xa32) { xmx2 = xa32; xmn2 = xb32; } else { xmn2 = xa32; xmx2 = xb32; }
+            t32 = sxy[6].vx;
+            if (xmx2 < t32) xmx2 = t32; else if (t32 < xmn2) xmn2 = t32;
+            t32 = sxy[7].vx;
+            if (xmx2 < t32) xmx2 = t32; else if (t32 < xmn2) xmn2 = t32;
+            mnc = xmn1;
+            if (xmn2 < xmn1) mnc = xmn2;
+            mxc = xmx1;
+            if (mxc < xmx2) mxc = xmx2;
+            if ((s16)mxc >= -0xA0 && (s16)mnc < 0xA1) {
+                xa32 = sxy[0].vy;
+                xb32 = sxy[1].vy;
+                if (xb32 < xa32) { xmx1 = xa32; xmn1 = xb32; } else { xmn1 = xa32; xmx1 = xb32; }
+                t32 = sxy[2].vy;
+                if (xmx1 < t32) xmx1 = t32; else if (t32 < xmn1) xmn1 = t32;
+                t32 = sxy[3].vy;
+                if (xmx1 < t32) xmx1 = t32; else if (t32 < xmn1) xmn1 = t32;
+                xa32 = sxy[4].vy;
+                xb32 = sxy[5].vy;
+                if (xb32 < xa32) { xmx2 = xa32; xmn2 = xb32; } else { xmn2 = xa32; xmx2 = xb32; }
+                t32 = sxy[6].vy;
+                if (xmx2 < t32) xmx2 = t32; else if (t32 < xmn2) xmn2 = t32;
+                t32 = sxy[7].vy;
+                if (xmx2 < t32) xmx2 = t32; else if (t32 < xmn2) xmn2 = t32;
+                mnc = xmn1;
+                if (xmn2 < xmn1) mnc = xmn2;
+                mxc = xmx1;
+                if (mxc < xmx2) mxc = xmx2;
+                if ((s16)mxc >= -0x6E && (s16)mnc < 0x6F) {
+                    prim = (Prim_8017CD9C *)part->prim;
+                    nprim = part->nprim;
+                    for (i = 0; i < nprim; i++, prim++) {
+                        w = prim->w1;
+                        va = vtx + (w & 0xFFFF);
+                        vb = vtx + (w >> 16);
+                        w = prim->w2;
+                        vc = vtx + (w & 0xFFFF);
+                        vv[0] = *(SVECTOR2 *)va;
+                        vv[1] = *(SVECTOR2 *)vb;
+                        vv[2] = *(SVECTOR2 *)vc;
+                        w = w >> 16;
+                        vv[0].vy += D_80183C14[(vv[0].vz + ang) & 0x1FF] + D_80183C14[(vv[0].vx + half) & 0x1FF];
+                        vv[1].vy += D_80183C14[(vv[1].vz + ang) & 0x1FF] + D_80183C14[(vv[1].vx + half) & 0x1FF];
+                        vv[2].vy += D_80183C14[(vv[2].vz + ang) & 0x1FF] + D_80183C14[(vv[2].vx + half) & 0x1FF];
+                        gte_ldv3c(&vv[0]);
+                        gte_rtpt();
+                        gte_stflg(&g.flag);
+                        if (!(g.flag & 0x7F85E000)) {
+                            gte_nclip();
+                            code = w & 7;
+                            vd = vtx + (w & 0xFFF8);
+                            gte_stopz(&g.opz);
+                            if (g.opz > 0) {
+                                switch (code) {
+                                case 6:
+                                case 7:
+                                    gte_stsxy3_ft3(pkt);
+                                    gte_stsz3(&g.sz0, &g.sz1, &g.sz2);
+                                    if (((PolyFT3 *)pkt)->x0 > ((PolyFT3 *)pkt)->x1) {
+                                        mx = ((PolyFT3 *)pkt)->x0;
+                                        mn = ((PolyFT3 *)pkt)->x1;
+                                    } else {
+                                        mn = ((PolyFT3 *)pkt)->x0;
+                                        mx = ((PolyFT3 *)pkt)->x1;
+                                    }
+                                    if (((PolyFT3 *)pkt)->x2 > mx) mx = ((PolyFT3 *)pkt)->x2;
+                                    else if (((PolyFT3 *)pkt)->x2 < mn) mn = ((PolyFT3 *)pkt)->x2;
+                                    if (mx >= -0xA0 && mn < 0xA1) {
+                                        if (((PolyFT3 *)pkt)->y0 > ((PolyFT3 *)pkt)->y1) {
+                                            my = ((PolyFT3 *)pkt)->y0;
+                                            mny = ((PolyFT3 *)pkt)->y1;
+                                        } else {
+                                            mny = ((PolyFT3 *)pkt)->y0;
+                                            my = ((PolyFT3 *)pkt)->y1;
+                                        }
+                                        if (((PolyFT3 *)pkt)->y2 > my) my = ((PolyFT3 *)pkt)->y2;
+                                        else if (((PolyFT3 *)pkt)->y2 < mny) mny = ((PolyFT3 *)pkt)->y2;
+                                        if (my >= -0x6E && mny < 0x6F) {
+                                            s32 za;
+                                            u32 *otp;
+                                            u32 *tp;
+                                            if (g.sz0 > g.sz1) {
+                                                za = g.sz0;
+                                                if (za < g.sz2) za = g.sz2;
+                                            } else {
+                                                za = g.sz1;
+                                                if (za < g.sz2) za = g.sz2;
+                                            }
+                                            g.opz = za;
+                                            if (code == 7) g.opz = za + 0x200;
+                                            tp = (u32 *)prim->w0;
+                                            ((PolyFT3 *)pkt)->rgbc = tp[0] | 0x2000000;
+                                            ((PolyFT3 *)pkt)->uvc0 = tp[1];
+                                            ((PolyFT3 *)pkt)->uvp1 = tp[2];
+                                            ((PolyFT3 *)pkt)->uv2 = tp[3];
+                                            otp = (u32 *)(((g.opz >> 2) << 2) + ot);
+                                            *(u32 *)pkt = (*otp & 0xFFFFFF) | 0x7000000;
+                                            *otp = (*otp & 0xFF000000) | ((u32)pkt & 0xFFFFFF);
+                                            pkt += 0x28;
+                                        }
+                                    }
+                                    break;
+                                case 2:
+                                case 3:
+                                    gte_stsxy3c(&tmpxy[0]);
+                                    vv[3] = *(SVECTOR2 *)vd;
+                                    vv[3].vy += D_80183C14[(vv[3].vz + ang) & 0x1FF] + D_80183C14[(vv[3].vx + half) & 0x1FF];
+                                    gte_ldv0(&vv[3]);
+                                    gte_rtps();
+                                    if (tmpxy[0].vx > tmpxy[1].vx) {
+                                        mx = tmpxy[0].vx;
+                                        mn = tmpxy[1].vx;
+                                    } else {
+                                        mn = tmpxy[0].vx;
+                                        mx = tmpxy[1].vx;
+                                    }
+                                    if (tmpxy[2].vx > mx) mx = tmpxy[2].vx;
+                                    else if (tmpxy[2].vx < mn) mn = tmpxy[2].vx;
+                                    if (tmpxy[0].vy > tmpxy[1].vy) {
+                                        my = tmpxy[0].vy;
+                                        mny = tmpxy[1].vy;
+                                    } else {
+                                        mny = tmpxy[0].vy;
+                                        my = tmpxy[1].vy;
+                                    }
+                                    if (tmpxy[2].vy > my) my = tmpxy[2].vy;
+                                    else if (tmpxy[2].vy < mny) mny = tmpxy[2].vy;
+                                    gte_stflg(&g.flag);
+                                    if (!(g.flag & 0x7F85E000)) {
+                                        gte_stsz4(&g.sz0, &g.sz1, &g.sz2, &g.sz3);
+                                        gte_stsxy((long *)&((PolyFT4 *)pkt)->x3);
+                                        if (((PolyFT4 *)pkt)->x3 < mn) mn = ((PolyFT4 *)pkt)->x3;
+                                        else if (mx < ((PolyFT4 *)pkt)->x3) mx = ((PolyFT4 *)pkt)->x3;
+                                        if (mx >= -0xA0 && mn < 0xA1) {
+                                            if (((PolyFT4 *)pkt)->y3 < mny) mny = ((PolyFT4 *)pkt)->y3;
+                                            else if (my < ((PolyFT4 *)pkt)->y3) my = ((PolyFT4 *)pkt)->y3;
+                                            if (my >= -0x6E && mny < 0x6F) {
+                                                s32 za, zb;
+                                                u32 *otp;
+                                                u32 *tp;
+                                                u32 uvw;
+                                                zb = g.sz2;
+                                                if (zb < g.sz3) zb = g.sz3;
+                                                za = g.sz0;
+                                                if (za < g.sz1) za = g.sz1;
+                                                if (za < zb) za = zb;
+                                                g.opz = za;
+                                                if (code == 3) g.opz = za + 0x200;
+                                                *(u32 *)&((PolyFT4 *)pkt)->x0 = *(u32 *)&tmpxy[0];
+                                                *(u32 *)&((PolyFT4 *)pkt)->x1 = *(u32 *)&tmpxy[1];
+                                                *(u32 *)&((PolyFT4 *)pkt)->x2 = *(u32 *)&tmpxy[2];
+                                                tp = (u32 *)prim->w0;
+                                                ((PolyFT4 *)pkt)->rgbc = tp[0] | 0x2000000;
+                                                ((PolyFT4 *)pkt)->uvc0 = tp[1];
+                                                ((PolyFT4 *)pkt)->uvp1 = tp[2];
+                                                uvw = tp[3];
+                                                ((PolyFT4 *)pkt)->uv2 = uvw;
+                                                ((PolyFT4 *)pkt)->uv3 = uvw >> 16;
+                                                otp = (u32 *)(((g.opz >> 2) << 2) + ot);
+                                                *(u32 *)pkt = (*otp & 0xFFFFFF) | 0x9000000;
+                                                *otp = (*otp & 0xFF000000) | ((u32)pkt & 0xFFFFFF);
+                                                pkt += 0x28;
+                                            }
+                                        }
+                                    }
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    D_800A5E60 = pkt;
+}
+
 
 
 extern void (*D_8018402C[])(void);

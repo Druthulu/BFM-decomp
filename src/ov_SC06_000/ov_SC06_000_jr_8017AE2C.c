@@ -136,7 +136,6 @@ extern void func_801466B4(u16 a0, s32 a1, s32 a2, s32 a3, s32 arg5);
 extern s32 D_8011F750;
 extern s32 D_8011F754;
 extern u8 * func_801468C8(s32 arg0, u8 arg1);
-extern s32 D_8011D030;
 extern s32 func_80146994(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 func_80146924(s32 a0, s32 a1, s32 a2, s32 a3, s32 arg5);
 extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
@@ -3416,7 +3415,129 @@ INCLUDE_ASM("asm/ov_SC06_000/nonmatchings/ov_SC06_000_jr_8017AE2C", func_8017C6A
 
 INCLUDE_ASM("asm/ov_SC06_000/nonmatchings/ov_SC06_000_jr_8017AE2C", func_8017C814);
 
-INCLUDE_ASM("asm/ov_SC06_000/nonmatchings/ov_SC06_000_jr_8017AE2C", func_8017C8FC);
+
+extern void func_8017CE10(void *a0, s32 a1, s32 a2);
+extern void func_8017D098(void *a0, s32 a1, s32 a2);
+extern void func_80146C3C(void);
+extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+extern void func_80146E90(s32 *a0, s32 a1);
+extern void func_80147324(s32 arg0);
+
+void func_8017C8FC(void *a0) {
+
+    extern s32 D_8011D030;
+    extern u16 D_8018BCF0[][2];
+    s32 *s2;
+
+    s2 = *(s32 **)((s32)a0 + 0x20);
+
+    if (*(s32 *)((s32)a0 + 0x1C) < 0x100) {
+        if ((*(s32 *)((s32)a0 + 0x1C) & 0xF) == 0) {
+            func_8017CE10(a0, *(s32 *)((s32)a0 + 0x2C), 0xF);
+            if ((*(s32 *)((s32)a0 + 0x1C) & 0xF) == 0) {
+                s32 flags = *(s32 *)((s32)a0 + 0x1C) << 15;
+                func_8017D098(a0, *(s32 *)((s32)a0 + 0x2C), flags);
+                func_8017D098(a0, *(s32 *)((s32)a0 + 0x2C), flags | 1);
+                func_8017D098(a0, *(s32 *)((s32)a0 + 0x2C), flags | 2);
+                func_8017D098(a0, *(s32 *)((s32)a0 + 0x2C), flags | 3);
+                func_8017D098(a0, *(s32 *)((s32)a0 + 0x2C), flags | 4);
+                func_8017D098(a0, *(s32 *)((s32)a0 + 0x2C), flags | 5);
+                func_8017D098(a0, *(s32 *)((s32)a0 + 0x2C), flags | 6);
+                func_8017D098(a0, *(s32 *)((s32)a0 + 0x2C), flags | 7);
+            }
+        }
+        if (*(s32 *)((s32)a0 + 0x1C) & 1) {
+            s2[1] |= 0x80000000;
+        } else {
+            s2[1] &= 0x7FFFFFFF;
+        }
+        *(s32 *)((s32)a0 + 0x1C) = *(s32 *)((s32)a0 + 0x1C) + 1;
+    } else {
+        u8 *p = (u8 *)&D_8011D030;
+        s32 idx;
+
+        if ((u32)p < (u32)((u8 *)&D_8011D030 + 0xA50)) {
+            do {
+                if (*(u16 *)p == 0x2E) {
+                    ((void (*)(s32))func_80146C3C)((s32)p);
+                }
+                p += 0x58;
+            } while ((u32)p < (u32)((u8 *)&D_8011D030 + 0xA50));
+        }
+
+        {
+            s32 t3 = *(s32 *)((s32)a0 + 0x2C);
+            s16 t0 = *(s16 *)((s32)a0 + 0x6);
+            s16 t1 = *(s16 *)((s32)a0 + 0xA);
+            s16 t2 = *(s16 *)((s32)a0 + 0xE);
+            func_80146A6C(0x2B, a0, t0, t1, t2, t3, 0);
+        }
+        {
+            s32 t3 = *(s32 *)((s32)a0 + 0x2C);
+            s16 t0 = *(s16 *)((s32)a0 + 0x6);
+            s16 t1 = *(s16 *)((s32)a0 + 0xA);
+            s16 t2 = *(s16 *)((s32)a0 + 0xE);
+            func_80146A6C(0x2B, a0, t0, t1, t2, t3, 0x1C7);
+        }
+        {
+            s32 t3 = *(s32 *)((s32)a0 + 0x2C);
+            s16 t0 = *(s16 *)((s32)a0 + 0x6);
+            s16 t1 = *(s16 *)((s32)a0 + 0xA);
+            s16 t2 = *(s16 *)((s32)a0 + 0xE);
+            func_80146A6C(0x2B, a0, t0, t1, t2, t3, 0x38E);
+        }
+        {
+            s32 t3 = *(s32 *)((s32)a0 + 0x2C);
+            s16 t0 = *(s16 *)((s32)a0 + 0x6);
+            s16 t1 = *(s16 *)((s32)a0 + 0xA);
+            s16 t2 = *(s16 *)((s32)a0 + 0xE);
+            func_80146A6C(0x2B, a0, t0, t1, t2, t3, 0x555);
+        }
+        {
+            s32 t3 = *(s32 *)((s32)a0 + 0x2C);
+            s16 t0 = *(s16 *)((s32)a0 + 0x6);
+            s16 t1 = *(s16 *)((s32)a0 + 0xA);
+            s16 t2 = *(s16 *)((s32)a0 + 0xE);
+            func_80146A6C(0x2B, a0, t0, t1, t2, t3, 0x71C);
+        }
+        {
+            s32 t3 = *(s32 *)((s32)a0 + 0x2C);
+            s16 t0 = *(s16 *)((s32)a0 + 0x6);
+            s16 t1 = *(s16 *)((s32)a0 + 0xA);
+            s16 t2 = *(s16 *)((s32)a0 + 0xE);
+            func_80146A6C(0x2B, a0, t0, t1, t2, t3, 0x8E3);
+        }
+        {
+            s32 t3 = *(s32 *)((s32)a0 + 0x2C);
+            s16 t0 = *(s16 *)((s32)a0 + 0x6);
+            s16 t1 = *(s16 *)((s32)a0 + 0xA);
+            s16 t2 = *(s16 *)((s32)a0 + 0xE);
+            func_80146A6C(0x2B, a0, t0, t1, t2, t3, 0xAAA);
+        }
+        {
+            s32 t3 = *(s32 *)((s32)a0 + 0x2C);
+            s16 t0 = *(s16 *)((s32)a0 + 0x6);
+            s16 t1 = *(s16 *)((s32)a0 + 0xA);
+            s16 t2 = *(s16 *)((s32)a0 + 0xE);
+            func_80146A6C(0x2B, a0, t0, t1, t2, t3, 0xC71);
+        }
+        {
+            s32 t3 = *(s32 *)((s32)a0 + 0x2C);
+            s16 t0 = *(s16 *)((s32)a0 + 0x6);
+            s16 t1 = *(s16 *)((s32)a0 + 0xA);
+            s16 t2 = *(s16 *)((s32)a0 + 0xE);
+            func_80146A6C(0x2B, a0, t0, t1, t2, t3, 0xE38);
+        }
+
+        func_80146E90((s32 *)a0, 0x20);
+
+        idx = *(s32 *)((s32)a0 + 0x2C);
+        func_80147324(D_8018BCF0[idx][0]);
+
+        *(u16 *)((s32)a0 + 0x2) = *(u16 *)((s32)a0 + 0x2) + 1;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_000/nonmatchings/ov_SC06_000_jr_8017AE2C", func_8017CC44);
 
@@ -5971,7 +6092,108 @@ s32 func_80186348(u32 a0v)
 
 INCLUDE_ASM("asm/ov_SC06_000/nonmatchings/ov_SC06_000_jr_8017AE2C", func_801863F4);
 
-INCLUDE_ASM("asm/ov_SC06_000/nonmatchings/ov_SC06_000_jr_8017AE2C", func_80186468);
+
+/* func_80186468 — allocates a GTE-projection slot, seeds a random spread
+ * vector from a per-index table, rotates it by the model's Y angle, applies
+ * it to the object's matrix, adds it to the object's position, and seeds
+ * three random spin fields.  MATCH (136/136 ins), match_one standalone.
+ *
+ * Declarations: func_8012B23C / func_8012AD50 / D_801AA9D0 / D_801AAA58 are
+ * NOT declared anywhere else in this TU (whole-TU grep, D2) so they're fresh
+ * here; func_8012C1B8 / func_8012CAE4 / func_8001C214 / ApplyMatrixSV ARE
+ * already file-scope in the TU (L163, L3160-3162) with these EXACT
+ * signatures, so re-declaring them identically merges silently (D3).
+ *
+ * §48 STRUCT ASSIGN: `m = D_800AE620;` on the 32-byte, 4-aligned matrix
+ * routes move_by_pieces to the plain lw/lw/lw+sw/sw/sw grouping (no lwl/lwr).
+ *
+ * §48-C2: `sv = D_801AA9D0[idx];` on the 8-byte, 2-aligned (u16 x,y,z; s16 w)
+ * record struct falls through move_by_pieces' align>=4 test and emits the
+ * lwl/lwr+swl/swr unaligned block-move pair instead — matches the target's
+ * four unaligned loads/stores exactly.
+ *
+ * REGALLOC LEVER (new, byte-verified this session — candidate for the
+ * cookbook): a redundant `void *s1 = a0;` local (never reassigned, used only
+ * as an alias for the parameter) made gcc-2.7.2 split the parameter pseudo
+ * into TWO allocnos — one for its pre-call uses (landing in $s0) and a
+ * SEPARATE one (bridged by an extra `move`) for its post-call/cross-branch
+ * uses (landing in $s1) — even though the target uses ONE register ($s1)
+ * uniformly from the second prologue instruction on. Referencing the
+ * parameter `a0` directly everywhere (no alias local) collapses this back to
+ * a single allocno and fixed 6 of the 11 mismatches outright.
+ *
+ * The remaining 5 (an `addu $a0,$v0,zero` copy scheduled too EARLY, and the
+ * alloc-check branch/store testing `$a0` instead of `$v0` directly) were a
+ * v0-pseudo/call-arg-copy coalescing difference: gcc folded the store, the
+ * branch test, AND the func_8012C1B8 return value into one $a0-homed pseudo.
+ * Folding the store and the compare into ONE C expression —
+ * `if ((*(s32*)(a0+0x20) = v0 = func_8012C1B8()) == 0)` — instead of two
+ * separate statements (assign-then-test) made cc1 keep the store/test on the
+ * call's native $v0 and defer the $a0 copy to just before its actual
+ * consumer (func_8001C214), matching the target's schedule exactly. No
+ * register pins, no permuter, no zero-byte asm barriers needed for either
+ * residual — both C-lever-closeable (§136-class local-variable/expression-
+ * shape levers).
+ */
+void func_80186468(void *a0)
+{
+    typedef struct { s32 w[8]; } Mat32_8018A390_80186468;          /* 32B, align 4 */
+    typedef struct { u16 x; u16 y; u16 z; s16 w; } Rec8_8018A390_80186468; /* 8B, align 2 */
+
+    extern Mat32_8018A390_80186468 D_800AE620;
+    extern Rec8_8018A390_80186468 D_801AA9D0[];
+    extern s32 D_801AAA58[];
+
+    extern void func_8012C1B8(void);
+    extern void func_8012CAE4(void *a0);
+    extern void func_8001C214(s32 a0, s32 a1);
+    extern void RotMatrixY(s32 a0, void *a1);
+    extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
+    extern void func_8012B23C(s32 a0);
+    extern s32 func_8012AD50(void *a0);
+    extern s32 rand(void);
+
+    Mat32_8018A390_80186468 m;               /* sp+0x10 */
+    Rec8_8018A390_80186468 sv;               /* sp+0x30 */
+    void *mp;
+    void *svp;
+    s32 v0;
+    s16 w;
+
+    m = D_800AE620;
+    sv = D_801AA9D0[*(s16 *)((s32)a0 + 0x70)];
+
+    mp = &m;
+    svp = &sv;
+
+    if ((*(s32 *)((s32)a0 + 0x20) = v0 = ((s32 (*)(void))func_8012C1B8)()) == 0) {
+        func_8012CAE4(a0);
+        return;
+    }
+
+    w = sv.w;
+    func_8001C214(v0, D_801AAA58[w]);
+
+    RotMatrixY(*(s16 *)(*(s32 *)(*(s32 *)((s32)a0 + 0x64) + 0x20) + 0x12), mp);
+
+    ApplyMatrixSV(mp, svp, svp);
+
+    *(u16 *)((s32)a0 + 0x6) += sv.x;
+    *(u16 *)((s32)a0 + 0xA) += sv.y;
+    *(u16 *)((s32)a0 + 0xE) += sv.z;
+    func_8012B23C((s32)a0);
+
+    *(s16 *)((s32)a0 + 0x12) = (s16)sv.x >> 3;
+    *(s16 *)((s32)a0 + 0x16) = (s16)sv.y >> 3;
+    *(s16 *)((s32)a0 + 0x1A) = (s16)sv.z >> 3;
+
+    *(s16 *)((s32)a0 + 0xFC) = (s16)((rand() & 0x7FF) - 0x400) >> w;
+    *(s16 *)((s32)a0 + 0xFE) = (s16)((rand() & 0x7FF) - 0x400) >> w;
+    *(s16 *)((s32)a0 + 0x100) = (s16)((rand() & 0x7FF) - 0x400) >> w;
+
+    func_8012AD50(a0);
+}
+
 
 
 extern void (*D_801AAA64[])(void);

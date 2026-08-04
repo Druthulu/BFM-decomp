@@ -3672,9 +3672,265 @@ INCLUDE_ASM("asm/ov_SC06_008/nonmatchings/ov_SC06_008_jr_8017C294", func_8017EF5
 
 INCLUDE_ASM("asm/ov_SC06_008/nonmatchings/ov_SC06_008_jr_8017C294", func_8017F100);
 
-INCLUDE_ASM("asm/ov_SC06_008/nonmatchings/ov_SC06_008_jr_8017C294", func_8017F2E8);
+extern void func_8012B1B4(s32 a0, s32 a1);
+extern void func_8012CBCC(s32 a0);
+extern void func_8012BE98(s32 a0, u16 *a1);
+extern void func_8012BE54(s32 a0);
+extern s32 func_8012B744(void *a0, void *a1);
+extern s32 func_8012B608(s32 a0, s32 a1, s32 a2);
+extern s32 func_8017EC48(s32 a0, s32 a1);
 
-INCLUDE_ASM("asm/ov_SC06_008/nonmatchings/ov_SC06_008_jr_8017C294", func_8017F624);
+void func_8017F2E8(s32 a0)
+{
+    s16 hi;
+    s16 pos;
+    s32 sp10[3];
+    u16 state;
+
+    hi = *(s16 *)(a0 + 0x8A);
+    pos = *(s16 *)(a0 + 0xA);
+
+    if (pos >= hi - 8) {
+        if (*(s32 *)(a0 + 0x48) >= 0) {
+            *(s32 *)(a0 + 0x48) = -0x8000;
+            *(s32 *)(a0 + 0x14) = *(s32 *)(a0 + 0x14) >> 1;
+        }
+    } else {
+        if (hi + 8 >= pos) {
+            if (*(s32 *)(a0 + 0x48) <= 0) {
+                *(s32 *)(a0 + 0x48) = 0x8000;
+                *(s32 *)(a0 + 0x14) = *(s32 *)(a0 + 0x14) >> 1;
+            }
+        }
+    }
+
+    if (*(s32 *)(a0 + 0xDC) < -0x40000) {
+        *(s32 *)(a0 + 0xDC) = -0x40000;
+    }
+
+    sp10[0] = 0;
+    sp10[1] = 0;
+    sp10[2] = *(s32 *)(a0 + 0xDC);
+    func_8012B1B4(a0, (s32)sp10);
+    func_8012CBCC(a0);
+
+    state = *(u16 *)(a0 + 0x34);
+    switch (state) {
+    case 0: {
+        register s32 s0v __asm__("$16");
+        s32 ret;
+        s32 p744;
+        s32 v1p;
+        s16 snd;
+        s32 b608;
+        register s32 p20 __asm__("$4");
+
+        s0v = a0 + 0x88;
+        ret = ((s32 (*)(s32, u16 *))func_8012BE98)(a0, (u16 *)s0v);
+        if (ret <= 0x3FFFF) {
+            if (func_8017EC48(a0, 0x51) == 0) {
+                goto set_state1;
+            }
+        }
+        p744 = func_8012B744((void *)(a0 + 4), (void *)s0v);
+        v1p = *(s32 *)(a0 + 0x20);
+        snd = *(s16 *)(v1p + 0x12);
+        b608 = func_8012B608(snd, p744, 8);
+        p20 = *(s32 *)(a0 + 0x20);
+        *(u16 *)(p20 + 0x12) = *(u16 *)(p20 + 0x12) + b608;
+        v1p = *(s32 *)(a0 + 0x20);
+        *(u16 *)(v1p + 0x12) = *(u16 *)(v1p + 0x12) & 0xFFF;
+        func_8012B1B4(a0, (s32)sp10);
+        break;
+    }
+    case 1: {
+        s32 ret;
+
+        *(s32 *)(a0 + 0xDC) = *(s32 *)(a0 + 0xDC) << 1;
+        ret = ((s32 (*)(s32, u16 *))func_8012BE98)(a0, (u16 *)(a0 + 0x88));
+        if (ret > 0x3FFFF) {
+            goto rand_tail;
+        }
+        if (func_8017EC48(a0, 0x51) == 0) {
+            goto end_switch;
+        }
+        goto rand_tail;
+    }
+    case 2: {
+        s32 p744;
+        s32 v1p;
+        s16 snd;
+        s32 b608;
+        s32 p20;
+
+        p744 = func_8012B744((void *)(a0 + 4), (void *)(a0 + 0x88));
+        v1p = *(s32 *)(a0 + 0x20);
+        snd = *(s16 *)(v1p + 0x12);
+        b608 = func_8012B608(snd, p744, 0x10);
+        p20 = *(s32 *)(a0 + 0x20);
+        *(u16 *)(p20 + 0x12) = *(u16 *)(p20 + 0x12) + b608;
+        v1p = *(s32 *)(a0 + 0x20);
+        *(u16 *)(v1p + 0x12) = *(u16 *)(v1p + 0x12) & 0xFFF;
+        *(s32 *)(a0 + 0xDC) = *(s32 *)(a0 + 0xDC) >> 1;
+        func_8017EC48(a0, 0x51);
+        if (*(s16 *)(a0 + 0x102) == 0) {
+            *(u16 *)(a0 + 0x34) = 3;
+        } else {
+            *(s16 *)(a0 + 0x102) = *(s16 *)(a0 + 0x102) - 1;
+        }
+        break;
+    }
+    case 3: {
+        register s32 s2v __asm__("$18");
+        s32 ret;
+        s32 p744;
+        s32 v1p;
+        s16 snd;
+        s32 b608;
+
+        s2v = a0 + 0x88;
+        ret = ((s32 (*)(s32, u16 *))func_8012BE98)(a0, (u16 *)s2v);
+        *(s32 *)(a0 + 0xDC) = *(s32 *)(a0 + 0xDC) << 1;
+        if (func_8017EC48(a0, 0x51) != 0) {
+            goto rand_tail;
+        }
+        if (ret <= 0x40000) {
+            goto set_state1;
+        }
+        p744 = func_8012B744((void *)(a0 + 4), (void *)s2v);
+        v1p = *(s32 *)(a0 + 0x20);
+        snd = *(s16 *)(v1p + 0x12);
+        b608 = func_8012B608(snd, p744, 1);
+        if ((u32)(b608 + 0xFF) < 0x1FF) {
+            goto end_switch;
+        }
+        goto rand_tail;
+    }
+    }
+    goto end_switch;
+
+rand_tail:
+    *(u16 *)(a0 + 0x34) = 2;
+    {
+        s32 r = rand();
+        *(s16 *)(a0 + 0x102) = (r & 7) + 8;
+    }
+    goto end_switch;
+
+set_state1:
+    *(u16 *)(a0 + 0x34) = 1;
+
+end_switch:
+    if (*(s16 *)(a0 + 0x100) != 0) {
+        *(s16 *)(a0 + 0x100) = *(s16 *)(a0 + 0x100) - 1;
+    } else {
+        s32 ret3;
+
+        ret3 = ((s32 (*)(s32))func_8012BE54)(a0);
+        if (ret3 <= 0x24000) {
+            *(s16 *)(a0 + 0x2) = 2;
+            *(s16 *)(a0 + 0x100) = 0x3C;
+        }
+    }
+}
+
+
+extern s32 func_80180548(s32 a0, s32 a1);
+extern s32 func_8012C588(s32 a0, s32 a1);
+extern void func_8012F14C(s32);
+extern void func_8012B370(int a0);
+extern s32 func_8012C658(s32 arg0, s32 arg1, s32 arg2);
+extern void func_8004914C(void *a0);
+extern void func_800491AC(void *a0);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern s32 RotTransPers(s32 a0, s32 a1, s32 *a2, s32 *a3);
+
+extern u8 D_8019C904;
+extern u8 D_8019C90C;
+extern u8 D_8019C914;
+extern u8 D_800AF648;
+
+void func_8017F624(s32 param_1)
+{
+    /* L5: slot offsets are exact only through ONE struct — copied verbatim
+       from the banked RTP_SND sibling func_80180CA8 (same TU) so the
+       sp+0x10.."0x2B layout reproduces byte-for-byte. */
+    struct {
+        u16 nv[4];   /* sp+0x10 */
+        s16 rv[4];   /* sp+0x18 */
+        u16 sxy[2];  /* sp+0x20 */
+        s32 z;       /* sp+0x24 */
+        s32 flag;    /* sp+0x28 */
+    } L;
+
+    s16 sVar1;
+    s32 s0;
+
+    if (*(s32 *)(param_1 + 0x1c) == 0) {
+        sVar1 = *(s16 *)(param_1 + 0x100) - 1;
+        *(s16 *)(param_1 + 0x100) = sVar1;
+        if (sVar1 == 0) {
+            *(s16 *)(param_1 + 2) = 1;
+            *(s16 *)(param_1 + 0x100) = 0x3c;
+            *(s16 *)(param_1 + 0x8a) = *(s16 *)(param_1 + 0xa) - 0x140;
+        } else {
+            *(s32 *)(param_1 + 0x1c) = (sVar1 == 1) ? 0x3c : 3;
+
+            func_80180548(param_1, (s32)&D_8019C904);
+
+            s0 = func_8012C588(0x260, param_1);
+            if (s0 != 0) {
+                ((void (*)(s32, s32, s32))func_8012F14C)(*(s32 *)(param_1 + 0x20) + 0x34, (s32)&D_8019C90C, (s32)L.nv);
+                *(s16 *)(s0 + 6)  = L.nv[0];
+                *(s16 *)(s0 + 0xA) = L.nv[1];
+                *(s16 *)(s0 + 0xE) = L.nv[2];
+                func_8012B370(s0);
+                func_8012C658(0x261, 0, s0);
+            }
+
+            s0 = func_8012C588(0x260, param_1);
+            if (s0 != 0) {
+                ((void (*)(s32, s32, s32))func_8012F14C)(*(s32 *)(param_1 + 0x20) + 0x34, (s32)&D_8019C914, (s32)L.nv);
+                *(s16 *)(s0 + 6)  = L.nv[0];
+                *(s16 *)(s0 + 0xA) = L.nv[1];
+                *(s16 *)(s0 + 0xE) = L.nv[2];
+                func_8012B370(s0);
+                func_8012C658(0x261, 1, s0);
+            }
+
+            L.rv[0] = *(s32 *)(*(s32 *)(param_1 + 0x20) + 0x48);
+            L.rv[1] = *(s32 *)(*(s32 *)(param_1 + 0x20) + 0x4C);
+            L.rv[2] = *(s32 *)(*(s32 *)(param_1 + 0x20) + 0x50);
+            { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }
+            { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_800491AC(r4); }
+            RotTransPers((s32)L.rv, (s32)L.sxy, &L.z, &L.flag);
+            if (L.flag >= 0 && (u32)((L.sxy[0] + 0xEF) & 0xFFFF) < 0x1DF
+                          && (u32)((L.sxy[1] + 0xB3) & 0xFFFF) < 0x167) {
+                s32 x = (s16)L.sxy[0];
+                s32 ax;
+
+                ax = x;
+                if (x < 0) {
+                    ax = -x;
+                }
+                ax = ((0xF0 - ax) * 0x7F) / 0xF0;
+                __asm__("" : "=r"(ax) : "0"(ax));
+                x = (x + 0xF0) / 0x1E;
+                if (x == 0x10) {
+                    x = 0xF;
+                }
+                x = x << 8;
+                {
+                    s32 flg = 0x3000;
+                    func_8002D4C8(0x84A, ((ax | flg) | x) & 0xFFFF);
+                }
+            }
+        }
+    } else {
+        *(s32 *)(param_1 + 0x1c) = *(s32 *)(param_1 + 0x1c) - 1;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_008/nonmatchings/ov_SC06_008_jr_8017C294", func_8017F8CC);
 
@@ -4270,7 +4526,157 @@ big:
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_008/nonmatchings/ov_SC06_008_jr_8017C294", func_801813D0);
+#include "common.h"
+
+/* func_801813D0 — ov_SC06_008 / ov_SC06_008_jr_8017C294.  MATCH 163/163.
+ * Family of 7 (ov_SC06_008/010/018/022/024/032/033, all 163 ins, all still in
+ * nonmatchings) — §136e applies: no twin existed, so this is derived from the .s.
+ * The byte-proven accumulate head (b744 nested inside b608, then two RE-LOADS of
+ * *(s32*)(a0+0x20)) is copied verbatim from src/ov_SC03_099/..._jr_8017BEBC.c:5424.
+ *
+ * Four levers, each measured against match_one:
+ *
+ * 1. NO frame padding.  args_size already fills sp+0x00..0x1F, so the four saved
+ *    regs land at 0x20..0x2F and the frame is 0x30 with ZERO locals.  A 16-byte
+ *    dead aggregate (idiom 6, added on the first draft from a mis-derived
+ *    args_size=0x10) made it 0x40 — idiom 6 only applies when the reg-save area
+ *    does NOT start at args_size.
+ *
+ * 2. BRANCH POLARITY / BLOCK LAYOUT (§3-T4, T7).  `if (C) goto X;` followed by a
+ *    `break` is REWRITTEN by jump.c's jump-around-jump inversion into
+ *    `if (!C) goto break_target;` — which is the wrong polarity here.  The target
+ *    wants the true arm to FALL THROUGH.  Two rewrites, both worth +0 instructions
+ *    but different bytes:
+ *      case 1: `if (A||B) goto st2; break;`  ->  `if (!A && !B) break; goto st2;`
+ *              (TRUTH_ANDIF gives reversed branches to `next`, and the trailing
+ *               `j st2` is the fall-through — exactly `beqz L600 / j L5E0`.)
+ *      case 3: same shape, plus the range test written as the POSITIVE
+ *              `if (r >= -0xFF && r <= 0xFF) break;` so fold_range_test's
+ *              `sltiu (r+0xFF),0x1FF` branches on TRUE to the switch end and case 3
+ *              falls through into st2 (saves the `j`+`nop`, 165 -> 163 ins).
+ *    Case 0 keeps the plain `if (A||B) {..} else {..}` — there jump.c's inversion
+ *    IS what the target has.
+ *
+ * 3. THE SHARED STORE BLOCK.  L801815F8/L801815FC (`li v0,1` / `sh v0,0x34`) sit
+ *    AFTER st2 in the target, so they are NOT inline `else` arms (cross-jumping
+ *    keeps the LAST copy, which would put them BEFORE st2).  They are explicit
+ *    trailing labels inside the switch with an `ns` join variable; case 2 enters at
+ *    `setstate` with ns=3, cases 0 and 3 enter at `set1`.
+ *
+ * 4. REGALLOC-PERM -> the $16 pin (see below).
+ */
+
+extern s32 rand(void);
+extern void func_8012B1B4(s32 a0, s32 a1);
+extern void func_8012CBCC(s32 a0);
+extern void func_8012BE98(s32 a0, u16 *a1);
+extern s32 func_8012B744(void *a0, void *a1);
+extern s32 func_8012B608(s32 a0, s32 a1, s32 a2);
+extern void func_8012BE54(s32 a0);
+extern int func_80180A98(int param_1, short param_2);
+
+void func_801813D0(s32 a0) {
+
+    extern u8 D_8019EEB0[];
+
+    /* §137/K3+K5: unpinned, the a0-copy allocno (R=37/L=137, pri 13503) is
+     * ranked first and first-fits $s0, pushing `tbl` to $s1 — a clean 2-reg
+     * perm no source reordering can flip (pri(tbl) = 394). Pinning `tbl` to
+     * $16 makes $s0 "already dirty" in find_reg pass 0: the a0 copy conflicts
+     * with it and opens $s1, and case 3's `d` (which does NOT conflict with
+     * `tbl`) grabs $s0 in pass 0 — exactly the target's assignment. */
+    register s32 tbl __asm__("$16");
+    s32 ns;
+
+    tbl = (s32)D_8019EEB0;
+    func_8012B1B4(a0, tbl);
+    func_8012CBCC(a0);
+
+    switch (*(u16 *)(a0 + 0x34)) {
+    case 0:
+        if (func_80180A98(a0, 0x48) != 0 ||
+            ((s32(*)(s32, u16 *))func_8012BE98)(a0, (u16 *)(a0 + 0x88)) >
+                0x3FFFF) {
+            s32 r = func_8012B608(
+                *(s16 *)(*(s32 *)(a0 + 0x20) + 0x12),
+                func_8012B744((void *)(a0 + 4), (void *)(a0 + 0x88)), 8);
+            *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) =
+                *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) + r;
+            *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) =
+                *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) & 0xFFF;
+            func_8012B1B4(a0, tbl);
+        } else {
+            goto set1;
+        }
+        break;
+
+    case 1:
+        if (func_80180A98(a0, 0x48) == 0 &&
+            ((s32(*)(s32, u16 *))func_8012BE98)(a0, (u16 *)(a0 + 0x88)) <=
+                0x3FFFF) {
+            break;
+        }
+        goto st2;
+
+    case 2: {
+        s32 r = func_8012B608(
+            *(s16 *)(*(s32 *)(a0 + 0x20) + 0x12),
+            func_8012B744((void *)(a0 + 4), (void *)(a0 + 0x88)), 0x10);
+        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) =
+            *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) + r;
+        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) =
+            *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) & 0xFFF;
+    }
+        func_80180A98(a0, 0x48);
+        {
+            s16 c = *(s16 *)(a0 + 0x102);
+            if (c == 0) {
+                ns = 3;
+                goto setstate;
+            }
+            *(s16 *)(a0 + 0x102) = c - 1;
+        }
+        break;
+
+    case 3: {
+        void *p88 = (void *)(a0 + 0x88);
+        s32 d = ((s32(*)(s32, u16 *))func_8012BE98)(a0, (u16 *)p88);
+        if (func_80180A98(a0, 0x48) == 0) {
+            if (d > 0x40000) {
+                s32 r = func_8012B608(*(s16 *)(*(s32 *)(a0 + 0x20) + 0x12),
+                                      func_8012B744((void *)(a0 + 4), p88), 1);
+                if (r >= -0xFF && r <= 0xFF) {
+                    break;
+                }
+            } else {
+                goto set1;
+            }
+        }
+    }
+        /* fall through into st2 */
+    st2:
+        *(u16 *)(a0 + 0x34) = 2;
+        *(u16 *)(a0 + 0x102) = (rand() & 7) + 8;
+        break;
+
+    set1:
+        ns = 1;
+    setstate:
+        *(u16 *)(a0 + 0x34) = ns;
+        break;
+    }
+
+    {
+        s16 t = *(s16 *)(a0 + 0x100);
+        if (t != 0) {
+            *(s16 *)(a0 + 0x100) = t - 1;
+        } else if (((s32(*)(s32))func_8012BE54)(a0) <= 0x24000) {
+            *(s16 *)(a0 + 0x2) = 5;
+            *(s16 *)(a0 + 0x100) = 0x3C;
+        }
+    }
+}
+
 
 #include "common.h"
 
