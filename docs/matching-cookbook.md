@@ -9578,3 +9578,69 @@ source position (`\.[ch]:\d+`), minus the known SHB macro noise.
 Symptom line for the index: **"a propagation/extend lane plans N and banks 0"** — read each failure's
 compiler error, bucket by named symbol, and apply the lowest-radius byte-neutral alias; a `volatile`
 in the host TU and a fleet decl carrying a promoting param are the two that masquerade as codegen.
+
+---
+
+## §139 — A GATE THAT GREPS FOR VERDICTS MUST ASSERT 1:1 ACCOUNTING; and a `--src` filter must not survive a carve (P30 S38, wave 6: 10 of 16 drafts vanished)
+
+**The symptom** was a gate run that looked ordinary: `BANKED 5 / FAILED 1` — printed over **16**
+drafts. Six verdicts for sixteen inputs, and nothing said so. Nine of the ten missing drafts were
+claiming MATCH.
+
+**The chain, both ends of which were ours:**
+
+1. `harvest_verify._reload_corpus()` exists, by its own docstring, to *"re-derive the stub map after
+   an isolation moved a stub to a new TU."* It then re-applied the `--src` filter (`x.path == a.src`)
+   to the reloaded map — **deleting the very stub it had just followed to its new home.** Line 136 of
+   that same file already labels `--src` *"an optional filter, not a location oracle"*; `_reload_corpus`
+   was the one place treating it as one. Downstream:
+   `_stubs` loses `fn` → `render()` raises `KeyError` → **uncaught** → `_jtbl_restore(snap)` never
+   runs → **the carve is stranded in `config/` + `src/`** → and every *later* group in the same gate
+   run then builds against a tree the earlier crashes mutated.
+2. The gate driver (`.run/s6f_gate.py`) captured the child's output, grepped it for `VERIFIED:` and
+   `FAILED  :`, and **never looked at the returncode.** "Neither line present" was booked as nothing
+   at all, and the tally printed clean.
+
+**The fixes are both structural, not cosmetic:**
+- the filter never drops a draft under verification, wherever it now lives, plus an R32 loud report
+  if a working stub vanishes across a reload (which also repairs `_touched`/`baseline` — a carved fn
+  missing from `_stubs` left its new TU *unbaselined*, so the revert path could not have restored it
+  either);
+- the gate asserts `banked + failed + no-verdict == drafts`, prints the child's rc and output tail for
+  anything unaccounted, and **exits non-zero** — because a crashed child may have stranded a carve, so
+  it must never look like success.
+
+**Proof it was not cosmetic:** `func_8017EA84` (579 ins) carves and banks BYTE-IDENTICAL under the
+fixed path. The old tool reported it as *nothing*.
+
+### The generalisation — three corollaries worth more than the bug
+
+**(a) The byte-gate is a perfect CORRECTNESS oracle and a null COVERAGE oracle (R34, again).** It
+cannot tell you about work it was never asked to do. Every wave-level tally is a *coverage* claim,
+and coverage claims need their own assertion. **Any driver that classifies N inputs must prove it
+emitted N verdicts.**
+
+**(b) A pipeline's exit status is the LAST command's.** In the same session `family_sweep … | tail -30`
+hid a non-zero exit (`--only` wants comma-separated; space-separated args were rejected). Use
+`set -o pipefail` and read `PIPESTATUS`, or the tail *is* the error handler.
+
+**(c) A reverted CONFIG needs `make extract`, not just the revert.** After undoing the stranded
+carves I re-extracted one overlay of sixteen; the next gate run read three genuinely-banked functions
+as failures because they were building against asm/ still partitioned by the old carve. This is the
+Phase-20 R22 corollary, and it costs a whole gate cycle every time it is skipped. **A gate result
+measured against stale asm is not a measurement (R35).**
+
+### And the inverse-lookup trap, same session
+
+Propagating a **just-banked** head, `family_hseq.json` moves it **out of its family's `members` list
+and into `exemplar` with `kind: "matched"`.** A lookup that searches the member list for the head
+therefore returns *"no family"* for every head — while `family_sweep` enumerates those same families
+from the same file seconds earlier. Key on the `exemplar` **(ov, addr) pair** (two families can share
+an exemplar address in different overlays). This does **not** contradict §138 rule 4 ("never rank off
+the exemplar field"): that rule governs *target selection*, where an exemplar pointing at a banked
+instance HIDES a family; here the freshly-banked exemplar is precisely what you are looking the
+family up BY.
+
+Symptom lines for the index: **"a gate reports fewer verdicts than it had drafts"** · **"a tool
+reports NO FAMILY for a head another tool just enumerated"** · **"a gate result got worse after a
+revert"** (→ re-extract, then re-measure).
