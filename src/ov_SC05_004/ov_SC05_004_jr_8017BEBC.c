@@ -3834,7 +3834,81 @@ void func_8017DA24(s16 *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_004/nonmatchings/ov_SC05_004_jr_8017BEBC", func_8017DB00);
+
+
+/* func_8017DB00 -- ov_SC02_011 / ov_SC02_011_jr_8017AE2C   [target: 133 ins]
+ *
+ * Structural twin of func_8017D0BC (ov_SC03_002/ov_SC03_002_jr_8017AE2C.c),
+ * banked [MATCH, 133 ins] this session -- same jr_8017AE2C shared layout,
+ * identical struct-offset chain (a0+0x6/0xA/0xE/0x10/0x12/0x16/0x18/0x1A) and
+ * identical call sequence (func_80133784 -> ratan2 x2 -> angle-wrap ->
+ * RotMatrixY -> ApplyMatrixSV -> func_8012CEB0). Reused verbatim per §136c
+ * sibling-first (declaration + expression forms are already byte-proven for
+ * this exact body).
+ *
+ * §136 L1/RC-5 note carried from the twin: `ang` (second ratan2 result) is a
+ * GLOBAL allocno spanning the +/-0x480 arms, while the `ang - base` compare
+ * temp is a LOCAL allocno in the same block; unpinned gcc hands the local
+ * temp $v0 and pushes `ang` to $v1 (REGALLOC-PERM). Pinning `ang` to $v0
+ * fixes the swap, and reusing the now-dead `ang` as the a0[0x6] scratch
+ * (instead of a fresh local) avoids stealing back the $v0 slot.
+ */
+
+typedef struct { s32 w[8]; } Mtx8_8017DE10_8017DB00;
+
+void func_8017DB00(s32 a0) {
+    extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
+    extern s32  ratan2(s32 a0, s32 a1);
+    extern s16  D_801152B0;
+    extern s16  D_801152B4;
+    extern s32  func_80133784(s32 a0, void *a1, s32 a2);
+    extern s32  func_8012CEB0(s32 a0, s32 a1, s32 a2);
+    extern void RotMatrixY(s32 a0, void *a1);
+    extern Mtx8_8017DE10_8017DB00 D_800AE620;
+
+    u8 in[8];
+    u8 out[8];
+    Mtx8_8017DE10_8017DB00 m;
+    s32 base;
+    register s32 ang __asm__("$2");
+    s16 arg;
+
+    *(s16 *)(in + 0) = *(u16 *)(a0 + 0x6) + *(u16 *)(a0 + 0x12);
+    *(s16 *)(in + 2) = *(u16 *)(a0 + 0xA) + 8;
+    *(s16 *)(in + 4) = *(u16 *)(a0 + 0xE) + *(u16 *)(a0 + 0x1A);
+    *(s16 *)(out + 0) = *(u16 *)(a0 + 0x6);
+    *(s16 *)(out + 2) = *(u16 *)(a0 + 0xA) + 8;
+    *(s16 *)(out + 4) = *(u16 *)(a0 + 0xE);
+    if ((func_80133784(1, &in[0], (s32)&out[0]) & 0xC000) != 0) {
+        base = ratan2(D_801152B0, D_801152B4) & 0xFFF;
+        ang = ratan2(*(s32 *)(a0 + 0x10), *(s32 *)(a0 + 0x18)) & 0xFFF;
+        if ((s16)(ang - base) < 0) {
+            ang += 0x480;
+        } else {
+            ang -= 0x480;
+        }
+        arg = base - ang;
+        ang = *(u16 *)(a0 + 0x6);
+        *(s16 *)(in + 0) = ang;
+        *(s16 *)(in + 2) = *(u16 *)(a0 + 0xA);
+        *(s16 *)(in + 4) = *(u16 *)(a0 + 0xE);
+        m = D_800AE620;
+        RotMatrixY(arg, &m);
+        *(s16 *)(out + 0) = *(u16 *)(a0 + 0x12);
+        *(s16 *)(out + 2) = *(u16 *)(a0 + 0x16);
+        *(s16 *)(out + 4) = *(u16 *)(a0 + 0x1A);
+        ApplyMatrixSV(&m, &out[0], &out[0]);
+        *(s16 *)(out + 0) = *(u16 *)(a0 + 0x6) + ((s16)*(u16 *)(out + 0) >> 1);
+        *(s16 *)(out + 2) = *(u16 *)(a0 + 0xA) + ((s16)*(u16 *)(out + 2) >> 1);
+        *(s16 *)(out + 4) = *(u16 *)(a0 + 0xE) + ((s16)*(u16 *)(out + 4) >> 1);
+        if ((func_8012CEB0((s32)&in[0], (s32)&out[0], 0) & 0x2000) != 0) {
+            *(s16 *)(a0 + 0x6) = *(u16 *)(out + 0);
+            *(s16 *)(a0 + 0xA) = *(u16 *)(out + 2);
+            *(s16 *)(a0 + 0xE) = *(u16 *)(out + 4);
+        }
+    }
+}
+
 
 
 extern int func_80178970(void);

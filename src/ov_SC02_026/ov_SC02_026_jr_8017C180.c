@@ -6542,7 +6542,27 @@ void func_80185634(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_026/nonmatchings/ov_SC02_026_jr_8017C180", func_801856E4);
+#include "common.h"
+
+/* §37 data asm-label alias: D_800A5EA8/D_800A5EB0/struct B16_80185634 are already declared
+ * above the splice point (func_80185634's block, same TU). Redeclaring the struct TAG body
+ * verbatim would be a C89 duplicate-definition error there, so alias a private identifier
+ * onto the same linker symbol -- zero blast radius, identical %hi/%lo(D_800A5EA8) codegen. */
+struct B16_801856E4 { s32 w[4]; };
+
+extern struct B16_801856E4 aD800A5EA8 __asm__("D_800A5EA8");
+extern struct B16_801856E4 D_801CCC30;
+extern s32 D_800A5EB0;
+extern s32 func_8004787C(s32 a0);
+extern void func_80028620(s32 a0, void *a1);
+
+void func_801856E4(void *a0) {
+    aD800A5EA8 = D_801CCC30;
+    D_800A5EB0 = func_8004787C(*(s16 *)((s32)a0 + 0xFE)) * 6 / 4096 - 3;
+    *(u16 *)((s32)a0 + 0xFE) = (*(u16 *)((s32)a0 + 0xFE) + 0x71) & 0xFFF;
+    func_80028620(2, &aD800A5EA8);
+}
+
 
 #include "common.h"
 

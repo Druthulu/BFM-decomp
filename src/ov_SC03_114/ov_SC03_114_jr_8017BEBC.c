@@ -3420,7 +3420,264 @@ void func_8017E170(void *a0) {
 
 INCLUDE_ASM("asm/ov_SC03_114/nonmatchings/ov_SC03_114_jr_8017BEBC", func_8017E270);
 
-INCLUDE_ASM("asm/ov_SC03_114/nonmatchings/ov_SC03_114_jr_8017BEBC", func_8017E2EC);
+/* func_8017E2EC — ov_SC03_114 (296 ins, match_one MATCH).
+ *
+ * Billboard sprite: RTPS the entity origin through the global matrix D_800AF648,
+ * cull on the GTE flag + OT index range, build a Z-rotated 2D basis with
+ * RotMatrixZ, RTPS the +0x20 corner offset, emit TWO POLY_F4 packets out of the
+ * D_800A5E60 bump allocator, addPrim() both into the OT slot, and (when
+ * flags & 0x40000000) append a third 8-byte DR_MODE (0xE1......) packet.
+ *
+ * LEVERS (each byte-checked against asm/.../func_8017E2EC.s)
+ *  §135-4  MATRIX init is written in NATURAL row order (m00,m01,m02,m10,m11,...).
+ *          The `lhu 0x18($s1)` loads are register-based and therefore ordered
+ *          against EVERY $sp store (sched.md §14), so the 2nd load's source
+ *          position is what fixes the whole 16-insn window; the two `sh` stores
+ *          it feeds then sink on their own. Writing m11 last (to mimic the asm's
+ *          store order) pins the 2nd load past all the stores = 15 mismatches.
+ *  §135-4  `D_800A5E60 = p2;` must be written BEFORE the last `addPrim` half —
+ *          the two stores are disambiguated (/s + symbol vs register base), so
+ *          SOURCE order decides, and it is what puts `sw $v0,0($a2)` in the
+ *          `beqz $t2` delay slot instead of a stolen `addiu $v0,$a1,0x38`.
+ *  §137/S2 THE TAG TEMPS. Each `getaddr` read (`lw 0x0($a1)` / `0x18($a1)` /
+ *          `0x30($a1)`) is a single-set pseudo => sched1's BIRTHING BOOST sinks
+ *          it to just before its `and`, costing the 4th filler slot in the
+ *          vertex-store window (nop at idx 221, +1 insn). Binding them to ONE
+ *          reused local kills the boost (REG_N_SETS>1) and the loads take their
+ *          target positions — but a 2-death local is REFUSED by local-alloc
+ *          (local-alloc.c:472 needs reg_n_deaths==1), so it becomes a GLOBAL
+ *          allocno and loses the low register ($a0 instead of $v1, and the `and`
+ *          can no longer coalesce destructively). The two `register` pins
+ *          restore exactly the target's dispositions; both are load-bearing
+ *          (pin-trim: drop $a0 => 34 mismatches, drop $v1 => 6, drop both => 24).
+ *  S2      `pkt` must be SINGLE-SET: the 2nd `D_800A5E60` read goes to its own
+ *          local `pkb`, which boosts `lw $a1,D_800A5E60` and wins the pri-1 tie
+ *          against `lhu 0x66($sp)` at idx 124. That tie is INVARIANT under every
+ *          statement permutation (8 probed) — the lever is the boost, not LUID.
+ *  §135-1  `idx` is u32 (unsigned compare `sltiu`); the sign test is the
+ *          explicit `(s32)idx < 0` that emits `bgez`.
+ *  T-form  `otp = (u32 *)((idx << 2) + ot)` — index FIRST, giving
+ *          `addu $a2,$v0,$s4`; `ot + (idx << 2)` emits the operands reversed.
+ *
+ * DECLARATIONS: the TU already defines gte_ldv0/gte_rtps/gte_stsxy/gte_stflg/
+ * gte_stszotz at file scope (L2697-2806) — reproduced here VERBATIM so the
+ * redefinition is identical (C89 legal, no diagnostic). gte_SetRotMatrix,
+ * gte_SetTransMatrix, gte_stsz, RD16 and RW32 appear nowhere under src/.
+ * D_800B9A02 is spelled `short` exactly as the TU's file-scope L2468 and
+ * func_8017BEBC's L2822 do; D_800AF648, D_800A5E60, D_800A6610 and RotMatrixZ
+ * have no file-scope decl in this TU (engine_core.h carries D_800AF648 /
+ * D_800B9A02 only inside DEFINE_func macro BODIES, i.e. block scope), so each is
+ * block-scoped here to keep the blast radius on the rest of the TU at zero
+ * (§103/T51, the func_80185944 precedent).
+ */
+
+#define gte_SetRotMatrix(r0) __asm__ volatile (  \
+    "lw $12, 0( %0 );"                           \
+    "lw $13, 4( %0 );"                           \
+    "ctc2 $12, $0;"                              \
+    "ctc2 $13, $1;"                              \
+    "lw $12, 8( %0 );"                           \
+    "lw $13, 12( %0 );"                          \
+    "lw $14, 16( %0 );"                          \
+    "ctc2 $12, $2;"                              \
+    "ctc2 $13, $3;"                              \
+    "ctc2 $14, $4"                               \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "$12", "$13", "$14" )
+
+#define gte_SetTransMatrix(r0) __asm__ volatile ( \
+    "lw $12, 20( %0 );"                          \
+    "lw $13, 24( %0 );"                          \
+    "ctc2 $12, $5;"                              \
+    "lw $14, 28( %0 );"                          \
+    "ctc2 $13, $6;"                              \
+    "ctc2 $14, $7"                               \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "$12", "$13", "$14" )
+
+#define gte_ldv0(r0) __asm__ volatile (          \
+    "lwc2 $0, 0( %0 );"                          \
+    "lwc2 $1, 4( %0 )"                           \
+    :                                            \
+    : "r"( r0 ) )
+
+#define gte_rtps() __asm__ volatile ("nop;nop;rtps")
+
+#define gte_stsxy(r0) __asm__ volatile (         \
+    "swc2 $14, 0( %0 )"                          \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "memory" )
+
+#define gte_stsz(r0) __asm__ volatile (          \
+    "swc2 $19, 0( %0 )"                          \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "memory" )
+
+#define gte_stszotz(r0) __asm__ volatile (       \
+    "mfc2 $12, $19;"                             \
+    "nop;"                                       \
+    "sra $12, $12, 2;"                           \
+    "sw $12, 0( %0 )"                            \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "$12", "memory" )
+
+#define gte_stflg(r0) __asm__ volatile (         \
+    "cfc2 $12, $31;"                             \
+    "nop;"                                       \
+    "sw $12, 0( %0 )"                            \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "$12", "memory" )
+
+#define RD16(p) (((struct { u16 v; } *)(p))->v)
+#define RW32(p) (((struct { u32 v; } *)(p))->v)
+
+void func_8017E2EC(void *a0)
+{
+    extern u8 D_800AF648;
+    extern u8 *D_800A5E60;
+    extern u8 D_800A6610[];
+    extern short D_800B9A02;
+    extern void RotMatrixZ(s32 a0, void *a1);
+
+    u8 stk[0x60];                        /* sp+0x10 .. sp+0x6F */
+    u32 flags;
+    u32 idx;
+    u32 ot;
+    u32 t2;
+    u8 *pkt;
+    u8 *p1;
+    u8 *p2;
+    u8 *pkb;
+    s32 d;
+    u32 *otp;
+    register u32 tv __asm__("$3");       /* §137 pin — see header */
+    register u32 tv2 __asm__("$4");      /* §137 pin — see header */
+
+    u8 *rotm;
+
+    flags = *(u32 *)((s32)a0 + 4);
+    rotm = &D_800AF648;
+
+    gte_SetRotMatrix(rotm);
+    gte_SetTransMatrix(rotm);
+    gte_ldv0((s32)a0 + 8);
+    gte_rtps();
+    gte_stsxy(stk);
+    gte_stflg(stk + 0x48);
+    gte_stsz(stk + 0x4c);
+    gte_stszotz(stk + 0x50);
+
+    if ((*(u32 *)(stk + 0x48) & 0xFFFFEFFF) == 0) {
+        idx = *(s32 *)(stk + 0x50) + 1;
+        ot = (u32)&D_800A6610[(*(u16 *)&D_800B9A02) << 14];
+        {
+            u16 flags2 = *(u16 *)((s32)a0 + 0x2c);
+            if ((flags2 & 0xC000) != 0) {
+                if ((flags2 & 0xC000) == 0xC000) {
+                    idx = idx - (flags2 & 0xFFF);
+                    if ((s32)idx < 0) idx = 0;
+                } else {
+                    idx = idx + (flags2 & 0xFFF);
+                }
+            }
+        }
+
+        if (idx < 0x1000) {
+            d = (s32)&stk[0x08];
+
+            *(u16 *)(stk + 0x08) = *(u16 *)((s32)a0 + 0x18);
+            *(u16 *)(stk + 0x0a) = 0;
+            *(u16 *)(stk + 0x0c) = 0;
+            *(u16 *)(stk + 0x0e) = 0;
+            *(u16 *)(stk + 0x10) = *(u16 *)((s32)a0 + 0x18);
+            *(u16 *)(stk + 0x12) = 0;
+            *(u16 *)(stk + 0x14) = 0;
+            *(u16 *)(stk + 0x16) = 0;
+            *(u16 *)(stk + 0x18) = 0x1000;
+            *(u32 *)(stk + 0x24) = 0;
+            *(u32 *)(stk + 0x20) = 0;
+            *(u32 *)(stk + 0x1c) = 0;
+
+            RotMatrixZ(*(s16 *)((s32)a0 + 0x14), (void *)d);
+            gte_SetRotMatrix((void *)d);
+            gte_SetTransMatrix((void *)d);
+
+            *(u16 *)(stk + 0x28) = 0x20;
+            *(u16 *)(stk + 0x2a) = 0;
+            *(s16 *)(stk + 0x2c) = (s16)*(u32 *)(stk + 0x4c);
+            gte_ldv0(stk + 0x28);
+            gte_rtps();
+            gte_stsxy(stk + 0x54);
+
+            d = (u16)((s16)(RD16(stk + 0x54)) >> 3);
+            d |= (s32)((s16)(RD16(stk + 0x56)) >> 3) << 16;
+
+            pkt = D_800A5E60;
+            p1 = pkt + 0x18;
+            *(u8 *)(pkt + 0x3) = 5;
+            *(u8 *)(pkt + 0x7) = 0x28;
+            *(u8 *)(p1 + 0x3) = 5;
+            t2 = flags & 0x40000000;
+            *(u8 *)(p1 + 0x7) = 0x28;
+            if (t2 != 0) {
+                *(u8 *)(pkt + 0x7) = *(u8 *)(pkt + 0x7) | 2;
+                *(u8 *)(p1 + 0x7) = *(u8 *)(p1 + 0x7) | 2;
+            }
+            *(u8 *)(pkt + 0x4) = *(u8 *)((s32)a0 + 0x24);
+            *(u8 *)(pkt + 0x5) = *(u8 *)((s32)a0 + 0x25);
+            *(u8 *)(pkt + 0x6) = *(u8 *)((s32)a0 + 0x26);
+            *(u8 *)(p1 + 0x4) = *(u8 *)((s32)a0 + 0x24);
+            *(u8 *)(p1 + 0x5) = *(u8 *)((s32)a0 + 0x25);
+            *(u8 *)(p1 + 0x6) = *(u8 *)((s32)a0 + 0x26);
+
+            *(s16 *)(pkt + 0x8) = RD16(stk) + RD16(stk + 0x54);
+            *(s16 *)(pkt + 0xa) = RD16(stk + 0x02) + RD16(stk + 0x56);
+            *(s16 *)(pkt + 0xc) = RD16(stk) - (d >> 16);
+            *(s16 *)(pkt + 0xe) = RD16(stk + 0x02) + d;
+            *(s16 *)(pkt + 0x10) = RD16(stk) + (d >> 16);
+            *(s16 *)(pkt + 0x12) = RD16(stk + 0x02) - d;
+            *(s16 *)(pkt + 0x14) = RD16(stk) - RD16(stk + 0x54);
+            *(s16 *)(pkt + 0x16) = RD16(stk + 0x02) - RD16(stk + 0x56);
+            *(s16 *)(p1 + 0x8) = RD16(stk) - RD16(stk + 0x56);
+            *(s16 *)(p1 + 0xa) = RD16(stk + 0x02) + RD16(stk + 0x54);
+            *(s16 *)(p1 + 0xc) = RD16(stk) - d;
+            *(s16 *)(p1 + 0xe) = RD16(stk + 0x02) - (d >> 16);
+            *(s16 *)(p1 + 0x10) = RD16(stk) + d;
+            *(s16 *)(p1 + 0x12) = RD16(stk + 0x02) + (d >> 16);
+            *(s16 *)(p1 + 0x14) = RD16(stk) + RD16(stk + 0x56);
+            *(s16 *)(p1 + 0x16) = RD16(stk + 0x02) - RD16(stk + 0x54);
+
+            /* addPrim(otp, pkt); addPrim(otp, p1); */
+            otp = (u32 *)((idx << 2) + ot);
+            tv = RW32(pkt);
+            RW32(pkt) = (tv & 0xFF000000) | (RW32(otp) & 0xFFFFFF);
+            RW32(otp) = (RW32(otp) & 0xFF000000) | ((u32)pkt & 0xFFFFFF);
+            tv = RW32(p1);
+            RW32(p1) = (tv & 0xFF000000) | (RW32(otp) & 0xFFFFFF);
+
+            pkb = D_800A5E60;
+            p2 = pkb + 0x30;
+            D_800A5E60 = p2;
+            RW32(otp) = (RW32(otp) & 0xFF000000) | ((u32)p1 & 0xFFFFFF);
+
+            if (t2 != 0) {
+                D_800A5E60 = pkb + 0x38;
+                *(u8 *)(p2 + 3) = 1;
+                RW32(p2 + 4) = ((flags >> 23) & 0x60) | 0xE1000000;
+                tv2 = RW32(p2);
+                RW32(p2) = (tv2 & 0xFF000000) | (RW32(otp) & 0xFFFFFF);
+                RW32(otp) = (RW32(otp) & 0xFF000000) | ((u32)p2 & 0xFFFFFF);
+            }
+        }
+    }
+}
+
 
 
 // @class: loose-typing

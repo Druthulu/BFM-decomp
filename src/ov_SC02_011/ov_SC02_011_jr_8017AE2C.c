@@ -4824,7 +4824,79 @@ void func_8017DD34(s16 *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_011/nonmatchings/ov_SC02_011_jr_8017AE2C", func_8017DE10);
+/* func_8017DE10 -- ov_SC02_011 / ov_SC02_011_jr_8017AE2C   [target: 133 ins]
+ *
+ * Structural twin of func_8017D0BC (ov_SC03_002/ov_SC03_002_jr_8017AE2C.c),
+ * banked [MATCH, 133 ins] this session -- same jr_8017AE2C shared layout,
+ * identical struct-offset chain (a0+0x6/0xA/0xE/0x10/0x12/0x16/0x18/0x1A) and
+ * identical call sequence (func_80133784 -> ratan2 x2 -> angle-wrap ->
+ * RotMatrixY -> ApplyMatrixSV -> func_8012CEB0). Reused verbatim per §136c
+ * sibling-first (declaration + expression forms are already byte-proven for
+ * this exact body).
+ *
+ * §136 L1/RC-5 note carried from the twin: `ang` (second ratan2 result) is a
+ * GLOBAL allocno spanning the +/-0x480 arms, while the `ang - base` compare
+ * temp is a LOCAL allocno in the same block; unpinned gcc hands the local
+ * temp $v0 and pushes `ang` to $v1 (REGALLOC-PERM). Pinning `ang` to $v0
+ * fixes the swap, and reusing the now-dead `ang` as the a0[0x6] scratch
+ * (instead of a fresh local) avoids stealing back the $v0 slot.
+ */
+
+typedef struct { s32 w[8]; } Mtx8_8017DE10;
+
+void func_8017DE10(s32 a0) {
+    extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
+    extern s32  ratan2(s32 a0, s32 a1);
+    extern s16  D_801152B0;
+    extern s16  D_801152B4;
+    extern s32  func_80133784(s32 a0, void *a1, s32 a2);
+    extern s32  func_8012CEB0(s32 a0, s32 a1, s32 a2);
+    extern void RotMatrixY(s32 a0, void *a1);
+    extern Mtx8_8017DE10 D_800AE620;
+
+    u8 in[8];
+    u8 out[8];
+    Mtx8_8017DE10 m;
+    s32 base;
+    register s32 ang __asm__("$2");
+    s16 arg;
+
+    *(s16 *)(in + 0) = *(u16 *)(a0 + 0x6) + *(u16 *)(a0 + 0x12);
+    *(s16 *)(in + 2) = *(u16 *)(a0 + 0xA) + 8;
+    *(s16 *)(in + 4) = *(u16 *)(a0 + 0xE) + *(u16 *)(a0 + 0x1A);
+    *(s16 *)(out + 0) = *(u16 *)(a0 + 0x6);
+    *(s16 *)(out + 2) = *(u16 *)(a0 + 0xA) + 8;
+    *(s16 *)(out + 4) = *(u16 *)(a0 + 0xE);
+    if ((func_80133784(1, &in[0], (s32)&out[0]) & 0xC000) != 0) {
+        base = ratan2(D_801152B0, D_801152B4) & 0xFFF;
+        ang = ratan2(*(s32 *)(a0 + 0x10), *(s32 *)(a0 + 0x18)) & 0xFFF;
+        if ((s16)(ang - base) < 0) {
+            ang += 0x480;
+        } else {
+            ang -= 0x480;
+        }
+        arg = base - ang;
+        ang = *(u16 *)(a0 + 0x6);
+        *(s16 *)(in + 0) = ang;
+        *(s16 *)(in + 2) = *(u16 *)(a0 + 0xA);
+        *(s16 *)(in + 4) = *(u16 *)(a0 + 0xE);
+        m = D_800AE620;
+        RotMatrixY(arg, &m);
+        *(s16 *)(out + 0) = *(u16 *)(a0 + 0x12);
+        *(s16 *)(out + 2) = *(u16 *)(a0 + 0x16);
+        *(s16 *)(out + 4) = *(u16 *)(a0 + 0x1A);
+        ApplyMatrixSV(&m, &out[0], &out[0]);
+        *(s16 *)(out + 0) = *(u16 *)(a0 + 0x6) + ((s16)*(u16 *)(out + 0) >> 1);
+        *(s16 *)(out + 2) = *(u16 *)(a0 + 0xA) + ((s16)*(u16 *)(out + 2) >> 1);
+        *(s16 *)(out + 4) = *(u16 *)(a0 + 0xE) + ((s16)*(u16 *)(out + 4) >> 1);
+        if ((func_8012CEB0((s32)&in[0], (s32)&out[0], 0) & 0x2000) != 0) {
+            *(s16 *)(a0 + 0x6) = *(u16 *)(out + 0);
+            *(s16 *)(a0 + 0xA) = *(u16 *)(out + 2);
+            *(s16 *)(a0 + 0xE) = *(u16 *)(out + 4);
+        }
+    }
+}
+
 
 
 extern int func_80178970(void);
@@ -5097,7 +5169,142 @@ void func_8017E5E8(void) {
 
 INCLUDE_ASM("asm/ov_SC02_011/nonmatchings/ov_SC02_011_jr_8017AE2C", func_8017E5F0);
 
-INCLUDE_ASM("asm/ov_SC02_011/nonmatchings/ov_SC02_011_jr_8017AE2C", func_8017E72C);
+/* func_8017E72C -- ov_SC02_011, TU ov_SC02_011_jr_8017AE2C.c
+ *
+ * §136c sibling-first: near-twin is the already-banked func_8017C290 in
+ * src/ov_SC03_014/ov_SC03_014_jr_8017AE2C.c (same "jr_8017AE2C" family).
+ * Reused verbatim from it: the MATRIX/SVECTOR/PW (packed align-1, 4 byte)
+ * type trio, the gte_ldv0/gte_rt/gte_stsv inline-asm macros, the whole
+ * statement shape and order, and the extern decls for func_80013F3C /
+ * RotMatrixZ / func_8004914C / func_800491AC / func_80017714 / rand.
+ * Only the data symbols differ (D_801EB4C8 in place of D_801EA8C0, etc.) --
+ * none of them appear anywhere else in this TU, so fresh local types are
+ * declared here under a _8017E72C suffix.
+ */
+
+typedef struct { s16 m[3][3]; s16 pad; s32 t[3]; } MATRIX_8017E72C;
+typedef struct { u16 vx, vy, vz, pad; } SVECTOR_8017E72C;
+struct PW8017E72C { int w; } __attribute__((packed, aligned(1)));
+
+extern void func_80013F3C(s32 a0);
+extern void RotMatrixZ(s32, void *);
+extern void func_8004914C(void *a0);
+extern void func_800491AC(void *a0);
+extern int rand(void);
+extern void func_80017714(void *);
+
+extern SVECTOR_8017E72C D_801EB4C8[4];
+extern struct PW8017E72C D_801EB4E8;
+extern struct PW8017E72C D_801EB4EC;
+extern u8 D_801EB4F0, D_801EB4F1, D_801EB4F2, D_801EB4F4, D_801EB4F5, D_801EB4F6;
+extern int D_801EB4F8;
+extern struct PW8017E72C D_80194BA4[];
+
+#define gte_ldv0(r0)  __asm__ __volatile__( \
+    "lwc2 $0, 0(%0)\n" \
+    "lwc2 $1, 4(%0)\n" \
+    : : "r"(r0) : "memory")
+
+#define gte_rt()  __asm__ __volatile__( \
+    "nop\n" \
+    "nop\n" \
+    "mvmva 1, 0, 0, 0, 0\n" \
+    : : : "memory")
+
+#define gte_stsv(r0)  __asm__ __volatile__( \
+    "mfc2 $12, $9\n" \
+    "mfc2 $13, $10\n" \
+    "mfc2 $14, $11\n" \
+    "sh $12, 0(%0)\n" \
+    "sh $13, 2(%0)\n" \
+    "sh $14, 4(%0)\n" \
+    : : "r"(r0) : "$12", "$13", "$14", "memory")
+
+void func_8017E72C(int a, s16 *b, SVECTOR_8017E72C *c, SVECTOR_8017E72C *d,
+                   SVECTOR_8017E72C *e, SVECTOR_8017E72C *f, s16 *g)
+{
+    MATRIX_8017E72C m;
+    SVECTOR_8017E72C *r0_00;
+    SVECTOR_8017E72C *pSVar6;
+    SVECTOR_8017E72C *r0;
+    int r;
+    int mask;
+
+    func_80013F3C((s32)&m);
+    RotMatrixZ(g[0], &m);
+    m.t[0] = b[0];
+    m.t[1] = b[1];
+    m.t[2] = 0;
+    func_8004914C(&m);
+    func_800491AC(&m);
+
+    r0_00 = &D_801EB4C8[0];
+    if (*(s16 *)(a + 0x12) == 0) {
+        D_801EB4F8 = 0x50000000;
+        D_801EB4E8 = D_80194BA4[*(s32 *)(a + 0x2C)];
+        D_801EB4EC = D_80194BA4[*(s32 *)(a + 0x2C)];
+        D_801EB4F0 = 0;
+        D_801EB4F1 = 0;
+        D_801EB4F2 = 0;
+        D_801EB4F4 = 0;
+        D_801EB4F5 = 0;
+        D_801EB4F6 = 0;
+    }
+
+    f->vx = f->vx + c->vx;
+    f->vy = f->vy + c->vy;
+    r = rand();
+    mask = f->pad & r;
+    if (*(u16 *)(a + 0x12) & 1)
+        f->vx = f->vx + mask;
+    else
+        f->vx = f->vx - mask;
+    r = rand();
+    { int t = f->vy - 0x10; f->vy = t + (r & 0x1f); }
+
+    gte_ldv0(c);
+    gte_rt();
+    gte_stsv(r0_00);
+
+    gte_ldv0(f);
+    gte_rt();
+    gte_stsv(r0_00 + 1);
+
+    gte_ldv0(d);
+    gte_rt();
+    r0 = r0_00 + 2;
+    gte_stsv(r0);
+
+    *d = *f;
+    r = rand();
+    d->vx = d->vx - (f->pad & r);
+
+    gte_ldv0(d);
+    gte_rt();
+    pSVar6 = r0_00 + 3;
+    gte_stsv(pSVar6);
+
+    r0_00->vz = ((u16 *)b)[2];
+    func_80017714(r0_00);
+
+    gte_ldv0(e);
+    gte_rt();
+    gte_stsv(r0);
+
+    *e = *f;
+    r = rand();
+    e->vx = e->vx + (f->pad & r);
+
+    gte_ldv0(e);
+    gte_rt();
+    gte_stsv(pSVar6);
+
+    r0_00->vz = ((u16 *)b)[2];
+    func_80017714(r0_00);
+
+    *c = *f;
+}
+
 
 INCLUDE_ASM("asm/ov_SC02_011/nonmatchings/ov_SC02_011_jr_8017AE2C", func_8017EAC0);
 

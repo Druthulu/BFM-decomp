@@ -3639,7 +3639,245 @@ s32 func_8017E5C8(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_011/nonmatchings/ov_SC06_011_jr_8017BEBC", func_8017E5D0);
+/* func_8017E5D0 — draws a 4-segment perspective-scaled "trail/shadow" fan of
+ * gouraud-shaded quads (POLY_G4-shaped, stride 0x24) behind an object.
+ *
+ * Derivation notes (no banked sibling existed — first crack of a 6-member family):
+ *  - GTE matrix load + RotTransSV + RotTransPers pipeline matches the byte-proven
+ *    gte_SetRotMatrix/gte_SetTransMatrix macros (ov_SC03_099_jr_8017BEBC.c) and the
+ *    engine_core.h RotTransPers canonical form.
+ *  - D_800A651C OT-table lookup uses the canonical engine_core.h idiom:
+ *    `*(s32*)((s8*)&D_800A651C + ((u16)D_800B9A02 * 0x14))` (DEFINE_func_8012D4B4 et al).
+ *  - The per-prim struct (0x24-byte stride) decodes as a libgpu POLY_G4: tag(4,
+ *    AddPrim-owned except the `len` top byte we set), 4x{rgb+code/pad(4), x,y(4)}.
+ *    All 14 fields matched a `base = s0 - 0x22` model with s0 anchored at the LAST
+ *    field (y3) — negative-offset addressing off that anchor pointer.
+ *  - D_8019E198/199/19A/19B, D_8019E178/179/17A/17B, D_8019E188/189/18A/18B are each
+ *    individually-addressed consecutive byte tables (cookbook idiom: multi-symbol
+ *    byte array, same class as ov_SC03_101's D_8019E170..D_8019E178 chain) — accessed
+ *    via `*(u8*)((s32)&D_8019Exxx + i)`, NOT array indexing.
+ *  - RotTransSV / func_8004914C / func_800491AC are ALREADY file-scope declared
+ *    above the splice point in this TU (void* params) — reused verbatim, not redeclared.
+ *
+ * CLOSING RESIDUAL (S34, gcc-2.7.2-map/sched.md §S2 — "CREATE the boost"):
+ *  The 262/265 draft emitted `lhu $a2,0x54(sp)` BEFORE the `lui/lhu %hi/%lo(D_800B9A02)`
+ *  pair; the target has the pair first. All four insns tie at pri 1, so the pick was
+ *  decided by adjust_priority's BIRTHING BOOST (sched.c:2507 / birthing_insn_p:2469):
+ *  a SET(REG,..) whose dest has REG_N_SETS==1 is raised to max_priority and, because
+ *  schedule_block runs BACKWARD, is PICKED EARLY == PLACED LATE. `sy` had TWO sets
+ *  (`sy = L.sy0` then `sy = sy + sc`) so its load was never boosted and could not sink
+ *  past the D_800B9A02 pair. Giving the accumulate its own single-set local (`sye`)
+ *  makes `sy = L.sy0` a single-set def -> boosted -> the whole 4-load group lands in
+ *  the target order. (Splitting `sx` the same way OVER-shoots: it re-groups the
+ *  0x36/0x40 store cluster — 9 mismatches. ONLY `sy` is split. Byte-verified: the
+ *  three tested variants scored sx-only 9, both 5, sy-only 0.)
+ */
+
+extern s32 RotTransPers(s32 a0, s32 a1, s32 *a2, s32 *a3);
+extern void *func_80010A08(s32 a0);
+extern s32 GetTPage(s32 a0, s32 a1, s32 a2, s32 a3);
+extern s32 func_8005A600(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4);
+extern s32 AddPrim(s32 a0, void *a1);
+
+extern u8 D_8019E164;
+extern s32 D_8019E16C[];
+
+extern u8 D_8019E178;
+extern u8 D_8019E179;
+extern u8 D_8019E17A;
+extern u8 D_8019E17B;
+
+extern u8 D_8019E188;
+extern u8 D_8019E189;
+extern u8 D_8019E18A;
+extern u8 D_8019E18B;
+
+extern u8 D_8019E198;
+extern u8 D_8019E199;
+extern u8 D_8019E19A;
+extern u8 D_8019E19B;
+
+extern s32 D_800A651C;
+extern s32 D_80126950;
+extern s16 D_800B9A02;
+
+extern void func_8004914C(void *a0);
+extern void func_800491AC(void *a0);
+extern void RotTransSV(void *a0, void *a1, void *a2);
+
+#define gte_SetRotMatrix(r0) __asm__ volatile (         \
+    "lw $12, 0( %0 );"                                   \
+    "lw $13, 4( %0 );"                                   \
+    "ctc2 $12, $0;"                                      \
+    "ctc2 $13, $1;"                                      \
+    "lw $12, 8( %0 );"                                   \
+    "lw $13, 12( %0 );"                                  \
+    "lw $14, 16( %0 );"                                  \
+    "ctc2 $12, $2;"                                      \
+    "ctc2 $13, $3;"                                      \
+    "ctc2 $14, $4"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+#define gte_SetTransMatrix(r0) __asm__ volatile (        \
+    "lw $12, 20( %0 );"                                  \
+    "lw $13, 24( %0 );"                                  \
+    "ctc2 $12, $5;"                                      \
+    "lw $14, 28( %0 );"                                  \
+    "ctc2 $13, $6;"                                      \
+    "ctc2 $14, $7"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+
+/* §37/§124 SELF-axis: the TU declares `extern void func_8017E5D0(void);` (L3765) but the
+   byte-true definition takes a pointer. Define under a private C name bound to the real
+   symbol so both live in one TU — zero blast radius on every caller. */
+extern void aF8017E5D0(void *a0) __asm__("func_8017E5D0");
+void aF8017E5D0(void *a0)
+{
+    extern u8 D_800AF648;
+
+    s32 primPtrs[4];   /* sp+0x18 */
+    s16 sv0[4];         /* sp+0x28 : RotTransSV out */
+    s16 sxArr[8];       /* sp+0x30 */
+    s16 syArr[8];       /* sp+0x40 */
+    struct {
+        s32 flag;   /* sp+0x50 */
+        u16 sx0;    /* sp+0x54 */
+        u16 sy0;    /* sp+0x56 */
+        s32 p;      /* sp+0x58 */
+    } L;
+
+    s32 m;
+    register s32 cnt __asm__("$8");
+    s32 sc;
+    s32 sx, sy;
+    s32 sye;    /* single-set split of sy (see header note: §S2 birthing boost) */
+    s32 d;
+    register s32 ot __asm__("$9");
+    s32 otAddr;
+    void *buf;
+    s32 tpage;
+    u8 *prim;
+    register s8 *fp __asm__("$16");
+    s32 i;
+
+    m = *(s32 *)((s32)a0 + 0x20) + 0x34;
+    gte_SetRotMatrix(m);
+    gte_SetTransMatrix(m);
+
+    RotTransSV(&D_8019E164, sv0, &L.flag);
+
+    func_8004914C(&D_800AF648);
+    func_800491AC(&D_800AF648);
+
+    cnt = RotTransPers((s32)sv0, (s32)&L.sx0, &L.p, &L.flag);
+    if (cnt <= 0) {
+        return;
+    }
+    if (L.flag < 0) {
+        return;
+    }
+    cnt = cnt << 2;
+
+    sc = ((D_80126950 + 0x1F4) * 3) << 4;
+    sc = sc / cnt;
+
+    ot = *(s32 *)((s8 *)&D_800A651C + ((u16)D_800B9A02 * 0x14));
+    sx = L.sx0;
+    sy = L.sy0;
+
+    sxArr[2] = sx;
+    syArr[2] = sy;
+
+    otAddr = ot + cnt;
+
+    {
+        register s32 t __asm__("$2");
+
+        t = sx - sc;
+        sxArr[0] = t;
+
+        d = (sc * 179) >> 8;
+
+        t = sx - d;
+        sxArr[1] = t;
+        t = sx + d;
+        sxArr[3] = t;
+        sx = sx + sc;
+
+        t = sy - sc;
+        syArr[0] = t;
+        t = sy - d;
+        sxArr[4] = sx;
+        syArr[1] = t;
+        syArr[3] = sy + d;
+        sye = sy + sc;
+    }
+
+    syArr[4] = sye;
+
+    buf = func_80010A08(0x9C);
+
+    if (buf == 0) {
+        return;
+    }
+
+    tpage = GetTPage(0, 1, 0, 0);
+    func_8005A600((s32)buf, 0, 0, (u16)tpage, 0);
+
+    {
+        register s32 t0c __asm__("$2");
+        t0c = (s32)((u8 *)buf + 0xC);
+        prim = (u8 *)t0c;
+    }
+
+    primPtrs[1] = (s32)((u8 *)buf + 0x30);
+    primPtrs[2] = (s32)((u8 *)buf + 0x54);
+    primPtrs[0] = (s32)prim;
+    primPtrs[3] = (s32)((u8 *)buf + 0x78);
+
+    {
+        register s32 *table __asm__("$21");
+        register s8 *cbase __asm__("$18");
+        table = D_8019E16C;
+        cbase = (s8 *)primPtrs;
+        fp = (s8 *)prim + 0x22;
+
+        i = 0;
+        for (; i < 0x10; i += 4) {
+            *(s32 *)(fp - 0x1E) = table[*(u8 *)((s32)&D_8019E198 + i)];
+            *(s32 *)(fp - 0x16) = table[*(u8 *)((s32)&D_8019E199 + i)];
+            *(s32 *)(fp - 0xE)  = table[*(u8 *)((s32)&D_8019E19A + i)];
+
+            {
+                s32 rgb3 = table[*(u8 *)((s32)&D_8019E19B + i)];
+                *(u8 *)(fp - 0x1F) = 8;
+                *(u8 *)(fp - 0x1B) = 0x3A;
+                *(s32 *)(fp - 0x6) = rgb3;
+            }
+
+            *(s16 *)(fp - 0x1A) = *(s16 *)(cbase + 0x18 + (*(u8 *)((s32)&D_8019E178 + i) << 1));
+            *(s16 *)(fp - 0x12) = *(s16 *)(cbase + 0x18 + (*(u8 *)((s32)&D_8019E179 + i) << 1));
+            *(s16 *)(fp - 0xA)  = *(s16 *)(cbase + 0x18 + (*(u8 *)((s32)&D_8019E17A + i) << 1));
+            *(s16 *)(fp - 0x2)  = *(s16 *)(cbase + 0x18 + (*(u8 *)((s32)&D_8019E17B + i) << 1));
+
+            *(s16 *)(fp - 0x18) = *(s16 *)(cbase + 0x28 + (*(u8 *)((s32)&D_8019E188 + i) << 1));
+            *(s16 *)(fp - 0x10) = *(s16 *)(cbase + 0x28 + (*(u8 *)((s32)&D_8019E189 + i) << 1));
+            *(s16 *)(fp - 0x8)  = *(s16 *)(cbase + 0x28 + (*(u8 *)((s32)&D_8019E18A + i) << 1));
+            *(s16 *)(fp - 0x0)  = *(s16 *)(cbase + 0x28 + (*(u8 *)((s32)&D_8019E18B + i) << 1));
+
+            AddPrim(otAddr, prim);
+
+            prim += 0x24;
+            fp += 0x24;
+        }
+    }
+
+    AddPrim(otAddr, buf);
+}
+
 
 extern u16 D_80126B62;
 extern u16 D_80126B66;

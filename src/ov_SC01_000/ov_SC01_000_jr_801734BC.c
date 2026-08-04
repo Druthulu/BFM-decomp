@@ -2945,7 +2945,48 @@ s32 func_80175820(void)
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_000/nonmatchings/ov_SC01_000_jr_801734BC", func_801758FC);
+/* func_801758FC — twin of the byte-matched func_80175820 / func_801759D8 in this same TU.
+ * Same three-part body (part1: mask-merge a word at ptr[N] with a masked read from
+ * D_8011F7A8+idx*4+B; part2: mask-merge *p2 (p2 = D_8011F7A8+idx*4+A) with the old ptr[N] value;
+ * part3: D_800AF634[idx].g0 accumulates ((D_8011F7A8+idx*4+B) - ((D_8011F7A8+idx*4+A) - 0x14)) >> 2),
+ * here with N=3 (offset 0xC), A=0x28 (D_8011F7D0), B=0x30 (D_8011F7D8).
+ * The two __asm__ memory fences keep the three parts from CSE-ing their base addresses together,
+ * matching func_80175820 / func_801759D8 exactly (same idiom, different slot/offsets).
+ */
+
+typedef struct { u32 *f0; s32 pad[4]; } S_AE7BC_801758FC;   /* size 0x14 */
+typedef struct { s32 g0; s32 pad[2]; } S_AF634_801758FC;    /* size 0x0C */
+
+s32 func_801758FC(void)
+{
+    extern s16 D_800B9A02;
+    extern S_AE7BC_801758FC D_800AE7BC[];
+    extern S_AF634_801758FC D_800AF634[];
+    extern u8 D_8011F7A8;
+    u8 *p = (u8 *)&D_8011F7A8;
+    u16 *q;
+    u32 *ptr;
+    u32 old;
+    u32 *p2;
+
+    q = (u16 *)&(*(u16 *)&D_800B9A02);
+
+    ptr = D_800AE7BC[*q].f0;
+    old = ptr[3];
+    ptr[3] = (old & 0xff000000) | (*(u32 *)(p + *q * 4 + 0x30) & 0xffffff);
+    __asm__("" ::: "memory");
+
+    p2 = *(u32 **)(p + *q * 4 + 0x28);
+    *p2 = (*p2 & 0xff000000) | (old & 0xffffff);
+    __asm__("" ::: "memory");
+
+    {
+        s32 acc = D_800AF634[*q].g0;
+        s32 t = *(s32 *)(p + *q * 4 + 0x28) - 0x14;
+        D_800AF634[*q].g0 = acc + ((*(s32 *)(p + *q * 4 + 0x30) - t) >> 2);
+    }
+}
+
 
 
 

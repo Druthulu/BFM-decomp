@@ -2243,7 +2243,30 @@ void func_80131FDC(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_000/nonmatchings/ov_SC01_000_jr_8012ACE0", func_80132018);
+extern void func_8012C1B8(void);
+extern void func_8012CAE4(void *a0);
+extern void func_8001C214(int, int);
+extern void (*D_8017F130[])(void);
+extern s32 D_8017F134[];
+
+void func_80132018(void *a0)
+{
+    s32 v0;
+
+    v0 = ((int (*)(void))func_8012C1B8)();
+    *(s32 *)((s32)a0 + 0x20) = v0;
+    if (v0 == 0) {
+        func_8012CAE4(a0);
+    } else {
+        func_8001C214(v0, 0);
+        *(s16 *)((s32)a0 + 0x5c) = 0x80;
+        *(u16 *)((s32)a0 + 0x2) += 1;
+        *(s32 *)((s32)a0 + 0x58) = (s32)&D_8017F134[(*(u16 *)((s32)a0 + 0x70) & 0xfff) * 5];
+        *(s32 *)((s32)a0 + 0xdc) = (s32)D_8017F130[(*(u16 *)((s32)a0 + 0x70) & 0xfff) * 5];
+        *(u16 *)((s32)a0 + 0xfc) = (*(u16 *)((s32)a0 + 0x70) >> 0xc) << 9;
+    }
+}
+
 
 DEFINE_func_801320D0()  /* dedup: shared engine-core @0x801320D0 (src/shared) */
 

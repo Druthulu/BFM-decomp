@@ -9533,6 +9533,25 @@ on **`tools/treelock.sh --status`**, which is a statement of intent spanning the
 wrap a campaign in `nohup … &` inside a backgrounded call: the harness then signals completion of the
 *wrapper* — a fleet check "finished" at 63/140.
 
+### STEP 0 of sibling-first: grep `src/` for a distinctive LITERAL from the `.s`
+
+§136c's search order (engine_core.h near-twin -> same-TU banked sibling -> the `.s`) has a hole: both
+of its first two steps are **same-TU or shared-header** scoped, so neither can reach a banked twin
+that lives in a **different overlay's** TU — and the large template classes live cross-overlay by
+construction. Measured: `func_80188C04` (328 ins) was byte-identical to an already-banked
+`func_801833F0` in `ov_SC02_028`, and one command found it —
+
+    grep -rn "E100000A" src/          # a magic word lifted straight out of the target .s
+
+— after which the body was reused verbatim with only the file-local type/macro suffixes renamed.
+**Put this ahead of engine_core.h.** Pick a distinctive constant from the target: a magic word, an
+unusual mask, an odd immediate. Corollary for the family map: it carries an in-family `exemplar`
+pointer only, so a family whose twin is banked *elsewhere* looks un-cracked — and, separately, that
+pointer can name an instance that is **already banked**, which hides the whole family from any
+ranking built on it. **Derive open sites from `corpus.stubs` over the member list.** Measured on one
+wave: ranking off the map's `exemplar` yielded 16,696 templatable ins; deriving from `corpus.stubs`
+yielded **41,023** — including a 55-ins family open in 138 overlays and a 46-ins one open in 133.
+
 ### Reconciling a gate-refused draft: which way you edit depends on WHERE the TU's decl is
 
 A draft that `match_one`-MATCHes but the whole-binary gate refuses is declaration plumbing (the
