@@ -147,49 +147,84 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 
 ---
 
-# 🛑 SESSION-31 CHECKPOINT (2026-08-03) — **167/167 DRAFTED TARGETS BANKED; x10-99 BAND CLOSED**
-> Supersedes SESSION-30 below. **Nothing running. Tree lock FREE. Tree CLEAN** but for the R23
-> `db.*.gbf` churn — never stage it. Effort: **ultracode**. **R22 clean-fleet run NINE times this
-> session, 140/140 every time.** HEAD `commit:1372`.
+# 🛑 SESSION-31/32 CHECKPOINT (2026-08-03) — FRESH SESSION SAFE HERE
+> **Nothing is running. Tree lock FREE. Tree CLEAN** but for the R23 `db.*.gbf` churn — never stage.
+> Effort: **ultracode**. **R22 clean-fleet run TWELVE times, 140/140 every time.** HEAD `commit:1375`.
+> **Drew's standing decision: NO phase close — keep grinding** (task #15).
 
-## FLEET — R22 clean-fleet **140 passed / 0 failed of 140**
-**95.97% fn-count · 93.4% instr-weighted · 87.5% distinct-code** (77,404 / 87,459 unique fns) ·
-dedup **1905/0** · C1 240496/240496 · **0 NON_MATCHING** (G4).
-Phase opened 92.00 / 87.5 / 78.0 ⇒ **+3.97pp fn, +5.9pp instr, +9.5pp distinct this phase.**
+## FLEET — R22 **140 passed / 0 failed of 140**
+**96.01% fn-count · 93.6% instr-weighted · 88.0% distinct-code** (77,550 / 87,459 uniq) ·
+dedup 1905/0 · **0 NON_MATCHING** (G4).
+Phase opened 92.00 / 87.5 / 78.0 ⇒ **+4.01pp fn, +6.1pp instr, +10.0pp distinct.**
 
-## WHAT S7+S8 DID — **167 of 167 drafted targets banked (100%)** + ~1,900 members propagated
-| campaign | band | targets | banked |
-|---|---|---|---|
-| wave 4a | 60-120 ins | 33 | **33** |
-| wave 4b b1/b2/b3 | <=60 ins | 111 | **111** |
-| S8-3 x10-99 | **121-328 ins** | 23 | **23** |
-| S6c jr families (deterministic) | — | 9 fams | 12 members |
+## SESSION TOTAL — ~2,320 function-instances; **167/167 drafted targets banked earlier (100%)**
+Campaigns: wave 4a (33) · wave 4b b1/b2/b3 (111) · S8-3 x10-99 (23) · S6c jr (12 members) ·
+x2-9 calibration (22 heads + 67 members) · **S10 Sonnet wave (13 heads + 57 members)**.
+Lane records: **reconcile 16/16 lifetime · redraft 15/15 · §136b closed 15/15.**
+**A first-pass gate failure is a ROUTING DECISION, not a wall** (capture -> reconcile/redraft).
 
-**Not first-pass — first-pass was 70-95%.** The **capture -> reconcile -> redraft** ladder closed the
-remainder EVERY time. **A first-pass gate failure is a ROUTING DECISION, not a wall.**
-Lane records: **reconcile 16/16 lifetime** (~13x cheaper than drafting) · **redraft 15/15** ·
-**§136b closed 15/15** (no "genuine byte-DIFF" verdict survived a redraft).
+## 🔬 THE SONNET FINDING (Drew's call — override my routing; he was right)
+| | Opus (S8-3, 121-328 ins) | **Sonnet (S10, 125-793 ins)** |
+|---|---|---|
+| first-pass bank rate | 10/13 = 77% | **13/16 = 81%** |
+| 30-wide concurrency | fine | **SERVER-throttled, 14 of 30 never ran** |
+**The §136i ~120-ins Opus threshold is TOO LOW** — it was my extrapolation, never measured. Sonnet
+is at least as capable to ~800 ins. **The limiter is CAPACITY, not capability:** run Sonnet waves at
+**~12-16 concurrency, not 30**. Not naming a new cliff number — 16 samples under a throttle confound
+can't. Task #12 (controlled A/B) is how that gets fixed properly.
 
-## ⚠️ TWO MEASUREMENTS THAT CORRECT EARLIER STRATEGY — DO NOT RE-DERIVE THEM THE HARD WAY
-1. **§136h — the zero-crack pool is RESIDUE, not a lever.** I scoped a 141-family sweep at "70,924
-   ins, ~0 tokens, best lever on the board" from `byte_weight_templatable`. **It banked 1 of 1,781.**
-   The top families compile clean and byte-DIFF. That column counts what COULD template if the bodies
-   reproduced — the very thing in question. **Price by probing ONE member per family.** (My R37
-   violation; cost ~1,780 build cycles, zero tokens, no bad bytes.)
-2. **§136j — the failure mix FLIPS with size.** <=120 ins fails ~70% on declarations; 121-328 ins
-   fails **86% on genuine codegen**. Budget reconcile for the small band, redraft for the big one.
+## ▶ RESUME HERE — three lanes, all measured, none blocked
+1. **S10's 17 unbanked targets = 26,227 templ ins** (14 server-throttled + 3 gate-failed). Re-run in
+   TWO batches of ~9 at ~12 concurrency. Manifest `.run/s10.json`, script `.run/s10.js` (already all
+   sonnet), banked list `.run/s10_banked.txt`. Heads: func_8017D174(793x5) func_80186E24(611x5)
+   func_8017E2EC(296x7) func_8017C8FC(210x7) func_8017F2E8(207x7) func_80181EE0(198x7)
+   func_8017CDF0(693x2) func_8017E9F4(221x6) func_8017D318(184x7) func_801829BC(150x8)
+   func_8018F060(397x3) func_8017F624(170x7) func_80190144(128x9) func_801813D0(163x7)
+   func_80187DD0(174x6) func_8018457C(160x6) func_8018A390(136x7).
+2. **The propagation lag — 26,006 ins, ~0 agent tokens, PARTLY BLOCKED** (task #14):
+   - **EXTEND shape** (14 classes / 48 stubs / **5,169 ins**): `dedup_extend --binaries
+     ov_SC07_006,ov_SC07_007,ov_SC07_010,ov_SC07_011` planned 36 groups and banked **0/36** —
+     **6 PLUMBING / 4 DIFF**, and the PLUMBING conflicts repeat the SAME ~5 symbols across all four
+     binaries: `func_80146C3C` (the same one that blocked func_8017C120), `func_80144B9C`,
+     `func_8014F4C0` (both self-axis => §37 asm-label alias), `func_8012E5CC`, `D_80126CC4`.
+     **~5 declaration fixes unlock most of the 36.** Reconcile-lane shaped (16/16 lifetime).
+     The 4 DIFFs are ODD — dedup_extend's contract says h_exact identity guarantees byte-identity
+     *including relocs*, so a DIFF should be impossible. Probe one (overlays-share-VAs trap?).
+   - **PROPAGATE shape** (45 classes / 780 stubs / **20,837 ins**): NEVER PROBED. Needs
+     `dedup_propagate --addr` from the single matched source. **Probe ONE before costing (§136h).**
+3. **The x2-9 grind** (task #15): 411 of 1,872 families cover the 212,594-ins gap to 95% instr.
+   Measured ~22,937 templ ins/wave at the head; mean ins/family decays 1,844(top-25) -> 525(top-400)
+   -> 193(band-wide). **Est 19-30 waves.** Work highest-templatable-weight-first.
 
-## 📊 THE FRONTIER (re-derive before scoping — R35)
-| tier | families | ins | verdict |
-|---|---|---|---|
-| B-shape lanes (all three) | **0** | 0 | exhausted |
-| fresh x10-99 | **0** | 0 | **exhausted this session** |
-| fresh x2-9 | 1,872 | 362,591 | biggest mass, worst multiplier |
-| x1 singletons | 3,804 | 231,327 | x1 leverage |
-| zero-crack residue | ~147 | ~70,924 | **LEDGER MATERIAL (§136h)** |
+## ⚠️ P32's BEHEMOTH LEDGER IS STALE — REBUILD BEFORE PLANNING IT
+roadmap-v2 claims `0x80183814` = 5,122 ins in ov_SC07_006, "largest fn in the game". **Measured: it
+is ~108 ins in ov_SC02_000/003.** The largest unmatched function fleet-wide is **969 ins**
+(`0x8017ef68`, ov_SC06_000); **NOTHING >=1,000 ins remains unmatched.** Of 45 distinct live stubs
+>=400 ins: **21 are already cracked elsewhere (propagation lag, 24,354 instruction-instances)** and
+24 are genuinely never-cracked (22,065). ~Half of "P32 wall tonnage" is not wall at all.
 
-**Every high-multiplier lane is now spent.** What remains is x2-9 and x1 work. That, not a session
-count, is the honest ROI floor — and it makes **T5 (phase close) the real next decision.**
+## ✅ MAIN IS NOT FREE DEDUP — checked two ways, both negative
+main's 1,525 stubs vs 39,917 banked overlay classes: **0 h_exact hits AND 0 h_norm hits**
+(h_exact alone would be meaningless — different vram base, so relocs differ by construction).
+Resident 14 stubs: also 0. Consistent with Phase-11's EXE-vs-resident finding, now extended to
+overlays. **Main's stubs are all genuinely fresh work — P31 scope, not a dedup opportunity.**
+(Caveat: main's sig is Ghidra-derived from June 14 — valid since the binary is unchanged, but the
+relocation-masked `xsig` tool is the instrument built for cross-base comparison if you want proof.)
+
+## 🧰 MY PROCESS ERRORS TODAY — the corrected patterns (all ONE root cause)
+**Trusting a proxy instead of the thing itself**, three times:
+1. **§136h** — priced a 141-family sweep off `byte_weight_templatable`; it banked **1 of 1,781**.
+   That column counts what COULD template if bodies reproduced — the very question. **Probe one
+   member per family.** (Also: I pointed `family_sweep --hseq` — which REMAPS — at an h_exact-
+   identical population, where the correct tool is `dedup_extend`/`dedup_propagate` and no remap is
+   needed at all. Wrong tool, not a wall.)
+2. **§136a** — classified blocker captures on EXIT STATUS, then on error PROSE. `make build` runs
+   `check`, so a clean-compiling byte-DIFF also exits non-zero; and `too many arguments` matched no
+   regex. **Derive from the invariant: did the compile produce an object?**
+3. **The waiter** — `until [ -s <output> ]` fires at the FIRST LINE, not completion. It fired
+   mid-propagation and I ran `make clean` on a live `family_sweep`. **Use `pgrep -x make`** (exact
+   process name; `pgrep -f <pattern>` also SELF-MATCHES and leaked 4 spinning shells earlier).
+No bad bytes from any of them — the byte-gate and R22 caught everything.
 
 ## 🔑 THE FOUR FINDINGS THIS SESSION PRODUCED (cookbook §136 · §136a · §136b · §136c · §136d)
 1. **§136 — the LOCAL-VARIABLE lever.** In the 60–120-ins band most "regalloc residuals" are decided
