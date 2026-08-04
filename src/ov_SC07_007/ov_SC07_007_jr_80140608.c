@@ -529,7 +529,7 @@ extern void func_80136C54(void);
 extern void func_80136D00(void);
 extern void SetLineG2(void *);
 extern void func_80136D08(s32 arg0, s32 arg1);
-extern u16 D_80126CC4;
+extern s16 D_80126CC4;
 extern M2C_UNK func_800153CC(M2C_UNK, u16, M2C_UNK, M2C_UNK, s32, s32);
 extern void func_80136DFC(void);
 extern void func_80136EC4(void);
@@ -5725,7 +5725,7 @@ DEFINE_func_8014F2E0()  /* dedup: shared engine-core @0x8014f2e0 (src/shared) */
 DEFINE_func_8014F3E8()  /* dedup: shared engine-core @0x8014F3E8 (src/shared) */
 
 
-extern void func_8014F4C0(u8 *a0);
+extern s32 func_8014F4C0();
 
 s32 func_8014F468(void)
 {

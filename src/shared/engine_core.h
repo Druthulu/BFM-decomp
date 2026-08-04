@@ -20581,7 +20581,7 @@
     extern void func_80147324(s32 arg0); \
     extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6); \
     extern void func_80147364(); \
-    extern void func_80146C3C(void); \
+    extern void func_80146C3C(); \
     void func_8016A08C(s32 param_1) { \
         register s32 s0 __asm__("$16"); \
         register void *s1 __asm__("$17"); \
@@ -22406,7 +22406,7 @@
     extern u8 D_80078EBF; \
     extern void func_80147324(s32 arg0); \
     extern void func_80147364(); \
-    extern void func_80146C3C(void); \
+    extern void func_80146C3C(); \
     void func_8016A1CC(int param_1) \
     { \
         register int iVar1 __asm__("$2"); \

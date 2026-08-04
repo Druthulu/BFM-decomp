@@ -365,7 +365,7 @@ extern s32 func_8012E504(s32 a0, s32 a1);
 extern s32 func_8012E544(s32 a0);
 extern s32 func_8012E57C(s32 a0, s32 a1);
 extern s32 RotTransPers(s32 a0, s32 a1, s32 *a2, s32 *a3);
-extern void func_8012E5CC(s32 param_1, u16 param_2, u16 param_3);
+extern s32 func_8012E5CC(s32 a0, s32 a1, s32 a2);
 extern void func_8012E688(s32 param_1, u16 param_2, u16 param_3);
 extern s32 func_8012E778(int param_1, int param_2);
 extern void func_8012E88C(u8 *a0);
@@ -536,7 +536,7 @@ extern void func_80136C54(void);
 extern void func_80136D00(void);
 extern void SetLineG2(void *);
 extern void func_80136D08(s32 arg0, s32 arg1);
-extern u16 D_80126CC4;
+extern s16 D_80126CC4;
 extern M2C_UNK func_800153CC(M2C_UNK, u16, M2C_UNK, M2C_UNK, s32, s32);
 extern void func_80136DFC(void);
 extern void func_80136EC4(void);
@@ -3366,7 +3366,7 @@ DEFINE_func_801472F0()  /* dedup: shared engine-core @0x801472f0 (src/shared) */
 extern s16 currentLocationId;
 extern s32 D_80126B58;
 extern void func_80015978(s32, s32*);
-extern void func_8012E5CC(s32, u16, u16);
+extern s32 func_8012E5CC(s32, s32, s32);
 extern void func_8002D4C8(s32 a0, s32 a1);
 
 void func_80147364(u16 param_1, u16 param_2) {
@@ -5942,7 +5942,7 @@ DEFINE_func_8014F3E8()  /* dedup: shared engine-core @0x8014F3E8 (src/shared) */
 
 
 
-extern void func_8014F4C0();
+extern s32 func_8014F4C0();
 
 s32 func_8014F468(void)
 {
