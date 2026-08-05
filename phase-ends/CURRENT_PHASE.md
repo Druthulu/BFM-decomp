@@ -266,39 +266,57 @@ a DRAFT is the wrong move for an h_exact class; propagating the MATCHED body is 
 function, two routes, only one is free. **Remaining free pool: 66 instances / 1,061 ins across 25
 classes, all macro-backed (so `--addr` refuses — they need a `dedup_extend`-style route).**
 
-## 🚀 S40 (2026-08-05, ULTRACODE — Drew enabled it) — THE `cast_call_sites` BUG
-**`tools/cast_call_sites.py` read a RETURN STATEMENT as a prototype and DELETED it.**
-`return func_8012CB64((s32)out,…);` — `return` is a valid identifier where `DECL_LINE_RE` expects a
-type, so the "rewrite this decl to canonical" path replaced the STATEMENT with
-`extern s32 func_8012CB64(…);`. C89 then says `parse error before 'extern'`, which reads as the
-DRAFT's fault, not the tool's. **Fix = a statement-keyword guard.**
-| | before | after |
-|---|---|---|
-| `family_sweep --hseq` over 5 families | **0/39** | **18/39** |
-| propagation of the 5 wave-1 exemplars | — | **24/24, 0 failed** |
-**⚠️ THE TRAP INSIDE THE FIX (do not "improve" this):** routing it through `cdecl` — the obvious R33
-move — is a SILENT NON-FIX. `cdecl.parse()` reports `return func_X(…);` as declaring `func_X` and
-`if (f(a));` as declaring `if`; it is a DECLARATOR-GRAMMAR parser that assumes it was handed a
-declaration. Statement-vs-declaration is a question it does not answer. **Checked before shipping.**
-**BLAST RADIUS (measured):** `cast_call_sites` is in `gate_stage`'s DEFAULT pipeline since Phase 20;
-**318 of 44,833 stored drafts** carry a line it mis-reads, across **67 callees** (`func_8014F468` ×41,
-`func_8014F6F4` ×37, `func_8014F74C` ×32, `ratan2` ×25). Part of the historical PLUMBING tail is this.
-cookbook **§143**.
+## 🚀 S40 (2026-08-05, ULTRACODE) — FLEET **96.54% fn / 94.5% instr / 89.2% distinct**, 140/140
+**Session arc: 12,405,402 → 12,432,941 instr (+27,539), +120 unique fns**, R22 green at every step.
+⚠️ The denominator is now **13,160,961** (was 13,141,652) — main's sig regen made it honest. Compare
+percentages only across the same denominator; the numerator never fell.
 
-## 🌊 S40 WAVE 1 (8 targets, ultracode, 1.31M tok) — pool VERIFIED first (R14)
-Fable's h_norm pool **holds**: measured **1,677 clusters / 5,795 fns / 319,755 ins at 3.68×** vs its
-claimed 1,689 / 5,956 / 326,261 at 2.7× — and the multiplier is BETTER than claimed. (Contrast its
-whale claim, which was 3/4 wrong — verify each claim separately.)
-**8/8 match_one MATCH (close=0) → 5/8 BANKED whole-binary.** The §52b/§61 gap is TU integration.
-Banked: `func_801822E0` `func_8017EC98` `func_801851A8` `func_80189A34` `func_80188E10` (693 ins ×1)
-→ then **24/24 members propagated** (~3,002 ins). Not banked, drafts kept in `.run/wave-s40/`:
-`func_8018B238` (FAILED), `func_8017EF54` + `func_801802EC` (NEAR).
-**NEW IDIOM the wave paid for, FOLD INTO §31:** a byte counter must be spelled **`cnt + 0xff`, not
-`cnt - 1`** — mod-256 identical, both one `addiu`, but gcc-2.7.2 picks the immediate encoding from the
-SOURCE SPELLING (0xFFFF vs 0x00FF). **Also: `.run/ghidra_c/func_8017EF54.c` is a stale decompile of
-the WRONG function** — the prefetch cache has at least one bad entry.
-**My prompt error:** wave 1 told agents `match_one --binary/--src`; the real flags are `--c/--asm-subdir`.
-Two agents worked around it and reported it. Fixed in the wave-2 prompt along with the 3 lessons above.
+### THE `cast_call_sites` BUG (the session's most consequential find)
+It read a RETURN STATEMENT as a prototype and **deleted it**. `return func_X(…);` — `return` is a
+valid identifier where `DECL_LINE_RE` expects a type — so the "rewrite this decl to canonical" path
+replaced the STATEMENT with `extern … func_X(…);`. C89 then says `parse error before 'extern'`, which
+reads as the DRAFT's fault. **Fix = a statement-keyword guard.** `family_sweep` over 5 families went
+**0/39 → 18/39**; the same machinery later propagated **24/24** and **61/87**.
+**⚠️ THE TRAP INSIDE THE FIX:** routing it through `cdecl` (the obvious R33 move) is a **SILENT
+NON-FIX** — `cdecl.parse()` calls `return func_X(…);` a declaration of func_X and `if (f(a));` a
+declaration of `if`. It parses declarator GRAMMAR; statement-vs-declaration is not a question it
+answers. **Checked before shipping.** Blast radius: in `gate_stage`'s DEFAULT pipeline since Phase 20;
+**318 of 44,833 stored drafts** carry a line it mis-reads, across 67 callees. cookbook **§143**.
+
+### THE WAVES — 24 exemplars, 24/24 banked, **ZERO codegen walls**
+Pool VERIFIED first (R14): **1,677 clusters / 5,795 fns / 319,755 ins at 3.68×** vs Fable's claimed
+1,689 / 5,956 / 326,261 at 2.7× — accurate here, and the multiplier is BETTER. (The SAME document's
+whale claim was 3/4 wrong. **Verify each claim; never accept or reject a source wholesale.**)
+
+| wave | targets | match_one | gate 1st pass | after recovery |
+|---|---|---|---|---|
+| 1 | 8 | 8/8 | **5/8** | **8/8** |
+| 2 | 16 (lessons folded into the prompt) | 16/16 | **14/16** | **16/16** |
+
+**ALL SIX first-pass failures were TU-integration plumbing with documented levers** — §77 probe-layer
+strip · `recover_giant` block-scoping · §37/§124 def-side asm-label alias · §17a-1 no-proto + call-site
+cast. **⇒ THE GATE NUMBER MEASURES INTEGRATION, NOT MATCHING.** Run the recovery ladder BEFORE
+recording a wave's yield, or the metrics under-report the drafters and send the next wave hunting
+walls that are not there (`docs/wave-metrics.md` S40-1). Cost 3.73M subagent tokens / 24 agents / 0 errors.
+Then **61/87 members propagated** (+7,087 ins).
+
+### NEW IDIOMS (all byte-derived by the drafters, distilled in-session)
+**§144** the LITERAL'S SPELLING picks the immediate encoding (`cnt + 0xff` vs `cnt - 1` — mod-256
+identical, both one `addiu`, but gcc emits 0x00FF vs 0xFFFF from the source text; looks exactly like an
+intrinsic wall and is free) · **§145a** `combine_givs` anchors the address-giv group on the LAST
+address-giv in SOURCE order · **§145b** a bare `p = r;` is a COMBINE BARRIER that preserves a
+pointer-bump `addiu` · **§145c** chained assignment emits stores RIGHT-TO-LEFT.
+
+### ▶ CHEAPEST FUEL NEXT SESSION (all named, all deterministic)
+1. **The 26 unpropagated members** (20 CC1-FAIL + 5 callee `conflicting types`: `func_8017EFA0` ×3,
+   `func_8012B23C` ×2) — the recovery ladder already has every lever.
+2. **FIX THE CLASSIFIER FIRST:** it writes `CC1-FAIL: make: *** Error 33` **without the cc1 message**,
+   so 20 of those 26 carry no actionable reason and each costs a manual splice-and-rebuild to diagnose
+   (done twice this session). `harvest_verify` already captures cc1 stderr — do the same here.
+3. **Scale the wave** — the verified pool still holds ~450 tractable clusters; both waves closed 100%.
+4. Carried: the 61 SC07 `-O0` members · `func_80183BAC`'s R22 revert (my loop logged THAT check-all
+   failed, not WHICH binary — capture the failing binary on the retry) · S6's 2 giant walls (50,094
+   ins on 2 cracks, untouched) · main's 79,074-ins tail (agent work, structurally barren).
 
 ## 🌙 OVERNIGHT (S39 cont., 2026-08-05 ~00:40–)
 **`tools/grinder.py -j 14 --cycles 4 --permute-secs 240 --max-closeness 20 --max-nins 400`** — the
