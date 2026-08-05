@@ -147,35 +147,104 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 
 ---
 
-# ⏳ SESSION-38 IN FLIGHT (2026-08-04) — WAVE 6 IS RUNNING, DO NOT `make clean`
-> **A wave is IN FLIGHT.** Workflow `wf_4eabc086-c4c` (`.run/w6.js`, 16 targets / **50,596 open
-> templatable ins** — 3× wave 5). Agents write **`.run/w6/<ov>/func_*.c` ONLY**; they read `src/`,
-> `asm/` and run `match_one`. **The tree lock is FREE and must stay that way until the wave lands** —
-> a `make clean`/`extract` under a running wave is the S-era 63/140 incident.
-> Check `/workflows` before assuming idle. Effort: **ultracode** (Drew enabled, regular high).
->
-> **If this session dies mid-wave:** the drafts on disk are the asset. `.run/` is gitignored, so
-> `git add -f .run/w6/` them before anything else (the wave-5 precedent), then resume by GATING —
-> never by re-running the wave (`resumeFromRunId` is same-session-only).
->
-> **Resume/land sequence (unchanged from the ▶ block below):**
-> `tools/treelock.sh g .venv/bin/python .run/s6f_gate.py '.run/w6/*/func_*.c'` → capture any failure
-> (`.run/s36_capture.py <ov>:<fn>`) → reconcile per the §138 direction rule → `make sig-overlays` +
-> `tools/family_hseq.py` + `family_sweep --hseq --band all --only <banked addrs>` → **R22** →
-> commit → **append a row to `docs/wave-metrics.md`**.
->
-> **New this session (both reusable, both committed with the wave):**
-> - **`.run/w6_pool.py`** — the pool derivation, finally a SCRIPT instead of inline python. Ranks by
->   **open** templatable weight (`corpus.stubs` over the member list, §138 rule 4), carries the
->   walls/ledgered-residual exclusion set, drops families whose address was attempted-and-still-open
->   in any prior wave (83 addrs), and enforces **one target per (overlay, TU)** so a wave cannot
->   manufacture its own §138-rule-2 conflict. Pool: **2,928 fresh families / 476,611 open templ ins**.
-> - **Two derive-don't-assert fixes to the manifest itself (R37):** `model` is routed by measured
->   band (Sonnet is measured 81–100% over 125–793 ins; `func_8017C974` at **947** is outside it →
->   Opus directly, rather than paying a sonnet chain *plus* an escalation chain on the wave's biggest
->   target), and **`seed` is now derived from `.run/ghidra_c/` existing on disk** — it was being
->   carried as an arbitrary `i % 2` alternation, i.e. the prompt was telling ~half the agents a
->   cached Ghidra seed existed **without checking**. 9 of 16 actually have one.
+# 🛑 SESSION-38 CHECKPOINT (2026-08-04, wave 6 BANKED + the gate defect fixed) — FRESH SESSION SAFE HERE
+> **NOTHING IS RUNNING. Tree lock FREE. Tree CLEAN** but for the R23 `db.*.gbf` churn — never stage.
+> Effort: **high** (Drew lowered from ultracode as an experiment; he will enable xHigh for wave 7).
+> **R22 clean-fleet run TWICE this session, 140/140 both times.**
+> **Drew's standing decision: NO phase close — keep grinding.** Next: **wave 7 at ~50k templ ins**
+> (Drew's explicit direction: "chase that 50k like you tried"; he toggles xHigh when it is staged).
+> **VERIFY THIS BLOCK IS CURRENT BEFORE TRUSTING IT**: `git log --oneline -3` should show this
+> checkpoint at/near HEAD, and `grep -E 'FLEET (fn-count|instr|distinct)' docs/progress.fleet.md`
+> must agree with the FLEET line below. If they disagree, **the digest wins** (R35).
+> **Nothing is owed.** All 16 wave-6 drafts are gated; the 9 unbanked are diagnosed and preserved.
+
+## FLEET — R22 **140 passed / 0 failed of 140**
+**96.29% fn-count · 94.2% instr-weighted · 88.9% distinct-code** (77,796 uniq) · dedup **1910/0** ·
+**0 NON_MATCHING** (G4). Session opened 96.28 / 94.1 / 88.7 ⇒ **+10,616 instructions** banked
+(12,368,236 → 12,378,852 — the digest delta matches the hand-derivation EXACTLY).
+Phase opened 92.00 / 87.5 / 78.0 ⇒ **+4.29pp fn, +6.7pp instr, +10.9pp distinct.**
+
+## WHAT THIS SESSION DID
+| lane | result |
+|---|---|
+| wave 6 (16 tgt / **50,596** templ ins) | **7 heads banked**, 9 refused-and-diagnosed |
+| propagation (5 jr-families, carve path) | **25 of 38 sibling slots** (15+3+3+2+2) |
+| instrument repair | **4 defects fixed** — see below |
+
+## ⚠️ THE HEADLINE IS NOT THE BANK COUNT — THE GATE WAS BOOKING CRASHES AS SILENCE
+Wave 6's first gate printed `BANKED 5 / FAILED 1` over **16** drafts. **Ten produced no verdict at
+all**, nine of them claiming MATCH, and the tally looked clean. Chain (cookbook **§139**):
+1. `harvest_verify._reload_corpus` re-applied the `--src` filter AFTER a jtbl carve — deleting the
+   very stub it had just followed to its new TU, which is that function's whole documented purpose.
+   → `KeyError` in `render()` → **UNCAUGHT** → `_jtbl_restore(snap)` never ran → **carve STRANDED in
+   config/+src/** → every LATER group in the same gate then built against a mutated tree.
+2. `.run/s6f_gate.py` never checked the child's returncode — it grepped stdout for two line-prefixes
+   and booked "neither" as nothing (the §136a defect, in the gate itself).
+**Both fixed.** The gate now asserts `banked+failed+no-verdict == drafts`, prints the child's rc +
+output tail, and **exits 1** (a crashed child may have stranded a carve). **Proof it was not
+cosmetic: `func_8017EA84` (579 ins) banks BYTE-IDENTICAL under the fixed path — reported as NOTHING
+before.** Also fixed: `classify_fail` truncated diagnostics **from the LEFT**, severing the symbol
+name that is the label's entire routing value (`undefined reference to \`func_801` ← cut at four hex
+digits). Now keeps both ends.
+
+## 📌 THE 9 UNBANKED WAVE-6 DRAFTS — ALL DIAGNOSED, DRAFTS COMMITTED IN `.run/w6/`
+**6 are ONE class (the highest-value thing to fix next):** `undefined reference` to a sibling that
+IS defined in the overlay but only through a **definition-side `__asm__` alias**
+(`void aF<X>(...) __asm__("func_<Y>");` — §37/§124). **The carve repartitions the object and
+separates the call site from the alias definition.** Worked example: `func_801884D8` (ov_SC02_028) →
+`func_80183AF8`, whose definition is the alias `aF8018A860` at `_jr_8017D898.c:4753`. Cracking this
+one class frees 6 drafts at once, and it will recur in every carve-heavy wave.
+| fn | overlay | class |
+|---|---|---|
+| func_801884D8 | ov_SC02_028 | undefined ref `func_80183AF8` (alias) |
+| func_80189030 | ov_SC03_001 | undefined ref `func_80186F88` |
+| func_801878E8 | ov_SC04_018 | undefined ref `func_801848DC` |
+| func_80180B04 | ov_SC06_020 | undefined ref `func_80184F18` |
+| func_801919A0 | ov_SC06_032 | undefined ref `func_8018B878` |
+| func_801380E0 | ov_SC07_006 | undefined ref `func_80137614` |
+| func_8018A564 | ov_SC02_027 | CC1-FAIL (Error 33) — different, needs its own read |
+| **func_8017C974** | ov_SC01_077 | **genuine** DIFF close=**47**, REGALLOC-PERM (947 ins, Opus, 12 variants inert) |
+| **func_80188C68** | ov_SC03_124 | **genuine** DIFF close=370 (551 ins, the only target with NO twin anywhere) |
+
+## 📊 `docs/wave-metrics.md` — Findings 5 and 6 added
+**Rank waves by INSTRUCTIONS, not heads.** Wave 6 banked ~45% more instructions than wave 5 while
+banking less than half as many heads (10,616 exact vs ~7,200 est.), because a bigger head carries
+more instructions AND its family propagates at the same cost per sibling — `func_8017FEE0`, ONE
+299-ins head, became **4,485 ins across 15 siblings** for ~0 agent tokens. **The metric to beat is
+POOL REALISATION (21%), not bank rate**; wave 6's bank rate is not comparable to waves 3–5 because
+the difficulty knob moved deliberately (median target 438 ins vs 143, mostly `has_mid_jr`).
+
+## ▶ RESUME HERE — wave 7, ~50k templ ins (Drew's direction)
+1. `.venv/bin/python .run/w6_pool.py 16 .run/w7_wave.json` — the pool derivation is a SCRIPT now
+   (ranks by OPEN templatable weight from `corpus.stubs`, carries the walls/ledgered exclusions,
+   drops previously-attempted-and-still-open addrs, one target per (overlay,TU)). Pool at this
+   checkpoint: **2,928 fresh families / 476,611 open templ ins** — nowhere near exhausted.
+   **Add wave 6's 9 unbanked addrs to its exclusion list** (or fix the alias class first and re-gate
+   them — that is 6 drafts already written and paid for).
+2. Build the script from `.run/w6.js` (it is `.run/s37w.js`'s pipeline block + the S37/W6 prose).
+   **Prompt Drew for `/effort xhigh` and WAIT for the toggle (R27) before launching.**
+3. Land: gate (`.run/s6f_gate.py '.run/w7/*/func_*.c'`) → diagnose failures (`.run/w6_diag.py`, which
+   runs the REAL gate path; `s36_capture.py` splices WITHOUT the carve and is wrong for jr targets)
+   → propagate (**`family_sweep --hseq` REFUSES has_mid_jr families by design — route those to
+   `.run/w6_jtbl_prop.py` / `jtbl_family_bank`, and note it needs a CLEAN TREE between families**)
+   → **R22** → commit → **append a wave-metrics row**.
+
+## 🧰 MY PROCESS ERRORS — one mechanism: a tool answered a NARROWER question than I asked
+1. **I reverted `config/` and re-extracted ONE overlay of sixteen.** The Phase-20 R22 corollary (a
+   reverted config needs `make extract`) — which I know. Three genuinely-banked functions then read
+   as failures against stale asm. *A gate result measured against stale asm is not a measurement.*
+2. **`family_sweep ... | tail` swallowed a non-zero exit** (`--only` wants comma-separated). A
+   pipeline's status is the LAST command's — use `pipefail`/`PIPESTATUS`.
+3. **A backticked `` `make extract` `` inside a double-quoted `-m` commit message EXECUTED**,
+   corrupting the message and running a real extract. Re-committed with quoted heredocs (what I used
+   everywhere else and lapsed on once). No damage — src/config verified clean vs HEAD.
+4. **I looked a just-banked head up in its family's `members` list** and got "NO FAMILY" for all 5
+   heads `family_sweep` had just enumerated — a banked head LEAVES `members` and becomes
+   `exemplar.kind='matched'`. (Distinct from §138 rule 4, which governs target SELECTION.)
+5. `jtbl_family_bank` logs `gate-fail` per sibling **without the underlying error** — same
+   "outcome without the payload that routes it" class as the `classify_fail` truncation. The 13
+   sibling failures are therefore unrouted. **Worth fixing before a carve-heavy wave 7.**
+No bad bytes from any of them — the byte-gate and R22 caught everything.
 
 ---
 

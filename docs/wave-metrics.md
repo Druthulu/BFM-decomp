@@ -21,6 +21,7 @@
 | 3 (S35) | `s35w.js` | 13 | 17,644 | 14 | 2.73M | 140 min | 2.1× | 9 / 51 min | 13/13 | **13** (12+1 rec) | 21 |
 | 4 (S36) | `s36w.js` | 14 | 16,844 | 17 | 2.99M | 136 min | 2.5× | 14 / 48 min | 14/14 | **14** (13+1 rec) | 26 |
 | 5 (S37) | `s37w.js` | 16 | 16,884 | 19 | 2.71M | **82 min** | **3.8×** | 9 / 50 min | 16/16 | **16** (16+0 rec) | 26 |
+| 6 (S38) | `w6.js` | 16 | **50,596** | 24 | 5.20M | 71 min | **7.4×** | 25 / 40 min | 14/16 | **7** | 25 |
 
 All waves: Sonnet drafters with an Opus escalation rung (§136i), whole-binary byte-gate as the sole
 arbiter, R22 clean-fleet 140/140 after every banked batch.
@@ -108,3 +109,46 @@ PY
 Related: cookbook **§138** (the reconcile/search rules these waves produced), memory
 `wave-prompt-seed-step0-and-gaps` (what to seed the next prompt with), `docs/effort-map.md`
 (Ultracode/breadth policy), `docs/calibration.md` (templatability measurements).
+
+## Finding 5 — rank waves by INSTRUCTIONS BANKED, not heads; and the knob that moved in wave 6
+
+Wave 6 deliberately changed the difficulty knob: **50,596 templatable instructions offered vs
+~16,800**, median target **438 instructions vs 143**, max **947 vs 397**, and most targets in the
+`has_mid_jr` (jump-table-carve) class. Its bank rate — **7/16 heads** — therefore is **not
+comparable** to waves 3–5's 100%, and should never be read next to them as if the knob were fixed.
+
+**By instructions, the bigger pool won:**
+
+| | wave 5 | wave 6 |
+|---|---|---|
+| pool offered | 16,884 | **50,596** |
+| heads banked | 16/16 | 7/16 |
+| ins in banked heads | 2,753 | 2,204 |
+| propagated members | 26 | 25 |
+| **total instructions banked** | ~7,200 *(est.)* | **10,616** *(exact)* |
+| pool realised | ~43% *(est.)* | **21%** |
+
+Wave 6's 10,616 is **exact** — `make report` moved 12,368,236 → 12,378,852, matching the
+hand-derivation to the instruction. Wave 5's figure is an estimate (its per-family member breakdown
+wasn't recorded — *record it from now on*).
+
+So wave 6 banked **~45% more instructions while banking less than half as many heads**, because a
+bigger head carries more instructions *and* its family propagates at the same cost per sibling —
+`func_8017FEE0`, one 299-instruction head, became **4,485 instructions across 15 siblings** for ~0
+agent tokens. **Head count flatters small-target waves; instruction weight is what moves the fleet.**
+
+**The metric to beat is POOL REALISATION (21%), not bank rate.** A wave banking 16/16 of a 17k pool
+is worth less than one banking 7/16 of a 50k pool. And wave 6's 21% is a floor, not a ceiling: it
+lost an entire gate cycle to the `_reload_corpus` defect (§139), and 9 of its 16 targets are still
+open and routable rather than refuted.
+
+## Finding 6 — a wave's tally is a COVERAGE claim, and needs its own assertion
+
+Wave 6's first gate printed `BANKED 5 / FAILED 1` over **16** drafts. Ten produced no verdict at all
+because the child crashed and the driver only grepped stdout for two line-prefixes. Nine of the ten
+were claiming MATCH, and one of them (`func_8017EA84`, 579 ins) banks **byte-identical** under the
+fixed path — a real match reported as nothing.
+
+**Any row in this table is a coverage claim.** Before recording one, confirm the gate accounted for
+every draft (`banked + failed + no-verdict == drafts`, now asserted in `.run/s6f_gate.py`). Full
+post-mortem: cookbook **§139**.
