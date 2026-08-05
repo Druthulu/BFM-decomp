@@ -9818,3 +9818,57 @@ above is cheap enough that trusting a stale number is never worth it.
 
 **Symptom lines for the index:** **"a stub is byte-identical to something already matched"** ·
 **"dedup_propagate --addr says nothing changed"** · **"a backlog function turns out to be free"**.
+
+---
+
+## §143 — `cast_call_sites` read a RETURN STATEMENT as a prototype and deleted it. A 0/39 sweep became 18/39. (P30 S40)
+
+**The observation.** A `family_sweep --hseq` over 5 matched-exemplar families banked **0 of 39**
+members across 23 overlays. A total zero on PURE families with a *matched* exemplar is not a credible
+codegen result, and §53 says exactly that: a 0% from the wrong tool is not evidence.
+
+**Read the payload first** (`.run/hseq_failed.*.classified.txt`, the standing pre-probe rule): the 39
+split **34 PLUMBING / 4 DIFF**, and every PLUMBING was the same C89 error:
+
+    src/ov_SC05_017/ov_SC05_017_jr_8017AE2C.c:7690: parse error before `extern'
+
+**The mechanism.** `cast_call_sites.DECL_LINE_RE` classifies a line as a declaration with
+
+    ^([ \t]*)(extern\s+)?([A-Za-z_][\w \t\*]*?)\b([A-Za-z_]\w*)\s*\(([^;{]*)\)\s*;
+
+Now feed it a return statement:
+
+    return func_8012CB64((s32)out, -0xC0, 0x40, -0x60, 0);
+    ^^^^^^ captured as the return TYPE;  func_8012CB64 as the DECLARED NAME
+
+So the "rewrite this decl to the canonical signature" path **replaced the statement** with
+`extern s32 func_8012CB64(s32,s32,s32,s32,s32);` — deleting the return. In C89 a declaration after a
+statement in a block is a parse error, so the damage surfaced as a *bare syntax error in the draft*,
+which reads as the draft's fault rather than the tool's. 9 of 9 staged members lost their return.
+
+**The fix** — a keyword guard, because a declaration's type-specifier can never begin with a
+statement keyword (`return|if|else|while|for|do|switch|case|default|break|continue|goto|sizeof`):
+
+    0/39  ->  18/39   (same families, same members, same gate; only the guard changed)
+
+**⚠️ AND THE TRAP INSIDE THE FIX — `cdecl` CANNOT ADJUDICATE THIS.** The obvious R33 move is "route
+it through the declaration oracle." **Checked, and it is wrong:** `cdecl.parse()` is a *declarator
+grammar* parser that ASSUMES it was handed a declaration. It reports `return func_X(…);` as declaring
+`func_X`, and `if (f(a));` as declaring `if`. **Statement-vs-declaration is a question cdecl does not
+answer**, so routing there would have been a silent non-fix that looked principled. §134's law still
+holds — line-SHAPE masking goes through `cdecl._mask` — but *"is this text a declaration at all"* is a
+different question with a different answer.
+
+**Blast radius (measured, not assumed).** `cast_call_sites` is in `gate_stage`'s DEFAULT pipeline
+(`canon_resident_calls → cast_call_sites → sig_unify → harvest_verify`) and has been since Phase 20.
+Across the 44,833 stored drafts, **318 (0.7%) contain a `return f(...);` line this would mis-read**,
+concentrated in **67 callees** (worst: `func_8014F468` ×41, `func_8014F6F4` ×37, `func_8014F74C` ×32,
+`ratan2` ×25). Every one of those, every time it passed the gate pipeline, lost its return and failed
+as PLUMBING. Some fraction of the historical "plumbing tail" is this bug.
+
+**The law:** a tool that REWRITES source must be able to tell a declaration from a statement, and a
+regex over `<ident> <ident>(...)ï¼›` cannot. When a whole sweep returns 0, suspect the tool that
+touched every member — and read the per-member payload before believing any wall.
+
+**Symptom lines for the index:** **"parse error before `extern'"** · **"a sweep banked 0 of N"** ·
+**"a draft lost its return statement"** · **"declaration after statement in a block"**.

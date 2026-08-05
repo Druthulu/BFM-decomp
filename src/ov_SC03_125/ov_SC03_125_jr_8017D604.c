@@ -4309,7 +4309,70 @@ void func_801816E0(void *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_125/nonmatchings/ov_SC03_125_jr_8017D604", func_8018170C);
+
+
+/* func_8018170C — ov_SC04_018 (TU: src/ov_SC04_018/ov_SC04_018_jr_8017AE2C.c)
+ *
+ * DECL SURFACE (§37 / §124 asm-label alias):
+ *   The TU already carries three fleet-canonical forward decls
+ *     `extern s32 func_8018170C(void);`   (L5361, L5592, L5904 — all ABOVE the
+ *   splice point at L6839), each used by a banked caller that invokes it with
+ *   NO arguments (`if (func_8018170C() == 0)`).  The byte-true signature takes
+ *   a pointer in $a0 (`lw $a2, 0x64($a0)` at 0x801848E4), so the definition
+ *   disagrees with the canonical decl on arity -> cc1 emits
+ *     "conflicting types for `func_8018170C'".
+ *   Neither a fleet widen nor a cast-at-use fixes an arity clash on the symbol
+ *   being DEFINED, so the definition is emitted under the C identifier
+ *   `aF801848DC` with an __asm__("func_8018170C") label.  The C-level name
+ *   never collides with the canonical decls, the emitted symbol is unchanged,
+ *   and codegen is byte-identical (verified: match_one MATCH 33/33 with and
+ *   without the alias).  Precedent in this very TU: aF8018CB18 @ L8872.
+ *
+ *   func_8012F2E8 / func_8012CB64 / D_80126B5E / D_80126B62 / D_80126B66 are
+ *   reproduced VERBATIM from the TU's own decls (L7717-L7722, L7964-L7965,
+ *   L8727-L8729) — identical types, so no second conflict hides behind the
+ *   first.  No shared header is touched.
+ *
+ * BODY: the original draft discarded the func_8012CB64 result and returned a
+ *   literal 0, which forced `move $v0,$zero` into the epilogue and displaced
+ *   `addiu $sp,$sp,0x30` into the jr delay slot (DIFF 3/33 @ idx 9/30/32).
+ *   The target sets $v0=0 in the *branch* delay slot and falls through to a
+ *   bare epilogue after `jal func_8012CB64`, i.e. it RETURNS the callee's
+ *   value on the taken path — the exact shape of the banked sibling
+ *   func_80185D10 (TU L7724-L7733).  Early-return + tail-return reproduces it.
+ *
+ * ORACLE: .venv/bin/python tools/match_one.py func_8018170C \
+ *           --c .run/s7/ov_SC04_018/func_8018170C.c \
+ *           --asm-subdir asm/ov_SC04_018/nonmatchings/ov_SC04_018_jr_8017AE2C
+ */
+
+
+extern void func_8012F2E8(s32 a0, s32 a1, s32 a2);
+extern s32 func_8012CB64(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4);
+
+s32 aF801848DC(void *a0) __asm__("func_8018170C");
+
+s32 aF801848DC(void *a0) {
+
+    extern u16 D_80126B5E;
+    extern u16 D_80126B62;
+    extern u16 D_80126B66;
+    s16 out[3];
+    s16 in[3];
+    void *p;
+
+    p = *(void **)((char *)a0 + 0x64);
+    if (*(u16 *)(*(s32 *)((char *)p + 0xCC) + 0x2) != 0x2) {
+        return 0;
+    }
+
+    in[0] = D_80126B5E;
+    in[1] = D_80126B62;
+    in[2] = D_80126B66;
+    func_8012F2E8(*(s32 *)((char *)p + 0xCC), (s32)in, (s32)out);
+    return func_8012CB64((s32)out, -0xC0, 0x40, -0x60, 0);
+}
+
 
 
 /* func_80181790 — 76 instructions */
@@ -5255,7 +5318,27 @@ void *func_80182A9C(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_125/nonmatchings/ov_SC03_125_jr_8017D604", func_80182B40);
+
+
+
+extern void func_8012F2E8(s32 a0, s32 a1, s32 a2);
+extern s32 func_8012CB64(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4);
+
+s32 func_80182B40(void *a0) {
+
+    extern u16 D_80126B5E;
+    extern u16 D_80126B62;
+    extern u16 D_80126B66;
+    s16 out[3];
+    s16 in[3];
+
+    in[0] = D_80126B5E;
+    in[1] = D_80126B62;
+    in[2] = D_80126B66;
+    func_8012F2E8((s32)a0, (s32)in, (s32)out);
+    return func_8012CB64((s32)out, -0x80, 0x80, -0x60, 0);
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_125/nonmatchings/ov_SC03_125_jr_8017D604", func_80182BA0);
 

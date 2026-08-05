@@ -94,6 +94,39 @@ DECL_LINE_RE = re.compile(
     r'^([ \t]*)(extern\s+)?([A-Za-z_][\w \t\*]*?)\b([A-Za-z_]\w*)\s*\(([^;{]*)\)\s*;'
     r'[ \t]*(?:/\*[^\n]*\*/)?[ \t]*$')
 
+# A declaration's type-specifier can NEVER begin with a statement keyword. Without this guard the
+# pattern above reads a RETURN STATEMENT as a prototype — `return` is a perfectly good `[A-Za-z_]\w*`
+# where a type is expected:
+#
+#     return func_8012CB64((s32)out, -0xC0, 0x40, -0x60, 0);
+#      ^^^^^^ captured as the return TYPE, func_8012CB64 as the declared name
+#
+# …so the "rewrite this decl to the canonical signature" path REPLACED the statement with
+# `extern s32 func_8012CB64(s32,s32,s32,s32,s32);`, deleting the return. The C89 fallout is a bare
+# `parse error before 'extern'` (a declaration after a statement in a block), which reads as a
+# plumbing failure of the DRAFT rather than a defect in the tool that wrote it.
+#
+# Byte-measured (P30 S40): this silently destroyed the return in 9/9 staged members of family
+# 0x801848dc and was 34 of the 39 failures in that sweep — a 0% that looked like a wall.
+#
+# NOTE cdecl CANNOT adjudicate this (checked, do not "fix" it by routing here): `cdecl.parse()` is a
+# declarator-grammar parser that ASSUMES it was handed a declaration — it reports `return func_X(…);`
+# as declaring func_X, and `if (f(a));` as declaring `if`. Statement-vs-declaration is a question it
+# does not answer, so the keyword guard belongs here. (§134's law still holds — route line-SHAPE
+# masking through cdecl._mask — but "is this text a declaration at all" is a different question.)
+_STMT_KEYWORDS = frozenset((
+    'return', 'if', 'else', 'while', 'for', 'do', 'switch', 'case', 'default',
+    'break', 'continue', 'goto', 'sizeof',
+))
+
+
+def _is_decl_match(m):
+    """True iff a DECL_LINE_RE match is really a declaration (not a statement wearing its shape)."""
+    if not m:
+        return False
+    head = (m.group(3) or '').strip().split()
+    return not (head and head[0] in _STMT_KEYWORDS)
+
 
 def parse_sig(ret, params):
     """('void', 'int a0, int a1') -> ('void', ['int','int']);  '' / 'void' params -> []."""
@@ -215,7 +248,7 @@ def transform(text, self_fn, canon):
     decl_line_idx = {}    # func_Y -> set of line indices that are its decl line(s)
     for i, ln in enumerate(lines):
         m = DECL_LINE_RE.match(ln)
-        if not m:
+        if not _is_decl_match(m):        # a statement wearing a prototype's shape is NOT a decl
             continue
         indent, _extern, ret, fn, params = m.group(1), m.group(2), m.group(3), m.group(4), m.group(5)
         if fn == self_fn:
@@ -248,7 +281,7 @@ def transform(text, self_fn, canon):
         if replaced_decl is not None:
             out.append(canon_decl[replaced_decl])    # the canonical forward decl (no cast here)
             continue
-        if DECL_LINE_RE.match(ln):                   # some OTHER decl line -> never cast in a decl
+        if _is_decl_match(DECL_LINE_RE.match(ln)):   # some OTHER decl line -> never cast in a decl
             out.append(ln)
             continue
         for fn, cty in to_cast.items():              # body line -> cast every call site

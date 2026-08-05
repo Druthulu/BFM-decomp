@@ -7696,7 +7696,158 @@ INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_8017C24C", func_80188D5
 
 INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_8017C24C", func_80188D90);
 
-INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_8017C24C", func_80188E10);
+/* func_80188E10 @ ov_SC06_018 (subseg ov_SC06_018_jr_8017C24C) — 124 ins. MATCH.
+ *
+ * GATE: .venv/bin/python tools/match_one.py func_80188E10 \
+ *         --c .run/wave-s40/ov_SC06_018/func_80188E10.c \
+ *         --asm-subdir asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_8017C24C
+ *
+ * ------------------------------------------------------------------ what it is
+ * "Try to hand this object off to another live entity of kind 0x282."
+ *   1. Build two 8-byte position vectors off `self` via func_8012F214 (the
+ *      fleet's local->world transform; see the ov_SC02_026 walker family,
+ *      e.g. src/ov_SC03_103/ov_SC03_103_jr_8017C294.c:4106 func_8017EC0C, which
+ *      is the byte-matched sibling this draft's types were lifted from).
+ *   2. Keep a third copy of the destination vector (`c = b`) — 8 bytes at
+ *      align 2, so gcc emits the inline lwl/lwr + swl/swr block move, exactly
+ *      the "8 bytes, align 2 -> lwl/lwr/swl/swr copy" note carried in that
+ *      sibling.  This is why `c` must be a STRUCT ASSIGN, not a memcpy.
+ *   3. If the global-collision probe func_80135888(D_80126B78, D_80126B90, &a, &b)
+ *      says the move is blocked, punt to func_8012F568 and return 1.
+ *   4. Otherwise walk the 0x60-entry / 0x10C-stride entity table D_801202A0
+ *      looking for a 0x282 entity that (a) matches `kind` (or, when
+ *      kind == 0xFFFF, only self->f70), (b) is not `self`, and (c) passes the
+ *      same collision probe against its own f20/f58 volumes.  First hit gets
+ *      state 9 and func_80189000(e, 0); return 1.  No hit -> 0.
+ *
+ * ---------------------------------------------------------------- the levers
+ * L1  ARG 5 IS A `u16` (stack slot 0x60(sp) read with `lhu`).  The redundant
+ *     `andi $v1,$s2,0xffff` in the target is gcc's zero_extendhisi2 for the
+ *     HImode->SImode widening at `kind != 0xFFFF`; it comes free with a plain
+ *     ANSI `u16` param and CANNOT be reproduced from an `s32`/`s16` param.
+ *     That same zero-extended $v1 is then reused as the loop compare operand
+ *     (`addu $s4,$v1,$zero`), which is why the kind test inside the loop must
+ *     be written against `kind` itself and not a re-cast copy.
+ *
+ * L2  `i` MUST BE INITIALISED IN EACH LOOP'S for-INIT, NOT ONCE BEFORE THE
+ *     `if`.  This is the whole match.  <-- the only residual v1 had.
+ *     With `e = ...; i = 0; if (kind != 0xFFFF) {...}` the draft is 124/124
+ *     instructions with FOUR bytes wrong: `kind` lands in $s4 instead of $s2
+ *     (and the two prologue `sw`s swap slots to follow it).  Reason (regalloc.md
+ *     K3/K5, class RC-3): `kind` is the lowest-density allocno (2 refs over a
+ *     ~50-insn range) so it is assigned LAST, and find_reg then takes the
+ *     LOWEST-numbered non-conflicting callee-saved register.  Hoisting `i = 0`
+ *     above the `andi` that reads `kind` makes `i`'s live range OVERLAP
+ *     `kind`'s, so $s2 becomes a conflict and $s4 is the next free slot.
+ *     Sinking `i = 0` into both for-inits removes the overlap -> $s2.
+ *     The single `addu $s2,$zero,$zero` you see in the delay slot of the
+ *     `beq` is dbr: it lifts the fall-through arm's `i = 0` into the slot and
+ *     drops the other arm's copy as redundant (both arms set it before any
+ *     use, so it is safe on both paths).  Do NOT "simplify" it back to one
+ *     shared initialiser — that is the 4-byte regression.
+ *
+ * L3  THE ARMS ARE `!=` FIRST.  `if (kind != 0xFFFF) {kind-or-self loop}
+ *     else {self-only loop}` gives `beq $v1,$v0,<else>` with the kind-aware
+ *     loop falling through, which is the target order.  Writing it as
+ *     `if (kind == 0xFFFF)` emits `bne` and swaps the two bodies.
+ *
+ * L4  BOTH ARMS' HIT-BLOCKS ARE TEXTUALLY IDENTICAL, which lets jump.c's
+ *     cross-jump tail-merge collapse them: the second loop's
+ *     `bnez $v0,.L80188F5C` branches into the FIRST loop's
+ *     `sh 9; jal func_80189000; return 1` block.  Keep them identical.
+ *
+ * L5  LOCAL DECL ORDER IS THE FRAME LAYOUT (regalloc.md K1/K7): `a`,`b`,`c`
+ *     land at 0x18 / 0x20 / 0x28, immediately above the 0x18-byte outgoing-arg
+ *     area that func_8012F568's 6 arguments force.  Frame 0x50.  Reordering
+ *     the three declarations shifts every sp displacement.
+ *
+ * L6  `e != self` is a POINTER compare against the `self` param (`beq $s1,$s3`),
+ *     so `self` must be typed as the same Ent pointer, not an s32.
+ *
+ * ---------------------------------------------------------------- banking note
+ * The real TU src/ov_SC06_018/ov_SC06_018_jr_8017C24C.c already declares
+ * `extern u8 D_801202A0[];` (L384), `extern s32 func_80135888(s32,s32,s32,s32);`
+ * (L589), `extern void func_8012F214(s32,s32,s32);` (L2641),
+ * `extern void func_80189000(s32 a0, s32 a1);` (L7388, and DEFINES it at L7711)
+ * and `extern u8 D_801152A8[];` (L598) — all fleet-canonical and identical to
+ * the spellings below, so only the two `D_80126B7 8/90` pointer externs
+ * (canonical form `extern s32 *D_80126B78;`, 3297 fleet occurrences) and the
+ * two local typedefs need to travel.  Uniquify the typedef names per §120 if
+ * the TU already carries a V4/Ent (it carries neither of these two spellings).
+ *
+ * SIBLINGS (the 5 other h_norm members): every DATA symbol this body touches —
+ * D_801202A0, D_801152A8, D_80126B78, D_80126B90 — is RESIDENT (fixed VA, not
+ * per-overlay tail.data), and three of the four callees (func_8012F214,
+ * func_80135888, func_8012F568) are resident too.  The ONLY per-overlay symbol
+ * is func_80189000, and in this overlay it is defined in the SAME TU
+ * (ov_SC06_018_jr_8017C24C.c:7711).  So the §40 remap for the siblings is
+ * expected to be near-identity: re-point func_80189000 at each sibling's own
+ * address and check that sibling TU's canonical spellings for the four externs
+ * before sweeping (§56b — carry the TU's types, not this draft's).
+ */
+
+typedef struct { u16 x, y, z, w; } V4_80188E10;
+
+typedef struct {
+    u16 f0;                     /* 0x00  entity kind; 0x282 is the one we want */
+    s16 f2;                     /* 0x02  state -> 9 on a hit                   */
+    u8  p04[0x20 - 0x04];
+    s32 f20;                    /* 0x20  collision volume A                    */
+    u8  p24[0x58 - 0x24];
+    s32 f58;                    /* 0x58  collision volume B                    */
+    u8  p5C[0x70 - 0x5C];
+    s16 f70;                    /* 0x70  sub-kind / owner tag                  */
+    u8  p72[0x10C - 0x72];      /* stride 0x10C, 0x60 entries (0x6480)         */
+} Ent_80188E10;
+
+extern void func_8012F214(s32 a0, s32 a1, s32 a2);
+extern s32  func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
+extern void func_8012F568(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
+extern void func_80189000(s32 a0, s32 a1);
+
+extern s32 *D_80126B78;
+extern s32 *D_80126B90;
+extern u8   D_801152A8[];
+extern u8   D_801202A0[];
+
+s32 func_80188E10(Ent_80188E10 *self, s32 arg1, s32 arg2, s32 arg3, u16 kind) {
+    V4_80188E10 a;              /* 0x18(sp) */
+    V4_80188E10 b;              /* 0x20(sp) */
+    V4_80188E10 c;              /* 0x28(sp) */
+    Ent_80188E10 *e;
+    s32 i;
+
+    func_8012F214((s32)self, arg1, (s32)&a);
+    func_8012F214((s32)self, arg2, (s32)&b);
+    c = b;                                              /* L2: lwl/lwr block move */
+    if (func_80135888((s32)D_80126B78, (s32)D_80126B90, (s32)&a, (s32)&b) != 0) {
+        func_8012F568(1, 1, *(s16 *)(self->f20 + 0x12), arg3, (s32)&b, (s32)D_801152A8);
+        return 1;
+    }
+    e = (Ent_80188E10 *)D_801202A0;
+    if (kind != 0xFFFF) {                               /* L3 */
+        for (i = 0; i < 0x60; i++, e++) {               /* L2: i=0 HERE, not above */
+            if (e->f0 == 0x282 && (e->f70 == kind || e->f70 == self->f70) && e != self &&
+                func_80135888(e->f20, e->f58, (s32)&a, (s32)&c) != 0) {
+                e->f2 = 9;                              /* L4: keep identical */
+                func_80189000((s32)e, 0);
+                return 1;
+            }
+        }
+        return 0;
+    } else {
+        for (i = 0; i < 0x60; i++, e++) {               /* L2 */
+            if (e->f0 == 0x282 && e->f70 == self->f70 && e != self &&
+                func_80135888(e->f20, e->f58, (s32)&a, (s32)&c) != 0) {
+                e->f2 = 9;                              /* L4: keep identical */
+                func_80189000((s32)e, 0);
+                return 1;
+            }
+        }
+        return 0;
+    }
+}
+
 
 #include "common.h"
 
@@ -7984,7 +8135,96 @@ void func_801899F8(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_8017C24C", func_80189A34);
+/* func_80189A34 (ov_SC06_018, TU ov_SC06_018_jr_8017C24C) -- 125 ins, match_one MATCH.
+ *
+ * Template: the sibling TU ov_SC06_032_jr_8017C24C's func_80184294 (same jr_8017C24C TU
+ * name in another overlay) supplied the whole spawn idiom -- func_8012C1B8 handle alloc,
+ * func_8001C214(obj,0), the rand()%N +- sign pairs, func_8012B0B4 into a stack buf,
+ * func_8012B2CC, the +0x1C state / +0x2 substate epilogue (cookbook §71).
+ *
+ * Two levers were needed on top of a straight transcription:
+ *
+ * 1. TWO SEPARATE handle locals (`obj` / `o2`), cookbook §76.  Reusing ONE local for the
+ *    prologue handle AND the later `*(s32*)(param_1+0x20)` reload makes it a GLOBAL allocno
+ *    (live across calls) -> `move $s3,$v0` + the +0x20 store falls out of the `bnez` delay
+ *    slot -> LENGTH-DRIFT +1 and 108 mismatches.  With two locals `obj` stays a LOCAL
+ *    allocno in $v0, the store fills the delay slot, and only the reload gets $s3.
+ *
+ * 2. STATEMENT ORDER 0x6 / 0xE / 0xA, NOT 0x6 / 0xA / 0xE (sched.md §S1, LUID tie-break).
+ *    The three post-func_8012B0B4 field updates all tie at the same sched1 priority, so the
+ *    ready-list order is source order: writing the +0xE update (which owns the `sra $a1,16`)
+ *    before the +0xA update puts `sra` ahead of `addiu $v1,-0x10` exactly as the target has
+ *    it.  sched2 then re-sorts the three `sh` stores back to 6 / A / E, so the source order
+ *    is NOT the emitted store order -- do not "fix" this back.
+ *    Boost-based variants do NOT work here: `hi = t >> 16` as a fresh single-set local is
+ *    birthing-boosted (§S2) and sinks to its consumer, landing on the same wrong order as
+ *    the inline form (5 placements tested); killing the boost with `t >>= 16` (6 off) or by
+ *    reusing the multi-set `v` (13 off) is worse.  The plain A/C/B permutation is the fix.
+ *
+ * Declarations are the TU-canonical ones already present in ov_SC06_018_jr_8017C24C.c, so
+ * this drops in without a loose-typing conflict; func_8012C1B8's canon is `void (void)`, hence
+ * the ov_SC06_032 cast-through-function-pointer idiom for the return value.
+ *
+ * No overlay-local data symbols are referenced (everything is param_1-relative or a fixed
+ * shared-engine callee), so the 5 h_norm siblings are a verbatim copy -- no symbol remap.
+ */
+#include "common.h"
+
+extern s32  rand(void);
+extern void func_8012C1B8(void);   /* TU-canonical (ov_SC06_018_jr_8017C24C) */
+extern void func_8012CAE4(s32 a0);
+extern void func_8001C214(s32 a0, s32 a1);
+extern void func_8012B0B4(unsigned int *p, int a1, int a2);  /* TU-canonical */
+extern void func_8012B2CC(s32 a0);
+
+void func_80189A34(s32 param_1) {
+    u32 buf[2];
+    s32 obj;
+    s32 o2;
+    s32 base;
+    s32 off;
+    s32 v;
+    s32 t;
+
+    obj = ((s32 (*)(void))func_8012C1B8)();
+    *(s32 *)(param_1 + 0x20) = obj;
+    if (obj == 0) {
+        func_8012CAE4(param_1);
+    } else {
+        func_8001C214(obj, 0);
+        if ((*(s16 *)(param_1 + 0x70) & 0x8000) == 0) {
+            *(s16 *)(*(s32 *)(param_1 + 0x20) + 0x10) = -0x80 - (rand() % 0x300);
+            o2 = *(s32 *)(param_1 + 0x20);
+            off = rand() % 0xC0;
+            base = *(s16 *)(param_1 + 0x70) * 0x300 + 0x180;
+            if (rand() & 1) {
+                v = base + off;
+            } else {
+                v = base - off;
+            }
+            *(s16 *)(o2 + 0x12) = v;
+            func_8012B0B4(buf, *(s16 *)(*(s32 *)(param_1 + 0x20) + 0x12) + 0x800,
+                          rand() % 0x10 + 8);
+            t = buf[0];
+            *(u16 *)(param_1 + 0x6) = *(u16 *)(param_1 + 0x6) + t;
+            *(u16 *)(param_1 + 0xE) = *(u16 *)(param_1 + 0xE) + (t >> 16);
+            *(u16 *)(param_1 + 0xA) = *(u16 *)(param_1 + 0xA) - 0x10;
+            func_8012B2CC(param_1);
+            *(s32 *)(param_1 + 0x1C) = 4;
+            *(u16 *)(param_1 + 0x2) = *(u16 *)(param_1 + 0x2) + 1;
+        } else {
+            *(s16 *)(param_1 + 0xDC) = *(u16 *)(*(s32 *)(param_1 + 0x64) + 0xCC);
+            *(s16 *)(param_1 + 0xDE) = *(u16 *)(*(s32 *)(param_1 + 0x64) + 0xCE);
+            *(s16 *)(param_1 + 0xE0) = *(u16 *)(*(s32 *)(param_1 + 0x64) + 0xD0);
+            *(s16 *)(param_1 + 0xE4) = *(u16 *)(*(s32 *)(param_1 + 0x64) + 0xD4);
+            *(s16 *)(param_1 + 0xE6) = *(u16 *)(*(s32 *)(param_1 + 0x64) + 0xD6);
+            *(s16 *)(param_1 + 0xE8) = *(u16 *)(*(s32 *)(param_1 + 0x64) + 0xD8);
+            *(s16 *)(param_1 + 0x2) = 2;
+            *(s32 *)(param_1 + 0x1C) = 8;
+        }
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_8017C24C", func_80189C28);
 

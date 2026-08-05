@@ -3209,7 +3209,90 @@ extern s32 func_8012AD50(void *a0);
 
 INCLUDE_ASM("asm/ov_SC03_002/nonmatchings/ov_SC03_002_jr_8017D604", func_8017EBD0);
 
-INCLUDE_ASM("asm/ov_SC03_002/nonmatchings/ov_SC03_002_jr_8017D604", func_8017EC98);
+// @class: struct + regalloc(local-alloc density)
+// @stuck: none — MATCH (186 ins, relocation-masked)
+//
+//   WHAT IT IS: a screen-space line walker. It steps `cur.vx` by 0x40 per iteration
+//   from p0 towards p1, linearly interpolating vy/vz, and for each step transforms the
+//   two edge points (y-4 and y+4 of the previous and current sample) through
+//   func_8012EF70 (a GTE perspective transform whose return is the GTE FLAG register).
+//   The `& ~0x1000` drops FLAG bit 12 (IR0 saturated) and keeps every other error bit;
+//   all four corners must come back clean before the quad is drawn via func_8017EF80.
+//
+//   TYPE: SVEC_8017EC98 is layout-identical to the fleet's `SVECTOR_8016E7C8`
+//   (`{ short vx, vy, vz, pad; }`, 8 bytes / align 2). A fresh tag is used so the draft
+//   splices into ov_SC03_002_jr_8017D604.c without redefining the shared typedef; the
+//   banker may substitute SVECTOR_8016E7C8 verbatim. Align 2 + size 8 is what makes
+//   every whole-struct assignment come out as the inline lwl/lwr + swl/swr pair
+//   (move_by_pieces_ninsns(8,2)=4 >= MOVE_RATIO 2 -> mips movstrsi, cookbook §38 family).
+//
+//   THE ONE NON-OBVIOUS LEVER (cost 7 mismatches -> 0):
+//   Do NOT hoist the stepped abscissa into a local. Writing
+//       s32 x = cur.vx;  ... (x - p0->vx) ... (x >= p1->vx)
+//   is value-identical and gives the same 186 instructions, but it leaves the first
+//   interpolation's `p0->vy` and `p0->vx` pseudos with the register pair SWAPPED
+//   ($a1/$a2) relative to the target — a clean REGALLOC-PERM.
+//   Mechanism (local-alloc.c:1579 qty_compare, pri = floor_log2(R)*R*size/(death-birth)):
+//     * qty{p0->vy, addu-result} is tied by combine_regs and carries R=8, span=19  -> 12631
+//     * qty{p0->vx}                                        carries R=6, span=11 -> 10909
+//     so the vy qty allocates first and takes the lower free reg ($a1). In the vz block
+//     two zero-byte `(use accum)` insns land inside the window, span=23 -> 10434, so
+//     there the vx qty wins and the pair comes out right — which is why only the FIRST
+//     block diffed. Reading `cur.vx` in place instead of through a user variable removes
+//     the reg/v pseudo, re-shapes the qty birth order, and both blocks land on the
+//     target's assignment with no pin and no zero-byte asm.
+//   (register pins on $a1/$a2 also reach MATCH but cost §72/§80 side effects; the
+//   pin-free form above is the one banked.)
+#include "common.h"
+
+/* identical layout to SVECTOR_8016E7C8 (src/shared/engine_types.h) */
+typedef struct { short vx, vy, vz, pad; } SVEC_8017EC98;
+
+void func_8017EC98(SVEC_8017EC98 *p0, SVEC_8017EC98 *p1) {
+    /* conform to the TU's file-scope canon (`extern void func_8012EF70(s32, s32);`)
+       and read the GTE flag through a cast at the call — the §138 "use is cast" lane. */
+    extern void func_8012EF70(s32 a0, s32 a1);
+    extern void func_8017EF80(void *a0, void *a1, void *a2, void *a3);
+
+    SVEC_8017EC98 prev;
+    SVEC_8017EC98 cur;
+    SVEC_8017EC98 lo0;
+    SVEC_8017EC98 lo1;
+    SVEC_8017EC98 sv0;
+    SVEC_8017EC98 sv1;
+    SVEC_8017EC98 sv2;
+    SVEC_8017EC98 sv3;
+    s32 more;
+
+    more = 1;
+    cur = *p0;
+    do {
+        prev = cur;
+        cur.vx += 0x40;
+        cur.vy = p0->vy + (p1->vy - p0->vy) * (cur.vx - p0->vx) / (p1->vx - p0->vx);
+        cur.vz = p0->vz + (p1->vz - p0->vz) * (cur.vx - p0->vx) / (p1->vx - p0->vx);
+        if (cur.vx >= p1->vx) {
+            cur.vx = p1->vx;
+            more = 0;
+        }
+        lo0 = prev;
+        lo0.vy -= 4;
+        lo1 = cur;
+        lo1.vy -= 4;
+        if ((((s32 (*)(void *, void *))func_8012EF70)(&lo0, &sv0) & ~0x1000) == 0 &&
+            (((s32 (*)(void *, void *))func_8012EF70)(&lo1, &sv1) & ~0x1000) == 0) {
+            lo0 = prev;
+            lo0.vy += 4;
+            lo1 = cur;
+            lo1.vy += 4;
+            if ((((s32 (*)(void *, void *))func_8012EF70)(&lo0, &sv2) & ~0x1000) == 0 &&
+                (((s32 (*)(void *, void *))func_8012EF70)(&lo1, &sv3) & ~0x1000) == 0) {
+                func_8017EF80(&sv0, &sv1, &sv2, &sv3);
+            }
+        }
+    } while (more);
+}
+
 
 
 
@@ -4493,7 +4576,70 @@ void func_80182E5C(void *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_002/nonmatchings/ov_SC03_002_jr_8017D604", func_80182E88);
+
+
+/* func_80182E88 — ov_SC04_018 (TU: src/ov_SC04_018/ov_SC04_018_jr_8017AE2C.c)
+ *
+ * DECL SURFACE (§37 / §124 asm-label alias):
+ *   The TU already carries three fleet-canonical forward decls
+ *     `extern s32 func_80182E88(void);`   (L5361, L5592, L5904 — all ABOVE the
+ *   splice point at L6839), each used by a banked caller that invokes it with
+ *   NO arguments (`if (func_80182E88() == 0)`).  The byte-true signature takes
+ *   a pointer in $a0 (`lw $a2, 0x64($a0)` at 0x801848E4), so the definition
+ *   disagrees with the canonical decl on arity -> cc1 emits
+ *     "conflicting types for `func_80182E88'".
+ *   Neither a fleet widen nor a cast-at-use fixes an arity clash on the symbol
+ *   being DEFINED, so the definition is emitted under the C identifier
+ *   `aF801848DC` with an __asm__("func_80182E88") label.  The C-level name
+ *   never collides with the canonical decls, the emitted symbol is unchanged,
+ *   and codegen is byte-identical (verified: match_one MATCH 33/33 with and
+ *   without the alias).  Precedent in this very TU: aF8018CB18 @ L8872.
+ *
+ *   func_8012F2E8 / func_8012CB64 / D_80126B5E / D_80126B62 / D_80126B66 are
+ *   reproduced VERBATIM from the TU's own decls (L7717-L7722, L7964-L7965,
+ *   L8727-L8729) — identical types, so no second conflict hides behind the
+ *   first.  No shared header is touched.
+ *
+ * BODY: the original draft discarded the func_8012CB64 result and returned a
+ *   literal 0, which forced `move $v0,$zero` into the epilogue and displaced
+ *   `addiu $sp,$sp,0x30` into the jr delay slot (DIFF 3/33 @ idx 9/30/32).
+ *   The target sets $v0=0 in the *branch* delay slot and falls through to a
+ *   bare epilogue after `jal func_8012CB64`, i.e. it RETURNS the callee's
+ *   value on the taken path — the exact shape of the banked sibling
+ *   func_80185D10 (TU L7724-L7733).  Early-return + tail-return reproduces it.
+ *
+ * ORACLE: .venv/bin/python tools/match_one.py func_80182E88 \
+ *           --c .run/s7/ov_SC04_018/func_80182E88.c \
+ *           --asm-subdir asm/ov_SC04_018/nonmatchings/ov_SC04_018_jr_8017AE2C
+ */
+
+
+extern void func_8012F2E8(s32 a0, s32 a1, s32 a2);
+extern s32 func_8012CB64(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4);
+
+s32 aF801848DC(void *a0) __asm__("func_80182E88");
+
+s32 aF801848DC(void *a0) {
+
+    extern u16 D_80126B5E;
+    extern u16 D_80126B62;
+    extern u16 D_80126B66;
+    s16 out[3];
+    s16 in[3];
+    void *p;
+
+    p = *(void **)((char *)a0 + 0x64);
+    if (*(u16 *)(*(s32 *)((char *)p + 0xCC) + 0x2) != 0x2) {
+        return 0;
+    }
+
+    in[0] = D_80126B5E;
+    in[1] = D_80126B62;
+    in[2] = D_80126B66;
+    func_8012F2E8(*(s32 *)((char *)p + 0xCC), (s32)in, (s32)out);
+    return func_8012CB64((s32)out, -0xC0, 0x40, -0x60, 0);
+}
+
 
 
 /* func_80182F0C — 76 instructions */
@@ -5441,7 +5587,27 @@ void *func_80184218(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_002/nonmatchings/ov_SC03_002_jr_8017D604", func_801842BC);
+
+
+
+extern void func_8012F2E8(s32 a0, s32 a1, s32 a2);
+extern s32 func_8012CB64(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4);
+
+s32 func_801842BC(void *a0) {
+
+    extern u16 D_80126B5E;
+    extern u16 D_80126B62;
+    extern u16 D_80126B66;
+    s16 out[3];
+    s16 in[3];
+
+    in[0] = D_80126B5E;
+    in[1] = D_80126B62;
+    in[2] = D_80126B66;
+    func_8012F2E8((s32)a0, (s32)in, (s32)out);
+    return func_8012CB64((s32)out, -0x80, 0x80, -0x60, 0);
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_002/nonmatchings/ov_SC03_002_jr_8017D604", func_8018431C);
 
