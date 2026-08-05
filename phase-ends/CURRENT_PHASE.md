@@ -187,11 +187,17 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 > **NO phase close — keep grinding.** Plan = **T7**; full report `.run/fable_frontier/ANALYSIS.md`.
 > **VERIFY:** `git log --oneline -4` at/near HEAD + `docs/progress.fleet.md` agrees with FLEET below.
 
-## FLEET — R22 **140 passed / 0 failed of 140** (run SIX times this session, 140/140 every time)
-**96.46% fn-count (341,198/353,717) · 94.4% instr-weighted (12,410,275/13,141,652) · 89.2%
-distinct-code (5,028,621/5,634,875; 77,960 uniq)** · 0 NON_MATCHING · audit-digest OK.
-Session opened 341,186 / 12,405,402 / 77,952 ⇒ **+4,873 instructions, +8 unique fns**, ~0 agent tokens
-(no wave was run — every gain came from re-gating stored work and one mechanical propagation).
+## FLEET — R22 **140 passed / 0 failed of 140** (run ~14× this session, 140/140 every time)
+**96.51% fn-count (341,365/353,717) · 94.4% instr-weighted (12,419,169/13,160,961) · 89.0%
+distinct-code (5,029,454/5,654,184; 77,973 uniq)** · 0 NON_MATCHING · audit-digest OK.
+Session opened 341,186 / 12,405,402 / 77,952 ⇒ **+13,767 instructions, +21 unique fns, +179 fn-count**,
+**~0 agent tokens — NO WAVE WAS RUN.** Every gain came from re-gating stored work, mechanical
+propagation, and fixing instruments.
+**⚠️ THE DENOMINATOR MOVED +19,309 ins (main's sig regen, S7).** instr 94.5%→94.4% and distinct
+89.3%→89.0% are a **DENOMINATOR CORRECTION, NOT a regression** — both numerators are unchanged across
+that edit. main's sig covered only 1,525 of its 2,002 stubs (dated 2026-06-14); now 2,001/2,002 (the
+1 is `func_80049600`, a LINKED PsyQ region the Ghidra sig excludes by design). Phase-27 precedent:
+an honest denominator moves the headline DOWN.
 
 ## 🔑 THE SESSION'S HEADLINE — S38's "distinct-code REGRESSION" NEVER HAPPENED
 The v4 checkpoint gated the phase's best lever on it (*"do NOT scale the alias lever"*). It was a
@@ -235,6 +241,10 @@ denominators unchanged) + unchanged `tools/` + `git diff A B -- src/ | grep -c '
 | **4 wave-6 drafts** (SC06_032 710 · SC03_001 557 · SC04_018 513 · SC02_027 125) | **+1,905** | **banked UNCHANGED — see the finding below** |
 | **`func_801878E8` family 4/4 siblings** | **+2,052** | `jtbl_family_bank.py`, ~0 agent tokens |
 | **4 re-gated stored drafts** (the 2 REVERTED overlays) | **+146** | `ov_SC06_030` ×2 · `ov_SC07_010` ×2; incl. a fleet-wide `engine_core.h` no-proto arity edit proven byte-neutral |
+| **8/35 draft-exemplar heads** re-gated | **+474** | 4 gate cycles, 0 agent tokens; 23% vs 8% for the general pool |
+| **5 families propagated ×N** (10 siblings) | **+718** | `jtbl_family_bank`; 1 family auto-REVERTED on R22 (§61), 1 found nothing |
+| **`func_801758FC` ×137** | **+7,535** | **the largest free h_exact class** — see the third finding |
+| **8 small free h_exact classes** | **+175** | the rest of that pool `--addr` could reach |
 
 ## 🔑 THE SECOND FINDING — RE-GATE STORED DRAFTS AFTER ANY TOOL REPAIR
 All 4 wave-6 drafts banked with **no change to the drafts**. S38 recorded them blocked on a class
@@ -243,6 +253,26 @@ S38's own tool repairs** (the `jr_isolate_all`/`overlay_src_split` alias-DEFINIT
 + `harvest_verify._reload_corpus`). The drafts were correct; the instruments were failing them.
 **A stored verdict is only as current as the instrument that produced it** (R35, applied to the backlog
 rather than to metrics). **This is the 5th "wall" this phase to resolve to our own tooling.**
+
+## 🔑 THE THIRD FINDING — MEASURE THE FREE POOL, DON'T TRUST THE REPORT
+`.run/fable_frontier/ANALYSIS.md` claimed the whale was "open only in SC07_006/007/010/011" — **3 of
+those 4 were already banked**; only 010 was open (closed this session). Its pool numbers are **not
+reliable** (the checkpoint's own R14 caveat, now demonstrated). Re-measured from the bytes instead:
+**215 open instances / 8,763 ins are h_exact-identical to an already-matched function**, and ONE class
+was 86% of it — `func_801758FC`, 55 ins, same address in all 138 overlays, matched in `ov_SC01_000`,
+open in **137**. `dedup_propagate --addr` banked all 137 byte-identical (**+7,535 ins**).
+**It had been in the stored-draft backlog and re-gated "no" earlier the same night** — because gating
+a DRAFT is the wrong move for an h_exact class; propagating the MATCHED body is the free one. Same
+function, two routes, only one is free. **Remaining free pool: 66 instances / 1,061 ins across 25
+classes, all macro-backed (so `--addr` refuses — they need a `dedup_extend`-style route).**
+
+## 🌙 RUNNING OVERNIGHT (started 00:42, 6h box)
+`tools/grinder.py -j 14 --cycles 4 --permute-secs 240 --max-closeness 20 --max-nins 400`
+— the token-FREE permuter daemon, with the P30-T4 ILS warm-restart whose yield was never proven.
+Targeting ON: 1,286 classified, only `bucket=permuter` admitted (skipped 805: 447 redraft, 272
+structural, 53 integration). **It commits its own verified banks** (`gate_stage --no-propagate`,
+§55b) — so expect grinder commits, and **run a full R22 before trusting them as a fleet claim (§61)**.
+Log: `.run/s39/grinder.log`. If it produced banks, the open items are propagation + R22 + digest.
 
 ## ▶ RESUME HERE
 1. **S4 continues** (task #3): the **39 draft-exemplar families (382 members)** + the **2 resident
