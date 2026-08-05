@@ -2145,3 +2145,62 @@ exactly that (family_hseq 29,961 vs progress.py 28,296, an unexplained R32 gap).
 be green while they disagree catches the next one for free. Same shape as `audit-digest` (S39) and
 `audit-binaries` (R36). **Sequencing: P31's opener (it is already the T-bucket phase), or a P30 close
 item if the honest denominator is wanted before the next re-baseline.**
+
+---
+
+## 2026-08-05 (P30 S6/S41) — the definitive disc audit: assert a PARTITION, don't extend a list
+
+**Context.** Drew: *"im getting tired of learning there was more code all along, we really need a full
+audit that definitively lists ALL code that we need to decomp to complete this game."* Justified —
+three separate discoveries in three phases, each a real expansion of the denominator:
+
+| when | what was found | how it had hidden |
+|---|---|---|
+| P27 | 4 SC07 overlays (136→140) | the extractor globbed `0.4.dec`; their code sits at PAC entry **1** |
+| P28 | type-4 row was vacuous for 138 known binaries | `disc_code_sweep` decoded only RAW bytes — **blind to compressed code** |
+| P27 | **39 un-onboarded type-1 code modules** | resident-class; each loads at its OWN address, so not mechanically onboardable |
+
+**The diagnosis (this is the part worth keeping).** Not one of these was a wrong answer. Each tool was
+**correct about the subset it examined and silent about the rest** — a glob, a decode layer, a
+4,096-word window. Extending any single list would have produced the same class of surprise again.
+Measured while writing this: the current sweep windows at 4,096 words, so **782 of 1,328 PAC payloads
+are only partially classified (~55.5M words never examined)**. Almost certainly data — but *nothing has
+checked*, which is exactly the shape of all three findings above.
+
+**The decision: assert a PARTITION over the disc, not a list of code.**
+
+> Every byte on the disc belongs to exactly ONE bucket — onboarded-code / classified-data /
+> audio-video / filesystem-metadata / unused — the buckets sum to the disc, and **residue is a
+> DEFECT** (R32).
+
+Once a gate enforces that, "more code all along" becomes structurally impossible: a further discovery
+would have to come from outside the disc image. This is the same move as `audit-digest` (S1e) and
+`audit-binaries` (R36) — the two gates that ended the metric and citizenship surprises — applied to the
+denominator itself. **A partition with an asserted residue of zero is a completeness proof; a longer
+list is only a longer list.**
+
+**Three layers (tasks #10, #11).**
+- **L1 static partition** — walk from the DISC IMAGE, not our configs; every ISO file → `.CD` sub-file
+  → PAC entry → **both** raw and decompressed layers; classify WHOLE payloads (no window); emit
+  `docs/disc-ledger.md` with per-payload `claimed-by <binary> | UNCLAIMED`; assert the sum.
+- **L2 second oracle (R34)** — today's code test is a heuristic (`valid ≥ 0.90` AND `jr $ra ≥ 0.01`);
+  a small code payload can fall below 1% `jr` density. Cross-check with `sig_image` boundary carving;
+  disagreements become the review queue.
+- **L3 runtime census** — static analysis says "looks like code"; only the emulator says "was loaded to
+  X and executed". A scripted PCSX-Redux tour logging every load (payload → RAM addr → len) and every
+  executed PC range.
+
+**Why L3 is sequenced with the type-1 onboarding rather than after it:** it is the *same run*. The 39
+modules are blocked on load addresses that only runtime RE can give (P9 — a build binary needs its
+address to byte-verify), and the census needs the same instrumentation. Instrumenting it to log EVERY
+load rather than only those modules makes one pass deliver the onboarding data **and** the completeness
+proof. Doing them separately would pay for the tour twice.
+
+**Expected direction of the number, stated in advance so it is not read as a regression:** onboarding
+the 39 RAISES the denominator and LOWERS the headline %, exactly as the main sig regen did today
+(94.5→94.4) and the P27 overlay find did (68.9→67.0). **"100%" is not claimable until the 39 are
+onboarded-and-matched or explicitly excluded with a stated reason** — already in the completion
+contract, and this makes it enforceable rather than remembered.
+
+**Sequencing (Drew's call):** finish the serial crack queue → L1+L2 (cheap, deterministic, and they
+sharpen L3's target list) → L3 + type-1 onboarding. Fold into **P31**, which already owns bucket T.
