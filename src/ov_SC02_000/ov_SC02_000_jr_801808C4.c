@@ -2875,10 +2875,3 @@ void func_801814F0(int param_1)
     }
     return;
 }
-
-
-INCLUDE_ASM("asm/ov_SC02_000/nonmatchings/ov_SC02_000_jr_801808C4", func_80181538);
-
-INCLUDE_ASM("asm/ov_SC02_000/nonmatchings/ov_SC02_000_jr_801808C4", func_801815F4);
-
-INCLUDE_ASM("asm/ov_SC02_000/nonmatchings/ov_SC02_000_jr_801808C4", func_80181698);

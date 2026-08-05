@@ -2719,159 +2719,70 @@ extern unsigned char D_801A73BC[];
 extern void func_80180428(int param_1);
 extern int D_801A6C5C;
 extern void func_80180878(short *param_1);
+extern s32 func_8012BEE8(s32);
+extern void func_8012B2CC(s32);
+extern void func_8012B23C(s32);
+extern u8 D_801A629C;
+extern unsigned char D_8018E68C[];
+extern unsigned char D_801A648C[];
+extern void func_801808C4(s32 param_1);
+extern void func_80130740(void *a0, u16 *a1);
+extern unsigned char D_8018E78C[];
+extern void func_80180A18(int param);
+extern void func_8012A828(s32, void *);
+extern void func_8002D4C8(s32, s32);
+extern void func_80180A64(s32 param_1);
+extern void func_8012E364(void);
+extern void func_80181498(void);
+extern s32 func_8012E470(s32 a0);
+extern s32 func_8012E4C8(void *a0);
+extern void func_801814B8(int param_1);
+extern s32 func_8012BEE8(s32 a0);
+extern void func_801814F0(int param_1);
 /* ==== end §8b carried decl layer ==== */
 
 
 
-// @class: struct
-// @stuck: none — MATCH (85 ins, relocation-masked). Two switch-codegen levers:
-//   (1) inner switch needs a JUMP TABLE but cases 0,1,2,3 share a label => gcc
-//       group_case_nodes folds them to one range (count 2), total count 4 <
-//       CASE_VALUES_THRESHOLD 5 => decision TREE. Adding explicit `case 4:`/`case 6:`
-//       (they alias default=the seq block) keeps them as separate non-grouped nodes
-//       => count 6 >= 5 => jump table emitted.
-//   (2) case bodies emit in SOURCE order; target layout is [check][case5][seq=default]
-//       with the check block JUMPING to seq (case5 sits between). Plain fall-through to
-//       default can't skip case5, so the check cases `goto seq;` an explicit label on
-//       the default/seq block placed last. (outer if/else-if had to become a `switch`
-//       too, to emit the beqz/beq compare-chain instead of the inline bnez-else.)
-
-extern void func_8012A828(s32 a0, void *a1);
-extern s32 func_8012BEE8(s32);
-extern void func_8012B2CC(s32);
-extern void func_8012B23C(s32);
-extern void func_8012B14C(s32 a0, s32 a1);
-extern void func_801803B0(void);
-extern s32 rand(void);
-
-extern u8 D_801A629C;
-extern unsigned char D_8018E68C[];
-extern unsigned char D_801A648C[];
-
-void func_801808C4(s32 param_1)
-{
-    switch (*(u16 *)(param_1 + 0x34)) {
-    case 0:
-        if ((*(u16 *)(param_1 + 0x72) & 0x4000) != 0) {
-            *(u16 *)(param_1 + 0x34) = 1;
-            ((s32 (*)(s32, void *))func_8012A828)(param_1, &D_801A629C);
-            *(s32 *)(param_1 + 0x1c) = 10;
-        }
-        break;
-    case 1:
-        if (func_8012BEE8(param_1) != 0) {
-            *(u8 *)(param_1 + 0xc1) = 0;
-            *(u16 *)(param_1 + 0x2) = 1;
-            *(u16 *)(param_1 + 0x34) = 0;
-            *(s32 *)(param_1 + 0x1c) = (rand() & 0x1f) + 0x46;
-            *(u16 *)(param_1 + 0xe0) = 0;
-            *(u16 *)(param_1 + 0xe2) = *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x12);
-            switch ((s32)((u32)*(u16 *)(param_1 + 0x70) << 0x10) >> 0x18) {
-            case 0:
-            case 1:
-            case 2:
-            case 3:
-            case 7:
-                if ((*(u16 *)(param_1 + 0xfe) & 2) != 0) {
-                    *(u16 *)(param_1 + 0xe2) = 0;
-                }
-                goto seq;
-            case 5:
-                ((void (*)(s32))func_801803B0)(param_1);
-                break;
-            case 4:
-            case 6:
-            default:
-            seq:
-                *(u16 *)(param_1 + 0xe4) = 0x1e;
-                *(u16 *)(param_1 + 0x5e) = 0;
-                *(u16 *)(param_1 + 0x5c) = 0xaa10;
-                func_8012B2CC(param_1);
-                func_8012B23C(param_1);
-                ((void (*)(s32, void *))func_8012B14C)(param_1, &(*(u8 *)D_8018E68C));
-                ((s32 (*)(s32, void *))func_8012A828)(param_1, &(*(u8 *)D_801A648C));
-                break;
-            }
-        }
-        break;
-    }
-}
-
-
-// @class: plumbing
-// @stuck: none — MATCH expected (param in $s0 across call, stores in source order)
-
-extern void func_80130740(void *a0, u16 *a1);
-extern unsigned char D_8018E78C[];
-
-void func_80180A18(int param)
-{
-    ((int (*)(int, void *))func_80130740)(param, &D_8018E78C);
-    *(int *)(param + 0x1c) = 0x1e;
-    *(int *)(param + 0x18) = 0;
-    *(int *)(param + 0x10) = 0;
-    *(short *)(param + 0x2) = 0xf;
-    *(short *)(param + 0x5c) = 0;
-}
-
-
-
-// @class: plumbing
-// @stuck: none — MATCH expected (simple struct-field init + two calls, natural schedule)
-
-extern void func_8012A828(s32, void *);
-extern void func_8002D4C8(s32, s32);
-extern unsigned char D_801A6F44;
-
-void func_80180A64(s32 param_1)
-{
-    *(s16 *)(param_1 + 2) = 0x10;
-    *(s16 *)(param_1 + 0x34) = 0;
-    *(s16 *)(param_1 + 0x5c) = 0;
-    *(s32 *)(param_1 + 0x1c) = 0;
-    ((void (*)(s32, u8 *))func_8012A828)(param_1, ((u8 *)&D_801A6F44));
-    *(s16 *)(param_1 + 0x98) = 0;
-    *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x2c) |= 0x10;
-    *(s16 *)(*(s32 *)(param_1 + 0x20) + 0x1a) = 0x100;
-    func_8002D4C8(0x436, 0);
-}
-
-
-INCLUDE_ASM("asm/ov_SC02_003/nonmatchings/ov_SC02_003_jr_801808C4", func_80180AD4);
-
-INCLUDE_ASM("asm/ov_SC02_003/nonmatchings/ov_SC02_003_jr_801808C4", func_80180D6C);
-
-INCLUDE_ASM("asm/ov_SC02_003/nonmatchings/ov_SC02_003_jr_801808C4", func_8018127C);
-
-extern void func_8012E364(void);
-    void func_80181498(void) {
-        ((s32 (*)(void))func_8012E364)();
-    }
-
-
-extern s32 func_8012E470(s32 a0);
-extern s32 func_8012E4C8(void *a0);
-void func_801814B8(int param_1)
-{
-    if (((int (*)(void))func_8012E470)() != 0) {
-        ((void (*)(int))func_8012E4C8)(param_1);
-    }
-}
-
-
-
-// @class: plumbing
-// @stuck: none — MATCH expected (clean structural stub)
+// @class: regalloc-order
+// @stuck: none — MATCH (mask pinned $a1/$5 + p pinned $v0/$2; switch w/ distributed func_8012C218 tail via dup calls + cross-jump merge)
 
 extern s32 func_8012BEE8(s32 a0);
-extern void func_8012A828(s32 a0, void *a1);
-extern unsigned char D_801A6F44;
+extern void func_80130D48(s32 a0);
+extern void func_8012C098(void);
+extern void func_8012C218(void *a0);
+extern s32 D_801270CC;
 
-void func_801814F0(int param_1)
-{
-    ((void (*)(void))func_8012BEE8)();
-    if (*(int *)(param_1 + 0x1c) == 1) {
-        func_8012A828(param_1, &D_801A6F44);
+void func_80181538(s32 param_1) {
+    register s32 *p __asm__("$2");
+    register s32 mask __asm__("$5");
+
+    mask = 0x80000000;
+    p = *(s32 **)(param_1 + 0x20);
+    p[1] ^= mask;
+    if (((s32 (*)(void))func_8012BEE8)() == 0) {
+        return;
     }
-    return;
+    func_80130D48(param_1);
+    switch ((s32)((u32)*(u16 *)(param_1 + 0x70) << 0x10) >> 0x18) {
+    case 0:
+    case 1:
+    case 2:
+    case 5:
+    case 6:
+        ((void (*)(s32))func_8012C098)(param_1);
+        return;
+    case 3:
+    case 7:
+        ((void (*)(s32))func_8012C218)(param_1);
+        return;
+    case 4:
+        D_801270CC = D_801270CC - 1;
+        ((void (*)(s32))func_8012C218)(param_1);
+        return;
+    }
 }
+
+INCLUDE_ASM("asm/ov_SC02_000/nonmatchings/ov_SC02_000_jr_80181538", func_801815F4);
+
+INCLUDE_ASM("asm/ov_SC02_000/nonmatchings/ov_SC02_000_jr_80181538", func_80181698);
+
