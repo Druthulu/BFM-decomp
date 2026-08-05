@@ -11,6 +11,14 @@ a wrong draft can never be accepted. Chunk-with-bisection keeps it fast on high-
 The source .c is git-committed, so `git checkout` always recovers if interrupted.
 Resident defaults; pass flags for another binary.
 
+⚠️ RUN THIS AS A SCRIPT — NEVER `import` IT. There is no `if __name__ == '__main__'` guard: the
+whole gate lives at module level, so a bare `import harvest_verify` PARSES argv, RUNS A FULL BUILD
+against the default binary (resident), splices drafts, and OVERWRITES .run/harvest_{verified,failed,
+failed.classified}.txt. Found the hard way in P30 S43 while unit-testing classify_fail — the import
+alone ran a 13-draft resident gate. Nothing imports it today (checked), so this stays a documented
+hazard rather than a risky 500-line refactor of the project's most load-bearing gate; to test a
+helper here, exec that function's source (ast.get_source_segment) instead of importing the module.
+
   python3 tools/harvest_verify.py            # resident
   python3 tools/harvest_verify.py --chunk 6
 """
@@ -69,6 +77,8 @@ def sha1(path):
 _PLUMBING = re.compile(
     r'conflicting types|redefinition of|redeclar|parse error before|storage size|'
     r'undefined reference|prototype declaration', re.I)
+# make's own failure summary — a wrapper around the diagnostic, never the diagnostic (see classify_fail)
+_MAKE_WRAP = re.compile(r'^\s*make(\[\d+\])?:\s*\*\*\*')
 _last_err = ''
 _last_sha = None
 _NO_BUILD = object()   # attempt() short-circuited (stub already spliced) — no build ran
@@ -132,8 +142,21 @@ def classify_fail(got_sha):
         if _PLUMBING.search(ln):
             return 'PLUMBING: ' + _squeeze(ln)
     errs = [ln for ln in lines if re.search(r'\berror\b|\bError \d', ln)]
+    # `make: *** [Makefile:N: build/src/<ov>/<tu>.o] Error N` is make's SUMMARY of a failure, never a
+    # diagnosis of it — and because make prints it LAST, `errs[-1]` picked it every time. Measured
+    # P30 S43 over the committed .classified.txt corpus: ~3,000 of ~4,000 CC1-FAIL labels were that
+    # wrapper, carrying nothing but the TU name that the record already stores. Each one therefore
+    # cost a manual splice-and-rebuild to learn what cc1 actually said (done 3x in S42 alone). Same
+    # defect as the §58 warning red-herring directly above — a label identical for every input is
+    # worse than none — so the guard has to exclude make's own lines too, not just warnings.
+    # Prefer the FIRST real diagnostic: cc1 cascades, so error #1 is the root cause and error #N is
+    # usually its aftershock. Fall back to the wrapper only when nothing else exists (R32: surface
+    # the gap, never paper over it).
+    real = [ln for ln in errs if not _MAKE_WRAP.match(ln)]
+    if real:
+        return 'CC1-FAIL: ' + _squeeze(real[0])
     if errs:
-        return 'CC1-FAIL: ' + _squeeze(errs[-1])
+        return 'CC1-FAIL(no-diagnostic): ' + _squeeze(errs[-1])
     return 'CC1-FAIL'
 
 

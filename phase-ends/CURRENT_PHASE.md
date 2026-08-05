@@ -2124,6 +2124,32 @@ comparable across sizes — 14/15 outranks 63/947. A relative-closeness rank was
 only **24 of 836** live rows carry both `closeness` and `nins`, and on those the two orderings agree
 14/15 (most are closeness=0 integration-stranded). Revisit if `nins` coverage ever rises.
 
+### ▶ S43-3 — the CC1-FAIL label named MAKE, not the compiler: ~3,000 content-free labels (2026-08-05)
+The checkpoint's cheap-fuel note ("the classifier writes `CC1-FAIL: make: *** Error 33` **without the
+cc1 message**, so each costs a manual splice-and-rebuild") is exactly right, and the cause is one line.
+`classify_fail` picked `errs[-1]` — the LAST error line — and make prints its own summary
+(`make: *** [Makefile:N: build/src/<ov>/<tu>.o] Error N`) **last, always**. So make's wrapper won every
+time, and the label carried nothing but the TU name the record already stores.
+
+**Measured over the committed `.classified.txt` corpus (R37, derived not asserted): ~3,000 of ~4,000
+CC1-FAIL labels are that wrapper**, plus 1,019 bare `CC1-FAIL` with no message at all.
+
+**Fix:** `_MAKE_WRAP` guard — make's summary lines are excluded from the label, and the **FIRST** real
+diagnostic wins (cc1 cascades: error #1 is the root cause, error #N its aftershock). When nothing but a
+wrapper exists the label is now `CC1-FAIL(no-diagnostic):` — honest about the gap rather than
+disguising it (R32). This is the same family as the §58 warning red-herring guard immediately above it
+in the source: *a label identical for every input carries no information.* Verified on the exact branch:
+`CC1-FAIL: make: *** [...] Error 33` → ``CC1-FAIL: src/…/tu.c:2240: error: too few arguments to
+function `gte_ldv3'``.
+
+**⚠️ HAZARD FOUND (mine, and now documented in the file's header):** `harvest_verify.py` has **no
+`if __name__ == '__main__'` guard** — the entire gate runs at module level. Unit-testing `classify_fail`
+by importing the module **ran a full 13-draft resident gate** and overwrote the unsuffixed
+`.run/harvest_{verified,failed}*.txt` scratch. No damage (resident stayed `8e17e02f`, 0 banked, tree
+clean, per-binary outputs untouched) and **nothing imports it today** (checked), so it is a documented
+hazard rather than a risky 500-line refactor of the most load-bearing gate we own. **To test a helper
+in it, `exec` that function's source (`ast.get_source_segment`) — never `import` the module.**
+
 ### ▶ S11 — the propagation lag: EXTEND 0/36 -> 31/36, and every blocker was a DECLARATION (2026-08-03/04)
 Lane 2 of the S10 checkpoint ("26,006 ins, ~0 agent tokens, PARTLY BLOCKED"), taken first on the
 standing doctrine that the cheap deterministic lever is probed before the expensive agent one.
