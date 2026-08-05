@@ -4334,7 +4334,7 @@ void func_80175DA8(param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_80171B4C", func_80176144);
+DEFINE_func_80176144()  /* dedup: shared engine-core @0x80176144 (src/shared) */
 
 // KEY FINDINGS (reusable):
 //   * Base MUST be `s32`, and the index expr written OFFSET-FIRST (`((p<<16)>>14) + st + 0x18`) — a `u8*` base

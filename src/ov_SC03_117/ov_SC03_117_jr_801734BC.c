@@ -3207,36 +3207,7 @@ void func_80175DA8(param_1)
  *           --asm-subdir ov_SC01_077/nonmatchings/ov_SC01_077_jr_801734BC -> MATCH (53 ins)
  */
 
-void func_80176144(s32 a0)
-{
-   /* size 0x0C */
-    /* §37 asm-label alias: private C names, canonical relocations. */
-    extern S_AF634_80176144 aAF634[] __asm__("D_800AF634");
-    extern S_AF634_80176144 aAF638[] __asm__("D_800AF638");
-
-    extern u8  D_8011F7A8;
-    extern s16 D_8011F7BC;
-    extern s16 D_8011F7BE;
-
-    extern s32 func_80178004(s32 a0, s32 a1, s32 a2);
-
-    u32 *slot;
-    u32 *p;
-    s16 param_1 = (s16)a0;
-
-    p = (u32 *)(aAF638[param_1].g0 + aAF634[param_1].g0 * 4);
-    slot = (u32 *)(param_1 * 4 + (s32)&D_8011F7A8);
-    slot[14] = (u32)p;
-    /* §5a zero-byte sched fence: without it sched1 hoists the two %hi/lhu global
-       argument loads above the `sw` of slot[14] (16 mismatches, 0 length drift). */
-    __asm__("");
-    p = (u32 *)func_80178004((s32)p,
-                             (s16)((*(u16 *)&D_8011F7BC) - 0x17),
-                             (s16)((*(u16 *)&D_8011F7BE) + 0x65));
-    slot[16] = (u32)p - 0x14;
-    p += 5;
-    aAF634[param_1].g0 += ((s32)p - (s32)slot[14]) >> 2;
-}
+DEFINE_func_80176144()  /* dedup: shared engine-core @0x80176144 (src/shared) */
 
 
 
