@@ -266,6 +266,35 @@ a DRAFT is the wrong move for an h_exact class; propagating the MATCHED body is 
 function, two routes, only one is free. **Remaining free pool: 66 instances / 1,061 ins across 25
 classes, all macro-backed (so `--addr` refuses — they need a `dedup_extend`-style route).**
 
+## 🏆 S6 (2026-08-05) — **BOTH GIANT WALLS CRACKED ×138, +50,094 ins** — FLEET **96.62% fn / 94.8% instr / 89.2% distinct**, 140/140
+The two functions the roadmap carried as **PERMANENT WALLS since Phase 24** are matched in all 138
+overlays. **Neither needed a siege — both matched from drafts ALREADY ON DISK.**
+
+| wall | recorded verdict | what it took |
+|---|---|---|
+| `func_80178004` 165×138 = **22,770** | Phase 26: Fable5, **~477k tokens**, "intrinsic 3-integer regalloc wall" | a stored draft, gated as-is, **no new work** |
+| `func_801412A8` 198×138 = **27,324** | close=29/110 since Phase 24 | 1 of **31** stored drafts + the §37/§124 alias |
+
+**Why the second looked intrinsic:** its TU declares `extern int func_801412A8(int×6)` and callers USE
+the return, while the byte-true def is `Prim_1412A8 *(Prim_1412A8*, int,int,int, u16,u16)`. Narrow
+params can't agree with an `int` prototype and the no-proto escape is illegal once a param promotes —
+so the byte difference lives in the **CALLERS**, which `match_one` never compiles. The measuring
+instrument was blind to where the difference was.
+**Propagation then returned 0/137 TWICE, both times a missing TYPE:** `_carry_macros` carries
+`#define`s but **not typedefs**, and is **not transitive**. Lifted `Env_1412A8`/`PTag_1412A8`/
+`Prim_1412A8` + `OT`/`getaddr`/`setaddr` → **137/137**.
+**MY ERROR, caught by the gate:** lifted without STRIPPING the originals from `ov_SC01_077.c` →
+duplicate typedef → R22 **139/140 `[FAIL] ov_SC01_077`**. Stripped → 140/140. *A proper lift strips
+the source (`build_engine_types --strip`).* Also: my first draft scan used `head -8` of 31 and missed
+the match in the 9th. **SCAN, don't sample.** cookbook **§146**.
+
+### 🚨 ROADMAP DELTA — the "2 permanent giant walls" line is RETIRED
+Every roadmap/backlog reference to `func_801412A8` + `func_80178004` as permanent INCLUDE_ASM walls is
+now false. **P32's behemoth/wall track loses its two headline items.** More importantly the *class* of
+claim is suspect: **when a tool is repaired, every verdict it produced becomes a HYPOTHESIS again.**
+The backlog's `closeness` values and residual classes were produced by tooling that has changed
+materially this session (§143 alone). **Re-measure before respecting any of them.**
+
 ## 🚀 S40 (2026-08-05, ULTRACODE) — FLEET **96.54% fn / 94.5% instr / 89.2% distinct**, 140/140
 **Session arc: 12,405,402 → 12,432,941 instr (+27,539), +120 unique fns**, R22 green at every step.
 ⚠️ The denominator is now **13,160,961** (was 13,141,652) — main's sig regen made it honest. Compare
