@@ -27,8 +27,20 @@ EXCLUDE = WALLS | LEDGERED
 
 # --- previously-attempted targets that are STILL open == they failed their gate ---------------
 attempted = set()
-for p in sorted(glob.glob('.run/s*_wave.json')) + ['.run/s10.json']:
+# NB the glob must be `*_wave.json`, not `s*_wave.json`: wave 6's own manifest is `w6_wave.json`,
+# so an s-only glob would silently re-offer every target wave 6 already failed.
+#
+# BUT "attempted" must mean A WAVE THAT RAN, not A MANIFEST THAT EXISTS. Staging a manifest and then
+# re-deriving a bigger one made the second run exclude the first's targets — the 64-target pool came
+# back MISSING its 16 best entries (pool 2,928 -> 2,913 -> 2,893 across three derivations, each one
+# poisoned by the last). So require the wave's drafts directory to exist: `<tag>_wave.json` ran iff
+# `.run/<tag>/` holds drafts. A manifest with no drafts dir is a PLAN, not a result.
+for p in sorted(glob.glob('.run/*_wave.json')) + ['.run/s10.json']:
     if not os.path.exists(p):
+        continue
+    tag = os.path.basename(p).replace('_wave.json', '').replace('.json', '')
+    if not glob.glob(f'.run/{tag}/*/*.c'):
+        print(f"  (skip {p}: staged but never run — no drafts under .run/{tag}/)", file=sys.stderr)
         continue
     try:
         for t in json.load(open(p)):
