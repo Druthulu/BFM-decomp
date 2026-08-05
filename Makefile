@@ -140,7 +140,7 @@ CC1_SMOKE_FLAGS := -quiet -O2 -G0 -mips1 -mcpu=3000 -mgas -msoft-float -fgnu-lin
 BINUTILS_WARN_MAJOR := 2
 BINUTILS_WARN_MINOR := 38
 
-.PHONY: help check-env extract build check expected clean report sig-refresh sig-overlays sig-resident build-all check-all audit-corpus audit-cdecl audit-binaries audit-text-sources audit-digest tools-health
+.PHONY: help check-env extract build check expected clean report sig-refresh sig-overlays sig-resident build-all check-all audit-corpus audit-cdecl audit-binaries audit-text-sources audit-digest audit-frontier tools-health
 
 # -----------------------------------------------------------------------------
 help:
@@ -200,6 +200,14 @@ audit-binaries:
 # phantom. R34: the byte-gate is a null oracle for documents, so this is a second one that disagrees.
 audit-digest:
 	$(VENV_PY) tools/audit_digest.py
+
+# P30 S39 (Drew's MASTER_REMAINING proposal, derived form — docs/decision-log.md 2026-08-04):
+# "what's left" is answered by six artifacts, each individually derived and NONE ever checked
+# against the others. That gap cost T0 a hand-reconciliation (family_hseq 29,961 vs progress 28,296).
+# This is the R34 move: a SECOND view that can DISAGREE with the corpus oracle, loudly.
+# DELIBERATELY NOT in tools-health yet — additive until Drew has seen it; wiring is one line.
+audit-frontier:
+	$(VENV_PY) tools/audit_frontier.py
 
 # P30 S28: every tracked C source must be TEXT. A raw NUL inside a char literal (`'<NUL>'` instead
 # of `'\0'`) COMPILES — the fleet stayed byte-identical — but grep treats the file as BINARY and
