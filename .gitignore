@@ -43,6 +43,12 @@
 /.run/s42/*
 !/.run/s42/*/
 !/.run/s42/*/*.c
+# P30 S43 — the permuter-ILS improvement on the same function (63 -> 42 mismatched), the best
+# base that exists for it. Same R20 reasoning as s42 above.
+!/.run/s43/
+/.run/s43/*
+!/.run/s43/*.c
+!/.run/s43/*.log
 !/.run/probe_jtbl/
 /.run/probe_jtbl/*
 !/.run/probe_jtbl/verdict.md

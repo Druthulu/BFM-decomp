@@ -28,7 +28,7 @@ Usage:
   tools/backlog.py show [-n 40]  # print the top N to stdout
 Importable: append_record(dict), render(), save_draft(name, text)->path.
 """
-import argparse, glob, json, os, re, shutil, time
+import argparse, collections, glob, json, os, re, shutil, time
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 JSONL = os.path.join(REPO, ".run/backlog.jsonl")
@@ -95,6 +95,11 @@ def append_record(rec):
         a = addr_of(r)
         if a is not None:
             r["addr"] = "0x%08x" % a
+    # Same lesson as addr (S20) applied to `binary` (S43): a null binary defaults to ov_SC01_077
+    # downstream, and if the function does not exist there the row reads as "banked" and disappears.
+    # The draft path states the binary -- derive it rather than let a caller's omission cost a result.
+    if not r.get("binary"):
+        r["binary"] = _binary_of(r)
     os.makedirs(os.path.dirname(JSONL), exist_ok=True)
     with open(JSONL, "a") as f:
         f.write(json.dumps(r) + "\n")
@@ -110,6 +115,7 @@ def save_draft(name, text):
 
 
 _STUB_CACHE = {}
+_ANYWHERE_CACHE = set()
 
 
 def _open_stubs(binary):
@@ -128,6 +134,28 @@ def _open_stubs(binary):
     return _STUB_CACHE[binary]
 
 
+_BINARY_IN_PATH_RE = re.compile(r"\b(ov_[A-Z0-9]+_\d+|resident|main)\b")
+
+
+def _binary_of(rec):
+    """Recover the record's binary from its draft path when the logger omitted the field
+    (`.run/s42/ov_SC03_126/func_X.c` -> `ov_SC03_126`). Cheaper and more honest than defaulting."""
+    m = _BINARY_IN_PATH_RE.search(str(rec.get("best_draft") or ""))
+    return m.group(1) if m else None
+
+
+def _open_anywhere(nm):
+    """True iff `nm` is still an INCLUDE_ASM stub in ANY onboarded binary. Used only to distinguish
+    'absent from the binary we guessed' from 'genuinely banked' — never to widen the queue."""
+    key = nm.upper().replace("FUNC_", "func_")
+    if not _ANYWHERE_CACHE:
+        import corpus, dup_report
+        for b in sorted(dup_report.BINARIES):          # the audited citizenship list (R36)
+            for x in corpus.stubs(b):
+                _ANYWHERE_CACHE.add(("func_%08X" % x) if isinstance(x, int) else str(x))
+    return key in _ANYWHERE_CACHE
+
+
 def load_best():
     """Best (lowest closeness, latest ts) record per addr, restricted to fns still OPEN in their OWN
     binary (rec['binary']; legacy records default ov_SC01_077). Fleet-aware so a 077-matched-but-
@@ -143,22 +171,54 @@ def load_best():
             continue
         r = json.loads(line)
         nm = r.get("name")
-        binary = r.get("binary") or "ov_SC01_077"
+        binary = r.get("binary") or _binary_of(r) or "ov_SC01_077"
         # banked in ITS binary since logged -> drop (P9). Hex-case-canonical on BOTH sides (T0d):
         # corpus-derived names are upper-hex; a lower-hex record name must not silently drop (R32).
         if nm and nm.upper().replace("FUNC_", "func_") not in _open_stubs(binary):
-            continue
+            # "not an open stub in <binary>" has TWO causes and only one of them is `banked`:
+            # the function may simply NOT EXIST in that binary. P30 S43: the s42-serial rows log
+            # binary=None, so they defaulted to ov_SC01_077 -- which does not contain
+            # func_8017C6F4 at all -- and a hand-won 947-ins result was dropped as "banked",
+            # invisible to render/grinder/target-selection. Absent != done (R32/R34). Only drop
+            # when the function is genuinely closed everywhere it exists.
+            if nm and _open_anywhere(nm):
+                pass
+            else:
+                continue
         # Key on the DERIVED address (addr_of), never on `addr or name`: 93% of rows carry only
         # `name`, so the old key split one function into TWO "best" records whenever it had been
         # logged both ways — the same silent-skip class as the null-addr defect itself.
         a = addr_of(r)
+        # An address is unique only WITHIN a binary: overlays reuse the same vram slot for
+        # DIFFERENT bodies (P30 S43 — 0x8017C6F4 is a 15-ins function in ov_SC03_010/011/013 and a
+        # 948-ins renderer in ov_SC03_126/003, ov_SC04_021, ov_SC05_019). Keying on address alone
+        # merged the two and kept the LOWER absolute closeness, so a 14-of-15-wrong draft (7%
+        # correct) masked a hand-won 63-of-947 (93% correct) and the giant vanished from every
+        # consumer — render, grinder, target selection. So sub-key by KNOWN nins: different sizes
+        # are different bodies, full stop. Rows without nins keep the old addr-only behaviour
+        # (they are the 97% legacy case and must still dedup name-vs-addr duplicates), and are
+        # folded into the sole known-nins body when there is exactly one — only a genuine
+        # collision splits them out. §148-E, ledger side.
         key = a if a is not None else nm
-        cur = best.get(key)
+        n = r.get("nins")
+        subkey = n if isinstance(n, int) and n > 0 else None
+        cur = best.get((key, subkey))
         c = r.get("closeness")
         cscore = c if isinstance(c, int) else 10 ** 9
         if cur is None or (cscore, r.get("ts", "")) <= (cur[0], cur[1]):
-            best[key] = (cscore, r.get("ts", ""), r)
-    return [v[2] for v in best.values()]
+            best[(key, subkey)] = (cscore, r.get("ts", ""), r)
+
+    # fold each addr's unknown-nins record into its body when that body is unambiguous
+    sized = collections.defaultdict(list)
+    for (key, subkey) in best:
+        if subkey is not None:
+            sized[key].append(subkey)
+    out = []
+    for (key, subkey), v in best.items():
+        if subkey is None and len(sized.get(key, ())) == 1:
+            continue          # same function, logged before nins was recorded
+        out.append(v[2])
+    return out
 
 
 def _rank_key(r):
@@ -228,7 +288,7 @@ def main():
     ap = argparse.ArgumentParser()
     sub = ap.add_subparsers(dest="cmd", required=True)
     lg = sub.add_parser("log")
-    for fl in ("addr", "name", "klass", "status", "where", "draft", "source"):
+    for fl in ("addr", "name", "klass", "status", "where", "draft", "source", "binary"):
         lg.add_argument(f"--{fl if fl != 'klass' else 'class'}", dest=fl, default=None)
     for fl in ("reach", "nins", "closeness"):
         lg.add_argument(f"--{fl}", type=int, default=None)
@@ -239,7 +299,8 @@ def main():
     if a.cmd == "log":
         rec = append_record({"addr": a.addr, "name": a.name, "klass": a.klass, "status": a.status,
                              "where_stuck": a.where, "best_draft": a.draft, "source": a.source,
-                             "reach": a.reach, "nins": a.nins, "closeness": a.closeness})
+                             "reach": a.reach, "nins": a.nins, "closeness": a.closeness,
+                             "binary": a.binary})
         n = render()
         print(f"logged {rec.get('name') or rec.get('addr')}; backlog open={n}")
     elif a.cmd == "render":

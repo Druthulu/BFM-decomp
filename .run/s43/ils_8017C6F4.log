@@ -1,0 +1,8 @@
+ILS func_8017C6F4: 6 cycles x 240s @ -j12, klass=REGALLOC
+  cycle 1: best score = 44  [output-44-1]
+  cycle 2: best score = 44 (unchanged)  [output-44-1]
+  cycle 3: best score = 44 (unchanged)  [output-44-1]
+  cycle 4: best score = 44 (unchanged)  [output-44-1]
+  cycle 5: best score = 44 (unchanged)  [output-44-1]
+  cycle 6: best score = 44 (unchanged)  [output-44-1]
+ILS done: best=44 (no score-0; seed for Fable5 or a longer run)

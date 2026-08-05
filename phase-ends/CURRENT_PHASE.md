@@ -2087,6 +2087,43 @@ sweep) were run with the permuter *unavailable*. "The permuter also plateaus" wa
 these functions — do not treat those floors as permuter-tested. → cookbook §148 tooling note corrected
 in place.
 
+### ▶ S43-2 — the permuter took the "unmovable" 63 to 42; and the ledger row was NOT a rumour (2026-08-05)
+**The floor moved.** With `base.c` fixed (S43-1), `permuter_ils` on the S42 hand draft: masked base 65
+→ **44 in cycle 1**, then flat across 5 warm restarts. Re-measured in `match_one` terms (the metrics are
+NOT interchangeable — always re-measure before comparing): **63 → 42 mismatched**, same 947/947 ins,
+residual still the register-rotation class but with fewer instances. **The first movement on this
+function after ~40 hand probes** — and it came from repairing an instrument, not from new C.
+Draft preserved + allowlisted: `.run/s43/func_8017C6F4.ils44.c` (+ `ils_8017C6F4.log`), logged to the
+backlog at closeness 42.
+
+**The S42 "rumour row" claim was WRONG (R14) — and the truth is a worse defect.** The 2026-07-01 row
+*does* have an artifact, it *is* on disk (`.run/backlog_drafts/func_8017C6F4.c`, one of 3,335 there),
+and it *reproduces exactly*: `match_one` vs `ov_SC03_010` → **14 mismatched of 15 target ins**,
+`SIZE-MISMATCH/redraft`. It is not a rumour; it is a near-worthless draft on a **different function**.
+**`0x8017C6F4` hosts TWO bodies:** 15 ins in `ov_SC03_010/011/013`, **948 ins** in
+`ov_SC03_126/003`, `ov_SC04_021`, `ov_SC05_019` (§148-E, ledger side).
+
+Three defects, all in `tools/backlog.py`, all fixed:
+1. **`load_best` keyed on address alone**, so the two bodies merged and the LOWER absolute closeness
+   won — a 14-of-15-wrong draft (7% correct) masked a hand-won 63-of-947 (**93% correct**). Now
+   sub-keyed by known `nins`; unknown-`nins` rows keep the old behaviour and fold into the sole known
+   body when unambiguous (so legacy name-vs-addr dedup is preserved).
+2. **`binary: null` defaulted to `ov_SC01_077`, where `func_8017C6F4` does not exist at all** — and
+   "not an open stub there" was read as "banked", so today's real result was **invisible to render,
+   the grinder, and target selection**. *Absent ≠ done* (R32/R34). Now: derive the binary from the
+   draft path, and only drop when the fn is closed in every binary that has it (`_open_anywhere`).
+3. **`backlog.py log` had no `--binary` flag at all** — the root cause of every null. Added, plus
+   `append_record` derives it from the draft path (the S20 `addr_of` lesson, applied to `binary`).
+
+**Measured impact, derived not asserted (R37):** replaying the exact pre-fix selection → **836 → 837
+rows, 1 appeared, 0 vanished**, and the one that appeared is `func_8017C6F4 nins=947`. The live blast
+radius is one row *today* — `s42-serial` is the only logger that omitted `binary` — but the mechanism
+would silently eat every future serial/agent result logged the same way.
+**Note on ranking (documented, NOT fixed):** `closeness` is an ABSOLUTE mismatch count, so it is not
+comparable across sizes — 14/15 outranks 63/947. A relative-closeness rank was probed and **not built**:
+only **24 of 836** live rows carry both `closeness` and `nins`, and on those the two orderings agree
+14/15 (most are closeness=0 integration-stranded). Revisit if `nins` coverage ever rises.
+
 ### ▶ S11 — the propagation lag: EXTEND 0/36 -> 31/36, and every blocker was a DECLARATION (2026-08-03/04)
 Lane 2 of the S10 checkpoint ("26,006 ins, ~0 agent tokens, PARTLY BLOCKED"), taken first on the
 standing doctrine that the cheap deterministic lever is probed before the expensive agent one.
