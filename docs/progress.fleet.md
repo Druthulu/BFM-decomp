@@ -10,7 +10,7 @@ FLEET distinct-code(uniq): 5029454 / 5634875 = 89.3%   (77973/87459 unique fns; 
 MAIN game-code weighted  :     436 / 60201 = 0.7%   (INCLUDED in the fleet numbers above since 2026-07-22 — roadmap §1 metrics contract; LINKED-excluding Ghidra sig dated 2026-06-14; caveat is R34: no independent second oracle for a PS-X EXE, NOT drift)
   (fleet EXCLUDING main, for continuity with pre-2026-07-22 readings: 12418733 / 13081451 = 94.9%)
 
-FLEET REAL substantive   : 339510   (of which dedup-shared 241435 via 1918 groups / 241509 instances)
+FLEET REAL substantive   : 339510   (of which dedup-shared 241439 via 1919 groups / 241513 instances)
 FLEET LINKED PsyQ objs   :    959
 FLEET NON_MATCHING       :      7   (0 in any default build — G4)
 FLEET INCLUDE_ASM stubs  :  12345
@@ -37,8 +37,8 @@ FLEET matchable          : 353717
 | ov_SC02_005 | 2536 | 1747 | 0 | 2546 | 2927 | 87.0% |
 | ov_SC02_011 | 2622 | 1754 | 0 | 2633 | 2893 | 91.0% |
 | ov_SC02_015 | 2397 | 1753 | 0 | 2397 | 2414 | 99.3% |
-| ov_SC02_016 | 2478 | 1753 | 0 | 2481 | 2545 | 97.5% |
-| ov_SC02_017 | 2548 | 1753 | 0 | 2556 | 2732 | 93.6% |
+| ov_SC02_016 | 2478 | 1754 | 0 | 2481 | 2545 | 97.5% |
+| ov_SC02_017 | 2548 | 1754 | 0 | 2556 | 2732 | 93.6% |
 | ov_SC02_021 | 2402 | 1753 | 0 | 2402 | 2437 | 98.6% |
 | ov_SC02_026 | 2498 | 1751 | 0 | 2504 | 2572 | 97.4% |
 | ov_SC02_027 | 2556 | 1751 | 0 | 2565 | 2692 | 95.3% |
@@ -50,7 +50,7 @@ FLEET matchable          : 353717
 | ov_SC03_001 | 2662 | 1752 | 0 | 2679 | 2869 | 93.4% |
 | ov_SC03_002 | 2536 | 1756 | 0 | 2551 | 2631 | 97.0% |
 | ov_SC03_003 | 2395 | 1751 | 0 | 2396 | 2423 | 98.9% |
-| ov_SC03_006 | 2551 | 1757 | 0 | 2560 | 2767 | 92.5% |
+| ov_SC03_006 | 2551 | 1758 | 0 | 2560 | 2767 | 92.5% |
 | ov_SC03_007 | 2459 | 1751 | 0 | 2463 | 2623 | 93.9% |
 | ov_SC03_010 | 2412 | 1751 | 0 | 2412 | 2471 | 97.6% |
 | ov_SC03_011 | 2413 | 1751 | 0 | 2419 | 2527 | 95.7% |
@@ -61,7 +61,7 @@ FLEET matchable          : 353717
 | ov_SC03_023 | 2397 | 1751 | 0 | 2398 | 2435 | 98.5% |
 | ov_SC03_024 | 2514 | 1756 | 0 | 2521 | 2641 | 95.5% |
 | ov_SC03_028 | 2457 | 1752 | 0 | 2461 | 2664 | 92.4% |
-| ov_SC03_029 | 2497 | 1753 | 0 | 2507 | 2644 | 94.8% |
+| ov_SC03_029 | 2497 | 1754 | 0 | 2507 | 2644 | 94.8% |
 | ov_SC03_030 | 2415 | 1756 | 0 | 2417 | 2495 | 96.9% |
 | ov_SC03_031 | 2444 | 1751 | 0 | 2447 | 2514 | 97.3% |
 | ov_SC03_089 | 2509 | 1756 | 0 | 2516 | 2581 | 97.5% |

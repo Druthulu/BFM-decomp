@@ -4159,23 +4159,7 @@ void func_8017D124(void *a0)
 // @class: plumbing
 // @stuck: none — signed s32 counter at 0x1C, delay-slot store is the unconditional bump
 
-extern void func_8017D408(int);
-
-void func_8017D174(int param_1)
-{
-    int iVar1;
-
-    iVar1 = *(int *)(param_1 + 0x1c);
-    *(int *)(param_1 + 0x1c) = iVar1 + 1;
-    if (iVar1 < 0xc) {
-        *(unsigned short *)(param_1 + 0x12) = *(unsigned short *)(param_1 + 0x12) + 0xe0;
-    } else {
-        *(int *)(param_1 + 0x1c) = 0;
-        *(unsigned short *)(param_1 + 2) = *(unsigned short *)(param_1 + 2) + 1;
-    }
-    func_8017D408(param_1);
-    return;
-}
+DEFINE_func_8017D174()  /* dedup: shared engine-core @0x8017D174 (src/shared) */
 
 
 

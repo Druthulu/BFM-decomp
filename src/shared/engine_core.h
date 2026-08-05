@@ -533,6 +533,23 @@
             ((void (*)(s32, s32))func_80131E00)((s32)arg0, 0x11); \
         }
 
+#define DEFINE_func_8017D174() \
+    extern void func_8017D408(int); \
+    void func_8017D174(int param_1) \
+    { \
+        int iVar1; \
+        iVar1 = *(int *)(param_1 + 0x1c); \
+        *(int *)(param_1 + 0x1c) = iVar1 + 1; \
+        if (iVar1 < 0xc) { \
+            *(unsigned short *)(param_1 + 0x12) = *(unsigned short *)(param_1 + 0x12) + 0xe0; \
+        } else { \
+            *(int *)(param_1 + 0x1c) = 0; \
+            *(unsigned short *)(param_1 + 2) = *(unsigned short *)(param_1 + 2) + 1; \
+        } \
+        func_8017D408(param_1); \
+        return; \
+    }
+
 #endif
 
 #define DEFINE_func_80128EA8() \
@@ -30470,5 +30487,22 @@
         void func_801880F8(void *arg0) { \
             ((void (*)(s32, s32))func_80131E00)((s32)arg0, 0x11); \
         }
+
+#define DEFINE_func_8017D174() \
+    extern void func_8017D408(int); \
+    void func_8017D174(int param_1) \
+    { \
+        int iVar1; \
+        iVar1 = *(int *)(param_1 + 0x1c); \
+        *(int *)(param_1 + 0x1c) = iVar1 + 1; \
+        if (iVar1 < 0xc) { \
+            *(unsigned short *)(param_1 + 0x12) = *(unsigned short *)(param_1 + 0x12) + 0xe0; \
+        } else { \
+            *(int *)(param_1 + 0x1c) = 0; \
+            *(unsigned short *)(param_1 + 2) = *(unsigned short *)(param_1 + 2) + 1; \
+        } \
+        func_8017D408(param_1); \
+        return; \
+    }
 
 #endif
