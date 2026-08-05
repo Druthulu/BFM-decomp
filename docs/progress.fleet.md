@@ -4,16 +4,16 @@
 # cross-binary collapsible-byte leverage: docs/duplicates.cross.md.
 
 # THREE progress metrics (all matter — see the labels):
-FLEET fn-count byte-ident: 341363 / 353717 = 96.51%   (REAL+LINKED+empties; FUNCTION-count, ×134-inflated — one crack counts per overlay)
-FLEET instr-weighted     : 12419153 / 13141652 = 94.5%   (shipped .text across main + resident + 138 overlays; the decomp.dev-DISPLAY number)
+FLEET fn-count byte-ident: 341364 / 353717 = 96.51%   (REAL+LINKED+empties; FUNCTION-count, ×134-inflated — one crack counts per overlay)
+FLEET instr-weighted     : 12419161 / 13141652 = 94.5%   (shipped .text across main + resident + 138 overlays; the decomp.dev-DISPLAY number)
 FLEET distinct-code(uniq): 5029454 / 5634875 = 89.3%   (77973/87459 unique fns; the DISTINCT-RE number)
 MAIN game-code weighted  :     436 / 60201 = 0.7%   (INCLUDED in the fleet numbers above since 2026-07-22 — roadmap §1 metrics contract; LINKED-excluding Ghidra sig dated 2026-06-14; caveat is R34: no independent second oracle for a PS-X EXE, NOT drift)
-  (fleet EXCLUDING main, for continuity with pre-2026-07-22 readings: 12418717 / 13081451 = 94.9%)
+  (fleet EXCLUDING main, for continuity with pre-2026-07-22 readings: 12418725 / 13081451 = 94.9%)
 
-FLEET REAL substantive   : 339508   (of which dedup-shared 241431 via 1916 groups / 241505 instances)
+FLEET REAL substantive   : 339509   (of which dedup-shared 241433 via 1917 groups / 241507 instances)
 FLEET LINKED PsyQ objs   :    959
 FLEET NON_MATCHING       :      7   (0 in any default build — G4)
-FLEET INCLUDE_ASM stubs  :  12347
+FLEET INCLUDE_ASM stubs  :  12346
 FLEET matchable          : 353717
 
 | binary | REAL | shared | LINKED | byte-ident | matchable | byte-ident % |
@@ -91,8 +91,8 @@ FLEET matchable          : 353717
 | ov_SC03_115 | 2428 | 1751 | 0 | 2430 | 2472 | 98.3% |
 | ov_SC03_116 | 2397 | 1751 | 0 | 2400 | 2438 | 98.4% |
 | ov_SC03_117 | 2465 | 1751 | 0 | 2471 | 2557 | 96.6% |
-| ov_SC03_118 | 2540 | 1775 | 0 | 2541 | 2685 | 94.6% |
-| ov_SC03_119 | 2536 | 1775 | 0 | 2537 | 2685 | 94.5% |
+| ov_SC03_118 | 2540 | 1776 | 0 | 2541 | 2685 | 94.6% |
+| ov_SC03_119 | 2537 | 1776 | 0 | 2538 | 2685 | 94.5% |
 | ov_SC03_121 | 2400 | 1751 | 0 | 2403 | 2459 | 97.7% |
 | ov_SC03_124 | 2570 | 1747 | 0 | 2590 | 2741 | 94.5% |
 | ov_SC03_125 | 2522 | 1751 | 0 | 2534 | 2588 | 97.9% |
