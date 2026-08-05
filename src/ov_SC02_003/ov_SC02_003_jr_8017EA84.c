@@ -3273,12 +3273,3 @@ void func_8017F5E4(s32 param_1) {
 INCLUDE_ASM("asm/ov_SC02_003/nonmatchings/ov_SC02_003_jr_8017EA84", func_8017F62C);
 
 INCLUDE_ASM("asm/ov_SC02_003/nonmatchings/ov_SC02_003_jr_8017EA84", func_8017F950);
-
-INCLUDE_ASM("asm/ov_SC02_003/nonmatchings/ov_SC02_003_jr_8017EA84", func_8017FB24);
-
-DEFINE_func_8017FC9C()  /* dedup: shared engine-core @0x8017FC9C (src/shared) */
-
-
-
-
-
