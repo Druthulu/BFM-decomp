@@ -481,7 +481,7 @@
         extern u8  D_8011F7A8; \
         extern s16 D_8011F7BC; \
         extern s16 D_8011F7BE; \
-        extern s32 func_80178004(s32 a0, s32 a1, s32 a2); \
+        extern s32 func_80178004(); \
         u32 *slot; \
         u32 *p; \
         s16 param_1 = (s16)a0; \
@@ -10459,7 +10459,7 @@
     }
 
 #define DEFINE_func_80176D00() \
-    extern s32 func_80178004(s32 a0, s32 a1, s32 a2); \
+    extern s32 func_80178004(); \
     extern u8 D_8011F7B1; \
     extern u8 D_8011F7A8; \
     extern u16 D_80078EA6; \
@@ -30436,7 +30436,7 @@
         extern u8  D_8011F7A8; \
         extern s16 D_8011F7BC; \
         extern s16 D_8011F7BE; \
-        extern s32 func_80178004(s32 a0, s32 a1, s32 a2); \
+        extern s32 func_80178004(); \
         u32 *slot; \
         u32 *p; \
         s16 param_1 = (s16)a0; \

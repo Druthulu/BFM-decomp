@@ -4597,6 +4597,22 @@ typedef struct { u32 xx, yy, zz; u32 nprim; u32 *prim; } XPart;
 typedef struct { u32 w0, w1, w2; } XPrim;
 typedef struct { s16 vx, vy, vz, pad; } XSV2;
 typedef struct { u8 b[8]; } XV8;
+
+/* ---- func_801412A8 (the P30 S6 giant, 198 ins x 138) -----------------------------------------
+ * Lifted from ov_SC01_077.c:2742-2748 so the exemplar's matched body can PROPAGATE. Without them
+ * every sibling failed with `parse error before '*'` on the definition line — a 0/137 sweep that
+ * looks like a codegen wall and is really a missing type.
+ * WHY THE CARRY DID NOT COVER IT: family_remap's `_carry_macros` carries file-scope #defines, but
+ * (a) it does not carry TYPEDEFS at all, and (b) it is not TRANSITIVE — it brought addPrim_1412A8
+ * and stopped, though that macro calls setaddr/getaddr, and getaddr casts to PTag_1412A8.
+ * Types and macros emit no code, so this is byte-neutral; R22-gated like every fleet-shared edit. */
+typedef struct { u32 *ot; u32 pad[4]; } Env_1412A8;
+typedef struct { u32 addr : 24; u32 len : 8; } PTag_1412A8;
+typedef struct { u32 tag; u32 w1; u32 w2; u32 w3; } Prim_1412A8;
+#define OT_1412A8            (D_800AE7BC[*(volatile u16 *)&D_800B9A02].ot)
+#define getaddr_1412A8(t)    (((PTag_1412A8 *)(t))->addr)
+#define setaddr_1412A8(t, v) (((PTag_1412A8 *)(t))->addr = (u32)(v))
+
 #endif /* BFM_ENGINE_TYPES_H */   /* SESSION-19: moved here — 11 typedefs (the
  * Phase-29 crack-wave lift onward) were sitting OUTSIDE the guard, so any TU that
  * included this header twice re-declared them. gcc-2.7.2 rejects a repeated typedef

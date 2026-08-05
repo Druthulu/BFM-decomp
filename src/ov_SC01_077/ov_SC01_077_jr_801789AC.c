@@ -2663,7 +2663,7 @@ extern s32   func_80024054(u8 *, u8 *);
 extern u32 *func_80178298(u32*, u8*, short, short);
 extern s32   func_8005A600(s32, s32, s32, s32, s32);
 extern void func_80176218(s32 param_1);
-extern s32 func_80178004(s32 a0, s32 a1, s32 a2);
+extern s32 func_80178004();
 extern u8 D_8011F7B1;
 extern s16 D_8011F81E;
 extern void *func_80177784(void *a0, s32 a1, s32 a2, s32 a3);
