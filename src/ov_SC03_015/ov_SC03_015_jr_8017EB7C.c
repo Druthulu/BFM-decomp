@@ -5207,10 +5207,7 @@ void func_80182A40(void *a0)
 }
 
 
-extern void func_80182C28(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
-    void func_80182BB0(s32 arg0, s32 arg1) {
-        func_80182C28(arg0, arg1, 0xC, 0);
-    }
+DEFINE_func_80182BB0()  /* dedup: shared engine-core @0x80182BB0 (src/shared) */
 
 
 DEFINE_func_80182BD4()  /* dedup: shared engine-core @0x80182BD4 (src/shared) */

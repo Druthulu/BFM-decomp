@@ -515,6 +515,12 @@
             func_80182C28(arg0, arg1, arg2, 0); \
         }
 
+#define DEFINE_func_80182BB0() \
+    extern void func_80182C28(s32 arg0, s32 arg1, s32 arg2, s32 arg3); \
+        void func_80182BB0(s32 arg0, s32 arg1) { \
+            func_80182C28(arg0, arg1, 0xC, 0); \
+        }
+
 #endif
 
 #define DEFINE_func_80128EA8() \
@@ -30433,6 +30439,12 @@
     extern void func_80182C28(s32 arg0, s32 arg1, s32 arg2, s32 arg3); \
         void func_80182BD4(s32 arg0, s32 arg1, s16 arg2) { \
             func_80182C28(arg0, arg1, arg2, 0); \
+        }
+
+#define DEFINE_func_80182BB0() \
+    extern void func_80182C28(s32 arg0, s32 arg1, s32 arg2, s32 arg3); \
+        void func_80182BB0(s32 arg0, s32 arg1) { \
+            func_80182C28(arg0, arg1, 0xC, 0); \
         }
 
 #endif
