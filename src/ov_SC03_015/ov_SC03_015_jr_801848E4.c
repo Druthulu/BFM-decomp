@@ -2952,10 +2952,7 @@ void func_80187EA8(s32 a0) {
 
 INCLUDE_ASM("asm/ov_SC03_015/nonmatchings/ov_SC03_015_jr_801848E4", func_80187EE8);
 
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
-    void func_801880F8(void *arg0) {
-        ((void (*)(s32, s32))func_80131E00)((s32)arg0, 0x11);
-    }
+DEFINE_func_801880F8()  /* dedup: shared engine-core @0x801880F8 (src/shared) */
 
 
 INCLUDE_ASM("asm/ov_SC03_015/nonmatchings/ov_SC03_015_jr_801848E4", func_80188118);

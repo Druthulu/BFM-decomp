@@ -527,6 +527,12 @@
             ((void (*)(s32, s32))func_80131E00)(arg0, 0x3); \
         }
 
+#define DEFINE_func_801880F8() \
+    extern void func_80131E00(struct S80131E00 *a0, s32 a1); \
+        void func_801880F8(void *arg0) { \
+            ((void (*)(s32, s32))func_80131E00)((s32)arg0, 0x11); \
+        }
+
 #endif
 
 #define DEFINE_func_80128EA8() \
@@ -30457,6 +30463,12 @@
     extern void func_80131E00(struct S80131E00 *a0, s32 a1); \
         void func_80188F90(s32 arg0) { \
             ((void (*)(s32, s32))func_80131E00)(arg0, 0x3); \
+        }
+
+#define DEFINE_func_801880F8() \
+    extern void func_80131E00(struct S80131E00 *a0, s32 a1); \
+        void func_801880F8(void *arg0) { \
+            ((void (*)(s32, s32))func_80131E00)((s32)arg0, 0x11); \
         }
 
 #endif

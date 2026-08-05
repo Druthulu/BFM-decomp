@@ -2947,7 +2947,7 @@ void func_80187EA8(s32 a0) {
 
 INCLUDE_ASM("asm/ov_SC03_014/nonmatchings/ov_SC03_014_jr_801848E4", func_80187EE8);
 
-INCLUDE_ASM("asm/ov_SC03_014/nonmatchings/ov_SC03_014_jr_801848E4", func_801880F8);
+DEFINE_func_801880F8()  /* dedup: shared engine-core @0x801880F8 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC03_014/nonmatchings/ov_SC03_014_jr_801848E4", func_80188118);
 
