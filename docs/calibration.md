@@ -208,3 +208,37 @@ Remaining, named (not silently dropped): 10 `match_one`-MATCH drafts still block
 de-macroize; 1 struct-tag redefinition; 1 callee-decl that rtu over-claimed; 2 with no static blocker
 whose real cc1 error needs reading). 11 `near` drafts are NOT recovery fuel — they are unfinished
 drafts and belong to the permuter/redraft track.
+
+---
+
+## Re-gating STORED drafts after a tool repair (P30 S39, measured)
+
+**Question:** decision-log **A10** byte-proved the stored-draft backlog non-bankable by plain re-gate
+(**0/958**, measured in T1). S38 then repaired several tools (the `jr_isolate_all`/`overlay_src_split`
+alias-DEFINITION-deletion blindness, `harvest_verify._reload_corpus`). Does A10 still hold?
+
+**Measured, three populations, all plain re-gate (`gate_stage --no-propagate`), no draft edits:**
+
+| population | rate | note |
+|---|---|---|
+| **fresh wave-6 drafts** (S38-era, diagnosed "blocked on a class") | **4/6** | banked UNCHANGED — the class had already been freed by S38's own tool repairs |
+| **stored pool, unbiased sample** (every 96th of 1,155 still-open) | **1/12** | the single hit was in `ov_SC06_030` — a REVERTED overlay |
+| **the two REVERTED overlays' stored drafts** (targeted) | **3/17** | `ov_SC06_030` ×1, `ov_SC07_010` ×2 |
+
+**Reading (P9, and the samples are small — treat as an order of magnitude, not a rate to plan on):**
+A10 **broadly stands** for the general stored backlog: ~8% is not a harvest, and a 1,155-wide sweep
+(1,155 whole-binary builds) is not justified by it. What IS real is that **a stored FAIL verdict is only
+as current as the instrument that produced it** — drafts blocked by a defect that was later fixed bank
+unchanged, and they concentrate where work was reverted or where a repair specifically applied.
+
+**The rule (R35 applied to the backlog, not just to metrics):** after any tool repair, **re-gate the
+drafts that defect plausibly touched** — targeted by the repair's blast radius, not the whole ledger.
+Cheap, ~0 agent tokens, and it recovers work already paid for. Do NOT generalise a fresh-draft rate
+(4/6) onto the stored pool (1/12); they are different populations.
+
+**Ledger mechanics, for the record:** `.run/backlog.jsonl` is append-only; open-ness is re-derived from
+`corpus.stubs` at every read (`load_best` drops now-banked rows per-binary, P9) and `make report` runs
+`backlog.py prune`. So MEMBERSHIP is self-maintaining and currently clean (863 rows, 0 already-banked,
+14 duplicate-addr; was 6,867 rows / 98% banked before Phase-29 compaction). What pruning does NOT
+re-validate is the **verdict** on the rows it keeps — the `closeness` and residual class are as old as
+the tooling that wrote them (Phase 28 found an outright corrupt one: `func_80178004` close=0 → 91).

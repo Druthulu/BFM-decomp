@@ -15643,7 +15643,7 @@
 #define DEFINE_func_801505FC() \
     extern u8 D_801202A0[]; \
     extern s32 func_8014C278(s32 a0, s32 a1, s32 a2); \
-    extern s32 func_801506A4(s32 a0, s32 a1); \
+    extern s32 func_801506A4(); \
     s32 func_801505FC(s32 a0) { \
         u8 *p = D_801202A0; \
         if (p < D_801202A0 + 0x6480) { \
