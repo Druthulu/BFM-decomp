@@ -73,11 +73,43 @@ def load_syms(path):
 # with the same structural blindness — see cookbook §134/§139.
 _ALIAS_DECL = re.compile(
     r'\b([A-Za-z_]\w*)\s*\([^;{}]*\)\s*__asm__\s*\(\s*"([^"]+)"\s*\)\s*;', re.S)
+# the same shape with the quotes optional — for scanning `cdecl._mask` output, where string content
+# AND its delimiters are blanked out.
+_ALIAS_SCAN = re.compile(
+    r'\b([A-Za-z_]\w*)\s*\([^;{}]*\)\s*__asm__\s*\([^;{}]*\)\s*;', re.S)
 
 
 def asm_label_aliases(src):
-    """{C identifier -> emitted symbol} for every definition-side asm-label alias in `src`."""
-    return {m.group(1): m.group(2) for m in _ALIAS_DECL.finditer(src)}
+    """{C identifier -> emitted symbol} for every definition-side asm-label alias in `src`.
+
+    MASK COMMENTS/STRINGS FIRST (§134, R33 — `cdecl._mask` is the ONE masking oracle). Scanning the
+    raw text was byte-witnessed wrong the day this was written: `[^;{}]*` is greedy and spans
+    newlines, so a match started inside a COMMENT (`… -> MATCH (40 ins)`), ran through the `*/` and
+    the blank lines, and swallowed the real declaration — capturing `MATCH` as the identifier while
+    the actual alias `aF80146AFC` never entered the map. The same scan also produced `'void': '$2'`
+    from a `register u8 *p __asm__("$6")` pin. Both are the §134 class this project has now hit in
+    six tools.
+
+    `_mask` is length-preserving, so match spans are valid offsets into the ORIGINAL text — read the
+    groups back out of `src` (the mask blanks string CONTENT, so the symbol is only legible there).
+    A `$N` target is a hard-register pin, not a symbol alias, and is excluded."""
+    # SCAN THE MASKED TEXT, READ THE SYMBOL FROM THE SOURCE.
+    # Scanning the source and rejecting bad matches afterwards does NOT work: `finditer` resumes at
+    # the END of the match it just yielded, so the greedy comment-spanning match consumes the real
+    # declaration below it and rejecting it loses that declaration entirely (byte-witnessed on
+    # ov_SC07_006: `aF80146AFC` stayed invisible even with the reject in place). Scanning the mask
+    # is what actually prevents a match from STARTING inside a comment.
+    # `_mask` also blanks string CONTENT *and its quotes*, so the scan pattern cannot require them —
+    # `_ALIAS_SCAN` accepts any `__asm__( … )`, and the real symbol is then read back out of `src`
+    # at the same offsets (the mask is length-preserving, which is what makes that legal).
+    masked = cdecl._mask(src)
+    out = {}
+    for m in _ALIAS_SCAN.finditer(masked):
+        real = _ALIAS_DECL.search(src[m.start():m.end()])
+        if not real or real.group(2).startswith('$'):   # `$N` = hard-register pin, not an alias
+            continue
+        out[real.group(1)] = real.group(2)
+    return out
 
 
 def addr_of(name, syms, aliases=None):
