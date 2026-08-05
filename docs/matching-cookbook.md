@@ -10092,3 +10092,80 @@ all 16 in one pass.
 **Symptom lines for the index:** **"a mystery stack slot at the top of the frame"** · **"frame is a
 multiple of 16 too large"** · **"a lone $t8/$t9 in the target"** · **"exactly one register pair
 transposed"** · **"permuter and hand-search plateau at the same number"**.
+
+---
+
+## §148 — The loop.c hoisting THRESHOLD is arithmetic you can compute, and the `?:` clamp that folds to MIN_EXPR (P30 S42, `func_8017C6F4`, 947 ins)
+
+Serial run #2. Reached **NEAR(63)** of 947 (frame `0x120` exact, `vars=232` exact, all opcodes,
+immediates, stack offsets and branch targets correct; residual is one register rotation). Did not
+bank. The levers below are the yield.
+
+### A. `move_movables` hoists iff `threshold × savings × lifetime ≥ insn_count` — and you can read it
+
+`loop.c:1631` sets **`threshold = 58`** for this MIPS config and **decrements it by 3 per movable
+already moved** (`threshold -= 3`, loop.c:1719/1904). This is the first *quantitative* handle we have
+on gcc-2.7.2 invariant motion.
+
+Measured here: the draft's prim loop was **513** RTL insns, so `&g.flag` (savings 3, lifetime 3 →
+`58×3×3 = 522 ≥ 513`) got hoisted into a preheader register that the target recomputes **inline** —
+costing a callee-saved register and cascading into 2 extra spills and **+96 instructions**.
+Duplicating the `if (za < g.sz2) za = g.sz2;` tail into **both** arms of the `sz0>sz1` test (which the
+target's cross-jump reveals) pushed the loop to **523** insns → `522 < 523` → **not hoisted** → the
+register came back.
+
+**Symptom → lever:** an address (`&x`) hoisted into a loop-preheader register that the target
+recomputes inline ⇒ **raise the loop's RTL insn count by ~10, or lower the movable's ref count.**
+**Read it directly:** `cc1 -dL` writes `<file>.i.loop`, which prints
+`Loop from A to B: N real insns` and, per movable, `Insn K: regno R (life L), savings S
+moved/not desirable`. Stop guessing which invariant moved — the dump names it.
+
+### B. `(v < 0x40) ? v : 0x3F` is folded to `MIN_EXPR` and expands to the WRONG SHAPE
+
+`fold-const.c:4948` — `A < C1 ? A : C2` with `C1 == C2+1` becomes `MIN(A,C2)`, which expands as
+**copy-then-conditionally-overwrite** (`move t,v; slti; bnez; li`). `A <= C ? A : C` folds too (the
+`A op B ? A : B` rule at 4907).
+
+    (v < 0x40) ? v : 0x3F     ->  MIN_EXPR   ->  move/slti/bnez/li      WRONG
+    (v > 0x3F) ? 0x3F : v     ->  no fold    ->  jumpifnot/store/j/store  RIGHT
+
+Same `slti $v0,$v,0x40` is emitted either way — but the second keeps gcc's canonical branchy form.
+**This single respelling took the draft from close 827 to close 63 and fixed all four clamps
+instruction-for-instruction.** Corollary: `(v < 0) ? 0 : X` is safe — fold's "swap if arg1 is simpler"
+rewrites it to `(v >= 0) ? X : 0`, which is exactly the target's `bltz`.
+
+### C. A zero-byte ALLOCNO-PRIORITY slider
+
+    __asm__ ("" :: "r"(a), "r"(b));     /* emits nothing */
+
+Priority is `floor_log2(n_refs)·n_refs·size / live_length`, and `REG_N_REFS` is incremented **by loop
+depth** — so an empty asm with `"r"` inputs inside a loop adds `depth` references per operand while
+emitting **no code**. Used here it flipped `{rowptr,y}` ↔ `{cx1,cy1}` for the last two callee-saved
+registers. **This is the counterpart to §47's live-length slider: that one moves the DENOMINATOR,
+this one moves the NUMERATOR.**
+
+### D. Reproduce the original's BUGS verbatim
+
+This variant's F3 arm bbox-tests the packet through **PolyFT3** offsets (pkt+8/+0x10/+0x18, stride 8)
+while writing F3 xy at stride 4; the FT4 arm reads `tmpxy[3].vx` where `.vy` is meant. Both are
+original-source copy/paste bugs. Matching means reproducing them.
+
+### ⚠️ E. A "these are all the same function" claim needs the DRAFT test, not a diff
+
+The run reported all sixteen 947-ins instances as one identical body (→ "one crack banks 15,152 ins").
+**Checked and it does not hold:** the draft scores **63** on `ov_SC03_126` but **340** on
+`func_8017C59C` and `func_8017CF90` — with an *identical* first diff on both, i.e. those two match
+each other but not the cracked one. That is consistent with the h_norm clustering (947×3, 947×2, plus
+singletons): **several multi-instance groups, not one group of 16.** A normalized-stream diff can say
+"same shape"; only *running the actual draft against the sibling's asm* says "same body". **Cheap
+test, do it before scaling a ×N claim** (`sed s/func_A/func_B/` the draft and `match_one` it).
+
+### Tooling note
+
+`permuter_ils` cannot be aimed at this draft: `run_masked` reports *"Function … not found in
+base.c"* because the `gte_*` `#define` block defeats `make_base_c`. **Demacroize first** — worth doing
+generally, since any GTE-using draft hits it.
+
+**Symptom lines for the index:** **"an &address hoisted into a loop preheader"** · **"a clamp expands
+as move-then-overwrite"** · **"MIN_EXPR"** · **"two callee-saved registers swapped"** · **"permuter
+says function not found in base.c"**.
