@@ -181,7 +181,69 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 
 ---
 
-# 🛑 SESSION S39–S42 CHECKPOINT (2026-08-05) — FRESH SESSION SAFE HERE
+# 🛑 SESSION S43 CHECKPOINT (2026-08-05) — FRESH SESSION SAFE HERE
+> **Tree CLEAN** but for R23 `db.*.gbf` churn (never stage). **Nothing running.** Effort **Max**.
+> **NO phase close** — T5 unopened, needs Drew's gate-2.
+> **No src/ or config/ change this session** ⇒ the fleet cannot have moved: metrics below are S42's,
+> carried forward unchanged, and no R22 run was owed (nothing was banked).
+
+## WHAT S43 WAS: FOUR INSTRUMENT DEFECTS, AND THE TWO QUESTIONS THEY HID
+The session opened on the serial crack queue's named next move ("demacroize `func_8017C6F4` so the
+permuter can be aimed") and found that neither the blocker nor the two work items behind it were what
+the checkpoint said. **Nothing was banked; four tools now tell the truth, one floor moved, and one
+phantom item left the board.** Full detail in the S43-1..4 per-task log entries below.
+
+| # | recorded as | actually | consequence |
+|---|---|---|---|
+| 1 | "the GTE `#define` block defeats `make_base_c` — demacroize first" (§148) | `cpp_expand_macros` ran BEFORE `#include` was stripped → cpp rc=1 → **silent fallback** returned the unexpanded draft | the permuter was **silently dead on 63 stored drafts**, incl. the behemoth renderer drafts |
+| 2 | "an artifact-less backlog rumour outranks the real 63" | the row is real and reproduces (14/15) — but on a **different body**: `0x8017C6F4` is 15 ins in SC03_010/011/013, **948** in SC03_126/003, SC04_021, SC05_019 | `load_best` keyed on ADDRESS → 7%-correct masked 93%-correct; and `binary:null` → absent scored as **banked** |
+| 3 | "the classifier writes `CC1-FAIL: make: *** Error 33`" | `errs[-1]` and make prints its summary LAST, always | **~3,000 of ~4,000** CC1-FAIL labels were content-free |
+| 4 | "26 unpropagated members — cheapest fuel, levers exist, ~0 tokens" | **0 of 31 templatable** from any matched source | phantom item; they are **per-member drafting work** |
+
+## THE ONE NUMBER THAT MOVED
+`func_8017C6F4` (947 ins): hand floor **63** → permuter **41**. Both basins then plateau flat
+(pin-free masked 44 / 8 cycles; `pin-t5` masked 43 / 5 cycles). **Best draft
+`.run/s43/func_8017C6F4.ils43-pin.c` (closeness 41), logged + allowlisted.** The ~40 hand probes that
+"proved" 63 unmovable were all run while the permuter was silently broken.
+
+## ▶ RESUME HERE (S43)
+1. **`func_8017C6F4` — do NOT re-run the ILS on these two seeds** (measured flat, 14 restarts).
+   Remaining levers: **§148-C** the zero-byte allocno-priority slider (`__asm__ ("" :: "r"(a),"r"(b))`
+   inside the loop — the documented lever for exactly this two-callee-saved-register swap) by hand;
+   then Fable5 on a fresh seed. Then the rest of the serial queue (`func_8017C59C` 947 reach 6,
+   `func_8017CE58` 733×3, `func_8017EF68` 969, …) — **every brief opens with the all-drafts scan +
+   the §147-A frame test**, and any ×N claim needs the §148-E draft test.
+2. **`func_8017C294` NEAR(12)** still parked on §147-A stratum 3; its 15 siblings stay parked with it.
+3. **Re-check the 63 GTE drafts** the silent fallback disabled — the behemoth renderer drafts are the
+   high-byte-weight ones and have **never** actually had a permuter run.
+4. **Then L1+L2 disc audit (task #10), then L3 + type-1 onboarding (task #11)** — Drew's agreed plan,
+   unchanged, below.
+5. **Cheap fuel:** the 61 SC07 `-O0` members · `func_80183BAC`'s R22 revert (capture WHICH binary) ·
+   2 resident stubs with gate-rejected match_one-MATCH drafts · the 263×5 cluster (`0x80182fd4`,
+   `parse error before 'unsigned'`, undiagnosed — **the fixed classifier will now name it**).
+   ⚠️ **"26 unpropagated members" is REFUTED — struck from this list** (S43-4).
+
+## 🧰 HAZARD INTRODUCED-AND-DOCUMENTED THIS SESSION
+`tools/harvest_verify.py` has **no `if __name__ == '__main__'` guard**: `import harvest_verify` runs a
+full build, splices drafts, and overwrites `.run/harvest_*.txt`. I tripped it unit-testing
+`classify_fail` (no damage — resident stayed `8e17e02f`, 0 banked, tree clean). Nothing imports it, so
+it is flagged in the file header rather than fixed by a risky 500-line refactor of our most
+load-bearing gate. **To test a helper in it, `exec` that function's source — never import the module.**
+
+## 🧰 MY PROCESS ERRORS THIS SESSION
+1. **Queried the wrong field name** (`draft` vs `best_draft`) and briefly read *all 838* rows as
+   artifact-less — the §133 default-filter shape, self-inflicted. Caught by sanity-checking a number
+   that was too round.
+2. **Inherited a checkpoint claim without probing it** ("no draft survives on disk"); the draft was
+   there, and one `ls` would have shown it. The whole S43-4 refutation exists because I probed the
+   *second* such claim instead of the first.
+3. **Imported a module that runs a build** (above).
+4. **Wrote a "negative control" that never exercised the changed branch** — the PLUMBING path returned
+   first, so old and new agreed and the test proved nothing. Rebuilt it to hit the branch under test.
+
+---
+
+# 🛑 (superseded) SESSION S39–S42 CHECKPOINT (2026-08-05)
 > **Tree CLEAN** but for R23 `db.*.gbf` churn (never stage). **MCP was stopped by me for the main sig
 > regen** — the SessionStart hook restarts it; **run `/mcp` before any Ghidra work (R29)**.
 > **ONE AGENT MAY STILL BE RUNNING:** a serial crack on `func_8017C6F4` writing to
@@ -2095,6 +2157,13 @@ residual still the register-rotation class but with fewer instances. **The first
 function after ~40 hand probes** — and it came from repairing an instrument, not from new C.
 Draft preserved + allowlisted: `.run/s43/func_8017C6F4.ils44.c` (+ `ils_8017C6F4.log`), logged to the
 backlog at closeness 42.
+
+**Final permuter verdict for this function (14 warm restarts across two basins):** pin-free seed
+**masked 44 / match_one 42** (flat over 8 cycles); the `pin-t5` seed **masked 43 / match_one 41**
+(flat over 5). **Best known draft = `.run/s43/func_8017C6F4.ils43-pin.c` at closeness 41**, logged.
+So the permuter is worth **63 → 41** here and is now itself exhausted on both basins — the residual
+register rotation survives it. Next lever is §148-C (the zero-byte allocno-priority slider) by hand,
+or Fable5 on a genuinely fresh seed; **do not re-run the ILS on these two seeds, it is measured flat.**
 
 **The S42 "rumour row" claim was WRONG (R14) — and the truth is a worse defect.** The 2026-07-01 row
 *does* have an artifact, it *is* on disk (`.run/backlog_drafts/func_8017C6F4.c`, one of 3,335 there),

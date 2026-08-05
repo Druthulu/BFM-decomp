@@ -49,6 +49,8 @@
 /.run/s43/*
 !/.run/s43/*.c
 !/.run/s43/*.log
+!/.run/s43/*.py
+!/.run/s43/*.json
 !/.run/probe_jtbl/
 /.run/probe_jtbl/*
 !/.run/probe_jtbl/verdict.md

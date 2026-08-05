@@ -1,0 +1,19 @@
+=== ILS from the improved 42-seed ===
+ILS func_8017C6F4: 8 cycles x 300s @ -j10, klass=REGALLOC
+  cycle 1: best score = 44  [output-44-1]
+  cycle 2: best score = 44 (unchanged)  [output-44-1]
+  cycle 3: best score = 44 (unchanged)  [output-44-1]
+  cycle 4: best score = 44 (unchanged)  [output-44-1]
+  cycle 5: best score = 44 (unchanged)  [output-44-1]
+  cycle 6: best score = 44 (unchanged)  [output-44-1]
+  cycle 7: best score = 44 (unchanged)  [output-44-1]
+  cycle 8: best score = 44 (unchanged)  [output-44-1]
+ILS done: best=44 (no score-0; seed for Fable5 or a longer run)
+=== ILS on the pin-t5 variant (hand NEAR 47) ===
+ILS func_8017C6F4: 5 cycles x 300s @ -j10, klass=REGALLOC
+  cycle 1: best score = 43  [output-43-1]
+  cycle 2: best score = 43 (unchanged)  [output-43-1]
+  cycle 3: best score = 43 (unchanged)  [output-43-1]
+  cycle 4: best score = 43 (unchanged)  [output-43-1]
+  cycle 5: best score = 43 (unchanged)  [output-43-1]
+ILS done: best=43 (no score-0; seed for Fable5 or a longer run)

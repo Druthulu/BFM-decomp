@@ -1,0 +1,188 @@
+[
+ {
+  "fn": "func_8017DC38",
+  "target": "ov_SC03_013",
+  "n_sources": 2,
+  "result": "reloc-mismatch (2 srcs tried): _013): reloc-count mismatch 12!=8 (not an h_norm-clean pair)"
+ },
+ {
+  "fn": "func_8017DC38",
+  "target": "ov_SC03_114",
+  "n_sources": 2,
+  "result": "reloc-mismatch (2 srcs tried): _114): reloc-count mismatch 12!=2 (not an h_norm-clean pair)"
+ },
+ {
+  "fn": "func_8017E02C",
+  "target": "ov_SC02_026",
+  "n_sources": 3,
+  "result": "reloc-mismatch (3 srcs tried): _026): reloc-count mismatch 12!=4 (not an h_norm-clean pair)"
+ },
+ {
+  "fn": "func_8017E1AC",
+  "target": "ov_SC01_084",
+  "n_sources": 4,
+  "result": "reloc-mismatch (4 srcs tried): 1_084): reloc-count mismatch 2!=6 (not an h_norm-clean pair)"
+ },
+ {
+  "fn": "func_8017E1AC",
+  "target": "ov_SC07_010",
+  "n_sources": 4,
+  "result": "reloc-mismatch (4 srcs tried): 7_010): reloc-count mismatch 2!=8 (not an h_norm-clean pair)"
+ },
+ {
+  "fn": "func_8017E3B0",
+  "target": "ov_SC03_094",
+  "n_sources": 1,
+  "result": "reloc-mismatch (1 srcs tried): _094): reloc-count mismatch 12!=9 (not an h_norm-clean pair)"
+ },
+ {
+  "fn": "func_8017E640",
+  "target": "ov_SC02_039",
+  "n_sources": 4,
+  "result": "reloc-mismatch (4 srcs tried): _039): reloc-count mismatch 12!=7 (not an h_norm-clean pair)"
+ },
+ {
+  "fn": "func_8017E950",
+  "target": "ov_SC04_018",
+  "n_sources": 4,
+  "result": "reloc-mismatch (4 srcs tried): 4_018): reloc-count mismatch 1!=3 (not an h_norm-clean pair)"
+ },
+ {
+  "fn": "func_8017E950",
+  "target": "ov_SC04_019",
+  "n_sources": 4,
+  "result": "reloc-mismatch (4 srcs tried): 4_019): reloc-count mismatch 1!=3 (not an h_norm-clean pair)"
+ },
+ {
+  "fn": "func_8017ED60",
+  "target": "ov_SC04_011",
+  "n_sources": 4,
+  "result": "reloc-mismatch (4 srcs tried): 4_011): reloc-count mismatch 9!=6 (not an h_norm-clean pair)"
+ },
+ {
+  "fn": "func_8017ED60",
+  "target": "ov_SC05_018",
+  "n_sources": 4,
+  "result": "reloc-mismatch (4 srcs tried): 5_018): reloc-count mismatch 9!=4 (not an h_norm-clean pair)"
+ },
+ {
+  "fn": "func_8017F940",
+  "target": "ov_SC05_002",
+  "n_sources": 1,
+  "result": "reloc-mismatch (1 srcs tried): 5_002): reloc-count mismatch 8!=5 (not an h_norm-clean pair)"
+ },
+ {
+  "fn": "func_8017F940",
+  "target": "ov_SC06_014",
+  "n_sources": 1,
+  "result": "reloc-mismatch (1 srcs tried): 6_014): reloc-count mismatch 8!=4 (not an h_norm-clean pair)"
+ },
+ {
+  "fn": "func_801809E4",
+  "target": "ov_SC01_080",
+  "n_sources": 1,
+  "result": "reloc-mismatch (1 srcs tried): _080): reloc-count mismatch 2!=15 (not an h_norm-clean pair)"
+ },
+ {
+  "fn": "func_801809E4",
+  "target": "ov_SC06_010",
+  "n_sources": 1,
+  "result": "reloc-mismatch (1 srcs tried): 6_010): reloc-count mismatch 2!=4 (not an h_norm-clean pair)"
+ },
+ {
+  "fn": "func_80180EB8",
+  "target": "ov_SC05_004",
+  "n_sources": 2,
+  "result": "reloc-mismatch (2 srcs tried): 5_004): reloc-count mismatch 8!=3 (not an h_norm-clean pair)"
+ },
+ {
+  "fn": "func_80181490",
+  "target": "ov_SC05_017",
+  "n_sources": 1,
+  "result": "reloc-mismatch (1 srcs tried): _017): reloc-count mismatch 11!=6 (not an h_norm-clean pair)"
+ },
+ {
+  "fn": "func_801814FC",
+  "target": "ov_SC03_090",
+  "n_sources": 1,
+  "result": "reloc-mismatch (1 srcs tried): _090): reloc-count mismatch 11!=4 (not an h_norm-clean pair)"
+ },
+ {
+  "fn": "func_8018163C",
+  "target": "ov_SC03_006",
+  "n_sources": 1,
+  "result": "reloc-mismatch (1 srcs tried): _006): reloc-count mismatch 12!=2 (not an h_norm-clean pair)"
+ },
+ {
+  "fn": "func_80181BB4",
+  "target": "ov_SC02_031",
+  "n_sources": 1,
+  "result": "reloc-mismatch (1 srcs tried): 2_031): reloc-count mismatch 2!=5 (not an h_norm-clean pair)"
+ },
+ {
+  "fn": "func_80181BB4",
+  "target": "ov_SC06_033",
+  "n_sources": 1,
+  "result": "reloc-mismatch (1 srcs tried): 6_033): reloc-count mismatch 2!=0 (not an h_norm-clean pair)"
+ },
+ {
+  "fn": "func_80181FC4",
+  "target": "ov_SC03_101",
+  "n_sources": 2,
+  "result": "reloc-mismatch (2 srcs tried): 3_101): reloc-count mismatch 8!=2 (not an h_norm-clean pair)"
+ },
+ {
+  "fn": "func_801823F8",
+  "target": "ov_SC03_118",
+  "n_sources": 1,
+  "result": "reloc-mismatch (1 srcs tried): _118): reloc-count mismatch 12!=3 (not an h_norm-clean pair)"
+ },
+ {
+  "fn": "func_801823F8",
+  "target": "ov_SC03_119",
+  "n_sources": 1,
+  "result": "reloc-mismatch (1 srcs tried): _119): reloc-count mismatch 12!=3 (not an h_norm-clean pair)"
+ },
+ {
+  "fn": "func_801828A4",
+  "target": "ov_SC04_002",
+  "n_sources": 3,
+  "result": "reloc-mismatch (3 srcs tried): _002): reloc-count mismatch 12!=6 (not an h_norm-clean pair)"
+ },
+ {
+  "fn": "func_80183560",
+  "target": "ov_SC02_041",
+  "n_sources": 1,
+  "result": "reloc-mismatch (1 srcs tried): 2_041): reloc-count mismatch 8!=2 (not an h_norm-clean pair)"
+ },
+ {
+  "fn": "func_801853B4",
+  "target": "ov_SC03_006",
+  "n_sources": 1,
+  "result": "reloc-mismatch (1 srcs tried): _006): reloc-count mismatch 11!=8 (not an h_norm-clean pair)"
+ },
+ {
+  "fn": "func_80185DA8",
+  "target": "ov_SC04_002",
+  "n_sources": 2,
+  "result": "reloc-mismatch (2 srcs tried): 002): reloc-count mismatch 11!=20 (not an h_norm-clean pair)"
+ },
+ {
+  "fn": "func_80186074",
+  "target": "ov_SC03_007",
+  "n_sources": 2,
+  "result": "reloc-mismatch (2 srcs tried): _007): reloc-count mismatch 11!=5 (not an h_norm-clean pair)"
+ },
+ {
+  "fn": "func_8018676C",
+  "target": "ov_SC03_007",
+  "n_sources": 1,
+  "result": "reloc-mismatch (1 srcs tried): 3_007): reloc-count mismatch 7!=2 (not an h_norm-clean pair)"
+ },
+ {
+  "fn": "func_8018676C",
+  "target": "ov_SC03_105",
+  "n_sources": 1,
+  "result": "reloc-mismatch (1 srcs tried): 3_105): reloc-count mismatch 7!=5 (not an h_norm-clean pair)"
+ }
+]
