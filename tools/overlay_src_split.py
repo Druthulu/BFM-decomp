@@ -58,13 +58,39 @@ def load_syms(path):
     return s
 
 
-def addr_of(name, syms):
+# §37/§73 DEFINITION-SIDE ASM-LABEL ALIAS. A body whose byte-true signature conflicts with the
+# fleet-canonical decl is banked by giving the DEFINITION a different C identifier and binding the
+# emitted SYMBOL with a GNU asm label:
+#     void aF8018A860(s32, s16 *, u8 *, u8 *) __asm__("func_80183AF8");   <- decl (stays in preamble)
+#     void aF8018A860(s32, s16 *, u8 *, u8 *) { ... }                     <- THIS emits func_80183AF8
+# `addr_of` resolved a def by its C NAME, so `aF8018A860` matched neither `func_<hex>` nor `syms`
+# and returned None — and `partition()` then DROPPED the item, because it keeps only addressed
+# ones. That is SILENT CODE LOSS during a repartition: measured P30 S38, one carve deleted the
+# definitions emitting BOTH func_80183AF8 and func_80184268, and the overlay then failed to link
+# with `undefined reference` — read for two sessions as a compiler/plumbing wall.
+# `family_remap._alias_decl_for` already handled this exact form (and its docstring records the
+# same lesson costing 137 sweep skips); the fix was never propagated here. This is the FIFTH tool
+# with the same structural blindness — see cookbook §134/§139.
+_ALIAS_DECL = re.compile(
+    r'\b([A-Za-z_]\w*)\s*\([^;{}]*\)\s*__asm__\s*\(\s*"([^"]+)"\s*\)\s*;', re.S)
+
+
+def asm_label_aliases(src):
+    """{C identifier -> emitted symbol} for every definition-side asm-label alias in `src`."""
+    return {m.group(1): m.group(2) for m in _ALIAS_DECL.finditer(src)}
+
+
+def addr_of(name, syms, aliases=None):
     if not name:
         return None
     m = re.match(r'func_([0-9A-Fa-f]{8})$', name)
     if m:
         return int(m.group(1), 16)
-    return syms.get(name)
+    if name in syms:
+        return syms[name]
+    if aliases and name in aliases:            # resolve through the EMITTED symbol, not the C name
+        return addr_of(aliases[name], syms)
+    return None
 
 
 def item_func_name(text):
@@ -224,6 +250,7 @@ def parse_overlay_c(src, syms):
     """Return (header, items) where items = [(addr, name, kind, text)] in file order.
     kind in {asm, define, def, nonmatch, tail}. `tail` = trailing content with no
     following anchor (addr None) — normally absent in a well-formed file."""
+    aliases = asm_label_aliases(src)
     lines = src.split("\n")
     hdr_end = split_header(lines)
     header = "\n".join(lines[:hdr_end])
@@ -279,7 +306,7 @@ def parse_overlay_c(src, syms):
                 j += 1
             j = min(j + 1, n)
             name = item_func_name("\n".join(lines[i:j]))
-            items.append((addr_of(name, syms), name, "nonmatch",
+            items.append((addr_of(name, syms, aliases), name, "nonmatch",
                           "\n".join(lines[pre_start:j])))
             i = j
             pre_start = i
@@ -288,7 +315,7 @@ def parse_overlay_c(src, syms):
         j, is_def = scan_construct(lines, i)
         if is_def:
             name = def_name(lines[i:j])
-            items.append((addr_of(name, syms), name, "def",
+            items.append((addr_of(name, syms, aliases), name, "def",
                           "\n".join(lines[pre_start:j])))
             i = j
             pre_start = i
@@ -591,6 +618,15 @@ def partition(srcpath, cuts, syms_path, verbose=True):
         sys.exit(f"partition: {srcpath} has unaddressable trailing content:\n"
                  f"{tail[0][3][:160]}")
     footer = [it for it in items if it[2] == "footer"]
+    # R32 COVERAGE: a construct we could not place is a DEFECT, never a no-op. `addressed` keeps
+    # only items with a resolved vram, so an unresolved def/nonmatch used to vanish from every
+    # region — the file was rewritten WITHOUT it and nothing said so (P30 S38: two asm-label-alias
+    # definitions deleted by one carve). Fail loud instead.
+    lost = [it for it in items if it[0] is None and it[2] not in ("tail", "footer")]
+    if lost:
+        sys.exit(f"partition: {srcpath} has {len(lost)} construct(s) with no resolvable address — "
+                 f"refusing to rewrite the file without them (R32):\n" +
+                 "\n".join(f"  kind={it[2]} name={it[1]} :: {it[3].strip()[:110]}" for it in lost[:6]))
     addressed = [it for it in items if it[0] is not None]
     cuts = sorted(set(cuts))
     bounds = [None] + cuts + [None]     # (start,cut0),(cut0,cut1),...,(cutN,end)

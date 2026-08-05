@@ -307,6 +307,17 @@ def _partition(srcpath, cuts, syms):
     if any(it[0] is None and it[2] == "tail" for it in items):
         sys.exit(f"jr_isolate_all: unaddressable content in {srcpath}")
     footer = [it for it in items if it[2] == "footer"]
+    # R32 COVERAGE — the same guard as overlay_src_split.partition, and for the same reason:
+    # `addressed` silently discards any construct whose vram did not resolve, so this function
+    # rewrote the TU WITHOUT it. Measured P30 S38: one carve of ov_SC02_028 deleted the two
+    # definition-side asm-label-alias definitions emitting func_80183AF8 and func_80184268 (their
+    # C identifiers are aF*, which matched neither `func_<hex>` nor `syms`), and the overlay then
+    # failed to link. Six wave-6 drafts were written off against that. Fail loud instead.
+    lost = [it for it in items if it[0] is None and it[2] not in ("tail", "footer")]
+    if lost:
+        sys.exit(f"jr_isolate_all: {srcpath} has {len(lost)} construct(s) with no resolvable "
+                 f"address — refusing to rewrite the file without them (R32):\n" +
+                 "\n".join(f"  kind={it[2]} name={it[1]} :: {it[3].strip()[:110]}" for it in lost[:6]))
     addressed = [it for it in items if it[0] is not None]
     cuts = sorted(set(cuts))
     bounds = [None] + cuts + [None]
