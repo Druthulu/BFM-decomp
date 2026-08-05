@@ -187,10 +187,10 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 > **NO phase close — keep grinding.** Plan = **T7**; full report `.run/fable_frontier/ANALYSIS.md`.
 > **VERIFY:** `git log --oneline -4` at/near HEAD + `docs/progress.fleet.md` agrees with FLEET below.
 
-## FLEET — R22 **140 passed / 0 failed of 140**
-**96.46% fn-count (341,194/353,717) · 94.4% instr-weighted (12,410,129/13,141,652) · 89.2%
-distinct-code (5,028,526/5,634,875; 77,959 uniq)** · 0 NON_MATCHING · audit-digest OK.
-Session opened 341,186 / 12,405,402 / 77,952 ⇒ **+4,727 instructions, +7 unique fns**, ~0 agent tokens
+## FLEET — R22 **140 passed / 0 failed of 140** (run SIX times this session, 140/140 every time)
+**96.46% fn-count (341,198/353,717) · 94.4% instr-weighted (12,410,275/13,141,652) · 89.2%
+distinct-code (5,028,621/5,634,875; 77,960 uniq)** · 0 NON_MATCHING · audit-digest OK.
+Session opened 341,186 / 12,405,402 / 77,952 ⇒ **+4,873 instructions, +8 unique fns**, ~0 agent tokens
 (no wave was run — every gain came from re-gating stored work and one mechanical propagation).
 
 ## 🔑 THE SESSION'S HEADLINE — S38's "distinct-code REGRESSION" NEVER HAPPENED
@@ -234,6 +234,7 @@ denominators unchanged) + unchanged `tools/` + `git diff A B -- src/ | grep -c '
 | **the whale ×1 → 138/138** (`ov_SC07_010`) | **+770** | `o0_subsplit --lo 0x80144B9C --hi 0x801457A4`; 0 already-matched in range ⇒ no §126 island; split byte-neutral FIRST, then banked. S38's stated cause (reused `_o0c`) did not recur — `free_letters` derives an unused suffix. |
 | **4 wave-6 drafts** (SC06_032 710 · SC03_001 557 · SC04_018 513 · SC02_027 125) | **+1,905** | **banked UNCHANGED — see the finding below** |
 | **`func_801878E8` family 4/4 siblings** | **+2,052** | `jtbl_family_bank.py`, ~0 agent tokens |
+| **4 re-gated stored drafts** (the 2 REVERTED overlays) | **+146** | `ov_SC06_030` ×2 · `ov_SC07_010` ×2; incl. a fleet-wide `engine_core.h` no-proto arity edit proven byte-neutral |
 
 ## 🔑 THE SECOND FINDING — RE-GATE STORED DRAFTS AFTER ANY TOOL REPAIR
 All 4 wave-6 drafts banked with **no change to the drafts**. S38 recorded them blocked on a class
@@ -246,14 +247,19 @@ rather than to metrics). **This is the 5th "wall" this phase to resolve to our o
 ## ▶ RESUME HERE
 1. **S4 continues** (task #3): the **39 draft-exemplar families (382 members)** + the **2 resident
    stubs** that already have `match_one`-MATCH drafts gate-rejected for TU plumbing.
-   **Do the cheap thing first: re-gate every stored draft** — the 4/4 result above says the stored
-   FAIL verdicts predate the tool repairs and are not evidence.
+   ⚠️ **Do NOT blanket-re-gate the stored backlog — MEASURED this session** (`docs/calibration.md`):
+   fresh wave-6 drafts **4/6**, unbiased stored sample **1/12**, the two REVERTED overlays **3/17**.
+   **A10's 0/958 broadly STANDS**; 1,155 whole-binary builds are not justified by ~8%. The rule is
+   narrower: **re-gate the drafts a repair plausibly touched, targeted by its blast radius.**
 2. **S5 the wave** (task #4) — 1,689 h_norm clusters / 326,261 ins at a claimed 2.7×. **VERIFY Fable's
    pool numbers first (R14 — its two headline refutations were re-verified, its POOL NUMBERS were
    NOT)**, then ONE 8-target calibration wave, measure REALIZED propagation. **Prompt for the toggle (R27).**
 3. **S6/S7** — the 2 giant exemplar walls (50,094 ins on 2 cracks); then main (regen its 7-week-stale
    sig FIRST — missing 757 of 2,002 stubs).
-4. **Carried, not lost:** the **61 SC07 `-O0` members** (S3's untouched half) · the §134→`cdecl._mask`
+4. **NEW (Drew, 2026-08-04, task #9 — do NOT start without his go):** the **frontier reconciliation
+   gate + denominator completeness** (his MASTER_REMAINING idea in its derived form). Full assessment
+   in `docs/decision-log.md`: adopt the goal, reject the maintained list (R33). Fits P31's opener.
+5. **Carried, not lost:** the **61 SC07 `-O0` members** (S3's untouched half) · the §134→`cdecl._mask`
    consolidation (task #7; the class has now appeared in SIX tools) · `progress.py`'s `SIG` alias
    blindness (fn-count only — resolve defs through `overlay_src_split.asm_label_aliases`, R33).
 
