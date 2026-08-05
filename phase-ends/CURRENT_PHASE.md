@@ -2326,6 +2326,38 @@ per-instance variables; a deleted self-move in one of two symmetric blocks is th
 `global.c:719`-vs-`:729` death-before-store exemption that produces it). §147-E corrected: it named
 the wrong allocator — these are `global.c` allocnos, not local `qty_compare` quantities.
 
+### ▶ S43-7 — `func_8017EF68` CRACKED (the 2-of-969 wedge); R22 CONFIRMS ALL FIVE BANKS 140/140 (2026-08-05)
+The second Fable5 agent matched the function whose draft had been sitting one working permuter run
+from a bank — **MATCH 969/969**, re-verified by me, then gated: `ov_SC06_000` byte-identical at
+`da4a26ffffe8759929aa078aac7285738089a1f2`.
+
+**The mechanism is a machine-model constraint, not a tie** (read from cc1's own `-dR` trace): the r3000
+description gives the memory unit load-ready-cost 2 and store 1, so **`blockage(load,store) = 2` — a
+load can never be picked in the tick immediately after a store pick.** sched2 therefore ALWAYS wedges
+one ready ALU insn between the `lw` and the `sh`, and the target's zero-wedge order is **unreachable by
+any statement order**. That is why ~20 documented hand variants AND the repaired permuter both floored
+at exactly 2. The draft's own §49 "sched1 LUID/sink" story was incomplete — real but secondary.
+
+**The lever (→ cookbook §151, "the ghost wedge"):** a zero-emission tied in/out asm
+`__asm__("" : "=r"(v) : "0"(v), "r"(rival));` — same-reg, empty template, **0 bytes**, but a
+schedulable insn that absorbs the blocked tick; it also sets `reg_n_sets(v)=2`, killing sched1's
+birthing boost, so one instrument acts on both passes. Two measured fallouts closed it: read the rival
+in the same asm (density flip, 22→12), then a second re-tie on a **high-ref host** to restore
+**allocno live-length parity** (each in-loop insn is +1 live length for every loop-spanning allocno,
+and a trio of invariant addresses sat exactly on `allocno_compare`'s integer-floor boundary). Host
+choice is empirical: `pkt` ⇒ MATCH, `ot` ⇒ 705 off, doubling the first host ⇒ 10 off.
+
+## ✅ R22 CLEAN-FLEET — **140 passed, 0 failed of 140**
+`make clean && make extract-all && make check-all` from a genuinely clean tree. **This discharges the
+`[R22 PENDING]` caveat on commit `commit:1484`** — all five of today's banks are confirmed, not
+incremental-build artifacts (§130).
+
+### FLEET AFTER S43
+**96.63% fn-count · 94.9% instr-weighted (12,489,130 / 13,160,961) · 89.2% distinct-code
+(78,084 / 87,459 uniq)** · 0 NON_MATCHING in any default build (G4) · dedup 1919 groups.
+Session delta: **+4,757 instructions** banked (12,484,373 → 12,489,130), all from 2 cracks ×5 binaries.
+**Distance to P30's 95% instr milestone bar: 13,782 instructions** (was 18,539 at session start).
+
 ### ▶ S11 — the propagation lag: EXTEND 0/36 -> 31/36, and every blocker was a DECLARATION (2026-08-03/04)
 Lane 2 of the S10 checkpoint ("26,006 ins, ~0 agent tokens, PARTLY BLOCKED"), taken first on the
 standing doctrine that the cheap deterministic lever is probed before the expensive agent one.

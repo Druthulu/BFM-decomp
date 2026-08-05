@@ -10314,3 +10314,54 @@ the VARIABLES, not about the allocator.
 **Symptom lines for the index:** **"one register pair transposed"** · **"different registers in the X
 pass than the Y pass"** · **"a missing move / deleted copy in one of two symmetric blocks"** · **"every
 pin and slider is inert"** · **"hand sweep and permuter plateau at the same number"**.
+
+---
+
+## §151 — THE GHOST WEDGE: when a load-before-store transposition is unreachable by ANY statement order (P30 S43, `func_8017EF68`, 969 ins)
+
+The 2-of-969 residual that ~20 documented hand variants and the repaired permuter both floored at.
+Not a tie — a **hardware-model constraint** in the scheduler that no source order can escape.
+
+### The mechanism (read from cc1's own `-dR` trace, not inferred)
+Target wants `lw` **directly** before a store; the draft always emits one ALU insn between them.
+1. The rival `srl` is ready early and ranks first every tick, but loses to the box `sh`s via
+   `schedule_select`'s potential-hazard rule (memory-unit users first).
+2. The `lw` becomes ready exactly one tick after a store is picked (store-after-load anti-dep; MIPS
+   `ADJUST_COST` zeroes anti cost, clamped to 1) — and is **always unit-blocked there**. The r3000
+   machine description gives the memory unit load-ready-cost 2, store 1, so
+   **`blockage(load, store) = 2`: a load can NEVER be picked in the tick immediately after a store
+   pick.** It queues one tick and wins the next.
+3. Therefore sched2 **always** wedges one ready ALU insn between the `lw` and the `sh`. Zero wedge is
+   unreachable by any statement order or LUID assignment with that instruction set.
+
+**The diagnostic to look for:** `;; blocking insn N for M cycles` in a `-dR` dump. That line means the
+schedule you want is not an ordering preference — it is forbidden by the machine model.
+
+### The lever — a zero-emission insn that absorbs the blocked tick
+    __asm__("" : "=r"(v) : "0"(v));            /* same-reg in/out re-tie: 0 bytes emitted */
+Tied in/out on one pseudo, empty template ⇒ **no code**, but it IS a schedulable insn: it inherits the
+rival's predecessors and the value's consumers, so it is ready in the blocked tick and takes the wedge
+slot the ALU insn would have taken. The `lw` then launches on the next tick and the rival slides after
+it. Bonus: it sets `reg_n_sets(v) = 2`, which also kills sched1's birthing boost — one instrument
+acting on **both** scheduling passes.
+
+### The two fallouts, and how to close them (both measured, in order)
+- **A — register flip from the density rise.** Adding refs to `v` moves it in the allocator and flips
+  `v`/rival off their registers. **Cure: read the rival in the SAME asm** — `asm("" : "=r"(v) :
+  "0"(v), "r"(rival))` (the §S13 both-rivals lever).
+- **B — allocno live-length PARITY.** Every inserted in-loop insn adds **+1 live length to every
+  loop-spanning allocno**. `global.c`'s `allocno_compare` priority is integer-floored
+  (`floor_log2(refs)·refs/length·10000`), so a trio of loop-invariant addresses sitting exactly on a
+  floor boundary rotates its register homes when the parity changes. **One ghost breaks it; a second
+  re-tie restores it.** Host choice is empirical and matters: a **high-ref pseudo far from any
+  boundary** works (here `pkt` ⇒ MATCH), a low-ref one does not (`ot` ⇒ 705 off; doubling the first
+  host ⇒ 10 off). Pick the host by ref count, then verify.
+
+### When to reach for it
+A pure **adjacent transposition** of an independent load and a store, where statement order provably
+does nothing. Expect it across the ~950-instruction renderer siblings that share this unpack block.
+⚠️ Corrects the draft's own §49 write-up, which read this as a sched1 LUID/sink story: that was
+incomplete — the LUID effect is real but secondary to the unit blockage.
+
+**Symptom lines for the index:** **"a load and a store transposed"** · **"blocking insn N for M
+cycles"** · **"no statement order changes the pair"** · **"two instructions apart after every lever"**.
