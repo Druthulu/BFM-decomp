@@ -214,43 +214,65 @@ more instructions AND its family propagates at the same cost per sibling — `fu
 POOL REALISATION (21%), not bank rate**; wave 6's bank rate is not comparable to waves 3–5 because
 the difficulty knob moved deliberately (median target 438 ins vs 143, mostly `has_mid_jr`).
 
-## 🔬 THE FAMILY FRONTIER, MEASURED (S38 — answers "can we still exemplar-crack hundreds?")
-**Families yes; hundreds-per-crack NO. The ×138 era is over** (as S37 predicted). Open-member
-distribution across 5,792 families / 701,508 open ins:
-| open members | families | open ins |
-|---|---|---|
-| 100+ | **8** | 74,741 |
-| 20-49 | 8 | 7,269 |
-| 10-19 | 15 | 26,667 |
-| 5-9 | 420 | 130,658 |
-| 2-4 | **1,534** | 230,038 |
-| 1 (singleton) | **3,807** | 232,135 |
-Of the eight 100+ families: 2 are the permanent walls (`0x801412a8`, `0x80178004`), 2 are ledgered
-not-templatable (`0x80175820`, `0x80132018`), and the other 4 are 14-25-ins functions where the
-h_seq skeleton **collides by chance** — `0x80128c98` probed **0/138**. **Economics inverted: a crack
-is now worth 2-9 members, not 138.** Wave 6's `func_8017FEE0` (19 members / 4,485 ins from one
-crack) was near the TOP of what remains, not typical. ⇒ **throughput of cracks now beats leverage
-per crack** — which is the argument FOR a 64-target wave, not against it.
+## 🔬 THE FAMILY FRONTIER — **MY S38 READING WAS WRONG; CORRECTED HERE** (Fable5 + byte-checked)
+**Superseded claims (do NOT act on them):** "the ×138 era is over", "4 of the 8 big families collide
+by chance", "0x80175820 / 0x80132018 are not templatable", "the free-sweep zeros are undiagnosed",
+"family_sweep reports failures without the per-member error". **Every one is refuted.**
 
-## ⚠️ THE "FREE SWEEP" LANE — 0 AND 0, CAUSE UNDIAGNOSED. **DO NOT RECORD AS A WALL.**
-147 families carry an already-matched sibling (1,560 open members / 66,971 ins) — i.e. sweep fuel
-needing no crack. Sized by nins, because small skeletons collide:
-| band | families | open members | ins |
+**What is TRUE:** the open-member DISTRIBUTION does skew small (5,792 families / ~702k open ins;
+8 families at 100+, 1,534 at 2-4, 3,807 singletons). **What is FALSE is the conclusion I drew from
+it.** The map's own `classify_member` (family_remap.py:213) is a per-word diff with reloc tracking —
+**PURE means every differing word sits at a RELOC position, i.e. the exact opposite of a chance
+collision.** All four families I called "chance" classify PURE or IMM ×138. `0x80161418` has **552
+already-matched siblings** — that family has swept successfully before. The two "ledgered
+not-templatable" entries are contradicted too (`0x80175820` IMM×137 / 7,535 ins; `0x80132018`
+PURE×132 / 6,072 ins). Only the 2 GIANT walls survive, and those are **exemplar** walls (close=91/110)
+whose 138 members each classify PURE — **50,094 ins ride on 2 cracks.**
+
+**THE BASE RATE, which settles it:** across ALL sweep runs' classified files, blockers are
+**~24k PLUMBING vs 4,917 DIFF — 5:1.** Sweep failure in this project has ALWAYS been mostly
+plumbing. My "families don't template" reading had the base rate exactly backwards.
+
+## ✅ BOTH S38 ZEROS DIAGNOSED — BOTH PLUMBING, BOTH ALREADY ON DISK
+- `0x801833f0` **0/6 → 6/6 (FIXED, banked, R22 140/140)**. Cause: the remapped body carries the
+  EXEMPLAR's TU-local types (`PTag_/Ft4_/Drm_801833F0`); undeclared type ⇒ gcc-2.7.2 parses the
+  declarator as an expression ⇒ `parse error before 'vtx'`. Never reached codegen. Fix = lift the
+  types (`lift_types --apply`). **This is §20's propagation cap on the h_seq sweep path.**
+- `0x80128c98` **0/138**: `PLUMBING: conflicting types for 'cdFileLocTable'` — the §103/§20
+  extern-conflict class. Also never reached codegen.
+- **`.run/hseq_failed.<ov>.<n>.classified.txt` — 23,211 files — carried both diagnoses all along.**
+  My claim that the sweep hides the per-member error was FALSE and is struck (R37).
+
+## 🎯 THE UNTARGETED POOL (Fable5, computed from sig+corpus — verify before scaling)
+- **Open-only h_norm clusters: 1,689 clusters / 5,956 fns / 326,261 ins = 46% of ALL open overlay
+  instructions**, with a **2.7× propagation multiplier** (exemplar 88,649 ins → propagated 237,612).
+  Nobody has aimed a wave here.
+- **h_exact pool**: 250 open fns / 12,981 ins byte-identical to already-matched code — incl. the
+  **whale `0x80144b9c` matched in 134/138 overlays, open only in the 4 SC07s (3,080 ins)**, blocked
+  solely by the SC07 carve defect (T2 Arm-A +0x20).
+- **main is structurally barren** (zero h_exact overlap; different compiler era) — genuine agent tail.
+  Its Ghidra sig is 7 weeks stale and missing 757 of 2,002 stubs — regen before pricing it.
+- 2 of the resident's 14 stubs already have match_one-MATCH drafts in backlog.jsonl, gate-rejected
+  for TU plumbing — same class.
+
+## 📋 THE RANKED PLAN (tokens/instruction vs a 490 t/ins wave baseline)
+| # | strategy | reachable ins | tok/ins |
 |---|---|---|---|
-| 150+ | 22 | 69 | 21,910 |
-| 80-149 | 11 | 39 | 4,554 |
-| 40-79 | 19 | 401 | 19,849 |
-| <40 | 95 | 1,051 | 20,658 |
-**Two probes, both 0:** `0x80128c98` (25 ins, ×138) → **0/138**; `0x801833f0` (328 ins, 6 members,
-PURE, not has_mid_jr, so `family_sweep --hseq` IS the tool its properties select) → **0/6**.
-**BUT THE CAUSE IS NOT DIAGNOSED, so this is a PENDING QUESTION, not a verdict** — P26 recorded
-"structural families template ≈0%", P28 OVERTURNED it (the 0/8 was a missing carve; the same family
-then banked 102/115), and that reversal reshaped two phases of strategy. `family_sweep` reports
-banked/failed **without the per-member build error**, so DIFF (codegen) and PLUMBING (declaration)
-are indistinguishable here — the same "outcome without the payload that routes it" gap as
-`jtbl_family_bank`'s bare `gate-fail`.
-**Next step if this lane is wanted: run ONE member through `harvest_verify` directly and read the
-error** (the `.run/w6_diag.py` shape). ~26k ins in the credible bands rides on that one read.
+| **S1** | fix the 2 plumbing classes (typedef/macro gather + extern-conflict reconcile) → re-sweep the 148 matched-exemplar families | **35-60k** | **~10-25** |
+| S2 | jr matched-exemplar families via `jtbl_family_bank` (§53) — 11 fams / 52 members | 10-18k | ~0 |
+| S3 | SC07 carve fix → whale ×4 + 61 SC07 o0 members | 5-15k | ~0 |
+| S4 | draft-recovery on 39 draft-exemplar families + the 2 resident MATCHes | 10-25k | ~10-50 |
+| S5 | **re-aim waves at open-only h_norm cluster exemplars**, sweep after every bank | up to 326k | ~130-150 |
+| S6 | the 2 GIANT exemplar walls (50,094 ins on 2 cracks) | 50k | ~50-200 |
+| S7 | singleton tail + main (regen main's sig FIRST) | remainder | ~490+ |
+**S1-S4 ≈ 80-115k ins moved from the 490-t/ins column to ~0**, and S1 restores the propagation
+multiplier that makes every later wave ~3× cheaper. **DO S1 BEFORE ANY WAVE.**
+
+## 🚨 STANDING PRE-PROBE RULE (this session's cheapest lesson)
+**Before probing a family, check h_norm identity across its members from the sig files.** If members
+are h_norm-identical, a 0% is a compile-error CERTAINTY, not evidence about codegen — it would have
+predicted both of today's zeros without spending a probe. And **read
+`.run/hseq_failed.*.classified.txt` before theorising about any sweep failure.**
 
 ## ▶ RESUME HERE — wave 7, ~50k templ ins (Drew's direction)
 1. `.venv/bin/python .run/w6_pool.py 16 .run/w7_wave.json` — the pool derivation is a SCRIPT now
