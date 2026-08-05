@@ -181,7 +181,105 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 
 ---
 
-# 🛑 SESSION-38 CHECKPOINT — **v4, POST-S1d** (2026-08-04) — FRESH SESSION SAFE HERE
+# 🛑 SESSION-39 CHECKPOINT (2026-08-04) — FRESH SESSION SAFE HERE
+> **NOTHING IS RUNNING. Tree lock FREE. Tree CLEAN** but for the R23 `db.*.gbf` churn — never stage.
+> Effort **xHigh**. **R22 run FOUR times: 140/140 every time. No failures, nothing reverted.**
+> **NO phase close — keep grinding.** Plan = **T7**; full report `.run/fable_frontier/ANALYSIS.md`.
+> **VERIFY:** `git log --oneline -4` at/near HEAD + `docs/progress.fleet.md` agrees with FLEET below.
+
+## FLEET — R22 **140 passed / 0 failed of 140**
+**96.46% fn-count (341,194/353,717) · 94.4% instr-weighted (12,410,129/13,141,652) · 89.2%
+distinct-code (5,028,526/5,634,875; 77,959 uniq)** · 0 NON_MATCHING · audit-digest OK.
+Session opened 341,186 / 12,405,402 / 77,952 ⇒ **+4,727 instructions, +7 unique fns**, ~0 agent tokens
+(no wave was run — every gain came from re-gating stored work and one mechanical propagation).
+
+## 🔑 THE SESSION'S HEADLINE — S38's "distinct-code REGRESSION" NEVER HAPPENED
+The v4 checkpoint gated the phase's best lever on it (*"do NOT scale the alias lever"*). It was a
+**STALE COMMITTED DIGEST**. `commit:1426`'s digest was generated from a working tree still holding work
+**reverted before the commit landed** (+7,879 ins / +130 uniq overstated) and never regenerated, so
+the next HONEST digest read as a fall.
+
+| | instr | distinct | uniq |
+|---|---|---|---|
+| `commit:1426` **true** | 12,394,533 | 5,022,306 | 77,895 |
+| `commit:1426` *as committed* | 12,402,412 | 5,029,324 | **78,025** |
+| its successor, true **=** committed | 12,405,402 | 5,025,082 | 77,952 |
+
+**True delta over that span: instr +10,869 · distinct +2,776 / +57 uniq — EVERYTHING ROSE.**
+**⇒ THE ALIAS LEVER IS UNGATED.** Both recorded leads were wrong (R14): `progress.py:423`'s `SIG`
+feeds **fn-count only** (neither weighted metric sees a C identifier — both derive
+`matched = sig − corpus.stubs`), and "reverted to INCLUDE_ASM" died on one grep (**483 removed, 0 added**).
+
+**THE 3-GREP PROOF, before forming any hypothesis about a metric move:** identical sigs (both
+denominators unchanged) + unchanged `tools/` + `git diff A B -- src/ | grep -c '^+.*INCLUDE_ASM('` = 0
+⇒ HEAD's stub set is a strict SUBSET ⇒ both numerators are **mathematically forbidden to fall**.
+
+## 🧰 FOUR INSTRUMENT DEFECTS FIXED — all ONE class: a bare `except` around a fail-CLOSED oracle
+1. **`progress.py stub_addrs`** swallowed `corpus.stubs`' refusal → empty stub set → `matched = sig −
+   stubs` credited EVERY function. **Byte-witnessed reporting instr 100.00% / distinct 100.00%** in a
+   tree with no `asm/`. Now propagates.
+2–3. **`cast_call_sites.tu_for` + `reconcile_tu.tu_for`** — identical swallow, falling back to the
+   default `<ov>.c` instead of the `_jr_`/`-O0` split TU: **the exact bug `cast_call_sites`' own
+   docstring says it exists to fix.** A wrong-TU reconcile fails the gate, and the phase's base rate is
+   ~24k PLUMBING vs 4,917 DIFF ⇒ it presents as a codegen wall. Both propagate; `ValueError` fallback
+   for curated names kept; derived path re-verified on a `_jr_` stub.
+4. **NEW `make audit-digest`** (`tools/audit_digest.py`, in `tools-health` after `report`) — recomputes
+   the three headline metrics from the tree and fails if the committed digest disagrees. **Compares
+   INTEGERS, not percentages** (the staleness printed "94.4%" on both sides). Negative-control-proven
+   against the stale digest. R34: the byte-gate is a null oracle for DOCUMENTS.
+
+## ✅ BANKED THIS SESSION (+4,727 ins, every step R22 140/140)
+| what | ins | note |
+|---|---|---|
+| **the whale ×1 → 138/138** (`ov_SC07_010`) | **+770** | `o0_subsplit --lo 0x80144B9C --hi 0x801457A4`; 0 already-matched in range ⇒ no §126 island; split byte-neutral FIRST, then banked. S38's stated cause (reused `_o0c`) did not recur — `free_letters` derives an unused suffix. |
+| **4 wave-6 drafts** (SC06_032 710 · SC03_001 557 · SC04_018 513 · SC02_027 125) | **+1,905** | **banked UNCHANGED — see the finding below** |
+| **`func_801878E8` family 4/4 siblings** | **+2,052** | `jtbl_family_bank.py`, ~0 agent tokens |
+
+## 🔑 THE SECOND FINDING — RE-GATE STORED DRAFTS AFTER ANY TOOL REPAIR
+All 4 wave-6 drafts banked with **no change to the drafts**. S38 recorded them blocked on a class
+needing a crack (*"cracking this one class frees 6 drafts at once"*); they had **already been freed by
+S38's own tool repairs** (the `jr_isolate_all`/`overlay_src_split` alias-DEFINITION-deletion blindness
++ `harvest_verify._reload_corpus`). The drafts were correct; the instruments were failing them.
+**A stored verdict is only as current as the instrument that produced it** (R35, applied to the backlog
+rather than to metrics). **This is the 5th "wall" this phase to resolve to our own tooling.**
+
+## ▶ RESUME HERE
+1. **S4 continues** (task #3): the **39 draft-exemplar families (382 members)** + the **2 resident
+   stubs** that already have `match_one`-MATCH drafts gate-rejected for TU plumbing.
+   **Do the cheap thing first: re-gate every stored draft** — the 4/4 result above says the stored
+   FAIL verdicts predate the tool repairs and are not evidence.
+2. **S5 the wave** (task #4) — 1,689 h_norm clusters / 326,261 ins at a claimed 2.7×. **VERIFY Fable's
+   pool numbers first (R14 — its two headline refutations were re-verified, its POOL NUMBERS were
+   NOT)**, then ONE 8-target calibration wave, measure REALIZED propagation. **Prompt for the toggle (R27).**
+3. **S6/S7** — the 2 giant exemplar walls (50,094 ins on 2 cracks); then main (regen its 7-week-stale
+   sig FIRST — missing 757 of 2,002 stubs).
+4. **Carried, not lost:** the **61 SC07 `-O0` members** (S3's untouched half) · the §134→`cdecl._mask`
+   consolidation (task #7; the class has now appeared in SIX tools) · `progress.py`'s `SIG` alias
+   blindness (fn-count only — resolve defs through `overlay_src_split.asm_label_aliases`, R33).
+
+## 🚧 LEFT ON THE BACKLOG AS GENUINE (not forced, P9)
+`func_8017C974` (ov_SC01_077, 947 ins, close=**47**, REGALLOC-PERM, 12 permuter variants inert) ·
+`func_80188C68` (ov_SC03_124, 551 ins, close=**370**, the only target with no twin anywhere).
+
+## 📌 A METRIC SHAPE WORTH KNOWING (R30)
+A body banked by `#include`-ing a shared header is **invisible to fn-count's NUMERATOR** (the
+definition is not in the `.c`) while its stub leaves the denominator — the whale bank moved fn-count
+`341186/353718 → 341186/353717`. The **weighted** metrics counted it correctly (+770) because they
+derive from `corpus.stubs`, not re-parsed C. **Trust the weighted pair.** Same root as the `SIG` lead.
+
+## 🧰 MY PROCESS ERRORS
+1. **Asserted two mechanisms before deriving either** — the recorded `SIG` lead (feeds fn-count only)
+   and "the harvest reverted functions to INCLUDE_ASM" (483 removed, **0 added**). Three greps settle
+   it; I ran them third instead of first. **R14/R37 — derive, then assert.**
+2. **Built a worktree probe that silently measured the wrong tree** — symlinking `tools/` made `ROOT`
+   resolve back to the main repo, so the "843 tree" reported HEAD's numbers. Caught because the
+   numbers were *identical*, which was too good. A control that cannot fail is not a control.
+3. **Chased the conflicting-decl bank one build at a time** (2 iterations) before enumerating all
+   collisions with `cdecl` in one pass — which found exactly 3 re-declarations, 2 conflicting.
+
+---
+
+# 🛑 (superseded) SESSION-38 CHECKPOINT — **v4, POST-S1d** (2026-08-04)
 > **NOTHING IS RUNNING. Tree lock FREE. Tree CLEAN** but for the R23 `db.*.gbf` churn — never stage.
 > Effort **xHigh**. **R22 run THIRTEEN times: 140/140 on eleven, TWO REAL FAILURES (both caught,
 > both reverted, both recorded below).** **NO phase close — keep grinding.**
