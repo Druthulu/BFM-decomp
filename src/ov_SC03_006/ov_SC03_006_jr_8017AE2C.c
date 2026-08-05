@@ -6656,7 +6656,6 @@ extern u8 D_80078E78[];
  * function actually names differ (unk1C is the only member accessed via `.`, everything
  * else goes through raw casts, matching the sibling verbatim). */
 
-extern Ent_801F7618 D_801F7618[];
 
 extern void func_8012AD44(s32 *a0, s16 a1);
 extern s32 func_8004787C(s32 a0);
@@ -6665,6 +6664,10 @@ extern void func_80182080(void *a0);
 
 void func_80181D38(s32 *arg0)
 {
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern Ent_801F7618 D_801F7618[];
     u8 *m = D_800AF630;
     u8 *q = D_80078E78;
     Ent_801F7618 *p;
@@ -8869,7 +8872,28 @@ void func_8018C04C(void *arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_8018C090);
+
+/* Sibling shape: DEFINE_func_80143BDC() in src/shared/engine_core.h (cookbook §71) */
+
+extern s32 func_8012C51C(void *a0, s32 a1);
+
+
+void func_8018C090(s32 a0, u16 *a1, s16 a2) {
+    struct S80190C84 sp;
+    u16 t;
+    sp.f0 = a1[0];
+    sp.f2 = a1[1];
+    t = a1[2];
+    sp.f6 = 0x35C;
+    sp.fA = 0;
+    sp.f8 = 0;
+    sp.fE = a2;
+    sp.f10 = 0;
+    sp.fC = 0x7FFF;
+    sp.f4 = t;
+    func_8012C51C(&sp, a0);
+}
+
 
 extern void func_80174684(void *);
     extern s32 func_8018C118;

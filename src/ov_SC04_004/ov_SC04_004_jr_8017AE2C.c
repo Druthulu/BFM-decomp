@@ -6604,7 +6604,28 @@ void func_801845D0(void *arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_004/nonmatchings/ov_SC04_004_jr_8017AE2C", func_80184614);
+
+/* Sibling shape: DEFINE_func_80143BDC() in src/shared/engine_core.h (cookbook §71) */
+
+extern s32 func_8012C51C(void *a0, s32 a1);
+
+
+void func_80184614(s32 a0, u16 *a1, s16 a2) {
+    struct S80190C84 sp;
+    u16 t;
+    sp.f0 = a1[0];
+    sp.f2 = a1[1];
+    t = a1[2];
+    sp.f6 = 0x35C;
+    sp.fA = 0;
+    sp.f8 = 0;
+    sp.fE = a2;
+    sp.f10 = 0;
+    sp.fC = 0x7FFF;
+    sp.f4 = t;
+    func_8012C51C(&sp, a0);
+}
+
 
 
 

@@ -7908,16 +7908,79 @@ void func_8018912C(void *a0) {
 
 INCLUDE_ASM("asm/ov_SC03_089/nonmatchings/ov_SC03_089_jr_8017CA80", func_80189168);
 
-INCLUDE_ASM("asm/ov_SC03_089/nonmatchings/ov_SC03_089_jr_8017CA80", func_8018935C);
+
+
+extern s32 func_8004787C(s32 a0);
+extern void func_80028620(s32 a0, void *a1);
+
+void func_8018935C(void *a0) {
+
+    extern struct B16_80185634 D_800A5EA8;
+    extern struct B16_80185634 D_801C3C60;
+    extern s32 D_800A5EB0;
+    D_800A5EA8 = D_801C3C60;
+    D_800A5EB0 = func_8004787C(*(s16 *)((s32)a0 + 0xFE)) * 10 / 4096 - 5;
+    *(u16 *)((s32)a0 + 0xFE) = (*(u16 *)((s32)a0 + 0xFE) + 0x71) & 0xFFF;
+    func_80028620(2, &D_800A5EA8);
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_089/nonmatchings/ov_SC03_089_jr_8017CA80", func_8018940C);
 
-INCLUDE_ASM("asm/ov_SC03_089/nonmatchings/ov_SC03_089_jr_8017CA80", func_801894BC);
+
+/* §71 sibling-first: func_80185634 (same TU, already MATCHed) is the exact template.
+ * Deltas: record D_800A5EA8<-D_801CCBF8 becomes D_800A5E88<-D_801C3CB0,
+ *         *10/4096-5 becomes *20/4096-10, slot 2 becomes slot 0.
+ * The scaled member (D_800A5E90) is record base +8, written as a DIRECT global so it
+ * emits `lui $at; sw %lo(..)($at)` rather than folding onto the $s1 record base. */
+
+
+extern s32 func_8004787C(s32 a0);
+extern void func_80028620(s32 a0, void *a1);
+
+void func_801894BC(void *a0) {
+
+    extern struct B16_80185794 D_800A5E88;
+    extern struct B16_80185794 D_801C3CB0;
+    extern s32 D_800A5E90;
+    D_800A5E88 = D_801C3CB0;
+    D_800A5E90 = func_8004787C(*(s16 *)((s32)a0 + 0xFE)) * 20 / 4096 - 10;
+    *(u16 *)((s32)a0 + 0xFE) = (*(u16 *)((s32)a0 + 0xFE) + 0x71) & 0xFFF;
+    func_80028620(0, &D_800A5E88);
+}
+
 
 void func_8018956C(void) {
 }
 
-INCLUDE_ASM("asm/ov_SC03_089/nonmatchings/ov_SC03_089_jr_8017CA80", func_80189574);
+
+/* §37 data asm-label alias: the TU already declares
+ *   extern struct B16_80185794 D_800A5E88;
+ * at file scope (that tag is defined next to func_80185794).  Re-declaring the
+ * symbol with this function's own 16-byte record tag is a `conflicting types`
+ * error, and the tag cannot be re-defined either.  Aliasing a private C
+ * identifier onto the same linker symbol sidesteps the collision at zero blast
+ * radius and emits the identical %hi/%lo(D_800A5E88) pair. */
+
+
+extern s32 func_8004787C(s32 a0);
+extern void func_80028620(s32 a0, void *a1);
+
+void func_80189574(void *a0) {
+
+    extern struct B16_8018584C aD800A5E88 __asm__("D_800A5E88");
+    extern struct B16_8018584C D_801C3CE8;
+    extern s32 D_800A5E90;
+    s32 t;
+
+    aD800A5E88 = D_801C3CE8;
+    t = func_8004787C(*(s16 *)((s32)a0 + 0xFE));
+    if (t < 0) t += 0x1FF;
+    D_800A5E90 = (t >> 9) + 8;
+    *(u16 *)((s32)a0 + 0xFE) = (*(u16 *)((s32)a0 + 0xFE) + 0x71) & 0xFFF;
+    func_80028620(0, &aD800A5E88);
+}
+
 
 
 

@@ -50,7 +50,6 @@ extern void func_80162120(void);
 extern void func_80029124(s32, s32);
 extern s32 func_80165A50(s32);
 extern void func_80029514(s32);
-extern u8 D_800AF630[];
 extern u8 D_80078EC0;
 extern s32 func_80028FBC(void);
 extern s32 func_80029000(void);
@@ -6404,7 +6403,171 @@ void func_80186D94(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_002/nonmatchings/ov_SC04_002_jr_8017BEBC", func_80186DD4);
+extern void func_80017714(void *);
+#define gte_ldv0_801837B0(r0) __asm__ volatile (  \
+    "lwc2 $0, 0( %0 );"                          \
+    "lwc2 $1, 4( %0 )"                           \
+    :                                            \
+    : "r"( r0 ) )
+#define gte_ldv3_801837B0(r0, r1, r2) __asm__ volatile ( \
+    "lwc2 $0, 0( %0 );"                          \
+    "lwc2 $1, 4( %0 );"                          \
+    "lwc2 $2, 0( %1 );"                          \
+    "lwc2 $3, 4( %1 );"                          \
+    "lwc2 $4, 0( %2 );"                          \
+    "lwc2 $5, 4( %2 )"                           \
+    :                                            \
+    : "r"( r0 ), "r"( r1 ), "r"( r2 ) )
+#define gte_rtps_801837B0() __asm__ volatile ("nop;nop;rtps")
+#define gte_rtpt_801837B0() __asm__ volatile ("nop;nop;rtpt")
+#define gte_avsz4_801837B0() __asm__ volatile ("nop;nop;avsz4")
+#define gte_stsxy_801837B0(r0) __asm__ volatile ( \
+    "swc2 $14, 0( %0 )"                          \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "memory" )
+#define gte_stsxy3_801837B0(r0, r1, r2) __asm__ volatile ( \
+    "swc2 $12, 0( %0 );"                         \
+    "swc2 $13, 0( %1 );"                         \
+    "swc2 $14, 0( %2 )"                          \
+    :                                            \
+    : "r"( r0 ), "r"( r1 ), "r"( r2 )            \
+    : "memory" )
+#define gte_stotz_801837B0(r0) __asm__ volatile ( \
+    "swc2 $7, 0( %0 )"                           \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "memory" )
+#define gte_stflg_801837B0(r0) __asm__ volatile ( \
+    "cfc2 $12, $31;"                             \
+    "nop;"                                       \
+    "sw $12, 0( %0 )"                            \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "$12", "memory" )
+#define gte_SetRotMatrix_801837B0(r0) __asm__ volatile ( \
+    "lw $12, 0( %0 );"                                   \
+    "lw $13, 4( %0 );"                                   \
+    "ctc2 $12, $0;"                                      \
+    "ctc2 $13, $1;"                                      \
+    "lw $12, 8( %0 );"                                   \
+    "lw $13, 12( %0 );"                                  \
+    "lw $14, 16( %0 );"                                  \
+    "ctc2 $12, $2;"                                      \
+    "ctc2 $13, $3;"                                      \
+    "ctc2 $14, $4"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+#define gte_SetTransMatrix_801837B0(r0) __asm__ volatile ( \
+    "lw $12, 20( %0 );"                                  \
+    "lw $13, 24( %0 );"                                  \
+    "ctc2 $12, $5;"                                      \
+    "lw $14, 28( %0 );"                                  \
+    "ctc2 $13, $6;"                                      \
+    "ctc2 $14, $7"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+
+void func_80186DD4(s32 a0)
+{
+
+    extern u8 D_800AF630[];
+    PKT_801837B0 pkt;   /* 0x10 */
+    s32 flag1;          /* 0x48 */
+    s32 flag2;          /* 0x4C */
+    s32 otz;            /* 0x50 */
+    u8 *base;
+    s32 *m;
+    s16 c, p, q;
+    s32 d;
+
+    c = *(s32 *)(a0 + 0x1C) * 15;
+    base = D_800AF630;
+    p = c;
+    d = c >> 1;
+    q = d;
+
+    if ((*(u16 *)(a0 + 0x70) & 1) == 0) {
+        pkt.rgb[0].b = pkt.rgb[1].b = p;
+        pkt.rgb[0].r = pkt.rgb[1].r = pkt.rgb[0].g = pkt.rgb[1].g = q;
+        c -= 0x10;
+        p = c;
+        {
+            s32 e;          /* block-scoped: one pseudo per arm (§136/L1) */
+            e = d - 0x10;
+            q = e;
+            if (c < 0) {
+                p = 0;
+            }
+            if (e < 0) {
+                q = 0;
+            }
+        }
+        pkt.rgb[2].b = pkt.rgb[3].b = p;
+        pkt.rgb[2].r = pkt.rgb[3].r = pkt.rgb[2].g = pkt.rgb[3].g = q;
+    } else {
+        pkt.rgb[0].r = pkt.rgb[1].r = p;
+        pkt.rgb[0].g = pkt.rgb[1].g = pkt.rgb[0].b = pkt.rgb[1].b = q;
+        c -= 0x10;
+        p = c;
+        {
+            s32 e;          /* block-scoped: one pseudo per arm (§136/L1) */
+            e = d - 0x10;
+            q = e;
+            if (c < 0) {
+                p = 0;
+            }
+            if (e < 0) {
+                q = 0;
+            }
+        }
+        pkt.rgb[2].r = pkt.rgb[3].r = p;
+        pkt.rgb[2].g = pkt.rgb[3].g = pkt.rgb[2].b = pkt.rgb[3].b = q;
+    }
+
+    pkt.code = 0x50000000;
+
+    m = (s32 *)(base + 0x18);
+    gte_SetRotMatrix_801837B0(m);
+    gte_SetTransMatrix_801837B0(m);
+
+    gte_ldv3_801837B0((SV_801837B0 *)(a0 + 0xFC), (SV_801837B0 *)(a0 + 0x104),
+                      (SV_801837B0 *)(a0 + 0xEC));
+    gte_rtpt_801837B0();
+    gte_stflg_801837B0(&flag1);
+    gte_stsxy3_801837B0(&pkt.v[0], &pkt.v[1], &pkt.v[2]);
+    gte_ldv0_801837B0((SV_801837B0 *)(a0 + 0xF4));
+    gte_rtps_801837B0();
+    gte_stflg_801837B0(&flag2);
+    flag1 = flag1 | flag2;
+    gte_stsxy_801837B0(&pkt.v[3]);
+    gte_avsz4_801837B0();
+    gte_stotz_801837B0(&otz);
+    if ((flag1 & 0xFFFFEFFF) == 0) {
+        pkt.v[0].vz = (s16)otz;
+        func_80017714(&pkt.v[0]);
+    }
+
+    gte_ldv3_801837B0((SV_801837B0 *)(a0 + 0xEC), (SV_801837B0 *)(a0 + 0xF4),
+                      (SV_801837B0 *)(a0 + 0xDC));
+    gte_rtpt_801837B0();
+    gte_stflg_801837B0(&flag1);
+    gte_stsxy3_801837B0(&pkt.v[0], &pkt.v[1], &pkt.v[2]);
+    gte_ldv0_801837B0((SV_801837B0 *)(a0 + 0xE4));
+    gte_rtps_801837B0();
+    gte_stflg_801837B0(&flag2);
+    flag1 = flag1 | flag2;
+    gte_stsxy_801837B0(&pkt.v[3]);
+    gte_avsz4_801837B0();
+    gte_stotz_801837B0(&otz);
+    if ((flag1 & 0xFFFFEFFF) == 0) {
+        pkt.v[0].vz = (s16)otz;
+        func_80017714(&pkt.v[0]);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_002/nonmatchings/ov_SC04_002_jr_8017BEBC", func_8018710C);
 
@@ -6705,7 +6868,28 @@ void func_80188300(void *arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_002/nonmatchings/ov_SC04_002_jr_8017BEBC", func_80188344);
+
+/* Sibling shape: DEFINE_func_80143BDC() in src/shared/engine_core.h (cookbook §71) */
+
+extern s32 func_8012C51C(void *a0, s32 a1);
+
+
+void func_80188344(s32 a0, u16 *a1, s16 a2) {
+    struct S80190C84 sp;
+    u16 t;
+    sp.f0 = a1[0];
+    sp.f2 = a1[1];
+    t = a1[2];
+    sp.f6 = 0x35C;
+    sp.fA = 0;
+    sp.f8 = 0;
+    sp.fE = a2;
+    sp.f10 = 0;
+    sp.fC = 0x7FFF;
+    sp.f4 = t;
+    func_8012C51C(&sp, a0);
+}
+
 
 
 

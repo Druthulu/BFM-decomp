@@ -4262,7 +4262,6 @@ void func_8017DEE8(void *arg0) {
 extern u8 D_80078EB1;
 extern u8 D_80078E78[];
 extern u8 D_800AF630[];
-extern Ent_8017D6EC_8017DEE8 D_801EE888[];
 extern s32 func_8004787C(s32 a0);
 extern void func_8012AD44(s32 *a0, s16 a1);
 extern void func_8017E1B4(void *a0);
@@ -4270,6 +4269,10 @@ extern void func_8017E2C0(void *arg0);
 
 void func_8017DF78(void *arg0)
 {
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern Ent_8017D6EC_8017DEE8 D_801EE888[];
     u8 *m;
     u8 *e78;
     s32 k;
@@ -8920,7 +8923,93 @@ void func_80188B80(void *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001_jr_8017AE2C", func_80188BFC);
+
+
+/* func_80188BFC — scan the 96-entry / 0x10C-stride D_801202A0 actor table for
+ * the lowest-scoring slot whose u16 tag at +0 is 0x61, then splat 3 words plus
+ * an align-1 8-byte block into the caller's struct.
+ *
+ * Byte-verified idioms (all four were needed; each was a real residual):
+ *
+ *  1. The 0x61 compare constant is NOT a source variable. gcc keeps it in a
+ *     callee-saved reg and LICM sinks the `li` into the loop PREHEADER, so
+ *     `addiu $s5,$zero,0x61` lands AFTER the guard branch's delay slot. Pinning
+ *     an `s5` local puts the `li` in the entry block instead (+1 wrong slot).
+ *
+ *  2. The 8-byte copy at +0x10 is ONE align-1 struct assign, not two 4-byte
+ *     ones. gcc's MIPS block move loads BOTH words first (lwl/lwr $a0,
+ *     lwl/lwr $a1) then stores both; splitting it emits load/nop/store twice
+ *     and costs an instruction (cookbook-index: "align-1 4xu8 struct assign
+ *     emits the inline form").
+ *
+ *  3. The parameter must NOT be register-pinned. With `register u8 *s2
+ *     __asm__("$18")` the entry-block `move` is a schedulable body insn and
+ *     the list scheduler ranks the higher-priority `lui $s0` chain ahead of
+ *     it, so the anti-dependent prologue `sw`s come out in regno order
+ *     (s0,s1,s2,s3) instead of the target's def order (s2,s0,s1,s3). Letting
+ *     gcc allocate the incoming parameter itself keeps the copy first and the
+ *     whole prologue falls into place. (The other five pins are still needed.)
+ *
+ *  4. After the block store, gcc-2.7.2 CSE has invalidated memory, so
+ *     a0->0x20 is RELOADED into a second pseudo — two separate C variables,
+ *     not one reused variable (one variable => one pseudo => $a3 for both).
+ *     The destination pointer must also be loaded BEFORE the source pointer:
+ *     that source order is what lets the scheduler hoist `lw $v1,0x20($s2)`
+ *     up into the first word-copy's load-delay slot.
+ */
+
+extern s32 func_8012BD14(s32 a0);
+
+/* align-1 8-byte payload — drives the lwl/lwr + swl/swr inline block move */
+
+void func_80188BFC(void *a0)
+{
+
+    extern u8 D_801202A0[];
+    register u8 *s0 __asm__("$16");
+    register s32 s1 __asm__("$17");
+    register u8 *s3 __asm__("$19");
+    register u8 *s4 __asm__("$20");
+    u8 *s2;
+    u8 *v0;
+    u8 *v1;
+    u8 *a0p;
+
+    s2 = (u8 *)a0;
+    s0 = D_801202A0;
+    s1 = 0x7FFF;
+    s3 = s0 + 0x6480;
+
+    while (s0 != s3) {
+        if (*(u16 *)s0 == 0x61) {
+            s32 v1_val = func_8012BD14((s32)s0);
+            if (v1_val < s1) {
+                s1 = v1_val;
+                s4 = s0;
+            }
+        }
+        s0 += 0x10C;
+    }
+
+    s0 = s4;
+    if (s1 == 0x7FFF) {
+        *(s16 *)((s32)s2 + 0x5C) = 0;
+    } else {
+        *(s32 *)(s2 + 0x4) = *(s32 *)(s0 + 0x4);
+        *(s32 *)(s2 + 0x8) = *(s32 *)(s0 + 0x8);
+        *(s32 *)(s2 + 0xC) = *(s32 *)(s0 + 0xC);
+
+        v1 = *(u8 **)(s2 + 0x20);
+        v0 = *(u8 **)(s0 + 0x20);
+        *(struct Un8_8018613C *)(v1 + 0x10) = *(struct Un8_8018613C *)(v0 + 0x10);
+
+        a0p = *(u8 **)(s2 + 0x20);
+        *(u16 *)(a0p + 0x12) = *(u16 *)(a0p + 0x12) - *(u16 *)(s0 + 0xFE);
+
+        *(s16 *)((s32)s2 + 0x5C) = 0x800;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001_jr_8017AE2C", func_80188D1C);
 

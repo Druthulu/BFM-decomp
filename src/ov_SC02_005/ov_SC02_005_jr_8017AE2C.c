@@ -5434,7 +5434,21 @@ void func_8018A47C(s32 a0) {
 
 INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_8017AE2C", func_8018A4C4);
 
-INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_8017AE2C", func_8018A658);
+
+/* 8-byte, alignment-1 blob: the target copies it with lwl/lwr + swl/swr,
+ * which is gcc's emit_block_move for align < 4. */
+
+extern void func_8018A6A0(s32 a0, Blob8_8018A47C *a1);
+
+void func_8018A658(s32 a0) {
+
+    extern Blob8_8018A47C D_801E2F48;
+    Blob8_8018A47C tmp;
+
+    tmp = D_801E2F48;
+    func_8018A6A0(a0, &tmp);
+}
+
 
 INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_8017AE2C", func_8018A6A0);
 
