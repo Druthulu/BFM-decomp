@@ -181,6 +181,163 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 
 ---
 
+# 🛑 SESSION S39–S42 CHECKPOINT (2026-08-05) — FRESH SESSION SAFE HERE
+> **Tree CLEAN** but for R23 `db.*.gbf` churn (never stage). **MCP was stopped by me for the main sig
+> regen** — the SessionStart hook restarts it; **run `/mcp` before any Ghidra work (R29)**.
+> **ONE AGENT MAY STILL BE RUNNING:** a serial crack on `func_8017C6F4` writing to
+> `.run/s42/ov_SC03_126/`. If its result never arrived, re-run it (brief pattern below).
+> **NO phase close** — T5 is unopened and needs Drew's gate-2.
+
+## FLEET — R22 **140 passed / 0 failed of 140** (run ~25× this session, green every time)
+**96.62% fn-count (341,775/353,717) · 94.9% instr-weighted (12,484,373/13,160,961) · 89.2%
+distinct-code (5,043,472/5,654,184; 78,081 uniq)** · 0 NON_MATCHING · audit-digest OK.
+**Session: 12,405,402 → 12,484,373 = +78,971 instructions, +129 unique fns, 46 commits.**
+⚠️ **The denominator CHANGED mid-session** (13,141,652 → 13,160,961) when main's sig was regenerated.
+Compare percentages only within one denominator. **No numerator ever fell.**
+
+### REMAINING (measured at close)
+**676,588 ins across 12,902 open stubs** — main **79,074 / 2,001 stubs** (12% of remaining, and the
+least tractable: structurally barren, zero h_exact overlap, no free dedup, checked twice) · overlays +
+resident **597,514 / 10,901**. **Distinct remaining 610,684 ins across 11,330 unique fns — only 1.1×
+compression.** *The ×138 propagation era is over: what is left is largely genuinely distinct code, so
+the fleet number and the work are now nearly the same thing.*
+
+---
+
+# 🎯 THE AGREED NEW PLAN (Drew, 2026-08-05) — DO NOT LOSE THIS
+Drew: *"im getting tired of learning there was more code all along, we really need a full audit that
+definitively lists ALL code that we need to decomp."* **Agreed and approved.** Full rationale in
+`docs/decision-log.md` (2026-08-05 entry); tasks **#10** and **#11**.
+
+**THE INVARIANT:** *every byte on the disc belongs to exactly ONE bucket — onboarded-code /
+classified-data / audio-video / filesystem-metadata / unused — the buckets sum to the disc, and
+**residue is a DEFECT** (R32).* **A partition with an asserted residue of zero is a completeness
+proof; a longer list is only a longer list.** Same move as `audit-digest` (S1e) and `audit-binaries`
+(R36) applied to the DENOMINATOR.
+
+**Why three surprises happened:** every tool was **correct about the subset it examined and silent
+about the rest** — a `0.4.dec` glob (missed 4 SC07 overlays whose code is at PAC entry 1), a decode
+layer (`disc_code_sweep` was blind to COMPRESSED code), a 4,096-word window. **Measured: 782 of 1,328
+PAC payloads are only PARTIALLY classified (~55.5M words never examined).** Probably data — but
+nothing has checked, which is the exact shape of all three findings.
+
+**L1 (task #10, cheap, deterministic, no RE):** walk from the DISC IMAGE not our configs — every ISO
+file → `.CD` sub-file → PAC entry → **both raw AND decompressed** layers; classify **whole payloads,
+no window**; emit `docs/disc-ledger.md` with per-payload `claimed-by <binary> | UNCLAIMED`; assert
+`sum(buckets) == disc bytes`; ship as **`make audit-disc`**.
+**L2 (task #10, R34):** a SECOND, DISAGREEING oracle. Today's code test is a heuristic
+(`valid ≥ 0.90` AND `jr $ra ≥ 0.01`) — a small code payload can fall below 1% `jr` density.
+Cross-check with `sig_image` boundary carving; disagreements are the review queue.
+**L3 (task #11, the proof — AND the type-1 onboarding, SAME RUN):** instrument PCSX-Redux (R11:
+Windows-native, WSL via `172.17.208.1:8081`) over a scripted tour of every location; log **every**
+load (payload → RAM addr → len) and every executed PC range. Delivers (a) the **load addresses** the
+39 un-onboarded type-1 modules need — they are NOT location overlays, each loads at its own address
+like the resident at `0x800CEDF8`, so they cannot be onboarded mechanically and a build binary needs
+its address to byte-verify (P9); (b) **completeness proof** — anything executed but absent from the L1
+ledger is a hole; (c) **honest exclusion** — never-loaded payloads marked out-of-scope WITH EVIDENCE.
+**Do L3 and the onboarding together or you pay for the tour twice.**
+**EXPECT THE HEADLINE TO FALL** when the 39 land (denominator grows) — the honest direction, as with
+today's main regen (94.5→94.4) and P27's overlays (68.9→67.0). **"100%" is not claimable until the 39
+are onboarded-and-matched or explicitly excluded with a stated reason.**
+
+**SEQUENCE (Drew's):** finish the serial crack queue → **L1+L2** (they sharpen L3's target list) →
+**L3 + type-1 onboarding**. Fold into **P31**, which already owns roadmap bucket T.
+
+---
+
+# 🏆 WHAT S39–S42 DID
+### S6 — BOTH "PERMANENT" GIANT WALLS CRACKED ×138 (+50,094 ins)
+| wall | recorded verdict | what it took |
+|---|---|---|
+| `func_80178004` 165×138 = 22,770 | P26: Fable5, **~477k tokens**, "intrinsic 3-integer regalloc wall" | **a stored draft, gated as-is, no new work** |
+| `func_801412A8` 198×138 = 27,324 | close=29/110 since P24 | 1 of **31** stored drafts + the §37/§124 alias |
+**Why #2 looked intrinsic:** TU declares `extern int f(int×6)` and callers USE the return, but the
+byte-true def returns a pointer and takes two `u16`s — so **the byte difference is in the CALLERS,
+which `match_one` never compiles.** Propagation then returned 0/137 **twice**, both times a missing
+TYPE (`_carry_macros` carries `#define`s but **not typedefs**, and is **not transitive**). **→ cookbook §146.**
+
+### The `cast_call_sites` BUG — it DELETED `return` STATEMENTS
+`return func_X(…);` — `return` is a valid identifier where `DECL_LINE_RE` expects a type, so the
+"rewrite decl to canonical" path replaced the STATEMENT with a declaration. C89 → `parse error before
+'extern'`, which reads as the DRAFT's fault. **Fix = statement-keyword guard. Sweep 0/39 → 18/39.**
+⚠️ **Routing it through `cdecl` (the obvious R33 move) is a SILENT NON-FIX** — `cdecl.parse()` calls
+`return func_X(…)` a declaration of `func_X` and `if (f(a));` a declaration of `if`. **Checked before
+shipping.** In `gate_stage`'s DEFAULT pipeline since Phase 20; **318 of 44,833 stored drafts** carry a
+line it mis-reads. **→ §143.**
+
+### S1e — the "distinct-code regression" NEVER HAPPENED
+A **stale committed digest** (`commit:1426` generated from a tree holding work reverted before the
+commit landed; overstated +7,879 ins / +130 uniq). True delta: **everything rose.** Fixes:
+`progress.py stub_addrs` no longer swallows `corpus.stubs` (it had reported **100.00%/100.00%** in a
+tree with no `asm/`); the same swallow fixed in `cast_call_sites.tu_for` + `reconcile_tu.tu_for`
+(they silently reconciled against the WRONG TU); **NEW `make audit-digest`. → §140.**
+
+### S5 — two waves, 24 exemplars, 24/24 banked, **ZERO codegen walls**
+Pool verified first (R14): **1,677 clusters / 5,795 fns / 319,755 ins at 3.68×** (Fable claimed 2.7× —
+accurate here, though its whale claim was 3/4 wrong: **verify each claim separately**). Wave 1 8/8
+match_one → 5/8 gate → **8/8 after recovery**; wave 2 16/16 → 14/16 → **16/16**. All six first-pass
+failures were TU-integration plumbing with documented levers. **⇒ THE GATE NUMBER MEASURES
+INTEGRATION, NOT MATCHING — run the recovery ladder BEFORE recording a wave's yield.** Then **61/87
+members propagated**. 3.73M subagent tokens, 0 errors.
+
+### S4 (REDONE — the first pass was wrong) · S7 · §134
+**S4:** the first pass re-gated only the NEWEST draft per head (8 banked). **S6 proved that is
+sampling** — its giant's match was the 9th of 31. Rescanned ALL drafts over 38 targets: **14 matched
+on disk, 7 banked**, incl. `func_8018057C` (897 ins) that was on the "needs an agent" list.
+**S7:** main's sig regenerated (1,729→2,205 sigs; stub coverage 1,525→**2,001 of 2,002**) — **main is
+now the single largest open target at 79,074 ins / 10.7% of all open code**, and only became visible
+at that size today. **§134 CLOSED:** the last two line-shape scanners route through `cdecl._mask`.
+
+### NEW COOKBOOK THIS SESSION — §140 §141 §142 §143 §144 §145 §146 §147
+**§147 (from the serial run, most transferable):** the **three-stratum frame law** — stratum 3 is a
+trailing block `?:` chains allocate and never reference, **unreachable from C**; the 30-second test is
+*delete the min/max tail, re-read `.frame … # vars=`; the drop IS stratum 3*. Plus: a `?:` on MEMORY
+operands costs ~16 bytes of frame and on REGISTER operands zero; inner-block declaration does NOT
+delay slot allocation (**byte-refuted**); a lone `$t8`/`$t9` is RELOAD SCRATCH (reproduce the spill,
+don't pin — the pin CREATED a diff); a `qty_compare` tie is **not spelling-reachable** (72 statement
+permutations × 4 decl orders × 7 retypings × pins × permuter, floor never moved).
+**§142** the free `h_exact` pool (propagate the MATCHED body, don't gate a draft) · **§144** the
+literal's SPELLING picks the immediate encoding (`cnt + 0xff` vs `cnt - 1`) · **§145** combine_givs
+anchor rule / `p = r;` combine barrier / chained assignment stores right-to-left.
+
+---
+
+# ▶ RESUME HERE
+1. **Serial crack queue** (Drew's explicit choice: SERIAL, one agent per fn, so a transferable idiom
+   makes the rest cheaper). Order + status:
+   `func_8017C294` **NEAR(12)** — draft `.run/s42/ov_SC01_077/`, blocked on §147-A stratum 3;
+   **DO NOT spend its 15 siblings until that is explained** (all hit the same 12; `family_remap`
+   takes all 16 in one pass when it closes).
+   `func_8017C6F4` (947×3) — **agent was in flight**, draft dir `.run/s42/ov_SC03_126/`.
+   Then: `func_8017C59C` (947, reach 6) · `func_8017CE58` (733×3) · `func_8017EF68` (969) ·
+   `func_8017D538` · `func_8017C974` (close=47, re-measure first) · `func_8017DF98` ·
+   `func_8017CF90` · `func_8018D98C`. *(`func_8018057C` already banked free.)*
+   **Every brief MUST open with the all-drafts scan and the §147-A frame test.**
+2. **Then L1+L2 disc audit (task #10), then L3 + type-1 onboarding (task #11).**
+3. **Cheap fuel any time:** the **26 unpropagated members** (20 CC1-FAIL + 5 callee conflicts:
+   `func_8017EFA0` ×3, `func_8012B23C` ×2) — levers exist. **FIRST FIX THE CLASSIFIER:** it writes
+   `CC1-FAIL: make: *** Error 33` **without the cc1 message**, so each costs a manual splice-and-
+   rebuild to diagnose (done 3× today). `harvest_verify` already captures cc1 stderr — copy that.
+4. **Also open:** the 263×5 cluster (`0x80182fd4`) sweeps **0/5**, `parse error before 'unsigned'`,
+   **undiagnosed — do not assume codegen** · 7 S4 drafts still near/failed in `.run/s41/rec/` ·
+   the 61 SC07 `-O0` members · `func_80183BAC`'s R22 revert (capture WHICH binary this time) ·
+   2 resident stubs with gate-rejected match_one-MATCH drafts.
+
+# 🧰 MY PROCESS ERRORS THIS SESSION (all caught; each is a rule now)
+1. **Sampled instead of scanning** — `head -8` of 31 drafts, reported "closeness 40" for a function
+   whose MATCH was in the 9th. Cost: nearly skipped a 27,324-ins crack.
+2. **Substring false positive** — `grep -c "Prim_1412A8"` matches inside `addPrim_1412A8`; I briefly
+   concluded a type-carry worked when it hadn't.
+3. **Lift without strip** — lifted typedefs to `engine_types.h` without removing the originals →
+   duplicate typedef → **R22 139/140**. `build_engine_types --strip` does both.
+4. **Nearly ran `make clean` (deletes `asm/`) while 8 agents were reading it.**
+5. **Asserted two mechanisms before deriving either** (S1e) — three greps settled it; I ran them third.
+6. **A worktree probe that silently measured the wrong tree** (symlinked `tools/` → `ROOT` resolved
+   back to the main repo). A control that cannot fail is not a control.
+7. **Wrong `match_one` flags in the wave-1 prompt** (`--binary/--src`; real: `--c/--asm-subdir`).
+
+---
+
 # 🛑 SESSION-39 CHECKPOINT (2026-08-04) — FRESH SESSION SAFE HERE
 > **NOTHING IS RUNNING. Tree lock FREE. Tree CLEAN** but for the R23 `db.*.gbf` churn — never stage.
 > Effort **xHigh**. **R22 run FOUR times: 140/140 every time. No failures, nothing reverted.**
