@@ -497,6 +497,18 @@
         aAF634[param_1].g0 += ((s32)p - (s32)slot[14]) >> 2; \
     }
 
+#define DEFINE_func_8018625C() \
+    s32 func_8018625C(void *a0) { \
+        a0 = *(void **)((char *)a0 + 0xCC); \
+        if (a0 == 0) { \
+            return 0; \
+        } \
+        if (*(u16 *)a0 != 0x61) { \
+            return 0; \
+        } \
+        return func_801862A8(a0); \
+    }
+
 #endif
 
 #define DEFINE_func_80128EA8() \
@@ -30397,6 +30409,18 @@
         slot[16] = (u32)p - 0x14; \
         p += 5; \
         aAF634[param_1].g0 += ((s32)p - (s32)slot[14]) >> 2; \
+    }
+
+#define DEFINE_func_8018625C() \
+    s32 func_8018625C(void *a0) { \
+        a0 = *(void **)((char *)a0 + 0xCC); \
+        if (a0 == 0) { \
+            return 0; \
+        } \
+        if (*(u16 *)a0 != 0x61) { \
+            return 0; \
+        } \
+        return func_801862A8(a0); \
     }
 
 #endif

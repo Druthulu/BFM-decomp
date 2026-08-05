@@ -8213,7 +8213,7 @@ void func_8018613C(void *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_8018625C);
+DEFINE_func_8018625C()  /* dedup: shared engine-core @0x8018625C (src/shared) */
 
 
 /* func_801862A8 — scan the 96-entry / 0x10C-stride D_801202A0 actor table for

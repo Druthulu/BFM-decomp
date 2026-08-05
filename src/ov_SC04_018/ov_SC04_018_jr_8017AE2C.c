@@ -8194,16 +8194,7 @@ void func_8018613C(void *a0)
 }
 
 
-s32 func_8018625C(void *a0) {
-    a0 = *(void **)((char *)a0 + 0xCC);
-    if (a0 == 0) {
-        return 0;
-    }
-    if (*(u16 *)a0 != 0x61) {
-        return 0;
-    }
-    return func_801862A8(a0);
-}
+DEFINE_func_8018625C()  /* dedup: shared engine-core @0x8018625C (src/shared) */
 
 
 /* func_801862A8 — scan the 96-entry / 0x10C-stride D_801202A0 actor table for
