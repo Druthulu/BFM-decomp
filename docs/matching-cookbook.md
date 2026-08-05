@@ -9724,3 +9724,41 @@ metrics moved in opposite directions"** · **"a digest disagrees with the tree i
 **The law:** *a committed number is a claim about a tree; if it cannot be recomputed from that tree,
 it is not evidence — and it must never gate a lever.* (R32/R34/R35; and R14 — I asserted two
 mechanisms before deriving either.)
+
+---
+
+## §141 — The §134 class is CLOSED: every line-shape decision now routes through `cdecl._mask` (P30 S39)
+
+§134 ("multi-line / comment / string blindness in a hand-rolled line scanner") had been fixed
+*individually* in six tools, each time by patching that tool. The standing note said the real fix is
+routing every line-shape decision through the ONE masking oracle rather than writing a seventh
+regex. Done — the last two holdouts are migrated:
+
+**`progress.py.strip_comments`** — was a private two-line regex stripping `/*…*/` and `//…`, **not
+string-aware**. Every caller is a line-shape decision on its output: the `{`-vs-`;` scan that
+separates a definition from a declaration, the `count('{') - count('}')` body-depth walk, and the
+empty-vs-real body test. So a brace inside a string literal mis-buckets a function in the **fn-count
+metric**. Demonstrated:
+
+    void f(void) { puts("}"); x = 1; }
+    old regex  -> body-depth walk = -1   (unbalanced: the string's brace was counted)
+    cdecl._mask-> body-depth walk =  0   (correct)
+
+Metrics were **identical before and after** on today's corpus (341,365 / 353,717; REAL 339,510,
+empty 896, stubs 12,345) — i.e. no live source currently trips it. That is what a latent defect looks
+like: harmless until the day someone banks a function containing `"{"`, and then silently wrong.
+
+**`lint_symbol_refs.strip_comments_strings`** — was *correct* (char-by-char, escape-aware) but was a
+SECOND implementation of the same masking. Deleted in favour of `cdecl._mask`. One behavioural
+difference existed and was checked rather than assumed: `_mask` blanks the quote DELIMITERS too,
+where the private scanner kept them — irrelevant, because every token the linter hunts
+(`func_<ADDR>`, `D_<ADDR>`, and the bare 2nd arg of `INCLUDE_ASM("...", func_X)`) lives outside the
+quotes either way. **Gated on the linter's own output being byte-identical across the change, not on
+the two masks being byte-identical** — the right gate is the tool's answer, not its internals.
+
+**The general law (R33):** when the same defect class has been patched N times in N tools, the fix is
+not the N+1th patch — it is deleting N−1 implementations. A private copy of a shared decision is a
+divergence waiting to happen, and it diverges silently.
+
+**Symptom line for the index:** **"a scanner miscounts braces/semicolons"** · **"two tools disagree
+about what a line is"**.

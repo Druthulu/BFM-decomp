@@ -12,6 +12,8 @@ Usage:
   tools/progress.py --binary <alias>   # report a non-default binary (default: main = the EXE)
 """
 import os, re, sys, hashlib, pathlib
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import cdecl                      # §134/R33: the ONE comment/string masking oracle
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 
@@ -397,8 +399,21 @@ def find_s(name):
 INSTR = re.compile(r'^\s*/\*\s*[0-9A-Fa-f]+\s+[0-9A-Fa-f]+\s+[0-9A-Fa-f]+\s*\*/\s+[a-z]')
 
 def strip_comments(s):
-    s = re.sub(r'/\*.*?\*/', '', s, flags=re.S)
-    return re.sub(r'//[^\n]*', '', s)
+    """Blank comments AND string/char-literal contents, via the ONE masking oracle (`cdecl._mask`).
+
+    §134 / R33 (P30 S39). This was a private two-line regex that removed `/*…*/` and `//…` and was
+    NOT string-aware — so a brace or a semicolon inside a C string literal (`printf("}")`, a path
+    like `"a;b"`) was seen as real syntax by the callers below, every one of which is a LINE-SHAPE
+    decision on this function's output: the `{`-vs-`;` scan that separates a definition from a
+    declaration, the `count('{') - count('}')` body-depth walk, and the empty-vs-real body test.
+    A miscount there mis-buckets a function in the fn-count metric.
+
+    That is the §134 class, which had by this point appeared in SIX tools; the fix is routing every
+    line-shape decision through `cdecl._mask` rather than writing a seventh regex. `_mask` is
+    length-preserving (it blanks rather than deletes), which is strictly better here: the callers
+    compare offsets (`br < sm`) and count characters, and blanking keeps those offsets valid
+    against the ORIGINAL line while removing the false tokens."""
+    return cdecl._mask(s)
 
 def is_data_blob(name):
     """A .s with a code label (glabel/jlabel) is a function; data-only (dlabel, no code) is a blob."""

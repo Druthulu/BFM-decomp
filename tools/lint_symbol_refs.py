@@ -17,6 +17,8 @@ Exit 0 = clean; exit 1 = stale refs found (printed as file:line func_<ADDR> -> c
 """
 import re, glob, os, sys
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import cdecl                      # §134/R33: the ONE comment/string masking oracle
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # The files a real binary actually stacks (main/resident/overlays). The proto symbol files
@@ -64,31 +66,19 @@ def asm_labeled_addrs(files):
 
 
 def strip_comments_strings(src):
-    """blank out /* */ + // comments and string/char-literal CONTENTS (keeping newlines so line
-    numbers stay correct), so a `func_<ADDR>` mentioned only in a comment/string isn't flagged.
-    A bare INCLUDE_ASM(func_<ADDR>) token lives OUTSIDE the quotes, so it survives."""
-    out = []
-    i, n = 0, len(src)
-    while i < n:
-        c = src[i]
-        two = src[i:i+2]
-        if two == "/*":
-            j = src.find("*/", i + 2)
-            j = n if j < 0 else j + 2
-            out.append("".join(ch if ch == "\n" else " " for ch in src[i:j])); i = j
-        elif two == "//":
-            j = src.find("\n", i)
-            j = n if j < 0 else j
-            out.append(" " * (j - i)); i = j
-        elif c in '"\'':
-            q = c; j = i + 1
-            while j < n and src[j] != q:
-                j += 2 if src[j] == "\\" else 1
-            j = min(j + 1, n)
-            out.append(q + " " * (j - i - 2) + q if j - i >= 2 else src[i:j]); i = j
-        else:
-            out.append(c); i += 1
-    return "".join(out)
+    """Blank comments + string/char-literal contents, via the ONE masking oracle (`cdecl._mask`).
+
+    §134 / R33 (P30 S39). This used to be a private char-by-char scanner — correct, but a SECOND
+    implementation of the masking `cdecl._mask` already owns, and the §134 class (a line-shape
+    decision made against unmasked text) had by then appeared in six tools precisely because each
+    one kept its own copy. One oracle cannot diverge from itself.
+
+    Behavioural note, verified before the swap: `_mask` blanks the quote DELIMITERS as well as the
+    content, where this scanner kept the quotes. That is irrelevant here — both blank the contents,
+    and every token this linter hunts (`func_<ADDR>`, `D_<ADDR>`, and the bare 2nd argument of
+    `INCLUDE_ASM("...", func_X)`) lives OUTSIDE the quotes either way. Gated on the linter's own
+    output being byte-identical across the change, not on the masks being byte-identical."""
+    return cdecl._mask(src)
 
 
 def main():
