@@ -135,6 +135,40 @@ proceeds; the first P30 commit waits on it.
       **⚠ THE STRUCTURAL SIGNAL:** after S2 the **×138 era ENDS** — those are the last two crackable
       fleet-wide families; everything after is ≤133 members and mostly ≤9. That rise in
       cost-per-point, not a session count, is P30's honest ROI floor and the trigger for T5.
+- [ ] **T7 — THE FABLE-5 FRONTIER PLAN [approved by Drew 2026-08-04, in-phase re-plan (P5d)]**
+      **📄 FULL REPORT: `.run/fable_frontier/ANALYSIS.md`** (verbatim; the agent's harness blocked it
+      from writing to disk, so the orchestrator transcribed it — future sessions read it THERE, not
+      here). Its computed pools are `.run/fable_frontier/pool_ovres.json`. **Its two headline
+      refutations were independently re-verified; its POOL NUMBERS were not — verify before scaling
+      a wave onto them (R14).**
+      **Why this supersedes T6's wave order:** the base rate across every sweep run is **~24k
+      PLUMBING vs 4,917 DIFF (5:1)**. Sweep failure here has always been mostly plumbing, so fixing
+      the plumbing moves work from the 490-tok/ins column to ~0 — and S1 restores the propagation
+      multiplier that makes every later wave ~3× cheaper. **DO S1 BEFORE ANY WAVE.**
+      · **S1** fix the 2 plumbing classes (typedef/macro gather in `family_remap`; wire the
+        extern-conflict reconcile into `--hseq`) → re-sweep the **148 matched-exemplar families**
+        (1,585 members / 75,383 ins gross, 71,178 PURE+IMM). **35-60k ins @ ~10-25 tok/ins.**
+        *Mechanism already PROVEN this session:* `0x801833f0` went **0/6 → 6/6** after lifting 3
+        types (R22 140/140). Kill-test: after the typedef fix `--only 0x801833f0` must stay 6/6, and
+        after the extern fix `--only 0x80128c98` must move off 0/138.
+      · **S2** jr matched-exemplar families via `jtbl_family_bank` (§53) — 11 fams / 52 members.
+        **10-18k ins @ ~0 tok.**
+      · **S3** the SC07 carve/pin fix (T2 Arm-A `%lo +0x20`) → the **whale ×4 (3,080 ins of
+        BYTE-IDENTICAL code)** + 61 SC07 `-O0` members. **5-15k ins @ ~0 tok.**
+      · **S4** draft-recovery on 39 draft-exemplar families (382 members) + the 2 resident stubs that
+        already have match_one-MATCH drafts gate-rejected for TU plumbing. **10-25k ins @ ~10-50.**
+      · **S5** **re-aim waves at the open-only h_norm clusters** — 1,689 clusters / 5,956 fns /
+        **326,261 ins = 46% of all open overlay code**, at a **2.7× propagation multiplier**. Nobody
+        has ever aimed a wave here. **Needs S1 first or the propagation never realizes.**
+      · **S6** the 2 GIANT exemplar walls — **50,094 ins riding on 2 cracks** (close=91/110; their
+        138 members each classify PURE). Time-boxed siege, hard budget stop.
+      · **S7** the singleton tail + **main** (regen main's Ghidra sig FIRST — it is 7 weeks stale and
+        missing 757 of 2,002 stubs; main is structurally barren, zero h_exact overlap, so it is the
+        genuine ~490-tok/ins agent tail).
+      **🚨 STANDING PRE-PROBE RULE:** check h_norm identity across a family's members from the sig
+      files BEFORE probing. If members are h_norm-identical, a 0% is a **compile-error certainty**,
+      not evidence about codegen. And **read `.run/hseq_failed.*.classified.txt` before theorising
+      about any sweep failure** — 23,211 of them exist and both of S38's zeros were already in there.
 - [ ] **T5 — Phase close [Max]** — burn-down from digest history; P7 milestone walk; Roadmap delta
       (**including the v2 gap this analysis exposed: bucket W3's remainder has NO owner phase after
       P30 — P31 is T/M/R, P32 is walls/behemoths**); gate 2; PhaseEnd_Phase30.
