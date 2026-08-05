@@ -4433,32 +4433,8 @@ void func_80182FD4(void *a0, void *a1)
  */
 #include "common.h"
 
-typedef struct {
-    u32 addr : 24;
-    u32 len : 8;
-} PTag_801833F0;
 
-typedef struct {
-    PTag_801833F0 tag;
-    u8 r0, g0, b0, code;
-    u16 x0, y0;
-    u8 u0, v0;
-    u16 clut;
-    u16 x1, y1;
-    u8 u1, v1;
-    u16 tpage;
-    u16 x2, y2;
-    u8 u2, v2;
-    u16 pad2;
-    u16 x3, y3;
-    u8 u3, v3;
-    u16 pad3;
-} Ft4_801833F0;
 
-typedef struct {
-    PTag_801833F0 tag;
-    u32 code0;
-} Drm_801833F0;
 
 #define ADDPRIM_801833F0(o, p)                                                 \
     (((PTag_801833F0 *)(p))->addr = ((PTag_801833F0 *)(o))->addr,              \
