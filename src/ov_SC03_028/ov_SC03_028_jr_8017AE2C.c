@@ -4720,9 +4720,130 @@ void func_8017F094(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_028/nonmatchings/ov_SC03_028_jr_8017AE2C", func_8017F0D0);
+extern s32 rand(void);
 
-INCLUDE_ASM("asm/ov_SC03_028/nonmatchings/ov_SC03_028_jr_8017AE2C", func_8017F278);
+typedef struct {
+    u16 f0;
+    u16 f2;
+    u16 f4;
+    u16 f6;
+    u16 f8;
+    u16 fA;
+    s32 fC;
+    s32 f10;
+    s32 f14;
+    s32 f18;
+} SubRec_801EB5C8; /* 0x1C */
+
+typedef struct {
+    u16 g0;
+    u16 g2;
+    s32 g4;
+    s32 g8;
+    s32 gC;
+    SubRec_801EB5C8 subs[16];
+} GroupRec_801EB5C8; /* 0x1D0 */
+
+extern GroupRec_801EB5C8 D_801EB5C8[8];
+
+void func_8017F0D0(s32 param_1)
+{
+    s32 i, j;
+    GroupRec_801EB5C8 *grp;
+    SubRec_801EB5C8 *sub;
+
+    for (i = 0; i < 8; i++) {
+        grp = &D_801EB5C8[i];
+        grp->g0 = 0;
+        grp->g2 = i << 9;
+        grp->gC = (rand() & 0xF) << 16;
+        grp->g4 = ((rand() & 0xF) << 15) + 0x10000;
+        grp->g8 = ((rand() & 0xF) << 12) + 0x8000;
+
+        for (j = 0; j < 16; j++) {
+            sub = &grp->subs[j];
+            sub->f0 = 0;
+            sub->f2 = (rand() & 3) + 4;
+            sub->f8 = (j << 8) + (rand() & 0xF) * 56;
+            sub->fA = (rand() & 0xF) << 8;
+            sub->f14 = (rand() & 0xF) << 13;
+            sub->fC = ((rand() & 0xF) << 14) + 0x10000;
+            sub->f10 = ((rand() & 0xF) << 12) + 0x8000;
+            sub->f4 = 0x200;
+            sub->f6 = (rand() & 0xF) << 4;
+            sub->f18 = ((rand() & 3) << 5) + 0x40;
+        }
+    }
+
+    *(u16 *)(param_1 + 2) = *(u16 *)(param_1 + 2) + 1;
+}
+
+
+
+void func_8017F278(void *arg0) {
+    extern GroupRec_801EB5C8 D_801EB5C8[8];
+    extern void func_8017F40C();
+    /* §17a-1: the fleet canonical for this callee is the NO-PROTOTYPE form (engine_core.h:192,
+     * and every sibling TU) with the intended signature applied AT THE CALL SITE. A concrete
+     * prototype here collides with those decls -> `conflicting types for func_80146C3C`. */
+    extern void func_80146C3C();
+    s32 cnt2;
+    s32 i;
+    s32 j;
+    register s32 base __asm__("$5");
+    s32 p;
+    s32 vel;
+    s32 pos;
+    u16 life;
+    s32 f18;
+
+    cnt2 = 0;
+    for (i = 0; i < 8; i++) {
+        {
+            register s32 sym __asm__("$2") = (s32)((u8 *)D_801EB5C8);
+            base = sym + i * 0x1D0;
+        }
+        if (*(s16 *)(base) == 0) {
+            *(s32 *)(base + 0xC) = *(s32 *)(base + 0xC) + 0x10000;
+        }
+        for (j = 0; j < 16; j++) {
+            p = base + 0x10 + j * 0x1C;
+            switch (*(s16 *)(p)) {
+            case 0:
+                vel = *(s32 *)(p + 0xC) + *(s32 *)(p + 0x10);
+                pos = *(s32 *)(p + 0x14);
+                life = *(u16 *)(p + 2) - 1;
+                pos = pos + vel;
+                *(s32 *)(p + 0x14) = pos;
+                *(s32 *)(p + 0xC) = vel;
+                *(u16 *)(p + 2) = life;
+                if ((s16)life == -1) {
+                    *(u16 *)(p) = *(u16 *)(p) + 1;
+                }
+                *(u16 *)(p + 4) = *(u16 *)(p + 4) + *(u16 *)(p + 6);
+                *(u16 *)(p + 0xA) = *(u16 *)(p + 0xA) + 0x10;
+                break;
+            case 1:
+                *(u16 *)(p + 4) = *(u16 *)(p + 4) + 0x80;
+                f18 = *(s32 *)(p + 0x18) - 8;
+                *(s32 *)(p + 0x18) = f18;
+                if (f18 < 0) {
+                    *(s32 *)(p + 0x18) = 0;
+                    *(u16 *)(p) = *(u16 *)(p) + 1;
+                }
+                break;
+            case 2:
+                cnt2 = cnt2 + 1;
+                break;
+            }
+        }
+        func_8017F40C(arg0);
+    }
+    if (cnt2 == 0x80) {
+        ((void (*)(u8 *))func_80146C3C)(arg0);
+    }
+}
+
 
 extern void func_80015978(s32 a0, s32 *a1);
 extern void func_800139C8(s32 a0, void *a1, void *a2);

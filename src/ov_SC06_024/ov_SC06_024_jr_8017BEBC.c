@@ -379,7 +379,6 @@ extern s32 func_80149D10(s32 a0);
 extern s32 func_80149E94(s32 a0);
 extern s32 func_80149DD8(s32 a0);
 extern s32 func_80149D9C(s32 a0);
-extern u8 D_801202A0[];
 extern s32 func_80149F2C(s32 a0, s32 a1);
 extern s32 func_80149E94(s32 arg0);
 extern void func_80149FA8(void);
@@ -3623,7 +3622,120 @@ void func_80181204(s32 a0)
 
 INCLUDE_ASM("asm/ov_SC06_024/nonmatchings/ov_SC06_024_jr_8017BEBC", func_80181254);
 
-INCLUDE_ASM("asm/ov_SC06_024/nonmatchings/ov_SC06_024_jr_8017BEBC", func_801812C0);
+
+/* func_801812C0 @ ov_SC02_016 (subseg ov_SC02_016_jr_8017DC70) — 85 ins.
+ *
+ * GATE: .venv/bin/python tools/match_one.py func_801812C0 --binary ov_SC02_016 \
+ *         --src .run/wave-s40/ov_SC02_016/func_801812C0.c
+ *
+ * Exemplar of an OPEN-ONLY h_norm cluster (9 members). Real TU is
+ * src/ov_SC02_016/ov_SC02_016_jr_8017DC70.c — the immediate NEXT function in that
+ * file, func_80181414 (already MATCHed, see its comment there), confirms:
+ *   - actor pointer arg is plain `s32 a0`
+ *   - func_80172630 canon extern: `extern s32 func_80172630(u8 *a0);` (cast at call)
+ *   - func_80159B3C canon extern: `extern void func_80159B3C(void *a0);` (cast at call)
+ *   - func_80165718 canon extern: `extern void func_80165718(s32 a0);` (no cast)
+ *   - func_80146A6C canon extern (used 30+ times fleet-wide):
+ *       extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+ *
+ * `func_8018148C` is DEFINED in this same TU (a few lines below the INCLUDE_ASM
+ * stub for this function) — a simple "find a free slot, mark it used" scan
+ * returning the slot index or -1.
+ *
+ * Body shape (byte-confirmed against the .s, no residual after first draft):
+ *   func_80015978(a0+4, buf)     -- fills a 3-short (SVECTOR-shaped) local from
+ *                                    the actor's position substruct at a0+4; this
+ *                                    exact `s16 buf[4]; func_80015978(a0+4,(s32*)buf);`
+ *                                    idiom is the established fleet form (see
+ *                                    engine_core.h DEFINE_func_8014A380/8016D778/
+ *                                    8017C908 dedup macros).
+ *   buf[1] -= 0x40                -- immediately after the call. The readback here
+ *                                    is `lhu` (not `lh`) even though buf is a SIGNED
+ *                                    s16 array: gcc-2.7.2 always emits `lhu` for a
+ *                                    plain HImode load that feeds straight into an
+ *                                    `sh` store (cookbook: "It does NOT cost you the
+ *                                    lhu on readback" bullet, P30 wave 4). No cast
+ *                                    needed, no separate unsigned local needed.
+ *   do { ... } while (++i < 3)    -- the asm has NO initial top-of-loop test before
+ *                                    label .L80182318 (s3=0 set, then falls straight
+ *                                    into the body) -- a genuine do-while in the
+ *                                    source, not a for-loop gcc happened to rotate.
+ *   if (func_8018148C() >= 0) { func_80146A6C(0x51,...); 3x rand(); func_80146A6C(0x52,...); }
+ *      - the three back-to-back `rand()` calls assign straight to 3 locals in
+ *        source order; gcc's own delay-slot filler moves each captured value into
+ *        a callee-saved reg ($s0/$s1) via the NEXT call's branch-delay slot
+ *        (standard call-crossing-value idiom, cookbook "ORDER" register-allocation
+ *        entry) -- no manual reordering needed, plain sequential C reproduces it.
+ *      - the final random offset is computed into a **s16 local** (not s32): the
+ *        assignment truncates+sign-extends via `sll/sra` in-register (matches the
+ *        target's `sll $s0,$s0,16 / sra $s0,$s0,16` with NO memory round-trip,
+ *        because the s16 value is used immediately as a call argument rather than
+ *        stored to a separate memory slot).
+ *   cnt = *(u8*)(a0+0xDE); *(u8*)(a0+0xDE) = cnt + 0xff; if (cnt == 0) { ... } else { ... }
+ *      - `lbu` (not `lb`) for the read: the "feeds only a truncated store + an
+ *        equality-to-zero test" idiom, so either signedness of the C type reads
+ *        identically; u8 chosen to match the common counter-byte convention used
+ *        elsewhere in this TU.
+ *      - THE ONE non-obvious lever: write the decrement as `cnt + 0xff`, not
+ *        `cnt - 1`. Both are mathematically identical mod 256 (only the low byte
+ *        survives the `sb`), and both compile to a single `addiu`, but gcc-2.7.2
+ *        picks a DIFFERENT immediate encoding for each source spelling: `cnt - 1`
+ *        emits `addiu $v0,$v1,-1` (imm 0xFFFF, sign-extended -1); `cnt + 0xff`
+ *        emits `addiu $v0,$v1,0xFF` (imm 0x00FF, the literal as typed) — which is
+ *        what the target has. Confirmed the signedness of `cnt` (s8 vs u8) makes
+ *        no difference here; the literal's own spelling is the lever. New
+ *        cookbook idiom candidate (not in §31 as of this match).
+ */
+
+extern void func_80015978(s32 a0, s32 *a1);
+extern s32 func_8018148C(void);
+extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+extern int rand(void);
+extern void func_80181414(s32 a0);
+extern void func_80159B3C(void *a0);
+extern void func_80165718(s32 a0);
+extern s32 func_80172630(u8 *a0);
+
+void func_801812C0(s32 param_1)
+{
+    s16 buf[4];
+    s32 i;
+    s32 iVar1;
+    s32 uVar3;
+    s32 uVar4;
+    s32 uVar5;
+    s16 rnd;
+    u8 cnt;
+
+    func_80015978(param_1 + 4, (s32 *)buf);
+    buf[1] -= 0x40;
+
+    i = 0;
+    do {
+        iVar1 = func_8018148C();
+        if (iVar1 >= 0) {
+            func_80146A6C(0x51, (void *)param_1, buf[0], buf[1], buf[2], iVar1, 0);
+
+            uVar3 = rand();
+            uVar4 = rand();
+            uVar5 = rand();
+            rnd = (uVar3 & 3) * 0x400 + (uVar4 & 3) * 0xfa + (uVar5 & 3) * 0x44;
+            func_80146A6C(0x52, (void *)param_1, 0, -0x20, 0x10, rnd, 0);
+        }
+        i++;
+    } while (i < 3);
+
+    cnt = *(u8 *)(param_1 + 0xde);
+    *(u8 *)(param_1 + 0xde) = cnt + 0xff;
+    if (cnt == 0) {
+        func_80181414(param_1);
+        func_80159B3C((void *)param_1);
+        func_80165718(param_1);
+    } else {
+        func_80172630((u8 *)param_1);
+    }
+}
+
 
 extern void func_80147324(s32 a0);
 extern void func_80147364(u16, s32);
@@ -5447,7 +5559,160 @@ INCLUDE_ASM("asm/ov_SC06_024/nonmatchings/ov_SC06_024_jr_8017BEBC", func_801892C
 
 INCLUDE_ASM("asm/ov_SC06_024/nonmatchings/ov_SC06_024_jr_8017BEBC", func_801892FC);
 
-INCLUDE_ASM("asm/ov_SC06_024/nonmatchings/ov_SC06_024_jr_8017BEBC", func_8018937C);
+
+/* func_8018937C @ ov_SC06_018 (subseg ov_SC06_018_jr_8017C24C) — 124 ins. MATCH.
+ *
+ * GATE: .venv/bin/python tools/match_one.py func_8018937C \
+ *         --c .run/wave-s40/ov_SC06_018/func_8018937C.c \
+ *         --asm-subdir asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_8017C24C
+ *
+ * ------------------------------------------------------------------ what it is
+ * "Try to hand this object off to another live entity of kind 0x282."
+ *   1. Build two 8-byte position vectors off `self` via func_8012F214 (the
+ *      fleet's local->world transform; see the ov_SC02_026 walker family,
+ *      e.g. src/ov_SC03_103/ov_SC03_103_jr_8017C294.c:4106 func_8017EC0C, which
+ *      is the byte-matched sibling this draft's types were lifted from).
+ *   2. Keep a third copy of the destination vector (`c = b`) — 8 bytes at
+ *      align 2, so gcc emits the inline lwl/lwr + swl/swr block move, exactly
+ *      the "8 bytes, align 2 -> lwl/lwr/swl/swr copy" note carried in that
+ *      sibling.  This is why `c` must be a STRUCT ASSIGN, not a memcpy.
+ *   3. If the global-collision probe func_80135888(D_80126B78, D_80126B90, &a, &b)
+ *      says the move is blocked, punt to func_8012F568 and return 1.
+ *   4. Otherwise walk the 0x60-entry / 0x10C-stride entity table D_801202A0
+ *      looking for a 0x282 entity that (a) matches `kind` (or, when
+ *      kind == 0xFFFF, only self->f70), (b) is not `self`, and (c) passes the
+ *      same collision probe against its own f20/f58 volumes.  First hit gets
+ *      state 9 and func_8018956C(e, 0); return 1.  No hit -> 0.
+ *
+ * ---------------------------------------------------------------- the levers
+ * L1  ARG 5 IS A `u16` (stack slot 0x60(sp) read with `lhu`).  The redundant
+ *     `andi $v1,$s2,0xffff` in the target is gcc's zero_extendhisi2 for the
+ *     HImode->SImode widening at `kind != 0xFFFF`; it comes free with a plain
+ *     ANSI `u16` param and CANNOT be reproduced from an `s32`/`s16` param.
+ *     That same zero-extended $v1 is then reused as the loop compare operand
+ *     (`addu $s4,$v1,$zero`), which is why the kind test inside the loop must
+ *     be written against `kind` itself and not a re-cast copy.
+ *
+ * L2  `i` MUST BE INITIALISED IN EACH LOOP'S for-INIT, NOT ONCE BEFORE THE
+ *     `if`.  This is the whole match.  <-- the only residual v1 had.
+ *     With `e = ...; i = 0; if (kind != 0xFFFF) {...}` the draft is 124/124
+ *     instructions with FOUR bytes wrong: `kind` lands in $s4 instead of $s2
+ *     (and the two prologue `sw`s swap slots to follow it).  Reason (regalloc.md
+ *     K3/K5, class RC-3): `kind` is the lowest-density allocno (2 refs over a
+ *     ~50-insn range) so it is assigned LAST, and find_reg then takes the
+ *     LOWEST-numbered non-conflicting callee-saved register.  Hoisting `i = 0`
+ *     above the `andi` that reads `kind` makes `i`'s live range OVERLAP
+ *     `kind`'s, so $s2 becomes a conflict and $s4 is the next free slot.
+ *     Sinking `i = 0` into both for-inits removes the overlap -> $s2.
+ *     The single `addu $s2,$zero,$zero` you see in the delay slot of the
+ *     `beq` is dbr: it lifts the fall-through arm's `i = 0` into the slot and
+ *     drops the other arm's copy as redundant (both arms set it before any
+ *     use, so it is safe on both paths).  Do NOT "simplify" it back to one
+ *     shared initialiser — that is the 4-byte regression.
+ *
+ * L3  THE ARMS ARE `!=` FIRST.  `if (kind != 0xFFFF) {kind-or-self loop}
+ *     else {self-only loop}` gives `beq $v1,$v0,<else>` with the kind-aware
+ *     loop falling through, which is the target order.  Writing it as
+ *     `if (kind == 0xFFFF)` emits `bne` and swaps the two bodies.
+ *
+ * L4  BOTH ARMS' HIT-BLOCKS ARE TEXTUALLY IDENTICAL, which lets jump.c's
+ *     cross-jump tail-merge collapse them: the second loop's
+ *     `bnez $v0,.L80188F5C` branches into the FIRST loop's
+ *     `sh 9; jal func_8018956C; return 1` block.  Keep them identical.
+ *
+ * L5  LOCAL DECL ORDER IS THE FRAME LAYOUT (regalloc.md K1/K7): `a`,`b`,`c`
+ *     land at 0x18 / 0x20 / 0x28, immediately above the 0x18-byte outgoing-arg
+ *     area that func_8012F568's 6 arguments force.  Frame 0x50.  Reordering
+ *     the three declarations shifts every sp displacement.
+ *
+ * L6  `e != self` is a POINTER compare against the `self` param (`beq $s1,$s3`),
+ *     so `self` must be typed as the same Ent pointer, not an s32.
+ *
+ * ---------------------------------------------------------------- banking note
+ * The real TU src/ov_SC06_018/ov_SC06_018_jr_8017C24C.c already declares
+ * `extern u8 D_801202A0[];` (L384), `extern s32 func_80135888(s32,s32,s32,s32);`
+ * (L589), `extern void func_8012F214(s32,s32,s32);` (L2641),
+ * `extern void func_8018956C(s32 a0, s32 a1);` (L7388, and DEFINES it at L7711)
+ * and `extern u8 D_801152A8[];` (L598) — all fleet-canonical and identical to
+ * the spellings below, so only the two `D_80126B7 8/90` pointer externs
+ * (canonical form `extern s32 *D_80126B78;`, 3297 fleet occurrences) and the
+ * two local typedefs need to travel.  Uniquify the typedef names per §120 if
+ * the TU already carries a V4/Ent (it carries neither of these two spellings).
+ *
+ * SIBLINGS (the 5 other h_norm members): every DATA symbol this body touches —
+ * D_801202A0, D_801152A8, D_80126B78, D_80126B90 — is RESIDENT (fixed VA, not
+ * per-overlay tail.data), and three of the four callees (func_8012F214,
+ * func_80135888, func_8012F568) are resident too.  The ONLY per-overlay symbol
+ * is func_8018956C, and in this overlay it is defined in the SAME TU
+ * (ov_SC06_018_jr_8017C24C.c:7711).  So the §40 remap for the siblings is
+ * expected to be near-identity: re-point func_8018956C at each sibling's own
+ * address and check that sibling TU's canonical spellings for the four externs
+ * before sweeping (§56b — carry the TU's types, not this draft's).
+ */
+
+typedef struct { u16 x, y, z, w; } V4_80188E10_8018937C;
+
+typedef struct {
+    u16 f0;                     /* 0x00  entity kind; 0x282 is the one we want */
+    s16 f2;                     /* 0x02  state -> 9 on a hit                   */
+    u8  p04[0x20 - 0x04];
+    s32 f20;                    /* 0x20  collision volume A                    */
+    u8  p24[0x58 - 0x24];
+    s32 f58;                    /* 0x58  collision volume B                    */
+    u8  p5C[0x70 - 0x5C];
+    s16 f70;                    /* 0x70  sub-kind / owner tag                  */
+    u8  p72[0x10C - 0x72];      /* stride 0x10C, 0x60 entries (0x6480)         */
+} Ent_80188E10_8018937C;
+
+extern void func_8012F214(s32 a0, s32 a1, s32 a2);
+extern s32  func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
+extern void func_8012F568(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
+extern void func_8018956C(s32 a0, s32 a1);
+
+
+s32 func_8018937C(Ent_80188E10_8018937C *self, s32 arg1, s32 arg2, s32 arg3, u16 kind) {
+
+    extern s32 *D_80126B78;
+    extern s32 *D_80126B90;
+    extern u8   D_801152A8[];
+    extern u8   D_801202A0[];
+    V4_80188E10_8018937C a;              /* 0x18(sp) */
+    V4_80188E10_8018937C b;              /* 0x20(sp) */
+    V4_80188E10_8018937C c;              /* 0x28(sp) */
+    Ent_80188E10_8018937C *e;
+    s32 i;
+
+    func_8012F214((s32)self, arg1, (s32)&a);
+    func_8012F214((s32)self, arg2, (s32)&b);
+    c = b;                                              /* L2: lwl/lwr block move */
+    if (func_80135888((s32)D_80126B78, (s32)D_80126B90, (s32)&a, (s32)&b) != 0) {
+        func_8012F568(1, 1, *(s16 *)(self->f20 + 0x12), arg3, (s32)&b, (s32)D_801152A8);
+        return 1;
+    }
+    e = (Ent_80188E10_8018937C *)D_801202A0;
+    if (kind != 0xFFFF) {                               /* L3 */
+        for (i = 0; i < 0x60; i++, e++) {               /* L2: i=0 HERE, not above */
+            if (e->f0 == 0x282 && (e->f70 == kind || e->f70 == self->f70) && e != self &&
+                func_80135888(e->f20, e->f58, (s32)&a, (s32)&c) != 0) {
+                e->f2 = 9;                              /* L4: keep identical */
+                func_8018956C((s32)e, 0);
+                return 1;
+            }
+        }
+        return 0;
+    } else {
+        for (i = 0; i < 0x60; i++, e++) {               /* L2 */
+            if (e->f0 == 0x282 && e->f70 == self->f70 && e != self &&
+                func_80135888(e->f20, e->f58, (s32)&a, (s32)&c) != 0) {
+                e->f2 = 9;                              /* L4: keep identical */
+                func_8018956C((s32)e, 0);
+                return 1;
+            }
+        }
+        return 0;
+    }
+}
+
 
 
 extern s32 func_80132EF4(s32 a0, s32 a1);
@@ -5736,7 +6001,62 @@ void func_80189F64(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_024/nonmatchings/ov_SC06_024_jr_8017BEBC", func_80189FA0);
+
+extern s32  rand(void);
+extern void func_8012C1B8(void);   /* TU-canonical (ov_SC06_018_jr_8017C24C) */
+extern void func_8012CAE4(s32 a0);
+extern void func_8001C214(s32 a0, s32 a1);
+extern void func_8012B0B4(unsigned int *p, int a1, int a2);  /* TU-canonical */
+extern void func_8012B2CC(s32 a0);
+
+void func_80189FA0(s32 param_1) {
+    u32 buf[2];
+    s32 obj;
+    s32 o2;
+    s32 base;
+    s32 off;
+    s32 v;
+    s32 t;
+
+    obj = ((s32 (*)(void))func_8012C1B8)();
+    *(s32 *)(param_1 + 0x20) = obj;
+    if (obj == 0) {
+        func_8012CAE4(param_1);
+    } else {
+        func_8001C214(obj, 0);
+        if ((*(s16 *)(param_1 + 0x70) & 0x8000) == 0) {
+            *(s16 *)(*(s32 *)(param_1 + 0x20) + 0x10) = -0x80 - (rand() % 0x300);
+            o2 = *(s32 *)(param_1 + 0x20);
+            off = rand() % 0xC0;
+            base = *(s16 *)(param_1 + 0x70) * 0x300 + 0x180;
+            if (rand() & 1) {
+                v = base + off;
+            } else {
+                v = base - off;
+            }
+            *(s16 *)(o2 + 0x12) = v;
+            func_8012B0B4(buf, *(s16 *)(*(s32 *)(param_1 + 0x20) + 0x12) + 0x800,
+                          rand() % 0x10 + 8);
+            t = buf[0];
+            *(u16 *)(param_1 + 0x6) = *(u16 *)(param_1 + 0x6) + t;
+            *(u16 *)(param_1 + 0xE) = *(u16 *)(param_1 + 0xE) + (t >> 16);
+            *(u16 *)(param_1 + 0xA) = *(u16 *)(param_1 + 0xA) - 0x10;
+            func_8012B2CC(param_1);
+            *(s32 *)(param_1 + 0x1C) = 4;
+            *(u16 *)(param_1 + 0x2) = *(u16 *)(param_1 + 0x2) + 1;
+        } else {
+            *(s16 *)(param_1 + 0xDC) = *(u16 *)(*(s32 *)(param_1 + 0x64) + 0xCC);
+            *(s16 *)(param_1 + 0xDE) = *(u16 *)(*(s32 *)(param_1 + 0x64) + 0xCE);
+            *(s16 *)(param_1 + 0xE0) = *(u16 *)(*(s32 *)(param_1 + 0x64) + 0xD0);
+            *(s16 *)(param_1 + 0xE4) = *(u16 *)(*(s32 *)(param_1 + 0x64) + 0xD4);
+            *(s16 *)(param_1 + 0xE6) = *(u16 *)(*(s32 *)(param_1 + 0x64) + 0xD6);
+            *(s16 *)(param_1 + 0xE8) = *(u16 *)(*(s32 *)(param_1 + 0x64) + 0xD8);
+            *(s16 *)(param_1 + 0x2) = 2;
+            *(s32 *)(param_1 + 0x1C) = 8;
+        }
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_024/nonmatchings/ov_SC06_024_jr_8017BEBC", func_8018A194);
 

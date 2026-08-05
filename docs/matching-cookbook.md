@@ -9911,3 +9911,53 @@ the consuming store width — e.g. `x - 2` vs `x + 0xfe`, or `h - 1` vs `h + 0xf
 
 **Symptom lines for the index:** **"only the immediate field differs"** · **"addiu -1 vs 0xFF"** ·
 **"one instruction off, same registers"**.
+
+---
+
+## §145 — Three loop/combine levers from the S40 wave-2 drafters (16/16 match_one)
+
+All three were derived by agents reading `tools/reference/gcc-2.7.2/` against a real diff, and each
+one moved a specific instruction count. They belong with `gcc-2.7.2-map/loop.md` and `cse_expr.md`.
+
+### (a) The `combine_givs` ANCHOR RULE — the group anchors on the LAST address-giv in SOURCE order
+
+`record_giv` **prepends** to the induction-variable list and `combine_givs` takes the **head**, so the
+address-giv group is anchored at the giv that appears **last in source order**. Consequence: which
+store you write last decides which offset becomes the base, and a wrong choice spawns a *third*
+induction register.
+
+    stores +0x5E and +0x62 in the loop:
+      … +0x62 written last  ->  anchor +0x62, extra IV,  +5 instructions
+      … +0x5E written last  ->  anchor +0x5E, 2 IVs,     MATCH
+
+**Reach for it when:** you have one instruction-count too many and the diff shows an extra
+`addiu`/`addu` maintaining a second or third pointer through a loop. Re-order the *stores*, not the
+pointer arithmetic. (`func_80192F64`, 226 ins.)
+
+### (b) A bare `p = r;` is a COMBINE BARRIER
+
+Between `r = p + K` and r's uses, an apparently-redundant `p = r;` stops `combine` folding `r → p+K`
+into every MEM offset (`can_combine_p` / `use_crosses_set_p` — the set of `p` crosses the use). That
+fold is exactly what makes a pointer-bump `addiu` *vanish*; the barrier keeps it.
+
+**Reach for it when:** the target has an explicit pointer bump your C keeps optimising away, i.e. you
+are one `addiu` SHORT and the offsets in your MEMs are larger than the target's. (`func_8018C960`.)
+
+### (c) Chained assignment emits stores RIGHT-TO-LEFT
+
+`a = b = c = 0;` emits the stores in **descending** source order (c, then b, then a). This is what
+produces target sequences like `0x52 / 0x51 / 0x50` or `0x4C / 0x44 / 0x34` from one statement —
+writing three separate statements gives ascending order and a different schedule.
+
+**Reach for it when:** several adjacent fields are zeroed/initialised and your store ORDER is reversed
+relative to the target. (`func_80183FE0`, 171 ins.)
+
+**Related, same wave:** the §76 merge-into-one-variable lever appeared twice more (`func_8018E5DC`,
+`func_80192F64`) — three block-scope pointers vs ONE function-scope variable changes whether the
+allocno is local or global, and therefore whether `$a0` propagates across blocks. And in
+`func_80187320`, **not** introducing a second walked pointer (`*(T*)(p+k)` off a single biv) let
+`combine_givs` anchor all three field accesses on one giv; an explicit `q = p + 0xE` split it into 3
+IVs. Same family of decisions: *how many named pointers exist in the C* is a codegen lever, not style.
+
+**Symptom lines for the index:** **"one extra induction register"** · **"a pointer bump addiu
+disappeared"** · **"stores are in the wrong order"** · **"one instruction too many in a loop"**.

@@ -3537,7 +3537,190 @@ s32 func_8018AEE8(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001_jr_8018A3A8", func_8018B238);
+#include "common.h"
+
+/* func_8018B238 — build the SC03 HUD display list for this frame.
+ * 144 ins, frame 0x30, no stack locals.  match_one: MATCH (closeness 0).
+ *
+ * TU: src/ov_SC03_001/ov_SC03_001_jr_8018A3A8.c  (INCLUDE_ASM at line 3540)
+ *
+ * ---------------------------------------------------------------------------
+ * WHERE THE SHAPE CAME FROM (§71 — the already-matched neighbours in this TU)
+ *   func_8018B478  (line 3586) : the panel walker. Its Panel_8017E978_8018B478
+ *                                is 0x20 bytes -> the `w++` (+0x20) stride here,
+ *                                and its 3rd param is `s16 idx` -> the sll/sra
+ *                                pair at the top of the loop feeding BOTH the
+ *                                D_80115158 index and $a2.
+ *                                It also supplies the RC-12 `+ zr` lever below.
+ *   func_8018BCD4  (line 3651) : the §36 bitfield-store OT-link idiom and the
+ *                                `volatile u16 *pbh` double read of D_800B9A02.
+ *
+ * ---------------------------------------------------------------------------
+ * THE SIX LEVERS THAT WERE ACTUALLY LOAD-BEARING (each byte-verified by
+ * removing it and re-running tools/match_one.py):
+ *
+ * 1. D_80115158 must be a STRUCT array, not `extern s16 D_80115158[]`.
+ *    Symptom: an extra `la` hoisted into a callee-saved reg (+3 ins, $s4 saved).
+ *    Mechanism: gcc-2.7.2 expand_expr rewrites `arr[i]` with a NON-CONSTANT
+ *    index as `*(&arr + i*size)`, so the address reaches memory_address() as
+ *    (plus SYMBOL_REF (mult reg 2)) -> not a legitimate MIPS address ->
+ *    force_operand materialises the whole symbol into a register, which loop.c
+ *    then hoists.  A COMPONENT_REF goes through get_inner_reference instead,
+ *    whose offset is force_reg'd, giving (plus SYMBOL_REF reg) — the legitimate
+ *    assembler-macro form `lh $v0, D_80115158($v0)` that maspsx expands to
+ *    lui/addu/lh %lo.  (Same reason `D_800AE7BC[i].ot` already worked.)
+ *    Cookbook index entry: "an extra `la` / the address hoisted into a
+ *    callee-saved register across calls" -> §20 + gcc-2.7.2-map/cse_expr.md §H.
+ *
+ * 2. `register s32 n __asm__("$2")` (§17 register pin).  Without it reorg fills
+ *    the INNER `bne`'s delay slot by stealing `addu $a0,$s0,$zero` from the
+ *    fall-through instead of taking `addiu $v0,4` from the else thread, which
+ *    leaves an extra `j` in the stream.  The pin does not change which register
+ *    n gets (it was $v0 either way) — it changes what reorg's resource analysis
+ *    can see, and that flips the choice.
+ *
+ * 3/4. BOTH `n = 3` sites must be `n = 3 + zr` (RC-12, the $0-ADD OPAQUE COPY
+ *    documented on func_8018B478 in this same TU).  `(plus (reg 0) 3)` is not a
+ *    plain constant load, so
+ *      - it survives the noop-move deletion that otherwise eats the outer else
+ *        arm entirely (its value is already in $v0 from the compare constant),
+ *      - and being the SAME rtx in both arms it stays cross-jumpable, so the
+ *        outer `bne` targets the shared insn and reorg COPIES it into the delay
+ *        slot.  That copy is the target's "redundant" `addiu $v0,$zero,3`.
+ *    Making only one of the two opaque gives 145 ins; making neither gives a
+ *    `nop` in that delay slot.
+ *
+ * 5. `__asm__("")` at the head of the loop's if-body (§5a/§34 zero-byte fence).
+ *    reorg.c stop_search_p halts fill_simple_delay_slots' forward scan on an asm
+ *    insn, so the `beqz` slot is filled from the branch TARGET instead — the
+ *    duplicated `addiu $v0,$s1,1` the target has in both the delay slot and
+ *    after the call.  Without it the function is one instruction short.
+ *
+ * 6. `__asm__ __volatile__("" ::: "memory")` before the D_801151D0 store.
+ *    The OT-link store is MEM_IN_STRUCT_P + varying while D_801151D0 is a plain
+ *    SYMBOL_REF, which is exactly the pair gcc-2.7.2's true_dependence drop
+ *    clause discards (§37 /s-DEP LATTICE), so the scheduler hoists the global
+ *    store above the read-modify-write.  The fence restores the order.
+ *    (Re-declaring D_801151D0 as a one-field struct via a §37 asm-label alias
+ *    works identically; the fence is the smaller edit.)
+ *
+ * Also note: the loop guard is `if (n != 0)` + do-while, NOT `for (i=0;i<n;i++)`
+ * — a plain `for` makes gcc emit the guard on the same pseudo as the loop bound
+ * and drops the `addu $s3,$v0,$zero` copy the target has.
+ *
+ * ---------------------------------------------------------------------------
+ * BANKING NOTES for the sibling overlays (this h_norm cluster has 5 members):
+ *  - D_80115158 is declared `extern u8 D_80115158[]` at BLOCK scope inside
+ *    func_8018BCD4 in this TU. The Flag_S40 spelling below is deliberately a
+ *    draft-local type (§100/§120) so it cannot collide; keep it draft-local
+ *    when propagating.
+ *  - aD800B9A02 is the fleet's standard unsigned-access alias for the
+ *    `extern short D_800B9A02` canon (§37); 864 sites already use that spelling.
+ */
+
+typedef struct { u32 addr : 24; u32 len : 8; } PTag_S40_8018B238;
+typedef struct { u32 w; }                      W_S40_8018B238;
+typedef struct { u32 *ot; u32 pad[4]; }        Env_S40_8018B238;   /* 0x14 stride */
+typedef struct { s16 v; }                      Flag_S40_8018B238;  /* 0x02 stride */
+
+typedef struct Panel_S40_8018B238 {
+    s16   f0;    /* 0x00 */
+    s16   f2;    /* 0x02 */
+    void *f4;    /* 0x04 */
+    void *f8;    /* 0x08 */
+    s16   fC;    /* 0x0C */
+    s16   fE;    /* 0x0E */
+    s16   f10;   /* 0x10 */
+    s16   f12;   /* 0x12 */
+    void *f14;   /* 0x14 */
+    void *f18;   /* 0x18 */
+    void *f1C;   /* 0x1C */
+} Panel_S40_8018B238;                                              /* 0x20 stride */
+
+
+
+
+
+
+void func_8018B238(void) {
+    extern short D_800B9A02;                        /* fleet-canonical spelling */
+    extern u16   aD800B9A02 __asm__("D_800B9A02");  /* §37: the unsigned-access alias */
+    extern Env_S40_8018B238    D_800AE7B8[];
+    extern Env_S40_8018B238    D_800AE7BC[];
+    extern s32                 D_801151D0;
+    extern Panel_S40_8018B238 *D_80115134;
+    extern s16                 D_801EF274;
+    extern s16                 D_80115126;
+    extern u16                 D_8011511A;
+    extern Flag_S40_8018B238   D_80115158[];
+    extern u8                  D_801C0E80[];
+    extern u8                  D_801C0E94[];
+    extern u8                  D_801C17E8[];
+    extern Panel_S40_8018B238  D_801C1568;
+    extern int   func_80137D08(int arg0, int arg1, short arg2);
+    extern s32   func_800D27DC(s32, s32 *, void *, s32, s32);
+    extern s32 func_8013AB54(s32 a0, s32 a1, s32 a2, s32 a3);
+    extern s32  *func_8018B478(s32 *ot, Panel_S40_8018B238 *w0, s16 idx);
+    extern s32   func_8005A600(s32, s32, s32, s32, s32);
+    Panel_S40_8018B238 *w;
+    s32 *ot;
+    register s32 n __asm__("$2");      /* lever 2 */
+    s32 cnt;
+    register s32 zr __asm__("$0");     /* RC-12 opaque-copy source */
+    s16 i;
+    volatile u16 *pbh;
+
+    w  = D_80115134;
+    ot = (s32 *)func_80137D08(D_801151D0, (int)&D_800AE7B8[aD800B9A02], 2);
+
+    /* Two full calls, not a ternary: gcc cross-jumps only the trailing
+       `addiu $a3,1` + `jal`, which is why a0/a1/sp+0x10 are duplicated. */
+    if (D_801EF274 == 3 || D_801EF274 == 7) {
+        ot = (s32 *)func_800D27DC(2, ot, D_801C0E94, 1, 0);
+    } else {
+        ot = (s32 *)func_800D27DC(2, ot, D_801C0E80, 1, 0);
+    }
+
+    ot = (s32 *)func_8013AB54((s32)ot, (s32)(D_800AE7BC[aD800B9A02].ot + 2),
+                              (s32)D_801C17E8, 0);
+
+    if (D_80115126 == 3) {
+        if (D_8011511A == 3) {
+            ot = func_8018B478(ot, &D_801C1568, 3);
+            n = 3 + zr;                /* lever 3 */
+        } else {
+            n = 4;
+        }
+    } else {
+        n = 3 + zr;                    /* lever 4 */
+    }
+
+    i = 0;
+    if (n != 0) {
+        cnt = n;
+        do {
+            if (D_80115158[i].v != 0) {
+                __asm__("");           /* lever 5 */
+                ot = func_8018B478(ot, w, i);
+            }
+            i++;
+            w++;
+        } while (i < cnt);
+    }
+
+    func_8005A600((s32)ot, 0, 0, 0x15, 0);
+
+    /* §36 bitfield-store OT link, exactly as in func_8018BCD4 next door. */
+    pbh = (volatile u16 *)&D_800B9A02;
+    ((W_S40_8018B238 *)ot)->w = 0x02000000;
+    ((PTag_S40_8018B238 *)ot)->addr =
+        ((PTag_S40_8018B238 *)(D_800AE7BC[*pbh].ot + 2))->addr;
+    ((PTag_S40_8018B238 *)(D_800AE7BC[*pbh].ot + 2))->addr = (u32)ot;
+    ot += 10;
+    __asm__ __volatile__("" ::: "memory");   /* lever 6 */
+    D_801151D0 = (s32)ot;
+}
+
 
 
 /* func_8018B478 — "draw one HUD panel" (family exemplar), 115 ins, frame 0x88.
@@ -3791,7 +3974,126 @@ INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001_jr_8018A3A8", func_8018C8D
 
 INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001_jr_8018A3A8", func_8018C914);
 
-INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001_jr_8018A3A8", func_8018C960);
+#include "common.h"
+
+/* func_8018C960 — ov_SC03_001 (133 ins), exemplar of a 5-member open-only
+ * h_norm cluster.  Builds the full-screen fade overlay: a DR_MODE-style 8-byte
+ * GP0 packet (0xE1000015), a 320x240 semi-transparent gouraud quad (POLY_G4,
+ * code 0x3A), and a second 8-byte GP0 packet (0xE1000240), each linked into the
+ * current OT with the psyq `addPrim` idiom.  The type shapes and the
+ * `((PTag *)x)->addr = ((PTag *)ot)->addr; ((PTag *)ot)->addr = (u32)x;` pair
+ * are copied VERBATIM from the already-matched neighbour func_8018BCD4 in this
+ * same TU (§71) — Env_* / PTag_* there are the fleet-canonical shapes.
+ *
+ * Levers that were load-bearing (all byte-tested; the draft is PIN-FREE):
+ *   §20  &D_801151D0 / &D_800B9A02 taken into pointer LOCALS -> each address is
+ *        force_reg'd once (lui+addiu -> $t2 / $a3) instead of a %lo per use.
+ *   §36  the 24-bit BITFIELD store, not a hand-written mask, is what emits
+ *        0x00FFFFFF (lui+ori) ahead of 0xFF000000 (lui) while the body ANDs the
+ *        destination first — expmed's store_fixed_bit_field signature.
+ *   §37  asm-label aliases for D_801EF1EC/D_801EF1F0: the TU canon is u16/s16
+ *        but the target does a bare `lbu %lo(sym)`, and a plain block-scope
+ *        `extern u8` would be a conflicting redeclaration.
+ *   ---  `volatile` on the OT index read keeps all SIX *pbh loads alive; a plain
+ *        read cse-folds them and the function loses ~25 instructions.
+ *   S1   the whole body is ONE branch-free basic block and every store ties at
+ *        the same priority, so forward asm order == source statement order —
+ *        the POLY_G4 block below is a literal transcription of the target.
+ *   S2   `p` is destructively updated (multi-set -> no birthing boost) so its
+ *        `addiu +8` floats up into the preceding load-delay gap, while `r` is a
+ *        FRESH single-set local (boosted) so its `addiu +0x24` sinks to sit
+ *        immediately before `sb 3($a0)`.  Both placements are the target's.
+ *   ---  the bare `p = r;` before r's uses is a COMBINE BARRIER: without a SET
+ *        of `p` between `r = p + 9` and r's first use, `can_combine_p` lets
+ *        combine substitute `r` -> `p + 0x24` into every MEM offset and the
+ *        `addiu` disappears entirely (and, at the tail, `p += 2` folds to
+ *        `addiu $t3,$t3,0x2C` off the stale base instead of `addiu $t3,$a0,8`).
+ *        It also fixes the register rotation for free — verified that adding or
+ *        removing `register __asm__` pins on p/r/pbh is a byte no-op.
+ */
+
+/* ---- TU-visible spellings (file scope of ov_SC03_001_jr_8018A3A8.c) ---- */
+extern s16 D_800B9A02;
+extern s32 D_801151D0;
+extern u16 D_801EF1EC;
+extern s16 D_801EF1F0;
+
+void func_8018C960(void) {
+    /* §100/§120: draft-local, uniquely-named types — they live in the BODY so
+     * they cannot collide with the TU's own Env_8018BCD4 / PTag_8018BCD4. */
+    typedef struct { u32 addr : 24; u32 len : 8; } PTag_8018C960;
+    typedef struct { u32 *ot; u32 pad[4]; } Env_8018C960;   /* 0x14 stride */
+    typedef struct {
+        u32 tag;                        /* 0x00 */
+        u8  r0, g0, b0, code;           /* 0x04..0x07 */
+        s16 x0, y0;                     /* 0x08, 0x0A */
+        u8  r1, g1, b1, p1;             /* 0x0C..0x0F */
+        s16 x1, y1;                     /* 0x10, 0x12 */
+        u8  r2, g2, b2, p2;             /* 0x14..0x17 */
+        s16 x2, y2;                     /* 0x18, 0x1A */
+        u8  r3, g3, b3, p3;             /* 0x1C..0x1F */
+        s16 x3, y3;                     /* 0x20, 0x22 */
+    } PG4_8018C960;                     /* -> 0x24 */
+
+    extern Env_8018C960 D_800AE7BC[];
+    extern u8 aD801EF1EC __asm__("D_801EF1EC");
+    extern u8 aD801EF1F0 __asm__("D_801EF1F0");
+
+    u32 **pp;
+    volatile u16 *pbh;
+    u32 *p;
+    u32 *r;
+    u8 c1, c2;
+
+    pp  = (u32 **)&D_801151D0;
+    pbh = (volatile u16 *)&D_800B9A02;
+
+    p = *pp;
+    ((PTag_8018C960 *)p)->len = 1;
+    p[1] = 0xE1000015;
+    ((PTag_8018C960 *)p)->addr = ((PTag_8018C960 *)D_800AE7BC[*pbh].ot)->addr;
+    ((PTag_8018C960 *)D_800AE7BC[*pbh].ot)->addr = (u32)p;
+
+    p += 2;
+    ((PG4_8018C960 *)p)->tag  = 0x08000000;
+    ((PG4_8018C960 *)p)->code = 0x3A;
+    ((PG4_8018C960 *)p)->x2 = -160;
+    ((PG4_8018C960 *)p)->x0 = -160;
+    ((PG4_8018C960 *)p)->x3 = 160;
+    ((PG4_8018C960 *)p)->x1 = 160;
+    c1 = aD801EF1EC;
+    ((PG4_8018C960 *)p)->b1 = c1;
+    ((PG4_8018C960 *)p)->b0 = c1;
+    ((PG4_8018C960 *)p)->g1 = c1;
+    ((PG4_8018C960 *)p)->g0 = c1;
+    ((PG4_8018C960 *)p)->r1 = c1;
+    ((PG4_8018C960 *)p)->r0 = c1;
+    c2 = aD801EF1F0;
+    ((PG4_8018C960 *)p)->y1 = -120;
+    ((PG4_8018C960 *)p)->b3 = c2;
+    ((PG4_8018C960 *)p)->b2 = c2;
+    ((PG4_8018C960 *)p)->g3 = c2;
+    ((PG4_8018C960 *)p)->g2 = c2;
+    ((PG4_8018C960 *)p)->r3 = c2;
+    ((PG4_8018C960 *)p)->r2 = c2;
+    ((PG4_8018C960 *)p)->y0 = -120;
+    ((PG4_8018C960 *)p)->y3 = 120;
+    ((PG4_8018C960 *)p)->y2 = 120;
+
+    ((PTag_8018C960 *)p)->addr = ((PTag_8018C960 *)D_800AE7BC[*pbh].ot)->addr;
+    ((PTag_8018C960 *)D_800AE7BC[*pbh].ot)->addr = (u32)p;
+
+    r = p + 9;                          /* 0x24 */
+    p = r;                              /* COMBINE BARRIER — see header */
+    ((PTag_8018C960 *)r)->len = 1;
+    r[1] = 0xE1000240;
+    ((PTag_8018C960 *)r)->addr = ((PTag_8018C960 *)D_800AE7BC[*pbh].ot)->addr;
+    ((PTag_8018C960 *)D_800AE7BC[*pbh].ot)->addr = (u32)r;
+
+    p += 2;
+    *pp = p;
+}
+
 
 
 extern void (*D_801EB364[])(void);

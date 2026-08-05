@@ -3557,7 +3557,55 @@ extern s32 func_8012AD50(void *a0);
 
 INCLUDE_ASM("asm/ov_SC04_020/nonmatchings/ov_SC04_020_jr_8017D604", func_8017F63C);
 
-INCLUDE_ASM("asm/ov_SC04_020/nonmatchings/ov_SC04_020_jr_8017D604", func_8017F704);
+
+/* identical layout to SVECTOR_8016E7C8 (src/shared/engine_types.h) */
+typedef struct { short vx, vy, vz, pad; } SVEC_8017EC98_8017F704;
+
+void func_8017F704(SVEC_8017EC98_8017F704 *p0, SVEC_8017EC98_8017F704 *p1) {
+    /* conform to the TU's file-scope canon (`extern void func_8012EF70(s32, s32);`)
+       and read the GTE flag through a cast at the call — the §138 "use is cast" lane. */
+    extern void func_8012EF70(s32 a0, s32 a1);
+    extern void func_8017F9EC(void *a0, void *a1, void *a2, void *a3);
+
+    SVEC_8017EC98_8017F704 prev;
+    SVEC_8017EC98_8017F704 cur;
+    SVEC_8017EC98_8017F704 lo0;
+    SVEC_8017EC98_8017F704 lo1;
+    SVEC_8017EC98_8017F704 sv0;
+    SVEC_8017EC98_8017F704 sv1;
+    SVEC_8017EC98_8017F704 sv2;
+    SVEC_8017EC98_8017F704 sv3;
+    s32 more;
+
+    more = 1;
+    cur = *p0;
+    do {
+        prev = cur;
+        cur.vx += 0x40;
+        cur.vy = p0->vy + (p1->vy - p0->vy) * (cur.vx - p0->vx) / (p1->vx - p0->vx);
+        cur.vz = p0->vz + (p1->vz - p0->vz) * (cur.vx - p0->vx) / (p1->vx - p0->vx);
+        if (cur.vx >= p1->vx) {
+            cur.vx = p1->vx;
+            more = 0;
+        }
+        lo0 = prev;
+        lo0.vy -= 4;
+        lo1 = cur;
+        lo1.vy -= 4;
+        if ((((s32 (*)(void *, void *))func_8012EF70)(&lo0, &sv0) & ~0x1000) == 0 &&
+            (((s32 (*)(void *, void *))func_8012EF70)(&lo1, &sv1) & ~0x1000) == 0) {
+            lo0 = prev;
+            lo0.vy += 4;
+            lo1 = cur;
+            lo1.vy += 4;
+            if ((((s32 (*)(void *, void *))func_8012EF70)(&lo0, &sv2) & ~0x1000) == 0 &&
+                (((s32 (*)(void *, void *))func_8012EF70)(&lo1, &sv3) & ~0x1000) == 0) {
+                func_8017F9EC(&sv0, &sv1, &sv2, &sv3);
+            }
+        }
+    } while (more);
+}
+
 
 
 

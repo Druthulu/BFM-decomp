@@ -4297,7 +4297,196 @@ extern void func_80016714(void *a0, s32 a1);
 
 INCLUDE_ASM("asm/ov_SC03_104/nonmatchings/ov_SC03_104_jr_8017CA80", func_80182CEC);
 
-INCLUDE_ASM("asm/ov_SC03_104/nonmatchings/ov_SC03_104_jr_8017CA80", func_80182D18);
+#define gte_SetRotMatrix(r0) __asm__ volatile (         \
+    "lw $12, 0( %0 );"                                   \
+    "lw $13, 4( %0 );"                                   \
+    "ctc2 $12, $0;"                                      \
+    "ctc2 $13, $1;"                                      \
+    "lw $12, 8( %0 );"                                   \
+    "lw $13, 12( %0 );"                                  \
+    "lw $14, 16( %0 );"                                  \
+    "ctc2 $12, $2;"                                      \
+    "ctc2 $13, $3;"                                      \
+    "ctc2 $14, $4"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+#define gte_SetTransMatrix(r0) __asm__ volatile (        \
+    "lw $12, 20( %0 );"                                  \
+    "lw $13, 24( %0 );"                                  \
+    "ctc2 $12, $5;"                                      \
+    "lw $14, 28( %0 );"                                  \
+    "ctc2 $13, $6;"                                      \
+    "ctc2 $14, $7"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+#define gte_SetRotMatrix(r0) __asm__ volatile (         \
+    "lw $12, 0( %0 );"                                   \
+    "lw $13, 4( %0 );"                                   \
+    "ctc2 $12, $0;"                                      \
+    "ctc2 $13, $1;"                                      \
+    "lw $12, 8( %0 );"                                   \
+    "lw $13, 12( %0 );"                                  \
+    "lw $14, 16( %0 );"                                  \
+    "ctc2 $12, $2;"                                      \
+    "ctc2 $13, $3;"                                      \
+    "ctc2 $14, $4"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+#define gte_SetTransMatrix(r0) __asm__ volatile (        \
+    "lw $12, 20( %0 );"                                  \
+    "lw $13, 24( %0 );"                                  \
+    "ctc2 $12, $5;"                                      \
+    "lw $14, 28( %0 );"                                  \
+    "ctc2 $13, $6;"                                      \
+    "ctc2 $14, $7"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+
+/* func_80182D18 @ ov_SC03_089 (subseg ov_SC03_089_jr_8017CA80) — 173 ins.
+ *
+ * Template: engine_core.h DEFINE_func_8012EC04() — same RotMatrix-from-packed-word
+ * decode + the same GTE column/translation tail, but composing into a SECOND matrix
+ * and then feeding ((void (*)(s32, s32, s32))func_8012F14C)(SetRotMatrix/SetTransMatrix/RotTransSV).
+ *
+ * Two load-bearing details (do not "clean up" when templating to siblings):
+ *  1) `LV_801851A8_80182D18 unused;` — the frame is 0x80, and out(8)+buf(8)+m1(32)+m2(32)
+ *     only accounts for 0x50 of the 0x60 local area. gcc-2.7.2 keeps the slot of an
+ *     unreferenced BLKmode local, so the dead 16-byte local is what makes sp == 0x80.
+ *  2) `mk = 0x80000000;` BEFORE the if. gcc-2.7.2's cse is basic-block-local, so a
+ *     constant parked in a named local one block earlier is NOT propagated into the
+ *     arm: the pseudo stays live across the branch, which (a) flips the then-arm's
+ *     local-alloc to ptr=$v1 / val=$v0 (matching the target) and (b) leaves the
+ *     `lui $a0,0x8000` before the bgez where reorg's backward scan pulls it into the
+ *     branch delay slot. Writing the literal inline gives ptr=$v0 / val=$v1 and a
+ *     stolen `lui $v1,0x7fff` in the slot — 7 wrong instructions. Pin-free.
+ */
+
+typedef struct { short m[3][3]; long t[3]; } MTX_801851A8_80182D18;
+typedef struct { short vx, vy, vz, pad; } SV_801851A8_80182D18;
+typedef struct { long vx, vy, vz, pad; } LV_801851A8_80182D18;
+typedef struct { u8 d[8]; } __attribute__((packed, aligned(1))) B8_801851A8_80182D18;
+
+extern void func_80049CAC(s32 a0, s32 a1);
+extern void func_8012F14C(s32);
+
+void func_80182D18(s32 param_1)
+{
+
+    extern SV_801851A8_80182D18 D_80199F20;
+    SV_801851A8_80182D18 out;
+    SV_801851A8_80182D18 buf;
+    MTX_801851A8_80182D18 m1;
+    MTX_801851A8_80182D18 m2;
+    LV_801851A8_80182D18 unused;
+    u32 w;
+    s32 M;
+    s32 c;
+    s32 dst;
+    s32 dp;
+    u32 mk;
+    s32 p;
+    s32 mp;
+
+    if (*(s32 *)(param_1 + 0xCC) != 0) {
+        p = (s32)(*(u32 *)(*(s32 *)(*(s32 *)(param_1 + 0x64) + 0x20) + 0x20) & 0xfeffffff);
+        mp = (s32)&m1;
+        buf.vx = *(s16 *)(p + 6);
+        w = *(u32 *)p;
+        buf.vy = (s16)(*(u8 *)(p + 1) | ((w & 0xf) << 8));
+        buf.vz = (s16)(((w >> 0x10) & 0xff) | ((w & 0xf0) << 4));
+        func_80049CAC((s32)&buf, mp);
+        m1.t[0] = *(s8 *)(p + 3);
+        m1.t[1] = *(s8 *)(p + 4);
+        m1.t[2] = *(s8 *)(p + 5);
+
+        /* gte_SetRotMatrix(M) */
+        M = *(s32 *)(*(s32 *)(param_1 + 0x64) + 0x20) + 0x34;
+        __asm__ __volatile__(
+            "lw $12, 0(%0)\n" "lw $13, 4(%0)\n"
+            "ctc2 $12, $0\n" "ctc2 $13, $1\n"
+            "lw $12, 8(%0)\n" "lw $13, 12(%0)\n" "lw $14, 16(%0)\n"
+            "ctc2 $12, $2\n" "ctc2 $13, $3\n" "ctc2 $14, $4\n"
+            : : "r"(M) : "$12", "$13", "$14", "memory");
+
+        /* column 0 */
+        __asm__ __volatile__(
+            "lhu $12, 0(%0)\n" "lhu $13, 6(%0)\n" "lhu $14, 12(%0)\n"
+            "mtc2 $12, $9\n" "mtc2 $13, $10\n" "mtc2 $14, $11\n"
+            "nop\n" "nop\n" "mvmva 1, 0, 3, 3, 0\n"
+            : : "r"(mp) : "$12", "$13", "$14", "memory");
+        dp = (s32)&m2;
+        __asm__ __volatile__(
+            "mfc2 $12, $9\n" "mfc2 $13, $10\n" "mfc2 $14, $11\n"
+            "sh $12, 0(%0)\n" "sh $13, 6(%0)\n" "sh $14, 12(%0)\n"
+            : : "r"(dp) : "$12", "$13", "$14", "memory");
+
+        /* column 1 */
+        c = (s32)&m1 + 2;
+        __asm__ __volatile__(
+            "lhu $12, 0(%0)\n" "lhu $13, 6(%0)\n" "lhu $14, 12(%0)\n"
+            "mtc2 $12, $9\n" "mtc2 $13, $10\n" "mtc2 $14, $11\n"
+            "nop\n" "nop\n" "mvmva 1, 0, 3, 3, 0\n"
+            : : "r"(c) : "$12", "$13", "$14", "memory");
+        c = (s32)&m2 + 2;
+        __asm__ __volatile__(
+            "mfc2 $12, $9\n" "mfc2 $13, $10\n" "mfc2 $14, $11\n"
+            "sh $12, 0(%0)\n" "sh $13, 6(%0)\n" "sh $14, 12(%0)\n"
+            : : "r"(c) : "$12", "$13", "$14", "memory");
+
+        /* column 2 */
+        c = (s32)&m1 + 4;
+        __asm__ __volatile__(
+            "lhu $12, 0(%0)\n" "lhu $13, 6(%0)\n" "lhu $14, 12(%0)\n"
+            "mtc2 $12, $9\n" "mtc2 $13, $10\n" "mtc2 $14, $11\n"
+            "nop\n" "nop\n" "mvmva 1, 0, 3, 3, 0\n"
+            : : "r"(c) : "$12", "$13", "$14", "memory");
+        c = (s32)&m2 + 4;
+        __asm__ __volatile__(
+            "mfc2 $12, $9\n" "mfc2 $13, $10\n" "mfc2 $14, $11\n"
+            "sh $12, 0(%0)\n" "sh $13, 6(%0)\n" "sh $14, 12(%0)\n"
+            : : "r"(c) : "$12", "$13", "$14", "memory");
+
+        /* gte_SetTransMatrix(M) */
+        M = *(s32 *)(*(s32 *)(param_1 + 0x64) + 0x20) + 0x34;
+        __asm__ __volatile__(
+            "lw $12, 20(%0)\n" "lw $13, 24(%0)\n"
+            "ctc2 $12, $5\n" "lw $14, 28(%0)\n"
+            "ctc2 $13, $6\n" "ctc2 $14, $7\n"
+            : : "r"(M) : "$12", "$13", "$14", "memory");
+
+        /* gte_ldlv0(m1.t) ; gte_rt() ; gte_stlvnl(m2.t) */
+        c = (s32)&m1 + 0x14;
+        __asm__ __volatile__(
+            "lhu $13, 4(%0)\n" "lhu $12, 0(%0)\n"
+            "sll $13, $13, 16\n" "or $12, $12, $13\n"
+            "mtc2 $12, $0\n" "lwc2 $1, 8(%0)\n"
+            "nop\n" "nop\n" "mvmva 1, 0, 0, 0, 0\n"
+            : : "r"(c) : "$12", "$13", "memory");
+        c = (s32)&m2 + 0x14;
+        __asm__ __volatile__(
+            "swc2 $25, 0(%0)\n" "swc2 $26, 4(%0)\n" "swc2 $27, 8(%0)\n"
+            : : "r"(c) : "memory");
+
+        ((void (*)(s32, s32, s32))func_8012F14C)(dp, (s32)&D_80199F20, (s32)&out);
+
+        dst = *(s32 *)(param_1 + 0xCC);
+        *(B8_801851A8_80182D18 *)(dst + 8) = *(B8_801851A8_80182D18 *)&out;
+
+        mk = 0x80000000;
+        if (*(s32 *)(*(s32 *)(*(s32 *)(param_1 + 0x64) + 0x20) + 4) < 0) {
+            *(u32 *)(*(s32 *)(param_1 + 0xCC) + 4) =
+                *(u32 *)(*(s32 *)(param_1 + 0xCC) + 4) | mk;
+        } else {
+            *(u32 *)(*(s32 *)(param_1 + 0xCC) + 4) =
+                *(u32 *)(*(s32 *)(param_1 + 0xCC) + 4) & 0x7FFFFFFF;
+        }
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_104/nonmatchings/ov_SC03_104_jr_8017CA80", func_80182FCC);
 

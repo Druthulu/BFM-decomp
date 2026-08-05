@@ -7478,7 +7478,51 @@ void func_8018A284(void *a0) {
 
 INCLUDE_ASM("asm/ov_SC02_011/nonmatchings/ov_SC02_011_jr_8017AE2C", func_8018A2C0);
 
-INCLUDE_ASM("asm/ov_SC02_011/nonmatchings/ov_SC02_011_jr_8017AE2C", func_8018A438);
+#include "/home/musashi/bfm-decomp/src/shared/engine_core.h"  /* match_one-only: gives MATRIX/SVECTOR; the real TU already includes this */
+
+extern s32 func_80012C6C(s32 a0, s32 a1, s32 a2);
+extern s32 func_80012ABC(s32 a0, s32 a1, s32 a2);
+extern void func_80049CAC(s32 a0, s32 a1);
+extern void func_8012F14C(s32);
+
+extern s16 D_80126940;
+extern s16 D_80126942;
+extern s16 D_80126944;
+
+void func_8018A438(s32 param_1) {
+    MATRIX m1;
+    SVECTOR svec_in;
+    SVECTOR svec_out;
+    s16 *p;
+
+    *(s32 *)(param_1 + 0x8)  = (s16)func_80012C6C((s32)*(s16 *)(param_1 + 0x8),  (s32)*(s16 *)(param_1 + 0xC),  4);
+    *(s32 *)(param_1 + 0x10) = (s16)func_80012C6C((s32)*(s16 *)(param_1 + 0x10), (s32)*(s16 *)(param_1 + 0x14), 4);
+    *(s16 *)(param_1 + 0x18) = func_80012ABC((s32)*(s16 *)(param_1 + 0x18), (s32)*(s16 *)(param_1 + 0x20), 4);
+    *(s16 *)(param_1 + 0x1A) = func_80012ABC((s32)*(s16 *)(param_1 + 0x1A), (s32)*(s16 *)(param_1 + 0x22), 4);
+    *(s16 *)(param_1 + 0x1C) = func_80012ABC((s32)*(s16 *)(param_1 + 0x1C), (s32)*(s16 *)(param_1 + 0x24), 4);
+    *(s16 *)(param_1 + 0x28) = func_80012C6C((s32)*(s16 *)(param_1 + 0x28), (s32)*(s16 *)(param_1 + 0x2E), 0x10);
+    *(s16 *)(param_1 + 0x2A) = func_80012C6C((s32)*(s16 *)(param_1 + 0x2A), (s32)*(s16 *)(param_1 + 0x30), 0x10);
+    *(s16 *)(param_1 + 0x2C) = func_80012C6C((s32)*(s16 *)(param_1 + 0x2C), (s32)*(s16 *)(param_1 + 0x32), 0x10);
+
+    p = &D_80126940;
+    *(s32 *)(param_1 + 0x48) = (s32)*(s16 *)(param_1 + 0x28) + (s32)*p;
+    *(s32 *)(param_1 + 0x4C) = (s32)*(s16 *)(param_1 + 0x2A) + (s32)D_80126942;
+    *(s32 *)(param_1 + 0x50) = (s32)*(s16 *)(param_1 + 0x2C) + (s32)D_80126944;
+    func_80049CAC(param_1 + 0x18, (s32)&m1);
+
+    m1.t[0] = *(s16 *)(param_1 + 0x28) + *p;
+    m1.t[1] = *(s16 *)(param_1 + 0x2A) + D_80126942;
+    m1.t[2] = *(s16 *)(param_1 + 0x2C) + D_80126944;
+    svec_in.vx = 0;
+    svec_in.vy = 0;
+    svec_in.vz = *(s32 *)(param_1 + 0x10);
+    ((void (*)(s32, s32, s32))func_8012F14C)((s32)&m1, (s32)&svec_in, (s32)&svec_out);
+
+    *(s32 *)(param_1 + 0x3C) = (s32)svec_out.vx;
+    *(s32 *)(param_1 + 0x40) = (s32)svec_out.vy;
+    *(s32 *)(param_1 + 0x44) = (s32)svec_out.vz;
+}
+
 
 
 extern void (*D_801D626C[])(void);
@@ -10267,7 +10311,85 @@ extern void func_800296F8(void);
     }
 
 
-INCLUDE_ASM("asm/ov_SC02_011/nonmatchings/ov_SC02_011_jr_8017AE2C", func_801904BC);
+#include "common.h"
+
+extern s32 *D_80126B78;
+extern u8 D_801E8670[];
+extern s32 func_8012BDBC(s32 a0, s32 a1);
+extern s32 func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
+extern void func_80172710(void);
+extern s32 func_80178BF8();
+extern void RotTransSV(void *a0, void *a1, void *a2);
+
+/* local copy of src/shared/engine_types.h's MATRIX (short m[3][3]; long t[3];) --
+ * common.h does not pull in engine_types.h, so declare it locally rather than
+ * touching the shared header. */
+
+
+#define gte_SetRotMatrix(r0) __asm__ volatile (         \
+    "lw $12, 0( %0 );"                                   \
+    "lw $13, 4( %0 );"                                   \
+    "ctc2 $12, $0;"                                      \
+    "ctc2 $13, $1;"                                      \
+    "lw $12, 8( %0 );"                                   \
+    "lw $13, 12( %0 );"                                  \
+    "lw $14, 16( %0 );"                                  \
+    "ctc2 $12, $2;"                                      \
+    "ctc2 $13, $3;"                                      \
+    "ctc2 $14, $4"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+#define gte_SetTransMatrix(r0) __asm__ volatile (        \
+    "lw $12, 20( %0 );"                                  \
+    "lw $13, 24( %0 );"                                  \
+    "ctc2 $12, $5;"                                      \
+    "lw $14, 28( %0 );"                                  \
+    "ctc2 $13, $6;"                                      \
+    "ctc2 $14, $7"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+
+/* §71 sibling: identical shape to func_8018F390 (same TU, this file, D_80126B78/RotTransSV/
+ * func_80135888/func_8012BDBC/func_80178BF8/func_80172710 idiom) already MATCHED -- only the
+ * per-overlay data symbol (D_801E8670 vs D_801E33F0) differs. §37 asm-label alias avoids the
+ * `conflicting types` clash with the fleet's `extern void func_801904BC(void);` used elsewhere
+ * in this TU as a state-handler function pointer. */
+
+s32 aF801904E0() __asm__("func_801904BC");
+
+s32 aF801904E0(param_1)
+    void *param_1;
+{
+    MATRIX m;
+    s32 obj;
+    s32 sv0[2];
+    s32 sv1[2];
+    s32 flag;
+
+    obj = *(s32 *)((s32)param_1 + 0x64);
+    m = *(MATRIX *)((u8 *)D_80126B78 + 0x34);
+
+    gte_SetRotMatrix(&m);
+    gte_SetTransMatrix(&m);
+
+    RotTransSV(D_801E8670, sv0, &flag);
+    RotTransSV(D_801E8670 + 8, sv1, &flag);
+
+    if (func_80135888(*(s32 *)(*(s32 *)((s32)param_1 + 0x64) + 0x20),
+                       *(s32 *)(*(s32 *)((s32)param_1 + 0x64) + 0x58),
+                       (s32)sv0, (s32)sv1) == 0) {
+        return 0;
+    }
+    if (func_8012BDBC(obj, 0x300) == 0) {
+        return 0;
+    }
+    *(s16 *)(obj + 0x2) = 3;
+    func_80178BF8();
+    return (s32)func_80172710;
+}
+
 
 
 extern void (*D_801E86CC[])(void);

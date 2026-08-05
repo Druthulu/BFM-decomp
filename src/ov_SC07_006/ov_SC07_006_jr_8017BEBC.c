@@ -4078,7 +4078,25 @@ INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_8017BEBC", func_8017F9A
 
 INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_8017BEBC", func_8017FDF8);
 
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_8017BEBC", func_801802EC);
+/* func_801802EC — banked from the S40 wave-1 draft.
+ * The draft carried the TYPES, the six SVECTOR2 externs and `static inline morph_lerp` so that
+ * match_one could compile it standalone (-Iinclude only, the §77 probe rule). The REAL TU
+ * (ov_SC07_006_jr_8017BEBC.c) already defines all of them — morph_lerp at :4018 — so keeping
+ * them produced `redefinition of morph_lerp`. Per the draft's own banking note, only the three
+ * NEW externs and the body belong here. §77: a probe layer is scaffolding, not part of the bank. */
+
+extern Morph_8017DC1C *D_801BF554;
+extern Morph_8017DC1C *D_801BF558;
+extern Morph_8017DC1C *D_801BF55C;
+
+void func_801802EC(s32 t)
+{
+    morph_lerp(D_801BF554, D_801C1E40, D_801C1E50, t);
+    morph_lerp(D_801BF558, D_801C1E44, D_801C1E54, t);
+    morph_lerp(D_801BF55C, D_801C1E48, D_801C1E58, t);
+}
+
+
 
 INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_8017BEBC", func_801805D4);
 

@@ -3101,7 +3101,166 @@ INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_80191C50", func_8019276
 
 INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_80191C50", func_80192B60);
 
-INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_80191C50", func_80192F64);
+#include "common.h"
+
+/* func_80192F64 — ov_SC06_018 / ov_SC06_018_jr_80191C50   (226 ins)
+ *
+ * A "sweeping beam" tick for the 0x318 boss-effect entity family — the same
+ * entity class its already-MATCHED TU neighbour func_80191C50 drives
+ * (src/ov_SC06_018/ov_SC06_018_jr_80191C50.c:2860).
+ *
+ *   - 3-way state machine on +0x34:
+ *       0 = spawn the child (func_8012C658(0x318, 8, arg0)) -> +0xCC,
+ *       1 = sweep -Z until 0x8C-z >= 0xFC, then state 2,
+ *       2 = sweep +Z until z-0x8C >= 0xFC, then state 1.
+ *   - then, if the child (+0xCC) exists: two func_8018F060 draws (colours
+ *     0x81818 / 0x204040), and TWO substep-interpolated hit sweeps that walk
+ *     the beam origin backwards by `d` once per substep:
+ *       (a) over the 0x60-entry entity table D_801202A0 (stride 0x10C),
+ *           hit-testing each live entity with func_80135260 and, on a hit,
+ *           stamping state 0x1D / timer 0xA / flag 1 / +0x62 = yaw-0x800;
+ *       (b) against the player with func_8012DF34, stamping D_80126B98.
+ *
+ * @class: none — MATCH (226 ins), iteration 3.
+ *
+ * @lever (NEW, generalizable — loop.c `combine_givs` ANCHOR RULE):
+ *   Iterations 1-2 were LENGTH-DRIFT +5 / +2 with an EXTRA induction register.
+ *   All of the entity-record accesses (+0x20 +0x58 +0x5C +0x5E +0x60 +0x62
+ *   +0xAE) are DEST_ADDR givs on the table pointer, and gcc-2.7.2 allocates
+ *   ONE new pseudo for the combined group.  Which offset the group is
+ *   ANCHORED at is not free: `record_giv` PREPENDS to `bl->giv`, and
+ *   `combine_givs` walks that list from the head taking the first absorber —
+ *   so the anchor is the **LAST address giv discovered in source order**.
+ *   The target anchors at +0x5E (base $s3, giv $s0, offsets -0x3E..+0x50);
+ *   my draft anchored at +0x62 because `*(u16*)(e+0x62) = ...` was the last
+ *   store in the hit block, which forced a THIRD induction register (+$s7,
+ *   +2 prologue/epilogue insns, +1 giv-init, +1 latch increment, +1 nop).
+ *   FIX: reorder the hit block so the **+0x5E store is last** — pure source
+ *   ordering, zero semantic change, and the scheduler still emits +0x62 last
+ *   in the asm because it depends on a lw->lhu chain.
+ *
+ * @lever (§76 allocno CLASS): the spawn result, the +0xCC child pointer and
+ *   the D_801202A0 table walker are ONE variable `e`.  Split into separate
+ *   variables the first two are local, call-crossing-free allocnos and land
+ *   in $a0 (first free in REG_ALLOC_ORDER); merged, the live range spans the
+ *   func_80135260 loop, so calls_crossed > 0 forces a callee-saved reg and
+ *   the whole chain coalesces onto $s3 — which is also what frees the
+ *   `bnez $s3` delay slot for `addu $a0, $s2, $zero`.
+ *
+ * @lever (store order): `sp10.vy = sp18.vy = v` (not `sp18.vy = sp10.vy = v`)
+ *   — `a = b = v` stores b first, and the target emits sh 0x1A before 0x12.
+ */
+
+extern s32 func_8012C658(s32 a0, s32 a1, s32 a2);
+extern void func_8012B2CC(s32 a0);
+extern void func_8018F060(s32 param_1, u32 param_2, u16 *param_3, u32 param_4);
+extern s32 func_8004787C(s32 a0);
+extern s32 func_80135260(s32 arg0, s32 arg1, s16 *arg2, s16 *arg3);
+extern s32 func_8012DF34(s32 a0, s32 a1, s32 a2);
+extern u8 D_801202A0[];
+extern u16 D_80126B98[];
+
+typedef struct {
+    s16 vx, vy, vz, pad;
+} SV_80192F64;
+
+void func_80192F64(s32 arg0) {
+    s32 e;
+    s16 t;
+    s32 i;
+    s32 n;
+    s32 d;
+    SV_80192F64 sp10;
+    SV_80192F64 sp18;
+    SV_80192F64 sp20;
+    u16 sp28[2];
+
+    switch (*(u16 *)(arg0 + 0x34)) {
+    case 0:
+        e = func_8012C658(0x318, 8, arg0);
+        if (e != 0) {
+            *(u16 *)(arg0 + 0x34) = (*(u16 *)(arg0 + 0xFC) & 1) + 1;
+            *(u16 *)(*(s32 *)(e + 0x20) + 0x12) = *(u16 *)(*(s32 *)(arg0 + 0x20) + 0x12) + 0x800;
+            *(s32 *)(e + 4) = *(s32 *)(e + 4) - *(s32 *)(arg0 + 0xDC);
+            *(s32 *)(arg0 + 0xCC) = e;
+            *(u16 *)(e + 0xFC) = *(u16 *)(arg0 + 0x36);
+        }
+        break;
+    case 1:
+        t = *(u16 *)(arg0 + 0xE) - 4;
+        *(u16 *)(arg0 + 0xE) = t;
+        if (*(s16 *)(arg0 + 0x8C) - t >= *(s16 *)(arg0 + 0xFC)) {
+            *(u16 *)(arg0 + 0x34) = 2;
+        }
+        break;
+    case 2:
+        t = *(u16 *)(arg0 + 0xE) + 4;
+        *(u16 *)(arg0 + 0xE) = t;
+        if (t - *(s16 *)(arg0 + 0x8C) >= *(s16 *)(arg0 + 0xFC)) {
+            *(u16 *)(arg0 + 0x34) = 1;
+        }
+        break;
+    }
+
+    e = *(s32 *)(arg0 + 0xCC);
+    if (e == 0) {
+        *(u16 *)(arg0 + 2) = *(u16 *)(arg0 + 2) + 1;
+        return;
+    }
+    *(s32 *)(e + 0xC) = *(s32 *)(arg0 + 0xC);
+    sp28[0] = 0;
+    sp28[1] = *(u16 *)(arg0 + 0xDE);
+    func_8012B2CC(arg0);
+    func_8018F060(arg0, 0, sp28, 0x81818);
+    func_8018F060(arg0, 1, sp28, 0x204040);
+
+    sp10.vx = *(u16 *)(arg0 + 6);
+    sp10.vy = sp18.vy = *(u16 *)(arg0 + 0xA);
+    sp10.vz = sp18.vz = *(u16 *)(arg0 + 0xE);
+    e = (s32)D_801202A0;
+    i = 0;
+    d = func_8004787C(*(s16 *)(*(s32 *)(arg0 + 0x20) + 0x12)) >> 4;
+    do {
+        if (*(u16 *)e != 0 && *(u16 *)e != 0x25D && *(u16 *)e != 0x318 &&
+            (*(u16 *)(e + 0x5C) & 0x8000) != 0 && *(u16 *)(e + 0x5E) != 0x1D &&
+            (*(u16 *)(e + 0xAE) & 1) == 0) {
+            n = ((s16) * (u16 *)(arg0 + 0xDE) >> 8) + 1;
+            sp18.vx = sp10.vx;
+            sp20.vy = sp18.vy;
+            sp20.vz = sp18.vz;
+            do {
+                sp20.vx = sp18.vx - d;
+                if (func_80135260(*(s32 *)(e + 0x20), *(s32 *)(e + 0x58), &sp18.vx, &sp20.vx) == 1) {
+                    *(u16 *)(e + 0x60) = 0xA;
+                    *(u16 *)(e + 0x5C) = *(u16 *)(e + 0x5C) | 1;
+                    *(u16 *)(e + 0x62) = *(u16 *)(*(s32 *)(e + 0x20) + 0x12) - 0x800;
+                    *(u16 *)(e + 0x5E) = 0x1D;
+                    n = 1;
+                }
+                n--;
+                sp18.vx = sp18.vx - d;
+            } while (n != 0);
+        }
+        e += 0x10C;
+        i++;
+    } while (i < 0x60);
+
+    n = ((s16) * (u16 *)(arg0 + 0xDE) >> 8) + 1;
+    sp18.vx = sp10.vx;
+    sp20.vy = sp18.vy;
+    sp20.vz = sp18.vz;
+    do {
+        sp20.vx = sp18.vx - d;
+        if (func_8012DF34(arg0, (s32)&sp18.vx, (s32)&sp20.vx) == 1) {
+            D_80126B98[0] = 0x96;
+            D_80126B98[-1] = 0x4018;
+            n = 1;
+        }
+        n--;
+        sp18.vx = sp18.vx - d;
+    } while (n != 0);
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_80191C50", func_801932EC);
 

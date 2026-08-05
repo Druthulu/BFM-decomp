@@ -4788,7 +4788,120 @@ void func_8018B2A8(s32 a0)
 
 INCLUDE_ASM("asm/ov_SC06_029/nonmatchings/ov_SC06_029_jr_8017C954", func_8018B2F8);
 
-INCLUDE_ASM("asm/ov_SC06_029/nonmatchings/ov_SC06_029_jr_8017C954", func_8018B364);
+
+/* func_8018B364 @ ov_SC02_016 (subseg ov_SC02_016_jr_8017DC70) — 85 ins.
+ *
+ * GATE: .venv/bin/python tools/match_one.py func_8018B364 --binary ov_SC02_016 \
+ *         --src .run/wave-s40/ov_SC02_016/func_8018B364.c
+ *
+ * Exemplar of an OPEN-ONLY h_norm cluster (9 members). Real TU is
+ * src/ov_SC02_016/ov_SC02_016_jr_8017DC70.c — the immediate NEXT function in that
+ * file, func_8018B4B8 (already MATCHed, see its comment there), confirms:
+ *   - actor pointer arg is plain `s32 a0`
+ *   - func_80172630 canon extern: `extern s32 func_80172630(u8 *a0);` (cast at call)
+ *   - func_80159B3C canon extern: `extern void func_80159B3C(void *a0);` (cast at call)
+ *   - func_80165718 canon extern: `extern void func_80165718(s32 a0);` (no cast)
+ *   - func_80146A6C canon extern (used 30+ times fleet-wide):
+ *       extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+ *
+ * `func_8018B530` is DEFINED in this same TU (a few lines below the INCLUDE_ASM
+ * stub for this function) — a simple "find a free slot, mark it used" scan
+ * returning the slot index or -1.
+ *
+ * Body shape (byte-confirmed against the .s, no residual after first draft):
+ *   func_80015978(a0+4, buf)     -- fills a 3-short (SVECTOR-shaped) local from
+ *                                    the actor's position substruct at a0+4; this
+ *                                    exact `s16 buf[4]; func_80015978(a0+4,(s32*)buf);`
+ *                                    idiom is the established fleet form (see
+ *                                    engine_core.h DEFINE_func_8014A380/8016D778/
+ *                                    8017C908 dedup macros).
+ *   buf[1] -= 0x40                -- immediately after the call. The readback here
+ *                                    is `lhu` (not `lh`) even though buf is a SIGNED
+ *                                    s16 array: gcc-2.7.2 always emits `lhu` for a
+ *                                    plain HImode load that feeds straight into an
+ *                                    `sh` store (cookbook: "It does NOT cost you the
+ *                                    lhu on readback" bullet, P30 wave 4). No cast
+ *                                    needed, no separate unsigned local needed.
+ *   do { ... } while (++i < 3)    -- the asm has NO initial top-of-loop test before
+ *                                    label .L80182318 (s3=0 set, then falls straight
+ *                                    into the body) -- a genuine do-while in the
+ *                                    source, not a for-loop gcc happened to rotate.
+ *   if (func_8018B530() >= 0) { func_80146A6C(0x51,...); 3x rand(); func_80146A6C(0x52,...); }
+ *      - the three back-to-back `rand()` calls assign straight to 3 locals in
+ *        source order; gcc's own delay-slot filler moves each captured value into
+ *        a callee-saved reg ($s0/$s1) via the NEXT call's branch-delay slot
+ *        (standard call-crossing-value idiom, cookbook "ORDER" register-allocation
+ *        entry) -- no manual reordering needed, plain sequential C reproduces it.
+ *      - the final random offset is computed into a **s16 local** (not s32): the
+ *        assignment truncates+sign-extends via `sll/sra` in-register (matches the
+ *        target's `sll $s0,$s0,16 / sra $s0,$s0,16` with NO memory round-trip,
+ *        because the s16 value is used immediately as a call argument rather than
+ *        stored to a separate memory slot).
+ *   cnt = *(u8*)(a0+0xDE); *(u8*)(a0+0xDE) = cnt + 0xff; if (cnt == 0) { ... } else { ... }
+ *      - `lbu` (not `lb`) for the read: the "feeds only a truncated store + an
+ *        equality-to-zero test" idiom, so either signedness of the C type reads
+ *        identically; u8 chosen to match the common counter-byte convention used
+ *        elsewhere in this TU.
+ *      - THE ONE non-obvious lever: write the decrement as `cnt + 0xff`, not
+ *        `cnt - 1`. Both are mathematically identical mod 256 (only the low byte
+ *        survives the `sb`), and both compile to a single `addiu`, but gcc-2.7.2
+ *        picks a DIFFERENT immediate encoding for each source spelling: `cnt - 1`
+ *        emits `addiu $v0,$v1,-1` (imm 0xFFFF, sign-extended -1); `cnt + 0xff`
+ *        emits `addiu $v0,$v1,0xFF` (imm 0x00FF, the literal as typed) — which is
+ *        what the target has. Confirmed the signedness of `cnt` (s8 vs u8) makes
+ *        no difference here; the literal's own spelling is the lever. New
+ *        cookbook idiom candidate (not in §31 as of this match).
+ */
+
+extern void func_80015978(s32 a0, s32 *a1);
+extern s32 func_8018B530(void);
+extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+extern int rand(void);
+extern void func_8018B4B8(s32 a0);
+extern void func_80159B3C(void *a0);
+extern void func_80165718(s32 a0);
+extern s32 func_80172630(u8 *a0);
+
+void func_8018B364(s32 param_1)
+{
+    s16 buf[4];
+    s32 i;
+    s32 iVar1;
+    s32 uVar3;
+    s32 uVar4;
+    s32 uVar5;
+    s16 rnd;
+    u8 cnt;
+
+    func_80015978(param_1 + 4, (s32 *)buf);
+    buf[1] -= 0x40;
+
+    i = 0;
+    do {
+        iVar1 = func_8018B530();
+        if (iVar1 >= 0) {
+            func_80146A6C(0x51, (void *)param_1, buf[0], buf[1], buf[2], iVar1, 0);
+
+            uVar3 = rand();
+            uVar4 = rand();
+            uVar5 = rand();
+            rnd = (uVar3 & 3) * 0x400 + (uVar4 & 3) * 0xfa + (uVar5 & 3) * 0x44;
+            func_80146A6C(0x52, (void *)param_1, 0, -0x20, 0x10, rnd, 0);
+        }
+        i++;
+    } while (i < 3);
+
+    cnt = *(u8 *)(param_1 + 0xde);
+    *(u8 *)(param_1 + 0xde) = cnt + 0xff;
+    if (cnt == 0) {
+        func_8018B4B8(param_1);
+        func_80159B3C((void *)param_1);
+        func_80165718(param_1);
+    } else {
+        func_80172630((u8 *)param_1);
+    }
+}
+
 
 extern void func_80147324(s32 a0);
 extern void func_80147364(u16, s32);
