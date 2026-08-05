@@ -337,6 +337,23 @@ anchor rule / `p = r;` combine barrier / chained assignment stores right-to-left
    the 61 SC07 `-O0` members · `func_80183BAC`'s R22 revert (capture WHICH binary this time) ·
    2 resident stubs with gate-rejected match_one-MATCH drafts.
 
+# 💾 THE SERIAL DRAFTS ARE NOW COMMITTED — AND ONE LEDGER ROW IS A RUMOUR
+The two NEAR drafts (~680k subagent tokens) were **gitignored**, one `git clean` from gone. A curated
+`/.run/s42/` allowlist now tracks them; both are logged to the backlog with measured closeness, class,
+reach and draft path:
+  `.run/s42/ov_SC01_077/func_8017C294.c`        NEAR **12** / 246
+  `.run/s42/ov_SC03_126/func_8017C6F4.c`        NEAR **63** / 947  (frame 0x120 + vars=232 EXACT)
+  `.run/s42/ov_SC03_126/func_8017C6F4.pin-t5.c` NEAR **47**, `register … __asm__("$13")` variant
+
+⚠️ **`func_8017C6F4` carries a PRE-EXISTING backlog row `closeness=14` (2026-07-01, ov_SC03_010,
+source=bulk-harvest) with `draft: None, klass: None, nins: None, reach: None`.** No artifact behind
+it, and no draft of it survives on disk (the S42 agent scanned every stored draft: two, both junk).
+**`load_best` takes the LOWEST closeness, so this unverifiable row OUT-RANKS today's real 63 in every
+future target selection.** Same defect class as Phase 28's `func_80178004 close=0` myth (truth 91).
+**Treat the 14 as UNVERIFIED; start from the committed 63/47 drafts; purge the row if it cannot be
+reproduced.** General rule worth adopting: *a backlog row with no draft artifact is a rumour, not a
+result* — `backlog.py log` should require a draft path or mark the row unverifiable.
+
 # 🧰 MY PROCESS ERRORS THIS SESSION (all caught; each is a rule now)
 1. **Sampled instead of scanning** — `head -8` of 31 drafts, reported "closeness 40" for a function
    whose MATCH was in the 9th. Cost: nearly skipped a 27,324-ins crack.
