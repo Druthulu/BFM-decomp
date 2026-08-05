@@ -467,6 +467,12 @@
         } \
     }
 
+#define DEFINE_func_8017BEE0() \
+    extern void func_8017BF34(s32 arg0, s32 arg1, s32 arg2, s32 arg3); \
+        void func_8017BEE0(s32 arg0, s32 arg1, s16 arg2) { \
+            func_8017BF34(arg0, arg1, arg2, 0); \
+        }
+
 #endif
 
 #define DEFINE_func_80128EA8() \
@@ -30338,5 +30344,11 @@
             D_800AF634[*q].g0 = acc + ((*(s32 *)(p + *q * 4 + 0x30) - t) >> 2); \
         } \
     }
+
+#define DEFINE_func_8017BEE0() \
+    extern void func_8017BF34(s32 arg0, s32 arg1, s32 arg2, s32 arg3); \
+        void func_8017BEE0(s32 arg0, s32 arg1, s16 arg2) { \
+            func_8017BF34(arg0, arg1, arg2, 0); \
+        }
 
 #endif
