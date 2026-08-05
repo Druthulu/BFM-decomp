@@ -214,6 +214,44 @@ more instructions AND its family propagates at the same cost per sibling — `fu
 POOL REALISATION (21%), not bank rate**; wave 6's bank rate is not comparable to waves 3–5 because
 the difficulty knob moved deliberately (median target 438 ins vs 143, mostly `has_mid_jr`).
 
+## 🔬 THE FAMILY FRONTIER, MEASURED (S38 — answers "can we still exemplar-crack hundreds?")
+**Families yes; hundreds-per-crack NO. The ×138 era is over** (as S37 predicted). Open-member
+distribution across 5,792 families / 701,508 open ins:
+| open members | families | open ins |
+|---|---|---|
+| 100+ | **8** | 74,741 |
+| 20-49 | 8 | 7,269 |
+| 10-19 | 15 | 26,667 |
+| 5-9 | 420 | 130,658 |
+| 2-4 | **1,534** | 230,038 |
+| 1 (singleton) | **3,807** | 232,135 |
+Of the eight 100+ families: 2 are the permanent walls (`0x801412a8`, `0x80178004`), 2 are ledgered
+not-templatable (`0x80175820`, `0x80132018`), and the other 4 are 14-25-ins functions where the
+h_seq skeleton **collides by chance** — `0x80128c98` probed **0/138**. **Economics inverted: a crack
+is now worth 2-9 members, not 138.** Wave 6's `func_8017FEE0` (19 members / 4,485 ins from one
+crack) was near the TOP of what remains, not typical. ⇒ **throughput of cracks now beats leverage
+per crack** — which is the argument FOR a 64-target wave, not against it.
+
+## ⚠️ THE "FREE SWEEP" LANE — 0 AND 0, CAUSE UNDIAGNOSED. **DO NOT RECORD AS A WALL.**
+147 families carry an already-matched sibling (1,560 open members / 66,971 ins) — i.e. sweep fuel
+needing no crack. Sized by nins, because small skeletons collide:
+| band | families | open members | ins |
+|---|---|---|---|
+| 150+ | 22 | 69 | 21,910 |
+| 80-149 | 11 | 39 | 4,554 |
+| 40-79 | 19 | 401 | 19,849 |
+| <40 | 95 | 1,051 | 20,658 |
+**Two probes, both 0:** `0x80128c98` (25 ins, ×138) → **0/138**; `0x801833f0` (328 ins, 6 members,
+PURE, not has_mid_jr, so `family_sweep --hseq` IS the tool its properties select) → **0/6**.
+**BUT THE CAUSE IS NOT DIAGNOSED, so this is a PENDING QUESTION, not a verdict** — P26 recorded
+"structural families template ≈0%", P28 OVERTURNED it (the 0/8 was a missing carve; the same family
+then banked 102/115), and that reversal reshaped two phases of strategy. `family_sweep` reports
+banked/failed **without the per-member build error**, so DIFF (codegen) and PLUMBING (declaration)
+are indistinguishable here — the same "outcome without the payload that routes it" gap as
+`jtbl_family_bank`'s bare `gate-fail`.
+**Next step if this lane is wanted: run ONE member through `harvest_verify` directly and read the
+error** (the `.run/w6_diag.py` shape). ~26k ins in the credible bands rides on that one read.
+
 ## ▶ RESUME HERE — wave 7, ~50k templ ins (Drew's direction)
 1. `.venv/bin/python .run/w6_pool.py 16 .run/w7_wave.json` — the pool derivation is a SCRIPT now
    (ranks by OPEN templatable weight from `corpus.stubs`, carries the walls/ledgered exclusions,
