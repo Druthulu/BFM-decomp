@@ -1,0 +1,30 @@
+=== func_8017EF68 (asm/ov_SC03_007/nonmatchings/ov_SC03_007_jr_8017AE2C) ===
+  backlog_drafts/func_8017EF68.c : DIFF  func_8017EF68   mine=15 ins, target=12 ins, 14 mismatched
+  drafts-p30beh/func_8017EF68.c : DIFF  func_8017EF68   mine=969 ins, target=12 ins, 969 mismatched
+  ghidra_c/func_8017EF68.c : CC1 FAIL
+=== func_8017CE58 (asm/ov_SC02_000/nonmatchings/ov_SC02_000_jr_8017AE2C) ===
+  ghidra_c/func_8017CE58.c : CC1 FAIL
+=== func_8017C974 (asm/ov_SC03_030/nonmatchings/ov_SC03_030_jr_8017AE2C) ===
+  drafts-p30beh/func_8017C974.c : DIFF  func_8017C974   mine=949 ins, target=947 ins, 812 mismatched
+  drafts-s21/func_8017C974.c : DIFF  func_8017C974   mine=954 ins, target=947 ins, 846 mismatched
+  ghidra_c/func_8017C974.c : CC1 FAIL
+  phase26-seeds/func_8017C974.c : CC1 FAIL
+  s22_cast_all/func_8017C974.c : DIFF  func_8017C974   mine=954 ins, target=947 ins, 846 mismatched
+  s22_grp/func_8017C974.c : DIFF  func_8017C974   mine=954 ins, target=947 ins, 846 mismatched
+  s22_recount/func_8017C974.c : DIFF  func_8017C974   mine=954 ins, target=947 ins, 846 mismatched
+  s22_rt/func_8017C974.c : DIFF  func_8017C974   mine=954 ins, target=947 ins, 846 mismatched
+  s22_rt_all/func_8017C974.c : DIFF  func_8017C974   mine=954 ins, target=947 ins, 846 mismatched
+  wt_drafts/func_8017C974.c : FAIL: my object has no function func_8017C974 (compile produced nothing?)
+  wt_uni/func_8017C974.c : FAIL: my object has no function func_8017C974 (compile produced nothing?)
+=== func_8017EF68 969-ins draft vs the 970-ins variant (ov_SC06_000) ===
+DIFF  func_8017EF68   mine=969 ins, target=969 ins, 2 mismatched
+  class: SCHEDULE-REORDER  [permuter]  sig=SCHEDULE-REORDER/2  profile=schedule
+  idx | MINE                          | TARGET
+=== func_8017CE58 drafts vs the 734-ins variant (ov_SC03_092) ===
+  ghidra_c/func_8017CE58.c:
+CC1 FAIL
+=== func_8017C974 best drafts vs the ov_SC01_077 variant ===
+  .run/drafts-p30beh/func_8017C974.c:
+DIFF  func_8017C974   mine=949 ins, target=947 ins, 812 mismatched
+  .run/drafts-s21/func_8017C974.c:
+DIFF  func_8017C974   mine=954 ins, target=947 ins, 846 mismatched

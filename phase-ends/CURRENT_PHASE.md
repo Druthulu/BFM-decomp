@@ -2250,6 +2250,42 @@ deterministic fuel** — and cost the next wave accordingly.
 old, never probed, and would have been priced at ~0 tokens (R37: probe before costing — this is the
 rule's own failure mode, caught by applying it).
 
+### ▶ S43-5 — the serial queue: `func_8017EF68` is at **2 of 969** and was measured against the WRONG BODY for months (2026-08-05)
+Ran the queue's mandatory all-drafts scan before drafting anything (S4's law). It paid immediately, and
+in a way that indicts the queue's own annotations.
+
+**The queue list's sizes are wrong** — `func_8017EF68` is listed as "969" but is **12 ins** in
+`ov_SC03_007`; `func_8017CE58` is listed "733×3" but is **246** in `ov_SC02_000`. Cause: the *third*
+instance of today's address-collision pattern. Both addresses host two unrelated bodies:
+`0x8017EF68` = **12 ins** (ov_SC03_007) and **970 ins** (ov_SC06_000); `0x8017CE58` = **246**
+(ov_SC02_000/003) and **734** (ov_SC03_092).
+
+**Consequence:** the stored draft `.run/drafts-p30beh/func_8017EF68.c` is a **969-instruction** draft.
+Measured against the 12-ins body — which is what every scan keyed on name+home did — it scores
+`969 mismatched` and reads as garbage. Measured against its OWN body (`ov_SC06_000`):
+**`DIFF 969/969 ins, 2 mismatched, SCHEDULE-REORDER/2, profile=schedule`.**
+
+**It is a two-instruction adjacent transposition** — `lw $v0,0($s3)` ↔ `srl $a2,$a1,16` at idx 75/76,
+*registers, frame, spill map and every other instruction already byte-exact.* The draft's header
+documents five byte-measured levers that took it 827 → 2, a "DO NOT RE-BUY" list of ~20 spent hand
+variants, a §49 root-cause analysis (a `sched2` `INSN_LUID` tie: both candidates measure priority 3, so
+the backward scheduler picks the larger LUID, and `sched1` sinks the `srl` to just before its consumer
+which gives it that larger LUID — the target needs the opposite sign), and it ends:
+**"NEXT STEP: this is the permuter's exact profile."**
+
+**And the permuter could not run on it.** `.run/drafts-p30beh/` is one of the 63 GTE-draft directories
+S43-1 unblocked — so this function has been sitting **one working permuter run from a bank**, with a
+note on disk naming the permuter as the next step, for as long as the silent fallback existed.
+
+**Status:** ILS (schedule profile, 6 cycles × 240 s) reached the same **2** and held it flat — the tie
+survives the repaired permuter's directed search. A longer free run (12 × 600 s) is queued. Logged to
+the backlog at closeness 2 with the correct binary. **Escalation from here is Fable5** (§45's gdb-on-cc1
+read of the scheduler is exactly this class) — that needs Drew's go (R27).
+
+**Queue note:** `func_8017C974` (22 drafts on disk) best-of-22 is 812/947 — genuinely far, not a
+near-miss; `func_8017CE58`'s only draft is Ghidra-C and CC1-FAILs. **Re-derive every queue entry's size
+and home from the bytes before briefing an agent on it** — the list's annotations are unreliable.
+
 ### ▶ S11 — the propagation lag: EXTEND 0/36 -> 31/36, and every blocker was a DECLARATION (2026-08-03/04)
 Lane 2 of the S10 checkpoint ("26,006 ins, ~0 agent tokens, PARTLY BLOCKED"), taken first on the
 standing doctrine that the cheap deterministic lever is probed before the expensive agent one.

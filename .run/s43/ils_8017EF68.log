@@ -1,0 +1,8 @@
+ILS func_8017EF68: 6 cycles x 240s @ -j12, klass=schedule
+  cycle 1: no waypoint (no improvement over base yet)
+  cycle 2: best score = 2  [output-2-1]
+  cycle 3: best score = 2 (unchanged)  [output-2-1]
+  cycle 4: best score = 2 (unchanged)  [output-2-1]
+  cycle 5: best score = 2 (unchanged)  [output-2-1]
+  cycle 6: best score = 2 (unchanged)  [output-2-1]
+ILS done: best=2 (no score-0; seed for Fable5 or a longer run)
