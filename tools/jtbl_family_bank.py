@@ -323,6 +323,22 @@ def _bank(func, from_ov, from_addr, to_ov, to_addr):
         b = sh(f"make --no-print-directory -j16 build BINARY={to_ov}")
         if b.returncode == 0 and "[ OK ]" in b.stdout:
             return "BANKED", f"{cf} [{name}]"
+        # CAPTURE WHY THE GATE REFUSED (P30 S38). `last_err` was only ever set when a stage failed to
+        # PRODUCE a candidate; a candidate that built to the wrong bytes — the actual gate rejection —
+        # recorded NOTHING, so every caller saw a bare "gate-fail" with no payload and the failure was
+        # unroutable. (Measured: wave 6's 13 sibling failures could not be classified at all.) A tool
+        # that reports an outcome without the evidence that routes it is the defect class this session
+        # fixed in harvest_verify.classify_fail and .run/s6f_gate.py; this is the third instance.
+        _out = (b.stdout or "") + (b.stderr or "")
+        _hard = [l.strip() for l in _out.splitlines()
+                 if ("undefined reference" in l or "multiple definition" in l
+                     or re.search(r"\.[ch]:\d+.*(error|conflicting types|parse error|redefinition)", l))
+                 and "warning" not in l.lower()]
+        if _hard:                                    # keep BOTH ends: the path identifies the file,
+            _l = _hard[0]                            # the tail names the symbol (never left-truncate)
+            last_err = f"{name}: " + (_l if len(_l) <= 150 else _l[:52].rstrip() + " … " + _l[-95:].lstrip())
+        else:
+            last_err = f"{name}: built, bytes differ (genuine DIFF)"
         open(cf, "w").write(orig)          # restore the ORIGINAL TU (undoing any tu-scope edit too)
     revert(to_ov, cf, keep_regions=keep)
     return "gate-fail", last_err
