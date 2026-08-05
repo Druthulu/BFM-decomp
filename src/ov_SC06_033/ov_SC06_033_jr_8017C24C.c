@@ -6933,7 +6933,40 @@ INCLUDE_ASM("asm/ov_SC06_033/nonmatchings/ov_SC06_033_jr_8017C24C", func_80187DA
 
 INCLUDE_ASM("asm/ov_SC06_033/nonmatchings/ov_SC06_033_jr_8017C24C", func_80187E08);
 
-INCLUDE_ASM("asm/ov_SC06_033/nonmatchings/ov_SC06_033_jr_8017C24C", func_80187E54);
+
+extern s32 func_8012B6D4(s16 *a0, s16 *a1);
+
+// @class: branch-polarity
+// @stuck: none — MATCH (32 ins), iteration 2. §3-T4: gcc-2.7.2 lays this out as
+// "branch TO the then-arm, fall through to the else", so the source condition is
+// `d < 0x800` (the bnez sense read off the target opcode), NOT Ghidra's inverted
+// arm order. The wrong polarity also cost one instruction (match_one printed
+// LENGTH-DRIFT/-1): with the arms swapped, the `sll $v0,$s0,16` of the s16 param
+// lands in the branch delay slot and is SHARED by both arms; the correct polarity
+// puts `addiu $v1,$zero,0x1000` there and each arm gets its own sll/sra.
+// a1 is an ANSI s16 param (sign-extended at each use, once per arm) — not K&R §43.
+s32 aF80187E54(s32 a0, s16 a1) __asm__("func_80187E54");
+s32 aF80187E54(s32 a0, s16 a1)
+{
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern u8 D_80126B5C;
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern s32 *D_80126B78;
+    s32 d;
+
+    d = (func_8012B6D4((s16 *)&D_80126B5C, (s16 *)(a0 + 4)) -
+         *(s16 *)((s32)D_80126B78 + 0x12)) & 0xFFF;
+    if (d < 0x800) {
+        return d < a1;
+    } else {
+        return (0x1000 - d) < a1;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_033/nonmatchings/ov_SC06_033_jr_8017C24C", func_80187ED4);
 

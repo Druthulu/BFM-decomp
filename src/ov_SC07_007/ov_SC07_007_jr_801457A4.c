@@ -4065,7 +4065,36 @@ s32 func_8014F468(void)
 DEFINE_func_8014F4C0()  /* dedup: shared engine-core @0x8014f4c0 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC07_007/nonmatchings/ov_SC07_007_jr_801457A4", func_8014F6F4);
+
+extern int func_8014F74C();
+
+void aF8014F6F4(void) __asm__("func_8014F6F4");
+void aF8014F6F4(void)
+{
+    __asm__ __volatile__(
+        ".set noreorder\n"
+        "addiu $sp, $sp, -24\n"
+        "lui   $v1, 0x1f80\n"
+        "ori   $v1, $v1, 0x03fc\n"
+        "sw    $ra, 16($sp)\n"
+        "addu  $t0, $v1, $zero\n"
+        "lw    $t1, 0($t0)\n"
+        "nop\n"
+        "sw    $sp, 0($t1)\n"
+        "addiu $t1, $t1, -4\n"
+        "addu  $sp, $t1, $zero\n"
+        "jal   func_8014F74C\n"
+        "lui   $at, %%hi(D_801C665C)\n"
+        "sw    $v0, %%lo(D_801C665C)($at)\n"
+        "addiu $sp, $sp, 4\n"
+        "lw    $sp, 0($sp)\n"
+        "lui   $v0, %%hi(D_801C665C)\n"
+        "lw    $v0, %%lo(D_801C665C)($v0)\n"
+        "lw    $ra, 16($sp)\n"
+        "addiu $sp, $sp, 24\n"
+        : : : "memory");
+}
+
 
 DEFINE_func_8014F74C()  /* dedup: shared engine-core @0x8014f74c (src/shared) */
 
@@ -4250,7 +4279,36 @@ DEFINE_func_801502EC()  /* dedup: shared engine-core @0x801502EC (src/shared) */
 DEFINE_func_80150460()  /* dedup: shared engine-core @0x80150460 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC07_007/nonmatchings/ov_SC07_007_jr_801457A4", func_80150480);
+
+extern void func_801504D8(u16*);
+
+void aF80150480(void) __asm__("func_80150480");
+void aF80150480(void)
+{
+    __asm__ __volatile__(
+        ".set noreorder\n"
+        "addiu $sp, $sp, -24\n"
+        "lui   $v1, 0x1f80\n"
+        "ori   $v1, $v1, 0x03fc\n"
+        "sw    $ra, 16($sp)\n"
+        "addu  $t0, $v1, $zero\n"
+        "lw    $t1, 0($t0)\n"
+        "nop\n"
+        "sw    $sp, 0($t1)\n"
+        "addiu $t1, $t1, -4\n"
+        "addu  $sp, $t1, $zero\n"
+        "jal   func_801504D8\n"
+        "lui   $at, %%hi(D_801C6658)\n"
+        "sw    $v0, %%lo(D_801C6658)($at)\n"
+        "addiu $sp, $sp, 4\n"
+        "lw    $sp, 0($sp)\n"
+        "lui   $v0, %%hi(D_801C6658)\n"
+        "lw    $v0, %%lo(D_801C6658)($v0)\n"
+        "lw    $ra, 16($sp)\n"
+        "addiu $sp, $sp, 24\n"
+        : : : "memory");
+}
+
 
 DEFINE_func_801504D8()  /* dedup: shared engine-core @0x801504d8 (src/shared) */
 

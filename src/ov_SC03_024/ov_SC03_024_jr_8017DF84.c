@@ -4319,7 +4319,16 @@ extern void func_80174684(void *);
     }
 
 
-INCLUDE_ASM("asm/ov_SC03_024/nonmatchings/ov_SC03_024_jr_8017DF84", func_80180944);
+
+
+void aF80180944(void *a0) __asm__("func_80180944");
+void aF80180944(void *a0)
+{
+
+    extern void (*D_8018B05C[])(void);
+    D_8018B05C[*(u8 *)((s32)a0 + 0x214)]();
+}
+
 
 extern void func_80147060(u8*);
 extern void func_80171A1C(u8*);
@@ -4672,10 +4681,13 @@ extern void func_80181B50(void *arg0);
 extern void func_80181C5C(void *arg0);
 
 
-extern Ent_80181914 D_801C12C0[];
 
 void func_80181914(s32 *arg0)
 {
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern Ent_80181914 D_801C12C0[];
     u8 *m = D_800AF630;
     u8 *q = D_80078E78;
     Ent_80181914 *p;
@@ -4748,7 +4760,33 @@ void func_80181914(s32 *arg0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_024/nonmatchings/ov_SC03_024_jr_8017DF84", func_80181B50);
+
+
+/* func_80181B50 - iterate through 4-entry array, call func_80181BA0 if any unk1C is non-zero */
+
+extern void func_80181BA0(void *arg0);
+
+
+
+
+void aF80181B50(void) __asm__("func_80181B50");
+void aF80181B50(void)
+{
+
+    extern Ent_8017D6EC D_801C12C0[];
+    s32 i = 0;
+    Ent_8017D6EC *p = &D_801C12C0[0];
+
+    while (i < 4) {
+        if (p->unk1C != 0) {
+            func_80181BA0(p);
+            break;
+        }
+        i++;
+        p = (Ent_8017D6EC *)((char *)p + 0x24);
+    }
+}
+
 
 
 extern s32 rand(void);

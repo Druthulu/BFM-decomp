@@ -4356,7 +4356,33 @@ void func_8017DF78(void *arg0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001_jr_8017AE2C", func_8017E1B4);
+
+
+/* func_8017E1B4 - iterate through 4-entry array, call func_8017E204 if any unk1C is non-zero */
+
+extern void func_8017E204(void *arg0);
+
+
+
+
+void aF8017E1B4(void) __asm__("func_8017E1B4");
+void aF8017E1B4(void)
+{
+
+    extern Ent_8017D6EC D_801EE888[];
+    s32 i = 0;
+    Ent_8017D6EC *p = &D_801EE888[0];
+
+    while (i < 4) {
+        if (p->unk1C != 0) {
+            func_8017E204(p);
+            break;
+        }
+        i++;
+        p = (Ent_8017D6EC *)((char *)p + 0x24);
+    }
+}
+
 
 
 extern s32 rand(void);
@@ -5441,7 +5467,35 @@ INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001_jr_8017AE2C", func_80180AC
 
 INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001_jr_8017AE2C", func_80180B1C);
 
-INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001_jr_8017AE2C", func_80180B5C);
+
+
+/* func_80180B5C — state-entry init (family exemplar, reach x11).
+ * Sets the actor's state id (halfword @ +0x2) then runs the fixed
+ * five-call entry chain. Sibling style copied from func_80180164
+ * in the same TU (cookbook §71). */
+
+extern void func_8012E8E0(s32, s32);
+extern void func_8012E88C(s32);
+extern void func_8012A828(s32, s32);
+extern void func_80187750(s32);
+extern void func_80187994(s32, s32, s32, s32);
+
+
+void aF80180B5C(void *arg0) __asm__("func_80180B5C");
+void aF80180B5C(void *arg0)
+{
+
+    extern short D_801919AC;
+    extern short D_801C3B38;
+    extern short D_801B92EC;
+    *(short *)((char *)arg0 + 0x2) = 2;
+    func_8012E8E0((s32)arg0, (s32)&D_801919AC);
+    func_8012E88C((s32)arg0);
+    ((void (*)(s32 *, s32))func_8012A828)((s32 *)arg0, (s32)&D_801C3B38);
+    func_80187750((s32)arg0);
+    func_80187994((s32)arg0, (s32)&D_801B92EC, 0, 0x60);
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001_jr_8017AE2C", func_80180BCC);
 
@@ -8047,7 +8101,30 @@ void func_80187778(s32 *a0, s32 a1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001_jr_8017AE2C", func_801877C0);
+
+
+extern s32 func_80029504(void);
+
+s32 aF801877C0(void) __asm__("func_801877C0");
+s32 aF801877C0(void)
+{
+    s32 v1 = func_80029504();
+
+    if (v1 < 0x14) {
+        return 0;
+    }
+    if (v1 < 0x46) {
+        return 1;
+    }
+    if (v1 < 0x64) {
+        return 2;
+    }
+    if (v1 < 0x82) {
+        return 3;
+    }
+    return 4;
+}
+
 
 
 extern s32 func_80029504(void);

@@ -3646,7 +3646,41 @@ void func_8017E378(s32 *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_8017C24C", func_8017E3F0);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+extern void func_80146C3C(void);
+void aF8017E3F0(s32 *param_1) __asm__("func_8017E3F0");
+void aF8017E3F0(s32 *param_1)
+{
+
+    extern s8 D_801D4F18;
+  int new_var;
+register s32 p __asm__("$4");
+register s32 r __asm__("$3");
+  p = (s32) (&D_801D4F18);
+  r = param_1[0x2c / 4];
+  new_var = r;
+  p += new_var;
+  *((s8 *) p) = 0;
+  ((void (*)(void)) func_80146C3C)();
+}
+
 
 
 void func_8017E420(void *a0) {
@@ -7498,9 +7532,12 @@ extern u8 D_801CD278;
 extern u8 D_801B54EC;
 extern u8 D_801B54F4;
 extern u8 D_801B54E4;
-extern u8 D_80126B5C;
 
 void func_801886B0(s32 param_1) {
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern u8 D_80126B5C;
     u16 uVar1;
     register s32 sVar2 __asm__("$2");
     s32 iVar3;
@@ -7743,7 +7780,40 @@ INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_8017C24C", func_8018931
 
 INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_8017C24C", func_80189380);
 
-INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_8017C24C", func_801893CC);
+
+extern s32 func_8012B6D4(s16 *a0, s16 *a1);
+
+// @class: branch-polarity
+// @stuck: none — MATCH (32 ins), iteration 2. §3-T4: gcc-2.7.2 lays this out as
+// "branch TO the then-arm, fall through to the else", so the source condition is
+// `d < 0x800` (the bnez sense read off the target opcode), NOT Ghidra's inverted
+// arm order. The wrong polarity also cost one instruction (match_one printed
+// LENGTH-DRIFT/-1): with the arms swapped, the `sll $v0,$s0,16` of the s16 param
+// lands in the branch delay slot and is SHARED by both arms; the correct polarity
+// puts `addiu $v1,$zero,0x1000` there and each arm gets its own sll/sra.
+// a1 is an ANSI s16 param (sign-extended at each use, once per arm) — not K&R §43.
+s32 aF801893CC(s32 a0, s16 a1) __asm__("func_801893CC");
+s32 aF801893CC(s32 a0, s16 a1)
+{
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern u8 D_80126B5C;
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern s32 *D_80126B78;
+    s32 d;
+
+    d = (func_8012B6D4((s16 *)&D_80126B5C, (s16 *)(a0 + 4)) -
+         *(s16 *)((s32)D_80126B78 + 0x12)) & 0xFFF;
+    if (d < 0x800) {
+        return d < a1;
+    } else {
+        return (0x1000 - d) < a1;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_8017C24C", func_8018944C);
 

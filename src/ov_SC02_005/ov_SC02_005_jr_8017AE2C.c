@@ -4460,7 +4460,16 @@ extern void func_8016EE94();
     }
 
 
-INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_8017AE2C", func_801804D4);
+
+
+void aF801804D4(void *a0) __asm__("func_801804D4");
+void aF801804D4(void *a0)
+{
+
+    extern void (*D_8019452C[])(void);
+    D_8019452C[*(u8 *)((s32)a0 + 0x214)]();
+}
+
 
 INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_8017AE2C", func_80180510);
 

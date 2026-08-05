@@ -3449,7 +3449,33 @@ void func_8017F688(s32 *arg0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_002/nonmatchings/ov_SC03_002_jr_8017D604", func_8017F8C4);
+
+
+/* func_8017F8C4 - iterate through 4-entry array, call func_8017F914 if any unk1C is non-zero */
+
+extern void func_8017F914(void *arg0);
+
+
+
+
+void aF8017F8C4(void) __asm__("func_8017F8C4");
+void aF8017F8C4(void)
+{
+
+    extern Ent_8017D6EC D_801CB920[];
+    s32 i = 0;
+    Ent_8017D6EC *p = &D_801CB920[0];
+
+    while (i < 4) {
+        if (p->unk1C != 0) {
+            func_8017F914(p);
+            break;
+        }
+        i++;
+        p = (Ent_8017D6EC *)((char *)p + 0x24);
+    }
+}
+
 
 
 extern s32 rand(void);
@@ -3867,7 +3893,64 @@ extern void func_80180AC0(s32 a0, s32 a1);
 
 INCLUDE_ASM("asm/ov_SC03_002/nonmatchings/ov_SC03_002_jr_8017D604", func_80180A38);
 
-INCLUDE_ASM("asm/ov_SC03_002/nonmatchings/ov_SC03_002_jr_8017D604", func_80180AC0);
+
+
+
+
+extern u16 func_801487F4(s32 *a0);
+extern u16 func_80148800(s32 *a0);
+extern s32 func_80012A60(s32 a0, s32 a1);
+
+void aF80180AC0(void *a0, u8 *a1) __asm__("func_80180AC0");
+void aF80180AC0(void *a0, u8 *a1)
+{
+
+    extern s32 D_80126B58;
+    extern s16 D_80185818[];
+    /* Dead aggregate local (idiom 6): args(0x10) + saves(7*4) alone give a 0x30
+     * frame; the target is 0x38, i.e. vars != 0.  gcc-2.7.2 rounds the var area
+     * to 8, so ONE dead word reproduces it (s32 pad[2] overshoots to 0x40). */
+    s32 frame_pad[1];
+    u8 dir;
+    s32 lim;
+    s32 flags;
+    s32 held;
+    s32 cur;
+
+    dir = *a1;
+    held = ((s32(*)(s32 *))func_801487F4)(&D_80126B58);
+    cur = ((s32(*)(s32 *))func_80148800)(&D_80126B58);
+    *(s16 *)((s32)a0 + 0x9C) = 0x5B;
+
+    lim = 0;
+    if (cur & 3) {
+        lim = 0x555;
+        flags = cur;
+        *(s16 *)((s32)a0 + 0xA2) = 8;
+    } else if (*(s16 *)((s32)a0 + 0xA2) == 0) {
+        if (held & 3) {
+            lim = 0x555;
+            flags = held;
+            *(s16 *)((s32)a0 + 0x9C) = 0x2D;
+        }
+    } else {
+        *(s16 *)((s32)a0 + 0xA2) = *(s16 *)((s32)a0 + 0xA2) - 1;
+    }
+
+    if (lim != 0) {
+        if (flags & 1) {
+            dir = (dir - 1) & 7;
+        } else if (flags & 2) {
+            dir = (dir + 1) & 7;
+        }
+        if ((s16)func_80012A60(*(s16 *)((s32)a0 + 0x1A), D_80185818[dir]) < lim) {
+            *a1 = dir;
+        }
+    }
+
+    *(s16 *)((s32)a0 + 0x22) = D_80185818[*a1];
+}
+
 
 
 
@@ -4609,7 +4692,21 @@ void func_8018325C(void *a0) {
     }
 
 
-INCLUDE_ASM("asm/ov_SC03_002/nonmatchings/ov_SC03_002_jr_8017D604", func_80183264);
+
+
+
+extern void func_8012E8A8(u8 *a0);
+extern void func_8012E8E0(s32 a0, s32 a1);
+
+void aF80183264(s32 *a0, s32 a1) __asm__("func_80183264");
+void aF80183264(s32 *a0, s32 a1)
+{
+    func_8012E8A8((u8 *)a0);
+    *(s16 *)((s32)a0 + 0x98) = 0;
+    *(s16 *)((s32)a0 + 0x5C) = 0;
+    func_8012E8E0((s32)a0, a1);
+}
+
 
 extern s32 func_80029504(void);
 

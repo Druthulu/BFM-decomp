@@ -2410,7 +2410,6 @@ extern void func_801748E4(void);
 extern void func_8012A018(s32 a, s32 b);
 extern s32 func_8017496C(void *a0);
 extern s32 D_80126954;
-extern s32 D_80126950;
 extern s32 D_8012695C;
 extern s16 D_80126968;
 extern s16 D_8012696A;

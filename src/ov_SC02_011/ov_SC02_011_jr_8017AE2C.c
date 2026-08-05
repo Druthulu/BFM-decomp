@@ -5107,7 +5107,16 @@ extern void func_80174684(void *);
     }
 
 
-INCLUDE_ASM("asm/ov_SC02_011/nonmatchings/ov_SC02_011_jr_8017AE2C", func_8017E464);
+
+
+void aF8017E464(void *a0) __asm__("func_8017E464");
+void aF8017E464(void *a0)
+{
+
+    extern void (*D_80194B98[])(void);
+    D_80194B98[*(u8 *)((s32)a0 + 0x214)]();
+}
+
 
 extern void func_80147060(u8 *a0);
     extern void func_80171A1C(u8 *a0);
