@@ -2094,3 +2094,54 @@ from that tree it is not evidence, and it must never gate a lever.** The deeper 
 is the *fourth* consecutive phase where a "wall" resolved to our own instruments — and this time the
 instrument was the scoreboard itself, which is the one nobody thought to audit because the byte-gate
 is green over it by construction (R34).
+
+---
+
+## 2026-08-04 (P30 S39) — Drew's MASTER_REMAINING_FUNCS proposal: adopt the goal, reject the mechanism
+
+**Context.** Drew, mid-session: *"should we build a full list of all funcs in the entire game… scan
+every single file and use ghidra to verify all funcs, a total list. search for missing overlays,
+missing mains… then check all of our banked funcs and create a third list MASTER_REMAINING_FUNCS =
+total − banked. Each new func we bank, we must remove from the second list."* Explicitly flagged as
+thinking-ahead, not a work order.
+
+**Assessment (recorded so it is not re-litigated from scratch).**
+
+**Lists 1–3 already exist, DERIVED, and are recomputed on every read:**
+- **total** = `.run/sig.*.jsonl` (`sig_image`/rabbitizer over the ORIGINAL bytes, independent of
+  splat): 87,459 distinct fns / 13,141,652 instructions across 140 binaries.
+- **banked** = never stored — derived from the proven invariant (`INCLUDE_ASM` pastes the original
+  asm ⇒ a function not wrapped in it is byte-exact): `matched = sig − stubs`.
+- **remaining** = `corpus.stubs(binary)` — 13,493 open stubs, derived from the filesystem.
+- **"remove it when we bank it" already happens**: banking IS deleting the `INCLUDE_ASM` line, which
+  is the same act as leaving the remaining set. There is no second bookkeeping step to forget.
+
+**Why the MAINTAINED form is the one thing to avoid.** A hand-updated master list is precisely the
+shape the Phase-26 audit deleted ~10 of (file allowlists, `REGION_SUB`, `func_`-only regexes). The
+canonical failure: `.run/fuel_manifest.json` recorded **130 live stubs when the truth was 30**, hiding
+**91.6%** of remaining gain — and nobody noticed, *because a target that is never nominated produces
+silence, not an error*. R33 exists for this ("the best outcome is a DELETED SCANNER"). A
+MASTER_REMAINING file would drift silently, and always in the flattering direction.
+
+**Where the instinct is RIGHT, and the work is genuinely open — the DENOMINATOR:**
+- Phase 27 found **4 hidden SC07 overlays** invisible for a month (code at PAC entry 1); onboarding
+  them moved the honest headline 68.9% → 67.0%. We had been grading against an incomplete game.
+- **39 type-1 code modules remain un-onboarded** (load-address RE pending; roadmap bucket **T**,
+  owned by P31). Until they resolve, **no 100% claim is meaningful** (R34/`disc-completeness.md`).
+- **`main` has NO independent boundary oracle**: `sig_image` cannot sign a PS-X EXE, so main's
+  function list rests solely on a Ghidra sig 7 weeks stale and missing 757 of 2,002 stubs.
+
+**Caveat on the Ghidra half:** for overlays it is **partly circular** — those programs' boundaries were
+seeded FROM splat by `DefineFunctions.java`, so Ghidra would largely confirm splat to itself. The
+independent oracle is `sig_image`, and `make audit-corpus` already makes the two argue (that is how the
+193 `listCdBuffer` phantom slices became visible). **main is the exception** where Ghidra is all we have.
+
+**VERDICT: adopt the goal, reject the mechanism.** Do NOT build a maintained list. Build a **derived,
+coverage-asserted RECONCILIATION** — one command computing total/banked/remaining from the oracles that
+**fails when the independent views disagree**. That is the actual gap: "what's left" is answered today by
+`corpus.stubs`, `worklist.md`, `backlog.md`, `family_hseq.json`, `fuel_manifest.json` and
+`frontier-p30.md` — each individually derived, **never cross-asserted**. P30's T0 had to hand-reconcile
+exactly that (family_hseq 29,961 vs progress.py 28,296, an unexplained R32 gap). A gate that refuses to
+be green while they disagree catches the next one for free. Same shape as `audit-digest` (S39) and
+`audit-binaries` (R36). **Sequencing: P31's opener (it is already the T-bucket phase), or a P30 close
+item if the honest denominator is wanted before the next re-baseline.**
