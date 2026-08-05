@@ -10365,3 +10365,51 @@ incomplete — the LUID effect is real but secondary to the unit blockage.
 
 **Symptom lines for the index:** **"a load and a store transposed"** · **"blocking insn N for M
 cycles"** · **"no statement order changes the pair"** · **"two instructions apart after every lever"**.
+
+---
+
+## §152 — BYTE SIZE is the family key that name- and h_seq-grouping both miss (P30 S43, the 0xECC family: 1 crack → 12 overlays → 11,364 ins)
+
+Three isolated agents, working independently on what were filed as three different functions, all
+arrived here. The finding is worth more than the 11,364 instructions.
+
+### The finding
+`func_8017C6F4`'s 947-instruction body exists in **12 overlays under 5 DIFFERENT NAMES at 6 DIFFERENT
+ADDRESSES**, each differing by exactly **two per-overlay symbols**. It stayed invisible for ~30 phases
+because every grouping we had scattered it:
+- **name-keyed** → five separate "functions";
+- **address-keyed** → six separate entries (and worse, the address collides with an unrelated 15-ins
+  body in three other overlays — see §150/§148-E);
+- **h_seq-keyed** → scattered as well, which is why the Phase-26 "h_seq is spent" sweeps missed it.
+
+### The key
+    grep -rl 'nonmatching .*, 0x<SIZE>' asm/*/nonmatchings/*_jr_<SPLIT>/
+**Byte size** is an allocator-independent, name-independent, cache-independent family key, and it reads
+the **asm** rather than a manifest (so it cannot go stale the way `.run/family_hseq.json` does). One
+command, exact, no false positives on the case measured. Then `family_remap`'s clean reloc pairing is a
+free structural-identity oracle, and the per-member edit is a 2–3 symbol substitution.
+
+**This refines — does not contradict — the Phase-26 finding.** h_seq mass-templating is still spent as
+a standalone harvest. What pays is **exactly one size-keyed sweep behind each FRESH core crack.** Here
+it returned 11:1 on the crack that preceded it. Run it immediately after banking any core.
+
+### Two cautions that must travel with this technique
+1. **A masked tool CANNOT validate a remap.** `match_one` and `rtu_match` both mask `jal` targets and
+   `%hi/%lo` immediates — *exactly* the fields a remap rewrites — so a WRONG symbol map still reports
+   MATCH. Confirm each pair against the raw unmasked call-site pattern, and gate remaps by the
+   **whole-binary SHA** only. (§53's carve law, restated for the remap path.)
+2. **A stale residual number is never evidence that two functions differ.** A pre-fix draft scores
+   nonzero against *every* member of its family including its own target, so "draft X scores 340 here"
+   says nothing about body identity. Re-measure with the **currently banked** draft before accepting a
+   "different body" verdict — one such stale number was briefed as fact this session and refuted in a
+   single command.
+
+### The companion defect (open)
+`family_remap.py`'s raw output does not compile: its unit backscan accepts only blank/`extern`/comment/
+`typedef` lines and therefore **halts at the first `#define`**, never chaining back past it. Measured:
+16/16 gte macros carried, **0/10 typedefs carried**, silently (R32). Prepending the typedefs by hand is
+the workaround; the fix is to let the backscan skip `#define` continuation blocks.
+
+**Symptom lines for the index:** **"the same function under several names"** · **"a family that h_seq
+missed"** · **"one crack that should have propagated but didn't"** · **"a remap that gates MATCH but
+banks wrong"**.

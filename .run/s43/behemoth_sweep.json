@@ -1,0 +1,18 @@
+[
+ {
+  "draft": ".run/drafts-p30beh/func_8017D174.c",
+  "fn": "func_8017D174",
+  "closeness": 790,
+  "binary": "ov_SC05_011",
+  "asm_subdir": "asm/ov_SC05_011/nonmatchings/ov_SC05_011_jr_8017BEBC",
+  "nins": 58
+ },
+ {
+  "draft": ".run/drafts-p30beh/func_8017C974.c",
+  "fn": "func_8017C974",
+  "closeness": 812,
+  "binary": "ov_SC03_030",
+  "asm_subdir": "asm/ov_SC03_030/nonmatchings/ov_SC03_030_jr_8017AE2C",
+  "nins": 948
+ }
+]

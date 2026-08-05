@@ -2358,6 +2358,68 @@ incremental-build artifacts (§130).
 Session delta: **+4,757 instructions** banked (12,484,373 → 12,489,130), all from 2 cracks ×5 binaries.
 **Distance to P30's 95% instr milestone bar: 13,782 instructions** (was 18,539 at session start).
 
+### ▶ S43-8 — the 0xECC family: ONE crack = 12 overlays / 11,364 ins; and SIZE is the family key (2026-08-05)
+Three isolated cheap-Opus agents, briefed with §150/§151 and told to open with the all-drafts scan,
+**converged independently on the same discovery**: `func_8017C6F4` is not one function. The same 947-ins
+body (`0xECC`) appears in **12 overlays under 5 DIFFERENT NAMES at 6 DIFFERENT ADDRESSES**, each
+differing by exactly **two per-overlay symbols** (a screen-rect helper + the 64×64 cell table).
+
+| overlay | fn | overlay | fn |
+|---|---|---|---|
+| ov_SC01_077 | func_8017C974 | ov_SC03_007 | func_8017C59C |
+| ov_SC01_080 | func_8017C59C | ov_SC03_012 | func_8017C59C |
+| ov_SC02_000 | func_8017D538 | ov_SC03_023 | func_8017C59C |
+| ov_SC02_003 | func_8017D538 | ov_SC03_028 | func_8017DF98 |
+| ov_SC02_004 | func_8017C59C | ov_SC03_030 | func_8017C974 |
+| ov_SC02_005 | func_8017CF90 | ov_SC07_010 | func_8017C59C |
+
+**GATED 12/12 whole-binary, 0 failed** — and each built image independently re-checked against its own
+`config/check.<bin>.sha` (12/12), stubs confirmed replaced by real definitions. **11,364 instructions
+from this morning's single crack.** *(A cosmetic artifact: my gate log printed one `final SHA` for both
+SC02_000 and SC02_003, whose locked SHAs differ; the independent per-binary check shows each matching
+its own target. R22 is the arbiter.)*
+
+**⚠️ WHY IT HID FOR 30 PHASES — and the new family key (→ cookbook §152):** name-keyed grouping
+scattered these across five names, and **h_seq grouping scattered them too**. The key that finds them
+in one command is **BYTE SIZE**: `grep -rl 'nonmatching .*, 0xECC' asm/*/nonmatchings/*/` returns
+exactly the 12 with no false positives. Size is an allocator-independent, cache-independent family key
+that reads the asm rather than a manifest. **This refines the Phase-26 "h_seq is spent" finding: h_seq
+is still worth exactly ONE size-keyed sweep behind each FRESH core crack — here it paid 11:1.**
+
+**Two agent-supplied cautions, both verified and both worth keeping:**
+1. **A masked tool cannot validate a remap.** `match_one` and `rtu_match` both mask `jal` targets and
+   `%hi/%lo` immediates — precisely the fields a remap edits — so a WRONG symbol map still reports
+   MATCH. One agent re-checked all 12 against the raw unmasked call-site pattern before claiming them.
+   **Remaps are gated by the whole-binary SHA, never by a per-function tool.**
+2. **A stale residual is not evidence that two functions differ.** I briefed one agent that
+   `func_8017C59C` was a different body because an old draft scored 340 against it. Refuted: that 340
+   came from a PRE-§150-fix draft, and a wrong draft scores nonzero against every family member
+   *including its own target*. Re-measure with the CURRENTLY BANKED draft before accepting a
+   "different body" verdict.
+
+**Tool defect found (R32 class, not yet fixed):** `family_remap.py`'s raw output does not compile —
+its unit backscan accepts only blank/`extern`/comment/`typedef` lines, so it **halts at the first
+`#define`** and never chains back past it. Measured: **16/16 gte macros carried, 0/10 typedefs carried,
+silently.** This is the same §146 gap seen from the other side, and it is why the sibling gates needed
+typedefs prepended by hand. Fix: let the backscan skip `#define` continuation blocks, or floor it at
+the macro-carry's own start line.
+
+### ⚠️ S43-9 — MY ERROR, RETRACTED: I measured the STUB BASELINE and called it a bank
+I reported the 263×5 cluster (`0x80182fd4`, 5 members, cross-address) as "all five byte-identical,
+1,315 ins". **FALSE — nothing was banked.** `family_sweep --stage-only` staged the drafts, but they were
+reverted before my hand-built `make build`, so every SHA I compared was the **`INCLUDE_ASM` stub
+baseline** — which is byte-identical *by construction*, because INCLUDE_ASM pastes the original asm.
+**This is R34's trap exactly** (the byte-gate is a perfect CORRECTNESS oracle and a NULL COVERAGE
+oracle — green since Phase 5 at 0% decomp), self-inflicted by hand-building instead of using
+`harvest_verify`, which splices/builds/reverts atomically and reports verified-vs-failed.
+**The lesson, now paid for twice in one session:** *never hand-build to test a draft; the gate's
+verified/failed count is the only reading that distinguishes "matched" from "the stub is still there".*
+The cluster returns to UNRESOLVED. Its real finding stands and is separate: the staged draft compiles
+clean, so the `0/5 parse error before 'unsigned'` came from a **gate-pipeline transform**, not the
+remap — worth pinning, since it may be silently killing other sweeps.
+*(Also corrected: my "41 behemoth drafts" was a FILE count — 79 unblocked files resolve to 20 distinct
+functions, 36 of them fragments of one small function.)*
+
 ### ▶ S11 — the propagation lag: EXTEND 0/36 -> 31/36, and every blocker was a DECLARATION (2026-08-03/04)
 Lane 2 of the S10 checkpoint ("26,006 ins, ~0 agent tokens, PARTLY BLOCKED"), taken first on the
 standing doctrine that the cheap deterministic lever is probed before the expensive agent one.
