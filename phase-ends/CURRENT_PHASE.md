@@ -2150,6 +2150,37 @@ clean, per-binary outputs untouched) and **nothing imports it today** (checked),
 hazard rather than a risky 500-line refactor of the most load-bearing gate we own. **To test a helper
 in it, `exec` that function's source (`ast.get_source_segment`) — never `import` the module.**
 
+### ▶ S43-4 — the "26 unpropagated members = cheapest fuel on the board" is REFUTED: 0 of 31 templatable (2026-08-05)
+The S40 close and the S42 checkpoint both list this as item #1/#3 cheap fuel — *"20 CC1-FAIL + 5 callee
+conflicts; the recovery ladder already has every lever."* **Measured today: it does not.**
+
+**Re-derived from the tree, not inherited (R35):** the S40 propagation commit `commit:1465` banked **59**
+function families; **22 of them still have open members — 31 instances**, not 26 (the stale count was
+taken before later sessions moved the board).
+
+**The probe (SCAN, don't sample — S4's lesson):** for each of the 31, try a mechanical `family_remap`
+from **every** binary where the same function is already matched (up to 4 sources each).
+**RESULT: 0 templatable / 31 not.** Every attempt fails `reloc-count mismatch … (not an h_norm-clean
+pair)` — and the mismatches are gross, not marginal: `2!=15`, `12!=2`, `11!=20`, `2!=0`.
+Script + JSON preserved: `.run/s43/probe_leftovers.py`, `.run/s43/leftover_probe.json`.
+
+**What they actually are:** structurally DISTINCT bodies that merely share an address and a name across
+overlays — the same collision as `func_8017C6F4` (15 ins vs 948, S43-2), one level down. The `family_hseq`
+manifest agrees independently (R34): these members cluster into families with **`matched=0`**, several
+with `n_members=1`. There is no matched sibling to template from, so there is nothing for the recovery
+ladder to recover — **the failures were never plumbing.**
+
+**Scope of the claim (stated precisely, P9):** what is refuted is *mechanical remap from a matched
+sibling* (0/31, strong). What remains formally untested is whether an h_seq-staged draft plus the
+recovery ladder could bank some — but that is the path that produced the original CC1-FAILs, its
+labels were content-free until S43-3, and `--hseq --only` now stages **0 families** for these addrs
+because none has a matched exemplar. Treat them as **per-member drafting work (agent-class), not
+deterministic fuel** — and cost the next wave accordingly.
+
+**Board correction:** strike "26 unpropagated members" from the cheap-fuel list. It was three sessions
+old, never probed, and would have been priced at ~0 tokens (R37: probe before costing — this is the
+rule's own failure mode, caught by applying it).
+
 ### ▶ S11 — the propagation lag: EXTEND 0/36 -> 31/36, and every blocker was a DECLARATION (2026-08-03/04)
 Lane 2 of the S10 checkpoint ("26,006 ins, ~0 agent tokens, PARTLY BLOCKED"), taken first on the
 standing doctrine that the cheap deterministic lever is probed before the expensive agent one.

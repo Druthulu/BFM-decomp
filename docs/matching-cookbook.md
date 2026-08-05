@@ -10190,3 +10190,72 @@ generally, since any GTE-using draft hits it.
 **Symptom lines for the index:** **"an &address hoisted into a loop preheader"** · **"a clamp expands
 as move-then-overwrite"** · **"MIN_EXPR"** · **"two callee-saved registers swapped"** · **"permuter
 says function not found in base.c"**.
+
+---
+
+## §149 — Four instrument defects in one session, and the two questions they were hiding (P30 S43)
+
+Not a codegen section. Every item here was recorded in a previous session as a property of the CODE;
+each turned out to be a property of a TOOL. That is now the fourth consecutive session with that shape
+(§53 carve · P28's B2 · P27's five · this), so the pattern below is the reusable part.
+
+### A. A prep step that returns its input on failure is indistinguishable from a search that found nothing
+
+`p16_permute.make_base_c` ran `cpp_expand_macros` **before** `#include` lines were dropped, so
+`cpp -P -nostdinc -` died on `common.h`, and `return c` handed back the UNEXPANDED draft. `hide_asm`
+then ate the `gte_*` macro block and the function with it; decomp-permuter reported *"Function not
+found in base.c"* and **no-opped in 0 s**. §148 recorded that as "the GTE `#define` block defeats
+`make_base_c` — demacroize first." It was a two-line ordering bug, and it had **silently disabled the
+permuter on 63 stored drafts, including the behemoth renderer drafts** — the highest-byte-weight
+targets we have.
+
+**Rules:** a permuter run that reports **no match in ~0 s is a TOOLING verdict until `base.c` is
+inspected.** And prefer an assertion on the OUTPUT (`defines_fn`: the definition must survive into
+`base.c`) over a fix for the one cause you found — the output check catches the comment-eating class,
+this cpp class, and the next macro shape, for free.
+
+**Consequence worth generalising:** a hand-search floor measured while a tool was silently broken is
+not a floor. Here the ~40-probe "unmovable 63" fell to **42** the moment the permuter could run.
+
+### B. Same address + same name ≠ same body — and the ledger keys on address
+
+`0x8017C6F4` is a **15-instruction** function in `ov_SC03_010/011/013` and a **948-instruction**
+renderer in `ov_SC03_126/003`, `ov_SC04_021`, `ov_SC05_019`. `backlog.load_best()` keyed on address
+alone and kept the lower **absolute** closeness, so a *14-of-15-wrong* draft (7% correct) masked a
+hand-won *63-of-947* (93% correct) and the giant vanished from render, the grinder, and target
+selection. Sub-key by known `nins`; different sizes are different bodies.
+
+Two corollaries, both live:
+- **`closeness` is an absolute mismatch count and is NOT comparable across sizes.** 14/15 outranks
+  63/947 in every ranking we have. (A relative rank was probed and NOT built: only 24 of 836 live rows
+  carry both `closeness` and `nins`. Revisit when coverage rises.)
+- **`binary: null` → defaults to `ov_SC01_077` → "not an open stub there" was read as "banked".** When
+  the function does not EXIST in the defaulted binary, absent was being scored as done (R32/R34).
+  Derive the binary from the draft path; drop a row only when the fn is closed everywhere it exists.
+
+### C. `make: *** [...] Error N` is a summary, never a diagnosis
+
+`classify_fail` took `errs[-1]`, and make prints its own failure summary **last, always** — so the
+wrapper won every time. **~3,000 of ~4,000 CC1-FAIL labels** in the committed `.classified.txt` corpus
+say nothing but the TU name the record already stores, which is why diagnosing one cost a manual
+splice-and-rebuild. Exclude make's lines; take the **FIRST** real diagnostic (cc1 cascades — error #1
+is the cause, error #N the aftershock); label a wrapper-only failure `CC1-FAIL(no-diagnostic)` rather
+than disguising it. Same family as the §58 warning red-herring guard directly above it in the source:
+**a label identical for every input carries no information.**
+
+### D. "Cheap fuel" that was never probed: 0 of 31 templatable
+
+Three sessions carried *"26 unpropagated members, the recovery ladder has every lever, ~0 tokens."*
+Scanned all 31 (not sampled): a mechanical `family_remap` from **every** matched source binary fails
+on **31 of 31**, with gross reloc-count mismatches (`2!=15`, `11!=20`, `2!=0`). They are structurally
+distinct bodies sharing an address — B's collision, one level down — and `family_hseq` independently
+agrees (`matched=0`, several `n_members=1`). Nothing to template from ⇒ **never plumbing, always
+per-member drafting.**
+
+**The estimating rule this proves (R37's own failure mode):** a work item carried across sessions with
+a token price attached and no probe behind it is a *guess wearing a number*. Probe one member before
+it is scheduled — the probe here cost minutes and removed a phantom item from the board.
+
+**Symptom lines for the index:** **"the permuter found no match in 0 seconds"** · **"a wall that only
+one tool reports"** · **"a backlog row that outranks a better result"** · **"CC1-FAIL: make: *** Error
+N"** · **"cheap fuel nobody has probed"**.
