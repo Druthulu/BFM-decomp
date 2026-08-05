@@ -2033,3 +2033,64 @@ no releases, and it requires a separate per-game repo to produce a playable resu
 reference, a risk as a dependency.
 
 **Verdict: PARKED for Gen3. Do not evaluate again before Gen2 exit.**
+
+---
+
+## 2026-08-04 (P30 S1e) — "distinct-code FELL" was a stale digest, not a regression; the alias lever is UNGATED
+
+**Context + belief.** S38 closed with the def-side asm-label alias cracking a 208-conflict class
+138/138 — the phase's best-performing lever. Its checkpoint then gated it in bold: *"distinct-code
+FELL 89.3 → 89.2 — UNEXPLAINED. Do NOT scale the alias lever until it is resolved. The BYTES are
+proven (R22); the ACCOUNTING is not."* The recorded lead was `progress.py:423`'s `SIG` regex booking
+`void aF80146A6C(…)` under the alias name — with the honest caveat, written at the time, that a pure
+naming artifact would move fn-count and distinct-code *together*, and these had diverged.
+
+**What failed.** Two mechanisms, both mine, both asserted before being derived (R14):
+1. *The recorded lead.* Real blindness — but it feeds `classify()`, which computes **fn-count only**.
+   Neither weighted metric ever sees a C identifier; they derive from `matched = sig − corpus.stubs`.
+2. *"The harvest reverted functions to INCLUDE_ASM."* Attractive because that is **byte-neutral**
+   (INCLUDE_ASM pastes the original asm), so R22 would stay 140/140 across genuine coverage loss —
+   the R34 blind spot. Refuted by one grep: **483 stub lines removed, 0 added.**
+
+**The pivot.** Stop hypothesizing; prove the arithmetic. Identical sigs (both denominators unchanged)
++ unchanged `tools/` + zero `INCLUDE_ASM` additions ⇒ HEAD's stub set is a strict subset of the
+prior commit's ⇒ HEAD's matched set is a superset ⇒ **both numerators are forbidden to fall.** A
+reported fall is therefore a statement about the *digest*, not the tree.
+
+**The byte/measurement-grounded why.** Reconstructing each commit's stub set from its own committed
+tree (0 unresolved symbols):
+
+| | instr | distinct | unique fns |
+|---|---|---|---|
+| `commit:1426` **true** | 12,394,533 | 5,022,306 | 77,895 |
+| `commit:1426` *as committed* | 12,402,412 | 5,029,324 | **78,025** |
+| `HEAD` true **= committed** | 12,405,402 | 5,025,082 | 77,952 |
+
+True delta: **instr +10,869, distinct +2,776 ins / +57 unique fns — everything rose.** The
+`commit:1426` digest was **committed stale** (generated from a working tree still holding work that was
+reverted before the commit landed; overstated +7,879 ins / +130 unique fns, never regenerated). The
+next honest digest was lower than the stale one, so the metric *appeared* to fall.
+
+**Consequences (what changed).**
+- **The alias lever is UNGATED** — the blocker was a phantom. It is the phase's cheapest large lever
+  and should be scaled (S4 onward), subject only to the §61 small-batch discipline the two real R22
+  failures taught.
+- `progress.py stub_addrs` no longer swallows `corpus.stubs`' refusal. The old bare `except` turned a
+  fail-closed oracle into a guess: byte-witnessed reporting **instr 100.00% / distinct 100.00%** in a
+  tree with no `asm/`.
+- **`make audit-digest` is new** (in `tools-health`, after `report`): recomputes the three headline
+  metrics from the current tree and fails if the committed digest disagrees. Compares **integers, not
+  percentages** — the +7,879-instruction staleness printed as "94.4%" both before and after.
+- The same swallow was found twice more in the **integration spine** (`cast_call_sites.tu_for`,
+  `reconcile_tu.tu_for`), where it silently reconciled drafts against the default `<ov>.c` instead of
+  the jr/-O0 split TU — the exact bug `cast_call_sites`' own docstring says it exists to fix. Both now
+  propagate. Given the phase's ~24k PLUMBING vs 4,917 DIFF base rate, that class presents as a
+  codegen wall.
+
+**Hindsight — the better path.** The three greps (denominators / `tools/` diff / `+INCLUDE_ASM`
+count) cost under a minute and settle the question *before* any hypothesis is formed. The general
+form, now cookbook §140: **a committed number is a claim about a tree; if it cannot be recomputed
+from that tree it is not evidence, and it must never gate a lever.** The deeper repeat is that this
+is the *fourth* consecutive phase where a "wall" resolved to our own instruments — and this time the
+instrument was the scoreboard itself, which is the one nobody thought to audit because the byte-gate
+is green over it by construction (R34).

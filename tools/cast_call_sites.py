@@ -69,11 +69,19 @@ def tu_for(overlay, fn, override=None):
     if override:
         return override
     try:
-        st = _corpus.stubs(overlay).get(int(fn[5:], 16))
-        if st:
-            return os.path.join(REPO, st.path)
-    except Exception:
-        pass
+        addr = int(fn[5:], 16)                    # a curated (non-func_ADDR) name has no address here
+    except ValueError:
+        return os.path.join(REPO, f'src/{overlay}/{overlay}.c')
+    # CorpusError PROPAGATES (R32/R35, P30 S1e). This was a bare `except Exception: pass`, which on
+    # any oracle failure fell through to the default `<ov>.c` — silently reinstating the exact bug
+    # the docstring above says this function exists to fix (reconciling against the WRONG TU, where
+    # the heavy Phase-26 jr cores live). A wrong-TU reconcile fails the gate, and this phase's base
+    # rate is ~24k PLUMBING vs 4,917 DIFF, so it would read as a codegen wall. Verified safe: at
+    # P30 S1e HEAD, corpus.stubs raises for 0 of 140 binaries — if it fires, the tree really is
+    # inconsistent and reconciling through it is worse than stopping.
+    st = _corpus.stubs(overlay).get(addr)
+    if st:
+        return os.path.join(REPO, st.path)
     return os.path.join(REPO, f'src/{overlay}/{overlay}.c')
 
 # A function declaration line (prototype ending in `;`, NOT a definition): optional `extern`,

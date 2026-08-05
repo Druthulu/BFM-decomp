@@ -140,7 +140,7 @@ CC1_SMOKE_FLAGS := -quiet -O2 -G0 -mips1 -mcpu=3000 -mgas -msoft-float -fgnu-lin
 BINUTILS_WARN_MAJOR := 2
 BINUTILS_WARN_MINOR := 38
 
-.PHONY: help check-env extract build check expected clean report sig-refresh sig-overlays sig-resident build-all check-all audit-corpus audit-cdecl audit-binaries audit-text-sources tools-health
+.PHONY: help check-env extract build check expected clean report sig-refresh sig-overlays sig-resident build-all check-all audit-corpus audit-cdecl audit-binaries audit-text-sources audit-digest tools-health
 
 # -----------------------------------------------------------------------------
 help:
@@ -193,6 +193,14 @@ audit-cdecl:
 audit-binaries:
 	$(VENV_PY) tools/audit_binaries.py
 
+# P30 S1e: the committed fleet digest must still describe the CURRENT tree. A digest generated from
+# a working tree that later changed (work reverted before the commit landed) is BYTE-INVISIBLE —
+# check-all stays 140/140 over it — and the next honest regeneration then reads as a REGRESSION that
+# never happened. That cost a session-opening false alarm and gated the best-performing lever on a
+# phantom. R34: the byte-gate is a null oracle for documents, so this is a second one that disagrees.
+audit-digest:
+	$(VENV_PY) tools/audit_digest.py
+
 # P30 S28: every tracked C source must be TEXT. A raw NUL inside a char literal (`'<NUL>'` instead
 # of `'\0'`) COMPILES — the fleet stayed byte-identical — but grep treats the file as BINARY and
 # reports nothing, silently, so the file vanishes from every grep-based audit and hand-search. The
@@ -221,6 +229,9 @@ tools-health:
 	$(MAKE) --no-print-directory audit-binaries
 	$(MAKE) --no-print-directory audit-text-sources
 	$(MAKE) --no-print-directory report BINARY=main
+	# AFTER report (which regenerates the digest), so this asserts the freshly-written digest agrees
+	# with the tree — and, on a tree whose digest was committed stale, says so instead of staying green.
+	$(MAKE) --no-print-directory audit-digest
 	# The cookbook index is DERIVED (R33) and self-asserts its coverage (R32). Stale = agents can't
 	# find documented idioms and re-derive them at full token cost (measured, P30 wave 1).
 	$(VENV_PY) tools/cookbook_index.py --check

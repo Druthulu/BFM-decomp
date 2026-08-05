@@ -9644,3 +9644,83 @@ family up BY.
 Symptom lines for the index: **"a gate reports fewer verdicts than it had drafts"** · **"a tool
 reports NO FAMILY for a head another tool just enumerated"** · **"a gate result got worse after a
 revert"** (→ re-extract, then re-measure).
+
+---
+
+## §140 — A METRIC IS NOT A MEASUREMENT UNTIL IT IS REPRODUCIBLE FROM THE COMMITTED TREE (P30 S1e: a phantom regression that gated the session's best lever)
+
+**The alarm.** S38's checkpoint recorded, in bold: *"distinct-code FELL 89.3 → 89.2 across the last
+commit — UNEXPLAINED. Do NOT scale the alias lever until it is resolved. The BYTES are proven (R22);
+the ACCOUNTING is not."* The def-side asm-label alias had just cracked a 208-conflict class 138/138
+— the best-performing lever of the phase — and it was parked on that one line.
+
+**The regression never happened.** True values, recomputed from each commit's own tree:
+
+| | instr | distinct | unique fns |
+|---|---|---|---|
+| `commit:1426` **true** | 12,394,533 | 5,022,306 | 77,895 |
+| `commit:1426` *as committed* | 12,402,412 | 5,029,324 | **78,025** |
+| `HEAD` true **= committed** | 12,405,402 | 5,025,082 | 77,952 |
+
+The real delta over that span is **instr +10,869, distinct +2,776 ins / +57 unique fns — everything
+rose.** The `843` digest was **committed stale**: generated from a working tree that still held work
+REVERTED before the commit landed (overstating by +7,879 ins / +130 unique fns), and never
+regenerated. The next honest digest was lower than the stale one, so the metric *appeared* to fall.
+
+### The three-line proof (do this before diagnosing any metric movement)
+
+The weighted metrics are `matched = sig − corpus.stubs`. So if, between two commits, (a) the sigs are
+identical (both **denominators** unchanged is sufficient evidence), (b) `tools/` is unchanged, and
+(c) `git diff A B -- src/ | grep -c '^+.*INCLUDE_ASM('` is **0** — then HEAD's stub set is a strict
+subset of A's, HEAD's matched set is a superset, and **both numerators are mathematically forbidden
+to fall.** A reported fall is then a statement about the *digest*, not the tree. Three greps settle
+it before a single hypothesis is formed; I burned two wrong mechanisms first (see below).
+
+### The two instrument defects it exposed
+
+**(1) `progress.py stub_addrs` swallowed the oracle's refusal.** It wrapped `corpus.stubs` in
+`except Exception: return set()` — and an empty stub set does not mean "no stubs", it means "the
+oracle could not answer", after which `matched = sig − stubs` credits **every** function as banked.
+Byte-witnessed: running the metric in a tree with no `asm/` made `corpus.stubs` raise its correct,
+coverage-asserted `CorpusError` for all 140 binaries, and the tool reported **instr 100.00% /
+distinct-code 100.00%** — a complete decomp, out of a swallowed error. `corpus.stubs` is
+*deliberately* fail-closed ("it refuses to answer rather than guess 'banked'"); a bare `except`
+around a fail-closed oracle reinstates precisely the guess it refuses to make. **Fixed: propagates.**
+
+**(2) Nothing ever re-checked a committed digest.** R34, again: the whole-binary byte-gate is a
+perfect CORRECTNESS oracle and a **null oracle for documents** — a stale digest is byte-irrelevant,
+so `check-all` stays 140/140 across it forever, and `audit-corpus`/`audit-binaries` assert things
+about the CODE. **Fixed: `make audit-digest`** (`tools/audit_digest.py`, wired into `tools-health`
+after `report`) recomputes the three headline metrics from the current tree and fails if the
+committed digest disagrees. Negative-control-proven against the known-stale `843` digest. Note it
+compares **integers, not the printed percentages**: the +7,879-instruction staleness rendered as
+"94.4%" both before and after, so a percentage comparison would have seen nothing.
+
+### The same swallow, twice more, in the integration spine
+
+`cast_call_sites.tu_for` and `reconcile_tu.tu_for` had the identical `except Exception: pass` around
+`corpus.stubs`, falling back to the default `src/<ov>/<ov>.c`. `cast_call_sites`' own docstring, three
+lines above, says the function exists *because* "the recovery passes were reconciling against a
+DIFFERENT TRANSLATION UNIT than the one that would compile the code, and the heavy Phase-26 cores
+live in exactly those jr files" — so the swallow silently reinstated the bug the function was written
+to fix. A wrong-TU reconcile fails the gate, and this phase's base rate is **~24k PLUMBING vs 4,917
+DIFF**, so it would present as a codegen wall. Both now propagate `CorpusError` while keeping the
+`ValueError` fallback for curated (non-`func_ADDR`) names.
+
+### Two wrong mechanisms I chased first, and why they were wrong
+
+- **The recorded lead — `progress.py:423`'s `SIG` regex** (it books `void aF80146A6C(…)` under the
+  alias name). Real blindness, but it feeds `classify()`, which computes **fn-count only**. Neither
+  weighted metric ever sees a C identifier. *A lead that names a function must be checked against
+  which metric that function actually feeds.*
+- **"The harvest reverted functions to INCLUDE_ASM"** — plausible because reverting to `INCLUDE_ASM`
+  is **byte-neutral** (it pastes the original asm), so R22 would stay green over real coverage loss.
+  Refuted in one grep: 483 stub lines removed, **0 added**.
+
+**Symptom lines for the index:** **"a progress metric fell but the byte-gate is green"** · **"two
+metrics moved in opposite directions"** · **"a digest disagrees with the tree it describes"** ·
+**"a coverage oracle reports 100%"** · **"a recovery pass reconciled against the wrong TU"**.
+
+**The law:** *a committed number is a claim about a tree; if it cannot be recomputed from that tree,
+it is not evidence — and it must never gate a lever.* (R32/R34/R35; and R14 — I asserted two
+mechanisms before deriving either.)

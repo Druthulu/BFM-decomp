@@ -72,11 +72,15 @@ def tu_for(overlay, fn, override=None):
     if override:
         return override
     try:
-        st = corpus.stubs(overlay).get(int(fn[5:], 16))
-        if st:
-            return os.path.join(REPO, st.path)
-    except Exception:
-        pass
+        addr = int(fn[5:], 16)                    # a curated (non-func_ADDR) name has no address here
+    except ValueError:
+        return os.path.join(REPO, f'src/{overlay}/{overlay}.c')
+    # CorpusError PROPAGATES (R32/R35, P30 S1e) — see the identical note in cast_call_sites.tu_for.
+    # A swallow here silently reconciles the draft against the DEFAULT `<ov>.c` instead of the jr/-O0
+    # split TU that actually compiles it, which is a §51g LAW 10 violation dressed up as a gate refusal.
+    st = corpus.stubs(overlay).get(addr)
+    if st:
+        return os.path.join(REPO, st.path)
     return os.path.join(REPO, f'src/{overlay}/{overlay}.c')
 
 

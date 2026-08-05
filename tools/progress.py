@@ -637,10 +637,17 @@ def weighted_metrics():
         return None
 
     def stub_addrs(binary):
-        try:
-            return set(corpus.stubs(binary))       # {addr:int -> Stub}; the derived INCLUDE_ASM set (R33)
-        except Exception:
-            return set()
+        # FAIL LOUD (R32/R35). This was `except Exception: return set()` — and an empty stub set does
+        # not mean "no stubs", it means "the oracle could not answer": `matched = sig − stubs` then
+        # credits EVERY function in that binary as banked. Byte-witnessed during P30 S1e: running
+        # this metric in a tree with no `asm/` made corpus.stubs raise its (correct, coverage-asserted)
+        # CorpusError for all 140 binaries, the swallow turned each into an empty set, and the tool
+        # cheerfully reported **instr-weighted 100.00% / distinct-code 100.00%** — a 100%-complete
+        # decomp, from a swallowed error. corpus.stubs is deliberately fail-closed ("it refuses to
+        # answer rather than guess 'banked'"); wrapping it in a bare except reinstated exactly the
+        # guess it refuses to make. A loud failure nobody counts is as invisible as a silent one
+        # (R32) — so here it is neither swallowed nor merely logged: it aborts the metric.
+        return set(corpus.stubs(binary))           # {addr:int -> Stub}; the derived INCLUDE_ASM set (R33)
 
     fm = ft = 0
     cls_nins, matched_cls = {}, set()

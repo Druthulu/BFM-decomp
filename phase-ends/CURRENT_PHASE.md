@@ -191,8 +191,9 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 ## FLEET — R22 **140 passed / 0 failed of 140**
 **96.46% fn-count · 94.4% instr-weighted · 89.2% distinct-code** (77,952 uniq) · 0 NON_MATCHING.
 Session opened 96.28 / 94.1 / 88.7 ⇒ **+37,166 instructions**, ~0 agent tokens after the opening wave.
-**⚠️ distinct-code FELL 89.3 → 89.2 across the last commit — UNEXPLAINED. See task #11 (S1e); do NOT
-scale the alias lever until it is resolved. The BYTES are proven (R22); the ACCOUNTING is not.**
+**✅ RESOLVED S39 (S1e) — the "distinct-code FELL 89.3 → 89.2" alarm was a STALE COMMITTED DIGEST, not
+a regression. True delta over that span: instr +10,869 · distinct +2,776 ins / +57 uniq — everything
+ROSE. THE ALIAS LEVER IS UNGATED. Guard added: `make audit-digest` (in `tools-health`). See §140.**
 
 ## 🔑 THE SESSION'S BIGGEST FIND — the def-side asm-label alias is a CLASS lever
 The dominant sweep blocker was `conflicting types for func_80146A6C` (**208 of ~398** conflicts).
@@ -232,16 +233,17 @@ Both passed their per-binary/per-draft gate and FAILED the clean-tree rebuild:
 | **S2** jr families | DONE — 10 members; 7 families now CLASSIFIED |
 | **S3** the whale | DONE-PARTIAL — **137/138**; `ov_SC07_010` open; the 61 SC07 -O0 members NOT attempted |
 | **S1d** the alias class | **138/138 on family 1**; generalised harvest committed w/ the accounting caveat |
-| **S1e** (NEW #11) · S4 · S5 · S6 · S7 | pending |
+| **S1e** (#11) | ✅ **RESOLVED — THE REGRESSION NEVER HAPPENED (S39).** The `commit:1426` digest was committed **STALE** (generated from a tree still holding work reverted before the commit landed; overstated **+7,879 ins / +130 uniq**, never regenerated), so the next honest digest read as a fall. True delta 843→HEAD: **instr +10,869 · distinct +2,776 ins / +57 uniq — everything ROSE.** HEAD's digest reproduces EXACTLY. **⇒ THE ALIAS LEVER IS UNGATED — scale it (§61 small batches).** Both recorded leads were wrong (R14): `progress.py:423`'s `SIG` feeds **fn-count only**, and "reverted to INCLUDE_ASM" died on one grep (483 removed, **0 added**). Fixes: `stub_addrs` no longer swallows `corpus.stubs` (the bare `except` byte-witnessed reporting **100.00%/100.00%** in a tree with no `asm/`); **NEW `make audit-digest`** in `tools-health` (integers, not percentages — the staleness printed as "94.4%" both sides), negative-control-proven vs the stale digest; the SAME swallow fixed in `cast_call_sites.tu_for` + `reconcile_tu.tu_for`, where it reconciled against the **wrong TU** (the bug that file's own docstring exists to fix). cookbook **§140** · decision-log 2026-08-04. |
+| S4 · S5 · S6 · S7 | pending |
 
 ## ▶ RESUME HERE
-1. **S1e (task #11) FIRST** — resolve the distinct-code drop before scaling the alias lever. Lead:
-   `progress.py:423`'s `SIG` regex records the identifier before the paren, so `void aF80146A6C(...)`
-   is recorded as `aF80146A6C`; the same scanner's docstring documents that exact blindness for K&R
-   defs ("silently erased ~190k banked instructions"). **But that does NOT explain fn-count RISING
-   while distinct-code FELL** — under a pure naming artifact they move together. Fix by resolving a
-   definition through its `__asm__` label; `overlay_src_split.asm_label_aliases` already does this
-   (R33, reuse it).
+1. ~~**S1e (task #11) FIRST**~~ ✅ **DONE (S39)** — no regression existed; the alias lever is ungated
+   and is the cheapest large lever on the board. Both recorded leads were wrong (R14): the
+   `progress.py:423` `SIG` lead feeds **fn-count only** (neither weighted metric sees a C
+   identifier — they derive from `matched = sig − corpus.stubs`), and the "reverted to INCLUDE_ASM"
+   theory died on one grep (483 removed, 0 added). Still worth doing opportunistically: the `SIG`
+   alias blindness is REAL for fn-count — resolve a def through its `__asm__` label via
+   `overlay_src_split.asm_label_aliases` (R33, reuse it) rather than a new regex.
 2. **`ov_SC06_030` + `ov_SC07_010`** — both reverted, both re-attemptable (see the failures above).
 3. **S4** (task #6) + wave 6's 3 still-failing alias drafts (the three LARGEST — size-correlated).
 4. **S5 the wave** (task #7) — 1,689 h_norm clusters / 326,261 ins at 2.7×. **VERIFY Fable's pool
