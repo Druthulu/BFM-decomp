@@ -308,7 +308,21 @@ anchor rule / `p = r;` combine barrier / chained assignment stores right-to-left
    `func_8017C294` **NEAR(12)** — draft `.run/s42/ov_SC01_077/`, blocked on §147-A stratum 3;
    **DO NOT spend its 15 siblings until that is explained** (all hit the same 12; `family_remap`
    takes all 16 in one pass when it closes).
-   `func_8017C6F4` (947×3) — **agent was in flight**, draft dir `.run/s42/ov_SC03_126/`.
+   `func_8017C6F4` (947×3) — **NEAR(63)** pin-free (`.run/s42/ov_SC03_126/func_8017C6F4.c`); a
+   `register … __asm__("$13")` variant reaches **47** (`.pin-t5.c`). Frame `0x120` + `vars=232` EXACT;
+   all opcodes/immediates/stack-offsets/branch-targets correct; residual is ONE register rotation
+   (`mnc`→`$a0` mine vs `$t0` target, cascading `xmx1`→`$t1`, `cell`→`$t3`, `prim`→`$t5`). Did not
+   move under ~40 probes (decl order, inner-block scoping, split X/Y, statement order, aliasing,
+   direct-field reads, 6 pin combos). **NEXT MOVE: demacroize so the permuter can be aimed** —
+   `run_masked` currently fails "Function not found in base.c" because the `gte_*` `#define` block
+   defeats `make_base_c`. Idioms → **§148**.
+   ⚠️ **The agent claimed all sixteen 947-ins instances are ONE body (→ 15,152 ins on one crack).
+   I CHECKED AND IT DOES NOT HOLD:** its draft scores 63 on ov_SC03_126 but **340** on both
+   `func_8017C59C` and `func_8017CF90`, with an IDENTICAL first diff on each — so those two match
+   each other, not the cracked one. Consistent with the h_norm clustering (947×3, 947×2, singletons):
+   **several groups, not one of 16.** Test a ×N claim by `sed`-renaming the draft and running
+   `match_one` against the sibling's asm — a normalized diff says "same shape", only that says
+   "same body" (§148-E).
    Then: `func_8017C59C` (947, reach 6) · `func_8017CE58` (733×3) · `func_8017EF68` (969) ·
    `func_8017D538` · `func_8017C974` (close=47, re-measure first) · `func_8017DF98` ·
    `func_8017CF90` · `func_8018D98C`. *(`func_8018057C` already banked free.)*
