@@ -181,7 +181,105 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 
 ---
 
-# 🛑 SESSION-38 CHECKPOINT — **v3, POST-S1/S2/S3** (2026-08-04) — FRESH SESSION SAFE HERE
+# 🛑 SESSION-38 CHECKPOINT — **v4, POST-S1d** (2026-08-04) — FRESH SESSION SAFE HERE
+> **NOTHING IS RUNNING. Tree lock FREE. Tree CLEAN** but for the R23 `db.*.gbf` churn — never stage.
+> Effort **xHigh**. **R22 run THIRTEEN times: 140/140 on eleven, TWO REAL FAILURES (both caught,
+> both reverted, both recorded below).** **NO phase close — keep grinding.**
+> Plan = **T7**; full report `.run/fable_frontier/ANALYSIS.md`; task list has 11 items.
+> **VERIFY:** `git log --oneline -3` at/near HEAD + `docs/progress.fleet.md` agrees with FLEET below.
+
+## FLEET — R22 **140 passed / 0 failed of 140**
+**96.46% fn-count · 94.4% instr-weighted · 89.2% distinct-code** (77,952 uniq) · 0 NON_MATCHING.
+Session opened 96.28 / 94.1 / 88.7 ⇒ **+37,166 instructions**, ~0 agent tokens after the opening wave.
+**⚠️ distinct-code FELL 89.3 → 89.2 across the last commit — UNEXPLAINED. See task #11 (S1e); do NOT
+scale the alias lever until it is resolved. The BYTES are proven (R22); the ACCOUNTING is not.**
+
+## 🔑 THE SESSION'S BIGGEST FIND — the def-side asm-label alias is a CLASS lever
+The dominant sweep blocker was `conflicting types for func_80146A6C` (**208 of ~398** conflicts).
+Diagnosed by READING THE DRAFT after eliminating three levers by measurement:
+    draft def : void func_80146A6C(s16 a0, s32 a1, s16 a2, s16 a3, u16 a4, s32 a5, s32 a6)
+    TU decl   : extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+**The NARROW PARAMS are the wall:** C default argument promotion means `s16`/`u16` cannot agree with
+an `s32` prototype, and the `()` no-prototype escape is ILLEGAL *precisely* when a param promotes —
+so NEITHER declaration side can move.
+| lever | result | why wrong |
+|---|---|---|
+| `cast_call_sites` (already default-on) | no effect | fixes CALLEE decls, not the def's own |
+| `--normalize-self-decls` | 0 banks + non-neutral reverts | fixes the target's decl in CALLERS |
+| `--fix-def-sig` | **0/138**, error unchanged | cannot reconcile a promoting param at all |
+| **§37/§124 def-side asm-label alias** | **138/138** | removes the DECLARATION from the equation |
+    void aF80146A6C(<byte-true params>) __asm__("func_80146A6C");
+    void aF80146A6C(<byte-true params>) { ... }
+Zero blast radius; byte-neutral by construction. `.run/alias_defs.py` applies it to a staged set.
+S33 proved this once on `func_80147364` (×137 first try, 1,725 in-tree precedents) — **it was never
+generalised.** Generalised run: 971 drafts → 192 files → R22 140/140 (after 1 revert).
+
+## ⚠️ TWO R22 FAILURES — "per-binary BANKED" IS NOT A FLEET CLAIM (§61)
+Both passed their per-binary/per-draft gate and FAILED the clean-tree rebuild:
+1. **`ov_SC07_010`** (S3) — its `-O0` split reused an EXISTING `_o0c` instead of a fresh `_o0d`,
+   creating region `_jr_801457A4` whose asm dir splat never generated. **Reverted; still open.**
+2. **`ov_SC06_030`** (S1d) — `D_800AF648' undeclared in func_8017E120`: a draft that gated fine
+   broke once the REST of the harvest landed in the same TU (its decl displaced by another banked
+   draft's preamble). **Reverted.** In a WIDE harvest, per-draft acceptance is not even a per-TU
+   claim. The narrow 138/138 run was clean BECAUSE it was narrow ⇒ **prefer smaller batches.**
+
+## ✅ T7 PROGRESS
+| task | result |
+|---|---|
+| **S1a** lift local types | DONE — 895 types / 1,259 files |
+| **S1c** re-sweep families | DONE — 97 members |
+| **S1b** "wire the reconcile" | **PREMISE REFUTED** — already wired; NSD re-tested post-fix = 0 |
+| **S2** jr families | DONE — 10 members; 7 families now CLASSIFIED |
+| **S3** the whale | DONE-PARTIAL — **137/138**; `ov_SC07_010` open; the 61 SC07 -O0 members NOT attempted |
+| **S1d** the alias class | **138/138 on family 1**; generalised harvest committed w/ the accounting caveat |
+| **S1e** (NEW #11) · S4 · S5 · S6 · S7 | pending |
+
+## ▶ RESUME HERE
+1. **S1e (task #11) FIRST** — resolve the distinct-code drop before scaling the alias lever. Lead:
+   `progress.py:423`'s `SIG` regex records the identifier before the paren, so `void aF80146A6C(...)`
+   is recorded as `aF80146A6C`; the same scanner's docstring documents that exact blindness for K&R
+   defs ("silently erased ~190k banked instructions"). **But that does NOT explain fn-count RISING
+   while distinct-code FELL** — under a pure naming artifact they move together. Fix by resolving a
+   definition through its `__asm__` label; `overlay_src_split.asm_label_aliases` already does this
+   (R33, reuse it).
+2. **`ov_SC06_030` + `ov_SC07_010`** — both reverted, both re-attemptable (see the failures above).
+3. **S4** (task #6) + wave 6's 3 still-failing alias drafts (the three LARGEST — size-correlated).
+4. **S5 the wave** (task #7) — 1,689 h_norm clusters / 326,261 ins at 2.7×. **VERIFY Fable's pool
+   numbers first (R14)**, ONE 8-target calibration wave, measure REALIZED propagation. **Prompt for
+   the toggle (R27).**
+5. **S6/S7** — the 2 giant exemplar walls (50,094 ins on 2 cracks); then main (regen its 7-week-stale
+   sig FIRST — missing 757 of 2,002 stubs).
+
+## 🧰 ELEVEN TOOL DEFECTS FIXED — nine of the ten "walls" were our own instruments
+`harvest_verify._reload_corpus` (deleted the stub it had just followed through a carve → **10 of
+wave 6's 16 drafts vanished with no verdict**) · `.run/s6f_gate.py` (booked a crash as silence; now
+asserts 1:1 accounting + exits 1) · `classify_fail` (truncated the symbol away) · `jr_isolate_all`/
+`overlay_src_split` (**silently DELETED** def-side alias functions — FIFTH tool with that blindness,
+fixed in `family_remap` and never propagated) · `partition`/`_partition` (now REFUSE to rewrite when
+an address won't resolve, R32) · the type-scope class (**895 types lifted**) · `jtbl_family_bank`
+(`gate-fail` with no reason) · `family_hseq` stdout (overlays-only called "fleet") · **my own alias
+scanner (the §134 defect I documented that morning — caught by the R32 guard I added that morning)**
+· the S3 ambient filter's `endswith(';')` (§134 again).
+**§134 has appeared in SIX tools. The fix is routing every line-shape decision through `cdecl._mask`
+(R33), not a seventh patch.**
+
+## 🧰 MY PROCESS ERRORS
+1. **Claimed `family_sweep` hides per-member errors** — FALSE; **23,211 `.classified.txt` files**
+   exist and both of the day's zeros were already diagnosed in them. Two probes wasted.
+   **READ THE PAYLOAD FIRST.**
+2. **Called 4 families "chance collisions"** while my own printout showed them `PURE`/`IMM`.
+3. **Reverted `config/` and re-extracted ONE overlay of sixteen** — a gate cycle read 3 real banks
+   as failures against stale asm (the Phase-20 R22 corollary).
+4. **A backticked `` `make extract` `` in a `-m` message EXECUTED** — use quoted heredocs.
+5. **`… | tail` swallowed a non-zero exit**, and later **`tail -5` destroyed a gate summary** I then
+   could not report. A pipeline's status is the LAST command's; don't pipe away evidence.
+6. **Looked a just-banked head up in `members`** — it moves to `exemplar.kind='matched'`.
+7. **Reported "138/138" for the whale before R22 spoke** — it was 137/138.
+No bad bytes from any of them — the byte-gate and R22 caught everything.
+
+---
+
+# 🛑 (superseded) SESSION-38 CHECKPOINT v3 — POST-S1/S2/S3
 > **NOTHING IS RUNNING. Tree lock FREE. Tree CLEAN** but for the R23 `db.*.gbf` churn — never stage.
 > Effort **xHigh**. **R22 clean-fleet run TEN times; 140/140 on nine, ONE REAL FAILURE (see S3).**
 > **NO phase close — keep grinding.** Plan = **T7**; full report `.run/fable_frontier/ANALYSIS.md`.
