@@ -37,6 +37,12 @@
 !/.run/giants/*.md
 !/.run/giants/*.sh
 !/.run/giants/*.py
+# P30 S42 serial crack drafts — ~680k subagent tokens of work, both NEAR and both the best
+# base any future attempt has. They were gitignored, i.e. one `git clean` from gone (R20).
+!/.run/s42/
+/.run/s42/*
+!/.run/s42/*/
+!/.run/s42/*/*.c
 !/.run/probe_jtbl/
 /.run/probe_jtbl/*
 !/.run/probe_jtbl/verdict.md
