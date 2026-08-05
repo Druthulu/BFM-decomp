@@ -10020,3 +10020,75 @@ is repaired, the verdicts it produced become **hypotheses again**, not facts.
 
 **Symptom lines for the index:** **"a documented wall"** · **"an old close= verdict"** ·
 **"match_one MATCH but the whole binary differs"** · **"a sweep returns 0 of N twice"**.
+
+---
+
+## §147 — The three-stratum FRAME LAW, and four "stop searching" verdicts (P30 S42, `func_8017C294`, serial run)
+
+Five levers from one serial crack. It did **not** bank (NEAR 12/246, zero structural divergence, and
+`permuter_ils` plateaus at exactly 12) — but the knowledge transfers, which is why the run was serial.
+
+### A. The frame has THREE strata, and stratum 3 is unreachable from C
+
+gcc-2.7.2 lays out the frame in order: **(1)** declared locals, in declaration order, ascending from
+the outgoing-args top · **(2)** reload spill slots · **(3)** a trailing block the function's `?:`
+chains allocate and **never reference**. §136-6 ("slots assigned in DECLARATION order") describes only
+stratum 1.
+
+**Symptom → verdict:** *if the target's mystery slot sits at the TOP of the frame, adjacent to the
+saved-register area, it is stratum 3 — and NO declaration-order, filler-array, `volatile`, or
+inner-block edit can reach it.* Stop looking for the missing local.
+
+**Measurement recipe (30 seconds, deterministic):** delete the min/max tail, recompile, re-read
+`.frame … # vars=`. **The drop IS stratum 3's size.** (Here: exactly 96 bytes.) Run this BEFORE
+drafting anything large with a min/max tail — it converts an unbounded "which local am I missing?"
+hunt into a yes/no.
+
+### B. A `?:` on MEMORY operands costs ~16 bytes of invisible frame; on REGISTER operands, zero
+
+    minx = MIN(outp[0][0], outp[1][0]);              /* memory operands -> +16 bytes of frame */
+    a = outp[0][0]; b = outp[1][0]; minx = a<b?a:b;  /* register operands -> 0 bytes */
+
+They are **not** interchangeable. The memory form is also what emits the target's `lhu`+`lh`
+double-read of one stack slot (the frame-size counterpart to §136-9). **So when a draft's frame is a
+multiple of 16 too large around a min/max chain, COUNT THE `?:`s before inventing a dead local**
+(§83c's trap, seen from the other side). Corollary proven here: a zero-temp tail is unreachable when
+the target re-reads its operands — 219 ins (if/else) and 234 ins (operands bound to locals) vs 246.
+
+### C. Inner-block declaration does NOT delay slot allocation — BYTE-REFUTED
+
+`expand_function_start` walks the whole `BLOCK` tree, so `{ … T x; … }` lands at the same stratum-1
+offset as a function-scope declaration. **Do not spend a cycle on it.**
+
+### D. A lone `$t8`/`$t9` in the target is RELOAD SCRATCH — reproduce the spill, don't pin the register
+
+MIPS defines no `REG_ALLOC_ORDER` (regalloc.md K3), so plain allocation never reaches `$24`/`$25`
+unless everything below is busy. An inherited draft here pinned `register short *dst2 __asm__("$24")`
+to force `lw $t8`; the pin then pushed `mfhi` off `$t8` onto `$t9` — **a diff the pin itself created.**
+The correct lever was structural: delete the `volatile` "out" local and let the `a1` parameter spill
+naturally — reload picks `$t8` for both store and reload for free, and `mfhi $t8` comes right too.
+**Generalises §17/§72: before pinning a high register, check whether the target's value is a SPILL and
+reproduce the spill instead.**
+
+### E. A `qty_compare` TIE is not spelling-reachable — recognise it and stop
+
+`QTY_CMP_PRI = log2(nrefs)·nrefs·size / (death − birth)`. When two quantities have equal ref counts
+and live ranges differing by one insn, the register grant flips with statement order and **both
+orders cost the same**. Here `(mw; xw; mh; yh)` buys the target's emission order and `mh → $a0` but
+transposes `w/h`; `(mw; mh; xw; yh)` buys the registers and loses the order — both exactly 5.
+
+**Tell:** structure exactly right, exactly ONE register PAIR transposed, and the alternative ordering
+transposes a DIFFERENT pair. Swept here: 72 statement permutations × 4 declaration orders × 7
+s16/s32 retypings × `?:`-MAX spellings × ref-count shifts × `$v0/$v1` pins, plus the permuter — floor
+unchanged in every direction. **Worth ~an hour to recognise early.**
+
+### Consequence for the family (a real scheduling decision)
+
+The blocker is a **frame-layout fact about the body**, not a per-overlay symbol thing, so all 15
+siblings will hit it identically: the same draft remapped reaches 12/246 on each and **none will
+bank**. **Do not spend the 15 until stratum 3 is explained.** When it closes, `family_remap` carries
+all 16 in one pass.
+
+**Symptom lines for the index:** **"a mystery stack slot at the top of the frame"** · **"frame is a
+multiple of 16 too large"** · **"a lone $t8/$t9 in the target"** · **"exactly one register pair
+transposed"** · **"permuter and hand-search plateau at the same number"**.
