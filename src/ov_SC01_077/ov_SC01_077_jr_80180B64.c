@@ -2936,6 +2936,9 @@ extern u8 *func_8012913C(s32 a0);
 extern void func_8017EB2C(int param_1, int param_2);
 extern s32 (*D_8018A7B8[])();
 extern s32 func_8017EC40(s16 *a0);
+extern void RotMatrixY(s32 a0, void *a1);
+extern Blk20 D_800AE620;
+extern s32 func_8017EC7C(s32 param_1);
 extern s32 (*D_8018A7F0[])();
 extern s32 func_8017ED4C(s16 *a0);
 extern void func_8017ED88(void *arg0);
@@ -3036,129 +3039,90 @@ extern s32 func_801809BC(s32 param_1, s32 param_2);
 extern s32 func_801809BC(s32 a0, s32 a1);
 extern s32 func_8012AE00(s32 a0);
 extern void func_80180AD4(s32 a0);
-extern s16 D_8018AACC;
-extern s16 D_8018AAD0;
-extern s32 func_80013478(s32 a0, s32 a1);
-extern s32 func_80180F10(s32 param_1, s32 param_2);
-extern s32 func_80180F10(s32 a0, s32 a1);
-extern void func_8012B14C(s32 a0, s32 a1);
-extern void func_8012CBA4(s32 a0);
-extern s32 func_8012BCCC(s32 a0);
-extern s32 func_8012B8E4(s32 arg0, s32 arg1);
-extern void func_80142414(s32 a0, s16 a1);
-extern s32 func_80143B6C(s32 a0, s32 a1);
-extern void func_8012B23C(s32 a0);
-extern s32 func_8012BD3C(s32 a0, s32 a1, s32 a2);
-extern void func_80181B58(s32 a0);
-extern void func_80181B9C(s32 a0);
-extern void func_80182968(void);
-extern void func_80180C90(s32 a0);
-extern void func_80180B64(s32 a0);
-extern char D_8018AA8C[];
-extern char D_8018AA98[];
-extern char D_8018AA80[];
-extern char D_801B0048[];
-extern char D_801AFFC0[];
-extern char D_801AFF18[];
-extern s32 D_801DA7C0;
-extern s16 D_8018AAE4;
-extern s16 D_8018AAE8;
-extern void func_8018103C(s32 a0);
-extern char D_801B0118[];
-extern void func_80181B58(int param_1);
-extern s32 D_801B0D50;
-extern void func_80181B9C(s32 param_1);
 /* ==== end §8b carried decl layer ==== */
 
 // @class: struct
-// @stuck: none — MATCH (switch on entity state at 0x34, inner jtbl on (s8)(u70>>8))
+// @stuck: none — MATCH (75 ins, relocation-masked)
+#include "common.h"
 
-extern void func_8012CBCC(int);
-extern int  func_8012BEE8(int);
-extern int  rand(void);
-extern void func_80182968(void);
-extern void func_8012B2CC(int);
-extern void func_8012B23C(int);
-extern void func_8012B14C(s32 a0, s32 a1);
-extern void func_8012A828(int, void *);
-extern void func_8012CBF4(int);
-extern s32 func_80143B6C(s32 arg0, s32 arg1);
-extern void func_8018294C(void *a0);
+extern int rand(void);
+extern void func_8012B2CC();
+extern void func_8012B23C();
+extern void func_8012B14C();
+extern void func_8012A828();
+extern void func_80182968();
+extern u8 D_8018AA8C[];
+extern u8 D_801AFF18[];
 
-extern char D_8018AA8C[];
-extern char D_801AFF18[];
-
-
-
-
-
-
-void func_801820DC(int arg0)
+void func_80180B64(int param_1)
 {
-    int idx;
-    s32 frame_pad[2];
-    (void)&frame_pad;
-
-    switch (*(u16 *)(arg0 + 0x34)) {
+    *(u8 *)(param_1 + 0xc1) = 0;
+    *(s16 *)(param_1 + 2) = 1;
+    *(s16 *)(param_1 + 0x34) = 0;
+    *(s32 *)(param_1 + 0x1c) = (rand() & 0x1f) + 0x46;
+    *(s16 *)(param_1 + 0xe0) = 0;
+    *(u16 *)(param_1 + 0xe2) = *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x12);
+    switch ((s32)((u32)*(u16 *)(param_1 + 0x70) << 0x10) >> 0x18) {
     case 0:
-        func_8012CBCC(arg0);
-        if (func_8012BEE8(arg0) != 0) {
-            *(u16 *)(arg0 + 0x5e) = 0;
-            *(u8  *)(arg0 + 0xc1) = 0;
-            *(u16 *)(arg0 + 0x2)  = 1;
-            *(u16 *)(arg0 + 0x34) = 0;
-            *(int *)(arg0 + 0x1c) = (rand() & 0x1f) + 0x46;
-            *(u16 *)(arg0 + 0xe0) = 0;
-            *(u16 *)(arg0 + 0xe2) = *(u16 *)(*(int *)(arg0 + 0x20) + 0x12);
-            idx = (int)((u32)*(u16 *)(arg0 + 0x70) << 16) >> 24;
-            switch (idx) {
-            case 0:
-            case 1:
-            case 2:
-            case 3:
-            case 7:
-                if ((*(u16 *)(arg0 + 0xfe) & 2) != 0) {
-                    *(u16 *)(arg0 + 0xe2) = 0;
-                }
-                break;
-            case 5:
-                ((void (*)(int))func_80182968)(arg0);
-                return;
-            case 4:
-            case 6:
-            default:
-                break;
-            }
-            *(u16 *)(arg0 + 0xe4) = 0x1e;
-            *(u16 *)(arg0 + 0x5e) = 0;
-            *(u16 *)(arg0 + 0x5c) = 0xaa10;
-            func_8012B2CC(arg0);
-            func_8012B23C(arg0);
-            ((void (*)(int, void *))func_8012B14C)(arg0, &(*(char *)D_8018AA8C));
-            func_8012A828(arg0, &(*(char *)D_801AFF18));
-        }
-        break;
     case 1:
-        func_8012CBF4(arg0);
-        if (*(int *)(arg0 + 0x1c) == 0x1e || *(int *)(arg0 + 0x1c) == 0xd) {
-            ((void (*)(int, int))func_80143B6C)(arg0, 0);
+    case 2:
+    case 3:
+    case 7:
+        if (*(u16 *)(param_1 + 0xfe) & 2) {
+            *(s16 *)(param_1 + 0xe2) = 0;
         }
-        if (func_8012BEE8(arg0) != 0) {
-            ((void (*)(int))func_8018294C)(arg0);
-        }
+        goto L_default;
+    case 5:
+        func_80182968(param_1);
+        break;
+    case 4:
+    case 6:
+    default:
+    L_default:
+        *(s16 *)(param_1 + 0xe4) = 0x1e;
+        *(s16 *)(param_1 + 0x5e) = 0;
+        *(u16 *)(param_1 + 0x5c) = 0xaa10;
+        func_8012B2CC(param_1);
+        func_8012B23C(param_1);
+        func_8012B14C(param_1, D_8018AA8C);
+        func_8012A828(param_1, D_801AFF18);
         break;
     }
+    *(s16 *)(param_1 + 0x34) = 3;
+    {
+        u16 tmp = *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x12);
+        *(s16 *)(param_1 + 0xe0) = 0;
+        *(u16 *)(param_1 + 0xe2) = (tmp + 0x800) & 0xfff;
+    }
+    *(u16 *)(param_1 + 0xe4) = (rand() & 0x1f) + 0x1e;
+    *(s32 *)(param_1 + 0x1c) = 0x16;
 }
 
 
-void func_80182254(s32 a0) {
-    *(s16 *)(a0 + 0x2) = 4;
-    *(s16 *)(a0 + 0x98) = 0;
-    *(s32 *)(a0 + 0x1C) = 0;
+INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_80180B64", func_80180C90);
+
+extern s16 D_8018AACC;
+extern s16 D_8018AAD0;
+extern u16 D_80126B5E;
+extern s32 func_80013478(s32 a0, s32 a1);
+extern s32 ratan2(s32, s32);
+s32 func_80180F10(s32 param_1, s32 param_2) {
+    s32 local_20[2] = {0x3c100, 0x51000};
+    s32 iVar1;
+    s32 iVar2;
+    if ((s32)((u32)*(u16 *)(param_1 + 0x70) << 0x10) >> 0x18 == 4) {
+        iVar1 = ((s32 (*)(s32, void *))func_80013478)(param_1 + 4, &D_8018AACC);
+        if (param_2 == 1) {
+            iVar2 = ratan2((s32)*(s16 *)(param_1 + 0xe) - (s32)D_8018AAD0,
+                           (s32)D_8018AACC - (s32)*(s16 *)(param_1 + 6));
+            if ((((u32)iVar2 - 0x400U) & 0xfff) - 0x381 < 0xff && 0x2df < (*(s16 *)&D_80126B5E) &&
+                0x3c100 < iVar1) { return 1; }
+        }
+        if (local_20[param_2] < iVar1 && *(s32 *)(param_1 + 0xe8) < iVar1) {
+            *(s32 *)(param_1 + 0xe8) = iVar1; return 1;
+        }
+        *(s32 *)(param_1 + 0xe8) = iVar1;
+    }
+    return 0;
 }
-
-
-
-
-
 

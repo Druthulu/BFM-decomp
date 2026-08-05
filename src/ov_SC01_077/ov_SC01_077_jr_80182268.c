@@ -2973,7 +2973,7 @@ extern s32 func_8018021C(s16 *a0);
 extern s32 (*D_8018AA24[])();
 extern s32 func_80180258(s16 *a0);
 extern void func_80180294(void *a0);
-extern void func_8017F114(void);
+extern void func_8017F114();
 extern void func_8017F290(void);
 extern void func_801802CC(s32 *param_1);
 extern s32 func_8012CE2C(s32 a0);
@@ -3507,7 +3507,69 @@ lab_ab0:
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_80182268", func_80182C9C);
+// @class: schedule
+// @stuck: none — MATCH (101 ins). Inner-switch break-to-shared-tail must be written as
+//         duplicated `func_8012C218(p); return;` in BOTH case 3/7 and case 4 so gcc cross-jumps
+//         them into the shared E14 tail (trampoline `j E14`+addu for 3/7, fall-through+early-addu
+//         for 4). A single break/after-switch call folds the table directly to E14 and misses by 2.
+extern void func_8012B178();
+extern void func_8012AD80();
+extern int  func_8012BEE8();
+extern void func_8012A828();
+extern void func_8012C098();
+extern void func_8012C218();
+extern unsigned char D_8018AB24[];
+extern unsigned char D_801AFFC0[];
+extern int D_801270CC;
+
+void func_80182C9C(int p)
+{
+    switch (*(unsigned short *)(p + 0x34)) {
+    case 0:
+        func_8012B178(p, 0xfff40000);
+        func_8012AD80(p);
+        if (func_8012BEE8(p) == 0) return;
+        *(unsigned short *)(p + 0x34) = 1;
+        func_8012A828(p, D_8018AB24);
+        return;
+    case 1:
+        if (*(short *)(p + 0x98) != 0) return;
+        *(unsigned short *)(p + 0x34) = 2;
+        func_8012A828(p, D_801AFFC0);
+        *(int *)(p + 0x1c) = 4;
+        return;
+    case 2:
+        *(unsigned short *)(*(int *)(p + 0x20) + 0x12) =
+            *(unsigned short *)(*(int *)(p + 0x20) + 0x12) - 0x200;
+        if (func_8012BEE8(p) == 0) return;
+        *(int *)(p + 0x1c) = 0x3c;
+        *(unsigned short *)(p + 0x34) = 3;
+        return;
+    case 3:
+        func_8012B178(p, 0xfff40000);
+        func_8012AD80(p);
+        if (func_8012BEE8(p) == 0) return;
+        switch (((int)(*(unsigned short *)(p + 0x70) << 16)) >> 24) {
+        case 0:
+        case 1:
+        case 2:
+        case 5:
+        case 6:
+            func_8012C098(p);
+            return;
+        case 3:
+        case 7:
+            func_8012C218(p);
+            return;
+        case 4:
+            D_801270CC = D_801270CC - 1;
+            func_8012C218(p);
+            return;
+        }
+        return;
+    }
+}
+
 
 // @class: loose-typing
 // @stuck: none — MATCH (unsigned short store @0x5c forces ori vs li/addiu for 0xaa10)

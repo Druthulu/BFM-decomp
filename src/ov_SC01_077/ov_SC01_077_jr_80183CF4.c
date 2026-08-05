@@ -2964,7 +2964,7 @@ extern s32 func_8018021C(s16 *a0);
 extern s32 (*D_8018AA24[])();
 extern s32 func_80180258(s16 *a0);
 extern void func_80180294(void *a0);
-extern void func_8017F114(void);
+extern void func_8017F114();
 extern void func_8017F290(void);
 extern void func_801802CC(s32 *param_1);
 extern s32 func_8012CE2C(s32 a0);
@@ -3124,7 +3124,64 @@ void func_80183CF4(int param_1) {
 void func_80183DD8(void) {
 }
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_80183CF4", func_80183DE0);
+
+
+
+
+void func_80183DE0(int param)
+{
+    extern u16 D_80126B66;
+    extern unsigned char D_8018AE0C;
+    extern unsigned char D_8018AE34;
+    extern s32 func_8012C51C(void *a0, s32 a1);
+    extern void func_80183F4C();
+    register int i __asm__("$17");
+    register unsigned char *puVar8 __asm__("$16");
+    int iVar7;
+    int src;
+    short sVar1;
+
+    iVar7 = *(int *)(param + 0xcc);
+    if (iVar7 != 0) {
+        *(short *)(iVar7 + 0x18) = 0x1800;
+        *(unsigned short *)(iVar7 + 0x2c) |= 0x10;
+        src = *(int *)(param + 0x20);
+        *(Blk8 *)(iVar7 + 8) = *(Blk8 *)(src + 8);
+        *(unsigned short *)(iVar7 + 0xa) -= 0x10;
+        *(unsigned short *)(iVar7 + 0x10) =
+            *(unsigned short *)(iVar7 + 0x10) + *(short *)(param + 0x1a) * -0x10;
+    }
+
+    sVar1 = *(short *)(param + 0xfe);
+    if (sVar1 != 1) {
+        if (sVar1 < 2 && sVar1 == 0 && (*(short *)&D_80126B66) >= 0x6e0) {
+            *(short *)(param + 0xfe) = 1;
+            i = 0;
+            puVar8 = (unsigned char *)&D_8018AE0C;
+            do {
+                func_8012C51C(puVar8, 0);
+                i = i + 1;
+                puVar8 = puVar8 + 0x14;
+            } while (i < 2);
+        }
+    } else {
+        if ((*(short *)&D_80126B66) >= 0x900) {
+            *(short *)(param + 0xfe) = 2;
+            i = 2;
+            puVar8 = (unsigned char *)&D_8018AE34;
+            do {
+                func_8012C51C(puVar8, 0);
+                i = i + 1;
+                puVar8 = puVar8 + 0x14;
+            } while (i < 5);
+        }
+    }
+
+    if (*(short *)(param + 0xfc) != *(short *)(param + 0xe)) {
+        func_80183F4C(param);
+    }
+}
+
 
 // @class: plumbing
 // @stuck: none — MATCH (straight-line stub; statement order + delay-slot 0x34 store match)
@@ -3567,7 +3624,40 @@ void func_80184BB4(int param_1)
     }
 }
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_80183CF4", func_80184C0C);
+// @class: struct
+// @stuck: none — MATCH (array-of-struct %lo-fold for &D_8018AEB8[idx], stride 0x34)
+
+typedef struct { unsigned char b[0x34]; } S_8018AEB8;
+extern S_8018AEB8 D_8018AEB8[];
+extern unsigned char D_8018AF20[];
+extern u8 D_8019731C;
+
+extern s32 func_8012C354(s32 a0, s32 a1);
+extern int func_8012C658(int, int, int);
+extern void func_8012CAE4(void *a0);
+extern void func_8012A828(int, void *);
+
+void func_80184C0C(int param_1) {
+    int iVar1;
+
+    iVar1 = ((int (*)(int, void *))func_8012C354)(param_1, &D_8018AEB8[*(unsigned short *)(param_1 + 0x70) & 1]);
+    if (iVar1 != 0) {
+        *(unsigned char *)(param_1 + 0xc0) = 1;
+        *(int *)(param_1 + 0xb4) = -1;
+        *(void **)(param_1 + 0xbc) = D_8018AF20;
+        *(int *)(param_1 + 0xc4) = 1;
+        iVar1 = func_8012C658(0x79, *(unsigned short *)(param_1 + 0x70) & 1, param_1);
+        *(int *)(param_1 + 0x6c) = iVar1;
+        if (iVar1 == 0) {
+            ((void (*)(int))func_8012CAE4)(param_1);
+        } else {
+            *(unsigned short *)(param_1 + 2) = 1;
+            func_8012A828(param_1, ((unsigned char *)&D_8019731C));
+        }
+    }
+    return;
+}
+
 
 // @class: struct
 // @stuck: none — MATCH expected (folded %lo via extern array decay; a0 carries iVar2 into func_8001C214)
