@@ -85,7 +85,12 @@ segments:
       - [0x52354, c, ov_SC01_077_jr_8017A4AC]
       - [0x52cd4, c, ov_SC01_077_jr_8017AE2C]
       - [0x58ee4, c, ov_SC01_077_jr_8018103C]
+      - [0x59f84, c, ov_SC01_077_jr_801820DC]
       - [0x5a110, c, ov_SC01_077_jr_80182268]
+      - [0x5ad24, c, ov_SC01_077_jr_80182E7C]
+      - [0x5b998, c, ov_SC01_077_jr_80183AF0]
+      - [0x5ba54, c, ov_SC01_077_jr_80183BAC]
+      - [0x5bb9c, c, ov_SC01_077_jr_80183CF4]
       # Phase-26 §8 jtbl-rodata carve (cookbook §8, the LZSS precedent adapted to a flat overlay).
       # gcc emits each `switch` jump table into .rodata; this overlay's jtbl island sits at the TAIL
       # (vram 0x801D7F9C..~0x801D9460), between the .data globals and a tiny .data remnant. While every
@@ -137,8 +142,16 @@ segments:
       - [0xb0f78, data, tail16]
       - [0xb1000, .rodata, ov_SC01_077_jr_8018103C]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
       - [0xb1078, data, tail17]
+      - [0xb1128, .rodata, ov_SC01_077_jr_801820DC]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
       - [0xb1148, .rodata, ov_SC01_077_jr_80182268]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0xb1168, data, tail18]
+      - [0xb1188, data, tail18]
+      - [0xb11a8, .rodata, ov_SC01_077_jr_80182E7C]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
+      - [0xb11c8, data, tail19]
+      - [0xb12a8, .rodata, ov_SC01_077_jr_80183AF0]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
+      - [0xb12c8, .rodata, ov_SC01_077_jr_80183BAC]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
+      - [0xb12e8, data, tail20]
+      - [0xb1308, .rodata, ov_SC01_077_jr_80183CF4]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
+      - [0xb1328, data, tail21]
       - [0xB29D4, bin, trailing]    # final 3 bytes (EOF 0xB29D7 not word-aligned; spimdisasm drops
                                     # a trailing partial word and a <4-byte `data` carve emits nothing,
                                     # so use `bin` = raw .incbin, byte-exact). Word-aligned overlays omit this.
