@@ -2051,6 +2051,42 @@ the T2 log entries; check both background tasks' outcomes first (`git log` for t
 
 ## Per-task log
 
+### ▶ S43-1 — the §148 "GTE macro wall" was a SILENT CPP FALLBACK; the permuter lane was dead on 63 drafts (2026-08-05)
+First task of the serial-crack continuation. §148's tooling note recorded *"the `gte_*` `#define` block
+defeats `make_base_c` — demacroize first."* **That diagnosis was wrong (R14/R35), and the fix is in our
+tooling, not the drafts.**
+
+**Root cause (reproduced, not inferred):** `make_base_c` called `cpp_expand_macros` **before**
+`drop_preproc_and_scalar_typedefs` removed `#include` lines, so `mipsel-linux-gnu-cpp -P -nostdinc -`
+died on `#include "common.h"` (`rc=1`, **empty stdout**) and the `return c` fallback handed back the
+**unexpanded** draft. `hide_asm` — which is built for `__asm__` *statements*, not multi-line macro
+*definitions* — then chewed through the `gte_*` block and swallowed the function with it. pycparser
+reported *"Function … not found in base.c"* and decomp-permuter **no-opped in 0 s**, which at the call
+site is indistinguishable from "searched and found nothing". `cpp_expand_macros` exists precisely to
+prevent this; its detector fired correctly; the silent fallback undid it.
+
+**Shipped (`tools/p16_permute.py`):**
+- `cpp_expand_macros` strips `#include` before the cpp call (byte-neutral — they are dropped downstream
+  regardless) and **RAISES** on cpp failure instead of returning its input (R32/R35: no silent fallback).
+- **NEW `defines_fn(base_c, fn)`** + an assertion in `setup()`: base.c must still contain a *definition*
+  of the target. This guards the **output**, so it catches every swallow cause (this cpp path, the §G
+  unterminated-comment class, future macro shapes), not just the one diagnosed today.
+- `main()` catches the RuntimeError per function so one bad draft is loud + counted but cannot abort a batch.
+
+**Verification:** target `func_8017C6F4` → `defines_fn` True, 0 `gte_` macros left, 35 asm statements
+correctly hidden as b64 pragma carriers; **proxy validated over 388 stored drafts with a plain
+definition → 0 false alarms, 0 cpp raises** (macro-free drafts byte-untouched); end-to-end the permuter
+now loads the draft at **base score 65** and iterates (was a 0 s no-op).
+
+**Blast radius (measured, 14,899 stored drafts scanned):** **63 drafts** carry both a `#define … __asm__`
+and an `#include` — including `drafts-behemoth2/3` — so **the permuter lane has been silently dead on
+the GTE-heavy renderer/behemoth drafts, the highest-byte-weight targets on the board.**
+
+**⚠️ Consequence for §147/§148's floors:** the ~40 hand probes on `func_8017C6F4` (and `func_8017C294`'s
+sweep) were run with the permuter *unavailable*. "The permuter also plateaus" was never measured on
+these functions — do not treat those floors as permuter-tested. → cookbook §148 tooling note corrected
+in place.
+
 ### ▶ S11 — the propagation lag: EXTEND 0/36 -> 31/36, and every blocker was a DECLARATION (2026-08-03/04)
 Lane 2 of the S10 checkpoint ("26,006 ins, ~0 agent tokens, PARTLY BLOCKED"), taken first on the
 standing doctrine that the cheap deterministic lever is probed before the expensive agent one.

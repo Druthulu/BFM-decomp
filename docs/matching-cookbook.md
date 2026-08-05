@@ -10166,6 +10166,27 @@ test, do it before scaling a ×N claim** (`sed s/func_A/func_B/` the draft and `
 base.c"* because the `gte_*` `#define` block defeats `make_base_c`. **Demacroize first** — worth doing
 generally, since any GTE-using draft hits it.
 
+> **✅ FIXED, and the diagnosis above was WRONG (P30 S43, R14/R35).** Nothing about the draft or the
+> macro block defeats `make_base_c` — `cpp_expand_macros` exists precisely to handle it, and its
+> detector fires correctly here. The real cause: `make_base_c` ran the cpp expansion **before**
+> `#include` lines were dropped, so `mipsel-linux-gnu-cpp -P -nostdinc -` died on `#include
+> "common.h"` (`rc=1`, empty stdout) and a `return c` fallback handed back the **unexpanded** draft —
+> silently re-creating the exact failure the function was written to prevent. **No demacroizing is
+> needed by hand.** Fixes: strip `#include` inside `cpp_expand_macros` (byte-neutral — they are
+> dropped downstream anyway) and RAISE on cpp failure; plus `defines_fn()`, an R32 assertion in
+> `setup()` that the function's definition survives into `base.c`, which catches *every* swallow cause
+> rather than this one (validated: 0 false alarms over 388 stored drafts). **Blast radius: 63 stored
+> drafts carried both a `#define … __asm__` and an `#include`, including the behemoth renderer
+> drafts — the permuter lane was silently dead on the highest-byte-weight targets on the board.**
+> After the fix this draft loads at **base score 65** and iterates.
+>
+> **The class, third sighting** (§G unterminated comment · §133 default-filter · here): *a prep step
+> that silently returns its input on failure turns "the tool broke" into "the search found nothing",
+> and the two are indistinguishable at the call site.* A permuter run that reports **no match in ~0
+> seconds** is a TOOLING verdict until proven otherwise — check `base.c` before believing the floor.
+> Corollary for §147/§148's hand-search floors: the ~40 probes on this function were run with the
+> permuter unavailable, so "the permuter also plateaus" was never actually measured here.
+
 **Symptom lines for the index:** **"an &address hoisted into a loop preheader"** · **"a clamp expands
 as move-then-overwrite"** · **"MIN_EXPR"** · **"two callee-saved registers swapped"** · **"permuter
 says function not found in base.c"**.

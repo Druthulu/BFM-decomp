@@ -155,12 +155,25 @@ def cpp_expand_macros(c):
     renderer code). Pre-expanding with cpp turns each GTE op into an inline `__asm__` statement, which
     hide_asm then hides correctly via the b64 pragma carrier.
 
-    Applied ONLY when the collision is actually present, so macro-free drafts are byte-untouched."""
+    Applied ONLY when the collision is actually present, so macro-free drafts are byte-untouched.
+
+    P30 S43: the `#include` MUST be stripped BEFORE the cpp call. `-nostdinc` with no `-I` cannot
+    resolve `common.h`, so cpp died rc=1 with EMPTY stdout and the old `return c` fallback handed back
+    the UNEXPANDED draft -- silently restoring the exact failure this function exists to prevent
+    (hide_asm eats the macro block + the function; pycparser then says "Function <fn> not found in
+    base.c"; decomp-permuter no-ops in 0s). That disabled the permuter on EVERY GTE-using draft, i.e.
+    most of the renderer code, and it read as a compiler wall in the §148 write-up. Includes are
+    dropped downstream by drop_preproc_and_scalar_typedefs regardless, so removing them here is
+    byte-neutral for the output. A cpp failure now RAISES (R32/R35: no silent fallback)."""
     if not _DEFINE_ASM_RE.search(c):
         return c
+    src = "\n".join(ln for ln in c.splitlines() if not ln.lstrip().startswith("#include"))
     p = subprocess.run(["mipsel-linux-gnu-cpp", "-P", "-nostdinc", "-"],
-                       input=c, capture_output=True, text=True)
-    return p.stdout if p.returncode == 0 and p.stdout.strip() else c
+                       input=src, capture_output=True, text=True)
+    if p.returncode or not p.stdout.strip():
+        raise RuntimeError(f"cpp macro-expansion failed (rc={p.returncode}): "
+                           f"{p.stderr.strip().splitlines()[:3]}")
+    return p.stdout
 
 
 def make_base_c(draft_c):
@@ -173,6 +186,18 @@ def make_base_c(draft_c):
     body = hide_asm(body)
     body = drop_preproc_and_scalar_typedefs(body)
     return TYPEDEFS + body + "\n"
+
+
+def defines_fn(base_c, fn):
+    """True iff base.c still contains a DEFINITION of fn (a declarator ending in `{`, not `;`).
+
+    R32 coverage assertion for the base.c pipeline. decomp-permuter's own failure mode when the
+    definition is missing is a one-line "Function <fn> not found in base.c" followed by a SILENT
+    no-op in 0s -- indistinguishable at the call site from "searched hard, found nothing". Every
+    prep step here can swallow the function (hide_asm chewing an unexpanded multi-line macro block,
+    an unterminated comment eating the rest of the file, a future cpp/typedef edge) so the check
+    belongs on the OUTPUT, where it catches all of them, not on each cause."""
+    return re.search(r"^[^#/\n]*?\b" + re.escape(fn) + r"\s*\([^;{]*\)\s*\{", base_c, re.M) is not None
 
 
 def winner_to_draft(winner_c):
@@ -201,7 +226,12 @@ def setup(fn, draft_c, asm_subdir=ASM, klass=None, where=""):
     if os.path.exists(pd):
         shutil.rmtree(pd)
     os.makedirs(pd)
-    open(f"{pd}/base.c", "w").write(make_base_c(draft_c))
+    base = make_base_c(draft_c)
+    if not defines_fn(base, fn):
+        raise RuntimeError(f"base.c lost the definition of {fn} -- the permuter would report "
+                           f"'not found in base.c' and no-op in 0s. Inspect {pd}/base.c "
+                           f"(prep order: comments -> cpp macros -> M2C_FIELD -> hide_asm -> typedefs).")
+    open(f"{pd}/base.c", "w").write(base)
     s = os.path.join(REPO, asm_subdir, fn + ".s")
     tgt = f"{pd}/target.s"
     with open(tgt, "w") as f:
@@ -282,7 +312,10 @@ def main():
         if not os.path.exists(cf):
             print(f"  [{k}/{len(funcs)}] {fn}: no draft"); continue
         klass, where = (a.klass, "") if a.klass else klass_for_fn(fn)
-        pd = setup(fn, open(cf).read(), asm_subdir=a.asm_subdir, klass=klass, where=where)
+        try:
+            pd = setup(fn, open(cf).read(), asm_subdir=a.asm_subdir, klass=klass, where=where)
+        except RuntimeError as e:   # loud + counted, but one bad draft must not abort the batch
+            print(f"  [{k}/{len(funcs)}] {fn}: SETUP FAILED — {e}", flush=True); continue
         if not pd:
             print(f"  [{k}/{len(funcs)}] {fn}: setup failed (target.o)"); continue
         _prof = permuter_weights.classify(klass, where)
