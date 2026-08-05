@@ -181,7 +181,103 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 
 ---
 
-# 🛑 SESSION-38 CHECKPOINT — **v2, POST-S1/S2** (2026-08-04) — FRESH SESSION SAFE HERE
+# 🛑 SESSION-38 CHECKPOINT — **v3, POST-S1/S2/S3** (2026-08-04) — FRESH SESSION SAFE HERE
+> **NOTHING IS RUNNING. Tree lock FREE. Tree CLEAN** but for the R23 `db.*.gbf` churn — never stage.
+> Effort **xHigh**. **R22 clean-fleet run TEN times; 140/140 on nine, ONE REAL FAILURE (see S3).**
+> **NO phase close — keep grinding.** Plan = **T7**; full report `.run/fable_frontier/ANALYSIS.md`.
+> **VERIFY BEFORE TRUSTING:** `git log --oneline -3` at/near HEAD + `docs/progress.fleet.md` agrees.
+
+## FLEET — R22 **140 passed / 0 failed of 140**
+**96.32% fn-count · 94.4% instr-weighted · 89.3% distinct-code** (78,025 uniq) · 0 NON_MATCHING.
+Session opened 96.28 / 94.1 / 88.7 ⇒ **+34,176 instructions** (12,368,236 → 12,402,412), the great
+majority for **~0 agent tokens** — instrument repair, not drafting.
+
+## ✅ T7 PROGRESS
+| task | result |
+|---|---|
+| **S1a** lift local types | **DONE** — 895 types / 1,259 files; killed the type-scope class |
+| **S1c** re-sweep matched-exemplar families | **DONE — 97 members** (were 0) |
+| **S1b** "wire the reconcile" | **PREMISE REFUTED** — already wired; `--normalize-self-decls` re-tested post-fix = 0 banks |
+| **S2** jr families via `jtbl_family_bank` | **DONE — 10 members**; 7 families now CLASSIFIED |
+| **S3** the whale | **DONE-PARTIAL — 137/138** (3 of 4 SC07s); `ov_SC07_010` reverted, still open |
+| S1d · S4 · S5 · S6 · S7 | pending — see the task list |
+
+## ⚠️ THE ONE R22 FAILURE — READ THIS BEFORE TRUSTING ANY PER-BINARY "BANKED"
+`ov_SC07_010` passed its **per-binary** build and **FAILED the clean-tree R22** (139/140). Its
+`-O0` split landed in an EXISTING `_o0c` file instead of a fresh `_o0d`, creating region
+`_jr_801457A4` whose asm dir splat never generated. Reverted; the overlay is still open.
+**A per-binary pass is NOT a fleet byte claim (§61)** — committing on that "BANKED" would have
+shipped a broken overlay and reported 138/138. This is the whole reason R22 exists.
+
+## 🔑 S3'S REAL MECHANISM — the plan's framing was WRONG, do not repeat it
+Recorded as "the T2 Arm-A `%lo +0x20` carve defect". **The carve was never broken** —
+`o0_subsplit` reported `split byte-neutral ✓` on the FIRST attempt in all four. The blocker: carving
+the whale out of a **jr** file makes `jr_isolate_all` hoist the parent's file-scope decls into the
+new region as its **ambient** set, so the fleet's loose-typed spellings share a TU with the shared
+header's for the first time (`extern void *D_801274CC` vs the header's `extern s32 D_801274CC`). In
+the 134 working overlays the whale sits in a CLEAN `-O0` file (`common.h` + the header, nothing
+else) and they never meet. **Fix: drop the ambient duplicates in that one file** — the header is the
+byte-proven side. Three iterations, each a DECLARATION: data syms → function syms → the alias form
+ending in a trailing COMMENT (§134 comment-blindness, the THIRD time today).
+
+## 🧰 TEN TOOL DEFECTS FIXED — every "wall" today was our own instrument
+1. `harvest_verify._reload_corpus` re-applied `--src` after a carve → deleted the stub it had just
+   followed → uncaught KeyError → `_jtbl_restore` never ran → **stranded carve**; **10 of wave 6's
+   16 drafts vanished with no verdict.**
+2. `.run/s6f_gate.py` never checked the child rc — a crash read as silence. Now asserts
+   `banked+failed+no-verdict == drafts`, prints rc + tail, exits 1.
+3. `classify_fail` truncated diagnostics **from the LEFT**, severing the symbol.
+4. `jr_isolate_all`/`overlay_src_split` **silently DELETED** definition-side `__asm__`-alias
+   functions (addr_of resolves by C name; an alias def is spelled `aF…`). **Fifth tool with that
+   blindness** — `family_remap` fixed it and never propagated it.
+5. `partition`/`_partition` now REFUSE to rewrite a file when an address won't resolve (R32).
+6. The type-scope class — **895 types lifted**, class gone.
+7. `jtbl_family_bank` reported `gate-fail` with **no reason** (only stage-construction errors were
+   captured, never the build's).
+8. `family_hseq` stdout called an OVERLAYS-ONLY number "fleet".
+9. **My own alias scanner had the §134 defect I documented that morning** — greedy `[^;{}]*` over
+   unmasked source matched from inside a comment and swallowed the real decl. Caught by the R32
+   guard from #5, on its first real encounter. Fixed via `cdecl._mask` (scan the MASK, read the
+   symbol from the SOURCE — rejecting after the fact does not work, finditer resumes past the
+   swallowed decl).
+10. The S3 ambient-decl filter's `endswith(';')` skipped comment-terminated lines (§134 again).
+
+**THE STANDING LESSON:** every wall today was a tool keyed on the wrong thing — verdicts by grep not
+accounting · stub location by `--src` not the tree · a banked head by `members` not `exemplar` · a
+definition by C name not emitted symbol · a type by where it sat in a file · a line-shape by a test
+a comment invalidates. **§134 has now appeared in SIX tools; the real fix is routing every
+line-shape decision through `cdecl._mask` (R33), not another per-tool patch.**
+
+## ▶ RESUME HERE
+1. **S1d** (task #10) — the two dominant conflict symbols, ~383 member failures. `func_80146A6C`:
+   fleet decls UNIFORM ⇒ the DRAFT is wrong (bug hunt; work out why `cast_call_sites`, which runs at
+   family_sweep.py:632, is not already resolving it). `func_80161208`: FOUR incompatible fleet shapes
+   ⇒ the genuine Phase-16 loose-typing wall; candidate = the §37/§124 definition-side alias.
+2. **`ov_SC07_010`** — force a FRESH `_o0` region instead of reusing `_o0c`, then re-run
+   `.run/s3_sc07_whale.py` (it self-skips the 3 already banked). Also: the **61 SC07 `-O0` members**
+   in S3's original scope were never attempted.
+3. **S2 residue** — `.run/jrprop/*.log`: 2 families `isolate-fail`, 1 `carve-fail` (tool refusals,
+   likely routable); only 2 members are genuine DIFF.
+4. **S4** (task #6) + wave 6's 3 still-failing alias drafts (the three LARGEST — size-correlated).
+5. **S5 the wave** (task #7): 1,689 h_norm clusters / 326,261 ins at 2.7×. **VERIFY the pool numbers
+   first (Fable's, unverified — R14)**, ONE 8-target calibration wave, measure REALIZED propagation
+   before scaling. **Prompt Drew for the toggle (R27).**
+
+## 🧰 MY PROCESS ERRORS
+1. **Claimed `family_sweep` hides per-member errors** — FALSE, **23,211 `.classified.txt` files**
+   exist and both of the day's zeros were already diagnosed in them. Two probes wasted.
+2. **Called 4 families "chance collisions"** while my own printout showed them `PURE`/`IMM`.
+3. **Reverted `config/` and re-extracted ONE overlay of sixteen** — a gate cycle read 3 real banks as
+   failures against stale asm.
+4. **A backticked `` `make extract` `` in a `-m` message EXECUTED** — use quoted heredocs.
+5. **`… | tail` swallowed a non-zero exit** — a pipeline's status is the LAST command's.
+6. **Looked a just-banked head up in `members`** — it moves to `exemplar.kind='matched'`.
+7. **Reported "138/138" before R22** — it was 137/138. See the R22 failure above.
+No bad bytes from any of them — the byte-gate and R22 caught everything.
+
+---
+
+# 🛑 (superseded) SESSION-38 CHECKPOINT v2 — POST-S1/S2
 > **NOTHING IS RUNNING. Tree lock FREE. Tree CLEAN** but for the R23 `db.*.gbf` churn — never stage.
 > Effort: **xHigh** (Drew set it for the eventual S5 wave; the S1/S2 work was deterministic).
 > **R22 clean-fleet run SEVEN times this session, 140/140 every time.**
