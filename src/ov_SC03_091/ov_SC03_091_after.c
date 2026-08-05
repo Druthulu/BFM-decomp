@@ -477,7 +477,21 @@ DEFINE_func_80146994()  /* dedup: shared engine-core @0x80146994 (src/shared) */
 
 DEFINE_func_801469C8()  /* dedup: shared engine-core @0x801469C8 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC03_091/nonmatchings/ov_SC03_091_after", func_80146A6C);
+extern void func_80146AFC(void*);
+void aF80146A6C(s16 a0, s32 a1, s16 a2, s16 a3, u16 a4, s32 a5, s32 a6) __asm__("func_80146A6C");
+void aF80146A6C(s16 a0, s32 a1, s16 a2, s16 a3, u16 a4, s32 a5, s32 a6)
+{
+    u8 sp[0x18];
+    *(s16 *)(sp + 0x0) = a0;
+    *(s32 *)(sp + 0x8) = a1;
+    *(s16 *)(sp + 0x2) = a2;
+    *(s16 *)(sp + 0x4) = a3;
+    *(s16 *)(sp + 0x6) = a4;
+    *(s32 *)(sp + 0xC) = a5;
+    *(s32 *)(sp + 0x10) = a6;
+    ((s32 (*)(void *))func_80146AFC)(sp);
+}
+
 
 DEFINE_func_80146AB4()  /* dedup: shared engine-core @0x80146AB4 (src/shared) */
 
