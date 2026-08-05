@@ -56,3 +56,38 @@ what the §17–§45 toolkit handles. The >400 tail is only 54 stubs / 36,852 in
   re-measured before a wave is scoped onto it — that is S5's first step, not its premise.
 - **Still open (denominator):** the 39 un-onboarded type-1 modules and main's missing independent
   boundary oracle. Neither is in the 741,792 above, because nothing can see them yet.
+
+---
+
+## Burn-down (T5 prep) — derived from the committed digest history (R33), not a hand-kept series
+
+| day | instr-weighted | Δ |
+|---|---:|---:|
+| 2026-07-22 | 78.65% | — |
+| 2026-07-23 | 79.36% | +0.72 |
+| 2026-07-24 | 79.91% | +0.54 |
+| 2026-07-25 | 80.57% | +0.66 |
+| 2026-07-26 | 81.70% | +1.13 |
+| 2026-07-27 | 84.40% | +2.70 |
+| 2026-07-28 | 86.56% | +2.16 |
+| 2026-07-29 | 87.18% | +0.62 |
+| 2026-07-30 | 88.20% | +1.02 |
+| 2026-07-31 | 89.16% | +0.96 |
+| 2026-08-01 | 92.41% | +3.25 |
+| 2026-08-03 | 93.71% | +1.29 |
+| 2026-08-04 | 94.50% | +0.79 |
+| **2026-08-05** | **94.36%** | **−0.14** |
+
+**⚠️ READ THE LAST ROW CORRECTLY — it is NOT a regression, and T5 must not report it as one.**
+The numerator ROSE on 2026-08-05 (12,419,002 → 12,419,169). The percentage fell because the
+**denominator** grew 13,141,652 → 13,160,961 (+19,309) when main's stale sig was regenerated and
+477 previously-invisible stubs entered the count. Same shape as Phase 27's 68.9% → 67.0% when four
+hidden overlays were onboarded: **an honest denominator moves the headline down.**
+
+This is precisely the failure mode S1e caught at the other end of the same session — a percentage
+compared across a changed basis, read as a movement in the work. The rule (§140): *a committed
+number is a claim about a tree; if it cannot be recomputed from that tree it is not evidence.* Here
+both numbers are recomputable and correct; what changed is what they are numbers OF.
+
+For phase-over-phase continuity the digest also prints the main-excluding series
+(`fleet EXCLUDING main`), which is the apples-to-apples comparison against pre-2026-07-22 readings.
