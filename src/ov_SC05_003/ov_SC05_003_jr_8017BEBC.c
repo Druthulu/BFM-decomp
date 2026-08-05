@@ -4226,7 +4226,50 @@ INCLUDE_ASM("asm/ov_SC05_003/nonmatchings/ov_SC05_003_jr_8017BEBC", func_801818B
 
 INCLUDE_ASM("asm/ov_SC05_003/nonmatchings/ov_SC05_003_jr_8017BEBC", func_80181A08);
 
-INCLUDE_ASM("asm/ov_SC05_003/nonmatchings/ov_SC05_003_jr_8017BEBC", func_80181AAC);
+
+extern void func_8012931C(struct vec *a0);
+extern s32 func_8012CEB0(s32 a0, s32 a1, s32 a2);
+
+/* a0 = actor/entity base (struct vec-compatible; s16 fields at +6/+A/+E, s32 flag/vel at +0x14),
+ * a1 = s16[3] offset vector, a2 = mode passed through to func_8012CEB0.
+ * Same family as func_8012CC88 (src/ov_SC02_027/ov_SC02_027_jr_8012ACE0.c etc) but the
+ * position-integration step is a real call to func_8012931C instead of being inlined. */
+s32 func_80181AAC(s32 a0, s32 a1, s32 a2) {
+    SV3_8012CC88 sp10;
+    SV3_8012CC88 sp18;
+    s32 v0;
+
+    sp10.vx = *(u16*)(a0 + 0x06);
+    sp10.vy = *(u16*)(a0 + 0x0A);
+    sp10.vz = *(u16*)(a0 + 0x0E);
+    sp10.vx += *(u16*)(a1 + 0);
+    sp10.vy += *(u16*)(a1 + 2);
+    sp10.vz += *(u16*)(a1 + 4);
+
+    func_8012931C((struct vec *)a0);
+
+    sp18.vx = *(u16*)(a0 + 0x06);
+    sp18.vy = *(u16*)(a0 + 0x0A);
+    sp18.vz = *(u16*)(a0 + 0x0E);
+    sp18.vx += *(u16*)(a1 + 0);
+    sp18.vy += *(u16*)(a1 + 2);
+    sp18.vz += *(u16*)(a1 + 4);
+
+    v0 = func_8012CEB0((s32)&sp10, (s32)&sp18, a2);
+
+    sp18.vx -= *(u16*)(a1 + 0);
+    sp18.vy -= *(u16*)(a1 + 2);
+    sp18.vz -= *(u16*)(a1 + 4);
+    *(s16*)(a0 + 0x06) = sp18.vx;
+    *(s16*)(a0 + 0x0A) = sp18.vy;
+    *(s16*)(a0 + 0x0E) = sp18.vz;
+
+    if (v0 & 0x6000) {
+        *(s32*)(a0 + 0x14) = 0;
+    }
+    return v0;
+}
+
 
 INCLUDE_ASM("asm/ov_SC05_003/nonmatchings/ov_SC05_003_jr_8017BEBC", func_80181C00);
 

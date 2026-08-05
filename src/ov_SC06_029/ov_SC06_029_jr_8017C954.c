@@ -3419,7 +3419,67 @@ void func_8017DBFC(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_029/nonmatchings/ov_SC06_029_jr_8017C954", func_8017DC38);
+
+
+extern s32 rand(void);
+
+typedef struct {
+    u16 f0;
+    u16 f2;
+    u16 f4;
+    u16 f6;
+    u16 f8;
+    u16 fA;
+    s32 fC;
+    s32 f10;
+    s32 f14;
+    s32 f18;
+} SubRec_801EB5C8_8017DC38; /* 0x1C */
+
+typedef struct {
+    u16 g0;
+    u16 g2;
+    s32 g4;
+    s32 g8;
+    s32 gC;
+    SubRec_801EB5C8_8017DC38 subs[16];
+} GroupRec_801EB5C8_8017DC38; /* 0x1D0 */
+
+
+void func_8017DC38(s32 param_1)
+{
+
+    extern GroupRec_801EB5C8_8017DC38 D_801DCCA8[8];
+    s32 i, j;
+    GroupRec_801EB5C8_8017DC38 *grp;
+    SubRec_801EB5C8_8017DC38 *sub;
+
+    for (i = 0; i < 8; i++) {
+        grp = &D_801DCCA8[i];
+        grp->g0 = 0;
+        grp->g2 = i << 9;
+        grp->gC = (rand() & 0xF) << 16;
+        grp->g4 = ((rand() & 0xF) << 15) + 0x10000;
+        grp->g8 = ((rand() & 0xF) << 12) + 0x8000;
+
+        for (j = 0; j < 16; j++) {
+            sub = &grp->subs[j];
+            sub->f0 = 0;
+            sub->f2 = (rand() & 3) + 4;
+            sub->f8 = (j << 8) + (rand() & 0xF) * 56;
+            sub->fA = (rand() & 0xF) << 8;
+            sub->f14 = (rand() & 0xF) << 13;
+            sub->fC = ((rand() & 0xF) << 14) + 0x10000;
+            sub->f10 = ((rand() & 0xF) << 12) + 0x8000;
+            sub->f4 = 0x200;
+            sub->f6 = (rand() & 0xF) << 4;
+            sub->f18 = ((rand() & 3) << 5) + 0x40;
+        }
+    }
+
+    *(u16 *)(param_1 + 2) = *(u16 *)(param_1 + 2) + 1;
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_029/nonmatchings/ov_SC06_029_jr_8017C954", func_8017DDE0);
 

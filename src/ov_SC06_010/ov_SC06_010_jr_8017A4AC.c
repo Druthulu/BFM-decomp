@@ -4784,7 +4784,152 @@ void aF8017ED80(void *param_1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_010/nonmatchings/ov_SC06_010_jr_8017A4AC", func_80181408);
+
+/* func_80181408 -- ov_SC06_008, TU ov_SC06_008_jr_8017C294.c (open-only h_norm
+ * cluster exemplar, 7 members).
+ *
+ * a0+0x0  : u16 active flag; 0 => early return.
+ * a0+0x84 : s16 sound cooldown timer.
+ *   cooldown != 0  -> just decrement it.
+ *   cooldown == 0  -> try to play a positional sound (RotTransPers screen
+ *                     projection of the parent's position, range-gated on
+ *                     screen X/Y, volume from the classic div-by-0xF0 /
+ *                     div-by-0x1E magic-constant idiom -- byte-proven sibling
+ *                     form is func_80181CF0 in this same TU, sndid 0x849 here
+ *                     vs 0x961 there), then unconditionally reset the timer
+ *                     to 0xA regardless of whether the sound actually played.
+ * a0+0xFC / 0xFE : running hit-combo accumulators, bumped by +/-0x280 every
+ *                     call (unconditional tail).
+ * Tail always calls ((void (*)(void *))func_80181234)(a0) (the TU's canonical decl for this
+ * symbol is void(void) -- S35 self-axis -- so this draft binds its own
+ * private extern with the asm's real void(void*) shape).
+ *
+ * Control flow is EXPLICIT goto/label, mirroring source-order block
+ * placement (gcc-2.7.2 lays out basic blocks in literal source order, not by
+ * fallthrough preference -- see the func_80181CF0 comment, same TU): the
+ * cooldown!=0 decrement is the SHORT block and sits out-of-line (jumped to),
+ * the cooldown==0 RTP+sound block is the LONG block and sits inline
+ * (fallthrough), matching the target's physical layout exactly.
+ *
+ * MATCH levers (byte-proven, 2026-08-05):
+ *  1. Naive `if(old!=0){cool=old-1;}else{...}` folds trivially: reorg.c's
+ *     delay-slot filler steals the single-insn decrement into the `bnez`'s
+ *     own delay slot and retargets the branch straight to the join label
+ *     (2 ins short of target). The target instead keeps a genuine copy
+ *     (`addu $v1,$v0,zero`) in the delay slot and a SEPARATE `addiu $v0,$v1,-1`
+ *     at the decrement site. Reproduced by pinning a second variable
+ *     `register s32 v1 __asm__("$3")`, assigned UNCONDITIONALLY right after
+ *     the load (`v1 = old;`) -- the scheduler places that copy in the
+ *     branch's delay slot on its own, and the decrement (`cool = v1 - 1`)
+ *     can no longer be folded away. `cool` is separately pinned to
+ *     `__asm__("$2")` so its other def sites (the three `cool = 0xA` early
+ *     exits) don't drift onto $3 by coalescing with v1.
+ *  2. The tail's `sh $v0,0x84($s0)` / `addu $a0,$s0,zero` order (store off
+ *     the callee-saved pointer BEFORE reloading it into the call-argument
+ *     register) needed a `__asm__ __volatile__("":::"memory")` fence right
+ *     after the store -- without it, sched1 hoists the independent a0-reload
+ *     ahead of the store even when the reload is written later in source.
+ *  3. Frame is -0x38, 8 bytes (2 words) larger than the natural -0x30 the
+ *     locals alone produce; `pad2[2]` (dead, address never read) inside `L`
+ *     reserves them, mirroring func_80181CF0's own "dead aggregate sizes the
+ *     frame" idiom.
+ */
+
+
+/* §37/§124 def-side asm-label alias (P30 S1d class lever): the TU declares
+ * `extern void func_80181408(void);` (L4082, L4091) for callers that invoke it with NO args,
+ * while the byte-true definition takes an s32 in $a0 -> `conflicting types`. Neither side can
+ * move (a no-prototype escape is illegal once a param promotes), so the DEFINITION gets a
+ * private C identifier and binds the emitted symbol with a GNU asm label. Zero blast radius:
+ * the TU's declaration never meets the definition, and the emitted symbol is unchanged. */
+void aF8017EF54(s32 a0) __asm__("func_80181408");
+
+void aF8017EF54(s32 a0)
+{
+    extern void func_8004914C(void *a0);
+    extern void func_800491AC(void *a0);
+    extern void func_8002D4C8(s32 a0, s32 a1);
+    extern s32  RotTransPers(s32 a0, s32 a1, s32 *a2, s32 *a3);
+    extern u8   D_800AF648;
+    extern void func_80181234(void);
+    struct {
+        s16 v[3];    /* sp+0x10 */
+        s16 pad1;    /* sp+0x16 */
+        u16 sxy[2];  /* sp+0x18 */
+        s32 z;       /* sp+0x1C */
+        s32 flag;    /* sp+0x20 */
+        s32 pad2[2]; /* sp+0x24 -- dead, sizes the frame */
+    } L;
+
+    register s32 v1 __asm__("$3");
+    register s32 cool __asm__("$2");
+    s32 old;
+
+    if (*(u16 *)(a0 + 0x0) == 0) {
+        return;
+    }
+
+    old = *(s16 *)(a0 + 0x84);
+    v1 = old;
+    if (old != 0) {
+        goto L_dec;
+    }
+
+    L.v[0] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x48);
+    L.v[1] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x4C);
+    L.v[2] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x50);
+    { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }
+    { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_800491AC(r4); }
+    RotTransPers((s32)L.v, (s32)L.sxy, &L.z, &L.flag);
+
+    if (L.flag < 0) {
+        cool = 0xA;
+        goto L_join;
+    }
+    if ((u32)((L.sxy[0] + 0xEF) & 0xFFFF) >= 0x1DF) {
+        cool = 0xA;
+        goto L_join;
+    }
+    if ((u32)((L.sxy[1] + 0xB3) & 0xFFFF) >= 0x167) {
+        goto L_snd_skip;
+    }
+
+    {
+        s32 sx = (s16)L.sxy[0];
+        s32 av;
+
+        av = sx;
+        if (sx < 0) {
+            av = -sx;
+        }
+        av = ((0xF0 - av) * 0x7F) / 0xF0;
+        sx = (sx + 0xF0) / 0x1E;
+        if (sx == 0x10) {
+            sx = 0xF;
+        }
+        sx = sx << 8;
+        func_8002D4C8(0x849, (av | (0x3000 | sx)) & 0xFFFF);
+    }
+
+L_snd_skip:
+    cool = 0xA;
+    goto L_join;
+
+L_dec:
+    cool = v1 - 1;
+
+L_join:
+    *(s16 *)(a0 + 0x84) = cool;
+    __asm__ __volatile__("" ::: "memory");
+
+    {
+        s32 p = a0;
+        *(u16 *)(p + 0xFC) = *(u16 *)(p + 0xFC) + 0x280;
+        *(u16 *)(p + 0xFE) = *(u16 *)(p + 0xFE) - 0x280;
+        ((void (*)(void *))func_80181234)((void *)p);
+    }
+}
+
 
 
 extern s32  rand(void);
@@ -5124,7 +5269,97 @@ void func_80181F88(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_010/nonmatchings/ov_SC06_010_jr_8017A4AC", func_80181FC4);
+
+/* SV4 is the TU-canonical name (src/shared/engine_types.h) for func_8012F214's
+ * in/out struct (see ov_SC06_008_jr_8017AE2C.c:3135, "SV4 svec" comment: func_8012F214 out).
+ * Isolated match_one has no include path to that header, so it is typedef'd
+ * locally here for the standalone compile only. */
+
+
+/* func_80181FC4 - ov_SC06_008 / ov_SC06_008_jr_8017C294 (93 ins)
+ *
+ * One-time init (guarded by state flag at +0x34): mirror the +0x64 sub-object's
+ * +0x20/+0x12 field into our own +0x20 sub-object, kick off two "core" calls,
+ * pick an entry from the 2-element 12-byte table D_801A4C64 (indexed by the
+ * s16 at +0x70), then call func_8012F214 with a zeroed input SV4 and read the
+ * first 3 fields of the output SV4 back into +6/+0xA/+0xE.  Sets the countdown
+ * at +0x1c to 0x5a and marks the state flag +0x34 = 1.
+ *
+ * Always-executed tail: bump the +0x20 sub-object's +0x10/+0x12/+0x14 fields
+ * (reloading the +0x20 pointer fresh for each field -- no CSE across the
+ * intervening stores, straight literal translation), mirror +0x14 into +0xDC,
+ * call func_8012CBCC(a0) and test its return (canonical fleet decl is
+ * void func_8012CBCC(s32 a0); the return value is read via a function-
+ * pointer cast at the use site, per the established TU idiom -- see
+ * ov_SC03_099_jr_8017BEBC.c:5630 comment block). If (ret & 0x6000), decrement
+ * the +0xac counter (signed s16 compare-to-zero on the POST-decrement value --
+ * gcc-2.7.2's sll-by-16/bnez idiom for a s16 local) and negate +0xDC into
+ * +0x14; on the counter hitting zero, call func_8012C218. Finally decrement
+ * the +0x1c countdown and call func_8012C218 again when IT hits zero.
+ */
+
+extern void func_8012B2CC(s32 a0);
+extern void func_8012B23C(s32 a0);
+extern void func_8012B14C(s32 a0, s32 a1);
+extern void func_8012F214(s32 a0, s32 a1, s32 a2);
+extern void func_8012CBCC(s32 a0);
+extern void func_8012C218(void *a0);
+
+
+void func_80181FC4(s32 a0)
+{
+
+    extern s32 D_801A4C64;
+    SV4 in;
+    SV4 out;
+    s16 v1;
+    u16 uStack_c;
+
+    if (*(u16 *)(a0 + 0x34) == 0) {
+        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) =
+            *(u16 *)(*(s32 *)(*(s32 *)(a0 + 0x64) + 0x20) + 0x12);
+        func_8012B2CC(a0);
+        func_8012B23C(a0);
+        func_8012B14C(a0, *(s16 *)(a0 + 0x70) * 12 + (s32)&D_801A4C64);
+
+        in.a = 0;
+        in.b = 0;
+        in.c = 0x10;
+        func_8012F214(a0, (s32)&in, (s32)&out);
+        *(u16 *)(a0 + 6) = out.a;
+        *(u16 *)(a0 + 0xa) = out.b;
+        uStack_c = out.c;
+        *(s32 *)(a0 + 0x1c) = 0x5a;
+        *(u16 *)(a0 + 0x34) = 1;
+        *(u16 *)(a0 + 0xe) = uStack_c;
+    }
+
+    *(u16 *)(*(s32 *)(a0 + 0x20) + 0x10) += -0x80;
+    *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) += 4;
+    *(u16 *)(*(s32 *)(a0 + 0x20) + 0x14) += *(u16 *)(a0 + 0xfc);
+
+    *(s32 *)(a0 + 0xdc) = *(s32 *)(a0 + 0x14);
+    if ((((s32 (*)(s32))func_8012CBCC)(a0)) & 0x6000) {
+        register s32 negdc __asm__("$2");
+        negdc = -*(s32 *)(a0 + 0xdc);
+        v1 = *(u16 *)(a0 + 0xac);
+        v1 -= 1;
+        *(s16 *)(a0 + 0xac) = v1;
+        *(s32 *)(a0 + 0x14) = negdc;
+        if (v1 == 0) {
+            func_8012C218((void *)a0);
+        }
+    }
+
+    {
+        s32 iVar3 = *(s32 *)(a0 + 0x1c) - 1;
+        *(s32 *)(a0 + 0x1c) = iVar3;
+        if (iVar3 == 0) {
+            func_8012C218((void *)a0);
+        }
+    }
+}
+
 
 
 extern void (*D_801A4C7C[])(void);
@@ -5633,7 +5868,86 @@ void func_8018315C(s32 a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_010/nonmatchings/ov_SC06_010_jr_8017A4AC", func_80183560);
+
+
+// TARGET: func_80183560  (ov_SC06_008, TU ov_SC06_008_jr_8017C294.c, 93 ins)
+//
+// Template: func_801821F8 in this SAME TU (src/ov_SC06_008/ov_SC06_008_jr_8017C294.c,
+// around line 5283) is an already-MATCHED sibling (126 ins) with a documented byte-exact
+// idiom set (its comment, verbatim):
+//   @class: plumbing
+//   @stuck: none — MATCH (126 ins). Keys: (1) cVar1 as `int` (not unsigned char) so the
+//     lbu-loaded byte stays full-width and gcc omits the per-compare `andi 0xff`; (2) uninitialized
+//     `int unaff_s1` -> $s1 (live-from-entry across func_8002D4C8); (3) func_8016AA50 takes TWO args
+//     (param_1, unaff_s1) — a1=unaff_s1 arg-setup is reused by the preceding subtraction and a0=s0
+//     hoists into the branch delay slot; (4) 0x76 read UNSIGNED (lhu) in the subtract, SIGNED (lh) in
+//     the `< 1` test.
+//
+// func_80183560 is the SAME body with the leading "if (*(short*)(param_1+0xfc)==0) {...}" block
+// (the 0x64-indirected 3x int-copy + 3x u16-copy prologue) removed, and the "already fired" gate
+// field is 0xe2 instead of 0x102. Confirmed against the target .s: no reference anywhere to 0xfc,
+// 0x64, or 0x102/0x20 offsets; the gate compare is `lh $v1, 0xE2($s0)` / `sh $v1(=0xA), 0xE2($s0)`.
+
+extern void func_8002D4C8(int, int);
+extern void func_8016AA50(int, int);
+extern s32 func_8016B428(s32);
+extern void func_80019064(void *);
+extern void func_8002A520(int);
+extern void func_8002A790(int);
+extern void func_80131E00(int, int);
+
+void func_80183560(int param_1)
+{
+    extern unsigned char D_801A7124[];
+    int cVar1;
+    int unaff_s1;
+
+    cVar1 = *(unsigned char *)(param_1 + 0x5e);
+    *(char *)(param_1 + 0xc1) = 0;
+    *(short *)(param_1 + 0x5e) = 0;
+    *(unsigned short *)(param_1 + 0x5c) = *(unsigned short *)(param_1 + 0x5c) & 0xfffe;
+    if (*(short *)(param_1 + 0xe2) == 0) {
+        *(short *)(param_1 + 0xe2) = 10;
+        *(unsigned short *)(param_1 + 0x5c) = *(unsigned short *)(param_1 + 0x5c) | 0x4000;
+        func_8002D4C8(0x9b7, 0);
+        if (*(short *)(param_1 + 0x60) != 0) {
+            if (cVar1 == 0x1d) {
+                *(short *)(param_1 + 0x82) = 0;
+                *(short *)(param_1 + 0x7c) = *(unsigned short *)(param_1 + 6);
+                *(short *)(param_1 + 0x7e) = *(unsigned short *)(param_1 + 0xa);
+                *(short *)(param_1 + 0x80) = *(unsigned short *)(param_1 + 0xe);
+            }
+            if (*(int *)(param_1 + 0x78) != 0) {
+                unaff_s1 = (int)*(short *)(param_1 + 0x60) *
+                           (int)*(short *)(*(int *)(param_1 + 0x78) + 0x30) >> 0xc;
+                if (unaff_s1 < 1) {
+                    unaff_s1 = 1;
+                }
+            }
+            *(unsigned short *)(param_1 + 0x76) =
+                *(unsigned short *)(param_1 + 0x76) - unaff_s1;
+            func_8016AA50(param_1, unaff_s1);
+            if ((*(unsigned short *)(param_1 + 0x82) & 1) != 0) {
+                ((void (*)(int))func_8016B428)(param_1);
+                func_80019064(D_801A7124);
+            }
+        }
+        if (cVar1 != 0x1d) {
+            if (*(unsigned char *)(param_1 + 0xc8) != 0) {
+                func_8002A520(param_1);
+            }
+            if (*(unsigned char *)(param_1 + 0xc9) != 0) {
+                func_8002A790(param_1);
+            }
+        }
+        if (*(short *)(param_1 + 0x76) < 1) {
+            *(short *)(param_1 + 0x5c) = 0;
+            func_80131E00(param_1, 6);
+        }
+    }
+    return;
+}
+
 
 
 // @class: schedule

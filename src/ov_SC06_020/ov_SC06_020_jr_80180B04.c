@@ -2995,7 +2995,134 @@ store:
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_020/nonmatchings/ov_SC06_020_jr_80180B04", func_80181490);
+
+/* func_80181490 — walk the 0x60-entry / 0x10C-stride entity table D_801202A0 and
+ * react to the first neighbour of class 0x27A (get pushed away from it) or 0x2F4
+ * (get clamped down onto it).
+ *
+ * §71 sibling-first: the callee signatures below are copied VERBATIM from this TU's
+ * own already-matched neighbours — func_8012B0B4 (TU L6971/7855/8177), func_8012B6D4
+ * (TU L6419), func_8012CEB0 (TU L7226, the func_80187844 block), func_8012C098
+ * (TU L5379) — and D_801202A0 is the TU's file-scope `extern u8 D_801202A0[];` (L384).
+ * func_8012BC60 / func_8012ADE4 are not declared in this TU; the forms below are the
+ * fleet-majority shapes (func_8012ADE4 verbatim; func_8012BC60 with `void *` instead of
+ * `struct Vec *` so the draft does not depend on engine_types.h being in scope).
+ *
+ * FIVE load-bearing constructs (do NOT "clean up"):
+ *
+ *  1. NO SECOND WALKED POINTER. All of +0x6/+0xA/+0xE are written as `*(T *)(p + k)`
+ *     off the single biv `p`. combine_givs then merges the three DEST_ADDR givs onto
+ *     ONE anchor = the LAST-emitted one (+0xE, from the case-0x2F4 `lh`), giving the
+ *     target's `$s3 = $s2 + 0xE` with -0x8/-0x4/0x0 displacements.
+ *     An explicit `q = p + 0xE` with `*(u16 *)q` looks equivalent and is NOT:
+ *     gcc-2.7.2 excludes a bare `*q` (mult 1, add 0) from givs (find_mem_givs:4198),
+ *     so q stays a live biv AND the remaining two accesses combine onto their own
+ *     anchor +0xA => THREE IVs, the wrong anchor, and the $s6 hoist lost to pressure
+ *     (measured: 111 ins, 87 mismatched).  gcc-2.7.2-map/loop.md §L1 rules 4 & 6.
+ *
+ *  2. `switch`, not `if/else if`. The two-case switch is what emits the target's
+ *     compare CHAIN with BOTH arms out of line (`beq`/`beq`/`j default`, 6 slots).
+ *     An `if (id == 0x27A) ... else if (id == 0x2F4)` inverts the first test and lets
+ *     the 0x27A arm fall through — 2 instructions short.
+ *
+ *  3. do-while with `i++` BEFORE `p += 0x10C`. strength_reduce inserts the reduced
+ *     giv's `addiu` immediately before ITS biv's increment, so the source order
+ *     i-then-p is what produces `addiu $s4,$s4,1` / `addiu $s3,$s3,0x10C` /
+ *     (delay) `addiu $s2,$s2,0x10C`. A `for (i = 0; i < 0x60; i++)` with `p += 0x10C`
+ *     last puts the giv add first and swaps the pair.
+ *
+ *  4. `self4` and `sc` are REAL pre-loop locals, in that order. Both are loop
+ *     invariants; written inline as `(s16 *)(a0 + 4)` / `(unsigned int *)sp20` at the
+ *     call, combine folds the address straight into the argument move
+ *     (`addiu $a0,$sp,0x20`) and the target's `$s6 = $sp + 0x20` hoist never happens.
+ *     Assigning them in a *different basic block* from their uses is what keeps the
+ *     pseudos alive; the declaration ORDER (p, i, self4, sc) is what gives
+ *     $s2/$s4/$s5/$s6 in the target's prologue emission order.
+ *
+ *  5. `s16 y` (a SHORT local), and `s32 sp20[2]` (an EIGHT-byte scratch).
+ *     - The short local is why `y` gets a second pseudo: gcc-2.7.2 emits
+ *       `(set (reg:HI B) (subreg:HI (reg:SI A)))` for the HImode assignment, i.e. the
+ *       target's `addu $a1,$a0,$zero` in the branch delay slot, with the two `- 0x60`
+ *       recomputed from A ($a0, the compare) and B ($a1, the stored value).
+ *       An `s32 y` coalesces the pair away and loses that instruction.
+ *     - The short local also costs a DEAD 4-byte reload home at the top of the frame
+ *       (`(use (mem:SI (plus $sp 48)))` in the greg dump, no insn references it).
+ *       That is exactly why the func_8012B0B4 buffer is 8 bytes, not 16: 0x10 + 8
+ *       (v10) + 8 (v18) + 8 (sp20) + 4 (dead) rounds to 0x30 = the target's first
+ *       saved-register slot. 8 bytes also matches the fleet's canonical shape for a
+ *       func_8012B0B4 output buffer (`unsigned int buf[2]`).
+ */
+
+
+extern s32  func_8012BC60(void *a0, void *a1);
+extern s32  func_8012B6D4(s16 *a0, s16 *a1);
+extern void func_8012B0B4(unsigned int *p, int a1, int a2);
+extern s32  func_8012CEB0(void *a0, void *a1, s32 a2);
+extern void func_8012ADE4(u8 *a0);
+extern void func_8012C098(void *param_1);
+
+void func_80181490(s32 a0) {
+
+    extern u8   D_801202A0[];
+    u8 *p;
+    s16 *self4;
+    unsigned int *sc;
+    s32 i;
+    s16 y;
+    s32 z;
+    s32 ang;
+    s16 v10[4];  /* sp+0x10 */
+    s16 v18[4];  /* sp+0x18 */
+    s32 sp20[2]; /* sp+0x20 — func_8012B0B4 output */
+
+    p = D_801202A0;
+    i = 0;
+    self4 = (s16 *)(a0 + 4);
+    sc = (unsigned int *)sp20;
+    do {
+        if ((u8 *)a0 != p) {
+            switch (*(u16 *)p) {
+            case 0x27A:
+                if (func_8012BC60((void *)self4, (void *)(p + 4)) < 0x6400) {
+                    ang = func_8012B6D4(self4, (s16 *)(p + 4));
+                    func_8012B0B4(sc, ang, 0xA1);
+                    v18[0] = *(u16 *)(p + 6);
+                    v18[1] = *(u16 *)(p + 0xA);
+                    v18[2] = *(u16 *)(p + 0xE);
+                    v18[0] += sp20[0];
+                    v18[2] += sp20[0] >> 16;
+                    v18[1] = *(u16 *)(a0 + 0xA);
+                    v10[0] = *(u16 *)(a0 + 0x3A);
+                    v10[1] = *(u16 *)(a0 + 0x3E);
+                    v10[2] = *(u16 *)(a0 + 0x42);
+                    if ((func_8012CEB0(v10, v18, 0) & 0x2000) == 0) {
+                        func_8012ADE4((u8 *)a0);
+                        return;
+                    }
+                    *(u16 *)(a0 + 6) = v18[0];
+                    *(u16 *)(a0 + 0xA) = v18[1];
+                    *(u16 *)(a0 + 0xE) = v18[2];
+                    return;
+                }
+                break;
+            case 0x2F4:
+                y = *(s16 *)(p + 0xE);
+                z = *(s16 *)(a0 + 0xE);
+                if (y + 0x10 < z) {
+                    func_8012C098((void *)a0);
+                    return;
+                }
+                if (y - 0x60 < z) {
+                    *(s16 *)(a0 + 0xE) = y - 0x60;
+                }
+                break;
+            }
+        }
+        i++;
+        p += 0x10C;
+    } while (i < 0x60);
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_020/nonmatchings/ov_SC06_020_jr_80180B04", func_80181654);
 

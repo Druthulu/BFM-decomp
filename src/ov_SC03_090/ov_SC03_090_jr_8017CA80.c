@@ -6158,7 +6158,84 @@ INCLUDE_ASM("asm/ov_SC03_090/nonmatchings/ov_SC03_090_jr_8017CA80", func_80185FA
 
 INCLUDE_ASM("asm/ov_SC03_090/nonmatchings/ov_SC03_090_jr_8017CA80", func_80186020);
 
-INCLUDE_ASM("asm/ov_SC03_090/nonmatchings/ov_SC03_090_jr_8017CA80", func_80186074);
+
+extern void func_8012BE54(s32 a0);
+extern void func_8012CBCC(s32 a0);
+extern void func_8012E88C(u8 *a0);
+extern void func_8012B21C(void *a0);
+extern s32 func_8004787C(s32 a0);
+extern void func_8002D4C8(s32 a0, s32 a1);
+
+void func_80186074(s32 a0) {
+    register s32 state __asm__("$16");   /* $s0 */
+    register s32 ent   __asm__("$17");   /* $s1 */
+    s32 sub;
+    s32 t;
+    s32 v;
+    s32 cnt;
+
+    ent = a0;
+    __asm__ volatile("" ::: "$4");
+    state = *(u16 *)(ent + 0x34);
+
+    switch (state) {
+    case 0:
+        if (0x10000 < ((s32 (*)(s32))func_8012BE54)(ent)) {
+            return;
+        }
+        *(u16 *)(ent + 0x34) = *(u16 *)(ent + 0x34) + 1;
+        func_8012E88C((u8 *)ent);
+        func_8012B21C((void *)ent);
+        return;
+    case 1:
+        if ((((s32 (*)(s32))func_8012CBCC)(ent) & 0x2000) == 0) {
+            return;
+        }
+        *(s32 *)(ent + 0x1C) = state;
+        *(u16 *)(ent + 0x34) = *(u16 *)(ent + 0x34) + 1;
+        func_8002D4C8(0x703, 0);
+        /* fallthrough */
+    case 2:
+        sub = *(s32 *)(ent + 0x20);
+        t = func_8004787C(*(s32 *)(ent + 0x1C) << 7);
+        v = (t * 0x1c00 >> 12) + 0x400;
+        *(s16 *)(sub + 0x1C) = v;
+        *(s16 *)(sub + 0x18) = v;
+        {
+            s32 w = 0x3000 - (t * 0x2800 >> 12);
+            *(s16 *)(sub + 0x1A) = w;
+        }
+        cnt = *(s32 *)(ent + 0x1C) + 1;
+        *(s32 *)(ent + 0x1C) = cnt;
+        if (cnt < 9) {
+            return;
+        }
+        *(s32 *)(ent + 0x1C) = 1;
+        *(u16 *)(ent + 0x34) = *(u16 *)(ent + 0x34) + 1;
+        return;
+    case 3:
+        sub = *(s32 *)(ent + 0x20);
+        t = func_8004787C(*(s32 *)(ent + 0x1C) << 7);
+        {
+            register s32 lo __asm__("$3");
+            lo = (t << 12) >> 12;
+            v = 0x2000 - lo;
+        }
+        *(s16 *)(sub + 0x1C) = v;
+        *(s16 *)(sub + 0x18) = v;
+        {
+            s32 w = ((t * 0x800) >> 12) + 0x800;
+            *(s16 *)(sub + 0x1A) = w;
+        }
+        cnt = *(s32 *)(ent + 0x1C) + 1;
+        *(s32 *)(ent + 0x1C) = cnt;
+        if (8 < cnt) {
+            *(u16 *)(ent + 2) = 1;
+        }
+        return;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_090/nonmatchings/ov_SC03_090_jr_8017CA80", func_80186224);
 
@@ -6436,7 +6513,50 @@ INCLUDE_ASM("asm/ov_SC03_090/nonmatchings/ov_SC03_090_jr_8017CA80", func_80186FF
 
 INCLUDE_ASM("asm/ov_SC03_090/nonmatchings/ov_SC03_090_jr_8017CA80", func_80187050);
 
-INCLUDE_ASM("asm/ov_SC03_090/nonmatchings/ov_SC03_090_jr_8017CA80", func_801870EC);
+
+extern void func_8012931C(struct vec *a0);
+extern s32 func_8012CEB0(s32 a0, s32 a1, s32 a2);
+
+/* a0 = actor/entity base (struct vec-compatible; s16 fields at +6/+A/+E, s32 flag/vel at +0x14),
+ * a1 = s16[3] offset vector, a2 = mode passed through to func_8012CEB0.
+ * Same family as func_8012CC88 (src/ov_SC02_027/ov_SC02_027_jr_8012ACE0.c etc) but the
+ * position-integration step is a real call to func_8012931C instead of being inlined. */
+s32 func_801870EC(s32 a0, s32 a1, s32 a2) {
+    SV3_8012CC88 sp10;
+    SV3_8012CC88 sp18;
+    s32 v0;
+
+    sp10.vx = *(u16*)(a0 + 0x06);
+    sp10.vy = *(u16*)(a0 + 0x0A);
+    sp10.vz = *(u16*)(a0 + 0x0E);
+    sp10.vx += *(u16*)(a1 + 0);
+    sp10.vy += *(u16*)(a1 + 2);
+    sp10.vz += *(u16*)(a1 + 4);
+
+    func_8012931C((struct vec *)a0);
+
+    sp18.vx = *(u16*)(a0 + 0x06);
+    sp18.vy = *(u16*)(a0 + 0x0A);
+    sp18.vz = *(u16*)(a0 + 0x0E);
+    sp18.vx += *(u16*)(a1 + 0);
+    sp18.vy += *(u16*)(a1 + 2);
+    sp18.vz += *(u16*)(a1 + 4);
+
+    v0 = func_8012CEB0((s32)&sp10, (s32)&sp18, a2);
+
+    sp18.vx -= *(u16*)(a1 + 0);
+    sp18.vy -= *(u16*)(a1 + 2);
+    sp18.vz -= *(u16*)(a1 + 4);
+    *(s16*)(a0 + 0x06) = sp18.vx;
+    *(s16*)(a0 + 0x0A) = sp18.vy;
+    *(s16*)(a0 + 0x0E) = sp18.vz;
+
+    if (v0 & 0x6000) {
+        *(s32*)(a0 + 0x14) = 0;
+    }
+    return v0;
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_090/nonmatchings/ov_SC03_090_jr_8017CA80", func_80187240);
 

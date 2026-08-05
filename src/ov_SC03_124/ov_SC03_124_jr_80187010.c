@@ -2984,22 +2984,16 @@ extern void func_80185BD4(void);
 
 extern s16 D_800B9A02;
 extern u8 D_801151C8[];
-extern s32 D_801151D0;
-extern s16 D_80115126;
 extern u16 D_80115112;
-extern u16 D_8011511A;
 extern u8 D_80115138[];
 extern u8 D_80115148[];
 extern s32 D_80115130;
 extern u8 D_800B9A15;
 
 extern s16 D_801E2360;
-extern u16 D_801E2364;
-extern s16 D_801E2368;
 extern s32 D_801E2358;
 extern s32 D_801E235C;
 extern s16 D_801E23E8;
-extern s16 D_801E23EC;
 extern s16 D_801E23F0;
 extern s16 D_801E23F4;
 extern s16 D_801E23F8;
@@ -3034,6 +3028,18 @@ extern s32 func_80188C68(s32 a0, s16 a1);
 extern s16 func_8018957C(s32 a0);
 
 void func_80187010(void) {
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern u16 D_801E2364;
+    extern s16 D_801E2368;
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern s32 D_801151D0;
+    extern s16 D_801E23EC;
+    extern s16 D_80115126;
+    extern u16 D_8011511A;
     s32 s0;
     s32 pad[2];
     (void)&pad;
@@ -3644,7 +3650,125 @@ INCLUDE_ASM("asm/ov_SC03_124/nonmatchings/ov_SC03_124_jr_80187010", func_8018953
 
 INCLUDE_ASM("asm/ov_SC03_124/nonmatchings/ov_SC03_124_jr_80187010", func_8018957C);
 
-INCLUDE_ASM("asm/ov_SC03_124/nonmatchings/ov_SC03_124_jr_80187010", func_801895C8);
+
+/* func_801895C8 — ov_SC03_001 (133 ins), exemplar of a 5-member open-only
+ * h_norm cluster.  Builds the full-screen fade overlay: a DR_MODE-style 8-byte
+ * GP0 packet (0xE1000015), a 320x240 semi-transparent gouraud quad (POLY_G4,
+ * code 0x3A), and a second 8-byte GP0 packet (0xE1000240), each linked into the
+ * current OT with the psyq `addPrim` idiom.  The type shapes and the
+ * `((PTag *)x)->addr = ((PTag *)ot)->addr; ((PTag *)ot)->addr = (u32)x;` pair
+ * are copied VERBATIM from the already-matched neighbour func_8018BCD4 in this
+ * same TU (§71) — Env_* / PTag_* there are the fleet-canonical shapes.
+ *
+ * Levers that were load-bearing (all byte-tested; the draft is PIN-FREE):
+ *   §20  &D_801151D0 / &D_800B9A02 taken into pointer LOCALS -> each address is
+ *        force_reg'd once (lui+addiu -> $t2 / $a3) instead of a %lo per use.
+ *   §36  the 24-bit BITFIELD store, not a hand-written mask, is what emits
+ *        0x00FFFFFF (lui+ori) ahead of 0xFF000000 (lui) while the body ANDs the
+ *        destination first — expmed's store_fixed_bit_field signature.
+ *   §37  asm-label aliases for D_801E2364/D_801E2368: the TU canon is u16/s16
+ *        but the target does a bare `lbu %lo(sym)`, and a plain block-scope
+ *        `extern u8` would be a conflicting redeclaration.
+ *   ---  `volatile` on the OT index read keeps all SIX *pbh loads alive; a plain
+ *        read cse-folds them and the function loses ~25 instructions.
+ *   S1   the whole body is ONE branch-free basic block and every store ties at
+ *        the same priority, so forward asm order == source statement order —
+ *        the POLY_G4 block below is a literal transcription of the target.
+ *   S2   `p` is destructively updated (multi-set -> no birthing boost) so its
+ *        `addiu +8` floats up into the preceding load-delay gap, while `r` is a
+ *        FRESH single-set local (boosted) so its `addiu +0x24` sinks to sit
+ *        immediately before `sb 3($a0)`.  Both placements are the target's.
+ *   ---  the bare `p = r;` before r's uses is a COMBINE BARRIER: without a SET
+ *        of `p` between `r = p + 9` and r's first use, `can_combine_p` lets
+ *        combine substitute `r` -> `p + 0x24` into every MEM offset and the
+ *        `addiu` disappears entirely (and, at the tail, `p += 2` folds to
+ *        `addiu $t3,$t3,0x2C` off the stale base instead of `addiu $t3,$a0,8`).
+ *        It also fixes the register rotation for free — verified that adding or
+ *        removing `register __asm__` pins on p/r/pbh is a byte no-op.
+ */
+
+/* ---- TU-visible spellings (file scope of ov_SC03_001_jr_8018A3A8.c) ---- */
+
+void func_801895C8(void) {
+
+    extern s32 D_801151D0;
+    extern u16 D_801E2364;
+    extern s16 D_801E2368;
+    /* §100/§120: draft-local, uniquely-named types — they live in the BODY so
+     * they cannot collide with the TU's own Env_8018BCD4 / PTag_8018BCD4. */
+    typedef struct { u32 addr : 24; u32 len : 8; } PTag_8018C960_801895C8;
+    typedef struct { u32 *ot; u32 pad[4]; } Env_8018C960_801895C8;   /* 0x14 stride */
+    typedef struct {
+        u32 tag;                        /* 0x00 */
+        u8  r0, g0, b0, code;           /* 0x04..0x07 */
+        s16 x0, y0;                     /* 0x08, 0x0A */
+        u8  r1, g1, b1, p1;             /* 0x0C..0x0F */
+        s16 x1, y1;                     /* 0x10, 0x12 */
+        u8  r2, g2, b2, p2;             /* 0x14..0x17 */
+        s16 x2, y2;                     /* 0x18, 0x1A */
+        u8  r3, g3, b3, p3;             /* 0x1C..0x1F */
+        s16 x3, y3;                     /* 0x20, 0x22 */
+    } PG4_8018C960_801895C8;                     /* -> 0x24 */
+
+    extern Env_8018C960_801895C8 D_800AE7BC[];
+    extern u8 aD801EF1EC __asm__("D_801E2364");
+    extern u8 aD801EF1F0 __asm__("D_801E2368");
+
+    u32 **pp;
+    volatile u16 *pbh;
+    u32 *p;
+    u32 *r;
+    u8 c1, c2;
+
+    pp  = (u32 **)&D_801151D0;
+    pbh = (volatile u16 *)&D_800B9A02;
+
+    p = *pp;
+    ((PTag_8018C960_801895C8 *)p)->len = 1;
+    p[1] = 0xE1000015;
+    ((PTag_8018C960_801895C8 *)p)->addr = ((PTag_8018C960_801895C8 *)D_800AE7BC[*pbh].ot)->addr;
+    ((PTag_8018C960_801895C8 *)D_800AE7BC[*pbh].ot)->addr = (u32)p;
+
+    p += 2;
+    ((PG4_8018C960_801895C8 *)p)->tag  = 0x08000000;
+    ((PG4_8018C960_801895C8 *)p)->code = 0x3A;
+    ((PG4_8018C960_801895C8 *)p)->x2 = -160;
+    ((PG4_8018C960_801895C8 *)p)->x0 = -160;
+    ((PG4_8018C960_801895C8 *)p)->x3 = 160;
+    ((PG4_8018C960_801895C8 *)p)->x1 = 160;
+    c1 = aD801EF1EC;
+    ((PG4_8018C960_801895C8 *)p)->b1 = c1;
+    ((PG4_8018C960_801895C8 *)p)->b0 = c1;
+    ((PG4_8018C960_801895C8 *)p)->g1 = c1;
+    ((PG4_8018C960_801895C8 *)p)->g0 = c1;
+    ((PG4_8018C960_801895C8 *)p)->r1 = c1;
+    ((PG4_8018C960_801895C8 *)p)->r0 = c1;
+    c2 = aD801EF1F0;
+    ((PG4_8018C960_801895C8 *)p)->y1 = -120;
+    ((PG4_8018C960_801895C8 *)p)->b3 = c2;
+    ((PG4_8018C960_801895C8 *)p)->b2 = c2;
+    ((PG4_8018C960_801895C8 *)p)->g3 = c2;
+    ((PG4_8018C960_801895C8 *)p)->g2 = c2;
+    ((PG4_8018C960_801895C8 *)p)->r3 = c2;
+    ((PG4_8018C960_801895C8 *)p)->r2 = c2;
+    ((PG4_8018C960_801895C8 *)p)->y0 = -120;
+    ((PG4_8018C960_801895C8 *)p)->y3 = 120;
+    ((PG4_8018C960_801895C8 *)p)->y2 = 120;
+
+    ((PTag_8018C960_801895C8 *)p)->addr = ((PTag_8018C960_801895C8 *)D_800AE7BC[*pbh].ot)->addr;
+    ((PTag_8018C960_801895C8 *)D_800AE7BC[*pbh].ot)->addr = (u32)p;
+
+    r = p + 9;                          /* 0x24 */
+    p = r;                              /* COMBINE BARRIER — see header */
+    ((PTag_8018C960_801895C8 *)r)->len = 1;
+    r[1] = 0xE1000240;
+    ((PTag_8018C960_801895C8 *)r)->addr = ((PTag_8018C960_801895C8 *)D_800AE7BC[*pbh].ot)->addr;
+    ((PTag_8018C960_801895C8 *)D_800AE7BC[*pbh].ot)->addr = (u32)r;
+
+    p += 2;
+    *pp = p;
+}
+
 
 
 extern void (*D_801D52BC[])(void);

@@ -5342,7 +5342,6 @@ void func_80180E54(void *a0) {
 }
 
 
-extern s32 *D_80126B78;
 extern u8 D_8019D340[];
 extern s32 func_8012BDBC(s32 a0, s32 a1);
 extern s32 func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
@@ -5378,6 +5377,10 @@ s32 aF8018A224() __asm__("func_80180EC4");
 s32 aF8018A224(param_1)
     void *param_1;
 {
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern s32 *D_80126B78;
     s32 *m;
     s32 obj;
     s32 sv0[2];
@@ -5894,7 +5897,101 @@ extern void func_800296F8(void *a0);
     }
 
 
-INCLUDE_ASM("asm/ov_SC04_000/nonmatchings/ov_SC04_000_jr_8017BEBC", func_801830E4);
+extern s32 func_8012BDBC(s32 a0, s32 a1);
+extern s32 func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
+extern void func_80172710(void);
+extern s32 func_80178BF8();
+#define gte_SetRotMatrix(r0) __asm__ volatile (         \
+    "lw $12, 0( %0 );"                                   \
+    "lw $13, 4( %0 );"                                   \
+    "ctc2 $12, $0;"                                      \
+    "ctc2 $13, $1;"                                      \
+    "lw $12, 8( %0 );"                                   \
+    "lw $13, 12( %0 );"                                  \
+    "lw $14, 16( %0 );"                                  \
+    "ctc2 $12, $2;"                                      \
+    "ctc2 $13, $3;"                                      \
+    "ctc2 $14, $4"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+#define gte_SetTransMatrix(r0) __asm__ volatile (        \
+    "lw $12, 20( %0 );"                                  \
+    "lw $13, 24( %0 );"                                  \
+    "ctc2 $12, $5;"                                      \
+    "lw $14, 28( %0 );"                                  \
+    "ctc2 $13, $6;"                                      \
+    "ctc2 $14, $7"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+#define gte_SetRotMatrix(r0) __asm__ volatile (         \
+    "lw $12, 0( %0 );"                                   \
+    "lw $13, 4( %0 );"                                   \
+    "ctc2 $12, $0;"                                      \
+    "ctc2 $13, $1;"                                      \
+    "lw $12, 8( %0 );"                                   \
+    "lw $13, 12( %0 );"                                  \
+    "lw $14, 16( %0 );"                                  \
+    "ctc2 $12, $2;"                                      \
+    "ctc2 $13, $3;"                                      \
+    "ctc2 $14, $4"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+#define gte_SetTransMatrix(r0) __asm__ volatile (        \
+    "lw $12, 20( %0 );"                                  \
+    "lw $13, 24( %0 );"                                  \
+    "ctc2 $12, $5;"                                      \
+    "lw $14, 28( %0 );"                                  \
+    "ctc2 $13, $6;"                                      \
+    "ctc2 $14, $7"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+
+/* §71 sibling: identical shape to func_8018F390 (same TU, this file, D_80126B78/RotTransSV/
+ * func_80135888/func_8012BDBC/func_80178BF8/func_80172710 idiom) already MATCHED -- only the
+ * per-overlay data symbol (D_801A7028 vs D_801E33F0) differs. §37 asm-label alias avoids the
+ * `conflicting types` clash with the fleet's `extern void func_801830E4(void);` used elsewhere
+ * in this TU as a state-handler function pointer. */
+
+s32 aF801904E0() __asm__("func_801830E4");
+
+s32 aF801904E0(param_1)
+    void *param_1;
+{
+
+    extern s32 *D_80126B78;
+    extern u8 D_801A7028[];
+    MATRIX m;
+    s32 obj;
+    s32 sv0[2];
+    s32 sv1[2];
+    s32 flag;
+
+    obj = *(s32 *)((s32)param_1 + 0x64);
+    m = *(MATRIX *)((u8 *)D_80126B78 + 0x34);
+
+    gte_SetRotMatrix(&m);
+    gte_SetTransMatrix(&m);
+
+    RotTransSV(D_801A7028, sv0, &flag);
+    RotTransSV(D_801A7028 + 8, sv1, &flag);
+
+    if (func_80135888(*(s32 *)(*(s32 *)((s32)param_1 + 0x64) + 0x20),
+                       *(s32 *)(*(s32 *)((s32)param_1 + 0x64) + 0x58),
+                       (s32)sv0, (s32)sv1) == 0) {
+        return 0;
+    }
+    if (func_8012BDBC(obj, 0x300) == 0) {
+        return 0;
+    }
+    *(s16 *)(obj + 0x2) = 3;
+    func_80178BF8();
+    return (s32)func_80172710;
+}
+
 
 
 

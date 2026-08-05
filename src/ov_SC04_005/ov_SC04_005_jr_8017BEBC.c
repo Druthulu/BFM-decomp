@@ -6844,9 +6844,195 @@ INCLUDE_ASM("asm/ov_SC04_005/nonmatchings/ov_SC04_005_jr_8017BEBC", func_8018654
 
 INCLUDE_ASM("asm/ov_SC04_005/nonmatchings/ov_SC04_005_jr_8017BEBC", func_801865BC);
 
-INCLUDE_ASM("asm/ov_SC04_005/nonmatchings/ov_SC04_005_jr_8017BEBC", func_8018676C);
 
-INCLUDE_ASM("asm/ov_SC04_005/nonmatchings/ov_SC04_005_jr_8017BEBC", func_801869D4);
+/* --- types: ALREADY PRESENT in src/shared/engine_types.h (pulled into the real TU
+ * via engine_core.h). Delete these four typedefs when banking into
+ * src/ov_SC02_041/ov_SC02_041_jr_8017BEBC.c — they exist verbatim at
+ * engine_types.h:1168 (MATRIX), :1726 (CV_801837B0), :3787..:3793 (SV/PKT).
+ * The immediate neighbour func_801837B0 (line 5484, MATCHed) uses PKT_801837B0
+ * with the identical v[4]/rgb[4]/code layout and the same `pkt.code = 0x50000000`. */
+
+
+
+
+
+
+void func_8018676C(s32 a0, void *a1, s32 a2)
+{
+    extern u16 D_800B99DA;
+    extern u8 D_801B5A10[];
+    extern u8 D_801B5A24[];
+    extern s32 func_80017758(void *a0, void *a1);   /* canon, TU line 1761 */
+    extern void func_80186C80(s32 a0, void *a1, s32 a2, MATRIX *a3);
+    MATRIX m;               /* sp+0x10 */
+    PKT_801837B0 pkt;       /* sp+0x30 */
+    u8 *p;
+    s32 i;
+
+    func_80186C80(a0, a1, a2, &m);
+
+    if (D_800B99DA & 1) {
+        pkt.rgb[1].b = 0x58;
+    } else {
+        pkt.rgb[1].b = 0x48;
+    }
+
+    p = D_801B5A10;
+    pkt.rgb[0].r = pkt.rgb[0].g = pkt.rgb[0].b = 0;
+    pkt.rgb[2].r = pkt.rgb[2].g = pkt.rgb[2].b = 0;
+    pkt.rgb[3].r = pkt.rgb[3].g = pkt.rgb[3].b = 0;
+    pkt.code = 0x50000000;
+    pkt.v[0].vz = pkt.v[2].vz = pkt.v[3].vz = 0;
+    pkt.v[1].vx = pkt.v[1].vy = pkt.v[1].vz = 0;
+    pkt.rgb[1].r = pkt.rgb[1].g = pkt.rgb[1].b >> 2;
+
+    for (i = 0; i < 4; i++) {
+        pkt.v[0].vx = (s8)*p++;
+        pkt.v[0].vy = (s8)*p++;
+        pkt.v[2].vx = (s8)*p++;
+        pkt.v[2].vy = (s8)*p++;
+        pkt.v[3].vx = (s8)*p++;
+        pkt.v[3].vy = (s8)*p--;
+        func_80017758(&pkt.v[0], &m);
+    }
+
+    p = D_801B5A24;
+    pkt.v[1].vz = -0x12;
+    pkt.v[0].vy = pkt.v[2].vy = pkt.v[3].vy = 0;
+    pkt.v[1].vx = pkt.v[1].vy = 0;
+    pkt.rgb[1].b <<= 1;
+    pkt.rgb[1].r = pkt.rgb[1].g <<= 1;
+
+    for (i = 0; i < 4; i++) {
+        pkt.v[0].vx = (s8)*p++;
+        pkt.v[0].vz = (s8)*p++;
+        pkt.v[2].vx = (s8)*p++;
+        pkt.v[2].vz = (s8)*p++;
+        pkt.v[3].vx = (s8)*p++;
+        pkt.v[3].vz = (s8)*p--;
+        if (i == 2) {
+            pkt.rgb[3].b = pkt.rgb[1].b;
+            pkt.rgb[3].r = pkt.rgb[3].g = pkt.rgb[1].r;
+        } else if (i == 3) {
+            pkt.rgb[3].r = pkt.rgb[3].g = pkt.rgb[3].b = 0;
+            pkt.rgb[0].b = pkt.rgb[1].b;
+            pkt.rgb[0].r = pkt.rgb[0].g = pkt.rgb[1].r;
+        }
+        func_80017758(&pkt.v[0], &m);
+    }
+}
+
+
+
+/* func_801869D4 (ov_SC02_041_jr_8017BEBC, 171 ins) — byte-matched.
+ *
+ * Builds a GTE 4-vertex/4-colour packet on the stack and pushes it three times
+ * through func_80017758 (the shared "transform + link prim" helper, see the
+ * sibling func_80182BDC in ov_SC03_099_jr_8017BEBC.c, which uses the identical
+ * 0x00 verts / 0x20 colours / 0x30 code layout).
+ *
+ * Layout notes that had to be right for the frame to come out as 0x78:
+ *   - mtx[0x20] is declared FIRST so it takes the low local slot (sp+0x10) and
+ *     the packet takes sp+0x30 (MIPS frame grows UP; slots go in decl order).
+ *   - locals total 0x54 -> MIPS_STACK_ALIGN 0x58, +0x10 outgoing args +12 saved
+ *     regs = 0x74 -> 0x78.
+ *
+ * Two idioms this needed (both byte-verified here):
+ *   1. The colour/vertex zero-fills are CHAINED assignments; `a = b = c = 0`
+ *      emits the stores RIGHT-TO-LEFT, which is what produces the descending
+ *      0x52/0x51/0x50 and 0x4C/0x44/0x34 store orders.
+ *   2. The brightness must be stored into the packet IN EACH ARM (cross-jump
+ *      then merges the three `sb`s into one at the join). Hoisting it into an
+ *      `s32 br` local instead lets cse/combine forward the stored value into
+ *      the `>> 2`, which DELETES the `lbu 0x54(sp)` reload (-1 instruction).
+ *   3. The inner test is written `!(flags & 2) -> 0x80` so gcc's
+ *      jump-if-false lands `bnez` (with 0xC0 stolen into the delay slot from
+ *      the branch target), not `beqz` with 0x80.
+ */
+
+void func_801869D4(s32 a0, s32 a1, s32 a2)
+{
+    typedef struct {
+        s16 vx, vy, vz, pad;
+    } SV_80183FE0_801869D4;
+
+    typedef struct {
+        SV_80183FE0_801869D4 v[4];    /* 0x00 */
+        u8          c[4][4]; /* 0x20 */
+        u32         code;    /* 0x30 */
+    } Prim_80183FE0_801869D4;         /* 0x34 */
+
+    extern void func_80186C80(s32 a0, s32 a1, s32 a2, void *a3);
+    extern s32 func_80017758(void *a0, void *a1);
+    extern u16 D_800B99DA;
+    extern u8 D_8018ABDC[];
+    extern u8 D_8018ABF0[];
+
+    u8 mtx[0x20];
+    Prim_80183FE0_801869D4 p;
+    u8 *q;
+    s32 i;
+
+    func_80186C80(a0, a1, a2, mtx);
+
+    p.v[0].vz = p.v[2].vz = p.v[3].vz = 0;
+    p.v[1].vx = p.v[1].vy = p.v[1].vz = 0;
+    if (D_800B99DA & 1) {
+        p.c[1][0] = 0xA0;
+    } else if (!(D_800B99DA & 2)) {
+        p.c[1][0] = 0x80;
+    } else {
+        p.c[1][0] = 0xC0;
+    }
+    p.c[0][0] = p.c[0][1] = p.c[0][2] = 0;
+    p.c[2][0] = p.c[2][1] = p.c[2][2] = 0;
+    p.c[3][0] = p.c[3][1] = p.c[3][2] = 0;
+    p.code = 0x50000000;
+    p.c[1][1] = p.c[1][2] = p.c[1][0] >> 2;
+
+    q = D_8018ABDC;
+    for (i = 0; i < 4; i++) {
+        p.v[0].vx = (s8)*q++;
+        p.v[0].vy = (s8)*q++;
+        p.v[2].vx = (s8)*q++;
+        p.v[2].vy = (s8)*q++;
+        p.v[3].vx = (s8)*q++;
+        p.v[3].vy = (s8)*q--;
+        func_80017758(&p, mtx);
+    }
+
+    p.v[0].vy = p.v[2].vy = p.v[3].vy = 0;
+    p.v[1].vx = p.v[1].vy = 0;
+    p.v[1].vz = -0x20;
+    q = D_8018ABF0;
+    for (i = 0; i < 4; i++) {
+        p.v[0].vx = (s8)*q++;
+        p.v[0].vz = (s8)*q++;
+        p.v[2].vx = (s8)*q++;
+        p.v[2].vz = (s8)*q++;
+        p.v[3].vx = (s8)*q++;
+        p.v[3].vz = (s8)*q--;
+        func_80017758(&p, mtx);
+        if (i == 1) {
+            p.v[1].vz = 0x20;
+            q += 2;
+        }
+    }
+    q += 2;
+
+    p.v[0].vx = 0;
+    p.v[0].vz = -0x20;
+    p.c[0][0] = p.c[1][0];
+    p.c[0][1] = p.c[0][2] = p.c[1][1];
+    for (i = 0; i < 2; i++) {
+        p.v[2].vx = (s8)*q++;
+        p.v[2].vz = (s8)*q++;
+        p.v[3].vx = (s8)*q++;
+        p.v[3].vz = (s8)*q++;
+        func_80017758(&p, mtx);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_005/nonmatchings/ov_SC04_005_jr_8017BEBC", func_80186C80);
 

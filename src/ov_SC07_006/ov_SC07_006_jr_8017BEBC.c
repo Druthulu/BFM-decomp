@@ -3966,12 +3966,6 @@ extern Morph_8017DC1C *D_801BF530;
 extern Morph_8017DC1C *D_801BF534;
 extern Morph_8017DC1C *D_801BF538;
 extern Morph_8017DC1C *D_801BF650;
-extern Morph_8017DC1C *D_801BF65C;
-extern Morph_8017DC1C *D_801BF660;
-extern Morph_8017DC1C *D_801BF684;
-extern Morph_8017DC1C *D_801BF6A4;
-extern Morph_8017DC1C *D_801BF6A8;
-extern Morph_8017DC1C *D_801BF6AC;
 
 extern SVECTOR2 *D_801C1E14;
 extern SVECTOR2 *D_801C1E18;
@@ -3979,11 +3973,6 @@ extern SVECTOR2 *D_801C1E1C;
 extern SVECTOR2 *D_801C1E20;
 extern SVECTOR2 *D_801C1E24;
 extern SVECTOR2 *D_801C1E28;
-extern SVECTOR2 *D_801C1E2C;
-extern SVECTOR2 *D_801C1E30;
-extern SVECTOR2 *D_801C1E34;
-extern SVECTOR2 *D_801C1E38;
-extern SVECTOR2 *D_801C1E3C;
 extern SVECTOR2 *D_801C1E40;
 extern SVECTOR2 *D_801C1E44;
 extern SVECTOR2 *D_801C1E48;
@@ -3994,24 +3983,11 @@ extern SVECTOR2 *D_801C1E58;
 extern SVECTOR2 *D_801C1E60;
 extern SVECTOR2 *D_801C1E64;
 extern SVECTOR2 *D_801C1E68;
-extern SVECTOR2 *D_801C1E6C;
-extern SVECTOR2 *D_801C1E70;
-extern SVECTOR2 *D_801C1E74;
-extern SVECTOR2 *D_801C1E78;
-extern SVECTOR2 *D_801C1E7C;
-extern SVECTOR2 *D_801C1E80;
-extern SVECTOR2 *D_801C1E84;
-extern SVECTOR2 *D_801C1E88;
 extern SVECTOR2 *D_801C1E8C;
-extern SVECTOR2 *D_801C1E90;
-extern SVECTOR2 *D_801C1E94;
-extern SVECTOR2 *D_801C1E98;
 extern SVECTOR2 *D_801C1E9C;
 extern SVECTOR2 *D_801C1EA0;
 extern SVECTOR2 *D_801C1EA4;
 extern SVECTOR2 *D_801C1EA8;
-extern SVECTOR2 *D_801C1EAC;
-extern SVECTOR2 *D_801C1EB0;
 
 
 /* MUST be `inline` — see L1. 25 expansions == 1518 ins, 0 jal, frame 25*24=0x258. */
@@ -4042,6 +4018,39 @@ static inline void morph_lerp(Morph_8017DC1C *o, SVECTOR2 *b, SVECTOR2 *a, s32 t
 
 void func_8017DC1C(s32 t)
 {
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern SVECTOR2 *D_801C1E6C;
+    extern SVECTOR2 *D_801C1E70;
+    extern SVECTOR2 *D_801C1E74;
+    extern SVECTOR2 *D_801C1E78;
+    extern SVECTOR2 *D_801C1E7C;
+    extern SVECTOR2 *D_801C1EB0;
+    extern Morph_8017DC1C *D_801BF6A4;
+    extern Morph_8017DC1C *D_801BF6A8;
+    extern Morph_8017DC1C *D_801BF6AC;
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern SVECTOR2 *D_801C1E2C;
+    extern SVECTOR2 *D_801C1E30;
+    extern SVECTOR2 *D_801C1EAC;
+    extern SVECTOR2 *D_801C1E38;
+    extern SVECTOR2 *D_801C1E3C;
+    extern SVECTOR2 *D_801C1E34;
+    extern Morph_8017DC1C *D_801BF65C;
+    extern Morph_8017DC1C *D_801BF660;
+    extern Morph_8017DC1C *D_801BF684;
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern SVECTOR2 *D_801C1E80;
+    extern SVECTOR2 *D_801C1E84;
+    extern SVECTOR2 *D_801C1E88;
+    extern SVECTOR2 *D_801C1E90;
+    extern SVECTOR2 *D_801C1E94;
+    extern SVECTOR2 *D_801C1E98;
     morph_lerp(D_801BF4F4, D_801C1E14, D_801C1E18, t);
     morph_lerp(D_801BF4F8, D_801C1E1C, D_801C1E1C, t);
     morph_lerp(D_801BF4FC, D_801C1E20, D_801C1E20, t);
@@ -4106,7 +4115,32 @@ INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_8017BEBC", func_80180CF
 
 INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_8017BEBC", func_80181148);
 
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_8017BEBC", func_8018163C);
+
+/* func_8018163C — banked from the S40 wave-1 draft.
+ * The draft carried the TYPES, the six SVECTOR2 externs and `static inline morph_lerp` so that
+ * match_one could compile it standalone (-Iinclude only, the §77 probe rule). The REAL TU
+ * (ov_SC07_006_jr_8017BEBC.c) already defines all of them — morph_lerp at :4018 — so keeping
+ * them produced `redefinition of morph_lerp`. Per the draft's own banking note, only the three
+ * NEW externs and the body belong here. §77: a probe layer is scaffolding, not part of the bank. */
+
+
+void func_8018163C(s32 t)
+{
+
+    extern SVECTOR2 *D_801C1E80;
+    extern SVECTOR2 *D_801C1E84;
+    extern SVECTOR2 *D_801C1E88;
+    extern SVECTOR2 *D_801C1E90;
+    extern SVECTOR2 *D_801C1E94;
+    extern SVECTOR2 *D_801C1E98;
+    extern Morph_8017DC1C *D_801BF5B4;
+    extern Morph_8017DC1C *D_801BF5B8;
+    extern Morph_8017DC1C *D_801BF5BC;
+    morph_lerp(D_801BF5B4, D_801C1E80, D_801C1E90, t);
+    morph_lerp(D_801BF5B8, D_801C1E84, D_801C1E94, t);
+    morph_lerp(D_801BF5BC, D_801C1E88, D_801C1E98, t);
+}
+
 
 INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_8017BEBC", func_80181924);
 
@@ -4120,11 +4154,61 @@ INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_8017BEBC", func_8018215
 
 INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_8017BEBC", func_80182268);
 
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_8017BEBC", func_801823F8);
+
+/* func_801823F8 — banked from the S40 wave-1 draft.
+ * The draft carried the TYPES, the six SVECTOR2 externs and `static inline morph_lerp` so that
+ * match_one could compile it standalone (-Iinclude only, the §77 probe rule). The REAL TU
+ * (ov_SC07_006_jr_8017BEBC.c) already defines all of them — morph_lerp at :4018 — so keeping
+ * them produced `redefinition of morph_lerp`. Per the draft's own banking note, only the three
+ * NEW externs and the body belong here. §77: a probe layer is scaffolding, not part of the bank. */
+
+
+void func_801823F8(s32 t)
+{
+
+    extern SVECTOR2 *D_801C1E2C;
+    extern SVECTOR2 *D_801C1E30;
+    extern SVECTOR2 *D_801C1EAC;
+    extern SVECTOR2 *D_801C1E38;
+    extern SVECTOR2 *D_801C1E3C;
+    extern SVECTOR2 *D_801C1E34;
+    extern Morph_8017DC1C *D_801BF65C;
+    extern Morph_8017DC1C *D_801BF660;
+    extern Morph_8017DC1C *D_801BF684;
+    morph_lerp(D_801BF65C, D_801C1E2C, D_801C1E38, t);
+    morph_lerp(D_801BF660, D_801C1E30, D_801C1E3C, t);
+    morph_lerp(D_801BF684, D_801C1EAC, D_801C1E34, t);
+}
+
 
 INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_8017BEBC", func_801826E0);
 
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_8017BEBC", func_801828A4);
+
+/* func_801828A4 — banked from the S40 wave-1 draft.
+ * The draft carried the TYPES, the six SVECTOR2 externs and `static inline morph_lerp` so that
+ * match_one could compile it standalone (-Iinclude only, the §77 probe rule). The REAL TU
+ * (ov_SC07_006_jr_8017BEBC.c) already defines all of them — morph_lerp at :4018 — so keeping
+ * them produced `redefinition of morph_lerp`. Per the draft's own banking note, only the three
+ * NEW externs and the body belong here. §77: a probe layer is scaffolding, not part of the bank. */
+
+
+void func_801828A4(s32 t)
+{
+
+    extern SVECTOR2 *D_801C1E6C;
+    extern SVECTOR2 *D_801C1E70;
+    extern SVECTOR2 *D_801C1E74;
+    extern SVECTOR2 *D_801C1E78;
+    extern SVECTOR2 *D_801C1E7C;
+    extern SVECTOR2 *D_801C1EB0;
+    extern Morph_8017DC1C *D_801BF6A4;
+    extern Morph_8017DC1C *D_801BF6A8;
+    extern Morph_8017DC1C *D_801BF6AC;
+    morph_lerp(D_801BF6A4, D_801C1E6C, D_801C1E78, t);
+    morph_lerp(D_801BF6A8, D_801C1E70, D_801C1E7C, t);
+    morph_lerp(D_801BF6AC, D_801C1E74, D_801C1EB0, t);
+}
+
 
 INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_8017BEBC", func_80182B8C);
 
