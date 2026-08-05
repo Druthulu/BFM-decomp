@@ -181,7 +181,98 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 
 ---
 
-# 🛑 SESSION-38 CHECKPOINT (2026-08-04, wave 6 BANKED + the gate defect fixed) — FRESH SESSION SAFE HERE
+# 🛑 SESSION-38 CHECKPOINT — **v2, POST-S1/S2** (2026-08-04) — FRESH SESSION SAFE HERE
+> **NOTHING IS RUNNING. Tree lock FREE. Tree CLEAN** but for the R23 `db.*.gbf` churn — never stage.
+> Effort: **xHigh** (Drew set it for the eventual S5 wave; the S1/S2 work was deterministic).
+> **R22 clean-fleet run SEVEN times this session, 140/140 every time.**
+> **Drew's standing decision: NO phase close — keep grinding.** Plan = **T7 (the Fable-5 plan)**;
+> **full report at `.run/fable_frontier/ANALYSIS.md`**, pools at `pool_ovres.json`.
+> **VERIFY BEFORE TRUSTING:** `git log --oneline -3` should show this at/near HEAD and
+> `grep -E 'FLEET (fn-count|instr|distinct)' docs/progress.fleet.md` must agree below. Digest wins.
+
+## FLEET — R22 **140 passed / 0 failed of 140**
+**96.32% fn-count · 94.3% instr-weighted · 89.1% distinct-code** (77,884 uniq) · 0 NON_MATCHING (G4).
+Session opened 96.28 / 94.1 / 88.7 ⇒ **+19,300 instructions**, the great majority for **~0 agent
+tokens** (instrument repair, not drafting).
+
+## WHAT S38 ACTUALLY WAS: EIGHT TOOL DEFECTS, NOT A COMPILER PROBLEM
+Every "wall" hit today was our own tooling keyed on the wrong thing. In order:
+1. **`harvest_verify._reload_corpus`** re-applied `--src` after a carve → deleted the stub it had
+   just followed → uncaught `KeyError` → `_jtbl_restore` never ran → **stranded carve** → later gate
+   groups built against a mutated tree. **10 of wave 6's 16 drafts vanished with no verdict.**
+2. **`.run/s6f_gate.py`** never checked the child's rc — booked a crash as silence. Now asserts
+   `banked+failed+no-verdict == drafts`, prints rc + output tail, exits 1.
+3. **`classify_fail`** truncated diagnostics **from the LEFT**, severing the symbol name.
+4. **`jr_isolate_all` / `overlay_src_split`** SILENTLY DELETED definition-side `__asm__`-alias
+   functions during a repartition (`addr_of` resolves by C name; an alias def is spelled `aF…`).
+   → 3 wave-6 drafts recovered instantly. **Fifth tool with this same blindness** — `family_remap`
+   fixed it and the fix was never propagated.
+5. **`partition`/`_partition`** now REFUSE to rewrite a file when a construct's address won't resolve
+   (R32) instead of dropping it.
+6. **The type-scope class** — a remapped body names the exemplar's TU-local types → parse error, never
+   reaches codegen. **895 types lifted fleet-wide** → the class is gone.
+7. **`jtbl_family_bank`** reported `gate-fail` with NO reason (only stage-construction errors were
+   captured, never the build's). Fixed → S2's failures are now classified.
+8. `family_hseq`'s stdout called an OVERLAYS-ONLY number "fleet".
+
+## ✅ T7 PROGRESS
+| task | result |
+|---|---|
+| **S1a** lift local types | **DONE** — 895 types / 1,259 files |
+| **S1c** re-sweep matched-exemplar families | **DONE — 97 members banked** (were 0) |
+| **S1b** "wire the reconcile" | **PREMISE REFUTED — nothing to wire** (see below) |
+| **S2** jr families via `jtbl_family_bank` | **DONE — 10 members banked**, 7 families classified |
+| S1d, S3–S7 | pending — see the task list + T7 |
+
+**S1b is closed by measurement:** `cast_call_sites` is ALREADY called in `hseq_sweep`
+(family_sweep.py:632, default-on), as are tu-scope §103 and `scope_data_fix`. And
+`--normalize-self-decls` — whose only negative (0/1,622) its own author proved was a tool artifact —
+got a fair post-fix re-test: **0 banks + repeated "self-decl edit NON-NEUTRAL → reverted TU"**. It
+also targets the wrong axis (the target's OWN decl; the residue conflicts are on callees/data).
+
+## 🎯 THE REAL RESIDUE — **TWO SYMBOLS, 383 of ~398 CONFLICTS** (→ task S1d)
+- **`func_80146A6C` (208)** — the fleet is **UNIFORM** (4,262 decls of
+  `extern s32 func_80146A6C(s32,void*,s32,s32,s32,s32,s32)` + 297 unnamed-param copies of the same
+  types), so **the TU is right and the templated draft carries the bad decl.** A draft-side bug hunt,
+  NOT a new lever — and work out why `cast_call_sites` is not already resolving it.
+- **`func_80161208` (175)** — the fleet genuinely disagrees: `s32 f()` ×3730 · `int f()` ×1775 ·
+  `s32 f(void)` ×1517 · `s32 f(void*)` ×138. **That is the Phase-16 loose-typing wall**, not plumbing.
+  Candidate: the §37/§124 DEFINITION-side asm-label alias (zero blast radius). **Probe one member.**
+
+## ▶ RESUME HERE (cheap deterministic lanes still pay; the wave costs ~20M tokens)
+1. **S3 — the SC07 carve** (task #5): the whale `0x80144b9c` is matched in 134/138 overlays and open
+   ONLY in the 4 SC07s = **3,080 ins of BYTE-IDENTICAL code** blocked by the T2 Arm-A `%lo +0x20`
+   defect. ~0 tokens.
+2. **S1d** (task #10) — the two symbols above, worth ~383 member failures.
+3. **S2 residue** — `.run/jrprop/*.log`: 2 families `isolate-fail`, 1 `carve-fail` (tool refusals,
+   likely routable); only 2 members are genuine DIFF.
+4. **S4** (task #6) — 39 draft-exemplar families + the 2 resident stubs with match_one-MATCH drafts
+   already gate-rejected for TU plumbing; **plus wave 6's 3 still-failing alias-class drafts**
+   (func_80189030 / 801878E8 / 801919A0 — the three LARGEST, so the residual cause is size-correlated).
+5. **S5 — the wave** (task #7): 1,689 open-only h_norm clusters / 326,261 ins at a 2.7× multiplier.
+   **VERIFY the pool numbers first (Fable's, unverified — R14)**, then ONE 8-target calibration wave
+   measuring REALIZED propagation before scaling. **Prompt Drew for the toggle (R27).**
+
+## 🧰 MY PROCESS ERRORS THIS SESSION
+1. **I claimed `family_sweep` hides the per-member error.** FALSE — **23,211
+   `.run/hseq_failed.*.classified.txt` files** exist and both of the day's zeros were already
+   diagnosed in them. I asserted a tool limitation without looking, then spent two probes and a
+   manual `--stage-only` round rediscovering one. **Read the payload first.**
+2. **I called 4 families "chance collisions"** while my own printout showed them `PURE`/`IMM` — and
+   PURE means every differing word is at a RELOC position, the opposite of chance. Refuted by Fable.
+3. **I reverted `config/` and re-extracted ONE overlay of sixteen** (the Phase-20 R22 corollary),
+   so a whole gate cycle measured against stale asm and read 3 real banks as failures.
+4. **A backticked `` `make extract` `` in a `-m` commit message EXECUTED** — corrupted the message
+   and ran a real extract. Use quoted heredocs. (No damage; re-committed.)
+5. **`family_sweep … | tail` swallowed a non-zero exit** — a pipeline's status is the LAST command's.
+6. **I looked a just-banked head up in its family's `members` list** — a banked head LEAVES `members`
+   and becomes `exemplar.kind='matched'`.
+No bad bytes from any of them — the byte-gate and R22 caught everything.
+
+---
+
+# 🛑 (superseded) SESSION-38 CHECKPOINT v1 — wave 6 banked + the gate defect fixed
+
 > **NOTHING IS RUNNING. Tree lock FREE. Tree CLEAN** but for the R23 `db.*.gbf` churn — never stage.
 > Effort: **high** (Drew lowered from ultracode as an experiment; he will enable xHigh for wave 7).
 > **R22 clean-fleet run TWICE this session, 140/140 both times.**
