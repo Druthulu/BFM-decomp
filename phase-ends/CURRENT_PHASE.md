@@ -231,7 +231,7 @@ Both passed their per-binary/per-draft gate and FAILED the clean-tree rebuild:
 | **S1c** re-sweep families | DONE — 97 members |
 | **S1b** "wire the reconcile" | **PREMISE REFUTED** — already wired; NSD re-tested post-fix = 0 |
 | **S2** jr families | DONE — 10 members; 7 families now CLASSIFIED |
-| **S3** the whale | DONE-PARTIAL — **137/138**; `ov_SC07_010` open; the 61 SC07 -O0 members NOT attempted |
+| **S3** the whale | ✅ **COMPLETE — 138/138 (S39).** `ov_SC07_010` closed: `o0_subsplit --lo 0x80144B9C --hi 0x801457A4` (1 stub, **0 already-matched in range** ⇒ no §126 island; 3 regions, `_o0c` free) → split byte-neutral → banked via `../shared/func_80144B9C.h` → **R22 140/140 clean-tree**, fleet instr **+770** (12,405,402 → 12,406,172). The S38 cause ("reused an existing `_o0c`") did not recur — `o0_subsplit.free_letters` picks an unused suffix. Two decl conflicts hit on the way, enumerated with `cdecl` in ONE pass (R33) instead of one build at a time: of the header's 94 symbols the §8b carried layer re-declared 3, and 2 conflicted (`D_801274D0` `s32(*)(s32)`, `D_801274CC` `void*` vs header `s32`) — dropped, matching all 137 precedents (0 of them carry either), byte-neutral per §8c. **The 61 SC07 `-O0` members remain NOT attempted.** |
 | **S1d** the alias class | **138/138 on family 1**; generalised harvest committed w/ the accounting caveat |
 | **S1e** (#11) | ✅ **RESOLVED — THE REGRESSION NEVER HAPPENED (S39).** The `commit:1426` digest was committed **STALE** (generated from a tree still holding work reverted before the commit landed; overstated **+7,879 ins / +130 uniq**, never regenerated), so the next honest digest read as a fall. True delta 843→HEAD: **instr +10,869 · distinct +2,776 ins / +57 uniq — everything ROSE.** HEAD's digest reproduces EXACTLY. **⇒ THE ALIAS LEVER IS UNGATED — scale it (§61 small batches).** Both recorded leads were wrong (R14): `progress.py:423`'s `SIG` feeds **fn-count only**, and "reverted to INCLUDE_ASM" died on one grep (483 removed, **0 added**). Fixes: `stub_addrs` no longer swallows `corpus.stubs` (the bare `except` byte-witnessed reporting **100.00%/100.00%** in a tree with no `asm/`); **NEW `make audit-digest`** in `tools-health` (integers, not percentages — the staleness printed as "94.4%" both sides), negative-control-proven vs the stale digest; the SAME swallow fixed in `cast_call_sites.tu_for` + `reconcile_tu.tu_for`, where it reconciled against the **wrong TU** (the bug that file's own docstring exists to fix). cookbook **§140** · decision-log 2026-08-04. |
 | S4 · S5 · S6 · S7 | pending |
@@ -244,7 +244,15 @@ Both passed their per-binary/per-draft gate and FAILED the clean-tree rebuild:
    theory died on one grep (483 removed, 0 added). Still worth doing opportunistically: the `SIG`
    alias blindness is REAL for fn-count — resolve a def through its `__asm__` label via
    `overlay_src_split.asm_label_aliases` (R33, reuse it) rather than a new regex.
-2. **`ov_SC06_030` + `ov_SC07_010`** — both reverted, both re-attemptable (see the failures above).
+2. ~~**`ov_SC06_030` + `ov_SC07_010`**~~ ✅ **DONE (S39).** `ov_SC07_010` whale banked → **138/138**, R22
+   140/140, +770 ins. `ov_SC06_030/func_8017E120` needed nothing — it is **already banked** (defined at
+   `ov_SC06_030_jr_8017C8D0.c:3491`); what S38 reverted was the surrounding batch, not that function.
+   **Metric note (R30, same class as S1e):** a body banked by `#include`-ing a shared header is
+   invisible to **fn-count**'s numerator (the definition is not in the `.c`) while removing its stub
+   from the denominator — the whale bank moved fn-count `341186/353718 → 341186/353717`. The
+   **weighted** metrics counted it correctly (+770) because they derive from `corpus.stubs`, not from
+   re-parsed C. Same root as S1e: `classify()` re-parses C and inherits blindness; trust the weighted pair.
+   **Still open here: the 61 SC07 `-O0` members** (S3's untouched half).
 3. **S4** (task #6) + wave 6's 3 still-failing alias drafts (the three LARGEST — size-correlated).
 4. **S5 the wave** (task #7) — 1,689 h_norm clusters / 326,261 ins at 2.7×. **VERIFY Fable's pool
    numbers first (R14)**, ONE 8-target calibration wave, measure REALIZED propagation. **Prompt for
