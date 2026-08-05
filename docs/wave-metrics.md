@@ -152,3 +152,44 @@ fixed path — a real match reported as nothing.
 **Any row in this table is a coverage claim.** Before recording one, confirm the gate accounted for
 every draft (`banked + failed + no-verdict == drafts`, now asserted in `.run/s6f_gate.py`). Full
 post-mortem: cookbook **§139**.
+
+---
+
+## Wave S40-1 (2026-08-05) — 8 targets, the first wave ever aimed at the open-only h_norm clusters
+
+**Pool verified BEFORE the wave (R14).** The frontier report's cluster pool was carried with an
+explicit "not verified" caveat, and its *other* headline claim (the whale open in 4 SC07 overlays)
+had already proved 3/4 wrong. Measured from the sigs instead:
+
+| | clusters | fns | ins | multiplier |
+|---|---:|---:|---:|---:|
+| claimed | 1,689 | 5,956 | 326,261 | 2.7× |
+| **measured** | **1,677** | **5,795** | **319,755** | **3.68×** |
+
+Within 2–4% on size, and the multiplier is **better** than claimed. Verify each claim separately: the
+same document was right here and wrong about the whale.
+
+**Result — and the two numbers say different things.**
+
+| stage | result |
+|---|---|
+| `match_one` close=0 | **8 / 8** |
+| whole-binary gate, first pass | **5 / 8** |
+| after deterministic recovery | **8 / 8** — ~0 agent tokens |
+
+**All three first-pass failures were integration plumbing, each a different known lever, ZERO codegen
+walls:**
+
+| fn | gate error | lever |
+|---|---|---|
+| `func_801802EC` | `redefinition of morph_lerp` | strip the **§77 probe layer** — the draft carried types + a `static inline` helper so `match_one` could compile standalone; the real TU already defines them. Scaffolding is not part of the bank. |
+| `func_8018B238` | `conflicting types for D_80115158` | `recover_giant` — the draft declared it file-scope as a struct array while the TU declares `u8[]` **block-scope** inside other functions; block-scoping the draft's externs removes the collision. |
+| `func_8017EF54` | `conflicting types for func_8017EF54` | **§37/§124 def-side asm-label alias** — TU declares `void f(void)` for no-arg callers, byte-true def takes `s32` in `$a0`; no-prototype escape illegal once a param promotes, so the definition takes a private C identifier + `__asm__("func_8017EF54")`. |
+
+**The lesson for reading any future wave row: the gate number is not the close-rate.** 5/8 measured
+integration, not matching. Run the recovery ladder before recording a wave's yield, or the table will
+under-report the drafters and send the next wave hunting compiler walls that are not there.
+
+**Cost:** 1.31M subagent tokens, 8 agents, 0 errors. **Idioms harvested:** cookbook §144 (literal
+spelling picks the immediate encoding). **Defect found:** `.run/ghidra_c/func_8017EF54.c` is a stale
+decompile of the WRONG function — the prefetch cache is not trustworthy per-entry.

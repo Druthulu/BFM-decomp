@@ -9872,3 +9872,42 @@ touched every member — and read the per-member payload before believing any wa
 
 **Symptom lines for the index:** **"parse error before `extern'"** · **"a sweep banked 0 of N"** ·
 **"a draft lost its return statement"** · **"declaration after statement in a block"**.
+
+---
+
+## §144 — THE LITERAL'S SPELLING PICKS THE IMMEDIATE ENCODING (P30 S40 wave 1, `func_801822E0`)
+
+A new, byte-proven gcc-2.7.2 idiom, found by a wave agent on an 85-ins exemplar.
+
+A byte counter stored through an `sb` was diffing on **one instruction's immediate field only**:
+
+    target :  addiu $v0, $v1, 0xFF      (imm 0x00FF)
+    ours   :  addiu $v0, $v1, -1        (imm 0xFFFF)
+
+Both are *arithmetically identical modulo 256* — only the low byte survives the `sb` — and both
+compile to a **single `addiu`**, same instruction count, same registers, same schedule. The compiler
+is not choosing between them on any semantic ground: **it takes the immediate from how the literal
+was SPELLED in the source.**
+
+    cnt = cnt - 1;        ->  addiu $v0,$v1,-1     (0xFFFF)
+    cnt = cnt + 0xff;     ->  addiu $v0,$v1,0xFF   (0x00FF)   <- matches
+
+Signedness of the counter (`s8` vs `u8`) was tested and makes **no** difference; the spelling is the
+whole lever.
+
+**When to reach for it:** your diff is a single instruction, the mnemonic and both registers agree,
+and only the **immediate field** differs — *and* the two immediates are congruent modulo the width of
+the store that consumes the value (`sb` → mod 256, `sh` → mod 65536). Then re-spell the literal to the
+form whose bit-pattern you need. Do NOT reach for pins, scheduling barriers or the permuter: nothing
+about register allocation or ordering is wrong.
+
+**Why it is easy to misread as intrinsic:** the residual is one immediate in one instruction, which
+looks exactly like the tail of a regalloc/scheduling wall. It is not — it is a pure source-text lever,
+and it is free.
+
+**Generalisation to test when it next appears** (not yet byte-proven, so treat as a hypothesis):
+the same should hold for any masked-then-truncated arithmetic where two literals are congruent modulo
+the consuming store width — e.g. `x - 2` vs `x + 0xfe`, or `h - 1` vs `h + 0xffff` ahead of an `sh`.
+
+**Symptom lines for the index:** **"only the immediate field differs"** · **"addiu -1 vs 0xFF"** ·
+**"one instruction off, same registers"**.
