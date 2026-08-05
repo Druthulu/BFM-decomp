@@ -5213,10 +5213,7 @@ extern void func_80182C28(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
     }
 
 
-extern void func_80182C28(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
-    void func_80182BD4(s32 arg0, s32 arg1, s16 arg2) {
-        func_80182C28(arg0, arg1, arg2, 0);
-    }
+DEFINE_func_80182BD4()  /* dedup: shared engine-core @0x80182BD4 (src/shared) */
 
 
 
