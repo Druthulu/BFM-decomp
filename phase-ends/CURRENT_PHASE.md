@@ -266,13 +266,34 @@ a DRAFT is the wrong move for an h_exact class; propagating the MATCHED body is 
 function, two routes, only one is free. **Remaining free pool: 66 instances / 1,061 ins across 25
 classes, all macro-backed (so `--addr` refuses — they need a `dedup_extend`-style route).**
 
-## 🌙 RUNNING OVERNIGHT (started 00:42, 6h box)
-`tools/grinder.py -j 14 --cycles 4 --permute-secs 240 --max-closeness 20 --max-nins 400`
-— the token-FREE permuter daemon, with the P30-T4 ILS warm-restart whose yield was never proven.
+## 🌙 OVERNIGHT (S39 cont., 2026-08-05 ~00:40–)
+**`tools/grinder.py -j 14 --cycles 4 --permute-secs 240 --max-closeness 20 --max-nins 400`** — the
+token-FREE permuter daemon, running the P30-T4 ILS warm-restart whose yield was **never proven**.
 Targeting ON: 1,286 classified, only `bucket=permuter` admitted (skipped 805: 447 redraft, 272
-structural, 53 integration). **It commits its own verified banks** (`gate_stage --no-propagate`,
-§55b) — so expect grinder commits, and **run a full R22 before trusting them as a fleet claim (§61)**.
-Log: `.run/s39/grinder.log`. If it produced banks, the open items are propagation + R22 + digest.
+structural, 53 integration). **First evidence the ILS wiring does something:** `func_80182C9C` hit
+"best 5, warm-restarting" (a cold search would have restarted from scratch). **It commits its own
+verified banks** (`gate_stage --no-propagate`, §55b).
+**⚠️ MORNING: its banks are per-binary gated but NOT fleet-verified — run a full R22 before
+treating them as a fleet claim (§61), then `make report` + propagate anything it landed.**
+Log `.run/s39/grinder.log`; 6h box from 00:42.
+
+### Also delivered overnight (all zero-agent, all committed)
+- **§134 CLOSED** (task #7) — the last two line-shape scanners (`progress.py.strip_comments`,
+  `lint_symbol_refs.strip_comments_strings`) now route through `cdecl._mask`. The progress one was
+  **not string-aware**, so a `}` inside a string literal walked the body-depth to −1 and would
+  mis-bucket a function in fn-count; metrics identical before/after (a latent defect). cookbook §141.
+- **main's sig regenerated** (task #6/S7) — 1,729→2,205 sigs, stub coverage 1,525→**2,001 of 2,002**.
+  Denominator +19,309 ⇒ the honest re-baseline above. **MCP IS DOWN** (I stopped it for the lock);
+  SessionStart restarts it — **run `/mcp` before any Ghidra work (R29)**.
+- **`make audit-frontier`** (task #9, Drew's MASTER_REMAINING in its DERIVED form) — reconciles every
+  "what's left" view against `corpus.stubs`; on first run caught `family_hseq` publishing 11,456
+  unmatched instances when only 11,297 are still open (**delta +159**, the map predates tonight's
+  banks). **Deliberately NOT in `tools-health`** — additive until Drew has seen it; `--strict` exits 1.
+  Assessment in `docs/decision-log.md`: adopt the goal, reject the maintained list (R33).
+- **`docs/frontier-s39.md`** — measured frontier + the T5 burn-down, with the **−0.14pp last row
+  annotated as a denominator correction, not a regression** (T5 must not report it as one).
+  **main is now the single largest open target: 79,074 ins / 2,001 stubs = 10.7% of all open code.**
+- **cookbook §142** — the free-`h_exact` lever and the trap that hid it.
 
 ## ▶ RESUME HERE
 1. **S4 continues** (task #3): the **39 draft-exemplar families (382 members)** + the **2 resident
