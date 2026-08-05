@@ -9762,3 +9762,59 @@ divergence waiting to happen, and it diverges silently.
 
 **Symptom line for the index:** **"a scanner miscounts braces/semicolons"** · **"two tools disagree
 about what a line is"**.
+
+---
+
+## §142 — An open stub whose `h_exact` class is MATCHED elsewhere is FREE. Propagate the body; do not gate a draft. (P30 S39, +7,710 ins in two commands)
+
+**The cheapest thing on the board is the thing nobody looks for**: a stub that is *byte-identical* to
+a function already matched somewhere else in the fleet.
+
+`h_exact` is the SHA1 of RAW INSTRUCTION BYTES (`tools/sig_image.py`), so two instances sharing one
+are identical **including their `jal`/`lui`/`%lo` reloc immediates** — same callees, same data
+addresses, same symbols. Therefore the body that compiles byte-identically at one member compiles
+byte-identically at the other **with no remap at all**. This is why `dup_report` calls `h_exact`
+"guaranteed byte-match" and `h_norm` "candidate-only", and it is the same correctness argument
+`dedup_extend` is built on.
+
+### The measurement (do this before any wave; it is ~20 lines and needs no builds)
+
+For every sig entry: is its address a stub in *its own* binary? Build `class -> matched-anywhere?`
+and `class -> [open instances]`; the free pool is the intersection.
+
+    OPEN stubs whose h_exact class IS matched elsewhere:
+       215 function-instances / 8,763 instructions across 33 classes
+    ...and ONE class was 86% of it:
+       func_801758FC — 55 ins, SAME address in all 138 overlays,
+       matched in ov_SC01_000 only, OPEN in the other 137  =>  7,535 ins
+
+    tools/dedup_propagate.py --addr 0x801758fc
+       [ OK ] 138 overlays byte-identical after propagation
+    fleet instr +7,535 EXACTLY; R22 140/140.
+
+### The trap that hid it — SAME FUNCTION, TWO ROUTES, ONLY ONE IS FREE
+
+`func_801758FC` had been sitting in the stored-draft backlog for two overlays, and was **re-gated
+"no" earlier the same night**. Both facts are true and not in tension: gating a *stored draft* asks
+"does this hand-written C reproduce the bytes?", which is a hard question with an ~8% yield. The
+right question for an `h_exact` class is "who already matched this, and can I stamp that body here?",
+which is free and gated at 100%. **A function's presence in the near-miss backlog is not evidence
+that it is hard — it may only be evidence that it was attacked from the wrong side.**
+
+### Route selection (why `--addr` sometimes says "nothing changed")
+
+`dedup_propagate --addr` needs a source overlay holding an **inline definition** to extract. Where
+the source is itself a `DEFINE_func_*()` macro instantiation (the ~1,600 shared bodies), it refuses —
+that is `dedup_extend`'s job (extend an existing macro-backed group to a binary that lacks it).
+Measured tonight: of 33 free classes, `--addr` reached 9 (+7,710 ins); the remaining 25 classes /
+66 instances / 1,061 ins are all macro-backed and need the `dedup_extend` route.
+
+### And the report-vs-bytes lesson attached to it
+
+The frontier report claimed the whale was "open only in SC07_006/007/010/011". **Three of those four
+were already banked.** Its pool numbers were carried with an explicit R14 caveat and the caveat was
+right. **Re-measure the pool from the sigs before acting on any published count** — the measurement
+above is cheap enough that trusting a stale number is never worth it.
+
+**Symptom lines for the index:** **"a stub is byte-identical to something already matched"** ·
+**"dedup_propagate --addr says nothing changed"** · **"a backlog function turns out to be free"**.
