@@ -2286,6 +2286,46 @@ read of the scheduler is exactly this class) — that needs Drew's go (R27).
 near-miss; `func_8017CE58`'s only draft is Ghidra-C and CC1-FAILs. **Re-derive every queue entry's size
 and home from the bytes before briefing an agent on it** — the list's annotations are unreliable.
 
+### ▶ S43-6 — `func_8017C6F4` CRACKED by Fable5, pin-free, and banked ×4 (~3,788 ins) (2026-08-05)
+Drew approved the Fable5 escalation (R27). Two isolated agents, one per function, never batched.
+
+**RESULT: byte-exact, pin-free, 947 ins — and my diagnosis was wrong.** I had this filed as §147-E, a
+`qty_compare` tie unreachable from source. It was **variable-identity evidence** all along:
+1. the X-pass and Y-pass min/max intermediates are **different variables** (8, not 4 reused);
+2. `mnc`/`mxc` **do not exist** — the cell clamps reuse the PRIM-LOOP `mn/mx` (X) and `mny/my` (Y).
+Ablations prove the conjunction is required: split-only **63**, reuse-only **624**, both = MATCH.
+That also explains why S42's "separate X vs Y variables" probe was recorded as a failure — it was
+half the fix. And why every allocator lever was inert (pins, §148-C sliders, declaration order, 14
+permuter restarts): **the draft had the wrong NUMBER OF PSEUDOS**, which no allocator steering reaches.
+
+**Verified independently before believing it (R14):** `match_one` MATCH (947 ins) re-run by me, then
+the whole-binary gate.
+
+**BANKED ×4 — every 948-ins sibling of this body:**
+| binary | SHA (byte-identical) |
+|---|---|
+| ov_SC03_126 | `c48a8bb894974dd3746a5833a20ee6da2feb831f` |
+| ov_SC03_003 | `898bf52a903dcb74ce11d2a8389c483ecc24e49e` |
+| ov_SC04_021 | `336142349b39ea4f5139b035fdb1ca8d8e7961c8` |
+| ov_SC05_019 | `3f5b4f132ed3ca63522d75c4021033b9d32b7a39` |
+`family_remap` produced all three siblings cleanly (SC03_003 remapped 4 per-overlay symbols; the other
+two needed none). **≈3,788 instructions.** ⚠️ These are INCREMENTAL-build gates — R22 clean-fleet is
+owed before the commit is trustworthy (§130: an incremental build can pass what a clean build cannot
+even link). Deferred only because the second Fable5 agent is reading `asm/` and `make clean` would
+destroy its inputs mid-run.
+
+**The propagation gotcha (§146, seen again):** all three siblings first failed the gate with
+`PLUMBING: parse error before 'MTX_C6F4'` — `family_remap`'s `_carry_macros` carries `#define`s but
+**not typedefs**. Prepending the 9 typedef lines to each remapped draft fixed all three.
+**Worth noting: that label is legible only because of this session's classifier fix — before it, this
+would have read `CC1-FAIL: make: *** Error N` and cost three manual splice-and-rebuild diagnoses.**
+
+**Idiom distilled → cookbook §150** (a register rotation across symmetric blocks is variable-identity
+evidence; decode ownership from the MATCHING diff regions first; per-instance register asymmetry ⇒
+per-instance variables; a deleted self-move in one of two symmetric blocks is the tell; and the
+`global.c:719`-vs-`:729` death-before-store exemption that produces it). §147-E corrected: it named
+the wrong allocator — these are `global.c` allocnos, not local `qty_compare` quantities.
+
 ### ▶ S11 — the propagation lag: EXTEND 0/36 -> 31/36, and every blocker was a DECLARATION (2026-08-03/04)
 Lane 2 of the S10 checkpoint ("26,006 ins, ~0 agent tokens, PARTLY BLOCKED"), taken first on the
 standing doctrine that the cheap deterministic lever is probed before the expensive agent one.

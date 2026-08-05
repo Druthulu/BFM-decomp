@@ -10259,3 +10259,58 @@ it is scheduled — the probe here cost minutes and removed a phantom item from 
 **Symptom lines for the index:** **"the permuter found no match in 0 seconds"** · **"a wall that only
 one tool reports"** · **"a backlog row that outranks a better result"** · **"CC1-FAIL: make: *** Error
 N"** · **"cheap fuel nobody has probed"**.
+
+---
+
+## §150 — A register ROTATION across symmetric blocks is VARIABLE-IDENTITY evidence, not an allocator tie (P30 S43, `func_8017C6F4`, 947 ins ×4)
+
+The function that §147-E's signature fit perfectly — "structure exactly right, one register pair
+transposed, hand sweep and permuter plateau at the same number" — and the signature was **wrong about
+the cause**. Every lever aimed at the allocator was structurally inert because the draft had the wrong
+NUMBER OF PSEUDOS. Two coupled source-shape changes matched it pin-free.
+
+### The fix
+1. **The X-pass and Y-pass min/max intermediates are DIFFERENT variables** — `xmn1/xmx1/xmn2/xmx2`
+   *and* `ymn1/ymx1/ymn2/ymx2` (8, not 4 reused).
+2. **The cell-level clamp temps did not exist.** The original reuses the PRIM-LOOP variables:
+   `mn/mx` for the cell X clamp, `mny/my` for the Y clamp.
+
+**Neither half works alone** — split-only = 63 mismatched (which is exactly why a previous session's
+"separate X vs Y variables" probe was recorded as a failure), reuse-only = 624 + length drift, the
+conjunction = MATCH. **Ablate both ways before believing either half is wrong.**
+
+### The method that found it (this is the transferable part)
+The diff's **matching** regions are a pseudo→register ownership map. Read the *mismatching* region's
+target registers against that map before touching the allocator:
+- **Different target registers for different instances of a symmetric block ⇒ per-instance
+  variables.** gcc-2.7.2 does no live-range splitting: one pseudo holds one hard reg for life. So if
+  the X pass uses `(a2,t1,a1,a3)` and the Y pass `(a3,t0,a1,a2)`, the original CANNOT have used one
+  shared set — and no allocator steering on a shared-variable draft can ever reproduce it.
+- **Contested registers that coincide with a KNOWN variable's register ⇒ the region reuses that
+  variable.** Here the four clamp registers were exactly the prim-loop `mn/mx/mny/my` registers,
+  already byte-matched elsewhere in the function, with the right semantics per axis.
+- **A deleted self-move in ONE instance of a repeated block is a per-instance-variables tell.**
+  `global_conflicts` processes `REG_DEAD` **before** `mark_reg_store` (`global.c:719` vs `:729`), so a
+  copy whose source dies at that point records no conflict and the destination may be granted the
+  source's register by ordinary first-fit — the copy then vanishes. A single shared pseudo can never
+  be "same register as its source" in one pass and "different" in the other.
+
+### Two corrections to the record
+- **§147-E named the wrong allocator.** The contested values here are multi-block and non-call-crossing
+  ⇒ **`global.c` allocnos**, not local `qty_compare` quantities. With the right variable identities,
+  plain `allocno_compare` density order + first-fit reproduces every grant deterministically (full
+  priority table in `.run/s43/fable/8017C6F4/NOTES.md`). Check WHICH allocator owns the value before
+  citing a tie in it.
+- **§148's "residual is one register rotation, did not move under ~40 probes"** is explained: the
+  probes were all allocator-shaped, and the defect was arithmetic — the wrong number of pseudos.
+  Register pins, priority sliders (§148-C), declaration order and the permuter are all *inert* against
+  a variable-identity error, which is why they agreed on a floor.
+
+### Diagnostic order (adopt this)
+**Decode ownership → check pseudo COUNT and per-instance identity → only then reach for pins, sliders,
+statement order, or the permuter.** A rotation that survives every allocator lever is evidence about
+the VARIABLES, not about the allocator.
+
+**Symptom lines for the index:** **"one register pair transposed"** · **"different registers in the X
+pass than the Y pass"** · **"a missing move / deleted copy in one of two symmetric blocks"** · **"every
+pin and slider is inert"** · **"hand sweep and permuter plateau at the same number"**.
