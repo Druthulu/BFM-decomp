@@ -1135,12 +1135,6 @@ s32 func_8013A8FC(s32);
 
 s32 func_80138C60(s32 arg0)
 {
-    typedef struct {
-        u8 b0;
-        u8 b1;
-        u8 b2;
-        u8 b3;
-    } Q_80138C60;
     extern Q_80138C60 D_801870EC[];
     u16 t;
     u8 b;

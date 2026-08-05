@@ -983,11 +983,6 @@ s16 n;
     extern s16 D_8017FA10[];
     extern u16 D_8017F520;
     extern u16 D_8017F522;
-  typedef struct 
-  {
-    u32 *ot;
-    u32 pad[4];
-  } Env_80140958;
   extern Env_80140958 D_800AE7BC[];
   Prim4 *p;
   s16 t;
@@ -1126,13 +1121,9 @@ s32 *func_80140D68(out, src, idx, dx, ofs)
        NOT file-scope typedefs — so a file-scope Env_800D29F8 is silently dropped from every
        sibling and the family sweeps 0/137. Body-local typedefs DO survive (PTag_80140D68 below
        is the proof), so it lives here. */
-    typedef struct {
-        u32 *ot;            /* 0x00 */
-        u32 pad[4];         /* 0x04..0x13 */
-    } Env_800D29F8;         /* 0x14 stride */
+         /* 0x14 stride */
     extern Env_800D29F8 D_800AE7BC[];
 
-    typedef struct { u32 addr : 24; u32 len : 8; } PTag_80140D68;
 
     register u32 mhi __asm__("$8");
     s16 *q;
@@ -2674,7 +2665,6 @@ DEFINE_func_80144AEC()  /* dedup: shared engine-core @0x80144aec (src/shared) */
 
 extern int func_80013294(void *a0, void *a1);
 
-typedef struct { short vx, vy, vz, pad; } Vec;
 
 int func_80144B14(int param_1) {
 
@@ -2945,7 +2935,7 @@ void func_80146360(void)
 
 
 
-typedef struct { char _b[8]; } Blk8_801463A0;   /* size 8, align 1 -> unaligned block move */
+   /* size 8, align 1 -> unaligned block move */
 
 extern void func_8014C6F4();
 extern void func_80155150(s32 a0);
@@ -4242,21 +4232,6 @@ s32 func_8014A738(void *arg0) {
        LATER function in this TU, which blocks a byte-true decl of a different type.
        Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
     extern u8 D_801202A0[];
-    typedef struct {
-        s16 vx;
-        s16 vy;
-        s16 vz;
-        s16 pad;
-    } Vec_8014A738;
-    typedef struct {
-        u8 pad0[6];
-        u16 x;
-        u8 pad8[6];
-        u16 z;
-        u8 pad10[0xB1];
-        u8 state;
-        u8 padC2[0x4A];
-    } Ent_801202A0;
     Vec_8014A738 d;
     u32 i;
     Ent_801202A0 *base;
@@ -4543,7 +4518,7 @@ s32 a2;
 s16 *a3;
 u16 a4;
 {
-    typedef struct { u16 a, b, c, d; } V4U_8014C4AC;   /* block-scope: no file-scope conflict (§100) */
+   /* block-scope: no file-scope conflict (§100) */
     extern s32 D_80126CD0;
     extern u16 D_8012693A;
     extern u16 D_801152B8;
@@ -4622,7 +4597,6 @@ DEFINE_func_8014C6E0()  /* dedup: shared engine-core @0x8014c6e0 (src/shared) */
 //     the preceding insns, reproducing `beqz $v0,.L8014C7F4 / addiu $a1,$zero,0x22` and leaving
 //     the loop-back delay slot a nop. `want` needs no pin — gcc lands it in $a1 on its own.
 
-typedef struct { char _b[8]; } M8_8014C6F4;
 
 void func_8014C6F4(u8 *a) {
     extern u8 D_80078E78[];
@@ -5219,17 +5193,6 @@ s32 func_8014D820(s32 a0, u16 *a1, u16 *a2x)
     u16 z;
     u16 w;
   } V4;
-  typedef struct
-  {
-    u16 x;
-    u16 y;
-    u16 z;
-    u16 w;
-    s32 pad[4];
-    s32 f18;
-    s32 f1C;
-    s32 f20;
-  } Desc;
   typedef struct EntD820
   {
     u16 f0;

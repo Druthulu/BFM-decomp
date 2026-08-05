@@ -2777,16 +2777,7 @@ void func_80184474(void) {
 
 #include "common.h"
 
-typedef struct {
-    s32 unk00;  /* 0x00 */
-    s32 unk04;  /* 0x04 */
-    u16 unk08;  /* 0x08 */
-    u16 unk0A;  /* 0x0A */
-    u16 unk0C;  /* 0x0C */
-    u16 unk0E;  /* 0x0E */
-    u16 unk10;  /* 0x10 */
-    u16 unk12;  /* 0x12 */
-} Unk8018F8C4; /* sizeof == 0x14 */
+ /* sizeof == 0x14 */
 
 extern Unk8018F8C4 D_8018F8C4[];
 

@@ -3597,16 +3597,6 @@ INCLUDE_ASM("asm/ov_SC06_010/nonmatchings/ov_SC06_010_jr_8017A4AC", func_8017CA8
  *      way ($s6/$s5); a slider (or 2) flips it back (§47 cuts both ways).
  * ========================================================================== */
 
-typedef struct { s16 vx, vy; } XDV2;
-typedef struct { s16 vx, vy, vz, pad; } XSV2;
-typedef struct { s16 m[3][3]; s32 t[3]; } XMTX2;
-typedef struct { u32 xx, yy, zz; u32 nprim; u32 *prim; } XPart;
-typedef struct { u32 w0, w1, w2; } XPrim;
-typedef struct { u8 b[8]; } XV8;
-typedef struct { u32 tag, rgbc; s16 x0, y0; u32 uvc0; s16 x1, y1; u32 uvp1;
-                 s16 x2, y2; u16 uv2, p2; } XFT3;
-typedef struct { u32 tag, rgbc; s16 x0, y0; u32 uvc0; s16 x1, y1; u32 uvp1;
-                 s16 x2, y2; u16 uv2, p2; s16 x3, y3; u16 uv3, p3; } XFT4;
 
 extern s32 func_800491EC(void);
 extern void func_800547D8(s32, XMTX2 *);

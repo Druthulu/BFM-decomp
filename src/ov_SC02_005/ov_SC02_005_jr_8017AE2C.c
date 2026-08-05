@@ -3323,17 +3323,6 @@ extern void func_8017BF14(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 
 extern s32 func_8012C750(s32 a0);
 
-typedef struct {
-    s16 unk00;
-    s16 unk02;
-    s16 unk04;
-    s16 unk06;
-    s16 unk08;
-    s16 unk0A;
-    s16 unk0C;
-    s16 unk0E;
-    s32 unk10;
-} Buf8017BF34_8017BF14;
 
 void func_8017BF14(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
 
@@ -3945,9 +3934,6 @@ INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_8017AE2C", func_8017E01
 
 #include "common.h"
 
-typedef struct {
-    s16 vx, vy, vz, pad;
-} Vec8_8017E0B4;
 
 extern Vec8_8017E0B4 D_801E2D70;
 extern Vec8_8017E0B4 D_801E2D78;
@@ -5434,9 +5420,6 @@ INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_8017AE2C", func_8018A3B
 
 /* 8-byte, alignment-1 blob: the target copies it with lwl/lwr + swl/swr,
  * which is gcc's emit_block_move for align < 4. */
-typedef struct {
-    char b[8];
-} Blob8_8018A47C;
 
 extern Blob8_8018A47C D_801E2F28;
 extern void func_8018A6A0(s32 a0, Blob8_8018A47C *a1);
@@ -5816,7 +5799,6 @@ extern u8 D_801E2F64;
 /* align-1 4-byte block: lowers via emit_block_move (unaligned lwl/lwr + swl/swr)
  * with ZERO memcpy-symbol reference, so the TU's `extern memcpy` cannot turn
  * this into a CALL.  (house idiom, cf. func_8017B238 / func_8017B614) */
-typedef struct { u8 b[4]; } Blk4_8018CE04;
 
 void func_8018CE04(s32 param_1)
 {
@@ -6259,12 +6241,6 @@ void func_80190108(void *a0) {
 
 #include "common.h"
 
-typedef struct {
-    u8 b0;
-    u8 b1;
-    u8 b2;
-    u8 b3;
-} EffectSlot4;
 
 extern void func_801465C0(void);
 extern void func_80146C3C(void);

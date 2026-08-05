@@ -3329,17 +3329,6 @@ extern void func_8017BF34(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 
 extern s32 func_8012C750(s32 a0);
 
-typedef struct {
-    s16 unk00;
-    s16 unk02;
-    s16 unk04;
-    s16 unk06;
-    s16 unk08;
-    s16 unk0A;
-    s16 unk0C;
-    s16 unk0E;
-    s32 unk10;
-} Buf8017BF34_8017BF34;
 
 void func_8017BF34(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
 

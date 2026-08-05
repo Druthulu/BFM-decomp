@@ -3508,17 +3508,6 @@ void func_8017C1F8(void *a0) {
 extern u8 *func_8012913C(s32 a0);
 extern s32 func_8012C750(s32 a0);
 
-typedef struct {
-    s16 unk00;
-    s16 unk02;
-    s16 unk04;
-    s16 unk06;
-    s16 unk08;
-    s16 unk0A;
-    s16 unk0C;
-    s16 unk0E;
-    s32 unk10;
-} Buf8017BF50_8017C234;
 
 /* $16-$19 are pinned: without them gcc's strength reduction splits the `s1` store
  * base into TWO induction variables (base+0x18 with offsets -4/0, plus base+0x1C),
@@ -4320,7 +4309,6 @@ void func_8017CFE0(s16 *a0) {
 
 /* 8-word matrix block. Uniquely named so it can never collide with the TU's own types;
    identical layout to engine_types.h's Blk20 / Mtx8_8016CBC0. */
-typedef struct { s32 w[8]; } Mtx8_8017D0BC;
 
 /* --- forms taken VERBATIM from the TU (src/ov_SC03_002/ov_SC03_002_jr_8017AE2C.c) --- */
 extern void ApplyMatrixSV(void *a0, void *a1, void *a2);   /* TU 168 / 3365 */

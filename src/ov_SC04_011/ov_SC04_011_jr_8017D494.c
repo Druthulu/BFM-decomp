@@ -3190,17 +3190,8 @@ extern s32 func_80017DC4(void *a0, void *a1);
 extern s32 func_80017E30(void *a0, void *a1);
 extern void func_80016ED4(void *a0);
 
-typedef struct { short vx, vy, vz, pad; } SVECTOR_8017F40C_8017E6EC;
 
 
-typedef struct {
-    SVECTOR_8017F40C_8017E6EC v[4];      /* 0x00 */
-    s16 k30, k32, k34, k36, k38, k3a, k3c, k3e;  /* 0x20 */
-    u32 bcast;                  /* 0x30 */
-    s32 tag;                    /* 0x34 */
-    u8 code;                    /* 0x38 */
-    u8 pad39[7];                /* -> 0x40 */
-} Prim_8017F40C_8017E6EC;
 
 void func_8017E6EC(s32 a0, s32 a1) {
 
@@ -4243,7 +4234,7 @@ INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_8018778
  *      also matches.)
  */
 
-typedef struct { u16 x, y, z, w; } Pt_80187940;   /* 8-byte out-param scratch */
+   /* 8-byte out-param scratch */
 
 extern void func_8012F14C(s32);   /* TU-canonical decl; called through a cast (fleet house style) */
 extern void func_8012F568();
@@ -4914,9 +4905,6 @@ void func_8018D3FC(s32 *a0) {
  * block, 26+ mismatches).
  */
 
-typedef struct {
-    unsigned short vx, vy, vz, pad;
-} UVec_8017EA1C_8018D468;
 
 extern s32 func_8004787C(s32 a0);
 extern void func_800139C8(s32 a0, void *a1, void *a2);
@@ -5035,12 +5023,6 @@ void func_8018E010(void) {
  *     puts $s1's zero-init first, which is the target order.
  */
 
-typedef struct {
-    s16 unk0;
-    s16 unk2;
-    s16 unk4;
-    s16 unk6;
-} Rec_8018A6A4_8018E034;
 
 extern void func_8018E0D4(s32 arg0, s32 arg1, s32 arg2);
 extern void func_8018E1F0(s32 arg0, Rec_8018A6A4_8018E034 *arg1, s32 arg2, s32 arg3);
@@ -5162,7 +5144,7 @@ void aF8018A860(s32 a0, s16 *a1, u8 *a2, u8 *a3)
 {
 
     extern s16 D_801F141C;      /* TU L3637 / L3671, verbatim */
-    typedef struct { u8 b0, b1, b2, b3; } B4_8018E1F0;   /* align 1 — §48-C2 */
+   /* align 1 — §48-C2 */
     s16 *s1;
     u16 temp_u16;
     s16 temp_s16;
@@ -5404,7 +5386,7 @@ void func_8018E34C(void) {
 
 void func_8018E428(s32 arg0)
 {
-    typedef struct { s32 w[8]; } Blk32_8018AA98_8018E428;   /* 32 bytes, align 4 */
+   /* 32 bytes, align 4 */
 
     extern Blk32_8018AA98_8018E428 D_800AE620;
     extern s32 D_800A5E60;
@@ -5553,7 +5535,6 @@ extern s32 RotTransPers(s32 a0, s32 a1, s32 *a2, s32 *a3);
 extern void func_8018E7C0(void *arg0, void *arg1, s32 arg2, s32 arg3);
 
 void func_8018E738(s32 a0) {
-    typedef struct { u8 a, b, c, d; } V4_8018E738;
     extern u8 D_800AF648;
     extern V4_8018E738 D_801ED9B8;
     u16 sxy[4];
@@ -5685,14 +5666,6 @@ void aF8018AFD0(s32 a0, s32 a1, s32 a2) __asm__("func_8018E960");
 
 void aF8018AFD0(s32 a0, s32 a1, s32 a2)
 {
-    typedef struct {
-        s16 f0;     /* 0x00 */
-        s16 f2;     /* 0x02 */
-        s16 f4;     /* 0x04 */
-        s16 f6;     /* 0x06 */
-        s32 f8;     /* 0x08 */
-        s32 fC;     /* 0x0C */
-    } P_8018E960;
 
     extern s16 D_801F1314;
     extern s16 D_801F130E[];
@@ -5861,21 +5834,11 @@ extern void func_80016638(void *a0, s32 a1, s32 a2);
 
 
 /* 0x10-byte-stride record table at D_801F1314 (same table as func_8018AD5C) */
-typedef struct {
-    u16 f0;  /* 0x00 */
-    s16 f2;  /* 0x02 */
-    s16 f4;  /* 0x04 */
-    s16 f6;  /* 0x06 */
-    s16 f8;  /* 0x08 */
-    u16 fA;  /* 0x0A */
-    s16 fC;  /* 0x0C */
-    u16 fE;  /* 0x0E */
-} Rec_8018B23C_8018EBCC;
 
-typedef struct { s32 w[8]; } Mat32_8018B23C_8018EBCC;      /* the 0x20-byte matrix */
-typedef struct { s32 a; s32 b[4]; } Ot_8018B23C_8018EBCC;  /* == engine_types.h OtBlk */
-typedef struct { u16 f; } Bidx_8018B23C_8018EBCC;          /* the D_800B9A02 buffer index */
-typedef struct { u32 addr:24; u32 len:8; } PTag_8018B23C_8018EBCC; /* libgpu P_TAG */
+      /* the 0x20-byte matrix */
+  /* == engine_types.h OtBlk */
+          /* the D_800B9A02 buffer index */
+ /* libgpu P_TAG */
 
 void func_8018EBCC(s32 a0) {
 
@@ -6284,12 +6247,6 @@ void func_8018F984(void *a0) {
 
 
 
-typedef struct {
-    u8 b0;
-    u8 b1;
-    u8 b2;
-    u8 b3;
-} EffectSlot4_8018F9C0;
 
 extern void func_801465C0(void);
 extern void func_80146C3C(void);

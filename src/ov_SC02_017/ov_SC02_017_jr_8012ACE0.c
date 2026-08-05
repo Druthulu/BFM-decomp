@@ -340,10 +340,6 @@ extern s32 func_8004787C(s32 a0); /* rcos-like: angle (0..0xFFF) -> 1.12 fixed *
  * A `struct { s16 lo, hi; }` has align 2 -> BLKmode-ish handling: gcc spills it to the stack
  * and stores it with lwl/lwr + swl/swr (54 ins, 53 mismatched). Two 16-bit BITFIELDS in a
  * u32 container give the SImode, align-4 struct gcc keeps in a register. */
-typedef struct {
-    u32 lo : 16;
-    u32 hi : 16;
-} Ang2_8012B77C_8012B77C;
 
 /* a0 = destination packed-angle word, a1 = "from" entity, a2 = "to" entity.
  * Both entities carry 16.16 fixed-point x/y/z at +0/+4/+8; the s16 reads at +2/+6/+0xA are
@@ -588,7 +584,6 @@ extern s32 func_8012CEB0(s32 a0, s32 a1, s32 a2);
  * Two 8-byte s16 vectors live at sp+0x10 and sp+0x18 and are passed by address; the second one
  * is written back to the entity's hi-16 fixed-point position after the offset is removed. */
 s32 func_8012CC88(s32 a0, s32 a1, s32 a2) {
-    typedef struct { s16 vx, vy, vz, pad; } SV3_8012CC88;
     SV3_8012CC88 sp10;
     SV3_8012CC88 sp18;
     s32 v0;
@@ -2445,7 +2440,6 @@ void func_80132F40(s32 arg0)
 {
 
     extern u8 D_80126BE0[];
-    typedef struct { u16 vx, vy, vz, pad; } Svec_80132F40;
 
     Svec_80132F40 v[4];
     register Svec_80132F40 *q __asm__("$17");
@@ -2609,7 +2603,6 @@ void func_801330E0(param_1, param_2, param_3)
  * struct-fold) instead of 8 serial lw/sw pairs. Locally named (engine_types.h's
  * identical `Blk32` is an anonymous-tag typedef -> a same-name redefinition here
  * is a C89 error in the real TU). */
-typedef struct { s32 w[8]; } Blk32L_80133298;
 
 
 extern void func_8012F0BC(s32 *a0, s32 *a1, s32 *a2);

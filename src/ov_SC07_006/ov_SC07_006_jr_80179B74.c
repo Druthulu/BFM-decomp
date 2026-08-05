@@ -6,8 +6,8 @@
  * file-local types, col-0 decls, DEFINE_func macro externs, and each earlier
  * definition's implied prototype (types first, then decls in original order).
  * Decls emit no code => byte-neutral. See cookbook §8c. */
-typedef struct { u32 *f0; s32 pad[4]; } S_AE7BC;   /* size 0x14 */
-typedef struct { s32 g0; s32 pad[2]; } S_AF634;    /* size 0x0C */
+   /* size 0x14 */
+    /* size 0x0C */
 extern void func_80128288(void);
 extern void func_80128158(void);
 extern void func_801285E4(void);

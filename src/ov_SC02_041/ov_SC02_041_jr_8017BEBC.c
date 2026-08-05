@@ -3555,9 +3555,6 @@ INCLUDE_ASM("asm/ov_SC02_041/nonmatchings/ov_SC02_041_jr_8017BEBC", func_8017E2B
 
 
 /* 8 bytes, align 2 -> lwl/lwr/swl/swr copy (cookbook §48-C2) */
-typedef struct {
-    s16 v[4];
-} Blk8_80126940_8017E374;
 
 extern u16 func_80148800(s32 *a0);
 extern void func_8017E414(s32 param_1, s16 *param_2);
@@ -3874,9 +3871,6 @@ void func_8017E9B0(s32 *a0) {
  * block, 26+ mismatches).
  */
 
-typedef struct {
-    unsigned short vx, vy, vz, pad;
-} UVec_8017EA1C;
 
 extern s32 func_8004787C(s32 a0);
 extern void func_800139C8(s32 a0, void *a1, void *a2);
@@ -5295,15 +5289,10 @@ void func_80183770(s32 a0) {
 extern u8 D_800AF630[];
 extern void func_80017714(void *);
 
-typedef struct { s16 vx, vy, vz, pad; } SV_801837B0;   /* 8 bytes */
-typedef struct { u8 r, g, b, cd; } CV_801837B0;        /* 4 bytes */
+   /* 8 bytes */
+        /* 4 bytes */
 
-typedef struct {
-    SV_801837B0 v[4];    /* +0x00 : sxy0..3 (v[0].vz doubles as the otz slot) */
-    CV_801837B0 rgb[4];  /* +0x20 */
-    u32 code;            /* +0x30 */
-    u32 pad;             /* +0x34 */
-} PKT_801837B0;          /* 0x38 */
+          /* 0x38 */
 
 #define gte_ldv0_801837B0(r0) __asm__ volatile (  \
     "lwc2 $0, 0( %0 );"                          \

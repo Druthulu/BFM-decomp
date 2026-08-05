@@ -3216,17 +3216,8 @@ extern s32 func_80017DC4(void *a0, void *a1);
 extern s32 func_80017E30(void *a0, void *a1);
 extern void func_80016ED4(void *a0);
 
-typedef struct { short vx, vy, vz, pad; } SVECTOR_8017F40C_8017E97C;
 
 
-typedef struct {
-    SVECTOR_8017F40C_8017E97C v[4];      /* 0x00 */
-    s16 k30, k32, k34, k36, k38, k3a, k3c, k3e;  /* 0x20 */
-    u32 bcast;                  /* 0x30 */
-    s32 tag;                    /* 0x34 */
-    u8 code;                    /* 0x38 */
-    u8 pad39[7];                /* -> 0x40 */
-} Prim_8017F40C_8017E97C;
 
 void func_8017E97C(s32 a0, s32 a1) {
 
@@ -3867,12 +3858,6 @@ void func_80184594(void) {
  *     puts $s1's zero-init first, which is the target order.
  */
 
-typedef struct {
-    s16 unk0;
-    s16 unk2;
-    s16 unk4;
-    s16 unk6;
-} Rec_8018A6A4_801845B8;
 
 extern void func_80184658(s32 arg0, s32 arg1, s32 arg2);
 extern void func_80184774(s32 arg0, Rec_8018A6A4_801845B8 *arg1, s32 arg2, s32 arg3);
@@ -3993,7 +3978,7 @@ void aF8018A860(s32 a0, s16 *a1, u8 *a2, u8 *a3)
 {
 
     extern s16 D_8019FE84;      /* TU L3637 / L3671, verbatim */
-    typedef struct { u8 b0, b1, b2, b3; } B4_80184774;   /* align 1 — §48-C2 */
+   /* align 1 — §48-C2 */
     s16 *s1;
     u16 temp_u16;
     s16 temp_s16;
@@ -4235,7 +4220,7 @@ void func_801848D0(void) {
 
 void func_801849AC(s32 arg0)
 {
-    typedef struct { s32 w[8]; } Blk32_8018AA98_801849AC;   /* 32 bytes, align 4 */
+   /* 32 bytes, align 4 */
 
     extern Blk32_8018AA98_801849AC D_800AE620;
     extern s32 D_800A5E60;
@@ -4384,7 +4369,6 @@ extern s32 RotTransPers(s32 a0, s32 a1, s32 *a2, s32 *a3);
 extern void func_80184D44(void *arg0, void *arg1, s32 arg2, s32 arg3);
 
 void func_80184CBC(s32 a0) {
-    typedef struct { u8 a, b, c, d; } V4_80184CBC;
     extern u8 D_800AF648;
     extern V4_80184CBC D_8019A3A8;
     u16 sxy[4];
@@ -4516,14 +4500,6 @@ void aF8018AFD0(s32 a0, s32 a1, s32 a2) __asm__("func_80184EE4");
 
 void aF8018AFD0(s32 a0, s32 a1, s32 a2)
 {
-    typedef struct {
-        s16 f0;     /* 0x00 */
-        s16 f2;     /* 0x02 */
-        s16 f4;     /* 0x04 */
-        s16 f6;     /* 0x06 */
-        s32 f8;     /* 0x08 */
-        s32 fC;     /* 0x0C */
-    } P_80184EE4;
 
     extern s16 D_8019FD7C;
     extern s16 D_8019FD76[];
@@ -4692,21 +4668,11 @@ extern void func_80016638(void *a0, s32 a1, s32 a2);
 
 
 /* 0x10-byte-stride record table at D_8019FD7C (same table as func_8018AD5C) */
-typedef struct {
-    u16 f0;  /* 0x00 */
-    s16 f2;  /* 0x02 */
-    s16 f4;  /* 0x04 */
-    s16 f6;  /* 0x06 */
-    s16 f8;  /* 0x08 */
-    u16 fA;  /* 0x0A */
-    s16 fC;  /* 0x0C */
-    u16 fE;  /* 0x0E */
-} Rec_8018B23C_80185150;
 
-typedef struct { s32 w[8]; } Mat32_8018B23C_80185150;      /* the 0x20-byte matrix */
-typedef struct { s32 a; s32 b[4]; } Ot_8018B23C_80185150;  /* == engine_types.h OtBlk */
-typedef struct { u16 f; } Bidx_8018B23C_80185150;          /* the D_800B9A02 buffer index */
-typedef struct { u32 addr:24; u32 len:8; } PTag_8018B23C_80185150; /* libgpu P_TAG */
+      /* the 0x20-byte matrix */
+  /* == engine_types.h OtBlk */
+          /* the D_800B9A02 buffer index */
+ /* libgpu P_TAG */
 
 void func_80185150(s32 a0) {
 
@@ -5120,12 +5086,6 @@ void func_80186458(void *a0) {
 
 
 
-typedef struct {
-    u8 b0;
-    u8 b1;
-    u8 b2;
-    u8 b3;
-} EffectSlot4_80186494;
 
 extern void func_801465C0(void);
 extern void func_80146C3C(void);

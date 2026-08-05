@@ -3309,9 +3309,6 @@ void func_8017D220(void *a0) {
 
 
 /* 8 bytes, align 2 -> lwl/lwr/swl/swr copy (cookbook §48-C2) */
-typedef struct {
-    s16 v[4];
-} Blk8_80126940_8017D25C;
 
 extern u16 func_80148800(s32 *a0);
 extern void func_8017D39C(s32 param_1, s16 *param_2);
@@ -3336,9 +3333,6 @@ void func_8017D25C(s32 a0) {
 
 
 /* 8 bytes, align 2 -> lwl/lwr/swl/swr copy (cookbook §48-C2) */
-typedef struct {
-    s16 v[4];
-} Blk8_80126940_8017D2FC;
 
 extern u16 func_80148800(s32 *a0);
 extern void func_8017D39C(s32 param_1, s16 *param_2);

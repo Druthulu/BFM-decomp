@@ -3326,7 +3326,6 @@ void func_8017BEBC(s32 arg0)
 
 void func_8017CD9C(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
 {
-    typedef struct { u32 w0, w1, w2; } Prim_8017CD9C;
 
     extern s32 func_800491EC(void);
     extern void func_800547D8(s32, MATRIX2 *);
@@ -3914,9 +3913,6 @@ void func_8017E1A0(void *a0) {
 
 
 /* 8 bytes, align 2 -> lwl/lwr/swl/swr copy (cookbook §48-C2) */
-typedef struct {
-    s16 v[4];
-} Blk8_80126940_8017E1DC;
 
 extern u16 func_80148800(s32 *a0);
 extern void func_8017E27C(s32 param_1, s16 *param_2);

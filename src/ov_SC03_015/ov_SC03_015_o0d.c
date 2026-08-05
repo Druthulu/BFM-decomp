@@ -2772,16 +2772,7 @@ void func_80184474(void) {
 
 
 
-typedef struct {
-    s32 unk00;  /* 0x00 */
-    s32 unk04;  /* 0x04 */
-    u16 unk08;  /* 0x08 */
-    u16 unk0A;  /* 0x0A */
-    u16 unk0C;  /* 0x0C */
-    u16 unk0E;  /* 0x0E */
-    u16 unk10;  /* 0x10 */
-    u16 unk12;  /* 0x12 */
-} Unk8018F8C4_80184538; /* sizeof == 0x14 */
+ /* sizeof == 0x14 */
 
 
 extern void MoveImage(void *a0, s32 a1, s32 a2);

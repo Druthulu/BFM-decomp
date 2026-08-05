@@ -14,35 +14,10 @@ typedef struct {
     u8  pad[7];                 /* -> 0x40 */
 } Prim_8016E7C8;
 typedef void (*Handler)(struct Entry_8016E95C *);
-typedef struct {
-    s16 v[4];
-} Blk8_80126940_8017D6D0_8017F558;
-typedef struct {
-    s16 v[4];
-} Blk8_80126940_8017D6D0_8017F794;
-typedef struct {
-    s16 v[4];
-} Blk8_80126940_8017D6D0_8017F844;
-typedef struct {
-    s16 unk0;
-    s16 unk2;
-    s16 unk4;
-    s16 unk6;
-} Rec_8018A6A4_8018393C;
-typedef struct {
-    u16 f0;  /* 0x00 */
-    s16 f2;  /* 0x02 */
-    s16 f4;  /* 0x04 */
-    s16 f6;  /* 0x06 */
-    s16 f8;  /* 0x08 */
-    u16 fA;  /* 0x0A */
-    s16 fC;  /* 0x0C */
-    u16 fE;  /* 0x0E */
-} Rec_8018B23C_801844D4;
-typedef struct { s32 w[8]; } Mat32_8018B23C_801844D4;      /* the 0x20-byte matrix */
-typedef struct { s32 a; s32 b[4]; } Ot_8018B23C_801844D4;  /* == engine_types.h OtBlk */
-typedef struct { u16 f; } Bidx_8018B23C_801844D4;          /* the D_800B9A02 buffer index */
-typedef struct { u32 addr:24; u32 len:8; } PTag_8018B23C_801844D4; /* libgpu P_TAG */
+      /* the 0x20-byte matrix */
+  /* == engine_types.h OtBlk */
+          /* the D_800B9A02 buffer index */
+ /* libgpu P_TAG */
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
 extern s32 D_800AE6B0;
@@ -3081,9 +3056,6 @@ void func_801886FC(s32 a0) {
     extern u8 D_800AF648;
     extern u8 D_801BBE74[];
     extern u8 D_801BB7E4[];
-    typedef struct {
-        u16 x, y, z, w;
-    } V8_801886FC;
     s32 mv[4];   /* sp+0x10 : the 4-word block handed to func_8012B1B4 */
     V8_801886FC pad[2];   /* sp+0x20 : gcc's own area (vars must be 0x48 for a 0x68 frame) */
     V8_801886FC sp30;     /* sp+0x30 : func_80133784 arg1 */
@@ -3213,9 +3185,6 @@ void func_80188AB0(s32 a0) {
     extern u8 D_801BC774[];
     extern u8 D_801BC0F4[];
     extern u8 D_801BC97C[];
-    typedef struct {
-        u16 x, y, z, w;
-    } V8_80188AB0;
     s32 sp10[4];
     V8_80188AB0 pad[2];
     V8_80188AB0 sp30;
@@ -3449,9 +3418,6 @@ void func_80188F58(s32 a0) {
 
     extern u8 D_801AF72C[];
     extern u8 D_801BC434[];
-    typedef struct {
-        u16 x, y, z, w;
-    } V8_80188F58;
     V8_80188F58 pad[2];
     V8_80188F58 sp20;
     V8_80188F58 sp28;
@@ -3986,7 +3952,6 @@ extern s32 func_80133784(s32 a0, void *a1, s32 a2);
 void func_80189AE4(s32 a0) {
 
     extern u8 D_801AF448[];
-    typedef struct { u16 x, y, z, w; } V8_80189AE4;
     V8_80189AE4 sp10;
     V8_80189AE4 sp18;
 
@@ -4103,9 +4068,6 @@ extern s32 func_80133784(s32 a0, void *a1, s32 a2);
 void func_80189D04(s32 *s0) {
 
     extern u8 D_801AF448[];
-    typedef struct {
-        u16 a, b, c, d;
-    } Data_t_80189D04;
 
     Data_t_80189D04 buf_src, buf_dst;
     s32 v0;
@@ -4843,7 +4805,6 @@ void func_8018AB34(void *a0)
 
 
 void func_8018AC00(void *a0) {
-    typedef struct { u8 b[8]; } Blk8_8018AC00;
     extern s32 func_80017DC4(void *a0, void *a1);
     extern s16 func_8012A758(void);
     extern void RotMatrixY(s32 a0, void *a1);
@@ -4909,7 +4870,6 @@ void func_8018AF0C(void *a0) {
 
 INCLUDE_ASM("asm/ov_SC02_028/nonmatchings/ov_SC02_028_jr_801884D8", func_8018AF48);
 
-typedef struct { s32 w[4]; } Blk16_8018B13C;
 
 extern s32 func_8004787C(s32 a0);
 extern void func_80028620(s32, void *);
@@ -4929,7 +4889,6 @@ void func_8018B13C(s32 a0) {
 
 INCLUDE_ASM("asm/ov_SC02_028/nonmatchings/ov_SC02_028_jr_801884D8", func_8018B1EC);
 
-typedef struct { s32 w[4]; } Blk16_8018B29C;
 
 extern s32 func_8004787C(s32 a0);
 extern void func_80028620(s32, void *);

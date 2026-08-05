@@ -3639,9 +3639,7 @@ INCLUDE_ASM("asm/ov_SC03_119/nonmatchings/ov_SC03_119_jr_8017AE2C", func_8017D89
  *    lwl/lwr + swl/swr instead of a `jal memcpy` (cf. §38).
  */
 
-typedef struct {
-    u8 b0, b1, b2, b3;
-} Quad_801EA880_8017D900; /* align 1 => movstrsi expands to lwl/lwr + swl/swr */
+ /* align 1 => movstrsi expands to lwl/lwr + swl/swr */
 
 
 extern s32 func_80012F74(s32 a0, s32 a1, s32 a2, s32 a3);
@@ -4305,7 +4303,6 @@ void func_8017E948(s16 *a0) {
  * (instead of a fresh local) avoids stealing back the $v0 slot.
  */
 
-typedef struct { s32 w[8]; } Mtx8_8017DE10_8017EA24;
 
 void func_8017EA24(s32 a0) {
     extern void ApplyMatrixSV(void *a0, void *a1, void *a2);

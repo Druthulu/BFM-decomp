@@ -3363,9 +3363,6 @@ void func_8017D22C(void *a0) {
 
 
 /* 8 bytes, align 2 -> lwl/lwr/swl/swr copy (cookbook §48-C2) */
-typedef struct {
-    s16 v[4];
-} Blk8_80126940_8017D268;
 
 extern u16 func_80148800(s32 *a0);
 extern void func_8017D3A8(s32 param_1, s16 *param_2);
@@ -3389,9 +3386,6 @@ void func_8017D268(s32 a0) {
 
 
 /* 8 bytes, align 2 -> lwl/lwr/swl/swr copy (cookbook §48-C2) */
-typedef struct {
-    s16 v[4];
-} Blk8_80126940_8017D308;
 
 extern u16 func_80148800(s32 *a0);
 extern void func_8017D3A8(s32 param_1, s16 *param_2);
@@ -3779,9 +3773,6 @@ void func_8017DAC8(s32 *a0) {
  * block, 26+ mismatches).
  */
 
-typedef struct {
-    unsigned short vx, vy, vz, pad;
-} UVec_8017EA1C_8017DB34;
 
 extern s32 func_8004787C(s32 a0);
 extern void func_800139C8(s32 a0, void *a1, void *a2);
@@ -4007,7 +3998,6 @@ void func_8017EE30(void) {
 INCLUDE_ASM("asm/ov_SC04_003/nonmatchings/ov_SC04_003_jr_8017BEBC", func_8017EE38);
 
 
-typedef struct { s32 a; s32 b[4]; } Ot_80182A78_8017EE80;
 
 extern s32 func_8004787C(s32 a0);
 

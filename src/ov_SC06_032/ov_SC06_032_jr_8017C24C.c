@@ -4522,14 +4522,6 @@ INCLUDE_ASM("asm/ov_SC06_032/nonmatchings/ov_SC06_032_jr_8017C24C", func_8018057
 INCLUDE_ASM("asm/ov_SC06_032/nonmatchings/ov_SC06_032_jr_8017C24C", func_801806E8);
 
 
-typedef struct {
-    u8  pad0[6];
-    u16 f6;         /* 0x06 -> D_80126B5E */
-    u8  pad8[2];
-    u16 fa;         /* 0x0A -> D_80126B62 */
-    u8  padc[2];
-    u16 fe;         /* 0x0E -> D_80126B66 */
-} StructB58_80180730;
 
 /* holds a pointer value */
 
@@ -4835,8 +4827,6 @@ extern void func_8012C218(void *a0);
 extern void func_8012E8A8(u8 *a0);
 
 /* §48-C2: lwl/lwr/swl/swr block copy == a plain struct assign of a 2-byte-aligned struct */
-typedef struct { u16 a, b, c, d, e, f; } UAlign12_80182B74;
-typedef struct { u16 a, b, c, d; } UAlign8_80182B74;
 
 void func_80182B74(s32 param_1)
 {
@@ -5905,7 +5895,6 @@ INCLUDE_ASM("asm/ov_SC06_032/nonmatchings/ov_SC06_032_jr_8017C24C", func_8018603
 //   call -- that's what forces it into a callee-saved reg ($s1) instead of being recomputed as
 //   `addiu $a0,$sp,0x10` at each use site.
 
-typedef struct { s32 w[8]; } Blk20_8018AF88_80186160;
 
 
 extern s32 func_8012B8A4(s16 *a0);
@@ -6016,10 +6005,6 @@ extern s32 func_8004787C(s32 a0); /* rcos-like: angle (0..0xFFF) -> 1.12 fixed *
  * A `struct { s16 lo, hi; }` has align 2 -> BLKmode-ish handling: gcc spills it to the stack
  * and stores it with lwl/lwr + swl/swr (54 ins, 53 mismatched). Two 16-bit BITFIELDS in a
  * u32 container give the SImode, align-4 struct gcc keeps in a register. */
-typedef struct {
-    u32 lo : 16;
-    u32 hi : 16;
-} Ang2_8012B77C_80187180;
 
 /* a0 = destination packed-angle word, a1 = "from" entity, a2 = "to" entity.
  * Both entities carry 16.16 fixed-point x/y/z at +0/+4/+8; the s16 reads at +2/+6/+0x4 are
@@ -8898,10 +8883,8 @@ INCLUDE_ASM("asm/ov_SC06_032/nonmatchings/ov_SC06_032_jr_8017C24C", func_8018EB0
 //     — declare fresh, matching the banked sibling's exact canonical shapes.
 //   * func_8018EDB0 has no caller anywhere in src/ (INCLUDE_ASM stub only) — signature unconstrained.
 
-typedef struct { u16 vx, vy, vz, pad; } SVEC_8018EDB0;       /* u16 source vec -> lhu */
-typedef struct { s16 vx, vy, vz, pad; } SVECTOR_8018EDB0;    /* 8 bytes, align 2 */
-typedef struct { u8 d[8]; } __attribute__((packed, aligned(1))) B8_8018EDB0;
-typedef struct { u8 d[4]; } __attribute__((packed, aligned(1))) B4_8018EDB0;
+       /* u16 source vec -> lhu */
+    /* 8 bytes, align 2 */
 
 extern void func_80017254(void *a0);
 extern SVEC_8018EDB0 D_801CC7FC[];

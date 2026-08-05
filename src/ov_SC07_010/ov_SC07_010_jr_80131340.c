@@ -1355,7 +1355,6 @@ void func_80132F40(s32 arg0)
 {
 
     extern u8 D_80126BE0[];
-    typedef struct { u16 vx, vy, vz, pad; } Svec_80132F40;
 
     Svec_80132F40 v[4];
     register Svec_80132F40 *q __asm__("$17");
@@ -1519,7 +1518,6 @@ void func_801330E0(param_1, param_2, param_3)
  * struct-fold) instead of 8 serial lw/sw pairs. Locally named (engine_types.h's
  * identical `Blk32` is an anonymous-tag typedef -> a same-name redefinition here
  * is a C89 error in the real TU). */
-typedef struct { s32 w[8]; } Blk32L_80133298;
 
 
 extern void func_8012F0BC(s32 *a0, s32 *a1, s32 *a2);

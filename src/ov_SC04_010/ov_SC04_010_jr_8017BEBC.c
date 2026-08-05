@@ -3647,9 +3647,6 @@ void func_8017DFF8(s32 *a0) {
  * block, 26+ mismatches).
  */
 
-typedef struct {
-    unsigned short vx, vy, vz, pad;
-} UVec_8017EA1C_8017E064;
 
 extern s32 func_8004787C(s32 a0);
 extern void func_800139C8(s32 a0, void *a1, void *a2);

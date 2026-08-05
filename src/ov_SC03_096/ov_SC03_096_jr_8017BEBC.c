@@ -3422,12 +3422,7 @@ void func_8017D420(s32 a0) {
     extern u16 D_801904D0[];
     extern u16 D_801904F8[];
     extern void (*D_80190520[])(s32);
-    typedef struct {
-        u16 x; /* 0x00 */
-        u16 y; /* 0x02 */
-        u16 z; /* 0x04 */
-        u16 w; /* 0x06 */
-    } V4_8017FAC0_8017D420; /* 8 bytes */
+ /* 8 bytes */
 
     V4_8017FAC0_8017D420 p1;
     V4_8017FAC0_8017D420 p2;
@@ -3511,29 +3506,8 @@ void func_8017D6B8(void *arg0) {
 
     extern u8 D_801202A0[];
     extern void (*D_8019056C[])(void *);
-    typedef struct {
-        u16 x;   /* 0x00 */
-        u16 y;   /* 0x02 */
-        u16 z;   /* 0x04 */
-        u16 w;   /* 0x06 */
-    } V4_8017FD58_8017D6B8;                 /* 8 bytes, align 2 -> lwl/lwr/swl/swr copy */
-    typedef struct {
-        u16 f0;                    /* 0x00 */
-        u16 f2;                    /* 0x02 */
-        u16 f4;                    /* 0x04 */
-        u16 x;                     /* 0x06 */
-        u16 f8;                    /* 0x08 */
-        u16 y;                     /* 0x0A */
-        u16 fC;                    /* 0x0C */
-        u16 z;                     /* 0x0E */
-        u8  p10[0x10];
-        s32 f20;                   /* 0x20 */
-        u8  p24[0x34];
-        s32 f58;                   /* 0x58 */
-        u8  p5C[8];
-        s32 f64;                   /* 0x64 */
-        u8  p68[0x10C - 0x68];
-    } Ent_8017FD58_8017D6B8;                /* stride 0x10C, 0x60 entries (0x6480) */
+                 /* 8 bytes, align 2 -> lwl/lwr/swl/swr copy */
+                /* stride 0x10C, 0x60 entries (0x6480) */
 
     /* Two further V4 slots the original body declared ahead of `pos` but that
      * this function never reads: the target frame is 0x50 with locals at
@@ -4112,7 +4086,6 @@ extern void func_8012E688(void *a0, s32 a1, s32 a2);
 void func_8017E784(s32 a0) {
     s32 ret = func_8012BD14(a0);
     if (ret <= 0x64000) {
-        typedef struct { s32 f0; s32 f1; } Struct_8017E784;
         Struct_8017E784 *ptr = *(Struct_8017E784 **)(a0 + 0x20);
         *(s16 *)(a0 + 0x2) = 1;
         ptr->f1 = ptr->f1 & 0x7FFFFFFF;

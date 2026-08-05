@@ -3892,9 +3892,6 @@ extern void func_80128EA8(s32 a0, s32 a1, s32 a2);
 extern s32 rand(void);
 
 
-typedef struct {
-    s32 f0, f1, f2, f3;
-} Quad_8018797C_80182B44;
 
 void func_80182B44(s32 a0) {
 

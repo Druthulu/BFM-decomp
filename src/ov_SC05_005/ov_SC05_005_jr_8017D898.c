@@ -3836,7 +3836,6 @@ INCLUDE_ASM("asm/ov_SC05_005/nonmatchings/ov_SC05_005_jr_8017D898", func_80181BB
 INCLUDE_ASM("asm/ov_SC05_005/nonmatchings/ov_SC05_005_jr_8017D898", func_80181D08);
 
 
-typedef struct { s16 vx, vy, vz, pad; } SVec_80181CDC_80181DE4;
 
 extern void func_8012EFB8(s32 a0);
 extern void func_8012BD14(s32 a0);

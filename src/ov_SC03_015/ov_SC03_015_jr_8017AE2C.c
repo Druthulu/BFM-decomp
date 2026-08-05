@@ -3412,11 +3412,8 @@ INCLUDE_ASM("asm/ov_SC03_015/nonmatchings/ov_SC03_015_jr_8017AE2C", func_8017C15
  */
 
 /* MATRIX 0x20: 3x3 short rotation + pad, t[] at 0x14 */
-typedef struct { s16 m[3][3]; s16 pad; s32 t[3]; } MATRIX_8017C290;
 /* 8, align 2 -> lwl/lwr/swl/swr struct copy */
-typedef struct { u16 vx, vy, vz, pad; } SVECTOR_8017C290;
 /* 4, align 1 -> lwl/lwr/swl/swr */
-struct PW8017C290 { int w; } __attribute__((packed, aligned(1)));
 
 extern void func_80013F3C(s32 a0);
 extern void RotMatrixZ(s32, void *);
@@ -3788,9 +3785,7 @@ INCLUDE_ASM("asm/ov_SC03_015/nonmatchings/ov_SC03_015_jr_8017AE2C", func_8017D89
  *    lwl/lwr + swl/swr instead of a `jal memcpy` (cf. §38).
  */
 
-typedef struct {
-    u8 b0, b1, b2, b3;
-} Quad_801EA880_8017D900; /* align 1 => movstrsi expands to lwl/lwr + swl/swr */
+ /* align 1 => movstrsi expands to lwl/lwr + swl/swr */
 
 
 extern s32 func_80012F74(s32 a0, s32 a1, s32 a2, s32 a3);
@@ -3982,9 +3977,7 @@ DEFINE_func_8017DF7C()  /* dedup: shared engine-core @0x8017DF7C (src/shared) */
 
 void func_8017DF84(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
 {
-    typedef struct { u32 w0, w1, w2; } Prim_8017DF84;
     /* vy UNSIGNED: the `+=` reads it with lhu, not lh. */
-    typedef struct { s16 vx; u16 vy; s16 vz, pad; } SVec_8017DF84;
 
     extern s32 func_800491EC(void);
     extern void func_800547D8(s32, MATRIX2 *);

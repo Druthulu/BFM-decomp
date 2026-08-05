@@ -3599,20 +3599,9 @@ INCLUDE_ASM("asm/ov_SC03_116/nonmatchings/ov_SC03_116_jr_8017AE2C", func_8017BEB
     : "memory" )
 
 /* ---- the two gouraud-textured packet layouts this function emits ---------- */
-typedef struct {
-    u32 tag;
-    u32 rgb0; s16 x0, y0; u32 uv0;
-    u32 rgb1; s16 x1, y1; u32 uv1;
-    u32 rgb2; s16 x2, y2; u16 uv2, p2;
-} PolyGT3;                                      /* 0x28 */
+                                      /* 0x28 */
 
-typedef struct {
-    u32 tag;
-    u32 rgb0; s16 x0, y0; u32 uv0;
-    u32 rgb1; s16 x1, y1; u32 uv1;
-    u32 rgb2; s16 x2, y2; u16 uv2, p2;
-    u32 rgb3; s16 x3, y3; u16 uv3, p3;
-} PolyGT4;                                      /* 0x34 */
+                                      /* 0x34 */
 
 
 /* ---- the four light-volume descriptors (stride 0x1C) --------------------- */
@@ -4305,9 +4294,6 @@ void func_80180D04(void *a0) {
 
 
 /* 8 bytes, align 2 -> lwl/lwr/swl/swr copy (cookbook §48-C2) */
-typedef struct {
-    s16 v[4];
-} Blk8_80126940_80180D40;
 
 extern u16 func_80148800(s32 *a0);
 extern void func_80180DE0(s32 param_1, s16 *param_2);

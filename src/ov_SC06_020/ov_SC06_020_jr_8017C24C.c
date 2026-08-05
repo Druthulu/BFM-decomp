@@ -4087,14 +4087,6 @@ INCLUDE_ASM("asm/ov_SC06_020/nonmatchings/ov_SC06_020_jr_8017C24C", func_8017F93
 INCLUDE_ASM("asm/ov_SC06_020/nonmatchings/ov_SC06_020_jr_8017C24C", func_8017FAB4);
 
 
-typedef struct {
-    u8  pad0[6];
-    u16 f6;         /* 0x06 -> D_80126B5E */
-    u8  pad8[2];
-    u16 fa;         /* 0x0A -> D_80126B62 */
-    u8  padc[2];
-    u16 fe;         /* 0x0E -> D_80126B66 */
-} StructB58_8017FAFC;
 
 /* holds a pointer value */
 

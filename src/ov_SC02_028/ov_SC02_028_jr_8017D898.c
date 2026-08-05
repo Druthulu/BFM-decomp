@@ -3489,9 +3489,6 @@ INCLUDE_ASM("asm/ov_SC02_028/nonmatchings/ov_SC02_028_jr_8017D898", func_8017F42
 
 
 /* 8 bytes, align 2 -> lwl/lwr/swl/swr copy (cookbook §48-C2) */
-typedef struct {
-    s16 v[4];
-} Blk8_80126940_8017D6D0_8017F558;
 
 extern u16 func_80148800(s32 *a0);
 extern void func_8017F9AC(s32 param_1, s16 *param_2);
@@ -3520,9 +3517,6 @@ INCLUDE_ASM("asm/ov_SC02_028/nonmatchings/ov_SC02_028_jr_8017D898", func_8017F60
 
 
 /* 8 bytes, align 2 -> lwl/lwr/swl/swr copy (cookbook §48-C2) */
-typedef struct {
-    s16 v[4];
-} Blk8_80126940_8017D6D0_8017F794;
 
 extern u16 func_80148800(s32 *a0);
 extern void func_8017F9AC(s32 param_1, s16 *param_2);
@@ -3549,9 +3543,6 @@ void func_8017F794(s32 a0) {
 
 
 /* 8 bytes, align 2 -> lwl/lwr/swl/swr copy (cookbook §48-C2) */
-typedef struct {
-    s16 v[4];
-} Blk8_80126940_8017D6D0_8017F844;
 
 extern u16 func_80148800(s32 *a0);
 extern void func_8017F9AC(s32 param_1, s16 *param_2);
@@ -4183,9 +4174,6 @@ INCLUDE_ASM("asm/ov_SC02_028/nonmatchings/ov_SC02_028_jr_8017D898", func_80182F8
 
 void func_80182FD4(void *a0, void *a1)
 {
-    typedef struct { u16 vx, vy; } Pt2_80182FD4;
-    typedef struct { u8 pad[0x10]; Pt2_80182FD4 pt[12]; } Src_80182FD4;
-    typedef struct { u16 vx, vy, vz, pad; } Vec8_80182FD4;
 
     extern void func_8001E094(void);
     extern void func_8001E378(void *a0);
@@ -4610,12 +4598,6 @@ void func_80183918(void) {
  *     puts $s1's zero-init first, which is the target order.
  */
 
-typedef struct {
-    s16 unk0;
-    s16 unk2;
-    s16 unk4;
-    s16 unk6;
-} Rec_8018A6A4_8018393C;
 
 extern void func_801839DC(s32 arg0, s32 arg1, s32 arg2);
 extern void func_80183AF8(s32 arg0, Rec_8018A6A4_8018393C *arg1, s32 arg2, s32 arg3);
@@ -4732,7 +4714,7 @@ void aF8018A860(s32 a0, s16 *a1, u8 *a2, u8 *a3)
 {
 
     extern s16 D_801D3294;      /* TU L3637 / L3671, verbatim */
-    typedef struct { u8 b0, b1, b2, b3; } B4_80183AF8;   /* align 1 — §48-C2 */
+   /* align 1 — §48-C2 */
     s16 *s1;
     u16 temp_u16;
     s16 temp_s16;
@@ -4974,7 +4956,7 @@ void func_80183C54(void) {
 
 void func_80183D30(s32 arg0)
 {
-    typedef struct { s32 w[8]; } Blk32_8018AA98_80183D30;   /* 32 bytes, align 4 */
+   /* 32 bytes, align 4 */
 
     extern Blk32_8018AA98_80183D30 D_800AE620;
     extern s32 D_800A5E60;
@@ -5123,7 +5105,6 @@ extern s32 RotTransPers(s32 a0, s32 a1, s32 *a2, s32 *a3);
 extern void func_801840C8(void *arg0, void *arg1, s32 arg2, s32 arg3);
 
 void func_80184040(s32 a0) {
-    typedef struct { u8 a, b, c, d; } V4_80184040;
     extern u8 D_800AF648;
     extern V4_80184040 D_801D1AA4;
     u16 sxy[4];
@@ -5252,14 +5233,6 @@ void aF8018AFD0(s32 a0, s32 a1, s32 a2) __asm__("func_80184268");
 
 void aF8018AFD0(s32 a0, s32 a1, s32 a2)
 {
-    typedef struct {
-        s16 f0;     /* 0x00 */
-        s16 f2;     /* 0x02 */
-        s16 f4;     /* 0x04 */
-        s16 f6;     /* 0x06 */
-        s32 f8;     /* 0x08 */
-        s32 fC;     /* 0x0C */
-    } P_80184268;
 
     extern s16 D_801D318C;
     extern s16 D_801D3186[];
@@ -5428,21 +5401,11 @@ extern void func_80016638(void *a0, s32 a1, s32 a2);
 
 
 /* 0x10-byte-stride record table at D_801D318C (same table as func_8018AD5C) */
-typedef struct {
-    u16 f0;  /* 0x00 */
-    s16 f2;  /* 0x02 */
-    s16 f4;  /* 0x04 */
-    s16 f6;  /* 0x06 */
-    s16 f8;  /* 0x08 */
-    u16 fA;  /* 0x0A */
-    s16 fC;  /* 0x0C */
-    u16 fE;  /* 0x0E */
-} Rec_8018B23C_801844D4;
 
-typedef struct { s32 w[8]; } Mat32_8018B23C_801844D4;      /* the 0x20-byte matrix */
-typedef struct { s32 a; s32 b[4]; } Ot_8018B23C_801844D4;  /* == engine_types.h OtBlk */
-typedef struct { u16 f; } Bidx_8018B23C_801844D4;          /* the D_800B9A02 buffer index */
-typedef struct { u32 addr:24; u32 len:8; } PTag_8018B23C_801844D4; /* libgpu P_TAG */
+      /* the 0x20-byte matrix */
+  /* == engine_types.h OtBlk */
+          /* the D_800B9A02 buffer index */
+ /* libgpu P_TAG */
 
 void func_801844D4(s32 a0) {
 
@@ -5562,12 +5525,7 @@ void func_801847B8(s32 a0) {
     extern u16 D_801A71DC[];
     extern u16 D_801A7204[];
     extern void (*D_801A722C[])(s32);
-    typedef struct {
-        u16 x; /* 0x00 */
-        u16 y; /* 0x02 */
-        u16 z; /* 0x04 */
-        u16 w; /* 0x06 */
-    } V4_8017FAC0_801847B8; /* 8 bytes */
+ /* 8 bytes */
 
     V4_8017FAC0_801847B8 p1;
     V4_8017FAC0_801847B8 p2;
@@ -5651,29 +5609,8 @@ void func_80184A50(void *arg0) {
 
     extern u8 D_801202A0[];
     extern void (*D_801A7278[])(void *);
-    typedef struct {
-        u16 x;   /* 0x00 */
-        u16 y;   /* 0x02 */
-        u16 z;   /* 0x04 */
-        u16 w;   /* 0x06 */
-    } V4_8017FD58_80184A50;                 /* 8 bytes, align 2 -> lwl/lwr/swl/swr copy */
-    typedef struct {
-        u16 f0;                    /* 0x00 */
-        u16 f2;                    /* 0x02 */
-        u16 f4;                    /* 0x04 */
-        u16 x;                     /* 0x06 */
-        u16 f8;                    /* 0x08 */
-        u16 y;                     /* 0x0A */
-        u16 fC;                    /* 0x0C */
-        u16 z;                     /* 0x0E */
-        u8  p10[0x10];
-        s32 f20;                   /* 0x20 */
-        u8  p24[0x34];
-        s32 f58;                   /* 0x58 */
-        u8  p5C[8];
-        s32 f64;                   /* 0x64 */
-        u8  p68[0x10C - 0x68];
-    } Ent_8017FD58_80184A50;                /* stride 0x10C, 0x60 entries (0x6480) */
+                 /* 8 bytes, align 2 -> lwl/lwr/swl/swr copy */
+                /* stride 0x10C, 0x60 entries (0x6480) */
 
     /* Two further V4 slots the original body declared ahead of `pos` but that
      * this function never reads: the target frame is 0x50 with locals at
@@ -6134,7 +6071,6 @@ extern void func_8012E688(void *a0, s32 a1, s32 a2);
 void func_80185B1C(s32 a0) {
     s32 ret = func_8012BD14(a0);
     if (ret <= 0x64000) {
-        typedef struct { s32 f0; s32 f1; } Struct_80185B1C;
         Struct_80185B1C *ptr = *(Struct_80185B1C **)(a0 + 0x20);
         *(s16 *)(a0 + 0x2) = 1;
         ptr->f1 = ptr->f1 & 0x7FFFFFFF;

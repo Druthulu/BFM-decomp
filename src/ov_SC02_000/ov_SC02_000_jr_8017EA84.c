@@ -14,32 +14,8 @@ typedef struct {
     u8  pad[7];                 /* -> 0x40 */
 } Prim_8016E7C8;
 typedef void (*Handler)(struct Entry_8016E95C *);
-typedef struct Ent_8017BFE0_8017BFE0 {
-    u8  pad00[2];   /* 0x00 */
-    u16 f02;        /* 0x02 */
-    u8  pad04[0x18];/* 0x04 */
-    s32 f1c;        /* 0x1C */
-    u8  pad20[0xA]; /* 0x20 */
-    u16 f2a;        /* 0x2A */
-    u16 f2c;        /* 0x2C */
-    u8  pad2e[2];   /* 0x2E */
-    s32 f30;        /* 0x30 */
-} Ent_8017BFE0_8017BFE0;
-typedef struct {
-    s16 vx, vy, vz, pad;
-} SVec8_8017C218_8017C218;
-typedef struct {
-    u8 r, g, b, cd;
-} CVec4_8017C218_8017C218;
-typedef struct {
-    SVec8_8017C218_8017C218 v[4];   /* 0x00 */
-    CVec4_8017C218_8017C218 c[4];   /* 0x20 */
-    s32   code;   /* 0x30 */
-} Prim_8017C218_8017C218;           /* 0x34 */
-typedef struct {
-    s16 m[3][3];
-    s32 t[3];
-} Mtx_8017C218_8017C218;            /* 0x20 */
+           /* 0x34 */
+            /* 0x20 */
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
 extern s32 D_800AE6B0;

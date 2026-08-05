@@ -2766,45 +2766,15 @@ extern void func_80180DEC(void *a0);
  *     a 5-entry table with an `addiu -1` bias.
  * ========================================================================== */
 
-typedef struct SVec1CDC { s16 vx, vy, vz, pad; } SVec1CDC;   /* 8 bytes */
-typedef struct LVec1CDC { s32 vx, vy, vz, pad; } LVec1CDC;   /* 16 bytes */
+   /* 8 bytes */
+   /* 16 bytes */
 /* 4 bytes, SImode (align 32 from the `int` base type) so it lives in ONE
  * register; field writes lower to `insv` = andi 0xFFFF / or  and
  * lui 0xFFFF0000 / and / or.  A plain `struct {s16 a,b;}` is BLKmode here
  * (align 16) and compiles to sh/sh + lwl/lwr/swl/swr — NOT what the target does. */
-typedef struct Rot1CDC  { s32 a : 16; s32 b : 16; } Rot1CDC;
 
-typedef struct Sub20_1CDC {
-    u8  pad0[0x14];
-    u16 unk14;                       /* 0x14 */
-} Sub20_1CDC;
 
-typedef struct Sub64_1CDC {
-    u8  pad0[0x34];
-    u16 unk34;                       /* 0x34 */
-    u8  pad36[0xCA];
-    u16 unk100;                      /* 0x100 */
-} Sub64_1CDC;
 
-typedef struct Obj1CDC {
-    s16    unk0, unk2, unk4;
-    s16    x;                        /* 0x06 */
-    s16    unk8;
-    s16    y;                        /* 0x0A */
-    s16    unkC;
-    s16    z;                        /* 0x0E */
-    s16    unk10[8];                 /* 0x10 */
-    Sub20_1CDC *unk20;                    /* 0x20 */
-    s32    unk24[16];                /* 0x24 */
-    Sub64_1CDC *unk64;                    /* 0x64 */
-    s32    unk68[37];                /* 0x68 */
-    s16    unkFC;                    /* 0xFC */
-    s16    unkFE;                    /* 0xFE */
-    s16    unk100;                   /* 0x100 */
-    s16    unk102;                   /* 0x102 */
-    u16    unk104[3];                /* 0x104 */
-    s16    unk10A;                   /* 0x10A */
-} Obj1CDC;
 
 extern void func_8012F14C(s32);
 extern void Square0(s32 *a0, s32 *a1);
@@ -3432,7 +3402,6 @@ extern void func_800233CC(void *a0, unsigned short a1);
 /* align-1 4-byte block: lowers via emit_block_move (unaligned lwl/lwr + swl/swr)
  * with ZERO memcpy-symbol reference, so the TU's `extern memcpy` cannot turn
  * this into a CALL.  (house idiom, cf. func_8017B238 / func_8017B614) */
-typedef struct { u8 b[4]; } Blk4_8018CE04_80186D40;
 
 void func_80186D40(s32 param_1)
 {
@@ -3528,12 +3497,6 @@ void func_801878AC(void *a0) {
 
 
 
-typedef struct {
-    u8 b0;
-    u8 b1;
-    u8 b2;
-    u8 b3;
-} EffectSlot4_801878E8;
 
 extern void func_801465C0(void);
 extern void func_80146C3C(void);

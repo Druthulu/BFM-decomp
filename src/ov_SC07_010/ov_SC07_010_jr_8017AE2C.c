@@ -3654,9 +3654,6 @@ void func_8017DE68(void *a0) {
 
 /* 8-byte, alignment-1 blob: the target copies it with lwl/lwr + swl/swr,
  * which is gcc's emit_block_move for align < 4. */
-typedef struct {
-    char b[8];
-} Blob8_8018A47C_8017DEA4;
 
 extern void func_8017DEEC(s32, s16*);
 

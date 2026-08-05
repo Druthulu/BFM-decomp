@@ -3296,9 +3296,6 @@ void func_8017D1D4(void *a0) {
 
 
 /* 8 bytes, align 2 -> lwl/lwr/swl/swr copy (cookbook §48-C2) */
-typedef struct {
-    s16 v[4];
-} Blk8_80126940_8017D210;
 
 extern u16 func_80148800(s32 *a0);
 extern void func_8017D340(s32 param_1, s16 *param_2);
@@ -3323,9 +3320,6 @@ void func_8017D210(s32 a0) {
 
 /* 8-byte, alignment-1 blob: the target copies it with lwl/lwr + swl/swr,
  * which is gcc's emit_block_move for align < 4. */
-typedef struct {
-    char b[8];
-} Blob8_8018A47C_8017D2B0;
 
 extern void func_8017D340(s32, s16*);
 
@@ -3342,9 +3336,6 @@ void func_8017D2B0(s32 a0) {
 
 /* 8-byte, alignment-1 blob: the target copies it with lwl/lwr + swl/swr,
  * which is gcc's emit_block_move for align < 4. */
-typedef struct {
-    char b[8];
-} Blob8_8018A47C_8017D2F8;
 
 extern void func_8017D4D8(s32, s16*);
 

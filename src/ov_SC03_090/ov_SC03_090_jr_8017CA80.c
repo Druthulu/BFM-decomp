@@ -3373,20 +3373,9 @@ void func_8017CA80(s32 arg0)
     : "memory" )
 
 /* ---- the two gouraud-textured packet layouts this function emits ---------- */
-typedef struct {
-    u32 tag;
-    u32 rgb0; s16 x0, y0; u32 uv0;
-    u32 rgb1; s16 x1, y1; u32 uv1;
-    u32 rgb2; s16 x2, y2; u16 uv2, p2;
-} PolyGT3;                                      /* 0x28 */
+                                      /* 0x28 */
 
-typedef struct {
-    u32 tag;
-    u32 rgb0; s16 x0, y0; u32 uv0;
-    u32 rgb1; s16 x1, y1; u32 uv1;
-    u32 rgb2; s16 x2, y2; u16 uv2, p2;
-    u32 rgb3; s16 x3, y3; u16 uv3, p3;
-} PolyGT4;                                      /* 0x34 */
+                                      /* 0x34 */
 
 /* ---- the three light-volume descriptors ---------------------------------- */
 extern s32 D_801CBC68;
@@ -4348,9 +4337,6 @@ INCLUDE_ASM("asm/ov_SC03_090/nonmatchings/ov_SC03_090_jr_8017CA80", func_8018197
 
 
 /* 8 bytes, align 2 -> lwl/lwr/swl/swr copy (cookbook §48-C2) */
-typedef struct {
-    s16 v[4];
-} Blk8_80126940_8017D6D0_80181AA0;
 
 extern u16 func_80148800(s32 *a0);
 extern void func_80181D30(s32 param_1, s16 *param_2);
@@ -4379,9 +4365,6 @@ INCLUDE_ASM("asm/ov_SC03_090/nonmatchings/ov_SC03_090_jr_8017CA80", func_80181B5
 
 
 /* 8 bytes, align 2 -> lwl/lwr/swl/swr copy (cookbook §48-C2) */
-typedef struct {
-    s16 v[4];
-} Blk8_80126940_8017D6D0_80181C80;
 
 extern u16 func_80148800(s32 *a0);
 extern void func_80181D30(s32 param_1, s16 *param_2);
@@ -4506,12 +4489,7 @@ void func_80181FA4(s32 a0) {
     extern u16 D_801A0B54[];
     extern u16 D_801A0B7C[];
     extern void (*D_801A0BA4[])(s32);
-    typedef struct {
-        u16 x; /* 0x00 */
-        u16 y; /* 0x02 */
-        u16 z; /* 0x04 */
-        u16 w; /* 0x06 */
-    } V4_8017FAC0_80181FA4; /* 8 bytes */
+ /* 8 bytes */
 
     V4_8017FAC0_80181FA4 p1;
     V4_8017FAC0_80181FA4 p2;
@@ -4595,29 +4573,8 @@ void func_8018223C(void *arg0) {
 
     extern u8 D_801202A0[];
     extern void (*D_801A0BF0[])(void *);
-    typedef struct {
-        u16 x;   /* 0x00 */
-        u16 y;   /* 0x02 */
-        u16 z;   /* 0x04 */
-        u16 w;   /* 0x06 */
-    } V4_8017FD58_8018223C;                 /* 8 bytes, align 2 -> lwl/lwr/swl/swr copy */
-    typedef struct {
-        u16 f0;                    /* 0x00 */
-        u16 f2;                    /* 0x02 */
-        u16 f4;                    /* 0x04 */
-        u16 x;                     /* 0x06 */
-        u16 f8;                    /* 0x08 */
-        u16 y;                     /* 0x0A */
-        u16 fC;                    /* 0x0C */
-        u16 z;                     /* 0x0E */
-        u8  p10[0x10];
-        s32 f20;                   /* 0x20 */
-        u8  p24[0x34];
-        s32 f58;                   /* 0x58 */
-        u8  p5C[8];
-        s32 f64;                   /* 0x64 */
-        u8  p68[0x10C - 0x68];
-    } Ent_8017FD58_8018223C;                /* stride 0x10C, 0x60 entries (0x6480) */
+                 /* 8 bytes, align 2 -> lwl/lwr/swl/swr copy */
+                /* stride 0x10C, 0x60 entries (0x6480) */
 
     /* Two further V4 slots the original body declared ahead of `pos` but that
      * this function never reads: the target frame is 0x50 with locals at
@@ -5197,7 +5154,6 @@ extern void func_8012E688(void *a0, s32 a1, s32 a2);
 void func_80183308(s32 a0) {
     s32 ret = func_8012BD14(a0);
     if (ret <= 0x64000) {
-        typedef struct { s32 f0; s32 f1; } Struct_80183308;
         Struct_80183308 *ptr = *(Struct_80183308 **)(a0 + 0x20);
         *(s16 *)(a0 + 0x2) = 1;
         ptr->f1 = ptr->f1 & 0x7FFFFFFF;
@@ -6574,9 +6530,6 @@ void func_80188498(s32 a0) {
     extern u8 D_800AF648;
     extern u8 D_801B84C4[];
     extern u8 D_801B7E34[];
-    typedef struct {
-        u16 x, y, z, w;
-    } V8_80188498;
     s32 mv[4];   /* sp+0x10 : the 4-word block handed to func_8012B1B4 */
     V8_80188498 pad[2];   /* sp+0x20 : gcc's own area (vars must be 0x48 for a 0x68 frame) */
     V8_80188498 sp30;     /* sp+0x30 : func_80133784 arg1 */
@@ -6706,9 +6659,6 @@ void func_8018884C(s32 a0) {
     extern u8 D_801B8DC4[];
     extern u8 D_801B8744[];
     extern u8 D_801B8FCC[];
-    typedef struct {
-        u16 x, y, z, w;
-    } V8_8018884C;
     s32 sp10[4];
     V8_8018884C pad[2];
     V8_8018884C sp30;
@@ -6942,9 +6892,6 @@ void func_80188CF4(s32 a0) {
 
     extern u8 D_801ABD7C[];
     extern u8 D_801B8A84[];
-    typedef struct {
-        u16 x, y, z, w;
-    } V8_80188CF4;
     V8_80188CF4 pad[2];
     V8_80188CF4 sp20;
     V8_80188CF4 sp28;
@@ -7479,7 +7426,6 @@ extern s32 func_80133784(s32 a0, void *a1, s32 a2);
 void func_80189880(s32 a0) {
 
     extern u8 D_801ABA98[];
-    typedef struct { u16 x, y, z, w; } V8_80189880;
     V8_80189880 sp10;
     V8_80189880 sp18;
 
@@ -7596,9 +7542,6 @@ extern s32 func_80133784(s32 a0, void *a1, s32 a2);
 void func_80189AA0(s32 *s0) {
 
     extern u8 D_801ABA98[];
-    typedef struct {
-        u16 a, b, c, d;
-    } Data_t_80189AA0;
 
     Data_t_80189AA0 buf_src, buf_dst;
     s32 v0;
@@ -8328,9 +8271,6 @@ INCLUDE_ASM("asm/ov_SC03_090/nonmatchings/ov_SC03_090_jr_8017CA80", func_8018ABC
  * text is a harmless legal redefinition once spliced in.
  */
 
-typedef struct { u16 vx, vy; } Pt2_8018AC0C;
-typedef struct { u8 pad[0x10]; Pt2_8018AC0C pt[12]; } Src_8018AC0C;
-typedef struct { u16 vx, vy, vz, pad; } Vec8_8018AC0C;
 
 extern void func_8001E094(void);
 extern void func_8001E378(void *a0);
@@ -8503,32 +8443,8 @@ void func_8018AC0C(void *a0, void *a1)
  * file-local type/macro suffixes renamed to _8018B028.
  */
 
-typedef struct {
-    u32 addr : 24;
-    u32 len : 8;
-} PTag_8018B028;
 
-typedef struct {
-    PTag_8018B028 tag;
-    u8 r0, g0, b0, code;
-    u16 x0, y0;
-    u8 u0, v0;
-    u16 clut;
-    u16 x1, y1;
-    u8 u1, v1;
-    u16 tpage;
-    u16 x2, y2;
-    u8 u2, v2;
-    u16 pad2;
-    u16 x3, y3;
-    u8 u3, v3;
-    u16 pad3;
-} Ft4_8018B028;
 
-typedef struct {
-    PTag_8018B028 tag;
-    u32 code0;
-} Drm_8018B028;
 
 #define ADDPRIM_8018B028(o, p)                                                \
     (((PTag_8018B028 *)(p))->addr = ((PTag_8018B028 *)(o))->addr,             \

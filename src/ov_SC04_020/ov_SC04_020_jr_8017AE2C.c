@@ -3503,17 +3503,6 @@ void func_8017C1F8(void *a0) {
 extern u8 *func_8012913C(s32 a0);
 extern s32 func_8012C750(s32 a0);
 
-typedef struct {
-    s16 unk00;
-    s16 unk02;
-    s16 unk04;
-    s16 unk06;
-    s16 unk08;
-    s16 unk0A;
-    s16 unk0C;
-    s16 unk0E;
-    s32 unk10;
-} Buf8017BF50_8017C234;
 
 /* $16-$19 are pinned: without them gcc's strength reduction splits the `s1` store
  * base into TWO induction variables (base+0x18 with offsets -4/0, plus base+0x1C),
@@ -4265,7 +4254,6 @@ void func_8017CFE0(s16 *a0) {
  * (instead of a fresh local) avoids stealing back the $v0 slot.
  */
 
-typedef struct { s32 w[8]; } Mtx8_8017DE10_8017D0BC;
 
 void func_8017D0BC(s32 a0) {
     extern void ApplyMatrixSV(void *a0, void *a1, void *a2);

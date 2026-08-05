@@ -727,8 +727,6 @@ void func_8013B568(s32 arg0) {
  * 66/66 instructions byte-identical (match_one --o0).
  */
 void func_8013B598(s32 a0, u16 *a1) {
-    typedef struct { u16 f0; u16 f2; u16 f4; } Src_8013B598_8013B598;
-    typedef struct { s32 f0; u16 f4; u16 f6; u16 f8; u16 fA; s32 fC; u8 pad[0xC]; } Spr_8013B598_8013B598;
     extern Spr_8013B598_8013B598 D_801C7A10[];
 
     D_801C7A10[a0].f0 = 1;
@@ -743,20 +741,6 @@ void func_8013B598(s32 a0, u16 *a1) {
 
 void func_8013B6A0(s32 idx, u16 *src, s32 val)
 {
-    typedef struct {
-        s32 f0;
-        u16 f4;
-        u16 f6;
-        u16 f8;
-        u16 fA;
-        s32 fC;
-        u8  pad[0xC];
-    } Ent_8013B6A0_8013B6A0;
-    typedef struct {
-        u16 f0;
-        u16 f2;
-        u16 f4;
-    } Src_8013B6A0_8013B6A0;
     extern Ent_8013B6A0_8013B6A0 D_801C7A10[];
 
     D_801C7A10[idx].f0 = 1;
@@ -767,7 +751,7 @@ void func_8013B6A0(s32 idx, u16 *src, s32 val)
 }
 
 
-typedef struct { s32 f0; u8 pad[0x18]; } E_3B7AC_8013B7AC;   /* sizeof 0x1C stride */
+   /* sizeof 0x1C stride */
 void func_8013B7AC(int a0) {
     extern E_3B7AC_8013B7AC D_801C7A10[];
  D_801C7A10[a0].f0 = 0; }
@@ -786,16 +770,7 @@ extern s32 D_801C7AC8;
 extern s32 D_801C7B2C;
 
 void func_8013B83C(s32 a0, s32 a1, s32 a2) {
-    typedef struct {
-        s32 f0;
-        u16 f4;
-        u16 f6;
-        u16 f8;
-        u16 fA;
-        s32 fC;
-        u8  pad[8];
-        s32 f18;
-    } Ent_8013B83C;                       /* sizeof 0x1C */
+                       /* sizeof 0x1C */
     extern Ent_8013B83C D_801DAA08_e[] __asm__("D_801C7A10");
     extern s32 D_801C7AAC;
     extern s32 D_801C7AB0;
@@ -885,7 +860,6 @@ void func_8013B83C(s32 a0, s32 a1, s32 a2) {
 }
 
 
-typedef struct { char pad_8013BC7C[0x68]; s32 f68; } S_8013BC7C_8013BC7C;
 
 
 void func_8013BC7C(void *arg0) {
@@ -932,17 +906,6 @@ void func_8013BD74(void *a0, s32 a1) {
        file-scope E_13BD74 banks the exemplar and then fails every sibling with `E_13BD74'
        undeclared (the §94 type-carry class, measured on ov_SC01_000). Block scope travels with the
        body and is byte-neutral (a type emits no code). */
-    typedef struct {
-        u8    pad0[8];
-        void *f8;
-        void *fC;
-    } E_13BD74;
-    typedef struct {
-        u8  pad0[3];
-        u8  code;
-        s32 f4;
-        s32 f8;
-    } P_13BD74;
     s32 *q;
     s32 *p;
     s32 i;
@@ -1008,11 +971,6 @@ void func_8013C08C(void *a0, void *a1) {
      * failure until proven otherwise). Declared here, it is part of the unit by construction.
      * NB no brace characters in this comment on purpose - extract_unit's forward brace-scan does
      * not strip comments, so a brace in a comment truncates the extracted unit. */
-    typedef struct {
-        u8   pad0[8];
-        void *f8;
-        void *fC;
-    } E_13C08C_8013C08C;
 
     void *p = a1;
 

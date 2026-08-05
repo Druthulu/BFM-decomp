@@ -3655,8 +3655,8 @@ INCLUDE_ASM("asm/ov_SC03_014/nonmatchings/ov_SC03_014_jr_801848E4", func_8018A31
  */
 void func_8018A390(void *a0)
 {
-    typedef struct { s32 w[8]; } Mat32_8018A390;          /* 32B, align 4 */
-    typedef struct { u16 x; u16 y; u16 z; s16 w; } Rec8_8018A390; /* 8B, align 2 */
+          /* 32B, align 4 */
+ /* 8B, align 2 */
 
     extern Mat32_8018A390 D_800AE620;
     extern Rec8_8018A390 D_801E3990[];
@@ -3758,12 +3758,6 @@ void func_8018A680(void) {
  *     puts $s1's zero-init first, which is the target order.
  */
 
-typedef struct {
-    s16 unk0;
-    s16 unk2;
-    s16 unk4;
-    s16 unk6;
-} Rec_8018A6A4;
 
 extern void func_8018A744(s32 arg0, s32 arg1, s32 arg2);
 extern void func_8018A860(s32 arg0, Rec_8018A6A4 *arg1, s32 arg2, s32 arg3);
@@ -4125,7 +4119,7 @@ void func_8018A9BC(void) {
 
 void func_8018AA98(s32 arg0)
 {
-    typedef struct { s32 w[8]; } Blk32_8018AA98;   /* 32 bytes, align 4 */
+   /* 32 bytes, align 4 */
 
     extern Blk32_8018AA98 D_800AE620;
     extern s32 D_800A5E60;
@@ -4397,14 +4391,6 @@ void aF8018AFD0(s32 a0, s32 a1, s32 a2) __asm__("func_8018AFD0");
 
 void aF8018AFD0(s32 a0, s32 a1, s32 a2)
 {
-    typedef struct {
-        s16 f0;     /* 0x00 */
-        s16 f2;     /* 0x02 */
-        s16 f4;     /* 0x04 */
-        s16 f6;     /* 0x06 */
-        s32 f8;     /* 0x08 */
-        s32 fC;     /* 0x0C */
-    } P;
 
     extern s16 D_801EACE4;
     extern s16 D_801EACDE[];
@@ -4578,21 +4564,11 @@ extern u8 D_801EACE2;
 extern short D_800B9A02;
 
 /* 0x10-byte-stride record table at D_801EACE4 (same table as func_8018AD5C) */
-typedef struct {
-    u16 f0;  /* 0x00 */
-    s16 f2;  /* 0x02 */
-    s16 f4;  /* 0x04 */
-    s16 f6;  /* 0x06 */
-    s16 f8;  /* 0x08 */
-    u16 fA;  /* 0x0A */
-    s16 fC;  /* 0x0C */
-    u16 fE;  /* 0x0E */
-} Rec_8018B23C;
 
-typedef struct { s32 w[8]; } Mat32_8018B23C;      /* the 0x20-byte matrix */
-typedef struct { s32 a; s32 b[4]; } Ot_8018B23C;  /* == engine_types.h OtBlk */
-typedef struct { u16 f; } Bidx_8018B23C;          /* the D_800B9A02 buffer index */
-typedef struct { u32 addr:24; u32 len:8; } PTag_8018B23C; /* libgpu P_TAG */
+      /* the 0x20-byte matrix */
+  /* == engine_types.h OtBlk */
+          /* the D_800B9A02 buffer index */
+ /* libgpu P_TAG */
 
 void func_8018B23C(s32 a0) {
 

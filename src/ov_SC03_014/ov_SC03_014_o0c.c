@@ -2753,10 +2753,6 @@ extern void func_80183B58(s32 param_1, s16 *param_2);
 
 #include "common.h"
 
-typedef struct Ent_80183CF0 {
-    u8  unk0[2];   /* 0x00 */
-    u16 unk2;      /* 0x02 */
-} Ent_80183CF0;
 
 extern void (*D_8018FB30[])(Ent_80183CF0 *);
 
@@ -2767,23 +2763,7 @@ void func_80183CF0(Ent_80183CF0 *arg) {
 
 #include "common.h"
 
-typedef struct Ent_80183D50 {
-    u8  unk0[2];        /* 0x00 */
-    u16 unk2;           /* 0x02 */
-    u8  unk4[0xD8];     /* 0x04 */
-    s16 unkDC;          /* 0xDC */
-    u8  unkDE[4];       /* 0xDE */
-    s16 unkE2;          /* 0xE2 */
-    s16 unkE4;          /* 0xE4 */
-    u8  unkE6[2];       /* 0xE6 */
-    s16 unkE8;          /* 0xE8 */
-    s16 unkEA;          /* 0xEA */
-} Ent_80183D50;
 
-typedef struct Gs_80078E78 {
-    u8  pad0[0x37];     /* 0x00 */
-    u8  unk37;          /* 0x37 */
-} Gs_80078E78;
 
 extern u8 D_80078E78[];
 extern u8 D_801B5864[];
@@ -2828,19 +2808,6 @@ void func_80183D50(Ent_80183D50 *arg) {
 
 #include "common.h"
 
-typedef struct Ent80183F28 {
-    /* 0x00 */ s16 unk00;
-    /* 0x02 */ s16 unk02;
-    /* 0x04 */ u8  pad04[0xD8];
-    /* 0xDC */ s16 unkDC;
-    /* 0xDE */ s16 unkDE;
-    /* 0xE0 */ s16 unkE0;
-    /* 0xE2 */ s16 unkE2;
-    /* 0xE4 */ s16 unkE4;
-    /* 0xE6 */ s16 unkE6;
-    /* 0xE8 */ s16 unkE8;
-    /* 0xEA */ s16 unkEA;
-} Ent80183F28;
 
 extern s32 D_801270C8;
 extern s32 D_801EAFD0;
@@ -2878,11 +2845,6 @@ extern s32 D_8018F858[];
 extern void func_8017FA5C(s32 arg0, s32 arg1, s32 arg2);
 extern void func_80184474(void);
 
-typedef struct Ent_80184264 {
-    u8 pad0[0xE2];
-    s16 unkE2;
-    s16 unkE4;
-} Ent_80184264;
 
 void func_80184264(Ent_80184264 *param_1) {
     func_8017FA5C((s32)&D_801EAFD0, D_8018F858[param_1->unkE4], param_1->unkE2);

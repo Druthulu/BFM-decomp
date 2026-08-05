@@ -340,7 +340,7 @@ void func_80146360(void)
 
 
 
-typedef struct { char _b[8]; } Blk8_801463A0;   /* size 8, align 1 -> unaligned block move */
+   /* size 8, align 1 -> unaligned block move */
 
 extern void func_8014C6F4();
 extern void func_80155150(s32 a0);
@@ -1214,21 +1214,6 @@ extern s32 func_80029178(s32);
 s32 func_8014A738(void *arg0) {
 
     extern u8 D_801202A0[];
-    typedef struct {
-        s16 vx;
-        s16 vy;
-        s16 vz;
-        s16 pad;
-    } Vec_8014A738;
-    typedef struct {
-        u8 pad0[6];
-        u16 x;
-        u8 pad8[6];
-        u16 z;
-        u8 pad10[0xB1];
-        u8 state;
-        u8 padC2[0x4A];
-    } Ent_801202A0;
     Vec_8014A738 d;
     u32 i;
     Ent_801202A0 *base;
@@ -1447,7 +1432,7 @@ s32 a2;
 s16 *a3;
 u16 a4;
 {
-    typedef struct { u16 a, b, c, d; } V4U_8014C4AC;   /* block-scope: no file-scope conflict (§100) */
+   /* block-scope: no file-scope conflict (§100) */
     extern s32 D_80126CD0;
     extern u16 D_8012693A;
     extern u16 D_801152B8;
@@ -1519,7 +1504,6 @@ DEFINE_func_8014C6E0()  /* dedup: shared engine-core @0x8014C6E0 (src/shared) */
 //     the preceding insns, reproducing `beqz $v0,.L8014C7F4 / addiu $a1,$zero,0x22` and leaving
 //     the loop-back delay slot a nop. `want` needs no pin — gcc lands it in $a1 on its own.
 
-typedef struct { char _b[8]; } M8_8014C6F4;
 
 void func_8014C6F4(u8 *a) {
     extern u8 D_80078E78[];
@@ -2075,17 +2059,6 @@ s32 func_8014D820(s32 a0, u16 *a1, u16 *a2x)
     u16 z;
     u16 w;
   } V4;
-  typedef struct
-  {
-    u16 x;
-    u16 y;
-    u16 z;
-    u16 w;
-    s32 pad[4];
-    s32 f18;
-    s32 f1C;
-    s32 f20;
-  } Desc;
   typedef struct EntD820
   {
     u16 f0;

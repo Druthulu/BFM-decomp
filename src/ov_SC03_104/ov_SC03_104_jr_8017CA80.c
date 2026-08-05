@@ -3383,20 +3383,9 @@ void func_8017CA80(s32 arg0)
     : "memory" )
 
 /* ---- the two gouraud-textured packet layouts this function emits ---------- */
-typedef struct {
-    u32 tag;
-    u32 rgb0; s16 x0, y0; u32 uv0;
-    u32 rgb1; s16 x1, y1; u32 uv1;
-    u32 rgb2; s16 x2, y2; u16 uv2, p2;
-} PolyGT3;                                      /* 0x28 */
+                                      /* 0x28 */
 
-typedef struct {
-    u32 tag;
-    u32 rgb0; s16 x0, y0; u32 uv0;
-    u32 rgb1; s16 x1, y1; u32 uv1;
-    u32 rgb2; s16 x2, y2; u16 uv2, p2;
-    u32 rgb3; s16 x3, y3; u16 uv3, p3;
-} PolyGT4;                                      /* 0x34 */
+                                      /* 0x34 */
 
 /* ---- the three light-volume descriptors ---------------------------------- */
 extern s32 D_801C0370;
@@ -4893,12 +4882,6 @@ void func_80185278(void) {
  *     puts $s1's zero-init first, which is the target order.
  */
 
-typedef struct {
-    s16 unk0;
-    s16 unk2;
-    s16 unk4;
-    s16 unk6;
-} Rec_8018A6A4_8018529C;
 
 extern void func_8018533C(s32 arg0, s32 arg1, s32 arg2);
 extern void func_80185458(s32 arg0, Rec_8018A6A4_8018529C *arg1, s32 arg2, s32 arg3);
@@ -5008,7 +4991,7 @@ void aF8018A860(s32 a0, s16 *a1, u8 *a2, u8 *a3)
 {
 
     extern s16 D_801C0244;      /* TU L3637 / L3671, verbatim */
-    typedef struct { u8 b0, b1, b2, b3; } B4_80185458;   /* align 1 — §48-C2 */
+   /* align 1 — §48-C2 */
     s16 *s1;
     u16 temp_u16;
     s16 temp_s16;
@@ -5250,7 +5233,7 @@ void func_801855B4(void) {
 
 void func_80185690(s32 arg0)
 {
-    typedef struct { s32 w[8]; } Blk32_8018AA98_80185690;   /* 32 bytes, align 4 */
+   /* 32 bytes, align 4 */
 
     extern Blk32_8018AA98_80185690 D_800AE620;
     extern s32 D_800A5E60;
@@ -5400,7 +5383,6 @@ extern s32 RotTransPers(s32 a0, s32 a1, s32 *a2, s32 *a3);
 extern void func_80185A28(void *arg0, void *arg1, s32 arg2, s32 arg3);
 
 void func_801859A0(s32 a0) {
-    typedef struct { u8 a, b, c, d; } V4_801859A0;
     extern u8 D_800AF648;
     extern V4_801859A0 D_801BED24;
     u16 sxy[4];
@@ -5532,14 +5514,6 @@ void aF8018AFD0(s32 a0, s32 a1, s32 a2) __asm__("func_80185BC8");
 
 void aF8018AFD0(s32 a0, s32 a1, s32 a2)
 {
-    typedef struct {
-        s16 f0;     /* 0x00 */
-        s16 f2;     /* 0x02 */
-        s16 f4;     /* 0x04 */
-        s16 f6;     /* 0x06 */
-        s32 f8;     /* 0x08 */
-        s32 fC;     /* 0x0C */
-    } P_80185BC8;
 
     extern s16 D_801C013C;
     extern s16 D_801C0136[];
@@ -5708,21 +5682,11 @@ extern void func_80016638(void *a0, s32 a1, s32 a2);
 
 
 /* 0x10-byte-stride record table at D_801C013C (same table as func_8018AD5C) */
-typedef struct {
-    u16 f0;  /* 0x00 */
-    s16 f2;  /* 0x02 */
-    s16 f4;  /* 0x04 */
-    s16 f6;  /* 0x06 */
-    s16 f8;  /* 0x08 */
-    u16 fA;  /* 0x0A */
-    s16 fC;  /* 0x0C */
-    u16 fE;  /* 0x0E */
-} Rec_8018B23C_80185E34;
 
-typedef struct { s32 w[8]; } Mat32_8018B23C_80185E34;      /* the 0x20-byte matrix */
-typedef struct { s32 a; s32 b[4]; } Ot_8018B23C_80185E34;  /* == engine_types.h OtBlk */
-typedef struct { u16 f; } Bidx_8018B23C_80185E34;          /* the D_800B9A02 buffer index */
-typedef struct { u32 addr:24; u32 len:8; } PTag_8018B23C_80185E34; /* libgpu P_TAG */
+      /* the 0x20-byte matrix */
+  /* == engine_types.h OtBlk */
+          /* the D_800B9A02 buffer index */
+ /* libgpu P_TAG */
 
 void func_80185E34(s32 a0) {
 
@@ -5842,12 +5806,7 @@ void func_80186118(s32 a0) {
     extern u16 D_8019D21C[];
     extern u16 D_8019D244[];
     extern void (*D_8019D26C[])(s32);
-    typedef struct {
-        u16 x; /* 0x00 */
-        u16 y; /* 0x02 */
-        u16 z; /* 0x04 */
-        u16 w; /* 0x06 */
-    } V4_8017FAC0_80186118; /* 8 bytes */
+ /* 8 bytes */
 
     V4_8017FAC0_80186118 p1;
     V4_8017FAC0_80186118 p2;
@@ -5931,29 +5890,8 @@ void func_801863B0(void *arg0) {
 
     extern u8 D_801202A0[];
     extern void (*D_8019D2B8[])(void *);
-    typedef struct {
-        u16 x;   /* 0x00 */
-        u16 y;   /* 0x02 */
-        u16 z;   /* 0x04 */
-        u16 w;   /* 0x06 */
-    } V4_8017FD58_801863B0;                 /* 8 bytes, align 2 -> lwl/lwr/swl/swr copy */
-    typedef struct {
-        u16 f0;                    /* 0x00 */
-        u16 f2;                    /* 0x02 */
-        u16 f4;                    /* 0x04 */
-        u16 x;                     /* 0x06 */
-        u16 f8;                    /* 0x08 */
-        u16 y;                     /* 0x0A */
-        u16 fC;                    /* 0x0C */
-        u16 z;                     /* 0x0E */
-        u8  p10[0x10];
-        s32 f20;                   /* 0x20 */
-        u8  p24[0x34];
-        s32 f58;                   /* 0x58 */
-        u8  p5C[8];
-        s32 f64;                   /* 0x64 */
-        u8  p68[0x10C - 0x68];
-    } Ent_8017FD58_801863B0;                /* stride 0x10C, 0x60 entries (0x6480) */
+                 /* 8 bytes, align 2 -> lwl/lwr/swl/swr copy */
+                /* stride 0x10C, 0x60 entries (0x6480) */
 
     /* Two further V4 slots the original body declared ahead of `pos` but that
      * this function never reads: the target frame is 0x50 with locals at
@@ -6415,7 +6353,6 @@ extern void func_8012E688(void *a0, s32 a1, s32 a2);
 void func_8018747C(s32 a0) {
     s32 ret = func_8012BD14(a0);
     if (ret <= 0x64000) {
-        typedef struct { s32 f0; s32 f1; } Struct_8018747C;
         Struct_8018747C *ptr = *(Struct_8018747C **)(a0 + 0x20);
         *(s16 *)(a0 + 0x2) = 1;
         ptr->f1 = ptr->f1 & 0x7FFFFFFF;
@@ -6867,9 +6804,6 @@ void func_80187E4C(s32 a0) {
     extern u8 D_800AF648;
     extern u8 D_801ABFEC[];
     extern u8 D_801AB95C[];
-    typedef struct {
-        u16 x, y, z, w;
-    } V8_80187E4C;
     s32 mv[4];   /* sp+0x10 : the 4-word block handed to func_8012B1B4 */
     V8_80187E4C pad[2];   /* sp+0x20 : gcc's own area (vars must be 0x48 for a 0x68 frame) */
     V8_80187E4C sp30;     /* sp+0x30 : func_80133784 arg1 */
@@ -6999,9 +6933,6 @@ void func_80188200(s32 a0) {
     extern u8 D_801AC8EC[];
     extern u8 D_801AC26C[];
     extern u8 D_801ACAF4[];
-    typedef struct {
-        u16 x, y, z, w;
-    } V8_80188200;
     s32 sp10[4];
     V8_80188200 pad[2];
     V8_80188200 sp30;
@@ -7235,9 +7166,6 @@ void func_801886A8(s32 a0) {
 
     extern u8 D_8019F8A4[];
     extern u8 D_801AC5AC[];
-    typedef struct {
-        u16 x, y, z, w;
-    } V8_801886A8;
     V8_801886A8 pad[2];
     V8_801886A8 sp20;
     V8_801886A8 sp28;
@@ -7772,7 +7700,6 @@ extern s32 func_80133784(s32 a0, void *a1, s32 a2);
 void func_80189234(s32 a0) {
 
     extern u8 D_8019F5C0[];
-    typedef struct { u16 x, y, z, w; } V8_80189234;
     V8_80189234 sp10;
     V8_80189234 sp18;
 
@@ -7889,9 +7816,6 @@ extern s32 func_80133784(s32 a0, void *a1, s32 a2);
 void func_80189454(s32 *s0) {
 
     extern u8 D_8019F5C0[];
-    typedef struct {
-        u16 a, b, c, d;
-    } Data_t_80189454;
 
     Data_t_80189454 buf_src, buf_dst;
     s32 v0;

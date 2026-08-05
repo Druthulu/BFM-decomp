@@ -6,9 +6,7 @@
  * file-local types, col-0 decls, DEFINE_func macro externs, and each earlier
  * definition's implied prototype (types first, then decls in original order).
  * Decls emit no code => byte-neutral. See cookbook §8c. */
-typedef struct { short vx, vy, vz, pad; } Vec;
-typedef struct { char _b[8]; } Blk8_801463A0;   /* size 8, align 1 -> unaligned block move */
-typedef struct { char _b[8]; } M8_8014C6F4;
+   /* size 8, align 1 -> unaligned block move */
 extern void func_80016714(void *a0, s32 a1);
 extern void func_8013C98C(void);
 extern void func_80019064(void *a0);

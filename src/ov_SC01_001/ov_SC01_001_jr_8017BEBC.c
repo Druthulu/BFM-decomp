@@ -3277,9 +3277,6 @@ void func_8017D060(void *a0) {
 
 
 /* 8 bytes, align 2 -> lwl/lwr/swl/swr copy (cookbook §48-C2) */
-typedef struct {
-    s16 v[4];
-} Blk8_80126940_8017D09C;
 
 extern u16 func_80148800(s32 *a0);
 extern void func_8017D13C(s32 param_1, s16 *param_2);

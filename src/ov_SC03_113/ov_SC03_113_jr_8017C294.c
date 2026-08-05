@@ -3322,7 +3322,6 @@ void func_8017C294(s32 arg0)
 
 void func_8017D174(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
 {
-    typedef struct { u32 w0, w1, w2; } Prim_8017D174;
 
     extern s32 func_800491EC(void);
     extern void func_800547D8(s32, MATRIX2 *);
@@ -4160,7 +4159,6 @@ void func_8017E79C(s16 *a0) {
  * (instead of a fresh local) avoids stealing back the $v0 slot.
  */
 
-typedef struct { s32 w[8]; } Mtx8_8017DE10_8017E878;
 
 void func_8017E878(s32 a0) {
     extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
@@ -4567,9 +4565,6 @@ void func_8017F120(void *a0) {
 
 
 /* 8 bytes, align 2 -> lwl/lwr/swl/swr copy (cookbook §48-C2) */
-typedef struct {
-    s16 v[4];
-} Blk8_80126940_8017F15C;
 
 extern u16 func_80148800(s32 *a0);
 extern void func_8017F1FC(s32 param_1, s16 *param_2);

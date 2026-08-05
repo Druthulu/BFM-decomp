@@ -3363,17 +3363,6 @@ void func_8017BF34(void *a0) {
 extern u8 *func_8012913C(s32 a0);
 extern s32 func_8012C750(s32 a0);
 
-typedef struct {
-    s16 unk00;
-    s16 unk02;
-    s16 unk04;
-    s16 unk06;
-    s16 unk08;
-    s16 unk0A;
-    s16 unk0C;
-    s16 unk0E;
-    s32 unk10;
-} Buf8017BF50_8017BF70;
 
 /* $16-$19 are pinned: without them gcc's strength reduction splits the `s1` store
  * base into TWO induction variables (base+0x18 with offsets -4/0, plus base+0x1C),
@@ -4752,13 +4741,6 @@ extern void func_80180934(void *arg0);
 extern s32 func_8012AD50(void *arg0);
 
 /* 0x24-stride record at D_801C9010 (4 entries; asm/ov_SC04_018/data/tail18.data.s) */
-typedef struct {
-    u8  unk00[0x16];
-    s16 unk16;
-    u8  unk18[4];
-    s32 unk1C;
-    u8  unk20[4];
-} Ent_8017D6EC_80180618;
 
 
 void func_80180618(void *arg0) {
@@ -4850,12 +4832,7 @@ void func_80180934(void *arg0) {
  * so this body remaps to those overlays unchanged.
  */
 
-typedef struct { short vx, vy, vz, pad; } SV_8017DAC4_801809F0;
 
-typedef struct {
-    SV_8017DAC4_801809F0 v[4];                       /* 0x00 .. 0x20 */
-    s32 f20, f24, f28, f2C, f30, f34;       /* 0x20 .. 0x38 */
-} Prim_8017DAC4_801809F0;
 
 extern void func_80017714(void *);
 
@@ -5177,9 +5154,6 @@ s32 func_80180F3C(u8 a0, u8 a1, u8 a2, u8 a3) {
 extern void func_8012F214(s32 a0, s32 a1, s32 a2);
 extern s32 func_8012CEB0(s32 a0, s32 a1, s32 a2);
 
-typedef struct {
-    s16 f0, f1, f2, f3;
-} Vec4s_80180F94;
 
 void func_80180F94(void *a0, s32 a1)
 {
@@ -5606,7 +5580,6 @@ extern void func_80181C08(s32 a0);
 extern void *func_80181FD8(void *a0);
 
 
-typedef struct { u8 b[12]; } Blk12_801854C4_80181830;
 
 void func_80181830(s32 a0) {
 

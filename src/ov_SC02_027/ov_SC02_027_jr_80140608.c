@@ -1112,11 +1112,6 @@ s16 n;
     extern s16 D_8018C5D0[];
     extern u16 D_8018C0E0;
     extern u16 D_8018C0E2;
-  typedef struct 
-  {
-    u32 *ot;
-    u32 pad[4];
-  } Env_80140958;
   extern Env_80140958 D_800AE7BC[];
   Prim4 *p;
   s16 t;
@@ -1255,13 +1250,9 @@ s32 *func_80140D68(out, src, idx, dx, ofs)
        NOT file-scope typedefs — so a file-scope Env_800D29F8 is silently dropped from every
        sibling and the family sweeps 0/137. Body-local typedefs DO survive (PTag_80140D68 below
        is the proof), so it lives here. */
-    typedef struct {
-        u32 *ot;            /* 0x00 */
-        u32 pad[4];         /* 0x04..0x13 */
-    } Env_800D29F8;         /* 0x14 stride */
+         /* 0x14 stride */
     extern Env_800D29F8 D_800AE7BC[];
 
-    typedef struct { u32 addr : 24; u32 len : 8; } PTag_80140D68;
 
     register u32 mhi __asm__("$8");
     s16 *q;
@@ -2588,7 +2579,6 @@ DEFINE_func_80144AEC()  /* dedup: shared engine-core @0x80144AEC (src/shared) */
 
 extern int func_80013294(void *a0, void *a1);
 
-typedef struct { short vx, vy, vz, pad; } Vec;
 
 int func_80144B14(int param_1) {
 

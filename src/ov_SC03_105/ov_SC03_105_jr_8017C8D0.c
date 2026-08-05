@@ -3195,17 +3195,8 @@ extern s32 func_80017DC4(void *a0, void *a1);
 extern s32 func_80017E30(void *a0, void *a1);
 extern void func_80016ED4(void *a0);
 
-typedef struct { short vx, vy, vz, pad; } SVECTOR_8017F40C_8017DB28;
 
 
-typedef struct {
-    SVECTOR_8017F40C_8017DB28 v[4];      /* 0x00 */
-    s16 k30, k32, k34, k36, k38, k3a, k3c, k3e;  /* 0x20 */
-    u32 bcast;                  /* 0x30 */
-    s32 tag;                    /* 0x34 */
-    u8 code;                    /* 0x38 */
-    u8 pad39[7];                /* -> 0x40 */
-} Prim_8017F40C_8017DB28;
 
 void func_8017DB28(s32 a0, s32 a1) {
 
@@ -3993,7 +3984,6 @@ extern void func_800233CC(void *a0, unsigned short a1);
 /* align-1 4-byte block: lowers via emit_block_move (unaligned lwl/lwr + swl/swr)
  * with ZERO memcpy-symbol reference, so the TU's `extern memcpy` cannot turn
  * this into a CALL.  (house idiom, cf. func_8017B238 / func_8017B614) */
-typedef struct { u8 b[4]; } Blk4_8018CE04_80188C34;
 
 void func_80188C34(s32 param_1)
 {
@@ -4171,12 +4161,6 @@ void func_80189418(void *a0) {
 
 
 
-typedef struct {
-    u8 b0;
-    u8 b1;
-    u8 b2;
-    u8 b3;
-} EffectSlot4_80189454;
 
 extern void func_801465C0(void);
 extern void func_80146C3C(void);
@@ -4468,7 +4452,6 @@ void func_80189F24(void *a0)
 
 
 void func_80189FF0(void *a0) {
-    typedef struct { u8 b[8]; } Blk8_80189FF0;
     extern s32 func_80017DC4(void *a0, void *a1);
     extern s16 func_8012A758(void);
     extern void RotMatrixY(s32 a0, void *a1);

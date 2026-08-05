@@ -2859,8 +2859,8 @@ DEFINE_func_801757E0()  /* dedup: shared engine-core @0x801757E0 (src/shared) */
  * shared `la $v1,D_8011F7A8` + 0x18/0x20 displacements).
  */
 
-typedef struct { u32 *f0; s32 pad[4]; } S_AE7BC_80175820_80175820;   /* size 0x14 */
-typedef struct { s32 g0; s32 pad[2]; } S_AF634_80175820_80175820;    /* size 0x0C */
+   /* size 0x14 */
+    /* size 0x0C */
 
 s32 func_80175820(void)
 {
@@ -2900,8 +2900,8 @@ INCLUDE_ASM("asm/ov_SC01_006/nonmatchings/ov_SC01_006_jr_801734BC", func_801758F
 
 
 
-typedef struct { u32 *f0; s32 pad[4]; } S_AE7BC_801759D8;   /* size 0x14 */
-typedef struct { s32 g0; s32 pad[2]; } S_AF634_801759D8;    /* size 0x0C */
+   /* size 0x14 */
+    /* size 0x0C */
 
 s32 func_801759D8(void)
 {
@@ -2947,7 +2947,7 @@ s32 func_801759D8(void)
 void func_80175AB8(param_1)
     s16 param_1;
 {
-    typedef struct { s32 g0; s32 pad[2]; } S_AF634;   /* size 0x0C */
+   /* size 0x0C */
     extern S_AF634 D_800AF634[];
     extern S_AF634 D_800AF638[];
 
@@ -3033,7 +3033,7 @@ void func_80175AB8(param_1)
 
 
 
-typedef struct { s32 g0; s32 pad[2]; } S_AF634;   /* size 0x0C */
+   /* size 0x0C */
 extern u32 *func_8017742C(u32 *a0, s32 a1, s32 a2);
 extern s32 func_8005A600(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4);
 extern void func_800183E0(s32 a0);
@@ -3057,14 +3057,6 @@ void func_80175DA8(param_1)
     extern u8  D_800D43D4;
     extern u8  D_800D4414;
     extern u8  D_800D45D4;
-    typedef struct {
-        u32 tag;    /* 0x00 */
-        u32 code;   /* 0x04 */
-        u16 x;      /* 0x08 */
-        u16 y;      /* 0x0A */
-        u32 uv;     /* 0x0C */
-        u32 wh;     /* 0x10 */
-    } Sp_80175DA8;
 
     u8 *base = &D_8011F7F0;
     u8 *s = base - 0x48;
@@ -3218,7 +3210,7 @@ void func_80175DA8(param_1)
 
 void func_80176144(s32 a0)
 {
-    typedef struct { s32 g0; s32 pad[2]; } S_AF634_80176144;   /* size 0x0C */
+   /* size 0x0C */
     /* §37 asm-label alias: private C names, canonical relocations. */
     extern S_AF634_80176144 aAF634[] __asm__("D_800AF634");
     extern S_AF634_80176144 aAF638[] __asm__("D_800AF638");

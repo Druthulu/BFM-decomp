@@ -4388,12 +4388,6 @@ extern s32 func_80017DC4(void *a0, void *a1);
                  /* 0x08 */
      /* 0x20 */
 
-typedef struct {
-    SVECTOR v[4];               /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-    u8  f6;                     /* 0x38 */
-    u8  pad[7];                 /* -> 0x40 */
-} Prim_8016E7C8_8016E7C8;
 
 
 void func_8016E7C8(int param_1, short *param_2, unsigned int *param_3)
@@ -4615,22 +4609,7 @@ void func_8016EC0C(s32 a0, s32 a1)
     /* §100 draft-LOCAL type: a file-scope typedef is an EXEMPLAR-ONLY bank — extract_unit/
        remap_hseq carry only the BODY, so every sibling fails `T8016EC0C undeclared`
        (measured on ov_SC01_000). Block scope travels with the body; byte-neutral. */
-    typedef struct {
-        /* 0x00 */ s16 x;
-        /* 0x02 */ s16 y;
-        /* 0x04 */ s32 u04;
-        /* 0x08 */ s16 u08;
-        /* 0x0A */ s16 u0A;
-        /* 0x0C */ s16 u0C;
-        /* 0x0E */ s16 u0E;
-        /* 0x10 */ u8 r;
-        /* 0x11 */ u8 g;
-        /* 0x12 */ u8 b;
-        /* 0x13 */ u8 pad13;
-        /* 0x14 */ s32 u14;
-        /* 0x18 */ u8 u18;
-        /* 0x19 */ u8 pad19[3];
-    } T8016EC0C; /* 0x1C */
+ /* 0x1C */
     T8016EC0C s;
     u16 *p;
     s32 x;

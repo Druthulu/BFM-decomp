@@ -3316,13 +3316,6 @@ extern void func_8017F914(void *arg0);
 extern s32 func_8012AD50(void *arg0);
 
 /* 0x24-stride record at D_801CB920 (4 entries; asm/ov_SC04_018/data/tail18.data.s) */
-typedef struct {
-    u8  unk00[0x16];
-    s16 unk16;
-    u8  unk18[4];
-    s32 unk1C;
-    u8  unk20[4];
-} Ent_8017D6EC_8017F5F8;
 
 
 void func_8017F5F8(void *arg0) {
@@ -3376,13 +3369,6 @@ extern void func_8017F9D0(void *arg0);
 /* same shape as the TU's own Ent_8017D6EC_8017F5F8 (TU:3319-3325), own name to avoid
  * the C89 duplicate-typedef clash (S33); match_one compiles this file standalone (no
  * TU context), so the typedef must be repeated here regardless. */
-typedef struct {
-    u8  unk00[0x16];
-    s16 unk16;
-    u8  unk18[4];
-    s32 unk1C;
-    u8  unk20[4];
-} Ent_8017F688;
 
 extern Ent_8017F688 D_801CB920[];
 
@@ -3526,12 +3512,7 @@ void func_8017F914(void *arg0) {
  * so this body remaps to those overlays unchanged.
  */
 
-typedef struct { short vx, vy, vz, pad; } SV_8017DAC4_8017F9D0;
 
-typedef struct {
-    SV_8017DAC4_8017F9D0 v[4];                       /* 0x00 .. 0x20 */
-    s32 f20, f24, f28, f2C, f30, f34;       /* 0x20 .. 0x38 */
-} Prim_8017DAC4_8017F9D0;
 
 extern void func_80017714(void *);
 
@@ -4214,7 +4195,6 @@ INCLUDE_ASM("asm/ov_SC03_002/nonmatchings/ov_SC03_002_jr_8017D604", func_80182A3
 
 #include "common.h"
 
-typedef struct { s32 a; s32 b[4]; } Ot_80182A78;
 
 extern s32 func_8004787C(s32 a0);
 extern short D_800B9A02;
@@ -4589,9 +4569,6 @@ s32 func_8018317C(u8 a0, u8 a1, u8 a2, u8 a3) {
 extern void func_8012F214(s32 a0, s32 a1, s32 a2);
 extern s32 func_8012CEB0(s32 a0, s32 a1, s32 a2);
 
-typedef struct {
-    s16 f0, f1, f2, f3;
-} Vec4s_801831D4;
 
 void func_801831D4(void *a0, s32 a1)
 {
@@ -5005,7 +4982,6 @@ extern void func_80183E48(s32 a0);
 extern void *func_80184218(void *a0);
 
 
-typedef struct { u8 b[12]; } Blk12_801854C4_80183A70;
 
 void func_80183A70(s32 a0) {
 

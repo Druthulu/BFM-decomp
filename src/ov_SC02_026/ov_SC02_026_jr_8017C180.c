@@ -3383,9 +3383,6 @@ void func_8017D4CC(void *a0) {
 INCLUDE_ASM("asm/ov_SC02_026/nonmatchings/ov_SC02_026_jr_8017C180", func_8017D508);
 
 /* 8 bytes, align 2 -> lwl/lwr/swl/swr copy (cookbook §48-C2) */
-typedef struct {
-    s16 v[4];
-} Blk8_80126940_8017D6D0;
 
 extern u16 func_80148800(s32 *a0);
 extern void func_8017D780(s32 param_1, s16 *param_2);
@@ -3658,12 +3655,7 @@ extern s32 func_8012BD14(s32 a0);
 extern void func_8002D59C(s32 a0, u16 a1, s32 a2);
 
 void func_8017FAC0(s32 a0) {
-    typedef struct {
-        u16 x; /* 0x00 */
-        u16 y; /* 0x02 */
-        u16 z; /* 0x04 */
-        u16 w; /* 0x06 */
-    } V4_8017FAC0; /* 8 bytes */
+ /* 8 bytes */
 
     V4_8017FAC0 p1;
     V4_8017FAC0 p2;
@@ -3745,29 +3737,8 @@ extern s32 func_8012B6D4(s16 *a0, s16 *a1);
 extern void (*D_801A9EB8[])(void *);
 
 void func_8017FD58(void *arg0) {
-    typedef struct {
-        u16 x;   /* 0x00 */
-        u16 y;   /* 0x02 */
-        u16 z;   /* 0x04 */
-        u16 w;   /* 0x06 */
-    } V4_8017FD58;                 /* 8 bytes, align 2 -> lwl/lwr/swl/swr copy */
-    typedef struct {
-        u16 f0;                    /* 0x00 */
-        u16 f2;                    /* 0x02 */
-        u16 f4;                    /* 0x04 */
-        u16 x;                     /* 0x06 */
-        u16 f8;                    /* 0x08 */
-        u16 y;                     /* 0x0A */
-        u16 fC;                    /* 0x0C */
-        u16 z;                     /* 0x0E */
-        u8  p10[0x10];
-        s32 f20;                   /* 0x20 */
-        u8  p24[0x34];
-        s32 f58;                   /* 0x58 */
-        u8  p5C[8];
-        s32 f64;                   /* 0x64 */
-        u8  p68[0x10C - 0x68];
-    } Ent_8017FD58;                /* stride 0x10C, 0x60 entries (0x6480) */
+                 /* 8 bytes, align 2 -> lwl/lwr/swl/swr copy */
+                /* stride 0x10C, 0x60 entries (0x6480) */
 
     /* Two further V4 slots the original body declared ahead of `pos` but that
      * this function never reads: the target frame is 0x50 with locals at
@@ -4341,7 +4312,6 @@ extern void func_8012E688(void *a0, s32 a1, s32 a2);
 void func_80180E24(s32 a0) {
     s32 ret = func_8012BD14(a0);
     if (ret <= 0x64000) {
-        typedef struct { s32 f0; s32 f1; } Struct;
         Struct *ptr = *(Struct **)(a0 + 0x20);
         *(s16 *)(a0 + 0x2) = 1;
         ptr->f1 = ptr->f1 & 0x7FFFFFFF;
@@ -6323,9 +6293,6 @@ extern s32 func_80133784(s32 a0, void *a1, s32 a2);
 extern u8 D_801AF66C[];
 
 void func_801848B0(s32 *s0) {
-    typedef struct {
-        u16 a, b, c, d;
-    } Data_t;
 
     Data_t buf_src, buf_dst;
     s32 v0;
@@ -6871,7 +6838,6 @@ INCLUDE_ASM("asm/ov_SC02_026/nonmatchings/ov_SC02_026_jr_8017C180", func_8018544
 
 #include "common.h"
 
-struct B16_80185634 { s32 w[4]; };
 
 extern struct B16_80185634 D_800A5EA8;
 extern struct B16_80185634 D_801CCBF8;
@@ -6893,7 +6859,6 @@ void func_80185634(void *a0) {
  * above the splice point (func_80185634's block, same TU). Redeclaring the struct TAG body
  * verbatim would be a C89 duplicate-definition error there, so alias a private identifier
  * onto the same linker symbol -- zero blast radius, identical %hi/%lo(D_800A5EA8) codegen. */
-struct B16_801856E4 { s32 w[4]; };
 
 extern struct B16_801856E4 aD800A5EA8 __asm__("D_800A5EA8");
 extern struct B16_801856E4 D_801CCC30;
@@ -6917,7 +6882,6 @@ void func_801856E4(void *a0) {
  * The scaled member (D_800A5E90) is record base +8, written as a DIRECT global so it
  * emits `lui $at; sw %lo(..)($at)` rather than folding onto the $s1 record base. */
 
-struct B16_80185794 { s32 w[4]; };
 
 extern struct B16_80185794 D_800A5E88;
 extern struct B16_80185794 D_801CCC48;
@@ -6944,7 +6908,6 @@ void func_80185844(void) {
  * identifier onto the same linker symbol sidesteps the collision at zero blast
  * radius and emits the identical %hi/%lo(D_800A5E88) pair. */
 
-struct B16_8018584C { s32 w[4]; };
 
 extern struct B16_8018584C aD800A5E88 __asm__("D_800A5E88");
 extern struct B16_8018584C D_801CCC80;

@@ -3773,13 +3773,6 @@ extern void func_80180ADC(void *arg0);
 extern s32 func_8012AD50(void *arg0);
 
 /* 0x24-stride record at D_801C4310 (4 entries; asm/ov_SC04_018/data/tail18.data.s) */
-typedef struct {
-    u8  unk00[0x16];
-    s16 unk16;
-    u8  unk18[4];
-    s32 unk1C;
-    u8  unk20[4];
-} Ent_8017D6EC_801807C0;
 
 
 void func_801807C0(void *arg0) {
@@ -3871,12 +3864,7 @@ void func_80180ADC(void *arg0) {
  * so this body remaps to those overlays unchanged.
  */
 
-typedef struct { short vx, vy, vz, pad; } SV_8017DAC4_80180B98;
 
-typedef struct {
-    SV_8017DAC4_80180B98 v[4];                       /* 0x00 .. 0x20 */
-    s32 f20, f24, f28, f2C, f30, f34;       /* 0x20 .. 0x38 */
-} Prim_8017DAC4_80180B98;
 
 extern void func_80017714(void *);
 
@@ -3985,7 +3973,6 @@ INCLUDE_ASM("asm/ov_SC03_125/nonmatchings/ov_SC03_125_jr_8017D604", func_8018121
 INCLUDE_ASM("asm/ov_SC03_125/nonmatchings/ov_SC03_125_jr_8017D604", func_801812B4);
 
 
-typedef struct { s32 a; s32 b[4]; } Ot_80182A78_801812FC;
 
 extern s32 func_8004787C(s32 a0);
 
@@ -4360,9 +4347,6 @@ s32 func_80181A00(u8 a0, u8 a1, u8 a2, u8 a3) {
 extern void func_8012F214(s32 a0, s32 a1, s32 a2);
 extern s32 func_8012CEB0(s32 a0, s32 a1, s32 a2);
 
-typedef struct {
-    s16 f0, f1, f2, f3;
-} Vec4s_80181A58;
 
 void func_80181A58(void *a0, s32 a1)
 {
@@ -4788,7 +4772,6 @@ extern void func_801826CC(s32 a0);
 extern void *func_80182A9C(void *a0);
 
 
-typedef struct { u8 b[12]; } Blk12_801854C4_801822F4;
 
 void func_801822F4(s32 a0) {
 

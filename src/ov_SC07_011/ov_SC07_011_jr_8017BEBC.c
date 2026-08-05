@@ -4153,9 +4153,6 @@ void func_8017D930(void *a0) {
 
 /* 8-byte, alignment-1 blob: the target copies it with lwl/lwr + swl/swr,
  * which is gcc's emit_block_move for align < 4. */
-typedef struct {
-    char b[8];
-} Blob8_8018A47C_8017D96C;
 
 extern void func_8017D9B4(s32, s16*);
 
@@ -4290,12 +4287,6 @@ void func_8017E2F0(void *a0) {
 
 
 
-typedef struct {
-    u8 b0;
-    u8 b1;
-    u8 b2;
-    u8 b3;
-} EffectSlot4_8017E32C;
 
 extern void func_801465C0(void);
 extern void func_80146C3C(u8*);

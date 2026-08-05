@@ -3432,17 +3432,8 @@ extern s32 func_80017DC4(void *a0, void *a1);
 extern s32 func_80017E30(void *a0, void *a1);
 extern void func_80016ED4(void *a0);
 
-typedef struct { short vx, vy, vz, pad; } SVECTOR_8017F40C_8017DF74;
 
 
-typedef struct {
-    SVECTOR_8017F40C_8017DF74 v[4];      /* 0x00 */
-    s16 k30, k32, k34, k36, k38, k3a, k3c, k3e;  /* 0x20 */
-    u32 bcast;                  /* 0x30 */
-    s32 tag;                    /* 0x34 */
-    u8 code;                    /* 0x38 */
-    u8 pad39[7];                /* -> 0x40 */
-} Prim_8017F40C_8017DF74;
 
 void func_8017DF74(s32 a0, s32 a1) {
 
@@ -4635,12 +4626,6 @@ void func_8018AF0C(void *a0) {
 
 
 
-typedef struct {
-    u8 b0;
-    u8 b1;
-    u8 b2;
-    u8 b3;
-} EffectSlot4_8018AF48;
 
 extern void func_801465C0(void);
 extern void func_80146C3C(void);

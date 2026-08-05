@@ -429,10 +429,6 @@ DEFINE_func_80128C14()  /* dedup: shared engine-core @0x80128C14 (src/shared) */
 
 #include "common.h"
 
-typedef struct {
-    s32 word0;
-    s32 word4;
-} CdFileLoc;
 
 extern s16 D_80186DCC[];
 extern CdFileLoc cdFileLocTable[];
@@ -845,12 +841,6 @@ extern s16 D_80126CAE;
 
 void func_8012A328(void)
 {
-    typedef struct {
-        u8 pad[0x154];
-        u16 f154;
-        s16 f156;
-        u16 f158;
-    } Obj_80126B58;
     Obj_80126B58 *p = (Obj_80126B58 *)&D_80126B58;
     s16 *q;
     s32 a, b;

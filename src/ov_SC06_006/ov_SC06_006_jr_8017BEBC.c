@@ -3273,9 +3273,6 @@ void func_8017D19C(void *a0) {
 
 
 /* 8 bytes, align 2 -> lwl/lwr/swl/swr copy (cookbook §48-C2) */
-typedef struct {
-    s16 v[4];
-} Blk8_80126940_8017D1D8;
 
 extern u16 func_80148800(s32 *a0);
 extern void func_8017D278(s32 param_1, s16 *param_2);
@@ -3703,12 +3700,6 @@ void func_80181198(void *a0) {
 
 
 
-typedef struct {
-    u8 b0;
-    u8 b1;
-    u8 b2;
-    u8 b3;
-} EffectSlot4_801811D4;
 
 extern void func_801465C0(void);
 extern void func_80146C3C(void);

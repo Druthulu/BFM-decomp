@@ -3407,11 +3407,8 @@ INCLUDE_ASM("asm/ov_SC03_014/nonmatchings/ov_SC03_014_jr_8017AE2C", func_8017C15
 //   stealing a saved reg from the reused pSVar6.
 
 /* MATRIX 0x20: 3x3 short rotation + pad, t[] at 0x14 */
-typedef struct { s16 m[3][3]; s16 pad; s32 t[3]; } MATRIX_8017C290;
 /* 8, align 2 -> lwl/lwr/swl/swr struct copy */
-typedef struct { u16 vx, vy, vz, pad; } SVECTOR_8017C290;
 /* 4, align 1 -> lwl/lwr/swl/swr */
-struct PW8017C290 { int w; } __attribute__((packed, aligned(1)));
 
 extern void func_80013F3C(s32 a0);
 extern void RotMatrixZ(s32, void *);
@@ -3901,9 +3898,7 @@ INCLUDE_ASM("asm/ov_SC03_014/nonmatchings/ov_SC03_014_jr_8017AE2C", func_8017D89
  *    lwl/lwr + swl/swr instead of a `jal memcpy` (cf. §38).
  */
 
-typedef struct {
-    u8 b0, b1, b2, b3;
-} Quad_801EA880; /* align 1 => movstrsi expands to lwl/lwr + swl/swr */
+ /* align 1 => movstrsi expands to lwl/lwr + swl/swr */
 
 extern u8 D_801EA880;
 extern u8 D_801EA881;

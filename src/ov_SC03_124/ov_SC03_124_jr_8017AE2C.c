@@ -3343,17 +3343,6 @@ void func_8017BF14(void *a0) {
 extern u8 *func_8012913C(s32 a0);
 extern s32 func_8012C750(s32 a0);
 
-typedef struct {
-    s16 unk00;
-    s16 unk02;
-    s16 unk04;
-    s16 unk06;
-    s16 unk08;
-    s16 unk0A;
-    s16 unk0C;
-    s16 unk0E;
-    s32 unk10;
-} Buf8017BF50_8017BF50;
 
 /* $16-$19 are pinned: without them gcc's strength reduction splits the `s1` store
  * base into TWO induction variables (base+0x18 with offsets -4/0, plus base+0x1C),
@@ -5840,13 +5829,6 @@ extern void func_80183C34(void *arg0);
 extern s32 func_8012AD50(void *arg0);
 
 /* 0x24-stride record at D_801E1BD0 (4 entries; asm/ov_SC04_018/data/tail18.data.s) */
-typedef struct {
-    u8  unk00[0x16];
-    s16 unk16;
-    u8  unk18[4];
-    s32 unk1C;
-    u8  unk20[4];
-} Ent_8017D6EC_80183918;
 
 
 void func_80183918(void *arg0) {
@@ -5938,12 +5920,7 @@ void func_80183C34(void *arg0) {
  * so this body remaps to those overlays unchanged.
  */
 
-typedef struct { short vx, vy, vz, pad; } SV_8017DAC4_80183CF0;
 
-typedef struct {
-    SV_8017DAC4_80183CF0 v[4];                       /* 0x00 .. 0x20 */
-    s32 f20, f24, f28, f2C, f30, f34;       /* 0x20 .. 0x38 */
-} Prim_8017DAC4_80183CF0;
 
 extern void func_80017714(void *);
 
@@ -6302,9 +6279,6 @@ s32 func_801842F8(u8 a0, u8 a1, u8 a2, u8 a3) {
 extern void func_8012F214(s32 a0, s32 a1, s32 a2);
 extern s32 func_8012CEB0(s32 a0, s32 a1, s32 a2);
 
-typedef struct {
-    s16 f0, f1, f2, f3;
-} Vec4s_80184350;
 
 void func_80184350(void *a0, s32 a1)
 {
@@ -6721,7 +6695,6 @@ extern void func_80184FC4(s32 a0);
 extern void *func_80185394(void *a0);
 
 
-typedef struct { u8 b[12]; } Blk12_801854C4_80184BEC;
 
 void func_80184BEC(s32 a0) {
 
@@ -7591,24 +7564,7 @@ INCLUDE_ASM("asm/ov_SC03_124/nonmatchings/ov_SC03_124_jr_8017AE2C", func_80187EA
  *     through a local instead) were all tried and all leave the 22-diff swap.
  */
 
-typedef struct Prim4_8017E978_801880E0 {
-    s16 f0;                  /* 0x00 */
-    s16 f2;                  /* 0x02 */
-} Prim4_8017E978_801880E0;
 
-typedef struct Panel_8017E978_801880E0 {
-    s16 f0;                  /* 0x00 */
-    s16 f2;                  /* 0x02 */
-    void *f4;                /* 0x04 */
-    void *f8;                /* 0x08 */
-    s16 fC;                  /* 0x0C */
-    s16 fE;                  /* 0x0E */
-    s16 f10;                 /* 0x10 */
-    s16 f12;                 /* 0x12 */
-    void *f14;               /* 0x14 */
-    Prim4_8017E978_801880E0 *f18;     /* 0x18 */
-    void *f1C;               /* 0x1C */
-} Panel_8017E978_801880E0;
 
 
 extern void  func_80024054(void *a0, void *a1);
@@ -7697,13 +7653,8 @@ s32 *func_8018893C(out, src, idx, w, col)
     extern u16 D_801BC522;
     extern u16 D_801BC536;
 
-    typedef struct {
-        u32 *ot;                            /* 0x00 */
-        u32 pad[4];                         /* 0x04..0x13 -> 0x14 stride */
-    } Env_8018893C;
     extern Env_8018893C D_800AE7BC[];
 
-    typedef struct { u32 addr : 24; u32 len : 8; } PTag_8018893C;
 
     /* §37 /s-DEP LATTICE: this store MUST be MEM_IN_STRUCT_P. `out[0] = k` folds `out + 0`
      * away and expands as a NON-/s mem, which keeps the true_dependence edge to the incoming
@@ -7711,7 +7662,6 @@ s32 *func_8018893C(out, src, idx, w, col)
      * the out[0] store, i.e. the edge must be DROPPED — sched.c's drop clause needs the store
      * /s + varying and the load non-/s + fixed-address. A COMPONENT_REF at offset 0 supplies
      * the /s. */
-    typedef struct { u32 w; } W_8018893C;
 
     s32 c;
     s16 t;

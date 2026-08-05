@@ -4028,8 +4028,8 @@ DEFINE_func_801757E0()  /* dedup: shared engine-core @0x801757e0 (src/shared) */
  * shared `la $v1,D_8011F7A8` + 0x18/0x20 displacements).
  */
 
-typedef struct { u32 *f0; s32 pad[4]; } S_AE7BC_80175820_80175820;   /* size 0x14 */
-typedef struct { s32 g0; s32 pad[2]; } S_AF634_80175820_80175820;    /* size 0x0C */
+   /* size 0x14 */
+    /* size 0x0C */
 
 s32 func_80175820(void)
 {
@@ -4073,8 +4073,8 @@ INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_80171B4C", func_801758F
 extern u8 D_8011F7B1;
 extern s16 D_800B9A02;
 
-typedef struct { u32 *f0; s32 pad[4]; } S_AE7BC;   /* size 0x14 */
-typedef struct { s32 g0; s32 pad[2]; } S_AF634;    /* size 0x0C */
+   /* size 0x14 */
+    /* size 0x0C */
 extern S_AE7BC D_800AE7BC[];
 extern S_AF634 D_800AF634[];
 
@@ -4117,7 +4117,7 @@ s32 func_801759D8(void)
 void func_80175AB8(param_1)
     s16 param_1;
 {
-    typedef struct { s32 g0; s32 pad[2]; } S_AF634;   /* size 0x0C */
+   /* size 0x0C */
     extern S_AF634 D_800AF638[];
 
     extern u8  D_8011F7F0;
@@ -4226,14 +4226,6 @@ void func_80175DA8(param_1)
     extern u8  D_800D43D4;
     extern u8  D_800D4414;
     extern u8  D_800D45D4;
-    typedef struct {
-        u32 tag;    /* 0x00 */
-        u32 code;   /* 0x04 */
-        u16 x;      /* 0x08 */
-        u16 y;      /* 0x0A */
-        u32 uv;     /* 0x0C */
-        u32 wh;     /* 0x10 */
-    } Sp_80175DA8;
 
     u8 *base = &D_8011F7F0;
     u8 *s = base - 0x48;

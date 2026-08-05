@@ -3779,9 +3779,6 @@ void func_8017D0F4(void *a0) {
 
 
 /* 8 bytes, align 2 -> lwl/lwr/swl/swr copy (cookbook §48-C2) */
-typedef struct {
-    s16 v[4];
-} Blk8_80126940_8017D130;
 
 extern u16 func_80148800(s32 *a0);
 extern void func_8017D4E4(s32 param_1, s16 *param_2);
@@ -3944,13 +3941,6 @@ INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_8017BEBC", func_8017DA3
  * otherwise : the vertex block is INLINE and `dst` is a byte count; the data
  *             starts at ((u32 *)&o->dst)[o->dst >> 2].
  * `n` (+0x10) is the vertex count either way.                                 */
-typedef struct {
-    s32 unk0;   /* 0x00 */
-    s32 mode;   /* 0x04 */
-    s32 unk8;   /* 0x08 */
-    u32 dst;    /* 0x0C */
-    s32 n;      /* 0x10 */
-} Morph_8017DC1C;
 
 /* ---- per-overlay globals (ov_SC07_006 tail.data) ------------------------- *
  * Every one of these is an initialised POINTER word in asm/ov_SC07_006/data/

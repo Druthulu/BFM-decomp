@@ -3854,7 +3854,6 @@ void func_8017DA24(s16 *a0) {
  * (instead of a fresh local) avoids stealing back the $v0 slot.
  */
 
-typedef struct { s32 w[8]; } Mtx8_8017DE10_8017DB00;
 
 void func_8017DB00(s32 a0) {
     extern void ApplyMatrixSV(void *a0, void *a1, void *a2);

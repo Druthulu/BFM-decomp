@@ -412,10 +412,6 @@ DEFINE_func_80128C14()  /* dedup: shared engine-core @0x80128c14 (src/shared) */
 
 
 
-typedef struct {
-    s32 word0;
-    s32 word4;
-} CdFileLoc_80128C98;
 
 extern CdFileLoc_80128C98 cdFileLocTable[];
 extern void func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 a4);
@@ -823,12 +819,6 @@ void func_8012A328(void)
     extern s32 D_80126B58;
     extern s16 D_80127080;
     extern s16 D_80126CAE;
-    typedef struct {
-        u8 pad[0x154];
-        u16 f154;
-        s16 f156;
-        u16 f158;
-    } Obj_80126B58;
     Obj_80126B58 *p = (Obj_80126B58 *)&D_80126B58;
     s16 *q;
     s32 a, b;
@@ -1121,10 +1111,6 @@ extern s32 func_8004787C(s32 a0); /* rcos-like: angle (0..0xFFF) -> 1.12 fixed *
  * A `struct { s16 lo, hi; }` has align 2 -> BLKmode-ish handling: gcc spills it to the stack
  * and stores it with lwl/lwr + swl/swr (54 ins, 53 mismatched). Two 16-bit BITFIELDS in a
  * u32 container give the SImode, align-4 struct gcc keeps in a register. */
-typedef struct {
-    u32 lo : 16;
-    u32 hi : 16;
-} Ang2_8012B77C_8012B77C;
 
 /* a0 = destination packed-angle word, a1 = "from" entity, a2 = "to" entity.
  * Both entities carry 16.16 fixed-point x/y/z at +0/+4/+8; the s16 reads at +2/+6/+0xA are
@@ -1414,7 +1400,6 @@ extern s32 func_8012CEB0(s32 a0, s32 a1, s32 a2);
  * Two 8-byte s16 vectors live at sp+0x10 and sp+0x18 and are passed by address; the second one
  * is written back to the entity's hi-16 fixed-point position after the offset is removed. */
 s32 func_8012CC88(s32 a0, s32 a1, s32 a2) {
-    typedef struct { s16 vx, vy, vz, pad; } SV3_8012CC88;
     SV3_8012CC88 sp10;
     SV3_8012CC88 sp18;
     s32 v0;

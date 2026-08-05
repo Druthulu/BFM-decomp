@@ -3274,9 +3274,7 @@ void func_8017EC58(s32 arg0)
 
 void func_8017FB38(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
 {
-    typedef struct { u32 w0, w1, w2; } Prim_8017FB38;
     /* vy UNSIGNED: the `+=` reads it with lhu, not lh. */
-    typedef struct { s16 vx; u16 vy; s16 vz, pad; } SVec_8017FB38;
 
     extern s32 func_800491EC(void);
     extern void func_800547D8(s32, MATRIX2 *);

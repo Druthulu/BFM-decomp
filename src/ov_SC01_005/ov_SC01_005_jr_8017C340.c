@@ -3429,7 +3429,6 @@ void func_8017DC48(void) {
     /* COMPONENT_REF -> unconditional MEM_IN_STRUCT_P on the base store, so the
        fixed-address D_80115126 load may hoist above it (sched.c true_dependence
        escape: /s + varying vs non-/s + fixed). */
-    struct Hd4a4_8017DC48 { s16 h; };
 
     u8 *base;
     u16 *q;
@@ -3743,13 +3742,7 @@ s32 func_8017E3DC(void) {
 
 void func_8017E6BC(void) {
 
-    typedef struct {
-        s32  f0;      /* 0x00 */
-        u32 *f4;      /* 0x04  == D_800AE7BC */
-        s32  f8;      /* 0x08 */
-        s32  fC;      /* 0x0C */
-        s32  f10;     /* 0x10 */
-    } Rec20_8017DF18_8017E6BC;             /* 0x14 stride */
+             /* 0x14 stride */
 
     extern s32 D_801151D0;
     extern s32 D_80115134;
@@ -3881,24 +3874,7 @@ void func_8017E6BC(void) {
  *     through a local instead) were all tried and all leave the 22-diff swap.
  */
 
-typedef struct Prim4_8017E978 {
-    s16 f0;                  /* 0x00 */
-    s16 f2;                  /* 0x02 */
-} Prim4_8017E978;
 
-typedef struct Panel_8017E978 {
-    s16 f0;                  /* 0x00 */
-    s16 f2;                  /* 0x02 */
-    void *f4;                /* 0x04 */
-    void *f8;                /* 0x08 */
-    s16 fC;                  /* 0x0C */
-    s16 fE;                  /* 0x0E */
-    s16 f10;                 /* 0x10 */
-    s16 f12;                 /* 0x12 */
-    void *f14;               /* 0x14 */
-    Prim4_8017E978 *f18;     /* 0x18 */
-    void *f1C;               /* 0x1C */
-} Panel_8017E978;
 
 extern u16 D_8011511A;
 
@@ -4067,10 +4043,7 @@ extern s16 D_800B9A02;
 extern s16 func_8014168C(s16 a0);
 
 s32 *func_8017EFA8(s32 *ot, void *a1p, s32 idx, void *a3p, s32 tag) {
-    typedef struct {
-        u32 *ot;      /* 0x00 */
-        u32 pad[4];   /* 0x04..0x13 */
-    } Env_8017EFA8;   /* 0x14 stride */
+   /* 0x14 stride */
     extern Env_8017EFA8 D_800AE7BC[];
 
     register s32 zr __asm__("$0");

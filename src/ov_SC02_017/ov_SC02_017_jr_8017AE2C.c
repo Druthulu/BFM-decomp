@@ -3456,8 +3456,6 @@ void func_8017C294(s32 param_1, s32 param_2)
     extern s32 D_801EF794;
     extern s32 D_801EF798;
     /* 8-byte short-only vector (SVECTOR); 32-byte MATRIX_L48 (t[] at +0x14) */
-    typedef struct { s16 a, b, c, d; } SV4_L_8017C294;
-    typedef struct { s16 m[3][3]; s16 pad; s32 t[3]; } MTX_L_8017C294;
 
     SV4_L_8017C294 vec;                              /* sp+0x10 */
     MTX_L_8017C294 mtx;                              /* sp+0x18 */
@@ -3613,8 +3611,6 @@ void func_8017C3C4(s32 a0) {
     extern u8 D_801EF7A6;
     extern u8 D_801EF7AC;
     /* 9 x 12-byte records = 0x6C bytes, alignment 2 */
-    typedef struct { u16 f0; s16 f2; u16 f4; u16 f6; u16 f8; u16 fA; } Rec027_8017C3C4;
-    typedef struct { Rec027_8017C3C4 r[9]; } Blk027_8017C3C4;
     extern Blk027_8017C3C4 D_801ECC10;
     extern Blk027_8017C3C4 D_801EF820[];
 
@@ -3890,14 +3886,6 @@ extern s16 func_80128CFC(u16 a0);
 extern void func_8017C294(s32 a0, s32 a1);
 
 void func_8017CB10(s32 a0) {
-    typedef struct {
-        u16 f0;
-        s16 f2;
-        u16 f4;
-        u16 f6;
-        u16 f8;
-        u16 fA;
-    } Rec_8017C738_8017CB10;
     extern Rec_8017C738_8017CB10 D_801ECC10[];
 
     Rec_8017C738_8017CB10 *q = D_801ECC10;
@@ -4206,17 +4194,6 @@ void func_8017D174(int param_1)
  *   0x2C u16   sound id passed to func_80147324 (lhu)
  *   0x30 s32   suppress flag
  */
-typedef struct Ent_8017BFE0_8017D1D0 {
-    u8  pad00[2];   /* 0x00 */
-    u16 f02;        /* 0x02 */
-    u8  pad04[0x18];/* 0x04 */
-    s32 f1c;        /* 0x1C */
-    u8  pad20[0xA]; /* 0x20 */
-    u16 f2a;        /* 0x2A */
-    u16 f2c;        /* 0x2C */
-    u8  pad2e[2];   /* 0x2E */
-    s32 f30;        /* 0x30 */
-} Ent_8017BFE0_8017D1D0;
 
 extern void func_80147324(s32 arg0);
 extern void func_8017D408(int);
@@ -4330,24 +4307,11 @@ void func_8017D3BC(int param_1)
  * (10 x stride-4, 20 x stride-2, 20 x stride-2 guarded by the s16 @0x2A).
  */
 
-typedef struct {
-    s16 vx, vy, vz, pad;
-} SVec8_8017C218_8017D408;
 
-typedef struct {
-    u8 r, g, b, cd;
-} CVec4_8017C218_8017D408;
 
-typedef struct {
-    SVec8_8017C218_8017D408 v[4];   /* 0x00 */
-    CVec4_8017C218_8017D408 c[4];   /* 0x20 */
-    s32   code;   /* 0x30 */
-} Prim_8017C218_8017D408;           /* 0x34 */
+           /* 0x34 */
 
-typedef struct {
-    s16 m[3][3];
-    s32 t[3];
-} Mtx_8017C218_8017D408;            /* 0x20 */
+            /* 0x20 */
 
 extern s32 func_80017758(void *a0, void *a1);
 extern s32 func_80017DC4(void *a0, void *a1);
@@ -4668,10 +4632,6 @@ void func_8017DAA4(void *a0)
 
 void func_8017DB00(void *a0)
 {
-    typedef struct { s16 x; s16 y; s16 z; s16 pad; } SVec_8017C910_8017DB00;
-    typedef struct { u8 r; u8 g; u8 b; u8 pad; } Clr_8017C910_8017DB00;
-    typedef struct { SVec_8017C910_8017DB00 v[2]; Clr_8017C910_8017DB00 col[2]; s32 tag; s32 pad; } Prim_8017C910_8017DB00;
-    typedef struct { s32 w[8]; } Mtx8_8017C910_8017DB00;
     extern Mtx8_8017C910_8017DB00 aD800AE620 __asm__("D_800AE620");
     extern void aFunc80016A5C(void *arg0, void *arg1) __asm__("func_80016A5C");
     Prim_8017C910_8017DB00 prim;

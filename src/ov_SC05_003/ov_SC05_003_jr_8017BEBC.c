@@ -3326,7 +3326,6 @@ void func_8017BEBC(s32 arg0)
 
 void func_8017CD9C(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
 {
-    typedef struct { u32 w0, w1, w2; } Prim_8017CD9C;
 
     extern s32 func_800491EC(void);
     extern void func_800547D8(s32, MATRIX2 *);
@@ -4233,7 +4232,6 @@ INCLUDE_ASM("asm/ov_SC05_003/nonmatchings/ov_SC05_003_jr_8017BEBC", func_80181C0
 
 #include "common.h"
 
-typedef struct { s16 vx, vy, vz, pad; } SVec_80181CDC;
 
 extern void func_8012EFB8(s32 a0);
 extern void func_8012BD14(s32 a0);

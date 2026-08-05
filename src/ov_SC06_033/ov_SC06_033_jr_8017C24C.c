@@ -6119,14 +6119,6 @@ INCLUDE_ASM("asm/ov_SC06_033/nonmatchings/ov_SC06_033_jr_8017C24C", func_8018425
 INCLUDE_ASM("asm/ov_SC06_033/nonmatchings/ov_SC06_033_jr_8017C24C", func_801843CC);
 
 
-typedef struct {
-    u8  pad0[6];
-    u16 f6;         /* 0x06 -> D_80126B5E */
-    u8  pad8[2];
-    u16 fa;         /* 0x0A -> D_80126B62 */
-    u8  padc[2];
-    u16 fe;         /* 0x0E -> D_80126B66 */
-} StructB58_80184414;
 
 /* holds a pointer value */
 
@@ -6432,8 +6424,6 @@ extern void func_8012C218(void *a0);
 extern void func_8012E8A8(u8 *a0);
 
 /* §48-C2: lwl/lwr/swl/swr block copy == a plain struct assign of a 2-byte-aligned struct */
-typedef struct { u16 a, b, c, d, e, f; } UAlign12_80186858;
-typedef struct { u16 a, b, c, d; } UAlign8_80186858;
 
 void func_80186858(s32 param_1)
 {

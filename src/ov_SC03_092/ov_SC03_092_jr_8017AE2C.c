@@ -3372,17 +3372,6 @@ void func_8017BF84(int param_1)
  *   0x2C u16   sound id passed to func_80147324 (lhu)
  *   0x30 s32   suppress flag
  */
-typedef struct Ent_8017BFE0_8017BFE0 {
-    u8  pad00[2];   /* 0x00 */
-    u16 f02;        /* 0x02 */
-    u8  pad04[0x18];/* 0x04 */
-    s32 f1c;        /* 0x1C */
-    u8  pad20[0xA]; /* 0x20 */
-    u16 f2a;        /* 0x2A */
-    u16 f2c;        /* 0x2C */
-    u8  pad2e[2];   /* 0x2E */
-    s32 f30;        /* 0x30 */
-} Ent_8017BFE0_8017BFE0;
 
 extern void func_80147324(s32 arg0);
 extern void func_8017C218(int);
@@ -3483,24 +3472,11 @@ DEFINE_func_8017C1CC()  /* dedup: shared engine-core @0x8017C1CC (src/shared) */
  * (10 x stride-4, 20 x stride-2, 20 x stride-2 guarded by the s16 @0x2A).
  */
 
-typedef struct {
-    s16 vx, vy, vz, pad;
-} SVec8_8017C218_8017C218;
 
-typedef struct {
-    u8 r, g, b, cd;
-} CVec4_8017C218_8017C218;
 
-typedef struct {
-    SVec8_8017C218_8017C218 v[4];   /* 0x00 */
-    CVec4_8017C218_8017C218 c[4];   /* 0x20 */
-    s32   code;   /* 0x30 */
-} Prim_8017C218_8017C218;           /* 0x34 */
+           /* 0x34 */
 
-typedef struct {
-    s16 m[3][3];
-    s32 t[3];
-} Mtx_8017C218_8017C218;            /* 0x20 */
+            /* 0x20 */
 
 extern s32 func_80017758(void *a0, void *a1);
 extern s32 func_80017DC4(void *a0, void *a1);
@@ -3782,10 +3758,6 @@ DEFINE_func_8017C8B4()  /* dedup: shared engine-core @0x8017C8B4 (src/shared) */
 
 void func_8017C910(void *a0)
 {
-    typedef struct { s16 x; s16 y; s16 z; s16 pad; } SVec_8017C910_8017C910;
-    typedef struct { u8 r; u8 g; u8 b; u8 pad; } Clr_8017C910_8017C910;
-    typedef struct { SVec_8017C910_8017C910 v[2]; Clr_8017C910_8017C910 col[2]; s32 tag; s32 pad; } Prim_8017C910_8017C910;
-    typedef struct { s32 w[8]; } Mtx8_8017C910_8017C910;
     extern Mtx8_8017C910_8017C910 aD800AE620 __asm__("D_800AE620");
     extern void aFunc80016A5C(void *arg0, void *arg1) __asm__("func_80016A5C");
     Prim_8017C910_8017C910 prim;
@@ -4669,12 +4641,7 @@ void func_80181274(s32 a0) {
     extern u16 D_801AD358[];
     extern u16 D_801AD380[];
     extern void (*D_801AD3A8[])(s32);
-    typedef struct {
-        u16 x; /* 0x00 */
-        u16 y; /* 0x02 */
-        u16 z; /* 0x04 */
-        u16 w; /* 0x06 */
-    } V4_8017FAC0_80181274; /* 8 bytes */
+ /* 8 bytes */
 
     V4_8017FAC0_80181274 p1;
     V4_8017FAC0_80181274 p2;
@@ -4758,29 +4725,8 @@ void func_8018150C(void *arg0) {
 
     extern u8 D_801202A0[];
     extern void (*D_801AD3F4[])(void *);
-    typedef struct {
-        u16 x;   /* 0x00 */
-        u16 y;   /* 0x02 */
-        u16 z;   /* 0x04 */
-        u16 w;   /* 0x06 */
-    } V4_8017FD58_8018150C;                 /* 8 bytes, align 2 -> lwl/lwr/swl/swr copy */
-    typedef struct {
-        u16 f0;                    /* 0x00 */
-        u16 f2;                    /* 0x02 */
-        u16 f4;                    /* 0x04 */
-        u16 x;                     /* 0x06 */
-        u16 f8;                    /* 0x08 */
-        u16 y;                     /* 0x0A */
-        u16 fC;                    /* 0x0C */
-        u16 z;                     /* 0x0E */
-        u8  p10[0x10];
-        s32 f20;                   /* 0x20 */
-        u8  p24[0x34];
-        s32 f58;                   /* 0x58 */
-        u8  p5C[8];
-        s32 f64;                   /* 0x64 */
-        u8  p68[0x10C - 0x68];
-    } Ent_8017FD58_8018150C;                /* stride 0x10C, 0x60 entries (0x6480) */
+                 /* 8 bytes, align 2 -> lwl/lwr/swl/swr copy */
+                /* stride 0x10C, 0x60 entries (0x6480) */
 
     /* Two further V4 slots the original body declared ahead of `pos` but that
      * this function never reads: the target frame is 0x50 with locals at
@@ -5239,7 +5185,6 @@ extern void func_8012E688(void *a0, s32 a1, s32 a2);
 void func_801825D8(s32 a0) {
     s32 ret = func_8012BD14(a0);
     if (ret <= 0x64000) {
-        typedef struct { s32 f0; s32 f1; } Struct_801825D8;
         Struct_801825D8 *ptr = *(Struct_801825D8 **)(a0 + 0x20);
         *(s16 *)(a0 + 0x2) = 1;
         ptr->f1 = ptr->f1 & 0x7FFFFFFF;
@@ -6257,9 +6202,6 @@ INCLUDE_ASM("asm/ov_SC03_092/nonmatchings/ov_SC03_092_jr_8017AE2C", func_8018432
 
 void func_80184370(void *a0, void *a1)
 {
-    typedef struct { u16 vx, vy; } Pt2_80184370;
-    typedef struct { u8 pad[0x10]; Pt2_80184370 pt[12]; } Src_80184370;
-    typedef struct { u16 vx, vy, vz, pad; } Vec8_80184370;
 
     extern void func_8001E094(void);
     extern void func_8001E378(void *a0);
@@ -6371,32 +6313,8 @@ void func_80184370(void *a0, void *a1)
 
 #include "common.h"
 
-typedef struct {
-    u32 addr : 24;
-    u32 len : 8;
-} PTag_8018478C;
 
-typedef struct {
-    PTag_8018478C tag;
-    u8 r0, g0, b0, code;
-    u16 x0, y0;
-    u8 u0, v0;
-    u16 clut;
-    u16 x1, y1;
-    u8 u1, v1;
-    u16 tpage;
-    u16 x2, y2;
-    u8 u2, v2;
-    u16 pad2;
-    u16 x3, y3;
-    u8 u3, v3;
-    u16 pad3;
-} Ft4_8018478C;
 
-typedef struct {
-    PTag_8018478C tag;
-    u32 code0;
-} Drm_8018478C;
 
 #define ADDPRIM_8018478C(o, p)                                                \
     (((PTag_8018478C *)(p))->addr = ((PTag_8018478C *)(o))->addr,            \

@@ -3467,9 +3467,6 @@ void func_8017D37C(void *a0) {
 
 
 /* 8 bytes, align 2 -> lwl/lwr/swl/swr copy (cookbook §48-C2) */
-typedef struct {
-    s16 v[4];
-} Blk8_80126940_8017D3B8;
 
 extern u16 func_80148800(s32 *a0);
 extern void func_8017D6D0(s32 param_1, s16 *param_2);
@@ -3498,9 +3495,6 @@ INCLUDE_ASM("asm/ov_SC03_094/nonmatchings/ov_SC03_094_jr_8017BEBC", func_8017D54
 
 
 /* 8 bytes, align 2 -> lwl/lwr/swl/swr copy (cookbook §48-C2) */
-typedef struct {
-    s16 v[4];
-} Blk8_80126940_8017D630;
 
 extern u16 func_80148800(s32 *a0);
 extern void func_8017D6D0(s32 param_1, s16 *param_2);
@@ -3710,12 +3704,7 @@ void func_8017EC9C(s32 a0) {
     extern u16 D_801A68D4[];
     extern u16 D_801A68FC[];
     extern void (*D_801A6924[])(s32);
-    typedef struct {
-        u16 x; /* 0x00 */
-        u16 y; /* 0x02 */
-        u16 z; /* 0x04 */
-        u16 w; /* 0x06 */
-    } V4_8017FAC0_8017EC9C; /* 8 bytes */
+ /* 8 bytes */
 
     V4_8017FAC0_8017EC9C p1;
     V4_8017FAC0_8017EC9C p2;
@@ -3799,29 +3788,8 @@ void func_8017EF34(void *arg0) {
 
     extern u8 D_801202A0[];
     extern void (*D_801A6970[])(void *);
-    typedef struct {
-        u16 x;   /* 0x00 */
-        u16 y;   /* 0x02 */
-        u16 z;   /* 0x04 */
-        u16 w;   /* 0x06 */
-    } V4_8017FD58_8017EF34;                 /* 8 bytes, align 2 -> lwl/lwr/swl/swr copy */
-    typedef struct {
-        u16 f0;                    /* 0x00 */
-        u16 f2;                    /* 0x02 */
-        u16 f4;                    /* 0x04 */
-        u16 x;                     /* 0x06 */
-        u16 f8;                    /* 0x08 */
-        u16 y;                     /* 0x0A */
-        u16 fC;                    /* 0x0C */
-        u16 z;                     /* 0x0E */
-        u8  p10[0x10];
-        s32 f20;                   /* 0x20 */
-        u8  p24[0x34];
-        s32 f58;                   /* 0x58 */
-        u8  p5C[8];
-        s32 f64;                   /* 0x64 */
-        u8  p68[0x10C - 0x68];
-    } Ent_8017FD58_8017EF34;                /* stride 0x10C, 0x60 entries (0x6480) */
+                 /* 8 bytes, align 2 -> lwl/lwr/swl/swr copy */
+                /* stride 0x10C, 0x60 entries (0x6480) */
 
     /* Two further V4 slots the original body declared ahead of `pos` but that
      * this function never reads: the target frame is 0x50 with locals at
@@ -4401,7 +4369,6 @@ extern void func_8012E688(void *a0, s32 a1, s32 a2);
 void func_80180000(s32 a0) {
     s32 ret = func_8012BD14(a0);
     if (ret <= 0x64000) {
-        typedef struct { s32 f0; s32 f1; } Struct_80180000;
         Struct_80180000 *ptr = *(Struct_80180000 **)(a0 + 0x20);
         *(s16 *)(a0 + 0x2) = 1;
         ptr->f1 = ptr->f1 & 0x7FFFFFFF;
@@ -6037,9 +6004,6 @@ void func_80185240(s32 a0) {
     extern u8 D_800AF648;
     extern u8 D_801BFAA0[];
     extern u8 D_801BF410[];
-    typedef struct {
-        u16 x, y, z, w;
-    } V8_80185240;
     s32 mv[4];   /* sp+0x10 : the 4-word block handed to func_8012B1B4 */
     V8_80185240 pad[2];   /* sp+0x20 : gcc's own area (vars must be 0x48 for a 0x68 frame) */
     V8_80185240 sp30;     /* sp+0x30 : func_80133784 arg1 */
@@ -6169,9 +6133,6 @@ void func_801855F4(s32 a0) {
     extern u8 D_801C03A0[];
     extern u8 D_801BFD20[];
     extern u8 D_801C05A8[];
-    typedef struct {
-        u16 x, y, z, w;
-    } V8_801855F4;
     s32 sp10[4];
     V8_801855F4 pad[2];
     V8_801855F4 sp30;
@@ -6405,9 +6366,6 @@ void func_80185A9C(s32 a0) {
 
     extern u8 D_801B3358[];
     extern u8 D_801C0060[];
-    typedef struct {
-        u16 x, y, z, w;
-    } V8_80185A9C;
     V8_80185A9C pad[2];
     V8_80185A9C sp20;
     V8_80185A9C sp28;
@@ -6942,7 +6900,6 @@ extern s32 func_80133784(s32 a0, void *a1, s32 a2);
 void func_80186628(s32 a0) {
 
     extern u8 D_801B3074[];
-    typedef struct { u16 x, y, z, w; } V8_80186628;
     V8_80186628 sp10;
     V8_80186628 sp18;
 
@@ -7059,9 +7016,6 @@ extern s32 func_80133784(s32 a0, void *a1, s32 a2);
 void func_80186848(s32 *s0) {
 
     extern u8 D_801B3074[];
-    typedef struct {
-        u16 a, b, c, d;
-    } Data_t_80186848;
 
     Data_t_80186848 buf_src, buf_dst;
     s32 v0;

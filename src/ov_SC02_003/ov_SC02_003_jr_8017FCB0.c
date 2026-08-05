@@ -4224,33 +4224,8 @@ INCLUDE_ASM("asm/ov_SC02_003/nonmatchings/ov_SC02_003_jr_8017FCB0", func_8018A44
 extern void func_8001D074(s32 a0, s32 a1);
 extern void func_8001CD04(s32 a0, s32 a1);
 
-typedef struct Obj_8018A550_8018A550 {
-    s32 f0;      /* 0x00 */
-    u32 f4;      /* 0x04 */
-    s32 f8;      /* 0x08 */
-    s32 fC;      /* 0x0C */
-    s32 f10;     /* 0x10 */
-    s32 f14;     /* 0x14 */
-    s16 f18;     /* 0x18 */
-    s16 f1A;     /* 0x1A */
-    s16 f1C;     /* 0x1C */
-    s16 f1E;     /* 0x1E */
-} Obj_8018A550_8018A550;
 
-typedef struct Rec_8018A550_8018A550 {
-    u16 f0;      /* 0x00 */
-    u16 f2;      /* 0x02 */
-    s16 f4;      /* 0x04 */
-    s16 f6;      /* 0x06 */
-    s32 f8;      /* 0x08 */
-    s32 fC;      /* 0x0C */
-} Rec_8018A550_8018A550;
 
-typedef struct Ctl_8018A550_8018A550 {
-    s32 f0;              /* 0x00 */
-    s16 ids[8];          /* 0x04 */
-    Obj_8018A550_8018A550 *slots[8]; /* 0x14 */
-} Ctl_8018A550_8018A550;
 
 void func_8018A550(Ctl_8018A550_8018A550 *ctl, Rec_8018A550_8018A550 *rec)
 {
