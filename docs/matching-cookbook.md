@@ -9961,3 +9961,62 @@ IVs. Same family of decisions: *how many named pointers exist in the C* is a cod
 
 **Symptom lines for the index:** **"one extra induction register"** · **"a pointer bump addiu
 disappeared"** · **"stores are in the wrong order"** · **"one instruction too many in a loop"**.
+
+---
+
+## §146 — RE-MEASURE A WALL BEFORE YOU RESPECT IT. Both "permanent" giants fell to drafts already on disk. (P30 S6, +50,094 ins)
+
+The roadmap carried two functions as **permanent walls** since Phase 24. Between them they were
+50,094 instructions — the largest single item on the board — and they had deterred a Fable5-scale
+attempt. Both were matched **from stored drafts, in minutes.**
+
+| wall | recorded verdict | what it actually took |
+|---|---|---|
+| `func_80178004` (165×138) | Phase 26: Fable5, **~477k tokens**, "intrinsic 3-integer regalloc wall" | a stored draft, gated as-is |
+| `func_801412A8` (198×138) | close=29/110 since Phase 24 | 1 of **31** stored drafts + the §37/§124 alias |
+
+### Why a correct draft can read as an intrinsic wall
+
+`func_801412A8`'s TU declares `extern int func_801412A8(int,int,int,int,int,int)` and its callers
+**use the return value**, while the byte-true definition is
+`Prim_1412A8 *(Prim_1412A8 *, int, int, int, u16, u16)`. Narrow params cannot agree with an `int`
+prototype, and the `()` no-prototype escape is illegal precisely when a param promotes — so neither
+side can move. **The resulting byte difference is in the CALLERS, and `match_one` only ever compiles
+the target function.** The measuring instrument was structurally blind to where the difference lived,
+so the residual was attributed to codegen. The §37/§124 def-side alias decouples them: the TU's
+declaration keeps governing the call sites (their codegen untouched), the definition keeps its
+byte-true signature.
+
+### Then propagation returned 0/137 TWICE — both times a missing TYPE
+
+`family_remap._carry_macros` carries file-scope `#define`s, but **(a) it does not carry typedefs at
+all, and (b) it is not transitive** — it brought `addPrim_1412A8` and stopped, though that macro
+calls `setaddr`/`getaddr`, and `getaddr` casts to `PTag_1412A8`. Lifting
+`Env_1412A8 / PTag_1412A8 / Prim_1412A8` + `OT/getaddr/setaddr` into `engine_types.h` took it to
+**137/137**. A total-zero sweep on a PURE family with a *matched* exemplar is a tooling signal, not a
+codegen one (§53) — here it fired twice in a row for two different missing symbols.
+
+### Two errors of mine, both instructive
+
+**Lift without strip.** I added the typedefs to `engine_types.h` and left the originals in
+`ov_SC01_077.c`. gcc-2.7.2 rejects a repeated typedef even when identical — the lesson already
+recorded at the foot of `engine_types.h` — so R22 came back **139/140, `[FAIL] ov_SC01_077`**, the
+exemplar's own overlay. **A proper lift strips the source; `build_engine_types --strip` does both.**
+The clean-fleet gate caught it before commit, which is exactly why fleet-shared edits are R22-gated.
+
+**Sampling instead of scanning.** My first pass over the stored drafts used `head -8` of 31 and
+reported "best closeness 40" — the MATCH was in the 9th. And I checked whether a draft defined
+`Prim_1412A8` with a plain `grep -c`, which matches inside `addPrim_1412A8`, and briefly concluded
+the carry worked. Same shape as reading a `return` as a declaration (§143): a pattern that is a
+substring of the thing you are actually asking about.
+
+### The rule
+
+**A wall verdict is only as current as the instrument that produced it.** Before spending
+frontier-model tokens on a documented wall: re-run every stored draft through `match_one` (ALL of
+them, not a sample), and check whether the tools that produced the verdict have changed since. Here
+that cost four minutes and was worth 50,094 instructions. The corollary for the ledger: when a tool
+is repaired, the verdicts it produced become **hypotheses again**, not facts.
+
+**Symptom lines for the index:** **"a documented wall"** · **"an old close= verdict"** ·
+**"match_one MATCH but the whole binary differs"** · **"a sweep returns 0 of N twice"**.
