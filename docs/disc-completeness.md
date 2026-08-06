@@ -44,6 +44,20 @@ loads at its own address, the way the resident loads at `0x800CEDF8`. So — unl
 that address is only knowable by runtime RE (a PCSX-Redux RAM-dump proof, the Phase-3 method). Onboarding
 them is a Gen2 RE task, deferred with this evidence — NOT a false "complete" while code sits unbuilt.
 
+> **⚠️ 2026-08-06 (S44): the "only knowable by runtime RE" sentence above is REFUTED.** The load
+> addresses are **static** for 46 of the 78 unclaimed payloads: the EXE's `loadDestPtrTable`
+> (0x80072C70) + the boot loaders' literal `&cdFileLocTable[k]` operands + two index tables INSIDE the
+> resident (`D_800D3764` → slot A 0x800CAE08 for MAIN/13…41; `D_800D384C` → slot B 0x800CCB1C for
+> MAIN/42…47) + `src/resident/resident.c:641` (MAIN/12 → the standard overlay slot 0x80128158) + the
+> SC07 pair's own headers (→ 0x801A00D8). Full routing table with provenance:
+> **`docs/memory-map.md` §"Phase 30 S44"**. Independently corroborated by h_exact base voting (~500:1)
+> and jal-alignment voting. The genuinely runtime-only remainder is the 28 SC0x script modules +
+> MAIN/7, MAIN/9, SC02/9 — parked for L3 with evidence. Additional corrections from the same pass:
+> the three biggest "modules" (MAIN/12, SC02/37, SC03/107) are **ordinary overlays stored uncompressed**
+> (PAC type 1 = raw overlay, type 4 = LZSS overlay); the 78 ledger rows sum **3,406,325 B** (the
+> bucket's 3,564,021 additionally counts PAC headers); `MAIN/7` is a raw file (`FILE_007`, not
+> PAC-wrapped); `MAIN/0 ≡ MAIN/1` byte-identical; payload word0 is a global module id (resident=0x36).
+
 ## Consequence for the completion contract (roadmap §1)
 
 The contract's binary count is **no longer "136"**. Two corrections:

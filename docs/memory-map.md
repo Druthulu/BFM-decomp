@@ -568,3 +568,59 @@ in retail too (shipped data, not a debug build). The proto's scene-select shares
 | gamehacking.org #88529 (US) / #93476 (JP) via libretro-database GameShark `.cht` | Player stat block, flags, misc | gamehacking.org Cloudflare-blocks scripts; cht mirror: `raw.githubusercontent.com/libretro/libretro-database/master/cht/Sony%20-%20PlayStation/Brave%20Fencer%20Musashi%20(USA,%20Japan)%20(GameShark).cht` |
 | jywjyw `bravefencer-hack` `doc/note.md` | JP overlay/memory map, LIST.CD-in-RAM behavior, pointer table | **All addresses JP (SLPS-01490)** — re-derive for US |
 | Hidden Palace / archive.org | Prototype facts | pages fetchable via `hiddenpalace.org/w/index.php?title=PAGE&action=raw` |
+
+## Phase 30 S44 — the COMPLETE loader routing table (static-derived; supersedes "runtime-indexed, no static xref")
+
+> **Provenance (G5):** `static-derived` — read from the EXE bytes (`extracted/retail/SLUS_007.26`,
+> vram = fileoff + 0x8000F800), the resident payload bytes (`MAIN.CD.dir/FILE_010.dir/1.1`, fileoff =
+> vram − 0x800CEDF8), the matched loader C (`src/800.c`, `src/resident/resident.c`), and the per-overlay
+> wrapper asm — by 3 read-only exploration agents, 2026-08-06. Region: **US**. The Phase-3 T5 note
+> "entries [1]+ are runtime-indexed (no static xref)" is **superseded**: the indices ARE static, they
+> live in the resident and in each overlay, not in the EXE. Independently corroborated by two
+> corpus-side methods (h_exact base voting at ~500:1; distinct-jal→prologue alignment voting) — and the
+> resident control reproduces its known 0x800CEDF8 and ends at 0x80128154, four bytes under the overlay slot.
+
+### loadDestPtrTable — 0x80072C70 (EXE fileoff 0x63470), 5 × u32
+
+| slot | value | role (byte-proven) |
+|---|---|---|
+| [0] | **0x800CEDF8** | resident-module slot (boot loaders) |
+| [1] | **0x80128158** | location-overlay slot |
+| [2] | **0x800CAE08** | module slot A (small actor modules) |
+| [3] | **0x800CCB1C** | module slot B (small actor modules) |
+| [4] | **0x800C7F08** | PAC-type-7 fixed destination |
+
+### Who loads what where (all statically enumerated)
+
+| loader | index source | payloads | dest |
+|---|---|---|---|
+| 5 boot loaders (literal `&cdFileLocTable[k]` at 0x80010CA4 / 0x80010F1C / 0x800112F0 / 0x80011100 / 0x80011144) | k ∈ {1,3,8,10,11} | MAIN/1,3,8,**10 (=resident)**,11 | `loadDestPtrTable[0]` = 0x800CEDF8 |
+| resident `func_800D02D0` | **`D_800D3764`** = 29 × {u32 cdFileLocIdx; u32 param} | MAIN/13…41 (contiguous) | `[2]` = 0x800CAE08 |
+| resident `func_800D0488` | **`D_800D384C`** = 6 × {u32,u32} | MAIN/42…47 | `[3]` = 0x800CCB1C |
+| resident `func_800CF94C` (`src/resident/resident.c:641`) | `&cdFileLocTable[12]` | MAIN/12 (an UNCOMPRESSED overlay) | `[1]` = 0x80128158 |
+| per-overlay wrapper `func_80128CFC` (every overlay) | per-overlay `IDXTAB` (s16, −1-terminated, 37 entries, same list fleet-wide) + `*DESTPTR` (per-overlay initialized word) | resources incl. the SC0x sets | per-overlay dest (e.g. ov_SC01_000: IDXTAB 0x8017EEC8, *0x801A3234 = 0x801A58E8) |
+| SC07 endgame pair | header-derived (id word + fn-ptr table; first table target − first prologue fileoff) | SC07/3 (code@0xFC), SC07/4 (code@0x158) | **0x801A00D8** (own slot, overlaps the overlay tail — disc-7 layout) |
+
+### The arithmetic
+
+- **Global cdFileLocTable index** = `gbase[cd] + subfile`; gbase = MAIN:0 SC01:49 SC02:135 SC03:178
+  SC04:318 SC05:349 SC06:379 SC07:418 (LIST.CD counts 49/86/43/140/31/30/39/29, byte-verified; LIST.CD
+  carries **LBA + length only**, never load addresses).
+- **Slot adjacency proof:** 0x800CAE08 + 7,444 (max slot-A payload, MAIN/34) = 0x800CCB1C;
+  0x800CCB1C + 8,920 (max slot-B, MAIN/44) = 0x800CEDF4 → resident at 0x800CEDF8. The three regions are
+  back-to-back, each sized to its largest member. MAIN/46's self-calls (base+0x724/0x978/0xAB0) confirm slot B.
+- **Module-ID law:** payload **word0 is a global module id** (dense 0x13…0x73 across all discs; the
+  resident is 0x36). 75/78 unclaimed payloads carry it; only the 3 raw uncompressed overlays
+  (MAIN/12, SC02/37, SC03/107) start directly with code. MAIN/9 and MAIN/39 both carry id 0x2D
+  (unresolved duplicate). MAIN/0 ≡ MAIN/1 byte-identical (one module stored twice).
+- **PAC-type law (extends formats.md):** type **1** = uncompressed code/module payload; type **4** =
+  the same class LZSS-compressed. The PAC header's bytes 0x10–0x7FF are never read by the loader
+  (`CdGetSector(lzss_sectorStagingBuf, 4)` reads 4 words) — no address lives in the payload.
+
+### Statically UNRESOLVED (parked for L3 — runtime confirm, R34)
+
+The 28 SC0x script modules (SC03/73-79, SC03/132-138, SC04/24-30, SC05/23-29 = 7 modules × 4 per-disc
+builds), SC02/9, MAIN/7 (raw file, not PAC), MAIN/9: dest comes through the resourceIdMap /
+`StreamLoadStateMachine` descriptor path (`D_80068B60[(loadParam−0x100)*0x10]`) or per-overlay DESTPTR
+values — per-disc, not EXE-static. Their jal-vote bases are LOW-CONFIDENCE (3–14 aligned jals, calls
+almost entirely outward) and are NOT recorded as addresses here.

@@ -2527,6 +2527,23 @@ and is booked as data. **Not in `tools-health`** — it needs `disks/`, which a 
 **Next (task #11 / L3):** the emulator tour resolves whether these 34 are the 39 type-1 modules, gives
 their load addresses, and proves completeness against execution.
 
+### ▶ S44-I.0 — the new-code campaign opens: knowledge captured (2026-08-06, Fable5Max plan approved)
+Plan: `~/.claude/plans/optimized-squishing-engelbart.md` (Part I this session, Part II fresh). Three
+exploration agents broke the 78-payload class open; everything captured while hot (R30/R31):
+- **`docs/memory-map.md` §"Phase 30 S44"** — the COMPLETE static loader routing table
+  (`loadDestPtrTable` slots · boot k-set {1,3,8,10,11} · resident tables `D_800D3764`/`D_800D384C` →
+  slots A/B 0x800CAE08/0x800CCB1C · MAIN/12 → 0x80128158 · SC07 pair → 0x801A00D8 · gbase arithmetic ·
+  slot-adjacency proof · module-id law · "type 1 = uncompressed overlay"). Supersedes P3-T5's
+  "runtime-indexed, no static xref" and P27's "only knowable by runtime RE"
+  (`disc-completeness.md` corrected in place, H5).
+- **`docs/tooling-audit.md` §S44** — EVERY tool classified (a/b/c/d) with file:line: 8 code-changes,
+  7 registrations, 5 retirements, the rest auto-OK/N-A. The "every single tool" deliverable.
+- **`docs/decision-log.md`** — the R31 pivot entry (why L3 shrank; why the doctrine was missable:
+  a confident negative doctrine is a claim like any other — the §146/§147 lesson at doctrine scale).
+- **Cookbook §154** (+ index regen, 454 sections): module-id word / dual base-voting methods /
+  type-1-is-an-overlay. Key numbers: big-3 base 0x80128158 at ~500:1; ~75-77% h_exact-known;
+  **802 novel fns**; 46/78 addresses static; 28+4 parked for L3.
+
 ### ▶ S11 — the propagation lag: EXTEND 0/36 -> 31/36, and every blocker was a DECLARATION (2026-08-03/04)
 Lane 2 of the S10 checkpoint ("26,006 ins, ~0 agent tokens, PARTLY BLOCKED"), taken first on the
 standing doctrine that the cheap deterministic lever is probed before the expensive agent one.

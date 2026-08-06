@@ -1693,3 +1693,101 @@ by a build from stale objects. Cheap, total, and it removes the need to remember
 **Assertion (R32):** after `build`, assert every `.o` linked into the image is NEWER than every `.s` it
 includes; fail loud on the first inversion. A build that consumed a stale object must never be allowed
 to report BYTE-IDENTICAL.
+
+---
+
+# S44 NEWCODE AUDIT (2026-08-06) — every tool vs the 78 unclaimed payloads
+
+> Drew's directive: *"analyze every single one of our tools and determine how/if it needs to be
+> updated to properly account for our new code findings."* Ground truth: 3 read-only exploration
+> agents over the full inventory (117 `tools/*.py`, 13 `tools/*.sh`, `tools/bfm_extract/` ×11,
+> `tools/ghidra_scripts/` ×11, `tools/workflows/` ×6, `tools/permuter/`, `diff_settings.py`,
+> `Makefile`, the config registries). Vendored submodules out of scope.
+>
+> **The class mostly DISSOLVES:** the 3 big payloads are ordinary overlays (standard slot, existing
+> machinery); only the small modules + the SC07 pair need a genuinely new binary class ("md_*",
+> `config/modules.mk`). Classification: **(a)** parameterized per-binary · **(b)** derives the binary
+> set from configs · **(c)** hardcodes overlay shape · **(d)** binary-agnostic/N-A.
+
+## Registration surfaces (the choke points)
+
+| surface | class | point | verdict |
+|---|---|---|---|
+| `Makefile` | b | `:55` BINARIES; prune `:511`; check-all `:753` | **CODE**: `-include config/modules.mk`, `+ $(MODULE_BINARIES)`; downstream of `$(BINARIES)` auto-OK |
+| `config/overlays.mk` | b | generated registry | **NEW SIBLING** `config/modules.mk`, same 18-var block, per-alias VRAM |
+| `tools/dup_report.py` BINARIES | b | `:26-180` (sentinel `:167`) | registration line/binary (non-ov_ aliases already take the individual-ingest path `:210`) |
+| `tools/progress.py` BINARIES | b | `:23-305` (sentinel `:304`) | registration line/binary |
+| `diff_settings.py` BINARIES | b | `:16-437` (sentinel `:437`) | registration line/binary |
+| `tools/audit_binaries.py` (R36) | **c** | `onboarded()` `:41-43` globs `splat.ov_*.yaml`; `startswith("ov_")` `:92,:111,:124,:131` | **CODE**: derive from `splat.*.yaml` minus main (R33); keep engine_core-include check ov_-conditional |
+| `tools/corpus.py` | b | `:373` from dup_report; `sig_is_independent` `:336` | **CODE** at `:336` (ov_/resident-only ⇒ module sigs untrusted); rest auto-OK |
+| `tools/difficulty.py` | b→derived | `cfg_for(alias)` `:22-34` | **auto-OK** (P27 T6 migration) |
+
+## Must-change (code)
+
+| tool | defect | fix |
+|---|---|---|
+| `family_remap.py` | `VRAM = 0x80128158` module const `:30`, used in ALL offset math `:98,:160` (img_path is already yaml-derived) | `vram_base_of(alias)` from `config/splat.<a>.yaml` — the pattern `jtbl_carve.overlay_vram_base()` `:65-71` already implements |
+| Makefile sig targets | `sig-overlays` hardcodes `OVERLAY_VRAM :=0x80128158` `:292`; `sig-resident` separate | one generalized target over `$(filter-out main,$(BINARIES))` with `$($(a)_VRAM_BASE)` (+ per-alias TEXT_LO); keep old names as aliases |
+| `family_hseq.py` | `src/ov_*` `:43` + `sig.ov_*` `:45` globs; self-declared overlays-only `:189,:219` | include resident+modules (glob `sig.*.jsonl` minus main, or read registries) |
+| `progress.py --weighted` | `sig.ov_*` glob `:647` + explicit resident `:648` | derive from BINARIES |
+| `audit_frontier.py` | `:57-59` same glob shape | same fix |
+| `backlog.py` | alias regex `:137` `(ov_…|resident|main)` | add `md_…` |
+| `prefetch_fleet.py` | `:67` `("main","resident")` | add modules |
+| `dedup_propagate.py` | reads only `overlays.mk` `:44` | also read `modules.mk` |
+
+## Retire (R33)
+
+`disc_code_sweep.py` — superseded by `disc_audit.py` (whole-disc partition, both layers, no window,
+claims); zero build refs (Makefile mentions it only in a comment); doc refs to update:
+`docs/SETUP.md:667`, `docs/disc-completeness.md` · `reconcile_decls.py` — self-declared RETIRED ·
+`rollout_801457a4_o0.py`, `rollout_whale_o0.py`, `rollout_o0_cluster.py` — one-shot, slot-locked
+historical rollouts · `ghidra_scripts/ImportOverlay.java` + `VerifyOverlay.java` — 1-overlay-era
+hardcoded tables (`ghidra_import_raw.sh` is the live path).
+
+## `new_overlay.sh` → `tools/new_binary.sh`
+
+Overlay-specific: alias pattern `:29`, payload path `${ENTRY}.dec` `:30`, `VRAM=` `:31`, slot literals
+re-hardcoded at `:39,:44`, the overlay splat template. **Generic and reusable verbatim:** check.sha +
+symbols creation, the 18-var mk block, the sentinel-anchored 3-dict registrar `:104-133` (ast-checked),
+extract+build byte-check. ⇒ parameterize {ALIAS, PAYLOAD, VRAM, TEXT_LO, TEMPLATE, REGISTRY};
+`new_overlay.sh` becomes a wrapper with the old defaults.
+
+## `sig_image.py` — no code change; a USAGE law
+
+`--bootstrap` linear-partitions from `lo = vram_base` (`:232`, `bootstrap_seeds` `:81-98`) ⇒ assumes
+code at file offset 0. 75/78 payloads start with the module-id word (+ sometimes a ptr table) ⇒ 0
+seeds. **Law: pass `--text-lo` past the header** (prologue offsets are in the disc-ledger roster).
+`--seeds` accepts a sig jsonl or 0xADDR lines (`:47-59`).
+
+## Auto-OK once registered — (a) parameterized / (b) derived
+
+`gate_stage` · `harvest_verify` · `match_one` · `rtu_match` · `masked_diff`/`masked_scorer` ·
+`family_sweep` (cross-address `--to-addr` EXISTS: `:332-343,:537`) · `family_manifest`(glob fix rides
+family_hseq) · `dedup_extend` · `dedup_integrate` · `jtbl_carve` (the model implementation) ·
+`jtbl_family_bank` · `jr_isolate`/`jr_isolate_all` · `o0_subsplit` · `overlay_src_split` ·
+`split_src_region` · `blast_radius` (derives from `splat.*.yaml` — best-in-class) · `worklist` ·
+`exemplar_miner` · `diff_regions` · `lift_types` · `build_engine_types` · `uniquify_type` ·
+`canon_sig_reconcile` · `recover_giant` · `recover_integration` · `fix_arity_callers` ·
+`fix_header_decl` · `cast_call_sites` · `sig_unify` · `reconcile_tu` · `canon_draft_decls` ·
+`canon_resident_calls` · `inject_capped_externs` · `scope_tu_externs` · `scope_data_externs` ·
+`normalize_self_decls` · `conform_decls` · `blocker_probe` · `demacroize` · `autopsy` ·
+`residual_class` · `bank_exemplar` · `t7_bank` · `sweep_parallel` · `bulk_harvest` (alias side via
+`lora_grind.binaries()` = check-sha glob) · `lora_grind` (`binaries()` auto-OK; reach-glob rides the
+hseq fix) · `gen_harvest_targets`(same) · `build_fuel_manifest`(same) · `wave_targets` ·
+`build_wave_args` · `idiom_loop` · `audit_digest` (via progress.BINARIES) · `lint_symbol_refs` ·
+`cookbook_index` · `symcheck` · `burndown` · `p16_permute`/`permuter_ils`/`permuter_weights`/
+`p16_improve`/`p16_known_answer` · `grinder` · `auto_driver` · workflows (`worker_wave.js` etc. —
+aliases are prompt args) · `glm_reconcile`.
+
+## N-A (binary-agnostic)
+
+Extract stack (`bfm_extract/*` — already extracted the payloads) · PsyQ linking (`psyq_*`,
+`gen_lib_subsegs`, `ld_interleave`, `make_*_used`, `make_libgs.sh`, `jtbl_rodata_pads`) · LLM tier
+(`serve_local`, `api_draft`, `train_lora`, `eval_lora`, `format_finetune`, `export_pairs`,
+`idiom_hunt`, `glm_parallel.sh`, `orchestrator`) · permuter internals (`run_masked`, `compile*.sh`) ·
+Ghidra plumbing (`ghidra_import.sh`, `ghidra_import_raw.sh` — the live module importer,
+`ghidra_mcp_*.sh`, the .java scripts except the two retired above) · automation shell
+(`auto_status/stop/supervisor.sh`, `treelock.sh`) · `decompile.py` · `match_protos.py` ·
+`ram_probe.py` · `audit_text_sources.py` · `sweep_citations.py` · `ab_match.js`/`ab_score.py` ·
+`disc_audit.py` (the new oracle itself; its `claimed-by` derives from `config/check.*.sha`, so newly
+onboarded binaries flip to claimed with ZERO wiring).

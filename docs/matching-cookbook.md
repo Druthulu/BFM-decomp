@@ -10506,3 +10506,41 @@ exist, gate the PLAIN one first.
 **Symptom lines for the index:** **"an extra `sw $sN` in the prologue"** · **"`la $sN,SYM` + moves
 where the target rematerialises"** · **"an address argument used twice in one block"** · **"a hoist no
 respelling reaches"**.
+
+---
+
+## §154 — Reading a disc payload: the module-id word, static base derivation, and "type 1 = uncompressed overlay" (P30 S44)
+
+Not codegen — payload forensics. Three laws from the 78-unclaimed-payload analysis, each of which
+turns a former "needs the emulator" into a static read.
+
+### A. Payload word0 is a global MODULE ID; code starts after the header
+75 of 78 unclaimed payloads begin with a small LE integer forming one dense id space across all discs
+(0x13…0x73; the resident is 0x36). Some follow it with a function-pointer table (SC07/3: table to
+0xF8; SC07/4: to 0x154) before code. **Consequences:** `sig_image --bootstrap` returns **0 functions**
+on any of them if run from offset 0 (its linear partition hits the header, finds no `jr $ra`, stops) —
+**always pass `--text-lo` past the header**; and a header's own pointer table dates the base for free
+(first table target − first prologue file offset = base). Only payloads that begin directly with code
+(a `27bdffe8`-class prologue at offset 0) may be signed bare.
+
+### B. Two static base-derivation methods that must AGREE (use both)
+1. **h_exact voting:** sign the payload at ANY nominal base; for every function h_exact-identical to a
+   corpus function, `delta = corpus_addr − signed_addr` votes for the true base. On real overlays the
+   margin is decisive (~500:1 — 218,454 votes vs a 414 runner-up).
+2. **jal-alignment voting:** collect distinct internal `jal` targets; the base under which the most
+   land on actual prologue file offsets wins. Corpus-independent; the control (the resident) reproduces
+   its known 0x800CEDF8 and ends 4 bytes under the overlay slot.
+A payload where the two disagree, or where votes are thin (script modules: 3–14 aligned jals, calls
+almost all outward), is **loader-determined** — park it for runtime confirm rather than guessing (P9).
+And check the LOADER first: the EXE's `loadDestPtrTable` + the resident's index tables route most
+payloads statically (`memory-map.md` §S44) — the vote is then the R34 cross-check, not the source.
+
+### C. PAC type 1 = the same payload class as type 4, just NOT compressed
+The three biggest "mystery modules" were ordinary location overlays for the standard 0x80128158 slot,
+stored raw. Their first 192 bytes are byte-identical to built ov_ images; ~75% of their functions are
+h_exact-identical to the corpus. **Before inventing a new class for a payload, diff its head against
+the classes you already own.** (Corollary of §152: same-bytes is the family key — here at payload
+scale.)
+
+**Symptom lines for the index:** **"sig_image bootstrap finds 0 functions"** · **"a payload with a
+small integer first word"** · **"where does this blob load"** · **"a huge type-1 module"**.

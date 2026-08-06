@@ -2204,3 +2204,38 @@ contract, and this makes it enforceable rather than remembered.
 
 **Sequencing (Drew's call):** finish the serial crack queue → L1+L2 (cheap, deterministic, and they
 sharpen L3's target list) → L3 + type-1 onboarding. Fold into **P31**, which already owns bucket T.
+
+## 2026-08-06 (P30 S44) — the 78-payload campaign: static addresses dissolve the emulator dependency; "modules" mostly dissolve into overlays
+
+**Context + belief.** `make audit-disc` (S43) enumerated 78 unclaimed code payloads (~3.4 MB). Standing
+doctrine (`disc-completeness.md`, from P27): these are "type-1 modules" whose load addresses are "only
+knowable by runtime RE" — so onboarding was gated on an emulator session (L3), and the completion
+contract carried them as a 39-module backlog.
+
+**What the measurement said (3 read-only agents, byte-verified).** (1) The load addresses are STATIC
+for 46 of 78: the EXE's `loadDestPtrTable` + boot literals + two index tables inside the resident +
+`resident.c:641` + the SC07 pair's own headers give every MAIN payload and the SC07 pair a derived
+address, corroborated by two independent corpus-side voting methods at ~500:1 margins
+(`memory-map.md` §S44). (2) The three biggest "modules" are ORDINARY OVERLAYS stored uncompressed
+(type 1 = raw overlay, type 4 = LZSS) for the standard 0x80128158 slot — ~75–77% of their functions
+h_exact-identical to the onboarded corpus, 802 genuinely novel across all three. (3) The remainder
+tiers honestly: 35 small actor modules at two statically-known ping-pong slots; SC07/3+4 at their own
+slot; 28 script modules (7 × 4 per-disc builds) + 4 stragglers genuinely runtime-determined.
+
+**The pivot.** L3 shrinks from "the onboarding prerequisite" to a small runtime-confirm pass (28+4
+payloads + R34 verification of the static addresses). The campaign inverts: tooling updates → onboard
+the big 3 through the EXISTING overlay machinery → dedup-bank the h_exact majority → batch the small
+modules — all emulator-free. The "new binary class" tooling burden collapses to: `config/modules.mk`,
+a de-ov_'d R36 gate, a vram-derived `family_remap`, glob widenings, and a parameterized
+`new_binary.sh`. Full per-tool table: `tooling-audit.md` §S44.
+
+**Why this was missable for 30 phases.** Each prior tool was correct about its subset and silent about
+the rest (the audit's founding observation) — and the doctrine layer had the same shape: the P27
+"only knowable by runtime RE" sentence was true of the tools that existed then, and nobody re-derived
+it after the loader cluster was matched (the tables were sitting in matched C + the resident's own
+bytes). A confident negative doctrine is a claim like any other — date it, cite its evidence,
+re-measure before letting it gate a campaign (the §146/§147 lesson at doctrine scale).
+
+**Hindsight better path.** When Phase 3 T5 wrote "entries [1]+ are runtime-indexed (no static xref)",
+the honest follow-up was a named open question ("WHERE do the indices live?") rather than a doctrine.
+The answer was one grep away once the resident was matched in Phase 12.
