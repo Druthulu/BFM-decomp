@@ -201,7 +201,30 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 - **II.1b ✅ — SC07 pair onboarded BYTE-IDENTICAL at 0x801A00D8** (md_SC07_003 text-lo 0xFC,
   100 fns; md_SC07_004 text-lo 0x158, 315 fns — the derived TLOs matched the plan's documented
   values exactly via the independent first-prologue scan). Symbol stacks window-checked clean.
-- **II.1c** (sig-modules · hseq regen · dedup pass · audit-binaries · R22 · audit-disc) — next.
+- **II.1c ✅ — the module batch signed, dedup-banked, and fully verified.**
+  · **Dedup measure (R37 probe first):** 69/1,113 module fns h_exact-match matched corpus code
+    (~6% — LOW, as the plan predicted; modules are novel frontier). `dedup_extend` plans 0 (its
+    group model is same-vram; modules live at their own slots) → routed through
+    **`family_sweep --hseq --band all --only <57 exemplars>`** instead: **408 member-matches
+    banked** (182 into modules 1,113→931 stubs; 226 into the big 3 — families Part I's scoping
+    missed, caught by the regen), 169 failed + 77 STRUCT-refused = genuine frontier.
+  · **R22 clean-fleet: 183 passed / 0 failed of 183.**
+  · **`make audit-disc`: UNCLAIMED 75 → 34, residue 0.** 34 = the 31 parked-for-L3 **+ 3 rows
+    Discovery-3 never tiered: SC03/53, SC03/54, SC03/56** (SC-disc type-1s, per-disc runtime
+    routing like SC02/9 — parked for L3 with the rest; recorded in II.2/II.3 docs).
+  · **Three instrument fixes, each negative-control-proven:** (1) `family_sweep --hseq` stub map
+    now derives ov_*+md_*+resident (was sig.ov_* glob → every module member silently "not-stub",
+    the R32 class; 0→32 staged on the control family); (2) `sig-modules` seeds from the built
+    ELF's func_* symbols (bootstrap's linear partition GLUES adjacent fns around jtbl dispatch —
+    24 false TRUNCATED; perturbed-sig control still flags real disagreement); (3) `corpus.audit`
+    counts CODE lines only (a module .s legitimately carries its header jtbl as .word lines —
+    the paired-.rodata migration), and `progress.py` buckets INCLUDE_RODATA symbols as blobs
+    (the §154 id word emitted per-symbol was an unbucketed R32 hole).
+  · **tools-health OK · audit-digest OK. NEW HONEST BASELINE (183 binaries): 94.0% instr
+    (12,682,962/13,487,439) · 95.96% fn-count · 87.6% distinct (78,596/90,143 uniq).** The drop
+    from S44's 94.4% is the denominator growing +52k module ins (honest direction, P27/S39/S44
+    precedent).
+- **II.2** (retirements + SETUP module recipe) — next.
 
 ---
 

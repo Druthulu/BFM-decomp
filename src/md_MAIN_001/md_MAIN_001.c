@@ -1,6 +1,18 @@
 #include "common.h"
 
-INCLUDE_ASM("asm/md_MAIN_001/nonmatchings/md_MAIN_001", func_800CEDFC);
+
+
+void func_800CEDFC(void) {
+
+    extern u16 D_800B99E4;
+    extern void (*D_800CF450[])(void);
+    u32 v1;
+    v1 = D_800B99E4;
+    if (v1 < 8) {
+        D_800CF450[v1]();
+    }
+}
+
 
 INCLUDE_ASM("asm/md_MAIN_001/nonmatchings/md_MAIN_001", func_800CEE40);
 

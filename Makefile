@@ -321,6 +321,10 @@ sig-resident:
 # sig-modules (P30 S44): sign every module-class binary at ITS OWN vram (from modules.mk) with its
 # own TEXT_LO (the §154 module-id-word law: code starts past the header; bootstrap from offset 0
 # yields 0 functions). Same derived-jobs shape as sig-overlays (R33). Empty MODULE_BINARIES = no-op.
+# S45: SEED from the built ELF's text symbols when the build exists (R33 — splat's post-link
+# boundaries are the finer oracle; --bootstrap's linear partition GLUES adjacent functions around
+# jtbl-dispatch code, which read as 24 TRUNCATED slices in audit-corpus). Fresh-clone fallback
+# (no build yet) stays --bootstrap; the next sig-modules after a build self-heals.
 MODULE_SIG_JOBS := $(foreach a,$(MODULE_BINARIES),$(a):$($(a)_EXE):$($(a)_VRAM_BASE):$($(a)_TEXT_LO))
 sig-modules:
 	@n=0
@@ -328,8 +332,20 @@ sig-modules:
 		alias=$${job%%:*}; rest=$${job#*:}; f=$${rest%%:*}; rest=$${rest#*:}
 		vram=$${rest%%:*}; tlo=$${rest#*:}
 		[ -f "$$f" ] || { echo "sig-modules: WARN no payload for $$alias ($$f)"; continue; }
-		$(VENV_PY) tools/sig_image.py --image "$$f" --vram-base "$$vram" --bootstrap --name "$$alias" \
-		  $${tlo:+--text-lo "$$tlo"} >/dev/null
+		elf="build/$$alias/$$alias.elf"
+		if [ -f "$$elf" ]; then
+			# func_*-named, 4-aligned, at/after TEXT_LO only: the module links into ONE output
+			# section, so nm types EVERY symbol T — data labels (odd addresses) included.
+			mipsel-linux-gnu-nm "$$elf" | awk -v lo=$$(($$tlo)) \
+			  '$$2=="T" && $$3~"^func_" { a=strtonum("0x" $$1); if (a>=lo && a%4==0) printf "0x%X\n", a }' \
+			  | sort -u > ".run/seeds.$$alias.txt"
+			$(VENV_PY) tools/sig_image.py --image "$$f" --vram-base "$$vram" \
+			  --seeds ".run/seeds.$$alias.txt" --name "$$alias" \
+			  $${tlo:+--text-lo "$$tlo"} >/dev/null
+		else
+			$(VENV_PY) tools/sig_image.py --image "$$f" --vram-base "$$vram" --bootstrap --name "$$alias" \
+			  $${tlo:+--text-lo "$$tlo"} >/dev/null
+		fi
 		n=$$((n+1))
 	done
 	echo "sig-modules: signed $$n modules (of $(words $(MODULE_BINARIES)) onboarded)"

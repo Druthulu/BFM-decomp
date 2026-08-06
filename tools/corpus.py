@@ -80,6 +80,12 @@ _INCLUDE_ASM_CAND = re.compile(r'^(?![ \t]*(?://|\*|/\*)).*INCLUDE_ASM\s*\(')
 _INCLUDE_ASM = re.compile(r'INCLUDE_ASM\(\s*"([^"]+)"\s*,\s*([A-Za-z_]\w*)\s*\)')
 _SYM_LINE = re.compile(r'^\s*(\w+)\s*=\s*0x([0-9A-Fa-f]+)')
 _INS = re.compile(r'/\* [0-9A-Fa-f]+ [0-9A-Fa-f]{8} [0-9A-Fa-f]{8} \*/')
+# Data-directive lines carry the same /* off addr word */ comment shape as instructions — a
+# module-class .s can legitimately hold its function's HEADER-region jump table (the paired
+# .rodata migration, S45: `dlabel jtbl_*` + `.word .L*` lines ride inside func_*.s so the local
+# labels resolve). Those are DATA, not instructions; counting them mis-read 24 correct module
+# slices as TRUNCATED. The audit compares CODE extents — exclude directive lines.
+_DATA_DIRECTIVE = re.compile(r'\*/\s*\.(word|short|byte|ascii|asciz|float|double)\b')
 _FUNC_NAME = re.compile(r'^func_([0-9A-Fa-f]{6,8})$')
 
 Stub = namedtuple("Stub", "addr symbol path region asm_dir asm_path")
@@ -356,7 +362,8 @@ def audit(binary):
                 continue
             p = os.path.join(REPO, s.asm_path)
             if os.path.exists(p):
-                n = len(_INS.findall(open(p, errors="replace").read()))
+                n = sum(1 for ln in open(p, errors="replace")
+                        if _INS.search(ln) and not _DATA_DIRECTIVE.search(ln))
                 if n != row["nins"]:
                     truncated.append((s, n, row["nins"]))
     return {"binary": binary, "stubs": len(st), "matched": len(matched(binary)),

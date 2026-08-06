@@ -571,6 +571,13 @@ def classify():
                     stubs.append(fn)
                 i += 1; continue
             if s.startswith('INCLUDE_RODATA'):
+                # Bucket the symbol as a data BLOB rather than skipping it unbucketed: the module
+                # class (S45) emits header rodata (the §154 id word, orphan jtbl carriers) as
+                # per-symbol .s files in nonmatchings/, so they enter _S_INDEX and an unbucketed
+                # skip reads as an R32 COVERAGE DEFECT. Rodata is data by construction.
+                m = re.match(r'INCLUDE_RODATA\("[^"]+",\s*(\w+)\)', s)
+                if m:
+                    blobs.append(m.group(1))
                 i += 1; continue
             fm = SIG.match(lines[i])
             if fm and '(' in lines[i]:
