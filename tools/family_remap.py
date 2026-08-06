@@ -880,6 +880,9 @@ def extract_unit(ov, addr):
                 macros = _carry_macros(lines, start, end, unit_text)   # gte_* etc. the body needs (T5)
                 if macros:
                     unit_text = "\n".join(macros) + "\n" + unit_text
+                tds = _carry_typedefs(lines, unit_text)                # types above a #define (S43)
+                if tds:
+                    unit_text = "\n".join(tds) + "\n" + unit_text
                 return unit_text, cf
         if alias_ident:
             # R32: we PROVED the function is defined here (the asm label binds the symbol) but could
@@ -889,6 +892,69 @@ def extract_unit(ov, addr):
                   f"`{alias_ident}` but no definition of it was found — refusing (R32).")
             return None, None
     return _macro_unit(addr)
+
+
+_TD_NAME_RE = re.compile(r'^\s*typedef\b.*?([A-Za-z_]\w*)\s*(?:\[[^\]]*\])?\s*;', re.S)
+
+
+def _carry_typedefs(lines, unit_text):
+    """Carry any file-scope typedef the extracted unit actually USES but did not carry.
+
+    P30 S43. The preamble backscan's accept-set is blank/`extern`/comment/`typedef`, so it **halts at
+    the first `#define`** and never reaches typedefs declared above the macro block. `_carry_macros`
+    then re-attaches the macros, which hides the truncation — the unit looks complete and is not.
+    Measured on the 0x80182FD4 family: 16/16 gte macros carried, **0/10 typedefs**, silently; the
+    staged sibling failed as `` `Vec8_80182FD4' undeclared `` and the sweep booked it
+    `PLUMBING: parse error before 'unsigned'` (the error surfacing at the next token), which read as
+    an intractable wall. It banked instantly once the type was carried by hand.
+
+    Additive by construction: only typedefs whose NAME appears as a word in the unit and which are not
+    already present are prepended, so a unit that was already complete is byte-unchanged. Whether the
+    gap is fatal depends on whether the TARGET TU happens to declare the type itself — which is why
+    this failed loudly for some families and silently succeeded for others."""
+    # index every file-scope typedef once: name -> full (possibly multi-line) block
+    defs = []
+    for k, ln in enumerate(lines):
+        if not ln.lstrip().startswith("typedef"):
+            continue
+        # BRACE-AWARE block capture. A `;`-terminated scan stops INSIDE the struct — the first
+        # member line (`SVECTOR_8016E7C8 v[4];`) ends in `;` — yielding a truncated, unclosed
+        # typedef that cc1 reports at the member's type name. Close on the brace depth instead,
+        # then take the `;` that follows `}` (P30 S43, measured).
+        blk, j, depth, opened = ln, k, ln.count("{") - ln.count("}"), "{" in ln
+        while j + 1 < len(lines) and j - k < 60 and (
+                (opened and depth > 0) or (not opened and ";" not in blk)):
+            j += 1
+            blk += "\n" + lines[j]
+            depth += lines[j].count("{") - lines[j].count("}")
+            opened = opened or "{" in lines[j]
+        while opened and ";" not in blk.rsplit("}", 1)[-1] and j + 1 < len(lines) and j - k < 60:
+            j += 1
+            blk += "\n" + lines[j]
+        m = _TD_NAME_RE.match(blk)
+        if m:
+            defs.append((m.group(1), blk))
+
+    # TRANSITIVE closure: a carried typedef may itself name another typedef (measured — carrying
+    # `Vec8_80182FD4` alone then failed on `SVECTOR_8016E7C8`, which it references). Iterate to a
+    # fixpoint, emitting DEPENDENCY-FIRST so C89 sees each name before its use.
+    out, seen, want = [], set(), unit_text
+    for _ in range(12):                       # depth guard; real chains here are 2-3
+        added = False
+        for name, blk in defs:
+            if name in seen:
+                continue
+            if re.search(r'^\s*typedef\b[^\n]*\b' + re.escape(name) + r'\b', unit_text, re.M):
+                seen.add(name)                # already carried by the backscan
+                continue
+            if re.search(r'\b' + re.escape(name) + r'\b', want):
+                seen.add(name)
+                out.insert(0, blk)            # dependency-first: later finds precede earlier ones
+                want += "\n" + blk
+                added = True
+        if not added:
+            break
+    return out
 
 
 def _macro_unit(addr):

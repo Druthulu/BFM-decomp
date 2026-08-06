@@ -2462,14 +2462,24 @@ re-verified three ways: image SHA == locked SHA, stub gone, real definition pres
 | ov_SC03_104 | func_80184934 | ov_SC04_007 | func_8017FF08 |
 | ov_SC04_003 | func_8017E4F4 | | |
 
-**THE DEFECT THIS PROVES:** `family_sweep --hseq` reported this family **0/5 with
-`PLUMBING: parse error before 'unsigned'`** — but the remapped drafts are byte-CORRECT. The parse error
-comes from the sweep's own **gate-pipeline transform**, not from the remap: the only `unsigned` in the
-draft sits inside a comment, so a transform is eating a `/*` opener and turning comment text into code.
-Isolated per-transform runs (`canon_resident_calls` / `cast_call_sites` / `sig_unify`, each on the draft
-alone) all preserve it — so the corruption needs the gate's real invocation (with `--src-file`) to
-reproduce. **NOT YET PINNED — and it is silently costing banks in every sweep it touches.** Next
-session: run the three transforms with `--src-file` set to the target TU and diff the output.
+**THE DEFECT, PINNED — and my first hypothesis was WRONG (R14, corrected in place).** I wrote that a
+gate-pipeline transform was eating a `/*` opener and turning comment prose into code, because the only
+`unsigned` in the draft sits inside a comment. **Refuted by test:** every ladder step —
+`cast_call_sites`, `sig_unify`, `reconcile_tu`, each run with the gate's real `--src-file` — preserves
+the comment intact.
+
+**The real cause is the `family_remap` TYPEDEF-CARRY GAP (§146/§152), full stop.** The staged draft
+fails as `` `Vec8_80182FD4' undeclared (first use this function) `` — the type the body needs was never
+carried, because `family_remap`'s unit backscan halts at the first `#define`. `parse error before
+'unsigned'` was simply that failure surfacing at the next recognizable token, the following
+`extern unsigned char …` line. **A misleading label, not a second defect.**
+
+**Why direct gating banked all 5 anyway:** the TARGET TUs already declare that type at file scope, so
+the splice compiles even though the draft fails in isolation. **That is the rule worth keeping — the
+typedef gap is fatal only when the target TU does not already declare the type**, which is exactly why
+this family looked like an intractable "parse error" wall in the sweep and banked instantly when gated
+directly. Fixing `family_remap`'s backscan (let it skip `#define` continuation blocks) closes the whole
+class; until then, gate remapped drafts DIRECTLY rather than through `family_sweep`'s ladder.
 
 **The workaround that banked them:** carry the exemplar's typedefs onto each remapped draft by hand
 (the same `family_remap` `_carry_macros` gap as §146/§152) and gate directly, bypassing the sweep's
