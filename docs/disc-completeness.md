@@ -81,6 +81,29 @@ The contract's binary count is **no longer "136"**. Two corrections:
 mostly-unmatched code to the denominator; every "×134" family propagation is now "×138"). That is the
 honest direction — the prior number was measured over an incomplete disc.
 
+## S45 (2026-08-06): the module campaign landed — the residue IS the parked-for-L3 ledger
+
+**43 of the 78 unclaimed payloads now build byte-identical** (P30 S44/S45): the 3 uncompressed
+overlays (`ov_MAIN_012`, `ov_SC02_037`, `ov_SC03_107`) + the 38 MAIN modules (slot A
+`md_MAIN_013…041` @0x800CAE08 · slot B `md_MAIN_042…047` @0x800CCB1C · boot trio `md_MAIN_001`
+[≡MAIN/0, stored twice] / `md_MAIN_008` / `md_MAIN_011` @0x800CEDF8) + the SC07 pair
+(`md_SC07_003/004` @0x801A00D8) — every address static-derived (§S44 loader table,
+`docs/memory-map.md`) and byte-corroborated by a first-build byte-identity. Fleet = **183
+binaries**, `make audit-disc` residue 0.
+
+**The remaining UNCLAIMED = 34 payloads = the parked-for-L3 exclusion list** (the 100% claim
+cites exactly this list, roadmap §1.1):
+- the **28 SC0x script modules** (SC03/73–79, SC03/132–138, SC04/24–30, SC05/23–29 = 7 modules ×
+  4 per-disc builds) — bases loader-determined per-disc via the resourceIdMap/DESTPTR path;
+- **SC02/9** (70,784 B), **MAIN/7** (raw file, not PAC), **MAIN/9**;
+- **SC03/53, SC03/54, SC03/56** (6,616 / 8,220 / 3,680 B) — *added S45:* three SC-disc type-1
+  rows the S44 exploration never tiered; same per-disc runtime-routing class as SC02/9. Their
+  jal-vote bases are low-confidence; onboarding on a guess would be P9 theater.
+
+Resolution path: the **L3 emulator tour** (P31 bucket T) logs every load (payload → RAM addr →
+len), delivering the 34 bases + R34-verification of the static addresses + evidence for any
+never-loaded payload's out-of-scope call.
+
 ## Reproduce
 > **⚠️ S45: `tools/disc_code_sweep.py` is RETIRED (R33)** — superseded by `make audit-disc`
 > (`tools/disc_audit.py`): whole-payload classification at BOTH the raw and LZSS layers, a

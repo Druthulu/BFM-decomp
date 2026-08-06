@@ -40,11 +40,20 @@
 **Target: GAME-CODE TRUE 100%**, mechanically defined:
 
 1. After SDK objects are LINKED, **zero `INCLUDE_ASM` and zero linked `NON_MATCHING` under
-   `src/`** across **all onboarded code-bearing binaries**. *Corrected count:* **140 onboarded
-   today** (main + resident + 138 overlays; P27 disc-completeness audit + the P28 R36 gate)
-   **plus a documented backlog of 39 type-1 code modules** pending load-address RE
-   (`docs/disc-completeness.md`). 100% is only claimable once the 39 are onboarded-and-matched
-   or explicitly excluded with evidence — the byte-gate cannot see them (R34).
+   `src/`** across **all onboarded code-bearing binaries**. *Corrected count (P30 S44/S45):*
+   **183 onboarded today** — main + resident + 141 overlays (138 type-4 + the 3 uncompressed
+   type-1 overlays ov_MAIN_012/ov_SC02_037/ov_SC03_107) + **40 md_* modules** at their §S44
+   static slots (`docs/memory-map.md`; every one byte-identical on its FIRST build at the
+   derived address). **The explicit exclusion list the 100% claim cites is the parked-for-L3
+   ledger: 34 payloads** (`make audit-disc` → `docs/disc-ledger.md` UNCLAIMED; detailed in
+   `docs/disc-completeness.md`) — the 28 SC0x script modules (7 × 4 per-disc builds), SC02/9,
+   MAIN/7, MAIN/9, **and SC03/53, SC03/54, SC03/56** (S45: three SC-disc type-1 rows the S44
+   exploration never tiered — same per-disc runtime routing class as SC02/9). Their bases are
+   loader-determined per-disc, not EXE-static; guessing one would be P9 theater. 100% is only
+   claimable once these 34 are onboarded-and-matched (post-L3 emulator tour, P31 bucket T) or
+   remain explicitly excluded with this evidence — the byte-gate cannot see them (R34).
+   *(The prior "39 type-1 backlog" framing is superseded: 43 of those payloads now build
+   byte-identical as md_*/ov_* binaries; the residue is exactly the 34-row parked ledger.)*
 2. Every binary **byte-identical from a genuinely clean tree** (R22: `make clean` +
    extract-all + `check-all`), and byte-identical **with AND without** the SDK objects
    (the fresh-clone stub fallback invariant).

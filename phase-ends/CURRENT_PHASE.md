@@ -234,7 +234,15 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
   gate re-proven green). SETUP §6.7 gained the **module-class recipe** (TEXT_LO derivation law,
   paired-.rodata header carve, A4 symbol-window law, ELF-seeded sig-modules) + inventory rows
   (R21); disc-completeness Reproduce marked retired; Makefile comments annotated.
-- **II.3** (metrics re-baseline + roadmap delta + decision-log) — next.
+- **II.3 ✅ — metrics re-baseline + roadmap delta + decision-log.** Roadmap §1.1 contract
+  corrected: **183 onboarded binaries**; the 100% claim's explicit exclusion list = the
+  **34-row parked-for-L3 ledger** (28 script + SC02/9 + MAIN/7/9 + SC03/53/54/56), superseding
+  the "39 type-1 backlog" framing. disc-completeness.md gained the S45 section (what landed +
+  the full parked list + the L3 resolution path). Decision-log R31 entry written (the five
+  instrument findings + the hindsight). Digests already re-baselined in II.1c (audit-digest
+  green: 94.0% instr / 95.96% fn / 87.6% distinct over 183).
+- **Next:** II.4 (L3 emulator tour) is **P31 bucket T** — not this session. II.5 (the novel-fn
+  frontier: ~931 module stubs + big-3 novel) is standard crack-wave work.
 
 ---
 

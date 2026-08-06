@@ -2239,3 +2239,43 @@ re-measure before letting it gate a campaign (the §146/§147 lesson at doctrine
 **Hindsight better path.** When Phase 3 T5 wrote "entries [1]+ are runtime-indexed (no static xref)",
 the honest follow-up was a named open question ("WHERE do the indices live?") rather than a doctrine.
 The answer was one grep away once the resident was matched in Phase 12.
+
+## 2026-08-06 (P30 S45) — Part II lands: the module fleet onboards emulator-free; the denominator is now partition-complete minus a 34-row parked ledger
+
+**Context/belief.** S44's Part I proved the campaign shape on the big 3; Part II was checkpointed as
+"mechanical" — onboard the 35 small MAIN modules + the SC07 pair, dedup, verify, retire the
+superseded tools, re-baseline.
+
+**What happened (byte-verified).** All 40 modules (38 MAIN + SC07 pair) built **byte-identical on
+their FIRST build** at the §S44 static addresses — zero parked, byte-corroborating the loader table
+across all four slots (A/B/boot/SC07). The dedup measure came in exactly as predicted (LOW): 69/1,113
+module fns h_exact-match matched corpus code; the scoped `family_sweep --hseq` banked **408 members**
+(182 into modules, 226 into the big 3 — families Part I's `--only` scoping missed). R22 183/183;
+`audit-disc` UNCLAIMED 75→34 at residue 0.
+
+**What the checkpoint's "mechanical" hid (the session's real work — five instrument findings).**
+(1) A module header can carry a function's JUMP TABLE → the hdr carve must be a dot-typed `.rodata`
+PAIRED with the c segment (standalone rodata emits cross-object `.L` refs; `bin` links in the data
+block). (2) The A4 symbol-window law bit again: `symbols.resident.txt` in the boot trio's stacks
+minted a phantom `DsMix` function inside md_MAIN_011. (3) `family_sweep --hseq`'s stub map globbed
+`sig.ov_*` only — every module member silently "not-stub" (the I.1d widening class; the tool sat on
+the audit's "auto-OK" list). (4) `--bootstrap` sig boundaries GLUE adjacent functions around
+jtbl-dispatch code — 24 false TRUNCATED slices; `sig-modules` now seeds from the built ELF's
+`func_*` symbols. (5) `corpus.audit` counted jtbl `.word` lines as instructions and `progress.py`
+left `INCLUDE_RODATA` symbols unbucketed — both R32 holes the new module layout exposed. Every fix
+carries a negative control.
+
+**The pivot/state.** The completion contract's denominator is now **183 onboarded binaries + a
+34-row parked-for-L3 ledger** (28 script modules + SC02/9 + MAIN/7/9 + **SC03/53/54/56** — three
+rows the S44 exploration never tiered, found by the audit's arithmetic refusing to close). Honest
+baseline: **94.0% instr / 95.96% fn-count / 87.6% distinct** on the grown denominator (was 94.4%
+instr over 143 binaries — the headline fell because the game grew, the honest direction). The ~931
+module stubs + ~1,700 big-3 novel stubs are ordinary crack-wave frontier; L3 shrinks to a bounded
+runtime-confirm pass (P31 bucket T).
+
+**Hindsight.** "Mechanical" batches over a NEW binary layout are where instrument blind spots
+surface — the five findings above were all invisible until 40 same-shaped binaries went through the
+pipeline in one afternoon. The S44 plan's per-tool audit was right to exist and still under-reached
+(family_sweep was "auto-OK"; the plan's "zero build refs" for the retirees was wrong for 3 of 7).
+The discipline that worked: R37 probe-first (one module before 29), negative controls per fix, and
+the R22/audit ladder after every batch.
