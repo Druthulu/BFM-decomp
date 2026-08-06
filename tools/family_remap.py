@@ -27,9 +27,28 @@ import struct, json, glob, re, sys, argparse, collections, functools, os
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import cdecl                                                    # noqa: E402
 
-VRAM = 0x80128158
+VRAM = 0x80128158        # the location-overlay slot — DEFAULT only; per-alias truth is vram_of()
 # lo-type ops whose rs is a hi-base (loads/stores incl. unaligned, addiu, ori)
 LO_OPS = {0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x28, 0x29, 0x2A, 0x2B, 0x2E, 0x09, 0x0D}
+
+_VRAM_CACHE = {}
+
+
+def vram_of(ov):
+    """The binary's load vram, DERIVED from its splat config (R33; the jtbl_carve pattern).
+
+    P30 S44: `VRAM` was a module constant, correct for the 138 location overlays (shared slot) and
+    silently WRONG for every other binary class — the resident (0x800CEDF8), the new md_* modules
+    (slots 0x800CAE08 / 0x800CCB1C / 0x801A00D8). All offset math (`addr - VRAM`) would read garbage
+    bytes for those without erroring — the R32 silent-skip shape, in the tool the whole family engine
+    stands on. Every splat config states its vram; read it once per alias."""
+    if ov not in _VRAM_CACHE:
+        p = f"config/splat.{ov}.yaml"          # cwd-relative like img_path (callers run at repo root)
+        m = re.search(r"vram:\s*(0x[0-9A-Fa-f]+)", open(p).read())
+        if not m:
+            raise SystemExit(f"family_remap: no vram in {p} (R32 — refusing a default)")
+        _VRAM_CACHE[ov] = int(m.group(1), 16)
+    return _VRAM_CACHE[ov]
 
 
 _PATH_CACHE = {}
@@ -95,7 +114,7 @@ def reloc_targets(ov, addr, data=None):
     if data is None:
         data = open(img_path(ov), "rb").read()
     n = nins_of(ov, addr)
-    off = addr - VRAM
+    off = addr - vram_of(ov)
     out, pend = [], {}
     for k in range(n):
         pc = addr + k * 4
@@ -157,7 +176,7 @@ def stream_words(ov, addr, nins):
     data = _img(ov)
     if data is None:
         return None
-    off = addr - VRAM
+    off = addr - vram_of(ov)
     return [struct.unpack_from("<I", data, off + k * 4)[0] for k in range(nins)]
 
 
