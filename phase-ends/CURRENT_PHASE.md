@@ -181,9 +181,30 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 
 ---
 
-# ▶ SESSION S45 (2026-08-06, in progress) — Part II of the S44 plan
-> Effort xHigh (Drew-set). Task list built (R28). Working through Part II of
-> `~/.claude/plans/optimized-squishing-engelbart.md`.
+# 🛑 SESSION S45 CHECKPOINT (2026-08-06) — FRESH SESSION SAFE HERE
+> **Tree CLEAN** but for R23 `db.*.gbf` churn (never stage). **Nothing running.** Effort xHigh.
+> **The S44 plan's Part II is DELIVERED through II.3** (II.4 = L3 emulator tour is P31 bucket T
+> by Drew's sequencing; II.5 = the novel-fn frontier is the standing crack-wave slot).
+> **NO phase close** — T5 unopened, needs Drew's gate-2.
+
+## ✅ FINAL S45 STATE — R22 CLEAN-FLEET **183 passed / 0 failed of 183**
+**FLEET (honest, grown denominator): 94.0% instr-weighted (12,682,962 / 13,487,439) ·
+95.96% fn-count · 87.6% distinct-code (78,596 / 90,143 uniq)** · 0 NON_MATCHING (G4) ·
+tools-health OK · audit-digest OK · **`make audit-disc`: UNCLAIMED 34, residue 0 — the 34 ARE
+the parked-for-L3 ledger** (roadmap §1.1's explicit exclusion list). The drop from S44's 94.4%
+is the 40 modules' +52k ins joining the denominator (honest direction).
+
+## ▶ RESUME HERE (fresh session)
+1. **II.5 — the novel-function frontier is the standing crack-wave slot:** ~931 module stubs
+   (novel actor code, GTE-heavy, at slots A/B/boot/SC07) + the big-3 novel tier. Regenerated
+   family map + worklist carry them (citizenship). Breadth waves ⇒ **prompt Drew for
+   `/effort ultracode` first (R26/R27)**; the §150–§153 idioms + `match_one --o0` where the
+   prologue says so (§116).
+2. **The 169 sweep-fails + 77 STRUCT refusals** from the S45 module sweep are classified in
+   `.run/hseq_failed.*.classified.txt` — read them BEFORE theorising (S44 checkpoint rule).
+3. **L3 emulator tour (P31 bucket T):** resolves the 34 parked bases + R34-verifies the §S44
+   static addresses. Needs Windows-native PCSX-Redux (R11) + Drew.
+4. Serial crack queue + cheap fuel lists: see the S43 checkpoint below (unchanged).
 
 ## S45 per-task log
 - **II.1a ✅ — all 38 MAIN modules onboarded BYTE-IDENTICAL on first build at the §S44 static
