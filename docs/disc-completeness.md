@@ -48,7 +48,17 @@ them is a Gen2 RE task, deferred with this evidence — NOT a false "complete" w
 
 The contract's binary count is **no longer "136"**. Two corrections:
 1. **140 binaries onboarded now** (main + resident + 138 overlays) — the number `check-all` verifies.
-2. **A documented backlog of 39 type-1 code modules** pending load-address RE before they can be
+2. **⚠️ SUPERSEDED 2026-08-06 by `make audit-disc` — the real backlog is 78 payloads / 3.56 MB, not 39.**
+   The "39" below came from `disc_code_sweep`, which reads only the RAW layer through a **4,096-word
+   window** and has no notion of a *claim*. The L1+L2 disc audit walks the disc image, classifies
+   **whole** payloads at **both** layers, derives `claimed-by` from `config/check.<bin>.sha`, and unions
+   two independent oracles: **78 unclaimed code payloads, 3,564,021 bytes**, across MAIN.CD (42),
+   SC03 (18), SC05 (7), SC04 (7), SC07 (2), SC02 (2). Verified against the old list: **all 39 are still
+   un-onboarded** (0 of 39 claimed), so the new number strictly contains the old one. The audit asserts
+   a **residue-0 partition** over all 416,021,760 disc bytes, so this figure is a floor with a proof
+   rather than a sample. Live list: `docs/disc-ledger.md`. The paragraph below is kept for provenance.
+
+2. *(superseded)* **A documented backlog of 39 type-1 code modules** pending load-address RE before they can be
    onboarded and counted. Game-code TRUE 100% (the contract's bar) is only honest once these are either
    onboarded-and-matched or explicitly excluded with a reason. They are recorded here so the "100%"
    claim cannot be made while they sit un-onboarded and unexamined (R34 — the byte-gate cannot see them).

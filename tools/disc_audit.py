@@ -194,8 +194,9 @@ def main():
                 payloads += 1
                 if k != k2:
                     disputes.append((name, '-', '-', len(data), k, k2, nf, f'{vr:.2f}/{jd:.4f}'))
-                if k == 'code' or who:
-                    rows.append((name, '-', '-', len(data), b, who or 'UNCLAIMED', f'{vr:.2f}/{jd:.4f}'))
+                if b != 'classified-data':
+                    rows.append((name, '-', '-', len(data), b, who or 'UNCLAIMED',
+                                 f'{vr:.2f}/{jd:.4f} L2={nf}'))
                 continue
 
             acct = 0
@@ -235,9 +236,9 @@ def main():
                     b = bucket_of(who, k, k2)
                     B[b] += rawlen
                     acct += rawlen
-                    if k == 'code' or who:
+                    if b != 'classified-data':
                         rows.append((f'{name}/{si}', idx, etype, len(buf), b,
-                                     who or 'UNCLAIMED', f'{vr:.2f}/{jd:.4f}'))
+                                     who or 'UNCLAIMED', f'{vr:.2f}/{jd:.4f} L2={nf}'))
             B['filesystem-metadata'] += max(0, fp - acct)
 
     # track-1 bytes outside every file: system area, PVD, path tables, directory records, gaps
