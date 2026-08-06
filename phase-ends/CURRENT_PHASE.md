@@ -2485,6 +2485,48 @@ class; until then, gate remapped drafts DIRECTLY rather than through `family_swe
 (the same `family_remap` `_carry_macros` gap as §146/§152) and gate directly, bypassing the sweep's
 recovery ladder entirely. Drafts + gate logs: `.run/s43/cluster_gate/`.
 
+### ▶ S43-12 — L1+L2 SHIPPED: `make audit-disc`, the partition HOLDS at residue 0 (2026-08-05/06)
+Drew's task #10, delivered. **`tools/disc_audit.py` + `make audit-disc`**, ledger at
+`docs/disc-ledger.md`, machine copy `.run/disc_audit.json`.
+
+**THE PARTITION HOLDS — residue 0 over all 416,021,760 disc bytes, 1,291 payloads examined:**
+| bucket | bytes | share |
+|---|---:|---:|
+| onboarded-code | 47,066,812 | 11.31% |
+| **unclaimed-code** | **3,564,021** | **0.86%** |
+| classified-data | 134,265,572 | 32.27% |
+| audio-video | 184,338,000 | 44.31% |
+| filesystem-metadata | 46,787,355 | 11.25% |
+
+**THE ANSWER TO THE QUESTION THAT MOTIVATED IT: 34 UNCLAIMED code payloads / 3.56 MB** — code on the
+disc that no onboarded binary claims. Largest is **`MAIN.CD` sub-file 12, entry 1, type 1, 383,783 B**;
+the rest are small type-1 entries, overwhelmingly in `MAIN.CD`. These are the "there was more code all
+along" surprises, **enumerated instead of stumbled into**.
+
+**Design (the three past surprises, each designed out):** walks the DISC IMAGE not our configs · whole
+payloads, **no window** · decodes **both** the raw and LZSS layers. `claimed-by` is DERIVED (R33) from
+`config/check.<bin>.sha` — that hash IS the build's own byte-identity gate, so it cannot drift.
+
+**L2, the SECOND DISAGREEING ORACLE (R34), earned its keep immediately — it found two L1 defects:**
+1. **A claim outranks a heuristic.** I let the statistical verdict override a SHA match, so claimed
+   binaries were being filed as `classified-data`. Onboarded bucket was understated by **14.5 MB**.
+2. **Whole-payload averaging DILUTES code.** A real overlay is code + a large data tail, so its
+   whole-payload valid-ratio lands ~0.87, under L1's 0.90 gate — while L2 carves real functions from
+   its head. My "classify the whole payload" fix (for the old 4,096-word window) had simply traded a
+   head-only bias for an averaging bias. **80 disagreements, all this shape.**
+   Resolution: a claim wins outright; otherwise take the **UNION** of the two oracles — over-reporting
+   code puts a payload in a review queue, under-reporting it hides code, which is the exact failure
+   mode that produced the three surprises. Unclaimed code went **1.70 MB → 3.56 MB** once fixed.
+
+**My own first run FAILED the partition by −49,709,520 B and the fail-closed exit caught it:** `.DA`
+entries' LBAs point past track 1 into the CD-DA tracks (double-counted against the whole-track audio
+total) and `.STR`/`.XA` are MODE2 FORM2 (2324 user bytes/sector, not 2048).
+
+**Known gap, stated not hidden:** `LIST.CD` fails the TOC walk (it IS the TOC cache, not a container)
+and is booked as data. **Not in `tools-health`** — it needs `disks/`, which a fresh clone lacks (H1).
+**Next (task #11 / L3):** the emulator tour resolves whether these 34 are the 39 type-1 modules, gives
+their load addresses, and proves completeness against execution.
+
 ### ▶ S11 — the propagation lag: EXTEND 0/36 -> 31/36, and every blocker was a DECLARATION (2026-08-03/04)
 Lane 2 of the S10 checkpoint ("26,006 ins, ~0 agent tokens, PARTLY BLOCKED"), taken first on the
 standing doctrine that the cheap deterministic lever is probed before the expensive agent one.

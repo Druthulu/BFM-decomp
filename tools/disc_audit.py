@@ -65,6 +65,68 @@ def classify(buf):
     return ('code' if vr >= 0.90 and jd >= 0.01 else 'data'), vr, jd
 
 
+_SIG = None
+
+
+def l2_carve(buf, cap=3):
+    """L2 (R34): an INDEPENDENT verdict — does a boundary carver find real functions here?
+
+    L1's test is a statistical heuristic (valid>=0.90 AND jr>=0.01); it can miss a small code payload
+    whose `jr $ra` density falls under 1%, and it has no way to know it missed one. This oracle asks a
+    structurally different question: walk the payload as sig_image does, cutting each function at the
+    first `jr $ra` that lies at/after every forward branch target seen so far. Data has no regular
+    epilogue, so the walk stops immediately; code yields function after function.
+
+    Returns (n_functions_found, instructions_covered), stopping at `cap` — a YES is what we need, and
+    stopping early keeps the whole-disc pass affordable. The two oracles are then made to ARGUE: any
+    payload where they disagree lands in the ledger's review queue rather than being silently resolved
+    in favour of either."""
+    global _SIG
+    if _SIG is None:
+        sys.path.insert(0, os.path.join(REPO, 'tools'))
+        import sig_image as _si
+        _SIG = _si
+    n = len(buf) // 4 * 4
+    if n < 64:
+        return 0, 0
+    base, pos, found, covered = 0x80000000, 0x80000000, 0, 0
+    hi = base + n
+    while pos < hi and found < cap:
+        try:
+            end = _SIG.func_end(buf, base, pos, hi)
+        except Exception:
+            break
+        if end >= hi:                 # no qualifying return -> left the code region
+            break
+        found += 1
+        covered += end - pos
+        pos = end
+    return found, covered
+
+
+def bucket_of(who, k1, k2):
+    """Resolve a payload's bucket from the claim + BOTH oracles.
+
+    Two L1 defects that the L2 disagreement exposed (P30 S43, and exactly why R34 exists):
+
+    1. **A CLAIM OUTRANKS A HEURISTIC.** If the payload's SHA1 equals a committed
+       `config/check.<bin>.sha`, it IS that onboarded binary — the build gates on that hash every
+       day. Letting a statistical verdict file a claimed payload as `classified-data` was simply
+       wrong, and it silently shrank the onboarded bucket.
+    2. **WHOLE-PAYLOAD AVERAGING DILUTES CODE.** A real location overlay is code followed by a large
+       data tail, so its whole-payload valid-ratio lands ~0.87 — under L1's 0.90 gate — while L2
+       carves real functions out of its head. Classifying the whole payload (the fix for the old
+       4,096-word window) traded a head-only bias for an averaging bias.
+
+    So: a claim wins outright, and for the rest take the UNION of the two oracles. The union is the
+    conservative direction for the question this audit exists to answer — over-reporting a payload as
+    code puts it in a review queue, under-reporting it hides code, which is the failure mode that
+    produced three "there was more code all along" surprises."""
+    if who:
+        return 'onboarded-code'
+    return 'unclaimed-code' if (k1 == 'code' or k2 == 'code') else 'classified-data'
+
+
 def onboarded_payload_shas():
     """{sha1: alias} from every committed config/check.<bin>.sha (R33 — the build's own oracle)."""
     out = {}
@@ -101,7 +163,7 @@ def main():
                        'audio-video', 'filesystem-metadata'), 0)
     B['audio-video'] += sum(os.path.getsize(t) for t in tracks if 'Track 1' not in t)
 
-    rows, payloads, file_fp_total = [], 0, 0
+    rows, payloads, file_fp_total, disputes = [], 0, 0, []
     with iso9660.Iso9660Image(t1) as img:
         recs = list(img.list_files())
         print(f'ISO root files: {len(recs)}')
@@ -123,11 +185,15 @@ def main():
             data = img.extract_file(name)
             if not up.endswith('.CD'):
                 k, vr, jd = classify(data)
+                nf, _cov = l2_carve(data)
+                k2 = 'code' if nf >= 2 else 'data'
                 h = hashlib.sha1(data).hexdigest()
                 who = claimed.get(h)
-                b = ('onboarded-code' if who else 'unclaimed-code') if k == 'code' else 'classified-data'
+                b = bucket_of(who, k, k2)
                 B[b] += fp
                 payloads += 1
+                if k != k2:
+                    disputes.append((name, '-', '-', len(data), k, k2, nf, f'{vr:.2f}/{jd:.4f}'))
                 if k == 'code' or who:
                     rows.append((name, '-', '-', len(data), b, who or 'UNCLAIMED', f'{vr:.2f}/{jd:.4f}'))
                 continue
@@ -159,9 +225,14 @@ def main():
                         except Exception:
                             buf = raw
                     k, vr, jd = classify(buf)
+                    nf, _cov = l2_carve(buf)
+                    k2 = 'code' if nf >= 2 else 'data'
+                    if k != k2:
+                        disputes.append((f'{name}/{si}', idx, etype, len(buf), k, k2, nf,
+                                         f'{vr:.2f}/{jd:.4f}'))
                     h = hashlib.sha1(buf).hexdigest()
                     who = claimed.get(h)
-                    b = ('onboarded-code' if who else 'unclaimed-code') if k == 'code' else 'classified-data'
+                    b = bucket_of(who, k, k2)
                     B[b] += rawlen
                     acct += rawlen
                     if k == 'code' or who:
@@ -190,6 +261,19 @@ def main():
         fh.write(f'| **TOTAL** | **{total:,}** | {100*total/disc_bytes:.2f}% |\n')
         fh.write(f'\n**Residue: {residue:,} bytes — '
                  f'{"PARTITION HOLDS" if residue == 0 else "DEFECT, unaccounted"}**\n\n')
+        fh.write(f'## L2 review queue — {len(disputes)} oracle disagreement(s)\n\n')
+        fh.write('> L1 = statistical heuristic (valid>=0.90 AND jr>=0.01). L2 = independent boundary\n'
+                 '> carving (sig_image `func_end` walk). R34: the two are made to ARGUE; a disagreement\n'
+                 '> is a review item, never silently resolved. L1=data/L2=code is the DANGEROUS\n'
+                 '> direction — that is missed code.\n\n')
+        if disputes:
+            fh.write('| file | entry | type | bytes | L1 | L2 | fns carved | valid/jr |\n')
+            fh.write('|---|---|---|---:|---|---|---:|---|\n')
+            for d in sorted(disputes, key=lambda d: (d[4] != 'data', -d[3])):
+                fh.write(f'| {d[0]} | {d[1]} | {d[2]} | {d[3]:,} | {d[4]} | {d[5]} | {d[6]} | {d[7]} |\n')
+            fh.write('\n')
+        else:
+            fh.write('_The two oracles agree on every payload._\n\n')
         fh.write(f'## Code payloads — {len(unclaimed)} UNCLAIMED of '
                  f'{len([r for r in rows if "code" in r[4]])}\n\n')
         fh.write('| file | entry | type | bytes | bucket | claimed-by | valid/jr |\n')
@@ -199,12 +283,16 @@ def main():
                 fh.write(f'| {r[0]} | {r[1]} | {r[2]} | {r[3]:,} | {r[4]} | {r[5]} | {r[6]} |\n')
 
     json.dump({'buckets': B, 'disc_bytes': disc_bytes, 'residue': residue,
-               'payloads': payloads, 'unclaimed_code': len(unclaimed)},
+               'payloads': payloads, 'unclaimed_code': len(unclaimed),
+               'l2_disputes': len(disputes)},
               open('.run/disc_audit.json', 'w'), indent=1)
 
     for k, v in B.items():
         print(f'  {k:22s} {v:>14,}')
     print(f'  {"TOTAL":22s} {total:>14,}   disc {disc_bytes:,}   residue {residue:,}')
+    print(f'L2 disagreements (review queue): {len(disputes)}')
+    for d in sorted(disputes, key=lambda d: (d[4] != 'data', -d[3]))[:12]:
+        print(f'    {d[0]} entry={d[1]} type={d[2]} {d[3]:,} B  L1={d[4]} L2={d[5]} fns={d[6]} {d[7]}')
     print(f'UNCLAIMED code payloads: {len(unclaimed)}')
     for r in unclaimed[:25]:
         print(f'    {r[0]} entry={r[1]} type={r[2]} {r[3]:,} B  valid/jr={r[6]}')
