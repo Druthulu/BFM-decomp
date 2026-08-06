@@ -10413,3 +10413,59 @@ the workaround; the fix is to let the backscan skip `#define` continuation block
 **Symptom lines for the index:** **"the same function under several names"** · **"a family that h_seq
 missed"** · **"one crack that should have propagated but didn't"** · **"a remap that gates MATCH but
 banks wrong"**.
+
+---
+
+## §153 — THE ADDRESS-REMATERIALISATION LAUNDER: a third zero-emission asm lever (P30 S43, `func_8018D98C`, 710 ins)
+
+*(The producing agent proposed this as "§152"; that number was taken the same session by the
+size-key finding, so it lands here.)*
+
+Third member of the zero-emission-asm family, alongside **§148-C** (allocno priority NUMERATOR) and
+**§151** (the blocked scheduler tick). This one launders an ADDRESS out of CSE's equivalence class.
+
+### Symptom
+*"One more `sw $sN` in the prologue than the target, and one `la $sN,SYM` + N × `move` where the
+target has N × `la $aX,SYM`."* I.e. your build hoists a symbol address into a callee-saved register
+and copies it to the argument register per call; the target rematerialises `la $aX,SYM` at each site.
+
+### Mechanism (gcc source + RTL dumps, not inferred)
+Every `&SYM` **argument** expands into its own pseudo. With ONE use, `combine` folds it back to a plain
+`la $a1,SYM`. But when the same address is an argument **≥2× inside one CSE basic block**, `cse`
+unifies those pseudos into a single 4-ref pseudo; `local-alloc.c:1080`'s rematerialisation path
+requires `reg_n_refs == 2 && reg_basic_block < 0`, so it **never fires**, and `global.c:388` then hands
+the pseudo a **callee-saved** register — which cascades a rename across every other allocno.
+
+### What does NOT work (14 byte-measured probes)
+plain · cast · array-decay · `volatile` · struct-typed · unprototyped · cast-through-fn-ptr ·
+`__asm__ __volatile__("")` placed *between* the blocks — **all hoist**. `do { … } while (0)` splits
+*cse1* (`cse_end_of_basic_block` breaks at `NOTE_INSN_LOOP_END` only when `!after_loop`) and then
+**cse2 puts it straight back**. This class is not reachable by respelling.
+
+### The cure — a fresh launder per site, each in its own block
+    { s32 _m = (s32)&SYM; __asm__ __volatile__("" : "=r"(_m) : "0"(_m)); callee(x, _m, y); }
+The `volatile` asm is never entered into cse's table **and it SETS `_m`**, which empties the symbol's
+equivalence class; the single remaining use ties `_m` straight to the argument register, so the emitted
+code is literally `la $a1,SYM`. Zero bytes.
+
+**Placement is load-bearing** — `#APP` is a scheduling barrier, so the launder must be a statement
+*before* the call, not inside the argument list. When a call takes two such addresses, **launder BOTH,
+symbol first**; on the measured case that last step took the residual from 3 to 0.
+
+### Companion levers from the same function
+- **Branch polarity:** the target's `beqz` says the `!= 0` arm is the one written first in the source.
+- **§150 in its "how many pseudos" form:** the same value wanted *block-local* scope inside a macro
+  (`$v1`) but a *single function-scope* variable across the switch cases (`$a0`), with a per-case
+  block-local timer temp. **Both uniform extremes were wrong** (176 and 42 mismatched). Scope is a
+  per-value decision, not a file-wide style.
+- Full byte-measured ladder on this function: 483 → 444 → 363 → 333 → 176 → 42 → 28 → 3 → **0**.
+
+### ⚠️ And an integration caution that cost a gate cycle
+The agent produced two variants: a plain one and one whose callee decls were "conformed to the TU's
+existing prototypes." **The TU-conformed variant gated `DIFF`; the plain one banked.** `rtu_match`
+MATCHing is not a promise that a *decl-rewritten* variant survives the real build — when two variants
+exist, gate the PLAIN one first.
+
+**Symptom lines for the index:** **"an extra `sw $sN` in the prologue"** · **"`la $sN,SYM` + moves
+where the target rematerialises"** · **"an address argument used twice in one block"** · **"a hoist no
+respelling reaches"**.
