@@ -134,7 +134,7 @@ def _open_stubs(binary):
     return _STUB_CACHE[binary]
 
 
-_BINARY_IN_PATH_RE = re.compile(r"\b(ov_[A-Z0-9]+_\d+|resident|main)\b")
+_BINARY_IN_PATH_RE = re.compile(r"\b(ov_[A-Z0-9]+_\d+|md_[A-Z0-9]+_\d+|resident|main)\b")
 
 
 def _binary_of(rec):

@@ -333,7 +333,7 @@ def sig_is_independent(binary):
     Ghidra sig there would resurrect the 'measuring Ghidra's limits' artefact). MAIN stays excluded —
     sig_image cannot yet sign the EXE (0x800 header offset, interleaved data islands, one text range);
     that second oracle is scoped-and-deferred in docs/second-oracle.md."""
-    return binary.startswith("ov_") or binary == "resident"
+    return binary.startswith(("ov_", "md_")) or binary == "resident"
 
 
 def audit(binary):

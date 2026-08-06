@@ -41,9 +41,17 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 
 # ---------------------------------------------------------------- fleet / sig helpers
 def onboarded_overlays():
-    mk = (ROOT / "config/overlays.mk").read_text()
-    m = re.search(r"^OVERLAY_BINARIES\s*:=\s*(.*)$", mk, re.M)
-    return m.group(1).split() if m else []
+    """Overlay aliases + (S44) module aliases — every non-main/resident binary a shared body can
+    propagate into. Modules carry engine functions too; excluding them re-creates the SC07
+    invisible-work bug one class over."""
+    out = []
+    for f, var in (("config/overlays.mk", "OVERLAY_BINARIES"), ("config/modules.mk", "MODULE_BINARIES")):
+        fp = ROOT / f
+        if fp.exists():
+            m = re.search(rf"^{var}\s*:=\s*(.*)$", fp.read_text(), re.M)
+            if m:
+                out += m.group(1).split()
+    return out
 
 
 def sig_path(ov):

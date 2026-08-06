@@ -55,6 +55,7 @@ def reference():
     """THE reference view: open stubs per binary, from the coverage-asserted corpus oracle."""
     per, missing = {}, []
     for p in sorted(glob.glob(os.path.join(REPO, ".run/sig.ov_*.jsonl"))) + \
+             sorted(glob.glob(os.path.join(REPO, ".run/sig.md_*.jsonl"))) + \
              [os.path.join(REPO, ".run/sig.resident.jsonl"),
               os.path.join(REPO, ".run/sig.SLUS_007.26.jsonl")]:
         if not os.path.exists(p):

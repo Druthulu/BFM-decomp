@@ -30,7 +30,7 @@ overlay is logged and the batch CONTINUES; final exit is non-zero if anything ha
 
   tools/prefetch_fleet.py [--limit-programs N] [--dry-run]
 """
-import argparse, glob, json, os, re, subprocess, sys, time
+import glob, argparse, glob, json, os, re, subprocess, sys, time
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(REPO, "tools"))
@@ -64,7 +64,9 @@ def gather_targets():
         if fname(addr) not in have:
             prog.setdefault(program, set()).add(addr)
 
-    for b in ("main", "resident"):
+    _mds = tuple(os.path.basename(x)[len("splat."):-len(".yaml")]
+                 for x in sorted(glob.glob(os.path.join(REPO, "config/splat.md_*.yaml"))))  # S44
+    for b in ("main", "resident") + _mds:
         for a in corpus.stubs(b):
             add(PROGRAM_NAME[b], a)
     fams = json.load(open(os.path.join(REPO, ".run", "family_hseq.json")))["families"]

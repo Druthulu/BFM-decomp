@@ -644,7 +644,8 @@ def weighted_metrics():
     import os, glob, json
     sys.path.insert(0, str(ROOT / "tools"))
     import corpus
-    paths = sorted(glob.glob(str(ROOT / ".run/sig.ov_*.jsonl")))
+    paths = sorted(glob.glob(str(ROOT / ".run/sig.ov_*.jsonl")))\
+            + sorted(glob.glob(str(ROOT / ".run/sig.md_*.jsonl")))   # S44: module class
     rp = ROOT / ".run/sig.resident.jsonl"
     if rp.exists():
         paths.append(str(rp))

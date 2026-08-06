@@ -39,11 +39,19 @@ def load():
     # regex only matched `func_<hex>` symbols — so the 100 CURATED-name stubs (listCdBuffer) were
     # invisible, and family_hseq therefore labelled 3 still-stubbed functions as MATCHED exemplars.
     # A phantom exemplar is re-nominated by every sweep, produces nothing, and books a silent skip.
-    stubs = {ov: set(corpus.stubs(ov)) for ov in
-             (d.split("/")[-1] for d in sorted(glob.glob("src/ov_*")))}
+    # P30 S44: widened from src/ov_* + sig.ov_* to EVERY non-main binary — the resident and the
+    # md_* modules carry shareable engine functions too, and their absence here is why the R36
+    # gate's family-map check (CHECK 4) could never see them. main stays excluded (structurally
+    # barren — zero h_exact overlap, checked twice, S39).
+    stubs = {b: set(corpus.stubs(b)) for b in
+             (d.split("/")[-1] for d in sorted(glob.glob("src/ov_*")) + sorted(glob.glob("src/md_*")))}
+    if os.path.isdir("src/resident"):
+        stubs["resident"] = set(corpus.stubs("resident"))
     inst = []
-    for p in sorted(glob.glob(".run/sig.ov_*.jsonl")):
-        ov = f"ov_{p.split('sig.ov_')[1][:-6]}"
+    for p in sorted(glob.glob(".run/sig.ov_*.jsonl")) + sorted(glob.glob(".run/sig.md_*.jsonl")) \
+             + sorted(glob.glob(".run/sig.resident.jsonl")):
+        base = os.path.basename(p)[len("sig."):-len(".jsonl")]
+        ov = base
         st = stubs.get(ov)
         if st is None:
             continue
@@ -173,7 +181,8 @@ def main():
     # R32/R36: report the scope we ACTUALLY scanned, never a hardcoded count. The literal "134" sat
     # here while the tool (correctly, via the src/ov_* + sig.ov_* globs) scanned 138 — a generated
     # doc that misreports its own scope reads exactly like a tool that missed 4 binaries.
-    n_sigs = len(glob.glob(".run/sig.ov_*.jsonl"))   # the SAME glob load() scans — cannot drift from it
+    n_sigs = len(glob.glob(".run/sig.ov_*.jsonl")) + len(glob.glob(".run/sig.md_*.jsonl")) \
+             + len(glob.glob(".run/sig.resident.jsonl"))   # the SAME globs load() scans — cannot drift
     # P30 T0c: stamp scope + tree state. The "family_hseq 29,961 vs progress 28,296" carried defect
     # was a CROSS-DATE, CROSS-SCOPE misread of two digests (the 07-29 map @ SESSION-25-open vs the
     # 07-30 fleet digest; the delta was exactly the 2,713 banked between). The tools share one
