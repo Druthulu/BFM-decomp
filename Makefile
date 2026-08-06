@@ -193,6 +193,15 @@ audit-cdecl:
 audit-binaries:
 	$(VENV_PY) tools/audit_binaries.py
 
+# P30 S43 (Drew's directive): the DENOMINATOR's completeness gate. Walks the DISC IMAGE, not our
+# configs, and asserts every byte lands in exactly one bucket — residue is a DEFECT (R32). This is
+# what makes "there was more code all along" a finding the tools report rather than a surprise we
+# trip over: three such surprises (the 0.4.dec glob, disc_code_sweep's raw-only decode, the 4,096-word
+# window) were each a tool correct about its subset and silent about the rest.
+# NOT in tools-health: it needs disks/, which a fresh clone does not have (H1 — the dump is ignored).
+audit-disc:
+	$(VENV_PY) tools/disc_audit.py
+
 # P30 S1e: the committed fleet digest must still describe the CURRENT tree. A digest generated from
 # a working tree that later changed (work reverted before the commit landed) is BYTE-INVISIBLE —
 # check-all stays 140/140 over it — and the next honest regeneration then reads as a REGRESSION that
