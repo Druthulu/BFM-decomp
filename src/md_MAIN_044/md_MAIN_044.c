@@ -1,0 +1,92 @@
+#include "common.h"
+
+void func_800CCB20(void) {
+}
+
+INCLUDE_ASM("asm/md_MAIN_044/nonmatchings/md_MAIN_044", func_800CCB28);
+
+INCLUDE_ASM("asm/md_MAIN_044/nonmatchings/md_MAIN_044", func_800CCB78);
+
+INCLUDE_ASM("asm/md_MAIN_044/nonmatchings/md_MAIN_044", func_800CCBE4);
+
+INCLUDE_ASM("asm/md_MAIN_044/nonmatchings/md_MAIN_044", func_800CCCA0);
+
+INCLUDE_ASM("asm/md_MAIN_044/nonmatchings/md_MAIN_044", func_800CCD2C);
+
+INCLUDE_ASM("asm/md_MAIN_044/nonmatchings/md_MAIN_044", func_800CCDB0);
+
+INCLUDE_ASM("asm/md_MAIN_044/nonmatchings/md_MAIN_044", func_800CCE68);
+
+INCLUDE_ASM("asm/md_MAIN_044/nonmatchings/md_MAIN_044", func_800CCE88);
+
+INCLUDE_ASM("asm/md_MAIN_044/nonmatchings/md_MAIN_044", func_800CCF30);
+
+INCLUDE_ASM("asm/md_MAIN_044/nonmatchings/md_MAIN_044", func_800CCF58);
+
+INCLUDE_ASM("asm/md_MAIN_044/nonmatchings/md_MAIN_044", func_800CCF68);
+
+INCLUDE_ASM("asm/md_MAIN_044/nonmatchings/md_MAIN_044", func_800CCFC8);
+
+INCLUDE_ASM("asm/md_MAIN_044/nonmatchings/md_MAIN_044", func_800CD030);
+
+INCLUDE_ASM("asm/md_MAIN_044/nonmatchings/md_MAIN_044", func_800CD050);
+
+INCLUDE_ASM("asm/md_MAIN_044/nonmatchings/md_MAIN_044", func_800CD178);
+
+INCLUDE_ASM("asm/md_MAIN_044/nonmatchings/md_MAIN_044", func_800CD198);
+
+INCLUDE_ASM("asm/md_MAIN_044/nonmatchings/md_MAIN_044", func_800CD1D4);
+
+INCLUDE_ASM("asm/md_MAIN_044/nonmatchings/md_MAIN_044", func_800CD2EC);
+
+INCLUDE_ASM("asm/md_MAIN_044/nonmatchings/md_MAIN_044", func_800CD494);
+
+INCLUDE_ASM("asm/md_MAIN_044/nonmatchings/md_MAIN_044", func_800CD508);
+
+INCLUDE_ASM("asm/md_MAIN_044/nonmatchings/md_MAIN_044", func_800CD57C);
+
+INCLUDE_ASM("asm/md_MAIN_044/nonmatchings/md_MAIN_044", func_800CD5EC);
+
+INCLUDE_ASM("asm/md_MAIN_044/nonmatchings/md_MAIN_044", func_800CD63C);
+
+INCLUDE_ASM("asm/md_MAIN_044/nonmatchings/md_MAIN_044", func_800CD758);
+
+INCLUDE_ASM("asm/md_MAIN_044/nonmatchings/md_MAIN_044", func_800CD780);
+
+INCLUDE_ASM("asm/md_MAIN_044/nonmatchings/md_MAIN_044", func_800CD7A8);
+
+INCLUDE_ASM("asm/md_MAIN_044/nonmatchings/md_MAIN_044", func_800CD834);
+
+INCLUDE_ASM("asm/md_MAIN_044/nonmatchings/md_MAIN_044", func_800CD848);
+
+INCLUDE_ASM("asm/md_MAIN_044/nonmatchings/md_MAIN_044", func_800CD894);
+
+INCLUDE_ASM("asm/md_MAIN_044/nonmatchings/md_MAIN_044", func_800CD948);
+
+INCLUDE_ASM("asm/md_MAIN_044/nonmatchings/md_MAIN_044", func_800CD984);
+
+INCLUDE_ASM("asm/md_MAIN_044/nonmatchings/md_MAIN_044", func_800CDA0C);
+
+INCLUDE_ASM("asm/md_MAIN_044/nonmatchings/md_MAIN_044", func_800CDA44);
+
+INCLUDE_ASM("asm/md_MAIN_044/nonmatchings/md_MAIN_044", func_800CDA80);
+
+INCLUDE_ASM("asm/md_MAIN_044/nonmatchings/md_MAIN_044", func_800CDB4C);
+
+INCLUDE_ASM("asm/md_MAIN_044/nonmatchings/md_MAIN_044", func_800CDBA8);
+
+INCLUDE_ASM("asm/md_MAIN_044/nonmatchings/md_MAIN_044", func_800CDDA8);
+
+INCLUDE_ASM("asm/md_MAIN_044/nonmatchings/md_MAIN_044", func_800CDDC8);
+
+INCLUDE_ASM("asm/md_MAIN_044/nonmatchings/md_MAIN_044", func_800CDE04);
+
+INCLUDE_ASM("asm/md_MAIN_044/nonmatchings/md_MAIN_044", func_800CE004);
+
+INCLUDE_ASM("asm/md_MAIN_044/nonmatchings/md_MAIN_044", func_800CE134);
+
+INCLUDE_ASM("asm/md_MAIN_044/nonmatchings/md_MAIN_044", func_800CE188);
+
+INCLUDE_ASM("asm/md_MAIN_044/nonmatchings/md_MAIN_044", func_800CE1C4);
+
+INCLUDE_RODATA("asm/md_MAIN_044/nonmatchings/md_MAIN_044", D_800CCB1C);

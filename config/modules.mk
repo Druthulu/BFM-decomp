@@ -1,0 +1,804 @@
+# config/modules.mk — GENERATED registry of module-class binaries (P30 S44; tools/new_binary.sh).
+# Same contract as overlays.mk: -include'd by the Makefile BEFORE 'BINARIES :=' (silent when
+# absent); the hand-maintained Makefile body is never edited to add a binary. Each md_* loads at
+# its OWN vram (the §S44 loader table: docs/memory-map.md). _TEXT_LO is a VRAM (code start), read
+# by 'make sig-modules' as --text-lo (§154-A: bootstrap past the module-id header).
+MODULE_BINARIES := md_MAIN_013 md_MAIN_014 md_MAIN_015 md_MAIN_016 md_MAIN_017 md_MAIN_018 md_MAIN_019 md_MAIN_020 md_MAIN_021 md_MAIN_022 md_MAIN_023 md_MAIN_024 md_MAIN_025 md_MAIN_026 md_MAIN_027 md_MAIN_028 md_MAIN_029 md_MAIN_030 md_MAIN_031 md_MAIN_032 md_MAIN_033 md_MAIN_034 md_MAIN_035 md_MAIN_036 md_MAIN_037 md_MAIN_038 md_MAIN_039 md_MAIN_040 md_MAIN_041 md_MAIN_042 md_MAIN_043 md_MAIN_044 md_MAIN_045 md_MAIN_046 md_MAIN_047 md_MAIN_001 md_MAIN_008 md_MAIN_011
+
+# --- md_MAIN_013 (module, vram 0x800CAE08 — onboarded by new_binary.sh) ---
+md_MAIN_013_EXE        := extracted/retail/MAIN.CD.dir/FILE_013.dir/1.1
+md_MAIN_013_NAME       := md_MAIN_013
+md_MAIN_013_OUT_DIR    := build/md_MAIN_013
+md_MAIN_013_OUT        := $(md_MAIN_013_OUT_DIR)/$(md_MAIN_013_NAME)
+md_MAIN_013_ELF        := $(md_MAIN_013_OUT).elf
+md_MAIN_013_MAPFILE    := $(md_MAIN_013_OUT).map
+md_MAIN_013_LD_SCRIPT  := $(md_MAIN_013_OUT).ld
+md_MAIN_013_SPLAT_YAML := config/splat.md_MAIN_013.yaml
+md_MAIN_013_CHECK_SHA  := config/check.md_MAIN_013.sha
+md_MAIN_013_SYMBOLS    := config/symbols.md_MAIN_013.txt
+md_MAIN_013_SIG        := .run/sig.md_MAIN_013.jsonl
+md_MAIN_013_GHIDRA_PROG := md_MAIN_013
+md_MAIN_013_VRAM_BASE  := 0x800CAE08
+md_MAIN_013_TEXT_LO    := 0x800CAE0C
+md_MAIN_013_TEXT_HI    := 0x800CC5DC
+md_MAIN_013_ASM_DIR     := asm/md_MAIN_013
+md_MAIN_013_SRC_DIR     := src/md_MAIN_013
+md_MAIN_013_UNDEF_SYMS  := build/md_MAIN_013/undefined_syms_auto.txt
+md_MAIN_013_UNDEF_FUNCS := build/md_MAIN_013/undefined_funcs_auto.txt
+
+# --- md_MAIN_014 (module, vram 0x800CAE08 — onboarded by new_binary.sh) ---
+md_MAIN_014_EXE        := extracted/retail/MAIN.CD.dir/FILE_014.dir/1.1
+md_MAIN_014_NAME       := md_MAIN_014
+md_MAIN_014_OUT_DIR    := build/md_MAIN_014
+md_MAIN_014_OUT        := $(md_MAIN_014_OUT_DIR)/$(md_MAIN_014_NAME)
+md_MAIN_014_ELF        := $(md_MAIN_014_OUT).elf
+md_MAIN_014_MAPFILE    := $(md_MAIN_014_OUT).map
+md_MAIN_014_LD_SCRIPT  := $(md_MAIN_014_OUT).ld
+md_MAIN_014_SPLAT_YAML := config/splat.md_MAIN_014.yaml
+md_MAIN_014_CHECK_SHA  := config/check.md_MAIN_014.sha
+md_MAIN_014_SYMBOLS    := config/symbols.md_MAIN_014.txt
+md_MAIN_014_SIG        := .run/sig.md_MAIN_014.jsonl
+md_MAIN_014_GHIDRA_PROG := md_MAIN_014
+md_MAIN_014_VRAM_BASE  := 0x800CAE08
+md_MAIN_014_TEXT_LO    := 0x800CAE0C
+md_MAIN_014_TEXT_HI    := 0x800CB630
+md_MAIN_014_ASM_DIR     := asm/md_MAIN_014
+md_MAIN_014_SRC_DIR     := src/md_MAIN_014
+md_MAIN_014_UNDEF_SYMS  := build/md_MAIN_014/undefined_syms_auto.txt
+md_MAIN_014_UNDEF_FUNCS := build/md_MAIN_014/undefined_funcs_auto.txt
+
+# --- md_MAIN_015 (module, vram 0x800CAE08 — onboarded by new_binary.sh) ---
+md_MAIN_015_EXE        := extracted/retail/MAIN.CD.dir/FILE_015.dir/1.1
+md_MAIN_015_NAME       := md_MAIN_015
+md_MAIN_015_OUT_DIR    := build/md_MAIN_015
+md_MAIN_015_OUT        := $(md_MAIN_015_OUT_DIR)/$(md_MAIN_015_NAME)
+md_MAIN_015_ELF        := $(md_MAIN_015_OUT).elf
+md_MAIN_015_MAPFILE    := $(md_MAIN_015_OUT).map
+md_MAIN_015_LD_SCRIPT  := $(md_MAIN_015_OUT).ld
+md_MAIN_015_SPLAT_YAML := config/splat.md_MAIN_015.yaml
+md_MAIN_015_CHECK_SHA  := config/check.md_MAIN_015.sha
+md_MAIN_015_SYMBOLS    := config/symbols.md_MAIN_015.txt
+md_MAIN_015_SIG        := .run/sig.md_MAIN_015.jsonl
+md_MAIN_015_GHIDRA_PROG := md_MAIN_015
+md_MAIN_015_VRAM_BASE  := 0x800CAE08
+md_MAIN_015_TEXT_LO    := 0x800CAE0C
+md_MAIN_015_TEXT_HI    := 0x800CC878
+md_MAIN_015_ASM_DIR     := asm/md_MAIN_015
+md_MAIN_015_SRC_DIR     := src/md_MAIN_015
+md_MAIN_015_UNDEF_SYMS  := build/md_MAIN_015/undefined_syms_auto.txt
+md_MAIN_015_UNDEF_FUNCS := build/md_MAIN_015/undefined_funcs_auto.txt
+
+# --- md_MAIN_016 (module, vram 0x800CAE08 — onboarded by new_binary.sh) ---
+md_MAIN_016_EXE        := extracted/retail/MAIN.CD.dir/FILE_016.dir/1.1
+md_MAIN_016_NAME       := md_MAIN_016
+md_MAIN_016_OUT_DIR    := build/md_MAIN_016
+md_MAIN_016_OUT        := $(md_MAIN_016_OUT_DIR)/$(md_MAIN_016_NAME)
+md_MAIN_016_ELF        := $(md_MAIN_016_OUT).elf
+md_MAIN_016_MAPFILE    := $(md_MAIN_016_OUT).map
+md_MAIN_016_LD_SCRIPT  := $(md_MAIN_016_OUT).ld
+md_MAIN_016_SPLAT_YAML := config/splat.md_MAIN_016.yaml
+md_MAIN_016_CHECK_SHA  := config/check.md_MAIN_016.sha
+md_MAIN_016_SYMBOLS    := config/symbols.md_MAIN_016.txt
+md_MAIN_016_SIG        := .run/sig.md_MAIN_016.jsonl
+md_MAIN_016_GHIDRA_PROG := md_MAIN_016
+md_MAIN_016_VRAM_BASE  := 0x800CAE08
+md_MAIN_016_TEXT_LO    := 0x800CAE0C
+md_MAIN_016_TEXT_HI    := 0x800CB590
+md_MAIN_016_ASM_DIR     := asm/md_MAIN_016
+md_MAIN_016_SRC_DIR     := src/md_MAIN_016
+md_MAIN_016_UNDEF_SYMS  := build/md_MAIN_016/undefined_syms_auto.txt
+md_MAIN_016_UNDEF_FUNCS := build/md_MAIN_016/undefined_funcs_auto.txt
+
+# --- md_MAIN_017 (module, vram 0x800CAE08 — onboarded by new_binary.sh) ---
+md_MAIN_017_EXE        := extracted/retail/MAIN.CD.dir/FILE_017.dir/1.1
+md_MAIN_017_NAME       := md_MAIN_017
+md_MAIN_017_OUT_DIR    := build/md_MAIN_017
+md_MAIN_017_OUT        := $(md_MAIN_017_OUT_DIR)/$(md_MAIN_017_NAME)
+md_MAIN_017_ELF        := $(md_MAIN_017_OUT).elf
+md_MAIN_017_MAPFILE    := $(md_MAIN_017_OUT).map
+md_MAIN_017_LD_SCRIPT  := $(md_MAIN_017_OUT).ld
+md_MAIN_017_SPLAT_YAML := config/splat.md_MAIN_017.yaml
+md_MAIN_017_CHECK_SHA  := config/check.md_MAIN_017.sha
+md_MAIN_017_SYMBOLS    := config/symbols.md_MAIN_017.txt
+md_MAIN_017_SIG        := .run/sig.md_MAIN_017.jsonl
+md_MAIN_017_GHIDRA_PROG := md_MAIN_017
+md_MAIN_017_VRAM_BASE  := 0x800CAE08
+md_MAIN_017_TEXT_LO    := 0x800CAE0C
+md_MAIN_017_TEXT_HI    := 0x800CB3DC
+md_MAIN_017_ASM_DIR     := asm/md_MAIN_017
+md_MAIN_017_SRC_DIR     := src/md_MAIN_017
+md_MAIN_017_UNDEF_SYMS  := build/md_MAIN_017/undefined_syms_auto.txt
+md_MAIN_017_UNDEF_FUNCS := build/md_MAIN_017/undefined_funcs_auto.txt
+
+# --- md_MAIN_018 (module, vram 0x800CAE08 — onboarded by new_binary.sh) ---
+md_MAIN_018_EXE        := extracted/retail/MAIN.CD.dir/FILE_018.dir/1.1
+md_MAIN_018_NAME       := md_MAIN_018
+md_MAIN_018_OUT_DIR    := build/md_MAIN_018
+md_MAIN_018_OUT        := $(md_MAIN_018_OUT_DIR)/$(md_MAIN_018_NAME)
+md_MAIN_018_ELF        := $(md_MAIN_018_OUT).elf
+md_MAIN_018_MAPFILE    := $(md_MAIN_018_OUT).map
+md_MAIN_018_LD_SCRIPT  := $(md_MAIN_018_OUT).ld
+md_MAIN_018_SPLAT_YAML := config/splat.md_MAIN_018.yaml
+md_MAIN_018_CHECK_SHA  := config/check.md_MAIN_018.sha
+md_MAIN_018_SYMBOLS    := config/symbols.md_MAIN_018.txt
+md_MAIN_018_SIG        := .run/sig.md_MAIN_018.jsonl
+md_MAIN_018_GHIDRA_PROG := md_MAIN_018
+md_MAIN_018_VRAM_BASE  := 0x800CAE08
+md_MAIN_018_TEXT_LO    := 0x800CAE0C
+md_MAIN_018_TEXT_HI    := 0x800CB8A0
+md_MAIN_018_ASM_DIR     := asm/md_MAIN_018
+md_MAIN_018_SRC_DIR     := src/md_MAIN_018
+md_MAIN_018_UNDEF_SYMS  := build/md_MAIN_018/undefined_syms_auto.txt
+md_MAIN_018_UNDEF_FUNCS := build/md_MAIN_018/undefined_funcs_auto.txt
+
+# --- md_MAIN_019 (module, vram 0x800CAE08 — onboarded by new_binary.sh) ---
+md_MAIN_019_EXE        := extracted/retail/MAIN.CD.dir/FILE_019.dir/1.1
+md_MAIN_019_NAME       := md_MAIN_019
+md_MAIN_019_OUT_DIR    := build/md_MAIN_019
+md_MAIN_019_OUT        := $(md_MAIN_019_OUT_DIR)/$(md_MAIN_019_NAME)
+md_MAIN_019_ELF        := $(md_MAIN_019_OUT).elf
+md_MAIN_019_MAPFILE    := $(md_MAIN_019_OUT).map
+md_MAIN_019_LD_SCRIPT  := $(md_MAIN_019_OUT).ld
+md_MAIN_019_SPLAT_YAML := config/splat.md_MAIN_019.yaml
+md_MAIN_019_CHECK_SHA  := config/check.md_MAIN_019.sha
+md_MAIN_019_SYMBOLS    := config/symbols.md_MAIN_019.txt
+md_MAIN_019_SIG        := .run/sig.md_MAIN_019.jsonl
+md_MAIN_019_GHIDRA_PROG := md_MAIN_019
+md_MAIN_019_VRAM_BASE  := 0x800CAE08
+md_MAIN_019_TEXT_LO    := 0x800CAE0C
+md_MAIN_019_TEXT_HI    := 0x800CC870
+md_MAIN_019_ASM_DIR     := asm/md_MAIN_019
+md_MAIN_019_SRC_DIR     := src/md_MAIN_019
+md_MAIN_019_UNDEF_SYMS  := build/md_MAIN_019/undefined_syms_auto.txt
+md_MAIN_019_UNDEF_FUNCS := build/md_MAIN_019/undefined_funcs_auto.txt
+
+# --- md_MAIN_020 (module, vram 0x800CAE08 — onboarded by new_binary.sh) ---
+md_MAIN_020_EXE        := extracted/retail/MAIN.CD.dir/FILE_020.dir/1.1
+md_MAIN_020_NAME       := md_MAIN_020
+md_MAIN_020_OUT_DIR    := build/md_MAIN_020
+md_MAIN_020_OUT        := $(md_MAIN_020_OUT_DIR)/$(md_MAIN_020_NAME)
+md_MAIN_020_ELF        := $(md_MAIN_020_OUT).elf
+md_MAIN_020_MAPFILE    := $(md_MAIN_020_OUT).map
+md_MAIN_020_LD_SCRIPT  := $(md_MAIN_020_OUT).ld
+md_MAIN_020_SPLAT_YAML := config/splat.md_MAIN_020.yaml
+md_MAIN_020_CHECK_SHA  := config/check.md_MAIN_020.sha
+md_MAIN_020_SYMBOLS    := config/symbols.md_MAIN_020.txt
+md_MAIN_020_SIG        := .run/sig.md_MAIN_020.jsonl
+md_MAIN_020_GHIDRA_PROG := md_MAIN_020
+md_MAIN_020_VRAM_BASE  := 0x800CAE08
+md_MAIN_020_TEXT_LO    := 0x800CAE0C
+md_MAIN_020_TEXT_HI    := 0x800CBAB4
+md_MAIN_020_ASM_DIR     := asm/md_MAIN_020
+md_MAIN_020_SRC_DIR     := src/md_MAIN_020
+md_MAIN_020_UNDEF_SYMS  := build/md_MAIN_020/undefined_syms_auto.txt
+md_MAIN_020_UNDEF_FUNCS := build/md_MAIN_020/undefined_funcs_auto.txt
+
+# --- md_MAIN_021 (module, vram 0x800CAE08 — onboarded by new_binary.sh) ---
+md_MAIN_021_EXE        := extracted/retail/MAIN.CD.dir/FILE_021.dir/1.1
+md_MAIN_021_NAME       := md_MAIN_021
+md_MAIN_021_OUT_DIR    := build/md_MAIN_021
+md_MAIN_021_OUT        := $(md_MAIN_021_OUT_DIR)/$(md_MAIN_021_NAME)
+md_MAIN_021_ELF        := $(md_MAIN_021_OUT).elf
+md_MAIN_021_MAPFILE    := $(md_MAIN_021_OUT).map
+md_MAIN_021_LD_SCRIPT  := $(md_MAIN_021_OUT).ld
+md_MAIN_021_SPLAT_YAML := config/splat.md_MAIN_021.yaml
+md_MAIN_021_CHECK_SHA  := config/check.md_MAIN_021.sha
+md_MAIN_021_SYMBOLS    := config/symbols.md_MAIN_021.txt
+md_MAIN_021_SIG        := .run/sig.md_MAIN_021.jsonl
+md_MAIN_021_GHIDRA_PROG := md_MAIN_021
+md_MAIN_021_VRAM_BASE  := 0x800CAE08
+md_MAIN_021_TEXT_LO    := 0x800CAE0C
+md_MAIN_021_TEXT_HI    := 0x800CB598
+md_MAIN_021_ASM_DIR     := asm/md_MAIN_021
+md_MAIN_021_SRC_DIR     := src/md_MAIN_021
+md_MAIN_021_UNDEF_SYMS  := build/md_MAIN_021/undefined_syms_auto.txt
+md_MAIN_021_UNDEF_FUNCS := build/md_MAIN_021/undefined_funcs_auto.txt
+
+# --- md_MAIN_022 (module, vram 0x800CAE08 — onboarded by new_binary.sh) ---
+md_MAIN_022_EXE        := extracted/retail/MAIN.CD.dir/FILE_022.dir/1.1
+md_MAIN_022_NAME       := md_MAIN_022
+md_MAIN_022_OUT_DIR    := build/md_MAIN_022
+md_MAIN_022_OUT        := $(md_MAIN_022_OUT_DIR)/$(md_MAIN_022_NAME)
+md_MAIN_022_ELF        := $(md_MAIN_022_OUT).elf
+md_MAIN_022_MAPFILE    := $(md_MAIN_022_OUT).map
+md_MAIN_022_LD_SCRIPT  := $(md_MAIN_022_OUT).ld
+md_MAIN_022_SPLAT_YAML := config/splat.md_MAIN_022.yaml
+md_MAIN_022_CHECK_SHA  := config/check.md_MAIN_022.sha
+md_MAIN_022_SYMBOLS    := config/symbols.md_MAIN_022.txt
+md_MAIN_022_SIG        := .run/sig.md_MAIN_022.jsonl
+md_MAIN_022_GHIDRA_PROG := md_MAIN_022
+md_MAIN_022_VRAM_BASE  := 0x800CAE08
+md_MAIN_022_TEXT_LO    := 0x800CAE0C
+md_MAIN_022_TEXT_HI    := 0x800CBDF0
+md_MAIN_022_ASM_DIR     := asm/md_MAIN_022
+md_MAIN_022_SRC_DIR     := src/md_MAIN_022
+md_MAIN_022_UNDEF_SYMS  := build/md_MAIN_022/undefined_syms_auto.txt
+md_MAIN_022_UNDEF_FUNCS := build/md_MAIN_022/undefined_funcs_auto.txt
+
+# --- md_MAIN_023 (module, vram 0x800CAE08 — onboarded by new_binary.sh) ---
+md_MAIN_023_EXE        := extracted/retail/MAIN.CD.dir/FILE_023.dir/0.1
+md_MAIN_023_NAME       := md_MAIN_023
+md_MAIN_023_OUT_DIR    := build/md_MAIN_023
+md_MAIN_023_OUT        := $(md_MAIN_023_OUT_DIR)/$(md_MAIN_023_NAME)
+md_MAIN_023_ELF        := $(md_MAIN_023_OUT).elf
+md_MAIN_023_MAPFILE    := $(md_MAIN_023_OUT).map
+md_MAIN_023_LD_SCRIPT  := $(md_MAIN_023_OUT).ld
+md_MAIN_023_SPLAT_YAML := config/splat.md_MAIN_023.yaml
+md_MAIN_023_CHECK_SHA  := config/check.md_MAIN_023.sha
+md_MAIN_023_SYMBOLS    := config/symbols.md_MAIN_023.txt
+md_MAIN_023_SIG        := .run/sig.md_MAIN_023.jsonl
+md_MAIN_023_GHIDRA_PROG := md_MAIN_023
+md_MAIN_023_VRAM_BASE  := 0x800CAE08
+md_MAIN_023_TEXT_LO    := 0x800CAE0C
+md_MAIN_023_TEXT_HI    := 0x800CAF8C
+md_MAIN_023_ASM_DIR     := asm/md_MAIN_023
+md_MAIN_023_SRC_DIR     := src/md_MAIN_023
+md_MAIN_023_UNDEF_SYMS  := build/md_MAIN_023/undefined_syms_auto.txt
+md_MAIN_023_UNDEF_FUNCS := build/md_MAIN_023/undefined_funcs_auto.txt
+
+# --- md_MAIN_024 (module, vram 0x800CAE08 — onboarded by new_binary.sh) ---
+md_MAIN_024_EXE        := extracted/retail/MAIN.CD.dir/FILE_024.dir/0.1
+md_MAIN_024_NAME       := md_MAIN_024
+md_MAIN_024_OUT_DIR    := build/md_MAIN_024
+md_MAIN_024_OUT        := $(md_MAIN_024_OUT_DIR)/$(md_MAIN_024_NAME)
+md_MAIN_024_ELF        := $(md_MAIN_024_OUT).elf
+md_MAIN_024_MAPFILE    := $(md_MAIN_024_OUT).map
+md_MAIN_024_LD_SCRIPT  := $(md_MAIN_024_OUT).ld
+md_MAIN_024_SPLAT_YAML := config/splat.md_MAIN_024.yaml
+md_MAIN_024_CHECK_SHA  := config/check.md_MAIN_024.sha
+md_MAIN_024_SYMBOLS    := config/symbols.md_MAIN_024.txt
+md_MAIN_024_SIG        := .run/sig.md_MAIN_024.jsonl
+md_MAIN_024_GHIDRA_PROG := md_MAIN_024
+md_MAIN_024_VRAM_BASE  := 0x800CAE08
+md_MAIN_024_TEXT_LO    := 0x800CAE0C
+md_MAIN_024_TEXT_HI    := 0x800CAF54
+md_MAIN_024_ASM_DIR     := asm/md_MAIN_024
+md_MAIN_024_SRC_DIR     := src/md_MAIN_024
+md_MAIN_024_UNDEF_SYMS  := build/md_MAIN_024/undefined_syms_auto.txt
+md_MAIN_024_UNDEF_FUNCS := build/md_MAIN_024/undefined_funcs_auto.txt
+
+# --- md_MAIN_025 (module, vram 0x800CAE08 — onboarded by new_binary.sh) ---
+md_MAIN_025_EXE        := extracted/retail/MAIN.CD.dir/FILE_025.dir/1.1
+md_MAIN_025_NAME       := md_MAIN_025
+md_MAIN_025_OUT_DIR    := build/md_MAIN_025
+md_MAIN_025_OUT        := $(md_MAIN_025_OUT_DIR)/$(md_MAIN_025_NAME)
+md_MAIN_025_ELF        := $(md_MAIN_025_OUT).elf
+md_MAIN_025_MAPFILE    := $(md_MAIN_025_OUT).map
+md_MAIN_025_LD_SCRIPT  := $(md_MAIN_025_OUT).ld
+md_MAIN_025_SPLAT_YAML := config/splat.md_MAIN_025.yaml
+md_MAIN_025_CHECK_SHA  := config/check.md_MAIN_025.sha
+md_MAIN_025_SYMBOLS    := config/symbols.md_MAIN_025.txt
+md_MAIN_025_SIG        := .run/sig.md_MAIN_025.jsonl
+md_MAIN_025_GHIDRA_PROG := md_MAIN_025
+md_MAIN_025_VRAM_BASE  := 0x800CAE08
+md_MAIN_025_TEXT_LO    := 0x800CAE14
+md_MAIN_025_TEXT_HI    := 0x800CC704
+md_MAIN_025_ASM_DIR     := asm/md_MAIN_025
+md_MAIN_025_SRC_DIR     := src/md_MAIN_025
+md_MAIN_025_UNDEF_SYMS  := build/md_MAIN_025/undefined_syms_auto.txt
+md_MAIN_025_UNDEF_FUNCS := build/md_MAIN_025/undefined_funcs_auto.txt
+
+# --- md_MAIN_026 (module, vram 0x800CAE08 — onboarded by new_binary.sh) ---
+md_MAIN_026_EXE        := extracted/retail/MAIN.CD.dir/FILE_026.dir/1.1
+md_MAIN_026_NAME       := md_MAIN_026
+md_MAIN_026_OUT_DIR    := build/md_MAIN_026
+md_MAIN_026_OUT        := $(md_MAIN_026_OUT_DIR)/$(md_MAIN_026_NAME)
+md_MAIN_026_ELF        := $(md_MAIN_026_OUT).elf
+md_MAIN_026_MAPFILE    := $(md_MAIN_026_OUT).map
+md_MAIN_026_LD_SCRIPT  := $(md_MAIN_026_OUT).ld
+md_MAIN_026_SPLAT_YAML := config/splat.md_MAIN_026.yaml
+md_MAIN_026_CHECK_SHA  := config/check.md_MAIN_026.sha
+md_MAIN_026_SYMBOLS    := config/symbols.md_MAIN_026.txt
+md_MAIN_026_SIG        := .run/sig.md_MAIN_026.jsonl
+md_MAIN_026_GHIDRA_PROG := md_MAIN_026
+md_MAIN_026_VRAM_BASE  := 0x800CAE08
+md_MAIN_026_TEXT_LO    := 0x800CAE0C
+md_MAIN_026_TEXT_HI    := 0x800CBC18
+md_MAIN_026_ASM_DIR     := asm/md_MAIN_026
+md_MAIN_026_SRC_DIR     := src/md_MAIN_026
+md_MAIN_026_UNDEF_SYMS  := build/md_MAIN_026/undefined_syms_auto.txt
+md_MAIN_026_UNDEF_FUNCS := build/md_MAIN_026/undefined_funcs_auto.txt
+
+# --- md_MAIN_027 (module, vram 0x800CAE08 — onboarded by new_binary.sh) ---
+md_MAIN_027_EXE        := extracted/retail/MAIN.CD.dir/FILE_027.dir/1.1
+md_MAIN_027_NAME       := md_MAIN_027
+md_MAIN_027_OUT_DIR    := build/md_MAIN_027
+md_MAIN_027_OUT        := $(md_MAIN_027_OUT_DIR)/$(md_MAIN_027_NAME)
+md_MAIN_027_ELF        := $(md_MAIN_027_OUT).elf
+md_MAIN_027_MAPFILE    := $(md_MAIN_027_OUT).map
+md_MAIN_027_LD_SCRIPT  := $(md_MAIN_027_OUT).ld
+md_MAIN_027_SPLAT_YAML := config/splat.md_MAIN_027.yaml
+md_MAIN_027_CHECK_SHA  := config/check.md_MAIN_027.sha
+md_MAIN_027_SYMBOLS    := config/symbols.md_MAIN_027.txt
+md_MAIN_027_SIG        := .run/sig.md_MAIN_027.jsonl
+md_MAIN_027_GHIDRA_PROG := md_MAIN_027
+md_MAIN_027_VRAM_BASE  := 0x800CAE08
+md_MAIN_027_TEXT_LO    := 0x800CAE0C
+md_MAIN_027_TEXT_HI    := 0x800CC2A0
+md_MAIN_027_ASM_DIR     := asm/md_MAIN_027
+md_MAIN_027_SRC_DIR     := src/md_MAIN_027
+md_MAIN_027_UNDEF_SYMS  := build/md_MAIN_027/undefined_syms_auto.txt
+md_MAIN_027_UNDEF_FUNCS := build/md_MAIN_027/undefined_funcs_auto.txt
+
+# --- md_MAIN_028 (module, vram 0x800CAE08 — onboarded by new_binary.sh) ---
+md_MAIN_028_EXE        := extracted/retail/MAIN.CD.dir/FILE_028.dir/1.1
+md_MAIN_028_NAME       := md_MAIN_028
+md_MAIN_028_OUT_DIR    := build/md_MAIN_028
+md_MAIN_028_OUT        := $(md_MAIN_028_OUT_DIR)/$(md_MAIN_028_NAME)
+md_MAIN_028_ELF        := $(md_MAIN_028_OUT).elf
+md_MAIN_028_MAPFILE    := $(md_MAIN_028_OUT).map
+md_MAIN_028_LD_SCRIPT  := $(md_MAIN_028_OUT).ld
+md_MAIN_028_SPLAT_YAML := config/splat.md_MAIN_028.yaml
+md_MAIN_028_CHECK_SHA  := config/check.md_MAIN_028.sha
+md_MAIN_028_SYMBOLS    := config/symbols.md_MAIN_028.txt
+md_MAIN_028_SIG        := .run/sig.md_MAIN_028.jsonl
+md_MAIN_028_GHIDRA_PROG := md_MAIN_028
+md_MAIN_028_VRAM_BASE  := 0x800CAE08
+md_MAIN_028_TEXT_LO    := 0x800CAE0C
+md_MAIN_028_TEXT_HI    := 0x800CBF74
+md_MAIN_028_ASM_DIR     := asm/md_MAIN_028
+md_MAIN_028_SRC_DIR     := src/md_MAIN_028
+md_MAIN_028_UNDEF_SYMS  := build/md_MAIN_028/undefined_syms_auto.txt
+md_MAIN_028_UNDEF_FUNCS := build/md_MAIN_028/undefined_funcs_auto.txt
+
+# --- md_MAIN_029 (module, vram 0x800CAE08 — onboarded by new_binary.sh) ---
+md_MAIN_029_EXE        := extracted/retail/MAIN.CD.dir/FILE_029.dir/1.1
+md_MAIN_029_NAME       := md_MAIN_029
+md_MAIN_029_OUT_DIR    := build/md_MAIN_029
+md_MAIN_029_OUT        := $(md_MAIN_029_OUT_DIR)/$(md_MAIN_029_NAME)
+md_MAIN_029_ELF        := $(md_MAIN_029_OUT).elf
+md_MAIN_029_MAPFILE    := $(md_MAIN_029_OUT).map
+md_MAIN_029_LD_SCRIPT  := $(md_MAIN_029_OUT).ld
+md_MAIN_029_SPLAT_YAML := config/splat.md_MAIN_029.yaml
+md_MAIN_029_CHECK_SHA  := config/check.md_MAIN_029.sha
+md_MAIN_029_SYMBOLS    := config/symbols.md_MAIN_029.txt
+md_MAIN_029_SIG        := .run/sig.md_MAIN_029.jsonl
+md_MAIN_029_GHIDRA_PROG := md_MAIN_029
+md_MAIN_029_VRAM_BASE  := 0x800CAE08
+md_MAIN_029_TEXT_LO    := 0x800CAE0C
+md_MAIN_029_TEXT_HI    := 0x800CB5C8
+md_MAIN_029_ASM_DIR     := asm/md_MAIN_029
+md_MAIN_029_SRC_DIR     := src/md_MAIN_029
+md_MAIN_029_UNDEF_SYMS  := build/md_MAIN_029/undefined_syms_auto.txt
+md_MAIN_029_UNDEF_FUNCS := build/md_MAIN_029/undefined_funcs_auto.txt
+
+# --- md_MAIN_030 (module, vram 0x800CAE08 — onboarded by new_binary.sh) ---
+md_MAIN_030_EXE        := extracted/retail/MAIN.CD.dir/FILE_030.dir/1.1
+md_MAIN_030_NAME       := md_MAIN_030
+md_MAIN_030_OUT_DIR    := build/md_MAIN_030
+md_MAIN_030_OUT        := $(md_MAIN_030_OUT_DIR)/$(md_MAIN_030_NAME)
+md_MAIN_030_ELF        := $(md_MAIN_030_OUT).elf
+md_MAIN_030_MAPFILE    := $(md_MAIN_030_OUT).map
+md_MAIN_030_LD_SCRIPT  := $(md_MAIN_030_OUT).ld
+md_MAIN_030_SPLAT_YAML := config/splat.md_MAIN_030.yaml
+md_MAIN_030_CHECK_SHA  := config/check.md_MAIN_030.sha
+md_MAIN_030_SYMBOLS    := config/symbols.md_MAIN_030.txt
+md_MAIN_030_SIG        := .run/sig.md_MAIN_030.jsonl
+md_MAIN_030_GHIDRA_PROG := md_MAIN_030
+md_MAIN_030_VRAM_BASE  := 0x800CAE08
+md_MAIN_030_TEXT_LO    := 0x800CAE0C
+md_MAIN_030_TEXT_HI    := 0x800CB55C
+md_MAIN_030_ASM_DIR     := asm/md_MAIN_030
+md_MAIN_030_SRC_DIR     := src/md_MAIN_030
+md_MAIN_030_UNDEF_SYMS  := build/md_MAIN_030/undefined_syms_auto.txt
+md_MAIN_030_UNDEF_FUNCS := build/md_MAIN_030/undefined_funcs_auto.txt
+
+# --- md_MAIN_031 (module, vram 0x800CAE08 — onboarded by new_binary.sh) ---
+md_MAIN_031_EXE        := extracted/retail/MAIN.CD.dir/FILE_031.dir/1.1
+md_MAIN_031_NAME       := md_MAIN_031
+md_MAIN_031_OUT_DIR    := build/md_MAIN_031
+md_MAIN_031_OUT        := $(md_MAIN_031_OUT_DIR)/$(md_MAIN_031_NAME)
+md_MAIN_031_ELF        := $(md_MAIN_031_OUT).elf
+md_MAIN_031_MAPFILE    := $(md_MAIN_031_OUT).map
+md_MAIN_031_LD_SCRIPT  := $(md_MAIN_031_OUT).ld
+md_MAIN_031_SPLAT_YAML := config/splat.md_MAIN_031.yaml
+md_MAIN_031_CHECK_SHA  := config/check.md_MAIN_031.sha
+md_MAIN_031_SYMBOLS    := config/symbols.md_MAIN_031.txt
+md_MAIN_031_SIG        := .run/sig.md_MAIN_031.jsonl
+md_MAIN_031_GHIDRA_PROG := md_MAIN_031
+md_MAIN_031_VRAM_BASE  := 0x800CAE08
+md_MAIN_031_TEXT_LO    := 0x800CAE0C
+md_MAIN_031_TEXT_HI    := 0x800CC1BC
+md_MAIN_031_ASM_DIR     := asm/md_MAIN_031
+md_MAIN_031_SRC_DIR     := src/md_MAIN_031
+md_MAIN_031_UNDEF_SYMS  := build/md_MAIN_031/undefined_syms_auto.txt
+md_MAIN_031_UNDEF_FUNCS := build/md_MAIN_031/undefined_funcs_auto.txt
+
+# --- md_MAIN_032 (module, vram 0x800CAE08 — onboarded by new_binary.sh) ---
+md_MAIN_032_EXE        := extracted/retail/MAIN.CD.dir/FILE_032.dir/1.1
+md_MAIN_032_NAME       := md_MAIN_032
+md_MAIN_032_OUT_DIR    := build/md_MAIN_032
+md_MAIN_032_OUT        := $(md_MAIN_032_OUT_DIR)/$(md_MAIN_032_NAME)
+md_MAIN_032_ELF        := $(md_MAIN_032_OUT).elf
+md_MAIN_032_MAPFILE    := $(md_MAIN_032_OUT).map
+md_MAIN_032_LD_SCRIPT  := $(md_MAIN_032_OUT).ld
+md_MAIN_032_SPLAT_YAML := config/splat.md_MAIN_032.yaml
+md_MAIN_032_CHECK_SHA  := config/check.md_MAIN_032.sha
+md_MAIN_032_SYMBOLS    := config/symbols.md_MAIN_032.txt
+md_MAIN_032_SIG        := .run/sig.md_MAIN_032.jsonl
+md_MAIN_032_GHIDRA_PROG := md_MAIN_032
+md_MAIN_032_VRAM_BASE  := 0x800CAE08
+md_MAIN_032_TEXT_LO    := 0x800CAE0C
+md_MAIN_032_TEXT_HI    := 0x800CC3CC
+md_MAIN_032_ASM_DIR     := asm/md_MAIN_032
+md_MAIN_032_SRC_DIR     := src/md_MAIN_032
+md_MAIN_032_UNDEF_SYMS  := build/md_MAIN_032/undefined_syms_auto.txt
+md_MAIN_032_UNDEF_FUNCS := build/md_MAIN_032/undefined_funcs_auto.txt
+
+# --- md_MAIN_033 (module, vram 0x800CAE08 — onboarded by new_binary.sh) ---
+md_MAIN_033_EXE        := extracted/retail/MAIN.CD.dir/FILE_033.dir/1.1
+md_MAIN_033_NAME       := md_MAIN_033
+md_MAIN_033_OUT_DIR    := build/md_MAIN_033
+md_MAIN_033_OUT        := $(md_MAIN_033_OUT_DIR)/$(md_MAIN_033_NAME)
+md_MAIN_033_ELF        := $(md_MAIN_033_OUT).elf
+md_MAIN_033_MAPFILE    := $(md_MAIN_033_OUT).map
+md_MAIN_033_LD_SCRIPT  := $(md_MAIN_033_OUT).ld
+md_MAIN_033_SPLAT_YAML := config/splat.md_MAIN_033.yaml
+md_MAIN_033_CHECK_SHA  := config/check.md_MAIN_033.sha
+md_MAIN_033_SYMBOLS    := config/symbols.md_MAIN_033.txt
+md_MAIN_033_SIG        := .run/sig.md_MAIN_033.jsonl
+md_MAIN_033_GHIDRA_PROG := md_MAIN_033
+md_MAIN_033_VRAM_BASE  := 0x800CAE08
+md_MAIN_033_TEXT_LO    := 0x800CAE0C
+md_MAIN_033_TEXT_HI    := 0x800CBAC8
+md_MAIN_033_ASM_DIR     := asm/md_MAIN_033
+md_MAIN_033_SRC_DIR     := src/md_MAIN_033
+md_MAIN_033_UNDEF_SYMS  := build/md_MAIN_033/undefined_syms_auto.txt
+md_MAIN_033_UNDEF_FUNCS := build/md_MAIN_033/undefined_funcs_auto.txt
+
+# --- md_MAIN_034 (module, vram 0x800CAE08 — onboarded by new_binary.sh) ---
+md_MAIN_034_EXE        := extracted/retail/MAIN.CD.dir/FILE_034.dir/1.1
+md_MAIN_034_NAME       := md_MAIN_034
+md_MAIN_034_OUT_DIR    := build/md_MAIN_034
+md_MAIN_034_OUT        := $(md_MAIN_034_OUT_DIR)/$(md_MAIN_034_NAME)
+md_MAIN_034_ELF        := $(md_MAIN_034_OUT).elf
+md_MAIN_034_MAPFILE    := $(md_MAIN_034_OUT).map
+md_MAIN_034_LD_SCRIPT  := $(md_MAIN_034_OUT).ld
+md_MAIN_034_SPLAT_YAML := config/splat.md_MAIN_034.yaml
+md_MAIN_034_CHECK_SHA  := config/check.md_MAIN_034.sha
+md_MAIN_034_SYMBOLS    := config/symbols.md_MAIN_034.txt
+md_MAIN_034_SIG        := .run/sig.md_MAIN_034.jsonl
+md_MAIN_034_GHIDRA_PROG := md_MAIN_034
+md_MAIN_034_VRAM_BASE  := 0x800CAE08
+md_MAIN_034_TEXT_LO    := 0x800CAE88
+md_MAIN_034_TEXT_HI    := 0x800CCB1C
+md_MAIN_034_ASM_DIR     := asm/md_MAIN_034
+md_MAIN_034_SRC_DIR     := src/md_MAIN_034
+md_MAIN_034_UNDEF_SYMS  := build/md_MAIN_034/undefined_syms_auto.txt
+md_MAIN_034_UNDEF_FUNCS := build/md_MAIN_034/undefined_funcs_auto.txt
+
+# --- md_MAIN_035 (module, vram 0x800CAE08 — onboarded by new_binary.sh) ---
+md_MAIN_035_EXE        := extracted/retail/MAIN.CD.dir/FILE_035.dir/1.1
+md_MAIN_035_NAME       := md_MAIN_035
+md_MAIN_035_OUT_DIR    := build/md_MAIN_035
+md_MAIN_035_OUT        := $(md_MAIN_035_OUT_DIR)/$(md_MAIN_035_NAME)
+md_MAIN_035_ELF        := $(md_MAIN_035_OUT).elf
+md_MAIN_035_MAPFILE    := $(md_MAIN_035_OUT).map
+md_MAIN_035_LD_SCRIPT  := $(md_MAIN_035_OUT).ld
+md_MAIN_035_SPLAT_YAML := config/splat.md_MAIN_035.yaml
+md_MAIN_035_CHECK_SHA  := config/check.md_MAIN_035.sha
+md_MAIN_035_SYMBOLS    := config/symbols.md_MAIN_035.txt
+md_MAIN_035_SIG        := .run/sig.md_MAIN_035.jsonl
+md_MAIN_035_GHIDRA_PROG := md_MAIN_035
+md_MAIN_035_VRAM_BASE  := 0x800CAE08
+md_MAIN_035_TEXT_LO    := 0x800CAE0C
+md_MAIN_035_TEXT_HI    := 0x800CB2E8
+md_MAIN_035_ASM_DIR     := asm/md_MAIN_035
+md_MAIN_035_SRC_DIR     := src/md_MAIN_035
+md_MAIN_035_UNDEF_SYMS  := build/md_MAIN_035/undefined_syms_auto.txt
+md_MAIN_035_UNDEF_FUNCS := build/md_MAIN_035/undefined_funcs_auto.txt
+
+# --- md_MAIN_036 (module, vram 0x800CAE08 — onboarded by new_binary.sh) ---
+md_MAIN_036_EXE        := extracted/retail/MAIN.CD.dir/FILE_036.dir/1.1
+md_MAIN_036_NAME       := md_MAIN_036
+md_MAIN_036_OUT_DIR    := build/md_MAIN_036
+md_MAIN_036_OUT        := $(md_MAIN_036_OUT_DIR)/$(md_MAIN_036_NAME)
+md_MAIN_036_ELF        := $(md_MAIN_036_OUT).elf
+md_MAIN_036_MAPFILE    := $(md_MAIN_036_OUT).map
+md_MAIN_036_LD_SCRIPT  := $(md_MAIN_036_OUT).ld
+md_MAIN_036_SPLAT_YAML := config/splat.md_MAIN_036.yaml
+md_MAIN_036_CHECK_SHA  := config/check.md_MAIN_036.sha
+md_MAIN_036_SYMBOLS    := config/symbols.md_MAIN_036.txt
+md_MAIN_036_SIG        := .run/sig.md_MAIN_036.jsonl
+md_MAIN_036_GHIDRA_PROG := md_MAIN_036
+md_MAIN_036_VRAM_BASE  := 0x800CAE08
+md_MAIN_036_TEXT_LO    := 0x800CAE0C
+md_MAIN_036_TEXT_HI    := 0x800CC13C
+md_MAIN_036_ASM_DIR     := asm/md_MAIN_036
+md_MAIN_036_SRC_DIR     := src/md_MAIN_036
+md_MAIN_036_UNDEF_SYMS  := build/md_MAIN_036/undefined_syms_auto.txt
+md_MAIN_036_UNDEF_FUNCS := build/md_MAIN_036/undefined_funcs_auto.txt
+
+# --- md_MAIN_037 (module, vram 0x800CAE08 — onboarded by new_binary.sh) ---
+md_MAIN_037_EXE        := extracted/retail/MAIN.CD.dir/FILE_037.dir/1.1
+md_MAIN_037_NAME       := md_MAIN_037
+md_MAIN_037_OUT_DIR    := build/md_MAIN_037
+md_MAIN_037_OUT        := $(md_MAIN_037_OUT_DIR)/$(md_MAIN_037_NAME)
+md_MAIN_037_ELF        := $(md_MAIN_037_OUT).elf
+md_MAIN_037_MAPFILE    := $(md_MAIN_037_OUT).map
+md_MAIN_037_LD_SCRIPT  := $(md_MAIN_037_OUT).ld
+md_MAIN_037_SPLAT_YAML := config/splat.md_MAIN_037.yaml
+md_MAIN_037_CHECK_SHA  := config/check.md_MAIN_037.sha
+md_MAIN_037_SYMBOLS    := config/symbols.md_MAIN_037.txt
+md_MAIN_037_SIG        := .run/sig.md_MAIN_037.jsonl
+md_MAIN_037_GHIDRA_PROG := md_MAIN_037
+md_MAIN_037_VRAM_BASE  := 0x800CAE08
+md_MAIN_037_TEXT_LO    := 0x800CAE0C
+md_MAIN_037_TEXT_HI    := 0x800CB960
+md_MAIN_037_ASM_DIR     := asm/md_MAIN_037
+md_MAIN_037_SRC_DIR     := src/md_MAIN_037
+md_MAIN_037_UNDEF_SYMS  := build/md_MAIN_037/undefined_syms_auto.txt
+md_MAIN_037_UNDEF_FUNCS := build/md_MAIN_037/undefined_funcs_auto.txt
+
+# --- md_MAIN_038 (module, vram 0x800CAE08 — onboarded by new_binary.sh) ---
+md_MAIN_038_EXE        := extracted/retail/MAIN.CD.dir/FILE_038.dir/1.1
+md_MAIN_038_NAME       := md_MAIN_038
+md_MAIN_038_OUT_DIR    := build/md_MAIN_038
+md_MAIN_038_OUT        := $(md_MAIN_038_OUT_DIR)/$(md_MAIN_038_NAME)
+md_MAIN_038_ELF        := $(md_MAIN_038_OUT).elf
+md_MAIN_038_MAPFILE    := $(md_MAIN_038_OUT).map
+md_MAIN_038_LD_SCRIPT  := $(md_MAIN_038_OUT).ld
+md_MAIN_038_SPLAT_YAML := config/splat.md_MAIN_038.yaml
+md_MAIN_038_CHECK_SHA  := config/check.md_MAIN_038.sha
+md_MAIN_038_SYMBOLS    := config/symbols.md_MAIN_038.txt
+md_MAIN_038_SIG        := .run/sig.md_MAIN_038.jsonl
+md_MAIN_038_GHIDRA_PROG := md_MAIN_038
+md_MAIN_038_VRAM_BASE  := 0x800CAE08
+md_MAIN_038_TEXT_LO    := 0x800CAE0C
+md_MAIN_038_TEXT_HI    := 0x800CCA48
+md_MAIN_038_ASM_DIR     := asm/md_MAIN_038
+md_MAIN_038_SRC_DIR     := src/md_MAIN_038
+md_MAIN_038_UNDEF_SYMS  := build/md_MAIN_038/undefined_syms_auto.txt
+md_MAIN_038_UNDEF_FUNCS := build/md_MAIN_038/undefined_funcs_auto.txt
+
+# --- md_MAIN_039 (module, vram 0x800CAE08 — onboarded by new_binary.sh) ---
+md_MAIN_039_EXE        := extracted/retail/MAIN.CD.dir/FILE_039.dir/1.1
+md_MAIN_039_NAME       := md_MAIN_039
+md_MAIN_039_OUT_DIR    := build/md_MAIN_039
+md_MAIN_039_OUT        := $(md_MAIN_039_OUT_DIR)/$(md_MAIN_039_NAME)
+md_MAIN_039_ELF        := $(md_MAIN_039_OUT).elf
+md_MAIN_039_MAPFILE    := $(md_MAIN_039_OUT).map
+md_MAIN_039_LD_SCRIPT  := $(md_MAIN_039_OUT).ld
+md_MAIN_039_SPLAT_YAML := config/splat.md_MAIN_039.yaml
+md_MAIN_039_CHECK_SHA  := config/check.md_MAIN_039.sha
+md_MAIN_039_SYMBOLS    := config/symbols.md_MAIN_039.txt
+md_MAIN_039_SIG        := .run/sig.md_MAIN_039.jsonl
+md_MAIN_039_GHIDRA_PROG := md_MAIN_039
+md_MAIN_039_VRAM_BASE  := 0x800CAE08
+md_MAIN_039_TEXT_LO    := 0x800CAE14
+md_MAIN_039_TEXT_HI    := 0x800CC44C
+md_MAIN_039_ASM_DIR     := asm/md_MAIN_039
+md_MAIN_039_SRC_DIR     := src/md_MAIN_039
+md_MAIN_039_UNDEF_SYMS  := build/md_MAIN_039/undefined_syms_auto.txt
+md_MAIN_039_UNDEF_FUNCS := build/md_MAIN_039/undefined_funcs_auto.txt
+
+# --- md_MAIN_040 (module, vram 0x800CAE08 — onboarded by new_binary.sh) ---
+md_MAIN_040_EXE        := extracted/retail/MAIN.CD.dir/FILE_040.dir/1.1
+md_MAIN_040_NAME       := md_MAIN_040
+md_MAIN_040_OUT_DIR    := build/md_MAIN_040
+md_MAIN_040_OUT        := $(md_MAIN_040_OUT_DIR)/$(md_MAIN_040_NAME)
+md_MAIN_040_ELF        := $(md_MAIN_040_OUT).elf
+md_MAIN_040_MAPFILE    := $(md_MAIN_040_OUT).map
+md_MAIN_040_LD_SCRIPT  := $(md_MAIN_040_OUT).ld
+md_MAIN_040_SPLAT_YAML := config/splat.md_MAIN_040.yaml
+md_MAIN_040_CHECK_SHA  := config/check.md_MAIN_040.sha
+md_MAIN_040_SYMBOLS    := config/symbols.md_MAIN_040.txt
+md_MAIN_040_SIG        := .run/sig.md_MAIN_040.jsonl
+md_MAIN_040_GHIDRA_PROG := md_MAIN_040
+md_MAIN_040_VRAM_BASE  := 0x800CAE08
+md_MAIN_040_TEXT_LO    := 0x800CAE0C
+md_MAIN_040_TEXT_HI    := 0x800CBD7C
+md_MAIN_040_ASM_DIR     := asm/md_MAIN_040
+md_MAIN_040_SRC_DIR     := src/md_MAIN_040
+md_MAIN_040_UNDEF_SYMS  := build/md_MAIN_040/undefined_syms_auto.txt
+md_MAIN_040_UNDEF_FUNCS := build/md_MAIN_040/undefined_funcs_auto.txt
+
+# --- md_MAIN_041 (module, vram 0x800CAE08 — onboarded by new_binary.sh) ---
+md_MAIN_041_EXE        := extracted/retail/MAIN.CD.dir/FILE_041.dir/1.1
+md_MAIN_041_NAME       := md_MAIN_041
+md_MAIN_041_OUT_DIR    := build/md_MAIN_041
+md_MAIN_041_OUT        := $(md_MAIN_041_OUT_DIR)/$(md_MAIN_041_NAME)
+md_MAIN_041_ELF        := $(md_MAIN_041_OUT).elf
+md_MAIN_041_MAPFILE    := $(md_MAIN_041_OUT).map
+md_MAIN_041_LD_SCRIPT  := $(md_MAIN_041_OUT).ld
+md_MAIN_041_SPLAT_YAML := config/splat.md_MAIN_041.yaml
+md_MAIN_041_CHECK_SHA  := config/check.md_MAIN_041.sha
+md_MAIN_041_SYMBOLS    := config/symbols.md_MAIN_041.txt
+md_MAIN_041_SIG        := .run/sig.md_MAIN_041.jsonl
+md_MAIN_041_GHIDRA_PROG := md_MAIN_041
+md_MAIN_041_VRAM_BASE  := 0x800CAE08
+md_MAIN_041_TEXT_LO    := 0x800CAE0C
+md_MAIN_041_TEXT_HI    := 0x800CBE0C
+md_MAIN_041_ASM_DIR     := asm/md_MAIN_041
+md_MAIN_041_SRC_DIR     := src/md_MAIN_041
+md_MAIN_041_UNDEF_SYMS  := build/md_MAIN_041/undefined_syms_auto.txt
+md_MAIN_041_UNDEF_FUNCS := build/md_MAIN_041/undefined_funcs_auto.txt
+
+# --- md_MAIN_042 (module, vram 0x800CCB1C — onboarded by new_binary.sh) ---
+md_MAIN_042_EXE        := extracted/retail/MAIN.CD.dir/FILE_042.dir/0.1
+md_MAIN_042_NAME       := md_MAIN_042
+md_MAIN_042_OUT_DIR    := build/md_MAIN_042
+md_MAIN_042_OUT        := $(md_MAIN_042_OUT_DIR)/$(md_MAIN_042_NAME)
+md_MAIN_042_ELF        := $(md_MAIN_042_OUT).elf
+md_MAIN_042_MAPFILE    := $(md_MAIN_042_OUT).map
+md_MAIN_042_LD_SCRIPT  := $(md_MAIN_042_OUT).ld
+md_MAIN_042_SPLAT_YAML := config/splat.md_MAIN_042.yaml
+md_MAIN_042_CHECK_SHA  := config/check.md_MAIN_042.sha
+md_MAIN_042_SYMBOLS    := config/symbols.md_MAIN_042.txt
+md_MAIN_042_SIG        := .run/sig.md_MAIN_042.jsonl
+md_MAIN_042_GHIDRA_PROG := md_MAIN_042
+md_MAIN_042_VRAM_BASE  := 0x800CCB1C
+md_MAIN_042_TEXT_LO    := 0x800CCB20
+md_MAIN_042_TEXT_HI    := 0x800CCD98
+md_MAIN_042_ASM_DIR     := asm/md_MAIN_042
+md_MAIN_042_SRC_DIR     := src/md_MAIN_042
+md_MAIN_042_UNDEF_SYMS  := build/md_MAIN_042/undefined_syms_auto.txt
+md_MAIN_042_UNDEF_FUNCS := build/md_MAIN_042/undefined_funcs_auto.txt
+
+# --- md_MAIN_043 (module, vram 0x800CCB1C — onboarded by new_binary.sh) ---
+md_MAIN_043_EXE        := extracted/retail/MAIN.CD.dir/FILE_043.dir/0.1
+md_MAIN_043_NAME       := md_MAIN_043
+md_MAIN_043_OUT_DIR    := build/md_MAIN_043
+md_MAIN_043_OUT        := $(md_MAIN_043_OUT_DIR)/$(md_MAIN_043_NAME)
+md_MAIN_043_ELF        := $(md_MAIN_043_OUT).elf
+md_MAIN_043_MAPFILE    := $(md_MAIN_043_OUT).map
+md_MAIN_043_LD_SCRIPT  := $(md_MAIN_043_OUT).ld
+md_MAIN_043_SPLAT_YAML := config/splat.md_MAIN_043.yaml
+md_MAIN_043_CHECK_SHA  := config/check.md_MAIN_043.sha
+md_MAIN_043_SYMBOLS    := config/symbols.md_MAIN_043.txt
+md_MAIN_043_SIG        := .run/sig.md_MAIN_043.jsonl
+md_MAIN_043_GHIDRA_PROG := md_MAIN_043
+md_MAIN_043_VRAM_BASE  := 0x800CCB1C
+md_MAIN_043_TEXT_LO    := 0x800CCB20
+md_MAIN_043_TEXT_HI    := 0x800CDA64
+md_MAIN_043_ASM_DIR     := asm/md_MAIN_043
+md_MAIN_043_SRC_DIR     := src/md_MAIN_043
+md_MAIN_043_UNDEF_SYMS  := build/md_MAIN_043/undefined_syms_auto.txt
+md_MAIN_043_UNDEF_FUNCS := build/md_MAIN_043/undefined_funcs_auto.txt
+
+# --- md_MAIN_044 (module, vram 0x800CCB1C — onboarded by new_binary.sh) ---
+md_MAIN_044_EXE        := extracted/retail/MAIN.CD.dir/FILE_044.dir/0.1
+md_MAIN_044_NAME       := md_MAIN_044
+md_MAIN_044_OUT_DIR    := build/md_MAIN_044
+md_MAIN_044_OUT        := $(md_MAIN_044_OUT_DIR)/$(md_MAIN_044_NAME)
+md_MAIN_044_ELF        := $(md_MAIN_044_OUT).elf
+md_MAIN_044_MAPFILE    := $(md_MAIN_044_OUT).map
+md_MAIN_044_LD_SCRIPT  := $(md_MAIN_044_OUT).ld
+md_MAIN_044_SPLAT_YAML := config/splat.md_MAIN_044.yaml
+md_MAIN_044_CHECK_SHA  := config/check.md_MAIN_044.sha
+md_MAIN_044_SYMBOLS    := config/symbols.md_MAIN_044.txt
+md_MAIN_044_SIG        := .run/sig.md_MAIN_044.jsonl
+md_MAIN_044_GHIDRA_PROG := md_MAIN_044
+md_MAIN_044_VRAM_BASE  := 0x800CCB1C
+md_MAIN_044_TEXT_LO    := 0x800CCB20
+md_MAIN_044_TEXT_HI    := 0x800CEDF4
+md_MAIN_044_ASM_DIR     := asm/md_MAIN_044
+md_MAIN_044_SRC_DIR     := src/md_MAIN_044
+md_MAIN_044_UNDEF_SYMS  := build/md_MAIN_044/undefined_syms_auto.txt
+md_MAIN_044_UNDEF_FUNCS := build/md_MAIN_044/undefined_funcs_auto.txt
+
+# --- md_MAIN_045 (module, vram 0x800CCB1C — onboarded by new_binary.sh) ---
+md_MAIN_045_EXE        := extracted/retail/MAIN.CD.dir/FILE_045.dir/0.1
+md_MAIN_045_NAME       := md_MAIN_045
+md_MAIN_045_OUT_DIR    := build/md_MAIN_045
+md_MAIN_045_OUT        := $(md_MAIN_045_OUT_DIR)/$(md_MAIN_045_NAME)
+md_MAIN_045_ELF        := $(md_MAIN_045_OUT).elf
+md_MAIN_045_MAPFILE    := $(md_MAIN_045_OUT).map
+md_MAIN_045_LD_SCRIPT  := $(md_MAIN_045_OUT).ld
+md_MAIN_045_SPLAT_YAML := config/splat.md_MAIN_045.yaml
+md_MAIN_045_CHECK_SHA  := config/check.md_MAIN_045.sha
+md_MAIN_045_SYMBOLS    := config/symbols.md_MAIN_045.txt
+md_MAIN_045_SIG        := .run/sig.md_MAIN_045.jsonl
+md_MAIN_045_GHIDRA_PROG := md_MAIN_045
+md_MAIN_045_VRAM_BASE  := 0x800CCB1C
+md_MAIN_045_TEXT_LO    := 0x800CCB20
+md_MAIN_045_TEXT_HI    := 0x800CE054
+md_MAIN_045_ASM_DIR     := asm/md_MAIN_045
+md_MAIN_045_SRC_DIR     := src/md_MAIN_045
+md_MAIN_045_UNDEF_SYMS  := build/md_MAIN_045/undefined_syms_auto.txt
+md_MAIN_045_UNDEF_FUNCS := build/md_MAIN_045/undefined_funcs_auto.txt
+
+# --- md_MAIN_046 (module, vram 0x800CCB1C — onboarded by new_binary.sh) ---
+md_MAIN_046_EXE        := extracted/retail/MAIN.CD.dir/FILE_046.dir/0.1
+md_MAIN_046_NAME       := md_MAIN_046
+md_MAIN_046_OUT_DIR    := build/md_MAIN_046
+md_MAIN_046_OUT        := $(md_MAIN_046_OUT_DIR)/$(md_MAIN_046_NAME)
+md_MAIN_046_ELF        := $(md_MAIN_046_OUT).elf
+md_MAIN_046_MAPFILE    := $(md_MAIN_046_OUT).map
+md_MAIN_046_LD_SCRIPT  := $(md_MAIN_046_OUT).ld
+md_MAIN_046_SPLAT_YAML := config/splat.md_MAIN_046.yaml
+md_MAIN_046_CHECK_SHA  := config/check.md_MAIN_046.sha
+md_MAIN_046_SYMBOLS    := config/symbols.md_MAIN_046.txt
+md_MAIN_046_SIG        := .run/sig.md_MAIN_046.jsonl
+md_MAIN_046_GHIDRA_PROG := md_MAIN_046
+md_MAIN_046_VRAM_BASE  := 0x800CCB1C
+md_MAIN_046_TEXT_LO    := 0x800CCB20
+md_MAIN_046_TEXT_HI    := 0x800CE8D8
+md_MAIN_046_ASM_DIR     := asm/md_MAIN_046
+md_MAIN_046_SRC_DIR     := src/md_MAIN_046
+md_MAIN_046_UNDEF_SYMS  := build/md_MAIN_046/undefined_syms_auto.txt
+md_MAIN_046_UNDEF_FUNCS := build/md_MAIN_046/undefined_funcs_auto.txt
+
+# --- md_MAIN_047 (module, vram 0x800CCB1C — onboarded by new_binary.sh) ---
+md_MAIN_047_EXE        := extracted/retail/MAIN.CD.dir/FILE_047.dir/0.1
+md_MAIN_047_NAME       := md_MAIN_047
+md_MAIN_047_OUT_DIR    := build/md_MAIN_047
+md_MAIN_047_OUT        := $(md_MAIN_047_OUT_DIR)/$(md_MAIN_047_NAME)
+md_MAIN_047_ELF        := $(md_MAIN_047_OUT).elf
+md_MAIN_047_MAPFILE    := $(md_MAIN_047_OUT).map
+md_MAIN_047_LD_SCRIPT  := $(md_MAIN_047_OUT).ld
+md_MAIN_047_SPLAT_YAML := config/splat.md_MAIN_047.yaml
+md_MAIN_047_CHECK_SHA  := config/check.md_MAIN_047.sha
+md_MAIN_047_SYMBOLS    := config/symbols.md_MAIN_047.txt
+md_MAIN_047_SIG        := .run/sig.md_MAIN_047.jsonl
+md_MAIN_047_GHIDRA_PROG := md_MAIN_047
+md_MAIN_047_VRAM_BASE  := 0x800CCB1C
+md_MAIN_047_TEXT_LO    := 0x800CCB20
+md_MAIN_047_TEXT_HI    := 0x800CD7E4
+md_MAIN_047_ASM_DIR     := asm/md_MAIN_047
+md_MAIN_047_SRC_DIR     := src/md_MAIN_047
+md_MAIN_047_UNDEF_SYMS  := build/md_MAIN_047/undefined_syms_auto.txt
+md_MAIN_047_UNDEF_FUNCS := build/md_MAIN_047/undefined_funcs_auto.txt
+
+# --- md_MAIN_001 (module, vram 0x800CEDF8 — onboarded by new_binary.sh) ---
+md_MAIN_001_EXE        := extracted/retail/MAIN.CD.dir/FILE_001.dir/1.1
+md_MAIN_001_NAME       := md_MAIN_001
+md_MAIN_001_OUT_DIR    := build/md_MAIN_001
+md_MAIN_001_OUT        := $(md_MAIN_001_OUT_DIR)/$(md_MAIN_001_NAME)
+md_MAIN_001_ELF        := $(md_MAIN_001_OUT).elf
+md_MAIN_001_MAPFILE    := $(md_MAIN_001_OUT).map
+md_MAIN_001_LD_SCRIPT  := $(md_MAIN_001_OUT).ld
+md_MAIN_001_SPLAT_YAML := config/splat.md_MAIN_001.yaml
+md_MAIN_001_CHECK_SHA  := config/check.md_MAIN_001.sha
+md_MAIN_001_SYMBOLS    := config/symbols.md_MAIN_001.txt
+md_MAIN_001_SIG        := .run/sig.md_MAIN_001.jsonl
+md_MAIN_001_GHIDRA_PROG := md_MAIN_001
+md_MAIN_001_VRAM_BASE  := 0x800CEDF8
+md_MAIN_001_TEXT_LO    := 0x800CEDFC
+md_MAIN_001_TEXT_HI    := 0x800D3C14
+md_MAIN_001_ASM_DIR     := asm/md_MAIN_001
+md_MAIN_001_SRC_DIR     := src/md_MAIN_001
+md_MAIN_001_UNDEF_SYMS  := build/md_MAIN_001/undefined_syms_auto.txt
+md_MAIN_001_UNDEF_FUNCS := build/md_MAIN_001/undefined_funcs_auto.txt
+
+# --- md_MAIN_008 (module, vram 0x800CEDF8 — onboarded by new_binary.sh) ---
+md_MAIN_008_EXE        := extracted/retail/MAIN.CD.dir/FILE_008.dir/1.1
+md_MAIN_008_NAME       := md_MAIN_008
+md_MAIN_008_OUT_DIR    := build/md_MAIN_008
+md_MAIN_008_OUT        := $(md_MAIN_008_OUT_DIR)/$(md_MAIN_008_NAME)
+md_MAIN_008_ELF        := $(md_MAIN_008_OUT).elf
+md_MAIN_008_MAPFILE    := $(md_MAIN_008_OUT).map
+md_MAIN_008_LD_SCRIPT  := $(md_MAIN_008_OUT).ld
+md_MAIN_008_SPLAT_YAML := config/splat.md_MAIN_008.yaml
+md_MAIN_008_CHECK_SHA  := config/check.md_MAIN_008.sha
+md_MAIN_008_SYMBOLS    := config/symbols.md_MAIN_008.txt
+md_MAIN_008_SIG        := .run/sig.md_MAIN_008.jsonl
+md_MAIN_008_GHIDRA_PROG := md_MAIN_008
+md_MAIN_008_VRAM_BASE  := 0x800CEDF8
+md_MAIN_008_TEXT_LO    := 0x800CEDFC
+md_MAIN_008_TEXT_HI    := 0x800CF140
+md_MAIN_008_ASM_DIR     := asm/md_MAIN_008
+md_MAIN_008_SRC_DIR     := src/md_MAIN_008
+md_MAIN_008_UNDEF_SYMS  := build/md_MAIN_008/undefined_syms_auto.txt
+md_MAIN_008_UNDEF_FUNCS := build/md_MAIN_008/undefined_funcs_auto.txt
+
+# --- md_MAIN_011 (module, vram 0x800CEDF8 — onboarded by new_binary.sh) ---
+md_MAIN_011_EXE        := extracted/retail/MAIN.CD.dir/FILE_011.dir/1.1
+md_MAIN_011_NAME       := md_MAIN_011
+md_MAIN_011_OUT_DIR    := build/md_MAIN_011
+md_MAIN_011_OUT        := $(md_MAIN_011_OUT_DIR)/$(md_MAIN_011_NAME)
+md_MAIN_011_ELF        := $(md_MAIN_011_OUT).elf
+md_MAIN_011_MAPFILE    := $(md_MAIN_011_OUT).map
+md_MAIN_011_LD_SCRIPT  := $(md_MAIN_011_OUT).ld
+md_MAIN_011_SPLAT_YAML := config/splat.md_MAIN_011.yaml
+md_MAIN_011_CHECK_SHA  := config/check.md_MAIN_011.sha
+md_MAIN_011_SYMBOLS    := config/symbols.md_MAIN_011.txt
+md_MAIN_011_SIG        := .run/sig.md_MAIN_011.jsonl
+md_MAIN_011_GHIDRA_PROG := md_MAIN_011
+md_MAIN_011_VRAM_BASE  := 0x800CEDF8
+md_MAIN_011_TEXT_LO    := 0x800CEE74
+md_MAIN_011_TEXT_HI    := 0x800D4CA8
+md_MAIN_011_ASM_DIR     := asm/md_MAIN_011
+md_MAIN_011_SRC_DIR     := src/md_MAIN_011
+md_MAIN_011_UNDEF_SYMS  := build/md_MAIN_011/undefined_syms_auto.txt
+md_MAIN_011_UNDEF_FUNCS := build/md_MAIN_011/undefined_funcs_auto.txt

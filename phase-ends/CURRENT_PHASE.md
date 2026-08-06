@@ -181,6 +181,27 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 
 ---
 
+# ▶ SESSION S45 (2026-08-06, in progress) — Part II of the S44 plan
+> Effort xHigh (Drew-set). Task list built (R28). Working through Part II of
+> `~/.claude/plans/optimized-squishing-engelbart.md`.
+
+## S45 per-task log
+- **II.1a ✅ — all 38 MAIN modules onboarded BYTE-IDENTICAL on first build at the §S44 static
+  addresses:** slot A 29/29 (md_MAIN_013…041 @ 0x800CAE08) · slot B 6/6 (md_MAIN_042…047 @
+  0x800CCB1C) · boot trio 3/3 (md_MAIN_001 [≡MAIN/0, twin], md_MAIN_008, md_MAIN_011 @ 0x800CEDF8).
+  TLO roster derived from the §154 id-word/prologue law (`.run/s45/derive_tlo.py`): 0x4 everywhere
+  except 011=0x7C, 025=0xC, 034=0x80, 039=0xC. **Two findings fixed in `new_binary.sh` + configs:**
+  (1) a module header can hold a function's JUMP TABLE → the hdr carve is now a dot-typed
+  `.rodata` PAIRED with the c segment (same object; the EXE `[0x63238,.rodata,800]` precedent) —
+  standalone `rodata,hdr` emits `.L` locals that don't link (md_MAIN_034), and `bin` links in the
+  data block (wrong placement); (2) **A4 law applied to the boot trio** — `symbols.resident.txt`
+  removed from their stacks (their windows are sub-ranges of the resident region; DsMix @0x800D1BD8
+  had already minted a phantom function boundary inside md_MAIN_011; re-extracted clean, all 3
+  byte-identical, phantom gone).
+- **II.1b** (SC07 pair) — next.
+
+---
+
 # 🛑 SESSION S44 CHECKPOINT (2026-08-06) — FRESH SESSION SAFE HERE
 > **Tree CLEAN** but for R23 `db.*.gbf` churn (never stage). **Nothing running.** Fable5Max session;
 > plan approved + executed through Part I: **`~/.claude/plans/optimized-squishing-engelbart.md`** —

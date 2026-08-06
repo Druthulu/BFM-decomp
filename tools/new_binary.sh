@@ -67,8 +67,14 @@ sed -e "s|@ALIAS@|$ALIAS|g" -e "s|@DEC_PATH@|$DEC|g" -e "s|@SHA1@|$SHA1|g" \
     -e "s|@VRAM@|$VRAM|g" -e "s|@CODE_END@|$CODEEND|g" -e "s|@EOF@|$EOFHEX|g" \
     config/splat.us.overlay.template.yaml > "$YAML"
 if [ $((TLO)) -ne 0 ]; then
+  # The header is emitted as a DOT-typed .rodata subsegment PAIRED with the c segment (same name),
+  # not a standalone `rodata, hdr` object: a module header can contain a function's JUMP TABLE
+  # (md_MAIN_034, S45 — switch jtbl stored before the code), and splat emits jtbl words as
+  # .L<addr> LOCAL labels, which only resolve when the jtbl and its function land in the SAME
+  # object (the EXE's [0x63238,.rodata,800] precedent). Pairing also covers the plain id-word
+  # header. (`bin` is wrong here too — assets link in the data block, after text.)
   TLOHEX="$(printf '0x%X' $((TLO)))"
-  sed -i "s|^      - \[0x0, c, ${ALIAS}\].*|      - [0x0, rodata, hdr]      # module-id word (+ptr table) — §154-A\n      - [${TLOHEX}, c, ${ALIAS}]|" "$YAML"
+  sed -i "s|^      - \[0x0, c, ${ALIAS}\].*|      - [0x0, .rodata, ${ALIAS}]      # module-id header (+jtbl/ptr table) — §154-A\n      - [${TLOHEX}, c, ${ALIAS}]|" "$YAML"
 fi
 if [ $((EOFSZ % 4)) -ne 0 ]; then
   FLOOR="$(printf '0x%X' $(( (EOFSZ/4)*4 )))"; NB=$((EOFSZ - (EOFSZ/4)*4))
