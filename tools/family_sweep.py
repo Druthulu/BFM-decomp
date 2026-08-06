@@ -448,9 +448,15 @@ def hseq_sweep(a):
     pre-filter, so a chunk never bisects on a hopeless draft. Pin-free templates only (§42e): a matched
     exemplar carrying hard-reg pins would cc1-crash a sibling TU → that group fails+reverts at the gate."""
     manifest = json.load(open(os.path.join(REPO, a.hseq)))
-    stubs = {ov: stub_map(ov) for ov in
-             [os.path.basename(p).split("sig.")[1][:-6] for p in
-              sorted(glob.glob(os.path.join(REPO, ".run/sig.ov_*.jsonl")))]}
+    # Binary set DERIVED from src/ dirs (ov_* + md_* + resident), mirroring family_hseq (P30 S45):
+    # the old `.run/sig.ov_*.jsonl` glob had no md_ entries, so every module member fell into
+    # `stubs.get(ov, {})` = {} -> counted "not-stub" -> silently skipped (the R32 class again).
+    _bins = [os.path.basename(d) for d in
+             sorted(glob.glob(os.path.join(REPO, "src/ov_*"))) +
+             sorted(glob.glob(os.path.join(REPO, "src/md_*")))]
+    if os.path.isdir(os.path.join(REPO, "src/resident")):
+        _bins.append("resident")
+    stubs = {ov: stub_map(ov) for ov in _bins}
     only = set(int(x, 16) for x in a.only.split(",")) if a.only else None
     bands = None if a.band == "all" else set(a.band.split(","))
 
