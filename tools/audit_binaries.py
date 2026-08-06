@@ -37,10 +37,19 @@ SHARED_INCLUDE = "shared/engine_core.h"
 
 
 def onboarded():
-    """The authoritative onboarded set, DERIVED from the splat configs the build consumes (R33)."""
-    ovs = {os.path.basename(p)[len("splat."):-len(".yaml")]
-           for p in glob.glob(os.path.join(REPO, "config/splat.ov_*.yaml"))}
-    return {"main", "resident"} | ovs
+    """The authoritative onboarded set, DERIVED from the splat configs the build consumes (R33).
+
+    P30 S44: was `splat.ov_*.yaml` + a hand-set {main, resident} — i.e. the R36 citizenship gate was
+    itself structurally blind to any binary class it did not know about (the exact defect class it
+    exists to catch). Now: EVERY `config/splat.<alias>.yaml` is an onboarded binary, whatever its
+    class ("main" is `splat.us.exe.yaml` — normalize it)."""
+    out = set()
+    for p in glob.glob(os.path.join(REPO, "config/splat.*.yaml")):
+        alias = os.path.basename(p)[len("splat."):-len(".yaml")]
+        if alias in ("us.exe", "us.overlay.template", "us.module.template"):
+            continue
+        out.add(alias)
+    return {"main"} | out
 
 
 def dedup_membership():
@@ -81,7 +90,7 @@ def main():
         if not cfg:
             continue                                   # already flagged by CHECK 1
         if not os.path.exists(os.path.join(REPO, cfg["sig"])):
-            fails.append(f"{b}: no sig at {cfg['sig']} (run `make sig-overlays` / `make sig-resident`)")
+            fails.append(f"{b}: no sig at {cfg['sig']} (run `make sig-overlays` / `make sig-resident` / `make sig-modules`)")
 
     # --- CHECK 3 (the load-bearing SC07 check): every onboarded OVERLAY's .c includes the shared
     # engine-core header. Without it NO shared body can be instantiated in that overlay, so it can
@@ -108,7 +117,9 @@ def main():
         for g in fam.get("families", []):
             for o, _ in g.get("members", []) + g.get("matched_members", []):
                 fam_ovs.add(o)
-        map_missing = {b for b in onb if b.startswith("ov_")} - fam_ovs
+        # S44: modules (md_*) carry shareable engine functions too; only main is exempt
+        # (structurally barren, checked twice — S39). Resident + overlays + modules must appear.
+        map_missing = {b for b in onb if b != "main"} - fam_ovs
         # An overlay can be legitimately absent only if it shares NO function with any other (never,
         # in practice — every overlay shares the engine core). Flag, do not hard-fail, since the map
         # is regenerable and may legitimately post-date a brand-new onboarding.
@@ -127,8 +138,10 @@ def main():
                      f"candidate for tools/dedup_extend.py): {zero if verbose else zero[:6]}")
 
     # --- report
-    print(f"audit-binaries: {len(onb)} onboarded (main + resident + "
-          f"{len([b for b in onb if b.startswith('ov_')])} overlays)")
+    n_ov = len([b for b in onb if b.startswith("ov_")])
+    n_md = len([b for b in onb if b.startswith("md_")])
+    print(f"audit-binaries: {len(onb)} onboarded (main + resident + {n_ov} overlays"
+          + (f" + {n_md} modules" if n_md else "") + ")")
     if verbose:
         print(f"  dup_report.BINARIES: {len(binaries)}  |  family-map overlays: "
               f"{len(fam_ovs) if os.path.exists(fam_path) else 'n/a'}")
