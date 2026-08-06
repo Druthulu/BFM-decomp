@@ -3,7 +3,7 @@
 # absent); the hand-maintained Makefile body is never edited to add a binary. Each md_* loads at
 # its OWN vram (the §S44 loader table: docs/memory-map.md). _TEXT_LO is a VRAM (code start), read
 # by 'make sig-modules' as --text-lo (§154-A: bootstrap past the module-id header).
-MODULE_BINARIES := md_MAIN_013 md_MAIN_014 md_MAIN_015 md_MAIN_016 md_MAIN_017 md_MAIN_018 md_MAIN_019 md_MAIN_020 md_MAIN_021 md_MAIN_022 md_MAIN_023 md_MAIN_024 md_MAIN_025 md_MAIN_026 md_MAIN_027 md_MAIN_028 md_MAIN_029 md_MAIN_030 md_MAIN_031 md_MAIN_032 md_MAIN_033 md_MAIN_034 md_MAIN_035 md_MAIN_036 md_MAIN_037 md_MAIN_038 md_MAIN_039 md_MAIN_040 md_MAIN_041 md_MAIN_042 md_MAIN_043 md_MAIN_044 md_MAIN_045 md_MAIN_046 md_MAIN_047 md_MAIN_001 md_MAIN_008 md_MAIN_011
+MODULE_BINARIES := md_MAIN_013 md_MAIN_014 md_MAIN_015 md_MAIN_016 md_MAIN_017 md_MAIN_018 md_MAIN_019 md_MAIN_020 md_MAIN_021 md_MAIN_022 md_MAIN_023 md_MAIN_024 md_MAIN_025 md_MAIN_026 md_MAIN_027 md_MAIN_028 md_MAIN_029 md_MAIN_030 md_MAIN_031 md_MAIN_032 md_MAIN_033 md_MAIN_034 md_MAIN_035 md_MAIN_036 md_MAIN_037 md_MAIN_038 md_MAIN_039 md_MAIN_040 md_MAIN_041 md_MAIN_042 md_MAIN_043 md_MAIN_044 md_MAIN_045 md_MAIN_046 md_MAIN_047 md_MAIN_001 md_MAIN_008 md_MAIN_011 md_SC07_003 md_SC07_004
 
 # --- md_MAIN_013 (module, vram 0x800CAE08 — onboarded by new_binary.sh) ---
 md_MAIN_013_EXE        := extracted/retail/MAIN.CD.dir/FILE_013.dir/1.1
@@ -802,3 +802,45 @@ md_MAIN_011_ASM_DIR     := asm/md_MAIN_011
 md_MAIN_011_SRC_DIR     := src/md_MAIN_011
 md_MAIN_011_UNDEF_SYMS  := build/md_MAIN_011/undefined_syms_auto.txt
 md_MAIN_011_UNDEF_FUNCS := build/md_MAIN_011/undefined_funcs_auto.txt
+
+# --- md_SC07_003 (module, vram 0x801A00D8 — onboarded by new_binary.sh) ---
+md_SC07_003_EXE        := extracted/retail/SC07.CD.dir/FILE_003.dir/1.1
+md_SC07_003_NAME       := md_SC07_003
+md_SC07_003_OUT_DIR    := build/md_SC07_003
+md_SC07_003_OUT        := $(md_SC07_003_OUT_DIR)/$(md_SC07_003_NAME)
+md_SC07_003_ELF        := $(md_SC07_003_OUT).elf
+md_SC07_003_MAPFILE    := $(md_SC07_003_OUT).map
+md_SC07_003_LD_SCRIPT  := $(md_SC07_003_OUT).ld
+md_SC07_003_SPLAT_YAML := config/splat.md_SC07_003.yaml
+md_SC07_003_CHECK_SHA  := config/check.md_SC07_003.sha
+md_SC07_003_SYMBOLS    := config/symbols.md_SC07_003.txt
+md_SC07_003_SIG        := .run/sig.md_SC07_003.jsonl
+md_SC07_003_GHIDRA_PROG := md_SC07_003
+md_SC07_003_VRAM_BASE  := 0x801A00D8
+md_SC07_003_TEXT_LO    := 0x801A01D4
+md_SC07_003_TEXT_HI    := 0x801F4504
+md_SC07_003_ASM_DIR     := asm/md_SC07_003
+md_SC07_003_SRC_DIR     := src/md_SC07_003
+md_SC07_003_UNDEF_SYMS  := build/md_SC07_003/undefined_syms_auto.txt
+md_SC07_003_UNDEF_FUNCS := build/md_SC07_003/undefined_funcs_auto.txt
+
+# --- md_SC07_004 (module, vram 0x801A00D8 — onboarded by new_binary.sh) ---
+md_SC07_004_EXE        := extracted/retail/SC07.CD.dir/FILE_004.dir/1.1
+md_SC07_004_NAME       := md_SC07_004
+md_SC07_004_OUT_DIR    := build/md_SC07_004
+md_SC07_004_OUT        := $(md_SC07_004_OUT_DIR)/$(md_SC07_004_NAME)
+md_SC07_004_ELF        := $(md_SC07_004_OUT).elf
+md_SC07_004_MAPFILE    := $(md_SC07_004_OUT).map
+md_SC07_004_LD_SCRIPT  := $(md_SC07_004_OUT).ld
+md_SC07_004_SPLAT_YAML := config/splat.md_SC07_004.yaml
+md_SC07_004_CHECK_SHA  := config/check.md_SC07_004.sha
+md_SC07_004_SYMBOLS    := config/symbols.md_SC07_004.txt
+md_SC07_004_SIG        := .run/sig.md_SC07_004.jsonl
+md_SC07_004_GHIDRA_PROG := md_SC07_004
+md_SC07_004_VRAM_BASE  := 0x801A00D8
+md_SC07_004_TEXT_LO    := 0x801A0230
+md_SC07_004_TEXT_HI    := 0x801F9338
+md_SC07_004_ASM_DIR     := asm/md_SC07_004
+md_SC07_004_SRC_DIR     := src/md_SC07_004
+md_SC07_004_UNDEF_SYMS  := build/md_SC07_004/undefined_syms_auto.txt
+md_SC07_004_UNDEF_FUNCS := build/md_SC07_004/undefined_funcs_auto.txt

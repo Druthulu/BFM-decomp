@@ -198,7 +198,10 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
   removed from their stacks (their windows are sub-ranges of the resident region; DsMix @0x800D1BD8
   had already minted a phantom function boundary inside md_MAIN_011; re-extracted clean, all 3
   byte-identical, phantom gone).
-- **II.1b** (SC07 pair) — next.
+- **II.1b ✅ — SC07 pair onboarded BYTE-IDENTICAL at 0x801A00D8** (md_SC07_003 text-lo 0xFC,
+  100 fns; md_SC07_004 text-lo 0x158, 315 fns — the derived TLOs matched the plan's documented
+  values exactly via the independent first-prologue scan). Symbol stacks window-checked clean.
+- **II.1c** (sig-modules · hseq regen · dedup pass · audit-binaries · R22 · audit-disc) — next.
 
 ---
 

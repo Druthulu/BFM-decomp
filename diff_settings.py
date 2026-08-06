@@ -557,6 +557,12 @@ BINARIES = {
     "md_MAIN_011": dict(baseimg="expected/build/md_MAIN_011/md_MAIN_011.elf",
                         myimg="build/md_MAIN_011/md_MAIN_011.elf",
                         mapfile="build/md_MAIN_011/md_MAIN_011.map"),
+    "md_SC07_003": dict(baseimg="expected/build/md_SC07_003/md_SC07_003.elf",
+                        myimg="build/md_SC07_003/md_SC07_003.elf",
+                        mapfile="build/md_SC07_003/md_SC07_003.map"),
+    "md_SC07_004": dict(baseimg="expected/build/md_SC07_004/md_SC07_004.elf",
+                        myimg="build/md_SC07_004/md_SC07_004.elf",
+                        mapfile="build/md_SC07_004/md_SC07_004.map"),
     # <<< overlays: tools/new_overlay.sh inserts ov_* entries above this line (Phase 13) >>>
 }
 
