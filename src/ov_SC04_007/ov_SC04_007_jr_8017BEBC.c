@@ -5116,7 +5116,206 @@ INCLUDE_ASM("asm/ov_SC04_007/nonmatchings/ov_SC04_007_jr_8017BEBC", func_8017FDB
 
 INCLUDE_ASM("asm/ov_SC04_007/nonmatchings/ov_SC04_007_jr_8017BEBC", func_8017FEAC);
 
-INCLUDE_ASM("asm/ov_SC04_007/nonmatchings/ov_SC04_007_jr_8017BEBC", func_8017FF08);
+
+
+#define gte_ldv0(r0) __asm__ volatile (          \
+    "lwc2 $0, 0( %0 );"                          \
+    "lwc2 $1, 4( %0 )"                           \
+    :                                            \
+    : "r"( r0 ) )
+#define gte_ldv3(r0, r1, r2) __asm__ volatile (  \
+    "lwc2 $0, 0( %0 );"                          \
+    "lwc2 $1, 4( %0 );"                          \
+    "lwc2 $2, 0( %1 );"                          \
+    "lwc2 $3, 4( %1 );"                          \
+    "lwc2 $4, 0( %2 );"                          \
+    "lwc2 $5, 4( %2 )"                           \
+    :                                            \
+    : "r"( r0 ), "r"( r1 ), "r"( r2 ) )
+#define gte_rtps() __asm__ volatile ("nop;nop;rtps")
+#define gte_rtpt() __asm__ volatile ("nop;nop;rtpt")
+#define gte_stsxy(r0) __asm__ volatile (         \
+    "swc2 $14, 0( %0 )"                          \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "memory" )
+#define gte_stsxy3(r0, r1, r2) __asm__ volatile ( \
+    "swc2 $12, 0( %0 );"                         \
+    "swc2 $13, 0( %1 );"                         \
+    "swc2 $14, 0( %2 )"                          \
+    :                                            \
+    : "r"( r0 ), "r"( r1 ), "r"( r2 )            \
+    : "memory" )
+#define gte_stszotz(r0) __asm__ volatile (       \
+    "mfc2 $12, $19;"                             \
+    "nop;"                                       \
+    "sra $12, $12, 2;"                           \
+    "sw $12, 0( %0 )"                            \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "$12", "memory" )
+#define gte_stflg(r0) __asm__ volatile (         \
+    "cfc2 $12, $31;"                             \
+    "nop;"                                       \
+    "sw $12, 0( %0 )"                            \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "$12", "memory" )
+#define gte_ldv0(r0) __asm__ volatile (          \
+    "lwc2 $0, 0( %0 );"                          \
+    "lwc2 $1, 4( %0 )"                           \
+    :                                            \
+    : "r"( r0 ) )
+#define gte_ldv3(r0, r1, r2) __asm__ volatile (  \
+    "lwc2 $0, 0( %0 );"                          \
+    "lwc2 $1, 4( %0 );"                          \
+    "lwc2 $2, 0( %1 );"                          \
+    "lwc2 $3, 4( %1 );"                          \
+    "lwc2 $4, 0( %2 );"                          \
+    "lwc2 $5, 4( %2 )"                           \
+    :                                            \
+    : "r"( r0 ), "r"( r1 ), "r"( r2 ) )
+#define gte_rtps() __asm__ volatile ("nop;nop;rtps")
+#define gte_rtpt() __asm__ volatile ("nop;nop;rtpt")
+#define gte_stsxy(r0) __asm__ volatile (         \
+    "swc2 $14, 0( %0 )"                          \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "memory" )
+#define gte_stsxy3(r0, r1, r2) __asm__ volatile ( \
+    "swc2 $12, 0( %0 );"                         \
+    "swc2 $13, 0( %1 );"                         \
+    "swc2 $14, 0( %2 )"                          \
+    :                                            \
+    : "r"( r0 ), "r"( r1 ), "r"( r2 )            \
+    : "memory" )
+#define gte_stszotz(r0) __asm__ volatile (       \
+    "mfc2 $12, $19;"                             \
+    "nop;"                                       \
+    "sra $12, $12, 2;"                           \
+    "sw $12, 0( %0 )"                            \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "$12", "memory" )
+#define gte_stflg(r0) __asm__ volatile (         \
+    "cfc2 $12, $31;"                             \
+    "nop;"                                       \
+    "sw $12, 0( %0 )"                            \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "$12", "memory" )
+
+void func_8017FF08(void *a0, void *a1)
+{
+
+    extern void func_8001E094(void);
+    extern void func_8001E378(void *a0);
+    extern void func_80180324(void *a0, void *a1, u32 *a2, u32 *a3);
+    extern u8 D_800A6610[];
+    extern short D_800B9A02;   /* TU-visible spelling (engine_core.h + ov_SC01_000.c col-0);
+                                * unsigned access forced at the use — §8d sub-class (b) */
+
+    Vec8_80182FD4 base;
+    Vec8_80182FD4 v[3];
+    u32  buf[19];
+    long flag;
+    long otz;
+    long flag2;
+
+    Src_80182FD4 *s;
+    u32 *ot;
+    s32 z;
+    s32 i;
+    u16 w;
+
+    ot = (u32 *)&D_800A6610[(*(u16 *)&D_800B9A02) << 14];
+    s = *(Src_80182FD4 **)((s32)a0 + 0x20);
+    if (s == 0) {
+        return;
+    }
+
+    if (*(s32 *)((s32)a0 + 0x34) != 0) {
+        func_8001E094();
+    } else {
+        func_8001E378(a0);
+    }
+
+    base.vx = *(u16 *)((s32)a0 + 0x2E);
+    base.vy = *(u16 *)((s32)a0 + 0x30);
+    base.vz = *(u16 *)((s32)a0 + 0x32);
+
+    gte_ldv0(&base);
+    gte_rtps();
+    gte_stsxy(&buf[0]);
+    gte_stflg(&flag);
+    gte_stszotz(&otz);
+
+    if (flag & ~0x1000) {
+        return;
+    }
+
+    w = *(u16 *)((s32)a0 + 0x2C);
+    z = otz + 1;
+    if ((w & 0xC000) != 0) {
+        if ((w & 0xC000) == 0xC000) {
+            z -= (w & 0xFFF);
+            if (z < 0) {
+                z = 0;
+            }
+        } else {
+            z += (w & 0xFFF);
+        }
+    }
+    if (z >= 0x1000) {
+        return;
+    }
+
+    if (*(s16 *)((s32)a0 + 0x1E) & 0x8000) {
+        for (i = 0; i < 12; i += 6) {
+            v[0].vx = base.vx + s->pt[i].vx;
+            v[0].vy = base.vy + s->pt[i].vy;
+            v[0].vz = base.vz;
+            v[1].vx = base.vx + s->pt[i + 2].vx;
+            v[1].vy = base.vy + s->pt[i + 2].vy;
+            v[1].vz = base.vz;
+            v[2].vx = base.vx + s->pt[i + 4].vx;
+            v[2].vy = base.vy + s->pt[i + 4].vy;
+            v[2].vz = base.vz;
+            gte_ldv3(&v[0], &v[1], &v[2]);
+            gte_rtpt();
+            gte_stsxy3(&buf[i + 1], &buf[i + 3], &buf[i + 5]);
+        }
+        for (i = 1; i < 12; i += 2) {
+            v[0].vx = base.vx + s->pt[i].vx;
+            v[0].vy = base.vy + s->pt[i].vy;
+            v[0].vz = base.vz;
+            gte_ldv0(&v[0]);
+            gte_rtps();
+            gte_stsxy(&buf[i + 1]);
+            gte_stflg(&flag2);
+            gte_stszotz(&otz);
+            buf[13 + (i >> 1)] = otz + 1;
+        }
+        func_80180324(a0, a1, &buf[0], ot);
+    } else {
+        for (i = 0; i < 12; i += 3) {
+            v[0].vx = base.vx + s->pt[i].vx;
+            v[0].vy = base.vy + s->pt[i].vy;
+            v[0].vz = base.vz;
+            v[1].vx = base.vx + s->pt[i + 1].vx;
+            v[1].vy = base.vy + s->pt[i + 1].vy;
+            v[1].vz = base.vz;
+            v[2].vx = base.vx + s->pt[i + 2].vx;
+            v[2].vy = base.vy + s->pt[i + 2].vy;
+            v[2].vz = base.vz;
+            gte_ldv3(&v[0], &v[1], &v[2]);
+            gte_rtpt();
+            gte_stsxy3(&buf[i + 1], &buf[i + 2], &buf[i + 3]);
+        }
+        func_80180324(a0, a1, &buf[0], ot + z);
+    }
+}
+
 
 
 #define ADDPRIM_801833F0(o, p)                                                 \

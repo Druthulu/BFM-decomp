@@ -2451,6 +2451,30 @@ remap — worth pinning, since it may be silently killing other sweeps.
 *(Also corrected: my "41 behemoth drafts" was a FILE count — 79 unblocked files resolve to 20 distinct
 functions, 36 of them fragments of one small function.)*
 
+### ▶ S43-11 — the 263×5 cluster BANKED 5/5: the sweep's own pipeline was corrupting byte-correct drafts (2026-08-05)
+Redo of S43-9's retracted claim, done correctly through `harvest_verify` (splice → build → keep iff
+byte-identical → revert), not by hand-building. **5/5 banked, 1,315 instructions**, each independently
+re-verified three ways: image SHA == locked SHA, stub gone, real definition present.
+
+| binary | fn | binary | fn |
+|---|---|---|---|
+| ov_SC03_101 | func_801814F8 | ov_SC04_005 | func_80181054 |
+| ov_SC03_104 | func_80184934 | ov_SC04_007 | func_8017FF08 |
+| ov_SC04_003 | func_8017E4F4 | | |
+
+**THE DEFECT THIS PROVES:** `family_sweep --hseq` reported this family **0/5 with
+`PLUMBING: parse error before 'unsigned'`** — but the remapped drafts are byte-CORRECT. The parse error
+comes from the sweep's own **gate-pipeline transform**, not from the remap: the only `unsigned` in the
+draft sits inside a comment, so a transform is eating a `/*` opener and turning comment text into code.
+Isolated per-transform runs (`canon_resident_calls` / `cast_call_sites` / `sig_unify`, each on the draft
+alone) all preserve it — so the corruption needs the gate's real invocation (with `--src-file`) to
+reproduce. **NOT YET PINNED — and it is silently costing banks in every sweep it touches.** Next
+session: run the three transforms with `--src-file` set to the target TU and diff the output.
+
+**The workaround that banked them:** carry the exemplar's typedefs onto each remapped draft by hand
+(the same `family_remap` `_carry_macros` gap as §146/§152) and gate directly, bypassing the sweep's
+recovery ladder entirely. Drafts + gate logs: `.run/s43/cluster_gate/`.
+
 ### ▶ S11 — the propagation lag: EXTEND 0/36 -> 31/36, and every blocker was a DECLARATION (2026-08-03/04)
 Lane 2 of the S10 checkpoint ("26,006 ins, ~0 agent tokens, PARTLY BLOCKED"), taken first on the
 standing doctrine that the cheap deterministic lever is probed before the expensive agent one.
