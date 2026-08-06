@@ -181,7 +181,55 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 
 ---
 
-# 🛑 SESSION S43 CHECKPOINT (2026-08-05) — FRESH SESSION SAFE HERE
+# 🛑 SESSION S44 CHECKPOINT (2026-08-06) — FRESH SESSION SAFE HERE
+> **Tree CLEAN** but for R23 `db.*.gbf` churn (never stage). **Nothing running.** Fable5Max session;
+> plan approved + executed through Part I: **`~/.claude/plans/optimized-squishing-engelbart.md`** —
+> a fresh session continues at **Part II** of that file (II.1 small-module batch first). **NO phase
+> close** — T5 needs Drew's gate-2.
+
+## ✅ FINAL S44 STATE — R22 CLEAN-FLEET **143 passed / 0 failed of 143**
+**FLEET (the HONEST, GROWN denominator): 96.13% fn-count · 94.4% instr-weighted
+(12,676,581 / 13,435,348) · 88.3% distinct-code (78,334 / 89,140 uniq)**.
+Pre-expansion line for continuity: 95.00% instr on 13,160,961 (140 binaries). The drop is the
+denominator growing by the 3 new overlays' text (+274,387 ins) while the numerator grew +174,062 —
+the honest direction (P27/S39 precedent). `audit-binaries` OK over 143 (R36).
+**`make audit-disc`: UNCLAIMED 78 → 75 payloads / 3,564,021 → 2,038,104 B, residue 0** — the three
+claims flipped automatically via `config/check.<bin>.sha` (zero wiring, as designed).
+
+## WHAT S44 DID (Part I of the plan, complete)
+1. **I.0 knowledge capture** — memory-map §S44 (the complete STATIC loader routing table; the
+   emulator doctrine refuted), tooling-audit §S44 (every tool classified), decision-log R31 entry,
+   cookbook §154, disc-completeness corrections.
+2. **I.1 five blocking tool fixes**, each with a negative control — family_remap `vram_of(alias)`
+   (0xECC regression byte-identical); Makefile `modules.mk` + `sig-modules` (no-op absent the file;
+   main re-verified 143dbb89); audit_binaries de-ov_'d (planted fake module FAILS); the glob
+   widenings (family map now carries resident, 139→142 binaries); **`tools/new_binary.sh`**
+   (new_overlay.sh now a 30-line wrapper).
+3. **I.2 the big 3 onboarded + dedup-banked** — `ov_MAIN_012` (d6b3e8b9) · `ov_SC02_037` (b0c5394a)
+   · `ov_SC03_107` (87d02b57), each BYTE-IDENTICAL on the FIRST build at the statically derived
+   0x80128158 (byte-proving the §S44 loader table). Then **4,836 h_exact members** (dedup_extend,
+   1,612/binary) **+ 290 template members** (family_sweep --hseq scoped by --only to the 637
+   relevant families) = **5,126 member-functions banked**, every one whole-binary byte-gated.
+   Remaining stubs 624+717+710 = 2,051 = the ~802 novel fns × instances + the failed tier — **the
+   new frontier, already visible to every tool** (citizenship): worklist/family-hseq/progress carry
+   it, so no separate backlog rows were written (deviation from the plan's I.2e, judged redundant).
+4. **Process errors (mine, both caught before reporting):** ran the in-place extender on an
+   uncommitted tree (it refused, H4 — I misread the refusal as a result) · a single-file `grep -c`
+   display artifact briefly read as "0 stubs left".
+
+## ▶ RESUME HERE (fresh session = Part II of the plan file)
+1. **II.1** the 35 small MAIN modules (slots A/B per memory-map §S44; `new_binary.sh md_MAIN_<nnn>
+   <payload> <slot> <text_lo>` — prologue offsets in the disc-ledger roster; MAIN/0≡1 once) + the
+   SC07 pair at 0x801A00D8 (text_lo 0xFC / 0x158). Then sig-modules, hseq regen, dedup pass
+   (expect LOW dedup — actor modules are novel), audit-binaries, R22, audit-disc.
+2. **II.2** retirements (disc_code_sweep, reconcile_decls, rollout_* one-shots,
+   ImportOverlay/VerifyOverlay.java) + SETUP §6.7 module recipe + inventory (R21).
+3. **II.3** metrics re-baseline + roadmap delta (completion contract: binaries = 143 + modules;
+   the parked-for-L3 ledger is the 100%-claim's explicit exclusion list).
+4. **II.4** L3 emulator (the 28 script modules + MAIN/7/9 + SC02/9 + R34 address verification).
+5. **II.5** the ~802 novel functions = normal crack-wave frontier (standard slot; §150-§153 apply).
+
+
 > **Tree CLEAN** but for R23 `db.*.gbf` churn (never stage). **Nothing running.** Effort **Max**.
 > **NO phase close** — T5 unopened, needs Drew's gate-2.
 > **No src/ or config/ change this session** ⇒ the fleet cannot have moved: metrics below are S42's,
