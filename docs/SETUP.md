@@ -571,6 +571,27 @@ The reusable **flat-blob recipe** (every Gen2 overlay follows it):
 - Per-binary `<bin>_GHIDRA_PROG` → `make sig-refresh BINARY=<bin>`; `diff_settings.py` + the three
   report scripts gain a `<bin>` entry; `make expected` is per-binary-safe (merge-copy, no sibling clobber).
 
+**Module-class binaries — `md_*` (P30 S44/S45; the §S44 loader table, `docs/memory-map.md`):**
+the small type-1 payloads (per-actor modules, the SC07 endgame pair) load at their OWN statically
+derived slots (A `0x800CAE08` · B `0x800CCB1C` · boot/resident `0x800CEDF8` · SC07 `0x801A00D8`),
+not the shared overlay slot. Onboard with **`tools/new_binary.sh <alias> <payload> <VRAM>
+[TEXT_LO]`** (the generalized `new_overlay.sh`; registry `config/modules.mk` / `MODULE_BINARIES`).
+Module-specific facts the recipe encodes:
+- **TEXT_LO ≠ 0** (the §154 module-id law: payload word0 is a global module id, sometimes followed
+  by a fn-ptr table and/or data): derive per payload from the first-prologue scan (`27BDxxxx`) and
+  the min fn-ptr-table target — NOT min-table alone (functions can precede the lowest table entry:
+  the SC07 pair's real code start is 0xFC/0x158, their min table targets 0x930/0x370).
+- **The header carve is a dot-typed `.rodata` PAIRED with the c segment** (same name), never a
+  standalone `rodata, hdr` object and never `bin`: a module header can hold a function's JUMP
+  TABLE, whose `.L` labels only resolve when jtbl and function assemble in the SAME object (the
+  EXE `[0x63238,.rodata,800]` precedent); `bin` assets link in the data block (wrong placement).
+- **A4 symbol-window law:** a module whose window lies INSIDE another binary's symbol region must
+  NOT stack that binary's symbol file — the boot trio (`0x800CEDF8`) omits `symbols.resident.txt`
+  (DsMix @0x800D1BD8 minted a phantom fn boundary in md_MAIN_011 before this).
+- **`make sig-modules`** signs every module at its own vram/TEXT_LO, seeding from the built ELF's
+  `func_*` symbols when a build exists (bootstrap's linear partition glues adjacent functions
+  around jtbl dispatch); fresh-clone fallback is `--bootstrap`, self-healing on the next run.
+
 ### §6.8 Cross-binary dedup & code-sharing (Phase 11) — "one match unlocks many"
 Full how-to in `docs/matching-cookbook.md` §11. Command crib:
 - **`make sig-overlays`** — Ghidra-FREE sign all 134 location overlays (`SCxx 0.4.dec`) at the shared overlay
@@ -642,8 +663,8 @@ Every script under `tools/` (plus the two report make-targets), grouped by purpo
 | | `ExportSymbols.java` | Dump curated symbols (feeds `config/symbols.us.txt`, R15). |
 | | `DumpProgramInfo.java` | Dump program metadata (loader, language, ImageBase, function count). |
 | | `DumpFunctionSignatures.java` | Dump function signatures (feeds `make sig-refresh`). |
-| | `ImportOverlay.java` | Import an overlay segment into the project. |
-| | `VerifyOverlay.java` | Verify an imported overlay against expected bytes. |
+| | `ImportOverlay.java` | **RETIRED (S45, R33)** — 1-overlay-era hardcoded import; `tools/ghidra_import_raw.sh` is the live path. |
+| | `VerifyOverlay.java` | **RETIRED (S45, R33)** — companion of ImportOverlay.java; retired with it. |
 | | `GetSymbolAt.java` | Read the symbol at a given address (scripted lookup). |
 | | `DecompileAt.java` | Decompile the function at a given address (scripted scaffold). |
 | | `DefineFunctions.java` | Disassemble + create functions at splat's validated entry points (`.run/<prog>_funcs.txt`) — completes a raw-blob program's function set (Phase 10). |
@@ -664,7 +685,8 @@ Every script under `tools/` (plus the two report make-targets), grouped by purpo
 | | `tools/permuter/` | decomp-permuter harness (PERM_ recipes/weights) for stubborn near-misses. |
 | | `diff_settings.py` *(repo root)* | asm-differ config (arch `mipsel`, object mode vs `expected/`). |
 | | `tools/new_overlay.sh` | One-command location-overlay onboarding: `<SCxx> <FILE_nnn> [ENTRY]` — instantiate `config/splat.<ov>.yaml` from the template (+ non-4-aligned `bin` carve), register the binary in `config/overlays.mk` + the report/diff dicts, `make extract && build` byte-check. Idempotent (Phase 13, cookbook §13). **Phase-27 T7:** the optional `ENTRY` arg (default `0.4`) reaches a non-`0.4.dec` payload — the 4 SC07 overlays put code at PAC entry 1 (`1.4`). difficulty.py dropped from the insertion set (it derives now, T6). |
-| | `tools/disc_code_sweep.py` | **(Phase-27 T7)** Disc-completeness audit: decode every extracted PAC payload (reusing `sig_image.make_insn`) and flag code-bearing ones by BOTH `valid ≥ 0.90` AND `jr $ra` density `≥ 0.01` (the `jr $ra` gate is decisive — type-0/2 data decodes ~100% "valid" but has 0 returns). Reconciles the onboarded set against the disc — the R34 answer to "what code did nobody onboard". Findings → `docs/disc-completeness.md` (138/138 type-4 complete; **39 un-onboarded type-1 resident-class modules** pending load-address RE). |
+| | `tools/disc_code_sweep.py` | **RETIRED (S45, R33)** — superseded by `tools/disc_audit.py` / `make audit-disc` (whole-payload, BOTH raw+LZSS layers, residue-0 partition, claimed-by derived from `config/check.<bin>.sha`). The sweep read only the RAW layer through a 4,096-word window and had no notion of a claim; its historical findings are preserved in `docs/disc-completeness.md`. |
+| | `tools/new_binary.sh` | **(P30 S44/S45)** One-command onboarding for ANY flat-blob binary class: `<alias> <payload> <VRAM> [TEXT_LO]` — ov_* (overlay slot, registry `overlays.mk`) or md_* (own §S44 slot, registry `modules.mk`). Signs (TEXT_LO-aware §154), instantiates the shared template (non-zero TEXT_LO ⇒ paired-`.rodata` header carve), writes check.sha + symbols, registers in the registry + the 3 report/diff dicts (sentinel-anchored, ast-checked), extract+build byte-check. Idempotent. `new_overlay.sh` is now a thin wrapper over it. §6.7 module recipe. |
 | **PsyQ library linking** (cookbook §8/§9) | `tools/psyq_lib_split.py` | Split a PsyQ `.LIB` into per-object members. |
 | | `tools/psyq_build_libs.sh` | Build the PsyQ libs from split members. |
 | | `tools/psyq_identify.py` | Identify which SDK objects a region's functions belong to. |

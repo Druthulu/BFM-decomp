@@ -82,7 +82,11 @@ mostly-unmatched code to the denominator; every "×134" family propagation is no
 honest direction — the prior number was measured over an incomplete disc.
 
 ## Reproduce
+> **⚠️ S45: `tools/disc_code_sweep.py` is RETIRED (R33)** — superseded by `make audit-disc`
+> (`tools/disc_audit.py`): whole-payload classification at BOTH the raw and LZSS layers, a
+> residue-0 partition over the disc, and `claimed-by` derived from `config/check.<bin>.sha`.
+> The commands below are kept for provenance of the 2026-07-15 findings; they no longer run.
 ```
-tools/disc_code_sweep.py                 # the table above + the ranked hidden list
-tools/disc_code_sweep.py --types 1       # just the type-1 code modules
+tools/disc_code_sweep.py                 # (retired) the table above + the ranked hidden list
+tools/disc_code_sweep.py --types 1       # (retired) just the type-1 code modules
 ```

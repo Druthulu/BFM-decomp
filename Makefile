@@ -661,7 +661,7 @@ build/src/ov_SC01_077/ov_SC01_077_o0.o: CC1FLAGS := -quiet -O0 -G0 -mips1 -mcpu=
 # Phase-24: the whale func_80144B9C is a 2nd -O0 region (0x80144B9C..0x801457A4) present in EVERY
 # overlay (reach-134), carved into its own object <ov>_o0b by each overlay's splat config; the
 # struct-assign memcpy matches only at -O0. One wildcard rule -O0-compiles all overlays' _o0b.o
-# (the ×134 rollout; tools/rollout_whale_o0.py). All share src/shared/func_80144B9C.h.
+# (the ×134 rollout; tools/rollout_whale_o0.py — one-shot, retired S45). All share src/shared/func_80144B9C.h.
 #
 # P30 T2: the glob is `_o0?` (was `_o0b`) so ANY lettered -O0 sub-split is covered by this one rule.
 # A 4th -O0 region was found inside an -O2 jr split (0x80183CF0..0x80184920, 15 contiguous fns in
@@ -674,7 +674,7 @@ WHALE_O0B_OBJS := $(patsubst src/%.c,build/src/%.o,$(wildcard src/ov_*/ov_*_o0?.
 $(WHALE_O0B_OBJS): CC1FLAGS := -quiet -O0 -G0 -mips1 -mcpu=3000 -mgas -msoft-float -fgnu-linker
 
 # Phase-29 T2 Arm A: the -O0 cluster (0x8013B568..0x8013C98C) carved per single-file overlay into
-# <ov>_o0.o (tools/rollout_o0_cluster.py) — same per-file -O0 mechanism so its h_seq family members
+# <ov>_o0.o (tools/rollout_o0_cluster.py — one-shot, retired S45; the generic driver is tools/rollout_o0.py) — same per-file -O0 mechanism so its h_seq family members
 # bank whole-binary (the Task-1 swing verdict: they masked-MATCH only at -O0). One wildcard rule
 # -O0-compiles every overlay's _o0.o; ov_SC01_077_o0.o already has its explicit rule above (filtered
 # out to avoid a duplicate target-specific assignment). `*_o0.c` never matches the whale's `*_o0b.c`.

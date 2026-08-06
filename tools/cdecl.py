@@ -1239,7 +1239,8 @@ def audit_differential():
     tool. The reverse (symbols only this one sees) is the measured size of the hole."""
     sys.path.insert(0, os.path.join(REPO, 'tools'))
     import gen_harvest_targets as ght
-    import reconcile_decls as rd
+    # reconcile_decls RETIRED (S45, R33): its DATA_DECL_LINE_RE row proved the superset for
+    # 26-A..S44; the incumbent is deleted, so the differential now compares the survivors only.
     import sig_unify as su
 
     ec = os.path.join(REPO, 'src/shared/engine_core.h')
@@ -1268,7 +1269,6 @@ def audit_differential():
     mine_d = {n for n in mine if n.startswith('D_')}
     rows = []
     for name, rx in (('gen_harvest_targets.DATA_DECL_RE', ght.DATA_DECL_RE),
-                     ('reconcile_decls.DATA_DECL_LINE_RE', rd.DATA_DECL_LINE_RE),
                      ('sig_unify.DATA_DECL_RE', su.DATA_DECL_RE)):
         theirs = set()
         for m in rx.finditer(text):

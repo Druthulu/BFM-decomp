@@ -224,7 +224,17 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
     (12,682,962/13,487,439) · 95.96% fn-count · 87.6% distinct (78,596/90,143 uniq).** The drop
     from S44's 94.4% is the denominator growing +52k module ins (honest direction, P27/S39/S44
     precedent).
-- **II.2** (retirements + SETUP module recipe) — next.
+- **II.2 ✅ — retirements (R33) + SETUP module recipe.** Deleted: `disc_code_sweep.py` (superseded
+  by `disc_audit.py`/`make audit-disc`), `reconcile_decls.py` (superseded by `reconcile_tu`;
+  its incumbent row removed from cdecl's differential — the audit's purpose was to enable exactly
+  this deletion), the 3 one-shot rollout drivers (`rollout_801457a4_o0` / `rollout_whale_o0` /
+  `rollout_o0_cluster` — `rollout_o0.py` is the live generic), `ImportOverlay.java` +
+  `VerifyOverlay.java` (`ghidra_import_raw.sh` is the live path). Reference check first: the
+  plan's "zero build refs" was wrong for 3 of them (comments + one live cdecl import — handled,
+  gate re-proven green). SETUP §6.7 gained the **module-class recipe** (TEXT_LO derivation law,
+  paired-.rodata header carve, A4 symbol-window law, ELF-seeded sig-modules) + inventory rows
+  (R21); disc-completeness Reproduce marked retired; Makefile comments annotated.
+- **II.3** (metrics re-baseline + roadmap delta + decision-log) — next.
 
 ---
 
