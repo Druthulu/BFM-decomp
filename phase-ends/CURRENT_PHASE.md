@@ -187,6 +187,18 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 > **No src/ or config/ change this session** ⇒ the fleet cannot have moved: metrics below are S42's,
 > carried forward unchanged, and no R22 run was owed (nothing was banked).
 
+## ✅ FINAL S43 STATE — R22 CLEAN-FLEET **140/140**, ALL 18 BANKS CONFIRMED
+**FLEET: 96.63% fn-count · 94.99% instr-weighted (12,501,204 / 13,160,961) · 89.4% distinct-code
+(78,096 / 87,459 uniq)** · 0 NON_MATCHING (G4) · dedup 1919 groups.
+**Session: 12,484,373 → 12,501,204 = +16,831 instructions, 18 functions banked.**
+**P30's 95% instr milestone bar is 1,708 instructions away** (was 18,539 at session open — the report
+line rounds to "95.0%"; the precise figure is 94.99%, and the bar is NOT yet met).
+
+**The 18:** `func_8017C6F4` ×4 (Fable5, §150) · `func_8017EF68` ×1 (Fable5, §151) · the **0xECC family
+×12** (one body, 5 names, 6 addresses — §152) · `func_8018D98C` ×1 (§153).
+**Near-misses banked to the ledger, not forced (P9):** `func_8017C6F4`'s pre-crack seeds; the
+246-ins body at **2/246 across 4 instances** (`func_8017CE58` + `func_8017C294`).
+
 ## WHAT S43 WAS: FOUR INSTRUMENT DEFECTS, AND THE TWO QUESTIONS THEY HID
 The session opened on the serial crack queue's named next move ("demacroize `func_8017C6F4` so the
 permuter can be aimed") and found that neither the blocker nor the two work items behind it were what
@@ -205,6 +217,25 @@ phantom item left the board.** Full detail in the S43-1..4 per-task log entries 
 (pin-free masked 44 / 8 cycles; `pin-t5` masked 43 / 5 cycles). **Best draft
 `.run/s43/func_8017C6F4.ils43-pin.c` (closeness 41), logged + allowlisted.** The ~40 hand probes that
 "proved" 63 unmovable were all run while the permuter was silently broken.
+
+### ▶ S43-10 — the wave's 5th agent: §147 REFUTED, and a parked family un-parked
+`func_8017CE58` is **two bodies at one address** (246 ins in ov_SC02_000/003; 734 in ov_SC03_092).
+The 246 body is byte-identical to **`func_8017C294`** — *the function §147 was written from* — so one
+draft covers **4 instances**. It went from the recorded **12 with a "stop searching" verdict → 2**.
+Three §147 verdicts fell (correction written into §147 in place):
+- **§147-A "stratum 3, unreachable from C" — REFUTED. There is no stratum 3.** The frame is declared
+  locals then reload spill slots in pseudo-regno order; the mystery `0x108` slot is an ordinary spill
+  belonging to a **`loop.c`-created** pseudo — reachable by writing the loop as an *index* loop (a
+  pointer walk puts it at the bottom). Every prior draft faked it with `volatile pEnd` + `dead[7]`.
+- **§147-B** — the unreferenced block is **combine-orphaned sign-extension intermediates**
+  (`combine.c:10839`), not `?:`-on-memory cost.
+- **§147-E** — the `qty_compare` tie **is** breakable via §148-C's zero-emission ref slider.
+**Consequence: `func_8017C294`'s 15 siblings were parked "until stratum 3 is explained" — that hold is
+VOID.** The last 2 are a *cse1 elision-count* fact (target 16 orphan slots, draft 12), permuter-confirmed
+from both basins. The 734-ins body is a **singleton** (§152 size-key: the only other 0xB74 differs in
+766 normalized lines) — queue it as its own behemoth crack seeded from `.run/s43/fable/8017C6F4/v2_rtu.c`.
+**Process lesson recorded in §147: a confident NEGATIVE verdict is a claim like any other — date it,
+name its evidence, and re-measure before letting it park work.**
 
 ## ▶ RESUME HERE (S43)
 1. **`func_8017C6F4` — do NOT re-run the ILS on these two seeds** (measured flat, 14 restarts).

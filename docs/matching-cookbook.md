@@ -10093,6 +10093,43 @@ all 16 in one pass.
 multiple of 16 too large"** · **"a lone $t8/$t9 in the target"** · **"exactly one register pair
 transposed"** · **"permuter and hand-search plateau at the same number"**.
 
+> ## ⚠️ §147 CORRECTED BY THE BYTES (P30 S43) — A and E REFUTED, B re-explained. 12 → 2.
+> The function §147 was written from (`func_8017C294`, and its 246-ins twin at `func_8017CE58` in
+> ov_SC02_000/003) was re-attacked with ~70 named probes plus two permuter basins. **Three of this
+> section's verdicts were wrong, and the "stop searching" advice cost this project a parked family.**
+>
+> - **A — "stratum 3, unreachable from C" is REFUTED. There is no stratum 3.** gcc-2.7.2's frame is
+>   *declared locals, then reload spill slots in strictly increasing pseudo-regno order.* The mystery
+>   `0x108` slot is an ORDINARY reload spill whose pseudo simply has the highest regno — because
+>   **`loop.c` created it**: writing the loop as an **index** loop (`for (i=0;i<4;i++)` over
+>   `pos[i]/mat[i]/outp[i]`) makes `maybe_eliminate_biv_1`/`emit_iv_add_mult` build the limit INSIDE
+>   the loop, landing the pseudo high; a **pointer walk** puts it in a low-regno expand pseudo at the
+>   BOTTOM of the reload block. That is the whole difference, and it is fully source-reachable — which
+>   is why every prior draft needed a fake `volatile pEnd` + `dead[7]` to counterfeit the offset.
+>   **(121 → 54.)**
+> - **B — the unreferenced slot block is NOT `?:`-on-memory frame cost.** It is **combine-orphaned
+>   sign-extension intermediates**: `(ashift (subreg (reg:HI)) 16)` pseudos that combine folds into an
+>   `lh`, leaving `(use (reg))` + `REG_DEAD` at a CODE_LABEL (`combine.c:10839`), so `alter_reg` still
+>   hands each an 8-byte slot that emits nothing. Ablation: min chains cost 4 slots each, max chains
+>   only 2 (cse1 elides two conversions per max pass), clamps/base-folds 0.
+> - **E — the `qty_compare` TIE *is* breakable.** `__asm__("" : : "r"(w))` after `mw = w` — §148-C's
+>   zero-emission ref slider — flips `w`/`h` back onto `$v0`/`$v1`. **(30 → 25.)** (Note §150 separately
+>   shows this class is often variable-identity, not an allocator tie at all — check pseudo COUNT first.)
+> - **D applied properly still holds** and is the second-biggest lever: drop the `volatile out` local
+>   and the `$24` pin, store through the `a1` parameter and let reload spill it — reload then picks
+>   `$t8` for both store and reload for free. **(54 → 30, length exact.)**
+>
+> **Net: the recorded floor of 12 was a floor of the ANALYSIS, not of the function — it is now 2/246**
+> (`sw $a1` / `lw $t8` at one stack offset), permuter-confirmed from both basins, and one draft covers
+> **four instances**. The residual is a **cse1 elision-count** fact (target 16 orphan slots, draft 12),
+> not an allocator or spelling one.
+>
+> **The process lesson, which is the expensive part:** §147's "stop searching" verdicts parked
+> `func_8017C294` AND held back its 15 siblings pending an explanation of a stratum that does not
+> exist. **A confident negative verdict in this cookbook is a claim like any other — date it, name the
+> evidence, and re-measure it before letting it park work.** (Same shape as §146: re-measure a wall
+> before you respect it.)
+
 ---
 
 ## §148 — The loop.c hoisting THRESHOLD is arithmetic you can compute, and the `?:` clamp that folds to MIN_EXPR (P30 S42, `func_8017C6F4`, 947 ins)
