@@ -8,7 +8,7 @@
 # recipe): EXE -> the extracted 0.4.dec, VRAM_BASE/TEXT_LO = the shared slot 0x80128158,
 # nested asm/<ov> + src/<ov> + build/<ov>, per-binary undefined_*_auto + GHIDRA_PROG.
 # =============================================================================
-OVERLAY_BINARIES := ov_SC01_077 ov_SC01_005 ov_SC01_006 ov_SC03_001 ov_SC01_000 ov_SC01_001 ov_SC02_000 ov_SC02_003 ov_SC03_002 ov_SC03_006 ov_SC04_000 ov_SC04_018 ov_SC04_019 ov_SC05_000 ov_SC06_000 ov_SC07_000 ov_SC01_004 ov_SC01_008 ov_SC01_009 ov_SC01_074 ov_SC01_080 ov_SC01_084 ov_SC02_004 ov_SC02_005 ov_SC02_011 ov_SC02_015 ov_SC02_016 ov_SC02_017 ov_SC02_021 ov_SC02_026 ov_SC02_027 ov_SC02_028 ov_SC02_031 ov_SC02_035 ov_SC02_039 ov_SC02_041 ov_SC03_003 ov_SC03_007 ov_SC03_010 ov_SC03_011 ov_SC03_012 ov_SC03_013 ov_SC03_014 ov_SC03_015 ov_SC03_023 ov_SC03_024 ov_SC03_028 ov_SC03_029 ov_SC03_030 ov_SC03_031 ov_SC03_089 ov_SC03_090 ov_SC03_091 ov_SC03_092 ov_SC03_093 ov_SC03_094 ov_SC03_095 ov_SC03_096 ov_SC03_097 ov_SC03_098 ov_SC03_099 ov_SC03_100 ov_SC03_101 ov_SC03_102 ov_SC03_103 ov_SC03_104 ov_SC03_105 ov_SC03_108 ov_SC03_109 ov_SC03_110 ov_SC03_111 ov_SC03_112 ov_SC03_113 ov_SC03_114 ov_SC03_115 ov_SC03_116 ov_SC03_117 ov_SC03_118 ov_SC03_119 ov_SC03_121 ov_SC03_124 ov_SC03_125 ov_SC03_126 ov_SC04_002 ov_SC04_003 ov_SC04_004 ov_SC04_005 ov_SC04_006 ov_SC04_007 ov_SC04_008 ov_SC04_009 ov_SC04_010 ov_SC04_011 ov_SC04_012 ov_SC04_015 ov_SC04_016 ov_SC04_020 ov_SC04_021 ov_SC05_001 ov_SC05_002 ov_SC05_003 ov_SC05_004 ov_SC05_005 ov_SC05_006 ov_SC05_007 ov_SC05_008 ov_SC05_009 ov_SC05_010 ov_SC05_011 ov_SC05_017 ov_SC05_018 ov_SC05_019 ov_SC06_006 ov_SC06_008 ov_SC06_010 ov_SC06_011 ov_SC06_013 ov_SC06_014 ov_SC06_015 ov_SC06_016 ov_SC06_018 ov_SC06_020 ov_SC06_022 ov_SC06_024 ov_SC06_025 ov_SC06_027 ov_SC06_029 ov_SC06_030 ov_SC06_032 ov_SC06_033 ov_SC07_001 ov_SC07_002 ov_SC07_008 ov_SC07_009 ov_SC07_006 ov_SC07_007 ov_SC07_010 ov_SC07_011
+OVERLAY_BINARIES := ov_SC01_077 ov_SC01_005 ov_SC01_006 ov_SC03_001 ov_SC01_000 ov_SC01_001 ov_SC02_000 ov_SC02_003 ov_SC03_002 ov_SC03_006 ov_SC04_000 ov_SC04_018 ov_SC04_019 ov_SC05_000 ov_SC06_000 ov_SC07_000 ov_SC01_004 ov_SC01_008 ov_SC01_009 ov_SC01_074 ov_SC01_080 ov_SC01_084 ov_SC02_004 ov_SC02_005 ov_SC02_011 ov_SC02_015 ov_SC02_016 ov_SC02_017 ov_SC02_021 ov_SC02_026 ov_SC02_027 ov_SC02_028 ov_SC02_031 ov_SC02_035 ov_SC02_039 ov_SC02_041 ov_SC03_003 ov_SC03_007 ov_SC03_010 ov_SC03_011 ov_SC03_012 ov_SC03_013 ov_SC03_014 ov_SC03_015 ov_SC03_023 ov_SC03_024 ov_SC03_028 ov_SC03_029 ov_SC03_030 ov_SC03_031 ov_SC03_089 ov_SC03_090 ov_SC03_091 ov_SC03_092 ov_SC03_093 ov_SC03_094 ov_SC03_095 ov_SC03_096 ov_SC03_097 ov_SC03_098 ov_SC03_099 ov_SC03_100 ov_SC03_101 ov_SC03_102 ov_SC03_103 ov_SC03_104 ov_SC03_105 ov_SC03_108 ov_SC03_109 ov_SC03_110 ov_SC03_111 ov_SC03_112 ov_SC03_113 ov_SC03_114 ov_SC03_115 ov_SC03_116 ov_SC03_117 ov_SC03_118 ov_SC03_119 ov_SC03_121 ov_SC03_124 ov_SC03_125 ov_SC03_126 ov_SC04_002 ov_SC04_003 ov_SC04_004 ov_SC04_005 ov_SC04_006 ov_SC04_007 ov_SC04_008 ov_SC04_009 ov_SC04_010 ov_SC04_011 ov_SC04_012 ov_SC04_015 ov_SC04_016 ov_SC04_020 ov_SC04_021 ov_SC05_001 ov_SC05_002 ov_SC05_003 ov_SC05_004 ov_SC05_005 ov_SC05_006 ov_SC05_007 ov_SC05_008 ov_SC05_009 ov_SC05_010 ov_SC05_011 ov_SC05_017 ov_SC05_018 ov_SC05_019 ov_SC06_006 ov_SC06_008 ov_SC06_010 ov_SC06_011 ov_SC06_013 ov_SC06_014 ov_SC06_015 ov_SC06_016 ov_SC06_018 ov_SC06_020 ov_SC06_022 ov_SC06_024 ov_SC06_025 ov_SC06_027 ov_SC06_029 ov_SC06_030 ov_SC06_032 ov_SC06_033 ov_SC07_001 ov_SC07_002 ov_SC07_008 ov_SC07_009 ov_SC07_006 ov_SC07_007 ov_SC07_010 ov_SC07_011 ov_MAIN_012 ov_SC02_037 ov_SC03_107
 
 # --- ov_SC01_077 (location overlay SC01/FILE_077, vram 0x80128158 — Phase 13 T1) ---
 # The milestone overlay (load byte-proven, Phase 3 T6b). 731,607 B (0xB29D7) -> end vram
@@ -4900,3 +4900,66 @@ ov_SC07_011_ASM_DIR     := asm/ov_SC07_011
 ov_SC07_011_SRC_DIR     := src/ov_SC07_011
 ov_SC07_011_UNDEF_SYMS  := build/ov_SC07_011/undefined_syms_auto.txt
 ov_SC07_011_UNDEF_FUNCS := build/ov_SC07_011/undefined_funcs_auto.txt
+
+# --- ov_MAIN_012 (location overlay, vram 0x80128158 — onboarded by new_binary.sh) ---
+ov_MAIN_012_EXE        := extracted/retail/MAIN.CD.dir/FILE_012.dir/1.1
+ov_MAIN_012_NAME       := ov_MAIN_012
+ov_MAIN_012_OUT_DIR    := build/ov_MAIN_012
+ov_MAIN_012_OUT        := $(ov_MAIN_012_OUT_DIR)/$(ov_MAIN_012_NAME)
+ov_MAIN_012_ELF        := $(ov_MAIN_012_OUT).elf
+ov_MAIN_012_MAPFILE    := $(ov_MAIN_012_OUT).map
+ov_MAIN_012_LD_SCRIPT  := $(ov_MAIN_012_OUT).ld
+ov_MAIN_012_SPLAT_YAML := config/splat.ov_MAIN_012.yaml
+ov_MAIN_012_CHECK_SHA  := config/check.ov_MAIN_012.sha
+ov_MAIN_012_SYMBOLS    := config/symbols.ov_MAIN_012.txt
+ov_MAIN_012_SIG        := .run/sig.ov_MAIN_012.jsonl
+ov_MAIN_012_GHIDRA_PROG := ov_MAIN_012
+ov_MAIN_012_VRAM_BASE  := 0x80128158
+ov_MAIN_012_TEXT_LO    := 0x80128158
+ov_MAIN_012_TEXT_HI    := 0x80185C7F
+ov_MAIN_012_ASM_DIR     := asm/ov_MAIN_012
+ov_MAIN_012_SRC_DIR     := src/ov_MAIN_012
+ov_MAIN_012_UNDEF_SYMS  := build/ov_MAIN_012/undefined_syms_auto.txt
+ov_MAIN_012_UNDEF_FUNCS := build/ov_MAIN_012/undefined_funcs_auto.txt
+
+# --- ov_SC02_037 (location overlay, vram 0x80128158 — onboarded by new_binary.sh) ---
+ov_SC02_037_EXE        := extracted/retail/SC02.CD.dir/FILE_037.dir/0.1
+ov_SC02_037_NAME       := ov_SC02_037
+ov_SC02_037_OUT_DIR    := build/ov_SC02_037
+ov_SC02_037_OUT        := $(ov_SC02_037_OUT_DIR)/$(ov_SC02_037_NAME)
+ov_SC02_037_ELF        := $(ov_SC02_037_OUT).elf
+ov_SC02_037_MAPFILE    := $(ov_SC02_037_OUT).map
+ov_SC02_037_LD_SCRIPT  := $(ov_SC02_037_OUT).ld
+ov_SC02_037_SPLAT_YAML := config/splat.ov_SC02_037.yaml
+ov_SC02_037_CHECK_SHA  := config/check.ov_SC02_037.sha
+ov_SC02_037_SYMBOLS    := config/symbols.ov_SC02_037.txt
+ov_SC02_037_SIG        := .run/sig.ov_SC02_037.jsonl
+ov_SC02_037_GHIDRA_PROG := ov_SC02_037
+ov_SC02_037_VRAM_BASE  := 0x80128158
+ov_SC02_037_TEXT_LO    := 0x80128158
+ov_SC02_037_TEXT_HI    := 0x801C9AE7
+ov_SC02_037_ASM_DIR     := asm/ov_SC02_037
+ov_SC02_037_SRC_DIR     := src/ov_SC02_037
+ov_SC02_037_UNDEF_SYMS  := build/ov_SC02_037/undefined_syms_auto.txt
+ov_SC02_037_UNDEF_FUNCS := build/ov_SC02_037/undefined_funcs_auto.txt
+
+# --- ov_SC03_107 (location overlay, vram 0x80128158 — onboarded by new_binary.sh) ---
+ov_SC03_107_EXE        := extracted/retail/SC03.CD.dir/FILE_107.dir/0.1
+ov_SC03_107_NAME       := ov_SC03_107
+ov_SC03_107_OUT_DIR    := build/ov_SC03_107
+ov_SC03_107_OUT        := $(ov_SC03_107_OUT_DIR)/$(ov_SC03_107_NAME)
+ov_SC03_107_ELF        := $(ov_SC03_107_OUT).elf
+ov_SC03_107_MAPFILE    := $(ov_SC03_107_OUT).map
+ov_SC03_107_LD_SCRIPT  := $(ov_SC03_107_OUT).ld
+ov_SC03_107_SPLAT_YAML := config/splat.ov_SC03_107.yaml
+ov_SC03_107_CHECK_SHA  := config/check.ov_SC03_107.sha
+ov_SC03_107_SYMBOLS    := config/symbols.ov_SC03_107.txt
+ov_SC03_107_SIG        := .run/sig.ov_SC03_107.jsonl
+ov_SC03_107_GHIDRA_PROG := ov_SC03_107
+ov_SC03_107_VRAM_BASE  := 0x80128158
+ov_SC03_107_TEXT_LO    := 0x80128158
+ov_SC03_107_TEXT_HI    := 0x8019BD3F
+ov_SC03_107_ASM_DIR     := asm/ov_SC03_107
+ov_SC03_107_SRC_DIR     := src/ov_SC03_107
+ov_SC03_107_UNDEF_SYMS  := build/ov_SC03_107/undefined_syms_auto.txt
+ov_SC03_107_UNDEF_FUNCS := build/ov_SC03_107/undefined_funcs_auto.txt
