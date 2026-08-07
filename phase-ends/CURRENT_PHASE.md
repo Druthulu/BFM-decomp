@@ -181,7 +181,67 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 
 ---
 
-# 🛑 SESSION S45 CHECKPOINT part 5 (2026-08-07 late) — THE LAST 5 ARE STATIC-UNRESOLVABLE (proven) — FRESH SESSION SAFE HERE
+# 🛑 SESSION S45 CHECKPOINT part 6 (2026-08-07 late) — WAVE-1 BANKED 0; the frontier DEFINITION was the bug — FRESH SESSION SAFE HERE
+> **Tree CLEAN** (verified: `git checkout -- src/ config/` after the gate left 659 files dirty;
+> `git status` on src/+config = 0). **Nothing running.** Effort ultracode. **NO phase close.**
+> Commits: `commit:1514`, `commit:1515`, `commit:1517`, `commit:1516` + this one.
+
+## ⚠️ WAVE 1 (wf_077a5ee7-afd) BANKED **ZERO**. Read this before re-running anything.
+**50 Sonnet agents, 2.5M tokens, 0 banked.** Root cause was MINE, in two layers:
+1. **I FABRICATED THE `args`.** After generating the real target list to
+   `.run/s45p5/args_light.json` I hand-typed the args array instead of reading it — inventing
+   names (recalled from phase docs) and a `nins` run that descends 90,88,87…33,30. ~40 of 50
+   agents got targets that do not exist. **The agents behaved perfectly**: they refused to
+   fabricate and returned precise diagnoses ("mid-body address inside func_8016AE5C",
+   "already banked as DEFINE_func_8015F048"), several naming it as the R14 phantom class.
+2. **I then misdiagnosed it TWICE with a broken check** — `corpus.stubs()` returns a dict keyed
+   by **integer address**, and I tested string names against it (always False). That produced
+   two confident, wrong claims ("no matches are live stubs"; "the pool was never filtered").
+   **Both were wrong**: the pool was 160/160 and 166/166 valid. → cookbook **§155b**.
+
+## ✅ WHAT IS SOLID FROM THE WAVE
+- **9 drafts independently re-verified MATCH by me** (not agent claims; `match_one` re-run per
+  draft): func_80132144(27) 80142B2C(34) 80146A6C(18) 80149544(16) 80149954(68) 8014A048(90)
+  801535F4(42) 801539F8(88) 80168F40(55). All 9 ARE genuine `INCLUDE_ASM` stubs in
+  `src/ov_SC02_037/ov_SC02_037.c` (grep-confirmed). Drafts kept at `.run/s45p5/gate1/`.
+- **They did NOT bank**: `gate_stage` → 0 banked / 8 near / 1 failed, fleet 93.8% (no regression).
+
+## 🔴 THE OPEN INSTRUMENT QUESTION (do this FIRST next session, R35)
+`harvest_verify --binary ov_SC02_037 --src src/ov_SC02_037/ov_SC02_037.c` reports
+**"619 live stubs"** and **skipped `func_8014A048` as "not a live stub"** — but that function's
+`INCLUDE_ASM` IS in that exact (single) source file, and the file holds **626** of them.
+619 vs 626 is unexplained. **Until it is explained, the "0 banked / 8 near" verdict is NOT
+evidence about the drafts** (R35: a probe from a mis-scoped tool is not a measurement).
+Suspect the `--asm-subdir` semantic: `match_one` wants a full path
+(`asm/<bin>/nonmatchings/<bin>`), I passed the bare binary name to `harvest_verify`.
+
+## 🎯 THE CORRECTED FRONTIER DEFINITION (the session's most useful output)
+**Reach-141 identifies the most-DONE work, not the most valuable** — those are the shared engine
+functions banked over 29 phases, present in each overlay as `DEFINE_func_*` macros (~1,614 per
+big-3 binary). My "20× leverage" argument was backwards. **Derive targets from the build
+invariant (R33): `INCLUDE_ASM` in the committed source.** Measured:
+
+| binary | draftable INCLUDE_ASM | with cached Ghidra-C seed | already-banked DEFINE_ |
+|---|---|---|---|
+| ov_SC02_037 | 626 | 404 | 1,618 |
+| ov_SC03_107 | 627 | 396 | 1,614 |
+| ov_MAIN_012 | 546 | 368 | 1,614 |
+| md_SC07_004 | 275 | (unmeasured) | 0 |
+| **big-3 total** | **1,799** | **1,168** | — |
+
+That is the real II.5 fuel: **1,799 novel functions, 1,168 already seeded.** Wave 2 should draw
+from it, with args READ FROM THE FILE, never hand-typed.
+
+## ▶ RESUME HERE
+1. **Resolve the 619-vs-626 question** above; then re-gate `.run/s45p5/gate1/` (9 verified drafts
+   already on disk — free banks if the gate was merely mis-scoped).
+2. **Wave 2** from the INCLUDE_ASM∩seeded pool (1,168). Batch 50. `args` must be read from a file.
+3. tools-health was green this session (0 PHANTOM/TRUNCATED; 213 citizens; dedup 1919/0).
+4. Do NOT re-run: the 4 refuted value-scans (§155a) or the 3 refuted base oracles (§S45 p5).
+
+---
+
+# 🛑 (superseded by part 6) SESSION S45 CHECKPOINT part 5 (2026-08-07 late) — THE LAST 5 ARE STATIC-UNRESOLVABLE (proven)
 > **Tree CLEAN** but for R23 `db.*.gbf` churn (never stage). **Nothing running.** Effort Max.
 > **NO phase close** — T5 unopened, needs Drew's gate-2. Commits: `commit:1514`, `commit:1515`.
 

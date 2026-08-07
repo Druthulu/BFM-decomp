@@ -10573,3 +10573,26 @@ tracked, §155) instead of from the values it holds.
 
 **Cheap test to apply first:** compute the predicate's hit-rate on the corpus. 664 hits where the
 truth is ~1-per-overlay is itself the refutation — a discriminating predicate is *rare*.
+
+### §155b — check the TYPE your oracle returns before comparing against it (S45 p5)
+
+A membership test against the wrong key type fails **silently and always**, and it looks exactly
+like a real finding. `corpus.stubs(binary)` returns a **dict keyed by integer address**
+(`2148696600`), not a set of names. Testing `"func_80132018" in corpus.stubs(b)` is therefore
+always `False` — and it produced, in one session, two confident and completely wrong conclusions:
+*"none of the wave's matches are live stubs"* and *"the target pool was never filtered"*. The pool
+was in fact 160/160 and 166/166 correct, and 9 of the matches were genuinely bankable.
+
+This is the R32/R35 family's blind spot: those rules make a tool assert its own **coverage** and
+its own **correctness**, but neither catches an *interface* mismatch at the call site. A silent
+always-False comparison has no coverage gap to detect and no instrument to repair — the tool is
+fine; the caller is wrong.
+
+**The law:** before using any oracle's return value in a comparison, print one element of it.
+`print(type(x), next(iter(x)))` costs one line and would have caught this instantly. Corollary
+for this repo: `corpus.stubs` is address-keyed — convert with
+`{f"func_{a:08X}" for a in corpus.stubs(b)}` before comparing against names.
+
+**Smell test:** a membership test that returns 0/N — *exactly* zero, across the whole corpus —
+is far more often a type error than a discovery. Real negatives are usually ragged. When a check
+comes back perfectly empty, verify the comparison before believing the conclusion (R14/R37).
