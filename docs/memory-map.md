@@ -687,3 +687,21 @@ confirmed data). MAIN/9 shares id 0x2D with slot-A module MAIN/39 (an alternate 
   MAIN/9 has NO literal table reference anywhere (table-indexed loader). Homework: trace
   0x800C3054's writer, identify the 3 host overlays' locations, decode the SC03/53 loader in
   ov_SC03_104 (@0x80161FBC), find MAIN/9's indexed loader.
+
+### S45 part 4 — CORRECTION (R14/R35): the "MAIN/7 & SC03-trio loader" leads were scanner artifacts
+The §S45-part-3 claims that MAIN/7's loader is fn @0x80161E08 (ov_SC03_126/SC04_021/SC05_019,
+"gate 0x800C3054 ∈ {0x3012,0x3079,0x3096}") and that SC03/53's loader is @0x80161FBC in
+ov_SC03_104 are **REFUTED**. The quick hi/lo scanner paired `lui`/`lo16` operands **without
+tracking base registers**; a proper register-tracked rescan (rabbitizer-checked disasm) shows:
+- fn 0x80161E08 compares **currentLocationId (0x800B9A08)** against location ids {0x1A-guard,
+  0x3012, **0x3054**, 0x3079, 0x3096} — the "variable 0x800C3054" never existed (0x3054 is a
+  compared CONSTANT), and its stores target 0x8018E868, not the loc-table.
+- **The only register-verified literal loc-table reference in the entire fleet is SC02/9's**
+  (the universal wrapper helper `func_80128998`, solved).
+**Standing truth: MAIN/7, MAIN/9, SC03/53/54/56 have ZERO literal loc-table references anywhere
+— all five load via table-INDEXED paths** (the resourceIdMap / `D_80068B60` descriptor route +
+per-overlay IDXTAB/DESTPTR, per the original §S44 finding). Next-session homework: hunt the
+DESCRIPTOR DATA (records carrying global indices 7, 9, 231, 232, 234) and decode
+`ResourceGetCdLoc`/`StreamLoadStateMachine`'s index math — a structured-data hunt, still fully
+static. Tooling lesson (cookbook §155): a hi/lo literal scanner MUST track base registers;
+window-paired lui/lo16 produces convincing phantom cross-references.

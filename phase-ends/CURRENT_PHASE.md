@@ -193,6 +193,14 @@ arithmetic → one targeted load) AND retro-verified by Phase-3's `ram_castle.bi
 build. Loc-id map appended to `docs/debug-menu-list.txt`; memory-map §S45 part 3 has the
 decoded leads for the last 5.
 
+## ⚠️ p4 CORRECTION (R14/R35 — read BEFORE the homework below): the per-file "loader fn"
+leads in p3 were PHANTOMS from a register-blind hi/lo scanner (memory-map §S45 part 4 +
+cookbook §155). Register-tracked truth: **all five remaining files load via table-INDEXED
+paths; zero literal loc-table refs exist fleet-wide** (only SC02/9's, solved). The real
+homework: hunt descriptor DATA rows carrying global indices {7, 9, 231, 232, 234} + decode
+ResourceGetCdLoc / StreamLoadStateMachine / D_80068B60 index math + per-overlay IDXTAB/DESTPTR.
+Items 1-2 below are struck; item 3 (MAIN/9 indexed) was right all along and now covers all 5.
+
 ## ▶ THE LAST 5 = STATIC-RE HOMEWORK (not emulator work — Drew's framing, adopted)
 1. **MAIN/7:** loader fn @0x80161E08 in ov_SC03_126/ov_SC04_021/ov_SC05_019; gates on global
    0x800C3054 ∈ {0x3012,0x3079,0x3096} (ids sit in unlisted menu-gap scenes). TRACE the writer

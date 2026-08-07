@@ -10544,3 +10544,12 @@ scale.)
 
 **Symptom lines for the index:** **"sig_image bootstrap finds 0 functions"** · **"a payload with a
 small integer first word"** · **"where does this blob load"** · **"a huge type-1 module"**.
+
+## §155 — hi/lo literal scanning MUST track base registers (S45)
+A "find who references address X" sweep that pairs any `lui` with any later lo16-bearing op in a
+window produces PHANTOM cross-references: the lo16 may ride a DIFFERENT base register (e.g.
+`lui $s2,0x800B … lui $at,0x8019; sw $s1,-0x1798($at)` — the window-pairer reads 0x800AE868, the
+truth is 0x8018E868). One such phantom steered an evening of MAIN/7 hunting (S45). Track the
+register: record `lui rt → hi`, match only ops whose BASE is that rt (addiu rs==rt / mem-op
+base==rt), invalidate on clobber. Register-blind results are candidates for triage only, never
+evidence (G3/R14). The corrected pattern lives in the S45 rescan (checkpoint p4 → tools).
