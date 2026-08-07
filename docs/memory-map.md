@@ -774,3 +774,45 @@ Do not re-run this scan expecting an answer.
 invalidate on clobber) to extract, per overlay, the actual `IDXTAB` pointer and the `*DESTPTR`
 word — then test whether any overlay's real IDXTAB references gi 7 / 9 / 231 / 232 / 234, and read
 that overlay's DESTPTR for the load address. Structure-derived, not shape-guessed.
+
+#### S45 p5 addendum — WHY the five resist static derivation (three refuted oracles + the region finding)
+
+**MAIN/7 and MAIN/9 are IDENTIFIED (semantic, not address):** both payloads carry leftover
+dev-machine path strings immediately after their id word —
+`C:\TIMPACK\OPDEMO0.PAT` and `C:\TIMPACK\OPDEMO1.PAT` (MAIN/7 id 0x3A, MAIN/9 id 0x2D). These
+are the **opening / attract-demo** playback modules. (`C:\TIMPACK\` is the same build-path family
+found in retail AND the sep8 proto in Phase 3.5.) S45 p2 recorded "OPENING" as byte-checked
+negative, so the live target is the **attract-mode demo** (idle at the title until the game
+demos itself), which is a different state from the OPENING cutscene. MAIN/9 additionally shares
+id 0x2D with slot-A module MAIN/39 (§S44's "alternate build" note) — consistent with a
+demo-specific rebuild of an actor module.
+
+**Three payload-side base oracles were built and ALL REFUTED by their own controls** (recorded so
+they are not rebuilt; scripts in `.run/s45p5/`):
+
+| oracle | idea | controls | why it fails |
+|---|---|---|---|
+| `derive_base.py` | invert the §154 TLO law: `base = min(table) − (4+4N)` | **0/4** | assumes code starts right after the fn-ptr table; MAIN/34 has a **0x208-byte header gap** between table end and code |
+| `vote_base.py` | vote `jal` targets + table ptrs against `addiu $sp,-N` prologues | **4/12** | modules call almost entirely OUTWARD (§S44's low-confidence note, now explained), and MIPS **leaf functions have no prologue**, so the anchor set is both noisy and incomplete |
+| `vote_base2.py` | self-consistency: internal `jal` targets must hit listed functions | **0/4** | **there are essentially no internal `jal`s** (`self-jals 0/N` on every control) — module functions are reached *indirectly through the header pointer table* (`jalr`), never by direct call |
+
+The third result is the structural one: **a module's own bytes do not encode its base**, because it
+makes no self-referential direct calls. Only the header pointer table's *value range* constrains
+anything, and only for the payloads that have a table.
+
+**The one real address constraint obtained — SC03/54:** its header holds **19 absolute pointers**
+spanning `0x801EF718..0x801EFEE8`. With size 0x201C and a 0x50-byte table, the base is confined to
+**[0x801EDED0 .. 0x801EF6C8]** (6,136-byte window); the module occupies roughly
+`0x801EDED0..0x801EFEE8`.
+
+**That window lies INSIDE SC02/9's occupied span** (`0x801E4C60 + 70,784 = 0x801F60E0`). SC02/9 and
+the SC03 trio (ids 0x40/0x41/0x43, adjacent to SC02/9's 0x3E) are therefore **mutually-exclusive
+event modules sharing one region around 0x801Exxxx — but at DIFFERENT base addresses** (SC03/54's
+base cannot be 0x801E4C60; it is excluded by the window).
+
+**Conclusion (this is why they are parked):** event-module destinations in this region are
+**per-scene / runtime-determined, not a fixed slot from a static table** — which is exactly why no
+static route exists, why the resourceIdMap branch is empty for them, and why the *emulator* was
+what resolved SC02/9. The **CD-read tracer** (log the `cdFileLocTable` index per read during play)
+remains the correct instrument; the OPDEMO identification above makes MAIN/7 and MAIN/9 a targeted
+capture (attract demo) rather than a search.
