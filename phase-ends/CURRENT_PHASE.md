@@ -181,7 +181,48 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 
 ---
 
-# 🛑 SESSION S45 CHECKPOINT part 3 (2026-08-07 evening) — SC02/9 FELL; parked = 5 — FRESH SESSION SAFE HERE
+# 🛑 SESSION S45 CHECKPOINT part 5 (2026-08-07 late) — THE LAST 5 ARE STATIC-UNRESOLVABLE (proven) — FRESH SESSION SAFE HERE
+> **Tree CLEAN** but for R23 `db.*.gbf` churn (never stage). **Nothing running.** Effort Max.
+> **NO phase close** — T5 unopened, needs Drew's gate-2. Commits: `commit:1514`, `commit:1515`.
+
+## ▶ THE HEADLINE: p3/p4's "static-RE homework" is CLOSED — as a NEGATIVE, with evidence
+The last 5 (MAIN/7, MAIN/9, SC03/53/54/56) are **not statically derivable**. Two independent
+legs, each byte-grounded (`docs/memory-map.md` §S45 part 5 + addendum):
+1. **The resourceIdMap branch is REFUTED for all five.** `resourceIdMap` @0x80063138 decoded
+   using the index math from our OWN matched C (`ResourceGetCdLoc` is byte-exact): exactly 162
+   6-byte records, 98 distinct global indices — **none of gi 7/9/231/232/234**. So they cannot
+   reach `ResourceGetCdLoc`/`StreamLoadStateMachine`/`D_80068B60` at all. Only the per-overlay
+   IDXTAB/DESTPTR branch of §S44's disjunction survived, and it is per-overlay data.
+2. **A payload's bytes do not encode its base.** THREE oracles built, ALL refuted by their own
+   controls (0/4, 4/12, 0/4 — none of their answers used). Structural cause: **modules make no
+   internal `jal` calls** (`self-jals 0/N` on every control) — functions are reached indirectly
+   through the header pointer table (`jalr`). So there is nothing self-referential to solve for.
+
+## 🎯 TWO REAL BY-PRODUCTS (both actionable)
+- **MAIN/7 + MAIN/9 = the OPDEMO modules.** Both carry `C:\TIMPACK\OPDEMO0.PAT` /
+  `OPDEMO1.PAT` dev paths after the id word (ids 0x3A / 0x2D). They are the **opening /
+  attract-demo** modules. S45 p2 checked "OPENING" negative → the live target is
+  **attract mode** (idle at the title until the game demos itself), a different state.
+  This converts a blind scene search into ONE targeted capture.
+- **The event-module region is runtime-allocated.** SC03/54's 19 header pointers
+  (0x801EF718..0x801EFEE8) confine its base to **[0x801EDED0..0x801EF6C8]** — a window lying
+  INSIDE SC02/9's span (0x801E4C60+70,784 = 0x801F60E0). SC02/9 (id 0x3E) and the SC03 trio
+  (ids 0x40/0x41/0x43) are mutually-exclusive event modules sharing a ~0x801Exxxx region **at
+  different bases**. That is why no static table gives them, and why the emulator resolved SC02/9.
+
+## ▶ RESUME HERE
+1. **The 5 need a LIVE capture, not more static RE** — the **CD-read tracer** (log the
+   `cdFileLocTable` index per read during play) is the correct instrument. Needs Windows-native
+   PCSX-Redux (R11) + Drew. Highest-value single run: **attract-mode demo** → MAIN/7 + MAIN/9.
+2. **II.5 / the standing frontier** (~931 module stubs + big-3 novel + ~1,000 script-module
+   stubs) — the standing crack-wave slot. Breadth ⇒ **prompt Drew for `/effort ultracode`** (R26/R27).
+3. Cookbook **§155a** added: coverage (R32) ≠ discrimination (R34); a shape-blind table scan
+   passes its own assertion and still returns 664 phantoms. Do not re-run that scan.
+4. Do NOT rebuild the three refuted base oracles — the refutation table is in §S45 p5 addendum.
+
+---
+
+# 🛑 (superseded by part 5) SESSION S45 CHECKPOINT part 3 (2026-08-07 evening) — SC02/9 FELL; parked = 5
 > **Tree CLEAN** but for R23 `db.*.gbf` churn (never stage). **Nothing running.** Effort xHigh.
 > **NO phase close** — T5 unopened, needs Drew's gate-2.
 
