@@ -10553,3 +10553,23 @@ truth is 0x8018E868). One such phantom steered an evening of MAIN/7 hunting (S45
 register: record `lui rt → hi`, match only ops whose BASE is that rt (addiu rs==rt / mem-op
 base==rt), invalidate on clobber. Register-blind results are candidates for triage only, never
 evidence (G3/R14). The corrected pattern lives in the S45 rescan (checkpoint p4 → tools).
+
+### §155a — the same failure class, one level up: SHAPE-blind table scanning (S45 p5)
+
+§155's lesson generalizes past instructions. Hunting a *data table* by its **shape alone**
+("-1-terminated s16 run whose values are all valid indices") produces the identical brand of
+phantom, and it will pass a coverage assertion while doing so. The S45-p5 scan re-found its
+known-good control table exactly (R32 green) and still returned 664 "tables" across 212 payloads
+whose parked-index hits were transparently (offset, count) pair data — `[44, 2, 48, 7, 62, 6,
+74, 7, ...]` "contains 7". The discriminating power of a shape predicate collapses when the value
+you are hunting is **small and common** (a global index of 7 or 9 looks like every other small
+integer in the binary).
+
+**The law:** a coverage assertion (R32) proves the scanner *ran over everything*; it says nothing
+about whether the predicate *discriminates*. Those are two different oracles (R34). Before
+trusting a shape scan, ask: would a random data region satisfy this predicate? If yes, the scan is
+a triage filter, never evidence — derive the table from the **code that indexes it** (register-
+tracked, §155) instead of from the values it holds.
+
+**Cheap test to apply first:** compute the predicate's hit-rate on the corpus. 664 hits where the
+truth is ~1-per-overlay is itself the refutation — a discriminating predicate is *rare*.

@@ -705,3 +705,72 @@ DESCRIPTOR DATA (records carrying global indices 7, 9, 231, 232, 234) and decode
 `ResourceGetCdLoc`/`StreamLoadStateMachine`'s index math — a structured-data hunt, still fully
 static. Tooling lesson (cookbook §155): a hi/lo literal scanner MUST track base registers;
 window-paired lui/lo16 produces convincing phantom cross-references.
+
+### S45 part 5 — the resourceIdMap branch is REFUTED for all five; IDXTAB is per-overlay (2026-08-07)
+
+> **Provenance (G5):** `static-derived` — decoded from the EXE bytes
+> (`extracted/retail/SLUS_007.26`, vram = fileoff + 0x8000F800) and the onboarded payloads,
+> using the index math taken from our OWN matched C, not from a guess. Region: **US**.
+> Scripts: `.run/s45p5/{decode_resmap,decode_idxtab,scan_idxtabs}.py` (regenerable scratch).
+
+**The index math, quoted from matched/drafted C (`src/800.c`) — this is the oracle:**
+
+```c
+ResourceGetCdLoc(resId):                        /* MATCHED, byte-exact */
+    idx = *(s16*)(resourceIdMap + resId*6);     /* global cdFileLocTable index */
+    return *(s32*)(cdFileLocTable + idx*8);
+
+ResourceLoadStateMachine:                       /* NON_MATCHING draft, logically faithful */
+    fileIdx    = *(s16*)(resourceIdMap + id*6 + 0);   /* <0 => non-CD path func_80036D58 */
+    streamId   = *(s16*)(resourceIdMap + id*6 + 2);   /* -> StreamLoadStateMachine param_1 */
+    postProcId = *(s16*)(resourceIdMap + id*6 + 4);   /* -> func_8002D4C8 */
+
+StreamLoadStateMachine(param_1, loc, n):        /* NON_MATCHING draft */
+    sVar1 = *(s16*)(D_80068B60 + (param_1 - 0x100) * 0x10);
+```
+
+**`resourceIdMap` @ 0x80063138 (fileoff 0x53938), decoded:** exactly **162** 6-byte records,
+ending 0x80063504; 2 records carry the documented `fileIdx < 0` non-CD sentinel; streamIds are
+>= 0x100 as the descriptor math requires. The decode is self-consistent with the matched C in
+every field, so the table model is confirmed, not assumed.
+
+- **Coverage: 98 distinct global indices of 447.** Full dump: `.run/s45p5/resourceIdMap.tsv`.
+- **FINDING (the point of the exercise): none of the five parked payloads appears.**
+  MAIN/7 (gi 7), MAIN/9 (gi 9), SC03/53 (231), SC03/54 (232), SC03/56 (234) have **no
+  `resourceIdMap` entry**, so they cannot reach `ResourceGetCdLoc` /
+  `StreamLoadStateMachine` / the `D_80068B60` descriptor at all.
+  **The §S44 "resourceIdMap / StreamLoadStateMachine descriptor path" branch of the parked-dest
+  disjunction is therefore REFUTED for all five.** The surviving branch is the per-overlay
+  `IDXTAB`/`DESTPTR` route (or a route not yet enumerated).
+- The module payloads are *also* absent from `resourceIdMap` (checked gi 10/11/13/14/42/47) —
+  consistent with §S44: modules load via the resident's `D_800D3764`/`D_800D384C` tables and the
+  boot loaders, never the resource system. `resourceIdMap` is a distinct, per-location data-resource
+  route (its 98 entries are SC0x data sets).
+
+**`loadDestPtrTable` @ 0x80072C70 re-derived independently (R34 second signal):** the five u32s
+read `0x800CEDF8 / 0x80128158 / 0x800CAE08 / 0x800CCB1C / 0x800C7F08` — reproducing the §S44 table
+exactly, including slot [4] = the PAC-type-7 fixed destination. Four of the five are the addresses
+S45 byte-proved by onboarding, so this table is corroborated from two independent directions.
+
+**CORRECTION (R14) to §S44's IDXTAB row:** the claim *"per-overlay IDXTAB (s16, -1-terminated,
+37 entries, **same list fleet-wide**)"* is **wrong on the "same list fleet-wide" part**. The
+37-entry list at 0x8017EEC8 is genuine **for ov_SC01_000 only** (decoded: 240,241,242,243, 167,168,
+147,148,149, 153,154,155, 306..309, 102..122 — a coherent per-location resource set). Read at the
+same vaddr across the fleet, **1 of 141 overlays matches and 140 hold unrelated bytes**: the IDXTAB
+is per-overlay data at a **per-overlay address**. What is fleet-wide is the *mechanism*
+(`func_80128CFC` + a per-overlay IDXTAB/DESTPTR), not the address or the contents.
+
+**NEGATIVE TOOLING RESULT (recorded so it is not repeated):** a *shape-only* fleet scan for
+"-1-terminated s16 runs of valid global indices" **cannot discriminate** and its hits are not
+evidence. It passes its own R32 coverage assertion (it re-finds ov_SC01_000's table at
+0x8017EEC8, 37 entries) yet still returns 664 "tables" across 212 payloads, whose parked-index
+hits are transparently (offset, count) pair data — e.g. `[44, 2, 48, 7, 62, 6, 74, 7, ...]`
+"contains 7". Small global indices (7, 9) are indistinguishable from ordinary small data by shape
+alone. This is the §155 phantom failure mode in a new guise: **register-blind -> shape-blind**.
+Do not re-run this scan expecting an answer.
+
+**The correctly-scoped next instrument:** a **register-tracked** decode of the per-overlay wrapper
+`func_80128CFC` (per §155: record `lui rt -> hi`, match only ops whose base is that `rt`,
+invalidate on clobber) to extract, per overlay, the actual `IDXTAB` pointer and the `*DESTPTR`
+word — then test whether any overlay's real IDXTAB references gi 7 / 9 / 231 / 232 / 234, and read
+that overlay's DESTPTR for the load address. Structure-derived, not shape-guessed.
