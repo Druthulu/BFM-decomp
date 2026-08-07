@@ -71,6 +71,7 @@
 #   md_SC05_027 .run/sig.md_SC05_027.jsonl  sha1=d2fbd149b154b68e9d789ee648e8d4f22937d4a7
 #   md_SC05_028 .run/sig.md_SC05_028.jsonl  sha1=76b99a3ffc7c9e3c942b65b1408b0a9081ed874c
 #   md_SC05_029 .run/sig.md_SC05_029.jsonl  sha1=b0b01a503cb8e6ae34c7d8214b547011303024aa
+#   md_SC02_009 .run/sig.md_SC02_009.jsonl  sha1=bcd1074efc742a78d2de5fda08887f9d91b719ea
 #   overlays   141x (named+sig_image, deduped, nins>=8)  set-sha1=17474a5aae730987d8cf2edd2816ddf598b6e4b8
 # Collapsible bytes = (count-1)*nins*4 (bytes saved; one member stays the source).
 # A cross-binary group (binaries>1) is the Phase-12/13 work queue; lead with h_exact
@@ -477,7 +478,7 @@
 
 ## h_norm (structural)
 
-### cross-binary  (binaries > 1) — 9334 groups, 40284752 collapsible bytes  (top 200 of 9334 shown)
+### cross-binary  (binaries > 1) — 9336 groups, 40284932 collapsible bytes  (top 200 of 9336 shown)
 | gid | bytes | nins | count | #bin | sample members (binary:addr) |
 |---|---|---|---|---|---|
 | nx0 | 431200 | 770 | 141 | 141 | ov_MAIN_012:0x80144b9c; ov_SC01_000:0x80144b9c; ov_SC01_001:0x80144b9c; ov_SC01_004:0x80144b9c; …+137 |

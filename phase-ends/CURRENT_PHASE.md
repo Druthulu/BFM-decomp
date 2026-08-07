@@ -181,7 +181,38 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 
 ---
 
-# 🛑 SESSION S45 CHECKPOINT part 2 (2026-08-07) — THE L3 TOUR — FRESH SESSION SAFE HERE
+# 🛑 SESSION S45 CHECKPOINT part 3 (2026-08-07 evening) — SC02/9 FELL; parked = 5 — FRESH SESSION SAFE HERE
+> **Tree CLEAN** but for R23 `db.*.gbf` churn (never stage). **Nothing running.** Effort xHigh.
+> **NO phase close** — T5 unopened, needs Drew's gate-2.
+
+## ✅ FINAL S45p3 STATE — R22 CLEAN-FLEET **213 passed / 0 failed of 213** · tools-health OK
+**`make audit-disc`: UNCLAIMED 5, residue 0.** SC02/9 = **the Steam Knight (1ST-BOSS) event
+module**, captured live at 0x801E4C60 via the DECODED gate (matched C → loc 0x300E → scene
+arithmetic → one targeted load) AND retro-verified by Phase-3's `ram_castle.bin` (same address,
+2026-06-14 — R10 two independent datapoints). Onboarded as `md_SC02_009`, byte-identical first
+build. Loc-id map appended to `docs/debug-menu-list.txt`; memory-map §S45 part 3 has the
+decoded leads for the last 5.
+
+## ▶ THE LAST 5 = STATIC-RE HOMEWORK (not emulator work — Drew's framing, adopted)
+1. **MAIN/7:** loader fn @0x80161E08 in ov_SC03_126/ov_SC04_021/ov_SC05_019; gates on global
+   0x800C3054 ∈ {0x3012,0x3079,0x3096} (ids sit in unlisted menu-gap scenes). TRACE the writer
+   of 0x800C3054 (not written by the EXE — resident/overlay side), identify the 3 host
+   overlays' real locations, decode the extra condition (li 0x1a / 0x8, jal 0x800291DC
+   flag-check family). Then derive dest + onboard (first-build byte-gate arbitrates).
+2. **SC03/53/54/56:** loader @0x80161FBC in ov_SC03_104 — same §pattern; decode its gate.
+3. **MAIN/9:** NO literal table ref anywhere — a table-INDEXED loader (id 0x2D = alt build of
+   md_MAIN_015-class actor; Minku spawn showed slot-A hot-loading live). Hunt indexed loads of
+   cdFileLocTable (the resourceIdMap path) + scan descriptor tables for idx 9.
+4. Then: II.5 frontier (~931 module + big-3 novel + script-module stubs) — waves need Drew's
+   Ultracode toggle (R26/R27).
+
+## 📋 CO-OP PROTOCOL (binding, from today's friction — memory `live-coop-answer-before-grinding`)
+Turn-ending replies to Drew BEFORE starting grinds; one plain line per step; long runs announced
+with duration; "your part is done" said explicitly.
+
+---
+
+# 🛑 (superseded by part 3) SESSION S45 CHECKPOINT part 2 (2026-08-07) — THE L3 TOUR
 > **Tree CLEAN** but for R23 `db.*.gbf` churn (never stage). **Nothing running.** Effort xHigh.
 > **NO phase close** — T5 unopened, needs Drew's gate-2.
 

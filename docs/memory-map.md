@@ -670,3 +670,20 @@ GEKIRYU) · **SC03/53/54/56** (ids 0x40/0x41/0x43; not in: ISEKI, PLAZUMA, AREAD
 VAMBI-KYOUKAI; SC03/55 = their DATA companion, id-word 0x42 but zero prologues/returns —
 confirmed data). MAIN/9 shares id 0x2D with slot-A module MAIN/39 (an alternate build).
 **Resolution tier: the CD-read tracer** (log `cdFileLocTable` index per read), not scene-guessing.
+
+### S45 part 3 — SC02/9 CAPTURED + retro-verified; the emulator's role closes
+- **SC02/9 = the Steam Knight (1ST-BOSS) event module** — loads at **0x801E4C60** when
+  `currentLocationId == 0x300E` (the matched gate `func_8012832C`, case 0x300E →
+  `func_80128998` → the streaming API with `&cdFileLocTable[144]`). **Double-proven:** live
+  capture 2026-08-07 AND the Phase-3 `dumps/ram_castle.bin` (2026-06-14) holds it at the SAME
+  address with the SAME 6,764-B exact prefix (R10 multi-datapoint). `bossHp_SteamKnight`
+  0x801E4398 sits inside this module's image. Onboarded as `md_SC02_009`.
+- **Negatives (byte-checked):** pause/config menu, memory-box prompt (CENTER-PATH 0x3034),
+  new-game intro, high/low bar game (runs from SC03/79), Minku midnight spawn (slot-A actor
+  0x15 = md_MAIN_015, candidate naming) — none load any parked payload.
+- **The remaining 5 (MAIN/7, MAIN/9, SC03/53/54/56) are STATIC-RE targets, not emulator
+  targets:** MAIN/7's loader (fn @0x80161E08 in ov_SC03_126/ov_SC04_021/ov_SC05_019) gates on
+  a global 0x800C3054 ∈ {0x3012, 0x3079, 0x3096} (writer untraced — not written by the EXE);
+  MAIN/9 has NO literal table reference anywhere (table-indexed loader). Homework: trace
+  0x800C3054's writer, identify the 3 host overlays' locations, decode the SC03/53 loader in
+  ov_SC03_104 (@0x80161FBC), find MAIN/9's indexed loader.

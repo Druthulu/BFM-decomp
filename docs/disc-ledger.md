@@ -9,8 +9,8 @@
 
 | bucket | bytes | share |
 |---|---:|---:|
-| onboarded-code | 50,767,013 | 12.20% |
-| unclaimed-code | 111,684 | 0.03% |
+| onboarded-code | 50,839,845 | 12.22% |
+| unclaimed-code | 38,852 | 0.01% |
 | classified-data | 134,017,708 | 32.21% |
 | audio-video | 184,338,000 | 44.31% |
 | filesystem-metadata | 46,787,355 | 11.25% |
@@ -108,13 +108,12 @@
 | MAIN.CD/20 | 1 | 1 | 3,244 | data | code | 3 | 0.84/0.0173 |
 | SLUS_007.26 | - | - | 413,696 | code | data | 0 | 0.96/0.0143 |
 
-## Code payloads — 6 UNCLAIMED of 220
+## Code payloads — 5 UNCLAIMED of 220
 
 | file | entry | type | bytes | bucket | claimed-by | valid/jr |
 |---|---|---|---:|---|---|---|
 | MAIN.CD/7 | -1 | -1 | 9,600 | unclaimed-code | UNCLAIMED | 0.99/0.0079 L2=3 |
 | MAIN.CD/9 | 0 | 1 | 2,544 | unclaimed-code | UNCLAIMED | 0.99/0.0189 L2=3 |
-| SC02.CD/9 | 0 | 1 | 70,784 | unclaimed-code | UNCLAIMED | 0.70/0.0023 L2=3 |
 | SC03.CD/53 | 0 | 1 | 6,616 | unclaimed-code | UNCLAIMED | 0.65/0.0091 L2=3 |
 | SC03.CD/54 | 0 | 1 | 8,220 | unclaimed-code | UNCLAIMED | 0.73/0.0034 L2=3 |
 | SC03.CD/56 | 0 | 1 | 3,680 | unclaimed-code | UNCLAIMED | 0.53/0.0043 L2=3 |
@@ -189,6 +188,7 @@
 | SC02.CD/4 | 0 | 4 | 451,183 | onboarded-code | ov_SC02_004 | 0.97/0.0213 L2=3 |
 | SC02.CD/41 | 0 | 4 | 595,327 | onboarded-code | ov_SC02_041 | 0.91/0.0172 L2=3 |
 | SC02.CD/5 | 0 | 4 | 772,865 | onboarded-code | ov_SC02_005 | 0.87/0.0152 L2=3 |
+| SC02.CD/9 | 0 | 1 | 70,784 | onboarded-code | md_SC02_009 | 0.70/0.0023 L2=3 |
 | SC03.CD/1 | 0 | 4 | 815,887 | onboarded-code | ov_SC03_001 | 0.91/0.0141 L2=3 |
 | SC03.CD/10 | 0 | 4 | 491,639 | onboarded-code | ov_SC03_010 | 0.96/0.0201 L2=3 |
 | SC03.CD/100 | 0 | 4 | 657,423 | onboarded-code | ov_SC03_100 | 0.90/0.0155 L2=3 |

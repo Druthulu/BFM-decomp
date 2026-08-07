@@ -119,7 +119,15 @@ The debug-menu tour (`docs/memory-map.md` §S45; menu list `docs/debug-menu-list
   in 7,988 B; it is the data companion of modules 0x40/0x41/0x43).
 - **Fleet: 183 → 212 binaries.** `make audit-disc`: **UNCLAIMED = 6, residue 0.**
 
-**The parked-for-L3 ledger is now 6 payloads**, each with byte-checked negative evidence from the
+**S45 part 3:** SC02/9 fell too — captured live at the 1ST-BOSS arena (0x801E4C60),
+retro-verified by the Phase-3 `ram_castle.bin` dump (same address, 2026-06-14), onboarded as
+`md_SC02_009`. **Fleet: 213. The parked ledger is now 5 payloads** (MAIN/7, MAIN/9,
+SC03/53/54/56) — reclassified from "emulator targets" to **static-RE targets** (their loaders
+are individual + condition-gated; see memory-map §S45 part 3 for the decoded leads).
+
+**The prior 6-payload framing (kept for provenance):**
+
+**The parked-for-L3 ledger is (superseded) 6 payloads**, each with byte-checked negative evidence from the
 tour (never present in RAM across boot/title/attract/menus/load/opening/endings/game-over and ~15
 scene loads): **MAIN/7, MAIN/9, SC02/9, SC03/53, SC03/54, SC03/56.** Next tier: the CD-read
 tracer (log `cdFileLocTable` index per read during play), not further scene-guessing.
