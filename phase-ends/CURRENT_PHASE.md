@@ -181,7 +181,47 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 
 ---
 
-# 🛑 SESSION S45 CHECKPOINT (2026-08-06) — FRESH SESSION SAFE HERE
+# 🛑 SESSION S45 CHECKPOINT part 2 (2026-08-07) — THE L3 TOUR — FRESH SESSION SAFE HERE
+> **Tree CLEAN** but for R23 `db.*.gbf` churn (never stage). **Nothing running.** Effort xHigh.
+> **NO phase close** — T5 unopened, needs Drew's gate-2.
+
+## ✅ FINAL S45p2 STATE — R22 CLEAN-FLEET **212 passed / 0 failed of 212**
+**FLEET: 93.8% instr (12,683,086 / 13,522,748) · 95.68% fn-count · 87.2% distinct (78,596 /
+90,888 uniq)** · tools-health OK · audit-digest OK · **`make audit-disc`: UNCLAIMED 6, residue 0.**
+(Drop from part-1's 94.0% = the 29 new modules' text joining the denominator — honest direction.)
+
+## WHAT S45 part 2 DID (the live emulator session with Drew + same-day banking)
+1. **The L3 debug-menu tour** (mode-7 hammer over the Redux web API; full mechanics + slots in
+   `docs/memory-map.md` §S45; Drew's menu transcription = `docs/debug-menu-list.txt`):
+   **all 28 script modules captured live** (four byte-verified per-chapter slots; interior↔module
+   routing law) + **MAIN/3 DISCOVERED** (the main-menu module both audit oracles had mis-bucketed
+   as data; live byte-proven @0x800CEDF8) + **md_MAIN_011/DISELECT byte-proven 24,236/24,240** +
+   slot A/B/boot live R34-verification.
+2. **29 onboardings, byte-identical on first build** (md_MAIN_003 + the 28 script md_*) →
+   **fleet 212**. Dedup measure: modules are ~94% novel (probe-first, R37).
+3. **R22 earned its keep ×3 on md_MAIN_003:** (a) the A4 resident-symbol leak again (DsMix
+   phantom); (b) an extract-order-sensitive splat boundary at 0x800D3200 — the bytes resolved it:
+   a one-word data sentinel in .text + the real fn at +4, now PINNED in
+   `config/symbols.md_MAIN_003.txt`; (c) `corpus.stubs` taught that a D_*/jtbl_* INCLUDE_ASM is a
+   blob include, not a function stub (mirrors progress.py). All negative-controlled; 212/212.
+4. **The module-id census** (disc-wide, offline): 77 id-law code payloads, 72 claimed + 5 parked,
+   **zero further misses**; SC03/55 = confirmed DATA (companion table of 0x40–0x43). The census
+   pattern belongs in disc_audit as the third oracle — small P31 task.
+5. **Parked-for-L3 is now 6 payloads with byte-checked negative evidence** (MAIN/7, MAIN/9,
+   SC02/9, SC03/53/54/56 — see disc-completeness S45 addendum). **Next tier: the CD-read tracer**
+   (log cdFileLocTable index per read during play), not scene-guessing. MAIN/9 = alt build of
+   actor 0x2D. The 104 local ram_*.bin dumps in `.run/s45/` are LOCAL-ONLY (regenerable).
+
+## ▶ RESUME HERE (fresh session)
+1. **II.5 / the standing frontier** — now ~931 module stubs + big-3 novel + ~1,000 script-module
+   stubs (all novel actor/scenario code). Breadth waves ⇒ prompt Drew for Ultracode (R26/R27).
+2. **P31 candidates raised this session:** the CD-read tracer for the parked 6 · fold the id-word
+   census into disc_audit (R34 third oracle) · main's second oracle (carried).
+3. The S43 serial-crack queue + cheap fuel lists: unchanged, below.
+
+---
+
+# 🛑 (superseded by part 2 above) SESSION S45 CHECKPOINT (2026-08-06) — FRESH SESSION SAFE HERE
 > **Tree CLEAN** but for R23 `db.*.gbf` churn (never stage). **Nothing running.** Effort xHigh.
 > **The S44 plan's Part II is DELIVERED through II.3** (II.4 = L3 emulator tour is P31 bucket T
 > by Drew's sequencing; II.5 = the novel-fn frontier is the standing crack-wave slot).

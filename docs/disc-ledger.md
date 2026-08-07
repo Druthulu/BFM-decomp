@@ -9,9 +9,9 @@
 
 | bucket | bytes | share |
 |---|---:|---:|
-| onboarded-code | 49,594,625 | 11.92% |
-| unclaimed-code | 1,036,208 | 0.25% |
-| classified-data | 134,265,572 | 32.27% |
+| onboarded-code | 50,767,013 | 12.20% |
+| unclaimed-code | 111,684 | 0.03% |
+| classified-data | 134,017,708 | 32.21% |
 | audio-video | 184,338,000 | 44.31% |
 | filesystem-metadata | 46,787,355 | 11.25% |
 | **TOTAL** | **416,021,760** | 100.00% |
@@ -108,44 +108,16 @@
 | MAIN.CD/20 | 1 | 1 | 3,244 | data | code | 3 | 0.84/0.0173 |
 | SLUS_007.26 | - | - | 413,696 | code | data | 0 | 0.96/0.0143 |
 
-## Code payloads — 34 UNCLAIMED of 218
+## Code payloads — 6 UNCLAIMED of 220
 
 | file | entry | type | bytes | bucket | claimed-by | valid/jr |
 |---|---|---|---:|---|---|---|
 | MAIN.CD/7 | -1 | -1 | 9,600 | unclaimed-code | UNCLAIMED | 0.99/0.0079 L2=3 |
 | MAIN.CD/9 | 0 | 1 | 2,544 | unclaimed-code | UNCLAIMED | 0.99/0.0189 L2=3 |
 | SC02.CD/9 | 0 | 1 | 70,784 | unclaimed-code | UNCLAIMED | 0.70/0.0023 L2=3 |
-| SC03.CD/132 | 2 | 1 | 29,080 | unclaimed-code | UNCLAIMED | 0.79/0.0039 L2=3 |
-| SC03.CD/133 | 2 | 1 | 27,272 | unclaimed-code | UNCLAIMED | 0.83/0.0043 L2=3 |
-| SC03.CD/134 | 2 | 1 | 30,808 | unclaimed-code | UNCLAIMED | 0.82/0.0053 L2=3 |
-| SC03.CD/135 | 2 | 1 | 34,828 | unclaimed-code | UNCLAIMED | 0.87/0.0076 L2=3 |
-| SC03.CD/136 | 2 | 1 | 32,712 | unclaimed-code | UNCLAIMED | 0.79/0.0043 L2=3 |
-| SC03.CD/137 | 2 | 1 | 15,652 | unclaimed-code | UNCLAIMED | 0.83/0.0069 L2=3 |
-| SC03.CD/138 | 2 | 1 | 40,164 | unclaimed-code | UNCLAIMED | 0.79/0.0037 L2=3 |
 | SC03.CD/53 | 0 | 1 | 6,616 | unclaimed-code | UNCLAIMED | 0.65/0.0091 L2=3 |
 | SC03.CD/54 | 0 | 1 | 8,220 | unclaimed-code | UNCLAIMED | 0.73/0.0034 L2=3 |
 | SC03.CD/56 | 0 | 1 | 3,680 | unclaimed-code | UNCLAIMED | 0.53/0.0043 L2=3 |
-| SC03.CD/73 | 2 | 1 | 29,112 | unclaimed-code | UNCLAIMED | 0.79/0.0038 L2=3 |
-| SC03.CD/74 | 2 | 1 | 27,296 | unclaimed-code | UNCLAIMED | 0.83/0.0042 L2=3 |
-| SC03.CD/75 | 2 | 1 | 30,792 | unclaimed-code | UNCLAIMED | 0.82/0.0053 L2=3 |
-| SC03.CD/76 | 2 | 1 | 43,760 | unclaimed-code | UNCLAIMED | 0.88/0.0060 L2=3 |
-| SC03.CD/77 | 2 | 1 | 32,768 | unclaimed-code | UNCLAIMED | 0.79/0.0043 L2=3 |
-| SC03.CD/78 | 2 | 1 | 15,676 | unclaimed-code | UNCLAIMED | 0.84/0.0069 L2=3 |
-| SC03.CD/79 | 2 | 1 | 39,340 | unclaimed-code | UNCLAIMED | 0.79/0.0032 L2=3 |
-| SC04.CD/24 | 2 | 1 | 29,120 | unclaimed-code | UNCLAIMED | 0.79/0.0038 L2=3 |
-| SC04.CD/25 | 2 | 1 | 27,312 | unclaimed-code | UNCLAIMED | 0.83/0.0042 L2=3 |
-| SC04.CD/26 | 2 | 1 | 30,808 | unclaimed-code | UNCLAIMED | 0.82/0.0053 L2=3 |
-| SC04.CD/27 | 2 | 1 | 43,776 | unclaimed-code | UNCLAIMED | 0.88/0.0060 L2=3 |
-| SC04.CD/28 | 2 | 1 | 32,752 | unclaimed-code | UNCLAIMED | 0.79/0.0043 L2=3 |
-| SC04.CD/29 | 2 | 1 | 15,692 | unclaimed-code | UNCLAIMED | 0.84/0.0069 L2=3 |
-| SC04.CD/30 | 2 | 1 | 39,356 | unclaimed-code | UNCLAIMED | 0.79/0.0032 L2=3 |
-| SC05.CD/23 | 2 | 1 | 29,168 | unclaimed-code | UNCLAIMED | 0.79/0.0038 L2=3 |
-| SC05.CD/24 | 2 | 1 | 27,352 | unclaimed-code | UNCLAIMED | 0.83/0.0042 L2=3 |
-| SC05.CD/25 | 2 | 1 | 30,848 | unclaimed-code | UNCLAIMED | 0.82/0.0053 L2=3 |
-| SC05.CD/26 | 2 | 1 | 43,816 | unclaimed-code | UNCLAIMED | 0.88/0.0060 L2=3 |
-| SC05.CD/27 | 2 | 1 | 32,792 | unclaimed-code | UNCLAIMED | 0.79/0.0043 L2=3 |
-| SC05.CD/28 | 2 | 1 | 15,732 | unclaimed-code | UNCLAIMED | 0.84/0.0069 L2=3 |
-| SC05.CD/29 | 2 | 1 | 39,396 | unclaimed-code | UNCLAIMED | 0.79/0.0031 L2=3 |
 | MAIN.CD/0 | 0 | 1 | 19,996 | onboarded-code | md_MAIN_001 | 0.73/0.0022 L2=3 |
 | MAIN.CD/1 | 1 | 1 | 19,996 | onboarded-code | md_MAIN_001 | 0.73/0.0022 L2=3 |
 | MAIN.CD/10 | 1 | 1 | 365,404 | onboarded-code | resident | 0.72/0.0016 L2=3 |
@@ -168,6 +140,7 @@
 | MAIN.CD/27 | 1 | 1 | 5,272 | onboarded-code | md_MAIN_027 | 0.98/0.0220 L2=3 |
 | MAIN.CD/28 | 1 | 1 | 4,460 | onboarded-code | md_MAIN_028 | 0.99/0.0197 L2=3 |
 | MAIN.CD/29 | 1 | 1 | 1,984 | onboarded-code | md_MAIN_029 | 0.98/0.0222 L2=3 |
+| MAIN.CD/3 | 1 | 1 | 121,884 | onboarded-code | md_MAIN_003 | 0.83/0.0021 L2=0 |
 | MAIN.CD/30 | 1 | 1 | 1,876 | onboarded-code | md_MAIN_030 | 0.98/0.0213 L2=3 |
 | MAIN.CD/31 | 1 | 1 | 5,044 | onboarded-code | md_MAIN_031 | 0.97/0.0143 L2=3 |
 | MAIN.CD/32 | 1 | 1 | 5,572 | onboarded-code | md_MAIN_032 | 0.87/0.0072 L2=3 |
@@ -178,6 +151,7 @@
 | MAIN.CD/37 | 1 | 1 | 2,904 | onboarded-code | md_MAIN_037 | 0.90/0.0234 L2=3 |
 | MAIN.CD/38 | 1 | 1 | 7,232 | onboarded-code | md_MAIN_038 | 0.85/0.0111 L2=3 |
 | MAIN.CD/39 | 1 | 1 | 5,700 | onboarded-code | md_MAIN_039 | 0.97/0.0182 L2=3 |
+| MAIN.CD/4 | 0 | 1 | 121,884 | onboarded-code | md_MAIN_003 | 0.83/0.0021 L2=0 |
 | MAIN.CD/40 | 1 | 1 | 3,956 | onboarded-code | md_MAIN_040 | 0.98/0.0192 L2=3 |
 | MAIN.CD/41 | 1 | 1 | 4,100 | onboarded-code | md_MAIN_041 | 0.97/0.0146 L2=3 |
 | MAIN.CD/42 | 0 | 1 | 636 | onboarded-code | md_MAIN_042 | 1.00/0.0252 L2=3 |
@@ -243,6 +217,13 @@
 | SC03.CD/125 | 0 | 4 | 639,975 | onboarded-code | ov_SC03_125 | 0.92/0.0162 L2=3 |
 | SC03.CD/126 | 0 | 4 | 424,405 | onboarded-code | ov_SC03_126 | 0.97/0.0229 L2=3 |
 | SC03.CD/13 | 0 | 4 | 545,791 | onboarded-code | ov_SC03_013 | 0.94/0.0183 L2=3 |
+| SC03.CD/132 | 2 | 1 | 29,080 | onboarded-code | md_SC03_132 | 0.79/0.0039 L2=3 |
+| SC03.CD/133 | 2 | 1 | 27,272 | onboarded-code | md_SC03_133 | 0.83/0.0043 L2=3 |
+| SC03.CD/134 | 2 | 1 | 30,808 | onboarded-code | md_SC03_134 | 0.82/0.0053 L2=3 |
+| SC03.CD/135 | 2 | 1 | 34,828 | onboarded-code | md_SC03_135 | 0.87/0.0076 L2=3 |
+| SC03.CD/136 | 2 | 1 | 32,712 | onboarded-code | md_SC03_136 | 0.79/0.0043 L2=3 |
+| SC03.CD/137 | 2 | 1 | 15,652 | onboarded-code | md_SC03_137 | 0.83/0.0069 L2=3 |
+| SC03.CD/138 | 2 | 1 | 40,164 | onboarded-code | md_SC03_138 | 0.79/0.0037 L2=3 |
 | SC03.CD/14 | 0 | 4 | 798,439 | onboarded-code | ov_SC03_015 | 0.87/0.0135 L2=3 |
 | SC03.CD/15 | 0 | 4 | 798,439 | onboarded-code | ov_SC03_015 | 0.87/0.0135 L2=3 |
 | SC03.CD/2 | 0 | 4 | 670,199 | onboarded-code | ov_SC03_002 | 0.91/0.0157 L2=3 |
@@ -255,6 +236,13 @@
 | SC03.CD/31 | 0 | 4 | 647,503 | onboarded-code | ov_SC03_031 | 0.94/0.0155 L2=3 |
 | SC03.CD/6 | 0 | 4 | 849,759 | onboarded-code | ov_SC03_006 | 0.87/0.0130 L2=3 |
 | SC03.CD/7 | 0 | 4 | 799,087 | onboarded-code | ov_SC03_007 | 0.88/0.0131 L2=3 |
+| SC03.CD/73 | 2 | 1 | 29,112 | onboarded-code | md_SC03_073 | 0.79/0.0038 L2=3 |
+| SC03.CD/74 | 2 | 1 | 27,296 | onboarded-code | md_SC03_074 | 0.83/0.0042 L2=3 |
+| SC03.CD/75 | 2 | 1 | 30,792 | onboarded-code | md_SC03_075 | 0.82/0.0053 L2=3 |
+| SC03.CD/76 | 2 | 1 | 43,760 | onboarded-code | md_SC03_076 | 0.88/0.0060 L2=3 |
+| SC03.CD/77 | 2 | 1 | 32,768 | onboarded-code | md_SC03_077 | 0.79/0.0043 L2=3 |
+| SC03.CD/78 | 2 | 1 | 15,676 | onboarded-code | md_SC03_078 | 0.84/0.0069 L2=3 |
+| SC03.CD/79 | 2 | 1 | 39,340 | onboarded-code | md_SC03_079 | 0.79/0.0032 L2=3 |
 | SC03.CD/89 | 0 | 4 | 649,159 | onboarded-code | ov_SC03_089 | 0.91/0.0159 L2=3 |
 | SC03.CD/90 | 0 | 4 | 670,775 | onboarded-code | ov_SC03_090 | 0.90/0.0157 L2=3 |
 | SC03.CD/91 | 0 | 4 | 697,735 | onboarded-code | ov_SC03_091 | 0.90/0.0151 L2=3 |
@@ -277,7 +265,14 @@
 | SC04.CD/2 | 0 | 4 | 628,191 | onboarded-code | ov_SC04_002 | 0.91/0.0168 L2=3 |
 | SC04.CD/20 | 0 | 4 | 607,831 | onboarded-code | ov_SC04_020 | 0.92/0.0169 L2=3 |
 | SC04.CD/21 | 0 | 4 | 424,405 | onboarded-code | ov_SC04_021 | 0.97/0.0229 L2=3 |
+| SC04.CD/24 | 2 | 1 | 29,120 | onboarded-code | md_SC04_024 | 0.79/0.0038 L2=3 |
+| SC04.CD/25 | 2 | 1 | 27,312 | onboarded-code | md_SC04_025 | 0.83/0.0042 L2=3 |
+| SC04.CD/26 | 2 | 1 | 30,808 | onboarded-code | md_SC04_026 | 0.82/0.0053 L2=3 |
+| SC04.CD/27 | 2 | 1 | 43,776 | onboarded-code | md_SC04_027 | 0.88/0.0060 L2=3 |
+| SC04.CD/28 | 2 | 1 | 32,752 | onboarded-code | md_SC04_028 | 0.79/0.0043 L2=3 |
+| SC04.CD/29 | 2 | 1 | 15,692 | onboarded-code | md_SC04_029 | 0.84/0.0069 L2=3 |
 | SC04.CD/3 | 0 | 4 | 473,751 | onboarded-code | ov_SC04_003 | 0.97/0.0211 L2=3 |
+| SC04.CD/30 | 2 | 1 | 39,356 | onboarded-code | md_SC04_030 | 0.79/0.0032 L2=3 |
 | SC04.CD/4 | 0 | 4 | 572,159 | onboarded-code | ov_SC04_004 | 0.92/0.0179 L2=3 |
 | SC04.CD/5 | 0 | 4 | 631,255 | onboarded-code | ov_SC04_005 | 0.90/0.0166 L2=3 |
 | SC04.CD/6 | 0 | 4 | 482,423 | onboarded-code | ov_SC04_006 | 0.95/0.0204 L2=3 |
@@ -292,6 +287,13 @@
 | SC05.CD/18 | 0 | 4 | 780,087 | onboarded-code | ov_SC05_018 | 0.83/0.0137 L2=3 |
 | SC05.CD/19 | 0 | 4 | 424,405 | onboarded-code | ov_SC05_019 | 0.97/0.0229 L2=3 |
 | SC05.CD/2 | 0 | 4 | 491,111 | onboarded-code | ov_SC05_002 | 0.96/0.0199 L2=3 |
+| SC05.CD/23 | 2 | 1 | 29,168 | onboarded-code | md_SC05_023 | 0.79/0.0038 L2=3 |
+| SC05.CD/24 | 2 | 1 | 27,352 | onboarded-code | md_SC05_024 | 0.83/0.0042 L2=3 |
+| SC05.CD/25 | 2 | 1 | 30,848 | onboarded-code | md_SC05_025 | 0.82/0.0053 L2=3 |
+| SC05.CD/26 | 2 | 1 | 43,816 | onboarded-code | md_SC05_026 | 0.88/0.0060 L2=3 |
+| SC05.CD/27 | 2 | 1 | 32,792 | onboarded-code | md_SC05_027 | 0.79/0.0043 L2=3 |
+| SC05.CD/28 | 2 | 1 | 15,732 | onboarded-code | md_SC05_028 | 0.84/0.0069 L2=3 |
+| SC05.CD/29 | 2 | 1 | 39,396 | onboarded-code | md_SC05_029 | 0.79/0.0031 L2=3 |
 | SC05.CD/3 | 0 | 4 | 543,095 | onboarded-code | ov_SC05_003 | 0.94/0.0183 L2=3 |
 | SC05.CD/4 | 0 | 4 | 487,887 | onboarded-code | ov_SC05_004 | 0.96/0.0202 L2=3 |
 | SC05.CD/5 | 0 | 4 | 564,951 | onboarded-code | ov_SC05_005 | 0.93/0.0177 L2=3 |

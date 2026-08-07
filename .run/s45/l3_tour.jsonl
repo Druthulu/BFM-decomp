@@ -1,0 +1,452 @@
+{"t": "12:19:27", "mode": 11, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": [{"payload": "SC03/76", "vram": "0x801EF468"}]}
+{"t": "12:19:30", "mode": 7, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": [{"payload": "SC03/76", "vram": "0x801EF468"}]}
+{"t": "12:19:32", "mode": 7, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": [{"payload": "SC03/76", "vram": "0x801EF468"}]}
+{"t": "12:19:35", "mode": 7, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": [{"payload": "SC03/76", "vram": "0x801EF468"}]}
+{"t": "12:19:37", "mode": 7, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": [{"payload": "SC03/76", "vram": "0x801EF468"}]}
+{"t": "12:19:40", "mode": 7, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": [{"payload": "SC03/76", "vram": "0x801EF468"}]}
+{"t": "12:19:42", "mode": 7, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": [{"payload": "SC03/76", "vram": "0x801EF468"}]}
+{"t": "12:19:45", "mode": 7, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": [{"payload": "SC03/76", "vram": "0x801EF468"}]}
+{"t": "12:19:47", "mode": 7, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": [{"payload": "SC03/76", "vram": "0x801EF468"}]}
+{"t": "12:19:50", "mode": 7, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": [{"payload": "SC03/76", "vram": "0x801EF468"}]}
+{"t": "12:19:52", "mode": 7, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": [{"payload": "SC03/76", "vram": "0x801EF468"}]}
+{"t": "12:19:55", "mode": 7, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": [{"payload": "SC03/76", "vram": "0x801EF468"}]}
+{"t": "12:19:57", "mode": 7, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": [{"payload": "SC03/76", "vram": "0x801EF468"}]}
+{"t": "12:20:00", "mode": 7, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": [{"payload": "SC03/76", "vram": "0x801EF468"}]}
+{"t": "12:20:03", "mode": 7, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": [{"payload": "SC03/76", "vram": "0x801EF468"}]}
+{"t": "12:20:05", "mode": 7, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": [{"payload": "SC03/76", "vram": "0x801EF468"}]}
+{"t": "12:20:08", "mode": 7, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": [{"payload": "SC03/76", "vram": "0x801EF468"}]}
+{"t": "12:20:10", "mode": 7, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": [{"payload": "SC03/76", "vram": "0x801EF468"}]}
+{"t": "12:20:13", "mode": 7, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": [{"payload": "SC03/76", "vram": "0x801EF468"}]}
+{"t": "12:20:15", "mode": 7, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": [{"payload": "SC03/76", "vram": "0x801EF468"}]}
+{"t": "12:20:18", "mode": 7, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": [{"payload": "SC03/76", "vram": "0x801EF468"}]}
+{"t": "12:20:20", "mode": 7, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": [{"payload": "SC03/76", "vram": "0x801EF468"}]}
+{"t": "12:20:23", "mode": 7, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": [{"payload": "SC03/76", "vram": "0x801EF468"}]}
+{"t": "12:20:25", "mode": 7, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": [{"payload": "SC03/76", "vram": "0x801EF468"}]}
+{"t": "12:20:28", "mode": 7, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": [{"payload": "SC03/76", "vram": "0x801EF468"}]}
+{"t": "12:20:30", "mode": 7, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": [{"payload": "SC03/76", "vram": "0x801EF468"}]}
+{"t": "12:20:33", "mode": 7, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": [{"payload": "SC03/76", "vram": "0x801EF468"}]}
+{"t": "12:20:35", "mode": 7, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": [{"payload": "SC03/76", "vram": "0x801EF468"}]}
+{"t": "12:20:38", "mode": 7, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": [{"payload": "SC03/76", "vram": "0x801EF468"}]}
+{"t": "12:20:40", "mode": 7, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": [{"payload": "SC03/76", "vram": "0x801EF468"}]}
+{"t": "12:20:43", "mode": 7, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": [{"payload": "SC03/76", "vram": "0x801EF468"}]}
+{"t": "12:20:46", "mode": 7, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": [{"payload": "SC03/76", "vram": "0x801EF468"}]}
+{"t": "12:20:48", "mode": 7, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": [{"payload": "SC03/76", "vram": "0x801EF468"}]}
+{"t": "12:20:51", "mode": 7, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": [{"payload": "SC03/76", "vram": "0x801EF468"}]}
+{"t": "12:20:53", "mode": 7, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": [{"payload": "SC03/76", "vram": "0x801EF468"}]}
+{"t": "12:20:56", "mode": 7, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": [{"payload": "SC03/76", "vram": "0x801EF468"}]}
+{"t": "12:20:58", "mode": 7, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": [{"payload": "SC03/76", "vram": "0x801EF468"}]}
+{"t": "12:21:01", "mode": 7, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": [{"payload": "SC03/76", "vram": "0x801EF468"}]}
+{"t": "12:21:03", "mode": 7, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": [{"payload": "SC03/76", "vram": "0x801EF468"}]}
+{"t": "12:21:06", "mode": 7, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": [{"payload": "SC03/76", "vram": "0x801EF468"}]}
+{"t": "12:21:08", "mode": 7, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": [{"payload": "SC03/76", "vram": "0x801EF468"}]}
+{"t": "12:21:11", "mode": 7, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": [{"payload": "SC03/76", "vram": "0x801EF468"}]}
+{"t": "12:21:13", "mode": 7, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": [{"payload": "SC03/76", "vram": "0x801EF468"}]}
+{"t": "12:21:16", "mode": 7, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": [{"payload": "SC03/76", "vram": "0x801EF468"}]}
+{"t": "12:21:18", "mode": 7, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": [{"payload": "SC03/76", "vram": "0x801EF468"}]}
+{"t": "12:21:21", "mode": 7, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": [{"payload": "SC03/76", "vram": "0x801EF468"}]}
+{"t": "12:21:23", "mode": 7, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": [{"payload": "SC03/76", "vram": "0x801EF468"}]}
+{"t": "12:21:26", "mode": 7, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": [{"payload": "SC03/76", "vram": "0x801EF468"}]}
+{"t": "12:21:29", "mode": 0, "loc": 0, "overlay": null, "slots": {"A": "0x0", "B": "0x0", "res": "0x0", "sc07": "0x0"}, "hits": []}
+{"t": "12:21:42", "mode": 2, "loc": 0, "overlay": null, "slots": {"A": "0x0", "B": "0x0", "res": "0x38", "sc07": "0x0"}, "hits": []}
+{"t": "12:21:50", "mode": 5, "loc": 0, "overlay": null, "slots": {"A": "0x0", "B": "0x0", "res": "0x38", "sc07": "0x0"}, "hits": []}
+{"t": "12:21:52", "mode": 6, "loc": 0, "overlay": null, "slots": {"A": "0x0", "B": "0x0", "res": "0x39", "sc07": "0x0"}, "hits": []}
+{"t": "12:21:57", "mode": 10, "loc": 805318661, "overlay": null, "slots": {"A": "0x0", "B": "0x0", "res": "0x39", "sc07": "0x0"}, "hits": []}
+{"t": "12:22:00", "mode": 11, "loc": 805318661, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x0", "res": "0x36", "sc07": "0x0"}, "hits": []}
+{"t": "12:22:10", "mode": 11, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x0"}, "hits": []}
+{"t": "12:22:43", "mode": 7, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": []}
+{"t": "12:22:48", "mode": 8, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": []}
+{"t": "12:54:06", "mode": 10, "loc": 805318661, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": []}
+{"t": "12:54:09", "mode": 11, "loc": 805318661, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": []}
+{"t": "12:54:34", "mode": 11, "loc": 805318662, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x100005"}, "hits": []}
+{"t": "12:54:57", "mode": 8, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": []}
+{"t": "12:55:15", "mode": 8, "loc": 268439634, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": []}
+{"t": "12:55:17", "mode": 11, "loc": 268439634, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": []}
+{"t": "12:59:52", "mode": 11, "loc": 805318676, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": []}
+{"t": "13:00:02", "mode": 11, "loc": 268439634, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": []}
+{"t": "13:01:08", "mode": 8, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": []}
+{"t": "13:01:21", "mode": 10, "loc": 536879192, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": []}
+{"t": "13:01:23", "mode": 11, "loc": 536875090, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": []}
+{"t": "13:01:28", "mode": 11, "loc": 536879192, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/135", "vram": "0x801E25E8"}]}
+{"t": "13:01:31", "mode": 11, "loc": 536879192, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/135", "vram": "0x801E25E8"}]}
+{"t": "13:01:34", "mode": 11, "loc": 536879192, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/135", "vram": "0x801E25E8"}]}
+{"t": "13:01:36", "mode": 11, "loc": 536879192, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/135", "vram": "0x801E25E8"}]}
+{"t": "13:01:39", "mode": 11, "loc": 536879192, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/135", "vram": "0x801E25E8"}]}
+{"t": "13:01:41", "mode": 11, "loc": 536879192, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/135", "vram": "0x801E25E8"}]}
+{"t": "13:01:44", "mode": 11, "loc": 536879192, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/135", "vram": "0x801E25E8"}]}
+{"t": "13:01:46", "mode": 11, "loc": 536879192, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/135", "vram": "0x801E25E8"}]}
+{"t": "13:01:49", "mode": 11, "loc": 536879192, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/135", "vram": "0x801E25E8"}]}
+{"t": "13:01:51", "mode": 11, "loc": 536879192, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/135", "vram": "0x801E25E8"}]}
+{"t": "13:01:54", "mode": 11, "loc": 536879192, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/135", "vram": "0x801E25E8"}]}
+{"t": "13:01:56", "mode": 11, "loc": 536879192, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/135", "vram": "0x801E25E8"}]}
+{"t": "13:01:59", "mode": 11, "loc": 536879192, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/135", "vram": "0x801E25E8"}]}
+{"t": "13:02:02", "mode": 11, "loc": 536879192, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/135", "vram": "0x801E25E8"}]}
+{"t": "13:02:04", "mode": 11, "loc": 536879192, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/135", "vram": "0x801E25E8"}]}
+{"t": "13:02:07", "mode": 11, "loc": 536879192, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/135", "vram": "0x801E25E8"}]}
+{"t": "13:02:09", "mode": 11, "loc": 536879192, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/135", "vram": "0x801E25E8"}]}
+{"t": "13:02:12", "mode": 11, "loc": 536879192, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/135", "vram": "0x801E25E8"}]}
+{"t": "13:02:14", "mode": 11, "loc": 536879192, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/135", "vram": "0x801E25E8"}]}
+{"t": "13:02:17", "mode": 11, "loc": 536879192, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/135", "vram": "0x801E25E8"}]}
+{"t": "13:02:19", "mode": 11, "loc": 536879192, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/135", "vram": "0x801E25E8"}]}
+{"t": "13:02:22", "mode": 11, "loc": 536879192, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/135", "vram": "0x801E25E8"}]}
+{"t": "13:02:24", "mode": 11, "loc": 536879192, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/135", "vram": "0x801E25E8"}]}
+{"t": "13:02:27", "mode": 11, "loc": 536879192, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/135", "vram": "0x801E25E8"}]}
+{"t": "13:02:29", "mode": 11, "loc": 536879192, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/135", "vram": "0x801E25E8"}]}
+{"t": "13:02:32", "mode": 11, "loc": 536879192, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/135", "vram": "0x801E25E8"}]}
+{"t": "13:02:35", "mode": 11, "loc": 536879192, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/135", "vram": "0x801E25E8"}]}
+{"t": "13:02:37", "mode": 11, "loc": 536879192, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/135", "vram": "0x801E25E8"}]}
+{"t": "13:02:40", "mode": 11, "loc": 536879192, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/135", "vram": "0x801E25E8"}]}
+{"t": "13:02:42", "mode": 11, "loc": 536879192, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/135", "vram": "0x801E25E8"}]}
+{"t": "13:02:45", "mode": 11, "loc": 536879192, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/135", "vram": "0x801E25E8"}]}
+{"t": "13:02:47", "mode": 11, "loc": 536879192, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/135", "vram": "0x801E25E8"}]}
+{"t": "13:02:50", "mode": 11, "loc": 536879192, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/135", "vram": "0x801E25E8"}]}
+{"t": "13:02:52", "mode": 11, "loc": 536879192, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/135", "vram": "0x801E25E8"}]}
+{"t": "13:02:55", "mode": 11, "loc": 536879192, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/135", "vram": "0x801E25E8"}]}
+{"t": "13:02:57", "mode": 11, "loc": 536879192, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/135", "vram": "0x801E25E8"}]}
+{"t": "13:03:00", "mode": 11, "loc": 536879192, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/135", "vram": "0x801E25E8"}]}
+{"t": "13:03:02", "mode": 11, "loc": 536879192, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/135", "vram": "0x801E25E8"}]}
+{"t": "13:03:05", "mode": 11, "loc": 536879192, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/135", "vram": "0x801E25E8"}]}
+{"t": "13:03:08", "mode": 8, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": []}
+{"t": "13:03:18", "mode": 10, "loc": 536879189, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": []}
+{"t": "13:03:20", "mode": 11, "loc": 536875090, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": []}
+{"t": "13:03:25", "mode": 11, "loc": 536879189, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/132", "vram": "0x801E25E8"}]}
+{"t": "13:03:28", "mode": 11, "loc": 536879189, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/132", "vram": "0x801E25E8"}]}
+{"t": "13:03:30", "mode": 11, "loc": 536879189, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/132", "vram": "0x801E25E8"}]}
+{"t": "13:03:33", "mode": 11, "loc": 536879189, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/132", "vram": "0x801E25E8"}]}
+{"t": "13:03:35", "mode": 11, "loc": 536879189, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/132", "vram": "0x801E25E8"}]}
+{"t": "13:03:38", "mode": 11, "loc": 536879189, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/132", "vram": "0x801E25E8"}]}
+{"t": "13:03:41", "mode": 11, "loc": 536879189, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/132", "vram": "0x801E25E8"}]}
+{"t": "13:03:43", "mode": 11, "loc": 536879189, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/132", "vram": "0x801E25E8"}]}
+{"t": "13:03:46", "mode": 11, "loc": 536879189, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/132", "vram": "0x801E25E8"}]}
+{"t": "13:03:48", "mode": 11, "loc": 536879189, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/132", "vram": "0x801E25E8"}]}
+{"t": "13:03:51", "mode": 11, "loc": 536879189, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/132", "vram": "0x801E25E8"}]}
+{"t": "13:03:53", "mode": 8, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": []}
+{"t": "13:03:58", "mode": 10, "loc": 536879190, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": []}
+{"t": "13:04:01", "mode": 11, "loc": 536875090, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": []}
+{"t": "13:04:06", "mode": 11, "loc": 536879190, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/133", "vram": "0x801E25E8"}]}
+{"t": "13:04:09", "mode": 11, "loc": 536879190, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/133", "vram": "0x801E25E8"}]}
+{"t": "13:04:11", "mode": 11, "loc": 536879190, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/133", "vram": "0x801E25E8"}]}
+{"t": "13:04:14", "mode": 11, "loc": 536879190, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/133", "vram": "0x801E25E8"}]}
+{"t": "13:04:16", "mode": 11, "loc": 536879190, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/133", "vram": "0x801E25E8"}]}
+{"t": "13:04:19", "mode": 11, "loc": 536879190, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/133", "vram": "0x801E25E8"}]}
+{"t": "13:04:21", "mode": 11, "loc": 536879190, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/133", "vram": "0x801E25E8"}]}
+{"t": "13:04:24", "mode": 11, "loc": 536879190, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/133", "vram": "0x801E25E8"}]}
+{"t": "13:04:26", "mode": 11, "loc": 536879190, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/133", "vram": "0x801E25E8"}]}
+{"t": "13:04:29", "mode": 11, "loc": 536879190, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/133", "vram": "0x801E25E8"}]}
+{"t": "13:04:31", "mode": 8, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": []}
+{"t": "13:04:36", "mode": 10, "loc": 536879191, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": []}
+{"t": "13:04:39", "mode": 11, "loc": 536875090, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": []}
+{"t": "13:04:44", "mode": 11, "loc": 536879191, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/134", "vram": "0x801E25E8"}]}
+{"t": "13:04:47", "mode": 11, "loc": 536879191, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/134", "vram": "0x801E25E8"}]}
+{"t": "13:04:49", "mode": 11, "loc": 536879191, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/134", "vram": "0x801E25E8"}]}
+{"t": "13:04:52", "mode": 11, "loc": 536879191, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/134", "vram": "0x801E25E8"}]}
+{"t": "13:04:54", "mode": 11, "loc": 536879191, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/134", "vram": "0x801E25E8"}]}
+{"t": "13:04:57", "mode": 11, "loc": 536879191, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/134", "vram": "0x801E25E8"}]}
+{"t": "13:04:59", "mode": 11, "loc": 536879191, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/134", "vram": "0x801E25E8"}]}
+{"t": "13:05:02", "mode": 11, "loc": 536879191, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/134", "vram": "0x801E25E8"}]}
+{"t": "13:05:04", "mode": 11, "loc": 536879191, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/134", "vram": "0x801E25E8"}]}
+{"t": "13:05:07", "mode": 8, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": []}
+{"t": "13:05:12", "mode": 10, "loc": 536879193, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": []}
+{"t": "13:05:15", "mode": 11, "loc": 536875090, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": []}
+{"t": "13:05:20", "mode": 11, "loc": 536879193, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/136", "vram": "0x801E25E8"}]}
+{"t": "13:05:22", "mode": 11, "loc": 536879193, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/136", "vram": "0x801E25E8"}]}
+{"t": "13:05:25", "mode": 11, "loc": 536879193, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/136", "vram": "0x801E25E8"}]}
+{"t": "13:05:27", "mode": 11, "loc": 536879193, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/136", "vram": "0x801E25E8"}]}
+{"t": "13:05:30", "mode": 11, "loc": 536879193, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/136", "vram": "0x801E25E8"}]}
+{"t": "13:05:32", "mode": 11, "loc": 536879193, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/136", "vram": "0x801E25E8"}]}
+{"t": "13:05:35", "mode": 11, "loc": 536879193, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/136", "vram": "0x801E25E8"}]}
+{"t": "13:05:37", "mode": 11, "loc": 536879193, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/136", "vram": "0x801E25E8"}]}
+{"t": "13:05:40", "mode": 8, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": []}
+{"t": "13:05:45", "mode": 10, "loc": 536879194, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": []}
+{"t": "13:05:48", "mode": 11, "loc": 536875090, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": []}
+{"t": "13:05:53", "mode": 11, "loc": 536879194, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/137", "vram": "0x801E25E8"}]}
+{"t": "13:05:55", "mode": 11, "loc": 536879194, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/137", "vram": "0x801E25E8"}]}
+{"t": "13:05:58", "mode": 11, "loc": 536879194, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/137", "vram": "0x801E25E8"}]}
+{"t": "13:06:00", "mode": 11, "loc": 536879194, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/137", "vram": "0x801E25E8"}]}
+{"t": "13:06:03", "mode": 11, "loc": 536879194, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/137", "vram": "0x801E25E8"}]}
+{"t": "13:06:05", "mode": 11, "loc": 268439634, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/137", "vram": "0x801E25E8"}]}
+{"t": "13:06:08", "mode": 11, "loc": 268439634, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/137", "vram": "0x801E25E8"}]}
+{"t": "13:06:10", "mode": 8, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": []}
+{"t": "13:06:21", "mode": 10, "loc": 536879195, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": []}
+{"t": "13:06:23", "mode": 11, "loc": 536875090, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": []}
+{"t": "13:06:28", "mode": 11, "loc": 536879195, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/138", "vram": "0x801E25E8"}]}
+{"t": "13:06:31", "mode": 11, "loc": 536879195, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/138", "vram": "0x801E25E8"}]}
+{"t": "13:06:33", "mode": 11, "loc": 536879195, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/138", "vram": "0x801E25E8"}]}
+{"t": "13:06:36", "mode": 11, "loc": 268439634, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/138", "vram": "0x801E25E8"}]}
+{"t": "13:06:38", "mode": 11, "loc": 268439634, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/138", "vram": "0x801E25E8"}]}
+{"t": "13:06:41", "mode": 11, "loc": 268439634, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/138", "vram": "0x801E25E8"}]}
+{"t": "13:06:44", "mode": 11, "loc": 268439634, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/138", "vram": "0x801E25E8"}]}
+{"t": "13:06:46", "mode": 11, "loc": 268439634, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/138", "vram": "0x801E25E8"}]}
+{"t": "13:06:49", "mode": 11, "loc": 268439634, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/138", "vram": "0x801E25E8"}]}
+{"t": "13:06:51", "mode": 11, "loc": 268439634, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/138", "vram": "0x801E25E8"}]}
+{"t": "13:06:54", "mode": 11, "loc": 268439634, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/138", "vram": "0x801E25E8"}]}
+{"t": "13:06:56", "mode": 11, "loc": 268439634, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xc1018e"}, "hits": [{"payload": "SC03/138", "vram": "0x801E25E8"}]}
+{"t": "13:06:59", "mode": 8, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": []}
+{"t": "13:07:06", "mode": 8, "loc": 536879226, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": []}
+{"t": "13:07:09", "mode": 11, "loc": 536879226, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": []}
+{"t": "13:07:11", "mode": 11, "loc": 536875127, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x50b02b6"}, "hits": []}
+{"t": "13:07:14", "mode": 11, "loc": 536879226, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x50b02b6"}, "hits": []}
+{"t": "13:07:17", "mode": 11, "loc": 536879226, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x50b02b6"}, "hits": [{"payload": "SC04/24", "vram": "0x801E7B28"}]}
+{"t": "13:07:19", "mode": 11, "loc": 536879226, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x50b02b6"}, "hits": [{"payload": "SC04/24", "vram": "0x801E7B28"}]}
+{"t": "13:07:22", "mode": 11, "loc": 536879226, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x50b02b6"}, "hits": [{"payload": "SC04/24", "vram": "0x801E7B28"}]}
+{"t": "13:07:24", "mode": 11, "loc": 536879226, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x50b02b6"}, "hits": [{"payload": "SC04/24", "vram": "0x801E7B28"}]}
+{"t": "13:07:27", "mode": 11, "loc": 536879226, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x50b02b6"}, "hits": [{"payload": "SC04/24", "vram": "0x801E7B28"}]}
+{"t": "13:07:29", "mode": 11, "loc": 536879226, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x50b02b6"}, "hits": [{"payload": "SC04/24", "vram": "0x801E7B28"}]}
+{"t": "13:07:32", "mode": 11, "loc": 536879226, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x50b02b6"}, "hits": [{"payload": "SC04/24", "vram": "0x801E7B28"}]}
+{"t": "13:07:34", "mode": 11, "loc": 536879226, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x50b02b6"}, "hits": [{"payload": "SC04/24", "vram": "0x801E7B28"}]}
+{"t": "13:07:37", "mode": 11, "loc": 536879226, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x50b02b6"}, "hits": [{"payload": "SC04/24", "vram": "0x801E7B28"}]}
+{"t": "13:07:39", "mode": 11, "loc": 536879226, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x50b02b6"}, "hits": [{"payload": "SC04/24", "vram": "0x801E7B28"}]}
+{"t": "13:07:42", "mode": 11, "loc": 536879226, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x50b02b6"}, "hits": [{"payload": "SC04/24", "vram": "0x801E7B28"}]}
+{"t": "13:07:45", "mode": 8, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": []}
+{"t": "13:07:52", "mode": 10, "loc": 536879227, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": []}
+{"t": "13:07:55", "mode": 11, "loc": 536875127, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": []}
+{"t": "13:08:00", "mode": 11, "loc": 536879227, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x50b02b6"}, "hits": [{"payload": "SC04/25", "vram": "0x801E7B28"}]}
+{"t": "13:08:02", "mode": 11, "loc": 536879227, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x50b02b6"}, "hits": [{"payload": "SC04/25", "vram": "0x801E7B28"}]}
+{"t": "13:08:05", "mode": 11, "loc": 536879227, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x50b02b6"}, "hits": [{"payload": "SC04/25", "vram": "0x801E7B28"}]}
+{"t": "13:08:07", "mode": 11, "loc": 536879227, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x50b02b6"}, "hits": [{"payload": "SC04/25", "vram": "0x801E7B28"}]}
+{"t": "13:08:10", "mode": 11, "loc": 536879227, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x50b02b6"}, "hits": [{"payload": "SC04/25", "vram": "0x801E7B28"}]}
+{"t": "13:08:12", "mode": 8, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": []}
+{"t": "13:08:20", "mode": 8, "loc": 536879228, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": []}
+{"t": "13:08:23", "mode": 11, "loc": 536879228, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": []}
+{"t": "13:08:25", "mode": 11, "loc": 536875127, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x50b02b6"}, "hits": []}
+{"t": "13:08:28", "mode": 11, "loc": 536879228, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x50b02b6"}, "hits": []}
+{"t": "13:08:30", "mode": 11, "loc": 536879228, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x50b02b6"}, "hits": [{"payload": "SC04/26", "vram": "0x801E7B28"}]}
+{"t": "13:08:33", "mode": 11, "loc": 536879228, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x50b02b6"}, "hits": [{"payload": "SC04/26", "vram": "0x801E7B28"}]}
+{"t": "13:08:35", "mode": 11, "loc": 536879228, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x50b02b6"}, "hits": [{"payload": "SC04/26", "vram": "0x801E7B28"}]}
+{"t": "13:08:38", "mode": 11, "loc": 536879228, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x50b02b6"}, "hits": [{"payload": "SC04/26", "vram": "0x801E7B28"}]}
+{"t": "13:08:40", "mode": 8, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": []}
+{"t": "13:08:46", "mode": 10, "loc": 536879229, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": []}
+{"t": "13:08:48", "mode": 11, "loc": 536875127, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": []}
+{"t": "13:08:53", "mode": 11, "loc": 536879229, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x50b02b6"}, "hits": [{"payload": "SC04/27", "vram": "0x801E7B28"}]}
+{"t": "13:08:56", "mode": 11, "loc": 536879229, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x50b02b6"}, "hits": [{"payload": "SC04/27", "vram": "0x801E7B28"}]}
+{"t": "13:08:58", "mode": 11, "loc": 536879229, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x50b02b6"}, "hits": [{"payload": "SC04/27", "vram": "0x801E7B28"}]}
+{"t": "13:09:01", "mode": 11, "loc": 536879229, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x50b02b6"}, "hits": [{"payload": "SC04/27", "vram": "0x801E7B28"}]}
+{"t": "13:09:03", "mode": 11, "loc": 536879229, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x50b02b6"}, "hits": [{"payload": "SC04/27", "vram": "0x801E7B28"}]}
+{"t": "13:09:06", "mode": 11, "loc": 536879229, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x50b02b6"}, "hits": [{"payload": "SC04/27", "vram": "0x801E7B28"}]}
+{"t": "13:09:08", "mode": 11, "loc": 536879229, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x50b02b6"}, "hits": [{"payload": "SC04/27", "vram": "0x801E7B28"}]}
+{"t": "13:09:11", "mode": 8, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": []}
+{"t": "13:09:16", "mode": 10, "loc": 536879230, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": []}
+{"t": "13:09:19", "mode": 11, "loc": 536875127, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": []}
+{"t": "13:09:24", "mode": 11, "loc": 536879230, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x50b02b6"}, "hits": [{"payload": "SC04/28", "vram": "0x801E7B28"}]}
+{"t": "13:09:26", "mode": 11, "loc": 536879230, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x50b02b6"}, "hits": [{"payload": "SC04/28", "vram": "0x801E7B28"}]}
+{"t": "13:09:29", "mode": 11, "loc": 536879230, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x50b02b6"}, "hits": [{"payload": "SC04/28", "vram": "0x801E7B28"}]}
+{"t": "13:09:31", "mode": 11, "loc": 536879230, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x50b02b6"}, "hits": [{"payload": "SC04/28", "vram": "0x801E7B28"}]}
+{"t": "13:09:34", "mode": 11, "loc": 536879230, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x50b02b6"}, "hits": [{"payload": "SC04/28", "vram": "0x801E7B28"}]}
+{"t": "13:09:36", "mode": 8, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": []}
+{"t": "13:09:41", "mode": 10, "loc": 536879231, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": []}
+{"t": "13:09:44", "mode": 11, "loc": 536879231, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": []}
+{"t": "13:09:47", "mode": 11, "loc": 536875127, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x50b02b6"}, "hits": []}
+{"t": "13:09:49", "mode": 11, "loc": 536879231, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x50b02b6"}, "hits": [{"payload": "SC04/29", "vram": "0x801E7B28"}]}
+{"t": "13:09:52", "mode": 11, "loc": 536879231, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x50b02b6"}, "hits": [{"payload": "SC04/29", "vram": "0x801E7B28"}]}
+{"t": "13:09:54", "mode": 11, "loc": 536879231, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x50b02b6"}, "hits": [{"payload": "SC04/29", "vram": "0x801E7B28"}]}
+{"t": "13:09:57", "mode": 11, "loc": 536879231, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x50b02b6"}, "hits": [{"payload": "SC04/29", "vram": "0x801E7B28"}]}
+{"t": "13:09:59", "mode": 11, "loc": 536879231, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x50b02b6"}, "hits": [{"payload": "SC04/29", "vram": "0x801E7B28"}]}
+{"t": "13:10:02", "mode": 11, "loc": 536879231, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x50b02b6"}, "hits": [{"payload": "SC04/29", "vram": "0x801E7B28"}]}
+{"t": "13:10:04", "mode": 8, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": []}
+{"t": "13:10:09", "mode": 10, "loc": 536879232, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": []}
+{"t": "13:10:12", "mode": 11, "loc": 536879232, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": []}
+{"t": "13:10:15", "mode": 11, "loc": 536875127, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x50b02b6"}, "hits": []}
+{"t": "13:10:25", "mode": 11, "loc": 536879232, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x50b02b6"}, "hits": [{"payload": "SC04/30", "vram": "0x801E7B28"}]}
+{"t": "13:10:28", "mode": 11, "loc": 536879232, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x50b02b6"}, "hits": [{"payload": "SC04/30", "vram": "0x801E7B28"}]}
+{"t": "13:10:30", "mode": 11, "loc": 536879232, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x50b02b6"}, "hits": [{"payload": "SC04/30", "vram": "0x801E7B28"}]}
+{"t": "13:10:33", "mode": 11, "loc": 536879232, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x50b02b6"}, "hits": [{"payload": "SC04/30", "vram": "0x801E7B28"}]}
+{"t": "13:10:35", "mode": 11, "loc": 536879232, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x50b02b6"}, "hits": [{"payload": "SC04/30", "vram": "0x801E7B28"}]}
+{"t": "13:10:38", "mode": 11, "loc": 536879232, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x50b02b6"}, "hits": [{"payload": "SC04/30", "vram": "0x801E7B28"}]}
+{"t": "13:10:40", "mode": 11, "loc": 536879232, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x50b02b6"}, "hits": [{"payload": "SC04/30", "vram": "0x801E7B28"}]}
+{"t": "13:10:43", "mode": 11, "loc": 536879232, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x50b02b6"}, "hits": [{"payload": "SC04/30", "vram": "0x801E7B28"}]}
+{"t": "13:10:45", "mode": 8, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": []}
+{"t": "13:10:56", "mode": 10, "loc": 536879255, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": []}
+{"t": "13:10:58", "mode": 11, "loc": 536875156, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": []}
+{"t": "13:11:03", "mode": 11, "loc": 536879255, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x4d5"}, "hits": [{"payload": "SC05/23", "vram": "0x801ED988"}]}
+{"t": "13:11:06", "mode": 11, "loc": 536879255, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x4d5"}, "hits": [{"payload": "SC05/23", "vram": "0x801ED988"}]}
+{"t": "13:11:08", "mode": 11, "loc": 536879255, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x4d5"}, "hits": [{"payload": "SC05/23", "vram": "0x801ED988"}]}
+{"t": "13:11:11", "mode": 11, "loc": 536879255, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x4d5"}, "hits": [{"payload": "SC05/23", "vram": "0x801ED988"}]}
+{"t": "13:11:13", "mode": 11, "loc": 536879255, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x4d5"}, "hits": [{"payload": "SC05/23", "vram": "0x801ED988"}]}
+{"t": "13:11:16", "mode": 11, "loc": 536879255, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x4d5"}, "hits": [{"payload": "SC05/23", "vram": "0x801ED988"}]}
+{"t": "13:11:18", "mode": 11, "loc": 536879255, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x4d5"}, "hits": [{"payload": "SC05/23", "vram": "0x801ED988"}]}
+{"t": "13:11:21", "mode": 8, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": []}
+{"t": "13:11:26", "mode": 10, "loc": 536879256, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": []}
+{"t": "13:11:29", "mode": 11, "loc": 536875156, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": []}
+{"t": "13:11:34", "mode": 11, "loc": 536879256, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x4d5"}, "hits": [{"payload": "SC05/24", "vram": "0x801ED988"}]}
+{"t": "13:11:36", "mode": 11, "loc": 536879256, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x4d5"}, "hits": [{"payload": "SC05/24", "vram": "0x801ED988"}]}
+{"t": "13:11:39", "mode": 11, "loc": 536879256, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x4d5"}, "hits": [{"payload": "SC05/24", "vram": "0x801ED988"}]}
+{"t": "13:11:41", "mode": 11, "loc": 536879256, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x4d5"}, "hits": [{"payload": "SC05/24", "vram": "0x801ED988"}]}
+{"t": "13:11:44", "mode": 11, "loc": 536879256, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x4d5"}, "hits": [{"payload": "SC05/24", "vram": "0x801ED988"}]}
+{"t": "13:11:46", "mode": 8, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": []}
+{"t": "13:11:54", "mode": 10, "loc": 536879258, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": []}
+{"t": "13:11:56", "mode": 11, "loc": 536875156, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": []}
+{"t": "13:12:02", "mode": 11, "loc": 536879258, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x4d5"}, "hits": [{"payload": "SC05/26", "vram": "0x801ED988"}]}
+{"t": "13:12:04", "mode": 11, "loc": 536879258, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x4d5"}, "hits": [{"payload": "SC05/26", "vram": "0x801ED988"}]}
+{"t": "13:12:07", "mode": 11, "loc": 536879258, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x4d5"}, "hits": [{"payload": "SC05/26", "vram": "0x801ED988"}]}
+{"t": "13:12:09", "mode": 11, "loc": 536879258, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x4d5"}, "hits": [{"payload": "SC05/26", "vram": "0x801ED988"}]}
+{"t": "13:12:12", "mode": 11, "loc": 536879258, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x4d5"}, "hits": [{"payload": "SC05/26", "vram": "0x801ED988"}]}
+{"t": "13:12:14", "mode": 11, "loc": 536879258, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x4d5"}, "hits": [{"payload": "SC05/26", "vram": "0x801ED988"}]}
+{"t": "13:12:17", "mode": 11, "loc": 536879258, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x4d5"}, "hits": [{"payload": "SC05/26", "vram": "0x801ED988"}]}
+{"t": "13:12:19", "mode": 11, "loc": 536879258, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x4d5"}, "hits": [{"payload": "SC05/26", "vram": "0x801ED988"}]}
+{"t": "13:12:22", "mode": 11, "loc": 536879258, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x4d5"}, "hits": [{"payload": "SC05/26", "vram": "0x801ED988"}]}
+{"t": "13:12:24", "mode": 11, "loc": 536879258, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x4d5"}, "hits": [{"payload": "SC05/26", "vram": "0x801ED988"}]}
+{"t": "13:12:27", "mode": 8, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": []}
+{"t": "13:12:32", "mode": 10, "loc": 536879257, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": []}
+{"t": "13:12:35", "mode": 11, "loc": 536875156, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": []}
+{"t": "13:12:40", "mode": 11, "loc": 536879257, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x4d5"}, "hits": [{"payload": "SC05/25", "vram": "0x801ED988"}]}
+{"t": "13:12:42", "mode": 11, "loc": 536879257, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x4d5"}, "hits": [{"payload": "SC05/25", "vram": "0x801ED988"}]}
+{"t": "13:12:45", "mode": 11, "loc": 536879257, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x4d5"}, "hits": [{"payload": "SC05/25", "vram": "0x801ED988"}]}
+{"t": "13:12:47", "mode": 11, "loc": 536879257, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x4d5"}, "hits": [{"payload": "SC05/25", "vram": "0x801ED988"}]}
+{"t": "13:12:50", "mode": 11, "loc": 536879257, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x4d5"}, "hits": [{"payload": "SC05/25", "vram": "0x801ED988"}]}
+{"t": "13:12:52", "mode": 11, "loc": 536879257, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x4d5"}, "hits": [{"payload": "SC05/25", "vram": "0x801ED988"}]}
+{"t": "13:12:55", "mode": 8, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": []}
+{"t": "13:13:02", "mode": 10, "loc": 536879259, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": []}
+{"t": "13:13:05", "mode": 11, "loc": 536875156, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": []}
+{"t": "13:13:10", "mode": 11, "loc": 536879259, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x4d5"}, "hits": [{"payload": "SC05/27", "vram": "0x801ED988"}]}
+{"t": "13:13:13", "mode": 11, "loc": 536879259, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x4d5"}, "hits": [{"payload": "SC05/27", "vram": "0x801ED988"}]}
+{"t": "13:13:15", "mode": 11, "loc": 536879259, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x4d5"}, "hits": [{"payload": "SC05/27", "vram": "0x801ED988"}]}
+{"t": "13:13:18", "mode": 11, "loc": 536879259, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x4d5"}, "hits": [{"payload": "SC05/27", "vram": "0x801ED988"}]}
+{"t": "13:13:20", "mode": 11, "loc": 536879259, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x4d5"}, "hits": [{"payload": "SC05/27", "vram": "0x801ED988"}]}
+{"t": "13:13:23", "mode": 11, "loc": 536879259, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x4d5"}, "hits": [{"payload": "SC05/27", "vram": "0x801ED988"}]}
+{"t": "13:13:25", "mode": 8, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": []}
+{"t": "13:13:30", "mode": 10, "loc": 536879260, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": []}
+{"t": "13:13:33", "mode": 11, "loc": 536879260, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": []}
+{"t": "13:13:36", "mode": 11, "loc": 536875156, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x4d5"}, "hits": []}
+{"t": "13:13:38", "mode": 11, "loc": 536879260, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x4d5"}, "hits": [{"payload": "SC05/28", "vram": "0x801ED988"}]}
+{"t": "13:13:41", "mode": 11, "loc": 536879260, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x4d5"}, "hits": [{"payload": "SC05/28", "vram": "0x801ED988"}]}
+{"t": "13:13:43", "mode": 11, "loc": 536879260, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x4d5"}, "hits": [{"payload": "SC05/28", "vram": "0x801ED988"}]}
+{"t": "13:13:46", "mode": 11, "loc": 536879260, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x4d5"}, "hits": [{"payload": "SC05/28", "vram": "0x801ED988"}]}
+{"t": "13:13:48", "mode": 11, "loc": 536879260, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x4d5"}, "hits": [{"payload": "SC05/28", "vram": "0x801ED988"}]}
+{"t": "13:13:51", "mode": 8, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": []}
+{"t": "13:13:56", "mode": 8, "loc": 536879261, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": []}
+{"t": "13:13:58", "mode": 11, "loc": 536879261, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": []}
+{"t": "13:14:01", "mode": 11, "loc": 536875156, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x4d5"}, "hits": []}
+{"t": "13:14:04", "mode": 11, "loc": 536879261, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x4d5"}, "hits": []}
+{"t": "13:14:06", "mode": 11, "loc": 536879261, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x4d5"}, "hits": [{"payload": "SC05/29", "vram": "0x801ED988"}]}
+{"t": "13:14:09", "mode": 11, "loc": 536879261, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x4d5"}, "hits": [{"payload": "SC05/29", "vram": "0x801ED988"}]}
+{"t": "13:14:11", "mode": 11, "loc": 536879261, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x4d5"}, "hits": [{"payload": "SC05/29", "vram": "0x801ED988"}]}
+{"t": "13:14:14", "mode": 11, "loc": 536879261, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x4d5"}, "hits": [{"payload": "SC05/29", "vram": "0x801ED988"}]}
+{"t": "13:14:16", "mode": 11, "loc": 536879261, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x4d5"}, "hits": [{"payload": "SC05/29", "vram": "0x801ED988"}]}
+{"t": "13:14:19", "mode": 11, "loc": 536879261, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x4d5"}, "hits": [{"payload": "SC05/29", "vram": "0x801ED988"}]}
+{"t": "13:14:21", "mode": 11, "loc": 536879261, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x4d5"}, "hits": [{"payload": "SC05/29", "vram": "0x801ED988"}]}
+{"t": "13:14:24", "mode": 11, "loc": 536879261, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x4d5"}, "hits": [{"payload": "SC05/29", "vram": "0x801ED988"}]}
+{"t": "13:14:26", "mode": 11, "loc": 536879261, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x4d5"}, "hits": [{"payload": "SC05/29", "vram": "0x801ED988"}]}
+{"t": "13:14:29", "mode": 11, "loc": 536879261, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x4d5"}, "hits": [{"payload": "SC05/29", "vram": "0x801ED988"}]}
+{"t": "13:14:31", "mode": 11, "loc": 536879261, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x4d5"}, "hits": [{"payload": "SC05/29", "vram": "0x801ED988"}]}
+{"t": "13:14:34", "mode": 11, "loc": 536879261, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x4d5"}, "hits": [{"payload": "SC05/29", "vram": "0x801ED988"}]}
+{"t": "13:14:37", "mode": 11, "loc": 536879261, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x4d5"}, "hits": [{"payload": "SC05/29", "vram": "0x801ED988"}]}
+{"t": "13:14:39", "mode": 11, "loc": 536879261, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x4d5"}, "hits": [{"payload": "SC05/29", "vram": "0x801ED988"}]}
+{"t": "13:14:42", "mode": 11, "loc": 536879261, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x4d5"}, "hits": [{"payload": "SC05/29", "vram": "0x801ED988"}]}
+{"t": "13:14:44", "mode": 11, "loc": 536879261, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x4d5"}, "hits": [{"payload": "SC05/29", "vram": "0x801ED988"}]}
+{"t": "13:14:47", "mode": 11, "loc": 536879261, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x4d5"}, "hits": [{"payload": "SC05/29", "vram": "0x801ED988"}]}
+{"t": "13:14:49", "mode": 11, "loc": 536879261, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x4d5"}, "hits": [{"payload": "SC05/29", "vram": "0x801ED988"}]}
+{"t": "13:14:52", "mode": 11, "loc": 536879261, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x4d5"}, "hits": [{"payload": "SC05/29", "vram": "0x801ED988"}]}
+{"t": "13:14:54", "mode": 11, "loc": 536879261, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x4d5"}, "hits": [{"payload": "SC05/29", "vram": "0x801ED988"}]}
+{"t": "13:14:57", "mode": 11, "loc": 536879261, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x4d5"}, "hits": [{"payload": "SC05/29", "vram": "0x801ED988"}]}
+{"t": "13:14:59", "mode": 11, "loc": 536879261, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x4d5"}, "hits": [{"payload": "SC05/29", "vram": "0x801ED988"}]}
+{"t": "13:15:02", "mode": 11, "loc": 536879261, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x4d5"}, "hits": [{"payload": "SC05/29", "vram": "0x801ED988"}]}
+{"t": "13:15:05", "mode": 8, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": []}
+{"t": "13:15:15", "mode": 10, "loc": 536879123, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": []}
+{"t": "13:15:17", "mode": 11, "loc": 536879123, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": []}
+{"t": "13:15:20", "mode": 11, "loc": 536879123, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": [{"payload": "SC03/73", "vram": "0x801EF468"}]}
+{"t": "13:15:22", "mode": 11, "loc": 536879123, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": [{"payload": "SC03/73", "vram": "0x801EF468"}]}
+{"t": "13:15:25", "mode": 11, "loc": 536879123, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": [{"payload": "SC03/73", "vram": "0x801EF468"}]}
+{"t": "13:15:27", "mode": 11, "loc": 536879123, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": [{"payload": "SC03/73", "vram": "0x801EF468"}]}
+{"t": "13:15:30", "mode": 11, "loc": 536879123, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": [{"payload": "SC03/73", "vram": "0x801EF468"}]}
+{"t": "13:15:33", "mode": 11, "loc": 536879123, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": [{"payload": "SC03/73", "vram": "0x801EF468"}]}
+{"t": "13:15:35", "mode": 11, "loc": 536879123, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": [{"payload": "SC03/73", "vram": "0x801EF468"}]}
+{"t": "13:15:38", "mode": 11, "loc": 536879123, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": [{"payload": "SC03/73", "vram": "0x801EF468"}]}
+{"t": "13:15:40", "mode": 8, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": []}
+{"t": "13:15:45", "mode": 10, "loc": 536879125, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": []}
+{"t": "13:15:48", "mode": 11, "loc": 536879125, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": [{"payload": "SC03/74", "vram": "0x801EF468"}]}
+{"t": "13:15:50", "mode": 11, "loc": 536879125, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": [{"payload": "SC03/74", "vram": "0x801EF468"}]}
+{"t": "13:15:53", "mode": 11, "loc": 536879125, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": [{"payload": "SC03/74", "vram": "0x801EF468"}]}
+{"t": "13:15:55", "mode": 11, "loc": 536879125, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": [{"payload": "SC03/74", "vram": "0x801EF468"}]}
+{"t": "13:15:58", "mode": 11, "loc": 536879125, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": [{"payload": "SC03/74", "vram": "0x801EF468"}]}
+{"t": "13:16:00", "mode": 8, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": []}
+{"t": "13:16:06", "mode": 10, "loc": 536879126, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": []}
+{"t": "13:16:08", "mode": 11, "loc": 536879126, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": []}
+{"t": "13:16:11", "mode": 11, "loc": 536879126, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": [{"payload": "SC03/75", "vram": "0x801EF468"}]}
+{"t": "13:16:13", "mode": 11, "loc": 536879126, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": [{"payload": "SC03/75", "vram": "0x801EF468"}]}
+{"t": "13:16:16", "mode": 11, "loc": 536879126, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": [{"payload": "SC03/75", "vram": "0x801EF468"}]}
+{"t": "13:16:18", "mode": 11, "loc": 536879126, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": [{"payload": "SC03/75", "vram": "0x801EF468"}]}
+{"t": "13:16:21", "mode": 11, "loc": 536879126, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": [{"payload": "SC03/75", "vram": "0x801EF468"}]}
+{"t": "13:16:23", "mode": 11, "loc": 536879126, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": [{"payload": "SC03/75", "vram": "0x801EF468"}]}
+{"t": "13:16:26", "mode": 11, "loc": 536879126, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": [{"payload": "SC03/75", "vram": "0x801EF468"}]}
+{"t": "13:16:28", "mode": 8, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": []}
+{"t": "13:16:34", "mode": 10, "loc": 536879127, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": []}
+{"t": "13:16:36", "mode": 11, "loc": 536879127, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": [{"payload": "SC03/76", "vram": "0x801EF468"}]}
+{"t": "13:16:39", "mode": 11, "loc": 536879127, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": [{"payload": "SC03/76", "vram": "0x801EF468"}]}
+{"t": "13:16:41", "mode": 11, "loc": 536879127, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": [{"payload": "SC03/76", "vram": "0x801EF468"}]}
+{"t": "13:16:44", "mode": 11, "loc": 536879127, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": [{"payload": "SC03/76", "vram": "0x801EF468"}]}
+{"t": "13:16:46", "mode": 11, "loc": 536879127, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": [{"payload": "SC03/76", "vram": "0x801EF468"}]}
+{"t": "13:16:49", "mode": 11, "loc": 536879127, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": [{"payload": "SC03/76", "vram": "0x801EF468"}]}
+{"t": "13:16:51", "mode": 11, "loc": 536879127, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": [{"payload": "SC03/76", "vram": "0x801EF468"}]}
+{"t": "13:16:54", "mode": 8, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": []}
+{"t": "13:16:59", "mode": 10, "loc": 536879128, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": []}
+{"t": "13:17:01", "mode": 11, "loc": 536879128, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": []}
+{"t": "13:17:04", "mode": 11, "loc": 536879128, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": [{"payload": "SC03/77", "vram": "0x801EF468"}]}
+{"t": "13:17:07", "mode": 11, "loc": 536879128, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": [{"payload": "SC03/77", "vram": "0x801EF468"}]}
+{"t": "13:17:09", "mode": 11, "loc": 536879128, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": [{"payload": "SC03/77", "vram": "0x801EF468"}]}
+{"t": "13:17:12", "mode": 11, "loc": 536879128, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": [{"payload": "SC03/77", "vram": "0x801EF468"}]}
+{"t": "13:17:14", "mode": 11, "loc": 536879128, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": [{"payload": "SC03/77", "vram": "0x801EF468"}]}
+{"t": "13:17:17", "mode": 8, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": []}
+{"t": "13:17:22", "mode": 10, "loc": 536879129, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": []}
+{"t": "13:17:24", "mode": 11, "loc": 536879129, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": []}
+{"t": "13:17:27", "mode": 11, "loc": 536879129, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": [{"payload": "SC03/78", "vram": "0x801EF468"}]}
+{"t": "13:17:29", "mode": 11, "loc": 536879129, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": [{"payload": "SC03/78", "vram": "0x801EF468"}]}
+{"t": "13:17:32", "mode": 11, "loc": 536879129, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": [{"payload": "SC03/78", "vram": "0x801EF468"}]}
+{"t": "13:17:35", "mode": 11, "loc": 536879129, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": [{"payload": "SC03/78", "vram": "0x801EF468"}]}
+{"t": "13:17:37", "mode": 11, "loc": 536879129, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": [{"payload": "SC03/78", "vram": "0x801EF468"}]}
+{"t": "13:17:40", "mode": 11, "loc": 536879129, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": [{"payload": "SC03/78", "vram": "0x801EF468"}]}
+{"t": "13:17:42", "mode": 8, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": []}
+{"t": "13:17:50", "mode": 10, "loc": 536879130, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": []}
+{"t": "13:17:52", "mode": 11, "loc": 536879130, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": [{"payload": "SC03/79", "vram": "0x801EF468"}]}
+{"t": "13:17:55", "mode": 11, "loc": 536879130, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": [{"payload": "SC03/79", "vram": "0x801EF468"}]}
+{"t": "13:17:57", "mode": 11, "loc": 536879130, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": [{"payload": "SC03/79", "vram": "0x801EF468"}]}
+{"t": "13:18:00", "mode": 11, "loc": 536879130, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": [{"payload": "SC03/79", "vram": "0x801EF468"}]}
+{"t": "13:18:02", "mode": 11, "loc": 536879130, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": [{"payload": "SC03/79", "vram": "0x801EF468"}]}
+{"t": "13:18:05", "mode": 11, "loc": 536879130, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": [{"payload": "SC03/79", "vram": "0x801EF468"}]}
+{"t": "13:18:08", "mode": 11, "loc": 536879130, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": [{"payload": "SC03/79", "vram": "0x801EF468"}]}
+{"t": "13:18:10", "mode": 11, "loc": 536879130, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": [{"payload": "SC03/79", "vram": "0x801EF468"}]}
+{"t": "13:18:13", "mode": 11, "loc": 536879130, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": [{"payload": "SC03/79", "vram": "0x801EF468"}]}
+{"t": "13:18:15", "mode": 11, "loc": 536879130, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": [{"payload": "SC03/79", "vram": "0x801EF468"}]}
+{"t": "13:18:18", "mode": 11, "loc": 536879130, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": [{"payload": "SC03/79", "vram": "0x801EF468"}]}
+{"t": "13:18:20", "mode": 11, "loc": 536879130, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": [{"payload": "SC03/79", "vram": "0x801EF468"}]}
+{"t": "13:18:23", "mode": 11, "loc": 536879130, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": [{"payload": "SC03/79", "vram": "0x801EF468"}]}
+{"t": "13:18:25", "mode": 11, "loc": 536879130, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": [{"payload": "SC03/79", "vram": "0x801EF468"}]}
+{"t": "13:18:28", "mode": 11, "loc": 536879130, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": [{"payload": "SC03/79", "vram": "0x801EF468"}]}
+{"t": "13:18:30", "mode": 11, "loc": 536879130, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": [{"payload": "SC03/79", "vram": "0x801EF468"}]}
+{"t": "13:18:33", "mode": 11, "loc": 536879130, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": [{"payload": "SC03/79", "vram": "0x801EF468"}]}
+{"t": "13:18:36", "mode": 11, "loc": 536879130, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": [{"payload": "SC03/79", "vram": "0x801EF468"}]}
+{"t": "13:18:38", "mode": 8, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": []}
+{"t": "13:18:46", "mode": 10, "loc": 805318686, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": []}
+{"t": "13:18:48", "mode": 11, "loc": 805318686, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": []}
+{"t": "13:19:21", "mode": 8, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": []}
+{"t": "13:19:31", "mode": 10, "loc": 805318685, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": []}
+{"t": "13:19:34", "mode": 11, "loc": 805318685, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": []}
+{"t": "13:19:52", "mode": 8, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": []}
+{"t": "13:19:57", "mode": 10, "loc": 805318687, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": []}
+{"t": "13:19:59", "mode": 11, "loc": 805318687, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": []}
+{"t": "13:20:17", "mode": 11, "loc": 805318686, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x8013c6fc"}, "hits": []}
+{"t": "13:20:22", "mode": 8, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": []}
+{"t": "13:20:30", "mode": 10, "loc": 805318689, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": []}
+{"t": "13:20:32", "mode": 11, "loc": 805318689, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x60030"}, "hits": []}
+{"t": "13:21:18", "mode": 8, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": []}
+{"t": "13:21:28", "mode": 10, "loc": 805318692, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": []}
+{"t": "13:21:31", "mode": 11, "loc": 805318692, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0xf2"}, "hits": []}
+{"t": "13:22:27", "mode": 8, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": []}
+{"t": "13:22:42", "mode": 10, "loc": 805318698, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": []}
+{"t": "13:22:45", "mode": 11, "loc": 805318698, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": []}
+{"t": "13:23:35", "mode": 8, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": []}
+{"t": "13:23:51", "mode": 8, "loc": 805318730, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": []}
+{"t": "13:23:53", "mode": 11, "loc": 805318730, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": []}
+{"t": "13:24:36", "mode": 8, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": []}
+{"t": "13:24:44", "mode": 10, "loc": 805318737, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": []}
+{"t": "13:24:47", "mode": 11, "loc": 805318737, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x1"}, "hits": []}
+{"t": "13:26:15", "mode": 8, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": []}
+{"t": "13:26:28", "mode": 10, "loc": 805318820, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": []}
+{"t": "13:26:31", "mode": 11, "loc": 805318820, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": []}
+{"t": "13:27:06", "mode": 8, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": []}
+{"t": "13:27:11", "mode": 10, "loc": 805318822, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": []}
+{"t": "13:27:14", "mode": 11, "loc": 805318822, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": []}
+{"t": "13:28:10", "mode": 8, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": []}
+{"t": "13:28:20", "mode": 10, "loc": 805318701, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": []}
+{"t": "13:28:23", "mode": 11, "loc": 805318701, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": []}
+{"t": "13:28:50", "mode": 8, "loc": 268439568, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": []}
+{"t": "13:29:01", "mode": 10, "loc": 805318709, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x37", "sc07": "0x820006"}, "hits": []}
+{"t": "13:29:03", "mode": 11, "loc": 805318709, "overlay": "ov_SC01_077", "slots": {"A": "0x0", "B": "0x30", "res": "0x36", "sc07": "0x820006"}, "hits": []}

@@ -1,0 +1,10 @@
+// config/symbols.md_MAIN_003.txt — module md_MAIN_003 local symbols
+// R13/R15: this binary's REGION ONLY (vram 0x800CEDF8..0x800ECA14); NEVER merged into config/symbols.us.txt.
+// count=0
+// S45: pinned — splat's auto-detection here is extract-order-sensitive (solo extract split a
+// function at 0x800D3200; fleet merged it). The BYTES say: 0x800D3200 is a one-word data
+// sentinel (0x00FFFFFF, an invalid opcode) and the real function starts at 0x800D3204 — it
+// materializes 0x800D3200 via lui/addiu and reads/writes that word (self-referencing
+// data-in-text). Pin both so every extract mode agrees; R22 + audit-corpus arbitrate.
+D_800D3200 = 0x800D3200;
+func_800D3204 = 0x800D3204; // func

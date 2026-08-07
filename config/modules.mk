@@ -3,7 +3,7 @@
 # absent); the hand-maintained Makefile body is never edited to add a binary. Each md_* loads at
 # its OWN vram (the §S44 loader table: docs/memory-map.md). _TEXT_LO is a VRAM (code start), read
 # by 'make sig-modules' as --text-lo (§154-A: bootstrap past the module-id header).
-MODULE_BINARIES := md_MAIN_013 md_MAIN_014 md_MAIN_015 md_MAIN_016 md_MAIN_017 md_MAIN_018 md_MAIN_019 md_MAIN_020 md_MAIN_021 md_MAIN_022 md_MAIN_023 md_MAIN_024 md_MAIN_025 md_MAIN_026 md_MAIN_027 md_MAIN_028 md_MAIN_029 md_MAIN_030 md_MAIN_031 md_MAIN_032 md_MAIN_033 md_MAIN_034 md_MAIN_035 md_MAIN_036 md_MAIN_037 md_MAIN_038 md_MAIN_039 md_MAIN_040 md_MAIN_041 md_MAIN_042 md_MAIN_043 md_MAIN_044 md_MAIN_045 md_MAIN_046 md_MAIN_047 md_MAIN_001 md_MAIN_008 md_MAIN_011 md_SC07_003 md_SC07_004
+MODULE_BINARIES := md_MAIN_013 md_MAIN_014 md_MAIN_015 md_MAIN_016 md_MAIN_017 md_MAIN_018 md_MAIN_019 md_MAIN_020 md_MAIN_021 md_MAIN_022 md_MAIN_023 md_MAIN_024 md_MAIN_025 md_MAIN_026 md_MAIN_027 md_MAIN_028 md_MAIN_029 md_MAIN_030 md_MAIN_031 md_MAIN_032 md_MAIN_033 md_MAIN_034 md_MAIN_035 md_MAIN_036 md_MAIN_037 md_MAIN_038 md_MAIN_039 md_MAIN_040 md_MAIN_041 md_MAIN_042 md_MAIN_043 md_MAIN_044 md_MAIN_045 md_MAIN_046 md_MAIN_047 md_MAIN_001 md_MAIN_008 md_MAIN_011 md_SC07_003 md_SC07_004 md_MAIN_003 md_SC03_073 md_SC03_074 md_SC03_075 md_SC03_076 md_SC03_077 md_SC03_078 md_SC03_079 md_SC03_132 md_SC03_133 md_SC03_134 md_SC03_135 md_SC03_136 md_SC03_137 md_SC03_138 md_SC04_024 md_SC04_025 md_SC04_026 md_SC04_027 md_SC04_028 md_SC04_029 md_SC04_030 md_SC05_023 md_SC05_024 md_SC05_025 md_SC05_026 md_SC05_027 md_SC05_028 md_SC05_029
 
 # --- md_MAIN_013 (module, vram 0x800CAE08 — onboarded by new_binary.sh) ---
 md_MAIN_013_EXE        := extracted/retail/MAIN.CD.dir/FILE_013.dir/1.1
@@ -844,3 +844,612 @@ md_SC07_004_ASM_DIR     := asm/md_SC07_004
 md_SC07_004_SRC_DIR     := src/md_SC07_004
 md_SC07_004_UNDEF_SYMS  := build/md_SC07_004/undefined_syms_auto.txt
 md_SC07_004_UNDEF_FUNCS := build/md_SC07_004/undefined_funcs_auto.txt
+
+# --- md_MAIN_003 (module, vram 0x800CEDF8 — onboarded by new_binary.sh) ---
+md_MAIN_003_EXE        := extracted/retail/MAIN.CD.dir/FILE_003.dir/1.1
+md_MAIN_003_NAME       := md_MAIN_003
+md_MAIN_003_OUT_DIR    := build/md_MAIN_003
+md_MAIN_003_OUT        := $(md_MAIN_003_OUT_DIR)/$(md_MAIN_003_NAME)
+md_MAIN_003_ELF        := $(md_MAIN_003_OUT).elf
+md_MAIN_003_MAPFILE    := $(md_MAIN_003_OUT).map
+md_MAIN_003_LD_SCRIPT  := $(md_MAIN_003_OUT).ld
+md_MAIN_003_SPLAT_YAML := config/splat.md_MAIN_003.yaml
+md_MAIN_003_CHECK_SHA  := config/check.md_MAIN_003.sha
+md_MAIN_003_SYMBOLS    := config/symbols.md_MAIN_003.txt
+md_MAIN_003_SIG        := .run/sig.md_MAIN_003.jsonl
+md_MAIN_003_GHIDRA_PROG := md_MAIN_003
+md_MAIN_003_VRAM_BASE  := 0x800CEDF8
+md_MAIN_003_TEXT_LO    := 0x800CEED0
+md_MAIN_003_TEXT_HI    := 0x800ECA14
+md_MAIN_003_ASM_DIR     := asm/md_MAIN_003
+md_MAIN_003_SRC_DIR     := src/md_MAIN_003
+md_MAIN_003_UNDEF_SYMS  := build/md_MAIN_003/undefined_syms_auto.txt
+md_MAIN_003_UNDEF_FUNCS := build/md_MAIN_003/undefined_funcs_auto.txt
+
+# --- md_SC03_073 (module, vram 0x801EF468 — onboarded by new_binary.sh) ---
+md_SC03_073_EXE        := extracted/retail/SC03.CD.dir/FILE_073.dir/2.1
+md_SC03_073_NAME       := md_SC03_073
+md_SC03_073_OUT_DIR    := build/md_SC03_073
+md_SC03_073_OUT        := $(md_SC03_073_OUT_DIR)/$(md_SC03_073_NAME)
+md_SC03_073_ELF        := $(md_SC03_073_OUT).elf
+md_SC03_073_MAPFILE    := $(md_SC03_073_OUT).map
+md_SC03_073_LD_SCRIPT  := $(md_SC03_073_OUT).ld
+md_SC03_073_SPLAT_YAML := config/splat.md_SC03_073.yaml
+md_SC03_073_CHECK_SHA  := config/check.md_SC03_073.sha
+md_SC03_073_SYMBOLS    := config/symbols.md_SC03_073.txt
+md_SC03_073_SIG        := .run/sig.md_SC03_073.jsonl
+md_SC03_073_GHIDRA_PROG := md_SC03_073
+md_SC03_073_VRAM_BASE  := 0x801EF468
+md_SC03_073_TEXT_LO    := 0x801EF47C
+md_SC03_073_TEXT_HI    := 0x801F6620
+md_SC03_073_ASM_DIR     := asm/md_SC03_073
+md_SC03_073_SRC_DIR     := src/md_SC03_073
+md_SC03_073_UNDEF_SYMS  := build/md_SC03_073/undefined_syms_auto.txt
+md_SC03_073_UNDEF_FUNCS := build/md_SC03_073/undefined_funcs_auto.txt
+
+# --- md_SC03_074 (module, vram 0x801EF468 — onboarded by new_binary.sh) ---
+md_SC03_074_EXE        := extracted/retail/SC03.CD.dir/FILE_074.dir/2.1
+md_SC03_074_NAME       := md_SC03_074
+md_SC03_074_OUT_DIR    := build/md_SC03_074
+md_SC03_074_OUT        := $(md_SC03_074_OUT_DIR)/$(md_SC03_074_NAME)
+md_SC03_074_ELF        := $(md_SC03_074_OUT).elf
+md_SC03_074_MAPFILE    := $(md_SC03_074_OUT).map
+md_SC03_074_LD_SCRIPT  := $(md_SC03_074_OUT).ld
+md_SC03_074_SPLAT_YAML := config/splat.md_SC03_074.yaml
+md_SC03_074_CHECK_SHA  := config/check.md_SC03_074.sha
+md_SC03_074_SYMBOLS    := config/symbols.md_SC03_074.txt
+md_SC03_074_SIG        := .run/sig.md_SC03_074.jsonl
+md_SC03_074_GHIDRA_PROG := md_SC03_074
+md_SC03_074_VRAM_BASE  := 0x801EF468
+md_SC03_074_TEXT_LO    := 0x801EF47C
+md_SC03_074_TEXT_HI    := 0x801F5F08
+md_SC03_074_ASM_DIR     := asm/md_SC03_074
+md_SC03_074_SRC_DIR     := src/md_SC03_074
+md_SC03_074_UNDEF_SYMS  := build/md_SC03_074/undefined_syms_auto.txt
+md_SC03_074_UNDEF_FUNCS := build/md_SC03_074/undefined_funcs_auto.txt
+
+# --- md_SC03_075 (module, vram 0x801EF468 — onboarded by new_binary.sh) ---
+md_SC03_075_EXE        := extracted/retail/SC03.CD.dir/FILE_075.dir/2.1
+md_SC03_075_NAME       := md_SC03_075
+md_SC03_075_OUT_DIR    := build/md_SC03_075
+md_SC03_075_OUT        := $(md_SC03_075_OUT_DIR)/$(md_SC03_075_NAME)
+md_SC03_075_ELF        := $(md_SC03_075_OUT).elf
+md_SC03_075_MAPFILE    := $(md_SC03_075_OUT).map
+md_SC03_075_LD_SCRIPT  := $(md_SC03_075_OUT).ld
+md_SC03_075_SPLAT_YAML := config/splat.md_SC03_075.yaml
+md_SC03_075_CHECK_SHA  := config/check.md_SC03_075.sha
+md_SC03_075_SYMBOLS    := config/symbols.md_SC03_075.txt
+md_SC03_075_SIG        := .run/sig.md_SC03_075.jsonl
+md_SC03_075_GHIDRA_PROG := md_SC03_075
+md_SC03_075_VRAM_BASE  := 0x801EF468
+md_SC03_075_TEXT_LO    := 0x801EF47C
+md_SC03_075_TEXT_HI    := 0x801F6CB0
+md_SC03_075_ASM_DIR     := asm/md_SC03_075
+md_SC03_075_SRC_DIR     := src/md_SC03_075
+md_SC03_075_UNDEF_SYMS  := build/md_SC03_075/undefined_syms_auto.txt
+md_SC03_075_UNDEF_FUNCS := build/md_SC03_075/undefined_funcs_auto.txt
+
+# --- md_SC03_076 (module, vram 0x801EF468 — onboarded by new_binary.sh) ---
+md_SC03_076_EXE        := extracted/retail/SC03.CD.dir/FILE_076.dir/2.1
+md_SC03_076_NAME       := md_SC03_076
+md_SC03_076_OUT_DIR    := build/md_SC03_076
+md_SC03_076_OUT        := $(md_SC03_076_OUT_DIR)/$(md_SC03_076_NAME)
+md_SC03_076_ELF        := $(md_SC03_076_OUT).elf
+md_SC03_076_MAPFILE    := $(md_SC03_076_OUT).map
+md_SC03_076_LD_SCRIPT  := $(md_SC03_076_OUT).ld
+md_SC03_076_SPLAT_YAML := config/splat.md_SC03_076.yaml
+md_SC03_076_CHECK_SHA  := config/check.md_SC03_076.sha
+md_SC03_076_SYMBOLS    := config/symbols.md_SC03_076.txt
+md_SC03_076_SIG        := .run/sig.md_SC03_076.jsonl
+md_SC03_076_GHIDRA_PROG := md_SC03_076
+md_SC03_076_VRAM_BASE  := 0x801EF468
+md_SC03_076_TEXT_LO    := 0x801EF6E4
+md_SC03_076_TEXT_HI    := 0x801F9F58
+md_SC03_076_ASM_DIR     := asm/md_SC03_076
+md_SC03_076_SRC_DIR     := src/md_SC03_076
+md_SC03_076_UNDEF_SYMS  := build/md_SC03_076/undefined_syms_auto.txt
+md_SC03_076_UNDEF_FUNCS := build/md_SC03_076/undefined_funcs_auto.txt
+
+# --- md_SC03_077 (module, vram 0x801EF468 — onboarded by new_binary.sh) ---
+md_SC03_077_EXE        := extracted/retail/SC03.CD.dir/FILE_077.dir/2.1
+md_SC03_077_NAME       := md_SC03_077
+md_SC03_077_OUT_DIR    := build/md_SC03_077
+md_SC03_077_OUT        := $(md_SC03_077_OUT_DIR)/$(md_SC03_077_NAME)
+md_SC03_077_ELF        := $(md_SC03_077_OUT).elf
+md_SC03_077_MAPFILE    := $(md_SC03_077_OUT).map
+md_SC03_077_LD_SCRIPT  := $(md_SC03_077_OUT).ld
+md_SC03_077_SPLAT_YAML := config/splat.md_SC03_077.yaml
+md_SC03_077_CHECK_SHA  := config/check.md_SC03_077.sha
+md_SC03_077_SYMBOLS    := config/symbols.md_SC03_077.txt
+md_SC03_077_SIG        := .run/sig.md_SC03_077.jsonl
+md_SC03_077_GHIDRA_PROG := md_SC03_077
+md_SC03_077_VRAM_BASE  := 0x801EF468
+md_SC03_077_TEXT_LO    := 0x801EF490
+md_SC03_077_TEXT_HI    := 0x801F7468
+md_SC03_077_ASM_DIR     := asm/md_SC03_077
+md_SC03_077_SRC_DIR     := src/md_SC03_077
+md_SC03_077_UNDEF_SYMS  := build/md_SC03_077/undefined_syms_auto.txt
+md_SC03_077_UNDEF_FUNCS := build/md_SC03_077/undefined_funcs_auto.txt
+
+# --- md_SC03_078 (module, vram 0x801EF468 — onboarded by new_binary.sh) ---
+md_SC03_078_EXE        := extracted/retail/SC03.CD.dir/FILE_078.dir/2.1
+md_SC03_078_NAME       := md_SC03_078
+md_SC03_078_OUT_DIR    := build/md_SC03_078
+md_SC03_078_OUT        := $(md_SC03_078_OUT_DIR)/$(md_SC03_078_NAME)
+md_SC03_078_ELF        := $(md_SC03_078_OUT).elf
+md_SC03_078_MAPFILE    := $(md_SC03_078_OUT).map
+md_SC03_078_LD_SCRIPT  := $(md_SC03_078_OUT).ld
+md_SC03_078_SPLAT_YAML := config/splat.md_SC03_078.yaml
+md_SC03_078_CHECK_SHA  := config/check.md_SC03_078.sha
+md_SC03_078_SYMBOLS    := config/symbols.md_SC03_078.txt
+md_SC03_078_SIG        := .run/sig.md_SC03_078.jsonl
+md_SC03_078_GHIDRA_PROG := md_SC03_078
+md_SC03_078_VRAM_BASE  := 0x801EF468
+md_SC03_078_TEXT_LO    := 0x801EF47C
+md_SC03_078_TEXT_HI    := 0x801F31A4
+md_SC03_078_ASM_DIR     := asm/md_SC03_078
+md_SC03_078_SRC_DIR     := src/md_SC03_078
+md_SC03_078_UNDEF_SYMS  := build/md_SC03_078/undefined_syms_auto.txt
+md_SC03_078_UNDEF_FUNCS := build/md_SC03_078/undefined_funcs_auto.txt
+
+# --- md_SC03_079 (module, vram 0x801EF468 — onboarded by new_binary.sh) ---
+md_SC03_079_EXE        := extracted/retail/SC03.CD.dir/FILE_079.dir/2.1
+md_SC03_079_NAME       := md_SC03_079
+md_SC03_079_OUT_DIR    := build/md_SC03_079
+md_SC03_079_OUT        := $(md_SC03_079_OUT_DIR)/$(md_SC03_079_NAME)
+md_SC03_079_ELF        := $(md_SC03_079_OUT).elf
+md_SC03_079_MAPFILE    := $(md_SC03_079_OUT).map
+md_SC03_079_LD_SCRIPT  := $(md_SC03_079_OUT).ld
+md_SC03_079_SPLAT_YAML := config/splat.md_SC03_079.yaml
+md_SC03_079_CHECK_SHA  := config/check.md_SC03_079.sha
+md_SC03_079_SYMBOLS    := config/symbols.md_SC03_079.txt
+md_SC03_079_SIG        := .run/sig.md_SC03_079.jsonl
+md_SC03_079_GHIDRA_PROG := md_SC03_079
+md_SC03_079_VRAM_BASE  := 0x801EF468
+md_SC03_079_TEXT_LO    := 0x801EF48C
+md_SC03_079_TEXT_HI    := 0x801F8E14
+md_SC03_079_ASM_DIR     := asm/md_SC03_079
+md_SC03_079_SRC_DIR     := src/md_SC03_079
+md_SC03_079_UNDEF_SYMS  := build/md_SC03_079/undefined_syms_auto.txt
+md_SC03_079_UNDEF_FUNCS := build/md_SC03_079/undefined_funcs_auto.txt
+
+# --- md_SC03_132 (module, vram 0x801E25E8 — onboarded by new_binary.sh) ---
+md_SC03_132_EXE        := extracted/retail/SC03.CD.dir/FILE_132.dir/2.1
+md_SC03_132_NAME       := md_SC03_132
+md_SC03_132_OUT_DIR    := build/md_SC03_132
+md_SC03_132_OUT        := $(md_SC03_132_OUT_DIR)/$(md_SC03_132_NAME)
+md_SC03_132_ELF        := $(md_SC03_132_OUT).elf
+md_SC03_132_MAPFILE    := $(md_SC03_132_OUT).map
+md_SC03_132_LD_SCRIPT  := $(md_SC03_132_OUT).ld
+md_SC03_132_SPLAT_YAML := config/splat.md_SC03_132.yaml
+md_SC03_132_CHECK_SHA  := config/check.md_SC03_132.sha
+md_SC03_132_SYMBOLS    := config/symbols.md_SC03_132.txt
+md_SC03_132_SIG        := .run/sig.md_SC03_132.jsonl
+md_SC03_132_GHIDRA_PROG := md_SC03_132
+md_SC03_132_VRAM_BASE  := 0x801E25E8
+md_SC03_132_TEXT_LO    := 0x801E25F4
+md_SC03_132_TEXT_HI    := 0x801E9780
+md_SC03_132_ASM_DIR     := asm/md_SC03_132
+md_SC03_132_SRC_DIR     := src/md_SC03_132
+md_SC03_132_UNDEF_SYMS  := build/md_SC03_132/undefined_syms_auto.txt
+md_SC03_132_UNDEF_FUNCS := build/md_SC03_132/undefined_funcs_auto.txt
+
+# --- md_SC03_133 (module, vram 0x801E25E8 — onboarded by new_binary.sh) ---
+md_SC03_133_EXE        := extracted/retail/SC03.CD.dir/FILE_133.dir/2.1
+md_SC03_133_NAME       := md_SC03_133
+md_SC03_133_OUT_DIR    := build/md_SC03_133
+md_SC03_133_OUT        := $(md_SC03_133_OUT_DIR)/$(md_SC03_133_NAME)
+md_SC03_133_ELF        := $(md_SC03_133_OUT).elf
+md_SC03_133_MAPFILE    := $(md_SC03_133_OUT).map
+md_SC03_133_LD_SCRIPT  := $(md_SC03_133_OUT).ld
+md_SC03_133_SPLAT_YAML := config/splat.md_SC03_133.yaml
+md_SC03_133_CHECK_SHA  := config/check.md_SC03_133.sha
+md_SC03_133_SYMBOLS    := config/symbols.md_SC03_133.txt
+md_SC03_133_SIG        := .run/sig.md_SC03_133.jsonl
+md_SC03_133_GHIDRA_PROG := md_SC03_133
+md_SC03_133_VRAM_BASE  := 0x801E25E8
+md_SC03_133_TEXT_LO    := 0x801E25FC
+md_SC03_133_TEXT_HI    := 0x801E9070
+md_SC03_133_ASM_DIR     := asm/md_SC03_133
+md_SC03_133_SRC_DIR     := src/md_SC03_133
+md_SC03_133_UNDEF_SYMS  := build/md_SC03_133/undefined_syms_auto.txt
+md_SC03_133_UNDEF_FUNCS := build/md_SC03_133/undefined_funcs_auto.txt
+
+# --- md_SC03_134 (module, vram 0x801E25E8 — onboarded by new_binary.sh) ---
+md_SC03_134_EXE        := extracted/retail/SC03.CD.dir/FILE_134.dir/2.1
+md_SC03_134_NAME       := md_SC03_134
+md_SC03_134_OUT_DIR    := build/md_SC03_134
+md_SC03_134_OUT        := $(md_SC03_134_OUT_DIR)/$(md_SC03_134_NAME)
+md_SC03_134_ELF        := $(md_SC03_134_OUT).elf
+md_SC03_134_MAPFILE    := $(md_SC03_134_OUT).map
+md_SC03_134_LD_SCRIPT  := $(md_SC03_134_OUT).ld
+md_SC03_134_SPLAT_YAML := config/splat.md_SC03_134.yaml
+md_SC03_134_CHECK_SHA  := config/check.md_SC03_134.sha
+md_SC03_134_SYMBOLS    := config/symbols.md_SC03_134.txt
+md_SC03_134_SIG        := .run/sig.md_SC03_134.jsonl
+md_SC03_134_GHIDRA_PROG := md_SC03_134
+md_SC03_134_VRAM_BASE  := 0x801E25E8
+md_SC03_134_TEXT_LO    := 0x801E25FC
+md_SC03_134_TEXT_HI    := 0x801E9E40
+md_SC03_134_ASM_DIR     := asm/md_SC03_134
+md_SC03_134_SRC_DIR     := src/md_SC03_134
+md_SC03_134_UNDEF_SYMS  := build/md_SC03_134/undefined_syms_auto.txt
+md_SC03_134_UNDEF_FUNCS := build/md_SC03_134/undefined_funcs_auto.txt
+
+# --- md_SC03_135 (module, vram 0x801E25E8 — onboarded by new_binary.sh) ---
+md_SC03_135_EXE        := extracted/retail/SC03.CD.dir/FILE_135.dir/2.1
+md_SC03_135_NAME       := md_SC03_135
+md_SC03_135_OUT_DIR    := build/md_SC03_135
+md_SC03_135_OUT        := $(md_SC03_135_OUT_DIR)/$(md_SC03_135_NAME)
+md_SC03_135_ELF        := $(md_SC03_135_OUT).elf
+md_SC03_135_MAPFILE    := $(md_SC03_135_OUT).map
+md_SC03_135_LD_SCRIPT  := $(md_SC03_135_OUT).ld
+md_SC03_135_SPLAT_YAML := config/splat.md_SC03_135.yaml
+md_SC03_135_CHECK_SHA  := config/check.md_SC03_135.sha
+md_SC03_135_SYMBOLS    := config/symbols.md_SC03_135.txt
+md_SC03_135_SIG        := .run/sig.md_SC03_135.jsonl
+md_SC03_135_GHIDRA_PROG := md_SC03_135
+md_SC03_135_VRAM_BASE  := 0x801E25E8
+md_SC03_135_TEXT_LO    := 0x801E2864
+md_SC03_135_TEXT_HI    := 0x801EADF4
+md_SC03_135_ASM_DIR     := asm/md_SC03_135
+md_SC03_135_SRC_DIR     := src/md_SC03_135
+md_SC03_135_UNDEF_SYMS  := build/md_SC03_135/undefined_syms_auto.txt
+md_SC03_135_UNDEF_FUNCS := build/md_SC03_135/undefined_funcs_auto.txt
+
+# --- md_SC03_136 (module, vram 0x801E25E8 — onboarded by new_binary.sh) ---
+md_SC03_136_EXE        := extracted/retail/SC03.CD.dir/FILE_136.dir/2.1
+md_SC03_136_NAME       := md_SC03_136
+md_SC03_136_OUT_DIR    := build/md_SC03_136
+md_SC03_136_OUT        := $(md_SC03_136_OUT_DIR)/$(md_SC03_136_NAME)
+md_SC03_136_ELF        := $(md_SC03_136_OUT).elf
+md_SC03_136_MAPFILE    := $(md_SC03_136_OUT).map
+md_SC03_136_LD_SCRIPT  := $(md_SC03_136_OUT).ld
+md_SC03_136_SPLAT_YAML := config/splat.md_SC03_136.yaml
+md_SC03_136_CHECK_SHA  := config/check.md_SC03_136.sha
+md_SC03_136_SYMBOLS    := config/symbols.md_SC03_136.txt
+md_SC03_136_SIG        := .run/sig.md_SC03_136.jsonl
+md_SC03_136_GHIDRA_PROG := md_SC03_136
+md_SC03_136_VRAM_BASE  := 0x801E25E8
+md_SC03_136_TEXT_LO    := 0x801E2610
+md_SC03_136_TEXT_HI    := 0x801EA5B0
+md_SC03_136_ASM_DIR     := asm/md_SC03_136
+md_SC03_136_SRC_DIR     := src/md_SC03_136
+md_SC03_136_UNDEF_SYMS  := build/md_SC03_136/undefined_syms_auto.txt
+md_SC03_136_UNDEF_FUNCS := build/md_SC03_136/undefined_funcs_auto.txt
+
+# --- md_SC03_137 (module, vram 0x801E25E8 — onboarded by new_binary.sh) ---
+md_SC03_137_EXE        := extracted/retail/SC03.CD.dir/FILE_137.dir/2.1
+md_SC03_137_NAME       := md_SC03_137
+md_SC03_137_OUT_DIR    := build/md_SC03_137
+md_SC03_137_OUT        := $(md_SC03_137_OUT_DIR)/$(md_SC03_137_NAME)
+md_SC03_137_ELF        := $(md_SC03_137_OUT).elf
+md_SC03_137_MAPFILE    := $(md_SC03_137_OUT).map
+md_SC03_137_LD_SCRIPT  := $(md_SC03_137_OUT).ld
+md_SC03_137_SPLAT_YAML := config/splat.md_SC03_137.yaml
+md_SC03_137_CHECK_SHA  := config/check.md_SC03_137.sha
+md_SC03_137_SYMBOLS    := config/symbols.md_SC03_137.txt
+md_SC03_137_SIG        := .run/sig.md_SC03_137.jsonl
+md_SC03_137_GHIDRA_PROG := md_SC03_137
+md_SC03_137_VRAM_BASE  := 0x801E25E8
+md_SC03_137_TEXT_LO    := 0x801E25FC
+md_SC03_137_TEXT_HI    := 0x801E630C
+md_SC03_137_ASM_DIR     := asm/md_SC03_137
+md_SC03_137_SRC_DIR     := src/md_SC03_137
+md_SC03_137_UNDEF_SYMS  := build/md_SC03_137/undefined_syms_auto.txt
+md_SC03_137_UNDEF_FUNCS := build/md_SC03_137/undefined_funcs_auto.txt
+
+# --- md_SC03_138 (module, vram 0x801E25E8 — onboarded by new_binary.sh) ---
+md_SC03_138_EXE        := extracted/retail/SC03.CD.dir/FILE_138.dir/2.1
+md_SC03_138_NAME       := md_SC03_138
+md_SC03_138_OUT_DIR    := build/md_SC03_138
+md_SC03_138_OUT        := $(md_SC03_138_OUT_DIR)/$(md_SC03_138_NAME)
+md_SC03_138_ELF        := $(md_SC03_138_OUT).elf
+md_SC03_138_MAPFILE    := $(md_SC03_138_OUT).map
+md_SC03_138_LD_SCRIPT  := $(md_SC03_138_OUT).ld
+md_SC03_138_SPLAT_YAML := config/splat.md_SC03_138.yaml
+md_SC03_138_CHECK_SHA  := config/check.md_SC03_138.sha
+md_SC03_138_SYMBOLS    := config/symbols.md_SC03_138.txt
+md_SC03_138_SIG        := .run/sig.md_SC03_138.jsonl
+md_SC03_138_GHIDRA_PROG := md_SC03_138
+md_SC03_138_VRAM_BASE  := 0x801E25E8
+md_SC03_138_TEXT_LO    := 0x801E25FC
+md_SC03_138_TEXT_HI    := 0x801EC2CC
+md_SC03_138_ASM_DIR     := asm/md_SC03_138
+md_SC03_138_SRC_DIR     := src/md_SC03_138
+md_SC03_138_UNDEF_SYMS  := build/md_SC03_138/undefined_syms_auto.txt
+md_SC03_138_UNDEF_FUNCS := build/md_SC03_138/undefined_funcs_auto.txt
+
+# --- md_SC04_024 (module, vram 0x801E7B28 — onboarded by new_binary.sh) ---
+md_SC04_024_EXE        := extracted/retail/SC04.CD.dir/FILE_024.dir/2.1
+md_SC04_024_NAME       := md_SC04_024
+md_SC04_024_OUT_DIR    := build/md_SC04_024
+md_SC04_024_OUT        := $(md_SC04_024_OUT_DIR)/$(md_SC04_024_NAME)
+md_SC04_024_ELF        := $(md_SC04_024_OUT).elf
+md_SC04_024_MAPFILE    := $(md_SC04_024_OUT).map
+md_SC04_024_LD_SCRIPT  := $(md_SC04_024_OUT).ld
+md_SC04_024_SPLAT_YAML := config/splat.md_SC04_024.yaml
+md_SC04_024_CHECK_SHA  := config/check.md_SC04_024.sha
+md_SC04_024_SYMBOLS    := config/symbols.md_SC04_024.txt
+md_SC04_024_SIG        := .run/sig.md_SC04_024.jsonl
+md_SC04_024_GHIDRA_PROG := md_SC04_024
+md_SC04_024_VRAM_BASE  := 0x801E7B28
+md_SC04_024_TEXT_LO    := 0x801E7B34
+md_SC04_024_TEXT_HI    := 0x801EECE8
+md_SC04_024_ASM_DIR     := asm/md_SC04_024
+md_SC04_024_SRC_DIR     := src/md_SC04_024
+md_SC04_024_UNDEF_SYMS  := build/md_SC04_024/undefined_syms_auto.txt
+md_SC04_024_UNDEF_FUNCS := build/md_SC04_024/undefined_funcs_auto.txt
+
+# --- md_SC04_025 (module, vram 0x801E7B28 — onboarded by new_binary.sh) ---
+md_SC04_025_EXE        := extracted/retail/SC04.CD.dir/FILE_025.dir/2.1
+md_SC04_025_NAME       := md_SC04_025
+md_SC04_025_OUT_DIR    := build/md_SC04_025
+md_SC04_025_OUT        := $(md_SC04_025_OUT_DIR)/$(md_SC04_025_NAME)
+md_SC04_025_ELF        := $(md_SC04_025_OUT).elf
+md_SC04_025_MAPFILE    := $(md_SC04_025_OUT).map
+md_SC04_025_LD_SCRIPT  := $(md_SC04_025_OUT).ld
+md_SC04_025_SPLAT_YAML := config/splat.md_SC04_025.yaml
+md_SC04_025_CHECK_SHA  := config/check.md_SC04_025.sha
+md_SC04_025_SYMBOLS    := config/symbols.md_SC04_025.txt
+md_SC04_025_SIG        := .run/sig.md_SC04_025.jsonl
+md_SC04_025_GHIDRA_PROG := md_SC04_025
+md_SC04_025_VRAM_BASE  := 0x801E7B28
+md_SC04_025_TEXT_LO    := 0x801E7B3C
+md_SC04_025_TEXT_HI    := 0x801EE5D8
+md_SC04_025_ASM_DIR     := asm/md_SC04_025
+md_SC04_025_SRC_DIR     := src/md_SC04_025
+md_SC04_025_UNDEF_SYMS  := build/md_SC04_025/undefined_syms_auto.txt
+md_SC04_025_UNDEF_FUNCS := build/md_SC04_025/undefined_funcs_auto.txt
+
+# --- md_SC04_026 (module, vram 0x801E7B28 — onboarded by new_binary.sh) ---
+md_SC04_026_EXE        := extracted/retail/SC04.CD.dir/FILE_026.dir/2.1
+md_SC04_026_NAME       := md_SC04_026
+md_SC04_026_OUT_DIR    := build/md_SC04_026
+md_SC04_026_OUT        := $(md_SC04_026_OUT_DIR)/$(md_SC04_026_NAME)
+md_SC04_026_ELF        := $(md_SC04_026_OUT).elf
+md_SC04_026_MAPFILE    := $(md_SC04_026_OUT).map
+md_SC04_026_LD_SCRIPT  := $(md_SC04_026_OUT).ld
+md_SC04_026_SPLAT_YAML := config/splat.md_SC04_026.yaml
+md_SC04_026_CHECK_SHA  := config/check.md_SC04_026.sha
+md_SC04_026_SYMBOLS    := config/symbols.md_SC04_026.txt
+md_SC04_026_SIG        := .run/sig.md_SC04_026.jsonl
+md_SC04_026_GHIDRA_PROG := md_SC04_026
+md_SC04_026_VRAM_BASE  := 0x801E7B28
+md_SC04_026_TEXT_LO    := 0x801E7B3C
+md_SC04_026_TEXT_HI    := 0x801EF380
+md_SC04_026_ASM_DIR     := asm/md_SC04_026
+md_SC04_026_SRC_DIR     := src/md_SC04_026
+md_SC04_026_UNDEF_SYMS  := build/md_SC04_026/undefined_syms_auto.txt
+md_SC04_026_UNDEF_FUNCS := build/md_SC04_026/undefined_funcs_auto.txt
+
+# --- md_SC04_027 (module, vram 0x801E7B28 — onboarded by new_binary.sh) ---
+md_SC04_027_EXE        := extracted/retail/SC04.CD.dir/FILE_027.dir/2.1
+md_SC04_027_NAME       := md_SC04_027
+md_SC04_027_OUT_DIR    := build/md_SC04_027
+md_SC04_027_OUT        := $(md_SC04_027_OUT_DIR)/$(md_SC04_027_NAME)
+md_SC04_027_ELF        := $(md_SC04_027_OUT).elf
+md_SC04_027_MAPFILE    := $(md_SC04_027_OUT).map
+md_SC04_027_LD_SCRIPT  := $(md_SC04_027_OUT).ld
+md_SC04_027_SPLAT_YAML := config/splat.md_SC04_027.yaml
+md_SC04_027_CHECK_SHA  := config/check.md_SC04_027.sha
+md_SC04_027_SYMBOLS    := config/symbols.md_SC04_027.txt
+md_SC04_027_SIG        := .run/sig.md_SC04_027.jsonl
+md_SC04_027_GHIDRA_PROG := md_SC04_027
+md_SC04_027_VRAM_BASE  := 0x801E7B28
+md_SC04_027_TEXT_LO    := 0x801E7DA4
+md_SC04_027_TEXT_HI    := 0x801F2628
+md_SC04_027_ASM_DIR     := asm/md_SC04_027
+md_SC04_027_SRC_DIR     := src/md_SC04_027
+md_SC04_027_UNDEF_SYMS  := build/md_SC04_027/undefined_syms_auto.txt
+md_SC04_027_UNDEF_FUNCS := build/md_SC04_027/undefined_funcs_auto.txt
+
+# --- md_SC04_028 (module, vram 0x801E7B28 — onboarded by new_binary.sh) ---
+md_SC04_028_EXE        := extracted/retail/SC04.CD.dir/FILE_028.dir/2.1
+md_SC04_028_NAME       := md_SC04_028
+md_SC04_028_OUT_DIR    := build/md_SC04_028
+md_SC04_028_OUT        := $(md_SC04_028_OUT_DIR)/$(md_SC04_028_NAME)
+md_SC04_028_ELF        := $(md_SC04_028_OUT).elf
+md_SC04_028_MAPFILE    := $(md_SC04_028_OUT).map
+md_SC04_028_LD_SCRIPT  := $(md_SC04_028_OUT).ld
+md_SC04_028_SPLAT_YAML := config/splat.md_SC04_028.yaml
+md_SC04_028_CHECK_SHA  := config/check.md_SC04_028.sha
+md_SC04_028_SYMBOLS    := config/symbols.md_SC04_028.txt
+md_SC04_028_SIG        := .run/sig.md_SC04_028.jsonl
+md_SC04_028_GHIDRA_PROG := md_SC04_028
+md_SC04_028_VRAM_BASE  := 0x801E7B28
+md_SC04_028_TEXT_LO    := 0x801E7B50
+md_SC04_028_TEXT_HI    := 0x801EFB18
+md_SC04_028_ASM_DIR     := asm/md_SC04_028
+md_SC04_028_SRC_DIR     := src/md_SC04_028
+md_SC04_028_UNDEF_SYMS  := build/md_SC04_028/undefined_syms_auto.txt
+md_SC04_028_UNDEF_FUNCS := build/md_SC04_028/undefined_funcs_auto.txt
+
+# --- md_SC04_029 (module, vram 0x801E7B28 — onboarded by new_binary.sh) ---
+md_SC04_029_EXE        := extracted/retail/SC04.CD.dir/FILE_029.dir/2.1
+md_SC04_029_NAME       := md_SC04_029
+md_SC04_029_OUT_DIR    := build/md_SC04_029
+md_SC04_029_OUT        := $(md_SC04_029_OUT_DIR)/$(md_SC04_029_NAME)
+md_SC04_029_ELF        := $(md_SC04_029_OUT).elf
+md_SC04_029_MAPFILE    := $(md_SC04_029_OUT).map
+md_SC04_029_LD_SCRIPT  := $(md_SC04_029_OUT).ld
+md_SC04_029_SPLAT_YAML := config/splat.md_SC04_029.yaml
+md_SC04_029_CHECK_SHA  := config/check.md_SC04_029.sha
+md_SC04_029_SYMBOLS    := config/symbols.md_SC04_029.txt
+md_SC04_029_SIG        := .run/sig.md_SC04_029.jsonl
+md_SC04_029_GHIDRA_PROG := md_SC04_029
+md_SC04_029_VRAM_BASE  := 0x801E7B28
+md_SC04_029_TEXT_LO    := 0x801E7B3C
+md_SC04_029_TEXT_HI    := 0x801EB874
+md_SC04_029_ASM_DIR     := asm/md_SC04_029
+md_SC04_029_SRC_DIR     := src/md_SC04_029
+md_SC04_029_UNDEF_SYMS  := build/md_SC04_029/undefined_syms_auto.txt
+md_SC04_029_UNDEF_FUNCS := build/md_SC04_029/undefined_funcs_auto.txt
+
+# --- md_SC04_030 (module, vram 0x801E7B28 — onboarded by new_binary.sh) ---
+md_SC04_030_EXE        := extracted/retail/SC04.CD.dir/FILE_030.dir/2.1
+md_SC04_030_NAME       := md_SC04_030
+md_SC04_030_OUT_DIR    := build/md_SC04_030
+md_SC04_030_OUT        := $(md_SC04_030_OUT_DIR)/$(md_SC04_030_NAME)
+md_SC04_030_ELF        := $(md_SC04_030_OUT).elf
+md_SC04_030_MAPFILE    := $(md_SC04_030_OUT).map
+md_SC04_030_LD_SCRIPT  := $(md_SC04_030_OUT).ld
+md_SC04_030_SPLAT_YAML := config/splat.md_SC04_030.yaml
+md_SC04_030_CHECK_SHA  := config/check.md_SC04_030.sha
+md_SC04_030_SYMBOLS    := config/symbols.md_SC04_030.txt
+md_SC04_030_SIG        := .run/sig.md_SC04_030.jsonl
+md_SC04_030_GHIDRA_PROG := md_SC04_030
+md_SC04_030_VRAM_BASE  := 0x801E7B28
+md_SC04_030_TEXT_LO    := 0x801E7B3C
+md_SC04_030_TEXT_HI    := 0x801F14E4
+md_SC04_030_ASM_DIR     := asm/md_SC04_030
+md_SC04_030_SRC_DIR     := src/md_SC04_030
+md_SC04_030_UNDEF_SYMS  := build/md_SC04_030/undefined_syms_auto.txt
+md_SC04_030_UNDEF_FUNCS := build/md_SC04_030/undefined_funcs_auto.txt
+
+# --- md_SC05_023 (module, vram 0x801ED988 — onboarded by new_binary.sh) ---
+md_SC05_023_EXE        := extracted/retail/SC05.CD.dir/FILE_023.dir/2.1
+md_SC05_023_NAME       := md_SC05_023
+md_SC05_023_OUT_DIR    := build/md_SC05_023
+md_SC05_023_OUT        := $(md_SC05_023_OUT_DIR)/$(md_SC05_023_NAME)
+md_SC05_023_ELF        := $(md_SC05_023_OUT).elf
+md_SC05_023_MAPFILE    := $(md_SC05_023_OUT).map
+md_SC05_023_LD_SCRIPT  := $(md_SC05_023_OUT).ld
+md_SC05_023_SPLAT_YAML := config/splat.md_SC05_023.yaml
+md_SC05_023_CHECK_SHA  := config/check.md_SC05_023.sha
+md_SC05_023_SYMBOLS    := config/symbols.md_SC05_023.txt
+md_SC05_023_SIG        := .run/sig.md_SC05_023.jsonl
+md_SC05_023_GHIDRA_PROG := md_SC05_023
+md_SC05_023_VRAM_BASE  := 0x801ED988
+md_SC05_023_TEXT_LO    := 0x801ED99C
+md_SC05_023_TEXT_HI    := 0x801F4B78
+md_SC05_023_ASM_DIR     := asm/md_SC05_023
+md_SC05_023_SRC_DIR     := src/md_SC05_023
+md_SC05_023_UNDEF_SYMS  := build/md_SC05_023/undefined_syms_auto.txt
+md_SC05_023_UNDEF_FUNCS := build/md_SC05_023/undefined_funcs_auto.txt
+
+# --- md_SC05_024 (module, vram 0x801ED988 — onboarded by new_binary.sh) ---
+md_SC05_024_EXE        := extracted/retail/SC05.CD.dir/FILE_024.dir/2.1
+md_SC05_024_NAME       := md_SC05_024
+md_SC05_024_OUT_DIR    := build/md_SC05_024
+md_SC05_024_OUT        := $(md_SC05_024_OUT_DIR)/$(md_SC05_024_NAME)
+md_SC05_024_ELF        := $(md_SC05_024_OUT).elf
+md_SC05_024_MAPFILE    := $(md_SC05_024_OUT).map
+md_SC05_024_LD_SCRIPT  := $(md_SC05_024_OUT).ld
+md_SC05_024_SPLAT_YAML := config/splat.md_SC05_024.yaml
+md_SC05_024_CHECK_SHA  := config/check.md_SC05_024.sha
+md_SC05_024_SYMBOLS    := config/symbols.md_SC05_024.txt
+md_SC05_024_SIG        := .run/sig.md_SC05_024.jsonl
+md_SC05_024_GHIDRA_PROG := md_SC05_024
+md_SC05_024_VRAM_BASE  := 0x801ED988
+md_SC05_024_TEXT_LO    := 0x801ED99C
+md_SC05_024_TEXT_HI    := 0x801F4460
+md_SC05_024_ASM_DIR     := asm/md_SC05_024
+md_SC05_024_SRC_DIR     := src/md_SC05_024
+md_SC05_024_UNDEF_SYMS  := build/md_SC05_024/undefined_syms_auto.txt
+md_SC05_024_UNDEF_FUNCS := build/md_SC05_024/undefined_funcs_auto.txt
+
+# --- md_SC05_025 (module, vram 0x801ED988 — onboarded by new_binary.sh) ---
+md_SC05_025_EXE        := extracted/retail/SC05.CD.dir/FILE_025.dir/2.1
+md_SC05_025_NAME       := md_SC05_025
+md_SC05_025_OUT_DIR    := build/md_SC05_025
+md_SC05_025_OUT        := $(md_SC05_025_OUT_DIR)/$(md_SC05_025_NAME)
+md_SC05_025_ELF        := $(md_SC05_025_OUT).elf
+md_SC05_025_MAPFILE    := $(md_SC05_025_OUT).map
+md_SC05_025_LD_SCRIPT  := $(md_SC05_025_OUT).ld
+md_SC05_025_SPLAT_YAML := config/splat.md_SC05_025.yaml
+md_SC05_025_CHECK_SHA  := config/check.md_SC05_025.sha
+md_SC05_025_SYMBOLS    := config/symbols.md_SC05_025.txt
+md_SC05_025_SIG        := .run/sig.md_SC05_025.jsonl
+md_SC05_025_GHIDRA_PROG := md_SC05_025
+md_SC05_025_VRAM_BASE  := 0x801ED988
+md_SC05_025_TEXT_LO    := 0x801ED99C
+md_SC05_025_TEXT_HI    := 0x801F5208
+md_SC05_025_ASM_DIR     := asm/md_SC05_025
+md_SC05_025_SRC_DIR     := src/md_SC05_025
+md_SC05_025_UNDEF_SYMS  := build/md_SC05_025/undefined_syms_auto.txt
+md_SC05_025_UNDEF_FUNCS := build/md_SC05_025/undefined_funcs_auto.txt
+
+# --- md_SC05_026 (module, vram 0x801ED988 — onboarded by new_binary.sh) ---
+md_SC05_026_EXE        := extracted/retail/SC05.CD.dir/FILE_026.dir/2.1
+md_SC05_026_NAME       := md_SC05_026
+md_SC05_026_OUT_DIR    := build/md_SC05_026
+md_SC05_026_OUT        := $(md_SC05_026_OUT_DIR)/$(md_SC05_026_NAME)
+md_SC05_026_ELF        := $(md_SC05_026_OUT).elf
+md_SC05_026_MAPFILE    := $(md_SC05_026_OUT).map
+md_SC05_026_LD_SCRIPT  := $(md_SC05_026_OUT).ld
+md_SC05_026_SPLAT_YAML := config/splat.md_SC05_026.yaml
+md_SC05_026_CHECK_SHA  := config/check.md_SC05_026.sha
+md_SC05_026_SYMBOLS    := config/symbols.md_SC05_026.txt
+md_SC05_026_SIG        := .run/sig.md_SC05_026.jsonl
+md_SC05_026_GHIDRA_PROG := md_SC05_026
+md_SC05_026_VRAM_BASE  := 0x801ED988
+md_SC05_026_TEXT_LO    := 0x801EDC04
+md_SC05_026_TEXT_HI    := 0x801F84B0
+md_SC05_026_ASM_DIR     := asm/md_SC05_026
+md_SC05_026_SRC_DIR     := src/md_SC05_026
+md_SC05_026_UNDEF_SYMS  := build/md_SC05_026/undefined_syms_auto.txt
+md_SC05_026_UNDEF_FUNCS := build/md_SC05_026/undefined_funcs_auto.txt
+
+# --- md_SC05_027 (module, vram 0x801ED988 — onboarded by new_binary.sh) ---
+md_SC05_027_EXE        := extracted/retail/SC05.CD.dir/FILE_027.dir/2.1
+md_SC05_027_NAME       := md_SC05_027
+md_SC05_027_OUT_DIR    := build/md_SC05_027
+md_SC05_027_OUT        := $(md_SC05_027_OUT_DIR)/$(md_SC05_027_NAME)
+md_SC05_027_ELF        := $(md_SC05_027_OUT).elf
+md_SC05_027_MAPFILE    := $(md_SC05_027_OUT).map
+md_SC05_027_LD_SCRIPT  := $(md_SC05_027_OUT).ld
+md_SC05_027_SPLAT_YAML := config/splat.md_SC05_027.yaml
+md_SC05_027_CHECK_SHA  := config/check.md_SC05_027.sha
+md_SC05_027_SYMBOLS    := config/symbols.md_SC05_027.txt
+md_SC05_027_SIG        := .run/sig.md_SC05_027.jsonl
+md_SC05_027_GHIDRA_PROG := md_SC05_027
+md_SC05_027_VRAM_BASE  := 0x801ED988
+md_SC05_027_TEXT_LO    := 0x801ED9B0
+md_SC05_027_TEXT_HI    := 0x801F59A0
+md_SC05_027_ASM_DIR     := asm/md_SC05_027
+md_SC05_027_SRC_DIR     := src/md_SC05_027
+md_SC05_027_UNDEF_SYMS  := build/md_SC05_027/undefined_syms_auto.txt
+md_SC05_027_UNDEF_FUNCS := build/md_SC05_027/undefined_funcs_auto.txt
+
+# --- md_SC05_028 (module, vram 0x801ED988 — onboarded by new_binary.sh) ---
+md_SC05_028_EXE        := extracted/retail/SC05.CD.dir/FILE_028.dir/2.1
+md_SC05_028_NAME       := md_SC05_028
+md_SC05_028_OUT_DIR    := build/md_SC05_028
+md_SC05_028_OUT        := $(md_SC05_028_OUT_DIR)/$(md_SC05_028_NAME)
+md_SC05_028_ELF        := $(md_SC05_028_OUT).elf
+md_SC05_028_MAPFILE    := $(md_SC05_028_OUT).map
+md_SC05_028_LD_SCRIPT  := $(md_SC05_028_OUT).ld
+md_SC05_028_SPLAT_YAML := config/splat.md_SC05_028.yaml
+md_SC05_028_CHECK_SHA  := config/check.md_SC05_028.sha
+md_SC05_028_SYMBOLS    := config/symbols.md_SC05_028.txt
+md_SC05_028_SIG        := .run/sig.md_SC05_028.jsonl
+md_SC05_028_GHIDRA_PROG := md_SC05_028
+md_SC05_028_VRAM_BASE  := 0x801ED988
+md_SC05_028_TEXT_LO    := 0x801ED99C
+md_SC05_028_TEXT_HI    := 0x801F16FC
+md_SC05_028_ASM_DIR     := asm/md_SC05_028
+md_SC05_028_SRC_DIR     := src/md_SC05_028
+md_SC05_028_UNDEF_SYMS  := build/md_SC05_028/undefined_syms_auto.txt
+md_SC05_028_UNDEF_FUNCS := build/md_SC05_028/undefined_funcs_auto.txt
+
+# --- md_SC05_029 (module, vram 0x801ED988 — onboarded by new_binary.sh) ---
+md_SC05_029_EXE        := extracted/retail/SC05.CD.dir/FILE_029.dir/2.1
+md_SC05_029_NAME       := md_SC05_029
+md_SC05_029_OUT_DIR    := build/md_SC05_029
+md_SC05_029_OUT        := $(md_SC05_029_OUT_DIR)/$(md_SC05_029_NAME)
+md_SC05_029_ELF        := $(md_SC05_029_OUT).elf
+md_SC05_029_MAPFILE    := $(md_SC05_029_OUT).map
+md_SC05_029_LD_SCRIPT  := $(md_SC05_029_OUT).ld
+md_SC05_029_SPLAT_YAML := config/splat.md_SC05_029.yaml
+md_SC05_029_CHECK_SHA  := config/check.md_SC05_029.sha
+md_SC05_029_SYMBOLS    := config/symbols.md_SC05_029.txt
+md_SC05_029_SIG        := .run/sig.md_SC05_029.jsonl
+md_SC05_029_GHIDRA_PROG := md_SC05_029
+md_SC05_029_VRAM_BASE  := 0x801ED988
+md_SC05_029_TEXT_LO    := 0x801ED99C
+md_SC05_029_TEXT_HI    := 0x801F736C
+md_SC05_029_ASM_DIR     := asm/md_SC05_029
+md_SC05_029_SRC_DIR     := src/md_SC05_029
+md_SC05_029_UNDEF_SYMS  := build/md_SC05_029/undefined_syms_auto.txt
+md_SC05_029_UNDEF_FUNCS := build/md_SC05_029/undefined_funcs_auto.txt

@@ -624,3 +624,49 @@ builds), SC02/9, MAIN/7 (raw file, not PAC), MAIN/9: dest comes through the reso
 `StreamLoadStateMachine` descriptor path (`D_80068B60[(loadParam−0x100)*0x10]`) or per-overlay DESTPTR
 values — per-disc, not EXE-static. Their jal-vote bases are LOW-CONFIDENCE (3–14 aligned jals, calls
 almost entirely outward) and are NOT recorded as addresses here.
+
+## Phase 30 S45 — the script-module slots + the L3 debug-menu tour (live-verified)
+
+> **Provenance (G5):** `live-verified` — PCSX-Redux RAM (R11 web API), 2026-08-07 tour driven by
+> Drew via the retail debug menu, watcher logs in `.run/s45/l3_tour.jsonl` + hit dumps. Region: US.
+
+### The debug menu, operationally (extends §5)
+- **Entry that actually works:** force `gameMode` (0x800B99DE, u16) = **7** with REPEATED writes
+  (the game rewrites it every frame — a single poke never latches; the GameShark constant-write
+  semantics are required). Web-API gotcha: **`offset` must be DECIMAL** — hex offsets are silently
+  parsed as 0 (= writes land at 0x80000000, kernel space).
+- Mode 7 → `DebugMenuHandler` boot-loads **MAIN/11 = md_MAIN_011 (DISELECT)** to 0x800CEDF8 —
+  **byte-proven live: 24,236/24,240 B identical in RAM.** The menu's AREA/SCENE list:
+  `docs/debug-menu-list.txt` (Drew's transcription).
+- Observed `gameMode` values: 5 (transition) · 6 (title/main menu) · 7 (debug) · 8 (post-menu) ·
+  10 (scene load) · 11 (field/load-screen) · 15/16 (attract rotation).
+
+### The four script-module slots (all live byte-verified, contiguous exact prefixes)
+| slot | payloads | meaning |
+|---|---|---|
+| **0x801EF468** | SC03/73–79 | town-interior scripts, chapter-2 period (id 0x44–0x4A) |
+| **0x801E25E8** | SC03/132–138 | town-interior scripts, chapter-3/vampire period (0x4B–0x51) |
+| **0x801E7B28** | SC04/24–30 | chapter-4 period (0x52–0x58) |
+| **0x801ED988** | SC05/23–29 | chapter-5 period (0x59–0x5F) |
+
+**The routing law:** the debug menu's AREA selects the chapter (`gbase[cd]`); each CITY interior
+scene (4 FIGURE / 5 PAN / 6 ITEM / 7 INN / 8 RECYCLE / 9 KYOUKAI / 10 SAKABA) streams its own
+script module — member k of the set ↔ interior k, one module resident per slot at a time (the
+slot-A/B ping-pong pattern at chapter scale). ACTION scenes, dialogue, quest flags, area
+transitions: none of them stream script modules (byte-checked negatives, ~15 probes).
+
+### MAIN/3 = the main-menu module (DISCOVERED live, S45)
+`MAIN.CD/FILE_003.dir/1.1` (121,884 B, **id 0x39** — completing the boot cluster 0x36–0x3B) runs
+the main menu at **0x800CEDF8**: live byte-proof = 42,632-B contiguous exact prefix. It was
+mis-bucketed `classified-data` by BOTH audit oracles (low jr-density module class). Onboarded as
+`md_MAIN_003`. Note: 0x800D3200 is a **one-word data sentinel (0x00FFFFFF) inside .text**; the
+function at 0x800D3204 materializes that address and reads/writes it (pinned in
+`config/symbols.md_MAIN_003.txt` — splat's auto-boundary there is extract-order-sensitive).
+
+### Still parked (6 payloads — every cheap state byte-checked negative)
+**MAIN/7, MAIN/9** (not in: boot, title, attract ×4+ segments, load screen, main menu, OPENING,
+ENDING-1/ZEN, game-over/continue) · **SC02/9** (not in: STEAM-WOOD ×3, GANRYUU, 2ST-BOSS,
+GEKIRYU) · **SC03/53/54/56** (ids 0x40/0x41/0x43; not in: ISEKI, PLAZUMA, AREADEMO2-3,
+VAMBI-KYOUKAI; SC03/55 = their DATA companion, id-word 0x42 but zero prologues/returns —
+confirmed data). MAIN/9 shares id 0x2D with slot-A module MAIN/39 (an alternate build).
+**Resolution tier: the CD-read tracer** (log `cdFileLocTable` index per read), not scene-guessing.

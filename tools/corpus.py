@@ -171,6 +171,13 @@ def stubs(binary):
                 unparsed.append(f"{os.path.relpath(p, REPO)}:{i}: {line.strip()[:90]}")
                 continue
             asm_dir, sym = m.group(1), m.group(2)
+            # A data-shaped INCLUDE_ASM (D_*/jtbl_*) is a BLOB include, not a function stub —
+            # splat emits an in-text data word this way (md_MAIN_003's 0x800D3200 sentinel, S45).
+            # progress.py already classifies these as blobs (is_data_blob); the stub oracle must
+            # agree: they are not functions, so they belong in NO stub set. Not a silent skip
+            # (R32): the bytes still paste via the .s, and progress counts them in `blobs`.
+            if re.match(r"(D_|jtbl_)[0-9A-Fa-f]+$", sym):
+                continue
             fm = _FUNC_NAME.match(sym)
             addr = int(fm.group(1), 16) if fm else syms.get(sym)
             if addr is None:

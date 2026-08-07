@@ -2279,3 +2279,42 @@ pipeline in one afternoon. The S44 plan's per-tool audit was right to exist and 
 (family_sweep was "auto-OK"; the plan's "zero build refs" for the retirees was wrong for 3 of 7).
 The discipline that worked: R37 probe-first (one module before 29), negative controls per fix, and
 the R22/audit ladder after every batch.
+
+## 2026-08-07 (P30 S45, part 2) — the L3 tour: a live emulator session run as a measurement campaign
+
+**Context.** The S45 module campaign left a 34-row parked-for-L3 ledger. Drew was available; we
+ran the emulator session same-day instead of deferring to P31 — emulator-first was the right
+sequencing call because his availability was the scarce input and the ledger was the last
+denominator unknown.
+
+**The instrument.** The retail debug menu, summoned by forcing `gameMode=7` in per-frame writes
+over the Redux web API (two instrument lessons the hard way: hex `offset` params are silently
+parsed as 0 — my first 150 "writes" landed in kernel space and a no-op 200 had "verified" the
+write path (R35: a no-op is not a control); and a single write never latches — the game rewrites
+the mode every frame, which is WHY the original GameShark code is a constant-write). Drew
+transcribed the full AREA/SCENE list by hand (docs/debug-menu-list.txt) — flying blind ended and
+10 targeted loads replaced ~150.
+
+**The arc.** One accidental pre-crash capture (SC03/76 during an INN load) was the only positive
+for an hour of scene/dialogue/flag probes — until the INN replication cracked the law: city
+INTERIORS stream script modules, member k ↔ interior k, AREA selects the chapter. After that, 27
+modules fell in ~20 minutes of menu-hopping at four byte-verified slots. MAIN/3 was discovered
+FIRST — the very first snapshot showed id 0x39 at the resident slot during the main menu — the
+audit's classified-data bucket had hidden a 121 KB module both oracles missed; the id-word census
+then proved it was the only such miss.
+
+**What refused to appear.** MAIN/7/9, SC02/9, SC03/53/54/56 — parked with per-state negative
+evidence. A crash mid-tour (dynarec at the kernel vector — wild copy from a state-mismatched
+scene load) cost nothing: the frozen RAM still held its capture, and the savestate-hub pattern
+made later crashes ~20-second events.
+
+**Banked same-session (R30):** 29 onboardings byte-identical on first build; fleet 212; R22
+212/212 (after THREE catches on md_MAIN_003 — the A4 resident-symbol leak again, then an
+extract-order-sensitive splat boundary that the bytes resolved as a data-sentinel-in-text +
+function at +4, now pinned in the curated symbol file); audit-disc UNCLAIMED 34 → 6 at residue 0.
+
+**Hindsight.** (1) A human with a transcribed menu beats an agent guessing scene semantics — the
+DEBUG-MENU-LIST was the session's force multiplier. (2) Negative results with evidence are the
+product: six payloads now carry "never loads in X/Y/Z" instead of "unknown". (3) The write-API
+no-op control was a real R35 miss — verify instruments with a VISIBLE effect. (4) R22 catching
+md_MAIN_003 three times in one evening is the rule working exactly as designed.

@@ -104,6 +104,26 @@ Resolution path: the **L3 emulator tour** (P31 bucket T) logs every load (payloa
 len), delivering the 34 bases + R34-verification of the static addresses + evidence for any
 never-loaded payload's out-of-scope call.
 
+## S45 addendum (2026-08-07): the L3 tour ran — 29 of the 34 onboarded; parked = 6
+
+The debug-menu tour (`docs/memory-map.md` §S45; menu list `docs/debug-menu-list.txt`) delivered:
+- **All 28 script modules captured live and onboarded byte-identical** (`md_SC03_073…079`,
+  `md_SC03_132…138`, `md_SC04_024…030`, `md_SC05_023…029` at the four byte-verified per-chapter
+  slots). The interior↔module routing law is in memory-map §S45.
+- **MAIN/3 DISCOVERED and onboarded** (`md_MAIN_003` — the main-menu module, id 0x39, live
+  byte-proven at 0x800CEDF8). It had been mis-bucketed `classified-data` by BOTH oracles — the
+  low-jr module class evades the L1 heuristic AND L2's carve. The **module-id census** (word0 ∈
+  id-range + early prologue, run disc-wide) found **77 id-law code payloads, 72 claimed + 5
+  parked, zero further misses** — that census is the third oracle for this class.
+- **SC03/55 verdict: DATA, confirmed** (id-like word0 0x42 but zero prologues and zero `jr $ra`
+  in 7,988 B; it is the data companion of modules 0x40/0x41/0x43).
+- **Fleet: 183 → 212 binaries.** `make audit-disc`: **UNCLAIMED = 6, residue 0.**
+
+**The parked-for-L3 ledger is now 6 payloads**, each with byte-checked negative evidence from the
+tour (never present in RAM across boot/title/attract/menus/load/opening/endings/game-over and ~15
+scene loads): **MAIN/7, MAIN/9, SC02/9, SC03/53, SC03/54, SC03/56.** Next tier: the CD-read
+tracer (log `cdFileLocTable` index per read during play), not further scene-guessing.
+
 ## Reproduce
 > **⚠️ S45: `tools/disc_code_sweep.py` is RETIRED (R33)** — superseded by `make audit-disc`
 > (`tools/disc_audit.py`): whole-payload classification at BOTH the raw and LZSS layers, a

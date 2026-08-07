@@ -203,3 +203,13 @@ unsloth_compiled_cache/
 !/.run/near6_measure.py
 !/.run/near6_measure.json
 !/.run/near6_ils_*.log
+# P30 S45 — the L3 tour's irreplaceable evidence (R20): the state-change tour log + hit records,
+# the watcher/derivation scripts, and the module rosters. The 104 ram_*.bin dumps (~208 MB) stay
+# LOCAL-ONLY: regenerable via another debug-menu tour; the byte-proofs live in the jsonl + docs.
+!/.run/s45/
+/.run/s45/*
+!/.run/s45/*.py
+!/.run/s45/*.sh
+!/.run/s45/*.jsonl
+!/.run/s45/*.tsv
+!/.run/s45/onboard*.log

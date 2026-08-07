@@ -1,0 +1,3 @@
+// config/symbols.md_SC05_027.txt — module md_SC05_027 local symbols
+// R13/R15: this binary's REGION ONLY (vram 0x801ED988..0x801F59A0); NEVER merged into config/symbols.us.txt.
+// count=0

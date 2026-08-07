@@ -1,0 +1,797 @@
+SKIP  md_MAIN_013 (already onboarded)
+=== md_MAIN_014  extracted/retail/MAIN.CD.dir/FILE_014.dir/1.1  0x800CAE08  tlo=0x4 ===
+Onboarding md_MAIN_014  (module, extracted/retail/MAIN.CD.dir/FILE_014.dir/1.1)
+  sha1=2cbf91d6b4ff8dae68b24d200762c27ab8d6d558  size=0x828  vram=0x800CAE08  text_lo=0x4  code_end=0x7B4  text_hi=0x800CB630
+  wrote config/splat.md_MAIN_014.yaml
+  + config/modules.mk
+  + diff_settings.py
+  + tools/progress.py
+  + tools/dup_report.py
+Building md_MAIN_014 ...
+  AS      build/asm/md_MAIN_014/data/tail.data.o
+  AS      build/asm/md_MAIN_014/data/hdr.rodata.o
+  CC      build/src/md_MAIN_014/md_MAIN_014.o
+  LD      build/md_MAIN_014/md_MAIN_014.elf
+  OBJCOPY build/md_MAIN_014/md_MAIN_014
+[ OK ] build/md_MAIN_014/md_MAIN_014
+       sha1 2cbf91d6b4ff8dae68b24d200762c27ab8d6d558 == config/check.md_MAIN_014.sha  (BYTE-IDENTICAL)
+Done. md_MAIN_014 onboarded; run 'make check BINARY=md_MAIN_014' anytime, or 'make check-all' for the fleet.
+[ OK ] build/md_MAIN_014/md_MAIN_014
+       sha1 2cbf91d6b4ff8dae68b24d200762c27ab8d6d558 == config/check.md_MAIN_014.sha  (BYTE-IDENTICAL)
+PASS  md_MAIN_014
+=== md_MAIN_015  extracted/retail/MAIN.CD.dir/FILE_015.dir/1.1  0x800CAE08  tlo=0x4 ===
+Onboarding md_MAIN_015  (module, extracted/retail/MAIN.CD.dir/FILE_015.dir/1.1)
+  sha1=8967408a016b8ab98f70c185411eddda69496f39  size=0x1A70  vram=0x800CAE08  text_lo=0x4  code_end=0xCB8  text_hi=0x800CC878
+  wrote config/splat.md_MAIN_015.yaml
+  + config/modules.mk
+  + diff_settings.py
+  + tools/progress.py
+  + tools/dup_report.py
+Building md_MAIN_015 ...
+  AS      build/asm/md_MAIN_015/data/tail.data.o
+  AS      build/asm/md_MAIN_015/data/hdr.rodata.o
+  CC      build/src/md_MAIN_015/md_MAIN_015.o
+  LD      build/md_MAIN_015/md_MAIN_015.elf
+  OBJCOPY build/md_MAIN_015/md_MAIN_015
+[ OK ] build/md_MAIN_015/md_MAIN_015
+       sha1 8967408a016b8ab98f70c185411eddda69496f39 == config/check.md_MAIN_015.sha  (BYTE-IDENTICAL)
+Done. md_MAIN_015 onboarded; run 'make check BINARY=md_MAIN_015' anytime, or 'make check-all' for the fleet.
+[ OK ] build/md_MAIN_015/md_MAIN_015
+       sha1 8967408a016b8ab98f70c185411eddda69496f39 == config/check.md_MAIN_015.sha  (BYTE-IDENTICAL)
+PASS  md_MAIN_015
+=== md_MAIN_016  extracted/retail/MAIN.CD.dir/FILE_016.dir/1.1  0x800CAE08  tlo=0x4 ===
+Onboarding md_MAIN_016  (module, extracted/retail/MAIN.CD.dir/FILE_016.dir/1.1)
+  sha1=eefcb02f68bdc5f55c059a75348abe878426b888  size=0x788  vram=0x800CAE08  text_lo=0x4  code_end=0x714  text_hi=0x800CB590
+  wrote config/splat.md_MAIN_016.yaml
+  + config/modules.mk
+  + diff_settings.py
+  + tools/progress.py
+  + tools/dup_report.py
+Building md_MAIN_016 ...
+  AS      build/asm/md_MAIN_016/data/tail.data.o
+  AS      build/asm/md_MAIN_016/data/hdr.rodata.o
+  CC      build/src/md_MAIN_016/md_MAIN_016.o
+  LD      build/md_MAIN_016/md_MAIN_016.elf
+  OBJCOPY build/md_MAIN_016/md_MAIN_016
+[ OK ] build/md_MAIN_016/md_MAIN_016
+       sha1 eefcb02f68bdc5f55c059a75348abe878426b888 == config/check.md_MAIN_016.sha  (BYTE-IDENTICAL)
+Done. md_MAIN_016 onboarded; run 'make check BINARY=md_MAIN_016' anytime, or 'make check-all' for the fleet.
+[ OK ] build/md_MAIN_016/md_MAIN_016
+       sha1 eefcb02f68bdc5f55c059a75348abe878426b888 == config/check.md_MAIN_016.sha  (BYTE-IDENTICAL)
+PASS  md_MAIN_016
+=== md_MAIN_017  extracted/retail/MAIN.CD.dir/FILE_017.dir/1.1  0x800CAE08  tlo=0x4 ===
+Onboarding md_MAIN_017  (module, extracted/retail/MAIN.CD.dir/FILE_017.dir/1.1)
+  sha1=f4e0e2350db40dc5fd991ca5526e24b1b3f10c09  size=0x5D4  vram=0x800CAE08  text_lo=0x4  code_end=0x510  text_hi=0x800CB3DC
+  wrote config/splat.md_MAIN_017.yaml
+  + config/modules.mk
+  + diff_settings.py
+  + tools/progress.py
+  + tools/dup_report.py
+Building md_MAIN_017 ...
+  AS      build/asm/md_MAIN_017/data/tail.data.o
+  AS      build/asm/md_MAIN_017/data/hdr.rodata.o
+  CC      build/src/md_MAIN_017/md_MAIN_017.o
+  LD      build/md_MAIN_017/md_MAIN_017.elf
+  OBJCOPY build/md_MAIN_017/md_MAIN_017
+[ OK ] build/md_MAIN_017/md_MAIN_017
+       sha1 f4e0e2350db40dc5fd991ca5526e24b1b3f10c09 == config/check.md_MAIN_017.sha  (BYTE-IDENTICAL)
+Done. md_MAIN_017 onboarded; run 'make check BINARY=md_MAIN_017' anytime, or 'make check-all' for the fleet.
+[ OK ] build/md_MAIN_017/md_MAIN_017
+       sha1 f4e0e2350db40dc5fd991ca5526e24b1b3f10c09 == config/check.md_MAIN_017.sha  (BYTE-IDENTICAL)
+PASS  md_MAIN_017
+=== md_MAIN_018  extracted/retail/MAIN.CD.dir/FILE_018.dir/1.1  0x800CAE08  tlo=0x4 ===
+Onboarding md_MAIN_018  (module, extracted/retail/MAIN.CD.dir/FILE_018.dir/1.1)
+  sha1=e9127c347637aaccb39eaedb97be3dbedf72d368  size=0xA98  vram=0x800CAE08  text_lo=0x4  code_end=0x7E0  text_hi=0x800CB8A0
+  wrote config/splat.md_MAIN_018.yaml
+  + config/modules.mk
+  + diff_settings.py
+  + tools/progress.py
+  + tools/dup_report.py
+Building md_MAIN_018 ...
+  AS      build/asm/md_MAIN_018/data/tail.data.o
+  AS      build/asm/md_MAIN_018/data/hdr.rodata.o
+  CC      build/src/md_MAIN_018/md_MAIN_018.o
+  LD      build/md_MAIN_018/md_MAIN_018.elf
+  OBJCOPY build/md_MAIN_018/md_MAIN_018
+[ OK ] build/md_MAIN_018/md_MAIN_018
+       sha1 e9127c347637aaccb39eaedb97be3dbedf72d368 == config/check.md_MAIN_018.sha  (BYTE-IDENTICAL)
+Done. md_MAIN_018 onboarded; run 'make check BINARY=md_MAIN_018' anytime, or 'make check-all' for the fleet.
+[ OK ] build/md_MAIN_018/md_MAIN_018
+       sha1 e9127c347637aaccb39eaedb97be3dbedf72d368 == config/check.md_MAIN_018.sha  (BYTE-IDENTICAL)
+PASS  md_MAIN_018
+=== md_MAIN_019  extracted/retail/MAIN.CD.dir/FILE_019.dir/1.1  0x800CAE08  tlo=0x4 ===
+Onboarding md_MAIN_019  (module, extracted/retail/MAIN.CD.dir/FILE_019.dir/1.1)
+  sha1=713669c0f8bb08d4c5d37c49a936f40fda26af21  size=0x1A68  vram=0x800CAE08  text_lo=0x4  code_end=0x11A4  text_hi=0x800CC870
+  wrote config/splat.md_MAIN_019.yaml
+  + config/modules.mk
+  + diff_settings.py
+  + tools/progress.py
+  + tools/dup_report.py
+Building md_MAIN_019 ...
+  AS      build/asm/md_MAIN_019/data/tail.data.o
+  AS      build/asm/md_MAIN_019/data/hdr.rodata.o
+  CC      build/src/md_MAIN_019/md_MAIN_019.o
+  LD      build/md_MAIN_019/md_MAIN_019.elf
+  OBJCOPY build/md_MAIN_019/md_MAIN_019
+[ OK ] build/md_MAIN_019/md_MAIN_019
+       sha1 713669c0f8bb08d4c5d37c49a936f40fda26af21 == config/check.md_MAIN_019.sha  (BYTE-IDENTICAL)
+Done. md_MAIN_019 onboarded; run 'make check BINARY=md_MAIN_019' anytime, or 'make check-all' for the fleet.
+[ OK ] build/md_MAIN_019/md_MAIN_019
+       sha1 713669c0f8bb08d4c5d37c49a936f40fda26af21 == config/check.md_MAIN_019.sha  (BYTE-IDENTICAL)
+PASS  md_MAIN_019
+=== md_MAIN_020  extracted/retail/MAIN.CD.dir/FILE_020.dir/1.1  0x800CAE08  tlo=0x4 ===
+Onboarding md_MAIN_020  (module, extracted/retail/MAIN.CD.dir/FILE_020.dir/1.1)
+  sha1=0990e04173c4cfe4cf948e78d5ac4c043c5cb61c  size=0xCAC  vram=0x800CAE08  text_lo=0x4  code_end=0x3EC  text_hi=0x800CBAB4
+  wrote config/splat.md_MAIN_020.yaml
+  + config/modules.mk
+  + diff_settings.py
+  + tools/progress.py
+  + tools/dup_report.py
+Building md_MAIN_020 ...
+  AS      build/asm/md_MAIN_020/data/tail.data.o
+  AS      build/asm/md_MAIN_020/data/hdr.rodata.o
+  CC      build/src/md_MAIN_020/md_MAIN_020.o
+  LD      build/md_MAIN_020/md_MAIN_020.elf
+  OBJCOPY build/md_MAIN_020/md_MAIN_020
+[ OK ] build/md_MAIN_020/md_MAIN_020
+       sha1 0990e04173c4cfe4cf948e78d5ac4c043c5cb61c == config/check.md_MAIN_020.sha  (BYTE-IDENTICAL)
+Done. md_MAIN_020 onboarded; run 'make check BINARY=md_MAIN_020' anytime, or 'make check-all' for the fleet.
+[ OK ] build/md_MAIN_020/md_MAIN_020
+       sha1 0990e04173c4cfe4cf948e78d5ac4c043c5cb61c == config/check.md_MAIN_020.sha  (BYTE-IDENTICAL)
+PASS  md_MAIN_020
+=== md_MAIN_021  extracted/retail/MAIN.CD.dir/FILE_021.dir/1.1  0x800CAE08  tlo=0x4 ===
+Onboarding md_MAIN_021  (module, extracted/retail/MAIN.CD.dir/FILE_021.dir/1.1)
+  sha1=0691986b18fe1fafb01877ece03b4a30a412e654  size=0x790  vram=0x800CAE08  text_lo=0x4  code_end=0x6F4  text_hi=0x800CB598
+  wrote config/splat.md_MAIN_021.yaml
+  + config/modules.mk
+  + diff_settings.py
+  + tools/progress.py
+  + tools/dup_report.py
+Building md_MAIN_021 ...
+  AS      build/asm/md_MAIN_021/data/tail.data.o
+  AS      build/asm/md_MAIN_021/data/hdr.rodata.o
+  CC      build/src/md_MAIN_021/md_MAIN_021.o
+  LD      build/md_MAIN_021/md_MAIN_021.elf
+  OBJCOPY build/md_MAIN_021/md_MAIN_021
+[ OK ] build/md_MAIN_021/md_MAIN_021
+       sha1 0691986b18fe1fafb01877ece03b4a30a412e654 == config/check.md_MAIN_021.sha  (BYTE-IDENTICAL)
+Done. md_MAIN_021 onboarded; run 'make check BINARY=md_MAIN_021' anytime, or 'make check-all' for the fleet.
+[ OK ] build/md_MAIN_021/md_MAIN_021
+       sha1 0691986b18fe1fafb01877ece03b4a30a412e654 == config/check.md_MAIN_021.sha  (BYTE-IDENTICAL)
+PASS  md_MAIN_021
+=== md_MAIN_022  extracted/retail/MAIN.CD.dir/FILE_022.dir/1.1  0x800CAE08  tlo=0x4 ===
+Onboarding md_MAIN_022  (module, extracted/retail/MAIN.CD.dir/FILE_022.dir/1.1)
+  sha1=832070358fc2b0336ffbabb7e8fa758b518c7607  size=0xFE8  vram=0x800CAE08  text_lo=0x4  code_end=0xE88  text_hi=0x800CBDF0
+  wrote config/splat.md_MAIN_022.yaml
+  + config/modules.mk
+  + diff_settings.py
+  + tools/progress.py
+  + tools/dup_report.py
+Building md_MAIN_022 ...
+  AS      build/asm/md_MAIN_022/data/tail.data.o
+  AS      build/asm/md_MAIN_022/data/hdr.rodata.o
+  CC      build/src/md_MAIN_022/md_MAIN_022.o
+  LD      build/md_MAIN_022/md_MAIN_022.elf
+  OBJCOPY build/md_MAIN_022/md_MAIN_022
+[ OK ] build/md_MAIN_022/md_MAIN_022
+       sha1 832070358fc2b0336ffbabb7e8fa758b518c7607 == config/check.md_MAIN_022.sha  (BYTE-IDENTICAL)
+Done. md_MAIN_022 onboarded; run 'make check BINARY=md_MAIN_022' anytime, or 'make check-all' for the fleet.
+[ OK ] build/md_MAIN_022/md_MAIN_022
+       sha1 832070358fc2b0336ffbabb7e8fa758b518c7607 == config/check.md_MAIN_022.sha  (BYTE-IDENTICAL)
+PASS  md_MAIN_022
+=== md_MAIN_023  extracted/retail/MAIN.CD.dir/FILE_023.dir/0.1  0x800CAE08  tlo=0x4 ===
+Onboarding md_MAIN_023  (module, extracted/retail/MAIN.CD.dir/FILE_023.dir/0.1)
+  sha1=87786dce7e733f2bffdc7e3968daf207ca28d844  size=0x184  vram=0x800CAE08  text_lo=0x4  code_end=0x138  text_hi=0x800CAF8C
+  wrote config/splat.md_MAIN_023.yaml
+  + config/modules.mk
+  + diff_settings.py
+  + tools/progress.py
+  + tools/dup_report.py
+Building md_MAIN_023 ...
+  AS      build/asm/md_MAIN_023/data/tail.data.o
+  AS      build/asm/md_MAIN_023/data/hdr.rodata.o
+  CC      build/src/md_MAIN_023/md_MAIN_023.o
+  LD      build/md_MAIN_023/md_MAIN_023.elf
+  OBJCOPY build/md_MAIN_023/md_MAIN_023
+[ OK ] build/md_MAIN_023/md_MAIN_023
+       sha1 87786dce7e733f2bffdc7e3968daf207ca28d844 == config/check.md_MAIN_023.sha  (BYTE-IDENTICAL)
+Done. md_MAIN_023 onboarded; run 'make check BINARY=md_MAIN_023' anytime, or 'make check-all' for the fleet.
+[ OK ] build/md_MAIN_023/md_MAIN_023
+       sha1 87786dce7e733f2bffdc7e3968daf207ca28d844 == config/check.md_MAIN_023.sha  (BYTE-IDENTICAL)
+PASS  md_MAIN_023
+=== md_MAIN_024  extracted/retail/MAIN.CD.dir/FILE_024.dir/0.1  0x800CAE08  tlo=0x4 ===
+Onboarding md_MAIN_024  (module, extracted/retail/MAIN.CD.dir/FILE_024.dir/0.1)
+  sha1=04755cf2a11d7f7e23d28adea53b9e873ebb22eb  size=0x14C  vram=0x800CAE08  text_lo=0x4  code_end=0x100  text_hi=0x800CAF54
+  wrote config/splat.md_MAIN_024.yaml
+  + config/modules.mk
+  + diff_settings.py
+  + tools/progress.py
+  + tools/dup_report.py
+Building md_MAIN_024 ...
+  AS      build/asm/md_MAIN_024/data/tail.data.o
+  AS      build/asm/md_MAIN_024/data/hdr.rodata.o
+  CC      build/src/md_MAIN_024/md_MAIN_024.o
+  LD      build/md_MAIN_024/md_MAIN_024.elf
+  OBJCOPY build/md_MAIN_024/md_MAIN_024
+[ OK ] build/md_MAIN_024/md_MAIN_024
+       sha1 04755cf2a11d7f7e23d28adea53b9e873ebb22eb == config/check.md_MAIN_024.sha  (BYTE-IDENTICAL)
+Done. md_MAIN_024 onboarded; run 'make check BINARY=md_MAIN_024' anytime, or 'make check-all' for the fleet.
+[ OK ] build/md_MAIN_024/md_MAIN_024
+       sha1 04755cf2a11d7f7e23d28adea53b9e873ebb22eb == config/check.md_MAIN_024.sha  (BYTE-IDENTICAL)
+PASS  md_MAIN_024
+=== md_MAIN_025  extracted/retail/MAIN.CD.dir/FILE_025.dir/1.1  0x800CAE08  tlo=0xC ===
+Onboarding md_MAIN_025  (module, extracted/retail/MAIN.CD.dir/FILE_025.dir/1.1)
+  sha1=189c8f610108dbe3256f9b26564d4ca930d23181  size=0x18FC  vram=0x800CAE08  text_lo=0xC  code_end=0xE7C  text_hi=0x800CC704
+  wrote config/splat.md_MAIN_025.yaml
+  + config/modules.mk
+  + diff_settings.py
+  + tools/progress.py
+  + tools/dup_report.py
+Building md_MAIN_025 ...
+  AS      build/asm/md_MAIN_025/data/tail.data.o
+  AS      build/asm/md_MAIN_025/data/hdr.rodata.o
+  CC      build/src/md_MAIN_025/md_MAIN_025.o
+  LD      build/md_MAIN_025/md_MAIN_025.elf
+  OBJCOPY build/md_MAIN_025/md_MAIN_025
+[ OK ] build/md_MAIN_025/md_MAIN_025
+       sha1 189c8f610108dbe3256f9b26564d4ca930d23181 == config/check.md_MAIN_025.sha  (BYTE-IDENTICAL)
+Done. md_MAIN_025 onboarded; run 'make check BINARY=md_MAIN_025' anytime, or 'make check-all' for the fleet.
+[ OK ] build/md_MAIN_025/md_MAIN_025
+       sha1 189c8f610108dbe3256f9b26564d4ca930d23181 == config/check.md_MAIN_025.sha  (BYTE-IDENTICAL)
+PASS  md_MAIN_025
+=== md_MAIN_026  extracted/retail/MAIN.CD.dir/FILE_026.dir/1.1  0x800CAE08  tlo=0x4 ===
+Onboarding md_MAIN_026  (module, extracted/retail/MAIN.CD.dir/FILE_026.dir/1.1)
+  sha1=f52c7b74c491f8d3802064cd536f8d177584c083  size=0xE10  vram=0x800CAE08  text_lo=0x4  code_end=0xD08  text_hi=0x800CBC18
+  wrote config/splat.md_MAIN_026.yaml
+  + config/modules.mk
+  + diff_settings.py
+  + tools/progress.py
+  + tools/dup_report.py
+Building md_MAIN_026 ...
+  AS      build/asm/md_MAIN_026/data/tail.data.o
+  AS      build/asm/md_MAIN_026/data/hdr.rodata.o
+  CC      build/src/md_MAIN_026/md_MAIN_026.o
+  LD      build/md_MAIN_026/md_MAIN_026.elf
+  OBJCOPY build/md_MAIN_026/md_MAIN_026
+[ OK ] build/md_MAIN_026/md_MAIN_026
+       sha1 f52c7b74c491f8d3802064cd536f8d177584c083 == config/check.md_MAIN_026.sha  (BYTE-IDENTICAL)
+Done. md_MAIN_026 onboarded; run 'make check BINARY=md_MAIN_026' anytime, or 'make check-all' for the fleet.
+[ OK ] build/md_MAIN_026/md_MAIN_026
+       sha1 f52c7b74c491f8d3802064cd536f8d177584c083 == config/check.md_MAIN_026.sha  (BYTE-IDENTICAL)
+PASS  md_MAIN_026
+=== md_MAIN_027  extracted/retail/MAIN.CD.dir/FILE_027.dir/1.1  0x800CAE08  tlo=0x4 ===
+Onboarding md_MAIN_027  (module, extracted/retail/MAIN.CD.dir/FILE_027.dir/1.1)
+  sha1=a0cc4fdd3cf5ec24404329829c709586907670cd  size=0x1498  vram=0x800CAE08  text_lo=0x4  code_end=0x132C  text_hi=0x800CC2A0
+  wrote config/splat.md_MAIN_027.yaml
+  + config/modules.mk
+  + diff_settings.py
+  + tools/progress.py
+  + tools/dup_report.py
+Building md_MAIN_027 ...
+  AS      build/asm/md_MAIN_027/data/tail.data.o
+  AS      build/asm/md_MAIN_027/data/hdr.rodata.o
+  CC      build/src/md_MAIN_027/md_MAIN_027.o
+  LD      build/md_MAIN_027/md_MAIN_027.elf
+  OBJCOPY build/md_MAIN_027/md_MAIN_027
+[ OK ] build/md_MAIN_027/md_MAIN_027
+       sha1 a0cc4fdd3cf5ec24404329829c709586907670cd == config/check.md_MAIN_027.sha  (BYTE-IDENTICAL)
+Done. md_MAIN_027 onboarded; run 'make check BINARY=md_MAIN_027' anytime, or 'make check-all' for the fleet.
+[ OK ] build/md_MAIN_027/md_MAIN_027
+       sha1 a0cc4fdd3cf5ec24404329829c709586907670cd == config/check.md_MAIN_027.sha  (BYTE-IDENTICAL)
+PASS  md_MAIN_027
+=== md_MAIN_028  extracted/retail/MAIN.CD.dir/FILE_028.dir/1.1  0x800CAE08  tlo=0x4 ===
+Onboarding md_MAIN_028  (module, extracted/retail/MAIN.CD.dir/FILE_028.dir/1.1)
+  sha1=14f0b03564d92270510391defd92fb34f601ef34  size=0x116C  vram=0x800CAE08  text_lo=0x4  code_end=0x108C  text_hi=0x800CBF74
+  wrote config/splat.md_MAIN_028.yaml
+  + config/modules.mk
+  + diff_settings.py
+  + tools/progress.py
+  + tools/dup_report.py
+Building md_MAIN_028 ...
+  AS      build/asm/md_MAIN_028/data/tail.data.o
+  AS      build/asm/md_MAIN_028/data/hdr.rodata.o
+  CC      build/src/md_MAIN_028/md_MAIN_028.o
+  LD      build/md_MAIN_028/md_MAIN_028.elf
+  OBJCOPY build/md_MAIN_028/md_MAIN_028
+[ OK ] build/md_MAIN_028/md_MAIN_028
+       sha1 14f0b03564d92270510391defd92fb34f601ef34 == config/check.md_MAIN_028.sha  (BYTE-IDENTICAL)
+Done. md_MAIN_028 onboarded; run 'make check BINARY=md_MAIN_028' anytime, or 'make check-all' for the fleet.
+[ OK ] build/md_MAIN_028/md_MAIN_028
+       sha1 14f0b03564d92270510391defd92fb34f601ef34 == config/check.md_MAIN_028.sha  (BYTE-IDENTICAL)
+PASS  md_MAIN_028
+=== md_MAIN_029  extracted/retail/MAIN.CD.dir/FILE_029.dir/1.1  0x800CAE08  tlo=0x4 ===
+Onboarding md_MAIN_029  (module, extracted/retail/MAIN.CD.dir/FILE_029.dir/1.1)
+  sha1=c3760913f2f0581d7935834d16f23dd506640e82  size=0x7C0  vram=0x800CAE08  text_lo=0x4  code_end=0x694  text_hi=0x800CB5C8
+  wrote config/splat.md_MAIN_029.yaml
+  + config/modules.mk
+  + diff_settings.py
+  + tools/progress.py
+  + tools/dup_report.py
+Building md_MAIN_029 ...
+  AS      build/asm/md_MAIN_029/data/tail.data.o
+  AS      build/asm/md_MAIN_029/data/hdr.rodata.o
+  CC      build/src/md_MAIN_029/md_MAIN_029.o
+  LD      build/md_MAIN_029/md_MAIN_029.elf
+  OBJCOPY build/md_MAIN_029/md_MAIN_029
+[ OK ] build/md_MAIN_029/md_MAIN_029
+       sha1 c3760913f2f0581d7935834d16f23dd506640e82 == config/check.md_MAIN_029.sha  (BYTE-IDENTICAL)
+Done. md_MAIN_029 onboarded; run 'make check BINARY=md_MAIN_029' anytime, or 'make check-all' for the fleet.
+[ OK ] build/md_MAIN_029/md_MAIN_029
+       sha1 c3760913f2f0581d7935834d16f23dd506640e82 == config/check.md_MAIN_029.sha  (BYTE-IDENTICAL)
+PASS  md_MAIN_029
+=== md_MAIN_030  extracted/retail/MAIN.CD.dir/FILE_030.dir/1.1  0x800CAE08  tlo=0x4 ===
+Onboarding md_MAIN_030  (module, extracted/retail/MAIN.CD.dir/FILE_030.dir/1.1)
+  sha1=826eaa58a1878970aaaa3bdd7df3ce36d8324f49  size=0x754  vram=0x800CAE08  text_lo=0x4  code_end=0x650  text_hi=0x800CB55C
+  wrote config/splat.md_MAIN_030.yaml
+  + config/modules.mk
+  + diff_settings.py
+  + tools/progress.py
+  + tools/dup_report.py
+Building md_MAIN_030 ...
+  AS      build/asm/md_MAIN_030/data/tail.data.o
+  AS      build/asm/md_MAIN_030/data/hdr.rodata.o
+  CC      build/src/md_MAIN_030/md_MAIN_030.o
+  LD      build/md_MAIN_030/md_MAIN_030.elf
+  OBJCOPY build/md_MAIN_030/md_MAIN_030
+[ OK ] build/md_MAIN_030/md_MAIN_030
+       sha1 826eaa58a1878970aaaa3bdd7df3ce36d8324f49 == config/check.md_MAIN_030.sha  (BYTE-IDENTICAL)
+Done. md_MAIN_030 onboarded; run 'make check BINARY=md_MAIN_030' anytime, or 'make check-all' for the fleet.
+[ OK ] build/md_MAIN_030/md_MAIN_030
+       sha1 826eaa58a1878970aaaa3bdd7df3ce36d8324f49 == config/check.md_MAIN_030.sha  (BYTE-IDENTICAL)
+PASS  md_MAIN_030
+=== md_MAIN_031  extracted/retail/MAIN.CD.dir/FILE_031.dir/1.1  0x800CAE08  tlo=0x4 ===
+Onboarding md_MAIN_031  (module, extracted/retail/MAIN.CD.dir/FILE_031.dir/1.1)
+  sha1=b4ad8a0aa6184cfd1a465fb98d840e169c6c5184  size=0x13B4  vram=0x800CAE08  text_lo=0x4  code_end=0x1134  text_hi=0x800CC1BC
+  wrote config/splat.md_MAIN_031.yaml
+  + config/modules.mk
+  + diff_settings.py
+  + tools/progress.py
+  + tools/dup_report.py
+Building md_MAIN_031 ...
+  AS      build/asm/md_MAIN_031/data/tail.data.o
+  AS      build/asm/md_MAIN_031/data/hdr.rodata.o
+  CC      build/src/md_MAIN_031/md_MAIN_031.o
+  LD      build/md_MAIN_031/md_MAIN_031.elf
+  OBJCOPY build/md_MAIN_031/md_MAIN_031
+[ OK ] build/md_MAIN_031/md_MAIN_031
+       sha1 b4ad8a0aa6184cfd1a465fb98d840e169c6c5184 == config/check.md_MAIN_031.sha  (BYTE-IDENTICAL)
+Done. md_MAIN_031 onboarded; run 'make check BINARY=md_MAIN_031' anytime, or 'make check-all' for the fleet.
+[ OK ] build/md_MAIN_031/md_MAIN_031
+       sha1 b4ad8a0aa6184cfd1a465fb98d840e169c6c5184 == config/check.md_MAIN_031.sha  (BYTE-IDENTICAL)
+PASS  md_MAIN_031
+=== md_MAIN_032  extracted/retail/MAIN.CD.dir/FILE_032.dir/1.1  0x800CAE08  tlo=0x4 ===
+Onboarding md_MAIN_032  (module, extracted/retail/MAIN.CD.dir/FILE_032.dir/1.1)
+  sha1=2cd19e15dd699e90747fa3c57edd3ec0f71ed26f  size=0x15C4  vram=0x800CAE08  text_lo=0x4  code_end=0x464  text_hi=0x800CC3CC
+  wrote config/splat.md_MAIN_032.yaml
+  + config/modules.mk
+  + diff_settings.py
+  + tools/progress.py
+  + tools/dup_report.py
+Building md_MAIN_032 ...
+  AS      build/asm/md_MAIN_032/data/tail.data.o
+  AS      build/asm/md_MAIN_032/data/hdr.rodata.o
+  CC      build/src/md_MAIN_032/md_MAIN_032.o
+  LD      build/md_MAIN_032/md_MAIN_032.elf
+  OBJCOPY build/md_MAIN_032/md_MAIN_032
+[ OK ] build/md_MAIN_032/md_MAIN_032
+       sha1 2cd19e15dd699e90747fa3c57edd3ec0f71ed26f == config/check.md_MAIN_032.sha  (BYTE-IDENTICAL)
+Done. md_MAIN_032 onboarded; run 'make check BINARY=md_MAIN_032' anytime, or 'make check-all' for the fleet.
+[ OK ] build/md_MAIN_032/md_MAIN_032
+       sha1 2cd19e15dd699e90747fa3c57edd3ec0f71ed26f == config/check.md_MAIN_032.sha  (BYTE-IDENTICAL)
+PASS  md_MAIN_032
+=== md_MAIN_033  extracted/retail/MAIN.CD.dir/FILE_033.dir/1.1  0x800CAE08  tlo=0x4 ===
+Onboarding md_MAIN_033  (module, extracted/retail/MAIN.CD.dir/FILE_033.dir/1.1)
+  sha1=f109278a0b8f17167196a29104ec9bdd7ff3a934  size=0xCC0  vram=0x800CAE08  text_lo=0x4  code_end=0xA50  text_hi=0x800CBAC8
+  wrote config/splat.md_MAIN_033.yaml
+  + config/modules.mk
+  + diff_settings.py
+  + tools/progress.py
+  + tools/dup_report.py
+Building md_MAIN_033 ...
+  AS      build/asm/md_MAIN_033/data/tail.data.o
+  AS      build/asm/md_MAIN_033/data/hdr.rodata.o
+  CC      build/src/md_MAIN_033/md_MAIN_033.o
+  LD      build/md_MAIN_033/md_MAIN_033.elf
+  OBJCOPY build/md_MAIN_033/md_MAIN_033
+[ OK ] build/md_MAIN_033/md_MAIN_033
+       sha1 f109278a0b8f17167196a29104ec9bdd7ff3a934 == config/check.md_MAIN_033.sha  (BYTE-IDENTICAL)
+Done. md_MAIN_033 onboarded; run 'make check BINARY=md_MAIN_033' anytime, or 'make check-all' for the fleet.
+[ OK ] build/md_MAIN_033/md_MAIN_033
+       sha1 f109278a0b8f17167196a29104ec9bdd7ff3a934 == config/check.md_MAIN_033.sha  (BYTE-IDENTICAL)
+PASS  md_MAIN_033
+=== md_MAIN_034  extracted/retail/MAIN.CD.dir/FILE_034.dir/1.1  0x800CAE08  tlo=0x80 ===
+Onboarding md_MAIN_034  (module, extracted/retail/MAIN.CD.dir/FILE_034.dir/1.1)
+  sha1=46153c06bca859dec05aff59fb1a77d3add3d02b  size=0x1D14  vram=0x800CAE08  text_lo=0x80  code_end=0x1BE0  text_hi=0x800CCB1C
+  wrote config/splat.md_MAIN_034.yaml
+  + config/modules.mk
+  + diff_settings.py
+  + tools/progress.py
+  + tools/dup_report.py
+Building md_MAIN_034 ...
+  AS      build/asm/md_MAIN_034/data/tail.data.o
+  AS      build/asm/md_MAIN_034/data/hdr.rodata.o
+  CC      build/src/md_MAIN_034/md_MAIN_034.o
+  LD      build/md_MAIN_034/md_MAIN_034.elf
+mipsel-linux-gnu-ld: build/asm/md_MAIN_034/data/hdr.rodata.o:(.rodata+0x4): undefined reference to `.L800CB088'
+mipsel-linux-gnu-ld: build/asm/md_MAIN_034/data/hdr.rodata.o:(.rodata+0x8): undefined reference to `.L800CB1B4'
+mipsel-linux-gnu-ld: build/asm/md_MAIN_034/data/hdr.rodata.o:(.rodata+0xc): undefined reference to `.L800CB1B4'
+mipsel-linux-gnu-ld: build/asm/md_MAIN_034/data/hdr.rodata.o:(.rodata+0x10): undefined reference to `.L800CB1B4'
+mipsel-linux-gnu-ld: build/asm/md_MAIN_034/data/hdr.rodata.o:(.rodata+0x14): undefined reference to `.L800CB1B4'
+mipsel-linux-gnu-ld: build/asm/md_MAIN_034/data/hdr.rodata.o:(.rodata+0x18): undefined reference to `.L800CB1B4'
+mipsel-linux-gnu-ld: build/asm/md_MAIN_034/data/hdr.rodata.o:(.rodata+0x1c): more undefined references to `.L800CB1B4' follow
+mipsel-linux-gnu-ld: build/asm/md_MAIN_034/data/hdr.rodata.o:(.rodata+0x24): undefined reference to `.L800CB0B0'
+mipsel-linux-gnu-ld: build/asm/md_MAIN_034/data/hdr.rodata.o:(.rodata+0x28): undefined reference to `.L800CB1B4'
+mipsel-linux-gnu-ld: build/asm/md_MAIN_034/data/hdr.rodata.o:(.rodata+0x2c): undefined reference to `.L800CB1B4'
+mipsel-linux-gnu-ld: build/asm/md_MAIN_034/data/hdr.rodata.o:(.rodata+0x30): undefined reference to `.L800CB1B4'
+mipsel-linux-gnu-ld: build/asm/md_MAIN_034/data/hdr.rodata.o:(.rodata+0x34): undefined reference to `.L800CB0D8'
+mipsel-linux-gnu-ld: build/asm/md_MAIN_034/data/hdr.rodata.o:(.rodata+0x38): undefined reference to `.L800CB1B4'
+mipsel-linux-gnu-ld: build/asm/md_MAIN_034/data/hdr.rodata.o:(.rodata+0x3c): undefined reference to `.L800CB1B4'
+mipsel-linux-gnu-ld: build/asm/md_MAIN_034/data/hdr.rodata.o:(.rodata+0x40): undefined reference to `.L800CB1B4'
+mipsel-linux-gnu-ld: build/asm/md_MAIN_034/data/hdr.rodata.o:(.rodata+0x44): undefined reference to `.L800CB100'
+mipsel-linux-gnu-ld: build/asm/md_MAIN_034/data/hdr.rodata.o:(.rodata+0x48): undefined reference to `.L800CB1B4'
+mipsel-linux-gnu-ld: build/asm/md_MAIN_034/data/hdr.rodata.o:(.rodata+0x4c): undefined reference to `.L800CB1B4'
+mipsel-linux-gnu-ld: build/asm/md_MAIN_034/data/hdr.rodata.o:(.rodata+0x50): undefined reference to `.L800CB1B4'
+mipsel-linux-gnu-ld: build/asm/md_MAIN_034/data/hdr.rodata.o:(.rodata+0x54): undefined reference to `.L800CB158'
+mipsel-linux-gnu-ld: build/asm/md_MAIN_034/data/hdr.rodata.o:(.rodata+0x58): undefined reference to `.L800CB1B4'
+mipsel-linux-gnu-ld: build/asm/md_MAIN_034/data/hdr.rodata.o:(.rodata+0x5c): undefined reference to `.L800CB1B4'
+mipsel-linux-gnu-ld: build/asm/md_MAIN_034/data/hdr.rodata.o:(.rodata+0x60): undefined reference to `.L800CB1B4'
+mipsel-linux-gnu-ld: build/asm/md_MAIN_034/data/hdr.rodata.o:(.rodata+0x64): undefined reference to `.L800CB128'
+mipsel-linux-gnu-ld: build/asm/md_MAIN_034/data/hdr.rodata.o:(.rodata+0x68): undefined reference to `.L800CB1B4'
+mipsel-linux-gnu-ld: build/asm/md_MAIN_034/data/hdr.rodata.o:(.rodata+0x6c): undefined reference to `.L800CB1B4'
+mipsel-linux-gnu-ld: build/asm/md_MAIN_034/data/hdr.rodata.o:(.rodata+0x70): undefined reference to `.L800CB1B4'
+mipsel-linux-gnu-ld: build/asm/md_MAIN_034/data/hdr.rodata.o:(.rodata+0x74): undefined reference to `.L800CB184'
+make: *** [Makefile:670: build/md_MAIN_034/md_MAIN_034] Error 1
+FAIL-ONBOARD  md_MAIN_034 — parked
+=== md_MAIN_035  extracted/retail/MAIN.CD.dir/FILE_035.dir/1.1  0x800CAE08  tlo=0x4 ===
+Onboarding md_MAIN_035  (module, extracted/retail/MAIN.CD.dir/FILE_035.dir/1.1)
+  sha1=aefef18f6a76470b91cdfe8b5f74960d1e953f4c  size=0x4E0  vram=0x800CAE08  text_lo=0x4  code_end=0x470  text_hi=0x800CB2E8
+  wrote config/splat.md_MAIN_035.yaml
+  + config/modules.mk
+  + diff_settings.py
+  + tools/progress.py
+  + tools/dup_report.py
+Building md_MAIN_035 ...
+  AS      build/asm/md_MAIN_035/data/tail.data.o
+  AS      build/asm/md_MAIN_035/data/hdr.rodata.o
+  CC      build/src/md_MAIN_035/md_MAIN_035.o
+  LD      build/md_MAIN_035/md_MAIN_035.elf
+  OBJCOPY build/md_MAIN_035/md_MAIN_035
+[ OK ] build/md_MAIN_035/md_MAIN_035
+       sha1 aefef18f6a76470b91cdfe8b5f74960d1e953f4c == config/check.md_MAIN_035.sha  (BYTE-IDENTICAL)
+Done. md_MAIN_035 onboarded; run 'make check BINARY=md_MAIN_035' anytime, or 'make check-all' for the fleet.
+[ OK ] build/md_MAIN_035/md_MAIN_035
+       sha1 aefef18f6a76470b91cdfe8b5f74960d1e953f4c == config/check.md_MAIN_035.sha  (BYTE-IDENTICAL)
+PASS  md_MAIN_035
+=== md_MAIN_036  extracted/retail/MAIN.CD.dir/FILE_036.dir/1.1  0x800CAE08  tlo=0x4 ===
+Onboarding md_MAIN_036  (module, extracted/retail/MAIN.CD.dir/FILE_036.dir/1.1)
+  sha1=a2d8f790348a05199a5b0ad344005f606f119a5b  size=0x1334  vram=0x800CAE08  text_lo=0x4  code_end=0x118C  text_hi=0x800CC13C
+  wrote config/splat.md_MAIN_036.yaml
+  + config/modules.mk
+  + diff_settings.py
+  + tools/progress.py
+  + tools/dup_report.py
+Building md_MAIN_036 ...
+  AS      build/asm/md_MAIN_036/data/tail.data.o
+  AS      build/asm/md_MAIN_036/data/hdr.rodata.o
+  CC      build/src/md_MAIN_036/md_MAIN_036.o
+  LD      build/md_MAIN_036/md_MAIN_036.elf
+  OBJCOPY build/md_MAIN_036/md_MAIN_036
+[ OK ] build/md_MAIN_036/md_MAIN_036
+       sha1 a2d8f790348a05199a5b0ad344005f606f119a5b == config/check.md_MAIN_036.sha  (BYTE-IDENTICAL)
+Done. md_MAIN_036 onboarded; run 'make check BINARY=md_MAIN_036' anytime, or 'make check-all' for the fleet.
+[ OK ] build/md_MAIN_036/md_MAIN_036
+       sha1 a2d8f790348a05199a5b0ad344005f606f119a5b == config/check.md_MAIN_036.sha  (BYTE-IDENTICAL)
+PASS  md_MAIN_036
+=== md_MAIN_037  extracted/retail/MAIN.CD.dir/FILE_037.dir/1.1  0x800CAE08  tlo=0x4 ===
+Onboarding md_MAIN_037  (module, extracted/retail/MAIN.CD.dir/FILE_037.dir/1.1)
+  sha1=421b38771cbc4e33ffcb6e704d6c891af8073ce0  size=0xB58  vram=0x800CAE08  text_lo=0x4  code_end=0x7CC  text_hi=0x800CB960
+  wrote config/splat.md_MAIN_037.yaml
+  + config/modules.mk
+  + diff_settings.py
+  + tools/progress.py
+  + tools/dup_report.py
+Building md_MAIN_037 ...
+  AS      build/asm/md_MAIN_037/data/tail.data.o
+  AS      build/asm/md_MAIN_037/data/hdr.rodata.o
+  CC      build/src/md_MAIN_037/md_MAIN_037.o
+  LD      build/md_MAIN_037/md_MAIN_037.elf
+  OBJCOPY build/md_MAIN_037/md_MAIN_037
+[ OK ] build/md_MAIN_037/md_MAIN_037
+       sha1 421b38771cbc4e33ffcb6e704d6c891af8073ce0 == config/check.md_MAIN_037.sha  (BYTE-IDENTICAL)
+Done. md_MAIN_037 onboarded; run 'make check BINARY=md_MAIN_037' anytime, or 'make check-all' for the fleet.
+[ OK ] build/md_MAIN_037/md_MAIN_037
+       sha1 421b38771cbc4e33ffcb6e704d6c891af8073ce0 == config/check.md_MAIN_037.sha  (BYTE-IDENTICAL)
+PASS  md_MAIN_037
+=== md_MAIN_038  extracted/retail/MAIN.CD.dir/FILE_038.dir/1.1  0x800CAE08  tlo=0x4 ===
+Onboarding md_MAIN_038  (module, extracted/retail/MAIN.CD.dir/FILE_038.dir/1.1)
+  sha1=7850079eb724c6a3f80bba5689972d639cbbf907  size=0x1C40  vram=0x800CAE08  text_lo=0x4  code_end=0xD3C  text_hi=0x800CCA48
+  wrote config/splat.md_MAIN_038.yaml
+  + config/modules.mk
+  + diff_settings.py
+  + tools/progress.py
+  + tools/dup_report.py
+Building md_MAIN_038 ...
+  AS      build/asm/md_MAIN_038/data/tail.data.o
+  AS      build/asm/md_MAIN_038/data/hdr.rodata.o
+  CC      build/src/md_MAIN_038/md_MAIN_038.o
+  LD      build/md_MAIN_038/md_MAIN_038.elf
+  OBJCOPY build/md_MAIN_038/md_MAIN_038
+[ OK ] build/md_MAIN_038/md_MAIN_038
+       sha1 7850079eb724c6a3f80bba5689972d639cbbf907 == config/check.md_MAIN_038.sha  (BYTE-IDENTICAL)
+Done. md_MAIN_038 onboarded; run 'make check BINARY=md_MAIN_038' anytime, or 'make check-all' for the fleet.
+[ OK ] build/md_MAIN_038/md_MAIN_038
+       sha1 7850079eb724c6a3f80bba5689972d639cbbf907 == config/check.md_MAIN_038.sha  (BYTE-IDENTICAL)
+PASS  md_MAIN_038
+=== md_MAIN_039  extracted/retail/MAIN.CD.dir/FILE_039.dir/1.1  0x800CAE08  tlo=0xC ===
+Onboarding md_MAIN_039  (module, extracted/retail/MAIN.CD.dir/FILE_039.dir/1.1)
+  sha1=cb042f2e844b968eb03ca694b93aa082099fce29  size=0x1644  vram=0x800CAE08  text_lo=0xC  code_end=0x102C  text_hi=0x800CC44C
+  wrote config/splat.md_MAIN_039.yaml
+  + config/modules.mk
+  + diff_settings.py
+  + tools/progress.py
+  + tools/dup_report.py
+Building md_MAIN_039 ...
+  AS      build/asm/md_MAIN_039/data/tail.data.o
+  AS      build/asm/md_MAIN_039/data/hdr.rodata.o
+  CC      build/src/md_MAIN_039/md_MAIN_039.o
+  LD      build/md_MAIN_039/md_MAIN_039.elf
+  OBJCOPY build/md_MAIN_039/md_MAIN_039
+[ OK ] build/md_MAIN_039/md_MAIN_039
+       sha1 cb042f2e844b968eb03ca694b93aa082099fce29 == config/check.md_MAIN_039.sha  (BYTE-IDENTICAL)
+Done. md_MAIN_039 onboarded; run 'make check BINARY=md_MAIN_039' anytime, or 'make check-all' for the fleet.
+[ OK ] build/md_MAIN_039/md_MAIN_039
+       sha1 cb042f2e844b968eb03ca694b93aa082099fce29 == config/check.md_MAIN_039.sha  (BYTE-IDENTICAL)
+PASS  md_MAIN_039
+=== md_MAIN_040  extracted/retail/MAIN.CD.dir/FILE_040.dir/1.1  0x800CAE08  tlo=0x4 ===
+Onboarding md_MAIN_040  (module, extracted/retail/MAIN.CD.dir/FILE_040.dir/1.1)
+  sha1=ac52bf5f2864a705fc30b710d21e7f054afb37fd  size=0xF74  vram=0x800CAE08  text_lo=0x4  code_end=0xAC0  text_hi=0x800CBD7C
+  wrote config/splat.md_MAIN_040.yaml
+  + config/modules.mk
+  + diff_settings.py
+  + tools/progress.py
+  + tools/dup_report.py
+Building md_MAIN_040 ...
+  AS      build/asm/md_MAIN_040/data/tail.data.o
+  AS      build/asm/md_MAIN_040/data/hdr.rodata.o
+  CC      build/src/md_MAIN_040/md_MAIN_040.o
+  LD      build/md_MAIN_040/md_MAIN_040.elf
+  OBJCOPY build/md_MAIN_040/md_MAIN_040
+[ OK ] build/md_MAIN_040/md_MAIN_040
+       sha1 ac52bf5f2864a705fc30b710d21e7f054afb37fd == config/check.md_MAIN_040.sha  (BYTE-IDENTICAL)
+Done. md_MAIN_040 onboarded; run 'make check BINARY=md_MAIN_040' anytime, or 'make check-all' for the fleet.
+[ OK ] build/md_MAIN_040/md_MAIN_040
+       sha1 ac52bf5f2864a705fc30b710d21e7f054afb37fd == config/check.md_MAIN_040.sha  (BYTE-IDENTICAL)
+PASS  md_MAIN_040
+=== md_MAIN_041  extracted/retail/MAIN.CD.dir/FILE_041.dir/1.1  0x800CAE08  tlo=0x4 ===
+Onboarding md_MAIN_041  (module, extracted/retail/MAIN.CD.dir/FILE_041.dir/1.1)
+  sha1=94009e4bb8dc7b062bee62c7b3828621f3e602fc  size=0x1004  vram=0x800CAE08  text_lo=0x4  code_end=0x9CC  text_hi=0x800CBE0C
+  wrote config/splat.md_MAIN_041.yaml
+  + config/modules.mk
+  + diff_settings.py
+  + tools/progress.py
+  + tools/dup_report.py
+Building md_MAIN_041 ...
+  AS      build/asm/md_MAIN_041/data/tail.data.o
+  AS      build/asm/md_MAIN_041/data/hdr.rodata.o
+  CC      build/src/md_MAIN_041/md_MAIN_041.o
+  LD      build/md_MAIN_041/md_MAIN_041.elf
+  OBJCOPY build/md_MAIN_041/md_MAIN_041
+[ OK ] build/md_MAIN_041/md_MAIN_041
+       sha1 94009e4bb8dc7b062bee62c7b3828621f3e602fc == config/check.md_MAIN_041.sha  (BYTE-IDENTICAL)
+Done. md_MAIN_041 onboarded; run 'make check BINARY=md_MAIN_041' anytime, or 'make check-all' for the fleet.
+[ OK ] build/md_MAIN_041/md_MAIN_041
+       sha1 94009e4bb8dc7b062bee62c7b3828621f3e602fc == config/check.md_MAIN_041.sha  (BYTE-IDENTICAL)
+PASS  md_MAIN_041
+--- batch slotA done; parked: 1 ---
+=== md_MAIN_042  extracted/retail/MAIN.CD.dir/FILE_042.dir/0.1  0x800CCB1C  tlo=0x4 ===
+Onboarding md_MAIN_042  (module, extracted/retail/MAIN.CD.dir/FILE_042.dir/0.1)
+  sha1=d17d43e59a4c5bc879936110ca4cdf152f6827c9  size=0x27C  vram=0x800CCB1C  text_lo=0x4  code_end=0x278  text_hi=0x800CCD98
+  wrote config/splat.md_MAIN_042.yaml
+  + config/modules.mk
+  + diff_settings.py
+  + tools/progress.py
+  + tools/dup_report.py
+Building md_MAIN_042 ...
+  AS      build/asm/md_MAIN_042/data/tail.data.o
+  CC      build/src/md_MAIN_042/md_MAIN_042.o
+  LD      build/md_MAIN_042/md_MAIN_042.elf
+  OBJCOPY build/md_MAIN_042/md_MAIN_042
+[ OK ] build/md_MAIN_042/md_MAIN_042
+       sha1 d17d43e59a4c5bc879936110ca4cdf152f6827c9 == config/check.md_MAIN_042.sha  (BYTE-IDENTICAL)
+Done. md_MAIN_042 onboarded; run 'make check BINARY=md_MAIN_042' anytime, or 'make check-all' for the fleet.
+[ OK ] build/md_MAIN_042/md_MAIN_042
+       sha1 d17d43e59a4c5bc879936110ca4cdf152f6827c9 == config/check.md_MAIN_042.sha  (BYTE-IDENTICAL)
+PASS  md_MAIN_042
+=== md_MAIN_043  extracted/retail/MAIN.CD.dir/FILE_043.dir/0.1  0x800CCB1C  tlo=0x4 ===
+Onboarding md_MAIN_043  (module, extracted/retail/MAIN.CD.dir/FILE_043.dir/0.1)
+  sha1=b8d20824360b96dc392179a4c8a71f8e6bbcb8ba  size=0xF48  vram=0x800CCB1C  text_lo=0x4  code_end=0xBC0  text_hi=0x800CDA64
+  wrote config/splat.md_MAIN_043.yaml
+  + config/modules.mk
+  + diff_settings.py
+  + tools/progress.py
+  + tools/dup_report.py
+Building md_MAIN_043 ...
+  AS      build/asm/md_MAIN_043/data/tail.data.o
+  CC      build/src/md_MAIN_043/md_MAIN_043.o
+  LD      build/md_MAIN_043/md_MAIN_043.elf
+  OBJCOPY build/md_MAIN_043/md_MAIN_043
+[ OK ] build/md_MAIN_043/md_MAIN_043
+       sha1 b8d20824360b96dc392179a4c8a71f8e6bbcb8ba == config/check.md_MAIN_043.sha  (BYTE-IDENTICAL)
+Done. md_MAIN_043 onboarded; run 'make check BINARY=md_MAIN_043' anytime, or 'make check-all' for the fleet.
+[ OK ] build/md_MAIN_043/md_MAIN_043
+       sha1 b8d20824360b96dc392179a4c8a71f8e6bbcb8ba == config/check.md_MAIN_043.sha  (BYTE-IDENTICAL)
+PASS  md_MAIN_043
+=== md_MAIN_044  extracted/retail/MAIN.CD.dir/FILE_044.dir/0.1  0x800CCB1C  tlo=0x4 ===
+Onboarding md_MAIN_044  (module, extracted/retail/MAIN.CD.dir/FILE_044.dir/0.1)
+  sha1=911fcd08c1ee738d0eda429500e490ac3dc46a04  size=0x22D8  vram=0x800CCB1C  text_lo=0x4  code_end=0x16C8  text_hi=0x800CEDF4
+  wrote config/splat.md_MAIN_044.yaml
+  + config/modules.mk
+  + diff_settings.py
+  + tools/progress.py
+  + tools/dup_report.py
+Building md_MAIN_044 ...
+  AS      build/asm/md_MAIN_044/data/tail.data.o
+  CC      build/src/md_MAIN_044/md_MAIN_044.o
+  LD      build/md_MAIN_044/md_MAIN_044.elf
+  OBJCOPY build/md_MAIN_044/md_MAIN_044
+[ OK ] build/md_MAIN_044/md_MAIN_044
+       sha1 911fcd08c1ee738d0eda429500e490ac3dc46a04 == config/check.md_MAIN_044.sha  (BYTE-IDENTICAL)
+Done. md_MAIN_044 onboarded; run 'make check BINARY=md_MAIN_044' anytime, or 'make check-all' for the fleet.
+[ OK ] build/md_MAIN_044/md_MAIN_044
+       sha1 911fcd08c1ee738d0eda429500e490ac3dc46a04 == config/check.md_MAIN_044.sha  (BYTE-IDENTICAL)
+PASS  md_MAIN_044
+=== md_MAIN_045  extracted/retail/MAIN.CD.dir/FILE_045.dir/0.1  0x800CCB1C  tlo=0x4 ===
+Onboarding md_MAIN_045  (module, extracted/retail/MAIN.CD.dir/FILE_045.dir/0.1)
+  sha1=fcc4e03fd3f4ebd86fd5f14e080eb37cea749d9d  size=0x1538  vram=0x800CCB1C  text_lo=0x4  code_end=0xB4C  text_hi=0x800CE054
+  wrote config/splat.md_MAIN_045.yaml
+  + config/modules.mk
+  + diff_settings.py
+  + tools/progress.py
+  + tools/dup_report.py
+Building md_MAIN_045 ...
+  AS      build/asm/md_MAIN_045/data/tail.data.o
+  CC      build/src/md_MAIN_045/md_MAIN_045.o
+  LD      build/md_MAIN_045/md_MAIN_045.elf
+  OBJCOPY build/md_MAIN_045/md_MAIN_045
+[ OK ] build/md_MAIN_045/md_MAIN_045
+       sha1 fcc4e03fd3f4ebd86fd5f14e080eb37cea749d9d == config/check.md_MAIN_045.sha  (BYTE-IDENTICAL)
+Done. md_MAIN_045 onboarded; run 'make check BINARY=md_MAIN_045' anytime, or 'make check-all' for the fleet.
+[ OK ] build/md_MAIN_045/md_MAIN_045
+       sha1 fcc4e03fd3f4ebd86fd5f14e080eb37cea749d9d == config/check.md_MAIN_045.sha  (BYTE-IDENTICAL)
+PASS  md_MAIN_045
+=== md_MAIN_046  extracted/retail/MAIN.CD.dir/FILE_046.dir/0.1  0x800CCB1C  tlo=0x4 ===
+Onboarding md_MAIN_046  (module, extracted/retail/MAIN.CD.dir/FILE_046.dir/0.1)
+  sha1=e92d52065161e6365614134796ae2382904da738  size=0x1DBC  vram=0x800CCB1C  text_lo=0x4  code_end=0x14F4  text_hi=0x800CE8D8
+  wrote config/splat.md_MAIN_046.yaml
+  + config/modules.mk
+  + diff_settings.py
+  + tools/progress.py
+  + tools/dup_report.py
+Building md_MAIN_046 ...
+  AS      build/asm/md_MAIN_046/data/tail.data.o
+  CC      build/src/md_MAIN_046/md_MAIN_046.o
+  LD      build/md_MAIN_046/md_MAIN_046.elf
+  OBJCOPY build/md_MAIN_046/md_MAIN_046
+[ OK ] build/md_MAIN_046/md_MAIN_046
+       sha1 e92d52065161e6365614134796ae2382904da738 == config/check.md_MAIN_046.sha  (BYTE-IDENTICAL)
+Done. md_MAIN_046 onboarded; run 'make check BINARY=md_MAIN_046' anytime, or 'make check-all' for the fleet.
+[ OK ] build/md_MAIN_046/md_MAIN_046
+       sha1 e92d52065161e6365614134796ae2382904da738 == config/check.md_MAIN_046.sha  (BYTE-IDENTICAL)
+PASS  md_MAIN_046
+=== md_MAIN_047  extracted/retail/MAIN.CD.dir/FILE_047.dir/0.1  0x800CCB1C  tlo=0x4 ===
+Onboarding md_MAIN_047  (module, extracted/retail/MAIN.CD.dir/FILE_047.dir/0.1)
+  sha1=aaf91bafb0fb655142f616858d704fc2c6e34ed1  size=0xCC8  vram=0x800CCB1C  text_lo=0x4  code_end=0xBAC  text_hi=0x800CD7E4
+  wrote config/splat.md_MAIN_047.yaml
+  + config/modules.mk
+  + diff_settings.py
+  + tools/progress.py
+  + tools/dup_report.py
+Building md_MAIN_047 ...
+  AS      build/asm/md_MAIN_047/data/tail.data.o
+  CC      build/src/md_MAIN_047/md_MAIN_047.o
+  LD      build/md_MAIN_047/md_MAIN_047.elf
+  OBJCOPY build/md_MAIN_047/md_MAIN_047
+[ OK ] build/md_MAIN_047/md_MAIN_047
+       sha1 aaf91bafb0fb655142f616858d704fc2c6e34ed1 == config/check.md_MAIN_047.sha  (BYTE-IDENTICAL)
+Done. md_MAIN_047 onboarded; run 'make check BINARY=md_MAIN_047' anytime, or 'make check-all' for the fleet.
+[ OK ] build/md_MAIN_047/md_MAIN_047
+       sha1 aaf91bafb0fb655142f616858d704fc2c6e34ed1 == config/check.md_MAIN_047.sha  (BYTE-IDENTICAL)
+PASS  md_MAIN_047
+--- batch slotB done; parked: 0 ---
+=== md_MAIN_001  extracted/retail/MAIN.CD.dir/FILE_001.dir/1.1  0x800CEDF8  tlo=0x4 ===
+Onboarding md_MAIN_001  (module, extracted/retail/MAIN.CD.dir/FILE_001.dir/1.1)
+  sha1=ba84f20430689fd7244403455851f5570da9fe7c  size=0x4E1C  vram=0x800CEDF8  text_lo=0x4  code_end=0x5F0  text_hi=0x800D3C14
+  wrote config/splat.md_MAIN_001.yaml
+  + config/modules.mk
+  + diff_settings.py
+  + tools/progress.py
+  + tools/dup_report.py
+Building md_MAIN_001 ...
+  AS      build/asm/md_MAIN_001/data/tail.data.o
+  CC      build/src/md_MAIN_001/md_MAIN_001.o
+  LD      build/md_MAIN_001/md_MAIN_001.elf
+  OBJCOPY build/md_MAIN_001/md_MAIN_001
+[ OK ] build/md_MAIN_001/md_MAIN_001
+       sha1 ba84f20430689fd7244403455851f5570da9fe7c == config/check.md_MAIN_001.sha  (BYTE-IDENTICAL)
+Done. md_MAIN_001 onboarded; run 'make check BINARY=md_MAIN_001' anytime, or 'make check-all' for the fleet.
+[ OK ] build/md_MAIN_001/md_MAIN_001
+       sha1 ba84f20430689fd7244403455851f5570da9fe7c == config/check.md_MAIN_001.sha  (BYTE-IDENTICAL)
+PASS  md_MAIN_001
+=== md_MAIN_008  extracted/retail/MAIN.CD.dir/FILE_008.dir/1.1  0x800CEDF8  tlo=0x4 ===
+Onboarding md_MAIN_008  (module, extracted/retail/MAIN.CD.dir/FILE_008.dir/1.1)
+  sha1=dbdee7461e104e01148b2e8ea341117bb9424db2  size=0x348  vram=0x800CEDF8  text_lo=0x4  code_end=0x304  text_hi=0x800CF140
+  wrote config/splat.md_MAIN_008.yaml
+  + config/modules.mk
+  + diff_settings.py
+  + tools/progress.py
+  + tools/dup_report.py
+Building md_MAIN_008 ...
+  AS      build/asm/md_MAIN_008/data/tail.data.o
+  CC      build/src/md_MAIN_008/md_MAIN_008.o
+  LD      build/md_MAIN_008/md_MAIN_008.elf
+  OBJCOPY build/md_MAIN_008/md_MAIN_008
+[ OK ] build/md_MAIN_008/md_MAIN_008
+       sha1 dbdee7461e104e01148b2e8ea341117bb9424db2 == config/check.md_MAIN_008.sha  (BYTE-IDENTICAL)
+Done. md_MAIN_008 onboarded; run 'make check BINARY=md_MAIN_008' anytime, or 'make check-all' for the fleet.
+[ OK ] build/md_MAIN_008/md_MAIN_008
+       sha1 dbdee7461e104e01148b2e8ea341117bb9424db2 == config/check.md_MAIN_008.sha  (BYTE-IDENTICAL)
+PASS  md_MAIN_008
+=== md_MAIN_011  extracted/retail/MAIN.CD.dir/FILE_011.dir/1.1  0x800CEDF8  tlo=0x7C ===
+Onboarding md_MAIN_011  (module, extracted/retail/MAIN.CD.dir/FILE_011.dir/1.1)
+  sha1=80731bac0ddd6b3e354f43b2c179582b12590752  size=0x5EB0  vram=0x800CEDF8  text_lo=0x7C  code_end=0x4400  text_hi=0x800D4CA8
+  wrote config/splat.md_MAIN_011.yaml
+  + config/modules.mk
+  + diff_settings.py
+  + tools/progress.py
+  + tools/dup_report.py
+Building md_MAIN_011 ...
+  AS      build/asm/md_MAIN_011/data/tail.data.o
+  CC      build/src/md_MAIN_011/md_MAIN_011.o
+  LD      build/md_MAIN_011/md_MAIN_011.elf
+  OBJCOPY build/md_MAIN_011/md_MAIN_011
+[ OK ] build/md_MAIN_011/md_MAIN_011
+       sha1 80731bac0ddd6b3e354f43b2c179582b12590752 == config/check.md_MAIN_011.sha  (BYTE-IDENTICAL)
+Done. md_MAIN_011 onboarded; run 'make check BINARY=md_MAIN_011' anytime, or 'make check-all' for the fleet.
+[ OK ] build/md_MAIN_011/md_MAIN_011
+       sha1 80731bac0ddd6b3e354f43b2c179582b12590752 == config/check.md_MAIN_011.sha  (BYTE-IDENTICAL)
+PASS  md_MAIN_011
+--- batch boot done; parked: 0 ---
+=== md_SC07_003  extracted/retail/SC07.CD.dir/FILE_003.dir/1.1  0x801A00D8  tlo=0xFC ===
+Onboarding md_SC07_003  (module, extracted/retail/SC07.CD.dir/FILE_003.dir/1.1)
+  sha1=46af79a1ee365a15ea8fdce8b5c9fb4abd355290  size=0x5442C  vram=0x801A00D8  text_lo=0xFC  code_end=0x62E4  text_hi=0x801F4504
+  wrote config/splat.md_SC07_003.yaml
+  + config/modules.mk
+  + diff_settings.py
+  + tools/progress.py
+  + tools/dup_report.py
+Building md_SC07_003 ...
+  AS      build/asm/md_SC07_003/data/tail.data.o
+  CC      build/src/md_SC07_003/md_SC07_003.o
+  LD      build/md_SC07_003/md_SC07_003.elf
+  OBJCOPY build/md_SC07_003/md_SC07_003
+[ OK ] build/md_SC07_003/md_SC07_003
+       sha1 46af79a1ee365a15ea8fdce8b5c9fb4abd355290 == config/check.md_SC07_003.sha  (BYTE-IDENTICAL)
+Done. md_SC07_003 onboarded; run 'make check BINARY=md_SC07_003' anytime, or 'make check-all' for the fleet.
+[ OK ] build/md_SC07_003/md_SC07_003
+       sha1 46af79a1ee365a15ea8fdce8b5c9fb4abd355290 == config/check.md_SC07_003.sha  (BYTE-IDENTICAL)
+PASS  md_SC07_003
+=== md_SC07_004  extracted/retail/SC07.CD.dir/FILE_004.dir/1.1  0x801A00D8  tlo=0x158 ===
+Onboarding md_SC07_004  (module, extracted/retail/SC07.CD.dir/FILE_004.dir/1.1)
+  sha1=87ac0de39029789300e15b7031f54b6ab1dea83c  size=0x59260  vram=0x801A00D8  text_lo=0x158  code_end=0xF998  text_hi=0x801F9338
+  wrote config/splat.md_SC07_004.yaml
+  + config/modules.mk
+  + diff_settings.py
+  + tools/progress.py
+  + tools/dup_report.py
+Building md_SC07_004 ...
+  AS      build/asm/md_SC07_004/data/tail.data.o
+  CC      build/src/md_SC07_004/md_SC07_004.o
+  LD      build/md_SC07_004/md_SC07_004.elf
+  OBJCOPY build/md_SC07_004/md_SC07_004
+[ OK ] build/md_SC07_004/md_SC07_004
+       sha1 87ac0de39029789300e15b7031f54b6ab1dea83c == config/check.md_SC07_004.sha  (BYTE-IDENTICAL)
+Done. md_SC07_004 onboarded; run 'make check BINARY=md_SC07_004' anytime, or 'make check-all' for the fleet.
+[ OK ] build/md_SC07_004/md_SC07_004
+       sha1 87ac0de39029789300e15b7031f54b6ab1dea83c == config/check.md_SC07_004.sha  (BYTE-IDENTICAL)
+PASS  md_SC07_004
+--- batch sc07 done; parked: 0 ---

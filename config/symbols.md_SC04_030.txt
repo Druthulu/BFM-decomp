@@ -1,0 +1,3 @@
+// config/symbols.md_SC04_030.txt — module md_SC04_030 local symbols
+// R13/R15: this binary's REGION ONLY (vram 0x801E7B28..0x801F14E4); NEVER merged into config/symbols.us.txt.
+// count=0
