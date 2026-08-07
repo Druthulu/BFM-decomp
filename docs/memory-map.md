@@ -816,3 +816,23 @@ static route exists, why the resourceIdMap branch is empty for them, and why the
 what resolved SC02/9. The **CD-read tracer** (log the `cdFileLocTable` index per read during play)
 remains the correct instrument; the OPDEMO identification above makes MAIN/7 and MAIN/9 a targeted
 capture (attract demo) rather than a search.
+
+#### S45 p5 — the exclusion proof needs a CONSUMER-side instrument (4th value-scan refuted)
+
+A fourth attempt (`.run/s45p5/exclusion_proof.py`) tried the *proven* §S44 table shape
+({u32 cdFileLocIdx; u32 param} pairs, as in `D_800D3764`/`D_800D384C`). Its **R32 control
+FAILED — it did not re-find either known table**, so its output is void (R35).
+
+**Standing verdict: no value- or shape-based scan can establish the exclusion.** Small global
+indices (7, 9) are indistinguishable from ordinary small integers; 4/4 such scans have now been
+refuted by their own controls or shown non-discriminating (§155a). Do not attempt a 5th.
+
+**The only sound instrument is CONSUMER-side:** enumerate every code site that references
+`cdFileLocTable` (0x800AE830) register-tracked (§155) across all 213 binaries — a bounded set,
+since S45 p4 already showed literal references are almost nonexistent — then resolve each site's
+index SOURCE and collect the full set of reachable global indices. gi 7/9/231/232/234 absent from
+that set is the proof; present is the address. This is real work, not a quick scan.
+
+**Partial result worth keeping:** the large, discriminating indices **231 (SC03/53) and 234
+(SC03/56) appear in no pair-shaped table anywhere in the fleet** — weak evidence (the instrument
+was unsound) but directionally consistent with the dead-code reading.
