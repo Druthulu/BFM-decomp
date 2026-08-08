@@ -11407,21 +11407,7 @@ DEFINE_func_80168AE4()  /* dedup: shared engine-core @0x80168ae4 (src/shared) */
 void func_80168BDC(s32 param_1, s32 param_2, s32 param_3, s32 param_4);
 void func_80146C3C(u8 *a0);
 
-void func_80168B70(s32 a0)
-{
-    s32 v0;
-    s32 *ptr = (s32 *)a0;
-
-    v0 = ptr[7] - 1;
-    ptr[7] = v0;
-
-    if (v0 != -1) {
-        func_80168BDC(a0, 9, 3, 1);
-    } else {
-        func_80168BDC(a0, 9, 2, 1);
-        func_80146C3C((u8 *)a0);
-    }
-}
+DEFINE_func_80168B70()  /* dedup: shared engine-core @0x80168B70 (src/shared) */
 
 
 extern void func_800D2318(void);

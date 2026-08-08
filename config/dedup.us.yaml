@@ -13557,3 +13557,10 @@ groups:
     func: DEFINE_func_8017D174
     vram: 0x8017D174
     binaries: [ov_SC03_006, ov_SC02_016, ov_SC02_017, ov_SC03_029]
+  - id: E_func_80168B70
+    tier: h_exact
+    hash: 93d5fccdcc7fc5cecee94cd364670dbcf8bb920d
+    source: src/shared/engine_core.h
+    func: DEFINE_func_80168B70
+    vram: 0x80168B70
+    binaries: [ov_SC07_006, ov_SC07_007, ov_SC07_010, ov_SC07_011, ov_MAIN_012, ov_SC02_037, ov_SC03_107]

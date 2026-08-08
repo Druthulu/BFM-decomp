@@ -6953,20 +6953,7 @@ DEFINE_func_80168AE4()  /* dedup: shared engine-core @0x80168ae4 (src/shared) */
 
 
 
-extern void func_80168BDC(s32 a0, s32 a1, s32 a2, s32 a3);
-/* Conform to the TU's canonical decl (jr_8015C32C.c:5546 `extern void ((void (*)(void))func_80146C3C)(void);`)
- * and cast at the use site — same escape the TU already uses at :6388. Codegen-neutral. */
-extern void func_80146C3C(u8*);
-
-void func_80168B70(s32 a0) {
-    s32 *p = (s32 *)a0;
-    if (--p[0x1C / 4] != -1) {
-        func_80168BDC(a0, 9, 3, 1);
-    } else {
-        func_80168BDC(a0, 9, 2, 1);
-        ((void (*)(s32))func_80146C3C)(a0);
-    }
-}
+DEFINE_func_80168B70()  /* dedup: shared engine-core @0x80168B70 (src/shared) */
 
 
 DEFINE_func_80168BDC()  /* dedup: shared engine-core @0x80168bdc (src/shared) */

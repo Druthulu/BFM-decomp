@@ -11095,7 +11095,7 @@ void func_80168AA8(void *a0) {
 DEFINE_func_80168AE4()  /* dedup: shared engine-core @0x80168ae4 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC03_107/nonmatchings/ov_SC03_107", func_80168B70);
+DEFINE_func_80168B70()  /* dedup: shared engine-core @0x80168B70 (src/shared) */
 
 extern void func_800D2318(void);
 extern void RotMatrixYXZ(void *a0, void *a1);

@@ -633,6 +633,29 @@ def main():
     # So on a byte-gate failure: isolate the culprit(s) for the failing overlay (per-fn trial), drop
     # them (they stay matched ×1 in the source), and retry the batch with the survivors. The byte-gate
     # stays the sole arbiter (G3/P9) — a dropped fn is never banked anywhere it isn't byte-identical.
+    # P30 S45p7 — RECONCILE LEDGER (the 141/213 breakage, root-caused 2026-08-07).
+    # Part B below deliberately LEAVES its caller-extern reconcile on disk when it buys the match
+    # ("keep the reconcile on disk"). That is correct only while the fn ultimately survives. A fn can
+    # still be dropped by a LATER iteration (a different fail_ov), and when `plan` finally empties the
+    # `sys.exit` at the bottom used to leave every kept reconcile orphaned — a no-proto'd caller extern
+    # for a function that was never propagated. Measured cost: dedup_propagate exited 1 leaving
+    # ov_SC07_* rewritten, and 141 of 213 binaries failed check-all (the wave-2 propagation, this
+    # session). The byte-gate never mis-banked — it fails closed — but every SUBSEQUENT gate then
+    # reports `near` against the broken tree, so its verdicts are void (R35), which is how two whole
+    # batches (4/4 and 20/20) were mis-read as draft failures.
+    # Fix: ledger every kept reconcile against its fn, and undo it the moment that fn leaves `plan`.
+    kept_reconciles = []                                 # [(addr, snapshot)] in apply order
+
+    def _undo_reconciles(addrs):
+        """Restore reconciles for addrs that did not survive. Reverse order: each snapshot is the
+        file text captured BEFORE its own edit, so replaying newest->oldest ends on the original."""
+        drop = [r for r in kept_reconciles if r[0] in addrs]
+        for _a, _s in reversed(drop):
+            restore_snapshot(_s)
+        if drop:
+            kept_reconciles[:] = [r for r in kept_reconciles if r[0] not in addrs]
+        return len(drop)
+
     while plan:
         touched, changed = apply_plan(plan)
         struct_check(plan, changed, touched)
@@ -665,7 +688,9 @@ def main():
                 pok2 = byte_gate(fail_ov)[0] if fail_ov in c3 else True
                 restore(t3)                             # -> the RECONCILED text (t3 snapshot is post-reconcile)
                 if pok2:
-                    survivors.append(p); recovered.append(p); continue   # keep the reconcile on disk
+                    survivors.append(p); recovered.append(p)
+                    kept_reconciles.append((p["addr"], snap))   # LEDGERED — undone if p later drops
+                    continue                                    # keep the reconcile on disk
             restore_snapshot(snap)                      # reconcile didn't buy the match -> undo it
             # Part A — exclude ONLY fail_ov from p's members (keep p for the rest); drop iff reach<2.
             p["members"] = [m for m in p["members"] if m != fail_ov]
@@ -689,9 +714,19 @@ def main():
             print(f"[drop] {fail_ov}: byte-gate fails with no single-fn culprit (interaction) — "
                   f"dropping its {len(tofail)} fn(s), kept ×1")
             survivors = [p for p in plan if fail_ov not in p["members"]]
+        # Any fn that just left `plan` must give back its kept reconcile — otherwise a no-proto'd
+        # caller extern survives for a function that was never propagated (see the ledger note above).
+        _gone = {p["addr"] for p in plan} - {p["addr"] for p in survivors}
+        _n = _undo_reconciles(_gone)
+        if _n:
+            print(f"[restore] undid {_n} kept caller-extern reconcile(s) for dropped fn(s)")
         plan = survivors
     if not plan:
-        sys.exit("[error] all candidates dropped — no cleanly-shareable function")
+        # Nothing survived ⇒ NOTHING may remain edited. Restore every outstanding reconcile before
+        # exiting, so a failed propagation leaves the tree exactly as it found it (fail-closed).
+        _n = _undo_reconciles({a for a, _ in kept_reconciles})
+        sys.exit("[error] all candidates dropped — no cleanly-shareable function"
+                 + (f" (restored {_n} kept reconcile(s); tree unchanged)" if _n else " (tree unchanged)"))
 
     # ---- register groups (compact shorthand: position-locked -> vram + binaries list)
     groups = [dict(id=f"E_{sym(p['addr'])}", tier=a.tier, hash=p["hash"],
