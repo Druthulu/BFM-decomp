@@ -928,3 +928,40 @@ MAIN/9 absent across a complete 304-second cycle (see the OPDEMO section above).
 **Carried offer (Drew):** a fresh full playthrough with the tracer running would map every load in
 the game in one pass — resolving the trio, MAIN/7/9, and validating the entire routing table.
 High value, zero marginal effort beyond playing.
+
+#### S45 p6 — SOLVED (static): the SC03 trio are ov_SC03_001's script modules
+
+The static decode succeeded where four value-scans and three payload-side oracles failed, because
+the live tracer supplied the missing anchor: the slot address **0x801EF468**.
+
+**The chain, every link register-verified or byte-observed:**
+
+| link | evidence |
+|---|---|
+| `ov_SC03_001` IDXTAB **@0x8018D7BC** — 5 × s16, `-1` terminated: **224, 231, 232, 234, 233** | direct read; the trio + its DATA companion (233 = SC03/55) in ONE table |
+| `func_80128CFC` (the §S44 per-overlay wrapper) | register-tracked: `addiu→0x800AE830` (cdFileLocTable base), `lw [0x800AE834]` (size), `lw [0x800AE830]` (loc) |
+| `*DESTPTR` **@0x801EBC68 = 0x801EF468** | the ONLY occurrence of that word in the fleet; read 8× by code, twice from inside `func_80128CFC` (0x80128CD0, 0x80128D34) |
+| the slot is real and live | tracer: `SC03/76 → 0x801EF468`, `SC03/34 → 0x801EF468` (2026-08-07) |
+| the slot lies inside SC03/54's own derived base window | `[0x801EDED0..0x801EF6C8]` from its 19 header pointers (§S45 p5 addendum) — independent |
+
+**VERDICT: SC03/53, SC03/54, SC03/56 are LIVE script modules owned by `ov_SC03_001`**, loaded via
+`func_80128CFC` into the shared script-module slot `0x801EF468`. Not dead code; not boss-gated;
+not chapter-gated (that framing is retired — see p6 above, scripts swap PER SCENE). They never
+appeared in any sweep because every SC03 scene we visited runs a DIFFERENT overlay
+(ov_SC03_124/125/051); only the scene(s) backed by **ov_SC03_001** request them.
+
+**Why every earlier hunt failed, precisely:** the trio have no literal `cdFileLocTable` reference
+(§S45 p4) and no `resourceIdMap` entry (§S45 p5) because the index never appears in CODE at all —
+it lives in a per-overlay DATA table, and the destination likewise (`*DESTPTR`). Both are
+*per-overlay data*, invisible to any fleet-wide code scan. That is the structural reason, and it
+also explains MAIN/7 / MAIN/9 (still open — their owning binary is not yet identified).
+
+**NOT YET PROVED (do not overstate):** the trio's exact LOAD BASE. `0x801EF468` is the slot; the
+three payloads differ in size (10,240 / 12,288 / 6,144 raw) so their bases within it are not
+established, and none was observed loading. **The byte-gate is the arbiter**: onboard each at
+0x801EF468 and let the first build decide (the §S44 module-class recipe, SETUP §6.7).
+
+**METHOD NOTE (generalizes):** a runtime observation supplied ONE constant (the slot), and that
+constant made a previously-impossible static decode trivial. Neither alone was enough: four
+static scans failed without it, and the emulator alone never caught the trio loading. Pair a
+runtime oracle with static RE rather than choosing between them.
