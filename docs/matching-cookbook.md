@@ -10597,17 +10597,34 @@ for this repo: `corpus.stubs` is address-keyed — convert with
 is far more often a type error than a discovery. Real negatives are usually ragged. When a check
 comes back perfectly empty, verify the comparison before believing the conclusion (R14/R37).
 
-### §156 — a FAILED draft can still poison the fleet: the arity pre-pass residue (S45 p6)
+### §156 — an ORPHANED reconcile poisons the fleet: `dedup_propagate`'s kept edit (S45 p6/p7)
 
-`gate_stage`'s arity pre-pass (`fix_arity_callers --apply`, `gate_stage.py:316`) rewrites **caller
-externs in the fleet-shared `src/shared/engine_core.h`** *before* the byte-gate runs. When the draft
-then FAILS to bank, that edit can survive the undo — so a function that was **rejected** leaves a
-changed signature behind, and every overlay that calls it stops compiling.
+> **ATTRIBUTION CORRECTED (R14).** This section first blamed `gate_stage`'s arity pre-pass (finding
+> **F1** of `docs/concurrency-design.md`). **That was wrong.** No arity journal from that session
+> mentions `func_80146A6C` (checked: 74/26/4 entries), and the arity undo reported success in every
+> log. F1 is real and still worth guarding — it just did not cause this. The commit message on
+> `commit:1519` carries the same wrong attribution; corrected forward here, history not rewritten.
 
-Observed live (S45 p6): `func_80146A6C` failed its gate, and its caller signature survived →
+**The real mechanism.** `dedup_propagate --recover`'s Part B reconciles an overlay's conflicting
+caller extern and, when that buys the byte-match, **deliberately leaves the edit on disk**
+(`dedup_propagate.py`, "keep the reconcile on disk"). That is correct *while the function survives*.
+But a function can still be dropped by a **later** iteration against a different `fail_ov`, and when
+`plan` finally empties, the `sys.exit("[error] all candidates dropped …")` fired with **no restore**.
+
+Observed live: reconciles kept for `ov_SC07_001..009`, then everything dropped, then exit — leaving
+no-proto'd caller externs for functions that were never propagated →
 `ov_SC07_010: passing arg 2 of 'func_80146A6C' makes pointer from integer` → **141 of 213 binaries
-failed**. This is finding **F1** of `docs/concurrency-design.md`, reproduced in production the same
-day it was predicted.
+failed check-all**.
+
+**Fix (landed):** a **reconcile ledger** — every kept reconcile is recorded against its function,
+undone the moment that function leaves `plan`, and all outstanding reconciles are restored before the
+failure exit. Proved by `tools/test_reconcile_ledger.py`: applying a real reconcile for the exact
+overlay+fn (35 edits across 18 files) then driving the ledger undo restores all 25 files
+byte-identical.
+
+**The generalizable law:** *a tool that deliberately leaves an edit on disk pending an outcome owes
+a ledger for it.* "Keep it if this succeeds" is only half a transaction — the other half is undoing
+it on every path that can later invalidate the success, **including the exit paths**.
 
 **What it does NOT do:** it cannot false-bank. The gate compares against `config/check.<bin>.sha`
 (the original retail bytes, written by no pipeline stage) and `INCLUDE_ASM` pastes the original

@@ -190,7 +190,25 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 `--no-propagate`. F1 bracketing assertion CLEAN. **The 29 are ×1** — propagation is
 deliberately OFF and is its own controlled step (see below).
 
-## 🔴 F1 CONFIRMED IN PRODUCTION — read `docs/concurrency-design.md` before any parallel gating
+## 🔴 THE 141/213 BREAKAGE — root cause CORRECTED (it was NOT F1)
+**Cause: `dedup_propagate --recover` orphaned a kept caller-extern reconcile.** Part B keeps its
+reconcile on disk when it buys the byte-match; a fn dropped by a LATER iteration (or the final
+"all candidates dropped" exit) left that edit behind → no-proto'd externs for functions never
+propagated → `ov_SC07_010: passing arg 2 of func_80146A6C makes pointer from integer` → 141/213 fail.
+- **My first attribution to F1 was WRONG** (R14): no arity journal touched func_80146A6C (74/26/4
+  entries checked) and the arity undo reported success in every log. `commit:1519`'s commit message
+  carries the wrong attribution — corrected forward in cookbook §156, history not rewritten.
+- **FIXED + PROVEN** (`commit:1521`, `commit:1522`): a reconcile LEDGER — every kept reconcile recorded
+  against its fn, undone when the fn leaves `plan`, all outstanding restored before the failure exit.
+  `tools/test_reconcile_ledger.py` applies a real reconcile for the exact overlay+fn (35 edits /
+  18 files) then asserts all 25 files byte-identical after the undo. PASS.
+- **The trap that cost the most:** a broken tree makes EVERY later gate report `near`. Two batches
+  (4/4, 20/20) were void, not verdicts about the drafts. **A gate result on an unverified tree is
+  not evidence (R35).**
+- **F1 is still real and still unguarded** — it just didn't cause this. Its guard (`GATE_NO_ARITY=1`
+  + the bracketing assertion) remains the rest of Stage 1.
+
+## 🔵 F1 (still open) — read `docs/concurrency-design.md` before any parallel gating
 `gate_stage`'s arity pre-pass (`fix_arity_callers --apply`) writes the fleet-shared
 `engine_core.h` + caller externs BEFORE the gate; when a draft **fails**, the edit can survive.
 `func_80146A6C` failed its gate and left a caller signature behind → **141 of 213 binaries
