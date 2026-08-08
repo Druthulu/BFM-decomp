@@ -836,3 +836,95 @@ that set is the proof; present is the address. This is real work, not a quick sc
 **Partial result worth keeping:** the large, discriminating indices **231 (SC03/53) and 234
 (SC03/56) appear in no pair-shaped table anywhere in the fleet** — weak evidence (the instrument
 was unsound) but directionally consistent with the dead-code reading.
+
+#### S45 p6 — the parked SC03 trio: a CHAPTER-GATED town-interior script hypothesis (recorded BEFORE test)
+
+Written before the runtime test so the prediction stands on its own (P9). Two independent lines
+converge on the same answer for **SC03/53, SC03/54, SC03/56**:
+
+**1. The address.** SC03/54's base window, derived from its 19 absolute header pointers
+(0x801EF718..0x801EFEE8, §S45 p5 addendum), is **[0x801EDED0 .. 0x801EF6C8]**. Of the four
+byte-verified script-module slots (§S45), **exactly one falls inside that window**:
+
+| slot | payloads | period | in SC03/54's window? |
+|---|---|---|---|
+| **0x801EF468** | SC03/73–79 | chapter 2 | **YES** |
+| 0x801E25E8 | SC03/132–138 | chapter 3 / vampire | no |
+| 0x801E7B28 | SC04/24–30 | chapter 4 | no |
+| 0x801ED988 | SC05/23–29 | chapter 5 | no |
+
+**2. The module ids** (§S44 word0 law) place the trio immediately BEFORE the chapter-2 block:
+
+```
+0x40 SC03/53 · 0x41 SC03/54 · 0x42 SC03/55 (DATA companion) · 0x43 SC03/56
+0x44–0x4A  SC03/73–79     <- chapter 2
+0x4B–0x51  SC03/132–138   <- chapter 3
+```
+
+**Hypothesis:** the trio are **town-interior scripts for an earlier game period (chapter 1)** —
+the same class as the 28 script modules captured in S45 p2, sharing the 0x801EF468 slot, selected
+by CHAPTER/day state rather than by location.
+
+**Why every previous sweep missed them:** S45 checked the right *scenes* (ISEKI, PLAZUMA,
+AREADEMO2-3, VAMBI-KYOUKAI) at the wrong *game period*. At a late-game save the loader serves the
+chapter-2/3 variants into that slot and the chapter-1 set is never requested. Location was never
+the discriminating variable.
+
+**FALSIFIABLE PREDICTION:** in an early-game town interior, `SC03/53` / `/54` / `/56` load at
+**0x801EF468**. If they do not appear there, the slot coincidence is chance and this dies; the
+follow-up question is then which state variable gates them, not which room to visit.
+
+#### S45 p6 — RESULT: the runtime CD-load tracer, and what it settled (2026-08-07)
+
+**The instrument (new, `tools/cdtrace.py`).** Three static oracles failed to derive the parked
+payloads' load addresses this session. The runtime answer turned out to need **no breakpoints, no
+Lua (so no `pcsx.lua` wedge hazard) and no GDB stub** — the loader keeps its whole request in RAM,
+so both halves are already in the 2 MB dump we could already fetch:
+
+```
+cdReq_curSector 0x800AE708   the sector being read   -> file index via cdFileLocTable
+cdReq_dest      0x800AE72C   where it is written     -> the load address
+cdFileLocTable  0x800AE830   8B/entry {CdlLOC; size}, GLOBAL index
+```
+
+`CdReadRequest(int *cdlFile, void *dest, …)` — our own MATCHED C — is why this works: `cdlFile`
+points INTO `cdFileLocTable`, so `(ptr − 0x800AE830)/8` is the global index and `dest` is the
+destination. Both are mirrored in the control block.
+
+**VALIDATED before use (R35), then confirmed 7× against independently byte-proved ground truth:**
+
+| observed live | confirms |
+|---|---|
+| MAIN/1, MAIN/3, MAIN/10 → `0x800CEDF8` | §S44 `loadDestPtrTable[0]`; MAIN/10 = the Phase-3 resident; MAIN/3 = S45-p2's `md_MAIN_003` |
+| MAIN/42, SC03/0 → `0x800CCB1C` | §S44 `[3]` slot B — **and SC03/0 shows the module slots are NOT MAIN-only** |
+| MAIN/12 → `0x80128158` | §S44's resident `func_800CF94C` row, exactly |
+| 12 overlays → `0x80128158` | §S44 `[1]`, the location slot |
+| LIST.CD (lba 227) → `0x80180000` | the `LoaderInitFileTable` bootstrap read in matched C (`src/800.c`) |
+
+This is the **R34 second oracle for the whole §S44 routing table** — until now static-only.
+
+**THE FINDING — the script-module slot `0x801EF468` is live and general.** Observed twice:
+`SC03/76 → 0x801EF468` and **`SC03/34 → 0x801EF468`**. SC03/34 is NOT in the SC03/73–79 block, so
+S45's label ("SC03/73–79, chapter-2 period") describes one *tenant*, not the slot: **it is a
+general per-scene script-module slot that different SC03 scripts stream through.**
+
+**Status of the pre-registered hypothesis (recorded above, before the test):**
+- ✅ **Slot CONFIRMED** — `0x801EF468` is real, live, and the class the trio belongs to (it lies
+  inside SC03/54's independently-derived base window `[0x801EDED0..0x801EF6C8]`).
+- ❌ **"Chapter-gated" WEAKENED** — scripts swap per SCENE, not per chapter. The id-block
+  adjacency (0x40/0x41/0x43 preceding chapter-2's 0x44–0x4A) remains suggestive but is not the
+  selector.
+- ⬜ **Trio: 0 sightings** across 38 load events / 2 saves / multiple SC03 scenes.
+
+**THE EFFICIENT NEXT STEP (static, no emulator):** we now have a concrete anchor the earlier hunts
+lacked — the constant **`0x801EF468`**. Find the code that loads into it (register-tracked, §155)
+and decode its SELECTOR — near-certainly a scene→script-index table. That yields the answer for all
+three at once, instead of sweeping rooms. This is the correctly-scoped successor to the four
+refuted value-scans.
+
+**Also captured:** the full attract-cycle load map (`.run/attract_loadmap.jsonl`) — MAIN/7 and
+MAIN/9 absent across a complete 304-second cycle (see the OPDEMO section above).
+
+**Carried offer (Drew):** a fresh full playthrough with the tracer running would map every load in
+the game in one pass — resolving the trio, MAIN/7/9, and validating the entire routing table.
+High value, zero marginal effort beyond playing.
