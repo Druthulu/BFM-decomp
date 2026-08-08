@@ -57,6 +57,28 @@ def main():
         targets = targets.get('targets', [])
 
     copied, missing = [], []
+
+    # The GENERATED includes, too — not just the .s files.
+    #
+    # match_one does not merely compile: it ASSEMBLES (AS with -Iinclude, match_one.py:59), and the
+    # assembly step needs splat's generated include/*.inc (macro.inc / labels.inc / gte_macros.inc /
+    # include_asm.h — e.g. GTE bodies `.include macro.inc`). `make clean` deletes all four. Snapshotting
+    # only the .s therefore left a wave HALF-decoupled: it would survive a clean until an agent hit a
+    # macro-using function, then fail in a way that looks like a bad draft rather than a missing file.
+    # (I claimed the .s snapshot alone fully decoupled waves; it did not. Checked, so recorded.)
+    # include/common.h and include/psyq/ are TRACKED and survive a clean — copied anyway so the
+    # snapshot is a complete, self-contained -Iinclude root.
+    inc_dst = os.path.join(a.out, 'include')
+    inc_n = 0
+    if os.path.isdir('include'):
+        for root, _dirs, files in os.walk('include'):
+            for name in files:
+                s = os.path.join(root, name)
+                d = os.path.join(inc_dst, os.path.relpath(s, 'include'))
+                os.makedirs(os.path.dirname(d), exist_ok=True)
+                shutil.copy2(s, d)
+                inc_n += 1
+
     for t in targets:
         fn, src = t['name'], t['source']
         rel = os.path.join(src, 'nonmatchings', src, fn + '.s')
@@ -75,6 +97,15 @@ def main():
             fh.write(f'{h}  {rel}\n')
 
     print(f'snapshot -> {a.out}/asm   ({len(copied)} .s files, manifest written)')
+    print(f'           {a.out}/include   ({inc_n} files incl. the 4 GENERATED .inc/.h '
+          f'`make clean` deletes — pass -I{a.out}/include when assembling)')
+    gen = ['macro.inc', 'labels.inc', 'gte_macros.inc', 'include_asm.h']
+    absent = [g for g in gen if not os.path.exists(os.path.join(inc_dst, g))]
+    if absent:
+        # R32: a half-populated include root fails later as a phantom "bad draft"; say so NOW.
+        print('COVERAGE WARNING: generated include(s) missing from the snapshot: '
+              + ' '.join(absent) + ' — run `make extract` first, or waves will fail on '
+              'macro-using (e.g. GTE) functions after a `make clean`.', file=sys.stderr)
     # R32: a silent skip is a defect. A short wave must be loud, not inferred later.
     if missing:
         msg = (f'{len(missing)} target(s) have NO .s under {a.asm_root}/: '
