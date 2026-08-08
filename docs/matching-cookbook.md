@@ -10596,3 +10596,58 @@ for this repo: `corpus.stubs` is address-keyed — convert with
 **Smell test:** a membership test that returns 0/N — *exactly* zero, across the whole corpus —
 is far more often a type error than a discovery. Real negatives are usually ragged. When a check
 comes back perfectly empty, verify the comparison before believing the conclusion (R14/R37).
+
+### §156 — a FAILED draft can still poison the fleet: the arity pre-pass residue (S45 p6)
+
+`gate_stage`'s arity pre-pass (`fix_arity_callers --apply`, `gate_stage.py:316`) rewrites **caller
+externs in the fleet-shared `src/shared/engine_core.h`** *before* the byte-gate runs. When the draft
+then FAILS to bank, that edit can survive the undo — so a function that was **rejected** leaves a
+changed signature behind, and every overlay that calls it stops compiling.
+
+Observed live (S45 p6): `func_80146A6C` failed its gate, and its caller signature survived →
+`ov_SC07_010: passing arg 2 of 'func_80146A6C' makes pointer from integer` → **141 of 213 binaries
+failed**. This is finding **F1** of `docs/concurrency-design.md`, reproduced in production the same
+day it was predicted.
+
+**What it does NOT do:** it cannot false-bank. The gate compares against `config/check.<bin>.sha`
+(the original retail bytes, written by no pipeline stage) and `INCLUDE_ASM` pastes the original
+assembly, so wrong C always diverges. The failure is loud and fail-closed — it costs time, never
+integrity.
+
+**The trap it sets:** a broken tree makes EVERY subsequent gate report `near`. Two batches
+(4/4 and 20/20 "near") were read as verdicts about the drafts when they were verdicts about the
+tree. **A gate result measured on a tree you have not just verified is not evidence (R35).**
+
+**Standing practice:**
+- Gate with `GATE_NO_ARITY=1` unless you specifically want the arity lane; take the arity-needing
+  drafts through a separate serial pass. Measured cost of the guard: **2 banks of 24** — cheap.
+- Assert the bracketing invariant after every gate batch:
+  `git status --porcelain src/shared config` must be **empty**. This is the only cheap detector.
+- On breakage, do NOT surgically patch: `git checkout -- src/ config/` and **replay from the
+  on-disk drafts**. Replay is deterministic (7/9 and 22/39 reproduced exactly), so recovery costs
+  build time only.
+
+### §157 — the cheap-tier size cliff, measured (S45 p6)
+
+Two controlled Haiku waves, same prompt, same pool construction, same independent verification —
+the only variable was function size:
+
+| band | close rate | tokens/match |
+|---|---|---|
+| 4–27 ins | **43/50 = 86%** | ~44k |
+| 30–39 ins | 9/17 = 53% | |
+| 40–49 ins | 5/8 = 62% | |
+| 50–59 ins | 2/9 = 22% | |
+| 60–69 ins | 1/8 = 12% | |
+| 70–85 ins | 2/8 = 25% | |
+| **≥50 combined** | **5/25 = 20%** | **~177k (4× worse)** |
+
+**The documented "Haiku ≤~50 ins" band is optimistic.** The cliff starts around 30 and collapses
+past 50. Route **≤30 → Haiku** (unbeatable cost), 30–50 → Haiku only when targets are plentiful,
+**≥50 → Sonnet**.
+
+**Agent honesty at the cheap tier is excellent and should be relied on as a FILTER (never as the
+gate):** across 100 drafters, 63 MATCH claims, 63 confirmed by independent `match_one` re-runs,
+**0 false**. The one apparent false claim was the verifier's own fault — an `-O0`-cluster function
+(`func_8013C360`) checked without `--o0`. **Always retry a failed verification with `--o0` before
+calling an agent wrong** (§116).

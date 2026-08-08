@@ -181,7 +181,50 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 
 ---
 
-# 🛑 SESSION S45 CHECKPOINT part 6 (2026-08-07 late) — WAVE-1 BANKED 0; the frontier DEFINITION was the bug — FRESH SESSION SAFE HERE
+# 🛑 SESSION S45 CHECKPOINT part 7 (2026-08-07 late) — 29 BANKED · R22 213/213 · F1 CONFIRMED LIVE — FRESH SESSION SAFE HERE
+> **Tree CLEAN** but for R23 `db.*.gbf` churn. **Nothing running.** Effort ultracode.
+> **NO phase close** — T5 unopened, needs Drew's gate-2. HEAD `commit:1519`.
+
+## ✅ BANKED: 29 novel functions · `make clean && extract-all && check-all` → **213 passed / 0 failed**
+`ov_SC02_037` 626 → **597 live stubs**. Gated with BOTH guards: `GATE_NO_ARITY=1` +
+`--no-propagate`. F1 bracketing assertion CLEAN. **The 29 are ×1** — propagation is
+deliberately OFF and is its own controlled step (see below).
+
+## 🔴 F1 CONFIRMED IN PRODUCTION — read `docs/concurrency-design.md` before any parallel gating
+`gate_stage`'s arity pre-pass (`fix_arity_callers --apply`) writes the fleet-shared
+`engine_core.h` + caller externs BEFORE the gate; when a draft **fails**, the edit can survive.
+`func_80146A6C` failed its gate and left a caller signature behind → **141 of 213 binaries
+broke**. Predicted by the Fable5 design pass hours earlier; reproduced the same day.
+- The byte-gate **held** — nothing wrong banked; fail-closed and loud.
+- **The trap:** a broken tree makes EVERY later gate report `near`. Two batches (4/4, 20/20
+  "near") were void, not verdicts about the drafts. **A gate result on an unverified tree is
+  not evidence (R35).** This was the 3rd conclusion discarded for that reason today.
+- **Recovery is deterministic:** `git checkout -- src/ config/` then replay from the on-disk
+  drafts (7/9 and 22/39 reproduced exactly). Cost of the guard, measured: **2 banks (24→22)**.
+- → cookbook **§156**.
+
+## 📊 MODEL LADDER RE-CALIBRATED (cookbook §157; memory updated)
+Haiku **4–27 ins = 86%** (~44k tok/match) · 30–49 ≈ 56% · **≥50 = 20%** (~177k, 4× worse).
+The documented "Haiku ≤50" band was optimistic. Route **≤30 Haiku / ≥50 Sonnet**.
+**Agent honesty: 63 MATCH claims across 100 drafters, 63 confirmed, 0 false.** (The one
+apparent false claim was MY verifier missing `--o0` on an -O0 function — always retry `--o0`.)
+
+## ▶ RESUME HERE
+1. **Stage 1 of `docs/concurrency-design.md`** — close F1/F2 + the shared-state RW lock. Pure
+   safety, makes `bulk_harvest`'s existing (currently FALSE) isolation claim true. Its negative
+   controls are written out in §6 of that doc.
+2. **Re-gate wave 3's 19 verified drafts** (`.run/s45p5/g3_SC02/`) — UNJUDGED, not refuted;
+   their gate ran against the F1-broken tree.
+3. **Propagation as a controlled step** — the 29 banks are ×1. The failed run showed why it
+   needs its own lane (all-or-nothing dropped every candidate on 2 diverging SC07 overlays).
+4. **More waves:** pool = live `INCLUDE_ASM` stubs ∩ cached seed. Big-3 = **1,799 draftable,
+   1,168 seeded**. Use `tools/wave_snapshot.py` (new) so waves can't be broken by `make clean`.
+   Reach-sort; carve `main` (1,061 sub-25 stubs, structurally barren, ×1) out of bulk sweeps.
+5. **Do NOT** re-run the 4 refuted value-scans (§155a) or the 3 refuted base oracles (§S45 p5).
+
+---
+
+# 🛑 (superseded by part 7) SESSION S45 CHECKPOINT part 6 (2026-08-07 late) — WAVE-1 BANKED 0; the frontier DEFINITION was the bug — FRESH SESSION SAFE HERE
 > **Tree CLEAN** (verified: `git checkout -- src/ config/` after the gate left 659 files dirty;
 > `git status` on src/+config = 0). **Nothing running.** Effort ultracode. **NO phase close.**
 > Commits: `commit:1514`, `commit:1515`, `commit:1517`, `commit:1516` + this one.
