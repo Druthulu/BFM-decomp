@@ -3192,11 +3192,7 @@ s32 func_8017E7B4(s32 a0) {
 
 
 
-extern s32 func_800167F0(s32 a0);
-
-s32 func_8017E7F8(void) {
-    return (func_800167F0(0) & 0xffff) != 0;
-}
+DEFINE_func_8017E7F8()  /* dedup: shared engine-core @0x8017E7F8 (src/shared) */
 
 
 
@@ -3238,10 +3234,7 @@ s32 func_8017E898(u8 *a0) {
 }
 
 
-extern s32 func_800D1EBC(void);
-    void func_8017E914(void) {
-        func_800D1EBC();
-    }
+DEFINE_func_8017E914()  /* dedup: shared engine-core @0x8017E914 (src/shared) */
 
 
 

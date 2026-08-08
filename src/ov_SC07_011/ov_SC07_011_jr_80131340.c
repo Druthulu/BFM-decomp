@@ -1467,45 +1467,7 @@ DEFINE_func_80133060()  /* dedup: shared engine-core @0x80133060 (src/shared) */
     : "r"( r0 )                                          \
     : "$12", "memory" )
 
-extern u8 D_800AF648;
-extern void ApplyTransposeMatrixLV(void *a0, void *a1, void *a2);
-
-void func_801330E0(param_1, param_2, param_3)
-    void *param_1;
-    s16 *param_2;
-    s16 param_3;
-{
-    s32 *m;
-    s32 sxyz[4];
-    s32 pos[4];
-    s32 flag;
-    s32 z;
-
-    m = (s32 *)&D_800AF648;
-    gte_SetTransMatrix(m);
-    gte_SetRotMatrix(m);
-    gte_ldv0(param_1);
-    gte_rtv0tr();
-    gte_stlvnl(sxyz);
-    gte_stflg(&flag);
-
-    z = sxyz[2];
-    pos[2] = z + param_3;
-    if (z != 0) {
-        pos[0] = sxyz[0] * pos[2] / z;
-        pos[1] = sxyz[1] * pos[2] / z;
-    } else {
-        pos[1] = 0;
-        pos[0] = 0;
-    }
-    pos[0] -= m[5];
-    pos[1] -= m[6];
-    pos[2] -= m[7];
-    ApplyTransposeMatrixLV(m, pos, sxyz);
-    param_2[0] = sxyz[0];
-    param_2[1] = sxyz[1];
-    param_2[2] = sxyz[2];
-}
+DEFINE_func_801330E0()  /* dedup: shared engine-core @0x801330E0 (src/shared) */
 
 
 

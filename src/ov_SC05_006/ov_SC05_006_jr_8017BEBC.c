@@ -4436,11 +4436,7 @@ s32 func_8017E7B4(s32 a0) {
 
 
 
-extern s32 func_800167F0(s32 a0);
-
-s32 func_8017E7F8(void) {
-    return (func_800167F0(0) & 0xffff) != 0;
-}
+DEFINE_func_8017E7F8()  /* dedup: shared engine-core @0x8017E7F8 (src/shared) */
 
 
 

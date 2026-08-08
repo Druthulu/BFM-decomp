@@ -3501,27 +3501,7 @@ s32 func_80161774(int param_1, u32 param_2) {
 // @class: schedule
 // @stuck: none — MATCH
 
-extern void func_8014C010(int a0, int a1);
-extern void func_80161D20(int param_1, u32 param_2);
-
-int func_80161888(int param_1, unsigned int param_2) {
-    if (param_2 & 1) {
-        func_8014C010(param_1, 1);
-        ((void (*)(int, unsigned short))func_80161D20)(param_1, *(unsigned short *)(param_1 + 0x16e));
-        return 1;
-    }
-    if (param_2 & 0x4000) {
-        func_8014C010(param_1, 1);
-        ((void (*)(int, unsigned short))func_80161D20)(param_1, *(unsigned short *)(param_1 + 0x16e));
-        return 2;
-    }
-    if (param_2 & 0x2000) {
-        func_8014C010(param_1, 1);
-        ((void (*)(int, unsigned short))func_80161D20)(param_1, *(unsigned short *)(param_1 + 0x16e));
-        return 4;
-    }
-    return 0;
-}
+DEFINE_func_80161888()  /* dedup: shared engine-core @0x80161888 (src/shared) */
 
 
 extern void func_8016151C(void *a0);
@@ -4353,27 +4333,7 @@ DEFINE_func_80163664()  /* dedup: shared engine-core @0x80163664 (src/shared) */
 DEFINE_func_801636D0()  /* dedup: shared engine-core @0x801636D0 (src/shared) */
 
 
-s32 func_80163764(s32 a0)
-{
-    extern u8 D_801202A0[];
-    extern s32 func_8014C278(s32 a0, s32 a1, s32 a2);
-    extern s32 func_801506A4(s32 a0, s32 a1);
-    u32 i;
-    u16 *p;
-    s32 v;
-
-    i = 0;
-    p = (u16 *)D_801202A0;
-    v = *(s32 *)(a0 + 0x4C);
-    for (; i < 0x60; i++) {
-        if (*p != 0 && (p[0x2E] & 0x100) != 0 && func_8014C278(a0, (s32)p, 0x40) != 0) {
-            func_801506A4(v, (s32)p);
-            return 1;
-        }
-        p = (u16 *)((u8 *)p + 0x10C);
-    }
-    return 0;
-}
+DEFINE_func_80163764()  /* dedup: shared engine-core @0x80163764 (src/shared) */
 
 
 DEFINE_func_8016380C()  /* dedup: shared engine-core @0x8016380C (src/shared) */

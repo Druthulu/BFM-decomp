@@ -2692,6 +2692,38 @@ whole-overlay find_site=None, in-sig=True` → `[revert] tree restored to baseli
 **exit code 1** (fail-closed). Restore the line → tree clean. So the detector fires on the exact
 observed condition, the diagnosis names the mechanism, and the revert is complete *and proven*.
 
+### ▶ S46-3 — the propagation BANKED: 29 fns / +2,815 member-instances, R22 213/213 (2026-08-08)
+The S45p9 blocker is closed. `dedup_propagate --auto-from ov_SC02_037 --recover` ran clean:
+**29 functions propagated, 141 overlays byte-identical, dedup 1920 → 1949 groups, member instances
+246,284 → 249,099 (+2,815)**; `make clean && extract-all && check-all` → **213 passed / 0 failed**
+from a genuinely clean tree (R22). Log: `.run/s46/prop2.log`.
+
+**The recovery loop was rewritten to batch, and that is what made it finish.** It converged in
+**3 rounds** where the old one-overlay-per-sweep design needed ~138:
+```
+round 1: 138 diverge -> pivot yields 9 culprits -> 339 (overlay,fn) exclusions
+         (0x8016163C x138, 0x80161774 x138 + four fns x9)
+round 2:   9 diverge -> 3 culprits -> 11 exclusions -> 1 fn dropped (reach<2)
+round 3:   1 diverges (ov_SC07_006) -> Part-B caller-extern reconcile RECOVERED it
+final:   [ OK ] 141 overlays byte-identical
+```
+That reframes the S45 failure: the old loop discovered ONE failing overlay per full 141-overlay
+sweep, so last night's run was ~138 sweeps from done when it died — it was not nearly finished, it
+had barely started.
+
+**Speed work landed with it (measured, not asserted):**
+- `gate_all` -> **`gate_failures`**: return ALL failures from the sweep that already computed them.
+  Same builds, same determinism (results re-sorted into `changed` order), 138x fewer sweeps.
+- The plan phase's `compiles_standalone` probes now run concurrently (**5 min -> 26 s**, plan output
+  byte-identical) — and its temp file is per-call now; the fixed `t.c` was the same fake-isolation
+  class as match_one's shared `--work` dir (P28 T5), latent until the day something ran it in parallel.
+- Batching **kept** capability a bulk exclusion would have cost: per-overlay necessity probes meant
+  four of the nine fns were excluded from only the 9 overlays that needed it, not all 138, and
+  ov_SC07_006 was RECOVERED rather than excluded.
+- Written but NOT yet exercised (the run started before they landed): longest-first gate scheduling
+  and parallel apply/restore. **Unproven until a re-run shows same-plan/same-exclusions + less
+  wall-clock** — do not record them as doctrine before that.
+
 ### ▶ S43-1 — the §148 "GTE macro wall" was a SILENT CPP FALLBACK; the permuter lane was dead on 63 drafts (2026-08-05)
 First task of the serial-crack continuation. §148's tooling note recorded *"the `gte_*` `#define` block
 defeats `make_base_c` — demacroize first."* **That diagnosis was wrong (R14/R35), and the fix is in our

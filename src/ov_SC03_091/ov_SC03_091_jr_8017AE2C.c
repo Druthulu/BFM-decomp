@@ -4007,10 +4007,7 @@ void func_8017CBD4(s32 a0) {
 }
 
 
-extern void func_8012C218(void);
-void func_8017CC60(void) {
-    func_8012C218();
-}
+DEFINE_func_8017CC60()  /* dedup: shared engine-core @0x8017CC60 (src/shared) */
 
 
 
@@ -4121,58 +4118,7 @@ void func_8017CDF8(Ent_8017BFE0_8017CDF8 *param_1)
  * `do { func_80146A6C(0x1B, obj, ...); } while (++i < 3);` s16 loop.
  */
 
-extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
-extern void func_8014708C(void *arg0);
-extern s32 func_801472C8(struct S *a0);
-extern void func_8017D030(int);
-
-void func_8017CE7C(void *a0)
-{
-    void *obj;
-    s32 t;
-    s32 r;
-    s16 i;
-    u16 v;
-    u16 w;
-    u16 d;
-
-    t = *(s32 *)((s32)a0 + 0x1C);
-    obj = *(void **)((s32)a0 + 0x34);
-    *(s32 *)((s32)a0 + 0x1C) = t + 1;
-    if (t < 0x20) {
-        if (*(s32 *)((s32)a0 + 0x30) == 0) {
-            v = *(u16 *)((s32)obj + 0x64) - 0x80;
-            w = *(u16 *)((s32)obj + 0x62) + 0x100;
-            *(s16 *)((s32)obj + 0x64) = v;
-            *(s16 *)((s32)obj + 0x60) = v;
-            *(s16 *)((s32)obj + 0x62) = w;
-        } else {
-            r = *(s32 *)((s32)obj + 0x20);
-            *(u16 *)(r + 0x2C) |= 0x10;
-            r = *(s32 *)((s32)obj + 0x20);
-            d = *(u16 *)(r + 0x1C) - 0x80;
-            *(s16 *)(r + 0x1C) = d;
-            *(s16 *)(r + 0x18) = d;
-            r = *(s32 *)((s32)obj + 0x20);
-            *(u16 *)(r + 0x1A) += 0x100;
-        }
-        i = 0;
-        do {
-            func_80146A6C(0x1B, obj, 0, 0, 0, 0, 0);
-            i++;
-        } while (i < 3);
-    } else {
-        if (*(s32 *)((s32)a0 + 0x30) == 0) {
-            func_8014708C(obj);
-            func_801472C8((struct S *)obj);
-        } else {
-            *(s32 *)(*(s32 *)((s32)obj + 0x20) + 0x4) |= 0x80000000;
-        }
-        *(s32 *)((s32)a0 + 0x1C) = 0;
-        *(s16 *)((s32)a0 + 2) = *(u16 *)((s32)a0 + 2) + 1;
-    }
-    ((void (*)(void *))func_8017D030)(a0);
-}
+DEFINE_func_8017CE7C()  /* dedup: shared engine-core @0x8017CE7C (src/shared) */
 
 
 extern void func_8017D030(int);
@@ -4299,12 +4245,7 @@ void func_8017D33C(void *a0) {
 }
 
 
-extern void func_80147324(s32 arg0);
-void func_8017D378(void *a0)
-{
-    func_80147324(*(u16 *)((s32)a0 + 0x2E));
-    *(u16 *)((s32)a0 + 0x2) = *(u16 *)((s32)a0 + 0x2) + 1;
-}
+DEFINE_func_8017D378()  /* dedup: shared engine-core @0x8017D378 (src/shared) */
 
 
 
@@ -4347,30 +4288,7 @@ void func_8017D3B8(void *a0) {
  *   counter unconditionally (gcc puts that store in the beqz delay slot),
  *   then either slide @0x2A down by 0x10 or run the 3-call teardown. */
 
-extern void func_80147324(s32 arg0);
-extern void func_80147084(s32 *a0);
-extern void func_801472B4(void *a0);
-extern void func_8017D030(int);
-
-void func_8017D428(void *a0)
-{
-    s32 t;
-    s32 *sub;
-
-    t = *(s32 *)((s32)a0 + 0x1C);
-    sub = *(s32 **)((s32)a0 + 0x34);
-    *(s32 *)((s32)a0 + 0x1C) = t + 1;
-    if (t < 0x20) {
-        *(u16 *)((s32)a0 + 0x2A) = *(u16 *)((s32)a0 + 0x2A) - 0x10;
-    } else {
-        func_80147324(*(u16 *)((s32)a0 + 0x2C));
-        func_80147084(sub);
-        func_801472B4(sub);
-        *(s32 *)((s32)a0 + 0x1C) = 0;
-        *(u16 *)((s32)a0 + 0x2) = *(u16 *)((s32)a0 + 0x2) + 1;
-    }
-    ((void (*)(void *))func_8017D030)(a0);
-}
+DEFINE_func_8017D428()  /* dedup: shared engine-core @0x8017D428 (src/shared) */
 
 
 
@@ -4521,54 +4439,6 @@ void func_8017D6CC(void *a0)
 
 
 
-void func_8017D728(void *a0)
-{
-    extern Mtx8_8017C910_8017D728 aD800AE620 __asm__("D_800AE620");
-    extern void aFunc80016A5C(void *arg0, void *arg1) __asm__("func_80016A5C");
-    Prim_8017C910_8017D728 prim;
-    Mtx8_8017C910_8017D728 mtx;
-    s32 p;
-
-    p = (s32)a0;
-    if (*(s32 *)(p + 0x2C) != 0) {
-        prim.v[0].y = *(u16 *)(p + 0xA) - 0x20;
-        prim.v[1].y = *(u16 *)(p + 0xA) + 0x20;
-    } else {
-        prim.v[0].y = *(u16 *)(p + 0xA) + 0x20;
-        prim.v[1].y = *(u16 *)(p + 0xA) - 0x20;
-    }
-    prim.v[0].x = *(u16 *)(p + 0x6);
-    prim.v[0].z = *(u16 *)(p + 0xE);
-    prim.v[1].x = *(u16 *)(p + 0x6);
-    prim.v[1].z = *(u16 *)(p + 0xE);
-    prim.col[0].b = 0;
-    prim.col[0].g = 0;
-    prim.col[0].r = 0;
-    switch (*(u32 *)(p + 0x30)) {
-    case 0:
-        prim.col[1].r = 0xFF;
-        prim.col[1].b = 0;
-        prim.col[1].g = 0;
-        break;
-    case 1:
-        prim.col[1].g = 0xFF;
-        prim.col[1].b = 0;
-        prim.col[1].r = 0;
-        break;
-    case 2:
-        prim.col[1].b = 0xFF;
-        prim.col[1].g = 0;
-        prim.col[1].r = 0;
-        break;
-    case 3:
-        prim.col[1].b = 0xFF;
-        prim.col[1].g = 0xFF;
-        prim.col[1].r = 0xFF;
-        break;
-    }
-    mtx = aD800AE620;
-    prim.tag = 0x50000000;
-    aFunc80016A5C(&prim, &mtx);
-}
+DEFINE_func_8017D728()  /* dedup: shared engine-core @0x8017D728 (src/shared) */
 
 

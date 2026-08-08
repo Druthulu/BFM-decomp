@@ -676,70 +676,7 @@ void func_80146360(void)
 
    /* size 8, align 1 -> unaligned block move */
 
-extern void func_8014C6F4();
-extern void func_80155150(s32 a0);
-extern void func_801470C0(s32 a0);
-extern void func_80147478(s32 a0);
-extern void func_80147118(s32 a0);
-extern void func_8014BDE8(s32 a0);
-extern short func_801508F8(s32 a0);
-extern void func_8014B5B0(s32 *a0);
-extern void func_80161D88(s32 a0);
-
-
-void func_801463A0(void)
-{
-
-    extern s32 D_80126B58;
-
-    extern s32 *D_80126B78;
-    extern u16 D_80126B5E;
-    extern u16 D_80126B62;
-    extern u16 D_80126B66;
-    extern u16 D_80126C90;
-    extern u16 D_80126C92;
-    extern u16 D_80126C94;
-    extern s32 D_80126B9C;
-    extern s32 D_80126BA0;
-    extern u8 D_80126BE0[];     /* identical to the decl DEFINE_func_80146128() already emits in this TU */
-    extern u8 D_80126BE8[];
-    extern u16 D_80126BE0_hw __asm__("D_80126BE0");   /* halfword view of BE0 — see NEW IDIOM above */
-    extern u16 D_80126BE2;
-    extern u16 D_80126BE4;
-    extern s16 D_80126C9E;
-    s32 obj;
-    short v;
-
-    obj = (s32)D_80126B78;
-    func_8014C6F4((s32)&D_80126B58);
-    func_80155150((s32)&D_80126B58);
-    func_801470C0((s32)&D_80126B58);
-    func_80147478((s32)&D_80126B58);
-    func_80147118((s32)&D_80126B58);
-    if (obj != 0) {
-        v = D_80126B5E + D_80126C90;
-        *(short *)(obj + 8) = v;
-        *(s32 *)(obj + 0x48) = (s32)v;
-        v = D_80126B62 + D_80126C92;
-        *(short *)(obj + 0xA) = v;
-        *(s32 *)(obj + 0x4C) = (s32)v;
-        v = D_80126B66 + D_80126C94;
-        *(short *)(obj + 0xC) = v;
-        *(u16 *)(obj + 0x2C) = *(u16 *)(obj + 0x2C) | 0x11;
-        *(s32 *)(obj + 0x50) = (s32)v;
-    }
-    func_8014BDE8((s32)&D_80126B58);
-    *(Blk8_801463A0 *)&D_80126BE8 = *(Blk8_801463A0 *)&D_80126BE0;
-    D_80126BE0_hw = D_80126B5E;
-    D_80126BE2 = D_80126B62;
-    D_80126BE4 = D_80126B66;
-    D_80126BA0 = D_80126B9C;
-    D_80126B9C = D_80126B9C & 0x3FFFFFFF;
-    func_801508F8((s32)&D_80126B58);
-    D_80126C9E = 0;
-    func_8014B5B0(&D_80126B58);
-    func_80161D88((s32)&D_80126B58);
-}
+DEFINE_func_801463A0()  /* dedup: shared engine-core @0x801463A0 (src/shared) */
 
 
 DEFINE_func_80146534()  /* dedup: shared engine-core @0x80146534 (src/shared) */
@@ -770,41 +707,7 @@ DEFINE_func_801466F0()  /* dedup: shared engine-core @0x801466F0 (src/shared) */
 
 
 
-u16 *func_80146750(u16 *param_1) {
-
-    extern u16 D_8011FD10;
-    extern int D_8011FA1C;
-    extern u16 D_8011F9D6;
-    extern u16 D_8011F9DA;
-    extern u16 D_8011F9DE;
-    extern int D_8011FA20;
-    extern int D_8011FA24;
-    s32 iVar1;
-    s32 iVar2;
-    u16 *psVar3;
-    register u16 *psVar4 __asm__("$7"); /* $a3: pin so &sym loads here, copy -> psVar3($v1) */
-
-    iVar2 = 8;
-    psVar4 = &D_8011FD10;
-    psVar3 = psVar4;
-    iVar1 = 0x340;
-    for (; iVar2 < 0x14; iVar2++) {
-        if (*psVar3 == 0) {
-            *(u32 *)((char *)&(*(u32 *)&D_8011FA1C) + iVar1) = *(u32 *)((char *)param_1 + 8);
-            *psVar3 = *param_1;
-            *(u16 *)((char *)&D_8011F9D6 + iVar1) = param_1[1];
-            *(u16 *)((char *)&D_8011F9DA + iVar1) = param_1[2];
-            *(u16 *)((char *)&D_8011F9DE + iVar1) = param_1[3];
-            *(u32 *)((char *)&(*(u32 *)&D_8011FA20) + iVar1) = *(u32 *)((char *)param_1 + 0xC);
-            *(u32 *)((char *)&(*(u32 *)&D_8011FA24) + iVar1) = *(u32 *)((char *)param_1 + 0x10);
-            return psVar4;
-        }
-        psVar4 = psVar4 + 0x34;
-        psVar3 = psVar3 + 0x34;
-        iVar1 = iVar1 + 0x68;
-    }
-    return (u16 *)0x0;
-}
+DEFINE_func_80146750()  /* dedup: shared engine-core @0x80146750 (src/shared) */
 
 
 DEFINE_func_8014680C()  /* dedup: shared engine-core @0x8014680C (src/shared) */
@@ -2131,64 +2034,7 @@ DEFINE_func_8014C6E0()  /* dedup: shared engine-core @0x8014c6e0 (src/shared) */
 //     the loop-back delay slot a nop. `want` needs no pin — gcc lands it in $a1 on its own.
 
 
-void func_8014C6F4(u8 *a) {
-    extern u8 D_80078E78[];
-    extern s32 D_8011F9D0;
-    extern s32 func_8016F1AC(void);
-    extern void func_80015978(s32 a0, s32 *a1);
-
-    u8 *p = D_80078E78;
-    register u8 *e __asm__("$2");
-    register u8 *lim __asm__("$3");
-    u8 *q;
-    s32 want;
-    u8 *src;
-
-    if ((*(u32 *)(a + 0x44) & 2) != 0) {
-        a[0x1C3] = 1;
-    }
-    if (((*(u32 *)(a + 0x44) ^ *(u32 *)(a + 0x48)) & *(u32 *)(a + 0x44) & 0x200) != 0) {
-        a[0x1C3] = 0;
-    }
-    *(M8_8014C6F4 *)(a + 0x164) = *(M8_8014C6F4 *)(*(u8 **)(a + 0x20) + 0x10);
-    if (func_8016F1AC() != 0
-        || (((*(u32 *)(a + 0x44) & 0x200) != 0) && a[0x1C3] == 0)) {
-        *(s16 *)(a + 0x162) = 1;
-        goto tail;
-    }
-    if (p[0x49] == 0x17) {
-        want = 0x22;
-        q = (u8 *)&D_8011F9D0;
-        lim = q + 0xC30;
-        for (; q < lim; q += 0x68) {
-            if (*(u16 *)q == want) {
-                e = q;
-                goto found;
-            }
-        }
-        e = 0;
-    found:
-        if (e != 0) {
-            src = e + 4;
-            goto call;
-        }
-    }
-    if (*(u16 *)a == 0x19) {
-        goto done;
-    }
-    src = a + 4;
-call:
-    func_80015978((s32)src, (s32 *)(a + 0x15C));
-done:
-    *(s16 *)(a + 0x162) = 0;
-tail:
-    if (*(s16 *)(a + 0x15A) == 0) {
-        *(u16 *)(a + 0x154) = *(u16 *)(a + 0x6);
-        *(u16 *)(a + 0x156) = *(u16 *)(a + 0xA);
-        *(u16 *)(a + 0x158) = *(u16 *)(a + 0xE);
-    }
-    *(s16 *)(a + 0x15A) = 0;
-}
+DEFINE_func_8014C6F4()  /* dedup: shared engine-core @0x8014C6F4 (src/shared) */
 
 
 DEFINE_func_8014C860()  /* dedup: shared engine-core @0x8014c860 (src/shared) */
@@ -2309,82 +2155,7 @@ DEFINE_func_8014CD0C()  /* dedup: shared engine-core @0x8014cd0c (src/shared) */
 
 DEFINE_func_8014CD80()  /* dedup: shared engine-core @0x8014CD80 (src/shared) */
 
-extern s32 func_8014DD8C(s32 a0, void *a1, void *a2);
-extern s32 func_8014EA4C(void *a0, void *a1, void *a2, s32 a3);
-
-// @class: loop-guard
-// @stuck: none — MATCH (82 ins), symcheck SYMS-OK (4 symbols agree)
-//
-// Keys (template for the 137-member h_seq family):
-//  (1) THE LOOP-BOUND DUALITY. The entry guard is register-relative (`addiu $v0,$s0,0x6480` +
-//      `sltu`) but the BACK EDGE rematerialises the absolute bound (`lui/addiu %hi/%lo(D_80126720)`
-//      + `sltu`). A plain `for (p = D_801202A0; p < D_801202A0 + 0x6480; p += 0x10C)` also reaches
-//      MATCH (82 ins) under relocation masking, but it relocates the back edge against
-//      D_801202A0+0x6480 and symcheck reports `MISSING D_80126720` — i.e. it cannot be trusted to
-//      bank on the symbol set. The split form below (entry guard `p < p + 0x6480`, back edge
-//      `(u32)p < (u32)D_80126720`) yields the same 82 bytes AND the target's symbol set. This is
-//      the func_8014DD8C / engine_core.h split-guard idiom, reused verbatim.
-//  (2) TWO INDUCTION VARIABLES, secondary base +0x75. $s1 = $s0 + 0x75 is the giv gcc combines all
-//      of 0x0A/0x20/0x58/0x5C/0x74/0x75 onto (the two BYTE accesses at 0x74/0x75 force an unaligned
-//      base, so `q` must be u8*, not the s32* of the func_8014EA4C sibling). Written explicitly as
-//      `q = p + 0x75` with negative displacements (-0x6B/-0x55/-0x1D/-0x19/-0x1).
-//  (3) The `!=`-nested if ladder (not `&&`-chained, not `continue`d) reproduces the fall-through-to-
-//      .L8014D00C CFG; the success block returns 1 so both exits merge on the shared epilogue.
-//  (4) `t = *(s32 *)(q - 0x1D)` is loaded ONCE and reused as arg1 of func_80135A4C — that is why
-//      `lw $a1, -0x1D($s1)` sits at the zero-test, not at the call.
-//  (5) `& 0xFF` on the func_8014C918 result is load-bearing: it is the `andi $v1,$v0,0xFF` before
-//      `sh $v1, 0x16E($s2)` (§I2 — sh alone would not mask).
-//  Register fallout is natural, no pins needed: a0->$s2, a2->$s3, a1->$s4 (param_3 outranks param_2
-//  on allocno priority because of its 4 extra uses in the success block).
-
-extern s32 func_80135A4C(s32 a0, s32 a1, s32 *a2, s32 a3);
-extern s32 func_8014C918(s32 a0, s32 a1);
-
-s32 func_8014CF04(s32 a0, s32 a1, void *a2) {
-    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
-       LATER function in this TU, which blocks a byte-true decl of a different type.
-       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
-    extern u8 D_801202A0[];
-
-    extern u8 D_80126720[];
-    u8 *p;
-    u8 *q;
-    s32 t;
-
-    p = D_801202A0;
-    if (p < p + 0x6480) {
-        q = p + 0x75;
-    loop:
-        if (*(u16 *)p != 0) {
-            if ((*(u16 *)(q - 0x19) & 0x400) != 0) {
-                t = *(s32 *)(q - 0x1D);
-                if (t != 0) {
-                    if (p != *(u8 **)(a0 + 0x178)) {
-                        if (p != *(u8 **)(a0 + 0x174)) {
-                            if (*(s16 *)(q - 0x6B) >= *(s16 *)(a0 + 0xA)) {
-                                if (func_80135A4C(*(s32 *)(q - 0x55), t, (s32 *)a1, (s32)a2) != 0) {
-                                    *(u8 **)(a0 + 0x174) = p;
-                                    q[-1] = 1;
-                                    *(u16 *)(a0 + 6) = *(u16 *)a2;
-                                    *(u16 *)(a0 + 0xA) = *(u16 *)((u8 *)a2 + 2);
-                                    *(u16 *)(a0 + 0xE) = *(u16 *)((u8 *)a2 + 4);
-                                    *(u16 *)(a0 + 0x16E) = func_8014C918(a0, q[0]) & 0xFF;
-                                    return 1;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        p += 0x10C;
-        q += 0x10C;
-        if ((u32)p < (u32)D_80126720) {
-            goto loop;
-        }
-    }
-    return 0;
-}
+DEFINE_func_8014CF04()  /* dedup: shared engine-core @0x8014CF04 (src/shared) */
 
 
 
@@ -2420,80 +2191,11 @@ DEFINE_func_8014D0A4()  /* dedup: shared engine-core @0x8014d0a4 (src/shared) */
 
 
 
-extern s32 func_80135A4C(s32 a0, s32 a1, s32 *a2, s32 a3);
-extern s32 func_8014C918(s32 a0, s32 a1);
-
-s32 func_8014D12C(s32 arg0, void *a1, void *a2)
-{
-    u16 *arg1 = (u16 *)a1;
-    u16 *arg2 = (u16 *)a2;
-    s32 e;
-
-    arg1[1] -= 3;
-    arg2[1] += 8;
-    e = *(s32 *)(arg0 + 0x174);
-    if ((*(u16 *)e == 0) || ((*(u16 *)(e + 0x5C) & 0x400) == 0) || (*(s32 *)(e + 0x58) == 0) ||
-        (*(s16 *)(e + 0xA) < *(s16 *)(arg0 + 0xA))) {
-        if (*(u16 *)e != 0) {
-            *(u8 *)(e + 0x74) = 0;
-        }
-        *(s32 *)(arg0 + 0x174) = 0;
-        return 0;
-    }
-    arg1[0] = *(u16 *)(arg0 + 0x98);
-    arg1[1] = *(u16 *)(arg0 + 0x9A) - 3;
-    arg1[2] = *(u16 *)(arg0 + 0x9C);
-    if ((*(u16 *)(e + 0x5C) & 8) != 0) {
-        arg2[1] = arg1[1] + 0x18;
-    }
-    if (func_80135A4C(*(s32 *)(e + 0x20), *(s32 *)(e + 0x58), (s32 *)arg1, (s32)arg2) != 0) {
-        *(u16 *)(arg0 + 6) = arg2[0];
-        *(u16 *)(arg0 + 0xA) = arg2[1];
-        *(u16 *)(arg0 + 0xE) = arg2[2];
-        *(u16 *)(arg0 + 0x16E) = func_8014C918(arg0, *(u8 *)(e + 0x75)) & 0xFF;
-        return 1;
-    }
-    *(u8 *)(e + 0x74) = 0;
-    *(s32 *)(arg0 + 0x174) = 0;
-    return 0;
-}
+DEFINE_func_8014D12C()  /* dedup: shared engine-core @0x8014D12C (src/shared) */
 
 
 
-extern s32 func_80135A4C(s32 a0, s32 a1, s32 *a2, s32 a3);
-extern s32 func_8014C918(s32 a0, s32 a1);
-
-s32 func_8014D2A0(s32 arg0, void *a1, void *a2)
-{
-    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
-       LATER function in this TU, which blocks a byte-true decl of a different type.
-       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
-    extern u8 D_801202A0[];
-
-    extern u8 D_80126720[];
-    u16 *arg2 = (u16 *)a2;
-    u8 *p;
-    s32 t;
-
-    p = D_801202A0;
-    if (p < p + 0x6480) {
-        do {
-            if ((*(u16 *)p != 0) && ((*(u16 *)(p + 0x5C) & 0x400) != 0) &&
-                ((t = *(s32 *)(p + 0x58)) != 0) &&
-                (p != *(u8 **)(arg0 + 0x178)) && (p != *(u8 **)(arg0 + 0x170)) &&
-                (*(s16 *)(p + 0xA) >= *(s16 *)(arg0 + 0xA)) &&
-                (func_80135A4C(*(s32 *)(p + 0x20), t, (s32 *)a1, (s32)arg2) != 0)) {
-                *(u16 *)(arg0 + 6) = arg2[0];
-                *(u16 *)(arg0 + 0xA) = arg2[1];
-                *(u16 *)(arg0 + 0xE) = arg2[2];
-                *(u16 *)(arg0 + 0x16E) = func_8014C918(arg0, *(u8 *)(p + 0x75)) & 0xFF;
-                return 1;
-            }
-            p += 0x10C;
-        } while (p < D_80126720);
-    }
-    return 0;
-}
+DEFINE_func_8014D2A0()  /* dedup: shared engine-core @0x8014D2A0 (src/shared) */
 
 
 
@@ -3405,58 +3107,7 @@ DEFINE_func_8014FDF4()  /* dedup: shared engine-core @0x8014fdf4 (src/shared) */
 
 
 
-s32 func_8014FE60(void *e) {
-
-    extern u8 D_801152A8[];
-    extern s32 func_8014FFDC(s32 e, void *a1, void *a2);
-    extern s32 func_80150150(s32 e, s32 a1);
-
-    u8 a[8];
-    u8 b[8];
-    u8 out[8];
-    s32 r5;
-    s32 r6;
-
-    *(s16 *)(a + 0) = *(s16 *)(b + 0) = *(u16 *)(((s32)e) + 6);
-    *(s16 *)(a + 2) = *(s16 *)(b + 2) = *(u16 *)(((s32)e) + 0xA) - 0x10;
-    *(s16 *)(a + 4) = *(s16 *)(b + 4) = *(u16 *)(((s32)e) + 0xE);
-
-    r5 = func_8014FFDC(((s32)e), a, out);
-    r6 = func_80150150(((s32)e), (s32)b);
-
-    if (r6 == 0) {
-        *(s16 *)(b + 2) = 0x7fff;
-    }
-    if ((r5 | r6) != 0) {
-        if (*(s16 *)(a + 2) < *(s16 *)(b + 2)) {
-            __asm__ __volatile__("" ::: "memory");
-            *(s16 *)(((s32)e) + 0x78) = *(u16 *)(a + 0);
-            *(s16 *)(((s32)e) + 0x7a) = *(u16 *)(a + 2);
-            *(s16 *)(((s32)e) + 0x7c) = *(u16 *)(a + 4);
-            __builtin_memcpy((void *)(((s32)e) + 0x80), out, 8);
-        } else {
-            __asm__ __volatile__("" ::: "memory");
-            *(s16 *)(((s32)e) + 0x78) = *(u16 *)(b + 0);
-            *(s16 *)(((s32)e) + 0x7a) = *(u16 *)(b + 2);
-            *(s16 *)(((s32)e) + 0x7c) = *(u16 *)(b + 4);
-            __builtin_memcpy((void *)(((s32)e) + 0x80), D_801152A8, 8);
-        }
-        *(u16 *)(((s32)e) + 0x7e) &= 0xfffe;
-        return 1;
-    }
-    {
-        register s32 c __asm__("$3"); /* $v1 */
-        register s32 t __asm__("$4"); /* $a0 */
-        t = *(u16 *)(a + 0);
-        c = 0x7fff;
-        *(s16 *)(((s32)e) + 0x7a) = c;
-        *(s16 *)(((s32)e) + 0x78) = t;
-        t = *(u16 *)(a + 4);
-        *(s16 *)(((s32)e) + 0x7c) = t;
-        *(u16 *)(((s32)e) + 0x7e) |= 1;
-    }
-    return 0;
-}
+DEFINE_func_8014FE60()  /* dedup: shared engine-core @0x8014FE60 (src/shared) */
 
 
 
@@ -4290,40 +3941,7 @@ DEFINE_func_801534D8()  /* dedup: shared engine-core @0x801534d8 (src/shared) */
 DEFINE_func_80153550()  /* dedup: shared engine-core @0x80153550 (src/shared) */
 
 
-extern void func_80146D90(s32 a0);
-extern void func_8014CC28(s32 a0);
-extern void func_8014ED28(s32 _arg0);
-extern void func_8014FA04(s32 a0);
-
-s32 func_801535F4(void *arg0) {
-    s32 var_s1;
-    register u32 flags __asm__("$4");
-    register u32 fcopy __asm__("$3");
-    s32 ret;
-
-    var_s1 = 0;
-    if (((s32 (*)(void))func_8014ED28)() != 0) {
-        func_80146D90((s32)arg0);
-    }
-    if ((*(s32 *)((u8 *)arg0 + 0x34) > 0) &&
-        (((s32 (*)(s32))func_8014CC28)((s32)arg0) != 0)) {
-        var_s1 = 1;
-    }
-    flags = ((s32 (*)(s32))func_8014FA04)((s32)arg0);
-    fcopy = flags;
-    if (flags & 0x4000) {
-        ret = 2;
-    } else if (flags & 0x2000) {
-        ret = 1;
-    } else {
-        ret = 4;
-        if ((fcopy & 0x8000) == 0) {
-            ret = var_s1;
-        }
-    }
-    __asm__ __volatile__("" : : "r"(flags));
-    return ret;
-}
+DEFINE_func_801535F4()  /* dedup: shared engine-core @0x801535F4 (src/shared) */
 
 
 DEFINE_func_8015369C()  /* dedup: shared engine-core @0x8015369c (src/shared) */
