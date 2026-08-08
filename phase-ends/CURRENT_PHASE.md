@@ -2656,6 +2656,42 @@ the T2 log entries; check both background tasks' outcomes first (`git log` for t
 
 ## Per-task log
 
+### ▶ S46-1 — the propagation FAIL was a silent skip reported 92 minutes late; instrumented, NC-proven (2026-08-07/08)
+S45p9's resume item 1. The symptom was `[FAIL] ov_MAIN_012: 0x80156600 not instantiated — REVERTED`
+after ~27 exclusion iterations of `dedup_propagate --auto-from ov_SC02_037 --recover`
+(`.run/s45p5/prop_full.log`, 65 lines, no `[ OK ]`).
+
+**First: the failure does NOT reproduce at HEAD (R14/R35).** `.run/probe_applyplan.py` replays
+`apply_plan`'s per-file site resolution for ov_MAIN_012 against the exact 30-fn plan: `0x80156600`
+resolves as `stub-regex` at line 7505, 22 of 30 resolve, the other 8 are simply not members of that
+overlay, and **def-range/stub-line overlaps = 0** (the splice-swallow hypothesis is refuted). So the
+failing input state was NOT the committed tree — most likely a concurrent writer mid-run (the very
+hazard `docs/concurrency-design.md` Stage 1 addresses), which is unfalsifiable now that the tree was
+checked out. **I did not "fix the bug"; I made the next occurrence name itself.**
+
+**What was actually wrong in the tool (three real defects, all latent):**
+1. **A silent skip (R32).** If an address resolved as neither the `sp`-regex stub nor a `def`, it just
+   stayed in `remaining` — no error. The overlay still landed in `changed` because a *different* fn
+   placed, so the only symptom was struct_check's terse "not instantiated", at the END of a 92-minute
+   run, naming no mechanism. `apply_plan` now records `gaps={ov: [addrs]}` and the caller fails FIRST,
+   printing per site what the whole-overlay oracle says the site IS (`find_site=…`, `in-sig=…`, files).
+2. **A capability gap that produces exactly that skip.** `find_site` returning `'stub'` was IGNORED —
+   `apply_plan` acted only on `'def'`. The `sp` regex anchors on the file's own stem, so a stub whose
+   `INCLUDE_ASM` asm-subdir ≠ its file stem is invisible to it while `find_site` sees it fine. Now
+   accepted (and `'macro'` treated as already-placed). find_site's stub match is an exact
+   `stub_line(ov, addr)` compare against THIS file's text, so it cannot cross files or TUs.
+3. **An incomplete "REVERTED" (§156 class, different path).** struct_check restored only `touched`,
+   leaking every Part-B reconcile kept on disk. New `_abort()` undoes `touched` **and** every kept
+   reconcile, then **diffs the worktree against a baseline captured at start and says what survived**.
+   A dirty tree nobody knows about is the expensive failure: it makes every later byte-gate report
+   `near`, so its verdicts are void and get misread as draft failures (that cost two batches in S45p7).
+
+**Negative control (the fix is proven, not asserted).** Neuter ov_MAIN_012's stub for `0x80156600`
+(comment it out) → re-run → `[GAP] 1 instantiation(s) unplaced … ov_MAIN_012 0x80156600:
+whole-overlay find_site=None, in-sig=True` → `[revert] tree restored to baseline; no residue` →
+**exit code 1** (fail-closed). Restore the line → tree clean. So the detector fires on the exact
+observed condition, the diagnosis names the mechanism, and the revert is complete *and proven*.
+
 ### ▶ S43-1 — the §148 "GTE macro wall" was a SILENT CPP FALLBACK; the permuter lane was dead on 63 drafts (2026-08-05)
 First task of the serial-crack continuation. §148's tooling note recorded *"the `gte_*` `#define` block
 defeats `make_base_c` — demacroize first."* **That diagnosis was wrong (R14/R35), and the fix is in our

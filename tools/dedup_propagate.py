@@ -604,11 +604,17 @@ def main():
                  "#ifndef SHARED_ENGINE_CORE_H\n#define SHARED_ENGINE_CORE_H\n#include \"common.h\"\n\n#endif\n")
     MACRO_RE = re.compile(r'^\s*DEFINE_func_([0-9A-Fa-f]+)\(\)')
 
-    def apply_plan(subplan, restrict=None):
+    def apply_plan(subplan, restrict=None, gaps=None):
         """Author each fn's macro into engine_core.h + instantiate it at its site in every member
         overlay (optionally restricted to a set — the per-fn straggler trial uses one overlay). Edit
         each member overlay ONCE (group by overlay; stub lines replace 1:1, inline defs splice in
-        REVERSE order). Returns (touched, changed); caller byte-gates `changed` then restore(touched)."""
+        REVERSE order). Returns (touched, changed); caller byte-gates `changed` then restore(touched).
+
+        `gaps` (optional dict) collects {overlay: [addrs]} for every claimed member site this could
+        NOT place. That set used to be dropped on the floor (R32 silent skip): the address simply
+        stayed in `remaining`, the overlay still landed in `changed` because some OTHER fn placed,
+        and the only symptom was struct_check's terse "not instantiated" — 92 minutes into a run,
+        naming no mechanism. The caller now fails on `gaps` FIRST, with a per-site diagnosis."""
         touched = {}
         def _edit(path, newtext):
             if path not in touched:
@@ -652,12 +658,23 @@ def main():
                         site = find_site(joined, ov, ad)   # inline def in THIS file? (else try the next split file)
                         if site and site[0] == "def":
                             def_ranges.append((site[1], site[2], repl)); del remaining[ad]; ovc = True
+                        elif site and site[0] == "stub":
+                            # A stub line whose INCLUDE_ASM asm-subdir does NOT equal this file's stem.
+                            # The `sp` regex above anchors on the stem, so it is structurally blind to
+                            # that form; the old code acted only on 'def', so the site was silently
+                            # skipped. find_site's stub match is an EXACT stub_line(ov, addr) compare
+                            # against THIS file's text, so placing here cannot cross files or TUs.
+                            line_repls[site[1]] = repl; del remaining[ad]; ovc = True
+                        elif site and site[0] == "macro":
+                            del remaining[ad]              # already instantiated (path-mismatch variant)
                 if line_repls or def_ranges:
                     for idx, repl in line_repls.items():
                         lines[idx] = repl
                     for start, end, repl in sorted(def_ranges, key=lambda x: -x[0]):
                         lines[start:end + 1] = [repl]
                     _edit(cp, "".join(lines))
+            if remaining and gaps is not None:
+                gaps[ov] = sorted(remaining)   # R32: assert coverage, never skip silently
             if ovc:
                 changed.append(ov)
         return touched, changed
@@ -669,6 +686,39 @@ def main():
             else:
                 path.write_text(orig)
 
+    def _dirty_set():
+        r = subprocess.run(["git", "status", "--porcelain", "--", "src", "config"],
+                           cwd=ROOT, capture_output=True, text=True)
+        return {l[3:].strip() for l in r.stdout.splitlines() if l.strip()}
+
+    dirty0 = _dirty_set()   # the tree's PRE-EXISTING modifications; residue is measured against this
+
+    def _abort(msg, touched=None):
+        """Fail CLOSED, and PROVE it (R32/R35). Every abort path must leave the tree exactly as it
+        found it — but struct_check's exits restored only `touched`, so any Part-B reconcile kept on
+        disk (and anything else outstanding) survived the "REVERTED" message. That is the §156 class
+        on a different path, and it is the expensive one: a tree that is dirty in a way nobody knows
+        about makes EVERY later byte-gate report `near`, so its verdicts are void and get misread as
+        draft failures (S45p7 lost two whole batches to exactly this).
+
+        So: undo this call's edits AND every kept reconcile, then diff the worktree against the
+        baseline and SAY which files (if any) survived. A silent leak becomes a loud one."""
+        if touched:
+            restore(touched)
+        n = _undo_reconciles({ad for ad, _ in kept_reconciles})
+        residue = sorted(_dirty_set() - dirty0)
+        if residue:
+            print(f"[BUG] abort did NOT fully restore — {len(residue)} file(s) still dirty. "
+                  f"Run `git checkout -- src/ config/` before trusting ANY later byte-gate (R35):")
+            for f in residue[:20]:
+                print(f"    {f}")
+            if len(residue) > 20:
+                print(f"    … and {len(residue) - 20} more")
+        else:
+            print(f"[revert] tree restored to baseline"
+                  + (f" (undid {n} kept reconcile(s))" if n else "") + "; no residue")
+        sys.exit(msg)
+
     def struct_check(subplan, changed, touched):
         # the byte-gate CANNOT catch a leftover stub (it is itself byte-identical): every claimed
         # member must now instantiate the macro and have no stub. One read per changed overlay.
@@ -677,9 +727,9 @@ def main():
             t = source_text(ov)   # all split files (post-edit, from disk)
             for p in (pp for pp in subplan if ov in pp["members"]):
                 if f"DEFINE_{sym(p['addr'])}()" not in t:
-                    restore(touched); sys.exit(f"[FAIL] {ov}: 0x{p['addr']:08X} not instantiated — REVERTED")
+                    _abort(f"[FAIL] {ov}: 0x{p['addr']:08X} not instantiated — REVERTED", touched)
                 if incasm(p["addr"]).search(t):
-                    restore(touched); sys.exit(f"[FAIL] {ov}: 0x{p['addr']:08X} stub still present — REVERTED")
+                    _abort(f"[FAIL] {ov}: 0x{p['addr']:08X} stub still present — REVERTED", touched)
 
     # ---- apply with DROP-STRAGGLER retry. A fn whose shared C body, in some OTHER overlay's TU,
     # byte-mismatches (-O0 per-overlay %lo data) or compile-errors (cross-overlay loose-typed callee
@@ -711,7 +761,23 @@ def main():
         return len(drop)
 
     while plan:
-        touched, changed = apply_plan(plan)
+        gaps = {}
+        touched, changed = apply_plan(plan, gaps=gaps)
+        if gaps:
+            # A claimed member whose site this pass could not place. Diagnose it HERE, where the
+            # per-site evidence still exists, instead of letting struct_check report it as a bare
+            # "not instantiated" with no mechanism (S45p9: that message cost a whole re-run to
+            # even locate). Print, per site, what the whole-overlay oracle says the site IS.
+            print(f"[GAP] {sum(len(v) for v in gaps.values())} instantiation(s) unplaced in "
+                  f"{len(gaps)} overlay(s):")
+            for ov in sorted(gaps):
+                t = source_text(ov)
+                for ad in gaps[ov]:
+                    v = find_site(t, ov, ad)
+                    print(f"    {ov} 0x{ad:08X}: whole-overlay find_site="
+                          f"{v[0] if v else None}, in-sig={ad in load_sig(ov)}, "
+                          f"files={[p.name for p, _ in overlay_files(ov)]}")
+            _abort("[FAIL] unplaced instantiation(s) — REVERTED (see [GAP] above)", touched)
         struct_check(plan, changed, touched)
         if a.no_gate:
             break
@@ -773,11 +839,10 @@ def main():
             print(f"[restore] undid {_n} kept caller-extern reconcile(s) for dropped fn(s)")
         plan = survivors
     if not plan:
-        # Nothing survived ⇒ NOTHING may remain edited. Restore every outstanding reconcile before
-        # exiting, so a failed propagation leaves the tree exactly as it found it (fail-closed).
-        _n = _undo_reconciles({a for a, _ in kept_reconciles})
-        sys.exit("[error] all candidates dropped — no cleanly-shareable function"
-                 + (f" (restored {_n} kept reconcile(s); tree unchanged)" if _n else " (tree unchanged)"))
+        # Nothing survived ⇒ NOTHING may remain edited. _abort undoes every outstanding reconcile
+        # and PROVES the tree is back at baseline, so a failed propagation cannot leave a poisoned
+        # tree behind for the next gate to misread (R35).
+        _abort("[error] all candidates dropped — no cleanly-shareable function")
 
     # ---- register groups (compact shorthand: position-locked -> vram + binaries list)
     groups = [dict(id=f"E_{sym(p['addr'])}", tier=a.tier, hash=p["hash"],
