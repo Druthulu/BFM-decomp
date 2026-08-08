@@ -181,7 +181,62 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 
 ---
 
-# 🛑 SESSION S45 CHECKPOINT part 9 (2026-08-07, session close) — FRESH SESSION SAFE HERE
+# 🛑 SESSION S46 CHECKPOINT (2026-08-08) — FRESH SESSION SAFE HERE
+> **Tree CLEAN** (`src/`+`config/` = 0 modified) but for R23 `db.*.gbf` churn — never stage.
+> **Nothing running.** HEAD `commit:1535`. **NO phase close** — T5 unopened, needs Drew's gate-2.
+> Gates at close: `check-all` **213/213**, `tools-health` **OK**, dedup **1949 validated / 0 failed**,
+> C1 coverage 249,233/249,233. Fleet **93.8% instr / 87.2% distinct / 95.69% fn-count**, 0 NON_MATCHING.
+
+## ▶ RESUME HERE
+1. **The crack wave — the only lever that moves the %.** 1,168 seeded targets in the big-3.
+   **Regenerate `wave_snapshot` FIRST** — 29 functions and +2,877 instances landed this session, so
+   the S45 target pool is stale, and a stale list burns a whole wave (S45's own lesson).
+   Route by SIZE (§157): **Haiku ≤30 ins (86% bank), Sonnet ≥50 (Haiku drops to 20% at 4× cost)**;
+   local v3 for the ≤15 tail. Carve `main` out of bulk sweeps (1,061 sub-25 stubs, barren, ×1).
+   **Read wave args FROM THE FILE — never hand-type them** (that cost a 50-agent wave in S45).
+   ⚠️ Needs Drew's opt-in before any agent fan-out (R26/R27): prompt for `/effort ultracode`, WAIT
+   for the toggle, and prompt back to Max for synthesis.
+2. **The two serial stretches now dominating propagation wall-clock** (neither is a build):
+   ~3 min `registered_addrs()` yaml-parsing a 1,949-group / 249k-instance registry + 213 sig loads
+   (cacheable), and ~2.5 min of sequential `reconcile_caller_extern`. Cheap, well-scoped wins.
+3. **The effort/model experiment Drew raised** (design in the S46 log below): a 3-way on ONE target
+   list in the ≥50-ins band — Sonnet-default vs Fable-low vs Opus-default — with a **positive
+   control that the effort knob actually moved** (compare per-agent token burn between arms).
+   Without that control, a null result is indistinguishable from the override silently no-opping.
+   ⚠️ Drew believes Workflow agents INHERIT session effort and that only `model` is settable;
+   my tool docs + `docs/effort-map.md` (Phase 20) say `opts.effort` overrides. **Unmeasured — treat
+   as open, and design the test so the disagreement resolves itself.**
+
+## ✅ WHAT THIS SESSION LANDED (4 commits, all gate-verified)
+- `commit:1532` **the S45p9 blocker closed** — but the honest finding first: the failure does NOT
+  reproduce at HEAD, so the fix is *instrumentation*, not a repair. `apply_plan` no longer silently
+  skips an unplaceable site (R32 gaps + per-site diagnosis), `find_site`'s `'stub'` verdict is
+  honoured (a stub whose asm-subdir ≠ its file stem was invisible), and every abort restores kept
+  reconciles AND diffs the worktree to PROVE it (the §156 class, different path). NC-proven.
+- `commit:1533` **the master IDXTAB/DESTPTR load map** (Drew's idea) — `tools/idxtab_map.py`,
+  controls-gated; 213 binaries → 143 with a table (294), 141 destinations. The blocker was our own
+  tracker: blind to gcc's indexed global-array read (`lui`/`addu`/`lh lo(base)`), so both tables
+  returned ZERO references. **Corrects §S45 p6** (the SC03 trio is NOT ov_SC03_001's — that table is
+  identical in all 141 overlays) and **records what it CANNOT do**: absence ≠ dead code, since
+  byte-proved loaders are absent from this route too. → `docs/idxtab-map.md`, cookbook §155c.
+- `commit:1534` **the bank**: 29 functions ×N = **+2,815 member instances**, R22 213/213.
+- `commit:1535` **the propagation parallelised**: 24 min → 11.4 min AND **+62 more instances** (the old
+  necessity probe was over-excluding). Threads → PROCESSES was the fix; my thread version measured
+  0–4 builds at load 3. → `docs/accelerators.md` A8, memory `fleet-tool-parallelism-defaults`.
+- **NEW (Drew, standing): `docs/accelerators.md`** — the reusable-workflow ledger. Every late
+  discovery that would have accelerated earlier work, with when we found it, when it WAS findable,
+  what it cost, and the honest PREREQ where one exists. A1–A8 seeded. Memory
+  `decomp-accelerator-ledger`.
+
+## 🧰 MY ERROR LEDGER THIS SESSION (2)
+1. **Built #3 on threads** for GIL-bound work — refuted by the box in one sampling pass, not by
+   reasoning. Cost ~10 min of a wasted run.
+2. **Left the cookbook index stale** after appending §155c — `tools-health` exited 1 and caught it.
+   The gate did its job; I should have regenerated it in the same edit.
+Both are the same shape as the S45 ledger's root cause: *asserting a mechanism I had not derived.*
+The R37 candidate still stands for T5.
+
+# 🛑 (superseded by S46) SESSION S45 CHECKPOINT part 9 (2026-08-07, session close)
 > **Tree CLEAN** (`src/`+`config/` = 0 modified) but for R23 `db.*.gbf` churn — never stage.
 > **Nothing running.** Effort ultracode. **NO phase close** — T5 unopened, needs Drew's gate-2.
 
