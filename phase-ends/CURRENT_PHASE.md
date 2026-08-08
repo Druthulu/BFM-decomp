@@ -181,7 +181,72 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 
 ---
 
-# 🛑 SESSION S45 CHECKPOINT part 7 (2026-08-07 late) — 29 BANKED · R22 213/213 · F1 CONFIRMED LIVE — FRESH SESSION SAFE HERE
+# 🛑 SESSION S45 CHECKPOINT part 8 (2026-08-07 late) — the SC03 trio SOLVED · Stage 1+2 landed · propagation in flight
+> **Effort ultracode.** HEAD `commit:1528`. ⚠️ **A PROPAGATION WAS RUNNING AT CHECKPOINT TIME** —
+> see "IF THE TREE IS DIRTY" below before anything else.
+
+## ✅ THE SC03 TRIO IS SOLVED (static decode, after the runtime tracer supplied the anchor)
+`SC03/53, /54, /56` are **LIVE script modules owned by `ov_SC03_001`** — not dead code, not
+boss-gated, not chapter-gated. Full chain in `docs/memory-map.md` §S45 p6:
+`ov_SC03_001` IDXTAB **@0x8018D7BC** = {224, **231, 232, 234**, 233} (the trio + its DATA
+companion SC03/55) → `func_80128CFC` → `cdFileLocTable[idx]` → `*DESTPTR @0x801EBC68` =
+**0x801EF468**, the script slot the tracer watched SC03/76 and SC03/34 load into live.
+- **WHY EVERY EARLIER HUNT FAILED (structural):** the index never appears in CODE — it lives in a
+  per-overlay DATA table, and so does the destination. Invisible to any fleet-wide code scan.
+- **NOT PROVED:** their exact load BASE within the slot (three different sizes; none observed
+  loading). **The byte-gate arbitrates** — onboard at 0x801EF468, first build decides.
+- **MAIN/7 + MAIN/9:** still unresolved; absent from a full 304s attract cycle (+ 7 static lines).
+
+## 🔧 NEW TOOLS (all committed, all self-tested)
+`tools/cdtrace.py` (runtime CD-load oracle: index→dest from the RAM API alone; 7 routing-table
+addresses confirmed live) · `tools/find_addr_refs.py` (register-tracked absolute-address search,
+§155; STRICT full-address addu rule) · `tools/wave_snapshot.py` · `tools/shared_lock.py` ·
+`tools/verify_worktree.py` · `tools/test_reconcile_ledger.py`
+
+## ▶ NEXT SESSION OPENS WITH: THE MASTER IDXTAB MAP (Drew's idea, feasibility PROVEN)
+Repeat the ov_SC03_001 decode for **every** binary → a complete ledger of
+**payload → owning binary → load address**.
+- **DESTPTR half ALREADY WORKS: 14/14 sampled overlays extracted first try**, and it reproduces
+  §S44's one documented case EXACTLY (`ov_SC01_000 *0x801A3234 = 0x801A58E8`). Duplicate pairs
+  share a DESTPTR (ov_SC01_005/006), which is the right structure. Method: register-track
+  `func_80128CFC` (same vram in every overlay) for its `lui`+`lw` → read that word.
+- **IDXTAB half — the one idea still needed:** find `-1`-terminated s16 index runs, then REQUIRE a
+  register-verified code reference to the run's address. That reference is the discriminator the
+  fleet-wide shape scan lacked (§155a). Validate against the two known-good tables first:
+  `ov_SC01_000` @0x8017EEC8 (37 entries) and `ov_SC03_001` @0x8018D7BC (5 entries).
+- **Worth it because:** resolves MAIN/7+9 ownership (or proves absence across EVERY reference
+  table — the strongest dead-code evidence obtainable); gives the disc-completeness claim its
+  evidence base (R34); validates §S44 exhaustively; turns every future "where does X load?" into
+  a lookup. ~2 focused hours.
+
+## ⚠️ IF THE TREE IS DIRTY WHEN YOU OPEN THIS
+A `dedup_propagate --auto-from ov_SC02_037 --recover` was running at checkpoint (92 min, 483 files,
+engine_core.h +2485). Expected: 30 fns → ~3,163 member-instances.
+1. `ps -eo etime,cmd | grep [d]edup_prop` — if still running, LET IT FINISH.
+2. If finished: `tail .run/s45p5/prop_full.log`, then **clean R22** (`make clean && extract-all &&
+   check-all` → 213/213) and commit.
+3. If the tree is dirty and propagation is NOT running: `git checkout -- src/ config/` and replay.
+   Recovery is deterministic (proven twice tonight). The reconcile-ledger fix means a FAILED
+   propagation now restores itself — but verify, don't assume.
+
+## 📌 ALSO CARRIED
+- 44 functions banked this session (R22 213/213 at `commit:1519`); ov_SC02_037 626→597 stubs.
+- **Stage 1** (reconcile ledger + shared-state RW lock, 3 NCs) and **Stage 2**
+  (`verify_worktree`, GREEN 87s, NC fires RED) of `docs/concurrency-design.md` are DONE.
+  **Stage 5 CANCELLED** (verify is 87s; it cannot lag). **Stage 3** (wave dispatcher/gate farm)
+  is deferred — it parallelizes across BINARIES and our waves target one at a time.
+- **Model ladder recalibrated** (cookbook §157): Haiku **≤30 ins = 86%** (~44k tok/match),
+  ≥50 = 20% (~177k, 4× worse). Agent honesty 63/63 claims true across 100 drafters.
+- Wave fuel: big-3 = **1,799 draftable / 1,168 seeded**. Use `wave_snapshot`; reach-sort;
+  carve `main` (1,061 sub-25 stubs, structurally barren, ×1) out of bulk sweeps.
+- **7 self-corrections this session** (fabricated args · string-vs-int membership · two gate
+  verdicts read off a broken tree · the F1 misattribution · a truncated grep · an over-broad
+  "wave_snapshot decouples waves" claim). Root cause is ONE: naming a mechanism from evidence I
+  had not personally derived. **Rule candidate for T5**, alongside R37.
+
+---
+
+# 🛑 (superseded by part 8) SESSION S45 CHECKPOINT part 7 (2026-08-07 late) — 29 BANKED · R22 213/213 · F1 CONFIRMED LIVE — FRESH SESSION SAFE HERE
 > **Tree CLEAN** but for R23 `db.*.gbf` churn. **Nothing running.** Effort ultracode.
 > **NO phase close** — T5 unopened, needs Drew's gate-2. HEAD `commit:1519`.
 
