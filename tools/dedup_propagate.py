@@ -347,6 +347,59 @@ def byte_gate(ov):
     return r.returncode == 0, r.stdout + r.stderr
 
 
+def _jobs():
+    """Parallel overlay gates. Env JOBS wins; otherwise use EVERY core.
+
+    Deliberately NOT capped at the Makefile's conservative `JOBS ?= 16` default: each worker is a
+    `make build` that spends nearly all its wall-clock in cc1/as/ld subprocesses, so the box is the
+    limit, not Python. Measured 2026-08-07: the serial version ran a propagation for 95 minutes at
+    load 1.6 on a 32-core machine — ~5% utilisation. Saturate it (Drew, same session).
+    """
+    try:
+        j = int(_os.environ.get("JOBS", "0"))
+    except ValueError:
+        j = 0
+    return max(1, j or (_os.cpu_count() or 4))
+
+
+def gate_all(changed, label=""):
+    """Byte-gate EVERY touched overlay in parallel; return the first failure in `changed` ORDER.
+
+    WHY (measured 2026-08-07): this loop used to be serial — one `make build BINARY=<ov>` at a
+    time, over up to 141 members, for each of ~30 functions. A propagation ran 95 minutes at load
+    1.6 on a 32-core box: ~5% utilisation. The Makefile has parallelised `extract-all`/`check-all`
+    since Phase 26 (`xargs -P$(JOBS)`), but dedup_propagate predates that and drives the
+    SINGLE-binary `build` target from Python, so it never saw any of it.
+
+    SAFE for the same reason `check-all` is: byte_gate only runs `make build BINARY=<ov>`, which
+    writes solely to the per-binary-disjoint `build/<bin>/**`; it mutates NO source. The splice has
+    already happened before this is called, and the restore happens after — only the *verification*
+    is parallel. Threads, not processes: subprocess.run releases the GIL while the build runs.
+
+    DETERMINISM: ThreadPoolExecutor.map preserves input order, so the reported first failure is the
+    first in `changed` order — identical to the serial loop's verdict, not whichever build finished
+    first. The serial version short-circuited on the first failure and so did fewer builds; this
+    does them all, but in parallel, and the all-pass case (the common one) is a straight win.
+    """
+    order = list(changed)
+    if not order:
+        return None
+    j = min(_jobs(), len(order))
+    if j <= 1:
+        for ov in order:
+            if not byte_gate(ov)[0]:
+                return ov
+        return None
+    from concurrent.futures import ThreadPoolExecutor
+    print(f"[gate] byte-gating {len(order)} overlay(s) with {j} parallel builds{label}", flush=True)
+    with ThreadPoolExecutor(max_workers=j) as ex:
+        results = list(ex.map(lambda o: (o, byte_gate(o)[0]), order))
+    for ov, ok in results:
+        if not ok:
+            return ov
+    return None
+
+
 # ---------------------------------------------------------------- straggler caller-extern reconcile (--recover)
 def reconcile_caller_extern(ov, addr):
     """no-proto every conflicting `extern <ret> func_<ADDR>(<params>);` caller decl in ov's src files
@@ -662,10 +715,7 @@ def main():
         struct_check(plan, changed, touched)
         if a.no_gate:
             break
-        fail_ov = None
-        for ov in changed:
-            if not byte_gate(ov)[0]:
-                fail_ov = ov; break
+        fail_ov = gate_all(changed, f" ({len(plan)} fn(s) in plan)")
         if fail_ov is None:
             print(f"[ OK ] {len(changed)} overlays byte-identical after propagation")
             break

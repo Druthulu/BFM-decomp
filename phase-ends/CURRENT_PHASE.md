@@ -181,7 +181,79 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 
 ---
 
-# 🛑 SESSION S45 CHECKPOINT part 8 (2026-08-07 late) — the SC03 trio SOLVED · Stage 1+2 landed · propagation in flight
+# 🛑 SESSION S45 CHECKPOINT part 9 (2026-08-07, session close) — FRESH SESSION SAFE HERE
+> **Tree CLEAN** (`src/`+`config/` = 0 modified) but for R23 `db.*.gbf` churn — never stage.
+> **Nothing running.** Effort ultracode. **NO phase close** — T5 unopened, needs Drew's gate-2.
+
+## ▶ RESUME HERE — 3 items, in this order
+
+### 1. FIX `dedup_propagate`'s apply_plan/struct_check, THEN resume the banking
+The propagation is the one unfinished item. **~30 fns → ~3,163 member-instances** (~0 tokens).
+It FAILED on its second run — a genuine tool bug, NOT the parallel-gate change (0 gate batches
+ran; it never reached that code):
+```
+[FAIL] ov_MAIN_012: 0x80156600 not instantiated — REVERTED
+```
+- **Inputs verified SOUND at HEAD:** func_80156600 IS in ov_MAIN_012's sig (18 ins), `find_site`
+  returns `stub`, and the stub line matches `stub_line()` exactly. So the bug is in the
+  MULTI-FUNCTION edit path of `apply_plan`, not in the data.
+- **WHY run #1 didn't hit it:** run #1 launched BEFORE the 15 wave-3-re-gate banks were committed;
+  those landed mid-flight, so run #2's plan is LARGER and reaches a path run #1 never did.
+- **SECOND DEFECT, same failure:** it printed `REVERTED` but left **38 files dirty** incl.
+  `src/shared/engine_core.h`. Same incomplete-restore CLASS as the reconcile-ledger bug fixed
+  earlier (cookbook §156), on a DIFFERENT path. `struct_check`'s failure exit needs the same
+  ledger treatment.
+- **Pragmatic option if the fix is slow:** propagate with an explicit `--addr` list EXCLUDING
+  0x80156600 to bank the other ~29 now, and diagnose separately.
+- **Recovery if a run dies dirty:** `git checkout -- src/ config/` (deterministic; done 3× tonight).
+
+### 2. THE MASTER IDXTAB MAP (Drew's idea — feasibility PROVEN, high value)
+Repeat the ov_SC03_001 decode for EVERY binary → a ledger of **payload → owning binary → load
+address**. Resolves MAIN/7+9 ownership (or proves absence across every reference table — the
+strongest dead-code evidence obtainable), gives the disc-completeness claim its evidence base
+(R34), validates §S44 exhaustively, and turns "where does X load?" into a lookup.
+- **DESTPTR half ALREADY WORKS: 14/14 sampled overlays, first try**, reproducing §S44's one
+  documented case exactly (`ov_SC01_000 *0x801A3234 = 0x801A58E8`). Method: register-track
+  `func_80128CFC` (same vram in every overlay) for its `lui`+`lw`, then read that word.
+- **IDXTAB half — the one idea still needed:** find `-1`-terminated s16 index runs, then REQUIRE a
+  register-verified code reference to the run's address (`tools/find_addr_refs.py`). That
+  reference is the discriminator the fleet-wide shape scan lacked (§155a). Validate against the
+  two known-good tables FIRST: `ov_SC01_000` @0x8017EEC8 (37 entries), `ov_SC03_001` @0x8018D7BC (5).
+
+### 3. Then waves — 1,168 seeded targets in the big-3; Haiku ≤30 ins (86%), Sonnet ≥50 (§157).
+Use `tools/wave_snapshot.py`; reach-sort; carve `main` out (1,061 sub-25 stubs, barren, ×1).
+**Read args FROM THE FILE** — never hand-type them (that cost a 50-agent wave tonight).
+
+## ✅ WHAT THIS SESSION LANDED (all committed, tree clean)
+- **44 functions banked**, R22 213/213 · ov_SC02_037 626→597 stubs
+- **SC03/53/54/56 SOLVED** — live script modules owned by `ov_SC03_001` (IDXTAB @0x8018D7BC =
+  224/231/232/234/233) → `func_80128CFC` → `*DESTPTR 0x801EBC68` = **0x801EF468**. Load BASE not
+  yet proved; the byte-gate arbitrates on onboarding. (`docs/memory-map.md` §S45 p6)
+- **MAIN/7 + MAIN/9** — absent from a full 304s attract cycle + 7 static lines. Dead-code case
+  strong, not proved. Their owning binary is unknown — item 2 would settle it.
+- **Concurrency work:** Stage 1 (reconcile ledger + shared-state RW lock, 3 NCs) and Stage 2
+  (`verify_worktree`, GREEN 87s, NC fires RED) DONE. **Stage 5 CANCELLED** (87s can't lag).
+  Stage 3 deferred for drafting gates — but **propagation IS the cross-binary workload it fits**,
+  so the parallel gate (`gate_all`, 32-way, verdict-identical to serial) landed here instead.
+- **6 new tools:** `cdtrace` (runtime CD-load oracle; 7 routing addresses confirmed live),
+  `find_addr_refs` (register-tracked, §155), `wave_snapshot`, `shared_lock`, `verify_worktree`,
+  `test_reconcile_ledger`
+- **Cookbook §155a/§155b/§156/§157**; model ladder recalibrated (Haiku ≤30 = 86%, ≥50 = 20%, 4× cost)
+- **Measured, worth keeping:** propagation setup is 8.6s of a 5,700s run (0.15%) — ALL the time is
+  byte-gating. Don't optimise setup; if the parallel gate underdelivers, attack the O(fns×overlays)
+  trial loop, not the JSON parsing.
+
+## 🧰 MY ERROR LEDGER THIS SESSION (8, one root cause) — R37-adjacent rule candidate for T5
+Fabricated workflow args · string-vs-integer membership test · two gate verdicts read off a broken
+tree · the F1 misattribution · a `head -8`-truncated grep · an over-broad "wave_snapshot decouples
+waves" claim · an invalid timing comparison (ran parallel first, so serial found everything cached).
+**Root cause is ONE: asserting a mechanism or number I had not personally derived.** The byte-gate
+caught every one before it reached anything load-bearing — but the pattern is a governance gap, not
+eight separate slips. Propose at T5 alongside R37.
+
+---
+
+# 🛑 (superseded by part 9) SESSION S45 CHECKPOINT part 8 (2026-08-07 late) — the SC03 trio SOLVED · Stage 1+2 landed · propagation in flight
 > **Effort ultracode.** HEAD `commit:1528`. ⚠️ **A PROPAGATION WAS RUNNING AT CHECKPOINT TIME** —
 > see "IF THE TREE IS DIRTY" below before anything else.
 
