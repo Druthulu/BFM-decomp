@@ -365,41 +365,7 @@ DEFINE_func_801466F0()  /* dedup: shared engine-core @0x801466F0 (src/shared) */
 
 
 
-u16 *func_80146750(u16 *param_1) {
-
-    extern u16 D_8011FD10;
-    extern int D_8011FA1C;
-    extern u16 D_8011F9D6;
-    extern u16 D_8011F9DA;
-    extern u16 D_8011F9DE;
-    extern int D_8011FA20;
-    extern int D_8011FA24;
-    s32 iVar1;
-    s32 iVar2;
-    u16 *psVar3;
-    register u16 *psVar4 __asm__("$7"); /* $a3: pin so &sym loads here, copy -> psVar3($v1) */
-
-    iVar2 = 8;
-    psVar4 = &D_8011FD10;
-    psVar3 = psVar4;
-    iVar1 = 0x340;
-    for (; iVar2 < 0x14; iVar2++) {
-        if (*psVar3 == 0) {
-            *(u32 *)((char *)&(*(u32 *)&D_8011FA1C) + iVar1) = *(u32 *)((char *)param_1 + 8);
-            *psVar3 = *param_1;
-            *(u16 *)((char *)&D_8011F9D6 + iVar1) = param_1[1];
-            *(u16 *)((char *)&D_8011F9DA + iVar1) = param_1[2];
-            *(u16 *)((char *)&D_8011F9DE + iVar1) = param_1[3];
-            *(u32 *)((char *)&(*(u32 *)&D_8011FA20) + iVar1) = *(u32 *)((char *)param_1 + 0xC);
-            *(u32 *)((char *)&(*(u32 *)&D_8011FA24) + iVar1) = *(u32 *)((char *)param_1 + 0x10);
-            return psVar4;
-        }
-        psVar4 = psVar4 + 0x34;
-        psVar3 = psVar3 + 0x34;
-        iVar1 = iVar1 + 0x68;
-    }
-    return (u16 *)0x0;
-}
+DEFINE_func_80146750()  /* dedup: shared engine-core @0x80146750 (src/shared) */
 
 
 DEFINE_func_8014680C()  /* dedup: shared engine-core @0x8014680C (src/shared) */
@@ -3208,35 +3174,7 @@ DEFINE_func_801534D8()  /* dedup: shared engine-core @0x801534D8 (src/shared) */
 DEFINE_func_80153550()  /* dedup: shared engine-core @0x80153550 (src/shared) */
 
 
-s32 func_801535F4(void *arg0) {
-    s32 var_s1;
-    register u32 flags __asm__("$4");
-    register u32 fcopy __asm__("$3");
-    s32 ret;
-
-    var_s1 = 0;
-    if (((s32 (*)(void))func_8014ED28)() != 0) {
-        func_80146D90((s32)arg0);
-    }
-    if ((*(s32 *)((u8 *)arg0 + 0x34) > 0) &&
-        (((s32 (*)(s32))func_8014CC28)((s32)arg0) != 0)) {
-        var_s1 = 1;
-    }
-    flags = ((s32 (*)(s32))func_8014FA04)((s32)arg0);
-    fcopy = flags;
-    if (flags & 0x4000) {
-        ret = 2;
-    } else if (flags & 0x2000) {
-        ret = 1;
-    } else {
-        ret = 4;
-        if ((fcopy & 0x8000) == 0) {
-            ret = var_s1;
-        }
-    }
-    __asm__ __volatile__("" : : "r"(flags));
-    return ret;
-}
+DEFINE_func_801535F4()  /* dedup: shared engine-core @0x801535F4 (src/shared) */
 
 
 DEFINE_func_8015369C()  /* dedup: shared engine-core @0x8015369C (src/shared) */

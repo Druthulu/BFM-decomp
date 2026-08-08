@@ -1298,27 +1298,7 @@ DEFINE_func_801565C0()  /* dedup: shared engine-core @0x801565C0 (src/shared) */
 // slot, and the loop fallthrough re-zeroes $v0 for the not-found return.
 s32 aF80156600(void) __asm__("func_80156600");
 
-s32 aF80156600(void)
-{
-    extern u8 D_80126AF0[];
-    extern s32 D_801151E0[];
-    s32 i;
-    u8 *p;
-    s32 *q;
-
-    i = 0;
-    p = &D_80126AF0[0];
-    q = &D_801151E0[0];
-    do {
-        if (*q & 1) {
-            return (s32)p;
-        }
-        p += 8;
-        i += 1;
-        q += 1;
-    } while ((u32)i < 3);
-    return 0;
-}
+DEFINE_func_80156600()  /* dedup: shared engine-core @0x80156600 (src/shared) */
 
 
 DEFINE_func_80156648()  /* dedup: shared engine-core @0x80156648 (src/shared) */

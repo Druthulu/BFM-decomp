@@ -100,3 +100,38 @@ controls, is worth building the day the wrapper is understood.
 
 **And its limit, recorded so it isn't over-trusted:** absence from the map is NOT evidence a payload is
 dead — byte-proved loaders are absent from that route too, because several load routes exist.
+
+## A8 — Parallelism defaults for fleet-wide tools (processes vs threads; batch what you already know)
+
+**Found:** S46 (phase 30). **Could have been found:** the first time a tool iterated the fleet —
+phase 13, when `check-all` first existed.
+**Measured:** `dedup_propagate` 24 min → **11.4 min**, same 29 functions, **+62 more member instances**,
+R22 213/213 both ways.
+
+Four rules, each learned from a specific failure:
+
+1. **Return every verdict a sweep already computed.** The byte-gate built all 141 overlays and returned
+   only the *first* failure; the recovery loop then paid a full sweep to rediscover each of the next
+   137. Convergence went ~138 rounds → 1–3 rounds with no extra builds. A previous session's run died
+   92 minutes in looking like it was nearly done — it had barely started.
+2. **PROCESSES for CPU-bound work, threads only for subprocess waits.** 138 "independent parallel"
+   searches on a `ThreadPoolExecutor` kept **0–4 builds alive at load 3** on a 32-core box: the work was
+   regex over 15k-line files and every thread queued on the GIL. The identical logic in a
+   `ProcessPoolExecutor`: **14–29 builds, load 34.75.** Threads remain correct for the byte-gate itself
+   (each is a `subprocess.run` that releases the GIL).
+3. **Longest-first scheduling.** `ex.map` starts in list order, so the giant items landing last left 31
+   cores watching one build for ~25 s of every 56 s sweep. Sort by cost descending; re-sort the results
+   into the caller's order so the verdict is bit-identical to the serial one.
+4. **Per-item search beats lock-step sweeps when items are independent** — and the independence must be
+   *argued*, not assumed. Here the shared header carries every macro regardless of which sites are
+   instantiated, so writing it once leaves each overlay owning only its own files and build dir.
+
+**Two traps it exposed:** a fixed temp path (`.run/dpcc/t.c`) is a correctness bug the day anything runs
+concurrently (the same fake-isolation class as a shared `--work` dir); and a pool submitted all at once
+shares no learning between workers — seed with one item in-process, then fan out with the result, or
+every worker repeats the same expensive search.
+
+**The acceptance test is the transferable part:** not a stopwatch — a **regression**. Revert to the
+pre-run state, re-run the identical command, require the same output plus a byte-verified fleet. That is
+what surfaced the *over-exclusion* in the old path: the faster run was also strictly more correct, and a
+timing comparison would never have shown it.

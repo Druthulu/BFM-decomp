@@ -33,6 +33,7 @@ Options:
 """
 import argparse, collections, json, pathlib, re, subprocess, sys
 import os as _os
+import threading as _threading
 sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__)))
 import cdecl    # the comment/string masking oracle (Phase 26-A) — see _skippable below
 import shared_lock  # Stage 1: fleet-shared RW lock — propagation is an EXCLUSIVE writer
@@ -362,8 +363,35 @@ def _jobs():
     return max(1, j or (_os.cpu_count() or 4))
 
 
+_SRC_BYTES = {}
+
+
+def _src_bytes(ov):
+    """Total bytes of an overlay's C sources — the build-cost proxy for longest-first scheduling.
+
+    Cheap and good enough: `make build BINARY=<ov>` spends nearly all its time in cc1 on those
+    files, so source size ranks the giants (ov_SC01_077 & co) to the front of the queue."""
+    if ov not in _SRC_BYTES:
+        try:
+            _SRC_BYTES[ov] = sum(p.stat().st_size for p, _ in overlay_files(ov) if p.exists())
+        except OSError:
+            _SRC_BYTES[ov] = 0
+    return _SRC_BYTES[ov]
+
+
 def gate_all(changed, label=""):
-    """Byte-gate EVERY touched overlay in parallel; return the first failure in `changed` ORDER.
+    """Byte-gate every touched overlay in parallel; return the FIRST failure (compat wrapper)."""
+    f = gate_failures(changed, label)
+    return f[0] if f else None
+
+
+def gate_failures(changed, label=""):
+    """Byte-gate EVERY touched overlay in parallel; return ALL failures in `changed` ORDER.
+
+    The sweep already builds every overlay and already knows every verdict — returning only the
+    first threw ~26 of 27 answers away, and the recovery loop then paid a FULL sweep to rediscover
+    each one (S45: the same two functions were excluded from 27 overlays, one sweep apiece). Same
+    builds, same determinism, all the information.
 
     WHY (measured 2026-08-07): this loop used to be serial — one `make build BINARY=<ov>` at a
     time, over up to 141 members, for each of ~30 functions. A propagation ran 95 minutes at load
@@ -383,21 +411,21 @@ def gate_all(changed, label=""):
     """
     order = list(changed)
     if not order:
-        return None
+        return []
     j = min(_jobs(), len(order))
     if j <= 1:
-        for ov in order:
-            if not byte_gate(ov)[0]:
-                return ov
-        return None
+        return [ov for ov in order if not byte_gate(ov)[0]]
     from concurrent.futures import ThreadPoolExecutor
     print(f"[gate] byte-gating {len(order)} overlay(s) with {j} parallel builds{label}", flush=True)
+    # LONGEST-FIRST (LPT). ThreadPoolExecutor.map starts work in list order, and the giant overlays
+    # (ov_SC01_077 & co — 15k lines at -O2) sit late in it, so every sweep ended with 31 cores
+    # watching ONE build: measured 31 s saturated then ~25 s of a single cc1. Starting the big ones
+    # first overlaps that tail with the crowd. Execution order only — results are re-sorted into
+    # `changed` order below, so the reported verdict is bit-for-bit the same as the serial loop's.
+    sched = sorted(order, key=lambda ov: -_src_bytes(ov))
     with ThreadPoolExecutor(max_workers=j) as ex:
-        results = list(ex.map(lambda o: (o, byte_gate(o)[0]), order))
-    for ov, ok in results:
-        if not ok:
-            return ov
-    return None
+        results = dict(ex.map(lambda o: (o, byte_gate(o)[0]), sched))
+    return [ov for ov in order if not results[ov]]
 
 
 # ---------------------------------------------------------------- straggler caller-extern reconcile (--recover)
@@ -440,7 +468,10 @@ def compiles_standalone(body_lines):
     src = ('#include "common.h"\n#include "engine_types.h"\n'
            + "\n".join(body_lines) + "\n")
     d = ROOT / ".run/dpcc"; d.mkdir(parents=True, exist_ok=True)
-    f = d / "t.c"; f.write_text(src)
+    # UNIQUE per call: this used to be a fixed `t.c`, so two concurrent probes would compile each
+    # other's body — the same fake-isolation class as match_one's shared --work dir (P28 T5). The
+    # plan phase now runs these in parallel, so the shared path is a correctness bug, not a style one.
+    f = d / f"t.{_os.getpid()}.{_threading.get_ident()}.c"; f.write_text(src)
     cpp = subprocess.run(["mipsel-linux-gnu-cpp", "-lang-c", f"-I{ROOT}/include",
                           f"-I{ROOT}/src/shared", "-undef",
                           "-fno-builtin", "-Dmips", "-D__GNUC__=2", "-D__OPTIMIZE__", "-Dpsx",
@@ -451,6 +482,122 @@ def compiles_standalone(body_lines):
                           "-msoft-float", "-fgnu-linker", "-o", "/dev/null"],
                          input=cpp.stdout, capture_output=True, text=True)
     return cc1.returncode == 0, (cc1.stderr or "")
+
+
+
+MACRO_RE = re.compile(r'^\s*DEFINE_func_([0-9A-Fa-f]+)\(\)')
+
+
+def place_in_overlay(ov, subplan, header_rel, edit):
+    """Instantiate each subplan fn's DEFINE_ macro at its site in ONE overlay, via the `edit`
+    callback (path, newtext). Returns (placed_anything, [unresolved addrs]).
+
+    Module-level ON PURPOSE: the per-overlay search runs in a PROCESS pool (the work is regex over
+    15k-line files, which threads cannot parallelise — measured: 138 "parallel" thread searches kept
+    0-4 builds alive because they all serialised on the GIL). A process pool needs a picklable
+    top-level entry point, and both the in-process apply and the workers must use the SAME placement
+    logic or they will drift (R33)."""
+    remaining = {p["addr"]: p for p in subplan}
+    ovc = False
+    for cp, asm_sub in overlay_files(ov):           # main + Phase-19 split files (_a/_o0)
+        if not remaining:
+            break
+        lines = ensure_include(cp.read_text(), header_rel).splitlines(keepends=True)
+        sp = re.compile(rf'^\s*INCLUDE_ASM\("asm/{re.escape(ov)}/nonmatchings/{re.escape(asm_sub)}",\s*func_([0-9A-Fa-f]+)\);\s*$')
+        stub_idx, macro_set = {}, set()
+        for i, l in enumerate(lines):
+            ms = sp.match(l)
+            if ms: stub_idx[int(ms.group(1), 16)] = i; continue
+            mm = MACRO_RE.match(l)
+            if mm: macro_set.add(int(mm.group(1), 16))
+        joined = "".join(lines)
+        line_repls, def_ranges = {}, []
+        for ad in list(remaining):
+            if ad in macro_set:
+                del remaining[ad]; continue            # already instantiated in this file (idempotent)
+            repl = f"DEFINE_{sym(ad)}()  /* dedup: shared engine-core @0x{ad:08X} (src/shared) */\n"
+            if ad in stub_idx:
+                line_repls[stub_idx[ad]] = repl; del remaining[ad]; ovc = True
+            else:
+                site = find_site(joined, ov, ad)   # inline def in THIS file? (else the next split file)
+                if site and site[0] == "def":
+                    def_ranges.append((site[1], site[2], repl)); del remaining[ad]; ovc = True
+                elif site and site[0] == "stub":
+                    # A stub whose INCLUDE_ASM asm-subdir != this file's stem: the `sp` regex anchors
+                    # on the stem and is structurally blind to it, and acting only on 'def' silently
+                    # skipped the site. find_site's stub match is an EXACT stub_line(ov, addr) compare
+                    # against THIS file's text, so placing here cannot cross files or TUs.
+                    line_repls[site[1]] = repl; del remaining[ad]; ovc = True
+                elif site and site[0] == "macro":
+                    del remaining[ad]              # already instantiated (path-mismatch variant)
+        if line_repls or def_ranges:
+            for idx, repl in line_repls.items():
+                lines[idx] = repl
+            for start, end, repl in sorted(def_ranges, key=lambda x: -x[0]):
+                lines[start:end + 1] = [repl]
+            edit(cp, "".join(lines))
+    return ovc, sorted(remaining)
+
+
+def _probe_overlay(ov, plan, header_rel, excl):
+    """Apply plan-minus-`excl` to ONE overlay, byte-gate it, restore. True iff byte-identical."""
+    journal = {}
+
+    def edit(path, newtext):
+        if path not in journal:
+            journal[path] = path.read_text() if path.exists() else None
+        path.write_text(newtext)
+
+    placed, _rem = place_in_overlay(
+        ov, [p for p in plan if p["addr"] not in excl and ov in p["members"]], header_rel, edit)
+    try:
+        return byte_gate(ov)[0] if placed else True
+    finally:
+        for path, orig in journal.items():
+            if orig is None:
+                path.unlink(missing_ok=True)
+            else:
+                path.write_text(orig)
+
+
+def search_worker(job):
+    """The minimal exclusion set that makes ONE overlay byte-identical. Runs in its own PROCESS:
+    an overlay owns its .c files and its build/<bin>/ dir, and the shared header is written once by
+    the parent and never touched here — so these are genuinely independent."""
+    ov, plan, header_rel, suspects = job
+    cands = [p for p in plan if ov in p["members"]]
+    sus_here = [p for p in cands if p["addr"] in suspects]
+
+    def probe(excl):
+        return _probe_overlay(ov, plan, header_rel, excl)
+
+    # FAST PATH: the same 1-2 functions break every overlay, so try the known culprits first. When it
+    # hits (the common case) this overlay costs 1 + |suspects| builds instead of a full bisection.
+    excl = None
+    if sus_here and probe({p["addr"] for p in sus_here}):
+        excl = sus_here
+    if excl is None:
+        order = sus_here + [p for p in cands if p["addr"] not in suspects]
+        if not probe({p["addr"] for p in order}):
+            return ov, None                      # diverges even with everything excluded
+        lo, hi = 0, len(order)
+        while lo < hi:                           # shortest sufficient PREFIX
+            mid = (lo + hi) // 2
+            if probe({p["addr"] for p in order[:mid]}):
+                hi = mid
+            else:
+                lo = mid + 1
+        excl = order[:lo]
+    # SHRINK: drop anything this overlay does not actually need, so the batch never over-excludes
+    # and silently costs an overlay a member it could have kept.
+    i = 0
+    while i < len(excl):
+        trial = excl[:i] + excl[i + 1:]
+        if probe({p["addr"] for p in trial}):
+            excl = trial
+        else:
+            i += 1
+    return ov, sorted(p["addr"] for p in excl)
 
 
 # ---------------------------------------------------------------- main
@@ -532,6 +679,7 @@ def main():
     # ---- build the per-target plan (members + body + hash). Cache the source sig/.c (one src in
     # auto-from). Filter out bodies that aren't self-contained (overlay-local types -> not liftable).
     plan = []
+    cc_queue = []          # candidates awaiting the (parallelised) self-containment probe
     sig_cache, txt_cache = {}, {}
     n_nondef = n_local = n_lowreach = 0
     # R32: a skip that only increments a counter is invisible work — and `n_local` aggregates THREE
@@ -563,21 +711,31 @@ def main():
         # then rejects any body using an overlay-local type NOT yet promoted to the header.
         if re.search(r'(\b(struct|union)\s+\w+\s*\{)|(\btypedef\b)', "\n".join(body)):
             n_local += 1; skipped["inline type def in body"].append(addr); continue
-        ok, why = compiles_standalone(body)
-        if not ok:
-            # SESSION-18: this bucket asserted "overlay-local TYPE" for EVERY failure, which is a
-            # mislabel — the dominant real cause is that the body references file-scope `extern`
-            # decls that live OUTSIDE the extracted block (func_80174CB0: 22 of them), exactly the
-            # gap Phase-27's family_remap._carry_macros closed for file-scope #defines. Name the
-            # causes apart so the queue can be sized honestly (R32/R33).
-            undecl = sorted(set(re.findall(r"`([A-Za-z_]\w*)' undeclared", why)))
-            if undecl:
-                n_local += 1
-                skipped["missing file-scope extern (CARRY-FIXABLE): " + ",".join(undecl[:4])].append(addr)
-            else:
-                n_local += 1; skipped["overlay-local TYPE (the real cap)"].append(addr)
-            continue
-        plan.append(dict(addr=addr, src=src, hash=h, body=body, members=members))
+        cc_queue.append(dict(addr=addr, src=src, hash=h, body=body, members=members))
+
+    # The cpp+cc1 self-containment probe is one INDEPENDENT subprocess pair per candidate and was
+    # the whole plan phase's cost: ~5 minutes pegged at one core on a 32-core box while every other
+    # core idled. Run them concurrently (subprocess.run drops the GIL) and keep the plan in the
+    # original order so the printed plan and every downstream index are unchanged.
+    if cc_queue:
+        from concurrent.futures import ThreadPoolExecutor
+        with ThreadPoolExecutor(max_workers=_jobs()) as ex:
+            verdicts = list(ex.map(lambda c: compiles_standalone(c["body"]), cc_queue))
+        for c, (ok, why) in zip(cc_queue, verdicts):
+            if not ok:
+                # SESSION-18: this bucket asserted "overlay-local TYPE" for EVERY failure, which is a
+                # mislabel — the dominant real cause is that the body references file-scope `extern`
+                # decls that live OUTSIDE the extracted block (func_80174CB0: 22 of them), exactly the
+                # gap Phase-27's family_remap._carry_macros closed for file-scope #defines. Name the
+                # causes apart so the queue can be sized honestly (R32/R33).
+                undecl = sorted(set(re.findall(r"`([A-Za-z_]\w*)' undeclared", why)))
+                if undecl:
+                    n_local += 1
+                    skipped["missing file-scope extern (CARRY-FIXABLE): " + ",".join(undecl[:4])].append(c["addr"])
+                else:
+                    n_local += 1; skipped["overlay-local TYPE (the real cap)"].append(c["addr"])
+                continue
+            plan.append(c)
 
     if n_local or n_nondef or n_lowreach:
         print(f"[skip] {n_local} not self-contained (local types), {n_nondef} not inline-def, "
@@ -602,9 +760,8 @@ def main():
                  " * func_XXXX site in every overlay that shares it (address order preserved). Registry +\n"
                  " * byte-honesty: config/dedup.us.yaml + tools/dedup_integrate.py. Tool-generated; do not hand-edit. */\n"
                  "#ifndef SHARED_ENGINE_CORE_H\n#define SHARED_ENGINE_CORE_H\n#include \"common.h\"\n\n#endif\n")
-    MACRO_RE = re.compile(r'^\s*DEFINE_func_([0-9A-Fa-f]+)\(\)')
 
-    def apply_plan(subplan, restrict=None, gaps=None):
+    def apply_plan(subplan, restrict=None, gaps=None, journal=None, header=True):
         """Author each fn's macro into engine_core.h + instantiate it at its site in every member
         overlay (optionally restricted to a set — the per-fn straggler trial uses one overlay). Edit
         each member overlay ONCE (group by overlay; stub lines replace 1:1, inline defs splice in
@@ -615,16 +772,21 @@ def main():
         stayed in `remaining`, the overlay still landed in `changed` because some OTHER fn placed,
         and the only symptom was struct_check's terse "not instantiated" — 92 minutes into a run,
         naming no mechanism. The caller now fails on `gaps` FIRST, with a per-site diagnosis."""
-        touched = {}
+        touched = {} if journal is None else journal
+        _tlock = _threading.Lock()
+
         def _edit(path, newtext):
-            if path not in touched:
-                touched[path] = path.read_text() if path.exists() else None
+            with _tlock:                      # overlays never share a path; the lock guards the dict
+                if path not in touched:
+                    touched[path] = path.read_text() if path.exists() else None
             path.write_text(newtext)
-        htext = header_path.read_text() if header_path.exists() else DEFAULT_H
-        for p in subplan:
-            if f"DEFINE_{sym(p['addr'])}()" not in htext:
-                htext = htext.replace("\n#endif\n", "\n" + make_macro(p["addr"], p["body"]) + "\n#endif\n")
-        _edit(header_path, htext)
+        if header:
+            htext = header_path.read_text() if header_path.exists() else DEFAULT_H
+            for p in subplan:
+                if f"DEFINE_{sym(p['addr'])}()" not in htext:
+                    htext = htext.replace("\n#endif\n",
+                                          "\n" + make_macro(p["addr"], p["body"]) + "\n#endif\n")
+            _edit(header_path, htext)
         by_ov = {}
         for p in subplan:
             for ov in p["members"]:
@@ -632,49 +794,23 @@ def main():
                     continue
                 by_ov.setdefault(ov, []).append(p)
         changed = []
-        for ov in sorted(by_ov):
-            remaining = {p["addr"]: p for p in by_ov[ov]}   # targets not yet placed in a file
-            ovc = False
-            for cp, asm_sub in overlay_files(ov):           # main + Phase-19 split files (_a/_o0)
-                if not remaining:
-                    break
-                lines = ensure_include(cp.read_text(), a.header).splitlines(keepends=True)
-                sp = re.compile(rf'^\s*INCLUDE_ASM\("asm/{re.escape(ov)}/nonmatchings/{re.escape(asm_sub)}",\s*func_([0-9A-Fa-f]+)\);\s*$')
-                stub_idx, macro_set = {}, set()
-                for i, l in enumerate(lines):
-                    ms = sp.match(l)
-                    if ms: stub_idx[int(ms.group(1), 16)] = i; continue
-                    mm = MACRO_RE.match(l)
-                    if mm: macro_set.add(int(mm.group(1), 16))
-                joined = "".join(lines)
-                line_repls, def_ranges = {}, []
-                for ad in list(remaining):
-                    if ad in macro_set:
-                        del remaining[ad]; continue            # already instantiated in this file (idempotent)
-                    repl = f"DEFINE_{sym(ad)}()  /* dedup: shared engine-core @0x{ad:08X} (src/shared) */\n"
-                    if ad in stub_idx:
-                        line_repls[stub_idx[ad]] = repl; del remaining[ad]; ovc = True
-                    else:
-                        site = find_site(joined, ov, ad)   # inline def in THIS file? (else try the next split file)
-                        if site and site[0] == "def":
-                            def_ranges.append((site[1], site[2], repl)); del remaining[ad]; ovc = True
-                        elif site and site[0] == "stub":
-                            # A stub line whose INCLUDE_ASM asm-subdir does NOT equal this file's stem.
-                            # The `sp` regex above anchors on the stem, so it is structurally blind to
-                            # that form; the old code acted only on 'def', so the site was silently
-                            # skipped. find_site's stub match is an EXACT stub_line(ov, addr) compare
-                            # against THIS file's text, so placing here cannot cross files or TUs.
-                            line_repls[site[1]] = repl; del remaining[ad]; ovc = True
-                        elif site and site[0] == "macro":
-                            del remaining[ad]              # already instantiated (path-mismatch variant)
-                if line_repls or def_ranges:
-                    for idx, repl in line_repls.items():
-                        lines[idx] = repl
-                    for start, end, repl in sorted(def_ranges, key=lambda x: -x[0]):
-                        lines[start:end + 1] = [repl]
-                    _edit(cp, "".join(lines))
-            if remaining and gaps is not None:
-                gaps[ov] = sorted(remaining)   # R32: assert coverage, never skip silently
+
+        def _place(ov):
+            """Instantiate every planned macro in ONE overlay. Delegates to the module-level
+            place_in_overlay so the in-process apply and the process-pool searches can never drift."""
+            ovc, rem = place_in_overlay(ov, by_ov[ov], a.header, _edit)
+            return ov, ovc, rem
+
+        ovs = sorted(by_ov)
+        if len(ovs) > 4:
+            from concurrent.futures import ThreadPoolExecutor
+            with ThreadPoolExecutor(max_workers=_jobs()) as ex:
+                placed = list(ex.map(_place, ovs))     # map preserves order -> `changed` is stable
+        else:
+            placed = [_place(ov) for ov in ovs]
+        for ov, ovc, rem in placed:
+            if rem and gaps is not None:
+                gaps[ov] = rem                 # R32: assert coverage, never skip silently
             if ovc:
                 changed.append(ov)
         return touched, changed
@@ -749,6 +885,7 @@ def main():
     # batches (4/4 and 20/20) were mis-read as draft failures.
     # Fix: ledger every kept reconcile against its fn, and undo it the moment that fn leaves `plan`.
     kept_reconciles = []                                 # [(addr, snapshot)] in apply order
+    suspects = []                                        # culprit addrs found so far, tried first
 
     def _undo_reconciles(addrs):
         """Restore reconciles for addrs that did not survive. Reverse order: each snapshot is the
@@ -781,56 +918,137 @@ def main():
         struct_check(plan, changed, touched)
         if a.no_gate:
             break
-        fail_ov = gate_all(changed, f" ({len(plan)} fn(s) in plan)")
-        if fail_ov is None:
+        fails = gate_failures(changed, f" ({len(plan)} fn(s) in plan)")
+        if not fails:
             print(f"[ OK ] {len(changed)} overlays byte-identical after propagation")
             break
         restore(touched)
-        survivors, dropped, excluded, recovered = [], [], [], []
-        for p in plan:
-            if fail_ov not in p["members"]:
-                survivors.append(p); continue
-            t2, c2 = apply_plan([p], restrict={fail_ov})
-            pok = byte_gate(fail_ov)[0] if fail_ov in c2 else True
-            restore(t2)
-            if pok:
-                survivors.append(p); continue          # p alone is fine here -> a multi-fn interaction
-            # p is a real culprit for fail_ov. Without --recover: the historical all-or-nothing drop.
-            if not a.recover:
-                dropped.append(p); continue
-            # Part B — reconcile fail_ov's conflicting caller extern for p, then re-trial the byte-gate.
-            snap, n = reconcile_caller_extern(fail_ov, p["addr"])
-            if n:
-                t3, c3 = apply_plan([p], restrict={fail_ov})
-                pok2 = byte_gate(fail_ov)[0] if fail_ov in c3 else True
-                restore(t3)                             # -> the RECONCILED text (t3 snapshot is post-reconcile)
-                if pok2:
-                    survivors.append(p); recovered.append(p)
-                    kept_reconciles.append((p["addr"], snap))   # LEDGERED — undone if p later drops
-                    continue                                    # keep the reconcile on disk
-            restore_snapshot(snap)                      # reconcile didn't buy the match -> undo it
-            # Part A — exclude ONLY fail_ov from p's members (keep p for the rest); drop iff reach<2.
-            p["members"] = [m for m in p["members"] if m != fail_ov]
-            if len(p["members"]) >= 2:
-                survivors.append(p); excluded.append(p)
-            else:
-                dropped.append(p)
+        print(f"[gate] {len(fails)} overlay(s) diverge: "
+              + ", ".join(fails[:8]) + ("…" if len(fails) > 8 else ""))
+
+        # ---- BATCHED culprit resolution.
+        # The old loop took the FIRST failure, probed each of the ~30 plan fns against it one build
+        # at a time, then paid a whole fresh 141-overlay sweep to rediscover the NEXT failure — so
+        # S45's two divergent functions cost 27 sweeps ×(30 serial builds + a full sweep). But the
+        # sweep already tells us EVERY failing overlay (gate_failures), and the culprits are almost
+        # always the SAME functions in all of them. So: find a sufficient exclusion set once, on one
+        # pivot overlay (binary search, ~log2 builds), then decide per-overlay necessity for the
+        # whole failing set with ONE PARALLEL SWEEP PER CANDIDATE — 32 builds at a time instead of 1.
+        def diverging(excl_addrs, ovs, label=""):
+            """Apply the plan MINUS `excl_addrs` to `ovs`; return the subset still byte-diverging.
+            This is the overlays' FINAL intended state (every other plan fn applied), so a pass here
+            is direct evidence for the bank — stronger than the old one-function-in-isolation probe."""
+            sub = [p for p in plan if p["addr"] not in excl_addrs]
+            t, c = apply_plan(sub, restrict=set(ovs))
+            inplay = [o for o in c if o in set(ovs)]
+            bad = set(gate_failures(inplay, label))
+            restore(t)
+            return bad          # an overlay nothing was applied to never changed -> counts as passing
+
+        # PER-OVERLAY INDEPENDENT SEARCH. Each overlay's answer depends only on its own .c files and
+        # its own build/<bin>/ dir — the shared header carries EVERY plan macro regardless of which
+        # sites get instantiated, so writing it once up front makes the searches disjoint. That means
+        # 138 searches can run at once instead of |E| fleet-wide sweeps in lock-step, and it cuts
+        # BUILDS (not just overlap): a sweep pass rebuilds all 138 to answer one question, while a
+        # search asks each overlay only the questions that overlay's own answer needs.
+        hdr_journal = {}
+        # Header-only: author every plan macro once, edit NO overlay. `restrict` is a whitelist, so a
+        # sentinel alias that matches nothing gives exactly that while reusing apply_plan's macro
+        # authoring (an empty set would be FALSY and disable the filter entirely — editing all 141).
+        apply_plan(plan, restrict={"\0no-overlay"}, journal=hdr_journal)
+        try:
+            # PROCESSES, not threads. The first cut used a ThreadPoolExecutor and measured 0-4 builds
+            # alive across 138 "parallel" searches: the work is regex over 15k-line files, so every
+            # thread queued on the GIL and the box sat at load 3 with 32 cores. Each search only
+            # touches its own overlay's .c and its own build/<bin>/ dir, and the shared header is
+            # written once above and never touched by a worker — so separate processes are safe.
+            order_fails = sorted(fails, key=lambda o: -_src_bytes(o))   # longest-first
+            # Seed the suspect list with ONE overlay first: the same 1-2 fns break every overlay, and
+            # a pool submitted all at once would give every worker an EMPTY suspect list and make all
+            # 138 of them pay a full bisection instead of the 1+|suspects| fast path.
+            seed_ov, seed_excl = search_worker((order_fails[0], plan, a.header, list(suspects)))
+            if seed_excl:
+                for ad in seed_excl:
+                    if ad not in suspects:
+                        suspects.append(ad)
+            rest = order_fails[1:]
+            print(f"[search] {len(fails)} independent per-overlay searches "
+                  f"({_jobs()} processes; seeded with {len(suspects)} suspect(s) from {seed_ov})",
+                  flush=True)
+            found = [(seed_ov, seed_excl)]
+            if rest:
+                from concurrent.futures import ProcessPoolExecutor
+                jobs = [(ov, plan, a.header, list(suspects)) for ov in rest]
+                with ProcessPoolExecutor(max_workers=_jobs()) as ex:
+                    found += list(ex.map(search_worker, jobs))
+        finally:
+            restore(hdr_journal)
+        broken = [ov for ov, e in found if e is None]
+        if broken:
+            # Diverges with NOTHING of ours applied => already broken before this run, so every
+            # verdict in this sweep is void (R35). Stop rather than "recover" from a bad baseline.
+            _abort(f"[FAIL] {', '.join(broken[:5])} diverge with the whole plan excluded — ALREADY "
+                   f"broken at baseline; this run's gate verdicts are not evidence (R35).")
+        need = {ov: set(e) for ov, e in found}
+        byfn0 = collections.Counter(ad for e in need.values() for ad in e)
+        print("[culprit] " + ", ".join(f"0x{ad:08X}x{n}" for ad, n in byfn0.most_common(8)))
+
+        recovered, excluded = [], []
+        # Part B (batched) — try the caller-extern reconcile for every (overlay, fn) pair at once,
+        # then ONE sweep with the full plan: whoever passes keeps its reconcile and its membership.
+        if a.recover and any(need.values()):
+            snaps = collections.defaultdict(list)          # ov -> [(addr, snapshot)] in apply order
+            for ov in sorted(need):
+                for ad in sorted(need[ov]):
+                    snap, n = reconcile_caller_extern(ov, ad)
+                    if n:
+                        snaps[ov].append((ad, snap))
+            if snaps:
+                bad = diverging(set(), sorted(snaps), " (post-reconcile re-gate)")
+                for ov, lst in snaps.items():
+                    if ov in bad:
+                        for _ad, snap in reversed(lst):    # newest->oldest ends on the original text
+                            restore_snapshot(snap)
+                    else:
+                        for ad, snap in lst:
+                            need[ov].discard(ad)
+                            kept_reconciles.append((ad, snap))   # LEDGERED — undone if the fn drops
+                            recovered.append((ov, ad))
+        # Part A — exclude only the overlays that still need it (the fn stays for everyone else).
+        byaddr = {p["addr"]: p for p in plan}
+        for ov in sorted(need):
+            for ad in sorted(need[ov]):
+                p = byaddr.get(ad)
+                if not p:
+                    continue
+                if not a.recover:                 # historical all-or-nothing: drop the fn outright
+                    p["members"] = []
+                else:
+                    p["members"] = [m for m in p["members"] if m != ov]
+                excluded.append((ov, ad))
+        survivors = [p for p in plan if len(p["members"]) >= 2]
+        dropped = [p for p in plan if len(p["members"]) < 2]
+
         if recovered:
-            print(f"[recover] {fail_ov}: reconciled the conflicting caller extern for "
-                  f"{len(recovered)} fn(s), kept in members: " + ", ".join(f"0x{p['addr']:08X}" for p in recovered))
+            print(f"[recover] reconciled the conflicting caller extern for {len(recovered)} "
+                  f"(overlay, fn) pair(s) across {len({o for o, _ in recovered})} overlay(s)")
         if excluded:
-            print(f"[exclude] {fail_ov}: {len(excluded)} fn(s) byte-diverge / irreconcilable here -> "
-                  f"propagated to the rest, {fail_ov} kept ×1: " + ", ".join(f"0x{p['addr']:08X}" for p in excluded))
+            byfn = collections.Counter(ad for _ov, ad in excluded)
+            print(f"[exclude] {len(excluded)} (overlay, fn) pair(s): "
+                  + ", ".join(f"0x{ad:08X}×{n}" for ad, n in byfn.most_common(6)))
         if dropped:
-            print(f"[drop] {fail_ov}: {len(dropped)} cross-overlay straggler(s) "
-                  f"(reach<2 after exclude / all-or-nothing): " + ", ".join(f"0x{p['addr']:08X}" for p in dropped))
+            print(f"[drop] {len(dropped)} fn(s) below reach 2 after exclusion: "
+                  + ", ".join(f"0x{p['addr']:08X}" for p in dropped))
         if not (recovered or excluded or dropped):
-            # fail_ov fails with the full batch but no single fn is a culprit -> a multi-fn interaction;
-            # conservatively drop every fn targeting fail_ov (rare; kept ×1) so the rest can proceed.
-            tofail = [p for p in plan if fail_ov in p["members"]]
-            print(f"[drop] {fail_ov}: byte-gate fails with no single-fn culprit (interaction) — "
-                  f"dropping its {len(tofail)} fn(s), kept ×1")
-            survivors = [p for p in plan if fail_ov not in p["members"]]
+            # Every search came back with an EMPTY exclusion set even though the sweep said these
+            # overlays diverge -> a multi-fn interaction no per-fn exclusion explains. Conservatively
+            # drop every fn targeting them (rare; each stays matched ×1) so the rest can proceed, and
+            # so the loop cannot spin forever making no progress.
+            stuck = set(fails)
+            tofail = [p for p in plan if stuck & set(p["members"])]
+            print(f"[drop] {len(stuck)} overlay(s) fail with no single-fn culprit (interaction) — "
+                  f"dropping their {len(tofail)} fn(s), kept ×1")
+            survivors = [p for p in plan if not (stuck & set(p["members"]))]
         # Any fn that just left `plan` must give back its kept reconcile — otherwise a no-proto'd
         # caller extern survives for a function that was never propagated (see the ledger note above).
         _gone = {p["addr"] for p in plan} - {p["addr"] for p in survivors}

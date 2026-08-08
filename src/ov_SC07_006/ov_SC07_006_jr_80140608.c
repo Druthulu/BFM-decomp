@@ -1798,24 +1798,7 @@ void func_80142A80(void)
 }
 
 
-extern void func_80142C84(s32 a0);
-extern void func_80143994(s32 a0, s32 a1);
-extern s32 func_8012AD50(void *a0);
-
-void func_80142B2C(void *arg0) {
-    *(s32 *)((u8 *)arg0 + 0x1c) = 0x180;
-    *(s16 *)((u8 *)arg0 + 0x5c) = 0x100;
-    *(u16 *)((u8 *)arg0 + 0x100) = *(u16 *)((u8 *)arg0 + 0x70) & 0x100;
-    *(u16 *)((u8 *)arg0 + 0x70) = *(u16 *)((u8 *)arg0 + 0x70) & 3;
-    *(u16 *)((u8 *)arg0 + 0x72) = *(u16 *)((u8 *)arg0 + 0x72) | 0x1000;
-    if (*(s16 *)((u8 *)arg0 + 0x100) == 0) {
-        ((void (*)(void))func_80142C84)();
-    }
-    *(s32 *)((u8 *)arg0 + 0xcc) =
-        ((s32 (*)(s32, s32))func_80143994)(
-            (s32)arg0, (s32)*(s16 *)(*(s32 *)((u8 *)arg0 + 0x20) + 0x18));
-    func_8012AD50(arg0);
-}
+DEFINE_func_80142B2C()  /* dedup: shared engine-core @0x80142B2C (src/shared) */
 
 
 extern void func_801439C0(u8 *a0);
@@ -2687,27 +2670,4 @@ DEFINE_func_80144A98()  /* dedup: shared engine-core @0x80144a98 (src/shared) */
 // @class: struct
 // @stuck: none — MATCH
 
-extern int func_80013294(void *a0, void *a1);
-extern unsigned short D_80126B5E;
-extern unsigned short D_80126B62;
-extern unsigned short D_80126B66;
-
-
-int func_80144B14(int param_1)
-{
-    int r;
-    Vec a;
-    Vec b;
-
-    a.vx = *(unsigned short *)(param_1 + 6);
-    a.vy = *(unsigned short *)(param_1 + 0xa);
-    a.vz = *(unsigned short *)(param_1 + 0xe);
-    b.vx = D_80126B5E;
-    b.vy = D_80126B62;
-    b.vz = D_80126B66;
-    r = func_80013294(&a, &b);
-    if (r < *(short *)(param_1 + 0xfc)) {
-        return *(int *)(param_1 + 0xcc);
-    }
-    return 0;
-}
+DEFINE_func_80144B14()  /* dedup: shared engine-core @0x80144B14 (src/shared) */

@@ -2724,6 +2724,43 @@ had barely started.
   and parallel apply/restore. **Unproven until a re-run shows same-plan/same-exclusions + less
   wall-clock** — do not record them as doctrine before that.
 
+### ▶ S46-4 — the propagation parallelised: 24 min → 11.4 min, and +62 MORE instances (2026-08-08)
+Drew: *"make it more multi-threaded… I still see my cpu idle for far too long."* Measured, fixed,
+and **regression-tested against the S46-3 bank as a known answer** — not timed.
+
+**The measurement that drove it** (sampled during a run): 31 s saturated (33 makes / 48 cc1 /
+load 27) then **~25 s with ONE build alive** while 31 cores idled, repeating. Two causes: `ex.map`
+starts in list order so the giant overlays land last, and the apply/restore phase is single-threaded.
+
+**What landed (all four, `tools/dedup_propagate.py`):**
+1. **`gate_all` → `gate_failures`** — return EVERY failure the sweep already computed. Convergence
+   ~138 rounds → **1**. (This alone is why S46-3 finished at all.)
+2. **Longest-first gate scheduling** — sort by source size desc, re-sort results into `changed`
+   order so the verdict stays bit-identical to the serial loop's.
+3. **Parallel apply/restore** (threads) — kept, but honestly near-worthless: same GIL problem as 4.
+4. **Per-overlay independent search in PROCESSES** — the real fix, and my first cut was WRONG.
+   Built on a ThreadPoolExecutor it kept **0–4 builds alive at load 3**: the work is regex over
+   15k-line files, so 138 "parallel" searches all queued on the GIL. The identical logic in a
+   `ProcessPoolExecutor`: **14–29 builds, load 34.75** on 32 cores; search phase **~100 s**.
+   Safe because the shared header is written ONCE by the parent and each overlay owns its own `.c`
+   files + `build/<bin>/`. Seeded with one in-process search first — a pool submitted all at once
+   gives every worker an empty suspect list and makes all 138 pay a full bisection.
+   `place_in_overlay` was extracted to module level so the worker and the in-process apply cannot
+   drift (R33), and `compiles_standalone`'s fixed `t.c` became per-call (the fake-isolation class).
+
+**The regression result (the point):** revert `src/`+`config/` to pre-bank, re-run the identical
+command → **29 functions (same), 141 overlays byte-identical, 682 s vs ~1,440 s** — and **285
+exclusions vs ~350, +62 MORE member instances (249,161)**. The old prefix-based necessity probe was
+**over-excluding**: it charged four functions to 9 overlays each that did not all need them. The
+per-overlay shrink minimises per overlay, so the faster path is also the more correct one — which a
+stopwatch comparison would never have shown. R22 re-verified.
+
+**Still serial, now the actual wall-clock (neither is a build):** ~3 min of setup before the first
+gate (`registered_addrs()` yaml-parsing a 1,949-group / 249k-instance registry + 213 sig loads) and
+~2.5 min between the search and the post-reconcile gate (sequential `reconcile_caller_extern`).
+
+→ `docs/accelerators.md` **A8**, memory `fleet-tool-parallelism-defaults`.
+
 ### ▶ S43-1 — the §148 "GTE macro wall" was a SILENT CPP FALLBACK; the permuter lane was dead on 63 drafts (2026-08-05)
 First task of the serial-crack continuation. §148's tooling note recorded *"the `gte_*` `#define` block
 defeats `make_base_c` — demacroize first."* **That diagnosis was wrong (R14/R35), and the fix is in our
