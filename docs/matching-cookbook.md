@@ -10597,6 +10597,36 @@ for this repo: `corpus.stubs` is address-keyed — convert with
 is far more often a type error than a discovery. Real negatives are usually ragged. When a check
 comes back perfectly empty, verify the comparison before believing the conclusion (R14/R37).
 
+### §155c — the ZERO-REFERENCE trap: gcc splits a global-array address across the `lui` and the LOAD (S46)
+
+§155a's law says a shape scan needs a discriminator, and names the obvious one: *require a
+register-verified code reference to the candidate's address.* Run exactly that against the two
+byte-proved IDXTABs and it returns **zero references** — and the naive reading ("nothing references
+these tables") is wrong in the most expensive way, because it looks like a discovery.
+
+The tables are read by gcc's indexed global-array form:
+
+```
+lui  $at, 0x8019          ; hi half
+addu $at, $at, $a0        ; + index   <- $at is WRITTEN here
+lh   $v0, -0x2844($at)    ; lo half, in the LOAD  -> 0x8018D7BC
+```
+
+The address exists only as (lui imm, load offset) — the index add sits *between* them. Any tracker
+that invalidates a register when it is written (which §155 correctly demands!) kills `$at` at the
+`addu` and can never rejoin the halves. So the strictness that makes §155 sound also creates a blind
+spot for the single most common way a compiler reads a table.
+
+**The fix (in `tools/find_addr_refs.py`): carry the hi half through an index `addu`** — still strictly
+register-tracked, never window-paired — and label what it feeds `-indexed` so the two shapes stay
+distinguishable. That one change took `tools/idxtab_map.py` from 0/2 controls to 2/2 and produced the
+fleet load map (`docs/idxtab-map.md`).
+
+**The law:** *"no code references X"* is a claim about your DECODER, not about the binary, until you
+have shown the decoder recognises the addressing forms the compiler actually emits. Before believing a
+zero, hand-disassemble ONE known-good case and check your tracker sees it (§155b's smell test:
+*exactly* zero is more often an instrument gap than a fact).
+
 ### §156 — an ORPHANED reconcile poisons the fleet: `dedup_propagate`'s kept edit (S45 p6/p7)
 
 > **ATTRIBUTION CORRECTED (R14).** This section first blamed `gate_stage`'s arity pre-pass (finding

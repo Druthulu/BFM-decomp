@@ -60,16 +60,31 @@ def writes_reg(w):
 
 
 def scan(data, base, target):
-    """Yield (vaddr, kind, detail) for register-tracked materializations of `target`."""
+    """(vaddr, kind, detail) for register-tracked materializations of `target`.
+
+    A filter over scan_all — ONE tracking implementation, so a caller that needs every
+    materialization (tools/idxtab_map.py) cannot drift from the one that needs a single target
+    (R33). Behaviour is unchanged: same hits, same order."""
+    return [(va, kind, det) for va, kind, addr, det in scan_all(data, base) if addr == target]
+
+
+def scan_all(data, base):
+    """Yield (vaddr, kind, addr, detail) for EVERY register-tracked address materialization.
+
+    Same §155 discipline as before: a `lui` pairs only with a later op whose BASE REGISTER is the
+    one it wrote, and the register dies the moment anything clobbers it. Window-pairing is not
+    evidence."""
     n = len(data) // 4
     words = struct.unpack(f"<{n}I", data[:n * 4])
     hi = {}          # reg -> (hi_value<<16, vaddr_of_lui)
     val = {}         # reg -> fully materialized address (for indexed forms)
+    via_index = set()  # regs whose hi half arrived through an `addu` index add (see the ADDU branch)
     out = []
     for i, w in enumerate(words):
         va = base + i * 4
         op = w >> 26
         rs, rt, imm = (w >> 21) & 31, (w >> 16) & 31, w & 0xFFFF
+        carry = None
 
         if op == LUI:
             hi[rt] = (imm << 16, va)
@@ -78,40 +93,56 @@ def scan(data, base, target):
 
         if op == ADDIU and rs in hi:
             a = hi[rs][0] + s16(imm)
-            if a == target:
-                out.append((hi[rs][1], "addiu", f"lui ${REGN[rs]} @0x{hi[rs][1]:08X} + addiu -> 0x{a:08X}"))
+            out.append((hi[rs][1], "addiu", a, f"lui ${REGN[rs]} @0x{hi[rs][1]:08X} + addiu -> 0x{a:08X}"))
             val[rt] = a
             hi.pop(rt, None) if rt != rs else None
             continue
 
         if op == ORI and rs in hi:
             a = hi[rs][0] | imm
-            if a == target:
-                out.append((hi[rs][1], "ori", f"lui ${REGN[rs]} @0x{hi[rs][1]:08X} + ori -> 0x{a:08X}"))
+            out.append((hi[rs][1], "ori", a, f"lui ${REGN[rs]} @0x{hi[rs][1]:08X} + ori -> 0x{a:08X}"))
             val[rt] = a
             continue
 
         if op in MEMOPS and rs in hi:
             a = hi[rs][0] + s16(imm)
-            if a == target:
-                out.append((va, MEMOPS[op], f"{MEMOPS[op]} ${REGN[rt]}, 0x{imm:X}(${REGN[rs]}) -> 0x{a:08X}"))
+            kind = MEMOPS[op] + ("-indexed" if rs in via_index else "")
+            out.append((va, kind, a,
+                        f"{kind} ${REGN[rt]}, 0x{imm:X}(${REGN[rs]}) -> 0x{a:08X}"))
 
         if op == SPECIAL and (w & 0x3F) == ADDU:
-            # base+index: the TABLE-READ shape. Report when either operand holds our address.
+            # base+index: the TABLE-READ shape. Report when either operand holds a materialized addr.
             rd = (w >> 11) & 31
+            # ALSO the gcc form for indexing a GLOBAL ARRAY, which this tracker used to be blind to:
+            #     lui  $at, HI ; addu $at, $at, idx ; lh rt, LO($at)
+            # The address is split across the lui and the LOAD, with the index added in between — so
+            # killing $at at the addu (it is written, after all) threw away the only link, and the
+            # load looked like an offset off an unknown register. Every per-overlay IDXTAB in the
+            # game is read exactly like this, which is why a fleet-wide scan for their addresses
+            # returned ZERO references and the tables looked unreachable (S46). Carry the hi half
+            # through the add — still strictly register-tracked, never window-paired (§155) — and
+            # label what it feeds `-indexed` so a caller can tell the two shapes apart.
+            for r in (rs, rt):
+                if r in hi:
+                    carry = (rd, hi[r])
+                    break
             # STRICT: require the FULL address to be materialized in the register. Matching only
             # the hi half (the 64 KB page) fires on every unrelated address in that page — coverage
             # without discrimination (§155a), which is how the p4 phantoms happened one level up.
             for r in (rs, rt):
-                if val.get(r) == target:
-                    out.append((va, "addu-index",
-                                f"addu ${REGN[rd]}, ${REGN[rs]}, ${REGN[rt]}  (INDEXED off 0x{target:08X})"))
+                if r in val:
+                    out.append((va, "addu-index", val[r],
+                                f"addu ${REGN[rd]}, ${REGN[rs]}, ${REGN[rt]}  (INDEXED off 0x{val[r]:08X})"))
                     break
 
         wr = writes_reg(w)
         if wr is not None and wr != 0:
             hi.pop(wr, None)
             val.pop(wr, None)
+            via_index.discard(wr)
+        if op == SPECIAL and (w & 0x3F) == ADDU and carry and carry[0] != 0:
+            hi[carry[0]] = carry[1]          # re-arm AFTER the clobber above (rd was just written)
+            via_index.add(carry[0])
     return out
 
 

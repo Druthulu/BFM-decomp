@@ -965,3 +965,42 @@ established, and none was observed loading. **The byte-gate is the arbiter**: on
 constant made a previously-impossible static decode trivial. Neither alone was enough: four
 static scans failed without it, and the emulator alone never caught the trio loading. Pair a
 runtime oracle with static RE rather than choosing between them.
+
+#### S46 — the master IDXTAB/DESTPTR map: the route decoded fleet-wide, and TWO corrections (2026-08-07/08)
+
+Full write-up + method: **`docs/idxtab-map.md`**. Tool: `tools/idxtab_map.py` (controls-gated).
+
+**The blocker was our instrument, again (R35).** The S45 plan — "find `-1`-terminated s16 runs, then
+require a register-verified reference to the run's address" — returns NOTHING as specified:
+`0x8018D7BC` has zero register-verified references and is stored as a data word nowhere in the fleet.
+The tables are read by gcc's **indexed global-array** form, which `find_addr_refs` was blind to:
+
+```
+lui  $at, 0x8019 ; addu $at, $at, $a0 ; lh $v0, -0x2844($at)   -> 0x8018D7BC
+```
+
+The address is split across the `lui` and the **load**, with the index added between, so killing the
+`lui` register at the `addu` (it is written) threw away the only link. Carrying the hi half through the
+add — still strictly register-tracked, never window-paired (§155) — recovers both byte-proved controls
+(`ov_SC01_000` 0x8017EEC8 / 37 entries, `ov_SC03_001` 0x8018D7BC / 5 entries) **from the images alone**.
+
+**Fleet result:** 213 binaries → 146 with a referenced index table (320 tables, after filtering 106
+zero-runs), 141 with a DESTPTR, **67 distinct payloads** on this route. The two dominant tables are
+**fleet-wide CONSTANTS** (identical in all 141 overlays): a 5-entry list
+`SC03/46, SC03/53, SC03/54, SC03/56, SC03/55` and a 37-entry list (`SC03/62-65, SC02/32-33, SC02/12-14,
+SC02/18-20, SC03/128-131, SC01/53-73`). The per-binary variable is the **DESTPTR** — 141 binaries,
+**134 distinct destinations**. Shape: *constant list + runtime index + per-binary destination.*
+
+**CORRECTION 1 (R14) — §S45 p6's ownership claim is refuted.** The trio are NOT "owned by
+`ov_SC03_001`": the 5-entry table containing `SC03/53/54/56` is present with identical content in **all
+141 overlays**. Everything §S45 p6 byte-observed still stands (they are live script modules reached via
+`func_80128CFC`; `ov_SC03_001`'s destination is `0x801EF468`) — only "only `ov_SC03_001` requests them"
+is wrong.
+
+**CORRECTION 2 (P9) — this route CANNOT settle MAIN/7 + MAIN/9.** They are absent from all 320 tables,
+but so are `MAIN/13, /20, /34, /42, /44`, which are **byte-proved to load** (the onboarding controls in
+`.run/s45p5/derive_base.py`). MAIN payloads referenced by any IDXTAB: `0 1 2 3 4 5 6 8 16 17 24 32 33`
+— 13 of ~49. So absence here means "not loaded *by this route*", nothing more; the descriptor
+(`StreamLoadStateMachine`) and `resourceIdMap` paths are separate. **MAIN/7 and MAIN/9 remain open.**
+The S45 checkpoint's hope that this would be "the strongest dead-code evidence obtainable" does not
+survive its own control — recorded so a later session does not re-derive the false conclusion.
