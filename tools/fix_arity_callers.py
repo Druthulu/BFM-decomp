@@ -34,6 +34,8 @@ draft landing in the same file between apply and undo — the Task-14 hazard the
 had to special-case). --keep names the fns whose edits stay (the banked set).
 """
 import argparse, json, os, re, glob, sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import shared_lock  # Stage 1: --apply/--undo-journal write the fleet-shared header
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 EC = os.path.join(REPO, 'src/shared/engine_core.h')
@@ -183,4 +185,8 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    # Stage 1: --apply and --undo-journal both rewrite caller externs in the fleet-shared
+    # src/shared/engine_core.h. EXCLUSIVE so no gate can read that state mid-edit (design §2.2b).
+    # No-op when gate_stage already holds the lock (BFM_SHARED_LOCK_HELD).
+    with shared_lock.hold(exclusive=True, announce="fix_arity_callers"):
+        main()

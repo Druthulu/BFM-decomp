@@ -29,6 +29,7 @@ import backlog
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(REPO, 'tools'))
 import corpus   # the derived corpus oracle (Phase 26-A)
+import shared_lock  # Stage 1: the fleet-shared RW lock (docs/concurrency-design.md)
 PY = ".venv/bin/python"
 # ov_SC01_077 defaults (the canonical harvest binary)
 OV = "ov_SC01_077"
@@ -180,9 +181,20 @@ def run_gate(drafts, binary=OV, src=None, asm=None, out=None, good_sha=None,
     os.makedirs(os.path.join(REPO, ".run/auto"), exist_ok=True)
     _lock = open(os.path.join(REPO, lock_path or ".run/auto/gate.lock"), "w")
     fcntl.flock(_lock, fcntl.LOCK_EX)
+    # Stage 1 (docs/concurrency-design.md): take the FLEET-SHARED lock in the mode that matches what
+    # this gate will actually do. Per-binary resources are already covered by the flock above; this
+    # one covers src/shared/*, config/overlays.mk, config/dedup.us.yaml and the overlay .c files that
+    # propagation rewrites. EXCLUSIVE iff this gate will write them — i.e. it will propagate, or the
+    # arity pre-pass is enabled (it edits the shared header). Otherwise SHARED, so distinct-binary
+    # gates still run concurrently (bulk_harvest phase B) but can never overlap a writer.
+    # shared_lock exports BFM_SHARED_LOCK_HELD so the dedup_propagate / fix_arity_callers children
+    # we spawn below do not deadlock re-acquiring it.
+    _writes_shared = bool(propagate) or not os.environ.get("GATE_NO_ARITY")
     try:
-        return _run_gate_locked(drafts, binary, src, asm, out, good_sha, propagate, source_tag,
-                                commit, src_file, verified_out, failed_out, compute_fleet)
+        with shared_lock.hold(exclusive=_writes_shared,
+                              announce=f"gate {binary} ({'writer' if _writes_shared else 'reader'})"):
+            return _run_gate_locked(drafts, binary, src, asm, out, good_sha, propagate, source_tag,
+                                    commit, src_file, verified_out, failed_out, compute_fleet)
     finally:
         fcntl.flock(_lock, fcntl.LOCK_UN); _lock.close()
 

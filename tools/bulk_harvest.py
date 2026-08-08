@@ -13,10 +13,31 @@ separates so the GPU and the 16 cores each run flat-out in their own phase:
                                    its binary's drafts via gate_stage.run_gate(propagate=False,
                                    commit=False, per-binary lock, per-worker scratch, compute_fleet=
                                    False). build/<bin>/** + src/<bin>/*.c are per-binary isolated, so
-                                   distinct-binary builds never collide; propagation (the ONLY writer
-                                   of the shared engine_core.h / overlay .c) is deferred to phase C.
+                                   distinct-binary builds never collide; propagation is deferred to C.
+                                   ** SET GATE_NO_ARITY=1 FOR THIS PHASE. ** See below.
   C. DEDUPE + COMMIT (serial)    — dedup_propagate --auto-from each binary that banked a reach>=2 fn
                                    (the x reach multiplier), merge the per-worker backlogs, ONE commit.
+
+PHASE-B ISOLATION — WHAT IS AND IS NOT TRUE (corrected 2026-08-07, P30 S45p7).
+    The claim above ("propagation is the ONLY writer of the shared engine_core.h") was FALSE as
+    written, and this file asserted it for phases. gate_stage ALSO writes the fleet-shared header
+    from inside every worker: its arity pre-pass (fix_arity_callers --apply, gate_stage.py) rewrites
+    caller externs there BEFORE the byte-gate runs. Two phase-B workers could therefore edit and
+    journal-undo the same shared file concurrently. This is finding F1 of docs/concurrency-design.md.
+    It is not known to have corrupted a run — the 141/213 breakage that session had a different
+    cause (an orphaned dedup_propagate reconcile, cookbook §156) — but the guarantee was not real.
+
+    It is real now, under TWO conditions this driver must honour:
+      1. export GATE_NO_ARITY=1 for phase B, so no worker runs the arity pre-pass; route
+         arity-needing drafts to the serial phase C instead (and REPORT them — R32:
+         drafts == banked + near + failed + deferred).
+      2. tools/shared_lock.py is in force: gate_stage takes the fleet-shared lock SHARED when it
+         writes no shared state and EXCLUSIVE when it does (propagate, or arity enabled);
+         dedup_propagate and fix_arity_callers --apply take it EXCLUSIVE. Readers still run
+         concurrently, so phase B keeps its parallelism.
+
+    Assert it, don't trust it: after phase B, `git status --porcelain src/shared config` must be
+    EMPTY. That one line is the only cheap detector for a shared-state write escaping a worker.
 
 The whole-binary byte-gate (gate_stage/harvest_verify, G3/P9) is the sole arbiter — a wrong draft can
 NEVER bank (it reverts to the INCLUDE_ASM stub). The model only affects THROUGHPUT, never correctness.

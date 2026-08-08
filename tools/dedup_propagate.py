@@ -35,6 +35,7 @@ import argparse, collections, json, pathlib, re, subprocess, sys
 import os as _os
 sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__)))
 import cdecl    # the comment/string masking oracle (Phase 26-A) — see _skippable below
+import shared_lock  # Stage 1: fleet-shared RW lock — propagation is an EXCLUSIVE writer
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 
@@ -739,4 +740,9 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    # Stage 1 (docs/concurrency-design.md): propagation is THE fleet-shared writer —
+    # it rewrites src/shared/engine_core.h, config/dedup.us.yaml and every member
+    # overlay .c. It may never overlap a gate reading that state (verdict decay,
+    # design §2.2b). No-op when gate_stage already holds the lock (BFM_SHARED_LOCK_HELD).
+    with shared_lock.hold(exclusive=True, announce="dedup_propagate"):
+        main()
