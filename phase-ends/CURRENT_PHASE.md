@@ -187,7 +187,26 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 > Gates at close: `check-all` **213/213**, `tools-health` **OK**, dedup **1949 validated / 0 failed**,
 > C1 coverage 249,233/249,233. Fleet **93.8% instr / 87.2% distinct / 95.69% fn-count**, 0 NON_MATCHING.
 
-## ▶ RESUME HERE
+## ▶ RESUME HERE (updated S46 late — Drew's approved order)
+**A. IN FLIGHT: the 400+ cascade** (`wf_f1937216-bb2`, 47 fns ≥400 ins, Sonnet transcribe → Opus
+   shape → Fable crack, pipelined). Drafts land in `.run/s46/casc/*.t{1,2,3}.c`. When it completes:
+   gate with **`gate_stage`** (NOT bare harvest_verify — S46 doctrine), then R22, then commit.
+**B. THEN fix the target-side declarations** (the corrected task 9 — see S46-7 below). It is TWO
+   jobs, not one, and the second is the only cheap one:
+   · **`func_80144B9C` is NOT a declaration conflict** — its body lives in `src/shared/func_80144B9C.h`
+     (the P24 hand-rolled **-O0** shared header), not `engine_core.h`. `dedup_extend` only instantiates
+     `DEFINE_func_*` macros from engine_core.h, so it is reaching for a macro that does not exist, in
+     binaries with no `-O0` split. Different mechanism (P24's), and at live-reach 3 it may not be worth it.
+   · **The real conflicts are a handful of symbols** — `memcpy`, `func_8012C750`, `func_8012C0EC`,
+     `gte_SetRotMatrix` — failing identically in every binary. The target TUs hold NO explicit externs
+     for them; the conflicts arrive through the included headers. There is already a standing in-tree
+     note at `ov_MAIN_012.c:14333` that `extern memcpy` disables gcc's builtin — read it first.
+   ⚠️ These are FLEET-SHARED writes. Do not run them concurrently with a wave, and use the ledgered
+   path (`GATE_NO_ARITY=1`) — this is the exact shape of the F1 defect that broke 141/213 in S45.
+**C. THEN re-run `dedup_extend`** (now ladder-wired) over the 129.
+**D. Then more waves** — 1,104 seeded big-3 targets remain, minus batch 1's 60.
+
+### The older standing item
 1. **The crack wave — the only lever that moves the %.** 1,168 seeded targets in the big-3.
    **Regenerate `wave_snapshot` FIRST** — 29 functions and +2,877 instances landed this session, so
    the S45 target pool is stale, and a stale list burns a whole wave (S45's own lesson).
@@ -2746,6 +2765,49 @@ checked out. **I did not "fix the bug"; I made the next occurrence name itself.*
 whole-overlay find_site=None, in-sig=True` → `[revert] tree restored to baseline; no residue` →
 **exit code 1** (fail-closed). Restore the line → tree clean. So the detector fires on the exact
 observed condition, the diagnosis names the mechanism, and the revert is complete *and proven*.
+
+### ▶ S46-7 — the extend ladder banked 0/129: I fixed the plumbing on the WRONG SIDE of the pipe (2026-08-08)
+Wiring `gate_stage` into `dedup_extend` (S46-6) was necessary but **not sufficient**, and my ~32%
+recovery projection was **refuted in full: 0 of 129, `near: 0`**.
+
+**Why, and why it was predictable.** Every rung of the ladder — `canon_resident_calls`,
+`cast_call_sites`, `sig_unify` — rewrites **the draft**. An extend "draft" is ONE LINE
+(`DEFINE_func_X()`). There is no declaration in it to reconcile. The conflict is between the macro
+body (in `engine_core.h`) and a declaration already in the **TARGET TU**, and nothing in the ladder
+edits the target. An *exactly*-zero across three binaries is a structural mismatch, not a difficulty
+curve (§155b) — I should have read the zero that way immediately.
+
+**The ~32% number was measured on a DIFFERENT artifact.** It came from the wave residue, where drafts
+are real C files with real declarations the ladder can rewrite. Generalising it to the extend
+population was unwarranted: different artifact, different failure surface. R37 again — I priced a job
+from a number measured elsewhere.
+
+**What the failures actually say (identical in all six binaries):**
+```
+func_80144B9C   conflicting types for `func_80144B9C'   <- incl. all four SC07
+func_8013A530   conflicting types for `memcpy'
+func_8013E4B4   conflicting types for `func_8012C750'
+func_80142838   conflicting types for `func_8012C0EC'
+func_8012E778   undefined reference to `gte_SetRotMatrix'
+```
+
+**The corrected fix is TWO jobs:**
+1. **`func_80144B9C` is not a declaration problem at all.** Its body lives in
+   `src/shared/func_80144B9C.h` — the P24 hand-rolled **-O0** shared header — NOT `engine_core.h`.
+   `dedup_extend` only instantiates `DEFINE_func_*` macros from engine_core.h, so it reaches for a
+   macro that does not exist, in binaries that have no `-O0` split. Needs P24's mechanism; at
+   live-reach 3 (see the metric correction below) it may not be worth it.
+2. **The genuine conflicts are ~4 symbols** (`memcpy`, `func_8012C750`, `func_8012C0EC`,
+   `gte_SetRotMatrix`). The target TUs hold NO explicit externs for them — the conflicts arrive via
+   included headers. An in-tree note at `ov_MAIN_012.c:14333` already records that `extern memcpy`
+   disables gcc's builtin; read it before touching this.
+   ⚠️ Fleet-shared writes. Ledgered path only, never concurrent with a wave (the F1 defect, S45).
+
+**Also corrected this session (R14/R35):** the behemoth leverage ranking must use **LIVE reach**
+(unmatched sharers), not total sharers. `func_80144B9C` reads 770×141 = 108,570 by total but 138 are
+already banked — true weight 770×3 = **2,310**. Same ×134 over-count as §25; `build_wave_args --rank
+live` exists for exactly this. Remaining **≥400 ins: 57 distinct fns / 77 live instances / 38,968 ins**,
+reach ~1.35 ⇒ ~0.3% instr-weighted even if every one cracks.
 
 ### ▶ S46-3 — the propagation BANKED: 29 fns / +2,815 member-instances, R22 213/213 (2026-08-08)
 The S45p9 blocker is closed. `dedup_propagate --auto-from ov_SC02_037 --recover` ran clean:
