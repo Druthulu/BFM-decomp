@@ -7,7 +7,13 @@ INCLUDE_ASM("asm/md_MAIN_046/nonmatchings/md_MAIN_046", func_800CCB28);
 
 INCLUDE_ASM("asm/md_MAIN_046/nonmatchings/md_MAIN_046", func_800CCB78);
 
-INCLUDE_ASM("asm/md_MAIN_046/nonmatchings/md_MAIN_046", func_800CCC8C);
+extern void func_80147078(s32 *a0, s16 a1);
+extern void func_800CCD50(void);
+void func_800CCC8C(s32 *a0) {
+    func_80147078(a0, 33);
+    ((void (*)(void *))func_800CCD50)(a0);
+}
+
 
 extern void func_80147078(s32 *a0, s16 a1);
 extern void func_800CCCF4(void *a0);

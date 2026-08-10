@@ -27,7 +27,13 @@ void func_800CAF18(void) {
 void func_800CAF20(void) {
 }
 
-INCLUDE_ASM("asm/md_MAIN_027/nonmatchings/md_MAIN_027", func_800CAF28);
+extern void func_80147078(s32 *a0, s16 a1);
+extern void func_800CAFEC(void);
+void func_800CAF28(s32 *a0) {
+    func_80147078(a0, 32);
+    ((void (*)(void *))func_800CAFEC)(a0);
+}
+
 
 extern void func_80147078(s32 *a0, s16 a1);
 extern void func_800CAF90(void *a0);

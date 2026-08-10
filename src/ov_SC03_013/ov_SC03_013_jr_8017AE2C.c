@@ -3360,4 +3360,36 @@ INCLUDE_ASM("asm/ov_SC03_013/nonmatchings/ov_SC03_013_jr_8017AE2C", func_8017C67
 
 INCLUDE_ASM("asm/ov_SC03_013/nonmatchings/ov_SC03_013_jr_8017AE2C", func_8017C6B8);
 
-INCLUDE_ASM("asm/ov_SC03_013/nonmatchings/ov_SC03_013_jr_8017AE2C", func_8017C6F4);
+
+/* func_8017C6F4 — 15 ins, ov_SC03_010 / ov_SC03_011 / ov_SC03_013
+ * (jr_8017AE2C switch-case body: "stat bump + clamp to 0x60")
+ *
+ * NOTE ON DISPATCH: the tier-2 brief named ov_SC05_017 / 548 ins / an asm path
+ * that does not exist. That tuple is not real (see report). This is the ONLY
+ * unmatched func_8017C6F4 in the tree — the 15-ins body — cracked here.
+ *
+ * Codegen shape (why this exact C):
+ *   lbu  $v1, %lo(D_80184A68)($at)   -> D_80184A68 is u8[]  (zero-extending byte load)
+ *   lhu  $v0, 0x20C($a0)             -> the field is read as u16 (zero-extending)
+ *   addu / sh                        -> sum stored back truncated
+ *   sll 16 / sra 16 / slti 0x61      -> the SAME $v0 is then sign-extended for the
+ *                                       compare, i.e. the sum lives in an s16 local
+ *                                       that is stored FIRST and compared AFTER.
+ * So: u16 field read, s16 local, store, then `if (local > 0x60)` re-store 0x60.
+ * The store-before-compare order is load-bearing; hoisting the clamp above the
+ * store re-orders sh/sll and breaks the match.
+ */
+
+
+void func_8017C6F4(s32 arg0, s32 arg1) {
+
+    extern u8 D_80184A68[];
+    s16 temp;
+
+    temp = *(u16 *)(arg0 + 0x20C) + D_80184A68[arg1];
+    *(s16 *)(arg0 + 0x20C) = temp;
+    if (temp > 0x60) {
+        *(s16 *)(arg0 + 0x20C) = 0x60;
+    }
+}
+

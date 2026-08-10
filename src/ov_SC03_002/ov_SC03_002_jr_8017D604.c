@@ -5854,7 +5854,18 @@ void func_801846E8(void *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_002/nonmatchings/ov_SC03_002_jr_8017D604", func_80184808);
+extern s32 func_80184854(void *a0);
+s32 func_80184808(void *a0) {
+    a0 = *(void **)((char *)a0 + 0xCC);
+    if (a0 == 0) {
+        return 0;
+    }
+    if (*(u16 *)a0 != 0x61) {
+        return 0;
+    }
+    return func_80184854(a0);
+}
+
 
 
 /* func_80184854 — scan the 96-entry / 0x10C-stride D_801202A0 actor table for

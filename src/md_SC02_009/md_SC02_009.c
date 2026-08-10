@@ -1,6 +1,13 @@
 #include "common.h"
 
-INCLUDE_ASM("asm/md_SC02_009/nonmatchings/md_SC02_009", func_801E4C64);
+
+
+void func_801E4C64(void *a0) {
+
+    extern void (*D_801E663C[])(void);
+    D_801E663C[*(u16 *)((s32)a0 + 0x2)]();
+}
+
 
 INCLUDE_ASM("asm/md_SC02_009/nonmatchings/md_SC02_009", func_801E4CA0);
 
@@ -38,7 +45,14 @@ INCLUDE_ASM("asm/md_SC02_009/nonmatchings/md_SC02_009", func_801E53A8);
 
 INCLUDE_ASM("asm/md_SC02_009/nonmatchings/md_SC02_009", func_801E53E0);
 
-INCLUDE_ASM("asm/md_SC02_009/nonmatchings/md_SC02_009", func_801E5450);
+
+
+void func_801E5450(void *a0) {
+
+    extern void (*D_801E6680[])(void);
+    D_801E6680[*(u16 *)((s32)a0 + 0x2)]();
+}
+
 
 INCLUDE_ASM("asm/md_SC02_009/nonmatchings/md_SC02_009", func_801E548C);
 
@@ -66,7 +80,14 @@ INCLUDE_ASM("asm/md_SC02_009/nonmatchings/md_SC02_009", func_801E58C0);
 
 INCLUDE_ASM("asm/md_SC02_009/nonmatchings/md_SC02_009", func_801E590C);
 
-INCLUDE_ASM("asm/md_SC02_009/nonmatchings/md_SC02_009", func_801E5968);
+
+
+void func_801E5968(void *a0) {
+
+    extern void (*D_801E66B0[])(void);
+    D_801E66B0[*(u16 *)((s32)a0 + 0x2)]();
+}
+
 
 INCLUDE_ASM("asm/md_SC02_009/nonmatchings/md_SC02_009", func_801E59A4);
 
@@ -76,7 +97,14 @@ INCLUDE_ASM("asm/md_SC02_009/nonmatchings/md_SC02_009", func_801E5B0C);
 
 INCLUDE_ASM("asm/md_SC02_009/nonmatchings/md_SC02_009", func_801E5B3C);
 
-INCLUDE_ASM("asm/md_SC02_009/nonmatchings/md_SC02_009", func_801E5C6C);
+
+
+void func_801E5C6C(void *a0) {
+
+    extern void (*D_801E66BC[])(void);
+    D_801E66BC[*(u16 *)((s32)a0 + 0x2)]();
+}
+
 
 INCLUDE_ASM("asm/md_SC02_009/nonmatchings/md_SC02_009", func_801E5CA8);
 

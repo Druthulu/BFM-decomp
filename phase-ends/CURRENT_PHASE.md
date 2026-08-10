@@ -183,10 +183,12 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 
 # 🛑 SESSION S47 CHECKPOINT (2026-08-10) — FRESH SESSION SAFE HERE
 > **Tree CLEAN** but for R23 `db.*.gbf` churn — never stage. **Nothing running.**
-> Gates at this commit: **`check-all` 213 passed / 0 failed of 213** (R22 clean-fleet, run twice —
-> once for B, once for C); **`tools-health` OK**; **dedup-check 1949 validated / 0 failed, C1
-> coverage 249,295**; cookbook index 467 sections, `--check` OK. The S46 carry is CLOSED.
-> **Fleet: 93.9% instr / 87.2% distinct / 95.72% fn-count.**
+> Gates at this commit: **`check-all` 213 passed / 0 failed of 213** (R22 clean-fleet, run THREE
+> times — B, C, and the propagation sweep); **`tools-health` OK**; **dedup-check 1949 validated /
+> 0 failed, C1 coverage 249,295**; cookbook index 467 sections, `--check` OK. S46 carry CLOSED.
+> **Fleet: 94.2% instr / 87.8% distinct / 96.11% fn-count · INCLUDE_ASM stubs 14,120.**
+> **S47 total: 1,481 functions banked with ZERO agent drafting** (62 dedup_extend + 1,419
+> propagation) — all of it from removing plumbing, not from cracking code.
 > **Attribution, so nobody misreads it:** task **B banks zero functions by design** (declaration
 > plumbing); the **+62 came from C**, which B unblocked. B and C land as ONE result, not two.
 > **NO phase close** — T5 unopened, needs Drew's gate-2.
@@ -265,6 +267,38 @@ printed `BANKED 0 / 46`, and took its `if not banked:` branch.
   `ApplyMatrixSV` 12, `gte_SetRotMatrix` 4, plus 21 CC1-FAIL and 3 DIFF.
 - **NOT separated (honest gap):** how much of the 62 is B's conform vs the ladder's own recovery
   rungs. Establishing it needs a re-run against the pre-B tree; not worth a fleet build.
+
+## ✅ TASK P (propagation sweep) — **1,419 member-matches banked for ~0 agent tokens**
+`family_sweep.py --hseq --band all -j 8` over every matched-exemplar family: **553 families /
+203 overlays / 1,419 banked / 1,023 failed (58%)**. R22 **213 passed / 0 failed of 213**,
+`tools-health` OK, dedup-check 1949/0.
+
+**Fleet moved: 93.9 → 94.2% instr · 87.2 → 87.8% distinct · 95.72 → 96.11% fn-count.**
+**Second oracle (R34):** `INCLUDE_ASM stubs 15,542 → 14,120 = −1,422`, which equals the diff-derived
+net (1,451 removed − 29 re-added = 1,422 = 1,419 sweep + 3 probe). Three independent counts agree.
+
+**⚠ B → C → P IS ONE CHAIN, NOT THREE WINS.** 1,102 of the 1,422 landed in `ov_SC02_037` (409),
+`ov_SC03_107` (364), `ov_MAIN_012` (329) — the three newly-onboarded binaries from C, which had
+never been wired into the shared-body ecosystem, so every matched exemplar in the fleet was
+unreachable from them. B fixed the declarations, C wired the include, P poured through the opening.
+**Do not expect a repeat sweep to pay like this** — the opening was one-time.
+
+**⚠ `--band` DEFAULTS TO `substantial`.** The first probe returned a confident
+`{"families": 0, "banked": 0}` on a real 135-member family purely because it is band `mid`.
+**Always pass `--band all`** unless you mean otherwise.
+
+**The alias-gather defect (found, measured, NOT fixed — deliberate).** The 135-member probe on
+`0x80132018` banked only 3/135; all 132 failures were `CC1-FAIL(no-diagnostic)`. The real error
+(gcc-2.7.2 emits no `error:` prefix — the classifier is still blind to it, cf. T0(b)) is
+`tbl_D_80187044' undeclared`: the ov_SC01_077 exemplar declares TWO §37 asm-label aliases
+(`tbl_D_80187044` + `tbl_D_80187048`) and uses both, but `family_remap` carried only ONE into the
+remapped draft. **This is T7-S1's "gather" class.** It is an OUTLIER, not the norm — the aggregate
+rate is 58%, which is why the sweep was run before the fix. Costing it is now worthwhile against
+the 1,023 failures (unclassified).
+
+**Refused by design, all named:** 50 jr families / 183 member-slots (§53 interlock — the tool
+PRINTED its own coverage and the reason, the one guard today that did) · 264 STRUCT members ·
+112 unresolved immediates · 3 not-stub. The jr set routes to `tools/jtbl_family_bank.py`.
 
 ## ▶ RESUME HERE — D (and the leftovers below)
 **C is DONE.** For reference, the command was:

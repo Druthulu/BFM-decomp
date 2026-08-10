@@ -2983,17 +2983,9 @@ extern void func_80185BD4(void);
 
 
 extern s16 D_800B9A02;
-extern u8 D_801151C8[];
-extern u16 D_80115112;
 extern u8 D_80115138[];
 extern u8 D_80115148[];
-extern s32 D_80115130;
-extern u8 D_800B9A15;
 
-extern s16 D_801E2360;
-extern s32 D_801E2358;
-extern s32 D_801E235C;
-extern s16 D_801E23E8;
 extern s16 D_801E23F0;
 extern s16 D_801E23F4;
 extern s16 D_801E23F8;
@@ -3006,7 +2998,6 @@ extern s16 D_801E1C88;
 extern s32 D_801E73C0;
 extern s32 D_801E40F0;
 extern s32 D_801E474C;
-extern s32 D_801BCB58;
 extern u8 D_801BCBEC[];
 extern s32 D_801BCBB4[];
 extern s32 resLoad_lastId;
@@ -3028,6 +3019,18 @@ extern s32 func_80188C68(s32 a0, s16 a1);
 extern s16 func_8018957C(s32 a0);
 
 void func_80187010(void) {
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern u8 D_801151C8[];
+    extern s16 D_801E2360;
+    extern u8 D_800B9A15;
+    extern u16 D_80115112;
+    extern s32 D_801E2358;
+    extern s32 D_80115130;
+    extern s32 D_801BCB58;
+    extern s16 D_801E23E8;
+    extern s32 D_801E235C;
     /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
        LATER function in this TU, which blocks a byte-true decl of a different type.
        Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
@@ -4001,7 +4004,22 @@ INCLUDE_ASM("asm/ov_SC03_124/nonmatchings/ov_SC03_124_jr_80187010", func_8018A25
 
 INCLUDE_ASM("asm/ov_SC03_124/nonmatchings/ov_SC03_124_jr_80187010", func_8018A3C8);
 
-INCLUDE_ASM("asm/ov_SC03_124/nonmatchings/ov_SC03_124_jr_80187010", func_8018A470);
+
+extern void func_8012E8E0(s32 a0, s32 a1);
+
+void func_8018A470(s32 arg0)
+{
+
+    extern s32 D_801DE4EC;
+    s32 v1;
+
+    *(short *)(arg0 + 0x2) = 3;
+    *(short *)(arg0 + 0x34) = 0;
+    func_8012E8E0(arg0, (s32)&D_801DE4EC);
+    v1 = *(s32 *)(arg0 + 0x68);
+    *(short *)(v1 + 0xC) = 0x7FFF;
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_124/nonmatchings/ov_SC03_124_jr_80187010", func_8018A4B8);
 
