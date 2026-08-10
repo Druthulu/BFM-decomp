@@ -56,6 +56,38 @@ def main():
     if isinstance(targets, dict):
         targets = targets.get('targets', [])
 
+    # ---- VALIDITY GATE (S46). Every wave passes through here to get its .s files, so this is the
+    # chokepoint where a bad target list can be stopped before a single agent is spawned.
+    #
+    # WHY IT IS HERE AND NOT LEFT TO THE CALLER: in S46 a 47-target wave burned 9.7M tokens and ~29
+    # of the targets were not real — functions paired with the WRONG BINARY by a bad dedup join,
+    # addresses landing mid-body inside another function's carve, addresses outside the binary's vram
+    # window, and 14 functions that had ALREADY BEEN BANKED in an earlier phase. 87 of 119 agents did
+    # nothing but prove those phantoms absent. This tool's own R32 coverage assertion DID fire on that
+    # list (24 of 57 found) and was routed around instead of diagnosed. A gate that is a separate
+    # command is a gate someone forgets; wiring it in makes the failure mode unreachable.
+    try:
+        import validate_targets as VT
+        rows = VT.validate(targets)
+        bad = [(t, v, d) for t, v, d in rows if v != 'OK']
+        if bad:
+            import collections as _c
+            cls = _c.Counter(v for _t, v, _d in bad)
+            print(f'wave_snapshot: {len(bad)} of {len(targets)} targets are INVALID — '
+                  + ', '.join(f'{k}={n}' for k, n in cls.most_common()), file=sys.stderr)
+            for t, v, d in bad[:12]:
+                nm = t.get('name') or t.get('n')
+                print(f'    [{v}] {nm}: {d}', file=sys.stderr)
+            if not a.allow_missing:
+                print('Fix the target list (tools/validate_targets.py explains each class), or pass '
+                      '--allow-missing to proceed deliberately. An invalid target does not fail '
+                      'cheaply: it burns an agent per cascade tier proving it does not exist.',
+                      file=sys.stderr)
+                return 1
+    except ImportError:
+        print('wave_snapshot: tools/validate_targets.py not importable — validity gate SKIPPED',
+              file=sys.stderr)
+
     copied, missing = [], []
 
     # The GENERATED includes, too — not just the .s files.

@@ -14456,7 +14456,32 @@ INCLUDE_ASM("asm/ov_MAIN_012/nonmatchings/ov_MAIN_012", func_8017C0DC);
 
 INCLUDE_ASM("asm/ov_MAIN_012/nonmatchings/ov_MAIN_012", func_8017C120);
 
-INCLUDE_ASM("asm/ov_MAIN_012/nonmatchings/ov_MAIN_012", func_8017C24C);
+/* func_8017C24C @ 0x8017C24C -- ov_MAIN_012 (7 ins).
+ *
+ * NOTE ON TARGET IDENTITY (tier-2): the dispatched entry ("483 ins, ov_SC06_032") does not
+ * exist. ov_SC06_032's func_8017C24C is a 952-ins renderer, already MATCHED/closed in
+ * src/ov_SC06_032/ov_SC06_032_jr_8017C24C.c -- and "ov_SC06_032_jr_8017C24C" is a CARVE-REGION
+ * name, not a member function (that region holds only func_801902EC/func_80191070).
+ * The only genuinely unmatched func_8017C24C in the tree is this ov_MAIN_012 one -- a
+ * distinct 7-ins function that merely shares the VRAM address (overlay collision).
+ *
+ * Codegen note (§31 cse_expr): the target materialises the symbol address ONCE
+ * (lui+addiu -> $v1) and does both the lhu and the sh off that base. Writing the global
+ * directly (D_80115112 = D_80115112 + 1) instead emits TWO luis (%hi for the load, %hi for
+ * the store) -> 8 ins, LENGTH-DRIFT. Taking the address into a pointer local forces the
+ * single-base form. The nop at idx3 is the lhu load-delay slot (maspsx).
+ *
+ * D_80115112: u16 frame/state counter (same symbol used in ov_SC03_099_jr_80140608).
+ */
+
+extern unsigned short D_80115112;
+
+void func_8017C24C(void)
+{
+    unsigned short *p = &D_80115112;
+    *p = *p + 1;
+}
+
 
 INCLUDE_ASM("asm/ov_MAIN_012/nonmatchings/ov_MAIN_012", func_8017C268);
 

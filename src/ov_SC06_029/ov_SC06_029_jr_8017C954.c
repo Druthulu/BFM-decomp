@@ -4423,7 +4423,71 @@ INCLUDE_ASM("asm/ov_SC06_029/nonmatchings/ov_SC06_029_jr_8017C954", func_8018A6A
 
 INCLUDE_ASM("asm/ov_SC06_029/nonmatchings/ov_SC06_029_jr_8017C954", func_8018A7C4);
 
-INCLUDE_ASM("asm/ov_SC06_029/nonmatchings/ov_SC06_029_jr_8017C954", func_8018A8D4);
+/* func_8018A8D4 — tier 1 (structural transcription)
+ * Overlay ov_SC06_029, carve region ov_SC06_029_jr_8017C954.
+ * Real asm: asm/ov_SC06_029/nonmatchings/ov_SC06_029_jr_8017C954/func_8018A8D4.s
+ * (0x128 bytes / 74 instructions — NOT ov_SC03_124 / 598 instructions as the
+ * dispatch prompt claimed; that path does not exist. The address 0x8018A8D4
+ * is reused by an unrelated, much larger function in a different overlay
+ * [asm/ov_SC06_029 vs a stale ov_SC03_124 carve reference], and the Ghidra
+ * seed at .run/ghidra_c/func_8018A8D4.c decompiles this exact 74-insn body
+ * line-for-line, confirming this is the intended target. See report.)
+ *
+ * State machine on the u16 field at +0x34 of the object pointed to by
+ * param_1, gated by the global mode/phase counter (*(u16 *)&D_801DFFDC), plus a
+ * countdown/countup timer at +0xE0. Falls through into a fixed 15-iteration
+ * dispatch loop over an array of 0x1B0-byte elements starting at D_801E0040.
+ */
+
+extern s16 D_801DFFDC;
+extern u8 D_801E0040;
+extern void func_8012C218(void *a0);
+extern void func_80189440(void *a0, void *a1);
+
+void func_8018A8D4(s32 param_1)
+{
+    u16 uVar1;
+    s32 iVar3;
+    s32 i;
+    u8 *puVar2;
+
+    uVar1 = *(u16 *)(param_1 + 0x34);
+    switch (uVar1) {
+    case 0:
+        if ((*(u16 *)&D_801DFFDC) != 3) {
+            return;
+        }
+        iVar3 = *(s32 *)(param_1 + 0xE0) + 1;
+        *(s32 *)(param_1 + 0xE0) = iVar3;
+        if (iVar3 >= 10) {
+            *(s32 *)(param_1 + 0xE0) = 10;
+            *(u16 *)(param_1 + 0x34) = *(u16 *)(param_1 + 0x34) + 1;
+        }
+        break;
+    case 1:
+        if ((*(u16 *)&D_801DFFDC) == 4) {
+            *(u16 *)(param_1 + 0x34) = uVar1 + 1;
+        }
+        break;
+    case 2:
+        iVar3 = *(s32 *)(param_1 + 0xE0) - 1;
+        *(s32 *)(param_1 + 0xE0) = iVar3;
+        if (iVar3 < 1) {
+            func_8012C218((void *)param_1);
+            return;
+        }
+        break;
+    }
+
+    i = 0;
+    puVar2 = &D_801E0040;
+    do {
+        func_80189440((void *)param_1, puVar2);
+        i = i + 1;
+        puVar2 = puVar2 + 0x1B0;
+    } while (i < 0xF);
+}
+
 
 
 /* func_8018A9FC — tiny matrix wrapper.

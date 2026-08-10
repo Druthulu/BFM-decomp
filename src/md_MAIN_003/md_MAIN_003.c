@@ -16,7 +16,30 @@ INCLUDE_ASM("asm/md_MAIN_003/nonmatchings/md_MAIN_003", func_800CF300);
 
 INCLUDE_ASM("asm/md_MAIN_003/nonmatchings/md_MAIN_003", func_800CF370);
 
-INCLUDE_ASM("asm/md_MAIN_003/nonmatchings/md_MAIN_003", func_800CF3A4);
+// Tier 1 (transcription) draft for func_800CF3A4 — md_MAIN_003
+//
+// NOTE ON TASK METADATA: the task handed to this agent claimed 437 instructions
+// and pointed at .run/s46/snap_casc2/asm/md_MAIN_003/nonmatchings/md_MAIN_003/func_800CF3A4.s
+// (a path that does not exist — that snapshot's md_MAIN_003 dir only contains
+// func_800CF3E8.s and func_800D12D0.s). The live, in-tree, verified-immutable asm
+// (asm/md_MAIN_003/nonmatchings/md_MAIN_003/func_800CF3A4.s) shows this function is
+// genuinely tiny: "nonmatching func_800CF3A4, 0x44" — 0x44 bytes = 17 words including
+// both delay-slot nops, i.e. 15 real instructions. This draft transcribes that real,
+// on-disk function. See the STOPPING RULE report for the discrepancy.
+
+extern s8 D_800D52BC[];
+extern s32 D_800EC680;
+extern u16 D_800B99E6;
+extern u16 D_800B99E8;
+
+extern void func_800183E0(s32 a0);
+
+void func_800CF3A4(void) {
+    func_800183E0((s32) &D_800D52BC);
+    D_800B99E6 = 1;
+    D_800B99E8 = (u16) D_800EC680;
+}
+
 
 INCLUDE_ASM("asm/md_MAIN_003/nonmatchings/md_MAIN_003", func_800CF3E8);
 

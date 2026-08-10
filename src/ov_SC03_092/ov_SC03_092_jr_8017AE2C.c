@@ -3962,7 +3962,594 @@ void func_8017CDF4(int a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_092/nonmatchings/ov_SC03_092_jr_8017AE2C", func_8017CE58);
+/* TIER-3 (compiler-internals) of func_8017CE58 -- ov_SC03_092, region
+ * ov_SC03_092_jr_8017AE2C, 733 instructions.  STATE: MATCH (733/733).
+ *
+ * Tier-2 left SCHEDULE-REORDER/2: the AABB corner fill's wy copy/shift pair
+ * swapped around the wz load (idx 76/78), registers already correct.  Source
+ * order bought the ORDER or the REGISTERS but never both.  Cracked by reading
+ * gcc-2.7.2's own passes (sched.c, global.c) -- see "S3: THE TIER-3 CRACK"
+ * below; the mechanism is now cookbook material (zero-byte live-length
+ * steering of global-alloc via USE insns).
+ * (tier-1 handoff was 729 ins / 693 mismatched, class LENGTH-DRIFT.)
+ *
+ * THE FAMILY EXEMPLAR. This function is a member of the ov_*_jr_8017C730 /
+ * jr_8017AE2C "AABB-culled FT3/FT4 emitter" family. The already-BANKED MATCH
+ * src/ov_SC03_010/ov_SC03_010_jr_8017C730.c::func_8017C730 is the same shape
+ * and was the single biggest lever here: its `static inline bandsetup()`
+ * helper, its declaration order, its macro pack and its min/max chains were
+ * reused verbatim. Diff vs that exemplar: no hmid/hhi band test, `lim` gains
+ * `+ *(s32*)(arg0+0x64)` and a gte_stszotz/otz early-out, prim codes are
+ * 2/3 (FT4) and 6/7 (FT3) instead of 4/5+6/7, a variable nclip reject mask,
+ * and a depth-fade recolour of rgbc in both tails.
+ *
+ * WHAT FIXED THE TIER-1 LENGTH-DRIFT (in order of size of win):
+ *
+ * 1. THE STACK FRAME (-8 bytes, and every sp offset in the function).
+ *    gcc-2.7.2/mips grows locals UPWARD from sp+0x10 (the 16-byte outgoing-arg
+ *    area) in DECLARATION order, so the declaration list below is load-bearing:
+ *      0x10 tmpxy  0x20 box  0x60 sxy  0xA0 mtx  0xC0 org  0xC8 hv
+ *      0xD0 rot    0xF0 inv  0x110 dv  0x118 gotz..gsz3
+ *    reload's two spill slots then land at 0x138 (lim) and 0x1C0 (nprim), and
+ *    the 10 saved regs at 0x1C8..0x1EC -> frame 0x1F0. Tier-1 was missing the
+ *    zeroed `org` vector (8 bytes) and had the aggregates in the wrong order.
+ *    NOTE rot/inv/dv are the INLINED helper's locals and still land mid-frame.
+ *
+ * 2. THE `static inline bandsetup()` HELPER (-2 instructions, whole prologue).
+ *    Written straight-line in the caller, gcc CSEs `&rot` (used by both
+ *    ReadRotMatrix and func_8004974C) into a call-saved pseudo and emits
+ *    `addiu $s0,$sp,0xD0` + two `move $a0,$s0`. Expanded from an inline helper
+ *    it rematerialises `addiu $a0,$sp,0xD0` at each use -- which is the target.
+ *    (`s16` fields + a 16-bit-truncated subtract is why the target loads the
+ *    operands with `lhu`, not `lh`: combine's force_to_mode turns the
+ *    sign_extend into a zero_extend. No unsigned type is needed.)
+ *
+ * 3. BRANCH LAYOUT OF THE PRIM-CODE DISPATCH (~140 instructions of block
+ *    reorder). gcc emits the THEN arm inline and the ELSE arm out of line, and
+ *    the target puts the FT3 body FIRST and jumps to FT4 (`slti $v0,$v1,4;
+ *    bnez -> .L8017D668`). So FT3 must be the THEN arm: `if (code >= 4) {...FT3
+ *    ...} else {...FT4...}`. The two FT3 range tests must also be NESTED ifs,
+ *    not `code < 8 && code > 5`: fold_range_test folds the `&&` into one
+ *    `(unsigned)(code-6) < 2` sltiu, the target keeps two separate slti.
+ *    Both tails then cross-jump into the shared 3-instruction OT-link tail.
+ *
+ * 4. AABB CORNER FILL ORDERING. All sixteen .vx/.vy stores first (index
+ *    order), then the eight .vz stores GROUPED BY VALUE (0,1,4,5 = z low;
+ *    2,3,6,7 = z high), with `wz` loaded up front but `wzh = wz >> 16`
+ *    computed late. Any other arrangement makes the scheduler hoist or sink
+ *    the z stores. `wzh` is pinned to $3 because otherwise gcc sinks the srl
+ *    below the z-low stores and reuses $v0 (wz is dead by then).
+ *
+ * 5. THE DEPTH-FADE TAIL. `fade = 0x80 - (za - 400)/12; if (fade < 0) fade = 0;`
+ *    -- a single clamp, NOT the tier-1 two-variable version; gcc duplicates
+ *    `sll $v1,$v0,8` into the branch delay slot by itself. The colour is built
+ *    as its own statement (`cc`) so the three fade terms are ORed together
+ *    before being merged with `tp[0] & 0xFF000000`, and as a 3-step
+ *    accumulate so the accumulator stays in one register:
+ *        cc = fade << 8;  cc = fade | cc;  cc = cc | (fade << 16);
+ *    In FT3 `gopz = za` must sit AFTER the fade computation (it is what fills
+ *    the bgez delay slot); in FT4 it stays before the xy copies.
+ *
+ * 6. REGISTER PINS (cookbook S17). Four `register ... __asm__` pins carry the
+ *    local-alloc coin-flips this shape cannot be steered into by source order:
+ *        fade -> $2   cc -> $3   tp -> $6   wzh -> $3
+ *    plus one zero-cost keep-alive `__asm__ volatile("" :: "r"(fade))` between
+ *    the colour build and the rgbc store, which keeps $v0 live one insn longer
+ *    so `fade << 16` lands in $a0 (as the target) instead of clobbering $v0.
+ *    Each pin was picked by reading the target's register, and each was
+ *    measured: 80 -> 54 -> 49 -> 43 -> 32 -> 22 -> 6 -> 4 -> 2 mismatches.
+ *
+ * 7. `vc`/`extra` need an explicit `wlo` temp so the andi/srl/addu come out in
+ *    the target's order (andi, srl, addu) rather than (andi, addu, srl).
+ *
+ * S3: THE TIER-3 CRACK (why order and registers seemed mutually exclusive).
+ *    Read from tools/reference/gcc-2.7.2 sched.c + global.c:
+ *
+ *    a. sched.c schedules each block BACKWARD (last insn first).  Rank:
+ *       priority, then independence-from-last-scheduled (an insn anti-dependent
+ *       on the just-placed insn is class 2 and loses -- that is what slots the
+ *       wz load BETWEEN the pair), then INSN_LUID = source statement order.
+ *       adjust_priority's REG_DEAD cases are dead code (notes stripped); only
+ *       the birthing boost runs, and only for reg_n_sets==1 pseudos -- the
+ *       single-set wz/wx/wy loads get boosted, the multi-set user vars
+ *       my/mny/mx/mn never do.  Net: the pair's emitted order follows SOURCE
+ *       statement order, so the target's `addu $a2 / lw / srl $a3` forces
+ *       `mny = wy; my = wy >> 16;` (copy first).
+ *
+ *    b. global.c allocno_compare: pri = floor_log2(refs)*refs*10000/live_length
+ *       (equal refs -> shorter life allocated FIRST -> gets the LOWER free
+ *       register; exact tie -> lower allocno number, i.e. declaration order).
+ *       reg_live_length is measured on SCHED1's OUTPUT order, +1 per insn per
+ *       live segment.  Copy-first source births mny 2 insns earlier -> mny's
+ *       life 104 vs my's 102 -> my would take $a2 and the whole poly-bbox
+ *       cascades (47 mismatches).  Order and allocation chain to the SAME
+ *       source order -- inside the corner block the fork is unwinnable.
+ *
+ *    c. The missing degree of freedom: USE-class insns occupy sched1 insn
+ *       slots (every live pseudo's length +1) and extend their operand's
+ *       range, yet emit ZERO bytes.  `__asm__ __volatile__("" :: "r"(my))` at
+ *       the top of the FT3 band-passed block stretches my to 49 refs/111
+ *       insns: pri(my) = 5*49*10000/111 = 22072 < pri(mny) = 5*46*10000/104
+ *       = 22115 -> mny allocated first -> mny=$a2, my=$a3 with copy-first
+ *       order.  KNIFE-EDGE: one slot earlier gives my 110 -> 22272 and flips
+ *       back; deeper placements overshoot past $t0/$t1.
+ *
+ *    d. That +1 slot alone pushed the &gsz0/&gsz1 loop-invariant address
+ *       pseudos (7 refs, 560/559 insns, pri floor(140000/L): 250==250 tie ->
+ *       allocno order -> $s5/$s6) across the integer floor: 561/560 ->
+ *       249 vs 250 -> they swap.  The BARE `__asm__ __volatile__("")` right
+ *       after is a pure insn slot with no register refs: 562/561 -> 249==249
+ *       tie restored -> $s5/$s6 keep their target homes.
+ *
+ *    Verified end-to-end with -dS/-dl/-dg/-dR RTL dumps at every step; every
+ *    length/priority above is read from the dumps, not inferred.
+ */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+extern s32 func_800491EC(void);
+extern void func_800547D8(s32, MATRIX2 *);
+extern void func_80052E38(MATRIX2 *);
+extern void ReadRotMatrix(void *a0);
+extern void PushMatrix(void);
+extern void func_8004974C(void *a0, void *a1);
+extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
+extern void PopMatrix(void);
+extern u8 *D_800A5E60;
+extern u8 D_800A6610[];
+extern short D_800B9A02;
+
+#define gte_ldv0(r0) __asm__ volatile (          \
+    "lwc2 $0, 0( %0 );"                          \
+    "lwc2 $1, 4( %0 )"                           \
+    :                                            \
+    : "r"( r0 ) )
+
+#define gte_ldv3(r0, r1, r2) __asm__ volatile (  \
+    "lwc2 $0, 0( %0 );"                          \
+    "lwc2 $1, 4( %0 );"                          \
+    "lwc2 $2, 0( %1 );"                          \
+    "lwc2 $3, 4( %1 );"                          \
+    "lwc2 $4, 0( %2 );"                          \
+    "lwc2 $5, 4( %2 )"                           \
+    :                                            \
+    : "r"( r0 ), "r"( r1 ), "r"( r2 ) )
+
+#define gte_ldv3c(r0) __asm__ volatile (         \
+    "lwc2 $0, 0( %0 );"                          \
+    "lwc2 $1, 4( %0 );"                          \
+    "lwc2 $2, 8( %0 );"                          \
+    "lwc2 $3, 12( %0 );"                         \
+    "lwc2 $4, 16( %0 );"                         \
+    "lwc2 $5, 20( %0 )"                          \
+    :                                            \
+    : "r"( r0 ) )
+
+#define gte_rtps() __asm__ volatile ("nop;nop;rtps")
+#define gte_rtpt() __asm__ volatile ("nop;nop;rtpt")
+#define gte_nclip() __asm__ volatile ("nop;nop;nclip")
+#define gte_avsz3() __asm__ volatile ("nop;nop;avsz3")
+
+#define gte_stsxy(r0) __asm__ volatile (         \
+    "swc2 $14, 0( %0 )"                          \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "memory" )
+
+#define gte_stsxy3(r0, r1, r2) __asm__ volatile ( \
+    "swc2 $12, 0( %0 );"                         \
+    "swc2 $13, 0( %1 );"                         \
+    "swc2 $14, 0( %2 )"                          \
+    :                                            \
+    : "r"( r0 ), "r"( r1 ), "r"( r2 )            \
+    : "memory" )
+
+#define gte_stsxy3c(r0) __asm__ volatile (       \
+    "swc2 $12, 0( %0 );"                         \
+    "swc2 $13, 4( %0 );"                         \
+    "swc2 $14, 8( %0 )"                          \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "memory" )
+
+#define gte_stsxy3_g3(r0) __asm__ volatile (     \
+    "swc2 $12, 8( %0 );"                         \
+    "swc2 $13, 16( %0 );"                        \
+    "swc2 $14, 24( %0 )"                         \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "memory" )
+
+#define gte_stsz3(r0, r1, r2) __asm__ volatile ( \
+    "swc2 $17, 0( %0 );"                         \
+    "swc2 $18, 0( %1 );"                         \
+    "swc2 $19, 0( %2 )"                          \
+    :                                            \
+    : "r"( r0 ), "r"( r1 ), "r"( r2 )            \
+    : "memory" )
+
+#define gte_stsz4(r0, r1, r2, r3) __asm__ volatile ( \
+    "swc2 $16, 0( %0 );"                         \
+    "swc2 $17, 0( %1 );"                         \
+    "swc2 $18, 0( %2 );"                         \
+    "swc2 $19, 0( %3 )"                          \
+    :                                            \
+    : "r"( r0 ), "r"( r1 ), "r"( r2 ), "r"( r3 ) \
+    : "memory" )
+
+#define gte_stszotz(r0) __asm__ volatile (       \
+    "mfc2 $12, $19;"                             \
+    "nop;"                                       \
+    "sra $12, $12, 2;"                           \
+    "sw $12, 0( %0 )"                            \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "$12", "memory" )
+
+#define gte_stflg(r0) __asm__ volatile (         \
+    "cfc2 $12, $31;"                             \
+    "nop;"                                       \
+    "sw $12, 0( %0 )"                            \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "$12", "memory" )
+
+#define gte_stopz(r0) __asm__ volatile (         \
+    "swc2 $24, 0( %0 )"                          \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "memory" )
+
+/* The proven family shape (src/ov_SC03_010/ov_SC03_010_jr_8017C730.c, MATCH):
+ * the ReadRotMatrix/PushMatrix/transpose/ApplyMatrixSV/PopMatrix block is a
+ * `static inline` helper whose THREE locals (rot / inv / dv) get the frame
+ * slots 0xD0 / 0xF0 / 0x110 -- between the caller's `hv` (0xC8) and the GTE
+ * scratch longs (0x118). Writing it inline in the caller instead makes gcc CSE
+ * `&rot` into a call-saved pseudo ($s0) across the two calls; the inlined form
+ * rematerialises `addiu $a0,$sp,0xD0` at each use, which is what the target does. */
+static inline void bandsetup(SVECTOR2 *o, SVECTOR2 *out)
+{
+    MATRIX2 rot;
+    MATRIX2 inv;
+    SVECTOR2 dv;
+
+    ReadRotMatrix(&rot);
+    PushMatrix();
+    dv.vx = o->vx - rot.t[0];
+    dv.vy = o->vy - rot.t[1];
+    dv.vz = o->vz - rot.t[2];
+    func_8004974C(&rot, &inv);
+    ApplyMatrixSV(&inv, &dv, out);
+    PopMatrix();
+}
+
+void func_8017CE58(s32 arg0)
+{
+    typedef struct { u32 w0, w1, w2; } Prim;
+
+    /* DECLARATION ORDER IS LOAD-BEARING: gcc-2.7.2/mips grows the frame UPWARD
+     * from sp+0x10 (the 16-byte outgoing-arg area) in declaration order, so this
+     * list reproduces the target's exact sp offsets:
+     *   0x10 tmpxy  0x20 box  0x60 sxy  0xA0 mtx  0xC0 org  0xC8 hv
+     * then bandsetup()'s inlined rot/inv/dv at 0xD0/0xF0/0x110, then the GTE
+     * scratch longs at 0x118..0x133; reload's spills land at 0x138 and 0x1C0
+     * and the 10 saved regs at 0x1C8 -> frame 0x1F0. */
+    DVECTOR2 tmpxy[4];
+    SVECTOR2 box[8];
+    SVECTOR2 sxy[8];
+    MATRIX2 mtx;
+    SVECTOR2 org;
+    SVECTOR2 hv;
+    long gotz, gflag, gopz, gsz0, gsz1, gsz2, gsz3;
+
+    s32 lim;
+    s32 nparts;
+    s32 j;
+    u32 nprim;
+    u32 i;
+    Part *part;
+    Prim *prim;
+    u8 *pkt;
+    u32 ot;
+    u8 *vtx;
+    u8 *va, *vb, *vc, *vd;
+    u32 w, extra, mask;
+    u32 wx, wy, wz;
+    u32 wlo;
+    register u32 wzh __asm__("$3");
+    s32 xa32, xb32, t32;
+    s32 xmn1, xmx1, xmn2, xmx2;
+    s32 mnc, mxc;
+    s16 my, mny, mx, mn;
+    s32 code;
+
+    lim = func_800491EC() + *(s32 *)(arg0 + 0x64);
+    func_800547D8(arg0 + 0x10, &mtx);
+    func_80052E38(&mtx);
+
+    /* View-relative origin: the ApplyMatrixSV result `hv` is written and then
+     * only Y-biased; nothing reads it again, but its address escapes through the
+     * call so the stores cannot be dead-code-eliminated -- same as the target. */
+    org.vx = 0;
+    org.vy = 0;
+    org.vz = 0;
+    bandsetup(&org, &hv);
+    hv.vy = hv.vy - 0x180;
+
+    pkt = D_800A5E60;
+    part = *(Part **)(arg0 + 0xC);
+    nparts = *(s32 *)(*(s32 *)(arg0 + 8) + 8);
+    vtx = *(u8 **)(*(s32 *)(arg0 + 8) + 0x10);
+    ot = (u32)&D_800A6610[(*(u16 *)&D_800B9A02) << 14];
+
+    for (j = 0; j < nparts; j++, part++) {
+        wx = part->xx;
+        mn = wx;
+        mx = wx >> 16;
+        wy = part->yy;
+        mny = wy;
+        my = wy >> 16;
+        wz = part->zz;
+        box[0].vx = mn; box[0].vy = mny;
+        box[1].vx = mx; box[1].vy = mny;
+        box[2].vx = mn; box[2].vy = mny;
+        box[3].vx = mx; box[3].vy = mny;
+        box[4].vx = mn; box[4].vy = my;
+        box[5].vx = mx; box[5].vy = my;
+        box[6].vx = mn; box[6].vy = my;
+        box[7].vx = mx; box[7].vy = my;
+        wzh = wz >> 16;
+        box[0].vz = wz;  box[1].vz = wz;  box[4].vz = wz;  box[5].vz = wz;
+        box[2].vz = wzh; box[3].vz = wzh; box[6].vz = wzh; box[7].vz = wzh;
+
+        gte_ldv3c(&box[0]);
+        gte_rtpt();
+        gte_stsxy3(&sxy[0], &sxy[1], &sxy[2]);
+        gte_ldv0(&box[3]);
+        gte_rtps();
+        gte_stsxy(&sxy[3]);
+        gte_ldv3c(&box[4]);
+        gte_rtpt();
+        gte_stsxy3(&sxy[4], &sxy[5], &sxy[6]);
+        gte_ldv0(&box[7]);
+        gte_rtps();
+        gte_stsxy(&sxy[7]);
+        gte_stszotz(&gotz);
+
+        if (lim >= gotz) {
+            xa32 = sxy[0].vx;
+            xb32 = sxy[1].vx;
+            if (xb32 < xa32) { xmx1 = xa32; xmn1 = xb32; } else { xmn1 = xa32; xmx1 = xb32; }
+            t32 = sxy[2].vx;
+            if (xmx1 < t32) xmx1 = t32; else if (t32 < xmn1) xmn1 = t32;
+            t32 = sxy[3].vx;
+            if (xmx1 < t32) xmx1 = t32; else if (t32 < xmn1) xmn1 = t32;
+            xa32 = sxy[4].vx;
+            xb32 = sxy[5].vx;
+            if (xb32 < xa32) { xmx2 = xa32; xmn2 = xb32; } else { xmn2 = xa32; xmx2 = xb32; }
+            t32 = sxy[6].vx;
+            if (xmx2 < t32) xmx2 = t32; else if (t32 < xmn2) xmn2 = t32;
+            t32 = sxy[7].vx;
+            if (xmx2 < t32) xmx2 = t32; else if (t32 < xmn2) xmn2 = t32;
+            mnc = xmn1;
+            if (xmn2 < xmn1) mnc = xmn2;
+            mxc = xmx1;
+            if (mxc < xmx2) mxc = xmx2;
+            if ((s16)mxc >= -0xA0 && (s16)mnc < 0xA1) {
+                xa32 = sxy[0].vy;
+                xb32 = sxy[1].vy;
+                if (xb32 < xa32) { xmx1 = xa32; xmn1 = xb32; } else { xmn1 = xa32; xmx1 = xb32; }
+                t32 = sxy[2].vy;
+                if (xmx1 < t32) xmx1 = t32; else if (t32 < xmn1) xmn1 = t32;
+                t32 = sxy[3].vy;
+                if (xmx1 < t32) xmx1 = t32; else if (t32 < xmn1) xmn1 = t32;
+                xa32 = sxy[4].vy;
+                xb32 = sxy[5].vy;
+                if (xb32 < xa32) { xmx2 = xa32; xmn2 = xb32; } else { xmn2 = xa32; xmx2 = xb32; }
+                t32 = sxy[6].vy;
+                if (xmx2 < t32) xmx2 = t32; else if (t32 < xmn2) xmn2 = t32;
+                t32 = sxy[7].vy;
+                if (xmx2 < t32) xmx2 = t32; else if (t32 < xmn2) xmn2 = t32;
+                mnc = xmn1;
+                if (xmn2 < xmn1) mnc = xmn2;
+                mxc = xmx1;
+                if (mxc < xmx2) mxc = xmx2;
+                if ((s16)mxc >= -0x6E && (s16)mnc < 0x6F) {
+                    prim = (Prim *)part->prim;
+                    nprim = part->nprim;
+                    for (i = 0; i < nprim; i++, prim++) {
+                        w = prim->w1;
+                        va = vtx + (w & 0xFFFF);
+                        vb = vtx + (w >> 16);
+                        w = prim->w2;
+                        wlo = w & 0xFFFF;
+                        extra = w >> 16;
+                        vc = vtx + wlo;
+
+                        gte_ldv3(va, vb, vc);
+                        gte_rtpt();
+
+                        mask = 0x7F85E000;
+                        code = extra & 7;
+                        if (extra & 1) mask = 0x80000000;
+
+                        gte_stflg(&gflag);
+                        if (!(gflag & mask)) {
+                            gte_nclip();
+                            vd = vtx + (extra & 0xFFF8);
+                            gte_stopz(&gopz);
+                            if (gopz > 0 && code > 1) {
+                                if (code >= 4) {
+                                /* NOTE (layout, not semantics): the target lays the FT3 block
+                                 * FIRST and jumps to the FT4 block, i.e. `slti v0,v1,4; bnez
+                                 * -> .L8017D668`. gcc-2.7.2 emits the THEN arm inline and the
+                                 * ELSE arm out of line, so FT3 must be the THEN arm. The two
+                                 * range tests are also NESTED, not `&&`: fold_range_test folds
+                                 * `code<8 && code>5` into `(unsigned)(code-6) < 2` (one
+                                 * sltiu), while the target keeps two separate slti's. */
+                                if (code < 8) {
+                                if (code > 5) {
+                                    /* ---- code 6,7 -- FT3 (tri) ---- */
+                                    gte_stsxy3_g3(pkt);
+                                    gte_stsz3(&gsz0, &gsz1, &gsz2);
+                                    if (((PolyFT3 *)pkt)->x0 > ((PolyFT3 *)pkt)->x1) {
+                                        mx = ((PolyFT3 *)pkt)->x0;
+                                        mn = ((PolyFT3 *)pkt)->x1;
+                                    } else {
+                                        mn = ((PolyFT3 *)pkt)->x0;
+                                        mx = ((PolyFT3 *)pkt)->x1;
+                                    }
+                                    if (((PolyFT3 *)pkt)->x2 > mx) mx = ((PolyFT3 *)pkt)->x2;
+                                    else if (((PolyFT3 *)pkt)->x2 < mn) mn = ((PolyFT3 *)pkt)->x2;
+                                    if (mx >= -0xA0 && mn < 0xA1) {
+                                        if (((PolyFT3 *)pkt)->y0 > ((PolyFT3 *)pkt)->y1) {
+                                            my = ((PolyFT3 *)pkt)->y0;
+                                            mny = ((PolyFT3 *)pkt)->y1;
+                                        } else {
+                                            mny = ((PolyFT3 *)pkt)->y0;
+                                            my = ((PolyFT3 *)pkt)->y1;
+                                        }
+                                        if (((PolyFT3 *)pkt)->y2 > my) my = ((PolyFT3 *)pkt)->y2;
+                                        else if (((PolyFT3 *)pkt)->y2 < mny) mny = ((PolyFT3 *)pkt)->y2;
+                                        if (my >= -0x6E && mny < 0x6F) {
+                                            gte_avsz3();
+                                            /* ZERO-BYTE allocation steering -- see header S3. The first asm
+                                             * is a USE of `my`: it emits nothing but extends my's live range
+                                             * to this point (+7 insns, +3 weighted refs) so that global-alloc
+                                             * ranks mny (46r/104i, pri 22115) above my (49r/111i, pri 22072)
+                                             * and hands mny the lower register $a2 -- while the corner fill
+                                             * keeps its copy-first statement order. The second, BARE volatile
+                                             * asm is a pure insn slot (no register refs): it bumps the
+                                             * &gsz0/&gsz1 loop-invariant address pseudos from 561/560 back to
+                                             * a floor-priority tie (562/561 -> 249==249) so their allocno
+                                             * order keeps $s5/$s6 (the first asm alone flips them). Both sit
+                                             * between two volatile asms, so no schedule freedom is lost. */
+                                            __asm__ __volatile__("" : : "r"(my));
+                                            __asm__ __volatile__("");
+                                            {
+                                            s32 za;
+                                            u32 *otp;
+                                            register u32 *tp __asm__("$6");
+                                            register u32 cc __asm__("$3");
+                                            register s32 fade __asm__("$2");
+                                            if (gsz0 > gsz1) {
+                                                za = gsz0;
+                                                if (za < gsz2) za = gsz2;
+                                            } else {
+                                                za = gsz1;
+                                                if (za < gsz2) za = gsz2;
+                                            }
+                                            tp = (u32 *)prim->w0;
+                                            fade = 0x80 - (za - 400) / 12;
+                                            gopz = za;
+                                            if (fade < 0) fade = 0;
+                                            cc = fade << 8;
+                                            cc = fade | cc;
+                                            cc = cc | (fade << 16);
+                                            __asm__ __volatile__("" : : "r"(fade));
+                                            ((PolyFT3 *)pkt)->rgbc = (tp[0] & 0xFF000000) | cc;
+                                            ((PolyFT3 *)pkt)->uvc0 = tp[1];
+                                            ((PolyFT3 *)pkt)->uvp1 = tp[2];
+                                            ((PolyFT3 *)pkt)->uv2 = tp[3];
+                                            otp = (u32 *)(((za >> 2) << 2) + ot);
+                                            *(u32 *)pkt = (*otp & 0xFFFFFF) | 0x7000000;
+                                            *otp = (*otp & 0xFF000000) | ((u32)pkt & 0xFFFFFF);
+                                            pkt += 0x20;
+                                            }
+                                        }
+                                    }
+                                }
+                                }
+                                } else {
+                                    /* ---- code 2,3 -- FT4 (quad) ---- */
+                                    gte_stsxy3c(&tmpxy[0]);
+                                    gte_ldv0(vd);
+                                    gte_rtps();
+                                    if (tmpxy[0].vx > tmpxy[1].vx) {
+                                        mx = tmpxy[0].vx;
+                                        mn = tmpxy[1].vx;
+                                    } else {
+                                        mn = tmpxy[0].vx;
+                                        mx = tmpxy[1].vx;
+                                    }
+                                    if (tmpxy[2].vx > mx) mx = tmpxy[2].vx;
+                                    else if (tmpxy[2].vx < mn) mn = tmpxy[2].vx;
+                                    if (tmpxy[0].vy > tmpxy[1].vy) {
+                                        my = tmpxy[0].vy;
+                                        mny = tmpxy[1].vy;
+                                    } else {
+                                        mny = tmpxy[0].vy;
+                                        my = tmpxy[1].vy;
+                                    }
+                                    if (tmpxy[2].vy > my) my = tmpxy[2].vy;
+                                    else if (tmpxy[2].vy < mny) mny = tmpxy[2].vy;
+                                    gte_stflg(&gflag);
+                                    if (!(gflag & mask)) {
+                                        gte_stsz4(&gsz0, &gsz1, &gsz2, &gsz3);
+                                        gte_stsxy((long *)&((PolyFT4 *)pkt)->x3);
+                                        if (((PolyFT4 *)pkt)->x3 < mn) mn = ((PolyFT4 *)pkt)->x3;
+                                        else if (mx < ((PolyFT4 *)pkt)->x3) mx = ((PolyFT4 *)pkt)->x3;
+                                        if (mx >= -0xA0 && mn < 0xA1) {
+                                            if (((PolyFT4 *)pkt)->y3 < mny) mny = ((PolyFT4 *)pkt)->y3;
+                                            else if (my < ((PolyFT4 *)pkt)->y3) my = ((PolyFT4 *)pkt)->y3;
+                                            if (my >= -0x6E && mny < 0x6F) {
+                                                s32 za, zb;
+                                                u32 *otp;
+                                                register u32 *tp __asm__("$6");
+                                                register u32 cc __asm__("$3");
+                                                u32 uvw;
+                                                register s32 fade __asm__("$2");
+                                                zb = gsz2;
+                                                if (zb < gsz3) zb = gsz3;
+                                                za = gsz0;
+                                                if (za < gsz1) za = gsz1;
+                                                if (za < zb) za = zb;
+                                                gopz = za;
+                                                *(u32 *)&((PolyFT4 *)pkt)->x0 = *(u32 *)&tmpxy[0];
+                                                *(u32 *)&((PolyFT4 *)pkt)->x1 = *(u32 *)&tmpxy[1];
+                                                *(u32 *)&((PolyFT4 *)pkt)->x2 = *(u32 *)&tmpxy[2];
+                                                tp = (u32 *)prim->w0;
+                                                fade = 0x80 - (za - 400) / 12;
+                                                if (fade < 0) fade = 0;
+                                                cc = fade << 8;
+                                                cc = fade | cc;
+                                                cc = cc | (fade << 16);
+                                                __asm__ __volatile__("" : : "r"(fade));
+                                                ((PolyFT4 *)pkt)->rgbc = (tp[0] & 0xFF000000) | cc;
+                                                ((PolyFT4 *)pkt)->uvc0 = tp[1];
+                                                ((PolyFT4 *)pkt)->uvp1 = tp[2];
+                                                uvw = tp[3];
+                                                ((PolyFT4 *)pkt)->uv2 = uvw;
+                                                ((PolyFT4 *)pkt)->uv3 = uvw >> 16;
+                                                otp = (u32 *)(((za >> 2) << 2) + ot);
+                                                *(u32 *)pkt = (*otp & 0xFFFFFF) | 0x9000000;
+                                                *otp = (*otp & 0xFF000000) | ((u32)pkt & 0xFFFFFF);
+                                                pkt += 0x28;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    D_800A5E60 = pkt;
+}
+
 
 
 extern void (*D_80188918[])(void);

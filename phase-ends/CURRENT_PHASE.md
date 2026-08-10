@@ -181,7 +181,99 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 
 ---
 
-# 🛑 SESSION S46 CHECKPOINT (2026-08-08) — FRESH SESSION SAFE HERE
+# 🛑 SESSION S46 CHECKPOINT — FINAL (2026-08-08) — FRESH SESSION SAFE HERE
+> HEAD after this commit. **Effort was ultracode**; a fresh session starts at the saved default.
+> **NO phase close** — T5 unopened, needs Drew's gate-2.
+> **⚠️ VERIFICATION STATE, honestly:** `make clean && extract-all && check-all` → **213 passed / 0
+> failed** (the bank IS byte-verified). **`tools-health` is UNVERIFIED at commit time** — its last
+> full run failed on a stale cookbook index (the cascade agents added 6 sections, 460→466), I
+> regenerated the index and `cookbook_index.py --check` returns OK, but the confirming `tools-health`
+> re-run was interrupted. **FIRST ACTION IN A FRESH SESSION: `make tools-health`.** If it fails,
+> nothing below is invalidated (check-all is the byte oracle) but fix it before banking more.
+
+## ▶ RESUME HERE — B and C, with everything they need
+
+### B — the declaration fix. **RE-SCOPED: it is INTRA-HEADER, not target-side.**
+`src/shared/engine_core.h` **disagrees with itself**. Each `DEFINE_func_*` macro carries its own local
+externs, and `memcpy` is declared FOUR incompatible ways across them:
+```
+  4x  extern void *memcpy(void *dst, const void *src, u32 n)
+  2x  extern void *memcpy(void *, const void *, u32)
+  1x  extern void *memcpy(void *dst, void *src, s32 n)          <- non-const, s32 third arg
+  1x  extern void *memcpy(void *, const void *, unsigned int)
+```
+Instantiate two such macros in one TU and they collide → `conflicting types for memcpy`. Same class for
+`func_8012C750`, `func_8012C0EC`, `gte_SetRotMatrix`. **The target binaries were never the problem** —
+that was my earlier (wrong) framing in S46-7; S46-10 corrects it.
+
+**⚠️ THIS IS NOT A SAFE MECHANICAL CLEANUP.** The in-tree note at `src/ov_MAIN_012/ov_MAIN_012.c:14333`
+records that `extern memcpy` **disables gcc's builtin** and "turned the old inlined block-move into a
+CALL". A memcpy declaration therefore **CHANGES CODEGEN**. Canonicalising the four spellings is a
+fleet-shared edit to a header every overlay includes, on a symbol known to alter code generation — it
+can silently break already-banked functions. This is the S45 F1 shape (141/213 binaries broken).
+
+**How to do it safely:**
+1. Probe ONE macro's spelling change in ONE binary → `make build BINARY=<b>` → byte-gate. Do NOT sweep.
+2. Expect the `u32 n` vs `s32 n` third-arg difference to matter (default promotion).
+3. Only after a clean single-binary probe, widen — and R22 clean-fleet before ANY commit.
+4. Never run this concurrently with a wave (fleet-shared writer).
+
+### C — re-run `dedup_extend` over the 129. **Blocked on B; do not attempt first.**
+`tools/dedup_extend.py` is already ladder-wired (S46-6: it now gates through `gate_stage` with
+`GATE_NO_ARITY=1`, not bare `harvest_verify`). It scored **0/142 then 0/129** because the ladder rewrites
+DRAFTS and an extend "draft" is a single `DEFINE_func_X()` line — nothing to rewrite. Once B lands:
+`.venv/bin/python tools/dedup_extend.py --binaries ov_SC03_107,ov_MAIN_012,ov_SC02_037`
+Failure classes last run: 118 PLUMBING / 21 CC1-FAIL / 3 DIFF — only ~1 in 50 a real byte divergence.
+**Do not forecast a yield** — I predicted ~38 sites twice and got 0 both times.
+
+Separately: **`func_80144B9C` is not part of B at all.** Its body lives in `src/shared/func_80144B9C.h`
+(the P24 hand-rolled **-O0** shared header), NOT engine_core.h, so `dedup_extend` reaches for a macro
+that does not exist. It banks via `tools/rollout_whale_o0.py` (the o0b split). Live reach is 3, not 141.
+
+### D — next wave. **PAUSE FIRST** (Drew's instruction) to choose targets together.
+Evidence for the choice is in S46-9: **50–199 ins is the sweet spot** (351k ins = half of all remaining;
+Sonnet proven 20/20 at 50–59; two-tier cascade, no Fable). Alternative: the **novel-shape family
+exemplars** (idiom discovery — the only remaining multiplier). Batch ~50 for an uncalibrated band.
+**The target list MUST pass `tools/validate_targets.py`** — now wired into `wave_snapshot`, which
+fails closed.
+
+## ✅ WHAT S46 LANDED (10 commits)
+- **S45 blocker closed** (`commit:1532`) — instrumentation, not a repair: it did not reproduce at HEAD.
+- **IDXTAB/DESTPTR load map** (`commit:1533`) — `tools/idxtab_map.py`, controls-gated; the blocker was our
+  own tracker being blind to gcc's indexed global-array read (cookbook §155c). Corrects §S45 p6.
+- **29 fns / +2,815 member-instances** (`commit:1534`), then **propagation 24min → 11.4min AND +62 MORE
+  instances** (`commit:1535`) — the faster path was also more correct (the old necessity probe over-excluded).
+- **Crack wave batch 1** (`commit:1537`) — 14 fns / 27 sites; **recovery ladder +6** (`commit:1538`).
+- **400+ cascade** — 20/47 match_one, **11 banked** (400–952 ins), 6 near (jr/§53), 1 failed.
+- **Waste prevention** — `tools/validate_targets.py` + wired into `wave_snapshot` (fails closed,
+  negative-control-proven) + the cascade `done()` short-circuit on SKIPPED. See accelerators A9.
+- **Fleet: 93.8% instr / 87.2% distinct / 95.69% fn-count**, 213/213 byte-identical, 0 NON_MATCHING.
+
+## 🧰 MY ERROR LEDGER THIS SESSION (6) — all caught, none reached the game's code
+1. **"1,385 free candidates"** → really 142 → really **0**. Sized a population from the wrong metric.
+2. **"~32% recovery"** for the extend → **0/129**. Projected from a number measured on a *different
+   artifact* (wave drafts, which have declarations to rewrite; extend drafts are one macro line).
+3. **Behemoth leverage inflated ~46×** — ranked by TOTAL sharers instead of LIVE (unmatched) reach.
+   `func_80144B9C` reads 108,570 by total, is **2,310** by live. `build_wave_args --rank live` exists.
+4. **Built the per-overlay search on threads** for GIL-bound work — 0–4 builds alive at load 3.
+5. **The 400+ target list: ~29 of 47 invalid** (crossed function↔binary pairings, mid-body addresses,
+   out-of-range, already-banked) → 87 of 119 agents wasted, ~9.7M tokens.
+6. **`wave_snapshot` REFUSED that list** (24 of 57 found) **and I routed around it.** The only
+   instrument warning this session that was correct and overridden.
+**Root cause of 1/2/3/5: asserting a number or a pairing I had not derived for THAT job.** This is the
+sixth session-level instance; R37 (probe before costing) should be adopted at T5, and the corollary
+worth adding: *an instrument's refusal is a finding — overriding it requires explaining why it is
+wrong, not finding another route.*
+
+## 📌 OPEN QUESTIONS (recorded, deliberately not guessed at)
+- **The crossed function↔binary join** in my list-building chain (S46-8). Evidence preserved;
+  `validate_targets` makes it non-load-bearing, but the actual bug is unlocated.
+- **An inconsistency:** `validate_targets` reported only 6 invalid on `casc_args.json`, while a direct
+  probe showed `func_8017C6F4 ∉ ov_SC05_017`'s sig. Sigs were regenerated by `tools-health` between the
+  two. Resolve before trusting either number.
+- **6 `near` cascade drafts** are jr/switch — jump-table placement (§53) is a separate banking step.
+
+# 🛑 (superseded by FINAL) SESSION S46 CHECKPOINT (2026-08-08)
 > **Tree CLEAN** (`src/`+`config/` = 0 modified) but for R23 `db.*.gbf` churn — never stage.
 > **Nothing running.** HEAD `commit:1535`. **NO phase close** — T5 unopened, needs Drew's gate-2.
 > Gates at close: `check-all` **213/213**, `tools-health` **OK**, dedup **1949 validated / 0 failed**,
@@ -197,7 +289,7 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
    `func_8017BEBC`, `func_801902EC`, `func_8018C2D8` are jr/switch. Expect gate failures there that
    are NOT codegen; they need `jtbl_family_bank`.
    ⚠️ `func_80144B9C` should bank via `tools/rollout_whale_o0.py` (the o0b split), NOT hand-spliced.
-**B. THEN the target-side declaration fix** (S46-7): two jobs — the `-O0`/shared-header class
+**B. THEN the declaration fix — RE-SCOPED by S46-10: it is INTRA-HEADER, not target-side** (was: two jobs — the `-O0`/shared-header class
    (`func_80144B9C` body lives in `src/shared/func_80144B9C.h`, not engine_core.h) and ~4 fleet-wide
    symbol conflicts (`memcpy`, `func_8012C750`, `func_8012C0EC`, `gte_SetRotMatrix`). Read the
    in-tree note at `ov_MAIN_012.c:14333` on `extern memcpy` disabling the builtin FIRST.
@@ -2769,6 +2861,32 @@ checked out. **I did not "fix the bug"; I made the next occurrence name itself.*
 whole-overlay find_site=None, in-sig=True` → `[revert] tree restored to baseline; no residue` →
 **exit code 1** (fail-closed). Restore the line → tree clean. So the detector fires on the exact
 observed condition, the diagnosis names the mechanism, and the revert is complete *and proven*.
+
+### ▶ S46-10 — B DIAGNOSED AND DELIBERATELY NOT DONE: the extend blocker is INTRA-HEADER (2026-08-08)
+"Fix the target-side declarations" was the wrong scope. The conflicts are not in the target TU at all —
+**`src/shared/engine_core.h` disagrees with ITSELF.** `memcpy` is declared FOUR different ways across
+its `DEFINE_func_*` macros:
+```
+  4x  extern void *memcpy(void *dst, const void *src, u32 n)
+  2x  extern void *memcpy(void *, const void *, u32)
+  1x  extern void *memcpy(void *dst, void *src, s32 n)
+  1x  extern void *memcpy(void *, const void *, unsigned int)
+```
+Each macro carries its own local externs; instantiate two of them in one TU and they collide. That is
+the whole `conflicting types for memcpy` class — and by extension `func_8012C750`, `func_8012C0EC`,
+`gte_SetRotMatrix`. **The target binaries were never the problem.**
+
+**WHY I STOPPED RATHER THAN CANONICALISING THEM.** The in-tree note at `ov_MAIN_012.c:14333` records
+that `extern memcpy` **disables gcc's builtin** and "turned the old inlined block-move into a CALL".
+So a memcpy declaration is **NOT byte-neutral** — it changes codegen. Canonicalising the four spellings
+is a fleet-shared edit to a header every overlay includes, on a symbol known to alter code generation,
+which could silently change already-banked functions. Doing that at the tail of a long session against
+an uncommitted bank is exactly the S45 F1 scenario (141/213 broken).
+
+**What a fresh session should do:** treat it as a codegen-sensitive migration, not a cleanup.
+Probe ONE macro's spelling change in ONE binary, byte-gate it, and only then consider the sweep — and
+expect the `u32 n` vs `s32 n` third-arg difference to matter for promotion. C (the 129-candidate
+extend re-run) stays blocked on this and should NOT be attempted first.
 
 ### ▶ S46-8 — the 400+ cascade: 20/47 matched, and HALF MY TARGET LIST WAS INVALID (2026-08-08)
 Sonnet-transcribe → Opus-shape → Fable-crack, pipelined per function. 119 agents, 9.7M tokens, 128 min.

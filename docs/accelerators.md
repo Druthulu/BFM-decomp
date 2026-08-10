@@ -135,3 +135,33 @@ every worker repeats the same expensive search.
 pre-run state, re-run the identical command, require the same output plus a byte-verified fleet. That is
 what surfaced the *over-exclusion* in the old path: the faster run was also strictly more correct, and a
 timing comparison would never have shown it.
+
+## A9 — Validate the target list, and let an empty tier TERMINATE the pipeline
+
+**Found:** S46 (phase 30), the hard way. **Could have been found:** the first multi-tier wave.
+**Measured cost:** a 47-target wave burned **9.7M tokens for 20 matches**; ~29 targets were not real,
+and **87 of 119 agents** were spent proving phantoms absent.
+
+Two independent defects that multiplied:
+
+1. **No validity gate on the target list.** It was derived by joining sig data against `corpus.stubs`
+   with no check that each address was a real function boundary with an actual `.s` on disk. Four
+   defect classes, every one diagnosed by the agents *after* the money was spent: NO-ASM, **MID-BODY**
+   (an address ~545 instructions inside another function's carve, on a load-delay nop), OUT-OF-RANGE
+   (before the binary's vram start), and ALREADY-DONE (banked in an earlier phase).
+   → `tools/validate_targets.py` now names each class and exits non-zero.
+2. **The pipeline short-circuited on MATCH but not on SKIPPED.** `done = r.status === 'MATCH'` meant a
+   non-existent target was not "done": it fell through tier 1 → tier 2 → tier 3, and three agents each
+   re-investigated the same phantom — **the third at the most expensive model in the stack.** One
+   invalid target cost 3× instead of 1×.
+   → `done = (status === 'MATCH' || status === 'SKIPPED')`. **A tier with nothing to work on must
+   terminate the pipeline, not pass its emptiness downstream.**
+
+**And the part that stings:** `wave_snapshot`'s R32 coverage assertion **refused this exact list**,
+reporting 24 of 57 files found. That was the instrument saying the list was wrong. It was read as a
+path-convention problem and routed around via a different resolver. Same session, fifth instrument
+warning — and the only one that was *correct and overridden*.
+
+**The rule:** before a wave, every target passes a validity gate; and in any cascade, a tier that
+cannot act ends the chain. Cheap targets must fail cheaply, or the cheapest thing in the pool becomes
+the most expensive.

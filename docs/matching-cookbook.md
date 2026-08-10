@@ -10698,3 +10698,118 @@ gate):** across 100 drafters, 63 MATCH claims, 63 confirmed by independent `matc
 **0 false**. The one apparent false claim was the verifier's own fault — an `-O0`-cluster function
 (`func_8013C360`) checked without `--o0`. **Always retry a failed verification with `--o0` before
 calling an agent wrong** (§116).
+
+### §158 — The RANGE-EXTENDER: a fourth zero-emission asm lever completes the allocno toolkit (P30 S46 tier-3, `func_8017CE58`, 733 ins)
+
+Fourth member of the zero-emission-asm family: **§148-C** moves the priority NUMERATOR (refs),
+**§47** slides the DENOMINATOR window (+1 slot, no refs), **§153** launders an address out of cse,
+and **this one MOVES A DEATH** — `__asm__ __volatile__("" : : "r"(var))` placed AFTER `var`'s
+natural last use extends `var`'s live range to the asm, growing its `reg_live_length` by the whole
+gap (every insn crossed, +1 each) at the cost of +loop-depth-weighted refs. It reaches the one fork
+§47 declares one-directional: a **chained order↔registers fork on a USER-VARIABLE pair**.
+
+#### Symptom
+*"Source order buys the ORDER or the REGISTERS but never both"* on a same-source pair (here
+`mny = wy; my = wy >> 16;` — copy/shift of one loaded word straddling the next load), with the rest
+of the function matching. SCHEDULE-REORDER/2 by the classifier, but the resolution lives in
+**global.c**, not sched.c.
+
+#### Why the fork is chained (gcc source, validated insn-by-insn against -dS/-dR dumps)
+- **sched.c schedules each block BACKWARD**; rank = priority → independence-from-last-scheduled
+  (an insn ANTI-dependent on the just-placed one is class 2 and waits a tick — that is what slots
+  the next `lw` BETWEEN the pair) → **INSN_LUID = source order**. `adjust_priority`'s REG_DEAD
+  cases are dead code (the `???` comment is accurate); only the **birthing boost** runs, and only
+  for `reg_n_sets==1` pseudos — single-set load temps get boosted, **multi-set user vars never
+  do**. Net: the pair's final order follows source statement order, full stop.
+- **global.c `allocno_compare`**: `pri = floor_log2(refs)·refs·10000·size / live_length`; equal
+  refs → shorter life allocated FIRST → LOWER free register; exact tie → lower allocno = declaration
+  order. Live length is counted on **SCHED1's output order** (sched.c `sometimes_live`, +1 per insn
+  per segment) — so the earlier-born pair member is always longer → always loses the low register.
+  Order and allocation are chained to the same source order; inside the block the fork is unwinnable.
+
+#### The method (dump-arithmetic first, then place — no probing)
+1. `-dl` the current best: read both pseudos' `Register N used R times across L insns`. Compute both
+   priorities. Work out the needed inequality (here: extend `my` so `pri(my) < pri(mny)`).
+2. The extender adds ~`+depth+1` refs and `+gap` length; **solve for the required L before placing**
+   (here refs 46→49 ⇒ need L ≥ 111 from 102 — the first placement gave 110 and flipped back; ONE
+   slot deeper was exact). Knife-edge is normal, the dump re-check costs seconds.
+3. **Placement rules**: after the pair's rival is DEAD (so only the extended one grows); adjacent to
+   an existing volatile asm (§47's rule — no new barrier); NEVER before a call-crossing gap or a
+   loop-entry (an upward-exposed use makes the var live-on-entry/call-crossing → it loses its
+   caller-saved register entirely and the cascade is catastrophic).
+4. **Expect §47-plateau collateral and compose the levers.** The extender's +1 slot shifts EVERY
+   pseudo spanning it; here it pushed the two loop-invariant `&gsz` address pseudos (refs 7,
+   560/559) off their `int(140000/L)=250` plateau → $s5/$s6 swapped. A **bare** `asm volatile("")`
+   immediately after the extender (+1 slot, ZERO refs) put them back on a tie (562/561 → 249==249 →
+   allocno order). One lever per priority relation: refs-carrying extender for the pair, ref-free
+   slider for the plateau.
+
+#### Bonus facts worth keeping
+- **USE insns are the mechanism, and gcc plants its own**: loop.c leaves `(use (reg))` insns in the
+  stream that exist at sched1/alloc time and vanish before final — live length is measurably a
+  function of insns final never emits. The keep-alive asm is just a plantable one.
+- The sched1-vs-sched2 uid-sequence diff (`-dS` vs `-dR`, ~14 windows on this function) is a fast
+  map of WHERE zero-byte freedom exists; both my failed "swap the min/max arm statements" probes
+  sat OUTSIDE any window and predictably broke bytes (arm order + the y0/y1 $a0/$a1 tie flip
+  together — measured, 6 mismatches).
+- Declaration order = allocno tie-break is a real lever (`s16 mny, my..` won a 103/103 tie in a
+  probe) but it only fires on EXACT length ties; the extender makes the inequality strict instead.
+
+**Symptom lines for the index:** **"order or registers, never both"** · **"copy/shift pair swapped
+around a load, registers correct"** · **"first-born always gets the higher register"** ·
+**"keep-alive flipped an unrelated $sN pair"** (→ compose with §47's bare slider).
+
+## §156 — THE PREFERENCE-DONOR MERGE: cross-region variable reuse is what fills a0-a3, and a call-arg use in ONE region steers the fill in ALL of them (P30 S46 tier-3, `func_80186E24`, 611 ins: 236-off "S11 regalloc-order" → MATCH, zero new pins)
+
+**Symptom:** a multi-loop function where every loop's caller-saved map is permuted the same way —
+target consistently {a0: index scalar, a1: dst ptr, a2: src ptr, a3: char/bound}, yours fills
+v1/a0/a1 "correctly" by density first-fit. Per-loop locals can NEVER reproduce it: the copy-loop
+pointers' density (loop-weighted refs / tiny range, e.g. 13/12) beats the index var's (10/32) in
+`allocno_compare`, so your dst/src allocate first and sit in v1/a0. No conflict, no decl order, and
+no S11 verdict fixes an ORDER gap that size.
+
+**The two coupled mechanisms (read off `-da` greg/lreg + real-2.7.2 `global.c`):**
+1. **MERGE pole, function-wide (extends RC-14 beyond one block):** ONE `char *d; u8 *s;` reused as
+   every phase's dst/src (incl. secondary pointers: the ph6 ent/d2, the digit-render write pointer)
+   sums their loop-weighted refs into 100+ → the merged allocnos allocate FIRST and first-fit lands
+   them in a1/a2 for the WHOLE function (v0/v1 blocked by block-temp conflicts). One edit moved
+   113 → 26 mismatches. Same move for scalars: one s16 scratch serving {phase-A cnt, phase-B fl,
+   phase-B cnt, filter n} — union range crosses a call somewhere → K4 → $s0 everywhere.
+   **Diagnostic tells:** (a) the same caller-saved reg hosting the same ROLE in every loop;
+   (b) a callee-saved reg hosting values that individually never cross a call — both mean ONE
+   reused source variable, THE 90s-dev frugality signature. Merge macro locals too (`_mask`/`_k`
+   both in a0, disjoint segments = one variable passed for both macro params).
+2. **The preference DONOR (new; extends RC-10):** the merged index var `b` is a call arg in ONE
+   region (`cnt = f(b + 0x62)` → `set_preference` through `(set a0 (plus b 0x62))` gives the
+   ALLOCNO an a0 hard-reg preference). In find_reg pass 0, every LOWER-priority-loser's preferred
+   reg is skipped by conflicting allocnos (`regs_someone_prefers`, global.c:952) — so in the OTHER
+   region, higher-density char/pct SKIP a0 and take a3/a1, leaving a0 for `b` even though it
+   allocates near-last. A per-loop `u8 id` has no call use → no pref → char grabs a0 → the whole
+   permutation. **The preference travels with the allocno across regions; reuse is what carries
+   it.** Corollary: an unwanted pref-override (a copy landing in a0 you can't explain) is often
+   inherited via expand_preferences' death-merge (A dies in insn setting B, no conflict → prefs
+   IOR both ways: our `sub` inherited raw's a0-pref through `raw = q - sub`); blocking it needs a
+   conflicting a0 OWNER at override time, which the donor merge provides for free.
+
+**Also byte-settled on the way (each is a one-line lever):**
+- `x = 1; if (c() == 0) x = g();` can NEVER put `li $s2,1` in the bnez slot (multi-set ⇒ no S2
+  boost; dbr's backward scan stops at the call). The `if (ret != 0) x = 1; else x = g();` spelling
+  gives the D3 own-thread MOVE steal + relax inversion = the `bnez; li` shape.
+- A second pseudo copy (`sub = pct`) survives cse ONLY placed in the LOAD's bb before the branch:
+  cse's follow-jumps extends the ebb along the TAKEN edge (label-used-once), so a use two
+  fallthrough-branches down is in a fresh table; combine can't reach across bbs; K8 global never
+  coalesces. In an arm (same bb as use) every spelling dies. dbr then backward-fills the copy into
+  the branch slot — the `beqz; addu $v1,$a1,$0` idiom.
+- Guard shape `i = 0; if (n != 0) do {...} while (i < n);` = `beqz` + `i=0` in the slot + signed
+  slt bottom. A rotated `for` emits `blez`; `i = 0` INSIDE the if leaves the slot as nop (the
+  eager steal fails mark_target_live_regs' conservative liveness).
+- `for (k = 0; k < n; k++, q >>= 4)` — comma-increment order is LUID order: addiu/addu(k) before
+  andi 0xFFFF, srl in the loop slot.
+- RC-12 $0-add (`id = b + zr`) reconfirmed for a cross-call s32 copy the target keeps as
+  `addu $s1,$a0,$zero` (plain copy: cse kills; u8 source: andi).
+
+**Route:** map the target's per-loop caller-saved ROLES first; if the same reg repeats a role
+across loops, REUSE one variable before touching pins or densities — the §17 pin is the fallback,
+not the opener. Pins tried here (sub→$3, mask→$4) each half-worked and leaked new prefs
+(`set_preference` sees a pinned var as hard → its expression partners inherit prefs); the reuse
+form needed zero pins.
