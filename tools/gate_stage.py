@@ -362,6 +362,21 @@ def _run_gate_locked(drafts, binary, src, asm, out, good_sha, propagate, source_
         d = _xform("sig_unify.py", binary, s2in, "-uni", extra=cast_extra)
         verified += _gate1(binary, src, asm, out, good_sha, d, verified_out, failed_out)
 
+    # THE LADDER ACCUMULATES IN MEMORY; THE FILE DID NOT (P30 S47, byte-witnessed).
+    # Each rung hands `verified_out` straight to harvest_verify, which OPENS IT FOR WRITE. So every
+    # stage TRUNCATES the previous stage's list, and a ladder whose last rung banks nothing leaves an
+    # EMPTY file behind while `verified` (this list, built with +=) is correct. Measured: stage 0
+    # banked 23 fns in ov_SC03_107, the JSON verdict listed all 23, and `.run/extend_verified.
+    # ov_SC03_107.txt` was 1 byte — so `dedup_extend` read 0, printed "BANKED 0 / 46", and SKIPPED
+    # the registry update for 23 banks that were already spliced into the tree and byte-verified.
+    # The consumer was not wrong to trust the file; the file was wrong. Rewrite it ONCE, at the end,
+    # from the accumulated truth.
+    if verified_out:
+        _vp = os.path.join(REPO, verified_out)
+        os.makedirs(os.path.dirname(_vp) or ".", exist_ok=True)
+        with open(_vp, "w") as _vf:
+            _vf.write("\n".join(sorted(set(verified))) + ("\n" if verified else ""))
+
     # UNDO the arity edits for everything that did NOT bank — per-decl journal restore, keeping the
     # banked set. Never `--revert`: it inverts a PLAIN apply but not `--any-proto`, and once
     # round-tripped an unbanked fn's real signature into an invented `(void)` in the fleet-shared

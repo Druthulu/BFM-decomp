@@ -183,11 +183,12 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 
 # 🛑 SESSION S47 CHECKPOINT (2026-08-10) — FRESH SESSION SAFE HERE
 > **Tree CLEAN** but for R23 `db.*.gbf` churn — never stage. **Nothing running.**
-> Gates at this commit: **`check-all` 213 passed / 0 failed of 213** (R22 clean-fleet: `make clean`
-> + `extract-all` 212+main + `check-all`); **`tools-health` green at session start (exit 0)** —
-> the S46 carry is CLOSED; cookbook index regenerated to 467 sections, `--check` OK.
-> **Fleet %: UNCHANGED (93.8 instr / 87.2 distinct / 95.69 fn-count).** Task B banks **zero
-> functions by design** — it is declaration plumbing that unblocks C. Do not read it as a gain.
+> Gates at this commit: **`check-all` 213 passed / 0 failed of 213** (R22 clean-fleet, run twice —
+> once for B, once for C); **`tools-health` OK**; **dedup-check 1949 validated / 0 failed, C1
+> coverage 249,295**; cookbook index 467 sections, `--check` OK. The S46 carry is CLOSED.
+> **Fleet: 93.9% instr / 87.2% distinct / 95.72% fn-count.**
+> **Attribution, so nobody misreads it:** task **B banks zero functions by design** (declaration
+> plumbing); the **+62 came from C**, which B unblocked. B and C land as ONE result, not two.
 > **NO phase close** — T5 unopened, needs Drew's gate-2.
 
 ## ✅ TASK B — DONE, and RE-SCOPED AGAIN (S46-10's "intra-header" framing was also wrong)
@@ -239,8 +240,34 @@ consumer-guard gap. (2) My first probe conformed the header ALONE and broke `ov_
 - **`func_80147364` (1)** — its `DEFINE_` macro has no column-0 definition; `macro_draft` refuses.
 - **`D_800AE620` (3) / `D_80126CC4` (2)** — data symbols, different axis.
 
-## ▶ RESUME HERE — C, then D
-**C. `dedup_extend` over the 129** — B is done, so C is UNBLOCKED:
+## ✅ TASK C — DONE: **62 of 129 banked** (the first non-zero on this population; S46 got 0/142 then 0/129)
+`dedup_extend --binaries ov_SC03_107,ov_MAIN_012,ov_SC02_037` → **23 / 23 / 16 banked**, all three
+byte-identical, **R22 `check-all` 213 passed / 0 failed of 213**, `tools-health` OK,
+**dedup-check 1949 validated / 0 failed, C1 coverage 249,295** (= S46's 249,233 **+62** — an
+independent confirmation of the count).
+Fleet: **93.9% instr / 87.2% distinct / 95.72% fn-count** (from `audit-digest`, same tree).
+
+**⚠ THE TOOL REPORTED `BANKED 0 / 129`. IT WAS WRONG — AND THE SOURCE WAS RIGHT.**
+`gate_stage`'s ladder hands the SAME `--verified-out` path to `harvest_verify` on every rung, and
+each rung OPENS IT FOR WRITE. Stage 0 banked 23 and wrote them; a later rung that banked nothing
+**truncated the file to 1 byte**. The in-memory list uses `+=` and stayed correct — which is exactly
+why the JSON verdict listed all 23 names while the file said nothing. `dedup_extend` read the file,
+printed `BANKED 0 / 46`, and took its `if not banked:` branch.
+- **What that branch cost:** it SKIPPED `add_members_surgical`, so the registry was missing 62
+  memberships for functions already spliced into the tree and byte-verified. Repaired by deriving
+  the banked set from `git diff` (`+DEFINE_func_*`), not from the broken file; post-check 0 missing.
+- **What it did NOT do (the guard held):** `ensure_include_revert` did not fire, because the include
+  was already present and `added_include` was False. That is the P29-S19 defect that once stripped a
+  load-bearing include from 135 binaries — it stayed closed.
+- **Fixed:** `gate_stage` now writes `verified_out` ONCE at the end from the accumulated truth.
+- **Bank truth was derived from source (§55b), never the report** — that is the only reason this
+  was caught. The residue (67) is consistent with the symbols B deliberately left: `memcpy` 17,
+  `ApplyMatrixSV` 12, `gte_SetRotMatrix` 4, plus 21 CC1-FAIL and 3 DIFF.
+- **NOT separated (honest gap):** how much of the 62 is B's conform vs the ladder's own recovery
+  rungs. Establishing it needs a re-run against the pre-B tree; not worth a fleet build.
+
+## ▶ RESUME HERE — D (and the leftovers below)
+**C is DONE.** For reference, the command was:
 `.venv/bin/python tools/dedup_extend.py --binaries ov_SC03_107,ov_MAIN_012,ov_SC02_037`
 All three target binaries gate byte-identical at this HEAD. **Do NOT forecast a yield** — S46
 predicted ~38 twice and got 0 twice. The honest expectation is bounded by the class split above:
