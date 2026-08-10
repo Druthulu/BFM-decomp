@@ -461,7 +461,47 @@ DEFINE_func_8012B70C()  /* dedup: shared engine-core @0x8012b70c (src/shared) */
 DEFINE_func_8012B744()  /* dedup: shared engine-core @0x8012b744 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC02_037/nonmatchings/ov_SC02_037", func_8012B77C);
+extern s32 ratan2(s32 a0, s32 a1);
+extern s32 func_80047948(s32 a0);
+extern s32 func_8004787C(s32 a0);
+
+s32 func_8012B77C(s32 out, s32 a1, s32 a2)
+{
+    register u32 packed __asm__("$20");
+    s32 dz;
+    s32 dx;
+    s32 dy;
+    register s32 t __asm__("$16");
+    s32 sn;
+    s32 cs;
+    s32 ang;
+
+    packed &= 0xFFFF;
+
+    dz = *(s16 *)((s32)a2 + 0xA) - *(s16 *)((s32)a1 + 0xA);
+    dx = *(s16 *)((s32)a2 + 0x2) - *(s16 *)((s32)a1 + 0x2);
+    dy = *(s16 *)((s32)a2 + 0x6) - *(s16 *)((s32)a1 + 0x6);
+
+    ang = ratan2(-dz, dx);
+    t = ang - 0x400;
+    t &= 0xFFF;
+    packed |= (u32)(t << 16);
+
+    sn = func_80047948(t);
+    cs = func_8004787C(t);
+
+    dz = (dz * sn + dx * cs) >> 12;
+    ang = ratan2(dy, -dz);
+    packed &= 0xFFFF0000;
+    packed |= (u32)(ang & 0xFFFF);
+
+    {
+        u32 addr;
+        __asm__("addu %0,%1,$zero" : "=r"(addr) : "r"(out));
+        *(u32 *)addr = packed;
+    }
+}
+
 
 DEFINE_func_8012B864()  /* dedup: shared engine-core @0x8012b864 (src/shared) */
 
@@ -10829,7 +10869,29 @@ DEFINE_func_801685EC()  /* dedup: shared engine-core @0x801685ec (src/shared) */
 DEFINE_func_80168640()  /* dedup: shared engine-core @0x80168640 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC02_037/nonmatchings/ov_SC02_037", func_80168664);
+
+
+extern void func_80048EAC(void *a0, void *a1);
+extern s32  func_801670E4(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
+extern void RotMatrixX(int, void*);
+extern Mat32 D_800AE620;
+
+void func_80168664(s32 param_1)
+{
+    s32 node;
+
+    node = *(s32 *)(param_1 + 0x34);
+    *(s32 *)(param_1 + 0x1c) = 0x20;
+    *(u16 *)(param_1 + 0x10) = 0x80;
+    *(u16 *)(param_1 + 0x12) = 0;
+    *(s32 *)(param_1 + 0x30) = 0x1800;
+    *(Blk20 *)(param_1 + 0x38) = (*(Blk20 *)&D_800AE620);
+    ((s32 (*)(s32, void *))RotMatrixX)(0x400, (void *)(param_1 + 0x38));
+    func_80048EAC((void *)(*(s32 *)(node + 0x20) + 0x34), (void *)(param_1 + 0x38));
+    func_801670E4(param_1, -6, -0x44, -0x18);
+    *(s16 *)(param_1 + 2) = *(s16 *)(param_1 + 2) + 1;
+}
+
 
 
 

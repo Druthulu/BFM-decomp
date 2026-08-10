@@ -188,16 +188,37 @@ def write_drafts(binary, plan):
     return d
 
 
-def gate(binary, drafts_dir, chunk):
-    """The EXISTING whole-binary byte-gate is the sole arbiter (G3/P9). Returns the banked fn set."""
+def gate(binary, drafts_dir, chunk, ladder=True):
+    """The whole-binary byte-gate is the sole arbiter (G3/P9). Returns the banked fn set.
+
+    LADDER (S46): this called `harvest_verify` VERBATIM, which is the bare gate with no recovery.
+    Measured cost of that: 0 of 142 extendable groups banked, and the classified reasons were 118
+    PLUMBING / 21 CC1-FAIL / 3 DIFF — i.e. ~1 in 50 was a real byte divergence and everything else
+    was a declaration conflict in the TARGET TU (`conflicting types for memcpy / ApplyMatrixSV /
+    D_800AE620 / func_8014C568`). `gate_stage` wraps the same gate in exactly the reconcile ladder
+    those need (canon_resident_calls -> cast_call_sites -> sig_unify -> harvest_verify), and it
+    carries the §156 reconcile LEDGER so a failed candidate cannot leave a fleet-shared edit behind.
+    Measured on the same failure class in the S46 wave residue: 6 of 19 PLUMBING recovered (~32%).
+
+    GATE_NO_ARITY=1 is set for the child: gate_stage's arity pre-pass writes the fleet-shared
+    engine_core.h BEFORE the gate, and on a failing draft that edit can survive — the F1 defect that
+    broke 141 of 213 binaries in S45 and made every later gate report `near`. The ladder's other
+    rungs are draft-local and safe.
+    """
     good = open(os.path.join(REPO, f"config/check.{binary}.sha")).read().split()[0]
     vout = f".run/extend_verified.{binary}.txt"
     fout = f".run/extend_failed.{binary}.txt"
-    cmd = [PY, "tools/harvest_verify.py", "--binary", binary,
-           "--out", f"build/{binary}/{binary}", "--good-sha", good,
-           "--drafts", os.path.relpath(drafts_dir, REPO), "--chunk", str(chunk),
-           "--verified-out", vout, "--failed-out", fout]
-    subprocess.run(cmd, cwd=REPO, timeout=7200)
+    if ladder:
+        cmd = [PY, "tools/gate_stage.py", "--binary", binary,
+               "--drafts", os.path.relpath(drafts_dir, REPO), "--no-propagate",
+               "--verified-out", vout, "--failed-out", fout]
+    else:
+        cmd = [PY, "tools/harvest_verify.py", "--binary", binary,
+               "--out", f"build/{binary}/{binary}", "--good-sha", good,
+               "--drafts", os.path.relpath(drafts_dir, REPO), "--chunk", str(chunk),
+               "--verified-out", vout, "--failed-out", fout]
+    env = dict(os.environ, GATE_NO_ARITY="1")
+    subprocess.run(cmd, cwd=REPO, timeout=7200, env=env)
     p = os.path.join(REPO, vout)
     return set(open(p).read().split()) if os.path.exists(p) else set()
 

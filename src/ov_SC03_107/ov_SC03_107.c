@@ -10491,7 +10491,28 @@ DEFINE_func_801685EC()  /* dedup: shared engine-core @0x801685ec (src/shared) */
 DEFINE_func_80168640()  /* dedup: shared engine-core @0x80168640 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC03_107/nonmatchings/ov_SC03_107", func_80168664);
+
+
+extern void RotMatrixX(int, void*);
+extern void func_80048EAC(void *a0, void *a1);
+extern s32 func_801670E4(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
+extern Mat32 D_800AE620;
+
+void func_80168664(s32 a0) {
+    s32 p;
+
+    p = *(s32 *)(a0 + 0x34);
+    *(s32 *)(a0 + 0x1C) = 0x20;
+    *(u16 *)(a0 + 0x10) = 0x80;
+    *(u16 *)(a0 + 0x12) = 0;
+    *(s32 *)(a0 + 0x30) = 0x1800;
+    *(Blk20 *)(a0 + 0x38) = (*(Blk20 *)&D_800AE620);
+    ((s32 (*)(s32, void *))RotMatrixX)(0x400, (void *)(a0 + 0x38));
+    func_80048EAC((void *)(*(s32 *)(p + 0x20) + 0x34), (void *)(a0 + 0x38));
+    func_801670E4(a0, -6, -0x44, -0x18);
+    *(u16 *)(a0 + 2) = *(u16 *)(a0 + 2) + 1;
+}
+
 
 
 
@@ -10673,7 +10694,54 @@ INCLUDE_ASM("asm/ov_SC03_107/nonmatchings/ov_SC03_107", func_80168D94);
 DEFINE_func_80168EC4()  /* dedup: shared engine-core @0x80168ec4 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC03_107/nonmatchings/ov_SC03_107", func_80168F40);
+
+
+typedef struct {
+    u16 f00;
+    u16 f02;
+    u16 f04;
+    u16 pad06;
+    u16 f08;
+    u16 f0A;
+    u16 f0C;
+    u16 pad0E;
+    u8  f10;
+    u8  f11;
+    u8  f12;
+    u8  pad13;
+    u8  f14;
+    u8  f15;
+    u8  f16;
+    u8  pad17;
+    u32 f18;
+} S1_80168F40;
+
+extern s32 func_80016A5C();
+extern Mat32 D_800AE620;
+
+void func_80168F40(void *a0)
+{
+    S1_80168F40 s1;
+    Blk20 s2;
+    s32 pad[2];
+
+    s1.f00 = *(u16 *)((s32)a0 + 0x10);
+    s1.f02 = *(u16 *)((s32)a0 + 0x14);
+    s1.f04 = *(u16 *)((s32)a0 + 0x18);
+    s1.f08 = *(u16 *)((s32)a0 + 0x6);
+    s1.f0A = *(u16 *)((s32)a0 + 0xA);
+    s1.f0C = *(u16 *)((s32)a0 + 0xE);
+    s1.f10 = 8;
+    s1.f14 = 0xC0;
+    s1.f12 = 0;
+    s1.f11 = 0;
+    s1.f16 = 0x80;
+    s1.f15 = 0x80;
+    s2 = (*(Blk20 *)&D_800AE620);
+    s1.f18 = 0x50000000;
+    func_80016A5C(&s1, &s2);
+}
+
 
 
 
