@@ -187,24 +187,28 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 > Gates at close: `check-all` **213/213**, `tools-health` **OK**, dedup **1949 validated / 0 failed**,
 > C1 coverage 249,233/249,233. Fleet **93.8% instr / 87.2% distinct / 95.69% fn-count**, 0 NON_MATCHING.
 
-## ▶ RESUME HERE (updated S46 late — Drew's approved order)
-**A. IN FLIGHT: the 400+ cascade** (`wf_f1937216-bb2`, 47 fns ≥400 ins, Sonnet transcribe → Opus
-   shape → Fable crack, pipelined). Drafts land in `.run/s46/casc/*.t{1,2,3}.c`. When it completes:
-   gate with **`gate_stage`** (NOT bare harvest_verify — S46 doctrine), then R22, then commit.
-**B. THEN fix the target-side declarations** (the corrected task 9 — see S46-7 below). It is TWO
-   jobs, not one, and the second is the only cheap one:
-   · **`func_80144B9C` is NOT a declaration conflict** — its body lives in `src/shared/func_80144B9C.h`
-     (the P24 hand-rolled **-O0** shared header), not `engine_core.h`. `dedup_extend` only instantiates
-     `DEFINE_func_*` macros from engine_core.h, so it is reaching for a macro that does not exist, in
-     binaries with no `-O0` split. Different mechanism (P24's), and at live-reach 3 it may not be worth it.
-   · **The real conflicts are a handful of symbols** — `memcpy`, `func_8012C750`, `func_8012C0EC`,
-     `gte_SetRotMatrix` — failing identically in every binary. The target TUs hold NO explicit externs
-     for them; the conflicts arrive through the included headers. There is already a standing in-tree
-     note at `ov_MAIN_012.c:14333` that `extern memcpy` disables gcc's builtin — read it first.
-   ⚠️ These are FLEET-SHARED writes. Do not run them concurrently with a wave, and use the ledgered
-   path (`GATE_NO_ARITY=1`) — this is the exact shape of the F1 defect that broke 141/213 in S45.
+## ▶ RESUME HERE (updated S46 close — Drew's approved order)
+**A. FIRST: finish banking the 400+ cascade.** 20 match_one MATCHes; 18 staged into
+   `.run/s46/gc_<binary>/` and gating via `gate_stage` was IN FLIGHT at checkpoint
+   (`.run/s46/gate_casc.log`, pid in `.run/s46/gcasc.pid`). If the tree is dirty: check that log,
+   then **R22 (`make clean && extract-all && check-all && tools-health`) → commit**. If it died
+   mid-run: `git checkout -- src/ config/` and re-run (deterministic).
+   ⚠️ Several cracks flagged that **jump-table placement (§53) is a SEPARATE banking step** —
+   `func_8017BEBC`, `func_801902EC`, `func_8018C2D8` are jr/switch. Expect gate failures there that
+   are NOT codegen; they need `jtbl_family_bank`.
+   ⚠️ `func_80144B9C` should bank via `tools/rollout_whale_o0.py` (the o0b split), NOT hand-spliced.
+**B. THEN the target-side declaration fix** (S46-7): two jobs — the `-O0`/shared-header class
+   (`func_80144B9C` body lives in `src/shared/func_80144B9C.h`, not engine_core.h) and ~4 fleet-wide
+   symbol conflicts (`memcpy`, `func_8012C750`, `func_8012C0EC`, `gte_SetRotMatrix`). Read the
+   in-tree note at `ov_MAIN_012.c:14333` on `extern memcpy` disabling the builtin FIRST.
+   ⚠️ FLEET-SHARED writes: ledgered path only, never concurrent with a wave (the S45 F1 defect).
 **C. THEN re-run `dedup_extend`** (now ladder-wired) over the 129.
-**D. Then more waves** — 1,104 seeded big-3 targets remain, minus batch 1's 60.
+**D. THEN the next wave.** Band is Drew's call. Evidence says **50-199** is the sweet spot (351k ins
+   = half of everything remaining; Sonnet proven 20/20 at 50-59; two-tier cascade, no Fable).
+   **BUILD THE TARGET LIST WITH A VALIDITY GATE** (real boundary + .s on disk + not already matched) —
+   half of S46-8's Fable budget went to targets that did not exist. Batch ~50 for an uncalibrated band.
+   Alternative high-value track: the **novel-shape family exemplars** in S46-9 (idiom discovery, the
+   only remaining multiplier now that byte-identical dedup is spent).
 
 ### The older standing item
 1. **The crack wave — the only lever that moves the %.** 1,168 seeded targets in the big-3.
@@ -2765,6 +2769,73 @@ checked out. **I did not "fix the bug"; I made the next occurrence name itself.*
 whole-overlay find_site=None, in-sig=True` → `[revert] tree restored to baseline; no residue` →
 **exit code 1** (fail-closed). Restore the line → tree clean. So the detector fires on the exact
 observed condition, the diagnosis names the mechanism, and the revert is complete *and proven*.
+
+### ▶ S46-8 — the 400+ cascade: 20/47 matched, and HALF MY TARGET LIST WAS INVALID (2026-08-08)
+Sonnet-transcribe → Opus-shape → Fable-crack, pipelined per function. 119 agents, 9.7M tokens, 128 min.
+**Outcome: MATCH t1=7, t2=8, t3=5 (20 of 47); DIFF 12; SKIPPED 87.**
+
+**THE HEADLINE IS THE SKIPPED COUNT, AND IT IS MY DEFECT.** 87 agent-results came back SKIPPED, and
+the agents diagnosed every class precisely — four distinct defects in MY target-list generation:
+  1. **Targets that do not exist** (`func_8017C6F4` in ov_SC05_017: no .s, no seed, anywhere);
+  2. **Mid-body addresses** (`func_80190B70` is instr ~545 INSIDE func_801902EC's carved 673-ins span,
+     landing on a load-delay nop — not a function at all);
+  3. **Out-of-range addresses** (`func_800CE0F4` is BEFORE md_MAIN_011's vram start 0x800CEE74);
+  4. **Already-banked work** (`func_8017A4AC` in ov_SC06_010 was cracked+banked in Phase 26).
+I derived "57 distinct fns ≥400 ins" by joining sigs against `corpus.stubs` **without validating that
+each address is a real function boundary with an actual .s on disk**. `wave_snapshot` TRIED to tell me
+(it refused, finding 24 of 57) and I routed around it via `corpus.asm_path` instead of asking WHY.
+Fifth instrument defect of the session; the only one where the instrument was right and I overrode it.
+**→ any future wave list needs a validity gate: real boundary + .s on disk + not already matched.**
+
+**THE CRACKS ARE REAL, and several are deep:**
+- `func_80178D40` (890) MATCH at **t1** by mechanical family remap from a proven exemplar — exactly as
+  the h_seq family analysis predicted from its 138 cracked siblings. Prediction validated.
+- `func_80144B9C` (770) recognised at t1 as the known -O0 whale (§38) — never a declaration problem.
+- `func_8017CE58` (733) cracked at **t3**, distilled as **cookbook §158** (zero-byte range-extender +
+  bare-asm plateau counterweight).
+- `func_801902EC` (673) NEW MECHANISM: a call-crossing pointer local becomes a REG_EQUIV constant, so
+  reload remats it emitting ZERO instructions while still reserving $s0, poisoning an unrelated
+  allocno's conflict set invisibly — only `cc1 -dg` exposes it. The agent also REFUTED its inherited
+  RC-6 diagnosis: the handoff working as designed.
+- `func_8017BEBC` (753) MATCH pin-free via 25 zero-byte sliders past the L4 hoist threshold.
+
+**FABLE WAS NOT UNDER-DRIVEN — my worry was unfounded.** Tier 3 produced 5 matches and real
+compiler-internals findings. The uniform convergence stopping rule did not cut it off. No prompt fix needed.
+
+**Workflow verdict (for the next wave):** the cascade WORKS — tier routing was sensible (known-skeleton
+functions fell at t1, novel ones needed t2/t3), the 4-part handoff transferred value (t2 refuted t1's
+class at least once), and `pipeline()` meant early winners never spawned later tiers. Cost ~485k
+tokens/match at 400-950 ins. **Keep the design; fix the target list.**
+
+### ▶ S46-9 — the remaining-work family map (answers "where is the idiom leverage?")
+Clustered all 13,448 remaining distinct fns by h_seq: **7,108 families, 5,040 true singletons**.
+```
+instructions in families WITH a cracked sibling (idiom KNOWN):  121,329  (17%)
+instructions in families with NO cracked sibling (NOVEL shape): 584,334  (83%)
+```
+**83% of remaining mass is in shapes we have never cracked a member of** — which is why P26's
+"crack 986 exemplars → template ×120" failed the gate: the families exist, the idioms mostly do not.
+Best idiom-discovery targets (0 cracked siblings, ranked by members×size): `func_801F1F94`
+(24×126, md_SC03_076), `func_8018C434` (22×125, ov_SC03_091), `func_8018911C` (15×137),
+`func_801867DC` (6×281, ov_SC06_024), `func_801EFBB4` (5×407), `func_801F0F28` (5×326),
+`func_801898E4` (4×611, ov_SC03_001). **`md_SC03_076` appears 3× — a module binary with a subsystem
+whose shapes we have never cracked; the strongest "type we do not understand" candidate.**
+
+Remaining size distribution (for wave planning; reach RISES as size falls):
+```
+   band    fns  live inst   total ins  mean reach
+   400+     72        77      38,968        1.07
+200-399    292       321      76,549        1.10
+100-199   1097      1250     145,643        1.14
+  50-99   2974      3562     205,237        1.20   <- Sonnet PROVEN (20/20 tonight at 50-59)
+  31-49   3148      4264     124,415        1.35
+  16-30   4185      6508      95,337        1.56   <- Haiku 86%
+   <=15   1680      5103      19,514        3.04   <- Haiku / local v3 ($0)
+  TOTAL  13448                705,663
+```
+Batch sizing (P19 doctrine, re-confirmed): ~50 into an UNcalibrated band to bank the lesson, 100-200
+once calibrated. Never thousands — concurrency caps at ~16 in flight, the pool goes stale underneath,
+and the gate is the serial bottleneck.
 
 ### ▶ S46-7 — the extend ladder banked 0/129: I fixed the plumbing on the WRONG SIDE of the pipe (2026-08-08)
 Wiring `gate_stage` into `dedup_extend` (S46-6) was necessary but **not sufficient**, and my ~32%
