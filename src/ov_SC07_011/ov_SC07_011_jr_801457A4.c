@@ -928,7 +928,7 @@ extern void func_801427DC(void);
 extern void func_801427E4(void);
 extern void func_801427EC(int param_1);
 extern s32 func_80142DB8(s32 *a0);
-extern s32 func_8012C0EC(s32);
+extern s32 func_8012C0EC(s32 a0);
 extern void func_80142BB4(s32 *a0, s32 a1, s32 a2);
 extern void func_80142C9C(s32 *a0);
 extern void func_80142838(s32 *a0);
@@ -962,7 +962,7 @@ extern void func_801431E8(s32 param_1);
 extern void func_801432FC(s32 *a0);
 extern void func_80143390(s32 *a0);
 extern void func_80143458();
-extern s32 func_80128ED8(s32, s32*);
+extern s32 func_80128ED8(s32 param_1, s32 *param_2);
 extern void func_801433F0(s32 a0);
 extern void func_80143458(s32 param_1);
 extern void func_8014358C();
@@ -1978,14 +1978,14 @@ DEFINE_func_80149284()  /* dedup: shared engine-core @0x80149284 (src/shared) */
 DEFINE_func_80149290()  /* dedup: shared engine-core @0x80149290 (src/shared) */
 
 
-extern void func_8012F14C(s32, s32, s32);
+extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
 void func_80149350(s32 arg0) {
     ((void (*)(s32))func_8012F14C)(*(s32 *)(arg0 + 0x20) + 0x34);
 }
 
 
 extern void func_80015978(s32 a0, s32 *a1);
-extern void func_8012F14C(s32, s32, s32);
+extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
 extern void func_80015954(s32 a0, s32 a1);
 void func_80149374(s32 arg0, s32 arg1) {
     u64 sp10;
@@ -2001,7 +2001,7 @@ void func_80149374(s32 arg0, s32 arg1) {
 
 
 extern void func_80015978(s32 a0, s32 *a1);
-extern void func_8012F14C(s32, s32, s32);
+extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
 extern void func_80015954(s32 a0, s32 a1);
 void func_801493D0(s32 param_1, s32 param_2, s32 param_3)
 {
@@ -2017,13 +2017,13 @@ void func_801493D0(s32 param_1, s32 param_2, s32 param_3)
 }
 
 
-extern void func_8012F038(int, short*, short*);
+extern void func_8012F038(int param_1, short *param_2, short *param_3);
 void func_8014942C(s32 arg0) {
     ((void (*)(s32))func_8012F038)(*(s32 *)(arg0 + 0x20) + 0x34);
 }
 
 
-extern void func_8012F038(int, short*, short*);
+extern void func_8012F038(int param_1, short *param_2, short *param_3);
 void func_80149450(s32 a0, s16 *a1) {
     s16 *s0 = a1;
     s16 sp10[3];
@@ -2038,7 +2038,7 @@ void func_80149450(s32 a0, s16 *a1) {
 }
 
 
-extern void func_8012F038(int, short*, short*);
+extern void func_8012F038(int param_1, short *param_2, short *param_3);
 void func_801494CC(s32 a0, u16 *a1, u16 *a2) {
     u16 dst[3];
     u16 src[3];
@@ -2052,7 +2052,7 @@ void func_801494CC(s32 a0, u16 *a1, u16 *a2) {
 }
 
 
-extern void func_8012F14C(s32, s32, s32);
+extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
 extern void func_8012EF70(s32 a0, s32 a1);
 void func_80149544(s32 arg0, s32 arg1, s32 arg2) {
     s32 sp10[2];
@@ -2061,7 +2061,7 @@ void func_80149544(s32 arg0, s32 arg1, s32 arg2) {
 }
 
 
-extern void func_8012F14C(s32, s32, s32);
+extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
 extern void func_8012EFB8(s32);
 void func_80149584(s32 arg0, s32 arg1, s32 arg2) {
     s32 sp10[2];
@@ -2090,7 +2090,7 @@ void func_80149584(s32 arg0, s32 arg1, s32 arg2) {
  * the call-1 arg-materialization schedule order. These are __asm__ value-barriers, NOT
  * `register __asm__("$N")` pins.
  */
-extern void func_8012F14C(s32, s32, s32);
+extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
 extern void func_8012EF70(s32, s32);
 
 void func_801495C4(s32 a0, s32 a1) {
@@ -2137,7 +2137,7 @@ void func_801495C4(s32 a0, s32 a1) {
  * the call-1 arg-materialization schedule order. These are __asm__ value-barriers, NOT
  * `register __asm__("$N")` pins.
  */
-extern void func_8012F14C(s32, s32, s32);
+extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
 extern void func_8012EFB8(s32);
 
 void func_8014964C(s32 a0, s32 a1) {
@@ -2194,7 +2194,7 @@ DEFINE_func_801498E0()  /* dedup: shared engine-core @0x801498e0 (src/shared) */
 
 
 extern void func_80015978(s32 a0, s32 *a1);
-extern void func_8012E5CC(s32, u16, u16);
+extern void func_8012E5CC(s32 param_1, u16 param_2, u16 param_3);
 extern void func_8002D4C8(s32 a0, s32 a1);
 extern void func_80147364();
 extern s32 func_800CCF28(s32 a0);
@@ -2283,7 +2283,7 @@ DEFINE_func_80149DD8()  /* dedup: shared engine-core @0x80149dd8 (src/shared) */
 DEFINE_func_80149E94()  /* dedup: shared engine-core @0x80149e94 (src/shared) */
 
 
-extern void func_80144A04(s32*);
+extern void func_80144A04(s32 *a0);
 extern void func_801599A4(void *a0);
 extern void func_80159B3C(void *a0);
 extern void func_8016EDEC(s32 a0, s32 a1);
@@ -2349,7 +2349,7 @@ s32 func_80149FB0(s32 a0) {
 
 
 extern u8 func_8014BEF8(void);
-extern void func_8012F14C(s32, s32, s32);
+extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
 extern s32 func_80135260(s32 arg0, s32 arg1, s16 *arg2, s16 *arg3);
 extern void func_8014A1B0(s32 a0, s32 a1);
 s32 func_8014A048(s32 param_1) {

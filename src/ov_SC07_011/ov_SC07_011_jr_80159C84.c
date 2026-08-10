@@ -1838,7 +1838,7 @@ extern s32 func_801565C0(void);
 extern void func_80156A14(s32 *a0);
 extern void func_80156648(s32 *a0);
 extern u8 D_8011DAD8[];
-extern s32 func_8014C568(void *a0);
+extern s32 func_8014C568(s16 *a0, s16 *a1);
 extern void func_801567BC(s32 a0);
 extern B8 D_80128120[];
 extern B8 D_80128138[];

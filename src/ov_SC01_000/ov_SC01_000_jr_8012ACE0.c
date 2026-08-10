@@ -2417,8 +2417,8 @@ DEFINE_func_80132EF4()  /* dedup: shared engine-core @0x80132EF4 (src/shared) */
  * Canonical decls (wave22_targets.json sig_hints) verbatim; D_80126BE0 is
  * declared exactly as the 20+ sibling TUs already declare it.
  */
-extern void func_8012F038();
-extern void func_8012F14C();
+extern void func_8012F038(int param_1, short *param_2, short *param_3);
+extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
 extern s32 func_80135888(s32, s32, s32, s32);
 
 void func_80132F40(s32 arg0)

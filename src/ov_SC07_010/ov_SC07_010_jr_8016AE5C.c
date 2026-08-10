@@ -671,8 +671,8 @@ extern void func_80149210(s32 a0, s32 a1);
 extern s32 func_80149284(s32 *a0, s32 a1);
 extern void func_80149350(s32 arg0);
 extern void func_80149290(s32 a0);
-extern void func_8012F14C(s32);
-extern void func_8012F038(s32);
+extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
+extern void func_8012F038(int param_1, short *param_2, short *param_3);
 extern void func_8014942C(s32 arg0);
 extern s32 func_801496D4(void *a0);
 extern void func_8015AD08();
@@ -1253,7 +1253,7 @@ extern s32 func_801565C0(void);
 extern void func_80156A14(s32 *a0);
 extern void func_80156648(s32 *a0);
 extern u8 D_8011DAD8[];
-extern s32 func_8014C568(void *a0);
+extern s32 func_8014C568(s16 *a0, s16 *a1);
 extern void func_801567BC(s32 a0);
 extern B8 D_80128120[];
 extern B8 D_80128138[];
@@ -1934,7 +1934,7 @@ extern void func_800D1FC8(s32 a0, s32 a1);
 extern void func_801665B4();
 extern void func_80146C3C();
 extern void func_80166438(u8 *a0);
-extern s32 func_80128ED8(void *a0, void *a1);
+extern s32 func_80128ED8(s32 param_1, s32 *param_2);
 extern void func_800D22E4(s32 a0);
 extern void func_801665B4(s32 *a0);
 extern void func_80166618(void *a0);
@@ -2654,7 +2654,7 @@ extern void func_800123F0(s32 a0, s32 a1);
 extern void func_80013F3C(s32 a0);
 extern void func_80020F34(s32 a0, s32 a1);
 extern void func_8012EFB8(s32 a0);
-extern void func_8012F14C(s32);
+extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
 //   assignment -> lwl/lwr/swl/swr with reload; (2) 0x40-byte stack buffer `buf` (Mtx padded to
 //   0x40, not 0x20) sets the frame to 0x70 and lands v1/v2 at sp+0x50/0x58; (3) func_80017714(a4)
 //   takes param_5 as an arg -> gcc materializes `addu $a0,$s0,$zero` and stores the 4 zeros via $a0.
@@ -3520,7 +3520,7 @@ void func_8016DA7C(s32 param_1)
 }
 
 
-extern s32 func_80128ED8(void *a0, void *a1);
+extern s32 func_80128ED8(s32 param_1, s32 *param_2);
 extern void func_80146C3C(u8*);
 void func_8016DB34(s32 param_1)
 {
@@ -3547,7 +3547,7 @@ extern void func_800D20C0(void *a0, void *a1, s32 a2);
 extern s32 func_800D21C4(s32 a0, void *a1, s32 a2);
 extern void func_800D23D0(void *a0);
 extern void func_80128EA8(s32 a0, s32 a1, s32 a2);
-extern s32 func_80128ED8(void *a0, void *a1);
+extern s32 func_80128ED8(s32 param_1, s32 *param_2);
 extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern void func_80146C3C(u8*);
 extern void func_80149374(s32 a0, s32 a1);
@@ -3641,7 +3641,7 @@ void func_8016DEA4(void *a0) {
 }
 
 
-extern s32 func_80128ED8(void *a0, void *a1);
+extern s32 func_80128ED8(s32 param_1, s32 *param_2);
 extern void func_80146C3C(u8*);
 void func_8016DEE0(s32 a0) {
     if (func_80128ED8((void *)*(s32 *)(a0 + 0x20), (void *)(a0 + 0x24)) != 0) {

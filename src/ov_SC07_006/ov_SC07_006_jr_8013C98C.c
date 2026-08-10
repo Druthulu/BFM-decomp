@@ -1616,7 +1616,7 @@ DEFINE_func_8013E410()  /* dedup: shared engine-core @0x8013e410 (src/shared) */
 DEFINE_func_8013E448()  /* dedup: shared engine-core @0x8013e448 (src/shared) */
 
 
-extern s32 func_8012C750(s32);
+extern s32 func_8012C750(s32 a0);
 void func_8013E4B4(void) {
 
     extern u8 *D_801274C8;

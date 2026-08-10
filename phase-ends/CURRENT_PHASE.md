@@ -181,7 +181,78 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 
 ---
 
-# 🛑 SESSION S46 CHECKPOINT — FINAL (2026-08-08) — FRESH SESSION SAFE HERE
+# 🛑 SESSION S47 CHECKPOINT (2026-08-10) — FRESH SESSION SAFE HERE
+> **Tree CLEAN** but for R23 `db.*.gbf` churn — never stage. **Nothing running.**
+> Gates at this commit: **`check-all` 213 passed / 0 failed of 213** (R22 clean-fleet: `make clean`
+> + `extract-all` 212+main + `check-all`); **`tools-health` green at session start (exit 0)** —
+> the S46 carry is CLOSED; cookbook index regenerated to 467 sections, `--check` OK.
+> **Fleet %: UNCHANGED (93.8 instr / 87.2 distinct / 95.69 fn-count).** Task B banks **zero
+> functions by design** — it is declaration plumbing that unblocks C. Do not read it as a gain.
+> **NO phase close** — T5 unopened, needs Drew's gate-2.
+
+## ✅ TASK B — DONE, and RE-SCOPED AGAIN (S46-10's "intra-header" framing was also wrong)
+**What B actually was.** Not "memcpy + 3 symbols". The 129 `dedup_extend` failures are
+**106 `conflicting types` / 21 CC1-FAIL / 4 undefined-ref / 3 DIFF** — real byte divergence is 2%.
+`memcpy` is **17 of 106**; the dominant tail is ordinary deduped callees (`func_80128ED8` 19,
+`func_8012F14C` 14, `ApplyMatrixSV` 12). And the DIRECTION is reversed: for `func_80128ED8` the
+byte-true DEF is `s32 (s32, s32*)` — **what the target `.c` files already declare** — while
+`engine_core.h`'s macro-local extern is the stub-era guess. The header was the liar, not the targets.
+**Shipped:** 8 declaration axes conformed, **~10,930 sites**, R22 **213/213**. Full write-up:
+cookbook **§159**.
+
+| symbol | sites | files | note |
+|---|---|---|---|
+| `func_8012F14C` | 2,843 | 2,344 | arity 1→3 |
+| `func_8012E5CC` | 2,052 | 2,047 | scalar-narrowing warning — **benign**, 0 breaks |
+| `func_8012F038` | 2,214 | 2,195 | arity 1→3 |
+| `func_8014C568` | 1,816 | 1,814 | arity 1→2 |
+| `func_80128ED8` | 1,524 | 1,266 | incl. 10 header sites the tool skipped |
+| `func_8012C750` | 406 | 403 | return void→s32 |
+| `func_8012C0EC` | 50 | 26 | |
+| `func_80144A04` | 25 | 17 | return s32→void; 1 consumer needed a §17a-1 cast |
+
+**Tooling (R33/R35 — three guards fixed, all the same shape):**
+- **NEW `tools/macro_draft.py`** — a deduped fn has NO definition in any `.c` (the body is inside a
+  `DEFINE_func_X()` macro; continuations + indentation defeat every definition parser), so
+  `conform_decls` had been refusing the largest class it was built for. This emits the body verbatim.
+- **`conform_decls` skipped `engine_core.h` wholesale** as "a defining TU" → 10 stale externs
+  survived while 1,514 fleet sites moved, and it still printed `axis complete`. Skip now scoped to
+  the **defining macro's span**.
+- **Return-axis compare was literal** → `typedef int s32` and a missing `extern` faked a return
+  change; refused a conform whose return was `s32` on both sides. Now compares normalized types.
+- **§85 consumer scan under-reported** (the dangerous direction): `s0 = (s32 *)func_80144A04(...)`
+  — a cast between `=` and the call hid it; cleared as "0 consumers", then `void value not ignored`.
+  Now classified by POSITION (discarded only if a standalone statement). Both directions validated.
+
+**Two corrections to my own predictions (R14):** (1) I named `func_8012E5CC`'s scalar-narrowing as
+the likely break — it was benign across 2,052 sites; the breaks were **arity** (6 call sites
+fleet-wide, fixed with §17a-1 fn-ptr casts — cheaper than reverting a 2,843-site axis) and the
+consumer-guard gap. (2) My first probe conformed the header ALONE and broke `ov_SC01_000` —
+§85's all-or-nothing is literal, because that binary carries the old spelling locally.
+
+**Deliberately NOT done (named, not silently dropped):**
+- **`memcpy` (17 rows)** — no C definition to be byte-truth, and the build emits `conflicting types
+  for built-in function 'memcpy'`; the declaration changes gcc's builtin handling (`ov_MAIN_012.c`
+  :14333). Needs a chosen canonical + its own gate, NOT a mechanical conform.
+- **`ApplyMatrixSV` (12)** — library symbol, no DEF; fleet majority is `(void*, Svec*, Svec*)`.
+- **`gte_SetRotMatrix` (4)** — an **undefined reference**, a LINK bug, not a type conflict.
+- **`func_80147364` (1)** — its `DEFINE_` macro has no column-0 definition; `macro_draft` refuses.
+- **`D_800AE620` (3) / `D_80126CC4` (2)** — data symbols, different axis.
+
+## ▶ RESUME HERE — C, then D
+**C. `dedup_extend` over the 129** — B is done, so C is UNBLOCKED:
+`.venv/bin/python tools/dedup_extend.py --binaries ov_SC03_107,ov_MAIN_012,ov_SC02_037`
+All three target binaries gate byte-identical at this HEAD. **Do NOT forecast a yield** — S46
+predicted ~38 twice and got 0 twice. The honest expectation is bounded by the class split above:
+at most ~89 of 129 had a conflict B could remove, and 21 CC1-FAIL + 3 DIFF are untouched by B.
+**`func_80144B9C` is not part of C** — its body is `src/shared/func_80144B9C.h` (P24 hand-rolled
+-O0), so `dedup_extend` reaches for a macro that does not exist; it banks via
+`tools/rollout_whale_o0.py`. Live reach 3, not 141.
+**D. Next wave** — PAUSE FIRST (Drew's standing instruction) to choose targets together. Evidence:
+50–199 ins is the sweet spot; target list MUST pass `tools/validate_targets.py` (wired into
+`wave_snapshot`, fails closed).
+
+# 🛑 (superseded by S47) SESSION S46 CHECKPOINT — FINAL (2026-08-08)
 > HEAD after this commit. **Effort was ultracode**; a fresh session starts at the saved default.
 > **NO phase close** — T5 unopened, needs Drew's gate-2.
 > **⚠️ VERIFICATION STATE, honestly:** `make clean && extract-all && check-all` → **213 passed / 0

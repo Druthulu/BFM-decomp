@@ -323,10 +323,10 @@ extern void func_80149210(s32 a0, s32 a1);
 extern s32 func_80149284(s32 *a0, s32 a1);
 extern void func_80149350(s32 arg0);
 extern void func_80149290(s32 a0);
-extern void func_8012F14C(s32);
+extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
 extern void func_80149374(s32 arg0, s32 arg1);
 extern void func_801493D0(s32 param_1, s32 param_2, s32 param_3);
-extern void func_8012F038(s32);
+extern void func_8012F038(int param_1, short *param_2, short *param_3);
 extern void func_8014942C(s32 arg0);
 extern void func_8012EF70(s32 a0, s32 a1);
 extern void func_80149544(s32 arg0, s32 arg1, s32 arg2);
@@ -353,7 +353,7 @@ extern s32 func_80149AA8(s32 *a0);
 extern s32 func_80149B54(s32 *a0);
 extern void func_80146750(void *a0);
 extern s32 func_801498E0(s32 *a0);
-extern s32 func_8012E5CC(s32 a0, s32 a1, s32 a2);
+extern void func_8012E5CC(s32 param_1, u16 param_2, u16 param_3);
 extern void func_80147364(u16 a0, s32 a1);
 extern s32 func_800CCF28(s32 a0);
 extern s32 func_80149954(s32 s0);
@@ -961,7 +961,7 @@ extern s32 func_801565C0(void);
 extern void func_80156A14(s32 *a0);
 extern void func_80156648(s32 *a0);
 extern u8 D_8011DAD8[];
-extern s32 func_8014C568(void *a0);
+extern s32 func_8014C568(s16 *a0, s16 *a1);
 extern void func_801567BC(s32 a0);
 extern u8 D_80126730[];
 extern void func_80156848(s32 param_1, s32 param_2);
@@ -1674,7 +1674,7 @@ extern void func_80128EA8(s32 a0, s32 a1, s32 a2);
 extern void func_801665B4();
 extern void func_80146C3C();
 extern void func_80166438(u8 *a0);
-extern s32 func_80128ED8(void *a0, void *a1);
+extern s32 func_80128ED8(s32 param_1, s32 *param_2);
 extern void func_800D22E4(s32 a0);
 extern void func_801665B4(s32 *a0);
 extern void (*D_801902C8[])(void);
@@ -3360,7 +3360,7 @@ INCLUDE_ASM("asm/ov_SC06_022/nonmatchings/ov_SC06_022_jr_8017BEBC", func_8017D8D
 extern s32 func_80012C6C(s32 a0, s32 a1, s32 a2);
 extern s32 func_80012ABC(s32 a0, s32 a1, s32 a2);
 extern void func_80049CAC(s32 a0, s32 a1);
-extern void func_8012F14C(s32);
+extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
 
 void func_8017D9C0(s32 param_1, s16 *param_2) {
     MATRIX m1;
@@ -4186,7 +4186,7 @@ extern s32  func_8012B608(s32 a0, s32 a1, s32 a2);
 extern void func_8012B178(s32 a0, s32 a1);
 extern s32  func_801856F0(s32 a0);
 extern void func_80185878(s32 a0);
-extern void func_8012F14C(s32 a0);
+extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
 extern void func_80187414(s32, void*, void*, s32);
 extern void func_801873B0(s32, void*, s32, s32, s32, s32);
 extern s32  func_80013478(s32 a0, s32 a1);
@@ -5582,7 +5582,7 @@ void func_8018809C(s32 param_1) {
 
 
 extern void func_8012931C(s32 a0);
-extern s32 func_80128ED8(void *a0, void *a1);
+extern s32 func_80128ED8(s32 param_1, s32 *param_2);
 extern void func_801292C8(s32 a0);
 
 void func_8018814C(s32 param_1) {
@@ -5636,7 +5636,7 @@ extern void func_800D20C0(void *a0, void *a1, s32 a2);
 extern void func_800D23D0(void *a0);
 extern void func_8012A828(s32 a0, void *a1);
 extern void func_8012C218(void *a0);
-extern void func_8012F14C(s32);
+extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
 extern s32 func_80134510(s32 arg);
 
 // @class: regalloc-order
@@ -7273,7 +7273,7 @@ void func_8018AB48(s32 a0) {
 
 extern void func_80128EA8();
 extern void func_8012931C();
-extern int  func_80128ED8();
+extern s32 func_80128ED8(s32 param_1, s32 *param_2);
 extern u8  *func_8012913C();
 extern void func_801292C8();
 extern int  func_8012D664();
@@ -7979,7 +7979,7 @@ end_switch:
 
 extern s32 func_80188204(s32 a0, s32 a1);
 extern s32 func_8012C588(s32 a0, s32 a1);
-extern void func_8012F14C(s32);
+extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
 extern void func_8012B370(int a0);
 extern s32 func_8012C658(s32 arg0, s32 arg1, s32 arg2);
 extern void func_8004914C(void *a0);

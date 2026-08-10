@@ -10813,3 +10813,68 @@ across loops, REUSE one variable before touching pins or densities — the §17 
 not the opener. Pins tried here (sub→$3, mask→$4) each half-worked and leaked new prefs
 (`set_preference` sees a pinned var as hard → its expression partners inherit prefs); the reuse
 form needed zero pins.
+
+
+### §159 — THE DECLARATION AXIS: conform to byte-truth, and make every guard state its COVERAGE (P30 S47; ~10,930 sites across 8 axes, fleet byte-identical)
+
+**The class is bigger than "a few symbol conflicts".** `dedup_extend`'s 129 failures over three
+binaries split **106 `conflicting types` / 21 CC1-FAIL / 4 undefined-reference / 3 DIFF**. Real byte
+divergence is **2%**; everything else is declaration plumbing. `memcpy` — the symbol the checkpoint
+named — is 17 of 106. The tail that actually dominates is ordinary deduped callees: `func_80128ED8`
+(19), `func_8012F14C` (14), `ApplyMatrixSV` (12).
+
+**Direction: the HEADER is usually the liar, not the target.** For `func_80128ED8` the byte-true
+definition is `s32 (s32, s32*)` — exactly what the overlay `.c` files declare — while
+`engine_core.h`'s macro-local `extern` says `(void*, void*)`. §58b already says the draft's
+signature is byte-truth; the corollary is that a *macro-local* extern is just another stub-era guess
+and carries no more authority than a TU's.
+
+**A deduped function has NO definition in any `.c`** — its body lives inside a
+`#define DEFINE_func_X() \` macro, where backslash continuations and indentation defeat every
+definition parser. `conform_decls` therefore refused (correctly) the entire largest class it was
+built for. **`tools/macro_draft.py`** bridges it: emit the macro body verbatim, dedented, and the
+existing conformer reads the signature it already knows how to read.
+
+**§85's all-or-nothing is LITERAL.** Conforming the 10 header sites alone broke `ov_SC01_000`: that
+binary carries the old spelling in its own file (`_jr_80140608.c:2422`). Header and fleet move
+together or not at all.
+
+**Three guards that asserted completeness over a population they had silently narrowed:**
+
+1. **The file-level "defining TU" skip.** `engine_core.h` is not a TU — it holds ~1,600 macro
+   definitions plus thousands of unrelated macro-local externs. Skipping it whole left 10 stale
+   externs while 1,514 fleet sites moved, *and the run still printed* `non-canonical declarations
+   remaining: 0  OK (axis complete)` — a completion assertion blind to the file it had skipped.
+   **Fix:** scope the skip to the defining macro's span, not the file.
+2. **The return-axis comparison.** It matched the literal spelling `extern <ret> `, so `typedef int
+   s32` made 11 `int` sites look like a return change and 2 sites omitting `extern` defeated the
+   prefix — refusing a conform whose return type was `s32` on both sides, citing 165 consumers.
+   **Fix:** compare NORMALIZED return types.
+3. **The §85 consumer scan — the dangerous one, because it under-reported.** Three surface patterns
+   (`= fn(`, `return fn(`, `if (fn(`) miss every consumer that is not immediately after the
+   operator, and this codebase casts constantly:
+   `s0 = (s32 *)func_80144A04((s32 *)a1);` — cleared as "0 callers consume", then the build failed
+   with `void value not ignored as it ought to be`. **Fix:** invert the test — a call is DISCARDED
+   only when it stands alone as a complete statement; everything else consumes. Validated both
+   ways: finds exactly the site that broke the build, still returns 0 for the two return-axis
+   changes that gated clean.
+
+**Arity conforms: cast the handful of call sites, do not revert the axis.** Widening `(s32)` to
+`(s32, s32, s32)` fleet-wide produced `too few arguments` at exactly **6** sites (5 real, 1 in a
+comment). The §17a-1 fn-pointer cast `((void (*)())func_X)(a)` is byte-neutral — the callee address
+is a compile-time constant, so gcc still emits a direct `jal` — and it preserves a 2,843-site axis
+that reverting would have thrown away.
+
+**Prediction check, recorded because it was wrong:** the documented hazard (`SCALAR-NARROWING
+s32 -> u16`, byte-proven on `func_80175DA8`) was **benign** here across 2,052 sites; the breaks came
+from arity and from the under-reporting consumer guard, neither of which the tool warned about.
+
+**`memcpy` is NOT conformable this way.** It has no C definition to be byte-truth, and the build
+emits `warning: conflicting types for built-in function 'memcpy'` — the declaration changes gcc's
+builtin handling, which is why `ov_MAIN_012.c:14333` records an `extern memcpy` turning an inlined
+block-move into a CALL. That class needs a chosen canonical + its own gate, not a mechanical conform.
+
+**THE GENERAL LAW (worth a rule):** *an assertion that excludes part of its own population reports
+success over the gap.* All three defects printed a clean verdict while skipping a file, a typedef
+alias, or a syntactic position. A guard must state its COVERAGE, not just its verdict — the same
+finding as `_open_stubs` vs `corpus.stubs` (T0(d)) and the family_hseq scope stamp (T0(c)).

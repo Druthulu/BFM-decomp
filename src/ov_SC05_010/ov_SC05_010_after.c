@@ -924,7 +924,7 @@ extern void func_8014964C(s32 param_1, s32 param_2);
  * the call-1 arg-materialization schedule order. These are __asm__ value-barriers, NOT
  * `register __asm__("$N")` pins.
  */
-extern void func_8012F14C(s32);
+extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
 extern void func_8012EF70(s32, s32);
 
 void func_801495C4(s32 a0, s32 a1) {

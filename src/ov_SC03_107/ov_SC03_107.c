@@ -11006,7 +11006,7 @@ void func_80169F00(void *a0) {
 
 INCLUDE_ASM("asm/ov_SC03_107/nonmatchings/ov_SC03_107", func_80169F3C);
 
-extern s32 func_80128ED8(s32, s32*);
+extern s32 func_80128ED8(s32 param_1, s32 *param_2);
 extern void func_80146C3C();
 void func_80169FE0(s32 a0) {
     if (((s32 (*)(void *, void *))func_80128ED8)((void *)*(s32 *)(a0 + 0x20), (void *)(a0 + 0x24)) != 0) {
@@ -11746,7 +11746,7 @@ extern void func_800D20C0(void *a0, void *a1, s32 a2);
 extern s32 func_800D21C4(s32 a0, void *a1, s32 a2);
 extern void func_800D23D0(void *a0);
 extern void func_80128EA8(s32 a0, s32 a1, s32 a2);
-extern s32 func_80128ED8(s32, s32*);
+extern s32 func_80128ED8(s32 param_1, s32 *param_2);
 extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern void func_80146C3C(u8*);
 extern void func_80149374(s32 a0, s32 a1);
@@ -11841,7 +11841,7 @@ void func_8016DEA4(void *a0) {
 }
 
 
-extern s32 func_80128ED8(s32, s32*);
+extern s32 func_80128ED8(s32 param_1, s32 *param_2);
 extern void func_80146C3C();
 void func_8016DEE0(s32 a0) {
     if (((s32 (*)(void *, void *))func_80128ED8)((void *)*(s32 *)(a0 + 0x20), (void *)(a0 + 0x24)) != 0) {
@@ -15088,7 +15088,7 @@ typedef struct {
 
 
 extern s32 rand(void);
-extern s32 func_80128ED8(s32, s32*);
+extern s32 func_80128ED8(s32 param_1, s32 *param_2);
 extern s32 func_80132EF4(s32 a0, s32 a1);
 extern s32 func_8012BEE8(s32 a0);
 extern void func_8018233C(s32 arg0);
@@ -15166,7 +15166,7 @@ void func_80181EC0(s32 arg0) {
 
 
 extern s32 rand(void);
-extern s32 func_80128ED8(s32, s32*);
+extern s32 func_80128ED8(s32 param_1, s32 *param_2);
 extern s32 func_80132EF4(s32 a0, s32 a1);
 extern void func_8018233C(s32 arg0);
 extern void func_801823B8(void *arg0);

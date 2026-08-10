@@ -1662,7 +1662,7 @@ void func_801427EC(int param_1)
 
 
 extern s32 func_80142DB8(s32 *a0);
-extern s32 func_8012C0EC(s32);
+extern s32 func_8012C0EC(s32 a0);
 extern void func_80142BB4(s32 *a0, s32 a1, s32 a2);
 extern void func_80142C9C(s32 *a0);
 extern s32 func_8012BF10(s32 a0, s32 a1);
@@ -1937,7 +1937,7 @@ void func_80142EC0(s32 param_1) {
 
 
 extern s32 func_80142DB8(s32 *a0);
-extern s32 func_8012C0EC(s32);
+extern s32 func_8012C0EC(s32 a0);
 extern void func_80142BB4(s32 *a0, s32 a1, s32 a2);
 extern void func_80142C9C(s32 *a0);
 extern s32 func_8012BF10(s32 a0, s32 a1);
@@ -2005,7 +2005,7 @@ void func_8014305C(int param_1)
 
 
 extern s32 func_80142DB8(s32 *a0);
-extern s32 func_8012C0EC(s32);
+extern s32 func_8012C0EC(s32 a0);
 extern void func_80142BB4(s32 *a0, s32 a1, s32 a2);
 extern void func_80142C9C(s32 *a0);
 extern s32 func_8012BF10(s32 a0, s32 a1);
@@ -2091,7 +2091,7 @@ DEFINE_func_80143390()  /* dedup: shared engine-core @0x80143390 (src/shared) */
 
 extern void func_80143458();
 extern void func_8012931C(struct vec *a0);
-extern s32 func_80128ED8(s32, s32*);
+extern s32 func_80128ED8(s32 param_1, s32 *param_2);
 extern void func_801292C8(u8 *a0);
 void func_801433F0(s32 a0) {
     if (*(u16 *)(a0 + 2) == 0) {
@@ -2145,7 +2145,7 @@ void func_80143458(s32 param_1)
 
 extern void func_8014358C();
 extern void func_8012931C(struct vec *a0);
-extern s32 func_80128ED8(s32, s32*);
+extern s32 func_80128ED8(s32 param_1, s32 *param_2);
 extern void func_801292C8(u8 *a0);
 void func_8014350C(s32 *a0) {
     if (*(u16 *)((u8 *)a0 + 2) == 0) {
@@ -2474,7 +2474,7 @@ void func_80144364(int param_1) {
 extern void func_80016714(void *a0, s32 a1);
 extern s32 func_8004787C(s32 a0);
 extern s32 func_80047948(s32 a0);
-extern s32 func_80128ED8(s32, s32*);
+extern s32 func_80128ED8(s32 param_1, s32 *param_2);
 extern void func_8012AD80(s32 a0);
 extern void func_8012C218(void *a0);
 
@@ -2509,7 +2509,7 @@ DEFINE_func_80144558()  /* dedup: shared engine-core @0x80144558 (src/shared) */
 
 
 extern void func_8012AD80(s32 a0);
-extern s32 func_80128ED8(s32, s32*);
+extern s32 func_80128ED8(s32 param_1, s32 *param_2);
 extern void func_80016714(void *a0, s32 a1);
 extern void func_8012C218(void *a0);
 void func_8014462C(u8 *a0) {

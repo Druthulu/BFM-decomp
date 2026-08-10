@@ -3699,7 +3699,7 @@ void func_80144364(int param_1) {
 extern void func_80016714(void *a0, s32 a1);
 extern s32 func_8004787C(s32 a0);
 extern s32 func_80047948(s32 a0);
-extern s32 func_80128ED8(void *a0, void *a1);
+extern s32 func_80128ED8(s32 param_1, s32 *param_2);
 extern void func_8012AD80(s32 a0);
 extern void func_8012C218(void *a0);
 extern s32 D_80188448;

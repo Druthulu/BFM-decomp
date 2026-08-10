@@ -68,6 +68,52 @@ def _promote(ty):
     return ty if "*" in ty else _PROMOTE.get(ty, ty)
 
 
+# The fleet's typedefs (include/common.h): `int` IS `s32`, `unsigned int` IS `u32`. Comparing the
+# LITERAL return spelling therefore reports a phantom return-axis change for every decl written in
+# stock C types — and the §85 precondition below then refuses a conform that changes no return type
+# at all. Measured on func_80128ED8 (Phase 30 S47): 1,592 decl sites, return `s32` on both sides,
+# REFUSED because 11 sites spell it `int` and 2 omit `extern`.
+_RET_ALIAS = {"int": "s32", "signed": "s32", "signed int": "s32", "long": "s32",
+              "signed long": "s32", "unsigned": "u32", "unsigned int": "u32",
+              "unsigned long": "u32", "short": "s16", "unsigned short": "u16",
+              "char": "s8", "signed char": "s8", "unsigned char": "u8"}
+
+
+def _norm_ret(ty):
+    ty = re.sub(r"\s+", " ", ty.replace("extern", " ").strip())
+    stars = ty.count("*")
+    base = re.sub(r"\s+", " ", ty.replace("*", "").strip())
+    return _RET_ALIAS.get(base, base) + "*" * stars
+
+
+ENGINE_HDR = os.path.join(REPO, "src", "shared", "engine_core.h")
+
+
+def _defining_macro_span(txt, fn):
+    """(start, end) char offsets of `#define DEFINE_<fn>()` including its backslash continuations.
+
+    The deduped body lives inside this span and is byte-truth; everything OUTSIDE it in the same
+    header is an ordinary declaration belonging to some other macro, and must move with the axis."""
+    m = re.search(rf"^[ \t]*#define[ \t]+DEFINE_{re.escape(fn)}\(\)", txt, re.M)
+    if not m:
+        return None
+    k = m.end()
+    while True:
+        nl = txt.find("\n", k)
+        if nl == -1:
+            return (m.start(), len(txt))
+        if not txt[k:nl].rstrip().endswith("\\"):
+            return (m.start(), nl)
+        k = nl + 1
+
+
+def _ret_of(decl, fn):
+    """The return type of one declaration FORM, normalized. `extern` is optional — a decl inside a
+    header macro may omit it, and a literal-prefix match silently reads that as a return change."""
+    m = re.match(rf"\s*(?:extern\s+)?(.*?)\b{re.escape(fn)}\s*\(", decl)
+    return _norm_ret(m.group(1)) if m else None
+
+
 def def_signature(draft_path, fn):
     """(return_type, params_text) of the draft's DEFINITION — the byte-true shape.
 
@@ -118,20 +164,45 @@ def strip_names(params):
 
 
 def consumers(fn):
-    """Call sites whose VALUE is used — the §85 return-axis precondition."""
-    pats = [re.compile(rf"=\s*{fn}\s*\("), re.compile(rf"return\s+{fn}\s*\("),
-            re.compile(rf"(?:if|while|switch)\s*\(\s*{fn}\s*\(")]
+    """Call sites whose VALUE is used — the §85 return-axis precondition.
+
+    Classified by POSITION, not by surface pattern. The three patterns this replaced
+    (`= fn(`, `return fn(`, `if (fn(`) missed every consumer that does not put the call
+    immediately after the operator, and this codebase casts constantly:
+
+        s0 = (s32 *)func_80144A04((s32 *)a1);      <- engine_core.h:29159, MISSED
+        foo(func_x(a));                            <- argument position, MISSED
+        if (a && func_x(b))                        <- not the first operand, MISSED
+
+    Under-reporting here is the dangerous direction: it CLEARS a return-axis change that is
+    not byte-neutral. Measured in Phase 30 S47 — func_80144A04 was conformed s32 -> void on a
+    "0 callers consume" verdict and broke ov_SC01_000 with `void value not ignored as it ought
+    to be`. So the test is inverted: a call is DISCARDED only when it stands alone as a
+    complete statement; everything else counts as a consumer."""
+    call = re.compile(rf"(?<![_\w]){re.escape(fn)}\s*\(")
     hits = []
     for p in sources():
         try:
             txt = open(p, errors="replace").read()
         except OSError:
             continue
-        for pat in pats:
-            for m in pat.finditer(txt):
-                ls = txt.rfind("\n", 0, m.start()) + 1
-                le = txt.find("\n", m.start())
-                hits.append((os.path.relpath(p, REPO), txt[ls: le if le != -1 else len(txt)].strip()[:100]))
+        masked = cdecl._mask(txt)                  # never read comments/strings (H5)
+        for m in call.finditer(masked):
+            ls = masked.rfind("\n", 0, m.start()) + 1
+            le = masked.find("\n", m.start())
+            line = txt[ls: le if le != -1 else len(txt)]
+            before = masked[ls:m.start()].strip().rstrip("\\").strip()
+            if "extern" in before or re.match(rf"^[A-Za-z_][\w \t\*]*$", before) and "(" not in before:
+                continue                           # a declaration or definition, not a call
+            # walk to the matching ')' and look at what follows
+            k, depth = m.end(), 1
+            while k < len(masked) and depth:
+                depth += (masked[k] == "(") - (masked[k] == ")")
+                k += 1
+            after = masked[k:k + 4].lstrip()
+            discarded = before in ("", "{", "}", ";", "else") and after.startswith(";")
+            if not discarded:
+                hits.append((os.path.relpath(p, REPO), line.strip()[:100]))
     return hits
 
 
@@ -290,7 +361,10 @@ def main():
               f"their decl compatible and cast at the call site), not the body.")
 
     # §85 precondition — only matters when the RETURN type changes.
-    ret_changes = any(not re.match(rf"extern\s+{re.escape(ret)}\s", f) for f in forms)
+    # Compare NORMALIZED return types, not spellings: a typedef alias (`int` for `s32`) or a missing
+    # `extern` is not a return-axis change. A genuine void -> s32 widening still trips this.
+    _want = _norm_ret(ret)
+    ret_changes = any((_r := _ret_of(f, a.fn)) is not None and _r != _want for f in forms)
     if ret_changes:
         cs = consumers(a.fn)
         if cs:
@@ -324,10 +398,22 @@ def main():
         # definition below it — the tool overwrote a deliberate, byte-true, per-overlay exception.
         # A fleet-wide axis is only meaningful for TUs that CONSUME the symbol; a TU that DEFINES it
         # is byte-truth for itself and must be left entirely alone.
-        if def_re.search(cdecl._mask(txt)):
+        # ...EXCEPT the shared macro library, which is not a TU at all (Phase 30 S47, byte-witnessed).
+        # `engine_core.h` holds ~1,600 DEFINE_func_* macro DEFINITIONS plus thousands of unrelated
+        # macro-local `extern`s. Skipping it whole because it "defines" the function leaves every one
+        # of those externs at the OLD spelling while all 1,514 fleet sites move to the new one — a
+        # half-axis in the one file every overlay includes, i.e. the exact fleet-wide break §85 warns
+        # about. Measured on func_80128ED8: 10 stale externs survived the "axis complete" assertion.
+        # The narrow truth is that the DEFINING MACRO owns its own body — not that the file does.
+        _is_engine_hdr = os.path.abspath(p) == os.path.abspath(ENGINE_HDR)
+        protect = _defining_macro_span(txt, a.fn) if _is_engine_hdr else None
+        if def_re.search(cdecl._mask(txt)) and not _is_engine_hdr:
             defining.append(os.path.relpath(p, REPO))
             continue
         spans = _decl_spans(txt)
+        if protect:                                   # conform around the definition, not past it
+            lo, hi = protect
+            spans = [s for s in spans if not (s[0] < hi and s[1] > lo)]
         if not spans:
             continue
         new = txt
