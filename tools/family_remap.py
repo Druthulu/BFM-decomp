@@ -973,7 +973,37 @@ def _carry_typedefs(lines, unit_text):
     already present are prepended, so a unit that was already complete is byte-unchanged. Whether the
     gap is fatal depends on whether the TARGET TU happens to declare the type itself — which is why
     this failed loudly for some families and silently succeeded for others."""
-    # index every file-scope typedef once: name -> full (possibly multi-line) block
+    defs = _typedef_blocks(lines)
+    # ALREADY-CARRIED test, by BLOCK not by line (P30 S48). The old test was
+    # `^\s*typedef\b[^\n]*\bNAME\b`, which requires the name on the SAME LINE as the keyword — true
+    # of `typedef unsigned char u8;`, never true of the multi-line form the backscan actually
+    # carries: `typedef struct Foo {` … `} Foo;`. So every multi-line typedef the preamble already
+    # held was carried a SECOND time, and the unit reached the gate with two definitions of one tag:
+    # `redefinition of struct Foo_8013C0F8` (canon_sig_reconcile uniquifies the tag, so the
+    # duplicate is exact). Measured across the 44 jr families of the 0b sweep: 1 family, 3 slots.
+    carried = {n for n, _ in _typedef_blocks(unit_text.split("\n"))}
+
+    # TRANSITIVE closure: a carried typedef may itself name another typedef (measured — carrying
+    # `Vec8_80182FD4` alone then failed on `SVECTOR_8016E7C8`, which it references). Iterate to a
+    # fixpoint, emitting DEPENDENCY-FIRST so C89 sees each name before its use.
+    out, seen, want = [], set(carried), unit_text
+    for _ in range(12):                       # depth guard; real chains here are 2-3
+        added = False
+        for name, blk in defs:
+            if name in seen:
+                continue
+            if re.search(r'\b' + re.escape(name) + r'\b', want):
+                seen.add(name)
+                out.insert(0, blk)            # dependency-first: later finds precede earlier ones
+                want += "\n" + blk
+                added = True
+        if not added:
+            break
+    return out
+
+
+def _typedef_blocks(lines):
+    """[(name, full_block)] for every typedef in `lines` — single- or multi-line."""
     defs = []
     for k, ln in enumerate(lines):
         if not ln.lstrip().startswith("typedef"):
@@ -995,27 +1025,7 @@ def _carry_typedefs(lines, unit_text):
         m = _TD_NAME_RE.match(blk)
         if m:
             defs.append((m.group(1), blk))
-
-    # TRANSITIVE closure: a carried typedef may itself name another typedef (measured — carrying
-    # `Vec8_80182FD4` alone then failed on `SVECTOR_8016E7C8`, which it references). Iterate to a
-    # fixpoint, emitting DEPENDENCY-FIRST so C89 sees each name before its use.
-    out, seen, want = [], set(), unit_text
-    for _ in range(12):                       # depth guard; real chains here are 2-3
-        added = False
-        for name, blk in defs:
-            if name in seen:
-                continue
-            if re.search(r'^\s*typedef\b[^\n]*\b' + re.escape(name) + r'\b', unit_text, re.M):
-                seen.add(name)                # already carried by the backscan
-                continue
-            if re.search(r'\b' + re.escape(name) + r'\b', want):
-                seen.add(name)
-                out.insert(0, blk)            # dependency-first: later finds precede earlier ones
-                want += "\n" + blk
-                added = True
-        if not added:
-            break
-    return out
+    return defs
 
 
 def _macro_unit(addr):
