@@ -721,6 +721,21 @@ def set_pads_vars(ov, pads_map):
     txt = open(mk).read()
     before = current_pads_specs(ov, txt)
     after = {sub: sr for sub, sr in pads_map.items() if len(sr[0]) > 1}
+    # SECOND, DISAGREEING ORACLE (R34; P30 S48). The carry above is keyed by SUBSEG NAME, so a span
+    # whose owning object was RENAMED (jr_isolate_all moving it into `<ov>_jr_<addr>`) looks like a
+    # span with no prior spec and its line is dropped — silently, and never byte-neutral: the pads
+    # exist precisely because cc1's `.align 3` would otherwise pad a non-8-aligned interior table
+    # (measured on ov_SC02_037: spec 0,0,0,0 lost => `built, bytes differ`). A spec may legitimately
+    # disappear only when its span is re-derived to a single table; if the SUBSEG ITSELF is gone from
+    # the carve set, the loss is drift, not derivation. jr_isolate_all now repoints the line with the
+    # span, so this should be unreachable — it is here because the failure mode is a silent byte diff.
+    live_subs = set(re.findall(r"- \[0x[0-9A-Fa-f]+,\s*\.rodata,\s*(\w+)\]", open(cfg_path(ov)).read()))
+    vanished = [s for s in before if s not in after and s not in live_subs]
+    if vanished:
+        sys.exit(f"jtbl_carve: JTBL_PADS spec(s) for {vanished} would VANISH — their subseg is no "
+                 f"longer in {ov}'s carve set, so the spec was not re-derived, it was LOST (R32/R34). "
+                 f"If the object was renamed, repoint the line to the new object; if two spans "
+                 f"merged, fold the `tables=` starts into the surviving line first.")
     # drop all current lines for this overlay, then insert the regenerated block
     txt = re.sub(pads_line_re(ov) + r"\n", "", txt, flags=re.M)
     if after:

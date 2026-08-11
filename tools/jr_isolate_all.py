@@ -535,7 +535,26 @@ def _render_region(header, items, old_sub, new_sub, ambient):
     return "\n".join(parts) + "\n"
 
 
-def repoint_overlays_mk(carve_renames, dry):
+def repoint_overlays_mk(carve_renames, dry, ov=None, cfg_lines=None):
+    """Repoint both overlays.mk consumers of a renamed carve object: the `--order` leaf AND the
+    §8e `JTBL_PADS` target var.
+
+    THE PADS LINE MUST FOLLOW ITS SPAN (P30 S48, the 0b blocker). A multi-table span's pad spec is
+    keyed by the OBJECT that emits the tables, so when isolation moves the span's owner into
+    `<ov>_jr_<addr>` the spec has to move with it. Leaving it behind fails TWO different ways, both
+    observed on ov_SC02_037's 4-table span (spec `0,0,0,0`, tables +0x0,+0x14,+0x34,+0x4c):
+      * plain `make build` after a bare isolate -> the stale line arms the pads filter on the
+        residual object, which now emits NO jump table:
+        `jtbl_rodata_pads: consumed 0 rodata .align(s) but 4 pad spec(s) given` (S47, hard error);
+      * the jtbl_family_bank path (isolate -> jtbl_carve) -> `set_pads_vars` regenerates the block
+        keyed by the CURRENT subseg names, finds no prior spec under the new name, and the line is
+        SILENTLY DROPPED. cc1's natural `.align 3` then pads the span's non-8-aligned interior
+        tables (+4 before table 2 here) and the image shifts: `built, bytes differ`.
+    Byte-neutral: only the target NAME changes; the spec and its `tables=` record are untouched.
+
+    Fails loud (R32) if the old object still hosts a `.rodata` piece — then the line is ambiguous
+    (jtbl_carve's invariant is one contiguous .rodata run per object, so this should be
+    unreachable; if it ever fires, the carve set is the thing to fix, not this rename)."""
     mk = os.path.join(REPO, "config/overlays.mk")
     txt = open(mk).read()
     changed = []
@@ -543,7 +562,20 @@ def repoint_overlays_mk(carve_renames, dry):
         pat = rf'(--order[^#\n]*?){re.escape(old_sub)}\.o'
         if re.search(pat, txt):
             txt = re.sub(pat, lambda m: m.group(1) + new_sub + ".o", txt, count=1)
-            changed.append(f"{old_sub}.o -> {new_sub}.o")
+            changed.append(f"--order {old_sub}.o -> {new_sub}.o")
+        if ov is None:
+            continue
+        pads_pat = rf'^(build/src/{re.escape(ov)}/){re.escape(old_sub)}(\.o: JTBL_PADS := )'
+        if not re.search(pads_pat, txt, re.M):
+            continue
+        if cfg_lines is not None and any(
+                re.match(rf'^\s*- \[0x[0-9A-Fa-f]+,\s*\.rodata,\s*{re.escape(old_sub)}\]', ln)
+                for ln in cfg_lines):
+            sys.exit(f"jr_isolate_all: {old_sub} has a JTBL_PADS line AND still hosts a .rodata "
+                     f"carve after the split — refusing to repoint the spec to {new_sub} (R32). "
+                     f"One object must own at most one contiguous .rodata run.")
+        txt = re.sub(pads_pat, lambda m: m.group(1) + new_sub + m.group(2), txt, count=1, flags=re.M)
+        changed.append(f"JTBL_PADS {old_sub}.o -> {new_sub}.o")
     if not dry:
         open(mk, "w").write(txt)
     return changed
@@ -588,10 +620,10 @@ def main():
                      f"subseg lines from an un-reverted isolation — `git diff config/splat.{a.ov}.yaml` "
                      f"and clean it first.")
         seen_off, seen_nm = off, seen_nm | {nm}
-    mk_changes = repoint_overlays_mk(carve_renames, dry=True)
+    mk_changes = repoint_overlays_mk(carve_renames, dry=True, ov=a.ov, cfg_lines=cfg_lines)
     print(f"  -> {len(new_files)} region .c files; carve repoints: {carve_renames or '(none)'}")
     for c in mk_changes:
-        print(f"     overlays.mk --order: {c}")
+        print(f"     overlays.mk: {c}")
 
     if a.dry_run:
         print("  [dry-run] no files written.")
@@ -605,7 +637,7 @@ def main():
     # shadow nothing since we overwrite region 0 to the same path). Write all region files:
     for path, content in new_files.items():
         open(path, "w").write(content)
-    repoint_overlays_mk(carve_renames, dry=False)
+    repoint_overlays_mk(carve_renames, dry=False, ov=a.ov, cfg_lines=cfg_lines)
     print(f"  wrote config + {len(new_files)} region files + overlays.mk. Run `make extract "
           f"BINARY={a.ov} && make build BINARY={a.ov}` to byte-gate (R22).")
 
