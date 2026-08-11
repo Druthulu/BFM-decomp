@@ -3586,7 +3586,90 @@ void func_80182C00(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_092/nonmatchings/ov_SC03_092_jr_80181694", func_80182C3C);
+
+
+// STEP 0 magic-literal grep: (*(LBlk16 *)&D_800A5E88) / func_8002850C / func_80028620 / func_8012AD44
+// all found together in this same TU (ov_SC02_027_jr_8017D898.c). Siblings func_8018A758,
+// func_8018A808, func_8018A8B8, func_8018A970 (all banked, same TU) establish the byte-proven
+// idioms reused here: struct-assignment for 16-byte Blk16 records (`dst[0]=src[0];` etc.),
+// and `extern void func_8012AD44(s32 *a0, s16 a1);` cast-at-call. func_8018A8B8/func_8018A970
+// also already declare (*(LBlk16 *)&D_801AFE38) / (*(LBlk16 *)&D_801AFE70) as a *singular* Blk16_8018A8B8 elsewhere in
+// this TU, and (*(LBlk16 *)&D_800A5E88) likewise — since my splice point (replacing the func_80182C3C
+// INCLUDE_ASM stub) sits ABOVE those file-scope decls/typedef, I cannot reuse the
+// Blk16_8018A8B8 name here (typedef not yet visible) without a forward-reference problem, and
+// per §138 (reconcile direction) redeclaring those two symbols with an INCOMPATIBLE type at
+// file scope risks a clash once banked. So every symbol here is declared block-scoped (function
+// body) using a locally-named struct type — block-scope externs don't collide with another
+// function's block-scope externs for the same symbol (§S38/D2).
+
+typedef struct { s32 w[4]; } LBlk16; /* 16-byte record, block-scoped local name only */
+
+void func_80182C3C(void *a0)
+{
+    extern void func_8002850C(s32 a0, s32 a1, s32 a2);
+    extern void func_8012AD44(s32 *a0, s16 a1);
+    extern void func_80028620(s32 a0, void *a1);
+
+    extern s16 D_801AFDC0, D_801AFDC2, D_801AFDC4;
+    extern LBlk16 D_801AFDC8;
+
+    extern s16 D_801AFDF8, D_801AFDFA, D_801AFDFC;
+    extern LBlk16 D_801AFE00;
+
+    extern s16 D_801AFE30, D_801AFE32, D_801AFE34;
+    extern Blk16_8018A8B8 D_801AFE38;
+
+    extern s16 D_801AFE68, D_801AFE6A, D_801AFE6C;
+    extern Blk16_8018A8B8 D_801AFE70;
+
+    extern Blk16_8018A8B8 D_800A5E88;
+
+    s32 v1 = *(s16 *)((s32)a0 + 0xFC);
+    LBlk16 *s0;
+
+    *(s16 *)((s32)a0 + 0xFE) = 0;
+
+    switch (v1) {
+    case 0:
+        func_8002850C(D_801AFDC0, D_801AFDC2, D_801AFDC4);
+        s0 = &D_801AFDC8;
+        func_8012AD44((s32 *)a0, 1);
+        break;
+    case 1:
+        func_8002850C(D_801AFDF8, D_801AFDFA, D_801AFDFC);
+        s0 = &D_801AFE00;
+        func_8012AD44((s32 *)a0, 2);
+        break;
+    case 2:
+        func_8002850C(D_801AFE30, D_801AFE32, D_801AFE34);
+        s0 = &(*(LBlk16 *)&D_801AFE38);
+        func_8012AD44((s32 *)a0, 3);
+        break;
+    case 3:
+        func_8002850C(D_801AFDC0, D_801AFDC2, D_801AFDC4);
+        s0 = &D_801AFDC8;
+        func_8012AD44((s32 *)a0, 4);
+        break;
+    case 4:
+        func_8002850C(D_801AFE68, D_801AFE6A, D_801AFE6C);
+        s0 = &(*(LBlk16 *)&D_801AFE70);
+        func_8012AD44((s32 *)a0, 5);
+        break;
+    }
+
+    {
+        LBlk16 *dst = &(*(LBlk16 *)&D_800A5E88);
+        LBlk16 *src = s0;
+
+        dst[0] = src[0];
+        dst[1] = src[1];
+        dst[2] = src[2];
+
+        func_80028620(0, &dst[0]);
+        func_80028620(1, &dst[1]);
+        func_80028620(2, &dst[2]);
+    }
+}
 
 
 
