@@ -22999,7 +22999,75 @@ int func_80178970(void)
 }
 
 
-INCLUDE_ASM("asm/ov_MAIN_012/nonmatchings/ov_MAIN_012", func_801789AC);
+
+extern void func_8017BC38(int a0);
+extern void func_8017A4AC(void);
+extern void func_8017AE2C(s32 a0);
+extern s32 func_801399F0(s32 a0);
+extern void func_80178CBC(s32 a0, s32 a1);
+
+extern short D_80185C7C;
+extern s32 D_80185350;
+extern s32 D_80185B24;
+extern s32 D_80184F3C;
+extern s32 D_8018537C;
+extern s32 D_80184F38;
+
+s32 func_801789AC(s32 arg0)
+{
+    s32 ret;
+
+    func_8017BC38(arg0);
+    func_8017A4AC();
+    func_8017AE2C(arg0);
+
+    switch ((s16)(D_80185C7C - 1)) {
+    case 0:
+        ret = func_801399F0(D_80185350);
+        D_80185B24 = ret;
+        if (ret == 0) {
+            break;
+        }
+        func_80178CBC(arg0, D_80184F38);
+        break;
+    case 1:
+        ret = func_801399F0(D_80185350);
+        D_80185B24 = ret;
+        if (ret == 0) {
+            break;
+        }
+        func_80178CBC(arg0, D_80184F38);
+        break;
+    case 2:
+        func_80178CBC(arg0, D_80184F38);
+        break;
+    case 3:
+        if (--D_80184F3C > 0) {
+            break;
+        }
+        func_80178CBC(arg0, D_80184F38);
+        break;
+    case 4:
+        ret = ((s32 (*)(s32))D_8018537C)(arg0);
+        if (ret == 0) {
+            break;
+        }
+        func_80178CBC(arg0, D_80184F38);
+        break;
+    case 5:
+        switch (D_80185B24) {
+        case -1:
+        case 1:
+            return 1;
+        case 2:
+            return 2;
+        case 3:
+            return 3;
+        }
+        break;
+    }
+    return 0;
+}
 
 extern void func_8017435C(void);
 extern void func_801746A4(void);
