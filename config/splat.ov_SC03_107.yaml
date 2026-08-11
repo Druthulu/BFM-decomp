@@ -93,10 +93,14 @@ segments:
       # shift the code start. Mark it `rodata` (section_order places .rodata first) so it lands at
       # 0x80128158 ahead of the code, a 1-word analogue of main's rodata-island (no ld_interleave).
       # - [0x0, rodata, head]
-      - [0x0, c, ov_SC03_107]        # code: starts at file 0x0 (overlays open with a prologue)
+      - [0x0, c, ov_SC03_107]
+      - [0x32270, c, ov_SC03_107_jr_8015A3C8]
+      - [0x50854, c, ov_SC03_107_jr_801789AC]
       - [0x5a304, data, tail]
-      - [0x72258, .rodata, ov_SC03_107]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0x72504, data, tail2]
+      - [0x71f80, .rodata, ov_SC03_107_jr_8015A3C8]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
+      - [0x71f9c, data, tail2]
+      - [0x72258, .rodata, ov_SC03_107_jr_801789AC]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
+      - [0x72504, data, tail3]
       - [0x73BE4, bin, trailing]    # final 3 bytes (EOF not 4-aligned; spimdisasm drops a partial word)
   - [0x73BE7]   # EOF marker = the 0.4.dec byte length
 # @TRAILING@ (above) is replaced by tools/new_overlay.sh: for a non-4-aligned overlay it becomes
