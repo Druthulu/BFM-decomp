@@ -514,6 +514,120 @@ parameter into a local can cost a second callee-saved register (+8 frame, +3 ins
 before touching pins · §161c loose-prototype engine helpers: don't fight the TU's `(void)` decl,
 cast at the call site.
 
+## 📋 THE ADOPTED ENDGAME PLAN (Fable-5 frontier analysis, 2026-08-11, HEAD commit:1572)
+Independent analysis re-derived EVERY headline number from `.run/family_hseq.json` (6,694 / 12,516 /
+678,195; the four-way split; reach and size bands; jr 56/208/36,939 — all reproduce exactly), then
+corrected four claims. **Full report is in this session's transcript; the operative content is here.**
+
+### THE SEQUENCE — tooling first, then reach-ordered volume, singletons LAST
+**STAGE 0 — finish the plumbing trilogy (~0 drafting tokens, 2-4 sessions, +40-70k ins, unblocks all).**
+- **0a (DO FIRST — highest leverage remaining): the DATA SIDE of the template engine.** The 207
+  undefined-refs (42 symbols), the 54/56 parse-errors on the reach-57 family, the 116 data-bundled
+  `.s` files, and the F2 draft-vs-draft collisions are **ONE mechanism**: remapped bodies reference
+  types/data their member TU never receives. Three parts — (i) typedef/macro gather in
+  `family_remap` (T7-S1, named a phase ago, still unbuilt), (ii) per-member rodata decode+emit
+  (§160c), (iii) the LINK-stage remap gap. **Unlike 0b it COMPOUNDS:** every one of ~7,500 future
+  member banks flows through this staging loop; each 1pp of leak on the sibling campaign ≈ 70
+  members ≈ 3.5k ins ≈ ~1.7M tokens of avoidable redrafts.
+- **0b JTBL_PADS repointing** (ov_SC02_037 / ov_SC03_107 / ov_MAIN_012) → 122 jr member-slots.
+  More certain than 0a, narrower. **Gate-probe ONE binary first — the "~100%" is a PREDICTION from
+  9/9, not a measurement (R37).**
+- **0c sig-main + drop main's `family_hseq.load()` exclusion — RECOMMENDED YES, needs Drew.**
+  Conditions: stamp the sig's scope (see the correction below) and re-baseline all digests at one
+  HEAD so R32 does not fire spuriously.
+- **0d free CPU:** permuter ILS `--cycles` probe on the top-20 backlog rows by (closeness asc, LIVE
+  reach desc). **<2 banks on 20 ⇒ park the lane again.** Yield unproven since Phase 21.
+
+**STAGE 1 — the reach-ordered sibling campaign (the spine; ~150-250M tok, 6-10 sessions, → ~97.5%).**
+1,955 zero-crack sibling families / 6,709 members / 330,622 ins (+ main's real families after 0c).
+Order: ×16 (1 family) → ×9..×4 (757 fams / 3,985 members / **182,942 ins**; W1 all-in was ~136k
+tok/crack incl. verification ⇒ ~26k tok/fn at mean reach 5.3) → ×3 (328 / 52,518) → **PROBE ×2
+before committing** (870 fams / 95,162 ins pays only 2× — run ONE 10-family probe against singleton
+cost first). jr families (56 / 208 / 36,939) ride the same waves once 0b lands.
+
+**STAGE 2 — the singleton grind (~250-400M tok, 10-20+ sessions, → ~99%+).** 4,513 overlay
+singletons (277,836 ins, mean 61.6 — Haiku/Sonnet band) + ~650-750 main game-code singletons.
+Convert gsgap+libapi to LINKED early: it deletes ~968 apparent main stubs for ~zero cost.
+The 2,200-stub `-O0` population lives inside these pools and is lane plumbing (`match_one --o0`).
+
+**STAGE 3 — special projects, LAST.** 2 GIANTs (close 110/91), the behemoth ledger, PINS,
+the ~138 genuine-DIFF residue, main's second oracle, and the 5 parked payloads — S45p5 proved those
+**static-unresolvable**; they need ONE live-capture session with Drew (attract-mode demo →
+MAIN/7+MAIN/9; the event-module trio via triggers). Nothing depends on it until the contract walk.
+
+**WHAT NOT TO DO:** no more blind fleet propagation re-sweeps (the B→C→P opening was ONE-TIME) ·
+no waves on ×2/singletons before the sibling top is consumed (ordering alone moved the multiplier
+3.55 → 15× on the same models and gate) · no GIANT/behemoth sieges now (worst tok/ins, unblock
+nothing) · no member_adapt/fine-tune revival · **no looser-fingerprint hunt to compress singletons
+(h_norm ⊂ h_seq — anything h_seq calls a singleton IS one under every stricter hash we have)** ·
+no agent redrafting of the close-1-4 backlog before the free CPU probe.
+
+### ⚠ FOUR CORRECTIONS TO CLAIMS MADE TODAY (verify before reusing any of them)
+1. **MY G2 MAIN FINDING WAS INFLATED.** 968 of `sig.main.jsonl`'s 2,002 rows are **SDK-region stubs**
+   (~5 ins/fn, syscall-wrapper profile) that fall to **LINKED conversion, not cracking**.
+   `progress.fleet.md`'s 1,034 main stubs is the CORRECT scope; my fresh 2,002-row sig is what needed
+   the caveat. Real main templating pool ≈ **123 families / ~303 fns / ~9k ins**, not 207/748/11,537.
+   (84 of those 207 families — 445 members / 2,564 ins — are all-≤10-ins, i.e. the wrapper zone.)
+   *Not conclusively attributed: intersect the sig addresses with the LINKED object ranges before
+   stamping the scope.*
+2. **THE TARGETING ORACLE'S OWN SCOPE STAMP IS WRONG.** `docs/family-hseq.md` says *"the 212 OVERLAYS
+   only (no main, no resident)"* — the map at that HEAD **contains resident members and 70 md_\*
+   modules across 211 binaries**. The §159 coverage law, violated by the file that documents
+   coverage. (`progress.fleet.md`'s "211 location overlays" has the same cosmetic drift.) **FIX IT.**
+3. **The close-1-4 backlog is 103, not 157** (854 open rows; the 157 was S28-dated). And backlog
+   reach is **TOTAL sharers, not LIVE** — the S46 error #3 trap. Re-rank before spending on it.
+4. **"ZERO-CRACK" MEANS OPPOSITE THINGS** in roadmap §3 T3 ("61 zero-crack = propagation-only") and
+   in the current map/this file (zero-crack = needs its FIRST crack). **30× mis-scope risk.** One
+   glossary line in `family-hseq.md` fixes it. Roadmap v2 has also rotted on schedule (its own §0
+   predicted it): §2's baseline (87.5%, 140/140, 28,296) and §1's "183 onboarded / 34 parked" are
+   superseded — **213 binaries, 5 parked**; W2 resolved as an instrument finding; P31's prefetch and
+   jtbl items are already done.
+
+### ⚠ MY COST FRAMING WAS ~15% OFF AND MIS-SCOPED
+I argued the endgame is decided by cost-per-crack over ~6,500 singletons. Corrected: the true
+singleton pool is **~5,200-5,600 cracks / ~345k ins ≈ 45% of what remains**. The other **~55%
+(~400k ins)** rides on ~2,100 exemplar cracks at 2-15× plus plumbing — and there **ORDER and
+LEAK-RATE decide the calendar, not cost-per-crack**. The thesis is right for the SECOND HALF only.
+**Also: do not cross-price the two economies.** The 5:1 plumbing:DIFF ratio is a property of the
+**residue queue**, not of fresh work — W1's fresh wave converted **81%**, while stored MATCH drafts
+re-gate at ~0% (A10) and the ladder recovers ~16% (T1a).
+
+## 🔁 THE REACH-ORDERED SIBLING LOOP — the exact cycle to repeat per batch
+Every step below is byte-proven this session; skipping 1, 8 or 10 is what destroys the multiplier.
+1. **REGEN FIRST.** `make sig-overlays && make sig-modules && tools/family_hseq.py`. Anything banked
+   since the last regen makes the map stale, and a stale list burns a whole wave (S45's own lesson).
+2. **DERIVE the tier** from `.run/family_hseq.json`: `n_members>=2 and n_matched==0`, take the
+   HIGHEST remaining reach band, rank within it by templatable weight (`members × nins`).
+   **Never rank from `worklist.md`** — it ranks by h_exact reach and under-prices a per-location
+   family by up to 138×.
+3. **SPLIT jr OUT** (`has_mid_jr`): they bank via `jtbl_family_bank` (§53), not `family_sweep`.
+   Keep them in the wave (cracking is the same) but route their BANKING separately.
+4. **VALIDATE:** `tools/validate_targets.py --targets <file> --out clean.json`. Schema needs
+   `name` + `binary`. It fails closed; **an instrument's refusal is a finding, not an obstacle** —
+   S46 routed around it and lost 87 of 119 agents.
+5. **SIZE-ROUTE the models:** Haiku ≤30 ins (86% bank, ~4.8× cheaper) · Sonnet 30-120 · Opus 120+.
+6. **WAVE PROMPT must carry:** §160g callee-set grep as **STEP 0** · the *derived* `match_one`
+   invocation (`match_one.py <fn> --c <draft> --asm-subdir <path>` — derive the path from
+   `corpus.asm_path`, never hand-type it) · §160a/b/c and §161a/b/c · **drafts to `.run/` ONLY,
+   never `src/` or `config/`** · "gcc-2.7.2 emits no `error:` prefix" · report NEAR honestly.
+7. **ADVERSARIALLY VERIFY** every MATCH with a second agent that re-runs the gate itself and
+   defaults to refuted.
+8. **GATE per binary:** stage drafts to `.run/bank<N>/<binary>/`, then `gate_stage --no-propagate`.
+   The whole-binary byte-gate is the SOLE arbiter (G3/P9) — `match_one` is a candidate filter.
+9. **R22 clean-fleet** (`make clean && extract-all && check-all` → 213/213), then commit the
+   exemplars. **Derive the count from the stub oracle, never `git diff`, if any carve ran.**
+10. **REGEN AGAIN** — a fresh crack reads `modal`/`draft` until sigs+map are rebuilt, and the sweep
+    templates only from `matched`. Byte-proven twice this session.
+11. **SWEEP:** `family_sweep --hseq --band all -j8 --only <exemplar addrs>`. **`--band` defaults to
+    `substantial` — always pass `--band all`** (a real 135-member family reported 0 families once).
+12. **jr families:** `jtbl_family_bank <fn> <ov> <addr> <members.json>` — needs a CLEAN tree (its
+    per-sibling revert restores from HEAD) ⇒ **one commit per family**. A 0/N on a `matched-ov077`
+    exemplar is the reconciled-body trap: retry with `--raw` before calling it a wall.
+13. **R22 + commit** the templated members.
+14. **HARVEST IDIOMS THE SAME SESSION** (R16/R30) → cookbook + the tooling fix, then
+    `cookbook_index.py`. Knowledge left in a transcript is invisible to every future agent.
+15. **RE-DERIVE the frontier**, drop to the next reach tier, repeat.
+
 ## ▶ RESUME HERE — D (and the leftovers below)
 **C is DONE.** For reference, the command was:
 `.venv/bin/python tools/dedup_extend.py --binaries ov_SC03_107,ov_MAIN_012,ov_SC02_037`
