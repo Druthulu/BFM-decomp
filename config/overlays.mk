@@ -4957,7 +4957,7 @@ build/src/ov_SC02_037/ov_SC02_037_jr_801594E8.o: JTBL_PADS := 0,0  # §8e pads (
 build/src/ov_SC02_037/ov_SC02_037_jr_80159C84.o: JTBL_PADS := 0,4  # §8e pads (jtbl_carve.py) tables=+0x0,+0x20
 build/src/ov_SC02_037/ov_SC02_037_jr_8015A3C8.o: JTBL_PADS := 0,4,4,4  # §8e pads (jtbl_carve.py) tables=+0x0,+0x20,+0x40,+0x60
 build/src/ov_SC02_037/ov_SC02_037_jr_80171B4C.o: JTBL_PADS := 0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x20
-build/src/ov_SC02_037/ov_SC02_037_jr_801789AC.o: JTBL_PADS := 0,0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x18,+0x190
+build/src/ov_SC02_037/ov_SC02_037_jr_801789AC.o: JTBL_PADS := 0,0,0,4  # §8e pads (jtbl_carve.py) tables=+0x0,+0x18,+0x190,+0x220
 build/src/ov_SC02_037/ov_SC02_037_jr_8017AE2C.o: JTBL_PADS := 0,0,0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x14,+0x34,+0x4c
 ov_SC02_037_CHECK_SHA  := config/check.ov_SC02_037.sha
 ov_SC02_037_SYMBOLS    := config/symbols.ov_SC02_037.txt
