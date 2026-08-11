@@ -80,10 +80,10 @@ void func_801E27F4(void *a0) {
 
 
 extern void func_80171A1C(void*);
-extern void func_80175414(void);
+extern void func_80175414(s32 _arg0);
 void func_801E2830(void) {
     ((void (*)(void))func_80171A1C)();
-    func_80175414();
+    ((void (*)(void))func_80175414)();
 }
 
 

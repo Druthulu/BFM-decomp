@@ -4,12 +4,12 @@ extern u8 D_801EE444[];
 extern u8 *D_80126B10;
 
 void func_800167B8(int);
-void func_80175414(void);
+void func_80175414(s32 _arg0);
 
 int func_801ED99C(u8 *arg) {
     D_80126B10 = D_801EE444;
     func_800167B8(0);
-    func_80175414();
+    ((void (*)(void))func_80175414)();
     arg[0x15]++;
     return 0;
 }
@@ -71,10 +71,10 @@ void func_801EDBB4(void *a0) {
 
 
 extern void func_80171A1C(void*);
-extern void func_80175414(void);
+extern void func_80175414(s32 _arg0);
 void func_801EDBF0(void) {
     ((void (*)(void))func_80171A1C)();
-    func_80175414();
+    ((void (*)(void))func_80175414)();
 }
 
 

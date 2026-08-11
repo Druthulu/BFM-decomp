@@ -4877,7 +4877,7 @@
     }
 
 #define DEFINE_func_8016F494() \
-    extern void func_80175414(s32); \
+    extern void func_80175414(s32 _arg0); \
     extern s32 func_8016F4C4(s32); \
     s32 func_8016F494(s32 a0) { \
         func_80175414(a0); \
@@ -6608,7 +6608,7 @@
     }
 
 #define DEFINE_func_80171824() \
-    extern void func_80175414(s32); \
+    extern void func_80175414(s32 _arg0); \
     extern void func_80171928(void *a0); \
     void func_80171824(void *a0) { \
         func_80175414((s32)a0); \

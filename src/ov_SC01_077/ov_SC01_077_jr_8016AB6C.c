@@ -4701,7 +4701,7 @@ void func_801717F4(void *a0) {
     func_80171928(a0);
 }
 
-extern void func_80175414(s32);
+extern void func_80175414(s32 _arg0);
 extern void func_80171928(void *a0);
 
 void func_80171824(void *a0) {

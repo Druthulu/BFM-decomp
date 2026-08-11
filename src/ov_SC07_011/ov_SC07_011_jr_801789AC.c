@@ -2695,7 +2695,7 @@ extern void func_8016F398(void);
 extern s32 func_8016F44C(s32 a0);
 extern void func_8016F470(s32 a0);
 extern s32 func_8016F410(s32 a0);
-extern void func_80175414(s32);
+extern void func_80175414(s32 _arg0);
 extern s32 func_8016F4C4(s32);
 extern s32 func_8016F494(s32 a0);
 extern void func_8016F0E4(void);
@@ -3447,7 +3447,7 @@ void func_80178D18(void) {
 
 extern void func_8002D4C8(s32 a0, s32 a1);
 extern void func_8012E8E0(s32 a0, s32 a1);
-extern void func_80175414(s32);
+extern void func_80175414(s32 _arg0);
 extern void func_80175454(void);
 
 /* func_80178D40 - 890 ins, 94-case jr switch (jtbl_801D8E24).

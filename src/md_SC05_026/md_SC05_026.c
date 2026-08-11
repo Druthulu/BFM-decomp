@@ -205,10 +205,10 @@ void func_801F01BC(void *a0) {
 
 
 extern void func_80171A1C(void*);
-extern void func_80175414(void);
+extern void func_80175414(s32 _arg0);
 void func_801F01F8(void) {
     ((void (*)(void))func_80171A1C)();
-    func_80175414();
+    ((void (*)(void))func_80175414)();
 }
 
 

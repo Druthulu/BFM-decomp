@@ -1953,7 +1953,7 @@ extern void func_8016F398(void);
 extern s32 func_8016F44C(s32 a0);
 extern void func_8016F470(s32 a0);
 extern s32 func_8016F410(s32 a0);
-extern void func_80175414(s32);
+extern void func_80175414(s32 _arg0);
 extern s32 func_8016F4C4(s32);
 extern s32 func_8016F494(s32 a0);
 extern void func_8016F0E4(void);
@@ -3638,7 +3638,7 @@ INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_8017CF90", func_8017F2C
 
 extern void func_8016F0E4(void);
 extern void func_80165770(void);
-extern void func_80175414(s32);
+extern void func_80175414(s32 _arg0);
 
 void func_8017F320(s32 param_1)
 {
