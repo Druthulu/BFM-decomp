@@ -401,6 +401,31 @@ concealed something cheap (the 132-member alias drop; the carve's `multiple stor
 carve's wrapped-decl mangling). 93 failures are currently labelled "unknown" on a day when every
 inspected "unknown" was a missing declaration or a duplicate typedef.
 
+## ✅ TASK F1 (classifier) — the last lying instrument is fixed; 93 unknowns are ALL cheap
+`harvest_verify.classify_fail` kept only stderr lines containing the WORD `error`. gcc-2.7.2 emits
+no `error:` prefix on hard errors — `…:447: multiple storage classes…`, `…:2217: \`x' undeclared` —
+so `errs` held nothing but make's `Error 33` wrapper and every hard error read
+**`CC1-FAIL(no-diagnostic)`**: "the compiler failed and we cannot see why". Measured cost this
+session: 132 siblings of `func_80132018` labelled that way by ONE missing declaration, which reads
+as a codegen wall. `rtu_match` had this repaired at T0(b); never propagated here.
+**Fix:** classify on POSITION — `<file>:<line>: <text>` and `{standard input}:<line>:` IS a
+diagnostic (`_SRC_DIAG`). Context lines (`…: In function 'f':`) have no `:<line>:` and are skipped.
+5 controls: 3 real gcc shapes now name themselves, PLUMBING still wins, and a warnings-only build
+still returns `no-diagnostic` — the label keeps its meaning.
+⚠️ **I imported this module to test it**, against its own line-14 warning ("RUN AS A SCRIPT — NEVER
+import"); it has no `__main__` guard and ran a full gate on `resident` as a side effect (tree clean,
+binary byte-identical). Tested properly afterwards by AST-extracting the function alone.
+
+### THE RESIDUE, FULLY NAMED (737) — no unknowns left
+`207` **undefined reference, 42 symbols** (D_80171A1C 56 · D_800D1EBC 32 · D_80162CCC 27 ·
+D_800183E0 13) — a LINK-stage REMAP gap: the templated body references an exemplar symbol the
+sibling lacks. **Now the largest class, and a different mechanism from every declaration fix.** ·
+`138` **DIFF (real byte divergence — the honest floor, 19%)** · `44` data-symbol conflicting-types
+(D_80114F24 12 · D_800AE620 11 · D_800183E0 9 · D_80126B58 6 · D_80078EB4 6) = **the F2 target** ·
+`35` redefinition-note · `26` memcpy · `24` redeclared/redefinition · `15` undeclared
+(D_801202A0 11 · func_8001534C 4) · `14` arity (too many/too few args) · `6` func_80145CEC.
+**Every former unknown turned out cheap** — declarations, arity, redefinitions. Not one wall.
+
 ## ▶ RESUME HERE — D (and the leftovers below)
 **C is DONE.** For reference, the command was:
 `.venv/bin/python tools/dedup_extend.py --binaries ov_SC03_107,ov_MAIN_012,ov_SC02_037`

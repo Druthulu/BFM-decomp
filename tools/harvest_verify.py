@@ -79,6 +79,10 @@ _PLUMBING = re.compile(
     r'undefined reference|prototype declaration', re.I)
 # make's own failure summary — a wrapper around the diagnostic, never the diagnostic (see classify_fail)
 _MAKE_WRAP = re.compile(r'^\s*make(\[\d+\])?:\s*\*\*\*')
+# A DIAGNOSTIC IS A POSITION, NOT A VOCABULARY: `<file>:<line>: <text>` from cc1, or
+# `{standard input}:<line>: <text>` from the assembler. gcc-2.7.2 prefixes hard errors with
+# nothing at all, so matching on the word `error` misses them entirely (see classify() below).
+_SRC_DIAG = re.compile(r'^(?:\{standard input\}|[^\s:]+):\d+:\s')
 _last_err = ''
 _last_sha = None
 _NO_BUILD = object()   # attempt() short-circuited (stub already spliced) — no build ran
@@ -155,6 +159,24 @@ def classify_fail(got_sha):
     real = [ln for ln in errs if not _MAKE_WRAP.match(ln)]
     if real:
         return 'CC1-FAIL: ' + _squeeze(real[0])
+    # GCC-2.7.2 EMITS NO `error:` PREFIX ON HARD ERRORS — the filter above requires the *word*
+    # `error`, and this compiler's diagnostics simply do not carry it (P30 S47, byte-witnessed):
+    #     src/…/ov_SC02_037_jr_8013B83C.c:447: multiple storage classes in declaration of `tail_…'
+    #     src/…/ov_SC02_037_jr_80159A20.c:1147: storage class specified for parameter `D_8011FD10'
+    #     src/…/ov_SC06_025_jr_8012ACE0.c:2217: `tbl_D_80187044' undeclared (first use this function)
+    # None of those survive `\berror\b`, so `errs` held nothing but make's `Error 33` wrapper and
+    # every hard error was labelled `no-diagnostic` — "the compiler failed and we cannot see why".
+    # Consequence measured this session: 132 siblings of func_80132018 were classified that way by a
+    # single missing declaration, which reads as a codegen wall and gets a family deprioritised.
+    # Three separate cheap faults hid behind this label in one day, and rtu_match had the same
+    # blindness repaired at T0(b) — the fix was never propagated here.
+    # Classify on POSITION, not vocabulary: `<file>:<line>: <text>` (and the assembler's
+    # `{standard input}:<line>:`) IS a diagnostic. Context lines (`…: In function 'f':`) carry no
+    # `:<line>:` and are correctly skipped.
+    diag = [ln for ln in lines
+            if _SRC_DIAG.match(ln.strip()) and 'warning' not in ln.lower()]
+    if diag:
+        return 'CC1-FAIL: ' + _squeeze(diag[0])
     if errs:
         return 'CC1-FAIL(no-diagnostic): ' + _squeeze(errs[-1])
     return 'CC1-FAIL'
