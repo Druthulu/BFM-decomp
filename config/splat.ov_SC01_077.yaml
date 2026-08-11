@@ -151,9 +151,8 @@ segments:
       - [0xb11c8, data, tail19]
       - [0xb12a8, .rodata, ov_SC01_077_jr_80183AF0]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
       - [0xb12c8, .rodata, ov_SC01_077_jr_80183BAC]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0xb12e8, data, tail20]
       - [0xb1308, .rodata, ov_SC01_077_jr_80183CF4]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0xb1328, data, tail21]
+      - [0xb1328, data, tail20]
       - [0xB29D4, bin, trailing]    # final 3 bytes (EOF 0xB29D7 not word-aligned; spimdisasm drops
                                     # a trailing partial word and a <4-byte `data` carve emits nothing,
                                     # so use `bin` = raw .incbin, byte-exact). Word-aligned overlays omit this.

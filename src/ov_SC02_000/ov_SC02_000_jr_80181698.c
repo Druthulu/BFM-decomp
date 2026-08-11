@@ -2739,47 +2739,41 @@ extern s32 func_8012E4C8(void *a0);
 extern void func_801814B8(int param_1);
 extern s32 func_8012BEE8(s32 a0);
 extern void func_801814F0(int param_1);
+extern void func_80130D48(s32 a0);
+extern void func_80181538(s32 param_1);
 /* ==== end §8b carried decl layer ==== */
 
 
-
-// @class: regalloc-order
-// @stuck: none — MATCH (mask pinned $a1/$5 + p pinned $v0/$2; switch w/ distributed func_8012C218 tail via dup calls + cross-jump merge)
-
+extern void func_8012AD80(s32 a0);
 extern s32 func_8012BEE8(s32 a0);
-extern void func_80130D48(s32 a0);
 extern void func_8012C098(void);
 extern void func_8012C218(void *a0);
 extern s32 D_801270CC;
 
-void func_80181538(s32 param_1) {
-    register s32 *p __asm__("$2");
-    register s32 mask __asm__("$5");
-
-    mask = 0x80000000;
-    p = *(s32 **)(param_1 + 0x20);
-    p[1] ^= mask;
-    if (((s32 (*)(void))func_8012BEE8)() == 0) {
+void func_80181698(s32 param_1) {
+    ((s32 (*)(s32))func_8012AD80)(param_1);
+    if (func_8012BEE8(param_1) == 0) {
         return;
     }
-    func_80130D48(param_1);
     switch ((s32)((u32)*(u16 *)(param_1 + 0x70) << 0x10) >> 0x18) {
     case 0:
     case 1:
     case 2:
     case 5:
     case 6:
-        ((void (*)(s32))func_8012C098)(param_1);
+        ((s32 (*)(s32))func_8012C098)(param_1);
         return;
     case 3:
     case 7:
-        ((void (*)(s32))func_8012C218)(param_1);
+        ((s32 (*)(s32))func_8012C218)(param_1);
         return;
     case 4:
-        D_801270CC = D_801270CC - 1;
-        ((void (*)(s32))func_8012C218)(param_1);
+        D_801270CC = D_801270CC + -1;
+        ((s32 (*)(s32))func_8012C218)(param_1);
+        return;
+    default:
         return;
     }
 }
 
-INCLUDE_ASM("asm/ov_SC02_000/nonmatchings/ov_SC02_000_jr_80181538", func_801815F4);
+

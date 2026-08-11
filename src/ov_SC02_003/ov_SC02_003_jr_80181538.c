@@ -2783,6 +2783,3 @@ void func_80181538(s32 param_1) {
 }
 
 INCLUDE_ASM("asm/ov_SC02_003/nonmatchings/ov_SC02_003_jr_80181538", func_801815F4);
-
-INCLUDE_ASM("asm/ov_SC02_003/nonmatchings/ov_SC02_003_jr_80181538", func_80181698);
-
