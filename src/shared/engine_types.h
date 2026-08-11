@@ -1764,10 +1764,16 @@ typedef struct {
     s32 word0;
     s32 word4;
 } CdFileLoc;
-typedef struct {
-    s32 word0;
-    s32 word4;
-} CdFileLoc_80128C98;
+/* SAME TYPE, NOT A COPY (P30 S47). Re-declaring this layout mints a DISTINCT C type — each
+ * anonymous struct definition is unique — so a TU holding both `extern CdFileLoc_80128C98
+ * cdFileLocTable[]` (137 sites) and `extern CdFileLoc cdFileLocTable[]` (9 sites) got
+ * `conflicting types for cdFileLocTable`: 136 propagation-sweep failures, the single largest
+ * class left after the alias fix. The layout was always identical (`s32 word0; s32 word4;`), so
+ * this is byte-neutral by construction — indexing scales by the same 8 bytes either way — and an
+ * alias makes the two NAMES denote one type instead of two.
+ * NOT unified with the 3 `extern u8 cdFileLocTable[]` sites: element size drives index scaling,
+ * and those sites carry their own explicit `<< 3` (see the note at resident.c:656). */
+typedef CdFileLoc CdFileLoc_80128C98;
 typedef struct { u8 r; u8 g; u8 b; u8 pad; } Clr_8017C910;
 typedef struct { u8 r; u8 g; u8 b; u8 pad; } Clr_8017C910_8017C910;
 typedef struct { u8 r; u8 g; u8 b; u8 pad; } Clr_8017C910_8017D728;
