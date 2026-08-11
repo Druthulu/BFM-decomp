@@ -164,9 +164,8 @@ segments:
       - [0xb0978, data, tail17]
       - [0xb097c, .rodata, ov_SC02_027_jr_8017AE2C]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
       - [0xb0990, .rodata, ov_SC02_027_jr_8017D898]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0xb09c8, data, tail18]
       - [0xb09e0, .rodata, ov_SC02_027_jr_8018A564]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0xb09f4, data, tail19]
+      - [0xb09f4, data, tail18]
       - [0xB28E4, bin, trailing]    # final 3 bytes (EOF not 4-aligned; spimdisasm drops a partial word)
   - [0xB28E7]   # EOF marker = the 0.4.dec byte length
 # @TRAILING@ (above) is replaced by tools/new_overlay.sh: for a non-4-aligned overlay it becomes

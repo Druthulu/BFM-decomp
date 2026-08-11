@@ -5212,7 +5212,93 @@ void func_80183090(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_102/nonmatchings/ov_SC03_102_jr_8017BEBC", func_80183214);
+
+
+extern s32 func_8012C354(s32 a0, s32 a1);
+extern void func_8012CAE4(void *a0);
+extern void func_80143970(void *a0);
+extern void func_8012A828(s32 a0, s32 a1);
+extern void func_8012B23C(void *a0);
+extern void func_8012B2CC(s32 a0);
+extern s32 func_8012C658(s32 arg0, s32 arg1, s32 arg2);
+extern s32 rand(void);
+
+void func_80183214(void *a0) {
+
+    extern u8 D_801998CC[];
+    extern u8 D_801A62AC[];
+    extern u8 D_801A5B74[];
+    extern char D_801A7224[];
+    extern u8 D_801A70A4[];
+    extern s32 D_80199A04;
+    extern s32 D_80199AA4;
+    extern s32 D_80199AEC;
+
+    s16 state = *(s16 *)((s32)a0 + 0x70);
+
+    if (func_8012C354((s32)a0, (s32)(D_801998CC + state * 0x34)) == 0) {
+        func_8012CAE4((void *)a0);
+    } else {
+        s16 state2;
+        u16 saved;
+
+        *(u8 *)((s32)a0 + 0xC0) = 1;
+        *(s32 *)((s32)a0 + 0xB4) = -0x401;
+        func_80143970((void *)a0);
+
+        state2 = *(s16 *)((s32)a0 + 0x70);
+        switch (state2) {
+            case 0:
+                func_8012A828((s32)a0, (s32)D_801A62AC);
+                *(s16 *)((s32)a0 + 0x2) = 1;
+                func_8012B23C((void *)a0);
+                saved = *(u16 *)((s32)a0 + 0xFC);
+                *(s32 *)((s32)a0 + 0xBC) = (s32)&D_80199A04;
+                *(s16 *)((s32)a0 + 0xFC) = 0;
+                *(u16 *)((s32)a0 + 0x100) = saved;
+                break;
+            case 2:
+                func_8012A828((s32)a0, (s32)D_801A5B74);
+                saved = *(u16 *)((s32)a0 + 0xFC);
+                *(s16 *)((s32)a0 + 0x2) = 9;
+                *(s32 *)((s32)a0 + 0xBC) = (s32)&D_80199AA4;
+                *(u16 *)((s32)a0 + 0x100) = saved;
+                break;
+            case 1:
+            case 3:
+                func_8012A828((s32)a0, (s32)&D_801A7224);
+                *(s16 *)((s32)a0 + 0x2) = 6;
+                *(s32 *)((s32)a0 + 0xBC) = (s32)&D_80199AEC;
+                break;
+            case 4:
+                func_8012A828((s32)a0, (s32)D_801A62AC);
+                *(s16 *)((s32)a0 + 0x2) = 0xD;
+                func_8012B23C((void *)a0);
+                *(s32 *)((s32)a0 + 0xBC) = (s32)&D_80199A04;
+                *(s16 *)((s32)a0 + 0xFC) = 0x1E;
+                break;
+            case 5:
+                if (*(s16 *)((s32)a0 + 0xFC) != 0) {
+                    func_8012A828((s32)a0, (s32)D_801A70A4);
+                    *(s16 *)((s32)a0 + 0x2) = 0xE;
+                    *(u16 *)(*(s32 *)((s32)a0 + 0x20) + 0x12) = rand() & 0xFFF;
+                } else {
+                    func_8012A828((s32)a0, (s32)D_801A62AC);
+                    *(s16 *)((s32)a0 + 0x2) = 1;
+                }
+                func_8012B23C((void *)a0);
+                *(s32 *)((s32)a0 + 0xBC) = (s32)&D_80199A04;
+                *(s16 *)((s32)a0 + 0xFE) = 1;
+                do {
+                    func_8012C658(0x12F, 5, (s32)a0);
+                    *(s16 *)((s32)a0 + 0xFE) = *(u16 *)((s32)a0 + 0xFE) + 1;
+                } while (*(s16 *)((s32)a0 + 0xFE) < 6);
+                *(s16 *)((s32)a0 + 0xFE) = 0;
+                break;
+            }
+        func_8012B2CC((s32)a0);
+    }
+}
 
 
 /* func_80183438 — ov_SC02_026 / ov_SC02_026_jr_8017C180.c   MATCH (237 ins)

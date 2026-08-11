@@ -5317,7 +5317,93 @@ void func_80182F00(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_026/nonmatchings/ov_SC02_026_jr_8017C180", func_80183084);
+
+
+extern s32 func_8012C354(s32 a0, s32 a1);
+extern void func_8012CAE4(void *a0);
+extern void func_80143970(void *a0);
+extern void func_8012A828(s32 a0, s32 a1);
+extern void func_8012B23C(void *a0);
+extern void func_8012B2CC(s32 a0);
+extern s32 func_8012C658(s32 arg0, s32 arg1, s32 arg2);
+extern s32 rand(void);
+
+void func_80183084(void *a0) {
+
+    extern u8 D_801AF6B8[];
+    extern u8 D_801BC098[];
+    extern u8 D_801BB960[];
+    extern char D_801BD010[];
+    extern u8 D_801BCE90[];
+    extern s32 D_801AF7F0;
+    extern s32 D_801AF890;
+    extern s32 D_801AF8D8;
+
+    s16 state = *(s16 *)((s32)a0 + 0x70);
+
+    if (func_8012C354((s32)a0, (s32)(D_801AF6B8 + state * 0x34)) == 0) {
+        func_8012CAE4((void *)a0);
+    } else {
+        s16 state2;
+        u16 saved;
+
+        *(u8 *)((s32)a0 + 0xC0) = 1;
+        *(s32 *)((s32)a0 + 0xB4) = -0x401;
+        func_80143970((void *)a0);
+
+        state2 = *(s16 *)((s32)a0 + 0x70);
+        switch (state2) {
+            case 0:
+                func_8012A828((s32)a0, (s32)D_801BC098);
+                *(s16 *)((s32)a0 + 0x2) = 1;
+                func_8012B23C((void *)a0);
+                saved = *(u16 *)((s32)a0 + 0xFC);
+                *(s32 *)((s32)a0 + 0xBC) = (s32)&D_801AF7F0;
+                *(s16 *)((s32)a0 + 0xFC) = 0;
+                *(u16 *)((s32)a0 + 0x100) = saved;
+                break;
+            case 2:
+                func_8012A828((s32)a0, (s32)D_801BB960);
+                saved = *(u16 *)((s32)a0 + 0xFC);
+                *(s16 *)((s32)a0 + 0x2) = 9;
+                *(s32 *)((s32)a0 + 0xBC) = (s32)&D_801AF890;
+                *(u16 *)((s32)a0 + 0x100) = saved;
+                break;
+            case 1:
+            case 3:
+                func_8012A828((s32)a0, (s32)&D_801BD010);
+                *(s16 *)((s32)a0 + 0x2) = 6;
+                *(s32 *)((s32)a0 + 0xBC) = (s32)&D_801AF8D8;
+                break;
+            case 4:
+                func_8012A828((s32)a0, (s32)D_801BC098);
+                *(s16 *)((s32)a0 + 0x2) = 0xD;
+                func_8012B23C((void *)a0);
+                *(s32 *)((s32)a0 + 0xBC) = (s32)&D_801AF7F0;
+                *(s16 *)((s32)a0 + 0xFC) = 0x1E;
+                break;
+            case 5:
+                if (*(s16 *)((s32)a0 + 0xFC) != 0) {
+                    func_8012A828((s32)a0, (s32)D_801BCE90);
+                    *(s16 *)((s32)a0 + 0x2) = 0xE;
+                    *(u16 *)(*(s32 *)((s32)a0 + 0x20) + 0x12) = rand() & 0xFFF;
+                } else {
+                    func_8012A828((s32)a0, (s32)D_801BC098);
+                    *(s16 *)((s32)a0 + 0x2) = 1;
+                }
+                func_8012B23C((void *)a0);
+                *(s32 *)((s32)a0 + 0xBC) = (s32)&D_801AF7F0;
+                *(s16 *)((s32)a0 + 0xFE) = 1;
+                do {
+                    func_8012C658(0x12F, 5, (s32)a0);
+                    *(s16 *)((s32)a0 + 0xFE) = *(u16 *)((s32)a0 + 0xFE) + 1;
+                } while (*(s16 *)((s32)a0 + 0xFE) < 6);
+                *(s16 *)((s32)a0 + 0xFE) = 0;
+                break;
+            }
+        func_8012B2CC((s32)a0);
+    }
+}
 
 #include "common.h"
 
