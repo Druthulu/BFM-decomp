@@ -4,16 +4,16 @@
 # cross-binary collapsible-byte leverage: docs/duplicates.cross.md.
 
 # THREE progress metrics (all matter — see the labels):
-FLEET fn-count byte-ident: 349809 / 363379 = 96.27%   (REAL+LINKED+empties; FUNCTION-count, ×134-inflated — one crack counts per overlay)
-FLEET instr-weighted     : 12765551 / 13523856 = 94.4%   (shipped .text across main + resident + 211 overlays; the decomp.dev-DISPLAY number)
-FLEET distinct-code(uniq): 5164593 / 5851963 = 88.3%   (80226/90928 unique fns; the DISTINCT-RE number)
+FLEET fn-count byte-ident: 349810 / 363379 = 96.27%   (REAL+LINKED+empties; FUNCTION-count, ×134-inflated — one crack counts per overlay)
+FLEET instr-weighted     : 12765577 / 13523856 = 94.4%   (shipped .text across main + resident + 211 overlays; the decomp.dev-DISPLAY number)
+FLEET distinct-code(uniq): 5164619 / 5851963 = 88.3%   (80227/90928 unique fns; the DISTINCT-RE number)
 MAIN game-code weighted  :     436 / 79510 = 0.5%   (INCLUDED in the fleet numbers above since 2026-07-22 — roadmap §1 metrics contract; LINKED-excluding Ghidra sig dated 2026-08-05; caveat is R34: no independent second oracle for a PS-X EXE, NOT drift)
-  (fleet EXCLUDING main, for continuity with pre-2026-07-22 readings: 12765115 / 13444346 = 94.9%)
+  (fleet EXCLUDING main, for continuity with pre-2026-07-22 readings: 12765141 / 13444346 = 94.9%)
 
-FLEET REAL substantive   : 347627   (of which dedup-shared 249221 via 1949 groups / 249295 instances)
+FLEET REAL substantive   : 347628   (of which dedup-shared 249221 via 1949 groups / 249295 instances)
 FLEET LINKED PsyQ objs   :    959
 FLEET NON_MATCHING       :      7   (0 in any default build — G4)
-FLEET INCLUDE_ASM stubs  :  13563
+FLEET INCLUDE_ASM stubs  :  13562
 FLEET matchable          : 363379
 
 | binary | REAL | shared | LINKED | byte-ident | matchable | byte-ident % |
@@ -81,7 +81,7 @@ FLEET matchable          : 363379
 | md_SC04_028 | 14 | 0 | 0 | 16 | 35 | 45.7% |
 | md_SC04_029 | 14 | 0 | 0 | 16 | 27 | 59.3% |
 | md_SC04_030 | 16 | 0 | 0 | 20 | 31 | 64.5% |
-| md_SC05_023 | 14 | 0 | 0 | 16 | 28 | 57.1% |
+| md_SC05_023 | 15 | 0 | 0 | 17 | 28 | 60.7% |
 | md_SC05_024 | 14 | 0 | 0 | 16 | 29 | 55.2% |
 | md_SC05_025 | 16 | 0 | 0 | 18 | 41 | 43.9% |
 | md_SC05_026 | 18 | 0 | 0 | 20 | 66 | 30.3% |

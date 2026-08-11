@@ -163,9 +163,34 @@ def insns_from_object(obj, fn=None):
 
 def insns_from_s(s_path):
     """splat .s -> [{word, mnem, reloc_kind:None, reloc_op:None}] from each `/* off vaddr LEHEX */ mnem`
-    line. The target is RESOLVED (no relocs); the mask is driven by MY object's relocs at compare time."""
+    line, **counting only what is in .text**.
+
+    THE SECTION FILTER IS LOAD-BEARING (P30 S47, byte-witnessed on func_801EDC18, a 57-member family).
+    A splat `.s` may bundle a leading data symbol with the function — here a `.section .rodata` block
+    re-emitting `D_801ED98C` as two `.word`s ahead of `.section .text`. Those `.word` lines carry the
+    same `/* off vaddr HEX */` comment shape as instructions, so an unfiltered scan counted them as
+    TARGET INSTRUCTIONS. The other side of the compare, `insns_from_object`, runs `objdump -j .text`
+    and can never emit them — so a BYTE-PERFECT draft read as `mine=26, target=28, 26 mismatched`,
+    every real position shifted by a constant +2, and `match_one` classified it `SIZE-MISMATCH
+    [redraft]`. An agent correctly abandoned it at "closeness 6"; the whole-binary byte-gate then
+    banked the very same body. A verdict that turns a two-line fix into a wall is worse than no
+    verdict, and this is the same artifact the cookbook records at §129a for post-carve jump tables
+    (there the jtbl inflates the count; here it is leading rodata) — one shape, one fix.
+
+    Sections are tracked by directive: content counts only while the current section is .text (a file
+    with no `.section` directive at all is assumed to be all-text, which is the common case)."""
     insns = []
+    in_text = True                      # no .section directive anywhere => the whole file is text
+    seen_section = False
     for line in open(s_path, errors="replace"):
+        sec = re.match(r"\s*\.section\s+([.\w]+)", line)
+        if sec:
+            if not seen_section:
+                seen_section = True
+            in_text = sec.group(1).startswith(".text")
+            continue
+        if not in_text:
+            continue
         mi = re.match(r"\s*/\*\s*[0-9A-Fa-f]+\s+[0-9A-Fa-f]+\s+([0-9A-Fa-f]{8})\s*\*/\s+(.*)", line)
         if mi:
             insns.append({"word": struct.unpack("<I", bytes.fromhex(mi.group(1)))[0],

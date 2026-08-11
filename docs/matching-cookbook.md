@@ -10878,3 +10878,79 @@ block-move into a CALL. That class needs a chosen canonical + its own gate, not 
 success over the gap.* All three defects printed a clean verdict while skipping a file, a typedef
 alias, or a syntactic position. A guard must state its COVERAGE, not just its verdict — the same
 finding as `_open_stubs` vs `corpus.stubs` (T0(d)) and the family_hseq scope stamp (T0(c)).
+
+
+### §160 — THE REACH-15 WAVE HARVEST: an align-1 block move, and the instrument that called it a wall (P30 S47)
+
+**§160a — UNALIGNED 8-BYTE COPY = an ALIGN-1 STRUCT ASSIGNMENT.** Target shape:
+
+    lwl $v0,0x3($a1) ; lwr $v0,0x0($a1) ; lwr $v1,0x4($a1)
+    swl $v0,0x13($sp); swr $v0,0x10($sp); swr $v1,0x14($sp)
+
+`lwl/lwr` + `swl/swr` is gcc-2.7.2's `emit_block_move` when the moved type has **alignment 1**. A `u32`
+copy gives aligned `lw`/`sw` and is wrong. The C that produces it, byte-proven on `func_801EDC18`:
+
+    typedef struct { char c[8]; } Blk8;
+    extern Blk8 D_801ED98C;            /* see §160c — this one needed a DEFINITION, not an extern */
+    Blk8 buffer;
+    buffer = D_801ED98C;               /* struct assignment, NOT memcpy, NOT a u32 loop */
+
+Generalisation: **read the move width off the target, not off the data's apparent type.** Any `lwl`
+in a target means the source expression's type had alignment 1 at that point — a `char[]`/`u8[]`
+struct, never a `u32*` cast. The in-tree note at `src/ov_MAIN_012/ov_MAIN_012.c:14333` records the
+same mechanism from the other direction (an `extern memcpy` disabling the builtin turned an inlined
+block-move into a CALL).
+
+**§160b — `match_one` WAS BLIND TO DATA-BUNDLED `.s` FILES; a byte-perfect draft read as a wall.**
+A splat `.s` may bundle a leading data symbol with its function: `.section .rodata` re-emitting
+`D_801ED98C` as two `.word`s, then `.section .text`. Those `.word` lines carry the SAME
+`/* off vaddr HEX */` comment shape as instructions, so `masked_diff.insns_from_s` counted them as
+target instructions — while `insns_from_object` (`objdump -j .text`) can never emit them. Result on a
+**byte-perfect** draft: `mine=26, target=28, 26 mismatched`, every position shifted by a constant +2,
+classified `SIZE-MISMATCH [redraft]`. The wave agent correctly abandoned it at "closeness 6"; the
+whole-binary gate then banked that very body. **116 of 12,583 `.s` files in the corpus have this
+shape** — every one mis-measured, one at -29 instructions.
+**Fixed:** `insns_from_s` now tracks `.section` and counts only `.text`. Controlled over the full
+corpus: 12,467 files unchanged, 116 corrected, zero regressions.
+*Same artifact class as §129a (post-carve jtbl inflates the target count). One shape, two causes:*
+**when `mine` is SHORTER than `target` by a small constant and every position looks wrong, suspect
+the INSTRUMENT's section scope before redrafting.**
+
+**§160c — THE `.s` RODATA BLOCK IS THE DEFINITION, and the fleet's `extern`s are only consumers.**
+Four sites declare `extern short D_801ED98C;` and NOTHING in `src/` defines it — from which I
+concluded the binary owned the data and shipped an `extern`-only draft. The gate refuted it:
+`undefined reference to D_801ED98C`. The symbol was defined by the very `.s` the draft replaced, so
+banking the function deleted the data. The variant that emits it —
+`const Blk8 D_801ED98C = {{0x00,0x00,0x7E,0xFF,0xB0,0x00,0x00,0x00}};` (the little-endian
+decomposition of the two `.word`s) — banks clean.
+**Law: when the target `.s` contains a data symbol, that draft OWNS the data. Grep for a definition,
+never infer ownership from the presence of `extern`s.**
+
+**§160d — THE ASYMMETRIC INDEX RELOAD** (`func_801EDED4`). Two consecutive table lookups indexed by a
+byte field that was JUST stored must NOT both read the same C variable. The target emits `sb`, then
+`sll` reusing the stored register for index #1, then **re-loads** `lbu` + a second `sll` for index #2.
+The source is deliberately asymmetric — a local for the first use, a memory re-read for the second:
+
+    u8 t = (*(u8 *)(p + 5) + 1) & 1;
+    *(u8 *)(p + 5) = t;
+    *(s32 *)(p + 0xC)  = TBL_A[t];                  /* reuses t  -> no lbu, one sll */
+    *(s16 *)(p + 0x2E) = TBL_B[*(u8 *)(p + 5)];     /* re-reads  -> the second lbu + sll */
+
+Both-`t` loses 2 instructions (cse collapses `index*2`); both-memory risks cse substituting a
+`(subreg:QI reg)` and emitting a spurious `andi 0xff`. **Read the lbu/sll COUNT off the target and
+distribute local-vs-memory to match it — do not assume the source is uniform.**
+
+**§160e — STACK-LAYOUT SOURCE ORDER, now byte-proven on a SECOND function** (`func_8017D364` +
+`func_801EDED4`, so this is a rule, not a coincidence). With `MATRIX m1` + `SVECTOR in` + `SVECTOR out`
+on the stack, writing `m1.t[0]; m1.t[1]; m1.t[2]; in.vx=0; in.vy=0; in.vz=…;` in that source order
+lands the two `sh $zero` stores in the load-delay window after the a1 setup and before the `t[2]`
+store. Any other order moves them.
+
+**§160f — ADDRESS-ONLY GLOBAL STORE:** to store a symbol's ADDRESS (not its value), declare it as an
+array — `extern u8 SYM[];` — so array-to-pointer decay emits `lui/addiu` with **no following load**.
+
+**§160g — PROCESS: sibling-search keyed on the CALLEE SET should be STEP 0 of every wave prompt.**
+One grep for two callee symbols returned an already-banked body that turned a 126-instruction crack
+into a copy-edit. The existing wave template greps cross-overlay magic literals; extend it to
+"grep the callee symbols across `src/` for a non-INCLUDE_ASM body". Engine-state globals like
+`D_80126948` are shared across many overlay TUs, so a matched sibling is often already sitting there.
