@@ -10700,7 +10700,51 @@ DEFINE_func_80150528()  /* dedup: shared engine-core @0x80150528 (src/shared) */
 DEFINE_func_801505FC()  /* dedup: shared engine-core @0x801505fc (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC02_037/nonmatchings/ov_SC02_037", func_801506A4);
+extern void func_80147324(s32 a0);
+extern void func_8014ACE8(void *a0, s32 a1, s32 a2);
+extern void func_8014ADA8(s32 a0, s32 a1);
+extern void func_8014BB24(s32 a0, s32 a1, s32 a2);
+
+
+
+s32 func_801506A4(s32 arg0, s32 arg1) {
+
+    extern u16 aD80078EB4 __asm__("D_80078EB4");
+    extern void func_80150820(s32, s32);
+    extern void func_8015086C(int);
+    extern unsigned short D_8018586C[];
+    extern unsigned short D_80185874[];
+    extern unsigned short D_8018587C[];
+
+    int mode;
+
+    mode = ((struct Ent_801506A4 *)arg1)->unk0;
+    ((struct Ent_801506A4 *)arg1)->unk5C |= 1;
+    switch (mode) {
+    case 0x31:
+        ((void(*)(int))func_80147324)(0x452);
+        ((void(*)(int, unsigned))func_8014ADA8)(((int)arg0), D_8018586C[((struct Ent_801506A4 *)arg1)->unk70]);
+        ((void(*)(int, int, unsigned))func_8014ACE8)(((int)arg0), 3, D_8018586C[((struct Ent_801506A4 *)arg1)->unk70]);
+        break;
+    case 0x32:
+        if ((*(unsigned short*)&aD80078EB4) != 0) {
+            ((void(*)(int))func_80147324)(0x452);
+            ((void(*)(int, unsigned, int))func_8014BB24)(((int)arg0), D_80185874[((struct Ent_801506A4 *)arg1)->unk70], 1);
+            ((void(*)(int, int, unsigned))func_8014ACE8)(((int)arg0), 2, D_80185874[((struct Ent_801506A4 *)arg1)->unk70]);
+        }
+        break;
+    case 0x33:
+        ((void(*)(int))func_80147324)(0x452);
+        ((void (*)(int, unsigned))func_80150820)(((int)arg0), D_8018587C[((struct Ent_801506A4 *)arg1)->unk70]);
+        break;
+    case 0xC5:
+    case 0x27B:
+        ((void(*)(int))func_80147324)(0x452);
+        func_8015086C(((int)arg0));
+        break;
+    }
+}
+
 
 DEFINE_func_80150820()  /* dedup: shared engine-core @0x80150820 (src/shared) */
 
@@ -16844,7 +16888,125 @@ void func_80166654(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_037/nonmatchings/ov_SC02_037", func_80166690);
+
+   /* 12-byte sub-table record (stride 0xC) */
+
+
+extern s32 func_80017758(void *a0, void *a1);
+
+s32 func_80166690(s32 param_1, s32 param_2)
+{
+
+    extern Blk20 aD800AE620 __asm__("D_800AE620");
+    extern u8 D_801C8710[];
+    Frame_80166690 c;
+    Blk20 blk;
+    Rec_80166690 *sub;
+    Rec_80166690 *pv;
+    u8 *rec;
+    int i6;
+    int lt2;
+    int p2;
+    unsigned int uVar7, uVar8, uVar9;
+    int iVar3;
+    unsigned int w9, w7, w, t, w3b;
+    int w3;
+    short sVar10;
+    register unsigned int zr __asm__("$0");
+
+    blk = aD800AE620;
+    i6 = (short)param_1;
+    c.tag = 0x50000000;
+    rec = &D_801C8710[i6 * 0xC4];
+    sVar10 = 0;
+    if (rec[0] == 0) {
+        return 0;
+    }
+    sub = (Rec_80166690 *)(rec + 4);
+    uVar9 = rec[1];
+    uVar8 = rec[3];
+    uVar7 = uVar8 >> 1;
+    iVar3 = rec[2];
+    w3 = iVar3 - 1;
+    iVar3 = w3 + zr;
+    if (w3 != -1) {
+        lt2 = i6 < 2;
+        p2 = (short)param_2;
+        do {
+            pv = &sub[(short)uVar9];
+            c.v0 = pv->h[0];
+            c.v1 = pv->h[1];
+            c.v2 = pv->h[2];
+            c.w0 = pv->h[3];
+            c.w1 = pv->h[4];
+            c.w2 = pv->h[5];
+            sVar10 = sVar10 + 1;
+
+            if (lt2) {
+                if (p2 == 0) {
+                    t = uVar8 + zr;
+                    c.c12 = t; c.c02 = t;
+                    t = uVar7 + zr;
+                } else {
+                    w = ((int)(uVar8 << 16) >> 17) + ((int)(uVar8 << 16) >> 19);
+                    uVar7 = w + zr;
+                    c.c12 = w; c.c02 = w;
+                    t = uVar8 + zr;
+                }
+                c.c11 = t; c.c01 = t; c.c10 = t; c.c00 = t;
+            } else {
+                t = uVar8 + zr;
+                c.c10 = t; c.c00 = t;
+                t = uVar7 + zr;
+                c.c12 = t; c.c02 = t; c.c11 = t; c.c01 = t;
+            }
+
+            w9 = uVar9 - 1;
+            uVar9 = w9 + zr;
+            if ((int)(w9 << 16) < 0) {
+                uVar9 = 0xF;
+            }
+            pv = &sub[(short)uVar9];
+            c.v3 = pv->h[0];
+            c.v4 = pv->h[1];
+            c.v5 = pv->h[2];
+            c.w3 = pv->h[3];
+            c.w4 = pv->h[4];
+            uVar8 = uVar8 - 0x10;
+            w7 = uVar7 - 0x10;
+            uVar7 = w7 + zr;
+            c.w5 = pv->h[5];
+            if ((int)(w7 << 16) < 0) {
+                uVar7 = 0;
+            }
+
+            if (lt2) {
+                if (p2 == 0) {
+                    t = uVar8 + zr;
+                    c.c32 = t; c.c22 = t;
+                    t = uVar7 + zr;
+                } else {
+                    t = uVar7 + zr;
+                    c.c32 = t; c.c22 = t;
+                    t = uVar8 + zr;
+                }
+                c.c31 = t; c.c21 = t; c.c30 = t; c.c20 = t;
+            } else {
+                t = uVar8 + zr;
+                c.c30 = t; c.c20 = t;
+                t = uVar7 + zr;
+                c.c32 = t; c.c22 = t; c.c31 = t; c.c21 = t;
+            }
+
+            __asm__ __volatile__("" :: "r"(iVar3));
+            func_80017758(&c, &blk);
+            w3b = iVar3 - 1;
+            iVar3 = w3b + zr;
+        } while ((short)w3b != -1);
+    }
+    return (short)sVar10;
+}
+
 
 extern void func_801484B0(s32 a0, s32 a1);
 extern void func_80148534(s32 a0, s32 a1);
@@ -18411,12 +18573,87 @@ void func_8016A700(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_037/nonmatchings/ov_SC02_037", func_8016A73C);
+extern void func_80048EAC(void *a0, void *a1);
+
+// Seed for func_8016A73C (ov_SC01_077 exemplar). Overlay-local struct guessed.
+
+
+
+
+
+s32 func_8016A73C(s32 arg0) {
+
+    extern Blk20 aD800AE620 __asm__("D_800AE620");
+    int sp10[8];
+    short v[3];   /* sp30, sp32, sp34 */
+    int r;
+    short tmp;
+
+    r = rand();
+    v[1] = ((r & 0x7F) << 4) + 0x400;
+    v[0] = ((unsigned)(r & 0x7F00) >> 5) - 0x300;
+    v[2] = 0;
+    ((void(*)(short *, void *))RotMatrixYXZ)(v, sp10);
+    ((void(*)(int, void *))func_80048EAC)(((Obj_8016A73C *)arg0)->unk34->unk34->unk20 + 0x34, sp10);
+    v[0] = 0;
+    v[1] = 0;
+    v[2] = -0x50;
+    ((int(*)(void *, short *, short *))ApplyMatrixSV)(sp10, v, v);
+
+    ((Obj_8016A73C *)arg0)->mat = (*(Mat_8016A73C*)&aD800AE620);
+
+    tmp = ((Obj_8016A73C *)arg0)->unk6 + v[0];
+    ((Obj_8016A73C *)arg0)->unk6 = tmp;
+    ((Obj_8016A73C *)arg0)->mat.w[5] = tmp;
+    tmp = ((Obj_8016A73C *)arg0)->unkA + v[1];
+    ((Obj_8016A73C *)arg0)->unkA = tmp;
+    ((Obj_8016A73C *)arg0)->mat.w[6] = tmp;
+    tmp = ((Obj_8016A73C *)arg0)->unkE + v[2];
+    ((Obj_8016A73C *)arg0)->unkE = tmp;
+    ((Obj_8016A73C *)arg0)->unk2 = ((Obj_8016A73C *)arg0)->unk2 + 1;
+    ((Obj_8016A73C *)arg0)->mat.w[7] = tmp;
+}
+
 
 DEFINE_func_8016A890()  /* dedup: shared engine-core @0x8016a890 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC02_037/nonmatchings/ov_SC02_037", func_8016A8FC);
+extern s32 func_80016A5C();
+s32 func_8016A8FC(s32 a0)
+{
+
+    extern Blk20 aD800AE620 __asm__("D_800AE620");
+    Prim p;
+    int ptr;
+    ptr = *(int *)(a0 + 0x34);
+    p.v0 = (short)*(int *)(a0 + 0x4C);
+    p.v1 = (short)*(int *)(a0 + 0x50);
+    p.v2 = (short)*(int *)(a0 + 0x54);
+    p.w0 = *(unsigned short *)(ptr + 6);
+    p.w1 = *(unsigned short *)(ptr + 0xA);
+    p.w2 = *(unsigned short *)(ptr + 0xE);
+    p.v0 = (short)(((int)*(short *)(a0 + 6) + *(int *)(a0 + 0x4C)) >> 1);
+    p.v1 = (short)(((int)*(short *)(a0 + 0xA) + *(int *)(a0 + 0x50)) >> 1);
+    p.v2 = (short)(((int)*(short *)(a0 + 0xE) + *(int *)(a0 + 0x54)) >> 1);
+    *(short *)(a0 + 6) = (short)*(int *)(a0 + 0x4C);
+    p.w0 = (short)(((int)*(short *)(a0 + 6) + (int)*(short *)(ptr + 6)) >> 1);
+    *(int *)(a0 + 0x4C) = p.w0;
+    *(short *)(a0 + 0xA) = (short)*(int *)(a0 + 0x50);
+    p.w1 = (short)(((int)*(short *)(a0 + 0xA) + (int)*(short *)(ptr + 0xA)) >> 1);
+    *(int *)(a0 + 0x50) = p.w1;
+    *(short *)(a0 + 0xE) = (short)*(int *)(a0 + 0x54);
+    p.w2 = (short)(((int)*(short *)(a0 + 0xE) + (int)*(short *)(ptr + 0xE)) >> 1);
+    *(int *)(a0 + 0x54) = p.w2;
+    p.b11 = 0x10;
+    p.b15 = 0x80;
+    p.b16 = 0x20;
+    p.b14 = 0x20;
+    p.b12 = 0;
+    p.b10 = 0;
+    p.w18 = 0x50000000;
+    ((s32 (*)(void *, void *))func_80016A5C)(&p, &aD800AE620);
+}
+
 
 DEFINE_func_8016AA50()  /* dedup: shared engine-core @0x8016aa50 (src/shared) */
 
@@ -19324,7 +19561,155 @@ void func_8016CB84(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_037/nonmatchings/ov_SC02_037", func_8016CBC0);
+typedef struct {
+    SVECTOR v[4];               /* 0x00 */
+    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
+    u8  f6;                     /* 0x38 */
+    u8  pad[7];                 /* -> 0x40 */
+} Prim_8016E7C8_8016CBC0;
+
+extern s32 func_80017758(void *a0, void *a1);
+short func_8016CBC0(void)
+{
+
+    extern Blk20 aD800AE620 __asm__("D_800AE620");
+
+    extern Blk_8016CBC0 D_801C8BC8[];
+  Poly_8016CBC0 p0;
+  Poly_8016CBC0 p1;
+  Mtx8_8016CBC0 mtx;
+  Blk_8016CBC0 *blk;
+  Rec_8016CBC0 *sub;
+  Rec_8016CBC0 *pv;
+  unsigned int uVar9;
+  unsigned int w9;
+  unsigned int uc;
+  unsigned int a2;
+  int col;
+  int iVar3;
+  int w3;
+  unsigned int w3b;
+  short count;
+  short i;
+register unsigned int zr __asm__("$0");
+  mtx = (*(Mtx8_8016CBC0 *)&aD800AE620);
+  count = 0;
+  p1.tag = 0x50000000;
+  p0.tag = 0x50000000;
+  p1.col[3].b = 0;
+  p1.col[3].g = 0;
+  p1.col[3].r = 0;
+  p1.col[1].b = 0;
+  p1.col[1].g = 0;
+  p1.col[1].r = 0;
+  p0.col[2].b = 0;
+  p0.col[2].g = 0;
+  p0.col[2].r = 0;
+  p0.col[0].b = 0;
+  p0.col[0].g = 0;
+  p0.col[0].r = 0;
+  for (i = 0; i < 8; i++)
+  {
+    blk = &D_801C8BC8[i];
+    if (blk->f0 != 0)
+    {
+      sub = blk->ent;
+      uVar9 = blk->f1;
+      iVar3 = blk->f2;
+      col = blk->f3;
+      count = count + 1;
+      w3 = iVar3 - 1;
+      iVar3 = w3 + zr;
+      if (w3 != (-1))
+      {
+        do
+        {
+          pv = &sub[(short) uVar9];
+          {
+            unsigned int a = pv->h[0];
+            unsigned int b;
+            p0.v[0].x = a;
+            b = pv->h[3];
+            p1.v[1].x = b;
+            p0.v[1].x = (p1.v[0].x = ((unsigned) (((s16) a) + ((s16) b))) >> 1);
+          }
+          {
+            unsigned int a = pv->h[1];
+            unsigned int b;
+            p0.v[0].y = a;
+            b = pv->h[4];
+            uc = ((unsigned) (col & 0xFF)) >> 3;
+            p1.v[1].y = b;
+            p0.v[1].y = (p1.v[0].y = ((unsigned) (((s16) a) + ((s16) b))) >> 1);
+            w9 = uVar9 - 1;
+            uVar9 = w9 + zr;
+          }
+          {
+            unsigned int a = pv->h[2];
+            unsigned int b;
+            p0.v[0].z = a;
+            b = pv->h[5];
+            p1.col[0].g = col;
+            p0.col[1].g = col;
+            p1.col[0].b = uc;
+            p0.col[1].b = uc;
+            p1.col[0].r = uc;
+            p0.col[1].r = uc;
+            p1.v[1].z = b;
+            p0.v[1].z = (p1.v[0].z = ((unsigned) (((s16) a) + ((s16) b))) >> 1);
+          }
+          if (((int) (w9 << 16)) < 0)
+          {
+            uVar9 = 0xF;
+          }
+          pv = &sub[(short) uVar9];
+          col = col - 0xF;
+          a2 = (unsigned) (col & 0xFF);
+          a2 = a2 >> 3;
+          {
+            unsigned int a = pv->h[0];
+            unsigned int b;
+            p0.v[2].x = a;
+            b = pv->h[3];
+            p1.v[3].x = b;
+            p0.v[3].x = (p1.v[2].x = ((unsigned) (((s16) a) + ((s16) b))) >> 1);
+          }
+          {
+            unsigned int a = pv->h[1];
+            unsigned int b;
+            p0.v[2].y = a;
+            b = pv->h[4];
+            p1.v[3].y = b;
+            p0.v[3].y = (p1.v[2].y = ((unsigned) (((s16) a) + ((s16) b))) >> 1);
+          }
+          {
+            unsigned int a = pv->h[2];
+            unsigned int b;
+            p0.v[2].z = a;
+            b = pv->h[5];
+            p1.col[2].g = col;
+            p0.col[3].g = col;
+            p1.col[2].b = a2;
+            p0.col[3].b = a2;
+            p1.col[2].r = a2;
+            p0.col[3].r = a2;
+            p1.v[3].z = b;
+            p0.v[3].z = (p1.v[2].z = ((unsigned) (((s16) a) + ((s16) b))) >> 1);
+          }
+          func_80017758(&p0, &mtx);
+          func_80017758(&p1, &mtx);
+          uc = iVar3 - 1;
+          w3b = uc;
+          iVar3 = w3b + zr;
+        }
+        while (((short) w3b) != (-1));
+      }
+    }
+  }
+
+  return count;
+}
+
 
 extern void func_8016D5EC(s32 *a0);
 extern void func_800D23D0(void *a0);
@@ -19639,7 +20024,97 @@ void func_8016DF20(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_037/nonmatchings/ov_SC02_037", func_8016DF5C);
+extern void func_8001CD50(s32 a0, s32 a1);
+extern void func_800233CC(void *, unsigned short);
+extern void func_801465C0(void);
+extern void func_80146C3C(u8*);
+
+
+
+
+void func_8016DF5C(s32 param_1)
+{
+
+    extern Blk20 aD800AE620 __asm__("D_800AE620");
+    extern s32 D_8011D030;
+    extern u16 D_80126B5E;
+    extern u16 D_80126B62;
+    extern u16 D_80126B66;
+    extern void func_8016E3CC(s32);
+    extern void RotMatrixY(s32 a0, void *a1);
+    extern u8 D_801C91F0;
+    extern u8 D_801C91F1;
+    extern u8 D_801C91F2;
+    extern u8 D_801C91F4;
+    extern u8 D_801C91F5;
+    extern u8 D_801C91F6;
+
+    s32 iVar8;
+    short sVar1;
+
+    iVar8 = *(s32 *)((u8 *)((void *)param_1) + 0x34);
+    if ((*(u32 *)((u8 *)((void *)param_1) + 0x2c) & 0x8000) == 0) {
+        unsigned short uVar7 = 0;
+        u16 *psVar6 = (u16 *)&D_8011D030;
+        register s32 iNew __asm__("$17");
+        s32 base;
+        do {
+            if (psVar6 != (u16 *)((void *)param_1) && (*psVar6 == 0x41 || *psVar6 == 0x48)) {
+                ((void (*)(void *))func_80146C3C)(psVar6);
+            }
+            uVar7++;
+            psVar6 += 0x2c;
+        } while (uVar7 < 0x1e);
+        iNew = ((s32(*)())func_801465C0)();
+        if (iNew == 0) {
+            return;
+        }
+        base = (s32)&D_801C91F0;
+        D_801C91F2 = 0xc0;
+        *(u8 *)base = 0xc0;
+        D_801C91F1 = 0;
+        D_801C91F6 = 0;
+        D_801C91F5 = 0;
+        D_801C91F4 = 0;
+        ((void(*)(void *, unsigned short))func_800233CC)((void *)base, 0x40);
+        func_8001CD50(iNew, base);
+        *(s32 *)(iNew + 0x34) = (s32)((u8 *)((void *)param_1) + 0x38);
+        *(s16 *)(iNew + 0x1a) = 0;
+        *(s16 *)(iNew + 0x18) = 0;
+        *(u32 *)(iNew + 4) = *(u32 *)(iNew + 4) | 0x50000000;
+        ((void (*)(void *))func_8016E3CC)(((void *)param_1));
+        {
+            register s32 t10 __asm__("$3");
+            t10 = 0x10;
+            *(s32 *)((u8 *)((void *)param_1) + 0x20) = iNew;
+            *(s32 *)((u8 *)((void *)param_1) + 0x1c) = t10;
+        }
+        sVar1 = *(u16 *)((u8 *)((void *)param_1) + 2) + 1;
+    } else {
+        short asStack_60[20];
+        Blk20_8016DF5C localMatrix;
+        s32 uVar2;
+
+        asStack_60[0] = 0;
+        asStack_60[1] = 0;
+        asStack_60[2] = 0x20;
+        localMatrix = (*(Blk20_8016DF5C*)&aD800AE620);
+        uVar2 = ((s32(*)())rand)();
+        RotMatrixY((uVar2 & 0x7f00) >> 3, &localMatrix);
+        ApplyMatrixSV(&localMatrix, asStack_60, asStack_60);
+        *(s16 *)((u8 *)((void *)param_1) + 6) = D_80126B5E + asStack_60[0];
+        *(s16 *)((u8 *)((void *)param_1) + 0xa) = D_80126B62 - ((u16)uVar2 & 0x3f);
+        *(s16 *)((u8 *)((void *)param_1) + 0xe) = D_80126B66 + asStack_60[2];
+        *(Blk20_8016DF5C *)((u8 *)((void *)param_1) + 0x38) = *(Blk20_8016DF5C *)((u8 *)iVar8 + 0x38);
+        *(s32 *)((u8 *)((void *)param_1) + 0x2c) = 0x1000;
+        *(s32 *)((u8 *)((void *)param_1) + 0x30) = 0xff;
+        *(s32 *)((u8 *)((void *)param_1) + 0x1c) = 0x10;
+        __asm__ __volatile__("" ::: "memory");
+        sVar1 = 4;
+    }
+    *(s16 *)((u8 *)((void *)param_1) + 2) = sVar1;
+}
+
 
 DEFINE_func_8016E1CC()  /* dedup: shared engine-core @0x8016e1cc (src/shared) */
 
@@ -23741,7 +24216,40 @@ s32 func_8017B614(s32 param_1, s32 param_2)
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_037/nonmatchings/ov_SC02_037", func_8017B7A8);
+
+
+// @class: plumbing
+// @stuck: none — MATCH
+
+
+
+void func_8017B7A8(void)
+{
+
+    extern s32 D_80114F30;
+    extern s32 D_80114F34;
+    extern s32 D_80114F38;
+    extern s32 aD80114F24 __asm__("D_80114F24");
+    extern s32 D_80114F28;
+    extern s32 D_80114F2C;
+    extern u8 D_8012694C;
+    extern s16 D_801C9644;
+    extern s16 D_801C96BC;
+    extern s16 D_801C96BE;
+    extern s16 D_801C96C0;
+    extern s16 D_801C96B4;
+    extern s16 D_801C96B6;
+    extern s16 D_801C96B8;
+    D_8012694C = 1;
+    D_801C9644 = 0;
+    D_801C96BC = (s16) D_80114F30;
+    D_801C96BE = (s16) D_80114F34;
+    D_801C96C0 = (s16) D_80114F38;
+    D_801C96B4 = (s16) aD80114F24;
+    D_801C96B6 = (s16) D_80114F28;
+    D_801C96B8 = (s16) D_80114F2C;
+}
+
 
 
 
@@ -23763,7 +24271,35 @@ void func_8017B824(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_037/nonmatchings/ov_SC02_037", func_8017B880);
+
+// @class: schedule
+// @stuck: none — MATCH
+
+
+
+void func_8017B880(void)
+{
+
+    extern s16 D_801C96D4;
+    extern s16 D_801C96D6;
+    extern s16 D_801C96D8;
+    extern s16 D_801C96DC;
+    extern s16 D_801C96DE;
+    extern s16 D_801C96E0;
+    extern s32 D_80114F30;
+    extern s32 D_80114F34;
+    extern s32 D_80114F38;
+    extern s32 aD80114F24 __asm__("D_80114F24");
+    extern s32 D_80114F28;
+    extern s32 D_80114F2C;
+    D_80114F30 = D_801C96D4;
+    D_80114F34 = D_801C96D6;
+    D_80114F38 = D_801C96D8;
+    aD80114F24 = D_801C96DC;
+    D_80114F28 = D_801C96DE;
+    D_80114F2C = D_801C96E0;
+}
+
 
 
 
@@ -23777,7 +24313,58 @@ s32 func_8017B8E8(s32 src) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_037/nonmatchings/ov_SC02_037", func_8017B940);
+
+
+// @class: struct
+// @stuck: none — MATCH (63 ins)
+
+
+
+
+void func_8017B940(void)
+{
+
+    extern u16 D_80126B5E;
+    extern u16 D_80126B62;
+    extern u16 D_80126B66;
+    extern u16 D_801C96C4;
+    extern u16 D_801C96C6;
+    extern u16 D_801C96C8;
+    extern s32 D_80114F30;
+    extern s32 D_80114F34;
+    extern s32 D_80114F38;
+    extern s32 aD80114F24 __asm__("D_80114F24");
+    extern s32 D_80114F28;
+    extern s32 D_80114F2C;
+    extern u8  D_8012694C;
+    extern s16 D_801C9644;
+    extern short D_801C96CC;
+    extern short D_801C96CE;
+    extern short D_801C96D0;
+    extern s16 D_801C96BC;
+    extern s16 D_801C96BE;
+    extern s16 D_801C96C0;
+    extern s16 D_801C96B4;
+    extern s16 D_801C96B6;
+    extern s16 D_801C96B8;
+    s32 buf[3];
+
+    D_8012694C = 2;
+    buf[0] = (*(s16 *)&D_80126B5E) - (*(s16 *)&D_801C96C4);
+    buf[1] = (*(s16 *)&D_80126B62) - (*(s16 *)&D_801C96C6);
+    buf[2] = (*(s16 *)&D_80126B66) - (*(s16 *)&D_801C96C8);
+    (*(s16 *)&D_801C96CC) = buf[0];
+    (*(s16 *)&D_801C96CE) = buf[1];
+    (*(s16 *)&D_801C96D0) = buf[2];
+    D_801C96BC = D_80114F30 + buf[0];
+    D_801C9644 = 0;
+    D_801C96BE = D_80114F34 + buf[1];
+    D_801C96C0 = D_80114F38 + buf[2];
+    D_801C96B4 = aD80114F24 + buf[0];
+    D_801C96B6 = D_80114F28 + buf[1];
+    D_801C96B8 = D_80114F2C + buf[2];
+}
+
 
 typedef struct { s16 vx, vy; } DVEC2_C974_8017BA3C;
 typedef struct { s16 m[3][3]; s32 t[3]; } MTX_C974_8017BA3C;
@@ -23941,7 +24528,48 @@ void func_8017BCF4(int param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_037/nonmatchings/ov_SC02_037", func_8017BD50);
+
+// @class: regalloc-order
+// @stuck: none — MATCH (branch-polarity invert: fn-ptr non-zero call is the fall-through arm)
+
+extern void func_8017B0E4(int, int);
+extern void func_8012A4BC(void);
+
+
+
+void func_8017BD50(int param_1)
+{
+
+    extern s16 D_801C9644;
+    extern void (*D_801C9688)(void);
+    extern short D_801C96CC;
+    extern short D_801C96CE;
+    extern short D_801C96D0;
+    extern s16 D_801C9A70;
+    extern s32 aD80114F24 __asm__("D_80114F24");
+    extern s32 D_80114F28;
+    extern s32 D_80114F2C;
+    extern s32 D_80114F30;
+    extern s32 D_80114F34;
+    extern s32 D_80114F38;
+    func_8017B0E4(param_1, 6);
+    D_801C9644 = D_801C9644 + 1;
+    if (D_801C9644 >= 0x19) {
+        if (D_801C9688 != 0) {
+            (*D_801C9688)();
+        } else {
+            D_80114F30 = D_80114F30 + D_801C96CC;
+            D_80114F34 = D_80114F34 + D_801C96CE;
+            D_80114F38 = D_80114F38 + D_801C96D0;
+            aD80114F24 = aD80114F24 + D_801C96CC;
+            D_80114F28 = D_80114F28 + D_801C96CE;
+            D_80114F2C = D_80114F2C + D_801C96D0;
+            func_8012A4BC();
+        }
+        D_801C9A70 = 0;
+    }
+}
+
 
 
 

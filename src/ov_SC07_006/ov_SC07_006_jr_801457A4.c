@@ -212,8 +212,6 @@ extern void func_8012AD64(s32 *a0, s16 a1);
 extern void func_8012AD6C(void *a0);
 extern void func_8012AD80(s32 a0);
 extern void func_8012ADE4(u8 *a0);
-extern s32 *D_80126B78;
-extern s32 D_80126B58;
 extern s32 func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 func_80013478(s32 a0, s32 a1);
 extern s32 func_8012AE00(s32 a0);
@@ -4249,7 +4247,51 @@ DEFINE_func_80150528()  /* dedup: shared engine-core @0x80150528 (src/shared) */
 DEFINE_func_801505FC()  /* dedup: shared engine-core @0x801505fc (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_801457A4", func_801506A4);
+extern void func_80147324(s32 a0);
+extern void func_8014ACE8(void *a0, s32 a1, s32 a2);
+extern void func_8014ADA8(s32 a0, s32 a1);
+extern void func_8014BB24(s32 a0, s32 a1, s32 a2);
+
+
+
+s32 func_801506A4(s32 arg0, s32 arg1) {
+
+    extern u16 aD80078EB4 __asm__("D_80078EB4");
+    extern void func_80150820(s32, s32);
+    extern void func_8015086C(int);
+    extern unsigned short D_8018C06C[];
+    extern unsigned short D_8018C074[];
+    extern unsigned short D_8018C07C[];
+
+    int mode;
+
+    mode = ((struct Ent_801506A4 *)arg1)->unk0;
+    ((struct Ent_801506A4 *)arg1)->unk5C |= 1;
+    switch (mode) {
+    case 0x31:
+        ((void(*)(int))func_80147324)(0x452);
+        ((void(*)(int, unsigned))func_8014ADA8)(((int)arg0), D_8018C06C[((struct Ent_801506A4 *)arg1)->unk70]);
+        ((void(*)(int, int, unsigned))func_8014ACE8)(((int)arg0), 3, D_8018C06C[((struct Ent_801506A4 *)arg1)->unk70]);
+        break;
+    case 0x32:
+        if ((*(unsigned short*)&aD80078EB4) != 0) {
+            ((void(*)(int))func_80147324)(0x452);
+            ((void(*)(int, unsigned, int))func_8014BB24)(((int)arg0), D_8018C074[((struct Ent_801506A4 *)arg1)->unk70], 1);
+            ((void(*)(int, int, unsigned))func_8014ACE8)(((int)arg0), 2, D_8018C074[((struct Ent_801506A4 *)arg1)->unk70]);
+        }
+        break;
+    case 0x33:
+        ((void(*)(int))func_80147324)(0x452);
+        ((void (*)(int, unsigned))func_80150820)(((int)arg0), D_8018C07C[((struct Ent_801506A4 *)arg1)->unk70]);
+        break;
+    case 0xC5:
+    case 0x27B:
+        ((void(*)(int))func_80147324)(0x452);
+        func_8015086C(((int)arg0));
+        break;
+    }
+}
+
 
 DEFINE_func_80150820()  /* dedup: shared engine-core @0x80150820 (src/shared) */
 

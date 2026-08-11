@@ -10530,7 +10530,51 @@ DEFINE_func_80150528()  /* dedup: shared engine-core @0x80150528 (src/shared) */
 DEFINE_func_801505FC()  /* dedup: shared engine-core @0x801505fc (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_MAIN_012/nonmatchings/ov_MAIN_012", func_801506A4);
+extern void func_80147324(s32 a0);
+extern void func_8014ACE8(void *a0, s32 a1, s32 a2);
+extern void func_8014ADA8(s32 a0, s32 a1);
+extern void func_8014BB24(s32 a0, s32 a1, s32 a2);
+
+
+
+s32 func_801506A4(s32 arg0, s32 arg1) {
+
+    extern u16 aD80078EB4 __asm__("D_80078EB4");
+    extern void func_80150820(s32, s32);
+    extern void func_8015086C(int);
+    extern unsigned short D_8017FFE0[];
+    extern unsigned short D_8017FFE8[];
+    extern unsigned short D_8017FFF0[];
+
+    int mode;
+
+    mode = ((struct Ent_801506A4 *)arg1)->unk0;
+    ((struct Ent_801506A4 *)arg1)->unk5C |= 1;
+    switch (mode) {
+    case 0x31:
+        ((void(*)(int))func_80147324)(0x452);
+        ((void(*)(int, unsigned))func_8014ADA8)(((int)arg0), D_8017FFE0[((struct Ent_801506A4 *)arg1)->unk70]);
+        ((void(*)(int, int, unsigned))func_8014ACE8)(((int)arg0), 3, D_8017FFE0[((struct Ent_801506A4 *)arg1)->unk70]);
+        break;
+    case 0x32:
+        if ((*(unsigned short*)&aD80078EB4) != 0) {
+            ((void(*)(int))func_80147324)(0x452);
+            ((void(*)(int, unsigned, int))func_8014BB24)(((int)arg0), D_8017FFE8[((struct Ent_801506A4 *)arg1)->unk70], 1);
+            ((void(*)(int, int, unsigned))func_8014ACE8)(((int)arg0), 2, D_8017FFE8[((struct Ent_801506A4 *)arg1)->unk70]);
+        }
+        break;
+    case 0x33:
+        ((void(*)(int))func_80147324)(0x452);
+        ((void (*)(int, unsigned))func_80150820)(((int)arg0), D_8017FFF0[((struct Ent_801506A4 *)arg1)->unk70]);
+        break;
+    case 0xC5:
+    case 0x27B:
+        ((void(*)(int))func_80147324)(0x452);
+        func_8015086C(((int)arg0));
+        break;
+    }
+}
+
 
 DEFINE_func_80150820()  /* dedup: shared engine-core @0x80150820 (src/shared) */
 
@@ -24613,7 +24657,40 @@ s32 func_8017B614(s32 param_1, s32 param_2)
 }
 
 
-INCLUDE_ASM("asm/ov_MAIN_012/nonmatchings/ov_MAIN_012", func_8017B7A8);
+
+
+// @class: plumbing
+// @stuck: none — MATCH
+
+
+
+void func_8017B7A8(void)
+{
+
+    extern s32 D_80114F30;
+    extern s32 D_80114F34;
+    extern s32 D_80114F38;
+    extern s32 aD80114F24 __asm__("D_80114F24");
+    extern s32 D_80114F28;
+    extern s32 D_80114F2C;
+    extern u8 D_8012694C;
+    extern s16 D_8018534C;
+    extern s16 D_801853C4;
+    extern s16 D_801853C6;
+    extern s16 D_801853C8;
+    extern s16 D_801853BC;
+    extern s16 D_801853BE;
+    extern s16 D_801853C0;
+    D_8012694C = 1;
+    D_8018534C = 0;
+    D_801853C4 = (s16) D_80114F30;
+    D_801853C6 = (s16) D_80114F34;
+    D_801853C8 = (s16) D_80114F38;
+    D_801853BC = (s16) aD80114F24;
+    D_801853BE = (s16) D_80114F28;
+    D_801853C0 = (s16) D_80114F2C;
+}
+
 
 
 
@@ -24635,7 +24712,35 @@ void func_8017B824(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_MAIN_012/nonmatchings/ov_MAIN_012", func_8017B880);
+
+// @class: schedule
+// @stuck: none — MATCH
+
+
+
+void func_8017B880(void)
+{
+
+    extern s16 D_801853DC;
+    extern s16 D_801853DE;
+    extern s16 D_801853E0;
+    extern s16 D_801853E4;
+    extern s16 D_801853E6;
+    extern s16 D_801853E8;
+    extern s32 D_80114F30;
+    extern s32 D_80114F34;
+    extern s32 D_80114F38;
+    extern s32 aD80114F24 __asm__("D_80114F24");
+    extern s32 D_80114F28;
+    extern s32 D_80114F2C;
+    D_80114F30 = D_801853DC;
+    D_80114F34 = D_801853DE;
+    D_80114F38 = D_801853E0;
+    aD80114F24 = D_801853E4;
+    D_80114F28 = D_801853E6;
+    D_80114F2C = D_801853E8;
+}
+
 
 
 
@@ -24649,7 +24754,58 @@ s32 func_8017B8E8(s32 src) {
 }
 
 
-INCLUDE_ASM("asm/ov_MAIN_012/nonmatchings/ov_MAIN_012", func_8017B940);
+
+
+// @class: struct
+// @stuck: none — MATCH (63 ins)
+
+
+
+
+void func_8017B940(void)
+{
+
+    extern u16 D_80126B5E;
+    extern u16 D_80126B62;
+    extern u16 D_80126B66;
+    extern u16 D_801853CC;
+    extern u16 D_801853CE;
+    extern u16 D_801853D0;
+    extern s32 D_80114F30;
+    extern s32 D_80114F34;
+    extern s32 D_80114F38;
+    extern s32 aD80114F24 __asm__("D_80114F24");
+    extern s32 D_80114F28;
+    extern s32 D_80114F2C;
+    extern u8  D_8012694C;
+    extern s16 D_8018534C;
+    extern short D_801853D4;
+    extern short D_801853D6;
+    extern short D_801853D8;
+    extern s16 D_801853C4;
+    extern s16 D_801853C6;
+    extern s16 D_801853C8;
+    extern s16 D_801853BC;
+    extern s16 D_801853BE;
+    extern s16 D_801853C0;
+    s32 buf[3];
+
+    D_8012694C = 2;
+    buf[0] = (*(s16 *)&D_80126B5E) - (*(s16 *)&D_801853CC);
+    buf[1] = (*(s16 *)&D_80126B62) - (*(s16 *)&D_801853CE);
+    buf[2] = (*(s16 *)&D_80126B66) - (*(s16 *)&D_801853D0);
+    (*(s16 *)&D_801853D4) = buf[0];
+    (*(s16 *)&D_801853D6) = buf[1];
+    (*(s16 *)&D_801853D8) = buf[2];
+    D_801853C4 = D_80114F30 + buf[0];
+    D_8018534C = 0;
+    D_801853C6 = D_80114F34 + buf[1];
+    D_801853C8 = D_80114F38 + buf[2];
+    D_801853BC = aD80114F24 + buf[0];
+    D_801853BE = D_80114F28 + buf[1];
+    D_801853C0 = D_80114F2C + buf[2];
+}
+
 
 typedef struct { s16 vx, vy; } DVEC2_C974_8017BA3C;
 typedef struct { s16 m[3][3]; s32 t[3]; } MTX_C974_8017BA3C;
@@ -24813,7 +24969,48 @@ void func_8017BCF4(int param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_MAIN_012/nonmatchings/ov_MAIN_012", func_8017BD50);
+
+// @class: regalloc-order
+// @stuck: none — MATCH (branch-polarity invert: fn-ptr non-zero call is the fall-through arm)
+
+extern void func_8017B0E4(int, int);
+extern void func_8012A4BC(void);
+
+
+
+void func_8017BD50(int param_1)
+{
+
+    extern s16 D_8018534C;
+    extern void (*D_80185390)(void);
+    extern short D_801853D4;
+    extern short D_801853D6;
+    extern short D_801853D8;
+    extern s16 D_80185C08;
+    extern s32 aD80114F24 __asm__("D_80114F24");
+    extern s32 D_80114F28;
+    extern s32 D_80114F2C;
+    extern s32 D_80114F30;
+    extern s32 D_80114F34;
+    extern s32 D_80114F38;
+    func_8017B0E4(param_1, 6);
+    D_8018534C = D_8018534C + 1;
+    if (D_8018534C >= 0x19) {
+        if (D_80185390 != 0) {
+            (*D_80185390)();
+        } else {
+            D_80114F30 = D_80114F30 + D_801853D4;
+            D_80114F34 = D_80114F34 + D_801853D6;
+            D_80114F38 = D_80114F38 + D_801853D8;
+            aD80114F24 = aD80114F24 + D_801853D4;
+            D_80114F28 = D_80114F28 + D_801853D6;
+            D_80114F2C = D_80114F2C + D_801853D8;
+            func_8012A4BC();
+        }
+        D_80185C08 = 0;
+    }
+}
+
 
 
 

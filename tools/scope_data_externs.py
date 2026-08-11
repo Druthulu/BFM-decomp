@@ -97,6 +97,17 @@ def _norm_ws(s):
     return re.sub(r'\s+', ' ', s.strip())
 
 
+def _alias_name(sym, func):
+    """Per-FUNCTION alias, never a bare `aD<sym>` (P30 S47-F4, byte-witnessed).
+
+    A bare alias re-creates the very collision it exists to remove, one level down: two drafts
+    spliced into one TU that both alias `D_800B9A02` — each keeping its own type, which is the whole
+    point — then declare `aD800B9A02` twice with different types. Measured: 9 fresh
+    `conflicting types for aD800B9A02` failures caused by this fix's first cut. The group-level
+    path in family_sweep suffixed from the start; this one did not, and that asymmetry is the bug."""
+    return f'aD{sym[2:]}_{func[5:] if func.startswith("func_") else func}'
+
+
 def _decl_type_text(line, sym):
     """The declared TYPE of `sym` in one `extern` line — everything between `extern` and the
     declarator, plus any array suffix. None if the line does not declare it."""
@@ -140,13 +151,18 @@ def is_asm_alias(ln):
     return bool(ids) and ids[-1] != m.group(1)
 
 
-def fix(body, tu_text, insert_pos, func):
+def fix(body, tu_text, insert_pos, func, tu_types=None):
     """Demote the body's file-scope DATA externs that the TU does not already declare at file scope
     above `insert_pos`. Returns (new_body, [moved symbols]). A no-op (body unchanged) when nothing
     qualifies, when the body declares no data externs, or when the opening brace can't be located."""
     above = _file_scope_data_syms(tu_text[:insert_pos])
 
-    tu_types = _file_scope_data_types(tu_text)
+    # PREFER A CPP-DERIVED MAP (P30 S47-F4). A text scan cannot see a MACRO-INJECTED declaration —
+    # `extern Vec8 D_80114F24;` lives inside a DEFINE_func_* macro in engine_core.h, and the overlay
+    # .c holds only `DEFINE_func_XXXX()`. That declaration is nonetheless a genuine file-scope decl
+    # of every TU invoking the macro, and it is what the draft collides with. Callers that can name
+    # the TU path pass `cdecl.tu_scope(path)`-derived types; the text scan stays as the fallback.
+    tu_types = tu_types if tu_types is not None else _file_scope_data_types(tu_text)
     demote = []                       # (line_text, sym)
     dropped = []                      # syms the TU ALREADY declares above us — redundant, see below
     keep_lines = []
@@ -168,7 +184,7 @@ def fix(body, tu_text, insert_pos, func):
             if d and not is_asm_alias(ln):
                 _mine, _theirs = _decl_type_text(ln, d.group(0)), tu_types.get(d.group(0))
                 if _mine and _theirs and _norm_ws(_mine) != _norm_ws(_theirs):
-                    _al = f'aD{d.group(0)[2:]}'
+                    _al = _alias_name(d.group(0), func)
                     ln = (re.sub(rf'\b{re.escape(d.group(0))}\b', _al, ln, count=1)
                           .rstrip().rstrip(';') + f' __asm__("{d.group(0)}");')
                     aliased.append((d.group(0), _al))
@@ -233,7 +249,7 @@ def fix(body, tu_text, insert_pos, func):
     for ln, sym in demote:
         mine, theirs = _decl_type_text(ln, sym), tu_types.get(sym)
         if mine and theirs and _norm_ws(mine) != _norm_ws(theirs):
-            alias = f'aD{sym[2:]}'
+            alias = _alias_name(sym, func)
             block_lines.append(re.sub(rf'\b{re.escape(sym)}\b', alias, ln, count=1)
                                .rstrip().rstrip(';') + f' __asm__("{sym}");')
             aliased.append((sym, alias))

@@ -439,6 +439,31 @@ def edit_remap_sweep(a, sig, src_sig, stubs):
     print(json.dumps({"banked": nb, "failed": nf, "skipped": dict(skipped)}))
 
 
+_TU_DATA_TYPES = {}
+
+
+def _tu_data_types(tu_path):
+    """{D_sym -> declared type text} AS CC1 SEES IT (`cdecl.tu_scope`, i.e. cpp), cached per TU.
+
+    The text scanners cannot see a MACRO-INJECTED declaration, and that is where these conflicts
+    live: `extern Vec8 D_80114F24;` sits inside a DEFINE_func_* macro body in engine_core.h while
+    the overlay .c contains only `DEFINE_func_XXXX()`. tu_scope is the repo's stated oracle for
+    "what does this TU declare", and its own docstring warns that the `above` form answers
+    visibility, NOT conflict — C requires compatibility regardless of order, so the FULL scope is
+    the right question here."""
+    if tu_path not in _TU_DATA_TYPES:
+        try:
+            sc = cdecl.tu_scope(tu_path)
+            _TU_DATA_TYPES[tu_path] = {n: SDE._decl_type_text(d.text or '', n)
+                                       for n, d in sc.items()
+                                       if n.startswith('D_') and d.text and
+                                       SDE._decl_type_text(d.text or '', n)}
+        except Exception as e:                    # never block a sweep on the oracle (R32: loud)
+            print(f"  [tu-types] {tu_path}: {repr(e)[:80]}", flush=True)
+            _TU_DATA_TYPES[tu_path] = {}
+    return _TU_DATA_TYPES[tu_path]
+
+
 def _alias_group_data_conflicts(groups):
     """§37-alias any DATA symbol that the drafts staged into ONE TU declare with DIFFERENT types.
 
@@ -667,7 +692,8 @@ def hseq_sweep(a):
                 except STU.ScopeRefused as e:
                     print(f"  [tu-scope] {ov} {to_func}: {e}", flush=True)   # loud, never fatal (R32)
             if mstub:
-                draft, _moved = scope_data_fix(draft, tu, mstub.start(), to_func)
+                draft, _moved = scope_data_fix(draft, tu, mstub.start(), to_func,
+                                               _tu_data_types(tu_path))
             # CALLEE-CONFLICT (§17a-1/§20, Phase-29 T77) — the THIRD decl axis, and the one nothing in
             # this pipeline reconciled. scope_data_fix handles DATA externs; reconcile_def_sig handles
             # the draft's OWN signature; neither touches a CALLEE the draft declares differently from
