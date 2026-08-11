@@ -1792,8 +1792,8 @@ extern void func_8015126C(u16 *p);
 extern void func_80151664(void);
 extern void func_80154A74(s32 a0, s32 a1);
 extern void func_801553C0(s32 a0);
-extern void func_80153C18();  /* fleet canon: K&R empty prototype (engine_core.h:75, :1682 defines it (void));
-extern * a prototyped (s32) decl is `conflicting types` in this TU. Arg still * passes in $a0 under default promotions -> codegen unchanged. */ void func_80151664(void);
+extern void func_80153C18();  /* fleet canon: K&R empty prototype — engine_core.h:75/:1682 define it (void); a prototyped (s32) decl would be `conflicting types` here, and the arg still passes in $a0 under default promotions, so codegen is unchanged. */
+extern void func_80151664(void);
 extern void func_80151780(s32 a0);
 extern void func_801516F0(s32 *a0);
 extern void func_8015173C(s32 *a0);

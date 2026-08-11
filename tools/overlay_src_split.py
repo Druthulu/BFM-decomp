@@ -501,6 +501,23 @@ def _proto_from_lines(lines):
     (`func_8012B2CC undeclared`). A K&R definition (`void f(a, b) s32 a; s32 b; {`) declares
     an UNPROTOTYPED function, so it must render as `extern void f();` — `(a, b)` is not a
     prototype and `(void)` would be incompatible."""
+    # THE CHUNK CAN OPEN INSIDE A BLOCK COMMENT (P30 S48, byte-witnessed). Item boundaries are
+    # `;`-terminated, so a decl whose TRAILING comment wraps —
+    #     extern void func_80153C18();  /* fleet canon: K&R empty prototype …
+    #                                    * … codegen unchanged. */
+    #     void func_80151664(void) {
+    # — ends its item at the `;` and hands the comment's CONTINUATION to the next item. `_strip`
+    # then starts with in_block=False, reads ` * a prototyped …` and `*/` as CODE, and the proto
+    # comes out as `extern * a prototyped (s32) decl is `conflicting types` … */ void
+    # func_80151664(void);`. It compiled only because the hoist emitted the opening `/*` line
+    # immediately above it (the garbage landed back inside a comment) — but `_file_scope_decls`
+    # sees a col-0 `extern …;` it cannot type and REFUSES (R32), which is what blocked 23 of the
+    # 0b jr member-slots and polluted 16 region files. Same D1 backstop family_remap applies to a
+    # carried preamble: a `*/` with no `/*` before it means the text opened inside a comment.
+    raw = "\n".join(lines)
+    _close = raw.find("*/")
+    if _close != -1 and (raw.find("/*") == -1 or raw.find("/*") > _close):
+        lines = raw[_close + 2:].split("\n")
     code, in_block = [], False
     for ln in lines:
         c, in_block = _strip(ln, in_block)
