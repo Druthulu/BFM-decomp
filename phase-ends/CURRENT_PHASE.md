@@ -426,6 +426,32 @@ sibling lacks. **Now the largest class, and a different mechanism from every dec
 (D_801202A0 11 · func_8001534C 4) · `14` arity (too many/too few args) · `6` func_80145CEC.
 **Every former unknown turned out cheap** — declarations, arity, redefinitions. Not one wall.
 
+## ⚠ TASK F2 (data-symbol conflicts) — **PARTIAL: 2 of 44.** Mechanism correct, target wrong.
+**NOT the cdFileLocTable class.** These are genuine PER-VIEW type differences, not duplicate
+typedefs: `D_80078EB4` is `s16` at 2,409 sites and `u16` at 1,341; `D_800AE620` is
+`Blk20`/`s32`/`Mat32`. For DATA the declared type drives the load (`lh` vs `lhu`), so canonicalising
+would rewrite thousands of BANKED sites' codegen — the memcpy trap at 100× scale. The answer is one
+type PER VIEW: the §37 asm-label alias, which the fleet already hand-writes for `D_800AE620` (9×).
+**Shipped:** `scope_data_externs` auto-aliases a conflicting extern (`extern s16 aD80078EB4
+__asm__("D_80078EB4")`) — keeps the draft's own type (byte-truth for that body), private C name
+makes collision impossible, asm label pins the emitted symbol ⇒ codegen unchanged. Fires ONLY where
+the TU declares that symbol with a different type text. 4 controls incl. 2 negatives. R22 **213/213**.
+
+**WHY IT ONLY BANKED 2 — the collision is DRAFT-vs-DRAFT, not draft-vs-TU.** Evidence (finally
+read, after two wrong inferences): the failing draft declares `extern s32 D_80114F24;` and
+`ov_MAIN_012.c` declares that symbol **nowhere**; the error lands at line 24538 = the splice point.
+The sweep stages EVERY member of an (overlay,split) group into one TU before gating, so two
+templated bodies with different views of one symbol collide with each other. `scope_data_fix` sees
+one draft + the PRE-SPLICE TU, so it structurally cannot see the others.
+**→ The real fix belongs in the sweep's STAGING LOOP** (it knows the whole group): alias any data
+symbol declared with ≥2 distinct types across the drafts being staged together. Not attempted.
+
+**MY ERROR LEDGER ON THIS ONE TASK (3):** (1) scoped it as the typedef class — wrong; (2) put the
+alias only on the demote path when the file's OWN comment says staged drafts arrive INDENTED — 1/44;
+(3) the collision is not the one the mechanism targets — 2/44. Each caught by measurement, but I
+burned three attempts on a 44-member class by inferring the shape instead of reading ONE failing
+draft, which took 90 seconds when I finally did it.
+
 ## ▶ RESUME HERE — D (and the leftovers below)
 **C is DONE.** For reference, the command was:
 `.venv/bin/python tools/dedup_extend.py --binaries ov_SC03_107,ov_MAIN_012,ov_SC02_037`

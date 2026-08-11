@@ -93,6 +93,31 @@ def _body_open_brace(body, func):
 _ASM_LABEL_RE = re.compile(r'__asm__\s*\(\s*"([^"]+)"\s*\)')
 
 
+def _norm_ws(s):
+    return re.sub(r'\s+', ' ', s.strip())
+
+
+def _decl_type_text(line, sym):
+    """The declared TYPE of `sym` in one `extern` line — everything between `extern` and the
+    declarator, plus any array suffix. None if the line does not declare it."""
+    m = re.search(rf'^\s*extern\s+(.*?)\b{re.escape(sym)}\b\s*(\[[^\]]*\])?', line)
+    return (m.group(1) + (m.group(2) or '')) if m else None
+
+
+def _file_scope_data_types(tu_text):
+    """{sym -> declared type text} for every file-scope data extern ANYWHERE in the TU.
+
+    `_file_scope_data_syms` answers "declared ABOVE the insertion point", which is the right
+    question for the drop/demote decision and the WRONG one for conflict detection: a file-scope
+    declaration BELOW the body must still agree with a block-scope extern inside it."""
+    out = {}
+    for ln in FILE_EXTERN_RE.findall(tu_text):
+        d = DATA_SYM_RE.search(ln)
+        if d:
+            out.setdefault(d.group(0), _decl_type_text(ln, d.group(0)))
+    return out
+
+
 def is_asm_alias(ln):
     """True for a §37/§84 ASM-LABEL ALIAS: `extern T ident…  __asm__("SYM");` with ident != SYM.
 
@@ -121,9 +146,11 @@ def fix(body, tu_text, insert_pos, func):
     qualifies, when the body declares no data externs, or when the opening brace can't be located."""
     above = _file_scope_data_syms(tu_text[:insert_pos])
 
+    tu_types = _file_scope_data_types(tu_text)
     demote = []                       # (line_text, sym)
     dropped = []                      # syms the TU ALREADY declares above us — redundant, see below
     keep_lines = []
+    aliased = []                      # (sym, alias) — renamed at the end, both scope paths
     for ln in body.split('\n'):
         # BLOCK-SCOPE TOO, not just col-0 (Phase 29 SESSION-22). §8d demotes these externs on the way
         # in, so by the time a sibling draft is STAGED they are already indented — and a col-0-only
@@ -135,6 +162,16 @@ def fix(body, tu_text, insert_pos, func):
             if d and d.group(0) in above and not is_asm_alias(ln):
                 dropped.append(d.group(0))
                 continue
+            # THE ALIAS MUST REACH THIS BRANCH TOO (P30 S47). A staged draft's externs are ALREADY
+            # indented (see the note above), so they arrive here, not in the col-0 demote path —
+            # and a first cut that aliased only demoted lines fired on 1 member out of 44.
+            if d and not is_asm_alias(ln):
+                _mine, _theirs = _decl_type_text(ln, d.group(0)), tu_types.get(d.group(0))
+                if _mine and _theirs and _norm_ws(_mine) != _norm_ws(_theirs):
+                    _al = f'aD{d.group(0)[2:]}'
+                    ln = (re.sub(rf'\b{re.escape(d.group(0))}\b', _al, ln, count=1)
+                          .rstrip().rstrip(';') + f' __asm__("{d.group(0)}");')
+                    aliased.append((d.group(0), _al))
             keep_lines.append(ln)
             continue
         if FILE_EXTERN_RE.match(ln):                  # col-0 extern (match => anchored at col 0)
@@ -161,17 +198,50 @@ def fix(body, tu_text, insert_pos, func):
                 dropped.append(d.group(0))
                 continue
         keep_lines.append(ln)
-    if not demote and not dropped:
+    if not demote and not dropped and not aliased:
         return body, []
+
+    def _rename(txt):
+        """Point every USE at the alias; never touch the asm label (it names the real symbol)."""
+        for _s, _a in aliased:
+            txt = re.sub(rf'\b{re.escape(_s)}\b', _a, txt)
+            txt = txt.replace(f'__asm__("{_a}")', f'__asm__("{_s}")')
+        return txt
 
     stripped = '\n'.join(keep_lines)
     if not demote:                                    # drops only — no block to place
-        return stripped, dropped
+        return _rename(stripped), dropped
     at = _body_open_brace(stripped, func)
     if at is None:                                    # can't place them safely -> leave the body alone
         return body, []
-    block = ''.join(f'    {ln}\n' for ln, _ in demote)
-    return stripped[:at] + '\n' + block + stripped[at:], [s for _, s in demote] + dropped
+
+    # AUTO-ALIAS A DEMOTED EXTERN THE TU DECLARES WITH A DIFFERENT TYPE (P30 S47).
+    # Demoting to block scope does NOT avoid a conflict: C requires a block-scope `extern` to agree
+    # with any file-scope declaration of the same object in the TU, wherever it sits. And for DATA
+    # the type is not cosmetic — it drives the load: `s16` vs `u16` is `lh` vs `lhu`. The fleet
+    # genuinely reads one address at several widths (§16 loose typing): D_80078EB4 is `s16` at 2,409
+    # sites and `u16` at 1,341, D_800AE620 is `Blk20`/`s32`/`Mat32`. Canonicalising would rewrite
+    # thousands of BANKED sites' codegen, so the answer is not one type — it is one type PER VIEW.
+    # That is the §37 asm-label alias, and the fleet already hand-writes it for exactly this symbol:
+    #     extern Mtx8_8017C910_8017C910 aD800AE620 __asm__("D_800AE620");   (9 sites)
+    # Emitting it automatically keeps the draft's own type — byte-truth for THIS body — while the
+    # private C name makes a collision impossible. Codegen is unchanged: the asm label fixes the
+    # emitted symbol, so the same load reaches the same address.
+    # Scoped deliberately: only fires where the TU actually declares the symbol with a DIFFERENT
+    # type text, so a member that never had a conflict is untouched.
+    block_lines = []
+    for ln, sym in demote:
+        mine, theirs = _decl_type_text(ln, sym), tu_types.get(sym)
+        if mine and theirs and _norm_ws(mine) != _norm_ws(theirs):
+            alias = f'aD{sym[2:]}'
+            block_lines.append(re.sub(rf'\b{re.escape(sym)}\b', alias, ln, count=1)
+                               .rstrip().rstrip(';') + f' __asm__("{sym}");')
+            aliased.append((sym, alias))
+        else:
+            block_lines.append(ln)
+    block = ''.join(f'    {b}\n' for b in block_lines)
+    return _rename(stripped[:at] + '\n' + block + stripped[at:]), \
+        [s for _, s in demote] + dropped
 
 
 def main():

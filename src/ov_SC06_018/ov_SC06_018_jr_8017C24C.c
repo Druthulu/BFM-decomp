@@ -7078,7 +7078,16 @@ INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_8017C24C", func_8018540
 
 INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_8017C24C", func_80185440);
 
-INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_8017C24C", func_801854C0);
+
+extern void func_8012A828(s32, void*);
+    extern short aD801CC358 __asm__("D_801CC358");
+    void func_801854C0(short *a0) {
+        *(short *)((char *)a0 + 0x2) = 0x1D;
+        *(short *)((char *)a0 + 0x34) = 0;
+        *(int *)((char *)a0 + 0x1c) = 0xf;
+        ((void (*)(s32 *, s32))func_8012A828)((s32 *)a0, (int)&aD801CC358);
+    }
+
 
 // @class: schedule
 // @stuck: none — MATCH (181 ins, relocation-masked)
