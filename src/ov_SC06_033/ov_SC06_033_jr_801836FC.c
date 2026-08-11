@@ -3108,7 +3108,16 @@ INCLUDE_ASM("asm/ov_SC06_033/nonmatchings/ov_SC06_033_jr_801836FC", func_80183E8
 
 INCLUDE_ASM("asm/ov_SC06_033/nonmatchings/ov_SC06_033_jr_801836FC", func_80183EC8);
 
-INCLUDE_ASM("asm/ov_SC06_033/nonmatchings/ov_SC06_033_jr_801836FC", func_80183F48);
+
+extern void func_8012A828(s32, void*);
+    extern short aD801C6B7C_80183F48 __asm__("D_801C6B7C");
+    void func_80183F48(short *a0) {
+        *(short *)((char *)a0 + 0x2) = 0x1D;
+        *(short *)((char *)a0 + 0x34) = 0;
+        *(int *)((char *)a0 + 0x1c) = 0xf;
+        ((void (*)(s32 *, s32))func_8012A828)((s32 *)a0, (int)&aD801C6B7C_80183F48);
+    }
+
 
 
 // @class: schedule

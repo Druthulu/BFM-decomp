@@ -24,6 +24,7 @@ import family_remap as FR
 import family_hseq                     # §53 interlock — the ONE has_mid_jr oracle (R33, shared with dedup_extend)
 import canon_sig_reconcile as CSR      # v3.2 (Phase-25 T7-M2 per-sibling re-reconcile, Q5-proven)
 from scope_data_externs import fix as scope_data_fix   # §8d (Phase-26 session 8)
+import scope_data_externs as SDE       # §37 auto-alias + its decl regexes (P30 S47-F2/F2b)
 import normalize_self_decls as NSD     # the same-function decl-normalize (Phase-29, §17a-1 3rd direction)
 import scope_tu_externs as STU         # §103 — the TU-side decl-scope lever (Phase-29 T51/T56)
 import cast_call_sites as CCS          # §17a-1/§20 — the CALLEE-conflict lever (Phase-29 T77)
@@ -438,6 +439,53 @@ def edit_remap_sweep(a, sig, src_sig, stubs):
     print(json.dumps({"banked": nb, "failed": nf, "skipped": dict(skipped)}))
 
 
+def _alias_group_data_conflicts(groups):
+    """§37-alias any DATA symbol that the drafts staged into ONE TU declare with DIFFERENT types.
+
+    THE COLLISION `scope_data_fix` CANNOT SEE (P30 S47-F2b, byte-witnessed). That function is handed
+    one draft plus the PRE-SPLICE TU, so it detects draft-vs-TU disagreements only. But this sweep
+    stages EVERY member of an (overlay, split) group into the same TU before gating, and two
+    templated bodies routinely carry different views of one address — `D_80114F24` is `s32` in one
+    body and `Vec8` in another, `D_80078EB4` is `s16` at 2,409 fleet sites and `u16` at 1,341.
+    Measured: ov_MAIN_012 failed `conflicting types for D_80114F24` at the SPLICE POINT while the TU
+    itself declares that symbol nowhere — the two drafts were conflicting with each other.
+
+    Canonicalising is not available: for data the declared type drives the load (`lh` vs `lhu`), so
+    one type would silently change the codegen of every view that is not it. Each body keeps its own
+    type and gets a PER-DRAFT private name bound by an asm label, which is what the fleet already
+    hand-writes for `D_800AE620` (9 sites). The alias is suffixed with the function so that two
+    conflicting drafts cannot collide on the alias itself — the bug this fix would otherwise create.
+    Codegen is unchanged: the label fixes the emitted symbol, so the same load reaches the address."""
+    n = 0
+    for (ov, _src_rel, _subdir), fns in groups.items():
+        paths = {fn: os.path.join(REPO, SWEEP, ov, fn + ".c") for fn in fns}
+        texts = {fn: open(p).read() for fn, p in paths.items() if os.path.exists(p)}
+        views = collections.defaultdict(lambda: collections.defaultdict(list))
+        for fn, txt in texts.items():
+            for ln in txt.split("\n"):
+                if not SDE.ANY_EXTERN_RE.match(ln) or SDE.is_asm_alias(ln):
+                    continue
+                d = SDE.DATA_SYM_RE.search(ln)
+                ty = SDE._decl_type_text(ln, d.group(0)) if d else None
+                if ty:
+                    views[d.group(0)][SDE._norm_ws(ty)].append(fn)
+        for sym, byty in views.items():
+            if len(byty) < 2:
+                continue                                  # one view across the group ⇒ no conflict
+            for fns_with in byty.values():
+                for fn in fns_with:
+                    alias = f"aD{sym[2:]}_{fn[5:]}"
+                    t = re.sub(rf'\b{re.escape(sym)}\b', alias, texts[fn])
+                    t = t.replace(f'__asm__("{alias}")', f'__asm__("{sym}")')
+                    t = re.sub(rf'^(\s*extern\s[^;\n]*\b{re.escape(alias)}\b[^;\n]*?)\s*;',
+                               rf'\1 __asm__("{sym}");', t, count=1, flags=re.M)
+                    texts[fn] = t
+                    n += 1
+        for fn, txt in texts.items():
+            open(paths[fn], "w").write(txt)
+    return n
+
+
 def hseq_sweep(a):
     """Phase-26 T3 --hseq: template h_seq FAMILIES (looser than h_norm — members may sit at DIFFERENT
     addresses per overlay and differ in a few immediates). Per family in `.run/family_hseq.json` with a
@@ -670,8 +718,10 @@ def hseq_sweep(a):
             os.makedirs(d, exist_ok=True)
             open(os.path.join(d, f"func_{to_addr:08X}.c"), "w").write(draft + "\n")
             groups[(ov, src_rel, subdir)].append(f"func_{to_addr:08X}")
+    _nal = _alias_group_data_conflicts(groups)
     print(f"[hseq] staged {sum(len(v) for v in groups.values())} member drafts across {len(groups)} "
-          f"(overlay,split) groups; skipped {dict(skip)}")
+          f"(overlay,split) groups; skipped {dict(skip)}"
+          + (f"; aliased {_nal} draft-vs-draft data conflict(s)" if _nal else ""))
     if a.stage_only:
         print(json.dumps({"families": len(fams), "staged": sum(len(v) for v in groups.values()),
                           "groups": len(groups), "skipped": dict(skip)}))
