@@ -300,6 +300,40 @@ the 1,023 failures (unclassified).
 PRINTED its own coverage and the reason, the one guard today that did) · 264 STRUCT members ·
 112 unresolved immediates · 3 not-stub. The jr set routes to `tools/jtbl_family_bank.py`.
 
+## ✅ TASK A1 (alias-gather fix) — +148 members; the defect was ONE RULE, not a missing gather
+**Root cause (byte-witnessed, `func_80132018` 3/135 → 135/135):** `scope_data_externs` §8d drops the
+draft's decl of any symbol the TU already declares at file scope. It keys on the **symbol**, but a
+§37 ASM-LABEL ALIAS binds a **different C identifier** to that symbol: the TU declares
+`D_801851BC`, it does NOT declare `tbl_D_80187044`. Dropping the alias left the body referencing an
+undeclared name — and cc1 emits that with **no `error:` prefix**, so the sweep classified all 132
+siblings as `CC1-FAIL(no-diagnostic)`, which reads like a codegen wall.
+**The bitter part:** the alias exists PRECISELY BECAUSE the TU declares that symbol with a
+conflicting type (a `void (*[])(void)` dispatch table vs this function's 20-byte-stride view). The
+drop rule fired on exactly the declarations written to survive it. Why 1 of 2 died was fully
+determined, not arbitrary: `tbl_D_80187048`'s symbol is NOT in the TU, so it demoted normally.
+**Fix:** `is_asm_alias()` — an alias is demoted into the body, never dropped (identifiers differ, so
+it cannot collide). Control-tested 6 ways incl. self-labels and plain externs.
+**Measured yield: 148 members** (132 in the probe family + 16 across the full re-sweep).
+R22 **213/213**; stubs 14,120 → **13,972 = −148** (second oracle agrees).
+**⚠ MY OWN CORRECTION (R14):** after the probe I claimed the 58% aggregate was "concealing" a broad
+problem. The re-sweep refuted it — only 16 more banks fleet-wide. **The alias class really was one
+family.** The first read ("outlier") was right; the correction was wrong. Recorded because the
+opposite conclusion would mis-price the next plumbing fix.
+
+**The 875 remaining sweep failures, classified (the honest next levers):**
+`231` PLUMBING-other · **`141` DIFF (real byte divergence — only 16%)** ·
+**`136` `conflicting types for 'cdFileLocTable'` — ONE symbol, the biggest single class left** ·
+`77` CC1-FAIL(no-diagnostic) · `26` memcpy · `12` D_80114F24 · `11` D_800AE620 · `9` D_800183E0 ·
+`6` D_80078EB4 · `6` func_80145CEC.
+`cdFileLocTable` is the same axis B solved for 8 symbols — but check FIRST whether it has a
+byte-true definition to conform to; if not it is the `memcpy` class (chosen canonical + own gate).
+
+**⚠ THE LAST UNFIXED INSTRUMENT:** the sweep's failure classifier still greps for `error:`, which
+gcc-2.7.2 never emits on hard errors, so every hard error reads `CC1-FAIL(no-diagnostic)` —
+"the compiler was unhappy for reasons we cannot see". That is the single most dangerous remaining
+blindness: it is how cheap declaration faults get filed as codegen walls. `rtu_match` was fixed for
+this at T0(b); this classifier was not. **Fix it before reading any future 0% as a wall.**
+
 ## ▶ RESUME HERE — D (and the leftovers below)
 **C is DONE.** For reference, the command was:
 `.venv/bin/python tools/dedup_extend.py --binaries ov_SC03_107,ov_MAIN_012,ov_SC02_037`

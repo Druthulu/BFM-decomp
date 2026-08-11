@@ -90,6 +90,31 @@ def _body_open_brace(body, func):
     return (j + 1) if j >= 0 else (i + 1)
 
 
+_ASM_LABEL_RE = re.compile(r'__asm__\s*\(\s*"([^"]+)"\s*\)')
+
+
+def is_asm_alias(ln):
+    """True for a §37/§84 ASM-LABEL ALIAS: `extern T ident…  __asm__("SYM");` with ident != SYM.
+
+    THE DROP BELOW MUST NOT REACH THESE (Phase 30 S47, byte-witnessed on func_80132018).
+    The "TU already declares it above us -> drop ours" rule keys on the SYMBOL, but an alias binds a
+    DIFFERENT C IDENTIFIER to that symbol. The TU's `extern void (*D_801851BC[])(void);` declares
+    `D_801851BC`; it does NOT declare `tbl_D_80187044`. Dropping the alias therefore leaves the body
+    referencing an undeclared name — `tbl_D_80187044' undeclared` — which cc1 reports with no
+    `error:` prefix, so the sweep classified all 132 siblings as CC1-FAIL(no-diagnostic).
+
+    The bitter part: the alias exists PRECISELY BECAUSE the TU declares that symbol with a
+    conflicting type (a `void (*[])(void)` dispatch table vs this function's 20-byte-stride view).
+    So the drop rule fired on exactly the declarations written to survive it, and undid the
+    workaround. An alias can never collide with the TU's declaration — the identifiers differ — so
+    it is demoted into the body like any other, never dropped."""
+    m = _ASM_LABEL_RE.search(ln)
+    if not m:
+        return False
+    ids = re.findall(r'[A-Za-z_]\w*', ln[:m.start()])
+    return bool(ids) and ids[-1] != m.group(1)
+
+
 def fix(body, tu_text, insert_pos, func):
     """Demote the body's file-scope DATA externs that the TU does not already declare at file scope
     above `insert_pos`. Returns (new_body, [moved symbols]). A no-op (body unchanged) when nothing
@@ -107,7 +132,7 @@ def fix(body, tu_text, insert_pos, func):
         # redeclaration conflicts at ANY scope; the drop below must reach both.
         if ANY_EXTERN_RE.match(ln) and not FILE_EXTERN_RE.match(ln):
             d = DATA_SYM_RE.search(ln)
-            if d and d.group(0) in above:
+            if d and d.group(0) in above and not is_asm_alias(ln):
                 dropped.append(d.group(0))
                 continue
             keep_lines.append(ln)
@@ -115,7 +140,9 @@ def fix(body, tu_text, insert_pos, func):
         if FILE_EXTERN_RE.match(ln):                  # col-0 extern (match => anchored at col 0)
             d = DATA_SYM_RE.search(ln)
             if d:
-                if d.group(0) not in above:
+                # An ASM-LABEL ALIAS is demoted, never dropped: its C identifier is not the symbol,
+                # so the TU's declaration does not cover it (see is_asm_alias).
+                if d.group(0) not in above or is_asm_alias(ln):
                     demote.append((ln, d.group(0)))
                     continue                          # drop from the file-scope preamble
                 # THE TU ALREADY DECLARES IT ABOVE US -> DROP OURS ENTIRELY (Phase 29 SESSION-22).
