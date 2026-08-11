@@ -248,7 +248,7 @@ build/src/ov_SC02_000/ov_SC02_000_jr_80159C84.o: JTBL_PADS := 0,4  # §8e pads (
 build/src/ov_SC02_000/ov_SC02_000_jr_8015AE2C.o: JTBL_PADS := 0,4  # §8e pads (jtbl_carve.py) tables=+0x0,+0x20
 build/src/ov_SC02_000/ov_SC02_000_jr_8016AB6C.o: JTBL_PADS := 0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x20
 build/src/ov_SC02_000/ov_SC02_000_jr_80178D40.o: JTBL_PADS := 0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x178
-build/src/ov_SC02_000/ov_SC02_000_jr_8017AE2C.o: JTBL_PADS := 0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x14
+build/src/ov_SC02_000/ov_SC02_000_jr_8017AE2C.o: JTBL_PADS := 0,0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x14,+0x34
 build/src/ov_SC02_000/ov_SC02_000_jr_8017EA84.o: JTBL_PADS := 0,4,0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x18,+0x38,+0x58
 build/src/ov_SC02_000/ov_SC02_000_jr_8017FCB0.o: JTBL_PADS := 0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x20
 build/src/ov_SC02_000/ov_SC02_000_o0c.o: JTBL_PADS := 0,4,4,4  # §8e pads (jtbl_carve.py) tables=+0x0,+0x38,+0xa8,+0x118
@@ -286,7 +286,7 @@ build/src/ov_SC02_003/ov_SC02_003_jr_80159C84.o: JTBL_PADS := 0,4  # §8e pads (
 build/src/ov_SC02_003/ov_SC02_003_jr_8015AE2C.o: JTBL_PADS := 0,4  # §8e pads (jtbl_carve.py) tables=+0x0,+0x20
 build/src/ov_SC02_003/ov_SC02_003_jr_8016AB6C.o: JTBL_PADS := 0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x20
 build/src/ov_SC02_003/ov_SC02_003_jr_80178D40.o: JTBL_PADS := 0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x178
-build/src/ov_SC02_003/ov_SC02_003_jr_8017AE2C.o: JTBL_PADS := 0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x14
+build/src/ov_SC02_003/ov_SC02_003_jr_8017AE2C.o: JTBL_PADS := 0,0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x14,+0x34
 build/src/ov_SC02_003/ov_SC02_003_jr_8017EA84.o: JTBL_PADS := 0,4,0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x18,+0x38,+0x58
 build/src/ov_SC02_003/ov_SC02_003_jr_8017FCB0.o: JTBL_PADS := 0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x20
 build/src/ov_SC02_003/ov_SC02_003_o0c.o: JTBL_PADS := 0,4,4,4  # §8e pads (jtbl_carve.py) tables=+0x0,+0x38,+0xa8,+0x118
