@@ -79,6 +79,23 @@ _ALIAS_SCAN = re.compile(
     r'\b([A-Za-z_]\w*)\s*\([^;{}]*\)\s*__asm__\s*\([^;{}]*\)\s*;', re.S)
 
 
+def _mask_cpp_directives(text):
+    """Length-preserving blank of every preprocessor directive, including `\\` continuations.
+
+    A `#define` body is not C declaration text, but it can look exactly like one. Blanking it is
+    the same move `cdecl._mask` makes for comments and strings, for the same reason: a scanner must
+    not be able to START a match somewhere the C grammar does not apply. Newlines are preserved so
+    offsets and line numbers into the original text remain valid."""
+    out, cont = [], False
+    for ln in text.split('\n'):
+        if cont or ln.lstrip().startswith('#'):
+            cont = ln.rstrip().endswith('\\')
+            out.append(' ' * len(ln))
+        else:
+            out.append(ln)
+    return '\n'.join(out)
+
+
 def asm_label_aliases(src):
     """{C identifier -> emitted symbol} for every definition-side asm-label alias in `src`.
 
@@ -102,7 +119,21 @@ def asm_label_aliases(src):
     # `_mask` also blanks string CONTENT *and its quotes*, so the scan pattern cannot require them —
     # `_ALIAS_SCAN` accepts any `__asm__( … )`, and the real symbol is then read back out of `src`
     # at the same offsets (the mask is length-preserving, which is what makes that legal).
-    masked = cdecl._mask(src)
+    # ...AND A PREPROCESSOR DIRECTIVE IS THE OTHER PLACE A MATCH MUST NOT START (P30 S47).
+    # Masking comments/strings fixed the comment case and left this one. A macro definition
+    #     #define gte_SetRotMatrix(r0) __asm__ volatile ( "lw $12, 0( %0 );" … )
+    # is textually `ident( … ) __asm__( … )` — indistinguishable from an alias declaration to
+    # `_ALIAS_SCAN` — and `_mask` blanks string CONTENT, which DELETES the `;` characters inside
+    # those asm strings that would otherwise have stopped the greedy `[^;{}]*`. So the scan starts
+    # in the macro body and runs until the next real `;` **116 lines later**, swallowing the genuine
+    # `s32 aF8012EFB8(…) __asm__("func_8012EFB8");` on the way; `finditer` resumes past the end, so
+    # the alias never enters the map and `addr_of` returns None for its definition.
+    # Consequence measured: `jr_isolate_all` refused to carve ov_SC02_037 / ov_SC03_107 / ov_MAIN_012
+    # (R32, correctly — it will not rewrite a file it cannot fully place), which left 121 jr
+    # functions uncarved and 122 jr member-slots unreachable, presenting as 112 `isolate-fail`s that
+    # looked like a per-binary wall.
+    # The mask is length-preserving, so offsets into `src` stay valid.
+    masked = _mask_cpp_directives(cdecl._mask(src))
     out = {}
     for m in _ALIAS_SCAN.finditer(masked):
         real = _ALIAS_DECL.search(src[m.start():m.end()])
@@ -413,12 +444,48 @@ def _split_macro_body(body):
     if len(mbody) != len(body):
         mbody = body
     out = []
-    for k, ln in enumerate(body):
-        s = ln.strip()
+    k, n = 0, len(body)
+    while k < n:
+        s = body[k].strip()
         if mbody[k].strip() == "":
+            k += 1
             continue
         if s.startswith("extern"):
-            out.append(s)
+            # A DECLARATION MAY WRAP ACROSS CONTINUATION LINES (P30 S47, byte-witnessed):
+            #     extern void aF801466F0(u16 a0, …) \
+            #         __asm__("func_801466F0"); \
+            # Taking one line as one declaration emitted the first half as a `;`-less extern AND
+            # then treated `__asm__("func_801466F0");` as THE DEFINITION HEADER — so the proto
+            # generator produced `extern __asm__(""); void aF801466F0(…);` in all 22 regions that
+            # hoist it. Accumulate until the statement actually terminates, testing the MASKED text
+            # so a `;` inside a string or comment cannot end it early.
+            # Same line-oriented blindness `family_remap._alias_decl_for` records fixing at S33 for
+            # this exact wrapped-alias shape; it was never propagated here (cookbook §134/§139).
+            acc = [s]
+            while ";" not in mbody[k] and k + 1 < n:
+                k += 1
+                acc.append(body[k].strip())
+            out.append(" ".join(acc))
+            k += 1
+            continue
+        # A `static` DEFINITION inside a macro body is an INTERNAL HELPER, not the macro's
+        # principal definition (P30 S47, byte-witnessed). Stopping here returned the helper as
+        # "the definition", so `_proto_from_lines` hoisted `extern static inline void
+        # tail_8012F274(s32 *in, s32 e);` into all 41 carved regions of ov_SC02_037 — which is
+        # BOTH invalid C (`multiple storage classes`) and the wrong function: the macro's exported
+        # definition sits BELOW the helper and lost its implied declaration entirely.
+        # A static helper needs no hoisted declaration at all: it has internal linkage, and every
+        # region that instantiates the macro gets its own copy from the expansion.
+        # Skip it brace-balanced (on the MASKED body, so a brace in a string or comment cannot
+        # unbalance the scan) and keep looking for the exported definition.
+        if re.match(r'static\b', s):
+            depth, seen = 0, False
+            while k < n:
+                depth += mbody[k].count("{") - mbody[k].count("}")
+                seen = seen or "{" in mbody[k]
+                k += 1
+                if seen and depth <= 0:
+                    break
             continue
         return out, body[k:]        # the definition header — the body starts here
     return out, []

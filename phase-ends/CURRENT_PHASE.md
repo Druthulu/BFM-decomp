@@ -334,6 +334,45 @@ gcc-2.7.2 never emits on hard errors, so every hard error reads `CC1-FAIL(no-dia
 blindness: it is how cheap declaration faults get filed as codegen walls. `rtu_match` was fixed for
 this at T0(b); this classifier was not. **Fix it before reading any future 0% as a wall.**
 
+## ✅ TASK A3 (jr set) — **56 siblings banked / 11 families**; R22 213/213. Carve BLOCKED at layer 4.
+`jtbl_family_bank` over 50 matched-exemplar jr families (183 member-slots), one commit per family
+(its per-sibling revert restores from HEAD, so an uncommitted prior family would be destroyed).
+**Outcome: BANKED 56 · isolate-fail 112 · gate-fail 10 · carve-fail 4.** R22 **213 passed / 0 of 213**.
+
+**The 112 isolate-fails were NOT a wall and NOT the reconciled-body trap I predicted.** They fall in
+exactly THREE overlays — `ov_SC02_037` (39), `ov_SC03_107` (38), `ov_MAIN_012` (36), zero elsewhere —
+the newly-onboarded binaries from task C, which are **monolithic (0 jr splits vs ~27 elsewhere)**.
+`jr_isolate_all` cannot carve them, so every member located there fails before the byte-gate runs.
+**⚠ I recommended `--raw` retries on the reconciled-body hypothesis. That was WRONG** — 39 families
+scored 0 because their entire member set is those 3 binaries (3 members, 3 failures). Corrected
+before spending the run, but it was my second bad call of the session (cf. the A1 over-claim).
+
+### The carve: 3 REAL defects found+fixed, then a 4th that is out of scope
+My scoping said "one unplaceable construct". **That was wrong — it was the first of four layers.**
+1. **`asm_label_aliases` scan starts inside a `#define`.** `#define gte_SetRotMatrix(r0) __asm__
+   volatile ("lw $12, 0( %0 );" …)` is textually `ident(…) __asm__(…)`, and `cdecl._mask` blanks
+   string CONTENT — deleting the `;`s that would stop the greedy `[^;{}]*`. The match ran **116
+   lines**, swallowing the real `aF8012EFB8 … __asm__("func_8012EFB8");`, so the alias never entered
+   the map, `addr_of` returned None, and the carve refused (R32, correctly). **Fixed:
+   `_mask_cpp_directives()`** — a preprocessor directive is the other place a match must not START.
+2. **`_split_macro_body` returned a `static inline` HELPER as the macro's definition**, so
+   `_proto_from_lines` hoisted `extern static inline void tail_8012F274(…);` into all 41 regions —
+   invalid C (`multiple storage classes`) AND the wrong function (the exported def sits below it and
+   lost its implied declaration). **Fixed:** skip `static` definitions brace-balanced on the masked
+   body; a static helper needs no hoisted decl (internal linkage, each region gets its own copy).
+3. **A declaration that WRAPS across continuation lines** (`extern void aF801466F0(…) \` +
+   `__asm__("func_801466F0"); \`) was taken as one line, so half became a `;`-less extern and the
+   continuation was read as THE DEFINITION HEADER → `extern __asm__(""); void aF801466F0(…);` in 22
+   regions. **Fixed:** accumulate until the statement terminates, tested on the MASKED text.
+   *This is the SAME wrapped-declaration blindness `family_remap._alias_decl_for` records fixing at
+   S33 — never propagated here. Third instance of one class in one file (cookbook §134/§139).*
+4. **BLOCKED — `jtbl_rodata_pads: consumed 0 rodata .align(s) but 4 pad spec(s) given — table-count
+   drift vs the carve`.** The carve moves jtbl-owning fns into `_jr_` regions but leaves the pad
+   specs on the residual gap object. **`jr_isolate_all`'s own docstring says this class is NOT
+   isolate-fixable.** It needs JTBL_PADS repointing in `overlays.mk` — a separate, larger job.
+**Carve reverted; tree clean. Fixes 1-3 kept** (regression-checked: 1,948 macros parse, 0 malformed
+externs; alias maps unchanged on 3 already-carved overlays). **122 jr member-slots remain blocked.**
+
 ## ▶ RESUME HERE — D (and the leftovers below)
 **C is DONE.** For reference, the command was:
 `.venv/bin/python tools/dedup_extend.py --binaries ov_SC03_107,ov_MAIN_012,ov_SC02_037`
