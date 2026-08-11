@@ -181,7 +181,85 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 
 ---
 
-# 🛑 SESSION S47 CHECKPOINT — FINAL (2026-08-11) — FRESH SESSION SAFE HERE
+# 🛑 SESSION S48 CHECKPOINT (2026-08-11) — STAGE 0b CLOSED — FRESH SESSION SAFE HERE
+> **Tree CLEAN** but for R23 `db.*.gbf` churn — never stage. **Nothing running.**
+> Gate at close: **`check-all` 213 passed / 0 failed of 213** from a CLEAN rebuild (R22:
+> `make clean && make extract-all && make check-all`; extract-all 212+main, 0 failed).
+> **Fleet: 94.6% instr · 88.7% distinct · 96.35% fn-count · INCLUDE_ASM stubs 13,254.**
+> `tools-health`: Drew watched it pass at the end of S47 — not re-run (his call).
+> **NO phase close** — T5 unopened, needs Drew's gate-2.
+
+## THE SESSION IN ONE LINE
+**91 instances banked — the STUB-ORACLE DELTA (13,345 → 13,254)** — and this time the accumulated
+sum (65 + 25 + 1) agrees with it. **Stage 0b is DONE**: the 122 blocked jr member-slots were 112
+still-open, of which **91 banked (81%)**; the residue is 15 gate-fail + 6 carve-fail, ledgered below.
+Every bank came from repairing THREE instruments — no function was decompiled this session.
+
+## ▶ RESUME HERE — STAGE 1 (0b is closed; 0a's leftovers unchanged)
+1. **STAGE 1 — the reach-ordered sibling campaign** (the 15-step loop above, §160g/§161).
+   **REGEN FIRST** (`make sig-overlays && make sig-modules && tools/family_hseq.py`) — 91 fresh
+   banks make the current map stale. Tiers ×9 → ×3, then PROBE ×2 with 10 families before
+   committing 870 cracks at a 2× payoff. Wave one's ×10+ tier is consumed.
+   ⚠️ This is the first BIG agent spend since S47 (~150-250M tok over 6-10 sessions) — prompt Drew
+   for the Ultracode/effort transition BEFORE launching a wave (R26/R27).
+2. 0a leftovers (unchanged, bounded, run alongside a campaign): 56 members of the reach-57 family
+   (per-member rodata + typedef gather) · 116 data-bundled files.
+3. 0c stays BLOCKED (main-partition probe cannot account for 954 of 2,002 rows — fix the probe).
+   0d (permuter, kill rule <2/20) is free CPU whenever the machine is idle.
+
+## ✅ WHAT S48 LANDED — three instrument repairs, 91 banks, 0 decompilation
+**1. `JTBL_PADS` did not follow its span through jr isolation** (`commit:1578`) — THE 0b blocker,
+and it fails TWO ways: the bare-isolate path leaves the stale line on the residual object
+(`consumed 0 rodata .align(s) but 4 pad spec(s) given` — S47's hard error), while the
+`jtbl_family_bank` path re-runs `jtbl_carve`, whose `set_pads_vars` regenerates the block keyed by
+the CURRENT subseg names, finds no prior spec under the new `_jr_<addr>` name, and **silently drops
+it** — cc1's `.align 3` then pads the span's non-8-aligned interior tables and the image shifts,
+reported only as `built, bytes differ`. Fix: `jr_isolate_all` repoints the pads target with the
+`--order` leaf (refusing loud if the old object still hosts a `.rodata` piece), + a second,
+DISAGREEING oracle in `jtbl_carve.set_pads_vars` that refuses when a spec would vanish for a subseg
+no longer in the carve set (R34). R37 probe: `func_801789AC` → ov_SC02_037 went
+`built, bytes differ` → **BANKED**.
+**2. A def item can OPEN inside a block comment** (`commit:1606`) — item boundaries are
+`;`-terminated, so a decl whose TRAILING comment wraps hands the continuation to the next item;
+`_proto_from_lines` starts `_strip` with `in_block=False` and renders comment prose as the return
+type: `extern * a prototyped (s32) decl is …  */ void func_80151664(void);`. It COMPILED (the
+hoist emits the opening `/*` right above, so the garbage lands back inside a comment) — but
+`_file_scope_decls` meets a col-0 `extern …;` it cannot type and refuses (R32, correctly).
+**That was the whole isolate-fail class: 23 slots.** Applied `family_remap`'s D1 backstop (a `*/`
+with no `/*` before it ⇒ the chunk opened inside a comment) and repaired the 16 already-polluted
+region files; all 3 binaries re-gate BYTE-IDENTICAL.
+**3. `_carry_typedefs`' already-carried test was line-oriented** (`commit:1607`) — it required the
+name on the same line as the keyword, which `typedef struct Foo { … } Foo;` never satisfies, so the
+preamble's own multi-line typedefs were carried TWICE (`redefinition of struct Foo_8013C0F8`).
+One parser (`_typedef_blocks`) now serves both callers (R33).
+
+## 📌 THE 0b RESIDUE — 21 slots, named (not a wall, not free)
+- **15 `gate-fail`, all `built, bytes differ`** (5 families ×3: `func_8013C414`, `func_8013B83C`,
+  `func_8013BD74`, `func_801588CC`, + 1). GENUINE DIFF — these are Stage-1/3 drafting work, not
+  plumbing. Do NOT re-sweep them blind (A10: stored MATCH drafts re-gate at ~0%).
+- **6 `carve-fail`** (`func_8015AE2C` 2, `func_8015444C`/`func_80154C24` partial):
+  `jtbl_carve: span 0x…: table starts […] do not fit the span (first must equal the span start)`.
+  The auto-isolate retry does not clear it. **Unopened mechanism** — one probe would price it.
+- The 3 monolithic binaries (`ov_SC02_037`/`ov_SC03_107`/`ov_MAIN_012`) are no longer monolithic:
+  they now carry ~30 `_jr_` regions each. Future isolates there are cheap.
+
+## 🧰 MY ERROR LEDGER (2)
+1. **I diagnosed 0b from the S47 log before probing** — predicted the pads *rename* was the whole
+   story. The first probe (`func_8013C0F8`) hit a DIFFERENT defect (duplicate typedefs) and the
+   second exposed the silent-drop face I had not predicted. The fix was right, the reasoning path
+   was backwards: **probe first, then explain** (R37 exists for this).
+2. **Called the duplicate-typedef body a one-family outlier** on a tag-count scan; the empirical
+   before/after diff then found a SECOND family (`func_8013B83C`) whose block-scope multi-line
+   typedef the old test also missed. The scan was too weak to support the word "only".
+
+## 🔁 METHOD NOTE WORTH KEEPING
+**A silent instrument failure and a loud one have the same root but opposite economics.** Both 0b
+faces came from ONE missing rule ("the pads spec belongs to the span, not the name"); the loud face
+cost S47 a diagnosis, the silent face would have cost a whole wave read as `genuine DIFF`. Every
+repair this session therefore shipped its own refusal, not just its fix. The S47 rule candidate
+(*a guard must state its COVERAGE, not just its verdict*) earned a third exemplar — adopt at T5.
+
+# 🛑 (superseded by S48) SESSION S47 CHECKPOINT — FINAL (2026-08-11)
 > **Tree CLEAN** but for R23 `db.*.gbf` churn — never stage. **Nothing running.** 35 commits.
 > Gates at close: **`check-all` 213 passed / 0 failed of 213** (R22 run after EVERY batch, ~12×).
 > **Fleet: 94.4% instr · 88.3% distinct · 96.33% fn-count · INCLUDE_ASM stubs 13,345.**
@@ -201,9 +279,9 @@ The adopted plan is above ("THE ADOPTED ENDGAME PLAN"), with the 15-step reach-o
 **Stage 0a is DONE ENOUGH — stop grinding it.** Its two compounding defects are fixed; what is left
 (typedef gather, per-member rodata) is BOUNDED (56 known members + 116 data-bundled files) and can
 run alongside a campaign instead of blocking it.
-1. **0b — JTBL_PADS repointing.** 122 jr member-slots at a measured ~100% conversion. Strongest
-   remaining deterministic item, and a clean first task for a fresh session. **Gate-probe ONE
-   binary before believing the 122 (R37).**
+1. ~~**0b — JTBL_PADS repointing.**~~ ✅ **DONE (S48)** — 112 of the 122 slots were still open;
+   **91 banked (81%)**, not the predicted ~100%. Three instrument repairs, no decompilation.
+   Residue 21 (15 genuine-DIFF gate-fail + 6 carve-fail), ledgered in the S48 checkpoint.
 2. **STAGE 1 — the reach-ordered sibling campaign.** Tiers: ×9 → ×8 → … → ×3, then PROBE ×2 with
    10 families before committing 870 cracks at a 2× payoff. Wave one's ×10+ tier is consumed.
 3. 0c stays BLOCKED (my main-partition probe could not account for 954 of 2,002 rows — fix the
