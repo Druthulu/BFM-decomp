@@ -46,7 +46,11 @@ s32 func_801E7C04(s32 param_1) {
 }
 
 
-INCLUDE_ASM("asm/md_SC04_029/nonmatchings/md_SC04_029", func_801E7CA4);
+extern void func_800D1EBC(void);
+void func_801E7CA4(void) {
+    func_800D1EBC();
+}
+
 
 
 
@@ -75,7 +79,13 @@ void func_801E7D3C(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/md_SC04_029/nonmatchings/md_SC04_029", func_801E7D78);
+extern void func_80171A1C(void*);
+extern void func_80175414(void);
+void func_801E7D78(void) {
+    ((void (*)(void))func_80171A1C)();
+    func_80175414();
+}
+
 
 INCLUDE_RODATA("asm/md_SC04_029/nonmatchings/md_SC04_029", D_801E7B28);
 
@@ -110,7 +120,11 @@ void func_801E7E68(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/md_SC04_029/nonmatchings/md_SC04_029", func_801E7EA4);
+extern void func_80171A1C(void*);
+void func_801E7EA4(void) {
+    ((void (*)(void))func_80171A1C)();
+}
+
 
 INCLUDE_ASM("asm/md_SC04_029/nonmatchings/md_SC04_029", func_801E7EC4);
 
@@ -247,7 +261,14 @@ void func_801E8284(void *a0) {
 
 INCLUDE_ASM("asm/md_SC04_029/nonmatchings/md_SC04_029", func_801E82C0);
 
-INCLUDE_ASM("asm/md_SC04_029/nonmatchings/md_SC04_029", func_801E8360);
+
+
+extern s32 func_8014CB1C(void);
+
+s32 func_801E8360(void) {
+    return (u32)func_8014CB1C() != 0;
+}
+
 
 
 

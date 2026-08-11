@@ -6461,7 +6461,13 @@ extern void func_80181918(void);
     }
 
 
-INCLUDE_ASM("asm/ov_SC06_000/nonmatchings/ov_SC06_000_jr_8017AE2C", func_80184A28);
+extern void func_800D1724(s32);
+void func_80184A28(void) {
+
+    extern s32 D_8018BFF0;
+    ((s32 (*)(s32 *))func_800D1724)(&D_8018BFF0);
+}
+
 
 void func_80184A50(void *a0) {
         *(short *)((char *)a0 + 0x2) = 0x2;

@@ -3905,7 +3905,15 @@ extern s32 func_80171990(u8 *a0);
     }
 
 
-INCLUDE_ASM("asm/ov_SC03_002/nonmatchings/ov_SC03_002_jr_8017D604", func_80180710);
+extern int func_800D0CE0(void);
+extern void func_80171928(void*);
+void func_80180710(int param_1)
+{
+    if (((int (*)(void))func_800D0CE0)() != 0) {
+        ((void (*)(int))func_80171928)(param_1);
+    }
+}
+
 
 extern void func_8016EE40(s32 a0, s32 a1, s32 a2);
 extern M2C_UNK D_8018979C;

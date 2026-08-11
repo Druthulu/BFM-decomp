@@ -1,6 +1,12 @@
 #include "common.h"
 
-INCLUDE_ASM("asm/md_MAIN_015/nonmatchings/md_MAIN_015", func_800CAE0C);
+extern s32 func_800183E0(s32 *a0);
+void func_800CAE0C(void) {
+
+    extern s32 D_800CBB88;
+    func_800183E0(&D_800CBB88);
+}
+
 
 
 
@@ -58,7 +64,11 @@ INCLUDE_ASM("asm/md_MAIN_015/nonmatchings/md_MAIN_015", func_800CB21C);
 
 INCLUDE_ASM("asm/md_MAIN_015/nonmatchings/md_MAIN_015", func_800CB2E0);
 
-INCLUDE_ASM("asm/md_MAIN_015/nonmatchings/md_MAIN_015", func_800CB474);
+extern void func_80162CCC(void);
+void func_800CB474(void) {
+    func_80162CCC();
+}
+
 
 
 extern void func_80146C3C(void);

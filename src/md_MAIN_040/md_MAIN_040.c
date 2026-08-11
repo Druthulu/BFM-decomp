@@ -36,7 +36,11 @@ INCLUDE_ASM("asm/md_MAIN_040/nonmatchings/md_MAIN_040", func_800CB114);
 
 INCLUDE_ASM("asm/md_MAIN_040/nonmatchings/md_MAIN_040", func_800CB304);
 
-INCLUDE_ASM("asm/md_MAIN_040/nonmatchings/md_MAIN_040", func_800CB3BC);
+extern void func_80162CCC(void);
+void func_800CB3BC(void) {
+    func_80162CCC();
+}
+
 
 INCLUDE_ASM("asm/md_MAIN_040/nonmatchings/md_MAIN_040", func_800CB3DC);
 

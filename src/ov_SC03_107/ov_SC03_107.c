@@ -25593,7 +25593,11 @@ s32 func_8017CB70(u8 *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_107/nonmatchings/ov_SC03_107", func_8017CBEC);
+extern void func_800D1EBC(void);
+void func_8017CBEC(void) {
+    func_800D1EBC();
+}
+
 
 
 

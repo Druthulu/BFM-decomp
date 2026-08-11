@@ -3629,7 +3629,11 @@ s32 func_801817BC(s32 a0) {
 
 INCLUDE_ASM("asm/ov_SC03_119/nonmatchings/ov_SC03_119_jr_8017FB84", func_801817FC);
 
-INCLUDE_ASM("asm/ov_SC03_119/nonmatchings/ov_SC03_119_jr_8017FB84", func_8018188C);
+extern s32 func_800D1EBC(void);
+void func_8018188C(void) {
+    ((void (*)(void))func_800D1EBC)();
+}
+
 
 
 extern void (*D_8018DDB4[])(void);

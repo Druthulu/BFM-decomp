@@ -7134,7 +7134,15 @@ void func_801877C8(int param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_011/nonmatchings/ov_SC02_011_jr_8017AE2C", func_80187800);
+extern s32 func_800D0CE0(void);
+extern void func_8012C098(void);
+void func_80187800(int param_1)
+{
+    if (((int (*)(void))func_800D0CE0)() != 0) {
+        ((void (*)(int))func_8012C098)(param_1);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC02_011/nonmatchings/ov_SC02_011_jr_8017AE2C", func_80187838);
 

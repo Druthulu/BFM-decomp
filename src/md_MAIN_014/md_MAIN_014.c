@@ -1,6 +1,12 @@
 #include "common.h"
 
-INCLUDE_ASM("asm/md_MAIN_014/nonmatchings/md_MAIN_014", func_800CAE0C);
+extern s32 func_800183E0(s32 *a0);
+void func_800CAE0C(void) {
+
+    extern s32 D_800CB610;
+    func_800183E0(&D_800CB610);
+}
+
 
 
 

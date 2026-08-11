@@ -48,7 +48,11 @@ INCLUDE_RODATA("asm/md_SC07_004/nonmatchings/md_SC07_004", D_801A0168);
 
 INCLUDE_ASM("asm/md_SC07_004/nonmatchings/md_SC07_004", func_801A1F3C);
 
-INCLUDE_ASM("asm/md_SC07_004/nonmatchings/md_SC07_004", func_801A2310);
+extern void func_8017F578(void);
+void func_801A2310(void) {
+    func_8017F578();
+}
+
 
 INCLUDE_ASM("asm/md_SC07_004/nonmatchings/md_SC07_004", func_801A2330);
 
@@ -73,7 +77,11 @@ s32 func_801A2C54(s32 arg0) {
     }
 
 
-INCLUDE_ASM("asm/md_SC07_004/nonmatchings/md_SC07_004", func_801A2C68);
+extern void func_8017C068(void);
+void func_801A2C68(void) {
+    func_8017C068();
+}
+
 
 INCLUDE_ASM("asm/md_SC07_004/nonmatchings/md_SC07_004", func_801A2C88);
 

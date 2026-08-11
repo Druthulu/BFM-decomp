@@ -102,6 +102,32 @@ def fn_addrs(ov):
     return frozenset(int(json.loads(l)["addr"], 16) for l in open(f".run/sig.{ov}.jsonl"))
 
 
+@functools.lru_cache(maxsize=None)
+def extern_fn_addrs():
+    """FUNCTION start addresses of the ALWAYS-LINKED images (the resident + main).
+
+    WHY `fn_addrs(to_ov)` ALONE IS THE WRONG QUESTION (P30 S47, byte-witnessed on 611 rows).
+    The kind test below spells a reloc target `func_` iff the address is a function IN THE SIBLING'S
+    OWN SIG, else `D_`. But a body routinely calls OUTSIDE its own image: an overlay calls resident
+    helpers, an md_* module calls the overlay-range engine. Those addresses are absent from the
+    sibling's sig, so the test fell through to `D_` and emitted a DATA name for a FUNCTION —
+    `D_800183E0`, `D_800D1EBC`, `D_80171A1C` — none of which exist anywhere in src/ or the symbol
+    file, while `func_80171A1C` alone has 1,061 references. Result: `undefined reference` at LINK
+    time, 611 member-rows across 45 symbols, the largest single residue class in the sweep.
+    "Not in MY sig" means "not mine", NOT "is data" — so ask the shared images too before defaulting.
+    Measured: 0x800183E0 is a function only in main's sig; 0x800D1EBC only in the resident's;
+    0x80171A1C in 141 overlay sigs (so an md_* sibling hit the same fallthrough)."""
+    out = set()
+    for b in ("resident", "main"):
+        p = f".run/sig.{b}.jsonl"
+        if os.path.exists(p):
+            try:
+                out |= {int(json.loads(l)["addr"], 16) for l in open(p)}
+            except Exception:                     # a malformed sig must not break remapping
+                pass
+    return frozenset(out)
+
+
 def reloc_targets(ov, addr, data=None):
     """ordered [(kind, resolved_addr)] for jal targets + lui/lo address loads, in instruction order.
     Verified against splat .s ground truth (22/22 on func_80141100; 15/15 on func_801407F4 whose
@@ -581,7 +607,23 @@ def symbol_map(addr, from_ov, to_ov, to_addr=None):
             # possible way: `rtu_match` MASKS HI16/LO16, so a wrong %hi/%lo symbol still reports
             # MATCH (measured: `MATCH (10 ins)` on a member the fleet gate refused). Spell the
             # target by what the target address IS in the SIBLING's overlay.
-            tgt = f"func_{at:08X}" if at in fn_addrs(to_ov) else f"D_{at:08X}"
+            # ...and ask the ALWAYS-LINKED images too, not just the sibling's own sig — a body
+            # calls outside its image constantly, and "absent from my sig" is not "is data"
+            # (see extern_fn_addrs: 611 undefined-reference rows across 45 symbols).
+            # THREE ORACLES, STRONGEST FIRST — and never a blanket `D_` fallback:
+            #  1. the SIBLING'S OWN sig: authoritative for its image, and the reason the T82 case
+            #     above still works (a slot that is a function in the exemplar and DATA in the
+            #     member is decided here, by the member's own boundaries).
+            #  2. the ALWAYS-LINKED images (resident + main): a body calls outside its image
+            #     constantly, and their address ranges cannot collide with an overlay's.
+            #  3. the EXEMPLAR REACHED IT BY `jal`: a call target is a function BY DEFINITION, so
+            #     for an external address neither sig covers (an md_* module calling the
+            #     overlay-range engine — 0x80171A1C, 112 rows) this is evidence, not a guess.
+            # Only a non-call reloc whose target no oracle claims falls to `D_`.
+            if at in fn_addrs(to_ov) or at in extern_fn_addrs() or ke == "call":
+                tgt = f"func_{at:08X}"
+            else:
+                tgt = f"D_{at:08X}"
             if ke == "call":
                 m[f"func_{ae:08X}"] = tgt
             else:

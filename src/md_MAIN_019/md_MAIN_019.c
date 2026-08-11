@@ -1,6 +1,12 @@
 #include "common.h"
 
-INCLUDE_ASM("asm/md_MAIN_019/nonmatchings/md_MAIN_019", func_800CAE0C);
+extern s32 func_800183E0(s32 *a0);
+void func_800CAE0C(void) {
+
+    extern s32 D_800CC160;
+    func_800183E0(&D_800CC160);
+}
+
 
 
 
@@ -58,7 +64,11 @@ INCLUDE_ASM("asm/md_MAIN_019/nonmatchings/md_MAIN_019", func_800CB324);
 
 INCLUDE_ASM("asm/md_MAIN_019/nonmatchings/md_MAIN_019", func_800CB3FC);
 
-INCLUDE_ASM("asm/md_MAIN_019/nonmatchings/md_MAIN_019", func_800CB4A8);
+extern void func_80162CCC(void);
+void func_800CB4A8(void) {
+    func_80162CCC();
+}
+
 
 INCLUDE_ASM("asm/md_MAIN_019/nonmatchings/md_MAIN_019", func_800CB4C8);
 
@@ -68,7 +78,22 @@ INCLUDE_ASM("asm/md_MAIN_019/nonmatchings/md_MAIN_019", func_800CB9F8);
 
 INCLUDE_ASM("asm/md_MAIN_019/nonmatchings/md_MAIN_019", func_800CBC0C);
 
-INCLUDE_ASM("asm/md_MAIN_019/nonmatchings/md_MAIN_019", func_800CBD0C);
+
+
+extern void func_80162CCC(void);
+
+void func_800CBD0C(void *arg0) {
+
+    extern u8 D_80078EC1;
+    extern void (*D_800CC130[])(void);
+    if (D_80078EC1 == 0xd) {
+        u16 v0 = *(u16 *)((u8 *)arg0 + 2);
+        D_800CC130[v0]();
+    } else {
+        func_80162CCC();
+    }
+}
+
 
 INCLUDE_ASM("asm/md_MAIN_019/nonmatchings/md_MAIN_019", func_800CBD68);
 
@@ -76,6 +101,10 @@ INCLUDE_ASM("asm/md_MAIN_019/nonmatchings/md_MAIN_019", func_800CBE38);
 
 INCLUDE_ASM("asm/md_MAIN_019/nonmatchings/md_MAIN_019", func_800CBEC0);
 
-INCLUDE_ASM("asm/md_MAIN_019/nonmatchings/md_MAIN_019", func_800CBF60);
+extern void func_80162CCC(void);
+void func_800CBF60(void) {
+    func_80162CCC();
+}
+
 
 INCLUDE_ASM("asm/md_MAIN_019/nonmatchings/md_MAIN_019", func_800CBF80);

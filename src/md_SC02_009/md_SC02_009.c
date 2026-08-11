@@ -93,7 +93,17 @@ INCLUDE_ASM("asm/md_SC02_009/nonmatchings/md_SC02_009", func_801E59A4);
 
 INCLUDE_ASM("asm/md_SC02_009/nonmatchings/md_SC02_009", func_801E5A58);
 
-INCLUDE_ASM("asm/md_SC02_009/nonmatchings/md_SC02_009", func_801E5B0C);
+
+extern void func_8012C218(void);
+
+void func_801E5B0C(void) {
+
+    extern s32 D_801270C8;
+    if (D_801270C8 == 13) {
+        func_8012C218();
+    }
+}
+
 
 INCLUDE_ASM("asm/md_SC02_009/nonmatchings/md_SC02_009", func_801E5B3C);
 
