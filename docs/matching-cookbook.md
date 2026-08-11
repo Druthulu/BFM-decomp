@@ -10954,3 +10954,40 @@ One grep for two callee symbols returned an already-banked body that turned a 12
 into a copy-edit. The existing wave template greps cross-overlay magic literals; extend it to
 "grep the callee symbols across `src/` for a non-INCLUDE_ASM body". Engine-state globals like
 `D_80126948` are shared across many overlay TUs, so a matched sibling is often already sitting there.
+
+
+### §161 — THE RETRY-WAVE HARVEST: a jump table indexed from zero, and two allocator traps (P30 S47)
+
+**§161a — `case 0: break;` IS LOAD-BEARING WHEN A JUMP TABLE IS INDEXED FROM ZERO.** Target shape:
+
+    lhu $v1,0x34($s0) ; sltiu $v0,$v1,6 ; sll $v0,$v1,2      <- NO `addiu $v1,$v1,-1`
+
+Writing the natural `case 1: … case 5:` makes gcc-2.7.2 pick **minval = 1**, so it emits
+`addiu $v1,$v0,-1; sltiu $v0,$v1,5` and every table index shifts one slot. The body can be perfect
+and it still reads **58 of 77 mismatched** — a near-total mismatch produced by a one-line source
+difference, which is exactly the shape that gets a whole family written off as a codegen wall.
+**Fix:** add an explicit empty `case 0: break;` as the FIRST case. `minval` drops to 0, the subtract
+disappears, and gcc's jump optimizer threads the empty body straight onto the epilogue.
+**THE DIAGNOSTIC TELL (family-wide):** if a member's jump table has its **first entry pointing at
+that function's own epilogue/end address**, it needs the `case 0` construction. Byte-proven on
+`func_8018CC40` (10-member family); emitted table `[$L2(end), $L4, $L7, $L9, $L10, $L12]` matches
+`jtbl_801E59F8 = [0x8018CD60(end), 0x8018CC7C, 0x8018CCC4, 0x8018CCEC, 0x8018CCFC, 0x8018CD40]`.
+*Corollary:* a `bnez` inside a case arm that jumps to a label which is NOT a jtbl entry is a plain
+if/else, not a case fallthrough — do not model it as one.
+
+**§161b — ALIASING A PARAMETER INTO A LOCAL CAN COST A SECOND CALLEE-SAVED REGISTER.**
+`void *s0 = a0;` before three mutually-exclusive uses forced gcc-2.7.2 to allocate a SECOND
+callee-saved register (+8 bytes of frame, +3 instructions) even though the uses never overlap.
+Using the raw parameter directly at every site — `*(s32 *)(a0 + 0xE4) = …`, typed `s32`, not
+`void *` — collapsed it back to the single `$s0` the target uses. **When your frame is 8 bytes too
+big and you have one more `sw $sN` than the target, look for a pointer alias before touching pins.**
+
+**§161c — LOOSE-PROTOTYPE ENGINE HELPERS AND THE DECL THAT FIGHTS THEM.** Some engine helpers are
+declared `(void)` at file scope in an overlay yet every `jal` to them carries `addu $a0,$s0,$zero`
+in the delay slot — they really take an argument. Declaring `extern s32 f();` in the draft to model
+that collides with the TU's `(void)` and the gate reports **`too many arguments to function`**
+(byte-witnessed, `func_80178970`). Do NOT fight the file-scope decl: drop the draft's extern and
+**cast at the call site** (§17a-1) — `((s32 (*)(s32))func_80178970)(a0)` — which gcc folds to a
+direct `jal`, so it is codegen-neutral. Six call sites converted; the gate then banked it.
+*Process note: the crack agent PREDICTED this failure in its report before the gate ran. Read the
+agent's integration notes before diagnosing a gate failure — it has already seen the TU.*

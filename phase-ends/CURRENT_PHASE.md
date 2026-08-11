@@ -475,6 +475,45 @@ arrives via `engine_core.h`, which they do not include (`tu_scope` = 53 entries 
 overlay). `Blk8` already exists at `engine_types.h:497` but is unreachable from there.
 **Do NOT retry this sweep until a tool emits per-member data definitions + carries the typedef.**
 
+## ✅ G2 — THE MAIN EXPERIMENT: "structurally barren" is an h_exact claim, ~85% true under h_seq
+`family_hseq.load()` excludes main with the comment *"structurally barren — zero h_exact overlap,
+checked twice, S39"*. That is TRUE AND IRRELEVANT: it is an **h_exact** finding guarding an
+**h_seq** tool, and the whole reach analysis runs on h_seq (normalized), which is far more
+permissive. Nobody had ever run it over main. **There is not even a `sig-main` Makefile target** —
+main had never been signed for this pipeline at all. Signed it here (2,002 fns, seeded from splat's
+boundaries via `corpus.stubs`, NOT `--bootstrap`, which glues functions around jtbl dispatch and
+would have corrupted the very hashes under test) → `.run/sig.main.jsonl`.
+
+| main's 83,917 unmatched ins | ins | share |
+|---|--:|--:|
+| internal h_seq families (≥2 members): **207 families / 748 fns** | 11,537 | **13.7%** |
+| shapes shared with the overlay/module fleet: 161 fns | 1,346 | 1.6% |
+| genuine singleton / ×1 remainder | ~71,034 | **84.6%** |
+
+**IMMEDIATELY ACTIONABLE:** **44 h_seq classes / 151 main functions / 1,239 ins already have a
+MATCHED exemplar in the fleet** — free propagation, ~0 tokens, invisible only because main is not in
+the map. Mostly small (5–27 ins), mostly from `ov_SC03_090`.
+**The long-term number is the 207 internal families:** 748 of main's 2,002 functions (37%) are
+templatable once one exemplar per family is cracked. That does not make main cheap, but it refutes
+"2,002 independent cracks" as the planning assumption for the 79k-ins tail.
+**⚠ OPEN, needs Drew's call — do NOT do unilaterally:** add a `sig-main` target and drop main's
+exclusion from `load()`. That is a change to a fleet-shared oracle every targeting tool reads.
+
+## ✅ W1b — the 3 rate-limited retries: **3/3 banked** (+2 new cookbook rules)
+`func_801EFBF4` (reach 12) · `func_801EFDC8` (12) · `func_8018CC40` (10, jr). R22 **213/213**.
+`func_8018CC40` first failed the gate with `too many arguments to function func_80178970` — **its
+own crack agent had PREDICTED that in its report** and named the fix. Applied §17a-1: dropped the
+draft's empty-paren externs, cast at 6 call sites (`((s32 (*)(s32))func_80178970)(a0)`), banked.
+**Read the agent's integration notes before diagnosing a gate failure — it has already seen the TU.**
+
+**Cookbook §161a-c** (index → 469): **§161a `case 0: break;` is load-bearing when a jump table is
+indexed from zero** — the natural `case 1..5` makes gcc pick minval=1, emit `addiu -1`, and shift
+every index, reading **58/77 mismatched on a perfect body**; the tell is that the table's FIRST
+entry points at the function's own end address (family-wide, 10 members) · §161b aliasing a
+parameter into a local can cost a second callee-saved register (+8 frame, +3 ins) — suspect it
+before touching pins · §161c loose-prototype engine helpers: don't fight the TU's `(void)` decl,
+cast at the call site.
+
 ## ▶ RESUME HERE — D (and the leftovers below)
 **C is DONE.** For reference, the command was:
 `.venv/bin/python tools/dedup_extend.py --binaries ov_SC03_107,ov_MAIN_012,ov_SC02_037`
