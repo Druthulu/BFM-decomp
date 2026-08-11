@@ -452,6 +452,29 @@ alias only on the demote path when the file's OWN comment says staged drafts arr
 burned three attempts on a 44-member class by inferring the shape instead of reading ONE failing
 draft, which took 90 seconds when I finally did it.
 
+## ⚠ THE DATA-BUNDLED FAMILY CLASS — reach-57 exemplar BANKED, its 56 siblings BLOCKED (S47)
+`func_801EDC18` is banked and R22-green (cookbook §160a-c). Its family sweep returned **0/56**, and
+the cause is structural, not codegen: **54 of 56 failed `parse error before 'buffer'`.**
+The remapped sibling draft carries NEITHER the draft's `typedef struct { char c[8]; } Blk8;` NOR any
+declaration of the per-member data symbol:
+
+    extern int func_80171D78(u32, void *);
+    void func_801E2860(u32 arg0) { Blk8 buffer; buffer = D_801E25EC; ... }   <- both undeclared
+
+**Two distinct gaps, one of them NEW:**
+1. **`family_remap` does not gather the draft's own typedefs** — the T7-S1 "typedef/macro gather"
+   class, named a phase ago and still unbuilt. (`cdecl.strip_provided_typedefs` is NOT the culprit —
+   it correctly KEEPS a typedef the target TU lacks. The loss is upstream, in unit extraction.)
+2. **NEW: this family's data is PER-MEMBER.** The exemplar needed `const Blk8 D_801ED98C = {{...}}`
+   because the `.s` rodata block IS the definition (§160c). Every sibling has its OWN symbol with
+   its OWN bytes, so a symbol remap cannot produce it — the bytes must be decoded from each
+   member's `.s` and emitted as that member's definition. **No existing tool does this.**
+**Scope:** 116 of 12,583 `.s` files are data-bundled (§160b), so this class is real but bounded.
+**Why the md_* TUs cannot use the shared type:** they include only `common.h`; `engine_types.h`
+arrives via `engine_core.h`, which they do not include (`tu_scope` = 53 entries vs 4,190 for an
+overlay). `Blk8` already exists at `engine_types.h:497` but is unreachable from there.
+**Do NOT retry this sweep until a tool emits per-member data definitions + carries the typedef.**
+
 ## ▶ RESUME HERE — D (and the leftovers below)
 **C is DONE.** For reference, the command was:
 `.venv/bin/python tools/dedup_extend.py --binaries ov_SC03_107,ov_MAIN_012,ov_SC02_037`
