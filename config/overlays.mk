@@ -4979,7 +4979,7 @@ build/src/ov_SC03_107/ov_SC03_107_jr_80131340.o: JTBL_PADS := 0,0,4  # §8e pads
 build/src/ov_SC03_107/ov_SC03_107_jr_80135A4C.o: JTBL_PADS := 0,4  # §8e pads (jtbl_carve.py) tables=+0x0,+0x18
 build/src/ov_SC03_107/ov_SC03_107_jr_8013F350.o: JTBL_PADS := 0,0,4,0,4,0,4  # §8e pads (jtbl_carve.py) tables=+0x0,+0x20,+0x38,+0x58,+0x70,+0x90,+0xa8
 build/src/ov_SC03_107/ov_SC03_107_jr_80159C84.o: JTBL_PADS := 0,4  # §8e pads (jtbl_carve.py) tables=+0x0,+0x20
-build/src/ov_SC03_107/ov_SC03_107_jr_801789AC.o: JTBL_PADS := 0,0,0,4,4  # §8e pads (jtbl_carve.py) tables=+0x0,+0x18,+0x190,+0x220,+0x2b0
+build/src/ov_SC03_107/ov_SC03_107_jr_801789AC.o: JTBL_PADS := 0,0,0,4,4,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x18,+0x190,+0x220,+0x2b0,+0x2c4
 ov_SC03_107_CHECK_SHA  := config/check.ov_SC03_107.sha
 ov_SC03_107_SYMBOLS    := config/symbols.ov_SC03_107.txt
 ov_SC03_107_SIG        := .run/sig.ov_SC03_107.jsonl
