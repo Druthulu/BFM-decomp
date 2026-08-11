@@ -12572,7 +12572,7 @@
     extern s32 func_80135004(s32 a0, void *a1, s32 a2); \
     extern void func_80015954(s32 a0, s32 a1); \
     extern s16 D_801152AA; \
-    extern void *memcpy(void *dst, void *src, s32 n); \
+    extern void *memcpy(void *, const void *, u32); \
     s32 func_801638A0(u8 *a0, s32 a1) { \
         u8 buf[8]; \
         s16 d; \
@@ -29395,7 +29395,7 @@
     }
 
 #define DEFINE_func_801325B8() \
-    extern void memcpy(); \
+    extern void *memcpy(void *, const void *, u32); \
     extern void gteMIMefunc(); \
     void func_801325B8(int dst, int src, int m0, int mm, int arg5) \
     { \
