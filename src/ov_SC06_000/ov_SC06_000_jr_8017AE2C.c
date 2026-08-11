@@ -6152,11 +6152,38 @@ INCLUDE_ASM("asm/ov_SC06_000/nonmatchings/ov_SC06_000_jr_8017AE2C", func_8018261
 
 INCLUDE_ASM("asm/ov_SC06_000/nonmatchings/ov_SC06_000_jr_8017AE2C", func_8018270C);
 
-INCLUDE_ASM("asm/ov_SC06_000/nonmatchings/ov_SC06_000_jr_8017AE2C", func_8018278C);
 
-INCLUDE_ASM("asm/ov_SC06_000/nonmatchings/ov_SC06_000_jr_8017AE2C", func_801827C0);
 
-INCLUDE_ASM("asm/ov_SC06_000/nonmatchings/ov_SC06_000_jr_8017AE2C", func_801827F4);
+extern void func_8001ABBC(u32, u32, void *, u32, u32);
+
+void func_8018278C(void) {
+
+    extern u8 D_800AF420[];
+    func_8001ABBC(0, 0, D_800AF420, 0, 0);
+}
+
+
+
+
+extern void func_8001ABBC(u32, u32, void *, u32, u32);
+
+void func_801827C0(void) {
+
+    extern u8 D_800AF428[];
+    func_8001ABBC(0, 0, D_800AF428, 0, 0);
+}
+
+
+
+
+extern void func_8001ABBC(u32, u32, void *, u32, u32);
+
+void func_801827F4(void) {
+
+    extern u8 D_800AF430[];
+    func_8001ABBC(0, 0, D_800AF430, 0, 0);
+}
+
 
 
 void func_80182828(void *a0, s32 a1)

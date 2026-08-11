@@ -25587,7 +25587,27 @@ void func_8017C348(void)
 }
 
 
-INCLUDE_ASM("asm/ov_MAIN_012/nonmatchings/ov_MAIN_012", func_8017C364);
+
+
+extern void func_800D2624(void);
+
+void func_8017C364(void) {
+
+    extern short aD800B9A02_8017C364 __asm__("D_800B9A02");
+    extern u16 aD80115114_8017C364 __asm__("D_80115114");
+    extern u16 aD80115112_8017C364 __asm__("D_80115112");
+    u16 v0 = (*(u16 *)&aD800B9A02_8017C364);
+    u16 v1 = aD80115114_8017C364;
+
+    v0 ^= 0x1;
+
+    if (v1 == v0) {
+        func_800D2624();
+    } else {
+        aD80115112_8017C364++;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_MAIN_012/nonmatchings/ov_MAIN_012", func_8017C3BC);
 
