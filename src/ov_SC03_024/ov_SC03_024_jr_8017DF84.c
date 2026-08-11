@@ -4555,7 +4555,13 @@ int func_80181040(int param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_024/nonmatchings/ov_SC03_024_jr_8017DF84", func_80181070);
+extern void func_8001ABBC(u32, u32, void *, u32, u32);
+extern u8 D_800AEE88[];
+
+void func_80181070(void) {
+    func_8001ABBC(0, 0, D_800AEE88, 0, 0);
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_024/nonmatchings/ov_SC03_024_jr_8017DF84", func_801810A4);
 
