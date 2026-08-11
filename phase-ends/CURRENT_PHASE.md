@@ -181,7 +181,89 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 
 ---
 
-# 🛑 SESSION S47 CHECKPOINT (2026-08-10) — FRESH SESSION SAFE HERE
+# 🛑 SESSION S47 CHECKPOINT — FINAL (2026-08-11) — FRESH SESSION SAFE HERE
+> **Tree CLEAN** but for R23 `db.*.gbf` churn — never stage. **Nothing running.** 35 commits.
+> Gates at close: **`check-all` 213 passed / 0 failed of 213** (R22 run after EVERY batch, ~12×).
+> **Fleet: 94.4% instr · 88.3% distinct · 96.33% fn-count · INCLUDE_ASM stubs 13,345.**
+> **NO phase close** — T5 unopened, needs Drew's gate-2.
+> ⚠️ `tools-health` was launched at close; **confirm it in the next session before banking** (many
+> tools changed today: masked_diff, family_remap, family_hseq, conform_decls, scope_data_externs,
+> harvest_verify, + cookbook to 469 sections).
+
+## THE SESSION IN ONE LINE
+**2,197 instances banked — the number is the STUB-ORACLE DELTA (15,542 → 13,345), not a sum of
+per-batch reports.** (My running total said ~2,307; summing reports drifts, the oracle does not.
+Third instance today of "derive the count, never accumulate it".)
+Essentially all of it was won by **repairing instruments and headers, not by decompiling.**
+
+## ▶ RESUME HERE — STAGE 0b, then STAGE 1
+The adopted plan is above ("THE ADOPTED ENDGAME PLAN"), with the 15-step reach-ordered loop.
+**Stage 0a is DONE ENOUGH — stop grinding it.** Its two compounding defects are fixed; what is left
+(typedef gather, per-member rodata) is BOUNDED (56 known members + 116 data-bundled files) and can
+run alongside a campaign instead of blocking it.
+1. **0b — JTBL_PADS repointing.** 122 jr member-slots at a measured ~100% conversion. Strongest
+   remaining deterministic item, and a clean first task for a fresh session. **Gate-probe ONE
+   binary before believing the 122 (R37).**
+2. **STAGE 1 — the reach-ordered sibling campaign.** Tiers: ×9 → ×8 → … → ×3, then PROBE ×2 with
+   10 families before committing 870 cracks at a 2× payoff. Wave one's ×10+ tier is consumed.
+3. 0c stays BLOCKED (my main-partition probe could not account for 954 of 2,002 rows — fix the
+   probe first). 0d (permuter, kill rule <2/20) is free CPU whenever the machine is idle.
+
+## 📉 THE STRATEGIC FINDING: THE RESIDUE CROSSED OVER
+Session start the sweep residue was ~5:1 PLUMBING:DIFF — the basis for "tooling beats volume".
+**At close it is DIFF 170 of 575 (30%), larger than the next four classes combined**, after
+undefined-ref went 611 → ~14 and PLUMBING-other 231 → 81. The declaration-axis vein is SPENT; it
+was a one-time seam. The Fable frontier analysis predicted exactly this, and the residue confirmed
+it rather than my framing. **From here the mover is volume with multipliers, not more plumbing.**
+Corollary it also corrected: **do not cross-price the two economies** — 5:1 is a property of the
+RESIDUE QUEUE, while a FRESH wave converted 81% (and stored MATCH drafts re-gate at ~0%, A10).
+
+## ✅ WHAT S47 LANDED
+**Plumbing (≈0 agent tokens):** 8 declaration axes conformed (~10,930 sites) · `dedup_extend` 62 ·
+propagation sweep 1,419 · asm-label alias-drop fix 148 · jr campaign 56 · `cdFileLocTable` typedef
+138 · cpp-derived TU type map 31 · memcpy canonicalization 29 · **symbol-KIND fix 205** ·
+`func_80175414` conform (1,845 decls / 1,061 files, R22 green — moved 27 rows from PLUMBING to DIFF,
+which is the tool working: it removes the conflict so the gate can judge the BODY).
+**Agent waves (1.7M tokens):** reach-15 wave → **163 functions** (10 exemplars + 140 templated +
+9 jr siblings + 3 retries + the reach-57 crack). Effective multiplier **15×**, not the 3.55 mean —
+because the wave selected the TOP of the reach distribution. Ordering by reach is what did that.
+**Instruments repaired (7):** the `no-diagnostic` classifier (gcc-2.7.2 emits no `error:` prefix —
+93 unknowns, all cheap) · `masked_diff.insns_from_s` section filter (116 `.s` files mis-measured;
+a byte-perfect draft read as SIZE-MISMATCH) · `gate_stage --verified-out` truncation (62 real banks
+reported as 0) · `conform_decls` ×3 (file-level skip, literal return compare, positional consumer
+scan) · `scope_data_externs` §8d alias drop + auto-alias · `family_hseq` scope stamp (claimed
+"212 OVERLAYS only" while scanning modules + resident) · `family_remap` symbol kind.
+**Cookbook §159/§160/§161 (index 469)** — incl. the align-1 block move, the `case 0: break;`
+jump-table rule, the asymmetric index reload, and the callee-set sibling search as wave step 0.
+
+## 🧰 MY ERROR LEDGER (8) — all caught, none reached the game's code
+1. **Header-only conform broke ov_SC01_000** — §85's all-or-nothing is literal.
+2. **Claimed the alias defect was broad; it was one family** (16 more banks fleet-wide, not ~1,399).
+3. **Predicted `--raw` would fix 112 jr failures** — it was three UNCARVED binaries. Wrong cause.
+4. **F2: three mechanisms proposed before reading one failing draft** (5 members for 4 attempts).
+5. **Aliased without a per-function suffix** — created 9 fresh `aD800B9A02` collisions, the exact
+   bug the suffix exists to prevent.
+6. **Inferred data ownership from `extern`s** — the gate refuted it (`undefined reference`); the
+   `.s` rodata block WAS the definition.
+7. **Re-ran `progress.linked_subsegs`' documented trap** — seeded sig-main from `corpus.stubs`,
+   which INCLUDES 968 LINKED PsyQ rows, inflating my G2 main finding. Its docstring records the
+   same mistake by a previous importer.
+8. **Quoted an accumulated bank total (~2,307) instead of the oracle delta (2,197).**
+**The pattern in 1-4 and 6-7: I proposed a mechanism before reading the evidence that was already
+written down.** The repo documents its own traps; four of today's errors were in files I had open.
+
+## 📌 OPEN
+- 56 members of the reach-57 family (per-member rodata + typedef gather) · 122 jr slots (0b) ·
+  main inclusion (0c, probe broken) · 170 DIFF (Stage 1/3 work) · the long plumbing tail
+  (`D_801202A0` 11, arity 10, `func_800183E0` 9, `D_801B8748` 8, `D_801D9C20` 6, redefinition 35).
+- **Roadmap v2 has rotted** (its own §0 predicted it): baselines say 140/140 and "34 parked" —
+  truth is 213 binaries, 5 parked. Fix at T5.
+- **A rule worth adopting at T5:** *a guard must state its COVERAGE, not just its verdict.*
+  In-repo exemplars: `conform_decls` (refused, named the count, the consequence, why the per-binary
+  gate misses it, and the flag that repairs it) and the §53 jr interlock. Every instrument repaired
+  today had failed the opposite way — reporting SUCCESS over a defect.
+
+# 🛑 (superseded by FINAL) SESSION S47 CHECKPOINT (2026-08-10)
 > **Tree CLEAN** but for R23 `db.*.gbf` churn — never stage. **Nothing running.**
 > Gates at this commit: **`check-all` 213 passed / 0 failed of 213** (R22 clean-fleet, run THREE
 > times — B, C, and the propagation sweep); **`tools-health` OK**; **dedup-check 1949 validated /
