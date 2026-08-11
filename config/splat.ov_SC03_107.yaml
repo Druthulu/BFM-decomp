@@ -106,27 +106,26 @@ segments:
       - [0x50854, c, ov_SC03_107_jr_801789AC]
       - [0x5a304, data, tail]
       - [0x713e8, .rodata, ov_SC03_107]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0x714c4, data, tail2]
       - [0x71590, .rodata, ov_SC03_107_jr_80131340]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0x715d0, data, tail3]
+      - [0x715d0, data, tail2]
       - [0x715d4, .rodata, ov_SC03_107_jr_80135A4C]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0x71600, data, tail4]
+      - [0x71600, data, tail3]
       - [0x71604, .rodata, ov_SC03_107_jr_80135EB0]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0x71630, data, tail5]
+      - [0x71630, data, tail4]
       - [0x7163c, .rodata, ov_SC03_107_jr_801380E0]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0x716a0, data, tail6]
+      - [0x716a0, data, tail5]
       - [0x71cac, .rodata, ov_SC03_107_jr_8013F350]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0x71d68, data, tail7]
+      - [0x71d68, data, tail6]
       - [0x71df0, .rodata, ov_SC03_107_jr_801549F8]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0x71e5c, data, tail8]
+      - [0x71e5c, data, tail7]
       - [0x71e80, .rodata, ov_SC03_107_jr_801555F4]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0x71ea0, data, tail9]
+      - [0x71ea0, data, tail8]
       - [0x71f48, .rodata, ov_SC03_107_jr_80159C84]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0x71f7c, data, tail10]
+      - [0x71f7c, data, tail9]
       - [0x71f80, .rodata, ov_SC03_107_jr_8015A3C8]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0x71f9c, data, tail11]
+      - [0x71f9c, data, tail10]
       - [0x72258, .rodata, ov_SC03_107_jr_801789AC]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0x72504, data, tail12]
+      - [0x72504, data, tail11]
       - [0x73BE4, bin, trailing]    # final 3 bytes (EOF not 4-aligned; spimdisasm drops a partial word)
   - [0x73BE7]   # EOF marker = the 0.4.dec byte length
 # @TRAILING@ (above) is replaced by tools/new_overlay.sh: for a non-4-aligned overlay it becomes
