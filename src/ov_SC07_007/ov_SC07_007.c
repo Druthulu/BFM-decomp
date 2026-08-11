@@ -451,7 +451,24 @@ s32 func_80128C98(s32 arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_007/nonmatchings/ov_SC07_007", func_80128CFC);
+
+
+extern CdFileLoc cdFileLocTable[];
+extern void func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 a4);
+
+s32 func_80128CFC(s32 arg0) {
+
+    extern s16 D_801831F0[];
+    extern s32 D_801C5348;
+    s16 idx = D_801831F0[arg0];
+
+    if (idx >= 0) {
+        func_8001ABBC(0, 0, (u8 *)&cdFileLocTable[idx], D_801C5348, 0);
+    } else {
+        return 1;
+    }
+}
+
 
 DEFINE_func_80128D60()  /* dedup: shared engine-core @0x80128d60 (src/shared) */
 

@@ -373,6 +373,34 @@ My scoping said "one unplaceable construct". **That was wrong — it was the fir
 **Carve reverted; tree clean. Fixes 1-3 kept** (regression-checked: 1,948 macros parse, 0 malformed
 externs; alias maps unchanged on 3 already-carved overlays). **122 jr member-slots remain blocked.**
 
+## ✅ TASK A4 (cdFileLocTable) — **+138 members from ONE LINE**; R22 213/213
+`conflicting types for cdFileLocTable` was the largest remaining sweep class (136 of 875).
+`engine_types.h` defined the SAME layout twice — `CdFileLoc` and `CdFileLoc_80128C98`, both
+`struct { s32 word0; s32 word4; }`. Each anonymous struct definition mints a **distinct C type**, so
+a TU holding both externs declared one object with two incompatible types. Fix:
+`typedef CdFileLoc CdFileLoc_80128C98;` — the two NAMES now denote one type. Byte-neutral by
+construction (identical layout ⇒ identical 8-byte index scaling); verified on 2 binaries first.
+**This is the type-IDENTITY class `scope_data_externs` documents for `S_AF634`:** invisible to any
+type-STRING compare, and `cdecl.compatible` correctly answers "compatible" — they ARE compatible,
+they are just not the SAME type.
+**NOT unified with the 3 `extern u8 cdFileLocTable[]` sites** — element size drives index scaling
+and those carry their own explicit `<< 3` (resident.c:656). Folding them in changes codegen: the
+memcpy-class trap. A 136-of-139 fix is the correct shape, not an incomplete one.
+**Banked 138** (derived net = report = 138, they agree). Fleet **94.3% instr / 88.1% distinct /
+96.21% fn-count**; stubs 13,780.
+
+### The sweep residue after A4 — no symbol dominates any more
+`227` PLUMBING-other · `125` **DIFF (real divergence, 17% — the honest floor)** ·
+**`93` CC1-FAIL(no-diagnostic)** · `26` memcpy · `12` D_80114F24 · `11` D_800AE620 ·
+`9` D_800183E0 · `6` D_80126B58 · `6` D_80078EB4 · `6` func_80145CEC.
+**CC1-FAIL went UP (77 → 93) and that is not a regression** — members that used to die earlier on
+the cdFileLocTable conflict now reach a DIFFERENT compile error. Every one is a hard gcc error whose
+text the classifier throws away because it greps for `error:`, which gcc-2.7.2 never emits.
+**THE HIGHEST-VALUE FIX LEFT: repair that classifier.** Three times today a `no-diagnostic` verdict
+concealed something cheap (the 132-member alias drop; the carve's `multiple storage classes`; the
+carve's wrapped-decl mangling). 93 failures are currently labelled "unknown" on a day when every
+inspected "unknown" was a missing declaration or a duplicate typedef.
+
 ## ▶ RESUME HERE — D (and the leftovers below)
 **C is DONE.** For reference, the command was:
 `.venv/bin/python tools/dedup_extend.py --binaries ov_SC03_107,ov_MAIN_012,ov_SC02_037`

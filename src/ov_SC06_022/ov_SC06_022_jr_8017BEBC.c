@@ -3468,7 +3468,27 @@ void func_8017E40C(void *a0) {
 
 INCLUDE_ASM("asm/ov_SC06_022/nonmatchings/ov_SC06_022_jr_8017BEBC", func_8017E448);
 
-INCLUDE_ASM("asm/ov_SC06_022/nonmatchings/ov_SC06_022_jr_8017BEBC", func_8017E87C);
+
+extern s32  func_8012CBF4(s32 a0);
+extern s32  func_8012BEE8(s32 a0);
+extern void func_8012C218(void *a0);   /* TU-canonical (ov_SC06_018_jr_8017C24C L5455) */
+extern void func_80017274(s32 a0, s32 a1);
+
+void func_8017E87C(s32 param_1) {
+    *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x10) =
+        *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x10) + *(u16 *)(param_1 + 0xFE);
+    *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x12) =
+        *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x12) + *(u16 *)(param_1 + 0x100);
+    *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x14) =
+        *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x14) + *(u16 *)(param_1 + 0x102);
+
+    if (func_8012CBF4(param_1) != 0 || func_8012BEE8(param_1) != 0) {
+        func_8012C218((void *)param_1);
+    } else {
+        func_80017274(param_1 + 0xDC, *(s32 *)(param_1 + 0x20) + 0x34);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_022/nonmatchings/ov_SC06_022_jr_8017BEBC", func_8017E920);
 
@@ -3762,7 +3782,83 @@ INCLUDE_ASM("asm/ov_SC06_022/nonmatchings/ov_SC06_022_jr_8017BEBC", func_80181A4
 
 INCLUDE_ASM("asm/ov_SC06_022/nonmatchings/ov_SC06_022_jr_8017BEBC", func_80181A94);
 
-INCLUDE_ASM("asm/ov_SC06_022/nonmatchings/ov_SC06_022_jr_8017BEBC", func_80181B04);
+
+// @class: struct
+// @stuck: none — MATCH (135/135 ins, match_one confirmed)
+
+
+extern s32 func_8012C354(s32 a0, void *a1);
+extern s32 func_80143994(s32 a0, s32 a1);
+extern void func_8012A828(s32 a0, void *a1);
+extern s32 func_8012C658(s32 a0, s32 a1, s32 a2);
+extern void func_8012CAE4(void*);
+extern void func_8012B030(s32 a0);
+extern void func_8012B2CC(s32 a0);
+
+void func_80181B04(s32 param_1) {
+
+    extern Elem52_801B5094 D_801BCFEC[];
+    extern u8 D_801BD184[];
+    extern u8 D_801BD10C[];
+    extern u8 D_801D40D8[];
+    extern u16 D_801D45CC;
+    extern u16 D_801D4424;
+    s32 iVar1;
+    u16 uVar2;
+
+    iVar1 = func_8012C354(param_1, &D_801BCFEC[*(u16 *)(param_1 + 0x70) & 0xf]);
+    if (iVar1 != 0) {
+        *(u8 *)(param_1 + 0xc0) = 1;
+        *(u8 **)(param_1 + 0xbc) = D_801BD184;
+        *(s32 *)(param_1 + 0xb4) = -0x8ad;
+        *(u32 *)(param_1 + 0xc4) |= 2;
+        *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x2c) |= 0x80;
+        *(u8 **)(*(s32 *)(param_1 + 0x20) + 0x80) = D_801BD10C;
+        func_80143994(param_1, 0x4000);
+        *(s32 *)(param_1 + 0x48) = 0x18000;
+        uVar2 = *(u16 *)(param_1 + 0x70) & 0xf;
+        switch (uVar2) {
+        case 0: {
+            s32 t;
+            *(u32 *)(param_1 + 0xe0) |= 1;
+            t = (s32)*(u16 *)(*(s32 *)(param_1 + 0x78)) << 0x10;
+            *(s16 *)(param_1 + 0xfe) = (s16)((t >> 0x10) / 2);
+            if (((s32)*(s16 *)(param_1 + 0x70) & 0x8000) == 0) {
+                *(s16 *)(param_1 + 2) = 2;
+            } else {
+                *(s16 *)(param_1 + 2) = 1;
+                *(s32 *)(param_1 + 0x1c) = 0x1e;
+                func_8012A828(param_1, &D_801D40D8);
+            }
+            break;
+        }
+        case 1:
+            *(s16 *)(param_1 + 2) = 0x13;
+            D_801D45CC = 0x28;
+            if (((s32)*(s16 *)(param_1 + 0x70) & 0x8000) != 0) {
+                *(u32 *)(param_1 + 0xe0) |= 0x400;
+            }
+            break;
+        case 2:
+            *(s16 *)(param_1 + 2) = 0x18;
+            D_801D4424 = 0x28;
+            break;
+        case 3:
+            *(s16 *)(param_1 + 2) = 0x1f;
+            if (func_8012C658(0x27f, 5, param_1) == 0) {
+                ((void (*)(s32))func_8012CAE4)(param_1);
+                return;
+            }
+            break;
+        }
+        func_8012B030(param_1);
+        *(s32 *)(param_1 + 0x38) = *(s32 *)(param_1 + 4);
+        *(s32 *)(param_1 + 0x3c) = *(s32 *)(param_1 + 8);
+        *(s32 *)(param_1 + 0x40) = *(s32 *)(param_1 + 0xc);
+        func_8012B2CC(param_1);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_022/nonmatchings/ov_SC06_022_jr_8017BEBC", func_80181D20);
 
