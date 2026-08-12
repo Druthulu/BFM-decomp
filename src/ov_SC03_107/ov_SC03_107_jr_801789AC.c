@@ -6162,7 +6162,56 @@ void func_8017DE58(s32 a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_107/nonmatchings/ov_SC03_107_jr_801789AC", func_8017DEA0);
+typedef struct {
+    SVECTOR_8016E7C8 v[4];               /* 0x00 */
+    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
+    u8  f6;                     /* 0x38 */
+    u8  pad[7];                 /* -> 0x40 */
+} Prim_8016E7C8_8017DEA0;
+
+extern s32 func_8012B8E4(s32 arg0, s32 arg1);
+extern s32 func_8012BEE8(s32 a0);
+extern s32 func_8012BD3C(s32 a0, s32 a1, s32 a2);
+extern void func_8017E960(s32 a0);
+extern void func_8017E888(s32 a0);
+extern void func_8017E9CC(s32);
+extern void func_8017EB04(s32 a0);
+
+void func_8017DEA0(s32 a0) {
+    s32 v;
+    s32 flags;
+
+    v = func_8012B8E4(a0, 0xA);
+    *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) += v;
+    if ((*(s32 *)(a0 + 0xDC) & 0x20) != 0) {
+        if ((u32)(*(s32 *)(a0 + 0x1C) - 10) < 0xD) {
+            func_8017E960(a0);
+        }
+    } else {
+        if (*(s32 *)(a0 + 0x1C) == 0x16) {
+            func_8017E888(a0);
+        }
+        if (*(s32 *)(a0 + 0x1C) < 0x10) {
+            ((void (*)(s32))func_8017E9CC)(a0);
+        }
+    }
+    if (func_8012BEE8(a0) != 0) {
+        flags = *(s32 *)(a0 + 0xDC);
+        if (flags & 1) {
+            *(s32 *)(a0 + 0xDC) = flags & 0xFFFFFFFE;
+            *(s16 *)(a0 + 2) = 3;
+        } else if (flags & 0x10) {
+            *(s32 *)(a0 + 0xDC) = flags & 0xFFFFFFEF;
+            *(s16 *)(a0 + 2) = 3;
+        } else if (func_8012BD3C(a0, 0x400, 0x4000) == 0) {
+            *(s16 *)(a0 + 2) = 5;
+        } else {
+            *(s32 *)(a0 + 0x1C) = 0x1E;
+            func_8017EB04(a0);
+        }
+    }
+}
+
 
 
 /* func_8017DFC8 — entity state-kick #0xB.
