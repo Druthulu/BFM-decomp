@@ -127,15 +127,28 @@ const results = await pipeline(
 )
 
 const rows = results.filter(Boolean)
-const confirmed = rows.filter(r => r.verdict === 'MATCH' && r.verdict_check && r.verdict_check.confirmed
-                                   && r.verdict_check.file_exists !== false)
-const refuted = rows.filter(r => r.verdict === 'MATCH' && !confirmed.includes(r))
+// A DEAD ORACLE IS NOT A NEGATIVE VERDICT (P30 S48, byte-witnessed). This used to classify anything
+// without `verdict_check.confirmed` as `refuted`, so when a usage-limit outage killed 22 verifiers
+// mid-wave the result read "refuted: 22" — 22 perfectly good drafts reported as rejected, with
+// `evidence: "verifier died"` as the only tell. Acting on that would have thrown the wave away.
+// Same disease as the `no-diagnostic` classifier (S47) and the poisoned-tree 0/17 (this session):
+// a tool stating a conclusion it never actually reached. UNVERIFIED is its own outcome — re-run the
+// verifier for those, never bank them and never discard them.
+const claimed = rows.filter(r => r.verdict === 'MATCH')
+const unverified = claimed.filter(r => !r.verdict_check)          // the verifier never returned
+const confirmed = claimed.filter(r => r.verdict_check && r.verdict_check.confirmed
+                                      && r.verdict_check.file_exists !== false)
+const refuted = claimed.filter(r => r.verdict_check && !confirmed.includes(r))
 const near = rows.filter(r => r.verdict === 'NEAR')
 const fail = rows.filter(r => r.verdict === 'FAIL')
-log(`wave4: confirmed ${confirmed.length} / refuted ${refuted.length} / near ${near.length} / fail ${fail.length} of ${rows.length}`)
+log(`wave: confirmed ${confirmed.length} / refuted ${refuted.length} / UNVERIFIED ${unverified.length}`
+    + ` / near ${near.length} / fail ${fail.length} of ${rows.length}`)
 return {
   counts: {targets: TARGETS.length, returned: rows.length, confirmed: confirmed.length,
-           refuted: refuted.length, near: near.length, fail: fail.length},
+           refuted: refuted.length, unverified: unverified.length,
+           near: near.length, fail: fail.length},
+  unverified: unverified.map(r => ({fn: r.fn, binary: r.t.binary, draft_path: r.draft_path,
+                                    sha1: r.sha1, note: 'VERIFIER NEVER RAN — re-verify, do not discard'})),
   confirmed: confirmed.map(r => ({fn: r.fn, binary: r.t.binary, reach: r.t.reach, nins: r.t.nins,
                                   jr: r.t.jr, model: r.t.model, prior: !!r.t.prior,
                                   draft_path: r.draft_path, sha1: r.sha1, notes: r.notes})),
