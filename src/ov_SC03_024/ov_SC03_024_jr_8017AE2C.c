@@ -3816,7 +3816,93 @@ void func_8017CE54(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_024/nonmatchings/ov_SC03_024_jr_8017AE2C", func_8017CE90);
+
+/* callee-set / sibling search (cookbook §160g): all callees resolved from the DESTINATION TU
+ * itself, src/ov_SC03_014/ov_SC03_014_jr_8017AE2C.c, whose immediately-preceding matched sibling
+ * func_8017C6A0 (same TU, same family) uses the identical:
+ *   - func_801465C0 loose void(void) file-scope decl, fought via a zero-arg cast-at-callsite
+ *     (§161c) -- `((void *(*)(void))func_801465C0)()`.
+ *   - func_80146C3C(void) called on the failure path with the object pointer cast in.
+ *   - the returned object (named s3 there, s1 here) has s16 fields at +0x18/+0x1A/+0x2C, matching
+ *     this function's `*(s16*)(s1+0x18)`, `+0x1A`, `+0x2C` stores exactly.
+ * func_8001CD04(void*,void*) is defined in src/800.c (INCLUDE_ASM, shared engine) --
+ * asm/nonmatchings/800/func_8001CD04.s shows it stores its 2nd arg into (a0+0x20), confirming a0
+ * here is the newly-allocated object and a1 is an address it retains -- i.e. func_8001CD04(s1, s2)
+ * installs s2 (&D_801C11B0) onto the object.
+ * The `lwl/lwr`+`swl/swr` pair at D_8018A924[idx] / D_801C11B0 is the §160a align-1 struct-copy
+ * idiom; D_8018A924 is already `extern M2C_UNK D_8018A924;` (address-only) in many ov_SC05_017
+ * TUs, and the shared align-1 4-byte struct type `B4` (src/shared/engine_types.h:713) is already
+ * used repo-wide for this exact shape. The SAME address (&D_801C11B0) also takes a plain ALIGNED
+ * `sw` of 0xFFFFFF on the other branch -- an explicit `(u32*)` cast forces that, while the direct
+ * `B4` struct assignment on the table-lookup branch keeps the align-1 `swl/swr` -- §160a's "read
+ * the move width off the target, not off the data's apparent type", both branches hitting the same
+ * lvalue.
+ * D_801C11B0/844/845/846 are owned by asm/ov_SC03_014/data/tail19.data.s (a data-only splat unit,
+ * §160c) -- not bundled with this function's .s, so plain `extern` declarations are correct, not a
+ * definition. D_801C11B0 is one `.word` (4 bytes); D_801C11B4 and D_801C11B5 are each one `.byte`;
+ * D_801C11B6 opens a much larger multi-byte block in that data file, but this function only stores
+ * a zero to its FIRST byte, so a scalar `extern u8 D_801C11B6;` is sufficient here.
+ *
+ * TYPE: match_one's standalone `common.h` does NOT reach src/shared/engine_types.h (only the real
+ * TU's `#include "../shared/engine_core.h"` does), so `B4` isn't visible here. Per the
+ * ov_SC06_032_jr_8018FCE8.c precedent ("cc1 errors on the redefinition" of an identical-name
+ * typedef), a fresh, function-scoped name is used instead -- collides with nothing; the integrator
+ * may DROP this local typedef and reuse the TU's own `B4` when banking into the host TU.
+ */
+
+typedef struct { u8 d[4]; } Blk4_8017CE90_8017CE90;
+
+extern void func_801465C0(void);
+extern void func_8001CD04(void *a0, void *a1);
+extern void func_800233CC(void *a0, u16 a1);
+extern void func_80146C3C(void);
+
+
+void func_8017CE90(void *a0)
+{
+
+    extern Blk4_8017CE90_8017CE90 D_8018A924[];
+    extern Blk4_8017CE90_8017CE90 D_801C11B0;
+    extern u8 D_801C11B4;
+    extern u8 D_801C11B5;
+    extern u8 D_801C11B6;
+    void *s1;
+    Blk4_8017CE90_8017CE90 *s2;
+    s32 pad[10];
+
+    s1 = ((void *(*)(void))func_801465C0)();
+    *(void **)((u8 *)a0 + 0x20) = s1;
+
+    if (s1 != NULL) {
+        s2 = &D_801C11B0;
+        func_8001CD04(s1, s2);
+
+        *(s32 *)((u8 *)s1 + 4) |= 0x50000000;
+        func_800233CC(s2, 0x50);
+
+        *(s32 *)((u8 *)a0 + 0x10) = 0;
+        if (*(s32 *)((u8 *)a0 + 0x30) & 0x80) {
+            *(u32 *)s2 = 0xFFFFFF;
+            *(s16 *)((u8 *)s1 + 0x1A) = 0x80;
+            *(s16 *)((u8 *)s1 + 0x18) = 0x80;
+            *(s32 *)((u8 *)a0 + 0x14) = 0x80;
+        } else {
+            *s2 = D_8018A924[*(s32 *)((u8 *)a0 + 0x2C)];
+            *(s32 *)((u8 *)a0 + 0x14) = 0x20;
+        }
+
+        D_801C11B4 = 0;
+        D_801C11B5 = 0;
+        D_801C11B6 = 0;
+
+        *(s32 *)((u8 *)a0 + 0x30) = *(s32 *)((u8 *)a0 + 0x30) & 0x7F;
+        *(s16 *)((u8 *)s1 + 0x2C) = *(u16 *)((u8 *)a0 + 0xE) + 0x10;
+        *(u16 *)((u8 *)a0 + 0x2) = *(u16 *)((u8 *)a0 + 0x2) + 1;
+    } else {
+        ((void (*)(void *))func_80146C3C)(a0);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_024/nonmatchings/ov_SC03_024_jr_8017AE2C", func_8017CFBC);
 
