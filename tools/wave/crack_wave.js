@@ -78,9 +78,12 @@ METHOD:
        case_values_threshold is 5 (an empty case glued to default can be the only thing that emits a
        table); cse deleting a copy by rewriting the PREVIOUS insn's SET_DEST (§162j's symptom in a
        DIFFERENT pass); the frame as a PSEUDO-NUMBER oracle.
-     §164-01..82 — 82 further laws vetted by an independent skeptic each, carrying their evidence
-       grade. **§164z lists 28 REFUTED claims — read it before spending time on a mechanism, so you
-       do not re-derive something already disproved.**
+     §164-01..82 and §165-01..47 — 129 further laws, each vetted by an independent skeptic and
+       carrying its evidence grade. **§164z and §165z list 48 REFUTED claims between them — read
+       them before spending time on a mechanism, so you do not re-derive something disproved.**
+       Note §165-01 BOUNDS §163a: `conflicting types` ⇒ block scope is a solvent (move the typedef
+       AND the extern into the block); `too many arguments` ⇒ no decl spelling at any scope helps,
+       cast the call site (§17a-1/§161c).
    Search these before inventing a mechanism: of 190 laws the last waves claimed as new, 57% were
    already here or did not survive scrutiny.
 4. Iterate: cd ${REPO} && python3 tools/match_one.py ${t.name} --c .run/wave4/${t.name}/${t.name}.c --asm-subdir ${t.sub}
