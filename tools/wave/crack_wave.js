@@ -7,6 +7,10 @@ export const meta = {
   ],
 }
 
+// ⚠ THIS FILE IS A TEMPLATE-LITERAL MINEFIELD. The prompts are backtick strings, so a markdown
+// backtick anywhere inside them TERMINATES the string and the workflow dies at parse time (0 agents,
+// 0 tokens — cheap, but it has cost two launches). Use "double quotes" for inline code in prompt
+// prose, or escape as \`. Same for ${...}: any literal dollar-brace in prose must be escaped.
 const REPO = '/home/musashi/bfm-decomp'
 const ALL = typeof args === 'string' ? JSON.parse(args) : args
 const TARGETS = ALL.filter(t => t.sub)          // a banked target has no .s — drop it
@@ -58,7 +62,7 @@ is almost certainly IN-TU, so prove it in situ before you claim MATCH:
   Two gotchas that cost a wave-5 agent real time: the wrong --aspsx-version yields ~32 spurious
   mismatches ALL of the ori-vs-addiu li-form shape (that uniform shape is the fingerprint of a
   version mismatch, NOT a codegen residual); and "../shared/engine_core.h" resolves relative to the
-  including file, so put the spliced TU one directory DEEP with a `shared` symlink beside it.
+  including file, so put the spliced TU one directory DEEP with a "shared" symlink beside it.
 ` : ''
   return `You are cracking ONE function for the Brave Fencer Musashi matching decompilation (PS1, gcc-2.7.2 + maspsx). Repo: ${REPO}.
 
