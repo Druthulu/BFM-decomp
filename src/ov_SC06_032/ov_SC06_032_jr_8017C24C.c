@@ -4925,7 +4925,122 @@ extern void func_80181DDC(void);
     }
 
 
-INCLUDE_ASM("asm/ov_SC06_032/nonmatchings/ov_SC06_032_jr_8017C24C", func_80180B7C);
+
+/* Sibling-search (§160g) findings, kept for the integration note:
+ * - func_8018598C (same TU, ov_SC06_018_jr_8017C24C.c:7215, MATCHED/banked already) shares
+ *   func_8012BEE8/func_8012B608/func_8012B178/func_80182400/func_80182588 with identical
+ *   argument shapes -- confirms every extern signature below except func_8012B8A4/func_8012EFB8.
+ * - func_8018457C (same TU, :6654) uses the SAME func_8012B608(*(s16*)(*(s32*)(p+0x20)+0x12),
+ *   *(s32*)(p+0xE8), 8) / field += pattern and the SAME func_8012B178(p, 0xFFF8D000) magic
+ *   literal -- confirms the b608/b178 idiom byte-for-byte.
+ * - func_8012B8A4 canonical decl (many matched TUs): extern s32 func_8012B8A4(s16 *a0);
+ * - func_8012EFB8's byte-true body (src/ov_SC03_099/ov_SC03_099_jr_8012ACE0.c:1106) is
+ *   `s32 func_8012EFB8(void *param_1, void *param_2)` -- TWO pointers, s32 return -- but the
+ *   fleet-canon extern in THIS TU (line 335: `extern void func_8012EFB8(s32 a0);`, file scope,
+ *   already in effect before this function) conflicts on both arity and return axis. Per §161c,
+ *   do NOT add a second extern; cast the existing symbol at the call site instead.
+ * - Ghidra seed at .run/ghidra_c/func_80180B7C.c confirms the callee set and control flow
+ *   (verified address-matched: FUN_80185dd8, calls FUN_8012be54/bee8/b8a4/b608/b178/8765c/877e4/
+ *   efb8/c098) -- used only to cross-check, not copied verbatim (Ghidra's decompile is
+ *   -O0-shaped and not reg-alloc-accurate).
+ *
+ * INTEGRATION SURFACE (for the banking step): every extern below is checked against this TU's
+ * (ov_SC06_018_jr_8017C24C.c) own file-scope decls already in effect before line 7301:
+ *   func_8012BE54 -> void(s32) EXACT match (host decl at :4212/:5193; cast to (s32(*)(s32)) at
+ *     the one call site, mirroring the host's own existing call-site casts at :4363/:5291).
+ *   func_8012BEE8 -> s32(s32) EXACT match (:7203).
+ *   func_8012B608 -> s32(s32,s32,s32) EXACT match (:6644).
+ *   func_8012B178 -> void(s32,s32) EXACT match (:6645/:7044/:7207).
+ *   func_80182400 -> s32(s32) EXACT match (:6646/:7045/:7208).
+ *   func_80182588 -> void(s32) EXACT match (:7046/:7209).
+ *   func_8012EFB8 -> declared void(s32) to match the host's loose file-scope decl (:335); the
+ *     real (void*,void*)->s32 body is invoked through a cast at the call site (§161c), so no
+ *     second/conflicting extern is introduced.
+ *   func_8012C098 -> void(void*) EXACT match (:5603).
+ *   func_8012B8A4 -> NOT declared anywhere in this TU before this point; the draft's
+ *     `extern s32 func_8012B8A4(s16 *a0);` is the canonical signature used fleet-wide and
+ *     introduces no conflict.
+ * Net: zero declaration conflicts predicted against the host TU.
+ */
+
+extern void func_8012BE54(s32 a0); /* host TU decl is void (§161c-style loose proto); cast at call site */
+extern s32 func_8012BEE8(s32 a0);
+extern s32 func_8012B8A4(s16 *a0);
+extern s32 func_8012B608(s32 a0, s32 a1, s32 a2);
+extern void func_8012B178(s32 a0, s32 a1);
+extern s32 func_80182400(s32 a0);
+extern void func_80182588(s32 a0);
+extern void func_8012EFB8(s32 a0); /* loose decl, real body is (void*,void*)->s32; call via cast */
+extern void func_8012C098(void *param_1);
+
+void func_80180B7C(s32 a0) {
+    s32 r;
+    s16 vecA[4];
+    s16 vecB[4];
+    s32 x, z;
+
+    if ((*(u32 *)(a0 + 0xE0) & 0x40) == 0) {
+        s32 ret = ((s32 (*)(s32))func_8012BE54)(a0);
+        if (ret <= 0x63FFF) {
+            if (func_8012BEE8(a0) != 0) {
+                s32 t;
+                s32 rr;
+
+                t = func_8012B8A4((s16 *)a0);
+                *(u32 *)(a0 + 0xE8) = (t + 0x800) & 0xFFF;
+                rr = rand();
+                *(s32 *)(a0 + 0x1C) = rr % 0x40 + 0x40;
+            }
+        }
+    }
+
+    r = func_8012B608((s32) * (s16 *)(*(s32 *)(a0 + 0x20) + 0x12), *(s32 *)(a0 + 0xE8), 8);
+    *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) = *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) + r;
+
+    *(u32 *)(a0 + 0xE0) &= 0xFFFFFFBF;
+    func_8012B178(a0, 0xFFF8D000);
+
+    if (func_80182400(a0) == 0) {
+        func_80182588(a0);
+    }
+
+    vecA[0] = *(s16 *)(a0 + 0x6);
+    vecA[1] = *(s16 *)(a0 + 0xA);
+    vecA[2] = *(s16 *)(a0 + 0xE);
+    ((s32 (*)(void *, void *))func_8012EFB8)(vecA, vecB);
+
+    x = vecB[0];
+    if (x < 0) {
+        x = -x;
+    }
+    if (x < 0x105) {
+        z = vecB[1];
+        if (z >= 0) {
+            if (z < 0xC9) {
+                /* NEW LEVER (not yet in cookbook): a bare if/else-with-return here compiles
+                 * to a value-converge merge (ONE shared `slti`+`bne` fed by both signs of z,
+                 * ~91 ins) instead of the target's genuine PER-BRANCH duplicate compare
+                 * (96 ins: `bltz`+`slti`+`beqz`+`j` in this arm, `negu`+`slti`+`bnez` in the
+                 * else arm). A zero-emission `__asm__ __volatile__("":::"memory")` right
+                 * before this `return` is a scheduling/combine barrier that blocks whatever
+                 * RTL-level pass performs that merge, without adding a single byte itself --
+                 * the compiled result is byte-exact target. Byte-proven via 9 probe variants
+                 * (assignment-abs, ternary-condition, if/else, 2-independent-ifs, goto-labeled
+                 * return) that ALL either fully merged or left a redundant extra sign-retest;
+                 * only this barrier reproduces the target exactly. See match_one MATCH 96/96.
+                 */
+                __asm__ __volatile__("" ::: "memory");
+                return;
+            }
+        } else {
+            if (-z < 0xC9) {
+                return;
+            }
+        }
+    }
+    func_8012C098((void *)a0);
+}
+
 
 
 /* func_80180CFC (ov_SC06_018_jr_8017C24C) — MATCH 198/198, relocation-masked.
