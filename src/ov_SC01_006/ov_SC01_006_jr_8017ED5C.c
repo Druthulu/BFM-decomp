@@ -3280,7 +3280,140 @@ INCLUDE_ASM("asm/ov_SC01_006/nonmatchings/ov_SC01_006_jr_8017ED5C", func_801811D
 
 INCLUDE_ASM("asm/ov_SC01_006/nonmatchings/ov_SC01_006_jr_8017ED5C", func_80181228);
 
-INCLUDE_ASM("asm/ov_SC01_006/nonmatchings/ov_SC01_006_jr_8017ED5C", func_801812B0);
+
+extern s32 func_8012C1B8(void);
+extern void func_8001C214(s32 a0, s32 a1);
+extern s32 func_800291B4(s32 arg);
+extern void func_8018203C(s32 a0, s32 a1);
+extern void func_8012A828(s32 a0, void *a1);
+extern void func_801820F8(s32 a0);
+extern void func_8001D074(s32 a0, s32 a1);
+extern void func_8001CBDC(s32 a0, s32 a1, s32 a2, s32 a3);
+extern void func_8001C810(s32 a0, s32 a1);
+extern void func_8001C1E4(s32 a0, s32 a1);
+extern void func_800183E0(s32 a0);
+extern void MoveImage(void *a0, s32 a1, s32 a2);
+
+
+void func_801812B0(s32 a0) {
+
+    extern s32 D_801C339C[];
+    extern u8 D_801CD9C0[];
+    extern u8 D_801CDA10[];
+    extern u8 D_801C39E0[];
+    extern u8 D_801B91B4[];
+    extern u8 D_801B9C74[];
+    extern u16 D_801C3930[];
+    extern u8 D_801C3A04[];
+    extern u8 D_801C3A30[];
+    extern u16 D_801C3708[];
+    extern s32 D_801C3728[];
+    extern u8 D_800B9ABF, D_800B9AC0, D_800B9AC1;
+    extern u8 D_800B9B10, D_800B9B11, D_800B9B12, D_800B9B13, D_800B9B14, D_800B9B15;
+    s16 rect[4];
+    s32 p0;
+    s32 p1;
+    u8 *bp;
+    u16 *wp;
+    s16 n;
+    u8 c;
+    u8 t;
+
+    if (*(s32 *)(a0 + 0x20) == 0) {
+        if ((*(s32 *)(a0 + 0x20) = func_8012C1B8()) == 0) {
+            return;
+        }
+        n = (*(u16 *)(a0 + 0x70) -= 1);
+        func_8001C214(*(s32 *)(a0 + 0x20), D_801C339C[n]);
+        *(u16 *)(a0 + 0x10A) = func_800291B4(*(s16 *)(a0 + 0x70) + 0x63) & 0x20;
+        *(u8 **)(*(s32 *)(a0 + 0x20) + 0x24) = D_801CD9C0;
+        func_8018203C(a0, *(s16 *)(a0 + 0x10A) != 0);
+        func_8012A828(a0, D_801CDA10);
+        func_801820F8(a0);
+        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x2C) |= 0x10;
+    }
+
+    if (*(s32 *)(a0 + 0xD8) == 0) {
+        p0 = ((s32 (*)(s32, s32))func_8001D074)(0x7E, 0x100);
+        *(s32 *)(a0 + 0xD8) = p0;
+        if (p0 == 0) {
+            return;
+        }
+        func_8001CBDC(p0, (s32)D_801C39E0, 0x3E0, 0x100);
+        *(u8 *)(p0 + 0x27) = 0x8C;
+        *(s16 *)(p0 + 0x8) = -1;
+        *(s16 *)(p0 + 0xA) = 0x59;
+    }
+
+    if (*(s16 *)(a0 + 0x10A) == 0) {
+        if (*(s32 *)(a0 + 0xD0) == 0) {
+            if ((*(s32 *)(a0 + 0xD0) = func_8012C1B8()) == 0) {
+                return;
+            }
+            p1 = *(s32 *)(a0 + 0xD0);
+            func_8001C810(p1, (s32)D_801B91B4);
+            func_8001C1E4(p1, *(s32 *)(a0 + 0x20));
+            *(u16 *)(p1 + 0x2C) |= 0x10;
+            *(u32 *)(p1 + 0x4) |= 0x70000000;
+            *(s16 *)(p1 + 0xA) = 0;
+            *(s16 *)(p1 + 0xC) = -8;
+        }
+        if (*(s32 *)(a0 + 0xD4) == 0) {
+            p0 = func_8012C1B8();
+            *(s32 *)(a0 + 0xD4) = p0;
+            if (p0 == 0) {
+                return;
+            }
+            func_8001C810(p0, (s32)D_801B9C74);
+            func_8001C1E4(p0, *(s32 *)(a0 + 0x20));
+            *(u16 *)(p0 + 0x2C) |= 0x10;
+            *(u32 *)(p0 + 0x4) |= 0x8040;
+            *(s16 *)(p1 + 0xA) = 0;
+            *(s16 *)(p0 + 0xC) = -4;
+        }
+        *(s16 *)(a0 + 0x102) = 0;
+        *(u32 *)(*(s32 *)(a0 + 0xD8) + 0x4) |= 0x80000000;
+    } else {
+        s32 g = *(s32 *)(a0 + 0x20);
+        *(u16 *)(a0 + 0x102) = D_801C3930[*(s16 *)(a0 + 0x70)];
+        *(s16 *)(g + 0x18) = 0x1800;
+        *(s16 *)(g + 0x1C) = 0x1800;
+        *(s16 *)(g + 0x1A) = 0x1800;
+    }
+
+    c = D_801C3A04[*(s16 *)(a0 + 0x70)];
+    bp = &D_801C3A30[c * 6];
+    *(u16 *)(a0 + 0x100) = c;
+
+    t = *bp++;
+    D_800B9ABF = t;
+    D_800B9B10 = t;
+    t = *bp++;
+    D_800B9AC0 = t;
+    D_800B9B11 = t;
+    t = *bp++;
+    D_800B9AC1 = t;
+    D_800B9B12 = t;
+    D_800B9B13 = *bp++;
+    D_800B9B14 = *bp++;
+    D_800B9B15 = *bp++;
+
+    wp = &D_801C3708[(*(u16 *)(a0 + 0x100) & 6) * 2];
+    rect[0] = *wp++;
+    rect[1] = *wp++;
+    rect[2] = 0x50;
+    rect[3] = 0xC8;
+    MoveImage(rect, 0x380, 0x100);
+    rect[0] = *wp++;
+    rect[1] = *wp++;
+    rect[2] = 0x100;
+    rect[3] = 1;
+    MoveImage(rect, 0x100, 0x1E0);
+
+    func_800183E0(D_801C3728[*(s16 *)(a0 + 0x70)]);
+    *(u16 *)(a0 + 0x2) += 1;
+}
+
 
 INCLUDE_ASM("asm/ov_SC01_006/nonmatchings/ov_SC01_006_jr_8017ED5C", func_8018165C);
 
