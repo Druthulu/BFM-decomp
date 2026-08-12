@@ -3690,7 +3690,176 @@ INCLUDE_ASM("asm/ov_SC02_028/nonmatchings/ov_SC02_028_jr_80184BD8", func_80187AD
 
 INCLUDE_ASM("asm/ov_SC02_028/nonmatchings/ov_SC02_028_jr_80184BD8", func_80187C6C);
 
-INCLUDE_ASM("asm/ov_SC02_028/nonmatchings/ov_SC02_028_jr_80184BD8", func_80187DE4);
+    typedef struct { u8 b[8]; } Blk8_80187DE4;
+typedef struct {
+    s32 a;      /* 0x00 -> D_801DA750 */
+    s32 b;      /* 0x04 -> D_801DA754 */
+} Pair8_8017DDC4_80182244_80187DE4;
+
+/* func_80187DE4 — ov_SC02_027 / ov_SC02_027_jr_8017D898.c   MATCH (249 ins)
+ *
+ * Per-frame tick for a 4-state actor: first a proximity sweep over the live entity
+ * list (retarget every type-0x16F entity within 0x1900 to state 0x1D), then a
+ * switch on the state byte at +0xC2.  case 0 FALLS THROUGH into case 1 (that is
+ * why the `*(u8*)(a0+0xC2) = 1` store is unconditional and why case 0's block sits
+ * physically above the shared tail); the `func_8012C218` bail of case 0/1 and of
+ * case 2 are textually identical, so jump.c cross-jumps them into one copy at
+ * .L801876C4 (the LOWER site is the one redirected — §162 cross-jump direction).
+ *
+ * Declaration provenance (§161c — every decl checked against the whole host TU):
+ *   func_8012CEB0(s32,s32,s32)  — TU col-0 decl at L5276 (and fn-scope L4404): identical
+ *   func_80143B6C(s32,s32)      — TU col-0 decl at L4482: identical
+ *   func_8012C218(void *)       — TU col-0 decls at L2665/L3877/L4481: identical
+ *   func_8012DE2C / func_8012DDA4 / func_80013350 — NOT in the TU; forms are byte-copies
+ *                                 of the canonical set in src/shared/engine_core.h
+ *                                 (L24522/24523/24524, DEFINE_func_8012DBD0)
+ *   func_8012CC64 / func_8012CBF4 — NOT in the TU; canonical returns are `void`
+ *                                 (engine_core.h L5361 / L8375) and the asm USES $v0, so
+ *                                 the read is a call-site cast (codegen-neutral, the
+ *                                 codebase's own idiom — cf. func_80131340).
+ *   D_801D3380                  — real dlabel, asm/ov_SC02_027/data/tail18.data.s:5345
+ *                                 (0x801DA780, 8 bytes); declared nowhere else in src/.
+ *   The TU instantiates NO DEFINE_ macro, so none of the above can be redefined behind us.
+ *
+ * Codegen notes (each closed a residual — do not "clean up"):
+ *  - sp10/18/20/28 are four 8-byte, align-2 vectors.  align(2) < 4 is what makes the
+ *    aggregate copies unaligned lwl/lwr + swl/swr block moves, and `sp28 = sp20` is a
+ *    DEAD copy that gcc-2.7.2 KEEPS (no aggregate DSE) — load-bearing, not dead code.
+ *    Byte-proven twin: func_80131340 in ov_SC02_027_jr_8012ACE0.c.
+ *  - The 0x1D constant is hoisted to $s2 in the loop preheader by loop.c because it is
+ *    used TWICE in the loop (the 0x5E compare and the 0x5E store); 0x16F/0xA are used
+ *    once each and stay inside.  Writing the literal twice is what produces that.
+ *  - Two scheduling levers, both alias-analysis (sched.c true_dependence), see inline.
+ */
+
+extern s32 func_8012DE2C(s32 a0);
+extern s32 func_8012DDA4(void);
+extern void func_80013350(s32 a0, void *a1);
+extern s32 func_8012CEB0(s32 a0, s32 a1, s32 a2);
+extern void func_8012CC64(s32 a0, s32 a1);
+extern void func_8012CBF4(s32 a0);
+extern s32 func_80143B6C(s32 a0, s32 a1);
+extern void func_8012C218(void *a0);
+
+
+void func_80187DE4(s32 a0)
+{
+
+    extern s32 D_801D3380;
+    /* 8-byte, align-2 vector — align < 4 is what makes the aggregate copies
+     * unaligned lwl/lwr + swl/swr block moves (§ sibling func_80131340). */
+    struct V8_80187DE4 {
+        u16 vx, vy, vz, pad;
+    };
+    struct Cnt_80187DE4 {
+        s32 c;
+    };
+
+    struct V8_80187DE4 sp10;
+    struct V8_80187DE4 sp18;
+    struct V8_80187DE4 sp20;
+    struct V8_80187DE4 sp28;
+    s32 p;
+
+    sp10.vz = 0;
+    sp10.vx = 0;
+    sp10.vy = 0x30;
+
+    p = func_8012DE2C(a0);
+    while (p != 0) {
+        if (*(u16 *)p == 0x16F && (*(u16 *)(p + 0x5C) & 0x8000) != 0 &&
+            *(u16 *)(p + 0x5E) != 0x1D &&
+            ((s32 (*)(s32, s32))func_80013350)(a0 + 4, p + 4) < 0x1900) {
+            *(u16 *)(p + 0x60) = 0xA;
+            *(u16 *)(p + 0x5C) |= 1;
+            /* The 0x5E store must be SOURCE-ORDERED after the a0+0x20 loads: the
+             * anti-dependence (different base regs -> memrefs_conflict_p cannot
+             * disambiguate) pins it below them, so the scheduler can only place it
+             * in the lhu's load-delay stall. Written before them it floats up into
+             * the lhu 0x5C shadow instead and costs a nop. */
+            *(u16 *)(p + 0x62) = *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) + 0x800;
+            *(u16 *)(p + 0x5E) = 0x1D;
+        }
+        p = func_8012DDA4();
+    }
+
+    switch (*(u8 *)(a0 + 0xC2)) {
+    case 0:
+        *(u8 *)(a0 + 0xC2) = 1;
+        sp18.vx = *(u16 *)(a0 + 0x3A);
+        sp18.vy = *(u16 *)(a0 + 0x3E);
+        sp18.vz = *(u16 *)(a0 + 0x42);
+        sp20 = sp18;
+        sp20.vx += sp10.vx;
+        sp20.vy += sp10.vy;
+        sp20.vz += sp10.vz;
+        sp28 = sp20; /* load-bearing dead aggregate copy — no aggregate DSE in 2.7.2 */
+        func_8012CEB0((s32)&sp18, (s32)&sp20, 1);
+        sp20.vx -= sp10.vx;
+        sp20.vy -= sp10.vy;
+        sp20.vz -= sp10.vz;
+        *(u16 *)(a0 + 0x3A) = sp20.vx;
+        *(u16 *)(a0 + 0x3E) = sp20.vy;
+        *(u16 *)(a0 + 0x42) = sp20.vz;
+        /* fallthrough */
+    case 1:
+        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x10) += *(u16 *)(a0 + 0xFE);
+        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x14) += *(u16 *)(a0 + 0x100);
+        *(s32 *)(a0 + 0x1C) += 1;
+        if (*(s32 *)(a0 + 0x1C) >= 0x29) {
+            func_8012C218((void *)a0);
+            return;
+        }
+        D_801D3380 = ((s32 (*)(s32, s32))func_8012CC64)(a0, (s32)&sp10);
+        if (D_801D3380 & 0x2000) {
+            *(u8 *)(a0 + 0xC2) = 2;
+            func_80143B6C(a0, 1);
+            *(s32 *)(a0 + 0x14) = 0xFFF30000;
+            *(s32 *)(a0 + 0x1C) = 0;
+        }
+        break;
+
+    case 2:
+        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x10) += *(u16 *)(a0 + 0xFE);
+        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x14) += *(u16 *)(a0 + 0x100);
+        *(s32 *)(a0 + 0x1C) += 1;
+        if (*(s32 *)(a0 + 0x1C) >= 0x29) {
+            func_8012C218((void *)a0);
+            return;
+        }
+        D_801D3380 = ((s32 (*)(s32, s32))func_8012CC64)(a0, (s32)&sp10);
+        if (D_801D3380 & 0x2000) {
+            func_80143B6C(a0, 1);
+            *(u8 *)(a0 + 0xC2) = 3;
+            *(s32 *)(a0 + 0x1C) = 0;
+            *(u16 *)(*(s32 *)(a0 + 0x20) + 0x14) = 0;
+            *(u16 *)(*(s32 *)(a0 + 0x20) + 0x10) &= 0xFFF;
+            if (*(s16 *)(*(s32 *)(a0 + 0x20) + 0x10) < 0x800) {
+                *(u16 *)(*(s32 *)(a0 + 0x20) + 0x10) = 0x400;
+            } else {
+                *(u16 *)(*(s32 *)(a0 + 0x20) + 0x10) = 0xC00;
+            }
+        }
+        break;
+
+    case 3:
+        *(s32 *)(a0 + 0x10) = *(s32 *)(a0 + 0x10) * 15 / 16;
+        *(s32 *)(a0 + 0x18) = *(s32 *)(a0 + 0x18) * 15 / 16;
+        D_801D3380 = ((s32 (*)(s32))func_8012CBF4)(a0);
+        /* MEM_IN_STRUCT_P lever (sched.c:837 true_dependence escape): a struct-member
+         * ref at a VARYING address never conflicts with a non-struct ref at a FIXED
+         * address, so this load may hoist above the D_801D3380 store and fill the jal
+         * shadow.  Written as `*(s32 *)(a0 + 0x1C)` the ref is a plain INDIRECT_REF,
+         * the escape does not fire, and the load stalls one nop below the store. */
+        ((struct Cnt_80187DE4 *)(a0 + 0x1C))->c += 1;
+        if (((struct Cnt_80187DE4 *)(a0 + 0x1C))->c >= 0x11) {
+            *(u16 *)(a0 + 0x2) = 3;
+            *(s32 *)(a0 + 0x1C) = 0x1E;
+        }
+        break;
+    }
+}
+
 
 
 extern void (*D_801AE45C[])(void);
