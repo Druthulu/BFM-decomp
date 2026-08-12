@@ -681,7 +681,69 @@ def build_carve(ov, funcs):
     return region_lines, "--order " + ",".join(order), pads_map
 
 
+def migrated_tables(ov, funcs):
+    """The subset of `funcs` whose jump tables are ALREADY inside the code object — nothing to carve.
+
+    §154-A LAYOUT (P30 S48). A module binary binds its `.rodata` island to the SAME subseg as its
+    code (`- [0x0, .rodata, md_SC03_076]` + `- [0x27C, c, md_SC03_076]`), so spimdisasm MIGRATES each
+    referenced table into its owning function's `.s` instead of leaving it in `asm/<bin>/data/*.data.s`.
+    There is then no table to move: when the function is matched its `.s` is pruned and the C emits
+    the table into the same object's `.rodata`, at the same address, by construction.
+
+    The carve nonetheless ran and died with `jtbl_… not found in the raw data asm`, which
+    `harvest_verify` correctly turns into CARVE-REFUSED and never builds — so **every jr member of
+    every family that lands in a module is unbankable**, with a verdict that names the tool rather
+    than the layout (12 slots in the S48 wave-1 propagation alone; no module has ever banked a jr
+    function, so nothing contradicted it).
+
+    A carve is a no-op here, NOT a refusal. Detection is by evidence, not by binary-name prefix:
+    the table is absent from the data asm AND present as a `dlabel` in the function's own `.s`.
+    A function with SOME tables migrated and some not is a layout we have never seen — refuse loud
+    (R32) rather than half-carve."""
+    data_labels = set(all_data_labels(ov))
+    migrated = []
+    for f in funcs:
+        sub, js = func_jtbls(ov, f)
+        if not js:
+            continue
+        p = os.path.join(REPO, "asm", ov, "nonmatchings", sub, f"{f}.s")
+        if not os.path.exists(p):
+            stale = sorted(glob.glob(os.path.join(REPO, "asm", ov, "nonmatchings", "*", f"{f}.s")))
+            p = stale[0] if stale else None
+        own = set()
+        if p:
+            own = {m.group(1).lower() for m in
+                   re.finditer(r"^\s*dlabel\s+jtbl_([0-9A-Fa-f]{8})", open(p).read(), re.M)}
+        in_data = [j for j in js if int(j, 16) in data_labels]
+        in_own = [j for j in js if j.lower() in own]
+        if in_own and not in_data:
+            migrated.append(f)
+        elif in_own and in_data:
+            sys.exit(f"jtbl_carve: {f} has tables in BOTH the data asm ({in_data}) and its own .s "
+                     f"({in_own}) — refusing to half-carve a layout we have no precedent for (R32)")
+    return migrated
+
+
 def apply(ov, funcs):
+    mig = migrated_tables(ov, funcs)
+    if mig:
+        sys.exit(
+            f"jtbl_carve: {ov} is a §154-A LEADING-ISLAND binary and {mig} carry MIGRATED tables — "
+            f"this needs an island SPLIT, which is not implemented; a tail carve cannot help (P30 S48, "
+            f"byte-measured on md_SC03_076/func_801F0F28).\n"
+            f"  WHY: the module binds `.rodata` at 0x0 to the SAME subseg as its code, so the object's\n"
+            f"  rodata order is the C file's include chain — INCLUDE_RODATA pieces, then each\n"
+            f"  INCLUDE_ASM'd function's migrated table, in address order. That reproduces the island\n"
+            f"  exactly WHILE THE FUNCTION IS A STUB. Matching it PRUNES its .s, so its table leaves the\n"
+            f"  chain and cc1 re-emits it at the END of the object's .rodata — 8 bytes of growth and\n"
+            f"  every later symbol shifted (build 43,768 vs 43,760 bytes; first diff at 0x144, inside\n"
+            f"  the island's own pointer table).\n"
+            f"  WHAT WOULD WORK: give the module the overlay treatment — isolate the jr function into\n"
+            f"  its own code subseg so its .rodata is a separate OBJECT, then order the objects with\n"
+            f"  ld_interleave (the §8 machinery, re-aimed at a LEADING island instead of a data tail).\n"
+            f"  JTBL_PADS alone does NOT reach it: `jtbl_rodata_pads` refuses this object outright — "
+            f"  'unexpected rodata content .include \"…/D_801EF468.s\"' — because the carve model covers\n"
+            f"  jump tables only, not an island of mixed included data.")
     region_lines, order_arg, pads_map = build_carve(ov, funcs)
     lines, indent, lo, hi, *_ = parse_config(ov)
     new_lines = lines[:lo] + region_lines + lines[hi:]
