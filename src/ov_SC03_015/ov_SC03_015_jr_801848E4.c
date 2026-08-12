@@ -352,7 +352,6 @@ extern s32 func_801498E0(s32 *a0);
 extern void func_8012E5CC(s32 param_1, u16 param_2, u16 param_3);
 extern void func_80147364(u16 a0, s32 a1);
 extern s32 func_800CCF28(s32 a0);
-extern u8 D_80126B5C;
 extern s32 func_80149954(s32 s0);
 extern s32 func_80149A64(s32 *a0);
 extern void func_8015DAC4(s32 *a0);
@@ -1781,9 +1780,6 @@ extern void func_8016A700(void *a0);
 extern s32 func_8016A73C(s32 arg0);
 extern s32 func_8016A8FC(s32 a0);
 extern void func_8016A890(s32 arg0);
-extern u16 D_80126B5E;
-extern u16 D_80126B62;
-extern u16 D_80126B66;
 extern void func_8016AA50(s32 param_1, s32 param_2);
 extern void (*D_8018E6D8[])(void);
 extern void func_8016AB30(void *a0);
@@ -2901,7 +2897,180 @@ INCLUDE_ASM("asm/ov_SC03_015/nonmatchings/ov_SC03_015_jr_801848E4", func_80185A0
 
 INCLUDE_ASM("asm/ov_SC03_015/nonmatchings/ov_SC03_015_jr_801848E4", func_80185B44);
 
-INCLUDE_ASM("asm/ov_SC03_015/nonmatchings/ov_SC03_015_jr_801848E4", func_80185EF8);
+
+/* ---- integration surface (types taken from the host TU / engine_core.h) ---- */
+
+extern s32 rand(void);
+extern s32 func_8004787C(s32 a0);                  /* host TU L2198 */
+extern s32 func_80047948(s32 a0);                  /* host TU L2197 */
+extern s32 func_8012B744(void *a0, void *a1);      /* engine_core canonical */
+extern s32 func_8012BA10(s32 a0, s32 a1);          /* engine_core canonical */
+extern void func_8012BE54(s32 a0);                 /* canonical void -> cast at use */
+extern void func_8012CBA4(s32 a0);                 /* canonical void */
+extern void func_8012A828(s32 a0, void *a1);       /* host TU L3203 */
+
+void func_80185EF8(s32 a0) {
+
+    extern s32 *D_80126B78;   /* host TU L72  : extern s32 *D_80126B78;   */
+    extern u16 D_80126B5E;    /* host TU L1785: extern u16 D_80126B5E;    */
+    extern u16 D_80126B62;    /* host TU L1786: extern u16 D_80126B62;    */
+    extern u16 D_80126B66;    /* host TU L1787: extern u16 D_80126B66;    */
+    extern u8  D_80126B5C;    /* host TU L356 : extern u8  D_80126B5C;    */
+    extern s32 D_80126B64;    /* project-canonical decl                   */
+    extern void *D_801904F0[];
+    s32 t;
+    s32 spd;
+    s32 anim;
+    s32 hit;
+    s32 hit2;
+    u16 sp[3];
+
+    t = ((*(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) & 0xFFF) -
+         (*(u16 *)((u8 *)D_80126B78 + 0x12) & 0xFFF)) & 0xFFF;
+
+    if ((u32)(t - 0x7C1) < 0x7F) {
+        anim = 1;
+        spd = 0;
+    } else if ((u32)(t - 0x101) >= 0xDFF) {
+        anim = 3;
+        spd = 8;
+    } else if (t < 0x701) {
+        anim = 7;
+        spd = 8;
+    } else if (t < 0x7C1) {
+        anim = 5;
+        spd = 4;
+    } else if (t < 0x900) {
+        anim = 4;
+        spd = 4;
+    } else {
+        anim = 6;
+        spd = 8;
+    }
+
+    sp[0] = D_80126B5E -
+            ((func_8004787C(*(u16 *)((u8 *)D_80126B78 + 0x12) & 0xFFF) * 14) >> 8);
+    sp[1] = D_80126B62;
+    sp[2] = D_80126B66 -
+            ((func_80047948(*(u16 *)((u8 *)D_80126B78 + 0x12) & 0xFFF) * 14) >> 8);
+
+    t = func_8012B744((void *)(a0 + 4), sp);
+    *(s32 *)(a0 + 0x10) = -((func_8004787C(t) * spd) << 5);
+    *(s32 *)(a0 + 0x18) = -((func_80047948(t) * spd) << 5);
+    *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) += func_8012BA10(a0, 4);
+
+    /* NOTE: written as nested ifs, NOT an `||` chain -- fold_range_test would
+     * otherwise collapse each pair into an unsigned HImode range test. */
+    hit = 1;
+    if (*(s16 *)&D_80126B5E < 0xF2) {
+        if (*(s16 *)&D_80126B5E >= -0x101) {
+            if (*(s16 *)&D_80126B66 < -0x106) {
+                hit = *(s16 *)&D_80126B66 < -0x4AA;
+            }
+        }
+    }
+
+    if (hit) {
+        anim = 0xE;
+        *(u16 *)(a0 + 0x34) = 0;
+        if (((s32 (*)(s32))func_8012BE54)(a0) < 0x1000) {
+            *(u16 *)(a0 + 0x2) = 0xB;
+        } else {
+            switch (rand() % 3) {
+            case 0:
+                *(u16 *)(a0 + 0x2) = 2;
+                break;
+            case 1:
+                *(u16 *)(a0 + 0x2) = 6;
+                break;
+            case 2:
+                *(u16 *)(a0 + 0x2) = 8;
+                break;
+            }
+        }
+        *(s32 *)(a0 + 0x10) = 0;
+        *(s32 *)(a0 + 0x18) = 0;
+    } else {
+        func_8012CBA4(a0);
+        *(s32 *)(a0 + 0x10) = 0;
+        *(s32 *)(a0 + 0x18) = 0;
+
+        if (*(s16 *)(a0 + 0x6) >= 0xF2) {
+            goto restore;
+        }
+        if (*(s16 *)(a0 + 0x6) < -0x101) {
+            goto restore;
+        }
+        if (*(s16 *)(a0 + 0xE) >= -0x106) {
+            goto restore;
+        }
+        if (*(s16 *)(a0 + 0xE) < -0x4AA) {
+            goto restore;
+        }
+        hit2 = 0;
+        goto tested;
+    restore:
+        *(s32 *)(a0 + 0x4) = *(s32 *)(a0 + 0x38);
+        *(s32 *)(a0 + 0x8) = *(s32 *)(a0 + 0x3C);
+        *(s32 *)(a0 + 0xC) = *(s32 *)(a0 + 0x40);
+        hit2 = 1;
+    tested:
+
+        if (hit2) {
+            *(u16 *)(a0 + 0x2) = 0xC;
+            *(u16 *)(a0 + 0x34) = 0;
+            anim = 8;
+            *(s32 *)(a0 + 0x10) = (*(s32 *)&D_80126B5C - *(s32 *)(a0 + 0x4)) / 32;
+            *(s32 *)(a0 + 0x18) = (D_80126B64 - *(s32 *)(a0 + 0xC)) / 32;
+            *(u16 *)(a0 + 0xDC) = 0;
+            *(u16 *)(a0 + 0x102) = 0;
+            *(u16 *)(a0 + 0xDE) = *(u16 *)(a0 + 0xA);
+        } else {
+            if (((s32 (*)(s32))func_8012BE54)(a0) <= 0x8FFF) {
+                anim = 0xE;
+                if (rand() & 1) {
+                    *(u16 *)(a0 + 0x2) = 6;
+                } else {
+                    *(u16 *)(a0 + 0x2) = 8;
+                }
+                *(u16 *)(a0 + 0x34) = 0;
+                if (((s32 (*)(s32))func_8012BE54)(a0) < 0x1000) {
+                    anim = 0xE;
+                    *(u16 *)(a0 + 0x2) = 0xB;
+                    *(u16 *)(a0 + 0x34) = 0;
+                }
+            }
+
+            if (*(s16 *)(a0 + 0xE0) == *(s16 *)&D_80126B5E &&
+                *(s16 *)(a0 + 0xE2) == *(s16 *)&D_80126B66) {
+                s16 c;
+                c = *(u16 *)(a0 + 0x102) + 1;
+                *(s16 *)(a0 + 0x102) = c;
+                if (c >= 0x1E) {
+                    *(u16 *)(a0 + 0x2) = 0xC;
+                    *(u16 *)(a0 + 0x34) = 0;
+                    anim = 8;
+                    *(s32 *)(a0 + 0x10) =
+                        (*(s32 *)&D_80126B5C - *(s32 *)(a0 + 0x4)) / 32;
+                    *(s32 *)(a0 + 0x18) = (D_80126B64 - *(s32 *)(a0 + 0xC)) / 32;
+                    *(u16 *)(a0 + 0xDC) = 0;
+                    *(u16 *)(a0 + 0x102) = 0;
+                    *(u16 *)(a0 + 0xDE) = *(u16 *)(a0 + 0xA);
+                }
+            } else {
+                *(u16 *)(a0 + 0x102) = 0;
+            }
+            *(u16 *)(a0 + 0xE0) = D_80126B5E;
+            *(u16 *)(a0 + 0xE2) = D_80126B66;
+        }
+    }
+
+    if (*(s16 *)(a0 + 0xFE) != anim) {
+        *(s16 *)(a0 + 0xFE) = anim;
+        func_8012A828(a0, D_801904F0[anim]);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_015/nonmatchings/ov_SC03_015_jr_801848E4", func_801863B8);
 
