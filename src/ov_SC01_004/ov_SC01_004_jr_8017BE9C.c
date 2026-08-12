@@ -3478,7 +3478,157 @@ void func_8017D4A4(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_004/nonmatchings/ov_SC01_004_jr_8017BE9C", func_8017D758);
+
+/* func_8017D758 -- ov_SC01_005 (@0x8017DEFC, 124 ins).  Called at the tail of
+ * func_8017DC48 (same TU, already matched).  Rebuilds the two on-screen name
+ * tables after a menu-mode change: mode 7 just re-publishes the cached
+ * count/table pair, mode 9 blanks the 7x36 row buffer and re-fills the
+ * per-slot strings for every enabled entry.
+ *
+ * ---- structural facts read off the asm (do NOT "simplify" these away) ----
+ *  - the dispatch is a real `switch (D_80115139)` over {7, 9}: gcc emits the
+ *    compare chain `beq 7 / beq 9 / j end`, and `i = 0` is stolen into the
+ *    second beq's delay slot from case 9's own preheader.
+ *  - BOTH arms carry their own copy of `if (D_80190118 == 0) D_8011514C = 0;`
+ *    -- the default arm jumps straight to the epilogue, so the tail cannot be
+ *    common code after the switch.  jump.c cross-jumps the two `sb $zero`
+ *    blocks into case 9's (later) copy; case 7 reaches it by a forward `j`
+ *    (cookbook 162g: the surviving copy is always the LATER one).
+ *  - D_8010F468 is spelled as a 2-D array so its address folds INTO the mem
+ *    (`lw $s1,%lo(D_8010F468)($v1)`).  A 1-D `SYM[idx]` / `*(T**)(SYM + k)` is
+ *    an ARRAY_REF/INDIRECT_REF of a PLUS_EXPR: expand emits `la`+`addu` and
+ *    loop.c HOISTS the `la` into the preheader, costing a 7th callee-saved
+ *    register.  With the constant inner index, expand_expr takes the
+ *    get_inner_reference path and builds `(mem (plus (symbol) (reg)))`
+ *    directly, so there is no movable to hoist.  D_8018BFCC is deliberately
+ *    left 1-D: its `la` IS the target's `$s5` preheader hoist.
+ *  - `s` and `d` are ONE pair of function-scope pointers reused across both
+ *    loops (s = row base / entry name, d = blank string / row pointer).  Two
+ *    separate pairs push `i` off $s0 (global-alloc priority) and permute every
+ *    callee-saved register.
+ *  - loop 1's row address is written in INTEGER space so the add comes out
+ *    `addu $a0,$a0,$s1` (index + base).  Written `&s[i*36]`, c-typeck's
+ *    pointer_int_sum always builds ptr+int and emits `addu $a0,$s1,$a0`.
+ *  - case 7 reuses ONE temp `t` for the D_8018BFAC value AND the D_80190118
+ *    value.  That anti-dependence is the only thing that stops sched from
+ *    hoisting the `lh` to the top of the block; without it the `lh` lands in
+ *    the lbu's load-delay slot and the target's `nop` disappears (-1 ins).
+ *    The store must be `D_8011515C[0] = t` (ARRAY_REF => MEM_IN_STRUCT_P), or
+ *    true_dependence's /s-vs-fixed escape lets the D_8018BFB8 load hoist over
+ *    it and the lw/sh pair comes out swapped.
+ *  - `sel = D_8011514A; sel = D_80190254[sel];` -- the in-place reload keeps
+ *    sel in $v0 (one pseudo), which is what pushes the count load onto $a0.
+ *  - the loop-2 shape is a `for` with a folded entry test, NOT a do/while:
+ *      * `count = 1` before the loop makes gcc's entry test `0 < 1`, which
+ *        folds away entirely (so the only guard is the source `if (n != 0)`
+ *        -> `beqz $a0` + `i = 0` in its delay slot);
+ *      * `count = n` INSIDE the body (before the conditional jump) is a plain
+ *        invariant copy, so loop.c hoists it into the preheader AFTER the
+ *        `la $s5` movable -- that is the target's `addu $s4,$a0,$zero`.  A
+ *        pre-loop `count = n` lands before the guard, and the RC-12 `$0`-add
+ *        form is NOT invariant (reg 0 is call-used, loop.c:invariant_p) so it
+ *        never hoists;
+ *      * the `for` (not do/while) is also what makes reorg fill the inner
+ *        `beqz`'s delay slot from the TAKEN thread -- the duplicated
+ *        `addiu $v0,$s0,0x1`.  A do/while fills it from the fall-through with
+ *        `addu $a0,$s2,$zero` and comes out 1 instruction short.
+ *
+ * Declarations reconciled against src/ov_SC01_005/ov_SC01_005_jr_8017C340.c:
+ *   func_800291B4  TU:62   (file scope, ABOVE) -> s32(s32), same shape
+ *   func_8017D758  TU:3410 (block scope in func_8017DC48) -> void(void), same
+ *   D_80190118 / D_80190254 / D_8018C178 / D_8018C180 -> same types as
+ *     func_8017DC48's block-scoped externs
+ *   D_8011514A / D_8011514C are `u16` in func_8017DC48's block scope but are
+ *     accessed here as BYTES (lbu / sb), so they are declared u8 in THIS
+ *     block.  Both declarations are block-scoped, so they never meet.
+ */
+
+void func_8017D758(void) {
+    extern char *strcpy(char *, const char *);
+    extern s32   func_800291B4(s32 arg);
+    extern u8    D_80115139;
+    extern u8    D_8011514A;
+    extern u8    D_8011514C;
+    extern s16   D_8011515C[];
+    extern u16   D_8018BFAC[];
+    extern s32   D_8018BFB8[];
+    extern char *D_8018BFCC[];
+    extern s32   D_8018C0A8;
+    extern u8    D_8018C178[];
+    extern u8   *D_8018C180[];
+    extern char  D_8018ED34[];
+    extern s16   D_80190118;
+    extern char  D_80190124[];
+    extern u8   *D_80190244;
+    extern u8    D_80190254[];
+    extern char *D_8010F468[][2];   /* stride 8, [b][0] = char *name */
+
+    s16 i;
+    char *s;
+    char *d;
+
+    d = D_8018ED34;
+
+    switch (D_80115139) {
+    case 7:
+        {
+            s32 sel = D_8011514A;
+            s32 t;
+            s32 u;
+
+            t = D_8018BFAC[sel];
+            D_8011515C[0] = t;
+            u = D_8018BFB8[sel];
+            D_8018C0A8 = u;
+            t = D_80190118;
+            if (t == 0) {
+                D_8011514C = 0;
+            }
+        }
+        break;
+
+    case 9:
+        {
+            s32 sel;
+            s32 n;
+            s32 count;
+            s32 b;
+            u8 *table;
+
+            s = D_80190124;
+            for (i = 0; i < 7; i++) {
+                strcpy((char *)(i * 36 + (s32)s), d);
+            }
+
+            sel = D_8011514A;
+            sel = D_80190254[sel];
+            n = D_8018C178[sel];
+            table = D_8018C180[sel];
+            D_80190244 = table;
+            D_8011515C[0] = n | 0x100;
+
+            i = 0;
+            if (n != 0) {
+                count = 1;               /* folds the for's entry test away */
+                for (; i < count; i++) {
+                    b = table[i];
+                    d = D_8018BFCC[i];
+                    count = n;           /* hoisted invariant: addu $s4,$a0,$0 */
+                    s = D_8010F468[b][0];
+                    if ((func_800291B4(b + 0x62) & 0x40) != 0) {
+                        strcpy(d, s);
+                    }
+                }
+            }
+
+            if (D_80190118 == 0) {
+                D_8011514C = 0;
+            }
+        }
+        break;
+    }
+}
+
 
 void func_8017D948(void) {
 
