@@ -7608,7 +7608,105 @@ void func_801869D4(s32 a0, s32 a1, s32 a2)
 
 INCLUDE_ASM("asm/ov_SC04_005/nonmatchings/ov_SC04_005_jr_8017BEBC", func_80186C80);
 
-INCLUDE_ASM("asm/ov_SC04_005/nonmatchings/ov_SC04_005_jr_8017BEBC", func_80186DCC);
+typedef struct { u32 addr : 24; u32 len : 8; } PTag_801843D8_80186DCC;
+#define gte_ldv3_801843D8(r0, r1, r2) __asm__ volatile ( \
+    "lwc2 $0, 0( %0 );" \
+    "lwc2 $1, 4( %0 );" \
+    "lwc2 $2, 0( %1 );" \
+    "lwc2 $3, 4( %1 );" \
+    "lwc2 $4, 0( %2 );" \
+    "lwc2 $5, 4( %2 )" \
+    : \
+    : "r"( r0 ), "r"( r1 ), "r"( r2 ) )
+#define gte_ldv0_801843D8(r0) __asm__ volatile ( \
+    "lwc2 $0, 0( %0 );" \
+    "lwc2 $1, 4( %0 )" \
+    : \
+    : "r"( r0 ) )
+#define gte_rtpt_801843D8() __asm__ volatile ("nop;nop;rtpt")
+#define gte_rtps_801843D8() __asm__ volatile ("nop;nop;rtps")
+#define gte_avsz4_801843D8() __asm__ volatile ("nop;nop;avsz4")
+#define gte_stsxy3_801843D8(r0, r1, r2) __asm__ volatile ( \
+    "swc2 $12, 0( %0 );" \
+    "swc2 $13, 0( %1 );" \
+    "swc2 $14, 0( %2 )" \
+    : \
+    : "r"( r0 ), "r"( r1 ), "r"( r2 ) \
+    : "memory" )
+#define gte_stsxy_801843D8(r0) __asm__ volatile ( \
+    "swc2 $14, 0( %0 )" \
+    : \
+    : "r"( r0 ) \
+    : "memory" )
+#define gte_stotz_801843D8(r0) __asm__ volatile ( \
+    "swc2 $7, 0( %0 )" \
+    : \
+    : "r"( r0 ) \
+    : "memory" )
+#define gte_stflg_801843D8(r0) __asm__ volatile ( \
+    "cfc2 $12, $31;" \
+    "nop;" \
+    "sw $12, 0( %0 )" \
+    : \
+    : "r"( r0 ) \
+    : "$12", "memory" )
+
+void func_80186DCC(void *a0)
+{
+
+    extern int D_800A5E60;
+    extern u8 D_800A6610[];
+    u8 *pkt;
+    s32 flag1, flag2, otz;
+
+    pkt = D_800A5E60;
+    D_800A5E60 = pkt + 0x24;
+
+    *(u32 *)(pkt + 4) = *(u32 *)((u8 *)a0 + 0x20);
+    *(u32 *)(pkt + 0xC) = *(u32 *)((u8 *)a0 + 0x24);
+    *(u32 *)(pkt + 0x14) = *(u32 *)((u8 *)a0 + 0x28);
+    __asm__ volatile ("");
+    *(u32 *)(pkt + 0x1C) = *(u32 *)((u8 *)a0 + 0x2C);
+    pkt[3] = 8;
+    pkt[7] = 0x3A;
+
+    gte_ldv3_801843D8(a0, (u8 *)a0 + 0x8, (u8 *)a0 + 0x10);
+    gte_rtpt_801843D8();
+    gte_stflg_801843D8(&flag1);
+    gte_stsxy3_801843D8(pkt + 8, pkt + 0x10, pkt + 0x18);
+
+    gte_ldv0_801843D8((u8 *)a0 + 0x18);
+    gte_rtps_801843D8();
+    gte_stflg_801843D8(&flag2);
+    flag1 = flag1 | flag2;
+    gte_stsxy_801843D8(pkt + 0x20);
+    gte_avsz4_801843D8();
+    gte_stotz_801843D8(&otz);
+
+    if ((flag1 & 0xFFFFEFFF) == 0) {
+        u8 *pkt2;
+        u32 *otp;
+        s32 idx;
+        u8 *ot;
+
+        ot = &D_800A6610[(*(u16 *)&D_800B9A02) << 14];
+        idx = otz + 1;
+        if (idx >= 0x1000) idx = 0xFFF;
+        otp = (u32 *)((idx << 2) + (u32)ot);
+
+        ((PTag_801843D8_80186DCC *)pkt)->addr = ((PTag_801843D8_80186DCC *)otp)->addr;
+        ((PTag_801843D8_80186DCC *)otp)->addr = (u32)pkt;
+
+        pkt2 = D_800A5E60;
+        D_800A5E60 = pkt2 + 8;
+        pkt2[3] = 1;
+        *(u32 *)(pkt2 + 4) = 0xE100002A;
+
+        ((PTag_801843D8_80186DCC *)pkt2)->addr = ((PTag_801843D8_80186DCC *)otp)->addr;
+        ((PTag_801843D8_80186DCC *)otp)->addr = (u32)pkt2;
+    }
+}
+
 
 
 extern void (*D_801B5BEC[])(void);
