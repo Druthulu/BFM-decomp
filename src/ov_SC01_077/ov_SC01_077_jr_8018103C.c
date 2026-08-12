@@ -3575,7 +3575,3 @@ void func_80181B9C(s32 param_1) {
     func_8012A828(param_1, &D_801B0D50);
     *(s32 *)(param_1 + 0x1c) = 0x1e;
 }
-
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_8018103C", func_80181BE4);
-
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_8018103C", func_80181F08);

@@ -2895,7 +2895,180 @@ INCLUDE_ASM("asm/ov_SC03_014/nonmatchings/ov_SC03_014_jr_801848E4", func_80185A0
 
 INCLUDE_ASM("asm/ov_SC03_014/nonmatchings/ov_SC03_014_jr_801848E4", func_80185B44);
 
-INCLUDE_ASM("asm/ov_SC03_014/nonmatchings/ov_SC03_014_jr_801848E4", func_80185EF8);
+#include "common.h"
+
+/* ---- integration surface (types taken from the host TU / engine_core.h) ---- */
+extern s32 *D_80126B78;   /* host TU L72  : extern s32 *D_80126B78;   */
+extern u16 D_80126B5E;    /* host TU L1785: extern u16 D_80126B5E;    */
+extern u16 D_80126B62;    /* host TU L1786: extern u16 D_80126B62;    */
+extern u16 D_80126B66;    /* host TU L1787: extern u16 D_80126B66;    */
+extern u8  D_80126B5C;    /* host TU L356 : extern u8  D_80126B5C;    */
+extern s32 D_80126B64;    /* project-canonical decl                   */
+extern void *D_801904F0[];
+
+extern s32 rand(void);
+extern s32 func_8004787C(s32 a0);                  /* host TU L2198 */
+extern s32 func_80047948(s32 a0);                  /* host TU L2197 */
+extern s32 func_8012B744(void *a0, void *a1);      /* engine_core canonical */
+extern s32 func_8012BA10(s32 a0, s32 a1);          /* engine_core canonical */
+extern void func_8012BE54(s32 a0);                 /* canonical void -> cast at use */
+extern void func_8012CBA4(s32 a0);                 /* canonical void */
+extern void func_8012A828(s32 a0, void *a1);       /* host TU L3203 */
+
+void func_80185EF8(s32 a0) {
+    s32 t;
+    s32 spd;
+    s32 anim;
+    s32 hit;
+    s32 hit2;
+    u16 sp[3];
+
+    t = ((*(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) & 0xFFF) -
+         (*(u16 *)((u8 *)D_80126B78 + 0x12) & 0xFFF)) & 0xFFF;
+
+    if ((u32)(t - 0x7C1) < 0x7F) {
+        anim = 1;
+        spd = 0;
+    } else if ((u32)(t - 0x101) >= 0xDFF) {
+        anim = 3;
+        spd = 8;
+    } else if (t < 0x701) {
+        anim = 7;
+        spd = 8;
+    } else if (t < 0x7C1) {
+        anim = 5;
+        spd = 4;
+    } else if (t < 0x900) {
+        anim = 4;
+        spd = 4;
+    } else {
+        anim = 6;
+        spd = 8;
+    }
+
+    sp[0] = D_80126B5E -
+            ((func_8004787C(*(u16 *)((u8 *)D_80126B78 + 0x12) & 0xFFF) * 14) >> 8);
+    sp[1] = D_80126B62;
+    sp[2] = D_80126B66 -
+            ((func_80047948(*(u16 *)((u8 *)D_80126B78 + 0x12) & 0xFFF) * 14) >> 8);
+
+    t = func_8012B744((void *)(a0 + 4), sp);
+    *(s32 *)(a0 + 0x10) = -((func_8004787C(t) * spd) << 5);
+    *(s32 *)(a0 + 0x18) = -((func_80047948(t) * spd) << 5);
+    *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) += func_8012BA10(a0, 4);
+
+    /* NOTE: written as nested ifs, NOT an `||` chain -- fold_range_test would
+     * otherwise collapse each pair into an unsigned HImode range test. */
+    hit = 1;
+    if (*(s16 *)&D_80126B5E < 0xF2) {
+        if (*(s16 *)&D_80126B5E >= -0x101) {
+            if (*(s16 *)&D_80126B66 < -0x106) {
+                hit = *(s16 *)&D_80126B66 < -0x4AA;
+            }
+        }
+    }
+
+    if (hit) {
+        anim = 0xE;
+        *(u16 *)(a0 + 0x34) = 0;
+        if (((s32 (*)(s32))func_8012BE54)(a0) < 0x1000) {
+            *(u16 *)(a0 + 0x2) = 0xB;
+        } else {
+            switch (rand() % 3) {
+            case 0:
+                *(u16 *)(a0 + 0x2) = 2;
+                break;
+            case 1:
+                *(u16 *)(a0 + 0x2) = 6;
+                break;
+            case 2:
+                *(u16 *)(a0 + 0x2) = 8;
+                break;
+            }
+        }
+        *(s32 *)(a0 + 0x10) = 0;
+        *(s32 *)(a0 + 0x18) = 0;
+    } else {
+        func_8012CBA4(a0);
+        *(s32 *)(a0 + 0x10) = 0;
+        *(s32 *)(a0 + 0x18) = 0;
+
+        if (*(s16 *)(a0 + 0x6) >= 0xF2) {
+            goto restore;
+        }
+        if (*(s16 *)(a0 + 0x6) < -0x101) {
+            goto restore;
+        }
+        if (*(s16 *)(a0 + 0xE) >= -0x106) {
+            goto restore;
+        }
+        if (*(s16 *)(a0 + 0xE) < -0x4AA) {
+            goto restore;
+        }
+        hit2 = 0;
+        goto tested;
+    restore:
+        *(s32 *)(a0 + 0x4) = *(s32 *)(a0 + 0x38);
+        *(s32 *)(a0 + 0x8) = *(s32 *)(a0 + 0x3C);
+        *(s32 *)(a0 + 0xC) = *(s32 *)(a0 + 0x40);
+        hit2 = 1;
+    tested:
+
+        if (hit2) {
+            *(u16 *)(a0 + 0x2) = 0xC;
+            *(u16 *)(a0 + 0x34) = 0;
+            anim = 8;
+            *(s32 *)(a0 + 0x10) = (*(s32 *)&D_80126B5C - *(s32 *)(a0 + 0x4)) / 32;
+            *(s32 *)(a0 + 0x18) = (D_80126B64 - *(s32 *)(a0 + 0xC)) / 32;
+            *(u16 *)(a0 + 0xDC) = 0;
+            *(u16 *)(a0 + 0x102) = 0;
+            *(u16 *)(a0 + 0xDE) = *(u16 *)(a0 + 0xA);
+        } else {
+            if (((s32 (*)(s32))func_8012BE54)(a0) <= 0x8FFF) {
+                anim = 0xE;
+                if (rand() & 1) {
+                    *(u16 *)(a0 + 0x2) = 6;
+                } else {
+                    *(u16 *)(a0 + 0x2) = 8;
+                }
+                *(u16 *)(a0 + 0x34) = 0;
+                if (((s32 (*)(s32))func_8012BE54)(a0) < 0x1000) {
+                    anim = 0xE;
+                    *(u16 *)(a0 + 0x2) = 0xB;
+                    *(u16 *)(a0 + 0x34) = 0;
+                }
+            }
+
+            if (*(s16 *)(a0 + 0xE0) == *(s16 *)&D_80126B5E &&
+                *(s16 *)(a0 + 0xE2) == *(s16 *)&D_80126B66) {
+                s16 c;
+                c = *(u16 *)(a0 + 0x102) + 1;
+                *(s16 *)(a0 + 0x102) = c;
+                if (c >= 0x1E) {
+                    *(u16 *)(a0 + 0x2) = 0xC;
+                    *(u16 *)(a0 + 0x34) = 0;
+                    anim = 8;
+                    *(s32 *)(a0 + 0x10) =
+                        (*(s32 *)&D_80126B5C - *(s32 *)(a0 + 0x4)) / 32;
+                    *(s32 *)(a0 + 0x18) = (D_80126B64 - *(s32 *)(a0 + 0xC)) / 32;
+                    *(u16 *)(a0 + 0xDC) = 0;
+                    *(u16 *)(a0 + 0x102) = 0;
+                    *(u16 *)(a0 + 0xDE) = *(u16 *)(a0 + 0xA);
+                }
+            } else {
+                *(u16 *)(a0 + 0x102) = 0;
+            }
+            *(u16 *)(a0 + 0xE0) = D_80126B5E;
+            *(u16 *)(a0 + 0xE2) = D_80126B66;
+        }
+    }
+
+    if (*(s16 *)(a0 + 0xFE) != anim) {
+        *(s16 *)(a0 + 0xFE) = anim;
+        func_8012A828(a0, D_801904F0[anim]);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_014/nonmatchings/ov_SC03_014_jr_801848E4", func_801863B8);
 
@@ -2905,7 +3078,172 @@ INCLUDE_ASM("asm/ov_SC03_014/nonmatchings/ov_SC03_014_jr_801848E4", func_801867F
 
 INCLUDE_ASM("asm/ov_SC03_014/nonmatchings/ov_SC03_014_jr_801848E4", func_80186A74);
 
-INCLUDE_ASM("asm/ov_SC03_014/nonmatchings/ov_SC03_014_jr_801848E4", func_80186C4C);
+#include "common.h"
+
+/* func_80186C4C — ov_SC03_014 / ov_SC03_014_jr_801848E4.  MATCH 273/273.
+ * BYTE-IDENTICAL twin: ov_SC03_015 @ 0x80186C4C (same 273 ins, same D_ symbol
+ * addresses) — this one body matches BOTH overlays verbatim, no remap needed.
+ *
+ * Four levers, each measured against match_one:
+ *
+ * 1. THE ZERO-ARG func_8012C218.  The early-out call at 80186C74 has a *nop*
+ *    delay slot and no `move $a0,$s0` anywhere in its block, while every other
+ *    call in the function sets $a0 explicitly.  gcc always emits the arg copy
+ *    when the callee takes one, and dbr would have pulled it into the jal slot,
+ *    so the source call genuinely passes NOTHING.  The host TU's file-scope decl
+ *    is `extern void func_8012C218(void *a0);` (an arg-less call against it is a
+ *    hard error), so it is spelled with the TU's own established cast idiom:
+ *    `((void (*)(void))func_8012C218)();`  (see TU L2943 for the same idiom).
+ *    The SECOND call, in the &0x8000 arm, does take a0 and keeps the prototype.
+ *
+ * 2. THE $s0/$s1 PERM, SOLVED WITHOUT A PIN (§137).  Written naively (a separate
+ *    pseudo for &D_80191808 and another for the func_80143C74 result) global-alloc
+ *    ranks the table address ABOVE the a0-copy: a0 -> $s1, table -> $s0, result ->
+ *    $s0 — the exact mirror of the target.  Pinning the a0-copy to $16 fixes the
+ *    registers but COSTS an instruction: `register s32 a0 __asm__("$16"); a0=arg0;`
+ *    leaves the parameter as a second live pseudo, and copy-prop then serves
+ *    func_8012CBCC's argument straight out of the incoming $a0, deleting the
+ *    `move $a0,$s0` the target has at 80186C88.  The fix that costs nothing is to
+ *    give the table address and the func_80143C74 result THE SAME variable `r`
+ *    (their live ranges are disjoint — the table dies at the third func_8012D5E4).
+ *    One pseudo instead of two drops its priority below the a0-copy, so a0 first-
+ *    fits $s0 and r takes $s1 for both roles, exactly as the target does.  A pin
+ *    on the table to $17 works equally well; the merged variable is preferred as
+ *    it adds no asm-register construct.
+ *
+ * 3. STATEMENT ORDER AS MULT-GAP SEED.  -O2 schedules the statement FOLLOWING a
+ *    multiply into the gap between that multiply's `mult` and its `mflo`.  The
+ *    target parks the `r->0x48 -= 0xC000` block (lui/lw/ori/addu/sw) inside the
+ *    SECOND mult's gap (80186F4C..80186F5C), so in the source it must follow the
+ *    r->0xC statement, not sit between r->0x4 and r->0xC.  With it in the middle
+ *    it lands in the FIRST mult's gap instead and every following index shifts.
+ *
+ * 4. ONE LOAD OF r->0xCC.  Two literal `*(s16 *)(*(s32 *)(r + 0xCC) + ...)` stores
+ *    re-load the pointer (the intervening store is may-alias, so CSE refuses);
+ *    the target loads it once into $v1.  Hoisting it into a local `c` is what
+ *    makes the 273/275 instruction count come out.
+ *
+ * The `q = &D_80126B96; *q |= 0x4000;` pointer form (not a direct `D_80126B96 |=`)
+ * is the fleet-wide idiom for this global — it is what produces lui+addiu followed
+ * by `lhu 0($v1)` rather than a `%lo`-folded load.  See ov_SC02_027_jr_8017D898.c
+ * L4527 and ov_SC03_099_jr_8017BEBC.c L6138.
+ */
+
+extern void func_8012C218(void *a0);
+extern s32 func_8012CBCC(s32 a0);
+extern s32 func_8012D5E4(s32 a0, s32 a1, s32 a2, s32 a3);
+extern s32 func_80143C74(s32 a0, s32 a1);
+extern s32 func_8004787C(s32 a0);
+extern s32 func_80047948(s32 a0);
+extern void func_800599B8();
+
+extern s16 D_80191810;
+extern s16 D_80191812;
+extern s16 D_80191814;
+extern s16 D_80191818;
+extern s16 D_8019181A;
+extern s16 D_8019181C;
+extern s16 D_80191820;
+extern s16 D_80191822;
+extern s16 D_80191824;
+extern u8 D_80191808[];
+extern u8 D_80191828[];
+extern u8 D_80191830[];
+extern u8 D_80190FE8[];
+extern u8 D_801907E8[];
+extern u8 D_801917E8[];
+
+void func_80186C4C(s32 a0) {
+
+    extern u16 D_80126B96;
+    u16 *q;
+    s32 r;
+    s32 t;
+    s32 c;
+    s16 sp10[3];
+
+    t = *(s32 *)(a0 + 0x1C) - 1;
+    *(s32 *)(a0 + 0x1C) = t;
+    if (t <= 0) {
+        ((void (*)(void))func_8012C218)();
+        return;
+    }
+    if (func_8012CBCC(a0) & 0x8000) {
+        func_8012C218((void *)a0);
+        return;
+    }
+
+    *(u16 *)(*(s32 *)(a0 + 0x20) + 0x18) =
+        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x18) + 0x80;
+    *(u16 *)(*(s32 *)(a0 + 0x20) + 0x1A) =
+        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x1A) + 0x80;
+    *(u16 *)(*(s32 *)(a0 + 0x20) + 0x1C) =
+        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x1C) + 0x80;
+
+    r = (s32)D_80191808;
+    sp10[0] = (D_80191810 * *(s16 *)(*(s32 *)(a0 + 0x20) + 0x18)) >> 12;
+    sp10[1] = (D_80191812 * *(s16 *)(*(s32 *)(a0 + 0x20) + 0x1A)) >> 12;
+    sp10[2] = (D_80191814 * *(s16 *)(*(s32 *)(a0 + 0x20) + 0x1C)) >> 12;
+    if (func_8012D5E4(a0, r, (s32)sp10, 0x30) != 0) {
+        q = &D_80126B96;
+        *q |= 0x4000;
+    }
+
+    sp10[0] = (D_80191818 * *(s16 *)(*(s32 *)(a0 + 0x20) + 0x18)) >> 12;
+    sp10[1] = (D_8019181A * *(s16 *)(*(s32 *)(a0 + 0x20) + 0x1A)) >> 12;
+    sp10[2] = (D_8019181C * *(s16 *)(*(s32 *)(a0 + 0x20) + 0x1C)) >> 12;
+    if (func_8012D5E4(a0, r, (s32)sp10, 0x30) != 0) {
+        q = &D_80126B96;
+        *q |= 0x4000;
+    }
+
+    sp10[0] = (D_80191820 * *(s16 *)(*(s32 *)(a0 + 0x20) + 0x18)) >> 12;
+    sp10[1] = (D_80191822 * *(s16 *)(*(s32 *)(a0 + 0x20) + 0x1A)) >> 12;
+    sp10[2] = (D_80191824 * *(s16 *)(*(s32 *)(a0 + 0x20) + 0x1C)) >> 12;
+    if (func_8012D5E4(a0, r, (s32)sp10, 0x30) != 0) {
+        q = &D_80126B96;
+        *q |= 0x4000;
+    }
+
+    r = func_80143C74(a0, 0);
+    if (r != 0) {
+        *(s32 *)(r + 0x4) =
+            *(s32 *)(r + 0x4) -
+            ((func_8004787C(*(s16 *)(*(s32 *)(a0 + 0x20) + 0x12)) *
+              *(s16 *)(*(s32 *)(a0 + 0x20) + 0x18)) >> 3);
+        *(s32 *)(r + 0xC) =
+            *(s32 *)(r + 0xC) -
+            ((func_80047948(*(s16 *)(*(s32 *)(a0 + 0x20) + 0x12)) *
+              *(s16 *)(*(s32 *)(a0 + 0x20) + 0x1C)) >> 3);
+        *(s32 *)(r + 0x48) = *(s32 *)(r + 0x48) - 0xC000;
+        c = *(s32 *)(r + 0xCC);
+        *(s16 *)(c + 0x18) = 0x3000;
+        *(s16 *)(c + 0x1A) = 0x3000;
+    }
+
+    if (*(s32 *)(a0 + 0x1C) & 1) {
+        func_800599B8(D_80191828, D_80190FE8);
+        func_800599B8(D_80191830, D_801917E8);
+        if (r == 0) {
+            return;
+        }
+        *(s32 *)(r + 0x10) =
+            func_8004787C(*(s16 *)(*(s32 *)(a0 + 0x20) + 0x12) + 0x180) << 7;
+        *(s32 *)(r + 0x18) =
+            func_80047948(*(s16 *)(*(s32 *)(a0 + 0x20) + 0x12) + 0x180) << 7;
+    } else {
+        func_800599B8(D_80191828, D_801907E8);
+        func_800599B8(D_80191830, D_801917E8);
+        if (r == 0) {
+            return;
+        }
+        *(s32 *)(r + 0x10) =
+            func_8004787C(*(s16 *)(*(s32 *)(a0 + 0x20) + 0x12) - 0x180) << 7;
+        *(s32 *)(r + 0x18) =
+            func_80047948(*(s16 *)(*(s32 *)(a0 + 0x20) + 0x12) - 0x180) << 7;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_014/nonmatchings/ov_SC03_014_jr_801848E4", func_80187090);
 
