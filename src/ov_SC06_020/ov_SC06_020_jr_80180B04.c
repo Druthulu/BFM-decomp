@@ -3687,7 +3687,56 @@ LAB_80188494:
 
 INCLUDE_ASM("asm/ov_SC06_020/nonmatchings/ov_SC06_020_jr_80180B04", func_80182664);
 
-INCLUDE_ASM("asm/ov_SC06_020/nonmatchings/ov_SC06_020_jr_80180B04", func_801826C4);
+
+extern void func_8012C218(void *a0);
+extern s32  func_8012BD14(s32 a0);
+extern s32  func_8012BEE8(s32 a0);
+extern void func_8012CC64(s32 a0, s32 a1);   /* fleet-canonical: void; $v0 used -> cast at use */
+extern s32  func_80143B6C(s32 a0, s32 a1);   /* fleet-canonical */
+extern void func_80183170(s32 a0, s32 a1);
+
+
+void func_801826C4(s32 param_1) {
+
+    extern u8 D_8019ED14;
+    s32 v0;
+    s32 iVar;
+
+    if (0xf < *(s16 *)(param_1 + 0xA)) {
+        func_8012C218((void *)param_1);
+        return;
+    }
+    v0 = func_8012BD14(param_1);
+    if (v0 < 0x1001) {
+        goto LAB_tail;
+    }
+    if (*(u16 *)(param_1 + 0x34) == 0) {
+        *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x10) =
+            *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x10) - 0x40;
+        v0 = ((s32 (*)(s32, s32))func_8012CC64)(param_1, (s32)&D_8019ED14);
+        if ((v0 & 0x2000) == 0) {
+            return;
+        }
+        iVar = *(s32 *)(param_1 + 0x1c) + 1;
+        *(s32 *)(param_1 + 0x1c) = iVar;
+        if (iVar >= 4) {
+            u16 tmp = *(u16 *)(param_1 + 0x34);
+            *(s32 *)(param_1 + 0x1c) = 0xA;
+            *(u16 *)(param_1 + 0x34) = tmp + 1;
+            return;
+        }
+        *(s32 *)(param_1 + 0x14) = -(0x80000 / iVar);
+        func_80143B6C(param_1, 1);
+        return;
+    }
+    if (func_8012BEE8(param_1) != 1) {
+        return;
+    }
+LAB_tail:
+    *(u16 *)(param_1 + 2) = 9;
+    func_80183170(param_1, 0);
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_020/nonmatchings/ov_SC06_020_jr_80180B04", func_801827FC);
 
