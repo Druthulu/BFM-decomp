@@ -2895,7 +2895,143 @@ s32 func_801859B0(void *a0)
 
 INCLUDE_ASM("asm/ov_SC03_015/nonmatchings/ov_SC03_015_jr_801848E4", func_80185A0C);
 
-INCLUDE_ASM("asm/ov_SC03_015/nonmatchings/ov_SC03_015_jr_801848E4", func_80185B44);
+
+/* ---- integration surface ----------------------------------------------
+ * Decls conform to the host TU src/ov_SC03_014/ov_SC03_014_jr_801848E4.c:
+ *   L3535 extern s32 func_8012C354(s32 a0, s32 a1);
+ *   L2524 extern s32 func_8012C658(s32 arg0, s32 arg1, s32 arg2);
+ *   L2916 extern void func_8012A828(s32 a0, void *a1);
+ *   L3500 extern void func_8001C214(int, int);
+ * func_8012B23C is only block-scope in the host TU (L4008, same signature);
+ * func_80143970 / func_8001CA1C are not declared there at all.
+ * None of the D_* globals are declared in the host TU.
+ * -------------------------------------------------------------------- */
+extern s32 func_8012C354(s32 a0, s32 a1);
+extern s32 func_8012C658(s32 arg0, s32 arg1, s32 arg2);
+extern void func_8012A828(s32 a0, void *a1);
+extern void func_8012B23C(s32 a0);
+extern s32 func_80143970(s32 a0);   /* canonical: DEFINE_func_80143970() in src/shared/engine_core.h returns s32 */
+extern void func_8001CA1C(s32 a0, s32 a1);
+extern void func_8001C214(int, int);
+
+extern u16 D_80190490[];
+extern u8 D_801904C4[];
+extern u8 D_801E2170[];
+extern u8 D_80190590[];
+extern u8 D_8019059C[];
+extern u8 D_801905A4[];
+extern u8 D_801905B4[];
+extern u8 D_801905E4[];
+extern u8 D_801905F0[];
+extern u8 D_80190720[];
+extern u8 D_80190780[];
+extern u8 D_801C97C8[];
+extern u8 D_80191838[];
+extern u8 D_801E732C[];
+extern u8 D_801E7B50[];
+extern u8 D_801D6ED0[];
+extern s32 D_801EAC80;
+
+void func_80185B44(s32 a0) {
+    u16 t;
+    s32 c;
+
+    if (func_8012C354(a0, (s32)D_80190490) == 0) {
+        return;
+    }
+
+    switch (*(s16 *)(a0 + 0x70)) {
+    case 0:
+        *(u8 *)(a0 + 0xC0) = 1;
+        *(s16 *)(a0 + 0x2) = 0xE;
+        func_8012A828(a0, D_801E2170);
+        func_8012B23C(a0);
+        func_80143970(a0);
+        *(s32 *)(a0 + 0xB4) = -0x2032;
+        *(s32 *)(a0 + 0xBC) = (s32)D_801904C4;
+        *(s16 *)(a0 + 0xAE) = -1;
+        *(u8 *)(a0 + 0x75) = 0;
+        *(u32 *)(a0 + 0xC4) |= 1;
+        t = D_80190490[0];
+        D_801EAC80 = 0;
+        *(s16 *)(a0 + 0xFE) = 1;
+        *(u16 *)(a0 + 0x76) = t;
+        *(s32 *)(a0 + 0x6C) = func_8012C658(0x265, 7, a0);
+        break;
+
+    case 1:
+        func_8001CA1C(*(s32 *)(a0 + 0x20), (s32)D_80190590);
+        func_8012A828(a0, D_8019059C);
+        *(s32 *)(a0 + 0x58) = (s32)D_801905A4 | 0x40000000 | 0x20000000;
+        *(u16 *)(a0 + 0x5C) = 0x8000;
+        *(u32 *)(*(s32 *)(a0 + 0x20) + 4) |= 0x50000000;
+        *(u32 *)(*(s32 *)(a0 + 0x20) + 4) |= 0x8000000;
+        *(u8 *)(a0 + 0xC0) = 1;
+        *(s16 *)(a0 + 0x2) = 3;
+        *(s32 *)(a0 + 0xBC) = (s32)D_801905B4;
+        *(u8 *)(a0 + 0x75) = 0;
+        *(s32 *)(a0 + 0xB4) = 0;
+        *(s32 *)(a0 + 0x1C) = 0x5A;
+        *(u32 *)(a0 + 0xC4) |= 2;
+        break;
+
+    case 2:
+        func_8001CA1C(*(s32 *)(a0 + 0x20), (s32)D_801905E4);
+        func_8012A828(a0, D_801905F0);
+        *(u32 *)(*(s32 *)(a0 + 0x20) + 4) |= 0x50000000;
+        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x2C) |= 0x10;
+        *(s16 *)(*(s32 *)(a0 + 0x20) + 0x18) = 0x2000;
+        *(s16 *)(*(s32 *)(a0 + 0x20) + 0x1A) = 0x2000;
+        *(s16 *)(a0 + 0x2) = 4;
+        *(u8 *)(a0 + 0x75) = 0;
+        c = D_801EAC80;
+        *(s32 *)(a0 + 0x1C) = 0x1E;
+        D_801EAC80 = c + 1;
+        break;
+
+    case 3:
+        func_8001CA1C(*(s32 *)(a0 + 0x20), (s32)D_80190720);
+        func_8012A828(a0, D_80190780);
+        *(u32 *)(*(s32 *)(a0 + 0x20) + 4) |= 0x50000000;
+        *(u32 *)(*(s32 *)(a0 + 0x20) + 4) |= 0x8000000;
+        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x2C) |= 0x10;
+        *(s16 *)(a0 + 0x2) = 5;
+        *(u8 *)(a0 + 0x75) = 0;
+        *(s32 *)(a0 + 0x1C) = 0x5A;
+        break;
+
+    case 4:
+        func_8001C214(*(s32 *)(a0 + 0x20), (s32)D_801C97C8);
+        *(u32 *)(*(s32 *)(a0 + 0x20) + 4) |= 0x50000000;
+        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x2C) |= 0x10;
+        *(s16 *)(a0 + 0x2) = 7;
+        *(u8 *)(a0 + 0x75) = 0;
+        *(s32 *)(a0 + 0x1C) = 0x5A;
+        break;
+
+    case 5:
+        *(s32 *)(a0 + 0x58) = (s32)D_80191838 | 0x40000000 | 0x20000000;
+        *(s16 *)(a0 + 0x5C) = 0x800;
+        *(u32 *)(*(s32 *)(a0 + 0x20) + 4) |= 0x80000000;
+        *(s16 *)(a0 + 0x2) = 0xD;
+        break;
+
+    case 6:
+        func_8001C214(*(s32 *)(a0 + 0x20), (s32)D_801E732C);
+        func_8012A828(a0, D_801E7B50);
+        *(s16 *)(a0 + 0x5C) = 0x800;
+        *(s16 *)(a0 + 0x2) = 0xF;
+        func_8012B23C(a0);
+        break;
+
+    case 7:
+        func_8001C214(*(s32 *)(a0 + 0x20), (s32)D_801D6ED0);
+        *(s16 *)(a0 + 0x5C) = 0;
+        *(s16 *)(a0 + 0x2) = 0x10;
+        func_8012B23C(a0);
+        break;
+    }
+}
 
 
 /* ---- integration surface (types taken from the host TU / engine_core.h) ---- */
