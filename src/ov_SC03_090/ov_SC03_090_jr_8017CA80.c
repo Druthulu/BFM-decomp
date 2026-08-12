@@ -5447,7 +5447,130 @@ INCLUDE_ASM("asm/ov_SC03_090/nonmatchings/ov_SC03_090_jr_8017CA80", func_8018406
 
 INCLUDE_ASM("asm/ov_SC03_090/nonmatchings/ov_SC03_090_jr_8017CA80", func_801840C0);
 
-INCLUDE_ASM("asm/ov_SC03_090/nonmatchings/ov_SC03_090_jr_8017CA80", func_801841A4);
+typedef struct { short m[3][3]; long t[3]; } MTX_801851A8;
+
+/* func_801841A4 — ov_SC03_089 (ov_SC03_089_jr_8017CA80), 154 ins, jtbl_801C53E4 (5 entries,
+ * minval 0 / maxval 4 — `lhu` + `sltiu 5`, so the switch expression is UNSIGNED and neither
+ * §162a2's leading nor §162a1/§162a3's trailing empty-case tell applies).
+ *
+ * Decl provenance (§161c) — forms copied VERBATIM from the destination TU where it already
+ * declares the callee ABOVE this function's INCLUDE_ASM (src/…/ov_SC03_089_jr_8017CA80.c:5332):
+ *   func_8002D4C8   TU:59 / 3984 / 4018   `extern void func_8002D4C8(s32 a0, s32 a1);`   (visible)
+ *   func_8012B2CC   TU:2523 / 4913        `extern void func_8012B2CC(s32 a0);`           (visible)
+ *   func_8012B178   TU:5635 (BELOW)       same canonical form, so it agrees, not conflicts
+ *   func_8018485C   TU:5351 (BELOW)       DEFINED `s32 func_8018485C(s32 arg0)` — agrees
+ *   func_80184888   TU:5356 (BELOW)       INCLUDE_ASM only, no decl to conflict with
+ * func_8012CBF4 / func_8012B8E4 / func_8012BEE8 / func_8012B200 / func_8012B77C / D_801A2F4C
+ * are not declared anywhere in the host TU; the forms below are the project-canonical ones
+ * (ov_SC03_099_jr_8012ACE0.c:1688, :353, ov_SC03_099_jr_801380E0.c:272, …).
+ *
+ * THE SHAPE THAT COSTS THE MATCH — the shared `.L801846F4` tail is a CROSS-JUMP, not a `break`.
+ * Case 0 (both arms) and case 3 each end `lhu $v0,0x34; addiu $v0,$v0,1` and only the STORE
+ * `sh $v0,0x34($s0)` is shared. Spelling that with a switch-scope `s16 nv; … break;` + a single
+ * post-switch `*(s16*)(a0+0x34) = nv;` compiles to 152 ins / 113 mismatched: one shared pseudo
+ * makes case 3's `lhu` land in $v1 (`addu $2,$3,1`), which breaks jump.c's minimum=1 path
+ * (find_cross_jump(insn, JUMP_LABEL(insn), 1) — jump.c:1978) against case 3's trailing `addiu`,
+ * so the minimum=2 jump_chain path fires instead and welds case-0 arm1 into arm2 (a 3-insn tail
+ * at a new label) — a merge the target does not have. Written LONGHAND (each arm stores 0x34
+ * itself and `return`s), every arm gets its own single-block temp, all of them land in $v0, and
+ * the compiler makes exactly the target's merge. Cf. §162h's floor law read from the other side:
+ * here the source-level factoring is what has to be REMOVED. */
+
+extern void func_8012CBF4(s32 a0);   /* canonical `void`; $v0 is used in case 0 -> cast at the site */
+extern s32  func_8012B8E4(s32 a0, s32 a1);
+extern s32  func_8012BEE8(s32 a0);
+extern void func_8012B200(u8 *a0);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern void func_8012B178(s32 a0, s32 a1);
+extern void func_8012B2CC(s32 a0);
+extern s32  func_8012B77C(s32 out, s32 from, s32 to);
+extern void func_80184888(s32 out, s32 a1, s32 a2);
+extern s32  func_8018485C(s32 arg0);
+
+void func_801841A4(s32 a0) {
+
+    extern u8 D_801A2F4C[];
+    s32 sp10[4];   /* 0x10: the func_8012B77C "to" record — fields at +0x2/+0x6/+0xA */
+    s32 sp20[2];   /* 0x20: the 8-byte out buffer shared by func_80184888 and func_8012B77C */
+    s32 t;
+
+    switch (*(u16 *)(a0 + 0x34)) {
+    case 0:
+        if (((s32 (*)(s32))func_8012CBF4)(a0) != 0) {
+            *(s32 *)(a0 + 0x1C) = 0x1E;
+            *(s16 *)(*(s32 *)(a0 + 0x20) + 0x10) = 0;
+            *(s16 *)(a0 + 0x34) = *(u16 *)(a0 + 0x34) + 1;
+            return;
+        } else {
+            if (*(s16 *)(a0 + 0x100) >= *(s16 *)(a0 + 0xA)) {
+                return;
+            }
+            *(s16 *)(a0 + 0xA) = *(s16 *)(a0 + 0x100);
+            *(s32 *)(a0 + 0x1C) = 0x1E;
+            *(s16 *)(*(s32 *)(a0 + 0x20) + 0x10) = 0;
+            *(s16 *)(a0 + 0x34) = *(u16 *)(a0 + 0x34) + 1;
+            return;
+        }
+
+    case 1:
+        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) += func_8012B8E4(a0, 6);
+        if (func_8012BEE8(a0) == 0) {
+            return;
+        }
+        *(s16 *)(a0 + 0x34) = *(u16 *)(a0 + 0x34) + 1;
+        func_8012B200((u8 *)a0);
+        *(s32 *)(a0 + 0x1C) = 0x20;
+        func_8002D4C8(0x6FF, 0);
+        return;
+
+    case 2:
+        func_80184888((s32)sp20, a0, (s32)D_801A2F4C);
+        t = sp20[0];
+        *(s16 *)(*(s32 *)(a0 + 0x20) + 0x10) = t;
+        *(s16 *)(*(s32 *)(a0 + 0x20) + 0x12) = t >> 16;
+        func_8012B178(a0, *(s32 *)(a0 + 0xE0) - 0x80000);
+        func_8012CBF4(a0);
+        if (func_8018485C(a0) != 1) {
+            if (func_8012BEE8(a0) == 0) {
+                return;
+            }
+        }
+        *(s16 *)(a0 + 0x34) = *(u16 *)(a0 + 0x34) + 1;
+        *(s16 *)((s32)sp10 + 0x2) = *(u16 *)(a0 + 0x88);
+        *(s16 *)((s32)sp10 + 0x6) = *(u16 *)(a0 + 0x8A);
+        *(s16 *)((s32)sp10 + 0xA) = *(u16 *)(a0 + 0x8C);
+        func_8012B77C((s32)sp20, a0 + 4, (s32)sp10);
+        t = sp20[0];
+        *(s16 *)(*(s32 *)(a0 + 0x20) + 0x10) = t;
+        *(s16 *)(*(s32 *)(a0 + 0x20) + 0x12) = t >> 16;
+        func_8012B2CC(a0);
+        func_8012B178(a0, *(s32 *)(a0 + 0xE0) - 0x80000);
+        *(s32 *)(a0 + 0x1C) = 0x80;
+        return;
+
+    case 3:
+        func_8012CBF4(a0);
+        if (func_8012BEE8(a0) == 0) {
+            if (*(s16 *)(a0 + 0xA) >= *(s16 *)(a0 + 0x8A)) {
+                return;
+            }
+        }
+        *(s16 *)(a0 + 0xA) = *(u16 *)(a0 + 0x8A);
+        *(s16 *)(*(s32 *)(a0 + 0x20) + 0x10) = 0;
+        *(s32 *)(a0 + 0x1C) = 0x3C;
+        *(s16 *)(a0 + 0x34) = *(u16 *)(a0 + 0x34) + 1;
+        return;
+
+    case 4:
+        if (func_8012BEE8(a0) == 0) {
+            return;
+        }
+        /* fall through */
+    default:
+        *(s16 *)(a0 + 0x2) = 4;
+        return;
+    }
+}
 
 INCLUDE_ASM("asm/ov_SC03_090/nonmatchings/ov_SC03_090_jr_8017CA80", func_8018440C);
 
