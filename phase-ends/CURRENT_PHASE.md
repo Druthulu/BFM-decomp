@@ -181,31 +181,56 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 
 ---
 
-# 🛑 SESSION S48 CHECKPOINT (2026-08-11) — STAGE 0b CLOSED — FRESH SESSION SAFE HERE
+# 🛑 SESSION S48 CHECKPOINT (2026-08-11) — STAGE 0b CLOSED + STAGE-1 WAVE 1 — FRESH SESSION SAFE HERE
 > **Tree CLEAN** but for R23 `db.*.gbf` churn — never stage. **Nothing running.**
-> Gate at close: **`check-all` 213 passed / 0 failed of 213** from a CLEAN rebuild (R22:
-> `make clean && make extract-all && make check-all`; extract-all 212+main, 0 failed).
-> **Fleet: 94.6% instr · 88.7% distinct · 96.35% fn-count · INCLUDE_ASM stubs 13,254.**
-> `tools-health`: Drew watched it pass at the end of S47 — not re-run (his call).
+> Gate at close: **`check-all` 213 passed / 0 failed of 213** from a CLEAN rebuild (R22 run 3× this
+> session: after 0b, after the wave banks, after propagation; extract-all 212+main, 0 failed each).
+> **Fleet: 94.6% instr · 88.8% distinct · 96.36% fn-count · INCLUDE_ASM stubs 13,228.**
+> `tools-health`: **OK at close** (re-run after the tool+doc changes — 495 cookbook sections).
 > **NO phase close** — T5 unopened, needs Drew's gate-2.
 
 ## THE SESSION IN ONE LINE
-**91 instances banked — the STUB-ORACLE DELTA (13,345 → 13,254)** — and this time the accumulated
-sum (65 + 25 + 1) agrees with it. **Stage 0b is DONE**: the 122 blocked jr member-slots were 112
-still-open, of which **91 banked (81%)**; the residue is 15 gate-fail + 6 carve-fail, ledgered below.
-Every bank came from repairing THREE instruments — no function was decompiled this session.
+**117 instances banked — the STUB-ORACLE DELTA (13,345 → 13,228).** Two halves: **Stage 0b closed**
+(91 banks, ZERO decompilation — three instrument repairs did all of it) and **Stage-1 wave 1 ran**
+(8 exemplar cracks + 18 member propagations = 26). The wave's honest lesson is in its RESIDUE, not
+its yield: 16 of the 42 member slots were unreachable for TOOLING reasons, not matching reasons.
 
-## ▶ RESUME HERE — STAGE 1 (0b is closed; 0a's leftovers unchanged)
-1. **STAGE 1 — the reach-ordered sibling campaign** (the 15-step loop above, §160g/§161).
-   **REGEN FIRST** (`make sig-overlays && make sig-modules && tools/family_hseq.py`) — 91 fresh
-   banks make the current map stale. Tiers ×9 → ×3, then PROBE ×2 with 10 families before
-   committing 870 cracks at a 2× payoff. Wave one's ×10+ tier is consumed.
-   ⚠️ This is the first BIG agent spend since S47 (~150-250M tok over 6-10 sessions) — prompt Drew
-   for the Ultracode/effort transition BEFORE launching a wave (R26/R27).
-2. 0a leftovers (unchanged, bounded, run alongside a campaign): 56 members of the reach-57 family
-   (per-member rodata + typedef gather) · 116 data-bundled files.
-3. 0c stays BLOCKED (main-partition probe cannot account for 954 of 2,002 rows — fix the probe).
-   0d (permuter, kill rule <2/20) is free CPU whenever the machine is idle.
+## ▶ RESUME HERE — FIX THE md_ LANE FIRST, THEN WAVE 2
+1. **THE md_ MODULE LANE IS BLOCKED — 16 slots this wave alone, and it will block every future wave
+   that touches the 70 module binaries.** Two distinct, named, evidence-captured mechanisms:
+   · **jr (12 slots):** `jtbl_carve: jtbl_801EF6A4 not found in the raw data asm
+     (asm/md_SC03_076/data/*.data.s) — already carved / stale asm?` The carve assumes raw data lives
+     in `<binary>/data/*.data.s`; module binaries do not lay it out there. Structural onboarding gap.
+   · **plain (4 slots):** `CC1-FAIL: src/md_SC05_026/md_SC05_026.c:189: 'D_8011511A' undeclared` —
+     the remapped body references a global the module TU never declares and `gather_externs` did not
+     carry it. The §8d / `scope_data_externs` family. **PLUMBING, not DIFF.**
+   Probe ONE of each before pricing the fix (R37). Precedent says this is the better buy than more
+   cracks: 0b's three repairs banked 91 for ~0 agent tokens, while the wave spent 3.36M for 26.
+2. **WAVE 2 — the remaining 28 of `.run/jr48/wave1_targets.json`** (17,581 ins / 170 members;
+   20 of 28 in the Sonnet band, only 5 jr — cheaper and safer per family than wave 1's 10/12 jr).
+   Launch as ONE wave (fixed per-agent overhead dominates at this size). Gate: wave 1 measured
+   **67% through the whole-binary gate** (9/12 agent-MATCH, 8/12 banked) — size wave 2 on that, NOT
+   on the reach-15 prior of 81%. ⚠️ Prompt Drew for the Ultracode toggle first (R26/R27).
+3. 0a leftovers (unchanged, bounded): 56 members of the reach-57 family (per-member rodata +
+   typedef gather) · 116 data-bundled files.
+4. 0c stays BLOCKED (main-partition probe cannot account for 954 of 2,002 rows — fix the probe).
+   0d (permuter, kill rule <2/20) is free CPU whenever the machine is idle. **New 0d fuel:** the
+   wave's 3 NEAR — `func_8017C294` (the ×16 family, THE largest single item on the board at 3,936
+   templatable ins) at **18 ins**, `func_8017C3BC` at **17**, `func_80189540` at **+2 ins / 4 sites**.
+   Drafts are in `.run/wave1/`; each agent's notes name its exact residual.
+
+## 📐 THE FRONTIER AS RE-DERIVED THIS SESSION (post-0b, pre-wave; regen again after any bank)
+1,955 zero-crack sibling families / 6,709 members / 330,622 templatable ins. Tiers:
+×16 **1** fam/3,936 ins · ×9 6/1,197 · ×8 64/17,384 · ×7 93/25,025 · ×6 128/35,898 · ×5 124/38,070 ·
+×4 341/61,432 · ×3 328/52,518 · ×2 870/95,162. Plus 4,513 singletons (Stage 2).
+**THE ×138 ERA IS OVER — CONFIRMED, NOT PREDICTED.** The biggest item on the board is now worth
+3,936 ins where S29's pair delivered 37,536 and 27,324. Top-40 families = 12.6% of the pool; you
+need ~800 cracks for 73%. At ~136k tok/crack that is ~109M tokens for the sibling half alone.
+**ORDERING CORRECTION (measured):** the plan's ×9→×8→…→×3 ladder is a WEAK signal below ×16 —
+reach and function size are inversely correlated, so ins-per-crack is nearly flat across the middle:
+×8 271 · ×7 269 · ×6 280 · ×5 307 · ×4 180 · ×3 160 · ×2 109 · singleton ~62. **Rank by templatable
+weight (members × nins), not by tier.** (The plan's "×2 pays only 2×" also understates it: a ×2
+crack banks ~109 ins vs a singleton's ~62, i.e. ~1.8× — thin, but still the better lane.)
 
 ## ✅ WHAT S48 LANDED — three instrument repairs, 91 banks, 0 decompilation
 **1. `JTBL_PADS` did not follow its span through jr isolation** (`commit:1578`) — THE 0b blocker,
@@ -243,7 +268,44 @@ One parser (`_typedef_blocks`) now serves both callers (R33).
 - The 3 monolithic binaries (`ov_SC02_037`/`ov_SC03_107`/`ov_MAIN_012`) are no longer monolithic:
   they now carry ~30 `_jr_` regions each. Future isolates there are cheap.
 
-## 🧰 MY ERROR LEDGER (2)
+## ✅ WHAT S48 LANDED — part 2: STAGE-1 WAVE 1 (the first real decompilation since S47)
+**The wave** (`wf_45e34026-aed`, 21 agents, 3.36M tok, 70 min): 12 top-weight zero-crack families,
+cracked against `match_one`, EVERY claimed MATCH re-gated by an independent adversarial verifier,
+then gated whole-binary. **9/12 agent-MATCH · 0 refuted · 8/12 banked (67%) · 3 NEAR · 0 FAIL.**
+Then propagation: **18 of 35 open member slots** banked (`commit:1621` `commit:1622` `commit:1623`
+`commit:1624`), R22 213/213. Full cycle = 8 cracks → **26 banked instances / 3.36M tok ≈ 129k per
+instance** — but see the md_ residue above before using that as wave 2's price.
+**THE ONE THAT PROVES THE GATE:** `func_8017F2D4` passed `match_one`, passed an INDEPENDENT
+adversarial verifier that re-ran the gate itself, and the whole-binary gate still classified it
+**DIFF**. §52b in one line: the per-function gate is a candidate FILTER, the binary gate is the
+ARBITER. It is still INCLUDE_ASM; do not let a future session read its agent notes as "matched".
+**§160g PAID OFF IN 5 OF 12** — including one target whose already-matched CALLER in the same TU
+supplied the exact signature, and one where reading the DESTINATION TU fixed every symbol type for
+free. That agent's line is worth keeping: *"reading the destination TU first was worth more than any
+cross-overlay grep."* Keep it as wave step 0 (it is already in the prompt template).
+
+## 📚 THE IDIOM HARVEST — §162 (`commit:1620`, cookbook now 495 sections)
+17 candidates → an independent SKEPTIC agent per candidate, deduped against the whole cookbook
+(1.59M tok): **NEW 3 · SHARPENS 13 · COVERED 0**, 1 agent died mid-response (its entry §162c is
+orchestrator-written and labelled the least-audited). The three new laws: **§162e** LICM — uniform
+loop-variable indexing is what makes a symbol address a MOVABLE at all (a literal index leaves a
+constant, no base pseudo, no hoist), and preheader order is body order · **§162g** cross-jump
+DIRECTION is a source-shape oracle (`do_cross_jump` always keeps the LATER copy, so a BACKWARD jump
+into an earlier block is a source `goto`, never cross-jumping) · **§162n** a conditionally-assigned
+alias pointer kills a spurious giv (`loop.c` `cant_derive`).
+**TWO IN-PLACE CORRECTIONS — the reason this pass was worth 1.59M tokens:**
+· **§161a's "diagnostic tell (family-wide)"** read as a complete test on `entry[0]` and actively
+  taught agents to skip the table's upper edge. The maxval symptom is the OPPOSITE of the minval
+  one — it shifts NOTHING, costs two bytes (the `sltiu` immediate + a table one word short), and is
+  functionally invisible. Amended in place: **check BOTH edges.**
+· **§25** prescribed register PINS for a symptom whose sibling mechanism pins provably CANNOT reach:
+  local-alloc's `optimize_reg_copy_1` rewrites the later use to the copy's dest, and its hard-reg
+  escape sits inside `#ifdef SMALL_REGISTER_CLASSES`, which `config/mips/mips.h` never defines
+  (byte-verified: a `register __asm__("$2")` pin changed nothing). The lever is an in-place SET.
+  This REFINES the standing "always try pins before calling it unmatchable" rule — there is now a
+  named class where pins are provably useless.
+
+## 🧰 MY ERROR LEDGER (4)
 1. **I diagnosed 0b from the S47 log before probing** — predicted the pads *rename* was the whole
    story. The first probe (`func_8013C0F8`) hit a DIFFERENT defect (duplicate typedefs) and the
    second exposed the silent-drop face I had not predicted. The fix was right, the reasoning path
@@ -251,6 +313,15 @@ One parser (`_typedef_blocks`) now serves both callers (R33).
 2. **Called the duplicate-typedef body a one-family outlier** on a tag-count scan; the empirical
    before/after diff then found a SECOND family (`func_8013B83C`) whose block-scope multi-line
    typedef the old test also missed. The scan was too weak to support the word "only".
+3. **My idiom submission carried two errors the skeptic pass caught** — I had copied §161a's MINVAL
+   symptom ("every slot shifts") onto the maxval case, where in fact nothing shifts; and I described
+   `func_8017F2D4` as a verified MATCH when the whole-binary gate had refused it. Both are corrected
+   in §162a. A dedupe pass that only looked for duplicates would have banked both mistakes.
+4. **I told Drew the md_ module lane might be "real reach the frontier ordering hasn't been
+   exploiting" — the propagation refuted it the same hour.** 0 of 16 module slots banked. The
+   prediction was reasonable and wrong; what makes it an error is that I offered it as a finding
+   before the run that would settle it had finished (R14: verify blast radius, not just the
+   mechanism).
 
 ## 🔁 METHOD NOTE WORTH KEEPING
 **A silent instrument failure and a loud one have the same root but opposite economics.** Both 0b
