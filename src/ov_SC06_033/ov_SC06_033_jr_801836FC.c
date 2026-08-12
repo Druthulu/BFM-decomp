@@ -3327,4 +3327,174 @@ extern void func_80185AC0(void);
 
 INCLUDE_ASM("asm/ov_SC06_033/nonmatchings/ov_SC06_033_jr_801836FC", func_80184860);
 
-INCLUDE_ASM("asm/ov_SC06_033/nonmatchings/ov_SC06_033_jr_801836FC", func_801849E0);
+
+/* func_801849E0 (ov_SC06_018_jr_8017C24C) — MATCH 198/198, relocation-masked.
+ * @class: regalloc-copy + schedule
+ * @stuck: none. Three load-bearing idioms:
+ *  1. ONE shared scratch `t` for all three `sll 16` compares. Three separate temps let
+ *     local-alloc TIE the short temp to `iVar1` (no `addu $s1,$v0,$zero` at all, 197 ins);
+ *     the shared `t` conflicts with `iVar1` so the copy survives.
+ *  2. `t = t << 16; if (t <= 0)` instead of `if ((s16)t <= 0)` at the FIRST site only.
+ *     With the natural cast the shift lands in a fresh pseudo, so local-alloc's
+ *     `optimize_reg_copy_1` (local-alloc.c:700, called at :1007 — MIPS never defines
+ *     SMALL_REGISTER_CLASSES so pins cannot block it) finds `t` dying there and rewrites the
+ *     use to the copy's destination -> `sll $v0,$s1,16`. Shifting IN PLACE makes the insn
+ *     SET `t`, which trips the `reg_set_p (src, p)` break in the forward scan (and flow emits
+ *     no REG_DEAD when a reg is set in the insn that last uses it, cookbook §45 Lever B)
+ *     -> the scan aborts, the use stays on `$v0`: `sll $v0,$v0,16`. Cookbook §25 triage tell.
+ *     Sites 2 and 3 (0xFE / 0x76) have no copy insn, so `(s16)t <= 0` is correct there.
+ *  3. case 8 assigns `ptr` AFTER the func_8012A828 call. Assigning it first gives the
+ *     `la $s1,D_801AF9F0` a low enough LUID to win the `lhu 0x70` load-delay slot, which
+ *     eats the target's `nop` (-1 ins). $s1 is callee-saved, so sched1 still hoists the
+ *     `la` back above the call — just not into the delay slot.
+ * Also: `D_801AF988 + 8` (not a separate D_801B516C symbol) is what produces the CSE'd
+ * `addiu $a1,$s2,0x8` off the $s2 base; two symbols would emit a second lui/addiu pair.
+ * The `| 0x40000000 | 0x20000000` must stay as TWO ors — gcc-2.7.2 fold has no associate
+ * step for BIT_IOR_EXPR, and a folded `| 0x60000000` emits only one lui/or.
+ */
+
+extern u8  D_801AF988[];
+extern u8  D_801AF8A8[];
+extern u8  D_801B5EA0;
+extern u8  D_801AFA10[];
+extern u8  D_801AF9F0[];
+extern u8  D_801AFA00[];
+extern u8  D_801AF9E0[];
+extern u8  D_801C758C[];
+extern void *D_801AFB70[];
+
+extern void func_8012E9C0(s32 a0);
+extern void func_8012B23C(s32 a0);
+extern void func_8012F214(s32, s32, s32);
+extern s32  func_80187D0C(void *a0, s32 a1, s32 a2);
+extern s32  func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+extern void func_80187E08(s32 a0, void *a1, void *a2, s32 a3);
+extern void func_80187DA4(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5);
+extern void func_8001C924(s32 a0, void *a1);
+extern void func_8012B14C(s32 a0, s32 a1);  /* TU-canonical: matches the decl at ov_SC06_018_jr_8017C24C.c:7883 */
+extern void func_8002A520(s32 a0);
+extern void func_8002A790(s32 a0);
+extern void func_80131E00(s32 a0, s32 a1);
+extern void func_8012B2CC(s32 a0);
+extern void func_801888E8(s32 a0, s32 a1);
+extern void func_8012A828(s32 a0, void *a1);
+extern void func_80185F6C(s32 a0, s32 a1);
+
+void func_801849E0(s32 p) {
+    s32 buf20[2];
+    s32 iVar1;
+    s32 iVar2;
+    s32 t;
+    void *ptr;
+
+    func_8012E9C0(p);
+    *(s32 *)(p + 0x1C) = 0;
+    *(u16 *)(p + 0x5C) = *(u16 *)(p + 0x5C) & 0xFFFE;
+    func_8012B23C(p);
+
+    t = (*(s16 *)(p + 0x60) * *(s16 *)(*(s32 *)(p + 0x78) + 0x30)) >> 12;
+    iVar1 = t;
+    t = t << 16;
+    if (t <= 0) {
+        iVar1 = 1;
+    }
+
+    if (*(u32 *)(p + 0xE0) & 1) {
+        ((void (*)(s32, void *, void *))func_8012F214)(p, D_801AF988, buf20);
+        if (func_80187D0C(buf20, *(s16 *)(*(s32 *)(p + 0x20) + 0x12), 0x400) != 0) {
+            func_80146A6C(6, (void *)p, *(s16 *)(p + 0x7C), *(s16 *)(p + 0x7E),
+                          *(s16 *)(p + 0x80), 0, 0);
+            t = *(u16 *)(p + 0xFE) - iVar1;
+            *(s16 *)(p + 0xFE) = t;
+            if ((s16)t <= 0) {
+                func_80187E08(p, D_801AF988 + 8, buf20, 0xC);
+                func_80187DA4(p, buf20, 0x27F, 0, 0, 0);
+                *(s32 *)(p + 0x58) = (s32)D_801AF8A8 | 0x40000000 | 0x20000000;
+                *(u32 *)(p + 0xE0) = *(u32 *)(p + 0xE0) & 0xFFFFFFFE;
+                func_8001C924(*(s32 *)(p + 0x20), &D_801B5EA0);
+            }
+            func_8012B14C(p, (s32)D_801AFA10);
+            *(s16 *)(p + 0x34) = 3;
+            return;
+        }
+    }
+
+    if (*(u16 *)(p + 0x5E) != 0x1D) {
+        if (*(u8 *)(p + 0xC8) != 0) {
+            func_8002A520(p);
+        }
+        if (*(u8 *)(p + 0xC9) != 0) {
+            func_8002A790(p);
+        }
+    }
+
+    t = *(u16 *)(p + 0x76) - iVar1;
+    *(s16 *)(p + 0x76) = t;
+    if ((s16)t <= 0) {
+        func_80131E00(p, 0xC);
+        return;
+    }
+
+    *(s16 *)(p + 0x98) = 0;
+    *(u16 *)(*(s32 *)(p + 0x20) + 0x12) = (*(u16 *)(p + 0x62) + 0x800) & 0xFFF;
+    iVar2 = *(s32 *)(p + 0x20);
+    *(s16 *)(iVar2 + 0x14) = 0;
+    *(s16 *)(iVar2 + 0x10) = 0;
+    func_8012B2CC(p);
+    func_801888E8(p, 0x9B7);
+
+    switch (*(u16 *)(p + 0x5E)) {
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+    case 6:
+    case 7:
+    case 0xB:
+    case 0xC:
+    case 0x10:
+    case 0x13:
+    case 0x14:
+    case 0x15:
+    case 0x16:
+    case 0x17:
+    case 0x18:
+    case 0x19:
+    case 0x1A:
+    case 0x23:
+    case 0x24:
+    case 0x25:
+    case 0x28:
+    case 0x2B:
+    case 0x2C:
+    case 0x2D:
+    case 0x2E:
+    case 0x2F:
+    case 0x30:
+    case 0x31:
+    case 0x32:
+        *(s16 *)(p + 0x34) = 4;
+        func_8012A828(p, D_801AFB70[*(u16 *)(p + 0x70) & 0xF]);
+        return;
+    case 8:
+        func_8012A828(p, D_801AFB70[*(u16 *)(p + 0x70) & 0xF]);
+        ptr = D_801AF9F0;
+        break;
+    case 5:
+    case 0x1D:
+    case 0x20:
+    case 0x26:
+    case 0x2A:
+        ptr = D_801AFA00;
+        func_8012A828(p, D_801C758C);
+        *(u32 *)(p + 0xE0) = *(u32 *)(p + 0xE0) | 8;
+        *(u16 *)(p + 0xAE) = *(u16 *)(p + 0xAE) | 1;
+        func_80185F6C(p, -0x8000);
+        break;
+    default:
+        ptr = D_801AF9E0;
+        break;
+    }
+    func_8012B14C(p, (s32)ptr);
+    *(s16 *)(p + 0x34) = 0;
+}
