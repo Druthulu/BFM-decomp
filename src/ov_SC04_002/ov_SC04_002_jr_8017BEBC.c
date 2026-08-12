@@ -7156,7 +7156,81 @@ INCLUDE_ASM("asm/ov_SC04_002/nonmatchings/ov_SC04_002_jr_8017BEBC", func_8018710
 
 INCLUDE_ASM("asm/ov_SC04_002/nonmatchings/ov_SC04_002_jr_8017BEBC", func_80187174);
 
-INCLUDE_ASM("asm/ov_SC04_002/nonmatchings/ov_SC04_002_jr_8017BEBC", func_801871EC);
+
+
+
+
+
+
+
+
+extern s32 func_8012BDBC(s32 a0, s32 a1);
+extern s32 func_8012B6D4(s16 *a0, s16 *a1);
+extern s32 func_8012B70C(s16 *a0, s16 *a1);
+extern s32 func_8012B608(s32 a0, s32 a1, s32 a2);
+extern void func_8012B178(s32 a0, s32 a1);
+extern void func_8012CBCC(s32);
+extern void func_8012AD80(s32 a0);
+extern s32 func_8012D5E4(s32 a0, s32 a1, s32 a2, s32 a3);
+
+
+void func_801871EC(s32 a0)
+{
+
+    extern u8 D_80126B5C;
+    extern u8 D_801B4F44[];
+    s16 sp10[4];
+    s32 v0;
+
+    if ((*(s32 *)(*(s32 *)(a0 + 0x64) + 0xE0) & 2) == 0) {
+        if (func_8012BDBC(*(s32 *)(a0 + 0x64), 0x200) == 0) {
+            goto skip_update;
+        }
+        v0 = func_8012B6D4((s16 *)(*(s32 *)(a0 + 0x64) + 4), (s16 *)&D_80126B5C);
+        {
+            s32 r = func_8012B608(*(s16 *)(*(s32 *)(a0 + 0x20) + 0x12), v0, 1);
+            *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) =
+                *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) + r;
+        }
+    } else {
+        sp10[0] = *(u16 *)(a0 + 0x6);
+        sp10[1] = *(u16 *)(a0 + 0xA);
+        sp10[2] = *(u16 *)(a0 + 0xE);
+        v0 = func_8012B70C((s16 *)(a0 + 0x88), sp10);
+        {
+            s32 r = func_8012B608(*(s16 *)(*(s32 *)(a0 + 0x20) + 0x12), v0, 4);
+            *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) =
+                *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) + r;
+        }
+    }
+
+skip_update:
+    func_8012B178(a0, *(s32 *)(a0 + 0xE8));
+
+    *(s32 *)(a0 + 0xE8) = *(s32 *)(a0 + 0xE8) + 0x18000;
+    if (*(u16 *)(a0 + 0x34) == 0) {
+        v0 = ((s32 (*)(s32))func_8012CBCC)(a0);
+        if (v0 != 0) {
+            if ((*(s32 *)(*(s32 *)(a0 + 0x64) + 0xE0) & 2) == 0) {
+                *(s32 *)(a0 + 0xE8) = 0;
+                *(s32 *)(*(s32 *)(a0 + 0x64) + 0xE0) |= 2;
+                *(u16 *)(a0 + 0x34) = *(u16 *)(a0 + 0x34) + 1;
+            }
+        } else {
+            s32 obj2 = *(s32 *)(a0 + 0x64);
+            s32 flags2 = *(s32 *)(obj2 + 0xE0);
+            if ((flags2 & 2) == 0 && *(s32 *)(a0 + 0x1C) == 0x15) {
+                *(s32 *)(obj2 + 0xE0) = flags2 | 2;
+            }
+        }
+    } else {
+        func_8012AD80(a0);
+    }
+
+    func_8012D5E4(a0, (s32)D_801B4F44, (s32)D_801B4F44 + 8, 0xA);
+    *(s32 *)(a0 + 0x1C) = *(s32 *)(a0 + 0x1C) + 1;
+}
+
 
 
 /* --- types: ALREADY PRESENT in src/shared/engine_types.h (pulled into the real TU
