@@ -3767,7 +3767,42 @@ void func_80187CD8(void * _arg0) {
 
 DEFINE_func_80187D04()  /* dedup: shared engine-core @0x80187D04 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC03_119/nonmatchings/ov_SC03_119_jr_801863CC", func_80187D0C);
+
+void func_80187D0C(s32 a0)
+{
+    extern void func_8012BE98(s32 a0, u16 *a1);
+    extern s32  func_8012B744(void *a0, void *a1);
+    extern s32  func_8012B608(s32 a0, s32 a1, s32 a2);
+    extern void func_8012B1B4(s32 a0, s32 a1);
+    extern s32  func_8012BD3C(s32 a0, s32 a1, s32 a2);
+    extern void func_8012CC40(s32 arg0, s32 arg1);
+    extern s32  func_8012C0EC(s32 a0);
+    extern u8   D_801C6FA8[];
+    extern s32  D_801C6FC4;
+
+    s32 anim = a0 + 0x88;
+
+    if (((s32 (*)(s32, u16 *))func_8012BE98)(a0, (u16 *)anim) >= 0x4000) {
+        s32 d = func_8012B608(*(s16 *)(*(s32 *)(a0 + 0x20) + 0x12),
+                              func_8012B744((void *)(a0 + 4), (void *)anim), 0x10);
+        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) =
+            *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) + d;
+        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) =
+            *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) & 0xFFF;
+        func_8012B1B4(a0, (s32)D_801C6FA8);
+    } else {
+        if (func_8012BD3C(a0, 0x200, 0x40000) == 1) {
+            *(s16 *)(a0 + 0x2) = 3;
+        }
+    }
+
+    if ((((s32 (*)(s32, s32))func_8012CC40)(a0, (s32)&D_801C6FC4) & 0x1000) != 0) {
+        *(s16 *)(a0 + 0x2) = 0x12;
+    } else {
+        func_8012C0EC(a0);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_119/nonmatchings/ov_SC03_119_jr_801863CC", func_80187DF8);
 
