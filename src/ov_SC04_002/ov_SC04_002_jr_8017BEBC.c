@@ -626,7 +626,6 @@ extern s32 func_8014F4C0();
 extern s32 func_8014F468(void);
 extern int func_8014F74C();
 extern int func_8014F6F4(void);
-extern u8 D_800D3918[];
 extern s32 D_801152BC;
 extern int func_8014F74C(s32 arg0);
 extern s32 func_8014FA70(s32 a0);
@@ -6196,10 +6195,13 @@ extern void func_8012C218(void *a0);
 
 extern s32 D_801A91FC;
 extern s32 D_801A9208;
-extern u8 D_800D3918[];
 extern s32 D_80126D50;
 
 void func_801841D8(s32 param_1) {
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern u8 D_800D3918[];
     s32 s0 = param_1;
     s32 v;
 
@@ -6652,7 +6654,82 @@ extern void func_8012A828(s32, void*);
     }
 
 
-INCLUDE_ASM("asm/ov_SC04_002/nonmatchings/ov_SC04_002_jr_8017BEBC", func_80185DA8);
+
+/* Layout-identical to `struct S80190C84` (src/shared/engine_types.h:1337), which IS
+ * visible in the destination TU via ../shared/engine_core.h; a fresh tag is used here
+ * only so the standalone match_one compile (no engine_core.h on its -I path) works. */
+typedef struct { s16 f0, f2, f4, f6, f8, fA, fC, fE; s32 f10; } St_80182784_80185DA8;
+
+extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
+extern void func_8012EC04(s32 param_1, s32 param_2, s32 *param_3);
+extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
+extern s32 func_8012C51C(void *a0, s32 a1);
+extern void func_8012C218(void *a0);
+extern void func_8012A828(s32 a0, void *a1);
+extern void func_8012B23C(s32 a0);
+extern s32 func_80013350(s32 a0, void *a1);
+extern void func_8001C924(s32 a0, void *a1);
+extern s32 func_80186544(s32 a0);
+
+void func_80185DA8(s32 a0) {
+
+    extern u8 D_800D3918[];
+    extern short D_801BDCD0;
+
+    extern u8 D_801B765C[];
+    extern u8 D_801B500C[];
+    extern u8 D_801B7624[];
+    extern u8 D_801BD950[];
+    St_80182784_80185DA8 s;
+    s32 buf[8];
+    u16 out[4];
+    u16 sv[4];
+    s32 temp;
+
+    if (*(s32 *)(a0 + 0x94) == 6) {
+        sv[1] = 0;
+        sv[0] = 0;
+        sv[2] = 0x20;
+        ApplyMatrixSV((void *)(*(s32 *)(a0 + 0x20) + 0x34), sv, sv);
+        func_8012EC04(a0, 7, buf);
+        ((void (*)(s32 *, u8 *, u16 *))func_8012F14C)(buf, D_800D3918, out);
+        s.f0 = out[0] + sv[0];
+        s.f2 = out[1];
+        s.f4 = out[2] + sv[2];
+        s.f6 = 0x1FA;
+        s.f8 = 0;
+        s.fA = 0;
+        s.fC = 0x7FFF;
+        s.fE = *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12);
+        s.f10 = 0;
+        temp = func_8012C51C(&s, a0);
+        *(s32 *)(a0 + 0xCC) = temp;
+        if (temp != 0) {
+            func_8001C924(*(s32 *)(a0 + 0x20), D_801B765C);
+            func_8012A828(a0, D_801B500C);
+            *(s32 *)(a0 + 0xE0) |= 1;
+        }
+    }
+    if (*(s32 *)(a0 + 0xE0) & 1) {
+        if (*(s32 *)(a0 + 0xE0) & 2) {
+            if (func_80013350(a0 + 4, (void *)(*(s32 *)(a0 + 0xCC) + 4)) < 0x1801) {
+                func_8012C218(*(void **)(a0 + 0xCC));
+                func_8001C924(*(s32 *)(a0 + 0x20), D_801B7624);
+                func_8012A828(a0, &D_801BDCD0);
+                *(s32 *)(a0 + 0x94) = 7;
+                *(s32 *)(a0 + 0xCC) = 0;
+                *(s32 *)(a0 + 0xE0) &= ~3;
+            }
+        }
+    }
+    if (*(s32 *)(a0 + 0x90) == (s32)&D_801BDCD0 && (*(u16 *)(a0 + 0x72) & 0x4000)) {
+        func_8012A828(a0, D_801BD950);
+        *(s16 *)(a0 + 0x2) = 2;
+        func_8012B23C(a0);
+        func_80186544(a0);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_002/nonmatchings/ov_SC04_002_jr_8017BEBC", func_80185F98);
 
