@@ -3219,7 +3219,194 @@ void func_801919A0(s32 _arg0) {
 
 INCLUDE_ASM("asm/ov_SC06_032/nonmatchings/ov_SC06_032_jr_801919A0", func_801924B8);
 
-INCLUDE_ASM("asm/ov_SC06_032/nonmatchings/ov_SC06_032_jr_801919A0", func_801928B0);
+
+/* func_801928B0 — ov_SC06_018 / TU ov_SC06_018_jr_80191C50   (257 ins)
+ *
+ * A 3-state boss-death / effect tick.  Same actor family as its already-MATCHED
+ * TU neighbours func_80191C50 (:2880) and func_80192F64 (:3167); the spawn
+ * idioms are lifted verbatim from the byte-proven siblings
+ *   func_8018E188  (src/ov_SC06_018/ov_SC06_018_jr_80187AEC.c:5255)  — the $s1
+ *                  arg pin, the 0x281 particle burst, the 0x23 debris spawn;
+ *   func_80180CA8  (src/ov_SC06_008/ov_SC06_008_jr_8017C294.c:4742)  — the
+ *                  triple func_8012C658 spawn + func_8002A04C/func_8012C218 tail.
+ *
+ * state 0 : arm the 0x1E countdown, st++
+ * state 1 : one 0x23 debris spawn scattered around self + sound 0xAD7; when the
+ *           countdown hits 0, st++ and slam the +0xCC child (-1000 or -500 into
+ *           +0x76 depending on the +0x64 owner's +0xF4 flag), then drop it.
+ * state 2 : if the owner's +0xF4 flag is set -> the full death burst (sound
+ *           0xAD6, three func_8012C658 attachments, an 8x 0x281 particle burst,
+ *           func_8002A04C, slam the owner's +0xCC child, free owner + self);
+ *           else swap in the D_801CD910/D_801CC7C4 animation pair (preserving
+ *           the object's rot.y), set +0xAE = -1 and st++.
+ * always  : tail func_8018D3A4(self).
+ *
+ * @class: none — MATCH (257 ins), iteration 6.
+ *
+ * @lever (§162 cross-jump direction as a source-shape oracle):  the -1000/-500
+ *   select is NOT a temp.  A temp (`t = -1000; if (!flag) t = -500;`) is live
+ *   from before the +0xF4 load, so it CONFLICTS with the load's allocno, is
+ *   pushed to $v1, and that in turn lets sched2 hoist `lhu 0x5C` above
+ *   `sh 0x76` (+4 wrong ins).  Writing BOTH arms as full stores lets the final
+ *   jump pass cross-jump the identical tails (sh 0x76 downwards), which is what
+ *   puts the constant in the branch delay slot AND lets the value share $v0
+ *   with the flag it was tested from.  (`t` reused as the flag variable itself
+ *   also matches — same allocno, same reason.)
+ *
+ * @lever (fold's PLUS/MINUS re-association is source-form INVARIANT):  five
+ *   spellings of `x + 0x30 + rand()%0x140` (parenthesised, operands swapped,
+ *   constant folded into either side) all emit `x + (r%0x140 + 0x30)` — fold
+ *   canonicalises before expand, so re-ordering the operands is USELESS here.
+ *   The target's `(x + 0x30) + r%0x140` only appears once the constant add is
+ *   its OWN statement on its OWN temp, which requires the rand() result to be
+ *   hoisted into a temp first (otherwise the `lhu` lands before the `jal`, and
+ *   a load can never be scheduled back across a call).  Same for the -0x20.
+ *
+ * @lever (§76 allocno CLASS):  the three func_8012C658 results and the
+ *   0x281/0x23/+0xCC pointers must be DIFFERENT locals.  `e` never crosses a
+ *   call -> $a0 (first free in REG_ALLOC_ORDER); `iv` spans the rand() calls in
+ *   the burst loop -> calls_crossed > 0 -> the callee-saved $s0 that every other
+ *   use of it then coalesces onto.  One shared variable puts all of them in $s0.
+ *
+ * @lever (the second +0xCC child is loaded TWICE):  `iv = load; if (iv)` emits
+ *   `lw $s0` directly; the target tests the load and re-reads it inside the arm,
+ *   so CSE leaves a live `addu $s0, $v0, $zero` that fills the beqz delay slot
+ *   (+1 ins — this was the entire length drift).
+ */
+
+extern s32 rand(void);
+extern u8 *func_8012913C(s32);
+extern void func_8002D4C8(s32, s32);
+extern s32 func_8012C658(s32, s32, s32);
+extern s32 func_8012C588(s32 a0, s32 a1);
+extern void func_8002A04C(s32 a0);
+extern void func_8012C218(void *a0);
+extern void func_8001C214(s32, s32);
+extern void func_8012A828(s32, void *);
+extern void func_8018D3A4(void *);
+
+
+void func_801928B0(void *arg) {
+
+    extern u8 D_801CD910[];
+    extern u8 D_801CC7C4[];
+    register u8 *p __asm__("$17");
+    s32 e;
+    s32 iv;
+    s32 i;
+
+    p = (u8 *)arg;
+
+    switch (*(u16 *)(p + 0x34)) {
+    case 0:
+        *(s32 *)(p + 0x1C) = 0x1E;
+        *(u16 *)(p + 0x34) = *(u16 *)(p + 0x34) + 1;
+        break;
+
+    case 1:
+        *(u8 *)(p + 0xC2) = 0xA;
+        iv = (s32)func_8012913C(0x23);
+        if (iv != 0) {
+            *(u16 *)(iv + 0x06) = *(u16 *)(p + 0x06) + rand() % 0xE0 + 0x10;
+            *(u16 *)(iv + 0x0A) = *(u16 *)(p + 0x0A) - rand() % 0x140;
+            {
+                s32 sv = *(u16 *)(p + 0x0E);
+                *(s32 *)(iv + 0x18) = 0;
+                *(s32 *)(iv + 0x14) = 0;
+                *(s32 *)(iv + 0x10) = 0;
+                *(u16 *)(iv + 0x0E) = sv - 0x28;
+            }
+            *(u16 *)(iv + 0x34) = (rand() & 0x17FF) + 0x1800;
+            func_8002D4C8(0xAD7, 0);
+        }
+        *(s32 *)(p + 0x1C) = *(s32 *)(p + 0x1C) - 1;
+        if (*(s32 *)(p + 0x1C) == 0) {
+            iv = *(s32 *)(p + 0xCC);
+            *(u16 *)(p + 0x34) = *(u16 *)(p + 0x34) + 1;
+            if (iv != 0) {
+                if (*(s32 *)(*(s32 *)(p + 0x64) + 0xF4) != 0) {
+                    *(s16 *)(iv + 0x76) = -1000;
+                } else {
+                    *(s16 *)(iv + 0x76) = -500;
+                }
+                *(u16 *)(iv + 0x5E) = 2;
+                *(u16 *)(iv + 0x5C) = *(u16 *)(iv + 0x5C) | 1;
+                *(s32 *)(p + 0xCC) = 0;
+            }
+        }
+        break;
+
+    case 2:
+        if (*(s32 *)(*(s32 *)(p + 0x64) + 0xF4) != 0) {
+            func_8002D4C8(0xAD6, 0);
+
+            e = func_8012C658(0x33, 3, (s32)p);
+            if (e != 0) {
+                *(s16 *)(e + 0x12) = -3;
+                *(s16 *)(e + 0x16) = -0x10;
+                *(s16 *)(e + 0x1A) = -4;
+                *(u16 *)(e + 0x06) = *(u16 *)(e + 0x06) + 0x140;
+            }
+            e = func_8012C658(0x33, 2, (s32)p);
+            if (e != 0) {
+                *(s16 *)(e + 0x12) = 3;
+                *(s16 *)(e + 0x16) = -0x10;
+                *(s16 *)(e + 0x1A) = -4;
+                *(u16 *)(e + 0x06) = *(u16 *)(e + 0x06) + 0x140;
+            }
+            e = func_8012C658(0x32, 2, (s32)p);
+            if (e != 0) {
+                *(s16 *)(e + 0x12) = 0;
+                *(s16 *)(e + 0x16) = -0x10;
+                *(s16 *)(e + 0x1A) = -4;
+                *(u16 *)(e + 0x06) = *(u16 *)(e + 0x06) + 0x140;
+            }
+
+            i = 0;
+            do {
+                iv = func_8012C588(0x281, (s32)p);
+                if (iv != 0) {
+                    *(s32 *)(iv + 0x1C) = 2;
+                    {
+                        s32 rr = rand();
+                        s32 xx = *(u16 *)(iv + 0x06) + 0x30;
+                        *(u16 *)(iv + 0x06) = xx + rr % 0x140;
+                    }
+                    {
+                        s32 rr = rand();
+                        s32 yy = *(u16 *)(iv + 0x0A) - 0x20;
+                        *(u16 *)(iv + 0x0A) = yy - rr % 0x100;
+                    }
+                    *(u16 *)(iv + 0x12) = (rand() & 0x1F) - 0x10;
+                    *(u16 *)(iv + 0x16) = -((rand() & 0xF) + 0x10);
+                    *(u16 *)(iv + 0x1A) = (rand() & 0x1F) - 0x10;
+                }
+                i++;
+            } while (i < 8);
+
+            func_8002A04C((s32)p);
+            if (*(s32 *)(*(s32 *)(p + 0x64) + 0xCC) != 0) {
+                iv = *(s32 *)(*(s32 *)(p + 0x64) + 0xCC);
+                *(s16 *)(iv + 0x76) = -1000;
+                *(u16 *)(iv + 0x5E) = 2;
+                *(u16 *)(iv + 0x5C) = *(u16 *)(iv + 0x5C) | 1;
+            }
+            func_8012C218(*(void **)(p + 0x64));
+            func_8012C218(p);
+            break;
+        }
+        i = *(s16 *)(*(s32 *)(p + 0x20) + 0x12);
+        ((void (*)(s32, void *))func_8001C214)(*(s32 *)(p + 0x20), D_801CD910);
+        func_8012A828((s32)p, D_801CC7C4);
+        *(u16 *)(*(s32 *)(p + 0x20) + 0x12) = i;
+        *(s16 *)(p + 0xAE) = -1;
+        *(u16 *)(p + 0x34) = *(u16 *)(p + 0x34) + 1;
+        break;
+    }
+
+    func_8018D3A4(p);
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_032/nonmatchings/ov_SC06_032_jr_801919A0", func_80192CB4);
 
