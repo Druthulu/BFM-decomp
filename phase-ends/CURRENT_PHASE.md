@@ -185,15 +185,16 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 > **Tree CLEAN** but for R23 `db.*.gbf` churn — never stage. **Nothing running.**
 > Gate at close: **`check-all` 213 passed / 0 failed of 213** from a CLEAN rebuild (R22 run 5× this
 > session; extract-all 212+main, 0 failed each).
-> **Fleet: 94.8% instr · 89.2% distinct · 96.41% fn-count · INCLUDE_ASM stubs 13,028.**
+> **Fleet: 94.9% instr · 89.4% distinct · 96.44% fn-count · INCLUDE_ASM stubs 12,923.**
 > `tools-health`: **OK** (re-run after the tool+doc changes — 495 cookbook sections).
 > **NO phase close** — T5 unopened, needs Drew's gate-2.
 
 ## THE SESSION IN ONE LINE
-**317 instances banked — the STUB-ORACLE DELTA (13,345 → 13,028).** Four parts: **Stage 0b closed**
+**422 instances banked — the STUB-ORACLE DELTA (13,345 → 12,923).** Five parts: **Stage 0b closed**
 (91, ZERO decompilation — three instrument repairs did all of it) · **wave 1** (26) · **wave 2**
-(116) · **wave 3** (84). Fleet 94.4% → **94.8% instr**, 88.3% → **89.2% distinct**.
-**The campaign's bank rate is measured THREE times now: 67% → 79% → 69%.** Wave 3's dip is the cost
+(116) · **wave 3** (84) · **wave 4** (105). Fleet 94.4% → **94.9% instr**, 88.3% → **89.4% distinct**.
+**The bank rate is measured FOUR times now: 67% → 79% → 69% → 68%** — settled into a band once the
+tier stopped being unusually easy. Wave 3's dip is the cost
 curve, not a regression: its tier was 29 Opus-band / 14 jr vs wave 2's 8 / 5, median reach ×6 → ×3-4.
 
 ## ▶ RESUME HERE — WAVE 3 (the lane order is now MEASURED, not assumed)
@@ -307,6 +308,32 @@ and an s16 prototype there would force caller-side truncation and could de-match
 **A cautionary find from the same agent:** a 551-ins MATCH already existed at
 `.run/backlog_drafts/func_80189540.c` and had been DE-MATCHED to 549 by "fixing" the definition's
 `s16` first parameter to `s32` — the exact inverse of that draft's own written warning.
+
+## ✅ WHAT S48 LANDED — part 5: WAVE 4 + THE HARNESS IS NOW IN-REPO
+**WAVE 4** (`wf_05895a19-121`, 75 agents, 7.9M tok): 40 targets → 35 agent-MATCH, 0 refuted, 5 NEAR,
+**0 drafts lost** → **27 BANKED (68%)**; propagation **27 of 27 families** (the cleanest of the four
+— the plumbing fixed earlier today is compounding). **Oracle delta 105.**
+**PRIOR-NOTES SEEDING HELD AT SCALE: 10 of 12** (wave 3 was 7 of 9). `func_8017C294` — the ×16
+family, the board's largest single item at 3,936 templatable ins — is now **NEAR at 2 ins**
+(18 → 11 → 2 across three seeded attempts). **It is the highest-value target on the board.**
+**⚠ THE 4th COMMENT-BLINDNESS DEFECT, AND THE FIRST WITH BLAST RADIUS.** A draft carried
+`extern void func_801842DC(s32 a0);   /* TU:4023 INCLUDE_ASM (no decl) */`. `corpus`'s candidate
+filter only skips lines that BEGIN with a comment marker, so it read `INCLUDE_ASM (` out of the
+PROSE and refused that binary's stub oracle (correctly, per its own R32 contract) — which then
+failed `gate_stage` for every LATER binary in the run, because they all walk the corpus. **12
+binaries banked, then 5 blocked by one comment in a 13th.** Worse: `gate_stage` raised out of the
+CorpusError BEFORE its revert, leaving failed drafts spliced in `src/`, so the 17 solo re-gates that
+followed all read **0/17 — they were building a POISONED TREE**, which is exactly the shape that
+gets read as "17 codegen walls". Reverted, re-gated clean: **9 banked**, and 9 of 9 held when
+re-gated TOGETHER per binary. **One stray comment had masked eight real matches.**
+**STILL OPEN:** `gate_stage` has no revert guarantee for an exception raised OUTSIDE its stage loop
+(`jtbl_family_bank._bank` documents fixing exactly this class in its own wrapper — port it).
+**THE HARNESS IS NOW IN THE REPO** (`tools/wave/crack_wave.js` + README, `commit:1703`). It had lived
+only in the workflow scratch dir, so each wave rebuilt it from memory — which is how its cookbook
+citation list went stale at §162 while §163 (5) and §164 (82) were banked in between. **A wave 5
+launched from the old script would have re-derived laws already on disk.** The README records the
+contracts that were paid for in failures: per-agent output dirs, sha1-last verification,
+prior-notes seeding, size routing, and "name every banked block in the citation list".
 
 ## 📐 THE FRONTIER AS RE-DERIVED THIS SESSION (post-0b, pre-wave; regen again after any bank)
 1,955 zero-crack sibling families / 6,709 members / 330,622 templatable ins. Tiers:
