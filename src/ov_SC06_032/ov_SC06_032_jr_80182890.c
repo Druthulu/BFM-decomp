@@ -7734,7 +7734,160 @@ void func_8018E70C(void *arg) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_032/nonmatchings/ov_SC06_032_jr_80182890", func_8018EB08);
+typedef struct { s32 a; s32 b[4]; } OtBlk_8018A974_8018EB08;   /* == engine_types.h OtBlk (0x14) */
+
+/* func_8018EB08 — ov_SC06_018 / ov_SC06_018_jr_80187AEC
+ *
+ * Direct structural sibling of func_8018E188 (SAME TU, banked MATCH,
+ * src/ov_SC06_018/ov_SC06_018_jr_80187AEC.c:5255).  Shares VERBATIM:
+ *   - the 0x60 gate + 0x1D snapshot block,
+ *   - the 0x78/0x60 decrement block (AND form — see E188's @stuck note),
+ *   - the 0x82&1 finisher, the C8/C9 pokes,
+ *   - the two 8-iteration spawn loops (0x281 / 0x23).
+ * Diverges: no leading func_8002D4C8 in the 0x76<0 arm, E188's CC/D0/D4
+ * particle reseed is replaced by a "hand off to the 0x64 owner" block
+ * (5C/60/5E/D8/76/62 pokes + func_8018D5C0), and the else arm gains a
+ * leading func_8002D4C8(0x9B7, 0).
+ *
+ * Regalloc target (identical to E188): p pinned $s1, e/spawn-ptr coalesce
+ * on $s0, loop counter $s2, the hoisted constant 2 on $s3.
+ *
+ * @class: regalloc-order
+ * @stuck: none — MATCH (170 ins), iteration 3.  Body was E188 verbatim on
+ *   iteration 1; both residuals were in the 12-insn 0x64 hand-off tail:
+ *   (1) `-0xA` stored through a `u16 *` folds to the unsigned 0xFFF6 and emits
+ *       `ori $v0,$zero,0xfff6`; the target's `addiu $v0,$zero,-0xA` needs the
+ *       store spelled `*(s16 *)(q + 0x76)` (§162k-adjacent width law, applied
+ *       to a CONSTANT rather than a load).
+ *   (2) the tail pointer lives in TWO registers — $s0 (the `lw 0x20` base) and
+ *       $a0 (every store base + the func_8018D5C0 arg).  Spelling that as
+ *       `register s32 q __asm__("$4"); q = iv;` alone is NOT enough: with the
+ *       0x20 load left BELOW the copy, local-alloc's `optimize_reg_copy_1`
+ *       (§162j1) rewrites that surviving use $s0 -> $a0, and the now-$a0-based
+ *       load can no longer be scheduled above the $a0-based stores (they may
+ *       alias), costing two load-delay nops = the +2 LENGTH-DRIFT.
+ *   LEVER: `optimize_reg_copy_1`'s substitution scan runs FORWARD from the copy
+ *   only, so hoisting the surviving use ABOVE `q = iv` in SOURCE order puts it
+ *   out of reach — `sv = *(s32 *)(iv + 0x20);` before the copy.  It keeps $s0,
+ *   and being source-first it also legally precedes the store block, which is
+ *   what recovers the target's schedule (lw / sh / sh / lhu interleave).  This
+ *   is a second, zero-side-effect defeat for §162j1 that works where its
+ *   in-place-SET lever cannot: the surviving use here is a LOAD, which has no
+ *   way to also SET its own base register.
+ */
+
+extern s32 rand(void);
+extern void func_8016AA50(s32, s32);
+extern s32 func_8016B428(s32);
+extern void func_80019064(void *);
+extern void func_8002A520(int);
+extern void func_8002A790(int);
+extern void func_8002D4C8(s32, s32);
+extern s32 func_8012C588(s32, s32);
+extern u8 *func_8012913C(s32);
+extern void func_8012C218(void *);
+extern void func_8018D5C0(void *);
+
+void func_8018EB08(void *arg) {
+
+    extern u8 D_801CC7E4;
+    register u8 *p __asm__("$17");   /* $s1 */
+    s32 e;
+    s32 i;
+    s32 iv;
+
+    p = (u8 *)arg;
+    e = *(u8 *)(p + 0x5E);
+
+    if (*(s16 *)(p + 0x60) != 0) {
+        if (e == 0x1D) {
+            *(u16 *)(p + 0x82) = 0;
+            *(u16 *)(p + 0x7C) = *(u16 *)(p + 0x06);
+            *(u16 *)(p + 0x7E) = *(u16 *)(p + 0x0A);
+            *(u16 *)(p + 0x80) = *(u16 *)(p + 0x0E);
+        }
+        {
+            s32 dec;
+            s32 q = *(s32 *)(p + 0x78);
+            if (q != 0 && *(s16 *)(p + 0x60) != 0) {
+                dec = ((s32)*(s16 *)(p + 0x60) * (s32)*(s16 *)(q + 0x30)) >> 12;
+                if (dec < 1) dec = 1;
+            } else {
+                dec = *(s16 *)(p + 0x60);
+            }
+            *(u16 *)(p + 0x76) = *(u16 *)(p + 0x76) - dec;
+            ((void (*)(void *, s32))func_8016AA50)(p, dec);
+        }
+        if (*(u16 *)(p + 0x82) & 1) {
+            ((void (*)(void *))func_8016B428)(p);
+            func_80019064(&D_801CC7E4);
+        }
+    }
+
+    if (e != 0x1D) {
+        if (*(u8 *)(p + 0xC8)) func_8002A520(p);
+        if (*(u8 *)(p + 0xC9)) func_8002A790(p);
+    }
+
+    if (*(s16 *)(p + 0x76) < 0) {
+        i = 0;
+        do {
+            iv = ((s32 (*)(s32, void *))func_8012C588)(0x281, p);
+            if (iv != 0) {
+                *(s32 *)(iv + 0x1C) = 2;
+                *(u16 *)(iv + 0x12) = (rand() & 0x1F) - 0x10;
+                *(u16 *)(iv + 0x16) = -((rand() & 0x0F) + 0x10);
+                *(u16 *)(iv + 0x1A) = (rand() & 0x1F) - 0x10;
+            }
+            i++;
+        } while (i < 8);
+        i = 0;
+        do {
+            iv = (s32)func_8012913C(0x23);
+            if (iv != 0) {
+                s32 r;
+                s32 sv;
+                r = rand();
+                *(u16 *)(iv + 0x06) = *(u16 *)(p + 0x06) + (r & 0x3F) - 0x20;
+                r = rand();
+                *(u16 *)(iv + 0x0A) = *(u16 *)(p + 0x0A) - (r & 0x3F) - 0x20;
+                r = rand();
+                sv = *(u16 *)(p + 0x0E);
+                *(s32 *)(iv + 0x18) = 0;
+                *(s32 *)(iv + 0x14) = 0;
+                *(s32 *)(iv + 0x10) = 0;
+                *(u16 *)(iv + 0x0E) = sv + (r & 0x3F) - 0x20;
+                r = rand();
+                *(u16 *)(iv + 0x34) = (r & 0x17FF) + 0x1800;
+            }
+            i++;
+        } while (i < 8);
+
+        {
+        register s32 q __asm__("$4");
+        s32 sv;
+        iv = *(s32 *)(p + 0x64);
+        sv = *(s32 *)(iv + 0x20);
+        q = iv;
+        *(u16 *)(q + 0x5C) = 1;
+        *(u16 *)(q + 0x60) = 0;
+        sv = *(u16 *)(sv + 0x12);
+        *(u16 *)(q + 0x5E) = 0x1D;
+        *(s32 *)(q + 0xD8) = 0;
+        *(s16 *)(q + 0x76) = -0xA;
+        *(u16 *)(q + 0x62) = sv - 0x800;
+        func_8018D5C0((void *)q);
+        }
+        func_8012C218(p);
+    } else {
+        func_8002D4C8(0x9B7, 0);
+        *(u16 *)(p + 0x5C) = 0x8800;
+        *(u16 *)(p + 0x60) = 0;
+        *(u8 *)(p + 0xC1) = 0;
+        *(u8 *)(p + 0xC2) = 0x10;
+    }
+}
+
 
 // func_8018EDB0 — ov_SC06_032 / ov_SC06_032_jr_8017C24C
 // Sibling of func_8018F060 (ov_SC06_018 / ov_SC06_018_jr_8017C24C, banked MATCH, same jr group
