@@ -3023,7 +3023,86 @@ void func_801836FC(s32 p)
     }
 }
 
-INCLUDE_ASM("asm/ov_SC06_033/nonmatchings/ov_SC06_033_jr_801836FC", func_80183B7C);
+
+/* Host TU: src/ov_SC06_018/ov_SC06_018_jr_8017C24C.c
+ * Insertion point replaces the INCLUDE_ASM at line 6996, in scope after the
+ * decl block that begins at line 6786 (#include "common.h"). That block
+ * ALREADY declares (in scope, do not redeclare):
+ *   extern s32  func_8012BEE8();                       (line 6789)
+ *   extern void func_8012A828(s32 a0, void *a1);        (line 6790)
+ *   extern u8   D_801C708C[];                           (line 6803)
+ * and elsewhere earlier in the SAME TU (still in scope, file-scope extern):
+ *   extern void func_80013350(s32 a0, void *a1);        (line 6647)
+ *     -- loose prototype (real callee takes/returns s32,s32->s32); per
+ *        cookbook §161c do NOT add a conflicting extern here, cast at the
+ *        call site instead (matches the TU's own sibling func_8018457C).
+ * New decls needed for this function (not yet declared in this TU's scope
+ * at the insertion point):
+ *   func_8012B6D4, func_8012B608, func_8012B178, func_801860E4,
+ *   func_8012C218, func_8001C924, D_801C790C[], D_801B68B4[]
+ * (func_8012B6D4/B608/B178/8765C signatures copied verbatim from this TU's
+ * other declarations of the same symbols, e.g. lines 6643-6646/7043-7045;
+ * func_8012C218/func_8001C924 copied from lines 6639-6640.)
+ */
+
+extern s32  func_8012BEE8();
+extern void func_8012A828(s32 a0, void *a1);
+extern void func_80013350(s32 a0, void *a1); /* loose proto, real TU decl (line 6647); cast at call site per §161c */
+extern s32  func_8012B6D4(s16 *a0, s16 *a1);
+extern s32  func_8012B608(s32 a0, s32 a1, s32 a2);
+extern void func_8012B178(s32 a0, s32 a1);
+extern s32  func_801860E4(s32 a0);
+extern void func_8012C218(void *a0);
+extern void func_8001C924(s32 a0, void *a1);
+
+
+void func_80183B7C(s32 p)
+{
+
+    extern u8 D_801C790C[];
+    extern u8 D_801C708C[];
+    extern u8 D_801B68B4[];
+    s32 s1;
+    s32 r;
+
+    if (*(u16 *)(p + 0x34) == 0) {
+        s1 = *(s32 *)(p + 0xCC);
+        if (s1 == 0 || *(s16 *)(s1 + 0x36) != *(s16 *)(p + 0xEC) ||
+            func_8012BEE8(p) != 0) {
+            *(u16 *)(p + 2) = 0x23;
+            *(u32 *)(p + 0xE0) |= 0x800;
+            return;
+        }
+
+        r = func_8012B6D4((s16 *)(p + 4), (s16 *)(s1 + 4));
+        *(s32 *)(p + 0xE8) = r;
+
+        r = func_8012B608(*(s16 *)(*(s32 *)(p + 0x20) + 0x12), *(s32 *)(p + 0xE8), 8);
+        *(u16 *)(*(s32 *)(p + 0x20) + 0x12) =
+            *(u16 *)(*(s32 *)(p + 0x20) + 0x12) + r;
+
+        func_8012B178(p, 0xFFF8D000);
+        func_801860E4(p);
+
+        r = ((s32 (*)(s32, s32))func_80013350)(p + 4, s1 + 4);
+        if (r < 0x900) {
+            *(u16 *)(p + 0x34) = *(u16 *)(p + 0x34) + 1;
+            func_8012A828(p, D_801C790C);
+        }
+    } else {
+        if (*(s16 *)(p + 0x98) != 0) {
+            return;
+        }
+        func_8012C218((void *)*(s32 *)(p + 0xCC));
+        *(s32 *)(p + 0xCC) = 0;
+        func_8001C924(*(s32 *)(p + 0x20), D_801B68B4);
+        func_8012A828(p, D_801C708C);
+        *(s32 *)(p + 0x48) = 0x4650;
+        *(s16 *)(p + 2) = 0x12;
+        *(u32 *)(p + 0xE0) &= ~4;
+    }
+}
+
 
 
 /* func_80183CF0 — randomised state entry (state word 0x19):
