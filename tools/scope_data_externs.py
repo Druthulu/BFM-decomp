@@ -50,8 +50,12 @@ CLI (diagnostics):
         --func func_8015AE2C [--out fixed.c]
 """
 import argparse
+import os
 import re
 import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import cdecl                                                  # noqa: E402 — the ONE masking oracle (§134/R33)
 
 # a col-0 (file-scope) `extern ...;` on one line. Leading whitespace => block scope, which is what we
 # emit and never need to re-place.
@@ -79,11 +83,28 @@ def _body_open_brace(body, func):
     the brace on the signature line, the ANSI form with the brace on its own line, AND the K&R form whose
     param decls sit between the signature and the `{`). The first cut of this used `^\s*\{\s*$` — own-line
     braces only — and silently no-op'd on every ANSI draft (the same silent-skip disease as the four
-    catalogued in §40/§8d; caught because the h_seq re-sweep banked 0/780)."""
-    sig = re.search(rf'^[^\n]*\b{re.escape(func)}\s*\(', body, re.M)
+    catalogued in §40/§8d; caught because the h_seq re-sweep banked 0/780).
+
+    BOTH SCANS RUN ON `cdecl._mask`ed TEXT (P30 S48, byte-witnessed). A crack agent's draft opens with
+    a header comment that NAMES the function and quotes C at it:
+
+        /* func_801EE8E0 (ov_MAIN_012 / jr_801789AC) — 188 ins, byte-exact vs …
+         *  3) The `do { } while (0)` around the loop-1 call is a REGISTER-ALLOCATION lever …
+
+    Unmasked, `sig` matched the COMMENT's first line and `find('{')` then found the comment's
+    `do {`, so every carried `extern` was spliced INTO THE COMMENT — silently commented out. The
+    gate reported `'D_8011511A' undeclared` and the sweep classified it CC1-FAIL, i.e. it read as a
+    property of the SIBLING (all 4 members of the family failed identically) when it was a property
+    of the EXEMPLAR'S PROSE. Every richly-commented agent draft is a carrier; the trigger is any
+    brace inside the header comment. Same §134 class as `_mask_cpp_directives` and the wrapped-decl
+    scans — mask first, then index the ORIGINAL by the masked offsets."""
+    masked = cdecl._mask(body)
+    if len(masked) != len(body):          # R32: the length invariant is what makes offsets portable
+        return None                       # refuse rather than mis-place a decl into live code
+    sig = re.search(rf'^[^\n]*\b{re.escape(func)}\s*\(', masked, re.M)
     if not sig:
         return None
-    i = body.find('{', sig.end())
+    i = masked.find('{', sig.end())
     if i < 0:
         return None
     j = body.find('\n', i)
