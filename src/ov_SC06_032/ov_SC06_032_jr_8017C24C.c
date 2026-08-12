@@ -4685,7 +4685,75 @@ void func_80180730(s32 param_1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_032/nonmatchings/ov_SC06_032_jr_8017C24C", func_801809D0);
+
+/* Sibling-search hit (cookbook §160g): src/ov_SC06_018/ov_SC06_018_jr_8017C24C.c:6654
+ * func_8018457C (already banked) is the SAME structural family — its case 0 (the
+ * s0==0||mismatch||func_8012BEE8() guard + call_b6d4/LAB_80184738 tail) and case 3
+ * (func_8012C218/func_8001C924/func_8012A828 teardown chain) are literally this
+ * function's two branches with different field offsets/globals. Types/signatures below
+ * mirror that TU's existing extern decls exactly (host TU already declares all of
+ * these at file scope before this insertion point, e.g. lines 6639-6652, 7203-7213).
+ */
+
+extern s32  func_8012BEE8(s32 a0);
+extern s32  func_8012B6D4(s16 *a0, s16 *a1);
+extern s32  func_8012B608(s32 a0, s32 a1, s32 a2);
+extern void func_8012B178(s32 a0, s32 a1);
+extern s32  func_80182400(s32 a0);
+extern void func_80013350(s32 a0, void *a1);
+extern void func_8012A828(s32 a0, void *a1);
+extern void func_8012C218(void *a0);
+extern void func_8001C924(s32 a0, void *a1);
+
+
+void func_801809D0(s32 p)
+{
+
+    extern u8 D_801BE578[];
+    extern u8 D_801AD924;
+    extern u8 D_801BDB78[];
+    s32 s0;
+    s32 r;
+
+    if (*(u16 *)(p + 0x34) == 0) {
+        s0 = *(s32 *)(p + 0xCC);
+        if (s0 == 0 || *(s16 *)(s0 + 0x36) != *(s16 *)(p + 0xEC) ||
+            func_8012BEE8(p) != 0) {
+            *(u16 *)(p + 2) = 0x23;
+            *(u32 *)(p + 0xE0) |= 0x800;
+        } else {
+            r = func_8012B6D4((s16 *)(p + 4), (s16 *)(s0 + 4));
+            *(s32 *)(p + 0xE8) = r;
+
+            r = func_8012B608(*(s16 *)(*(s32 *)(p + 0x20) + 0x12), *(s32 *)(p + 0xE8), 8);
+            *(u16 *)(*(s32 *)(p + 0x20) + 0x12) =
+                *(u16 *)(*(s32 *)(p + 0x20) + 0x12) + r;
+
+            func_8012B178(p, 0xFFF8D000);
+
+            func_80182400(p);
+
+            r = ((s32 (*)(s32, s32))func_80013350)(p + 4, s0 + 4);
+            if (r < 0x900) {
+                *(u16 *)(p + 0x34) = *(u16 *)(p + 0x34) + 1;
+                func_8012A828(p, D_801BE578);
+            }
+        }
+    } else {
+        if (*(s16 *)(p + 0x98) == 0) {
+            func_8012C218((void *)*(s32 *)(p + 0xCC));
+            *(s32 *)(p + 0xCC) = 0;
+            func_8001C924(*(s32 *)(p + 0x20), &D_801AD924);
+            *(u16 *)(p + 2) = 0x20;
+            func_8012A828(p, D_801BDB78);
+            *(s32 *)(p + 0x48) = 0x4650;
+            *(s32 *)(p + 0x1C) = 0;
+            *(s32 *)(p + 0xE4) = 0;
+            *(u32 *)(p + 0xE0) &= 0xFFFFFFFB;
+        }
+    }
+}
+
 
 extern void func_80181DDC(void);
     void func_80180B4C(s32 arg0) {
