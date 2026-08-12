@@ -7981,7 +7981,3 @@ void func_8018F3E4(void)
 
 
 INCLUDE_ASM("asm/ov_SC06_032/nonmatchings/ov_SC06_032_jr_80182890", func_8018FB5C);
-
-INCLUDE_ASM("asm/ov_SC06_032/nonmatchings/ov_SC06_032_jr_80182890", func_8018FCE8);
-
-
