@@ -2967,7 +2967,45 @@ INCLUDE_ASM("asm/ov_SC06_032/nonmatchings/ov_SC06_032_jr_80181014", func_801816C
 
 INCLUDE_ASM("asm/ov_SC06_032/nonmatchings/ov_SC06_032_jr_80181014", func_80181738);
 
-INCLUDE_ASM("asm/ov_SC06_032/nonmatchings/ov_SC06_032_jr_80181014", func_80181B24);
+
+/* §160g STEP 0 sibling hit: identical shape already matched inline inside
+ * func_80131340 (src/ov_SC03_099/ov_SC03_099_jr_8012ACE0.c and its dedup
+ * siblings), where the "delta" struct is a LOCAL computed earlier in that
+ * function. Here the delta is passed in directly via a1 — same struct-copy /
+ * add / dead-copy / call / subtract / store shape, adapted to a pointer
+ * parameter instead of a local. */
+
+void func_80181B24(s32 a0, s32 a1)
+{
+    struct V8_80181B24 {
+        u16 vx, vy, vz, pad;
+    };
+    extern s32 func_8012CEB0(void*, void*, s32);
+
+    struct V8_80181B24 sp10;
+    struct V8_80181B24 sp18;
+    struct V8_80181B24 sp20;
+
+    sp10.vx = *(u16 *)(a0 + 0x3A);
+    sp10.vy = *(u16 *)(a0 + 0x3E);
+    sp10.vz = *(u16 *)(a0 + 0x42);
+    sp18 = sp10;
+    sp18.vx += *(u16 *)(a1 + 0x0);
+    sp18.vy += *(u16 *)(a1 + 0x2);
+    sp18.vz += *(u16 *)(a1 + 0x4);
+    sp20 = sp18; /* load-bearing dead aggregate copy — gcc-2.7.2 has no aggregate DSE (§160e-family) */
+    ((s32 (*)(s32, s32, s32))func_8012CEB0)((s32)&sp10, (s32)&sp18, 1);
+    sp18.vx -= *(u16 *)(a1 + 0x0);
+    sp18.vy -= *(u16 *)(a1 + 0x2);
+    sp18.vz -= *(u16 *)(a1 + 0x4);
+    *(u16 *)(a0 + 0x3A) = sp18.vx;
+    *(u16 *)(a0 + 0x3E) = sp18.vy;
+    *(u16 *)(a0 + 0x42) = sp18.vz;
+    *(u16 *)(a0 + 0x6) = sp18.vx;
+    *(u16 *)(a0 + 0xA) = sp18.vy;
+    *(u16 *)(a0 + 0xE) = sp18.vz;
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_032/nonmatchings/ov_SC06_032_jr_80181014", func_80181C78);
 
