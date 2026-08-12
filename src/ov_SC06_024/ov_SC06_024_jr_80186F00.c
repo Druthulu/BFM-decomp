@@ -3523,7 +3523,85 @@ void func_801885F4(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_024/nonmatchings/ov_SC06_024_jr_80186F00", func_80188630);
+
+/* Sibling-search (cookbook §160g): every declaration below is TU-canonical, lifted verbatim
+ * from src/ov_SC06_018/ov_SC06_018_jr_80187AEC.c (the destination TU):
+ *   func_8012C354  -- decl at TU:2846 "extern s32 func_8012C354(s32 a0, void *a1);"
+ *   func_8012CAE4  -- decl at TU:2849 "extern void func_8012CAE4(s32 a0);"
+ *   func_80143994  -- decl at TU:2847 "extern s32 func_80143994(s32 a0, s32 a1);"
+ *   func_8018906C  -- ALREADY DEFINED in this TU at :3492 "void func_8018906C(s32 p)" (banked)
+ *   func_8012C1B8  -- TU-canonical `void (void)` at :4123/:3929, called via the established
+ *                     cast-through-function-pointer idiom (§161c) seen in this TU's own
+ *                     func_80189A34 (:4138) and func_801894F0 (:3948) -- byte-identical spawn
+ *                     idiom, same handle-alloc-then-null-check shape as our case 2.
+ *   func_8001CA1C  -- not yet declared in THIS TU; canonical form taken from the sibling TU
+ *                     ov_SC06_018_jr_80140608.c:1704 "extern void func_8001CA1C(s32 a0, s32 a1);"
+ *   func_801887A0  -- INCLUDE_ASM in this TU at :3206 (still unmatched); called here with the
+ *                     object pointer and its own return discarded, so declared void(s32).
+ * D_801BC4F8 / D_801BC52C / D_801BC4CC are new (undeclared anywhere in src/); declared as
+ * plain byte arrays per this TU's own convention for opaque data blobs (e.g. D_801AD470[]
+ * at TU:2791) -- only their address is used (func_8012C354's a1 is void*, func_8001CA1C's a1
+ * is a raw s32 cast of the address), so element type is codegen-irrelevant.
+ */
+extern s32 func_8012C354(s32 a0, void *a1);
+extern void func_8012CAE4(s32 a0);
+extern s32 func_80143994(s32 a0, s32 a1);
+extern void func_801887A0(s32 a0);
+extern void func_8012C1B8(void);
+extern void func_8001CA1C(s32 a0, s32 a1);
+extern void func_8018906C(s32 p);
+
+
+void func_80188630(s32 a0) {
+
+    extern u8 D_801BC4F8[];
+    extern u8 D_801BC52C[];
+    extern u8 D_801BC4CC[];
+    s32 v1;
+    s32 obj;
+
+    v1 = *(u16 *)(a0 + 0x70) & 0xF;
+    switch (v1) {
+    case 0:
+        if (func_8012C354(a0, D_801BC4F8) == 0) {
+            return;
+        }
+        *(s32 *)(*(s32 *)(a0 + 0x20) + 0x20) = a0 + 0xE8;
+        *(u16 *)(a0 + 0x104) = 0x78;
+        func_801887A0(a0);
+        func_80143994(a0, 0x1800);
+        return;
+    case 1:
+        if (func_8012C354(a0, D_801BC52C) == 0) {
+            return;
+        }
+        *(u16 *)(a0 + 0x104) = 0xA0;
+        if ((*(s16 *)(a0 + 0x70) & 0x8000) == 0) {
+            *(s16 *)(a0 + 0x2) = 3;
+            return;
+        }
+        *(s16 *)(a0 + 0x2) = 5;
+        func_80143994(a0, 0x1800);
+        return;
+    case 2:
+        obj = ((s32 (*)(void))func_8012C1B8)();
+        *(s32 *)(a0 + 0x20) = obj;
+        if (obj == 0) {
+            func_8012CAE4(a0);
+            return;
+        }
+        func_8001CA1C(obj, (s32)D_801BC4CC);
+        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x18) = 0x14CC;
+        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x1A) = 0x1199;
+        *(s32 *)(*(s32 *)(a0 + 0x20) + 4) |= 0x58000000;
+        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x2C) |= 0x10;
+        func_8018906C(a0);
+        return;
+    default:
+        return;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_024/nonmatchings/ov_SC06_024_jr_80186F00", func_801887A0);
 
