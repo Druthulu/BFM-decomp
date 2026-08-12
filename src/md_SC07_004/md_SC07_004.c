@@ -673,7 +673,146 @@ INCLUDE_ASM("asm/md_SC07_004/nonmatchings/md_SC07_004", func_801AAB28);
 
 INCLUDE_ASM("asm/md_SC07_004/nonmatchings/md_SC07_004", func_801AACD4);
 
-INCLUDE_ASM("asm/md_SC07_004/nonmatchings/md_SC07_004", func_801AADA8);
+
+/* func_801AADA8 — allocates a semi-trans LineF2 GPU packet, projects two
+ * world-space points via RotTransPers, and (if both are on-screen with
+ * non-negative depth-clip flags) links the packet into the current
+ * double-buffer's OT at the first point's depth, then notifies via
+ * func_80016638.
+ *
+ * STEP 0 sibling search (§160g) — three already-MATCHED exemplars supplied
+ * the whole shape, none needed independent discovery:
+ *
+ *   1. src/shared/engine_core.h DEFINE_func_8012D3B4() — identical prologue
+ *      (temp_v0=func_80010A08(0x10); word4=arg2; func_8004914C/func_800491AC
+ *      (&D_800AF648); two RotTransPers calls with the exact
+ *      `(d>0) && (flag>=0) && (RotTransPers(...)>0) && (flag>=0)` guard) but
+ *      calls a real `SetLineF2()` (code 0x40, no semi-trans) and a real
+ *      `AddPrim()` (single evaluation).  Our target's asm has NEITHER a
+ *      `jal SetLineF2` NOR a `jal AddPrim` — both are fully inlined, which
+ *      is the key structural difference this draft encodes (code 0x42 =
+ *      semi-trans LineF2 needs hand-set fields; AddPrim needs the classic
+ *      macro body since a *variable* depth offset appears nowhere in the
+ *      real AddPrim()-calling siblings).
+ *
+ *   2. src/ov_SC03_119/ov_SC03_119_jr_8017FB84.c func_80185944 — byte-MATCH
+ *      (177/177 ins).  Its header names this exact tail idiom: "link-ins
+ *      the packet into the current double-buffer's OT (the PSY-Q `addPrim`
+ *      macro pair) and calls func_80016638", with `func_80016638(&D_800A6518
+ *      [*bidx*20], depth, 1)` as its literal call form (there depth=0x10
+ *      constant, here depth=temp_v0_2).  Confirms the "3 lhu D_800B9A02,
+ *      address cached / value reloaded" shape and the general addPrim(ot,p)
+ *      == setaddr(p,getaddr(ot)); setaddr(ot,p) reading.
+ *
+ *   3. src/ov_SC03_119/ov_SC03_119_jr_8017FB84.c func_801860E8 (same TU,
+ *      just above func_80185944) — its own header documents **Lever B**,
+ *      byte-measured: "THE OT TABLE MUST BE AN ARRAY_REF (`D_800A651C[i].a`),
+ *      NOT `*(s32*)((u8*)&D_800A651C + i*20)`. With the pointer-arith
+ *      spelling gcc allocates a phantom 8-byte stack temp that is never
+ *      referenced... The temp only appears when the SAME lookup expression
+ *      occurs in two statements; the ARRAY_REF form kills it." This was the
+ *      load-bearing fix for this draft too — confirmed empirically here via
+ *      the `cpp|cc1 … | grep '.frame'` pipeline (§162i's own diagnostic
+ *      method): pointer-arith form gave `vars=16` (0x38 frame, +8 over
+ *      target's 0x30); switching every `D_800A651C` reference to
+ *      `D_800A651C[idx].a` ARRAY_REF form (using the `OtBlk` shape from
+ *      engine_types.h:525, local-suffixed here since match_one compiles
+ *      standalone) dropped it straight to `vars=8` (0x30, exact). This
+ *      generalizes §162i1's "only a BLKmode local reserves frame space" law
+ *      to a second, distinct anonymous-temp source (a raw-pointer-arith
+ *      symbol expression repeated in 2 statements) — worth a cookbook
+ *      addendum since §162i1 as written only covers dead-local pads.
+ *
+ * REGISTER-ALLOCATION LEVERS (found empirically, byte-verified against this
+ * function's own .frame/.s, not inherited from the exemplars above):
+ *   - `bidx` pinned to $8 ($t0): natural (unpinned) allocation put the
+ *     shared D_800B9A02-address pointer in $a3 instead, cascading a
+ *     one-register shift through the whole mask/index register set.
+ *   - `mask1` (0xFFFFFF) pinned to $7 ($a3); `tag0` (the packet's old tag
+ *     word, read once before the first addPrim half) pinned to $4 ($a0) —
+ *     both needed to reproduce the target's exact a2/a3/t0/t1 register
+ *     picks for the addPrim RMW pair.  `mask2` (0xFF000000) and `depth4`
+ *     (temp_v0_2*4) are explicitly NOT pinned — pinning them re-introduced a
+ *     2-instruction schedule swap between the depth<<2 and the 0xFF000000
+ *     `lui`; left as plain (named, for depth4) / literal (for mask2)
+ *     locals, natural allocation lands them correctly.
+ *   - `rgb` (arg2, the color word) pinned to $16 ($s0): unpinned, arg2 and
+ *     the &D_800AF648 matrix address land in $s1/$s0 (swapped from target).
+ *     `rgb`'s single SET made it a sched1 "birthing insn"
+ *     (`birthing_insn_p`: `reg_n_sets==1`) — boosted to max priority in
+ *     sched1's BACKWARD scan, which schedules a boosted insn late (cookbook
+ *     "birthing-boost prologue-order" lever). A zero-byte non-volatile
+ *     re-tie `__asm__("" : "=r"(rgb) : "0"(rgb));` placed immediately after
+ *     `rgb = arg2;` gives it a 2nd SET (boost dead) with zero emitted code,
+ *     and the 3-instruction prologue cluster (save $s0 / set $s0=arg2 / set
+ *     $a0=0x10 for the alloc call) reorders to the target's exact sequence.
+ *
+ * INTEGRATION SURFACE (checked against destination TU
+ * src/ov_SC06_018/ov_SC06_018_jr_80187AEC.c):
+ *   func_80010A08, func_8004914C, func_800491AC, RotTransPers, D_800AF648,
+ *   D_800B9A02, D_800A6518 all match the TU's own existing extern spellings
+ *   verbatim (grepped at TU lines 2448/2632-2633/4674 and the
+ *   func_8018F694/func_8018F060 block). D_800A651C and func_80016638 have NO
+ *   file-scope declaration anywhere in the TU (only ever appear inside other
+ *   INCLUDE_ASM'd/unbanked functions) — declared here exactly as the
+ *   func_801860E8/func_80185944 MATCHed precedent declares them: `OtBlk
+ *   D_800A651C[]` (locally as `OtBlk_8018A974_801AADA8` — match_one compiles
+ *   standalone without ../shared/engine_core.h; at bank time this collapses
+ *   onto the TU's own already-visible `OtBlk` from engine_types.h:525,
+ *   identical layout, a copy-edit not a fresh investigation) and
+ *   `void func_80016638(void *a0, s32 a1, s32 a2)`.
+ */
+
+typedef struct { s32 a; s32 b[4]; } OtBlk_8018A974_801AADA8;   /* == engine_types.h OtBlk (0x14) */
+
+void func_801AADA8(s32 arg0, s32 arg1, s32 arg2)
+{
+    extern void *func_80010A08(s32);
+    extern void func_8004914C(void *);
+    extern void func_800491AC(void *);
+    extern s32 RotTransPers(s32, s32, s32 *, s32 *);
+    extern u8 D_800AF648;
+    extern OtBlk_8018A974_801AADA8 D_800A651C[];
+    extern u8 D_800A6518[];
+    extern short D_800B9A02;
+    extern void func_80016638(void *a0, s32 a1, s32 a2);
+
+    s32 sp10;
+    s32 sp14;
+    s32 temp_v0_2;
+    void *temp_v0;
+    s32 ot;
+    s32 depth4;
+    register u16 *bidx __asm__("$8");
+    register u32 mask1 __asm__("$7");
+    register s32 rgb __asm__("$16");
+    register u32 tag0 __asm__("$4");
+
+    rgb = arg2;
+    __asm__("" : "=r"(rgb) : "0"(rgb));   /* zero-byte 2nd SET: kills the sched1 birthing boost */
+    temp_v0 = func_80010A08(0x10);
+    *(u8 *)((u8 *)temp_v0 + 3) = 3;
+    *(s32 *)((u8 *)temp_v0 + 4) = rgb;
+    *(u8 *)((u8 *)temp_v0 + 7) = 0x42;
+    func_8004914C(&D_800AF648);
+    func_800491AC(&D_800AF648);
+    temp_v0_2 = RotTransPers(arg0, temp_v0 + 8, &sp10, &sp14);
+    if ((temp_v0_2 > 0) && (sp14 >= 0) &&
+        (RotTransPers(arg1, temp_v0 + 0xC, &sp10, &sp14) > 0) && (sp14 >= 0)) {
+        /* addPrim(otp, p) == setaddr(p, getaddr(otp)), setaddr(otp, p) */
+        mask1 = 0xFFFFFF;
+        bidx = (u16 *)&D_800B9A02;
+        depth4 = temp_v0_2 * 4;
+        tag0 = *(u32 *)temp_v0;
+        *(u32 *)temp_v0 = (tag0 & 0xFF000000) |
+            (*(u32 *)(depth4 + D_800A651C[*bidx].a) & mask1);
+        ot = D_800A651C[*bidx].a;
+        *(u32 *)(depth4 + ot) =
+            (*(u32 *)(depth4 + ot) & 0xFF000000) | ((u32)temp_v0 & mask1);
+        func_80016638(&D_800A6518[*bidx * 20], temp_v0_2, 1);
+    }
+}
+
 
 INCLUDE_ASM("asm/md_SC07_004/nonmatchings/md_SC07_004", func_801AAF34);
 
