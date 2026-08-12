@@ -4085,7 +4085,54 @@ INCLUDE_ASM("asm/ov_SC03_119/nonmatchings/ov_SC03_119_jr_801863CC", func_8018874
 
 INCLUDE_ASM("asm/ov_SC03_119/nonmatchings/ov_SC03_119_jr_801863CC", func_80188788);
 
-INCLUDE_ASM("asm/ov_SC03_119/nonmatchings/ov_SC03_119_jr_801863CC", func_801887DC);
+
+extern s32 func_8004787C(s32 a0);
+extern s32 func_80047948(s32 a0);
+extern s32 func_80133784(s32 a0, void *a1, s32 a2);
+
+s32 func_801887DC(s32 a0, s16 a1, s16 a2) {
+    s16 p1[3];
+    s16 p2[3];
+    s32 t;
+    s32 result;
+
+    p1[0] = *(u16 *)(a0 + 6);
+    p1[1] = *(u16 *)(a0 + 0xA);
+    p1[2] = *(u16 *)(a0 + 0xE);
+
+    t = func_8004787C(*(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) & 0xFFF) * a1;
+    p2[1] = p1[1];
+    p2[0] = p1[0] - (t >> 12);
+
+    t = func_80047948(*(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) & 0xFFF) * a1;
+    p2[2] = p1[2] - (t >> 12);
+
+    result = func_80133784(1, p1, (s32)p2);
+
+    if ((result & 0x8000) && a2) {
+        t = func_8004787C(*(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) & 0xFFF) * a1;
+        p1[1] = p2[1];
+        p1[0] = p2[0] + (t >> 12);
+
+        t = func_80047948(*(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) & 0xFFF) * a1;
+        p1[2] = p2[2] + (t >> 12);
+
+        result = func_80133784(1, p2, (s32)p1);
+
+        *(s16 *)(a0 + 6) = p1[0];
+        *(s16 *)(a0 + 0xA) = p1[1];
+        *(s16 *)(a0 + 0xE) = p1[2];
+
+        if (!(*(u16 *)(a0 + 0x84) & 2)) {
+            *(u16 *)(a0 + 0x84) |= 2;
+        }
+    } else {
+        *(u16 *)(a0 + 0x84) &= ~2;
+    }
+
+    return result;
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_119/nonmatchings/ov_SC03_119_jr_801863CC", func_80188990);
 
