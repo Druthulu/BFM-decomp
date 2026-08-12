@@ -2415,7 +2415,6 @@ extern void func_801748E4(void);
 extern void func_8012A018(s32 a, s32 b);
 extern s32 func_8017496C(void *a0);
 extern s32 D_80126954;
-extern s32 D_80126950;
 extern s32 D_8012695C;
 extern s16 D_80126968;
 extern s16 D_8012696A;
@@ -3647,7 +3646,176 @@ void func_80189304(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_003/nonmatchings/ov_SC02_003_jr_8018173C", func_80189340);
+
+/* func_80189340 -- ov_SC02_000 (jr_8018173C).  Projects a 8-node "tail"/streamer chain
+ * (D_8018F6E4 = a u16[3] offset table, one row per node; the per-node byte deltas live in
+ * the object at +0x100 walking DOWNWARD) and, for every node whose bit is set in the
+ * s16 mask at obj+0xA8, emits 4 semi-transparent gouraud quads (POLY_G4, len=8, code=0x3A)
+ * that fan the previous->current screen segment out by +-radius in x (j=0,1) or y (j=2,3).
+ *
+ * Byte-verified levers (match_one MATCH, 260 ins):
+ *  L1 FRAME (sp+0xE8, out-arg area 0x18 for func_8005A600's 5th arg).  Declared-local slots
+ *     are handed out in DECLARATION order; everything at/above sp+0xA0 is a reload SPILL
+ *     slot (8-aligned, size rounded to 8 -- assign_stack_local(align == -1)), which is why
+ *     prim/ot/mask/ptrC land on 0xA0/0xA8/0xB0/0xB8 with holes between.  So the declared set
+ *     must be exactly: tags[28] (0x18), sv[4] (0x88), xy[4] (0x90), rgb (0x98), flag (0x9C).
+ *     `rgb` and `flag` MUST be plain address-taken scalars (4-aligned, no hole); folding them
+ *     into the xy aggregate would 8-align them and shift the frame.
+ *  L2 tags[1..27] are genuinely DEAD stores in the original -- keep them.  The loop body must
+ *     read `tags[0]` (not the `prim` pseudo): tags[] is an ARRAY_REF, so the store tags[i]=
+ *     invalidates it every iteration and re-emits `lw $v0,0x18($sp)`.
+ *  L3 ONE variable for BOTH the tags counter and the outer node counter.  Two separate
+ *     counters split the allocno; the merged one out-ranks the ptrC giv, takes $s4, and
+ *     pushes ptrC into the 0xB8 spill -- which is also what forces the target's TWO separate
+ *     `la D_8018F6E4` materialisations in the preheader (257 -> 260 ins).
+ *  L4 `ret * 4` is written TWICE (ot, and the divisor).  Binding it to a local computes it
+ *     once and loses a `sll`; CSE cannot merge the two because a loop back-edge separates
+ *     their extended basic blocks.
+ *  L5 The 14 prim stores go through STRUCT types (MEM_IN_STRUCT_P).  cse.c's true_dependence
+ *     drops the dependence of a varying in-struct store on a fixed NON-struct scalar, so the
+ *     plain scalar `rgb` survives across them (one `lw 0x98($sp)` feeding both colour stores)
+ *     while the ARRAY_REF xy[] reads do NOT (each `sh` gets its own `lhu`).  Plain
+ *     `*(s32 *)(pp + 0x04)` casts would re-load rgb twice and lose the match.
+ *  L6 `s32 c = rgb;` -- a block-scoped temp read at the TOP of the j body.  It is what hoists
+ *     `lw $v1,0x98($sp)` above `addiu $v0,$zero,8` and hands rgb $v1 (not $v0), which in turn
+ *     lets the 0x3A constant float up.  Reading `rgb` directly at the two colour stores is an
+ *     8-instruction schedule miss; it must NOT be hoisted out of the j loop (AddPrim clobbers
+ *     memory, so loop.c cannot treat the load as invariant).
+ *  L7 `xy[0]=xy[2]; xy[1]=xy[3];` sit AFTER the three sv[] stores (any earlier placement is
+ *     12-50 off), and `q` is a single walking `*q--` cursor seeded at obj+0x103 -- gcc folds
+ *     the three peeled decrements into the one `addiu $s3,$s6,0x100`.
+ *
+ * Integration surface (host TU src/ov_SC02_000/ov_SC02_000_jr_8018173C.c):
+ *   AGREES at file scope -- D_800AF648 (u8[]), D_80126950 (s32), D_800B9A02 (s16, matched to
+ *   the TU canon; the u16 spelling also byte-matches but would CONFLICT), func_8004914C /
+ *   func_800491AC (void(void*)).  NOT declared anywhere in the TU or in include/ --
+ *   D_8018F6E4, D_800A651C, RotTransPers, func_80010A08, GetTPage, func_8005A600, AddPrim.
+ *   D_8018F6E4 is overlay-local data: the ~2 family sibling needs its own symbol remapped.
+ */
+
+
+extern void  func_8004914C(void *a0);
+extern void  func_800491AC(void *a0);
+extern s32   RotTransPers(void *a0, void *a1, s32 *a2, s32 *a3);
+extern void *func_80010A08(s32 a0);
+extern s32   GetTPage(s32 a0, s32 a1, s32 a2, s32 a3);
+extern s32   func_8005A600(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4);
+extern s32   AddPrim(s32 a0, void *a1);
+
+void func_80189340(s32 p)
+{
+
+    extern u8  D_800AF648[];
+    extern u16 D_8018F6E4[];
+    extern s32 D_80126950;
+    extern s32 D_800A651C;
+    typedef struct { u8 pad0[3]; u8 len; u8 pad1[3]; u8 code; } PHdr_80189340_80189340;
+    typedef struct {
+        u32 tag;            /* 0x00 */
+        u32 c0;             /* 0x04 */
+        u16 x0, y0;         /* 0x08, 0x0A */
+        u32 c1;             /* 0x0C */
+        u16 x1, y1;         /* 0x10, 0x12 */
+        u32 c2;             /* 0x14 */
+        u16 x2, y2;         /* 0x18, 0x1A */
+        u32 c3;             /* 0x1C */
+        u16 x3, y3;         /* 0x20, 0x22 */
+    } PG4_80189340_80189340;         /* 0x24 */
+
+    s32 tags[28];           /* sp+0x18 */
+    s16 sv[4];              /* sp+0x88 */
+    u16 xy[4];              /* sp+0x90 */
+    s32 rgb;                /* sp+0x98 */
+    s32 flag;               /* sp+0x9C */
+
+    u8 *q;
+    u8 *pp;
+    u8 *prim;
+    s32 ret;
+    s32 ot;
+    s32 radius;
+    s32 tp;
+    s32 i, j;
+    u8  mask;
+
+    func_8004914C(D_800AF648);
+    func_800491AC(D_800AF648);
+
+    mask = 1;
+    q = (u8 *)(p + 0x103);
+    sv[0] = D_8018F6E4[0] + *q--;
+    sv[1] = D_8018F6E4[1] + *q--;
+    sv[2] = D_8018F6E4[2] + *q--;
+    ret = RotTransPers(sv, &xy[2], &rgb, &flag);
+    if (ret > 0 && flag >= 0) {
+        ot = *(s32 *)((s8 *)&D_800A651C + ((u16)D_800B9A02 * 0x14)) + ret * 4;
+        prim = (u8 *)func_80010A08(0x3FC);
+        if (prim != 0) {
+            tp = GetTPage(0, 1, 0, 0);
+            func_8005A600((s32)prim, 0, 0, (u16)tp, 0);
+
+            tags[0] = (s32)(prim + 0xC);
+            for (i = 1; i < 28; i++) {
+                tags[i] = tags[0] + i * 0x24;
+            }
+
+            radius = ((D_80126950 + 0x1F4) * 8) / (ret * 4);
+            pp = (u8 *)tags[0];
+
+            for (i = 1; i < 8; i++) {
+                sv[0] = D_8018F6E4[i * 3] + *q--;
+                sv[1] = D_8018F6E4[i * 3 + 1] + *q--;
+                sv[2] = D_8018F6E4[i * 3 + 2] + *q--;
+                xy[0] = xy[2];
+                xy[1] = xy[3];
+                RotTransPers(sv, &xy[2], &rgb, &flag);
+                if ((*(s16 *)(p + 0xA8) & mask) != 0) {
+                    rgb = *(s32 *)(p + 0x1C) << 6;
+                    for (j = 0; j < 4; j++) {
+                        s32 c = rgb;
+                        ((PHdr_80189340_80189340 *)pp)->len = 8;
+                        ((PG4_80189340_80189340 *)pp)->c1 = 0;
+                        ((PG4_80189340_80189340 *)pp)->c3 = 0;
+                        ((PG4_80189340_80189340 *)pp)->c0 = c;
+                        ((PG4_80189340_80189340 *)pp)->c2 = c;
+                        ((PHdr_80189340_80189340 *)pp)->code = 0x3A;
+                        ((PG4_80189340_80189340 *)pp)->x0 = xy[0];
+                        ((PG4_80189340_80189340 *)pp)->x1 = xy[0];
+                        ((PG4_80189340_80189340 *)pp)->x2 = xy[2];
+                        ((PG4_80189340_80189340 *)pp)->x3 = xy[2];
+                        ((PG4_80189340_80189340 *)pp)->y0 = xy[1];
+                        ((PG4_80189340_80189340 *)pp)->y1 = xy[1];
+                        ((PG4_80189340_80189340 *)pp)->y2 = xy[3];
+                        ((PG4_80189340_80189340 *)pp)->y3 = xy[3];
+                        switch (j) {
+                        case 0:
+                            ((PG4_80189340_80189340 *)pp)->x1 = ((PG4_80189340_80189340 *)pp)->x1 + radius;
+                            ((PG4_80189340_80189340 *)pp)->x3 = ((PG4_80189340_80189340 *)pp)->x3 + radius;
+                            break;
+                        case 1:
+                            ((PG4_80189340_80189340 *)pp)->x1 = ((PG4_80189340_80189340 *)pp)->x1 - radius;
+                            ((PG4_80189340_80189340 *)pp)->x3 = ((PG4_80189340_80189340 *)pp)->x3 - radius;
+                            break;
+                        case 2:
+                            ((PG4_80189340_80189340 *)pp)->y1 = ((PG4_80189340_80189340 *)pp)->y1 + radius;
+                            ((PG4_80189340_80189340 *)pp)->y3 = ((PG4_80189340_80189340 *)pp)->y3 + radius;
+                            break;
+                        case 3:
+                            ((PG4_80189340_80189340 *)pp)->y1 = ((PG4_80189340_80189340 *)pp)->y1 - radius;
+                            ((PG4_80189340_80189340 *)pp)->y3 = ((PG4_80189340_80189340 *)pp)->y3 - radius;
+                            break;
+                        }
+                        AddPrim(ot, pp);
+                        pp += 0x24;
+                    }
+                }
+                mask = mask << 1;
+            }
+            AddPrim(ot, prim);
+        }
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC02_003/nonmatchings/ov_SC02_003_jr_8018173C", func_80189750);
 
