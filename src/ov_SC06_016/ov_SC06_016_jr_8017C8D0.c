@@ -4969,7 +4969,182 @@ void func_80184918(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_016/nonmatchings/ov_SC06_016_jr_8017C8D0", func_80184BFC);
+typedef struct {
+    SVECTOR_8016E7C8 v[4];               /* 0x00 */
+    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
+    u8  f6;                     /* 0x38 */
+    u8  pad[7];                 /* -> 0x40 */
+} Prim_8016E7C8_80184BFC;
+
+/* func_80184BFC (ov_SC03_117, ov_SC03_117_jr_8017BEBC) — MATCH (148 ins)
+ *
+ * Tapered-beam / laser quad renderer.  Builds a 4-vertex SVECTOR quad in local
+ * space (x = 0 .. arg0->len, y = -/+ half-width, the near half-width at 0x18 and
+ * the far one at 0x1A), rotates it with the caller's angle triple (0x08) through
+ * func_80049CAC + func_80017E8C, allocates ONE 0x24-byte POLY_G4 out of
+ * func_80010A08, projects the quad straight into the packet's four xy slots with
+ * RotTransPers4, and links the packet into the current double-buffer OT with the
+ * inline PSY-Q addPrim pair.  If arg0->flags (0x1C) has bit 30, it also emits a
+ * 1-word 0xE1000200 DR_TPAGE prim carrying the semi-transparency mode
+ * ((flags >> 23) & 0x60) and chains that in front of the poly.
+ *
+ * FRAME 0x88 = 0x28 outgoing args (RotTransPers4 takes 10) + v[4] (0x20) +
+ * mtx (0x20) + opz/flag (8) + 6 saved regs (0x18).  Locals are declared in
+ * increasing-address order, so v/mtx/opz/flag land at 0x28/0x48/0x68/0x6C.
+ *
+ * LEVERS (each byte-checked against asm/.../func_80184BFC.s)
+ *
+ *  - `ot` is computed BEFORE the `len == 0` early return: sched1 never moves an
+ *    insn across a bb boundary, and the target has the whole
+ *    lui/lhu/lui/addiu/sll run plus `addu $s4,$v0,$v1` (the beqz delay slot)
+ *    ahead of the branch.  Computing it after the guard costs 5 insns of drift.
+ *
+ *  - `(otz << 2) + (u32)ot`, NOT `ot + otz`: gcc keeps the written operand order
+ *    for the `addu`, and the target is `addu $s0, $v0, $s4` (offset first).
+ *    Same reason `&D_800A6610[idx << 14]` gives `addu $s4, $v0, $v1`.
+ *
+ *  - `mp` (a pointer local bound to &mtx) is what puts the matrix address in a
+ *    callee-saved register ($s0) and turns both call-site setups into `addu
+ *    $aN,$s0,$zero` moves.  Passing &mtx directly re-materialises
+ *    `addiu $aN,$sp,0x48` at each site.  The mtx.t[] stores stay sp-relative
+ *    because they are written through the array, not through mp.
+ *
+ *  - Every `*(u16 *)(arg0 + N)` / `*(u32 *)(arg0 + N)` is spelled out at each
+ *    use instead of being cached in a local: the quad stores take the address of
+ *    v[], and poly is a heap pointer, so gcc cannot disambiguate them from the
+ *    arg0 loads and re-loads each one — which is exactly the target's two
+ *    `lhu 0x18($s2)`, two `lhu 0x1A($s2)`, two `lw 0x10($s2)`, two
+ *    `lw 0x14($s2)`.  `len` IS a local (one `lhu 0x6($s2)`, three uses).
+ *
+ *  - `u16` reads + `>> 1`: `lhu` then `srl` (combine rewrites the ashiftrt to
+ *    lshiftrt because the zero_extend proves the sign bit clear), then `negu`.
+ *
+ *  - `otz` is u32 so the 0x1000 bound test emits `sltiu`, and the `+ 1` is a
+ *    separate statement AFTER the flag test so dbr can steal it for the `bnez`
+ *    delay slot (the target keeps `addu $a0,$v0,$zero` and `addiu $a0,$a0,1` as
+ *    two insns; `ret + 1` in one expression folds them into one `addiu`).
+ *
+ *  - THE TAIL CLUSTER (the last 9 mismatches).  Two facts decide it:
+ *      (a) `q[3] = 1` (byte 3) OVERLAPS the word at q[0], so sched sees a real
+ *          memory dependence and the `lw 0($v0)` MUST be written after the sb —
+ *          reading `*(u32 *)q` before it inverts the dep into an anti-edge and
+ *          drags the load above `sb`/`lw 0x1C($s2)` (2 mismatches, var_e).
+ *      (b) With the load after the sb, its dest is a single-set pseudo, so
+ *          `adjust_priority`'s BIRTHING BOOST (sched.md §1.7) raises it to
+ *          0x7f000001, it wins every tie the moment it is ready, and it sinks
+ *          past `or`/`sw 4($v0)` (9 mismatches).  The target has it competing
+ *          normally at priority 2 and winning the T-16 tie against the `ori`
+ *          only on `potential_hazard` (memory beats ALU).
+ *    `register u32 qt __asm__("$4")` fixes BOTH the boost and the allocation in
+ *    one zero-byte edit: it is the whole residual.  (A dead
+ *    `__asm__ volatile("":"=r"(qt))` boost-kill also reorders correctly but
+ *    leaves the $a0/$a1 pair swapped — 5 mismatches; sharing ONE temp across
+ *    both addPrim halves kills the boost too but makes it a global allocno that
+ *    loses $v1 in the FIRST addPrim — 7 mismatches.  The pin alone is minimal.)
+ *
+ * DECLARATIONS / integration surface: `func_80049CAC` and `D_800B9A02` are
+ * spelled VERBATIM as the destination TU already has them at file scope
+ * (ov_SC03_117_jr_8017BEBC.c L2643 and L2464/L2466), so they merge silently.
+ * `D_800A6610`, `func_80010A08`, `func_80017E8C` and `RotTransPers4` have NO
+ * file-scope declaration anywhere in that TU, so they are block-scoped here to
+ * keep the blast radius on the rest of the TU at zero.  The two local typedefs
+ * do not collide with any name in the TU.
+ */
+
+typedef struct { s16 vx, vy, vz, pad; } SV_1A30_80184BFC;
+typedef struct { s16 m[3][3]; s32 t[3]; } MTX_1A30_80184BFC;   /* 0x20 bytes */
+
+void func_80184BFC(s16 *arg0)
+{
+    extern u8 D_800A6610[];
+    extern void func_80049CAC(s32 a0, s32 a1);
+    extern void *func_80010A08(s32);
+    extern void func_80017E8C(void *);
+    extern s32 RotTransPers4(void *, void *, void *, void *,
+                             s32 *, s32 *, s32 *, s32 *, s32 *, s32 *);
+
+    SV_1A30_80184BFC v[4];        /* sp+0x28 */
+    MTX_1A30_80184BFC mtx;        /* sp+0x48 */
+    s32 opz;             /* sp+0x68 */
+    s32 flag;            /* sp+0x6C */
+
+    u32 *ot;
+    u32 *otp;
+    u8 *poly;
+    u8 *q;
+    void *mp;
+    u16 len;
+    u32 otz;
+    register u32 qt __asm__("$4");   /* §17 pin — kills the birthing boost AND
+                                        keeps the $a0/$a1 pair in target order */
+
+    ot = (u32 *)&D_800A6610[(*(u16 *)&D_800B9A02) << 14];
+    len = *(u16 *)(arg0 + 3);
+    if (len == 0) {
+        return;
+    }
+
+    v[0].vx = 0;
+    v[0].vy = -(*(u16 *)(arg0 + 0xC) >> 1);
+    v[0].vz = 0;
+    v[1].vx = 0;
+    v[1].vy = *(u16 *)(arg0 + 0xC) >> 1;
+    v[1].vz = 0;
+    v[2].vx = len;
+    v[2].vy = -(*(u16 *)(arg0 + 0xD) >> 1);
+    v[2].vz = 0;
+    v[3].vx = len;
+    v[3].vy = *(u16 *)(arg0 + 0xD) >> 1;
+    v[3].vz = 0;
+
+    mp = &mtx;
+    func_80049CAC((s32)(arg0 + 4), (s32)mp);
+
+    mtx.t[0] = arg0[0];
+    mtx.t[1] = arg0[1];
+    mtx.t[2] = arg0[2];
+
+    poly = (u8 *)func_80010A08(0x24);
+    *(u32 *)(poly + 0x04) = *(u32 *)(arg0 + 8);
+    *(u32 *)(poly + 0x0C) = *(u32 *)(arg0 + 8);
+    *(u32 *)(poly + 0x14) = *(u32 *)(arg0 + 0xA);
+    *(u32 *)(poly + 0x1C) = *(u32 *)(arg0 + 0xA);
+    poly[3] = 8;        /* setlen(poly, 8)  */
+    poly[7] = 0x38;     /* setcode POLY_G4  */
+
+    func_80017E8C(mp);
+
+    otz = RotTransPers4(&v[0], &v[1], &v[2], &v[3],
+                        (s32 *)(poly + 0x08), (s32 *)(poly + 0x10),
+                        (s32 *)(poly + 0x18), (s32 *)(poly + 0x20),
+                        &opz, &flag);
+
+    if ((flag & 0xFFFFEFFF) != 0) {
+        return;
+    }
+    otz = otz + 1;
+    if (otz >= 0x1000) {
+        return;
+    }
+
+    otp = (u32 *)((otz << 2) + (u32)ot);
+
+    /* addPrim(otp, poly) */
+    *(u32 *)poly = (*(u32 *)poly & 0xFF000000) | (*otp & 0xFFFFFF);
+    *otp = (*otp & 0xFF000000) | ((u32)poly & 0xFFFFFF);
+
+    if (*(u32 *)(arg0 + 0xE) & 0x40000000) {
+        poly[7] |= 2;                       /* semi-transparent */
+        q = (u8 *)func_80010A08(8);
+        q[3] = 1;                           /* setlen(q, 1) */
+        qt = *(u32 *)q;
+        *(u32 *)(q + 4) = ((*(u32 *)(arg0 + 0xE) >> 23) & 0x60) | 0xE1000200;
+        /* addPrim(otp, q) */
+        *(u32 *)q = (qt & 0xFF000000) | (*otp & 0xFFFFFF);
+        *otp = (*otp & 0xFF000000) | ((u32)q & 0xFFFFFF);
+    }
+}
+
 
 
 
