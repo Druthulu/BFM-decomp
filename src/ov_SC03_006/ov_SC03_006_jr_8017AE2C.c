@@ -7453,7 +7453,154 @@ void func_801868AC(s32 param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_801869CC);
+extern s32 func_80017758(void *a0, void *a1);
+extern s32 func_8004787C(s32 a0);
+extern s32 func_80047948(s32 a0);
+extern void func_80049CAC(s32 a0, s32 a1);
+extern void func_8012B414(int a0);
+extern void func_8012C218(void *a0);
+    typedef struct { s16 vx; u16 vy; s16 vz, pad; } SVec_8017F67C_801869CC;
+typedef struct { u8 d[4]; } Blk4_8017CE90_8017F32C_801869CC;
+#define SRM_8018E8A0(r0) __asm__ volatile (          \
+    "lw $12, 0( %0 );"                                   \
+    "lw $13, 4( %0 );"                                   \
+    "ctc2 $12, $0;"                                      \
+    "ctc2 $13, $1;"                                      \
+    "lw $12, 8( %0 );"                                   \
+    "lw $13, 12( %0 );"                                  \
+    "lw $14, 16( %0 );"                                  \
+    "ctc2 $12, $2;"                                      \
+    "ctc2 $13, $3;"                                      \
+    "ctc2 $14, $4"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+#define STM_8018E8A0(r0) __asm__ volatile (        \
+    "lw $12, 20( %0 );"                                  \
+    "lw $13, 24( %0 );"                                  \
+    "ctc2 $12, $5;"                                      \
+    "lw $14, 28( %0 );"                                  \
+    "ctc2 $13, $6;"                                      \
+    "ctc2 $14, $7"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+
+typedef struct { s16 vx, vy, vz, pad; } SVec8_8018E8A0_801869CC;          /* 0x08 */
+typedef struct { s32 vx, vy, vz, pad; } Vec16_8018E8A0_801869CC;          /* 0x10 */
+typedef struct { s16 m[3][3]; s16 pad; s32 t[3]; } Mtx_8018E8A0_801869CC; /* 0x20 */
+typedef struct { s16 f[0x86]; } Cnt_8018E8A0_801869CC;
+typedef struct {
+    SVec8_8018E8A0_801869CC v[4];   /* 0x00 */
+    u32            c[4];   /* 0x20 */
+    s32            code;   /* 0x30 */
+    s32            pad;    /* 0x34 */
+} Prim_8018E8A0_801869CC;           /* 0x38 */
+
+void func_801869CC(void *a0)
+{
+
+    extern u32 D_801C5BB4[];
+    extern u8 D_801C5C18[];
+    Vec16_8018E8A0_801869CC  mv;      /* sp+0x10 */
+    Prim_8018E8A0_801869CC   prim;    /* sp+0x20 */
+    Mtx_8018E8A0_801869CC    mtx;     /* sp+0x58 */
+    SVec8_8018E8A0_801869CC  rot;     /* sp+0x78 */
+    s32             flag;    /* sp+0x80 */
+    s32            *p;
+    s32            *q;
+    s32            *zb;
+    SVec8_8018E8A0_801869CC *src;
+    SVec8_8018E8A0_801869CC *dst;
+    register s32 d __asm__("$4");
+    s32 i, j, k, base, ang, t;
+    u32 col;
+
+    *(u16 *)(*(s32 *)((s32)a0 + 0x20) + 0x14) += 0x40;
+    func_8012B414((s32)a0);
+
+    mv.vz  = -0x40000;
+    rot.vz = 0;
+    col = D_801C5BB4[(*(u16 *)((s32)a0 + 0x10A))++ & 7];
+    prim.code = 0x50000000;
+    *(u32 *)((s32)&prim + 0x20) = col;
+    *(u32 *)((s32)&prim + 0x24) = col;
+    *(u32 *)((s32)&prim + 0x28) = col;
+    *(u32 *)((s32)&prim + 0x2C) = col;
+
+    p = (s32 *)((s32)a0 + 0xCC);
+    for (i = 0, k = 0; i < ((Cnt_8018E8A0_801869CC *)a0)->f[0x84]; i++, k++, p += 3) {
+        zb = (s32 *)((s32)a0 + 0xD4);
+        { register s32 c1 __asm__("$2"); register s32 c2 __asm__("$3");
+          c1 = *(s32 *)((s32)a0 + 0x1C); c2 = i * 4; d = c1 - c2; }
+        if (d > 0x40) {
+            if (i == 4) {
+                func_8012C218(a0);
+                return;
+            }
+            continue;
+        }
+        base = d << 6;
+        ang = base & 0xFFF;
+        flag = (func_8004787C(ang) << 4) >> 12;
+
+        switch (*(s16 *)((s32)a0 + 0x70)) {
+        case 0:
+            t = ang;
+            goto horiz;
+        case 1:
+            t = base + 0x800;
+            t &= 0xFC0;
+        horiz:
+            mv.vy = (func_80047948(t) << 4) * flag;
+            mv.vx = 0;
+            rot.vx = -ratan2(mv.vy, mv.vz);
+            rot.vy = 0;
+            break;
+        case 2:
+            t = ang;
+            goto vert;
+        case 3:
+            t = base + 0x800;
+            t &= 0xFC0;
+        vert:
+            mv.vx = (func_80047948(t) << 4) * flag;
+            mv.vy = 0;
+            rot.vx = 0;
+            rot.vy = ratan2(-mv.vz, mv.vx) - 0x400;
+            break;
+        }
+        ((void (*)(void *, void *))func_80049CAC)(&rot, &mtx);
+
+        q = zb + k * 3;
+        p[0] += mv.vx;
+        q[-1] += mv.vy;
+        q[0] += mv.vz;
+        mtx.t[0] = ((s16 *)p)[1];
+        mtx.t[1] = ((s16 *)q)[-1];
+        mtx.t[2] = ((s16 *)q)[1];
+
+        src = (SVec8_8018E8A0_801869CC *)(D_801C5C18 +
+              ((s32)(s16)*(u16 *)((s32)a0 + 0x70) / 2) * 0x20);
+        dst = prim.v;
+
+        SRM_8018E8A0(&mtx);
+        STM_8018E8A0(&mtx);
+
+        for (j = 0; j < 4; j++, src++, dst++) {
+            RotTransSV(src, dst, &flag);
+        }
+        func_80017758(&prim, (void *)(*(s32 *)((s32)a0 + 0x20) + 0x34));
+    }
+
+    *(s32 *)((s32)a0 + 0x1C) += 1;
+    if ((*(s32 *)((s32)a0 + 0x1C) & 3) == 0) {
+        if (((Cnt_8018E8A0_801869CC *)a0)->f[0x84] < 5) {
+            ((Cnt_8018E8A0_801869CC *)a0)->f[0x84] = ((Cnt_8018E8A0_801869CC *)a0)->f[0x84] + 1;
+        }
+    }
+}
+
 
 
 extern void (*D_801C5C58[])(void);
