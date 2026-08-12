@@ -211,8 +211,12 @@ curve, not a regression: its tier was 29 Opus-band / 14 jr vs wave 2's 8 / 5, me
 2. **The 4 wave-2 binary-gate misses** (cheap, named): `func_80187960` PLUMBING
    (`conflicting types for func_8012CAE4` → §161c cast-at-call-site) · `func_8017EEEC`
    CARVE-REFUSED · `func_8017DF40` + `func_8018A974` DIFF (the §52b population).
-3. **Wave-2 idiom harvest** — 26 note-sets in `.run/jr48/wave2_result.json` + the transcripts, not
-   yet deduped into the cookbook (§162 was wave 1's). Several flagged as new laws.
+3. ~~Wave-2/3 idiom harvest~~ — **PARTIALLY DONE (`commit:1675`, §163a-e, cookbook 497 sections).**
+   The waves flagged ~40 candidates; **5 were vetted and banked**, the other **~35 are catalogued by
+   function in §163z** and are explicitly UNVETTED (R14 — one agent's reconstruction until
+   re-measured). A skeptic-agent dedupe pass over §163z is real remaining value: §163d alone
+   (cse rewriting the PREVIOUS insn's SET_DEST — §162j's symptom in a different pass) closed a
+   residual a prior agent had called "unsteerable, 30 variants all ≥17".
 4. The §154-A island work (44 slots) · 0a leftovers (56 members + 116 data-bundled files) ·
    0c BLOCKED (main-partition probe) · 0d permuter is free CPU (fuel: wave 1's 3 NEAR incl.
    `func_8017C294`, the ×16 family at 18 ins).
