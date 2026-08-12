@@ -42,7 +42,19 @@ function crackPrompt(t) {
 shape, the idioms it proved load-bearing, and the EXACT residual it could not close:
   cd ${REPO} && python3 -c "import json;print(json.load(open('.run/jr48/prior_notes.json'))['${t.name}'])"
 Treat it as a strong prior from a peer, NOT as gospel: its claims about what is load-bearing are
-reconstructions. If a note contradicts what you measure, the measurement wins — and say so.
+reconstructions. If a note contradicts what you measure, the measurement wins — and say so. Two
+wave-5 agents found their predecessor's file/line citations WRONG while its idioms were RIGHT —
+re-derive the destination TU yourself rather than trusting quoted line numbers.
+
+IF THE PRIOR ATTEMPT WAS GATE-REFUSED (standalone MATCH, whole-binary gate said DIFF), the residual
+is almost certainly IN-TU, so prove it in situ before you claim MATCH:
+  copy the destination TU to your own dir, splice your body over its INCLUDE_ASM, run the pinned
+  triple end-to-end (cpp -> cc1 -O2 -> maspsx --aspsx-version=2.56 --expand-div -> as), objdump your
+  function out of the WHOLE-TU object and masked-diff it against the splat .s.
+  Two gotchas that cost a wave-5 agent real time: the wrong --aspsx-version yields ~32 spurious
+  mismatches ALL of the ori-vs-addiu li-form shape (that uniform shape is the fingerprint of a
+  version mismatch, NOT a codegen residual); and "../shared/engine_core.h" resolves relative to the
+  including file, so put the spliced TU one directory DEEP with a `shared` symlink beside it.
 ` : ''
   return `You are cracking ONE function for the Brave Fencer Musashi matching decompilation (PS1, gcc-2.7.2 + maspsx). Repo: ${REPO}.
 
