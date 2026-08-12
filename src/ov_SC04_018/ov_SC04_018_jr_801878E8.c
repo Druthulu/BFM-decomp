@@ -3705,4 +3705,138 @@ s32 *func_801889B8(s32 *ot, Panel_8017E978_801889B8 *w0, s16 idx) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_018/nonmatchings/ov_SC04_018_jr_801878E8", func_80188B84);
+#include "common.h"
+
+/* func_80188B84 — "resolve one HUD sub-item's tile pointer", 166 ins, jtbl_801E597C
+ * (8 entries, minval 7 -> `addiu $a1,$a1,-7` + HImode re-extension, so the switch value is
+ * `(s16)arg1` with cases 7..14 — the same construction as the already-matched twin
+ * func_80188E1C in this overlay).  Case bodies are emitted in SOURCE order, so the order here
+ * is 10/11/13, 12, 7/8, 14, default (block order after the jr: 80188C0C, 80188C5C, 80188CB8,
+ * 80188D10, 80188DC4).  Case 9 is ABSENT: its jtbl slot (index 2) points at the default label.
+ *
+ * Structural sibling that fixed the whole engine idiom (already matched):
+ *   src/ov_SC03_099/ov_SC03_099_jr_8013FFD8.c  func_8013FFD8
+ *     `*arg2 = 0x808080; ret = 0; switch(...) … return ret;`, the `s16 v1 = (s16)arg1;`
+ *     per-case truncation temp, `return 1` on the zero probe, `D_8010EDE8[v3 * 3]`,
+ *     `*arg2 = 0x804040`.
+ *
+ * Four register/shape constraints read off the target:
+ *
+ *  (a) the default arm's `< (mode == 5 ? 4 : 3)` must be a VALUE (`ok`), not a COND_EXPR in the
+ *      `if`.  do_jump's COND_EXPR case emits one conditional branch PER ARM (`bnez`+`beqz`,
+ *      +4 ins); the target converges both `slti`s on a single `beqz`, which is the store-then-
+ *      test form.  `v1` must also be an s32 temp taken BEFORE the `mode == 5` test — a short
+ *      local is re-extended inside each arm instead of being shared (+2 ins).  The body then
+ *      re-derives `(s16)arg3` (the ternary's label ends the cse block) and combine folds
+ *      sra16+sll2 into the target's `sra $v0,$v0,14`.
+ *
+ *  (b) `D_8010F468[(k + 1) * 2]` must go through the temp `e`.  Written inline, fold
+ *      distributes the +1 into the address (`sll $v0,$s0,3` + `lw $s0,8($at)`) and the
+ *      function is one instruction short; a VAR_DECL leaf blocks the distribution and gives
+ *      the target's `addiu $v0,$s0,1; sll $v0,$v0,3`.
+ *
+ *  (c) `n` must be built IN PLACE (`n = A; n = n * B;`).  As one expression the first `lbu`
+ *      is a block-local quantity, local-alloc hands it $a0, and arg0's allocno then CONFLICTS
+ *      with $a0 — so arg0 is copied out to $t1 and the target's `addu $t0,$a1,$zero` (the arg1
+ *      copy) never appears.  In-place, arg0 keeps $a0 and the whole prologue falls into place.
+ *
+ *  (d) RC-12 ($0-ADD OPAQUE COPY, docs/gcc-2.7.2-map/regalloc.md, and the same lever the
+ *      matched func_801889B8 above needed).  The target keeps arg1 in TWO registers: $a1 is
+ *      consumed in place by the switch index (`addiu $a1,$a1,-7`) while the default arm reads
+ *      the copy in $t0.  A plain `mode = arg1;` is coalesced away and arg1 keeps $a1, pushing
+ *      the switch index to $t0.  `mode = arg1 + zr` is a (plus rA (reg 0)) — not a reg-reg set,
+ *      so nothing merges it — and assembles to the byte-identical `addu $t0,$a1,$zero`.
+ *      Finally `n = func_800291B4(c)` REUSES n as the second probe's temp: that 8th reference
+ *      is what lifts n's allocno priority above the per-case `j` allocnos, so n gets $v1 and
+ *      `j` gets $a1/$a0 instead of the other way round (the last 23-instruction residual).
+ */
+
+s32 func_80188B84(void *arg0, s32 arg1, s32 arg2, s32 arg3, s32 *arg4) {
+
+    extern s32 func_800291B4(s32 arg);
+
+    extern u8  D_80115140[];
+    extern u8  D_80115158[];
+    extern u8  D_80115159[];
+    extern u8  D_8018E2C8[];
+    extern u8  D_801E77B0[];
+    extern u8  D_801E77B8[];
+    extern s32 D_8010EDE8[];
+    extern s32 D_8010F468[];
+    extern s32 D_801B8F08;
+
+    register s32 zr __asm__("$0");
+    s32 ret;
+    s32 n;
+    s32 mode;
+
+    *arg4 = 0x808080;
+    n = D_80115159[(s16)arg2 * 2];
+    n = n * D_80115158[(s16)arg2 * 2];
+    ret = 0;
+    mode = arg1 + zr;
+
+    switch ((s16)arg1) {                                  /* jtbl_801E597C */
+    case 10:
+    case 11:
+    case 13: {
+        s32 j = arg3 + D_80115140[(s16)arg2];
+        if ((s16)arg3 < 6 && (s16)j < (s16)n) {
+            ret = ((s32 *)arg0)[(s16)j];
+        }
+        break;
+    }
+
+    case 12: {
+        s32 j = arg3 + D_80115140[(s16)arg2];
+        if ((s16)arg3 < 6 && (s16)j < (s16)n) {
+            ret = ((s32 *)arg0)[D_801E77B0[(s16)j]];
+        }
+        break;
+    }
+
+    case 7:
+    case 8: {
+        s16 v1 = (s16)arg3;
+        if (v1 < 0xC) {
+            s32 t = func_800291B4(D_8018E2C8[v1]) & 0xFF;
+            if (t == 0) {
+                return 1;
+            }
+            ret = D_8010EDE8[t * 3];
+        }
+        break;
+    }
+
+    case 14: {
+        s32 j = arg3 + D_80115140[(s16)arg2];
+        if ((s16)arg3 < 6 && (s16)j < (s16)n) {
+            s32 k = D_801E77B8[(s16)j];
+            s32 c = k + 0x63;
+            if (k < 0 || (func_800291B4(c) & 0x40) == 0) {
+                ret = D_801B8F08;
+            } else {
+                s32 e = k + 1;
+                ret = D_8010F468[e * 2];
+                n = func_800291B4(c);
+                if (n & 0x20) {
+                    *arg4 = 0x804040;
+                }
+            }
+        }
+        break;
+    }
+
+    default: {
+        s32 v1 = (s16)arg3;
+        s32 ok = ((s16)mode == 5) ? (v1 < 4) : (v1 < 3);
+        if (ok) {
+            ret = ((s32 *)arg0)[(s16)arg3];
+        }
+        break;
+    }
+    }
+
+    return ret;
+}
+
