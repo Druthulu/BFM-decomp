@@ -4987,7 +4987,73 @@ INCLUDE_ASM("asm/ov_SC02_035/nonmatchings/ov_SC02_035_jr_8017BEBC", func_801800C
 
 INCLUDE_ASM("asm/ov_SC02_035/nonmatchings/ov_SC02_035_jr_8017BEBC", func_8018016C);
 
-INCLUDE_ASM("asm/ov_SC02_035/nonmatchings/ov_SC02_035_jr_8017BEBC", func_8018023C);
+extern s32 func_8012CC88(s32 a0, s32 a1, s32 a2);
+typedef struct {
+    s32 w[4];
+} Rec16_8017DDC4_8018023C;
+typedef struct {
+    u16 x, y, z;
+    s16 w;
+} Rec8_8017DDC4_8018023C;
+
+/* func_8018023C -- ov_SC02_026 / ov_SC02_026_jr_8017C180
+ * Same TU declares this at line 4712 (extern void func_8018023C(s32 a0);) and
+ * calls it at line 4822. Callee set derived from already-matched siblings in
+ * THIS TU (§160g): func_8017FD58 (line 3739, Ent_8017FD58 loop-array idiom),
+ * func_8012CC88 (src/shared/engine_core.h DEFINE_func_8012CC88, the sp10/sp18
+ * SV3_8012CC88-from-0x3A/0x3E/0x42 pattern), and the ground-truth DEFINE_ bodies
+ * for func_8012BC60 / func_8012B6D4 / func_8012B0B4 / func_8012CEB0 / func_8012ADE4.
+ */
+
+extern s32 func_8012BC60(struct Vec *a0, struct Vec *a1);
+extern s32 func_8012B6D4(s16 *a0, s16 *a1);
+extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
+extern s32 func_8012CEB0(s32 a0, s32 a1, s32 a2);
+extern void func_8012ADE4(u8 *a0);
+
+void func_8018023C(s32 a0) {
+
+    extern u8 D_801202A0[];
+    Ent_8017FD58 *e;
+    s32 i;
+    s16 *mover;
+    s32 off;
+    unsigned int *offp;
+    s32 ang;
+    s32 v0;
+    SV3_8012CC88 sp10;
+    SV3_8012CC88 sp18;
+
+    e = (Ent_8017FD58 *)D_801202A0;
+    i = 0;
+    mover = (s16 *)(a0 + 4);
+    offp = (unsigned int *)&off;
+    for (; i < 0x60; i++, e++) {
+        if (e->f0 == 0x17F && a0 != (s32)e &&
+            func_8012BC60((struct Vec *)mover, (struct Vec *)&e->f4) < 0x1000) {
+            ang = func_8012B6D4(mover, (s16 *)&e->f4);
+            func_8012B0B4(offp, ang, 0x41);
+            sp18.vx = e->x;
+            sp18.vy = e->y;
+            sp18.vz = e->z;
+            sp18.vx += off;
+            sp18.vz += (off >> 16);
+            sp10.vx = *(u16 *)(a0 + 0x3A);
+            sp10.vy = *(u16 *)(a0 + 0x3E);
+            sp10.vz = *(u16 *)(a0 + 0x42);
+            v0 = func_8012CEB0((s32)&sp10, (s32)&sp18, 0);
+            if ((v0 & 0x2000) == 0) {
+                func_8012ADE4((u8 *)a0);
+                return;
+            }
+            *(s16 *)(a0 + 0x6) = sp18.vx;
+            *(s16 *)(a0 + 0xA) = sp18.vy;
+            *(s16 *)(a0 + 0xE) = sp18.vz;
+            return;
+        }
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC02_035/nonmatchings/ov_SC02_035_jr_8017BEBC", func_801803A4);
 
