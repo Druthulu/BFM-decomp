@@ -4358,7 +4358,145 @@ INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_80187AEC", func_8018A7C
 
 INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_80187AEC", func_8018A86C);
 
-INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_80187AEC", func_8018A974);
+/* func_8018A974 — allocates a semi-trans LineF2 GPU packet, projects two
+ * world-space points via RotTransPers, and (if both are on-screen with
+ * non-negative depth-clip flags) links the packet into the current
+ * double-buffer's OT at the first point's depth, then notifies via
+ * func_80016638.
+ *
+ * STEP 0 sibling search (§160g) — three already-MATCHED exemplars supplied
+ * the whole shape, none needed independent discovery:
+ *
+ *   1. src/shared/engine_core.h DEFINE_func_8012D3B4() — identical prologue
+ *      (temp_v0=func_80010A08(0x10); word4=arg2; func_8004914C/func_800491AC
+ *      (&D_800AF648); two RotTransPers calls with the exact
+ *      `(d>0) && (flag>=0) && (RotTransPers(...)>0) && (flag>=0)` guard) but
+ *      calls a real `SetLineF2()` (code 0x40, no semi-trans) and a real
+ *      `AddPrim()` (single evaluation).  Our target's asm has NEITHER a
+ *      `jal SetLineF2` NOR a `jal AddPrim` — both are fully inlined, which
+ *      is the key structural difference this draft encodes (code 0x42 =
+ *      semi-trans LineF2 needs hand-set fields; AddPrim needs the classic
+ *      macro body since a *variable* depth offset appears nowhere in the
+ *      real AddPrim()-calling siblings).
+ *
+ *   2. src/ov_SC03_119/ov_SC03_119_jr_8017FB84.c func_80185944 — byte-MATCH
+ *      (177/177 ins).  Its header names this exact tail idiom: "link-ins
+ *      the packet into the current double-buffer's OT (the PSY-Q `addPrim`
+ *      macro pair) and calls func_80016638", with `func_80016638(&D_800A6518
+ *      [*bidx*20], depth, 1)` as its literal call form (there depth=0x10
+ *      constant, here depth=temp_v0_2).  Confirms the "3 lhu D_800B9A02,
+ *      address cached / value reloaded" shape and the general addPrim(ot,p)
+ *      == setaddr(p,getaddr(ot)); setaddr(ot,p) reading.
+ *
+ *   3. src/ov_SC03_119/ov_SC03_119_jr_8017FB84.c func_801860E8 (same TU,
+ *      just above func_80185944) — its own header documents **Lever B**,
+ *      byte-measured: "THE OT TABLE MUST BE AN ARRAY_REF (`D_800A651C[i].a`),
+ *      NOT `*(s32*)((u8*)&D_800A651C + i*20)`. With the pointer-arith
+ *      spelling gcc allocates a phantom 8-byte stack temp that is never
+ *      referenced... The temp only appears when the SAME lookup expression
+ *      occurs in two statements; the ARRAY_REF form kills it." This was the
+ *      load-bearing fix for this draft too — confirmed empirically here via
+ *      the `cpp|cc1 … | grep '.frame'` pipeline (§162i's own diagnostic
+ *      method): pointer-arith form gave `vars=16` (0x38 frame, +8 over
+ *      target's 0x30); switching every `D_800A651C` reference to
+ *      `D_800A651C[idx].a` ARRAY_REF form (using the `OtBlk` shape from
+ *      engine_types.h:525, local-suffixed here since match_one compiles
+ *      standalone) dropped it straight to `vars=8` (0x30, exact). This
+ *      generalizes §162i1's "only a BLKmode local reserves frame space" law
+ *      to a second, distinct anonymous-temp source (a raw-pointer-arith
+ *      symbol expression repeated in 2 statements) — worth a cookbook
+ *      addendum since §162i1 as written only covers dead-local pads.
+ *
+ * REGISTER-ALLOCATION LEVERS (found empirically, byte-verified against this
+ * function's own .frame/.s, not inherited from the exemplars above):
+ *   - `bidx` pinned to $8 ($t0): natural (unpinned) allocation put the
+ *     shared D_800B9A02-address pointer in $a3 instead, cascading a
+ *     one-register shift through the whole mask/index register set.
+ *   - `mask1` (0xFFFFFF) pinned to $7 ($a3); `tag0` (the packet's old tag
+ *     word, read once before the first addPrim half) pinned to $4 ($a0) —
+ *     both needed to reproduce the target's exact a2/a3/t0/t1 register
+ *     picks for the addPrim RMW pair.  `mask2` (0xFF000000) and `depth4`
+ *     (temp_v0_2*4) are explicitly NOT pinned — pinning them re-introduced a
+ *     2-instruction schedule swap between the depth<<2 and the 0xFF000000
+ *     `lui`; left as plain (named, for depth4) / literal (for mask2)
+ *     locals, natural allocation lands them correctly.
+ *   - `rgb` (arg2, the color word) pinned to $16 ($s0): unpinned, arg2 and
+ *     the &D_800AF648 matrix address land in $s1/$s0 (swapped from target).
+ *     `rgb`'s single SET made it a sched1 "birthing insn"
+ *     (`birthing_insn_p`: `reg_n_sets==1`) — boosted to max priority in
+ *     sched1's BACKWARD scan, which schedules a boosted insn late (cookbook
+ *     "birthing-boost prologue-order" lever). A zero-byte non-volatile
+ *     re-tie `__asm__("" : "=r"(rgb) : "0"(rgb));` placed immediately after
+ *     `rgb = arg2;` gives it a 2nd SET (boost dead) with zero emitted code,
+ *     and the 3-instruction prologue cluster (save $s0 / set $s0=arg2 / set
+ *     $a0=0x10 for the alloc call) reorders to the target's exact sequence.
+ *
+ * INTEGRATION SURFACE (checked against destination TU
+ * src/ov_SC06_018/ov_SC06_018_jr_80187AEC.c):
+ *   func_80010A08, func_8004914C, func_800491AC, RotTransPers, D_800AF648,
+ *   D_800B9A02, D_800A6518 all match the TU's own existing extern spellings
+ *   verbatim (grepped at TU lines 2448/2632-2633/4674 and the
+ *   func_8018F694/func_8018F060 block). D_800A651C and func_80016638 have NO
+ *   file-scope declaration anywhere in the TU (only ever appear inside other
+ *   INCLUDE_ASM'd/unbanked functions) — declared here exactly as the
+ *   func_801860E8/func_80185944 MATCHed precedent declares them: `OtBlk
+ *   D_800A651C[]` (locally as `OtBlk_8018A974` — match_one compiles
+ *   standalone without ../shared/engine_core.h; at bank time this collapses
+ *   onto the TU's own already-visible `OtBlk` from engine_types.h:525,
+ *   identical layout, a copy-edit not a fresh investigation) and
+ *   `void func_80016638(void *a0, s32 a1, s32 a2)`.
+ */
+
+typedef struct { s32 a; s32 b[4]; } OtBlk_8018A974;   /* == engine_types.h OtBlk (0x14) */
+
+void func_8018A974(s32 arg0, s32 arg1, s32 arg2)
+{
+    extern void *func_80010A08(s32);
+    extern void func_8004914C(void *);
+    extern void func_800491AC(void *);
+    extern s32 RotTransPers(s32, s32, s32 *, s32 *);
+    extern u8 D_800AF648;
+    extern OtBlk_8018A974 D_800A651C[];
+    extern u8 D_800A6518[];
+    extern short D_800B9A02;
+    extern void func_80016638(void *a0, s32 a1, s32 a2);
+
+    s32 sp10;
+    s32 sp14;
+    s32 temp_v0_2;
+    void *temp_v0;
+    s32 ot;
+    s32 depth4;
+    register u16 *bidx __asm__("$8");
+    register u32 mask1 __asm__("$7");
+    register s32 rgb __asm__("$16");
+    register u32 tag0 __asm__("$4");
+
+    rgb = arg2;
+    __asm__("" : "=r"(rgb) : "0"(rgb));   /* zero-byte 2nd SET: kills the sched1 birthing boost */
+    temp_v0 = func_80010A08(0x10);
+    *(u8 *)((u8 *)temp_v0 + 3) = 3;
+    *(s32 *)((u8 *)temp_v0 + 4) = rgb;
+    *(u8 *)((u8 *)temp_v0 + 7) = 0x42;
+    func_8004914C(&D_800AF648);
+    func_800491AC(&D_800AF648);
+    temp_v0_2 = RotTransPers(arg0, temp_v0 + 8, &sp10, &sp14);
+    if ((temp_v0_2 > 0) && (sp14 >= 0) &&
+        (RotTransPers(arg1, temp_v0 + 0xC, &sp10, &sp14) > 0) && (sp14 >= 0)) {
+        /* addPrim(otp, p) == setaddr(p, getaddr(otp)), setaddr(otp, p) */
+        mask1 = 0xFFFFFF;
+        bidx = (u16 *)&D_800B9A02;
+        depth4 = temp_v0_2 * 4;
+        tag0 = *(u32 *)temp_v0;
+        *(u32 *)temp_v0 = (tag0 & 0xFF000000) |
+            (*(u32 *)(depth4 + D_800A651C[*bidx].a) & mask1);
+        ot = D_800A651C[*bidx].a;
+        *(u32 *)(depth4 + ot) =
+            (*(u32 *)(depth4 + ot) & 0xFF000000) | ((u32)temp_v0 & mask1);
+        func_80016638(&D_800A6518[*bidx * 20], temp_v0_2, 1);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_80187AEC", func_8018AB00);
 
@@ -5757,7 +5895,159 @@ void func_8018E9BC(void *arg) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_80187AEC", func_8018EDB8);
+#include "common.h"
+
+/* func_8018EDB8 — ov_SC06_018 / ov_SC06_018_jr_80187AEC
+ *
+ * Direct structural sibling of func_8018E188 (SAME TU, banked MATCH,
+ * src/ov_SC06_018/ov_SC06_018_jr_80187AEC.c:5255).  Shares VERBATIM:
+ *   - the 0x60 gate + 0x1D snapshot block,
+ *   - the 0x78/0x60 decrement block (AND form — see E188's @stuck note),
+ *   - the 0x82&1 finisher, the C8/C9 pokes,
+ *   - the two 8-iteration spawn loops (0x281 / 0x23).
+ * Diverges: no leading func_8002D4C8 in the 0x76<0 arm, E188's CC/D0/D4
+ * particle reseed is replaced by a "hand off to the 0x64 owner" block
+ * (5C/60/5E/D8/76/62 pokes + func_8018D870), and the else arm gains a
+ * leading func_8002D4C8(0x9B7, 0).
+ *
+ * Regalloc target (identical to E188): p pinned $s1, e/spawn-ptr coalesce
+ * on $s0, loop counter $s2, the hoisted constant 2 on $s3.
+ *
+ * @class: regalloc-order
+ * @stuck: none — MATCH (170 ins), iteration 3.  Body was E188 verbatim on
+ *   iteration 1; both residuals were in the 12-insn 0x64 hand-off tail:
+ *   (1) `-0xA` stored through a `u16 *` folds to the unsigned 0xFFF6 and emits
+ *       `ori $v0,$zero,0xfff6`; the target's `addiu $v0,$zero,-0xA` needs the
+ *       store spelled `*(s16 *)(q + 0x76)` (§162k-adjacent width law, applied
+ *       to a CONSTANT rather than a load).
+ *   (2) the tail pointer lives in TWO registers — $s0 (the `lw 0x20` base) and
+ *       $a0 (every store base + the func_8018D870 arg).  Spelling that as
+ *       `register s32 q __asm__("$4"); q = iv;` alone is NOT enough: with the
+ *       0x20 load left BELOW the copy, local-alloc's `optimize_reg_copy_1`
+ *       (§162j1) rewrites that surviving use $s0 -> $a0, and the now-$a0-based
+ *       load can no longer be scheduled above the $a0-based stores (they may
+ *       alias), costing two load-delay nops = the +2 LENGTH-DRIFT.
+ *   LEVER: `optimize_reg_copy_1`'s substitution scan runs FORWARD from the copy
+ *   only, so hoisting the surviving use ABOVE `q = iv` in SOURCE order puts it
+ *   out of reach — `sv = *(s32 *)(iv + 0x20);` before the copy.  It keeps $s0,
+ *   and being source-first it also legally precedes the store block, which is
+ *   what recovers the target's schedule (lw / sh / sh / lhu interleave).  This
+ *   is a second, zero-side-effect defeat for §162j1 that works where its
+ *   in-place-SET lever cannot: the surviving use here is a LOAD, which has no
+ *   way to also SET its own base register.
+ */
+
+extern s32 rand(void);
+extern void func_8016AA50(s32, s32);
+extern s32 func_8016B428(s32);
+extern void func_80019064(void *);
+extern void func_8002A520(int);
+extern void func_8002A790(int);
+extern void func_8002D4C8(s32, s32);
+extern s32 func_8012C588(s32, s32);
+extern u8 *func_8012913C(s32);
+extern void func_8012C218(void *);
+extern void func_8018D870(void *);
+extern u8 D_801D1210;
+
+void func_8018EDB8(void *arg) {
+    register u8 *p __asm__("$17");   /* $s1 */
+    s32 e;
+    s32 i;
+    s32 iv;
+
+    p = (u8 *)arg;
+    e = *(u8 *)(p + 0x5E);
+
+    if (*(s16 *)(p + 0x60) != 0) {
+        if (e == 0x1D) {
+            *(u16 *)(p + 0x82) = 0;
+            *(u16 *)(p + 0x7C) = *(u16 *)(p + 0x06);
+            *(u16 *)(p + 0x7E) = *(u16 *)(p + 0x0A);
+            *(u16 *)(p + 0x80) = *(u16 *)(p + 0x0E);
+        }
+        {
+            s32 dec;
+            s32 q = *(s32 *)(p + 0x78);
+            if (q != 0 && *(s16 *)(p + 0x60) != 0) {
+                dec = ((s32)*(s16 *)(p + 0x60) * (s32)*(s16 *)(q + 0x30)) >> 12;
+                if (dec < 1) dec = 1;
+            } else {
+                dec = *(s16 *)(p + 0x60);
+            }
+            *(u16 *)(p + 0x76) = *(u16 *)(p + 0x76) - dec;
+            ((void (*)(void *, s32))func_8016AA50)(p, dec);
+        }
+        if (*(u16 *)(p + 0x82) & 1) {
+            ((void (*)(void *))func_8016B428)(p);
+            func_80019064(&D_801D1210);
+        }
+    }
+
+    if (e != 0x1D) {
+        if (*(u8 *)(p + 0xC8)) func_8002A520(p);
+        if (*(u8 *)(p + 0xC9)) func_8002A790(p);
+    }
+
+    if (*(s16 *)(p + 0x76) < 0) {
+        i = 0;
+        do {
+            iv = ((s32 (*)(s32, void *))func_8012C588)(0x281, p);
+            if (iv != 0) {
+                *(s32 *)(iv + 0x1C) = 2;
+                *(u16 *)(iv + 0x12) = (rand() & 0x1F) - 0x10;
+                *(u16 *)(iv + 0x16) = -((rand() & 0x0F) + 0x10);
+                *(u16 *)(iv + 0x1A) = (rand() & 0x1F) - 0x10;
+            }
+            i++;
+        } while (i < 8);
+        i = 0;
+        do {
+            iv = (s32)func_8012913C(0x23);
+            if (iv != 0) {
+                s32 r;
+                s32 sv;
+                r = rand();
+                *(u16 *)(iv + 0x06) = *(u16 *)(p + 0x06) + (r & 0x3F) - 0x20;
+                r = rand();
+                *(u16 *)(iv + 0x0A) = *(u16 *)(p + 0x0A) - (r & 0x3F) - 0x20;
+                r = rand();
+                sv = *(u16 *)(p + 0x0E);
+                *(s32 *)(iv + 0x18) = 0;
+                *(s32 *)(iv + 0x14) = 0;
+                *(s32 *)(iv + 0x10) = 0;
+                *(u16 *)(iv + 0x0E) = sv + (r & 0x3F) - 0x20;
+                r = rand();
+                *(u16 *)(iv + 0x34) = (r & 0x17FF) + 0x1800;
+            }
+            i++;
+        } while (i < 8);
+
+        {
+        register s32 q __asm__("$4");
+        s32 sv;
+        iv = *(s32 *)(p + 0x64);
+        sv = *(s32 *)(iv + 0x20);
+        q = iv;
+        *(u16 *)(q + 0x5C) = 1;
+        *(u16 *)(q + 0x60) = 0;
+        sv = *(u16 *)(sv + 0x12);
+        *(u16 *)(q + 0x5E) = 0x1D;
+        *(s32 *)(q + 0xD8) = 0;
+        *(s16 *)(q + 0x76) = -0xA;
+        *(u16 *)(q + 0x62) = sv - 0x800;
+        func_8018D870((void *)q);
+        }
+        func_8012C218(p);
+    } else {
+        func_8002D4C8(0x9B7, 0);
+        *(u16 *)(p + 0x5C) = 0x8800;
+        *(u16 *)(p + 0x60) = 0;
+        *(u8 *)(p + 0xC1) = 0;
+        *(u8 *)(p + 0xC2) = 0x10;
+    }
+}
+
 
 // @class: none
 // @stuck: none — MATCH (397/397 ins, match_one + rtu_match).

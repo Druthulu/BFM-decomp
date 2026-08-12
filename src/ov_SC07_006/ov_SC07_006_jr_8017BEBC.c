@@ -4085,7 +4085,165 @@ INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_8017BEBC", func_8017F5D
 
 INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_8017BEBC", func_8017F9AC);
 
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_8017BEBC", func_8017FDF8);
+#include "common.h"
+
+/* ---------------------------------------------------------------------------
+ * func_8017FDF8 (ov_SC07_006 / jr_8017BEBC) — 317 ins, MATCH.
+ *
+ * A 5x-expanded 16-colour CLUT cross-fade: for each of five 16-entry 5:5:5
+ * palettes, lerp channel-wise between a "from" table and a "to" table by
+ * t = (x - 0x800) * 2 (clamped at 0), then hand the built CLUT to
+ * func_800599B8(tbl, clut).  The alpha/STP bit is COPIED (not lerped) from
+ * whichever endpoint is dominant (t < 0x800 -> the "from" table).
+ *
+ * ===========================================================================
+ * INTEGRATION SURFACE (§161c) — this draft needs NO edit to the host TU.
+ * ===========================================================================
+ * Host TU: src/ov_SC07_006/ov_SC07_006_jr_8017BEBC.c, INCLUDE_ASM at line 4088.
+ *
+ *  - func_800599B8 takes TWO args here, but the host carries a ONE-arg
+ *    prototype `extern void func_800599B8(u16 *);` at FILE SCOPE, line 609,
+ *    visible at the INCLUDE_ASM slot.  This draft keeps that exact prototype
+ *    (byte-identical text) so the decl AGREES with the host and is free, and
+ *    defuses the arity clash with a call-site cast — the same idiom already
+ *    used by matched code at src/ov_SC03_099/ov_SC03_099_jr_8013C98C.c:1439
+ *    and src/ov_SC06_008/ov_SC06_008_jr_8013C98C.c:1439.
+ *
+ *    BYTE-PROVEN, this wave, on the two alternatives that avoid the cast:
+ *      (A) add `extern void func_800599B8();` beside host line 609
+ *          -> CC1 FAIL, "too many arguments to function" x5.  A non-prototype
+ *             decl does NOT override an already-visible prototype; gcc-2.7.2
+ *             forms the composite type and the prototype wins.
+ *      (B) put `extern void func_800599B8();` at BLOCK scope inside
+ *          func_8017FDF8, host line 609 untouched
+ *          -> CC1 FAIL, identical errors.  Block scope does not shadow a
+ *             visible file-scope prototype for arity checking here.
+ *    So the empty-paren form only works if host line 609 is REPLACED (not
+ *    added beside).  That variant is also byte-verified MATCH and is kept at
+ *    probes/E_widen_decl.c if the cleaner source shape is preferred; it costs
+ *    a one-line decl edit to the host (byte-neutral — the host has no other
+ *    reference to func_800599B8, grep: line 609 is decl-only).
+ *
+ *  - All fifteen data symbols declared below have ZERO occurrences in the host
+ *    TU (verified by grep), so no type conflicts.  `pal_lerp` likewise has 0
+ *    occurrences (no clash with the host's existing `morph_lerp` inline).
+ *    Names that DO appear elsewhere in src/ (D_801F60C0, D_8018DF60..80) are
+ *    all in other overlays' TUs, never in this host.
+ *
+ *  - src/shared/engine_core.h:27426 also declares `extern void
+ *    func_800599B8(u16 *);` but inside a macro body, so it only reaches block
+ *    scope at an expansion site — it does not add a file-scope decl here.
+ *
+ * ===========================================================================
+ * LOAD-BEARING SOURCE SHAPES (all independently re-verified this wave)
+ * ===========================================================================
+ *  1. D_801F60A0 MUST stay ONE array symbol indexed [0]/[16]/[32]/[48]/[64].
+ *     cse's use_related_value is what emits the `addiu $s0, $s0, 0x20` that
+ *     seeds each following block's loop pointer from the pointer just passed
+ *     to func_800599B8.  REFUTED this wave: five separate externs
+ *     D_801F60A0/C0/E0/6100/6120 give 319 ins vs 317, 258 mismatched (the two
+ *     extra instructions are the lost related-value adds).
+ *
+ *  2. The nr/ng/nb named temps are load-bearing — do NOT inline them back.
+ *     All three `mult` result pseudos carry `pref LO_REG` and tie in
+ *     allocno_compare, so the tie breaks on allocno number: the lowest-numbered
+ *     product takes $lo, reload spills $lo, and retry_global_alloc re-places it
+ *     on the LAST free register, shifting every loop-carried pseudo one register
+ *     down.  Writing the three channels into named temps re-orders sched1's
+ *     output (not the final sched2 order), which re-orders reg_live_length and
+ *     hence the allocno priorities, so the blue product keeps $lo and lands on
+ *     $v1 while red/green take $t1/$t0.  Alternatives, same 317 ins, all
+ *     NON-matching: fully inlined 104 diffs; hoist dr,dg 35; hoist raw products
+ *     pr,pg,pb 104; hoist unmasked sums sr,sg 114; hoist nr / nr,ng 104 / 114.
+ *     Register pins are NOT the lever here (cf. §162j1) — this is a global.c
+ *     priority/tie problem; statement granularity is the lever.
+ *
+ *  3. Branch polarity: the loop-invariant `slti $t7, $a3, 0x800` is LICM-hoisted
+ *     and the target branches with `bnez` (on the TRUE arm).  That requires the
+ *     source to spell the condition INVERTED with swapped arms — `if (t >=
+ *     0x800) hi = *a...; else hi = *b...;`.  The intuitive `if (t < 0x800)`
+ *     with unswapped arms emits `beqz` and is a 5-instruction structural miss.
+ *
+ * FAMILY REACH x2: the second binary templates mechanically — identical shape,
+ * only the ten source-table symbols and the five func_800599B8 arg tables
+ * change.  Note for the remap: constraint (1) means the sibling's five
+ * destination CLUTs must likewise be one base symbol at 0x20 stride.
+ * ------------------------------------------------------------------------- */
+
+extern void func_800599B8(u16 *);
+
+extern u16 D_801F60A0[];
+
+extern u16 D_801CACA8[];
+extern u16 D_801CAD48[];
+extern u16 D_801CAD28[];
+extern u16 D_801CADA8[];
+extern u16 D_801CAD08[];
+extern u16 D_801CAD88[];
+extern u16 D_801CAC68[];
+extern u16 D_801CACE8[];
+extern u16 D_801CAC88[];
+extern u16 D_801CACC8[];
+
+extern u8 D_8018DF60[];
+extern u8 D_8018DF68[];
+extern u8 D_8018DF70[];
+extern u8 D_8018DF78[];
+extern u8 D_8018DF80[];
+
+/* MUST be `inline` — 5 expansions, 0 jal, and the caller's frame is 0x20. */
+static inline void pal_lerp(u16 *dst, u16 *b, u16 *a, s32 x)
+{
+    s32 t;
+    s32 i;
+    s32 hi;
+    s32 r;
+    s32 g;
+    s32 bl;
+    s32 nr;
+    s32 ng;
+    s32 nb;
+
+    t = (x - 0x800) * 2;
+    if (t < 0) {
+        t = 0;
+    }
+    for (i = 0; i < 16; i++) {
+        /* NOTE the polarity: `>= 0x800` (not `< 0x800` with swapped arms) —
+           LICM hoists the slti and gcc branches on the TRUE arm, giving the
+           target's `bnez` rather than a `beqz`. */
+        if (t >= 0x800) {
+            hi = *a & 0x8000;
+        } else {
+            hi = *b & 0x8000;
+        }
+        r = *b & 0x1F;
+        g = *b & 0x3E0;
+        bl = *b & 0x7C00;
+        nr = (r + ((((*a & 0x1F) - r) * t) >> 12)) & 0x1F;
+        ng = (g + ((((*a & 0x3E0) - g) * t) >> 12)) & 0x3E0;
+        nb = (bl + ((((*a & 0x7C00) - bl) * t) >> 12)) & 0x7C00;
+        *dst = hi | nr | ng | nb;
+        b++;
+        a++;
+        dst++;
+    }
+}
+
+void func_8017FDF8(s32 x)
+{
+    pal_lerp(&D_801F60A0[0], D_801CACA8, D_801CAD48, x);
+    ((void (*)(u8 *, u16 *))func_800599B8)(D_8018DF60, &D_801F60A0[0]);
+    pal_lerp(&D_801F60A0[16], D_801CAD28, D_801CADA8, x);
+    ((void (*)(u8 *, u16 *))func_800599B8)(D_8018DF68, &D_801F60A0[16]);
+    pal_lerp(&D_801F60A0[32], D_801CAD08, D_801CAD88, x);
+    ((void (*)(u8 *, u16 *))func_800599B8)(D_8018DF70, &D_801F60A0[32]);
+    pal_lerp(&D_801F60A0[48], D_801CAC68, D_801CACE8, x);
+    ((void (*)(u8 *, u16 *))func_800599B8)(D_8018DF78, &D_801F60A0[48]);
+    pal_lerp(&D_801F60A0[64], D_801CAC88, D_801CACC8, x);
+    ((void (*)(u8 *, u16 *))func_800599B8)(D_8018DF80, &D_801F60A0[64]);
+}
+
 
 /* func_801802EC — banked from the S40 wave-1 draft.
  * The draft carried the TYPES, the six SVECTOR2 externs and `static inline morph_lerp` so that
