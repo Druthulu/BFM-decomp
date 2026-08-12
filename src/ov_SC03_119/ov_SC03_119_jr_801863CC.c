@@ -376,7 +376,6 @@ extern s32 func_80149D10(s32 a0);
 extern s32 func_80149E94(s32 a0);
 extern s32 func_80149DD8(s32 a0);
 extern s32 func_80149D9C(s32 a0);
-extern u8 D_801202A0[];
 extern s32 func_80149F2C(s32 a0, s32 a1);
 extern s32 func_80149E94(s32 arg0);
 extern void func_80149FA8(void);
@@ -3860,7 +3859,54 @@ register s32 v1 __asm__("$3");
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_119/nonmatchings/ov_SC03_119_jr_801863CC", func_801884E8);
+
+
+extern s32 func_8012C658(s32 arg0, s32 arg1, s32 arg2);
+extern s32 rand(void);
+
+void func_801884E8(void *a0)
+{
+
+    extern u8 D_801202A0[];
+    u8 *p;
+    s32 cnt;
+    s32 i;
+    s16 st;
+    s32 q;
+    s16 t;
+
+    p = D_801202A0;
+    cnt = 0;
+    for (i = 0; i < 0x60; i++) {
+        if (*(u16 *)p == 0x1EA) {
+            st = *(s16 *)(p + 0x70);
+            if (st == 0 || st == 7 || st == 0xF) {
+                cnt++;
+            }
+        }
+        p += 0x10C;
+    }
+
+    if (cnt < 2) {
+        p = (u8 *)func_8012C658(0x1EA, 0, (s32)a0);
+        if (p != 0) {
+            t = rand() & 0xFFF;
+            q = *(s32 *)(p + 0x20);
+            *(u16 *)(q + 0x12) = t;
+            {
+                s32 rr = rand() & 0x7F;
+                s32 xx = *(u16 *)(p + 0x6) - 0x40;
+                *(u16 *)(p + 0x6) = xx + rr;
+            }
+            {
+                s32 rr = rand() & 0x7F;
+                s32 xx = *(u16 *)(p + 0xE) - 0x40;
+                *(u16 *)(p + 0xE) = xx + rr;
+            }
+        }
+    }
+}
+
 
 
 extern void func_8001CD50(s32 a0, s32 a1);
