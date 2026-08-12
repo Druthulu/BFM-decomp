@@ -3527,7 +3527,47 @@ INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_80188E1C", func_8018A6C
 
 DEFINE_func_8018A740()  /* dedup: shared engine-core @0x8018A740 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_80188E1C", func_8018A77C);
+
+
+extern s32 func_80184BAC(s32 arg0, s32 arg1);
+extern s32 func_8012C658(s32 arg0, s32 arg1, s32 arg2);
+extern s32 func_8012BEE8(s32 a0);
+extern s32 rand(void);
+
+void func_8018A77C(s32 param_1) {
+
+    extern u8 D_801E0500[][4];
+    s32 i;
+    s32 v1;
+    s32 uVar1;
+
+    if (func_80184BAC(7, 0x13) == 0) {
+        return;
+    }
+    for (i = 0; i < 4; i++) {
+        if (D_801E0500[*(s16 *)(param_1 + 0x100)][i] == *(s32 *)(param_1 + 0x1c)) {
+            func_8012C658(0x140,
+                          *(u8 *)(param_1 + 0xfc) | ((*(s16 *)(param_1 + 0xfe) << 8) & 0xff00),
+                          param_1);
+            break;
+        }
+    }
+    if (func_8012BEE8(param_1) == 0) {
+        return;
+    }
+    *(s32 *)(param_1 + 0x1c) = 0x50;
+    uVar1 = rand();
+    v1 = *(u16 *)(param_1 + 0xfe) + (uVar1 & 0xf) - 7;
+    v1 &= 0xff;
+    *(u16 *)(param_1 + 0xfe) = v1;
+    uVar1 = rand();
+    v1 = *(u16 *)(param_1 + 0xfc) + (uVar1 & 0xf) - 7;
+    v1 &= 0xff;
+    *(u16 *)(param_1 + 0xfc) = v1;
+    uVar1 = rand();
+    *(s16 *)(param_1 + 0x100) = uVar1 % 7;
+}
+
 
 DEFINE_func_8018A898()  /* dedup: shared engine-core @0x8018A898 (src/shared) */
 
