@@ -1,8 +1,8 @@
 export const meta = {
-  name: 'p30-s48-stage1-wave4',
-  description: 'Stage-1 wave 4: 39 top-weight families, hardened harness (per-agent dirs, sha1-last verify)',
+  name: 'p30-s48-crack-wave',
+  description: 'Stage-1 crack wave: top-weight zero-crack families, hardened harness (per-agent dirs, sha1-last verify)',
   phases: [
-    { title: 'Crack', detail: '39 cracks, size-routed, 9 seeded with prior-attempt notes' },
+    { title: 'Crack', detail: 'size-routed cracks, prior-seeded where a previous attempt exists' },
     { title: 'Verify', detail: 'independent re-gate + existence proof, sha1 re-checked LAST' },
   ],
 }
@@ -10,6 +10,10 @@ export const meta = {
 const REPO = '/home/musashi/bfm-decomp'
 const ALL = typeof args === 'string' ? JSON.parse(args) : args
 const TARGETS = ALL.filter(t => t.sub)          // a banked target has no .s — drop it
+// The output dir is PARAMETERIZED (P30 S48). It used to be hardcoded per wave, so wave 5 wrote its
+// drafts into `.run/wave4/` — harmless only because the dirs are per-function. Pass {wave:"wave6"}
+// on any target; it defaults to `wave` so a missing field can never silently reuse a prior wave's.
+const WAVE = (ALL.find(t => t.wave) || {}).wave || 'wave'
 
 const CRACK_SCHEMA = {
   type: 'object',
@@ -64,8 +68,8 @@ ${priorBlock}
 WHY IT MATTERS: zero-crack sibling family — this ONE exemplar templates to ${t.reach - 1} more binaries mechanically.
 
 OUTPUT DISCIPLINE (a previous wave lost 21 verified drafts to a shared directory):
-- Your ONLY output dir is ${REPO}/.run/wave4/${t.name}/ — create it, work there.
-- Final draft MUST be exactly ${REPO}/.run/wave4/${t.name}/${t.name}.c
+- Your ONLY output dir is ${REPO}/.run/${WAVE}/${t.name}/ — create it, work there.
+- Final draft MUST be exactly ${REPO}/.run/${WAVE}/${t.name}/${t.name}.c
 - NEVER delete, move or modify ANY file outside your own directory. No \`rm\` outside it, ever.
   Sibling agents are working in adjacent directories RIGHT NOW.
 - Do NOT clean up at the end. Leave everything in place.
@@ -98,7 +102,7 @@ METHOD:
        spelling at any scope helps — cast the call site (§17a-1/§161c).
    Search these before inventing a mechanism: of 190 laws the last waves claimed as new, 57% were
    already here or did not survive scrutiny.
-4. Iterate: cd ${REPO} && python3 tools/match_one.py ${t.name} --c .run/wave4/${t.name}/${t.name}.c --asm-subdir ${t.sub}
+4. Iterate: cd ${REPO} && python3 tools/match_one.py ${t.name} --c .run/${WAVE}/${t.name}/${t.name}.c --asm-subdir ${t.sub}
 5. On MATCH: run sha1sum on the draft, report it, and STOP.
 
 RULES: gcc-2.7.2 emits no \`error:\` prefix — read the raw compiler text; "no diagnostic" never means
