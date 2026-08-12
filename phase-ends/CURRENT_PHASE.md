@@ -181,21 +181,42 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 
 ---
 
-# 🛑 SESSION S48 CHECKPOINT (2026-08-11) — STAGE 0b CLOSED + STAGE-1 WAVE 1 — FRESH SESSION SAFE HERE
+# 🛑 SESSION S48 CHECKPOINT (2026-08-11) — 0b CLOSED · WAVES 1+2 · md_ LANE — FRESH SESSION SAFE HERE
 > **Tree CLEAN** but for R23 `db.*.gbf` churn — never stage. **Nothing running.**
-> Gate at close: **`check-all` 213 passed / 0 failed of 213** from a CLEAN rebuild (R22 run 3× this
-> session: after 0b, after the wave banks, after propagation; extract-all 212+main, 0 failed each).
-> **Fleet: 94.6% instr · 88.8% distinct · 96.36% fn-count · INCLUDE_ASM stubs 13,228.**
-> `tools-health`: **OK at close** (re-run after the tool+doc changes — 495 cookbook sections).
+> Gate at close: **`check-all` 213 passed / 0 failed of 213** from a CLEAN rebuild (R22 run 5× this
+> session; extract-all 212+main, 0 failed each).
+> **Fleet: 94.7% instr · 88.9% distinct · 96.39% fn-count · INCLUDE_ASM stubs 13,112.**
+> `tools-health`: **OK** (re-run after the tool+doc changes — 495 cookbook sections).
 > **NO phase close** — T5 unopened, needs Drew's gate-2.
 
 ## THE SESSION IN ONE LINE
-**117 instances banked — the STUB-ORACLE DELTA (13,345 → 13,228).** Two halves: **Stage 0b closed**
-(91 banks, ZERO decompilation — three instrument repairs did all of it) and **Stage-1 wave 1 ran**
-(8 exemplar cracks + 18 member propagations = 26). The wave's honest lesson is in its RESIDUE, not
-its yield: 16 of the 42 member slots were unreachable for TOOLING reasons, not matching reasons.
+**233 instances banked — the STUB-ORACLE DELTA (13,345 → 13,112).** Three parts: **Stage 0b closed**
+(91, ZERO decompilation — three instrument repairs did all of it) · **wave 1** (8 cracks + 18
+propagations = 26) · **wave 2** (22 cracks + propagation = 116). Fleet 94.4% → **94.7% instr**.
+**The campaign's rate is now measured twice: 67% then 79% of cracks survive the whole-binary gate.**
 
-## ▶ RESUME HERE — FIX THE md_ LANE FIRST, THEN WAVE 2
+## ▶ RESUME HERE — WAVE 3 (the lane order is now MEASURED, not assumed)
+0. **HARDEN THE WAVE HARNESS FIRST — it is 10 minutes and it protects every later wave.**
+   Per-agent output dir `.run/waveN/<fn>/`; prompt line "never delete or modify anything outside
+   your own directory, do not clean up"; verifier re-runs `sha1sum` **LAST**, after the gate, so a
+   vanishing draft is DETECTED. Also build `tools/recover_drafts.py` from the method that worked
+   21/21 today (Write+Edit replay per (agent,file_path) + heredoc extraction from bash calls, then
+   gate every snapshot newest-first). Today that recovery was hand-written twice.
+1. **WAVE 3 — the next 40 by templatable weight** from `.run/family_hseq.json`
+   (`n_members>=2 and n_matched==0`, rank by `members × nins`; REGEN FIRST). Size it on the MEASURED
+   rate: **79% of cracks bank** (wave 2), not the 81% reach-15 prior. Route Sonnet ≤120 ins / Opus
+   above — **wave 2's 20 Sonnet targets are why its rate BEAT the all-Opus wave 1**, so the ladder
+   is not a compromise. ⚠️ Prompt Drew for the Ultracode toggle (R26/R27).
+2. **The 4 wave-2 binary-gate misses** (cheap, named): `func_80187960` PLUMBING
+   (`conflicting types for func_8012CAE4` → §161c cast-at-call-site) · `func_8017EEEC`
+   CARVE-REFUSED · `func_8017DF40` + `func_8018A974` DIFF (the §52b population).
+3. **Wave-2 idiom harvest** — 26 note-sets in `.run/jr48/wave2_result.json` + the transcripts, not
+   yet deduped into the cookbook (§162 was wave 1's). Several flagged as new laws.
+4. The §154-A island work (44 slots) · 0a leftovers (56 members + 116 data-bundled files) ·
+   0c BLOCKED (main-partition probe) · 0d permuter is free CPU (fuel: wave 1's 3 NEAR incl.
+   `func_8017C294`, the ×16 family at 18 ins).
+
+## ▶ (superseded) RESUME HERE — FIX THE md_ LANE FIRST, THEN WAVE 2
 1. **THE md_ MODULE LANE IS BLOCKED — 16 slots this wave alone, and it will block every future wave
    that touches the 70 module binaries.** Two distinct, named, evidence-captured mechanisms:
    · **jr (12 slots):** `jtbl_carve: jtbl_801EF6A4 not found in the raw data asm
@@ -218,6 +239,48 @@ its yield: 16 of the 42 member slots were unreachable for TOOLING reasons, not m
    wave's 3 NEAR — `func_8017C294` (the ×16 family, THE largest single item on the board at 3,936
    templatable ins) at **18 ins**, `func_8017C3BC` at **17**, `func_80189540` at **+2 ins / 4 sites**.
    Drafts are in `.run/wave1/`; each agent's notes name its exact residual.
+
+## ✅ WHAT S48 LANDED — part 3: WAVE 2 (28 targets) + THE md_ LANE
+**WAVE 2** (`wf_d804f25a-f6f`, 54 agents, 6.76M tok): 28 targets → **26 agent-MATCH (93%, vs wave
+1's 75%)**, 0 refuted, 2 NEAR, 0 FAIL → **22 BANKED on the whole-binary gate (79%, vs wave 1's
+67%)**. Propagation: 19 of 22 families committed. **Oracle delta for wave 2 = 116 instances.**
+Model mix was 20 Sonnet (≤120 ins) / 8 Opus — **the Sonnet band held**, which is the single most
+useful economic finding of the session (wave 1 was all-Opus at a LOWER bank rate).
+**⚠️ THE HARNESS DEFECT — FIXED IN PROMPT, NOT YET IN TOOLING (see the open item).** 28 agents shared
+ONE output dir `.run/wave2/` and a prompt line ("drafts to .run/wave2 ONLY") that invited tidying;
+later agents DELETED earlier agents' drafts (one agent's notes: *"scratch dir removed afterwards so
+.run/wave2/ contains only draft .c files"*). 21 of 26 verified drafts vanished before banking.
+**I wrote them off. Drew asked "can you just analyse the workflow results to get those back?" — and
+he was right.** Every agent tool call is recorded in the run transcript, content included:
+  1. raw `Write` records → only 8/21 gate MATCH (agents REFINE with `Edit`; I was treating each
+     edit's `new_string` as a whole file — my error, not the harness's);
+  2. replay `Write`-then-`Edit` in order per (agent, file_path), snapshot after every mutation, gate
+     every snapshot newest-first → **20/21**;
+  3. the last one never used Write/Edit — it wrote via a shell HEREDOC; extracted from the bash
+     tool calls → **21/21**. Every recovered draft was re-gated with `match_one` before staging.
+**Cost of the whole recovery: ~0 agent tokens.** A re-crack wave was launched and then KILLED once
+the transcripts proved recoverable.
+
+**THE md_ MODULE LANE** — two mechanisms, both misfiled as "module problems", neither actually one:
+· **FIXED (`commit:1626`), and it was never module-specific.** `scope_data_externs._body_open_brace`
+  ran both scans on UNMASKED text, so for a draft whose header comment says *"the `do { } while (0)`
+  around the loop-1 call is a REGISTER-ALLOCATION lever"*, the signature regex matched the COMMENT
+  line naming the function and the brace search found the COMMENT's `do {`. Carried externs were
+  spliced INTO the comment — silently commented out → `'D_8011511A' undeclared`, classified
+  CC1-FAIL, so it read as a property of the SIBLING when it was a property of the EXEMPLAR'S PROSE.
+  **Every richly-commented agent draft is a carrier.** Measured: 0/4 → **4/4**.
+· **NAMED, NOT FIXED (`commit:1627`).** §154-A leading-island layout: a module binds `.rodata` at 0x0
+  to the SAME subseg as its code, so the object's rodata order IS the C file's include chain —
+  INCLUDE_RODATA pieces, then each INCLUDE_ASM'd function's MIGRATED table, in address order. That
+  reproduces the island exactly WHILE THE FUNCTION IS A STUB; matching it PRUNES the `.s`, the table
+  leaves the chain, and cc1 re-emits it at the END of the object's `.rodata` — build 43,768 vs
+  43,760 bytes, first diff at 0x144 inside the island's own pointer table. `JTBL_PADS` cannot reach
+  it either (`jtbl_rodata_pads` refuses the object: "unexpected rodata content .include …").
+  **WHAT WOULD WORK:** isolate the jr fn into its own code subseg so its `.rodata` is a separate
+  OBJECT, then `ld_interleave` — the §8 machinery re-aimed at a LEADING island instead of a tail.
+  **SIZED (R37): 70 modules, 42 with this layout; 1,345 open module member-slots, only 44 jr.**
+  So the island work is worth **44 slots** and is NOT the module lane's main gate — I had claimed
+  the lane was "blocked"; measured, ~1,301 slots route through the path that is now fixed.
 
 ## 📐 THE FRONTIER AS RE-DERIVED THIS SESSION (post-0b, pre-wave; regen again after any bank)
 1,955 zero-crack sibling families / 6,709 members / 330,622 templatable ins. Tiers:
@@ -305,7 +368,7 @@ alias pointer kills a spurious giv (`loop.c` `cant_derive`).
   This REFINES the standing "always try pins before calling it unmatchable" rule — there is now a
   named class where pins are provably useless.
 
-## 🧰 MY ERROR LEDGER (4)
+## 🧰 MY ERROR LEDGER (6)
 1. **I diagnosed 0b from the S47 log before probing** — predicted the pads *rename* was the whole
    story. The first probe (`func_8013C0F8`) hit a DIFFERENT defect (duplicate typedefs) and the
    second exposed the silent-drop face I had not predicted. The fix was right, the reasoning path
@@ -317,6 +380,16 @@ alias pointer kills a spurious giv (`loop.c` `cant_derive`).
    symptom ("every slot shifts") onto the maxval case, where in fact nothing shifts; and I described
    `func_8017F2D4` as a verified MATCH when the whole-binary gate had refused it. Both are corrected
    in §162a. A dedupe pass that only looked for duplicates would have banked both mistakes.
+5. **I WROTE OFF 21 VERIFIED CRACKS AS LOST. They were fully recoverable from the run
+   transcripts, and Drew is the one who asked.** I had already established that the verifiers were
+   honest (their evidence quoted exact instruction counts) — which means the drafts HAD existed,
+   which means their content had passed through the harness and was therefore recorded. I reached
+   for a 5M-token re-crack instead of reading what I already had. **The rule this earns: when an
+   artifact produced inside the harness goes missing, the transcript IS the backup — check it
+   before regenerating anything.**
+6. **My first two recovery passes were wrong in the same direction** — extracting `Write` records
+   (8/21) and then treating `Edit.new_string` as a whole file. Agents REFINE; the file's true state
+   is the replay of its mutation history, not any single record.
 4. **I told Drew the md_ module lane might be "real reach the frontier ordering hasn't been
    exploiting" — the propagation refuted it the same hour.** 0 of 16 module slots banked. The
    prediction was reasonable and wrong; what makes it an error is that I offered it as a finding
