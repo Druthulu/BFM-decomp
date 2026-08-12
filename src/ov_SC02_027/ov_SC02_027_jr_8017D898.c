@@ -3911,7 +3911,103 @@ INCLUDE_ASM("asm/ov_SC02_027/nonmatchings/ov_SC02_027_jr_8017D898", func_8018218
 
 INCLUDE_ASM("asm/ov_SC02_027/nonmatchings/ov_SC02_027_jr_8017D898", func_80182204);
 
-INCLUDE_ASM("asm/ov_SC02_027/nonmatchings/ov_SC02_027_jr_8017D898", func_80182244);
+
+/* 8-byte, align-4 pair record: the per-index slot pair at D_801DA750/D_801DA754 */
+typedef struct {
+    s32 a;      /* 0x00 -> D_801DA750 */
+    s32 b;      /* 0x04 -> D_801DA754 */
+} Pair8_8017DDC4_80182244;
+
+/* 8-byte, align-2 record: forces move_by_pieces onto the lwl/lwr + swl/swr
+ * unaligned block-move path (cookbook §48-C2) for the 0x10..0x18 copy. */
+typedef struct {
+    u16 x, y, z;
+    s16 w;
+} Rec8_8017DDC4_80182244;
+
+/* 16-byte stride table indexed by *(s16*)(obj+0x70) */
+typedef struct {
+    s32 w[4];
+} Rec16_8017DDC4_80182244;
+
+
+extern void func_8012C1B8(void);
+extern void func_8012CAE4(void *a0);
+extern void func_8001C214(s32 a0, s32 a1);
+extern void func_80132784(s32 a0, s32 a1, u32 a2);
+extern void func_8012B23C(void *a0);
+extern void func_800484EC(s32 a0, s32 a1, s32 a2);
+extern s32 rand(void);
+extern s32 func_80132EF4(s32 a0, s32 a1);
+extern s32 func_8012AD50(void *a0);
+
+void func_80182244(void *a0)
+{
+
+    extern Pair8_8017DDC4_80182244 D_801DA750[];
+    extern Rec16_8017DDC4_80182244 D_801AB59C[];
+    s32 v0;
+    s32 s1;
+    s32 t;
+
+    /* §162: fold the store AND the test into ONE expression so cc1 keeps both
+     * on the call's native $v0 instead of coalescing them into a fresh copy. */
+    if ((*(s32 *)((s32)a0 + 0x20) = ((s32 (*)(void))func_8012C1B8)()) == 0) {
+        func_8012CAE4(a0);
+        return;
+    }
+
+    s1 = *(s32 *)(*(s32 *)((s32)a0 + 0x64) + 0xDC);
+    if (s1 != 0) {
+        t = *(s32 *)(s1 + 0x8);
+        if (t != 0) {
+            D_801DA750[*(s16 *)((s32)a0 + 0x70)].a =
+                ((s32 *)t)[*(s16 *)((s32)a0 + 0x70)];
+        }
+    }
+    D_801DA750[*(s16 *)((s32)a0 + 0x70)].b = 0;
+    func_8001C214(*(s32 *)((s32)a0 + 0x20),
+                  (s32)&D_801DA750[*(s16 *)((s32)a0 + 0x70)]);
+
+    if (*(s32 *)(s1 + 0xC) != 0) {
+        *(s32 *)(*(s32 *)((s32)a0 + 0x20) + 0x4) |= 0x1000000;
+    }
+
+    /* source order is DESCENDING here (0xE, 0xA, 0x6) — the emitted stores keep
+     * source order, and the target's are 0xE/0xA/0x6 with 0x6 in the delay slot. */
+    *(s16 *)((s32)a0 + 0xE) = 0;
+    *(s16 *)((s32)a0 + 0xA) = 0;
+    *(s16 *)((s32)a0 + 0x6) = 0;
+    func_80132784((s32)a0, *(s32 *)((s32)a0 + 0x64), *(u16 *)((s32)a0 + 0x70));
+
+    *(s16 *)((s32)a0 + 0x6) = *(s32 *)(*(s32 *)((s32)a0 + 0x20) + 0x48);
+    *(s16 *)((s32)a0 + 0xA) = *(s32 *)(*(s32 *)((s32)a0 + 0x20) + 0x4C);
+    *(s16 *)((s32)a0 + 0xE) = *(s32 *)(*(s32 *)((s32)a0 + 0x20) + 0x50);
+
+    *(Rec8_8017DDC4_80182244 *)(*(s32 *)((s32)a0 + 0x20) + 0x10) =
+        *(Rec8_8017DDC4_80182244 *)(*(s32 *)(*(s32 *)((s32)a0 + 0x64) + 0x20) + 0x10);
+
+    func_8012B23C(a0);
+
+    func_800484EC(*(s32 *)(*(s32 *)((s32)a0 + 0x64) + 0x20) + 0x34,
+                  (s32)&D_801AB59C[*(s16 *)((s32)a0 + 0x70)],
+                  (s32)a0 + 0x10);
+
+    *(s16 *)((s32)a0 + 0xFC) = rand() & 0xF0;
+    *(s16 *)((s32)a0 + 0xFE) = rand() & 0x1F0;
+    *(s16 *)((s32)a0 + 0x100) = rand() & 0x30;
+
+    v0 = func_80132EF4((s32)a0, 0x22);
+    if (v0 != 0) {
+        *(s16 *)(v0 + 0x34) = 0x4001;
+        *(s32 *)(v0 + 0x10) = *(s32 *)((s32)a0 + 0x10) >> 2;
+        *(s32 *)(v0 + 0x14) = *(s32 *)((s32)a0 + 0x14) >> 2;
+        *(s32 *)(v0 + 0x18) = *(s32 *)((s32)a0 + 0x18) >> 2;
+    }
+    *(s32 *)((s32)a0 + 0x1C) = 0x20;
+    func_8012AD50(a0);
+}
+
 
 extern void (*D_801AB5EC[])(void);
 
