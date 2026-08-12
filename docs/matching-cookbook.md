@@ -11751,3 +11751,90 @@ access must not be QImode (`cse_expr.md` §4b — u8/s8 never get the escape).
 
 *Scope, honestly:* two arms of one function. Nothing here was measured across a structural family, so
 read this as "site-selective within a body", not as a claim about family sweeps.
+
+---
+
+## §163 — S48 WAVES 2-3 HARVEST (P30, 2026-08-11/12): the five that were byte-probed and are actionable
+
+Provenance: 67 exemplar cracks across waves 2-3 (22 + 27 banked on the whole-binary gate). The agents
+flagged ~40 candidate laws; these FIVE were selected as byte-probed, generalizable, and immediately
+actionable, and were deduped by hand against the file. **The remaining ~35 are catalogued at the end
+of this section with their function names — they are NOT lost, but they are NOT vetted either.**
+
+**§163a — DECL-CONFLICT SEVERITY IS SCOPE-DEPENDENT, AND BLOCK SCOPE IS THEREFORE A CONFLICT
+SOLVENT.** *(sharpens §8d and §161c: §8d PROVES the phenomenon on `D_801812A4` — `BLOCK→BLOCK→FILE`
+builds, `FILE`-first errors — but never states the rule or its lever half.)* In gcc-2.7.2 an
+INCOMPATIBLE `extern` redeclaration is:
+
+    either declaration at FILE scope   ->  HARD ERROR   "conflicting types for X"
+    BOTH declarations at BLOCK scope   ->  WARNING ONLY "type mismatch with previous external decl"
+
+**Consequence for banking:** the block-scope-extern pattern is not merely hygiene, it is a genuine
+SOLVENT. A draft whose struct-typed view of a global disagrees with the host TU's scalar view can be
+banked AS-IS by moving **both the typedef and the extern** into the using block. Byte-probed both
+directions on the pinned cc1 (`func_80189540`, ov_SC04_018, 551 ins): the file-scope form is a hard
+error, the block-scope form warns and still gates **MATCH at 551 — codegen unchanged**.
+*Corollary already paid for elsewhere: you cannot simply DELETE the draft's decl to dodge a conflict,
+because `match_one` compiles the draft STANDALONE and the symbol is then undeclared — which
+gcc-2.7.2 reports with no `error:` prefix, so it reads as a mystery CC1 FAIL (`func_80187960`).*
+
+**§163b — THE SWITCH-INDEX PARAMETER-WIDTH ORACLE: read the EXTENSION, not just the bound.**
+*(extends §161a/§162a from the table's edges to the dispatch's operand.)* For `switch (p)` with
+minval != 0:
+
+    s16 param:  addiu $a0,$a0,-MINVAL ; sll $a0,$a0,16 ; sra $a0,$a0,16 ; sltiu $v0,$a0,MAXVAL
+    s32 param:  addiu $a0,$a0,-MINVAL ;                                   sltiu $v0,$a0,MAXVAL
+
+The `sll/sra` pair **straddling the minval subtract** is a 2-instruction signature of the switch
+parameter's DECLARED WIDTH — it is the HImode re-extension of the truncated subtract result and
+exists only for a short. **Tell:** a jump-table function off by ±2 ins with the drift starting at the
+`sltiu` — read the extension around the subtract before touching anything else. (`func_80189540`.)
+
+**§163c — `case_values_threshold` IS 5: AN EMPTY CASE LABEL GLUED TO `default:` CAN BE THE ONLY THING
+THAT EMITS A TABLE AT ALL.** *(extends §162a from the table's BOUND to its COUNT.)* A switch with
+four live cases `{0,1,3,4}` emits a DECISION TREE, not a tablejump — so a 5-entry table in the target
+is unreachable until an explicit `case 2:` label is added onto the default body. **Read the table's
+ENTRY VALUES, not just its length:** `jtbl[k] == the default label` is the fingerprint of a case
+label sharing the default body, and that empty label is LOAD-BEARING. Took a draft from 43 mismatches
+to 1. (`func_80181BE4`, ov_SC01_077.)
+
+**§163d — cse DELETES A REG-REG COPY BY REWRITING THE *PREVIOUS* INSN'S DESTINATION.** *(the missing
+sibling of §162j — same symptom, DIFFERENT PASS. §162j is local-alloc's `optimize_reg_copy_1`; this
+one fires earlier, in cse, and the two need different levers.)* Mechanism read out of the pinned gcc
+source, not inferred: `cse.c:7440-7477` (`cse_insn`, "special handling for `(set REG0 REG1)` where
+REG0 is the cheapest") validates a change of the PREVIOUS insn's `SET_DEST` to REG0 and rewrites this
+insn to `(set REG1 REG0)`, which becomes a dead store and disappears — so **both** the copy and its
+defining insn's destination change, and the source pseudo vanishes from the function entirely. The
+canonical-quantity choice is `make_regs_eqv` (`cse.c:826-855`), and the dial is **last-use order, not
+set count**. A prior agent had declared this residual "unsteerable — 30 variants all ≥17"; it was a
+false wall, closed by source-shape edits alone with NO pins (229 → 15 → 8 → 0). (`func_8017C3BC`,
+ov_MAIN_012, 407 ins.)
+
+**§163e — THE FRAME IS A PSEUDO-NUMBER ORACLE, AND DEAD-LOCAL SLOT ORDER IS NOT DECLARATION ORDER.**
+*(sharpens §162i, the unreferenced-local frame oracle — that entry gets the SIZE right and the
+PLACEMENT wrong.)* `reload1.c:658` runs `alter_reg(i,-1)` over pseudos in NUMBER order, so slots fall
+out of pseudo numbering, not source order. Two independent measurements: a BLKmode local is 8-ALIGNED
+with its size CEIL_ROUNDed to 8 (`assign_stack_temp` → `assign_stack_local(mode,size,-1)`) while a
+scalar `s32` gets only 4-byte alignment — which is why a bare `s32 sz` can never land on 0x30 and
+must be written `s32 sz[1]`; and the dead pad is allocated BEFORE a later-declared live aggregate, so
+`sz[1]; sv; pad[6]` and `sz[1]; pad[6]; sv` both emit slot order sz,pad,sv. **Practical rule:** place
+the §162i pad IMMEDIATELY BEFORE the local you want pushed DOWN, then VERIFY with `grep '\.frame'`
+plus the sp-relative store offsets — never by reasoning about declaration order. (`func_80184BD8`
+ov_SC02_000; `func_8017C294` ov_SC01_077.)
+
+### §163z — THE UNVETTED REMAINDER (do not cite as law; each needs a dedupe pass)
+~35 further claims sit in the wave note-sets (`.run/jr48/wave2_result.json`,
+`.run/jr48/wave3_result.json`) and in the run transcripts. The ones whose stated mechanism looked
+strongest, by function, so a future harvest can go straight to them:
+`func_8018FF98` (cross-jump reconstruction is NOT optional even when a shared tail "obviously" wants
+a goto — the §162g lever half) · `func_8017FFD0` (same axis, "the missing LEVER half") ·
+`func_80183324` (N distinct jtbl labels pointing at the SAME block = a positive tell) ·
+`func_80192B60` (fold's PLUS/MINUS re-association is source-form invariant — only a statement
+boundary breaks it; two-armed constant select; "a re-read is not redundant") · `func_8017DEFC`
+(2-D vs 1-D spelling kills/creates a LICM movable — sharpens §162e in the OPPOSITE direction; loop
+FORM as a delay-slot declaration; a shared temp as a SCHEDULING barrier) · `func_8017DD28` (three
+spellings of one subtraction give three codegens) · `func_80185EF8` (`fold_range_test` defeats `||`
+bound-chains) · `func_8017FDF8` (the mult/LO tie-break) · `func_8017CA18` (found via gdb-on-cc1 in
+`sched.c` `priority()`/`rank_for_schedule()`) · `func_8018E8A0`, `func_8017D7C0`, `func_8017F83C`,
+`func_80184944`, `func_80186C4C`, `func_801823E8`, `func_80192768`, `func_8017EB44`, `func_8017EB70`.
+**R14 applies to every one of them: they are one agent's reconstruction until re-measured.**
