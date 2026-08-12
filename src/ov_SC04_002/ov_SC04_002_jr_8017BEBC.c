@@ -4564,7 +4564,119 @@ void func_8017F160(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_002/nonmatchings/ov_SC04_002_jr_8017BEBC", func_8017F19C);
+
+/* Host TU (src/ov_SC02_041/ov_SC02_041_jr_8017BEBC.c) already has these three via
+ * ../shared/engine_core.h -> engine_types.h as SVECTOR (:997), MATRIX (:1168) and
+ * Vec32 (:1098) -- byte-identical layouts. Renamed here only because match_one
+ * compiles standalone with -Iinclude (engine_core.h is not on that path); on bank,
+ * drop these three typedefs and use the TU's own names. */
+typedef struct { s16 vx, vy, vz, pad; } SV_8017D7C0_8017F19C;   /*  8 bytes, align 2 */
+typedef struct { s16 m[3][3]; s32 t[3]; } MTX_8017D7C0_8017F19C; /* 0x20 bytes, align 4 */
+typedef struct { s32 vx, vy, vz, pad; } V32_8017D7C0_8017F19C;  /* 16 bytes, align 4 */
+
+/* ov_SC02_041 func_8017F19C -- 181 ins, zero-crack family exemplar (reach x4:
+ * ov_SC04_002:8017f19c, ov_SC04_004:8017f65c, ov_SC04_011:8017f340).
+ *
+ * Spawn-a-particle-burst routine:
+ *   obj = actor->0x34; p = alloc(); actor->0x20 = p;
+ *   if (p) { init p, force its "hidden" bit, copy the actor position into it,
+ *            scale it from a table, jitter a rotation SVECTOR + a velocity
+ *            Vec32 with rand(), RotMatrix + ApplyMatrix into the actor's
+ *            velocity, then 9 more rand() shorts at actor+0x38 }
+ *   else   { func_80146C3C(actor) }
+ *
+ * Frame (0x60): sp+0x10 s16 buf[4]   (func_80015978/func_80015954 position temp)
+ *               sp+0x18 SVECTOR rot  (8 bytes, align 2)
+ *               sp+0x20 MATRIX  m    (0x20 bytes)
+ *               sp+0x40 Vec32   vel  (16 bytes, align 4)
+ *               sp+0x50..0x5F saved s0/s1/s2/ra
+ * -> declaration order IS frame order (gcc-2.7.2 MIPS frame grows upward).
+ */
+
+extern void func_8001CF00(s32 a0);
+extern void func_80015978(s32 a0, s32 *a1);
+extern void func_80015954(s32 a0, s32 a1);
+extern void func_801465C0(void);
+extern void func_80146C3C();
+extern void func_80146E90(s32 *a0, s32 a1);
+extern void func_80049CAC(s32 a0, s32 a1);
+extern void func_800484EC(s32 a0, s32 a1, s32 a2);
+extern int rand(void);
+
+
+void func_8017F19C(s32 param_1) {
+
+    extern SV_8017D7C0_8017F19C D_8018C0B8[]; /* stride 8, align 2 -> lwl/lwr + swl/swr copy */
+    extern V32_8017D7C0_8017F19C D_8018C0E8;   /* 16 bytes, align 4 -> plain lw/sw copy      */
+    extern u16     D_8018C0F8[]; /* stride 2 scale table                       */
+    s16 buf[4];
+    SV_8017D7C0_8017F19C rot;
+    MTX_8017D7C0_8017F19C m;
+    V32_8017D7C0_8017F19C vel;
+    s32 obj;
+    s32 p;
+    s16 *q;
+    s32 i;
+    u16 sc;
+
+    obj = *(s32 *)(param_1 + 0x34);
+    p = ((s32 (*)(void))func_801465C0)();
+    *(s32 *)(param_1 + 0x20) = p;
+
+    if (p != 0) {
+        func_8001CF00(p);
+        *(s32 *)(p + 0x4) |= 0x80000000;
+        func_80015978(obj + 4, (s32 *)buf);
+        func_80015954((s32)buf, param_1 + 4);
+
+        sc = D_8018C0F8[*(s32 *)(param_1 + 0x30)];
+        *(u16 *)(p + 0x18) = *(u16 *)(p + 0x1a) = *(u16 *)(p + 0x1c) = sc;
+
+        vel = D_8018C0E8;
+        rot = D_8018C0B8[*(s32 *)(param_1 + 0x2c)];
+
+        if (*(s32 *)(param_1 + 0x30) != 0) {
+            /* LEVER: the compound `+=` is load-bearing. Spelled out as
+             * `rot.vx = rot.vx - 0x200 + ((rand() & 0x3f) << 4);` gcc-2.7.2 folds
+             * the -0x200 onto the JITTER term (addiu $v0 after the sll) instead of
+             * onto the loaded field (addiu $v1 after the lhu) -- 9 mismatched ins.
+             * `a += jitter - 0x200` keeps `a` the accumulator and emits the target's
+             * lhu / sll / addiu $v1,-0x200 / addu $v1,$v0. See notes at the bottom. */
+            rot.vx += ((rand() & 0x3f) << 4) - 0x200;
+            rot.vy += ((rand() & 0x3f) << 4) - 0x200;
+            rot.vz += ((rand() & 0x3f) << 4) - 0x200;
+            vel.vx = ((rand() & 0x1f) - 0x10) << 16;
+            vel.vy = ((rand() & 0x1f) - 0x10) << 16;
+            vel.vz = ((rand() & 0x1f) - 0x10) << 16;
+        }
+
+        func_80049CAC((s32)&rot, (s32)&m);
+        func_800484EC((s32)&m, (s32)&vel, (s32)&vel);
+
+        *(s32 *)(param_1 + 0x10) = vel.vx;
+        *(s32 *)(param_1 + 0x14) = vel.vy;
+        *(s32 *)(param_1 + 0x18) = vel.vz;
+
+        q = (s16 *)(param_1 + 0x38);
+        i = 0;
+        *(s32 *)(param_1 + 0x4c) = ((rand() & 0x1f) - 0x10) * 11;
+        *(s32 *)(param_1 + 0x50) = ((rand() & 0x1f) - 0x10) * 11;
+        *(s32 *)(param_1 + 0x54) = ((rand() & 0x1f) - 0x10) * 11;
+
+        do {
+            i++;
+            *q++ = (rand() & 0x7f) - 0x40;
+            *q++ = (rand() & 0x7f) - 0x40;
+            *q++ = (rand() & 0x7f) - 0x40;
+        } while (i < 3);
+
+        func_80146E90((s32 *)param_1, 2);
+        *(s16 *)(param_1 + 0x2) = *(u16 *)(param_1 + 0x2) + 1;
+    } else {
+        ((void (*)(s32))func_80146C3C)(param_1);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_002/nonmatchings/ov_SC04_002_jr_8017BEBC", func_8017F470);
 
