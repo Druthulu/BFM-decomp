@@ -4908,7 +4908,94 @@ INCLUDE_ASM("asm/ov_SC02_041/nonmatchings/ov_SC02_041_jr_8017BEBC", func_80180A5
 
 INCLUDE_ASM("asm/ov_SC02_041/nonmatchings/ov_SC02_041_jr_8017BEBC", func_80180ACC);
 
-INCLUDE_ASM("asm/ov_SC02_041/nonmatchings/ov_SC02_041_jr_8017BEBC", func_80180C40);
+#include "common.h"
+
+extern s32 func_8014CB7C(void);
+extern s32 func_8012BE54(s32 a0);
+extern s32 func_8012B8A4(s32 a0);
+extern void func_8012B2CC(s32 a0);
+extern void func_8012B1B4(s32 a0, void *a1);
+extern void func_8012A828(s32 a0, void *a1);
+extern void func_8001C214(s32 a0, void *a1);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern s32 func_8012C658(s32 arg0, s32 arg1, s32 arg2);
+extern s32 func_8012D624(s32 a0, s32 a1, s32 a2);
+extern int rand(void);
+
+extern u16 D_80126B62;
+extern s16 D_80126B96;
+extern u8 D_801ABF64;
+extern u8 D_801ABF7C;
+extern u8 D_801AC734;
+
+void func_80180C40(s32 a0) {
+    s32 i;
+    s32 e;
+    s32 lim;
+    s16 d;
+
+    if (func_8014CB7C() != 0) {
+        if (func_8012BE54(a0) < 0x1000) {
+            lim = 0x40;
+            if (*(s16 *)(a0 + 0x70) != 0) {
+                lim = 0x80;
+            }
+            d = *(u16 *)(a0 + 0xA) - D_80126B62;
+            if ((d >= 0) && (d <= lim)) {
+                *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) = func_8012B8A4(a0);
+                *(u16 *)(a0 + 0xFC) = (rand() & 0xFF) - 0x80;
+                *(u16 *)(a0 + 0xFE) = (rand() & 0xFF) - 0x80;
+                *(u16 *)(a0 + 0x100) = (rand() & 0xFF) - 0x80;
+                func_8012B2CC(a0);
+                func_8012B1B4(a0, &D_801ABF64);
+                *(s16 *)(a0 + 0x16) = -0x18;
+                *(s32 *)(a0 + 0x1C) = 0x3C;
+                *(s16 *)(a0 + 0x5C) = 0;
+                *(u16 *)(a0 + 0x2) = *(u16 *)(a0 + 0x2) + 1;
+                if (*(s16 *)(a0 + 0x70) != 0) {
+                    func_8012A828(a0, &D_801ABF7C);
+                    *(u16 *)(a0 + 0xA) = *(u16 *)(a0 + 0xA) - 0x40;
+                    func_8002D4C8(0xB41, 0);
+                } else {
+                    func_8001C214(*(s32 *)(a0 + 0x20), &D_801AC734);
+                    i = 0;
+                    do {
+                        e = func_8012C658(0x244, 3, a0);
+                        if (e != 0) {
+                            s32 r = rand();
+                            s32 b = *(u16 *)(*(s32 *)(*(s32 *)(e + 0x64) + 0x20) + 0x12) - 0x200;
+                            *(u16 *)(*(s32 *)(e + 0x20) + 0x12) = b + (r & 0x3FF);
+                            *(u16 *)(e + 0xFC) = (rand() & 0xFF) - 0x80;
+                            *(u16 *)(e + 0xFE) = (rand() & 0xFF) - 0x80;
+                            *(u16 *)(e + 0x100) = (rand() & 0xFF) - 0x80;
+                            func_8012B2CC(e);
+                            func_8012B1B4(e, &D_801ABF64);
+                            *(s16 *)(e + 0x16) = -0x18;
+                            *(s32 *)(e + 0x1C) = 0x3C;
+                            func_8002D4C8(0xB42, 0);
+                        }
+                        i++;
+                    } while (i < 3);
+                }
+            }
+        }
+    } else {
+        if (*(s16 *)(a0 + 0x70) != 0) {
+            if (*(u8 *)(a0 + 0x74) != 0) {
+                if (func_8012D624(a0, 0x100, 0xA) != 0) {
+                    D_80126B96 = 0x4007;
+                }
+            }
+        } else {
+            *(u16 *)(a0 + 0xA) = *(u16 *)(a0 + 0xA) - 0x40;
+            if (func_8012D624(a0, 0x18, 0xA) != 0) {
+                D_80126B96 = 0x4007;
+            }
+            *(u16 *)(a0 + 0xA) = *(u16 *)(a0 + 0xA) + 0x40;
+        }
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC02_041/nonmatchings/ov_SC02_041_jr_8017BEBC", func_80180ED4);
 
@@ -5371,7 +5458,77 @@ INCLUDE_ASM("asm/ov_SC02_041/nonmatchings/ov_SC02_041_jr_8017BEBC", func_80181D3
 
 INCLUDE_ASM("asm/ov_SC02_041/nonmatchings/ov_SC02_041_jr_8017BEBC", func_80181DD4);
 
-INCLUDE_ASM("asm/ov_SC02_041/nonmatchings/ov_SC02_041_jr_8017BEBC", func_80181E18);
+#include "common.h"
+
+extern s32 func_8012BCCC(s32 a0);
+extern s32 func_8012BEE8(s32 a0);
+extern s32 func_8012B608(s32 a0, s32 a1, s32 a2);
+extern void func_8012B178(s32 a0, s32 a1);
+extern void func_8012CBA4(s32 a0);
+extern s32 func_8012B70C(s16 *a0, s16 *a1);
+extern void func_8012ADE4(u8 *a0);
+extern int rand(void);
+extern u8 D_800D3918[];
+extern s16 D_801152B0;
+
+void func_80181E18(s32 a0) {
+    s16 sp10[4];
+    s32 c;
+
+    if (func_8012BCCC(a0) <= 0x24000) {
+        *(s16 *)(a0 + 2) = 1;
+        return;
+    }
+    if (*(s32 *)(a0 + 0x14) == 0) {
+        *(s32 *)(a0 + 0x14) = 0x100000;
+    }
+    if (*(u16 *)(a0 + 0x34) == 0) {
+        if (func_8012BEE8(a0)) {
+            s32 r;
+            s32 base;
+            s32 v;
+            *(s32 *)(a0 + 0x1C) = 0x1E;
+            *(s16 *)(a0 + 0x34) = *(u16 *)(a0 + 0x34) + 1;
+            r = rand() % 0x400;
+            base = *(s16 *)(*(s32 *)(a0 + 0x20) + 0x12);
+            if (rand() & 1) {
+                v = base + r;
+            } else {
+                v = base - r;
+            }
+            *(s32 *)(a0 + 0xE4) = v;
+        }
+    } else {
+        s32 d = func_8012B608(*(s16 *)(*(s32 *)(a0 + 0x20) + 0x12),
+                              *(s32 *)(a0 + 0xE4), 8);
+        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) =
+            *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) + d;
+        if (func_8012BEE8(a0)) {
+            *(s16 *)(a0 + 0x34) = 0;
+            *(s32 *)(a0 + 0x1C) = 0x5A;
+        }
+    }
+
+    func_8012B178(a0, 0xFFFC0000);
+    c = ((s32 (*)(s32))func_8012CBA4)(a0);
+    if ((c & 0x8000) && *(s32 *)(a0 + 0xE8) == 0) {
+        s32 t1;
+        sp10[0] = *(s32 *)(a0 + 0x10) >> 8;
+        sp10[2] = *(s32 *)(a0 + 0x18) >> 8;
+        t1 = func_8012B70C((s16 *)D_800D3918, &D_801152B0);
+        *(s32 *)(a0 + 0xE4) =
+            (t1 * 2 - func_8012B70C(sp10, (s16 *)D_800D3918)) & 0xFFF;
+        *(s16 *)(a0 + 0x34) = 1;
+        *(s32 *)(a0 + 0x1C) = 0x1E;
+        *(s32 *)(a0 + 0xE8) = 0x10;
+    } else if ((c & 0x2000) == 0) {
+        func_8012ADE4((u8 *)a0);
+    }
+    if (*(s32 *)(a0 + 0xE8) != 0) {
+        *(s32 *)(a0 + 0xE8) = *(s32 *)(a0 + 0xE8) - 1;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC02_041/nonmatchings/ov_SC02_041_jr_8017BEBC", func_80181FFC);
 
@@ -5541,7 +5698,160 @@ extern void func_8012A828(s32, void*);
     }
 
 
-INCLUDE_ASM("asm/ov_SC02_041/nonmatchings/ov_SC02_041_jr_8017BEBC", func_80182784);
+/*
+ * func_80182784 -- ov_SC02_041 / ov_SC02_041_jr_8017BEBC.c   MATCH (124 ins)
+ * Family reach x4 (zero-crack sibling family exemplar).
+ *
+ * WHAT IT DOES
+ *   Entity per-frame step for state 6 (spawn/attach of a sub-object):
+ *   (1) state == 6 -> rotate the local offset (0,0,0x20) by the entity's object matrix
+ *       (obj+0x34), fetch bone/joint 7's matrix via func_8012EC04, project it through
+ *       func_8012F14C with the shared D_800D3918 offset vector, then build a 0x14-byte
+ *       spawn record {pos.xyz, id=0x1FA, 0, 0, 0x7FFF, gfxid=obj->0x12, 0} and hand it to
+ *       func_8012C51C; on success cache the child at +0xCC, swap the object's anim
+ *       (func_8001C924 D_801AF8D0), push the entity to script D_801AD280 and set flag 1.
+ *   (2) once flags 1|2 are both set and func_80013350(entity+4, child+4) < 0x1801
+ *       (distance gate), free the child, restore anim D_801AF898, push script D_801B5F44,
+ *       state = 7, clear the child ptr and flags 0|1.
+ *   (3) if the current script IS D_801B5F44 and entity flag 0x4000 at +0x72 is set,
+ *       push script D_801B5BC4, sub-state = 2, func_8012B23C + func_80182F20.
+ *
+ * SIBLING-FIRST provenance (STEP 0 / cookbook 160g -- all of it from the DESTINATION TU):
+ *   - the 0x14-byte spawn record IS `struct S80190C84` (engine_types.h:1337), lifted from
+ *     the TU's own banked func_80184D20 (TU:5537-5566), which builds the same record
+ *     (f6 = id, f8 = fA = 0, fC = 0x7FFF, fE = gfx, f10 = 0) and calls func_8012C51C(&sp, a0).
+ *   - `s32 buf[8]` + `func_8012EC04(p, n, buf)` + `func_8012F14C(buf, <vec>, out)` is the
+ *     TU's banked func_80184C60 (TU:6372-6383) verbatim, including the cast-call spelling
+ *     that keeps the TU's `(s32,s32,s32)` prototype for func_8012F14C.
+ *   - `ApplyMatrixSV((void *)(*(s32 *)(a0 + 0x20) + 0x34), v, v)` is engine_core.h
+ *     DEFINE_func_80168070() (engine_core.h:21265) verbatim.
+ *   - the `&D_801B5F44` script-pointer compare uses the TU's own `extern short D_801B5F44;`
+ *     (TU:5537) -- taking its address, NOT re-spelling it as an array.
+ *
+ * IDIOMS THAT ARE LOAD-BEARING (byte-measured this session)
+ *   1. The 0xE0 flag gate MUST be three NESTED ifs, not `(f&1) && (f&2) && ...`.
+ *      The C front end's fold_truthop rewrites the `&&` of two bit tests on the same
+ *      operand into `(f & 3) == 3` -- one `andi 3` + `bne v0,v1` instead of the target's
+ *      `andi 1 / beqz / andi 2 / beqz`.  Nesting is not an && expression, so fold never
+ *      sees it; cse still collapses the two `lw 0xE0` into one, which is what the target
+ *      does.  (-2 ins / 52 diffs in v1.)  NEW LAW candidate -- see notes.
+ *   2. `sv[1] = 0; sv[0] = 0; sv[2] = 0x20;` -- the 1-before-0 order is real source order,
+ *      not scheduling; 0,1,2 emits `sh 0x50` before `sh 0x52`.
+ *   3. `u16 out[4]` / `u16 sv[4]` (NOT s16): the target loads every component with `lhu`.
+ *      s16 arrays give `lh` on all five reads.  Same for `*(u16 *)(obj + 0x12)`.
+ *   4. Local declaration order struct -> buf -> out -> sv reproduces the frame exactly
+ *      (0x10 / 0x28 / 0x48 / 0x50).  The 4-byte hole at sp+0x24 is not a missing local:
+ *      assign_stack_local gives every BLKmode local BIGGEST_ALIGNMENT (8) on MIPS, so the
+ *      0x14-byte struct rounds 0x24 -> 0x28 for buf.
+ *   5. `temp = func_8012C51C(...); *(s32*)(a0+0xCC) = temp; if (temp != 0)` -- the store
+ *      lands in the beqz delay slot (cookbook 162: non-void return visible in delay slots).
+ *
+ * DECLARATION SURFACE (audited against the WHOLE destination TU; it expands ZERO DEFINE_
+ * macros, so engine_core.h contributes no file-scope declaration):
+ *   ApplyMatrixSV  TU:170   `extern void ApplyMatrixSV(void*,void*,void*);`   <- AGREES verbatim
+ *   func_8012F14C  TU:330   `extern void func_8012F14C(s32,s32,s32);`         <- AGREES verbatim
+ *   func_8012EC04  TU:6369  `extern void func_8012EC04(s32,s32,s32*);`        <- AGREES verbatim
+ *   func_8012C51C  TU:6410  `extern s32 func_8012C51C(void*,s32);`            <- AGREES verbatim
+ *   func_8012C218  TU:5092  `extern void func_8012C218(void *a0);`            <- AGREES verbatim
+ *   func_8012A828  TU:4738  `extern void func_8012A828(s32 a0, void *a1);`    <- AGREES verbatim
+ *   func_80182F20  TU:5438  `extern s32 func_80182F20(s32 a0);`               <- AGREES verbatim
+ *   D_800D3918     TU:634   `extern u8 D_800D3918[];`                         <- AGREES verbatim
+ *   D_801B5F44     TU:5537  `extern short D_801B5F44;`                        <- AGREES verbatim
+ *   func_8012B23C  not in the TU; fleet-dominant spelling (1576x) used verbatim.
+ *   func_8001C924  not in the TU; fleet-dominant spelling (70x) used verbatim.
+ *   func_80013350  not in the TU.  The fleet-dominant spelling is `extern void
+ *                  func_80013350(s32, void*);` (1379x) but this call site NEEDS the s32
+ *                  return (`slti $v0,$v0,0x1801`), so `extern s32 func_80013350(s32 a0,
+ *                  void *a1);` is used.  No conflict in THIS TU -- but if a later splice
+ *                  ever drops a `void` spelling into it, keep this one and cast at the
+ *                  use site.
+ *   D_801AF8D0 / D_801AD280 / D_801AF898 / D_801B5BC4 -- declared NOWHERE in the TU
+ *                  (D_801B5BC4 exists only in ov_SC05_001, a different overlay), so the
+ *                  block-scope spellings here are free.
+ *   St_80182784 -- fresh typedef name, zero hits across src/ and include/.  It is
+ *                  layout-identical to `struct S80190C84` (engine_types.h:1337), which IS
+ *                  visible in the TU via ../shared/engine_core.h; on banking it SHOULD be
+ *                  replaced by `struct S80190C84 s;` and the typedef dropped (byte-neutral
+ *                  -- the local tag exists only so the standalone match_one compile works,
+ *                  since engine_core.h is not on its -I path).
+ */
+
+#include "common.h"
+
+/* Layout-identical to `struct S80190C84` (src/shared/engine_types.h:1337), which IS
+ * visible in the destination TU via ../shared/engine_core.h; a fresh tag is used here
+ * only so the standalone match_one compile (no engine_core.h on its -I path) works. */
+typedef struct { s16 f0, f2, f4, f6, f8, fA, fC, fE; s32 f10; } St_80182784;
+
+extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
+extern void func_8012EC04(s32 param_1, s32 param_2, s32 *param_3);
+extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
+extern s32 func_8012C51C(void *a0, s32 a1);
+extern void func_8012C218(void *a0);
+extern void func_8012A828(s32 a0, void *a1);
+extern void func_8012B23C(s32 a0);
+extern s32 func_80013350(s32 a0, void *a1);
+extern void func_8001C924(s32 a0, void *a1);
+extern s32 func_80182F20(s32 a0);
+extern u8 D_800D3918[];
+extern short D_801B5F44;
+
+void func_80182784(s32 a0) {
+
+    extern u8 D_801AF8D0[];
+    extern u8 D_801AD280[];
+    extern u8 D_801AF898[];
+    extern u8 D_801B5BC4[];
+    St_80182784 s;
+    s32 buf[8];
+    u16 out[4];
+    u16 sv[4];
+    s32 temp;
+
+    if (*(s32 *)(a0 + 0x94) == 6) {
+        sv[1] = 0;
+        sv[0] = 0;
+        sv[2] = 0x20;
+        ApplyMatrixSV((void *)(*(s32 *)(a0 + 0x20) + 0x34), sv, sv);
+        func_8012EC04(a0, 7, buf);
+        ((void (*)(s32 *, u8 *, u16 *))func_8012F14C)(buf, D_800D3918, out);
+        s.f0 = out[0] + sv[0];
+        s.f2 = out[1];
+        s.f4 = out[2] + sv[2];
+        s.f6 = 0x1FA;
+        s.f8 = 0;
+        s.fA = 0;
+        s.fC = 0x7FFF;
+        s.fE = *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12);
+        s.f10 = 0;
+        temp = func_8012C51C(&s, a0);
+        *(s32 *)(a0 + 0xCC) = temp;
+        if (temp != 0) {
+            func_8001C924(*(s32 *)(a0 + 0x20), D_801AF8D0);
+            func_8012A828(a0, D_801AD280);
+            *(s32 *)(a0 + 0xE0) |= 1;
+        }
+    }
+    if (*(s32 *)(a0 + 0xE0) & 1) {
+        if (*(s32 *)(a0 + 0xE0) & 2) {
+            if (func_80013350(a0 + 4, (void *)(*(s32 *)(a0 + 0xCC) + 4)) < 0x1801) {
+                func_8012C218(*(void **)(a0 + 0xCC));
+                func_8001C924(*(s32 *)(a0 + 0x20), D_801AF898);
+                func_8012A828(a0, &D_801B5F44);
+                *(s32 *)(a0 + 0x94) = 7;
+                *(s32 *)(a0 + 0xCC) = 0;
+                *(s32 *)(a0 + 0xE0) &= ~3;
+            }
+        }
+    }
+    if (*(s32 *)(a0 + 0x90) == (s32)&D_801B5F44 && (*(u16 *)(a0 + 0x72) & 0x4000)) {
+        func_8012A828(a0, D_801B5BC4);
+        *(s16 *)(a0 + 0x2) = 2;
+        func_8012B23C(a0);
+        func_80182F20(a0);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC02_041/nonmatchings/ov_SC02_041_jr_8017BEBC", func_80182974);
 
@@ -5615,7 +5925,94 @@ void func_8018354C(void *a0) {
     }
 
 
-INCLUDE_ASM("asm/ov_SC02_041/nonmatchings/ov_SC02_041_jr_8017BEBC", func_80183560);
+#include "common.h"
+
+/* func_80183560 — ov_SC02_041, TU ov_SC02_041_jr_8017BEBC.c (132 ins).
+ *
+ * Family of 4 (zero-crack exemplar): func_80183560 (ov_SC02_041) / func_80186B84 (ov_SC04_002) /
+ * func_80185F54 (ov_SC04_005) / func_801825C0 (ov_SC04_007) — all four `asm/.../jr_8017BEBC`,
+ * all 141-line .s, all still INCLUDE_ASM.
+ *
+ * Per-frame step of an entity's ground marker.  a0+0x64 is the owner entity; the two SVECTORs at
+ * +0xFC and +0x104 are copied from it (vx,vy,vz only — the +0x102/+0x10A pad words are NOT copied,
+ * which is why this is six scalar assignments and not two struct copies).  The marker's own two
+ * SVECTORs at +0xEC and +0xF4 are then set to the midpoints of (+0xFC,+0xDC) and (+0x104,+0xE4);
+ * +0xEC -= +0xF4 turns the first into the edge vector, VectorNormalSS normalises it in place, and
+ * the result is divided by the speed taken from the 2-entry s16 table D_801AD38C (0x0074/0x003C,
+ * asm/ov_SC02_041/data/tail.data.s:46622) indexed by the low nibble of the u16 at +0x70, then added
+ * back onto +0xF4 to give the advanced position.  +0x1C = 0x10 is the colour/intensity that
+ * func_801837B0 (same TU, already matched) reads, and the u16 at +0x2 is the state counter.
+ *
+ * DECLARATION SURFACE (whole-TU grep of ov_SC02_041_jr_8017BEBC.c, §161c):
+ *   * VectorNormalSS — TU line 1848 `extern s32 VectorNormalSS(void *a0, void *a1);`.  The decl
+ *     below is CHARACTER-IDENTICAL, so it is a legal repeat, not a conflict.
+ *   * D_801AD38C — not declared anywhere in ov_SC02_041; the TU's nearest neighbour is
+ *     `extern void (*D_801AD37C[])(void);` at line 5604, a DIFFERENT symbol (the func_801834B4
+ *     dispatch table).  `extern s16 D_801AD38C[]` is new and conflict-free.  It must stay `s16`:
+ *     the target reads it with `lh`, and an `s16` LOCAL would instead give lhu+sll+sra (see below).
+ *   * func_80183560 itself has no prototype anywhere in the overlay — only the INCLUDE_ASM at
+ *     line 5618 that this definition replaces.
+ *
+ * CODEGEN NOTES (what the .s pins — every one of these was byte-measured):
+ *   * `d` MUST be s32, not s16.  An `s16 d` is HImode: gcc loads the table entry with the movhi
+ *     pattern (`lhu`) and then sign-extends at the division with `sll 16; sra 16` — two extra
+ *     instructions and 134 ins total.  An s32 local makes the load a plain
+ *     `(sign_extend:SI (mem:HI ...))` = the target's single `lh`.
+ *   * The owner pointer is re-read from a0+0x64 for EVERY one of the six copies (six `lw`s in the
+ *     target).  Caching it in a local collapses them to one load.
+ *   * The reads are all `s16`: the `sra $v0,$v0,1` in the averaging block needs the signed sum, and
+ *     the `lhu`s elsewhere are combine's own force_to_mode rewrite of a dead-high-half sign_extend
+ *     — do NOT chase them with `u16` casts in the source.
+ *   * >>> THE WHOLE FUNCTION TURNS ON `(*(s16 *)(a0 + 0x2))++;` <<<  Spelled `+= 1` instead, the
+ *     draft is 132/132 instructions with the SAME multiset but 25 mismatched: the three div
+ *     quotients come out $a0/$a1/$a2 instead of $a1/$a2/$a3 and the tail block schedules
+ *     add/store/add/store instead of add,add,add,store,store,store.  `x += 1` on a memory lvalue
+ *     expands to one read-modify-write chain; postincrement expands via an explicit temp
+ *     (`t = *p; *p = t + 1;`), which is one more RTL insn on that chain.  That extra insn changes
+ *     the dependence depth the pre-RA scheduler ranks by, so the 0x2 load is hoisted above the
+ *     `0x1C = 0x10` store, its value and the 0x10 constant become simultaneously live, and the
+ *     resulting pressure pushes the whole tail onto the target's registers.  `(*p)++` and
+ *     `t = *p + 1; *p = t;` both match; `+= 1`, `*p = *p + 1` and `t = *p; *p = t + 1;` do not.
+ */
+
+extern s32 VectorNormalSS(void *a0, void *a1);
+extern s16 D_801AD38C[];
+
+void func_80183560(s32 a0) {
+    s16 *v;
+    s32 d;
+
+    *(s16 *)(a0 + 0xFC)  = *(s16 *)(*(s32 *)(a0 + 0x64) + 0xFC);
+    *(s16 *)(a0 + 0xFE)  = *(s16 *)(*(s32 *)(a0 + 0x64) + 0xFE);
+    *(s16 *)(a0 + 0x100) = *(s16 *)(*(s32 *)(a0 + 0x64) + 0x100);
+    *(s16 *)(a0 + 0x104) = *(s16 *)(*(s32 *)(a0 + 0x64) + 0x104);
+    *(s16 *)(a0 + 0x106) = *(s16 *)(*(s32 *)(a0 + 0x64) + 0x106);
+    *(s16 *)(a0 + 0x108) = *(s16 *)(*(s32 *)(a0 + 0x64) + 0x108);
+
+    *(s16 *)(a0 + 0xEC) = (*(s16 *)(a0 + 0xFC)  + *(s16 *)(a0 + 0xDC)) >> 1;
+    *(s16 *)(a0 + 0xEE) = (*(s16 *)(a0 + 0xFE)  + *(s16 *)(a0 + 0xDE)) >> 1;
+    *(s16 *)(a0 + 0xF0) = (*(s16 *)(a0 + 0x100) + *(s16 *)(a0 + 0xE0)) >> 1;
+    *(s16 *)(a0 + 0xF4) = (*(s16 *)(a0 + 0x104) + *(s16 *)(a0 + 0xE4)) >> 1;
+    *(s16 *)(a0 + 0xF6) = (*(s16 *)(a0 + 0x106) + *(s16 *)(a0 + 0xE6)) >> 1;
+    *(s16 *)(a0 + 0xF8) = (*(s16 *)(a0 + 0x108) + *(s16 *)(a0 + 0xE8)) >> 1;
+
+    *(s16 *)(a0 + 0xEC) = *(s16 *)(a0 + 0xEC) - *(s16 *)(a0 + 0xF4);
+    *(s16 *)(a0 + 0xEE) = *(s16 *)(a0 + 0xEE) - *(s16 *)(a0 + 0xF6);
+    *(s16 *)(a0 + 0xF0) = *(s16 *)(a0 + 0xF0) - *(s16 *)(a0 + 0xF8);
+
+    v = (s16 *)(a0 + 0xEC);
+    VectorNormalSS(v, v);
+
+    d = D_801AD38C[*(u16 *)(a0 + 0x70) & 0xF];
+
+    *(s32 *)(a0 + 0x1C) = 0x10;
+    (*(s16 *)(a0 + 0x2))++;
+
+    *(s16 *)(a0 + 0xEC) = *(s16 *)(a0 + 0xF4) + *(s16 *)(a0 + 0xEC) / d;
+    *(s16 *)(a0 + 0xEE) = *(s16 *)(a0 + 0xF6) + *(s16 *)(a0 + 0xEE) / d;
+    *(s16 *)(a0 + 0xF0) = *(s16 *)(a0 + 0xF8) + *(s16 *)(a0 + 0xF0) / d;
+}
+
 
 extern void func_801837B0(s32 a0);
 extern s32 func_8012BEE8(s32 a0);
@@ -6117,7 +6514,115 @@ void func_80183FE0(s32 a0, s32 a1, s32 a2)
 
 INCLUDE_ASM("asm/ov_SC02_041/nonmatchings/ov_SC02_041_jr_8017BEBC", func_8018428C);
 
-INCLUDE_ASM("asm/ov_SC02_041/nonmatchings/ov_SC02_041_jr_8017BEBC", func_801843D8);
+#include "common.h"
+
+typedef struct { u32 addr : 24; u32 len : 8; } PTag_801843D8;
+
+extern u8 *D_800A5E60;
+extern u8 D_800A6610[];
+extern short D_800B9A02;
+
+#define gte_ldv3_801843D8(r0, r1, r2) __asm__ volatile ( \
+    "lwc2 $0, 0( %0 );" \
+    "lwc2 $1, 4( %0 );" \
+    "lwc2 $2, 0( %1 );" \
+    "lwc2 $3, 4( %1 );" \
+    "lwc2 $4, 0( %2 );" \
+    "lwc2 $5, 4( %2 )" \
+    : \
+    : "r"( r0 ), "r"( r1 ), "r"( r2 ) )
+
+#define gte_ldv0_801843D8(r0) __asm__ volatile ( \
+    "lwc2 $0, 0( %0 );" \
+    "lwc2 $1, 4( %0 )" \
+    : \
+    : "r"( r0 ) )
+
+#define gte_rtpt_801843D8() __asm__ volatile ("nop;nop;rtpt")
+#define gte_rtps_801843D8() __asm__ volatile ("nop;nop;rtps")
+#define gte_avsz4_801843D8() __asm__ volatile ("nop;nop;avsz4")
+
+#define gte_stsxy3_801843D8(r0, r1, r2) __asm__ volatile ( \
+    "swc2 $12, 0( %0 );" \
+    "swc2 $13, 0( %1 );" \
+    "swc2 $14, 0( %2 )" \
+    : \
+    : "r"( r0 ), "r"( r1 ), "r"( r2 ) \
+    : "memory" )
+
+#define gte_stsxy_801843D8(r0) __asm__ volatile ( \
+    "swc2 $14, 0( %0 )" \
+    : \
+    : "r"( r0 ) \
+    : "memory" )
+
+#define gte_stotz_801843D8(r0) __asm__ volatile ( \
+    "swc2 $7, 0( %0 )" \
+    : \
+    : "r"( r0 ) \
+    : "memory" )
+
+#define gte_stflg_801843D8(r0) __asm__ volatile ( \
+    "cfc2 $12, $31;" \
+    "nop;" \
+    "sw $12, 0( %0 )" \
+    : \
+    : "r"( r0 ) \
+    : "$12", "memory" )
+
+void func_801843D8(void *a0)
+{
+    u8 *pkt;
+    s32 flag1, flag2, otz;
+
+    pkt = D_800A5E60;
+    D_800A5E60 = pkt + 0x24;
+
+    *(u32 *)(pkt + 4) = *(u32 *)((u8 *)a0 + 0x20);
+    *(u32 *)(pkt + 0xC) = *(u32 *)((u8 *)a0 + 0x24);
+    *(u32 *)(pkt + 0x14) = *(u32 *)((u8 *)a0 + 0x28);
+    __asm__ volatile ("");
+    *(u32 *)(pkt + 0x1C) = *(u32 *)((u8 *)a0 + 0x2C);
+    pkt[3] = 8;
+    pkt[7] = 0x3A;
+
+    gte_ldv3_801843D8(a0, (u8 *)a0 + 0x8, (u8 *)a0 + 0x10);
+    gte_rtpt_801843D8();
+    gte_stflg_801843D8(&flag1);
+    gte_stsxy3_801843D8(pkt + 8, pkt + 0x10, pkt + 0x18);
+
+    gte_ldv0_801843D8((u8 *)a0 + 0x18);
+    gte_rtps_801843D8();
+    gte_stflg_801843D8(&flag2);
+    flag1 = flag1 | flag2;
+    gte_stsxy_801843D8(pkt + 0x20);
+    gte_avsz4_801843D8();
+    gte_stotz_801843D8(&otz);
+
+    if ((flag1 & 0xFFFFEFFF) == 0) {
+        u8 *pkt2;
+        u32 *otp;
+        s32 idx;
+        u8 *ot;
+
+        ot = &D_800A6610[(*(u16 *)&D_800B9A02) << 14];
+        idx = otz + 1;
+        if (idx >= 0x1000) idx = 0xFFF;
+        otp = (u32 *)((idx << 2) + (u32)ot);
+
+        ((PTag_801843D8 *)pkt)->addr = ((PTag_801843D8 *)otp)->addr;
+        ((PTag_801843D8 *)otp)->addr = (u32)pkt;
+
+        pkt2 = D_800A5E60;
+        D_800A5E60 = pkt2 + 8;
+        pkt2[3] = 1;
+        *(u32 *)(pkt2 + 4) = 0xE100002A;
+
+        ((PTag_801843D8 *)pkt2)->addr = ((PTag_801843D8 *)otp)->addr;
+        ((PTag_801843D8 *)otp)->addr = (u32)pkt2;
+    }
+}
+
 
 
 extern void (*D_801AD3D4[])(void);

@@ -68,6 +68,9 @@ import json
 import os
 import re
 import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import cdecl                                    # noqa: E402 — the ONE masking oracle (§134/R33)
 from collections import namedtuple
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -163,8 +166,23 @@ def stubs(binary):
     out, unparsed, unresolved, missing_s = {}, [], [], []
 
     for p in src_files(binary):
-        for i, line in enumerate(open(p, errors="replace"), 1):
-            if not _INCLUDE_ASM_CAND.match(line):
+        # CANDIDACY IS DECIDED ON COMMENT-MASKED TEXT (P30 S48, byte-witnessed — the FOURTH instance
+        # of this class in one session, after jr_isolate_all's alias scan, overlay_src_split's
+        # def-proto scan and scope_data_externs' brace scan). `_INCLUDE_ASM_CAND` only skips a line
+        # that BEGINS with a comment marker, so a crack agent's decl annotated
+        #     extern void func_801842DC(s32 a0);   /* TU:4023 INCLUDE_ASM (no decl) */
+        # is CODE followed by a comment whose prose contains `INCLUDE_ASM (` — the candidate filter
+        # fires, the strict parser finds no quoted path, and the whole binary's stub oracle REFUSES
+        # (correctly, per its own R32 contract). One such draft then broke `gate_stage` for every
+        # LATER binary in the run too, because they all walk the corpus. Mask first (§134/R33 — one
+        # masking oracle), then PARSE FROM THE ORIGINAL, since `_mask` also blanks string content
+        # and would erase the asm path.
+        raw = open(p, errors="replace").read()
+        masked = cdecl._mask(raw)
+        if len(masked) != len(raw):          # length invariant broken -> do not mis-index; scan raw
+            masked = raw
+        for i, (line, mline) in enumerate(zip(raw.split("\n"), masked.split("\n")), 1):
+            if not _INCLUDE_ASM_CAND.match(mline):
                 continue
             m = _INCLUDE_ASM.search(line)
             if not m:                                   # candidate the strict parser cannot read

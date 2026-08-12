@@ -3099,7 +3099,110 @@ void func_80180B64(int param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_80180B64", func_80180C90);
+#include "common.h"
+
+extern int rand(void);
+extern void func_8012B2CC();
+extern void func_8012B23C();
+extern void func_8012B14C();
+extern void func_8012A828();
+extern void func_80182968();
+extern u8 D_8018AA8C[];
+extern u8 D_801AFF18[];
+extern s16 D_8018AACC;
+extern s16 D_8018AAD0;
+extern s32 ratan2(s32, s32);
+
+void func_80180C90(int param_1)
+{
+    s32 angle;
+    s32 r;
+
+    if (*(s16 *)(param_1 + 6) >= 0x201) {
+        *(u8 *)(param_1 + 0xc1) = 0;
+        *(s16 *)(param_1 + 2) = 1;
+        *(s16 *)(param_1 + 0x34) = 0;
+        *(s32 *)(param_1 + 0x1c) = (rand() & 0x1f) + 0x46;
+        *(s16 *)(param_1 + 0xe0) = 0;
+        *(u16 *)(param_1 + 0xe2) = *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x12);
+        switch ((s32)((u32)*(u16 *)(param_1 + 0x70) << 0x10) >> 0x18) {
+        case 0:
+        case 1:
+        case 2:
+        case 3:
+        case 7:
+            if (*(u16 *)(param_1 + 0xfe) & 2) {
+                *(s16 *)(param_1 + 0xe2) = 0;
+            }
+            goto L_defA;
+        case 5:
+            func_80182968(param_1);
+            break;
+        case 4:
+        case 6:
+        default:
+        L_defA:
+            *(s16 *)(param_1 + 0xe4) = 0x1e;
+            *(s16 *)(param_1 + 0x5e) = 0;
+            *(u16 *)(param_1 + 0x5c) = 0xaa10;
+            func_8012B2CC(param_1);
+            func_8012B23C(param_1);
+            func_8012B14C(param_1, D_8018AA8C);
+            func_8012A828(param_1, D_801AFF18);
+            break;
+        }
+        *(s16 *)(param_1 + 0x34) = 4;
+        angle = (ratan2((s32)*(s16 *)(param_1 + 0xe) - (s32)D_8018AAD0,
+                        (s32)D_8018AACC - (s32)*(s16 *)(param_1 + 6)) -
+                 0x400) &
+                0xfff;
+    } else {
+        r = (rand() & 0x7ff) - 0x400;
+        *(u8 *)(param_1 + 0xc1) = 0;
+        *(s16 *)(param_1 + 2) = 1;
+        *(s16 *)(param_1 + 0x34) = 0;
+        *(s32 *)(param_1 + 0x1c) = (rand() & 0x1f) + 0x46;
+        *(s16 *)(param_1 + 0xe0) = 0;
+        *(u16 *)(param_1 + 0xe2) = *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x12);
+        switch ((s32)((u32)*(u16 *)(param_1 + 0x70) << 0x10) >> 0x18) {
+        case 0:
+        case 1:
+        case 2:
+        case 3:
+        case 7:
+            if (*(u16 *)(param_1 + 0xfe) & 2) {
+                *(s16 *)(param_1 + 0xe2) = 0;
+            }
+            goto L_defB;
+        case 5:
+            func_80182968(param_1);
+            break;
+        case 4:
+        case 6:
+        default:
+        L_defB:
+            *(s16 *)(param_1 + 0xe4) = 0x1e;
+            *(s16 *)(param_1 + 0x5e) = 0;
+            *(u16 *)(param_1 + 0x5c) = 0xaa10;
+            func_8012B2CC(param_1);
+            func_8012B23C(param_1);
+            func_8012B14C(param_1, D_8018AA8C);
+            func_8012A828(param_1, D_801AFF18);
+            break;
+        }
+        *(s16 *)(param_1 + 0x34) = 3;
+        angle = ((ratan2((s32)*(s16 *)(param_1 + 0xe) - (s32)D_8018AAD0,
+                         (s32)D_8018AACC - (s32)*(s16 *)(param_1 + 6)) -
+                  0x400) &
+                 0xfff) +
+                r;
+    }
+    *(u16 *)(param_1 + 0xe2) = angle;
+    *(s16 *)(param_1 + 0xe0) = 0;
+    *(u16 *)(param_1 + 0xe4) = (rand() & 0x1f) + 0x1e;
+    *(s32 *)(param_1 + 0x1c) = 0x10;
+}
+
 
 extern s16 D_8018AACC;
 extern s16 D_8018AAD0;
