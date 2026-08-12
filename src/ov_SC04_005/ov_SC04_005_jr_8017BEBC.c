@@ -51,7 +51,6 @@ extern void func_80029124(s32, s32);
 extern s32 func_80165A50(s32);
 extern void func_80029514(s32);
 extern u8 D_80078EC0;
-extern s32 D_80126B58;
 extern s32 func_80028FBC(void);
 extern s32 func_80029000(void);
 extern s32 func_80028D9C(void);
@@ -78,7 +77,6 @@ extern void func_8014607C(void);
 extern u8 D_80078EC1;
 extern s32 D_80078EC8;
 extern s32 D_80126B9C;
-extern s32 D_8011F730;
 extern u16 D_801152B8;
 extern u16 D_8012693A;
 extern u8 D_80126BE0[];
@@ -3703,6 +3701,10 @@ extern void func_8014BD24(s32 a0, s32 a1);
 extern void func_8002D4C8(s32 a0, s32 a1);
 
 void func_8017DAF0(void) {
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern s32 D_80126B58;
     func_8014BCEC((s32)&D_80126B58, 0x5);
     func_8014BD24((s32)&D_80126B58, 0x270F);
     func_8002D4C8(0xBFE, 0);
@@ -4668,6 +4670,10 @@ extern u16 func_80148800(s32 *a0);
 extern void func_8017F048(s32 param_1, s16 *param_2);
 
 void func_8017EFA8(s32 a0) {
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern s32 D_80126B58;
 
     extern s16 D_8018B7F4[];
     extern Blk8_80126940_8017EFA8 D_80126940;
@@ -4839,6 +4845,10 @@ extern s32 rand(void);
 
 void func_8017F744(void *a0)
 {
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern s32 D_80126B58;
 
     extern s32 *D_80126B78;
     s16 v1;
@@ -4910,6 +4920,10 @@ extern s32 func_8012E544(s32 a0);
 extern u8 *func_801290DC(s32 a0, u8 *a1);
 
 void func_8017F894(void *a0) {
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern s32 D_80126B58;
 
     extern u8 D_801202A0[];
     extern u8 D_8018B938[];
@@ -6496,10 +6510,13 @@ void func_80183A2C(void *a0) {
 
 
 
-extern s32 D_80126B58;
 extern void func_8014ADA8(s32 a0, s32 a1);
 
 void func_80183A6C(void * arg0) {
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern s32 D_80126B58;
     s32 temp_v0;
 
     temp_v0 = *(s32 *)((s32)arg0 + 0xdc);
@@ -6732,7 +6749,118 @@ INCLUDE_ASM("asm/ov_SC04_005/nonmatchings/ov_SC04_005_jr_8017BEBC", func_8018480
 
 INCLUDE_ASM("asm/ov_SC04_005/nonmatchings/ov_SC04_005_jr_8017BEBC", func_801849F0);
 
-INCLUDE_ASM("asm/ov_SC04_005/nonmatchings/ov_SC04_005_jr_8017BEBC", func_80184A38);
+
+/* func_80184A38 — ov_SC02_041 / ov_SC02_041_jr_8017BEBC.c   MATCH (142 ins)
+ *
+ * §160g SIBLING-FIRST provenance (nothing derived from the .s that could be copied):
+ *   - the `sp10 / sp18 / sp18 = sp10; sp18.y += K; func_80133784(1, &sp10, (s32)&sp18)`
+ *     8-byte-vector block is copied VERBATIM from the banked sibling func_80189100
+ *     (src/ov_SC02_027/ov_SC02_027_jr_8017D898.c:6330-6360), including the
+ *     `{u16 x,y,z,w}` V8 layout (== engine_types.h:4534 V8_80189100).  align-2 + size-8
+ *     is what makes gcc emit the ULW/USW block move (lwl/lwr,lwl/lwr,swl/swr,swl/swr)
+ *     instead of four lhu/sh pairs, and it is what keeps the two slots at sp+0x10/sp+0x18.
+ *   - the `s32 *base = &D_80126B58;` INITIALISED LOCAL is copied from the banked
+ *     func_8016F1C4 (src/ov_SC06_008/ov_SC06_008_jr_8016AB6C.c:3944).  This is the whole
+ *     reason $s1 gets lui/addiu %hi/%lo(D_80126B58) in the ENTRY block, ahead of every
+ *     branch, and then serves 0x10/0x18/0x34 as base+offset: gcc-2.7.2 has no GCSE, so an
+ *     address that is materialised before its first (conditional) use can only come from
+ *     a declaration-with-initialiser.  Spelling the three reads as bare D_80126B68/70/8C
+ *     globals would give three separate lui/lw pairs instead.
+ *   - the `extern void ((void (*)(s32, void *))func_8012A828)(s32 a0, void *a1);` + bare-array-arg call form is the
+ *     TU's own spelling (TU:4571/4585/4602/4631/4783/5041/5075/5116).
+ *
+ * SHAPE NOTES
+ *   - `if (func_8012CBA4(a0) & 0x6000) {...} else {...}` — the 0x6000 arm FALLS THROUGH,
+ *     and sched2 fills the beqz delay slot with the `li $v0,2` that the else-arm needs for
+ *     its first D_8011F730 compare.  Inverting the test loses that.
+ *   - the two `D_8011F730 == 2 / == 1` tests are spelled as two plain global reads; cse
+ *     collapses them to ONE `lw $v1` because they sit on the same extended basic block.
+ *   - `temp = *(s32*)(a0+0xD0); if (temp) { ((void (*)(s32, void *))func_8012A828)(a0,(void*)temp); ... }` — the
+ *     value is loaded straight into $a1 and survives the beqz into the jal's argument.
+ *
+ * DECLARATION SURFACE (audited against the WHOLE destination TU, above AND below the
+ * splice at TU:5211, plus ../shared/engine_core.h — that TU expands ZERO DEFINE_ macros,
+ * so the header contributes no file-scope declaration here):
+ *   D_80126B58   TU:55  `extern s32 D_80126B58;`                  <- AGREES verbatim
+ *   D_8011F730   TU:83  `extern s32 D_8011F730;`                  <- AGREES verbatim
+ *   func_8012A828 TU:4571 `extern void ((void (*)(s32, void *))func_8012A828)(s32 a0, void *a1);` <- AGREES verbatim
+ *   func_80133784 TU:599/854 `extern s32 func_80133784(s32 a0, void *a1, s32 a2);`
+ *                <- CONFORMED (the natural `void *a2` here CONFLICTS with the TU's `s32`);
+ *                   the disagreement is pushed to a zero-byte cast at the use site.
+ *   func_8012CBA4 / func_8012A8E8 — NOT declared in the TU; the fleet-dominant spellings
+ *                (1651x `extern void func_8012CBA4(s32 a0);`, 1457x
+ *                `extern void func_8012A8E8(void);`) are used with use-site casts so the
+ *                body stays compatible if a DEFINE_ macro or another region is ever spliced.
+ *   func_80185774 / func_80185914 / D_801BE5B4 / D_801BE9EC / D_80126B84 — declared NOWHERE
+ *                in the TU or in any src/ TU, so these spellings are free.
+ *   V8_80182044_80184A38 — fresh typedef name; no clash in the TU, engine_types.h or engine_core.h.
+ *                (It is layout-identical to engine_types.h:4534 V8_80189100, which IS visible
+ *                in this TU via engine_core.h; on banking it may be replaced by that name.)
+ */
+
+typedef struct { u16 x, y, z, w; } V8_80182044_80184A38;
+
+
+extern void func_8012A828(s32, s32);
+extern void func_8012A8E8(void);
+extern void func_8012CBA4(s32 a0);
+extern void func_80185774(s32 a0);
+extern s32 func_80185914(s32 a0);
+extern s32 func_80133784(s32 a0, void *a1, s32 a2);
+
+void func_80184A38(s32 a0) {
+
+    extern s32 D_80126B58;
+    extern s32 D_80126B84;
+    extern s32 D_8011F730;
+
+    extern u8 D_801BE5B4[];
+    extern u8 D_801BE9EC[];
+    V8_80182044_80184A38 sp10;
+    V8_80182044_80184A38 sp18;
+    s32 *base = &D_80126B58;
+    s32 temp;
+
+    if (*(u16 *)(a0 + 0x34) == 0 && D_80126B84 < -0x94000 &&
+        *(s16 *)(a0 + 0x98) != 0 && *(u8 **)(a0 + 0x90) != D_801BE9EC) {
+        ((void (*)(s32, void *))func_8012A828)(a0, D_801BE5B4);
+        *(u16 *)(a0 + 0x34) = *(u16 *)(a0 + 0x34) + 1;
+    }
+    func_80185774(a0);
+    if (((s32 (*)(s32))func_8012CBA4)(a0) & 0x6000) {
+        if (base[4] == 0 && base[6] == 0) {
+            if (func_80185914(a0) == 0) {
+                *(u16 *)(a0 + 0x2) = 1;
+            }
+        } else if (*(u8 **)(a0 + 0x90) == D_801BE9EC) {
+            temp = *(s32 *)(a0 + 0xD0);
+            if (temp != 0) {
+                ((void (*)(s32, void *))func_8012A828)(a0, (void *)temp);
+                *(s32 *)(a0 + 0xD0) = 0;
+            }
+        } else if (*(s16 *)(a0 + 0x98) == 0) {
+            ((void (*)(s32))func_8012A8E8)(a0);
+        }
+    } else if (D_8011F730 == 2) {
+        *(s32 *)(a0 + 0xD0) = *(s32 *)(a0 + 0x90);
+        ((void (*)(s32, void *))func_8012A828)(a0, D_801BE9EC);
+    } else if (D_8011F730 == 1) {
+        if (*(s32 *)(a0 + 0xD0) == 0) {
+            *(s16 *)(a0 + 0x98) = 0;
+        }
+    } else if (*(s16 *)(a0 + 0x98) != 0 && base[13] == 0) {
+        sp10.x = *(u16 *)(a0 + 0x6);
+        sp10.y = *(u16 *)(a0 + 0xA);
+        sp10.z = *(u16 *)(a0 + 0xE);
+        sp18 = sp10;
+        sp18.y += 0x10;
+        func_80133784(1, &sp10, (s32)&sp18);
+        *(u16 *)(a0 + 0x6) = sp18.x;
+        *(u16 *)(a0 + 0xA) = sp18.y;
+        *(u16 *)(a0 + 0xE) = sp18.z;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_005/nonmatchings/ov_SC04_005_jr_8017BEBC", func_80184C70);
 
