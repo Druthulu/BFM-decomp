@@ -5799,7 +5799,102 @@ void func_801825AC(void *a0) {
     }
 
 
-INCLUDE_ASM("asm/ov_SC04_007/nonmatchings/ov_SC04_007_jr_8017BEBC", func_801825C0);
+typedef struct { s16 m[3][3]; s32 t[3]; } MTX_8017D7C0_801825C0; /* 0x20 bytes, align 4 */
+typedef struct { s16 vx, vy, vz, pad; } SV_8017D7C0_801825C0;   /*  8 bytes, align 2 */
+typedef struct {
+    SVECTOR_8016E7C8 v[4];               /* 0x00 */
+    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
+    u8  f6;                     /* 0x38 */
+    u8  pad[7];                 /* -> 0x40 */
+} Prim_8016E7C8_801825C0;
+
+/* func_801825C0 — ov_SC02_041, TU ov_SC02_041_jr_8017BEBC.c (132 ins).
+ *
+ * Family of 4 (zero-crack exemplar): func_801825C0 (ov_SC02_041) / func_80186B84 (ov_SC04_002) /
+ * func_80185F54 (ov_SC04_005) / func_801825C0 (ov_SC04_007) — all four `asm/.../jr_8017BEBC`,
+ * all 141-line .s, all still INCLUDE_ASM.
+ *
+ * Per-frame step of an entity's ground marker.  a0+0x64 is the owner entity; the two SVECTORs at
+ * +0xFC and +0x104 are copied from it (vx,vy,vz only — the +0x102/+0x10A pad words are NOT copied,
+ * which is why this is six scalar assignments and not two struct copies).  The marker's own two
+ * SVECTORs at +0xEC and +0xF4 are then set to the midpoints of (+0xFC,+0xDC) and (+0x104,+0xE4);
+ * +0xEC -= +0xF4 turns the first into the edge vector, VectorNormalSS normalises it in place, and
+ * the result is divided by the speed taken from the 2-entry s16 table D_8019824C (0x0074/0x003C,
+ * asm/ov_SC02_041/data/tail.data.s:46622) indexed by the low nibble of the u16 at +0x70, then added
+ * back onto +0xF4 to give the advanced position.  +0x1C = 0x10 is the colour/intensity that
+ * func_801837B0 (same TU, already matched) reads, and the u16 at +0x2 is the state counter.
+ *
+ * DECLARATION SURFACE (whole-TU grep of ov_SC02_041_jr_8017BEBC.c, §161c):
+ *   * VectorNormalSS — TU line 1848 `extern s32 VectorNormalSS(void *a0, void *a1);`.  The decl
+ *     below is CHARACTER-IDENTICAL, so it is a legal repeat, not a conflict.
+ *   * D_8019824C — not declared anywhere in ov_SC02_041; the TU's nearest neighbour is
+ *     `extern void (*D_801AD37C[])(void);` at line 5604, a DIFFERENT symbol (the func_801834B4
+ *     dispatch table).  `extern s16 D_8019824C[]` is new and conflict-free.  It must stay `s16`:
+ *     the target reads it with `lh`, and an `s16` LOCAL would instead give lhu+sll+sra (see below).
+ *   * func_801825C0 itself has no prototype anywhere in the overlay — only the INCLUDE_ASM at
+ *     line 5618 that this definition replaces.
+ *
+ * CODEGEN NOTES (what the .s pins — every one of these was byte-measured):
+ *   * `d` MUST be s32, not s16.  An `s16 d` is HImode: gcc loads the table entry with the movhi
+ *     pattern (`lhu`) and then sign-extends at the division with `sll 16; sra 16` — two extra
+ *     instructions and 134 ins total.  An s32 local makes the load a plain
+ *     `(sign_extend:SI (mem:HI ...))` = the target's single `lh`.
+ *   * The owner pointer is re-read from a0+0x64 for EVERY one of the six copies (six `lw`s in the
+ *     target).  Caching it in a local collapses them to one load.
+ *   * The reads are all `s16`: the `sra $v0,$v0,1` in the averaging block needs the signed sum, and
+ *     the `lhu`s elsewhere are combine's own force_to_mode rewrite of a dead-high-half sign_extend
+ *     — do NOT chase them with `u16` casts in the source.
+ *   * >>> THE WHOLE FUNCTION TURNS ON `(*(s16 *)(a0 + 0x2))++;` <<<  Spelled `+= 1` instead, the
+ *     draft is 132/132 instructions with the SAME multiset but 25 mismatched: the three div
+ *     quotients come out $a0/$a1/$a2 instead of $a1/$a2/$a3 and the tail block schedules
+ *     add/store/add/store instead of add,add,add,store,store,store.  `x += 1` on a memory lvalue
+ *     expands to one read-modify-write chain; postincrement expands via an explicit temp
+ *     (`t = *p; *p = t + 1;`), which is one more RTL insn on that chain.  That extra insn changes
+ *     the dependence depth the pre-RA scheduler ranks by, so the 0x2 load is hoisted above the
+ *     `0x1C = 0x10` store, its value and the 0x10 constant become simultaneously live, and the
+ *     resulting pressure pushes the whole tail onto the target's registers.  `(*p)++` and
+ *     `t = *p + 1; *p = t;` both match; `+= 1`, `*p = *p + 1` and `t = *p; *p = t + 1;` do not.
+ */
+
+extern s32 VectorNormalSS(void *a0, void *a1);
+
+void func_801825C0(s32 a0) {
+
+    extern s16 D_8019824C[];
+    s16 *v;
+    s32 d;
+
+    *(s16 *)(a0 + 0xFC)  = *(s16 *)(*(s32 *)(a0 + 0x64) + 0xFC);
+    *(s16 *)(a0 + 0xFE)  = *(s16 *)(*(s32 *)(a0 + 0x64) + 0xFE);
+    *(s16 *)(a0 + 0x100) = *(s16 *)(*(s32 *)(a0 + 0x64) + 0x100);
+    *(s16 *)(a0 + 0x104) = *(s16 *)(*(s32 *)(a0 + 0x64) + 0x104);
+    *(s16 *)(a0 + 0x106) = *(s16 *)(*(s32 *)(a0 + 0x64) + 0x106);
+    *(s16 *)(a0 + 0x108) = *(s16 *)(*(s32 *)(a0 + 0x64) + 0x108);
+
+    *(s16 *)(a0 + 0xEC) = (*(s16 *)(a0 + 0xFC)  + *(s16 *)(a0 + 0xDC)) >> 1;
+    *(s16 *)(a0 + 0xEE) = (*(s16 *)(a0 + 0xFE)  + *(s16 *)(a0 + 0xDE)) >> 1;
+    *(s16 *)(a0 + 0xF0) = (*(s16 *)(a0 + 0x100) + *(s16 *)(a0 + 0xE0)) >> 1;
+    *(s16 *)(a0 + 0xF4) = (*(s16 *)(a0 + 0x104) + *(s16 *)(a0 + 0xE4)) >> 1;
+    *(s16 *)(a0 + 0xF6) = (*(s16 *)(a0 + 0x106) + *(s16 *)(a0 + 0xE6)) >> 1;
+    *(s16 *)(a0 + 0xF8) = (*(s16 *)(a0 + 0x108) + *(s16 *)(a0 + 0xE8)) >> 1;
+
+    *(s16 *)(a0 + 0xEC) = *(s16 *)(a0 + 0xEC) - *(s16 *)(a0 + 0xF4);
+    *(s16 *)(a0 + 0xEE) = *(s16 *)(a0 + 0xEE) - *(s16 *)(a0 + 0xF6);
+    *(s16 *)(a0 + 0xF0) = *(s16 *)(a0 + 0xF0) - *(s16 *)(a0 + 0xF8);
+
+    v = (s16 *)(a0 + 0xEC);
+    VectorNormalSS(v, v);
+
+    d = D_8019824C[*(u16 *)(a0 + 0x70) & 0xF];
+
+    *(s32 *)(a0 + 0x1C) = 0x10;
+    (*(s16 *)(a0 + 0x2))++;
+
+    *(s16 *)(a0 + 0xEC) = *(s16 *)(a0 + 0xF4) + *(s16 *)(a0 + 0xEC) / d;
+    *(s16 *)(a0 + 0xEE) = *(s16 *)(a0 + 0xF6) + *(s16 *)(a0 + 0xEE) / d;
+    *(s16 *)(a0 + 0xF0) = *(s16 *)(a0 + 0xF8) + *(s16 *)(a0 + 0xF0) / d;
+}
+
 
 extern void func_80182810(s32 a0);
 extern s32 func_8012BEE8(s32 a0);
