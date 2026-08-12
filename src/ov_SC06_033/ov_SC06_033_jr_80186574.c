@@ -4965,7 +4965,197 @@ void func_8018A318(void *arg) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_033/nonmatchings/ov_SC06_033_jr_80186574", func_8018A6F8);
+
+/* func_8018A6F8 — ov_SC06_018 / ov_SC06_018_jr_80187AEC
+ *
+ * §160g STEP 0 HIT, in the DESTINATION TU ITSELF: func_8018E5DC
+ * (src/ov_SC06_018/ov_SC06_018_jr_80187AEC.c:5416, banked MATCH, 248 ins) is a
+ * near-verbatim template.  Shared VERBATIM: the 0x60 gate + 0x1D snapshot, the
+ * 0x78/0x60 decrement (AND form), the 0x82&1 finisher, the C8/C9 pokes, the
+ * three func_8012C658 triple-spawns, both 8-iteration spawn loops (0x281/0x23),
+ * the RTP_SND block (&D_800AF648 $a0-pin idiom, 0x9F/0x13F, 0x77/0xEF, /0xA0),
+ * and the 0x76<0 else arm (0x8800/0x60/0xC1/0xC2).
+ *
+ * TWO DELTAS vs E5DC:
+ *   (1) the triple-spawn constants: 0x12 is +4 here (E5DC has -4), and 0x1A
+ *       runs -4 / 0 / +4.  This changes WHICH constant CSEs: E5DC shared -4
+ *       across 0x12+0x1A of block 1; here block 1's three constants are all
+ *       distinct (4, -0x10, -4 -> $v0 reused serially) while block 3 shares
+ *       +4 across 0x12+0x1A (-> $v1, with -0x10 in $v0).  Byte-confirmed
+ *       against the target at 8018EAFC / 8018EB2C / 8018EB58.
+ *   (2) an EXTRA guard block between the second spawn loop and the RTP stores:
+ *       h = *(s32*)(p+0x64); if (*(s16*)(h+0x36) == *(s16*)(p+0xFC))
+ *       *(s32*)(h+0xCC) = 0;   The target loads 0x64 ONCE into $a0 and reuses
+ *       that base for the 0xCC store, so it must be a variable, not two loads.
+ *
+ * §76 LEVER (inherited from E5DC's @stuck, and reinforced here): the three
+ * spawn pointers AND this new 0x64 base are ONE function-scope variable `t`,
+ * not four block-scope pseudos.  Reuse is what makes the allocno GLOBAL, and
+ * global is what makes block 1's forced $a0 (its constants monopolise $v0)
+ * bind blocks 2, 3 and the 0x64 block — all four are $a0 in the target.  Four
+ * separate block-local pseudos each re-run local-alloc and take $v1 (lower in
+ * REG_ALLOC_ORDER).
+ *
+ * Regalloc target (identical to E5DC): p pinned $s1, spawn-ptr `iv` on $s0,
+ * loop counter $s2, the hoisted constant 2 on $s3.
+ *
+ * @class: regalloc-order
+ */
+
+extern s32 rand(void);
+extern void func_8016AA50(s32, s32);
+extern s32 func_8016B428(s32);
+extern void func_80019064(void *);
+extern void func_8002A520(int);
+extern void func_8002A790(int);
+extern void func_8002D4C8(s32, s32);
+extern s32 func_8012C658(s32, s32, s32);
+extern s32 func_8012C588(s32, s32);
+extern u8 *func_8012913C(s32);
+extern void func_8012C218(void *);
+extern void func_8004914C(void *a0);
+extern void func_800491AC(void *a0);
+extern s32 RotTransPers(s32 a0, s32 a1, s32 *a2, s32 *a3);
+
+void func_8018A6F8(void *arg) {
+
+    extern u8 D_801C835C;
+
+    extern u8 D_800AF648;
+
+    /* L5: slot offsets are exact only through ONE struct (see the TU's other
+       RTP_SND sites) — rv at sp+0x10, sxy at sp+0x18, z sp+0x1C, flag sp+0x20. */
+    struct {
+        s16 rv[4];   /* sp+0x10 */
+        u16 sxy[2];  /* sp+0x18 */
+        s32 z;       /* sp+0x1C */
+        s32 flag;    /* sp+0x20 */
+    } L;
+
+    register u8 *p __asm__("$17");   /* $s1 */
+    s32 e;
+    s32 i;
+    s32 iv;
+    s32 t;
+
+    p = (u8 *)arg;
+    e = *(u8 *)(p + 0x5E);
+
+    if (*(s16 *)(p + 0x60) != 0) {
+        if (e == 0x1D) {
+            *(u16 *)(p + 0x82) = 0;
+            *(u16 *)(p + 0x7C) = *(u16 *)(p + 0x06);
+            *(u16 *)(p + 0x7E) = *(u16 *)(p + 0x0A);
+            *(u16 *)(p + 0x80) = *(u16 *)(p + 0x0E);
+        }
+        {
+            s32 dec;
+            s32 q = *(s32 *)(p + 0x78);
+            if (q != 0 && *(s16 *)(p + 0x60) != 0) {
+                dec = ((s32)*(s16 *)(p + 0x60) * (s32)*(s16 *)(q + 0x30)) >> 12;
+                if (dec < 1) dec = 1;
+            } else {
+                dec = *(s16 *)(p + 0x60);
+            }
+            *(u16 *)(p + 0x76) = *(u16 *)(p + 0x76) - dec;
+            ((void (*)(void *, s32))func_8016AA50)(p, dec);
+        }
+        if (*(u16 *)(p + 0x82) & 1) {
+            ((void (*)(void *))func_8016B428)(p);
+            func_80019064(&D_801C835C);
+        }
+    }
+
+    if (e != 0x1D) {
+        if (*(u8 *)(p + 0xC8)) func_8002A520(p);
+        if (*(u8 *)(p + 0xC9)) func_8002A790(p);
+    }
+
+    if (*(s16 *)(p + 0x76) < 0) {
+        t = func_8012C658(0x33, 3, (s32)p);
+        if (t != 0) {
+            *(s16 *)(t + 0x12) = 4;
+            *(s16 *)(t + 0x16) = -0x10;
+            *(s16 *)(t + 0x1A) = -4;
+        }
+        t = func_8012C658(0x33, 2, (s32)p);
+        if (t != 0) {
+            *(s16 *)(t + 0x12) = 4;
+            *(s16 *)(t + 0x16) = -0x10;
+            *(u16 *)(t + 0x1A) = 0;
+        }
+        t = func_8012C658(0x32, 2, (s32)p);
+        if (t != 0) {
+            *(s16 *)(t + 0x12) = 4;
+            *(s16 *)(t + 0x16) = -0x10;
+            *(s16 *)(t + 0x1A) = 4;
+        }
+
+        i = 0;
+        do {
+            iv = ((s32 (*)(s32, void *))func_8012C588)(0x281, p);
+            if (iv != 0) {
+                *(s32 *)(iv + 0x1C) = 2;
+                *(u16 *)(iv + 0x12) = (rand() & 0x1F) - 0x10;
+                *(u16 *)(iv + 0x16) = -((rand() & 0x0F) + 0x10);
+                *(u16 *)(iv + 0x1A) = (rand() & 0x1F) - 0x10;
+            }
+            i++;
+        } while (i < 8);
+        i = 0;
+        do {
+            iv = (s32)func_8012913C(0x23);
+            if (iv != 0) {
+                s32 r;
+                s32 sv;
+                r = rand();
+                *(u16 *)(iv + 0x06) = *(u16 *)(p + 0x06) + (r & 0x3F) - 0x20;
+                r = rand();
+                *(u16 *)(iv + 0x0A) = *(u16 *)(p + 0x0A) - (r & 0x3F) - 0x20;
+                r = rand();
+                sv = *(u16 *)(p + 0x0E);
+                *(s32 *)(iv + 0x18) = 0;
+                *(s32 *)(iv + 0x14) = 0;
+                *(s32 *)(iv + 0x10) = 0;
+                *(u16 *)(iv + 0x0E) = sv + (r & 0x3F) - 0x20;
+                r = rand();
+                *(u16 *)(iv + 0x34) = (r & 0x17FF) + 0x1800;
+            }
+            i++;
+        } while (i < 8);
+
+        t = *(s32 *)(p + 0x64);
+        if (*(s16 *)(t + 0x36) == *(s16 *)(p + 0xFC)) {
+            *(s32 *)(t + 0xCC) = 0;
+        }
+
+        L.rv[0] = *(s32 *)(*(s32 *)(p + 0x20) + 0x48);
+        L.rv[1] = *(s32 *)(*(s32 *)(p + 0x20) + 0x4C);
+        L.rv[2] = *(s32 *)(*(s32 *)(p + 0x20) + 0x50);
+        { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }
+        { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_800491AC(r4); }
+        RotTransPers((s32)L.rv, (s32)L.sxy, &L.z, &L.flag);
+        if (L.flag >= 0 && (u32)((L.sxy[0] + 0x9F) & 0xFFFF) < 0x13F
+                      && (u32)((L.sxy[1] + 0x77) & 0xFFFF) < 0xEF) {
+            s32 x = (s16)L.sxy[0];
+            s32 ax;
+
+            ax = x;
+            if (x < 0) {
+                ax = -x;
+            }
+            ax = ((0xA0 - ax) * 0x7F) / 0xA0;
+            func_8002D4C8(0xB32, (ax | 0x1000) & 0xFFFF);
+        }
+        func_8012C218((void *)p);
+    } else {
+        *(u16 *)(p + 0x5C) = 0x8800;
+        *(u16 *)(p + 0x60) = 0;
+        *(u8 *)(p + 0xC1) = 0;
+        *(u8 *)(p + 0xC2) = 0x10;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_033/nonmatchings/ov_SC06_033_jr_80186574", func_8018AAF4);
 
