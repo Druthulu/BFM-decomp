@@ -7061,7 +7061,86 @@ void func_80184C74(s32 p)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_8017C24C", func_801850F4);
+#include "common.h"
+
+/* Host TU: src/ov_SC06_018/ov_SC06_018_jr_8017C24C.c
+ * Insertion point replaces the INCLUDE_ASM at line 6996, in scope after the
+ * decl block that begins at line 6786 (#include "common.h"). That block
+ * ALREADY declares (in scope, do not redeclare):
+ *   extern s32  func_8012BEE8();                       (line 6789)
+ *   extern void func_8012A828(s32 a0, void *a1);        (line 6790)
+ *   extern u8   D_801CC868[];                           (line 6803)
+ * and elsewhere earlier in the SAME TU (still in scope, file-scope extern):
+ *   extern void func_80013350(s32 a0, void *a1);        (line 6647)
+ *     -- loose prototype (real callee takes/returns s32,s32->s32); per
+ *        cookbook §161c do NOT add a conflicting extern here, cast at the
+ *        call site instead (matches the TU's own sibling func_8018457C).
+ * New decls needed for this function (not yet declared in this TU's scope
+ * at the insertion point):
+ *   func_8012B6D4, func_8012B608, func_8012B178, func_8018765C,
+ *   func_8012C218, func_8001C924, D_801CD0E8[], D_801BC090[]
+ * (func_8012B6D4/B608/B178/8765C signatures copied verbatim from this TU's
+ * other declarations of the same symbols, e.g. lines 6643-6646/7043-7045;
+ * func_8012C218/func_8001C924 copied from lines 6639-6640.)
+ */
+
+extern s32  func_8012BEE8();
+extern void func_8012A828(s32 a0, void *a1);
+extern void func_80013350(s32 a0, void *a1); /* loose proto, real TU decl (line 6647); cast at call site per §161c */
+extern s32  func_8012B6D4(s16 *a0, s16 *a1);
+extern s32  func_8012B608(s32 a0, s32 a1, s32 a2);
+extern void func_8012B178(s32 a0, s32 a1);
+extern s32  func_8018765C(s32 a0);
+extern void func_8012C218(void *a0);
+extern void func_8001C924(s32 a0, void *a1);
+
+extern u8 D_801CD0E8[];
+extern u8 D_801CC868[];
+extern u8 D_801BC090[];
+
+void func_801850F4(s32 p)
+{
+    s32 s1;
+    s32 r;
+
+    if (*(u16 *)(p + 0x34) == 0) {
+        s1 = *(s32 *)(p + 0xCC);
+        if (s1 == 0 || *(s16 *)(s1 + 0x36) != *(s16 *)(p + 0xEC) ||
+            func_8012BEE8(p) != 0) {
+            *(u16 *)(p + 2) = 0x23;
+            *(u32 *)(p + 0xE0) |= 0x800;
+            return;
+        }
+
+        r = func_8012B6D4((s16 *)(p + 4), (s16 *)(s1 + 4));
+        *(s32 *)(p + 0xE8) = r;
+
+        r = func_8012B608(*(s16 *)(*(s32 *)(p + 0x20) + 0x12), *(s32 *)(p + 0xE8), 8);
+        *(u16 *)(*(s32 *)(p + 0x20) + 0x12) =
+            *(u16 *)(*(s32 *)(p + 0x20) + 0x12) + r;
+
+        func_8012B178(p, 0xFFF8D000);
+        func_8018765C(p);
+
+        r = ((s32 (*)(s32, s32))func_80013350)(p + 4, s1 + 4);
+        if (r < 0x900) {
+            *(u16 *)(p + 0x34) = *(u16 *)(p + 0x34) + 1;
+            func_8012A828(p, D_801CD0E8);
+        }
+    } else {
+        if (*(s16 *)(p + 0x98) != 0) {
+            return;
+        }
+        func_8012C218((void *)*(s32 *)(p + 0xCC));
+        *(s32 *)(p + 0xCC) = 0;
+        func_8001C924(*(s32 *)(p + 0x20), D_801BC090);
+        func_8012A828(p, D_801CC868);
+        *(s32 *)(p + 0x48) = 0x4650;
+        *(s16 *)(p + 2) = 0x12;
+        *(u32 *)(p + 0xE0) &= ~4;
+    }
+}
+
 
 #include "common.h"
 
@@ -7250,7 +7329,87 @@ void func_801854F8(s32 p) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_8017C24C", func_801857CC);
+#include "common.h"
+
+/* §160g sibling search: callee set {func_8012BEE8, func_8012B6D4, func_8012B608,
+ * func_8012B178, func_8018765C, func_80013350, func_8012A828, func_8012C218,
+ * func_8001C924} matches the ALREADY-MATCHED func_8018457C in this exact TU
+ * (src/ov_SC06_018/ov_SC06_018_jr_8017C24C.c, lines 6654-6733) almost verbatim --
+ * that function's case 0 (the s1=*(p+0xCC) null/field-0x36-vs-0xEC/func_8012BEE8
+ * mismatch guard, then func_8012B6D4 + the func_8012B608/func_8012B178/
+ * func_8018765C/func_80013350 tail with the same D_801CD0E8 transition) is a
+ * structural template for our "state==0" branch. The "state!=0" branch's tail
+ * (set +2=0x1D, +0x34=0, +0x1C=0xF, call func_8012A828) is verbatim the body of
+ * the tiny already-MATCHED func_801854C0 a few lines above ours in the same TU
+ * (it uses a function-pointer cast only because ITS param is `short *`; ours is
+ * already `s32 param_1` so a plain call suffices, mirroring func_801854F8's own
+ * plain `func_8012A828(p, D_801CC358);` two lines before our INCLUDE_ASM slot).
+ * The `*(u32*)(p+0xE0) &= 0xFFFFFFFB;` mask is byte-identical to func_8018457C's
+ * case 1 mask. All extern decls below are copied verbatim from these matched
+ * siblings' own decl blocks (same TU, same file-scope conventions).
+ */
+
+extern s32  func_8012BEE8();
+extern s32  func_8012B6D4(s16 *a0, s16 *a1);
+extern s32  func_8012B608(s32 a0, s32 a1, s32 a2);
+extern void func_8012B178(s32 a0, s32 a1);
+extern s32  func_8018765C(s32 a0);
+extern void func_80013350(s32 a0, void *a1);
+extern void func_8012A828(s32 a0, void *a1);
+extern void func_8012C218(void *a0);
+extern void func_8001C924(s32 a0, void *a1);
+
+extern u8 D_801CD0E8[];
+extern u8 D_801BBC78;
+extern u8 D_801CC358[];
+
+void func_801857CC(s32 param_1)
+{
+    s32 s1;
+    s32 uVar4;
+    s32 sVar1;
+    s32 r;
+
+    if (*(u16 *)(param_1 + 0x34) == 0) {
+        s1 = *(s32 *)(param_1 + 0xCC);
+        if (s1 == 0 || *(s16 *)(s1 + 0x36) != *(s16 *)(param_1 + 0xEC) ||
+            func_8012BEE8(param_1) != 0) {
+            *(s16 *)(param_1 + 2) = 0x23;
+            *(u32 *)(param_1 + 0xE0) |= 0x800;
+            return;
+        }
+
+        uVar4 = func_8012B6D4((s16 *)(param_1 + 4), (s16 *)(s1 + 4));
+        *(s32 *)(param_1 + 0xE8) = uVar4;
+
+        sVar1 = func_8012B608((s32)*(s16 *)(*(s32 *)(param_1 + 0x20) + 0x12), uVar4, 8);
+        *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x12) =
+            *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x12) + sVar1;
+
+        func_8012B178(param_1, 0xFFF8D000);
+        func_8018765C(param_1);
+
+        r = ((s32 (*)(s32, s32))func_80013350)(param_1 + 4, s1 + 4);
+        if (r < 0x900) {
+            *(u16 *)(param_1 + 0x34) = *(u16 *)(param_1 + 0x34) + 1;
+            func_8012A828(param_1, D_801CD0E8);
+        }
+        return;
+    }
+
+    if (*(s16 *)(param_1 + 0x98) != 0) {
+        return;
+    }
+    func_8012C218((void *)*(s32 *)(param_1 + 0xCC));
+    *(s32 *)(param_1 + 0xCC) = 0;
+    func_8001C924(*(s32 *)(param_1 + 0x20), &D_801BBC78);
+    *(s16 *)(param_1 + 2) = 0x1D;
+    *(u16 *)(param_1 + 0x34) = 0;
+    *(s32 *)(param_1 + 0x1C) = 0xF;
+    func_8012A828(param_1, D_801CC358);
+    *(u32 *)(param_1 + 0xE0) &= 0xFFFFFFFB;
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_8017C24C", func_80185944);
 
@@ -7356,7 +7515,75 @@ void func_8018598C(s32 param_1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_8017C24C", func_80185C2C);
+#include "common.h"
+
+/* Sibling-search hit (cookbook §160g): src/ov_SC06_018/ov_SC06_018_jr_8017C24C.c:6654
+ * func_8018457C (already banked) is the SAME structural family — its case 0 (the
+ * s0==0||mismatch||func_8012BEE8() guard + call_b6d4/LAB_80184738 tail) and case 3
+ * (func_8012C218/func_8001C924/func_8012A828 teardown chain) are literally this
+ * function's two branches with different field offsets/globals. Types/signatures below
+ * mirror that TU's existing extern decls exactly (host TU already declares all of
+ * these at file scope before this insertion point, e.g. lines 6639-6652, 7203-7213).
+ */
+
+extern s32  func_8012BEE8(s32 a0);
+extern s32  func_8012B6D4(s16 *a0, s16 *a1);
+extern s32  func_8012B608(s32 a0, s32 a1, s32 a2);
+extern void func_8012B178(s32 a0, s32 a1);
+extern s32  func_8018765C(s32 a0);
+extern void func_80013350(s32 a0, void *a1);
+extern void func_8012A828(s32 a0, void *a1);
+extern void func_8012C218(void *a0);
+extern void func_8001C924(s32 a0, void *a1);
+
+extern u8 D_801CD0E8[];
+extern u8 D_801BC494;
+extern u8 D_801CC6E8[];
+
+void func_80185C2C(s32 p)
+{
+    s32 s0;
+    s32 r;
+
+    if (*(u16 *)(p + 0x34) == 0) {
+        s0 = *(s32 *)(p + 0xCC);
+        if (s0 == 0 || *(s16 *)(s0 + 0x36) != *(s16 *)(p + 0xEC) ||
+            func_8012BEE8(p) != 0) {
+            *(u16 *)(p + 2) = 0x23;
+            *(u32 *)(p + 0xE0) |= 0x800;
+        } else {
+            r = func_8012B6D4((s16 *)(p + 4), (s16 *)(s0 + 4));
+            *(s32 *)(p + 0xE8) = r;
+
+            r = func_8012B608(*(s16 *)(*(s32 *)(p + 0x20) + 0x12), *(s32 *)(p + 0xE8), 8);
+            *(u16 *)(*(s32 *)(p + 0x20) + 0x12) =
+                *(u16 *)(*(s32 *)(p + 0x20) + 0x12) + r;
+
+            func_8012B178(p, 0xFFF8D000);
+
+            func_8018765C(p);
+
+            r = ((s32 (*)(s32, s32))func_80013350)(p + 4, s0 + 4);
+            if (r < 0x900) {
+                *(u16 *)(p + 0x34) = *(u16 *)(p + 0x34) + 1;
+                func_8012A828(p, D_801CD0E8);
+            }
+        }
+    } else {
+        if (*(s16 *)(p + 0x98) == 0) {
+            func_8012C218((void *)*(s32 *)(p + 0xCC));
+            *(s32 *)(p + 0xCC) = 0;
+            func_8001C924(*(s32 *)(p + 0x20), &D_801BC494);
+            *(u16 *)(p + 2) = 0x20;
+            func_8012A828(p, D_801CC6E8);
+            *(s32 *)(p + 0x48) = 0x4650;
+            *(s32 *)(p + 0x1C) = 0;
+            *(s32 *)(p + 0xE4) = 0;
+            *(u32 *)(p + 0xE0) &= 0xFFFFFFFB;
+        }
+    }
+}
+
 
 extern void func_80187038(void);
     void func_80185DA8(s32 arg0) {
@@ -7366,7 +7593,123 @@ extern void func_80187038(void);
     }
 
 
-INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_8017C24C", func_80185DD8);
+#include "common.h"
+
+/* Sibling-search (§160g) findings, kept for the integration note:
+ * - func_8018598C (same TU, ov_SC06_018_jr_8017C24C.c:7215, MATCHED/banked already) shares
+ *   func_8012BEE8/func_8012B608/func_8012B178/func_8018765C/func_801877E4 with identical
+ *   argument shapes -- confirms every extern signature below except func_8012B8A4/func_8012EFB8.
+ * - func_8018457C (same TU, :6654) uses the SAME func_8012B608(*(s16*)(*(s32*)(p+0x20)+0x12),
+ *   *(s32*)(p+0xE8), 8) / field += pattern and the SAME func_8012B178(p, 0xFFF8D000) magic
+ *   literal -- confirms the b608/b178 idiom byte-for-byte.
+ * - func_8012B8A4 canonical decl (many matched TUs): extern s32 func_8012B8A4(s16 *a0);
+ * - func_8012EFB8's byte-true body (src/ov_SC03_099/ov_SC03_099_jr_8012ACE0.c:1106) is
+ *   `s32 func_8012EFB8(void *param_1, void *param_2)` -- TWO pointers, s32 return -- but the
+ *   fleet-canon extern in THIS TU (line 335: `extern void func_8012EFB8(s32 a0);`, file scope,
+ *   already in effect before this function) conflicts on both arity and return axis. Per §161c,
+ *   do NOT add a second extern; cast the existing symbol at the call site instead.
+ * - Ghidra seed at .run/ghidra_c/func_80185DD8.c confirms the callee set and control flow
+ *   (verified address-matched: FUN_80185dd8, calls FUN_8012be54/bee8/b8a4/b608/b178/8765c/877e4/
+ *   efb8/c098) -- used only to cross-check, not copied verbatim (Ghidra's decompile is
+ *   -O0-shaped and not reg-alloc-accurate).
+ *
+ * INTEGRATION SURFACE (for the banking step): every extern below is checked against this TU's
+ * (ov_SC06_018_jr_8017C24C.c) own file-scope decls already in effect before line 7301:
+ *   func_8012BE54 -> void(s32) EXACT match (host decl at :4212/:5193; cast to (s32(*)(s32)) at
+ *     the one call site, mirroring the host's own existing call-site casts at :4363/:5291).
+ *   func_8012BEE8 -> s32(s32) EXACT match (:7203).
+ *   func_8012B608 -> s32(s32,s32,s32) EXACT match (:6644).
+ *   func_8012B178 -> void(s32,s32) EXACT match (:6645/:7044/:7207).
+ *   func_8018765C -> s32(s32) EXACT match (:6646/:7045/:7208).
+ *   func_801877E4 -> void(s32) EXACT match (:7046/:7209).
+ *   func_8012EFB8 -> declared void(s32) to match the host's loose file-scope decl (:335); the
+ *     real (void*,void*)->s32 body is invoked through a cast at the call site (§161c), so no
+ *     second/conflicting extern is introduced.
+ *   func_8012C098 -> void(void*) EXACT match (:5603).
+ *   func_8012B8A4 -> NOT declared anywhere in this TU before this point; the draft's
+ *     `extern s32 func_8012B8A4(s16 *a0);` is the canonical signature used fleet-wide and
+ *     introduces no conflict.
+ * Net: zero declaration conflicts predicted against the host TU.
+ */
+
+extern void func_8012BE54(s32 a0); /* host TU decl is void (§161c-style loose proto); cast at call site */
+extern s32 func_8012BEE8(s32 a0);
+extern s32 func_8012B8A4(s16 *a0);
+extern s32 func_8012B608(s32 a0, s32 a1, s32 a2);
+extern void func_8012B178(s32 a0, s32 a1);
+extern s32 func_8018765C(s32 a0);
+extern void func_801877E4(s32 a0);
+extern void func_8012EFB8(s32 a0); /* loose decl, real body is (void*,void*)->s32; call via cast */
+extern void func_8012C098(void *param_1);
+
+void func_80185DD8(s32 a0) {
+    s32 r;
+    s16 vecA[4];
+    s16 vecB[4];
+    s32 x, z;
+
+    if ((*(u32 *)(a0 + 0xE0) & 0x40) == 0) {
+        s32 ret = ((s32 (*)(s32))func_8012BE54)(a0);
+        if (ret <= 0x63FFF) {
+            if (func_8012BEE8(a0) != 0) {
+                s32 t;
+                s32 rr;
+
+                t = func_8012B8A4((s16 *)a0);
+                *(u32 *)(a0 + 0xE8) = (t + 0x800) & 0xFFF;
+                rr = rand();
+                *(s32 *)(a0 + 0x1C) = rr % 0x40 + 0x40;
+            }
+        }
+    }
+
+    r = func_8012B608((s32) * (s16 *)(*(s32 *)(a0 + 0x20) + 0x12), *(s32 *)(a0 + 0xE8), 8);
+    *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) = *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) + r;
+
+    *(u32 *)(a0 + 0xE0) &= 0xFFFFFFBF;
+    func_8012B178(a0, 0xFFF8D000);
+
+    if (func_8018765C(a0) == 0) {
+        func_801877E4(a0);
+    }
+
+    vecA[0] = *(s16 *)(a0 + 0x6);
+    vecA[1] = *(s16 *)(a0 + 0xA);
+    vecA[2] = *(s16 *)(a0 + 0xE);
+    ((s32 (*)(void *, void *))func_8012EFB8)(vecA, vecB);
+
+    x = vecB[0];
+    if (x < 0) {
+        x = -x;
+    }
+    if (x < 0x105) {
+        z = vecB[1];
+        if (z >= 0) {
+            if (z < 0xC9) {
+                /* NEW LEVER (not yet in cookbook): a bare if/else-with-return here compiles
+                 * to a value-converge merge (ONE shared `slti`+`bne` fed by both signs of z,
+                 * ~91 ins) instead of the target's genuine PER-BRANCH duplicate compare
+                 * (96 ins: `bltz`+`slti`+`beqz`+`j` in this arm, `negu`+`slti`+`bnez` in the
+                 * else arm). A zero-emission `__asm__ __volatile__("":::"memory")` right
+                 * before this `return` is a scheduling/combine barrier that blocks whatever
+                 * RTL-level pass performs that merge, without adding a single byte itself --
+                 * the compiled result is byte-exact target. Byte-proven via 9 probe variants
+                 * (assignment-abs, ternary-condition, if/else, 2-independent-ifs, goto-labeled
+                 * return) that ALL either fully merged or left a redundant extra sign-retest;
+                 * only this barrier reproduces the target exactly. See match_one MATCH 96/96.
+                 */
+                __asm__ __volatile__("" ::: "memory");
+                return;
+            }
+        } else {
+            if (-z < 0xC9) {
+                return;
+            }
+        }
+    }
+    func_8012C098((void *)a0);
+}
+
 
 #include "common.h"
 

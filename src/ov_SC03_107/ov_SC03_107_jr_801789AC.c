@@ -6449,7 +6449,133 @@ extern s32 rand(void);
 
 INCLUDE_ASM("asm/ov_SC03_107/nonmatchings/ov_SC03_107_jr_801789AC", func_8017EB04);
 
-INCLUDE_ASM("asm/ov_SC03_107/nonmatchings/ov_SC03_107_jr_801789AC", func_8017EB70);
+/* func_8017EB70 (ov_SC03_107 / jr_801789AC) — 127 ins, match_one MATCH.
+ *
+ * "Chase/push-away" AI tick: read the actor's state word, bail on states 2 / 0x1A,
+ * clamp two fields, then walk the 0x60-entry entity table at D_801202A0 (stride
+ * 0x10C) looking for a nearby live neighbour and try to step this actor to a point
+ * 0x61 units away from it (func_8012CEB0 is the collision/move probe).
+ *
+ * Provenance (cookbook §160g sibling search): the INNER half is the already-banked
+ * func_8017E404 in src/ov_SC02_000/ov_SC02_000_jr_8017AE2C.c:4538 — same
+ * ratan2->func_8012B0B4->`d = *(s32*)&buf`->out.vx/out.vz packed-offset idiom, same
+ * SVEC in/out/buf stack order.  The OUTER counted walk is the in-TU banked
+ * func_801822E4 (same file, :7772): `p = D_801202A0; for (i=0;i<0x60;i++)`.
+ *
+ * Three non-obvious levers, in the order the gate found them:
+ *
+ * 1. `lose:` INSIDE the 0x1A arm (cookbook §162g).  The target's `beqz $v0,
+ *    .L8017EBDC` at 0x8017ECFC is a BACKWARD branch into a block emitted between the
+ *    0x1A arm and the 0x2000 test.  Per §162g cross-jumping only ever emits FORWARD
+ *    merges, so this edge can only be a source-level `goto`.  Putting the label
+ *    after the arm's `return 0;` (C permits a goto into a block) reproduces the
+ *    block order with zero extra jumps — no `if (0) {}` wrapper, no jump threading
+ *    needed.
+ *
+ * 2. `bp` exists only to create a MOVABLE (cookbook §162e2).  `&buf` passed straight
+ *    to func_8012B0B4 is expanded into the arg register in place, so scan_loop has
+ *    nothing to hoist: the draft was 124 ins with only $s0-$s5 and no
+ *    `addiu $s6,$sp,0x20` preheader hoist.  Naming it forces a pseudo, which becomes
+ *    the second movable (after `arg0 + 4`), lands in $s6, and the preheader order
+ *    falls out as body order: $s0, $s4, $s5, $s6, then the +0xE giv $s2.  (&in/&out
+ *    stay unnamed — the target keeps THOSE inline as `addiu $a0,$sp,0x10` /
+ *    `addiu $a1,$sp,0x18`.)   -3 ins -> 0.
+ *
+ * 3. `i++, p += 0x10C` in the FOR-INCREMENT, not `p += 0x10C;` as the last body
+ *    statement.  The +0xE giv's increment is emitted adjacent to its biv ($s0), so
+ *    body-tail `p += ...` gives [$s2++, $s4++] and the comma form gives the target's
+ *    [$s4++, $s2++].  Last 2 mismatched instructions.
+ *
+ * INTEGRATION (§161c): every extern below except func_8017EEA8 is ALREADY declared
+ * at file scope in src/ov_SC03_107/ov_SC03_107_jr_801789AC.c, identically —
+ * D_801202A0 :338, func_8012ADE4 :349, func_8012B0B4 :361, func_8012B6D4 :382,
+ * func_8012BC60 :397, func_8012CBA4 :452, func_8012CEB0 :458, func_80131E00 :562.
+ * The whole extern block may be dropped on banking.  func_8012CBA4 is declared
+ * `void` there and func_8012BC60/func_80131E00 take struct pointers, so all three
+ * are reached through call-site function-pointer casts (codegen-neutral, §17a-1) —
+ * verified MATCH both with those casts against loose `()` decls and against the TU's
+ * exact struct-typed prototypes.  func_8017EEA8 has no decl in the TU (it is
+ * INCLUDE_ASM at :6456), so its extern must be kept.  SVEC_EB70 is a fresh tag —
+ * no collision in the TU.
+ */
+#include "common.h"
+
+typedef struct { s16 vx, vy, vz, pad; } SVEC_EB70;
+
+struct Vec;
+struct S80131E00;
+
+extern u8   D_801202A0[];
+extern void func_8012CBA4(s32 a0);                 /* TU decl is void -> cast at call site */
+extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_8017EEA8(void *a0);
+extern void func_8012ADE4(u8 *a0);
+extern s32  func_8012BC60(struct Vec *a0, struct Vec *a1);
+extern s32  func_8012B6D4(s16 *a0, s16 *a1);
+extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
+extern s32  func_8012CEB0(s32 a0, s32 a1, s32 a2);
+
+s32 func_8017EB70(s32 arg0) {
+    SVEC_EB70 in;
+    SVEC_EB70 out;
+    SVEC_EB70 buf;
+    s32 v;
+    s32 d;
+    s32 i;
+    u8 *p;
+    u16 px, pz;
+    unsigned int *bp;
+
+    v = ((s32 (*)(s32))func_8012CBA4)(arg0);
+    if ((v & 0xFF) == 2) {
+        ((void (*)(s32, s32))func_80131E00)(arg0, 0x12);
+        return 0;
+    }
+    if ((v & 0xFF) == 0x1A) {
+        func_8017EEA8((void *)arg0);
+        return 0;
+    lose:
+        func_8012ADE4((u8 *)arg0);
+        return 1;
+    }
+    if ((v & 0x2000) == 0) {
+        func_8012ADE4((u8 *)arg0);
+    }
+    *(s32 *)(arg0 + 0xDC) &= ~0x40;
+    if (*(s32 *)(arg0 + 0x14) > 0xFFFFF) {
+        *(s32 *)(arg0 + 0x14) = 0x100000;
+    }
+    p = D_801202A0;
+    for (i = 0; i < 0x60; i++, p += 0x10C) {
+        if (*(u16 *)p != 0 && *(s32 *)(p + 0x58) != 0 && arg0 != (s32)p) {
+            if (((s32 (*)(s32, s32))func_8012BC60)(arg0 + 4, (s32)(p + 4)) < 0x2400) {
+                bp = (unsigned int *)&buf;
+                func_8012B0B4(bp,
+                              func_8012B6D4((s16 *)(arg0 + 4), (s16 *)(p + 4)), 0x61);
+                d = *(s32 *)&buf;
+                px = *(u16 *)(p + 6);
+                out.vx = px;
+                out.vy = *(u16 *)(p + 0xA);
+                pz = *(u16 *)(p + 0xE);
+                out.vz = pz;
+                out.vx = px + d;
+                out.vz = pz + (d >> 16);
+                in.vx = *(u16 *)(arg0 + 0x3A);
+                in.vy = *(u16 *)(arg0 + 0x3E);
+                in.vz = *(u16 *)(arg0 + 0x42);
+                if ((func_8012CEB0((s32)&in, (s32)&out, 0) & 0x2000) == 0) {
+                    goto lose;
+                }
+                *(s16 *)(arg0 + 6) = out.vx;
+                *(s16 *)(arg0 + 0xA) = out.vy;
+                *(s16 *)(arg0 + 0xE) = out.vz;
+                break;
+            }
+        }
+    }
+    return 1;
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_107/nonmatchings/ov_SC03_107_jr_801789AC", func_8017ED6C);
 

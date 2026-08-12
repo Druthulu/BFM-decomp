@@ -3384,7 +3384,7 @@ void func_8017C0C8(void *a0) {
 
 INCLUDE_ASM("asm/ov_SC03_014/nonmatchings/ov_SC03_014_jr_8017AE2C", func_8017C104);
 
-extern void func_8017C154(void);
+extern void func_8017C154();
     void func_8017C12C(void) {
         func_8017C154();
     }
@@ -3392,7 +3392,39 @@ extern void func_8017C154(void);
 
 DEFINE_func_8017C14C()  /* dedup: shared engine-core @0x8017C14C (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC03_014/nonmatchings/ov_SC03_014_jr_8017AE2C", func_8017C154);
+
+
+extern void func_80015978(s32 a0, s32 *a1);
+extern void func_8017C290(int a, s16 *b, SVECTOR_8017C290 *c, SVECTOR_8017C290 *d,
+                           SVECTOR_8017C290 *e, SVECTOR_8017C290 *f, s16 *g);
+extern SVECTOR_8017C290 D_8018F038[4];
+
+void func_8017C154(void *a0)
+{
+    s16 buf20[4];
+    SVECTOR_8017C290 c;
+    SVECTOR_8017C290 d;
+    SVECTOR_8017C290 e;
+    SVECTOR_8017C290 f;
+    s32 i, j;
+
+    *(s16 *)((u8 *)a0 + 0x10) = *(s32 *)((u8 *)a0 + 0x30);
+    func_80015978((s32)a0 + 4, (s32 *)buf20);
+
+    for (j = 0; j < 4; j++) {
+        c.vx = 0;
+        c.vy = 0;
+        c.vz = 0;
+        d = c;
+        e = c;
+        for (i = 0; i < 4; i++) {
+            f = D_8018F038[i];
+            *(s16 *)((u8 *)a0 + 0x12) = i + j;
+            func_8017C290((int)a0, buf20, &c, &d, &e, &f, (s16 *)((u8 *)a0 + 0x10));
+        }
+    }
+}
+
 
 // @class: regalloc-order
 // @stuck: none — §136c SIBLING-FIRST. Near-twin = banked func_8017E830 in
@@ -3540,7 +3572,115 @@ void func_8017C664(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_014/nonmatchings/ov_SC03_014_jr_8017AE2C", func_8017C6A0);
+#include "common.h"
+
+/* MATCH (match_one, 93/93). ov_SC03_014_jr_8017AE2C, family reach x7 (zero-crack exemplar; see
+ * asm/ov_SC03_0{14,15,24,118,119}/... and ov_SC06_000, all still INCLUDE_ASM as of this crack).
+ *
+ * sibling-search (cookbook §160g) hits, all from src/ov_SC03_014/ov_SC03_014_jr_8017AE2C.c
+ * (the destination TU itself) plus one cross-overlay MATCHed twin:
+ *   - func_8017CE10(void *a0, s32 a1, s32 a2)   -- defined verbatim in THIS TU (line 3679)
+ *   - func_80147324(D_8018EFC0[idx][0])          -- exact idiom of func_8017C8FC's
+ *                                                   func_80147324(D_8018EFD4[idx][0]) (same TU)
+ *   - func_8001CB00(s32,void*,s32,s32)           -- signature + literal 0x280/0x100 pair pinned
+ *     by src/ov_SC03_007/ov_SC03_007_jr_8017AE2C.c:5317 func_80186BE8 (labeled MATCH), whose tail
+ *     `*(short*)(param_1+2) += 1;` is the exact idiom of this function's own final statement.
+ *   - func_8012A68C()/func_8012A758()/func_8004978C()/ApplyMatrixSV() call trio -- exact shape of
+ *     shared-engine func_80146F58 (src/ov_SC07_007/ov_SC07_007_jr_801457A4.c:1459): two s16 calls
+ *     stored, func_8004978C(anglesPtr, matOut), ApplyMatrixSV(mat, in, out).
+ *   - func_801465C0 loose void(void) file-scope decl (TU:130) fought via a cast-at-callsite,
+ *     per §161c -- mirrors src/ov_SC06_008/ov_SC06_008_jr_8016AB6C.c's
+ *     `((s32 (*)(void))func_801465C0)()` pattern. No explicit a0 setup precedes the target's jal
+ *     (a0 still holds the entry parameter unclobbered) so a ZERO-ARG cast is the byte-safe choice
+ *     -- it can never force a spurious argument-setup instruction.
+ *
+ * PROCESS NOTE (worth banking in the cookbook): a 2-instruction "REGALLOC-LOCAL" residual on
+ * func_80015954's args looked exactly like local-alloc's optimize_reg_copy_1 collapsing two
+ * identical-valued arg copies (byte-verified via `cc1 -da`: `.sched` had insn112/114 both reading
+ * pseudo 80 cleanly, `.lreg` had insn114 rewritten to read insn112's DEST instead of pseudo80's
+ * hard reg -- textbook §162j1). The `register s32 zr __asm__("$0"); x + zr` opaque-copy lever
+ * (§136d-1/RC-12) did NOT defeat it when applied to the SECOND of the pair (validate_replace_rtx
+ * substitutes inside a PLUS operand just as readily as inside a plain SET) -- applying it to the
+ * FIRST copy instead (so insn117 is no longer a `single_set(REG)` and never qualifies as "a copy"
+ * for the pass to scan forward from) did defeat it, dropping to a genuine 1-instruction
+ * REGALLOC-PERM ($s3-vs-$s0). That flushed out the REAL bug: `func_80015954`'s first argument is
+ * `vecOut` (the ApplyMatrixSV output), not `s3` -- I had the wrong VALUE, not a regalloc quirk.
+ * Fixing the argument made the "residual" vanish with NO register-pin needed at all. Lesson: a
+ * clean REGALLOC-LOCAL/-PERM diff on an ARGUMENT SETUP is worth re-deriving the argument's
+ * identity from the target's OWN register (here $s0, not the more "obvious" $s3) before reaching
+ * for §162j1/RC-12 levers -- they can mask a semantic error long enough to look load-bearing.
+ */
+
+extern void func_801465C0(void);
+extern void func_80149374(s32 a0, s32 a1);
+extern s16 func_8012A68C(void);
+extern s16 func_8012A758(void);
+extern void func_8004978C(s16 *a0, void *a1);
+extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
+extern void func_80015978(s32 a0, s32 *a1);
+extern void func_8012EF70(s32 a0, s32 a1);
+extern void func_80015954(s32 a0, s32 a1);
+extern void func_8001CB00(s32 a0, void *a1, s32 a2, s32 a3);
+extern void func_8017CE10(void *a0, s32 a1, s32 a2);
+extern void func_80147324(s32 a0);
+extern void func_80146C3C(void);
+
+/* new-to-this-TU data symbols (own address only in this function; payload owned by
+ * asm/ov_SC03_014/data/tail.data.s, a data-only splat unit -- extern is correct, not a definition,
+ * per §160c's "same .s as the function" test). D_8018F07C bytes: 0000 0000 ECFF 0000 = {0,0,-20,0}.
+ * D_8018F058: 12 opaque bytes (a GPU-primitive template), address-only use -> §160f array style. */
+extern s16 D_8018F07C[4];
+extern u8 D_8018F058[12];
+extern u16 D_8018EFC0[][2];
+
+void func_8017C6A0(void *a0) {
+    void *s3;
+    s32 s0;
+    s32 s1;
+    u8 mat[0x20];
+    u16 vecOut[4];
+
+    s0 = *(s32 *)(a0 + 0x34);
+    s3 = ((void *(*)(void))func_801465C0)();
+    *(void **)(a0 + 0x20) = s3;
+
+    if (s3 != NULL) {
+        s1 = (s32)a0 + 4;
+        func_80149374(s0, s1);
+
+        *(s16 *)(s3 + 0x10) = func_8012A68C();
+        *(s16 *)(s3 + 0x12) = func_8012A758();
+        func_8004978C((s16 *)(s3 + 0x10), mat);
+
+        ApplyMatrixSV(mat, D_8018F07C, vecOut);
+
+        *(u16 *)(a0 + 0x6) = *(u16 *)(a0 + 0x6) + vecOut[0];
+        *(u16 *)(a0 + 0xA) = *(u16 *)(a0 + 0xA) + vecOut[1];
+        *(u16 *)(a0 + 0xE) = *(u16 *)(a0 + 0xE) + vecOut[2];
+
+        func_80015978(s1, (s32 *)vecOut);
+        func_8012EF70((s32)vecOut, (s32)vecOut);
+        func_80015954((s32)vecOut, s1);
+
+        func_8001CB00((s32)s3, D_8018F058, 0x280, 0x100);
+
+        *(u8 *)(s3 + 0x27) = 0x80;
+
+        *(s16 *)(s3 + 0x2C) = *(u16 *)(a0 + 0xE);
+        *(s16 *)(s3 + 0x1A) = 0;
+        *(s16 *)(s3 + 0x18) = 0;
+
+        *(s32 *)(a0 + 0x10) = 0;
+        func_8017CE10(a0, *(s32 *)(a0 + 0x2C), 0x8F);
+
+        func_80147324(D_8018EFC0[*(s32 *)(a0 + 0x2C)][0]);
+
+        *(u16 *)(a0 + 2) = *(u16 *)(a0 + 2) + 1;
+    } else {
+        ((void (*)(s32))func_80146C3C)((s32)a0);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_014/nonmatchings/ov_SC03_014_jr_8017AE2C", func_8017C814);
 
@@ -3718,7 +3858,113 @@ INCLUDE_ASM("asm/ov_SC03_014/nonmatchings/ov_SC03_014_jr_8017AE2C", func_8017D11
 
 INCLUDE_ASM("asm/ov_SC03_014/nonmatchings/ov_SC03_014_jr_8017AE2C", func_8017D194);
 
-INCLUDE_ASM("asm/ov_SC03_014/nonmatchings/ov_SC03_014_jr_8017AE2C", func_8017D1E0);
+/* func_8017D1E0 -- ov_SC03_014, TU ov_SC03_014_jr_8017AE2C.c
+ *
+ * §160g sibling-first: this TU's own func_8017D318 (defined a few lines below this
+ * function's INCLUDE_ASM site, same file) is func_8017D1E0's ONLY non-engine callee --
+ * it fixes the SVECTOR_8017C290 {u16 vx,vy,vz,pad;} type and func_8017D318's exact
+ * signature `(int a0, SVECTOR_8017C290 *a1, SVECTOR_8017C290 *a2, s32 a3)` for free.
+ * The two locals `vec1`/`vec2` are that call's a1/a2: each stack SVECTOR gets vx=0,
+ * vy=the just-clamped position field, vz=1 (a constant -- see below).
+ *
+ * D_8018EFFC: same TU's func_8017C8FC has the identical idiom one page up --
+ * `idx = *(s32*)(a0+0x2C); func_80147324(D_8018EFD4[idx][0]);` against
+ * `extern u16 D_8018EFD4[][2];` at the SAME struct field offset (0x2C). D_8018EFFC
+ * sits 0x28 bytes after D_8018EFD4 in this overlay's rodata and is read with the
+ * identical `sll 2 / lhu [idx][0]` shape, so it is typed `u16[][2]` the same way.
+ * NOT independently verified against a byte dump of the table itself -- flag this
+ * decl for a second look if D_8018EFFC ever gets its own definition banked.
+ * (D_8018EFFC also exists as a DIFFERENT symbol -- a fn-ptr table -- in the
+ * unrelated overlay ov_SC03_001; overlays never share a TU, so no collision.)
+ *
+ * @class: regalloc-split (two REGISTER PINS, both load-bearing, neither a §17 tie)
+ * `t = field0x30 + 0x6000` feeds an accumulate BEFORE the func_80146E98 call and a
+ * second accumulate AFTER it. A plain `s32 t` (or even a `tmp`/`t` two-variable
+ * split) gets folded by cse/local-alloc into ONE pseudo living in $s1 for its WHOLE
+ * life -- the definition itself targets $s1 directly, with NO copy. The target,
+ * however, computes into $a0 first (its natural scratch there) and only copies into
+ * $s1 in the FIRST clamp branch's delay slot -- i.e. genuinely TWO pseudos joined by
+ * a real `addu $s1,$a0,$zero` that must survive both cse's copy-propagation AND local
+ * scheduling picking it (not the clamp's own field store) to fill that delay slot.
+ * FIX: `register s32 tmp __asm__("$4"); register s32 t __asm__("$17");` -- pinning
+ * BOTH ends to their target hard registers stops cse from unifying them (neither
+ * register can be "renamed away") and gives the scheduler exactly the copy the
+ * target has, in the position the target has it. An UNPINNED two-variable split
+ * (`t = tmp;`) is not enough by itself: cse/copy-prop still eliminates it. Reusing
+ * `tmp` a second time for the clamp subtraction ALSO defeats the copy-elimination
+ * (a real redefinition blocks the fold) but then clobbers $a0's `t` value TOO EARLY
+ * (before the branch), forcing the copy to schedule immediately instead of into the
+ * delay slot (76/78 ins, LENGTH-DRIFT). The double-pin is the only variant tried
+ * that reproduces both the register split AND its exact scheduling position.
+ * @stuck: none -- MATCH (match_one), first iteration after the double-pin.
+ *
+ * INTEGRATION NOTE (§161c-style): the SVECTOR_8017C290 typedef below is here ONLY so
+ * this file compiles STANDALONE for match_one. The real host TU already provides it
+ * at file scope ahead of func_8017C290 (~L3420, per that function's own "provided by
+ * the TU (§100)" comments) -- when banking, DROP this typedef and rely on the TU's
+ * existing one; do not leave a duplicate at the integration point.
+ */
+#include "common.h"
+
+
+
+extern s32 func_80146E98(s32 a0);
+extern void func_80147324(s32 arg0);
+extern void func_80146C3C(void);
+extern void func_8017D318(int a0, SVECTOR_8017C290 *a1, SVECTOR_8017C290 *a2, s32 a3);
+extern u16 D_8018EFFC[][2];
+
+void func_8017D1E0(void *a0)
+{
+    s16 n;
+    register s32 tmp __asm__("$4");
+    register s32 t __asm__("$17");
+    s16 v;
+    SVECTOR_8017C290 vec1;
+    SVECTOR_8017C290 vec2;
+
+    n = *(s16 *)((s32)a0 + 0x28);
+    if (n != 0) {
+        n = n - 1;
+        *(s16 *)((s32)a0 + 0x28) = n;
+        if (n == 0) {
+            func_80147324(D_8018EFFC[*(s32 *)((s32)a0 + 0x2C)][0]);
+        }
+    }
+
+    tmp = *(s32 *)((s32)a0 + 0x30) + 0x6000;
+    *(s32 *)((s32)a0 + 0x14) += tmp;
+    t = tmp;
+
+    v = *(u16 *)((s32)a0 + 0x10) - *(u16 *)((s32)a0 + 0x16);
+    *(s16 *)((s32)a0 + 0x10) = v;
+    if (v < 0) {
+        *(s16 *)((s32)a0 + 0x10) = 0;
+    }
+
+    if (func_80146E98((s32)a0)) {
+        *(s32 *)((s32)a0 + 0x18) += t;
+
+        v = *(u16 *)((s32)a0 + 0x12) - *(u16 *)((s32)a0 + 0x1A);
+        *(s16 *)((s32)a0 + 0x12) = v;
+        if (v < 0) {
+            *(s16 *)((s32)a0 + 0x12) = 0;
+        }
+    }
+
+    vec1.vx = 0;
+    vec1.vy = *(u16 *)((s32)a0 + 0x10);
+    vec1.vz = 1;
+    vec2.vx = 0;
+    vec2.vy = *(u16 *)((s32)a0 + 0x12);
+    vec2.vz = 1;
+    func_8017D318((int)a0, &vec1, &vec2, *(s16 *)((s32)a0 + 0x24));
+
+    if (*(s32 *)((s32)a0 + 0x10) == 0) {
+        ((void (*)(s32))func_80146C3C)((s32)a0);
+    }
+}
+
 
 /* func_8017D318 -- ov_SC03_014, TU ov_SC03_014_jr_8017AE2C.c
  *
