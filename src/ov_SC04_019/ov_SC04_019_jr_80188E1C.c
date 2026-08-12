@@ -600,7 +600,6 @@ extern s32 func_8014E83C(s32 arg0, s16 * arg1, s16 * arg2);
 extern void func_8014E934(s32 _arg0);
 extern s32 func_8014EA4C(void *a0, void *a1, void *a2, s32 a3);
 extern s32 func_8014E98C(void *a0);
-extern u16 D_800B99DA;
 extern s32 D_801150D8;
 extern s16 D_801152AA;
 extern u8 D_80126720[];
@@ -3654,7 +3653,59 @@ tail:
 
 DEFINE_func_8018AB3C()  /* dedup: shared engine-core @0x8018AB3C (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_80188E1C", func_8018AB78);
+
+
+extern void func_8004914C(void *a0);
+extern void func_800491AC(void *a0);
+extern s32 RotTransPers(s32, s32, s32 *, s32 *);
+extern void func_8002D4C8(s32 a0, s32 a1);
+
+void func_8018AB78(void)
+{
+
+    extern u16 D_800B99DA;
+    extern s32 D_80126B58;
+    extern u8 D_800AF648;
+    extern s32 D_801E055C;
+    extern s32 func_80013450(s32);
+    s32 *p = &D_80126B58;
+    s32 sxy, pv, flag;
+    s16 x;
+    s32 pan;
+    s32 dist;
+    s32 vol;
+
+    if (!(D_800B99DA & 1)) {
+        func_8004914C(&D_800AF648);
+        func_800491AC(&D_800AF648);
+        if (RotTransPers((s32)&D_801E055C, (s32)&sxy, &pv, &flag) <= 0 || flag < 0) {
+            func_8002D4C8(4, 0x7E6);
+        } else {
+            x = *(u16 *)&sxy + 0xA0;
+            *(s16 *)&sxy = x;
+            if (x < 0) {
+                x = 0;
+                *(s16 *)&sxy = x;
+            } else if (x >= 0x141) {
+                x = 0x140;
+                *(s16 *)&sxy = x;
+            }
+            x = *(s16 *)&sxy;
+            pan = (x * 15) / 320;
+            dist = ((s32 (*)(s32, s32))func_80013450)((s32)(p + 1), (s32)&D_801E055C);
+            if (dist >= 0x240) {
+                dist = 0x23F;
+            }
+            {
+                s32 panpart;
+                vol = ((0x23F - dist) * 127) / 576;
+                panpart = ((pan << 8) & 0xF00) | 0x3000;
+                func_8002D4C8(0x7E6, panpart | (vol & 0x7F));
+            }
+        }
+    }
+}
+
 
 
 extern s32 D_801E01F0;
