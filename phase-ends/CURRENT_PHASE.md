@@ -185,16 +185,18 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 > **Tree CLEAN** but for R23 `db.*.gbf` churn — never stage. **Nothing running.**
 > Gate at close: **`check-all` 213 passed / 0 failed of 213** from a CLEAN rebuild (R22 run 5× this
 > session; extract-all 212+main, 0 failed each).
-> **Fleet: 94.9% instr · 89.4% distinct · 96.44% fn-count · INCLUDE_ASM stubs 12,923.**
+> **Fleet: 95.0% instr · 89.6% distinct · 96.48% fn-count · INCLUDE_ASM stubs 12,771.**
 > `tools-health`: **OK** (re-run after the tool+doc changes — 495 cookbook sections).
 > **NO phase close** — T5 unopened, needs Drew's gate-2.
 
 ## THE SESSION IN ONE LINE
-**422 instances banked — the STUB-ORACLE DELTA (13,345 → 12,923).** Five parts: **Stage 0b closed**
+**574 instances banked — the STUB-ORACLE DELTA (13,345 → 12,771).** Six parts: **Stage 0b closed**
 (91, ZERO decompilation — three instrument repairs did all of it) · **wave 1** (26) · **wave 2**
-(116) · **wave 3** (84) · **wave 4** (105). Fleet 94.4% → **94.9% instr**, 88.3% → **89.4% distinct**.
-**The bank rate is measured FOUR times now: 67% → 79% → 69% → 68%** — settled into a band once the
-tier stopped being unusually easy. Wave 3's dip is the cost
+(116) · **wave 3** (84) · **wave 4** (105) · **wave 5** (152). Fleet 94.4% → **95.0% instr**
+(THE FLEET CROSSED 95%), 88.3% → **89.6% distinct**, 13,345 → **12,771** stubs.
+**Bank rate measured FIVE times: 67% → 79% → 69% → 68% → 73%** — a stable high-60s/low-70s band.
+**Milestone note:** P30's stated milestone is "≥95% instr fleet, or every remaining overlay stub on
+a named ledger". **The first half is now MET** — T5 (phase close) is a live option for Drew. Wave 3's dip is the cost
 curve, not a regression: its tier was 29 Opus-band / 14 jr vs wave 2's 8 / 5, median reach ×6 → ×3-4.
 
 ## ▶ RESUME HERE — WAVE 3 (the lane order is now MEASURED, not assumed)
@@ -334,6 +336,32 @@ citation list went stale at §162 while §163 (5) and §164 (82) were banked in 
 launched from the old script would have re-derived laws already on disk.** The README records the
 contracts that were paid for in failures: per-agent output dirs, sha1-last verification,
 prior-notes seeding, size routing, and "name every banked block in the citation list".
+
+## ✅ WHAT S48 LANDED — part 6: WAVE 5 (the fleet crossed 95%)
+**WAVE 5** (`wf_7bce6c28-9f4`, 78 agents, 11.4M tok): 40 targets → 36 agent-MATCH → **29 BANKED
+(73%)**; propagation **28 of 29 families**. **Oracle delta 152 — the session's largest wave.**
+**RESUMED THROUGH A USAGE-LIMIT OUTAGE.** The first run lost 40 agents mid-wave (18 cracks + 22
+verifiers). Resuming with **byte-identical args** replayed the 22 finished cracks from cache and
+re-ran only the dead ones: **a limit outage costs the unfinished work only.** Worth knowing before
+anyone kills a wave that hit a limit.
+**⚠ AND IT EXPOSED A REPORTING BUG OF MINE (fixed, `commit:1742`).** `crack_wave.js` classified
+anything without `verdict_check.confirmed` as **refuted** — so 22 drafts whose VERIFIER DIED were
+reported as 22 refutations, with `evidence: "verifier died"` the only tell. **Acting on that would
+have discarded the wave.** Same disease as S47's `no-diagnostic` classifier and this session's
+poisoned-tree 0/17: *a tool stating a conclusion it never reached.* `unverified` is now its own
+outcome, carrying the draft path + sha1 and "VERIFIER NEVER RAN — re-verify, do not discard".
+**TWO AGENTS AUDITED THE NOTES THEY INHERITED** — the seeding loop maturing past consumption:
+· `func_8017F2D4` found the prior draft had SURVIVED in `.run/wave3/`, recovered it, then gated it
+  **IN SITU** — spliced into the real destination TU, full pinned triple, masked-diff of the function
+  out of the WHOLE-TU object: **0 mismatched, 279/279**. That closes §52b properly instead of
+  trusting a standalone match, and it byte-confirmed the ×5 reach on 3 remapped siblings. It also
+  corrected the prior notes' TU pointer (they named a file holding only a caller + prototype).
+· `func_8017FFD0` VALIDATED its predecessor rather than assuming: built a no-barrier variant and
+  reproduced the predicted **−7 ins** drift exactly, proving `__asm__ __volatile__("")` is a real
+  cross-jump lever. Also fixed two wrong file/line citations.
+**ACCELERATOR (both agents):** hand-running the pinned triple with the wrong `--aspsx-version`
+yields ~32 spurious mismatches ALL of the `ori`-vs-`addiu` li-form shape — that uniform shape is the
+fingerprint of a version mismatch, **not** a codegen residual. Use `--aspsx-version=2.56 --expand-div`.
 
 ## 📐 THE FRONTIER AS RE-DERIVED THIS SESSION (post-0b, pre-wave; regen again after any bank)
 1,955 zero-crack sibling families / 6,709 members / 330,622 templatable ins. Tiers:
