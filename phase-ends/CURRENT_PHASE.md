@@ -185,15 +185,16 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 > **Tree CLEAN** but for R23 `db.*.gbf` churn — never stage. **Nothing running.**
 > Gate at close: **`check-all` 213 passed / 0 failed of 213** from a CLEAN rebuild (R22 run 5× this
 > session; extract-all 212+main, 0 failed each).
-> **Fleet: 94.7% instr · 88.9% distinct · 96.39% fn-count · INCLUDE_ASM stubs 13,112.**
+> **Fleet: 94.8% instr · 89.2% distinct · 96.41% fn-count · INCLUDE_ASM stubs 13,028.**
 > `tools-health`: **OK** (re-run after the tool+doc changes — 495 cookbook sections).
 > **NO phase close** — T5 unopened, needs Drew's gate-2.
 
 ## THE SESSION IN ONE LINE
-**233 instances banked — the STUB-ORACLE DELTA (13,345 → 13,112).** Three parts: **Stage 0b closed**
-(91, ZERO decompilation — three instrument repairs did all of it) · **wave 1** (8 cracks + 18
-propagations = 26) · **wave 2** (22 cracks + propagation = 116). Fleet 94.4% → **94.7% instr**.
-**The campaign's rate is now measured twice: 67% then 79% of cracks survive the whole-binary gate.**
+**317 instances banked — the STUB-ORACLE DELTA (13,345 → 13,028).** Four parts: **Stage 0b closed**
+(91, ZERO decompilation — three instrument repairs did all of it) · **wave 1** (26) · **wave 2**
+(116) · **wave 3** (84). Fleet 94.4% → **94.8% instr**, 88.3% → **89.2% distinct**.
+**The campaign's bank rate is measured THREE times now: 67% → 79% → 69%.** Wave 3's dip is the cost
+curve, not a regression: its tier was 29 Opus-band / 14 jr vs wave 2's 8 / 5, median reach ×6 → ×3-4.
 
 ## ▶ RESUME HERE — WAVE 3 (the lane order is now MEASURED, not assumed)
 0. **HARDEN THE WAVE HARNESS FIRST — it is 10 minutes and it protects every later wave.**
@@ -281,6 +282,27 @@ the transcripts proved recoverable.
   **SIZED (R37): 70 modules, 42 with this layout; 1,345 open module member-slots, only 44 jr.**
   So the island work is worth **44 slots** and is NOT the module lane's main gate — I had claimed
   the lane was "blocked"; measured, ~1,301 slots route through the path that is now fixed.
+
+## ✅ WHAT S48 LANDED — part 4: WAVE 3 (39 targets) — THE TWO LEVERS THAT PROVED OUT
+**WAVE 3** (`wf_2680d8ff-539`, 74 agents, 8.08M tok): 39 targets → 35 agent-MATCH, 0 refuted,
+4 NEAR, 0 FAIL → **27 BANKED (69%)**; propagation committed 21 of 27 families. **Oracle delta 84.**
+**1. THE HARDENED HARNESS HELD — 0 drafts lost** (wave 2 lost 21 of 26). Per-agent output dir
+`.run/wave3/<fn>/` + "never delete or modify anything outside your own directory, do not clean up"
++ a verifier that re-runs `sha1sum` LAST and reports it separately. **Keep this contract in every
+wave prompt.** `tools/recover_drafts.py` (`commit:1650`) is the backstop if it ever fails again.
+**2. PRIOR-NOTES SEEDING IS THE BEST LEVER FOUND THIS SESSION — 7 of 9 seeded targets converted**,
+including ALL THREE wave-2 whole-binary-gate misses and both long-standing NEARs: `func_80189540`
+(551 ins, was NEAR +2 — the session's largest crack) and `func_8017C3BC` (407 ins, was NEAR 17).
+**NEAR is therefore a cheap RESUMABLE state, not a write-off** — re-running a failed target WITH ITS
+PREDECESSOR'S MEASURED RESIDUAL is far better value than a cold re-crack. `func_8017C294` (the ×16
+family, the board's largest item) went 18 → **11** ins on its third attempt: narrowing, not a wall.
+**A host-TU edit can be part of a bank** (`func_80189540`): `ov_SC04_018_jr_80188E1C.c:3093`
+`extern s32 func_80189540(s32 a0, s16 a1)` → `(s16 a0, s16 a1)`. That TU has NO call site so the
+edit is inert; the OTHER TUs' `(s32,s16)` decls were deliberately LEFT — they have real call sites,
+and an s16 prototype there would force caller-side truncation and could de-match banked callers.
+**A cautionary find from the same agent:** a 551-ins MATCH already existed at
+`.run/backlog_drafts/func_80189540.c` and had been DE-MATCHED to 549 by "fixing" the definition's
+`s16` first parameter to `s32` — the exact inverse of that draft's own written warning.
 
 ## 📐 THE FRONTIER AS RE-DERIVED THIS SESSION (post-0b, pre-wave; regen again after any bank)
 1,955 zero-crack sibling families / 6,709 members / 330,622 templatable ins. Tiers:
