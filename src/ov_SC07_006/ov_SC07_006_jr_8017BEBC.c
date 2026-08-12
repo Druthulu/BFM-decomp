@@ -4172,7 +4172,6 @@ INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_8017BEBC", func_8017F9A
 
 extern void func_800599B8(u16 *);
 
-extern u16 D_801F60A0[];
 
 extern u16 D_801CACA8[];
 extern u16 D_801CAD48[];
@@ -4232,6 +4231,10 @@ static inline void pal_lerp(u16 *dst, u16 *b, u16 *a, s32 x)
 
 void func_8017FDF8(s32 x)
 {
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern u16 D_801F60A0[];
     pal_lerp(&D_801F60A0[0], D_801CACA8, D_801CAD48, x);
     ((void (*)(u8 *, u16 *))func_800599B8)(D_8018DF60, &D_801F60A0[0]);
     pal_lerp(&D_801F60A0[16], D_801CAD28, D_801CADA8, x);
@@ -4271,7 +4274,39 @@ INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_8017BEBC", func_8018092
 
 INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_8017BEBC", func_80180CFC);
 
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_8017BEBC", func_80181148);
+extern void func_800599B8(u16 *);
+
+void func_80181148(s32 x)
+{
+
+    extern u8 D_8018DF88[];
+    extern u8 D_8018DF90[];
+    extern u8 D_8018DF98[];
+    extern u8 D_8018DFA0[];
+    extern u8 D_8018DFA8[];
+    extern u16 D_801CAD68[];
+    extern u16 D_801CADC8[];
+    extern u16 D_801CADE8[];
+    extern u16 D_801CAE08[];
+    extern u16 D_801CAE28[];
+    extern u16 D_801CAE48[];
+    extern u16 D_801CAE68[];
+    extern u16 D_801CAE88[];
+    extern u16 D_801CAEA8[];
+    extern u16 D_801CAEC8[];
+    extern u16 D_801F60A0[];
+    pal_lerp(&D_801F60A0[0], D_801CADE8, D_801CAE88, x);
+    ((void (*)(u8 *, u16 *))func_800599B8)(D_8018DF88, &D_801F60A0[0]);
+    pal_lerp(&D_801F60A0[16], D_801CAE68, D_801CAEC8, x);
+    ((void (*)(u8 *, u16 *))func_800599B8)(D_8018DF90, &D_801F60A0[16]);
+    pal_lerp(&D_801F60A0[32], D_801CAE48, D_801CAEA8, x);
+    ((void (*)(u8 *, u16 *))func_800599B8)(D_8018DF98, &D_801F60A0[32]);
+    pal_lerp(&D_801F60A0[48], D_801CAD68, D_801CAE28, x);
+    ((void (*)(u8 *, u16 *))func_800599B8)(D_8018DFA0, &D_801F60A0[48]);
+    pal_lerp(&D_801F60A0[64], D_801CADC8, D_801CAE08, x);
+    ((void (*)(u8 *, u16 *))func_800599B8)(D_8018DFA8, &D_801F60A0[64]);
+}
+
 
 
 /* func_8018163C — banked from the S40 wave-1 draft.
