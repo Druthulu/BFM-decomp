@@ -3640,7 +3640,52 @@ void func_80182F28(s32 a0)
 
 INCLUDE_ASM("asm/ov_SC03_117/nonmatchings/ov_SC03_117_jr_80181C80", func_8018316C);
 
-INCLUDE_ASM("asm/ov_SC03_117/nonmatchings/ov_SC03_117_jr_80181C80", func_8018321C);
+
+extern u8 *func_8012913C(s32 a0);
+extern s32 func_80133784(s32 a0, void *a1, s32 a2);
+extern void func_801292C8(u8 *a0);
+
+typedef struct {
+    u16 x, y, z;
+    u8 flag;
+} V8_80187968_8018321C;
+
+void func_8018321C(s32 a0) {
+    u32 v0;
+    u8 *s1;
+
+    v0 = *(u16 *)(a0 + 0x10A) + 1;
+    *(u16 *)(a0 + 0x10A) = v0;
+
+    if ((v0 & 7) == 0) {
+        s1 = func_8012913C(0x7B);
+        if (s1 != 0) {
+            V8_80187968_8018321C p1;
+            V8_80187968_8018321C q;
+
+            v0 = *(u16 *)(a0 + 0x10A);
+            *(s32 *)(s1 + 0x2C) = (v0 & 0x18) >> 3;
+
+            p1.x = *(u16 *)(a0 + 0x6);
+            p1.y = *(u16 *)(a0 + 0xA);
+            p1.z = *(u16 *)(a0 + 0xE);
+            q.x = p1.x;
+            q.y = p1.y + 0x80;
+            q.z = p1.z;
+
+            func_80133784(1, &p1, (s32)&q);
+
+            if (q.flag) {
+                *(u16 *)(s1 + 0x6) = *(u16 *)(a0 + 0x6);
+                *(u16 *)(s1 + 0xA) = q.y;
+                *(u16 *)(s1 + 0xE) = *(u16 *)(a0 + 0xE);
+            } else {
+                func_801292C8(s1);
+            }
+        }
+    }
+}
+
 
 
 extern void (*D_801C3740[])(void);
