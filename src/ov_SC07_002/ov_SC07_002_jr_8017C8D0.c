@@ -3894,7 +3894,193 @@ INCLUDE_ASM("asm/ov_SC07_002/nonmatchings/ov_SC07_002_jr_8017C8D0", func_80183AA
 
 INCLUDE_ASM("asm/ov_SC07_002/nonmatchings/ov_SC07_002_jr_8017C8D0", func_80183F28);
 
-INCLUDE_ASM("asm/ov_SC07_002/nonmatchings/ov_SC07_002_jr_8017C8D0", func_80183FE0);
+#define gte_SetRotMatrix_1(r0) __asm__ __volatile__ ( \
+    "lw $12, 0( %0 );"   \
+    "lw $13, 4( %0 );"   \
+    "ctc2 $12, $0;"      \
+    "ctc2 $13, $1;"      \
+    "lw $12, 8( %0 );"   \
+    "lw $13, 12( %0 );"  \
+    "lw $14, 16( %0 );"  \
+    "ctc2 $12, $2;"      \
+    "ctc2 $13, $3;"      \
+    "ctc2 $14, $4"       \
+    : : "r"( r0 ) : "$12", "$13", "$14" )
+#define gte_SetTransMatrix_1(r0) __asm__ __volatile__ ( \
+    "lw $12, 20( %0 );"  \
+    "lw $13, 24( %0 );"  \
+    "ctc2 $12, $5;"      \
+    "lw $14, 28( %0 );"  \
+    "ctc2 $13, $6;"      \
+    "ctc2 $14, $7"       \
+    : : "r"( r0 ) : "$12", "$13", "$14" )
+#define gte_ldclmv_1(r0) __asm__ __volatile__ ( \
+    "lhu $12, 0( %0 );"  \
+    "lhu $13, 6( %0 );"  \
+    "lhu $14, 12( %0 );" \
+    "mtc2 $12, $9;"      \
+    "mtc2 $13, $10;"     \
+    "mtc2 $14, $11"      \
+    : : "r"( r0 ) : "$12", "$13", "$14" )
+#define gte_rtir_1() __asm__ __volatile__ ( "nop;nop;mvmva 1, 0, 3, 3, 0" )
+#define gte_stclmv_1(r0) __asm__ __volatile__ ( \
+    "mfc2 $12, $9;"      \
+    "mfc2 $13, $10;"     \
+    "mfc2 $14, $11;"     \
+    "sh $12, 0( %0 );"   \
+    "sh $13, 6( %0 );"   \
+    "sh $14, 12( %0 )"   \
+    : : "r"( r0 ) : "$12", "$13", "$14", "memory" )
+#define gte_ldlv0_1(r0) __asm__ __volatile__ ( \
+    "lhu $13, 4( %0 );"  \
+    "lhu $12, 0( %0 );"  \
+    "sll $13, $13, 16;"  \
+    "or $12, $12, $13;"  \
+    "mtc2 $12, $0;"      \
+    "lwc2 $1, 8( %0 )"   \
+    : : "r"( r0 ) : "$12", "$13" )
+#define gte_rt_1() __asm__ __volatile__ ( "nop;nop;mvmva 1, 0, 0, 0, 0" )
+#define gte_stlvnl_1(r0) __asm__ __volatile__ ( \
+    "swc2 $25, 0( %0 );" \
+    "swc2 $26, 4( %0 );" \
+    "swc2 $27, 8( %0 )"  \
+    : : "r"( r0 ) : "memory" )
+#define gte_ldv3_1(r0, r1, r2) __asm__ __volatile__ ( \
+    "lwc2 $0, 0( %0 );"  \
+    "lwc2 $1, 4( %0 );"  \
+    "lwc2 $2, 0( %1 );"  \
+    "lwc2 $3, 4( %1 );"  \
+    "lwc2 $4, 0( %2 );"  \
+    "lwc2 $5, 4( %2 )"   \
+    : : "r"( r0 ), "r"( r1 ), "r"( r2 ) )
+#define gte_ldv0_1(r0) __asm__ __volatile__ ( \
+    "lwc2 $0, 0( %0 );"  \
+    "lwc2 $1, 4( %0 )"   \
+    : : "r"( r0 ) )
+#define gte_rtpt_1() __asm__ __volatile__ ( "nop;nop;rtpt" )
+#define gte_rtps_1() __asm__ __volatile__ ( "nop;nop;rtps" )
+#define gte_avsz4_1() __asm__ __volatile__ ( "nop;nop;avsz4" )
+#define gte_stflg_1(r0) __asm__ __volatile__ ( \
+    "cfc2 $12, $31;"     \
+    "nop;"               \
+    "sw $12, 0( %0 )"    \
+    : : "r"( r0 ) : "$12", "memory" )
+#define gte_stsxy3_1(r0, r1, r2) __asm__ __volatile__ ( \
+    "swc2 $12, 0( %0 );" \
+    "swc2 $13, 0( %1 );" \
+    "swc2 $14, 0( %2 )"  \
+    : : "r"( r0 ), "r"( r1 ), "r"( r2 ) : "memory" )
+#define gte_stsxy_1(r0) __asm__ __volatile__ ( \
+    "swc2 $14, 0( %0 )"  \
+    : : "r"( r0 ) : "memory" )
+#define gte_stotz_1(r0) __asm__ __volatile__ ( \
+    "swc2 $7, 0( %0 )"   \
+    : : "r"( r0 ) : "memory" )
+
+/* Billboard POLY_FT4 emitter: rotates the entity matrix (obj->0x20 + 0x34) through the
+ * camera matrix D_800AF648 into a stack MATRIX, projects the four corners, and links the
+ * 0x28-byte primitive into OT bucket D_800A6610[D_800B9A02 << 14]. */
+void func_80183FE0(s32 p)
+{
+    /* [T51] all decls block-scoped: they constrain nothing later in the host TU.
+     * D_800A5E60 / D_800A6610 use this TU's existing block-scope spellings
+     * (ov_SC07_001_jr_8017BEBC.c:2821-2822); D_800B9A02 AGREES with the file-scope
+     * `extern short D_800B9A02;` at line 2469 (unsigned access forced at use,
+     * §8d sub-class (b)); D_800AF648 is the project-wide `extern u8` spelling. */
+    extern u8 *D_800A5E60;
+    extern u8 D_800A6610[];
+    extern u8 D_800AF648;
+
+    typedef struct { s16 m[3][3]; s16 pad; s32 t[3]; } MTX_8017FE38_80183FE0;   /* 0x20 */
+
+    MTX_8017FE38_80183FE0 mat;                       /* sp+0x00 */
+    struct { s32 flag, flag2, otz; } g;     /* sp+0x20 */
+    u8 *pkt;
+    u32 ot;
+    u32 d;
+    MTX_8017FE38_80183FE0 *r0;
+    u8 *va;
+    u32 x, y, tp, a, b, w;
+    /* forced copy of the tpage word (§ ov_SC04_005 func_80181470 idiom): the target keeps
+     * `addu $v0,$v1,$zero` because the stored/masked value and the `& 0x10` test read two
+     * distinct pseudos; every plain spelling gets them coalesced. */
+    register s32 zr __asm__("$0");
+    s32 z;
+    u32 *otp;
+
+    pkt = D_800A5E60;
+    d = *(u16 *)&D_800B9A02;
+    D_800A5E60 = pkt + 0x28;
+    *(u8 *)(pkt + 3) = 9;
+    *(u32 *)(pkt + 4) = 0x808080;
+    va = (u8 *)(p + 0xDC);
+    *(u8 *)(pkt + 7) = 0x2C;
+    ot = (u32)&D_800A6610[d << 14];
+
+    r0 = (MTX_8017FE38_80183FE0 *)&D_800AF648;
+    gte_SetRotMatrix_1(r0);
+    gte_ldclmv_1(*(s32 *)(p + 0x20) + 0x34);
+    gte_rtir_1();
+    gte_stclmv_1((s16 *)&mat);
+    gte_ldclmv_1(*(s32 *)(p + 0x20) + 0x36);
+    gte_rtir_1();
+    gte_stclmv_1((s16 *)&mat + 1);
+    gte_ldclmv_1(*(s32 *)(p + 0x20) + 0x38);
+    gte_rtir_1();
+    gte_stclmv_1((s16 *)&mat + 2);
+    gte_SetTransMatrix_1(r0);
+    gte_ldlv0_1(*(s32 *)(p + 0x20) + 0x48);
+    gte_rt_1();
+    gte_stlvnl_1(&mat.t[0]);
+    gte_SetRotMatrix_1(&mat);
+    gte_SetTransMatrix_1(&mat);
+    gte_ldv3_1(va, p + 0xE4, p + 0xEC);
+    gte_rtpt_1();
+    gte_stflg_1(&g.flag);
+    gte_stsxy3_1(pkt + 8, pkt + 0x10, pkt + 0x18);
+    gte_ldv0_1(p + 0xF4);
+    gte_rtps_1();
+    gte_stflg_1(&g.flag2);
+    g.flag = g.flag | g.flag2;
+    gte_stsxy_1(pkt + 0x20);
+    gte_avsz4_1();
+    gte_stotz_1(&g.otz);
+
+    if ((g.flag & ~0x1000) == 0) {
+        x = *(u16 *)(p + 0x104);
+        y = *(u16 *)(p + 0x106);
+        *(u16 *)(pkt + 0xE) = 0x7800;
+        x = x + 0x140;
+        a = (y & 0x100) >> 4;
+        b = ((x & 0x3C0) >> 6) | 0x80;
+        w = a | b | ((y & 0x200) << 2);
+        tp = w + zr;
+        *(u16 *)(pkt + 0x16) = tp;
+        tp = tp & 0xF;
+        x -= tp << 6;
+        x <<= 1;
+        tp = y & 0xFFFF;
+        *(u8 *)(pkt + 0xC) = x;
+        if (w & 0x10) {
+            tp = tp - 0x100;
+        }
+        *(u8 *)(pkt + 0xD) = tp;
+        *(u8 *)(pkt + 0x14) = *(u8 *)(pkt + 0xC) + 0x1F;
+        *(u8 *)(pkt + 0x1D) = *(u8 *)(pkt + 0xD) + 0x1F;
+        *(u8 *)(pkt + 0x15) = *(u8 *)(pkt + 0xD);
+        *(u8 *)(pkt + 0x1C) = *(u8 *)(pkt + 0xC);
+        *(u8 *)(pkt + 0x24) = *(u8 *)(pkt + 0x14);
+        *(u8 *)(pkt + 0x25) = *(u8 *)(pkt + 0x1D);
+        z = g.otz + 1;
+        if (z >= 0x1000) {
+            z = 0x1000;
+        }
+        otp = (u32 *)(z * 4 + ot);
+        *(u32 *)pkt = (*(u32 *)pkt & 0xFF000000) | (*otp & 0xFFFFFF);
+        *otp = (*otp & 0xFF000000) | ((u32)pkt & 0xFFFFFF);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC07_002/nonmatchings/ov_SC07_002_jr_8017C8D0", func_8018439C);
 
