@@ -3515,7 +3515,116 @@ void func_8017C664(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_119/nonmatchings/ov_SC03_119_jr_8017AE2C", func_8017C6A0);
+extern void func_80146F58(s32 a0, s32 a1);
+
+/* MATCH (match_one, 93/93). ov_SC03_014_jr_8017AE2C, family reach x7 (zero-crack exemplar; see
+ * asm/ov_SC03_0{14,15,24,118,119}/... and ov_SC06_000, all still INCLUDE_ASM as of this crack).
+ *
+ * sibling-search (cookbook §160g) hits, all from src/ov_SC03_014/ov_SC03_014_jr_8017AE2C.c
+ * (the destination TU itself) plus one cross-overlay MATCHed twin:
+ *   - func_8017CE10(void *a0, s32 a1, s32 a2)   -- defined verbatim in THIS TU (line 3679)
+ *   - func_80147324(D_8018D3BC[idx][0])          -- exact idiom of func_8017C8FC's
+ *                                                   func_80147324(D_8018EFD4[idx][0]) (same TU)
+ *   - func_8001CB00(s32,void*,s32,s32)           -- signature + literal 0x280/0x100 pair pinned
+ *     by src/ov_SC03_007/ov_SC03_007_jr_8017AE2C.c:5317 func_80186BE8 (labeled MATCH), whose tail
+ *     `*(short*)(param_1+2) += 1;` is the exact idiom of this function's own final statement.
+ *   - func_8012A68C()/func_8012A758()/func_8004978C()/ApplyMatrixSV() call trio -- exact shape of
+ *     shared-engine func_80146F58 (src/ov_SC07_007/ov_SC07_007_jr_801457A4.c:1459): two s16 calls
+ *     stored, func_8004978C(anglesPtr, matOut), ApplyMatrixSV(mat, in, out).
+ *   - func_801465C0 loose void(void) file-scope decl (TU:130) fought via a cast-at-callsite,
+ *     per §161c -- mirrors src/ov_SC06_008/ov_SC06_008_jr_8016AB6C.c's
+ *     `((s32 (*)(void))func_801465C0)()` pattern. No explicit a0 setup precedes the target's jal
+ *     (a0 still holds the entry parameter unclobbered) so a ZERO-ARG cast is the byte-safe choice
+ *     -- it can never force a spurious argument-setup instruction.
+ *
+ * PROCESS NOTE (worth banking in the cookbook): a 2-instruction "REGALLOC-LOCAL" residual on
+ * func_80015954's args looked exactly like local-alloc's optimize_reg_copy_1 collapsing two
+ * identical-valued arg copies (byte-verified via `cc1 -da`: `.sched` had insn112/114 both reading
+ * pseudo 80 cleanly, `.lreg` had insn114 rewritten to read insn112's DEST instead of pseudo80's
+ * hard reg -- textbook §162j1). The `register s32 zr __asm__("$0"); x + zr` opaque-copy lever
+ * (§136d-1/RC-12) did NOT defeat it when applied to the SECOND of the pair (validate_replace_rtx
+ * substitutes inside a PLUS operand just as readily as inside a plain SET) -- applying it to the
+ * FIRST copy instead (so insn117 is no longer a `single_set(REG)` and never qualifies as "a copy"
+ * for the pass to scan forward from) did defeat it, dropping to a genuine 1-instruction
+ * REGALLOC-PERM ($s3-vs-$s0). That flushed out the REAL bug: `func_80015954`'s first argument is
+ * `vecOut` (the ApplyMatrixSV output), not `s3` -- I had the wrong VALUE, not a regalloc quirk.
+ * Fixing the argument made the "residual" vanish with NO register-pin needed at all. Lesson: a
+ * clean REGALLOC-LOCAL/-PERM diff on an ARGUMENT SETUP is worth re-deriving the argument's
+ * identity from the target's OWN register (here $s0, not the more "obvious" $s3) before reaching
+ * for §162j1/RC-12 levers -- they can mask a semantic error long enough to look load-bearing.
+ */
+
+extern void func_801465C0(void);
+extern void func_80149374(s32 a0, s32 a1);
+extern s16 func_8012A68C(void);
+extern s16 func_8012A758(void);
+extern void func_8004978C(s16 *a0, void *a1);
+extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
+extern void func_80015978(s32 a0, s32 *a1);
+extern void func_8012EF70(s32 a0, s32 a1);
+extern void func_80015954(s32 a0, s32 a1);
+extern void func_8001CB00(s32 a0, void *a1, s32 a2, s32 a3);
+extern void func_8017CE10(void *a0, s32 a1, s32 a2);
+extern void func_80147324(s32 a0);
+extern void func_80146C3C(void);
+
+/* new-to-this-TU data symbols (own address only in this function; payload owned by
+ * asm/ov_SC03_014/data/tail.data.s, a data-only splat unit -- extern is correct, not a definition,
+ * per §160c's "same .s as the function" test). D_8018D478 bytes: 0000 0000 ECFF 0000 = {0,0,-20,0}.
+ * D_8018D454: 12 opaque bytes (a GPU-primitive template), address-only use -> §160f array style. */
+
+void func_8017C6A0(void *a0) {
+
+    extern s16 D_8018D478[4];
+    extern u8 D_8018D454[12];
+    extern u16 D_8018D3BC[][2];
+    void *s3;
+    s32 s0;
+    s32 s1;
+    u8 mat[0x20];
+    u16 vecOut[4];
+
+    s0 = *(s32 *)(a0 + 0x34);
+    s3 = ((void *(*)(void))func_801465C0)();
+    *(void **)(a0 + 0x20) = s3;
+
+    if (s3 != NULL) {
+        s1 = (s32)a0 + 4;
+        func_80149374(s0, s1);
+
+        *(s16 *)(s3 + 0x10) = func_8012A68C();
+        *(s16 *)(s3 + 0x12) = func_8012A758();
+        func_8004978C((s16 *)(s3 + 0x10), mat);
+
+        ApplyMatrixSV(mat, D_8018D478, vecOut);
+
+        *(u16 *)(a0 + 0x6) = *(u16 *)(a0 + 0x6) + vecOut[0];
+        *(u16 *)(a0 + 0xA) = *(u16 *)(a0 + 0xA) + vecOut[1];
+        *(u16 *)(a0 + 0xE) = *(u16 *)(a0 + 0xE) + vecOut[2];
+
+        func_80015978(s1, (s32 *)vecOut);
+        func_8012EF70((s32)vecOut, (s32)vecOut);
+        func_80015954((s32)vecOut, s1);
+
+        func_8001CB00((s32)s3, D_8018D454, 0x280, 0x100);
+
+        *(u8 *)(s3 + 0x27) = 0x80;
+
+        *(s16 *)(s3 + 0x2C) = *(u16 *)(a0 + 0xE);
+        *(s16 *)(s3 + 0x1A) = 0;
+        *(s16 *)(s3 + 0x18) = 0;
+
+        *(s32 *)(a0 + 0x10) = 0;
+        func_8017CE10(a0, *(s32 *)(a0 + 0x2C), 0x8F);
+
+        func_80147324(D_8018D3BC[*(s32 *)(a0 + 0x2C)][0]);
+
+        *(u16 *)(a0 + 2) = *(u16 *)(a0 + 2) + 1;
+    } else {
+        ((void (*)(s32))func_80146C3C)((s32)a0);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_119/nonmatchings/ov_SC03_119_jr_8017AE2C", func_8017C814);
 
