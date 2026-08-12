@@ -7099,9 +7099,165 @@ void func_8018D5C0(void *arg) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_032/nonmatchings/ov_SC06_032_jr_80182890", func_8018DBB0);
 
-INCLUDE_ASM("asm/ov_SC06_032/nonmatchings/ov_SC06_032_jr_80182890", func_8018DD44);
+
+// func_8018DBB0 -- ov_SC06_018 / ov_SC06_018_jr_80187AEC
+//
+// Structural sibling of func_8018E188 (SAME TU, banked MATCH, this file: func_8018E188).
+// Shares VERBATIM: the 0x60 gate + 0x1D snapshot block, the 0x78/0x60 decrement block
+// (AND form -- see E188's @stuck note), the 0x82&1 finisher, and the C8/C9 pokes.
+// Diverges after that: instead of E188's 0x76<0 spawn-loop / CC-D0-D4 reseed, this
+// function's 0x76<0 arm sets a distinct "state 2" field group (offsets 2/0x5C/0x34/
+// 0xC1/0xF4 + clears bit 0x80 of *(p+0x20)->0x2C), and its else arm plays a different
+// sound (func_8002D4C8(0xAD8,0) vs E188's 0xAE0) then tail-calls func_8018D3A4 (still
+// INCLUDE_ASM in this TU -- no other TU references it, so this call site sets its own
+// convention: void func_8018D3A4(void *)).
+//
+// @class: regalloc-order
+// @stuck: none -- see match_one output.
+
+extern void func_8016AA50(s32, s32);
+extern s32 func_8016B428(s32);
+extern void func_80019064(void *);
+extern void func_8002A520(int);
+extern void func_8002A790(int);
+extern void func_8002D4C8(s32, s32);
+extern void func_8018D3A4(void *);
+
+void func_8018DBB0(void *arg) {
+
+    extern u8 D_801CC7E4;
+    u8 *p = (u8 *)arg;
+    s32 e = *(u8 *)(p + 0x5E);
+
+    if (*(s16 *)(p + 0x60) != 0) {
+        if (e == 0x1D) {
+            *(u16 *)(p + 0x82) = 0;
+            *(u16 *)(p + 0x7C) = *(u16 *)(p + 0x06);
+            *(u16 *)(p + 0x7E) = *(u16 *)(p + 0x0A);
+            *(u16 *)(p + 0x80) = *(u16 *)(p + 0x0E);
+        }
+        {
+            s32 dec;
+            s32 q = *(s32 *)(p + 0x78);
+            if (q != 0 && *(s16 *)(p + 0x60) != 0) {
+                dec = ((s32)*(s16 *)(p + 0x60) * (s32)*(s16 *)(q + 0x30)) >> 12;
+                if (dec < 1) dec = 1;
+            } else {
+                dec = *(s16 *)(p + 0x60);
+            }
+            *(u16 *)(p + 0x76) = *(u16 *)(p + 0x76) - dec;
+            ((void (*)(void *, s32))func_8016AA50)(p, dec);
+        }
+        if (*(u16 *)(p + 0x82) & 1) {
+            ((void (*)(void *))func_8016B428)(p);
+            func_80019064(&D_801CC7E4);
+        }
+    }
+
+    if (e != 0x1D) {
+        if (*(u8 *)(p + 0xC8)) func_8002A520(p);
+        if (*(u8 *)(p + 0xC9)) func_8002A790(p);
+    }
+
+    if (*(s16 *)(p + 0x76) < 0) {
+        s32 q = *(s32 *)(p + 0x20);
+        *(s16 *)(p + 0x02) = 0xA;
+        *(u16 *)(p + 0x5C) = 0x800;
+        *(u16 *)(p + 0x34) = 0;
+        *(u8  *)(p + 0xC1) = 0;
+        *(s32 *)(p + 0xF4) = 1;
+        *(u16 *)(q + 0x2C) &= 0xFF7F;
+    } else {
+        func_8002D4C8(0xAD8, 0);
+        *(u16 *)(p + 0x5C) = 0x8800;
+        *(u16 *)(p + 0x60) = 0;
+        *(u8  *)(p + 0xC1) = 0;
+        *(u8  *)(p + 0xC2) = 0x10;
+        func_8018D3A4(p);
+    }
+}
+
+
+
+
+// func_8018DD44 -- ov_SC06_018 / ov_SC06_018_jr_80187AEC
+//
+// Structural sibling of func_8018E188 (SAME TU, banked MATCH, this file: func_8018E188).
+// Shares VERBATIM: the 0x60 gate + 0x1D snapshot block, the 0x78/0x60 decrement block
+// (AND form -- see E188's @stuck note), the 0x82&1 finisher, and the C8/C9 pokes.
+// Diverges after that: instead of E188's 0x76<0 spawn-loop / CC-D0-D4 reseed, this
+// function's 0x76<0 arm sets a distinct "state 2" field group (offsets 2/0x5C/0x34/
+// 0xC1/0xF4 + clears bit 0x80 of *(p+0x20)->0x2C), and its else arm plays a different
+// sound (func_8002D4C8(0xAD8,0) vs E188's 0xAE0) then tail-calls func_8018D3A4 (still
+// INCLUDE_ASM in this TU -- no other TU references it, so this call site sets its own
+// convention: void func_8018D3A4(void *)).
+//
+// @class: regalloc-order
+// @stuck: none -- see match_one output.
+
+extern void func_8016AA50(s32, s32);
+extern s32 func_8016B428(s32);
+extern void func_80019064(void *);
+extern void func_8002A520(int);
+extern void func_8002A790(int);
+extern void func_8002D4C8(s32, s32);
+extern void func_8018D3A4(void *);
+
+void func_8018DD44(void *arg) {
+
+    extern u8 D_801CC7E4;
+    u8 *p = (u8 *)arg;
+    s32 e = *(u8 *)(p + 0x5E);
+
+    if (*(s16 *)(p + 0x60) != 0) {
+        if (e == 0x1D) {
+            *(u16 *)(p + 0x82) = 0;
+            *(u16 *)(p + 0x7C) = *(u16 *)(p + 0x06);
+            *(u16 *)(p + 0x7E) = *(u16 *)(p + 0x0A);
+            *(u16 *)(p + 0x80) = *(u16 *)(p + 0x0E);
+        }
+        {
+            s32 dec;
+            s32 q = *(s32 *)(p + 0x78);
+            if (q != 0 && *(s16 *)(p + 0x60) != 0) {
+                dec = ((s32)*(s16 *)(p + 0x60) * (s32)*(s16 *)(q + 0x30)) >> 12;
+                if (dec < 1) dec = 1;
+            } else {
+                dec = *(s16 *)(p + 0x60);
+            }
+            *(u16 *)(p + 0x76) = *(u16 *)(p + 0x76) - dec;
+            ((void (*)(void *, s32))func_8016AA50)(p, dec);
+        }
+        if (*(u16 *)(p + 0x82) & 1) {
+            ((void (*)(void *))func_8016B428)(p);
+            func_80019064(&D_801CC7E4);
+        }
+    }
+
+    if (e != 0x1D) {
+        if (*(u8 *)(p + 0xC8)) func_8002A520(p);
+        if (*(u8 *)(p + 0xC9)) func_8002A790(p);
+    }
+
+    if (*(s16 *)(p + 0x76) < 0) {
+        s32 q = *(s32 *)(p + 0x20);
+        *(s16 *)(p + 0x02) = 0xB;
+        *(u16 *)(p + 0x5C) = 0x800;
+        *(u16 *)(p + 0x34) = 0;
+        *(u8  *)(p + 0xC1) = 0;
+        *(s32 *)(p + 0xF4) = 1;
+        *(u16 *)(q + 0x2C) &= 0xFF7F;
+    } else {
+        func_8002D4C8(0xAD8, 0);
+        *(u16 *)(p + 0x5C) = 0x8800;
+        *(u16 *)(p + 0x60) = 0;
+        *(u8  *)(p + 0xC1) = 0;
+        *(u8  *)(p + 0xC2) = 0x10;
+        func_8018D3A4(p);
+    }
+}
+
 
 
 // @class: regalloc-order
