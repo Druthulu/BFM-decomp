@@ -3394,7 +3394,56 @@ LAB_80188494:
 
 INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_80187AEC", func_801884F4);
 
-INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_80187AEC", func_80188554);
+#include "common.h"
+
+extern void func_8012C218(void *a0);
+extern s32  func_8012BD14(s32 a0);
+extern s32  func_8012BEE8(s32 a0);
+extern void func_8012CC64(s32 a0, s32 a1);   /* fleet-canonical: void; $v0 used -> cast at use */
+extern s32  func_80143B6C(s32 a0, s32 a1);   /* fleet-canonical */
+extern void func_80189000(s32 a0, s32 a1);
+
+extern u8 D_801B54E4;
+
+void func_80188554(s32 param_1) {
+    s32 v0;
+    s32 iVar;
+
+    if (0xf < *(s16 *)(param_1 + 0xA)) {
+        func_8012C218((void *)param_1);
+        return;
+    }
+    v0 = func_8012BD14(param_1);
+    if (v0 < 0x1001) {
+        goto LAB_tail;
+    }
+    if (*(u16 *)(param_1 + 0x34) == 0) {
+        *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x10) =
+            *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x10) - 0x40;
+        v0 = ((s32 (*)(s32, s32))func_8012CC64)(param_1, (s32)&D_801B54E4);
+        if ((v0 & 0x2000) == 0) {
+            return;
+        }
+        iVar = *(s32 *)(param_1 + 0x1c) + 1;
+        *(s32 *)(param_1 + 0x1c) = iVar;
+        if (iVar >= 4) {
+            u16 tmp = *(u16 *)(param_1 + 0x34);
+            *(s32 *)(param_1 + 0x1c) = 0xA;
+            *(u16 *)(param_1 + 0x34) = tmp + 1;
+            return;
+        }
+        *(s32 *)(param_1 + 0x14) = -(0x80000 / iVar);
+        func_80143B6C(param_1, 1);
+        return;
+    }
+    if (func_8012BEE8(param_1) != 1) {
+        return;
+    }
+LAB_tail:
+    *(u16 *)(param_1 + 2) = 9;
+    func_80189000(param_1, 0);
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_80187AEC", func_8018868C);
 
@@ -4253,7 +4302,64 @@ void func_80189A34(s32 param_1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_80187AEC", func_80189C28);
+extern s32 func_8012BEE8(s32 a0);
+extern void func_8012C218(void *a0);
+extern s32 func_80017758(void *a0, void *a1);
+
+void func_80189C28(void *a0)
+{
+    u8 buf[0x34];
+
+    if (*(u16 *)((u8 *)a0 + 0x34) == 0) {
+        *(s32 *)((u8 *)a0 + 0xE0) = *(s32 *)((u8 *)a0 + 0xE0) - 0x14;
+        if (func_8012BEE8((s32)a0) != 0) {
+            *(u16 *)((u8 *)a0 + 0x34) = *(u16 *)((u8 *)a0 + 0x34) + 1;
+        }
+    } else {
+        s32 v1 = *(s32 *)((u8 *)a0 + 0x64);
+        if (*(s32 *)(*(s32 *)(v1 + 0x20) + 4) < 0 || *(u16 *)v1 == 0) {
+            func_8012C218(a0);
+            return;
+        }
+    }
+
+    *(s16 *)(buf + 0x00) = 4;
+    *(s16 *)(buf + 0x08) = -4;
+    {
+        s16 c = 0xC;
+        *(s16 *)(buf + 0x02) = 0;
+        *(s16 *)(buf + 0x04) = 0;
+        *(s16 *)(buf + 0x0A) = 0;
+        *(s16 *)(buf + 0x0C) = 0;
+        *(s16 *)(buf + 0x10) = c;
+    }
+    *(s16 *)(buf + 0x12) = 0;
+    {
+        s32 t1 = *(s32 *)((u8 *)a0 + 0xE0);
+        s32 t2;
+        *(s16 *)(buf + 0x18) = -0xC;
+        *(s16 *)(buf + 0x1A) = 0;
+        *(s16 *)(buf + 0x14) = t1;
+        t2 = *(s32 *)((u8 *)a0 + 0xE0);
+        *(s32 *)(buf + 0x30) = 0x50000000;
+        *(u8 *)(buf + 0x22) = 0x80;
+        *(u8 *)(buf + 0x21) = 0x80;
+        *(u8 *)(buf + 0x20) = 0x80;
+        *(u8 *)(buf + 0x26) = 0x80;
+        *(u8 *)(buf + 0x25) = 0x80;
+        *(u8 *)(buf + 0x24) = 0x80;
+        *(u8 *)(buf + 0x2A) = 0x30;
+        *(u8 *)(buf + 0x29) = 0x30;
+        *(u8 *)(buf + 0x28) = 0x30;
+        *(u8 *)(buf + 0x2E) = 0x30;
+        *(u8 *)(buf + 0x2D) = 0x30;
+        *(u8 *)(buf + 0x2C) = 0x30;
+        *(s16 *)(buf + 0x1C) = t2;
+    }
+
+    func_80017758(buf, (u8 *)(*(s32 *)((u8 *)a0 + 0x20)) + 0x34);
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_80187AEC", func_80189D64);
 
@@ -4702,7 +4808,163 @@ INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_80187AEC", func_8018C31
 
 INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_80187AEC", func_8018C334);
 
-INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_80187AEC", func_8018C3F8);
+#include "common.h"
+
+/* ---- types (TU-canonical: Blip_8018F694 / UVEC_8018F694 / PTag_8018F694 /
+ * TPage_8018F694 ALL already live in src/shared/engine_types.h:724/1094/941/1073,
+ * reached from the destination TU via "../shared/engine_core.h" — DROP this whole
+ * typedef block when banking.) */
+
+
+
+
+
+#define gte_ldv0(r0) __asm__ volatile (          \
+    "lwc2 $0, 0( %0 );"                          \
+    "lwc2 $1, 4( %0 )"                           \
+    :                                            \
+    : "r"( r0 ) )
+
+#define gte_rtps() __asm__ volatile ("nop;nop;rtps")
+
+#define gte_stsxy(r0) __asm__ volatile (         \
+    "swc2 $14, 0( %0 )"                          \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "memory" )
+
+#define gte_stszotz(r0) __asm__ volatile (       \
+    "mfc2 $12, $19;"                             \
+    "nop;"                                       \
+    "sra $12, $12, 2;"                           \
+    "sw $12, 0( %0 )"                            \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "$12", "memory" )
+
+#define gte_stflg(r0) __asm__ volatile (         \
+    "cfc2 $12, $31;"                             \
+    "nop;"                                       \
+    "sw $12, 0( %0 )"                            \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "$12", "memory" )
+
+
+void func_8018C3F8(void)
+{
+    extern void func_8004914C(void *);
+    extern void func_800491AC(void *);
+    extern void *func_80010A08(s32);
+    extern void func_8018C7A8(UVEC_8018F694 *, UVEC_8018F694 *,
+                              Blip_8018F694 *, PTag_8018F694 *);
+    extern u8 D_800AF648;
+    extern u8 D_800A6610[];
+    extern short D_800B9A02;
+    extern Blip_8018F694 D_801D55B0[];
+
+    UVEC_8018F694 sxy;
+    UVEC_8018F694 p0;
+    UVEC_8018F694 p1;
+    long flag;
+    long otz;
+    s32 i;
+    PTag_8018F694 *ot;
+    PTag_8018F694 *otp;
+    Blip_8018F694 *bp;
+    s32 t, c, d, z, x, n;
+
+    ot = (PTag_8018F694 *)&D_800A6610[(*(u16 *)&D_800B9A02) << 14];
+    func_8004914C(&D_800AF648);
+    func_800491AC(&D_800AF648);
+    bp = D_801D55B0;
+
+    for (i = 0; i < 32; i++, bp++) {
+        t = bp->tm;
+        __asm__ __volatile__ ("" : "=r" (t) : "0" (t));
+        if (t != 0) {
+            gte_ldv0(&bp->vx);
+            gte_rtps();
+            gte_stsxy((long *) &sxy);
+            gte_stflg(&flag);
+            gte_stszotz(&otz);
+            if ((u16) (sxy.vx + 0x200) < 0x401 &&
+                (u16) (sxy.vy + 0x180) < 0x301 &&
+                (u32) (otz - 0x10) < 0x1000) {
+                z = otz - 0x10;
+                c = t >> 6;
+                d = (t * 3) >> 8;
+                otp = (PTag_8018F694 *) ((s32) ot + (z << 2));
+
+                p0.vx = sxy.vx - c;
+                p0.vy = sxy.vy - c;
+                p1.vx = p0.vx + d;
+                p1.vy = p0.vy;
+                func_8018C7A8(&p0, &p1, bp, otp);
+
+                p1.vx = p0.vx;
+                p1.vy = p0.vy + d;
+                func_8018C7A8(&p0, &p1, bp, otp);
+
+                p0.vx = sxy.vx + c;
+                p1.vx = p0.vx - d;
+                p1.vy = p0.vy;
+                func_8018C7A8(&p0, &p1, bp, otp);
+
+                p1.vx = p0.vx;
+                p1.vy = p0.vy + d;
+                func_8018C7A8(&p0, &p1, bp, otp);
+
+                p0.vy = sxy.vy + c;
+                p1.vx = p0.vx - d;
+                p1.vy = p0.vy;
+                func_8018C7A8(&p0, &p1, bp, otp);
+
+                p1.vx = p0.vx;
+                p1.vy = p0.vy - d;
+                func_8018C7A8(&p0, &p1, bp, otp);
+
+                p0.vx = sxy.vx - c;
+                p1.vx = p0.vx + d;
+                p1.vy = p0.vy;
+                func_8018C7A8(&p0, &p1, bp, otp);
+
+                p1.vx = p0.vx;
+                p1.vy = p0.vy - d;
+                func_8018C7A8(&p0, &p1, bp, otp);
+
+                {
+                    TPage_8018F694 *tp = (TPage_8018F694 *) func_80010A08(8);
+                    tp->len = 1;
+                    tp->code0 = 0xE1000020;
+                    tp->addr = otp->addr;
+                    otp->addr = (u32) tp;
+                }
+
+                n = bp->r;
+                x = n - bp->dr;
+                n = x;
+                if (x < 0) { n = 0; }
+                bp->r = n;
+                n = bp->g;
+                x = n - bp->dg;
+                n = x;
+                if (x < 0) { n = 0; }
+                bp->g = n;
+                n = bp->b;
+                x = n - bp->db;
+                n = x;
+                if (x < 0) { n = 0; }
+                bp->b = n;
+                x = n | (bp->r | bp->g);
+                if ((u8) x == 0) {
+                    bp->tm = 0;
+                }
+            }
+        }
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_80187AEC", func_8018C7A8);
 

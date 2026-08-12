@@ -3723,7 +3723,195 @@ INCLUDE_ASM("asm/ov_SC02_026/nonmatchings/ov_SC02_026_jr_8017C180", func_8017F5D
 
 INCLUDE_ASM("asm/ov_SC02_026/nonmatchings/ov_SC02_026_jr_8017C180", func_8017F6B0);
 
-INCLUDE_ASM("asm/ov_SC02_026/nonmatchings/ov_SC02_026_jr_8017C180", func_8017F76C);
+#include "common.h"
+
+/* func_8017F76C (ov_SC02_026, 154 ins) — spawns a type-0x3B object at *a0,
+ * seeds its sub-record (0x20 handler table / 0x27 / 0x28 / 0x2A), picks a
+ * random +-(rand%200) speed around 0x400, then either (a3 == 0) builds a
+ * random launch vector and runs it through func_80049CAC/func_800484EC, or
+ * (a3 != 0) copies the caller's position into the object and arms it.
+ * MATCH (154/154 ins), match_one standalone.
+ *
+ * STEP-0 SIBLING (§160g): func_80181F88 in src/ov_SC03_098/..._jr_8017D898.c
+ * (L5153) is the same routine for object type 0x41 — identical callee set
+ * {func_801290DC, rand, func_80049CAC, func_800484EC}, identical sub-record
+ * offsets, identical `sign * (h % 128) - 0x300` / `p1 + sign * (h % 0x300)`
+ * launch vector and identical srcvec[2]/trailing[1]/trailing[0]/trailing[2]
+ * statement order. That draft's local/frame shape was reused verbatim:
+ * s16 srcvec[4] @sp+0x10, the 32-byte block @sp+0x18, s32 trailing[4]
+ * @sp+0x38 -> frame 0x68 with 8 saved registers at 0x48..0x64.
+ *
+ * DELTA vs the sibling, and the two levers this function needed:
+ *
+ *  1. §48 STRUCT ASSIGN. This variant seeds the func_80049CAC output block
+ *     from D_800AE620 first (`m = D_800AE620;`). The 32-byte, 4-aligned
+ *     struct routes move_by_pieces to the plain lw/lw/lw + sw/sw/sw grouping
+ *     (3,3,2) the target emits — not lwl/lwr, and not a memcpy call. It is
+ *     written immediately before the func_80049CAC call, which is where the
+ *     block lands in the target's schedule.
+ *
+ *  2. BRANCH POLARITY on the +-speed pick (§3-T4/T7, and the same law the TU
+ *     records at L4765 for func_801818xx). The target is
+ *         bnez $v0,L / negu $v0,$s0 (DELAY SLOT) / addiu $v0,$v0,0x400
+ *         / j / L: addiu $v0,$s0,0x400
+ *     i.e. the delay-slot insn is the head of the FALL-THROUGH arm, moved
+ *     (not copied) by fill_slots_from_thread. That requires the THEN arm to
+ *     be the NEGATED one: `if ((rand() & 1) == 0) spd = -base + 0x400; else
+ *     spd = base + 0x400;`. The natural spelling `if (rand() & 1) spd = base
+ *     + 0x400;` inverts the branch. `-base + 0x400` (not `0x400 - base`) is
+ *     what gives negu + addiu rather than a li/subu pair.
+ *
+ *  3. THE ONE-LINE LEVER THAT CLOSED THE LAST 8: a leading `s32 p1 = a1;`.
+ *     Without it the residual is a pure SCHEDULE-REORDER/8 confined to the
+ *     prologue — same 154 instructions, same registers, only
+ *     `addiu $a0,$zero,0x3B` and `addu $a1,$s3,$zero` sitting BELOW the four
+ *     `sw $sN`/`move $sN,$aN` pairs instead of woven into them:
+ *         target: sw s3 / move s3,a0 / li a0,0x3B / sw s6 / move s6,a1 /
+ *                 move a1,s3 / sw s5 / move s5,a2 / sw s4 / move s4,a3
+ *         mine:   sw s3 / move s3,a0 / sw s6 / move s6,a1 / sw s5 /
+ *                 move s5,a2 / sw s4 / move s4,a3 / li a0,0x3B / move a1,s3
+ *     Prologue saves are sched2-scheduled (toplev.c:3103 threads the prologue
+ *     between global_alloc and sched2). sched2 runs BACKWARD and every insn
+ *     here ties at priority 1 and at class 3 against the last-scheduled
+ *     `sw $ra`, so rank_for_schedule (sched.c:2385) falls all the way through
+ *     to its final tie-break `INSN_LUID (tmp) - INSN_LUID (tmp2)` = stream
+ *     order, and higher LUID wins. So the ONLY way to weave the arg setup
+ *     into the saves is to make the a2/a3 parameter copies come LATER in the
+ *     stream than it — and the whole chain was read off `cc1 -dS`:
+ *
+ *       (a) sched.c:3189-3215 ("at the start of a function, before reload,
+ *           don't delay getting parameters from hard registers") sets
+ *           INSN_REF_COUNT = 1 — never schedulable — on the LEADING RUN of
+ *           `(set pseudo hardreg)` insns at the head of bb0, and STOPS at the
+ *           first insn that is not one (a NOTE stops it too). Unlevered, all
+ *           four parameter copies are in that run, so all four stay above the
+ *           call's arg setup forever and out-LUID it at sched2.
+ *       (b) A leading `p1 = a1;` makes cse DELETE the original a1 parameter
+ *           copy (insn 6 becomes a NOTE) and rewrite the later `p1 = a1` copy
+ *           to read `(reg:SI 5 a1)` directly — so it survives as a
+ *           HIGHER-UID insn further down the stream. That NOTE terminates the
+ *           pin run after the a0 copy alone: the a1, a2 and a3 copies are now
+ *           schedulable by sched1.
+ *       (c) sched1's `adjust_priority` birthing boost (pre-reload only;
+ *           `birthing_insn_p` = dest set exactly once) then boosts those three
+ *           single-set copies to 0x7f000001 while the arg setups stay at 1.
+ *           sched1 is BACKWARD, so boosted = picked first = emitted LAST, and
+ *           the post-sched1 stream becomes exactly
+ *               4 (s3=a0) / 19 ($a0=0x3B) / 16 (s6=a1) / 21 ($a1=s3) /
+ *               8 (s5=a2) / 10 (s4=a3) / call
+ *           which is the target's bb0 order verbatim. sched2 then has nothing
+ *           left to undo.
+ *
+ *     The A/B fingerprint of the same mechanism: a leading copy of a LATER
+ *     parameter frees strictly fewer copies — `p2 = a2` alone reads 7
+ *     mismatched, `p3 = a3` alone reads 8 (frees nothing), copying all three
+ *     also MATCHes. So the lever is "break the pin run as EARLY as the target
+ *     needs", not "copy the parameter you happen to use".
+ *
+ *     This is the same lever the ov_SC03_098 sibling carries as its own
+ *     leading `p1 = a1;`, and the precise mechanism behind
+ *     docs/matching-cookbook.md L2465's one-line note that "a leading
+ *     `pb = param_3;` rides sched.c:3191-3215's 'don't delay getting
+ *     parameters' pin". A/B, same file, one line: 8 mismatched -> MATCH.
+ *     No register pins, no permuter — the draft compiles standalone, so it
+ *     is free to propagate to this family's other two binaries (§37).
+ *
+ * DECLARATION SURFACE (§52b/§161c; whole-TU one-pass grep, D2):
+ *   AGREE VERBATIM with the destination TU (ov_SC02_026_jr_8017C180.c), so
+ *   they merge silently —
+ *     func_801290DC  TU:5246  `extern u8 *func_801290DC(s32 a0, u8 *a1);`
+ *     func_80049CAC  TU:2645/3421  `extern void func_80049CAC(s32, s32);`
+ *     func_800484EC  TU:241/3529   `extern void func_800484EC(s32,s32,s32);`
+ *     rand           TU:957 `extern s32 rand(void);` (TU:1092 has the
+ *                    equivalent `int` form; never redeclared)
+ *   NOT declared anywhere in this TU, nor at file scope in common.h /
+ *   src/shared/engine_core.h (engine_core.h's D_800AE620 spellings all live
+ *   INSIDE DEFINE_ macro bodies, i.e. block scope, and this TU invokes none
+ *   of them), so they are fresh here —
+ *     D_801A5488     real dlabel, asm/ov_SC02_026/data/tail.data.s:35987;
+ *                    used only as an address -> unsized `s32 []`
+ *     D_800AE620     the shared 32-byte, 4-aligned engine block; typed with
+ *                    a function-unique struct name so it cannot collide with
+ *                    the `Blk20` / `Mat32` spellings other TUs use.
+ */
+
+extern u8 *func_801290DC(s32 a0, u8 *a1);
+extern void func_80049CAC(s32 a0, s32 a1);
+extern void func_800484EC(s32 a0, s32 a1, s32 a2);
+extern s32 rand(void);
+extern s32 D_801A5488[];
+
+typedef struct { s32 w[8]; } Blk32_8017F76C;   /* 32 bytes, align 4 */
+extern Blk32_8017F76C D_800AE620;
+
+s32 func_8017F76C(s16 *a0, s32 a1, s32 a2, s32 a3) {
+    s32 p1 = a1;
+    u8 *obj;
+    s32 sub;
+    s32 base;
+    s32 spd;
+
+    obj = func_801290DC(0x3B, (u8 *)a0);
+    if (obj == 0) {
+        return 0;
+    }
+    sub = *(s32 *)(obj + 0x20);
+    *(s32 *)(sub + 0x20) = (s32) D_801A5488;
+    *(u8 *)(sub + 0x27) = 0x56;
+    *(u16 *)(sub + 0x28) = 0x2A0;
+    *(u16 *)(sub + 0x2A) = 0x1A0;
+
+    base = rand() % 200;
+    if ((rand() & 1) == 0) {
+        spd = -base + 0x400;
+    } else {
+        spd = base + 0x400;
+    }
+    *(u16 *)(sub + 0x1A) = spd;
+    *(u16 *)(sub + 0x18) = spd;
+
+    if (a3 == 0) {
+        s32 sign;
+        s32 h;
+        s32 mod128;
+        s32 r;
+        s16 srcvec[4];
+        Blk32_8017F76C buf;
+        s32 trailing[4];
+
+        r = rand();
+        sign = -1;
+        if ((r & 1) != 0) {
+            sign = 1;
+        }
+        h = (s16) r;
+        mod128 = h % 128;
+
+        srcvec[2] = 0;
+        trailing[1] = 0;
+        trailing[0] = 0;
+        trailing[2] = a2;
+
+        srcvec[0] = (s16) (sign * mod128 - 0x300);
+        srcvec[1] = (s16) (p1 + sign * (h % 0x300));
+
+        buf = D_800AE620;
+
+        func_80049CAC((s32) srcvec, (s32) &buf);
+        func_800484EC((s32) &buf, (s32) trailing, (s32) (obj + 0x10));
+        *(s32 *)(obj + 0x1C) = 0x2D;
+    } else {
+        *(s32 *)(obj + 0x2C) = a0[0];
+        *(s32 *)(obj + 0x30) = a0[1];
+        *(s32 *)(obj + 0x34) = a0[2];
+        *(u16 *)(obj + 0x28) = rand() % 2 + 6;
+        *(s32 *)(obj + 0x14) = a2;
+        *(s32 *)(obj + 0x1C) = 0xA;
+        *(u16 *)(obj + 0x2) = *(u16 *)(obj + 0x2) + 1;
+    }
+    return (s32) obj;
+}
+
 
 INCLUDE_ASM("asm/ov_SC02_026/nonmatchings/ov_SC02_026_jr_8017C180", func_8017F9D4);
 

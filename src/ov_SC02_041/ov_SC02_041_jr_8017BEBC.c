@@ -3498,7 +3498,85 @@ INCLUDE_ASM("asm/ov_SC02_041/nonmatchings/ov_SC02_041_jr_8017BEBC", func_8017DB1
 
 INCLUDE_ASM("asm/ov_SC02_041/nonmatchings/ov_SC02_041_jr_8017BEBC", func_8017DB58);
 
-INCLUDE_ASM("asm/ov_SC02_041/nonmatchings/ov_SC02_041_jr_8017BEBC", func_8017DB80);
+/* func_8017DB80 -- ov_SC02_041, subseg ov_SC02_041_jr_8017BEBC (87 ins).
+ * Zero-crack sibling family exemplar (reach x5).
+ *
+ * STEP 0 (S160g callee-set sibling search): func_80017E68 and func_80017DC4 are
+ * ALREADY declared in the destination TU (src/ov_SC02_041/ov_SC02_041_jr_8017BEBC.c
+ * :1710 `extern void func_80017E68(void *a0, void *a1);` and :1762
+ * `extern s32  func_80017DC4(void *a0, void *a1);`) -- reused verbatim below, so
+ * those two are FREE per S161c (character-identical). func_80017DF8 and
+ * func_80017168 are declared NOWHERE else in src/ (only as INCLUDE_ASM stubs in
+ * src/800.c) -- brand new symbols, no conflict is possible, so their signature is
+ * chosen freely to match the observed calling convention (void*, void*, no return
+ * used, like their address-neighbour func_80017E68).
+ *
+ * STRUCTURE (byte-read off the .s): the stack frame is 0x10 arg-build + 0x20 MATRIX
+ * (`mtx`, translation mtx.t[] read/written directly at sp+0x24/0x28/0x2c -- exactly
+ * offset 0x14 into a `{s16 m[3][3]; s32 t[3];}` struct, the SAME MATRIX shape this
+ * TU's func_8017D7C0 (:3337-3492, matched) already restates locally as
+ * MTX_8017D7C0/SV_8017D7C0) + 0x8 s16 buf[4] (`func_80015978` position temp, the
+ * TU's established `s16 buf[4]; func_80015978(a0+4,(s32*)buf);` idiom, see
+ * func_8017EC1C's comment at :4138-4144) + 0x10 saved s0/s1/s2/ra.
+ *
+ * s1(a0)+0x38 is 9 consecutive s16 (3 groups of 3, stride 6) -- the EXACT SAME
+ * offset/shape func_8017D7C0 (:3419-3430, this same TU) fills with 3x jittered
+ * rand() triples via `*q++ =` in a do-while(i<3). This function consumes that
+ * jitter array: 3 unrolled accumulate-into-mtx.t[]-then-draw blocks, each block
+ * ending in `func_80017168(a1,&mtx)` and (except the last) re-oriented via
+ * `func_80017E68(buf,&mtx)` before the next block -- a 3-point trail/line-strip
+ * built from the particle's 3 jittered offset triples.
+ *
+ * Register note: $s0 is reused for TWO disjoint live ranges (actor's 0x20 pointer
+ * field for the first two setup calls, then &mtx's position temp) -- normal
+ * gcc-2.7.2 economy when the ranges don't overlap; no manual lever needed, it falls
+ * out of plain sequential C.
+ */
+
+typedef struct { s16 m[3][3]; s32 t[3]; } MTX_8017DB80; /* 0x20 bytes, align 4 --
+    byte-identical restatement of this TU's own MTX_8017D7C0 (:3334); renamed only
+    because match_one compiles standalone (-Iinclude, no engine_core.h on that
+    path). On bank, drop this typedef and reuse the TU's own MTX_8017D7C0 name. */
+
+extern s32  func_80017DC4(void *a0, void *a1);   /* :1762, host TU AGREES verbatim */
+extern void func_80017DF8(void *a0, void *a1);   /* NEW -- no conflict anywhere    */
+extern void func_80015978(s32 a0, s32 *a1);      /* :119,  host TU AGREES verbatim */
+extern void func_80017E68(void *a0, void *a1);   /* :1710, host TU AGREES verbatim */
+extern void func_80017168(void *a0, void *a1);   /* NEW -- no conflict anywhere    */
+
+void func_8017DB80(s32 a0, s32 a1)
+{
+    s32 p;
+    MTX_8017DB80 mtx;
+    s16 buf[4];
+
+    p = *(s32 *)(a0 + 0x20);
+    *(s32 *)(a1 + 0x1c) = 0x50000000;
+
+    func_80017DC4((void *)(p + 0x18), &mtx);
+    func_80017DF8((void *)(p + 0x10), &mtx);
+    func_80015978(a0 + 4, (s32 *)buf);
+    func_80017E68((void *)buf, &mtx);
+    func_80017168((void *)a1, &mtx);
+
+    mtx.t[0] += *(s16 *)(a0 + 0x38);
+    mtx.t[1] += *(s16 *)(a0 + 0x3a);
+    mtx.t[2] += *(s16 *)(a0 + 0x3c);
+    func_80017168((void *)a1, &mtx);
+    func_80017E68((void *)buf, &mtx);
+
+    mtx.t[0] += *(s16 *)(a0 + 0x3e);
+    mtx.t[1] += *(s16 *)(a0 + 0x40);
+    mtx.t[2] += *(s16 *)(a0 + 0x42);
+    func_80017168((void *)a1, &mtx);
+    func_80017E68((void *)buf, &mtx);
+
+    mtx.t[0] += *(s16 *)(a0 + 0x44);
+    mtx.t[1] += *(s16 *)(a0 + 0x46);
+    mtx.t[2] += *(s16 *)(a0 + 0x48);
+    func_80017168((void *)a1, &mtx);
+}
+
 
 INCLUDE_ASM("asm/ov_SC02_041/nonmatchings/ov_SC02_041_jr_8017BEBC", func_8017DCDC);
 
@@ -6257,7 +6335,79 @@ INCLUDE_ASM("asm/ov_SC02_041/nonmatchings/ov_SC02_041_jr_8017BEBC", func_80183AE
 
 INCLUDE_ASM("asm/ov_SC02_041/nonmatchings/ov_SC02_041_jr_8017BEBC", func_80183B50);
 
-INCLUDE_ASM("asm/ov_SC02_041/nonmatchings/ov_SC02_041_jr_8017BEBC", func_80183BC8);
+
+
+
+
+
+
+
+extern s32 func_8012BDBC(s32 a0, s32 a1);
+extern s32 func_8012B6D4(s16 *a0, s16 *a1);
+extern s32 func_8012B70C(s16 *a0, s16 *a1);
+extern s32 func_8012B608(s32 a0, s32 a1, s32 a2);
+extern void func_8012B178(s32 a0, s32 a1);
+extern void func_8012CBCC(s32);
+extern void func_8012AD80(s32 a0);
+extern s32 func_8012D5E4(s32 a0, s32 a1, s32 a2, s32 a3);
+
+extern u8 D_80126B5C;
+extern u8 D_801AD1B8[];
+
+void func_80183BC8(s32 a0)
+{
+    s16 sp10[4];
+    s32 v0;
+
+    if ((*(s32 *)(*(s32 *)(a0 + 0x64) + 0xE0) & 2) == 0) {
+        if (func_8012BDBC(*(s32 *)(a0 + 0x64), 0x200) == 0) {
+            goto skip_update;
+        }
+        v0 = func_8012B6D4((s16 *)(*(s32 *)(a0 + 0x64) + 4), (s16 *)&D_80126B5C);
+        {
+            s32 r = func_8012B608(*(s16 *)(*(s32 *)(a0 + 0x20) + 0x12), v0, 1);
+            *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) =
+                *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) + r;
+        }
+    } else {
+        sp10[0] = *(u16 *)(a0 + 0x6);
+        sp10[1] = *(u16 *)(a0 + 0xA);
+        sp10[2] = *(u16 *)(a0 + 0xE);
+        v0 = func_8012B70C((s16 *)(a0 + 0x88), sp10);
+        {
+            s32 r = func_8012B608(*(s16 *)(*(s32 *)(a0 + 0x20) + 0x12), v0, 4);
+            *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) =
+                *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) + r;
+        }
+    }
+
+skip_update:
+    func_8012B178(a0, *(s32 *)(a0 + 0xE8));
+
+    *(s32 *)(a0 + 0xE8) = *(s32 *)(a0 + 0xE8) + 0x18000;
+    if (*(u16 *)(a0 + 0x34) == 0) {
+        v0 = ((s32 (*)(s32))func_8012CBCC)(a0);
+        if (v0 != 0) {
+            if ((*(s32 *)(*(s32 *)(a0 + 0x64) + 0xE0) & 2) == 0) {
+                *(s32 *)(a0 + 0xE8) = 0;
+                *(s32 *)(*(s32 *)(a0 + 0x64) + 0xE0) |= 2;
+                *(u16 *)(a0 + 0x34) = *(u16 *)(a0 + 0x34) + 1;
+            }
+        } else {
+            s32 obj2 = *(s32 *)(a0 + 0x64);
+            s32 flags2 = *(s32 *)(obj2 + 0xE0);
+            if ((flags2 & 2) == 0 && *(s32 *)(a0 + 0x1C) == 0x15) {
+                *(s32 *)(obj2 + 0xE0) = flags2 | 2;
+            }
+        }
+    } else {
+        func_8012AD80(a0);
+    }
+
+    func_8012D5E4(a0, (s32)D_801AD1B8, (s32)D_801AD1B8 + 8, 0xA);
+    *(s32 *)(a0 + 0x1C) = *(s32 *)(a0 + 0x1C) + 1;
+}
+
 
 /* func_80183D78 @ ov_SC02_041 (subseg ov_SC02_041_jr_8017BEBC) — MATCH (154 ins).
  *
