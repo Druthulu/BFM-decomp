@@ -4042,6 +4042,3 @@ s32 *func_8017E1AC(s32 *ot, Panel_8017E978_8017E1AC *w0, s16 idx) {
                          func_800D27DC(flag4 != 0, ot, w->f4, w->fC, 0),
                          w->f8, w->fE, 0);
 }
-
-
-INCLUDE_ASM("asm/ov_SC01_009/nonmatchings/ov_SC01_009_jr_8017BE9C", func_8017E378);
