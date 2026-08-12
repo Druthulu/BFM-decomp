@@ -81,9 +81,9 @@ METHOD:
      §164-01..82 and §165-01..47 — 129 further laws, each vetted by an independent skeptic and
        carrying its evidence grade. **§164z and §165z list 48 REFUTED claims between them — read
        them before spending time on a mechanism, so you do not re-derive something disproved.**
-       Note §165-01 BOUNDS §163a: `conflicting types` ⇒ block scope is a solvent (move the typedef
-       AND the extern into the block); `too many arguments` ⇒ no decl spelling at any scope helps,
-       cast the call site (§17a-1/§161c).
+       Note §165-01 BOUNDS §163a: a "conflicting types" diagnostic means block scope IS a solvent
+       (move the typedef AND the extern into the block); "too many arguments" means no declaration
+       spelling at any scope helps — cast the call site (§17a-1/§161c).
    Search these before inventing a mechanism: of 190 laws the last waves claimed as new, 57% were
    already here or did not survive scrutiny.
 4. Iterate: cd ${REPO} && python3 tools/match_one.py ${t.name} --c .run/wave4/${t.name}/${t.name}.c --asm-subdir ${t.sub}
