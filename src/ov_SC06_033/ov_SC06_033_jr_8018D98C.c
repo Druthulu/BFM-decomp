@@ -1784,9 +1784,6 @@ extern void func_8016A700(void *a0);
 extern s32 func_8016A73C(s32 arg0);
 extern s32 func_8016A8FC(s32 a0);
 extern void func_8016A890(s32 arg0);
-extern u16 D_80126B5E;
-extern u16 D_80126B62;
-extern u16 D_80126B66;
 extern void func_8016AA50(s32 param_1, s32 param_2);
 extern void (*D_801949A0[])(void);
 extern void func_8016AB30(void *a0);
@@ -2953,9 +2950,6 @@ extern u8  D_801202A0[];
 extern u8  D_801C8344;
 extern u8  D_801C836C;
 extern u8  D_80126B5C;
-extern u16 D_80126B5E;
-extern u16 D_80126B62;
-extern u16 D_80126B66;
 extern u16 D_800B99D8;
 
 /* Zero-emission launder (see NOTES.md). Each expansion gets a FRESH pseudo that
@@ -3003,6 +2997,12 @@ extern u16 D_800B99D8;
     } while (i < 0x60);
 
 void func_8018D98C(s32 a0) {
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern u16 D_80126B5E;
+    extern u16 D_80126B62;
+    extern u16 D_80126B66;
     u16 v10[4];  /* sp+0x10 */
     s16 v18[4];  /* sp+0x18 */
     s16 v20[4];  /* sp+0x20 */
@@ -3942,7 +3942,92 @@ void func_8018FDBC(s32 param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_033/nonmatchings/ov_SC06_033_jr_8018D98C", func_80190064);
+typedef struct {
+    SVECTOR_8016E7C8 v[4];               /* 0x00 */
+    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
+    u8  f6;                     /* 0x38 */
+    u8  pad[7];                 /* -> 0x40 */
+} Prim_8016E7C8_80190064;
+
+
+
+
+
+
+
+
+
+void func_80190064(s32 a0)
+{
+
+    extern s16 D_801C95B4[];
+    extern u16 D_80126B5E;
+    extern u16 D_80126B62;
+    extern u16 D_80126B66;
+    switch (*(u16 *)(a0 + 0x34)) {
+    case 0:
+    {
+        s16 idx = *(s16 *)(a0 + 0x70);
+        s16 *p = &D_801C95B4[(idx - 1) * 4];
+        s16 gx = *(s16 *)&D_80126B5E;
+        s16 gz;
+        s32 p20;
+
+        if (!(*p < gx)) {
+            break;
+        }
+        p++;
+        if (!(gx < *p)) {
+            break;
+        }
+        p++;
+        gz = *(s16 *)&D_80126B66;
+        if (!(*p < gz)) {
+            break;
+        }
+        if (!(gz < p[1])) {
+            break;
+        }
+
+        p20 = *(s32 *)(a0 + 0x20);
+        *(u32 *)(p20 + 4) = *(u32 *)(p20 + 4) & 0x7FFFFFFF;
+
+        {
+            s32 t;
+
+            *(s16 *)(a0 + 0x88) = D_80126B5E;
+            *(s16 *)(a0 + 0x6)  = D_80126B5E;
+            t = D_80126B62 - 0x80;
+            *(s16 *)(a0 + 0x8A) = t;
+
+            t = *(u16 *)(a0 + 0x34);
+            {
+                register s16 z __asm__("$3");
+                t = t + 1;
+                z = D_80126B66;
+                *(u16 *)(a0 + 0x34) = t;
+                *(s16 *)(a0 + 0x8C) = z;
+                *(s16 *)(a0 + 0xE)  = z;
+            }
+        }
+        break;
+    }
+    case 1:
+    {
+        s16 v;
+
+        v = *(u16 *)(a0 + 0xA) + 8;
+        *(u16 *)(a0 + 0xA) = v;
+        if (v < *(s16 *)(a0 + 0x8A)) {
+            break;
+        }
+        *(s16 *)(a0 + 0x2) = 1;
+        *(u16 *)(a0 + 0x34) = 0;
+        break;
+    }
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_033/nonmatchings/ov_SC06_033_jr_8018D98C", func_80190194);
 
