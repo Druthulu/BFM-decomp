@@ -2753,7 +2753,6 @@ extern s32 rand(void);
 extern u8 D_8019AE04[];
 extern u8 D_8019C234[];
 extern u8 D_8019AED8[];
-extern u8 D_8019AEA4[];
 extern u8 D_8019F038[];
 extern u8 D_8019AE38[];
 extern u8 D_8019AE44[];
@@ -2773,6 +2772,10 @@ extern u8 D_8019F07C;
 
 void func_8017F210(void *a0v)
 {
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern u8 D_8019AEA4[];
     s32 e;
     s32 r;
     s32 o;
@@ -3226,12 +3229,75 @@ void func_8017F9BC(s32 a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_004/nonmatchings/ov_SC05_004_jr_8017F210", func_8017FFC4);
+
+extern s32 func_8012B8E4(s32 a0, s32 a1);
+extern void func_8012B1B4(s32 a0, s32 a1);
+extern s32 func_8012CEB0(s32 a0, s32 a1, s32 a2);
+extern s32 func_8012BCCC(s32 a0);
+extern s32 func_8012BDBC(s32 a0, s32 a1);
+extern void func_8012CC40(s32 arg0, s32 arg1);   /* fleet-canonical: void; $v0 used -> cast at call site */
+
+void func_8017FFC4(s32 a0)
+{
+    extern u8 D_8019AEA4[];
+    extern s32 D_8019AEC0;
+
+    s16 pos1[4];
+    s16 pos2[4];
+    s32 s1;
+
+    *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) += func_8012B8E4(a0, 0x10);
+    *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) &= 0xFFF;
+    func_8012B1B4(a0, (s32)D_8019AEA4);
+
+    {
+        s16 *p1 = pos1;
+        s16 *p2 = pos2;
+        s32 x, y, z;
+
+        x = *(u16 *)(a0 + 0x6);
+        p2[0] = x;
+        p1[0] = x;
+        y = *(u16 *)(a0 + 0xA);
+        p2[1] = y;
+        p1[1] = y;
+        z = *(u16 *)(a0 + 0xE);
+        p2[1] = y + 0x40;
+        p2[2] = z;
+        p1[2] = z;
+        s1 = func_8012CEB0((s32)p1, (s32)p2, 1);
+    }
+
+    if (s1 & 0x6000) {
+        if (!(s1 & 0x1000)) {
+            s1 = func_8012BCCC(a0);
+            if (s1 < 0x4001) {
+                if (func_8012BDBC(a0, 0x200) == 1) {
+                    *(s16 *)(a0 + 0x2) = 4;
+                    *(s16 *)(a0 + 0xFC) = 0;
+                    *(s16 *)(a0 + 0x100) = *(u16 *)(a0 + 0xA);
+                }
+            }
+        }
+    }
+    if (s1 > 0x40000) {
+        *(s16 *)(a0 + 0x2) = 1;
+    }
+
+    if ((((s32 (*)(s32, s32))func_8012CC40)(a0, (s32)&D_8019AEC0) & 0x1000) != 0) {
+        *(s16 *)(a0 + 0x2) = 0x12;
+    }
+}
+
 
 
 #include "common.h"
 
 void func_801800F8(s32 arg0) {
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern u8 D_8019AEA4[];
     extern void func_8012C218(void *a0);
     extern s32 func_8012CC64(s32 a0, void *a1);
     extern s32 func_80133784(s32 a0, void *a1, s32 a2);

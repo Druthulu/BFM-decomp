@@ -5652,7 +5652,66 @@ void func_80181128(s32 a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_113/nonmatchings/ov_SC03_113_jr_8017C294", func_80181730);
+
+extern s32 func_8012B8E4(s32 a0, s32 a1);
+extern void func_8012B1B4(s32 a0, s32 a1);
+extern s32 func_8012CEB0(s32 a0, s32 a1, s32 a2);
+extern s32 func_8012BCCC(s32 a0);
+extern s32 func_8012BDBC(s32 a0, s32 a1);
+extern void func_8012CC40(s32 arg0, s32 arg1);   /* fleet-canonical: void; $v0 used -> cast at call site */
+
+void func_80181730(s32 a0)
+{
+    extern u8 D_8019F28C[];
+    extern s32 D_8019F2A8;
+
+    s16 pos1[4];
+    s16 pos2[4];
+    s32 s1;
+
+    *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) += func_8012B8E4(a0, 0x10);
+    *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) &= 0xFFF;
+    func_8012B1B4(a0, (s32)D_8019F28C);
+
+    {
+        s16 *p1 = pos1;
+        s16 *p2 = pos2;
+        s32 x, y, z;
+
+        x = *(u16 *)(a0 + 0x6);
+        p2[0] = x;
+        p1[0] = x;
+        y = *(u16 *)(a0 + 0xA);
+        p2[1] = y;
+        p1[1] = y;
+        z = *(u16 *)(a0 + 0xE);
+        p2[1] = y + 0x40;
+        p2[2] = z;
+        p1[2] = z;
+        s1 = func_8012CEB0((s32)p1, (s32)p2, 1);
+    }
+
+    if (s1 & 0x6000) {
+        if (!(s1 & 0x1000)) {
+            s1 = func_8012BCCC(a0);
+            if (s1 < 0x4001) {
+                if (func_8012BDBC(a0, 0x200) == 1) {
+                    *(s16 *)(a0 + 0x2) = 4;
+                    *(s16 *)(a0 + 0xFC) = 0;
+                    *(s16 *)(a0 + 0x100) = *(u16 *)(a0 + 0xA);
+                }
+            }
+        }
+    }
+    if (s1 > 0x40000) {
+        *(s16 *)(a0 + 0x2) = 1;
+    }
+
+    if ((((s32 (*)(s32, s32))func_8012CC40)(a0, (s32)&D_8019F2A8) & 0x1000) != 0) {
+        *(s16 *)(a0 + 0x2) = 0x12;
+    }
+}
+
 
 #include "common.h"
 
