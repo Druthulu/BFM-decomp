@@ -3231,7 +3231,52 @@ INCLUDE_ASM("asm/ov_SC06_024/nonmatchings/ov_SC06_024_jr_80186F00", func_80187A5
 
 INCLUDE_ASM("asm/ov_SC06_024/nonmatchings/ov_SC06_024_jr_80186F00", func_80187BC8);
 
-INCLUDE_ASM("asm/ov_SC06_024/nonmatchings/ov_SC06_024_jr_80186F00", func_80187C28);
+
+/* Family exemplar (S48 wave-4). Two compiler-shape levers used, both already
+ * documented in the cookbook:
+ *  - §164z (func_8018A974 refutation): a non-volatile `__asm__("" ::: "memory")`
+ *    barrier forces a genuine second `lw` reload of *(a0+0x90) at the C/D-group
+ *    check, matching the target's register-clash reload, at zero extra stack cost.
+ *  - §45 Lever 4: the call is written literally duplicated in each of the three
+ *    arms rather than shared through one fall-through tail; gcc-2.7.2's jump.c
+ *    cross-jumps the duplicates back together, which is what lets `addiu $a0,$zero,0x53`
+ *    (not the unrelated stack-arg constant 0x14) win both branch-delay slots.
+ */
+
+extern s32 func_801469C8(int, void*, int, int, u16, int, int, int);
+
+void func_80187C28(s32 a0, s32 a1) {
+
+    extern u8 D_801D3284[];
+    extern u8 D_801D3C44[];
+    extern u8 D_801D3D3C[];
+    extern u8 D_801D3904[];
+    extern u16 D_800B99DA;
+    if ((*(s16 *)(a0 + 0x70) & 0x8000) == 0) {
+        return;
+    }
+    if ((a1 & 0xFF) != 0x24) {
+        return;
+    }
+
+    if (*(u8 **)(a0 + 0x90) == D_801D3284) {
+        if (D_800B99DA % 3 == 0) {
+            ((s32 (*)(int, void *, int, int, s32, int, int, int))func_801469C8)(0x53, (void *)a0, *(s16 *)(a0 + 6), (s16)(*(u16 *)(a0 + 0xA) - 0xA0),
+                          *(s16 *)(a0 + 0xE), 0, 0, 0x14);
+        }
+    } else if (*(u8 **)(a0 + 0x90) == D_801D3C44 && *(u16 *)(a0 + 2) == 0xB) {
+        ((s32 (*)(int, void *, int, int, s32, int, int, int))func_801469C8)(0x53, (void *)a0, *(s16 *)(a0 + 6), (s16)(*(u16 *)(a0 + 0xA) - 0xA0),
+                      *(s16 *)(a0 + 0xE), 0, 0, 0x14);
+    } else {
+        __asm__("" ::: "memory");
+        if ((*(u8 **)(a0 + 0x90) == D_801D3D3C || *(u8 **)(a0 + 0x90) == D_801D3904) &&
+            D_800B99DA % 6 == 0) {
+            ((s32 (*)(int, void *, int, int, s32, int, int, int))func_801469C8)(0x53, (void *)a0, *(s16 *)(a0 + 6), (s16)(*(u16 *)(a0 + 0xA) - 0xA0),
+                          *(s16 *)(a0 + 0xE), 0, 0, 0x14);
+        }
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_024/nonmatchings/ov_SC06_024_jr_80186F00", func_80187D50);
 

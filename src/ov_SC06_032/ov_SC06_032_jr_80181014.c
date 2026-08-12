@@ -2734,7 +2734,6 @@ extern u8 D_801A63EC[];
 extern u8 D_801A6604[];
 extern u8 D_801BD9C0[];
 extern u8 D_801BDA28[];
-extern u8 D_801BDCF8[];
 extern u8 D_801BDDB0[];
 extern void func_8017FA18(s32 p);
 extern void func_8018000C(s32 param_1);
@@ -3109,7 +3108,52 @@ INCLUDE_ASM("asm/ov_SC06_032/nonmatchings/ov_SC06_032_jr_80181014", func_8018228
 
 INCLUDE_ASM("asm/ov_SC06_032/nonmatchings/ov_SC06_032_jr_80181014", func_80182400);
 
-INCLUDE_ASM("asm/ov_SC06_032/nonmatchings/ov_SC06_032_jr_80181014", func_80182460);
+
+/* Family exemplar (S48 wave-4). Two compiler-shape levers used, both already
+ * documented in the cookbook:
+ *  - §164z (func_8018A974 refutation): a non-volatile `__asm__("" ::: "memory")`
+ *    barrier forces a genuine second `lw` reload of *(a0+0x90) at the C/D-group
+ *    check, matching the target's register-clash reload, at zero extra stack cost.
+ *  - §45 Lever 4: the call is written literally duplicated in each of the three
+ *    arms rather than shared through one fall-through tail; gcc-2.7.2's jump.c
+ *    cross-jumps the duplicates back together, which is what lets `addiu $a0,$zero,0x53`
+ *    (not the unrelated stack-arg constant 0x14) win both branch-delay slots.
+ */
+
+extern s32 func_801469C8(int, void*, int, int, u16, int, int, int);
+
+void func_80182460(s32 a0, s32 a1) {
+
+    extern u8 D_801BD678[];
+    extern u8 D_801BE038[];
+    extern u8 D_801BE130[];
+    extern u8 D_801BDCF8[];
+    extern u16 D_800B99DA;
+    if ((*(s16 *)(a0 + 0x70) & 0x8000) == 0) {
+        return;
+    }
+    if ((a1 & 0xFF) != 0x24) {
+        return;
+    }
+
+    if (*(u8 **)(a0 + 0x90) == D_801BD678) {
+        if (D_800B99DA % 3 == 0) {
+            ((s32 (*)(int, void *, int, int, s32, int, int, int))func_801469C8)(0x53, (void *)a0, *(s16 *)(a0 + 6), (s16)(*(u16 *)(a0 + 0xA) - 0xA0),
+                          *(s16 *)(a0 + 0xE), 0, 0, 0x14);
+        }
+    } else if (*(u8 **)(a0 + 0x90) == D_801BE038 && *(u16 *)(a0 + 2) == 0xB) {
+        ((s32 (*)(int, void *, int, int, s32, int, int, int))func_801469C8)(0x53, (void *)a0, *(s16 *)(a0 + 6), (s16)(*(u16 *)(a0 + 0xA) - 0xA0),
+                      *(s16 *)(a0 + 0xE), 0, 0, 0x14);
+    } else {
+        __asm__("" ::: "memory");
+        if ((*(u8 **)(a0 + 0x90) == D_801BE130 || *(u8 **)(a0 + 0x90) == D_801BDCF8) &&
+            D_800B99DA % 6 == 0) {
+            ((s32 (*)(int, void *, int, int, s32, int, int, int))func_801469C8)(0x53, (void *)a0, *(s16 *)(a0 + 6), (s16)(*(u16 *)(a0 + 0xA) - 0xA0),
+                          *(s16 *)(a0 + 0xE), 0, 0, 0x14);
+        }
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_032/nonmatchings/ov_SC06_032_jr_80181014", func_80182588);
 
