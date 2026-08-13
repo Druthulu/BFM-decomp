@@ -21,3 +21,15 @@ where each arg is `{name, binary, sub, nins, reach, jr, model, prior}`.
   all-Opus wave 1 on bank rate.
 
 **Bank rate to date:** 67% → 79% → 69% → 68% of cracks survive the whole-binary gate.
+
+## adapt_wave.js — the micro-adapt lane (P30 S49)
+
+Cheap-tier companion to `crack_wave.js` for the COUSIN tier (cookbook §168): members that differ
+from an already-matched body by ≤3 blocks / ≤6 tokens (`family_cousins.py --adapt-cards` →
+`.run/adapt_cards.json`). The prompt is an EDIT contract, not a crack: copy the seed body, take the
+symbol surface from the TARGET .s, apply the minimal semantic edit the measured diff implies
+(usually a constant whose value is readable in the card's member words), iterate under match_one.
+Same paid-for contracts as crack_wave: per-agent dirs, sha1-last verify, UNVERIFIED ≠ refuted,
+never touch outside your own dir. Routing: haiku ≤60 ins / sonnet above (the edit is small even
+when the body is not). Invoke: `Workflow({scriptPath:"tools/wave/adapt_wave.js",
+args:[{wave:"wave7a"}, ...cards]})`. Pilot-first (R37): ~30 cards, measure the bank rate, then batch.

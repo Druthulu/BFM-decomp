@@ -354,14 +354,118 @@ def emit_targets(n, wave):
           f"unresolved seed paths) · {sum(1 for t in targets if t['prior'])} prior-noted", file=sys.stderr)
 
 
+# ---------------------------------------------------------------- micro-adapt cards (S49)
+ADAPT_JSON = ".run/adapt_cards.json"
+LI_TOKS = {(0x0F,), (0x0D,), (0x09,), (0x08,)}   # lui, ori, addiu, addi
+SMALL_BLOCKS, SMALL_TOKENS = 3, 6
+
+
+def _disasm(words, base_vram):
+    """Best-effort disassembly for card readability (falls back to hex-only)."""
+    try:
+        import rabbitizer as R
+        out = []
+        for k, w in enumerate(words):
+            try:
+                out.append(str(R.Instruction(w, base_vram + 4 * k)))
+            except Exception:
+                out.append("?")
+        return out
+    except Exception:
+        return ["?"] * len(words)
+
+
+def emit_adapt_cards():
+    """Per open member of a SEEDED unit, classify drift vs the seed's token stream and emit a
+    micro-adapt card for the LI-ONLY / SMALL-EDIT classes (the ~1,100-member wave-7a pool).
+    The card carries everything a cheap-tier agent needs: the seed's C body location, the aligned
+    diff blocks with the MEMBER's raw words + disassembly at each site (the new constant is
+    readable right there), and the member's own .s home for symbol ground truth. MIXED members are
+    skipped (standard seeded-crack wave work). Cousin-multi units are skipped — their siblings
+    become adaptable only after wave 7 cracks the unit head."""
+    out = json.load(open(OUT_JSON))
+    sigs, _stubs = load_corpus()
+
+    def rec(b, a):
+        return sigs.get(b, {}).get(a)
+
+    cards, counts = [], collections.Counter()
+    for u in out["units"]:
+        if u["cat"] != "seeded" or not u["seed_ref"]:
+            continue
+        sb, sa, snins = u["seed_ref"]
+        sws = FR.stream_words(sb, sa, snins)
+        if sws is None:
+            continue
+        ss = tuple(tok(w) for w in sws)
+        sname = (rec(sb, sa) or {}).get("name", f"func_{sa:08X}")
+        sbody = seed_body_ref(sb, sa)
+        for sk in u["skels"]:
+            b, a = sk["b"], int(sk["a"], 16)
+            r = rec(b, a)
+            if r is None:
+                continue
+            mws = FR.stream_words(b, a, r["nins"])
+            if mws is None:
+                continue
+            ms = tuple(tok(w) for w in mws)
+            sm = SequenceMatcher(None, ms, ss, autojunk=False)
+            blocks = [(t, i1, i2, j1, j2) for t, i1, i2, j1, j2 in sm.get_opcodes() if t != "equal"]
+            if not blocks:
+                counts["IDENTICAL"] += 1
+                continue
+            li_ok = all(t in ("insert", "delete")
+                        and all(x in LI_TOKS for x in (ms[i1:i2] or ss[j1:j2]))
+                        for t, i1, i2, j1, j2 in blocks)
+            ntok = sum(max(i2 - i1, j2 - j1) for _, i1, i2, j1, j2 in blocks)
+            klass = ("LI-ONLY" if li_ok
+                     else "SMALL-EDIT" if len(blocks) <= SMALL_BLOCKS and ntok <= SMALL_TOKENS
+                     else "MIXED")
+            counts[klass] += 1
+            if klass == "MIXED":
+                continue
+            name = r.get("name", f"func_{a:08X}")
+            try:
+                sub = os.path.dirname(corpus.asm_path(b, name))
+            except Exception:
+                sub = None
+            vram = a
+            diff = []
+            for t, i1, i2, j1, j2 in blocks:
+                mw = mws[i1:i2]
+                diff.append(dict(
+                    kind=t,
+                    member_at=i1, member_words=[f"0x{w:08x}" for w in mw],
+                    member_disasm=_disasm(mw, vram + 4 * i1),
+                    seed_at=j1, seed_words=[f"0x{w:08x}" for w in sws[j1:j2]],
+                    seed_disasm=_disasm(sws[j1:j2], sa + 4 * j1),
+                ))
+            cards.append(dict(
+                name=name, binary=b, addr=f"0x{a:08x}", nins=r["nins"], sub=sub,
+                reach=sk["mem"], jr=bool(sk["jr"]), klass=klass, sim=sk["seed_sim"],
+                seed=dict(name=sname, binary=sb, addr=f"0x{sa:08x}", nins=snins,
+                          kind=sbody["kind"], path=sbody["path"]),
+                diff=diff, n_blocks=len(blocks), n_tokens=ntok,
+            ))
+    cards.sort(key=lambda c: (-c["reach"] * c["nins"], c["n_tokens"]))
+    json.dump(cards, open(ADAPT_JSON, "w"), indent=1)
+    print(f"adapt cards: {len(cards)} "
+          f"(classes over seeded members: {dict(counts)}) -> {ADAPT_JSON}")
+
+
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--targets", type=int, metavar="N", help="emit top-N wave targets (crack_wave.js shape) to stdout")
     ap.add_argument("--wave", default="wave7", help="wave tag stamped on targets (output dir routing)")
+    ap.add_argument("--adapt-cards", action="store_true", help="emit micro-adapt cards for seeded LI-ONLY/SMALL-EDIT members")
     args = ap.parse_args()
     if args.targets:
         if not os.path.exists(OUT_JSON):
             sys.exit(f"{OUT_JSON} missing — run the survey first")
         emit_targets(args.targets, args.wave)
+    elif args.adapt_cards:
+        if not os.path.exists(OUT_JSON):
+            sys.exit(f"{OUT_JSON} missing — run the survey first")
+        emit_adapt_cards()
     else:
         survey()
