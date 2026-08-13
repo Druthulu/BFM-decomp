@@ -1665,8 +1665,6 @@ extern void func_8016634C(void *a0);
 extern void func_801663A4(void *a0);
 extern void (*D_801903F4[])(void);
 extern void func_801663FC(void *a0);
-extern u8 D_800D387C[];
-extern u8 D_800D3888[];
 extern s32 func_800D21C4(s32 a0, void *a1, s32 a2);
 extern void func_800D1FC8(s32 a0, s32 a1);
 extern void func_80128EA8(s32 a0, s32 a1, s32 a2);
@@ -5528,7 +5526,77 @@ INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001_jr_8017AE2C", func_8018013
 
 INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001_jr_8017AE2C", func_801801E0);
 
-INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001_jr_8017AE2C", func_80180224);
+extern void func_8012B200(u8 *a0);
+
+/*
+ * func_80180224 -- ov_SC04_018 / ov_SC04_018_jr_80188E1C, 71 ins, family reach x6.
+ *
+ * STEP 0 sibling: this is a direct extension of the shared-engine-core macro
+ * DEFINE_func_80144558() (src/shared/engine_core.h) -- identical prologue
+ * through the func_80128EA8 call and the three field copies (+8/+0xA/+0xC
+ * from param_1+6/+0xA/+0xE), but instead of calling func_8012B200(param_1) at
+ * the end, this variant sets a handful of extra fields directly and calls
+ * func_8012B0B4 (angle -> velocity split), matching the idiom seen at
+ * src/ov_SC03_099/ov_SC03_099_jr_8017BEBC.c:func_8017F9C4/func_8017FB58 and
+ * the DEFINE_func_8012B0B4() macro itself (single u32 result word written
+ * through the output pointer).
+ */
+extern void func_8012C194(void);
+extern void func_8012CAE4(void *a0);
+extern s32 func_8001CC3C(s32 a0, s32 a1, s32 a2, s32 a3);
+extern void func_80128EA8(s32 a0, s32 a1, s32 a2);
+extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
+
+void func_80180224(u8 *arg0)
+{
+
+    extern u8 D_800D387C[];
+    extern u8 D_800D3888[];
+    register u8 *param_1 __asm__("$16");   /* $s0 */
+    s32 raw;
+    u32 buf[6];
+
+    param_1 = arg0;
+    {
+        register s32 s0 __asm__("$17");   /* $s1 -- scoped: dead after func_80128EA8 */
+        s0 = ((s32 (*)(void))func_8012C194)();
+        if (s0 == 0) {
+            func_8012CAE4(param_1);
+            return;
+        }
+        *(s32 *)(param_1 + 0xCC) = s0;
+        func_8001CC3C(s0, 0, 0, 0);
+        *(s32 *)(s0 + 0x20) = (s32)D_800D387C;
+        *(u8 *)(s0 + 0x27) = 0x9C;
+        *(u16 *)(s0 + 0x1A) = 0x3000;
+        *(u16 *)(s0 + 0x18) = 0x3000;
+        *(u32 *)(s0 + 4) = *(u32 *)(s0 + 4) | 0x50000000;
+        func_80128EA8(s0, (s32)(param_1 + 0xD0), (s32)D_800D3888);
+    }
+    {
+        s32 obj = *(s32 *)(param_1 + 0xCC);
+        *(u16 *)(obj + 8) = *(u16 *)(param_1 + 6);
+        *(u16 *)(obj + 0xA) = *(u16 *)(param_1 + 0xA);
+        *(u16 *)(obj + 0xC) = *(u16 *)(param_1 + 0xE);
+    }
+    raw = *(s16 *)(param_1 + 0x70);
+    *(s32 *)(param_1 + 0x1C) = 0x5A;
+    *(u16 *)(param_1 + 2) = 1;
+    *(s32 *)(param_1 + 0x10) = 0;
+    *(s32 *)(param_1 + 0x14) = 0xFFF80000;
+    *(s32 *)(param_1 + 0x18) = 0;
+    func_8012B0B4((unsigned int *)buf, (raw & 0xFF00) >> 4, (raw & 0xFF) << 6);
+    {
+        register s32 full __asm__("$2");
+        register s32 low  __asm__("$3");
+        full = *(s32 *)buf;
+        low = *(s16 *)buf;
+        *(s32 *)(param_1 + 0x48) = 0;
+        *(s32 *)(param_1 + 0x44) = low;
+        *(s32 *)(param_1 + 0x4C) = full >> 16;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001_jr_8017AE2C", func_80180340);
 
