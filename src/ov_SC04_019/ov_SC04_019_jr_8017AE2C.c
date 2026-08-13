@@ -5331,19 +5331,7 @@ extern void func_80178CBC(s32 a0, s32 a1);
 
 #include "common.h"
 
-extern int func_80178970(void);
-extern void func_80178D18(void);
-extern void func_80184CB8(s32*, s32);
-
-void func_80180190(void * arg0) {
-
-    extern short D_8019181C;
-    if (func_80178970() != 0) {
-        ((void (*)(s32))func_80178D18)((s32)arg0);
-        *(short *)((char *)arg0 + 0x2) = 1;
-        ((void (*)(s32, s32))func_80184CB8)((int)arg0, (int)&D_8019181C);
-    }
-}
+DEFINE_func_80180190()  /* dedup: shared engine-core @0x80180190 (src/shared) */
 
 
 INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_801801E0);

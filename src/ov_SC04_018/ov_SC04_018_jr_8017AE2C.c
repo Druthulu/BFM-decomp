@@ -5339,7 +5339,7 @@ extern void func_80178CBC(s32*, s32);
     }
 
 
-INCLUDE_ASM("asm/ov_SC04_018/nonmatchings/ov_SC04_018_jr_8017AE2C", func_80180190);
+DEFINE_func_80180190()  /* dedup: shared engine-core @0x80180190 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC04_018/nonmatchings/ov_SC04_018_jr_8017AE2C", func_801801E0);
 
