@@ -3538,7 +3538,188 @@ s32 func_80187B50(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_124/nonmatchings/ov_SC03_124_jr_80187010", func_80187EA0);
+
+/* func_80187EA0 — build the SC03 HUD display list for this frame.
+ * 144 ins, frame 0x30, no stack locals.  match_one: MATCH (closeness 0).
+ *
+ * TU: src/ov_SC03_001/ov_SC03_001_jr_8018A3A8.c  (INCLUDE_ASM at line 3540)
+ *
+ * ---------------------------------------------------------------------------
+ * WHERE THE SHAPE CAME FROM (§71 — the already-matched neighbours in this TU)
+ *   ((s32 * (*)(s32 *, Panel_S40_8018B238_80187EA0 *, s16))func_801880E0)(line 3586) : the panel walker. Its Panel_8017E978_8018B478
+ *                                is 0x20 bytes -> the `w++` (+0x20) stride here,
+ *                                and its 3rd param is `s16 idx` -> the sll/sra
+ *                                pair at the top of the loop feeding BOTH the
+ *                                D_80115158 index and $a2.
+ *                                It also supplies the RC-12 `+ zr` lever below.
+ *   func_8018BCD4  (line 3651) : the §36 bitfield-store OT-link idiom and the
+ *                                `volatile u16 *pbh` double read of D_800B9A02.
+ *
+ * ---------------------------------------------------------------------------
+ * THE SIX LEVERS THAT WERE ACTUALLY LOAD-BEARING (each byte-verified by
+ * removing it and re-running tools/match_one.py):
+ *
+ * 1. D_80115158 must be a STRUCT array, not `extern s16 D_80115158[]`.
+ *    Symptom: an extra `la` hoisted into a callee-saved reg (+3 ins, $s4 saved).
+ *    Mechanism: gcc-2.7.2 expand_expr rewrites `arr[i]` with a NON-CONSTANT
+ *    index as `*(&arr + i*size)`, so the address reaches memory_address() as
+ *    (plus SYMBOL_REF (mult reg 2)) -> not a legitimate MIPS address ->
+ *    force_operand materialises the whole symbol into a register, which loop.c
+ *    then hoists.  A COMPONENT_REF goes through get_inner_reference instead,
+ *    whose offset is force_reg'd, giving (plus SYMBOL_REF reg) — the legitimate
+ *    assembler-macro form `lh $v0, D_80115158($v0)` that maspsx expands to
+ *    lui/addu/lh %lo.  (Same reason `D_800AE7BC[i].ot` already worked.)
+ *    Cookbook index entry: "an extra `la` / the address hoisted into a
+ *    callee-saved register across calls" -> §20 + gcc-2.7.2-map/cse_expr.md §H.
+ *
+ * 2. `register s32 n __asm__("$2")` (§17 register pin).  Without it reorg fills
+ *    the INNER `bne`'s delay slot by stealing `addu $a0,$s0,$zero` from the
+ *    fall-through instead of taking `addiu $v0,4` from the else thread, which
+ *    leaves an extra `j` in the stream.  The pin does not change which register
+ *    n gets (it was $v0 either way) — it changes what reorg's resource analysis
+ *    can see, and that flips the choice.
+ *
+ * 3/4. BOTH `n = 3` sites must be `n = 3 + zr` (RC-12, the $0-ADD OPAQUE COPY
+ *    documented on func_801880E0 in this same TU).  `(plus (reg 0) 3)` is not a
+ *    plain constant load, so
+ *      - it survives the noop-move deletion that otherwise eats the outer else
+ *        arm entirely (its value is already in $v0 from the compare constant),
+ *      - and being the SAME rtx in both arms it stays cross-jumpable, so the
+ *        outer `bne` targets the shared insn and reorg COPIES it into the delay
+ *        slot.  That copy is the target's "redundant" `addiu $v0,$zero,3`.
+ *    Making only one of the two opaque gives 145 ins; making neither gives a
+ *    `nop` in that delay slot.
+ *
+ * 5. `__asm__("")` at the head of the loop's if-body (§5a/§34 zero-byte fence).
+ *    reorg.c stop_search_p halts fill_simple_delay_slots' forward scan on an asm
+ *    insn, so the `beqz` slot is filled from the branch TARGET instead — the
+ *    duplicated `addiu $v0,$s1,1` the target has in both the delay slot and
+ *    after the call.  Without it the function is one instruction short.
+ *
+ * 6. `__asm__ __volatile__("" ::: "memory")` before the D_801151D0 store.
+ *    The OT-link store is MEM_IN_STRUCT_P + varying while D_801151D0 is a plain
+ *    SYMBOL_REF, which is exactly the pair gcc-2.7.2's true_dependence drop
+ *    clause discards (§37 /s-DEP LATTICE), so the scheduler hoists the global
+ *    store above the read-modify-write.  The fence restores the order.
+ *    (Re-declaring D_801151D0 as a one-field struct via a §37 asm-label alias
+ *    works identically; the fence is the smaller edit.)
+ *
+ * Also note: the loop guard is `if (n != 0)` + do-while, NOT `for (i=0;i<n;i++)`
+ * — a plain `for` makes gcc emit the guard on the same pseudo as the loop bound
+ * and drops the `addu $s3,$v0,$zero` copy the target has.
+ *
+ * ---------------------------------------------------------------------------
+ * BANKING NOTES for the sibling overlays (this h_norm cluster has 5 members):
+ *  - D_80115158 is declared `extern u8 D_80115158[]` at BLOCK scope inside
+ *    func_8018BCD4 in this TU. The Flag_S40 spelling below is deliberately a
+ *    draft-local type (§100/§120) so it cannot collide; keep it draft-local
+ *    when propagating.
+ *  - aD800B9A02 is the fleet's standard unsigned-access alias for the
+ *    `extern short D_800B9A02` canon (§37); 864 sites already use that spelling.
+ */
+
+typedef struct { u32 addr : 24; u32 len : 8; } PTag_S40_8018B238_80187EA0;
+typedef struct { u32 w; }                      W_S40_8018B238_80187EA0;
+typedef struct { u32 *ot; u32 pad[4]; }        Env_S40_8018B238_80187EA0;   /* 0x14 stride */
+typedef struct { s16 v; }                      Flag_S40_8018B238_80187EA0;  /* 0x02 stride */
+
+typedef struct Panel_S40_8018B238_80187EA0 {
+    s16   f0;    /* 0x00 */
+    s16   f2;    /* 0x02 */
+    void *f4;    /* 0x04 */
+    void *f8;    /* 0x08 */
+    s16   fC;    /* 0x0C */
+    s16   fE;    /* 0x0E */
+    s16   f10;   /* 0x10 */
+    s16   f12;   /* 0x12 */
+    void *f14;   /* 0x14 */
+    void *f18;   /* 0x18 */
+    void *f1C;   /* 0x1C */
+} Panel_S40_8018B238_80187EA0;                                              /* 0x20 stride */
+
+
+
+
+
+
+void func_80187EA0(void) {
+    extern u16   aD800B9A02 __asm__("D_800B9A02");  /* §37: the unsigned-access alias */
+    extern Env_S40_8018B238_80187EA0    D_800AE7B8[];
+    extern Env_S40_8018B238_80187EA0    D_800AE7BC[];
+    extern s32                 D_801151D0;
+    extern Panel_S40_8018B238_80187EA0 *D_80115134;
+    extern s16                 D_801E23EC;
+    extern s16                 D_80115126;
+    extern u16                 D_8011511A;
+    extern Flag_S40_8018B238_80187EA0   D_80115158[];
+    extern u8                  D_801BC1E8[];
+    extern u8                  D_801BC1FC[];
+    extern u8                  D_801BCB50[];
+    extern Panel_S40_8018B238_80187EA0  D_801BC8D0;
+    extern int   func_80137D08(int arg0, int arg1, short arg2);
+    extern s32   func_800D27DC(s32, s32 *, void *, s32, s32);
+    extern s32 func_8013AB54(s32 a0, s32 a1, s32 a2, s32 a3);
+    extern s32 *func_801880E0(s32*, Panel_8017E978_801880E0*, s16);
+    extern s32   func_8005A600(s32, s32, s32, s32, s32);
+    Panel_S40_8018B238_80187EA0 *w;
+    s32 *ot;
+    register s32 n __asm__("$2");      /* lever 2 */
+    s32 cnt;
+    register s32 zr __asm__("$0");     /* RC-12 opaque-copy source */
+    s16 i;
+    volatile u16 *pbh;
+
+    w  = D_80115134;
+    ot = (s32 *)func_80137D08(D_801151D0, (int)&D_800AE7B8[aD800B9A02], 2);
+
+    /* Two full calls, not a ternary: gcc cross-jumps only the trailing
+       `addiu $a3,1` + `jal`, which is why a0/a1/sp+0x10 are duplicated. */
+    if (D_801E23EC == 3 || D_801E23EC == 7) {
+        ot = (s32 *)func_800D27DC(2, ot, D_801BC1FC, 1, 0);
+    } else {
+        ot = (s32 *)func_800D27DC(2, ot, D_801BC1E8, 1, 0);
+    }
+
+    ot = (s32 *)func_8013AB54((s32)ot, (s32)(D_800AE7BC[aD800B9A02].ot + 2),
+                              (s32)D_801BCB50, 0);
+
+    if (D_80115126 == 3) {
+        if (D_8011511A == 3) {
+            ot = ((s32 * (*)(s32 *, Panel_S40_8018B238_80187EA0 *, s16))func_801880E0)(ot, &D_801BC8D0, 3);
+            n = 3 + zr;                /* lever 3 */
+        } else {
+            n = 4;
+        }
+    } else {
+        n = 3 + zr;                    /* lever 4 */
+    }
+
+    i = 0;
+    if (n != 0) {
+        cnt = n;
+        do {
+            if (D_80115158[i].v != 0) {
+                __asm__("");           /* lever 5 */
+                ot = ((s32 * (*)(s32 *, Panel_S40_8018B238_80187EA0 *, s16))func_801880E0)(ot, w, i);
+            }
+            i++;
+            w++;
+        } while (i < cnt);
+    }
+
+    func_8005A600((s32)ot, 0, 0, 0x15, 0);
+
+    /* §36 bitfield-store OT link, exactly as in func_8018BCD4 next door. */
+    pbh = (volatile u16 *)&D_800B9A02;
+    ((W_S40_8018B238_80187EA0 *)ot)->w = 0x02000000;
+    ((PTag_S40_8018B238_80187EA0 *)ot)->addr =
+        ((PTag_S40_8018B238_80187EA0 *)(D_800AE7BC[*pbh].ot + 2))->addr;
+    ((PTag_S40_8018B238_80187EA0 *)(D_800AE7BC[*pbh].ot + 2))->addr = (u32)ot;
+    ot += 10;
+    __asm__ __volatile__("" ::: "memory");   /* lever 6 */
+    D_801151D0 = (s32)ot;
+}
+
 
 
 /* func_801880E0 — "draw one HUD panel" (family exemplar), 115 ins, frame 0x88.
