@@ -3864,7 +3864,41 @@ INCLUDE_ASM("asm/ov_SC03_117/nonmatchings/ov_SC03_117_jr_80181C80", func_80183AD
 
 INCLUDE_ASM("asm/ov_SC03_117/nonmatchings/ov_SC03_117_jr_80181C80", func_80183B5C);
 
-INCLUDE_ASM("asm/ov_SC03_117/nonmatchings/ov_SC03_117_jr_80181C80", func_80183BFC);
+
+extern int func_8012C658(int arg0, int arg1, int arg2);
+extern void func_8018242C(int a0);
+
+void func_80183BFC(int a0)
+{
+    short cnt;
+    int v1;
+
+    *(short *)(a0 + 0x2) = 2;
+    cnt = *(unsigned short *)(a0 + 0x70) + 1;
+    *(unsigned short *)(a0 + 0x70) = cnt;
+
+    if (cnt < 7) {
+        v1 = func_8012C658(0x1EA, cnt, a0);
+        if (v1 != 0) {
+            *(unsigned short *)(v1 + 0xFE) = *(unsigned short *)(a0 + 0x36);
+            *(unsigned short *)(v1 + 0x108) = (*(unsigned short *)(a0 + 0x70) - 1) << 9;
+        }
+    }
+
+    cnt = *(short *)(a0 + 0x70);
+    if (cnt >= 8) {
+        if (cnt < 14) {
+            v1 = func_8012C658(0x1EA, cnt, a0);
+            if (v1 != 0) {
+                *(unsigned short *)(v1 + 0xFE) = *(unsigned short *)(a0 + 0x36);
+            }
+        }
+    }
+
+    *(unsigned short *)(a0 + 0x70) = *(unsigned short *)(a0 + 0x70) - 1;
+    func_8018242C(a0);
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_117/nonmatchings/ov_SC03_117_jr_80181C80", func_80183CCC);
 
