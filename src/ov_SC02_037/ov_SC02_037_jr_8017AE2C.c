@@ -9034,7 +9034,23 @@ void func_80183904(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_037/nonmatchings/ov_SC02_037_jr_8017AE2C", func_801839B4);
+#include "common.h"
+
+typedef struct { s32 w[4]; } B16_local;
+
+extern struct B16 D_800A5EA8;
+extern B16_local D_801C6C2C;
+extern s32 D_800A5EB0;
+extern s32 func_8004787C(s32 a0);
+extern void func_80028620(s32 a0, void *a1);
+
+void func_801839B4(void *a0) {
+    (*(B16_local *)&D_800A5EA8) = D_801C6C2C;
+    D_800A5EB0 = func_8004787C(*(s16 *)((s32)a0 + 0xFE)) * 6 / 4096 - 3;
+    *(u16 *)((s32)a0 + 0xFE) = (*(u16 *)((s32)a0 + 0xFE) + 0x71) & 0xFFF;
+    func_80028620(2, &(*(B16_local *)&D_800A5EA8));
+}
+
 
 
 /* §71 sibling-first: func_80185634 (same TU, already MATCHed) is the exact template.
