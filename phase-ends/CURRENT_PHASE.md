@@ -200,8 +200,30 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 > **Cousins are SEEDED CRACKS, never remaps** (skeleton drift ⇒ per-member compile); byte-gate
 > stays the sole arbiter. Discount seeds on <~40-ins fns (boilerplate inflates short ratios).
 >
-> **Next in-session:** lane-A re-sweep first (575/592 recorded failure verdicts predate the last
-> two S48 instrument repairs — the ledger is pre-repair), then wave 7 off the unit slate.
+> **LANE-A RE-SWEEP ✅ (same session): 48 members banked · R22 213/213 from clean.**
+> Non-jr: `family_sweep --hseq --band all` over 158 families → **30 banked** (R37 probe first:
+> the PLUMBING-retry family went 0/4 → **4/4** on the repaired instruments — the pre-repair ledger
+> was partly fiction — but the bulk shows most survivors are the REAL decl-agreement wall).
+> jr lane: `jtbl_family_bank` serial over 22 families → **18 banked** (8018cc40 ×9, 80189030 ×3,
+> 80180b04 ×3 — the CC1-probe family banking through the CARVE path where the plain sweep failed,
+> §53 —, 80185440 ×1, 80183bac ×2). Fleet: **96.53% fn / 95.1% instr / 89.8% distinct · stubs
+> 12,661 → 12,613 · dedup 1,949/0**.
+> **The fresh post-repair failure ledger (the deliverable):** 458 verdicts — **~331 loose-typing
+> decl-agreement** (conflicting-types 213 · arity 45 · undeclared 40 · undef-ref 23 · redef 13 ·
+> void-value 7) · **28 genuine DIFF** · 89 md typedef-gather (the known 0x801edc18 reach-57
+> blocker). Skipped by design: **264 STRUCT → cousin/wave fuel** · 122 unresolved-IMM (T2a gap).
+> **Named tool findings:** (1) reconcile transform emits `syntax error before '*'` on the
+> func_80189540 jr family (0/4 — tool, not codegen); (2) §154-A md probe fresh refusal: "jump
+> tables only, not an island of mixed included data" — 20 md jr members ledgered; (3)
+> `family_sweep` commit tag hardcodes `phase-26` (cosmetic, GATE_PHASE not read); (4)
+> `jtbl_family_bank` does NOT self-commit — the serial driver must commit per family (v2 does;
+> v1 stopped loudly on its own guard, nothing lost).
+> **Candidate lever (sized, not built):** route sweep failures through the reconcile ladder /
+> §165 asm-alias selectively — ~331 members are decl-agreement, the class with known levers.
+>
+> **Next in-session:** wave 7 off the cousin slate. Preconditions: regen chain (sigs →
+> family_hseq → family_cousins --targets 40 — the tool fails loud on the stale map by design)
+> + Drew's `/effort ultracode` toggle (R26/R27). T5 phase close stays a live option (milestone met).
 
 # 🛑 SESSION S48 CHECKPOINT — FINAL (2026-08-12) — FRESH SESSION SAFE HERE
 > **Tree CLEAN** but for R23 `db.*.gbf` churn — never stage. **Nothing running.** 197 commits.
