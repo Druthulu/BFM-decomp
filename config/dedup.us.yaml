@@ -14376,3 +14376,10 @@ groups:
     func: DEFINE_func_801EF964
     vram: 0x801EF964
     binaries: [md_SC03_073, md_SC03_074, md_SC03_075, md_SC03_078]
+  - id: E_func_801E2AF4
+    tier: h_exact
+    hash: 2574c89bb8d0ba49a576fed5c2b9e52ae9e0eecb
+    source: src/shared/engine_core.h
+    func: DEFINE_func_801E2AF4
+    vram: 0x801E2AF4
+    binaries: [md_SC03_133, md_SC03_134, md_SC03_137, md_SC03_138]

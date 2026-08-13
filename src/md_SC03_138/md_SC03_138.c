@@ -1,4 +1,5 @@
 #include "common.h"
+#include "../shared/engine_core.h"
 
 INCLUDE_ASM("asm/md_SC03_138/nonmatchings/md_SC03_138", func_801E25FC);
 
@@ -157,12 +158,7 @@ void func_801E2AB8(void *a0) {
 }
 
 
-extern void func_801E2B1C(s32 param_1, s16 *param_2);
-
-void func_801E2AF4(s32 param_1) {
-    extern s16 D_801274E8;
-    func_801E2B1C(param_1, &D_801274E8);
-}
+DEFINE_func_801E2AF4()  /* dedup: shared engine-core @0x801E2AF4 (src/shared) */
 
 
 

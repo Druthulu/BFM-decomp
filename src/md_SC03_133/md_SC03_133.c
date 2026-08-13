@@ -1,4 +1,5 @@
 #include "common.h"
+#include "../shared/engine_core.h"
 
 INCLUDE_ASM("asm/md_SC03_133/nonmatchings/md_SC03_133", func_801E25FC);
 
@@ -179,7 +180,7 @@ void func_801E2AB8(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/md_SC03_133/nonmatchings/md_SC03_133", func_801E2AF4);
+DEFINE_func_801E2AF4()  /* dedup: shared engine-core @0x801E2AF4 (src/shared) */
 
 
 /* MATRIX 0x20: short m[3][3] @0x00 (18B) + 2B pad, long t[3] @0x14  (PsyQ layout) */
