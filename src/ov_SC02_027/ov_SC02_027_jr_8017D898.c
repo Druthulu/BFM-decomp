@@ -3201,7 +3201,23 @@ void func_8017E7B8(void)
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_027/nonmatchings/ov_SC02_027_jr_8017D898", func_8017E7F8);
+
+extern int func_8017FAB0(int param_1);
+
+void func_8017E7F8(void)
+{
+
+    extern u8 D_8018F9A4[];
+    extern u8 D_8018FAF8[];
+    extern u8 *D_801274C8;
+    extern void *D_801274CC;
+    extern u8 *D_801151D8;
+    D_801274C8 = D_8018F9A4;
+    D_801274CC = D_8018FAF8;
+    func_8017FAB0(2);
+    D_801151D8 = (u8 *)0x1;
+}
+
 
 
 extern int func_8017FAB0(int param_1);
