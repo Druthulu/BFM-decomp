@@ -4192,16 +4192,7 @@ void func_80188694(void *a0) {
 }
 
 
-void func_80188748(void *a0) {
-        s32 *p = *(s32 **)((s32)a0 + 0x20);
-        p[1] = p[1] | 0x58000000;
-        *(s16 *)((s32)p + 0x1E) = 0;
-        *(s16 *)((s32)p + 0x18) = 0;
-        *(s16 *)((s32)p + 0x1A) = 0;
-        *(s16 *)((s32)p + 0x1C) = 0;
-        *(s32 *)((s32)a0 + 0x2C) = 0x400;
-        *(u16 *)((s32)a0 + 0x2) = *(u16 *)((s32)a0 + 0x2) + 1;
-    }
+DEFINE_func_80188748()  /* dedup: shared engine-core @0x80188748 (src/shared) */
 
 
 INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_jr_801863CC", func_80188788);
