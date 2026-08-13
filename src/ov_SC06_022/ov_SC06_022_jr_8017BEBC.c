@@ -4434,10 +4434,13 @@ void func_801828D8(s32 p) {
 
 
 extern void func_8012A828(s32 a0, void *a1);
-extern u8 D_801D47C0[];
 
 void func_80182998(s32 param_1)
 {
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern u8 D_801D47C0[];
     func_8012A828(param_1, D_801D47C0);
     *(s32 *)(param_1 + 0x48) = 0x4650;
     *(s16 *)(param_1 + 0x2) = 0x12;
@@ -4507,6 +4510,54 @@ void func_801829D8(s32 p)
 
 INCLUDE_ASM("asm/ov_SC06_022/nonmatchings/ov_SC06_022_jr_8017BEBC", func_80182B3C);
 
-INCLUDE_ASM("asm/ov_SC06_022/nonmatchings/ov_SC06_022_jr_8017BEBC", func_80182B90);
+typedef struct {
+    SVECTOR_8016E7C8 v[4];               /* 0x00 */
+    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
+    u8  f6;                     /* 0x38 */
+    u8  pad[7];                 /* -> 0x40 */
+} Prim_8016E7C8_80182B90;
+
+extern s32  func_8012BCCC(s32 a0);
+extern void func_8012A828(s32 a0, void *a1);
+
+
+void func_80182B90(s32 p)
+{
+
+    extern u8 D_801D4488[];
+    extern u8 D_801D47C0[];
+    extern u8 D_801D4878[];
+    s32 v;
+
+    switch (*(u16 *)(p + 0x34)) {
+    case 0:
+        if (*(u16 *)(p + 0x72) & 0x4000) {
+            func_8012A828(p, D_801D4488);
+            *(u16 *)(p + 0x34) += 1;
+        }
+        break;
+    case 1:
+        v = func_8012BCCC(p);
+        if (v > 0x24000) {
+            break;
+        }
+
+        if ((*(u32 *)(p + 0xE0) & 0x400) == 0) {
+            *(s16 *)(p + 2) = 0x15;
+        } else {
+            func_8012A828(p, D_801D4878);
+            *(u16 *)(p + 0x34) += 1;
+        }
+        break;
+    case 2:
+        if (*(u16 *)(p + 0x72) & 0x4000) {
+            func_8012A828(p, D_801D47C0);
+            *(s32 *)(p + 0x48) = 0x4650;
+            *(s16 *)(p + 0x2) = 0x12;
+        }
+        break;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_022/nonmatchings/ov_SC06_022_jr_8017BEBC", func_80182CA0);

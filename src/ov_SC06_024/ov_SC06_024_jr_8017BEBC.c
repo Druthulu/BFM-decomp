@@ -5007,6 +5007,54 @@ void func_80184EB0(s32 p)
 
 INCLUDE_ASM("asm/ov_SC06_024/nonmatchings/ov_SC06_024_jr_8017BEBC", func_80185014);
 
-INCLUDE_ASM("asm/ov_SC06_024/nonmatchings/ov_SC06_024_jr_8017BEBC", func_80185068);
+typedef struct {
+    SVECTOR_8016E7C8 v[4];               /* 0x00 */
+    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
+    u8  f6;                     /* 0x38 */
+    u8  pad[7];                 /* -> 0x40 */
+} Prim_8016E7C8_80185068;
+
+extern s32  func_8012BCCC(s32 a0);
+extern void func_8012A828(s32 a0, void *a1);
+
+
+void func_80185068(s32 p)
+{
+
+    extern u8 D_801D35CC[];
+    extern u8 D_801D3904[];
+    extern u8 D_801D39BC[];
+    s32 v;
+
+    switch (*(u16 *)(p + 0x34)) {
+    case 0:
+        if (*(u16 *)(p + 0x72) & 0x4000) {
+            func_8012A828(p, D_801D35CC);
+            *(u16 *)(p + 0x34) += 1;
+        }
+        break;
+    case 1:
+        v = func_8012BCCC(p);
+        if (v > 0x24000) {
+            break;
+        }
+
+        if ((*(u32 *)(p + 0xE0) & 0x400) == 0) {
+            *(s16 *)(p + 2) = 0x15;
+        } else {
+            func_8012A828(p, D_801D39BC);
+            *(u16 *)(p + 0x34) += 1;
+        }
+        break;
+    case 2:
+        if (*(u16 *)(p + 0x72) & 0x4000) {
+            func_8012A828(p, D_801D3904);
+            *(s32 *)(p + 0x48) = 0x4650;
+            *(s16 *)(p + 0x2) = 0x12;
+        }
+        break;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_024/nonmatchings/ov_SC06_024_jr_8017BEBC", func_80185178);
