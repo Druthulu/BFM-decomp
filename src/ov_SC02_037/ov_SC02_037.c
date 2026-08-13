@@ -423,7 +423,24 @@ s32 func_80128C98(s32 arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_037/nonmatchings/ov_SC02_037", func_80128CFC);
+
+
+extern CdFileLoc cdFileLocTable[];
+extern void func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 a4);
+
+s32 func_80128CFC(s32 arg0) {
+
+    extern s16 D_80183ECC[];
+    extern s32 aD801C7200_80128CFC __asm__("D_801C7200");
+    s16 idx = D_80183ECC[arg0];
+
+    if (idx >= 0) {
+        func_8001ABBC(0, 0, (u8 *)&cdFileLocTable[idx], aD801C7200_80128CFC, 0);
+    } else {
+        return 1;
+    }
+}
+
 
 DEFINE_func_80128D60()  /* dedup: shared engine-core @0x80128d60 (src/shared) */
 
@@ -2169,7 +2186,14 @@ DEFINE_func_80130AF0()  /* dedup: shared engine-core @0x80130af0 (src/shared) */
 DEFINE_func_80130C08()  /* dedup: shared engine-core @0x80130c08 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC02_037/nonmatchings/ov_SC02_037", func_80130D0C);
+
+
+void func_80130D0C(void *a0) {
+
+    extern void (*D_80183F9C[])(void);
+    D_80183F9C[*(u8 *)((s32)a0 + 0xC1)]();
+}
+
 
 INCLUDE_ASM("asm/ov_SC02_037/nonmatchings/ov_SC02_037", func_80130D48);
 

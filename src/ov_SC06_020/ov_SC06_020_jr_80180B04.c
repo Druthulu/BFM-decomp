@@ -3325,7 +3325,93 @@ void func_80181A94(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_020/nonmatchings/ov_SC06_020_jr_80180B04", func_80181AD0);
+
+/*
+ * func_80181AD0 — "spawn init" state handler.
+ *
+ * Sibling-search hit (cookbook §160g): func_8018523C
+ * (src/ov_SC03_119/ov_SC03_119_jr_8017FB84.c) shares the exact opening
+ * idiom — func_8012C1B8() -> store result to a0+0x20 -> if zero,
+ * ((void (*)(s32))func_8012CAE4)(a0); return; else func_8001C214(v0, TABLE[idx]) — and the
+ * same shared-engine-core template also lives at
+ * src/shared/engine_core.h:10060 DEFINE_func_80144A98(). Both establish the
+ * house style used here: `extern void func_8012C1B8(void);` called through
+ * a `(s32 (*)(void))` cast (the canonical decl elsewhere is void-returning;
+ * §161c — cast at the call site rather than fighting it), and
+ * func_8012CAE4/func_8001C214 declared exactly as they already appear
+ * in this TU (grep hits at src/ov_SC06_018/ov_SC06_018_jr_80186270.c
+ * lines 2783/2790/2849/2895/2896).
+ *
+ * D_8119EC14 is stored by ADDRESS only (lui/addiu, no lw) — §160f array
+ * declaration to force the address-only store.
+ *
+ * The three `lhu ...,0x70($s1); andi ...,0xF` sequences are NOT cached in
+ * a local — the target re-loads/re-masks independently at the array index,
+ * the ==4 compare, and the ==5 compare (three separate `lhu+andi` pairs in
+ * the .s), so the raw expression is repeated at each site rather than
+ * hoisted into one named temp.
+ */
+
+void func_80181AD0(void *a0) {
+    extern void func_8012C1B8(void);
+    extern void func_8012CAE4(void*);
+    extern void func_8001C214(s32 a0, s32 a1);
+    extern void func_80049CAC(s32 a0, s32 a1);
+    extern void func_800484EC(s32 a0, s32 a1, s32 a2);
+    extern s32 rand(void);
+    extern s32 D_8019EBFC[];
+    extern u8 D_8119EC14[];
+
+    s16 buf[16];   /* sp+0x10 — output of func_80049CAC / input to func_800484EC */
+    s16 rv[3];     /* sp+0x30 — random SVECTOR-ish {x,y,z} */
+    s32 w[3];      /* sp+0x38 — {0, 0, 0xFFE80000} scratch handed to func_800484EC */
+    s32 v0;
+    s32 m;
+
+    v0 = ((s32 (*)(void))func_8012C1B8)();
+    *(s32 *)((s32)a0 + 0x20) = v0;
+    if (v0 == 0) {
+        ((void (*)(s32))func_8012CAE4)((s32)a0);
+        return;
+    }
+
+    func_8001C214(v0, D_8019EBFC[*(u16 *)((s32)a0 + 0x70) & 0xF]);
+
+    *(u16 *)((s32)a0 + 0x10A) = *(u16 *)(*(s32 *)((s32)a0 + 0x64) + 0x36);
+
+    if ((*(u16 *)((s32)a0 + 0x70) & 0xF) == 4) {
+        *(s32 *)(*(s32 *)((s32)a0 + 0x20) + 0x20) = (s32)D_8119EC14;
+    }
+
+    if ((*(u16 *)((s32)a0 + 0x70) & 0xF) == 5) {
+        *(s16 *)((s32)a0 + 0x2) = 2;
+        return;
+    }
+
+    w[1] = 0;
+    w[0] = 0;
+    w[2] = -0x180000;
+    m = rand() % 0x80;
+    if ((rand() & 1) == 0) {
+        rv[0] = m - 0x380;
+    } else {
+        rv[0] = -0x380 - m;
+    }
+
+    rv[1] = *(u16 *)(*(s32 *)(*(s32 *)((s32)a0 + 0x64) + 0x20) + 0x12) + 0x800;
+    rv[2] = 0;
+    func_80049CAC((s32)rv, (s32)buf);
+
+    func_800484EC((s32)buf, (s32)w, (s32)a0 + 0x10);
+
+    *(s32 *)((s32)a0 + 0x48) = 0x18000;
+    *(u16 *)((s32)a0 + 0xFC) = rand() & 0xF0;
+    *(u16 *)((s32)a0 + 0xFE) = rand() & 0x7F;
+    *(u16 *)((s32)a0 + 0x100) = rand() & 0x30;
+    *(s32 *)((s32)a0 + 0x1C) = 0;
+    *(u16 *)((s32)a0 + 0x2) = *(u16 *)((s32)a0 + 0x2) + 1;
+}
+
 
 
 /* ov_SC06_018 :: func_80181C5C  — actor state machine, jump-table switch on the

@@ -168,7 +168,7 @@ extern s32 D_80126F04[];
 extern u8 D_80126948[];          /* canonical (sibling): u8[] — cast (s32*) at use */
 extern s32 D_80126FA8[];
 extern struct BigCopy D_80126DB8;/* canonical (engine_core macro): struct BigCopy — (s32*)& at use */
-extern u8 D_800AF630[];          /* canonical (sibling): u8[] — cast (s32*) at use */
+/* canonical (sibling): u8[] — cast (s32*) at use */
 extern s32 D_800AE688[];
 extern s32 D_801151D4;           /* canonical (10 siblings): scalar s32 — store (s32)ptr */
 extern void func_8012A018(s32 a, s32 b);
@@ -631,7 +631,6 @@ extern void ApplyMatrixSV(void *m, Svec_801372B0 *in, Svec_801372B0 *out);
 extern void aGsSortLine(Gline_801372B0 *p, void *ot, s32 z) __asm__("GsSortLine");
 extern void aF80137030(s32 x, s32 y) __asm__("func_80137030");
 extern void func_80137178(s32 x, s32 y);
-extern u8  D_800AF630[];
 extern u16 aD800B9A02 __asm__("D_800B9A02");
 extern void func_801372B0(void);
 extern void func_80137614(s32 a0, s32 a1, s32 a2);
@@ -1659,7 +1658,23 @@ void func_8013C98C(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_037/nonmatchings/ov_SC02_037_jr_801380E0", func_8013C9C4);
+extern void func_80019064(void *a0);
+
+void func_8013C9C4(void * arg0)
+{
+
+    extern M2C_UNK D_80062BC0;
+    extern s32 D_801C8490;
+    extern s8 D_801C8494;
+    extern s8 D_801C8495;
+    D_801C8490 = arg0;
+    D_801C8494 = 0;
+    D_801C8495 = 0;
+    if (func_80019198() == 0) {
+        func_80019064(&D_80062BC0);
+    }
+}
+
 
 
 void func_8013CA14(void)

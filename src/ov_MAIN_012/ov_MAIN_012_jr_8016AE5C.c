@@ -270,7 +270,6 @@ extern void func_8012AD80(s32 a0);
 extern void func_8012ADE4(u8 *a0);
 extern s32 *D_80126B78;
 extern s32 *D_80126B90;
-extern s32 D_80126B58;
 extern s32 func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 func_80013478(s32 a0, s32 a1);
 extern s32 func_8012AE00(s32 a0);
@@ -4622,7 +4621,15 @@ DEFINE_func_8016EFC8()  /* dedup: shared engine-core @0x8016efc8 (src/shared) */
 DEFINE_func_8016F094()  /* dedup: shared engine-core @0x8016f094 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_MAIN_012/nonmatchings/ov_MAIN_012_jr_8016AE5C", func_8016F0AC);
+extern void func_8016F0E4(void);
+extern void func_80165770(void);
+void func_8016F0AC(void) {
+
+    extern u8 aD80126B58_8016F0AC __asm__("D_80126B58");
+    ((void (*)(void *))func_8016F0E4)(&aD80126B58_8016F0AC);
+    ((void (*)(void *))func_80165770)(&aD80126B58_8016F0AC);
+}
+
 
 
 /* RECONCILE NOTE (uc3) — the body is byte-unchanged from uc2; only the declaration
