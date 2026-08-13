@@ -280,6 +280,39 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 > refuses to report 0 as a result. *A tool stating a conclusion it never reached* — the same
 > disease as S48's `no-diagnostic` classifier and poisoned-tree 0/17.
 >
+> **THE ≥16-REACH HEAD CAMPAIGN (Drew: "bank every single one") — 56 banked, R22 213/213.**
+> The head = 14 families / 449 open fns / 12,053 ins. Diagnosed into FOUR mechanisms, and **three
+> of the four are plumbing, not the compiler**:
+> · **The band default.** `family_sweep --hseq` defaults to `substantial`; 5 of the 13 lane-A heads
+>   are tiny/mid band, so they had **never been attempted** — their "never" verdicts were scope,
+>   not difficulty. With `--band all`: **0 banked / 245 failed / 68 IMM-skip / 120 STRUCT-skip** —
+>   the mechanical lever is byte-proven SPENT on this head.
+> · **One missing extern gates 56 members.** `dedup_propagate 0x801edc18` →
+>   `missing file-scope extern (CARRY-FIXABLE): D_801ED98C`. The matched body references a data
+>   symbol its own TU never declares at file scope, so nothing can travel. STILL OPEN (carry fix).
+> · **`dedup_extend` is the wrong tool here** (it extends MACRO-backed groups; these seeds are
+>   inline defs) — 0/0, correctly.
+> · Only **`func_8017C294`** (×16, 246 ins, NEAR at 2 after 3 seeded attempts) is a real crack.
+>
+> ### 🆕 THE A-PROP CARD + `aprop_wave.js` (the lane that had no owner)
+> `emit_adapt_cards` only ever built cards for `seeded` units — **lane A (1,700 open fns /
+> 76,419 ins) was skipped by construction**. A lane-A member shares its family's h_seq with a
+> MATCHED sibling, so the cousin diff is EMPTY and the differences live in WORDS. New
+> `family_cousins.py --aprop-cards`: positional WORD diff vs the matched sibling (same length by
+> construction), both sides disassembled, **grouped BY FAMILY** so one agent learns the
+> parameterization once and emits N drafts. Head cards: **13 families / 433 members, median TWO
+> differing words per member** (5 members were byte-IDENTICAL to the seed).
+> **Calibration (9 batches / 108 members, 4.5M tok): 98 agent-MATCH (91% — the best of any wave
+> tonight) → 56 BANKED (57%) ≈ 80k tok/banked fn** vs 7b's 157k and a crack wave's 400k+.
+> Agent edit notes read like substitution, not decompilation: `"src struct = D_801D0358"`,
+> `"local const Blk8 D_801EF46C = {{0x00,0x00,0x7E,0xFF,…}}"`, `"cb=func_8017FBA4; 0x12C, 0x4B0…"`.
+> **⚠ THE HONEST GAP (R14): 91% agent → 57% gate is the WORST conversion measured tonight**
+> (7b was 81%→92%). 14 groups banked ZERO. Hypothesis, TESTABLE not proven: family-batched cards
+> CONCENTRATE members into one destination TU by construction, which is exactly the §169 collision
+> the spread law warns about — 7a hit it at 64%. **Test before scaling the remaining 320: re-gate
+> the 42 unbanked drafts ONE PER TU.** Do not scale on the 57% until that is measured.
+> **Fleet after: 96.56% fn / 95.2% instr / 89.9% distinct · stubs 12,535 → 12,468 · dedup 2,043/0.**
+>
 > **Next in-session:** the scale decision on the remaining **~620 cards** (+247 more if the
 > thresholds relax from ≤3 blocks/≤6 tokens to ≤6/≤16 — measured: 78% of the seeded pool vs
 > today's 47%, union with an edit-fraction ≤0.20 rule to catch the 25 big-body/small-edit units).

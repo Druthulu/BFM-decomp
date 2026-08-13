@@ -16303,3 +16303,38 @@ while only 25 skeletons are big-body/small-edit), so union the absolute rule wit
 ≤ 0.20` rather than replacing it. **Note the tier boundary:** a pure IMMEDIATE change leaves the
 mnemonic stream identical ⇒ same `h_seq` ⇒ that member is `family_sweep`/`imm_map` work, never a
 cousin. Every `replace` block in a cousin card is a genuinely different MNEMONIC.
+
+## §170 — THE A-PROP WORD-DIFF CARD (P30 S49): the lane that had no owner
+
+**The gap.** `family_cousins.py --adapt-cards` builds cards only for `seeded` units, so **lane A —
+1,700 open functions / 76,419 ins, every one with a byte-proven matched sibling — was skipped by
+construction.** A lane-A member shares its family's `h_seq` with a MATCHED sibling, so the *cousin*
+(mnemonic) diff is EMPTY: the differences live in WORDS — a struct field offset, a data symbol, a
+register. The mechanical remap refuses exactly these (unresolved immediates / regalloc drift), which
+is why the ≥16-reach head swept **0 banked / 245 failed / 188 refused**.
+
+**The card** (`--aprop-cards` → `.run/aprop_cards.json`): positional WORD diff member-vs-matched
+sibling (same length by construction, so no alignment needed), each site classified IMM / REG /
+OTHER and disassembled both sides, **grouped BY FAMILY**. One agent then learns the parameterization
+once and emits N drafts — a 54-member family is ONE card, not 54. Measured on the head: 13 families
+/ 433 members, **median 2 differing words per member**; 5 members were byte-IDENTICAL to the seed
+(pure `dedup_propagate` work, not agent work — check for those first).
+
+**Measured (S49 calibration, 9 batches / 108 members, 4.5M tok):** **98 agent-MATCH (91%)** — the
+best agent rate of any wave type — **→ 56 banked (57%)**, ≈ **80k tok per banked function** vs the
+per-member cousin card's 157k and a crack wave's 400k+. The agent notes are substitutions, not
+decompilations (`"src struct = D_801D0358"`; `"cb=func_8017FBA4; 0x12C, 0x4B0, 0x38E…"`).
+
+**⚠ The conversion gap, and the test before scaling.** 91% agent → 57% gate is the WORST conversion
+measured (the per-member cousin wave ran 81% → 92%). 14 of ~50 groups banked zero. **Hypothesis,
+not yet proven:** family-batched cards CONCENTRATE members into one destination TU by construction —
+precisely the §169 collision the spread law names, which held the 7a wave to 64%. **Re-gate the
+unbanked drafts ONE PER TU before scaling a batched A-prop wave**; if the spread law is the cause the
+same drafts bank, and the fix is to interleave families per gate batch rather than to redraft.
+
+**Three ops notes paid for on the head:** (1) `family_sweep --hseq` defaults to `--band substantial`,
+so tiny/mid families are silently OUT OF SCOPE — a "never attempted" verdict can be a band default,
+not a difficulty (5 of 13 heads); (2) `dedup_extend` extends MACRO-backed groups only — for a matched
+INLINE def use `dedup_propagate --addr`; (3) that tool names its own blocker precisely
+(`missing file-scope extern (CARRY-FIXABLE): D_…`) — a data symbol the matched body's own TU never
+declares at file scope blocks every sibling until it is carried.

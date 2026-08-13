@@ -477,16 +477,95 @@ def emit_adapt_cards():
           f"(classes over seeded members: {dict(counts)}) -> {ADAPT_JSON}")
 
 
+# ---------------------------------------------------------------- A-prop cards (S49, the >=16 head)
+APROP_JSON = ".run/aprop_cards.json"
+
+
+def emit_aprop_cards(only=None, limit_members=0):
+    """Cards for LANE-A members that `family_remap` REFUSES (IMM / STRUCT / plumbing-failed).
+
+    An A-prop member shares its family's h_seq with an ALREADY-MATCHED sibling, so the mnemonic
+    streams are identical by construction and the cousin diff is empty — the differences live in
+    WORDS: immediates (IMM) and register fields (STRUCT/regalloc drift). This emits the word-level
+    diff instead: same length, positional compare, both sides disassembled. That is exactly what an
+    agent needs to edit a proven body into its sibling, and it is the population the mechanical
+    sweep cannot take (S49: the >=16-reach head swept 0/245 with 188 refused).
+
+    Grouped BY FAMILY (not per member): one agent learns the pattern once and emits N drafts, which
+    is why a 54-member family is one card, not 54.
+    """
+    fam = json.load(open(FAMILY_MAP))
+    sigs, stubs = load_corpus()
+    want = set(x.lower() for x in only.split(",")) if only else None
+    cards = []
+    for f in fam["families"]:
+        if f["n_members"] == 0 or f["n_matched"] < 1:
+            continue
+        ex = f["exemplar"]
+        if want and ex["addr"].lower() not in want:
+            continue
+        if ex["kind"] not in ("matched", "matched-ov077"):
+            continue
+        sb, sa = ex["ov"], int(ex["addr"], 16)
+        sw = FR.stream_words(sb, sa, f["nins"])
+        if sw is None:
+            continue
+        sname, _ = resolve_asm(sb, sa, (sigs.get(sb, {}).get(sa) or {}).get("name"))
+        sbody = seed_body_ref(sb, sa)
+        members = []
+        for (b, ah) in f["members"]:
+            a = int(ah, 16)
+            mw = FR.stream_words(b, a, f["nins"])
+            if mw is None or len(mw) != len(sw):
+                continue
+            name, sub = resolve_asm(b, a, (sigs.get(b, {}).get(a) or {}).get("name"))
+            if sub is None:
+                continue
+            sites = []
+            for i, (m, s) in enumerate(zip(mw, sw)):
+                if m == s:
+                    continue
+                kind = ("IMM" if (m >> 16) == (s >> 16) else
+                        "REG" if (m >> 26) == (s >> 26) else "OTHER")
+                sites.append(dict(at=i, kind=kind,
+                                  member=f"0x{m:08x}", member_dis=_disasm([m], a + 4 * i)[0],
+                                  seed=f"0x{s:08x}", seed_dis=_disasm([s], sa + 4 * i)[0]))
+            members.append(dict(name=name, binary=b, addr=f"0x{a:08x}", sub=sub,
+                                n_sites=len(sites), sites=sites[:40],
+                                kinds=dict(collections.Counter(x["kind"] for x in sites))))
+        if not members:
+            continue
+        if limit_members:
+            members.sort(key=lambda m: m["n_sites"])
+            members = members[:limit_members]
+        cards.append(dict(family=ex["addr"], nins=f["nins"], reach=f["n_members"],
+                          matched=f["n_matched"], cls=f["diff_class"], jr=f["has_mid_jr"],
+                          seed=dict(name=sname, binary=sb, addr=f"0x{sa:08x}",
+                                    kind=sbody["kind"], path=sbody["path"]),
+                          n_members=len(members), members=members))
+    cards.sort(key=lambda c: -c["reach"] * c["nins"])
+    json.dump(cards, open(APROP_JSON, "w"), indent=1)
+    tot = sum(c["n_members"] for c in cards)
+    print(f"A-prop cards: {len(cards)} families / {tot} members "
+          f"(median sites/member { sorted(m['n_sites'] for c in cards for m in c['members'])[tot//2] if tot else 0 })"
+          f" -> {APROP_JSON}")
+
+
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--targets", type=int, metavar="N", help="emit top-N wave targets (crack_wave.js shape) to stdout")
     ap.add_argument("--wave", default="wave7", help="wave tag stamped on targets (output dir routing)")
     ap.add_argument("--adapt-cards", action="store_true", help="emit micro-adapt cards for seeded LI-ONLY/SMALL-EDIT members")
+    ap.add_argument("--aprop-cards", action="store_true", help="emit WORD-diff cards for remap-refused LANE-A members (grouped by family)")
+    ap.add_argument("--only", help="restrict --aprop-cards to these family exemplar addrs (comma-separated)")
+    ap.add_argument("--limit-members", type=int, default=0, help="cap members per family card (easiest first)")
     args = ap.parse_args()
     if args.targets:
         if not os.path.exists(OUT_JSON):
             sys.exit(f"{OUT_JSON} missing — run the survey first")
         emit_targets(args.targets, args.wave)
+    elif args.aprop_cards:
+        emit_aprop_cards(only=args.only, limit_members=args.limit_members)
     elif args.adapt_cards:
         if not os.path.exists(OUT_JSON):
             sys.exit(f"{OUT_JSON} missing — run the survey first")
