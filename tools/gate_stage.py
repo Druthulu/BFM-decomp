@@ -450,8 +450,19 @@ def _run_gate_locked(drafts, binary, src, asm, out, good_sha, propagate, source_
         sm = re.search(r"//\s*@stuck:\s*(.+)", body)
         rclass = cm.group(1).strip() if cm else None       # the worker's self-reported residual class
         note = sm.group(1).strip() if sm else None
-        if kind == "match":   # match_one says MATCH but the whole-binary gate rejected -> plumbing/TU conflict
-            status, where = "near", note or "match_one MATCH but gate rejected (declaration/TU plumbing)"
+        if kind == "match":   # match_one says MATCH but the whole-binary gate rejected
+            # ⚠ DO NOT NAME A CAUSE HERE. This used to read "(declaration/TU plumbing)" — a GUESS
+            # printed as a finding. `func_8017F2D4` carried that label through SEVEN attempts across
+            # five waves while every agent hunted codegen; the body was byte-correct the whole time
+            # and the real fault was that the notes named the WRONG DESTINATION TU (a file holding
+            # only a caller + prototype). No declaration conflict ever existed. A diagnosis the tool
+            # did not measure must not be stated as one — say what is TRUE (the two oracles disagree)
+            # and hand over the check that resolves it (P30 S48).
+            status, where = "near", note or (
+                "match_one MATCH but the whole-binary gate rejected — CAUSE NOT DETERMINED. "
+                "FIRST re-derive the destination TU from the asm subdir: "
+                "asm/<ov>/nonmatchings/<TU_stem>/<fn>.s => src/<ov>/<TU_stem>.c (the third path "
+                "component IS the TU). Only then look for a decl conflict or a codegen residual.")
             near += 1         # …and COUNT it. It was logged as `near` and counted as NOTHING, so a
                               # run of 63 such drafts printed "banked 0, near 0, failed 0" — three
                               # zeros that do not sum to 63, and nobody ever added them up (R32).

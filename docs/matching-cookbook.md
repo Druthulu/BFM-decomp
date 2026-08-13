@@ -14893,3 +14893,46 @@ Target shape — a subtract whose three registers are all specific:
   *Why:* Both halves fail. (1) NECESSITY, byte-refuted: replacing `if (t == 3) { goto sel_C94; }` with the duplicated body `if (t == 3) { sel = (u32)&D_801C3C94; goto set_sel; }` → MATCH 279. The 2-instruction `lui/addiu` + `j` tail clears §50-B's floor and jump.c merges it for you — this is precisely §164-69's 'a tail the compiler WILL merge must be duplic
 * **`func_8017F2D4`** — `s32 lt = mode < 0xA;` must be an explicit local because gcc-2.7.2 has no gcse and the single `slti` must precede the branch both arms need it after.
   *Why:* Byte-refuted by me: deleting the local and inlining the compare at both use sites — `if ((mode < 0xA) || (D_8011515A == 0x100))` and `if (!(mode < 0xA))` — gives MATCH 279. The C form is byte-INERT here, so it is not a lever and must not be taught as one. The mechanism phrasing is also imprecise: §164-52 byte-establishes that cse spans basic blocks
+
+---
+
+## §166 — THE DESTINATION-TU ORACLE (P30 S48): the seven-attempt bug that was never codegen
+
+**§166a — THE SPLAT ASM SUBDIR *NAMES* THE DESTINATION TU. A PROSE CITATION THAT DISAGREES WITH IT IS
+WRONG.** *(NEW. Nothing in §52b/§161c/§163a/§165-01 — the whole decl-conflict family — covers "you
+are editing the wrong file". They all assume the TU is known.)*
+
+    asm/<overlay>/nonmatchings/<TU_stem>/<fn>.s   ⇒   the INCLUDE_ASM is in src/<overlay>/<TU_stem>.c
+
+The third path component **is** the TU stem, derived from the split config. It is authoritative.
+
+**WHY THIS COSTS WAVES.** A `grep` for the function name also hits **callers** and **prototypes** in
+OTHER TUs of the same overlay, and those hits read exactly like a destination hit. `func_8017F2D4`
+was cited in five waves of notes as living in `ov_SC01_005_jr_8017C340.c` — that file holds only
+`ret = func_8017F2D4(c, ret);` and a prototype. The real `INCLUDE_ASM` is in
+`ov_SC01_005_jr_8017ED5C.c:3115`. Splicing into the wrong file is a **no-op**: the binary keeps its
+`INCLUDE_ASM` bytes, the SHA differs, and the run is recorded as a gate refusal.
+
+**THE COMPOUNDING FAILURE — a guess printed as a finding.** `gate_stage` labelled every such refusal
+`match_one MATCH but gate rejected (declaration/TU plumbing)`. That string is not a measurement; the
+tool never checked for a declaration conflict. Seven attempts across five waves hunted codegen and
+decl conflicts on a body that was **byte-correct from the first attempt**. Fixed: the message now
+states only what is true (the two oracles disagree) and hands over this check first.
+
+**THE RULE.** For ANY "standalone MATCH / whole-binary DIFF" entry: **re-derive the TU path from the
+asm subdir before hunting anything.** Then prove it in situ — splice into a private copy of the real
+TU (one directory deep, with a `shared` symlink so `../shared/engine_core.h` resolves), run the
+pinned triple end-to-end, and masked-diff your function out of the WHOLE-TU object.
+
+**TWO PROBE GOTCHAS** (both paid for in wave-5/6 agent time):
+* the wrong `--aspsx-version` yields ~32 spurious mismatches **all** of the `ori`-vs-`addiu` li-form
+  shape — that uniformity is the fingerprint of a version mismatch, never a codegen residual. Use
+  `--aspsx-version=2.56 --expand-div`.
+* a collateral-drift check must filter to symbols with a **real size** (`nm -S`): the
+  `*.NON_MATCHING` aliases are zero-size markers, so a masked diff falls back to the whole `.text`
+  and reports every one of them as drift purely because your function's bytes changed.
+
+*Byte evidence:* `func_8017F2D4` (ov_SC01_005 + ov_SC01_006, 279 ins). In-situ splice into BOTH real
+TUs: 279/279, 0 masked diffs, cpp/cc1 clean; collateral check 71/71 other sized symbols identical.
+The same agent corrected the family reach to **×2** (only two `.s` exist, byte-identical modulo the
+overlay name) against a map that claimed ×5.
