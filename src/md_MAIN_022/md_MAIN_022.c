@@ -97,7 +97,19 @@ INCLUDE_ASM("asm/md_MAIN_022/nonmatchings/md_MAIN_022", func_800CB3F0);
 
 INCLUDE_ASM("asm/md_MAIN_022/nonmatchings/md_MAIN_022", func_800CB4AC);
 
-INCLUDE_ASM("asm/md_MAIN_022/nonmatchings/md_MAIN_022", func_800CB4F4);
+extern u8 D_80078EC1;
+extern void (*D_800CBD0C[])();
+extern void func_80146C3C();
+
+void func_800CB4F4(int param_1)
+{
+    if (D_80078EC1 != 4) {
+        func_80146C3C();
+    } else {
+        D_800CBD0C[*(u16 *)(param_1 + 2)]();
+    }
+}
+
 
 INCLUDE_ASM("asm/md_MAIN_022/nonmatchings/md_MAIN_022", func_800CB550);
 
@@ -119,7 +131,87 @@ void func_800CB630(void *arg0) {
 }
 
 
-INCLUDE_ASM("asm/md_MAIN_022/nonmatchings/md_MAIN_022", func_800CB68C);
+typedef struct { s32 w[8]; } Blk20_800CB68C;
+
+extern void func_8001CD50(s32 a0, s32 a1);
+extern void func_800233CC(void *, unsigned short);
+extern void func_801465C0(void);
+
+void func_800CB68C(s32 param_1)
+{
+
+    extern u16 D_80126B5E;
+    extern u16 D_80126B62;
+    extern u16 D_80126B66;
+    extern void func_800CBAA4(s32);
+    extern void RotMatrixY(s32 a0, void *a1);
+    extern u8 D_800CBDB0;
+    extern u8 D_800CBDB1;
+    extern u8 D_800CBDB2;
+    extern u8 D_800CBDB4;
+    extern u8 D_800CBDB5;
+    extern u8 D_800CBDB6;
+
+    s32 iVar8;
+    short sVar1;
+
+    iVar8 = *(s32 *)((u8 *)((void *)param_1) + 0x34);
+    if ((*(u32 *)((u8 *)((void *)param_1) + 0x2c) & 0x8000) == 0) {
+        register s32 iNew __asm__("$17");
+        s32 base;
+        iNew = ((s32(*)())func_801465C0)();
+        if (iNew == 0) {
+            return;
+        }
+        base = (s32)&D_800CBDB0;
+        D_800CBDB2 = 0xc0;
+        *(u8 *)base = 0xc0;
+        D_800CBDB1 = 0;
+        D_800CBDB6 = 0;
+        D_800CBDB5 = 0;
+        D_800CBDB4 = 0;
+        ((void(*)(void *, unsigned short))func_800233CC)((void *)base, 0x40);
+        func_8001CD50(iNew, base);
+        *(s32 *)(iNew + 0x34) = (s32)((u8 *)((void *)param_1) + 0x38);
+        *(s16 *)(iNew + 0x1a) = 0;
+        *(s16 *)(iNew + 0x18) = 0;
+        *(u32 *)(iNew + 4) = *(u32 *)(iNew + 4) | 0x50000000;
+        ((void (*)(void *))func_800CBAA4)(((void *)param_1));
+        {
+            register s32 t10 __asm__("$3");
+            t10 = 0x10;
+            *(s32 *)((u8 *)((void *)param_1) + 0x20) = iNew;
+            *(s32 *)((u8 *)((void *)param_1) + 0x1c) = t10;
+        }
+        sVar1 = *(u16 *)((u8 *)((void *)param_1) + 2) + 1;
+    } else {
+        short asStack_60[20];
+        Blk20_800CB68C localMatrix;
+        s32 uVar2;
+        extern s32 D_800AE620;
+        extern s32 rand(void);
+        extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
+
+        asStack_60[0] = 0;
+        asStack_60[1] = 0;
+        asStack_60[2] = 0x20;
+        localMatrix = (*(Blk20_800CB68C*)&D_800AE620);
+        uVar2 = ((s32(*)())rand)();
+        RotMatrixY((uVar2 & 0x7f00) >> 3, &localMatrix);
+        ApplyMatrixSV(&localMatrix, asStack_60, asStack_60);
+        *(s16 *)((u8 *)((void *)param_1) + 6) = D_80126B5E + asStack_60[0];
+        *(s16 *)((u8 *)((void *)param_1) + 0xa) = D_80126B62 - ((u16)uVar2 & 0x3f);
+        *(s16 *)((u8 *)((void *)param_1) + 0xe) = D_80126B66 + asStack_60[2];
+        *(Blk20_800CB68C *)((u8 *)((void *)param_1) + 0x38) = *(Blk20_800CB68C *)((u8 *)iVar8 + 0x38);
+        *(s32 *)((u8 *)((void *)param_1) + 0x2c) = 0x1000;
+        *(s32 *)((u8 *)((void *)param_1) + 0x30) = 0xff;
+        *(s32 *)((u8 *)((void *)param_1) + 0x1c) = 0x10;
+        __asm__ __volatile__("" ::: "memory");
+        sVar1 = 4;
+    }
+    *(s16 *)((u8 *)((void *)param_1) + 2) = sVar1;
+}
+
 
 extern void func_800CBAA4(s32 a0);
 extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
