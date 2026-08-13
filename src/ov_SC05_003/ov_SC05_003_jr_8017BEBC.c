@@ -4206,7 +4206,44 @@ INCLUDE_ASM("asm/ov_SC05_003/nonmatchings/ov_SC05_003_jr_8017BEBC", func_8018083
 
 INCLUDE_ASM("asm/ov_SC05_003/nonmatchings/ov_SC05_003_jr_8017BEBC", func_801808E8);
 
-INCLUDE_ASM("asm/ov_SC05_003/nonmatchings/ov_SC05_003_jr_8017BEBC", func_80180B04);
+#include "common.h"
+#include "/home/musashi/bfm-decomp/src/shared/engine_core.h"
+extern void func_8012AD80(struct vec *a0);
+extern s32 func_80133784(s32, void*, s32);
+
+s32 func_80180B04(s32 a0, s32 a1, s32 a2) {
+    SV3_8012CC88 sp10;
+    SV3_8012CC88 sp18;
+    s32 v0;
+
+    sp10.vx = *(u16*)(a0 + 0x3A);
+    sp10.vy = *(u16*)(a0 + 0x3E);
+    sp10.vz = *(u16*)(a0 + 0x42);
+    sp10.vx += *(u16*)(a1 + 0);
+    sp10.vy += *(u16*)(a1 + 2);
+    sp10.vz += *(u16*)(a1 + 4);
+
+    func_8012AD80((struct vec *)a0);
+
+    sp18.vx = *(u16*)(a0 + 0x06);
+    sp18.vy = *(u16*)(a0 + 0x0A);
+    sp18.vz = *(u16*)(a0 + 0x0E);
+    sp18.vx += *(u16*)(a1 + 0);
+    sp18.vy += *(u16*)(a1 + 2);
+    sp18.vz += *(u16*)(a1 + 4);
+
+    v0 = ((s32 (*)(s32, s32, s32))func_80133784)((s32)(s16)a2, (s32)&sp10, (s32)&sp18);
+
+    sp18.vx -= *(u16*)(a1 + 0);
+    sp18.vy -= *(u16*)(a1 + 2);
+    v0 |= *(u8*)&sp18.pad;
+    sp18.vz -= *(u16*)(a1 + 4);
+    *(s16*)(a0 + 0x06) = sp18.vx;
+    *(s16*)(a0 + 0x0A) = sp18.vy;
+    *(s16*)(a0 + 0x0E) = sp18.vz;
+    return v0;
+}
+
 
 INCLUDE_ASM("asm/ov_SC05_003/nonmatchings/ov_SC05_003_jr_8017BEBC", func_80180C44);
 
