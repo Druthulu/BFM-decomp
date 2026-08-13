@@ -220,7 +220,13 @@ INCLUDE_ASM("asm/md_MAIN_036/nonmatchings/md_MAIN_036", func_800CBC14);
 
 INCLUDE_ASM("asm/md_MAIN_036/nonmatchings/md_MAIN_036", func_800CBC90);
 
-INCLUDE_ASM("asm/md_MAIN_036/nonmatchings/md_MAIN_036", func_800CBD2C);
+extern void func_800CBD54(s32 param_1, s32 *param_2);
+
+void func_800CBD2C(s32 param_1) {
+    extern s32 D_800CBFE0;
+    func_800CBD54(param_1, &D_800CBFE0);
+}
+
 
 INCLUDE_ASM("asm/md_MAIN_036/nonmatchings/md_MAIN_036", func_800CBD54);
 
