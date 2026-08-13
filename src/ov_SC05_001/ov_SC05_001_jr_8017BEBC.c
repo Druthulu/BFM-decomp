@@ -4647,7 +4647,30 @@ INCLUDE_ASM("asm/ov_SC05_001/nonmatchings/ov_SC05_001_jr_8017BEBC", func_8017F04
 
 INCLUDE_ASM("asm/ov_SC05_001/nonmatchings/ov_SC05_001_jr_8017BEBC", func_8017F0F8);
 
-INCLUDE_ASM("asm/ov_SC05_001/nonmatchings/ov_SC05_001_jr_8017BEBC", func_8017F150);
+extern s16 D_80126CAC;
+extern s16 D_80126CB0;
+
+int func_8017F150(short *a0) {
+    int data[3];
+    data[0] = D_80126CAC - a0[0];
+    data[1] = 0;
+    data[2] = D_80126CB0 - a0[2];
+    __asm__ __volatile__(
+        "lwc2 $9, 0($sp)\n"
+        "lwc2 $10, 4($sp)\n"
+        "lwc2 $11, 8($sp)\n"
+        "nop\n"
+        "nop\n"
+        "sqr 0\n"
+        : : : "$9", "$10", "$11", "memory");
+    __asm__ __volatile__(
+        "swc2 $25, 0($sp)\n"
+        "swc2 $26, 4($sp)\n"
+        "swc2 $27, 8($sp)\n"
+        : : : "memory");
+    return (data[0] + data[1] + data[2]) - 0x90001U < 0x18FFF;
+}
+
 
 INCLUDE_ASM("asm/ov_SC05_001/nonmatchings/ov_SC05_001_jr_8017BEBC", func_8017F1E4);
 
