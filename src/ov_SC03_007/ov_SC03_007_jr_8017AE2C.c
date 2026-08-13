@@ -5107,7 +5107,110 @@ register s32 r __asm__("$3");
 
 INCLUDE_ASM("asm/ov_SC03_007/nonmatchings/ov_SC03_007_jr_8017AE2C", func_8018471C);
 
-INCLUDE_ASM("asm/ov_SC03_007/nonmatchings/ov_SC03_007_jr_8017AE2C", func_801848BC);
+#include "common.h"
+
+extern void func_8012A828(s32 a0, void * a1);
+extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+extern void func_801858D4(s32 a0, s16 a1, s16 a2);
+extern void func_80185948(s16 *a0);
+extern s32 func_8012BB3C(s32 arg0, s32 arg1, u32 arg2, s32 arg3);
+extern s32 func_8012B8E4(s32 arg0, s32 arg1);
+extern s32 func_80185DD8(void);
+
+/*
+ * §136 note (the lever that closed this one): the copy-loop counter and the 8/2
+ * selector passed as func_8012BB3C's 4th argument are ONE `short` local, not two.
+ *   - As two locals, combine's set_nonzero_bits_and_sign_copies sees the selector
+ *     pseudo set only to 8 and 2, proves num_sign_bit_copies >= 17, and DELETES the
+ *     `sll/sra 16` argument sign-extension  =>  LENGTH-DRIFT -2.
+ *   - Sharing the pseudo with the loop's `i = i + 1` makes the union of sets
+ *     unprovable, so the extension survives -- and the merged (longer) live range is
+ *     what takes $a3 while the two loop-invariant base addresses take $a1/$a2.
+ */
+void func_801848BC(s32 a0) {
+
+    extern void (*D_8018C610[])(void);
+    extern s16 D_801EB140;
+    extern s32 D_801EB14C;
+    extern s32 D_801EB154;
+    s32 v0;
+    s32 v1;
+
+    v0 = *(s32 *)(a0 + 0x1C);
+    v1 = -1;
+    v0 = v0 - 1;
+    *(s32 *)(a0 + 0x1C) = v0;
+
+    if (v0 == v1) {
+        s32 t;
+        s16 i;
+        s32 ret;
+        s32 ang;
+
+        func_8012A828(a0, (void *)&D_8018C610);
+
+        t = *(u16 *)(a0 + 0x10A) + 1;
+        *(u16 *)(a0 + 0x10A) = t;
+
+        if ((t & 3) != 0) {
+            if (*(s16 *)(a0 + 0x104) == 0) {
+                s32 r = rand();
+                s32 x;
+                s32 y;
+
+                x = *(s16 *)(a0 + 0x88) - 0x200;
+                x += (r & 0x7F) << 3;
+                D_801EB14C = x << 16;
+
+                y = *(s16 *)(a0 + 0x8C) - 0x200;
+                y += (u32)(r & 0x7F00) >> 5;
+                D_801EB154 = y << 16;
+            } else {
+                func_80185948((s16 *)a0);
+                *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) =
+                    *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) + 0xC00;
+            }
+        } else {
+            for (i = 0; i < 2; i++) {
+                ((s32 *)&D_801EB14C)[i] = ((s32 *)&D_801EB140)[i];
+            }
+        }
+
+        i = 8;
+        if (*(s16 *)(a0 + 0x108) >= 0xD) {
+            i = 2;
+        }
+
+        ret = func_8012BB3C(a0 + 4, (s32)&D_801EB14C,
+                            *(s16 *)(*(s32 *)(a0 + 0x20) + 0x12), i);
+        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) =
+            *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) + ret;
+
+        ang = -6 - *(u16 *)(a0 + 0x104);
+        func_801858D4(a0, (s16)ang, 0x50);
+
+        if (*(s16 *)(a0 + 0x104) != 0) {
+            func_80146A6C(2, (void *)a0, 0, 0, 0, 3,
+                (*(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) & 0xFFF) | 0x30009000);
+        }
+
+        *(s16 *)(a0 + 0x108) = 0;
+        if ((s16)func_80185DD8() == 0) {
+            *(u16 *)(a0 + 0x5C) = *(u16 *)(a0 + 0x5C) | 0x200;
+        }
+        *(u16 *)(a0 + 2) = *(u16 *)(a0 + 2) + 1;
+    } else {
+        s16 d = *(s16 *)(a0 + 0x102);
+
+        if (d != 0) {
+            s32 r2 = func_8012B8E4(a0, d);
+
+            *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) =
+                *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) + r2;
+        }
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_007/nonmatchings/ov_SC03_007_jr_8017AE2C", func_80184AFC);
 
