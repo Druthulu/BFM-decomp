@@ -3466,7 +3466,196 @@ void func_8017E40C(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_022/nonmatchings/ov_SC06_022_jr_8017BEBC", func_8017E448);
+/* Adapted from func_801858BC (src/ov_SC03_089/ov_SC03_089_jr_8017CA80.c:5884),
+ * itself derived from the family exemplar func_80184294
+ * (src/ov_SC06_032/ov_SC06_032_jr_80182890.c:3695, byte-matched — same
+ * obj-init / field-spread family). func_8017E448 sits structurally between
+ * the two: like the exemplar it uses the `p = (s16 *)(param_1 + 0xDC)`
+ * pointer form for the mod-N +-C spread (not the seed's direct
+ * param_1-offset form), and the exemplar's `*(s32*)(param_1+0x48)=0xC000`
+ * / `*(s32*)(param_1+0x1C)=0x3C` / `rand()&mask` triad at 0xFE/0x100/0x102
+ * constants — with its OWN spread constants, mod-16/+-0x18 (neither the
+ * seed's mod-8/+-0x10 nor the exemplar's mod-12/+-0x18).
+ *
+ * IMPORTANT CORRECTION vs the wave slate's diff card (.run/wave7b_slate.json
+ * idx 10): the card's 10-site/53-token diff undercounts by at least 2 real
+ * sites in the region it called unchanged (member_at < 56) — caught only by
+ * compiling and diffing against the real .s, not by trusting the card:
+ *   - the obj+0x1C/0x1A/0x18 field write is `r % 768 + 0x400`, NOT the
+ *     seed's `r % 384 + 0x400` (confirmed by isolated cc1 probes of both
+ *     divisors — 384 yields sra-6/sll-7, 768 yields the target's sra-7/sll-8);
+ *   - the spread loop is mod-16/+-0x18 as above, not the seed's mod-8/+-0x10
+ *     the doc comment on func_801858BC implied by analogy.
+ * adds two blocks neither sibling has:
+ *   - a func_8012B0B4(&stack8, (s16)(r%4096)+0x800, 0x60) call whose packed
+ *     s32 result folds into param_1+0x6/+0xE (high/low half), immediately
+ *     after the obj+0x12 = r%4096 store (same r%4096 value reused, no
+ *     second rand() call — CSE of the single mod-4096 computation);
+ *   - a mod-64 randomized decrement of param_1+0xA (`- 0x50 - rand()%64`)
+ *     replacing the seed/exemplar's flat `- 0x19`;
+ *   - a param_1+0x70 nonzero check gating a literal-0x40 triad store at
+ *     p+0x20/0x21/0x22 (param_1+0xFC/0xFD/0xFE) — replacing the exemplar's
+ *     table lookup — with the *(u32*)(param_1+0x100)=0x50000000 flag store
+ *     appearing ONLY in the not-taken (==0) arm; the 3 byte stores are
+ *     physically duplicated in both arms (no tail-merge), matching the .s.
+ * func_8012B178's spread constant is -0x80000 (not -0xC0000 as in both
+ * siblings) — the other lever-changed literal, read directly off the
+ * target's lui hi16 (0xFFF80000).
+ *
+ * Declarations conformed to sibling canonical forms (grepped across the TU
+ * family, all identical wherever declared — src/ov_SC06_022/*.c and the
+ * exemplar above): func_8012C1B8/func_8012CAE4/func_8001C214/func_8012B2CC/
+ * func_8012B178 forms copied verbatim from the seed; func_8012B0B4's form
+ * copied from its ~30 verbatim call sites across the codebase (e.g.
+ * src/ov_SC03_099/ov_SC03_099_jr_8017BEBC.c:4676-4677).
+ */
+
+extern s32 rand(void);
+extern void func_8012C1B8(void);
+extern void func_8012CAE4(void *a0);
+extern void func_8001C214(s32 a0, s32 a1);
+extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
+extern void func_8012B2CC(s32 a0);
+extern void func_8012B178(s32 a0, s32 a1);
+
+void func_8017E448(s32 param_1) {
+
+    s32 unused[2]; /* dead 8-byte local — frame padding (cookbook idiom 6) */
+    u8 auStack_18[8];
+    s32 obj;
+    s16 raw;
+    s32 r;
+    s32 r2;
+    s32 sgn;
+    s32 v;
+    s32 t;
+    s16 *p;
+    s32 q;
+    s32 w;
+
+    obj = ((s32 (*)(void))func_8012C1B8)();
+    if (obj == 0) {
+        func_8012CAE4((void *)param_1);
+        return;
+    }
+    *(s32 *)(param_1 + 0x20) = obj;
+    func_8001C214(obj, 0);
+
+    raw = rand();
+    r = raw;
+    *(u16 *)(obj + 0x2C) = *(u16 *)(obj + 0x2C) | 0x10;
+    v = r % 768 + 0x400;
+    *(s16 *)(obj + 0x1C) = v;
+    *(s16 *)(obj + 0x1A) = v;
+    *(s16 *)(obj + 0x18) = v;
+    sgn = -1;
+    if (raw & 1) {
+        sgn = 1;
+    }
+    *(s16 *)(obj + 0x10) = sgn * (r % 128) - 0x300;
+    *(s16 *)(obj + 0x12) = r % 4096;
+
+    func_8012B0B4((unsigned int *)auStack_18, (s16)(r % 4096) + 0x800, 0x60);
+    t = *(s32 *)auStack_18;
+    *(s16 *)(param_1 + 0x6) = *(u16 *)(param_1 + 0x6) + t;
+    *(s16 *)(param_1 + 0xE) = *(u16 *)(param_1 + 0xE) + (t >> 16);
+
+    r2 = rand();
+    *(s16 *)(param_1 + 0xA) = *(u16 *)(param_1 + 0xA) - 0x50 - r2 % 64;
+
+    *(u32 *)(param_1 + 0x48) = 0xC000;
+    func_8012B2CC(param_1);
+    func_8012B178(param_1, -0x80000 - ((r % 8) << 16));
+    *(s32 *)(param_1 + 0x1C) = 0x3C;
+
+    *(s16 *)(param_1 + 0xFE) = rand() & 0xF0;
+    *(s16 *)(param_1 + 0x100) = rand() & 0x1F0;
+    *(s16 *)(param_1 + 0x102) = rand() & 0x30;
+
+    p = (s16 *)(param_1 + 0xDC);
+
+    q = rand() % 16;
+    if ((rand() & 1) == 0) {
+        w = -q - 0x18;
+    } else {
+        w = q - 0x18;
+    }
+    p[0] = w;
+    p[1] = 0;
+
+    q = rand() % 16;
+    if ((rand() & 1) == 0) {
+        w = -q - 0x18;
+    } else {
+        w = q - 0x18;
+    }
+    p[2] = w;
+
+    q = rand() % 16;
+    if ((rand() & 1) == 0) {
+        w = -q + 0x18;
+    } else {
+        w = q + 0x18;
+    }
+    p[4] = w;
+    p[5] = 0;
+
+    q = rand() % 16;
+    if ((rand() & 1) == 0) {
+        w = -q - 0x18;
+    } else {
+        w = q - 0x18;
+    }
+    p[6] = w;
+
+    q = rand() % 16;
+    if ((rand() & 1) == 0) {
+        w = -q - 0x18;
+    } else {
+        w = q - 0x18;
+    }
+    p[8] = w;
+    p[9] = 0;
+
+    q = rand() % 16;
+    if ((rand() & 1) == 0) {
+        w = -q + 0x18;
+    } else {
+        w = q + 0x18;
+    }
+    p[10] = w;
+
+    q = rand() % 16;
+    if ((rand() & 1) == 0) {
+        w = -q + 0x18;
+    } else {
+        w = q + 0x18;
+    }
+    p[12] = w;
+    p[13] = 0;
+
+    q = rand() % 16;
+    if ((rand() & 1) == 0) {
+        w = -q + 0x18;
+    } else {
+        w = q + 0x18;
+    }
+    p[14] = w;
+
+    if (*(s16 *)(param_1 + 0x70) == 0) {
+        *((u8 *)p + 0x22) = 0x40;
+        *((u8 *)p + 0x21) = 0x40;
+        *((u8 *)p + 0x20) = 0x40;
+        *(u32 *)((u8 *)p + 0x24) = 0x50000000;
+    } else {
+        *((u8 *)p + 0x22) = 0x40;
+        *((u8 *)p + 0x21) = 0x40;
+        *((u8 *)p + 0x20) = 0x40;
+    }
+
+    *(u16 *)(param_1 + 2) = *(u16 *)(param_1 + 2) + 1;
+}
+
 
 
 extern s32  func_8012CBF4(s32 a0);
@@ -3767,7 +3956,39 @@ INCLUDE_ASM("asm/ov_SC06_022/nonmatchings/ov_SC06_022_jr_8017BEBC", func_8018034
 
 INCLUDE_ASM("asm/ov_SC06_022/nonmatchings/ov_SC06_022_jr_8017BEBC", func_80180424);
 
-INCLUDE_ASM("asm/ov_SC06_022/nonmatchings/ov_SC06_022_jr_8017BEBC", func_801804BC);
+extern u8 *func_8012913C(s32 a0);
+extern s32 rand(void);
+
+void func_801804BC(s32 a0, s32 a1, s32 a2, s32 a3) {
+    u8 *s0;
+    s32 r;
+    s32 d0, d1, d2;
+    s32 t;
+    s32 pad[6];
+    (void)pad;
+    if ((*(u16 *)(a0 + 0) & (s16)((1 << *(s16 *)(a3 + 0xC)) - 1)) == 0) {
+        s0 = func_8012913C(0x22);
+        if (s0 != 0) {
+            r = rand();
+            d0 = *(s16 *)(a2 + 0);
+            *(s16 *)(s0 + 6) = (*(u16 *)(a1 + 0) + (r % (d0 << 1))) - d0;
+            r = rand();
+            d1 = *(s16 *)(a2 + 2);
+            *(s16 *)(s0 + 0xA) = (*(u16 *)(a1 + 2) + (r % (d1 << 1))) - d1;
+            r = rand();
+            d2 = *(s16 *)(a2 + 4);
+            t = *(u16 *)(a1 + 4);
+            *(s16 *)(s0 + 0xE) = (t + (r % (d2 << 1))) - d2;
+            *(s32 *)(s0 + 0x10) = *(s32 *)(a3 + 0);
+            *(s32 *)(s0 + 0x14) = *(s32 *)(a3 + 4);
+            *(s32 *)(s0 + 0x18) = *(s32 *)(a3 + 8);
+            *(s16 *)(s0 + 0x34) = *(u16 *)(a1 + 6);
+            *(u16 *)(*(s32 *)(s0 + 0x20) + 0x2C) = 0xC010;
+        }
+    }
+    *(u16 *)(a0 + 0) += 1;
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_022/nonmatchings/ov_SC06_022_jr_8017BEBC", func_80180680);
 
