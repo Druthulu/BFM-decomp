@@ -14,11 +14,7 @@ DEFINE_func_801281D8()  /* dedup: shared engine-core @0x801281D8 (src/shared) */
 DEFINE_func_801281F8()  /* dedup: shared engine-core @0x801281F8 (src/shared) */
 
 
-extern s32 D_801E819C;
-
-s32 func_80128218(void) {
-    return D_801E819C;
-}
+DEFINE_func_80128218()  /* dedup: shared engine-core @0x80128218 (src/shared) */
 
 
 DEFINE_func_80128228()  /* dedup: shared engine-core @0x80128228 (src/shared) */
@@ -28,16 +24,7 @@ DEFINE_func_80128248()  /* dedup: shared engine-core @0x80128248 (src/shared) */
 DEFINE_func_80128268()  /* dedup: shared engine-core @0x80128268 (src/shared) */
 
 
-extern u16 D_800B99F6;
-extern void (*D_8018B804[])(void);
-
-void func_80128288(void) {
-    u32 v1;
-    v1 = D_800B99F6;
-    if (v1 < 9) {
-        D_8018B804[v1]();
-    }
-}
+DEFINE_func_80128288()  /* dedup: shared engine-core @0x80128288 (src/shared) */
 
 
 DEFINE_func_801282CC()  /* dedup: shared engine-core @0x801282CC (src/shared) */
@@ -234,13 +221,7 @@ void func_801287B8(void) {
 
 
 
-extern void func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
-extern s32 D_801E819C;
-extern u8 D_800AEFD0;
-
-s32 func_801288B0(void) {
-    func_8001ABBC(0, 0, &D_800AEFD0, D_801E819C, 0);
-}
+DEFINE_func_801288B0()  /* dedup: shared engine-core @0x801288B0 (src/shared) */
 
 
 
@@ -308,13 +289,7 @@ s32 func_80128998(void)
 
 
 
-extern s32 D_801E819C;
-extern u8 D_800AECB8;
-extern void func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 a4);
-
-s32 func_801289F0(void) {
-    func_8001ABBC(0, 0, &D_800AECB8, D_801E819C, 0);
-}
+DEFINE_func_801289F0()  /* dedup: shared engine-core @0x801289F0 (src/shared) */
 
 
 extern void func_80011B7C(int);
@@ -474,120 +449,7 @@ DEFINE_func_8012944C()  /* dedup: shared engine-core @0x8012944C (src/shared) */
 
 
 
-extern s32 D_801E9504;
-
-extern void func_801299C8();
-extern void func_80015B6C(s32, s16, s32, s16, s32, s32, s32, s32, s32, s32);
-extern void GsSortBg(s32 *, void *, u16, s32 *);
-extern void GsSortFastBg(s32 *, void *, u16, s32 *);
-
-void func_8012956C(void) {
-
-    extern s16 D_80114EE0;
-    extern u8 D_800B9A78;
-    extern u8 D_801E9505[];
-    extern u8 D_801E9506[];
-    extern u8 D_801E9508[];
-    extern u8 D_801E9509[];
-    extern u8 D_801E950A[];
-    extern u8 D_801EAFB0;
-    extern u8 D_800AF630[];
-    extern u8 D_800A6518[];
-    register s32 *sp10 __asm__("$21");
-    register u8 *afbase __asm__("$22");
-    register s32 *sp0 __asm__("$23");
-    Ent_956C *base;
-    s32 i;
-    s16 a1;
-    register u32 temp_a3 __asm__("$7");
-    register u32 arg0 __asm__("$4");
-    register u32 s __asm__("$2");
-    register u32 s2 __asm__("$3");
-    register u32 t6 __asm__("$8");
-    s32 code;
-
-    sp10 = (s32 *)0x1F800010;
-    sp0 = (s32 *)0x1F800000;
-    afbase = (u8 *)&D_800AF630;
-    if (D_80114EE0 == 0) {
-        return;
-    }
-    base = (Ent_956C *)&D_800B9A78;
-    __asm__("" : "=r"(base) : "0"(base));
-    i = 0;
-    do {
-        s32 idx = i * 8 + 4;
-        code = base->f34;
-        if (code == 0x7FFE) {
-            goto case_7FFE;
-        }
-        if (code < 0x7FFF) {
-            a1 = i + 3;
-            if (code == 0x7FFD) {
-                goto case_7FFD;
-            }
-            goto do_default;
-        }
-        a1 = i + 3;
-        if (code != 0x7FFF) {
-            goto do_default;
-        }
-        goto next;
-    case_7FFD:
-        if (i == 0) {
-            func_801299C8(D_801EAFB0, 1, base);
-        }
-        func_80015B6C(-0xA0, -0x74, 0x140, 0x8C,
-                      D_801E9508[0], D_801E9508[1], D_801E9508[2],
-                      D_801E9508[4], D_801E9508[5], D_801E9508[6]);
-        func_80015B6C(-0xA0, 0x18, 0x140, 0x3C,
-                      D_801E9508[4], D_801E9508[5], D_801E9508[6],
-                      D_801E9508[8], D_801E9508[9], D_801E9508[0xA]);
-        func_80015B6C(-0xA0, 0x54, 0x140, 0x28,
-                      D_801E9508[8], D_801E9508[9], D_801E9508[0xA],
-                      D_801E9508[0xC], D_801E9508[0xD], D_801E9508[0xE]);
-        goto next;
-    case_7FFE:
-        func_801299C8(D_801EAFB0, (s16)(i * 2), base);
-        func_80015B6C(-0xA0, *(s16 *)&base->f3A, 0x140, base->f3E,
-                      ((u8 *)&D_801E9504)[idx], D_801E9505[idx], D_801E9506[idx],
-                      D_801E9508[idx], D_801E9509[idx], D_801E950A[idx]);
-        goto next;
-    do_default:
-        __asm__("");
-        arg0 = D_801EAFB0;
-        s = base->f40;
-        temp_a3 = base->f38;
-        s += temp_a3;
-        base->f1C = s;
-        s2 = base->f42;
-        t6 = base->f3A;
-        s2 += t6;
-        base->f1E = s2;
-        ((void (*)(s32, s32, void *, s32))func_801299C8)(arg0, a1, base, temp_a3);
-        *(Blk16_956C *)sp0 = *(Blk16_956C *)base;
-        {
-            s32 *dst = sp10;
-            s32 *src = (s32 *)((u8 *)base + 0x10);
-            s32 *end = (s32 *)((u8 *)base + 0x30);
-            do {
-                *(Blk16_956C *)dst = *(Blk16_956C *)src;
-                src += 4;
-                dst += 4;
-            } while (src != end);
-            *dst = *src;
-            sp10[5] = (s32)sp0;
-            if (base->f36 == 0) {
-                GsSortFastBg(sp10, &D_800A6518[(*(u16 *)(afbase + 0xA3D2)) * 0x14], base->f34, dst);
-            } else {
-                GsSortBg(sp10, &D_800A6518[(*(u16 *)(afbase + 0xA3D2)) * 0x14], base->f34, dst);
-            }
-        }
-    next:
-        base += 1;
-        i += 1;
-    } while (i < 2);
-}
+DEFINE_func_8012956C()  /* dedup: shared engine-core @0x8012956C (src/shared) */
 
 
 DEFINE_func_801298F4()  /* dedup: shared engine-core @0x801298F4 (src/shared) */
@@ -614,62 +476,7 @@ DEFINE_func_801298F4()  /* dedup: shared engine-core @0x801298F4 (src/shared) */
 //  5. Shift signedness: `u32` component locals give `srl` for r*5>>3 and g*25>>1; an explicit
 //     `(s32)(x * 255) >> 4` gives `sra` for the *255 / *143 / *45 terms (mixed within one block).
 
-extern u8 D_801EAFCA;
-extern u8 D_801EAEF2;
-extern u8 D_801EAED0;
-extern u8 D_801E9508[];
-extern u8 D_801E9509[];
-extern u8 D_801E950A[];
-
-void func_801299C8(arg0, arg1, arg2)
-s16 arg0;
-s16 arg1;
-u8 *arg2;
-{
-    u32 r;
-    u32 g;
-    u32 b;
-    s32 i;
-
-    if (arg0 != 0) {
-        switch (arg1) {
-        case 1:
-            r = D_801EAFCA;
-            g = D_801EAEF2;
-            b = D_801EAED0;
-            D_801E9508[0] = r * 5 >> 3;
-            D_801E9509[0] = g << 3;
-            D_801E950A[0] = (s32)(b * 255) >> 4;
-            D_801E9508[4] = (s32)(r * 143) >> 4;
-            D_801E9509[4] = g * 25 >> 1;
-            D_801E950A[4] = (s32)(b * 255) >> 4;
-            D_801E9508[8] = (s32)(r * 255) >> 4;
-            D_801E9509[8] = (s32)(g * 255) >> 4;
-            D_801E950A[8] = (s32)(b * 255) >> 4;
-            D_801E9508[12] = (s32)(r * 143) >> 4;
-            D_801E9509[12] = (s32)(g * 255) >> 4;
-            D_801E950A[12] = (s32)(b * 45) >> 2;
-            break;
-        case 0:
-        case 2:
-            i = arg1 * 4;
-            D_801E9508[i] = arg2[0x44] * D_801EAFCA >> 4;
-            D_801E9509[i] = arg2[0x45] * D_801EAEF2 >> 4;
-            D_801E950A[i] = arg2[0x46] * D_801EAED0 >> 4;
-            i = (arg1 + 1) * 4;
-            D_801E9508[i] = arg2[0x47] * D_801EAFCA >> 4;
-            D_801E9509[i] = arg2[0x48] * D_801EAEF2 >> 4;
-            D_801E950A[i] = arg2[0x49] * D_801EAED0 >> 4;
-            break;
-        case 3:
-        case 4:
-            arg2[0x20] = D_801EAFCA << 3;
-            arg2[0x21] = D_801EAEF2 << 3;
-            arg2[0x22] = D_801EAED0 << 3;
-            break;
-        }
-    }
-}
+DEFINE_func_801299C8()  /* dedup: shared engine-core @0x801299C8 (src/shared) */
 
 DEFINE_func_80129C40()  /* dedup: shared engine-core @0x80129C40 (src/shared) */
 
@@ -798,97 +605,7 @@ DEFINE_func_8012A908()  /* dedup: shared engine-core @0x8012A908 (src/shared) */
 DEFINE_func_8012A988()  /* dedup: shared engine-core @0x8012A988 (src/shared) */
 
 
-extern void func_8012AAAC(void *arg0);
-
-void func_8012AAAC(void *arg0) {
-    void *ptr;
-    s32 link;
-    s32 next;
-    s32 saved;
-    s32 cnt;
-    s32 back;
-    s32 head;
-
-    M2C_FIELD(arg0, u16 *, 0x72) = (u16) (M2C_FIELD(arg0, u16 *, 0x72) & 0xBFFF);
-    ptr = (void *) (M2C_FIELD(arg0, s32 *, 0x90) + (M2C_FIELD(arg0, s32 *, 0x94) * 8));
-    if (M2C_FIELD(ptr, s16 *, 4) < 0) {
-        switch (M2C_FIELD(ptr, s16 *, 4)) {
-        case -2:
-            link = M2C_FIELD(arg0, s32 *, 0x9C);
-            if (link == 0) {
-                M2C_FIELD(arg0, s16 *, 0x98) = 0;
-                break;
-            }
-            goto pop;
-        case -1:
-            link = M2C_FIELD(arg0, s32 *, 0x9C);
-            if (link != 0) {
-pop:
-                back = M2C_FIELD(arg0, s16 *, 0x9A);
-                M2C_FIELD(arg0, s32 *, 0x90) = link;
-                M2C_FIELD(arg0, s32 *, 0x9C) = 0;
-                M2C_FIELD(arg0, s16 *, 0x9A) = 0;
-                M2C_FIELD(arg0, s32 *, 0x94) = back;
-                func_8012AAAC(arg0);
-                break;
-            }
-            M2C_FIELD(arg0, s32 *, 0x94) = 0;
-            func_8012AAAC(arg0);
-            M2C_FIELD(arg0, u16 *, 0x72) = (u16) (M2C_FIELD(arg0, u16 *, 0x72) | 0x4000);
-            break;
-        case -4:
-            head = M2C_FIELD(ptr, s32 *, 0);
-            M2C_FIELD(arg0, s32 *, 0x94) = 0;
-            M2C_FIELD(arg0, s32 *, 0x9C) = 0;
-            M2C_FIELD(arg0, s16 *, 0x9A) = 0;
-            M2C_FIELD(arg0, s32 *, 0x90) = head;
-            M2C_FIELD(arg0, u16 *, 0x72) = (u16) (M2C_FIELD(arg0, u16 *, 0x72) & 0xF9FF);
-            func_8012AAAC(arg0);
-            break;
-        case -3:
-            cnt = M2C_FIELD(arg0, s32 *, 0x94) + 1;
-            M2C_FIELD(arg0, s32 *, 0x94) = cnt;
-            if (M2C_FIELD(arg0, s32 *, 0x9C) != 0) {
-                func_8012AAAC(arg0);
-                break;
-            }
-            saved = M2C_FIELD(arg0, s32 *, 0x90);
-            next = M2C_FIELD(ptr, s32 *, 0);
-            M2C_FIELD(arg0, s32 *, 0x94) = 0;
-            M2C_FIELD(arg0, s32 *, 0x9C) = 0;
-            M2C_FIELD(arg0, s16 *, 0x9A) = 0;
-            M2C_FIELD(arg0, s32 *, 0x90) = next;
-            M2C_FIELD(arg0, u16 *, 0x72) = (u16) (M2C_FIELD(arg0, u16 *, 0x72) & 0xF9FF);
-            func_8012AAAC(arg0);
-            M2C_FIELD(arg0, s32 *, 0x9C) = saved;
-            M2C_FIELD(arg0, s16 *, 0x9A) = (s16) cnt;
-            break;
-        case -50:
-            M2C_FIELD(arg0, s32 *, 0x94) = M2C_FIELD(arg0, s32 *, 0x94) + 1;
-            func_8012AAAC(arg0);
-            M2C_FIELD(arg0, u16 *, 0x72) = (u16) (M2C_FIELD(arg0, u16 *, 0x72) | 0x2000);
-            break;
-        case -5:
-            M2C_FIELD(arg0, u16 *, 0x72) = (u16) (M2C_FIELD(arg0, u16 *, 0x72) | 0x400);
-            M2C_FIELD(arg0, s32 *, 0x94) = M2C_FIELD(arg0, s32 *, 0x94) - 1;
-            func_8012AAAC(arg0);
-            break;
-        }
-    } else {
-        M2C_FIELD(M2C_FIELD(arg0, void **, 0x20), s32 *, 0x20) = M2C_FIELD(ptr, s32 *, 0);
-        M2C_FIELD(arg0, s16 *, 0x98) = M2C_FIELD(ptr, s16 *, 4);
-    }
-}
+DEFINE_func_8012AAAC()  /* dedup: shared engine-core @0x8012AAAC (src/shared) */
 
 
-extern void func_8012AAAC();
-extern M2C_UNK D_8018B898;
-
-void func_8012ACA0(void *arg0) {
-    M2C_FIELD(arg0, M2C_UNK **, 0x90) = &D_8018B898;
-    M2C_FIELD(arg0, s32 *, 0x94) = 0;
-    M2C_FIELD(arg0, s32 *, 0x9C) = 0;
-    M2C_FIELD(arg0, s16 *, 0x9A) = 0;
-    M2C_FIELD(arg0, u16 *, 0x72) = (u16) (M2C_FIELD(arg0, u16 *, 0x72) & 0xF9FF);
-    ((void (*)(void))func_8012AAAC)();
-}
+DEFINE_func_8012ACA0()  /* dedup: shared engine-core @0x8012ACA0 (src/shared) */

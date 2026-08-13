@@ -4195,23 +4195,7 @@ void func_8017CF30(void *a0) {
  *     shift results are born after $v0 dies and reclaim it.
  */
 
-extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
-
-void func_8017CF6C(s32 a0, s16 a1, s16 a2) {
-    u32 buf[4];
-    register s32 hi __asm__("$2");
-    s32 lo;
-
-    func_8012B0B4(buf, *(s16 *)(*(s32 *)(a0 + 0x20) + 0x12), a1 << 4);
-
-    lo = *(s16 *)buf;
-    hi = *(s32 *)buf;
-    *(s32 *)(a0 + 0x10) = lo << 12;
-    *(s32 *)(a0 + 0x18) = (hi >> 16) << 12;
-    if (a2 != 0) {
-        *(s32 *)(a0 + 0x1C) = a2;
-    }
-}
+DEFINE_func_8017CF6C()  /* dedup: shared engine-core @0x8017CF6C (src/shared) */
 
 
 /* func_8017CFE0 -- ov_SC03_002 / ov_SC03_002_jr_8017AE2C */
@@ -4288,62 +4272,7 @@ void func_8017CFE0(s16 *a0) {
    identical layout to engine_types.h's Blk20 / Mtx8_8016CBC0. */
 
 /* --- forms taken VERBATIM from the TU (src/ov_SC03_002/ov_SC03_002_jr_8017AE2C.c) --- */
-extern void ApplyMatrixSV(void *a0, void *a1, void *a2);   /* TU 168 / 3365 */
-extern s32  ratan2(s32 a0, s32 a1);                        /* TU 245 (== DEFINE_func_8012B6D4) */
-extern s16  D_801152B0;                                    /* TU 403 */
-extern s16  D_801152B4;                                    /* TU 404 */
-extern s32  func_80133784(s32 a0, void *a1, s32 a2);       /* TU 597 / 854 */
-
-/* --- not declared at file scope in this TU, nor by any DEFINE_func_* it instantiates
-       (8012B6D4 / 8012C750 / 8017BE9C / 8017BEA4 / 8017BEAC / 8017BEB4 -- audited);
-       project-canonical forms --- */
-extern s32  func_8012CEB0(s32 a0, s32 a1, s32 a2);
-extern void RotMatrixY(s32 a0, void *a1);
-extern Mtx8_8017D0BC D_800AE620;
-
-void func_8017D0BC(s32 a0) {
-    u8 in[8];
-    u8 out[8];
-    Mtx8_8017D0BC m;
-    s32 base;
-    register s32 ang __asm__("$2");
-    s16 arg;
-
-    *(s16 *)(in + 0) = *(u16 *)(a0 + 0x6) + *(u16 *)(a0 + 0x12);
-    *(s16 *)(in + 2) = *(u16 *)(a0 + 0xA) + 8;
-    *(s16 *)(in + 4) = *(u16 *)(a0 + 0xE) + *(u16 *)(a0 + 0x1A);
-    *(s16 *)(out + 0) = *(u16 *)(a0 + 0x6);
-    *(s16 *)(out + 2) = *(u16 *)(a0 + 0xA) + 8;
-    *(s16 *)(out + 4) = *(u16 *)(a0 + 0xE);
-    if ((func_80133784(1, &in[0], (s32)&out[0]) & 0xC000) != 0) {
-        base = ratan2(D_801152B0, D_801152B4) & 0xFFF;
-        ang = ratan2(*(s32 *)(a0 + 0x10), *(s32 *)(a0 + 0x18)) & 0xFFF;
-        if ((s16)(ang - base) < 0) {
-            ang += 0x480;
-        } else {
-            ang -= 0x480;
-        }
-        arg = base - ang;
-        ang = *(u16 *)(a0 + 0x6);
-        *(s16 *)(in + 0) = ang;
-        *(s16 *)(in + 2) = *(u16 *)(a0 + 0xA);
-        *(s16 *)(in + 4) = *(u16 *)(a0 + 0xE);
-        m = D_800AE620;
-        RotMatrixY(arg, &m);
-        *(s16 *)(out + 0) = *(u16 *)(a0 + 0x12);
-        *(s16 *)(out + 2) = *(u16 *)(a0 + 0x16);
-        *(s16 *)(out + 4) = *(u16 *)(a0 + 0x1A);
-        ApplyMatrixSV(&m, &out[0], &out[0]);
-        *(s16 *)(out + 0) = *(u16 *)(a0 + 0x6) + ((s16)*(u16 *)(out + 0) >> 1);
-        *(s16 *)(out + 2) = *(u16 *)(a0 + 0xA) + ((s16)*(u16 *)(out + 2) >> 1);
-        *(s16 *)(out + 4) = *(u16 *)(a0 + 0xE) + ((s16)*(u16 *)(out + 4) >> 1);
-        if ((func_8012CEB0((s32)&in[0], (s32)&out[0], 0) & 0x2000) != 0) {
-            *(s16 *)(a0 + 0x6) = *(u16 *)(out + 0);
-            *(s16 *)(a0 + 0xA) = *(u16 *)(out + 2);
-            *(s16 *)(a0 + 0xE) = *(u16 *)(out + 4);
-        }
-    }
-}
+DEFINE_func_8017D0BC()  /* dedup: shared engine-core @0x8017D0BC (src/shared) */
 
 
 extern int func_80178970(void);
@@ -4516,14 +4445,6 @@ L_8017D57C:
 }
 
 
-extern int func_80178970(void);
-extern void func_80178D18(void);
-
-void func_8017D5C4(s32 a0) {
-    if (func_80178970() != 0) {
-        ((void (*)(s32))func_80178D18)(a0);
-        *(s16 *)(a0 + 2) = 7;
-    }
-}
+DEFINE_func_8017D5C4()  /* dedup: shared engine-core @0x8017D5C4 (src/shared) */
 
 

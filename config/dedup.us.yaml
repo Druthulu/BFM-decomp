@@ -14208,3 +14208,59 @@ groups:
     func: DEFINE_func_8017C940
     vram: 0x8017C940
     binaries: [ov_SC02_027, ov_SC02_028, ov_SC03_091, ov_SC03_093, ov_SC03_097, ov_SC03_098, ov_SC03_100, ov_SC03_110, ov_SC02_037]
+  - id: E_func_8017E678
+    tier: h_exact
+    hash: 37f67f3adb2e4e2b3392abbf4d460a287e3a0242
+    source: src/shared/engine_core.h
+    func: DEFINE_func_8017E678
+    vram: 0x8017E678
+    binaries: [ov_SC03_125, ov_SC04_020, ov_SC05_018]
+  - id: E_func_8017E534
+    tier: h_exact
+    hash: 511a8b68802b6800ebb271e89b28604ee53e3401
+    source: src/shared/engine_core.h
+    func: DEFINE_func_8017E534
+    vram: 0x8017E534
+    binaries: [ov_SC03_125, ov_SC04_020, ov_SC05_018]
+  - id: E_func_8017D5C4
+    tier: h_exact
+    hash: cfafd7008ad5fb9853b30749c3708d09d142228e
+    source: src/shared/engine_core.h
+    func: DEFINE_func_8017D5C4
+    vram: 0x8017D5C4
+    binaries: [ov_SC03_002, ov_SC03_125, ov_SC04_020, ov_SC05_018]
+  - id: E_func_8017E698
+    tier: h_exact
+    hash: 6cd03b3b44a978bbb4362e5de3e625b824e29b9a
+    source: src/shared/engine_core.h
+    func: DEFINE_func_8017E698
+    vram: 0x8017E698
+    binaries: [ov_SC03_125, ov_SC04_020, ov_SC05_018]
+  - id: E_func_8017CF6C
+    tier: h_exact
+    hash: 4771362e442919c7153296b8d33dc017c2866350
+    source: src/shared/engine_core.h
+    func: DEFINE_func_8017CF6C
+    vram: 0x8017CF6C
+    binaries: [ov_SC03_002, ov_SC03_125, ov_SC04_020, ov_SC05_018]
+  - id: E_func_8017E6EC
+    tier: h_exact
+    hash: 4d9ac626bf24d5be8ef2d28347a7a22aab2f617f
+    source: src/shared/engine_core.h
+    func: DEFINE_func_8017E6EC
+    vram: 0x8017E6EC
+    binaries: [ov_SC03_125, ov_SC04_020]
+  - id: E_func_8017E5C8
+    tier: h_exact
+    hash: fc81e68ce00bfd54ccd26581d16837d15efef9ac
+    source: src/shared/engine_core.h
+    func: DEFINE_func_8017E5C8
+    vram: 0x8017E5C8
+    binaries: [ov_SC03_125, ov_SC04_020, ov_SC05_018]
+  - id: E_func_8017D0BC
+    tier: h_exact
+    hash: 4f23330c1f0b97efc0d4e01fb4ba9d5dfb06c15c
+    source: src/shared/engine_core.h
+    func: DEFINE_func_8017D0BC
+    vram: 0x8017D0BC
+    binaries: [ov_SC03_002, ov_SC03_125, ov_SC04_020, ov_SC05_018]

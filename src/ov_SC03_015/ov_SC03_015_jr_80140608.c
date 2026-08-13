@@ -903,98 +903,7 @@ extern s32 func_8013FFD8(s16 arg0, s32 arg1, s32 *arg2);
 
 #include "common.h"
 
-extern u8 D_80115148[];
-extern u16 D_8011511E;
-extern u8 D_80062BDC;
-
-extern s32 func_80028D58(void);
-extern void func_80028D78(s32 a0);
-extern void func_80019064(void *a0);
-extern s32 func_80028DE0(void);
-extern void func_80028E00(s32 a0);
-extern s32 func_80028FBC(void);
-extern void func_80028FDC(s32 a0);
-extern s32 func_80029000(void);
-extern void func_80029020(s32 a0);
-extern s32 func_80028D9C(void);
-extern void func_80028DBC(s32 a0);
-extern void func_8002D4C8(s32 a0, s32 a1);
-
-s32 func_80140608(s32 a0) {
-    s16 t;
-    register s32 iVar2 __asm__("$2");
-    register s32 zr __asm__("$0");
-    s32 uVar3;
-    u32 uVar4;
-    s32 uVar5 = 1;
-
-    switch (D_80115148[(s16)a0 * 2]) {
-    case 0:
-        t = func_80028D58() ^ 1;
-        func_80028D78(t);
-        if (t != 0) {
-            return uVar5;
-        }
-        func_80019064(&D_80062BDC);
-        return uVar5;
-    case 1:
-        func_80028E00((s16)(func_80028DE0() ^ 1));
-        return uVar5;
-    case 2:
-        iVar2 = func_80028FBC();
-        if (D_8011511E & 0x8000) {
-            iVar2 = iVar2 - 1;
-            uVar4 = iVar2 + zr;
-            if ((s16)iVar2 < 0) {
-                uVar4 = 0;
-                uVar5 = 0;
-            }
-        } else {
-            iVar2 = iVar2 + 1;
-            uVar4 = iVar2 + zr;
-            if ((s16)iVar2 >= 8) {
-                uVar4 = 7;
-                uVar5 = 0;
-            }
-        }
-        func_80028FDC((s16)uVar4);
-        func_8002D4C8(0x21, uVar4 & 0xFFFF);
-        goto ret;
-    case 3:
-        iVar2 = func_80029000();
-        if (D_8011511E & 0x8000) {
-            iVar2 = iVar2 - 1;
-            uVar4 = iVar2 + zr;
-            if ((s16)iVar2 < 0) {
-                uVar4 = 0;
-                uVar5 = 0;
-            }
-        } else {
-            iVar2 = iVar2 + 1;
-            uVar4 = iVar2 + zr;
-            if ((s16)iVar2 >= 8) {
-                uVar4 = 7;
-                uVar5 = 0;
-            }
-        }
-        func_80029020((s16)uVar4);
-        func_8002D4C8(0x22, uVar4 & 0xFFFF);
-        goto ret;
-    case 4:
-        t = func_80028D9C() ^ 1;
-        func_80028DBC(t);
-        uVar3 = 0xB;
-        if (t == 0) {
-            uVar3 = 0xC;
-        }
-        func_8002D4C8(uVar3, 0);
-        goto ret;
-    default:
-        goto ret;
-    }
-ret:
-    return uVar5;
-}
+DEFINE_func_80140608()  /* dedup: shared engine-core @0x80140608 (src/shared) */
 
 
 
@@ -1004,56 +913,7 @@ ret:
 //         the pointer, so use post-increment `*p++` for EVERY field (gcc drops the dead
 //         final increment, yielding the "increment N-2 then offset 0/2" tail).
 
-extern u8 *D_8018C5C4;
-extern u8 *D_8018C5C8;
-extern u8 *D_8018C5CC;
-extern u8 *D_8018C5D0;
-extern u8 *D_8018C5D4;
-extern u16 *D_8018C5D8[];
-extern u16 *D_8018C5E0[];
-extern u16 *D_8018C600[];
-
-extern s32 func_80028D58(void);
-extern s32 func_80028DE0(void);
-extern s32 func_80028FBC(void);
-extern s32 func_80029000(void);
-extern s32 func_80028D9C(void);
-
-void func_801407F4(void)
-{
-    u8 *puVar1;
-    s32 iVar2;
-    u16 *puVar3;
-
-    puVar1 = D_8018C5C4;
-    iVar2 = func_80028D58();
-    puVar3 = D_8018C5D8[iVar2];
-    *(s16 *)(puVar1 + 0x16) = *puVar3++;
-    *(s16 *)(puVar1 + 0x18) = *puVar3++;
-    *(s16 *)(puVar1 + 0x1a) = *puVar3++;
-
-    puVar1 = D_8018C5C8;
-    iVar2 = func_80028DE0();
-    puVar3 = D_8018C5D8[iVar2];
-    *(s16 *)(puVar1 + 0x16) = *puVar3++;
-    *(s16 *)(puVar1 + 0x18) = *puVar3++;
-    *(s16 *)(puVar1 + 0x1a) = *puVar3++;
-
-    iVar2 = func_80028FBC();
-    *(s16 *)(D_8018C5CC + 0x18) = *D_8018C5E0[iVar2];
-    iVar2 = func_80029000();
-    *(s16 *)(D_8018C5D0 + 0x18) = *D_8018C5E0[iVar2];
-
-    puVar1 = D_8018C5D4;
-    iVar2 = func_80028D9C();
-    puVar3 = D_8018C600[iVar2];
-    *(s16 *)(puVar1 + 0x12) = *puVar3++;
-    *(s16 *)(puVar1 + 0x14) = *puVar3++;
-    *(s16 *)(puVar1 + 0x16) = *puVar3++;
-    *(s16 *)(puVar1 + 0x18) = *puVar3++;
-    *(s16 *)(puVar1 + 0x1a) = *puVar3++;
-    *(s16 *)(puVar1 + 0x1c) = *puVar3++;
-}
+DEFINE_func_801407F4()  /* dedup: shared engine-core @0x801407F4 (src/shared) */
 
 
 
@@ -1309,113 +1169,14 @@ void func_80140E6C(void) {
 // @class: plumbing
 // @stuck: none — MATCH (128/128 ins, match_one confirmed)
 
-extern short D_80115128;
-extern u8 D_8018C510;
-extern char *D_8018C530;
-extern char *D_8018C534;
-extern char *D_8018C538;
-extern char *D_8018C53C;
-extern char *D_8018C540;
-
-extern int func_80029FE4(void);
-extern int func_800D2CA8(int, int);
-extern void func_800D2D10(int, int, void *, int);
-extern char *func_8002AAB4(void);
-extern char *strcpy(char *, const char *);
-extern int func_8002A26C(void);
-extern int func_8002A2B0(void);
-extern int func_8002A4B8(void);
-extern s32 func_8002A4FC(s32 a0);
-extern int func_8002A998(void);
-extern int func_8002A9DC(void);
-extern int func_8002A728(void);
-extern int func_8002A76C(void);
-extern int func_80029FD4(void);
-
-void func_80140F00(void) {
-    char *p;
-    int r;
-
-    if (D_80115128 == 0) {
-        p = (*(char * *)&D_8018C510);
-        r = func_800D2CA8(func_80029FE4() + 1, 0x18);
-        func_800D2D10(r, 2, p + 4, 1);
-        strcpy(p + 0xA, func_8002AAB4());
-
-        p = D_8018C530;
-        r = func_800D2CA8(func_8002A26C() + 1, 0x18);
-        func_800D2D10(r, 2, p + 0x12, 1);
-        r = func_800D2CA8(func_8002A2B0(), 0x18);
-        func_800D2D10(r, 2, p + 0x22, -1);
-
-        p = D_8018C534;
-        r = func_800D2CA8(func_8002A4B8() + 1, 0x18);
-        func_800D2D10(r, 2, p + 0x12, 1);
-        r = func_800D2CA8(((int (*)(void))func_8002A4FC)(), 0x18);
-        func_800D2D10(r, 2, p + 0x22, -1);
-
-        p = D_8018C538;
-        r = func_800D2CA8(func_8002A998() + 1, 0x18);
-        func_800D2D10(r, 2, p + 0x12, 1);
-        r = func_800D2CA8(func_8002A9DC(), 0x18);
-        func_800D2D10(r, 2, p + 0x22, -1);
-
-        p = D_8018C53C;
-        r = func_800D2CA8(func_8002A728() + 1, 0x18);
-        func_800D2D10(r, 2, p + 0x12, 1);
-        r = func_800D2CA8(func_8002A76C(), 0x18);
-        func_800D2D10(r, 2, p + 0x22, -1);
-
-        p = D_8018C540;
-        r = func_800D2CA8(func_80029FD4(), 4);
-        func_800D2D10(r, 7, p + 0x18, -1);
-    }
-}
+DEFINE_func_80140F00()  /* dedup: shared engine-core @0x80140F00 (src/shared) */
 
 
 
 // @class: other
 // @stuck: none — MATCH
 
-extern short D_80115128;
-extern unsigned short D_80115172;
-extern unsigned short D_8018C3CA;
-extern unsigned short D_8018C3CE;
-extern unsigned short D_8018C3D2;
-extern unsigned short D_8018C3D6;
-
-extern s32 func_8002A1B4(void);
-extern short func_8002A28C(void);
-extern short func_8002A27C(void);
-extern s32 func_8002A400(void);
-extern short func_8002A4D8(void);
-extern short func_8002A4C8(void);
-extern s32 func_8002A8E0(void);
-extern short func_8002A9B8(void);
-extern short func_8002A9A8(void);
-extern s32 func_8002A670(void);
-extern short func_8002A748(void);
-extern short func_8002A738(void);
-extern int func_801412A8(int, int, int, int, int, int);
-
-int func_80141100(int param_1)
-{
-    short sVar1;
-    int iVar7;
-
-    if (D_80115128 == 0) {
-        iVar7 = D_80115172 + 0x31;
-        sVar1 = D_8018C3CA;
-        param_1 = func_801412A8(param_1, ((short (*)(void))func_8002A1B4)(), func_8002A28C(), func_8002A27C(), (short)iVar7, (int)sVar1);
-        sVar1 = D_8018C3CE;
-        param_1 = func_801412A8(param_1, ((short (*)(void))func_8002A400)(), func_8002A4D8(), func_8002A4C8(), (short)iVar7, (int)sVar1);
-        sVar1 = D_8018C3D2;
-        param_1 = func_801412A8(param_1, ((short (*)(void))func_8002A8E0)(), func_8002A9B8(), func_8002A9A8(), (short)iVar7, (int)sVar1);
-        sVar1 = D_8018C3D6;
-        param_1 = func_801412A8(param_1, ((short (*)(void))func_8002A670)(), func_8002A748(), func_8002A738(), (short)iVar7, (int)sVar1);
-    }
-    return param_1;
-}
+DEFINE_func_80141100()  /* dedup: shared engine-core @0x80141100 (src/shared) */
 
 
 #define addPrim_1412A8(ot, p) (setaddr_1412A8(p, getaddr_1412A8(ot)), setaddr_1412A8(ot, p))
@@ -1439,13 +1200,7 @@ DEFINE_func_8014168C()  /* dedup: shared engine-core @0x8014168C (src/shared) */
 DEFINE_func_801416D4()  /* dedup: shared engine-core @0x801416D4 (src/shared) */
 
 
-extern unsigned short D_80115112;
-extern void (*D_8018C960[])(void);
-
-void func_80141788(void)
-{
-    D_8018C960[D_80115112]();
-}
+DEFINE_func_80141788()  /* dedup: shared engine-core @0x80141788 (src/shared) */
 
 
 DEFINE_func_801417C4()  /* dedup: shared engine-core @0x801417C4 (src/shared) */
@@ -1484,71 +1239,7 @@ void func_80141874(void) {
 
 
 
-extern u16 D_80115110;
-extern u16 D_80115112;
-extern unsigned short D_80115118;
-extern volatile u16 D_8011511A;
-extern s16 D_80115128;
-extern s32 D_80115130;
-extern s16 D_8018C8E4;
-extern s16 D_8018C8E6;
-
-extern void func_800D24A0(s32 a0);
-extern s32  func_80029178(s32 a0);
-extern void func_8002D4C8(s32 a0, s32 a1);
-extern void func_80141C0C(s32 a0);
-
-void func_801418F8(void)
-{
-
-    extern s16 D_8011512E;
-    extern u8 D_80115158[];
-    extern s16 D_8011515A;
-    extern u8 D_8011515C;
-    extern s16 D_8011515E;
-    extern s16 D_80115162;
-    extern s16 D_80115166;
-    extern u8  D_8018C584;
-    extern u8  D_8018C59C;
-    extern u8  D_8018C610;
-    extern u8  D_8018C618;
-    extern void *D_801E9648;
-    extern void *D_801E964C;
-    u16 t;
-
-    func_800D24A0(1);
-    D_8011511A = 2;
-    t = D_8011511A;
-    (*(s16 *)&D_80115118) = 0;
-    D_80115130 = 0;
-    if (t >= 4) {
-        D_8011511A = t - 3;
-    }
-    (*(s16 *)D_80115158) = 0x106;
-    if ((func_80029178(0x1C) & 0xFF) == 0) {
-        D_801E9648 = &D_8018C584;
-        D_801E964C = &D_8018C610;
-    } else {
-        D_801E9648 = &D_8018C59C;
-        D_801E964C = &D_8018C618;
-    }
-    D_8011515A = 0x104;
-    (*(s16 *)&D_8011515C) = 0x104;
-    D_8011515E = 0x129;
-    D_80115162 = 0x103;
-    D_80115166 = 0x105;
-    D_80115128 = 0;
-    D_8011512E = 0;
-    if (D_80115110 == 3) {
-        func_8002D4C8(0x46E, 0);
-    } else {
-        func_80141C0C(0);
-    }
-    D_80115128 = 1;
-    D_8018C8E4 = 0xE;
-    D_8018C8E6 = 3;
-    D_80115112 = D_80115112 + 1;
-}
+DEFINE_func_801418F8()  /* dedup: shared engine-core @0x801418F8 (src/shared) */
 
 
 /* func_80141A60 @ 0x80141A60 (0x130, 76 ins) -- ov_SC01_000 shared engine fn.
@@ -1688,11 +1379,7 @@ void func_801424E4(short *param_1) {
 
 
 
-extern void (*D_8018C9A0[])(void);
-
-void func_801425CC(void *a0) {
-    D_8018C9A0[*(u16 *)((s32)a0 + 0x2)]();
-}
+DEFINE_func_801425CC()  /* dedup: shared engine-core @0x801425CC (src/shared) */
 
 
 
@@ -2170,11 +1857,7 @@ DEFINE_func_801439C0()  /* dedup: shared engine-core @0x801439C0 (src/shared) */
 DEFINE_func_801439FC()  /* dedup: shared engine-core @0x801439FC (src/shared) */
 
 
-extern void (*D_8018CE90[])(void);
-
-void func_80143B30(void *a0) {
-    D_8018CE90[*(u16 *)((s32)a0 + 0x2)]();
-}
+DEFINE_func_80143B30()  /* dedup: shared engine-core @0x80143B30 (src/shared) */
 
 
 DEFINE_func_80143B6C()  /* dedup: shared engine-core @0x80143B6C (src/shared) */
@@ -2182,21 +1865,13 @@ DEFINE_func_80143B6C()  /* dedup: shared engine-core @0x80143B6C (src/shared) */
 DEFINE_func_80143BDC()  /* dedup: shared engine-core @0x80143BDC (src/shared) */
 
 
-extern void (*D_8018CE9C[])(void);
-
-void func_80143C38(void *a0) {
-    D_8018CE9C[*(u16 *)((s32)a0 + 0x2)]();
-}
+DEFINE_func_80143C38()  /* dedup: shared engine-core @0x80143C38 (src/shared) */
 
 
 DEFINE_func_80143C74()  /* dedup: shared engine-core @0x80143C74 (src/shared) */
 
 
-extern void (*D_8018CEA4[])(void);
-
-void func_80143C98(void *a0) {
-    D_8018CEA4[*(u16 *)((s32)a0 + 0x2)]();
-}
+DEFINE_func_80143C98()  /* dedup: shared engine-core @0x80143C98 (src/shared) */
 
 
 DEFINE_func_80143CD4()  /* dedup: shared engine-core @0x80143CD4 (src/shared) */
@@ -2209,54 +1884,11 @@ DEFINE_func_80143CD4()  /* dedup: shared engine-core @0x80143CD4 (src/shared) */
 
      /* size 0x0c */
 
-extern void ApplyMatrixSV(void*, Svec_801372B0*, Svec_801372B0*);
-extern s32 func_8012BEE8(s32 a0);
-extern void func_8012C218(void *a0);
-
-void func_80143D28(s32 param_1) {
-
-    extern MatEntry D_8018CEC8[];
-    register s32 iVar3 __asm__("$18") = *(s32 *)(param_1 + 0x20); /* $s2 */
-    register s32 iVar2 __asm__("$17") = *(s32 *)(param_1 + 0x64); /* $s1 */
-    MatEntry *p = &D_8018CEC8[*(s16 *)(param_1 + 0x70)];
-    s32 sVar4;
-    s32 iVar1;
-
-    *(s16 *)(iVar3 + 0x14) = p->f8;
-    *(u16 *)(iVar3 + 0x12) = *(u16 *)(iVar3 + 0x12) + p->fa;
-    sVar4 = 0x1000;
-    ((void (*)(void *, void *, void *))ApplyMatrixSV)((void *)(*(s32 *)(param_1 + 0x20) + 0x34), p, (void *)(param_1 + 0x50));
-
-    if (*(s16 *)(param_1 + 0xfe) == 0 &&
-        (iVar2 == 0 || *(s16 *)(iVar2 + 0x36) != *(s16 *)(param_1 + 0xfc) ||
-         *(u8 *)(iVar2 + 0xc1) != 6)) {
-        if (0x10 < *(s32 *)(param_1 + 0x1c)) {
-            *(s32 *)(param_1 + 0x1c) = 0x10;
-        }
-        *(s16 *)(param_1 + 0xfe) = 1;
-    }
-
-    iVar1 = *(s32 *)(param_1 + 0x1c);
-    if (iVar1 < 0x11) {
-        sVar4 = iVar1 << 8;
-    }
-    if (0x73 < iVar1) {
-        sVar4 = (0x78 - iVar1) << 10;
-    }
-    *(s16 *)(iVar3 + 0x18) = *(s16 *)(iVar3 + 0x1a) = *(s16 *)(iVar3 + 0x1c) = sVar4;
-
-    if (func_8012BEE8(param_1)) {
-        func_8012C218((void *)param_1);
-    }
-}
+DEFINE_func_80143D28()  /* dedup: shared engine-core @0x80143D28 (src/shared) */
 
 
 
-extern void (*D_8018CEEC[])(void);
-
-void func_80143E68(void *a0) {
-    D_8018CEEC[*(u16 *)((s32)a0 + 0x2)]();
-}
+DEFINE_func_80143E68()  /* dedup: shared engine-core @0x80143E68 (src/shared) */
 
 
 DEFINE_func_80143EA4()  /* dedup: shared engine-core @0x80143EA4 (src/shared) */
@@ -2268,11 +1900,7 @@ DEFINE_func_80143EB4()  /* dedup: shared engine-core @0x80143EB4 (src/shared) */
 DEFINE_func_80143EBC()  /* dedup: shared engine-core @0x80143EBC (src/shared) */
 
 
-extern void (*D_8018CF00[])(void);
-
-void func_80144054(void *a0) {
-    D_8018CF00[*(u16 *)((s32)a0 + 0x2)]();
-}
+DEFINE_func_80144054()  /* dedup: shared engine-core @0x80144054 (src/shared) */
 
 
 
@@ -2539,21 +2167,13 @@ void func_80144880(s32 param_1)
 DEFINE_func_80144988()  /* dedup: shared engine-core @0x80144988 (src/shared) */
 
 
-extern void (*D_8018CF10[])(void);
-
-void func_801449C8(void *a0) {
-    D_8018CF10[*(u16 *)((s32)a0 + 0x2)]();
-}
+DEFINE_func_801449C8()  /* dedup: shared engine-core @0x801449C8 (src/shared) */
 
 
 DEFINE_func_80144A04()  /* dedup: shared engine-core @0x80144A04 (src/shared) */
 
 
-extern void (*D_8018CF18[])(void);
-
-void func_80144A2C(void *a0) {
-    D_8018CF18[*(u16 *)((s32)a0 + 0x2)]();
-}
+DEFINE_func_80144A2C()  /* dedup: shared engine-core @0x80144A2C (src/shared) */
 
 
 DEFINE_func_80144A68()  /* dedup: shared engine-core @0x80144A68 (src/shared) */
