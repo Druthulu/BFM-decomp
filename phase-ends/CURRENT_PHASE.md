@@ -181,7 +181,46 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 
 ---
 
-# ▶ SESSION S49 (2026-08-12, in progress) — THE COUSIN TIER: h_seq brittleness measured, similarity map + seeded wave-7 slate built
+# 🛑 SESSION S49 CHECKPOINT — FINAL (2026-08-13) — FRESH SESSION SAFE HERE
+> **Tree CLEAN** but for R23 `db.*.gbf` churn + a regenerable `.run/backlog.jsonl` edit — never
+> stage either. **Nothing running.** 179 commits this session (`commit:1776`..`commit:1891`).
+> Gate at close: **`check-all` 213 passed / 0 failed of 213** from a CLEAN rebuild (R22 run **5×**
+> this session, 213/213 every time).
+> **Fleet: 95.2% instr · 89.9% distinct · 96.56% fn-count · INCLUDE_ASM stubs 12,468.**
+> **177 instances banked** (12,661 → 12,468). Cookbook **§168 §169 §170**. dedup 2,043/0.
+> **NO phase close** — T5 needs Drew's gate-2. ⚠ P30's milestone "≥95% instr fleet" REMAINS MET.
+
+## ▶ RESUME HERE — READ THIS BLOCK FIRST
+1. **DO THIS FIRST, IT IS CHEAP AND IT PRICES EVERYTHING ELSE: the TU-spread test.**
+   Re-gate the **42 unbanked A-prop drafts ONE PER TU** (they are on disk in `.run/aprop1/<FN>/`;
+   the confirmed list is `.run/aprop1_confirmed.json`, the banked list `.run/gate_aprop1_banked.json`
+   — the difference is the test set). A-prop measured **91% agent → 57% gate**, the worst conversion
+   of the session, and the hypothesis (§170) is that family-batched cards CONCENTRATE members into
+   one destination TU — the §169 collision. If they bank one-per-TU the fix is to **interleave
+   families per gate batch**, not to redraft, and the remaining **320 batched members** are worth
+   ~15M tokens. **Do not scale the A-prop lane on 57% until this is measured.**
+2. **The regen chain is MANDATORY before any card/slate work** (the tools fail loud on a stale map,
+   by design): `tools/family_hseq.py` → `tools/family_cousins.py` → `--adapt-cards` / `--aprop-cards`.
+   Sigs are byte-derived and do NOT need regenerating unless a binary is onboarded.
+3. **Gate with `gate_lane.py`'s contract** (scratchpad copy; worth promoting into `tools/`):
+   `--no-propagate --commit`, **NO outer timeout**, dirty-tree abort at entry, revert residue between
+   groups, then `dedup_propagate --addr` PER FUNCTION. §169 law 3 was paid for twice tonight.
+4. **The ≥16 head, unfinished:** 56 of 449 banked. Open: the **`D_801ED98C` carry fix** (one missing
+   file-scope extern gates **83 PURE members** — `dedup_propagate` names it itself), the **320
+   batched A-prop members**, and **`func_8017C294`** (×16, 246 ins, **NEAR at 2 instructions** after
+   three seeded attempts — the board's biggest single crack, and free permuter fuel).
+
+## 🔑 THE ONE THING TO CARRY FORWARD
+**Five instrument failures tonight; zero compiler walls.** An orphaned `dedup_propagate` that
+outlived the parent I killed and raced my revert · an agent writing a TRACKED header · my own
+`gate_lane` filtering on the wrong key and printing **"gating 0 drafts"** as a result · a
+`--band substantial` default that hid 5 of 13 head families from every sweep ever run · one missing
+extern gating 83 members. **Every single "0 banked" tonight was a tool, a flag, or a declaration.**
+The guards caught all five before anything reached a commit — that is the return on the 26-A/S48
+instrument work, and it is why the honest reflex when a number reads zero is *check the instrument
+first*, not *record a wall*.
+
+# ▶ (superseded by FINAL) SESSION S49 (2026-08-12) — THE COUSIN TIER: h_seq brittleness measured, similarity map + seeded wave-7 slate built
 > Drew's question — "5,000+ unique funcs smells wrong" — byte-verified as a GROUPING ARTIFACT.
 > `h_seq` is an exact skeleton hash: ±1 instruction (li crossing the 16-bit boundary → `lui+ori`,
 > table-size drift) fragments same-source families into "singletons". Probed: **86/120 near-pairs
