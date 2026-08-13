@@ -343,7 +343,22 @@ void func_801EA0E4(void) {
 }
 
 
-INCLUDE_ASM("asm/md_SC04_027/nonmatchings/md_SC04_027", func_801EA10C);
+#include "common.h"
+
+extern u8 D_801EBBAC[];
+
+void func_800167B8(int);
+void func_80175414(s32 _arg0);
+
+int func_801EA10C(u8 *arg) {
+    extern u8 *D_80126B10;
+    D_80126B10 = D_801EBBAC;
+    func_800167B8(0);
+    ((void (*)(void))func_80175414)();
+    arg[0x15]++;
+    return 0;
+}
+
 
 
 extern s32 func_800167F0(s32 a0);
