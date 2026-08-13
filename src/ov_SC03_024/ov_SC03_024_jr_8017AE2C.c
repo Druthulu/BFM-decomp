@@ -4201,7 +4201,84 @@ void func_8017D63C(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_024/nonmatchings/ov_SC03_024_jr_8017AE2C", func_8017D678);
+
+/* func_8017D678 -- ov_SC03_014, TU ov_SC03_014_jr_8017AE2C.c
+ *
+ * §160g sibling-first: destination TU itself has the exact template two functions earlier,
+ * func_8017CE90 (same TU, same family, allocate-then-attach-a-fixed-color-quad shape):
+ *   - func_801465C0 loose `void(void)` file-scope decl (TU line 130/3614/3910), fought via a
+ *     zero-arg cast-at-callsite `((void *(*)(void))func_801465C0)()` (§161c).
+ *   - func_8001CD04(void*,void*) shared-engine helper (src/800.c, INCLUDE_ASM) that stores its
+ *     2nd arg into (a0+0x20) -- confirms s1=result-object, s0=&D_801C11F0 retained address.
+ *   - `*(s1+4) |= 0x50000000` computed and stored in the delay slot of the FOLLOWING
+ *     func_800233CC jal (same instruction-order idiom as func_8017CE90's identical line).
+ *   - func_80146C3C(void) called on the alloc-failure path with the object pointer cast in
+ *     (`((void (*)(void *))func_80146C3C)(a0)`), same as func_8017CE90's else-branch.
+ * func_80146E90(s32*,s32) is already declared+called directly (no cast) at TU line 3801
+ * (`func_80146E90((s32 *)a0, 0x20);`) -- reused verbatim here with a different 2nd arg.
+ * The color-quad global block D_801C11F0.. is fixed by this TU's OWN later sibling
+ * func_8017D900 (a few lines below in the same file), whose header comment explicitly notes:
+ * "In-TU sibling func_8017D678 shows D_801C11F1/D_801C11F2 are SEPARATE u8 globals (each gets
+ * its own lui/%lo sb)" -- i.e. func_8017D900 was written FROM this function's own asm. That
+ * comment also fixes D_801C11F4 as a plain u8 (its Quad_801EA880 4-byte-struct framing only
+ * matters for func_8017D900's block-copy; here each of D_801C11F4/885/886 gets an independent
+ * byte store, so plain scalar externs are correct and sufficient).
+ *
+ * Source statement order mirrors instruction order 1:1 (straight-line alloc/init, no branches
+ * inside the success path); the `a0 = s2` register move for the func_80146E90 call argument is
+ * expected to be scheduler-hoisted early by gcc/sched2 exactly as seen in every other sibling in
+ * this TU -- no special C construct needed for that.
+ */
+
+extern void func_801465C0(void);
+extern void func_8001CD04(void *a0, void *a1);
+extern void func_800233CC(void *a0, u16 a1);
+extern void func_80146E90(s32 *a0, s32 a1);
+extern void func_80146C3C(void);
+
+
+void func_8017D678(void *a0)
+{
+
+    extern u8 D_801C11F0;
+    extern u8 D_801C11F1;
+    extern u8 D_801C11F2;
+    extern u8 D_801C11F4;
+    extern u8 D_801C11F5;
+    extern u8 D_801C11F6;
+    void *s1;
+    void *s0;
+    s32 pad[10];
+
+    s1 = ((void *(*)(void))func_801465C0)();
+    *(void **)((u8 *)a0 + 0x20) = s1;
+
+    if (s1 != NULL) {
+        s0 = &D_801C11F0;
+        func_8001CD04(s1, s0);
+
+        *(s32 *)((u8 *)s1 + 4) |= 0x50000000;
+        func_800233CC(s0, 0x100);
+
+        *(s16 *)((u8 *)s1 + 0x1A) = 0;
+        *(s16 *)((u8 *)s1 + 0x18) = 0;
+        *(s32 *)((u8 *)a0 + 0x10) = 0x80;
+        *(s16 *)((u8 *)s1 + 0x2C) = 0x10;
+
+        *(u8 *)s0 = 0xFF;
+        D_801C11F1 = 0xFF;
+        D_801C11F2 = 0xFF;
+        D_801C11F4 = 0;
+        D_801C11F5 = 0;
+        D_801C11F6 = 0;
+
+        func_80146E90((s32 *)a0, 0xC0);
+        *(u16 *)((u8 *)a0 + 0x2) = *(u16 *)((u8 *)a0 + 0x2) + 1;
+    } else {
+        ((void (*)(void *))func_80146C3C)(a0);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_024/nonmatchings/ov_SC03_024_jr_8017AE2C", func_8017D75C);
 
