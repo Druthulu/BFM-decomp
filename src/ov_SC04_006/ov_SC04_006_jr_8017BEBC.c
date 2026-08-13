@@ -3196,60 +3196,23 @@ void func_8017CE7C(void *a0) {
 
 
 
-extern void func_8017D0AC(void);
-extern void func_800167B8(s32 a0);
-
-s32 func_8017CEB8(s32 a0) {
-    func_8017D0AC();
-    func_800167B8(0);
-    *(u8 *)(a0 + 0x15) += 1;
-    return 0;
-}
+DEFINE_func_8017CEB8()  /* dedup: shared engine-core @0x8017CEB8 (src/shared) */
 
 
 
-extern s32 func_800167F0(s32 a0);
-
-s32 func_8017CEFC(void) {
-    return (func_800167F0(0) & 0xffff) != 0;
-}
+DEFINE_func_8017CEFC()  /* dedup: shared engine-core @0x8017CEFC (src/shared) */
 
 
 
 
-extern void func_8017D0D4(void);
-
-s32 func_8017CF20(s32 a0) {
-    func_8017D0D4();
-    *(s32 *)(a0 + 0x28) = 10;
-    *(u8 *)(a0 + 0x15) += 1;
-    return 0;
-}
+DEFINE_func_8017CF20()  /* dedup: shared engine-core @0x8017CF20 (src/shared) */
 
 
 
-extern void func_8002D4C8(s32 a0, s32 a1);
-extern void func_8001BFD0(void);
-extern void func_800D0C48(s32 a0);
-extern void func_800D1E28(void);
-
-s32 func_8017CF60(u8 *a0) {
-    if (--(*(s32 *)(a0 + 0x28)) == -1) {
-        func_8002D4C8(0x1C, 0);
-        func_8001BFD0();
-        func_8002D4C8(0x1D, 0);
-        func_800D0C48(1);
-        func_800D1E28();
-        *(u8 *)(a0 + 0x15) += 1;
-    }
-    return 0;
-}
+DEFINE_func_8017CF60()  /* dedup: shared engine-core @0x8017CF60 (src/shared) */
 
 
-extern void func_800D1EBC(void);
-    void func_8017CFDC(void) {
-        func_800D1EBC();
-    }
+DEFINE_func_8017CFDC()  /* dedup: shared engine-core @0x8017CFDC (src/shared) */
 
 
 
@@ -3262,23 +3225,7 @@ void func_8017CFFC(void *a0) {
 
 
 
-extern void func_8002D4C8(s32 a0, s32 a1);
-extern void func_8001BFD0(void);
-extern void func_800D1E28(void);
-
-s32 func_8017D038(s32 a0) {
-    s32 t = *(s32 *)(a0 + 0x28) - 1;
-
-    *(s32 *)(a0 + 0x28) = t;
-    if (t == -1) {
-        func_8002D4C8(0x1C, 0);
-        func_8001BFD0();
-        func_8002D4C8(0x1D, 0);
-        func_800D1E28();
-        *(u8 *)(a0 + 0x15) += 1;
-    }
-    return 0;
-}
+DEFINE_func_8017D038()  /* dedup: shared engine-core @0x8017D038 (src/shared) */
 
 
 extern void func_8016EE40(s32 a0, s32 a1, s32 a2);

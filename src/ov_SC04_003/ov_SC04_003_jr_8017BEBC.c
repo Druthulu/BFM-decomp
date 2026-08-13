@@ -3191,7 +3191,29 @@ void func_8017CD9C(void)
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_003/nonmatchings/ov_SC04_003_jr_8017BEBC", func_8017CE0C);
+#include "common.h"
+
+extern s32 D_8011F9C4;
+extern s32 D_80185F04;
+extern s32 D_80185FE0;
+extern u8 *D_801274C8;
+extern void *D_801274CC;
+extern void func_80029124(s32, s32);
+extern void func_800291F0(s32, s32);
+extern void func_8002D4C8(s32, s32);
+extern int func_8017D540(int);
+
+void func_8017CE0C(void)
+{
+    D_8011F9C4 = 1;
+    func_80029124(0xCB, 1);
+    func_800291F0(4, 0xCB);
+    func_8002D4C8(6, 0);
+    D_801274C8 = (u8 *)&D_80185F04;
+    D_801274CC = (void *)&D_80185FE0;
+    ((void (*)(s32))func_8017D540)(1);
+}
+
 
 
 extern void (*D_80185C18[])(void);
@@ -3203,60 +3225,23 @@ void func_8017CE7C(void *a0) {
 
 
 
-extern void func_8017D0AC(void);
-extern void func_800167B8(s32 a0);
-
-s32 func_8017CEB8(s32 a0) {
-    func_8017D0AC();
-    func_800167B8(0);
-    *(u8 *)(a0 + 0x15) += 1;
-    return 0;
-}
+DEFINE_func_8017CEB8()  /* dedup: shared engine-core @0x8017CEB8 (src/shared) */
 
 
 
-extern s32 func_800167F0(s32 a0);
-
-s32 func_8017CEFC(void) {
-    return (func_800167F0(0) & 0xffff) != 0;
-}
+DEFINE_func_8017CEFC()  /* dedup: shared engine-core @0x8017CEFC (src/shared) */
 
 
 
 
-extern void func_8017D0D4(void);
-
-s32 func_8017CF20(s32 a0) {
-    func_8017D0D4();
-    *(s32 *)(a0 + 0x28) = 10;
-    *(u8 *)(a0 + 0x15) += 1;
-    return 0;
-}
+DEFINE_func_8017CF20()  /* dedup: shared engine-core @0x8017CF20 (src/shared) */
 
 
 
-extern void func_8002D4C8(s32 a0, s32 a1);
-extern void func_8001BFD0(void);
-extern void func_800D0C48(s32 a0);
-extern void func_800D1E28(void);
-
-s32 func_8017CF60(u8 *a0) {
-    if (--(*(s32 *)(a0 + 0x28)) == -1) {
-        func_8002D4C8(0x1C, 0);
-        func_8001BFD0();
-        func_8002D4C8(0x1D, 0);
-        func_800D0C48(1);
-        func_800D1E28();
-        *(u8 *)(a0 + 0x15) += 1;
-    }
-    return 0;
-}
+DEFINE_func_8017CF60()  /* dedup: shared engine-core @0x8017CF60 (src/shared) */
 
 
-extern void func_800D1EBC(void);
-void func_8017CFDC(void) {
-    func_800D1EBC();
-}
+DEFINE_func_8017CFDC()  /* dedup: shared engine-core @0x8017CFDC (src/shared) */
 
 
 
@@ -3269,23 +3254,7 @@ void func_8017CFFC(void *a0) {
 
 
 
-extern void func_8002D4C8(s32 a0, s32 a1);
-extern void func_8001BFD0(void);
-extern void func_800D1E28(void);
-
-s32 func_8017D038(s32 a0) {
-    s32 t = *(s32 *)(a0 + 0x28) - 1;
-
-    *(s32 *)(a0 + 0x28) = t;
-    if (t == -1) {
-        func_8002D4C8(0x1C, 0);
-        func_8001BFD0();
-        func_8002D4C8(0x1D, 0);
-        func_800D1E28();
-        *(u8 *)(a0 + 0x15) += 1;
-    }
-    return 0;
-}
+DEFINE_func_8017D038()  /* dedup: shared engine-core @0x8017D038 (src/shared) */
 
 
 extern void func_8016EE40(s32 a0, s32 a1, s32 a2);
@@ -4760,8 +4729,7 @@ s32 func_80181A70(void *a0) {
 }
 
 
-void func_80181A98(void) {
-}
+DEFINE_func_80181A98()  /* dedup: shared engine-core @0x80181A98 (src/shared) */
 
 
 /* Declarations copied VERBATIM from src/ov_SC03_014/ov_SC03_014_jr_801848E4.c

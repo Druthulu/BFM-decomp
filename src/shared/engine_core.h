@@ -56986,6 +56986,75 @@
         } \
     }
 
+#define DEFINE_func_80181A98() \
+    void func_80181A98(void) { \
+    }
+
+#define DEFINE_func_8017CFDC() \
+    extern void func_800D1EBC(void); \
+    void func_8017CFDC(void) { \
+        func_800D1EBC(); \
+    }
+
+#define DEFINE_func_8017CEFC() \
+    extern s32 func_800167F0(s32 a0); \
+    s32 func_8017CEFC(void) { \
+        return (func_800167F0(0) & 0xffff) != 0; \
+    }
+
+#define DEFINE_func_8017CF20() \
+    extern void func_8017D0D4(void); \
+    s32 func_8017CF20(s32 a0) { \
+        func_8017D0D4(); \
+        *(s32 *)(a0 + 0x28) = 10; \
+        *(u8 *)(a0 + 0x15) += 1; \
+        return 0; \
+    }
+
+#define DEFINE_func_8017CEB8() \
+    extern void func_8017D0AC(void); \
+    extern void func_800167B8(s32 a0); \
+    s32 func_8017CEB8(s32 a0) { \
+        func_8017D0AC(); \
+        func_800167B8(0); \
+        *(u8 *)(a0 + 0x15) += 1; \
+        return 0; \
+    }
+
+#define DEFINE_func_8017D038() \
+    extern void func_8002D4C8(s32 a0, s32 a1); \
+    extern void func_8001BFD0(void); \
+    extern void func_800D1E28(void); \
+    s32 func_8017D038(s32 a0) { \
+        s32 t = *(s32 *)(a0 + 0x28) - 1; \
+        *(s32 *)(a0 + 0x28) = t; \
+        if (t == -1) { \
+            func_8002D4C8(0x1C, 0); \
+            func_8001BFD0(); \
+            func_8002D4C8(0x1D, 0); \
+            func_800D1E28(); \
+            *(u8 *)(a0 + 0x15) += 1; \
+        } \
+        return 0; \
+    }
+
+#define DEFINE_func_8017CF60() \
+    extern void func_8002D4C8(s32 a0, s32 a1); \
+    extern void func_8001BFD0(void); \
+    extern void func_800D0C48(s32 a0); \
+    extern void func_800D1E28(void); \
+    s32 func_8017CF60(u8 *a0) { \
+        if (--(*(s32 *)(a0 + 0x28)) == -1) { \
+            func_8002D4C8(0x1C, 0); \
+            func_8001BFD0(); \
+            func_8002D4C8(0x1D, 0); \
+            func_800D0C48(1); \
+            func_800D1E28(); \
+            *(u8 *)(a0 + 0x15) += 1; \
+        } \
+        return 0; \
+    }
+
 #endif
 
 #define DEFINE_func_80128EA8() \
@@ -143375,6 +143444,75 @@
                 *(s16 *)(a0 + 0xE) = *(u16 *)(out + 4); \
             } \
         } \
+    }
+
+#define DEFINE_func_80181A98() \
+    void func_80181A98(void) { \
+    }
+
+#define DEFINE_func_8017CFDC() \
+    extern void func_800D1EBC(void); \
+    void func_8017CFDC(void) { \
+        func_800D1EBC(); \
+    }
+
+#define DEFINE_func_8017CEFC() \
+    extern s32 func_800167F0(s32 a0); \
+    s32 func_8017CEFC(void) { \
+        return (func_800167F0(0) & 0xffff) != 0; \
+    }
+
+#define DEFINE_func_8017CF20() \
+    extern void func_8017D0D4(void); \
+    s32 func_8017CF20(s32 a0) { \
+        func_8017D0D4(); \
+        *(s32 *)(a0 + 0x28) = 10; \
+        *(u8 *)(a0 + 0x15) += 1; \
+        return 0; \
+    }
+
+#define DEFINE_func_8017CEB8() \
+    extern void func_8017D0AC(void); \
+    extern void func_800167B8(s32 a0); \
+    s32 func_8017CEB8(s32 a0) { \
+        func_8017D0AC(); \
+        func_800167B8(0); \
+        *(u8 *)(a0 + 0x15) += 1; \
+        return 0; \
+    }
+
+#define DEFINE_func_8017D038() \
+    extern void func_8002D4C8(s32 a0, s32 a1); \
+    extern void func_8001BFD0(void); \
+    extern void func_800D1E28(void); \
+    s32 func_8017D038(s32 a0) { \
+        s32 t = *(s32 *)(a0 + 0x28) - 1; \
+        *(s32 *)(a0 + 0x28) = t; \
+        if (t == -1) { \
+            func_8002D4C8(0x1C, 0); \
+            func_8001BFD0(); \
+            func_8002D4C8(0x1D, 0); \
+            func_800D1E28(); \
+            *(u8 *)(a0 + 0x15) += 1; \
+        } \
+        return 0; \
+    }
+
+#define DEFINE_func_8017CF60() \
+    extern void func_8002D4C8(s32 a0, s32 a1); \
+    extern void func_8001BFD0(void); \
+    extern void func_800D0C48(s32 a0); \
+    extern void func_800D1E28(void); \
+    s32 func_8017CF60(u8 *a0) { \
+        if (--(*(s32 *)(a0 + 0x28)) == -1) { \
+            func_8002D4C8(0x1C, 0); \
+            func_8001BFD0(); \
+            func_8002D4C8(0x1D, 0); \
+            func_800D0C48(1); \
+            func_800D1E28(); \
+            *(u8 *)(a0 + 0x15) += 1; \
+        } \
+        return 0; \
     }
 
 #endif
