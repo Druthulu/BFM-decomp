@@ -343,7 +343,22 @@ void func_801F1A24(void) {
 }
 
 
-INCLUDE_ASM("asm/md_SC03_076/nonmatchings/md_SC03_076", func_801F1A4C);
+#include "common.h"
+
+extern u8 D_801F34DC[];
+
+void func_800167B8(int);
+void func_80175414(s32 _arg0);
+
+int func_801F1A4C(u8 *arg) {
+    extern u8 *D_80126B10;
+    D_80126B10 = D_801F34DC;
+    func_800167B8(0);
+    ((void (*)(void))func_80175414)();
+    arg[0x15]++;
+    return 0;
+}
+
 
 
 extern s32 func_800167F0(s32 a0);
@@ -391,7 +406,25 @@ void func_801F1CB0(void) {
 }
 
 
-INCLUDE_ASM("asm/md_SC03_076/nonmatchings/md_SC03_076", func_801F1CD8);
+#include "common.h"
+
+typedef struct { u8 c[8]; } Blk8;
+
+const Blk8 D_801EF6C0 = {{0x00, 0x00, 0x7E, 0xFF, 0xB0, 0x00, 0x00, 0x00}};
+
+extern s32 func_80171D78(u32, void *);
+extern void func_80171A1C(void *);
+
+void func_801F1CD8(u32 arg0) {
+    Blk8 buffer;
+
+    buffer = D_801EF6C0;
+
+    if (func_80171D78(arg0, &buffer)) {
+        ((void (*)(u32))func_80171A1C)(arg0);
+    }
+}
+
 
 
 extern s32 func_80014C54(s32, s32, s32);
@@ -428,7 +461,25 @@ void func_801F1DDC(void) {
 }
 
 
-INCLUDE_ASM("asm/md_SC03_076/nonmatchings/md_SC03_076", func_801F1DFC);
+#include "common.h"
+
+
+
+const Blk8 D_801EF6C8 = {{0xD5, 0xFF, 0x7E, 0xFF, 0xF5, 0xFE, 0x00, 0x00}};
+
+extern s32 func_80171D78(u32, void *);
+extern void func_80171A1C(void *);
+
+void func_801F1DFC(u32 arg0) {
+    Blk8 buffer;
+
+    buffer = D_801EF6C8;
+
+    if (func_80171D78(arg0, &buffer)) {
+        ((void (*)(u32))func_80171A1C)(arg0);
+    }
+}
+
 
 void func_801F1E64(void) {
 }
@@ -481,7 +532,13 @@ void func_801F1F30(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/md_SC03_076/nonmatchings/md_SC03_076", func_801F1F6C);
+extern void func_801F1F94(s32 param_1, s16 *param_2);
+
+void func_801F1F6C(s32 param_1) {
+    extern s16 D_801274E8;
+    func_801F1F94(param_1, &D_801274E8);
+}
+
 
 
 /* MATRIX 0x20: short m[3][3] @0x00 (18B) + 2B pad, long t[3] @0x14  (PsyQ layout) */
