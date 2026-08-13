@@ -3334,7 +3334,124 @@ void func_8017BFC8(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_010/nonmatchings/ov_SC03_010_jr_8017AE2C", func_8017C004);
+#include "common.h"
+
+/* func_8017C004 — ov_SC03_010 / jr_8017AE2C, 132 ins, family x3
+ * (ov_SC03_010 / ov_SC03_011 / ov_SC03_013 — pure data-symbol remap)
+ *
+ * "Build the 5-piece HUD/menu widget set" ctor:
+ *   clear six object slots, then allocate five sprite objects in sequence,
+ *   each guarded by a NULL test that bails to the shared epilogue.
+ *
+ * Codegen notes (why this exact C):
+ *  - $s3 = 1 (HImode) is the CSE'd `f2C = 1` constant, live across all five
+ *    blocks; $s4 = 1 (QImode) is a SEPARATE pseudo for `f27 = 1` — same value,
+ *    different mode => different pseudo. $s6 = -0x20 and $s5 = -0x2C are the
+ *    twice-used `fA` constants. Block 5's -0xC / 0xB6 appear once each and stay
+ *    in $v0, which is the tell that CSE only banks a repeated constant.
+ *  - $s0 holds the shared second argument of the func_80024054/func_8001CE28
+ *    pair (used twice => one pseudo, live across the call).
+ *  - the trailing `lhu 0x2($s2)` is ZERO-extending => the counter field is u16.
+ *
+ * Integration surface (§52b/§161c): the host TU already declares
+ *   line 130  extern void func_801465C0(void);
+ *   line 3339 extern void func_8017C234(void);
+ * Both texts are reproduced VERBATIM here and the calls go through §17a-1
+ * casts, so nothing in the host has to change.
+ */
+
+/* --- host-TU-exact declarations (do not re-spell) ----------------------- */
+extern void func_801465C0(void);
+extern void func_8017C234(void);
+
+/* --- callees the host TU does not declare ------------------------------ */
+extern void func_8001CEC0(s32 a0, void *a1);
+extern void func_80024054(void *a0, void *a1);
+extern void func_8001CE28(s32 a0, void *a1);
+
+/* --- data ------------------------------------------------------------- */
+extern u8 D_801838E4[];
+extern u8 D_80183954[];
+extern u8 D_801839E0[];
+extern u8 D_801839EC[];
+extern u8 D_80183A00[];
+extern u8 D_8019FF44[];
+extern u8 D_8019FF64[];
+extern u8 D_8019FF94[];
+extern s16 D_8019FF38;
+extern s16 D_8019FF3C;
+extern s16 D_8019FF40;
+
+void func_8017C004(s32 arg0) {
+    s32 p;
+
+    *(s32 *)(arg0 + 0x20) = 0;
+    *(s32 *)(arg0 + 0x34) = 0;
+    *(s32 *)(arg0 + 0x10) = 0;
+    *(s32 *)(arg0 + 0x14) = 0;
+    *(s32 *)(arg0 + 0x18) = 0;
+    *(s32 *)(arg0 + 0x1C) = 0;
+
+    p = ((s32 (*)(void))func_801465C0)();
+    if (p != 0) {
+        *(s32 *)(arg0 + 0x34) = p;
+        func_8001CEC0(p, D_801838E4);
+        *(s16 *)(p + 0x8) = 0x40;
+        *(s16 *)(p + 0xA) = -0x20;
+        *(s16 *)(p + 0x2C) = 1;
+        *(s32 *)(p + 0x4) |= 0x40000000;
+
+        p = ((s32 (*)(void))func_801465C0)();
+        if (p != 0) {
+            *(s32 *)(arg0 + 0x10) = p;
+            func_80024054(D_801839E0, D_8019FF44);
+            func_8001CE28(p, D_8019FF44);
+            *(s16 *)(p + 0x8) = 0x30;
+            *(s16 *)(p + 0xA) = -0x2C;
+            *(s16 *)(p + 0x2C) = 1;
+            *(u8 *)(p + 0x27) = 1;
+
+            p = ((s32 (*)(void))func_801465C0)();
+            if (p != 0) {
+                *(s32 *)(arg0 + 0x14) = p;
+                func_8001CEC0(p, D_80183954);
+                *(s16 *)(p + 0x8) = -0x40;
+                *(s16 *)(p + 0xA) = -0x20;
+                *(s16 *)(p + 0x2C) = 1;
+
+                p = ((s32 (*)(void))func_801465C0)();
+                if (p != 0) {
+                    *(s32 *)(arg0 + 0x18) = p;
+                    func_80024054(D_801839EC, D_8019FF64);
+                    func_8001CE28(p, D_8019FF64);
+                    *(s16 *)(p + 0x8) = -0x58;
+                    *(s16 *)(p + 0xA) = -0x2C;
+                    *(s16 *)(p + 0x2C) = 1;
+                    *(u8 *)(p + 0x27) = 1;
+
+                    p = ((s32 (*)(void))func_801465C0)();
+                    if (p != 0) {
+                        *(s32 *)(arg0 + 0x1C) = p;
+                        func_80024054(D_80183A00, D_8019FF94);
+                        func_8001CE28(p, D_8019FF94);
+                        *(s16 *)(p + 0x8) = -0x68;
+                        *(s16 *)(p + 0xA) = -0xC;
+                        *(s16 *)(p + 0x2C) = 1;
+                        *(u8 *)(p + 0x27) = 0xB6;
+                        *(s16 *)(arg0 + 0x2A) = 0;
+                        *(s16 *)(arg0 + 0x28) = 0;
+                        D_8019FF40 = 0;
+                        D_8019FF3C = 0;
+                        D_8019FF38 = 0;
+                        ((void (*)(s32))func_8017C234)(arg0);
+                        *(u16 *)(arg0 + 0x2) = *(u16 *)(arg0 + 0x2) + 1;
+                    }
+                }
+            }
+        }
+    }
+}
+
 
 extern void func_8017C234(void);
     void func_8017C214(void) {

@@ -3329,7 +3329,72 @@ void func_8017BEBC(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_8017AE2C", func_8017BEF8);
+extern s32 func_800D21C4(s32 a0, void *a1, s32 a2);
+extern s32 rand(void);
+extern s32 ratan2(s32 a0, s32 a1);
+extern void func_8001382C(s32 a0, void *a1, void *a2);
+extern void func_80146E90(s32 *a0, s32 a1);
+extern void func_80146C3C(void);
+extern char D_80196FC0[];
+extern char D_80196FE0[];
+extern s32 D_80196FE8;
+
+void func_8017BEF8(void *a0) {
+    s32 node;
+    s32 r1, r2, r3;
+    s32 w, mag;
+    u32 v;
+    s32 t;
+    s32 vec[3];
+    s32 ang32;
+    s16 ang;
+
+    node = func_800D21C4((s32)a0, D_80196FC0, 0x26);
+    *(s32 *)((s32)a0 + 0x20) = node;
+    if (node != 0) {
+        *(u16 *)(node + 0x28) = 0x234;
+        *(u16 *)(node + 0x2A) = 0x1C0;
+        *(u32 *)(node + 4) |= 0x8000000;
+        r1 = rand();
+        r2 = rand();
+        w = (r1 & 3) << 17;
+        mag = ((r2 & 3) << 15) + 0x40000;
+        D_80196FE8 = w + mag;
+
+        v = *(u32 *)((s32)a0 + 0x2C);
+        t = v >> 20;
+        vec[0] = t & 0x3FF;
+        if (t & 0x200) {
+            vec[0] |= 0xFFFFFE00;
+        } else {
+            vec[0] = t & 0x1FF;
+        }
+
+        v = *(u32 *)((s32)a0 + 0x2C);
+        t = v;
+        vec[2] = t & 0x3FF;
+        if (t & 0x200) {
+            vec[2] |= 0xFFFFFE00;
+        } else {
+            vec[2] = t & 0x1FF;
+        }
+
+        ang32 = ratan2(vec[0], vec[2]);
+        r3 = rand();
+        ang32 = ang32 - 0x1C7;
+        ang = ang32 + (r3 & 7) * 113;
+        *(s16 *)(node + 0x14) = ang;
+        func_8001382C(ang, D_80196FE0, vec);
+        *(s32 *)((s32)a0 + 0x10) = vec[0];
+        *(s32 *)((s32)a0 + 0x18) = vec[2];
+        *(s32 *)((s32)a0 + 0x14) = 0xFFFC0000;
+        func_80146E90(a0, (rand() & 7) | 8);
+        *(u16 *)((s32)a0 + 2) += 1;
+    } else {
+        ((void (*)(s32))func_80146C3C)((s32)a0);
+    }
+}
+
 
 DEFINE_func_8017C090()  /* dedup: shared engine-core @0x8017C090 (src/shared) */
 

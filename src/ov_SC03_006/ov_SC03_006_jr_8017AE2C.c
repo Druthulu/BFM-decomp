@@ -7176,7 +7176,67 @@ INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_801841E
 
 INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_80184300);
 
-INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_80184380);
+
+
+
+
+
+
+
+extern s32 VectorNormalSS(void *a0, void *a1);
+extern void func_8012F568(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
+extern u16 D_80126B5E;
+extern u16 D_80126B62;
+extern u16 D_80126B66;
+
+s32 func_80184380(void *arg0) {
+    s16 pointA[3];
+    s16 pointB[3];
+    s16 diff[3];
+    s32 addr;
+
+    pointA[0] = D_80126B5E;
+    pointA[1] = D_80126B62;
+    pointA[2] = D_80126B66;
+
+    pointB[0] = *(u16 *)((s32)arg0 + 0x6);
+    pointB[1] = *(u16 *)((s32)arg0 + 0xA);
+    pointB[2] = *(u16 *)((s32)arg0 + 0xE);
+    pointA[1] = D_80126B62 - 0x2A;
+
+    addr = (*(s32 *)((s32)arg0 + 0x58) & 0xFFFFFFF) | 0x80000000;
+
+    if (*(s16 *)(addr + 0x4) + pointB[0] > pointA[0]) {
+        return 0;
+    }
+    if (*(s16 *)(addr + 0x6) + pointB[0] < pointA[0]) {
+        return 0;
+    }
+    if (*(s16 *)(addr + 0xC) + pointB[2] > pointA[2]) {
+        return 0;
+    }
+    if (*(s16 *)(addr + 0xE) + pointB[2] < pointA[2]) {
+        return 0;
+    }
+    if (*(s16 *)(addr + 0x8) + pointB[1] > pointA[1]) {
+        return 0;
+    }
+    if (*(s16 *)(addr + 0xA) + pointB[1] < pointA[1]) {
+        goto ret0;
+    }
+
+    diff[0] = pointA[0] - pointB[0];
+    diff[1] = pointA[1] - pointB[1];
+    diff[2] = pointA[2] - pointB[2];
+
+    VectorNormalSS(diff, diff);
+    func_8012F568(1, 1, *(s16 *)((s32)arg0 + 0xDC), 0xD, (s32)pointA, (s32)diff);
+    return 1;
+
+ret0:
+    return 0;
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_8018450C);
 

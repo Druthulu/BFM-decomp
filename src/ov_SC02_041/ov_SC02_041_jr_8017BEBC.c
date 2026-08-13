@@ -5978,7 +5978,127 @@ s32 func_80182CCC(s32 arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_041/nonmatchings/ov_SC02_041_jr_8017BEBC", func_80182D80);
+/* func_80182D80 -- ov_SC02_041, TU ov_SC02_041_jr_8017BEBC.c
+ * Family reach x4 (zero-crack exemplar): func_80182D80 (ov_SC02_041) plus siblings in
+ * ov_SC04_002 / ov_SC04_005 / ov_SC04_007 (all `*_jr_8017BEBC`, all still INCLUDE_ASM).
+ *
+ * STEP 0 / cookbook 160g -- all of this is derived from the DESTINATION TU itself:
+ *   - `s32 *base = &D_80126B58;` computed unconditionally in the entry block, ahead of
+ *     every branch -- the SAME idiom documented at TU:5624-5630 (func_80182044) and
+ *     TU:5665-5690, where D_80126B58's own fields are read at 0x10/0x18/0x20/0x34 via
+ *     `base[N]` index arithmetic (N*4 == the byte offset) rather than bare globals.
+ *     Confirmed here: base[4] (== +0x10) is the SAME memory as the bare global
+ *     `D_80126B68` used at the top of this very function -- the `addiu $a1,$s3,0x10`
+ *     relocation (base-relative) is what forces the `base[4]`-style spelling instead of
+ *     `&D_80126B68` (a bare symbol reference would emit its own lui/addiu pair, not an
+ *     offset off $s3).
+ *   - the `t1 = func_8012B70C(D_800D3918, &v); result = (t1*2 - func_8012B70C(&v2,
+ *     D_800D3918)) & 0xFFF;` shape is the TU's own idiom at TU:5593-5598
+ *     (func_80181E18), reused verbatim (both callee orderings match: first call is
+ *     (D_800D3918, X), second is (Y, D_800D3918), and D_800D3918's address is CSE'd into
+ *     one saved register across both calls, exactly like the exemplar).
+ *   - `func_80049CAC((s32)&rot, (s32)&m); func_800484EC((s32)&m, (s32)&v, a2);` is the
+ *     TU's own idiom at TU:3412-3413 (func_8017D7C0): func_80049CAC(SVECTOR*, MATRIX*)
+ *     builds a rotation matrix from an angle triple; func_800484EC(MATRIX*, Vec32*,
+ *     Vec32*) applies it.  Local SV_/MTX_/V32_ typedefs copied from that function
+ *     (TU:3333-3335) since engine_core.h's real SVECTOR/MATRIX/Vec32 are not visible to
+ *     match_one's standalone -Iinclude-only compile.
+ *   - `func_801726B8(s32 *a0)` is TU:2224's own agreed extern; DEFINE_func_801726B8()
+ *     (engine_core.h) shows it as `return *(s32*)(a0+0x1F4) & 0x100;` -- a flag test.
+ *
+ * DECLARATION SURFACE (audited against the whole destination TU):
+ *   D_80126B58    TU:55   `extern s32 D_80126B58;`                    <- AGREES verbatim
+ *   D_800D3918    TU:634  `extern u8 D_800D3918[];`                   <- AGREES verbatim
+ *   D_80126B5E    TU:1790 `extern u16 D_80126B5E;`                    <- AGREES verbatim
+ *   D_80126B66    TU:1792 `extern u16 D_80126B66;`                    <- AGREES verbatim
+ *   VectorNormalSS TU:1848 `extern s32 VectorNormalSS(void *a0, void *a1);` <- AGREES verbatim
+ *   func_8012B70C  TU:5546 `extern s32 func_8012B70C(s16 *a0, s16 *a1);` <- AGREES verbatim
+ *   func_80149CD4  TU:381  `extern s32 func_80149CD4(s32 a0);`         <- AGREES verbatim
+ *   func_80049CAC  TU:2643/3362 `extern void func_80049CAC(s32 a0, s32 a1);` <- AGREES verbatim
+ *   func_800484EC  TU:242/3363 `extern void func_800484EC(s32 a0, s32 a1, s32 a2);` <- AGREES verbatim
+ *   func_801726B8  TU:2224 `extern s32 func_801726B8(s32 *a0);`        <- AGREES verbatim
+ *   D_80126B68 / D_80126B70 -- not declared anywhere else in the TU; used here as bare
+ *     s32 globals (the entry-block gate reads) AND, via `base[4]`/`base[6]`, as offsets
+ *     off the same D_80126B58 struct (see above) -- both spellings needed, no conflict.
+ *
+ * This host TU is inside the destination TU itself (jr_8017BEBC), where
+ * `extern void func_80182D80(s32 a0);` is already forward-declared (TU:5672) and called
+ * (TU:5690) by the already-matched func_80182044 -- confirming the agreed signature.
+ */
+
+typedef struct { short vx, vy, vz, pad; } SV_80182D80;   /*  8 bytes, align 2 */
+typedef struct { short m[3][3]; long t[3]; } MTX_80182D80; /* 0x20 bytes, align 4 */
+typedef struct { s32 vx, vy, vz, pad; } V32_80182D80;  /* 16 bytes, align 4 */
+
+extern s32 D_80126B58;
+extern s32 D_80126B68;
+extern s32 D_80126B70;
+extern u16 D_80126B5E;
+extern u16 D_80126B66;
+extern u8 D_800D3918[];
+
+extern s32 VectorNormalSS(void *a0, void *a1);
+extern s32 func_8012B70C(s16 *a0, s16 *a1);
+extern s32 func_80149CD4(s32 a0);
+extern void func_80049CAC(s32 a0, s32 a1);
+extern void func_800484EC(s32 a0, s32 a1, s32 a2);
+extern s32 func_801726B8(s32 *a0);
+
+void func_80182D80(s32 a0) {
+    s32 *base = &D_80126B58;
+    s32 s1;
+    SV_80182D80 v1;   /* also reused below as the angle-delta ("delta") vector */
+    SV_80182D80 v2;
+    V32_80182D80 ref;
+    MTX_80182D80 m;
+
+    if (D_80126B68 != 0 || D_80126B70 != 0) {
+        s32 t1;
+
+        v1.vx = *(u16 *)(a0 + 0x6) - D_80126B5E;
+        v1.vy = 0;
+        v1.vz = *(u16 *)(a0 + 0xE) - D_80126B66;
+        VectorNormalSS(&v1, &v1);
+
+        v2.vy = 0;
+        v2.vx = D_80126B68 >> 8;
+        v2.vz = D_80126B70 >> 8;
+
+        t1 = func_8012B70C((s16 *)D_800D3918, (s16 *)&v1);
+        s1 = (t1 * 2 - func_8012B70C((s16 *)&v2, (s16 *)D_800D3918)) & 0xFFF;
+    } else {
+        s1 = *(s16 *)(*(s32 *)(a0 + 0x20) + 0x12);
+    }
+
+    if (func_80149CD4((s32)base) != 0) {
+        v1.vz = 0;
+        v1.vx = 0;
+        v1.vy = s1;
+
+        ref.vy = 0;
+        ref.vx = 0;
+        ref.vz = (s32)0xFFFC0000;
+
+        func_80049CAC((s32)&v1, (s32)&m);
+        func_800484EC((s32)&m, (s32)&ref, a0 + 0x10);
+    } else {
+        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) = s1;
+
+        v1.vz = 0;
+        v1.vx = 0;
+        v1.vy = s1 - *(u16 *)(base[8] + 0x12);
+
+        func_80049CAC((s32)&v1, (s32)&m);
+        func_800484EC((s32)&m, (s32)(base + 4), a0 + 0x10);
+    }
+
+    if (func_801726B8(base)) {
+        *(s32 *)(a0 + 0x14) = 0x100000;
+    } else {
+        *(s32 *)(a0 + 0x14) = base[13];
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC02_041/nonmatchings/ov_SC02_041_jr_8017BEBC", func_80182F20);
 

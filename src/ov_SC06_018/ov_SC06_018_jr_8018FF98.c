@@ -3039,7 +3039,7 @@ extern u8 D_801D1210;
 extern u8 D_801D1200;
 extern u8 D_801D11DC;
 extern void func_8018D870(void *arg);
-extern void func_8018D654(void *);
+extern void func_8018D654();
 extern void func_8018DE60(void *arg);
 extern void func_8018DFF4(void *arg);
 extern void func_8018E188(void *arg);

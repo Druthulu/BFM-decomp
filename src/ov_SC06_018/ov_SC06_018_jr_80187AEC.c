@@ -5252,7 +5252,231 @@ INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_80187AEC", func_8018D40
 
 INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_80187AEC", func_8018D514);
 
-INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_80187AEC", func_8018D654);
+#include "common.h"
+
+/* func_8018D654 @ ov_SC06_018 (subseg ov_SC06_018_jr_80187AEC) — 135 ins. MATCH.
+ *
+ * GATE: python3 tools/match_one.py func_8018D654 \
+ *         --c .run/wave6/func_8018D654/func_8018D654.c \
+ *         --asm-subdir asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_80187AEC
+ *
+ * ------------------------------------------------------------------ what it is
+ * A per-frame "screen-edge cleanup" tick for one entity.
+ *   1. Bail if the entity is dead (f0 == 0) or its f20 sub-object's 0x12 word
+ *      still has any of the low 12 bits set (busy/animating).
+ *   2. If the global scroll limit D_80126B58[0xC] has not yet passed
+ *      self->fC - 0x800000, and the global gate func_8014CB8C() is open, and
+ *      self is not kind 0x25, and self->f76 > 0: build a 4-halfword spawn
+ *      descriptor {D_80126B5E, D_80126B62 - 0x40, self->fE - 0x30, 0} at
+ *      0x10(sp) and, depending on self->f70 (4 = left band, 5 = right band) and
+ *      whether the horizontal distance dx = self->f6 - D_80126B5E falls in the
+ *      band, hand it to func_8014C3A4(&D_80126B58, self, 0x25, desc).
+ *   3. Clamp D_80126B58[0xC] down to self->fC - 0x500000.
+ *   4. Walk the 0x60-entry / 0x10C-stride entity table D_801202A0 and, for every
+ *      live non-0x318 entity with f3C != 0 whose CURRENT y (f0E) and HOME y
+ *      (f42) sit on OPPOSITE sides of self->fE, reset it home: zero f10/f18 and
+ *      copy f3A/f42 into f06/f0E.
+ *
+ * ---------------------------------------------------------------- the levers
+ * L1  D_80126B64 IS NOT A SYMBOL HERE — IT IS `D_80126B58 + 0xC`, REACHED
+ *     THROUGH A POINTER LOCAL.  This is cookbook §164-08 (`use_related_value`,
+ *     cse.c:1781) in its two-offset form.  The target's block-1 shape is
+ *
+ *         lui   $s2, %hi(D_80126B64) ; addiu $s2, $s2, %lo(D_80126B64)
+ *         lw    $a0, 0x0($s2)                       <- the limit read
+ *         ...
+ *         addiu $a0, $s2, -0xC                      <- &D_80126B58, ONE insn
+ *
+ *     cse hashes `SYM+0xC` (already live in $s2 because a POINTER LOCAL forced
+ *     the full address into a pseudo — §136-5) and rewrites the later plain
+ *     `SYM` as `$s2 - 0xC`.  Spelling the limit as its own `extern s32
+ *     D_80126B64;` relates nothing: the read collapses to `lui/lw` (−1 insn)
+ *     and `&D_80126B58` rebuilds `lui/addiu` (+1) — 135 ins either way, so the
+ *     LENGTH never drifts and there is no diff line that names the mistake.
+ *     The second call site is in a different extended basic block (the `f70==5`
+ *     test is a join point), so cse's table is flushed there and `&D_80126B58`
+ *     legitimately rebuilds `lui/addiu` — that asymmetry is the target's, not a
+ *     bug.  Block 3 needs its OWN pointer local: one shared variable would stay
+ *     live in $s2 instead of rematerialising into $a1.
+ *
+ * L2  fC/fE AND f38/f3A AND f40/f42 OVERLAP.  `lw 0xC` and `lh 0xE` are the
+ *     same 32-bit fixed-point y (0x0E is its integer half).  Declaring `s32 fC`
+ *     next to `s16 fE` silently pushes every later field +4 and the stride to
+ *     0x110 — the first draft's 116-mismatch OPCODE-MIXED.  Fields are declared
+ *     as s16 pairs and the word is read `*(s32 *)&self->fC`.
+ *
+ * L3  ONE VARIABLE SERVES BOTH `dx` AND THE LOOP COUNTER.  The target puts the
+ *     horizontal distance in $s0 (callee-saved, it crosses two calls) and then
+ *     the 0..0x60 counter in $s0 as well.  Two separate locals give the counter
+ *     a call-clobbered register ($a2) because REG_ALLOC_ORDER prefers those for
+ *     an allocno that crosses no call, and the 0x318 constant then slides to
+ *     $a3 — 4 extra mismatches through the whole loop.
+ *
+ * L4  THE `lh $a0, 0x6($s1)` MUST LEAD THE RTL, WHICH MEANS D_80126B5E IS
+ *     INLINED IN THE SUBTRACTION AND READ AGAIN FOR v[0].  The pre-reload
+ *     scheduler (sched pass 1, on by default at -O2) emits the three load
+ *     groups in the order it receives them:
+ *         `i = self->f6 - *(s16 *)&D_80126B5E;` first  -> lh f6, lh B5E, lhu B62
+ *             -> post-sched: f6, B62, B5E   == TARGET
+ *         `bx = *(s16 *)&D_80126B5E; i = self->f6 - bx;` -> lh B5E, lh f6, lhu B62
+ *             -> post-sched: B5E, B62, f6   == 5 mismatched, every ordering of
+ *                the four stores tried (240 permutations, best 3).
+ *     So the `bx` temp cannot exist; both reads are spelled out and cse merges
+ *     them into the single `lh`.
+ *
+ * L5  THE LOCAL IS `s16 v[4]`, NOT `v[8]` — AND THE FRAME IS THE ORACLE.
+ *     Merging the two D_80126B5E reads leaves gcc holding a `(subreg:HI)` of the
+ *     sign-extended pseudo, for which it reserves an 8-byte frame temp it never
+ *     references (`vars= 24` in the `.frame` comment vs the target's 16).  The
+ *     descriptor is 4 halfwords = 8 bytes, the phantom temp is the other 8, and
+ *     the sum is the target's 0x10 var area with the stores landing on
+ *     0x10/0x12/0x14/0x16.  `v[8]` gives frame 0x38 (10 mismatched, all
+ *     prologue/epilogue); `v[5]` and `v[6]` likewise.  Byte-probed, all four.
+ *
+ * L6  THE STORE ORDER IS v[0], v[1], v[2], v[3] AND THE RESET BLOCK IS
+ *     f6, fE, f10, f18.  The latter is the giv base: gcc prepends address givs
+ *     as it discovers them, so the LAST address in the loop body becomes the
+ *     combined base register — `e->f18` gives the target's `addiu $a0,$a1,0x18`.
+ *     Writing the two `sw`s first makes 0x0E the base (`addiu $a0,$a1,0xE`) and
+ *     every offset in the loop shifts.  The two reset blocks are textually
+ *     identical so jump.c cross-jumps them into the single `.L8018D828`.
+ *
+ * L7  `if (e->fE >= self->fE)` — the `>=` spelling, not `<`.  gcc emits
+ *     `slt tmp,x,y; bnez tmp,<else>`, so the ELSE arm is the one at the branch
+ *     target (.L8018D814) and the THEN arm falls through, which is the target's
+ *     block order.  Same for both D_80126B58[0xC] tests (`>=`, not `<=`).
+ *
+ * ---------------------------------------------------------------- integration
+ * INTEGRATION SURFACE (§52b/§161c) — every extern below is already declared in
+ * the destination TU src/ov_SC06_018/ov_SC06_018_jr_80187AEC.c with the
+ * IDENTICAL spelling, so nothing conflicts and nothing needs to move to block
+ * scope:
+ *     extern s32 D_80126B58;                                          (L48)
+ *     extern u8  D_801202A0[];                                        (L377)
+ *     extern s32 func_8014C3A4(void *a0, s32 a1, s32 a2, s32 a3);     (L516)
+ *     extern s32 func_8014CB8C(void);                                 (L556)
+ *     extern u16 D_80126B5E;                                          (L1781)
+ *     extern u16 D_80126B62;                                          (L1782)
+ * D_80126B5E is `u16` fleet-wide but this body needs a SIGNED read (`lh`), so it
+ * is read as `*(s16 *)&D_80126B5E` — that keeps the canonical decl and avoids
+ * the §163a conflict entirely.  D_80126B64 is deliberately NOT declared (see L1).
+ * Only the typedef `Ent_8018D654` is new; the TU carries `Ent_80188E10`,
+ * `V4_80188E10` and `OtBlk_8018A974`, so the name is free (§120).
+ *
+ * SIBLINGS (family reach x3 — the two zero-crack twins are func_8018D3A4 in
+ * ov_SC06_032/ov_SC06_032_jr_80182890 and func_80189390 in
+ * ov_SC06_033/ov_SC06_033_jr_80186574).  Every symbol this body touches is
+ * RESIDENT — D_80126B58, D_80126B5E, D_80126B62, D_801202A0, func_8014CB8C,
+ * func_8014C3A4 — so the §40 remap is expected to be pure IDENTITY: no
+ * per-overlay symbol to re-point.  Check each sibling TU's canonical spellings
+ * before sweeping (§56b — carry the TU's types, not this draft's).
+ */
+
+typedef struct {
+    u16 f0;                     /* 0x00  kind; 0 = dead, 0x318 = skipped     */
+    u8  p02[0x04 - 0x02];
+    s16 f4;                     /* 0x04  x, fractional half                  */
+    s16 f6;                     /* 0x06  x                                   */
+    u8  p08[0x0C - 0x08];
+    s16 fC;                     /* 0x0C  y, fractional half                  */
+    s16 fE;                     /* 0x0E  y   (*(s32 *)&fC is the whole fixed) */
+    s32 f10;                    /* 0x10  velocity, zeroed on reset           */
+    u8  p14[0x18 - 0x14];
+    s32 f18;                    /* 0x18  velocity, zeroed on reset           */
+    u8  p1C[0x20 - 0x1C];
+    s32 f20;                    /* 0x20  -> sub object (0x12 = busy bits)    */
+    u8  p24[0x38 - 0x24];
+    s16 f38;                    /* 0x38  home x, fractional half             */
+    s16 f3A;                    /* 0x3A  home x                              */
+    s32 f3C;                    /* 0x3C  "has a home" flag                   */
+    s16 f40;                    /* 0x40  home y, fractional half             */
+    s16 f42;                    /* 0x42  home y                              */
+    u8  p44[0x5E - 0x44];
+    u8  f5E;                    /* 0x5E  kind tag; 0x25 is excluded          */
+    u8  p5F[0x70 - 0x5F];
+    s16 f70;                    /* 0x70  band: 4 = left, 5 = right           */
+    u8  p72[0x76 - 0x72];
+    s16 f76;                    /* 0x76  budget                              */
+    u8  p78[0x10C - 0x78];      /* stride 0x10C, 0x60 entries                */
+} Ent_8018D654;
+
+extern s32 D_80126B58;
+extern u16 D_80126B5E;
+extern u16 D_80126B62;
+extern u8  D_801202A0[];
+
+extern s32 func_8014CB8C(void);
+extern s32 func_8014C3A4(void *a0, s32 a1, s32 a2, s32 a3);
+
+void func_8018D654(Ent_8018D654 *self) {
+    s16 v[4];                   /* 0x10(sp); L5: gcc adds the other 8 bytes */
+    Ent_8018D654 *e;
+    s32 i;
+
+    if (self->f0 == 0) {
+        return;
+    }
+    if ((*(u16 *)(self->f20 + 0x12) & 0xFFF) != 0) {
+        return;
+    }
+
+    {
+        s32 *lim = (s32 *)((u8 *)&D_80126B58 + 0xC);            /* L1 */
+
+        if (*lim >= *(s32 *)&self->fC - 0x800000) {
+            if (func_8014CB8C() != 0 && self->f5E != 0x25 && self->f76 > 0) {
+                i = self->f6 - *(s16 *)&D_80126B5E;             /* L3, L4 */
+                v[0] = *(s16 *)&D_80126B5E;                     /* L4 */
+                v[1] = D_80126B62 - 0x40;
+                v[2] = self->fE - 0x30;
+                v[3] = 0;
+                if (self->f70 == 4 && i >= -8 && i <= 0xB0) {
+                    func_8014C3A4(&D_80126B58, (s32)self, 0x25, (s32)v);
+                }
+                if (self->f70 == 5 && i >= -0xB0 && i <= 8) {
+                    func_8014C3A4(&D_80126B58, (s32)self, 0x25, (s32)v);
+                }
+            }
+        }
+    }
+
+    {
+        s32 *lim = (s32 *)((u8 *)&D_80126B58 + 0xC);            /* L1: its own */
+
+        if (*lim >= *(s32 *)&self->fC - 0x500000) {
+            *lim = *(s32 *)&self->fC - 0x500000;
+        }
+    }
+
+    e = (Ent_8018D654 *)D_801202A0;
+    for (i = 0; i < 0x60; i++, e++) {
+        if (e->f0 == 0) {
+            continue;
+        }
+        if (e->f0 == 0x318) {
+            continue;
+        }
+        if (e->f3C == 0) {
+            continue;
+        }
+        if (e->fE >= self->fE) {                                /* L7 */
+            if (e->f42 < self->fE) {
+                e->f6 = e->f3A;                                 /* L6 */
+                e->fE = e->f42;
+                e->f10 = 0;
+                e->f18 = 0;
+            }
+        } else {
+            if (e->f42 >= self->fE) {
+                e->f6 = e->f3A;                                 /* L6 */
+                e->fE = e->f42;
+                e->f10 = 0;
+                e->f18 = 0;
+            }
+        }
+    }
+}
+
 
 // func_8018D870 — ov_SC06_018 / ov_SC06_018_jr_8017C24C
 // Sibling of func_8018E188 (same TU, banked MATCH) — shares the entry decrement block,
@@ -5496,7 +5720,7 @@ extern void func_80019064(void *);
 extern void func_8002A520(int);
 extern void func_8002A790(int);
 extern void func_8002D4C8(s32, s32);
-extern void func_8018D654(void *);
+extern void func_8018D654();
 extern u8 D_801D1210;
 
 void func_8018DE60(void *arg) {
@@ -5575,7 +5799,7 @@ extern void func_80019064(void *);
 extern void func_8002A520(int);
 extern void func_8002A790(int);
 extern void func_8002D4C8(s32, s32);
-extern void func_8018D654(void *);
+extern void func_8018D654();
 
 void func_8018DFF4(void *arg) {
     u8 *p = (u8 *)arg;

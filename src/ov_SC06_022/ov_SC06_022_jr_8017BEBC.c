@@ -3598,7 +3598,144 @@ INCLUDE_ASM("asm/ov_SC06_022/nonmatchings/ov_SC06_022_jr_8017BEBC", func_8017FA1
 
 INCLUDE_ASM("asm/ov_SC06_022/nonmatchings/ov_SC06_022_jr_8017BEBC", func_8017FAFC);
 
-INCLUDE_ASM("asm/ov_SC06_022/nonmatchings/ov_SC06_022_jr_8017BEBC", func_8017FB9C);
+#include "common.h"
+
+/* ---- integration surface: host TU is src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c ----
+ * func_8002D4C8 : file-scope L58   extern void func_8002D4C8(s32 a0, s32 a1);      AGREES
+ * func_800183E0 : file-scope L901  extern void func_800183E0(s32 a0);              AGREES
+ * func_8013C9C4 : file-scope L1301 extern void func_8013C9C4(void *a0);            AGREES
+ * func_8012BEE8 : file-scope L3473 extern s32  func_8012BEE8(s32 a0);              AGREES
+ * func_8012C218 : file-scope L3474 extern void func_8012C218(void *a0); (TU-canon) AGREES
+ * func_8017FED0 : DEFINED L3604    void func_8017FED0(s32 a0)                      AGREES
+ * func_80181418 : DEFINED L3748    void func_80181418(s32 arg0)                    AGREES
+ * func_8001C924 : file-scope L4175 extern void func_8001C924(s32 a0, void *a1);    AGREES
+ * func_80180680 : INCLUDE_ASM L3635 -- no decl in TU, free
+ * func_80180CD0 : INCLUDE_ASM L3651 -- no decl in TU, free
+ * D_801BCE84 / D_8018DA98 / D_801B174C : undeclared in TU, free
+ */
+
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern void func_800183E0(s32 a0);
+extern void func_8013C9C4(void *a0);
+extern s32  func_8012BEE8(s32 a0);
+extern void func_8012C218(void *a0);
+extern void func_8017FED0(s32 a0);
+extern void func_80180680(s32 a0);
+extern void func_80180CD0(s32 a0);
+extern void func_80181418(s32 a0);
+extern void func_8001C924(s32 a0, void *a1);
+
+extern u8 D_801BCE84;
+extern u8 D_8018DA98;
+extern u8 D_801B174C;
+
+void func_8017FB9C(s32 p) {
+    void (*fp)(void);
+
+    switch (*(s16 *)(p + 0x70)) {
+    case 0:
+        switch (*(u16 *)(p + 0x34)) {
+        case 0:
+            if (func_8012BEE8(p) == 0) {
+                return;
+            }
+            {
+                /* $a1 pin (cookbook §17): local-alloc gives this block's three
+                 * quantities (mask / base / loaded word) the order base,tmp,mask
+                 * -> $v0,$v1,$a1, but the target order is tmp,mask,base ->
+                 * $v0,$v1,$a1 on DIFFERENT qtys.  Seven source spellings
+                 * (temp-hoist, double-load, u32* base, s32 mask, arg-hoist,
+                 * split-store, g[1] form) all produced the SAME wrong permutation,
+                 * so the shape is not the lever -- pinning the base is. */
+                register s32 g __asm__("$5") = *(s32 *)(p + 0x20);
+                *(u32 *)(g + 4) |= 0x80000000;
+            }
+            func_800183E0((s32)&D_801BCE84);
+            break;
+        case 1:
+            if (*(s16 *)(p + 0x106) != 2) {
+                return;
+            }
+            if (*(s32 *)(p + 0xCC) != 0) {
+                func_8017FED0(*(s32 *)(p + 0xCC));
+            }
+            if (*(s32 *)(p + 0xD0) != 0) {
+                func_8017FED0(*(s32 *)(p + 0xD0));
+            }
+            *(s32 *)(p + 0x1C) = 0x20;
+            *(u16 *)(p + 0x34) = *(u16 *)(p + 0x34) + 1;
+            func_8002D4C8(0x952, 0);
+            return;
+        case 2:
+            if ((*(s32 *)(p + 0x1C) & 0xF) == 0) {
+                func_8013C9C4(&D_8018DA98);
+            }
+            if ((*(u16 *)(p + 0x102) & 3) == 0) {
+                func_8002D4C8(0x951, 0);
+            }
+            if (func_8012BEE8(p) != 0) {
+                if (*(s32 *)(p + 0xCC) != 0) {
+                    func_8012C218((void *)*(s32 *)(p + 0xCC));
+                }
+                if (*(s32 *)(p + 0xD0) != 0) {
+                    func_8012C218((void *)*(s32 *)(p + 0xD0));
+                }
+                if (*(s32 *)(p + 0xD4) != 0) {
+                    func_8012C218((void *)*(s32 *)(p + 0xD4));
+                }
+                if (*(s32 *)(p + 0xD8) != 0) {
+                    func_8012C218((void *)*(s32 *)(p + 0xD8));
+                }
+                if (*(s32 *)(p + 0xDC) != 0) {
+                    fp = *(void (**)(void))(*(s32 *)(p + 0xDC) + 4);
+                    if (fp != NULL) {
+                        fp();
+                    }
+                }
+                func_80180680(p);
+                func_8012C218((void *)p);
+                return;
+            }
+            if (*(s32 *)(p + 0x1C) != 0x18) {
+                return;
+            }
+            if (*(s32 *)(p + 0xCC) != 0) {
+                *(u32 *)(*(s32 *)(*(s32 *)(p + 0xCC) + 0x20) + 4) |= 0x80000000;
+            }
+            if (*(s32 *)(p + 0xD0) != 0) {
+                *(u32 *)(*(s32 *)(*(s32 *)(p + 0xD0) + 0x20) + 4) |= 0x80000000;
+            }
+            if (*(s32 *)(p + 0xD4) != 0) {
+                *(u32 *)(*(s32 *)(*(s32 *)(p + 0xD4) + 0x20) + 4) |= 0x80000000;
+            }
+            if (*(s32 *)(p + 0xD8) != 0) {
+                *(u32 *)(*(s32 *)(*(s32 *)(p + 0xD8) + 0x20) + 4) |= 0x80000000;
+            }
+            func_80181418(p);
+            return;
+        default:
+            return;
+        }
+        break;
+    case 1:
+    case 2:
+        if (*(u16 *)(p + 0x34) != 0) {
+            return;
+        }
+        if (func_8012BEE8(p) == 0) {
+            return;
+        }
+        func_8001C924(*(s32 *)(p + 0x20), &D_801B174C);
+        if (*(s32 *)(p + 0xCC) != 0) {
+            func_80180CD0(*(s32 *)(p + 0xCC));
+        }
+        break;
+    default:
+        return;
+    }
+    *(u16 *)(p + 0x34) = *(u16 *)(p + 0x34) + 1;
+}
+
 
 extern void func_8012AD44(s32 *a0, s16 a1);
     void func_8017FED0(s32 a0) {
