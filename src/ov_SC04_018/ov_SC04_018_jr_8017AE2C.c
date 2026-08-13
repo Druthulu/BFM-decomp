@@ -5746,7 +5746,7 @@ void func_80181090(void *arg0) {
 
 INCLUDE_ASM("asm/ov_SC04_018/nonmatchings/ov_SC04_018_jr_8017AE2C", func_80181124);
 
-INCLUDE_ASM("asm/ov_SC04_018/nonmatchings/ov_SC04_018_jr_8017AE2C", func_801811F4);
+DEFINE_func_801811F4()  /* dedup: shared engine-core @0x801811F4 (src/shared) */
 
 
 extern void func_80178CBC(s32*, s32);
