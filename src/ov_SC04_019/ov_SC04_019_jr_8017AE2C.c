@@ -6276,19 +6276,7 @@ INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_801829A
 
 #include "common.h"
 
-extern int func_80178970(void);
-extern void func_80178D18(void);
-extern void func_80184CB8(s32*, s32);
-
-void func_80182A7C(void * arg0) {
-
-    extern short D_80191C08;
-    if (func_80178970() != 0) {
-        ((void (*)(s32))func_80178D18)((s32)arg0);
-        *(short *)((char *)arg0 + 0x2) = 5;
-        ((void (*)(s32, s32))func_80184CB8)((int)arg0, (int)&D_80191C08);
-    }
-}
+DEFINE_func_80182A7C()  /* dedup: shared engine-core @0x80182A7C (src/shared) */
 
 
 
