@@ -185,16 +185,17 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 > **Tree CLEAN** but for R23 `db.*.gbf` churn — never stage. **Nothing running.**
 > Gate at close: **`check-all` 213 passed / 0 failed of 213** from a CLEAN rebuild (R22 run 5× this
 > session; extract-all 212+main, 0 failed each).
-> **Fleet: 95.0% instr · 89.6% distinct · 96.48% fn-count · INCLUDE_ASM stubs 12,771.**
+> **Fleet: 95.1% instr · 89.7% distinct · 96.51% fn-count · INCLUDE_ASM stubs 12,661.**
 > `tools-health`: **OK** (re-run after the tool+doc changes — 495 cookbook sections).
 > **NO phase close** — T5 unopened, needs Drew's gate-2.
 
 ## THE SESSION IN ONE LINE
-**574 instances banked — the STUB-ORACLE DELTA (13,345 → 12,771).** Six parts: **Stage 0b closed**
+**684 instances banked — the STUB-ORACLE DELTA (13,345 → 12,661).** Seven parts: **Stage 0b closed**
 (91, ZERO decompilation — three instrument repairs did all of it) · **wave 1** (26) · **wave 2**
-(116) · **wave 3** (84) · **wave 4** (105) · **wave 5** (152). Fleet 94.4% → **95.0% instr**
+(116) · **wave 3** (84) · **wave 4** (105) · **wave 5** (152) · **wave 6** (110). Fleet 94.4% → **95.1% instr**
 (THE FLEET CROSSED 95%), 88.3% → **89.6% distinct**, 13,345 → **12,771** stubs.
-**Bank rate measured FIVE times: 67% → 79% → 69% → 68% → 73%** — a stable high-60s/low-70s band.
+**Bank rate measured SIX times: 67% → 79% → 69% → 68% → 73% → 60%** — the 60% is wave 6 drawing
+mostly HARD RESIDUE (targets that had already resisted 1-5 attempts) plus the first ×2-dominated pool.
 **Milestone note:** P30's stated milestone is "≥95% instr fleet, or every remaining overlay stub on
 a named ledger". **The first half is now MET** — T5 (phase close) is a live option for Drew. Wave 3's dip is the cost
 curve, not a regression: its tier was 29 Opus-band / 14 jr vs wave 2's 8 / 5, median reach ×6 → ×3-4.
@@ -362,6 +363,30 @@ outcome, carrying the draft path + sha1 and "VERIFIER NEVER RAN — re-verify, d
 **ACCELERATOR (both agents):** hand-running the pinned triple with the wrong `--aspsx-version`
 yields ~32 spurious mismatches ALL of the `ori`-vs-`addiu` li-form shape — that uniform shape is the
 fingerprint of a version mismatch, **not** a codegen residual. Use `--aspsx-version=2.56 --expand-div`.
+
+## ✅ WHAT S48 LANDED — part 7: WAVE 6 + §166, THE SEVEN-ATTEMPT BUG THAT WAS NEVER CODEGEN
+**WAVE 6** (`wf_9729fd89-c16`, 76 agents, 6.7M tok): 40 targets → 35 agent-MATCH, 1 refuted,
+**0 UNVERIFIED** (the new field earning its keep), 4 NEAR → **24 BANKED (60%)**; propagation 23 of
+24 families. **Oracle delta 110.** The 60% is honest: this tier was mostly residue that had already
+resisted 1-5 attempts, and the first pool where ×2 families dominate.
+**🔑 THE FINDING OF THE CAMPAIGN — AND IT IS NOT A COMPILER IDIOM (`commit:1748`, §166a).**
+`func_8017F2D4` was "MATCH standalone / DIFF at gate" **SEVEN times across five waves**. Every attempt
+hunted codegen. **The body was byte-correct from the first draft.** The fault: the notes named the
+WRONG DESTINATION TU — `..._jr_8017C340.c` holds only a CALLER and a prototype, while the
+`INCLUDE_ASM` lives in `..._jr_8017ED5C.c`. **Splicing into the wrong file is a NO-OP**: the binary
+keeps its INCLUDE_ASM bytes, the SHA differs, and it reads as a codegen failure.
+**THE COMPOUNDING FAILURE WAS OURS.** `gate_stage` labelled every such refusal
+`(declaration/TU plumbing)` — a cause **the tool never measured**, printed as a diagnosis. That
+label is what aimed five waves of agents at the wrong thing. **Both halves fixed:** the message now
+states only that the two oracles disagree and hands over the resolving check, and §166a banks the
+oracle — **the splat asm subdir NAMES the destination TU**
+(`asm/<ov>/nonmatchings/<TU_stem>/<fn>.s` ⇒ `src/<ov>/<TU_stem>.c`, third component, from the split
+config, authoritative over any prose citation; a name-grep also hits CALLERS and PROTOTYPES in other
+TUs and reads exactly like a destination hit).
+**FOUR INSTANCES OF ONE DISEASE IN ONE SESSION** — a tool asserting a conclusion it never reached:
+the `no-diagnostic` classifier · the poisoned-tree `0/17` · the dead-verifier `refuted: 22` · this.
+**In this project a confident WRONG label costs more than a missing one**, because it redirects every
+later attempt away from the real fault. Prefer "CAUSE NOT DETERMINED" + the next check.
 
 ## 📐 THE FRONTIER AS RE-DERIVED THIS SESSION (post-0b, pre-wave; regen again after any bank)
 1,955 zero-crack sibling families / 6,709 members / 330,622 templatable ins. Tiers:
