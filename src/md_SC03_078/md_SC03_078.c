@@ -48,7 +48,25 @@ DEFINE_func_801EF6A8()  /* dedup: shared engine-core @0x801EF6A8 (src/shared) */
 
 INCLUDE_RODATA("asm/md_SC03_078/nonmatchings/md_SC03_078", D_801EF468);
 
-INCLUDE_ASM("asm/md_SC03_078/nonmatchings/md_SC03_078", func_801EF6D0);
+#include "common.h"
+
+
+
+const Blk8 D_801EF46C = {{0x00, 0x00, 0x7E, 0xFF, 0xB0, 0x00, 0x00, 0x00}};
+
+extern s32 func_80171D78(u32, void *);
+extern void func_80171A1C(void *);
+
+void func_801EF6D0(u32 arg0) {
+    Blk8 buffer;
+
+    buffer = D_801EF46C;
+
+    if (func_80171D78(arg0, &buffer)) {
+        ((void (*)(u32))func_80171A1C)(arg0);
+    }
+}
+
 
 
 extern s32 func_80014C54(s32, s32, s32);
@@ -98,7 +116,13 @@ void func_801EF928(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/md_SC03_078/nonmatchings/md_SC03_078", func_801EF964);
+extern void func_801EF98C(s32 param_1, s16 *param_2);
+
+void func_801EF964(s32 param_1) {
+    extern s16 D_801274E8;
+    func_801EF98C(param_1, &D_801274E8);
+}
+
 
 
 /* MATRIX 0x20: short m[3][3] @0x00 (18B) + 2B pad, long t[3] @0x14  (PsyQ layout) */
