@@ -4545,33 +4545,7 @@ extern void func_8012B414(int a0);
 
 #include "common.h"
 
-extern void func_8012C1B8(void);
-extern void func_8012CAE4(void *a0);
-extern void func_8001C214(s32 a0, s32 a1);
-extern void func_8001D0E8(s32 a0, s32 a1, s32 a2);
-extern void func_8012E8E0(s32 a0, s32 a1);
-
-extern s32 D_801B6418[];
-extern s32 D_801E052C[];
-
-void func_8018B388(s32 a0) {
-
-    s32 v0;
-
-    v0 = ((s32 (*)(void))func_8012C1B8)();
-    *(s32 *)(a0 + 0x20) = v0;
-    if (v0 == 0) {
-        func_8012CAE4((void *)a0);
-        return;
-    }
-
-    func_8001C214(v0, (s32)D_801B6418);
-    func_8001D0E8(*(s32 *)(a0 + 0x20), 0x7FFF, 0x7FFF);
-
-    func_8012E8E0(a0, (s32)D_801E052C);
-
-    *(s16 *)(a0 + 0x2) = 1;
-}
+DEFINE_func_8018B388()  /* dedup: shared engine-core @0x8018B388 (src/shared) */
 
 
 INCLUDE_ASM("asm/ov_SC04_018/nonmatchings/ov_SC04_018_jr_80188E1C", func_8018B400);

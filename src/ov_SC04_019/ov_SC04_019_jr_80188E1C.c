@@ -3975,7 +3975,7 @@ extern void func_8012B414(int a0);
     }
 
 
-INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_80188E1C", func_8018B388);
+DEFINE_func_8018B388()  /* dedup: shared engine-core @0x8018B388 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_80188E1C", func_8018B400);
 
