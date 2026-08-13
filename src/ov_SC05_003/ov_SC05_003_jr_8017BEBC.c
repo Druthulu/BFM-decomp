@@ -3869,7 +3869,40 @@ void func_8017E030(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_003/nonmatchings/ov_SC05_003_jr_8017BEBC", func_8017E058);
+#include "common.h"
+
+/* A-prop sibling of the byte-matched seed func_8017D840 (ov_SC01_077,
+ * src/ov_SC01_077/ov_SC01_077_jr_8017AE2C.c). Same skeleton; the words that
+ * differ are the per-overlay callback symbol, the eight init constants, and the
+ * call order of func_8012A094 vs the callback. Symbol surface taken from
+ * asm/ov_SC05_003/nonmatchings/ov_SC05_003_jr_8017BEBC/func_8017E058.s. */
+extern void func_8012A018(s32 a0, s32 a1);
+extern void func_8012A094(s32 a0);
+extern void func_8017E0F4(void*);
+extern u8 D_80126948[];
+extern s32 D_80126954;
+extern s32 D_8012695C;
+extern s16 D_80126968;
+extern s16 D_8012696A;
+extern s16 D_8012696C;
+extern s16 D_80126976;
+extern s16 D_80126978;
+extern s16 D_8012697A;
+
+void func_8017E058(void) {
+    D_80126954 = 0x190;
+    D_8012695C = 0x4B0;
+    D_80126968 = 0x155;
+    D_8012696A = 0x800;
+    D_8012696C = 0;
+    D_80126976 = 0;
+    D_80126978 = -0x20;
+    D_8012697A = 0;
+    func_8012A018(func_8017E0F4, 0);
+    func_8012A094(&D_80126948);
+    ((s32 (*)(void *))func_8017E0F4)(&D_80126948);
+}
+
 
 
 extern void (*D_80186404[])(void);
