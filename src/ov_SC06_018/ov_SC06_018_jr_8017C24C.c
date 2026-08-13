@@ -6715,7 +6715,20 @@ extern void func_8012B370(int a0);
     }
 
 
-INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_8017C24C", func_80183A00);
+extern void (*D_801B52BC[])(void);
+extern void func_80187250(void *a0);
+extern void func_80187320(void *a0);
+extern void func_8012C0EC(void *a0);
+
+void func_80183A00(void *a0) {
+    D_801B52BC[*(u16 *)((s32)a0 + 0x2)]();
+    if (*(u16 *)a0 != 0) {
+        func_80187250(a0);
+        func_80187320(a0);
+        func_8012C0EC(a0);
+    }
+}
+
 
 // @class: struct
 // @stuck: none — MATCH (135/135 ins, match_one confirmed)
