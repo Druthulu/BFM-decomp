@@ -98,7 +98,7 @@ void func_801EF928(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/md_SC03_075/nonmatchings/md_SC03_075", func_801EF964);
+DEFINE_func_801EF964()  /* dedup: shared engine-core @0x801EF964 (src/shared) */
 
 
 /* MATRIX 0x20: short m[3][3] @0x00 (18B) + 2B pad, long t[3] @0x14  (PsyQ layout) */

@@ -116,12 +116,7 @@ void func_801EF928(void *a0) {
 }
 
 
-extern void func_801EF98C(s32 param_1, s16 *param_2);
-
-void func_801EF964(s32 param_1) {
-    extern s16 D_801274E8;
-    func_801EF98C(param_1, &D_801274E8);
-}
+DEFINE_func_801EF964()  /* dedup: shared engine-core @0x801EF964 (src/shared) */
 
 
 
