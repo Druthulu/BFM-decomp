@@ -16204,3 +16204,55 @@ Anchoring on the earlier symbol and writing `rec2[1]` instead gives `sw 0x4($bas
   *Why:* Split verdict, and both riders the agent re-asserts are already byte-refuted. Lever (a) itself is SOUND and banked as §165-03 (cse's record_jump_cond carries EQUALITY across a branch, cse.c:5944-5990; barrier deleted -> 3 mismatched, BRANCH-POLARITY) — COVERED. But the rider 'tying to a FRESH temp costs a real move' is
 * **`func_8017F2D4`** — `s32 lt = mode < 0xA;` must be an explicit local because gcc-2.7.2 has no gcse and the single `slti` must precede the branch both arms need it after.
   *Why:* On §165z's refuted list under this function, byte-refuted at vet time: deleting the local and inlining the compare at both use sites — `if ((mode < 0xA) || (D_8011515A == 0x100))` and `if (!(mode < 0xA))` — gives MATCH 279. The C form is byte-INERT here, so it is not a lever and must not be taught as one; the 'no gcse'
+
+## §168 — THE COUSIN TIER (P30 S49, 2026-08-12): h_seq's exact-hash brittleness, measured — and the similarity map above it
+
+**The finding (Drew's smell, byte-verified).** The frontier's "4,513 unique singletons + 1,817
+small families" picture was substantially a GROUPING ARTIFACT. `h_seq` — our loosest tier — is an
+*exact hash* of the mnemonic skeleton, so a single inserted instruction makes two functions total
+strangers. Per-location compilation inserts instructions constantly: a per-location constant
+crossing the 16-bit boundary turns a 1-instruction `li` into `lui+ori`; a bigger jump table adds a
+case; a dropped flag test deletes one. **Probed on the full frontier (120-pair sample per band):
+in the 0.85–0.99 similarity band, 86/120 near-pairs differ by PURE insertion/deletion** (25 with
+`lui` inside the indel block — the li-expansion tell); replace-heavy pairs are the minority.
+Specimen: `ov_SC06_010:0x8017bebc` (753 ins, "singleton") is **0.987 similar to a MATCHED function
+in the same binary** — 12 small edit blocks, mostly 1–2-instruction insertions. Not a unique
+function; the B2 walker family wearing a one-instruction disguise per site.
+
+**The map (tools/family_cousins.py → .run/family_cousins.json + docs/family-cousins.md).** Distinct
+open skeletons (one per h_seq class, ×N copies collapsed via the family map, R32-checked against an
+independent sigs+stubs recount), streams via `family_remap.stream_words`, mnemonic-class tokens
+(register/imm-blind, h_seq-granularity), K=8 shingle candidate index (posting cap 400), difflib
+ratio, union-find at ≥0.85. Measured at S49 HEAD (whole-frontier, 11,627 instances / 584,448 ins —
+totals exact by construction):
+
+| category | units | open fns | open ins | lever |
+|---|--:|--:|--:|---|
+| A-prop (unit holds a lane-A skeleton) | 197 | 1,286 | 68,729 | family_sweep propagation |
+| seeded (≥0.85 MATCHED body exists) | 418 | 1,652 | 50,422 | crack by EDITING a proven body |
+| cousin-multi (no seed, ≥2 instances) | 1,552 | 5,449 | 249,799 | 1 crack seeds the unit's rest |
+| cold (alone at 0.85) | 3,240 | 3,240 | 215,498 | full-price crack |
+
+**The genuinely cold tail is 215k ins — 37% of the remainder, not 90%** — and it is small-function
+shaped (2,692 of 3,240 cold units < 100 ins; only 43 > 300 ins). Corroborating probes: only 823 of
+3,760 overlay singletons are truly alone at their vram address; **main's "structurally barren"
+verdict HOLDS at the similarity tier** (94% of main's stub mass < 0.70 to anything anywhere; ~72
+tiny fns have seeds — a small correction, not a reversal); call-sequence grouping adds ~94 matches
+beyond content similarity (redundant — not a tier worth building).
+
+**The three laws:**
+1. **A cousin is a SEEDED CRACK, never a remap.** Skeleton drift means the member needs its own
+   compile — `family_sweep`/`remap_hseq` require an identical skeleton by construction. The seed's
+   value is the draft: the agent edits a proven C body instead of writing one. (Prior-NOTES seeding
+   measured 7/9 and 10/12; a full ≥0.98-similar matched body is a strictly stronger prior.)
+2. **Rank waves by UNIT weight, not family weight.** A crack's real yield is its whole cluster —
+   family members plus the cousins it seeds. The S49 slate: 40 targets = 33,304 unit ins vs 25,010
+   family-ranked — +33% on the same agent count. (The S29 pricing law, one tier up.)
+3. **Discount short-function similarity.** Shared prologue/epilogue boilerplate inflates ratios on
+   small nins; the targets carry nins and seed-sim separately so wave sizing can discount seeds on
+   <~40-ins functions. A 0.87 on 20 ins is a hint; a 0.95 on 400 ins is a body.
+
+**Ops:** regen order is sigs → `family_hseq.py` → `family_cousins.py` (it fails loud on a stale
+map, with the regen command in the error). `--targets 40 --wave wave7` emits the crack_wave.js
+slate; seed refs resolve to the matched body's location (engine_core.h `DEFINE_` macro vs inline
+`src/<bin>/*.c` def). The survey RANKS and SEEDS; only the whole-binary byte-gate banks (G3/P9).

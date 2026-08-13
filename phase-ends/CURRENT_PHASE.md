@@ -181,6 +181,28 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 
 ---
 
+# ▶ SESSION S49 (2026-08-12, in progress) — THE COUSIN TIER: h_seq brittleness measured, similarity map + seeded wave-7 slate built
+> Drew's question — "5,000+ unique funcs smells wrong" — byte-verified as a GROUPING ARTIFACT.
+> `h_seq` is an exact skeleton hash: ±1 instruction (li crossing the 16-bit boundary → `lui+ori`,
+> table-size drift) fragments same-source families into "singletons". Probed: **86/120 near-pairs
+> in the 0.85–0.99 band are pure indel** (25 with the lui tell). Specimen: `ov_SC06_010:0x8017bebc`
+> (753 ins, "singleton") is **0.987-similar to a MATCHED fn in the same binary**.
+>
+> **Landed:** frontier regen (sigs current; `family_hseq` refreshed post-S48-propagations) ·
+> **`tools/family_cousins.py`** (NEW — cookbook **§168**, SETUP row): similarity clustering ≥0.85 +
+> matched-seed attachment, R32 both ways (stale-map recount fails loud — negative-control-proven;
+> partition assert), reproduced the probe within ±1%, totals EXACT (11,627 inst / 584,448 ins).
+> **Unit table: A-prop 197u/68,729ins · seeded 418u/50,422 · cousin-multi 1,552u/249,799 · cold
+> 3,240u/215,498 — the genuinely-unique tail is 37% of the remainder, not 90%.** Main's
+> "structurally barren" HOLDS at the similarity tier (94% mass <0.70; ~72 tiny-fn seeds).
+> `--targets` slate: `.run/wave7_targets.json` — 40 targets / **33,304 unit ins (+33% vs
+> family-ranked)**, 9 with resolved seed C paths, size-routed 2 haiku/20 sonnet/18 opus.
+> **Cousins are SEEDED CRACKS, never remaps** (skeleton drift ⇒ per-member compile); byte-gate
+> stays the sole arbiter. Discount seeds on <~40-ins fns (boilerplate inflates short ratios).
+>
+> **Next in-session:** lane-A re-sweep first (575/592 recorded failure verdicts predate the last
+> two S48 instrument repairs — the ledger is pre-repair), then wave 7 off the unit slate.
+
 # 🛑 SESSION S48 CHECKPOINT — FINAL (2026-08-12) — FRESH SESSION SAFE HERE
 > **Tree CLEAN** but for R23 `db.*.gbf` churn — never stage. **Nothing running.** 197 commits.
 > Gate at close: **`check-all` 213 passed / 0 failed of 213** from a CLEAN rebuild (R22 run **9×**
