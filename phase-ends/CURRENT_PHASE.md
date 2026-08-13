@@ -181,7 +181,44 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 
 ---
 
-# 🛑 SESSION S48 CHECKPOINT (2026-08-11) — 0b CLOSED · WAVES 1+2 · md_ LANE — FRESH SESSION SAFE HERE
+# 🛑 SESSION S48 CHECKPOINT — FINAL (2026-08-12) — FRESH SESSION SAFE HERE
+> **Tree CLEAN** but for R23 `db.*.gbf` churn — never stage. **Nothing running.** 197 commits.
+> Gate at close: **`check-all` 213 passed / 0 failed of 213** from a CLEAN rebuild (R22 run **9×**
+> this session, 213/213 every time).
+> **Fleet: 95.1% instr · 89.7% distinct · 96.51% fn-count · INCLUDE_ASM stubs 12,661.**
+> **684 instances banked** (13,345 → 12,661). Cookbook **508 sections**; all six harvests banked.
+> **NO phase close** — T5 needs Drew's gate-2. ⚠ **P30's milestone "≥95% instr fleet" IS MET.**
+
+## ▶ RESUME HERE — READ THIS BLOCK FIRST
+1. **T5 / phase close is a LIVE OPTION.** The milestone reads *"≥95% instr fleet, OR every remaining
+   overlay stub on a named ledger"* — the first branch is met and holding at 95.1%.
+2. **If continuing: wave 7 = the next 40 by templatable weight.** Harness is
+   `tools/wave/crack_wave.js` (in-repo, contracts in its README). REGEN FIRST
+   (`make sig-overlays && make sig-modules && tools/family_hseq.py`), derive by
+   `members × nins`, pass `{wave:"wave7"}`, size-route Haiku ≤30 / Sonnet ≤120 / Opus above.
+   **Bank rate is measured six times: 67 → 79 → 69 → 68 → 73 → 60%.** Budget on ~65-70%.
+3. **STOP MINING WAVES FOR IDIOMS (§167's saturation signal).** COVERED+UNSOUND went
+   57% → 64% → **76%**; five genuinely new laws out of 197 claims. Harvest only what a skeptic
+   grades **byte-probed**, and spend the tokens on cracks instead.
+4. **The frontier:** 1,817 zero-crack families / 6,029 members / 246,221 ins · **4,513 singletons /
+   277,836 ins** (now the LARGEST pool — the roadmap's predicted endgame grind) · 233 partially-
+   matched families / 1,201 open. **The ×16 was the last of its kind; 91% of families are ×2-×4.**
+5. **Open, named:** `func_8017C294` (×16, 3,936 ins) NEAR at **2 ins** after four seeded attempts —
+   the board's biggest single item · the §154-A module leading-island wall (44 jr slots, design in
+   `jtbl_carve.migrated_tables`) · `gate_stage` still has **no revert guarantee for an exception
+   raised outside its stage loop** (that is what stranded drafts in `src/` and made 17 re-gates read
+   0/17 — port `jtbl_family_bank._bank`'s wrapper).
+
+## 🔑 THE ONE THING TO CARRY FORWARD
+**Four times this session a tool asserted a conclusion it had never reached**, and each cost real
+work: the `no-diagnostic` classifier · the poisoned-tree `0/17` · the dead-verifier `refuted: 22` ·
+`gate_stage`'s `(declaration/TU plumbing)`, which aimed five waves of agents at codegen for a body
+that was byte-correct from its first draft. **I then did it myself** — relayed that agent's causal
+story to Drew without checking it, and had to strike it from §166a (R14). **In this project a
+confident WRONG label costs more than a missing one**, because it redirects every later attempt away
+from the real fault. Prefer **"CAUSE NOT DETERMINED" + the next check to run.**
+
+# 🛑 (superseded by FINAL) SESSION S48 CHECKPOINT (2026-08-11) — 0b CLOSED · WAVES 1+2 · md_ LANE — FRESH SESSION SAFE HERE
 > **Tree CLEAN** but for R23 `db.*.gbf` churn — never stage. **Nothing running.**
 > Gate at close: **`check-all` 213 passed / 0 failed of 213** from a CLEAN rebuild (R22 run 5× this
 > session; extract-all 212+main, 0 failed each).
