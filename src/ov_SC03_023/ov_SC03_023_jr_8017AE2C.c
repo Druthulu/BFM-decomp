@@ -4101,7 +4101,7 @@ void func_8017DB48(void *a0) {
 
 
 
-extern void func_8017DBC4(s32, s32);
+extern void func_8017DBC4();
 void func_8017DB84(void)
 {
   int new_var;
@@ -4109,13 +4109,74 @@ void func_8017DB84(void)
   new_var = 0x178000;
 }
 
-extern void func_8017DBC4(s32 arg0, s32 arg1);
+extern void func_8017DBC4();
     void func_8017DBA4(s32 arg0) {
         func_8017DBC4(arg0, 1);
     }
 
 
-INCLUDE_ASM("asm/ov_SC03_023/nonmatchings/ov_SC03_023_jr_8017AE2C", func_8017DBC4);
+/* Local address-suffixed clones of the PSX MATRIX/SVECTOR layouts (cookbook: match_one's isolated
+ * compile only has -Iinclude, so "../shared/engine_core.h" can't resolve from its scratch dir --
+ * the host TU already includes engine_core.h and therefore already has the real MATRIX/SVECTOR in
+ * scope; these local names exist ONLY to let this file compile standalone under match_one and carry
+ * zero risk of colliding with the host's globals at integration time). Layout: m[3][3] (18B) + 2B
+ * pad + t[3] s32 (12B) = 0x20; vx/vy/vz/pad s16 = 8B. */
+typedef struct { short m[3][3]; int t[3]; } MATRIX_8017DBC4;
+typedef struct { short vx, vy, vz, pad; } SVECTOR_8017DBC4;
+
+extern int D_80126B58;
+extern short D_801829F4[];
+extern short D_80126940;
+extern short D_80126942;
+extern short D_80126944;
+extern unsigned short func_80148800(int *a0);
+extern int func_80012C6C(int a0, int a1, int a2);
+extern int func_80012ABC(int a0, int a1, int a2);
+extern void func_80049CAC(int a0, int a1);
+extern void func_8012F14C(int a0, int a1, int a2);
+
+void func_8017DBC4(int param_1, short *param_2) {
+    MATRIX_8017DBC4 m1;
+    SVECTOR_8017DBC4 svec_in;
+    SVECTOR_8017DBC4 svec_out;
+    unsigned char t;
+
+    if (param_2 == 0 && (func_80148800(&D_80126B58) & 3)) {
+        t = (*(unsigned char *)(param_1 + 5) + 1) & 1;
+        *(unsigned char *)(param_1 + 5) = t;
+        *(int *)(param_1 + 0x14) = D_801829F4[t];
+    }
+
+    *(int *)(param_1 + 0x8)  = (short)func_80012C6C((int)*(short *)(param_1 + 0x8),  (int)*(short *)(param_1 + 0xC),  4);
+    *(int *)(param_1 + 0x10) = (short)func_80012C6C((int)*(short *)(param_1 + 0x10), (int)*(short *)(param_1 + 0x14), 4);
+    *(short *)(param_1 + 0x18) = func_80012ABC((int)*(short *)(param_1 + 0x18), (int)*(short *)(param_1 + 0x20), 4);
+    *(short *)(param_1 + 0x1A) = func_80012ABC((int)*(short *)(param_1 + 0x1A), (int)*(short *)(param_1 + 0x22), 4);
+    *(short *)(param_1 + 0x1C) = func_80012ABC((int)*(short *)(param_1 + 0x1C), (int)*(short *)(param_1 + 0x24), 4);
+    *(short *)(param_1 + 0x28) = func_80012C6C((int)*(short *)(param_1 + 0x28), (int)*(short *)(param_1 + 0x2E), 0x10);
+    *(short *)(param_1 + 0x2A) = func_80012C6C((int)*(short *)(param_1 + 0x2A), (int)*(short *)(param_1 + 0x30), 0x10);
+    *(short *)(param_1 + 0x2C) = func_80012C6C((int)*(short *)(param_1 + 0x2C), (int)*(short *)(param_1 + 0x32), 0x10);
+
+    {
+    short *p_D_80126940 = &D_80126940;
+    *(int *)(param_1 + 0x48) = (int)*(short *)(param_1 + 0x28) + (int)*p_D_80126940;
+    *(int *)(param_1 + 0x4C) = (int)*(short *)(param_1 + 0x2A) + (int)D_80126942;
+    *(int *)(param_1 + 0x50) = (int)*(short *)(param_1 + 0x2C) + (int)D_80126944;
+    func_80049CAC(param_1 + 0x18, (int)&m1);
+
+    m1.t[0] = *(short *)(param_1 + 0x28) + *p_D_80126940;
+    m1.t[1] = *(short *)(param_1 + 0x2A) + D_80126942;
+    m1.t[2] = *(short *)(param_1 + 0x2C) + D_80126944;
+    }
+    svec_in.vx = 0;
+    svec_in.vy = 0;
+    svec_in.vz = *(int *)(param_1 + 0x10);
+    ((void (*)(int, int, int))func_8012F14C)((int)&m1, (int)&svec_in, (int)&svec_out);
+
+    *(int *)(param_1 + 0x3C) = (int)svec_out.vx;
+    *(int *)(param_1 + 0x40) = (int)svec_out.vy;
+    *(int *)(param_1 + 0x44) = (int)svec_out.vz;
+}
+
 
 
 extern void (*D_80182A64[])(void);
