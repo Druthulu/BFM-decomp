@@ -3437,10 +3437,3 @@ void func_80185BD4(void) {
 
 
 INCLUDE_ASM("asm/ov_SC03_124/nonmatchings/ov_SC03_124_jr_80185498", func_80185C44);
-
-INCLUDE_ASM("asm/ov_SC03_124/nonmatchings/ov_SC03_124_jr_80185498", func_80185C98);
-
-INCLUDE_ASM("asm/ov_SC03_124/nonmatchings/ov_SC03_124_jr_80185498", func_8018654C);
-
-INCLUDE_ASM("asm/ov_SC03_124/nonmatchings/ov_SC03_124_jr_80185498", func_80186ED8);
-
