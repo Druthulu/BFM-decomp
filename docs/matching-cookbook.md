@@ -14910,8 +14910,20 @@ The third path component **is** the TU stem, derived from the split config. It i
 OTHER TUs of the same overlay, and those hits read exactly like a destination hit. `func_8017F2D4`
 was cited in five waves of notes as living in `ov_SC01_005_jr_8017C340.c` — that file holds only
 `ret = func_8017F2D4(c, ret);` and a prototype. The real `INCLUDE_ASM` is in
-`ov_SC01_005_jr_8017ED5C.c:3115`. Splicing into the wrong file is a **no-op**: the binary keeps its
-`INCLUDE_ASM` bytes, the SHA differs, and the run is recorded as a gate refusal.
+`ov_SC01_005_jr_8017ED5C.c:3115`. A HUMAN OR AGENT following that citation splices into a file with
+no `INCLUDE_ASM` to replace — a no-op that leaves the original bytes and reads as a gate refusal.
+
+⚠ **SCOPE CORRECTION (mine, R14 — the causal half was NOT verified before I banked it).** The
+crack agent presented the wrong-TU citation as the CAUSE of that function's seven gate refusals, and
+I relayed it. **It is not.** `corpus.stubs()` derives each stub's TU from the actual `INCLUDE_ASM`
+site, and `gate_stage` splices via corpus — so **the harness was always editing the right file**;
+only the PROSE was wrong. Measured after banking §166a: `func_8017F2D4` is still a stub and still
+classifies `DIFF`. It is a `has_mid_jr` function referencing `jtbl_801CC504`, so it carries a jump
+table the standalone `match_one` gate cannot see — an extra failure surface, and the real residual
+is **CAUSE NOT DETERMINED**. The ORACLE below stands on its own evidence (the path IS the TU stem,
+by construction from the split config); the "this is why seven attempts failed" story does not.
+*The irony is instructive: this entry was written to stop a tool from printing an unmeasured cause,
+and its first draft printed one.*
 
 **THE COMPOUNDING FAILURE — a guess printed as a finding.** `gate_stage` labelled every such refusal
 `match_one MATCH but gate rejected (declaration/TU plumbing)`. That string is not a measurement; the
