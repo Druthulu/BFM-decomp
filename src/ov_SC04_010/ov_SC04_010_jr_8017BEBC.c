@@ -3331,7 +3331,47 @@ void func_8017D1D4(void *a0) {
 
 INCLUDE_ASM("asm/ov_SC04_010/nonmatchings/ov_SC04_010_jr_8017BEBC", func_8017D210);
 
-INCLUDE_ASM("asm/ov_SC04_010/nonmatchings/ov_SC04_010_jr_8017BEBC", func_8017D2D4);
+
+   /* 8 bytes */
+ /* 32 bytes */
+
+extern int func_80012C6C(int a0, int a1, int a2);
+extern int func_80012ABC(int a0, int a1, int a2);
+extern void func_80049CAC(int a0, int a1);
+extern void func_8012F14C(int a0, int a1, int a2);
+
+void func_8017D2D4(int param_1, short *param_2, short *param_3) {
+    MATRIX m1;
+    SVECTOR svec_in;
+    SVECTOR svec_out;
+
+    *(int *)(param_1 + 0x8)  = (short)func_80012C6C((int)*(short *)(param_1 + 0x8),  (int)*(short *)(param_1 + 0xC),  4);
+    *(int *)(param_1 + 0x10) = (short)func_80012C6C((int)*(short *)(param_1 + 0x10), (int)*(short *)(param_1 + 0x14), 4);
+    *(short *)(param_1 + 0x18) = func_80012ABC((int)*(short *)(param_1 + 0x18), (int)*(short *)(param_1 + 0x20), 4);
+    *(short *)(param_1 + 0x1A) = func_80012ABC((int)*(short *)(param_1 + 0x1A), (int)*(short *)(param_1 + 0x22), 4);
+    *(short *)(param_1 + 0x1C) = func_80012ABC((int)*(short *)(param_1 + 0x1C), (int)*(short *)(param_1 + 0x24), 4);
+    *(short *)(param_1 + 0x28) = func_80012C6C((int)*(short *)(param_1 + 0x28), (int)*(short *)(param_1 + 0x2E), 0x10);
+    *(short *)(param_1 + 0x2A) = func_80012C6C((int)*(short *)(param_1 + 0x2A), (int)*(short *)(param_1 + 0x30), 0x10);
+    *(short *)(param_1 + 0x2C) = func_80012C6C((int)*(short *)(param_1 + 0x2C), (int)*(short *)(param_1 + 0x32), 0x10);
+
+    *(int *)(param_1 + 0x48) = (int)*(short *)(param_1 + 0x28) + (int)param_3[0];
+    *(int *)(param_1 + 0x4C) = (int)*(short *)(param_1 + 0x2A) + (int)param_3[1];
+    *(int *)(param_1 + 0x50) = (int)*(short *)(param_1 + 0x2C) + (int)param_3[2];
+    func_80049CAC(param_1 + 0x18, (int)&m1);
+
+    m1.t[0] = *(short *)(param_1 + 0x28) + param_2[0];
+    m1.t[1] = *(short *)(param_1 + 0x2A) + param_2[1];
+    m1.t[2] = *(short *)(param_1 + 0x2C) + param_2[2];
+    svec_in.vx = 0;
+    svec_in.vy = 0;
+    svec_in.vz = *(int *)(param_1 + 0x10);
+    ((void (*)(int, int, int))func_8012F14C)((int)&m1, (int)&svec_in, (int)&svec_out);
+
+    *(int *)(param_1 + 0x3C) = (int)svec_out.vx;
+    *(int *)(param_1 + 0x40) = (int)svec_out.vy;
+    *(int *)(param_1 + 0x44) = (int)svec_out.vz;
+}
+
 
 
 extern void func_8013B7F4(void *a0, int a1);
