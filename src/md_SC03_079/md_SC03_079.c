@@ -1,6 +1,21 @@
 #include "common.h"
 
-INCLUDE_ASM("asm/md_SC03_079/nonmatchings/md_SC03_079", func_801EF48C);
+#include "common.h"
+
+extern u8 D_801EFF60[];
+
+void func_800167B8(int);
+void func_80175414(s32 _arg0);
+
+int func_801EF48C(u8 *arg) {
+    extern u8 *D_80126B10;
+    D_80126B10 = D_801EFF60;
+    func_800167B8(0);
+    ((void (*)(void))func_80175414)();
+    arg[0x15]++;
+    return 0;
+}
+
 
 
 extern s32 func_800167F0(s32 a0);
@@ -157,7 +172,13 @@ void func_801EF938(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/md_SC03_079/nonmatchings/md_SC03_079", func_801EF974);
+extern void func_801EF99C(s32 param_1, s16 *param_2);
+
+void func_801EF974(s32 param_1) {
+    extern s16 D_801274E8;
+    func_801EF99C(param_1, &D_801274E8);
+}
+
 
 
 /* MATRIX 0x20: short m[3][3] @0x00 (18B) + 2B pad, long t[3] @0x14  (PsyQ layout) */
