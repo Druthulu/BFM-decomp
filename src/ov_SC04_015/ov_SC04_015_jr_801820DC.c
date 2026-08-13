@@ -3503,7 +3503,80 @@ extern void func_8002D4C8(s32 arg0, s32 arg1);
     }
 
 
-INCLUDE_ASM("asm/ov_SC04_015/nonmatchings/ov_SC04_015_jr_801820DC", func_80182B54);
+extern int func_80178970(void);
+extern void func_80178D18(void);
+
+/* ov_SC04_018 :: func_80182B54  — actor state machine, jump-table switch on the
+ * u16 state word at +0x34.  Jump table = jtbl_801E59F8 (6 entries, index 0..5).
+ *
+ * KEY IDIOM (the whole crack): the table is indexed from ZERO — the target does
+ *     lhu $v1,0x34($s0) ; sltiu $v0,$v1,6 ; sll $v0,$v1,2
+ * with NO `addiu $v1,$v1,-1`.  gcc-2.7.2 sets minval = the LOWEST case label, so
+ * a switch whose cases are 1..5 emits the subtract and `sltiu ...,5` (78 ins,
+ * every later index shifted by one).  Writing an explicit empty `case 0: break;`
+ * pulls minval down to 0, kills the subtract, and gcc's jump optimizer threads
+ * case 0's empty body straight onto the epilogue — which is exactly what the real
+ * jtbl shows (entry[0] = 0x8018CD60 = the function end, entries[1..5] = the five
+ * real case bodies).  77 ins, byte-exact.
+ *
+ * The callees are the loose/unprototyped engine helpers: func_80178970 and
+ * func_80178D18 are defined `(void)` in this overlay, but every caller in this TU
+ * passes the actor pointer in $a0 anyway (K&R decls in the original source), so
+ * they are declared here with empty parameter lists and CALLED with a0.
+ */
+
+extern s32  func_800D0F8C(s32);
+extern void func_80178CBC();
+extern void func_80182820();
+extern u8   D_801C3F6C[];
+extern u8   D_801C3F84[];
+
+void func_80182B54(void *a0)
+{
+    s32 *p;
+    s32 t;
+
+    switch (*(u16 *)((char *)a0 + 0x34)) {
+    case 0:
+        break;
+    case 1:
+        if (func_800D0F8C(0x59) == 0) {
+            func_80178CBC(a0, D_801C3F6C);
+            *(u16 *)((char *)a0 + 0x34) = 2;
+        } else {
+            func_80178CBC(a0, D_801C3F84);
+            *(u16 *)((char *)a0 + 0x34) = 3;
+        }
+        break;
+    case 2:
+        if (((s32 (*)(s32))func_80178970)(a0) != 0) {
+            ((void (*)(s32))func_80178D18)(a0);
+            *(u16 *)((char *)a0 + 0x2) = 1;
+            *(u16 *)((char *)a0 + 0x34) = 0;
+        }
+        break;
+    case 3:
+        ((s32 (*)(s32))func_80178970)(a0);
+        *(s32 *)((char *)a0 + 0x1C) = 0;
+        break;
+    case 4:
+        ((s32 (*)(s32))func_80178970)(a0);
+        p = *(s32 **)((char *)a0 + 0x20);
+        *(u16 *)((char *)p + 0x12) = *(u16 *)((char *)p + 0x12) - 0x20;
+        t = *(s32 *)((char *)a0 + 0x1C) + 1;
+        *(s32 *)((char *)a0 + 0x1C) = t;
+        if (t >= 0x30) {
+            *(u16 *)((char *)a0 + 0x34) = 5;
+        }
+        break;
+    case 5:
+        if (((s32 (*)(s32))func_80178970)(a0) != 0) {
+            ((void (*)(s32))func_80178D18)(a0);
+            func_80182820(a0);
+        }
+        break;
+    }
+}
 
 
 extern s32 func_8012BEE8(s32 a0);
