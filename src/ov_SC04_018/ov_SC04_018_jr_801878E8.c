@@ -2910,7 +2910,7 @@ extern void func_80182D24(void *arg0);
 extern void func_80182D84(s32 a0);
 extern s32 func_80182DC4(void);
 extern void func_80182E00(void *arg0);
-extern void func_80182C24(void *arg0);
+extern void func_80182C24();
 extern void func_80182ED8(void *arg0);
 extern void func_80182F18(void *a0);
 extern void func_801831AC(void * arg0);
