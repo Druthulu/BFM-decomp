@@ -1787,7 +1787,6 @@ extern s32 func_8016A73C(s32 arg0);
 extern s32 func_8016A8FC(s32 a0);
 extern void func_8016A890(s32 arg0);
 extern u16 D_80126B5E;
-extern u16 D_80126B66;
 extern void func_8016AA50(s32 param_1, s32 param_2);
 extern void (*D_801840A0[])(void);
 extern void func_8016AB30(void *a0);
@@ -3512,7 +3511,98 @@ extern void func_8012AD44(s32 *a0, s16 a1);
     }
 
 
-INCLUDE_ASM("asm/ov_SC03_095/nonmatchings/ov_SC03_095_jr_8017BEBC", func_8017D960);
+
+
+extern void func_8017DD98(s32 a0);
+extern void func_8017DB10(s32);
+extern void func_8017DD30(void *a0);
+
+void func_8017D960(void *a0) {
+
+    extern s32 D_80126B58;
+    extern u16 D_80126B62;
+    extern u16 D_80126B66;
+    extern s16 D_80191B6C[];
+    extern s16 D_80191B6E[];
+    extern s16 D_80191B70;
+    extern s16 D_80191B72;
+    extern s32 D_8019BD18;
+
+    s16 *p = (s16 *)&D_80126B58;
+    s32 flag;
+    register s32 cond __asm__("$2");
+
+    __asm__ __volatile__("" : "=r"(p) : "0"(p));
+
+    flag = 0;
+    if (*(s16 *)((char *)a0 + 0x70) == 2) {
+        goto CASE2;
+    }
+    if (*(s16 *)((char *)a0 + 0x70) < 3) {
+        goto CASE01;
+    }
+    if (*(s16 *)((char *)a0 + 0x70) == 3) {
+        goto CASE3;
+    }
+    goto TAIL;
+
+CASE01:
+    if (*(s16 *)((char *)a0 + 0x70) < 0) {
+        goto TAIL;
+    }
+    if (*(s16 *)&D_80126B66 < *(s16 *)((char *)a0 + 0xE)) {
+        cond = *(s16 *)((char *)a0 + 0xE) + D_80191B6C[*(s16 *)((char *)a0 + 0x70)] < *(s16 *)&D_80126B66;
+        goto CHECK;
+    }
+    goto TAIL;
+
+CASE2:
+    if (*(s16 *)&D_80126B66 > *(s16 *)((char *)a0 + 0xE)) {
+        cond = *(s16 *)&D_80126B66 < *(s16 *)((char *)a0 + 0xE) + D_80191B70;
+        goto CHECK;
+    }
+    goto TAIL;
+
+CASE3:
+    if (*(s16 *)&D_80126B62 > *(s16 *)((char *)a0 + 0xA)) {
+        if (*(s16 *)&D_80126B62 < *(s16 *)((char *)a0 + 0xA) + D_80191B72) {
+            goto SUCCESS;
+        }
+    }
+    {
+        s16 base = p[3];
+        s16 posx = *(s16 *)((char *)a0 + 0x6);
+        if (base < posx) {
+            __asm__ __volatile__("" ::: "memory");
+            cond = posx + D_80191B6E[*(s16 *)((char *)a0 + 0x70)] < base;
+            goto CHECK;
+        }
+    }
+    goto TAIL;
+
+CHECK:
+    if (!cond) {
+        goto TAIL;
+    }
+SUCCESS:
+    flag = 1;
+
+TAIL:
+    if (flag != 0 && D_8019BD18 == 0) {
+        func_8017DD98(0x12F);
+        ((void (*)(void *))func_8017DB10)(a0);
+    } else {
+        if (*(s16 *)((char *)a0 + 0xFE) != 0) {
+            s16 t = *(s16 *)((char *)a0 + 0xFE) - 0x10;
+            *(s16 *)((char *)a0 + 0xFE) = t;
+            if (t < 0) {
+                *(s16 *)((char *)a0 + 0xFE) = 0;
+            }
+        }
+    }
+    func_8017DD30(a0);
+}
+
 
 extern void func_8012AD44(s32 *a0, s16 a1);
     void func_8017DB10(s32 a0) {
