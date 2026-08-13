@@ -6879,19 +6879,7 @@ void func_80184328(s32 *a0) {
 
 #include "common.h"
 
-extern int func_80178970(void);
-extern void func_80178D18(void);
-extern void func_80184CB8(s32*, s32);
-
-void func_80184374(void * arg0) {
-
-    extern short D_8019224C;
-    if (func_80178970() != 0) {
-        ((void (*)(s32))func_80178D18)((s32)arg0);
-        *(short *)((char *)arg0 + 0x2) = 6;
-        ((void (*)(s32, s32))func_80184CB8)((int)arg0, (int)&D_8019224C);
-    }
-}
+DEFINE_func_80184374()  /* dedup: shared engine-core @0x80184374 (src/shared) */
 
 
 
