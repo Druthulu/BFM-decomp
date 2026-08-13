@@ -1055,31 +1055,7 @@ DEFINE_func_80149584()  /* dedup: shared engine-core @0x80149584 (src/shared) */
  * the call-1 arg-materialization schedule order. These are __asm__ value-barriers, NOT
  * `register __asm__("$N")` pins.
  */
-extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
-extern void func_8012EF70(s32, s32);
-
-void func_801495C4(s32 a0, s32 a1) {
-    s16 in[4];
-    s16 result[4];
-    s16 buf[4];
-    s16 *pin;
-    s16 *m1;
-    s16 *m2;
-    s32 mtx;
-
-    in[0] = *(u16 *)(a1 + 0x2);
-    in[1] = *(u16 *)(a1 + 0x6);
-    in[2] = *(u16 *)(a1 + 0xA);
-    pin = in;                  __asm__ __volatile__("" : "=r"(pin) : "0"(pin));
-    mtx = *(s32 *)(a0 + 0x20); __asm__ __volatile__("" : "=r"(mtx) : "0"(mtx));
-    m1 = buf;                  __asm__ __volatile__("" : "=r"(m1) : "0"(m1));
-    ((void (*)(s32, void *, void *))func_8012F14C)(mtx + 0x34, pin, m1);
-    m2 = buf;                  __asm__ __volatile__("" : "=r"(m2) : "0"(m2));
-    ((void (*)(void *, void *))func_8012EF70)(m2, result);
-    *(s16 *)(a1 + 0x2) = result[0];
-    *(s16 *)(a1 + 0x6) = result[1];
-    *(s16 *)(a1 + 0xA) = result[2];
-}
+DEFINE_func_801495C4()  /* dedup: shared engine-core @0x801495C4 (src/shared) */
 
 
 // @class: regalloc-order
@@ -1256,49 +1232,7 @@ DEFINE_func_8014A71C()  /* dedup: shared engine-core @0x8014A71C (src/shared) */
 
 
 
-extern s32 func_80029178(s32);
-extern u8 D_801202A0[];
-
-s32 func_8014A738(void *arg0) {
-    Vec_8014A738 d;
-    u32 i;
-    Ent_801202A0 *base;
-
-    if ((func_80029178(0x83) & 0xFF) == 0) {
-        return 0;
-    }
-    base = (Ent_801202A0 *)D_801202A0;
-    for (i = 0; i < 0x60; i++) {
-        if (base[i].state == 7) {
-            d.vx = ((Ent_801202A0 *)arg0)->x - base[i].x;
-            d.vz = ((Ent_801202A0 *)arg0)->z - base[i].z;
-            if (d.vx >= 0) {
-                if (d.vx < 0x40) {
-                    goto zcheck;
-                }
-            } else {
-                if (-d.vx < 0x40) {
-                    goto zcheck;
-                }
-            }
-            continue;
-        zcheck:
-            if (d.vz >= 0) {
-                if (d.vz < 0x40) {
-                    goto found;
-                }
-            } else {
-                if (-d.vz < 0x40) {
-                    goto found;
-                }
-            }
-            continue;
-        found:
-            return 1;
-        }
-    }
-    return 0;
-}
+DEFINE_func_8014A738()  /* dedup: shared engine-core @0x8014A738 (src/shared) */
 
 
 DEFINE_func_8014A830()  /* dedup: shared engine-core @0x8014A830 (src/shared) */
@@ -1593,38 +1527,7 @@ DEFINE_func_8014C43C()  /* dedup: shared engine-core @0x8014C43C (src/shared) */
  * RETURN-axis conflict with no header edit.  This line MUST travel with the body. */
 s32 aF8014C4AC(s32 a0, s32 a1, s32 a2, s16 *a3, s32 a4) __asm__("func_8014C4AC");
 
-s32 aF8014C4AC(a0, a1, a2, a3, a4)
-s32 a0;
-s32 a1;
-s32 a2;
-s16 *a3;
-u16 a4;
-{
-   /* block-scope: no file-scope conflict (§100) */
-    extern s32 D_80126CD0;
-    extern u16 D_8012693A;
-    extern u16 D_801152B8;
-    u16 t;
-
-    if (a0 == 0) {
-        return 0;
-    }
-    if (*(u16 *)a0 == 0) {
-        return 0;
-    }
-    if (a1 == 9 || a1 == 0x11 || a1 == 0x29 || a1 == 0xA || D_80126CD0 != a0) {
-        t = *(u16 *)(a0 + 0x5C);
-        *(u16 *)(a0 + 0x5E) = a1;
-        *(u16 *)(a0 + 0x62) = a4;
-        *(u16 *)(a0 + 0x60) = a2;
-        *(u16 *)(a0 + 0x5C) = t | 1;
-        *(V4U *)(a0 + 0x7C) = *(V4U *)a3;
-        *(u8 *)(a0 + 0xC9) = D_8012693A;
-        *(u8 *)(a0 + 0xC8) = D_801152B8;
-        return a0;
-    }
-    return 0;
-}
+DEFINE_func_8014C4AC()  /* dedup: shared engine-core @0x8014C4AC (src/shared) */
 
 
 DEFINE_func_8014C568()  /* dedup: shared engine-core @0x8014C568 (src/shared) */
@@ -1905,36 +1808,7 @@ DEFINE_func_8014D438()  /* dedup: shared engine-core @0x8014D438 (src/shared) */
 DEFINE_func_8014D4C0()  /* dedup: shared engine-core @0x8014D4C0 (src/shared) */
 
 
-extern s32 func_80135A4C(s32 a0, s32 a1, s32 *a2, s32 a3);
-extern s32 func_8014C918(s32 a0, s32 a1);
-
-s32 func_8014D610(s32 param_1, s32 param_2, u16 *param_3) {
-    u16 *psVar4;
-    u8 *puVar3;
-    s32 iVar2;
-
-    psVar4 = (u16 *)D_801202A0;
-    while (psVar4 < (u16 *)(D_801202A0 + 0x6480)) {
-        puVar3 = (u8 *)psVar4 + 0x75;
-        if (*psVar4 != 0 && (*(u16 *)(puVar3 - 0x19) & 0x400) != 0 &&
-            *(s32 *)(puVar3 - 0x1D) != 0 &&
-            *(s16 *)(puVar3 - 0x6B) >= *(s16 *)(param_1 + 0xA)) {
-            iVar2 = ((s32 (*)(s32, s32, s32, u16 *))func_80135A4C)(
-                *(s32 *)(puVar3 - 0x55), *(s32 *)(puVar3 - 0x1D), param_2, param_3);
-            if (iVar2 != 0) {
-                *(s32 *)(param_1 + 0x174) = (s32)psVar4;
-                puVar3[-1] = 1;
-                *(u16 *)(param_1 + 6) = param_3[0];
-                *(u16 *)(param_1 + 0xA) = param_3[1];
-                *(u16 *)(param_1 + 0xE) = param_3[2];
-                *(u16 *)(param_1 + 0x16E) = func_8014C918(param_1, *puVar3) & 0xff;
-                return 1;
-            }
-        }
-        psVar4 += 0x86;
-    }
-    return 0;
-}
+DEFINE_func_8014D610()  /* dedup: shared engine-core @0x8014D610 (src/shared) */
 
 
 // @class: other
@@ -2487,41 +2361,7 @@ extern s32 func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
  * sidesteps the RETURN-axis conflict with no header edit. This line MUST travel with the body. */
 s32 aF8014E5B4(s32 a0, void *a1, void *a2) __asm__("func_8014E5B4");
 
-s32 aF8014E5B4(s32 a0, void *a1, void *a2)
-{
-
-    extern u8 D_801202A0[];
-    register u8 *p __asm__("$17");
-    register u8 *q __asm__("$16");
-    u8 *e;
-    s32 t;
-
-    p = D_801202A0;
-    if (p < p + 0x6480) {
-        e = p + 0x6480;
-        q = p + 0xE;
-    loop:
-        if (*(u16 *)p != 0) {
-            if ((*(u16 *)(q + 0x4E) & 0x40) != 0) {
-                t = *(s32 *)(q + 0x4A);
-                if (t != 0) {
-                    if (func_80135888(*(s32 *)(q + 0x12), t, (s32)a1, (s32)a2) != 0) {
-                        *(u8 **)(a0 + 0x17C) = p;
-                        *(u16 *)(a0 + 6) = *(u16 *)(q - 8);
-                        *(u16 *)(a0 + 0xE) = *(u16 *)q;
-                        return 1;
-                    }
-                }
-            }
-        }
-        p += 0x10C;
-        q += 0x10C;
-        if (p < e) {
-            goto loop;
-        }
-    }
-    return 0;
-}
+DEFINE_func_8014E5B4()  /* dedup: shared engine-core @0x8014E5B4 (src/shared) */
 
 
 // @class: other

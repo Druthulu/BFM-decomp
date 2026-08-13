@@ -328,49 +328,7 @@ DEFINE_func_8012B70C()  /* dedup: shared engine-core @0x8012B70C (src/shared) */
 DEFINE_func_8012B744()  /* dedup: shared engine-core @0x8012B744 (src/shared) */
 
 
-extern s32 ratan2(s32 a0, s32 a1);
-extern s32 func_80047948(s32 a0); /* rsin-like: angle (0..0xFFF) -> 1.12 fixed */
-extern s32 func_8004787C(s32 a0); /* rcos-like: angle (0..0xFFF) -> 1.12 fixed */
-
-/* The 4-byte destination is a PACKED PAIR of angles held entirely in ONE saved register
- * ($s4) across all three calls — that is what produces the target's
- *   andi $s4,$s4,0xFFFF   (read of the still-uninitialized local, hoisted into the prologue)
- *   ... or  $s4,$s4,ang<<16      -> t.hi = yaw
- *   ... and $s4,$s4,0xFFFF0000 / or $s4,$s4,ang&0xFFFF  -> t.lo = pitch
- * A `struct { s16 lo, hi; }` has align 2 -> BLKmode-ish handling: gcc spills it to the stack
- * and stores it with lwl/lwr + swl/swr (54 ins, 53 mismatched). Two 16-bit BITFIELDS in a
- * u32 container give the SImode, align-4 struct gcc keeps in a register. */
-
-/* a0 = destination packed-angle word, a1 = "from" entity, a2 = "to" entity.
- * Both entities carry 16.16 fixed-point x/y/z at +0/+4/+8; the s16 reads at +2/+6/+0xA are
- * the integer halves. Returns the destination pointer — the return value is REAL: without it
- * gcc stores with `sw $s4,0($s3)` (57 ins) instead of the target's
- *   addu $v0,$s3,$zero ; sw $s4,0($v0)   (the return-value copy that the store's base coalesces onto).
- * The flattened `dz` reuse at the end is also load-bearing: making the (dz*sin + dx*cos)>>12
- * temp its OWN variable gives it $a1 for the whole chain; reusing `dz` extends that allocno so
- * it lands in $s5 exactly as the target does (`sra $s5,$v0,12` / `negu $a1,$s5`), and it also
- * demotes dz's priority so the saved-reg order comes out $s3=out, $s4=t, $s5=dz. */
-s32 func_8012B77C(s32 out, s32 from, s32 to) {
-    Ang2_8012B77C_8012B77C t;
-    s32 dx, dy, dz;
-    s32 ang;
-    s32 r1, r2;
-
-    dz = *(s16 *)(to + 0xA) - *(s16 *)(from + 0xA);
-    dx = *(s16 *)(to + 0x2) - *(s16 *)(from + 0x2);
-    dy = *(s16 *)(to + 0x6) - *(s16 *)(from + 0x6);
-
-    ang = (ratan2(-dz, dx) - 0x400) & 0xFFF;
-    t.hi = ang;
-
-    r1 = func_80047948(ang);
-    r2 = func_8004787C(ang);
-    dz = (dz * r1 + dx * r2) >> 12;
-    t.lo = ratan2(dy, -dz);
-
-    *(Ang2_8012B77C_8012B77C *)out = t;
-    return out;
-}
+DEFINE_func_8012B77C()  /* dedup: shared engine-core @0x8012B77C (src/shared) */
 
 
 DEFINE_func_8012B864()  /* dedup: shared engine-core @0x8012B864 (src/shared) */
@@ -1103,23 +1061,7 @@ DEFINE_func_8012EF70()  /* dedup: shared engine-core @0x8012EF70 (src/shared) */
  * This declaration MUST travel with the body. */
 s32 aF8012EFB8(void *param_1, void *param_2) __asm__("func_8012EFB8");
 
-s32 aF8012EFB8(param_1, param_2)
-    void *param_1;
-    void *param_2;
-{
-    extern u8 D_800AF648;
-    s32 *m;
-    s32 flag;
-
-    m = (s32 *)&D_800AF648;
-    gte_SetRotMatrix(m);
-    gte_SetTransMatrix(m);
-    gte_ldv0(param_1);
-    gte_rtps();
-    gte_stsxy(param_2);
-    gte_stflg(&flag);
-    return flag;
-}
+DEFINE_func_8012EFB8()  /* dedup: shared engine-core @0x8012EFB8 (src/shared) */
 
 
 
@@ -1152,29 +1094,7 @@ DEFINE_func_8012F374()  /* dedup: shared engine-core @0x8012F374 (src/shared) */
 // @class: remat
 // @stuck: none — MATCH
 
-extern void func_8004914C();
-extern void func_800491AC();
-extern s32 RotTransPers(s32, s32, s32*, s32*);
-
-s32 *func_8012F40C(s32 *param_1, s32 param_2) {
-
-    extern u8 D_800AF648;
-    s32 sxy, p, flag;
-
-    sxy = 0;
-    /* $a0-pinned scopes force the &D_800AF648 constant to be rematerialized
-       (lui/addiu) before each call instead of CSE-hoisting it into a third
-       callee-saved register. */
-    { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }
-    { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_800491AC(r4); }
-    ((s32 (*)(s32, s32 *, s32 *, s32 *))RotTransPers)(param_2, &sxy, &p, &flag);
-    if (flag < 0) {
-        *param_1 = sxy = 0;
-    } else {
-        *param_1 = sxy;
-    }
-    return param_1;
-}
+DEFINE_func_8012F40C()  /* dedup: shared engine-core @0x8012F40C (src/shared) */
 
 
 DEFINE_func_8012F49C()  /* dedup: shared engine-core @0x8012F49C (src/shared) */
@@ -1936,25 +1856,7 @@ DEFINE_func_801319E0()  /* dedup: shared engine-core @0x801319E0 (src/shared) */
  *  - func_8012A828 is the TU's file-scope canonical (L280) `(s32, void *)`; `p` rides in
  *    $a1 from the return of func_80131CF4, so no move is emitted.
  */
-extern void func_8012A828(s32 a0, void *a1);
-
-s32 func_80131A34(s32 a0, s32 a1)
-{
-    extern s32 func_80131CF4(s32);
-    void *p;
-
-    p = (void *)((int (*)(int, int))func_80131CF4)(*(s32 *)(a0 + 0xBC), a1);
-    if (p != 0) {
-        if (a1 == 0xB || a1 == 8 || a1 == 0x20) {
-            *(s32 *)(a0 + 0xC4) |= 4;
-        } else {
-            *(s32 *)(a0 + 0xC4) &= -5;
-        }
-        func_8012A828(a0, p);
-        return 1;
-    }
-    return 0;
-}
+DEFINE_func_80131A34()  /* dedup: shared engine-core @0x80131A34 (src/shared) */
 
 
 DEFINE_func_80131AC8()  /* dedup: shared engine-core @0x80131AC8 (src/shared) */
@@ -2057,15 +1959,7 @@ extern s32 func_80131CF4(s32 a0);
 
 s32 aF80131CA8(int a0) __asm__("func_80131CA8");
 
-s32 aF80131CA8(int a0)
-{
-    s32 (*fp)(int) = (s32 (*)(int))func_80131CF4(*(s32 *)((u8 *)a0 + 0xBC));
-    if (fp != 0) {
-        fp(a0);
-        return 1;
-    }
-    return 0;
-}
+DEFINE_func_80131CA8()  /* dedup: shared engine-core @0x80131CA8 (src/shared) */
 
 
 
@@ -2097,37 +1991,7 @@ s32 aF80131CA8(int a0)
  * label is still `func_80131CF4`, and the callers' `jal func_80131CF4` binds to it.
  * Zero header edits; body byte-identical (match_one: MATCH, 29 ins).
  */
-s32 aF80131CF4(s32 *a0, s32 a1) __asm__("func_80131CF4");
-
-s32 aF80131CF4(s32 *a0, s32 a1) {
-    s32 v0;
-    s32 k;
-
-    if (a0 == 0) {
-        return 0;
-    }
-    goto enter;
-found:
-    return a0[1];
-enter:
-    if (a0[0] == 0) {
-        return 0;
-    }
-    __asm__ __volatile__("" : "=r"(k) : "0"(0xD) : "memory");
-    v0 = a0[0];
-    do {
-        if (v0 == k) {
-            a0 = (s32 *)a0[1];
-        } else {
-            if (v0 == a1) {
-                goto found;
-            }
-            a0 = (s32 *)((u8 *)a0 + 8);
-        }
-        v0 = a0[0];
-    } while (v0 != 0);
-    return 0;
-}
+DEFINE_func_80131CF4()  /* dedup: shared engine-core @0x80131CF4 (src/shared) */
 
 
 DEFINE_func_80131D68()  /* dedup: shared engine-core @0x80131D68 (src/shared) */
@@ -2552,35 +2416,7 @@ DEFINE_func_801330E0()  /* dedup: shared engine-core @0x801330E0 (src/shared) */
  * is a C89 error in the real TU). */
 
 
-extern void func_8012F0BC(s32 *a0, s32 *a1, s32 *a2);
-extern void func_8012B2CC(s32 a0);
-extern void func_8013339C(s16 *a0, s16 *a1);
-extern void func_8012F1A4(s32 *a0, s32 a1, s32 *a2);
-
-void func_80133298(s32 *a0)
-{
-
-    extern u8 D_80126B5C; /* canonical decl (engine_core.h DEFINE_func_8012BD14) */
-    extern s32 D_80126B5C_w __asm__("D_80126B5C"); /* same symbol, s32 view */
-    extern s32 D_80126B60;
-    extern s32 D_80126B64;
-    s32 in[3];
-    s32 out[3];
-    s32 tmp[3];
-    Blk32L_80133298 m;
-
-    in[0] = D_80126B5C_w;
-    in[1] = D_80126B60;
-    in[2] = D_80126B64;
-    func_8012F0BC((s32 *)(a0[8] + 0x34), in, tmp);
-    func_8012B2CC((s32)a0);
-    m = *(Blk32L_80133298 *)(a0[8] + 0x34);
-    func_8013339C((s16 *)&m, (s16 *)(a0[8] + 0x18));
-    func_8012F1A4((s32 *)&m, (s32)tmp, out);
-    D_80126B5C_w = out[0];
-    D_80126B60 = out[1];
-    D_80126B64 = out[2];
-}
+DEFINE_func_80133298()  /* dedup: shared engine-core @0x80133298 (src/shared) */
 
 
 DEFINE_func_8013339C()  /* dedup: shared engine-core @0x8013339C (src/shared) */

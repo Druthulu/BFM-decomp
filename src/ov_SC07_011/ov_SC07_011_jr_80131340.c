@@ -821,25 +821,7 @@ DEFINE_func_801319E0()  /* dedup: shared engine-core @0x801319e0 (src/shared) */
  *  - func_8012A828 is the TU's file-scope canonical (L280) `(s32, void *)`; `p` rides in
  *    $a1 from the return of func_80131CF4, so no move is emitted.
  */
-extern void func_8012A828(s32 a0, void *a1);
-
-s32 func_80131A34(s32 a0, s32 a1)
-{
-    extern s32 func_80131CF4(s32);
-    void *p;
-
-    p = (void *)((int (*)(int, int))func_80131CF4)(*(s32 *)(a0 + 0xBC), a1);
-    if (p != 0) {
-        if (a1 == 0xB || a1 == 8 || a1 == 0x20) {
-            *(s32 *)(a0 + 0xC4) |= 4;
-        } else {
-            *(s32 *)(a0 + 0xC4) &= -5;
-        }
-        func_8012A828(a0, p);
-        return 1;
-    }
-    return 0;
-}
+DEFINE_func_80131A34()  /* dedup: shared engine-core @0x80131A34 (src/shared) */
 
 
 DEFINE_func_80131AC8()  /* dedup: shared engine-core @0x80131ac8 (src/shared) */
@@ -948,15 +930,7 @@ extern s32 func_80131CF4(s32 a0);
 
 s32 aF80131CA8(int a0) __asm__("func_80131CA8");
 
-s32 aF80131CA8(int a0)
-{
-    s32 (*fp)(int) = (s32 (*)(int))func_80131CF4(*(s32 *)((u8 *)a0 + 0xBC));
-    if (fp != 0) {
-        fp(a0);
-        return 1;
-    }
-    return 0;
-}
+DEFINE_func_80131CA8()  /* dedup: shared engine-core @0x80131CA8 (src/shared) */
 
 
 
@@ -988,37 +962,7 @@ s32 aF80131CA8(int a0)
  * label is still `func_80131CF4`, and the callers' `jal func_80131CF4` binds to it.
  * Zero header edits; body byte-identical (match_one: MATCH, 29 ins).
  */
-s32 aF80131CF4(s32 *a0, s32 a1) __asm__("func_80131CF4");
-
-s32 aF80131CF4(s32 *a0, s32 a1) {
-    s32 v0;
-    s32 k;
-
-    if (a0 == 0) {
-        return 0;
-    }
-    goto enter;
-found:
-    return a0[1];
-enter:
-    if (a0[0] == 0) {
-        return 0;
-    }
-    __asm__ __volatile__("" : "=r"(k) : "0"(0xD) : "memory");
-    v0 = a0[0];
-    do {
-        if (v0 == k) {
-            a0 = (s32 *)a0[1];
-        } else {
-            if (v0 == a1) {
-                goto found;
-            }
-            a0 = (s32 *)((u8 *)a0 + 8);
-        }
-        v0 = a0[0];
-    } while (v0 != 0);
-    return 0;
-}
+DEFINE_func_80131CF4()  /* dedup: shared engine-core @0x80131CF4 (src/shared) */
 
 
 DEFINE_func_80131D68()  /* dedup: shared engine-core @0x80131d68 (src/shared) */
@@ -1477,35 +1421,7 @@ DEFINE_func_801330E0()  /* dedup: shared engine-core @0x801330E0 (src/shared) */
  * is a C89 error in the real TU). */
 
 
-extern void func_8012F0BC(s32 *a0, s32 *a1, s32 *a2);
-extern void func_8012B2CC(s32 a0);
-extern void func_8013339C(s16 *a0, s16 *a1);
-extern void func_8012F1A4(s32 *a0, s32 a1, s32 *a2);
-
-void func_80133298(s32 *a0)
-{
-
-    extern u8 D_80126B5C; /* canonical decl (engine_core.h DEFINE_func_8012BD14) */
-    extern s32 D_80126B5C_w __asm__("D_80126B5C"); /* same symbol, s32 view */
-    extern s32 D_80126B60;
-    extern s32 D_80126B64;
-    s32 in[3];
-    s32 out[3];
-    s32 tmp[3];
-    Blk32L_80133298 m;
-
-    in[0] = D_80126B5C_w;
-    in[1] = D_80126B60;
-    in[2] = D_80126B64;
-    func_8012F0BC((s32 *)(a0[8] + 0x34), in, tmp);
-    func_8012B2CC((s32)a0);
-    m = *(Blk32L_80133298 *)(a0[8] + 0x34);
-    func_8013339C((s16 *)&m, (s16 *)(a0[8] + 0x18));
-    func_8012F1A4((s32 *)&m, (s32)tmp, out);
-    D_80126B5C_w = out[0];
-    D_80126B60 = out[1];
-    D_80126B64 = out[2];
-}
+DEFINE_func_80133298()  /* dedup: shared engine-core @0x80133298 (src/shared) */
 
 
 DEFINE_func_8013339C()  /* dedup: shared engine-core @0x8013339c (src/shared) */

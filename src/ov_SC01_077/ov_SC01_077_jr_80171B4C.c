@@ -2687,17 +2687,7 @@ void func_801733CC(s32 a0) {
 struct S80126B38 { s32 a; s32 b; } __attribute__((packed));
 #endif
 
-extern void func_801734BC(s32 a0, s32 a1);
-extern struct S80126B38 D_80126B38;
-extern s16 D_80126B3E;
-extern s16 D_80126B40;
-
-void func_801733FC(s32 a0, s32 a1) {
-    func_801734BC(a0, a1);
-    D_80126B38 = *(struct S80126B38 *)a1;
-    D_80126B3E = 1;
-    D_80126B40 = 1;
-}
+DEFINE_func_801733FC()  /* dedup: shared engine-core @0x801733FC (src/shared) */
 
 
 DEFINE_func_80173460()  /* dedup: shared engine-core @0x80173460 (src/shared) */

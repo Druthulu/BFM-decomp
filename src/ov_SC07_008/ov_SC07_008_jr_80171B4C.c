@@ -2421,14 +2421,7 @@ DEFINE_func_80172BC8()  /* dedup: shared engine-core @0x80172BC8 (src/shared) */
 
 DEFINE_func_80172C48()  /* dedup: shared engine-core @0x80172C48 (src/shared) */
 
-extern void func_80174684(void *);
-extern void func_80172CA0(void*);
-void func_80172C50(void *a0) {
-
-    extern s16 D_80126B30;
-    *(struct S8_80172780 *)&D_80126B30 = *(struct S8_80172780 *)a0;
-    func_80174684((void *)func_80172CA0);
-}
+DEFINE_func_80172C50()  /* dedup: shared engine-core @0x80172C50 (src/shared) */
 
 
 
@@ -2545,18 +2538,7 @@ DEFINE_func_801733A4()  /* dedup: shared engine-core @0x801733A4 (src/shared) */
 DEFINE_func_801733CC()  /* dedup: shared engine-core @0x801733CC (src/shared) */
 
 
-extern void func_801734BC(s32 a0, s32 a1);
-
-void func_801733FC(s32 a0, s32 a1) {
-
-    extern struct S80126B38 D_80126B38;
-    extern s16 D_80126B3E;
-    extern s16 D_80126B40;
-    func_801734BC(a0, a1);
-    D_80126B38 = *(struct S80126B38 *)a1;
-    D_80126B3E = 1;
-    D_80126B40 = 1;
-}
+DEFINE_func_801733FC()  /* dedup: shared engine-core @0x801733FC (src/shared) */
 
 
 DEFINE_func_80173460()  /* dedup: shared engine-core @0x80173460 (src/shared) */

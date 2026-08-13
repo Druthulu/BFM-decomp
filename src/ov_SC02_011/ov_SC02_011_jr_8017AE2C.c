@@ -5131,8 +5131,7 @@ extern void func_80147060(u8 *a0);
 
 INCLUDE_ASM("asm/ov_SC02_011/nonmatchings/ov_SC02_011_jr_8017AE2C", func_8017E4D8);
 
-void func_8017E518(void) {
-}
+DEFINE_func_8017E518()  /* dedup: shared engine-core @0x8017E518 (src/shared) */
 
 extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 
@@ -9490,7 +9489,33 @@ void func_8018C424(int param_1)
 
 INCLUDE_ASM("asm/ov_SC02_011/nonmatchings/ov_SC02_011_jr_8017AE2C", func_8018C47C);
 
-INCLUDE_ASM("asm/ov_SC02_011/nonmatchings/ov_SC02_011_jr_8017AE2C", func_8018C534);
+#include "common.h"
+
+extern void func_8012C1B8(void);
+extern void func_8012CAE4(void*);
+extern void func_8001C214(s32, s32);
+extern s32 D_801D8AD8;
+
+void func_8018C534(int param_1)
+{
+    int v0;
+    int v1;
+    int temp;
+
+    v0 = ((int (*)(void))func_8012C1B8)();
+    *(int *)(param_1 + 0x20) = v0;
+    if (v0 == 0) {
+        ((void (*)(int))func_8012CAE4)(param_1);
+    } else {
+        ((int (*)(int, void *))func_8001C214)(v0, &D_801D8AD8);
+        temp = *(int *)(param_1 + 0x64);
+        v1 = *(unsigned short *)(temp + 0x36);
+        *(short *)(param_1 + 0x2) = 1;
+        *(short *)(param_1 + 0xFE) = 0x7FFF;
+        *(short *)(param_1 + 0xFC) = v1;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC02_011/nonmatchings/ov_SC02_011_jr_8017AE2C", func_8018C5A4);
 

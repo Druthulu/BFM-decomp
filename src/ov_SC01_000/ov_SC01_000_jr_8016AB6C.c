@@ -2557,21 +2557,7 @@ DEFINE_func_8016BF34()  /* dedup: shared engine-core @0x8016BF34 (src/shared) */
 /* §71 sibling-first: this is the head of the already-matched func_8016C2C4
  * (src/ov_SC03_099/ov_SC03_099_jr_8016AB6C.c L2707) lifted into its own leaf. */
 
-extern void func_80149350(s32 arg0);
-extern void func_80015954(s32 a0, s32 a1);
-
-s32 func_8016BF50(s32 param)
-{
-    u16 buf[3];
-    s32 arg;
-
-    arg = *(s32 *)(param + 0x34);
-    buf[0] = *(u16 *)(param + 0x12);
-    buf[1] = *(u16 *)(param + 0x16);
-    buf[2] = *(u16 *)(param + 0x1a);
-    ((void (*)(s32, void *, void *))func_80149350)(arg, buf, buf);
-    ((void (*)(void *, s32))func_80015954)(buf, param + 4);
-}
+DEFINE_func_8016BF50()  /* dedup: shared engine-core @0x8016BF50 (src/shared) */
 
 
 
@@ -3894,37 +3880,7 @@ s32 func_8016F0AC()
  * 137 siblings as a plain unit (carry the alias DECLARATION line with it — §124 trap 2).
  */
 
-extern void func_8017196C(s32 *a0, s8 a1);   /* == DEFINE_func_8017196C's own signature */
-extern void func_80147060(u8 *a0);
-extern void func_801511A8(u8 *a0);
-extern void func_80148634(void *a0);
-
-// @class: plumbing
-// @stuck: none — MATCH (26 ins).
-//   Levers: (1) §42b read-global &-cast — the TU declares D_80078EB4 as s16 but the target
-//   loads it with `lhu`; the bare `D_80078EB4 != 0` gives `lh` (probed: closeness 1, WIDTH
-//   lh!=lhu), so read it as *(u16 *)&D_80078EB4.  (2) both 0x1F8/0x1FC stores are s32 `sw`,
-//   emitted before the first jal (the 0x1FC one lands in the delay slot by sched2 — free).
-//   (3) the param needs no laundering: it is copied to $s0 at entry and the first call's
-//   `move $a0,$s0` is deleted because $a0 already holds it — plain `u8 *p` reproduces this.
-//   (4) §37/§124 asm-label alias — see the RECONCILE NOTE above; codegen-neutral (symbol only).
-
-void aF8016F0E4(u8 *p) __asm__("func_8016F0E4");
-
-void aF8016F0E4(u8 *p) {
-
-    extern s16 D_80078EB4;                       /* fleet-canonical spelling; see the &-cast below */
-    extern u8 D_800B9A17;
-    *(s32 *)(p + 0x1F8) = 0;
-    *(s32 *)(p + 0x1FC) = 0;
-    func_8017196C((s32 *)p, 0);
-    func_80147060(p);
-    func_801511A8(p);
-    if (*(u16 *)&D_80078EB4 != 0) {
-        D_800B9A17 = 1;
-    }
-    func_80148634(p);
-}
+DEFINE_func_8016F0E4()  /* dedup: shared engine-core @0x8016F0E4 (src/shared) */
 
 
 DEFINE_func_8016F14C()  /* dedup: shared engine-core @0x8016F14C (src/shared) */
@@ -4290,26 +4246,7 @@ void func_80170810(void *a0) {
 DEFINE_func_8017084C()  /* dedup: shared engine-core @0x8017084C (src/shared) */
 
 
-extern void func_801484B0(s32 a0, s32 a1);
-extern void func_80149350(s32 arg0);
-extern s32 func_8014C168(s32*, s32);
-extern void func_80171928(void *a0);
-
-void func_801708B0(void* a0)
-{
-
-    extern void *D_8011F738;
-    u16 sp10[4];
-    u16 sp18[4];
-    short *r;
-    func_801484B0((s32)&sp10, (s32)&sp18);
-    ((void (*)(s32, void *, void *))func_80149350)((s32)a0, &sp10, &sp10);
-    r = (short *)((s32 (*)(s32, s32))func_8014C168)((s32)a0, (*(s32 *)&D_8011F738));
-    r[3] = sp10[0];
-    r[5] = sp10[1];
-    r[7] = sp10[2];
-    func_80171928((void *)a0);
-}
+DEFINE_func_801708B0()  /* dedup: shared engine-core @0x801708B0 (src/shared) */
 
 
 DEFINE_func_80170928()  /* dedup: shared engine-core @0x80170928 (src/shared) */
@@ -4361,38 +4298,7 @@ void func_80170C74(void *a0) {
 DEFINE_func_80170CB0()  /* dedup: shared engine-core @0x80170CB0 (src/shared) */
 
 
-extern void func_801718AC(void *a0);
-
-void func_80170CF0(void* a0)
-{
-
-    extern void *D_8011F738;
-    extern s32 D_8011F73C;
-    extern s32 D_8011F740;
-    s32 v1;
-    void *p;
-    ((void (*)(s32))D_8011F738)(a0);
-    v1 = *(u8 *)(a0 + 0x217);
-    if (v1 == 1) {
-        goto case_1;
-    }
-    if (v1 <= 1) {
-        goto done;
-    }
-    if (v1 == 2) {
-        goto case_2;
-    }
-    goto done;
-case_1:
-    p = (*(void * *)&D_8011F73C);
-    goto call;
-case_2:
-    p = (*(void * *)&D_8011F740);
-call:
-    func_801718AC(p);
-done:
-    ;
-}
+DEFINE_func_80170CF0()  /* dedup: shared engine-core @0x80170CF0 (src/shared) */
 
 
 

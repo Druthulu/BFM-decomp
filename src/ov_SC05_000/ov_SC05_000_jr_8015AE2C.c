@@ -1813,20 +1813,7 @@ void func_8015BFF4(void *a0) {
  * definition also match_one-MATCHes but breaks the real TU with
  * `conflicting types`.  The s16 reads are cast at the use site. */
 
-extern void func_80154150(s32 a0, s32 a1);
-extern void func_801553A8(s32 *a0);
-extern void func_80146CA0(void *a0);
-
-void func_8015C030(s32 *a0, s32 a1)
-{
-    s32 t = *(s16 *)a1 << 7;
-    *(s32 *)((s32)a0 + 0x238) = 0x80000;
-    *(s32 *)((s32)a0 + 0x234) = t;
-    *(s32 *)((s32)a0 + 0x23C) = *(s16 *)(a1 + 4) << 7;
-    func_80154150((s32)a0, 0x11);
-    func_801553A8(a0);
-    func_80146CA0((void *)a0);
-}
+DEFINE_func_8015C030()  /* dedup: shared engine-core @0x8015C030 (src/shared) */
 
 
 DEFINE_func_8015C08C()  /* dedup: shared engine-core @0x8015C08C (src/shared) */

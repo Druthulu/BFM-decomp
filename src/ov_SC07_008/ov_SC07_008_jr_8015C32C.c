@@ -3353,31 +3353,7 @@ s32 aF8016130C(void *a0, s32 a1)
 // @stuck: none — MATCH
 
 
-extern void func_801599A4(void*);
-extern void func_8015BDD0(s32*);
-extern void func_8015BF48(s32*);
-extern void func_80015954(s32, s32);
-
-int func_80161374(int param_1, unsigned int param_2) {
-
-    extern int D_801152BC;
-    if ((param_2 == 0) || (param_2 == 0x8000)) {
-        ((void (*)(int))func_801599A4)(param_1);
-        ((void (*)(int))func_8015BDD0)(param_1);
-        return 1;
-    }
-    if ((param_2 & 0x4000) != 0) {
-        if ((D_801152BC != 0) ||
-            (*(short *)(param_1 + 10) >= *(short *)(param_1 + 0x8a))) {
-            ((void (*)(int))func_801599A4)(param_1);
-            ((void (*)(int))func_8015BF48)(param_1);
-            return 1;
-        }
-        ((int (*)(int, int))func_80015954)(param_1 + 0x88, param_1 + 4);
-        return 0;
-    }
-    return 0;
-}
+DEFINE_func_80161374()  /* dedup: shared engine-core @0x80161374 (src/shared) */
 
 
 DEFINE_func_80161418()  /* dedup: shared engine-core @0x80161418 (src/shared) */
@@ -3502,58 +3478,7 @@ s32 func_80161774(int param_1, u32 param_2) {
 DEFINE_func_80161888()  /* dedup: shared engine-core @0x80161888 (src/shared) */
 
 
-extern void func_8016151C(void *a0);
-
-
-// @class: sibling-copy (§71) + asm-label alias on the DEFINITION (§37 / §73 return-axis dodge)
-// @stuck: none — match_one MATCH (24 ins) AND rtu_match MATCH (24 ins), real TU, zero fleet edits.
-//
-// DERIVATION (§71 sibling-first, iteration 1):
-//   func_80161888 @ src/ov_SC01_077/ov_SC01_077_jr_8015C32C.c:3640 is an already-MATCHED sibling
-//   with the identical flag-dispatch skeleton (1 / 0x4000 / 0x2000 -> 1 / 2 / 4, else 0); this
-//   target is that function minus the func_80161D20 consumer call.  Body copied verbatim, call
-//   dropped.  int/unsigned int spelling kept from the sibling.  MATCH first try.
-//
-// WHY THE ASM-LABEL ALIAS (this is the only non-obvious part):
-//   The fleet canon declares this function inside a shared macro —
-//     src/shared/engine_core.h:3567, DEFINE_func_8016151C():
-//       extern void func_8016191C(void *a0, s32 a1);
-//   but the byte-true body RETURNS s32 ($v0 = 1/2/4/0), so a plain `int func_8016191C(...)`
-//   definition dies with `conflicting types for 'func_8016191C'` in the real TU (rtu CC1 FAIL).
-//   That is §73's RETURN axis; a `void` def would DCE the $v0 constants outright.
-//   §73's prescribed fix is the fleet widen `extern void`->`extern s32` (T2 / R22) — exactly the
-//   edit already applied to the three banked siblings in this same macro block
-//   (engine_core.h:3546 func_8016163C -> s32, :3553 func_80161774 -> s32, :3560 func_80161888 -> int).
-//   The alias reaches the same place at T0 (draft-only, no tracked file touched): the C identifier
-//   is aF8016191C so no decl conflicts, while the emitted SYMBOL is func_8016191C.  The macro's
-//   caller func_8016151C keeps calling the `extern void` spelling and is byte-unaffected (it
-//   discards the return).  Verified by rtu_match, which extracts by symbol name.
-//
-//   IF the orchestrator prefers house style over zero-touch: widen engine_core.h:3567 to
-//     extern s32 func_8016191C(void *a0, s32 a1);
-//   (batch it with any other pending §73 widens, one R22) and then the alias line can be deleted
-//   and the definition renamed back to `int func_8016191C(int, unsigned int)`.  Byte-identical
-//   either way — confirmed: the same body under the plain name is match_one MATCH in isolation.
-
-extern void func_8014C010(int a0, int a1);
-
-int aF8016191C(int param_1, unsigned int param_2) __asm__("func_8016191C");
-
-int aF8016191C(int param_1, unsigned int param_2) {
-    if (param_2 & 1) {
-        func_8014C010(param_1, 1);
-        return 1;
-    }
-    if (param_2 & 0x4000) {
-        func_8014C010(param_1, 1);
-        return 2;
-    }
-    if (param_2 & 0x2000) {
-        func_8014C010(param_1, 1);
-        return 4;
-    }
-    return 0;
-}
+DEFINE_func_8016191C()  /* dedup: shared engine-core @0x8016191C (src/shared) */
 
 
 DEFINE_func_8016197C()  /* dedup: shared engine-core @0x8016197C (src/shared) */
@@ -4189,21 +4114,7 @@ DEFINE_func_80162CC4()  /* dedup: shared engine-core @0x80162CC4 (src/shared) */
 
 extern void func_80016714(void *a0, s32 a1);
 void aF80162CCC(u8 *a0) __asm__("func_80162CCC");
-void aF80162CCC(u8 *a0)
-{
-    u8 *s0 = a0;
-    u16 *p = *(u16 **)(s0 + 0x20);
-    if (p != 0) {
-        s32 a1;
-        if (*p == 1) {
-            a1 = 0x84;
-        } else {
-            a1 = 0x38;
-        }
-        func_80016714(p, a1);
-    }
-    func_80016714(s0, 0x68);
-}
+DEFINE_func_80162CCC()  /* dedup: shared engine-core @0x80162CCC (src/shared) */
 
 
 DEFINE_func_80162D28()  /* dedup: shared engine-core @0x80162D28 (src/shared) */
@@ -4279,51 +4190,7 @@ void func_801634D8(s32 param_1, u16 param_2, u16 param_3, s32 param_4, u16 param
 }
 
 
-extern void func_80163664(s32, u16, u16, s32, s32, s32, s32, s32, s32, s32, u16, s32, s32);
-
-void func_80163534(a0, a1, a2, a3, a4, a5)
-    s32 a0;
-    u16 a1;
-    u16 a2;
-    s32 a3;
-    u16 a4;
-    u16 *a5;
-{
-
-    extern s32 D_80115100;
-    extern s32 D_80115200;
-    extern s32 D_80115204;
-    extern s32 D_80115208;
-    extern u16 D_80126B18[];
-    extern u16 D_801270B0[];
-    extern u16 D_801270B2;
-    extern u16 D_801270B4;
-    extern u16 D_80126B1A[];
-    extern u16 D_80126B1C;
-    extern s32 D_80114EB0;
-    extern s32 D_80114EC8;
-    extern s32 D_8011DAF0;
-    extern s32 D_80115298;
-    extern s32 D_80126734;
-    s32 *p = &D_80115200;
-
-    *p = 0;
-    D_80115204 = 0;
-    D_80115208 = 0;
-
-    D_801270B0[0] = *(u16 *)(a0 + 0x44) + a5[0];
-    D_801270B2 = *(u16 *)(a0 + 0x46) + a5[1];
-    D_801270B4 = *(u16 *)(a0 + 0x48) + a5[2];
-
-    D_80126B18[0] = *(u16 *)(a0 + 0x6) + a5[0];
-    D_80126B1A[0] = *(u16 *)(a0 + 0xA) + a5[1];
-    D_80126B1C = *(u16 *)(a0 + 0xE) + a5[2];
-
-    *p = ((s32 (*)(s32, u16, u16, s32, s32, s32, s32, s32, s32, s32, u16, s32, s32))func_80163664)(a0, a1, a2, (s32)D_801270B0, (s32)D_80126B18,
-                               (s32)&D_80114EB0, (s32)&D_80114EC8, (s32)&D_80115100,
-                               (s32)&D_8011DAF0, a3, a4, (s32)&D_80115298,
-                               (s32)&D_80126734);
-}
+DEFINE_func_80163534()  /* dedup: shared engine-core @0x80163534 (src/shared) */
 
 
 DEFINE_func_80163664()  /* dedup: shared engine-core @0x80163664 (src/shared) */
@@ -5394,25 +5261,7 @@ s32 func_80166F58(s32 param_1, s32 param_2, s32 param_3, s32 param_4)
 
 
 
-extern void func_80146C3C(void);
-
-void func_8016706C(s32 param_1)
-{
-
-    extern s32 D_8011D030;
-    unsigned short *puVar1;
-    short iVar2;
-
-    iVar2 = 0;
-    puVar1 = ((unsigned short *)&D_8011D030);
-    do {
-        if ((unsigned int)*puVar1 == ((short)param_1)) {
-            ((void(*)(unsigned short *))func_80146C3C)(puVar1);
-        }
-        iVar2 = iVar2 + 1;
-        puVar1 = puVar1 + 0x2c;
-    } while (iVar2 < 0x1e);
-}
+DEFINE_func_8016706C()  /* dedup: shared engine-core @0x8016706C (src/shared) */
 
 
 

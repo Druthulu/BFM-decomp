@@ -1324,17 +1324,7 @@ extern void func_801377B4(s32 a0, s32 a1, s32 a2);
 
 s32 aF80137614(s32 a0, s32 a1, s32 a2) __asm__("func_80137614");
 
-s32 aF80137614(s32 a0, s32 a1, s32 a2)
-{
-    s32 v1, s0;
-    __asm__("" : "=r"(v1) : "0"(a1));
-    s0 = func_801399A8();
-    if (s0 != 0) {
-        func_801377B4(a0, a2 & 0xD8, s0);
-        *(s16 *)(s0 + 0x1C) = v1;
-    }
-    return s0;
-}
+DEFINE_func_80137614()  /* dedup: shared engine-core @0x80137614 (src/shared) */
 
 
 DEFINE_func_8013767C()  /* dedup: shared engine-core @0x8013767c (src/shared) */

@@ -730,14 +730,7 @@ DEFINE_func_80129CF8()  /* dedup: shared engine-core @0x80129cf8 (src/shared) */
 DEFINE_func_80129FF4()  /* dedup: shared engine-core @0x80129ff4 (src/shared) */
 
 
-extern void func_8012A048(void *a0, s32 a1, u8 a2);
-
-void func_8012A018(s32 a0, s32 a1)
-{
-    extern u8 D_80126948[];
-
-    func_8012A048(D_80126948, a0, a1);
-}
+DEFINE_func_8012A018()  /* dedup: shared engine-core @0x8012A018 (src/shared) */
 
 
 DEFINE_func_8012A048()  /* dedup: shared engine-core @0x8012a048 (src/shared) */
@@ -769,40 +762,7 @@ DEFINE_func_8012A110()  /* dedup: shared engine-core @0x8012a110 (src/shared) */
 
 
 
-void func_8012A1BC(void) {
-
-    extern s16 D_80120218;
-    extern s16 D_80120222;
-    extern s16 D_80120224;
-    extern s16 D_80120226;
-    extern s16 D_80120228;
-    extern s16 D_8012022A;
-    extern s16 D_8012029A;
-    extern s32 D_80120200, D_80120204, D_80120208, D_8012020C;
-    extern s16 D_80120210;
-    extern s16 D_80120220;
-    extern s32 D_80120294;
-    extern s16 D_80120298;
-    extern s32 D_80126950, D_80126954, D_80126958, D_8012695C;
-    extern Blk8 D_80126960, D_80126968;
-    extern u16 D_80126970, D_80126972, D_80126974, D_80126976, D_80126978, D_8012697A;
-    extern s32 D_801269E4;
-    extern u16 D_801269E8, D_801269EA;
-    register s32 r2 __asm__("$2"), r3 __asm__("$3"), r4 __asm__("$4"), r5 __asm__("$5");
-    register u16 r6 __asm__("$6"), r7 __asm__("$7");
-    register s32 r8 __asm__("$8");
-    register u16 r9 __asm__("$9"), r10 __asm__("$10");
-
-    r2 = D_80120200; r3 = D_80120204; r4 = D_80120208; r5 = D_8012020C;
-    r6 = (*(u16 *)&D_80120228); r7 = (*(u16 *)&D_8012022A); r8 = D_80120294; r9 = (*(u16 *)&D_80120298); r10 = (*(u16 *)&D_8012029A);
-    D_80126950 = r2; D_80126954 = r3; D_80126958 = r4; D_8012695C = r5;
-    __asm__ __volatile__("" ::: "memory");
-    D_80126960 = (*(Blk8 *)&D_80120210);
-    r2 = (*(u16 *)&D_80120220); r3 = (*(u16 *)&D_80120222); r4 = (*(u16 *)&D_80120224); r5 = (*(u16 *)&D_80120226);
-    D_80126968 = (*(Blk8 *)&D_80120218);
-    D_80126978 = r6; D_8012697A = r7; D_801269E4 = r8; D_801269E8 = r9; D_801269EA = r10;
-    D_80126970 = r2; D_80126972 = r3; D_80126974 = r4; D_80126976 = r5;
-}
+DEFINE_func_8012A1BC()  /* dedup: shared engine-core @0x8012A1BC (src/shared) */
 
 
 DEFINE_func_8012A2F4()  /* dedup: shared engine-core @0x8012a2f4 (src/shared) */
@@ -1124,33 +1084,7 @@ DEFINE_func_8012B744()  /* dedup: shared engine-core @0x8012b744 (src/shared) */
  * `struct{s16 lo,hi;}` would be BLKmode and spill to the stack instead).
  */
 
-extern s32 ratan2(s32 a0, s32 a1);
-extern s32 func_80047948(s32 a0);
-extern s32 func_8004787C(s32 a0);
-
-
-
-s32 func_8012B77C(s32 out, s32 from, s32 to) {
-    Ang2_8012B77C t;
-    s32 dx, dy, dz;
-    s32 ang;
-    s32 r1, r2;
-
-    dz = *(s16 *)(to + 0xA) - *(s16 *)(from + 0xA);
-    dx = *(s16 *)(to + 0x2) - *(s16 *)(from + 0x2);
-    dy = *(s16 *)(to + 0x6) - *(s16 *)(from + 0x6);
-
-    ang = (ratan2(-dz, dx) - 0x400) & 0xFFF;
-    t.hi = ang;
-
-    r1 = func_80047948(ang);
-    r2 = func_8004787C(ang);
-    dz = (dz * r1 + dx * r2) >> 12;
-    t.lo = ratan2(dy, -dz);
-
-    *(Ang2_8012B77C *)out = t;
-    return out;
-}
+DEFINE_func_8012B77C()  /* dedup: shared engine-core @0x8012B77C (src/shared) */
 
 
 DEFINE_func_8012B864()  /* dedup: shared engine-core @0x8012b864 (src/shared) */
@@ -1897,23 +1831,7 @@ DEFINE_func_8012EF70()  /* dedup: shared engine-core @0x8012ef70 (src/shared) */
  * This declaration MUST travel with the body. */
 s32 aF8012EFB8(void *param_1, void *param_2) __asm__("func_8012EFB8");
 
-s32 aF8012EFB8(param_1, param_2)
-    void *param_1;
-    void *param_2;
-{
-    extern u8 D_800AF648;
-    s32 *m;
-    s32 flag;
-
-    m = (s32 *)&D_800AF648;
-    gte_SetRotMatrix(m);
-    gte_SetTransMatrix(m);
-    gte_ldv0(param_1);
-    gte_rtps();
-    gte_stsxy(param_2);
-    gte_stflg(&flag);
-    return flag;
-}
+DEFINE_func_8012EFB8()  /* dedup: shared engine-core @0x8012EFB8 (src/shared) */
 
 
 DEFINE_func_8012F038()  /* dedup: shared engine-core @0x8012f038 (src/shared) */
@@ -1946,29 +1864,7 @@ DEFINE_func_8012F374()  /* dedup: shared engine-core @0x8012f374 (src/shared) */
 // @class: remat
 // @stuck: none — MATCH
 
-extern void func_8004914C();
-extern void func_800491AC();
-extern s32 RotTransPers(s32, s32, s32*, s32*);
-
-s32 *func_8012F40C(s32 *param_1, s32 param_2) {
-
-    extern u8 D_800AF648;
-    s32 sxy, p, flag;
-
-    sxy = 0;
-    /* $a0-pinned scopes force the &D_800AF648 constant to be rematerialized
-       (lui/addiu) before each call instead of CSE-hoisting it into a third
-       callee-saved register. */
-    { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }
-    { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_800491AC(r4); }
-    ((s32 (*)(s32, s32 *, s32 *, s32 *))RotTransPers)(param_2, &sxy, &p, &flag);
-    if (flag < 0) {
-        *param_1 = sxy = 0;
-    } else {
-        *param_1 = sxy;
-    }
-    return param_1;
-}
+DEFINE_func_8012F40C()  /* dedup: shared engine-core @0x8012F40C (src/shared) */
 
 
 DEFINE_func_8012F49C()  /* dedup: shared engine-core @0x8012f49c (src/shared) */
