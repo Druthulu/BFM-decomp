@@ -323,11 +323,7 @@ def emit_targets(n, wave):
             continue        # propagation work — family_sweep, not a wave
         hd = max(u["skels"], key=lambda s: s["mem"] * s["nins"])
         b, a = hd["b"], int(hd["a"], 16)
-        name = f"func_{a:08X}"
-        try:
-            sub = os.path.dirname(corpus.asm_path(b, name))
-        except Exception:
-            sub = None
+        name, sub = resolve_asm(b, a)   # hex-case-robust (R35 — see resolve_asm)
         seed = None
         if u["best_seed"] >= out["sim_merge"] and u["seed_ref"]:
             sb, sa, snins = u["seed_ref"]
@@ -358,6 +354,28 @@ def emit_targets(n, wave):
 ADAPT_JSON = ".run/adapt_cards.json"
 LI_TOKS = {(0x0F,), (0x0D,), (0x09,), (0x08,)}   # lui, ori, addiu, addi
 SMALL_BLOCKS, SMALL_TOKENS = 3, 6
+
+
+def resolve_asm(binary, addr, sig_name=None):
+    """-> (splat_symbol_name, asm_subdir) or (fallback_name, None).
+
+    R35: `sig_image` emits LOWERCASE `func_<hex>` names while splat writes the `.s` with UPPERCASE
+    hex (`func_801EF544.s`), so a bare `corpus.asm_path(b, sig_name)` returns None for every
+    address containing a hex letter — 60% of the S49 cards, each of which would have shipped an
+    agent a "null/func_x.s" path. Try the sig spelling (it is authoritative for CURATED names like
+    `ratan2`), then both hex cases."""
+    cands = []
+    if sig_name:
+        cands.append(sig_name)
+    cands += [f"func_{addr:08X}", f"func_{addr:08x}"]
+    for c in cands:
+        try:
+            p = corpus.asm_path(binary, c)
+        except Exception:
+            p = None
+        if p:
+            return c, os.path.dirname(p)
+    return (sig_name or f"func_{addr:08X}"), None
 
 
 def _disasm(words, base_vram):
@@ -398,7 +416,7 @@ def emit_adapt_cards():
         if sws is None:
             continue
         ss = tuple(tok(w) for w in sws)
-        sname = (rec(sb, sa) or {}).get("name", f"func_{sa:08X}")
+        sname, _ssub = resolve_asm(sb, sa, (rec(sb, sa) or {}).get("name"))
         sbody = seed_body_ref(sb, sa)
         for sk in u["skels"]:
             b, a = sk["b"], int(sk["a"], 16)
@@ -424,11 +442,10 @@ def emit_adapt_cards():
             counts[klass] += 1
             if klass == "MIXED":
                 continue
-            name = r.get("name", f"func_{a:08X}")
-            try:
-                sub = os.path.dirname(corpus.asm_path(b, name))
-            except Exception:
-                sub = None
+            name, sub = resolve_asm(b, a, r.get("name"))
+            if sub is None:
+                counts["NO-ASM"] += 1
+                continue          # R32: never ship a card with an unresolvable .s path
             vram = a
             diff = []
             for t, i1, i2, j1, j2 in blocks:
