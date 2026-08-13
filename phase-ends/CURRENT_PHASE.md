@@ -252,7 +252,35 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 > process": **set no outer timeout on a tool that owns its own, and kill process GROUPS, not pids.**
 > Practice restored: gate `--no-propagate` + commit, then `dedup_propagate --addr` PER FUNCTION.
 >
-> **Next in-session:** the scale decision on the remaining **455 cards** (+247 more if the
+> **WAVE 7b (the adapt lane SCALED) ✅ — 44 banked, R22 213/213 from clean.**
+> Thresholds relaxed ≤3blk/≤6tok → **≤6/≤16 UNION edit-fraction ≤0.20** (§169 sizing): cards
+> **518 → 721**, MIXED band 310 → 50 skeletons. 59-card slate; agents read their own diff blocks
+> from `.run/wave7b_slate.json` (lean args — the orchestrator never inlines 84 KB).
+> **59 cards → 48 agent-MATCH (81%, 1 refuted) → 44 BANKED (92% MATCH→bank, 75% end-to-end)**,
+> 6.9M tokens ≈ **157k/banked fn**. Fleet **96.55% fn / 95.2% instr / 89.9% distinct · stubs
+> 12,584 → 12,535 · dedup 2,035/0**.
+> **WHY 7b's bank rate CRUSHED 7a's (64% → 92%) — the actionable finding:** 7a's failures were
+> per-TU declaration collisions, and 7a concentrated drafts in few TUs (5 in ov_SC03_014 alone);
+> 7b spread 48 drafts across **35** destination TUs, mostly 1 apiece, so the collisions never
+> arose. **SPREAD THE SLATE ACROSS TUs** — only 2 groups lost anything (ov_SC04_018 4/6 + 2
+> singletons). The size-relative rule earned its place: card #1 was the 753-ins `func_8017BEBC`
+> (0.987-similar, 18 tokens over 12 sites), invisible to the absolute rule.
+> **Lane measured TWICE (the pricing basis for the remaining ~620 cards):** MATCH 83%/81%,
+> bank 64%/92%, ~157-169k tok per banked function vs a crack wave's ~400k+.
+>
+> ### ⚠ INCIDENTS 3 & 4 (the tally: 4 instrument failures tonight, 0 compiler walls)
+> **3. An agent wrote a TRACKED file** (`src/shared/engine_types.h`, added a typedef) despite the
+> prompt forbidding it twice. `gate_lane`'s entry guard refused to gate on a tree it did not own —
+> caught before any commit, cost one gate cycle. **Prose is not enforcement**: the wave harness
+> should snapshot `git status` before/after each agent and name the offender (TODO).
+> **4. MY OWN SILENT-SKIP DRIVER (R32, textbook).** `gate_lane.py` filtered on `c['name']` while
+> the confirmed list carries `c['fn']` → it printed **"gating 0 drafts"** and exited 0. Had I not
+> cross-checked the drafts on disk, "wave 7b banked nothing" would have entered this log as a
+> FINDING about the relaxed thresholds. Fixed: accept both shapes + a coverage assertion that
+> refuses to report 0 as a result. *A tool stating a conclusion it never reached* — the same
+> disease as S48's `no-diagnostic` classifier and poisoned-tree 0/17.
+>
+> **Next in-session:** the scale decision on the remaining **~620 cards** (+247 more if the
 > thresholds relax from ≤3 blocks/≤6 tokens to ≤6/≤16 — measured: 78% of the seeded pool vs
 > today's 47%, union with an edit-fraction ≤0.20 rule to catch the 25 big-body/small-edit units).
 > Also queued: the crack→cousin auto-emit (1,552 cousin-multi units hold 434 SMALL-EDIT + 21

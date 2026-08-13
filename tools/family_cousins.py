@@ -353,7 +353,14 @@ def emit_targets(n, wave):
 # ---------------------------------------------------------------- micro-adapt cards (S49)
 ADAPT_JSON = ".run/adapt_cards.json"
 LI_TOKS = {(0x0F,), (0x0D,), (0x09,), (0x08,)}   # lui, ori, addiu, addi
-SMALL_BLOCKS, SMALL_TOKENS = 3, 6
+# S49 pilot sizing (§169): ≤3/≤6 captured 47% of the seeded pool's instructions; ≤6/≤16 captures
+# 78% (+247 skeletons / +15,576 ins) and is still an edit an agent holds in its head. Past ≤8/≤24
+# the curve flattens (+4 skeletons) — that remainder is a seeded CRACK, not an adapt.
+SMALL_BLOCKS, SMALL_TOKENS = 6, 16
+# Absolute thresholds mis-sort LARGE bodies (MIXED median = 35 ins with a 29% edit fraction, i.e.
+# small bodies heavily rewritten; only ~25 skeletons are big-body/small-edit). So UNION the
+# absolute rule with a size-relative one rather than replacing it.
+SMALL_FRAC = 0.20
 
 
 def resolve_asm(binary, addr, sig_name=None):
@@ -436,9 +443,9 @@ def emit_adapt_cards():
                         and all(x in LI_TOKS for x in (ms[i1:i2] or ss[j1:j2]))
                         for t, i1, i2, j1, j2 in blocks)
             ntok = sum(max(i2 - i1, j2 - j1) for _, i1, i2, j1, j2 in blocks)
-            klass = ("LI-ONLY" if li_ok
-                     else "SMALL-EDIT" if len(blocks) <= SMALL_BLOCKS and ntok <= SMALL_TOKENS
-                     else "MIXED")
+            frac = ntok / max(1, r["nins"])
+            small = (len(blocks) <= SMALL_BLOCKS and ntok <= SMALL_TOKENS) or frac <= SMALL_FRAC
+            klass = "LI-ONLY" if li_ok else ("SMALL-EDIT" if small else "MIXED")
             counts[klass] += 1
             if klass == "MIXED":
                 continue
@@ -462,7 +469,7 @@ def emit_adapt_cards():
                 reach=sk["mem"], jr=bool(sk["jr"]), klass=klass, sim=sk["seed_sim"],
                 seed=dict(name=sname, binary=sb, addr=f"0x{sa:08x}", nins=snins,
                           kind=sbody["kind"], path=sbody["path"]),
-                diff=diff, n_blocks=len(blocks), n_tokens=ntok,
+                diff=diff, n_blocks=len(blocks), n_tokens=ntok, frac=round(frac, 3),
             ))
     cards.sort(key=lambda c: (-c["reach"] * c["nins"], c["n_tokens"]))
     json.dump(cards, open(ADAPT_JSON, "w"), indent=1)

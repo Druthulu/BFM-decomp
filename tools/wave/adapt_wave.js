@@ -47,11 +47,19 @@ const VERDICT_SCHEMA = {
   },
 }
 
+// The diff blocks can be inlined on the card (small slates) OR left on disk and read by the agent
+// (large slates — keeps the orchestrator's args, and its context, small). `slate` + `idx` select
+// the card; the agent prints it with one command.
 function diffBlock(c) {
-  return c.diff.map((d, i) =>
-    `  block ${i + 1} [${d.kind}] at member instr ${d.member_at} / seed instr ${d.seed_at}:
+  if (c.diff && c.diff.length) {
+    return c.diff.map((d, i) =>
+      `  block ${i + 1} [${d.kind}] at member instr ${d.member_at} / seed instr ${d.seed_at}:
     member words: ${d.member_words.join(' ')}   (${d.member_disasm.join(' | ')})
     seed words  : ${d.seed_words.join(' ')}   (${d.seed_disasm.join(' | ')})`).join('\n')
+  }
+  return `  (${c.n_blocks} block(s), ${c.n_tokens} token(s)) — PRINT YOUR CARD FIRST, it holds the
+  exact sites with both sides' words and disassembly:
+    cd ${REPO} && python3 -c "import json;c=json.load(open('${c.slate}'))[${c.idx}];print(json.dumps(c['diff'],indent=1))"`
 }
 
 function adaptPrompt(c) {

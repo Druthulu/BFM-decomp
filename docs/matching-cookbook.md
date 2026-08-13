@@ -16286,6 +16286,14 @@ by body size only to cover the COPY cost (haiku ≤60 ins), not the reasoning.
    dirty tree it did not create. Diagnosis: `pgrep -af dedup_propagate`. The same 5 drafts banked
    **5/5** when re-run untimed. Generalizes S48's "guard the CAMPAIGN, not the process."
 
+**MEASURED TWICE (S49 waves 7a/7b) — and the spread law.** 7a: 30 cards → 25 MATCH (83%) → 16
+banked (**64%**). 7b (relaxed thresholds, 59 cards): 48 MATCH (81%) → **44 banked (92%)**, 75%
+end-to-end, ~157k tok/banked fn. The bank-rate jump is NOT the thresholds — it is **TU SPREAD**:
+7a concentrated drafts in few destination TUs (5 in one binary) and its 9 gate failures were
+per-TU declaration collisions between sibling drafts; 7b spread 48 drafts over **35** TUs, mostly
+one apiece, and only 2 groups lost anything. **Build slates that spread across destination TUs;
+when several drafts must share one TU, gate them together and expect the §161c reconcile ladder.**
+
 **Sizing the lane (S49, seeded pool = 828 skeletons / 1,652 members / 50,422 ins):** today's
 ≤3/≤6 cut captures 47% of the pool's instructions; **≤6 blocks/≤16 tokens captures 78%** (+247
 skeletons, +15,576 ins) and is still a holdable edit; past ≤8/≤24 the curve flattens (+4 skeletons)
