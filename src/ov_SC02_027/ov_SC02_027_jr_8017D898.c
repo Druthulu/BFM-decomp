@@ -3615,7 +3615,27 @@ void func_8017F624(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_027/nonmatchings/ov_SC02_027_jr_8017D898", func_8017F6D4);
+typedef struct { s16 v[4]; } Blk8_80126940_8017D6D0_8017F6D4;
+
+void func_8017F6D4(s32 a0) {
+
+    extern s32 D_80126B58;
+    extern s16 D_8018F0B8[];
+    extern Blk8_80126940_8017D6D0_8017F6D4 D_80126940;
+    Blk8_80126940_8017D6D0_8017F6D4 sp10;
+    u8 t;
+
+    if (func_80148800(&D_80126B58) & 3) {
+        t = (*(u8 *)(a0 + 5) + 1) & 1;
+        *(u8 *)(a0 + 5) = t;
+        *(s32 *)(a0 + 0x14) = D_8018F0B8[t];
+    }
+    sp10 = D_80126940;
+    sp10.v[0] = 0;
+    sp10.v[2] = 0x18E0;
+    func_8017F918(a0, sp10.v);
+}
+
 
 INCLUDE_ASM("asm/ov_SC02_027/nonmatchings/ov_SC02_027_jr_8017D898", func_8017F780);
 
