@@ -221,9 +221,44 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 > **Candidate lever (sized, not built):** route sweep failures through the reconcile ladder /
 > §165 asm-alias selectively — ~331 members are decl-agreement, the class with known levers.
 >
-> **Next in-session:** wave 7 off the cousin slate. Preconditions: regen chain (sigs →
-> family_hseq → family_cousins --targets 40 — the tool fails loud on the stale map by design)
-> + Drew's `/effort ultracode` toggle (R26/R27). T5 phase close stays a live option (milestone met).
+> **WAVE 7a (the micro-adapt lane) ✅ — 29 instances banked, R22 213/213 from clean.**
+> `tools/family_cousins.py --adapt-cards` (518 cards) + `tools/wave/adapt_wave.js` (EDIT-contract
+> prompt: proven seed body + the aligned ≤6-token diff, symbol surface from the TARGET .s).
+> **Pilot 30 cards → 25 agent-MATCH (83%, 0 refuted) → 16 banked (64% MATCH→bank, 53% end-to-end)**
+> at **2.7M tokens, 28 haiku / 2 sonnet** — inside the crack-wave band at ~¼ the cost/target
+> (~30k tok per banked instance vs wave 5's ~75k). Fleet **96.53% fn / 95.1% instr / 89.8%
+> distinct · stubs 12,613 → 12,584 · dedup 2,029/0**.
+> **R14 CORRECTION on my own framing:** only 2 of the 8 pass-2 banks propagated (+4 instances);
+> six returned "nothing to propagate / no cleanly-shareable function". That is §168 law 1 working
+> as written — **cousins are byte-VARIANT, so a banked cousin usually has NO byte-identical
+> sibling to stamp.** The card `reach` column counts COUSIN members (future adapt fuel), NOT free
+> dedup copies; pass-1's ×36/×17/×8/×7 were functions that happened to ALSO have h_exact siblings.
+> Total instances 89 (69 pass-1 propagation + 16 banks + 4 pass-2 propagation).
+> **Gate failures are integration, not codegen:** 9 of 25 MATCHes failed the whole-binary gate,
+> clustered in ov_SC03_014 (5) and ov_SC03_118 (2) — standalone-MATCH, host-TU-rejected (§52b/
+> §161c declaration surface). Plus 5 NEARs held as resumable seeds.
+>
+> ### ⚠ TWO INCIDENTS, BOTH MINE, BOTH RECORDED (the durable lesson)
+> **1. A supervisor whose timeout is SHORTER than the process it supervises is a saboteur.**
+> I wrapped `gate_stage` in `subprocess.run(timeout=7200)`; the tool scales its OWN propagation
+> timeout to `1800 + 1800×banks` (10,800s for that 5-draft group). My cap fired first and killed
+> a HEALTHY process mid-fleet-write. **2. Killing a parent does not kill its grandchildren.** The
+> orphaned `dedup_propagate --auto-from ov_SC04_018` (pid 1155736) kept rewriting `src/` for
+> minutes — *through* my `git checkout --` — so wave-7a pass 2 opened onto a dirty tree and its
+> guard (correctly) aborted. Found it with `pgrep`, killed it, inspected (it had stripped 267
+> extern decls from `ov_SC04_018_jr_8012ACE0.c` mid-rewrite), reverted, verified no writers, re-ran:
+> **the same 5 drafts banked 5/5 when left alone.** Nothing was ever committed dirty; the drafts
+> survived in `.run/` (agents never write the tree). Generalizes S48's "guard the CAMPAIGN, not the
+> process": **set no outer timeout on a tool that owns its own, and kill process GROUPS, not pids.**
+> Practice restored: gate `--no-propagate` + commit, then `dedup_propagate --addr` PER FUNCTION.
+>
+> **Next in-session:** the scale decision on the remaining **455 cards** (+247 more if the
+> thresholds relax from ≤3 blocks/≤6 tokens to ≤6/≤16 — measured: 78% of the seeded pool vs
+> today's 47%, union with an edit-fraction ≤0.20 rule to catch the 25 big-body/small-edit units).
+> Also queued: the crack→cousin auto-emit (1,552 cousin-multi units hold 434 SMALL-EDIT + 21
+> LI-ONLY members that become cards the moment their unit head is cracked) and the 264
+> STRUCT-refused lane-A members (identical skeleton, regalloc drift → §17 pin seeds).
+> T5 phase close stays a live option (milestone met, 95.1% ≥ 95%).
 
 # 🛑 SESSION S48 CHECKPOINT — FINAL (2026-08-12) — FRESH SESSION SAFE HERE
 > **Tree CLEAN** but for R23 `db.*.gbf` churn — never stage. **Nothing running.** 197 commits.

@@ -16256,3 +16256,42 @@ beyond content similarity (redundant — not a tier worth building).
 map, with the regen command in the error). `--targets 40 --wave wave7` emits the crack_wave.js
 slate; seed refs resolve to the matched body's location (engine_core.h `DEFINE_` macro vs inline
 `src/<bin>/*.c` def). The survey RANKS and SEEDS; only the whole-binary byte-gate banks (G3/P9).
+
+## §169 — THE MICRO-ADAPT LANE (P30 S49): edit a proven body, don't crack a new one
+
+**The lane.** For a cousin (§168) whose drift vs an already-matched seed is ≤3 blocks / ≤6 mnemonic
+tokens, the work is an EDIT, not a crack: copy the seed's byte-proven C, re-point every symbol at
+the TARGET's `.s`, apply the one semantic change the diff implies (an indel of `lui`/`ori`/`addiu`
+is almost always a changed CONSTANT — the value is readable in the card's member words), gate.
+Tools: `family_cousins.py --adapt-cards` → `.run/adapt_cards.json`; `tools/wave/adapt_wave.js`.
+
+**Measured, pilot of 30 (S49):** 25 agent-MATCH (**83%**, 0 refuted by the adversarial verifier) →
+**16 banked** (64% MATCH→bank; 53% end-to-end) at **2.7M tokens, 28 haiku / 2 sonnet** ≈ **30k tok
+per banked instance vs a crack wave's ~75k**. The edit is small even when the body is not, so route
+by body size only to cover the COPY cost (haiku ≤60 ins), not the reasoning.
+
+**Three laws the pilot paid for:**
+1. **A banked cousin usually does NOT propagate.** Cousins are byte-VARIANT by construction, so
+   there is typically no byte-identical sibling to stamp: 2 of 8 propagated (+4). The card's
+   `reach` counts COUSIN members (future adapt fuel), NOT dedup copies. Price a card at ~1 instance
+   plus optionality, never at ×reach. (R14 — I framed it as ×reach before measuring.)
+2. **The residual failure class is INTEGRATION, not codegen.** 9 of 25 MATCHes died at the
+   whole-binary gate, clustered per-TU (5 in one binary, 2 in another): standalone-MATCH,
+   host-TU-rejected — the §52b/§161c declaration surface, which the reconcile ladder exists for.
+   A per-TU recovery pass belongs between the wave and the scale-up.
+3. **Never wrap a self-timing tool in a tighter outer timeout, and kill process GROUPS.**
+   `gate_stage` scales its own propagation timeout (`1800 + 1800×banks`); a 7200s outer cap killed
+   a healthy 5-bank group mid-fleet-write AND orphaned its `dedup_propagate` child, which kept
+   rewriting `src/` through a subsequent `git checkout --`. Symptom: a later gate opens onto a
+   dirty tree it did not create. Diagnosis: `pgrep -af dedup_propagate`. The same 5 drafts banked
+   **5/5** when re-run untimed. Generalizes S48's "guard the CAMPAIGN, not the process."
+
+**Sizing the lane (S49, seeded pool = 828 skeletons / 1,652 members / 50,422 ins):** today's
+≤3/≤6 cut captures 47% of the pool's instructions; **≤6 blocks/≤16 tokens captures 78%** (+247
+skeletons, +15,576 ins) and is still a holdable edit; past ≤8/≤24 the curve flattens (+4 skeletons)
+— the remainder is genuinely different code, i.e. a seeded crack. Absolute thresholds mis-sort
+large bodies (MIXED median is 35 ins with a **29%** edit fraction — small bodies rewritten heavily —
+while only 25 skeletons are big-body/small-edit), so union the absolute rule with `edit_fraction
+≤ 0.20` rather than replacing it. **Note the tier boundary:** a pure IMMEDIATE change leaves the
+mnemonic stream identical ⇒ same `h_seq` ⇒ that member is `family_sweep`/`imm_map` work, never a
+cousin. Every `replace` block in a cousin card is a genuinely different MNEMONIC.
