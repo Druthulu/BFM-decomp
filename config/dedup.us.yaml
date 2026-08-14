@@ -14425,3 +14425,10 @@ groups:
     func: DEFINE_func_80184374
     vram: 0x80184374
     binaries: [ov_SC04_018, ov_SC04_019]
+  - id: E_func_8017DEA0
+    tier: h_exact
+    hash: 4d9ac626bf24d5be8ef2d28347a7a22aab2f617f
+    source: src/shared/engine_core.h
+    func: DEFINE_func_8017DEA0
+    vram: 0x8017DEA0
+    binaries: [ov_SC04_018, ov_SC04_019]

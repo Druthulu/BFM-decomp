@@ -4558,7 +4558,7 @@ s32 func_8017DE4C(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_018/nonmatchings/ov_SC04_018_jr_8017AE2C", func_8017DEA0);
+DEFINE_func_8017DEA0()  /* dedup: shared engine-core @0x8017DEA0 (src/shared) */
 
 
 extern void (*D_80190D64[])(void);
