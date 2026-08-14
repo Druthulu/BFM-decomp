@@ -4113,7 +4113,65 @@ void func_80182C70(s32 p) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_020/nonmatchings/ov_SC06_020_jr_80180B04", func_80182D0C);
+extern SVECTOR D_8019ED04[];
+extern s32  func_8012BEE8();
+extern s32  func_8012CBF4(s32 a0);
+extern s32 *D_80126B78;
+extern s32 *D_80126B90;
+extern s32 func_80132EF4(s32 a0, s32 a1);
+extern s32 func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
+extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+extern u8 D_801152A8[];
+extern void func_80049CAC(s32 a0, s32 a1);
+extern void func_8012C218(void *a0);
+extern void func_8012F568(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
+
+void func_80182D0C(s32 param_1)
+{
+    MATRIX mat;
+    SVECTOR sv;
+    SVECTOR b;
+    SVECTOR c;
+    SVECTOR flag;
+    s32 iVar;
+
+    sv.vx = *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x10);
+    sv.vy = *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x12);
+    sv.vz = 0;
+    func_80049CAC((s32)&sv, (s32)&mat);
+
+    gte_SetRotMatrix(&mat);
+    gte_SetTransMatrix(*(s32 *)(param_1 + 0x20) + 0x34);
+
+    RotTransSV(&D_8019ED04[0], &b, &flag);
+    RotTransSV(&D_8019ED04[1], &c, &flag);
+
+    if (func_80135888((s32)D_80126B78, (s32)D_80126B90, (s32)&b, (s32)&c) != 0) {
+        s16 sVar1 = *(s16 *)(param_1 + 0xFE);
+        func_8012F568(1, 1, sVar1, 0x50, (s32)&c, (s32)D_801152A8);
+    } else {
+        *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x14) =
+            *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x14) - 0x100;
+        iVar = func_8012CBF4(param_1);
+        if (iVar != 0) {
+            s16 sVar1 = *(s16 *)(param_1 + 6);
+            s16 sVar2 = *(s16 *)(param_1 + 0xA);
+            s16 sVar3 = *(s16 *)(param_1 + 0xE);
+            func_80146A6C(6, (void *)param_1, sVar1, sVar2, sVar3, 0, 0);
+            iVar = func_80132EF4(param_1, 0x22);
+            if (iVar != 0) {
+                *(u16 *)(iVar + 0x34) = 0x2000;
+            }
+        } else {
+            iVar = func_8012BEE8(param_1);
+            if (iVar == 0) {
+                return;
+            }
+        }
+    }
+    func_8012C218((void *)param_1);
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_020/nonmatchings/ov_SC06_020_jr_80180B04", func_80182EC4);
 
