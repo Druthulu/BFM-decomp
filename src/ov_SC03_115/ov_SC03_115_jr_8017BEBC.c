@@ -3703,7 +3703,13 @@ extern s32 func_8012BEE8(s32 arg);
     }
 
 
-INCLUDE_ASM("asm/ov_SC03_115/nonmatchings/ov_SC03_115_jr_8017BEBC", func_8017E29C);
+void func_8017E29C(void *a0) {
+        *(short *)((char *)a0 + 0x2) = 0x3;
+        *(short *)((char *)a0 + 0xfe) = 0;
+        *(unsigned short *)((char *)a0 + 0x5c) = 0xaa10;
+        *(int *)((char *)a0 + 0xdc) &= ~0x10;
+    }
+
 
 INCLUDE_ASM("asm/ov_SC03_115/nonmatchings/ov_SC03_115_jr_8017BEBC", func_8017E2C4);
 
