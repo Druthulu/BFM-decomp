@@ -114,6 +114,11 @@ def diff_syms_text(c_text, asm_path, self_name, ignore=()):
     asm_only = sorted(s for s in a - d if not own(s) and not s.startswith('.'))
     if not stale:
         return 'clean', [], asm_only
+    if not asm_only:
+        # Draft-DEFINED identifiers that merely carry a vram-looking suffix (`Blk8_80126940_…`,
+        # `S8_80172780`, `L_call_…`). Nothing in the target's .s is missing, so there is nothing to
+        # rebase — measured across the whole wave-7a/7b residue, this is every non-clean case there.
+        return 'local-only', stale, []
     # 1:1 is the mechanically-safe case (one seed symbol, one target symbol to take its place).
     return ('STALE' if len(stale) == 1 and len(asm_only) == 1 else 'AMBIGUOUS'), stale, asm_only
 

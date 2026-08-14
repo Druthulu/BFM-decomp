@@ -210,6 +210,18 @@ so it runs BEFORE the gate) · `family_cousins.py --aprop-cards` members now car
 `sym_map` of `{seed → member}` renames, computed from the seed's C BODY (a matched seed has no `.s`
 of its own) vs the member's `.s` · SETUP row · cookbook §171 · decision-log.
 
+## ✅ S50 — the `func_801EDC18` carry blocker, CLEARED (and re-priced, R14)
+**4/4 banked**, R22 clean rebuild **213/213**. Stubs 12,445 → **12,441**.
+**R14 correction to the S49 checkpoint:** this blocker was carried as "one missing file-scope
+extern gates **83 PURE members**". Truth, derived from `corpus.stubs`: **4 open members**
+(md_SC05_024/025/028/029) — the 83 was never re-verified after the intervening sweeps.
+**And it was not an extern at all.** `D_801ED98C` is a *defined* `const Blk8` object whose rodata
+is emitted INSIDE the member's own `nonmatchings/func_801EDC18.s` — so replacing the stub deletes
+the data with it. `gather_externs` can carry an `extern` DECL; it cannot carry a DEFINITION, which
+is exactly why it reported "no file-scope decl in md_SC05_023" for a symbol that file defines on
+line 114. The fix is to paste typedef + const definition + body per sibling (data bytes verified
+identical across all four).
+
 ## ▶ RESUME HERE
 1. **The 320 batched A-prop members are re-priced and UNBLOCKED** — the 57% that held them back was
    ours, not the lane's. Run the wave, and put `aprop_symfix --fix` in its verification step before
