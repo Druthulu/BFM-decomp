@@ -60231,6 +60231,12 @@
             func_80184ED4((s32)arg0, (s32)&(*(short *)D_801B66D8), 0x1, 0x40); \
         }
 
+#define DEFINE_func_8017D964() \
+    extern s32 func_800167F0(s32 a0); \
+    s32 func_8017D964(void) { \
+        return (func_800167F0(0) & 0xffff) != 0; \
+    }
+
 #endif
 
 #define DEFINE_func_80128EA8() \
@@ -149866,5 +149872,11 @@
             *(short *)((char *)arg0 + 0x34) = 0; \
             func_80184ED4((s32)arg0, (s32)&(*(short *)D_801B66D8), 0x1, 0x40); \
         }
+
+#define DEFINE_func_8017D964() \
+    extern s32 func_800167F0(s32 a0); \
+    s32 func_8017D964(void) { \
+        return (func_800167F0(0) & 0xffff) != 0; \
+    }
 
 #endif
