@@ -16394,3 +16394,53 @@ symbol audit is the second oracle that can disagree with it, and it costs no bui
 macro seed, an AMBIGUOUS on every 1:1 rename) were case mismatches — the same class §128/R35 keeps
 naming. Compare function identities case-insensitively, and strip the `DEFINE_` prefix, or the
 seed's own name reads as a stale symbol.
+
+## §171a — THE MECHANICAL A-PROP DRAFT (P30 S50): 256 members banked with no agent in the loop
+
+**The claim.** A lane-A member shares its family's `h_seq` with a MATCHED sibling, so its body IS
+that sibling's body with the per-location environment rebased. Two mechanisms had each taken a run
+at that population and each left it on the table:
+
+- **`family_sweep --hseq`** remaps mechanically but CARRIES the seed's declaration layer, and its
+  dominant failure is decl-agreement — 331 of the 458 verdicts in S49's post-repair ledger.
+  The body was never the problem; the decls it dragged along were.
+- **the A-prop agent wave** re-derives the same body at ~80k tokens per banked function — and got
+  the per-location symbol wrong every time it mattered (§171).
+
+`tools/aprop_autodraft.py` does neither: seed body + `family_remap.symbol_map` (positional reloc
+zip, three-oracle target spelling) + a **minimal preamble synthesized from scratch** — one `extern`
+per symbol the body actually references, plus only those seed typedefs the body names and the
+destination does not already define. Nothing else travels. **256 banked at zero agent tokens**
+(222 + 34), against ~20M tokens the same work would have cost as a wave.
+
+**THE SELECTOR IS THE TOOL.** Everything below was learned by launching at scale and stopping when
+the verdicts disagreed with the plan. Each fix moves a failure from *build time* to *generation
+time*, and at ~1 min per gate group that difference IS the run:
+
+| Refusal | Why a draft cannot work | Measured |
+|---|---|---|
+| `classify_member != PURE` | a rename reaches a **RELOC** site and nothing else | first 5 failures were 5/5 IMM or STRUCT |
+| no definition after rename | the seed name was recovered by scanning the body for the first `func_XXXX(` — in a de-macroized block that is the first *extern declaration*, so a CALLEE got the member's name and the definition kept the seed's | 48 caught; the symptom was `undefined reference to <member>` |
+| arity conflict | the destination already declares a callee with **named** parameters the body underfills | 17 on one symbol alone |
+| undefined data | the draft references a symbol nothing in the DESTINATION binary defines — the seed's environment does not exist there | 43 + 33 on two symbols |
+| `.s` carries data or a jtbl | the data lives INSIDE the stub being replaced, or the carve path refuses | 90 of 584 |
+
+**Macro seeds are the majority and they are a trap.** 567 of 1,196 members sit behind a
+`DEFINE_<fn>()` engine_core macro (all 3,737 de-macroize cleanly). Pasting the de-macroized block
+whole reintroduces exactly the decl-agreement failure this design exists to avoid: measured
+**inline 145/213 (68%) vs macro 77/276 (28%)**, with the macro failures reading `parse error before
+'*'` and `too few arguments`. `func_8016AB6C`'s macro block is **1,891 lines of which 108 are the
+function**. Take the DEFINITION; keep the block only as the decl source.
+
+**IMM is not a wall, it is a second engine.** T2a's `imm_map_tier1` resolves a per-location LITERAL
+exactly as `symbol_map` resolves a per-location SYMBOL: **131 of 275 IMM members** resolve with zero
+unresolved sites. Only STRUCT (register/opcode drift, 238 members / 4,259 ins) genuinely needs a
+per-member edit.
+
+**Negative-control every refusal before you ship it** (`tools/draft_prechecks.py`, run against ALL
+205 banked drafts of the first run: **zero false positives**, catches 39 of 67 known failures). That
+control found two bugs in the checks themselves, both of which would have thrown away good work
+silently: **C89 `f()` declares UNSPECIFIED parameters, not zero** — so `decl 0 vs call 1` is no
+conflict at all — and a member's own definition read as a call to itself. A pre-check that discards
+good drafts is worse than one that lets a few builds fail; when in doubt make it CONSERVATIVE
+(flag only `decl > call`, on named parameters).

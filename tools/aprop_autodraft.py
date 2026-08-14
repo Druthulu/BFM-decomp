@@ -29,6 +29,7 @@ import argparse, collections, glob, json, os, re, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import aprop_symfix as ASF
 import corpus
+import draft_prechecks as PRE
 import family_cousins as FC
 import family_remap as FR
 
@@ -148,6 +149,13 @@ def build_draft(body, seed_name, member_name, renames, seed_text, dest_text,
         old = next((k for k, v in renames.items() if v == s), s)
         d = decl_for(old, seed_text)
         if d is None:
+            # No decl in the seed — but if the DESTINATION already declares it, none is needed.
+            # Refusing here cost 55 macro-seeded members whose definition references a symbol the
+            # destination TU knows perfectly well (R32 should refuse the UNKNOWN, not the
+            # already-satisfied).
+            if re.search(rf'^[ \t]*(extern|const|static)?[^\n;]*\b{re.escape(s)}\b[^\n;]*;',
+                         dest_text, re.M):
+                continue
             missing.append(s)
             continue
         decls.append(re.sub(rf'\b{re.escape(old)}\b', s, d))
@@ -199,22 +207,45 @@ def main():
             # (per-location literal) or a STRUCT (register/opcode drift) site needs a real edit, and
             # drafting one spends a full binary build to learn what classify_member already knows —
             # the first 5 such members gated 0/5, every one IMM or STRUCT.
-            cls, _pos = FR.classify_member(
-                seed_words, FR.stream_words(m["binary"], int(m["addr"], 16), c["nins"]))
-            if cls != "PURE" and not a.allow_impure:
-                skip[f"not PURE ({cls}: a rename cannot reach it)"] += 1
+            sib_words = FR.stream_words(m["binary"], int(m["addr"], 16), c["nins"])
+            cls, _pos = FR.classify_member(seed_words, sib_words)
+            if cls == "STRUCT" and not a.allow_impure:
+                skip["not templatable (STRUCT: register/opcode drift needs a real edit)"] += 1
                 continue
+            member_body, imm_map = body, {}
+            if cls == "IMM":
+                # T2a's immediate engine resolves a per-location LITERAL the same way symbol_map
+                # resolves a per-location symbol. Measured: 131 of 275 IMM members resolve with no
+                # unresolved sites — the rest genuinely need an edit.
+                imm_map, unresolved, member_body = FR.imm_map_tier1(body, seed_words, sib_words)
+                if unresolved and not a.allow_impure:
+                    skip[f"IMM unresolved ({unresolved[0][1]})"] += 1
+                    continue
+                if not imm_map and member_body == body:
+                    skip["IMM with no resolvable literal edit"] += 1
+                    continue
             ren, err = FR.symbol_map(int(seed["addr"], 16), seed["binary"],
                                      m["binary"], int(m["addr"], 16))
             if err:
                 skip["symbol_map: " + err.split("(")[0].strip()] += 1
                 continue
             dest = "".join(open(p).read() for p in sorted(glob.glob(f"src/{m['binary']}/*.c")))
-            draft, why = build_draft(body, sb.get("name") or seed["name"],
+            if imm_map:
+                member_body = FR.apply_remap(member_body, imm_map)
+            draft, why = build_draft(member_body, sb.get("name") or seed["name"],
                                      m["name"], ren, seed_text, dest,
                                      already_self_contained=False)
             if draft is None:
                 skip[why.split(" for ")[0]] += 1
+                continue
+            # STATIC PRE-CHECKS (S50): both classes below were measured as real build failures and
+            # both are decidable without compiling. Negative-controlled against all 205 banked
+            # drafts of run 1: zero false positives; catches 39 of 67 known failures.
+            syms = ASF.syms_in_text(draft)
+            bad = (PRE.arity_conflicts(draft, dest, syms, self_name=m["name"])
+                   + PRE.undefined_data(m["binary"], dest, syms, self_name=m["name"], body=draft))
+            if bad and not a.allow_impure:
+                skip["pre-check: " + bad[0].split("(")[0]] += 1
                 continue
             d = os.path.join(a.outdir, m["binary"])
             os.makedirs(d, exist_ok=True)

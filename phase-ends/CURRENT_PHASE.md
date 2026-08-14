@@ -181,7 +181,52 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 
 ---
 
-# 🛑 SESSION S50 CHECKPOINT (2026-08-13) — FRESH SESSION SAFE HERE
+# 🛑 SESSION S50 CHECKPOINT — FINAL (2026-08-14) — FRESH SESSION SAFE HERE
+> **Tree CLEAN** but for R23 `db.*.gbf` churn, a regenerable `.run/backlog.jsonl` edit, and two
+> stray `gccdump.*` cc1 dumps at the repo root — never stage any of them. **Nothing running.**
+> Gate: **`check-all` 213 passed / 0 failed of 213** from a CLEAN rebuild (R22 run **4x** this
+> session, 213/213 every time).
+> **Fleet: 95.3% instr · 90.0% distinct · 96.65% fn-count · INCLUDE_ASM stubs 12,161**
+> (was 12,468). **307 instances banked**, ~all of them at **ZERO agent tokens**. dedup 2,043/0.
+> Cookbook **§171 §171a**; §170's open hypothesis STRUCK. Decision-log filed (R31). SETUP rows.
+
+## ✅ S50 SUMMARY — the A-prop lane, closed three ways
+1. **§170's TU-collision hypothesis REFUTED** (see the S50 block below) — the cause was the
+   **stale seed symbol**, 24 of 24, and 23/24 banked after a mechanical rebase.
+2. **The `func_801EDC18` carry blocker CLEARED** — 4/4, and re-priced from "83 members" to 4.
+3. **`tools/aprop_autodraft.py` (§171a): 256 members banked with NO AGENT IN THE LOOP** — seed body
+   + `symbol_map` + a minimal synthesized preamble. The same work as a wave would have cost ~20M
+   tokens. Plus `tools/draft_prechecks.py`, negative-controlled at zero false positives.
+
+## ▶ RESUME HERE
+1. **The A-prop pool is now priced EXACTLY** (open, by `classify_member`): **PURE 437 members /
+   37,376 ins** (autodraft's own remaining reach — blocked members are decl/def cases and the 90
+   whose `.s` carries data or a jtbl) · **IMM 275 / 8,849** (131 resolve mechanically via
+   `imm_map_tier1`; the rest need an edit) · **STRUCT 238 / 4,259** (register/opcode drift — the
+   only genuinely agent-shaped slice, and it is small).
+2. **Autodraft's next reach, in cost order:** (a) the 90 data/jtbl members — carry the data
+   DEFINITION with the member's own bytes (the hand-built `func_801EDC18` fix is the template,
+   4/4); (b) the 48 "no definition after rename" and 61 "no seed decl" refusals; (c) the 144
+   unresolved-IMM members via T2a Tier 2.
+3. **Still open from S49:** **`func_8017C294`** (x16, 246 ins, NEAR at 2). Its `.run/s43/wave/
+   8017CE58/NOTES.md` is a full byte-measured dossier: the residual is a **cse1 elision-count**
+   fact, the permuter floor is confirmed from BOTH basins, ~70 probes refuted. Do NOT re-grind it
+   blind — the one named lever left is a construct giving the MAX pass's operands a different RTL
+   address form from the MIN pass's.
+4. **12 A-prop drafts are genuine `DIFF`** (11 singletons + `func_801659DC`) — redraft fuel.
+
+## 🔑 THE ONE THING TO CARRY FORWARD
+**Three runs launched at scale, three stopped early — and every stop was right.** The verdicts the
+tools already write (`harvest_failed.<binary>.classified.txt`) named each defect within the first
+handful of groups: a selector that drafted IMM/STRUCT members a rename cannot reach; a seed name
+recovered by scanning for the first `func_XXXX(` (in a de-macroized block, that is a *callee
+declaration*); a macro decl layer of 1,891 lines pasted into every destination. **Read the first
+ten results of any long run before trusting the other 190** — and when a check is added to refuse
+work, NEGATIVE-CONTROL it against everything that already succeeded. That control found two bugs
+in my own pre-checks (C89 `f()` is UNSPECIFIED parameters, not zero; a definition read as a call
+to itself), either of which would have silently discarded good drafts.
+
+# ▶ (superseded by FINAL) SESSION S50 CHECKPOINT (2026-08-13)
 > **Tree CLEAN** but for R23 `db.*.gbf` churn, a regenerable `.run/backlog.jsonl` edit, and two
 > stray `gccdump.*` cc1 dumps at the repo root — never stage any of them. **Nothing running.**
 > Gate: **`check-all` 213 passed / 0 failed of 213** from a CLEAN rebuild (`make clean &&
