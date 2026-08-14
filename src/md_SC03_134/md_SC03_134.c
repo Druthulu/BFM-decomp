@@ -1,7 +1,20 @@
 #include "common.h"
 #include "../shared/engine_core.h"
 
-INCLUDE_ASM("asm/md_SC03_134/nonmatchings/md_SC03_134", func_801E25FC);
+extern u8 *D_80126B10;
+extern u8 D_801E35C4[];
+extern void func_80175414(s32 _arg0);
+void func_800167B8(int);
+
+int func_801E25FC(u8 *arg) {
+    extern u8 *D_80126B10;
+    D_80126B10 = D_801E35C4;
+    func_800167B8(0);
+    ((void (*)(void))func_80175414)();
+    arg[0x15]++;
+    return 0;
+}
+
 
 
 extern s32 func_800167F0(s32 a0);
