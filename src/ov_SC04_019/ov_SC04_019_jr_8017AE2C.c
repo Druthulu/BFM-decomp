@@ -4615,11 +4615,7 @@ void func_8017E088(void *a0) {
 
 
 
-extern void (*D_80191068[])(void);
-
-void func_8017E0C0(void *a0) {
-    D_80191068[*(u8 *)((s32)a0 + 0x214)]();
-}
+DEFINE_func_8017E0C0()  /* dedup: shared engine-core @0x8017E0C0 (src/shared) */
 
 
 DEFINE_func_8017E0FC()  /* dedup: shared engine-core @0x8017E0FC (src/shared) */
