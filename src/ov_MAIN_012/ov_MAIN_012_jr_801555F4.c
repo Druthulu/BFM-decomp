@@ -1165,7 +1165,7 @@ extern void func_80147118(s32 a0);
 extern void func_8014BDE8(s32 a0);
 extern short func_801508F8(s32 a0);
 extern void func_8014B5B0(s32 *a0);
-extern void func_80161D88(s32 a0);
+extern void func_80161D88();
 extern void func_801463A0(void);
 extern s32 D_80127098;
 extern s32 D_80127094;
