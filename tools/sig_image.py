@@ -45,18 +45,28 @@ def make_insn(word, vram):
 
 
 def read_seeds(path):
-    """Return {addr: name}. Accepts a sig .jsonl (uses 'addr'/'name') or plain 0xADDR lines."""
-    seeds = {}
+    """Return ({addr: name}, {addr: nins}). Accepts a sig .jsonl (uses 'addr'/'name' and, when
+    present, 'nins'), plain 0xADDR lines, or `0xADDR NINS` lines (P31 T3: splat-true function
+    lengths for binaries — main — where the func_end heuristic mis-slices; a seeded nins is
+    authoritative and bypasses func_end entirely)."""
+    seeds, ends = {}, {}
     for line in pathlib.Path(path).read_text().splitlines():
         line = line.strip()
         if not line or line.startswith("#"):
             continue
         if line.startswith("{"):
             r = json.loads(line)
-            seeds[int(r["addr"], 16)] = r.get("name", "")
+            a = int(r["addr"], 16)
+            seeds[a] = r.get("name", "")
+            if r.get("nins"):
+                ends[a] = int(r["nins"])
         else:
-            seeds[int(line, 0)] = ""
-    return seeds
+            parts = line.split()
+            a = int(parts[0], 0)
+            seeds[a] = ""
+            if len(parts) > 1:
+                ends[a] = int(parts[1], 0)
+    return seeds, ends
 
 
 def detect_code_end(data, vram_base, lo, hi, run=3):
@@ -193,13 +203,21 @@ def sign_function(data, vram_base, start, end, name):
     }
 
 
-def sign_image(data, vram_base, seeds_map, lo, hi):
-    """seeds_map: {addr: name}. Functions are [seed, next_seed) trimmed to the real return end."""
+def sign_image(data, vram_base, seeds_map, lo, hi, ends=None):
+    """seeds_map: {addr: name}. Functions are [seed, next_seed) trimmed to the real return end —
+    UNLESS `ends` carries a seeded nins for the seed (P31 T3), which is authoritative: the slice is
+    exactly [seed, seed + 4*nins), no heuristic. Needed for main, whose interleaved data islands
+    and tail-call shapes defeat func_end (measured 3/40 mis-slices)."""
     seeds = sorted(a for a in seeds_map if lo <= a < hi)
     rows = []
     for i, s in enumerate(seeds):
         hard = seeds[i + 1] if i + 1 < len(seeds) else hi
-        end = func_end(data, vram_base, s, hard)
+        if ends and s in ends:
+            end = s + 4 * ends[s]
+            if end > hi:
+                raise SystemExit(f"sig_image: seeded end {end:#x} for {s:#x} exceeds hi {hi:#x} (R32)")
+        else:
+            end = func_end(data, vram_base, s, hard)
         rows.append(sign_function(data, vram_base, s, end, seeds_map.get(s, "")))
     return rows
 
@@ -221,9 +239,9 @@ def main():
     img_end = vram_base + len(data)
 
     if a.seeds:
-        seeds_map = read_seeds(a.seeds)
+        seeds_map, seed_ends = read_seeds(a.seeds)
     elif a.bootstrap:
-        seeds_map = {}
+        seeds_map, seed_ends = {}, {}
     else:
         sys.exit("sig_image: need --seeds or --bootstrap")
 
@@ -238,7 +256,7 @@ def main():
             hi = detect_code_end(data, vram_base, lo, hi)
         seeds_map = {s: "" for s in bootstrap_seeds(data, vram_base, lo, hi)}
 
-    rows = sign_image(data, vram_base, seeds_map, lo, hi)
+    rows = sign_image(data, vram_base, seeds_map, lo, hi, ends=seed_ends)
 
     name = a.name or pathlib.Path(a.image).stem
     out = pathlib.Path(a.out) if a.out else pathlib.Path(".run") / f"sig.{name}.jsonl"

@@ -43,6 +43,18 @@ def vram_of(ov):
     bytes for those without erroring — the R32 silent-skip shape, in the tool the whole family engine
     stands on. Every splat config states its vram; read it once per alias."""
     if ov not in _VRAM_CACHE:
+        if ov == "main":
+            # P31 T3: main's config is splat.us.exe.yaml (no splat.main.yaml), and the EXE file
+            # carries a 0x800 header before the code segment — so the file0-vram this module's
+            # offset math (`addr - vram_of`) needs is the code segment's `vram - start`
+            # (0x80010000 - 0x800 = 0x8000F800), DERIVED from the same yaml the build reads (R33).
+            txt = open("config/splat.us.exe.yaml").read()
+            m = re.search(r"-\s*name:\s*main\s*\n\s*type:\s*code\s*\n\s*start:\s*(0x[0-9A-Fa-f]+)"
+                          r"\s*\n\s*vram:\s*(0x[0-9A-Fa-f]+)", txt)
+            if not m:
+                raise SystemExit("family_remap: main code segment not found in splat.us.exe.yaml (R32)")
+            _VRAM_CACHE[ov] = int(m.group(2), 16) - int(m.group(1), 16)
+            return _VRAM_CACHE[ov]
         p = f"config/splat.{ov}.yaml"          # cwd-relative like img_path (callers run at repo root)
         m = re.search(r"vram:\s*(0x[0-9A-Fa-f]+)", open(p).read())
         if not m:
@@ -74,7 +86,8 @@ def img_path(ov):
     either opened it unguarded already (`reloc_targets`, `jr_isolate_all`) or silently mis-classified.
     """
     if ov not in _PATH_CACHE:
-        cfg = f"config/splat.{ov}.yaml"
+        # P31 T3: main's config is splat.us.exe.yaml; same derivation, different filename.
+        cfg = "config/splat.us.exe.yaml" if ov == "main" else f"config/splat.{ov}.yaml"
         if not glob.glob(cfg):
             raise FileNotFoundError(f"img_path({ov}): no {cfg} — is this binary onboarded?")
         m = re.search(r"^\s*target_path:\s*(\S+)\s*$", open(cfg).read(), re.M)

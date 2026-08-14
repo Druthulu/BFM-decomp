@@ -367,6 +367,16 @@ def sig_is_independent(binary):
     return binary.startswith(("ov_", "md_")) or binary == "resident"
 
 
+def s_ins_count(asm_path):
+    """Instruction count of a splat .s stub: `/* off vaddr word */` lines that are not data
+    directives. Factored from audit() (P31 T3) so the sig-main seed-ends path and any verifier
+    share ONE counter (R33). The .s count is what a C match must reproduce — it is the
+    authoritative per-function length for main, where sig_image's func_end heuristic mis-slices."""
+    p = asm_path if os.path.isabs(asm_path) else os.path.join(REPO, asm_path)
+    return sum(1 for ln in open(p, errors="replace")
+               if _INS.search(ln) and not _DATA_DIRECTIVE.search(ln))
+
+
 def audit(binary):
     """Cross-check splat's function boundaries against the sig's independent ones.
 
@@ -387,8 +397,7 @@ def audit(binary):
                 continue
             p = os.path.join(REPO, s.asm_path)
             if os.path.exists(p):
-                n = sum(1 for ln in open(p, errors="replace")
-                        if _INS.search(ln) and not _DATA_DIRECTIVE.search(ln))
+                n = s_ins_count(s.asm_path)
                 if n != row["nins"]:
                     truncated.append((s, n, row["nins"]))
     return {"binary": binary, "stubs": len(st), "matched": len(matched(binary)),
@@ -400,6 +409,14 @@ def main():
     args = sys.argv[1:]
     do_audit = "--audit" in args
     args = [a for a in args if a != "--audit"]
+    if "--seed-ends" in args:
+        # P31 T3: emit `0xADDR NINS` per stub (sig_image --seeds input; splat-true lengths).
+        args = [a for a in args if a != "--seed-ends"]
+        if len(args) != 1:
+            sys.exit("usage: corpus.py <binary> --seed-ends")
+        for a_, s in sorted(stubs(args[0]).items()):
+            print(f"0x{a_:08X} {s_ins_count(s.asm_path)}")
+        return
     sys.path.insert(0, os.path.join(REPO, "tools"))
     import dup_report
     bins = sorted(dup_report.BINARIES) if (not args or args[0] == "--all") else args

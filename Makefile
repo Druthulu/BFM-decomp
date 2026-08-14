@@ -335,6 +335,19 @@ sig-resident:
 		echo "sig-resident: signed the resident (bootstrap fallback — re-run after a build for seeded boundaries)"
 	fi
 
+# sig-main (P31 T3): sign main's game-code STUBS with sig_image at SPLAT-TRUE lengths. main has a
+# 0x800 EXE header (file0-vram = $(main_VRAM_BASE)), interleaved data islands, and LINKED PsyQ
+# regions, so --bootstrap/func_end both mis-slice (measured 3/40 nins drift vs the .s truth);
+# instead `corpus.py main --seed-ends` emits `0xADDR NINS` per stub (the .s count a C match must
+# reproduce) and each slice is exactly [addr, addr+4*nins) — no heuristic, no contiguity assumption
+# beyond each function's own slice. This sig is deliberately splat-SEEDED (the atlas needs the
+# boundaries a match must hit); it is NOT main's independent second oracle
+# (docs/second-oracle.md — sig_is_independent stays False for main).
+sig-main:
+	$(VENV_PY) tools/corpus.py main --seed-ends > .run/seeds.main.txt
+	$(VENV_PY) tools/sig_image.py --image $(main_EXE) --vram-base $(main_VRAM_BASE) --seeds .run/seeds.main.txt --name main
+	echo "sig-main: signed $$(wc -l < .run/seeds.main.txt) main stubs (splat-true lengths) -> .run/sig.main.jsonl"
+
 # sig-modules (P30 S44): sign every module-class binary at ITS OWN vram (from modules.mk) with its
 # own TEXT_LO (the §154 module-id-word law: code starts past the header; bootstrap from offset 0
 # yields 0 functions). Same derived-jobs shape as sig-overlays (R33). Empty MODULE_BINARIES = no-op.
