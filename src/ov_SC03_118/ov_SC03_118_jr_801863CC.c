@@ -2669,7 +2669,7 @@ extern void func_8017BFC8(void *a0);
 extern void func_8017C07C(void);
 extern void (*D_8018D420[])(void);
 extern void func_8017C0C8(void *a0);
-extern void func_8017C154(void);
+extern void func_8017C154();
 extern void func_8017C12C(void);
 extern void func_8017C14C(void);
 extern void (*D_8018D460[])(void);
