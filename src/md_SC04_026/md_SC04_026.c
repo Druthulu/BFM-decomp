@@ -1,6 +1,19 @@
 #include "common.h"
 
-INCLUDE_ASM("asm/md_SC04_026/nonmatchings/md_SC04_026", func_801E7B3C);
+extern u8 *D_80126B10;
+extern u8 D_801E8B2C[];
+extern void func_80175414(s32 _arg0);
+void func_800167B8(int);
+
+int func_801E7B3C(u8 *arg) {
+    extern u8 *D_80126B10;
+    D_80126B10 = D_801E8B2C;
+    func_800167B8(0);
+    ((void (*)(void))func_80175414)();
+    arg[0x15]++;
+    return 0;
+}
+
 
 
 extern s32 func_800167F0(s32 a0);
