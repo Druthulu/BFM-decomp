@@ -4610,7 +4610,20 @@ void func_80180550(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_094/nonmatchings/ov_SC03_094_jr_8017BEBC", func_80180628);
+extern void (*D_801A8D68[])(void);
+extern void func_8012C0EC(void *a0);
+
+void func_80180628(void *a0) {
+    D_801A8D68[*(u16 *)((s32)a0 + 0x2)]();
+    if (*(u16 *)((s32)a0 + 0x0) != 0) {
+        void *ptr = *(void **)((s32)a0 + 0x20);
+        *(u16 *)((s32)ptr + 0x2C) |= 0x10;
+        if (!(*(u16 *)((s32)a0 + 0x70) & 0x20)) {
+            func_8012C0EC(a0);
+        }
+    }
+}
+
 
 
 
@@ -6559,7 +6572,18 @@ void func_80184DD8(s32 param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_094/nonmatchings/ov_SC03_094_jr_8017BEBC", func_80184E54);
+extern s32 func_80128ED8(s32 param_1, s32 *param_2);
+extern void func_801292C8(u8 *a0);
+extern void func_8012931C(struct vec*);
+
+void func_80184E54(s32 a0) {
+    s32 s0 = a0;
+    ((void (*)(void *))func_8012931C)((void *)a0);
+    if (((s32 (*)(s32, void *))func_80128ED8)(*(s32 *)(s0 + 0x20), (void *)(s0 + 0x24)) != 0) {
+        ((void (*)(s32))func_801292C8)(s0);
+    }
+}
+
 
 
 /* func_80184E98 — "spawn a paired effect entity above/below the actor" template
