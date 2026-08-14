@@ -67,9 +67,14 @@ def seed_body(sb, seed_name, header="src/shared/engine_core.h"):
     if sb["kind"] == "macro":
         h = seed_file_text(sb["path"] or header)
         for nm in (sb.get("name"), seed_name):
-            b = macro_body(h, nm) if nm else None
-            if b:
-                return b, h, "macro"
+            block = macro_body(h, nm) if nm else None
+            if block:
+                # The DEFINITION only — the macro's own extern block becomes the DECL SOURCE, not
+                # part of the draft. Pasting it wholesale reintroduces the exact decl-agreement
+                # failure the minimal-preamble design exists to avoid: measured, macro seeds banked
+                # 77/276 (28%) that way against inline's 145/213 (68%), and the macro failures were
+                # `parse error before '*'` / `too few arguments` — decl collisions, every one.
+                return ASF.body_in_text(block, nm) or block, block, "macro"
         return None, "", "macro"
     for nm in (sb.get("name"), seed_name):
         b = ASF.body_text(sb["path"], nm) if nm else None
@@ -123,8 +128,13 @@ def build_draft(body, seed_name, member_name, renames, seed_text, dest_text,
     pat = re.compile(r'\b(' + '|'.join(re.escape(k) for k in keys) + r')\b') if keys else None
     new_body = pat.sub(lambda m: renames[m.group(1)], body) if pat else body
     new_body = re.sub(rf'\b{re.escape(seed_name)}\b', member_name, new_body, flags=re.I)
-    if member_name not in new_body:
-        return None, "fn-name rename produced no definition"
+    # R32: assert the DEFINITION, not merely the name. The seed name used to be recovered by
+    # scanning the body for the first `func_XXXXXXXX(` token — which in a de-macroized body is the
+    # first EXTERN DECLARATION, not the definition. That renamed a callee to the member's name and
+    # left the definition under the seed's, and the draft linked with `undefined reference to
+    # <member>`: a full binary build spent to learn what one regex knows.
+    if not re.search(rf'^[^\n=;]*\b{re.escape(member_name)}\s*\([^;]*\)\s*\{{', new_body, re.M):
+        return None, "no definition of the member after rename (seed-name misidentified?)"
 
     if already_self_contained:
         # A de-macroized body already carries its own externs; synthesizing a second set would
@@ -200,10 +210,9 @@ def main():
                 skip["symbol_map: " + err.split("(")[0].strip()] += 1
                 continue
             dest = "".join(open(p).read() for p in sorted(glob.glob(f"src/{m['binary']}/*.c")))
-            body_name = re.search(r'\b(func_[0-9A-Fa-f]{8})\s*\(', body)
-            draft, why = build_draft(body, body_name.group(1) if body_name else seed["name"],
+            draft, why = build_draft(body, sb.get("name") or seed["name"],
                                      m["name"], ren, seed_text, dest,
-                                     already_self_contained=(kind == "macro"))
+                                     already_self_contained=False)
             if draft is None:
                 skip[why.split(" for ")[0]] += 1
                 continue

@@ -47,16 +47,31 @@ def draft_syms(path):
 
 
 def body_text(path, name):
-    """The C body of ONE function out of a file (a draft is one function; a seed's file is not).
+    """The C body of ONE function out of a FILE (thin wrapper over body_in_text)."""
+    if not path or not os.path.isfile(path):
+        return None
+    return body_in_text(open(path).read(), name)
+
+
+def body_in_text(txt, name):
+    """The C body of ONE function out of a block of text (a draft is one function; a seed's file,
+    or a de-macroized DEFINE_ block, is not).
 
     Matches an `DEFINE_<name>(` engine_core macro or a plain definition, then brace-matches. A
     whole-file scan would drag every OTHER function's symbols into the comparison and drown the
     signal, so callers annotating a SEED must pass through here."""
-    if not path or not os.path.isfile(path):
-        return None
-    txt = _strip_comments(open(path).read())
+    txt = _strip_comments(txt)
+    # Column-0 first (a file's definitions start there). The INDENTED fallback exists for a
+    # de-macroized DEFINE_ block, whose lines are all indented — but an indented `func_X(` is far
+    # more often a CALL, so that form must be confirmed by a `{` with no `;` before it.
     m = (re.search(rf'\bDEFINE_{re.escape(name)}\s*\(', txt) or
          re.search(rf'^[A-Za-z_][^\n=;]*\b{re.escape(name)}\s*\(', txt, re.M))
+    if not m:
+        for cand in re.finditer(rf'^[ \t]*[A-Za-z_][^\n=;]*\b{re.escape(name)}\s*\(', txt, re.M):
+            i = txt.find('{', cand.start())
+            if i >= 0 and ';' not in txt[cand.end():i]:
+                m = cand
+                break
     if not m:
         return None
     i = txt.find('{', m.start())
