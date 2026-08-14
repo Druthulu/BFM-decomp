@@ -3920,7 +3920,80 @@ extern s32 rand(void);
 
 INCLUDE_ASM("asm/ov_SC05_007/nonmatchings/ov_SC05_007_jr_8017BEBC", func_8017F1C4);
 
-INCLUDE_ASM("asm/ov_SC05_007/nonmatchings/ov_SC05_007_jr_8017BEBC", func_8017F230);
+typedef struct { s16 vx, vy, vz, pad; } SVEC_EB70;
+extern s32 func_8012B6D4(s16 *a0, s16 *a1);
+extern s32 func_8012BC60(struct Vec *a0, struct Vec *a1);
+extern s32 func_8012CEB0(s32 a0, s32 a1, s32 a2);
+extern u8 D_801202A0[];
+extern void func_8012ADE4(u8 *a0);
+extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
+extern void func_8012CBA4(s32 a0);
+extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_8017F568(void *a0);
+
+s32 func_8017F230(s32 arg0) {
+    
+    extern u8 D_801202A0[];
+    SVEC_EB70 in;
+    SVEC_EB70 out;
+    SVEC_EB70 buf;
+    s32 v;
+    s32 d;
+    s32 i;
+    u8 *p;
+    u16 px, pz;
+    unsigned int *bp;
+
+    v = ((s32 (*)(s32))func_8012CBA4)(arg0);
+    if ((v & 0xFF) == 2) {
+        ((void (*)(s32, s32))func_80131E00)(arg0, 0x12);
+        return 0;
+    }
+    if ((v & 0xFF) == 0x1A) {
+        func_8017F568((void *)arg0);
+        return 0;
+    lose:
+        func_8012ADE4((u8 *)arg0);
+        return 1;
+    }
+    if ((v & 0x2000) == 0) {
+        func_8012ADE4((u8 *)arg0);
+    }
+    *(s32 *)(arg0 + 0xDC) &= ~0x40;
+    if (*(s32 *)(arg0 + 0x14) > 0xFFFFF) {
+        *(s32 *)(arg0 + 0x14) = 0x100000;
+    }
+    p = D_801202A0;
+    for (i = 0; i < 0x60; i++, p += 0x10C) {
+        if (*(u16 *)p != 0 && *(s32 *)(p + 0x58) != 0 && arg0 != (s32)p) {
+            if (((s32 (*)(s32, s32))func_8012BC60)(arg0 + 4, (s32)(p + 4)) < 0x2400) {
+                bp = (unsigned int *)&buf;
+                func_8012B0B4(bp,
+                              func_8012B6D4((s16 *)(arg0 + 4), (s16 *)(p + 4)), 0x61);
+                d = *(s32 *)&buf;
+                px = *(u16 *)(p + 6);
+                out.vx = px;
+                out.vy = *(u16 *)(p + 0xA);
+                pz = *(u16 *)(p + 0xE);
+                out.vz = pz;
+                out.vx = px + d;
+                out.vz = pz + (d >> 16);
+                in.vx = *(u16 *)(arg0 + 0x3A);
+                in.vy = *(u16 *)(arg0 + 0x3E);
+                in.vz = *(u16 *)(arg0 + 0x42);
+                if ((func_8012CEB0((s32)&in, (s32)&out, 0) & 0x2000) == 0) {
+                    goto lose;
+                }
+                *(s16 *)(arg0 + 6) = out.vx;
+                *(s16 *)(arg0 + 0xA) = out.vy;
+                *(s16 *)(arg0 + 0xE) = out.vz;
+                break;
+            }
+        }
+    }
+    return 1;
+}
+
 
 INCLUDE_ASM("asm/ov_SC05_007/nonmatchings/ov_SC05_007_jr_8017BEBC", func_8017F42C);
 
