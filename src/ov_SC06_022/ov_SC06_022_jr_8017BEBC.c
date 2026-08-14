@@ -4138,7 +4138,20 @@ INCLUDE_ASM("asm/ov_SC06_022/nonmatchings/ov_SC06_022_jr_8017BEBC", func_8018199
 
 INCLUDE_ASM("asm/ov_SC06_022/nonmatchings/ov_SC06_022_jr_8017BEBC", func_80181A4C);
 
-INCLUDE_ASM("asm/ov_SC06_022/nonmatchings/ov_SC06_022_jr_8017BEBC", func_80181A94);
+extern void (*D_801BD214[])(void);
+extern void func_8012C0EC(void *a0);
+extern void func_801852E4(void *a0);
+extern void func_801853B4(void *a0);
+
+void func_80181A94(void *a0) {
+    D_801BD214[*(u16 *)((s32)a0 + 0x2)]();
+    if (*(u16 *)a0 != 0) {
+        func_801852E4(a0);
+        func_801853B4(a0);
+        func_8012C0EC(a0);
+    }
+}
+
 
 
 // @class: struct
