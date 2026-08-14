@@ -1255,7 +1255,37 @@ DEFINE_func_80139A8C()  /* dedup: shared engine-core @0x80139a8c (src/shared) */
 DEFINE_func_80139B18()  /* dedup: shared engine-core @0x80139b18 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_MAIN_012/nonmatchings/ov_MAIN_012_jr_801380E0", func_80139BE0);
+extern unsigned char D_8017E94C[];
+
+    void func_80139BE0(int param_1)
+{
+        extern unsigned char D_8017E94C[];
+        int v;
+        if ((*(unsigned int *)(param_1 + 8) & 0x2000) == 0) {
+            int t = *(unsigned char *)(param_1 + 0x22) & 0x60;
+            int h = *(unsigned short *)(param_1 + 0x18);
+            unsigned int idx;
+            __asm__("" : "=r"(t) : "0"(t));
+            idx = (unsigned char)t;
+            if (h < 7) {
+                if (h >= 2) {
+                    v = D_8017E94C[idx >> 5];
+                } else {
+                    v = D_8017E94C[0];
+                }
+            } else {
+                v = D_8017E94C[0];
+            }
+            *(short *)(param_1 + 0x2e) = 3;
+            *(short *)(param_1 + 0x2c) = v;
+        }
+        *(short *)(param_1 + 0x34) = *(short *)(param_1 + 0x2c) * 6;
+        {
+            int x = *(short *)(param_1 + 0x2e);
+            *(short *)(param_1 + 0x36) = x * 12 + (x - 1) * 2;
+        }
+    }
+
 
 DEFINE_func_80139C7C()  /* dedup: shared engine-core @0x80139c7c (src/shared) */
 
