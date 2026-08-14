@@ -3924,26 +3924,7 @@ void func_8017DC7C(int param_1)
  *   0x30 s32   suppress flag
  */
 
-extern void func_80147324(s32 arg0);
-extern void func_8017DF10(int);
-
-void func_8017DCD8(Ent_8017BFE0_8017DCD8 *param_1)
-{
-    s32 t;
-
-    t = param_1->f1c;
-    param_1->f1c = t + 1;
-    if (t < 0x20) {
-        param_1->f2a = param_1->f2a - 0x10;
-    } else {
-        if (param_1->f30 == 0) {
-            func_80147324(param_1->f2c);
-        }
-        param_1->f1c = 0;
-        param_1->f02 = param_1->f02 + 1;
-    }
-    ((void (*)(Ent_8017BFE0_8017DCD8 *))func_8017DF10)(param_1);
-}
+DEFINE_func_8017DCD8()  /* dedup: shared engine-core @0x8017DCD8 (src/shared) */
 
 
 
