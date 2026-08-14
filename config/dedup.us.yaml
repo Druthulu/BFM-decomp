@@ -14488,3 +14488,10 @@ groups:
     func: DEFINE_func_8017F8A8
     vram: 0x8017F8A8
     binaries: [ov_SC03_118, ov_SC03_119]
+  - id: E_func_801817FC
+    tier: h_exact
+    hash: eb4731f85540387c5042b21bf8a8ff7b4431a12f
+    source: src/shared/engine_core.h
+    func: DEFINE_func_801817FC
+    vram: 0x801817FC
+    binaries: [ov_SC03_118, ov_SC03_119]

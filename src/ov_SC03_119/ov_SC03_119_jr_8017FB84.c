@@ -3625,19 +3625,7 @@ s32 func_801817BC(s32 a0) {
 }
 
 
-    s32 func_801817FC(u8 *a0) {
-        if (--(*(s32 *)(a0 + 0x28)) == -1) {
-            func_8002D4C8(0x1C, 0);
-            func_8001BFD0();
-            func_8002D4C8(0x1D, 0);
-            if ((func_80029178(0xB8) & 0xFF) == 0) {
-                func_800D0C48(1);
-            }
-            func_800D1E28();
-            *(u8 *)(a0 + 0x15) += 1;
-        }
-        return 0;
-    }
+DEFINE_func_801817FC()  /* dedup: shared engine-core @0x801817FC (src/shared) */
 
 
 extern s32 func_800D1EBC(void);
