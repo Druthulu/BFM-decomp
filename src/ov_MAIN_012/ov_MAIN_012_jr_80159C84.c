@@ -2053,7 +2053,7 @@ extern void func_80161450(void *a0);
 extern void func_80157A8C(int);
 extern void func_80154A74(int, int);
 extern void func_8015795C(int param_1);
-extern void func_80161D20(s32 a0, s32 a1);
+extern void func_80161D20();
 extern void func_80157A8C(s32 a0);
 extern void func_8016706C(s32 a0);
 extern u8 D_800D51AC[];
