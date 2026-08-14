@@ -2769,7 +2769,7 @@ extern void func_8017EBA4();      /* §17a-1 PAIR: the TU DEFINES `void func_801
 extern void func_8017EBCC(void);
 extern s32  func_8017EC18(void);
 extern void func_8017EC28(s32 a0);
-extern void func_8017F1C8(void *a0);
+extern void func_8017F1C8();
 extern void func_8017F1F8(void);
 extern void func_80181834(void);
 extern void func_80181A28(void);
@@ -3916,7 +3916,16 @@ extern s32 D_801EDA20;
 
 INCLUDE_ASM("asm/ov_SC01_001/nonmatchings/ov_SC01_001_jr_8017D2DC", func_8017EC28);
 
-INCLUDE_ASM("asm/ov_SC01_001/nonmatchings/ov_SC01_001_jr_8017D2DC", func_8017F1C8);
+extern void func_80174E9C(s32 a0);
+extern s32 D_801ED9DC;
+extern s32 D_801ED9D4;
+
+void func_8017F1C8(s32 arg0) {
+    D_801ED9DC = 0;
+    D_801ED9D4 = arg0;
+    func_80174E9C(arg0);
+}
+
 
 INCLUDE_ASM("asm/ov_SC01_001/nonmatchings/ov_SC01_001_jr_8017D2DC", func_8017F1F8);
 
