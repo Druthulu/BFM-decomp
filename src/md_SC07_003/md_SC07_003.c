@@ -313,7 +313,18 @@ void func_801A59D4(void *a0) {
 
 INCLUDE_ASM("asm/md_SC07_003/nonmatchings/md_SC07_003", func_801A5A10);
 
-INCLUDE_ASM("asm/md_SC07_003/nonmatchings/md_SC07_003", func_801A5A9C);
+extern s32 func_80128ED8(s32 param_1, s32 *param_2);
+extern void func_801292C8(u8 *a0);
+extern void func_8012931C(void *);
+
+void func_801A5A9C(s32 a0) {
+    s32 s0 = a0;
+    func_8012931C((void *)a0);
+    if (((s32 (*)(s32, void *))func_80128ED8)(*(s32 *)(s0 + 0x20), (void *)(s0 + 0x24)) != 0) {
+        ((void (*)(s32))func_801292C8)(s0);
+    }
+}
+
 
 INCLUDE_ASM("asm/md_SC07_003/nonmatchings/md_SC07_003", func_801A5AE0);
 
