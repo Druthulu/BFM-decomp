@@ -3342,7 +3342,23 @@ s32 func_8017EB28(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_097/nonmatchings/ov_SC03_097_jr_8017D898", func_8017EB30);
+extern void func_8001BFD0(void);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern void func_800D0C48(s32 a0);
+extern void func_800D1E28(void);
+
+s32 func_8017EB30(s32 a0)
+{
+    u8 *s0 = (u8 *)a0;
+    func_8002D4C8(0x1C, 0);
+    func_8001BFD0();
+    func_8002D4C8(0x1D, 0);
+    func_800D0C48(1);
+    func_800D1E28();
+    s0[0x15] = s0[0x15] + 1;
+    return 0;
+}
+
 
 extern s32 func_800D1EBC(void);
 void func_8017EB98(void) {
@@ -4218,7 +4234,22 @@ void func_80180E64(void *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_097/nonmatchings/ov_SC03_097_jr_8017D898", func_80180F4C);
+extern int func_80178970(void);
+extern void func_800D1724(s32 a0);
+extern void func_80178D18(void);
+extern void func_80180C68(void *a0);
+
+void func_80180F4C(s32 param) {
+    s32 local;
+
+    if (((s32 (*)(s32))func_80178970)(param) != 0) {
+        ((void (*)(s32))func_80178D18)(param);
+        local = *(s32*)(param + 0xDC);
+        func_800D1724(local);
+    }
+    ((void (*)(s32))func_80180C68)(param);
+}
+
 
 /* func_80180F98 — 12-point (6-segment) ribbon/trail projector.
  *   Byte-identical routine to the already-banked func_80182FD4 in
