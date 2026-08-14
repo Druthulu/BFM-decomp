@@ -22,7 +22,23 @@ s16 func_801EF7F0(void) {
 
 INCLUDE_ASM("asm/md_SC03_076/nonmatchings/md_SC03_076", func_801EF800);
 
-INCLUDE_ASM("asm/md_SC03_076/nonmatchings/md_SC03_076", func_801EF878);
+extern u16 D_80115116;
+extern unsigned short D_80115112;
+extern void (*D_801F3468[])(void);
+extern void func_80141C04(void);
+
+void func_801EF878(void) {
+
+    extern u16 D_80115112;
+    extern u16 D_80115116;
+    extern void (*D_801F3468[])(void);
+    u16 i;
+    i = D_80115112;
+    D_801F3468[i]();
+    func_80141C04();
+    D_80115116++;
+}
+
 
 INCLUDE_ASM("asm/md_SC03_076/nonmatchings/md_SC03_076", func_801EF8D4);
 
