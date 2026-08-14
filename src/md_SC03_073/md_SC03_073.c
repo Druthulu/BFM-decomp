@@ -62,7 +62,21 @@ DEFINE_func_801EF6A8()  /* dedup: shared engine-core @0x801EF6A8 (src/shared) */
 
 INCLUDE_RODATA("asm/md_SC03_073/nonmatchings/md_SC03_073", D_801EF468);
 
-INCLUDE_ASM("asm/md_SC03_073/nonmatchings/md_SC03_073", func_801EF6D0);
+
+const Blk8 D_801EF46C = {{0x00, 0x00, 0x7E, 0xFF, 0xB0, 0x00, 0x00, 0x00}};
+extern s32 func_80171D78(u32, void *);
+extern void func_80171A1C(void*);
+
+void func_801EF6D0(u32 arg0) {
+    Blk8 buffer;
+
+    buffer = D_801EF46C;
+
+    if (func_80171D78(arg0, &buffer)) {
+        ((void (*)(u32))func_80171A1C)(arg0);
+    }
+}
+
 
 
 extern s32 func_80014C54(s32, s32, s32);
@@ -95,7 +109,21 @@ void func_801EF798(void *a0) {
 DEFINE_func_801EF7D4()  /* dedup: shared engine-core @0x801EF7D4 (src/shared) */
 
 
-INCLUDE_ASM("asm/md_SC03_073/nonmatchings/md_SC03_073", func_801EF7F4);
+
+const Blk8 D_801EF474 = {{0x20, 0x00, 0x7E, 0xFF, 0xF5, 0xFE, 0x00, 0x00}};
+extern s32 func_80171D78(u32, void *);
+extern void func_80171A1C(void*);
+
+void func_801EF7F4(u32 arg0) {
+    Blk8 buffer;
+
+    buffer = D_801EF474;
+
+    if (func_80171D78(arg0, &buffer)) {
+        ((void (*)(u32))func_80171A1C)(arg0);
+    }
+}
+
 
 DEFINE_func_801EF85C()  /* dedup: shared engine-core @0x801EF85C (src/shared) */
 
