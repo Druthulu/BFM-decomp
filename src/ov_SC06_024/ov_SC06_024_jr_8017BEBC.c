@@ -4434,7 +4434,38 @@ INCLUDE_ASM("asm/ov_SC06_024/nonmatchings/ov_SC06_024_jr_8017BEBC", func_8018282
 
 INCLUDE_ASM("asm/ov_SC06_024/nonmatchings/ov_SC06_024_jr_8017BEBC", func_801828FC);
 
-INCLUDE_ASM("asm/ov_SC06_024/nonmatchings/ov_SC06_024_jr_8017BEBC", func_80182994);
+extern u8 *func_8012913C(s32 a0);
+
+void func_80182994(s32 a0, s32 a1, s32 a2, s32 a3) {
+    u8 *s0;
+    s32 r;
+    s32 d0, d1, d2;
+    s32 t;
+    s32 pad[6];
+    (void)pad;
+    if ((*(u16 *)(a0 + 0) & (s16)((1 << *(s16 *)(a3 + 0xC)) - 1)) == 0) {
+        s0 = func_8012913C(0x22);
+        if (s0 != 0) {
+            r = rand();
+            d0 = *(s16 *)(a2 + 0);
+            *(s16 *)(s0 + 6) = (*(u16 *)(a1 + 0) + (r % (d0 << 1))) - d0;
+            r = rand();
+            d1 = *(s16 *)(a2 + 2);
+            *(s16 *)(s0 + 0xA) = (*(u16 *)(a1 + 2) + (r % (d1 << 1))) - d1;
+            r = rand();
+            d2 = *(s16 *)(a2 + 4);
+            t = *(u16 *)(a1 + 4);
+            *(s16 *)(s0 + 0xE) = (t + (r % (d2 << 1))) - d2;
+            *(s32 *)(s0 + 0x10) = *(s32 *)(a3 + 0);
+            *(s32 *)(s0 + 0x14) = *(s32 *)(a3 + 4);
+            *(s32 *)(s0 + 0x18) = *(s32 *)(a3 + 8);
+            *(s16 *)(s0 + 0x34) = *(u16 *)(a1 + 6);
+            *(u16 *)(*(s32 *)(s0 + 0x20) + 0x2C) = 0xC010;
+        }
+    }
+    *(u16 *)(a0 + 0) += 1;
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_024/nonmatchings/ov_SC06_024_jr_8017BEBC", func_80182B58);
 
@@ -4589,7 +4620,20 @@ INCLUDE_ASM("asm/ov_SC06_024/nonmatchings/ov_SC06_024_jr_8017BEBC", func_80183E7
 
 INCLUDE_ASM("asm/ov_SC06_024/nonmatchings/ov_SC06_024_jr_8017BEBC", func_80183F24);
 
-INCLUDE_ASM("asm/ov_SC06_024/nonmatchings/ov_SC06_024_jr_8017BEBC", func_80183F6C);
+extern void (*D_801BC358[])(void);
+extern void func_8012C0EC(void *a0);
+extern void func_801877BC(void *a0);
+extern void func_8018788C(void *a0);
+
+void func_80183F6C(void *a0) {
+    D_801BC358[*(u16 *)((s32)a0 + 0x2)]();
+    if (*(u16 *)a0 != 0) {
+        func_801877BC(a0);
+        func_8018788C(a0);
+        func_8012C0EC(a0);
+    }
+}
+
 
 
 // @class: struct
