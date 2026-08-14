@@ -425,7 +425,10 @@ def sym_map(seed_body, seed_name, member_asm, member_name):
     if st == 'STALE':                      # 1:1 — the mechanically-safe, agent-actionable case
         return dict(status="ok", renames=[dict(seed=stale[0], member=asm_only[0])])
     if st == 'AMBIGUOUS':                  # R32: fail loud rather than align garbage
-        return dict(status="AMBIGUOUS", renames=[], seed_only=stale, member_only=asm_only)
+        # n:m — do NOT guess the pairing, but hand over the target's own reference ORDER, which is
+        # what an agent needs to align it against the seed body's reference order by hand.
+        return dict(status="AMBIGUOUS", renames=[], seed_only=stale, member_only=asm_only,
+                    member_syms_in_order=ASF.asm_syms_ordered(member_asm))
     return dict(status=st, renames=[])
 
 

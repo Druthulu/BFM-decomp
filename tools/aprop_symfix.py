@@ -73,13 +73,22 @@ def body_text(path, name):
     return None
 
 
-def asm_syms(path):
-    out = set()
+def asm_syms_ordered(path):
+    """Relocated-symbol operands in EMISSION order, deduped. Order is the useful part when the
+    rename is not 1:1 — an agent can align an n:m case against the seed body's own reference order,
+    which a sorted set destroys."""
+    out = []
     for m in ASM_OPS.finditer(open(path).read()):
         for g in m.groups():
             if g:
-                out.add(g.split('+')[0].strip())
+                s = g.split('+')[0].strip()
+                if s not in out:
+                    out.append(s)
     return out
+
+
+def asm_syms(path):
+    return set(asm_syms_ordered(path))
 
 
 def diff_syms(c_path, asm_path, self_name):
