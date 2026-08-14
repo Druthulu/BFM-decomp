@@ -3263,7 +3263,31 @@ s32 func_8016BBE0(s32 param_1) {
 }
 
 
-INCLUDE_ASM("asm/ov_MAIN_012/nonmatchings/ov_MAIN_012_jr_8016AE5C", func_8016BCC0);
+extern M2C_UNK D_801847F4;
+extern M2C_UNK D_801847F8;
+extern void func_8016BFA8(s32 a0, s32 a1, s32 a2, s32 a3);
+
+    void func_8016BCC0(void *arg0) {
+        u16 temp_a2;
+        u16 temp_v0;
+        void *temp_s0;
+        temp_s0 = M2C_FIELD(arg0, void **, 0x20);
+        func_8016BF50();
+        temp_a2 = M2C_FIELD(arg0, u16 *, 0x10) + 0x60;
+        M2C_FIELD(arg0, u16 *, 0x10) = temp_a2;
+        temp_v0 = M2C_FIELD(temp_s0, u16 *, 0x1A) + temp_a2;
+        M2C_FIELD(temp_s0, u16 *, 0x1A) = temp_v0;
+        M2C_FIELD(temp_s0, u16 *, 0x18) = temp_v0;
+        M2C_FIELD(temp_s0, u16 *, 0x12) = (u16) ((M2C_FIELD(temp_s0, u16 *, 0x12) + 0x71) & 0xFFF);
+        func_8016BFA8(arg0, &D_801847F4, &D_801847F8, temp_s0 + 0x18);
+        if ((s16) M2C_FIELD(temp_s0, u16 *, 0x1A) >= 0x1001) {
+            M2C_FIELD(temp_s0, u16 *, 0x18) = 0x1000U;
+            M2C_FIELD(temp_s0, u16 *, 0x1A) = 0x1000U;
+            func_80146E90(arg0, M2C_FIELD(arg0, s32 *, 0x30));
+            M2C_FIELD(arg0, u16 *, 2) = (u16) (M2C_FIELD(arg0, u16 *, 2) + 1);
+        }
+    }
+
 
 extern s32 func_8016BF50(s32);
 extern void func_8016BFA8(s32 a0, s32 a1, s32 a2, s32 a3);
