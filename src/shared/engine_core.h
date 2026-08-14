@@ -59933,7 +59933,7 @@
     extern s32 func_8001CF30(void *a0); \
     extern u8 D_8018E650; \
     extern void func_8017CD50(s32 a0); \
-    extern s32 func_8017E404(s32 a0, s32 a1); \
+    extern s32 func_8017E404(); \
     extern s32 func_8012AE00(s32 a0); \
     extern void func_8017E51C(s32 a0); \
     extern s16 D_8018E6CC; \
@@ -149732,7 +149732,7 @@
     extern s32 func_8001CF30(void *a0); \
     extern u8 D_8018E650; \
     extern void func_8017CD50(s32 a0); \
-    extern s32 func_8017E404(s32 a0, s32 a1); \
+    extern s32 func_8017E404(); \
     extern s32 func_8012AE00(s32 a0); \
     extern void func_8017E51C(s32 a0); \
     extern s16 D_8018E6CC; \
