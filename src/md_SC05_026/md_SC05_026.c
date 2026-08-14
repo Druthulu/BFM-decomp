@@ -701,4 +701,14 @@ void func_801F0EEC(void) {
 }
 
 
-INCLUDE_ASM("asm/md_SC05_026/nonmatchings/md_SC05_026", func_801F0F2C);
+extern s32 func_80029504(void);
+extern void func_80029124(s32 a0, s32 a1);
+extern void func_80029514(s32 arg0);
+
+void func_801F0F2C(void) {
+    func_80029124(0xFE, 0x1);
+    if (((s32 (*)(void))func_80029504)() == 0x136) {
+        ((void (*)(s32))func_80029514)(0x140);
+    }
+}
+
