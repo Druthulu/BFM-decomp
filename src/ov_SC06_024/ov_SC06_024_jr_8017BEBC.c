@@ -4564,7 +4564,15 @@ void func_801837D0(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_024/nonmatchings/ov_SC06_024_jr_8017BEBC", func_8018386C);
+extern void func_8012AD44(s32 *a0, s16 a1);
+void func_8018386C(void *arg0) {
+    s32 t;
+    *(s16 *)((char *)arg0 + 0xe6) = 0xc;
+    t = *(s16 *)((char *)arg0 + 0x70);
+    *(s16 *)((char *)arg0 + 0xe4) = t << 1;
+    ((void (*)(s32, s32))func_8012AD44)((s32)arg0, 2);
+}
+
 
 
 // @class: struct
