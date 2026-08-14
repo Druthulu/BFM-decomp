@@ -3384,7 +3384,20 @@ s32 func_8017DB68(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_020/nonmatchings/ov_SC06_020_jr_8017C24C", func_8017DB70);
+extern void (*D_8019EAEC[])(void);
+extern void func_8012C0EC(void *a0);
+extern void func_801813C0(void *a0);
+extern void func_80181490(void *a0);
+
+void func_8017DB70(void *a0) {
+    D_8019EAEC[*(u16 *)((s32)a0 + 0x2)]();
+    if (*(u16 *)a0 != 0) {
+        func_801813C0(a0);
+        func_80181490(a0);
+        func_8012C0EC(a0);
+    }
+}
+
 
 
 // @class: struct
