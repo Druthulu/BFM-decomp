@@ -2005,7 +2005,7 @@ extern void func_80155344(s32 a0);
 extern s32 func_80155394(s32 *a0);
 extern void func_801553A8(s32 *a0);
 extern s32 func_80155458(s32 param_1);
-extern s32 func_801659DC(u8 *a0);
+extern s32 func_801659DC();
 extern s32 func_801554B8(void *arg0);
 extern void func_801555F4(void *a0);
 extern void func_80155518(s32 *a0);
