@@ -12,7 +12,7 @@ Instead of roadmap-v2 P31's per-function grind, Phase 31 organizes the 12,059 re
 
 - [x] **T0 — Pivot log + freshness + hygiene** — DONE 2026-08-14. (xHigh)
 - [x] **T1 — Integration quick-bank sweep** — DONE 2026-08-14 (pending final R22 log line). **8 banked, 0 agent tokens.** (xHigh)
-- [ ] **T2 — References**: PsyQ Track-1 `SAMPLE/` extraction → tools/reference/psyq-sdk/; gcc-2.7.2 calls.c + caller-save.c; SETUP rows; idiom-notes seed. (xHigh)
+- [x] **T2 — References** — DONE 2026-08-14. (xHigh)
 - [ ] **T3 — Main enablement**: sig-main (seed-ends + s_ins_count + fatal word cross-check); family_remap main streams (0x8000F800). (xHigh)
 - [ ] **T4 — atlas_features.py**: per-fn features memoized per h_exact → .run/feat.<bin>.jsonl ×213; join/determinism/cross-check verifies. (xHigh)
 - [ ] **T5 — atlas.py**: --calibrate → survey (T1.5/T3/T4/T5/tiny + main join + levers) → --targets → make atlas; five assertions; docs/frontier-atlas.md. (Max)
@@ -38,6 +38,8 @@ R22 clean-fleet **213/213** after every banked batch · tools-health green · 0 
   - **Handed forward with fresh classifications**: CALLEE-decl 15 + CC1-FAIL 14 → T6 (cast-callees/tu-scope stages); UNDEF-DATA/OTHER 9 → the §171b-1 data-definition carry (T7/T8); md CARVE-REFUSED 8 → campaign side-quest ledger. immfix pile: fully consumed (0 open). fix20: 19/20 consumed in S50.
   - Tool fixes landed: `gate_lane` propagate-commit tag now derives from GATE_PHASE (was hardcoded phase-30 S49).
   - Rate lesson for the velocity ledger: fresh-fix lanes (STALE-DELTA 4/4, demacroize 4/7) vastly outperform blind stored re-gates (0/23) — the campaign loop's L2 ordering is confirmed by measurement.
+
+- 2026-08-14 — **T2 COMPLETE (references).** (1) **PsyQ dev-CD extracted**: walked the on-disk Track-1 image (MODE2/2352) with the frozen `tools/bfm_extract/iso9660.py` (R33 — no new extractor; walker = iter_directory/read_extent with out-of-range extents skipped) → `tools/reference/psyq-sdk/` (gitignored): 2,374 files / 231.6 MB, **400 C sources (373 in PSX/SAMPLE/** across CD/GRAPHICS/SOUND/MODULE/CMPLR/…); only 7 out-of-track `.DA` audio skipped. (2) **Provenance find**: `GNU/SNGNUVER.TXT` = SN Systems' gcc build history (`2.7.2.SN32.3.7.0002`, 14.5.97) with per-build changelog of SN's patches vs vanilla — only `UNROLL.C` (parameterised max unroll insns) is codegen-relevant; recorded in the idiom notes as the first-look suspect if a loop-unroll residual ever defies the vanilla model. (3) **gcc-2.7.2 reference completed**: +6 files from GNU ftp (`calls.c` + `caller-save.c` — both cited by §172's producer model, previously missing — + integrate/optabs/varasm/recog), tarball sha256 `7cd8bce5…` recorded. (4) `docs/psyq-sample-idioms.md` seeded (inventory, provenance, first style conventions, the lane hook); SETUP §5.6 rows added (R21).
 
 ## Blockers
 (none)
