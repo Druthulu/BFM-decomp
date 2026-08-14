@@ -2355,3 +2355,34 @@ them to be re-measured a session later. Generalized rule: **before designing an 
 explain a failure rate, grep the failure verdicts the tools already wrote** — and when a checkpoint
 declares a test the top priority, that is a hypothesis with a plan attached, not a finding (R14/R35
 applied to my own handoff notes).
+
+## 2026-08-14 (P30 S50-Max) — the ordered finish of func_8017C294: how a Max-effort failure gets banked
+
+**Context.** Drew set Max and ordered: read the gcc source, finish cracking `func_8017C294`
+(NEAR 2/246, ×16 reach, ~90 prior refutations), and document the idioms from the three families
+worked. The residual: the target frame carries 32 bytes of never-referenced spill slots the draft
+lacks — invisible dead compiler state, not code.
+
+**What the source reading changed.** Five files deep (combine/cse/reload1/caller-save/mips.md +
+toplev/function), the session replaced inference with mechanism: the complete list of
+never-referenced-slot producers (combine USE-orphans; eager caller-save areas — a discovery, with
+`-fcaller-saves` on at -O2; per-hard-reg spill slots), the exact alignment arithmetic, the orphan
+rule with its `(set (reg:HI) (subreg (reg:SI)))` rewrite, and two proofs by construction: opacity
+that defeats cse equally blinds combine (`num_sign_bit_copies`), and cross-jump cannot delete
+slot-bearing code. R35 was applied to my OWN S50 verdict: the universally-quantified
+"impossible" claim was re-tested from scratch — including the one test nobody had ever run, the
+actual whole-binary gate on the NEAR drafts (verdicts held), a 200-variant randomized structural
+sweep (one new vars-moving dimension found: swapped-arm recomputes, cost ~1:1 in real code), the
+inline-function axis (collapses the chain — proving the source is textual macros), and the cc1
+flag axis (invariant).
+
+**The honest outcome.** Not cracked. The wall is real and now sharply bounded: the missing 32
+bytes require structurally different source with coincidentally identical bytes — a haystack
+outside systematic derivation. Floor stays NEAR 2. Parked for P32 with a complete siege kit.
+
+**The transferable lesson.** A Max-effort "finish it" on a hard wall should end in one of exactly
+two states: the crack, or a mechanism-complete refutation that future work can stand on. The
+difference between this wall-verdict and the cheap kind: every claim in it is either a source
+citation or a byte-measured probe, the instruments (cc1_dumps.sh, sweep_gen.py) outlive the
+attempt, and two NEW reusable decompilation tells (§172a: lhu/lh typing; macro-vs-inline
+redundancy) came out of the failure. Failures bank too, if you make them pay rent.

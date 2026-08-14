@@ -16478,43 +16478,72 @@ visible only as "no definition of the member after rename" skips, which read lik
 and were actually the symptom. **A definition is confirmed by a `{` with no `;` before it**; a name
 match alone never is.
 
-## §172 — THE ORPHAN-SLOT MECHANISM (P30 S50): what a frame-size residual actually is, and how to read it in 10 minutes
+## §172 — THE ORPHAN-SLOT MECHANISM v2 (P30 S50-Max): the complete frame-residue model for gcc-2.7.2 MIPS
 
-**The instrument** (`tools/cc1_dumps.sh <draft.c> <tag>` → `.run/c294/dumps_<tag>/`): run the pinned
-cc1 with `-dr -ds -dj -dc -dl -dg`, then count `^(insn N P X (use (reg:SI R)))` in the `.combine`
-dump. Each such standalone USE is one 8-byte never-referenced reload slot. On `func_8017CE58` the
-count is **exactly 12** and the target frame demands **16** — the entire NEAR-2 residual, named
-insn-by-insn instead of inferred from ablations.
+*(v2 supersedes the S50 original in place: the Max-effort source reading corrected the producer
+list, the alignment math, and the strength of the impossibility claim. The instrument and the
+orphan rule are unchanged and re-verified.)*
 
-**What an orphan IS** (combine.c:10835): gcc-2.7.2 MIPS expands EVERY short-mem-to-int read as
-movhi + ashift/ashiftrt (mips.md `extendhisi2` does `force_not_mem` under optimize). Combine folds
-the triple into one `lh` (`extendhisi2_internal`, MEM-only pattern). When the dying ashift temp's
-death-note walk (backward from the fold, over plain insns only) hits a CODE_LABEL or JUMP_INSN
-before finding any set/use, combine inserts `(use (reg))` there — and reload later gives that
-otherwise-dead pseudo a stack slot. **The orphan rule, byte-verified both ways:**
+**The instrument** (`tools/cc1_dumps.sh <draft.c> <tag>`): run the pinned cc1 with
+`-dr -ds -dj -dc -dl -dg`, then count standalone `(insn N P X (use (reg:M R)))` insns in the
+`.combine` dump — count them across ALL modes, not just SImode. Each is one never-referenced
+reload slot. On `func_8017CE58`: draft 12, target frame demands the equivalent of 16.
 
-- HI load whose reg has an EXTRA HImode use (a `?:` arm copy) → load kept (or rewritten as a
-  subreg copy of the SI value — combine literally rewrites `(set (reg:HI) (mem))` into
-  `(set (reg:HI) (subreg (reg:SI)))`, which is why an orphaning site can still show a SINGLE lh)
-  → promotion folds separately → **orphan**.
-- HI load consumed whole (single use) → 3-way merge, everything deleted → **no orphan** — even in
-  label-rich territory (`bx`/`bz`, the loop's `t`-loads).
-- Sites before the first label/jump (the HEAD) can never orphan: the walk reaches insn 0.
+**Slot producers in the spill region (complete list, from the compiler source):**
+1. **alter_reg pseudo slots** (reload1.c): every slotted pseudo gets `assign_stack_local(mode,
+   size, -1)` — align −1 means BIGGEST_ALIGNMENT = **8 bytes, size rounded up to 8**. This is why
+   every orphan costs 8 bytes even in SImode. Slots are assigned in REGNO order: the a1-param
+   pseudo (lowest) lands first, loop-opt-created pseudos (highest) last — the two ends of the
+   spill region are position-pinned; everything between is order-free.
+2. **combine USE-orphans** (combine.c:10835): the ashift intermediate of a short-mem→int
+   promotion triple, orphaned when the death-note walk (backward over plain insns only) hits a
+   CODE_LABEL or JUMP_INSN. **Orphan rule, byte-verified both directions:** the HImode load's reg
+   carries an extra HImode use (a `?:` arm copy) → the load survives (or is REWRITTEN as
+   `(set (reg:HI) (subreg (reg:SI)))` — combine does this rewrite, which is why an orphaning site
+   can still show a single `lh`) → the promotion folds separately → orphan. Single-use load →
+   3-way merge consumes everything → no orphan. Sites before the first label/jump (the function
+   head) can NEVER orphan — the walk reaches insn 0.
+3. **caller-save areas** (caller-save.c `setup_save_areas`; `-fcaller-saves` is ON at -O2):
+   allocated **eagerly** — one `assign_stack_local(SImode, 4, 0)` = 4-byte slot per call-clobbered
+   hard reg that carries a call-crossing pseudo at ANY reload iteration, whether or not a
+   save/restore insn is ever emitted. Transient iteration-1 allocations that later respill leave
+   never-referenced 4-byte areas.
+4. **spill_stack_slot** (reload1.c): one reused 8-byte slot per hard reg that pseudos are spilled
+   FROM ("Spilling reg N" in the .greg dump).
 
-**Why the +4 cannot be manufactured from source (the triple canonicalization wall).** To add an
-orphan with zero code you need an expression NOVEL to cse (so the promotion survives) yet PROVABLY
-sign-extended to combine (so it collapses to a coalesced move). Three layers close every route:
-fold-const normalizes the trees (`(x<<16)>>16` becomes the same short-conversion tree), cse1/cse2
-canonicalize every operand through REG_EQUAL/quantity classes (any equivalence-visible spelling
-elides), and opacity that defeats cse (`asm`-laundered values/pointers) equally blinds
-`num_sign_bit_copies`, so the survivor emits real shifts or loads. Measured: **18 probe families ×
-3 placements, every one lands at vars=224-with-same-bytes or vars>224-with-drift**; the opaque-
-pointer form (`p_optr`) reproduces the target's exact 16-orphan frame (a1@0x80, limit@0x108,
-vars=256) at +7 insns — the materialisation cost is inherent, not incidental.
+**The three-layer canonicalization wall (measured, ~120 probe forms + a 200-variant sweep):**
+manufacturing an extra orphan with zero code drift requires an expression NOVEL to cse yet
+PROVABLY sign-extended to combine. Three layers jointly close every reachable spelling:
+fold-const normalizes the trees (`(x<<16)>>16` arrives in RTL as the same subreg-promotion —
+verified in the expand dump), cse1/cse2 canonicalize through REG_EQUAL/quantity classes, and
+opacity that defeats cse (asm-laundered values/pointers) equally blinds `num_sign_bit_copies`
+(the survivor emits real shifts or loads: the opaque-pointer probe reproduces the exact
+16-orphan target frame at +7 insns). Scalar declaration order (20 permutations) and TU context
+(both drafts run through the real whole-binary gate — first time ever for this class) are also
+byte-refuted as levers. **The wall statement, honest form:** the residual is not reachable by
+re-spelling the same computation; what remains is structurally different source with
+coincidentally identical bytes.
 
-**Transferable diagnostics:** (1) any future frame-off-by-8k residual: count combine-dump USEs
-first — the delta names the missing/extra construct class immediately; (2) `slt`-count changes in
-a probe = the ?: branch structure moved — abandon the probe, the form is wrong; (3) which max-chain
-operands RE-LOAD is pinned by which HI temps the min chains clobber as `?:` accumulators (the
-first operand of each inner `?:`), and the bytes pin THAT — so a chain's elision pattern is
-byte-determined end to end.
+**Transferable diagnostics:** (1) frame-off-by-8k residual → count combine-dump USEs first, all
+modes; (2) `slt`-count changes in a probe = the ?: branch structure moved — the form is wrong;
+(3) which chain operands RE-LOAD in a later pass is pinned by which HI temps the earlier pass
+clobbered as `?:` accumulators (the FIRST operand of each inner `?:`), and the bytes pin that —
+a select-chain's elision pattern is byte-determined end to end; (4) the a1-param spill position
+pins where stratum-1 (declared locals/temps) ENDS — any dial that grows locals displaces it,
+which is exactly the `dead[8]` 2-off signature.
+
+## §172a — TWO DECOMPILATION TELLS FROM THE SAME DIG (P30 S50-Max)
+
+**The lhu/lh tell.** gcc-2.7.2 MIPS emits `lhu` for a plain HImode COPY (movhi — an s16-to-s16
+assignment) and `lh` for a PROMOTION to int (extendhisi2_internal). A `lhu`+`lh` DOUBLE-LOAD of
+the same address is therefore an s16 value used both ways in one region — the `?:`-arm-plus-
+compare shape. When typing variables from asm: `lhu` ⇒ the destination is s16; `lh` ⇒ the use is
+promoted. (Corollary of force_not_mem: `s32 x = shortmem` and `s16 t = shortmem; s32 x = t;` are
+RTL-IDENTICAL — the s16-temp spelling axis does not exist for the compiler.)
+
+**The macro-vs-inline tell.** A select chain whose final code RE-EVALUATES its compares in the
+arms comes from a TEXTUALLY REPEATING MACRO (`#define MIN2(a,b) ((a)<(b)?(a):(b))` nested), never
+from an inline function: gcc-2.7.2 evaluates inline-function arguments ONCE into parameter
+pseudos, collapsing the repeats (measured on the 246-ins body: the inline form compiles to 209
+ins). When a family's shape shows duplicated compare work, reconstruct it as nested macros with
+repeated operand expressions — that redundancy is load-bearing for byte-matching.
