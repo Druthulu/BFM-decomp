@@ -5427,14 +5427,7 @@ s32 func_8017F4CC(void)
     }
 
 
-    extern void (*D_8018DA64[])(void);
-    extern void func_80162D28(s32*);
-    void func_8017F4F8(void *a0) {
-        D_8018DA64[*(u16 *)((s32)a0 + 0x2)]();
-        if (*(s32 *)((s32)a0 + 0x20) != 0) {
-            ((void (*)(void *))func_80162D28)(a0);
-        }
-    }
+DEFINE_func_8017F4F8()  /* dedup: shared engine-core @0x8017F4F8 (src/shared) */
 
 
 
