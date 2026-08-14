@@ -3833,7 +3833,11 @@ extern s16 D_801AAD8C;
     }
 
 
-INCLUDE_ASM("asm/ov_SC07_001/nonmatchings/ov_SC07_001_jr_8017BEBC", func_8017F38C);
+extern s16 D_801AAD8C;
+s32 func_8017F38C(s16 *a0) {
+    return (*(s16 *)((char *)a0 + 0x10A) ^ (*(u16 *)&D_801AAD8C)) == 0;
+}
+
 
 
 extern void (*D_80185380[])(void);
