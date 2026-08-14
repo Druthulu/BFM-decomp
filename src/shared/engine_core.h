@@ -60355,6 +60355,12 @@
         } \
     }
 
+#define DEFINE_func_8017CF5C() \
+    extern void func_800D1EBC(void); \
+        void func_8017CF5C(void) { \
+            func_800D1EBC(); \
+        }
+
 #endif
 
 #define DEFINE_func_80128EA8() \
@@ -150114,5 +150120,11 @@
             *(u16 *)(a0 + 0x2) += 1; \
         } \
     }
+
+#define DEFINE_func_8017CF5C() \
+    extern void func_800D1EBC(void); \
+        void func_8017CF5C(void) { \
+            func_800D1EBC(); \
+        }
 
 #endif

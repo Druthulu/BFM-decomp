@@ -3249,10 +3249,7 @@ s32 func_8017CEE0(u8 *a0) {
 }
 
 
-extern void func_800D1EBC(void);
-    void func_8017CF5C(void) {
-        func_800D1EBC();
-    }
+DEFINE_func_8017CF5C()  /* dedup: shared engine-core @0x8017CF5C (src/shared) */
 
 
 
