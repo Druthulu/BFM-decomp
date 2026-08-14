@@ -2823,7 +2823,7 @@ extern void func_80181630(void *a0);
 extern void func_8018166C(void *arg0);
 extern s32 func_801816DC(void);
 extern void func_80181718(void *arg0);
-extern void func_801815BC(void *arg0);
+extern void func_801815BC();
 extern void func_801817F0(void *arg0);
 extern void func_80181830(void *a0);
 extern void func_80181B04(short *a0);
