@@ -181,7 +181,39 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 
 ---
 
-# 🛑 SESSION S50 CHECKPOINT — FINAL (2026-08-14) — FRESH SESSION SAFE HERE
+# 🛑 SESSION S50 CHECKPOINT — FINAL v2 (2026-08-14, Max arc) — FRESH SESSION SAFE HERE
+> **Tree CLEAN** but for R23 `db.*.gbf` churn + regenerable `.run/` edits + two stray root
+> `gccdump.*`. **Nothing running.** Gate: **`check-all` 213/213** from a CLEAN rebuild (R22 run
+> 5× total this S50). **Fleet: 95.3% instr · 90.0% distinct · 96.68% fn-count · stubs 12,059**
+> (session total: 12,468 → 12,059 = **~360 instances banked across the S50 arcs**).
+
+## ✅ S50-Max ARC 2 — the gcc-source read, its idioms, and the audit it powered
+1. **func_8017C294: NOT cracked — wall made mechanism-complete** (cookbook §172 v2; dossier
+   NOTES.md S50-Max entry; ~240 cumulative refutations incl. the first-ever whole-binary-gate
+   run on the NEAR drafts, a 200-variant structural sweep, TU/decl/flag/inline axes). Floor
+   NEAR 2/246; P32 siege kit banked (cc1_dumps.sh · §172-v2 producer model · sweep_gen.py ·
+   the swaprepeat lead).
+2. **Idioms banked:** §172a (lhu/lh typing tell; macro-vs-inline tell) + §172b (sll/sra-16
+   register-promotion tell; swapped-arm select tell; ?:-accumulator-order tell; div
+   sign-correction reuse).
+3. **The backlog-wide audit those tells powered** (`.run/c294/audit_gccread.py`, 892 open
+   near-misses classified): **+52 banked, R22-verified** —
+   · 33/95 stored drafts that now score MATCH standalone (aprop_symfix caught **40/108 with
+     stale seed symbols** — §171 at scale — before gating)
+   · 19/20 hand/mech fixes: 4 pure lhu↔lh s16-flips + the lhu+sltiu→lh+slti shared-global
+     quadruplet (**D_80126B5E/B66/CB0 and D_80126CB0 are s16 fleet-wide**, a typing fact) +
+     1 xor-eq rewrite + 11 per-location literal swaps (~0x11→~0x10-class masks)
+   · 1 miss: func_8017EE78 (gate-refused; redraft fuel)
+4. **Veins mapped for the next waves:** ~400 LEN+N drafts (target longer — §172b swaprepeat/
+   extend candidates) · 13 AMBIGUOUS-symbol stored drafts · 7 multi-literal leftovers ·
+   audit artifacts in `.run/c294/` (audit_results.json is the classified ledger).
+
+## ▶ RESUME HERE
+1. The LEN+N pile through the §172b lenses (a wave prompt seeded with the new tells).
+2. The remaining A-prop reaches (S50 arc-1 resume list unchanged).
+3. T5 phase close still awaits Drew's gate-2.
+
+# ▶ (superseded by FINAL v2) SESSION S50 CHECKPOINT — FINAL (2026-08-14) — FRESH SESSION SAFE HERE
 > **Tree CLEAN** but for R23 `db.*.gbf` churn, a regenerable `.run/backlog.jsonl` edit, and two
 > stray `gccdump.*` cc1 dumps at the repo root — never stage any of them. **Nothing running.**
 > Gate: **`check-all` 213 passed / 0 failed of 213** from a CLEAN rebuild (R22 run **4x** this
