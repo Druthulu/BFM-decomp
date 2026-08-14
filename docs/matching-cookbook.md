@@ -16547,3 +16547,36 @@ from an inline function: gcc-2.7.2 evaluates inline-function arguments ONCE into
 pseudos, collapsing the repeats (measured on the 246-ins body: the inline form compiles to 209
 ins). When a family's shape shows duplicated compare work, reconstruct it as nested macros with
 repeated operand expressions — that redundancy is load-bearing for byte-matching.
+
+## §172b — THREE MORE TELLS FROM THE GCC READ (P30 S50-Max, banked on Drew's ask)
+
+**1. The sll/sra-16 pair tell (extendhisi2 is MEM-only).** The single-insn sign-extending load
+(`extendhisi2_internal`) exists ONLY for memory operands. A visible `sll X,Y,16; sra X,X,16` pair
+in the target is therefore a promotion of a REGISTER-held short — a multi-def s16 variable (a
+branch-merged value like `mw`), never a fresh memory read. Conversely, if your draft emits the
+pair where the target has a plain `lh`, your operand is living in a register (a temp/var) where
+the original read memory — drop the temp. Extends to QImode (`extendqisi2` same shape): a real
+`sll/sra 24` pair = register-held s8.
+
+**2. The swapped-arm select tell (cse comparison canonicalization is HALF-complete).** `b > a`
+canonicalizes to `a < b` at expand — the compare `slt` is SHARED — but the *select* around it is
+not: `(b > a) ? b : a` and `(a < b) ? a : b` emit SEPARATE branch+move structures that cse never
+merges (byte-measured: each swapped-arm recompute adds its own select code and its own spill
+slots, vars up to +112 across a sweep). Forward tell: TARGET code with a re-evaluated select on
+an already-computed compare = the source repeated the expression with SWAPPED arms (macro args in
+the other order). Reverse tell: your draft emitting duplicate selects the target lacks = your
+repeats disagree in arm order with the first mention — make every textual repeat of a `?:`
+operand-identical.
+
+**3. The `?:` accumulator-order tell.** Expand reuses the FIRST operand's register as a `?:`
+result accumulator, clobbering it — so in chained selects, exactly the first-operand values must
+RE-LOAD when used again later, and second-operand values stay live in registers. From bytes:
+which operands freshly re-load in a later pass tells you the operand ORDER of every inner `?:` in
+the original source, mechanically. (This is how `func_8017CE58`'s max-chain reload pattern pins
+its min-chain spelling end to end.)
+
+**4. Division-by-constant sign-correction reuse.** In `s16 / K` via magic-multiply, the sign
+correction can read the PRE-truncation intermediate (`sra $r, (x<<16), 31` — shift counts folded
+16+31→31) rather than the extended value. When hand-writing such a division and the sign `sra`
+reads an "impossible" register, the compiler reused the promotion's `<<16` intermediate — keep
+the promotion as an expression (not a separate temp) so the intermediate exists to reuse.
