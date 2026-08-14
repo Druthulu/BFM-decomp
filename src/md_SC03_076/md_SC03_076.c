@@ -727,7 +727,17 @@ void func_801F2930(void) {
 }
 
 
-INCLUDE_ASM("asm/md_SC03_076/nonmatchings/md_SC03_076", func_801F2970);
+extern s32 func_80029504(void);
+extern void func_80029124(s32 a0, s32 a1);
+extern void func_80029514(s32 arg0);
+
+void func_801F2970(void) {
+    func_80029124(0xFE, 0x1);
+    if (((s32 (*)(void))func_80029504)() == 0x136) {
+        ((void (*)(s32))func_80029514)(0x140);
+    }
+}
+
 
 
 u8 func_801F29B0(u32 a0) {
