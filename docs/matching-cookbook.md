@@ -16477,3 +16477,44 @@ and returned **the next function's body**. Silent, and it had been shipping wron
 visible only as "no definition of the member after rename" skips, which read like a niche edge case
 and were actually the symptom. **A definition is confirmed by a `{` with no `;` before it**; a name
 match alone never is.
+
+## §172 — THE ORPHAN-SLOT MECHANISM (P30 S50): what a frame-size residual actually is, and how to read it in 10 minutes
+
+**The instrument** (`tools/cc1_dumps.sh <draft.c> <tag>` → `.run/c294/dumps_<tag>/`): run the pinned
+cc1 with `-dr -ds -dj -dc -dl -dg`, then count `^(insn N P X (use (reg:SI R)))` in the `.combine`
+dump. Each such standalone USE is one 8-byte never-referenced reload slot. On `func_8017CE58` the
+count is **exactly 12** and the target frame demands **16** — the entire NEAR-2 residual, named
+insn-by-insn instead of inferred from ablations.
+
+**What an orphan IS** (combine.c:10835): gcc-2.7.2 MIPS expands EVERY short-mem-to-int read as
+movhi + ashift/ashiftrt (mips.md `extendhisi2` does `force_not_mem` under optimize). Combine folds
+the triple into one `lh` (`extendhisi2_internal`, MEM-only pattern). When the dying ashift temp's
+death-note walk (backward from the fold, over plain insns only) hits a CODE_LABEL or JUMP_INSN
+before finding any set/use, combine inserts `(use (reg))` there — and reload later gives that
+otherwise-dead pseudo a stack slot. **The orphan rule, byte-verified both ways:**
+
+- HI load whose reg has an EXTRA HImode use (a `?:` arm copy) → load kept (or rewritten as a
+  subreg copy of the SI value — combine literally rewrites `(set (reg:HI) (mem))` into
+  `(set (reg:HI) (subreg (reg:SI)))`, which is why an orphaning site can still show a SINGLE lh)
+  → promotion folds separately → **orphan**.
+- HI load consumed whole (single use) → 3-way merge, everything deleted → **no orphan** — even in
+  label-rich territory (`bx`/`bz`, the loop's `t`-loads).
+- Sites before the first label/jump (the HEAD) can never orphan: the walk reaches insn 0.
+
+**Why the +4 cannot be manufactured from source (the triple canonicalization wall).** To add an
+orphan with zero code you need an expression NOVEL to cse (so the promotion survives) yet PROVABLY
+sign-extended to combine (so it collapses to a coalesced move). Three layers close every route:
+fold-const normalizes the trees (`(x<<16)>>16` becomes the same short-conversion tree), cse1/cse2
+canonicalize every operand through REG_EQUAL/quantity classes (any equivalence-visible spelling
+elides), and opacity that defeats cse (`asm`-laundered values/pointers) equally blinds
+`num_sign_bit_copies`, so the survivor emits real shifts or loads. Measured: **18 probe families ×
+3 placements, every one lands at vars=224-with-same-bytes or vars>224-with-drift**; the opaque-
+pointer form (`p_optr`) reproduces the target's exact 16-orphan frame (a1@0x80, limit@0x108,
+vars=256) at +7 insns — the materialisation cost is inherent, not incidental.
+
+**Transferable diagnostics:** (1) any future frame-off-by-8k residual: count combine-dump USEs
+first — the delta names the missing/extra construct class immediately; (2) `slt`-count changes in
+a probe = the ?: branch structure moved — abandon the probe, the form is wrong; (3) which max-chain
+operands RE-LOAD is pinned by which HI temps the min chains clobber as `?:` accumulators (the
+first operand of each inner `?:`), and the bytes pin THAT — so a chain's elision pattern is
+byte-determined end to end.
