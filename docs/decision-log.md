@@ -2386,3 +2386,47 @@ difference between this wall-verdict and the cheap kind: every claim in it is ei
 citation or a byte-measured probe, the instruments (cc1_dumps.sh, sweep_gen.py) outlive the
 attempt, and two NEW reusable decompilation tells (§172a: lhu/lh typing; macro-vs-inline
 redundancy) came out of the failure. Failures bank too, if you make them pay rent.
+
+## 2026-08-14 (P31 open) — the re-charter: organize the frontier before grinding it
+
+**Context and belief.** Phase 30 closed the overlays at their measured ceiling (95.3% instr,
+213/213 byte-identical, 12,059 stubs left). Roadmap-v2's P31 chartered "Scope-Complete + Main &
+Resident" — in practice a per-function agent grind over main (~79.5k weighted ins priced at
+~490 tok/ins) plus queue-consumption. The standing belief was that the remaining mass was
+organized as well as it could be (h_seq families + the S49 cousin tier) and only grinding remained.
+
+**The pivot (Drew, at the Phase-Start gate).** Do not grind blind. Read the cookbook, the gcc
+source, and the PsyQ material deeply; characterize every remaining function by the compiler
+behavior that dominates it; group the thousands of "unique" functions into CRACK GROUPS so one
+exemplar (or a near-2..6..20) carries a whole group; widen the mechanical tooling to accept more
+near-misses, more permutations, more structural/length differences; token efficiency is a
+first-class constraint — deterministic zero-token lanes first, agents only for exemplars and
+genuinely novel classes. Milestone shape: campaign to ceiling (the P30 pattern). Main fully
+included from day one.
+
+**Why (measurement-grounded, from the plan-mode exploration).** (a) The cold tail — 3,238
+units / 215k ins, 37% of the non-main remainder — has NO grouping at all below cousins@0.85,
+and the only sub-exact similarity metric in the repo is one SequenceMatcher tier; no CFG/frame/
+tell features exist anywhere. (b) The LEN wall that refuses every length-drifted member is ONE
+LINE (`classify_member` → LEN), and the measured dominant drift class (li-expansion, 25/86
+near-pairs) is mechanically resolvable. (c) The biggest classified failure class is PLUMBING
+(1,217 distinct fns, ~204 symbols) — declarations, not codegen — plus 75 byte-correct
+integration-blocked MATCH drafts: cheap banked wins sitting idle. (d) Main's fuel gap was
+already closed (2,001/2,002 Ghidra-C cached) and 33 main stubs have exact-h_seq matched seeds
+in the fleet — main is not as barren as the 0.85-tier verdict suggested; nobody had ever
+clustered main against itself. (e) The §172b detectors (EXTPAIR/SELECT) were declared but never
+implemented, and the 892-record near-miss audit with per-draft opcode-transition histograms was
+never joined to anything. Organizing first converts N independent cracks into one crack + N
+mechanical/cheap transfers — the same economics that carried every prior tier (h_exact dedup,
+h_seq remap, A-prop autodraft).
+
+**Ratifications.** Plan approval (gate 1, 2026-08-14) formally ratified R37 (probe before
+costing), R38 (read the recorded failure verdicts before designing an experiment), and R39
+(negative-control every new refusal-check against the already-succeeded population) — all three
+operated as binding through P30 and are now rules.
+
+**Hindsight — the better path.** This is accelerator A6 ("regroup the residue by structure
+before calling it unique") applied one level up: build the ATLAS — features + tiers + evidence
+joins + lever labels — the moment a frontier stops being family-shaped, not two phases later.
+The next project should build the feature/similarity layer right after its first propagation
+engine exists.

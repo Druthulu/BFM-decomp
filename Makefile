@@ -309,14 +309,31 @@ sig-overlays:
 	done
 	echo "sig-overlays: signed $$n overlays -> .run/sig.ov_*.jsonl (of $(words $(OVERLAY_BINARIES)) onboarded)"
 
-# sig-resident (Phase-27 T10): sign the resident flat blob with sig_image — the Ghidra-FREE,
-# byte-DERIVED signer — so `make audit-corpus` gains a SECOND, INDEPENDENT boundary oracle for the
-# resident (R34; corpus.sig_is_independent now trusts it). sig_image already supports the resident
-# case; it was simply never invoked. Overwrites .run/sig.resident.jsonl (was a Ghidra sig); h_exact
-# is raw-byte SHA1 so it is format-independent — weighted_metrics is unaffected. R23-free.
+# sig-resident (Phase-27 T10; P31 T0 seed fix): sign the resident flat blob with sig_image — the
+# Ghidra-FREE, byte-DERIVED signer — so `make audit-corpus` gains a second boundary oracle for the
+# resident (R34; corpus.sig_is_independent trusts it, same standing as the S45 ELF-seeded modules).
+# P31 T0: --bootstrap's linear partition produced a WRONG denominator (144 rows vs the true 145) via
+# two boundary artifacts — it fused the +0 data word with the first function (row 0x800CEDF8 nins=18
+# instead of func_800CEDFC) and glued/truncated the tail pair (func_800D33E0 missing). Fixed by the
+# S45 pattern: SEED from the built ELF's T symbols (unique 4-aligned addrs inside the
+# resident_TEXT_START/END markers — reproduces exactly 145, matching progress + the source defs).
+# Fresh-clone fallback (no build yet) stays --bootstrap and self-heals on the next run after a build.
+# h_exact is raw-byte SHA1 so it is format-independent — weighted_metrics is unaffected. R23-free.
 sig-resident:
-	$(VENV_PY) tools/sig_image.py --image $(resident_EXE) --vram-base $(resident_VRAM_BASE) --bootstrap --name resident
-	echo "sig-resident: signed the resident -> .run/sig.resident.jsonl (byte-derived, second-oracle-ready)"
+	elf="build/resident/resident.elf"
+	if [ -f "$$elf" ]; then
+		mipsel-linux-gnu-nm "$$elf" | awk '
+		  $$2=="T" { a=strtonum("0x" $$1); sym[$$3]=a; if (a%4==0) addr[a]=1 }
+		  END { lo=sym["resident_TEXT_START"]; hi=sym["resident_TEXT_END"];
+		        for (a in addr) if (a>=lo && a<hi) printf "0x%08X\n", a }' \
+		  | sort -u > .run/seeds.resident.txt
+		$(VENV_PY) tools/sig_image.py --image $(resident_EXE) --vram-base $(resident_VRAM_BASE) \
+		  --seeds .run/seeds.resident.txt --name resident
+		echo "sig-resident: signed the resident (ELF-seeded, $$(wc -l < .run/seeds.resident.txt) fns) -> .run/sig.resident.jsonl"
+	else
+		$(VENV_PY) tools/sig_image.py --image $(resident_EXE) --vram-base $(resident_VRAM_BASE) --bootstrap --name resident
+		echo "sig-resident: signed the resident (bootstrap fallback — re-run after a build for seeded boundaries)"
+	fi
 
 # sig-modules (P30 S44): sign every module-class binary at ITS OWN vram (from modules.mk) with its
 # own TEXT_LO (the §154 module-id-word law: code starts past the header; bootstrap from offset 0

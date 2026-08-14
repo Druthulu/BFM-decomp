@@ -11,13 +11,12 @@ a wrong draft can never be accepted. Chunk-with-bisection keeps it fast on high-
 The source .c is git-committed, so `git checkout` always recovers if interrupted.
 Resident defaults; pass flags for another binary.
 
-⚠️ RUN THIS AS A SCRIPT — NEVER `import` IT. There is no `if __name__ == '__main__'` guard: the
-whole gate lives at module level, so a bare `import harvest_verify` PARSES argv, RUNS A FULL BUILD
-against the default binary (resident), splices drafts, and OVERWRITES .run/harvest_{verified,failed,
-failed.classified}.txt. Found the hard way in P30 S43 while unit-testing classify_fail — the import
-alone ran a 13-draft resident gate. Nothing imports it today (checked), so this stays a documented
-hazard rather than a risky 500-line refactor of the project's most load-bearing gate; to test a
-helper here, exec that function's source (ast.get_source_segment) instead of importing the module.
+⚠️ RUN THIS AS A SCRIPT — NEVER `import` IT. The whole gate lives at module level (deliberately
+NOT refactored into main(): re-indenting the project's most load-bearing gate is riskier than the
+hazard). A bare `import harvest_verify` used to PARSE argv and RUN A FULL BUILD (found the hard way
+in P30 S43 — the import alone ran a 13-draft resident gate); since P31 T0 an import-guard below
+RAISES immediately instead, so the failure is loud and side-effect-free. To test a helper here,
+exec that function's source (ast.get_source_segment) instead of importing the module.
 
   python3 tools/harvest_verify.py            # resident
   python3 tools/harvest_verify.py --chunk 6
@@ -30,6 +29,13 @@ PY = '.venv/bin/python'
 
 import corpus   # the derived corpus oracle (Phase 26-A) — a draft's home TU is a FACT of the tree
 import cdecl    # the C-declaration oracle (Phase 26-A) — the per-TU typedef strip-set (T4)
+
+# P31 T0 import guard: the gate runs at module level by design (see docstring); importing must
+# fail LOUD before argv is parsed or any build runs, never execute a gate as a side effect.
+if __name__ != "__main__":
+    raise RuntimeError(
+        "harvest_verify.py is a CLI gate, not a library — run it as a subprocess "
+        "(its whole pipeline executes at module level; see the docstring)")
 
 ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
 ap.add_argument('--binary', default='resident')
