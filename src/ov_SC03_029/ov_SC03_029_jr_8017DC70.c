@@ -4020,7 +4020,14 @@ void func_8018288C(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_029/nonmatchings/ov_SC03_029_jr_8017DC70", func_801828C8);
+extern u16 D_80126B5E;
+extern void func_80182860(void*);
+void func_801828C8(void) {
+    if ((*(s16 *)&D_80126B5E) < 0xB60) {
+        ((void (*)(void))func_80182860)();
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_029/nonmatchings/ov_SC03_029_jr_8017DC70", func_801828F8);
 
