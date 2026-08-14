@@ -156,7 +156,20 @@ void func_801EDD1C(void) {
 }
 
 
-INCLUDE_ASM("asm/md_SC05_024/nonmatchings/md_SC05_024", func_801EDD3C);
+const Blk8 D_801ED994 = {{0xD5, 0xFF, 0x7E, 0xFF, 0xF5, 0xFE, 0x00, 0x00}};
+extern s32 func_80171D78(u32, void *);
+extern void func_80171A1C(void*);
+
+void func_801EDD3C(u32 arg0) {
+    Blk8 buffer;
+
+    buffer = D_801ED994;
+
+    if (func_80171D78(arg0, &buffer)) {
+        ((void (*)(u32))func_80171A1C)(arg0);
+    }
+}
+
 
 void func_801EDDA4(void) {
 }
