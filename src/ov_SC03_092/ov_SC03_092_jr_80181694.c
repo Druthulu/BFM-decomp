@@ -4613,7 +4613,22 @@ void func_8018423C(void *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_092/nonmatchings/ov_SC03_092_jr_80181694", func_80184324);
+extern int func_80178970(void);
+extern void func_800D1724(s32 a0);
+extern void func_80178D18(void);
+extern void func_80184040(void *a0);
+
+void func_80184324(s32 param) {
+    s32 local;
+
+    if (((s32 (*)(s32))func_80178970)(param) != 0) {
+        ((void (*)(s32))func_80178D18)(param);
+        local = *(s32*)(param + 0xDC);
+        func_800D1724(local);
+    }
+    ((void (*)(s32))func_80184040)(param);
+}
+
 
 /* func_80184370 — ov_SC03_092 (263 ins, jr-function).
  * Family twin of the BANKED exemplar func_80182FD4 (ov_SC02_028,
