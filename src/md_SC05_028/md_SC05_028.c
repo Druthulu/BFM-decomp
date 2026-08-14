@@ -1,6 +1,19 @@
 #include "common.h"
 
-INCLUDE_ASM("asm/md_SC05_028/nonmatchings/md_SC05_028", func_801ED99C);
+extern u8 *D_80126B10;
+extern u8 D_801EE394[];
+extern void func_80175414(s32 _arg0);
+void func_800167B8(int);
+
+int func_801ED99C(u8 *arg) {
+    extern u8 *D_80126B10;
+    D_80126B10 = D_801EE394;
+    func_800167B8(0);
+    ((void (*)(void))func_80175414)();
+    arg[0x15]++;
+    return 0;
+}
+
 
 
 extern s32 func_800167F0(s32 a0);
@@ -266,7 +279,34 @@ void func_801EE10C(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/md_SC05_028/nonmatchings/md_SC05_028", func_801EE148);
+extern s32 D_801EE408[];
+extern s32 D_801EE41C[];
+extern s32 D_801EE438[];
+extern s32 func_80029504(void);
+extern s32 func_80184A00(s32);
+extern s32 func_80184AD0(void);
+extern s32 func_80184B44(void);
+
+void func_801EE148(s32 a0) {
+
+    extern s32 D_801EE408[];
+    extern s32 D_801EE41C[];
+    extern s32 D_801EE438[];
+
+    s32 v1 = func_80029504();
+
+    if (v1 < 0xC8) {
+        s32 v0 = ((s32 (*)(void))func_80184A00)();
+        *(s32 *)(a0 + 0xE4) = D_801EE408[v0];
+    } else if (v1 < 0x384) {
+        s32 v0 = func_80184AD0();
+        *(s32 *)(a0 + 0xE4) = D_801EE41C[v0];
+    } else {
+        s32 v0 = func_80184B44();
+        *(s32 *)(a0 + 0xE4) = D_801EE438[v0];
+    }
+}
+
 
 
 
