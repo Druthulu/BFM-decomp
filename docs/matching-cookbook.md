@@ -16325,12 +16325,21 @@ best agent rate of any wave type — **→ 56 banked (57%)**, ≈ **80k tok per 
 per-member cousin card's 157k and a crack wave's 400k+. The agent notes are substitutions, not
 decompilations (`"src struct = D_801D0358"`; `"cb=func_8017FBA4; 0x12C, 0x4B0, 0x38E…"`).
 
-**⚠ The conversion gap, and the test before scaling.** 91% agent → 57% gate is the WORST conversion
-measured (the per-member cousin wave ran 81% → 92%). 14 of ~50 groups banked zero. **Hypothesis,
-not yet proven:** family-batched cards CONCENTRATE members into one destination TU by construction —
-precisely the §169 collision the spread law names, which held the 7a wave to 64%. **Re-gate the
-unbanked drafts ONE PER TU before scaling a batched A-prop wave**; if the spread law is the cause the
-same drafts bank, and the fix is to interleave families per gate batch rather than to redraft.
+**⚠ The conversion gap.** 91% agent → 57% gate is the WORST conversion measured (the per-member
+cousin wave ran 81% → 92%). 14 of ~50 groups banked zero.
+
+> ~~**Hypothesis, not yet proven:** family-batched cards CONCENTRATE members into one destination TU
+> by construction — precisely the §169 collision the spread law names, which held the 7a wave to 64%.
+> **Re-gate the unbanked drafts ONE PER TU before scaling a batched A-prop wave**; if the spread law
+> is the cause the same drafts bank, and the fix is to interleave families per gate batch rather than
+> to redraft.~~
+>
+> **STRUCK 2026-08-13 (S50) — REFUTED. Batching was never the discriminator (5-draft groups banked
+> 5/5; the two "concentrated" groups banked 12/12 and 10/10 once fixed). The cause was a STALE SEED
+> SYMBOL: `match_one` is blind to a relocation's target NAME, so a carried-over `D_8018xxxx` scores
+> MATCH standalone and dies at link. 23 of 24 banked after a mechanical rebase; A-prop's true
+> conversion is 87%, not 57%. See §171 — and note the test itself was never needed: the answer was
+> already sitting in `.run/harvest_failed.<binary>.classified.txt`.**
 
 **Three ops notes paid for on the head:** (1) `family_sweep --hseq` defaults to `--band substantial`,
 so tiny/mid families are silently OUT OF SCOPE — a "never attempted" verdict can be a band default,
@@ -16338,3 +16347,50 @@ not a difficulty (5 of 13 heads); (2) `dedup_extend` extends MACRO-backed groups
 INLINE def use `dedup_propagate --addr`; (3) that tool names its own blocker precisely
 (`missing file-scope extern (CARRY-FIXABLE): D_…`) — a data symbol the matched body's own TU never
 declares at file scope blocks every sibling until it is carried.
+
+## §171 — THE STALE SEED SYMBOL (P30 S50, 2026-08-13): why §170's 91%→57% was never codegen
+
+**§170 left one hypothesis open — that family-batched A-prop cards CONCENTRATE members into one
+destination TU and die of the §169 collision. It is REFUTED, by data that already existed and by a
+direct test.** Refuted three ways: (1) the recorded S49 verdicts show 5-draft single-TU groups
+banking **5/5** twice, and 4/4 twice — batch size was never the discriminator; (2) 11 of the 35
+unbanked drafts were **single-draft groups**, i.e. already gated one-per-TU, and all 11 classify
+`DIFF`; (3) after the real fix below, the two "concentrated" groups §170 blamed — 12 drafts and 10
+drafts into ONE `.c` each — banked **12/12 and 10/10**.
+
+**The real defect, and it is one line per draft.** A per-location data symbol (`D_8018xxxx` — a
+function-pointer table, a jump table, a state array) is part of the seed's **ENVIRONMENT, not its
+logic**. The adapt/A-prop lanes hand an agent a proven seed body plus a word-diff; the agent edits
+the logic and carries the seed's symbol across unrebased. Then:
+
+- **`match_one` scores it MATCH.** It compiles standalone and compares instruction ENCODINGS.
+  `%hi(D_seed)` and `%hi(D_target)` are the same instruction with a different relocation TARGET
+  NAME, and the scorer is blind to the name.
+- **The whole-binary gate kills it at LINK:** `undefined reference to 'D_80181900'`.
+
+Standalone-MATCH / host-TU-link-failure. That class was **24 of the 24** concentrated A-prop
+failures — the entire conversion gap. In the word-diff card the rename is visible only as an opaque
+**IMM** site (the low half of a `lui`/`lw` `%hi`/`%lo` pair), which is exactly the site class an
+agent reads as "an immediate to copy", not "a symbol to rebase".
+
+**Measured:** all 24 were 1:1 rewritable, every one at the same seed→target vram delta (`0x4128` —
+one binary's data section offset from the seed's). Rebased mechanically: **23/24 banked** (the 24th
+is a genuine `DIFF`). A-prop's real conversion is **56 → 79 of 91 = 87%**, not 57%; the agents'
+91% MATCH claim was very nearly right and the gap was ours.
+
+**Two tools, one primitive** (`tools/aprop_symfix.py`, imported by `family_cousins.py`):
+- **Post-hoc guard** — `aprop_symfix.py <slate.json> --fix` audits every draft's vram-suffixed
+  symbols against the symbols the TARGET's own `.s` relocates, rewrites the 1:1 cases, and emits a
+  `gate_lane`-shaped slate. Deterministic, no build, so it belongs BEFORE the gate, never after.
+- **Pre-hoc annotation** — `--aprop-cards` members now carry `sym_map`: the explicit
+  `{seed → member}` renames, computed from the seed's C BODY (a matched seed has no `.s` of its
+  own — it is compiled from C) versus the member's `.s`. It turns a puzzle into an instruction.
+
+This is R34 in one line: **`match_one` is a perfect codegen oracle and a NULL linkage oracle.** The
+symbol audit is the second oracle that can disagree with it, and it costs no build.
+
+**Two spellings, one bug, twice:** `sig_image` writes hex lowercase, splat writes it uppercase, and
+`seed_body_ref` builds `func_%08X`. Both defects found while wiring this (a NO_SEED_BODY on every
+macro seed, an AMBIGUOUS on every 1:1 rename) were case mismatches — the same class §128/R35 keeps
+naming. Compare function identities case-insensitively, and strip the `DEFINE_` prefix, or the
+seed's own name reads as a stale symbol.

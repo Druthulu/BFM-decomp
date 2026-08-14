@@ -181,7 +181,56 @@ stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical througho
 
 ---
 
-# 🛑 SESSION S49 CHECKPOINT — FINAL (2026-08-13) — FRESH SESSION SAFE HERE
+# 🛑 SESSION S50 CHECKPOINT (2026-08-13) — FRESH SESSION SAFE HERE
+> **Tree CLEAN** but for R23 `db.*.gbf` churn, a regenerable `.run/backlog.jsonl` edit, and two
+> stray `gccdump.*` cc1 dumps at the repo root — never stage any of them. **Nothing running.**
+> Gate: **`check-all` 213 passed / 0 failed of 213** from a CLEAN rebuild (`make clean &&
+> make extract-all && make check-all`, R22).
+> **Fleet: 95.2% instr · 89.9% distinct · 96.57% fn-count · INCLUDE_ASM stubs 12,445** (was
+> 12,468). **23 instances banked.** dedup 2,043/0. Cookbook **§171**; §170's open hypothesis
+> STRUCK. Decision-log entry filed (R31).
+
+## ✅ S50 T6/T7 — the S49 resume-block step 1 is CLOSED, and it closed by REFUTATION
+**The A-prop TU-spread test was never needed — the artifacts had already run it.** §170's
+hypothesis (family-batched cards concentrate members into one destination TU ⇒ the §169 collision)
+is **refuted three ways**: `gate_aprop1.json` shows 5-draft single-TU groups banking **5/5**;
+**11 of the 35** unbanked drafts were already single-draft groups (all classify `DIFF`); and after
+the real fix the two "concentrated" groups banked **12/12 and 10/10**.
+
+**The real cause (cookbook §171): the STALE SEED SYMBOL.** A per-location data symbol
+(`D_8018xxxx`) is the seed's ENVIRONMENT, not its logic. Carried out of a seed body unrebased it
+scores **MATCH in `match_one`** — which compares instruction ENCODINGS and is blind to a
+relocation's target NAME — and dies at link inside the host TU (`undefined reference`). It was
+**24 of the 24** concentrated A-prop failures, all 1:1 rewritable at one constant vram delta
+(`0x4128`). Rebased mechanically → **23/24 banked** (the 24th, `func_801659DC`, is a genuine DIFF).
+**A-prop's true conversion is 87% (79/91), not 57%.**
+
+**Shipped:** `tools/aprop_symfix.py` (audit + `--fix`, emits a `gate_lane`-shaped slate; no build,
+so it runs BEFORE the gate) · `family_cousins.py --aprop-cards` members now carry an explicit
+`sym_map` of `{seed → member}` renames, computed from the seed's C BODY (a matched seed has no `.s`
+of its own) vs the member's `.s` · SETUP row · cookbook §171 · decision-log.
+
+## ▶ RESUME HERE
+1. **The 320 batched A-prop members are re-priced and UNBLOCKED** — the 57% that held them back was
+   ours, not the lane's. Run the wave, and put `aprop_symfix --fix` in its verification step before
+   the gate. Regen chain first (the tools fail loud on a stale map, by design):
+   `tools/family_hseq.py` → `tools/family_cousins.py` → `--aprop-cards`.
+2. **The ≥16 head, still open:** the **`D_801ED98C` carry fix** (one missing file-scope extern gates
+   **83 PURE members** — `dedup_propagate` names it itself) · **`func_8017C294`** (×16, 246 ins,
+   NEAR at 2 instructions after three seeded attempts — the board's biggest single crack and free
+   permuter fuel).
+3. **12 A-prop drafts stay genuine `DIFF`** (11 singletons + `func_801659DC`) — redraft/permuter
+   fuel, not recovery fuel.
+
+## 🔑 THE ONE THING TO CARRY FORWARD
+**Before designing an experiment to explain a failure rate, grep the failure verdicts the tools
+already wrote.** §169's own law ("read the classified file before theorising") was written for this
+and was not applied to the sibling lane; `harvest_failed.<binary>.classified.txt` named the cause
+verbatim, eleven times over, while the checkpoint called for a multi-hour measurement campaign.
+Second: **`match_one` is a perfect codegen oracle and a NULL linkage oracle** — the symbol audit is
+the R34 second oracle for the one class it cannot see, and it costs no build.
+
+# ▶ (superseded by S50) SESSION S49 CHECKPOINT — FINAL (2026-08-13)
 > **Tree CLEAN** but for R23 `db.*.gbf` churn + a regenerable `.run/backlog.jsonl` edit — never
 > stage either. **Nothing running.** 179 commits this session (`commit:1776`..`commit:1891`).
 > Gate at close: **`check-all` 213 passed / 0 failed of 213** from a CLEAN rebuild (R22 run **5×**

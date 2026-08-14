@@ -2318,3 +2318,40 @@ DEBUG-MENU-LIST was the session's force multiplier. (2) Negative results with ev
 product: six payloads now carry "never loads in X/Y/Z" instead of "unknown". (3) The write-API
 no-op control was a real R35 miss — verify instruments with a VISIBLE effect. (4) R22 catching
 md_MAIN_003 three times in one evening is the rule working exactly as designed.
+
+## 2026-08-13 (P30 S50) — the A-prop conversion gap: the experiment the artifacts had already run
+
+**Context and belief.** S49's closing checkpoint made one thing the session's first job, on the
+grounds that it "prices everything else": re-gate the 42 (truly 35) unbanked A-prop drafts ONE PER
+TU, to test §170's hypothesis that family-batched cards concentrate members into a single
+destination TU and die of the §169 collision. 320 further batched members — roughly 15M tokens of
+wave — were explicitly held behind that measurement. The belief was that A-prop's 91%-agent /
+57%-gate conversion was an integration-topology problem.
+
+**What failed.** The hypothesis, and the framing that made it look like it needed an experiment.
+Three artifacts already in `.run/` answered it: `gate_aprop1.json` records **5-draft single-TU
+groups banking 5/5** (batch size is not the discriminator); **11 of the 35** unbanked drafts were
+already single-draft groups, i.e. the proposed test had already been run on them; and
+`harvest_failed.ov_SC03_107.classified.txt` names the actual failure verbatim — `PLUMBING:
+undefined reference to 'D_80181900'`, eleven times. §169's own law ("read the classified file
+before theorising about any sweep failure") was written for exactly this and was not applied to the
+sibling lane.
+
+**The pivot.** Diagnose from the recorded verdicts first; run the experiment only for what they do
+not answer. A 40-line static audit — compare each draft's vram-suffixed symbols against the symbols
+the target's own `.s` relocates — classified all 35 in under a second: **24 stale-seed-symbol, 11
+genuine DIFF**, zero ambiguity. One probe banked, then 22 of the remaining 23.
+
+**Why (byte-grounded).** A per-location data symbol is the seed's ENVIRONMENT, not its logic.
+`match_one` compares instruction encodings and is blind to a relocation's target NAME, so a carried
+symbol scores MATCH standalone and fails at link inside the host TU. A-prop's real conversion is
+**87% (79/91)**, not 57% — the lane was never the problem, and the 320 held-back members are worth
+substantially more than they were priced at.
+
+**Hindsight — the better path.** The cheap deterministic audit should have been part of the wave's
+verification step from the start: it needs no build, it is the second oracle (R34) for the one class
+`match_one` structurally cannot see, and it would have converted these 24 in S49 instead of leaving
+them to be re-measured a session later. Generalized rule: **before designing an experiment to
+explain a failure rate, grep the failure verdicts the tools already wrote** — and when a checkpoint
+declares a test the top priority, that is a hypothesis with a plan attached, not a finding (R14/R35
+applied to my own handoff notes).

@@ -39,6 +39,7 @@ from difflib import SequenceMatcher
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import corpus
+import aprop_symfix as ASF
 import family_remap as FR
 
 FAMILY_MAP = ".run/family_hseq.json"
@@ -400,6 +401,34 @@ def _disasm(words, base_vram):
         return ["?"] * len(words)
 
 
+def sym_map(seed_body, seed_name, member_asm, member_name):
+    """The per-location symbol renames an adapting agent MUST apply — or a loud status.
+
+    S50 (cookbook §171). A per-location data symbol (`D_8018xxxx` — a function-pointer table, a
+    jump table) is part of the seed's ENVIRONMENT, not its logic. Carried into a sibling
+    unrebased it survives `match_one` — which compares instruction ENCODINGS and is blind to a
+    relocation's target NAME — and then dies at link with `undefined reference`. Standalone
+    MATCH, host-TU link failure: that single class was 24 of 24 of the concentrated A-prop gate
+    failures in S49, the whole 91%-agent-vs-57%-gate delta.
+
+    In the word-diff card such a rename appears only as an opaque IMM site (the low half of a
+    `lui`/`lw` %hi/%lo pair). Naming it turns a puzzle into an instruction."""
+    # R35: `sig_image` spells names in lowercase hex, `seed_body_ref` in uppercase — try both
+    # spellings or every macro-bodied seed silently reports NO_SEED_BODY.
+    txt = None
+    for nm in (seed_body.get("name"), seed_name):
+        txt = txt or (ASF.body_text(seed_body.get("path"), nm) if nm else None)
+    if txt is None:
+        return dict(status="NO_SEED_BODY", renames=[])
+    st, stale, asm_only = ASF.diff_syms_text(txt, member_asm, member_name,
+                                             ignore=(seed_name, seed_body.get("name")))
+    if st == 'STALE':                      # 1:1 — the mechanically-safe, agent-actionable case
+        return dict(status="ok", renames=[dict(seed=stale[0], member=asm_only[0])])
+    if st == 'AMBIGUOUS':                  # R32: fail loud rather than align garbage
+        return dict(status="AMBIGUOUS", renames=[], seed_only=stale, member_only=asm_only)
+    return dict(status=st, renames=[])
+
+
 def emit_adapt_cards():
     """Per open member of a SEEDED unit, classify drift vs the seed's token stream and emit a
     micro-adapt card for the LI-ONLY / SMALL-EDIT classes (the ~1,100-member wave-7a pool).
@@ -532,7 +561,9 @@ def emit_aprop_cards(only=None, limit_members=0):
                                   seed=f"0x{s:08x}", seed_dis=_disasm([s], sa + 4 * i)[0]))
             members.append(dict(name=name, binary=b, addr=f"0x{a:08x}", sub=sub,
                                 n_sites=len(sites), sites=sites[:40],
-                                kinds=dict(collections.Counter(x["kind"] for x in sites))))
+                                kinds=dict(collections.Counter(x["kind"] for x in sites)),
+                                sym_map=sym_map(sbody, sname,
+                                                corpus.asm_path(b, name), name)))
         if not members:
             continue
         if limit_members:
