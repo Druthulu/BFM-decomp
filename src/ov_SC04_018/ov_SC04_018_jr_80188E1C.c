@@ -2933,7 +2933,7 @@ extern void func_80183AA4(short *a0);
 extern void func_80183AD0(s32 a0);
 extern s32 func_80183B10(void);
 extern void func_80183B4C(void *arg0);
-extern s32 func_801839A8(void *a0);
+extern s32 func_801839A8();
 extern void func_80183B8C(int param_1);
 extern s32 func_80183D80(void *a0);
 extern void func_80183DF4(void * arg0);
