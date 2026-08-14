@@ -6402,12 +6402,7 @@ void func_80182C98(void *a0) {
 INCLUDE_ASM("asm/ov_SC04_018/nonmatchings/ov_SC04_018_jr_8017AE2C", func_80182CD4);
 
 
-extern s32 D_801D7E84;
-extern s32 D_801D6C98;
-
-void func_80182D0C(void) {
-    D_801D6C98 = D_801D7E84;
-}
+DEFINE_func_80182D0C()  /* dedup: shared engine-core @0x80182D0C (src/shared) */
 
 
 
