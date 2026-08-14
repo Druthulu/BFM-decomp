@@ -16395,6 +16395,25 @@ macro seed, an AMBIGUOUS on every 1:1 rename) were case mismatches — the same 
 naming. Compare function identities case-insensitively, and strip the `DEFINE_` prefix, or the
 seed's own name reads as a stale symbol.
 
+**§171-D — STALE-DELTA: the 1:1 rule generalized to n:n (P31 T1, 2026-08-14).** The S50 fix
+handled exactly one stale symbol ↔ one target symbol; everything n:m was AMBIGUOUS-refused. But a
+seed's data cluster moves to the target overlay AS A BLOCK, so when the counts are EQUAL, every
+symbol on both sides is vram-addressed, and the sorted-by-address zip has exactly ONE uniform
+(target − draft) delta, the pairing is forced and `aprop_symfix` now rewrites it as `STALE-DELTA`
+(n pairs, per-pair substitution proved, sequential `re.subn` safe because stale ∩ asm_only = ∅).
+Anything else — count mismatch, a non-addressed name (`MoveImage`) on either side, per-pair deltas
+that disagree by even 4 — stays AMBIGUOUS. Measured on its first live batch (the 11 `undefined
+reference to D_*` failures from the match108 never-gated set): 4 classified STALE-DELTA, **4/4
+banked** (`func_8016BCC0` Δ−0x65450, `func_8017F1C8` Δ+0x13FC0, `func_80186BD8` Δ+0x165A0,
+`func_80186BF8` Δ+0x16590); the uniform-delta test correctly refused `func_80186C1C`, whose two
+deltas differ by 4 — a hand-check had wrongly called it fixable, the rule was right. R39 negative
+controls: synthetic probes (1:1 unchanged, uniform→DELTA, non-uniform/non-addressed/count-mismatch
+→AMBIGUOUS) plus a classification-equality re-audit of the S50 snapshot over still-stub rows (zero
+non-world-motion changes). Note the world-motion classes when re-auditing old snapshots: banked
+fns read NO_ASM (stub gone), and STALE can decay to *clean* when a sibling's bank DEFINES the
+once-missing symbol — 9 such drafts became gateable for free here (0 banked on re-gate, though:
+stored drafts still re-gate at the ~8% A10 law, 0/23 this batch).
+
 ## §171a — THE MECHANICAL A-PROP DRAFT (P30 S50): 256 members banked with no agent in the loop
 
 **The claim.** A lane-A member shares its family's `h_seq` with a MATCHED sibling, so its body IS

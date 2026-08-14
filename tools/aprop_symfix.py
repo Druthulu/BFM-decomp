@@ -154,7 +154,23 @@ def diff_syms_text(c_text, asm_path, self_name, ignore=()):
         # rebase — measured across the whole wave-7a/7b residue, this is every non-clean case there.
         return 'local-only', stale, []
     # 1:1 is the mechanically-safe case (one seed symbol, one target symbol to take its place).
-    return ('STALE' if len(stale) == 1 and len(asm_only) == 1 else 'AMBIGUOUS'), stale, asm_only
+    if len(stale) == 1 and len(asm_only) == 1:
+        return 'STALE', stale, asm_only
+    # P31 T1 — STALE-DELTA (the S50 single-delta rule generalized to n:n, §171b-3 analog): both
+    # sides all vram-addressed, counts equal, and the sorted-by-address zip has exactly ONE uniform
+    # (target − draft) delta. The uniform delta is the safety condition: a seed's data cluster moves
+    # to the target overlay as a block, so per-pair deltas that DISAGREE mean these are not the same
+    # cluster and we refuse to guess (stays AMBIGUOUS). Returned lists are re-sorted by address so
+    # the fix path can zip them positionally.
+    def _addr(s):
+        return int(s[-8:], 16) if re.search(r'_?8[0-9A-Fa-f]{7}$', s) else None
+    if len(stale) == len(asm_only) >= 2:
+        da, aa = [_addr(s) for s in stale], [_addr(s) for s in asm_only]
+        if all(x is not None for x in da + aa):
+            ds, asrt = sorted(zip(da, stale)), sorted(zip(aa, asm_only))
+            if len({a0 - d0 for (d0, _), (a0, _) in zip(ds, asrt)}) == 1:
+                return 'STALE-DELTA', [s for _, s in ds], [s for _, s in asrt]
+    return 'AMBIGUOUS', stale, asm_only
 
 
 def audit_one(fn, binary, draft):
@@ -199,23 +215,31 @@ def main():
 
     slate, deltas = [], collections.Counter()
     for x in rows:
-        if x['status'] != 'STALE':
+        if x['status'] not in ('STALE', 'STALE-DELTA'):
             continue
-        old, new = x['stale'][0], x['asm_only'][0]
+        # STALE = one pair; STALE-DELTA = n pairs, both lists address-sorted by the classifier.
+        # stale ∩ asm_only = ∅ by construction, so sequential re.subn cannot chain-rename.
+        pairs = list(zip(x['stale'], x['asm_only']))
         txt = open(x['draft']).read()
-        fixed, n = re.subn(rf'\b{re.escape(old)}\b', new, txt)
-        if n == 0:  # R32: prove the edit ran (R37) rather than assuming it did
-            print(f"  !! {x['fn']}: 0 substitutions of {old} — skipped")
+        ok, tags = True, []
+        for old, new in pairs:
+            txt, n = re.subn(rf'\b{re.escape(old)}\b', new, txt)
+            if n == 0:  # R32: prove the edit ran (R37) rather than assuming it did
+                print(f"  !! {x['fn']}: 0 substitutions of {old} — draft skipped")
+                ok = False
+                break
+            tags.append(f"{old}->{new}")
+            deltas[int(new[-8:], 16) - int(old[-8:], 16)] += 1
+        if not ok:
             continue
         d = os.path.join(a.outdir, x['fn'])
         os.makedirs(d, exist_ok=True)
         p = os.path.join(d, f"{x['fn']}.c")
-        open(p, 'w').write(fixed)
-        deltas[int(new[2:], 16) - int(old[2:], 16)] += 1
+        open(p, 'w').write(txt)
         slate.append(dict(fn=x['fn'], binary=x['binary'], sub=x['sub'], draft=p,
-                          rebased=f"{old}->{new}", subs=n))
+                          rebased=", ".join(tags), subs=len(tags)))
     json.dump(slate, open(a.out_slate, 'w'), indent=1)
-    print(f"\nrebased {len(slate)}/{cls['STALE']} STALE drafts -> {a.outdir}")
+    print(f"\nrebased {len(slate)}/{cls['STALE'] + cls['STALE-DELTA']} STALE(-DELTA) drafts -> {a.outdir}")
     print(f"seed->target vram deltas: {[(hex(k), v) for k, v in deltas.items()]}")
     print(f"gateable slate: {a.out_slate}")
 

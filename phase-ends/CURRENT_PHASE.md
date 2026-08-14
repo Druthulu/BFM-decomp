@@ -11,7 +11,7 @@ Instead of roadmap-v2 P31's per-function grind, Phase 31 organizes the 12,059 re
 ## Task checklist
 
 - [x] **T0 — Pivot log + freshness + hygiene** — DONE 2026-08-14. (xHigh)
-- [ ] **T1 — Integration quick-bank sweep**: MATCH-75 + fix20/match108/immfix slates (re-filtered, fresh match_one) via recover_integration; backlog close=0 re-gate. (xHigh)
+- [x] **T1 — Integration quick-bank sweep** — DONE 2026-08-14 (pending final R22 log line). **8 banked, 0 agent tokens.** (xHigh)
 - [ ] **T2 — References**: PsyQ Track-1 `SAMPLE/` extraction → tools/reference/psyq-sdk/; gcc-2.7.2 calls.c + caller-save.c; SETUP rows; idiom-notes seed. (xHigh)
 - [ ] **T3 — Main enablement**: sig-main (seed-ends + s_ins_count + fatal word cross-check); family_remap main streams (0x8000F800). (xHigh)
 - [ ] **T4 — atlas_features.py**: per-fn features memoized per h_exact → .run/feat.<bin>.jsonl ×213; join/determinism/cross-check verifies. (xHigh)
@@ -31,8 +31,16 @@ R22 clean-fleet **213/213** after every banked batch · tools-health green · 0 
 - 2026-08-14 — Phase planned and approved (3 Explore + 2 Plan agents; full design in the plan file). Task list built (harness tasks #1–#12). T0 started.
 - 2026-08-14 — **T0 COMPLETE.** (1) R31 decision-log entry (the re-charter WHY + R37–R39 ratification). (2) `harvest_verify.py` import guard: a bare import now RAISES instead of running a gate (verified both directions; CLI behavior unchanged). (3) **Resident ±1 RESOLVED + FIXED**: `--bootstrap`'s linear partition had fused the +0 data word with `func_800CEDFC` (row `0x800CEDF8` nins=18) and dropped `func_800D33E0` past a glued tail — the true denominator is **145** (progress was right, the sig wrong). `sig-resident` now ELF-seeds (S45 pattern: unique 4-aligned T-symbol addrs inside the `resident_TEXT_START/END` markers → exactly 145; bootstrap fresh-clone fallback). All three oracles now agree (sig 145 · corpus matched 131 · progress byte-ident 131); `audit-corpus` 0 PHANTOM + 0 TRUNCATED. (4) Family maps regenerated at HEAD `commit:2161`: **11,025 open non-main members = 12,059 − main's 1,034 EXACT** (the stale map's 102 phantoms cleared); cousins totals now A-prop 1,125 / seeded 1,293 / cousin-multi 5,373 / cold 3,234 inst; adapt cards 704, aprop cards **204 (full emission)**. (5) **Main fuel gap is DEAD**: 2,001/2,002 main stubs have cached Ghidra-C (only `func_80049600` missing) — the roadmap's "0/2,096" note was stale. (6) `make tools-health` → OK (dedup 2,063/0; C1 254,521/254,521; audit-digest confirms the fleet digest; resident fix moved instr num+denom by the same +9).
 
+- 2026-08-14 — **T1 COMPLETE: 8 banked for 0 agent tokens.** R38-first: partitioned the MATCH-108 pile against current stubs (75 still open) and against the S50 gate history (62 gated-and-failed with verdicts · 13 never-gated). The lanes and their measured outcomes:
+  - **Never-gated 13** → gate_lane: 0/13, but the verdicts decomposed to 11× `undefined reference to D_*` = the §171 stale-seed-symbol class. **Extended `aprop_symfix` with STALE-DELTA** (n:n uniform-delta rebase; R39 synthetic + snapshot NCs, zero false positives; the delta test even refused a pair my hand-check wrongly accepted) → 4 rebased, **4/4 banked** (`func_8016BCC0`, `func_8017F1C8`, `func_80186BD8`, `func_80186BF8`). Cookbook **§171-D** written in-session.
+  - **SELF-decl PLUMBING 7** → `recover_integration --stages demacroize --max-tier binary`: **4/7 banked** (`func_80139BE0`, `func_8014ED28`, `func_80161D88`, `func_801659DC`); 3 stay near.
+  - **Stored-draft re-gates** (no-verdict 7 + close=0 8 + diff 1 + 9 STALE→clean world-motion drafts): **0/23-ish banked** — the ~8% A10 stored-verdict law held again; all re-verdicted fresh.
+  - **Handed forward with fresh classifications**: CALLEE-decl 15 + CC1-FAIL 14 → T6 (cast-callees/tu-scope stages); UNDEF-DATA/OTHER 9 → the §171b-1 data-definition carry (T7/T8); md CARVE-REFUSED 8 → campaign side-quest ledger. immfix pile: fully consumed (0 open). fix20: 19/20 consumed in S50.
+  - Tool fixes landed: `gate_lane` propagate-commit tag now derives from GATE_PHASE (was hardcoded phase-30 S49).
+  - Rate lesson for the velocity ledger: fresh-fix lanes (STALE-DELTA 4/4, demacroize 4/7) vastly outperform blind stored re-gates (0/23) — the campaign loop's L2 ordering is confirmed by measurement.
+
 ## Blockers
 (none)
 
 ## 🛑 SESSION CHECKPOINT
-T0 committed; NEXT = T1 (integration quick-bank sweep: MATCH-75 + fix20/match108/immfix slates re-filtered via corpus.stubs + fresh match_one → recover_integration per binary; backlog close=0 re-gate last; R22 213/213 after banks). If resuming fresh: read the approved plan file above, then start T1.
+T0+T1 done (commits through the t6-recover gates; T1 close commit pending the R22 run). NEXT = T2 (reference expansion: PsyQ Track-1 SAMPLE/ extraction → tools/reference/psyq-sdk/; gcc-2.7.2 calls.c + caller-save.c fetch; SETUP rows; idiom-notes seed). If resuming fresh: read the approved plan file above; check .run/t1_r22_check.log for the fleet verdict; then start T2.

@@ -63,7 +63,8 @@ for fn in banked:
     r=subprocess.run([".venv/bin/python","tools/dedup_propagate.py","--addr",addr],
                      capture_output=True,text=True)
     if dirty():
+        tag=os.environ.get("GATE_PHASE","decomp")   # P31 T1: was hardcoded "phase-30 S49"
         subprocess.run("git add src/ config/",shell=True)
-        subprocess.run(f'git commit -q -m "feat(phase-30 S49): propagate {fn} (adapt lane)"',shell=True)
+        subprocess.run(f'git commit -q -m "feat({tag}): propagate {fn} (gate lane)"',shell=True)
         print(f"  prop {fn}: committed", flush=True)
 print("DONE", flush=True)
