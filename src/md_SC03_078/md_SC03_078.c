@@ -1,7 +1,20 @@
 #include "common.h"
 #include "../shared/engine_core.h"
 
-INCLUDE_ASM("asm/md_SC03_078/nonmatchings/md_SC03_078", func_801EF47C);
+extern u8 *D_80126B10;
+extern u8 D_801EFE3C[];
+extern void func_80175414(s32 _arg0);
+void func_800167B8(int);
+
+int func_801EF47C(u8 *arg) {
+    extern u8 *D_80126B10;
+    D_80126B10 = D_801EFE3C;
+    func_800167B8(0);
+    ((void (*)(void))func_80175414)();
+    arg[0x15]++;
+    return 0;
+}
+
 
 
 DEFINE_func_801EF4D4()  /* dedup: shared engine-core @0x801EF4D4 (src/shared) */
@@ -11,7 +24,25 @@ DEFINE_func_801EF4D4()  /* dedup: shared engine-core @0x801EF4D4 (src/shared) */
 DEFINE_func_801EF4F8()  /* dedup: shared engine-core @0x801EF4F8 (src/shared) */
 
 
-INCLUDE_ASM("asm/md_SC03_078/nonmatchings/md_SC03_078", func_801EF544);
+    extern s32 func_800D1E28(void);
+    extern void func_8002D4C8(s32, s32);
+    extern s32 func_8001BFD0(void);
+    extern s32 func_800291B4(s32);
+    extern s32 func_800D0C48(s32);
+    s32 func_801EF544(s32 param_1) {
+        if ((*(s32 *)(param_1 + 0x28) = *(s32 *)(param_1 + 0x28) - 1) == -1) {
+            func_800D1E28();
+            ((s32 (*)(s32, s32))func_8002D4C8)(0x1C, 0);
+            func_8001BFD0();
+            if ((func_800291B4(0xCE) & 0xFF) == 0) {
+                ((s32 (*)(s32, s32))func_8002D4C8)(0x1D, 0);
+                func_800D0C48(1);
+            }
+            *(u8 *)(param_1 + 0x15) = *(u8 *)(param_1 + 0x15) + 1;
+        }
+        return 0;
+    }
+
 
 DEFINE_func_801EF5D4()  /* dedup: shared engine-core @0x801EF5D4 (src/shared) */
 
