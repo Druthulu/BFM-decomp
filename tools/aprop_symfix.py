@@ -61,16 +61,26 @@ def body_in_text(txt, name):
     whole-file scan would drag every OTHER function's symbols into the comparison and drown the
     signal, so callers annotating a SEED must pass through here."""
     txt = _strip_comments(txt)
-    # Column-0 first (a file's definitions start there). The INDENTED fallback exists for a
-    # de-macroized DEFINE_ block, whose lines are all indented — but an indented `func_X(` is far
-    # more often a CALL, so that form must be confirmed by a `{` with no `;` before it.
-    m = (re.search(rf'\bDEFINE_{re.escape(name)}\s*\(', txt) or
-         re.search(rf'^[A-Za-z_][^\n=;]*\b{re.escape(name)}\s*\(', txt, re.M))
+    # EVERY candidate must be confirmed a DEFINITION by a `{` with no `;` before it. Column-0 first
+    # (a file's definitions start there), then indented — a de-macroized DEFINE_ block is entirely
+    # indented, while an indented `func_X(` in a file is far more often a call.
+    #
+    # The `;` test is not optional on either. A seed file that opens with
+    #   `extern void func_8017D290(s32, s16 *);`
+    # followed by the definition of a DIFFERENT function handed back that other function's body —
+    # silently, and the draft then defined the wrong thing. build_draft's own assert caught it
+    # ("no definition of the member after rename"), which is why this surfaced as 48 skips rather
+    # than as a wrong bank; but the skips were the SYMPTOM and this is the defect.
+    m = re.search(rf'\bDEFINE_{re.escape(name)}\s*\(', txt)
     if not m:
-        for cand in re.finditer(rf'^[ \t]*[A-Za-z_][^\n=;]*\b{re.escape(name)}\s*\(', txt, re.M):
-            i = txt.find('{', cand.start())
-            if i >= 0 and ';' not in txt[cand.end():i]:
-                m = cand
+        for pat in (rf'^[A-Za-z_][^\n=;]*\b{re.escape(name)}\s*\(',
+                    rf'^[ \t]*[A-Za-z_][^\n=;]*\b{re.escape(name)}\s*\('):
+            for cand in re.finditer(pat, txt, re.M):
+                i = txt.find('{', cand.start())
+                if i >= 0 and ';' not in txt[cand.end():i]:
+                    m = cand
+                    break
+            if m:
                 break
     if not m:
         return None

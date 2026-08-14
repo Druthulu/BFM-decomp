@@ -84,6 +84,43 @@ def seed_body(sb, seed_name, header="src/shared/engine_core.h"):
     return None, "", sb["kind"]
 
 
+def dlabel_bytes(asm_path, sym):
+    """The bytes of `sym` when it is DEFINED INSIDE the member's own nonmatchings .s — data that
+    vanishes the moment the INCLUDE_ASM stub is replaced. Such a symbol must be DEFINED in the
+    draft (with the member's OWN bytes, which differ per location), never merely declared extern.
+    Byte-proven on func_801EDC18 x4, whose four siblings each carry their own const."""
+    if not asm_path or not os.path.exists(asm_path):
+        return None
+    m = re.search(rf'^dlabel {re.escape(sym)}\b(.*?)^enddlabel {re.escape(sym)}\b',
+                  open(asm_path).read(), re.M | re.S)
+    if not m:
+        return None
+    out = b''
+    for w in re.findall(r'\.word\s+(0x[0-9A-Fa-f]+)', m.group(1)):
+        out += int(w, 16).to_bytes(4, 'little')
+    for b in re.findall(r'\.byte\s+([^\n]+)', m.group(1)):
+        out += bytes(int(x, 0) for x in b.split(',') if x.strip())
+    return out or None
+
+
+def data_def_for(sym, new_sym, seed_text, data):
+    """The seed's DEFINITION of `sym`, renamed and re-initialised with this member's bytes.
+
+    Only the flat-byte-list shape is handled: the substitution must be provably byte-for-byte, and
+    a partially-understood initializer silently mis-initialised is exactly the failure the gate
+    would catch but nobody would explain."""
+    m = re.search(rf'^[ \t]*((?:const\s+|static\s+|volatile\s+)*[A-Za-z_]\w*[\s\*]+)'
+                  rf'{re.escape(sym)}\b(\s*\[[^\]]*\])?\s*=\s*([^;]+);', seed_text, re.M)
+    if not m:
+        return None
+    lits = re.findall(r'0x[0-9A-Fa-f]{1,2}\b', m.group(3))
+    if len(lits) != len(data):
+        return None
+    it = iter(data)
+    init = re.sub(r'0x[0-9A-Fa-f]{1,2}\b', lambda _: f"0x{next(it):02X}", m.group(3))
+    return f"{m.group(1).strip()} {new_sym}{m.group(2) or ''} = {init};".replace("static ", "")
+
+
 def decl_for(sym, seed_text):
     """A file-scope declaration for `sym` taken from the SEED's own TU, normalised to an `extern`.
 
@@ -100,6 +137,48 @@ def decl_for(sym, seed_text):
         return f"extern {m.group(1).strip()} {sym}{m.group(2) or ''};".replace("static ", "")
     m = re.search(rf'^[ \t]*[A-Za-z_][\w \*]*\b{re.escape(sym)}\s*\([^;{{]*\)\s*;', seed_text, re.M)
     return m.group(0).strip() if m else None
+
+
+TYPES_H = "src/shared/engine_types.h"
+
+
+def typedef_block(text, name):
+    """The FULL (possibly multi-line) `typedef struct {...} NAME;` for NAME, brace-matched.
+
+    The shared types (`MATRIX`, `SVECTOR`, …) live in engine_types.h, which the `md_*` TUs do not
+    include — the `ov_*` ones reach them through engine_core.h. A draft using one in an md module
+    dies as `parse error before 'm1'`, which is what 4 of the 9 func_8017D290 members did."""
+    m = re.search(rf'^[ \t]*typedef\s+(?:struct|union|enum)\b[^\n]*?\{{', text, re.M)
+    for m in re.finditer(r'^[ \t]*typedef\s+(?:struct|union|enum)\b[^;{]*\{', text, re.M):
+        i = text.index('{', m.start())
+        depth = 0
+        for j in range(i, len(text)):
+            if text[j] == '{':
+                depth += 1
+            elif text[j] == '}':
+                depth -= 1
+                if depth == 0:
+                    end = text.find(';', j)
+                    blk = text[m.start():end + 1]
+                    if re.search(rf'\}}\s*{re.escape(name)}\s*;\s*$', blk):
+                        return blk
+                    break
+    return None
+
+
+def shared_types_for(body, dest_text):
+    """Shared typedefs the body NAMES, the destination lacks, and engine_types.h defines."""
+    if not os.path.exists(TYPES_H):
+        return []
+    types = open(TYPES_H).read()
+    out = []
+    for m in re.finditer(r'\}\s*([A-Za-z_]\w*)\s*;', types):
+        n = m.group(1)
+        if re.search(rf'\b{re.escape(n)}\b', body) and not re.search(rf'\b{re.escape(n)}\b', dest_text):
+            blk = typedef_block(types, n)
+            if blk and blk not in out:
+                out.append(blk)
+    return out
 
 
 def typedefs_for(body, seed_text, dest_text):
@@ -122,7 +201,7 @@ def typedefs_for(body, seed_text, dest_text):
 
 
 def build_draft(body, seed_name, member_name, renames, seed_text, dest_text,
-                already_self_contained=False):
+                already_self_contained=False, member_asm=None):
     """-> (draft_text, skipped_reason). Renames are applied SIMULTANEOUSLY (one pass), so a chain
     like D_A->D_B, D_B->D_C can never cascade."""
     keys = sorted((k for k in renames if k != seed_name), key=len, reverse=True)
@@ -147,6 +226,13 @@ def build_draft(body, seed_name, member_name, renames, seed_text, dest_text,
         if s == member_name:
             continue
         old = next((k for k, v in renames.items() if v == s), s)
+        data = dlabel_bytes(member_asm, s)
+        if data is not None:
+            d = data_def_for(old, s, seed_text, data)
+            if d is None:
+                return None, f"data lives in the member's own .s and its initializer is not a flat byte list: {s}"
+            decls.append(d)
+            continue
         d = decl_for(old, seed_text)
         if d is None:
             # No decl in the seed — but if the DESTINATION already declares it, none is needed.
@@ -163,7 +249,8 @@ def build_draft(body, seed_name, member_name, renames, seed_text, dest_text,
         # R32: a draft missing a declaration is a KNOWN-BAD draft. Don't spend a build on it.
         return None, "no seed decl for " + ",".join(missing[:3])
 
-    pre = typedefs_for(new_body, seed_text, dest_text) + sorted(set(decls))
+    pre = (shared_types_for(new_body, dest_text)
+           + typedefs_for(new_body, seed_text, dest_text) + sorted(set(decls)))
     return "\n".join(pre) + "\n\n" + new_body + "\n", None
 
 
@@ -234,7 +321,8 @@ def main():
                 member_body = FR.apply_remap(member_body, imm_map)
             draft, why = build_draft(member_body, sb.get("name") or seed["name"],
                                      m["name"], ren, seed_text, dest,
-                                     already_self_contained=False)
+                                     already_self_contained=False,
+                                     member_asm=corpus.asm_path(m["binary"], m["name"]))
             if draft is None:
                 skip[why.split(" for ")[0]] += 1
                 continue

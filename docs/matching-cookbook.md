@@ -16444,3 +16444,36 @@ silently: **C89 `f()` declares UNSPECIFIED parameters, not zero** — so `decl 0
 conflict at all — and a member's own definition read as a call to itself. A pre-check that discards
 good drafts is worse than one that lets a few builds fail; when in doubt make it CONSERVATIVE
 (flag only `decl > call`, on named parameters).
+
+## §171b — THREE CARRIES THE MECHANICAL DRAFT NEEDS (P30 S50, banking the top-reach families)
+
+Working the frontier's top three families end-to-end exposed three carries a seed-body draft needs
+beyond the symbol rebase. Each was found by reading a single compiler verdict, and each generalises.
+
+**1. DATA DEFINED INSIDE THE MEMBER'S OWN `.s` must be DEFINED, not declared.** When a symbol's
+bytes live between `dlabel`/`enddlabel` in the very `.s` the draft replaces, an `extern` links to
+nothing — the data vanishes with the stub. Emit the seed's definition re-initialised with **this
+member's own bytes**: they differ per location (the `0x801F1CD8` family carries four distinct
+8-byte patterns across 42 members). Substitute only when the initializer is a flat byte list whose
+count matches, and refuse otherwise — a partially-understood initializer silently mis-initialised
+is a failure the gate catches but nobody can explain. *Verdict that names it:* `undefined reference
+to 'D_…'` on a symbol that visibly exists in the binary's asm.
+
+**2. SHARED TYPES the destination cannot see.** `MATRIX`, `SVECTOR` and friends live in
+`engine_types.h`, which `ov_*` TUs reach through `engine_core.h` and **`md_*` TUs do not include at
+all**. A draft using one in an md module dies as `parse error before 'm1'` — 4 of the 9
+`0x8017D290` members, and the only thing between them and a bank. Carry the brace-matched typedef
+block, vetoed by the destination (re-declaring a type it already has is a hard C89 error).
+
+**3. A POSITIONAL LITERAL MAP where the ordinal engine gives up.** `imm_map_tier1` refuses a value
+that also appears at a NON-differing asm position (`asm-ambiguous`) — here `0x10`, which collides
+with the struct offsets `param_1 + 0x10`. But when the differing slots map 1:1 onto the C's call
+sites **in order**, the substitution is exact: assert `[C literals in order] == [seed slot values]`
+first, then rewrite positionally. That assert is the whole safety argument — it fails loudly if the
+C and the asm ever disagree, and it took a family the generic engine had refused 10/10 to **9/9**.
+
+**AND THE TRAP UNDER ALL THREE:** `body_text` matched `extern void func_X(s32, s16 *);` at column 0
+and returned **the next function's body**. Silent, and it had been shipping wrong seed bodies —
+visible only as "no definition of the member after rename" skips, which read like a niche edge case
+and were actually the symptom. **A definition is confirmed by a `{` with no `;` before it**; a name
+match alone never is.
