@@ -442,7 +442,21 @@ void func_801E4E40(void) {
 }
 
 
-INCLUDE_ASM("asm/md_SC03_135/nonmatchings/md_SC03_135", func_801E4E68);
+typedef struct { u8 c[8]; } Blk8;
+const Blk8 D_801E2840 = {{0x00, 0x00, 0x7E, 0xFF, 0xB0, 0x00, 0x00, 0x00}};
+extern s32 func_80171D78(u32, void *);
+extern void func_80171A1C(void*);
+
+void func_801E4E68(u32 arg0) {
+    Blk8 buffer;
+
+    buffer = D_801E2840;
+
+    if (func_80171D78(arg0, &buffer)) {
+        ((void (*)(u32))func_80171A1C)(arg0);
+    }
+}
+
 
 
 extern s32 func_80014C54(s32, s32, s32);
@@ -479,7 +493,21 @@ void func_801E4F6C(void) {
 }
 
 
-INCLUDE_ASM("asm/md_SC03_135/nonmatchings/md_SC03_135", func_801E4F8C);
+
+const Blk8 D_801E2848 = {{0xD5, 0xFF, 0x7E, 0xFF, 0xF5, 0xFE, 0x00, 0x00}};
+extern s32 func_80171D78(u32, void *);
+extern void func_80171A1C(void*);
+
+void func_801E4F8C(u32 arg0) {
+    Blk8 buffer;
+
+    buffer = D_801E2848;
+
+    if (func_80171D78(arg0, &buffer)) {
+        ((void (*)(u32))func_80171A1C)(arg0);
+    }
+}
+
 
 void func_801E4FF4(void) {
 }
