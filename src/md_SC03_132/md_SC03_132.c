@@ -139,7 +139,20 @@ void func_801E295C(void) {
 }
 
 
-INCLUDE_ASM("asm/md_SC03_132/nonmatchings/md_SC03_132", func_801E297C);
+extern const Blk8 D_801E25EC;
+extern s32 func_80171D78(u32, void *);
+extern void func_80171A1C(void*);
+
+void func_801E297C(u32 arg0) {
+    Blk8 buffer;
+
+    buffer = D_801E25EC;
+
+    if (func_80171D78(arg0, &buffer)) {
+        ((void (*)(u32))func_80171A1C)(arg0);
+    }
+}
+
 
 void func_801E29E4(void) {
 }
