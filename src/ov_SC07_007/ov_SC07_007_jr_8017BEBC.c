@@ -3997,7 +3997,18 @@ INCLUDE_ASM("asm/ov_SC07_007/nonmatchings/ov_SC07_007_jr_8017BEBC", func_8017EDD
 
 INCLUDE_ASM("asm/ov_SC07_007/nonmatchings/ov_SC07_007_jr_8017BEBC", func_8017EE90);
 
-INCLUDE_ASM("asm/ov_SC07_007/nonmatchings/ov_SC07_007_jr_8017BEBC", func_8017EEF0);
+#include "common.h"
+
+extern s32 func_80180FA4(s32, s32);
+extern s32 func_8012AD50(void*);
+extern s32 D_80186F98;
+
+void func_8017EEF0(s32 a0) {
+    if (((s32 (*)(s32, void *, s32))func_80180FA4)(a0, (void *)&D_80186F98, 0) != 0) {
+        ((void (*)(void *))func_8012AD50)((void *)a0);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC07_007/nonmatchings/ov_SC07_007_jr_8017BEBC", func_8017EF34);
 
@@ -4337,7 +4348,25 @@ void func_80180F94(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_007/nonmatchings/ov_SC07_007_jr_8017BEBC", func_80180FA4);
+#include "common.h"
+
+extern s32 func_80180FF4(s32);
+extern void func_801813A8(s32, s32);
+
+s32 func_80180FA4(s32 a0, s32 a1) {
+    register s32 s1 __asm__("$17") = a0;
+    register s32 s0 __asm__("$16");
+    s32 res;
+    register s32 tmp __asm__("$6");
+    s0 = tmp;
+    res = func_80180FF4(s1);
+    if (res != 0) {
+        func_801813A8(s1, s0);
+        return 1;
+    }
+    return 0;
+}
+
 
 INCLUDE_ASM("asm/ov_SC07_007/nonmatchings/ov_SC07_007_jr_8017BEBC", func_80180FF4);
 
