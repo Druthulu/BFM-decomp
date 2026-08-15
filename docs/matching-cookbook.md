@@ -16807,3 +16807,176 @@ describes, and the reason main sat at 0.5% being treated as the project's hardes
 BYTE-IDENTICAL; `make build` alone → `c4546248…` and a 2-byte `jal` diff, deterministically, *even
 with no draft substituted*. Use `tools/gate_main.py` (substitute batch → extract → build → SHA);
 ONE clean rebuild verifies a whole batch. main then drafts like any overlay (98–100%).
+
+## §176 — SEVEN LEVERS FROM THE P31 OVERNIGHT WAVES (2026-08-15): statement order, false regalloc, and the pin that fights back
+
+Mined from six wave journals (`wf_20e84237`, `wf_270d3ab1`, `wf_52bb381f`, `wf_5dce5df0`, `wf_7c8d0599`, `wf_b28660bc`, `wf_c2b96818`, `wf_e0e96c3b`). Every lever below was re-verified against the banked C in the tree this session unless explicitly marked otherwise. Organised by the **residual class you arrive with**, not by function.
+
+---
+
+### §176-A — "SCHEDULE / DELAY-SLOT / LENGTH-DRIFT ±1" ⇒ check STATEMENT ORDER around the call first
+
+Three separate agents burned a full pass each on pins, polarity flips, `goto` restructuring and memory barriers before a second agent fixed the same residual by **moving one C statement above a call**. This is now the first thing to check for any residual adjacent to a `jal`.
+
+**The law it rests on** (already in `docs/gcc-2.7.2-map/sched.md:145-149`, D1): `fill_simple_delay_slots` backward-scans from the slot owner. It **never hoists an instruction emitted AFTER a call into that call's own slot.** Everything below is a corollary of that plus argument-register liveness.
+
+**A1 — The arg-register proof (the strongest tell).** If the target shows a store in a `jal`'s delay slot whose *address* goes through one of that call's own argument registers — `sw $v0,0x20($a0)` where `$a0` is arg 0 — that is positive proof the store's C statement sits **before** the call: the call would clobber `$a0` otherwise. m2c habitually emits it after.
+
+```c
+*(s32 *)(s0 + 0x20) = (*(s32 *)&D_8018AF28);   /* store FIRST */
+func_8001D0E8(s0, 0xDC, 0x98);                  /* s0 is arg 0 */
+```
+
+- **Byte evidence:** `func_80186764`. First pass spent its budget on `register s32 s0 __asm__("$16")` pins, dedicated locals and address hoisting, stalled at **7/92 mismatched**, and filed it as `regalloc-order`. Second pass moved that one statement: **MATCH 92/92**, Law-1c relocation audit clean (38 symbol refs, identical order). **No pin needed once the order is right** — the pin was fighting a downstream symptom. Banked verbatim at `src/shared/engine_core.h:62311-62312` (`DEFINE_func_80186764`, also mirrored at :154022).
+
+**A2 — The −1 length drift with a genuine `nop`.** Draft is exactly **one instruction short** and the target has a real `nop` in the delay slot of an unconditional jump that immediately follows a `jal`+store pair. Do **not** route this to the permuter as a dbr/LUID tie-break. Leaving the store after the call lets gcc fill the *following* jump's slot with it instead, deleting the target's genuine `nop` and producing a huge address-drift score from one missing instruction. Move the store above the call, per call site.
+
+- **Byte evidence:** `func_80188528`. Agent 1 tried 5+ variants (branch polarity, goto restructuring, memory barriers), converged on **101 ins vs target 102, 41/102 differing**, and concluded "genuine dbr/LUID tie-break, needs §D3/permuter research". Agent 2 moved `*(s32*)(s0+0x1C)=0;` above `func_8012B23C(s0)` → **41→1**, then `*(s16*)(s0+0x5E)=0;` above `func_8018876C(s0)` → **1→0**. **MATCH 102/102**, plus a scratch full-TU integration compile (0 masked diffs, same 24 pre-existing warnings). Banked at `src/ov_SC03_006/ov_SC03_006_jr_8017AE2C.c:9758` — the `case 1:` arm shows the fixed order.
+- **🔴 WALL REFUTATION (in-wave, not cookbook):** this is a first-pass agent's "irreducible scheduler tie-break / permuter fuel" verdict cracked by a one-statement move. Treat any journal verdict of that shape on a −1 drift adjacent to a call as *unproven* until the store-order variant has been tried.
+
+**A3 — Keeping a call result out of a callee-saved register.** If the target's `jal` delay slot holds a store of the *previous* call's return value, the C store statement can legally sit textually before the call expression; that keeps the value in `$v0`/`$v1` instead of forcing a spill to an `$sN` to survive the call. `func_8018DBF0`: cut mismatches **11→8** as the first of three stacked levers (final **MATCH, 43 ins**). *Agent-reported; the 11→8 delta was not independently re-derived this session.* The other two levers in that stack are the already-documented `birthing_insn_p` / inline-asm-move family (§55a/§162/§167) — nothing new there.
+
+---
+
+### §176-B — "REGALLOC-PERM, 1-4 instructions off" ⇒ it is usually NOT register allocation
+
+**B1 — The narrow-symbol alias tell (the highest-value entry in this section).** A clean `$a3`-vs-`$a2` perm on a value that is *stored wide then reloaded narrow* from what look like separate globals is a **data-model** bug. `D_80126B5E/62/66` are not independent `u16` globals — they are the high halfwords (`sym+2`, little-endian integer part) of the 16.16 words `D_80126B5C/60/64`. Declaring them as three separate `extern u16` gives gcc's memory disambiguator three distinct `SYMBOL_REF`s with **no dependency** between the `sw` of the wide word and the `lhu` of the narrow one, so sched1 hoists the free load (large OPCODE-MIXED break). Naively fixing that by reusing one local restores the schedule via a WAR dependency but merges two live ranges into one pseudo that then conflicts with the `$a2` arg setup → `$a3` (the 2-insn residual).
+
+```c
+extern s32 gVecZ __asm__("D_80126B64");        /* asm-label alias: keeps direct lw/sw */
+gVecZ = out[2];
+*(s16 *)(buf + 4) = *((u16 *)&gVecZ + 1);      /* NOT a separate `extern u16 D_80126B66` */
+```
+
+One expression buys both properties: the shared base gives sched1 a true memory dependency (schedule fixed) *and* the two pseudos stay genuinely separate (live ranges fixed, `$a2`/`$a3` fall out correctly). No locals, no pins, no barriers.
+
+- **Byte evidence:** `func_80185548`, **MATCH 77 ins**, verified twice including a full HI16/LO16 + `R_MIPS_26` relocation-resolve oracle against the target `.o` (**0/77 word diffs, every relocation included**). The `%hi`/`%lo` pair computes against `D_80126B64` with in-place addend 2, byte-identical to the target's own `%hi/%lo(D_80126B66)` form. Banked with its full derivation at `src/ov_SC02_011/ov_SC02_011_jr_8017AE2C.c:7550-7620`.
+- **Standing check before any pin on a small REGALLOC-PERM:** is the narrow symbol's address `== wide symbol's address + k`, `k < sizeof(wide)`? If so, express it through the wide symbol.
+
+**B2 — Pin the interloper, not the contested value.** Symptom: *"target keeps value X in `$vN` across a run of unrelated stores; mine reuses `$vN` for a short-lived constant."* Dump `cc1 -dS -dl` and check the `.i.lreg`: the birthing-boost (S2) can sink the long-lived value's def **below** a later multi-set store, making its range disjoint from a short-lived single-use constant, so first-fit local-alloc hands **both** the same hard register. Pinning the long-lived value to its target register reserves it function-wide and cascades. Pin the **short-lived interloper out of the way** instead:
+
+```c
+register u8 one __asm__("$5");
+...
+one = 1;
+*(u8 *)(d + 0xc0) = one;
+*(u8 *)(d + 0x75) = one;
+```
+
+- **Byte evidence:** `func_8018CA74`, 4-instruction residual → **MATCH 63/63**. Root cause confirmed by hand-running `cc1 -dS -dl`: insn 75 (the `0xC4` load) and insn 87 (the const-1) both assigned `$v0` in `.i.lreg`, with the `.i.sched` ready-list trace showing insn 75's boosted priority `0x7f000001` sinking it below the `li/sb/sb` group. **Register-choice sweep confirms the mechanism, not a coincidence: `$5`→MATCH, `$4`→4 off, `$3`→18 off, pinning the LOAD itself to `$2`→17 off (worse).** Banked at `src/ov_SC02_005/ov_SC02_005_jr_80181D30.c:4951` with the reasoning in-line. Distinct from `regalloc.md` RC-4 (copy-coalescing tie) and RC-6 (pressure-locked flat alloc).
+
+**B3 — Two arms sharing one local get cross-jumped.** When if/else arms write the same struct field through a **shared** local pointer/temp, local-alloc gives both arms the same hard registers (it is literally one pseudo), the tail-store RTL becomes byte-identical, and `jump.c`'s cross-jump merges them — dropping instructions and displacing the delay-slot filler. Fix: give each arm its own block-scoped, **distinctly named** locals.
+
+```c
+if (...) { s32 *ptr1 = ...; s32 field1 = ptr1[1]; field1 |= 0x80000000; ptr1[1] = field1; }
+else     { s32 *ptr2 = ...; s32 field2 = ptr2[1]; field2 &= 0x7FFFFFFF; ptr2[1] = field2; }
+```
+
+- **Byte evidence:** `func_8018B4D0`, NEAR (22 off) → **MATCH 33 ins**. Arms then received independent registers (`$v0`/`$v1` for the OR arm, `$a0`/`$v0` for the AND arm), matching target, and the AND-mask's `lui` scheduled correctly into the `beqz` slot. Banked at `src/ov_SC02_005/ov_SC02_005_jr_80181D30.c:4449`. This is the **local-variable-scope** analogue of §165-10 (L13937), which documents the same cross-jump-identity mechanism over a *global's address form*.
+
+**B4 — A single pin can make it worse by widening coalescing.** `func_80029E30`: NEAR (23/25) → a single `register s32 a0 __asm__("$4")` pin **worsened it to 5 mismatches**, because local-alloc coalesced the pinned variable's whole live range with a second, non-overlapping unpinned local (an early `lui/ori` magic constant). Fix was **two pins at different scopes matched to the actual live ranges**: the long-lived one function-wide (`$3`), the short-lived one scoped to its using block (`$4`). **MATCH, 25 ins.** *Agent-reported; banked in `src/800.c` but the intermediate 2→5 regression was not independently re-derived this session.*
+
+---
+
+### §176-C — 🔴 WALL REFUTATION: a hard-register pin CANNOT schedule around a call, because of a genuine gcc-2.7.2 bug
+
+**This refutes the universality of `sched.md` S11's protocol step (1) ("pin the callee-saved homes FIRST so scheduling levers can't cascade the alloc") and of the standing "don't conclude unsteerable — try register pins" reflex.** There is a class where the pin *is* the defect, and the correct move is the inverse: **unpin.**
+
+`sched_analyze_1` (`tools/reference/gcc-2.7.2/sched.c:1659`) has two arms. The **hard-register** arm, at **`sched.c:1704`**, reads:
+
+```c
+i = HARD_REGNO_NREGS (regno, GET_MODE (dest));
+while (--i >= 0)
+  {
+    ... reg_last_uses[regno+i] ... reg_last_sets[regno + i] ...
+    if ((call_used_regs[i] || global_regs[i])      /* BUG: `i`, not `regno + i` */
+        && last_function_call)
+      add_dependence (insn, last_function_call, REG_DEP_ANTI);
+  }
+```
+
+`i` is the sub-word countdown index — **0 for any 1-word register**. So the test is always `call_used_regs[0]`, i.e. `$zero`, which MIPS marks call-used (`config/mips/mips.h:1203-1210`, already cited by this cookbook at L13504). **Every hard-register SET in a block therefore gets a `REG_DEP_ANTI` on the last call, regardless of which register was actually pinned.** The **pseudo** arm fifteen lines later (`sched.c:1732`) is guarded by `reg_n_calls_crossed[regno] == 0` and is exempt for any value that legitimately crosses a call.
+
+**Practical rule:** whenever a pinned value must schedule **above or around** a call in the same basic block and the pin isn't working — or is actively making things worse — **drop the pin and let it stay a plain pseudo.**
+
+- **Byte evidence:** `func_8018D574`. Dropping the `$18` pin on the loop counter `i` and sinking `i++` below `func_80143BDC` flipped it from priority-2/wrong-position to priority-1/correct-LUID-position, closing the last 2 mismatches: **MATCH 107/107**. The gcc source lines above were read directly from `tools/reference/gcc-2.7.2/sched.c` this session and are quoted verbatim. Banked with the full derivation at `src/ov_SC02_011/ov_SC02_011_jr_8017AE2C.c:11872-11900`.
+- **What was already documented:** only the *pseudo*-arm anti-dependence law (sched.c:1714-1715, cookbook L12491/L16060). The hard-reg-arm sub-word-index bug is new, and it explains a family of "the pin cascaded, route to permuter" verdicts.
+
+---
+
+### §176-D — CSE-class levers used in reverse (two sharpenings of §153 and cse_expr §2)
+
+**D1 — §153's launder, applied to a MULTI-use pointer, forces PERSISTENCE (the opposite of its documented effect).** §153 (L10463) documents the zero-emission re-tie `tp = (T*)&SYM; __asm__ __volatile__("" : "=r"(tp) : "0"(tp));` as a way to force **rematerialisation** of a single-use address. Applied to a pointer with **several** uses it inverts: emptying the symbol's cse equivalence class forces every subsequent read to address off the pseudo, and the pseudo then takes a persistent callee-saved register (the `la` survives at the def site) instead of each use regrowing its own `lui`/`%lo`.
+
+**Use it whenever the target caches an address in an `$sN` across multiple reads but your draft rebuilds `lui`/`%lo` per use.**
+
+- **Byte evidence:** `func_80188790`, **82 ins / 57 mismatched → 79 / 20** on applying the launder to the multi-use `tp` alone, then to 0 with a pin + statement placement + D2 below. **MATCH 79/79**, Law-1c relocation audit clean. Banked at `src/shared/engine_core.h:61882-61883` (`DEFINE_func_80188790`) — `register u16 *tp __asm__("$19")` with ~5 reads off it. Every existing §153-family entry (~12 sharpenings) describes the device only as remat-forcing; this inverted use is new.
+
+**D2 — `cse_expr.md` §2 gains a SIXTH boundary condition: a struct block-copy re-seeds the class and defeats the kill.** The byte-proven output-only kill `{ void *q = &m; f(q); __asm__ __volatile__("":"=r"(q)); }` is **defeated** when a struct block-copy (`m = GLOBAL_STRUCT;`) targets the same local: the block-move RTL expansion permanently seeds `&m`'s cse equivalence class with a valid register, so the class still resolves after `q` is killed and the second call site keeps the cached address anyway.
+
+**Escape: don't let gcc emit a block move at all** — hand-expand the copy as an explicit load-group/store-group sequence through an opaque source pointer, pinning the temps to the target's scratch registers, plus a trailing value barrier so sched1 can't hoist the last address computation above the final stores:
+
+```c
+{   register Blk20 *s __asm__("$6") = &D_800AE620;
+    register s32 t0 __asm__("$3"), t1 __asm__("$4"), t2 __asm__("$5");
+    __asm__("" : "=r"(s) : "0"(s));
+    t0 = s->w[0]; t1 = s->w[1]; t2 = s->w[2];
+    m.w[0] = t0;  m.w[1] = t1;  m.w[2] = t2;
+    /* ... 3/3/3/3/2/2 groups ... */
+    __asm__ __volatile__("" : : "r"(t0), "r"(t1));   /* sched barrier */ }
+```
+
+- **Byte evidence:** `func_801888F4`, **MATCH 73/73**, full relocation audit. The boundary was bisected across 8+ spellings — copy removed → remat OK; copy into a *different* local → remat OK; copy present in **any** form (assignment / initialiser / `*(Blk20*)&m=` / via a killed or re-tied pointer local / union / DImode chunks / volatile struct / `"=m"` asm / sp-clobber asm) → folds. Pins are load-bearing: unpinned gcc picks a `$v1` base + `$a2/$a3/$a1` temps (**19 mismatched**); the trailing barrier closes the last **2 → MATCH**. All three asms emit zero bytes. Banked with the probe table at `src/ov_SC02_000/ov_SC02_000_jr_8018173C.c:4405-4500`.
+
+---
+
+### §176-E — Two cheap source spellings, both cc1-probed
+
+**E1 — `&` not `%` for a compile-time power-of-two divisor.** For a *signed* dividend, gcc-2.7.2's `%` always emits the full sign-correction `sra`/`subu` dance; `&` emits a plain `andi`. Confirmed by a standalone cc1 probe that the two spellings diverge. Reserve the true `%` spelling for the one genuine runtime-variable divisor — and read that divisor field as **signed** (`s16`/`lh`, not `u16`/`lhu`) to match the load width.
+
+```c
+*(u16 *)(param_1 + 0x2) = (rand() & 7) + 1;        /* not rand() % 8 */
+dx = rand() % *(s16 *)(param_1 + 0x4);             /* the one true %, s16 read */
+if (rand() & 1) { dx = -dx; }                      /* not rand() % 2 */
+```
+
+- **Byte evidence:** `func_8018D7C8`, **MATCH**, all four modulo-like literals rewritten bitwise. Banked at `src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:6489`. Existing §164-04 / §1-I5 cover true `/` division by a power of two, not `%`.
+
+**E2 — Split `%` into quotient form to free the shift's register class.** When a signed-modulo guard's branch delay slot is a `nop` in your draft but the target **duplicates the `sra`** into it, and your single `sra` writes the callee-saved result register, write the remainder explicitly so the intermediate quotient gets its own pseudo (landing in a caller-saved `$v`-reg) instead of coalescing into the callee-saved variable — which is the precondition reorg needs to duplicate the `sra` into the `bgez` slot:
+
+```c
+s1 = r2 - (r2 / 256) * 256;      /* not r2 % 256 */
+```
+
+- **Byte evidence:** closed the final **4→0** on `func_80188790`. Three C spellings converge (explicit-quotient local, `q` pinned to `$2`, and the inline arithmetic form); the inline form banked because it needs no extra local. Banked at `src/shared/engine_core.h:61881`. This is a **source-level dial on register class**, not a scheduling fix — do not touch the branch or reorg.
+
+---
+
+### §176-F — Misdiagnosis triage: four residual verdicts that were lying
+
+`match_one`'s klass is a coarse similarity metric. These four cost a full agent pass each and were each fixed by a semantic correction with **no codegen trick at all**. Check these *before* reaching for pins.
+
+| Verdict you get | What it actually was | Check |
+|---|---|---|
+| `regalloc-order`, 20+ ins differ, function ends in a `jal` to a **local** callee | **Missing argument.** Draft passed one arg; the callee's own `.s` saved *both* `$a0` and `$a1` into `$s0`/`$s1`. `func_80187618`: **23 → 2 → MATCH (32 ins)** from the signature fix alone (residual 2 was a store-order swap). | Open the callee's target `.s` and count the argument registers it saves/uses. |
+| `regalloc-order`, instruction counts coincidentally **equal** | **Collapsed pointer indirection.** Draft folded a two-level chase into one scaled offset. `func_80183648`: **16 → 2 → MATCH (50 ins)**, no pins. A pin tried first made it **worse (16→25)**. Banked at `src/ov_SC04_002/ov_SC04_002_jr_8017BEBC.c:6141` — `*(s16 *)(*(s32 *)(*(s32 *)(a0 + 0x64) + 0x20) + 0x12)`. | If a sibling `DEFINE_func_*` macro in `src/shared/engine_core.h` already calls the same routine, copy its addressing shape verbatim rather than re-deriving. |
+| `IMM-OFFSET`, closeness **1** — all 44 instructions identical, one `beqz` displacement off by a small constant | **A dropped conditional edge.** A trailing call was written *after* the `if` block's closing brace instead of as its last statement. `func_801878B8`: **MATCH 44 ins** after moving it inside. | For a near-zero-mismatch IMM-OFFSET, trace which basic block each branch actually targets in the raw `.s` before assuming a scheduling nuance. |
+| `prologue-regalloc` / length-drift, an `$sN` the target saves is **missing** from your frame | **A discarded return value — i.e. a logic bug.** Target's logic *used* the first call's result (XOR/equality against the second call's); the draft tested it for non-zero and threw it away, so `$s0` was never allocated. `func_8002A670`: fixing the logic forced `$s0` + the 24-byte frame; the residual +1 drift then closed via the already-documented if/else inversion (§3-T4/§32.2) so `v0=0` folds into a delay slot. **21 → 19 ins, MATCH.** | Suspect discarded logic before suspecting a codegen quirk. |
+
+**F5 — a hand-written `goto`/label loop is invisible to `loop.c`.** gcc-2.7.2's `loop.c` only works on `NOTE_INSN_LOOP_BEG`/`END`-bracketed `for`/`while`/`do` constructs. If the target's preheader shows hoisted invariants (a constant load, a mask), the source **must** be a real `for`/`while` — otherwise invariant-hoisting and `combine_givs` never run on it at all. Converting is simultaneously the invariant-hoist lever, the giv/IV-anchor lever, and (here) a scheduling fix, from one source change.
+
+- **Byte evidence:** `func_80186A04`, NEAR (12 off) two passes earlier → **MATCH 54/54**. Rewriting the outer goto-loop as `for (a1 = 0; a1 < 4; a1++)` let `loop.c` hoist both the `-1` sentinel and the `andi` mask into the target's exact preheader order (`[a1=0][li -1][andi][giv init]`), and a delay-slot swap resolved for free. Banked at `src/ov_SC02_005/ov_SC02_005_jr_80181D30.c:3500`. **This sharpens, rather than replaces, `loop.md` L300-303 / L7**, which documents a *different* invalidation trigger (a recognised loop entered by a `goto` from outside) — not the case of a goto-loop never being registered as a loop object in the first place.
+
+---
+
+### What is NOT banked here
+
+Mined but judged too thin, too specific, or contradicted by the tree. Recorded so it isn't silently lost:
+
+- **`func_80014E24` — non-volatile opaque-asm `andi` materialisation.** The reported lever (give a masked-but-unused parameter a *non-volatile* `asm("andi %0,%1,0xff")` definition and consume it as a real call argument on both branch targets, so gcc must materialise it once before the branch; `volatile` would also block `dbr_schedule` from sinking `sw $ra` into the branch delay slot, landing +1) is a plausible and well-argued composition, and the agent reports `match_one --json → {"status":"match","closeness":0,"nins":23}`. **But `func_80014E24` is still `INCLUDE_ASM` in `src/800.c` — the draft was never banked, and I could not verify the C this session.** Re-derive before trusting it.
+- **`func_80183074` — the joint two-output asm** (`__asm__ volatile("" : "=r"(c0),"=r"(c1) : "0"(0x75), "1"((s32)a0));` as one RTL definition with two destinations, to hoist a call's argument pair atomically where separate pins let the scheduler split them). Reported **14 → 5 mismatches in one step** — genuinely interesting and unlike every existing one-value-per-asm zero-byte lever — but it **never reached MATCH** and `func_80183074` remains `INCLUDE_ASM` at `src/ov_SC02_005/ov_SC02_005_jr_80181D30.c:2941`. Good permuter fuel; not a law.
+- **`func_80182B20` — "de-name both reads to defeat a sign-extension CSE fold".** The function *is* banked and byte-matched (`src/ov_SC04_000/ov_SC04_000_jr_8017BEBC.c:5838`, **MATCH 34 ins** from NEAR/13), but the banked C **contradicts the mined narrative**: it keeps a named `val16` local *and* uses a `(s16)val16` cast for the first signed compare, writing only the *second* signed read as a bare `*(s16 *)(s0 + 0x18)` deref — and there *is* an intervening store. Writing up "declare no locals for either access, no store in between" would be documenting a guess. The real rule needs a fresh bisect against that file.
+- **`func_8018B4A4` — "leave struct fields deliberately uninitialised where the target's frame never writes those bytes", plus re-deriving a reused field before each repeated call rather than caching it.** Reported to have produced correct `$s0`/`$s1` allocation and exact 0x40 frame size on the first attempt with zero pins, by transplanting `func_8018470C`'s declaration idiom. Plausible and adjacent to the well-covered §79/§136-6/§163e declaration-order material, but the *non-initialisation* angle rests on one function with no negative probe — no "I zero-inited it and the frame grew" counter-measurement was recorded.
+- **`func_80186B1C` — "control-flow shape defers an unrelated pointer's register commit."** Two coupled fixes were required (collapse to one shared-variable if/else with a single trailing return, plus `register s16 *s0 __asm__("$16")`); each alone left 14-31 mismatches, final **MATCH 37/37**. The agent itself flagged this at lower confidence as closely adjacent to the already-documented D3 own-thread idiom (§156/§167-27) and the §17 pin protocol. Nothing separable enough to state as its own law.
+- **`func_8018549C`** (give a short early-exit tail its own label rather than folding it into a shared `goto` target — 2-insn DELAY-SLOT diff → **MATCH 111/111**) and **`func_80188AF4`** (`*((u16*)&pos[i]+1)` pointer-cast to force a stack reload instead of `>>16` on a cached register — **MATCH 73/73**). Both are single-instance observations with real byte results but no negative controls and no mechanism traced to a gcc decision point; §176-B1 above already covers the general "express the narrow read through the wide object's address" shape that `func_80188AF4` is an instance of.
+- **`func_8018A084`** (whether trailing arithmetic stays inside a ternary's expression or is split into a separate statement selects between a duplicated-tail `j` form and a fused join — only `v[2] = ((rand()&1)?r:-r) - 48;` matched, **MATCH 64/64**). The agent explicitly flagged this as a *plausible variant* of the already-documented §165-21/§164-73/§164-74 shared-trailing-store family rather than confidently novel, and did not verify it against that family's stated scope.
