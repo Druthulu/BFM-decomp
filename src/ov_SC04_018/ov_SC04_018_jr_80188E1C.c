@@ -3799,7 +3799,7 @@ done:
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_018/nonmatchings/ov_SC04_018_jr_80188E1C", func_80189DDC);
+DEFINE_func_80189DDC()  /* dedup: shared engine-core @0x80189DDC (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC04_018/nonmatchings/ov_SC04_018_jr_80188E1C", func_80189E14);
 

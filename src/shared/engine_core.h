@@ -60786,6 +60786,13 @@
         func_8018A0B4(); \
     }
 
+#define DEFINE_func_80189DDC() \
+    extern s16 D_80115126; \
+    extern s32 D_801B92E4[]; \
+    void *func_80189DDC(s32 a0) { \
+        return (void *)D_801B92E4[D_80115126 * 10 + (s16) a0]; \
+    }
+
 #endif
 
 #define DEFINE_func_80128EA8() \
@@ -150975,6 +150982,13 @@
         val |= 0x1000; \
         *(u16 *)((char *)a0 + 0x72) = val; \
         func_8018A0B4(); \
+    }
+
+#define DEFINE_func_80189DDC() \
+    extern s16 D_80115126; \
+    extern s32 D_801B92E4[]; \
+    void *func_80189DDC(s32 a0) { \
+        return (void *)D_801B92E4[D_80115126 * 10 + (s16) a0]; \
     }
 
 #endif
