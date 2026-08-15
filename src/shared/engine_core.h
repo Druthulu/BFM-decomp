@@ -60492,6 +60492,15 @@
         *(u16 *)((s32)a0 + 0x2) = *(u16 *)((s32)a0 + 0x2) + 1; \
     }
 
+#define DEFINE_func_80185F24() \
+    extern s32 func_8012E504(s32 a0, s32 a1); \
+    void func_80185F24(void) { \
+        s32 v1 = func_8012E504(0, 0x29); \
+        if (v1 != 0) { \
+            *(s16 *)(v1 + 2) = 0xF; \
+        } \
+    }
+
 #endif
 
 #define DEFINE_func_80128EA8() \
@@ -150387,6 +150396,15 @@
         } \
         func_8012A828((s32)a0, D_801BC5E0); \
         *(u16 *)((s32)a0 + 0x2) = *(u16 *)((s32)a0 + 0x2) + 1; \
+    }
+
+#define DEFINE_func_80185F24() \
+    extern s32 func_8012E504(s32 a0, s32 a1); \
+    void func_80185F24(void) { \
+        s32 v1 = func_8012E504(0, 0x29); \
+        if (v1 != 0) { \
+            *(s16 *)(v1 + 2) = 0xF; \
+        } \
     }
 
 #endif
