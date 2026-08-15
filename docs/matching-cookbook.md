@@ -16730,3 +16730,80 @@ instruction, on a draft carrying a caller-saved pin, is this bug until proven ot
 
 **Why the gate doesn't save you cheaply:** the draft is *wrong code*, not merely unmatched, so it
 fails standalone too — you pay a full diagnosis cycle. This is prevention, like §174's laws.
+
+## §176a — THE VERIFICATION-LAYER LAWS (P31 overnight, 2026-08-15). What each check can and cannot prove.
+
+These are not matching idioms; they are the rules for *believing* a matching result. Every one was
+paid for in gate cycles this session.
+
+**1. `match_one` verifies INSTRUCTION SHAPE, not SYMBOL IDENTITY.** It masks jal/HI16/LO16
+relocations, so a draft that calls the WRONG FUNCTION or loads/stores the WRONG GLOBAL reports a
+clean MATCH. Byte-witnessed: `func_8002A234` (14 ins) stored `v1`→`D_80078EE8` and `0`→`D_80078EE4`
+where the target does the exact reverse; `match_one` said MATCH, the whole-binary build differed in
+2 bytes, and it cost five gate attempts. Same root cause as the invented PsyQ names in waves F/G
+(`S80131E00`→`Square0`, `Blk20_…`→`RotMatrixY`, `SRM_…`→`RotTransSV`).
+**Rule:** after MATCH, re-read the target `.s` relocation lines and check every symbol you wrote —
+each callee, each data symbol, and *which* symbol each load/store touches. Shape ≠ correctness.
+
+**2. A detector is ADVISORY; the whole-binary gate is the ARBITER.** `aprop_symfix` flags
+`STALE`/`AMBIGUOUS` on LOCAL identifiers (typedef names, inline-asm macro names) and its
+draft-symbol extraction misses some `extern` forms, so a name the draft *does* declare can still
+report `asm-only`. Three wave-G drafts were withheld on such flags; all three banked **unchanged**
+when finally gated. **Never withhold a standalone-MATCH draft on a flag alone** — gate it and let
+the bytes decide (R39: a refusal check that silently discards good work is worse than one that lets
+a few failures through).
+
+**3. A verifier that can pass WITHOUT BUILDING is worse than no verifier.** `gate_main` read the
+output binary's SHA after `make build`; when the build FAILED on a compile error the *previous*
+binary was still on disk, so it returned the good hash and reported BYTE-IDENTICAL for a build that
+never ran ("43 banked" on a TU that did not compile). The clean-fleet R22 caught it.
+**Rule:** delete the artifact before building, and treat a non-zero build exit as no-hash/never-pass.
+
+**4. An all-zeros result is a NULL, not a finding.** `gate_lane` swallows `gate_stage`'s stderr, so
+an unhandled `corpus.CorpusError` surfaced as `banked 0, near 0, failed 0` — indistinguishable from
+an honest "nothing banked", twice. A real gate always classifies its drafts. If every bucket is
+zero, the tool did not run; run `gate_stage` directly to see the exception.
+
+**5. Before believing a measurement, run the control that would make it FAIL.** The night's largest
+false conclusion — "main is blocked by a linker defect", complete with three hypotheses — died to
+one control: build with **NO draft substituted at all**. The "defect" reproduced with zero drafts,
+proving it was the build path, not the code. A null input, a known-answer population, or an
+independent oracle. R35 says fix the instrument first; this is the sharper form — *confirm the
+instrument can answer, and that it answers correctly on a case whose answer you already know.*
+
+## §176b — BATCH-GATING MECHANICS (P31): what changes when N drafts land in ONE .c
+
+**Gate cost scales with (binary, TU) GROUPS, not with drafts.** Each group is one whole-binary
+rebuild. Wave D was 42 drafts spread over 23 groups (~40 min of gate); waves F–N were 40–56 drafts
+in **1** group. `tools/build_wave_atlas.py` packs a wave into few TUs for exactly this reason — it
+is free throughput, purely a selection change.
+
+**Batched drafts must agree WITH EACH OTHER, not just with the file.** Each draft is written to
+compile standalone, so N drafts bring N independent `extern` sets into one TU:
+- **Type conflicts:** `D_800A4ED4` declared `s16` by one draft and `u16` by another; `func_8001C9D0`
+  as `void` / `void *` / `s32` across three. C rejects the TU.
+- **Duplicate typedefs:** every draft carries its own `typedef struct {…} SVECTOR;`. Once one banks,
+  that typedef lives in the `.c` forever and every later draft collides. Strip duplicates on
+  substitution (`harvest_verify` already did; `gate_main` now does).
+- **Compatibility compares TYPE SIGNATURES ONLY.** Parameter *names* are irrelevant to C — a checker
+  that compares them wrongly discards good drafts (my first version dropped 2 that way). But the
+  DECLARATOR SUFFIX absolutely matters: `u8 D_x` and `u8 D_x[]` are incompatible, and ignoring it let
+  a real conflict reach the build (my second version). Too-strict and too-coarse are both defects.
+- **Recovery, not rejection:** a conflict-dropped draft is usually CORRECT. Adopt the other
+  declaration **verbatim** and adapt at the USE site — `extern u8 D_80076251;` + `(&D_80076251)[i]`,
+  or `void f(s32 a0)` + `D_x[(s16)a0]` — which emits identical bytes (§174 Law 4).
+
+**A COMPILE error names its own culprit; only a BYTE mismatch needs a search.** Bisecting a batch
+costs a full clean rebuild per step (a 41-draft bisect ran 28 minutes producing nothing) while the
+compiler had already printed the symbol and line. Read the error first.
+
+## §176c — MAIN (SLUS_007.26) CANNOT BE GATED INCREMENTALLY
+
+main's `make extract` runs the EXE-only `psyq_integrate` + `ld_interleave` steps, which **rewrite the
+linker script**. `gate_lane`/`gate_stage` build incrementally, so they re-run that on an
+already-rewritten `.ld` and produce a **false diff** — precisely the trap R22's own rationale
+describes, and the reason main sat at 0.5% being treated as the project's hardest mass.
+**Byte-proven both ways:** `make extract BINARY=main && make build BINARY=main` → `143dbb89…`
+BYTE-IDENTICAL; `make build` alone → `c4546248…` and a 2-byte `jal` diff, deterministically, *even
+with no draft substituted*. Use `tools/gate_main.py` (substitute batch → extract → build → SHA);
+ONE clean rebuild verifies a whole batch. main then drafts like any overlay (98–100%).
