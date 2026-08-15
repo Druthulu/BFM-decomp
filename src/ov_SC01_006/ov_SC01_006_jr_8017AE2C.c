@@ -3333,7 +3333,7 @@ void func_8017BEC4(void *a0) {
 
 INCLUDE_ASM("asm/ov_SC01_006/nonmatchings/ov_SC01_006_jr_8017AE2C", func_8017BF00);
 
-INCLUDE_ASM("asm/ov_SC01_006/nonmatchings/ov_SC01_006_jr_8017AE2C", func_8017BF70);
+DEFINE_func_8017BF70()  /* dedup: shared engine-core @0x8017BF70 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC01_006/nonmatchings/ov_SC01_006_jr_8017AE2C", func_8017BFEC);
 

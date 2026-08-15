@@ -3334,22 +3334,7 @@ void func_8017BEC4(void *a0) {
 
 INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005_jr_8017AE2C", func_8017BF00);
 
-extern void func_80171A1C(u8*);
-
-void func_8017BF70(void *arg0) {
-    s32 p;
-    s32 q;
-
-    *(s32 *)((u8 *)arg0 + 0x208) += 0x1c000;
-    p = *(s32 *)((u8 *)arg0 + 0x20);
-    *(u16 *)((u8 *)p + 0x10) = (*(u16 *)((u8 *)p + 0x10) - *(u16 *)((u8 *)arg0 + 0x20A)) & 0xfff;
-    q = *(s32 *)((u8 *)arg0 + 0x20);
-    if (*(s16 *)((u8 *)q + 0x10) < 0xc00) {
-        *(u16 *)((u8 *)q + 0x10) = 0xc00;
-        *(u16 *)((u8 *)arg0 + 0xb8) = 1;
-        ((void (*)(void *))func_80171A1C)(arg0);
-    }
-}
+DEFINE_func_8017BF70()  /* dedup: shared engine-core @0x8017BF70 (src/shared) */
 
 
 INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005_jr_8017AE2C", func_8017BFEC);
