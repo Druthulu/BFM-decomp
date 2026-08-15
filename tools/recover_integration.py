@@ -44,7 +44,7 @@ SESSION-16 (cookbook §65) added the mode this was missing and the blocker it co
 --auto pulls leaf-MATCH candidates from the backlog (status capped / near-close-0, reach>=2), filtered
 to those STILL a stub in the binary AND STILL match_one-MATCH on their best draft (drift-safe, R14).
 """
-import argparse, glob, json, os, re, shutil, subprocess, sys
+import argparse, collections, glob, json, os, re, shutil, subprocess, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import backlog, corpus, gate_stage
 
@@ -56,7 +56,12 @@ DRAFT_RE = re.compile(r"^func_[0-9A-Fa-f]{8}\.c$")   # wave dirs also hold scrat
 # gate precisely because `src/<binary>/**` cannot reach another binary; T2 is not, at any confidence.
 TIER_RANK = {"draft": 0, "binary": 1, "fleet": 2}
 STAGE_TIER = {"arity": "fleet",        # fix_arity_callers writes src/shared/engine_core.h
-              "demacroize": "binary"}  # expands macros in src/<binary>/ only
+              "demacroize": "binary",  # expands macros in src/<binary>/ only
+              "tu-scope": "binary",    # §103 STU: moves a contested TU decl into its consumers
+                                       # (P31 T6 — the sweep-only lever the recovery path lacked;
+                                       # writes src/<binary>/*.c, covered by the TU snapshot)
+              "macro-externs": "draft"}  # §121: rewrite draft decls of DEFINE_-defined callees to
+                                         # the macro's own signature (draft text only)
 
 
 def tier_ok(stage, max_tier):
@@ -300,31 +305,100 @@ def main():
                 raise SystemExit(f"[recover] fix_arity_callers failed: {(r.stderr or r.stdout)[-300:]}")
             print("  " + (r.stdout.strip().splitlines()[-1] if r.stdout.strip() else "(fix_arity_callers: no output)"))
 
-        if "demacroize" in stages:    # T1 — expands the offending macro instantiations in THIS TU
-            done = 0
+        if "macro-externs" in stages:  # P31 T6 — §121: a draft's decl of a DEFINE_-defined callee
+            # must match the macro's OWN definition head (a guessed `extern int f();` collides with
+            # the macro's real `void f(s32)` — measured: ONE such draft poisoned an entire probe
+            # group's whole-binary builds). Draft-text only; drafts with no DEFINE_ callee untouched.
+            import family_sweep as FS
+            mds = FS.macro_def_sig_map()
+            fixed = 0
             for fn in targets:
                 d = os.path.join(REPO, dd, fn + ".c")
                 if not os.path.exists(d):
                     continue
-                r = sh([PY, "tools/demacroize.py", "--binary", a.binary, "--fn", fn, "--draft", d, "--apply"])
-                done += (r.returncode == 0)
-            print(f"  demacroize: {done}/{len(targets)} had an offending instantiation to expand")
+                txt = open(d).read()
+                orig = txt
+                for callee in sorted(set(re.findall(r"\bfunc_[0-9A-Fa-f]{8}\b", txt))):
+                    if callee == fn or callee not in mds:
+                        continue
+                    txt = re.sub(rf"^[ \t]*extern\b[^;\n{{]*\b{callee}\s*\([^;{{]*\)\s*;[ \t]*$\n?",
+                                 "", txt, flags=re.M)
+                    if not re.search(rf"\bextern\b[^;\n]*\b{callee}\s*\(", txt):
+                        txt = f"extern {mds[callee]};\n" + txt
+                if txt != orig:
+                    open(d, "w").write(txt)
+                    fixed += 1
+            print(f"  macro-externs: rewrote DEFINE_-callee decls in {fixed}/{len(targets)} drafts")
 
-        # §65a — the write set decides the validator, so CHECK it rather than trusting the label.
+        def apply_tu_stages(subset):
+            """The TU-EDITING stages, applied for ONE group's fns only (P31 T6 isolation fix: a
+            stage edit in TU-A persisting while TU-B's drafts gate poisons every whole-binary build
+            — measured: one group's demacroize expansion failed 3 other groups' gates)."""
+            if "demacroize" in stages:    # T1 — expands the offending macro instantiations in THIS TU
+                done = 0
+                for fn in subset:
+                    d = os.path.join(REPO, dd, fn + ".c")
+                    if not os.path.exists(d):
+                        continue
+                    r = sh([PY, "tools/demacroize.py", "--binary", a.binary, "--fn", fn,
+                            "--draft", d, "--apply"])
+                    done += (r.returncode == 0)
+                print(f"  demacroize: {done}/{len(subset)} had an offending instantiation to expand")
+            if "tu-scope" in stages:      # P31 T6 — §103 STU: move a contested FILE-scope TU decl
+                # into its consumers (declaration-only, byte-neutral by construction; the
+                # sweep-only lever the recovery path lacked). ScopeRefused is loud, never fatal.
+                import scope_tu_externs as STU
+                moved = refused = 0
+                for fn in subset:
+                    d = os.path.join(REPO, dd, fn + ".c")
+                    if fn not in smap or not os.path.exists(d):
+                        continue
+                    src_rel, _ = smap[fn]
+                    tu_path = os.path.join(REPO, src_rel)
+                    tu = open(tu_path).read()
+                    mstub = re.search(rf'INCLUDE_ASM\("[^"]*",\s*{fn}\);', tu)
+                    if not mstub:
+                        continue
+                    draft = open(d).read()
+                    try:
+                        syms = STU.contested(draft, tu, mstub.start())
+                        if syms:
+                            new_tu, rep = STU.scope(tu, syms, mstub.start())
+                            if rep.get("moved"):
+                                open(tu_path, "w").write(new_tu)
+                                moved += 1
+                    except STU.ScopeRefused as e:
+                        refused += 1
+                        print(f"  [tu-scope] {fn}: {e}", flush=True)
+                print(f"  tu-scope: moved contested decls for {moved}/{len(subset)} (refused {refused})")
+
         tier = max((STAGE_TIER[s] for s in stages), key=lambda t: TIER_RANK[t]) if stages else "draft"
-        assert_write_set(before, tier, a.binary)
-
         groups = sorted({smap[fn] for fn in targets if fn in smap})
+        by_group = collections.defaultdict(list)
+        for fn in targets:
+            if fn in smap:
+                by_group[smap[fn]].append(fn)
         fleet, propagated = None, 0
+        verified_all = []
         for src_rel, asm_sub in groups:
+            # group-clean start: this binary's TUs back to COMMITTED truth (includes prior groups'
+            # banks under --commit; wipes prior groups' un-banked stage edits). engine_core.h is
+            # untouched, so a fleet-tier arity edit persists across groups as intended.
+            sh(["git", "checkout", "--", f"src/{a.binary}/"])
+            gbefore = git_dirty()
+            apply_tu_stages(by_group[(src_rel, asm_sub)])
+            # §65a — the write set decides the validator, so CHECK it rather than trusting the label.
+            assert_write_set(gbefore, tier, a.binary)
             s = gate_stage.run_gate(dd, binary=a.binary, src=src_rel, asm=asm_sub, src_file=src_rel,
                                     source_tag="t6-recover", propagate=propagate, commit=commit,
                                     verified_out=f"{run_dir}/verified.txt",
                                     failed_out=f"{run_dir}/failed.txt")
             propagated += (s.get("propagated") or 0)
             fleet = s.get("fleet_pct", fleet)
-        # Bank truth from the SOURCE, never the gate's report (§55b trap 4).
-        return {"verified": banked_from_source(a.binary, targets), "fleet_pct": fleet,
+            # Bank truth from the SOURCE, per group and BEFORE the next group's checkout wipes an
+            # uncommitted pass-1 splice (§55b trap 4).
+            verified_all += banked_from_source(a.binary, by_group[(src_rel, asm_sub)])
+        return {"verified": sorted(set(verified_all)), "fleet_pct": fleet,
                 "propagated": propagated, "tier": tier}
 
     # ---- PASS 1: reconcile+gate ALL candidates (no propagate) to find the bankable set.

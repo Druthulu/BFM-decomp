@@ -16599,3 +16599,39 @@ correction can read the PRE-truncation intermediate (`sra $r, (x<<16), 31` — s
 16+31→31) rather than the extended value. When hand-writing such a division and the sign `sra`
 reads an "impossible" register, the compiler reused the promotion's `<<16` intermediate — keep
 the promotion as an expression (not a separate temp) so the intermediate exists to reuse.
+
+## §173 — THE STORED-PLUMBING RECOVERY RECIPE (P31 T6): symfix-first, per-group isolation, and where the verdicts have no drafts
+
+**The pool, honestly derived.** `tools/plumbing_groups.py` (R38: the ledgers already name every
+conflict) unions the classified failure ledgers newest-first and keeps still-open rows: the
+"1,217 PLUMBING failures" of ledger legend collapsed to **237 still-open** — SELF 109 (three
+concentrated binaries), CALLEE 48, OTHER 48, DATA 32.
+
+**Law 1 — one TU-stage edit poisons every other group's gate (the probe's phantom 0/14).** A
+recovery stage that edits TU-A (demacroize, tu-scope) while TU-B's drafts gate makes EVERY
+whole-binary build compile the edited TU-A: one draft's wrong `extern int f()` for a
+`DEFINE_`-defined callee failed three other groups' gates with an identical phantom error, and
+per-fn attribution smeared. Fix (now in `recover_integration`): **per-group isolation** — git-
+checkout the binary's TUs to committed truth between groups (gate_lane's proven revert pattern;
+engine_core.h untouched so a fleet-tier arity edit persists), apply the TU stages for that group's
+fns only, capture `banked_from_source` per group BEFORE the next group's checkout.
+
+**Law 2 — symfix-first.** The isolated re-run exposed the true dominant class: `undefined
+reference to D_8018xxxx` = the §171 stale-seed-symbol class. `rtu_match` scores these drafts
+MATCH (it is blind to a relocation's target NAME; the R34 two-oracle split exactly as §171
+documents), so a "byte-correct, integration-blocked" pile is not gateable until
+`aprop_symfix --fix` (now with the §171-D n:n uniform-delta rule) rebases the seed symbols.
+Measured: raw path **0/14** → symfix + isolation + the new stages → **9/14 (64%)**. The standing
+pipeline for stored drafts: `aprop_symfix --fix → recover_integration
+--stages macro-externs,demacroize,tu-scope` (per-group isolated).
+
+**Law 3 — a ledger verdict without a stored draft routes to the FAMILY lanes, not recovery.**
+The sweep's biggest group (ov_SC02_037, 44 rows) had **zero** backlog drafts: its PLUMBING
+verdicts came from transient family-sweep remaps that were never persisted. A recovery lane can
+only recover what was stored; verdict-only rows are re-derivable by `family_sweep`/crack lanes
+(the atlas already labels them) — do not count them as recovery fuel when pricing (R37).
+
+**The new stages** (in `tools/recover_integration.py`): `macro-externs` (draft-tier §121 — rewrite
+a draft's decl of a `DEFINE_`-defined callee to the macro's own definition head, via
+`family_sweep.macro_def_sig_map`) · `tu-scope` (binary-tier §103 STU — move a contested file-scope
+TU decl into its consumers) · plus the pre-existing `demacroize`/`arity`.
