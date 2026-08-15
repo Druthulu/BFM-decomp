@@ -53,6 +53,37 @@ def sym_of(d):
     m = re.search(r'\b(D_[0-9A-Fa-f]{8}|func_[0-9A-Fa-f]{8})\b', d)
     return m.group(1) if m else None
 
+# The project's scalar typedefs. `short` and `s16` are THE SAME TYPE, so two drafts spelling one
+# symbol both ways do not conflict -- but a textual comparison calls them different and drops a
+# good draft (R39 over-refusal; wave O hit it with `extern short D_800B9A02`). Signedness is NOT
+# normalized away: u16 vs s16 is a genuine conflict and must stay one.
+_ALIASES = {
+    'char': 's8', 'signed char': 's8', 'unsigned char': 'u8',
+    'short': 's16', 'signed short': 's16', 'short int': 's16',
+    'unsigned short': 'u16', 'unsigned short int': 'u16',
+    'int': 's32', 'signed int': 's32', 'long': 's32', 'long int': 's32', 'signed long': 's32',
+    'unsigned': 'u32', 'unsigned int': 'u32', 'unsigned long': 'u32', 'float': 'f32',
+}
+
+
+def _alias(t):
+    """Normalize a type string's spelling, preserving qualifiers, pointers and signedness."""
+    t = ' '.join(t.split())
+    t = re.sub(r'^\s*extern\b', '', t).strip()
+    quals = []
+    for q in ('const', 'volatile'):
+        if re.match(r'\b%s\b' % q, t) or (' %s ' % q) in (' ' + t + ' '):
+            quals.append(q)
+            t = re.sub(r'\b%s\b' % q, '', t).strip()
+    stars = ''
+    while t.endswith('*'):
+        stars = '*' + stars
+        t = t[:-1].strip()
+    t = ' '.join(t.split())
+    t = _ALIASES.get(t, t)
+    return ' '.join(quals + ([t + stars] if stars else [t])).strip()
+
+
 def typesig(d):
     """Type signature only. Parameter NAMES do not affect C compatibility (R39: comparing them
     dropped 2 good drafts before I fixed it) -- but the DECLARATOR SUFFIX absolutely does.
@@ -63,13 +94,13 @@ def typesig(d):
     AFTER the batch had reported BYTE-IDENTICAL). Too-coarse and too-strict are both defects."""
     d = ' '.join(d.split()); sym = sym_of(d) or ''
     m = re.search(r'\((.*)\)\s*$', d)
-    ret = d.split(sym)[0].strip() if sym and sym in d else d
+    ret = _alias(d.split(sym)[0].strip() if sym and sym in d else d)
     if not m:
         # data decl: keep the declarator suffix ('' vs '[]' vs '[N]' -> normalized to '[]')
         tail = d.split(sym, 1)[1].strip() if sym and sym in d else ''
         tail = '[]' if tail.startswith('[') else tail
         return (ret, tail)
-    params = tuple(' '.join(t for t in re.findall(r'[A-Za-z_]\w*|\*', p) if t in TYPES or t == '*')
+    params = tuple(_alias(' '.join(t for t in re.findall(r'[A-Za-z_]\w*|\*', p) if t in TYPES or t == '*'))
                    for p in m.group(1).split(','))
     return (ret, params)
 
@@ -165,13 +196,18 @@ def substitute(entries):
     byfile = collections.defaultdict(list)
     for e in entries:
         st = stubs.get(e['fn'])
-        if st: byfile[st.path].append((e['fn'], st.asm_dir, e['draft']))
+        if st: byfile[st.path].append((st.addr, e['fn'], st.asm_dir, e['draft']))
     n = 0
     for path, items in byfile.items():
         t = open(path).read()
         # names the destination file already defines, plus anything a shared header provides
         seen = set(TYPEDEF_BLOCK.findall(t)) | set(TYPEDEF_PLAIN.findall(t))
-        for fn, asmdir, draft in items:
+        # PROCESS IN FILE ORDER (= address order), not slate order. strip_dup_typedefs keeps the
+        # FIRST definition it sees and drops later duplicates, so if the drafts are walked in
+        # slate order the surviving typedef can end up BELOW a draft that uses it -> "syntax error
+        # before D_800A651C" at the earlier draft's line. Each stub is substituted at its own
+        # position in the .c, so the walk must follow those positions. (S52, cost 2 rebuilds.)
+        for _addr, fn, asmdir, draft in sorted(items):
             body = "\n".join(l for l in open(draft).read().splitlines()
                              if not l.strip().startswith('#include'))
             body, newly = strip_dup_typedefs(body, seen)
@@ -243,6 +279,35 @@ def main():
         print("  drafts declaring it:", offenders)
         run("git checkout -- src/")
         return
+    # A BUILD failure (sha None) is not a byte mismatch, and bisecting it costs a full clean
+    # rebuild per step to rediscover what the compiler/linker already printed. The named-culprit
+    # path above only recognizes ONE error shape ("previous declaration of"); everything else --
+    # undefined reference, redefinition, conflicting types, parse error -- used to fall straight
+    # through to a silent bisect. So: always SHOW the error, and try to name the offending drafts
+    # for the common shapes first. (S52: a 46-draft bisect started on an error the log never
+    # printed. R32/R35 -- an instrument must report what it saw, not just that it failed.)
+    if got is None:
+        # SELECT the error lines; do NOT tail the stream. `err` is stderr+stdout concatenated, so
+        # a blind tail shows only make's trailing "CC ..." progress chatter and hides the actual
+        # message (S52: the first version of this printer did exactly that and reported nothing
+        # useful). Grep both streams for the shapes that mean failure.
+        pat = re.compile(r'error|Error|undefined|conflict|redefinition|parse error|No rule|\*\*\*'
+                         r'|previous declaration|warning: .*implicit', re.I)
+        hits = [l for l in (err.splitlines()) if pat.search(l)]
+        print("\nBUILD FAILED (no binary produced). Error lines from the build:")
+        for l in (hits[:40] or ["(no line matched the error patterns — showing stderr tail)"]):
+            print("   ", l)
+        if not hits:
+            for l in [x for x in (r.stderr or '').splitlines() if x.strip()][-25:]:
+                print("   ", l)
+        for pat, label in ((r"undefined reference to `([^']+)'", "undefined reference"),
+                           (r"redefinition of `([^']+)'", "redefinition"),
+                           (r"conflicting types for `([^']+)'", "conflicting types")):
+            syms = set(re.findall(pat, err))
+            for s in syms:
+                owners = [e['fn'] for e in kept
+                          if re.search(rf"\b{re.escape(s)}\b", open(e['draft']).read())]
+                print(f"  {label} `{s}' -> drafts referencing it: {owners or '(none in slate)'}")
     print(f"\nbatch FAILED (sha {got}); {'not bisecting' if a.no_bisect else 'bisecting'}")
     if a.no_bisect:
         run("git checkout -- src/"); return
