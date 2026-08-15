@@ -3440,7 +3440,7 @@ void func_80187EB4(int param_1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_003/nonmatchings/ov_SC02_003_jr_8018173C", func_80187F30);
+DEFINE_func_80187F30()  /* dedup: shared engine-core @0x80187F30 (src/shared) */
 
 
 extern void (*D_8018F540[])(void);
