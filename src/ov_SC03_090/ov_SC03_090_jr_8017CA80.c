@@ -7057,7 +7057,25 @@ void func_801873B4(void *a0) {
 
 INCLUDE_ASM("asm/ov_SC03_090/nonmatchings/ov_SC03_090_jr_8017CA80", func_801873DC);
 
-INCLUDE_ASM("asm/ov_SC03_090/nonmatchings/ov_SC03_090_jr_8017CA80", func_8018745C);
+#include "common.h"
+
+extern s32 D_801A9058[];
+extern void func_80187F4C(s32);
+
+void func_8018745C(s32 s0) {
+    typedef void (*FuncPtr)(void);
+    FuncPtr fn;
+    s16 v0;
+
+    fn = (FuncPtr)D_801A9058[*(u16*)(s0 + 2)];
+    fn();
+
+    v0 = *(s16*)(s0 + 0xFE);
+    if (v0 != 0) {
+        func_80187F4C(s0);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_090/nonmatchings/ov_SC03_090_jr_8017CA80", func_801874BC);
 
