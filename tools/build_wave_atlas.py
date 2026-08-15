@@ -27,13 +27,18 @@ import corpus
 ap = argparse.ArgumentParser()
 ap.add_argument('out')
 ap.add_argument('n', nargs='?', type=int, default=96)
-ap.add_argument('--max-bins', type=int, default=12, help='concentrate the wave in this many binaries')
+ap.add_argument("--max-bins", type=int, default=12, help="concentrate into this many GATE GROUPS (binary,TU)")
 ap.add_argument('--min-ins', type=int, default=0)
 ap.add_argument('--max-ins', type=int, default=120, help='above this the bulk ladder stops being honest')
 ap.add_argument('--levers', default='head-crack,seeded-crack,redraft,len-vein,integration,family-sweep,tiny-direct',
                 help='agent-draftable levers; UNKNOWN/tell/jtbl/o0/cc1 need their own lanes')
 ap.add_argument('--atlas', default='.run/atlas.json')
+ap.add_argument('--exclude-bins', default='main',
+                help='comma-separated binaries to skip. main is excluded BY DEFAULT: it is blocked '
+                     'on a link-resolution defect (a byte-correct C fn retargets a jal between game '
+                     'code and a linked PsyQ archive object), not on matching — see CURRENT_PHASE.md')
 a = ap.parse_args()
+EXCLUDE = {b for b in a.exclude_bins.split(',') if b}
 
 busy = subprocess.run(['pgrep', '-f', 'tools/(gate_stage|dedup_propagate|gate_lane)'],
                       capture_output=True, text=True)
@@ -52,11 +57,19 @@ levers = set(a.levers.split(','))
 atlas = json.load(open(a.atlas))
 
 _open = {}
-def is_open(binary, fn):
+def _stubmap(binary):
     if binary not in _open:
         # corpus.stubs() is addr -> Stub; the NAME lives on the record
-        _open[binary] = {st.symbol for st in corpus.stubs(binary).values()}
-    return fn in _open[binary]
+        _open[binary] = {st.symbol: st for st in corpus.stubs(binary).values()}
+    return _open[binary]
+
+def is_open(binary, fn):
+    return fn in _stubmap(binary)
+
+def home_tu(binary, fn):
+    """The stub's home .c — this is the GATE GROUP KEY (gate_lane groups by (binary, src))."""
+    st = _stubmap(binary).get(fn)
+    return st.path if st else None
 
 def model_for(nins):
     if nins <= 50:  return 'haiku'
@@ -72,12 +85,14 @@ for g in atlas['groups']:
     for m in g.get('members', []):
         fn, b, nins = m.get('name'), m.get('b'), m.get('nins') or 0
         if not fn or not b:                      skipped['no-name'] += 1; continue
+        if b in EXCLUDE:                         skipped['excluded-binary'] += 1; continue
         if fn in taken:                          skipped['already-waved'] += 1; continue
         if not (a.min_ins <= nins <= a.max_ins): skipped['out-of-band'] += 1; continue
         if not is_open(b, fn):                   skipped['already-banked'] += 1; continue
         sub = corpus.asm_path(b, fn)
         if not sub:                              skipped['no-asm'] += 1; continue
         cands.append({
+            'tu': home_tu(b, fn),
             'fn': fn, 'binary': b, 'lane': 'mass', 'model': model_for(nins), 'nins': nins,
             'addr': m.get('a'), 'sub': __import__('os').path.dirname(sub),
             'gid': g['gid'], 'lever': g['lever'], 'confidence': g.get('confidence'),
@@ -86,24 +101,27 @@ for g in atlas['groups']:
             'seed_sim': seed.get('sim'),
         })
 
-# principle 1: concentrate. rank binaries by how much draftable mass they hold, take the top K.
-by_bin = collections.defaultdict(list)
+# principle 1: CONCENTRATE ON GATE GROUPS. gate_lane groups by (binary, home .c) and each group
+# is one whole-binary rebuild, so drafts-per-GROUP is the throughput number that matters -- not
+# drafts per binary. Wave D was 42 drafts over 23 groups (1.8/group, ~40 min of gate).
+by_tu = collections.defaultdict(list)
 for c in cands:
-    by_bin[c['binary']].append(c)
-ranked_bins = sorted(by_bin, key=lambda b: -sum(c['nins'] for c in by_bin[b]))[:a.max_bins]
+    by_tu[(c['binary'], c['tu'])].append(c)
+ranked = sorted(by_tu, key=lambda k: -len(by_tu[k]))[:a.max_bins]
 
 wave = []
-for b in ranked_bins:                       # principle 2: within a binary, mass first
-    for c in sorted(by_bin[b], key=lambda c: -c['nins']):
+for k in ranked:                            # principle 2: within a group, mass first
+    for c in sorted(by_tu[k], key=lambda c: -c['nins']):
         if len(wave) >= a.n: break
         wave.append(c)
     if len(wave) >= a.n: break
 
 json.dump(wave, open(a.out, 'w'), indent=1)
 tot = sum(c['nins'] for c in wave)
-print(f"candidates {len(cands)} in {len(by_bin)} binaries (skipped {dict(skipped)})")
+print(f"candidates {len(cands)} in {len(by_tu)} gate groups (skipped {dict(skipped)})")
+ngroups = len({(c['binary'], c['tu']) for c in wave})
 print(f"-> wave {len(wave)} drafts / {tot} ins across {len({c['binary'] for c in wave})} binaries "
-      f"= {len(wave)/max(len({c['binary'] for c in wave}),1):.1f} drafts per gate group")
+      f"in {ngroups} GATE GROUPS = {len(wave)/max(ngroups,1):.1f} drafts per rebuild")
 if wave:
     print("models:", dict(collections.Counter(c['model'] for c in wave)))
     print("levers:", dict(collections.Counter(c['lever'] for c in wave)))
